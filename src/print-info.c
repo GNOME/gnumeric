@@ -70,7 +70,8 @@ PrintInformation *
 print_info_new (void)
 {
 	PrintInformation *pi;
-
+	char *s;
+	
 	pi = g_new0 (PrintInformation, 1);
 
 	/* Orientation */
@@ -91,8 +92,14 @@ print_info_new (void)
 	pi->header = print_hf_new (NULL, _("Sheet &[NUM]"), NULL);
 	pi->footer = print_hf_new (NULL, _("Page &[NUM]"), NULL);
 
-	pi->paper = gnome_paper_with_name (gnome_paper_name_default ());
+	s = gnome_config_get_string ("/Gnumeric/Print/paper=none");
+	if (strcmp (s, "none") != 0)
+		pi->paper = gnome_paper_with_name (s);
 
+	if (pi->paper == NULL)
+		pi->paper = gnome_paper_with_name (gnome_paper_name_default ());
+	g_free (s);
+	
 	return pi;
 }
 

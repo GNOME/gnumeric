@@ -922,7 +922,7 @@ Sheet_range_set_text (PortableServer_Servant servant,
 
 	verify_range (sheet, range, &ranges);
 
-	range_list_foreach_all (ranges, cb_range_set_text, text);
+	range_list_foreach_all (ranges, cb_range_set_text, (char *) text);
 	
 	range_list_destroy (ranges);
 }
@@ -944,7 +944,7 @@ Sheet_range_set_formula (PortableServer_Servant servant,
 
 	verify_range (sheet, range, &ranges);
 
-	range_list_foreach_all (ranges, cb_range_set_formula, formula);
+	range_list_foreach_all (ranges, cb_range_set_formula, (char *) formula);
 	
 	range_list_destroy (ranges);
 }
@@ -978,7 +978,7 @@ Sheet_range_set_format (PortableServer_Servant servant,
 
 	/* Apply the style */
 	range_set_style (ranges, style);
-	range_list_foreach (ranges, cb_range_set_format, format);
+	range_list_foreach (ranges, cb_range_set_format, (char *) format);
 
 	cell_thaw_redraws ();
 	

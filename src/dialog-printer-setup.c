@@ -13,6 +13,7 @@
 #include "gnumeric-sheet.h"
 #include "dialogs.h"
 #include "print-info.h"
+#include "print.h"
 
 #define PREVIEW_X 170
 #define PREVIEW_Y 200
@@ -128,9 +129,9 @@ unit_editor_new (UnitInfo *target, PrintUnit init)
 	target->unit = init.desired_display;
 	target->value = unit_convert (init.points, UNIT_POINTS, init.desired_display);
 
-	target->adj = gtk_adjustment_new (
+	target->adj = GTK_ADJUSTMENT (gtk_adjustment_new (
 		target->value,
-		0.0, 1000.0, 0.1, 1.0, 1.0);
+		0.0, 1000.0, 0.1, 1.0, 1.0));
 	target->spin = GTK_SPIN_BUTTON (gtk_spin_button_new (target->adj, 1, 1));
 	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (target->spin), TRUE, TRUE, 0);
 	om = gtk_option_menu_new ();
@@ -324,9 +325,16 @@ do_setup_page (dialog_print_info_t *dpi)
 }
 
 static void
+do_print_cb (GtkWidget *w, Workbook *wb)
+{
+	workbook_print (wb);
+}
+
+static void
 do_setup_main_dialog (dialog_print_info_t *dpi)
 {
 	GtkWidget *notebook;
+	int i;
 	
 	/*
 	 * Moves the whole thing into a GnomeDialog, needed until
@@ -346,6 +354,16 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 	gtk_widget_unref (glade_xml_get_widget (dpi->gui, "print-setup"));
 
 	gtk_widget_queue_resize (notebook);
+
+	for (i = 1; i < 5; i++){
+		GtkWidget *w;
+		char *s = g_strdup_printf ("print-%d", i);
+
+		w = glade_xml_get_widget (dpi->gui, s);
+		gtk_signal_connect (GTK_OBJECT (w), "clicked",
+				    GTK_SIGNAL_FUNC (do_print_cb), dpi->workbook);
+		g_free (s);
+	}
 }
 
 static dialog_print_info_t *
@@ -449,7 +467,61 @@ do_fetch_hf (dialog_print_info_t *dpi)
 
 static void
 do_fetch_page_info (dialog_print_info_t *dpi)
+ {
+	GtkToggleButton *t;
+
+	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (dpi->gui, "check-print-divisions"));
+	dpi->pi->print_line_divisions = t->active;
+
+	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (dpi->gui, "check-black-white"));
+	dpi->pi->print_black_and_white = t->active;
+
+	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (dpi->gui, "check-print-titles"));
+	dpi->pi->print_titles = t->active;
+
+	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (dpi->gui, "radio-order-right"));
+	dpi->pi->print_order = t->active;
+}
+
+static void
+save_margin (const char *prefix, PrintUnit *p)
 {
+	char *x = g_strconcat (prefix, "_units");
+	
+	gnome_config_set_float (prefix, p->points);
+	gnome_config_set_string (x, unit_name_get_name (p->desired_display));
+	g_free (x);
+}
+
+static void
+do_save_settings (dialog_print_info_t *dpi)
+{
+	gnome_config_push_prefix ("/Gnumeric/Print/");
+
+	gnome_config_set_bool ("vertical_print", dpi->pi->orientation == PRINT_ORIENT_VERTICAL);
+	gnome_config_set_bool ("do_scale_percent", dpi->pi->scaling.type == PERCENTAGE);
+	gnome_config_set_float ("scale_percent", dpi->pi->scaling.percentage);
+	gnome_config_set_float ("scale_width", dpi->pi->scaling.dim.cols);
+	gnome_config_set_float ("scale_height", dpi->pi->scaling.dim.rows);
+	gnome_config_set_string ("paper", gnome_paper_name (dpi->pi->paper));
+
+	save_margin ("margin_top", &dpi->pi->margins.top);
+	save_margin ("margin_bottom", &dpi->pi->margins.bottom);
+	save_margin ("margin_left", &dpi->pi->margins.left);
+	save_margin ("margin_right", &dpi->pi->margins.right);
+	save_margin ("margin_header", &dpi->pi->margins.header);
+	save_margin ("margin_footer", &dpi->pi->margins.footer);
+
+	gnome_config_set_bool ("center_horizontally", dpi->pi->center_horizontally);
+	gnome_config_set_bool ("center_vertically", dpi->pi->center_vertically);
+
+	gnome_config_set_bool ("print_divisions", dpi->pi->print_line_divisions);
+	gnome_config_set_bool ("print_black_and_white", dpi->pi->print_black_and_white);
+	gnome_config_set_bool ("print_titles", dpi->pi->print_titles);
+	gnome_config_set_bool ("order_right", dpi->pi->print_order);
+	
+	gnome_config_pop_prefix ();
+	gnome_config_sync ();
 }
 
 static void
@@ -483,6 +555,11 @@ dialog_printer_setup (Workbook *wb)
 		do_fetch_margins (dpi);
 		do_fetch_hf (dpi);
 		do_fetch_page_info (dpi);
+
+		/*
+		 * Hack perhaps?  Store the defaults
+		 */
+		do_save_settings (dpi);
 	}
 
 	if (v != -1)
@@ -490,3 +567,8 @@ dialog_printer_setup (Workbook *wb)
 	
 	dialog_print_info_destroy (dpi);
 }
+
+
+
+
+

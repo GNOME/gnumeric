@@ -40,7 +40,7 @@ typedef struct {
  * is assumed in xml-io
  **/
 typedef enum {
- 	BORDER_NONE=0,
+ 	BORDER_NONE,
  	BORDER_THIN,
  	BORDER_MEDIUM,
  	BORDER_DASHED,
@@ -53,10 +53,10 @@ typedef enum {
 #define NUM_STYLE_BORDER 8
 
 typedef enum {
-	STYLE_TOP=0,
- 	STYLE_BOTTOM=1,
- 	STYLE_LEFT=2,
- 	STYLE_RIGHT=3
+	STYLE_TOP,
+ 	STYLE_BOTTOM,
+ 	STYLE_LEFT,
+ 	STYLE_RIGHT
 } StyleSide;
 
 typedef struct {

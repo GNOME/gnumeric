@@ -680,7 +680,7 @@ sheet_col_get_distance (Sheet *sheet, int from_col, int to_col)
 }
 
 static inline int
-col_row_unit_distance (GList *list, int from, int to, double default_units)
+col_row_unit_distance (GList *list, int from, int to, double default_units, int default_margin)
 {
 	ColRowInfo *cri;
 	double units = 0;
@@ -700,10 +700,10 @@ col_row_unit_distance (GList *list, int from, int to, double default_units)
 		
 		if (cri->pos >= from){
 			n--;
-			units += cri->units;
+			units += cri->units + cri->margin_a + cri->margin_b;
 		}
 	}
-	units += n * default_units;
+	units += n * default_units + n * default_margin;
 	
 	return units;
 }
@@ -719,7 +719,10 @@ sheet_col_get_unit_distance (Sheet *sheet, int from_col, int to_col)
 	g_assert (from_col <= to_col);
 	g_assert (sheet != NULL);
 
-	return col_row_unit_distance (sheet->cols_info, from_col, to_col, sheet->default_col_style.units);
+	return col_row_unit_distance (sheet->cols_info, from_col, to_col,
+				      sheet->default_col_style.units,
+				      sheet->default_col_style.margin_a +
+				      sheet->default_col_style.margin_b);
 }
 
 /**
@@ -733,7 +736,10 @@ sheet_row_get_unit_distance (Sheet *sheet, int from_row, int to_row)
 	g_assert (from_row <= to_row);
 	g_assert (sheet != NULL);
 
-	return col_row_unit_distance (sheet->rows_info, from_row, to_row, sheet->default_row_style.units);
+	return col_row_unit_distance (sheet->rows_info, from_row, to_row,
+				      sheet->default_row_style.units,
+				      sheet->default_row_style.margin_a +
+				      sheet->default_row_style.margin_b);
 }
 
 /**

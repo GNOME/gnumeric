@@ -12,6 +12,7 @@
 #include "eval.h"
 #include "format.h"
 #include "color.h"
+#include "utils.h"
 #include <libgnomeprint/gnome-print.h>
 #include "print-cell.h"
 
@@ -20,17 +21,80 @@
 #define CELL_WIDTH(cell)  CELL_DIM(cell,col)
 
 static void
-print_cell_border (GnomePrintContext *context, Cell *cell, double x, double y)
+print_border (GnomePrintContext *pc, double x1, double y1, double x2, double y2, StyleBorder *b, int idx)
+{
+	double width;
+	int dash_mode, dupit;
+
+	width = 0.5;
+	dash_mode = dupit = 0;
+	
+	switch (b->type [idx]){
+	case BORDER_NONE:
+		return;
+
+	case BORDER_THIN:
+		break;
+
+	case BORDER_MEDIUM:
+		width = 1.0;
+		break;
+
+	case BORDER_DASHED:
+		dash_mode = 1;
+		break;
+
+	case BORDER_DOTTED:
+		dash_mode = 2;
+		break;
+
+	case BORDER_THICK:
+		width = 1.5;
+		break;
+
+	case BORDER_DOUBLE:
+		width = 0.5;
+		dupit = 2;
+		break;
+
+	case BORDER_HAIR:
+		g_warning ("FIXME: What is BORDER_HAIR?");
+		return;
+	}
+	gnome_print_setlinewidth (pc, width);
+	gnome_print_moveto (pc, x1, y1);
+	gnome_print_lineto (pc, x2, y2);
+	gnome_print_stroke (pc);
+
+	if (!dupit)
+		return;
+
+	if (x1 == x2){
+		gnome_print_moveto (pc, x1 + 1, y1);
+		gnome_print_lineto (pc, x2 + 1, y2);
+		gnome_print_stroke (pc);
+	} else {
+		gnome_print_moveto (pc, x1, y1 + 1);
+		gnome_print_lineto (pc, x2, y2 + 1);
+		gnome_print_stroke (pc);
+	}
+}
+
+static void
+print_cell_border (GnomePrintContext *context, Cell *cell, double x1, double y1)
 {
 	gdouble cell_width = CELL_WIDTH (cell);
 	gdouble cell_height = CELL_HEIGHT (cell);
+	StyleBorder *border = cell->style->border;
+	double x2, y2;
+
+	x2 = x1 + cell_width;
+	y2 = y1 - cell_height;
 	
-	gnome_print_moveto (context, x, y);
-	gnome_print_lineto (context, x, y - cell_height);
-	gnome_print_lineto (context, x + cell_width,  y - cell_height);
-	gnome_print_lineto (context, x + cell_width, y);
-	gnome_print_lineto (context, x, y);
-	gnome_print_stroke (context);
+	print_border (context, x1, y1, x1, y2, border, 0);
+	print_border (context, x1, y2, x2, y2, border, 1);
+	print_border (context, x2, y2, x2, y1, border, 2);
+	print_border (context, x2, y1, x1, y1, border, 3);
 }
 
 static void
@@ -48,6 +112,73 @@ cell_is_number (Cell *cell)
         return FALSE;
 }
 
+static GList *
+cell_split_text (GnomeFont *font, char *text, int width)
+{
+	GList *list;
+	char *p, *line, *line_begin, *ideal_cut_spot = NULL;
+	int  line_len, used, last_was_cut_point;
+	char buf [2];
+
+	buf [1] = 0;
+	list = NULL;
+	used = 0;
+	last_was_cut_point = FALSE;
+	for (line_begin = p = text; *p; p++){
+		int len;
+
+		if (last_was_cut_point && *p != ' ')
+			ideal_cut_spot = p;
+
+		buf [0] = *p;
+		len = gnome_font_get_width_string (font, buf);
+
+		/* If we have overflowed, do the wrap */
+		if (used + len > width){
+			char *begin = line_begin;
+			
+			if (ideal_cut_spot){
+				char *temp;
+				int n = p - ideal_cut_spot + 1;
+
+				temp = alloca (n+1);
+				strncpy (temp, ideal_cut_spot, n);
+				temp [n] = 0;
+				
+				line_len = ideal_cut_spot - line_begin;
+				used = gnome_font_get_width_string (font, temp);
+				line_begin = ideal_cut_spot;
+			} else {
+				used = len;
+				line_len = p - line_begin;
+				line_begin = p;
+			}
+			
+			line = g_malloc (line_len + 1);
+			memcpy (line, begin, line_len);
+			line [line_len] = 0;
+			list = g_list_append (list, line);
+
+			ideal_cut_spot = NULL;
+		} else
+			used += len;
+
+		if (*p == ' ')
+			last_was_cut_point = TRUE;
+		else
+			last_was_cut_point = FALSE;
+	}
+	if (*line_begin){
+		line_len = p - line_begin;
+		line = g_malloc (line_len+1);
+		memcpy (line, line_begin, line_len);
+		line [line_len] = 0;
+		list = g_list_append (list, line);
+	}
+
+	return list;
+}
+
 static void
 print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double base_y)
 {
@@ -62,7 +193,8 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 	cell_get_span (cell, &start_col, &end_col);
 	
 	text_width = gnome_font_get_width_string (print_font, cell->text->str);
-
+	font_height = cell->style->font->size;
+		
 	if (text_width > cell->col->units && cell_is_number (cell)){
 		print_overflow (context, cell);
 		return;
@@ -75,6 +207,90 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 		do_multi_line = FALSE;
 
 	if (do_multi_line){
+		GList *lines, *l;
+		int line_count, x_offset, y_offset;
+		double inter_space;
+		
+		lines = cell_split_text (print_font, cell->text->str, cell->col->units);
+		line_count = g_list_length (lines);
+		
+		{
+			static int warn_shown;
+
+			if (!warn_shown){
+				g_warning ("Set clipping, multi-line");
+				warn_shown = 1;
+			}
+		}
+
+		switch (style->valign){
+		case VALIGN_TOP:
+			y_offset = 0;
+			inter_space = font_height;
+			break;
+			
+		case VALIGN_CENTER:
+			y_offset = - ((cell->row->units - (line_count * font_height))/2);
+			inter_space = font_height;
+			break;
+			
+		case VALIGN_JUSTIFY:
+			if (line_count > 1){
+				y_offset = 0;
+				inter_space = font_height + 
+					(cell->row->units - (line_count * font_height))
+					/ (line_count-1);
+				break;
+			} 
+			/* Else, we become a VALIGN_BOTTOM line */
+			
+		case VALIGN_BOTTOM:
+			y_offset = - (cell->row->units - (line_count * font_height));
+			inter_space = font_height;
+			break;
+			
+		default:
+			g_warning ("Unhandled cell vertical alignment\n");
+			y_offset = 0;
+			inter_space = font_height;
+		}
+
+		gnome_print_setfont (context, print_font);
+
+		y_offset -= font_height;
+		for (l = lines; l; l = l->next){
+			char *str = l->data;
+
+			str = str_trim_spaces (str);
+
+			switch (halign){
+			case HALIGN_LEFT:
+			case HALIGN_JUSTIFY:
+				x_offset = cell->col->margin_a;
+				break;
+				
+			case HALIGN_RIGHT:
+				x_offset = cell->col->units - cell->col->margin_b -
+					gnome_font_get_width_string (print_font, str);
+				break;
+
+			case HALIGN_CENTER:
+				x_offset = (cell->col->units -
+					    gnome_font_get_width_string (print_font, str)) / 2;
+				break;
+			default:
+				g_warning ("Multi-line justification style not supported\n");
+				x_offset = cell->col->margin_a;
+			}
+
+			gnome_print_moveto (context, base_x + x_offset, base_y + y_offset);
+			gnome_print_show (context, str);
+			gnome_print_stroke (context);
+			
+			y_offset -= inter_space;
+			g_free (l->data);
+		}
+		g_list_free (lines);
 	} else {
 		double x, diff, total, len;
 
@@ -88,7 +304,15 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 		else
 			diff = 0;
 
-		g_warning ("Set clipping");
+		{
+			static int warn_shown;
+
+			if (!warn_shown){
+				g_warning ("Set clipping");
+				warn_shown = 1;
+			}
+		}
+		
 		len = 0;
 		switch (halign){
 		case HALIGN_FILL:
@@ -155,9 +379,10 @@ print_cell_range (GnomePrintContext *context,
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (start_col < end_col);
-	g_return_if_fail (end_col < end_row);
+	g_return_if_fail (start_row < end_row);
 
 	y = 0;
+	ci = NULL;
 	for (row = 0; row <= end_row; row++){
 		ri = sheet_row_get_info (sheet, row);
 
@@ -179,66 +404,56 @@ print_cell_range (GnomePrintContext *context,
 }
 
 static void
-vline (GnomePrintContext *context, ColRowInfo *ci)
+vline (GnomePrintContext *context, double x, double y1, double y2)
 {
+	gnome_print_moveto (context, x, y1);
+	gnome_print_lineto (context, x, y2);
+	gnome_print_stroke (context);
 }
 
 static void
-hline (GnomePrintContext *context, ColRowInfo *ri)
+hline (GnomePrintContext *context, double x1, double x2, double y)
 {
+	gnome_print_moveto (context, x1, y);
+	gnome_print_lineto (context, x2, y);
+	gnome_print_stroke (context);
 }
 
 void
 print_cell_grid (GnomePrintContext *context,
 		 Sheet *sheet, 
 		 int start_col, int start_row,
-		 int end_col, int end_row)
+		 int end_col, int end_row,
+		 double base_x, double base_y,
+		 double width, double height)
 {
-	GList *cols, *rows;
-	int last_col_gen = -1, last_row_gen = -1;
+	int col, row;
+	double x, y;
 	
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (GNOME_IS_PRINT_CONTEXT (context));
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (start_col < end_col);
-	g_return_if_fail (end_col < end_row);
+	g_return_if_fail (start_row < end_row);
 
-	for (cols = sheet->cols_info; cols; cols = cols->next){
-		ColRowInfo *ci = cols->data;
+	printf ("Range: %d %d - %d %d\n", start_col, start_row, end_col, end_row);
+	gnome_print_setlinewidth (context, 0.5);
+	
+	x = base_x;
+	for (col = start_col; col <= end_col; col++){
+		ColRowInfo *ci = sheet_col_get_info (sheet, col);
 
-		if (ci->pos < start_col)
-			continue;
-		if (ci->pos > end_col)
-			break;
-
-		if ((last_col_gen > 0) && (ci->pos != last_col_gen+1)){
-			int i;
-			
-			for (i = last_col_gen; i < ci->pos; i++)
-				vline (context, &sheet->default_col_style);
-		}
-		vline (context, ci);
-		last_col_gen = ci->pos;
+		vline (context, x, base_y, base_y - height);
+		x += ci->units + ci->margin_a + ci->margin_b;
 	}
 
-	for (rows = sheet->rows_info; rows; rows = rows->next){
-		ColRowInfo *ri;
+	y = base_y;
+	for (row = start_row; row <= end_row; row++){
+		ColRowInfo *ri = sheet_row_get_info (sheet, row);
 
-		ri = rows->data;
-		if (ri->pos < start_row)
-			continue;
-		if (ri->pos > end_row)
-			break;
-
-		if ((last_row_gen > 0) && (ri->pos != last_row_gen+1)){
-			int i;
-			
-			for (i = last_row_gen; i < ri->pos; i++)
-				hline (context, &sheet->default_row_style);
-		}
-		hline (context, ri);
-		last_row_gen = ri->pos;
+		hline (context, base_x, base_x + width, y);
+		y -= ri->units + ri->margin_a + ri->margin_b;
 	}
 }
 

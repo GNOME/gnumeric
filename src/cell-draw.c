@@ -33,7 +33,7 @@ draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font, int x1, int y1, 
 	} 
 }
 
-GList *
+static GList *
 cell_split_text (GdkFont *font, char *text, int width)
 {
 	GList *list;
@@ -92,36 +92,7 @@ cell_split_text (GdkFont *font, char *text, int width)
 	return list;
 }
 
-/*
- * str_trim_spaces:
- * s: the string to modify
- *
- * This routine trims the leading and trailing spaces of the
- * string.  The string is possibly modified and the returned
- * value lies inside the original string.
- *
- * No duplication takes place
- */
-static char *
-str_trim_spaces (char *s)
-{
-	char *p;
-	
-	while (*s && *s == ' ')
-		s++;
-
-	p = s + strlen (s);
-	while (p >= s){
-		if (*p == ' ')
-			*p = 0;
-		else
-			break;
-		p--;
-	}
-	return s;
-}
-
-GdkFont *
+static GdkFont *
 sheet_view_font (SheetView *sheet_view, Cell *cell)
 {
 	return style_font_gdk_font (cell->style->font);

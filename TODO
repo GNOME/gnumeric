@@ -1,6 +1,28 @@
 -*-outline-*-
 
-GNOME Spread Sheet task list
+Gnumeric Spread Sheet task list
+
+* Printing
+
+  * Provide margin_a and margin_b as points.
+  * Save print information in workbook
+  * Load print information from workbook
+  * Load print defaults at startup.
+  * Preview
+  * Print setup: 
+    * connect Print Preview, Options buttons
+    * Improve layout 
+    * Provide GUI for margin editing.
+  * Add headers and footers
+  * Add left, middle right header/footer support
+  * Add "repeat on top" support.
+  * Rewrite xml-io.c for file I/O with gnome-print
+  * Add font selector to the cell format.
+  * Add the missing options to the Print Dialog
+  * Display printing status (pages to go).
+  * Add column/row title printing
+  * Add color printing support.
+  * Add multi-line cell printing support.
 
 * Cell editing
 

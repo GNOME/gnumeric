@@ -48,8 +48,8 @@ typedef struct {
 	int width, height;	/* total dimensions */
 	int x_points;		/* real usable X (ie, width - margins) */
 	int y_points;		/* real usable Y (ie, height - margins) */
-	int titles_used_x;
-	int titles_used_y;
+	int titles_used_x;	/* points used by the X titles */
+	int titles_used_y;	/* points used by the Y titles */
 	
 	/*
 	 * Part 3: Handy pointers
@@ -60,13 +60,15 @@ typedef struct {
 } PrintJobInfo;
 
 static void
-print_titles (Sheet *sheet, int start_col, int end_col, int start_row, int end_row, PrintJobInfo *pj)
+print_titles (Sheet *sheet, int start_col, int start_row, int end_col, int end_row, PrintJobInfo *pj)
 {
 }
 
 static void
-print_page (Sheet *sheet, int start_col, int end_col, int start_row, int end_row, PrintJobInfo *pj)
+print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row, PrintJobInfo *pj)
 {
+	PrintMargins *margins = &pj->pi->margins;
+	double print_height, print_width;
 	int base_x, base_y;
 	int size;
 	int i;
@@ -74,33 +76,49 @@ print_page (Sheet *sheet, int start_col, int end_col, int start_row, int end_row
 	base_x = 0;
 	base_y = 0;
 
+	print_height = sheet_row_get_unit_distance (sheet, start_row, end_row);
+
 	if (pj->pi->center_vertically){
-		size = sheet_col_get_unit_distance (sheet, start_row, end_row);
 		if (pj->pi->print_titles)
-			size += sheet->default_row_style.units;
-		base_y = (pj->y_points - size)/2;
+			print_height += sheet->default_row_style.units;
+		base_y = (pj->y_points - print_height)/2;
 	}
 
+	print_width = sheet_col_get_unit_distance (sheet, start_col, end_col);
 	if (pj->pi->center_horizontally){
-		size = sheet_row_get_unit_distance (sheet, start_col, end_col);
 		if (pj->pi->print_titles)
-			size += sheet->default_col_style.units;
-		base_x = (pj->x_points - size)/2;
+			print_width += sheet->default_col_style.units;
+		base_x = (pj->x_points - print_width)/2;
 	}
 
 	if (pj->pi->print_titles){
-		print_titles (sheet, start_col, end_col, start_row, end_row, pj);
+		print_titles (sheet, start_col, start_row, end_col, end_row, pj);
 		base_x += sheet->default_col_style.units;
 		base_y += sheet->default_row_style.units;
 	}
 
-	base_y += pj->height;
+	/* Margins */
+	base_x += margins->left.points; 
+	base_y += margins->top.points + margins->header.points;
+	
+	base_y = pj->height - base_y;
 	for (i = 0; i < pj->n_copies; i++){
-		     print_cell_range (pj->print_context, sheet,
-				       start_col, start_row,
-				       end_col, end_row,
-				       base_x, base_y);
-		     gnome_print_showpage (pj->print_context);
+
+		if (pj->pi->print_line_divisions){
+			print_cell_grid (
+				pj->print_context,
+				sheet, start_col, start_row,
+				end_col, end_row,
+				base_x, base_y,
+				print_width, print_height);
+		}
+
+		print_cell_range (pj->print_context, sheet,
+				  start_col, start_row,
+				  end_col, end_row,
+				  base_x, base_y);
+
+		gnome_print_showpage (pj->print_context);
 	}
 }
 
@@ -141,6 +159,10 @@ compute_groups (Sheet *sheet, int start, int end, int usable, ColRowInfo *(get_i
 		idx++;
 		count++;
 	}
+
+	if (count)
+		result = g_list_prepend (result, GINT_TO_POINTER (count));
+			
 	result = g_list_reverse (result);
 
 	return result;
@@ -171,7 +193,7 @@ print_sheet_range (Sheet *sheet, int start_col, int start_row, int end_col, int 
 			for (m = rows; m; m = m->next){
 				int row_count = GPOINTER_TO_INT (m->data);
 				
-				print_page (sheet, col, col + col_count, row, row + row_count, pj);
+				print_page (sheet, col, row, col + col_count, row + row_count, pj);
 
 				row += row_count;
 			}
@@ -187,7 +209,7 @@ print_sheet_range (Sheet *sheet, int start_col, int start_row, int end_col, int 
 			for (m = cols; m; m = m->next){
 				int col_count = GPOINTER_TO_INT (m->data);
 
-				print_page (sheet, col, col + col_count, row, row + row_count, pj);
+				print_page (sheet, col, row, col + col_count, row + row_count, pj);
 
 				col += col_count;
 			}
@@ -223,10 +245,10 @@ print_sheet (gpointer key, gpointer value, gpointer user_data)
 		pj->titles_used_y = 0;
 	}
 
-	print_sheet_range (sheet, 0, 0, sheet->max_col_used, sheet->max_row_used, pj);
+	print_sheet_range (sheet, 0, 0, sheet->max_col_used+1, sheet->max_row_used+1, pj);
 }
 
-void
+static void
 workbook_print_all (Workbook *wb, PrintJobInfo *pj)
 {
 	g_hash_table_foreach (wb->sheets, print_sheet, pj);

@@ -1,3 +1,33 @@
+1999-06-08  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/utils.c (str_trim_spaces): Moved str_trim_spaces ere. 
+
+	* src/dialog-printer-setup.c (do_setup_main_dialog): Connect print
+	buttons. 
+
+	* src/print-cell.c (print_cell_grid): Simplify routine.
+
+	* src/sheet.c (sheet_row_get_unit_distance,
+	sheet_col_get_unit_distance): Include  margins in computation.
+	This is broken, as the margins are now pixels, and they should be
+	made points. 
+
+	* src/dialog-printer-setup.c (do_fetch_page_info): Fetch other values.
+	(do_save_settings): Saves the configuration.
+
+	* src/print-cell.c (print_border): Implement border drawing.
+	(print_cell_grid): Make this work as it should.
+
+	* src/print.c (compute_groups): Handle the case where the contents
+	fit entirely in one page. 
+
+1999-06-07  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/print.c: New file.  Implements high-level printing.
+
+	* src/dialog-printer-setup.c: New file.  Implements the "Print
+	Setup" dialog box.
+
 1999-04-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/cell-draw.c: New file.  All of the cell screen drawing code
