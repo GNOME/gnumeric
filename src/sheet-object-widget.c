@@ -769,11 +769,11 @@ cb_adjustment_value_changed (GtkAdjustment *adjustment,
 
 		swa->being_updated = TRUE;
 		sheet_cell_set_value (cell, value_new_int (swa->adjustment->value));
-		swa->being_updated = FALSE;
 
 		sheet_set_dirty (ref.sheet, TRUE);
 		workbook_recalc (ref.sheet->workbook);
 		sheet_update (ref.sheet);
+		swa->being_updated = FALSE;
 	}
 }
 
@@ -782,7 +782,7 @@ sheet_widget_adjustment_init_full (SheetWidgetAdjustment *swa, GnmCellRef const 
 {
 	g_return_if_fail (swa != NULL);
 
-	swa->adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0., 0., 100., 1., 10., 1.));
+	swa->adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0., 0., 100., 1., 10., 0.));
 	g_object_ref (swa->adjustment);
 	gtk_object_sink (GTK_OBJECT (swa->adjustment));
 
@@ -908,7 +908,7 @@ cb_adjustment_config_ok_clicked (GtkWidget *button, AdjustmentConfigState *state
 	state->swa->adjustment->lower = gtk_spin_button_get_value_as_int (
 		GTK_SPIN_BUTTON (state->min));
 	state->swa->adjustment->upper = gtk_spin_button_get_value_as_int (
-		GTK_SPIN_BUTTON (state->max)) + 1;
+		GTK_SPIN_BUTTON (state->max));
 	state->swa->adjustment->step_increment = gtk_spin_button_get_value_as_int (
 		GTK_SPIN_BUTTON (state->inc));
 	state->swa->adjustment->page_increment = gtk_spin_button_get_value_as_int (
@@ -1035,7 +1035,7 @@ sheet_widget_adjustment_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
 	SheetWidgetAdjustment const *swa = SHEET_WIDGET_ADJUSTMENT (so);
 	gsf_xml_out_add_float (output, "Min",   swa->adjustment->lower, 2);
-	gsf_xml_out_add_float (output, "Max",   swa->adjustment->upper-1., 2); /* allow scrolling to max */
+	gsf_xml_out_add_float (output, "Max",   swa->adjustment->upper, 2); /* allow scrolling to max */
 	gsf_xml_out_add_float (output, "Inc",   swa->adjustment->step_increment, 2);
 	gsf_xml_out_add_float (output, "Page",  swa->adjustment->page_increment, 2);
 	gsf_xml_out_add_float (output, "Value", swa->adjustment->value, 2);
@@ -1050,7 +1050,7 @@ sheet_widget_adjustment_write_xml_dom (SheetObject const     *so,
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
 
 	xml_node_set_double (tree, "Min", swa->adjustment->lower, 2);
-	xml_node_set_double (tree, "Max", swa->adjustment->upper-1., 2); /* allow scrolling to max */
+	xml_node_set_double (tree, "Max", swa->adjustment->upper, 2); /* allow scrolling to max */
 	xml_node_set_double (tree, "Inc", swa->adjustment->step_increment, 2);
 	xml_node_set_double (tree, "Page", swa->adjustment->page_increment, 2);
 	xml_node_set_double  (tree, "Value", swa->adjustment->value, 2);
@@ -1072,7 +1072,7 @@ sheet_widget_adjustment_read_xml_dom (SheetObject *so, char const *typename,
 	if (xml_node_get_double (tree, "Min", &tmp))
 		swa->adjustment->lower = tmp;
 	if (xml_node_get_double (tree, "Max", &tmp))
-		swa->adjustment->upper = tmp + 1.;  /* allow scrolling to max */
+		swa->adjustment->upper = tmp;  /* allow scrolling to max */
 	if (xml_node_get_double (tree, "Inc", &tmp))
 		swa->adjustment->step_increment = tmp;
 	if (xml_node_get_double (tree, "Page", &tmp))
@@ -1092,7 +1092,7 @@ sheet_widget_adjustment_set_details (SheetObject *so, GnmExpr const *link,
 	g_return_if_fail (swa != NULL);
 	swa->adjustment->value = value;
 	swa->adjustment->lower = min;
-	swa->adjustment->upper = max + 1.; /* allow scrolling to max */
+	swa->adjustment->upper = max; /* allow scrolling to max */
 	swa->adjustment->step_increment = inc;
 	swa->adjustment->page_increment = page;
 	if (link != NULL)
