@@ -422,8 +422,8 @@ static Value *
 gnumeric_atan2 (struct FunctionDefinition *i,
 		Value *argv [], char **error_string)
 {
-	return value_new_float (atan2 (value_get_as_float (argv [0]),
-				   value_get_as_float (argv [1])));
+	return value_new_float (atan2 (value_get_as_float (argv [1]),
+				       value_get_as_float (argv [0])));
 }
 
 static char *help_ceil = {
@@ -743,35 +743,28 @@ static Value *
 gnumeric_fact (struct FunctionDefinition *id,
 	       Value *argv [], char **error_string)
 {
-	Value *res;
-	float_t i;
+	float_t x;
+	gboolean x_is_integer;
 
-	switch (argv [0]->type){
-	case VALUE_FLOAT:
-		i = argv [0]->v.v_float;
-		break;
-	case VALUE_INTEGER:
-		i = argv [0]->v.v_int;
-		break;
-	default:
+	if (!VALUE_IS_NUMBER (argv[0])) {
 		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
-	if (i < 0){
+	x = value_get_as_float (argv[0]);
+	if (x < 0){
 		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
+	x_is_integer = (x == floor (x));
 
-	res = g_new (Value, 1);
-	if (i > 12){
-		res->type = VALUE_FLOAT;
-		res->v.v_float = exp (lgamma (i + 1));
-	} else {
-		res->type = VALUE_INTEGER;
-		res->v.v_int = fact ((int)i);
-	}
-	return res;
+	if (x > 12 || !x_is_integer) {
+		float_t res = exp (lgamma (x + 1));
+		if (x_is_integer)
+			res = floor (res + 0.5);  /* Round, just in case.  */
+		return value_new_float (res);
+	} else
+		return value_new_int (fact (x));
 }
 
 static char *help_combin = {
@@ -1655,7 +1648,7 @@ gnumeric_factdouble (struct FunctionDefinition *i,
 {
         int number;
 	int n;
-	int product = 1;
+	float_t product = 1;
 
 	number = value_get_as_int (argv[0]);
 	if (number < 0) {
@@ -1665,7 +1658,7 @@ gnumeric_factdouble (struct FunctionDefinition *i,
 	for (n = number; n > 0; n-= 2)
 	        product *= n;
 
-	return value_new_int (product);
+	return value_new_float (product);
 }
 
 static char *help_quotient = {
