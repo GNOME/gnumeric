@@ -1,4 +1,4 @@
-SUBDIRS = plugins
+SUBDIRS = #plugins tests
 
 noinst_LIBRARIES = libgoffice-graph.a
 
@@ -11,50 +11,47 @@ INCLUDES = -I$(top_srcdir) 					\
 
 libgoffice_graph_a_SOURCES = \
 	goffice-graph.h			\
-	go-graph.c			\
-	go-graph.h			\
-	go-graph-impl.h			\
-	go-graph-item.c			\
-	go-graph-item.h			\
-	go-chart.c			\
-	go-chart.h			\
-	go-chart-impl.h			\
-	go-plot.c			\
-	go-plot.h			\
-	go-plot-impl.h			\
-	go-plot-engine.h		\
-	go-plot-engine.c		\
-	go-plot-data.c			\
-	go-plot-data.h			\
-	go-plot-data-impl.h		\
+	gog-object.c			\
+	gog-object.h			\
+	gog-graph.c			\
+	gog-graph.h			\
+	gog-graph-impl.h		\
+	gog-chart.c			\
+	gog-chart.h			\
+	gog-chart-impl.h		\
+	\
+	gog-background.c		\
+	gog-background.h		\
+	gog-axis.c			\
+	gog-axis.h			\
+	\
+	gog-view.c			\
+	gog-view.h			\
+	\
+	gog-style.c			\
+	gog-style.h			\
+	gog-theme.c			\
+	gog-theme.h			\
+	\
+	gog-plot.c			\
+	gog-plot.h			\
+	gog-plot-impl.h			\
+	gog-plot-engine.h		\
+	gog-plot-engine.c		\
+	gog-series.c			\
+	gog-series.h			\
+	gog-series-impl.h		\
+	gog-data-allocator.c		\
+	gog-data-allocator.h		\
 	go-data.c			\
 	go-data.h			\
 	go-data-impl.h			\
 	\
-	go-graph-style.c		\
-	go-graph-style.h		\
-	go-graph-theme.c		\
-	go-graph-theme.h		\
-	\
-	go-graph-frame.c		\
-	go-graph-frame.h		\
-	go-graph-axis.c			\
-	go-graph-axis.h			\
-	\
-	go-graph-guru.c			\
-	go-canvas-util.h		\
-	go-canvas-util.c		\
-	go-canvas-group.c		\
-	go-canvas-group.h		\
-	go-canvas-group-impl.h		\
-	go-canvas-item.c		\
-	go-canvas-item.h		\
-	go-canvas-chart-group.c		\
-	go-canvas-chart-group.h		\
-	go-canvas-2dplot-group.c	\
-	go-canvas-2dplot-group.h
+	gog-guru.c			\
+	gog-control-foocanvas.c		\
+	gog-control-foocanvas.h
 
 gnumeric_glade_DATA = \
-	go-graph-guru.glade
+	gog-guru.glade
 
 EXTRA_DIST = $(gnumeric_glade_DATA)
