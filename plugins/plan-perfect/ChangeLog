@@ -1,3 +1,12 @@
+2000-05-18  Jody Goldberg <jgoldberg@home.com>
+
+	* pln.c (pln_parse_sheet) : When the row is out of range return,
+	  don't just display an error then continue.
+
+2000-05-18   Kevin Handy <kth@srv.net>
+
+	* pln.c (pln_parse_sheet) : crow == 65535 is an end of sheet marker.
+
 2000-05-09  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.53

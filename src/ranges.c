@@ -411,6 +411,7 @@ range_dump (Range const *src)
 		fputc ('\n', stderr);
 }
 
+#ifdef RANGE_DEBUG
 static void
 ranges_dump (GList *l, char *txt)
 {
@@ -419,6 +420,7 @@ ranges_dump (GList *l, char *txt)
 		range_dump (l->data);
 	fprintf (stderr, "\n");
 }
+#endif
 
 /**
  * range_contained:

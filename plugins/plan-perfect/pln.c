@@ -800,11 +800,16 @@ g_warning("PLN : Record handling code for code %d not yet written", rcode);
 	{
 		crow = PLN_WORD(src->cur);
 
+		/* Special value indicating end of sheet */
+		if (crow == 65535)
+			return 0;
+
 		if (crow >= SHEET_MAX_ROWS) {
 			char *message = g_strdup_printf (template, _("rows"),
 							 SHEET_MAX_ROWS);
 			gnumeric_error_read (context, message);
 			g_free (message);
+			return -1;
 		}
 
 		ccol = PLN_WORD(src->cur + 2);

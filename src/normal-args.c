@@ -10,7 +10,7 @@
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
-#include "sheet.h"
+#include "workbook.h"
 #include "main.h"
 
 void
