@@ -145,8 +145,7 @@ elsif(-s "$LANG.po"){
 
     print "...done";
 
-    print "\nNow merging $LANG.po with $PACKAGE.pot, and creating an updated $LANG.po ...\n";
-
+    print "\nNow merging $LANG.po with $PACKAGE.pot, and creating an updated $LANG.po\n";
     
     $d="cp $LANG.po $LANG.po.old && msgmerge $LANG.po.old $PACKAGE.pot -o $LANG.po";
 
