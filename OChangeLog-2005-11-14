@@ -1,5 +1,9 @@
 2002-12-03  Jon K Hellan  <hellan@acm.org>
 
+	* configure.in: Check for gtk_settings_get_for_screen
+
+2002-12-03  Jon K Hellan  <hellan@acm.org>
+
 	* src/item-bar.c (item_bar_calc_size): Use default desktop font of
 	screen.
 
