@@ -1,3 +1,7 @@
+2001-10-02  Jakub Steiner <jimmac@ximian.com>
+
+	* gnome-gnumeric.png: less detail so it looks better scaled down
+
 2001-10-01  Jody Goldberg <jgoldberg@home.com>
 
 	* src/Makefile.am : don't use _SOURCES for things that are not
