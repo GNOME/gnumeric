@@ -321,6 +321,8 @@ solver_prepare_reports (SolverProgram *program, SolverResults *res,
 			}
 		}
 	}
+
+	return FALSE;
 }
 
 void

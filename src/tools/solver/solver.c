@@ -544,14 +544,6 @@ check_program_definition_failures (Sheet            *sheet,
 	return FALSE;  /* Everything Ok. */
 }
 
-gboolean
-solver_prepare_lp_reports (SolverProgram *program, SolverResults *res,
-			   Sheet *sheet)
-{
-
-	return FALSE;
-}
-
 SolverResults *
 solver_lp (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 {
@@ -581,8 +573,7 @@ solver_lp (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	        + (end.tv_usec - start.tv_usec) / (gnum_float) G_USEC_PER_SEC;
 
 	if (res->status == SolverOptimal) {
-	        solver_prepare_reports (program, res, sheet);
-	        if (solver_prepare_lp_reports (program, res, sheet)) {
+	        if (solver_prepare_reports (program, res, sheet)) {
 		        alg->remove_fn (program);
 			return NULL;
 		}
