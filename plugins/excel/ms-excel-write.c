@@ -1499,7 +1499,7 @@ pre_blanks (ExcelSheet *sheet)
  * Another optimization we do: When writing to file, we need the cell
  * pointer and the XF style index for each cell. To avoid having to
  * locate the cell pointer and computing the style once more, we cache
- * the cell pointer and XF index in en ExcelCell in the cells table.
+ * the cell pointer and XF index in an ExcelCell in the cells table.
  **/
 static void
 gather_styles (ExcelWorkbook *wb)

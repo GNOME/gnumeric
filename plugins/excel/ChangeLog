@@ -1,3 +1,38 @@
+2000-06-03  Michael Meeks  <michael@helixcode.com>
+
+	* ms-obj.c (ms_read_TXO): fix memory corruption bug with continue.
+
+	* ms-escher.c (ms_escher_read_Blip): update for Oaf.
+
+	* ms-biff.c (ms_biff_query_new): kill merging.
+	(ms_biff_merge_continues): kill forever.
+	(ms_biff_query_next_merge): rename to (ms_biff_query_next): and
+	clean. (ms_biff_query_unmerge): kill.
+
+2000-06-02  Michael Meeks  <michael@helixcode.com>
+
+	* ms-excel-read.c (biff_get_text): hack nasty auto-header
+	detection. (read_sst): split from (ms_excel_read_workbook).
+	(get_xtn_lens): split from (biff_get_text).
+	(get_utf8_chars, get_string, sst_boundcheck): implement.
+
+2000-01-31  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-obj.c (ms_read_TXO): re-implement to swallow CONTINUEs &
+	make safer.
+
+	* ms-biff.c (ms_biff_query_next_merge): hack do_merge = FALSE
+	for now; big clean possible later.
+
+	* ms-escher.c (ms_escher_read_Blip): always use image-generic;
+	it works, disable writing image files unless debugging.
+	(write_file): conditional compile out.
+	(ms_escher_get_data): add BIFF_CONTINUE.
+
+2000-01-30  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+
+	* ms-excel-read.c (ms_excel_read_sheet): kill blank_sheet_pos.
+
 2000-05-30  Michael Meeks  <michael@helixcode.com>
 
 	* Makefile.am (INCLUDES): kill explicit libole2 include.

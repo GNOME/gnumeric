@@ -52,7 +52,7 @@ typedef struct _MSEscherHeader
 #define common_header_len 8
 
 static void
-ms_escher_blip_new (guint8 const *data, guint32 len, char const *repoid,
+ms_escher_blip_new (const guint8 *data, guint32 len, char const *repoid,
 		    ExcelWorkbook * wb)
 {
 	EscherBlip *blip = g_new (EscherBlip, 1);
@@ -94,15 +94,15 @@ ms_escher_blip_destroy (EscherBlip *blip)
  * drawing record size seems to only count the draw records.  When we only add
  * those the sizes match perfectly.
  */
-static guint8 const *
+static const guint8 *
 ms_escher_get_data (MSEscherState * state,
 		    gint offset,	/* bytes from logical start of the stream */
 		    guint num_bytes,	/* how many bytes we want, incl prefix */
 		    guint prefix,	/* number of bytes of header to skip */
 		    gboolean * needs_free)
 {
-	guint8 * res;
 	BiffQuery *q = state->q;
+	guint8    *res;
 
 	g_return_val_if_fail (num_bytes >= prefix, NULL);
 	offset += prefix;
@@ -119,7 +119,8 @@ ms_escher_get_data (MSEscherState * state,
 
 		if (q->opcode != BIFF_MS_O_DRAWING &&
 		    q->opcode != BIFF_MS_O_DRAWING_GROUP &&
-		    q->opcode != BIFF_MS_O_DRAWING_SELECTION) {
+		    q->opcode != BIFF_MS_O_DRAWING_SELECTION &&
+		    q->opcode != BIFF_CONTINUE) {
 			printf ("ESCHER : Unexpected record type 0x%x\n", q->opcode);
 			return NULL;
 		}
@@ -140,9 +141,9 @@ ms_escher_get_data (MSEscherState * state,
 	}
 
 	res = q->data + offset - state->start_offset;
-	if ((*needs_free = ((offset+num_bytes) > state->end_offset))) {
-		guint8 * buffer = g_malloc (num_bytes);
-		guint8 * tmp = buffer;
+	if ((*needs_free = ((offset + num_bytes) > state->end_offset))) {
+		guint8 *buffer = g_malloc (num_bytes);
+		guint8 *tmp = buffer;
 
 		/* Setup front stub */
 		int len = q->length - (res - q->data);
@@ -172,7 +173,8 @@ ms_escher_get_data (MSEscherState * state,
 			/* We should only see DRAW records now */
 			if (q->opcode != BIFF_MS_O_DRAWING &&
 			    q->opcode != BIFF_MS_O_DRAWING_GROUP &&
-			    q->opcode != BIFF_MS_O_DRAWING_SELECTION) {
+			    q->opcode != BIFF_MS_O_DRAWING_SELECTION &&
+			    q->opcode != BIFF_CONTINUE) {
 				printf ("ESCHER : Unexpected record type 0x%x\n", q->opcode);
 				return NULL;
 			}
@@ -183,6 +185,7 @@ ms_escher_get_data (MSEscherState * state,
 
 			res = q->data;
 			len = q->length;
+
 		} while ((num_bytes - (tmp - buffer)) > len);
 
 		/* Copy back stub */
@@ -191,7 +194,6 @@ ms_escher_get_data (MSEscherState * state,
 		if (ms_excel_read_debug > 1)
 			printf ("record %d) add %d bytes;\n", ++counter, num_bytes - (tmp-buffer));
 #endif
-
 		return buffer;
 	}
 
@@ -233,7 +235,7 @@ static gboolean
 ms_escher_read_SplitMenuColors (MSEscherState * state, MSEscherHeader * h)
 {
 	gboolean needs_free;
-	guint8 const * data;
+	const guint8 * data;
 
 	g_return_val_if_fail (h->instance == 4, TRUE);
 	g_return_val_if_fail (h->len == 24, TRUE); /* header + 4*4 */
@@ -275,8 +277,9 @@ bliptype_name (int const type)
 	}
 }
 
+#ifndef NO_DEBUG_EXCEL
 static void
-write_file (gchar const * const name, guint8 const * data,
+write_file (gchar const * const name, const guint8 * data,
 	    gint len, int stored_type)
 {
 	static int num = 0;
@@ -290,32 +293,31 @@ write_file (gchar const * const name, guint8 const * data,
 	if (f) {
 		fwrite (data, len, 1, f);
 		fclose (f);
-#ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 0)
 			printf ("written 0x%x bytes to '%s';\n",
 				len, file_name->str);
-#endif
 	} else
 		printf ("Can't open '%s';\n",
 			file_name->str);
 	g_string_free (file_name, 1);
 }
+#endif
 
 static gboolean
 ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 {
 	/* read the header */
 	gboolean needs_free;
-	guint8 const * data =
+	const guint8 * data =
 		ms_escher_get_data (state, h->offset, 34,
 				    common_header_len, &needs_free);
-	guint8 const win_type	= MS_OLE_GET_GUINT8 (data + 0);
-	guint8 const mac_type	= MS_OLE_GET_GUINT8 (data + 1);
+	const guint8 win_type	= MS_OLE_GET_GUINT8 (data + 0);
+	const guint8 mac_type	= MS_OLE_GET_GUINT8 (data + 1);
 	guint32 const size	= MS_OLE_GET_GUINT32(data + 20);
 	guint32 const ref_count	= MS_OLE_GET_GUINT32(data + 24);
 	gint32 const del_offset	= MS_OLE_GET_GUINT32(data + 28);
-	guint8 const is_texture	= MS_OLE_GET_GUINT8 (data + 32);
-	guint8 const name_len	= MS_OLE_GET_GUINT8 (data + 33);
+	const guint8 is_texture	= MS_OLE_GET_GUINT8 (data + 32);
+	const guint8 name_len	= MS_OLE_GET_GUINT8 (data + 33);
 	guint8 checksum[16]; /* RSA Data Security, Inc. MD4 Message-Digest Algorithm */
 	char *name = "unknown";
 	int i;
@@ -393,20 +395,22 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 	{
 		int const header = 17 + primary_uid_size + common_header_len;
 		gboolean needs_free;
-		guint8 const *data =
+		const char *repoid;
+		const guint8 *data =
 			ms_escher_get_data (state, h->offset, h->len,
 					    header, &needs_free);
-		const char *reproid = NULL;
 
-		reproid = "embeddable:image-generic";
-/*		if (blip_instance == 0x6e0)
-			repoid = "bonobo-object:image-x-png";
-			else
-			reproid = "embeddable:image-jpeg";*/
+#if USING_OAF
+		repoid = "OAFIID:eog_image-generic:0d77ee99-ce0d-4463-94ec-99969f567f33";
+#else
+		repoid = "embeddable:image-generic";
+#endif
+		ms_escher_blip_new (data, h->len - header, repoid, state->wb);
 
-		ms_escher_blip_new (data, h->len - header,
-				    reproid, state->wb);
-		write_file ("unknown", data, h->len - header, h->fbt - Blip_START);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 1)
+			write_file ("unknown", data, h->len - header, h->fbt - Blip_START);
+#endif
 		break;
 	}
 
@@ -593,7 +597,7 @@ static gboolean
 ms_escher_read_Sp (MSEscherState * state, MSEscherHeader * h)
 {
 	gboolean needs_free;
-	guint8 const *data =
+	const guint8 *data =
 		ms_escher_get_data (state, h->offset, 8,
 				    common_header_len, &needs_free);
 
@@ -652,7 +656,7 @@ static gboolean
 ms_escher_read_ClientAnchor (MSEscherState * state, MSEscherHeader * h)
 {
 	gboolean needs_free, res = TRUE;
-	guint8 const *data;
+	const guint8 *data;
 
 	g_return_val_if_fail (!h->anchor_set, TRUE);
 
@@ -719,7 +723,7 @@ static gboolean
 ms_escher_read_Dg (MSEscherState * state, MSEscherHeader * h)
 {
 #if 0
-	guint8 const * data = h->data + common_header_len;
+	const guint8 * data = h->data + common_header_len;
 	guint32 num_shapes = MS_OLE_GET_GUINT32(data);
 	/* spid_cur = last SPID given to an SP in this DG :-)  */
 	guint32 spid_cur   = MS_OLE_GET_GUINT32(data+4);
@@ -749,7 +753,7 @@ ms_escher_read_Dgg (MSEscherState * state, MSEscherHeader * h)
 
 	FDGG fd;
 	guint32 lp;
-	guint8 const *data = h->data + common_header_len;
+	const guint8 *data = h->data + common_header_len;
 	fd.id_clusts = g_array_new (1, 1, sizeof(ID_CLUST));
 	fd.max_spid           = MS_OLE_GET_GUINT32(data+ 0);
 	fd.num_id_clust       = MS_OLE_GET_GUINT32(data+ 4);
@@ -1046,11 +1050,11 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 {
 	int const num_properties = h->instance;
 	gboolean needs_free;
-	guint8 const * const data =
+	const guint8 * const data =
 		ms_escher_get_data (state, h->offset, h->len,
 				    common_header_len, &needs_free);
-	guint8 const *fopte = data;
-	guint8 const *extra = fopte + 6*num_properties;
+	const guint8 *fopte = data;
+	const guint8 *extra = fopte + 6*num_properties;
 	guint prev_pid = 0; /* A debug tool */
 	char const * name;
 	int i;
@@ -1801,25 +1805,25 @@ ms_escher_read_container (MSEscherState * state, MSEscherHeader * container,
 
 	do {
 		guint16 tmp;
-		char const * fbt_name = NULL;
+		char const *fbt_name = NULL;
 		gboolean (*handler)(MSEscherState * state,
 				    MSEscherHeader * container) = NULL;
 		gboolean needs_free;
 
-		guint8 const * data =
+		const guint8 *data =
 			ms_escher_get_data (state, h.offset, common_header_len,
 					    0, &needs_free);
 
-		if (data == NULL)
+		if (!data)
 			return TRUE;
 
-		tmp	= MS_OLE_GET_GUINT16 (data+0);
-		h.fbt	= MS_OLE_GET_GUINT16 (data+2);
+		tmp	= MS_OLE_GET_GUINT16 (data + 0);
+		h.fbt	= MS_OLE_GET_GUINT16 (data + 2);
 
 		/* Include the length of this header in the record size */
-		h.len	= MS_OLE_GET_GUINT32 (data+4) + common_header_len;
+		h.len	   = MS_OLE_GET_GUINT32 (data + 4) + common_header_len;
 		h.ver      = tmp & 0x0f;
-		h.instance = (tmp>>4) & 0xfff;
+		h.instance = (tmp >> 4) & 0xfff;
 
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 0) {

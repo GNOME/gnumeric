@@ -95,7 +95,7 @@ biff_guint32_equal (const guint32 *a, const guint32 *b)
  * and sets various flags from it
  **/
 static gboolean
-biff_string_get_flags (guint8 const *ptr,
+biff_string_get_flags (const guint8 *ptr,
 		       gboolean *word_chars,
 		       gboolean *extended,
 		       gboolean *rich)
@@ -119,6 +119,39 @@ biff_string_get_flags (guint8 const *ptr,
 	}
 }
 
+static void
+get_xtn_lens (guint32 *pre_len, guint32 *end_len, const guint8 *ptr, gboolean ext_str, gboolean rich_str)
+{
+	*end_len = 0;
+	*pre_len = 0;
+
+	if (rich_str) { /* The data for this appears after the string */
+		guint16 formatting_runs = MS_OLE_GET_GUINT16 (ptr);
+		static int warned = FALSE;
+
+		(*end_len) += formatting_runs * 4; /* 4 bytes per */
+		(*pre_len) += 2;
+		ptr        += 2;
+
+		if (!warned)
+			printf ("FIXME: rich string support unimplemented:"
+				"discarding %d runs\n", formatting_runs);
+		warned = TRUE;
+	}
+	if (ext_str) { /* NB this data always comes after the rich_str data */
+		guint32 len_ext_rst = MS_OLE_GET_GUINT32 (ptr); /* A byte length */
+		static int warned = FALSE;
+
+		(*end_len) += len_ext_rst;
+		(*pre_len) += 4;
+
+		if (!warned)
+			printf ("FIXME: extended string support unimplemented:"
+				"ignoring %d bytes\n", len_ext_rst);
+		warned = TRUE;
+	}
+}
+
 /**
  *  This function takes a length argument as Biff V7 has a byte length
  * ( seemingly ).
@@ -127,11 +160,11 @@ biff_string_get_flags (guint8 const *ptr,
  *  FIXME: see S59D47.HTM for full description
  **/
 char *
-biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
+biff_get_text (const guint8 *pos, guint32 length, guint32 *byte_length)
 {
 	guint32 lp;
 	char *ans;
-	guint8 const *ptr;
+	const guint8 *ptr;
 	guint32 byte_len;
 	gboolean header;
 	gboolean high_byte;
@@ -174,31 +207,15 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 		printf ("FIXME: unicode support unimplemented: truncating\n");
 		high_byte_warned = TRUE;
 	}
-	if (rich_str) { /* The data for this appears after the string */
-		guint16 formatting_runs = MS_OLE_GET_GUINT16(ptr);
-		static int warned = FALSE;
 
-		(*byte_length) += 2;
-		(*byte_length) += formatting_runs*4; /* 4 bytes per */
-		ptr+= 2;
+	{
+		guint32 pre_len, end_len;
 
-		if (!warned)
-			printf ("FIXME: rich string support unimplemented:"
-				"discarding %d runs\n", formatting_runs);
-		warned = TRUE;
+		get_xtn_lens (&pre_len, &end_len, ptr, ext_str, rich_str);
+		ptr += pre_len;
+		(*byte_length) += pre_len + end_len;
 	}
-	if (ext_str) { /* NB this data always comes after the rich_str data */
-		guint32 len_ext_rst = MS_OLE_GET_GUINT32(ptr); /* A byte length */
-		static int warned = FALSE;
 
-		(*byte_length) += 4 + len_ext_rst;
-		ptr+= 4;
-
-		if (!warned)
-			printf ("FIXME: extended string support unimplemented:"
-				"ignoring %d bytes\n", len_ext_rst);
-		warned = TRUE;
-	}
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 4) {
@@ -210,25 +227,8 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 
 	for (lp = 0; lp < length; lp++) {
 		guint16 c;
-		guint8  header;
-		if (((header = MS_OLE_GET_GUINT8 (ptr)) & 0xf2) == 0) {
-			static int already_warned = FALSE;
-			high_byte  = (header & 0x1) != 0;
-			ext_str    = (header & 0x4) != 0;
-			rich_str   = (header & 0x8) != 0;
-#if 0
-			if (rich_str || ext_str)
-				g_warning ("Panic: ahhh... sill string");
-#endif
-			/* This can wait until the big unicode clean ;-) */
-			if (!already_warned) {
-				g_warning ("EXCEL: we need to re-architecture string reading to support unicode & rich text.");
-				already_warned = TRUE;
-			}
-			ptr+=1;
-			lp--;
-			(*byte_length) += 1;
-		} else if (high_byte) {
+
+		if (high_byte) {
 			c = MS_OLE_GET_GUINT16 (ptr);
 			ptr+=2;
 			ans[lp] = (char)c;
@@ -245,6 +245,154 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 	else
 		g_warning ("Warning unterminated string floating");
 	return ans;
+}
+
+static char *
+get_utf8_chars (const char *ptr, guint len, gboolean high_byte)
+{
+	int    i;
+	char *ans = g_new (char, len + 1);
+
+	for (i = 0; i < len; i++) {
+		guint16 c;
+
+		if (high_byte) {
+			c = MS_OLE_GET_GUINT16 (ptr);
+			ptr+=2;
+			ans [i] = (char)c;
+		} else {
+			c = MS_OLE_GET_GUINT8 (ptr);
+			ptr+=1;
+			ans [i] = (char)c;
+		}
+	}
+	ans [i] = '\0';
+
+	return ans;
+}
+
+static guint32
+sst_bound_check (BiffQuery *q, guint32 offset)
+{
+	if (offset >= q->length) {
+		guint32 d = offset - q->length;
+		
+		if (!ms_biff_query_next (q))
+			return 0;
+		else
+			return d;
+	} else
+		return offset;
+}
+
+/*
+ * NB. Whilst the string proper is split, and whilst we get several headers,
+ * it seems that the attributes appear in a single block after the end
+ * of the string, which may also be split over continues.
+ */
+static guint32
+get_string (char **output, BiffQuery *q, guint32 offset, eBiff_version ver)
+{
+	guint32  new_offset;
+	guint32  total_len;
+	guint32  total_end_len;
+	/* Will be localy scoped when gdb gets its act together */
+		gboolean header;
+		gboolean high_byte;
+		gboolean ext_str = FALSE;
+		gboolean rich_str = FALSE;
+		guint32  chars_left;
+		guint32  pre_len, end_len;
+		guint32  get_len;
+		char    *str;
+
+	g_return_val_if_fail (q != NULL &&
+			      q->data != NULL &&
+			      output != NULL &&
+			      offset < q->length, 0);
+
+	*output       = NULL;
+	total_len     = MS_OLE_GET_GUINT16 (q->data + offset);
+	new_offset    = offset + 2;
+	total_end_len = 0;
+
+	do {
+		new_offset = sst_bound_check (q, new_offset);
+		
+		header = biff_string_get_flags (q->data + new_offset,
+						&high_byte,
+						&ext_str,
+						&rich_str);
+		if (!header) {
+			g_warning ("Seriously broken string with no header 0x%x", *(q->data + new_offset));
+			ms_ole_dump (q->data + new_offset, q->length - new_offset);
+			return 0;
+		}
+
+		new_offset++;
+
+		get_xtn_lens (&pre_len, &end_len, q->data + new_offset, ext_str, rich_str);
+		total_end_len += end_len;
+
+		/* the - end_len is an educated guess based on insufficient data */
+		chars_left = (q->length - new_offset - pre_len) / (high_byte?2:1);
+		if (chars_left > total_len)
+			get_len = total_len;
+		else 
+			get_len = chars_left;
+		total_len -= get_len;
+		g_assert (get_len >= 0);
+
+		/* FIXME: split this simple bit out of here, it makes more sense damnit */
+		str = get_utf8_chars (q->data + new_offset + pre_len, get_len, high_byte);
+		new_offset += pre_len + get_len * (high_byte?2:1);
+
+		if (!(*output))
+			*output = str;
+		else {
+			char *old_output = *output;
+			*output = g_strconcat (*output, str, NULL);
+			g_free (str);
+			g_free (old_output);
+		}
+
+	} while (total_len > 0);
+
+	return sst_bound_check (q, new_offset + total_end_len);
+}
+
+static void
+read_sst (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
+{
+	guint32 offset;
+	int     k;
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug>4) {
+		printf ("SST\n");
+		ms_ole_dump (q->data, q->length);
+	}
+#endif
+	wb->global_string_max = MS_OLE_GET_GUINT32 (q->data + 4);
+	wb->global_strings = g_new (char *, wb->global_string_max);
+
+	offset = 8;
+
+	for (k = 0; k < wb->global_string_max; k++) {
+		offset = get_string (&wb->global_strings [k], q, offset, ver);
+
+		if (!wb->global_strings [k]) {
+#ifdef NO_DEBUG_EXCEL
+			if (ms_excel_read_debug > 4)
+				printf ("Blank string in table at : 0x%x with length %d\n",
+					k, byte_len);
+#endif
+		}
+#ifdef NO_DEBUG_EXCEL
+		else if (ms_excel_read_debug > 4)
+			puts (wb->global_strings[k]);
+#endif
+	}
 }
 
 char const *
@@ -627,8 +775,8 @@ static int externsheet = 0;
  */
 static void
 biff_name_data_new (ExcelWorkbook *wb, char const *name,
-		    guint16 const sheet_index,
-		    guint8 const *formula, guint16 const len,
+		    const guint16 sheet_index,
+		    const guint8 *formula, const guint16 len,
 		    gboolean const external,
 		    gboolean const sheet_scope)
 {
@@ -1535,7 +1683,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 
 		/* FIXME : What are the lower 8 bits Always 0 ?? */
 		/* We need this to be able to support travel.xls */
-		guint16 const data = MS_OLE_GET_GUINT16 (q->data + 8);
+		const guint16 data = MS_OLE_GET_GUINT16 (q->data + 8);
 		int const indent = data & 0x0f;
 		gboolean const shrink = (data & 0x10) ? TRUE : FALSE;
 		gboolean const merge = (data & 0x20) ? TRUE : FALSE;
@@ -1751,13 +1899,13 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 
 	if (q->ls_op == BIFF_SHRFMLA || q->ls_op == BIFF_ARRAY) {
 		gboolean const is_array = (q->ls_op == BIFF_ARRAY);
-		guint16 const array_row_first = MS_OLE_GET_GUINT16(q->data + 0);
-		guint16 const array_row_last = MS_OLE_GET_GUINT16(q->data + 2);
-		guint8 const array_col_first = MS_OLE_GET_GUINT8(q->data + 4);
-		guint8 const array_col_last = MS_OLE_GET_GUINT8(q->data + 5);
+		const guint16 array_row_first = MS_OLE_GET_GUINT16(q->data + 0);
+		const guint16 array_row_last = MS_OLE_GET_GUINT16(q->data + 2);
+		const guint8 array_col_first = MS_OLE_GET_GUINT8(q->data + 4);
+		const guint8 array_col_last = MS_OLE_GET_GUINT8(q->data + 5);
 		guint8 *data =
 			q->data + (is_array ? 14 : 10);
-		guint16 const data_len =
+		const guint16 data_len =
 			MS_OLE_GET_GUINT16(q->data + (is_array ? 12 : 8));
 		ExprTree *expr = ms_excel_parse_formula (sheet->wb, sheet, data,
 							 array_col_first,
@@ -1821,10 +1969,10 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 
 	/* Pre-retrieve incase this is a string */
 	gboolean array_elem, is_string = FALSE;
-	guint16 const xf_index = EX_GETXF (q);
-	guint16 const col      = EX_GETCOL (q);
-	guint16 const row      = EX_GETROW (q);
-	guint16 const options  = MS_OLE_GET_GUINT16 (q->data+14);
+	const guint16 xf_index = EX_GETXF (q);
+	const guint16 col      = EX_GETCOL (q);
+	const guint16 row      = EX_GETROW (q);
+	const guint16 options  = MS_OLE_GET_GUINT16 (q->data+14);
 	Cell *cell;
 	ExprTree *expr;
 	Value *val = NULL;
@@ -1868,7 +2016,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		double const num = BIFF_GETDOUBLE(q->data+6);
 		val = value_new_float (num);
 	} else {
-		guint8 const val_type = MS_OLE_GET_GUINT8 (q->data+6);
+		const guint8 val_type = MS_OLE_GET_GUINT8 (q->data+6);
 		switch (val_type) {
 		case 0 : /* String */
 			is_string = TRUE;
@@ -1876,7 +2024,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 
 		case 1 : /* Boolean */
 		{
-			guint8 const v = MS_OLE_GET_GUINT8 (q->data+8);
+			const guint8 v = MS_OLE_GET_GUINT8 (q->data+8);
 			val = value_new_bool (v ? TRUE : FALSE);
 			break;
 		}
@@ -1884,7 +2032,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		case 2 : /* Error */
 		{
 			EvalPos ep;
-			guint8 const v = MS_OLE_GET_GUINT8 (q->data+8);
+			const guint8 v = MS_OLE_GET_GUINT8 (q->data+8);
 			char const *const err_str =
 			    biff_get_error_text (v);
 
@@ -1938,7 +2086,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 				 *        unicode format rather than the pure
 				 *        length version the docs describe.
 				 */
-				guint16 const len = MS_OLE_GET_GUINT16(q->data);
+				const guint16 len = MS_OLE_GET_GUINT16(q->data);
 
 				if (len > 0)
 					v = biff_get_text (q->data + 2, len, NULL);
@@ -2244,7 +2392,7 @@ ms_excel_workbook_destroy (ExcelWorkbook *wb)
  * Unpacks a MS Excel RK structure,
  **/
 static Value *
-biff_get_rk (guint8 const *ptr)
+biff_get_rk (const guint8 *ptr)
 {
 	gint32 number;
 	enum eType {
@@ -2300,7 +2448,7 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 	guint8  help_txt_len   = MS_OLE_GET_GUINT8  (q->data + 12);
 	guint8  status_txt_len = MS_OLE_GET_GUINT8  (q->data + 13);
 	char *name, *menu_txt, *descr_txt, *help_txt, *status_txt;
-	guint8 const *ptr;
+	const guint8 *ptr;
 
 #if 0
 	dump_biff (q);
@@ -2498,13 +2646,13 @@ get_row_height_units (guint16 height)
 static void
 ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 {
-	guint16 const row = MS_OLE_GET_GUINT16(q->data);
-	guint16 const start_col = MS_OLE_GET_GUINT16(q->data+2);
-	guint16 const end_col = MS_OLE_GET_GUINT16(q->data+4) - 1;
-	guint16 const height = MS_OLE_GET_GUINT16(q->data+6);
-	guint16 const flags = MS_OLE_GET_GUINT16(q->data+12);
-	guint16 const flags2 = MS_OLE_GET_GUINT16(q->data+14);
-	guint16 const xf = flags2 & 0xfff;
+	const guint16 row = MS_OLE_GET_GUINT16(q->data);
+	const guint16 start_col = MS_OLE_GET_GUINT16(q->data+2);
+	const guint16 end_col = MS_OLE_GET_GUINT16(q->data+4) - 1;
+	const guint16 height = MS_OLE_GET_GUINT16(q->data+6);
+	const guint16 flags = MS_OLE_GET_GUINT16(q->data+12);
+	const guint16 flags2 = MS_OLE_GET_GUINT16(q->data+14);
+	const guint16 xf = flags2 & 0xfff;
 
 	/* If the bit is on it indicates that the row is of 'standard' height.
 	 * However the remaining bits still include the size.
@@ -2565,11 +2713,11 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 {
 	int lp;
 	float col_width;
-	guint16 const firstcol = MS_OLE_GET_GUINT16(q->data);
+	const guint16 firstcol = MS_OLE_GET_GUINT16(q->data);
 	guint16       lastcol  = MS_OLE_GET_GUINT16(q->data+2);
 	guint16       width    = MS_OLE_GET_GUINT16(q->data+4);
-	guint16 const xf       = MS_OLE_GET_GUINT16(q->data+6);
-	guint16 const options  = MS_OLE_GET_GUINT16(q->data+8);
+	const guint16 xf       = MS_OLE_GET_GUINT16(q->data+6);
+	const guint16 options  = MS_OLE_GET_GUINT16(q->data+8);
 	gboolean const hidden = (options & 0x0001) ? TRUE : FALSE;
 #if 0
 	gboolean const collapsed = (options & 0x1000) ? TRUE : FALSE;
@@ -2637,9 +2785,9 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 	switch (q->ls_op) {
 	case BIFF_BLANK:
 	{
-		guint16 const xf = EX_GETXF (q);
-		guint16 const col = EX_GETCOL (q);
-		guint16 const row = EX_GETROW (q);
+		const guint16 xf = EX_GETXF (q);
+		const guint16 col = EX_GETCOL (q);
+		const guint16 row = EX_GETROW (q);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 0)
 		    printf ("Blank in %s%d xf = 0x%x;\n", col_name(col), row+1, xf);
@@ -2653,7 +2801,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		/* S59DA7.HTM is extremely unclear, this is an educated guess */
 		int firstcol = EX_GETCOL (q);
 		int const row = EX_GETROW (q);
-		guint8 const *ptr = (q->data + q->length - 2);
+		const guint8 *ptr = (q->data + q->length - 2);
 		int lastcol = MS_OLE_GET_GUINT16 (ptr);
 		int i, range_end, prev_xf, xf_index;
 #ifndef NO_DEBUG_EXCEL
@@ -2703,9 +2851,9 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 
 	case BIFF_RSTRING: /* See: S59DDC.HTM */
 	{
-		guint16 const xf = EX_GETXF (q);
-		guint16 const col = EX_GETCOL (q);
-		guint16 const row = EX_GETROW (q);
+		const guint16 xf = EX_GETXF (q);
+		const guint16 col = EX_GETCOL (q);
+		const guint16 row = EX_GETROW (q);
 		char *txt = biff_get_text (q->data + 8, EX_GETSTRLEN (q), NULL);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 0)
@@ -2763,7 +2911,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 	case BIFF_MULRK:
 	{
 		guint32 col, row, lastcol;
-		guint8 const *ptr = q->data;
+		const guint8 *ptr = q->data;
 		Value *v;
 
 /*		printf ("MULRK\n");
@@ -2827,8 +2975,8 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 	case BIFF_IMDATA :
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
-		guint16 const from_env = MS_OLE_GET_GUINT16 (q->data+2);
-		guint16 const format = MS_OLE_GET_GUINT16 (q->data+2);
+		const guint16 from_env = MS_OLE_GET_GUINT16 (q->data+2);
+		const guint16 format = MS_OLE_GET_GUINT16 (q->data+2);
 
 		char const * from_name, * format_name;
 		switch (from_env) {
@@ -2850,7 +2998,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 			from_name, format_name);
 	}
 #endif
-	    break;
+	break;
 
 	case BIFF_STANDARDWIDTH :
 		/* What the heck is the 'standard width dialog' ? */
@@ -2861,7 +3009,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		case BIFF_BOOLERR: /* S59D5F.HTM */
 		{
 			Value *v;
-			guint8 const val = MS_OLE_GET_GUINT8(q->data + 6);
+			const guint8 val = MS_OLE_GET_GUINT8(q->data + 6);
 			if (MS_OLE_GET_GUINT8(q->data + 7)) {
 				/* FIXME : Init EvalPos */
 				v = value_new_error (NULL,
@@ -2954,8 +3102,8 @@ ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
 static void
 ms_excel_read_default_row_height (BiffQuery *q, ExcelSheet *sheet)
 {
-	guint16 const flags = MS_OLE_GET_GUINT16(q->data);
-	guint16 const height = MS_OLE_GET_GUINT16(q->data+2);
+	const guint16 flags = MS_OLE_GET_GUINT16(q->data);
+	const guint16 height = MS_OLE_GET_GUINT16(q->data+2);
 	double height_units;
 
 #ifndef NO_DEBUG_EXCEL
@@ -2982,7 +3130,7 @@ ms_excel_read_default_row_height (BiffQuery *q, ExcelSheet *sheet)
 static void
 ms_excel_read_default_col_width (BiffQuery *q, ExcelSheet *sheet)
 {
-	guint16 const width = MS_OLE_GET_GUINT16(q->data);
+	const guint16 width = MS_OLE_GET_GUINT16(q->data);
 	double const char_width = get_base_char_width (sheet, TRUE);
 	double col_width;
 
@@ -3009,10 +3157,10 @@ ms_excel_read_guts (BiffQuery *q, ExcelSheet *sheet)
 {
 	g_return_if_fail (q->length == 8);
 	{
-		guint16 const row_gutter = MS_OLE_GET_GUINT16(q->data);
-		guint16 const col_gutter = MS_OLE_GET_GUINT16(q->data+2);
-		guint16 const max_row_outline = MS_OLE_GET_GUINT16(q->data+4);
-		guint16 const max_col_outline = MS_OLE_GET_GUINT16(q->data+6);
+		const guint16 row_gutter = MS_OLE_GET_GUINT16(q->data);
+		const guint16 col_gutter = MS_OLE_GET_GUINT16(q->data+2);
+		const guint16 max_row_outline = MS_OLE_GET_GUINT16(q->data+4);
+		const guint16 max_col_outline = MS_OLE_GET_GUINT16(q->data+6);
 
 		/* TODO : Use this information when gnumeric supports gutters,
 		 *        and outlines */
@@ -3036,8 +3184,8 @@ ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *sheet)
 {
 	static gboolean need_warning = TRUE;
 
-	guint16 const num_merged = MS_OLE_GET_GUINT16(q->data);
-	guint8 const *ptr = q->data + 2;
+	const guint16 num_merged = MS_OLE_GET_GUINT16(q->data);
+	const guint8 *ptr = q->data + 2;
 	int i;
 
 	/* Do an anal sanity check. Just in case we've
@@ -3349,7 +3497,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 
 			case BIFF_WINDOW2:
 			if (q->length >= 10) {
-				guint16 const options    = MS_OLE_GET_GUINT16(q->data + 0);
+				const guint16 options    = MS_OLE_GET_GUINT16(q->data + 0);
 				guint16 top_row    = MS_OLE_GET_GUINT16(q->data + 2);
 				guint16 left_col   = MS_OLE_GET_GUINT16(q->data + 4);
 
@@ -3394,8 +3542,8 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			}
 #ifndef NO_DEBUG_EXCEL
 			if (q->length >= 14) {
-				guint16 const pageBreakZoom = MS_OLE_GET_GUINT16(q->data + 10);
-				guint16 const normalZoom = MS_OLE_GET_GUINT16(q->data + 12);
+				const guint16 pageBreakZoom = MS_OLE_GET_GUINT16(q->data + 10);
+				const guint16 normalZoom = MS_OLE_GET_GUINT16(q->data + 12);
 
 				if (ms_excel_read_debug > 2)
 					printf ("%hx %hx\n", normalZoom, pageBreakZoom);
@@ -3681,7 +3829,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 #if 0
 			/* FIXME : implement in gnumeric */
 			/* state of 'Precision as Displayed' option */
-			guint16 const data = MS_OLE_GET_GUINT16(q->data);
+			const guint16 data = MS_OLE_GET_GUINT16(q->data);
 			gboolean const prec_as_displayed = (data == 0);
 #endif
 			break;
@@ -3693,61 +3841,8 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 			break;
 
 		case BIFF_SST: /* see S59DE7.HTM */
-		{
-			guint32 length, k, tot_len;
-			guint8 *tmp;
-
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_read_debug>4) {
-				printf ("SST\n");
-				ms_ole_dump (q->data, q->length);
-			}
-#endif
-			wb->global_string_max = MS_OLE_GET_GUINT32(q->data+4);
-			wb->global_strings = g_new (char *, wb->global_string_max);
-
-			tmp = q->data + 8;
-			tot_len = 8;
-			for (k = 0; k < wb->global_string_max; k++) {
-				guint32 byte_len;
-				length = MS_OLE_GET_GUINT16 (tmp);
-				wb->global_strings[k] = biff_get_text (tmp+2, length, &byte_len);
-				if (wb->global_strings[k] == NULL) {
-#ifdef NO_DEBUG_EXCEL
-					if (ms_excel_read_debug > 4)
-						printf ("Blank string in table at : 0x%x with length %d\n",
-							k, byte_len);
-#endif
-					/* FIXME FIXME FIXME : This works for unicode strings.  What biff versions
-					 *                     default to non-unicode ?? */
-					/* FIXME FIXME FIXME : Will this problem happen anywhere else ?? */
-					byte_len = 1;
-				}
-#ifdef NO_DEBUG_EXCEL
-				else if (ms_excel_read_debug > 4)
-					puts (wb->global_strings[k]);
-#endif
-
-				tmp += byte_len + 2;
-				tot_len += byte_len + 2;
-
-				if (tot_len > q->length) {
-					/*
-					   This means that somehow, the string table has been split
-					   Perhaps it is too big for a single biff record, or
-					   perhaps excel is just cussid. Either way a big pain.
-					 */
-					printf ("FIXME: Serious SST overrun lost %d of 0x%x strings!\n",
-						wb->global_string_max - k, wb->global_string_max);
-/*						printf ("Last string was '%s' with length 0x%x 0x%x of 0x%x > 0x%x\n",
-						(wb->global_strings[k-1] ? wb->global_strings[k-1] : "(null)"),
-						length, byte_len, tot_len, q->length);*/
-					wb->global_string_max = k;
-					break;
-				}
-			}
+			read_sst (wb, q, ver->version);
 			break;
-		}
 
 		case BIFF_EXTSST: /* See: S59D84 */
 			/* Can be safely ignored on read side */
@@ -3816,7 +3911,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 			/* This seems to appear within a workbook */
 			/* MW: And on Excel seems to drive the display
 			   of currency amounts.  */
-			guint16 const codepage = MS_OLE_GET_GUINT16 (q->data);
+			const guint16 codepage = MS_OLE_GET_GUINT16 (q->data);
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_read_debug > 0) {
 				switch(codepage) {
@@ -3925,19 +4020,19 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 			if (q->length >= 16) {
 #if 0
 				/* In 1/20ths of a point */
-				guint16 const xPos    = MS_OLE_GET_GUINT16(q->data + 0);
-				guint16 const yPos    = MS_OLE_GET_GUINT16(q->data + 2);
+				const guint16 xPos    = MS_OLE_GET_GUINT16(q->data + 0);
+				const guint16 yPos    = MS_OLE_GET_GUINT16(q->data + 2);
 #endif
-				guint16 const width   = MS_OLE_GET_GUINT16(q->data + 4);
-				guint16 const height  = MS_OLE_GET_GUINT32(q->data + 6);
-				guint16 const options = MS_OLE_GET_GUINT32(q->data + 8);
+				const guint16 width   = MS_OLE_GET_GUINT16(q->data + 4);
+				const guint16 height  = MS_OLE_GET_GUINT32(q->data + 6);
+				const guint16 options = MS_OLE_GET_GUINT32(q->data + 8);
 #if 0
-				guint16 const selTab  = MS_OLE_GET_GUINT32(q->data + 10);
-				guint16 const firstTab= MS_OLE_GET_GUINT32(q->data + 12);
-				guint16 const tabsSel = MS_OLE_GET_GUINT32(q->data + 14);
+				const guint16 selTab  = MS_OLE_GET_GUINT32(q->data + 10);
+				const guint16 firstTab= MS_OLE_GET_GUINT32(q->data + 12);
+				const guint16 tabsSel = MS_OLE_GET_GUINT32(q->data + 14);
 
 				/* (width of tab)/(width of horizontal scroll bar) / 1000 */
-				guint16 const ratio   = MS_OLE_GET_GUINT32(q->data + 16);
+				const guint16 ratio   = MS_OLE_GET_GUINT32(q->data + 16);
 #endif
 
 				/* FIXME FIXME FIXME :

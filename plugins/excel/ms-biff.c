@@ -87,7 +87,6 @@ ms_biff_query_new (MsOleStream *ptr)
 	bq->opcode        = 0;
 	bq->length        = 0;
 	bq->data_malloced = 0;
-	bq->num_merges    = 0;
 	bq->pos           = ptr;
 #if BIFF_DEBUG > 0
 	dump_biff(bq);
@@ -95,123 +94,40 @@ ms_biff_query_new (MsOleStream *ptr)
 	return bq;
 }
 
-/**
- * I know this is ugly but its not so much my fault !
- **/
-static int
-ms_biff_merge_continues (BiffQuery *bq, guint32 len)
-{
-	GArray *contin;
-	guint8  tmp[4];
-	guint32 lp, total_len;
-	guint8 *d;
-	typedef struct {
-		guint8 *data;
-		guint32 length;
-	} chunk_t;
-	chunk_t chunk;
-
-	contin = g_array_new (0, 1, sizeof(chunk_t));
-
-	/* First block: already got */
-	chunk.length = bq->length;
-	if (bq->data_malloced)
-		chunk.data = bq->data;
-	else {
-		chunk.data = g_new (guint8, bq->length);
-		memcpy (chunk.data, bq->data, bq->length);
-	}
-	total_len = chunk.length;
-	g_array_append_val (contin, chunk);
-
-	/* Subsequent continue blocks */
-	chunk.length = len;
-	do {
-		if (bq->pos->position >= bq->pos->size)
-			return 0;
-		chunk.data = g_new (guint8, chunk.length);
-		if (!bq->pos->read_copy (bq->pos, chunk.data, chunk.length))
-			return 0;
-#if BIFF_DEBUG > 8
-		printf ("Read raw : 0x%x -> 0x%x\n", chunk.data[0],
-			chunk.data[chunk.length-1]);
-#endif
-		tmp[0] = 0; tmp[1] = 0; tmp[2] = 0; tmp[3] = 0;
-		bq->pos->read_copy (bq->pos, tmp, 4);
-		total_len   += chunk.length;
-		g_array_append_val (contin, chunk);
-
-		chunk.length = MS_OLE_GET_GUINT16 (tmp+2);
-		bq->num_merges++;
-	} while ((MS_OLE_GET_GUINT16(tmp) & 0xff) == BIFF_CONTINUE);
-	bq->pos->lseek (bq->pos, -4, MsOleSeekCur); /* back back off */
-
-	bq->data = g_malloc (total_len);
-	if (!bq->data)
-		return 0;
-	bq->length = total_len;
-	d = bq->data;
-	bq->data_malloced = 1;
-	for (lp=0;lp<contin->len;lp++) {
-		chunk = g_array_index (contin, chunk_t, lp);
-#if BIFF_DEBUG > 8
-		printf ("Copying block stats with 0x%x ends with 0x%x len 0x%x\n",
-			chunk.data[0], chunk.data[chunk.length-1], chunk.length);
-		g_assert ((d-bq->data)+chunk.length<=total_len);
-#endif
-		if (lp) {
-			memcpy (d, chunk.data, chunk.length);
-			d+=chunk.length;
-		} else {
-			memcpy (d, chunk.data, chunk.length);
-			d+=chunk.length;
-		}
-		g_free (chunk.data);
-	}
-	g_array_free (contin, 1);
-#if BIFF_DEBUG > 2
-	printf ("MERGE %d CONTINUES... len 0x%x\n", contin->len, len);
-	printf ("Biff read code 0x%x, length %d\n", bq->opcode, bq->length);
-	dump_biff (bq);
-#endif
-	return 1;
-}
-
-int
+gboolean
 ms_biff_query_peek_next (BiffQuery *bq, guint16 *opcode)
 {
 	guint8 data[4];
 	g_return_val_if_fail (opcode != NULL, 0);
 
 	if (!bq || (bq->pos->position + 4 > bq->pos->size))
-		return 0;
+		return FALSE;
 
 	if (!bq->pos->read_copy (bq->pos, data, 4))
-		return 0;
+		return FALSE;
 
 	bq->pos->lseek (bq->pos, -4, MsOleSeekCur); /* back back off */
 
 	*opcode = MS_OLE_GET_GUINT16 (data);
-	return 1;
+	return TRUE;
 }
 
 /**
  * Returns 0 if has hit end
  **/
 int
-ms_biff_query_next_merge (BiffQuery *bq, gboolean do_merge)
+ms_biff_query_next (BiffQuery *bq)
 {
 	guint8  tmp[4];
 	int ans=1;
 
 	if (!bq || bq->pos->position >= bq->pos->size)
 		return 0;
-	if (bq->data_malloced) { /* always true for merged records*/
+
+	if (bq->data_malloced) {
 		g_free (bq->data);
-		bq->num_merges    = 0;
 		bq->data_malloced = 0;
 	}
-	g_assert (bq->num_merges == 0);
 
 	bq->streamPos = bq->pos->position;
 	if (!bq->pos->read_copy (bq->pos, tmp, 4))
@@ -231,15 +147,6 @@ ms_biff_query_next_merge (BiffQuery *bq, gboolean do_merge)
 		} else
 			bq->data_malloced = 1;
 	}
-	if (ans && do_merge &&
-	    bq->pos->read_copy (bq->pos, tmp, 4)) {
-		if ((MS_OLE_GET_GUINT16(tmp) & 0xff) == BIFF_CONTINUE)
-			return ms_biff_merge_continues (bq, MS_OLE_GET_GUINT16(tmp+2));
-		bq->pos->lseek (bq->pos, -4, MsOleSeekCur); /* back back off */
-#if BIFF_DEBUG > 4
-		printf ("Backed off\n");
-#endif
-	}
 
 #if BIFF_DEBUG > 2
 	printf ("Biff read code 0x%x, length %d\n", bq->opcode, bq->length);
@@ -251,16 +158,6 @@ ms_biff_query_next_merge (BiffQuery *bq, gboolean do_merge)
 	}
 
 	return (ans);
-}
-
-void
-ms_biff_query_unmerge (BiffQuery *bq)
-{
-	if (!bq || !bq->num_merges)
-		return;
-	bq->pos->lseek (bq->pos, -(4 * (bq->num_merges + 1)
-				   + bq->length), MsOleSeekCur);
-	ms_biff_query_next_merge (bq, FALSE);
 }
 
 void
@@ -292,7 +189,6 @@ ms_biff_put_new (MsOleStream *s)
 	bp->length        = 0;
 	bp->length        = 0;
 	bp->streamPos     = s->tell (s);
-	bp->num_merges    = 0;
 	bp->data_malloced = 0;
 	bp->len_fixed     = 0;
 	bp->pos           = s;
@@ -320,7 +216,6 @@ ms_biff_put_len_next   (BiffPut *bp, guint16 opcode, guint32 len)
 	bp->ms_op      = (opcode >>   8);
 	bp->ls_op      = (opcode & 0xff);
 	bp->length     = len;
-	bp->num_merges = 0;
 	bp->streamPos  = bp->pos->tell (bp->pos);
 	if (len > 0)
 		bp->data = g_new (guint8, len);
@@ -339,7 +234,6 @@ ms_biff_put_var_next   (BiffPut *bp, guint16 opcode)
 	bp->len_fixed  = 0;
 	bp->ms_op      = (opcode >>   8);
 	bp->ls_op      = (opcode & 0xff);
-	bp->num_merges = 0;
 	bp->curpos     = 0;
 	bp->length     = 0;
 	bp->data       = 0;

@@ -9,6 +9,7 @@
  **/
 
 #include <config.h>
+
 #include "ms-obj.h"
 #include "ms-chart.h"
 #include "ms-escher.h"
@@ -54,7 +55,8 @@ int ms_excel_object_debug;
   */
 static gboolean
 object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
-			   eBiff_version const ver)
+                           eBiff_version const ver)
+
 {
 	float const row_denominator = (ver >= eBiffV8) ? 256. : 1024.;
 	int	i;
@@ -239,7 +241,7 @@ ms_excel_sheet_destroy_objs (ExcelSheet *sheet)
 
 gboolean
 ms_parse_object_anchor (anchor_point anchor[4],
-			Sheet const * sheet, guint8 const * data)
+			const Sheet *sheet, const guint8 *data)
 {
 	/* Words 0, 4, 8, 12 : The row/col of the corners */
 	/* Words 2, 6, 10, 14 : distance from cell edge */
@@ -271,68 +273,70 @@ ms_parse_object_anchor (anchor_point anchor[4],
  * See: S59EOE.HTM
  */
 char *
-ms_read_TXO (BiffQuery *q, ExcelWorkbook * wb)
+ms_read_TXO (BiffQuery *q, ExcelWorkbook *wb)
 {
-	static char const * const orientations[] = {
+	static char const * const orientations [] = {
 	    "Left to right",
 	    "Top to Bottom",
 	    "Bottom to Top on Side",
 	    "Top to Bottom on Side"
 	};
-	static char const * const haligns[] = {
+	static char const * const haligns [] = {
 	    "At left", "Horizontaly centered",
 	    "At right", "Horizontaly justified"
 	};
-	static char const * const valigns[] = {
+	static char const * const valigns [] = {
 	    "At top", "Verticaly centered",
 	    "At bottom", "Verticaly justified"
 	};
 
-	guint16 const options = MS_OLE_GET_GUINT16 (q->data);
-	guint16 const orient = MS_OLE_GET_GUINT16 (q->data+2);
-	guint16 const text_len = MS_OLE_GET_GUINT16 (q->data+10);
-	guint16 const num_formats = MS_OLE_GET_GUINT16 (q->data+12);
+	guint16 const options     = MS_OLE_GET_GUINT16 (q->data);
+	guint16 const orient      = MS_OLE_GET_GUINT16 (q->data + 2);
+	guint16 const text_len    = MS_OLE_GET_GUINT16 (q->data + 10);
+/*	guint16 const num_formats = MS_OLE_GET_GUINT16 (q->data + 12);*/
 	int const halign = (options >> 1) & 0x7;
 	int const valign = (options >> 4) & 0x7;
-	char * text = g_new(char, text_len+1);
-	guint8 const unicode_flag = MS_OLE_GET_GUINT8 (q->data+18);
-	guchar const * ptr;
-	int i, increment = 1;
+	char         *text = g_new (char, text_len + 1);
+	const guint8  unicode_flag = MS_OLE_GET_GUINT8 (q->data + 18);
+	guint16       peek_op;
 
 	g_return_val_if_fail (orient <= 3, NULL);
 	g_return_val_if_fail (1 <= halign && halign <= 4, NULL);
 	g_return_val_if_fail (1 <= valign && valign <= 4, NULL);
 
-#if 0
-	/* TODO : figure this out.  There seem to be strings with 0 formats too.
-	 * do they indicate empty strings ? */
-	if (num_formats < 2) {
-		g_warning ("EXCEL : docs state that there should be >= 2 formats.  "
-			   "This record has %d", num_formats);
-		return;
-	}
-#endif
+	text [0] = '\0';
+	if (ms_biff_query_peek_next (q, &peek_op) &&
+	    peek_op == BIFF_CONTINUE) {
+		guint8 *data;
+		int i, increment = 1;
 
-	/* MS-Documentation error.  The offset for the reserved 4 x 0 is 18 */
-	if (unicode_flag) {
-		static gboolean first = TRUE;
-		if (first) {
-			first = FALSE;
-			g_warning ("EXCEL : Unicode text is unsupported");
+		ms_biff_query_next (q);
+		data = q->data;
+		
+		if (unicode_flag) {
+			increment = 2;
+			data++;
 		}
-		increment = 2;
-		ptr = q->data + 20;
-	} else
-		ptr = q->data + 19;
 
-	for (i = 0; i < text_len ; ++i)
-		text[i] = ptr[i*increment];
-	text[text_len] = '\0';
+		/*
+		 * FIXME: Use biff_get_text or something ?
+		 */
+		if (q->length < increment * text_len) {
+			g_free (text);
+			text = g_strdup ("Broken continue");
+		} else { 
+			for (i = 0; i < text_len ; ++i)
+				text [i] = data [i * increment];
+			text [text_len] = '\0';
+		} 
 
-	/* FIXME : Should I worry about padding between the records ? */
-	for (i = 0; i < num_formats ; ++i) {
-	    /* TODO TODO finish */
-	}
+		if (ms_biff_query_peek_next (q, &peek_op) &&
+		    peek_op == BIFF_CONTINUE)
+			ms_biff_query_next (q);
+		else
+			g_warning ("Unusual, TXO text with no formatting");
+	} else if (text_len > 0)
+		g_warning ("TXO len of %d but no continue", text_len);
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_object_debug > 0) {
@@ -364,8 +368,8 @@ ms_obj_dump (guint8 const * const data, int const len, char const * const name)
  * See: S59DAD.HTM
  */
 static gboolean
-ms_obj_read_pre_biff8_obj (BiffQuery *q, ExcelWorkbook * wb,
-			   Sheet * sheet, MSObj * obj)
+ms_obj_read_pre_biff8_obj (BiffQuery *q, ExcelWorkbook *wb,
+			   Sheet *sheet, MSObj *obj)
 {
 	/* TODO : Lots of docs for these things.  Write the parser. */
 
@@ -383,7 +387,8 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, ExcelWorkbook * wb,
  * See: S59DAD.HTM
  */
 static gboolean
-ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * obj)
+ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook *wb,
+		       Sheet *sheet, MSObj *obj)
 {
 	guint8 *data;
 	gint32 data_len_left;
@@ -572,7 +577,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * 
 }
 
 MSObj *
-ms_read_OBJ (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet)
+ms_read_OBJ (BiffQuery *q, ExcelWorkbook *wb, Sheet *sheet)
 {
 	static char * object_type_names[] =
 	{

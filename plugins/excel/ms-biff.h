@@ -11,8 +11,8 @@
 
 #include <libole2/ms-ole.h>
 
-extern double biff_getdouble (const guint8 *p);
-extern void   biff_setdouble (guint8 *p, double d);
+double biff_getdouble (const guint8 *p);
+void   biff_setdouble (guint8 *p, double d);
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
 /* MW: I have reservations about this.  We are assuming not only little
@@ -39,25 +39,22 @@ struct _BiffQuery {
 	guint8  ms_op;
 	guint8  ls_op;
 	guint16 opcode;
-	guint32 length;        /* NB. can be extended by a continue opcode */
+
 	guint8  *data;
+	int     data_malloced;
+	guint32 length;
+
 	guint32 streamPos;
-	guint16 num_merges;
-/*	gint16  padding;*/
-	int     data_malloced; /* is *data a copy ? */
 	MsOleStream *pos;
 };
 
 /* Sets up a query on a stream */
-extern BiffQuery  *ms_biff_query_new         (MsOleStream *);
+BiffQuery  *ms_biff_query_new        (MsOleStream *);
 /* Updates the BiffQuery structure with the next BIFF record
  * returns: 1 for succes, and 0 for EOS(tream) */
-extern int         ms_biff_query_next_merge (BiffQuery *, gboolean do_merge);
-#define            ms_biff_query_next(q)     ms_biff_query_next_merge ((q), TRUE)
-extern int         ms_biff_query_peek_next  (BiffQuery *, guint16 *opcode);
-/* Converts a merged query to the un-merged equivalent */
-extern void        ms_biff_query_unmerge    (BiffQuery *);
-extern void        ms_biff_query_destroy    (BiffQuery *);
+int         ms_biff_query_next       (BiffQuery *);
+gboolean    ms_biff_query_peek_next  (BiffQuery *, guint16 *opcode);
+void        ms_biff_query_destroy    (BiffQuery *);
 
 /*******************************************************************************/
 /*                                 Write Side                                  */
@@ -65,36 +62,34 @@ extern void        ms_biff_query_destroy    (BiffQuery *);
 
 typedef struct _BiffPut
 {
-	guint8         ms_op;
-	guint8         ls_op;
-	guint32        length; /* NB. can be extended by a continue opcode */
-	guint8        *data;
-	MsOlePos   streamPos;
-	MsOlePos   curpos; /* Curpos is offset from beggining of header */
-	guint16        num_merges;
-/*	gint16         padding;*/
-	int            data_malloced;
-	int            len_fixed;
+	guint8       ms_op;
+	guint8       ls_op;
+	guint32      length; /* NB. can be extended by a continue opcode */
+	guint8      *data;
+	MsOlePos     streamPos;
+	MsOlePos     curpos; /* Curpos is offset from beggining of header */
+	int          data_malloced;
+	int          len_fixed;
 	MsOleStream *pos;
 } BiffPut;
 
 /* Sets up a record on a stream */
-extern BiffPut      *ms_biff_put_new        (MsOleStream *);
-extern void          ms_biff_put_destroy    (BiffPut *);
+BiffPut      *ms_biff_put_new        (MsOleStream *);
+void          ms_biff_put_destroy    (BiffPut *);
 
 /**
  * If between the 'next' and 'commit' ls / ms_op are changed they will be
  * written correctly.
  **/
 /* For known length records shorter than 0x2000 bytes. */
-extern guint8        *ms_biff_put_len_next   (BiffPut *, guint16 opcode, guint32 len);
+guint8        *ms_biff_put_len_next   (BiffPut *, guint16 opcode, guint32 len);
 /* For unknown length records */
-extern void           ms_biff_put_var_next   (BiffPut *, guint16 opcode);
-extern void           ms_biff_put_var_write  (BiffPut *, guint8 *, guint32 len);
+void           ms_biff_put_var_next   (BiffPut *, guint16 opcode);
+void           ms_biff_put_var_write  (BiffPut *, guint8 *, guint32 len);
 /* Seeks to pos bytes after the beggining of the record */
-extern void           ms_biff_put_var_seekto (BiffPut *, MsOlePos pos);
+void           ms_biff_put_var_seekto (BiffPut *, MsOlePos pos);
 /* Must commit after each record */
-extern void           ms_biff_put_commit     (BiffPut *);
+void           ms_biff_put_commit     (BiffPut *);
 
 void dump_biff (BiffQuery *bq);
 #endif
