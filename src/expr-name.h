@@ -39,7 +39,7 @@ void	 expr_name_set_expr   (GnmNamedExpr *ne, GnmExpr const *new_expr,
 void	 expr_name_add_dep    (GnmNamedExpr *ne, Dependent *dep);
 void	 expr_name_remove_dep (GnmNamedExpr *ne, Dependent *dep);
 
-void expr_name_list_destroy (GList *names);
+void expr_name_list_destroy (GList **names);
 
 void expr_name_init       (void);
 void expr_name_shutdown   (void);

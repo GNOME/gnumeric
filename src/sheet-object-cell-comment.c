@@ -348,5 +348,8 @@ cell_set_comment (Sheet *sheet, CellPos const *pos,
 				  SO_DIR_DOWN_RIGHT);
 	sheet_object_anchor_set (SHEET_OBJECT (cc), &anchor);
 	sheet_object_set_sheet (SHEET_OBJECT (cc), sheet);
+
+	/* setting the sheet added a reference */
+	g_object_unref (G_OBJECT (cc));
 	return cc;
 }

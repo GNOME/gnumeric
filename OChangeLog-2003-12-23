@@ -1,5 +1,14 @@
 2002-08-11  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-object-cell-comment.c (cell_set_comment) : fix ref leak
+	  when adding a comment.
+
+	* src/expr-name.c (expr_name_remove) : tidy old cruft.
+	(expr_name_shutdown) : Use expr_name_list_destroy.
+	(expr_name_list_destroy) : make checking more anal.
+
+2002-08-11  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : Add the planperfect plugin
 
 	* src/mstyle.c : Add shrink to fit.

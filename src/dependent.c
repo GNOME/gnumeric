@@ -1726,8 +1726,7 @@ sheet_deps_destroy (Sheet *sheet)
 	 * things that are going to be deleted.  However, it is necessary to
 	 * catch all the different life cycles
 	 */
-	expr_name_list_destroy (sheet->names);
-	sheet->names = NULL;
+	expr_name_list_destroy (&sheet->names);
 	do_deps_destroy (sheet, &rwinfo);
 }
 
@@ -1748,11 +1747,9 @@ workbook_deps_destroy (Workbook *wb)
 	}
 
 	/* See above for explantion */
-	expr_name_list_destroy (wb->names);
-	wb->names = NULL;
+	expr_name_list_destroy (&wb->names);
 	WORKBOOK_FOREACH_SHEET (wb, sheet, {
-		expr_name_list_destroy (sheet->names);
-		sheet->names = NULL;
+		expr_name_list_destroy (&sheet->names);
 		do_deps_destroy (sheet, &rwinfo);
 	});
 }

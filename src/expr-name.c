@@ -378,13 +378,19 @@ expr_name_unref (GnmNamedExpr *nexpr)
 	g_free (nexpr);
 }
 
+/**
+ * expr_name_remove :
+ * @nexpr :
+ *
+ * Remove a @nexpr from its container and deactivate it.
+ * NOTE : @nexpr may continue to exist if things still have refrences to it,
+ * but they will evaluate to #REF!
+ **/
 void
 expr_name_remove (GnmNamedExpr *nexpr)
 {
 	g_return_if_fail (nexpr != NULL);
 	g_return_if_fail (nexpr->active);
-
-	expr_name_ref (nexpr);
 
 	if (nexpr->pos.sheet) {
 		Sheet *sheet = nexpr->pos.sheet;
@@ -399,14 +405,13 @@ expr_name_remove (GnmNamedExpr *nexpr)
 		global_names = g_list_remove (global_names, nexpr);
 	}
 	nexpr->active = FALSE;
-	expr_name_unref (nexpr);
-
 	expr_name_set_expr (nexpr, NULL, NULL);
 	expr_name_unref (nexpr);
 }
 
 /**
  * expr_name_list_destroy :
+ * @names : a POINTER to the list of names
  *
  * Frees names in the local scope.
  * NOTE : THIS DOES NOT INVALIDATE NAMES THAT REFER
@@ -414,22 +419,26 @@ expr_name_remove (GnmNamedExpr *nexpr)
  *        eg
  *           in scope sheet2 we have a name that refers
  *           to sheet1.  That will remain!
- */
+ **/
 void
-expr_name_list_destroy (GList *names)
+expr_name_list_destroy (GList **names)
 {
-	GList *ptr;
-	
-	/* copy the list because it changes under us */
-	names = g_list_copy (names);
-	for (ptr = names ; ptr != NULL ; ) {
+	GList *ptr, *list = *names;
+
+	*names = NULL;
+	for (ptr = list ; ptr != NULL ; ) {
 		GnmNamedExpr *nexpr = ptr->data;
 		ptr = ptr->next;
-
-		/* force the removal of the name in case it stays in use */
-		expr_name_remove (nexpr);
+		if (nexpr->active) {
+			nexpr->active = FALSE;
+			if (!nexpr->builtin)
+				expr_name_set_expr (nexpr, NULL, NULL);
+			expr_name_unref (nexpr);
+		} else {
+			g_warning ("problem with named expressions");
+		}
 	}
-	g_list_free (names);
+	g_list_free (list);
 }
 
 /**
@@ -622,16 +631,7 @@ expr_name_init (void)
 void
 expr_name_shutdown (void)
 {
-	int lp = 0;
-	for (; builtins[lp].name ; lp++) {
-		GnmNamedExpr *nexpr =
-			expr_name_lookup (NULL, builtins[lp].name);
-		if (nexpr) {
-			nexpr->active = FALSE;
-			expr_name_unref (nexpr);
-			global_names = g_list_remove (global_names, nexpr);
-		}
-	}
+	expr_name_list_destroy (&global_names);
 }
 
 /******************************************************************************/
