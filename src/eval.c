@@ -193,7 +193,8 @@ dependency_data_destroy (Sheet *sheet)
 
 	if (deps->range_hash) {
 		if (g_hash_table_size (deps->range_hash) != 0) {
-			/* Copy the dangling depends to avoid problems
+			/*
+			 * Copy the dangling depends to avoid problems
 			 * as the table empties under us when the danglers
 			 * are invalidated.
 			 */
@@ -217,7 +218,8 @@ dependency_data_destroy (Sheet *sheet)
 	}
 
 	if (deps->single_hash) {
-		/* There are no intersheet depends for singletons
+		/*
+		 * There are no intersheet depends for singletons
 		 * so any remaining things are errors
 		 */
 		if (g_hash_table_size (deps->single_hash) != 0)
@@ -309,14 +311,14 @@ cell_eval (Cell *cell)
 
 static void
 add_cell_range_dep (DependencyData *deps, Cell *cell,
-		    const DependencyRange * const range)
+		    const DependencyRange      *range)
 {
 	/* Look it up */
 	DependencyRange *result = g_hash_table_lookup (deps->range_hash, range);
 
 	if (result) {
 		/* Is the cell already listed? */
-		GList const *cl = g_list_find (result->cell_list, cell);
+		const GList *cl = g_list_find (result->cell_list, cell);
 		if (cl)
 			return;
 
@@ -343,7 +345,7 @@ drop_cell_range_dep (DependencyData *deps, Cell *cell,
 
 #ifdef DEBUG_EVALUATION
 	if (dependency_debugging > 0) {
-		Range const * const r = &(range->range);
+		const Range *r = &(range->range);
 		printf ("Dropping range deps of %s ", cell_name (cell));
 		printf ("on range %s%d:",
 			col_name (r->start.col),
@@ -374,8 +376,8 @@ drop_cell_range_dep (DependencyData *deps, Cell *cell,
 }
 
 static void
-dependency_range_ctor (DependencyRange * const range, Cell const * const cell,
-		       CellRef const * const a, CellRef const * const b)
+dependency_range_ctor (DependencyRange *range, const Cell *cell,
+		       const CellRef   *a,  const CellRef *b)
 {
 	CellPos pos;
 
@@ -395,13 +397,17 @@ static void
 handle_cell_single_dep (Cell *cell, const CellRef *a,
 			DepOperation operation)
 {
-	DependencyData   *deps = cell->sheet->deps;
+	DependencyData   *deps;
 	DependencySingle *single;
 	DependencySingle  lookup;
 	CellPos           pos;
 
+	if (a->sheet == NULL)
+		deps = cell->sheet->deps;
+	else
+		deps = a->sheet->deps;
+
 	g_return_if_fail (deps != NULL);
-	g_return_if_fail (a->sheet == NULL || a->sheet == cell->sheet);
 
 	pos.col = cell->col_info->pos;
 	pos.row = cell->row_info->pos;
@@ -453,18 +459,13 @@ handle_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b,
 			DepOperation operation)
 {
 	DependencyRange range;
-	gboolean        same_sheet;
-	gboolean        single;
+	gboolean        single = (a == b);
 
-	same_sheet = (a->sheet == NULL ||
-		      a->sheet == cell->sheet);
-	single = (a == b);
-
-	if (single && same_sheet) /* Single, simple range */
+	if (single) /* Single, simple range */
 
 		handle_cell_single_dep (cell, a, operation);
 
-	else {                   /* Large / inter-sheet range */
+	else {      /* Large / inter-sheet range */
 		DependencyData *deps;
 
 		dependency_range_ctor (&range, cell, a, b);
@@ -587,11 +588,15 @@ handle_tree_deps (Cell *cell, ExprTree *tree, DepOperation operation)
 	}
 }
 
-/*
+/**
+ * cell_add_dependencies:
+ * @cell: 
+ * 
  * This registers the dependencies for this cell
  * by scanning all of the references made in the
  * parsed expression.
- */
+ * 
+ **/
 void
 cell_add_dependencies (Cell *cell)
 {
@@ -611,7 +616,7 @@ cell_add_dependencies (Cell *cell)
  * @ref  : The row/col of the cell in the same sheet as cell to depend on.
  */
 void
-cell_add_explicit_dependency (Cell *cell, CellRef const *ref)
+cell_add_explicit_dependency (Cell *cell, const CellRef *ref)
 {
 	static int warned;
 	if (!warned) {
@@ -620,9 +625,12 @@ cell_add_explicit_dependency (Cell *cell, CellRef const *ref)
 	}
 }
 
-/*
+/**
+ * cell_drop_dependencies:
+ * @cell: 
+ * 
  * Remove the Cell from the DependencyRange hash tables
- */
+ **/
 void
 cell_drop_dependencies (Cell *cell)
 {
@@ -672,7 +680,7 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 }
 
 static GList *
-cell_get_range_dependencies (Cell const * const cell)
+cell_get_range_dependencies (const Cell *cell)
 {
 	get_cell_dep_closure_t closure;
 
@@ -725,7 +733,7 @@ get_single_dependencies (Sheet *sheet, int col, int row)
 }
 
 GList *
-cell_get_dependencies (Cell const * const cell)
+cell_get_dependencies (const Cell *cell)
 {
 	GList *deps;
 
@@ -904,8 +912,8 @@ dump_cell_list (GList *l)
 static void
 dump_range_dep (gpointer key, gpointer value, gpointer closure)
 {
-	DependencyRange const * const deprange = key;
-	Range const * const range = &(deprange->range);
+	const DependencyRange *deprange = key;
+	const Range *range = &(deprange->range);
 
 	/* 2 calls to col_name.  It uses a static buffer */
 	printf ("\t%s%d:",

@@ -111,12 +111,10 @@ dependancies.
 
        Inter sheet dependencies are managed simply by inserting the dependency
 information into the sheet in which the cells that are dependended on reside.
-Furthermore all inter-sheet dependencies are managed using DependencyRanges
-regardless of size. Whilst storing dependencies in the Cell's sheet
-accelerates the cell_get_dependencies common case ( since it only has to check
-the current sheet for inter-sheet dependencies ) it slows down the less common
-cell_drop_dependencies, since this has to scan all the sheet's dependency
-ranges to remove inter-sheet references.
+This is essentialy exactly what is expected, given that cell's are linked to
+the cell they depend on. Removing inter-sheet dependencies is also identical
+to normal dependencies, excepting that it is more likely to throw up formulae
+that have not been correctly unlinked in a sheet destroy.
 
 3.3    What is hashed
 

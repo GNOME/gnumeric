@@ -1,3 +1,15 @@
+2000-05-03  Michael Meeks  <michael@helixcode.com>
+
+	* doc/Dependencies.txt: update to reflect changes.
+
+	* src/eval.c: comment and const mending.	
+	(handle_cell_range_deps): prune no inter-sheet singletons code,
+	it is a sluggish anachronism. (handle_cell_single_dep): setup
+	the correct sheet to enter data into.
+
+	* src/eval.h: expunge redundant commenting, re-order,
+	const kill.
+
 2000-05-03  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* *.c: s/strcasecmp/g_strcasecmp/

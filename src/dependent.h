@@ -3,44 +3,34 @@
 
 #include "gnumeric.h"
 
-DependencyData *dependency_data_new     (void);
-void            dependency_data_destroy (Sheet *sheet);
+DependencyData *dependency_data_new          (void);
+void            dependency_data_destroy      (Sheet *sheet);
 
-void            sheet_dump_dependencies (const Sheet *sheet);
+void            cell_eval                    (Cell *cell);
 
-/* Registers all of the dependencies this cell has */
-void    cell_add_dependencies       (Cell *cell);
+void            cell_add_dependencies        (Cell *cell);
+void            cell_drop_dependencies       (Cell *cell);
 
-/* Explicitly add a dependency */
-void    cell_add_explicit_dependency (Cell *cell, CellRef const *a);
-
-/* Removes this cell from the list of dependencies */
-void    cell_drop_dependencies   (Cell *cell);
+void            cell_queue_recalc            (Cell *cell);
+void            cell_unqueue_from_recalc     (Cell *cell);
+void            cell_queue_recalc_list       (GList *list, gboolean freelist);
 
 /*
- * Returns a newly allocated list with Cells inside that
+ * Return a newly allocated list with Cells inside that
  * depend on the value at Sheet, col, row
  */
-GList   *cell_get_dependencies     (Cell const * const cell);
+GList          *cell_get_dependencies        (const Cell *cell);
+GList          *sheet_region_get_deps        (Sheet *sheet,
+					      int start_col, int start_row,
+					      int end_col, int end_row);
+void           sheet_recalc_dependencies     (Sheet *sheet);
 
-GList   *sheet_region_get_deps     (Sheet *sheet, int start_col, int start_row,
-				    int end_col, int end_row);
+/* Very AEsoteric */
+void            cell_add_explicit_dependency (Cell *cell, const CellRef *a);
+void            cell_eval_content            (Cell *cell);
 
-void     sheet_recalc_dependencies (Sheet *sheet);
-
-/*
- * Queue a cell or a list of cells for computation
- */
-void cell_queue_recalc           (Cell *cell);
-
-void cell_queue_recalc_list      (GList *list, gboolean freelist);
-
-void cell_unqueue_from_recalc    (Cell *cell);
-
-/*
- * Evaluate a cell
- */
-void cell_eval                   (Cell *cell);
-void cell_eval_content		 (Cell *cell);
+/* Debug */
+void            sheet_dump_dependencies      (const Sheet *sheet);
 
 #endif /* GNUMERIC_EVAL_H */
+

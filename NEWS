@@ -12,6 +12,9 @@ Jody:
 	* Improve versioning.
 	* Decrease memory usage.
 
+Michael:
+	* Accelerated intersheet dependencies
+
 Translations:
 	* Updated: da (Pablo), de (Karl), en_GB (Robert), es (Pablo), no
         (Kjartan), ru (Valek), uk (Yuri), and more.
