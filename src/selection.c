@@ -709,11 +709,9 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
 		sheet_move_range      (&rinfo);
 		sheet_selection_unant (src_sheet);
 		sheet_selection_move  (&rinfo);
-	} else {
+	} else
 		clipboard_paste_region (content, sheet, dest_col, dest_row,
 					paste_flags, time);
-		sheet_selection_unant (src_sheet);
-	}
 }
 
 /* TODO TODO TODO : Remove these and just call the functions directly */

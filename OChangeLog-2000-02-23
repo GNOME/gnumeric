@@ -1,5 +1,10 @@
 1999-11-11  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/selection.c (sheet_selection_paste): remove spurious
+	unant.
+
+1999-11-11  Michael Meeks  <mmeeks@gnu.org>
+	
 	* src/mstyle.c (mstyle_new_default): Revert removal of
 	default_mstyle patch.
 
