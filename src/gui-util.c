@@ -1051,12 +1051,15 @@ gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 					label_accel, 0,
 					GTK_ACCEL_LOCKED);
 			}
-		} else
-			item = gtk_menu_item_new ();
 
-		if (elements [i].sensitive_filter != 0 &&
-		    (elements [i].sensitive_filter & sensitive_filter))
-			gtk_widget_set_sensitive (GTK_WIDGET (item), FALSE);
+			if (elements [i].sensitive_filter != 0 &&
+			    (elements [i].sensitive_filter & sensitive_filter))
+				gtk_widget_set_sensitive (GTK_WIDGET (item), FALSE);
+		} else {
+			item = gtk_menu_item_new ();
+			gtk_widget_set_sensitive (item, FALSE);
+		}
+
 
 		if (pix_name != NULL) {
 			GtkWidget *pixmap =
