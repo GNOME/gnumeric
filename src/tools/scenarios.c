@@ -285,6 +285,9 @@ cb_value_free (int col, int row, Value *v, gpointer data)
 void
 scenario_free (scenario_t *s)
 {
+	if (s == NULL)
+		return;
+
 	g_free (s->name);
 	g_free (s->comment);
 	g_free (s->cell_sel_str);
@@ -508,7 +511,7 @@ scenario_move_range (GList *list, const Range *origin, int col_offset,
 
 /* Ok button pressed. */
 void
-scenario_manager_ok (Sheet *sheet, scenario_t *old_values)
+scenario_manager_ok (Sheet *sheet)
 {
 	GList *cur, *scenarios = sheet->scenarios;
 	GList *list = NULL;
@@ -525,8 +528,6 @@ scenario_manager_ok (Sheet *sheet, scenario_t *old_values)
 	g_list_free (scenarios);
 	sheet->scenarios = list;
 
-	if (old_values)
-		scenario_free (old_values);
 	sheet_redraw_all (sheet, TRUE);
 }
 

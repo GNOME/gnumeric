@@ -1,8 +1,12 @@
+2003-04-19  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* src/commands.c: Implemented Undo/Redo for scenario->manager.
+
 2003-04-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/sheet.c (sheet_move_range): Added a call to update scenarios.
 
-	* src/commands.c: Implemented Undo for scenario->add.
+	* src/commands.c: Implemented Undo/Redo for scenario->add.
 
 2003-04-16  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 

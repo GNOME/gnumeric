@@ -22,15 +22,7 @@
 #include "widgets/gnumeric-expr-entry.h"
 #include <glade/glade-xml.h>
 
-typedef struct {
-	GtkWidget *show_button;
-	GtkWidget *delete_button;
-	GtkWidget *summary_button;
-
-        GtkWidget *scenarios_treeview;
-	GSList    *new_report_sheets;
-	GList     *old_values;
-} scenario_state_t;
+typedef struct _scenario_state scenario_state_t;
 
 typedef struct {
 	GladeXML  *gui;

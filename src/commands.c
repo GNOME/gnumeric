@@ -5561,6 +5561,86 @@ cmd_scenario_add (WorkbookControl *wbc, scenario_t *s, Sheet *sheet)
 
 /******************************************************************/
 
+#define CMD_SCENARIO_MNGR_TYPE (cmd_scenario_mngr_get_type ())
+#define CMD_SCENARIO_MNGR(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SCENARIO_MNGR_TYPE, CmdScenarioMngr))
+
+typedef struct
+{
+	GnumericCommand cmd;
+	scenario_cmd_t  *sc;
+} CmdScenarioMngr;
+
+GNUMERIC_MAKE_COMMAND (CmdScenarioMngr, cmd_scenario_mngr);
+
+static gboolean
+cmd_scenario_mngr_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdScenarioMngr *me = CMD_SCENARIO_MNGR (cmd);
+	data_analysis_output_t dao;
+
+	dao_init (&dao, NewSheetOutput);
+	dao.sheet = me->cmd.sheet;
+	scenario_free (me->sc->undo);
+	me->sc->undo = scenario_show (wbc, me->sc->redo, NULL, &dao);
+
+	return (FALSE);
+}
+
+static gboolean
+cmd_scenario_mngr_undo (GnumericCommand *cmd,
+			G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdScenarioMngr *me = CMD_SCENARIO_MNGR (cmd);
+	scenario_t      *tmp;
+	data_analysis_output_t dao;
+
+	dao_init (&dao, NewSheetOutput);
+	dao.sheet = me->cmd.sheet;
+	tmp = scenario_copy (me->sc->undo, dao.sheet);
+	scenario_show (wbc, NULL, tmp, &dao);
+
+	return (FALSE);
+}
+
+static void
+cmd_scenario_mngr_finalize (GObject *cmd)
+{
+	CmdScenarioMngr *me = CMD_SCENARIO_MNGR (cmd);
+
+	scenario_free (me->sc->undo);
+	scenario_free (me->sc->redo);
+	g_free (me->sc);
+
+	gnumeric_command_finalize (cmd);
+}
+
+gboolean
+cmd_scenario_mngr (WorkbookControl *wbc, scenario_cmd_t *sc, Sheet *sheet)
+{
+	CmdScenarioMngr *me;
+	GObject         *object;
+	data_analysis_output_t dao;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+
+	object = g_object_new (CMD_SCENARIO_MNGR_TYPE, NULL);
+	me     = CMD_SCENARIO_MNGR (object);
+
+	me->sc = sc;
+	me->cmd.sheet = sheet;
+	me->cmd.size  = 1;
+	me->cmd.cmd_descriptor = g_strdup (_("Scenario Show"));
+
+	dao_init (&dao, NewSheetOutput);
+	dao.sheet = me->cmd.sheet;
+	me->sc->redo = scenario_show (wbc, me->sc->undo, NULL, &dao);
+
+	return command_push_undo (wbc, object);
+}
+
+/******************************************************************/
+
 #if 0
 #define CMD_FREEZE_PANES_TYPE        (cmd_freeze_panes_get_type ())
 #define CMD_FREEZE_PANES(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_FREEZE_PANES_TYPE, CmdFreezePanes))

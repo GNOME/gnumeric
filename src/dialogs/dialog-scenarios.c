@@ -41,6 +41,18 @@
 
 typedef GenericToolState ScenariosState;
 
+struct _scenario_state {
+	GtkWidget  *show_button;
+	GtkWidget  *delete_button;
+	GtkWidget  *summary_button;
+
+        GtkWidget  *scenarios_treeview;
+	GSList     *new_report_sheets;
+
+	scenario_t *old_values;
+	scenario_t *current;
+};
+
 
 /********* Scenario Add UI **********************************************/
 
@@ -375,12 +387,22 @@ scenarios_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			 ScenariosState *state)
 {
 	data_analysis_output_t dao;
+	WorkbookControl        *wbc;
+	scenario_cmd_t         *cmd = g_new (scenario_cmd_t, 1);
 
-	dao_init (&dao, NewSheetOutput);
-	dao.sheet = state->sheet;
+	if (state->scenario_state->current) {
+		dao_init (&dao, NewSheetOutput);
+		dao.sheet = state->sheet;
+		wbc = WORKBOOK_CONTROL (state->wbcg);
 
-	scenario_manager_ok (state->sheet, 
-			     (scenario_t *) state->scenario_state->old_values);
+		cmd->redo = state->scenario_state->current;
+		cmd->undo = state->scenario_state->old_values;
+
+		cmd_scenario_mngr (wbc, cmd, state->sheet);
+	}
+
+	scenario_manager_ok (state->sheet); 
+
 	gtk_widget_destroy (state->dialog);
 	scenario_manager_free (state);
 
@@ -401,6 +423,7 @@ restore_old_values (ScenariosState *state)
 	scenario_show (wbc, NULL,
 		       (scenario_t *) state->scenario_state->old_values,
 		       &dao);
+	state->scenario_state->current    = NULL;
 	state->scenario_state->old_values = NULL;
 }
 
@@ -465,11 +488,12 @@ scenarios_show_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,  0, &value, -1);
 	
 	wbc = WORKBOOK_CONTROL (state->wbcg);
-	state->scenario_state->old_values = (GList *)
+	state->scenario_state->current =
+		scenario_by_name (state->sheet->scenarios, value, NULL),
+	state->scenario_state->old_values =
 		scenario_show (wbc,
-			       scenario_by_name (state->sheet->scenarios,
-						 value, NULL),
-			       (scenario_t *) state->scenario_state->old_values,
+			       state->scenario_state->current,
+			       state->scenario_state->old_values,
 			       &dao);
 }
 
@@ -595,6 +619,7 @@ dialog_scenarios (WorkbookControlGUI *wbcg)
 	state = g_new (ScenariosState, 1);
 	state->scenario_state = g_new (scenario_state_t, 1);
 	state->scenario_state->new_report_sheets = NULL;
+	state->scenario_state->current    = NULL;
 	state->scenario_state->old_values = NULL;
 	state->wb = wb_control_workbook (wbc);
 

@@ -18,6 +18,11 @@ typedef struct {
         gboolean marked_deleted;
 } scenario_t;
 
+typedef struct {
+        scenario_t *redo;
+        scenario_t *undo;
+} scenario_cmd_t;
+
 
 scenario_t *scenario_by_name      (GList *scenarios, const gchar *name,
 				   gboolean *all_deleted);
@@ -32,7 +37,7 @@ void        scenario_delete_cols  (GList *list, int row, int count);
 void        scenario_move_range   (GList *list, const Range *origin,
 				   int col_offset, int row_offset);
 
-void        scenario_manager_ok   (Sheet *sheet, scenario_t *old_values);
+void        scenario_manager_ok   (Sheet *sheet);
 scenario_t *scenario_show         (WorkbookControl        *wbc,
 				   scenario_t             *scenario,
 				   scenario_t             *old_values,
