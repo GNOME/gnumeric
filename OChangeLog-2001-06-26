@@ -1,5 +1,24 @@
 2001-01-22  Morten Welinder  <terra@diku.dk>
 
+	* src/search.c (match_is_word): I got this right-end condition
+ 	wrong.  Oh dear.
+
+	* src/cell.c (cell_has_comment): Resurrect.
+
+	* src/commands.c (cmd_search_replace_do_cell): No need for the
+ 	sheet argument.
+	(command_push_undo): Remove duplicate call to update_after_action.
+  	First check parameters, then use them.
+	(command_register_undo): New function, split from
+ 	command_push_undo.
+	(command_push_undo): Use command_register_undo.
+	(truncate_undo_info): Change to take a Workbook directly.  Caller
+ 	changed.
+	(cmd_search_replace): Use command_register_undo and eliminate
+ 	gross hack.
+
+2001-01-22  Morten Welinder  <terra@diku.dk>
+
 	* src/search.c (search_replace_verify): When relevant, check that
  	the range text is not empty.  Implement searching for whole words.
 

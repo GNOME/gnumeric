@@ -149,7 +149,7 @@ match_is_word (SearchReplace *sr, const char *src,
 
 	{
 		char c_post = src[pm->rm_eo];
-		if (c_post == 0 || isalnum ((unsigned char)c_post))
+		if (c_post != 0 && isalnum ((unsigned char)c_post))
 			return FALSE;
 	}
 

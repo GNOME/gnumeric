@@ -19,6 +19,7 @@
 #include "gnumeric-util.h"
 #include "parse-util.h"
 #include "format.h"
+#include "sheet-object-cell-comment.h"
 
 extern int dependency_debugging;
 
@@ -767,3 +768,23 @@ cellpos_cmp (CellPos const * a, CellPos const * b)
 	return (a->row == b->row && a->col == b->col);
 }
 
+
+
+CellComment *
+cell_has_comment (const Cell *cell)
+{
+	const Sheet *sheet = cell->base.sheet;
+	Range r;
+	GList *comments;
+	CellComment *res;
+
+	r.start = r.end = cell->pos;
+	comments = sheet_get_objects (sheet, &r, CELL_COMMENT_TYPE);
+	if (!comments)
+		return NULL;
+
+	/* This assumes just one comment per cell.  */
+	res = comments->data;
+	g_list_free (comments);
+	return res;
+}

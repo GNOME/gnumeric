@@ -336,12 +336,11 @@ command_list_release (GSList *cmd_list)
  * left.
  */
 static int
-truncate_undo_info (WorkbookControl *wbc)
+truncate_undo_info (Workbook *wb)
 {
 	int size_left = 100; /* FIXME? */
 	int ok_count;
 	GSList *l, *prev;
-	Workbook *wb = wb_control_workbook (wbc);
 
 #ifdef DEBUG_TRUNCATE_UNDO
 	fprintf (stderr, "Undo sizes:");
@@ -394,6 +393,45 @@ truncate_undo_info (WorkbookControl *wbc)
 
 
 /**
+ * command_register_undo : An internal utility to tack a new command
+ *    onto the undo list.
+ *
+ * @wbc : The workbook control that issued the command.
+ * @cmd : The new command to add.
+ */
+static void
+command_register_undo (WorkbookControl *wbc, GtkObject *obj)
+{
+	Workbook *wb;
+	GnumericCommand *cmd;
+	int undo_trunc;
+
+	g_return_if_fail (wbc != NULL);
+	wb = wb_control_workbook (wbc);
+
+	cmd = GNUMERIC_COMMAND (obj);
+	g_return_if_fail (cmd != NULL);
+
+	command_list_release (wb->redo_commands);
+	wb->redo_commands = NULL;
+
+	wb->undo_commands = g_slist_prepend (wb->undo_commands, cmd);
+	undo_trunc = truncate_undo_info (wb);
+
+	WORKBOOK_FOREACH_CONTROL (wb, view, control,
+	{
+		wb_control_undo_redo_push (control,
+					   cmd->cmd_descriptor, TRUE);
+		if (undo_trunc >= 0)
+			wb_control_undo_redo_truncate (control,
+						       undo_trunc, TRUE);
+		wb_control_undo_redo_clear (control, FALSE);
+	});
+	undo_redo_menu_labels (wb);
+}
+
+
+/**
  * command_push_undo : An internal utility to tack a new command
  *    onto the undo list.
  *
@@ -408,7 +446,6 @@ command_push_undo (WorkbookControl *wbc, GtkObject *obj)
 	gboolean trouble;
 	GnumericCommand *cmd;
 	GnumericCommandClass *klass;
-	Workbook *wb = wb_control_workbook (wbc);
 
 	g_return_val_if_fail (wbc != NULL, TRUE);
 
@@ -422,28 +459,9 @@ command_push_undo (WorkbookControl *wbc, GtkObject *obj)
 	trouble = klass->redo_cmd (cmd, wbc);
 	update_after_action (cmd->sheet);
 
-	if  (!trouble) {
-		int undo_trunc;
-
-		update_after_action (cmd->sheet);
-
-		command_list_release (wb->redo_commands);
-		wb->redo_commands = NULL;
-
-		wb->undo_commands = g_slist_prepend (wb->undo_commands, cmd);
-		undo_trunc = truncate_undo_info (wbc);
-
-		WORKBOOK_FOREACH_CONTROL (wb, view, control,
-		{
-			wb_control_undo_redo_push (control,
-						   cmd->cmd_descriptor, TRUE);
-			if (undo_trunc >= 0)
-				wb_control_undo_redo_truncate (control, undo_trunc, TRUE);
-			wb_control_undo_redo_clear (control, FALSE);
-
-		});
-		undo_redo_menu_labels (wb);
-	} else
+	if (!trouble)
+		command_register_undo (wbc, obj);
+	else
 		gtk_object_unref (obj);
 
 	return trouble;
@@ -2686,12 +2704,6 @@ typedef struct
 	 * multiple times in the list.
 	 */
 	GList *cells;
-
-	/*
-	 * Gross hack.  We don't want the initial redo done by the
-	 * push.
-	 */
-	gboolean redo_is_null;
 } CmdSearchReplace;
 
 GNUMERIC_MAKE_COMMAND (CmdSearchReplace, cmd_search_replace);
@@ -2750,12 +2762,6 @@ cmd_search_replace_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	CmdSearchReplace *me = CMD_SEARCH_REPLACE (cmd);
 	GList *tmp;
 
-	if (me->redo_is_null) {
-		/* See comment above.  */
-		me->redo_is_null = FALSE;
-		return FALSE;
-	}
-
 	/* Redo does replacements forward.  */
 	for (tmp = me->cells; tmp; tmp = tmp->next) {
 		SearchReplaceItem *sri = tmp->data;
@@ -2788,7 +2794,7 @@ cmd_search_replace_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 static gboolean
 cmd_search_replace_do_cell (CmdSearchReplace *me, WorkbookControl *wbc,
-			    Sheet *sheet, Cell *cell, gboolean test_run)
+			    Cell *cell, gboolean test_run)
 {
 	SearchReplace *sr = me->sr;
 
@@ -2824,7 +2830,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, WorkbookControl *wbc,
 					SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
 
 					if (!old_copy) old_copy = g_strdup (old_text);
-					sri->pos.sheet = sheet;
+					sri->pos.sheet = cell->base.sheet;
 					sri->pos.eval = cell->pos;
 					sri->old_type = sri->new_type = SRI_text;
 					sri->old.text = old_copy;
@@ -2854,7 +2860,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, WorkbookControl *wbc,
 
 				if (doit) {
 					SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
-					sri->pos.sheet = sheet;
+					sri->pos.sheet = cell->base.sheet;
 					sri->pos.eval = cell->pos;
 					sri->old_type = sri->new_type = SRI_comment;
 					sri->old.comment = g_strdup (old_text);
@@ -2907,7 +2913,8 @@ cb_order_sheet_row_col (const void *_a, const void *_b)
 }
 
 static gboolean
-cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc, gboolean test_run)
+cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc,
+		       Sheet *sheet, gboolean test_run)
 {
 	SearchReplace *sr = me->sr;
 	Workbook *wb = wb_control_workbook (wbc);
@@ -2946,7 +2953,7 @@ cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc, gboolean test
 	}
 
 	case SRS_sheet:
-		sheet_foreach_cell_in_range (me->parent.sheet, TRUE,
+		sheet_foreach_cell_in_range (sheet, TRUE,
 					     0, 0,
 					     SHEET_MAX_COLS, SHEET_MAX_ROWS,
 					     cb_search_replace_collect,
@@ -2973,7 +2980,7 @@ cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc, gboolean test
 			Cell *cell = sheet_cell_get (ep->sheet,
 						     ep->eval.col,
 						     ep->eval.row);
-			result = cmd_search_replace_do_cell (me, wbc, ep->sheet, cell, test_run);
+			result = cmd_search_replace_do_cell (me, wbc, cell, test_run);
 		}
 		g_free (ep);
 	}
@@ -2981,7 +2988,7 @@ cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc, gboolean test
 	g_ptr_array_free (cells, TRUE);
 
 	if (!test_run) {
-		/* Cells are added in the wrong order.  */
+		/* Cells were added in the wrong order.  Correct.  */
 		me->cells = g_list_reverse (me->cells);
 	}
 
@@ -3039,23 +3046,23 @@ cmd_search_replace (WorkbookControl *wbc, Sheet *sheet, SearchReplace *sr)
 
 	me->cells = NULL;
 	me->sr = search_replace_copy (sr);
-	me->redo_is_null = TRUE;
 
-	me->parent.sheet = sheet;  /* FIXME?  */
+	me->parent.sheet = NULL;
 	me->parent.size = 1;  /* Corrected below. */
 	me->parent.cmd_descriptor = g_strdup (_("Search and Replace"));
 
-	if (cmd_search_replace_do (me, wbc, TRUE)) {
+	if (cmd_search_replace_do (me, wbc, sheet, TRUE)) {
 		/* There was an error and nothing was done.  */
 		gtk_object_unref (obj);
 		return TRUE;
 	}
 
-	cmd_search_replace_do (me, wbc, FALSE);
+	cmd_search_replace_do (me, wbc, sheet, FALSE);
 	me->parent.size += g_list_length (me->cells);
 
 	/* Register the command object */
-	return command_push_undo (wbc, obj);
+	command_register_undo (wbc, obj);
+	return FALSE;
 }
 
 
