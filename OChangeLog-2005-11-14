@@ -1,3 +1,8 @@
+2001-09-28  Morten Welinder  <terra@diku.dk>
+
+	* src/regression.c (LUPDecomp): Revert last change.  This seems to
+ 	fix regression, but there is something really bogus going on here.
+
 2001-09-28  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-cursor.c (item_cursor_set_bounds_visibly) : Actually use

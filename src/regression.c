@@ -17,7 +17,7 @@
   do { int _i, _d1, _d2;				\
        _d1 = (dim1);					\
        _d2 = (dim2);					\
-       (var) = g_new (gnum_float *, _d1);			\
+       (var) = g_new (gnum_float *, _d1);		\
        for (_i = 0; _i < _d1; _i++)			\
 	       (var)[_i] = g_new (gnum_float, _d2);	\
   } while (0)
@@ -28,6 +28,19 @@
        for (_i = 0; _i < _d1; _i++)			\
 	       g_free ((var)[_i]);			\
        g_free (var);					\
+  } while (0)
+
+#define PRINT_MATRIX(var,dim1,dim2)			\
+  do {							\
+	int _i, _j, _d1, _d2;				\
+	_d1 = (dim1);					\
+	_d2 = (dim2);					\
+	for (_i = 0; _i < _d1; _i++)			\
+	  {						\
+	    for (_j = 0; _j < _d2; _j++)		\
+	      fprintf (stderr, "%20.10f", var[_i][_j]);	\
+	    fprintf (stderr, "\n");			\
+	  }						\
   } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -87,10 +100,11 @@ LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n)
 		tempint = P[i];
 		P[i] = P[mov];
 		P[mov] = tempint;
+		/* FIXME: there's some serious row/col confusion going on here.  */
 		for (j = 0; j < n; j++) {		/*swap the two rows */
-			gnum_float temp = LU[i][j];
-		  	LU[i][j] = LU[mov][j];
-		  	LU[mov][j] = temp;
+			gnum_float temp = LU[j][i];
+		  	LU[j][i] = LU[j][mov];
+		  	LU[j][mov] = temp;
 		}
 		for (j = i + 1; j < n; j++) {
 			LU[i][j] = LU[i][j] / LU[i][i];
