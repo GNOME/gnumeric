@@ -1,0 +1,26 @@
+<sect2 id="numtheory-bitand">
+  <title>bitand</title>
+  <sect3 id="numtheory-bitand-syntax">
+    <title>Syntax</title>
+    <para>
+      BITAND=(a,b)
+    </para>
+  </sect3>
+  <sect3 id="numtheory-bitand-description">
+    <title>Description</title>
+    <para>
+      The BITAND function returns bitwise and-ing of its arguments.
+    </para>
+  </sect3>
+  <sect3 id="numtheory-bitand-examples">
+    <title>Examples</title>
+    <para>
+    </para>
+  </sect3>
+  <sect3 id="numtheory-bitand-seealso">
+    <title>See Also</title>
+    <para>
+      <xref linkend="nt-bitor" />
+	<xref linkend="nt-bitxor" />
+    </para>
+  </sect3>
