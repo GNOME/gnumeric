@@ -1,0 +1,2725 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gnumeric 0.9.3\n"
+"POT-Creation-Date: 1999-04-06 22:57-0500\n"
+"PO-Revision-Date: 1999-02-20 20:00+0800\n"
+"Last-Translator: Dillion Chen <dillon.chen@turbolinux.com.cn>\n"
+"Language-Team: TLDN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=gb2312\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: plugins/excel/boot.c:67
+msgid "Microsoft(R) Excel file format"
+msgstr "微软 Excel 文件格式"
+
+#: plugins/guile/plugin.c:220
+msgid "Argument must be a Guile expression"
+msgstr "参数必须为 Guile 表示式"
+
+#: plugins/guile/plugin.c:241 src/expr.c:512 src/fn-math.c:1329
+#: src/fn-sheet.c:40 src/fn-sheet.c:92 src/fn-string.c:302
+msgid "Invalid number of arguments"
+msgstr "引数个数错误"
+
+#: plugins/guile/plugin.c:248 plugins/guile/plugin.c:254
+msgid "First argument to SCM must be a Guile expression"
+msgstr "给 SCM 的第一个参数必须为 Guile 表示式"
+
+#: plugins/guile/plugin.c:260
+msgid "Undefined scheme function"
+msgstr "未定义的 scheme 函数"
+
+#: plugins/guile/plugin.c:278
+msgid "Could not evaluate argument"
+msgstr "无法解译参数"
+
+#: plugins/guile/plugin.c:386
+msgid "Unable to lookup Guile function."
+msgstr "无法找到 Guile 函数"
+
+#: plugins/guile/plugin.c:454
+msgid "Guile Plugin"
+msgstr "Guile插件"
+
+#: plugins/python/python.c:99
+msgid "Unable to lookup Python code object."
+msgstr "无法找到 Python 码的对像"
+
+#: plugins/python/python.c:115
+msgid "Python exception."
+msgstr "Python 例外情况"
+
+#: plugins/python/python.c:137
+msgid "object must be callable"
+msgstr "对像必须可被调用"
+
+#: plugins/python/python.c:143
+msgid "could not alloc FuncDef"
+msgstr "无法配置 FuncDef"
+
+#: plugins/python/python.c:177
+msgid "Gnumeric/Python module initialized\n"
+msgstr "Gnumeric/Python 模组初始化完成\n"
+
+#: plugins/python/python.c:190
+msgid "Python Plugin"
+msgstr "Python插件"
+
+#: plugins/stat/stat.c:20
+msgid "OLD Statistics Plugin, not required anymore"
+msgstr "旧的统计用 Plugin, 目前已经不再需要了"
+
+#: src/about.c:23
+msgid "Miguel de Icaza, main programmer."
+msgstr "Miguel de Icaza, 主要程序设计者。"
+
+#: src/about.c:24
+msgid "Daniel Veillard, XML support."
+msgstr "Daniel Veillard, XML 支持。"
+
+#: src/about.c:25
+msgid "Chris Lahey, Number format engine."
+msgstr "Chris Lahey, 数字格式化引擎。"
+
+#: src/about.c:26
+msgid "Tom Dyas, Plugin support."
+msgstr "Tom Dyas, Plugin 支持。"
+
+#: src/about.c:27
+msgid "Federico Mena, Canvas support."
+msgstr "Federico Mena, Canvas 支持。"
+
+#: src/about.c:28
+msgid "Adrian Likins, Documentation, debugging"
+msgstr "Adrian Likins, 文件工作、调试。"
+
+#: src/about.c:29
+msgid "Jakub Jelinek, Gnumeric hacker"
+msgstr "Jakub Jelinek, Gnumeric 骇客。"
+
+#: src/about.c:30
+msgid "Michael Meeks, Excel and OLE2 importing"
+msgstr "Michael Meeks, Excel 与 OLE2 转入功能。"
+
+#: src/about.c:31
+msgid "Sean Atkinson, Excel functions"
+msgstr "Sean Atkinson, Excel 函数。"
+
+#: src/about.c:32
+msgid "Bruno Unna, Excel code"
+msgstr "Bruno Unna, Excel 相关程序代码。"
+
+#: src/about.c:33
+msgid "Mark Probst, Guile support"
+msgstr "Mark Probst, Guile 支持。"
+
+#: src/about.c:34
+msgid "Vincent Renardias, CSV support"
+msgstr "Vincent Renardias, CSV 支持。"
+
+#: src/about.c:35
+msgid "Vladimir Vuksan, financial functions"
+msgstr "Vladimir Vuksan, 商业、财金相关函数"
+
+#: src/about.c:36
+msgid "Takashi Matsuda, simple text plugin"
+msgstr "Takashi Matsuda, 简易文字支持"
+
+#: src/about.c:37
+msgid "Jukka-Pekka Iivonen, numerous functions"
+msgstr "Jukka-Pekka Iivonen, 众多的函数"
+
+#: src/about.c:51
+msgid "Gnumeric"
+msgstr "Gnumeric"
+
+#: src/about.c:54
+msgid ""
+"The GNOME spreadsheet.\n"
+"http://www.gnome.org/gnumeric"
+msgstr ""
+"GNOME 电子表格。\n"
+"http://www.gnome.org/gnumeric"
+
+#: src/dates.c:14
+msgid "*Sun"
+msgstr "*日"
+
+#: src/dates.c:15
+msgid "*Mon"
+msgstr "*一"
+
+#: src/dates.c:16
+msgid "*Tue"
+msgstr "*二"
+
+#: src/dates.c:17
+msgid "*Wed"
+msgstr "*三"
+
+#: src/dates.c:18
+msgid "*Thu"
+msgstr "*四"
+
+#: src/dates.c:19
+msgid "*Fri"
+msgstr "*五"
+
+#: src/dates.c:20
+msgid "*Sat"
+msgstr "*六"
+
+#: src/dates.c:26
+msgid "Sunday"
+msgstr "星期日"
+
+#: src/dates.c:27
+msgid "Monday"
+msgstr "星期一"
+
+#: src/dates.c:28
+msgid "Tuesday"
+msgstr "星期二"
+
+#: src/dates.c:29
+msgid "Wednesday"
+msgstr "星期三"
+
+#: src/dates.c:30
+msgid "Thursday"
+msgstr "星期四"
+
+#: src/dates.c:31
+msgid "Friday"
+msgstr "星期五"
+
+#: src/dates.c:32
+msgid "Saturday"
+msgstr "星期六"
+
+#: src/dates.c:38
+msgid "*Jan"
+msgstr "*一"
+
+#: src/dates.c:39
+msgid "*Feb"
+msgstr "*二"
+
+#: src/dates.c:40
+msgid "*Mar"
+msgstr "*三"
+
+#: src/dates.c:41
+msgid "*Apr"
+msgstr "*四"
+
+#: src/dates.c:42
+msgid "*May"
+msgstr "*五"
+
+#: src/dates.c:43
+msgid "*Jun"
+msgstr "*六"
+
+#: src/dates.c:44
+msgid "*Jul"
+msgstr "*七"
+
+#: src/dates.c:45
+msgid "*Aug"
+msgstr "*八"
+
+#: src/dates.c:46
+msgid "*Sep"
+msgstr "*九"
+
+#: src/dates.c:47
+msgid "*Oct"
+msgstr "*十"
+
+#: src/dates.c:48
+msgid "*Nov"
+msgstr "*十一"
+
+#: src/dates.c:49
+msgid "*Dec"
+msgstr "*十二"
+
+#: src/dates.c:55
+msgid "January"
+msgstr "一月"
+
+#: src/dates.c:56
+msgid "February"
+msgstr "二月"
+
+#: src/dates.c:57
+msgid "March"
+msgstr "三月"
+
+#: src/dates.c:58
+msgid "April"
+msgstr "四月"
+
+#: src/dates.c:59
+msgid "May"
+msgstr "五月"
+
+#: src/dates.c:60
+msgid "June"
+msgstr "六月"
+
+#: src/dates.c:61
+msgid "July"
+msgstr "七月"
+
+#: src/dates.c:62
+msgid "August"
+msgstr "八月"
+
+#: src/dates.c:63
+msgid "September"
+msgstr "九月"
+
+#: src/dates.c:64
+msgid "October"
+msgstr "十月"
+
+#: src/dates.c:65
+msgid "November"
+msgstr "十一月"
+
+#: src/dates.c:66
+msgid "December"
+msgstr "十二月"
+
+#: src/dialog-cell-format.c:66
+msgid "Numbers"
+msgstr "数字"
+
+#: src/dialog-cell-format.c:67
+msgid "Accounting"
+msgstr "会计"
+
+#: src/dialog-cell-format.c:68
+msgid "Date"
+msgstr "日期"
+
+#: src/dialog-cell-format.c:69
+msgid "Time"
+msgstr "时间"
+
+#: src/dialog-cell-format.c:70
+msgid "Percent"
+msgstr "百分比"
+
+#: src/dialog-cell-format.c:71
+msgid "Fraction"
+msgstr "分数"
+
+#: src/dialog-cell-format.c:72
+msgid "Scientific"
+msgstr "科学记号"
+
+#: src/dialog-cell-format.c:73
+msgid "Text"
+msgstr "文字"
+
+#: src/dialog-cell-format.c:74
+msgid "Money"
+msgstr "金钱"
+
+#. 1. Categories
+#: src/dialog-cell-format.c:256
+msgid "Categories"
+msgstr "种类"
+
+#. 2.1 Input line
+#: src/dialog-cell-format.c:288
+msgid "Code:"
+msgstr "代码:"
+
+#. 2.2 Sample
+#: src/dialog-cell-format.c:297
+msgid "Sample:"
+msgstr "范例:"
+
+#: src/dialog-cell-format.c:309
+msgid "Format codes"
+msgstr "格式代码"
+
+#: src/dialog-cell-format.c:358 src/formats.c:16 src/number-match.c:455
+msgid "General"
+msgstr "一般"
+
+#: src/dialog-cell-format.c:359
+msgid "Left"
+msgstr "靠左"
+
+#: src/dialog-cell-format.c:360 src/dialog-cell-format.c:369
+#: src/workbook.c:862
+msgid "Center"
+msgstr "置中"
+
+#: src/dialog-cell-format.c:361
+msgid "Right"
+msgstr "靠右"
+
+#: src/dialog-cell-format.c:362
+msgid "Fill"
+msgstr "填满"
+
+#: src/dialog-cell-format.c:363 src/dialog-cell-format.c:371
+msgid "Justify"
+msgstr "调整"
+
+#: src/dialog-cell-format.c:368
+msgid "Top"
+msgstr "向上对齐"
+
+#: src/dialog-cell-format.c:370
+msgid "Bottom"
+msgstr "向下对齐"
+
+#. Vertical alignment
+#: src/dialog-cell-format.c:426
+msgid "Vertical"
+msgstr "垂直"
+
+#. Horizontal alignment
+#: src/dialog-cell-format.c:430
+msgid "Horizontal"
+msgstr "水平"
+
+#: src/dialog-cell-format.c:433
+msgid "Auto return"
+msgstr "自动换行"
+
+#: src/dialog-cell-format.c:602
+msgid "Text color"
+msgstr "文字颜色"
+
+#. The radio buttons
+#: src/dialog-cell-format.c:606 src/dialog-cell-format.c:639
+#: src/dialog-paste-special.c:28
+msgid "None"
+msgstr "无"
+
+#: src/dialog-cell-format.c:608
+msgid "Use this color"
+msgstr "使用这个颜色"
+
+#: src/dialog-cell-format.c:610 src/dialog-cell-format.c:645
+msgid "No change"
+msgstr "无改动"
+
+#: src/dialog-cell-format.c:633
+msgid "Background configuration"
+msgstr "背景设定"
+
+#: src/dialog-cell-format.c:641
+msgid "Use solid color"
+msgstr "使用"
+
+#: src/dialog-cell-format.c:643
+msgid "Use a pattern"
+msgstr "使用样式"
+
+#: src/dialog-cell-format.c:915
+msgid "Number"
+msgstr "数字"
+
+#: src/dialog-cell-format.c:916
+msgid "Alignment"
+msgstr "对齐"
+
+#: src/dialog-cell-format.c:917
+msgid "Font"
+msgstr "字体"
+
+#: src/dialog-cell-format.c:918
+msgid "Coloring"
+msgstr "颜色"
+
+#: src/dialog-define-names.c:23
+msgid "Define names"
+msgstr "定义域名"
+
+#: src/dialog-define-names.c:26 src/dialog-paste-special.c:29
+msgid "Add"
+msgstr "新增"
+
+#: src/dialog-define-names.c:27 src/plugin-manager.c:132
+msgid "Remove"
+msgstr "移除"
+
+#: src/dialog-define-names.c:42
+msgid "Names in the workbook"
+msgstr "在工作簿上的域名"
+
+#: src/dialog-define-names.c:49
+msgid "Refers to"
+msgstr "参考"
+
+#: src/dialog-delete-cells.c:25
+msgid "delete cells"
+msgstr "删除储存格"
+
+#: src/dialog-delete-cells.c:29
+msgid "Delete cells"
+msgstr "删除储存格"
+
+#: src/dialog-delete-cells.c:32 src/item-grid.c:532
+msgid "Delete"
+msgstr "删除"
+
+#: src/dialog-delete-cells.c:33
+msgid "Shift cells left"
+msgstr "储存格向左移"
+
+#: src/dialog-delete-cells.c:34
+msgid "Shift cells up"
+msgstr "储存格向上移"
+
+#: src/dialog-delete-cells.c:35
+msgid "Delete row(s)"
+msgstr "删除列"
+
+#: src/dialog-delete-cells.c:36
+msgid "Delete column(s)"
+msgstr "删除栏"
+
+#: src/dialog-goto-cell.c:42
+msgid "Cell"
+msgstr "储存格"
+
+#: src/dialog-goto-cell.c:45
+msgid "Go to..."
+msgstr "跳越至 ..."
+
+#: src/dialog-goto-cell.c:47
+msgid "Special..."
+msgstr "特殊..."
+
+#: src/dialog-insert-cells.c:26
+msgid "insert cells"
+msgstr "插入储存格"
+
+#: src/dialog-insert-cells.c:30
+msgid "Insert cells"
+msgstr "插入储存格"
+
+#: src/dialog-insert-cells.c:33 src/item-grid.c:531
+msgid "Insert"
+msgstr "插入"
+
+#: src/dialog-insert-cells.c:34
+msgid "Shift cells right"
+msgstr "储存格向右移"
+
+#: src/dialog-insert-cells.c:35
+msgid "Shift cells down"
+msgstr "储存格向下移"
+
+#: src/dialog-insert-cells.c:36
+msgid "Insert row(s)"
+msgstr "插入列"
+
+#: src/dialog-insert-cells.c:37
+msgid "Insert column(s)"
+msgstr "插入栏"
+
+#: src/dialog-paste-special.c:20
+msgid "All"
+msgstr "全部"
+
+#: src/dialog-paste-special.c:21
+msgid "Formulas"
+msgstr "公式"
+
+#: src/dialog-paste-special.c:22
+msgid "Values"
+msgstr "数值"
+
+#: src/dialog-paste-special.c:23
+msgid "Formats"
+msgstr "格式"
+
+#: src/dialog-paste-special.c:30
+msgid "Substract"
+msgstr "减"
+
+#: src/dialog-paste-special.c:31
+msgid "Multiply"
+msgstr "乘"
+
+#: src/dialog-paste-special.c:32
+msgid "Divide"
+msgstr "除"
+
+#: src/dialog-paste-special.c:56 src/item-grid.c:529
+msgid "Paste special"
+msgstr "选择性贴上"
+
+#: src/dialog-paste-special.c:61
+msgid "Paste type"
+msgstr "种类"
+
+#: src/dialog-paste-special.c:65
+msgid "Operation"
+msgstr "动作"
+
+#: src/dialog-zoom.c:47 src/dialog-zoom.c:50
+msgid "Zoom"
+msgstr "缩放"
+
+#: src/dialog-zoom.c:56
+msgid "Custom"
+msgstr "自订"
+
+#: src/dialog-zoom.c:84
+#, c-format
+msgid "Zoom factor should be at least 50%"
+msgstr "缩小参数至少要 50%"
+
+#: src/dialog-zoom.c:90
+#, c-format
+msgid "Zoom factor should be at most 900%"
+msgstr "放大参数最多到 900%"
+
+#: src/dump.c:29
+#, c-format
+msgid "Can not create file %s\n"
+msgstr "无法建立文件 %s\n"
+
+#: src/expr.c:59
+msgid "Syntax error"
+msgstr "语法错误"
+
+#: src/expr.c:63
+msgid "Missing quote"
+msgstr "缺少引号"
+
+#: src/expr.c:67
+msgid "Impossible!"
+msgstr "不可能!"
+
+#: src/expr.c:535 src/expr.c:541 src/expr.c:549 src/expr.c:834 src/expr.c:1029
+#: src/fn-string.c:54 src/fn-string.c:76 src/fn-string.c:98
+#: src/fn-string.c:155 src/fn-string.c:192 src/fn-string.c:271
+#: src/fn-string.c:350 src/fn-string.c:390 src/fn-string.c:571
+#: src/fn-string.c:612 src/fn-string.c:681 src/fn-string.c:726
+msgid "Type mismatch"
+msgstr "形态不符 (Type mismatch) "
+
+#: src/expr.c:775
+msgid "Type error"
+msgstr "形态错误 (Type error)"
+
+#: src/expr.c:884 src/expr.c:921
+msgid "Division by zero"
+msgstr "被0除"
+
+#: src/expr.c:1009
+msgid "Reference to newborn cell"
+msgstr "指到新的储存格"
+
+#: src/expr.c:1044
+msgid "Unknown evaluation error"
+msgstr "不明的执行错误"
+
+#: src/file.c:218
+msgid "File format:"
+msgstr "文件格式:"
+
+#: src/file.c:257
+msgid "Save workbook as"
+msgstr "将活页簿存为"
+
+#: src/file.c:289
+msgid "Sorry, there are no file savers loaded, I can not save"
+msgstr "抱歉，没有载入文件储存程序；无法储存"
+
+#: src/file.c:327
+msgid "Load file"
+msgstr "载入文件"
+
+#: src/fn-date.c:18
+msgid ""
+"@FUNCTION=DATE\n"
+"@SYNTAX=DATE (year,month,day)\n"
+"@DESCRIPTION=Computes the number of days since the 1st of january "
+"of 1900(the date serial number) for the given year, month and day.\n"
+"The day might be negative (to count backwards) and it is relative to "
+"the previous month.  The years should be at least 1900\n"
+"@SEEALSO=TODAY, NOW"
+msgstr "@FUNCTION=DATE\n"
+"@SYNTAX=DATE (year,month,day)\n"
+"@DESCRIPTION= 计算给定的年,月,日离1900年1月1日的天数"
+"日期可能是负的并且相对前个月. 至少1900年起"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-date.c:46
+msgid "Invalid month or year"
+msgstr "错误的年份或月份"
+
+#: src/fn-date.c:61
+msgid "Invalid day"
+msgstr "错误的日期"
+
+#: src/fn-date.c:71
+msgid ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=Returns the serial number for today (the number of days "
+"elapsed since the 1st of January of 1900)\n"
+"@SEEALSO=TODAY, NOW"
+msgstr "@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=返回天数(自1900年1月1日起)"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-date.c:100
+msgid ""
+"@FUNCTION=NOW\n"
+"@SYNTAX=NOW ()\n"
+"@DESCRIPTION=Returns the serial number for the date and time at the time "
+"it is evaluated.\n"
+"Serial Numbers in Gnumeric are represented as follows:The integral part "
+"is the number of days since the 1st of January of 1900.  The decimal "
+"part represent the fraction of the day and is mapped into hour, minutes "
+"and seconds\n"
+"For example: .0 represents the beginning of the day, and 0.5 represents "
+"noon\n"
+"@SEEALSO=TODAY, NOW"
+msgstr ""
+"@FUNCTION=NOW\n"
+"@SYNTAX=NOW ()\n"
+"@DESCRIPTION=返回现在的天数(自1900年1月1日起) "
+"Gnumeric表示如下:整数部分为自1900年1月1日起的天数"
+"小数部分是把小时,分,秒折算为天"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-date.c:140
+msgid ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (hours,minutes,seconds)\n"
+"@DESCRIPTION=Returns a fraction representing the hour\n"
+"@SEEALSO=HOUR"
+msgstr "@FUNCTION=TIME\n"
+"@SYNTAX=TIME (hours,minutes,seconds)\n"
+"@DESCRIPTION=返回小时的小数部分\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-date.c:167
+msgid ""
+"@FUNCTION=HOUR\n"
+"@SYNTAX=HOUR (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to an hour.  The hour is returned "
+"as an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.)\n"
+"Note that Gnumeric will perform regular string to serial number "
+"conversion for you, so you can enter a date as a string\n"
+"@SEEALSO=MINUTE, NOW, TIME, SECOND"
+msgstr "@FUNCTION=HOUR\n"
+"@SYNTAX=HOUR (serial_number)\n"
+"@DESCRIPTION=转换一串数为小时."
+"返回值的范围从0到23\n"
+"@SEEALSO=MINUTE, NOW, TIME, SECOND"
+
+#: src/fn-date.c:182
+msgid ""
+"@FUNCTION=MINUTE\n"
+"@SYNTAX=MINUTE (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a minute.  The minute is "
+"returned as an integer in the range 0 to 59\n"
+"Note that Gnumeric will perform regular string to serial number "
+"conversion for you, so you can enter a date as a string\n"
+"@SEEALSO=HOUR, NOW, TIME, SECOND"
+msgstr "@FUNCTION=MINUTE\n"
+"@SYNTAX=MINUTE (serial_number)\n"
+"@DESCRIPTION=转换一串数为分钟."
+"返回值的范围从0到59\n"
+"@SEEALSO=HOUR, NOW, TIME, SECOND"
+
+#: src/fn-date.c:197
+msgid ""
+"@FUNCTION=SECOND\n"
+"@SYNTAX=SECOND (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a second.  The second is "
+"returned as an integer in the range 0 to 59\n"
+"Note that Gnumeric will perform regular string to serial number "
+"conversion for you, so you can enter a date as a string\n"
+"@SEEALSO=HOUR, MINUTE, NOW, TIME"
+msgstr "@FUNCTION=SECOND\n"
+"@SYNTAX=SECOND (serial_number)\n"
+"@DESCRIPTION=转换一串数为秒."
+"返回值的范围从0到59\n"
+"@SEEALSO=HOUR, MINUTE, NOW, TIME"
+
+#: src/fn-date.c:235
+msgid ""
+"@FUNCTION=YEAR\n"
+"@SYNTAX=YEAR (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a year.\n"
+"Note that Gnumeric will perform regular string to serial number "
+"conversion for you, so you can enter a date as a string\n"
+"@SEEALSO=DAY, MONTH, TIME, NOW"
+msgstr "@FUNCTION=YEAR\n"
+"@DESCRIPTION=转换一串数为年."
+"@SYNTAX=YEAR (serial_number)\n"
+"@SEEALSO=DAY, MONTH, TIME, NOW"
+
+#: src/fn-date.c:249
+msgid ""
+"@FUNCTION=MONTH\n"
+"@SYNTAX=MONTH (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a month.\n"
+"Note that Gnumeric will perform regular string to serial number "
+"conversion for you, so you can enter a date as a string\n"
+"@SEEALSO=DAY, TIME, NOW, YEAR"
+msgstr "@FUNCTION=MONTH\n"
+"@SYNTAX=MONTH (serial_number)\n"
+"@DESCRIPTION=转换一串数为月."
+"@SEEALSO=DAY, TIME, NOW, YEAR"
+
+#: src/fn-date.c:263
+msgid ""
+"@FUNCTION=DAY\n"
+"@SYNTAX=DAY (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a day.\n"
+"Note that Gnumeric will perform regular string to serial number "
+"conversion for you, so you can enter a date as a string\n"
+"@SEEALSO=MONTH, TIME, NOW, YEAR"
+msgstr "@FUNCTION=DAY\n"
+"@SYNTAX=DAY (serial_number)\n"
+"@DESCRIPTION=转换一串数为日."
+"@SEEALSO=MONTH, TIME, NOW, YEAR"
+
+#: src/fn-math.c:25
+msgid ""
+"@FUNCTION=NAME\n"
+"@SYNTAX=(b1, b2, ...)\n"
+"@DESCRIPTION\n"
+"\n"
+"@SEEALSO="
+msgstr "@FUNCTION=NAME\n"
+"@SYNTAX=(b1, b2, ...)\n"
+"@DESCRIPTION\n"
+"\n"
+"@SEEALSO="
+
+#: src/fn-math.c:46
+msgid ""
+"@FUNCTION=ABS\n"
+"@SYNTAX=ABS(b1)\n"
+"@DESCRIPTION=Implements the Absolute Value function:  the result is to "
+"drop the negative sign (if present).  This can be done for integers "
+"and floating point numbers.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=CEIL, FLOOR"
+msgstr ""
+"@FUNCTION=ABS\n"
+"@SYNTAX=ABS(b1)\n"
+"@DESCRIPTION=求绝对值:如果是负数结果将去掉负号.整数和浮点数可使用本函数"
+"@SEEALSO=CEIL, FLOOR"
+
+#: src/fn-math.c:65
+msgid ""
+"@FUNCTION=ACOS\n"
+"@SYNTAX=ACOS(x)\n"
+"@DESCRIPTION=The ACOS function calculates the arc cosine of x; that  is "
+"the value whose cosine is x.  If x  falls  outside  the  range -1 to 1, "
+"ACOS fails and returns the error 'acos - domain error'.  The value "
+"it returns is in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. "
+"This function only takes one argument.\n"
+"@SEEALSO=COS, SIN, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=ACOS\n"
+"@SYNTAX=ACOS(x)\n"
+"@DESCRIPTION=ACOS函数计算x的反余弦值,即其余弦值等于x"
+"如果x值不在-1到1内,ACOS失败返回错误'acos - domain error'."
+"正常情况下返回弧度值"
+"@SEEALSO=COS, SIN, DEGREES, RADIANS"
+
+#: src/fn-math.c:87
+msgid "acos - domain error"
+msgstr "acos - 参数值域错误"
+
+#: src/fn-math.c:94
+msgid ""
+"@FUNCTION=ACOSH\n"
+"@SYNTAX=ACOSH(x)\n"
+"@DESCRIPTION=The ACOSH  function  calculates  the inverse hyperbolic "
+"cosine of x; that is the value whose hyperbolic cosine is x. If x is "
+"less than 1.0, acosh() returns the error  'acosh - domain error'\n"
+"Performing this function on a string or empty cell simply does nothing. "
+"This function only takes one argument.\n"
+"@SEEALSO=ACOS, DEGREES, RADIANS "
+msgstr ""
+"@FUNCTION=ACOSH\n"
+"@SYNTAX=ACOSH(x)\n"
+"@DESCRIPTION=ACOSH函数计算x的反双曲余弦值,即其双曲馀弦值等于x"
+"如果x值小于1.0,acosh()失败返回错误'acosh - domain error'\n"
+"对字符串或空执行这个函数将不做任何处理.本函数仅接受一个参数"
+"@SEEALSO=ACOS, DEGREES, RADIANS "
+
+#: src/fn-math.c:116
+msgid "acosh - domain error"
+msgstr "acosh - 参数值域错误"
+
+#: src/fn-math.c:123
+msgid ""
+"@FUNCTION=AND\n"
+"@SYNTAX=AND(b1, b2, ...)\n"
+"@DESCRIPTION=Implements the logical AND function: the result is TRUE if "
+"all of the expression evaluates to TRUE, otherwise it returns FALSE.\n"
+"b1, trough bN are expressions that should evaluate to TRUE or FALSE. If "
+"an integer or floating point value is provided zero is considered FALSE "
+"and anything else is TRUE.\n"
+"If the values contain strings or empty cells those values are ignored.  "
+"If no logical values are provided, then the error '#VALUE!' is returned. \n"
+"@SEEALSO=OR, NOT"
+msgstr ""
+"@FUNCTION=AND\n"
+"@SYNTAX=AND(b1, b2, ...)\n"
+"@DESCRIPTION=AND函数实现逻辑与功能:如果所有表达式为真, "
+"那么结果为真,否则为假. b1到bN表达式应该可以评价为真或假"
+"如果一个整数或浮点数为0,那么返回值为假.如果表达式包含字"
+"符或则空,这些值将被忽略.如果没有提供逻辑表达式,那么错误"
+"'#VALUE!'会返回\n"
+"@SEEALSO=OR, NOT"
+
+#: src/fn-math.c:187 src/fn-math.c:1049
+msgid "#VALUE"
+msgstr "#值"
+
+#: src/fn-math.c:194
+msgid ""
+"@FUNCTION=ASIN\n"
+"@SYNTAX=ASIN(x)\n"
+"@DESCRIPTION=The ASIN function calculates the arc sine of x; that is "
+"the value whose sine is x. If x falls outside  the  range -1 to 1, "
+"ASIN fails and returns the error 'asin - domain error'   \n"
+"Performing this function on a string or empty cell simply does nothing. "
+"This function only takes one argument.\n"
+"@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=ASIN\n"
+"@SYNTAX=ASIN(x)\n"
+"@DESCRIPTION=ASIN函数计算x反正弦值,即其正弦值等于x. "
+"如果x超出-1到1的范围,ASIN失败返回错误'asin - domain error'"
+"对字符串或空执行这个函数将不做任何处理.本函数仅接受一个参数"
+"@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
+
+#: src/fn-math.c:215
+msgid "asin - domain error"
+msgstr "asin - 参数值域错误"
+
+#: src/fn-math.c:222
+msgid ""
+"@FUNCTION=ASINH\n"
+"@SYNTAX=ASINH(x)\n"
+"@DESCRIPTION=The ASINH  function  calculates  the inverse hyperbolic  "
+"sine of x; that is the value whose hyperbolic sine is x. \n"
+"Performing this function on a string or empty cell simply does nothing. "
+"This function only takes one argument.\n"
+"@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=ASINH\n"
+"@SYNTAX=ASINH(x)\n"
+"@DESCRIPTION=ASINH函数计算x的反双曲正弦值,即其双曲正弦值等于x"
+"对字符串或空执行这个函数将不做任何处理.本函数仅接受一个参数"
+"@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
+
+#: src/fn-math.c:243
+msgid ""
+"@FUNCTION=ATAN\n"
+"@SYNTAX=ATAN(x)\n"
+"@DESCRIPTION=The ATAN function calculates the arc tangent of x; that  is "
+"the value whose tangent is x.Return value is in radians.\n"
+"Performing this function on a string or empty cell simply does nothing. "
+"This function only takes one argument.\n"
+"@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=ATAN\n"
+"@SYNTAX=ATAN(x)\n"
+"@DESCRIPTION=ATAN函数计算x的反正切值,即其正切值等于x."
+"本函数返回弧度值.对字符串或空执行这个函数将不做任何"
+"处理.本函数仅接受一个参数"
+"@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
+
+#: src/fn-math.c:266
+msgid ""
+"@FUNCTION=ATANH\n"
+"@SYNTAX=ATANH(x)\n"
+"@DESCRIPTION=The  ATANH  function  calculates  the inverse "
+"hyperbolic tangent of x; that is the value whose  hyperbolic  tangent is  "
+"x.   If  the  absolute value of x is greater than 1.0,  ATANH returns "
+"an error of 'atanh: domain error'      \n"
+"Performing this function on a string or empty cell simply does nothing. "
+"This function only takes one argument.\n"
+"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=ATANH\n"
+"@SYNTAX=ATANH(x)\n"
+"@DESCRIPTION=ATANH函数计算x的反双曲正切值,即其双曲正切值等于x"
+"如果x的绝对值大于1.0,本函数将返回错误'atanh:domain error'"
+"对字符串或空执行这个函数将不做任何处理.本函数仅接受一个参数"
+"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
+
+#: src/fn-math.c:289
+msgid "atanh: domain error"
+msgstr "atanh - 参数值域错误"
+
+#: src/fn-math.c:296
+msgid ""
+"@FUNCTION=ATAN2\n"
+"@SYNTAX=ATAN2(b1,b2)\n"
+"@DESCRIPTION=The ATAN2 function calculates the arc tangent of the "
+"two variables b1 and b2.  It is similar to calculating  the  arc tangent  "
+"of b2 / b1, except that the signs of both arguments are used to "
+"determine the quadrant of the result. The result is in Radians.\n"
+"Performing this function on a string or empty cell simply does nothing. \n"
+"@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=ATAN2\n"
+"@SYNTAX=ATAN2(b1,b2)\n"
+"@DESCRIPTION=ATAN2函数计算两个变量b1和b2的反正切值,"
+"类似于计算b2/b1的反正切值,除了两个参数的符号被用来"
+"确定结果在哪个象限外.返回结果为弧度.对字符串或空执"
+"行这个函数将不做任何处理."
+"@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
+
+#: src/fn-math.c:320
+msgid ""
+"@FUNCTION=AVERAGE\n"
+"@SYNTAX=AVERAGE(value1, value2,...)\n"
+"@DESCRIPTION=Computes the average of all the values and cells referenced "
+"in the argument list.  This is equivalent to the sum of the "
+"arguments divided by the count of the arguments.\n"
+"@SEEALSO=SUM, COUNT"
+msgstr ""
+"@FUNCTION=AVERAGE\n"
+"@SYNTAX=AVERAGE(value1, value2,...)\n"
+"@DESCRIPTION=计算所有输入参数的平均值."
+"即把所有参数相加再除以参数的个数."
+"@SEEALSO=SUM, COUNT"
+
+#: src/fn-math.c:365
+msgid ""
+"@FUNCTION=CEIL\n"
+"@SYNTAX=CEIL(x)\n"
+"@DESCRIPTION=The CEIL function rounds x up to the next nearest integer.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=ABS, FLOOR, INT"
+msgstr ""
+"@FUNCTION=CEIL\n"
+"@SYNTAX=CEIL(x)\n"
+"@DESCRIPTION=CEIL函数求x的下一个最接近的整数值\n"
+"对字符串或空执行这个函数将不做任何处理."
+"@SEEALSO=ABS, FLOOR, INT"
+
+#: src/fn-math.c:384
+msgid ""
+"@FUNCTION=CEILING\n"
+"@SYNTAX=CEILING(x,significance)\n"
+"@DESCRIPTION=The CEILING function rounds x up to the nearest multiple "
+"of significance. \n"
+"If x or significance is non-numeric CEILING returns #VALUE! error. If n "
+"and significance have different signs CEILING returns #NUM! error. \n"
+"@SEEALSO=CEIL"
+msgstr ""
+"@FUNCTION=CEILING\n"
+"@SYNTAX=CEILING(x,significance)\n"
+"@DESCRIPTION=CEILING函数求significance的最接近数的"
+"n倍,n值为大于(不能整除时)或等于x/significance的整数"
+"如果参数x或significance非数字,CEILING返回#VALUE!错误"
+"如果参书x或significance有不同的符号,返回#NUM!错误"
+"@SEEALSO=CEIL"
+
+#: src/fn-math.c:408
+msgid "#VALUE!"
+msgstr "#值!"
+
+#. -0
+#: src/fn-math.c:415 src/fn-math.c:946 src/fn-math.c:954 src/fn-math.c:1153
+msgid "#NUM!"
+msgstr "#数!"
+
+#: src/fn-math.c:440
+msgid ""
+"@FUNCTION=COS\n"
+"@SYNTAX=COS(x)\n"
+"@DESCRIPTION=The  COS  function  returns  the cosine of x, where x is "
+"given in radians.  \n"
+"Performing this function on a string or empty cell simply does nothing. "
+"This function only takes one argument.\n"
+"@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
+msgstr ""
+"@FUNCTION=COS\n"
+"@SYNTAX=COS(x)\n"
+"@DESCRIPTION=COS函数计算x的余弦值,参数x要求表达为弧度"
+"对字符串或空执行这个函数将不做任何处理.本函数仅接受一个参数"
+"@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
+
+#: src/fn-math.c:460
+msgid ""
+"@FUNCTION=COSH\n"
+"@SYNTAX=COSH(x)\n"
+"@DESCRIPTION=The COSH  function  returns the hyperbolic cosine of x,  "
+"which is defined mathematically as (exp(x) + exp(-x)) / 2.    x is "
+"in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. "
+"This function only takes one argument.\n"
+"@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
+msgstr ""
+"@FUNCTION=COSH\n"
+"@SYNTAX=COSH(x)\n"
+"@DESCRIPTION=COSH计算x的双曲余弦值,相当于(exp(x)+(exp(-x))/2"
+"参数x要求表达为弧度,对字符串或空执行这个函数将不做任何处理."
+"本函数仅接受一个参数"
+"@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
+
+#: src/fn-math.c:501
+msgid ""
+"@FUNCTION=COUNT\n"
+"@SYNTAX=COUNT(b1, b2, ...)\n"
+"@DESCRIPTION=Returns the total number of arguments passed.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=AVERAGE"
+msgstr ""
+"@FUNCTION=COUNT\n"
+"@SYNTAX=COUNT(b1, b2, ...)\n"
+"@DESCRIPTION=计算传递进来的参数的总和\n"
+"对字符串或空执行这个函数将不做任何处理."
+"@SEEALSO=AVERAGE"
+
+#: src/fn-math.c:529
+msgid ""
+"@FUNCTION=DEGREES\n"
+"@SYNTAX=DEGREES(x)\n"
+"@DESCRIPTION=Computes the number of degrees equivalent to  x radians.\n"
+"Performing this function on a string or empty cell simply does nothing. \n"
+"@SEEALSO=RADIANS, PI"
+msgstr ""
+"@FUNCTION=DEGREES\n"
+"@SYNTAX=DEGREES(x)\n"
+"@DESCRIPTION=计算x弧度对应的度数\n"
+"对字符串或空执行这个函数将不做任何处理."
+"@SEEALSO=RADIANS, PI"
+
+#: src/fn-math.c:550
+msgid ""
+"@FUNCTION=EXP\n"
+"@SYNTAX=EXP(x)\n"
+"@DESCRIPTION=Computes the value of e(the base of natural logarithmns) "
+"raised to the power of x. \n"
+"Performing this function on a string or empty cell returns an error.\n"
+"@SEEALSO=LOG, LOG2, LOG10"
+msgstr ""
+"@FUNCTION=EXP\n"
+"@SYNTAX=EXP(x)\n"
+"@DESCRIPTION=计算底为e指数为x的对数"
+"对字符串或空执行这个函数将不做任何处理."
+"@SEEALSO=LOG, LOG2, LOG10"
+
+#: src/fn-math.c:577
+msgid ""
+"@FUNCTION=FACT\n"
+"@SYNTAX=FACT(x)\n"
+"@DESCRIPTION=Computes the factorial of x. ie, x!\n"
+"Performing this function on a string or empty cell returns an error\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=FACT\n"
+"@SYNTAX=FACT(x)\n"
+"@DESCRIPTION=计算x的价乘.例如x!\n"
+"对字符串或空执行这个函数将不做任何处理."
+"@SEEALSO="
+
+#: src/fn-math.c:624
+msgid ""
+"@FUNCTION=COMBIN\n"
+"@SYNTAX=COMBIN(n,k)\n"
+"@DESCRIPTION=Computes the number of combinations.\n"
+"Performing this function on a non-integer or a negative number returns "
+"an error. Also if n is less than k returns an error.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=COMBIN\n"
+"@SYNTAX=COMBIN(n,k)\n"
+"@DESCRIPTION=COMBIN函数计算组合数\n"
+"对非整数或一个负数执行这个函数将返回错误."
+"如果参数n小于k也将返回错误.\n"
+""
+"@SEEALSO="
+
+#: src/fn-math.c:666
+msgid ""
+"@FUNCTION=FLOOR\n"
+"@SYNTAX=FLOOR(x)\n"
+"@DESCRIPTION=The FLOOR function rounds x down to the next nearest integer.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=CEIL, ABS, INT"
+msgstr ""
+"@FUNCTION=FLOOR\n"
+"@SYNTAX=FLOOR(x)\n"
+"@DESCRIPTION=FLOOR函数返回最接近x的整数.\n"
+"对字符串或空执行这个函数将不做任何处理."
+"@SEEALSO=CEIL, ABS, INT"
+
+#: src/fn-math.c:685
+msgid ""
+"@FUNCTION=INT\n"
+"@SYNTAX=INT(b1, b2, ...)\n"
+"@DESCRIPTION=The INT function round b1 now to the nearest int. "
+"Where 'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for "
+"b1 >0, amd CEIL(b1) for b1 < 0. \n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=FLOOR, CEIL, ABS"
+msgstr ""
+"@FUNCTION=INT\n"
+"@SYNTAX=INT(b1, b2, ...)\n"
+"@DESCRIPTION=INT函数返回最接近的整数"
+"这里的最接近表示更接近于0.相当于当参"
+"数b1>0时,FLOOR(b1).当参数b1<0时,CEIL(b1)"
+"对字符串或空执行这个函数将不做任何处理."
+"@SEEALSO=FLOOR, CEIL, ABS"
+
+#: src/fn-math.c:711
+msgid ""
+"@FUNCTION=LOG\n"
+"@SYNTAX=LOG(x)\n"
+"@DESCRIPTION=Computes the natural logarithm  of x. \n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP, LOG2, LOG10"
+msgstr ""
+"@FUNCTION=LOG\n"
+"@SYNTAX=LOG(x)\n"
+"@DESCRIPTION=LOG函数求对数值\n"
+"对字符串或空执行这个函数将不做任何处理."
+"@SEEALSO=EXP, LOG2, LOG10"
+
+#: src/fn-math.c:729
+msgid "log: domain error"
+msgstr "log2: 参数值域错误"
+
+#: src/fn-math.c:736
+msgid ""
+"@FUNCTION=POWER\n"
+"@SYNTAX=POWER(x,y)\n"
+"@DESCRIPTION=Returns the value of x raised to the power y\n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP"
+msgstr ""
+"@FUNCTION=POWER\n"
+"@SYNTAX=POWER(x,y)\n"
+"@DESCRIPTION=POWER求x的y次方\n"
+"对字符串或空执行这个函数将不做任何处理."
+"@SEEALSO=EXP"
+
+#: src/fn-math.c:755
+msgid ""
+"@FUNCTION=LOG2\n"
+"@SYNTAX=LOG2(x)\n"
+"@DESCRIPTION=Computes the base-2 logarithm  of x. \n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP, LOG10, LOG"
+msgstr ""
+"@FUNCTION=LOG2\n"
+"@SYNTAX=LOG2(x)\n"
+"@DESCRIPTION=LOG2函数求以2为底数,x为指数的对数值\n"
+"对字符串或空执行这个函数将不做任何处理."
+"@SEEALSO=EXP, LOG10, LOG"
+
+#: src/fn-math.c:773
+msgid "log2: domain error"
+msgstr "log2: 参数值域错误"
+
+#: src/fn-math.c:780
+msgid ""
+"@FUNCTION=LOG10\n"
+"@SYNTAX=LOG10(x)\n"
+"@DESCRIPTION=Computes the base-10 logarithm  of x. \n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP, LOG2, LOG"
+msgstr ""
+"@FUNCTION=LOG10\n"
+"@SYNTAX=LOG10(x)\n"
+"@DESCRIPTION=LOG10函数求以10为底数,x为指数的对数值\n"
+"对字符串或空执行这个函数将不做任何处理."
+"@SEEALSO=EXP, LOG2, LOG"
+
+#: src/fn-math.c:799
+msgid "log10: domain error"
+msgstr "log10: 参数值域错误"
+
+#: src/fn-math.c:806
+msgid ""
+"@FUNCTION=MIN\n"
+"@SYNTAX=MIN(b1, b2, ...)\n"
+"@DESCRIPTION=MIN returns the value of the element of the values passed "
+"that has the smallest value. With negative numbers considered smaller "
+"than positive numbers.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=MAX,ABS"
+msgstr ""
+"@FUNCTION=MIN\n"
+"@SYNTAX=MIN(b1, b2, ...)\n"
+"@DESCRIPTION=MIN函数返回传递进来的参数中的最小值"
+"对字符串或空执行这个函数将不做任何处理."
+"@SEEALSO=MAX,ABS"
+
+#: src/fn-math.c:820
+msgid ""
+"@FUNCTION=MAX\n"
+"@SYNTAX=MAX(b1, b2, ...)\n"
+"@DESCRIPTION=MAX returns the value of the element of the values passed "
+"that has the largest value. With negative numbers considered smaller "
+"than positive numbers.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=MIN,ABS"
+msgstr ""
+"@FUNCTION=MAX\n"
+"@SYNTAX=MAX(b1, b2, ...)\n"
+"@DESCRIPTION=MAX函数返回传递进来的参数中的最大值"
+"对字符串或空执行这个函数将不做任何处理."
+"@SEEALSO=MIN,ABS"
+
+#: src/fn-math.c:925
+msgid ""
+"@FUNCTION=MOD\n"
+"@SYNTAX=MOD(number,divisor)\n"
+"@DESCRIPTION=Implements modulo arithmetic.Returns the remainder when "
+"divisor is divided into abs(number).\n"
+"Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL"
+msgstr ""
+"@FUNCTION=MOD\n"
+"@SYNTAX=MOD(number,divisor)\n"
+"@DESCRIPTION=MOD返回参数number模除参数divisor的值"
+"如果第二个参数为0,返回被0除的错误"
+
+#: src/fn-math.c:958
+msgid "#DIV/0!"
+msgstr "被0除"
+
+#: src/fn-math.c:966
+msgid ""
+"@FUNCTION=NOT\n"
+"@SYNTAX=NOT(number)\n"
+"@DESCRIPTION=Implements the logical NOT function: the result is TRUE if "
+"the number is zero;  othewise the result is FALSE.\n"
+"\n"
+"@SEEALSO=AND, OR"
+msgstr ""
+"@FUNCTION=NOT\n"
+"@SYNTAX=NOT(number)\n"
+"@DESCRIPTION=NOT函数实现逻辑反.如果参数为0"
+"则结果为真,否则结果为假\n"
+"@SEEALSO=AND, OR"
+
+#: src/fn-math.c:987
+msgid ""
+"@FUNCTION=OR\n"
+"@SYNTAX=OR(b1, b2, ...)\n"
+"@DESCRIPTION=Implements the logical OR function: the result is TRUE if "
+"any of the values evaluated to TRUE.\n"
+"b1, trough bN are expressions that should evaluate to TRUE or FALSE. If "
+"an integer or floating point value is provided zero is considered FALSE "
+"and anything else is TRUE.\n"
+"If the values contain strings or empty cells those values are ignored.  "
+"If no logical values are provided, then the error '#VALUE!'is returned.\n"
+"@SEEALSO=AND, NOT"
+msgstr ""
+"@FUNCTION=OR\n"
+"@SYNTAX=OR(b1, b2, ...)\n"
+"@DESCRIPTION=OR函数实现逻辑或功能.如果任一个参数为真,则结果为真"
+"参数b1到bN为可评价为真或假的表达式.如果一个整数或浮点数为0,则被"
+"认为假,其它值被认为真.如果参数包含字符串或空则忽略该参数.如果没"
+"有提供逻辑值,返回错误'#VALUE!'"
+"@SEEALSO=AND, NOT"
+
+#: src/fn-math.c:1056
+msgid ""
+"@FUNCTION=RADIANS\n"
+"@SYNTAX=RADIANS(x)\n"
+"@DESCRIPTION=Computes the number of radians equivalent to  x degrees. \n"
+"Performing this function on a string or empty cell simply does nothing. \n"
+"@SEEALSO=PI,DEGREES"
+msgstr ""
+"@FUNCTION=RADIANS\n"
+"@SYNTAX=RADIANS(x)\n"
+"@DESCRIPTION=RADIANS计算x度数相等的弧度\n"
+"对字符串或空执行这个函数将不做任何处理."
+"@SEEALSO=PI,DEGREES"
+
+#: src/fn-math.c:1077
+msgid ""
+"@FUNCTION=RAND\n"
+"@SYNTAX=RAND()\n"
+"@DESCRIPTION=Returns a random number greater than or equal to 0 and "
+"less than 1.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=RAND\n"
+"@SYNTAX=RAND()\n"
+"@DESCRIPTION=返回一个大于0小于1的随机数"
+"@SEEALSO="
+
+#: src/fn-math.c:1095
+msgid ""
+"@FUNCTION=SIN\n"
+"@SYNTAX=SIN(x)\n"
+"@DESCRIPTION=The SIN function returns the sine of x, where x is given  "
+"in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. "
+"This function only takes one argument.\n"
+"@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
+msgstr ""
+"@FUNCTION=SIN\n"
+"@SYNTAX=SIN(x)\n"
+"@DESCRIPTION=SIN函数计算x的正弦值,参数x要求以弧度给出."
+"对字符串或空执行这个函数将不做任何处理.本函数仅接受一个参数"
+"@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
+
+#: src/fn-math.c:1115
+msgid ""
+"@FUNCTION=SINH\n"
+"@SYNTAX=SINH(x)\n"
+"@DESCRIPTION=The SINH  function  returns  the  hyperbolic sine of x, "
+"which is defined mathematically as (exp(x) - exp(-x)) / 2.  x is in "
+"radians. \n"
+"Performing this function on a string or empty cell simply does nothing. "
+"This function only takes one argument.\n"
+"@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
+msgstr ""
+"@FUNCTION=SINH\n"
+"@SYNTAX=SINH(x)\n"
+"@DESCRIPTION=SINH函数返回x的双曲正弦值,计算公式定义为"
+"(exp(x) - exp(-x)) /2. 参数x要求以弧度来表示. \n"
+"对字符串或空执行这个函数将不做任何处理.本函数仅接受一个参数"
+"@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
+
+#: src/fn-math.c:1136
+msgid ""
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=The SQRT  function  returns  the  square root of x, \n"
+"If x is negative returns #NUM!.This function only takes one argument.\n"
+"@SEEALSO=POW"
+msgstr ""
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=SQRT函数返回x的平方根\n"
+"如果x是负数,返回#NUM!.本函数仅接受一个参数.\n"
+"@SEEALSO=POW"
+
+#: src/fn-math.c:1160
+msgid ""
+"@FUNCTION=SUM\n"
+"@SYNTAX=SUM(value1, value2, ...)\n"
+"@DESCRIPTION=Computes the sum of all the values and cells referenced in "
+"the argument list. \n"
+"@SEEALSO=AVERAGE, COUNT"
+msgstr ""
+"@FUNCTION=SUM\n"
+"@SYNTAX=SUM(value1, value2, ...)\n"
+"@DESCRIPTION=SUM函数计算所有参数列表的参数的和"
+"@SEEALSO=AVERAGE, COUNT"
+
+#: src/fn-math.c:1250
+msgid ""
+"@FUNCTION=TAN\n"
+"@SYNTAX=TAN(x)\n"
+"@DESCRIPTION=The TAN function  returns the tangent of x, where x is given "
+"in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. "
+"This function only takes one argument.\n"
+"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=TAN\n"
+"@SYNTAX=TAN(x)\n"
+"@DESCRIPTION=TAN函数返回x的正切值,x要求以弧度来表示"
+"对字符串或空执行这个函数将不做任何处理.本函数仅接受一个参数"
+"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
+
+#: src/fn-math.c:1270
+msgid ""
+"@FUNCTION=TANH\n"
+"@SYNTAX=TANH(x)\n"
+"@DESCRIPTION= The TANH function returns the hyperbolic tangent of x,  "
+"which is defined mathematically as sinh(x) / cosh(x). \n"
+"Performing this function on a string or empty cell simply does nothing. "
+"This function only takes one argument.\n"
+"@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
+msgstr ""
+"@FUNCTION=TANH\n"
+"@SYNTAX=TANH(x)\n"
+"@DESCRIPTION=TANH函数计算x的双曲正切值.计算公式为sinh(x)/cosh(x)\n"
+"对字符串或空执行这个函数将不做任何处理.本函数仅接受一个参数"
+"@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
+
+#: src/fn-math.c:1290
+msgid ""
+"@FUNCTION=PI\n"
+"@SYNTAX=PI()\n"
+"@DESCRIPTION=The PI functions returns the value of Pi as defined by M_PI.\n"
+"This function is called with no arguments.\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=PI\n"
+"@SYNTAX=PI()\n"
+"@DESCRIPTION=PI函数返回PI的值,该值由M_PI定义\n"
+"本函数调用时不需要参数.\n"
+"@SEEALSO="
+
+#: src/fn-math.c:1309
+msgid ""
+"@FUNCTION=TRUNC\n"
+"@SYNTAX=TRUNC(number[,digits])\n"
+"@DESCRIPTION=The TRUNC function returns the value of number truncated to "
+"the number of digits specified.  If digits is omited then digits defaults "
+"to zero.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=TRUNC\n"
+"@SYNTAX=TRUNC(number[,digits])\n"
+"@DESCRIPTION=TRUNC函数截去输入参数的小数点部分"
+"如果小数点部分被忽略,则缺省为0"
+"@SEEALSO="
+
+#: src/fn-misc.c:18
+msgid ""
+"@FUNCTION=ISERROR\n"
+"@SYNTAX=ISERROR(exp)\n"
+"@DESCRIPTION=Returns a TRUE value if the expression has an error\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=ISERROR\n"
+"@SYNTAX=ISERROR(exp)\n"
+"@DESCRIPTION=如果表达式有一个错误则返回真\n"
+"@SEEALSO="
+
+#: src/fn-misc.c:34
+msgid "Argument mismatch"
+msgstr "参数不符 (Argu mismatch) "
+
+#: src/fn-sheet.c:17
+msgid ""
+"@FUNCTION=IF\n"
+"@SYNTAX=IF(condition[,if-true,if-false])\n"
+"@DESCRIPTION=Use the IF statement to evaluate conditionally "
+"other expressions IF evaluates @condition.  If @condition returns a "
+"non-zero value the result of the IF expression is the @if-true "
+"expression, otherwise IF evaluates to the value of @if-false.If "
+"ommitted if-true defaults to TRUE and if-false to FALSE.\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=IF\n"
+"@SYNTAX=IF(condition[,if-true,if-false])\n"
+"@DESCRIPTION=IF函数用来确定表达式为真或假"
+"如果参数@condition返回一个非0值,则IF返回"
+"@if-true,否则返回@if-false.@if-true如果被"
+"忽略则缺省为真,@if-false如果被忽略则缺省为假"
+"@SEEALSO="
+
+#: src/fn-sheet.c:73
+msgid ""
+"@FUNCTION=SELECTION\n"
+"@SYNTAX=SELECTION(x)\n"
+"@DESCRIPTION=The SELECTION function returns a list with the values in "
+"the current mouse cursor. This is usually used to implement "
+"on-the-flight computation of values\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=SELECTION\n"
+"@SYNTAX=SELECTION(x)\n"
+"@DESCRIPTION=SELECTION函数返回当前鼠标光标的值的列表"
+"本函数用于实现飞行值的计算"
+"@SEEALSO="
+
+#: src/fn-string.c:18
+msgid ""
+"@FUNCTION=CHAR\n"
+"@SYNTAX=CHAR(x)\n"
+"@DESCRIPTION=Returns the ascii character represented by the number x.\n"
+"@SEEALSO=CODE"
+msgstr ""
+"@FUNCTION=CHAR\n"
+"@SYNTAX=CHAR(x)\n"
+"@DESCRIPTION=CHAR函数返回数x表示的ascii字符\n"
+"@SEEALSO=CODE"
+
+#: src/fn-string.c:40
+msgid ""
+"@FUNCTION=CODE\n"
+"@SYNTAX=CODE(char)\n"
+"@DESCRIPTION=Returns the ASCII number for the character char.\n"
+"@SEEALSO=CHAR"
+msgstr ""
+"@FUNCTION=CODE\n"
+"@SYNTAX=CODE(char)\n"
+"@DESCRIPTION=CODE函数返回字符char的ASCII数值\n"
+"@SEEALSO=CHAR"
+
+#: src/fn-string.c:62
+msgid ""
+"@FUNCTION=EXACT\n"
+"@SYNTAX=EXACT(string1, string2)\n"
+"@DESCRIPTION=Returns true if string1 is exactly equal to string2 "
+"(this routine is case sensitive).\n"
+"@SEEALSO=LEN"
+msgstr ""
+"@FUNCTION=EXACT\n"
+"@SYNTAX=EXACT(string1, string2)\n"
+"@DESCRIPTION=EXACT函数返回真如果串1等于串2(本例程大小写敏感)"
+"@SEEALSO=LEN"
+
+#: src/fn-string.c:84
+msgid ""
+"@FUNCTION=LEN\n"
+"@SYNTAX=LEN(string)\n"
+"@DESCRIPTION=Returns the length in characters of the string @string.\n"
+"@SEEALSO=CHAR, CODE"
+msgstr ""
+"@FUNCTION=LEN\n"
+"@SYNTAX=LEN(string)\n"
+"@DESCRIPTION=LEN函数返回@string字符串的长度\n"
+"@SEEALSO=CHAR, CODE"
+
+#: src/fn-string.c:106
+msgid ""
+"@FUNCTION=LEFT\n"
+"@SYNTAX=LEFT(text[,num_chars])\n"
+"@DESCRIPTION=Returns the leftmost num_chars characters or the left "
+"character if num_chars is not specified\n"
+"@SEEALSO=MID, RIGHT"
+msgstr ""
+"@FUNCTION=LEFT\n"
+"@SYNTAX=LEFT(text[,num_chars])\n"
+"@DESCRIPTION=LEFT函数返回参数text最左边的num_chars个字符"
+"如果参数num_chars没有指定则返回最左边的字符\n"
+"@SEEALSO=MID, RIGHT"
+
+#: src/fn-string.c:139
+msgid ""
+"@FUNCTION=LOWER\n"
+"@SYNTAX=LOWER(text)\n"
+"@DESCRIPTION=Returns a lower-case version of the string in @text\n"
+"@SEEALSO=UPPER"
+msgstr ""
+"@FUNCTION=LOWER\n"
+"@SYNTAX=LOWER(text)\n"
+"@DESCRIPTION=LOWER函数返回字符串@text的小写串\n"
+"@SEEALSO=UPPER"
+
+#: src/fn-string.c:172
+msgid ""
+"@FUNCTION=MID\n"
+"@SYNTAX=MID(string, position, length)\n"
+"@DESCRIPTION=Returns a substring from @string starting at @position "
+"for @length characters.\n"
+"@SEEALSO=LEFT, RIGHT"
+msgstr ""
+"@FUNCTION=MID\n"
+"@SYNTAX=MID(string, position, length)\n"
+"@DESCRIPTION=MID函数返回字符串@string从@position位置起的@length长的子串\n"
+"@SEEALSO=LEFT, RIGHT"
+
+#: src/fn-string.c:200 src/fn-string.c:621
+msgid "Invalid arguments"
+msgstr "参数无效"
+
+#: src/fn-string.c:218
+msgid ""
+"@FUNCTION=RIGHT\n"
+"@SYNTAX=RIGHT(text[,num_chars])\n"
+"@DESCRIPTION=Returns the rightmost num_chars characters or the "
+"right character if num_chars is not specified\n"
+"@SEEALSO=MID, LEFT"
+msgstr ""
+"@FUNCTION=RIGHT\n"
+"@SYNTAX=RIGHT(text[,num_chars])\n"
+"@DESCRIPTION=RIGHT函数返回参数text最右边的num_chars个字符"
+"如果参数num_chars没有指定则返回最右边的字符\n"
+"@SEEALSO=MID, LEFT"
+
+#: src/fn-string.c:255
+msgid ""
+"@FUNCTION=UPPER\n"
+"@SYNTAX=UPPER(text)\n"
+"@DESCRIPTION=Returns a upper-case version of the string in @text\n"
+"@SEEALSO=LOWER"
+msgstr ""
+"@FUNCTION=UPPER\n"
+"@SYNTAX=UPPER(text)\n"
+"@DESCRIPTION=UPPER函数返回字符串@text的大写串\n"
+"@SEEALSO=LOWER"
+
+#: src/fn-string.c:289
+msgid ""
+"@FUNCTION=CONCATENATE\n"
+"@SYNTAX=CONCATENATE(string1[,string2...])\n"
+"@DESCRIPTION=Returns up appended strings\n"
+"@SEEALSO=LEFT, MID, RIGHT"
+msgstr ""
+"@FUNCTION=CONCATENATE\n"
+"@SYNTAX=CONCATENATE(string1[,string2...])\n"
+"@DESCRIPTION=CONCATENATE连结各字符串\n"
+"@SEEALSO=LEFT, MID, RIGHT"
+
+#: src/fn-string.c:335
+msgid ""
+"@FUNCTION=REPT\n"
+"@SYNTAX=REPT(string,num)\n"
+"@DESCRIPTION=Returns @num repetitions of @string\n"
+"@SEEALSO=CONCATENATE"
+msgstr ""
+"@FUNCTION=REPT\n"
+"@SYNTAX=REPT(string,num)\n"
+"@DESCRIPTION=REPT返回@string重复@num次得到的字符串\n"
+"@SEEALSO=CONCATENATE"
+
+#. start position too high or low
+#: src/fn-string.c:353 src/fn-string.c:433 src/fn-string.c:440
+#: src/fn-string.c:479
+msgid "Invalid argument"
+msgstr "参数无效"
+
+#: src/fn-string.c:373
+msgid ""
+"@FUNCTION=CLEAN\n"
+"@SYNTAX=CLEAN(string)\n"
+"@DESCRIPTION=Cleans the string from any non-printable characters.\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=CLEAN\n"
+"@SYNTAX=CLEAN(string)\n"
+"@DESCRIPTION=CLEAN清除字符串中任何非打印字符\n"
+"@SEEALSO="
+
+#: src/fn-string.c:412
+msgid ""
+"@FUNCTION=FIND\n"
+"@SYNTAX=FIND(string1,string2[,start])\n"
+"@DESCRIPTION=Returns position of @string1 in @string2 "
+"(case-sesitive), searching only from character @start onwards (assumed 1 "
+"if omitted)\n"
+"@SEEALSO=EXACT, LEN, MID, SEARCH"
+msgstr ""
+"@FUNCTION=FIND\n"
+"@SYNTAX=FIND(string1,string2[,start])\n"
+"@DESCRIPTION=FIND函数在@string2中查找@string1(大小写敏感),"
+"查找仅从@start开始,如果该参数被忽略,则从1开始查找"
+"@SEEALSO=EXACT, LEN, MID, SEARCH"
+
+#: src/fn-string.c:451
+msgid ""
+"@FUNCTION=FIXED\n"
+"@SYNTAX=FIXED(num, [decimals, no_commas])\n"
+"@DESCRIPTION=Returns @num as a formatted string with @decimals numbers "
+"after the decimal point, omitting commas if requested by @no_commas\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=FIXED\n"
+"@SYNTAX=FIXED(num, [decimals, no_commas])\n"
+"@DESCRIPTION=\"返回用@decimals格式化的@no_commas串\n"
+"在小数点后,如果@no_commas需要忽略逗号"
+"@SEEALSO="
+
+#: src/fn-string.c:556
+msgid ""
+"@FUNCTION=PROPER\n"
+"@SYNTAX=PROPER(string)\n"
+"@DESCRIPTION=Returns @string with initial of each word capitalised\n"
+"@SEEALSO=LOWER, UPPER"
+msgstr ""
+"@FUNCTION=PROPER\n"
+"@SYNTAX=PROPER(string)\n"
+"@DESCRIPTION=返回每个单词第一个字母大写的@string\n"
+"@SEEALSO=LOWER, UPPER"
+
+#: src/fn-string.c:595
+msgid ""
+"@FUNCTION=REPLACE\n"
+"@SYNTAX=REPLACE(old,start,num,new)\n"
+"@DESCRIPTION=Returns @old with @new replacing @num characters from @start\n"
+"@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
+msgstr ""
+"@FUNCTION=REPLACE\n"
+"@SYNTAX=REPLACE(old,start,num,new)\n"
+"@DESCRIPTION=返回用@new替换@old从@start起的@num个字符\n"
+"@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
+
+#: src/fn-string.c:644
+msgid ""
+"@FUNCTION=T\n"
+"@SYNTAX=T(value)\n"
+"@DESCRIPTION=Returns @value if and only if it is text, otherwise a "
+"blank string\n"
+"@SEEALSO=CELL, N, VALUE"
+msgstr ""
+"@FUNCTION=T\n"
+"@SYNTAX=T(value)\n"
+"@DESCRIPTION=如果是文本返回@value,否则返回空串\n"
+"@SEEALSO=CELL, N, VALUE"
+
+#: src/fn-string.c:667
+msgid ""
+"@FUNCTION=TRIM\n"
+"@SYNTAX=TRIM(text)\n"
+"@DESCRIPTION=Returns @text with only single spaces between words\n"
+"@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
+msgstr ""
+"@FUNCTION=TRIM\n"
+"@SYNTAX=TRIM(text)\n"
+"@DESCRIPTION=返回的@text单词间仅有一个空格\n"
+"@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
+
+#: src/fn-string.c:714
+msgid ""
+"@FUNCTION=VALUE\n"
+"@SYNTAX=VALUE(text)\n"
+"@DESCRIPTION=Returns numeric value of @text\n"
+"@SEEALSO=DOLLAR, FIXED, TEXT"
+msgstr ""
+"@FUNCTION=VALUE\n"
+"@SYNTAX=VALUE(text)\n"
+"@DESCRIPTION=返回文本的数字值\n"
+"@SEEALSO=DOLLAR, FIXED, TEXT"
+
+#: src/fn-string.c:775
+msgid ""
+"@FUNCTION=SUBSTITUTE\n"
+"@SYNTAX=SUBSTITUTE(text, old, new [,num]\n"
+"@DESCRIPTION=Replaces @old with @new in @text.  Substitutions are "
+"only applied to instance @num of @old in @text, otherwise every one "
+"is changed.\n"
+"@SEEALSO=REPLACE, TRIM"
+msgstr ""
+"@FUNCTION=SUBSTITUTE\n"
+"@SYNTAX=SUBSTITUTE(text, old, new [,num]\n"
+"@DESCRIPTION=把@text中的@old串用@new替换"
+"如果有num参数,替换只能最多num次,否则替换每一个"
+"@SEEALSO=REPLACE, TRIM"
+
+#: src/fn-string.c:845
+msgid ""
+"@FUNCTION=DOLLAR\n"
+"@SYNTAX=DOLLAR(num,[decimals])\n"
+"@DESCRIPTION=Returns @num formatted as currency \n"
+"@SEEALSO=FIXED, TEXT, VALUE"
+msgstr ""
+"@FUNCTION=DOLLAR\n"
+"@SYNTAX=DOLLAR(num,[decimals])\n"
+"@DESCRIPTION=以货币格式返回 \n"
+"@SEEALSO=FIXED, TEXT, VALUE"
+
+#: src/format.c:403
+msgid "black"
+msgstr "黑色"
+
+#: src/format.c:404
+msgid "blue"
+msgstr "蓝色"
+
+#: src/format.c:405
+msgid "cyan"
+msgstr "天蓝色"
+
+#: src/format.c:406
+msgid "green"
+msgstr "绿色"
+
+#: src/format.c:407
+msgid "magenta"
+msgstr "紫红色"
+
+#: src/format.c:408
+msgid "red"
+msgstr "红色"
+
+#: src/format.c:409
+msgid "white"
+msgstr "白色"
+
+#: src/format.c:410
+msgid "yellow"
+msgstr "黄色"
+
+#: src/formats.c:17
+msgid "0"
+msgstr "0"
+
+#: src/formats.c:18
+msgid "0.00"
+msgstr "0.00"
+
+#: src/formats.c:19
+msgid "#,##0"
+msgstr "#,##0"
+
+#: src/formats.c:20
+msgid "#,##0.00"
+msgstr "#,##0.00"
+
+#: src/formats.c:21
+msgid "#,##0_);(#,##0)"
+msgstr "#,##0_);(#,##0)"
+
+#: src/formats.c:22
+msgid "#,##0_);[red](#,##0)"
+msgstr "#,##0_);[red](#,##0)"
+
+#: src/formats.c:23
+msgid "#,##0.00_);(#,##0.00)"
+msgstr "#,##0.00_);(#,##0.00)"
+
+#: src/formats.c:24
+msgid "#,##0.00_);[red](#,##0.00)"
+msgstr "#,##0.00_);[red](#,##0.00)"
+
+#: src/formats.c:25
+msgid "0.0"
+msgstr "0.0"
+
+#: src/formats.c:30
+msgid "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
+msgstr "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
+
+#: src/formats.c:31
+msgid "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
+msgstr "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
+
+#: src/formats.c:32
+msgid "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
+msgstr "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
+
+#: src/formats.c:33
+msgid "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
+msgstr "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
+
+#: src/formats.c:38
+msgid "m/d/yy"
+msgstr "m/d/yy"
+
+#: src/formats.c:39
+msgid "m/d/yyyy"
+msgstr "m/d/yyyy"
+
+#: src/formats.c:40
+msgid "d-mmm-yy"
+msgstr "d-mmm-yy"
+
+#: src/formats.c:41
+msgid "d-mmm-yyyy"
+msgstr "d-mmm-yyyy"
+
+#: src/formats.c:42
+msgid "d-mmm"
+msgstr "d-mmm"
+
+#: src/formats.c:43
+msgid "d-mm"
+msgstr "d-mm"
+
+#: src/formats.c:44
+msgid "mmm/d"
+msgstr "mmm/d"
+
+#: src/formats.c:45
+msgid "mm/d"
+msgstr "mm/d"
+
+#: src/formats.c:46
+msgid "mm/dd/yy"
+msgstr "mm/dd/yy"
+
+#: src/formats.c:47
+msgid "mm/dd/yyyy"
+msgstr "mm/dd/yyyy"
+
+#: src/formats.c:48
+msgid "mmm/dd/yy"
+msgstr "mmm/dd/yy"
+
+#: src/formats.c:49
+msgid "mmm/dd/yyyy"
+msgstr "mmm/dd/yyyy"
+
+#: src/formats.c:50
+msgid "mmm/ddd/yy"
+msgstr "mmm/ddd/yy"
+
+#: src/formats.c:51
+msgid "mmm/ddd/yyyy"
+msgstr "mmm/ddd/yyyy"
+
+#: src/formats.c:52
+msgid "mm/ddd/yy"
+msgstr "mm/ddd/yy"
+
+#: src/formats.c:53
+msgid "mm/ddd/yyyy"
+msgstr "mm/ddd/yyyy"
+
+#: src/formats.c:54
+msgid "mmm-yy"
+msgstr "mmm-yy"
+
+#: src/formats.c:55
+msgid "mmm-yyyy"
+msgstr "mmm-yyyy"
+
+#: src/formats.c:56 src/formats.c:66
+msgid "m/d/yy h:mm"
+msgstr "m/d/yy h:mm"
+
+#: src/formats.c:57
+msgid "m/d/yyyy h:mm"
+msgstr "m/d/yyyy h:mm"
+
+#: src/formats.c:62
+msgid "h:mm AM/PM"
+msgstr "h:mm AM/PM"
+
+#: src/formats.c:63
+msgid "h:mm:ss AM/PM"
+msgstr "h:mm:ss AM/PM"
+
+#: src/formats.c:64
+msgid "h:mm"
+msgstr "h:mm"
+
+#: src/formats.c:65
+msgid "h:mm:ss"
+msgstr "h:mm:ss"
+
+#: src/formats.c:67
+msgid "mm:ss"
+msgstr "mm:ss"
+
+#: src/formats.c:68
+msgid "mm:ss.0"
+msgstr "mm:ss.0"
+
+#: src/formats.c:69
+msgid "[h]:mm:ss"
+msgstr "[h]:mm:ss"
+
+#: src/formats.c:74
+#, c-format
+msgid "0%"
+msgstr "0%"
+
+#: src/formats.c:75
+#, c-format
+msgid "0.00%"
+msgstr "0.00%"
+
+#: src/formats.c:80
+msgid "# ?/?"
+msgstr "# ?/?"
+
+#: src/formats.c:81
+msgid "# ??/??"
+msgstr "# ??/??"
+
+#: src/formats.c:86
+msgid "0.00E+00"
+msgstr "0.00E+00"
+
+#: src/formats.c:87
+msgid "##0.0E+0"
+msgstr "##0.0E+0"
+
+#: src/formats.c:97
+msgid "$#,##0_);($#,##0)"
+msgstr "$#,##0_);($#,##0)"
+
+#: src/formats.c:98
+msgid "$#,##0_);[red]($#,##0)"
+msgstr "$#,##0_);[red]($#,##0)"
+
+#: src/formats.c:99
+msgid "$#,##0.00_);($#,##0.00)"
+msgstr "$#,##0.00_);($#,##0.00)"
+
+#: src/formats.c:100
+msgid "$#,##0.00_);[red]($#,##0.00)"
+msgstr "$#,##0.00_);[red]($#,##0.00)"
+
+#: src/gnumeric-sheet.c:889
+#, c-format
+msgid "75%"
+msgstr "75%"
+
+#: src/gnumeric-sheet.c:892
+#, c-format
+msgid "50%"
+msgstr "50%"
+
+#: src/gnumeric-sheet.c:895
+#, c-format
+msgid "25%"
+msgstr "25%"
+
+#: src/gnumeric-sheet.c:898
+#, c-format
+msgid "12%"
+msgstr "12%"
+
+#: src/gnumeric-sheet.c:901
+#, c-format
+msgid "6%"
+msgstr "6%"
+
+#: src/gnumeric-sheet.c:904
+msgid "Horizontal lines"
+msgstr "水平行数"
+
+#: src/gnumeric-sheet.c:907
+msgid "Vertical lines"
+msgstr "垂直行数"
+
+#: src/gnumeric-sheet.c:910 src/gnumeric-sheet.c:913 src/gnumeric-sheet.c:916
+#: src/gnumeric-sheet.c:919
+msgid "Diagonal lines"
+msgstr "对角行数"
+
+#: src/gnumeric-sheet.c:922
+msgid "Crossed diagonals"
+msgstr "交叉对角"
+
+#: src/gnumeric-sheet.c:925
+msgid "Bricks"
+msgstr "组成元件"
+
+#: src/item-cursor.c:498
+msgid ""
+"The cells dragged will overwrite the contents of the\n"
+"existing cells in that range.  Do you want me to replace\n"
+"the contents in this region?"
+msgstr ""
+"您拖曳的储存格将会盖过同一范围内原有\n"
+"储存格的内容，您确定要替换掉这块区域\n"
+"的内容吗？"
+
+#: src/item-cursor.c:579 src/item-grid.c:527 src/workbook.c:850
+msgid "Copy"
+msgstr "复制"
+
+#: src/item-cursor.c:580
+msgid "Move"
+msgstr "移动"
+
+#: src/item-cursor.c:581
+msgid "Copy formats"
+msgstr "复制格式"
+
+#: src/item-cursor.c:582
+msgid "Copy values"
+msgstr "复制数值"
+
+#: src/item-cursor.c:583
+msgid "Shift cells down and copy"
+msgstr "储存格向下移位并复制"
+
+#: src/item-cursor.c:584
+msgid "Shift cells right and copy"
+msgstr "储存格向右移位并复制"
+
+#: src/item-cursor.c:585
+msgid "Shift cells down and move"
+msgstr "储存格向下移位并搬移"
+
+#: src/item-cursor.c:586
+msgid "Shift cells right and move"
+msgstr "储存格向右移位并搬移"
+
+#: src/item-grid.c:526 src/workbook.c:847
+msgid "Cut"
+msgstr "剪下"
+
+#: src/item-grid.c:528 src/sheet.c:2577 src/workbook.c:853
+msgid "Paste"
+msgstr "贴上"
+
+#: src/item-grid.c:533
+msgid "Erase content"
+msgstr "清除内容"
+
+#: src/item-grid.c:535
+msgid "Cell format"
+msgstr "储存格格式"
+
+#: src/main.c:36
+msgid "Dumps the function definitions"
+msgstr "印出现在的函数定义"
+
+#: src/main.c:36
+msgid "FILE"
+msgstr "文件"
+
+#: src/main.c:38
+msgid "Enables some debugging functions"
+msgstr "启动调试功能"
+
+#: src/main.c:38
+msgid "LEVEL"
+msgstr "等级"
+
+#: src/number-match.c:150
+msgid "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
+msgstr "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
+
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
+msgid "Name"
+msgstr "域名"
+
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
+msgid "File"
+msgstr "文件"
+
+#: src/plugin-manager.c:126
+msgid "Close"
+msgstr "关闭"
+
+#: src/plugin-manager.c:129
+msgid "Add..."
+msgstr "新增..."
+
+#: src/plugin.c:40
+msgid "unable to open module file: "
+msgstr "无法开启模组文件: "
+
+#: src/plugin.c:51
+msgid "Plugin must contain init_plugin function."
+msgstr "Plugin 必须包含 init_plugin 函数"
+
+#: src/plugin.c:57
+msgid "init_plugin returned error"
+msgstr "init_plugin 回报错误"
+
+#: src/plugin.c:77
+msgid "Plugin is still in use.\n"
+msgstr "Plugin 仍在使用中。\n"
+
+#: src/sheet-view.c:336 src/sheet-view.c:410
+#, c-format
+msgid "Row: %d"
+msgstr "列: %d"
+
+#: src/sheet-view.c:343 src/sheet-view.c:382
+#, c-format
+msgid "Column: %s"
+msgstr "栏: %s"
+
+#: src/sheet.c:674
+msgid "ERROR"
+msgstr "错误"
+
+#: src/workbook.c:284
+msgid "Warning"
+msgstr "警告"
+
+#: src/workbook.c:292
+#, c-format
+msgid "Workbook %s has unsaved changes, save them?"
+msgstr "活页簿 %s 尚未储存, 要储存吗 ?"
+
+#: src/workbook.c:295
+msgid "Workbook has unsaved changes, save them?"
+msgstr "活页簿尚未储存, 要储存吗 ?"
+
+#: src/workbook.c:484 src/workbook.c:500
+msgid "Insert rows"
+msgstr "插入列"
+
+#: src/workbook.c:596
+msgid ">mm/dd/yyyy"
+msgstr ">mm/dd/yyyy"
+
+#: src/workbook.c:615
+msgid ">hh:mm"
+msgstr ">hh:mm"
+
+#: src/workbook.c:671
+msgid "_New"
+msgstr "开新文件(_N)"
+
+#: src/workbook.c:671
+msgid "Create a new spreadsheet"
+msgstr "建立新的表格"
+
+#: src/workbook.c:682
+msgid "Plu_g-ins..."
+msgstr "外加功能 (_g)..."
+
+#: src/workbook.c:682
+msgid "Gnumeric plugins"
+msgstr "Gnumeric 外加功能"
+
+#: src/workbook.c:696
+msgid "_All"
+msgstr "全部(_A)"
+
+#: src/workbook.c:697
+msgid "Clear the selected cells' formats, comments, and contents"
+msgstr "清除全部的格子的格式，注解，与内容"
+
+#: src/workbook.c:699
+msgid "_Formats"
+msgstr "格式(_F)"
+
+#: src/workbook.c:700
+msgid "Clear the selected cells' formats"
+msgstr "清除已选择格子内的的格式"
+
+#: src/workbook.c:701
+msgid "_Comments"
+msgstr "注解(_C)"
+
+#: src/workbook.c:702
+msgid "Clear the selected cells' comments"
+msgstr "清除已选择格子内的的注解"
+
+#: src/workbook.c:703
+msgid "_Content"
+msgstr "内容(_C)"
+
+#: src/workbook.c:704
+msgid "Clear the selected cells' contents"
+msgstr "清除已选择格子内的内容"
+
+#: src/workbook.c:712
+msgid "P_aste special..."
+msgstr "选择性贴上(_A)..."
+
+#: src/workbook.c:713
+msgid "C_lear"
+msgstr "清除(_L)"
+
+#: src/workbook.c:714
+msgid "Clear the selected cell(s)"
+msgstr "清除所选择的格子"
+
+#: src/workbook.c:718
+msgid "_Select All"
+msgstr "全选(_S)"
+
+#: src/workbook.c:719
+msgid "Select all cells in the spreadsheet"
+msgstr "选择全部的格子"
+
+#: src/workbook.c:721
+msgid "_Goto cell.."
+msgstr "跳格(_G)"
+
+#: src/workbook.c:722
+msgid "Jump to a specified cell"
+msgstr "跳越至特定的格子"
+
+#: src/workbook.c:728
+msgid "_Define cell names"
+msgstr "定义储存格域名(_D)"
+
+#: src/workbook.c:732
+msgid "_Recalculate"
+msgstr "重新计算(_R)"
+
+#: src/workbook.c:733
+msgid "Recalculate the spreadsheet"
+msgstr "重新计算整个表格"
+
+#: src/workbook.c:741
+msgid "_Zoom..."
+msgstr "缩放(_Z)"
+
+#: src/workbook.c:742
+msgid "Zoom the spreadsheet in or out"
+msgstr "缩放表格"
+
+#: src/workbook.c:749
+msgid "Current _date"
+msgstr "现在日期(_D)"
+
+#: src/workbook.c:750
+msgid "Insert the current data into the selected cell(s)"
+msgstr "在选定的储存格中，写入现在的日期"
+
+#: src/workbook.c:753
+msgid "Current _time"
+msgstr "现在时刻(_T)"
+
+#: src/workbook.c:754
+msgid "Insert the current time into the selected cell(s)"
+msgstr "在选定的储存格中，写入现在的时间"
+
+#: src/workbook.c:761 src/workbook.c:809
+msgid "_Sheet"
+msgstr "表格(_S)"
+
+#: src/workbook.c:761
+msgid "Insert a new spreadsheet"
+msgstr "插入新的表格"
+
+#: src/workbook.c:763 src/workbook.c:801
+msgid "_Cells..."
+msgstr "储存格(_C)..."
+
+#: src/workbook.c:763
+msgid "Insert new cells"
+msgstr "插入新的储存格"
+
+#: src/workbook.c:765
+msgid "_Rows"
+msgstr "列(_R)"
+
+#: src/workbook.c:765
+msgid "Insert new rows"
+msgstr "插入列"
+
+#: src/workbook.c:767
+msgid "C_olumns"
+msgstr "栏(_O)"
+
+#: src/workbook.c:767
+msgid "Insert new columns"
+msgstr "插入栏"
+
+#: src/workbook.c:772
+msgid "_Add/modify comment"
+msgstr "增加/修改注解(_A)"
+
+#: src/workbook.c:773
+msgid "Edit the selected cell's comment"
+msgstr "编辑储存格的注解"
+
+#: src/workbook.c:774
+msgid "_Special"
+msgstr "特别项目(_S)"
+
+#: src/workbook.c:783 src/workbook.c:789
+msgid "_Autoadjust"
+msgstr "自动调整(_A)"
+
+#: src/workbook.c:784
+msgid "_Width"
+msgstr "宽度(_W)"
+
+#: src/workbook.c:790
+msgid "_Height"
+msgstr "高度(_H)"
+
+#: src/workbook.c:795
+msgid "_Change name"
+msgstr "改变域名(_C)"
+
+#: src/workbook.c:802
+msgid "Modify the formatting of the selected cells"
+msgstr "更改储存格的排列格式"
+
+#: src/workbook.c:804
+msgid "_Sort"
+msgstr "排序(_S)"
+
+#: src/workbook.c:805
+msgid "Sort the selected cells"
+msgstr "对所选的格子进行排序"
+
+#: src/workbook.c:807
+msgid "C_olumn"
+msgstr "栏(_O)"
+
+#: src/workbook.c:808
+msgid "_Row"
+msgstr "列(_R)"
+
+#: src/workbook.c:825
+msgid "_Insert"
+msgstr "插入(_I)"
+
+#: src/workbook.c:826
+msgid "F_ormat"
+msgstr "格式(_O)"
+
+#: src/workbook.c:835
+msgid "New"
+msgstr "新的"
+
+#: src/workbook.c:835
+msgid "Creates a new sheet"
+msgstr "建立新的表格"
+
+#: src/workbook.c:838
+msgid "Open"
+msgstr "开启"
+
+#: src/workbook.c:838
+msgid "Opens an existing workbook"
+msgstr "开启已存在的工作表格"
+
+#: src/workbook.c:841
+msgid "Save"
+msgstr "储存"
+
+#: src/workbook.c:841
+msgid "Saves the workbook"
+msgstr "储存目前的工作表格"
+
+#: src/workbook.c:847
+msgid "Cuts the selection to the clipboard"
+msgstr "将剪下的选定区移至剪贴簿"
+
+#: src/workbook.c:850
+msgid "Copies the selection to the clipboard"
+msgstr "复制选定区至剪贴簿"
+
+#: src/workbook.c:853
+msgid "Pastes the clipboard"
+msgstr "贴上剪贴簿的内容"
+
+#: src/workbook.c:859
+msgid "Left align"
+msgstr "向左对齐"
+
+#: src/workbook.c:859
+msgid "Left justifies the cell contents"
+msgstr "置左排列"
+
+#: src/workbook.c:862
+msgid "Centers the cell contents"
+msgstr "置中排列"
+
+#: src/workbook.c:865
+msgid "Right align"
+msgstr "向右对齐"
+
+#: src/workbook.c:865
+msgid "Right justifies the cell contents"
+msgstr "置右排列"
+
+#: src/workbook.c:870
+msgid "Bold"
+msgstr "粗体"
+
+#: src/workbook.c:870
+msgid "Sets the bold font"
+msgstr "将字体设为粗体"
+
+#: src/workbook.c:873
+msgid "Italic"
+msgstr "斜体"
+
+#: src/workbook.c:873
+msgid "Makes the font italic"
+msgstr "将字体设为斜体"
+
+#: src/workbook.c:879
+msgid "Line"
+msgstr "线段"
+
+#: src/workbook.c:879
+msgid "Creates a line object"
+msgstr "建立一个线段对像"
+
+#: src/workbook.c:882
+msgid "Arrow"
+msgstr "箭头"
+
+#: src/workbook.c:882
+msgid "Creates an arrow object"
+msgstr "建立一个箭头对像"
+
+#: src/workbook.c:885
+msgid "Rectangle"
+msgstr "长方形"
+
+#: src/workbook.c:885
+msgid "Creates a rectangle object"
+msgstr "建立一个长方形对像"
+
+#: src/workbook.c:888
+msgid "Ellipse"
+msgstr "椭圆形"
+
+#: src/workbook.c:888
+msgid "Creates an ellipse object"
+msgstr "建立一个椭圆形对像"
+
+#: src/workbook.c:969
+msgid "You should introduce a valid cell name"
+msgstr "请使用合法的储存格域名"
+
+#: src/workbook.c:976
+msgid "Column out of range"
+msgstr "栏的数目超出范围"
+
+#: src/workbook.c:982
+msgid "Row number out of range"
+msgstr "的数目超出范围"
+
+#: src/workbook.c:1130
+msgid "Sum"
+msgstr "总合"
+
+#: src/workbook.c:1131
+msgid "Min"
+msgstr "最小"
+
+#: src/workbook.c:1132
+msgid "Max"
+msgstr "最大"
+
+#: src/workbook.c:1133
+msgid "Average"
+msgstr "平均"
+
+#: src/workbook.c:1134
+msgid "Count"
+msgstr "总数"
+
+#: src/workbook.c:1327
+msgid "Untitled.gnumeric"
+msgstr "未命名.gnumeric"
+
+#: src/workbook.c:1417
+msgid "Zoom out"
+msgstr "缩小"
+
+#: src/workbook.c:1424
+msgid "Zoom in"
+msgstr "放大"
+
+#: src/workbook.c:1509
+#, c-format
+msgid "Are you sure you want to remove the sheet called `%s' "
+msgstr "确定要移除名为 `%s' 的表格吗?"
+
+#: src/workbook.c:1528
+msgid "Other sheets depend on the values on this sheet, I can not remove it"
+msgstr "有其它表格用到这个表的内容，无法移除此表格"
+
+#: src/workbook.c:1548
+msgid "Add another sheet"
+msgstr "增加另一个表格"
+
+#: src/workbook.c:1549
+msgid "Remove this sheet"
+msgstr "移除此表格"
+
+#: src/workbook.c:1810 src/workbook.c:1838
+#, c-format
+msgid "Sheet %d"
+msgstr "工作页 %d"
+
+#: src/xml-io.c:1637
+msgid "Gnumeric XML file format"
+msgstr "Gnumeric XML 文件格式"
+
+#~ msgid "Saving over old files disabled for safety"
+#~ msgstr "因安全性考量，关闭储存时盖\过旧文件的功\能"
+
+#~ msgid "Can't open"
+#~ msgstr "无法开启"
+
+#~ msgid "Excel(R) 97 file format"
+#~ msgstr "Excel(R) 97 文件格式"
+
+#~ msgid "Excel(R) 95 file format"
+#~ msgstr "Excel(R) 95 文件格式"
+
+#~ msgid "Morten Welinder, Gnumeric hacker"
+#~ msgstr "Morten Welinder, Gnumeric 骇客"
+
+#~ msgid "Transpose"
+#~ msgstr "移动"
+
+#~ msgid "Function does not exist"
+#~ msgstr "函数不存在"
+
+#~ msgid "Calling non-function"
+#~ msgstr "不调用任何函数"
+
+#~ msgid "#Reference to deleted cell!"
+#~ msgstr "#指到已删除的格子!"
+
+#~ msgid "#Reference to deleted range!"
+#~ msgstr "#指到已删除的范围!"
+
+#~ msgid "Unsupported method"
+#~ msgstr "不支持的方法"
+
+#~ msgid "#Unimplemented!"
+#~ msgstr "#未具体的功\能!"
+
+#~ msgid "Array version not implemented!"
+#~ msgstr "数组版本未支持!"
+
+#~ msgid "0.0########"
+#~ msgstr "0.0########"
+
+#~ msgid "CELLRANGE"
+#~ msgstr "储存格范围"
+
+#~ msgid "ARRAY"
+#~ msgstr "数组"
+
+#~ msgid "The command `"
+#~ msgstr "指令 `"
+
+#~ msgid "' cannot be performed with multiple selections"
+#~ msgstr "' 不能跨过数个区段执行"
+
+#~ msgid "copy"
+#~ msgstr "复制"
+
+#~ msgid "cut"
+#~ msgstr "剪下"
+
+#~ msgid "paste"
+#~ msgstr "贴上"
+
+#~ msgid "I was not able to activate object %s"
+#~ msgstr "无法启动 %s 对像"
+
+#~ msgid "I was unable to the bind object"
+#~ msgstr "无法联结对像"
+
+#~ msgid "Insert cols"
+#~ msgstr "插入栏"
+
+#~ msgid "Insert object..."
+#~ msgstr "插入对像..."
+
+#~ msgid "Inserts a Bonobo object"
+#~ msgstr "建立一个 Bonobo 对像"
+
+#~ msgid "_Goal Seek..."
+#~ msgstr "搜寻目标 (_G)..."
+
+#~ msgid "_Solver..."
+#~ msgstr "解析器 (_S)..."
+
+#~ msgid "_Tools"
+#~ msgstr "工具 (_T)..."
+
+#~ msgid "Graphic"
+#~ msgstr "图形"
+
+#~ msgid "Creates a graphic in the spreadsheet"
+#~ msgstr "在表格中建立图形"
+
+#~ msgid "Selection must be a single range"
+#~ msgstr "选取区必须在单一范围"
+
+#~ msgid "Gnumeric: "
+#~ msgstr "Gnumeric: "
