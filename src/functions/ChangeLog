@@ -1,3 +1,19 @@
+2002-01-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* fn-financial.c : change arguments to coupdaybs, coupdaysnc, 
+	  coupdays and coupnum
+	(coupnum) : simplify
+	(couppcd, coupncd) : ignore XL
+	(func_coup_cd) change to func_coup wrapping more functions
+	(gnumeric_coupdaybs) : change into wrapper around func_coup_cd
+	(gnumeric_coupdays) : ditto
+	(gnumeric_coupdaysnc) : ditto
+	(gnumeric_coupncd) : ditto
+	(gnumeric_couppcd) : ditto
+	(gnumeric_coupnum) : ditto
+	(finance_functions_init) : add another optional argument to 
+	  gnumeric_coupnum
+
 2002-01-17  Abel Cheung  <maddog@linux.org.hk>
 
 	* fn-database.c, fn-date.c, fn-eng.c, fn-information.c, fn-math.c,

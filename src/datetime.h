@@ -57,30 +57,25 @@ int datetime_g_years_between (GDate *date1, GDate *date2);
 /* week number according to the given method. */
 int datetime_weeknum (GDate *date, int method);
 
-typedef enum {
-	BASIS_30Ep360 = 0, /* (if second date >=30, first date 31->30), (second date 31->30) */
-	BASIS_ACTACT  = 1, 
-	BASIS_ACT360  = 2,
-	BASIS_ACT365  = 3,
-	BASIS_30E360  = 4, /* 31->30 for both dates */
-	BASIS_30_360  = 5  /* 31->30 for first date, 31->30 if first date is >= 30 */
+typedef enum { /* see doc/fn-financial-basis.txt for details */
+	BASIS_MSRB_30_360 = 0,
+	BASIS_ACT_ACT     = 1, 
+	BASIS_ACT_360     = 2,
+	BASIS_ACT_365     = 3,
+	BASIS_30E_360     = 4,
+	BASIS_30Ep_360    = 5,
+	BASIS_LAST        = 6
 } basis_t;
 
-void adjust_dates_basis (GDate *from, GDate *to, int basis);
+gint32 days_between_basis (GDate *from, GDate *to, int basis);
 
-gint32 days_between_dep_basis (GDate *from, GDate *to, int basis, gboolean in_order);
+GDate *coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean eom, gboolean next);
 
-GDate * coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean eom, gboolean next);
-GDate * coup_cd_xl (GDate *settlement, GDate *maturity, int freq, gboolean next);
+gnum_float coupdays (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean eom);
 
-gnum_float coupdays (GDate *settlement, GDate *maturity, int freq, int basis, gboolean eom, 
-	      gboolean xl);
+gnum_float coupdaybs (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean eom);
 
-int coupdaybs (GDate *settlement, GDate *maturity, int freq, int basis, gboolean eom, 
-	       gboolean xl);
-
-int coupdaysnc (GDate *settlement, GDate *maturity, int freq, int basis, gboolean eom, 
-		gboolean xl);
+gnum_float coupdaysnc (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean eom);
 
 
 #endif

@@ -308,66 +308,78 @@ datetime_weeknum (GDate *date, int method)
 
 /* ------------------------------------------------------------------------- */
 
-/*
- * adjust_dates_basis
- *
- * @from      : GDate *
- * @to        : GDate * 
- * @basis     : int
- *	   "0  US 30/360\n"
- *         "1  actual days/actual days\n"
- *         "2  actual days/360\n"
- *         "3  actual days/365\n"
- *         "4  European 30/360\n"
- *
- * returns    : nothing. As side effects possibly adjusts from and to date
- *
- *
- */
-
-void
-adjust_dates_basis (GDate *from, GDate *to, int basis)
+static gint32
+days_between_BASIS_MSRB_30_360 (GDate *from, GDate *to)
 {
-	switch (basis) {
-	case BASIS_30Ep360:
-		if (g_date_day (to) >= 30) {
-			g_date_set_day (to, 30);
-			if (g_date_day (from) == 31)
-				g_date_set_day (from, 30);
-		}
-		break;
-	case BASIS_30_360:
-		if (g_date_day(from) >= 30) {
-			g_date_set_day (from, 30);
-			if (g_date_day(to) == 31)
-				g_date_set_day (to, 30);
-		}
-		break;
-	case BASIS_30E360:
-		if (g_date_day(from) == 31)
-			g_date_set_day (from, 30);
-		if (g_date_day(to) == 31)
-			g_date_set_day (to, 30);
-		break;
-	default:
-		break;
+	int y1, m1, d1, y2, m2, d2;
+
+	y1 = g_date_year (from);
+	m1 = g_date_month (from);
+	d1 = g_date_day (from);
+	y2 = g_date_year (to);
+	m2 = g_date_month (to);
+	d2 = g_date_day (to);
+
+	if (d1 >= 30) {
+		d1 = 30;
+		if (d2 == 31)
+			d2 = 30;
 	}
-	return;
+
+	return (y2 - y1) * 360 + (m2 - m1) * 30 + (d2 - d1);
 }
 
-/* ------------------------------------------------------------------------- */
+static gint32
+days_between_BASIS_30E_360 (GDate *from, GDate *to)
+{
+	int y1, m1, d1, y2, m2, d2;
+
+	y1 = g_date_year (from);
+	m1 = g_date_month (from);
+	d1 = g_date_day (from);
+	y2 = g_date_year (to);
+	m2 = g_date_month (to);
+	d2 = g_date_day (to);
+
+	if (d1 == 31) 
+		d1 = 30;
+	if (d2 == 31)
+		d2 = 30;
+
+	return (y2 - y1) * 360 + (m2 - m1) * 30 + (d2 - d1);
+}
+
+static gint32
+days_between_BASIS_30Ep_360 (GDate *from, GDate *to)
+{
+	int y1, m1, d1, y2, m2, d2;
+
+	y1 = g_date_year (from);
+	m1 = g_date_month (from);
+	d1 = g_date_day (from);
+	y2 = g_date_year (to);
+	m2 = g_date_month (to);
+	d2 = g_date_day (to);
+
+	if (d1 == 31) 
+		d1 = 30;
+	if (d2 == 31) {
+		d2 = 1;
+		m2++;
+		/* No need to check for m2 == 13 since 12*30 == 360 */
+	}
+
+	return (y2 - y1) * 360 + (m2 - m1) * 30 + (d2 - d1);
+}
 
 /*
- * days_between_dep_basis
+ * days_between_basis
  *
  * @from      : GDate *
  * @to        : GDate * 
- * @basis     : int
- *	   "0  US 30/360\n"
- *         "1  actual days/actual days\n"
- *         "2  actual days/360\n"
- *         "3  actual days/365\n"
- *         "4  European 30/360\n"
+ * @basis     : basis_t
+ * see datetime.h and doc/fn-financial-basis.txt for details
+ *
  * @in_order  : dates are considered in order
  *
  * returns    : Number of days strictly between from and to +1
@@ -375,64 +387,31 @@ adjust_dates_basis (GDate *from, GDate *to, int basis)
  */
 
 gint32
-days_between_dep_basis (GDate *from, GDate *to, int basis, gboolean in_order)
+days_between_basis (GDate *from, GDate *to, int basis)
 {
-	GDate      from_date;
-	gint32     days;
-	gint       years;
-
 	switch (g_date_compare (from, to)) {
 	case 1:
-		return (- days_between_dep_basis (to, from, basis, !in_order));
-	case 0:
-		return 0;
+		return (- days_between_basis (to, from, basis));
 	default:
 		break;
 	} 
 
-	if (in_order) 
-		adjust_dates_basis (from, to, basis);
-	else
-		adjust_dates_basis (to, from, basis);
-
-	if (basis == BASIS_ACTACT) 
+	switch (basis) {
+	case BASIS_ACT_ACT:
+	case BASIS_ACT_360:
+	case BASIS_ACT_365:
 		return (g_date_julian (to) - g_date_julian (from));
-
-	g_date_clear (&from_date, 1);
-	g_date_set_julian (&from_date, g_date_julian (from));
-	years = g_date_year(to) - g_date_year(from);
-	g_date_add_years (&from_date, years);
-
-	if ((basis == BASIS_ACT365 || basis == BASIS_ACT360) &&
-	    g_date_compare (&from_date, to) >= 0) {
-		years -= 1;
-		g_date_set_julian (&from_date, g_date_julian (from));
-		g_date_add_years (&from_date, years);
-	}
-
-	switch (basis) {
-	case BASIS_ACT365:
-		days = years * 365;
 		break;
-	default:
-		days = years * 360;
+	case BASIS_30E_360:
+		return days_between_BASIS_30E_360 (from, to); 
 		break;
-	}
-
-	switch (basis) {
-	case BASIS_ACT360:
-	case BASIS_ACT365:
-		return days + g_date_julian (to) - g_date_julian (&from_date);
-
-	case BASIS_30Ep360:
-		return days += (30 * (g_date_month(to) - g_date_month(&from_date))
-				+ ((in_order && g_date_is_last_of_month (to)) ? 30 
-				   : g_date_day (to)) 
-				- ((!in_order && g_date_is_last_of_month (from)) ? 30 
-				   : g_date_day (&from_date)));
+	case BASIS_30Ep_360:
+		return days_between_BASIS_30Ep_360 (from, to); 
+		break;
+	case BASIS_MSRB_30_360:
 	default:
-		return days += (30 * (g_date_month(to) - g_date_month(&from_date))
-			+ g_date_day(to) - g_date_day(&from_date));
+		return days_between_BASIS_MSRB_30_360 (from, to); 
+		break;
 	}
 }
 
@@ -476,6 +455,7 @@ coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean eom, gboolean ne
 		if (is_eom_special) 
 			while (!g_date_is_last_of_month (result))
 				g_date_add_days (result, 1);
+		/* Change to g_date_get_days_in_month with glib 1.8+ */
 	} while (g_date_compare (settlement, result) < 0 );
 
 	if (next) {
@@ -485,53 +465,7 @@ coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean eom, gboolean ne
 		if (is_eom_special) 
 			while (!g_date_is_last_of_month (result))
 				g_date_add_days (result, 1);
-	}
-
-	return result;
-}
-
-/* ------------------------------------------------------------------------- */
-
-/*
- * coup_cd_xl
- *
- * @settlement: GDate *
- * @maturity  : GDate *  must follow settlement strictly
- * @freq      : int      divides 12 evenly
- * @eom       : gboolean whether to do special end of month 
- *                       handling
- * @next      : gboolean whether next or previous date
- *
- * returns    : GDate *  date as returned by XL
- *
- * this function does not depend on the basis of counting!
- */
-
-GDate *
-coup_cd_xl (GDate *settlement, GDate *maturity, int freq, gboolean next)
-{
-	GDate      *result;
-	GDate      coupon;
-	gboolean   is_eom_special;
-	int        months = 12 / freq;
-
-	is_eom_special = g_date_is_last_of_month (maturity);
-
-	result = g_date_new();
-
-	g_date_clear (&coupon, 1);
-	g_date_set_julian (&coupon, g_date_julian (maturity));
-
-	do {
-		g_date_set_julian (result, g_date_julian (&coupon));
-		g_date_subtract_months (&coupon, months);
-		if (is_eom_special) 
-			while (!g_date_is_last_of_month (&coupon))
-				g_date_add_days (&coupon, 1);
-	} while (g_date_compare (settlement, &coupon) < 0 );
-
-	if (!next) {
-		g_date_set_julian (result, g_date_julian (&coupon));
+		/* Change to g_date_get_days_in_month with glib 1.8+ */
 	}
 
 	return result;
@@ -545,29 +479,25 @@ coup_cd_xl (GDate *settlement, GDate *maturity, int freq, gboolean next)
  * Currently, returns negative numbers if the branch is not implemented.
  */
 gnum_float
-coupdays (GDate *settlement, GDate *maturity, int freq, int basis, gboolean eom, 
-	  gboolean xl)
+coupdays (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean eom)
 {
 	GDate *prev;
 	GDate *next;
-	int   days;
+	gint32   days;
 
         switch (basis) {
-        case BASIS_30Ep360:
-        case BASIS_30E360:
-        case BASIS_30_360:
-		return (12 / freq) * 30;
-	case BASIS_ACT360:
+	case BASIS_MSRB_30_360:
+	case BASIS_ACT_360:
+        case BASIS_30E_360:
+        case BASIS_30Ep_360:
 		return 360 / freq;
-	case BASIS_ACT365:
+	case BASIS_ACT_365:
 		return 365.0 / freq;
-	case BASIS_ACTACT:
+	case BASIS_ACT_ACT:
 	default:
-		next = xl ? coup_cd_xl (settlement, maturity, freq, TRUE) :
-			coup_cd (settlement, maturity, freq, eom, TRUE);
-		prev = xl ? coup_cd_xl (settlement, next, freq, FALSE) :
-			coup_cd (settlement, maturity, freq, eom, FALSE);
-		days = days_between_dep_basis (prev, next, basis, TRUE);
+		next = coup_cd (settlement, maturity, freq, eom, TRUE);
+		prev = coup_cd (settlement, maturity, freq, eom, FALSE);
+		days = days_between_basis (prev, next, BASIS_ACT_ACT);
 		g_date_free (prev);
 		g_date_free (next);
 		return days;
@@ -581,16 +511,14 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis, gboolean eom,
  * Returns the number of days from the beginning of the coupon period to
  * the settlement date.
  */
-int
-coupdaybs (GDate *settlement, GDate *maturity, int freq, int basis, gboolean eom, 
-	   gboolean xl)
+gnum_float
+coupdaybs (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean eom)
 {
 	GDate      *prev_coupon;
-	int        days;
+	gint32        days;
 
-	prev_coupon = xl ? coup_cd_xl (settlement, maturity, freq, FALSE) :
-		coup_cd (settlement, maturity, freq, eom, FALSE);
-	days = days_between_dep_basis (prev_coupon, settlement, basis, FALSE);
+	prev_coupon = coup_cd (settlement, maturity, freq, eom, FALSE);
+	days = days_between_basis (prev_coupon, settlement, basis);
 	g_date_free (prev_coupon);
 	return days;
 }
@@ -603,16 +531,14 @@ coupdaybs (GDate *settlement, GDate *maturity, int freq, int basis, gboolean eom
  * coupon date.
  */
 
-int
-coupdaysnc (GDate *settlement, GDate *maturity, int freq, int basis, gboolean eom, 
-	    gboolean xl)
+gnum_float
+coupdaysnc (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean eom)
 {
 	GDate      *next_coupon;
 	int        days;
 
-	next_coupon = xl ? coup_cd_xl (settlement, maturity, freq, TRUE) :
-		coup_cd (settlement, maturity, freq, eom, TRUE);
-	days = days_between_dep_basis (settlement, next_coupon, basis, TRUE);
+	next_coupon = coup_cd (settlement, maturity, freq, eom, TRUE);
+	days = days_between_basis (settlement, next_coupon, basis);
 	g_date_free (next_coupon);
 	return days;
 }

@@ -229,118 +229,99 @@ days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 	}
 }
 
-static GDateDay
-days_in_month (GDateYear year, GDateMonth month)
-{
-        switch (month) {
-	case 1:
-	case 3:
-	case 5:
-	case 7:
-	case 8:
-	case 10:
-	case 12:
-	        return 31;
-	case 4:
-	case 6:
-	case 9:
-	case 11:
-	        return 30;
-	case 2:
-	        if (g_date_is_leap_year (year))
-		        return 29;
-		else
-		        return 28;
-	default:
-	        return 0;
-	}
-}
-
 /***************************************************************************/
 
-/* Returns the numbers of coupons to be paid between the settlement
- * and maturity dates, rounded up.
+/* Returns the number of coupons to be paid between the settlement
+ * and maturity dates.
  */
-static int
-coupnum (GDate *settlement, GDate *maturity, int freq, int basis)
+static gnum_float
+coupnum (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean eom)
 {
-        int        years, months, days;
-	GDateYear  sy, my;
-	GDateMonth sm, mm;
-	GDateDay   sd, md;
+        int        months;
+	GDate      this_coupondate;
 
-	sy = g_date_year  (settlement);
-	sm = g_date_month (settlement);
-	sd = g_date_day   (settlement);
-	my = g_date_year  (maturity);
-	mm = g_date_month (maturity);
-	md = g_date_day   (maturity);
+	g_date_clear (&this_coupondate, 1);
+	g_date_set_julian (&this_coupondate, g_date_julian(maturity));
 
-	years = my - sy;
-	months = mm - sm;
-	if (md == days_in_month (my, mm) && sd == days_in_month (sy, sm))
-	        days = 0;
-	else
-	        days = md - sd + (g_date_is_leap_year (sy) && sd == 28 && sm == 2);
+	months = g_date_month (maturity) - g_date_month (settlement) + 
+		12 * (g_date_year (maturity) - g_date_year  (settlement));
 
-	if (freq == 1)
-	        return years + (months > 0) + (months == 0 && days > 0);
-	else if (freq == 2)
-	        return years*2
-		        + (months >  6) + (months ==  6 && days > 0)
-		        + (months >  0) + (months ==  0 && days > 0)
-		        - (months < -6) - (months == -6 && days <= 0);
-	else
-	        return years*4
-		        + (months >  9) + (months ==  9 && days > 0)
-		        + (months >  6) + (months ==  6 && days > 0)
-		        + (months >  3) + (months ==  3 && days > 0)
-		        + (months >  0) + (months ==  0 && days > 0)
-		        - (months < -3) - (months == -3 && days <= 0)
-		        - (months < -6) - (months == -6 && days <= 0)
-		        - (months < -9) - (months == -9 && days <= 0);
+	g_date_subtract_months (&this_coupondate, months);
+
+	if (eom &&  g_date_is_last_of_month (maturity))
+		while (!g_date_is_last_of_month (&this_coupondate))
+				g_date_add_days (&this_coupondate, 1);
+ 
+	if (g_date_day (settlement) >= g_date_day (&this_coupondate))
+	        months--;
+
+	return (1 + months / (12 / freq));
 }
 
+static gnum_float 
+couppcd (GDate *settlement, GDate *maturity, int freq,  basis_t basis, gboolean eom)
+{
+	GDate *date;
+	int   serial_date;
+	
+	date = coup_cd (settlement, maturity, freq, eom, FALSE);
+	serial_date = datetime_g_to_serial (date);
+	g_date_free (date);
+
+	return serial_date;
+}
+
+static gnum_float 
+coupncd (GDate *settlement, GDate *maturity, int freq,  basis_t basis, gboolean eom)
+{
+	GDate *date;
+	int   serial_date;
+	
+	date = coup_cd (settlement, maturity, freq, eom, TRUE);
+	serial_date = datetime_g_to_serial (date);
+	g_date_free (date);
+
+	return serial_date;
+
+}
+
+/************************************************************************
+ *
+ * Reading and verifying the arguments for the various COUP____  
+ * functions. Calls the passed coup_fn to do the real work
+ *
+ ***********************************************************************/
+
 static Value *
-func_coup_cd (FunctionEvalInfo *ei, Value **argv, gboolean next)
+func_coup (FunctionEvalInfo *ei, Value **argv, 
+	   gnum_float (coup_fn)(GDate *settlement, GDate *maturity, 
+				  int freq, basis_t basis, gboolean eom))
 {
         GDate   *settlement;
         GDate   *maturity;
-        GDate   *date;
-        int     freq, basis;
-	gboolean eom, xl, err = FALSE;
+        int     freq;
+	basis_t basis;
+	gboolean eom, err = FALSE;
 	Value   *result;
 
         settlement = datetime_value_to_g (argv[0]);
         maturity   = datetime_value_to_g (argv[1]);
         freq       = value_get_as_int (argv[2]);
-	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
+	basis      = argv[3] ? value_get_as_int (argv[3]) : BASIS_MSRB_30_360;
 	eom        = argv[4] ? value_get_as_bool (argv[4], &err) : TRUE;
-	xl         = argv[4] ? FALSE : TRUE;
 
 	if (!maturity || !settlement || err) {
 		result = value_new_error (ei->pos, gnumeric_err_VALUE);
 		goto out;
 	}
 
-	if (xl) {
-		if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
-		    || g_date_compare (settlement, maturity) >= 0) {
-			result = value_new_error (ei->pos, gnumeric_err_NUM);
-			goto out;
-		}
+	if (basis < 0 || basis > BASIS_LAST || (freq == 0) || (12 % freq != 0)
+	    || g_date_compare (settlement, maturity) >= 0) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
 	}
-	else
-		if (basis < 0 || basis > 5 || (freq == 0) || (12 % freq != 0)
-		    || g_date_compare (settlement, maturity) > (next ? -1 : 0)) {
-			result = value_new_error (ei->pos, gnumeric_err_NUM);
-			goto out;
-		}
 
-        date = xl ? coup_cd_xl (settlement, maturity, freq, next) : 
-		coup_cd (settlement, maturity, freq, eom, next);
-	result = value_new_int (datetime_g_to_serial (date));
-	g_date_free (date);
+	result = value_new_float (coup_fn (settlement, maturity, freq, basis, eom));
 
  out:
 	if (settlement != NULL)
@@ -2329,10 +2310,10 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-	a = coupdaybs (settlement, maturity, freq, basis, TRUE, TRUE);
-	d = coupdaysnc (settlement, maturity, freq, basis, TRUE, TRUE);
-	e = coupdays (settlement, maturity, freq, basis, TRUE, TRUE);
-	n = coupnum (settlement, maturity, freq, basis);
+	a = coupdaybs (settlement, maturity, freq, basis, TRUE);
+	d = coupdaysnc (settlement, maturity, freq, basis, TRUE);
+	e = coupdays (settlement, maturity, freq, basis, TRUE);
+	n = coupnum (settlement, maturity, freq, basis, TRUE);
 
 	sum = 0.0;
 	den = 100.0 * rate / freq;
@@ -2417,10 +2398,10 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-	a = coupdaybs (settlement, maturity, freq, basis, TRUE, TRUE);
-	d = coupdaysnc (settlement, maturity, freq, basis, TRUE, TRUE);
-	e = coupdays (settlement, maturity, freq, basis, TRUE, TRUE);
-	n = coupnum (settlement, maturity, freq, basis);
+	a = coupdaybs (settlement, maturity, freq, basis, TRUE);
+	d = coupdaysnc (settlement, maturity, freq, basis, TRUE);
+	e = coupdays (settlement, maturity, freq, basis, TRUE);
+	n = coupnum (settlement, maturity, freq, basis, TRUE);
 
 	if (n <= 1.0) {
 	        coeff = freq * e / d;
@@ -2588,11 +2569,11 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-	a = coupdaybs (settlement, maturity, freq, basis, TRUE, TRUE);
+	a = coupdaybs (settlement, maturity, freq, basis, TRUE);
 	ds = -1; /* FIXME */
 	df = -1; /* FIXME */
-	e = coupdays (settlement, maturity, freq, basis, TRUE, TRUE);
-	n = coupnum (settlement, maturity, freq, basis);
+	e = coupdays (settlement, maturity, freq, basis, TRUE);
+	n = coupnum (settlement, maturity, freq, basis, TRUE);
 
 	/*
 	 * FIXME: Check if odd long first coupon and implement the branch
@@ -2808,29 +2789,26 @@ static char *help_coupdaybs = {
 	   "@maturity is the maturity date of the security.\n"
 	   "@frequency is the number of coupon payments per year.\n"
 	   "@eom = TRUE handles end of month maturity dates special.\n"
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly and "
-	   "if eom is given: 6 = bimonthly, 12 = monthly.\n"
+	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, "
+	   "6 = bimonthly, 12 = monthly.\n"
 	   "@basis is the type of day counting system you want to use:\n"
 	   "\n"
-	   "0  30/360\n"
+	   "0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 	   "1  actual days/actual days\n"
 	   "2  actual days/360\n"
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
-	   "5  US 30/360  (available only if eom is given)\n"
+	   "5  European+ 30/360\n"
 	   "(see the gnumeric manual for a detailed description of these bases)\n"
 	   "\n"
 	   "If @frequency is invalid, COUPDAYBS returns #NUM! "
 	   "error.\n"
-	   "If @basis is omitted, 30/360 is applied.\n"
+	   "If @basis is omitted, MSRB 30/360 is applied.\n"
 	   "If @basis is invalid, #NUM! error is returned.\n"
 	   "\n"
-	   "If COUPDAYBS is called with 3 or 4 arguments, it is XL compatible."
-	   "\n"
 	   "@EXAMPLES=\n"
-	   "COUPDAYBS(""8-Oct-2001"",""29-Nov-2002"",4,0) = 40"
-	   "COUPDAYBS(""8-Oct-2001"",""29-Nov-2002"",4,0,TRUE) = 39"
-	   "COUPDAYBS(""8-Oct-2001"",""29-Nov-2002"",4,0,FALSE) = 39"
+	   "COUPDAYBS (DATE(2002,11,29),DATE(2004,2,29),4,0) = 89\n"
+	   "COUPDAYBS (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 0\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -2838,48 +2816,7 @@ static char *help_coupdaybs = {
 static Value *
 gnumeric_coupdaybs (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate *settlement;
-        GDate *maturity;
-        int freq, basis;
-	Value *result;
-	gboolean eom, err = FALSE;
-	gboolean xl;
-
-        settlement = datetime_value_to_g (argv[0]);
-        maturity   = datetime_value_to_g (argv[1]);
-        freq       = value_get_as_int (argv[2]);
-	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
-	eom        = argv[4] ? value_get_as_bool (argv[4], &err) : 0;
-	xl         = argv[4] ? FALSE : TRUE;
-
-	if (!maturity || !settlement || err) {
-		result = value_new_error (ei->pos, gnumeric_err_VALUE);
-		goto out;
-	}
-
-	if (xl) {
-		if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
-		    || g_date_compare (settlement, maturity) >= 0) {
-			result = value_new_error (ei->pos, gnumeric_err_NUM);
-			goto out;
-		}
-	}
-	else
-		if (basis < 0 || basis > 5 || (freq == 0) || (12 % freq != 0)
-		    || g_date_compare (settlement, maturity) > 0) {
-			result = value_new_error (ei->pos, gnumeric_err_NUM);
-			goto out;
-		}
-
-	result = value_new_int (coupdaybs (settlement, maturity, freq, basis, eom, xl));
-
- out:
-	if (settlement != NULL)
-		g_date_free (settlement);
-	if (maturity != NULL)
-		g_date_free (maturity);
-
-	return result;
+	return func_coup (ei, argv, coupdaybs);
 }
 
 /***************************************************************************/
@@ -2894,27 +2831,27 @@ static char *help_coupdays = {
 	   "@maturity is the maturity date of the security.\n"
 	   "@frequency is the number of coupon payments per year.\n"
 	   "@eom = TRUE handles end of month maturity dates special.\n"
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly and "
-	   "if eom is given: 6 = bimonthly, 12 = monthly.\n"
+	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, "
+	   "6 = bimonthly, 12 = monthly.\n"
 	   "@basis is the type of day counting system you want to use:\n"
 	   "\n"
-	   "0  30/360\n"
+	   "0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 	   "1  actual days/actual days\n"
 	   "2  actual days/360\n"
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
-	   "5  US 30/360  (available only if eom is given)\n"
+	   "5  European+ 30/360\n"
 	   "(see the gnumeric manual for a detailed description of these bases)\n"
 	   "\n"
 	   "If @frequency is invalid, COUPDAYS returns #NUM! "
 	   "error.\n"
-	   "If @basis is omitted, 30/360 is applied.\n"
+	   "If @basis is omitted, MSRB 30/360 is applied.\n"
 	   "If @basis is invalid, #NUM! error is returned.\n"
 	   "\n"
-	   "If COUPDAYS is called with 3 or 4 arguments and basis other than 1, "
-	   "it is XL compatible."
-	   "\n"
 	   "@EXAMPLES=\n"
+	   "COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,0) = 90\n"
+	   "COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 90\n"
+	   "COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,1,FALSE) = 91\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -2922,48 +2859,7 @@ static char *help_coupdays = {
 static Value *
 gnumeric_coupdays (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate *settlement;
-        GDate *maturity;
-        int freq, basis;
-	Value *result;
-	gboolean eom, err = FALSE;
-	gboolean xl;
-
-        settlement = datetime_value_to_g (argv[0]);
-        maturity   = datetime_value_to_g (argv[1]);
-        freq       = value_get_as_int (argv[2]);
-	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
-	eom        = argv[4] ? value_get_as_bool (argv[4], &err) : 0;
-	xl         = argv[4] ? FALSE : TRUE;
-
-	if (!maturity || !settlement || err) {
-		result = value_new_error (ei->pos, gnumeric_err_VALUE);
-		goto out;
-	}
-
-	if (xl) {
-		if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
-		    || g_date_compare (settlement, maturity) >= 0) {
-			result = value_new_error (ei->pos, gnumeric_err_NUM);
-			goto out;
-		}
-	}
-	else
-		if (basis < 0 || basis > 5 || (freq == 0) || (12 % freq != 0)
-		    || g_date_compare (settlement, maturity) > 0) {
-			result = value_new_error (ei->pos, gnumeric_err_NUM);
-			goto out;
-		}
-
-        result = value_new_float (coupdays (settlement, maturity, freq, basis, eom, xl));
-
- out:
-	if (settlement != NULL)
-		g_date_free (settlement);
-	if (maturity != NULL)
-		g_date_free (maturity);
-
-	return result;
+	return func_coup (ei, argv, coupdays);
 }
 
 /***************************************************************************/
@@ -2978,29 +2874,26 @@ static char *help_coupdaysnc = {
 	   "@maturity is the maturity date of the security.\n"
 	   "@frequency is the number of coupon payments per year.\n"
 	   "@eom = TRUE handles end of month maturity dates special.\n"
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly and "
-	   "if eom is given: 6 = bimonthly, 12 = monthly.\n"
+	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, "
+	   "6 = bimonthly, 12 = monthly.\n"
 	   "@basis is the type of day counting system you want to use:\n"
 	   "\n"
-	   "0  30/360\n"
+	   "0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 	   "1  actual days/actual days\n"
 	   "2  actual days/360\n"
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
-	   "5  US 30/360  (available only if eom is given)\n"
+	   "5  European+ 30/360\n"
 	   "(see the gnumeric manual for a detailed description of these bases)\n"
 	   "\n"
 	   "If @frequency is invalid, COUPDAYSNC returns #NUM! "
 	   "error.\n"
-	   "If @basis is omitted, 30/360 is applied.\n"
+	   "If @basis is omitted, MSRB 30/360 is applied.\n"
 	   "If @basis is invalid, #NUM! error is returned.\n"
 	   "\n"
-	   "If COUPDAYSNC is called with 3 or 4 arguments, it is XL compatible."
-	   "\n"
 	   "@EXAMPLES=\n"
-	   "COUPDAYSNC(""8-Oct-2001"",""29-Nov-2002"",4,0) = 50"
-	   "COUPDAYSNC(""8-Oct-2001"",""29-Nov-2002"",4,0,TRUE) = 51"
-	   "COUPDAYSNC(""8-Oct-2001"",""29-Nov-2002"",4,0,FALSE) = 51"
+	   "COUPDAYSNC (DATE(2002,11,29),DATE(2004,2,29),4,0) = 1\n"
+	   "COUPDAYSNC (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 89\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -3008,48 +2901,7 @@ static char *help_coupdaysnc = {
 static Value *
 gnumeric_coupdaysnc (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate      *settlement;
-        GDate      *maturity;
-        int        freq, basis;
-	Value      *result;
-	gboolean eom, err = FALSE;
-	gboolean xl;
-
-        settlement = datetime_value_to_g (argv[0]);
-        maturity   = datetime_value_to_g (argv[1]);
-        freq       = value_get_as_int (argv[2]);
-	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
-	eom        = argv[4] ? value_get_as_bool (argv[4], &err) : 0;
-	xl         = argv[4] ? FALSE : TRUE;
-
-	if (!maturity || !settlement || err) {
-		result = value_new_error (ei->pos, gnumeric_err_VALUE);
-		goto out;
-	}
-
-	if (xl) {
-		if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
-		    || g_date_compare (settlement, maturity) >= 0) {
-			result = value_new_error (ei->pos, gnumeric_err_NUM);
-			goto out;
-		}
-	}
-	else
-		if (basis < 0 || basis > 5 || (freq == 0) || (12 % freq != 0)
-		    || g_date_compare (settlement, maturity) > 0) {
-			result = value_new_error (ei->pos, gnumeric_err_NUM);
-			goto out;
-		}
-
-	result = value_new_int (coupdaysnc (settlement, maturity, freq, basis, eom, xl));
-
- out:
-	if (settlement != NULL)
-		g_date_free (settlement);
-	if (maturity != NULL)
-		g_date_free (maturity);
-
-	return result;
+	return func_coup (ei, argv, coupdaysnc);
 }
 
 /***************************************************************************/
@@ -3063,29 +2915,26 @@ static char *help_coupncd = {
 	   "@maturity is the maturity date of the security.\n"
 	   "@frequency is the number of coupon payments per year.\n"
 	   "@eom = TRUE handles end of month maturity dates special.\n"
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly and "
-	   "if eom is given: 6 = bimonthly, 12 = monthly.\n"
+	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, "
+	   "6 = bimonthly, 12 = monthly.\n"
 	   "@basis is the type of day counting system you want to use:\n"
 	   "\n"
-	   "0  30/360\n"
+	   "0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 	   "1  actual days/actual days\n"
 	   "2  actual days/360\n"
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
-	   "5  US 30/360  (available only if eom is given)\n"
+	   "5  European+ 30/360\n"
 	   "(see the gnumeric manual for a detailed description of these bases)\n"
 	   "\n"
 	   "If @frequency is invalid, COUPNCD returns #NUM! "
 	   "error.\n"
-	   "If @basis is omitted, 30/360 is applied.\n"
+	   "If @basis is omitted, MSRB 30/360 is applied.\n"
 	   "If @basis is invalid, #NUM! error is returned.\n"
 	   "\n"
-	   "If COUPNCD is called with 3 or 4 arguments, it is XL compatible."
-	   "\n"
 	   "@EXAMPLES=\n"
-	   "COUPNCD(""8-Oct-2001"",""29-Nov-2002"",4,0) = 28-Nov-2001"
-	   "COUPNCD(""8-Oct-2001"",""29-Nov-2002"",4,0,TRUE) = 29-Nov-2001"
-	   "COUPNCD(""8-Oct-2001"",""29-Nov-2002"",4,0,FALSE) = 29-Nov-2001"
+	   "COUPNCD (DATE(2002,11,29),DATE(2004,2,29),4,0) = 30-Nov-2002\n"
+	   "COUPNCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 28-Feb-2003\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -3093,7 +2942,7 @@ static char *help_coupncd = {
 static Value *
 gnumeric_coupncd (FunctionEvalInfo *ei, Value **argv)
 {
-	return func_coup_cd (ei, argv, TRUE);
+	return func_coup (ei, argv, coupncd);
 }
 
 /***************************************************************************/
@@ -3107,31 +2956,26 @@ static char *help_couppcd = {
 	   "@maturity is the maturity date of the security.\n"
 	   "@frequency is the number of coupon payments per year.\n"
 	   "@eom = TRUE handles end of month maturity dates special.\n"
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly and "
-	   "if eom is given: 6 = bimonthly, 12 = monthly.\n"
+	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, "
+	   "6 = bimonthly, 12 = monthly.\n"
 	   "@basis is the type of day counting system you want to use:\n"
 	   "\n"
-	   "0  30/360\n"
+	   "0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 	   "1  actual days/actual days\n"
 	   "2  actual days/360\n"
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
-	   "5  US 30/360  (available only if eom is given)\n"
+	   "5  European+ 30/360\n"
 	   "(see the gnumeric manual for a detailed description of these bases)\n"
 	   "\n"
 	   "If @frequency is invalid, COUPPCD returns #NUM! "
 	   "error.\n"
-	   "If @basis is omitted, 30/360 is applied.\n"
+	   "If @basis is omitted, MSRB 30/360 is applied.\n"
 	   "If @basis is invalid, #NUM! error is returned.\n"
 	   "\n"
-	   "If COUPPCD is called with 3 or 4 arguments, it is XL compatible."
-	   "\n"
 	   "@EXAMPLES=\n"
-	   "COUPPCD(""8-Oct-2001"",""29-Nov-2002"",4,0) = 28-Aug-2001"
-	   "COUPPCD(""8-Oct-2001"",""29-Nov-2002"",4,0,TRUE) = 29-Aug-2001"
-	   "COUPPCD(""8-Oct-2001"",""29-Nov-2002"",4,0,FALSE) = 29-Aug-2001"
-	   "COUPPCD(""8-Oct-2001"",""30-Nov-2002"",4,0,FALSE) = 30-Aug-2001"
-	   "COUPPCD(""8-Oct-2001"",""30-Nov-2002"",4,0,TRUE) = 31-Aug-2001"
+	   "COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0) = 31-AUG-2002\n"
+	   "COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 29-Nov-2002\n"
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -3139,73 +2983,47 @@ static char *help_couppcd = {
 static Value *
 gnumeric_couppcd (FunctionEvalInfo *ei, Value **argv)
 {
-	return func_coup_cd (ei, argv, FALSE);
+	return func_coup (ei, argv, couppcd);
 }
 
 /***************************************************************************/
 
 static char *help_coupnum = {
 	N_("@FUNCTION=COUPNUM\n"
-	   "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
+	   "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
 	   "@DESCRIPTION="
 	   "COUPNUM returns the numbers of coupons to be paid between "
-	   "the settlement and maturity dates, rounded up."
-	   "@settlement is the settlement date of the security. "
-	   "@maturity is the maturity date of the security. "
-	   "@frequency is the number of coupon payments per year. "
+	   "the settlement and maturity dates, rounded up.\n"
+	   "@settlement is the settlement date of the security.\n"
+	   "@maturity is the maturity date of the security.\n"
+	   "@frequency is the number of coupon payments per year.\n"
+	   "@eom = TRUE handles end of month maturity dates special.\n"
 	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
+	   "6 = bimonthly, 12 = monthly.\n"
 	   "@basis is the type of day counting system you want to use:\n"
 	   "\n"
-	   "0  US 30/360\n"
+	   "0  MSRB 30/360 (MSRB Rule G33 (e))\n"
 	   "1  actual days/actual days\n"
 	   "2  actual days/360\n"
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
+	   "5  European+ 30/360\n"
 	   "\n"
 	   "If @frequency is other than 1, 2, or 4, COUPNUM returns #NUM! "
 	   "error. "
-	   "If @basis is omitted, US 30/360 is applied. "
+	   "If @basis is omitted, MSRB 30/360 is applied. "
 	   "If @basis is not in between 0 and 4, #NUM! error is returned. "
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "\n"
+	   "COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0) = 6\n"
+	   "COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 5\n"
 	   "@SEEALSO=")
 };
 
 static Value *
 gnumeric_coupnum (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate *settlement;
-        GDate *maturity;
-        int freq, basis;
-        gnum_float n;
-	Value *result;
-
-        settlement = datetime_value_to_g (argv[0]);
-        maturity   = datetime_value_to_g (argv[1]);
-        freq       = value_get_as_int (argv[2]);
-	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
-
-	if (!maturity || !settlement) {
-		result = value_new_error (ei->pos, gnumeric_err_VALUE);
-		goto out;
-	}
-
-        if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
-	    || g_date_compare (settlement, maturity) > 0) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
-		goto out;
-	}
-
-        n = coupnum (settlement, maturity, freq, basis);
-
-        result = value_new_float (n);
-
- out:
-	g_date_free (settlement);
-	g_date_free (maturity);
-
-	return result;
+	return func_coup (ei, argv, coupnum);
 }
 
 /***************************************************************************/
@@ -3340,8 +3158,8 @@ finance_functions_init (void)
 				  &help_coupncd, gnumeric_coupncd);
 	auto_format_function_result (def, AF_DATE);
 
-	def = function_add_args	 (cat, "coupnum", "fff|f",
-				  "settlement,maturity,frequency[,basis]",
+	def = function_add_args	 (cat, "coupnum", "fff|fb",
+				  "settlement,maturity,frequency[,basis,eom]",
 				  &help_coupnum, gnumeric_coupnum);
 
 	def = function_add_args	 (cat, "couppcd", "fff|fb",
