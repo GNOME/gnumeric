@@ -1,3 +1,9 @@
+2001-06-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-style.c (cb_filter_style) : delete code that is irrelevant
+	  now that borders are sane.
+	(sheet_style_get_uniform) : ditto.
+
 2001-06-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-control-gui.c (scg_colrow_select) : don't

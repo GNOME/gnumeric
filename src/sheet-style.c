@@ -1233,36 +1233,13 @@ sheet_style_apply_border (Sheet       *sheet,
 
 /****************************************************************************/
 
-typedef struct {
-	MStyle 		 *result;
-} UniformStyleClosure;
-
 static void
 cb_filter_style (MStyle *style,
 		 int corner_col, int corner_row, int width, int height,
 		 Range const *apply_to, gpointer user)
 {
-	UniformStyleClosure *c = user;
-	gboolean top, bottom, left, right;
-
-	mstyle_compare (c->result, style);
-
-	if (width > 1) {
-		int end = corner_col + width - 1;
-		right = (end <= apply_to->end.col);
-		left  = (corner_col >= apply_to->start.col);
-	} else {
-		right = (corner_col < apply_to->end.col);
-		left  = (corner_col > apply_to->start.col);
-	}
-	if (height > 1) {
-		int end = corner_row + height - 1;
-		bottom = (end <= apply_to->end.row);
-		top    = (corner_row >= apply_to->start.row);
-	} else {
-		bottom = (corner_row < apply_to->end.row);
-		top    = (corner_row > apply_to->start.row);
-	}
+	MStyle *style = user;
+	mstyle_compare (style, style);
 }
 
 static void
@@ -1326,7 +1303,6 @@ sheet_style_get_uniform	(Sheet const *sheet, Range const *r,
 	int n, col, row, start_col, end_col;
 	StyleRow sr;
 	StyleBorderLocation i;
-	UniformStyleClosure closure;
 	gboolean known [STYLE_BORDER_EDGE_MAX];
 	StyleBorder const *none = style_border_none ();
 
@@ -1350,10 +1326,9 @@ sheet_style_get_uniform	(Sheet const *sheet, Range const *r,
 			known [i] = TRUE;
 	}
 
-	closure.result = *style;
 	foreach_tile (sheet->style_data->styles,
 		      TILE_TOP_LEVEL, 0, 0, r,
-		      cb_filter_style, &closure);
+		      cb_filter_style, *style);
 
 	/* copy over the diagonals */
 	for (i = STYLE_BORDER_REV_DIAG ; i <= STYLE_BORDER_DIAG ; i++)
