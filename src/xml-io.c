@@ -3688,6 +3688,11 @@ xml_workbook_write (XmlParseContext *ctxt)
 			CC2XML ("schemaLocation"),
 			CC2XML ("http://www.gnumeric.org/v8.xsd"));
 	}
+	child = xmlNewChild (cur, ctxt->ns, CC2XML ("Version"), NULL);
+	xml_node_set_int (child, "Epoch", GNM_VERSION_EPOCH);
+	xml_node_set_int (child, "Major", GNM_VERSION_MAJOR);
+	xml_node_set_int (child, "Minor", GNM_VERSION_MINOR);
+	xml_node_set_cstr (child, "Full", GNUMERIC_VERSION);
 
 	old_num_locale = g_strdup (gnm_setlocale (LC_NUMERIC, NULL));
 	gnm_setlocale (LC_NUMERIC, "C");

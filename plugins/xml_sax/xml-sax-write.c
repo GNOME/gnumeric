@@ -108,6 +108,17 @@ xml_write_attribute (GnmOutputXML *state, char const *name, char const *value)
 }
 
 static void
+xml_write_version (GnmOutputXML *state)
+{
+	gsf_xml_out_start_element (state->output, GMR "Version");
+	gsf_xml_out_add_int (state->output, "Epoch", GNM_VERSION_EPOCH);
+	gsf_xml_out_add_int (state->output, "Major", GNM_VERSION_MAJOR);
+	gsf_xml_out_add_int (state->output, "Minor", GNM_VERSION_MINOR);
+	gsf_xml_out_add_cstr_unchecked (state->output, "Full", GNUMERIC_VERSION);
+	gsf_xml_out_end_element (state->output); /* </Version> */
+}
+
+static void
 xml_write_attributes (GnmOutputXML *state)
 {
 	gsf_xml_out_start_element (state->output, GMR "Attributes");
@@ -1165,6 +1176,7 @@ xml_sax_file_save (GnmFileSaver const *fs, IOContext *io_context,
 	gsf_xml_out_add_cstr_unchecked (state.output, "xsi:schemaLocation",
 		"http://www.gnumeric.org/v8.xsd");
 
+	xml_write_version	    (&state);
 	xml_write_attributes	    (&state);
 	xml_write_summary	    (&state);
 	xml_write_conventions	    (&state);
