@@ -3624,7 +3624,7 @@ static char const *help_mduration = {
 	   "* If @frequency is other than 1, 2, or 4, MDURATION returns #NUM! "
 	   "error.\n"
 	   "* If @basis is omitted, MSRB 30/360 is applied.\n"
-	   "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
+	   "* If @basis is invalid, #NUM! error is returned.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
