@@ -848,6 +848,9 @@ msgid ""
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
 "two-tail/t Critical two-tail"
 msgstr ""
+"/Gennemsnit/Varians/Pearson korrelation/Hypotetisk gennemsnitsdifference/"
+"fg/t værdi/P (T<=t) ensidet/t kritisk værdi ensidet/P (T<=t) tosidet/"
+"t kritisk tosidet"
 
 #: src/analysis-tools.c:1416
 msgid ""
@@ -855,12 +858,18 @@ msgid ""
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
 "two-tail/t Critical two-tail"
 msgstr ""
+"/Gennemsnit/Varians/Observationer/Samlet varians/Hypotetisk gennemsnitsdifference/"
+"fg/t værdi/P (T<=t) ensidet/t kritisk værdi ensidet/P (T<=t) tosidet/"
+"t kritisk tosidet"
 
 #: src/analysis-tools.c:1533
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/df/t Stat/P (T<=t) "
 "one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr ""
+"/Gennemsnit/Varians/Observationer/Hypotetisk gennemsnitsdifference/"
+"fg/t værdi/P (T<=t) ensidet/t kritisk værdi ensidet/P (T<=t) tosidet/"
+"t kritisk tosidet"
 
 #: src/analysis-tools.c:1625
 msgid "F-Test"
@@ -868,7 +877,7 @@ msgstr "F-test"
 
 #: src/analysis-tools.c:1652
 msgid "/Mean/Variance/Observations/df/F/P (F<=f) one-tail/F Critical one-tail"
-msgstr ""
+msgstr "/Gennemsnit/Varians/Observationer/fg/P (F<=f) ensidet/F kritisk værdi ensidet"
 
 #: src/analysis-tools.c:1732 src/dialogs/dialog-analysis-tools.c:411
 msgid "Random"
@@ -892,6 +901,8 @@ msgid ""
 "Square/Standard "
 "Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
+"SUMMARISK UDDATA"//Regression statistik/Multipel R/R2/Justeret R2/"
+"Standardfejl/Observationer//ANOVA//Regression/Residual/Total///Sammenfald"
 
 #: src/analysis-tools.c:1983
 #, c-format
@@ -904,7 +915,7 @@ msgstr "/fg/SS/MS/F/Signifikans F"
 
 #: src/analysis-tools.c:1991
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower 95%/Upper 95%"
-msgstr "/Koefficienter/Standardfejl/t-værdi/P-værdi/ndere 95%/Øvre 95%"
+msgstr "/Koefficienter/Standardfejl/t-værdi/P-værdi/nedre 95%/Øvre 95%"
 
 #: src/analysis-tools.c:2184
 msgid "Moving Averages"
@@ -951,7 +962,7 @@ msgstr "/ANOVA/Kilde til variation/Mellem grupper/Indenfor grupper/Total"
 
 #: src/analysis-tools.c:2468 src/analysis-tools.c:2661
 msgid "/SS/df/MS/F/P-value/F critical"
-msgstr ""
+msgstr "/SS/fg/MS/F/P-værdi/F kritisk værdi"
 
 #: po/tmp/analysis-tools.glade.h:10 src/analysis-tools.c:2558
 #: src/dialogs/dialog-analysis-tools.c:87
@@ -960,7 +971,7 @@ msgstr "Anova: Tofaktor uden replikering"
 
 #: src/analysis-tools.c:2559
 msgid "/SUMMARY/Count/Sum/Average/Variance"
-msgstr ""
+msgstr "OVERSIGT/Antal/Sum/Gennemsnit/Varians"
 
 #: src/analysis-tools.c:2655
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
