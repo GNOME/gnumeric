@@ -43,6 +43,9 @@
 #ifdef HAVE_LANGINFO_H
 #    include <langinfo.h>
 #endif
+#ifdef G_OS_WIN32
+#include <windows.h>
+#endif
 
 #undef DEBUG_REF_COUNT
 
@@ -212,6 +215,12 @@ format_month_before_day (void)
 	}
 
 	return month_first;
+#elif defined(G_OS_WIN32)
+	TCHAR str[2];
+
+	GetLocaleInfo (LOCALE_USER_DEFAULT, LOCALE_IDATE, str, 2);
+
+	return str[0] != L'1';
 #else
 	static gboolean warning = TRUE;
 	if (warning) {

@@ -1,3 +1,8 @@
+2004-12-29  Morten Welinder  <terra@gnome.org>
+
+	* src/format.c (format_month_before_day): Add Win32 version.
+	(#161793, Ivan Wong.)
+
 2004-12-22  Morten Welinder  <terra@gnome.org>
 
 	* src/libgnumeric.h (gnumeric_popt_options): remove from here.
