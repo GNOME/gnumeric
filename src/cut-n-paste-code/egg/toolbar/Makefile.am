@@ -23,3 +23,5 @@ noinst_HEADERS = \
   test-toolbar.c \
   prop-editor.c \
   prop-editor.h
+
+  $(top_builddir)/libegg/toolbar/libegg-toolbar.a

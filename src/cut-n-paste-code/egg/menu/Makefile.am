@@ -28,3 +28,6 @@ noinst_HEADERS = \
   egg-markup.h \
   egg-menu-merge.h \
   egg-accel-dialog.h
+
+
+

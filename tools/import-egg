@@ -43,7 +43,7 @@ sub copy_subsystem {
 	next if /^test_/;
 	next if /^noinst_PROGRAMS/;
 
-	s/EGG_CFLAGS/GNUMERIC_CFLAGS/;
+	s|\$\(EGG_CFLAGS\)|\$\(GNUMERIC_CFLAGS\) -I\$\(top_srcdir\)/src|;
 	s/\s*\$\(EGG_LIBS\)/ /;
 
 	if (/^[a-zA-Z0-9_]+_(HEADERS|la_SOURCES)\s*=/ ... !/\\\s*$/) {
@@ -57,12 +57,23 @@ sub copy_subsystem {
 
 	s/LTLIBRARIES/LIBRARIES/;
 	s/_la_/_a_/;
+	s/\.la/\.a/;
 
 	print DST;
     }
     close (*SRC);
     close (*DST);
     &update_file ("$dstdir/Makefile.am");
+
+    open (DST, ">$dstdir/.cvsignore.new") or
+	die "$0: Cannot write $dstdir/.cvsignore.new: $!\n";
+    print STDERR "Creating $dstdir/.cvsignore...";
+    print DST "Makefile.in\n";
+    print DST "Makefile\n";
+    print DST ".deps\n";
+    print DST ".libs\n";
+    close (*DST);
+    &update_file ("$dstdir/.cvsignore");
 
     foreach my $file (@sources) {
 	local (*SRC,*DST);
