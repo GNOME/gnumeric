@@ -4,15 +4,14 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- Changing an expression name that is in use causes a crash.
 - Changing the size of all rows/cols creates big xml files.
-- Click-and-release on the border of a selection causes an empty "moving
-  cells" undo record.
 - Saving xml should not rely on changing the textdomain to disable translation
   of TRUE/FALSE.
 
 Long term breakage
 ------------------
+- Changing an expression name that is in use does not recalc, or regen depends
+  correctly.
 - The max row/col canvas scroll size is still hard coded.
 
 - Increase/Decrease precision toolbar buttons should look at the displayed

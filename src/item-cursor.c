@@ -19,6 +19,7 @@
 #include "gnumeric-util.h"
 #include "cmd-edit.h"
 #include "commands.h"
+#include "ranges.h"
 
 static GnomeCanvasItem *item_cursor_parent_class;
 
@@ -701,6 +702,10 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 	Sheet *sheet = item_cursor->sheet_view->sheet;
 	Workbook *wb = sheet->workbook;
 	PasteTarget pt;
+	Range const *target = selection_first_range (sheet, FALSE);
+
+	if (target != NULL && range_equal (target, &item_cursor->pos))
+		return;
 
 	switch (action){
 	case ACTION_NONE:

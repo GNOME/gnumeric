@@ -1,5 +1,8 @@
 2000-07-06  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-cursor.c (item_cursor_do_action) : Do not do anything if we
+	  have not moved.
+
 	* src/sheet-style.c (sheet_style_compute_from_list) : Make public.
 	  and rename from sheet_mstyle_compute_from_list.  Changed all
 	  callers.
