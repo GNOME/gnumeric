@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <plugin id="GOffice_plot_xy">
 	<information>
 		<_name>XY Charts</_name>
@@ -11,6 +10,11 @@
 		<service type="plot_engine" id="GogXYPlot">
 			<information>
 				<_description>2D scatter plotting engine</_description>
+			</information>
+		</service>
+		<service type="plot_engine" id="GogBubblePlot">
+			<information>
+				<_description>Bubble plotting engine</_description>
 			</information>
 		</service>
 		<service type="plot_type" id="plot_xy">

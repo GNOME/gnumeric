@@ -34,15 +34,35 @@ typedef struct {
 		double minima, maxima;
 		GOFormat *fmt;
 	} x, y;
+} Gog2DPlot;
+
+typedef struct {
+	Gog2DPlot	base;
 	gboolean	default_style_has_markers;
 	gboolean	default_style_has_lines;
 } GogXYPlot;
+
+typedef struct {
+	Gog2DPlot	base;
+} GogBubblePlot;
+
+#define GOG_2D_PLOT_TYPE	(gog_2d_plot_get_type ())
+#define GOG_2D_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_2D_PLOT_TYPE, Gog2DPlot))
+#define GOG_IS_2D_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_2D_PLOT_TYPE))
+
+GType gog_2d_plot_get_type (void);
 
 #define GOG_XY_PLOT_TYPE	(gog_xy_plot_get_type ())
 #define GOG_XY_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_XY_PLOT_TYPE, GogXYPlot))
 #define GOG_IS_XY_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XY_PLOT_TYPE))
 
 GType gog_xy_plot_get_type (void);
+
+#define GOG_BUBBLE_PLOT_TYPE	(gog_bubble_plot_get_type ())
+#define GOG_BUBBLE_PLOT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_BUBBLE_PLOT_TYPE, GogBubblePlot))
+#define GOG_IS_BUBBLE_PLOT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_XY_PLOT_TYPE))
+
+GType gog_bubble_plot_get_type (void);
 
 typedef struct {
 	GogSeries base;
