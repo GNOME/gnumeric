@@ -28,6 +28,7 @@
 #include <gui-util.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkcombobox.h>
+#include <gtk/gtkvbox.h>
 
 /*************************************************************************************************
  * MISC UTILITY FUNCTIONS
@@ -367,6 +368,7 @@ format_page_update_preview (StfDialogData *pagedata)
 	int i;
 	int col_import_array_len_old, old_part;
 	GStringChunk *lines_chunk;
+	char *msg = NULL;
 
 	stf_preview_colformats_clear (renderdata);
 	for (ui = 0; ui < pagedata->format.formats->len; ui++) {
@@ -405,7 +407,12 @@ format_page_update_preview (StfDialogData *pagedata)
 		}
 
 	format_page_update_column_selection (pagedata);
-		
+	
+	if (old_part < renderdata->colcount)
+		msg = g_strdup_printf 
+			(_("A maximum of %d columns can be imported."), 
+			 SHEET_MAX_COLS);
+
 	for (i = old_part; i < renderdata->colcount; i++) {
 		GtkTreeViewColumn *column =
 			stf_preview_get_column (renderdata, i);
@@ -436,9 +443,7 @@ format_page_update_preview (StfDialogData *pagedata)
 			gtk_tooltips_set_tip (renderdata->tooltips, check,
 					      _("If this checkbox is selected, the "
 						"column will be imported into "
-						"Gnumeric."),
-					      _("At most 256 columns can be imported "
-						"at one time."));
+						"Gnumeric."), msg);
 			g_object_set_data (G_OBJECT (check), "pagedata", pagedata);
 			gtk_box_pack_start (GTK_BOX(box), check, FALSE, FALSE, 0);
 			gtk_box_pack_start (GTK_BOX(box), label, TRUE, TRUE, 0);
@@ -468,6 +473,8 @@ format_page_update_preview (StfDialogData *pagedata)
 					  GINT_TO_POINTER (i));
 		}
 	}
+	if (msg != NULL)
+		g_free (msg);
 }
 
 /*************************************************************************************************

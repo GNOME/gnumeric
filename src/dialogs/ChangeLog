@@ -1,3 +1,9 @@
+2004-10-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=156531
+	* dialog-stf-format-page.c (format_page_update_preview): don't 
+	  hardcode maximum number of permissible columns.
+
 2004-10-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=154140
