@@ -1628,12 +1628,12 @@ workbook_can_detach_sheet (Workbook *wb, Sheet *sheet)
 {
 	GList *dependency_list;
 
-	g_return_if_fail (wb != NULL);
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (sheet->workbook != NULL);
-	g_return_if_fail (sheet->workbook == wb);
-	g_return_if_fail (workbook_sheet_lookup (wb, sheet->name) == sheet);
+	g_return_val_if_fail (wb != NULL, FALSE);
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	g_return_val_if_fail (sheet->workbook != NULL, FALSE);
+	g_return_val_if_fail (sheet->workbook == wb, FALSE);
+	g_return_val_if_fail (workbook_sheet_lookup (wb, sheet->name) == sheet, FALSE);
 
 	dependency_list = region_get_dependencies (sheet, 0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS);
 	if (dependency_list == NULL)

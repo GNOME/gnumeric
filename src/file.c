@@ -240,6 +240,8 @@ insure_saver (FileSaver *current)
 	for (l = gnumeric_file_savers; l; l = l->next){
 		return l->data;
 	}
+	g_assert_not_reached ();
+	return NULL;
 }
 
 void
