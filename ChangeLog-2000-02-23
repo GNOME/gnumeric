@@ -1,3 +1,9 @@
+1999-07-29  Morten Welinder  <terra@diku.dk>
+
+	* src/print-info.h (hf_formats): Make extern.
+
+	* src/summary.h (summary_item_name): Make extern.
+
 1999-07-29  Michael Meeks  <michael@edenproject.org>
 
 	* src/cell.c (cell_set_text_simple): Chomp whitespace off the

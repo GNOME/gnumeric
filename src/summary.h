@@ -29,7 +29,7 @@ typedef enum { SUMMARY_I_TITLE,
 	       SUMMARY_I_MAX } SummaryItemBuiltin;
 
 /* Builtin names: use summary_item_name[SUMMARY_I_TITLE] */
-gchar *summary_item_name[SUMMARY_I_MAX];
+extern gchar *summary_item_name[SUMMARY_I_MAX];
 
 /*
  *  Each Summary Item has a name it is hashed on,

@@ -131,7 +131,7 @@ double      unit_convert             (double value, UnitName source, UnitName ta
 UnitName    unit_name_to_unit        (const char *s);
 
 /* Formats known */
-GList *hf_formats;
+extern GList *hf_formats;
 
 #endif
 
