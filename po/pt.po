@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2002-01-30 22:58-0500\n"
-"PO-Revision-Date: 2002-01-30 00:35+0000\n"
+"POT-Creation-Date: 2002-02-28 01:14+0000\n"
+"PO-Revision-Date: 2002-02-28 01:35+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <none@none.org>\n"
 "MIME-Version: 1.0\n"
@@ -422,7 +422,7 @@ msgstr ""
 "opt_bs_gamma"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4524
-#: plugins/mps/mps.c:579 src/xml-io.c:3378
+#: plugins/mps/mps.c:579 src/xml-io.c:3379
 msgid "Reading file..."
 msgstr "A ler ficheiro..."
 
@@ -477,7 +477,7 @@ msgstr "Erro ao ler ficheiro DIF."
 msgid "Cannot get default sheet."
 msgstr "Incapaz de obter folha de defeito."
 
-#: plugins/dif/dif.c:398
+#: plugins/dif/dif.c:399
 msgid "Error while saving DIF file."
 msgstr "Erro ao gravar ficheiro DIF."
 
@@ -795,7 +795,7 @@ msgstr "Restrições:"
 #: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:10
 #: src/format-template.c:510 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
-#: src/workbook-control.c:233
+#: src/workbook-control.c:234
 msgid "Name"
 msgstr "Nome"
 
@@ -1784,7 +1784,7 @@ msgstr "Texto"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formatar uma região de células de acordo com um modelo pré-definido"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4078
+#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4094
 #: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3038
 msgid "Fourier Analysis"
 msgstr "Análise Fourier"
@@ -2773,12 +2773,12 @@ msgstr "Livro de _Trabalho..."
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: src/analysis-tools.c:195 src/analysis-tools.c:3218
+#: src/analysis-tools.c:195 src/analysis-tools.c:3234
 #, c-format
 msgid "Row %i"
 msgstr "Linha %i"
 
-#: src/analysis-tools.c:198 src/analysis-tools.c:3210
+#: src/analysis-tools.c:198 src/analysis-tools.c:3226
 #, c-format
 msgid "Column %i"
 msgstr "Coluna %i"
@@ -2982,111 +2982,111 @@ msgid "Rank"
 msgstr "Classe"
 
 #. We are ready to create the summary table
-#: src/analysis-tools.c:2828 src/analysis-tools.c:3008
-#: src/analysis-tools.c:3270
+#: src/analysis-tools.c:2829 src/analysis-tools.c:3024
+#: src/analysis-tools.c:3286
 msgid "Anova"
 msgstr "Anova"
 
-#: src/analysis-tools.c:2830
+#: src/analysis-tools.c:2831
 msgid "Anova: Single Factor"
 msgstr "Anova: Factor Único"
 
-#: src/analysis-tools.c:2831 src/analysis-tools.c:3273
+#: src/analysis-tools.c:2832 src/analysis-tools.c:3289
 msgid "SUMMARY"
 msgstr "RESUMO"
 
-#: src/analysis-tools.c:2832
+#: src/analysis-tools.c:2833
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupos/Contagem/Soma/Média/Variância"
 
-#: src/analysis-tools.c:2895
+#: src/analysis-tools.c:2889
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Fonte da Variância/Entre Grupos/Dentro Grupos/Total"
 
-#: src/analysis-tools.c:2900 src/analysis-tools.c:3090
-#: src/analysis-tools.c:3297
+#: src/analysis-tools.c:2894 src/analysis-tools.c:3106
+#: src/analysis-tools.c:3313
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-valor/F crítico"
 
-#: src/analysis-tools.c:3014
+#: src/analysis-tools.c:3030
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Dois-Factores Sem Replicação"
 
-#: src/analysis-tools.c:3015
+#: src/analysis-tools.c:3031
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/RESUMO/Contagem/Soma/Média/Variância"
 
-#: src/analysis-tools.c:3084
+#: src/analysis-tools.c:3100
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Fonte da Variância/Linhas/Colunas/Erro/Total"
 
-#: src/analysis-tools.c:3272
+#: src/analysis-tools.c:3288
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Dois-Factores Com Replicação"
 
-#: src/analysis-tools.c:3277 src/analysis-tools.c:3287
-#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:74
+#: src/analysis-tools.c:3293 src/analysis-tools.c:3303
+#: src/analysis-tools.c:3311 src/dialogs/dialog-autoformat.c:74
 #: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr "Total"
 
-#: src/analysis-tools.c:3279
+#: src/analysis-tools.c:3295
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Contagem/Soma/Média/Variância"
 
-#: src/analysis-tools.c:3289
+#: src/analysis-tools.c:3305
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Fonte da Variância/Linhas/Colunas/Interacção/Entre"
 
-#: src/analysis-tools.c:3757
+#: src/analysis-tools.c:3773
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/analysis-tools.c:3761
+#: src/analysis-tools.c:3777
 msgid "Too Small"
 msgstr "Demasiado Pequeno"
 
-#: src/analysis-tools.c:3778
+#: src/analysis-tools.c:3794
 msgid "More"
 msgstr "Mais"
 
-#: src/analysis-tools.c:3786
+#: src/analysis-tools.c:3802
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/analysis-tools.c:3790
+#: src/analysis-tools.c:3806
 msgid "Too Large"
 msgstr "Demasiado Grande"
 
-#: src/analysis-tools.c:3831 src/dialogs/histogram.glade.h:7
+#: src/analysis-tools.c:3847 src/dialogs/histogram.glade.h:7
 msgid "Histogram"
 msgstr "Histograma"
 
-#: src/analysis-tools.c:3836
+#: src/analysis-tools.c:3852
 msgid "Bin"
 msgstr "Bin"
 
-#: src/analysis-tools.c:3861
+#: src/analysis-tools.c:3877
 msgid "Frequency"
 msgstr "Frequência"
 
-#: src/analysis-tools.c:3863 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3879 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3866
+#: src/analysis-tools.c:3882
 #, no-c-format
 msgid "Cumulative %"
 msgstr "% Cumulativa"
 
-#: src/analysis-tools.c:4098
+#: src/analysis-tools.c:4114
 msgid "Real"
 msgstr "Real"
 
-#: src/analysis-tools.c:4099
+#: src/analysis-tools.c:4115
 msgid "Imaginary"
 msgstr "Imaginário"
 
@@ -3095,7 +3095,7 @@ msgstr "Imaginário"
 msgid "Error '%s' opening workbook stream"
 msgstr "Erro '%s' ao abrir fluxo de livro de trabalho"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3401
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3402
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ficheiro xml inválido. Árvore está vazia ?"
 
@@ -6769,7 +6769,7 @@ msgid "Scale"
 msgstr "Escala"
 
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3086
+#: src/workbook.c:1065 src/xml-io.c:3087
 msgid "Sheet"
 msgstr "Folha"
 
@@ -7494,23 +7494,23 @@ msgstr "já definido globalmente "
 msgid "'%s' has a circular reference"
 msgstr "'%s' tem uma referência circular"
 
-#: src/expr-name.c:415
+#: src/expr-name.c:418
 msgid "Builtin"
 msgstr "Interno"
 
-#: src/expr-name.c:515 src/expr-name.c:527
+#: src/expr-name.c:518 src/expr-name.c:530
 msgid "Error: no sheet"
 msgstr "Erro: nenhuma folha"
 
-#: src/expr.c:551
+#: src/expr.c:557
 msgid "Internal type error"
 msgstr "Erro de tipo interno"
 
-#: src/expr.c:730
+#: src/expr.c:736
 msgid "Unknown operator"
 msgstr "Operador desconhecido"
 
-#: src/expr.c:959
+#: src/expr.c:965
 msgid "Unknown evaluation error"
 msgstr "Erro de avaliação desconhecido"
 
@@ -15074,62 +15074,60 @@ msgstr ""
 
 #: src/functions/fn-math.c:1235
 msgid ""
-"@FUNCTION=RandExp\n"
-"@SYNTAX=RandExp(b)\n"
-"@DESCRIPTION=RandExp returns a exponentially distributed random number. \n"
+"@FUNCTION=RANDEXP\n"
+"@SYNTAX=RANDEXP(b)\n"
+"@DESCRIPTION=RANDEXP returns a exponentially-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandExp(0.5).\n"
+"RANDEXP(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=RandExp\n"
-"@SYNTAX=RandExp(b)\n"
-"@DESCRIPTION=RandExp devolve um número aleatório exponencialmente "
-"distribuido. \n"
+"@FUNCTION=RANDEXP\n"
+"@SYNTAX=RANDEXP(b)\n"
+"@DESCRIPTION=RANDEXP devolve um número aleatório distribuido exponencialmente. \n"
 "@EXAMPLES=\n"
-"RandExp(0.5).\n"
+"RANDEXP(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1258
 msgid ""
-"@FUNCTION=RandPoisson\n"
-"@SYNTAX=RandPoisson(lambda)\n"
-"@DESCRIPTION=RandPoisson returns a poisson distributed random number. \n"
+"@FUNCTION=RANDPOISSON\n"
+"@SYNTAX=RANDPOISSON(lambda)\n"
+"@DESCRIPTION=RANDPOISSON returns a poisson-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandPoisson(3).\n"
+"RANDPOISSON(3).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=RandPoisson\n"
-"@SYNTAX=RandPoisson(lambda)\n"
-"@DESCRIPTION=RandPoisson devolve um número aleatório distribuido segundo "
+"@FUNCTION=RANDPOISSON\n"
+"@SYNTAX=RANDPOISSON(lambda)\n"
+"@DESCRIPTION=RANDPOISSON devolve um número aleatório distribuido segundo "
 "poisson. \n"
 "@EXAMPLES=\n"
-"RandPoisson(3).\n"
+"RANDPOISSON(3).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1284
 msgid ""
-"@FUNCTION=RandBinom\n"
-"@SYNTAX=RandBinom(p,trials)\n"
-"@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
-"If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 RandBinom "
+"@FUNCTION=RANDBINOM\n"
+"@SYNTAX=RANDBINOM(p,trials)\n"
+"@DESCRIPTION=RANDBINOM returns a binomially-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBINOM returns #NUM! error. If @trials < 0 RANDBINOM "
 "returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBinom(0.5,2).\n"
+"RANDBINOM(0.5,2).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=RandBinom\n"
-"@SYNTAX=RandBinom(p,tentativas)\n"
-"@DESCRIPTION=RandBinom devolve um número aleatório distribuido "
-"binomialmente. \n"
-"Se @p < 0 ou @p > 1 RandBinom devolve o erro #NUM!. Se @tentativas < 0 "
-"RandBinom devolve o erro #NUM!. \n"
+"@FUNCTION=RANDBINOM\n"
+"@SYNTAX=RANDBINOM(p,tentativas)\n"
+"@DESCRIPTION=RANDBINOM devolve um número aleatório distribuido binomialmente. \n"
+"Se @p < 0 ou @p > 1, RANDBINOM devolve o erro #NUM!. Se @tentativas < 0 "
+"RANDBINOM devolve o erro #NUM!. \n"
 "@EXAMPLES=\n"
-"RandBinom(0.5,2).\n"
+"RANDBINOM(0.5,2).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
@@ -15137,7 +15135,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
-"@DESCRIPTION=RANDNEGBINOM returns a negitive binomialy distributed random "
+"@DESCRIPTION=RANDNEGBINOM returns a negative binomially-distributed random "
 "number. \n"
 "If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. If @failures "
 "RANDNEGBINOM returns #NUM! error. \n"
@@ -15159,22 +15157,22 @@ msgstr ""
 
 #: src/functions/fn-math.c:1345
 msgid ""
-"@FUNCTION=RandBernoulli\n"
-"@SYNTAX=RandBernoulli(p)\n"
-"@DESCRIPTION=RandBernoulli returns a Bernoulli distributed random number. \n"
-"If @p < 0 or @p > 1 RandBernoulli returns #NUM! error. \n"
+"@FUNCTION=RANDBERNOULLI\n"
+"@SYNTAX=RANDBERNOULLI(p)\n"
+"@DESCRIPTION=RANDBERNOULLI returns a Bernoulli-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBernoulli(0.5).\n"
+"RANDBERNOULLI(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=RandBernoulli\n"
-"@SYNTAX=RandBernoulli(p)\n"
-"@DESCRIPTION=RandBernoulli devolve um número aleatório distribuido segundo "
+"@FUNCTION=RANDBERNOULLI\n"
+"@SYNTAX=RANDBERNOULLI(p)\n"
+"@DESCRIPTION=RANDBERNOULLI devolve um número aleatório distribuido segundo "
 "Bernoulli. \n"
-"Se @p < 0 ou @p > 1 RandBernoulli devolve o erro #NUM!. \n"
+"Se @p < 0 ou @p > 1 RANDBERNOULLI devolve o erro #NUM!. \n"
 "@EXAMPLES=\n"
-"RandBernoulli(0.5).\n"
+"RANDBERNOULLI(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
@@ -19710,7 +19708,7 @@ msgstr "Erro ao abrir o ficheiro \"%s\" para leitura."
 msgid "Unable to mmap the file."
 msgstr "Incapaz de fazer mmap do ficheiro."
 
-#: src/plugin-util.c:318 src/xml-io.c:3367
+#: src/plugin-util.c:318 src/xml-io.c:3368
 msgid "Cannot get file size."
 msgstr "Incapaz de obter tamanho de ficheiro."
 
@@ -20294,17 +20292,17 @@ msgstr "Erro de parseamento ao tentar parsear os dados para a folha"
 msgid "Error while trying to write csv file"
 msgstr "Erro ao tentar encontrar o ficheiro csv"
 
-#: src/stf.c:438
-msgid "Text File import (customizable)"
-msgstr "Importação Ficheiro texto (csv customizado)"
+#: src/stf.c:439
+msgid "Text import (defaults to csv)"
+msgstr "Importação texto (defeito é csv)"
 
-#: src/stf.c:441
-msgid "Text File import (default csv)"
-msgstr "Importação Ficheiro texto (csv defeito)"
+#: src/stf.c:443
+msgid "Text import (configurable)"
+msgstr "Importação texto (configurável)"
 
-#: src/stf.c:446
-msgid "Text File Export (*.csv)"
-msgstr "Exportação Ficheiro texto (*.csv)"
+#: src/stf.c:447
+msgid "Text export (configurable)"
+msgstr "Exportação texto (configurável)"
 
 #: src/style.c:265 src/style.c:267
 msgid "<Has not been set>"
@@ -20365,32 +20363,42 @@ msgstr "O seu ficheiro fontmap2 não tem uma entrada válida para Helvetica."
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "O seu ficheiro fontmap2 não foi encontrado na localização esperada."
 
-#: src/validation.c:138
+#: src/validation.c:137
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Não é permitido que a célula %s seja vazia"
 
-#: src/validation.c:158
+#: src/validation.c:151
 #, c-format
 msgid "'%f' is not an integer"
 msgstr "'%f' não é um inteiro"
 
-#: src/validation.c:168
+#: src/validation.c:161
 #, c-format
-msgid "'%f' is not a number"
-msgstr "'%f' não é um número"
+msgid "'%s' is an error"
+msgstr "'%s' é um erro"
 
-#: src/validation.c:175
+#: src/validation.c:169
+#, c-format
+msgid "'%s' is not a valid date"
+msgstr "'%s' não é uma data válida"
+
+#: src/validation.c:171
+#, c-format
+msgid "'%s' is not a valid time"
+msgstr "'%s' não é uma hora válida"
+
+#: src/validation.c:173
 #, c-format
 msgid "'%s' is not a number"
 msgstr "'%s' não é um número"
 
-#: src/validation.c:259
+#: src/validation.c:265
 #, c-format
 msgid "%s is not true."
 msgstr "%s não é verdade."
 
-#: src/validation.c:272
+#: src/validation.c:278
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -20398,7 +20406,7 @@ msgstr ""
 "Esse valor é inválido.\n"
 "Foram colocadas restrições ao conteudo desta célula."
 
-#: src/validation.c:279
+#: src/validation.c:285
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric : Validação"
 
@@ -20731,7 +20739,7 @@ msgstr "OK"
 msgid "Define Name"
 msgstr "Definir Nomes"
 
-#: src/workbook-control.c:240
+#: src/workbook-control.c:241
 msgid "Address"
 msgstr "Endereço"
 
@@ -20991,32 +20999,60 @@ msgstr ""
 "Erro ao tentar construir árvore a partir do ficheiro de modelo de auto-"
 "formatação"
 
-#: src/xml-io.c:2799
+#: src/xml-io.c:2800
 msgid "Unparsable xml in clipboard"
 msgstr "XML inparseável na área de transferência"
 
-#: src/xml-io.c:2806
+#: src/xml-io.c:2807
 msgid "Clipboard is in unknown format"
 msgstr "Área de transferência tem formato desconhecido"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3212
+#: src/xml-io.c:3213
 msgid "Processing file..."
 msgstr "A processar ficheiro..."
 
-#: src/xml-io.c:3375
+#: src/xml-io.c:3376
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Memória insuficiente para criar o estado de descompressão zlib."
 
-#: src/xml-io.c:3410
+#: src/xml-io.c:3411
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Não é um ficheiro Livro de Trabalho Gnumeric"
 
-#: src/xml-io.c:3467
+#: src/xml-io.c:3468
 msgid "Gnumeric XML file format"
 msgstr "Formato de ficheiro XML Gnumeric"
+
+#~ msgid ""
+#~ "@FUNCTION=RandBinom\n"
+#~ "@SYNTAX=RandBinom(p,trials)\n"
+#~ "@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
+#~ "If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 "
+#~ "RandBinom returns #NUM! error. \n"
+#~ "@EXAMPLES=\n"
+#~ "RandBinom(0.5,2).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+#~ msgstr ""
+#~ "@FUNCTION=RandBinom\n"
+#~ "@SYNTAX=RandBinom(p,tentativas)\n"
+#~ "@DESCRIPTION=RandBinom devolve um número aleatório distribuido "
+#~ "binomialmente. \n"
+#~ "Se @p < 0 ou @p > 1 RandBinom devolve o erro #NUM!. Se @tentativas < 0 "
+#~ "RandBinom devolve o erro #NUM!. \n"
+#~ "@EXAMPLES=\n"
+#~ "RandBinom(0.5,2).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+
+#~ msgid "Text File Export (*.csv)"
+#~ msgstr "Exportação Ficheiro texto (*.csv)"
+
+#~ msgid "'%f' is not a number"
+#~ msgstr "'%f' não é um número"
 
 #~ msgid "_Data Analysis..."
 #~ msgstr "Análise de _Dados..."
