@@ -245,10 +245,12 @@ gog_plot_type_service_finalize (GObject *obj)
 
 	for (ptr = service->families ; ptr != NULL ; ptr = ptr->next) {
 	}
+	g_slist_free (service->families);
 	service->families = NULL;
 
 	for (ptr = service->types ; ptr != NULL ; ptr = ptr->next) {
 	}
+	g_slist_free (service->types);
 	service->types = NULL;
 
 	(plot_type_parent_klass->finalize) (obj);

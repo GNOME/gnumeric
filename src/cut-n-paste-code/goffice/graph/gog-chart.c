@@ -37,6 +37,7 @@ enum {
 };
 
 static GType gog_chart_view_get_type (void);
+static GObjectClass *chart_parent_klass;
 
 static char const *
 gog_chart_type_name (GogObject const *obj)
@@ -75,6 +76,17 @@ role_plot_pre_remove (GogObject *parent, GogObject *plot)
 }
 
 static void
+gog_chart_finalize (GObject *obj)
+{
+	GogChart *chart = GOG_CHART (obj);
+
+	/* on exit the role remove routines are not called */
+	g_slist_free (chart->plots);
+
+	(chart_parent_klass->finalize) (obj);
+}
+
+static void
 gog_chart_get_property (GObject *obj, guint param_id,
 			GValue *value, GParamSpec *pspec)
 {
@@ -106,6 +118,8 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 	};
 	GObjectClass *gobject_klass = (GObjectClass *)gog_klass;
 
+	chart_parent_klass = g_type_class_peek_parent (gog_klass);
+	gobject_klass->finalize = gog_chart_finalize;
 	gobject_klass->get_property = gog_chart_get_property;
 	g_object_class_install_property (gobject_klass, CHART_PROP_CARDINALITY_VALID,
 		g_param_spec_boolean ("cardinality-valid", "cardinality-valid",

@@ -106,6 +106,9 @@ gog_graph_finalize (GObject *obj)
 	g_slist_foreach (tmp, (GFunc) g_object_unref, NULL);
 	g_slist_free (tmp);
 
+	/* on exit the role remove routines are not called */
+	g_slist_free (graph->charts);
+
 	if (graph->idle_handler != 0) {
 		g_source_remove (graph->idle_handler);
 		graph->idle_handler = 0;

@@ -1,5 +1,10 @@
 2003-06-25  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-plot-engine.c (gog_plot_type_service_finalize) : still
+	  incomplete, but the lists definitely need to be freed.
+
+2003-06-25  Jody Goldberg <jody@gnome.org>
+
 	* graph/gog-data-allocator.c (gog_dataset_get_type) : fix
 	  cut-n-paste-o.
 
