@@ -1,3 +1,7 @@
+1999-06-08  David Chan <dpc29@hermes.cam.ac.uk>
+
+	* src/fn-math.c (gcd): Correct.
+
 1999-06-08  Morten Welinder  <terra@diku.dk>
 
 	* src/file.c (workbook_read): Temporarily switch to "C" locale

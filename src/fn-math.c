@@ -37,30 +37,19 @@ static char *help_ = {
 #endif
 
 static int
-gcd(int a, int b)
+gcd (int a, int b)
 {
-        int ri, ri_1, ri_2, qi;
+	/* Euclid's Algorithm.	Assumes non-negative numbers.  */
 
-	if (b == 0)
-	        return a;
+	while (b != 0) {
+		int r;
 
-	qi = a/b;
-	ri_2 = a - qi*b;
-
-	if (ri_2 == 0)
-	        return 1;
-
-	qi = b/ri_2;
-	ri = ri_1 = b - qi*ri_2;
-
-	while (ri > 0) {
-	        qi = ri_2/ri_1;
-		ri = ri_2 - qi*ri_1;
-		ri_2 = ri_1;
-		ri_1 = ri;
+		r = a - (a / b) * b;	/* r = remainder from
+					 * dividing a by b	*/
+		a = b;
+		b = r;
 	}
-
-	return ri_2;
+	return a;
 }
 
 
