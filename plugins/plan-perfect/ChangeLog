@@ -1,3 +1,7 @@
+2002-11-02  Jody Goldberg <jody@gnome.org>
+
+	* charset.c (pln_get_str) : this is not static.
+
 2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* charset.c: Don't use // comments.

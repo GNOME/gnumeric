@@ -385,7 +385,7 @@ map_wp_char (int charset, int charcode)
   return ucode;
 }
 
-static guint8 *
+guint8 *
 pln_get_str (guint8 const *ch, unsigned len)
 {
 	guint8 *start = g_strndup (ch, len);
