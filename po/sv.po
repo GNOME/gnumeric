@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-05-01 11:47+0200\n"
-"PO-Revision-Date: 2003-05-01 12:04+0200\n"
+"POT-Creation-Date: 2003-05-03 09:53+0200\n"
+"PO-Revision-Date: 2003-05-03 09:54+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6394,7 +6394,7 @@ msgid ""
 "@SYNTAX=FV(rate,nper,pmt[,pv,type])\n"
 "@DESCRIPTION=FV computes the future value of an investment. This is based on "
 "periodic, constant payments and a constant interest rate. The interest rate "
-"per period is @rate, @term is the number of periods in an annuity, @pmt is "
+"per period is @rate, @nper is the number of periods in an annuity, @pmt is "
 "the payment made each period, @pv is the present value and @type is when the "
 "payment is made.\n"
 "\n"
@@ -6407,14 +6407,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(ränta;term;bet[;pv;typ])\n"
-"@DESCRIPTION=FV beräknar det framtida värdet av en investering, baserat på "
-"periodiska, konstanta betalningar och en konstant ränta. Räntan varje period "
-"är @ränta, @term är antalet perioder i en annuitet, @bet är betalningen "
-"varje period, @pv är det nuvarande värdet och @typ anger när betalningen "
-"sker.\n"
+"@DESCRIPTION=FV beräknar det framtida värdet av en investering. Detta är "
+"baserat på periodiska, konstanta betalningar och en konstant ränta. Räntan "
+"varje period är @ränta, @term är antalet perioder i en annuitet, @bet är "
+"betalningen varje period, @pv är det nuvarande värdet och @typ anger när "
+"betalningen sker.\n"
 "\n"
-"* Om typ = 1 sker betalning i början av perioden.\n"
-"* Om typ = 0  sker betalning i slutet av perioden.\n"
+"* Om @typ = 1 sker betalning i början av perioden.\n"
+"* Om @typ = 0  sker betalning i slutet av perioden.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -19636,11 +19636,11 @@ msgstr "Inmatning av \"%s%s\" i %s"
 msgid "Typing \"%s%s\""
 msgstr "Inmatning av \"%s%s\""
 
-#: src/commands.c:1199 src/commands.c:1204 src/sheet.c:3166
+#: src/commands.c:1199 src/commands.c:1204 src/sheet.c:3171
 msgid "Delete Columns"
 msgstr "Ta bort kolumner"
 
-#: src/commands.c:1199 src/commands.c:1204 src/sheet.c:3280
+#: src/commands.c:1199 src/commands.c:1204 src/sheet.c:3285
 msgid "Delete Rows"
 msgstr "Ta bort rader"
 
@@ -19685,7 +19685,7 @@ msgid "Deleting row %s"
 msgstr "Borttagning av rad %s"
 
 #. Check for locked cells
-#: src/commands.c:1471 src/commands.c:1475 src/sheet.c:2798
+#: src/commands.c:1471 src/commands.c:1475 src/sheet.c:2803
 msgid "Clear"
 msgstr "Töm"
 
@@ -26249,7 +26249,7 @@ msgstr "Flera fel\n"
 msgid "Unable to open file '%s'"
 msgstr "Kan inte öppna filen \"%s\""
 
-#: src/gutils.c:447
+#: src/gutils.c:389
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "modfgnum."
@@ -26257,7 +26257,7 @@ msgstr ""
 "Denna version av Gnumeric har kompilerats med otillräcklig precision i "
 "modfgnum."
 
-#: src/gutils.c:541
+#: src/gutils.c:483
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "frexpgnum."
@@ -26265,7 +26265,7 @@ msgstr ""
 "Denna version av Gnumeric har kompilerats med otillräcklig precision i "
 "frexpgnum."
 
-#: src/gutils.c:594
+#: src/gutils.c:536
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "yngnum."
@@ -27106,23 +27106,23 @@ msgstr ""
 "med namn SANT kan krocka med konstanten med samma namn. Förvänta\n"
 "dig egendomligheter."
 
-#: src/sheet.c:1961
+#: src/sheet.c:1966
 msgid "Target region contains merged cells"
 msgstr "Målregionen innehåller sammanslagna celler"
 
-#: src/sheet.c:2023
+#: src/sheet.c:2028
 msgid "cannot operate on merged cells"
 msgstr "kan inte operera på sammanslagna celler"
 
-#: src/sheet.c:2033
+#: src/sheet.c:2038
 msgid "cannot operate on array formulae"
 msgstr "kan inte operera på vektorformler"
 
-#: src/sheet.c:3107
+#: src/sheet.c:3112
 msgid "Insert Columns"
 msgstr "Infoga kolumner"
 
-#: src/sheet.c:3221
+#: src/sheet.c:3226
 msgid "Insert Rows"
 msgstr "Infoga rader"
 
@@ -28205,7 +28205,7 @@ msgstr "#-"
 msgid "#RECALC!"
 msgstr "#OMKALK!"
 
-#: src/widgets/gnumeric-expr-entry.c:1227
+#: src/widgets/gnumeric-expr-entry.c:1229
 msgid "Expecting a single range"
 msgstr "Förväntar sammanhängande område"
 
