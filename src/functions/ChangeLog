@@ -1,3 +1,15 @@
+2002-05-03  Almer S. Tigelaar  <almer@gnome.org>
+
+	* fn-string.c (gnumeric_mid): Protect against
+	segmentation fault which occurred when specifying
+	a start offset beyond the string length.
+	(gnumeric_right): Protect against negative size
+	argument.
+	(gnumeric_left): Also protect against negatives,
+	would write before start of array previously.
+	(gnumeric_replace): Give error on overly large
+	start offset.
+
 2002-04-13  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.6
@@ -32,8 +44,8 @@
 	(gnumeric_accrint, gnumeric_price, gnumeric_yield)
 	(gnumeric_oddfprice): Use datetime_g_free instead of g_date_free.
 
-	* fn-date.c (gnumeric_datedif, gnumeric_edate, gnumeric_edate) 
-	(gnumeric_edate, gnumeric_days360, get_serial_weekday) 
+	* fn-date.c (gnumeric_datedif, gnumeric_edate, gnumeric_edate)
+	(gnumeric_edate, gnumeric_days360, get_serial_weekday)
 	(networkdays_holiday_callback): Ditto.
 
 2002-01-18  Neil Booth  <neil@daikokuya.demon.co.uk>
@@ -46,7 +58,7 @@
 
 2002-01-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* fn-financial.c : change arguments to coupdaybs, coupdaysnc, 
+	* fn-financial.c : change arguments to coupdaybs, coupdaysnc,
 	  coupdays and coupnum
 	(coupnum) : simplify
 	(couppcd, coupncd) : ignore XL
@@ -57,7 +69,7 @@
 	(gnumeric_coupncd) : ditto
 	(gnumeric_couppcd) : ditto
 	(gnumeric_coupnum) : ditto
-	(finance_functions_init) : add another optional argument to 
+	(finance_functions_init) : add another optional argument to
 	  gnumeric_coupnum
 
 2002-01-17  Abel Cheung  <maddog@linux.org.hk>
@@ -79,7 +91,7 @@
 	(couppcd) : fix documentation
 	(coupdayscd) : fix documentation
 	(coupdays) :  fix documentation
-	
+
 2002-01-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.2
@@ -88,7 +100,7 @@
 
 	* fn-financial.c : Change parameters in calls to coupdaysnc,
 	coupdaybs and coupdays.
-	(func_coup_cd) : extract common code from 
+	(func_coup_cd) : extract common code from
 	  gnumeric_coupncd and gnumeric_couppcd (proposed by Neil Booth)
 	(gnumeric_coupncd) : change into wrapper for func_coup_cd
 	(gnumeric_couppcd) : change into wrapper for func_coup_cd
@@ -103,7 +115,7 @@
 	(couppcd) : move to datetime.c
 	(gnumeric_coupdaybs) : add optional OEM argument
 	(gnumeric_coupdays) : add optional OEM argument
-	(finance_functions_init) : add optional OEM arguments to 
+	(finance_functions_init) : add optional OEM arguments to
 	  gnumeric_coupdaybs and gnumeric_coupdays
 
 2002-01-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -111,7 +123,7 @@
 	* fn-financial.c (coupncd, couppcd) : replace with coup_cd
 	(gnumeric_couppcd) : add optional OEM argument
 	(gnumeric_coupdayscd) : add optional OEM argument
-	(finance_functions_init) : add optional OEM arguments to 
+	(finance_functions_init) : add optional OEM arguments to
 	  couppcd and coupdayscd
 	(coupdayscd) : rewrite
 	(adjust_dates_basis) : new utility procedure
@@ -147,11 +159,11 @@
 
 2002-01-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* fn-math.c (PI) : fix documentation 
+	* fn-math.c (PI) : fix documentation
 
 2002-01-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* fn-stat.c (gnumeric_percentrank) : truncate rather 
+	* fn-stat.c (gnumeric_percentrank) : truncate rather
 	  than round, check whether the value is within the data
 
 2002-01-04  Morten Welinder  <terra@diku.dk>
@@ -222,7 +234,7 @@
 	* fn-information.c (gnumeric_expression): Fix empty-cell case.
 
 2001-11-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
-	* fn-database.c (parse_database_criteria) use sheet from 
+	* fn-database.c (parse_database_criteria) use sheet from
 	  criteria range
 
 2001-11-25  Jody Goldberg <jody@gnome.org>
@@ -252,7 +264,7 @@
 	* fn-lookup.c (gnumeric_choose) : ditto.
 	(gnumeric_column) : ditto.
 	(gnumeric_row) : ditto.
-	 
+
 	* fn-math.c (gnumeric_gcd) : ditto.
 	(gnumeric_lcm) : ditto.
 	(gnumeric_sum) : ditto.
@@ -312,8 +324,8 @@
 	* fn-date.c,fn-database.c,fn-eng.c,fn-informational.c,
 	  fn-logical.c,fn-math.c,fn-stat.c: Documentation consistency
 	  improvements (mostly "\n" before 'Excel compatible'). Some
-	  typos fixed. 
-	  
+	  typos fixed.
+
 
 2001-11-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
@@ -343,7 +355,7 @@
 	* fn-financial.c (gnumeric_oddfprice): Added the core computation
 	of a short odd coupon price.
 	(*): Improved documentation and clean up.
-	
+
 2001-11-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* fn-stat.c (gnumeric_ftest) Changed documentation from `one-tailed'
@@ -357,7 +369,7 @@
 	(gnumeric_yield): Implemented the case where the number of coupon
 	periods is one.  The same comment above applies, however.
 	(coupdaysnc): Added a stub.
-	
+
 2001-11-01  Morten Welinder  <terra@diku.dk>
 
 	* fn-lookup.c (gnumeric_address): Use value_peek_string.

@@ -1,5 +1,10 @@
 Gnumeric 1.0.7
 
+Almer:
+	* Fix (possible) segfaults caused by the "mid", "left" and "right"
+ 	  right string functions and protect those functions and
+	  the "replace" function against invalid arguments.
+
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=80134
 	* clone grouping and frozen status too.
@@ -112,7 +117,7 @@ C. Scott Ananian:
 Gnumeric 1.0.4
 
 Andreas:
-	* Fix LaTeX and HTML exporter crashes	
+	* Fix LaTeX and HTML exporter crashes
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=69832
 	* crash in goalseek
@@ -174,7 +179,7 @@ Gnumeric 1.0.2
 
 Andreas:
 	* Add `autofit columns' checkbox to all analysis tools.
-	* Add radio buttons to rank dialog to let user choose 
+	* Add radio buttons to rank dialog to let user choose
 	  behaviour in case of ties.
 	* Enable Standard Errors Checkbox in Moving Averages Dialog.
 	* Implement calculated bins in Histogram Tool.
@@ -261,7 +266,7 @@ Gnumeric 0.99.1
 Andreas:
 	* Improve documentation incl. analysis tools, files & worksheet
 	* Implement merges and spans in html exporter
-	* Make output from HTML4.0 and HTML3.2 exporters validate 
+	* Make output from HTML4.0 and HTML3.2 exporters validate
 	* Fix copy multiple cells to single merged cell (#67298)
 	* Fix expr entry widget: used to fet confised on mouse clicks
           (#65894)

@@ -144,9 +144,13 @@ gnumeric_left (FunctionEvalInfo *ei, Value **argv)
 	int count, slen;
 
 	count = argv[1] ? value_get_as_int (argv[1]) : 1;
-	s = value_get_as_string (argv[0]);
 
+	if (count < 0)
+		return value_new_error (ei->pos, _("Invalid arguments"));
+
+	s = value_get_as_string (argv[0]);
 	slen = strlen (s);
+
 	if (count < slen)
 		s[count] = 0;
 	v = value_new_string (s);
@@ -206,7 +210,7 @@ static Value *
 gnumeric_mid (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
-	int pos, len;
+	int pos, len, slen;
 	char *s;
 	char const *source;
 
@@ -216,10 +220,14 @@ gnumeric_mid (FunctionEvalInfo *ei, Value **argv)
 	if (len < 0 || pos <= 0)
 		return value_new_error (ei->pos, _("Invalid arguments"));
 
-	pos--;  /* Make pos zero-based.  */
-
 	source = value_peek_string (argv[0]);
-	len = MIN (len, (int)strlen (source) - pos);
+	slen   = strlen (source);
+
+	if (pos > slen)
+		return value_new_error (ei->pos, _ ("Arguments out of range"));
+
+	pos--;  /* Make pos zero-based.  */
+	len = MIN (len, (int) slen - pos);
 
 	s = g_new (gchar, len + 1);
 	memcpy (s, source + pos, len);
@@ -256,9 +264,13 @@ gnumeric_right (FunctionEvalInfo *ei, Value **argv)
 	char *s;
 
 	count = argv[1] ? value_get_as_int (argv[1]) : 1;
-	s = value_get_as_string (argv[0]);
 
+	if (count < 0)
+		return value_new_error (ei->pos, _("Invalid arguments"));
+
+	s    = value_get_as_string (argv[0]);
 	slen = strlen (s);
+
 	if (count < slen) {
 		memmove (s, s + (slen - count), count);
 		s[count] = 0;
@@ -325,7 +337,7 @@ gnumeric_concatenate (FunctionEvalInfo *ei, ExprList *l)
 					_("Invalid number of arguments"));
 
 	s = g_string_new ("");
-	while (l != NULL 
+	while (l != NULL
 	       && (v = expr_eval (l->data, ei->pos, EVAL_STRICT)) != NULL) {
 		if (VALUE_IS_EMPTY_OR_ERROR (v))
 			goto error;
@@ -616,6 +628,9 @@ gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 
 	if (start <= 0 || num <= 0)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
+	if (start > oldlen)
+		return value_new_error (ei->pos, _ ("Arguments out of range"));
+
 	start--;  /* Make this zero-based.  */
 
 	if (start + num > oldlen)
