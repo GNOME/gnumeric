@@ -22,5 +22,6 @@ libwidgets_a_SOURCES =				\
 	widget-editable-label.c			\
 	widget-editable-label.h			\
 	widget-font-selector.c			\
-	widget-font-selector.h
-
+	widget-font-selector.h			\
+	gnumeric-dashed-canvas-line.c		\
+	gnumeric-dashed-canvas-line.h

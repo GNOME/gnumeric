@@ -130,35 +130,61 @@ border_fetch (StyleBorderType const	 line_type,
 	return border;
 }
 
+gint
+border_get_width (StyleBorderType const line_type)
+{
+	g_return_val_if_fail (line_type >= BORDER_NONE, 0);
+	g_return_val_if_fail (line_type < BORDER_MAX, 0);
+
+	/* The caller should handle NONE */
+	if (line_type == BORDER_NONE)
+		return 0;
+
+	return style_border_data[line_type-1].width;
+}
+
+void
+border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type)
+{
+	GdkLineStyle style = GDK_LINE_SOLID;
+	int i;
+
+	g_return_if_fail (gc != NULL);
+	g_return_if_fail (line_type >= BORDER_NONE);
+	g_return_if_fail (line_type < BORDER_MAX);
+
+	/* The caller should handle NONE */
+	if (line_type == BORDER_NONE)
+		return;
+
+	i = line_type - 1;
+
+	if (style_border_data[i].pattern != NULL)
+		style = GDK_LINE_DOUBLE_DASH;
+	gdk_gc_set_line_attributes (gc,
+				    style_border_data[i].width,
+				    style,
+				    GDK_CAP_ROUND, GDK_JOIN_MITER);
+
+	if (style_border_data[i].pattern != NULL) {
+		struct LineDotPattern const * const pat =
+			style_border_data[i].pattern;
+		gdk_gc_set_dashes (gc, style_border_data[i].offset,
+				   pat->pattern, pat->elements);
+	}
+
+	/* The background should never be drawn */
+	gdk_gc_set_background (gc, &gs_white);
+}
+
 GdkGC *
-border_get_gc (MStyleBorder * border, GdkWindow * window)
+border_get_gc (MStyleBorder *border, GdkWindow *window)
 {
 	g_return_val_if_fail (border != NULL, NULL);
 
 	if (border->gc == NULL) {
-		GdkLineStyle style = GDK_LINE_SOLID;
-		int i = border->line_type - 1;
-
-		g_return_val_if_fail (border->line_type > BORDER_NONE, NULL);
-		g_return_val_if_fail (border->line_type < BORDER_MAX, NULL);
-
 		border->gc = gdk_gc_new (window);
-
-		if (style_border_data[i].pattern != NULL)
-			style = GDK_LINE_DOUBLE_DASH;
-		gdk_gc_set_line_attributes (border->gc,
-					    style_border_data[i].width,
-					    style,
-					    GDK_CAP_ROUND, GDK_JOIN_MITER);
-
-		if (style_border_data[i].pattern != NULL) {
-			struct LineDotPattern const * const pat =
-				style_border_data[i].pattern;
-			gdk_gc_set_dashes (border->gc, style_border_data[i].offset,
-					   pat->pattern, pat->elements);
-		}
-		/* The background should never be drawn */
-		gdk_gc_set_background (border->gc, &gs_white);
+		border_set_gc_dash (border->gc, border->line_type);
 		gdk_gc_set_foreground (border->gc, &border->color->color);
 	}
 
