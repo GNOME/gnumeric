@@ -14,7 +14,6 @@
 #include <locale.h>
 #include <math.h>
 #include "gnumeric.h"
-#include "gnome-xml/tree.h"
 #include "gnome-xml/parser.h"
 #include "gnome-xml/parserInternals.h"
 #include "gnome-xml/xmlmemory.h"
@@ -1356,26 +1355,41 @@ xml_write_style_region (parse_xml_context_t *ctxt, StyleRegion *region)
 
 /*
  * Create a StyleRegion equivalent to the XML subtree of doc.
+ * Return an mstyle and a range in the @range parameter
  */
-static void
-xml_read_style_region (parse_xml_context_t *ctxt, xmlNodePtr tree)
+static MStyle*
+xml_read_style_region_ex (parse_xml_context_t *ctxt, xmlNodePtr tree, Range *range)
 {
 	xmlNodePtr child;
 	MStyle    *style = NULL;
-	Range      range;
 
 	if (strcmp (tree->name, "StyleRegion")){
 		fprintf (stderr,
-			 "xml_read_style_region: invalid element type %s, 'StyleRegion' expected`\n",
+			 "xml_read_style_region_ex: invalid element type %s, 'StyleRegion' expected`\n",
 			 tree->name);
-		return;
+		return NULL;
 	}
-	xml_read_range (tree, &range);
+	xml_read_range (tree, range);
 	child = tree->childs;
 
 	if (child)
 		style = xml_read_style (ctxt, child);
 
+	return style;
+}
+
+/*
+ * Create a StyleRegion equivalent to the XML subtree of doc.
+ * Return nothing, attach it directly to the sheet in the context
+ */
+static void
+xml_read_style_region (parse_xml_context_t *ctxt, xmlNodePtr tree)
+{
+	MStyle *style;
+	Range range;
+
+	style = xml_read_style_region_ex (ctxt, tree, &range);
+	
 	if (style)
 		sheet_style_attach (ctxt->sheet, range, style);
 }
@@ -1576,17 +1590,18 @@ xml_read_sheet_object (parse_xml_context_t *ctxt, xmlNodePtr tree)
 
 /*
  * Create an XML subtree of doc equivalent to the given Cell.
+ * set col and row to be the absolute coordinates
  */
 static xmlNodePtr
-xml_write_cell (parse_xml_context_t *ctxt, Cell *cell)
+xml_write_cell_and_position (parse_xml_context_t *ctxt, Cell *cell, int col, int row)
 {
 	xmlNodePtr cur;
 	char *text;
 	char *tstr;
-
+	
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Cell", NULL);
-	xml_set_value_int (cur, "Col", cell->col->pos);
-	xml_set_value_int (cur, "Row", cell->row->pos);
+	xml_set_value_int (cur, "Col", col);
+	xml_set_value_int (cur, "Row", row);
 	xml_set_value_int (cur, "Style", 0); /* Backwards compatible */
 
 	text = cell_get_content (cell);
@@ -1608,6 +1623,16 @@ xml_write_cell (parse_xml_context_t *ctxt, Cell *cell)
 }
 
 /*
+ * Create an XML subtree of doc equivalent to the given Cell.
+ */
+static xmlNodePtr
+xml_write_cell (parse_xml_context_t *ctxt, Cell *cell)
+{
+
+	return xml_write_cell_and_position (ctxt, cell, cell->col->pos, cell->row->pos);
+}
+
+/*
  * Create a Cell equivalent to the XML subtree of doc.
  */
 static Cell *
@@ -1615,7 +1640,7 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 {
 	Cell *ret;
 	xmlNodePtr childs;
-	int row = 0, col = 0;
+	int col, row;
 	char *content = NULL;
 	char *comment = NULL;
 	int  style_idx;
@@ -1629,10 +1654,11 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	}
 	xml_get_value_int (tree, "Col", &col);
 	xml_get_value_int (tree, "Row", &row);
-
+	
 	ret = sheet_cell_get (ctxt->sheet, col, row);
 	if (ret == NULL)
 		ret = sheet_cell_new (ctxt->sheet, col, row);
+
 	if (ret == NULL)
 		return NULL;
 
@@ -1686,6 +1712,7 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	}
 	if (content == NULL)
 		content = xmlNodeGetContent (tree);
+		
 	if (content != NULL) {
 		/*
 		 * Handle special case of a non corner element of an array
@@ -1697,6 +1724,68 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		xmlFree (content);
 	} else
 		cell_set_value (ret, value_new_empty ());
+
+	return ret;
+}
+
+/*
+ * Create a CellCopy equivalent to the XML subtree of doc.
+ *
+ */
+static CellCopy *
+xml_read_cell_copy (parse_xml_context_t *ctxt, xmlNodePtr tree)
+{
+	CellCopy *ret;
+	xmlNodePtr childs;
+
+	if (strcmp (tree->name, "Cell")) {
+		fprintf (stderr,
+		 "xml_read_cell: invalid element type %s, 'Cell' expected`\n",
+			 tree->name);
+		return NULL;
+	}
+
+	ret           = g_new (CellCopy, 1);
+	ret->type     = CELL_COPY_TYPE_TEXT_AND_COMMENT;
+	ret->comment  = NULL;
+	ret->u.text   = NULL;
+	
+	xml_get_value_int (tree, "Col", &ret->col_offset);
+	xml_get_value_int (tree, "Row", &ret->row_offset);
+
+	childs = tree->childs;
+	while (childs != NULL) {
+	
+		if (!strcmp (childs->name, "Content"))
+			ret->u.text = xmlNodeGetContent (childs);
+		if (!strcmp (childs->name, "Comment")) {
+			ret->comment = xmlNodeGetContent (childs);
+
+			/*
+			 * use xmlFree, the comment is alloced with malloc not with g_malloc
+			 */
+ 			if (ret->comment) {
+ 				char *temp = g_strdup (ret->comment);
+			
+ 				xmlFree (ret->comment);
+				ret->comment = temp;
+			}
+ 		}
+		childs = childs->next;
+	}
+	if (ret->u.text == NULL)
+		ret->u.text = xmlNodeGetContent (tree);
+
+	/*
+	 * Here we see again that the text was malloc'ed and thus should be xmlFreed and
+	 * not g_free 'd
+	 */
+	if (ret->u.text != NULL) {
+		char *temp = g_strdup (ret->u.text);
+
+		xmlFree (ret->u.text);
+		ret->u.text = temp;
+	}
 
 	return ret;
 }
@@ -1999,6 +2088,80 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	return cur;
 }
 
+static xmlNodePtr
+xml_write_selection_clipboard (parse_xml_context_t *ctxt, Sheet *sheet)
+{
+	xmlNodePtr cur;
+	xmlNodePtr styles;
+	xmlNodePtr cells;
+	xmlNodePtr cell_xml;
+	GSList *range_list;
+	GSList *iterator;
+
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "ClipboardSheetSelection", NULL);
+	if (cur == NULL)
+		return NULL;
+	
+	/*
+	 * Write styles
+	 */
+	range_list = selection_get_ranges (sheet, FALSE);
+
+	iterator = range_list;
+	while (iterator) {
+		GList *style_region_list;
+		Range *range = iterator->data;
+		
+		style_region_list = sheet_get_styles_in_range (sheet, range);
+		
+		styles = xml_write_styles (ctxt, style_region_list);
+		
+		if (styles)
+			xmlAddChild (cur, styles);
+
+		sheet_style_list_destroy (style_region_list);
+		
+		iterator = g_slist_next (iterator);
+	}
+	
+	/*
+	 * Write cells
+	 */
+	cells = xmlNewChild (cur, ctxt->ns, "Cells", NULL);
+	ctxt->parent = cells;
+
+	/*
+	 * NOTE : We also free the ranges in the range list in the next while loop
+	 *        and the range list itself
+	 */
+
+	iterator = range_list;
+	while (iterator) {
+		int row, col;
+		Range *range = iterator->data;
+
+		for (row = range->start.row; row <= range->end.row; row++) {
+		
+			for (col = range->start.col; col <= range->end.col; col++) {
+				Cell *cell = sheet_cell_get (sheet, col, row);
+
+				if (cell) {
+
+					cell_xml = xml_write_cell_and_position (ctxt, cell, col - range->start.col, row - range->start.row);
+					xmlAddChild (ctxt->parent, cell_xml);
+				}
+			}
+		}
+
+		g_free (range);
+
+		iterator = g_slist_next (iterator);
+	}
+	g_slist_free (range_list);
+
+	return cur;
+}
+
 static void
 xml_read_styles (parse_xml_context_t *ctxt, xmlNodePtr tree)
 {
@@ -2011,6 +2174,28 @@ xml_read_styles (parse_xml_context_t *ctxt, xmlNodePtr tree)
 
 	for (regions = child->childs; regions; regions = regions->next)
 		xml_read_style_region (ctxt, regions);
+}
+
+/*
+ * Read styles and add them to a cellregion
+ */
+static void
+xml_read_styles_ex (parse_xml_context_t *ctxt, xmlNodePtr tree, CellRegion *cr)
+{
+	xmlNodePtr child;
+	xmlNodePtr regions;
+
+	child = xml_search_child (tree, "Styles");
+	if (child == NULL)
+		return;
+
+	for (regions = child->childs; regions; regions = regions->next) {
+		StyleRegion *region = g_new0 (StyleRegion, 1);
+		
+		region->style = xml_read_style_region_ex (ctxt, regions, &region->range);
+
+		cr->styles = g_list_prepend (cr->styles, region);
+	}
 }
 
 static void
@@ -2179,6 +2364,74 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	/* Initialize the ColRowInfo's ->size_pixels data */
 	sheet_set_zoom_factor (ret, ret->last_zoom_factor_used);
 	return ret;
+}
+
+/*
+ * Reads the tree data into the sheet and pastes cells relative to topcol and toprow.
+ */
+static CellRegion *
+xml_read_selection_clipboard (parse_xml_context_t *ctxt, xmlNodePtr tree)
+{
+	CellRegion *cr;
+	xmlNodePtr child;
+	xmlNodePtr cells;
+	
+	if (strcmp (tree->name, "ClipboardSheetSelection")){
+		fprintf (stderr,
+			 "xml_sheet_read_selection_clipboard: invalid element type %s, 'ClipboardSheetSelection' expected\n",
+			 tree->name);
+	}
+	child = tree->childs;
+
+	ctxt->sheet = NULL;
+
+	cr         = g_new (CellRegion, 1);
+	cr->list   = NULL;
+	cr->cols   = -1;
+	cr->rows   = 0;
+	cr->styles = NULL;
+
+	/*
+	 * This nicely puts all the styles into the cr->styles list
+	 */
+	xml_read_styles_ex (ctxt, tree, cr);
+	xml_read_cell_styles (ctxt, tree);
+
+	/*
+	 * Read each cell and add them to the celllist
+	 * also keep track of the highest column and row numbers
+	 * passed
+	 */
+	child = xml_search_child (tree, "Cells");
+	if (child != NULL){
+	
+		cells = child->childs;
+		while (cells != NULL){
+			CellCopy *cc;
+
+			cc = xml_read_cell_copy (ctxt, cells);
+
+			if (cc) {
+			
+				if (cc->col_offset > cr->cols)
+					cr->cols = cc->col_offset;
+				if (cc->row_offset > cr->rows)
+					cr->rows = cc->row_offset;
+				
+				cr->list = g_list_prepend (cr->list, cc);
+			}
+				
+			cells = cells->next;
+		}
+	}
+
+	if (cr->cols != -1) {
+		cr->cols++;
+		cr->rows++;
+	}
+	xml_dispose_read_cell_styles (ctxt);
+
+	return cr;
 }
 
 /*
@@ -2422,11 +2675,87 @@ xml_probe (const char *filename)
 }
 
 /*
+ * Save a Sheet in Gnumerix XML clipboard format to a @buffer and return
+ * the size of the data in @size
+ *
+ * returns 0 in case of success, -1 otherwise.
+ */
+int
+gnumeric_xml_write_selection_clipboard (CommandContext *context, Sheet *sheet,
+					xmlChar **buffer, int *size)
+{
+	xmlDocPtr xml;
+	parse_xml_context_t ctxt;
+
+	g_return_val_if_fail (sheet != NULL, -1);
+
+	/*
+	 * Create the tree
+	 */
+	xml = xmlNewDoc ("1.0");
+	if (xml == NULL){
+		gnumeric_error_save (context, "");
+		return -1;
+	}
+	ctxt.doc = xml;
+	ctxt.ns = NULL;
+
+	xml->root = xml_write_selection_clipboard (&ctxt, sheet);
+
+	/*
+	 * Dump it with a high compression level
+	 */
+	xmlSetDocCompressMode (xml, 9);
+	xmlDocDumpMemory (xml, buffer, size);
+	xmlFreeDoc (xml);
+	
+	return 0;
+}
+
+/*
+ * Parse the gnumeric XML clipboard data in @buffer into a cellregion @cr
+ * Cellregion @cr MUST be NULL (it will put a newly allocated cellregion in @cr)
+ *
+ * returns 0 on success and -1 otherwise.
+ */
+int
+gnumeric_xml_read_selection_clipboard (CommandContext *context, CellRegion **cr,
+				       xmlChar *buffer)
+{
+	xmlDocPtr res;
+	parse_xml_context_t ctxt;
+
+	g_return_val_if_fail (*cr == NULL, -1);
+	g_return_val_if_fail (buffer != NULL, -1);
+	
+	/*
+	 * Load the buffer into an XML tree.
+	 */
+	res = xmlParseDoc (buffer);
+	if (res == NULL) {
+		gnumeric_error_read (context, "");
+		return -1;
+	}
+	if (res->root == NULL) {
+		xmlFreeDoc (res);
+		gnumeric_error_read
+			(context, _("Invalid xml clipboard data. Tree is empty ?"));
+		return -1;
+	}
+	
+	ctxt.doc = res;
+	*cr = xml_read_selection_clipboard (&ctxt, res->root);
+
+	xmlFreeDoc (res);
+		
+	return 0;
+}
+
+/*
  * Open an XML file and read a Workbook
  * One parse the XML file, getting a tree, then analyze the tree to build
  * the actual in-memory structure.
  */
-
 int
 gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 			    const char *filename)
@@ -2524,3 +2853,9 @@ xml_init (void)
 	file_format_register_open (50, desc, xml_probe, gnumeric_xml_read_workbook);
 	file_format_register_save (".gnumeric", desc, gnumeric_xml_write_workbook);
 }
+
+
+
+
+
+

@@ -1,3 +1,57 @@
+2000-03-07  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	Gnumeric instances can now eXchange data in a gnumeric
+	XML clipboard format. This way style information and such
+	can be preserved when copying/cutting from one instance
+	to another.
+	
+	* src/xml-io.c, src/xml-io.h :
+	Added some functions for the gnumeric clipboard xml format.
+	(gnumeric_xml_read_selection_clipboard) : 
+	For reading xml data from the clipboard 
+	(gnumeric_xml_write_selection_clipboard) : 
+	For writing xml data to the clipboard 
+	(xml_read_selection_clipboard) : 
+	For reading xml data from the clipboard, does the dirty work
+	(xml_write_selection_clipboard) : 
+	For writing xml data to the clipboard, does the dirty work
+	(xml_read_cell_copy) : 
+	Similar to xml_read_cell, but returns a CellCopy* instead 
+	of a Cell*
+	(xml_write_cell_and_position) : 
+	Similar to old xml_write_cell but allows you to set the col and 
+	row manually
+	(xml_write_cell) :
+	Calls upon xml_write_cell_and_position, but takes the col and row 
+	from the ColRowInfo members of type Cell.
+	(xml_read_style_region_ex) :
+	Read the xml data and returns an mstyle and a range. Does 
+	_NOT_ attach this to a sheet.
+	(xml_read_style_region) :
+	calls upon xml_read_style_region_ex and attaches the mstyle 
+	to a sheet
+
+	* src/cell.h
+	New cellcopy type added CELL_COPY_TYPE_AND_COMMENT, if a
+	cellcopy is of this type the comments will be put in 
+	cellcopy.comment
+	
+	* src/clipboard.c
+	(paste_cell_flags) :
+	added support for the new CELL_COPY_TYPE_TEXT_AND_COMMENT copy type
+	(x_selection_received) :
+	Modified so it support the TARGETS and GNUMERIC XML atoms and renders
+	the gnumeric clipboard xml format
+	(x_selection_handler) :
+	Now it can render theselection to ASCII text and gnumeric clipboard xml 
+	format.
+	(x_clipboard_bind_workbook) :
+	Registers the new GNUMERIC XML atom that enables other instances of
+	gnumeric to see that we are also gnumeric and can render the clipboard
+	data in a the special gnumeric xml clipboard format
+	(clipboard_release) :
+	Handles new CELL_COPY_TYPE_TEXT_AND_COMMENT type
+
 2000-03-01  Dom Lachowicz <dominicl@seas.upenn.edu>
 
 	* src/dialogs/sheet-order.glade,

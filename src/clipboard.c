@@ -20,8 +20,19 @@
 #include "workbook-view.h"
 #include "ranges.h"
 
+#include "xml-io.h"
+#include "value.h"
+
 #include "dialog-stf.h"
 #include "stf-parse.h"
+
+
+/* The name of our clipboard atom and the 'magic' info number */
+#define GNUMERIC_ATOM_NAME "GNUMERIC_CLIPBOARD_XML"
+#define GNUMERIC_ATOM_INFO 2000
+
+/* The name of the TARGETS atom (don't change unless you know what you are doing!) */
+#define TARGETS_ATOM_NAME "TARGETS"
 
 /*
  * Callback information.
@@ -92,9 +103,9 @@ paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
 	} else {
 		Cell *new_cell;
 
-		if (c_copy->type != CELL_COPY_TYPE_TEXT) {
+		if (c_copy->type == CELL_COPY_TYPE_CELL) {
 			Range r;
-
+			
 			new_cell = cell_copy (c_copy->u.cell);
 
 			r.start.col = target_col;
@@ -105,9 +116,17 @@ paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
 			paste_cell (dest_sheet, new_cell,
 				    target_col, target_row, paste_flags);
 		} else {
+		
 			new_cell = sheet_cell_new (dest_sheet,
 						   target_col, target_row);
-			cell_set_text (new_cell, c_copy->u.text);
+
+			if (c_copy->u.text) {
+
+				cell_set_text (new_cell, c_copy->u.text);
+			}
+
+			if (c_copy->type == CELL_COPY_TYPE_TEXT_AND_COMMENT && c_copy->comment)
+				cell_set_comment (new_cell, c_copy->comment);
 		}
 	}
 }
@@ -253,12 +272,6 @@ x_selection_to_cell_region (CommandContext *context, char const * data,
 			region->style = style;
 			region->range  = range;
 
-			/* FIXME : I Wonder who actually frees these StyleRegions, I am not
-			 * sure if this is done automatically... (I think it should though)
-			 * my observation is that neither sheet_paste_selection nor sheet_style_attach_list
-			 * frees these structs...
-			 * IS THIS A MEMORY LEAK?
-			 */
 			cr->styles = g_list_prepend (cr->styles, region);
 			
 			iterator = g_slist_next (iterator);
@@ -368,36 +381,112 @@ sheet_paste_selection (CommandContext *context, Sheet *sheet,
 static void
 x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpointer data)
 {
-	SheetSelection *ss;
 	Workbook       *wb = data;
-	clipboard_paste_closure_t *pc = wb->clipboard_paste_callback_data;
 	CommandContext *context = workbook_command_context_gui (wb);
-	CellRegion *content;
+	GdkAtom atom_targets  = gdk_atom_intern (TARGETS_ATOM_NAME, FALSE);
+	GdkAtom atom_gnumeric = gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE);
+	clipboard_paste_closure_t *pc = wb->clipboard_paste_callback_data;
+	CellRegion *content = NULL;
+	gboolean region_pastable = FALSE;
+	gboolean free_closure = FALSE;
+	
+	if (sel->target == atom_targets) { /* The data is a list of atoms */
+		GdkAtom *atoms = (GdkAtom *) sel->data;
+		gboolean gnumeric_format;
+		int atom_count = (sel->length / sizeof (GdkAtom));
+		int i;
 
-	ss = pc->dest_sheet->selections->data;
-
-	/* Did X provide any selection? */
-	if (sel->length < 0){
-		content = pc->region;
-		if (!content)
+		/* Nothing on clipboard? */
+		if (sel->length < 0) {
+		
+			if (wb->clipboard_paste_callback_data != NULL) {
+				g_free (wb->clipboard_paste_callback_data);
+				wb->clipboard_paste_callback_data = NULL;
+			}
 			return;
-	} else
-		content = x_selection_to_cell_region (context,
-						      sel->data, sel->length);
+		}
 
-	sheet_paste_selection (context, pc->dest_sheet, content, ss, pc);
+		/*
+		 * Iterate over the atoms and try to find the gnumeric atom
+		 */
+		gnumeric_format = FALSE;
+		for (i = 0; i < atom_count; i++) {
+			
+			if (atoms[i] == atom_gnumeric) {
 
-	/* Release the resources we used */
-	if (sel->length >= 0)
-		clipboard_release (content);
+				/* Hooya! other app == gnumeric */
+				gnumeric_format = TRUE;
 
-	/* Remove our used resources */
-	if (wb->clipboard_paste_callback_data != NULL) {
-		g_free (wb->clipboard_paste_callback_data);
-		wb->clipboard_paste_callback_data = NULL;
+				break;
+			}
+		}
+
+		/* NOTE : We don't release the date resources
+		 * (wb->clipboard_paste_callback_data), the
+		 * reason for this is that we will actually call ourself
+		 * again (indirectly trough the gtk_selection_convert
+		 * and that call _will_ free the data (and also needs it).
+		 * So we won't release anything.
+		 */
+		 
+		/* If another instance of gnumeric put this data on the clipboard
+		 * request the data in gnumeric XML format. If not, just
+		 * request it in string format
+		 */
+		if (gnumeric_format)
+			gtk_selection_convert (wb->toplevel, GDK_SELECTION_PRIMARY,
+					       atom_gnumeric, time);
+		else
+			gtk_selection_convert (wb->toplevel, GDK_SELECTION_PRIMARY,
+					       GDK_SELECTION_TYPE_STRING, time);
+					       
+	} else if (sel->target == atom_gnumeric) { /* The data is the gnumeric specific XML interchange format */
+		
+		if (gnumeric_xml_read_selection_clipboard (context, &content, sel->data) == 0)
+			region_pastable = TRUE;
+		
+	} else {  /* The data is probably in String format */
+		region_pastable = TRUE;
+
+		/* Did X provide any selection? */
+		if (sel->length < 0){
+			content = pc->region;
+
+			/* Obviously this was LEAK! (The closure was not freed)
+			 *
+			 * if (!content)
+			 *	 return;
+			 */
+			if (!content) {
+				region_pastable = FALSE;
+				free_closure = TRUE;
+			}
+		} else
+			content = x_selection_to_cell_region (context,
+							      sel->data, sel->length);
 	}
 
-	workbook_recalc (wb);
+	if (region_pastable) {
+
+		SheetSelection *ss;
+		
+		ss = pc->dest_sheet->selections->data;	
+		sheet_paste_selection (context, pc->dest_sheet, content, ss, pc);
+
+		/* Release the resources we used */
+		if (sel->length >= 0)
+			clipboard_release (content);
+	}
+	
+	if (region_pastable || free_closure) {
+		/* Remove our used resources */
+		if (wb->clipboard_paste_callback_data != NULL) {
+			g_free (wb->clipboard_paste_callback_data);
+			wb->clipboard_paste_callback_data = NULL;
+		}
+		
+		workbook_recalc (wb);
+	}
 }
 
 /**
@@ -410,42 +499,78 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint 
 {
 	gboolean content_needs_free = FALSE;
 	CellRegion *clipboard = application_clipboard_contents_get ();
-	char *rendered_selection;
+	GdkAtom atom_gnumeric = gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE);
+	Sheet *sheet = application_clipboard_sheet_get ();
+	Range const *a = application_clipboard_area_get ();
 
-	/* If the region was marked for a cut we need to copy it for pasting
-	 * then clear it
+	/*
+	 * Not sure how to handle this, not sure what purpose this has has
+	 * (sheet being NULL). I think it is here to indicate that the selection
+	 * just has been cut.
+	 */
+	if (!sheet) {
+		
+		return;
+	}
+		
+	/*
+	 * If the region was marked for a cut we need to copy it for pasting
+	 * we clear it later on, because if the other application (the one that
+	 * requested we render the data) is another instance of gnumeric
+	 * we need the selection to remain "intact" (not cleared) so we can
+	 * render it to the Gnumeric XML clipboard format
 	 */
 	if (clipboard == NULL) {
-		Sheet *sheet = application_clipboard_sheet_get ();
-		Range const *a = application_clipboard_area_get ();
 
 		g_return_if_fail (sheet != NULL);
 		g_return_if_fail (a != NULL);
-
+		
 		content_needs_free = TRUE;
 		clipboard =
 		    clipboard_copy_cell_range (sheet,
 					       a->start.col, a->start.row,
 					       a->end.col,   a->end.row);
+	}
 
-		/* Clear the region that was pasted into another application */
+	g_return_if_fail (clipboard != NULL);
+
+	/*
+	 * Check weather the other application wants gnumeric XML format
+	 * in fact we only have to check the 'info' variable, however
+	 * to be absolutely sure I check if the atom checks out too
+	 */
+	if (selection_data->target == atom_gnumeric && info == 2000) {
+		CommandContext *context = workbook_command_context_gui (sheet->workbook);
+		xmlChar *buffer;
+		int buffer_size;
+		
+		gnumeric_xml_write_selection_clipboard (context, sheet, &buffer, &buffer_size);
+
+		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING, 8,
+					(char *) buffer, buffer_size);
+					
+		g_free (buffer);
+	} else {
+		char *rendered_selection = cell_region_render_ascii (clipboard);
+		
+		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING, 8,
+					rendered_selection, strlen (rendered_selection));
+
+		g_free (rendered_selection);
+	}
+
+	/*
+	 * If this was a CUT operation we need to clear the region that was pasted
+	 * into another application and release the stuff on the clipboard
+	 */
+	if (content_needs_free) {
+		
 		sheet_clear_region (workbook_command_context_gui (sheet->workbook),
 				    sheet,
 				    a->start.col, a->start.row,
 				    a->end.col,   a->end.row,
 				    CLEAR_VALUES|CLEAR_COMMENTS);
-	}
-
-	g_return_if_fail (clipboard != NULL);
-
-	rendered_selection = cell_region_render_ascii (clipboard);
-
-	gtk_selection_data_set (
-		selection_data, GDK_SELECTION_TYPE_STRING, 8,
-		rendered_selection, strlen (rendered_selection));
-	g_free (rendered_selection);
-
-	if (content_needs_free) {
+	
 		clipboard_release (clipboard);
 		application_clipboard_clear ();
 	}
@@ -473,6 +598,8 @@ x_selection_clear (GtkWidget *widget, GdkEventSelection *event, Workbook *wb)
 void
 x_clipboard_bind_workbook (Workbook *wb)
 {
+	GtkTargetEntry *targets;
+	
 	wb->clipboard_paste_callback_data = NULL;
 
 	gtk_signal_connect (
@@ -487,9 +614,27 @@ x_clipboard_bind_workbook (Workbook *wb)
 		GTK_OBJECT (wb->toplevel), "selection_get",
 		GTK_SIGNAL_FUNC (x_selection_handler), NULL);
 
+	gtk_signal_connect (
+		GTK_OBJECT (wb->toplevel), "selection_get",
+		GTK_SIGNAL_FUNC (x_selection_handler), NULL);
+
 	gtk_selection_add_target (
 		wb->toplevel,
 		GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 0);
+
+	/*
+	 * Our specific Gnumeric XML clipboard interchange type
+	 */
+	targets = g_new (GtkTargetEntry, 1);
+
+	targets->target = GNUMERIC_ATOM_NAME;
+	targets->flags  = GTK_TARGET_SAME_WIDGET;              /* <- This is not useful, but we have to set it to something */
+	targets->info   = GNUMERIC_ATOM_INFO;
+
+	/* We don't have to free targets, this will happen automatically once the 'toplevel' widget is destroyed!! */
+	gtk_selection_add_targets (wb->toplevel,
+				   GDK_SELECTION_PRIMARY,
+				   targets, 1);
 }
 
 typedef struct {
@@ -570,7 +715,7 @@ clipboard_paste_region (CommandContext *context,
 			int paste_flags,    guint32 time)
 {
 	clipboard_paste_closure_t *data;
-
+	
 	g_return_if_fail (dest_sheet != NULL);
 	g_return_if_fail (IS_SHEET (dest_sheet));
 
@@ -606,9 +751,10 @@ clipboard_paste_region (CommandContext *context,
 	if (dest_sheet->workbook->clipboard_paste_callback_data != NULL)
 		g_free (dest_sheet->workbook->clipboard_paste_callback_data);
 	dest_sheet->workbook->clipboard_paste_callback_data = data;
-	gtk_selection_convert (
-		dest_sheet->workbook->toplevel, GDK_SELECTION_PRIMARY,
-		GDK_TARGET_STRING, time);
+
+	/* Query the formats */
+	gtk_selection_convert (dest_sheet->workbook->toplevel, GDK_SELECTION_PRIMARY,
+			       gdk_atom_intern (TARGETS_ATOM_NAME, FALSE) , time);
 }
 
 /*
@@ -624,14 +770,22 @@ clipboard_release (CellRegion *region)
 	for (l = region->list; l; l = l->next){
 		CellCopy *this_cell = l->data;
 
-		if (this_cell->type != CELL_COPY_TYPE_TEXT) {
+		if (this_cell->type == CELL_COPY_TYPE_CELL) {
 			/* The cell is not really in the rows or columns */
 			this_cell->u.cell->sheet = NULL;
 			this_cell->u.cell->row = NULL;
 			this_cell->u.cell->col = NULL;
 			cell_destroy (this_cell->u.cell);
-		} else
-			g_free (this_cell->u.text);
+		} else {
+
+			if (this_cell->type == CELL_COPY_TYPE_TEXT_AND_COMMENT)
+				if (this_cell->comment != NULL)
+					g_free (this_cell->comment);
+
+			if (this_cell->u.text)
+				g_free (this_cell->u.text);
+		}
+		
 		g_free (this_cell);
 	}
 	if (region->styles != NULL) {

@@ -61,11 +61,13 @@ struct _Cell {
 typedef enum {
 	CELL_COPY_TYPE_CELL,
 	CELL_COPY_TYPE_TEXT,
+	CELL_COPY_TYPE_TEXT_AND_COMMENT,
 } CellCopyType;
 
 typedef struct {
 	int col_offset, row_offset; /* Position of the cell */
 	guint8 type;
+	char *comment;
 	union {
 		Cell   *cell;
 		char *text;
