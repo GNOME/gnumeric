@@ -1,5 +1,8 @@
 Gnumeric 0.99.1
 
+Andreas:
+	* Improved analysis tools documentation
+	
 Jody:
 	* Add insert Graph menu item & icon
 	* Fix Exit icon for bonbo build.

@@ -2,8 +2,8 @@
   <title>An Overview</title>
   <para>The data analysis tools package contains tools for
   statistical data analysis, random number generation and data
-  sampling.  To use these tools select the <quote>Data Analysis...</quote> item
-  in the <quote>Tools</quote> menu.  This yields a list of tools to choose
+  sampling.  To use these tools select the <guilabel>Data Analysis...</guilabel> item
+  in the <guilabel>Tools</guilabel> menu.  This yields a list of tools to choose
   from.  Select one of the tools from the list and press the OK
   button or double-click on the tool.  The tools are described below.</para>
 
@@ -18,8 +18,8 @@
   The results can
   be printed into a new sheet, into a new workbook, or into
   a given output range on a sheet of the current workbook.  To select the output method
-  select one of the radio buttons inside the <quote>Output</quote>
-  frame. If you have chosen <quote>Output Range</quote> you must also enter a single 
+  select one of the radio buttons inside the <guilabel>Output</guilabel>
+  frame. If you have chosen <guibutton>Output Range</guibutton> you must also enter a single 
   range in the entry field.</para>
   <note><para>If the chosen output range is too
   small, some of the results will be lost.</para></note>
@@ -56,20 +56,20 @@
 
      <para>Use this tool to perform a single factor analysis of the
      variances of given variables. The variables are specified by the
-     <quote>Input Range:</quote> entry.  The given range can be grouped 
+     <guilabel>Input Range:</guilabel> entry.  The given range can be grouped 
      into the variables either
-     by columns, by rows or by areas.  The <quote>Alpha:</quote> entry specifies the 
+     by columns, by rows or by areas.  The <guilabel>Alpha:</guilabel> entry specifies the 
      significance level which is by default 5&#037;.</para>
 
      <para>If the first row or first column of the given range, or the 
-     first field of each area contains labels, check the <quote>Labels
-     </quote> button. The names of 
+     first field of each area contains labels, select the <guibutton>Labels
+     </guibutton> option. The names of 
      the variables will be included in the  output table.</para>
 
      <para>The results of this analysis of variance are presented in 
-     a standard ANOVA table. The <quote>F critical</quote>
+     a standard ANOVA table. The <guilabel>F critical</guilabel>
      value is the largest value of F that is statistically significant
-     using the given significance level (<quote>Alpha</quote>).</para>
+     using the given significance level (<guilabel>Alpha</guilabel>).</para>
 
      <para>This tool also calculates the count, sum, average,
      and the variance of each variable.</para>
@@ -93,14 +93,17 @@
      factor while each row is interpreted as a level of the second factor.
      </para>
      <para>The first row and column of the range may contain labels for 
-     these levels. In this case the <quote>Labels</quote> option should be selected.
+     these levels. In this case the <guibutton>Labels</guibutton> option should be selected.
      </para>
-     <para> The <quote>Alpha:</quote> entry specifies the 
+     <para> The <guilabel>Alpha:</guilabel> entry specifies the 
      significance level which is by default 5&#037;.</para>
+ <example id="usinganovatwofactorwotool">
+ <title>Using the 2-factor ANOVA Without Replication Tool</title>
      <para>See <xref linkend="anova-two-factor-without-tool-ex1"> for an example 
      of a completed dialog and <xref linkend="anova-two-factor-without-tool-ex2">
      for the corresponding output.
      </para>
+ </example>
   <figure id="anova-two-factor-without-tool-ex1">
     <title>2-factor ANOVA Without Replication Dialog</title>
     <screenshot>
@@ -108,7 +111,7 @@
     </screenshot>
   </figure>
   <figure id="anova-two-factor-without-tool-ex2">
-    <title>Output From a2-factor ANOVA Without Replication</title>
+    <title>Output From a 2-factor ANOVA Without Replication</title>
     <screenshot>
 	<graphic fileref="figures/analysistools-ANOVA2wo-ex2.png" format="PNG"></graphic>
     </screenshot>
@@ -121,13 +124,13 @@
      performs a two factor fixed effects ANOVA with replication. Each
      column of the input range is interpreted as a level of the first 
      factor while groups of rows (the number of rows in each group given 
-     by the <quote>number of rows per sample</quote> value) are interpreted as levels 
+     by the <guilabel>number of rows per sample</guilabel> value) are interpreted as levels 
      of the second factor.
      </para>
      <para>The first row and column of the range may contain labels for 
-     these levels. In this case the <quote>Labels</quote> option should be selected.
+     these levels. In this case the <guibutton>Labels</guibutton> option should be selected.
      </para>
-     <para> The <quote>Alpha:</quote> entry specifies the 
+     <para> The <guilabel>Alpha:</guilabel> entry specifies the 
      significance level which is by default 5&#037;.</para>
      <para>See <xref linkend="anova-two-factor-with-tool-ex1"> for an example 
      of a completed dialog and <xref linkend="anova-two-factor-with-tool-ex2">
@@ -169,14 +172,14 @@
      correlation coefficients of the
      given variables.  Use this tool to calculate any number of
      correlation coefficients at the same time.  The variables for
-     which the correlations are calculated are specified by the <quote>Input
-     Range:</quote> entry. The input range can consist of either a single 
+     which the correlations are calculated are specified by the <guilabel>Input
+     Range:</guilabel> entry. The input range can consist of either a single 
      range or a comma separated list of ranges. The given range or 
      ranges can be grouped by columns, by rows, or by areas.</para>
 
      <para>If the first row or column of the given ranges, or the 
      first field of each area contains labels,  the
-     <quote>Labels</quote> option should be selected.
+     <guibutton>Labels</guibutton> option should be selected.
      </para>
 
   <figure id="correlation-example-1">
@@ -194,14 +197,15 @@
      (see <xref linkend="correlation-example-1">).</para>
 <orderedlist>
      <listitem><para>
-     Enter A1:B11 in the <quote>Input Range:</quote> entry by typing 
+     Enter A1:B11 in the <guilabel>Input Range:</guilabel> entry by typing 
      this directly into the entry or clicking in the entry field and 
      then selecting that range on the sheet. In the latter case the 
      entry will also contain the sheet name. </para></listitem>
      <listitem><para>
-     Select the <quote>Columns</quote> radio button next to <quote>Grouped By:</quote>, 
+     Select the <guibutton>Columns</guibutton> radio button next to 
+     <guilabel>Grouped By:</guilabel>, 
      since each variable is in its own column.</para></listitem>
-     <listitem><para> Check the <quote>Labels</quote>
+     <listitem><para> Select the <guibutton>Labels</guibutton>
      option since the first row contains labels. (see 
      <xref linkend="correlation-example-2">).</para></listitem>
      <listitem><para> Specify the output 
@@ -244,14 +248,14 @@
      covariance coefficients of the
      given variables.  Use this tool to calculate any number of
      covariance coefficients at the same time.  The variables for
-     which the covariances are calculated are specified by the <quote>Input
-     Range:</quote> entry. The input range can consist of either a single 
+     which the covariances are calculated are specified by the <guilabel>Input
+     Range:</guilabel> entry. The input range can consist of either a single 
      range or a comma separated list of ranges. The given range or 
      ranges can be grouped by columns, by rows, or by areas.</para>
 
      <para>If the first row or column of the given ranges, or the 
      first field of each area contains labels,  the
-     <quote>Labels</quote> option should be selected.
+     <guibutton>Labels</guibutton> option should be selected.
      </para>
 
   <figure id="covariance-example-1">
@@ -269,14 +273,15 @@
      (see <xref linkend="covariance-example-1">).</para>
 <orderedlist>
      <listitem><para>
-     Enter A1:B11 in the <quote>Input Range:</quote> entry by typing 
+     Enter A1:B11 in the <guilabel>Input Range:</guilabel> entry by typing 
      this directly into the entry or clicking in the entry field and 
      then selecting that range on the sheet. In the latter case the 
      entry will also contain the sheet name. </para></listitem>
      <listitem><para>
-     Select the <quote>Columns</quote> radio button next to <quote>Grouped By:</quote>, 
+     Select the <guibutton>Columns</guibutton> radio button next to 
+     <guilabel>Grouped By:</guilabel>, 
      since each variable is in its own column.</para></listitem>
-     <listitem><para> Check the <quote>Labels</quote>
+     <listitem><para> Select the <guibutton>Labels</guibutton>
      option since the first row contains labels.
      </para></listitem>
      <listitem><para> Specify the output 
@@ -312,21 +317,21 @@
 
      <para>The descriptive statistics tool calculates various statistics 
      for the given variables and a confidence interval for the population
-     mean. The variables are specified via the <quote>Input
-     Range:</quote> entry.  The given range or list of ranges can be grouped into 
+     mean. The variables are specified via the <guilabel>Input
+     Range:</guilabel> entry.  The given range or list of ranges can be grouped into 
      variables by columns, rows, or areas.</para>
 
      <para>This tool can produce four different kinds of statistical
      data.
      </para>
      <itemizedlist>
-     <listitem><para>If the <quote>Summary Statistics</quote> option is selected,  
+     <listitem><para>If the <guibutton>Summary Statistics</guibutton> option is selected,  
      this tool calculates the
      mean, standard error, median, mode, standard deviation, sample
      variance, kurtosis, skewness, range, minimum, maximum, sum, and
      count for each variable.</para>
      </listitem>
-     <listitem><para>If the <quote>Confidence Interval for the Mean</quote> button is 
+     <listitem><para>If the <guibutton>Confidence Interval for the Mean</guibutton> option is 
      selected, the tool calculates  confidence intervals for the population
      mean of each variable.
      Specify the confidence level in the entry box.  The default confidence 
@@ -338,20 +343,20 @@
      estimates the population standard deviation using the sample standard
      deviation.</para></note></listitem>
 
-     <listitem><para>If the <quote>Kth Largest:</quote> button is selected, the tool finds
+     <listitem><para>If the <guibutton>Kth Largest:</guibutton> option is selected, the tool finds
      the <parameter>k</parameter>th largest value of each of the variables.  Specify 
      <parameter>k</parameter> in
-     the entry box next to the check button. The default is 1.
+     the entry box next to the option. The default is 1.
      </para></listitem>
 
-     <listitem><para>If the <quote>Kth Smallest:</quote> button is selected, the tool finds
+     <listitem><para>If the <guibutton>Kth Smallest:</guibutton> option is selected, the tool finds
      the <parameter>k</parameter>th smallest value of each of the variables.  Specify 
      <parameter>k</parameter> in
-     the entry box next to the check button. The default is 1.
+     the entry box next to the option. The default is 1.
      </para></listitem>
      </itemizedlist>
      <para>If the first entry for each variable contains the label,
-     check the <quote>Labels</quote> button.
+     select the <guibutton>Labels</guibutton> option.
      </para>
   <figure id="descstats-example-1">
     <title>Some Example Data</title>
@@ -383,7 +388,7 @@
      value in the original data set.</para>
 
      <para>You can define the prior forecast adjustment in the
-     <quote>Damping factor</quote> entry.  A good value could be, for example,
+     <guilabel>Damping factor</guilabel> entry.  A good value could be, for example,
      between 0.2 and 0.3 representing 20 to 30 percent error
      adjustment in the prior forecast.</para>
 
@@ -407,13 +412,13 @@
      variances are different against the null hypothesis that
      they are not.</para>
 
-     <para>Specify the variables in the <quote>Variable 1 Range:</quote>
-     and <quote>Variable 2 Range:</quote> entries. The <quote>Alpha:</quote> 
+     <para>Specify the variables in the <guilabel>Variable 1 Range:</guilabel>
+     and <guilabel>Variable 2 Range:</guilabel> entries. The <guilabel>Alpha:</guilabel> 
      entry contains the 
      significance level which is by default 5&#037;.</para>
 
      <para>If the first field of each range contains labels, 
-     check the <quote>Labels</quote> button. The names of 
+     select the <guibutton>Labels</guibutton> option. The names of 
      the variables will be included in the  output table.</para>
 
      <para>The results are given in a table.  This table contains
@@ -422,12 +427,12 @@
      the one-tailed probability for the F-value, and the F Critical
      value for one-tailed test and the corresponding values for a two 
      tailed test. The one-tailed probability for the
-     F-value (<quote>P(F&lt;=f) one-tail</quote> row) is the probability of making a
+     F-value (<guilabel>P(F&lt;=f) one-tail</guilabel> row) is the probability of making a
      Type I error in the one-tailed test. Similarly, the two-tailed 
-     probability for the F-value (<quote>P two-tail</quote> row)
+     probability for the F-value (<guilabel>P two-tail</guilabel> row)
      is the probability of making a Type I error in the two-tailed test.
      Since in the two-tailed F-Test both critical values are positive, the
-     <quote>F Critical two-tail</quote> row contains two numbers.</para>
+     <guilabel>F Critical two-tail</guilabel> row contains two numbers.</para>
 
      <para>If the output is directed into a specific output range, that
      range should contain at least three columns and eight rows.</para>
@@ -468,37 +473,37 @@
      selected.  
      </para>
      <para>
-     The <quote>Input Range</quote> entry contains a single range or a list of ranges, that
-     can be grouped into variables by rows, columns, or areas. The <quote>Bin Range</quote>
-     entry contains a single range of cutoff values. Both rnages may also include 
-     lables.
+     The <guilabel>Input Range</guilabel> entry contains a single range or a list of ranges, that
+     can be grouped into variables by rows, columns, or areas. The <guilabel>Bin Range</guilabel>
+     entry contains a single range of cutoff values. Both ranges may also include 
+     labels.
      </para>
      <para>If the first row or column of the given input ranges, or the 
      first field of each area contains labels,  the
-     <quote>Input Labels</quote> option should be selected.
+     <guibutton>Input Labels</guibutton> option should be selected.
      </para>
      <para>If the first column of the given bin range contains labels,  the
-     <quote>Bin Labels</quote> option should be selected.
+     <guibutton>Bin Labels</guibutton> option should be selected.
      </para>
      <para> The remaining options modify the appearance of the histogram:</para>
      <itemizedlist>
      <listitem>
-     <para> The <quote>Pareto</quote> option causes the bins to be sorted by decreasing 
+     <para> The <guibutton>Pareto</guibutton> option causes the bins to be sorted by decreasing 
      frequency of the first variable.
      </para>
      </listitem>
      <listitem>
-     <para> The <quote>Percentage</quote> option adds a histogram in terms of 
+     <para> The <guibutton>Percentage</guibutton> option adds a histogram in terms of 
      percentages rather than frequencies.
      </para>
      </listitem>
      <listitem>
-     <para> The <quote>Cumulative Percentages</quote> option adds a cumulative 
+     <para> The <guibutton>Cumulative Percentages</guibutton> option adds a cumulative 
      histogram.
      </para>
      </listitem>
      <listitem>
-     <para> The <quote>Chart</quote> option is not implemented.
+     <para> The <guibutton>Chart</guibutton> option is not implemented.
      </para>
      </listitem>
      </itemizedlist>
@@ -513,28 +518,29 @@
  <example id="usinghistogramtool">
  <title>Using the Histogram Tool</title>
     <para>For example, you want to calculate a histogram and a cumulative 
-    histogram in perventages for a the number of successes in several 
+    histogram in percentages for a the number of successes in several 
     sequences of trials. The numbers of successes are recorded in column A 
     and the classes of interest in column D with labels in column C
      (see <xref linkend="histogram-example-1">).</para>
 <orderedlist>
      <listitem><para>
-     Enter A1:A21 in the <quote>Input Range:</quote> entry by typing 
+     Enter A1:A21 in the <guilabel>Input Range:</guilabel> entry by typing 
      this directly into the entry or clicking in the entry field and 
      then selecting that range on the sheet. In the latter case the 
      entry will also contain the sheet name. </para></listitem>
      <listitem><para>
-     Since you only have one variable select the <quote>Areas</quote> or 
-     <quote>Columns</quote> radio 
-     button next to <quote>Grouped By:</quote>.
+     Since you only have one variable select the <guibutton>Areas</guibutton> or 
+     <guibutton>Columns</guibutton> radio 
+     button next to <guilabel>Grouped By:</guilabel>.
      </para></listitem>
      <listitem><para>
-     Enter C1:D5 in the <quote>Bin Range:</quote> entry. </para></listitem>
-      <listitem><para> Select the <quote>Bin Labels</quote>
+     Enter C1:D5 in the <guilabel>Bin Range:</guilabel> entry. </para></listitem>
+      <listitem><para> Select the <guibutton>Bin Labels</guibutton>
      option since the first column of the Bin Range contains labels. 
      </para></listitem>
      <listitem><para>
-     Select the <quote>Percentage</quote> and <quote>Cumulative Percentages</quote> options.
+     Select the <guibutton>Percentage</guibutton> and <guibutton>Cumulative Percentages
+     </guibutton> options.
      </para></listitem>     
      <listitem><para> Specify the output 
      options as described above.</para></listitem>
@@ -563,15 +569,15 @@
      prize.</para>
 
      <para>To use this tool, first specify the cells containing the
-     values whose moving averages you want to calculate in the <quote>Input
-     Range</quote> entry.  Then specify the <quote>Interval</quote> for the moving
+     values whose moving averages you want to calculate in the <guilabel>Input
+     Range</guilabel> entry.  Then specify the <guilabel>Interval</guilabel> for the moving
      average.  The interval specifies the number of values to be
      included in the moving average.</para>
 
      <para>The results are given in a column.  Each row represents the
      moving average for the corresponding row in the input range.  The
-     moving average cannot be calculated for the first <quote>k</quote> rows in the
-     input range where <quote>k</quote> is smaller than the given interval.</para>
+     moving average cannot be calculated for the first <parameter>k</parameter> rows in the
+     input range where <parameter>k</parameter> is smaller than the given interval.</para>
 
   </sect1>
 
@@ -583,7 +589,7 @@
      probability distributions.</para>
 
      <para>To use this tool, first specify the number of variables in
-     the <quote>Number of Variables:</quote> entry box.  This determines the
+     the <guilabel>Number of Variables:</guilabel> entry box.  This determines the
      number of columns of random values to be produced.  Secondly,
      specify the number of random numbers.  This determines the number
      of rows of random values to be produced.  Thirdly specify the
@@ -597,8 +603,8 @@
         <title>Random Distributions</title>
 
         <para>For Discrete random distribution, specify the value and
-	probability input range in the <quote>Value and Probability Input
-	Range:</quote> entry box.  That is a table consisting of two columns
+	probability input range in the <guilabel>Value and Probability Input
+	Range:</guilabel> entry box.  That is a table consisting of two columns
 	and any number of rows.  The first column specifies the
 	discrete random values and the second column the probabilities
 	for them.  The discrete random values do not have to be
@@ -613,16 +619,18 @@
 	mean and 1 for standard deviation.</para>
 
 	<para>For Poisson random distribution, specify the lambda in
-	the <quote>Lambda</quote> entry.</para>
+	the <guilabel>Lambda</guilabel> entry.</para>
 
 	<para>For Exponential random distribution, specify the b in
-	the <quote>b Value</quote> entry.</para>
+	the <guilabel>b Value</guilabel> entry.</para>
 
 	<para>For Binomial random distribution, specify the
-	probability of success in <quote>p Value</quote> entry.  Also specify the
-	number of trials in the <quote>Number of Trials</quote> entry.  Binomial
+	probability of success in <guilabel>p Value</guilabel> entry.  Also specify the
+	number of trials in the <guilabel>Number of Trials</guilabel> entry.  
+	Binomial
 	distribution is a discrete distribution in which the
-	experiment consists of <quote>n</quote> identical trials, where <quote>n</quote> is
+	experiment consists of <guilabel>n</guilabel> identical trials, where 
+	<guilabel>n</guilabel> is
 	fixed in advance.  Each trial is independent of other trials
 	and has two possible outcomes, a success or a failure.  The
 	probability of success is constant from one trial to another.
@@ -630,27 +638,28 @@
 	is E(X) = np, and the variance is var(X) = np(1-p).</para>
 
 	<para>For Negative Binomial distribution, specify the
-	probability of success in <quote>p Value</quote> entry.  Also specify the
-	number of failures in the <quote>Number of Failures</quote> entry.
+	probability of success in <guilabel>p Value</guilabel> entry.  Also specify the
+	number of failures in the <guilabel>Number of Failures</guilabel> entry.
 	Negative Binomial distribution is a discrete distribution in
 	which the experiment consists of a sequence of independent
 	trials.  Each trial has two possible outcomes, a success or a
 	failure.  The probability of success is constant from one
-	trial to another.  The experiment continues until <quote>r</quote> failures
-	are observed, where <quote>r</quote> is fixed in advance.  The mean of a
+	trial to another.  The experiment continues until <guilabel>r</guilabel> failures
+	are observed, where <guilabel>r</guilabel> is fixed in advance.  The mean of a
 	random variable that has a Negative Binomial distribution is
 	E(X) = r(1-p)/p, and the variance is var(X) =
 	r(1-p)/p^2.</para>
 
-        <para>For Bernoulli random distribution, specify the <quote>p
-        Value</quote>.  This is a probability value between 0 and 1.
+        <para>For Bernoulli random distribution, specify the <guilabel>p
+        Value</guilabel>.  This is a probability value between 0 and 1.
         Bernoulli distribution has two random values 0 and 1, and the
-        <quote>p Value</quote> specifies the probability of value 1.  The mean of
+        <guilabel>p Value</guilabel> specifies the probability of value 1.  The mean of
         a random variable that has a Bernoulli distribution is E(X) =
         1(p) + 0(1-p) = p, and the variance is var(X) = p(1-p).</para>
 
         <para>For Uniform random distribution, specify the range of
-        the random variables by filling the <quote>Between:</quote> and <quote>And:</quote>
+        the random variables by filling the <guilabel>Between:</guilabel> and 
+	<guilabel>And:</guilabel>
         entries.  The default values for them are 0 and 1 that gives
         random numbers between zero and one.</para>
      </sect2>
@@ -668,7 +677,7 @@
 
      <para>Use this tool to rank given data and to calculate the
      percentiles of each data point.   The variables for
-     are specified by the <quote>Input  Range:</quote> entry.  
+     are specified by the <guilabel>Input  Range:</guilabel> entry.  
      The given range can be grouped either by columns or by rows.</para>
 
      <para>For each variable, the tool creates three columns in the 
@@ -678,8 +687,8 @@
      the percentile of each data value.</para>
 
      <para>If you have labels, for example the names of the variables,
-     in the first row (or column) of the given range, you should check the
-     <quote>Labels</quote> button.  This leaves the first row (or column)  of
+     in the first row (or column) of the given range, you should select the
+     <guilabel>Labels</guilabel> option.  This leaves the first row (or column)  of
      the input range out of the analysis.  In addition, the names of
      the variables are printed in the output table.</para>
   </sect1>
@@ -699,13 +708,13 @@
      taken to the sample.</para>
 
      <para>To use this tool, first specify the data set by setting the
-     <quote>Input Range:</quote> entry.  Then select the sampling method which
+     <guilabel>Input Range:</guilabel> entry.  Then select the sampling method which
      can be either periodic or random.  Periodic sampling requires
-     that you specify the period by typing a number to the <quote>Period:</quote>
+     that you specify the period by typing a number to the <guilabel>Period:</guilabel>
      entry.  For example, if you specify the period to be three then
      you will get a sample that has every third value of the original
      data set.  Random sampling requires that you specify the size of
-     the random sample in <quote>Number of Samples:</quote> entry.  The size
+     the random sample in <guilabel>Number of Samples:</guilabel> entry.  The size
      cannot be larger than the original data set since each value of
      the original data set is taken at most once to the sample.</para>
   </sect1>
@@ -713,49 +722,197 @@
 
 <sect1 id="t-test">
      <title>Comparing Means of 2 Populations</title>
-  <sect2 id="t-test-paired-two-samples-for-means-tool">
-     <title>t-Test: Paired Two Sample for Means Tool</title>
+     <para>Gnumeric provides 4 similar tools to test whether the difference 
+     of two population means is equal to a hypothesized value. These 
+     four tools use the same dialog (see <xref linkend="ttest-dialog">).</para>
 
-     <para>WriteMe</para>
+  <figure id="ttest-dialog">
+    <title><parameter>t</parameter>- and <parameter>z</parameter>-Test Tool Dialog</title>
+    <screenshot>
+<graphic fileref="figures/analysistools-ttest.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+
+     <para>Depending on the options settings, the appropriate test will be performed. The 
+     entries in the <guilabel>Input</guilabel>, <guilabel>Test</guilabel>, and 
+     <guilabel>Output</guilabel> frames are independent from the specific test.</para>
+
+     <para>Enter the first variable in the <guilabel>Variable 1 Range</guilabel> entry 
+     and the second variable in the <guilabel>Variable 2 Range</guilabel> entry.</para>
+     <para>Enter the hypothesized difference between the population means in the 
+     <guilabel>Hypothesized Mean Difference</guilabel> entry, which has a default of 0.
+     Enter the significance level in the <guilabel>Alpha</guilabel> entry, which has a 
+     default of 5 &#037;.</para>
+     <para> Specify the output 
+     options as described above. If the output is printed into a range, it should have at
+     least three columns and ten rows.</para>
+
+     <para>There are up to three possible options that can be selected:</para>
+     <variablelist>
+     <varlistentry><term><guilabel>Paired</guilabel> versus <guilabel>Unpaired</guilabel>
+     </term><listitem><para>
+     If the variables are dependent (or paired) select the <guilabel>Paired</guilabel>
+     option.
+     </para></listitem>
+     </varlistentry>
+     <varlistentry><term><guilabel>Known</guilabel> versus <guilabel>Unknown</guilabel>
+     </term><listitem><para>
+     For unpaired or independent variables, the population variances may be known 
+     or unknown. In the latter case they will be estimated using the sample variances.
+     Select the <guilabel>Known</guilabel> option if you in fact know the population 
+     variances prior to collecting the sample.
+     </para></listitem>
+     </varlistentry>
+     <varlistentry><term><guilabel>Equal</guilabel> versus <guilabel>Unequal</guilabel>
+     </term><listitem><para>
+     For paired variables with unknown population variances, we may either assume 
+     that the population variances are equal or not. If the population variances are
+     assumed to be equal, gnumeric will estimate the common variance by pooling the 
+     sample variances. Select the <guilabel>Equal</guilabel> option to assume that
+     the population variances are equal.
+     </para></listitem>
+     </varlistentry>
+     </variablelist>
+
+  <sect2 id="t-test-paired-two-samples-for-means-tool">
+     <title><parameter>t</parameter>-Test: Paired Two Sample for Means Tool</title>
+  <figure id="ttest-dialog-paired">
+    <title><parameter>t</parameter>-Test (Paired) Tool Dialog Options</title>
+    <screenshot>
+<graphic fileref="figures/analysistools-ttest-paired.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+     <para>For paired variables, when you click on 
+     <guibutton>OK</guibutton>, gnumeric will test whether the 
+     mean of the difference between the paired variables is equal to 
+     the given hypothesized mean difference.</para>
+
+ <example id="usingttestpairedtool">
+ <title>Using the <parameter>t</parameter>-Test (Paired) Tool</title>
+     <para>See <xref linkend="ttest-paired-tool-ex1"> for an example 
+     of a completed dialog and <xref linkend="ttest-paired-tool-ex2">
+     for the corresponding output.
+     </para>
+ </example>
+  <figure id="ttest-paired-tool-ex1">
+    <title><parameter>t</parameter>-Test (Paired) Example Data</title>
+    <screenshot>
+<graphic fileref="figures/analysistools-ttest-paired-ex1.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+  <figure id="ttest-paired-tool-ex2">
+    <title>Output from the <parameter>t</parameter>-Test (Paired) Tool</title>
+    <screenshot>
+<graphic fileref="figures/analysistools-ttest-paired-ex2.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+
   </sect2>
 
   <sect2 id="t-test-two-sample-equal-variances-tool">
-     <title>t-Test: Two-Sample Assuming Equal Variances Tool</title>
+     <title><parameter>t</parameter>-Test: Two-Sample Assuming Equal Variances Tool</title>
+  <figure id="ttest-dialog-equal">
+    <title><parameter>t</parameter>-Test (Equal Variances) Tool Dialog Options</title>
+    <screenshot>
+<graphic fileref="figures/analysistools-ttest-equal.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+     <para>For unpaired variables with unknown but assumed equal population variances,
+     when you click on <guibutton>OK</guibutton>, gnumeric will test whether the 
+     mean of the difference between the paired variables is equal to the given hypothesized
+     mean difference.</para>
 
-     <para>WriteMe</para>
+ <example id="usingttestequaltool">
+ <title>Using the <parameter>t</parameter>-Test (Unknown but Equal Variances) Tool</title>
+     <para>See <xref linkend="ttest-equal-tool-ex1"> for an example 
+     of a completed dialog and <xref linkend="ttest-equal-tool-ex2">
+     for the corresponding output.
+     </para>
+ </example>
+  <figure id="ttest-equal-tool-ex1">
+    <title><parameter>t</parameter>-Test (Unknown but Equal Variances) Example Data</title>
+    <screenshot>
+<graphic fileref="figures/analysistools-ttest-equal-ex1.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+  <figure id="ttest-equal-tool-ex2">
+    <title>Output from the <parameter>t</parameter>-Test (Unknown but Equal Variances) Tool</title>
+    <screenshot>
+<graphic fileref="figures/analysistools-ttest-equal-ex2.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
   </sect2>
 
   <sect2 id="t-test-two-samples-unequal-variances">
-     <title>t-Test: Two-Sample Assuming Unequal Variances Tool</title>
+     <title><parameter>t</parameter>-Test: Two-Sample Assuming Unequal Variances Tool</title>
+  <figure id="ttest-dialog-unequal">
+    <title><parameter>t</parameter>-Test (Unknown and Unequal Variances) Tool 
+    Dialog Options</title>
+    <screenshot>
+<graphic fileref="figures/analysistools-ttest-unequal.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+     <para>For unpaired  variables with unknown and assumed unequal population variances,
+     when you click on <guibutton>OK</guibutton>, gnumeric will test whether the 
+     mean of the difference between the paired variables is equal to the given hypothesized
+     mean difference.</para> 
 
-     <para>WriteMe</para>
+ <example id="usingttestunwqualtool">
+ <title>Using the <parameter>t</parameter>-Test (Unknown and Unequal Variances) Tool</title>
+     <para>See <xref linkend="ttest-unequal-tool-ex1"> for an example 
+     of a completed dialog and <xref linkend="ttest-unequal-tool-ex2">
+     for the corresponding output.
+     </para>
+ </example>
+  <figure id="ttest-unequal-tool-ex1">
+    <title><parameter>t</parameter>-Test (Unknown and Unequal Variances) Example Data</title>
+    <screenshot>
+<graphic fileref="figures/analysistools-ttest-unequal-ex1.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+  <figure id="ttest-unequal-tool-ex2">
+    <title>Output from the <parameter>t</parameter>-Test (Unknown and Unequal Variances) 
+    Tool</title>
+    <screenshot>
+<graphic fileref="figures/analysistools-ttest-unequal-ex2.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
   </sect2>
+
   <sect2 id="ztest-two-samples-for-means-tool">
-     <title>z-Test: Two Samples for Means Tool</title>
+     <title<parameter>z</parameter>-Test: Two Samples for Means Tool</title>
+  <figure id="ztest-dialog">
+    <title><parameter>z</parameter>-Test Tool Dialog Options</title>
+    <screenshot>
+<graphic fileref="figures/analysistools-ztest.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+     <para>For unpaired  variables with known population variances, enter those variances 
+     in the <guilabel>Variable 1 Pop. Variance</guilabel> and 
+     <guilabel>Variable 2 Pop. Variance</guilabel> entries.
+     When you click on <guibutton>OK</guibutton>, gnumeric will test whether the 
+     mean of the difference between the paired variables is equal to the given hypothesized
+     mean difference.</para> 
 
-     <para>Use the z-Test tool to analyze whether the means of two
-     variables are significantly different or not.  The values of the
-     first variable are specified in the <quote>Variable 1 Range:</quote> entry.
-     Correspondingly, the values of the second variable are given in
-     the <quote>Variable 2 Range:</quote> entry.  You should also specify the
-     variances of both variables in the <quote>Variable 1 Variance
-     (known):</quote> and <quote>Variable 2 Variance (known):</quote> entries.</para>
-
-     <para>If you want to test whether the difference of the means is
-     larger than a given value, specify also the <quote>Hypothesized Mean
-     Difference:</quote> entry.  <quote>Alpha:</quote> entry specifies the level of
-     significance which is by default 95&percnt;.</para>
-
-     <para>If the output is printed into a range, it should have at
-     least three columns and ten rows.</para>
-
-     <para>The results are given in a table.  The tool calculates and
-     prints the mean, known variance, and count of observations of
-     both variables.  It also calculates the z-value, the one-tailed
-     and two-tailed probability for the z-value, and the z Critical
-     value for one-tailed and two-tailed tests.  The one-tailed
-     probability for the z-value (<quote>P(Z&lt;=z) one-tail</quote> row) describes
-     the risk of making a Type I error of one-tailed test.</para>
+ <example id="usingztesttool">
+ <title>Using the <parameter>z</parameter>-Test Tool</title>
+     <para>See <xref linkend="ztest-tool-ex1"> for an example 
+     of a completed dialog and <xref linkend="ztest-tool-ex2">
+     for the corresponding output.
+     </para>
+ </example>
+  <figure id="ztest-tool-ex1">
+    <title><parameter>z</parameter>-Test Example Data</title>
+    <screenshot>
+<graphic fileref="figures/analysistools-ztest-ex1.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+  <figure id="ztest-tool-ex2">
+    <title>Output from the <parameter>z</parameter>-Test Tool</title>
+    <screenshot>
+<graphic fileref="figures/analysistools-ztest-ex2.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
   </sect2>
 </sect1>
 
@@ -768,7 +925,7 @@
   sgml-always-quote-attributes:t
   sgml-indent-step:2
   sgml-indent-data:t
-  sgml-parent-document:nil
+  sgml-parent-document:gnumeric.sgml
   sgml-exposed-tags:nil
   sgml-local-catalogs:nil
   sgml-local-ecat-files:nil
