@@ -1,4 +1,9 @@
-2001-05-20  Jody Goldberg <jgoldberg@home.com>
+2001-05-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/format.c (render_number) : avoid temporaries.
+	(do_render_number) : ditto.
+
+2001-05-18  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : bump version to 0.66.
 

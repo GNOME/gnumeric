@@ -662,8 +662,9 @@ typedef struct {
 	gboolean has_fraction;
 } format_info_t;
 
-static GString *
-render_number (gdouble number,
+static void
+render_number (GString *result,
+	       gdouble number,
 	       int left_req,
 	       int right_req,
 	       int left_spaces,
@@ -672,12 +673,14 @@ render_number (gdouble number,
 	       char const *show_decimal,
 	       format_info_t const *info)
 {
-	GString *number_string = g_string_new ("");
-	gint zero_count;
-	gdouble temp;
-	int group = 0;
+	static double beyond_precision = 0;
+	int zero_count;
+	double temp;
 	char thousands_sep;
-	static gdouble beyond_precision = 0;
+	int group = 0;
+	char num_buf [DBL_DIG*2 + 1];
+	char *num = num_buf + DBL_DIG*2;
+	int digit_count = 0;
 
 	if (!beyond_precision)
 		beyond_precision = gpow10 (DBL_DIG + 1);
@@ -694,43 +697,42 @@ render_number (gdouble number,
 
 	thousands_sep = format_get_thousand ();
 
-	for (temp = number; temp >= 1.0; temp /= 10.0) {
-		int digit;
-
-		if (info->comma_separator_seen) {
-			group++;
-			if (group == 4){
-				group = 1;
-				g_string_prepend_c (number_string, thousands_sep);
-			}
+	*num = '\0';
+	temp = number;
+	for (; temp > beyond_precision ; temp /= 10., digit_count++) {
+		if (info->comma_separator_seen && ++group == 4) {
+			group = 1;
+			*(--num) = thousands_sep;
 		}
-
-		if (temp > beyond_precision)
-			digit = 0;
-		else {
-			double r = floor (temp);
-			digit = r - floor (r / 10) * 10;
-		}
-		g_string_prepend_c (number_string, digit + '0');
-		if (left_req > 0)
-			left_req--;
-		if (left_spaces > 0)
-			left_spaces--;
+		*(--num) = '0';
 	}
 
-	for (; left_req > 0; left_req--, left_spaces--)
-		g_string_prepend_c (number_string, '0');
+	for (; temp >= 1. ; temp /= 10., digit_count++) {
+		double r = floor (temp);
+		int digit = r - floor (r / 10) * 10;
 
-	for (; left_spaces > 0; left_spaces--)
-		g_string_prepend_c (number_string, ' ');
+		if (info->comma_separator_seen && ++group == 4) {
+			group = 1;
+			*(--num) = thousands_sep;
+		}
+		*(--num) = digit + '0';
+	}
 
 	if (info->negative && !info->supress_minus)
-		g_string_prepend_c (number_string, '-');
+		g_string_append_c (result, '-');
+	if (left_req > digit_count) {
+		for (left_spaces -= left_req ; left_spaces-- >= 0 ;)
+			g_string_append_c (result, ' ');
+		for (left_req -= digit_count ; left_req-- > 0 ;)
+			g_string_append_c (result, '0');
+	}
+
+	g_string_append (result, num);
 
 	if (info->decimal_separator_seen)
-		g_string_append_c (number_string, format_get_decimal ());
+		g_string_append_c (result, format_get_decimal ());
 	else
-		g_string_append (number_string, show_decimal);
+		g_string_append (result, show_decimal);
 
 	temp = number - floor (number);
 
@@ -739,7 +741,7 @@ render_number (gdouble number,
 		temp *= 10.0;
 		digit = (gint)temp;
 		temp -= digit;
-		g_string_append_c (number_string, digit + '0');
+		g_string_append_c (result, digit + '0');
 	}
 
 	zero_count = 0;
@@ -757,22 +759,18 @@ render_number (gdouble number,
 			zero_count = 0;
 		}
 
-		g_string_append_c (number_string, digit + '0');
+		g_string_append_c (result, digit + '0');
 	}
 
-	g_string_truncate (number_string, number_string->len - zero_count);
+	g_string_truncate (result, result->len - zero_count);
 
-	for (; right_spaces > 0; right_spaces--) {
-		g_string_append_c (number_string, ' ');
-	}
-
-	return number_string;
+	for (; right_spaces > 0; right_spaces--)
+		g_string_append_c (result, ' ');
 }
 
 static void
 do_render_number (gdouble number, format_info_t *info, GString *result)
 {
-	GString *number_str;
 	char decimal_point [2];
 
 	info->rendered = TRUE;
@@ -810,7 +808,7 @@ do_render_number (gdouble number, format_info_t *info, GString *result)
 		decimal_point);
 #endif
 
-	number_str = render_number (
+	render_number (result,
 		number,
 		info->left_req,
 		info->right_req,
@@ -819,9 +817,6 @@ do_render_number (gdouble number, format_info_t *info, GString *result)
 		info->right_allowed + info->right_optional,
 		decimal_point,
 		info);
-
-	g_string_append (result, number_str->str);
-	g_string_free (number_str, TRUE);
 }
 
 /*
