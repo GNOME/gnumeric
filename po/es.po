@@ -1204,9 +1204,8 @@ msgstr "Orientación"
 msgid "Por_trait"
 msgstr "_Vertical"
 
-#: src/dialogs/print.glade.h:10
 msgid "_Landscape"
-msgstr "A_paisado"
+msgstr "_Apaisado"
 
 #: src/dialogs/print.glade.h:11
 msgid "Scale"
@@ -1214,11 +1213,11 @@ msgstr "Escala"
 
 #: src/dialogs/print.glade.h:12
 msgid "_Adjust to:"
-msgstr "_Ajustar a:"
+msgstr "A_justar a:"
 
 #: src/dialogs/print.glade.h:13
 msgid "_Fit to:"
-msgstr "_Encajar con:"
+msgstr "Pa_ginar en:"
 
 #: src/dialogs/print.glade.h:14
 msgid "% of normal size"
@@ -1230,11 +1229,11 @@ msgstr "páginas de ancho, por"
 
 #: src/dialogs/print.glade.h:16
 msgid "tall"
-msgstr "alto"
+msgstr "de alto"
 
 #: src/dialogs/print.glade.h:17
 msgid "Fi_rst page number:"
-msgstr "_Primera página:"
+msgstr "_Primer página:"
 
 #: src/dialogs/print.glade.h:18 src/dialogs/print.glade.h:32
 #: src/dialogs/print.glade.h:42 src/dialogs/print.glade.h:58
@@ -1244,7 +1243,7 @@ msgstr "_Imprimir"
 #: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:33
 #: src/dialogs/print.glade.h:43 src/dialogs/print.glade.h:59
 msgid "Print previe_w"
-msgstr "Vista preliminar de la impresión"
+msgstr "Previ_sualización de la impresión"
 
 #: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:34
 #: src/dialogs/print.glade.h:44 src/dialogs/print.glade.h:60
@@ -1285,7 +1284,7 @@ msgstr "_Verticalmente"
 
 #: src/dialogs/print.glade.h:29
 msgid "_Left:"
-msgstr "_Izquierda:"
+msgstr "I_zquierda:"
 
 #: src/dialogs/print.glade.h:30
 msgid "_Right"
@@ -1325,7 +1324,7 @@ msgstr "Encabezados y pies de página"
 
 #: src/dialogs/print.glade.h:46
 msgid "Print _area:"
-msgstr "Imprimir _región:"
+msgstr "Imprimir re_gión:"
 
 #: src/dialogs/print.glade.h:47
 msgid "Titles to print"
@@ -1345,7 +1344,7 @@ msgstr "Imprimir"
 
 #: src/dialogs/print.glade.h:51
 msgid "Row and co_lumn headings"
-msgstr ""
+msgstr "_Encabezados de los renglones y colúmnas"
 
 #: src/dialogs/print.glade.h:52
 msgid "Co_mments"
@@ -1353,7 +1352,7 @@ msgstr "Co_mentarios"
 
 #: src/dialogs/print.glade.h:53
 msgid "_Grid lines"
-msgstr ""
+msgstr "Líneas de la re_jilla"
 
 #: src/dialogs/print.glade.h:54
 msgid "_Black and white"
@@ -6676,7 +6675,7 @@ msgstr "Añadir..."
 
 #: src/plugin-manager.c:132
 msgid "Remove"
-msgstr "Remover"
+msgstr "Quitar"
 
 #: src/plugin.c:40
 msgid "unable to open module file: "
