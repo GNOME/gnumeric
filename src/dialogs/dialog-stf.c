@@ -177,8 +177,8 @@ cancel_clicked (G_GNUC_UNUSED GtkWidget *widget, StfDialogData *data)
 {
 	if (go_gtk_query_yes_no
 	    (GTK_WINDOW (data->dialog),
-	     _("Are you sure you want to cancel?"),
-	     FALSE)) {
+	     FALSE,
+	     _("Are you sure you want to cancel?"))) {
 		data->canceled = TRUE;
 		gtk_widget_destroy (GTK_WIDGET (data->dialog));
 		gtk_main_quit ();

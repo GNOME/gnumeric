@@ -903,10 +903,10 @@ item_cursor_target_region_ok (ItemCursor *ic)
 
 	return go_gtk_query_yes_no
 		(wbcg_toplevel (ic->scg->wbcg),
+		 TRUE,
 		 _("The cells dragged will overwrite the contents of the\n"
 		   "existing cells in that range.  Do you want me to replace\n"
-		   "the contents in this region?"),
-		 TRUE);
+		   "the contents in this region?"));
 }
 
 typedef enum {

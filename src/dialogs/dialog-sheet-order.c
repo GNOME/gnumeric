@@ -980,8 +980,9 @@ cb_sheet_order_changed (Workbook *wb, SheetManager *state)
 	 * different. Ask the user what to do.
 	 */
 	if (go_gtk_query_yes_no (GTK_WINDOW (state->dialog),
-			_("The sheet order has changed. Do you want to "
-			  "update the list?"), TRUE))
+				 TRUE,
+				 _("The sheet order has changed. Do you want to "
+				   "update the list?")))
 		dialog_sheet_order_update_sheet_order (state);
 }
 

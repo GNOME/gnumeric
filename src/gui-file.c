@@ -330,8 +330,7 @@ check_multiple_sheet_support_if_needed (GnmFileSaver *fs,
 
 		sheets = workbook_sheets (wb_view_workbook (wb_view));
 		if (g_list_length (sheets) > 1) {
-			ret_val = go_gtk_query_yes_no (
-				parent, msg, TRUE);
+			ret_val = go_gtk_query_yes_no (parent, TRUE, msg);
 		}
 		g_list_free (sheets);
 	}
@@ -455,9 +454,10 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 					     gnm_file_saver_get_extension (fs), 
 					     &uri2) &&
 		    !go_gtk_query_yes_no (GTK_WINDOW (fsel),
-						      _("The given file extension does not match the"
-							" chosen file type. Do you want to use this name"
-							" anyway?"), TRUE)) {
+					  TRUE,
+					  _("The given file extension does not match the"
+					    " chosen file type. Do you want to use this name"
+					    " anyway?"))) {
 			g_free (uri);
 			g_free (uri2);
 			uri = NULL;

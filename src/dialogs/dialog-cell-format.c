@@ -2080,7 +2080,8 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 		if (state->validation.valid < 0) {
 			if (go_gtk_query_yes_no (
 				    GTK_WINDOW (state->dialog),
-				    _ ("The validation criteria are unusable. Disable validation?"), FALSE))
+				    FALSE,
+				    _ ("The validation criteria are unusable. Disable validation?")))
 			{
 				gtk_combo_box_set_active (state->validation.constraint_type, 0);
 				cb_validation_sensitivity (NULL, state);

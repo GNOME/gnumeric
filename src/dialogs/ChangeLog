@@ -1,3 +1,11 @@
+2005-03-03  Morten Welinder  <terra@gnome.org>
+
+	* dialog-merge.c (cb_merge_merge_clicked): Fix go_gtk_query_yes_no
+	arg order.
+	* dialog-plugin-manager.c (cb_active_toggled): Ditto.
+	* dialog-cell-format.c (cb_fmt_dialog_dialog_buttons): Ditto.
+	* dialog-sheet-order.c (cb_sheet_order_changed): Ditto.
+
 2005-03-02  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c: Use FooCanvas for drawing rotated text.

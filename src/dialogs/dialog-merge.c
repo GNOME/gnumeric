@@ -286,7 +286,7 @@ cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 					      min_length);
 
 		if (go_gtk_query_yes_no (
-			    GTK_WINDOW (state->dialog), text, TRUE)) {
+			    GTK_WINDOW (state->dialog), TRUE, text)) {
 			g_slist_foreach (data_list, cb_merge_trim_data, &min_length);
 			g_free (text);
 		} else {
