@@ -1,7 +1,14 @@
-2001-03-12  Jody Goldberg <jgoldberg@home.com>
+2001-03-14  Jody Goldberg <jgoldberg@home.com>
 
-	* src/print-cell.c (print_cell) : re-enable halign FILL.
-	* src/cell-draw.c (cell_draw) : ditto.
+	* src/parser.y : Add portability.h to help on Tru64
+
+	* src/workbook-control-gui.c : disable validate and freeze for
+	  release.
+
+2001-03-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (workbook_setup_auto_calc) : the autoexpr
+	  button can not take focus.
 
 2001-03-12  Jody Goldberg <jgoldberg@home.com>
 	For  Vlad Harchev <hvv@hippo.ru> :

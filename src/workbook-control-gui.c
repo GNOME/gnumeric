@@ -1421,6 +1421,7 @@ cb_view_zoom (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	dialog_zoom (wbcg, wb_control_cur_sheet (wbc));
 }
 
+#if 0
 static void
 cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
@@ -1428,6 +1429,7 @@ cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	sheet_freeze_panes (sheet, &sheet->edit_pos);
 }
+#endif
 
 static void
 cb_view_new_shared (GtkWidget *widget, WorkbookControlGUI *wbcg)
@@ -1750,12 +1752,14 @@ cb_data_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	dialog_advanced_filter (wbcg);
 }
 
+#if 0
 static void
 cb_data_validate (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	dialog_validate (wbcg, wb_control_cur_sheet (wbc));
 }
+#endif
 
 static void
 cb_help_about (GtkWidget *widget, WorkbookControlGUI *wbcg)
@@ -2064,9 +2068,11 @@ static GnomeUIInfo workbook_menu_view [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Zoom..."),
 		N_("Zoom the spreadsheet in or out"),
 		cb_view_zoom),
+#if 0
 	GNOMEUIINFO_ITEM_NONE (N_("_Freeze..."),
 		N_("Freeze the top left of the sheet"),
 		cb_view_freeze_panes),
+#endif
 	GNOMEUIINFO_ITEM_NONE (N_("New _Shared"),
 		N_("Create a new shared view of the workbook"),
 		cb_view_new_shared),
@@ -2272,9 +2278,11 @@ static GnomeUIInfo workbook_menu_data [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Filter..."),
 		N_("Filter data with given criteria"),
 		cb_data_filter),
+#if 0
 	GNOMEUIINFO_ITEM_NONE (N_("_Validate..."),
 		N_("Validate input with preset criteria"),
 		cb_data_validate),
+#endif
 
 	GNOMEUIINFO_END
 };
@@ -3115,6 +3123,7 @@ workbook_setup_auto_calc (WorkbookControlGUI *wbcg)
 	GtkWidget *tmp, *frame1, *frame2;
 
 	wbcg->auto_expr_label = tmp = gtk_button_new_with_label ("");
+	GTK_WIDGET_UNSET_FLAGS (tmp, GTK_CAN_FOCUS);
 	gtk_widget_ensure_style (tmp);
 	gtk_widget_set_usize (tmp,
 		gdk_text_measure (tmp->style->font, "W", 1) * 15, -1);

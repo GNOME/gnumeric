@@ -25,6 +25,7 @@
 #include "gutils.h"
 #include "auto-format.h"
 #include "style.h"
+#include "portability.h"
 
 #define YYDEBUG 1
 /* ------------------------------------------------------------------------- */
