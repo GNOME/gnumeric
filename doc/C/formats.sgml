@@ -10,7 +10,7 @@
   cells to which a given style is going to be applied and then invoke
   the cell format dialog box.  The cell format dialog box can be
   activated from the main Gnumeric menu bar as Format/Cell or from the
-  context-sensitive menu in the spreadsheet (this is activaed by
+  context-sensitive menu in the spreadsheet (this is activated by
   pressing the right button).</para>
 
   <sect2>
@@ -19,7 +19,7 @@
   </sect2>
 
   <sect2>
-     <title>Conditional formating codes</title>
+     <title>Conditional formatting codes</title>
 
   </sect2>
 
