@@ -12,7 +12,7 @@
       the first character. Everything following a '=' is evaluated as
       a formula, not a string. </para>
     
-    <para> The simplest fomula's just use the standard math operator
+    <para> The simplest formula's just use the standard math operator
      and symbols. +,-,*,/ are intrepreted just as you would expect
      them to.  +,- can be used as unary operators and indicate sign,
      just as can be expected.</para>
@@ -96,8 +96,7 @@
   all the names in the related workbook. A name is restrained from taking
   that of a function, since this would cause confusion.</para>
 
-  <para>In addition to the names you define there are built in names:</para>
-  <itemizedlist>
+  <para>In addition to the names you define there are built in names:</para>  <itemizedlist>
     <listitem><para>"Sheet_Title:" this returns the name of the current sheet</para></listitem>
   </itemizedlist>
 

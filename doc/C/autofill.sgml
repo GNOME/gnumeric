@@ -1,234 +1,164 @@
-<sect1 id="autofill-intro">
-  <title>AutoFill</title>
-  
-  <para>When dealing with spreadsheets it's typical to want to
-    add a set of cells that contain a series of numbers or dates or other
-    values. While this can be done by hand, Gnumeric implements an autofill
-    option to allow these sorts of series to be easily filled in.</para>
-  
-  <para>A typical example of when you want to use this feature is to fill
-    a series of numbers, maybe a list of part numbers, or a perhaps a list
-    of TV channels. If the first cell contains a '1', for example,
-    dragging the autofill button(see <xref linkend="celltobautofilled">) down three or four cells
-      will fill the cells with '1','2','3', and '4' automatically.(see <xref linkend="cellsautofilled">)</para>
-
-  <procedure>
-    <title>Autofilling a range of cells</title>
-    <step performance="required">
-      <para>Select the cell that marks the beginning of the 
-	area to autofill</para></step>
-    
-    <step performance="required">
-      <para>Enter the starting value into this cell</para></step>
-    
-    <step performance="required">
-      <para><mousebutton>Left</mousebutton> click the small rectangle in the bottom right corner
-	of the first cell, and drag it to the end of the area to fill.</para></step>
-
-    <step performance="required">
-      <para>Release the mouse button. The cells in the selected area should
-	now be filled with autofilled values</para></step>
-  </procedure>
-  
-  
-  <figure id="celltobautofilled">
-    <title>A cell with the seed for an autofill.</title>
-    <screenshot>
-       <graphic fileref="figures/autofill-1.png" format="png"></graphic>
-    </screenshot>
-  </figure>
-  
-  <figure id="cellsautofilled">
-    <title>A set of cells being autofilled</title>
-    <screenshot>
-      <graphic fileref="figures/autofill-2.png" format="png"></graphic>
-    </screenshot>
-  </figure>
-  
-  <para>As handy as being able to simply and quickly generate series of 
-    numbers incremented by one is, autofill can do much much more. The next 
-    example is autofill with a series using an increment other than 1. For example,
-    to create a series that consist of odd numbers starting at 11, just enter 
-	'11' into
-    a cell and '13' into the next cell. Then select both cells, and stretch the 
-selection in order to 
-    cover the cells to be filled. If you select the next 5 cells, for example, 
-    they will be filled with values '15','17','19','21', and '23.' See <xref linkend="seedcellautofillsequence">
-      and  <xref linkend="autofillsequence"> for example.</para>
-  
-  
-  <figure id="seedcellautofillsequence">
-    <title>A seed cell for a date autofill.</title>
-    <screenshot>
-      <graphic fileref="figures/autofill-3.png" format="png"></graphic>
-    </screenshot>
-  </figure>
-  
-  <figure id="autofillsequence">
-    <title>A set of cells being filled with a sequence.</title>
-    <screenshot>
-      <graphic fileref="figures/autofill-4.png" format="png"></graphic>
-    </screenshot>
-  </figure>
-
-  <sect2 id="filling-with-dates">
-    <title>Filling with Dates</title>
-    
-    <para>Oh, but numbers are easy you say! The real painful stuff is entering
-      dates and times and other information. But never fear, Gnumeric is there
-      to help you. Gnumeric has the ability to autofill dates, months, days of the week,
-      and more. </para>
-    
-   <para> As an example, think of a typical business invoice, where everything is
-      logged by the month. So it is quite typical to want to fill a series of cells
-      with the months of the year in order. To do this is quite simple, essentially the
-      same steps as making a numerical fill.</para>
-    
-    <para>Starting from cell B2, for example, to fill the next 12 cells
-      with the months, just enter the string "January" in B2. Then, click the fill button
-      and stretch it over the next 12 cells, and release. It is as simple as that. See <xref
-	linkend="datefillseed">, <xref linkend="datebeingfilled">, and 
-	  <xref linkend="cellsfilled">. </para>
-    
-   <figure id="datefillseed">
-      <title>A cell with a date in it, ready to be the seed for a fill.</title>
-      <screenshot> 
-	<graphic fileref="figures/autofill-5.png" format="png"></graphic>
-      </screenshot>
-    </figure>
-    
-    <figure id="datebeingfilled">
-      <title>A set of cells being filled.</title>
-      <screenshot>
-	<graphic fileref="figures/autofill-6.png" format="png"></graphic>
-      </screenshot>
-    </figure>
-    
-    <figure id="cellsfilled">
-      <title>A range of cells autofilled with the months.</title>
-      <screenshot>
-	<graphic fileref="figures/autofill-7.png" format="png"></graphic>
-      </screenshot>
- </figure>
-    
-    <para> Other examples of strings that can be autofilled include days of
-      the week (Monday, Tuesday,...), short weekdays (Mon, Tues, ....),
-      and short months (Jan, Feb,...) </para>
-    
-    <para> More string fill types to follow </para>
-   </sect2>
-  
-  
-  <sect2 id="string-and-number-autofill">
-    <title>String And Number autofill</title>
-    
-    <para>Gnumeric tries to be intelligent about autofilling number values that
-      embedded into text strings. So its possible to autofill cells with values
-      like "9 lives to live","8 lives to live", etc. </para>
-
-    <para>See <xref linkend="autofillexamples"> for some contrived examples.</para>
-    
-    <figure id="autofillexamples">
-      <title>Some simple autofill examples.</title>
-      <screenshot>
-	<graphic fileref="figures/autofill-8.png" format="png"></graphic>
-      </screenshot>
-    </figure>
-  </sect2>
-
-  <sect2 id="formula-autofill">
-    <title>Formula autofill</title>
-    
-    <para>Probably the most useful of all the autofill capabilities is
-      the ability to autofill functions. In practice it works essentially the
-      same as all the other autofill methods; it just transfers the functions.
-      </para>
-    
-    <para>See <xref linkend="autofillfunction1"> and <xref linkend="autofillfunction2">
-	  for a simple example.</para>
-
-    <figure id="autofillfunction1">
-      <title>Formula to be autofilled.</title>
-      <screenshot>
-	<graphic fileref="figures/autofill-9.png" format="png"></graphic>
-      </screenshot>
-    </figure> 
-    
-    <figure id="autofillfunction2">
-      <title>Formula autofilled to several cells.</title>
-      <screenshot>
-	<graphic fileref="figures/autofill-10.png" format="png"></graphic>
-      </screenshot>
-    </figure> 
-    
-  </sect2>
-
-  <sect2 id="automagic-autofill">
-    <title>Automagic autofill</title>
-   
-    <para>In the formula example above there were only a few rows to
-    fill with the new formula.  For larger spread sheets dragging out
-    a new formula can be cumbersome.  An alternative is to let
-    gnumeric do the work for you.
+<sect1 id="autofill-chap">
+  <title>Autofill Introduction</title>
+  <para>
+    Often times, a set of sequential or ordered numbers needs to be
+    written.  While simple, it is a tedious task to complete.
+    <application>Gnumeric</application> allows for a pattern to be set
+    with items that can be ordered and have the rest of your sorting
+    done automatically.
+  </para>
+  <para>
+    A good example of such a use would be if you wanted to setup a
+    list of the months or television station numbers.
+  </para>
+  <sect2 id="autofill-basic">
+    <title>My First Autofill</title>
+    <para>
+      For being such a timesaver, autofilling in
+      <application>Gnumeric</application> is actually quite simple.
+      To do an autofill:
+      <orderedlist numeration="arabic">
+	<listitem>
+	  <para>
+	    Enter a number into the first cell you wish to autofill.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Enter a second number into the second cell you wish to
+	    autofill.  This must be either under or next to your first
+	    cell.  This sets the increment to use when autofilling the
+	    rest of your cells.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Select the cells you just entered.  At the bottom-right of
+	    the selection should be a small box.  Your mouse cursor
+	    will change to a cross-hair when placed over the box.
+	    Click the box.  Drag in the direction you wish to
+	    increment.  You can also autofill using the menus.  Make
+	    your selection and use:
+	    <menuchoice>
+	      <guimenu>Edit</guimenu>
+	      <guisubmenu>Fill</guisubmenu>
+	      <guimenuitem>Autofill</guimenuitem>
+	    </menuchoice>
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Release the button.  The selection you created with the
+	    small box should now be filled with numbers based on the
+	    increment you set in the first two boxes.
+	  </para>
+	</listitem>
+      </orderedlist>
     </para>
-   
-    <procedure>
-    <step performance="required">
-      <para>Enter the formula in the top cell of the new column.</para></step>
-   
-    <step performance="required">
-      <para>Double click on the small rectangle in the bottom right
-            corner of the cell.</para></step>
-   
-    <step performance="required">
-      <para>Gnumeric will look at the column to the left and find the
-      first blank cell in that column.  It will then fill the new
-      column with your formula all the way down to the blank
-      cell.</para></step>
-   
-    </procedure>
-
-    <para>Double click together with the meta key will do automagic
-    filling of rows instead of columns.</para>
-
+    <tip id="autofill-months">
+      <title>Autofilling Months</title>
+      <para>
+	<application>Gnumeric</application> is able to complete month
+	names for you.  Just type your starting month in a cell, the
+	second month in the second cell, and drag like you would if
+	you were doing numbers.  <application>Gnumeric</application>
+	will also increment:
+	<variablelist>
+	  <varlistentry>
+	    <term>Weekday</term>
+	    <listitem>
+	      <para>
+		Monday, Tuesday, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Short Weekdays</term>
+	    <listitem>
+	      <para>
+		Mon, Tues, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Months</term>
+	    <listitem>
+	      <para>
+		January, February, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Short Months</term>
+	    <listitem>
+	      <para>
+		Jan, Feb, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Strings with Numbers</term>
+	    <listitem>
+	      <para>
+		Item1, Item2, etc
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	
+</variablelist>
+      </para>
+    </tip>
   </sect2>
-  
-  <sect2 id="other-notes-on-autofill">
-    <title>Other Notes on autofill</title>
-    
-
-    <itemizedlist>
-      <listitem>
-	<para>Autofills only work to the down and to the right of a cell.</para>
-      </listitem>
-      <listitem>
-	<para>To make a series that decrements instead of incrementing, enter the 
-	  highest value into the first cell, then the next value in the second cell and select
-	  them both like in the first step outlined above. </para>
-      </listitem>
-      <listitem>
-	<para>Starting a series with more than two initial values can result in
-	  some unexpected results. Use with care.</para>
-      </listitem>
-      
-
-    </itemizedlist>
+  <sect2 id="autofill-adjacent-size">
+    <title>Using Adjacent Columns for Size</title>
+    <para>
+      <application>Gnumeric</application> is able to not only autofill
+      based on the selection you make, but autofill to the size of an
+      adjacent column.
+      <example>
+	<title>Adjacent Columns for Size Example</title>
+	<para>
+	  You enter A1:A10 with random information.  In B1,B2 you
+	  enter 1 and 2 respectfully.  Column B will increment through
+	  B10, based on the length of A.  The increment used is
+	  generated normally by the difference between B1 and B2.
+	</para>
+      </example>
+      To use an adjacent column for size control:
+      <orderedlist numeration="arabic">
+	<listitem>
+	  <para>
+	    Fill a column or row with information.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Enter information into a column or row to either the right
+	    or bottom of the previous information.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Select the column or row you wish to autofill.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Double-click the small box at the bottom-right to
+	    increment by column, with the size controlled by the
+	    adjacent column.  Double-click while holding Alt to set
+	    the size to the above row.
+	  </para>
+	</listitem>
+      </orderedlist>
+    </para>
   </sect2>
-  
 </sect1>
-<!-- Keep this comment at the end of the file
-Local variables:
-mode: sgml
-sgml-omittag:t
-sgml-shorttag:t
-sgml-minimize-attributes:nil
-sgml-always-quote-attributes:t
-sgml-indent-step:2
-sgml-indent-data:t
-sgml-parent-document:nil
-sgml-exposed-tags:nil
-sgml-local-catalogs:nil
-sgml-local-ecat-files:nil
-End:
--->                         
+
+
+
+
+
+
+
 
