@@ -5,6 +5,7 @@
  * Authors:
  *   Miguel de Icaza (miguel@gnu.org)
  *   Jukka-Pekka Iivonen (iivonen@iki.fi)
+ *   Morten Welinder <terra@diku.dk>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +37,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include <libgnome/gnome-i18n.h>
+
+#include "plugin.h"
+#include "plugin-util.h"
+#include "module-plugin-defs.h"
+
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 #define DAY_SECONDS (3600*24)
 
@@ -1243,108 +1250,59 @@ gnumeric_weeknum (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-void date_functions_init(void);
+const ModulePluginFunctionInfo datetime_functions[] = {
+	{ "date",        "fff",  "year,month,day", &help_date, gnumeric_date, NULL, NULL, NULL },
+	{ "unix2date",   "f",    "unixtime", &help_unix2date, gnumeric_unix2date, NULL, NULL, NULL },
+	{ "date2unix",   "f",    "serial", &help_date2unix, gnumeric_date2unix, NULL, NULL, NULL },
+	{ "datevalue",   "S",    "date_str", &help_datevalue, gnumeric_datevalue, NULL, NULL, NULL },
+	{ "datedif",     "SSs",  "date1,date2,Interval", &help_datedif, gnumeric_datedif, NULL, NULL, NULL },
+	{ "day",         "S",    "date", &help_day, gnumeric_day, NULL, NULL, NULL },
+	{ "days360",     "SS|f", "date1,date2,method", &help_days360, gnumeric_days360, NULL, NULL, NULL },
+	{ "edate",       "ff",   "serial_number,months", &help_edate, gnumeric_edate, NULL, NULL, NULL },
+	{ "eomonth",     "S|f",  "start_date,months", &help_eomonth, gnumeric_eomonth, NULL, NULL, NULL },
+	{ "hour",        "S",    "time", &help_hour, gnumeric_hour, NULL, NULL, NULL },
+	{ "minute",      "S",    "time", &help_minute, gnumeric_minute, NULL, NULL, NULL },
+	{ "month",       "S",    "date", &help_month, gnumeric_month, NULL, NULL, NULL },
+	{ "networkdays", "SS|?", "start_date,end_date,holidays", &help_networkdays, gnumeric_networkdays, NULL, NULL, NULL },
+	{ "now",         "",     "", &help_now, gnumeric_now, NULL, NULL, NULL },
+	{ "second",      "S",    "time", &help_second, gnumeric_second, NULL, NULL, NULL },
+	{ "time",        "fff",  "hours,minutes,seconds", &help_time, gnumeric_time, NULL, NULL, NULL },
+	{ "timevalue",   "S",    "", &help_timevalue, gnumeric_timevalue, NULL, NULL, NULL },
+	{ "today",       "",     "", &help_today, gnumeric_today, NULL, NULL, NULL },
+	{ "weekday",     "S|f",  "date", &help_weekday, gnumeric_weekday, NULL, NULL, NULL },
+	{ "workday",     "Sf|?", "date,days,holidays", &help_workday, gnumeric_workday, NULL, NULL, NULL },
+	{ "year",        "S",    "date", &help_year, gnumeric_year, NULL, NULL, NULL },
+	{ "isoweeknum",  "S",    "date", &help_isoweeknum, gnumeric_isoweeknum, NULL, NULL, NULL },
+	{ "weeknum",     "S|f",  "date", &help_weeknum, gnumeric_weeknum, NULL, NULL, NULL },
+        {NULL}
+};
+
+/* FIXME: Should be merged into the above.  */
+static const struct {
+	const char *func;
+	AutoFormatTypes typ;
+} af_info[] = {
+	{ "date", AF_DATE },
+	{ "unix2date", AF_DATE },
+	{ "edate", AF_DATE },
+	{ "eomonth", AF_DATE },
+	{ "time", AF_TIME },
+	{ "today", AF_DATE },
+	{ NULL, AF_UNKNOWN }
+};
+
 void
-date_functions_init(void)
+plugin_init (void)
 {
-	FunctionDefinition *def;
-	FunctionCategory *cat = function_get_category_with_translation ("Date / Time", _("Date / Time"));
+	int i;
+	for (i = 0; af_info[i].func; i++)
+		auto_format_function_result_by_name (af_info[i].func, af_info[i].typ);
+}
 
-	def = function_add_args (cat,  "date",           "fff",
-				 "year,month,day",
-				 &help_date,	      gnumeric_date);
-	auto_format_function_result (def, AF_DATE);
-
-	def = function_add_args (cat, "unix2date",      "f",
-				 "unixtime",
-				 &help_unix2date, gnumeric_unix2date);
-	auto_format_function_result (def, AF_DATE);
-
-	def = function_add_args (cat, "date2unix",      "f",
-				 "serial",
-				 &help_date2unix, gnumeric_date2unix);
-
-	def = function_add_args (cat,  "datevalue",      "S",
-				 "date_str",
-				 &help_datevalue,   gnumeric_datevalue);
-
-	def = function_add_args (cat,  "datedif",        "SSs",
-				 "date1,date2,Interval",
-				 &help_datedif,     gnumeric_datedif);
-
-	def = function_add_args (cat,  "day",            "S",
-				 "date",
-				 &help_day,	      gnumeric_day);
-
-	def = function_add_args (cat,  "days360",        "SS|f",
-				 "date1,date2,method",
-				 &help_days360,     gnumeric_days360);
-
-	def = function_add_args (cat,  "edate",          "ff",
-				 "serial_number,months",
-				 &help_edate,       gnumeric_edate);
-	auto_format_function_result (def, AF_DATE);
-
-	def = function_add_args (cat,  "eomonth",        "S|f",
-				 "start_date,months",
-				 &help_eomonth,     gnumeric_eomonth);
-	auto_format_function_result (def, AF_DATE);
-
-	def = function_add_args (cat,  "hour",           "S",
-				 "time",
-				 &help_hour,        gnumeric_hour );
-
-	def = function_add_args (cat,  "minute",         "S",
-				 "time",
-				 &help_minute,      gnumeric_minute );
-
-	def = function_add_args (cat,  "month",          "S",
-				 "date",
-				 &help_month,       gnumeric_month);
-
-	def = function_add_args (cat,  "networkdays",    "SS|?",
-				 "start_date,end_date,holidays",
-				 &help_networkdays, gnumeric_networkdays );
-
-	def = function_add_args (cat,  "now",            "",
-				 "",
-				 &help_now,         gnumeric_now );
-
-	def = function_add_args (cat,  "second",         "S",
-				 "time",
-				 &help_second,      gnumeric_second );
-
-	def = function_add_args (cat,  "time",           "fff",
-				 "hours,minutes,seconds",
-				 &help_time,        gnumeric_time );
-	auto_format_function_result (def, AF_TIME);
-
-	def = function_add_args (cat,  "timevalue",      "S",
-				 "",
-				 &help_timevalue,   gnumeric_timevalue );
-
-	def = function_add_args (cat,  "today",          "",
-				 "",
-				 &help_today,       gnumeric_today );
-	auto_format_function_result (def, AF_DATE);
-
-	def = function_add_args (cat,  "weekday",        "S|f",
-				 "date",
-				 &help_weekday,     gnumeric_weekday);
-
-	def = function_add_args (cat,  "workday",        "Sf|?",
-				 "date,days,holidays",
-				 &help_workday,     gnumeric_workday);
-
-	def = function_add_args (cat,  "year",           "S",
-				 "date",
-				 &help_year,        gnumeric_year);
-
-	def = function_add_args (cat,  "isoweeknum",         "S",
-				 "date",
-				 &help_isoweeknum,  gnumeric_isoweeknum);
-
-	def = function_add_args (cat,  "weeknum",         "S|f",
-				 "date",
-				 &help_weeknum,     gnumeric_weeknum);
+void
+plugin_cleanup (void)
+{
+	int i;
+	for (i = 0; af_info[i].func; i++)
+		auto_format_function_result_remove (af_info[i].func);
 }

@@ -41,6 +41,12 @@
 #include <string.h>
 #include <libgnome/gnome-i18n.h>
 
+#include "plugin.h"
+#include "plugin-util.h"
+#include "module-plugin-defs.h"
+
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+
 /***************************************************************************/
 
 static const char *help_char = {
@@ -653,8 +659,9 @@ gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 }
 
 /***************************************************************************/
+/* Note: help_t is a reserved symbol.  */
 
-static const char *help_t = {
+static const char *help_t_ = {
 	N_("@FUNCTION=T\n"
 	   "@SYNTAX=T(value)\n"
 	   "@DESCRIPTION="
@@ -669,8 +676,10 @@ static const char *help_t = {
 	   "@SEEALSO=CELL, N, VALUE")
 };
 
+/* Note: gnumeric_t is a reserved symbol.  */
+
 static Value *
-gnumeric_t (FunctionEvalInfo *ei, Value **argv)
+gnumeric_t_ (FunctionEvalInfo *ei, Value **argv)
 {
 	if (argv[0]->type == VALUE_STRING)
 		return value_duplicate (argv[0]);
@@ -1227,57 +1236,29 @@ match_again:
 
 /***************************************************************************/
 
-void string_functions_init (void);
-
-void
-string_functions_init (void)
-{
-	FunctionCategory *cat = function_get_category_with_translation ("String", _("String"));
-
-	function_add_args  (cat, "char",       "f",    "number",
-			    &help_char,       gnumeric_char);
-	function_add_args  (cat, "clean",      "S",    "text",
-			    &help_clean,      gnumeric_clean);
-	function_add_args  (cat, "code",       "S",    "text",
-			    &help_code,       gnumeric_code);
-	function_add_nodes (cat, "concatenate",0,      "text1,text2",
-			    &help_concatenate,gnumeric_concatenate);
-	function_add_args  (cat, "dollar",     "f|f",  "num,decimals",
-			    &help_dollar,     gnumeric_dollar);
-	function_add_args  (cat, "exact",      "SS",   "text1,text2",
-			    &help_exact,      gnumeric_exact);
-	function_add_args  (cat, "find",       "SS|f", "text1,text2,num",
-			    &help_find,       gnumeric_find);
-	function_add_args  (cat, "fixed",      "f|fb", "num,decs,no_commas",
-			    &help_fixed,      gnumeric_fixed);
-	function_add_args  (cat, "left",       "S|f",  "text,num_chars",
-			    &help_left,       gnumeric_left);
-	function_add_args  (cat, "len",        "S",    "text",
-			    &help_len,        gnumeric_len);
-	function_add_args  (cat, "lower",      "S",    "text",
-			    &help_lower,      gnumeric_lower);
-	function_add_args  (cat, "proper",     "S",    "text",
-			    &help_proper,     gnumeric_proper);
-	function_add_args  (cat, "mid",        "Sff",  "text,pos,num",
-			    &help_mid,        gnumeric_mid);
-	function_add_args  (cat, "replace",    "SffS", "old,start,num,new",
-			    &help_replace,    gnumeric_replace);
-	function_add_args  (cat, "rept",       "Sf",   "text,num",
-			    &help_rept,       gnumeric_rept);
-	function_add_args  (cat, "right",      "S|f",  "text,num_chars",
-			    &help_right,      gnumeric_right);
-	function_add_args  (cat, "search",     "SS|f", "find,within[,start_num]",
-			    &help_search,     gnumeric_search);
-	function_add_args  (cat, "substitute", "SSS|f","text,old,new,num",
-			    &help_substitute, gnumeric_substitute);
-	function_add_args  (cat, "t",          "?",    "value",
-			    &help_t,          gnumeric_t);
-	function_add_args  (cat, "text",       "Ss",   "value,format_text",
-			    &help_text,       gnumeric_text);
-	function_add_args  (cat, "trim",       "S",    "text",
-			    &help_trim,       gnumeric_trim);
-	function_add_args  (cat, "upper",      "S",    "text",
-			    &help_upper,      gnumeric_upper);
-	function_add_args  (cat, "value",      "?",    "text",
-			    &help_value,      gnumeric_value);
-}
+const ModulePluginFunctionInfo string_functions[] = {
+        { "char",       "f",     "number",    &help_char,       gnumeric_char, NULL, NULL, NULL },
+        { "clean",      "S",     "text",    &help_clean,      gnumeric_clean, NULL, NULL, NULL },
+        { "code",       "S",     "text",    &help_code,       gnumeric_code, NULL, NULL, NULL },
+        { "concatenate", 0,      "text1,text2",    &help_concatenate, NULL, gnumeric_concatenate, NULL, NULL },
+        { "dollar",     "f|f",   "num,decimals",    &help_dollar,     gnumeric_dollar, NULL, NULL, NULL },
+        { "exact",      "SS",    "text1,text2",    &help_exact,      gnumeric_exact, NULL, NULL, NULL },
+        { "find",       "SS|f",  "text1,text2,num",    &help_find,       gnumeric_find, NULL, NULL, NULL },
+        { "fixed",      "f|fb",  "num,decs,no_commas",    &help_fixed,      gnumeric_fixed, NULL, NULL, NULL },
+        { "left",       "S|f",   "text,num_chars",    &help_left,       gnumeric_left, NULL, NULL, NULL },
+        { "len",        "S",     "text",    &help_len,        gnumeric_len, NULL, NULL, NULL },
+        { "lower",      "S",     "text",    &help_lower,      gnumeric_lower, NULL, NULL, NULL },
+        { "proper",     "S",     "text",    &help_proper,     gnumeric_proper, NULL, NULL, NULL },
+        { "mid",        "Sff",   "text,pos,num",    &help_mid,        gnumeric_mid, NULL, NULL, NULL },
+        { "replace",    "SffS",  "old,start,num,new",    &help_replace,    gnumeric_replace, NULL, NULL, NULL },
+        { "rept",       "Sf",    "text,num",    &help_rept,       gnumeric_rept, NULL, NULL, NULL },
+        { "right",      "S|f",   "text,num_chars",    &help_right,      gnumeric_right, NULL, NULL, NULL },
+        { "search",     "SS|f",  "find,within[,start_num]",    &help_search,     gnumeric_search, NULL, NULL, NULL },
+        { "substitute", "SSS|f", "text,old,new,num",    &help_substitute, gnumeric_substitute, NULL, NULL, NULL },
+        { "t",          "?",     "value",    &help_t_,          gnumeric_t_, NULL, NULL, NULL },
+        { "text",       "Ss",    "value,format_text",    &help_text,       gnumeric_text, NULL, NULL, NULL },
+        { "trim",       "S",     "text",    &help_trim,       gnumeric_trim, NULL, NULL, NULL },
+        { "upper",      "S",     "text",    &help_upper,      gnumeric_upper, NULL, NULL, NULL },
+        { "value",      "?",     "text",    &help_value,      gnumeric_value, NULL, NULL, NULL },
+        {NULL}
+};
