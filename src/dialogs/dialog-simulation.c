@@ -172,7 +172,6 @@ simulation_ok_clicked_cb (GtkWidget *button, SimulationState *state)
 	char                    *text;
 	GtkWidget               *w;
 	gchar                   *err;
-	gboolean                unique;
 	simulation_t            sim;
 
 	sim.inputs = gnm_expr_entry_parse_as_value
@@ -182,9 +181,6 @@ simulation_ok_clicked_cb (GtkWidget *button, SimulationState *state)
 		(state->input_entry_2, state->sheet);
 
         parse_output ((GenericToolState *) state, &dao);
-
-	w = glade_xml_get_widget (state->gui, "unique-button");
-	unique = (1 == gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)));
 
 	if (prepare_ranges (&sim)) {
 		err = (gchar *) N_("Invalid variable range was given");
@@ -200,6 +196,12 @@ simulation_ok_clicked_cb (GtkWidget *button, SimulationState *state)
 	w = glade_xml_get_widget (state->gui, "last_round");
 	sim.last_round = gtk_spin_button_get_value (GTK_SPIN_BUTTON (w)) - 1;
 
+	if (sim.first_round > sim.last_round) {
+		err = (gchar *) N_("First round number should be greater or "
+				   "equal than the number of the last round.");
+		goto out;
+	}
+		
 	err = simulation_tool (WORKBOOK_CONTROL (state->wbcg),
 			       &dao, &sim);
  out:
