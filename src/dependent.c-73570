@@ -184,6 +184,8 @@ dependent_queue_recalc_list (GList *list, gboolean freelist)
 		if (dep->flags & DEPENDENT_QUEUED_FOR_RECALC)
 			continue;
 
+		g_return_if_fail (dep->sheet != NULL);
+
 		/*
 		 * Use the wb associated with the current dependent in case we
 		 * have cross workbook depends

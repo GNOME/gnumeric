@@ -1256,6 +1256,7 @@ sheet_cell_set_expr (Cell *cell, ExprTree *expr)
 {
 	/* No need to do anything until recalc */
 	cell_set_expr (cell, expr, NULL);
+	cell_content_changed (cell);
 	sheet_flag_status_update_cell (cell);
 }
 

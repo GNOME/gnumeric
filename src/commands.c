@@ -497,7 +497,7 @@ cmd_area_set_text_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 		c = me->old_content->data;
 		clipboard_paste_region (wbc,
-					paste_target_init (&pt, me->pos.sheet, r, PASTE_FORMULAS),
+					paste_target_init (&pt, me->pos.sheet, r, PASTE_CONTENT),
 					c);
 		clipboard_release (c);
 		me->old_content = g_slist_remove (me->old_content, c);
@@ -1012,7 +1012,7 @@ cmd_clear_selection (WorkbookControl *wbc, Sheet *sheet, int clear_flags)
 
 	me->paste_flags = 0;
 	if (clear_flags & CLEAR_VALUES)
-		me->paste_flags |= PASTE_FORMULAS;
+		me->paste_flags |= PASTE_CONTENT;
 	if (clear_flags & CLEAR_FORMATS)
 		me->paste_flags |= PASTE_FORMATS;
 	if (clear_flags & CLEAR_COMMENTS)
@@ -1933,7 +1933,7 @@ cmd_paste_copy_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		clipboard_release (me->content);
 	else
 		/* Save the content */
-		me->dst.paste_flags = PASTE_FORMULAS |
+		me->dst.paste_flags = PASTE_CONTENT |
 			(me->dst.paste_flags & PASTE_FORMATS);
 
 	me->content = content;
@@ -2127,7 +2127,7 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	/* Store the specs for the object */
 	me->content = NULL;
 	me->dst.sheet = sheet;
-	me->dst.paste_flags = PASTE_FORMULAS | PASTE_FORMATS;
+	me->dst.paste_flags = PASTE_CONTENT | PASTE_FORMATS;
 
 	/* FIXME : We can copy less than this */
 	range_init (&me->dst.range,  base_col, base_row, end_col, end_row);

@@ -22,8 +22,8 @@ static struct {
 	int  disables_second_group;
 } paste_types [] = {
 	{ N_("All"),      0 },
-	{ N_("Formulas"), 0 },
-	{ N_("Values"),   0 },
+	{ N_("Content"),  0 },
+	{ N_("As Value"), 0 },
 	{ N_("Formats"),  1 },
 	{ NULL, 0 }
 };
@@ -199,12 +199,12 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 			result = PASTE_ALL_TYPES;
 			break;
 			
-		case 1: /* formulas */
-			result = PASTE_FORMULAS;
+		case 1: /* content */
+			result = PASTE_CONTENT;
 			break;
 			
-		case 2: /* values */
-			result = PASTE_VALUES;
+		case 2: /* as values */
+			result = PASTE_AS_VALUES;
 			break;
 			
 		case 3: /* formats */

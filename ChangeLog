@@ -1,4 +1,21 @@
-2000-11-07  Jody Goldberg <jgoldberg@home.com>
+2000-11-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/clipboard.c (apply_paste_oper_to_values) : Rewrite to use
+	  eval_expr.
+	(paste_cell_with_operation) : rework to handle pasting as_value
+	  correctly.
+	(paste_link) : This is broken.  FIXME.
+	(paste_cell) : Move the check for pasting content or as_value to the
+	  top.
+
+	* src/cell.c (cell_make_value) : Unlink expressions if necessary.
+
+	* src/sheet.c (sheet_cell_set_expr) : flag that content changed.
+
+	* src/dependent.c (dependent_queue_recalc_list) : Add some safety.
+
+	* src/item-cursor.c (item_cursor_event) : clicking on an anted cursor
+	  is almost the same as clicking on a selection cursor.
 
 	* src/expr-name.c (expr_name_add) : It is legal to add names that are
 	  available in other scopes as long as the new scope does not contiain

@@ -86,37 +86,36 @@ paste_oper_to_expr_oper (int paste_flags)
 }
 
 static Value *
-apply_paste_oper_to_values (Cell const * old_cell, Cell const * copied_cell, int paste_flags)
+apply_paste_oper_to_values (Cell const *old_cell, Cell const *copied_cell,
+			    Cell const *new_cell, int paste_flags)
 {
-	float_t old_float;
-	float_t copied_float;
-	
+	EvalPos pos;
+	ExprTree expr, arg_a, arg_b;
+	Operation op;
+
 	g_return_val_if_fail (paste_flags & PASTE_OPER_MASK, NULL);
 	
-	if (old_cell != NULL && cell_is_number (old_cell))
-		old_float = value_get_as_float (old_cell->value);
-	else
-		old_float = 0.0;
-	
-	if (copied_cell != NULL && cell_is_number (copied_cell))
-		copied_float = value_get_as_float (copied_cell->value);
-	else
-		copied_float = 0.0;
-	
 	if (paste_flags & PASTE_OPER_ADD)
-		return value_new_float (old_float + copied_float);
+		op = OPER_ADD;
 	else if (paste_flags & PASTE_OPER_SUB)
-		return value_new_float (old_float - copied_float);
+		op = OPER_SUB;
 	else if (paste_flags & PASTE_OPER_MULT)
-		return value_new_float (old_float * copied_float);
+		op = OPER_MULT;
 	else if (paste_flags & PASTE_OPER_DIV)
-		return (copied_float == 0.0)
-			? value_new_error (NULL, gnumeric_err_DIV0)
-			: value_new_float (old_float / copied_float);
+		op = OPER_DIV;
 	else
 		g_assert_not_reached ();
-	
-	return NULL;
+
+	*((Operation *)&(arg_a.constant.oper)) = OPER_CONSTANT;
+	arg_a.constant.value = old_cell->value;
+	*((Operation *)&(arg_b.constant.oper)) = OPER_CONSTANT;
+	arg_b.constant.value = copied_cell->value;
+
+	*((Operation *)&(expr.binary.oper)) = op;
+	expr.binary.value_a = &arg_a;
+	expr.binary.value_b = &arg_b;
+
+	return eval_expr (eval_pos_init_cell (&pos, new_cell), &expr, EVAL_STRICT);
 }
 
 static void
@@ -129,9 +128,6 @@ paste_cell_with_operation (Sheet *dest_sheet,
 	Cell *old_cell;
 
 	g_return_if_fail (paste_flags & PASTE_OPER_MASK);
-
-	if (!(paste_flags & (PASTE_FORMULAS | PASTE_VALUES)))
-		return;
 
 	if (!(c_copy->type == CELL_COPY_TYPE_CELL))
 		return;
@@ -149,38 +145,22 @@ paste_cell_with_operation (Sheet *dest_sheet,
 	
 	/* FIXME : This does not handle arrays, linked cells, ranges, etc. */
 	
-	if ((c_copy->u.cell != NULL && cell_has_expr (c_copy->u.cell)) ||
-	    (old_cell != NULL && cell_has_expr (old_cell))) {
-		ExprTree *new_expr;
-		ExprTree *old_expr;
-		ExprTree *copied_expr;
-		Operation oper;
-		
-		old_expr    = cell_get_contents_as_expr_tree (old_cell);
-		copied_expr = cell_get_contents_as_expr_tree (c_copy->u.cell);
-		oper        = paste_oper_to_expr_oper (paste_flags);
-		
-		new_expr = expr_tree_new_binary (old_expr, oper, copied_expr);
-		sheet_cell_set_expr (new_cell, new_expr);
+	if ((paste_flags & PASTE_CONTENT) &&
+	    ((c_copy->u.cell != NULL && cell_has_expr (c_copy->u.cell)) ||
+	           (old_cell != NULL && cell_has_expr (old_cell)))) {
+		ExprTree *old_expr    = cell_get_contents_as_expr_tree (old_cell);
+		ExprTree *copied_expr = cell_get_contents_as_expr_tree (c_copy->u.cell);
+		Operation oper	      = paste_oper_to_expr_oper (paste_flags);
+		ExprTree *new_expr    = expr_tree_new_binary (old_expr, oper, copied_expr);
+		cell_set_expr (new_cell, new_expr, NULL);
+		cell_relocate (new_cell, rwinfo);
 	} else {
-		Value *new_val = apply_paste_oper_to_values (old_cell, c_copy->u.cell, paste_flags);
+		Value *new_val = apply_paste_oper_to_values (old_cell, c_copy->u.cell,
+							     new_cell, paste_flags);
 
-		sheet_cell_set_value (new_cell, new_val, NULL);
+		cell_set_value (new_cell, new_val, NULL);
 	}
 	
-	/* The code below was copied from paste_cell */
-
-	if (cell_has_expr (new_cell)) {
-		if (paste_flags & PASTE_FORMULAS)
-			cell_relocate (new_cell, rwinfo);
-		else
-			cell_make_value (new_cell);
-	} else {
-		g_return_if_fail (new_cell->value != NULL);
-
-		cell_render_value (new_cell);
-	}
-
 	sheet_cell_insert (dest_sheet, new_cell, target_col, target_row, TRUE);
 }
 
@@ -190,11 +170,15 @@ paste_link (Sheet *dest_sheet,
 	    int target_col, int target_row)
 {
 	ExprTree *expr;
-	Cell *new_cell;
+	Cell *cell;
 	CellRef source_cell_ref;
 	
-	new_cell = sheet_cell_new (dest_sheet, target_col, target_row);
+	cell = sheet_cell_fetch (dest_sheet, target_col, target_row);
 	
+	/* FIXME : This is broken
+	 * 1) should be relative not absolute (add toggle ?)
+	 * 2) this is the WRONG SHEET !
+	 */
 	source_cell_ref.sheet = dest_sheet;
 	source_cell_ref.col = source_col;
 	source_cell_ref.row = source_row;
@@ -202,7 +186,7 @@ paste_link (Sheet *dest_sheet,
 	source_cell_ref.row_relative = 0;
 	expr = expr_tree_new_var (&source_cell_ref);
 	
-	sheet_cell_set_expr (new_cell, expr);
+	cell_set_expr (cell, expr, NULL);
 }
 
 /**
@@ -220,43 +204,40 @@ paste_cell (Sheet *dest_sheet,
 	    ExprRewriteInfo *rwinfo,
 	    CellCopy *c_copy, int paste_flags)
 {
+	if (!(paste_flags & (PASTE_CONTENT | PASTE_AS_VALUES)))
+		return;
+
 	if (paste_flags & PASTE_OPER_MASK) {
 		paste_cell_with_operation (dest_sheet, target_col, target_row,
 					   rwinfo, c_copy, paste_flags);
 		return;
 	}
 	
-	if ((paste_flags & (PASTE_FORMULAS | PASTE_VALUES))){
-		if (c_copy->type == CELL_COPY_TYPE_CELL) {
-			Cell *new_cell = cell_copy (c_copy->u.cell);
+	if (c_copy->type == CELL_COPY_TYPE_CELL) {
+		Cell *new_cell = cell_copy (c_copy->u.cell);
 
-			/* Cell cannot be linked in yet, but it needs an accurate location */
-			new_cell->base.sheet	  = dest_sheet;
-			new_cell->pos.col = target_col;
-			new_cell->pos.row = target_row;
+		/* Cell cannot be linked in yet, but it needs an accurate location */
+		new_cell->base.sheet = dest_sheet;
+		new_cell->pos.col    = target_col;
+		new_cell->pos.row    = target_row;
 
-			if (cell_has_expr (new_cell)) {
-				if (paste_flags & PASTE_FORMULAS)
-					cell_relocate (new_cell, rwinfo);
-				else
-					cell_make_value (new_cell);
-			} else {
-				g_return_if_fail (new_cell->value != NULL);
-
-				cell_render_value (new_cell);
-			}
-
-			sheet_cell_insert (dest_sheet, new_cell, target_col, target_row, TRUE);
-		} else {
-			Cell *new_cell = sheet_cell_new (dest_sheet,
-							 target_col, target_row);
-
-			if (c_copy->u.text)
-				sheet_cell_set_text (new_cell, c_copy->u.text);
-
-			if (c_copy->type == CELL_COPY_TYPE_TEXT_AND_COMMENT && c_copy->comment)
-				cell_set_comment (new_cell, c_copy->comment);
+		if (cell_has_expr (new_cell)) {
+			if (paste_flags & PASTE_CONTENT)
+				cell_relocate (new_cell, rwinfo);
+			else
+				cell_make_value (new_cell);
 		}
+
+		sheet_cell_insert (dest_sheet, new_cell, target_col, target_row, TRUE);
+	} else {
+		Cell *new_cell = sheet_cell_new (dest_sheet,
+						 target_col, target_row);
+
+		if (c_copy->u.text)
+			cell_set_text (new_cell, c_copy->u.text);
+
+		if (c_copy->type == CELL_COPY_TYPE_TEXT_AND_COMMENT && c_copy->comment)
+			cell_set_comment (new_cell, c_copy->comment);
 	}
 }
 
@@ -284,6 +265,10 @@ clipboard_paste_region (WorkbookControl *wbc,
 	int dst_rows = pt->range.end.row - pt->range.start.row + 1;
 	int src_cols = content->cols;
 	int src_rows = content->rows;
+
+	g_return_val_if_fail (pt != NULL, TRUE);
+	g_return_val_if_fail ((pt->paste_flags & PASTE_CONTENT) !=
+			      (pt->paste_flags & PASTE_AS_VALUES), TRUE);
 
 	if (pt->paste_flags & PASTE_TRANSPOSE) {
 		int tmp = src_cols;
@@ -326,8 +311,8 @@ clipboard_paste_region (WorkbookControl *wbc,
 
 	tmp = 0;
 	/* clear the region where we will paste */
-	if (pt->paste_flags & (PASTE_VALUES|PASTE_FORMULAS))
-		tmp = CLEAR_VALUES|CLEAR_COMMENTS;
+	if (pt->paste_flags & (PASTE_CONTENT | PASTE_AS_VALUES))
+		tmp = CLEAR_VALUES | CLEAR_COMMENTS;
 
 	/* No need to clear the formats.  We will paste over top of these. */
 	/* if (pt->paste_flags & PASTE_FORMATS) tmp |= CLEAR_FORMATS; */
@@ -417,7 +402,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 
 	sheet_style_optimize (pt->sheet, pt->range);
 
-        if (pt->paste_flags & (PASTE_FORMULAS|PASTE_VALUES)) {
+        if (pt->paste_flags & (PASTE_CONTENT | PASTE_AS_VALUES)) {
 		GList *deps = sheet_region_get_deps (pt->sheet, pt->range);
 		if (deps)
 			dependent_queue_recalc_list (deps, TRUE);

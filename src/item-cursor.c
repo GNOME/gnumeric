@@ -746,7 +746,7 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 		if (!sheet_selection_copy (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg), sheet))
 			break;
 		cmd_paste (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg),
-			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_VALUES),
+			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_AS_VALUES),
 			   time);
 		break;
 
@@ -1135,6 +1135,7 @@ item_cursor_event (GnomeCanvasItem *item, GdkEvent *event)
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
 
 	switch (item_cursor->style){
+	case ITEM_CURSOR_ANTED:
 	case ITEM_CURSOR_SELECTION:
 		return item_cursor_selection_event (item, event);
 

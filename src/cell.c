@@ -747,6 +747,10 @@ cell_make_value (Cell *cell)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell_has_expr(cell));
 
+	/* Clipboard cells, e.g., are not attached to a sheet.  */
+	if (cell_expr_is_linked (cell))
+		dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
+
 	expr_tree_unref (cell->base.expression);
 	cell->base.expression = NULL;
 	cell->base.flags &= ~CELL_HAS_EXPRESSION;
