@@ -3395,7 +3395,7 @@ ms_excel_read_window2 (BiffQuery *q, ExcelSheet *esheet, WorkbookView *wb_view)
 static void
 ms_excel_read_cf (BiffQuery *q, ExcelSheet *esheet)
 {
-	/* guint8 const type	= MS_OLE_GET_GUINT8 (q->data + 0); */
+	guint8 const type	= MS_OLE_GET_GUINT8 (q->data + 0);
 	guint8 const op		= MS_OLE_GET_GUINT8 (q->data + 1);
 	guint16 const expr1_len	= MS_OLE_GET_GUINT8 (q->data + 2);
 	guint16 const expr2_len	= MS_OLE_GET_GUINT8 (q->data + 4);
@@ -3404,21 +3404,35 @@ ms_excel_read_cf (BiffQuery *q, ExcelSheet *esheet)
 	int cond1 = -1, cond2 = -1;
 	ExprTree *expr1 = NULL, *expr2 = NULL;
 
-	switch( op ) {
-	case 0x01 : cond1 = SCO_GREATER_EQUAL;
-		    cond2 = SCO_LESS_EQUAL;		break;
-	case 0x02 : cond1 = SCO_LESS_EQUAL;
-		    cond2 = SCO_GREATER_EQUAL;	break;
-	case 0x03 : cond1 = SCO_EQUAL;		break;
-	case 0x04 : cond1 = SCO_NOT_EQUAL;		break;
-	case 0x05 : cond1 = SCO_GREATER;		break;
-	case 0x06 : cond1 = SCO_LESS;		break;
-	case 0x07 : cond1 = SCO_GREATER_EQUAL;	break;
-	case 0x08 : cond1 = SCO_LESS_EQUAL;		break;
-	default:
-		g_warning ("EXCEL : Unknown condition (%d) for conditional format.", op);
+	d(-1, printf ("cond type = %d\n", (int)type););
+	switch (type) {
+	case 1 :
+		switch( op ) {
+		case 0x01 : cond1 = SCO_GREATER_EQUAL;
+			    cond2 = SCO_LESS_EQUAL;	break;
+		case 0x02 : cond1 = SCO_LESS_EQUAL;
+			    cond2 = SCO_GREATER_EQUAL;	break;
+		case 0x03 : cond1 = SCO_EQUAL;		break;
+		case 0x04 : cond1 = SCO_NOT_EQUAL;	break;
+		case 0x05 : cond1 = SCO_GREATER;	break;
+		case 0x06 : cond1 = SCO_LESS;		break;
+		case 0x07 : cond1 = SCO_GREATER_EQUAL;	break;
+		case 0x08 : cond1 = SCO_LESS_EQUAL;	break;
+		default:
+			g_warning ("EXCEL : Unknown condition (%d) for conditional format in sheet %s.",
+				   op, esheet->gnum_sheet->name_unquoted);
+			return;
+		}
+		break;
+	case 2 : cond1 = SCO_BOOLEAN_EXPR;
+		 break;
+
+	default :
+		g_warning ("EXCEL : Unknown condition type (%d) for format in sheet %s.",
+			   (int)type, esheet->gnum_sheet->name_unquoted);
 		return;
-	}
+	};
+
 
 	if (expr1_len > 0) {
 		g_return_if_fail (cond1 != -1);
@@ -3516,6 +3530,54 @@ ms_excel_read_cf (BiffQuery *q, ExcelSheet *esheet)
 }
 
 static void
+ms_excel_read_condfmt (BiffQuery *q, ExcelSheet *esheet)
+{
+	guint16 num_fmts, options, num_areas;
+	Range  region;
+	unsigned i, offset;
+	
+	g_return_if_fail (q->length >= 14);
+
+	num_fmts = MS_OLE_GET_GUINT16 (q->data + 0);
+	options  = MS_OLE_GET_GUINT16 (q->data + 2);
+	num_areas        = MS_OLE_GET_GUINT16 (q->data + 12);
+
+	d(1, printf ("Num areas == %hu\n", num_areas););
+	if (num_areas > 0) {
+		/* It seems like this region is 0,0 -> 0xffff,0xffff
+		 * when there are no regions.
+		 */
+		region.start.row = MS_OLE_GET_GUINT16 (q->data + 4);
+		region.end.row   = MS_OLE_GET_GUINT16 (q->data + 6);
+		region.start.col = MS_OLE_GET_GUINT16 (q->data + 8);
+		region.end.col   = MS_OLE_GET_GUINT16 (q->data + 10);
+		d(2, range_dump (&region, "\n"););
+	}
+
+	offset = 14;
+	for (i = 0 ; i < num_fmts && (offset+8) <= q->length ; i++) {
+		region.start.row = MS_OLE_GET_GUINT16 (q->data + offset + 0);
+		region.end.row   = MS_OLE_GET_GUINT16 (q->data + offset + 2);
+		region.start.col = MS_OLE_GET_GUINT16 (q->data + offset + 4);
+		region.end.col   = MS_OLE_GET_GUINT16 (q->data + offset + 6);
+		d(1, range_dump (&region, " <-\n"););
+		offset += 8;
+	}
+
+	g_return_if_fail (offset == q->length);
+
+	for (i = 0 ; i < num_fmts ; i++) {
+		guint16 next;
+		if (!ms_biff_query_peek_next (q, &next) || next != BIFF_CF) {
+			g_warning ("EXCEL: missing CF record");
+			return;
+		}
+		ms_biff_query_next (q);
+		ms_excel_read_cf (q, esheet);
+	}
+}
+
+static void
 ms_excel_read_dv (BiffQuery *q, ExcelSheet *esheet)
 {
 	guint32	options;
@@ -3533,7 +3595,7 @@ ms_excel_read_dval (BiffQuery *q, ExcelSheet *esheet)
 	guint32 input_coord_x, input_coord_y, drop_down_id, dv_count;
 	unsigned i;
 
-	g_return_if_fail (q->length != 18);
+	g_return_if_fail (q->length == 18);
 
 	options	      = MS_OLE_GET_GUINT16 (q->data + 0);
 	input_coord_x = MS_OLE_GET_GUINT32 (q->data + 2);
@@ -3605,9 +3667,11 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 			case BIFF_CODENAME:
 				break;
 			case BIFF_CF:
+				g_warning ("Found a CF record without a CONDFMT ??");
 				ms_excel_read_cf (q, esheet);
 				break;
 			case BIFF_CONDFMT:
+				ms_excel_read_condfmt (q, esheet);
 				break;
 			case BIFF_DV:
 				g_warning ("Found a DV record without a DVal ??");
