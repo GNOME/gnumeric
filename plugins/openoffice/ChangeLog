@@ -1,3 +1,10 @@
+2005-01-14  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_conventions) : set dots_in_names to allow for
+	  addin functions like com.sun.star.sheet.addin.Analysis.getErf
+	(oo_unknown_hander) :  Use a custom unknown handler to do a group map
+	  from com.sun.star.sheet.addin.Analysis.get*
+
 2004-12-09  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.1

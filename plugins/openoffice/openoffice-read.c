@@ -987,7 +987,6 @@ oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	g_hash_table_insert (state->formats, state->fmt_name,
 		style_format_new_XL (state->accum_fmt->str, FALSE));
-	g_warning ("%s == %s", state->fmt_name, state->accum_fmt->str);
 	g_string_free (state->accum_fmt, TRUE);
 	state->accum_fmt = NULL;
 	state->fmt_name = NULL;
@@ -1177,10 +1176,16 @@ GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", FALSE, NULL, NULL
   GSF_XML_IN_NODE (OFFICE_STYLES, STYLE, OO_NS_STYLE, "style", FALSE, &oo_style, &oo_style_end),
     GSF_XML_IN_NODE (STYLE, STYLE_PROP, OO_NS_STYLE, "properties", FALSE, &oo_style_prop, NULL),
 
+  GSF_XML_IN_NODE (OFFICE_STYLES, DEFAULT_STYLE, OO_NS_STYLE, "default-style", FALSE, &oo_style, &oo_style_end),
+    GSF_XML_IN_NODE (DEFAULT_STYLE, DEFAULT_STYLE_PROP, OO_NS_STYLE, "properties", FALSE, &oo_style_prop, NULL),
+
   GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", FALSE, NULL, NULL),
-    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_PROP, OO_NS_NUMBER,	"number", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	"number", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	"text", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, OO_NS_NUMBER, "fraction", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_SCI_STYLE_PROP, OO_NS_NUMBER, "scientific-number", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_PROP, OO_NS_STYLE,	"properties", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_MAP, OO_NS_STYLE,		"map", FALSE, NULL, NULL),
 
   GSF_XML_IN_NODE (OFFICE_STYLES, DATE_STYLE, OO_NS_NUMBER, "date-style", FALSE, &oo_date_style, &oo_date_style_end),
     GSF_XML_IN_NODE (DATE_STYLE, DATE_DAY, OO_NS_NUMBER,		"day", FALSE,	&oo_date_day, NULL),
@@ -1196,7 +1201,7 @@ GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", FALSE, NULL, NULL
     GSF_XML_IN_NODE (DATE_STYLE, DATE_AM_PM, OO_NS_NUMBER,		"am-pm", FALSE,	&oo_date_am_pm, NULL),
     GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT, OO_NS_NUMBER,		"text", TRUE,	NULL, &oo_date_text_end),
     GSF_XML_IN_NODE (DATE_STYLE, DATE_TEXT_PROP, OO_NS_STYLE,		"text-properties", FALSE, NULL, NULL),
-    GSF_XML_IN_NODE (DATE_STYLE, DATE_MAP, OO_NS_STYLE,		"map", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (DATE_STYLE, DATE_MAP, OO_NS_STYLE,			"map", FALSE, NULL, NULL),
 
   GSF_XML_IN_NODE (OFFICE_STYLES, TIME_STYLE, OO_NS_NUMBER, "time-style", FALSE, &oo_date_style, &oo_date_style_end),
     GSF_XML_IN_NODE (TIME_STYLE, TIME_HOURS, OO_NS_NUMBER,		"hours", FALSE,	&oo_date_hours, NULL),
@@ -1222,7 +1227,9 @@ GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", FALSE, NULL, NULL
     GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT, OO_NS_NUMBER, "text", FALSE, NULL, NULL),
 
   GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_TEXT, OO_NS_NUMBER, "text-style", FALSE, NULL, NULL),
-    GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_PROP, OO_NS_NUMBER, "text-content", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_CONTENT, OO_NS_NUMBER,	"text-content", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_PROP, OO_NS_NUMBER,		"text", FALSE, NULL, NULL),
+    GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_MAP, OO_NS_STYLE,		"map", FALSE, NULL, NULL),
 
   { NULL }
 };
@@ -1238,9 +1245,12 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", FALSE, NULL, N
       GSF_XML_IN_NODE (STYLE, STYLE_PROP, OO_NS_STYLE, "properties", FALSE, &oo_style_prop, NULL),
 
     GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_PROP, OO_NS_NUMBER, "number", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	  "number", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	  "text", FALSE, NULL, NULL),
       GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, OO_NS_NUMBER, "fraction", FALSE, NULL, NULL),
       GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_SCI_STYLE_PROP, OO_NS_NUMBER, "scientific-number", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_PROP, OO_NS_STYLE,	  "properties", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_MAP, OO_NS_STYLE,		  "map", FALSE, NULL, NULL),
 
     GSF_XML_IN_NODE (OFFICE_STYLES, DATE_STYLE, OO_NS_NUMBER, "date-style", FALSE, &oo_date_style, &oo_date_style_end),
       GSF_XML_IN_NODE (DATE_STYLE, DATE_DAY, OO_NS_NUMBER,		"day", FALSE,	&oo_date_day, NULL),
@@ -1279,7 +1289,9 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", FALSE, NULL, N
       GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_STYLE_PROP, OO_NS_NUMBER, "number", FALSE, NULL, NULL),
       GSF_XML_IN_NODE (STYLE_PERCENTAGE, PERCENTAGE_TEXT, OO_NS_NUMBER, "text", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (OFFICE_STYLES, STYLE_TEXT, OO_NS_NUMBER, "text-style", FALSE, NULL, NULL),
-      GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_PROP, OO_NS_NUMBER, "text-content", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_CONTENT, OO_NS_NUMBER,	"text-content", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_PROP, OO_NS_NUMBER,		"text", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (STYLE_TEXT, STYLE_TEXT_MAP, OO_NS_STYLE,		"map", FALSE, NULL, NULL),
 
   GSF_XML_IN_NODE (OFFICE, OFFICE_BODY, OO_NS_OFFICE, "body", FALSE, NULL, NULL),
     GSF_XML_IN_NODE (OFFICE_BODY, TABLE_CALC_SETTINGS, OO_NS_TABLE, "calculation-settings", FALSE, NULL, NULL),
@@ -1346,13 +1358,25 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-settings", FALSE, NULL, 
 /****************************************************************************/
 
 static GnmExpr const *
-function_renamer (char const *name,
-		  GnmExprList *args,
-		  GnmExprConventions *convs)
+errortype_renamer (char const *name, GnmExprList *args, GnmExprConventions *convs)
 {
 	GnmFunc *f = gnm_func_lookup ("ERROR.TYPE", NULL);
 	if (f != NULL)
 		return gnm_expr_new_funcall (f, args);
+	return gnm_func_placeholder_factory (name, args, convs);
+}
+
+static GnmExpr const *
+oo_unknown_hander (char const *name,
+		   GnmExprList *args,
+		   GnmExprConventions *convs)
+{
+	if (0 == strncmp ("com.sun.star.sheet.addin.Analysis.get", name, 37)) {
+		GnmFunc *f = gnm_func_lookup (name + 37, NULL);
+		if (f != NULL)
+			return gnm_expr_new_funcall (f, args);
+		g_warning ("unknown function");
+	}
 	return gnm_func_placeholder_factory (name, args, convs);
 }
 
@@ -1365,9 +1389,10 @@ oo_conventions (void)
 	res->decimal_sep_dot = TRUE;
 	res->argument_sep_semicolon = TRUE;
 	res->array_col_sep_comma = TRUE;
+	res->dots_in_names = TRUE; /* things like com.sun.star.sheet.addin.Analysis.getErf */
 	res->output_argument_sep = ";";
 	res->output_array_col_sep = ",";
-	res->unknown_function_handler = gnm_func_placeholder_factory;
+	res->unknown_function_handler = oo_unknown_hander;
 	res->ref_parser = oo_rangeref_parse;
 
 #warning "TODO : OO adds a 'mode' parm to floor/ceiling"
@@ -1375,8 +1400,7 @@ oo_conventions (void)
 	res->function_rewriter_hash =
 		g_hash_table_new (g_str_hash, g_str_equal);
 	g_hash_table_insert (res->function_rewriter_hash,
-			     (gchar *)"ERRORTYPE",
-			     function_renamer);
+		(gchar *)"ERRORTYPE", errortype_renamer);
 	return res;
 }
 
