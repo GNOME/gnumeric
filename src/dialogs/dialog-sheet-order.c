@@ -657,7 +657,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 				 _("You may not delete all sheets in a workbook!"));
 		goto cleanup;
 	}
-	if (workbook_sheet_count (wb) == g_slist_length (deleted_sheets) ) {
+	if (workbook_sheet_count (wb) <= (int)g_slist_length (deleted_sheets) ) {
 		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 				 _("To replace all exisiting sheets, please "
 				   "delete the current workbook and create "

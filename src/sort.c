@@ -179,7 +179,7 @@ sort_permute (SortData *data, const int *perm, int length,
 	PasteTarget pt;
 
 	pt.sheet = data->sheet;
-	pt.paste_flags = PASTE_CONTENT;
+	pt.paste_flags = PASTE_CONTENT | PASTE_COMMENTS;
 	if (!data->retain_formats)
 		pt.paste_flags = pt.paste_flags | PASTE_FORMATS;
 
