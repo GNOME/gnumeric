@@ -99,7 +99,7 @@ gnumeric_sheet_set_cursor_bounds (GnumericSheet *gsheet,
 }
 
 /**
- * move_cursor_horizontal:
+ * cursor_horizontal_move:
  *
  * @gsheet : The sheet
  * @count  : Number of units to move the cursor horizontally
@@ -109,7 +109,7 @@ gnumeric_sheet_set_cursor_bounds (GnumericSheet *gsheet,
  * Moves the cursor count columns
  */
 static void
-move_cursor_horizontal (GnumericSheet *gsheet, int count,
+cursor_horizontal_move (GnumericSheet *gsheet, int count,
 			gboolean jump_to_boundaries)
 {
 	Sheet *sheet = gsheet->scg->sheet;
@@ -121,15 +121,15 @@ move_cursor_horizontal (GnumericSheet *gsheet, int count,
 }
 
 static void
-move_horizontal_selection (GnumericSheet *gsheet,
-			   int count, gboolean jump_to_boundaries)
+cursor_horizontal_extend (GnumericSheet *gsheet,
+			  int count, gboolean jump_to_boundaries)
 {
 	sheet_selection_extend (gsheet->scg->sheet,
 				count, jump_to_boundaries, TRUE);
 }
 
 /**
- * move_cursor_vertical:
+ * cursor_vertical_move:
  *
  * @gsheet : The sheet
  * @count  : Number of units to move the cursor vertically
@@ -139,7 +139,7 @@ move_horizontal_selection (GnumericSheet *gsheet,
  * Moves the cursor count rows
  */
 static void
-move_cursor_vertical (GnumericSheet *gsheet, int count,
+cursor_vertical_move (GnumericSheet *gsheet, int count,
 		      gboolean jump_to_boundaries)
 {
 	Sheet *sheet = gsheet->scg->sheet;
@@ -151,8 +151,8 @@ move_cursor_vertical (GnumericSheet *gsheet, int count,
 }
 
 static void
-move_vertical_selection (GnumericSheet *gsheet,
-			 int count, gboolean jump_to_boundaries)
+cursor_vertical_extend (GnumericSheet *gsheet,
+			int count, gboolean jump_to_boundaries)
 {
 	sheet_selection_extend (gsheet->scg->sheet,
 				count, jump_to_boundaries, FALSE);
@@ -374,10 +374,8 @@ gnumeric_sheet_selection_extend (GnumericSheet *gsheet, int col, int row)
 
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
-				MIN (ic->base_col, col),
-				MIN (ic->base_row, row),
-				MAX (ic->base_col, col),
-				MAX (ic->base_row, row));
+				ic->base_corner.col, ic->base_corner.row,
+				col, row);
 	selection_insert_selection_string (gsheet);
 }
 
@@ -417,7 +415,7 @@ gnumeric_sheet_selection_cursor_base (GnumericSheet *gsheet, int col, int row)
 }
 
 static void
-selection_cursor_move_horizontal (GnumericSheet *gsheet, int dir, gboolean jump_to_boundaries)
+rangesel_horizontal_move (GnumericSheet *gsheet, int dir, gboolean jump_to_boundaries)
 {
 	ItemCursor *ic;
 
@@ -427,24 +425,18 @@ selection_cursor_move_horizontal (GnumericSheet *gsheet, int dir, gboolean jump_
 		start_cell_selection (gsheet);
 
 	ic = gsheet->sel_cursor;
-	ic->base_col = sheet_find_boundary_horizontal (gsheet->scg->sheet,
-						       ic->base_col, ic->base_row,
-						       dir, jump_to_boundaries);
-
+	ic->base.col = sheet_find_boundary_horizontal (gsheet->scg->sheet,
+		ic->base.col, ic->base.row, dir, jump_to_boundaries);
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
-				ic->base_col,
-				ic->base_row,
-				ic->base_col,
-				ic->base_row);
+		ic->base.col, ic->base.row, ic->base.col, ic->base.row);
 	selection_insert_selection_string (gsheet);
-
-	/* Ensure that the corner is visible */
-	gnumeric_sheet_make_cell_visible (gsheet, ic->base_col, ic->base_row, FALSE);
+	gnumeric_sheet_make_cell_visible (gsheet,
+		ic->move_corner.col, ic->move_corner.row, FALSE);
 }
 
 static void
-selection_cursor_move_vertical (GnumericSheet *gsheet, int dir, gboolean jump_to_boundaries)
+rangesel_vertical_move (GnumericSheet *gsheet, int dir, gboolean jump_to_boundaries)
 {
 	ItemCursor *ic;
 
@@ -454,122 +446,66 @@ selection_cursor_move_vertical (GnumericSheet *gsheet, int dir, gboolean jump_to
 		start_cell_selection (gsheet);
 
 	ic = gsheet->sel_cursor;
-	ic->base_row = sheet_find_boundary_vertical (gsheet->scg->sheet,
-						     ic->base_col, ic->base_row,
-						     dir, jump_to_boundaries);
-
+	ic->base.row = sheet_find_boundary_vertical (gsheet->scg->sheet,
+		ic->base.col, ic->base.row, dir, jump_to_boundaries);
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
-				ic->base_col,
-				ic->base_row,
-				ic->base_col,
-				ic->base_row);
+		ic->base.col, ic->base.row, ic->base.col, ic->base.row);
 	selection_insert_selection_string (gsheet);
-
-	/* Ensure that the corner is visible */
-	gnumeric_sheet_make_cell_visible (gsheet, ic->base_col, ic->base_row, FALSE);
+	gnumeric_sheet_make_cell_visible (gsheet,
+		ic->move_corner.col, ic->move_corner.row, FALSE);
 }
 
 static void
-selection_expand_horizontal (GnumericSheet *gsheet, int n, gboolean jump_to_boundaries)
+rangesel_horizontal_extend (GnumericSheet *gsheet, int n, gboolean jump_to_boundaries)
 {
 	ItemCursor *ic;
-	int start_col, end_col;
+	int new_col;
 
 	g_return_if_fail (n == -1 || n == 1);
 
 	if (!gsheet->selecting_cell) {
-		selection_cursor_move_horizontal (gsheet, n, jump_to_boundaries);
+		rangesel_horizontal_move (gsheet, n, jump_to_boundaries);
 		return;
 	}
 
 	ic = gsheet->sel_cursor;
-	start_col = ic->pos.start.col;
-	end_col = ic->pos.end.col;
-
-	if (ic->base_col < end_col)
-		end_col =
-		    sheet_find_boundary_horizontal (gsheet->scg->sheet,
-						    end_col, ic->pos.end.row,
-						    n, jump_to_boundaries);
-	else if (ic->base_col > start_col || n < 0)
-		start_col =
-		    sheet_find_boundary_horizontal (gsheet->scg->sheet,
-						    start_col, ic->pos.start.row,
-						    n, jump_to_boundaries);
-	else
-		end_col =
-		    sheet_find_boundary_horizontal (gsheet->scg->sheet,
-						    end_col,  ic->pos.end.row,
-						    n, jump_to_boundaries);
-
-	if (end_col < start_col) {
-		int const tmp = start_col;
-		start_col = end_col;
-		end_col = tmp;
-	}
-
+	new_col = sheet_find_boundary_horizontal (gsheet->scg->sheet,
+		ic->move_corner.col, ic->move_corner.row, 
+		n, jump_to_boundaries);
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
-				start_col,
-				ic->pos.start.row,
-				end_col,
-				ic->pos.end.row);
+				ic->base_corner.col, ic->base_corner.row,
+				new_col, ic->move_corner.row);
 	selection_insert_selection_string (gsheet);
-
-	/* Ensure that the corner is visible */
-	gnumeric_sheet_make_cell_visible (gsheet, ic->base_col, ic->base_row, FALSE);
+	gnumeric_sheet_make_cell_visible (gsheet,
+		ic->move_corner.col, ic->move_corner.row, FALSE);
 }
 
 static void
-selection_expand_vertical (GnumericSheet *gsheet, int n, gboolean jump_to_boundaries)
+rangesel_vertical_extend (GnumericSheet *gsheet, int n, gboolean jump_to_boundaries)
 {
 	ItemCursor *ic;
-	int start_row, end_row;
+	int new_row;
 
 	g_return_if_fail (n == -1 || n == 1);
 
 	if (!gsheet->selecting_cell) {
-		selection_cursor_move_vertical (gsheet, n, jump_to_boundaries);
+		rangesel_vertical_move (gsheet, n, jump_to_boundaries);
 		return;
 	}
 
 	ic = gsheet->sel_cursor;
-	start_row = ic->pos.start.row;
-	end_row = ic->pos.end.row;
-
-	if (ic->base_row < end_row)
-		end_row =
-		    sheet_find_boundary_vertical (gsheet->scg->sheet,
-						  ic->pos.end.col, end_row,
-						  n, jump_to_boundaries);
-	else if (ic->base_row > start_row || n < 0)
-		start_row =
-		    sheet_find_boundary_vertical (gsheet->scg->sheet,
-						  ic->pos.start.col, start_row,
-						  n, jump_to_boundaries);
-	else
-		end_row =
-		    sheet_find_boundary_vertical (gsheet->scg->sheet,
-						  ic->pos.end.col,  end_row,
-						  n, jump_to_boundaries);
-
-	if (end_row < start_row) {
-		int const tmp = start_row;
-		start_row = end_row;
-		end_row = tmp;
-	}
-
+	new_row = sheet_find_boundary_vertical (gsheet->scg->sheet,
+		ic->move_corner.col, ic->move_corner.row, 
+		n, jump_to_boundaries);
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
-				ic->pos.start.col,
-				start_row,
-				ic->pos.end.col,
-				end_row);
+				ic->base_corner.col, ic->base_corner.row,
+				ic->move_corner.col, new_row);
 	selection_insert_selection_string (gsheet);
-
-	/* Ensure that the corner is visible */
-	gnumeric_sheet_make_cell_visible (gsheet, ic->base_col, ic->base_row, FALSE);
+	gnumeric_sheet_make_cell_visible (gsheet,
+		ic->move_corner.col, ic->move_corner.row, FALSE);
 }
 
 /*
@@ -582,46 +518,42 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	WorkbookControlGUI *wbcg = gsheet->scg->wbcg;
 	void (*movefn_horizontal) (GnumericSheet *, int, gboolean);
 	void (*movefn_vertical)   (GnumericSheet *, int, gboolean);
-	gboolean const select_expr_range = gnumeric_sheet_can_select_expr_range (gsheet);
 	gboolean const jump_to_bounds = event->state & GDK_CONTROL_MASK;
 
-	if (event->state & GDK_SHIFT_MASK) {
-		if (select_expr_range) {
-			movefn_horizontal = selection_expand_horizontal;
-			movefn_vertical = selection_expand_vertical;
-		} else {
-			movefn_horizontal = move_horizontal_selection;
-			movefn_vertical   = move_vertical_selection;
-		}
-	} else {
-		if (select_expr_range) {
-			movefn_horizontal = selection_cursor_move_horizontal;
-			movefn_vertical   = selection_cursor_move_vertical;
-		} else {
-			movefn_horizontal = move_cursor_horizontal;
-			movefn_vertical = move_cursor_vertical;
-		}
-	}
-
-	/* Ignore a few keys (to avoid the selection cursor to be killed
-	 * in some cases
+	/* Magic : Some of these are accelerators,
+	 * we need to catch them before entering because they appear to be printable
 	 */
-	if (select_expr_range) {
+	if (!wbcg->editing && event->keyval == GDK_space &&
+	    (event->state & (GDK_SHIFT_MASK|GDK_CONTROL_MASK)))
+		return FALSE;
+
+	if (gnumeric_sheet_can_select_expr_range (gsheet)) {
+		/* Ignore a few keys (to avoid the selection cursor to be
+		 * killed in some cases
+		 */
 		switch (event->keyval) {
 		case GDK_Shift_L:   case GDK_Shift_R:
 		case GDK_Alt_L:     case GDK_Alt_R:
 		case GDK_Control_L: case GDK_Control_R:
 			return 1;
 		}
-	}
 
-	/*
-	 * Magic : Some of these are accelerators,
-	 * we need to catch them before entering because they appear to be printable
-	 */
-	if (!wbcg->editing && event->keyval == GDK_space &&
-	    (event->state & (GDK_SHIFT_MASK|GDK_CONTROL_MASK)))
-		return FALSE;
+		if (event->state & GDK_SHIFT_MASK) {
+			movefn_horizontal = rangesel_horizontal_extend;
+			movefn_vertical = rangesel_vertical_extend;
+		} else {
+			movefn_horizontal = rangesel_horizontal_move;
+			movefn_vertical   = rangesel_vertical_move;
+		}
+	} else {
+		if (event->state & GDK_SHIFT_MASK) {
+			movefn_horizontal = cursor_horizontal_extend;
+			movefn_vertical   = cursor_vertical_extend;
+		} else {
+			movefn_horizontal = cursor_horizontal_move;
+			movefn_vertical = cursor_vertical_move;
+		}
+	}
 
 	switch (event->keyval) {
 	case GDK_KP_Left:

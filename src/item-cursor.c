@@ -451,34 +451,48 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 }
 
 gboolean
-item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, int end_col, int end_row)
+item_cursor_set_bounds (ItemCursor *ic,
+			int base_col, int base_row,
+			int move_col, int move_row)
 {
-	GnomeCanvasItem *item;
+	Range	r;
 
-	g_return_val_if_fail (start_col <= end_col, FALSE);
-	g_return_val_if_fail (start_row <= end_row, FALSE);
-	g_return_val_if_fail (start_col >= 0, FALSE);
-	g_return_val_if_fail (start_row >= 0, FALSE);
-	g_return_val_if_fail (end_col < SHEET_MAX_COLS, FALSE);
-	g_return_val_if_fail (end_row < SHEET_MAX_ROWS, FALSE);
-	g_return_val_if_fail (IS_ITEM_CURSOR (item_cursor), FALSE);
+	g_return_val_if_fail (IS_ITEM_CURSOR (ic), FALSE);
 
 	/* Nothing changed */
-	if (item_cursor->pos.start.col == start_col &&
-	    item_cursor->pos.end.col   == end_col &&
-	    item_cursor->pos.start.row == start_row &&
-	    item_cursor->pos.end.row   == end_row)
+	if (ic->base_corner.col == base_col &&
+	    ic->base_corner.row == base_row &&
+	    ic->move_corner.col == move_col &&
+	    ic->move_corner.row == move_row)
 		return FALSE;
 
-	/* Move to the new area */
-	item_cursor->pos.start.col = start_col;
-	item_cursor->pos.end.col   = end_col;
-	item_cursor->pos.start.row = start_row;
-	item_cursor->pos.end.row   = end_row;
+	if (base_col <= move_col) {
+		r.start.col = base_col;
+		r.end.col = move_col;
+	} else {
+		r.end.col = base_col;
+		r.start.col = move_col;
+	}
+	if (base_row <= move_row) {
+		r.start.row = base_row;
+		r.end.row = move_row;
+	} else {
+		r.end.row = base_row;
+		r.start.row = move_row;
+	}
 
-	/* Request an update */
-	item = GNOME_CANVAS_ITEM (item_cursor);
-	gnome_canvas_item_request_update (item);
+	g_return_val_if_fail (r.start.col >= 0, FALSE);
+	g_return_val_if_fail (r.start.row >= 0, FALSE);
+	g_return_val_if_fail (r.end.col < SHEET_MAX_COLS, FALSE);
+	g_return_val_if_fail (r.end.row < SHEET_MAX_ROWS, FALSE);
+
+	ic->pos = r;
+	ic->base_corner.col = base_col;
+	ic->base_corner.row = base_row;
+	ic->move_corner.col = move_col;
+	ic->move_corner.row = move_row;
+
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ic));
 
 	return TRUE;
 }
@@ -543,8 +557,8 @@ item_cursor_setup_auto_fill (ItemCursor *item_cursor, ItemCursor const *parent, 
 
 	item_cursor->base_cols = parent->pos.end.col - parent->pos.start.col;
 	item_cursor->base_rows = parent->pos.end.row - parent->pos.start.row;
-	item_cursor->base_col = parent->pos.start.col;
-	item_cursor->base_row = parent->pos.start.row;
+	item_cursor->base.col = parent->pos.start.col;
+	item_cursor->base.row = parent->pos.start.row;
 }
 
 static void
@@ -652,8 +666,8 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 
 		if (item_cursor_set_bounds (ITEM_CURSOR (new_item),
-					    ic->pos.start.col, ic->pos.start.row,
-					    ic->pos.end.col,   ic->pos.end.row))
+					    ic->base_corner.col, ic->base_corner.row,
+					    ic->move_corner.col, ic->move_corner.row))
 			gnome_canvas_update_now (canvas);
 
 		gnome_canvas_item_grab (
@@ -987,8 +1001,8 @@ item_cursor_set_spin_base (ItemCursor *item_cursor, int col, int row)
 {
 	g_return_if_fail (IS_ITEM_CURSOR (item_cursor));
 
-	item_cursor->base_col = col;
-	item_cursor->base_row = row;
+	item_cursor->base.col = col;
+	item_cursor->base.row = row;
 }
 
 #if 0
@@ -1140,8 +1154,8 @@ static gboolean
 cb_autofill_scroll (SheetControlGUI *scg, int col, int row, gpointer user_data)
 {
 	ItemCursor *item_cursor = user_data;
-	int bottom = item_cursor->base_row + item_cursor->base_rows;
-	int right = item_cursor->base_col + item_cursor->base_cols;
+	int bottom = item_cursor->base.row + item_cursor->base_rows;
+	int right = item_cursor->base.col + item_cursor->base_cols;
 
 	/* Autofill by row or by col, NOT both. */
 	if ((right - col) > (bottom - row)){
@@ -1155,14 +1169,14 @@ cb_autofill_scroll (SheetControlGUI *scg, int col, int row, gpointer user_data)
 	}
 
 	/* Do not auto scroll past the start */
-	if (row < item_cursor->base_row)
-		row = item_cursor->base_row;
-	if (col < item_cursor->base_col)
-		col = item_cursor->base_col;
+	if (row < item_cursor->base.row)
+		row = item_cursor->base.row;
+	if (col < item_cursor->base.col)
+		col = item_cursor->base.col;
 
 	item_cursor_set_bounds_visibly (item_cursor, col, row,
-					item_cursor->base_col,
-					item_cursor->base_row,
+					item_cursor->base.col,
+					item_cursor->base.row,
 					right, bottom);
 	return FALSE;
 }
@@ -1188,7 +1202,7 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		workbook_finish_editing (item_cursor->scg->wbcg, TRUE);
 		cmd_autofill (WORKBOOK_CONTROL (item_cursor->scg->wbcg), sheet,
-			      item_cursor->base_col,    item_cursor->base_row,
+			      item_cursor->base.col,    item_cursor->base.row,
 			      item_cursor->base_cols+1, item_cursor->base_rows+1,
 			      item_cursor->pos.end.col, item_cursor->pos.end.row);
 

@@ -3,17 +3,19 @@ Gnumeric 0.61
 Alan Cox:
 	* Fix formatting mistakes in documentation.
 
+Chema:
+	* Some work on the name dialog.
+
 Jody:
 	* Work on sheet object persistence.
 	* Begin honouring the current format when parsing.
+	* More work on merged cell support.
+	* Improve cursor rubber banding when selecting a range.
 
 Morten:
 	* Fix scripts generating documentation.
 	* Fixed lotus file format loader.  (Magic detection,
 	  avoid unaligned memory accesses, leaks.)
-
-Chema:
-	* Some work on the name dialog.
 
 --------------------------------------------------------------------------
 Gnumeric 0.60

@@ -1,5 +1,26 @@
 2000-12-17  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet.c (sheet_new_sheet_view) : no need to normalize.
+	(sheet_cursor_set) : no need to normalize.
+
+	* src/item-cursor.c (item_cursor_set_bounds) : Add a notion of
+	  move_corner and base_corner.
+
+	* src/gnumeric-sheet.c
+	(cursor_horizontal_move) : renamed from move_cursor_horizontal.
+	(cursor_horizontal_extend) : renamed from move_horizontal_selection.
+	(cursor_vertical_move) : renamed from move_cursor_vertical.
+	(cursor_vertical_extend) : renamed from move_vertical_selection.
+	(gnumeric_sheet_selection_extend) : no need to normalize.  the
+	  item-cursor now does it for us.
+	(rangesel_horizontal_move) : renamed from selection_cursor_move_horizontal.
+	(rangesel_vertical_move) : renamed from selection_cursor_move_vertical.
+	(rangesel_horizontal_extend) : renamed from selection_expand_horizontal.
+	  Use the new item-cursor base/move corners.
+	(rangesel_vertical_extend) : renamed from selection_expand_vertical.
+	  Use the new item-cursor base/move corners.
+	(gnumeric_sheet_key_mode_sheet) : simplify.
+
 	* src/sheet.c (sheet_find_boundary_horizontal) : support merged cells.
 	(sheet_find_boundary_vertical) : ditto.
 	(sheet_set_edit_pos) : Add edit_pos vs edit_pos_real to improve merged

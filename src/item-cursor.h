@@ -23,6 +23,9 @@ struct _ItemCursor {
 	ItemGrid	*item_grid;	/* A copy of our "parent" grid */
 	Range     	 pos;
 
+	CellPos	 base_corner;	/* Corner remains static when rubber banding */
+	CellPos	 move_corner;	/* Corner to move when extending */
+
 	/* Offset of dragging cell from top left of pos */
 	int col_delta, row_delta;
 
@@ -44,8 +47,8 @@ struct _ItemCursor {
 	 *     base_col and base_row are used to keep track of where
 	 *     the selection was started.
 	 */
+	CellPos	 base;
 	int      base_x, base_y;
-	int      base_col, base_row;
 	int      base_cols, base_rows;
 
 	/* Cached values of the last bounding box information used */
@@ -68,8 +71,8 @@ typedef struct {
 } ItemCursorClass;
 
 gboolean item_cursor_set_bounds (ItemCursor *item_cursor,
-				 int start_col, int start_row,
-				 int end_col, int end_row);
+				 int base_col, int base_row,
+				 int move_col, int move_row);
 
 void item_cursor_set_spin_base  (ItemCursor *item_cursor,
 				 int col, int row);

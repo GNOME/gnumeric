@@ -94,22 +94,14 @@ SheetControlGUI *
 sheet_new_sheet_view (Sheet *sheet)
 {
 	GtkWidget *sheet_view;
-	int base_col, base_row, move_col, move_row;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	sheet_view = sheet_view_new (sheet);
 
-	base_col = sheet->cursor.base_corner.col;
-	base_row = sheet->cursor.base_corner.row;
-	move_col = sheet->cursor.move_corner.col;
-	move_row = sheet->cursor.move_corner.row;
-
 	gnumeric_sheet_set_cursor_bounds (GNUMERIC_SHEET_CONTROL_GUI (sheet_view),
-		MIN (base_col, move_col),
-		MIN (base_row, move_row),
-		MAX (base_col, move_col),
-		MAX (base_row, move_row));
+		sheet->cursor.base_corner.col, sheet->cursor.base_corner.row,
+		sheet->cursor.move_corner.col, sheet->cursor.move_corner.row);
 	sheet->s_controls = g_list_prepend (sheet->s_controls, sheet_view);
 
 	return SHEET_CONTROL_GUI (sheet_view);
@@ -2523,10 +2515,8 @@ sheet_cursor_set (Sheet *sheet,
 		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
 
 		gnumeric_sheet_set_cursor_bounds (gsheet,
-			MIN (base_col, move_col),
-			MIN (base_row, move_row),
-			MAX (base_col, move_col),
-			MAX (base_row, move_row));
+			base_col, base_row,
+			move_col, move_row);
 	}
 }
 
