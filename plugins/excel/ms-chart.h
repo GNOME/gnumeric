@@ -15,7 +15,7 @@
 
 /* Reads charts */
 extern void ms_excel_chart (BiffQuery *q, MSContainer *container,
-			    MsBiffBofData *bof);
+			    MsBiffVersion ver);
 
 /* A wrapper which reads and checks the BOF record then calls ms_excel_chart */
 extern void ms_excel_read_chart (BiffQuery *q, MSContainer *container);

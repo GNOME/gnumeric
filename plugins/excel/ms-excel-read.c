@@ -3567,7 +3567,18 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
 		}
 #endif
 		if (q->ms_op == 0x10) {
-			puts ("EXCEL : How are we seeing chart records in a sheet ?");
+			/* HACK : it seems that in older versions of XL the
+			 * charts did not have a wrapper object.  the first
+			 * record in the sequence of chart records was a
+			 * CHART_UNITS followed by CHART_CHART.  We play off of
+			 * that.  When we encounter a CHART_units record we
+			 * jump to the chart handler which then starts parsing
+			 * at the NEXT record.
+			 */
+			if (q->opcode == BIFF_CHART_units)
+				ms_excel_chart (q, &sheet->container, sheet->container.ver);
+			else
+				puts ("EXCEL : How are we seeing chart records in a sheet ?");
 			continue;
 		}
 
@@ -3938,7 +3949,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 	MsOleStream *stream;
 	MsOleErr     result;
 	BiffQuery *q;
-	MsBiffBofData *ver = 0;
+	MsBiffBofData *ver = NULL;
 	int current_sheet = 0;
 	char *problem_loading = NULL;
 
@@ -4082,7 +4093,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 					current_sheet++;
 				}
 			} else if (ver->type == MS_BIFF_TYPE_Chart)
-				ms_excel_chart (q, &wb->container, ver);
+				ms_excel_chart (q, &wb->container, ver->version);
 			else if (ver->type == MS_BIFF_TYPE_VBModule ||
 				 ver->type == MS_BIFF_TYPE_Macrosheet) {
 				/* Skip contents of Module, or MacroSheet */

@@ -2020,7 +2020,7 @@ BC(register_handler)(ExcelChartHandler const *const handle)
 }
 
 void
-ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffBofData *bof)
+ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 {
 	int const num_handler = sizeof(chart_biff_handler) /
 		sizeof(ExcelChartHandler *);
@@ -2031,12 +2031,10 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffBofData *bof)
 	/* Register the handlers if this is the 1sttime through */
 	BC(register_handlers)();
 
-	g_return_if_fail (bof->type == MS_BIFF_TYPE_Chart);
-
 	/* FIXME : create an anchor parser for charts */
 	ms_container_init (&state.container, NULL);
 
-	state.container.ver = bof->version;
+	state.container.ver = ver;
 	state.depth = 0;
 	state.sheet = NULL;
 	state.prev_opcode = 0xdead; /* Invalid */
@@ -2162,7 +2160,11 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container)
 	/* 1st record must be a valid BOF record */
 	g_return_if_fail (ms_biff_query_next (q));
 	bof = ms_biff_bof_data_new (q);
+
+	g_return_if_fail (bof != NULL);
+	g_return_if_fail (bof->type == MS_BIFF_TYPE_Chart);
+
 	if (bof->version != MS_BIFF_V_UNKNOWN)
-		ms_excel_chart (q, container, bof);
+		ms_excel_chart (q, container, bof->version);
 	ms_biff_bof_data_destroy (bof);
 }

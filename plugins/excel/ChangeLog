@@ -1,3 +1,11 @@
+2000-11-02  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c (ms_excel_chart) : remove check for BOF type == chart.
+	  in BIFF5 it is possible to.
+
+        * ms-excel-read.c (ms_excel_read_sheet) : If we find a CHART_unit
+	  record parse the following records as if they were a chart.
+
 2000-11-01  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_sheet_set_comment) : we do not need to set
