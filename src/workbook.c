@@ -232,7 +232,7 @@ create_button_cmd (GtkWidget *widget, Workbook *wb)
 static void
 create_checkbox_cmd (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet wb->current_sheet;
+	Sheet *sheet = wb->current_sheet;
 	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_CHECKBOX);
 }
 #endif
@@ -314,8 +314,8 @@ workbook_do_destroy (Workbook *wb)
 	 * All formulas are going to be removed.  Unqueue them before removing
 	 * the cells so that we need not search the lists.
 	 */
-	g_list_free (wb->formula_cell_list);
-	wb->formula_cell_list = NULL;
+	g_list_free (wb->dependents);
+	wb->dependents = NULL;
 
 	/* Just drop the eval queue.  */
 	g_list_free (wb->eval_queue);
@@ -478,7 +478,7 @@ workbook_is_pristine (Workbook *wb)
 	if (workbook_is_dirty (wb))
 		return FALSE;
 
-	if (wb->names || wb->formula_cell_list ||
+	if (wb->names || wb->dependents ||
 #ifdef ENABLE_BONOBO
 	    wb->priv->workbook_views ||
 #endif
@@ -875,10 +875,14 @@ zoom_cmd (GtkWidget *widget, Workbook *wb)
 /* Sheet preferences */
 
 static void
-cb_cell_rerender (gpointer cell, gpointer data)
+cb_cell_rerender (gpointer element, gpointer userdata)
 {
-        cell_render_value (cell);
-        sheet_redraw_cell (cell);
+	Dependent *dep = element;
+	if (dep->flags & DEPENDENT_CELL) {
+		Cell *cell = DEP_TO_CELL (dep);
+		cell_render_value (cell);
+		sheet_redraw_cell (cell);
+	}
 }
 
 static void
@@ -886,7 +890,7 @@ cb_sheet_pref_display_formulas (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	sheet->display_formulas = !sheet->display_formulas;
-	g_list_foreach (wb->formula_cell_list, &cb_cell_rerender, NULL);
+	g_list_foreach (wb->dependents, &cb_cell_rerender, NULL);
 }
 static void
 cb_sheet_pref_hide_zeros (GtkWidget *widget, Workbook *wb)
@@ -3560,7 +3564,7 @@ workbook_expr_unrelocate (Workbook *wb, GSList *info)
 GSList *
 workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 {
-	GList *cells, *l;
+	GList *dependents, *l;
 	GSList *undo_info = NULL;
 
 	if (info->col_offset == 0 && info->row_offset == 0 &&
@@ -3570,9 +3574,9 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 	g_return_val_if_fail (wb != NULL, NULL);
 
 	/* Copy the list since it will change underneath us.  */
-	cells = g_list_copy (wb->formula_cell_list);
+	dependents = g_list_copy (wb->dependents);
 
-	for (l = cells; l; l = l->next)	{
+	for (l = dependents; l; l = l->next)	{
 		Cell *cell = l->data;
 		ExprRewriteInfo rwinfo;
 		ExprTree *newtree; 
@@ -3581,7 +3585,7 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 		memcpy (&rwinfo.u.relocate, info, sizeof (ExprRelocateInfo));
 		eval_pos_init_cell (&rwinfo.u.relocate.pos, cell);
 
-		newtree = expr_rewrite (cell->u.expression, &rwinfo);
+		newtree = expr_rewrite (cell->base.expression, &rwinfo);
 
 		if (newtree) {
 			/* Don't store relocations if they were inside the region
@@ -3593,7 +3597,7 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 				struct expr_relocate_storage *tmp =
 				    g_new (struct expr_relocate_storage, 1);
 				tmp->pos = rwinfo.u.relocate.pos;
-				tmp->oldtree = cell->u.expression;
+				tmp->oldtree = cell->base.expression;
 				expr_tree_ref (tmp->oldtree);
 				undo_info = g_slist_prepend (undo_info, tmp);
 			}
@@ -3603,7 +3607,7 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 		}
 	}
 
-	g_list_free (cells);
+	g_list_free (dependents);
 
 	return undo_info;
 }

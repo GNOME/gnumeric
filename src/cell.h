@@ -9,11 +9,8 @@ typedef enum {
     /* Cell has an expression rather than entered_text */
     CELL_HAS_EXPRESSION	   = 0x1,
 
-    /* Cell has be linked into the workbook wide expression list */
-    CELL_IN_EXPR_LIST	   = 0x2,
-
     /* Cell is linked into the sheet */
-    CELL_IN_SHEET_LIST	   = 0x4
+    CELL_IN_SHEET_LIST	   = 0x2
 
     /* MUST BE <= 0xffff */
 } CellFlags;
@@ -21,6 +18,8 @@ typedef enum {
 typedef struct _CellComment CellComment;
 
 /* Definition of a Gnumeric Cell */
+#define DEP_TO_CELL(dep)	((Cell *)(dep))
+#define CELL_TO_DEP(cell)	((Dependent *)(cell))
 struct _Cell {
 	Dependent base;
 	/* Mandatory state information */
@@ -34,13 +33,10 @@ struct _Cell {
 	/*  Only applies if the region has format general */
 	StyleFormat *format;	/* Prefered format to render value */
 
-	union {
-		ExprTree    *expression;	/* Parse tree with the expression */
-		String      *entered_text;	/* Text as entered by the user. */
-	} u; /* TODO : find a better naming scheme */
+	/* DEPRECATED : this field will be removed shortly */
+	String      *entered_text;	/* Text as entered by the user. */
 
 	CellComment *comment;
-	guint8       generation;
 };
 
 /**
@@ -48,8 +44,9 @@ struct _Cell {
  */
 Cell       *cell_copy                    (Cell const *cell);
 void        cell_destroy                 (Cell *cell);
-void        cell_content_changed         (Cell *cell);
 void        cell_relocate                (Cell *cell, ExprRewriteInfo *rwinfo);
+void        cell_eval_content            (Cell *cell);
+void        cell_content_changed         (Cell *cell);
 
 /**
  * Cell state checking
@@ -61,9 +58,9 @@ gboolean    cell_is_zero		(Cell const * cell);
 ExprArray const * cell_is_array         (Cell const * cell);
 gboolean    cell_is_partial_array       (Cell const * cell);
 #define	    cell_needs_recalc(cell)	((cell)->base.flags & DEPENDENT_QUEUED_FOR_RECALC)
+#define	    cell_expr_is_linked(cell)	((cell)->base.flags & DEPENDENT_IN_EXPR_LIST)
 #define	    cell_has_expr(cell)		((cell)->base.flags & CELL_HAS_EXPRESSION)
 #define	    cell_is_linked(cell)	((cell)->base.flags & CELL_IN_SHEET_LIST)
-#define	    cell_expr_is_linked(cell)	((cell)->base.flags & CELL_IN_EXPR_LIST)
 #define	    cell_has_comment(cell)	((cell)->comment != NULL)
 
 /**

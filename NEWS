@@ -8,6 +8,9 @@ Almer:
 Chema:
 	* Copy sheet.
 
+Hardy Falk:
+	* Output the cells in row/col sequence, taher than by hash.
+
 Jody:
 	* Applix support mostly functional.
 	* Improve support for named expressions.

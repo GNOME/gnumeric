@@ -1865,7 +1865,7 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell *cell, int col, int row
 	ExprArray const *ar;
 	gboolean write_contents = TRUE;
 	gboolean const is_shared_expr =
-	    (cell_has_expr (cell) && expr_tree_shared (cell->u.expression));
+	    (cell_has_expr (cell) && expr_tree_shared (cell->base.expression));
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Cell", NULL);
 	xml_set_value_int (cur, "Col", col);
@@ -1885,7 +1885,7 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell *cell, int col, int row
 
 	/* As of version 0.53 we save the ID of shared expressions */
 	if (is_shared_expr) {
-		gpointer const expr = cell->u.expression;
+		gpointer const expr = cell->base.expression;
 		gpointer id = g_hash_table_lookup (ctxt->expr_map, expr);
 
 		if (id == NULL) {
@@ -1902,7 +1902,7 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell *cell, int col, int row
 			char *tmp;
 			ParsePos pp;
 
-			tmp = expr_tree_as_string (cell->u.expression,
+			tmp = expr_tree_as_string (cell->base.expression,
 				parse_pos_init_cell (&pp, cell));
 			text = g_strconcat ("=", tmp, NULL);
 			g_free (tmp);
@@ -2165,7 +2165,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 			if (expr == NULL) {
 				if (cell_has_expr (ret))
 					g_hash_table_insert (ctxt->expr_map, id,
-							     ret->u.expression);
+							     ret->base.expression);
 				else
 					g_warning ("XML-IO : Shared expression with no expession ??");
 			} else if (!is_post_52_array)

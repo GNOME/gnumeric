@@ -352,20 +352,58 @@ else
     AC_MSG_ERROR(Did not find GTK+ installed)
 fi
 
-dnl ******************************
-dnl Check for Applix SHELF
-dnl ******************************
-try_applix_shelf=false
-applix_shelf=
-applix_shelf_msg=no
-have_applix_shelf=false
-AC_ARG_WITH(applix_shelf,
-	[--{with,without}-shelf   Compile with Applix SHELF support or without it],
+
+dnl ****************
+dnl Check for pspell
+dnl ****************
+
+try_pspell=true
+have_pspell=false
+pspell_msg=no
+PSPELL_LIBS=""
+
+AC_ARG_WITH(pspell,
+	[--{with,without}-pspell    Compile with Pspell support or without it],
+	if test x$withval = xno; then
+		try_pspell=false
+	fi
 	if test x$withval = xyes; then
-		try_applix_shelf=true
+		try_pspell=true
 	fi
 )
 
+if $try_pspell; then
+	AC_MSG_CHECKING([for pspell])
+	if pspell-config version > /dev/null 2>&1; then
+		pspell_ver=`pspell-config version`
+		AC_MSG_RESULT([found ($pspell_ver)])
+
+		AC_CHECK_LIB(pspell, new_pspell_config, have_pspell=true)
+		if test x$have_pspell = xtrue; then
+			AC_DEFINE(HAVE_PSPELL)
+			PSPELL_LIBS="-lpspell"
+			pspell_msg=yes
+		fi
+	else
+		AC_MSG_RESULT(not found)
+	fi
+fi
+AC_SUBST(PSPELL_LIBS)
+AM_CONDITIONAL(HAVE_PSPELL, $have_pspell)
+
+dnl ******************************
+dnl Check for Applix SHELF
+dnl ******************************
+dnl try_applix_shelf=false
+dnl applix_shelf=
+dnl applix_shelf_msg=no
+dnl have_applix_shelf=false
+dnl AC_ARG_WITH(applix_shelf,
+dnl	[--{with,without}-shelf   Compile with Applix SHELF support or without it],
+dnl	if test x$withval = xyes; then
+dnl		try_applix_shelf=true
+dnl	fi
+dnl)
 dnl ***************************************
 dnl Check for gnome-libs which supports wm icons
 dnl ***************************************
@@ -452,7 +490,7 @@ Configuration:
 	
 	GB Support:		${gb_msg}
 	Bonobo Support:		${bonobo_msg}
-	Oaf Support:		${using_oaf}
+	Spell Checking:		${pspell_msg}
 "
 if $have_bonobo; then
 	echo "

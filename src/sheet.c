@@ -27,6 +27,7 @@
 #include "command-context.h"
 #include "commands.h"
 #include "cellspan.h"
+#include "dependent.h"
 #include "cell-comment.h"
 #include "sheet-private.h"
 #include "expr-name.h"
@@ -35,8 +36,6 @@
 #ifdef ENABLE_BONOBO
 #    include <libgnorba/gnorba.h>
 #endif
-
-#undef DEBUG_CELL_FORMULA_LIST
 
 #define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);
 
@@ -1917,7 +1916,7 @@ sheet_cell_insert (Sheet *sheet, Cell *cell, int col, int row, gboolean recalc_s
 	cell_add_dependencies (cell);
 	cell_realize (cell);
 
-	if (recalc_span && !cell_needs_recalc(cell))
+	if (recalc_span && !cell_needs_recalc (cell))
 		sheet_cell_calc_span (cell, SPANCALC_RESIZE);
 }
 
@@ -1962,15 +1961,15 @@ sheet_cell_remove_simple (Sheet *sheet, Cell *cell)
 {
 	GList *deps;
 
-	if (cell_needs_recalc(cell))
-		eval_unqueue_cell (cell);
+	if (cell_needs_recalc (cell))
+		dependent_unqueue_recalc (CELL_TO_DEP (cell));
 
 	if (cell_has_expr (cell))
-		sheet_cell_expr_unlink (cell);
+		dependent_unlink (CELL_TO_DEP (cell));
 
 	deps = cell_get_dependencies (cell);
 	if (deps)
-		eval_queue_list (deps, TRUE);
+		dependent_queue_recalc_list (deps, TRUE);
 
 	sheet_cell_remove_from_hash (sheet, cell);
 
@@ -2024,85 +2023,6 @@ sheet_cell_comment_unlink (Cell *cell)
 
 	sheet = cell->base.sheet;
 	sheet->comment_list = g_list_remove (sheet->comment_list, cell);
-}
-
-void
-sheet_cell_expr_link (Cell *cell)
-{
-	Sheet *sheet;
-
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell_has_expr (cell));
-	g_return_if_fail (!cell_expr_is_linked (cell));
-
-	sheet = cell->base.sheet;
-
-#ifdef DEBUG_CELL_FORMULA_LIST
-	if (g_list_find (sheet->workbook->formula_cell_list, cell)) {
-		/* Anything that shows here is a bug.  */
-		g_warning ("Cell %s %p re-linked\n", cell_name (cell), cell);
-		return;
-	}
-#endif
-
-	sheet->workbook->formula_cell_list =
-		g_list_prepend (sheet->workbook->formula_cell_list, cell);
-	cell_add_dependencies (cell);
-	cell->base.flags |= CELL_IN_EXPR_LIST;
-}
-
-void
-sheet_cell_expr_unlink (Cell *cell)
-{
-	Sheet *sheet;
-
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell_has_expr (cell));
-	g_return_if_fail (cell_expr_is_linked (cell));
-
-	cell->base.flags &= ~CELL_IN_EXPR_LIST;
-
-	sheet = cell->base.sheet;
-	if (sheet == NULL)
-		return;
-
-	cell_drop_dependencies (cell);
-	sheet->workbook->formula_cell_list = g_list_remove (sheet->workbook->formula_cell_list, cell);
-
-	/* Just an optimization to avoid an expensive list lookup */
-	if (cell->base.flags & DEPENDENT_QUEUED_FOR_RECALC)
-		eval_unqueue_cell (cell);
-}
-
-/**
- * sheet_expr_unlink : An internal routine to remove all expressions
- *      associated with a given sheet from the workbook wide expression list.
- *
- * WARNING : This is a dangerous internal function.  it leaves the cells in an
- *	invalid state.  It is intended for use by sheet_destroy_contents.
- */
-static void
-sheet_expr_unlink (Sheet *sheet)
-{
-	GList *ptr, *next, *queue;
-	Workbook *wb;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	wb = sheet->workbook;
-	queue = wb->formula_cell_list;
-	for (ptr = queue; ptr != NULL ; ptr = next) {
-		Cell *cell = ptr->data;
-		next = ptr->next;
-
-		if (cell->base.sheet == sheet) {
-			cell->base.flags &= ~CELL_IN_EXPR_LIST;
-			queue = g_list_remove_link (queue, ptr);
-			g_list_free_1 (ptr);
-		}
-	}
-	wb->formula_cell_list = queue;
 }
 
 /*
@@ -2215,10 +2135,10 @@ sheet_destroy_contents (Sheet *sheet)
 		row_destroy_span (sheet_row_get (sheet, i));
 
 	/* Remove any pending recalcs */
-	eval_unqueue_sheet (sheet);
+	dependent_unqueue_recalc_sheet (sheet);
 
 	/* Unlink expressions from the workbook expr list */
-	sheet_expr_unlink (sheet);
+	dependent_unlink_sheet (sheet);
 
 	/* Remove all the cells */
 	g_hash_table_foreach_remove (sheet->cell_hash, &cb_remove_allcells, NULL);
@@ -2748,7 +2668,7 @@ static Value *
 avoid_dividing_array_horizontal (Sheet *sheet, int col, int row, Cell *cell,
 				 void *user_data)
 {
-	if (cell_is_array (cell) && cell->u.expression->array.x > 0)
+	if (cell_is_array (cell) && cell->base.expression->array.x > 0)
 		return value_terminate ();
 	return NULL;
 }
@@ -2761,7 +2681,7 @@ static Value *
 avoid_dividing_array_vertical (Sheet *sheet, int col, int row, Cell *cell,
 			       void *user_data)
 {
-	if (cell_is_array (cell) && cell->u.expression->array.y > 0)
+	if (cell_is_array (cell) && cell->base.expression->array.y > 0)
 		return value_terminate ();
 	return NULL;
 }
@@ -3233,7 +3153,7 @@ sheet_move_range (CommandContext *context,
 		if ((cell->pos.col + rinfo->col_offset) >= SHEET_MAX_COLS ||
 		    (cell->pos.row + rinfo->row_offset) >= SHEET_MAX_ROWS) {
 			if (cell_has_expr (cell))
-				sheet_cell_expr_unlink (cell);
+				dependent_unlink (CELL_TO_DEP (cell));
 			cell_unrealize (cell);
 			cell_destroy (cell);
 			continue;
@@ -3243,7 +3163,7 @@ sheet_move_range (CommandContext *context,
 		inter_sheet_expr  = (cell->base.sheet != rinfo->target_sheet &&
 				     cell_has_expr (cell));
 		if (inter_sheet_expr)
-			sheet_cell_expr_unlink (cell);
+			dependent_unlink (CELL_TO_DEP (cell));
 
 		/* Update the location */
 		sheet_cell_insert (rinfo->target_sheet, cell,
@@ -3251,7 +3171,7 @@ sheet_move_range (CommandContext *context,
 				   cell->pos.row + rinfo->row_offset, TRUE);
 
 		if (inter_sheet_expr)
-			sheet_cell_expr_link (cell);
+			dependent_link (CELL_TO_DEP (cell), &cell->pos);
 
 		/* Move comments */
 		cell_relocate (cell, NULL);
@@ -3890,7 +3810,7 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 	sheet_cell_insert (dst, new_cell,
 			   cell->pos.col, cell->pos.row, FALSE);
 	if (is_expr)
-		sheet_cell_expr_link (new_cell);
+		dependent_link (CELL_TO_DEP (new_cell), &cell->pos);
 }
 
 static void

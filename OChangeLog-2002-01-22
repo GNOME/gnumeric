@@ -1,3 +1,50 @@
+2000-09-05  Jody Goldberg <jgoldberg@home.com>
+
+	* configure.in : Add test for pspell.
+	* acconfig.h : Ditto.
+
+	* s/cell.u.expression/cell.base.expression/
+	* s/cell.generation/cell.base.generation/
+	* s/cell.u.entered_text/cell.entered_text/  <- deprecated
+	* s/workbook.formula_cell_list/workbook.dependents/
+
+	* s/sheet_cell_expr_link/dependent_expr_link/
+	* s/sheet_cell_expr_unlink/dependent_expr_unlink/
+
+	* s/eval_queue_cell/dependent_queue_recalc/
+	* s/eval_queue_list/dependent_queue_recalc_list/
+	* s/eval_unqueue_cell/dependent_unqueue_recalc/
+	* s/eval_unqueue_sheet/dependent_unqueue_recalc_sheet/
+	*
+	* s/cell_add_dependencies/dependent_add_dependencies
+	* s/cell_drop_dependencies/dependent_drop_dependencies
+
+	* s/cell_formula_changed/dependent_changed/
+	* s/sheet_cell_expr_link/dependent_link/
+	* s/CELL_IN_EXPR_LIST/DEPENDENT_IN_EXPR_LIST/
+
+	* src/cell.c (cell_eval_content) : moved from eval.c
+
+	* src/eval.c (sheet_region_get_deps) : Take a Range rather than 4 int.
+	(drop_range_dep) : Use dependent_debug_name.
+	(dependency_range_ctor) : Take a CellPos as an arg rather than a Cell.
+	(handle_cell_single_dep) : Take an optional CellPos and a Dependent.
+	(handle_cell_range_deps) : Ditto. Do not check for singletons here.
+	(handle_tree_deps) : Ditto.  Call handle_cell_single_dep directly.
+	(cell_add_explicit_dependency) : Delete.
+	(get_single_dependencies) : Some const.
+
+	* src/cmd-edit.c (cmd_select_cur_depends) : Use dependent_list_filter
+	  to only show cell dependencies for now.
+
+	* src/dependent.c (dependent_list_filter) : new function.
+	(dependent_debug_name) : new function.
+
+	* src/history.c : Add a comment about File/Print Preview for
+	  translators.
+
+	* src/workbook.c (cb_cell_rerender) : Only cells need this.
+
 2000-09-03  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* src/cell-draw.c:

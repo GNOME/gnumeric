@@ -370,9 +370,13 @@ button_widget_create (SheetObjectWidget *sow, SheetView *sheet_view)
 static GtkWidget *
 checkbox_widget_create (SheetObjectWidget *sow, SheetView *sheet_view)
 {
+	static int hack_counter = 0; /* FIXME this will break in multiple views. */
 	GtkWidget *checkbox;
+	char *label;
 
-	checkbox = gtk_check_button_new();
+	label = g_strdup_printf ("Check Box %d", ++hack_counter);
+	checkbox = gtk_check_button_new_with_label (label);
+	g_free (label);
 	gtk_toggle_button_set_mode (GTK_TOGGLE_BUTTON (checkbox), FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbox), FALSE);
 	gtk_widget_show (checkbox);

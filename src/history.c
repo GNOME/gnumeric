@@ -146,6 +146,12 @@ history_menu_locate_separator (Workbook *wb)
 	MenuPos ret;
 	
 #ifndef ENABLE_BONOBO
+/*
+ * xgettext:
+ * This string must translate to exactly the same strings as the
+ * 'Print Preview' item in the
+ * 'File' menu
+ */
 	char const * menu_name = _("File/Print preview");
 	ret.menu = gnome_app_find_menu_pos (GNOME_APP (wb->toplevel)->menubar, 
 					    menu_name, &ret.pos);

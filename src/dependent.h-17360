@@ -2,19 +2,42 @@
 #define GNUMERIC_DEPENDENT_H
 
 #include "gnumeric.h"
+#include <stdio.h>
 
 struct _Dependent
 {
-	guint	 flags;
-	Sheet	*sheet;
+	guint	  flags;
+	Sheet	 *sheet;
+	ExprTree *expression;
+	guint8    generation;
 };
 
 typedef enum {
-    /* Cell has been queued for recalc */
-    DEPENDENT_QUEUED_FOR_RECALC = 0x0010000,
+    /* Queued for recalc */
+    DEPENDENT_QUEUED_FOR_RECALC = 0x00010000,
+    /* Linked into the workbook wide expression list */
+    DEPENDENT_IN_EXPR_LIST      = 0x00020000,
+
     /* Types */
     DEPENDENT_CELL 		= 0x01000000,
+    DEPENDENT_GRAPH_SERIES	= 0x02000000,
+    DEPENDENT_CHECK_BOX		= 0x03000000,
+    DEPENDENT_TYPE_MASK		= 0xff000000,
 } DependentFlags;
 
-#endif /* GNUMERIC_DEPENDENT_H */
+void dependent_link		(Dependent *dep, CellPos const *pos);
+void dependent_unlink		(Dependent *dep, CellPos const *pos);
+void dependent_unlink_sheet	(Sheet const *sheet);
+void dependent_changed		(Dependent *dep, CellPos const *pos,
+				 gboolean queue_recalc);
 
+void dependent_queue_recalc		(Dependent *dep);
+void dependent_queue_recalc_list	(GList *list, gboolean freelist);
+void dependent_unqueue_recalc		(Dependent *dep);
+void dependent_unqueue_recalc_sheet	(Sheet *sheet);
+
+GList *dependent_list_filter	(GList *input, DependentFlags type);
+
+void dependent_debug_name (Dependent const *dep, FILE *out);
+
+#endif /* GNUMERIC_DEPENDENT_H */

@@ -14,6 +14,7 @@
 #undef ENABLE_GB
 #undef HAVE_IEEEFP_H
 #undef ENABLE_GNOME
+#undef HAVE_PSPELL
 
 #undef GNUMERIC_VERSION
 

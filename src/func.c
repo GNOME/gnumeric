@@ -667,7 +667,7 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row,
 		return (*data->callback)(&ep, NULL, data->closure);
 	}
 
-	if (cell->generation != sheet->workbook->generation)
+	if (cell->base.generation != sheet->workbook->generation)
 		cell_eval (cell);
 
 	/* If we encounter an error for the strict case, short-circuit here.  */

@@ -230,6 +230,8 @@ GNUMERIC_BONOBO_SOURCES = 			\
 	bonobo-io.h				\
 	embeddable-grid.c			\
 	embeddable-grid.h			\
+	graph-series.c				\
+	graph-series.h				\
 	sheet-object-bonobo.c			\
 	sheet-object-bonobo.h			\
 	sheet-object-container.c		\
@@ -264,6 +266,7 @@ gnumeric_LDADD = 					\
 	$(EXTRA_GNOME_LIBS)				\
 	$(GNOME_XML_LIB) 				\
 	$(GUILE_LIBS)					\
+	$(PSPELL_LIBS)					\
 	$(INTLLIBS)
 
 gnumeric_bonobo_LDADD =					\
@@ -274,6 +277,7 @@ gnumeric_bonobo_LDADD =					\
 	$(EXTRA_GNOME_LIBS)				\
 	$(GNOME_XML_LIB) 				\
 	$(GUILE_LIBS)					\
+	$(PSPELL_LIBS)					\
 	$(INTLLIBS)
 
 wc:

@@ -1450,7 +1450,7 @@ pre_cell (gconstpointer dummy, Cell *cell, ExcelSheet *sheet)
 
 	cell_mark_used (sheet, col, row);
 	if (cell_has_expr (cell))
-		ms_formula_build_pre_data (sheet, cell->u.expression);
+		ms_formula_build_pre_data (sheet, cell->base.expression);
 
 	/* Save cell pointer */
 	c = excel_cell_get (sheet, col, row);
@@ -2414,7 +2414,7 @@ write_formula (BiffPut *bp, ExcelSheet *sheet, const Cell *cell, gint16 xf)
 	MS_OLE_SET_GUINT32 (data + 16, 0x0);
 	MS_OLE_SET_GUINT16 (data + 20, 0x0);
 	ms_biff_put_var_write (bp, data, 22);
-	len = ms_excel_write_formula (bp, sheet, cell->u.expression,
+	len = ms_excel_write_formula (bp, sheet, cell->base.expression,
 				      col, row);
 	g_assert (len <= 0xffff);
 	ms_biff_put_var_seekto (bp, 20);
@@ -2463,7 +2463,7 @@ write_cell (BiffPut *bp, ExcelSheet *sheet, const ExcelCell *cell)
 		printf ("Writing cell at %s '%s' = '%s', xf = 0x%x\n",
 			cell_name (gnum_cell),
 			(cell_has_expr (gnum_cell) ?
-			 expr_tree_as_string (gnum_cell->u.expression,
+			 expr_tree_as_string (gnum_cell->base.expression,
 					      parse_pos_init_cell (&tmp, gnum_cell)) :
 			 "none"),
 			(gnum_cell->value ?

@@ -671,7 +671,7 @@ dialog_formula_guru (Workbook *wb)
 			       sheet->cursor.edit_pos.row);
 
 	if (cell != NULL && cell_has_expr (cell))
-		expr = expr_tree_first_func (cell->u.expression);
+		expr = expr_tree_first_func (cell->base.expression);
 
 	/* If the current cell has no function calls,  clear cell, and start an
 	 * expression

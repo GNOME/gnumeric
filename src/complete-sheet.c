@@ -104,7 +104,7 @@ complete_sheet_search_iteration (Complete *complete)
 		if (cell_has_expr (cell))
 			continue;
 
-		if (text_matches (cs, cell->u.entered_text->str))
+		if (text_matches (cs, cell->entered_text->str))
 			return FALSE;
 	}
 
@@ -118,7 +118,7 @@ complete_sheet_search_iteration (Complete *complete)
 		if (cell_has_expr (cell))
 			continue;
 
-		if (text_matches (cs, cell->u.entered_text->str))
+		if (text_matches (cs, cell->entered_text->str))
 			return FALSE;
 	}
 

@@ -2204,7 +2204,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 	 * 0x2 = CalcOnLoad
 	 */
 	if (options & 0x3)
-		eval_queue_cell (cell);
+		dependent_queue_recalc (CELL_TO_DEP (cell));
 }
 
 BiffSharedFormula *

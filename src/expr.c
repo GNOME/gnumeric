@@ -230,12 +230,12 @@ expr_tree_array_formula_corner (ExprTree const *expr, EvalPos const *pos)
 	g_return_val_if_fail (cell_has_expr (corner), NULL);
 
 	/* Sanity check incase the corner gets removed for some reason */
-	g_return_val_if_fail (corner->u.expression != (void *)0xdeadbeef, NULL);
-	g_return_val_if_fail (corner->u.expression->any.oper == OPER_ARRAY, NULL);
-	g_return_val_if_fail (corner->u.expression->array.x == 0, NULL);
-	g_return_val_if_fail (corner->u.expression->array.y == 0, NULL);
+	g_return_val_if_fail (corner->base.expression != (void *)0xdeadbeef, NULL);
+	g_return_val_if_fail (corner->base.expression->any.oper == OPER_ARRAY, NULL);
+	g_return_val_if_fail (corner->base.expression->array.x == 0, NULL);
+	g_return_val_if_fail (corner->base.expression->array.y == 0, NULL);
 
-	return corner->u.expression;
+	return corner->base.expression;
 }
 
 /*
@@ -448,7 +448,7 @@ eval_range (EvalPos const *pos, Value *v)
 		for (c = start_col; c <= end_col; ++c) {
 			if ((cell = sheet_cell_get (sheet, c, r)) == NULL)
 				continue;
-			if (cell->generation != gen)
+			if (cell->base.generation != gen)
 				cell_eval (cell);
 		}
 }
@@ -823,7 +823,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 		if (cell == NULL)
 			return NULL;
 
-		if (cell->generation != pos->sheet->workbook->generation)
+		if (cell->base.generation != pos->sheet->workbook->generation)
 			cell_eval (cell);
 
 		return value_duplicate (cell->value);
@@ -871,7 +871,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 					if (cell == NULL)
 						return NULL;
 
-					if (cell->generation != pos->sheet->workbook->generation)
+					if (cell->base.generation != pos->sheet->workbook->generation)
 						cell_eval (cell);
 
 					return value_duplicate (cell->value);

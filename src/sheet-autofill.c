@@ -244,7 +244,7 @@ fill_item_new (Cell *cell)
 
 	if (cell_has_expr (cell)) {
 		fi->type = FILL_FORMULA;
-		fi->v.formula = cell->u.expression;
+		fi->v.formula = cell->base.expression;
 
 		return fi;
 	}

@@ -74,7 +74,7 @@ rendered_value_new_ext (Cell *cell, MStyle *mstyle)
 	if (cell_has_expr (cell) &&
 	    cell->base.sheet != NULL && cell->base.sheet->display_formulas) {
 		ParsePos pp;
-		char *tmpstr = expr_tree_as_string (cell->u.expression,
+		char *tmpstr = expr_tree_as_string (cell->base.expression,
 			parse_pos_init_cell (&pp, cell));
 		str = g_strconcat ("=", tmpstr, NULL);
 		g_free (tmpstr);
@@ -87,8 +87,8 @@ rendered_value_new_ext (Cell *cell, MStyle *mstyle)
 			 * set_value
 			 */
 			char const *entered =
-				(!cell_has_expr (cell) && cell->u.entered_text != NULL)
-				? cell->u.entered_text->str : NULL;
+				(!cell_has_expr (cell) && cell->entered_text != NULL)
+				? cell->entered_text->str : NULL;
 			StyleFormat *format = mstyle_get_format (mstyle);
 
 			if  (style_format_is_general(format) && cell->format)
@@ -290,7 +290,7 @@ cell_get_entered_text (Cell const *cell)
 		char *func, *ret;
 		ParsePos pp;
 
-		func = expr_tree_as_string (cell->u.expression,
+		func = expr_tree_as_string (cell->base.expression,
 			parse_pos_init_cell (&pp, cell));
 		ret = g_strconcat ("=", func, NULL);
 		g_free (func);
@@ -301,8 +301,8 @@ cell_get_entered_text (Cell const *cell)
 	/*
 	 * Return the value without parsing.
 	 */
-	if (cell->u.entered_text != NULL)
-		return g_strdup (cell->u.entered_text->str);
+	if (cell->entered_text != NULL)
+		return g_strdup (cell->entered_text->str);
 
 	/* Getting desperate, no need to check for the rendered version.
 	 * This should not happen.

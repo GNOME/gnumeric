@@ -15,13 +15,13 @@
 
 typedef struct _SheetObjectWidget SheetObjectWidget;
 
-typedef GtkWidget *(*SheetWidgetRealizeFunction)(SheetObjectWidget *, SheetView *);
+typedef GtkWidget *(*SheetWidgetFunction)(SheetObjectWidget *, SheetView *);
 
 struct _SheetObjectWidget {
 	SheetObject     parent_object;
 
-	SheetWidgetRealizeFunction realize;
-	void           *realize_closure;
+	SheetWidgetFunction realize;
+	SheetWidgetFunction configure;
 };
 
 typedef struct {
@@ -32,7 +32,7 @@ typedef struct {
  * Widget embedding object.
  *
  * Given that sheets must support multiple views, the user need to
- * create this widgets on demand (thus, the SheetWidgetRealizeFunction).
+ * create this widgets on demand (thus, the SheetWidgetFunction).
  *
  * It is the responsability of the user code to keep all the widgets
  * for the multiple views in sync.
@@ -41,13 +41,14 @@ GtkType      sheet_object_widget_get_type  (void);
 SheetObject *sheet_object_widget_new       (Sheet *sheet,
 					    double x1, double y1,
 					    double x2, double y2,
-					    SheetWidgetRealizeFunction realize,
-					    void *realize_closure);
+					    SheetWidgetFunction realize,
+					    SheetWidgetFunction config);
 
 void         sheet_object_widget_construct (SheetObjectWidget *sow,
 					    Sheet *sheet,
 					    double x1, double y1,
 					    double x2, double y2,
-					    SheetWidgetRealizeFunction realize,
-					    void *realize_closure);
+					    SheetWidgetFunction realize,
+					    SheetWidgetFunction config);
+
 #endif /* GNUMERIC_SHEET_OBJECT_WIDGET_H */

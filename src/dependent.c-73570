@@ -22,3 +22,279 @@
  */
 #include "config.h"
 #include "dependent.h"
+#include "workbook.h"
+#include "sheet.h"
+#include "cell.h"
+#include "eval.h"
+#include "parse-util.h"
+
+/**
+ * dependent_changed:
+ * @cell : the dependent that changed
+ * @queue_recalc: also queue a recalc for the dependent.
+ *
+ * Registers the expression with the sheet and optionally queues a recalc.
+ */
+void
+dependent_changed (Dependent *dep, CellPos const *pos, gboolean queue_recalc)
+{
+	dependent_link (dep, pos);
+	if (queue_recalc)
+		dependent_queue_recalc (dep);
+}
+
+/**
+ * dependent_link:
+ * @dep : the dependent that changed
+ * @pos: The optionally NULL position of the dependent.
+ *
+ * Adds the dependent to the workbook wide list of dependents.
+ */
+void
+dependent_link (Dependent *dep, const CellPos *pos)
+{
+	Workbook *wb;
+
+	g_return_if_fail (dep != NULL);
+	g_return_if_fail (dep->expression != NULL);
+	g_return_if_fail (dep->sheet != NULL);
+	g_return_if_fail (!(dep->flags & DEPENDENT_IN_EXPR_LIST));
+
+	wb = dep->sheet->workbook;
+
+#if 0
+	if (g_list_find (wb->dependents, dep)) {
+		/* Anything that shows here is a bug.  */
+		dependent_debug_name (dep, stderr);
+		g_warning ("Doubly linked dependent");
+		return;
+	}
+#endif
+
+	wb->dependents = g_list_prepend (wb->dependents, dep);
+
+	dependent_add_dependencies (dep, pos);
+
+	dep->flags |= DEPENDENT_IN_EXPR_LIST;
+}
+
+/**
+ * dependent_unlink:
+ * @dep : the dependent that changed
+ * @pos: The optionally NULL position of the dependent.
+ *
+ * Removes the dependent from the workbook wide list of dependents.
+ */
+void
+dependent_unlink (Dependent *dep, CellPos const *pos)
+{
+	Workbook *wb;
+
+	g_return_if_fail (dep != NULL);
+
+	if (dep->sheet == NULL)
+		return;
+
+	g_return_if_fail (dep->expression != NULL);
+	g_return_if_fail (!(dep->flags & DEPENDENT_IN_EXPR_LIST));
+
+	dep->flags &= ~DEPENDENT_IN_EXPR_LIST;
+
+	wb = dep->sheet->workbook;
+
+	dependent_drop_dependencies (dep, pos);
+	wb->dependents = g_list_remove (wb->dependents, dep);
+
+	/* An optimization to avoid an expensive list lookup */
+	if (dep->flags & DEPENDENT_QUEUED_FOR_RECALC)
+		dependent_unqueue_recalc (dep);
+}
+
+/**
+ * dependent_unlink_sheet :
+ * @sheet :
+ *
+ * An internal routine to remove all expressions associated with a given sheet
+ * from the workbook wide expression list.  WARNING : This is a dangerous
+ * internal function.  it leaves the cells in an invalid state.  It is intended
+ * for use by sheet_destroy_contents.
+ */
+void
+dependent_unlink_sheet (Sheet const *sheet)
+{
+	GList *ptr, *next, *queue;
+	Workbook *wb;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	wb = sheet->workbook;
+	queue = wb->dependents;
+	for (ptr = queue; ptr != NULL ; ptr = next) {
+		Dependent *dep = ptr->data;
+		next = ptr->next;
+
+		if (dep->sheet == sheet) {
+			dep->flags &= ~DEPENDENT_IN_EXPR_LIST;
+			queue = g_list_remove_link (queue, ptr);
+			g_list_free_1 (ptr);
+		}
+	}
+	wb->dependents = queue;
+}
+
+/*
+ * dependent_queue_recalc:
+ * @dep: the dependent that contains the expression needing recomputation.
+ *
+ * Queues the dependent @dep for recalculation.
+ */
+void
+dependent_queue_recalc (Dependent *dep)
+{
+	Workbook *wb;
+
+	g_return_if_fail (dep != NULL);
+
+	if (dep->flags & DEPENDENT_QUEUED_FOR_RECALC)
+		return;
+
+#ifdef DEBUG_EVALUATION
+	if (dependency_debugging > 2) {
+		printf ("Queuing: ");
+		dependent_debug_name (dep, stdout);
+		puts ("");
+	}
+#endif
+	wb = dep->sheet->workbook;
+	wb->eval_queue = g_list_prepend (wb->eval_queue, dep);
+	dep->flags |= DEPENDENT_QUEUED_FOR_RECALC;
+}
+
+void
+dependent_queue_recalc_list (GList *list, gboolean freelist)
+{
+	Workbook *wb;
+	GList *ptr = list;
+
+	while (ptr) {
+		Dependent *dep = ptr->data;
+		ptr = ptr->next;
+
+		if (dep->flags & DEPENDENT_QUEUED_FOR_RECALC)
+			continue;
+
+		/*
+		 * Use the wb associated with the current dependent in case we
+		 * have cross workbook depends
+		 */
+		wb = dep->sheet->workbook;
+		wb->eval_queue = g_list_prepend (wb->eval_queue, dep);
+
+		dep->flags |= DEPENDENT_QUEUED_FOR_RECALC;
+	}
+
+	if (freelist)
+		g_list_free (list0);
+}
+
+/*
+ * dependent_unqueue_recalc:
+ * @dep: the dependent to remove from the recomputation queue
+ *
+ * Removes a dependent that has been previously added to the recalc
+ * queue.  Used internally when a dependent that was queued is changed or
+ * removed.
+ */
+void
+dependent_unqueue_recalc (Dependent *dep)
+{
+	Workbook *wb;
+
+	g_return_if_fail (dep != NULL);
+
+	if (!(dep->flags & DEPENDENT_QUEUED_FOR_RECALC))
+		return;
+
+	wb = dep->sheet->workbook;
+	wb->eval_queue = g_list_remove (wb->eval_queue, dep);
+	dep->flags &= ~DEPENDENT_QUEUED_FOR_RECALC;
+}
+
+/*
+ * eval_unqueue_recalc_sheet:
+ * @sheet : the sheet whose cells need to be unqueued.
+ *
+ * Remove all cells from the specified sheet from the recalc queue.
+ */
+void
+dependent_unqueue_recalc_sheet (Sheet *sheet)
+{
+	GList *ptr, *next, *queue;
+	Workbook *wb;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	wb = sheet->workbook;
+	queue = wb->eval_queue;
+	for (ptr = queue; ptr != NULL ; ptr = next) {
+		Dependent *dep = ptr->data;
+		next = ptr->next;
+
+		if (dep->sheet == sheet) {
+			dep->flags &= ~DEPENDENT_QUEUED_FOR_RECALC;
+			queue = g_list_remove_link (queue, ptr);
+			g_list_free_1 (ptr);
+		}
+	}
+	wb->eval_queue = queue;
+}
+
+/**
+ * dependent_debug_name :
+ * @dep : The dependent we are interested in.
+ * @file : FILE * to print to.
+ *
+ * A useful little debugging utility. 
+ */
+void
+dependent_debug_name (Dependent const *dep, FILE *out)
+{
+	g_return_if_fail (dep != NULL);
+	g_return_if_fail (out != NULL);
+
+	if (dep->sheet != NULL)
+		fprintf (out, "%s!", dep->sheet->name_quoted);
+	else
+		g_warning ("Invalid dep, missing sheet");
+
+	switch (dep->flags & DEPENDENT_TYPE_MASK) {
+	case DEPENDENT_CELL :
+		fprintf (out, "%s", cell_name (DEP_TO_CELL (dep)));
+		break;
+
+	case DEPENDENT_GRAPH_SERIES :
+	case DEPENDENT_CHECK_BOX :
+	case DEPENDENT_TYPE_MASK :
+		break;
+	};
+}
+
+/**
+ * dependent_list_filter :
+ *
+ */
+GList *
+dependent_list_filter (GList *input, DependentFlags type)
+{
+	GList *ptr, *res = NULL;
+
+	for (ptr = input; input != NULL ; ptr = ptr->next) {
+		Dependent *dep = ptr->data;
+		if ((dep->flags & DEPENDENT_TYPE_MASK) == type)
+			res = g_list_prepend (res, dep);
+	}
+	g_list_free (input);
+	return res;
+}

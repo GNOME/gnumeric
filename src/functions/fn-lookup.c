@@ -782,9 +782,6 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 	calling_cell = sheet_cell_get (ei->pos->sheet,
 				       ei->pos->eval.col, ei->pos->eval.row);
 
-	/* A dependency on the indirection cell if we do not already depend on it */
-	cell_add_explicit_dependency (calling_cell, &ref);
-
 	if (!dest_cell)
 		return value_new_int (0);
 	else

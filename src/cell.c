@@ -19,6 +19,8 @@
 #include "parse-util.h"
 #include "format.h"
 
+extern int dependency_debugging;
+
 /**
  * cell_dirty : Mark the sheet containing the cell as being dirty.
  * @cell : the dirty cell.
@@ -33,22 +35,6 @@ cell_dirty (Cell *cell)
 	/* Cells from the clipboard do not have a sheet attached */
 	if (sheet)
 		sheet_set_dirty(sheet, TRUE);
-}
-
-/**
- * cell_formula_changed : Registers the expression with the sheet and
- *     optionally queues a recalc.
- * @cell : the dirty cell.
- * @queue_recalc: also queue a recalc for the cell.
- *
- * INTERNAL.
- */
-static void
-cell_formula_changed (Cell *cell, gboolean queue_recalc)
-{
-	sheet_cell_expr_link (cell);
-	if (queue_recalc)
-		eval_queue_cell (cell);
 }
 
 /**
@@ -76,12 +62,12 @@ cell_cleanout (Cell *cell)
 	if (cell_has_expr (cell)) {
 		/* Clipboard cells, e.g., are not attached to a sheet.  */
 		if (cell_expr_is_linked (cell))
-			sheet_cell_expr_unlink (cell);
-		expr_tree_unref (cell->u.expression);
-		cell->u.expression = NULL;
-	} else if (cell->u.entered_text) {
-		string_unref (cell->u.entered_text);
-		cell->u.entered_text = NULL;
+			dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
+		expr_tree_unref (cell->base.expression);
+		cell->base.expression = NULL;
+	} else if (cell->entered_text) {
+		string_unref (cell->entered_text);
+		cell->entered_text = NULL;
 	}
 
 	if (cell->value) {
@@ -122,13 +108,13 @@ cell_copy (Cell const *cell)
 
 	/* The new cell is not linked into any of the major management structures */
 	new_cell->base.sheet = NULL;
-	new_cell->base.flags &= ~(DEPENDENT_QUEUED_FOR_RECALC|CELL_IN_SHEET_LIST|CELL_IN_EXPR_LIST);
+	new_cell->base.flags &= ~(DEPENDENT_QUEUED_FOR_RECALC|CELL_IN_SHEET_LIST|DEPENDENT_IN_EXPR_LIST);
 
 	/* now copy properly the rest */
 	if (cell_has_expr (new_cell))
-		expr_tree_ref (new_cell->u.expression);
+		expr_tree_ref (new_cell->base.expression);
 	else
-		string_ref (new_cell->u.entered_text);
+		string_ref (new_cell->entered_text);
 
 	new_cell->rendered_value = NULL;
 
@@ -165,8 +151,56 @@ cell_destroy (Cell *cell)
 }
 
 /**
- * cell_content_changed: Queues recalc of all of the cells depends.
+ * cell_eval_content:
+ * @cell: the cell to evaluate.
  *
+ * This function evaluates the contents of the cell,
+ * it should not be used by anyone. It is an internal
+ * function.
+ **/
+void
+cell_eval_content (Cell *cell)
+{
+	Value   *v;
+	EvalPos	 pos;
+
+	if (!cell_has_expr (cell))
+		return;
+
+#ifdef DEBUG_EVALUATION
+	if (dependency_debugging > 1) {
+		ParsePos pp;
+
+		char *exprtxt = expr_decode_tree
+			(cell->base.expression, parse_pos_init_cell (&pp, cell));
+		printf ("Evaluating %s: %s ->\n", cell_name (cell), exprtxt);
+		g_free (exprtxt);
+	}
+#endif
+
+	v = eval_expr (eval_pos_init_cell (&pos, cell),
+		       cell->base.expression, EVAL_STRICT);
+
+#ifdef DEBUG_EVALUATION
+	if (dependency_debugging > 1) {
+		char *valtxt = v
+			? value_get_as_string (v)
+			: g_strdup ("NULL");
+		printf ("Evaluating %s: -> %s\n", cell_name (cell), valtxt);
+		g_free (valtxt);
+	}
+#endif
+
+	if (v == NULL)
+		v = value_new_error (&pos, "Internal error");
+
+	cell_assign_value (cell, v, NULL);
+	rendered_value_calc_size (cell);
+	sheet_redraw_cell (cell);
+}
+
+/**
+ * cell_content_changed: Queues recalc of all of the cells depends.
  */
 void
 cell_content_changed (Cell *cell)
@@ -178,7 +212,7 @@ cell_content_changed (Cell *cell)
 	/* Queue all of the dependencies for this cell */
 	deps = cell_get_dependencies (cell);
 	if (deps)
-		eval_queue_list (deps, TRUE);
+		dependent_queue_recalc_list (deps, TRUE);
 }
 
 /*
@@ -200,10 +234,10 @@ cell_relocate (Cell *cell, ExprRewriteInfo *rwinfo)
 
 	/* 2. If the cell contains a formula, relocate the formula */
 	if (cell_has_expr (cell)) {
-		ExprTree *expr = cell->u.expression;
+		ExprTree *expr = cell->base.expression;
 
 		if (cell_expr_is_linked (cell))
-			sheet_cell_expr_unlink (cell);
+			dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 
 		/*
 		 * WARNING WARNING WARNING
@@ -230,13 +264,13 @@ cell_relocate (Cell *cell, ExprRewriteInfo *rwinfo)
 
 			if (expr != NULL) {
 				/* expression was unlinked above */
-				expr_tree_unref (cell->u.expression);
-				cell->u.expression = expr;
+				expr_tree_unref (cell->base.expression);
+				cell->base.expression = expr;
 			}
 		}
 
 		/* Relink the expression.  */
-		cell_formula_changed (cell, TRUE);
+		dependent_changed (CELL_TO_DEP (cell), &cell->pos, TRUE);
 	}
 
 	/* 3. Move any auxiliary canvas items */
@@ -281,7 +315,7 @@ cell_set_text (Cell *cell, char const *text)
 
 		cell->base.flags &= ~CELL_HAS_EXPRESSION;
 		cell->value = val;
-		cell->u.entered_text = string_get (text);
+		cell->entered_text = string_get (text);
 		cell->format = format;
 		cell_render_value (cell);
 	} else {		/* String was an expression */
@@ -321,7 +355,7 @@ cell_set_text_and_value (Cell *cell, String *text,
 	cell_cleanout (cell);
 
 	cell->format = opt_fmt;
-	cell->u.entered_text = string_ref (text);
+	cell->entered_text = string_ref (text);
 	cell->value = v;
 	cell_render_value (cell);
 }
@@ -400,14 +434,14 @@ cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 	if (v->type == VALUE_STRING) {
 		/* TODO : add new string routine to avoid the extra copy */
 		char *tmp = g_strconcat ("\'", v->v_str.val->str, NULL);
-		cell->u.entered_text = string_get (tmp);
+		cell->entered_text = string_get (tmp);
 		g_free (tmp);
 	} else if (opt_fmt) {
 		/* If available use the supplied format */
-		cell->u.entered_text = string_get (format_value (opt_fmt, v, NULL, NULL));
+		cell->entered_text = string_get (format_value (opt_fmt, v, NULL, NULL));
 	} else
 		/* Fall back on using the format applied to the cell */
-		cell->u.entered_text = string_ref (cell->rendered_value->rendered_text);
+		cell->entered_text = string_ref (cell->rendered_value->rendered_text);
 }
 
 /*
@@ -439,9 +473,9 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v)
 	cell_dirty (cell);
 	cell_cleanout (cell);
 
-	cell->u.expression = expr;
+	cell->base.expression = expr;
 	cell->base.flags |= CELL_HAS_EXPRESSION;
-	sheet_cell_expr_link (cell);
+	dependent_link (CELL_TO_DEP (cell), &cell->pos);
 #if 0
 	/* TODO : Should we add this for consistancy ? */
 	cell->format = fmt;
@@ -474,11 +508,11 @@ cell_set_expr_internal (Cell *cell, ExprTree *expr, StyleFormat *opt_fmt)
 	cell_dirty (cell);
 	cell_cleanout (cell);
 
-	if (cell->u.expression)
-		expr_tree_unref (cell->u.expression);
+	if (cell->base.expression)
+		expr_tree_unref (cell->base.expression);
 
 	cell->format = opt_fmt;
-	cell->u.expression = expr;
+	cell->base.expression = expr;
 	cell->base.flags |= CELL_HAS_EXPRESSION;
 
 	/* Until the value is recomputed, we put in this value.  */
@@ -506,7 +540,7 @@ cell_set_expr_unsafe (Cell *cell, ExprTree *expr, StyleFormat *opt_fmt)
 	g_return_if_fail (expr != NULL);
 
 	cell_set_expr_internal (cell, expr, opt_fmt);
-	cell_formula_changed (cell, TRUE);
+	dependent_changed (CELL_TO_DEP (cell), &cell->pos, TRUE);
 }
 
 /**
@@ -581,12 +615,13 @@ cell_set_array_formula (Sheet *sheet,
 			wrapper = expr_tree_new_array (x, y, num_rows, num_cols);
 			wrapper->array.corner.cell = corner;
 			cell_set_expr_internal (cell, wrapper, NULL);
-			cell_formula_changed (cell, queue_recalc);
+			dependent_changed (CELL_TO_DEP (cell),
+					   &cell->pos, queue_recalc);
 			expr_tree_unref (wrapper);
 		}
 
 	/* Put the corner at the head of the recalc list */
-	cell_formula_changed (corner, queue_recalc);
+	dependent_changed (CELL_TO_DEP (corner), &corner->pos, queue_recalc);
 }
 
 /***************************************************************************/
@@ -640,8 +675,8 @@ ExprArray const *
 cell_is_array (Cell const *cell)
 {
 	if (cell != NULL && cell_has_expr (cell) &&
-	    cell->u.expression->any.oper == OPER_ARRAY)
-		return &cell->u.expression->array;
+	    cell->base.expression->any.oper == OPER_ARRAY)
+		return &cell->base.expression->array;
 	return NULL;
 }
 
@@ -770,8 +805,8 @@ cell_make_value (Cell *cell)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell_has_expr(cell));
 
-	expr_tree_unref (cell->u.expression);
-	cell->u.expression = NULL;
+	expr_tree_unref (cell->base.expression);
+	cell->base.expression = NULL;
 	cell->base.flags &= ~CELL_HAS_EXPRESSION;
 
 	if (cell->rendered_value == NULL)
@@ -779,6 +814,6 @@ cell_make_value (Cell *cell)
 
 	g_return_if_fail (cell->rendered_value != NULL);
 
-	cell->u.entered_text = string_ref (cell->rendered_value->rendered_text);
+	cell->entered_text = string_ref (cell->rendered_value->rendered_text);
 	cell_dirty (cell);
 }

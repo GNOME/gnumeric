@@ -12,6 +12,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "clipboard.h"
+#include "dependent.h"
 #include "eval.h"
 #include "selection.h"
 #include "application.h"
@@ -55,7 +56,7 @@ cell_get_contents_as_expr_tree (Cell const * cell)
 	if (cell_is_blank (cell))
 		expr = expr_tree_new_constant (value_new_float (0.0));
 	else if (cell_has_expr (cell)) {
-		expr = cell->u.expression;
+		expr = cell->base.expression;
 		expr_tree_ref (expr);
 	} else if (cell_is_number (cell))
 		expr = expr_tree_new_constant (value_duplicate (cell->value));
@@ -412,13 +413,9 @@ clipboard_paste_region (CommandContext *context,
 		}
 
         if (pt->paste_flags & (PASTE_FORMULAS|PASTE_VALUES)) {
-		GList *deps = sheet_region_get_deps (pt->sheet,
-						     pt->range.start.col,
-						     pt->range.start.row,
-						     pt->range.end.col,
-						     pt->range.end.row);
+		GList *deps = sheet_region_get_deps (pt->sheet, pt->range);
 		if (deps)
-			eval_queue_list (deps, TRUE);
+			dependent_queue_recalc_list (deps, TRUE);
 		sheet_range_calc_spans (pt->sheet, pt->range, SPANCALC_RENDER);
 		sheet_flag_status_update_range (pt->sheet, &pt->range);
 	}

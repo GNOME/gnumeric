@@ -812,7 +812,7 @@ gnumeric_expression (FunctionEvalInfo *ei, Value **args)
 		if (cell_has_expr (cell)) {
 			ParsePos pos;
 			char * expr_string =
-			    expr_tree_as_string (cell->u.expression,
+			    expr_tree_as_string (cell->base.expression,
 				parse_pos_init_evalpos (&pos, ei->pos));
 			Value * res = value_new_string (expr_string);
 			g_free (expr_string);

@@ -15,7 +15,7 @@
 #include "cursors.h"
 #include "sheet-object-widget.h"
 
-static SheetObject *sheet_object_widget_parent_class;
+static SheetObjectClass *sheet_object_widget_parent_class;
 
 static GnomeCanvasItem *
 sheet_object_widget_realize (SheetObject *so, SheetView *sheet_view)
@@ -24,10 +24,10 @@ sheet_object_widget_realize (SheetObject *so, SheetView *sheet_view)
 	GnomeCanvasItem *item;
 	GtkWidget *view_widget;
 	double x1, x2, y1, y2;
-	
+
 	sheet_object_get_bounds (so, &x1, &y1, &x2, &y2);
 	sow = SHEET_OBJECT_WIDGET (so);
-	view_widget = sow->realize (sow, sow->realize_closure);
+	view_widget = sow->realize (sow, sheet_view);
 	item = gnome_canvas_item_new (
 		sheet_view->object_group,
 		gnome_canvas_widget_get_type (),
@@ -70,6 +70,28 @@ sheet_object_widget_update_bounds (SheetObject *so)
 }
 
 static void
+cb_sheet_object_widget_configure (GtkWidget *widget, SheetObject *so)
+{
+}
+
+static void
+sheet_object_widget_start_popup (SheetObject *so, GtkMenu *menu)
+{
+	SheetObjectWidget *sow = SHEET_OBJECT_WIDGET (so);
+	GtkWidget *item;
+
+	/* Add base elements first */
+	sheet_object_widget_parent_class->start_popup (so, menu);
+
+	if (sow->configure != NULL) {
+		item = gtk_menu_item_new_with_label (_("Configure"));
+		gtk_signal_connect (GTK_OBJECT (item), "activate",
+				    GTK_SIGNAL_FUNC (cb_sheet_object_widget_configure), so);
+		gtk_menu_append (menu, item);
+	}
+}
+
+static void
 sheet_object_widget_class_init (GtkObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (object_class);
@@ -79,6 +101,7 @@ sheet_object_widget_class_init (GtkObjectClass *object_class)
 	/* SheetObject class method overrides */
 	sheet_object_class->realize = sheet_object_widget_realize;
 	sheet_object_class->update_bounds = sheet_object_widget_update_bounds;
+	sheet_object_class->start_popup   = sheet_object_widget_start_popup;
 }
 
 GtkType
@@ -108,11 +131,11 @@ sheet_object_widget_construct (SheetObjectWidget *sow,
 			       Sheet *sheet,
 			       double x1, double y1,
 			       double x2, double y2,
-			       SheetWidgetRealizeFunction realize,
-			       void *realize_closure)
+			       SheetWidgetFunction realize,
+			       SheetWidgetFunction config)
 {
 	SheetObject *so;
-	
+
 	g_return_if_fail (sow != NULL);
 	g_return_if_fail (IS_SHEET_WIDGET_OBJECT (sow));
 	g_return_if_fail (sheet != NULL);
@@ -120,32 +143,31 @@ sheet_object_widget_construct (SheetObjectWidget *sow,
 	g_return_if_fail (realize != NULL);
 
 	so = SHEET_OBJECT (sow);
-	
+
 	sheet_object_construct  (so, sheet);
 	so->type = SHEET_OBJECT_ACTION_CAN_PRESS;
 	sheet_object_set_bounds (so, x1, y1, x2, y2);
 
 	sow->realize = realize;
-	sow->realize_closure = realize_closure;
+	sow->configure = config;
 }
-			       
+
 SheetObject *
 sheet_object_widget_new (Sheet *sheet,
 			 double x1, double y1,
 			 double x2, double y2,
-			 SheetWidgetRealizeFunction realize,
-			 void *realize_closure)
+			 SheetWidgetFunction realize,
+			 SheetWidgetFunction config)
 {
 	SheetObjectWidget *sow;
-	
+
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (realize != NULL, NULL);
-	
+
 	sow = gtk_type_new (sheet_object_widget_get_type ());
-	
-	sheet_object_widget_construct (sow, sheet, x1, y1, x2, y2, realize, realize_closure);
+
+	sheet_object_widget_construct (sow, sheet, x1, y1, x2, y2, realize, config);
 
 	return SHEET_OBJECT (sow);
 }
-	

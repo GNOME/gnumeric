@@ -167,6 +167,7 @@ cmd_select_cur_depends (Sheet *sheet)
 		return;
 
 	deps = cell_get_dependencies (cur_cell);
+	deps = dependent_list_filter (deps, DEPENDENT_CELL);
 	if (deps == NULL)
 		return;
 

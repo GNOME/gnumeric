@@ -919,7 +919,7 @@ xml2ParseCellContent (XML2ParseState *state)
 			if (expr == NULL) {
 				if (cell_has_expr (cell))
 					g_hash_table_insert (state->expr_map, id,
-							     cell->u.expression);
+							     cell->base.expression);
 				else
 					g_warning ("XML-IO2 : Shared expression with no expession ??");
 			} else if (!is_post_52_array)

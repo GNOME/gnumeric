@@ -44,10 +44,10 @@ struct _Workbook {
 	/* User defined names */
 	GList      *names;
 
-	/* A list with all of the formulas */
-	GList      *formula_cell_list;
+	/* All objects with expressions */
+	GList      *dependents;
 
-	/* A queue with the cells to be evaluated */
+	/* The dependents to be evaluated */
 	GList     *eval_queue;
 	int        max_iterations;
 
