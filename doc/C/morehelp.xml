@@ -1,5 +1,5 @@
 <sect1 id="sect-morehelp">
-  <title>Getting Help using Gnumeric</title>
+  <title>Sources of  Help</title>
 
   <para>
     This manual is the most complete source of explanation for
@@ -124,39 +124,39 @@
 </sect1>
 
 <sect1 id="sect-morehelp-web">
-  <title>The Gnumeric Web Site and Other Web Resources</title>
+  <title>Web Resources</title>
 
   <para>
-      The <application>Gnumeric</application> project maintains a web
-      site with explanations, links and other useful information to
-learn about and use this spreadsheet.
+    The <application>Gnumeric</application> project maintains a web
+    site with explanations, links and other useful information to
+    learn about and use this spreadsheet.
   </para>
-  <para>
-    The <application>Gnumeric</application> web site can be accessed
-using any World Wide Web browser by typing in the following addresses:
-<verbatim>
-http://www.gnome.org/projects/gnumeric/
-</verbatim>
-or
-<verbatim>
-http://www.gnumeric.org/
-</verbatim>
-    and you may be able to click on the following links to reach this
-    web page: the <ulink type="http"
-    url="http://www.gnome.org/projects/gnumeric/">GNOME project page
-    for <application>Gnumeric</application></ulink> or the <ulink
-    type="http"
-    url="http://www.gnome.org/projects/gnumeric/"><application>Gnumeric</application>
-    page</ulink>.
 
-  </para>
+  <sect2 id="sect-morehelp-web-gnumericSite">
+    <title>The Gnumeric Web Site</title>
+
+    <para>
+      The <application>Gnumeric</application> web site can be accessed
+      by clicking on this <ulink type="http"
+      url="http://www.gnome.org/projects/gnumeric/">link</ulink>.
+      Alternatively, it may be necessary to enter the address directly
+      into a web browser. The <application>Gnumeric</application>
+      project page address is:
+<screen>http://www.gnome.org/projects/gnumeric/
+</screen> 
+      It may be necessary to copy the text and paste it into the
+      address field.
+    </para>
+
+  </sect2>
+
 
 </sect1>
 
 
 
 <sect1 id="sect-morehelp-books">
-  <title>Manuals for Other Spreadsheet</title>
+  <title>Related Manuals</title>
 
   <para>
     <application>Gnumeric</application> strives to mimic the behaviour
@@ -175,9 +175,9 @@ http://www.gnumeric.org/
     also help explain how to use <application>Gnumeric</application>
     and can be accessed through the OpenOffice.org web site at <ulink
     type="http" url="http://www.openoffice.org/">
-<verbatim>
+<uri>
 http://www.openoffice.org/
-</verbatim>
+</uri>
     </ulink>.
   </para>
 
@@ -198,10 +198,10 @@ http://www.openoffice.org/
 
 
 <sect1 id="sect-morehelp-maillist">
-  <title>The Gnumeric Mailing List</title>
+  <title>The Mailing List</title>
 
   <para>
-    The <application>Gnumeric</application> projects maintains a
+    The <application>Gnumeric</application> project maintains a
     mailing list which is a system by which people can send one email
     which gets distributed to everyone who has signed up to read these
     emails. Please understand that this list is used for serious
@@ -221,9 +221,9 @@ http://www.openoffice.org/
     posted. To access the archives, use a web browser to go to the
     mailing list web page at <ulink type="http"
     url="http://www.gnome.org/">
-<verbatim>
+<uri>
 http://www.gnome.org/
-</verbatim>
+</uri>
     </ulink> and then ...
   </para>
 
@@ -233,9 +233,8 @@ http://www.gnome.org/
     or if you simply want to thank the developers, you are welcome to
     send an email of your own to the list. This simply requires
     writing an email and sending it to
-<verbatim>
-gnumeric-list@gnome.org
-</verbatim>
+<screen>gnumeric-list@gnome.org
+</screen>
     and your posting will eventually get sent to everyone who is
     subscribed to the list. Please select the subject of your email
     carefully to make it easy for everyone to see if they are
@@ -278,13 +277,13 @@ gnumeric-list@gnome.org
 
 
 <sect1 id="sect-morehelp-irc">
-  <title>Joining the Gnumeric Discussion Channel</title>
+  <title>Internet Chat (IRC)</title>
 
   <para>
-    The GNOME and <application>GIMP</application> projects maintain a
-    series of servers to provide a world wide network enabling an
-    Internet Relay Chat (IRC) system for discussion on issues related
-    to those projects including a discussion channel dediacated to
+    The GNOME and GIMP projects maintain a series of servers to
+    provide a world wide network enabling an Internet Relay Chat (IRC)
+    system for discussion on issues related to those projects
+    including a discussion channel dediacated to
     <application>Gnumeric</application>. This is a system by which
     people can communicate directly with each other by typing lines
     into an IRC client which are then broadcast to everyone listening
@@ -302,18 +301,18 @@ gnumeric-list@gnome.org
 
   <para>
     The <application>Gnumeric</application> IRC discussion channel is
-    named <verbatim>#gnumeric</verbatim> (althought the number symbol
-    may not be needed) and is hosted on the series of servers called
-    gimpnet. The best way to connect to gimpnet is using the IRC
-    server <verbatim> irc.gimp.org</verbatim>. That hostname points to
-    a variety of different servers in the United States. If you live
-    elsewhere, after you are connected you can use the chat command
-    <emph>/links</emph> to find a server which is closer on the
-    internet to your location. More information about gimpnet can be
-    found by looking at the gimpnet web site (<ulink type="http"
+    named <literal>#gnumeric</literal> (althought the number symbol,
+    #, may not be needed) and is hosted on the series of servers
+    called <literal>Gimpnet</literal>. The best way to connect to
+    gimpnet is using the IRC server
+    <literal>irc.gimp.org</literal>. That hostname points to a variety
+    of different servers in the United States. If you live elsewhere,
+    after you are connected you can use the chat command
+    <literal>/links</literal> to find a server which is closer on
+    the internet to your location. More information about gimpnet can
+    be found by looking at the gimpnet web site (<ulink type="http"
     url="http://www.xach.com/gimpnet/" >
-    <verbatim>http://www.gimp.net/</verbatim>
-    </ulink>).
+    <uri>http://www.gimp.net/</uri> </ulink>).
   </para>
 
   <para>
@@ -325,7 +324,7 @@ gnumeric-list@gnome.org
     the meantime. Your question may be answered right away but asking
     questions using the mailing list may prove to be more efficient
     since it would not require paying attention to the IRC channel
-    discussion even if it ultimately requires longer to obtain an
+    discussion, even if it ultimately requires longer to obtain an
     answer.
   </para>
 

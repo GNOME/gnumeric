@@ -1,5 +1,10 @@
 2004-09-23  Adrian Custer <acuster@gnome.org>
 
+	* gnumeric.xml: Edit "More Help" chapter title.
+	* morehelp.xml: Edit section titles. Minor Edits.
+	
+2004-09-23  Adrian Custer <acuster@gnome.org>
+
 	* gnumeric.xml: Edit bugs chapter paragraph.
 	* manual-usage.xml: Edit bugs chapter paragraph.
 	* bugs.xml: Reorganize. Finish bugzilla instructions.
