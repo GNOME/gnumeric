@@ -1,3 +1,7 @@
+2005-03-16  Nikos Charonitakis  <charosn@her.forthnet.gr>
+
+	* el.po: Updated Greek translation.
+
 2005-03-16  Stepan Kasal  <kasal@ucw.cz>
 
 	* Makefile.in.in.own: New file; our own copy, which autogen.sh uses
