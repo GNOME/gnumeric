@@ -1,5 +1,13 @@
 2002-05-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-formula-guru.c (cb_dialog_formula_guru_selection_changed) : add
+	  missing return
+	(real_start_editing_cb) : new (should be removed with Gtk 2.2)
+	(start_editing_cb) : new (should be removed with Gtk 2.2)
+	(dialog_formula_guru_init) : save column and connect callback
+
+2002-05-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-formula-guru.c (cb_dialog_formula_guru_ok_clicked) :
 	  finish edits
 	(dialog_formula_guru_init) : save renderer

@@ -15,8 +15,6 @@ Andreas:
 	* Improve focus handling in search dialog
 	  (http://bugzilla.gnome.org/show_bug.cgi?id=81087).
 	* Persist printer information
-	* Fix bug:
-	  http://bugzilla.gnome.org/show_bug.cgi?id=80126
 	* Add GUI to plugin manager to add/remove extra plugin
 	  directories
 	* Add discard all/save all buttons to exit dialog.
@@ -24,6 +22,8 @@ Andreas:
 	(Note: this has seen only minimal testing.)
 	* Fix bug:
 	  http://bugzilla.gnome.org/show_bug.cgi?id=82272
+	  http://bugzilla.gnome.org/show_bug.cgi?id=80126
+	  http://bugzilla.gnome.org/show_bug.cgi?id=82398
 
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=79925

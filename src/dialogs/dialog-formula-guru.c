@@ -79,7 +79,7 @@ typedef struct
 	gint old_width_request;
 
 	GnumericCellRendererExprEntry *cellrenderer;
-
+	GtkTreeViewColumn *column;
 } FormulaGuruState;
 
 enum {
@@ -665,10 +665,9 @@ cb_dialog_formula_guru_selection_changed (GtkTreeSelection *the_selection,
 	if (!gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
 		gtk_widget_set_sensitive (state->clear_button, FALSE);
 		gtk_widget_set_sensitive (state->selector_button, FALSE);
+		return;
 	}
 
-/* Due to a GTK+ bug we may still get `Critical' warnings for the next lines */
-/* `VALID_ITER (iter, tree_store)' failed                                    */
 	gtk_widget_set_sensitive (state->clear_button, 
 				  0 != gtk_tree_store_iter_depth (state->model,
 								  &iter));
@@ -712,6 +711,72 @@ cb_dialog_formula_guru_edited (GtkCellRendererText *cell,
 					   0, g_utf8_strlen (new_text, -1));
 }
 
+/* Bad bad hack to be removed with Gtk2.2 */
+/* The idea to this code is due to Jonathan Blandford */
+
+typedef struct
+{
+	GtkTreePath *path;
+	FormulaGuruState *state;
+} IdleData;
+
+static gboolean
+real_start_editing_cb (IdleData *idle_data)
+{
+  gtk_widget_grab_focus (GTK_WIDGET (idle_data->state->treeview));
+  gtk_tree_view_set_cursor (idle_data->state->treeview,
+			    idle_data->path,
+			    idle_data->state->column,
+			    TRUE);
+
+  gtk_tree_path_free (idle_data->path);
+  g_free (idle_data);
+  return FALSE;
+}
+
+static gboolean
+start_editing_cb (GtkTreeView      *tree_view,
+		  GdkEventButton   *event,
+		  FormulaGuruState *state)
+{
+  GtkTreePath *path;
+  GtkTreeIter iter;
+
+  if (event->window != gtk_tree_view_get_bin_window (tree_view))
+    return FALSE;
+  if (state->treeview != tree_view)
+    return FALSE;
+
+  if (gtk_tree_view_get_path_at_pos (tree_view,
+				     (gint) event->x,
+				     (gint) event->y,
+				     &path, NULL,
+				     NULL, NULL) &&
+      gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model),
+			       &iter, path))
+    {
+      IdleData *idle_data;
+      gboolean is_non_fun;
+
+      gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
+			  IS_NON_FUN, &is_non_fun,
+			  -1);
+
+      if (!is_non_fun)
+	      return FALSE;
+
+      idle_data = g_new (IdleData, 1);
+      idle_data->path = path;
+      idle_data->state = state;
+
+      g_signal_stop_emission_by_name (G_OBJECT (tree_view), "button_press_event");
+      g_idle_add ((GSourceFunc) real_start_editing_cb, idle_data);
+      return TRUE;
+    }
+  return FALSE;
+}
+
+/* End of bad bad hack*/
 
 static gboolean
 dialog_formula_guru_init (FormulaGuruState *state)
@@ -757,9 +822,15 @@ dialog_formula_guru_init (FormulaGuruState *state)
 							   "text", FUN_ARG_ENTRY, 
 							   "editable", IS_NON_FUN,
 							   NULL);
+	state->column = column;
 	gtk_tree_view_append_column (state->treeview, column);
 	gtk_tree_view_set_headers_visible (state->treeview, TRUE);
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->treeview));
+
+	g_signal_connect (state->treeview,
+			  "button_press_event",
+			  G_CALLBACK (start_editing_cb), state),
+	
 	/* Finished set-up of treeview */
 
 	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
