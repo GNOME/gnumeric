@@ -659,7 +659,6 @@ psiconv_read_header (GsfInput *input)
 	if ((config = psiconv_config_default()) == NULL)
 		goto out;
 	psiconv_config_read(NULL,&config);
-	config->verbosity = PSICONV_VERB_DEBUG;
 
 	if ((buf = psiconv_stream_to_buffer (input, 1024)) == NULL)
 		goto out;
