@@ -34,6 +34,7 @@ Jody
 	* More version size changes for NAME
 	* ExternSheet import for pre-biff8
 	* Save Array formulas
+	* Fix colour import to handle fore, back & PATTERN
 
 Frank
 	* Summary:
