@@ -128,7 +128,7 @@ excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 			} else {
 				g_ptr_array_add (ewb->externnames, func);
 				ef->macro_name = NULL;
-				ef->idx = -1;
+				ef->idx = ewb->externnames->len;
 			}
 		}
 		g_hash_table_insert (ewb->function_map, func, ef);
