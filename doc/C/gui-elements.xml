@@ -66,7 +66,7 @@
     <varlistentry>
       <term>
 	<guiicon>
-	  <inlinegraphic fileref="figures/label-two" format="PNG" />
+	  <inlinegraphic fileref="figures/label-two.png" format="PNG" />
 	  The standard toolbar
 	</guiicon>
       </term>
@@ -84,7 +84,7 @@
     <varlistentry>
       <term>
 	<guiicon>
-	  <inlinegraphic fileref="figures/label-three" format="PNG" />
+	  <inlinegraphic fileref="figures/label-three.png" format="PNG" />
 	    The format toolbar
 	</guiicon>
       </term>
@@ -150,7 +150,7 @@
     <varlistentry>
       <term>
 	<guiicon>
-	  <inlinegraphic fileref="figures/label-seven" format="PNG"/>
+	  <inlinegraphic fileref="figures/label-seven.png" format="PNG"/>
 	  The cell grid area
 	</guiicon>
       </term>

@@ -1,3 +1,8 @@
+2003-05-17  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* C/gui-elements.xml: Consistently use file extension on the label
+	images.
+
 2003-05-11  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.17
