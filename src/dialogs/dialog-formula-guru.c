@@ -65,6 +65,7 @@ typedef struct
 	GtkWidget *selector_button;
 	GtkWidget *clear_button;
 	GtkTreePath* active_path;
+	char * prefix;
 
 	GtkTreeStore  *model;
 	GtkTreeView   *treeview;
@@ -83,6 +84,16 @@ enum {
 };
 
 static void dialog_formula_guru_update_parent (GtkTreeIter *child, FormulaGuruState *state);
+
+static void
+dialog_formula_guru_write (GString *text, FormulaGuruState *state)
+{
+	GtkEntry *entry;
+
+	entry = wbcg_get_entry (state->wbcg);
+	g_string_prepend (text, state->prefix);
+	gtk_entry_set_text (entry, text->str);
+}
 
 static void
 dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *state) 
@@ -132,6 +143,9 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 	gtk_tree_store_set (state->model, parent,
 			    FUN_ARG_ENTRY, text->str,
 			    -1);	
+
+	if (0 ==  gtk_tree_store_iter_depth (state->model, parent))
+		dialog_formula_guru_write (text, state);	
 
 	g_string_free (text, TRUE);
 
@@ -262,7 +276,11 @@ dialog_formula_guru_destroy (GtkObject *w, FormulaGuruState *state)
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
 
+	wbcg_edit_finish (state->wbcg, FALSE);
 	wbcg_edit_detach_guru (state->wbcg);
+
+	g_free (state->prefix);
+	state->prefix = NULL;
 
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
@@ -274,6 +292,7 @@ dialog_formula_guru_destroy (GtkObject *w, FormulaGuruState *state)
 	return FALSE;
 }
 
+
 /**
  * cb_dialog_formula_guru_cancel_clicked:
  * @button:
@@ -284,7 +303,7 @@ dialog_formula_guru_destroy (GtkObject *w, FormulaGuruState *state)
 static void
 cb_dialog_formula_guru_cancel_clicked (GtkWidget *button, FormulaGuruState *state)
 {
-	gtk_widget_destroy (state->dialog);
+	wbcg_edit_finish (state->wbcg, FALSE);
 	return;
 }
 
@@ -314,7 +333,7 @@ cb_dialog_formula_guru_selector_clicked (GtkWidget *button, FormulaGuruState *st
 }
 
 /**
- * cb_dialog_formula_guru_cancel_clicked:
+ * cb_dialog_formula_guru_clear_clicked:
  * @button:
  * @state:
  *
@@ -356,8 +375,7 @@ cb_dialog_formula_guru_clear_clicked (GtkWidget *button, FormulaGuruState *state
 static void
 cb_dialog_formula_guru_ok_clicked (GtkWidget *button, FormulaGuruState *state)
 {
-	g_warning ("Sorry, but the formula guru hasn't been competed yet.");
-	gtk_widget_destroy (state->dialog);
+	wbcg_edit_finish (state->wbcg, TRUE);
 	return;
 }
 
@@ -462,7 +480,7 @@ dialog_formula_guru_init (FormulaGuruState *state)
 	/* Finished set-up of treeview */
 
 	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
-	gtk_widget_set_sensitive (state->ok_button, FALSE);
+	gtk_widget_set_sensitive (state->ok_button, TRUE);
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_formula_guru_ok_clicked), state);
@@ -539,11 +557,13 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, FunctionDefinition const *fd)
 		return;
 	}
 
+	wbcg_edit_start (wbcg, TRUE, TRUE);
 
 	state = g_new (FormulaGuruState, 1);
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->active_path = NULL;
+	state->prefix = g_strdup ("= ");
 	
 	/* Get the dialog and check for errors */
 	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);

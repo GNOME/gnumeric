@@ -14,7 +14,7 @@ Release Critical
 - Printing dialogs are shot.
 - Text-import dialog crashes.
 - Summary dialog is non-functional.
-- Function selection dialog is broken, and it sucks.
+- Function selection dialog is incomplete.
 - 3D reference fixes on sheet deletion
 
 1.2 Targets
@@ -172,7 +172,6 @@ Dialogs
     : 'Most recently used'
 - Formula Guru
     : As we auto add new entries for varargs we should make them visible.
-    : Editing nested functions.  How best to express this.
     : Switching between multiple function at the same level.
     : Don't ask to fill arguments for functions without arguments.
 - Import Dialog
