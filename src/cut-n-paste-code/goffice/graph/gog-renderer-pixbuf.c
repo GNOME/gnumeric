@@ -154,7 +154,7 @@ gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path,
 	GogStyle const *style = rend->cur_style;
 	double width = gog_renderer_line_size (rend, style->line.width);
 	ArtSVP *svp = art_svp_vpath_stroke ((ArtVpath *)path,
-		ART_PATH_STROKE_JOIN_MITER, ART_PATH_STROKE_CAP_SQUARE,
+		ART_PATH_STROKE_JOIN_MITER, ART_PATH_STROKE_CAP_BUTT,
 		width, 4, 0.5);
 
 	if (bound != NULL) {
@@ -417,7 +417,7 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 	int h, w, i, x, y;
 	GogStyle const *style = rend->cur_style;
 
-	pango_layout_get_extents (layout, &rect, NULL);
+	pango_layout_get_extents (layout, NULL, &rect);
 	rect.x = PANGO_PIXELS (rect.x);
 	rect.y = PANGO_PIXELS (rect.y);
 	x = (int)((pos->x - prend->x_offset) * PANGO_SCALE);
@@ -540,13 +540,13 @@ static void
 gog_renderer_pixbuf_measure_text (GogRenderer *rend,
 				  char const *text, GogViewRequisition *size)
 {
-	PangoRectangle  rect;
+	PangoRectangle  logical;
 	PangoLayout    *layout = make_layout ((GogRendererPixbuf *)rend, text);
-	pango_layout_get_pixel_extents (layout, &rect, NULL);
+	pango_layout_get_pixel_extents (layout, NULL, &logical);
 	g_object_unref (layout);
 
-	size->w = rect.width;
-	size->h = rect.height;
+	size->w = logical.width;
+	size->h = logical.height;
 }
 
 static void

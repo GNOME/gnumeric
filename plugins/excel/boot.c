@@ -68,7 +68,7 @@ void excel_dsf_file_save   (GnmFileSaver const *fs, IOContext *context, Workbook
 void plugin_cleanup (void);
 
 static GsfInput *
-find_content_stream (GsfInfile *ole)
+find_content_stream (GsfInfile *ole, gboolean *is_97)
 {
 	static char const * const stream_names[] = {
 		"Workbook",	"WORKBOOK",	"workbook",
@@ -79,8 +79,11 @@ find_content_stream (GsfInfile *ole)
 
 	for (i = 0 ; i < G_N_ELEMENTS (stream_names) ; i++) {
 		stream = gsf_infile_child_by_name (ole, stream_names[i]);
-		if (stream != NULL)
+		if (stream != NULL) {
+			if (is_97 != NULL)
+				*is_97 = (i < 3);
 			return stream;
+		}
 	}
 
 	return  NULL;
@@ -103,7 +106,7 @@ excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 		return data && data[0] == 0x09 && (data[1] & 0xf1) == 0;
 	}
 
-	stream = find_content_stream (GSF_INFILE (ole));
+	stream = find_content_stream (GSF_INFILE (ole), NULL);
 	if (stream != NULL) {
 		g_object_unref (G_OBJECT (stream));
 		res = TRUE;
@@ -150,8 +153,7 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 	GError    *err = NULL;
 	GsfInfileMSOle *ole = gsf_infile_msole_new (input, &err);
 	Workbook  *wb = wb_view_workbook (wbv);
-	gboolean   is_double_stream_file;
-	unsigned   i = 0;
+	gboolean   is_double_stream_file, is_97;
 
 	if (ole == NULL) {
 		guint8 const *data;
@@ -175,7 +177,7 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 		return;
 	}
 
-	stream = find_content_stream (GSF_INFILE (ole));
+	stream = find_content_stream (GSF_INFILE (ole), &is_97);
 	if (stream == NULL) {
 		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
 			 _("No Workbook or Book streams found."));
@@ -209,7 +211,7 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 	if (is_double_stream_file)
 		workbook_set_saveinfo (wb, FILE_FL_AUTO,
 			gnm_file_saver_for_id ("Gnumeric_Excel:excel_dsf"));
-	else if (i < 3)
+	else if (is_97)
 		workbook_set_saveinfo (wb, FILE_FL_AUTO,
 			gnm_file_saver_for_id ("Gnumeric_Excel:excel_biff8"));
 	else

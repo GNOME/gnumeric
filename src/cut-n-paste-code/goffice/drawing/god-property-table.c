@@ -2,7 +2,7 @@
 /*
  * god-property-table.c: MS Office Graphic Object support
  *
- * Copyright (C) 2000-2002
+ * Copyright (C) 2000-2004
  *	Jody Goldberg (jody@gnome.org)
  *	Michael Meeks (mmeeks@gnu.org)
  *      Christopher James Lahey <clahey@ximian.com>
@@ -146,6 +146,16 @@ god_property_table_set_array    (GodPropertyTable       *prop_table,
 	god_property_table_set (prop_table, id, value);
 }
 
+void
+god_property_table_set_markup   (GodPropertyTable *prop_table,
+				 GodPropertyID     id,
+				 PangoAttrList    *list)
+{
+	GValue *value = g_value_new (PANGO_TYPE_ATTR_LIST);
+	g_value_set_pointer (value, list);
+	god_property_table_set (prop_table, id, value);
+}
+
 gboolean
 god_property_table_get_flag     (GodPropertyTable       *prop_table,
 				 GodPropertyID  id,
@@ -235,6 +245,23 @@ GArray *
 god_property_table_get_array    (GodPropertyTable       *prop_table,
 				 GodPropertyID  id,
 				 GArray            *default_value)
+{
+	GValue *value;
+
+	g_return_val_if_fail (prop_table != NULL, default_value);
+	value = g_hash_table_lookup (prop_table->priv->attrs, id);
+	if (value == NULL)
+		return default_value;
+
+	g_return_val_if_fail (G_VALUE_HOLDS_POINTER (value), default_value);
+
+	return g_value_get_pointer (value);
+}
+
+PangoAttrList *
+god_property_table_get_markup	  (GodPropertyTable *prop_table,
+				   GodPropertyID     id,
+				   PangoAttrList *default_value)
 {
 	GValue *value;
 

@@ -32,6 +32,7 @@ typedef struct _GOPattern	GOPattern;
 typedef struct _GOMarker	GOMarker;
 typedef struct _GnmFormat	GOFormat; /* pull this down after rewrite */
 
+typedef const char *(*GOTranslateFunc)(char const *path, gpointer func_data);
 
 G_END_DECLS
 

@@ -1,3 +1,8 @@
+2004-05-14  Jody Goldberg <jody@gnome.org>
+
+	* names.glade : make the table resizeable and supply a default size to
+	  avoid scrollbars on startup.
+
 2004-04-17  Jody Goldberg <jody@gnome.org>
 
 	* autoformat.glade : Don't use the libgnome stock item

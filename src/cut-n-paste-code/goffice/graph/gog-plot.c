@@ -411,6 +411,8 @@ gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
 	bounds->logical.maxima = gnm_nan;
 	bounds->logical.minima = gnm_nan;
 	bounds->is_discrete = FALSE;
+	if (klass->axis_get_bounds == NULL)
+		return NULL;
 	return (klass->axis_get_bounds) (plot, axis, bounds);
 }
 

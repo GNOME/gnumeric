@@ -9,7 +9,6 @@
 typedef struct _MSContainer	MSContainer;
 typedef struct _ExcelWorkbook	ExcelWorkbook;
 typedef struct _MSEscherBlip	MSEscherBlip;
-typedef struct _MSEscherShape	MSEscherShape;
 typedef struct _MSObj		MSObj;
 
 typedef struct {
@@ -33,7 +32,8 @@ struct _MSContainer {
 
 	GPtrArray	 	*names;
 	struct {
-		GPtrArray	*externsheet;
+		GPtrArray	*externsheets;
+		GPtrArray	*externnames;
 	} v7;	/* biff7 does this at the container level */
 
 	/* This is the container containing this container */

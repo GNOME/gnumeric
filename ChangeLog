@@ -1,3 +1,23 @@
+2004-05-15  Jody Goldberg <jody@gnome.org>
+
+	* src/format.c (format_value_gstring) : if nothing matches for numbers
+	  use the first fmt, other types == general.
+	(style_format_condition) : errors do not match strings, but bools do
+	(format_compile) : assign std conditions to any element without one,
+	  even the last.
+
+2004-05-12  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (sheet_control_gui_new) : add a weak ref to
+	  the wbcg in case it is destroyed before the scg.
+
+2004-05-10  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=142267
+	* src/item-grid.c (item_grid_draw) : when we land on an active merge
+	  that ended in a hidden row above us we still need to draw our
+	  background.  A quick kludge that uses goto.
+
 2004-05-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/workbook-view.c (wbv_save_to_file): add omitted declaration

@@ -1499,7 +1499,7 @@ excel_parse_formula (MSContainer const *container,
 					a = container->ewb->container.names;
 					sheet_idx = -sheet_idx;
 				} else
-					a = container->names;
+					a = container->v7.externnames;
 				sheet = excel_externsheet_v7 (container, sheet_idx);
 				ptg_length = 24;
 			}

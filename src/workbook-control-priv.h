@@ -2,9 +2,10 @@
 #define GNUMERIC_WORKBOOK_CONTROL_PRIV_H
 
 #include "workbook-control.h"
+#include <goffice/app/go-doc-control-impl.h>
 
 struct _WorkbookControl {
-	GObject	base;
+	GODocControl base;
 
 	WorkbookView *wb_view;
 
@@ -16,7 +17,7 @@ struct _WorkbookControl {
 	gulong clipboard_changed_signal;
 };
 typedef struct {
-	GObjectClass   base;
+	GODocControlClass base;
 
 	/* Create a new control of the same form */
 	WorkbookControl *(*control_new) (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb,

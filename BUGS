@@ -9,13 +9,14 @@ Release Critical
 ----------------
 
     http://bugzilla.gnome.org/show_bug.cgi?id=136546
-    : about box i18n
+    : about box i18n (use go_data_vector_str_translation_domain)
     http://bugzilla.gnome.org/show_bug.cgi?id=140820
     : undo of tab colour change
     http://bugzilla.gnome.org/show_bug.cgi?id=127203	[x axis child pos]
     : X axis label seperation
-    : Delete grid then edit and see a new grid
-    : xls loading of things with deleted axis
+    : Delete grid then edit chart and see a new grid
+    http://bugzilla.gnome.org/show_bug.cgi?id=142212
+    : missing values in line/area
 
 Worries
     http://bugzilla.gnome.org/show_bug.cgi?id=123403

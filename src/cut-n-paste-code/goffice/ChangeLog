@@ -1,4 +1,41 @@
+2004-05-13  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-renderer-svg.c (gog_renderer_svg_measure_text) : use
+	  logical rather than ink extents.
+	(gog_renderer_pixbuf_draw_text) : ditto.
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_draw_text) : ditto.
+	(gog_renderer_pixbuf_draw_text) : ditto.
+
+	* graph/gog-axis.c (gog_axis_view_size_request) : tick labels for
+	  discrete axes are below the line not the major tick marks.
+	(gog_axis_view_render) : ditto
+
+	* graph/gog-renderer-svg.c (make_layout) : cache the context.
+	(gog_renderer_pixbuf_finalize) : unref cached contexts.
+	(gog_renderer_pixbuf_class_init) : connect the new finalize.
+
+	* graph/gog-style.c (gog_style_is_different_size) : line width change
+	  for axis changes size.
+
+	* graph/gog-axis.c (gog_axis_view_render) : don't allocate size for
+	  ticks if the lines are invisible.
+
+	* graph/gog-plot.c (gog_plot_get_axis_bounds) : add some safety.
+          This will be called for things like a pie when adding one while
+	  something with an still exists.
+
+	* graph/gog-guru.c (cb_attr_tree_selection_change) : be more forgiving
+	  about when a user can go back to select a plot.  If there is only
+	  one chart, or one plot things are unambiguous.
+
+	* drawing/god-property-table.h : sync with the extensions in the xls
+	  importer to handle gradients and richtext.
+
+	* drawing/god-property-table.c (god_property_table_get_markup) : new.
+	(god_property_table_set_markup) : ditto.
+
 2004-05-11  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
 	* graph/gog-renderer-pixbuf.c: (make_layout),
 	(gog_renderer_pixbuf_update): replaced deprecated pango_ft2_get_context.
 	* graph/gog-renderer-svg.c: (make_layout): ditto.

@@ -416,8 +416,8 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (gog_error_bar_is_visible (errors[i])) {
 			for (j = 0; j < lengths[i]; j++)
 				gog_error_bar_render (errors[i], view->renderer,
-											cx[i][j], cy[i][j],
-											errplus[i][j], errminus[i][j], model->horizontal);
+						      cx[i][j], cy[i][j],
+						      errplus[i][j], errminus[i][j], model->horizontal);
 			g_free (errminus[i]);
 			g_free (errplus[i]);
 			g_free (cx[i]);

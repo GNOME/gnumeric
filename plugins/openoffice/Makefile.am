@@ -7,7 +7,7 @@ gnumeric_plugin_openofficedir = $(gnumeric_plugindir)/openoffice
 xmldir = $(gnumeric_plugin_openofficedir)
 gnumeric_plugin_openoffice_LTLIBRARIES = openoffice.la
 openoffice_la_LDFLAGS = -module -avoid-version
-openoffice_la_SOURCES = openoffice-read.c
+openoffice_la_SOURCES = openoffice-read.c openoffice-write.c
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

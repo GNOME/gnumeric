@@ -204,7 +204,7 @@ excel_write_BOF (BiffPut *bp, MsBiffFileType type)
 {
 	guint8 *data;
 	unsigned ans;
-	guint    len;
+	guint    len = 8;
 	guint16  record = BIFF_BOF;
 
 
@@ -406,7 +406,7 @@ excel_write_externsheets_v8 (ExcelWriteState *ewb)
 	static guint8 const magic_addin[] = { 0x01, 0x00, 0x01, 0x3a };
 	static guint8 const magic_self[]  = { 0x03, 0x00, 0x01, 0x4 };
 	unsigned i;
-	guint8 data [6];
+	guint8 data [8];
 	GnmFunc *func;
 
 	/* XL appears to get irrate if we export an addin SUPBOOK with
@@ -435,17 +435,22 @@ excel_write_externsheets_v8 (ExcelWriteState *ewb)
 	ms_biff_put_commit (ewb->bp);
 
 	/* Now do the EXTERNSHEET */
-	i = g_hash_table_size (ewb->sheet_pairs) + 1; /* the magic self we're about to add */
 	ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
-	GSF_LE_SET_GUINT16 (data + 0, i);
+	i = g_hash_table_size (ewb->sheet_pairs);
 
-	ms_biff_put_var_write (ewb->bp, data, 2);
-	GSF_LE_SET_GUINT16 (data + 0, ewb->supbook_idx);	/* magic self */
-	GSF_LE_SET_GUINT16 (data + 2, 0xfffe);
-	GSF_LE_SET_GUINT16 (data + 4, 0xfffe);
-	ms_biff_put_var_write (ewb->bp, data, 6);
+	if (ewb->externnames->len > 0) {
+		GSF_LE_SET_GUINT16 (data + 0, i+1);	/* the magic self we're about to add */
+		GSF_LE_SET_GUINT16 (data + 2, 0);	/* magic self */
+		GSF_LE_SET_GUINT16 (data + 4, 0xfffe);
+		GSF_LE_SET_GUINT16 (data + 6, 0xfffe);
+		ms_biff_put_var_write (ewb->bp, data, 8);
+		ewb->tmp_counter = 1;
+	} else {
+		GSF_LE_SET_GUINT16 (data + 0, i);
+		ms_biff_put_var_write (ewb->bp, data, 2);
+		ewb->tmp_counter = 0;
+	}
 
-	ewb->tmp_counter = 1; /* 0 == the 0xfffe we just put out */
 	g_hash_table_foreach (ewb->sheet_pairs,
 		(GHFunc) cb_write_sheet_pairs, ewb);
 	ms_biff_put_commit (ewb->bp);
@@ -3467,6 +3472,11 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 	excel_write_margin (bp, BIFF_BOTTOM_MARGIN, pi->margins.bottom.points);
 
 	excel_write_SETUP (bp, esheet);
+	if (bp->version < MS_BIFF_V8) {
+		/* write externsheets for every sheet in the workbook
+		 * to make our lives easier */
+		excel_write_externsheets_v7 (esheet->ewb);
+	}
 	excel_write_DEFCOLWIDTH (bp, esheet);
 	excel_write_colinfos (bp, esheet);
 	excel_write_AUTOFILTERINFO (bp, esheet);
@@ -4276,7 +4286,7 @@ excel_write_workbook (ExcelWriteState *ewb)
 		excel_write_externsheets_v7 (ewb);
 
 		/* assign indicies to the names before we export */
-		ewb->tmp_counter = ewb->externnames->len;
+		ewb->tmp_counter = 0;
 		excel_write_names (ewb);
 	}
 

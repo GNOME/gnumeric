@@ -54,8 +54,9 @@ struct _GogRendererSvg {
 	xmlNodePtr current_node;
 	GHashTable *table;
 	gint grad, pat, img;
-
 	unsigned clip_counter;
+
+	PangoContext *pango_context;
 };
 
 typedef GogRendererClass GogRendererSvgClass;
@@ -63,6 +64,19 @@ typedef GogRendererClass GogRendererSvgClass;
 static GObjectClass *parent_klass;
 
 static GType gog_renderer_svg_get_type (void);
+
+static void
+gog_renderer_svg_finalize (GObject *obj)
+{
+	GogRendererSvg *prend = GOG_RENDERER_SVG (obj);
+
+	if (prend->pango_context != NULL) {
+		g_object_unref (prend->pango_context);
+		prend->pango_context = NULL;
+	}
+
+	(*parent_klass->finalize) (obj);
+}
 
 static void
 gog_renderer_svg_start_clipping (GogRenderer *rend)
@@ -413,17 +427,20 @@ gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 static PangoLayout *
 make_layout (GogRenderer *rend, char const *text)
 {
+	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
 	PangoLayout *layout;
-	PangoContext* pango_context;
 	PangoFontDescription const *fd = rend->cur_style->font.font->desc;
 
-	PangoFT2FontMap *font_map = PANGO_FT2_FONT_MAP (pango_ft2_font_map_new ());
-	/*assume horizontal and vertical resolutions are the same*/
-	pango_ft2_font_map_set_resolution (font_map,
-			GO_IN_TO_PT((double)1. / gog_renderer_pt2r (rend, 1.0)),
-			GO_IN_TO_PT((double)1. / gog_renderer_pt2r (rend, 1.0)));
-	pango_context = pango_ft2_font_map_create_context  (font_map);
-	g_object_unref (font_map);
+	if (prend->pango_context == NULL) {
+		PangoFT2FontMap *font_map = PANGO_FT2_FONT_MAP (pango_ft2_font_map_new ());
+		/*assume horizontal and vertical resolutions are the same
+		 * Why ? */
+		pango_ft2_font_map_set_resolution (font_map,
+				GO_IN_TO_PT((double)1. / gog_renderer_pt2r (rend, 1.0)),
+				GO_IN_TO_PT((double)1. / gog_renderer_pt2r (rend, 1.0)));
+		prend->pango_context = pango_ft2_font_map_create_context  (font_map);
+		g_object_unref (font_map);
+	}
 
 	gog_debug (0, {
 		char *msg = pango_font_description_to_string (fd);
@@ -431,32 +448,23 @@ make_layout (GogRenderer *rend, char const *text)
 		g_free (msg);
 	});
 
-	layout = pango_layout_new (pango_context);
+	layout = pango_layout_new (prend->pango_context);
 	pango_layout_set_font_description (layout, fd);
 
 	pango_layout_set_text (layout, text, -1);
-
-	g_object_unref (pango_context);
 
 	return layout;
 }
 
 static void
 gog_renderer_svg_measure_text (GogRenderer *rend,
-				       char const *text, GogViewRequisition *size)
+			       char const *text, GogViewRequisition *size)
 {
 	PangoRectangle  rect;
 	PangoLayout    *layout = make_layout (rend, text);
-	GObject *context = (GObject*) pango_layout_get_context (layout);
-	pango_layout_get_pixel_extents (layout, &rect, NULL);
+	pango_layout_get_pixel_extents (layout, NULL, &rect);
 	g_object_unref (layout);
-	g_object_unref (context);
 	size->w = gog_renderer_pt2r (rend, rect.width);
-	layout = make_layout (rend, "lp");
-	context = (GObject*) pango_layout_get_context (layout);
-	pango_layout_get_pixel_extents (layout, &rect, NULL);
-	g_object_unref (layout);
-	g_object_unref (context);
 	size->h = gog_renderer_pt2r (rend, rect.height);
 }
 
@@ -473,19 +481,17 @@ gog_renderer_svg_draw_text (GogRenderer *rend, char const *text,
 	char *old_num_locale;
 	PangoRectangle  rect;
 	PangoLayout* layout = make_layout (rend, "lp");
-	GObject *context = (GObject*) pango_layout_get_context (layout);
 	PangoFontDescription const *fd = rend->cur_style->font.font->desc;
 	PangoLayoutIter* iter =pango_layout_get_iter(layout);
-	pango_layout_get_pixel_extents (layout, &rect, NULL);
+	pango_layout_get_pixel_extents (layout, NULL, &rect);
 	x = pos->x;
 	/* adjust to the base line */
 	y = pos->y;
 	baseline = pango_layout_iter_get_baseline(iter);
-	pango_layout_iter_get_run_extents(iter, &rect, NULL);
+	pango_layout_iter_get_run_extents(iter, NULL, &rect);
 	y += gog_renderer_pt2r(rend, (baseline - rect.y) / PANGO_SCALE);
 	pango_layout_iter_free(iter);
 	g_object_unref (layout);
-	g_object_unref (context);
 
 	switch (anchor) {
 	case GTK_ANCHOR_CENTER : case GTK_ANCHOR_E : case GTK_ANCHOR_W :
@@ -548,7 +554,10 @@ gog_renderer_svg_draw_text (GogRenderer *rend, char const *text,
 static void
 gog_renderer_svg_class_init (GogRendererClass *rend_klass)
 {
+	GObjectClass *gobject_klass   = (GObjectClass *) rend_klass;
+
 	parent_klass = g_type_class_peek_parent (rend_klass);
+	gobject_klass->finalize	  	= gog_renderer_svg_finalize;
 	rend_klass->start_clipping	= gog_renderer_svg_start_clipping;
 	rend_klass->stop_clipping 	= gog_renderer_svg_stop_clipping;
 	rend_klass->draw_path	  	= gog_renderer_svg_draw_path;

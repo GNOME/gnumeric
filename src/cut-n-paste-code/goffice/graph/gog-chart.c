@@ -589,7 +589,7 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 				}
 				gog_view_size_allocate (child, &tmp);
 			}
-			/* as things get narrower their size may change */
+		/* as things get narrower their size may change */
 		} while (fabs (old_pre_x - pre_x) > 1e-4 ||
 			 fabs (old_post_x- post_x) > 1e-4 ||
 			 fabs (old_pre_y - pre_y) > 1e-4 ||

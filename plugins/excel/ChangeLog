@@ -1,3 +1,21 @@
+2004-05-15  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_BOF) : init the len for bifftypes
+	  before biff8.
+	http://bugzilla.gnome.org/show_bug.cgi?id=103054
+	(write_sheet_head) : put externsheet tables in every sheet for biff7
+	(excel_write_externsheets_v8) : The self reference is for the addin,
+	  not the others.  Fixes 103054 for XL97
+	(excel_write_workbook) : NAME records start at 0, not at the end of
+	  the externname table
+
+	* boot.c (excel_file_open) : 95 in should export as 95
+	(find_content_stream) : keep track of what type of stream this is.
+
+	* ms-chart.c (BC_R(axislineformat)) : deleted axis still exist, and
+	  they hide their labels here rather than in tick.  Don't apply grid
+	  line styles to the axis.
+
 2004-05-10  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c (BC_R(end)) : doh!  Use the ExcelSeries::has_legend to

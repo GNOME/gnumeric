@@ -21,9 +21,6 @@ struct _MSEscherBlip {
 	guint32	      data_len;
 	gboolean      needs_free;
 };
-struct _MSEscherShape {
-	MSObjAttrBag *attrs;
-};
 
 MSObjAttrBag *ms_escher_parse (BiffQuery  *q, MSContainer *container,
 			       gboolean return_attrs);

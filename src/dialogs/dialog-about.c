@@ -247,6 +247,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 	GOG_STYLED_OBJECT (state->graph)->style->fill.type = GOG_FILL_STYLE_GRADIENT;
 	GOG_STYLED_OBJECT (state->graph)->style->fill.u.gradient.start = 0xFFFF99FF;
 	GOG_STYLED_OBJECT (state->graph)->style->fill.u.gradient.dir = GO_GRADIENT_W_TO_E_MIRRORED;
+	GOG_STYLED_OBJECT (state->graph)->style->outline.width = 0; /* hairline */
+	GOG_STYLED_OBJECT (state->graph)->style->outline.color = RGBA_BLACK;
 	gog_style_set_fill_brightness (
 		GOG_STYLED_OBJECT (state->graph)->style, 70.);
 #if 0
@@ -256,6 +258,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 
 	/* A bar plot of the current contributors activities */
 	chart = gog_object_add_by_name (state->graph, "Chart", NULL);
+	GOG_STYLED_OBJECT (chart)->style->outline.width = -1;
+	GOG_STYLED_OBJECT (chart)->style->fill.type = GOG_FILL_STYLE_NONE;
 	plot = gog_plot_new_by_name ("GogBarColPlot");
 	if (!plot) {
 		/* This can happen if plugins are not available.  */
@@ -292,7 +296,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 	tmp = gog_object_get_child_by_role (chart,
 		gog_object_find_role_by_name (chart, "Y-Axis"));
 	gog_style_set_font (GOG_STYLED_OBJECT (tmp)->style,
-		pango_font_description_from_string ("Sans 12"));
+		pango_font_description_from_string ("Sans 10"));
 
 	tmp = gog_object_add_by_name (chart, "Title", NULL);
 	gog_object_set_pos (tmp, GOG_POSITION_N | GOG_POSITION_ALIGN_CENTER);
@@ -303,6 +307,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 
 	/* A pie of the cumulative contributions */
 	chart = gog_object_add_by_name (state->graph, "Chart", NULL);
+	GOG_STYLED_OBJECT (chart)->style->outline.width = -1;
+	GOG_STYLED_OBJECT (chart)->style->fill.type = GOG_FILL_STYLE_NONE;
 	gog_chart_set_position  (GOG_CHART (chart), 1, 0, 1, 1);
 	plot = gog_plot_new_by_name ("GogPiePlot");
 	if (!plot) {
@@ -325,7 +331,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 			"Copyright \xc2\xa9 1998-2000 Miguel de Icaza", FALSE),
 		NULL);
 	gog_style_set_font (GOG_STYLED_OBJECT (tmp)->style,
-		pango_font_description_from_string ("Sans Bold 10"));
+		pango_font_description_from_string ("Sans Bold 12"));
 
 	state->canvas = foo_canvas_new ();
 	gtk_widget_set_size_request (state->canvas, 400, 300);

@@ -318,7 +318,7 @@ workbook_control_init (GObject *obj)
 
 GSF_CLASS (WorkbookControl, workbook_control,
 	   workbook_control_class_init, workbook_control_init,
-	   G_TYPE_OBJECT);
+	   GO_DOC_CONTROL_TYPE);
 
 void
 wb_control_set_view (WorkbookControl *wbc,

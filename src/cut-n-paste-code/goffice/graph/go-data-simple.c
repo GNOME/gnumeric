@@ -377,6 +377,10 @@ struct _GODataVectorStr {
 	GODataVector	 base;
 	char const * const *str;
 	unsigned n;
+
+	GOTranslateFunc translate_func;
+	gpointer        translate_data;
+	GDestroyNotify  translate_notify;   
 };
 typedef GODataVectorClass GODataVectorStrClass;
 
@@ -454,6 +458,9 @@ go_data_vector_str_init (GObject *obj)
 	GODataVectorStr *str = (GODataVectorStr *)obj;
 	str->str = NULL;
 	str->n = 0;
+	str->translate_func = NULL;
+	str->translate_data = NULL;
+	str->translate_notify = NULL;
 }
 
 GSF_CLASS (GODataVectorStr, go_data_vector_str,
@@ -469,3 +476,59 @@ go_data_vector_str_new (char const * const *str, unsigned n)
 	return GO_DATA (res);
 }
 
+/**
+ * go_data_vector_str_set_translate_func:
+ * @vec: a #GODataVectorStr
+ * @func: a #GOTranslateFunc
+ * @data: data to be passed to @func and @notify
+ * @notify: a #GODestroyNotify function to be called when @vec is 
+ *   destroyed or when the translation function is changed
+ * 
+ * Sets a function to be used for translating elements of @vec
+ **/
+void
+go_data_vector_str_set_translate_func (GODataVectorStr	*vec,
+				       GOTranslateFunc	 func,
+				       gpointer		 data,
+				       GDestroyNotify	 notify)
+{
+	g_return_if_fail (GO_DATA_VECTOR_STR (vec) != NULL);
+
+	if (vec->translate_notify != NULL)
+		(*vec->translate_notify) (vec->translate_data);
+
+	vec->translate_func = func;
+	vec->translate_data = data;
+	vec->translate_notify = notify;
+}
+
+static char const *
+dgettext_swapped (char const *msgid, 
+		  char const *domainname)
+{
+	return dgettext (domainname, msgid);
+}
+
+/**
+ * go_data_vector_str_set_translation_domain:
+ * @action_group: a #GtkActionGroup
+ * @domain: the translation domain to use for dgettext() calls
+ * 
+ * Sets the translation domain and uses dgettext() for translating the 
+ * elements of @vec.
+ * Note that libgoffice expects all strings to be encoded in UTF-8, therefore
+ * the translation domain must have its codeset set to UTF-8, see
+ * bind_textdomain_codeset() in the gettext() documentation. 
+ *
+ * If you're not using gettext() for localization, see 
+ * go_data_vector_str_set_translate_func().
+ **/
+void 
+go_data_vector_str_set_translation_domain (GODataVectorStr *vec,
+					   char const      *domain)
+{
+	g_return_if_fail (GO_DATA_VECTOR_STR (vec) != NULL);
+
+	go_data_vector_str_set_translate_func (vec, 
+		(GOTranslateFunc)dgettext_swapped, g_strdup (domain), g_free);
+} 

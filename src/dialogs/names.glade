@@ -2,7 +2,6 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
-<requires lib="gnome"/>
 
 <widget class="GtkDialog" id="NameGuru">
   <property name="border_width">5</property>
@@ -10,13 +9,10 @@
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
+  <property name="default_width">475</property>
+  <property name="default_height">300</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
   <property name="has_separator">False</property>
 
   <child internal-child="vbox">
@@ -38,7 +34,6 @@
 	      <property name="label">gtk-close</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
-	      <property name="focus_on_click">True</property>
 	      <property name="response_id">0</property>
 	    </widget>
 	  </child>
@@ -51,7 +46,6 @@
 	      <property name="label">gtk-help</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
-	      <property name="focus_on_click">True</property>
 	      <property name="response_id">-11</property>
 	    </widget>
 	  </child>
@@ -64,7 +58,6 @@
 	      <property name="label">gtk-ok</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
-	      <property name="focus_on_click">True</property>
 	      <property name="response_id">-5</property>
 	    </widget>
 	  </child>
@@ -182,10 +175,6 @@
 		      <property name="yalign">0.5</property>
 		      <property name="xscale">0</property>
 		      <property name="yscale">1</property>
-		      <property name="top_padding">0</property>
-		      <property name="bottom_padding">0</property>
-		      <property name="left_padding">0</property>
-		      <property name="right_padding">0</property>
 
 		      <child>
 			<widget class="GtkVBox" id="vbox3">
@@ -198,7 +187,6 @@
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 
 			      <child>
 				<widget class="GtkAlignment" id="alignment2">
@@ -207,10 +195,6 @@
 				  <property name="yalign">0.5</property>
 				  <property name="xscale">0</property>
 				  <property name="yscale">0</property>
-				  <property name="top_padding">0</property>
-				  <property name="bottom_padding">0</property>
-				  <property name="left_padding">0</property>
-				  <property name="right_padding">0</property>
 
 				  <child>
 				    <widget class="GtkHBox" id="hbox2">
@@ -272,7 +256,6 @@
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 
 			      <child>
 				<widget class="GtkAlignment" id="alignment3">
@@ -281,10 +264,6 @@
 				  <property name="yalign">0.5</property>
 				  <property name="xscale">0</property>
 				  <property name="yscale">0</property>
-				  <property name="top_padding">0</property>
-				  <property name="bottom_padding">0</property>
-				  <property name="left_padding">0</property>
-				  <property name="right_padding">0</property>
 
 				  <child>
 				    <widget class="GtkHBox" id="hbox3">
@@ -348,7 +327,6 @@
 			      <property name="label" translatable="yes">_Update</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
 			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
@@ -550,7 +528,6 @@
 		      <property name="label" translatable="yes">Workbook</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
-		      <property name="focus_on_click">True</property>
 		      <property name="active">False</property>
 		      <property name="inconsistent">False</property>
 		      <property name="draw_indicator">True</property>
@@ -572,7 +549,6 @@
 		      <property name="label" translatable="yes"></property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
-		      <property name="focus_on_click">True</property>
 		      <property name="active">False</property>
 		      <property name="inconsistent">False</property>
 		      <property name="draw_indicator">True</property>
@@ -593,7 +569,6 @@
 		  <property name="right_attach">2</property>
 		  <property name="top_attach">1</property>
 		  <property name="bottom_attach">2</property>
-		  <property name="x_options">fill</property>
 		  <property name="y_options">fill</property>
 		</packing>
 	      </child>

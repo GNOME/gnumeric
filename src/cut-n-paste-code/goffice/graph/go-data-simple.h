@@ -55,7 +55,13 @@ GOData	*go_data_vector_val_new      (double const *val, unsigned n);
 #define IS_GO_DATA_VECTOR_STR(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_DATA_VECTOR_STR_TYPE))
 
 typedef struct _GODataVectorStr GODataVectorStr;
-GType	 go_data_vector_str_get_type (void);
-GOData	*go_data_vector_str_new      (char const * const *str, unsigned n);
+GType	go_data_vector_str_get_type	      (void);
+GOData *go_data_vector_str_new		      (char const * const *str, unsigned n);
+void    go_data_vector_str_set_translate_func (GODataVectorStr *vector,
+					       GOTranslateFunc  func,
+					       gpointer         data,
+					       GDestroyNotify   notify);
+void go_data_vector_str_set_translation_domain (GODataVectorStr *vec,
+						char const      *domain);
 
 #endif /* GO_DATA_SIMPLE_H */

@@ -16,6 +16,7 @@
 #include <glib-object.h>
 #include <glib.h>
 #include <utils/go-units.h>
+#include <pango/pango-attributes.h>
 
 G_BEGIN_DECLS
 
@@ -50,11 +51,17 @@ typedef struct {
 #define GOD_PROPERTY_BLIP_ID		 "blip_id"
 #define GOD_PROPERTY_FONT_COLOR		 "font_color"
 #define GOD_PROPERTY_FILL_TYPE		 "fill_type"
+#define GOD_PROPERTY_FILL_SHADE_TYPE	 "fill_shade_type"
+#define GOD_PROPERTY_FILL_ANGLE	 	 "fill_angle"
+#define GOD_PROPERTY_FILL_FOCUS	 	 "fill_focus"
 #define GOD_PROPERTY_FILL_COLOR		 "fill_color"
 #define GOD_PROPERTY_FILL_ALPHA		 "fill_alpha"
+#define GOD_PROPERTY_FILL_PRESET	 "fill_preset"
 #define GOD_PROPERTY_FILL_BACKGROUND	 "fill_background"
 #define GOD_PROPERTY_FILL_BACKGROUND_ALPHA "fill_background_alpha"
 #define GOD_PROPERTY_OUTLINE_COLOR	 "outline_color"
+#define GOD_PROPERTY_OUTLINE_WIDTH	 "outline_width"
+#define GOD_PROPERTY_OUTLINE_STYLE	 "outline_style"
 #define GOD_PROPERTY_SCROLLBAR_VALUE	 "scrollbar_value"
 #define GOD_PROPERTY_SCROLLBAR_MIN	 "scrollbar_min"
 #define GOD_PROPERTY_SCROLLBAR_MAX	 "scrollbar_max"
@@ -86,6 +93,8 @@ typedef struct {
 #define GOD_PROPERTY_CHECKBOX_LINK	  "checkbox_link"
 #define GOD_PROPERTY_SCROLLBAR_LINK	  "scrollbar_link"
 
+/* PangoAttrList */
+#define GOD_PROPERTY_MARKUP	  	  "markup"
 
 typedef enum {
 	GOD_FILL_TYPE_SOLID,
@@ -108,48 +117,54 @@ GType             god_property_table_get_type     (void);
 void              god_property_table_set          (GodPropertyTable *attrs,
 						   GodPropertyID     id,
 						   GValue           *attr);
-GValue           *god_property_table_get          (GodPropertyTable *obj,
+GValue           *god_property_table_get          (GodPropertyTable *table,
 						   GodPropertyID     id);
 
 /* Set methods */
-void              god_property_table_set_flag     (GodPropertyTable *obj,
+void              god_property_table_set_flag     (GodPropertyTable *table,
 						   GodPropertyID     id,
 						   gboolean          val);
-void              god_property_table_set_uint     (GodPropertyTable *obj,
+void              god_property_table_set_uint     (GodPropertyTable *table,
 						   GodPropertyID     id,
 						   guint32           val);
-void              god_property_table_set_int      (GodPropertyTable *obj,
+void              god_property_table_set_int      (GodPropertyTable *table,
 						   GodPropertyID     id,
 						   gint32            val);
-void              god_property_table_set_length   (GodPropertyTable *obj,
+void              god_property_table_set_length   (GodPropertyTable *table,
 						   GodPropertyID     id,
 						   go_unit_t         val);
-void              god_property_table_set_pointer  (GodPropertyTable *obj,
+void              god_property_table_set_pointer  (GodPropertyTable *table,
 						   GodPropertyID     id,
 						   gpointer          val);
-void              god_property_table_set_array    (GodPropertyTable *obj,
+void              god_property_table_set_array    (GodPropertyTable *table,
 						   GodPropertyID     id,
 						   GArray           *array);
+void              god_property_table_set_markup   (GodPropertyTable *table,
+						   GodPropertyID     id,
+						   PangoAttrList    *list);
 
 /* Get methods */
-gboolean          god_property_table_get_flag     (GodPropertyTable *obj,
+gboolean          god_property_table_get_flag     (GodPropertyTable *table,
 						   GodPropertyID     id,
 						   gboolean          default_value);
-guint32           god_property_table_get_uint     (GodPropertyTable *obj,
+guint32           god_property_table_get_uint     (GodPropertyTable *table,
 						   GodPropertyID     id,
 						   guint32           default_value);
-gint32            god_property_table_get_int      (GodPropertyTable *obj,
+gint32            god_property_table_get_int      (GodPropertyTable *table,
 						   GodPropertyID     id,
 						   gint32            default_value);
-go_unit_t         god_property_table_get_length   (GodPropertyTable *obj,
+go_unit_t         god_property_table_get_length   (GodPropertyTable *table,
 						   GodPropertyID     id,
 						   go_unit_t         default_value);
-gpointer          god_property_table_get_pointer  (GodPropertyTable *obj,
+gpointer          god_property_table_get_pointer  (GodPropertyTable *table,
 						   GodPropertyID     id,
 						   gpointer          default_value);
-GArray           *god_property_table_get_array    (GodPropertyTable *obj,
+GArray           *god_property_table_get_array    (GodPropertyTable *table,
 						   GodPropertyID     id,
 						   GArray           *default_value);
+PangoAttrList	 *god_property_table_get_markup	  (GodPropertyTable *table,
+						   GodPropertyID     id,
+						   PangoAttrList *default_value);
 
 /* Allocation */
 GodPropertyTable *god_property_table_new          (void);

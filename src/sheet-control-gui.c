@@ -589,14 +589,7 @@ cb_vscrollbar_adjust_bounds (GtkRange *range, gdouble new_value)
 }
 
 static void
-cb_table_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
-			SheetControlGUI *scg)
-{
-	scg_scrollbar_config ((SheetControl *) scg);
-}
-
-static void
-cb_table_destroy (GtkObject *table, SheetControlGUI *scg)
+cb_table_destroy (SheetControlGUI *scg)
 {
 	SheetControl *sc = (SheetControl *) scg;
 
@@ -1090,6 +1083,13 @@ scg_set_panes (SheetControl *sc)
 	}
 }
 
+static void
+cb_wbc_destroyed (SheetControlGUI *scg)
+{
+	scg->wbcg = NULL;
+	scg->sheet_control.wbc = NULL;
+}
+
 SheetControlGUI *
 sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 {
@@ -1101,6 +1101,10 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 	scg = g_object_new (sheet_control_gui_get_type (), NULL);
 	scg->wbcg = wbcg;
 	scg->sheet_control.wbc = WORKBOOK_CONTROL (wbcg);
+
+	g_object_weak_ref (G_OBJECT (wbcg), 
+		(GWeakNotify) cb_wbc_destroyed, 
+		scg);
 
 	scg->active_panes = 1;
 	scg->pane [0].is_active = FALSE;
@@ -1203,12 +1207,14 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 		GTK_FILL,
 		0, 0);
-	g_signal_connect_after (G_OBJECT (scg->table),
+	g_signal_connect_data (G_OBJECT (scg->table),
 		"size_allocate",
-		G_CALLBACK (cb_table_size_allocate), scg);
+		G_CALLBACK (scg_scrollbar_config), scg, NULL,
+		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
 	g_signal_connect_object (G_OBJECT (scg->table),
 		"destroy",
-		G_CALLBACK (cb_table_destroy), G_OBJECT (scg), 0);
+		G_CALLBACK (cb_table_destroy), G_OBJECT (scg),
+		G_CONNECT_SWAPPED);
 
 	sv_attach_control (sv, SHEET_CONTROL (scg));
 
@@ -1254,6 +1260,11 @@ scg_finalize (GObject *object)
 		gtk_object_destroy (GTK_OBJECT (scg->table));
 		scg->table =NULL;
 	}
+
+	if (scg->wbcg != NULL)
+		g_object_weak_unref (G_OBJECT (scg->wbcg), 
+			(GWeakNotify) cb_wbc_destroyed, 
+			scg);
 
 	(*scg_parent_class->finalize) (object);
 }
@@ -1682,13 +1693,15 @@ scg_mode_edit (SheetControl *sc)
 	/* During destruction we have already been disconnected
 	 * so don't bother changing the cursor
 	 */
-	if (sc->sheet != NULL)
+	if (sc->sheet != NULL && sc->view != NULL)
 		scg_cursor_visible (scg, TRUE);
 
-	if (wbcg_edit_get_guru (scg->wbcg) != NULL)
-		wbcg_edit_finish (scg->wbcg, FALSE, NULL);
-	wb_control_menu_state_update (WORKBOOK_CONTROL (scg->wbcg),
-		MS_CLIPBOARD);
+	if (scg->wbcg != NULL) {
+		if (wbcg_edit_get_guru (scg->wbcg) != NULL)
+			wbcg_edit_finish (scg->wbcg, FALSE, NULL);
+		wb_control_menu_state_update (WORKBOOK_CONTROL (scg->wbcg),
+			MS_CLIPBOARD);
+	}
 }
 
 /*

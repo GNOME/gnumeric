@@ -261,8 +261,6 @@ gog_legend_view_size_request (GogView *v, GogViewRequisition *avail)
 	GogViewRequisition res;
 	GogChart *chart = GOG_CHART (v->model->parent);
 	GogLegend *l = GOG_LEGEND (v->model);
-	double pad_y = gog_renderer_pt2r_y (
-		v->renderer, l->swatch_padding_pts);
 	unsigned n, mult = 1;
 
 #warning TODO : make this smarter (multiple columns and shrinking text)
@@ -283,8 +281,6 @@ gog_legend_view_size_request (GogView *v, GogViewRequisition *avail)
 		mult * l->swatch_size_pts + .5 * l->swatch_padding_pts);
 	gog_chart_get_cardinality (chart, NULL, &n);
 	res.h = n * dat.maximum.h;
-	if (n > 1)
-		res.h += (n-1) * pad_y; /* between lines, not top or bottom */
 
 	gog_view_size_child_request (v, avail, &res);
 	avail->w = res.w;
@@ -297,7 +293,6 @@ typedef struct {
 	GogViewAllocation swatch;
 	double step;
 	double label_offset;
-	double base_line;
 	double bottom;
 	ArtVpath line_path[3];
 } render_closure;
@@ -349,7 +344,6 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 	render_closure dat;
 	GogLegend *l = GOG_LEGEND (v->model);
 	double pad_x = gog_renderer_pt2r_x (v->renderer, l->swatch_padding_pts);
-	double pad_y = gog_renderer_pt2r_y (v->renderer, l->swatch_padding_pts);
 
 	(lview_parent_klass->render) (v, bbox);
 
@@ -368,8 +362,7 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 		dat.swatch.x += dat.swatch.w;
 		dat.label_offset += dat.swatch.w;
 	}
-	dat.step      = ((GogLegendView *)v)->line_height + pad_y;
-	dat.base_line = pad_y / 2.; /* bottom of the swatch */
+	dat.step      = ((GogLegendView *)v)->line_height;
 	dat.bottom    = v->residual.y + v->residual.h -
 		((GogLegendView *)v)->line_height;
 	gog_chart_foreach_elem (GOG_CHART (v->model->parent), TRUE,

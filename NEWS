@@ -26,6 +26,9 @@ Jody:
 	* Fix crash when undoing a cut from a different workbook
 	* Fix MS XL crash when there are too many strings
 	* MS XL import for chart gradient backgrounds
+	* Support series without legend entries, including xls import
+	* Started on an OOo exporter
+	* Tweak XL export for named expressions and addins
 
 Morten:
 	* Fix crash related to database functions (#138600).  [backported]

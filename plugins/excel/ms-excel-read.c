@@ -3113,9 +3113,9 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 				       ewb->v8.supbook->len-1));
 		g_ptr_array_add (sup->externname, nexpr);
 	} else {
-		GPtrArray *a = container->names;
+		GPtrArray *a = container->v7.externnames;
 		if (a == NULL)
-			a = container->names = g_ptr_array_new ();
+			a = container->v7.externnames = g_ptr_array_new ();
 		g_ptr_array_add (a, nexpr);
 	}
 }
@@ -3226,7 +3226,7 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb, ExcelReadSheet *esheet)
 			name, expr_data, expr_len, TRUE);
 
 		/* Add a ref to keep it around after the excel-sheet/wb goes
-		 * away.  externames do not get references and are unrefed
+		 * away.  externnames do not get references and are unrefed
 		 * after import finishes, which destroys them if they are not
 		 * in use. */
 		if (nexpr != NULL) {
@@ -4886,7 +4886,7 @@ excel_externsheet_v7 (MSContainer const *container, gint16 idx)
 
 	d (2, fprintf (stderr, "externv7 %hd\n", idx););
 
-	externsheets = container->v7.externsheet;
+	externsheets = container->v7.externsheets;
 	g_return_val_if_fail (externsheets != NULL, NULL);
 	g_return_val_if_fail (idx > 0, NULL);
 	g_return_val_if_fail (idx <= (int)externsheets->len, NULL);
@@ -4969,9 +4969,9 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 			_("external references"));
 	}
 
-	if (container->v7.externsheet == NULL)
-		container->v7.externsheet = g_ptr_array_new ();
-	g_ptr_array_add (container->v7.externsheet, sheet);
+	if (container->v7.externsheets == NULL)
+		container->v7.externsheets = g_ptr_array_new ();
+	g_ptr_array_add (container->v7.externsheets, sheet);
 }
 
 /* FILEPASS, ask the user for a password if necessary

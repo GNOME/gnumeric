@@ -47,7 +47,7 @@ gnumeric_reqs="
 glib-2.0		>= 2.4.0
 gobject-2.0		>= 2.4.0
 gmodule-2.0		>= 2.4.0
-libgsf-1		>= 1.9.0
+libgsf-1		>= 1.9.1
 gtk+-2.0		>= 2.4.0
 libxml-2.0		>= 2.4.12
 libglade-2.0		>= 2.0.0
@@ -89,26 +89,6 @@ else
         gnumeric_with_gnome=false
 fi
 AM_CONDITIONAL(WITH_GNOME, $gnumeric_with_gnome)
-
-dnl ************************************************
-dnl If we have GNOME do we want the bonobo component
-dnl ************************************************
-bonobo_component_msg="disabled until it compiles"
-gnumeric_enable_bonobo_component=false
-AC_ARG_ENABLE(bonobo-component,
-	[--{enable,disable}-bonobo-component   Build the optional bonobo component requires --with-gnome],
-	if test "x$enableval" = xyes; then
-		if test "x$gnome_msg" = "xyes"; then
-		    # gnumeric_enable_bonobo_component=true
-		    bonobo_component_msg="yes but DISABLED UNTIL IT COMPILES"
-		else
-		    bonobo_component_msg="disabled.  requires gnome"
-		fi
-	else
-	    bonobo_component_msg="disabled by user"
-	fi
-)
-AM_CONDITIONAL(ENABLE_BONOBO_COMPONENT, $gnumeric_enable_bonobo_component)
 
 dnl ****************************
 dnl now that we have selected out libraries the whole collection in one
@@ -843,7 +823,6 @@ Configuration:
 	Python Support:		${python_msg}
 	Guile Support:		${guile_msg}
 	GNOME Support:		${gnome_msg}
-	Bonobo Component 	${bonobo_component_msg}
 	GDA support:		${gda_msg}
 	GNOME-DB support:	${gnomedb_msg}
 "

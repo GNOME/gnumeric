@@ -1599,7 +1599,8 @@ gog_style_is_different_size (GogStyle const *a, GogStyle const *b)
 {
 	if (a == NULL || b == NULL)
 		return TRUE;
-	return a->outline.width != b->outline.width ||
+	return	a->outline.width != b->outline.width ||
+		a->line.width != b->line.width ||
 		!go_font_eq (a->font.font, b->font.font);
 }
 

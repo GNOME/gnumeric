@@ -281,6 +281,11 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *ig,
 					    ig->canvas_item.canvas,
 					    is_selected);
 
+#if DEBUG_SELECTION_PAINT
+	if (is_selected) {
+		fprintf (stderr, "x = %d, w = %d\n", x, w+1);
+	}
+#endif
 	if (has_back || is_selected)
 		/* Fill the entire cell (API excludes far pixel) */
 		gdk_draw_rectangle (drawable, gc, TRUE, x, y, w+1, h+1);
@@ -405,6 +410,9 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		 * Reinverting list to maintain the original order */
 		g_return_if_fail (merged_active == NULL);
 
+#if DEBUG_SELECTION_PAINT
+		fprintf (stderr, "row = %d (startcol = %d)\n", row, start_col);
+#endif
 		while (merged_active_seen != NULL) {
 			GSList *tmp = merged_active_seen->next;
 			merged_active_seen->next = merged_active;
@@ -473,6 +481,9 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 			CellSpanInfo const *span;
 			ColRowInfo const *ci = sheet_col_get_info (sheet, col);
 
+#if DEBUG_SELECTION_PAINT
+			fprintf (stderr, "col [%d] = %d\n", col, x);
+#endif
 			if (!ci->visible) {
 				if (merged_active != NULL) {
 					GnmRange const *r = merged_active->data;
@@ -510,7 +521,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 						/* in case something managed the bottom of a merge */
 						if (r->end.row < row)
-							continue;
+							goto plain_draw;
 					} else {
 						ptr->next = merged_active_seen;
 						merged_active_seen = ptr;
@@ -546,6 +557,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 				}
 			}
 
+plain_draw : /* a quick hack to deal with 142267 */
 			style = sr.styles [col];
 			item_grid_draw_background (drawable, ig,
 				style, col, row, x, y,

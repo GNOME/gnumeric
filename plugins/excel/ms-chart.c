@@ -217,13 +217,13 @@ BC_R(3d)(XLChartHandler const *handle,
 		fprintf (stderr, "Gap = %hu\n", gap);
 
 		if (use_perspective)
-			fputs ("Use perspective", stderr);
+			fputs ("Use perspective;\n", stderr);
 		if (cluster)
-			fputs ("Cluster", stderr);
+			fputs ("Cluster;\n", stderr);
 		if (auto_scale)
-			fputs ("Auto Scale", stderr);
+			fputs ("Auto Scale;\n", stderr);
 		if (walls_2d)
-			fputs ("2D Walls", stderr);
+			fputs ("2D Walls;\n", stderr);
 	});
 
 	return FALSE;
@@ -259,24 +259,24 @@ BC_R(ai)(XLChartHandler const *handle,
 			style_format_unref (fmt);
 		}
 	} else {
-		d (2, fputs ("Uses number format from data source", stderr););
+		d (2, fputs ("Uses number format from data source;\n", stderr););
 	}
 
 	g_return_val_if_fail (purpose < GOG_MS_DIM_TYPES, TRUE);
 	d (0, {
 	switch (purpose) {
-	case GOG_MS_DIM_LABELS :     fputs ("Linking labels", stderr); break;
-	case GOG_MS_DIM_VALUES :     fputs ("Linking values", stderr); break;
-	case GOG_MS_DIM_CATEGORIES : fputs ("Linking categories", stderr); break;
-	case GOG_MS_DIM_BUBBLES :    fputs ("Linking bubbles", stderr); break;
+	case GOG_MS_DIM_LABELS :     fputs ("Linking labels;\n", stderr); break;
+	case GOG_MS_DIM_VALUES :     fputs ("Linking values;\n", stderr); break;
+	case GOG_MS_DIM_CATEGORIES : fputs ("Linking categories;\n", stderr); break;
+	case GOG_MS_DIM_BUBBLES :    fputs ("Linking bubbles;\n", stderr); break;
 	default :
 		g_assert_not_reached ();
 	};
 	switch (ref_type) {
-	case 0 : fputs ("Use default categories", stderr); break;
-	case 1 : fputs ("Text/Value entered directly", stderr); break;
-	case 2 : fputs ("Linked to Container", stderr); break;
-	case 4 : fputs ("'Error reported' what the heck is this ??", stderr); break;
+	case 0 : fputs ("Use default categories;\n", stderr); break;
+	case 1 : fputs ("Text/Value entered directly;\n", stderr); break;
+	case 2 : fputs ("Linked to Container;\n", stderr); break;
+	case 4 : fputs ("'Error reported' what the heck is this ??;\n", stderr); break;
 	default :
 		 fprintf (stderr, "UKNOWN : reference type (%x)\n", ref_type);
 	};
@@ -421,21 +421,21 @@ BC_R(attachedlabel)(XLChartHandler const *handle,
 	gboolean const show_label = (flags&0x10) ? TRUE : FALSE;
 
 	if (show_value)
-		fputs ("Show Value", stderr);
+		fputs ("Show Value;\n", stderr);
 	if (show_percent)
-		fputs ("Show as Percentage", stderr);
+		fputs ("Show as Percentage;\n", stderr);
 	if (show_label_prercent)
-		fputs ("Show as Label Percentage", stderr);
+		fputs ("Show as Label Percentage;\n", stderr);
 	if (smooth_line)
-		fputs ("Smooth line", stderr);
+		fputs ("Smooth line;\n", stderr);
 	if (show_label)
-		fputs ("Show the label", stderr);
+		fputs ("Show the label;\n", stderr);
 
 	if (s->container.ver >= MS_BIFF_V8)
 	{
 		gboolean const show_bubble_size = (flags&0x20) ? TRUE : FALSE;
 		if (show_bubble_size)
-			fputs ("Show bubble size", stderr);
+			fputs ("Show bubble size;\n", stderr);
 	}
 	});
 	return FALSE;
@@ -487,24 +487,50 @@ BC_R(axcext)(XLChartHandler const *handle,
 /****************************************************************************/
 
 static gboolean
+BC_R(lineformat)(XLChartHandler const *handle,
+		 XLChartReadState *s, BiffQuery *q);
+static gboolean
 BC_R(axislineformat)(XLChartHandler const *handle,
 		     XLChartReadState *s, BiffQuery *q)
 {
-	d (0, {
+	guint16 opcode;
 	guint16 const type = GSF_LE_GET_GUINT16 (q->data);
 
+	d (0, {
 	fprintf (stderr, "Axisline is ");
 	switch (type)
 	{
-	case 0 : fputs ("the axis line.", stderr); break;
-	case 1 : fputs ("a major grid along the axis.", stderr); break;
-	case 2 : fputs ("a minor grid along the axis.", stderr); break;
+	case 0 : fputs ("the axis line.\n", stderr); break;
+	case 1 : fputs ("a major grid along the axis.\n", stderr); break;
+	case 2 : fputs ("a minor grid along the axis.\n", stderr); break;
 
 	/* TODO TODO : floor vs wall */
-	case 3 : fputs ("a floor/wall along the axis.", stderr); break;
+	case 3 : fputs ("a floor/wall along the axis.\n", stderr); break;
 	default : fprintf (stderr, "an ERROR.  unkown type (%x).\n", type);
 	};
 	});
+
+	if (!ms_biff_query_peek_next (q, &opcode) || opcode != BIFF_CHART_lineformat) {
+		g_warning ("I had hoped that a lineformat would always follow an axislineformat");
+		return FALSE;
+	}
+	ms_biff_query_next (q);
+	if (BC_R(lineformat)(handle, s, q))
+		return TRUE;
+
+	if (type == 0 && s->axis != NULL) {
+		g_object_set (G_OBJECT (s->axis),
+			"style", s->style,
+			NULL);
+		/* deleted axis sets flag here, rather than in TICK */
+		if (0 == (0x4 & GSF_LE_GET_GUINT16 (q->data+8)))
+			g_object_set (G_OBJECT (s->axis),
+				"major-tick-labeled",	FALSE,
+				NULL);
+	}
+	g_object_unref (s->style);
+	s->style = NULL;
+
 	return FALSE;
 }
 
@@ -1514,7 +1540,7 @@ BC_R(seriestext)(XLChartHandler const *handle,
 		return FALSE;
 
 	str = biff_get_text (q->data + 3, slen, NULL, s->container.ver);
-	d (2, fputs (str, stderr););
+	d (2, fprintf (stderr, "'%s';\n", str););
 
 	/* A quick heuristic */
 	if (s->currentSeries != NULL &&
@@ -1587,7 +1613,7 @@ BC_R(shtprops)(XLChartHandler const *handle,
 
 	g_return_val_if_fail (tmp < MS_CHART_BLANK_MAX, TRUE);
 	blanks = tmp;
-	d (2, fputs (ms_chart_blank[blanks], stderr););
+	d (2, fprintf (stderr, "%s;", ms_chart_blank[blanks]););
 
 	if (s->container.ver >= MS_BIFF_V8)
 		ignore_pos_record = (flags&0x10) ? TRUE : FALSE;
@@ -1637,7 +1663,7 @@ BC_R(text)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
 {
 	if (s->prev_opcode == BIFF_CHART_defaulttext) {
-		d (4, fputs ("Text follows defaulttext", stderr););
+		d (4, fputs ("Text follows defaulttext;\n", stderr););
 	} else {
 	}
 	BC_R(get_style) (s);
@@ -1645,10 +1671,10 @@ BC_R(text)(XLChartHandler const *handle,
 
 #if 0
 case BIFF_CHART_chart :
-	fputs ("Text follows chart", stderr);
+	fputs ("Text follows chart;\n", stderr);
 	break;
 case BIFF_CHART_legend :
-	fputs ("Text follows legend", stderr);
+	fputs ("Text follows legend;\n", stderr);
 	break;
 default :
 	fprintf (stderr, "BIFF ERROR : A Text record follows a %x\n",
@@ -1682,25 +1708,25 @@ BC_R(tick)(XLChartHandler const *handle,
 	guint16 const flags = GSF_LE_GET_GUINT8 (q->data+24);
 
 	switch (major) {
-	case 0: fputs ("no major tick;", stderr); break;
-	case 1: fputs ("major tick inside axis;", stderr); break;
-	case 2: fputs ("major tick outside axis;", stderr); break;
-	case 3: fputs ("major tick across axis;", stderr); break;
-	default : fputs ("unknown major tick type", stderr);
+	case 0: fputs ("no major tick;\n", stderr); break;
+	case 1: fputs ("major tick inside axis;\n", stderr); break;
+	case 2: fputs ("major tick outside axis;\n", stderr); break;
+	case 3: fputs ("major tick across axis;\n", stderr); break;
+	default : fputs ("unknown major tick type;\n", stderr);
 	}
 	switch (minor) {
-	case 0: fputs ("no minor tick;", stderr); break;
-	case 1: fputs ("minor tick inside axis;", stderr); break;
-	case 2: fputs ("minor tick outside axis;", stderr); break;
-	case 3: fputs ("minor tick across axis;", stderr); break;
-	default : fputs ("unknown minor tick type", stderr);
+	case 0: fputs ("no minor tick;\n", stderr); break;
+	case 1: fputs ("minor tick inside axis;\n", stderr); break;
+	case 2: fputs ("minor tick outside axis;\n", stderr); break;
+	case 3: fputs ("minor tick across axis;\n", stderr); break;
+	default : fputs ("unknown minor tick type;\n", stderr);
 	}
 	switch (label) {
-	case 0: fputs ("no tick label;", stderr); break;
-	case 1: fputs ("tick label at low end (NOTE mapped to near axis);", stderr); break;
-	case 2: fputs ("tick label at high end (NOTE mapped to near axis);", stderr); break;
-	case 3: fputs ("tick label near axis;", stderr); break;
-	default : fputs ("unknown tick label position", stderr);
+	case 0: fputs ("no tick label;\n", stderr); break;
+	case 1: fputs ("tick label at low end (NOTE mapped to near axis);\n", stderr); break;
+	case 2: fputs ("tick label at high end (NOTE mapped to near axis);\n", stderr); break;
+	case 3: fputs ("tick label near axis;\n", stderr); break;
+	default : fputs ("unknown tick label position;\n", stderr);
 	}
 
 	/*
@@ -1716,15 +1742,15 @@ BC_R(tick)(XLChartHandler const *handle,
 		fprintf (stderr, "background mode = %d\n", (unsigned)GSF_LE_GET_GUINT8 (q->data+3));
 
 	switch (flags&0x1c) {
-	case 0: fputs ("no rotation;", stderr); break;
-	case 1: fputs ("top to bottom letters upright;", stderr); break;
-	case 2: fputs ("rotate 90deg counter-clockwise;", stderr); break;
-	case 3: fputs ("rotate 90deg clockwise;", stderr); break;
-	default : fputs ("unknown rotation", stderr);
+	case 0: fputs ("no rotation;\n", stderr); break;
+	case 1: fputs ("top to bottom letters upright;\n", stderr); break;
+	case 2: fputs ("rotate 90deg counter-clockwise;\n", stderr); break;
+	case 3: fputs ("rotate 90deg clockwise;\n", stderr); break;
+	default : fputs ("unknown rotation;\n", stderr);
 	}
 
 	if (flags&0x20)
-		fputs ("Auto rotate", stderr);
+		fputs ("Auto rotate;\n", stderr);
 	});
 
 	return FALSE;
@@ -1775,15 +1801,15 @@ BC_R(valuerange)(XLChartHandler const *handle,
 
 	if (flags & 0x20) {
 		g_object_set (s->axis, "log-scale", TRUE, NULL);
-		d (1, fputs ("Log scaled", stderr););
+		d (1, fputs ("Log scaled;\n", stderr););
 	}
 	if (flags & 0x40) {
 		g_object_set (s->axis, "invert-axis", TRUE, NULL);
-		d (1, fputs ("Values in reverse order", stderr););
+		d (1, fputs ("Values in reverse order;\n", stderr););
 	}
 	if (flags & 0x80) {
 		g_object_set (s->axis, "pos_str", "high", NULL);
-		d (1, fputs ("Cross over at max value", stderr););
+		d (1, fputs ("Cross over at max value;\n", stderr););
 	}
 
 	return FALSE;
@@ -1826,13 +1852,6 @@ BC_R(end)(XLChartHandler const *handle,
 
 	switch (popped_state) {
 	case BIFF_CHART_axis :
-		if (s->style != NULL) {
-			g_object_set (G_OBJECT (s->axis),
-				"style", s->style,
-				NULL);
-			g_object_unref (s->style);
-			s->style = NULL;
-		}
 		s->axis = NULL;
 		break;
 
@@ -2149,7 +2168,7 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 	state.axis  = NULL;
 	state.style = NULL;
 
-	d (0, fputs ("{ CHART", stderr););
+	d (0, fputs ("{ /* CHART */\n", stderr););
 
 	while (!done && ms_biff_query_next (q)) {
 		int const lsb = q->opcode & 0xff;
@@ -2181,7 +2200,7 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 			switch (lsb) {
 			case BIFF_EOF:
 				done = TRUE;
-				d (0, fputs ("}; /* CHART */", stderr););
+				d (0, fputs ("}; /* CHART */\n", stderr););
 				g_return_val_if_fail(state.stack->len == 0, TRUE);
 				break;
 
@@ -2209,9 +2228,8 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 				guint16 xf  = GSF_LE_GET_GUINT16 (q->data + 4);
 				guint16 len = GSF_LE_GET_GUINT16 (q->data + 6);
 				char *label = biff_get_text (q->data + 8, len, NULL, ver);
-				d (10, {fputs (label, stderr);
-					fprintf (stderr, "hmm, what are these values for a chart ???\n"
-						"row = %d, col = %d, xf = %d\n", row, col, xf);});
+				d (10, {fprintf (stderr, "'%s'\n;hmm, what are these values for a chart ???\n"
+						"row = %d, col = %d, xf = %d\n", label, row, col, xf);});
 				g_free (label);
 				break;
 			}
