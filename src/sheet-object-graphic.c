@@ -1418,6 +1418,7 @@ typedef struct {
 typedef SheetObjectFilledClass SheetObjectTextClass;
 enum {
 	SOT_PROP_0,
+	SOT_PROP_LABEL,
 	SOT_PROP_MARKUP
 };
 
@@ -1633,6 +1634,9 @@ sheet_object_text_get_property (GObject *obj, guint param_id,
 {
 	SheetObjectText *sot = SHEET_OBJECT_TEXT (obj);
 	switch (param_id) {
+	case SOT_PROP_LABEL :
+		g_value_set_string (value, sot->label);
+		break;
 	case SOT_PROP_MARKUP :
 		g_value_set_boxed (value, sot->markup);
 		break;
@@ -1657,6 +1661,10 @@ sheet_object_text_class_init (GObjectClass *gobject_class)
                  g_param_spec_boxed ("markup", NULL, NULL,
 				     PANGO_TYPE_ATTR_LIST,
 				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+        g_object_class_install_property (gobject_class, SOT_PROP_LABEL,
+                 g_param_spec_string ("label", NULL, NULL,
+				     NULL,
+				     G_PARAM_READABLE));
 
 	so_class->new_view		= sheet_object_text_new_view;
 	so_class->read_xml_dom		= sheet_object_text_read_xml_dom;
