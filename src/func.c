@@ -532,6 +532,17 @@ gnm_func_add_placeholder (char const *name, char const *type,
 	return func;
 }
 
+/* See type GnmParseFunctionHandler */
+GnmExpr const *
+gnm_func_placeholder_factory (const char *name,
+			      GnmExprList *args,
+			      gpointer userdata)
+{
+	GnmFunc *f = gnm_func_add_placeholder (name, "", TRUE);
+	return gnm_expr_new_funcall (f, args);
+}
+
+
 gpointer
 gnm_func_get_user_data (GnmFunc const *func)
 {

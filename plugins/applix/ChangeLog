@@ -1,3 +1,9 @@
+2002-11-26  Morten Welinder  <terra@diku.dk>
+
+	* applix-read.c (ApplixReadState): Add expression conventions.
+	(applix_conventions): New function.
+	(applix_read): Create parsing conventions.
+
 2002-11-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.12

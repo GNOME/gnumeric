@@ -274,7 +274,7 @@ sc_parse_let (Sheet *sheet, const char *cmd, const char *str, int col, int row)
 	tree = gnm_expr_parse_str (str,
 				   parse_pos_init_cell (&pos, cell),
 				   GNM_EXPR_PARSE_DEFAULT,
-				   &sc_rangeref_parse,
+				   gnm_expr_conventions_default, /* FIXME! */
 				   NULL);
 
 	if (!tree) {

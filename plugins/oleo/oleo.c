@@ -186,7 +186,7 @@ oleo_parse_formula (char const *text, Sheet *sheet, int col, int row)
 	gnumeric_text = oleo_get_gnumeric_expr (text, &pos);
 	expr = gnm_expr_parse_str (gnumeric_text,
 				   &pos, GNM_EXPR_PARSE_DEFAULT,
-				   &rangeref_parse, parse_error_init (&error));
+				   gnm_expr_conventions_default, parse_error_init (&error));
 
 	if (error.err != NULL) {
 		g_warning ("%s \"%s\" at %s!%s.",  error.err->message, gnumeric_text,

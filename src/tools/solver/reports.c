@@ -27,7 +27,6 @@
 #include "reports.h"
 
 #include "format.h"
-#include "parse-util.h"
 #include "solver.h"
 #include "func.h"
 #include "cell.h"
@@ -48,7 +47,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <sys/utsname.h>
 #include <string.h>
 
 /* ------------------------------------------------------------------------- */

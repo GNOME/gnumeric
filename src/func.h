@@ -189,8 +189,13 @@ GnmFunc    *gnm_func_add_stub	     (GnmFuncGroup *group,
 				      char const *name,
 				      GnmFuncLoadDesc  load_desc,
 				      GnmFuncRefNotify opt_ref_notify);
-GnmFunc    *gnm_func_add_placeholder (char const *name, char const *type,
+GnmFunc    *gnm_func_add_placeholder (char const *name,
+				      char const *type,
 				      gboolean copy_name);
+GnmExpr const *gnm_func_placeholder_factory (const char *name,
+					     GnmExprList *args,
+					     gpointer userdata);
+
 
 /* TODO */
 void                function_remove     (GnmFuncGroup *group,

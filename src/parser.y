@@ -198,15 +198,13 @@ typedef struct {
 	gunichar array_col_separator;
 
 	/* flags */
-	gboolean use_excel_conventions;
-	gboolean use_applix_conventions;
-	gboolean use_opencalc_conventions;
 	gboolean create_placeholder_for_unknown_func;
 	gboolean force_absolute_col_references;
 	gboolean force_absolute_row_references;
 	gboolean force_explicit_sheet_references;
 	gboolean unknown_names_are_strings;
-	GnmRangeRefParse ref_parser;
+
+	GnmExprConventions *convs;
 
 	GnmExprList *result;
 
@@ -448,9 +446,9 @@ parser_sheet_by_name (Workbook *wb, GnmExpr *name_expr)
 	sheet = workbook_sheet_by_name (wb, name);
 
 	/* Applix has absolute and relative sheet references */
-	if (sheet == NULL &&
-	    !state->use_excel_conventions && *name == '$')
-		sheet = workbook_sheet_by_name (wb, name+1);
+	if (sheet == NULL && *name == '$' &&
+	    state->convs->allow_absolute_sheet_references)
+		sheet = workbook_sheet_by_name (wb, name + 1);
 
 	if (sheet == NULL)
 		/* TODO : length is broken in the context of quoted names or
@@ -619,18 +617,27 @@ function : STRING '(' arg_list ')' {
 		char const *name = $1->constant.value->v_str.val->str;
 		GnmFunc *f = gnm_func_lookup (name, state->pos->wb);
 
-		/* THINK TODO: Do we want to make this workbook-local??  */
-		if (f == NULL && state->create_placeholder_for_unknown_func)
-			f = gnm_func_add_placeholder (name, "", TRUE);
+		$$ = NULL;
+
+		if (f == NULL) {
+			GnmParseFunctionHandler h =
+				state->convs->unknown_function_handler;
+
+			if (h == NULL && state->create_placeholder_for_unknown_func)
+				h = gnm_func_placeholder_factory;
+
+			if (h)
+				$$ = register_expr_allocation (h (name, $3, NULL));
+		}
 
 		/* We're done with the function name.  */
 		unregister_allocation ($1); gnm_expr_unref ($1);
 
-		if (f == NULL) {
-			YYERROR;
-		} else {
+		if (f) {
 			unregister_allocation ($3);
 			$$ = register_expr_allocation (gnm_expr_new_funcall (f, $3));
+		} else if (!$$) {
+			YYERROR;
 		}
 	}
 	;
@@ -828,7 +835,7 @@ yylex (void)
                 state->ptr = g_utf8_next_char (state->ptr);
 		is_space = TRUE;
 	}
-	if (is_space && !state->use_applix_conventions)
+	if (is_space && !state->convs->ignore_whitespace)
 		return ' ';
 
 	start = state->ptr;
@@ -838,135 +845,136 @@ yylex (void)
 	if (c == '(' || c == ')')
 		return c;
 
-	if (state->use_excel_conventions) {
-		if (c == ':')
-			return RANGE_SEP;
-		if (c == '!')
-			return SHEET_SEP;
-	} else if (state->use_opencalc_conventions) {
-		if (c == '&') {
-			if (!strncmp (state->ptr, "amp;", 4)) {
-				state->ptr += 4;
-				return '&';
-			}
-			if (!strncmp (state->ptr, "lt;", 3)) {
-				state->ptr += 3;
-				if (*state->ptr == '='){
-					state->ptr++;
-					return LTE;
-				}
-				if (!strncmp (state->ptr, "&gt;", 4)) {
-					state->ptr += 4;
-					return NE;
-				}
-				return '<';
-			}
-			if (!strncmp (state->ptr, "gt;", 3)) {
-				state->ptr += 3;
-				if (*state->ptr == '='){
-					state->ptr++;
-					return GTE;
-				}
-				return '>';
-			}
-			if (!strncmp (state->ptr, "apos;", 5) ||
-			    !strncmp (state->ptr, "quot;", 5)) {
-				char const *quotes_end;
-				char const *p;
-				char *string, *s;
-				Value *v;
-
-				if (*state->ptr == 'q') {
-					quotes_end = "&quot;";
-					c = '\"';
-				} else {
-					quotes_end = "&apos;";
-					c = '\'';
-				}
-
-				state->ptr += 5;
-				p = state->ptr;
-				double_quote_loop :
-					state->ptr = strstr (state->ptr, quotes_end);
-					if (!*state->ptr) {
-						report_err (state, g_error_new (1, PERR_MISSING_CLOSING_QUOTE,
-							_("Could not find matching closing quote")),
-							p, 1);
-						return INVALID_TOKEN;
-					}
-					if (!strncmp (state->ptr + 6, quotes_end, 6)) {
-						state->ptr += 2 * 6;
-						goto double_quote_loop; 
-					}
-
-				s = string = (char *) g_alloca (1 + state->ptr - p);
-				while (p != state->ptr) {
-					if (*p == '&') {
-						if (!strncmp (p, "&amp;", 5)) {
-							p += 5;
-							*s++ = '&';
-							continue;
-						} else if (!strncmp (p, "&lt;", 4)) {
-							p += 4;
-							*s++ = '<';
-							continue;
-						} else if (!strncmp (p, "&gt;", 4)) {
-							p += 4;
-							*s++ = '>';
-							continue;
-						} else if (!strncmp (p, quotes_end, 6)) {
-							p += 12; /* two in a row is the escape mechanism */
-							*s++ = c;
-							continue;
-						} else if (!strncmp (p, "&quot;", 6)) {
-							p += 6;
-							*s++ = '\"';
-							continue;
-						} else if (!strncmp (p, "&apos;", 6)) {
-							p += 6;
-							*s++ = '\'';
-							continue;
-						}
-					}
-					*s++ = *p++;
-				}
-
-				*s = 0;
-				state->ptr += 6;
-
-				v = value_new_string (string);
-				yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
-				return QUOTED_STRING;
-			}
+	if (c == '&' && state->convs->decode_ampersands) {
+		if (!strncmp (state->ptr, "amp;", 4)) {
+			state->ptr += 4;
+			return '&';
 		}
-	} else {
-		/* Treat '..' as range sep (A1..C3) */
-		if (c == '.' && *state->ptr == '.') {
-			state->ptr++;
-			return RANGE_SEP;
+
+		if (!strncmp (state->ptr, "lt;", 3)) {
+			state->ptr += 3;
+			if (*state->ptr == '='){
+				state->ptr++;
+				return LTE;
+			}
+			if (!strncmp (state->ptr, "&gt;", 4)) {
+				state->ptr += 4;
+				return NE;
+			}
+			return '<';
 		}
-		if (c == ':')
-			return SHEET_SEP;
-		if (c == '#') {
-			if (!strncmp (state->ptr, "NOT#", 4)) {
-				state->ptr += 4;
-				return NOT;
+		if (!strncmp (state->ptr, "gt;", 3)) {
+			state->ptr += 3;
+			if (*state->ptr == '='){
+				state->ptr++;
+				return GTE;
 			}
-			if (!strncmp (state->ptr, "AND#", 4)) {
-				state->ptr += 4;
-				return AND;
+			return '>';
+		}
+		if (!strncmp (state->ptr, "apos;", 5) ||
+		    !strncmp (state->ptr, "quot;", 5)) {
+			char const *quotes_end;
+			char const *p;
+			char *string, *s;
+			Value *v;
+
+			if (*state->ptr == 'q') {
+				quotes_end = "&quot;";
+				c = '\"';
+			} else {
+				quotes_end = "&apos;";
+				c = '\'';
 			}
-			if (!strncmp (state->ptr, "OR#", 3)) {
-				state->ptr += 3;
-				return OR;
+
+			state->ptr += 5;
+			p = state->ptr;
+			double_quote_loop :
+				state->ptr = strstr (state->ptr, quotes_end);
+			if (!*state->ptr) {
+				report_err (state, g_error_new (1, PERR_MISSING_CLOSING_QUOTE,
+								_("Could not find matching closing quote")),
+					    p, 1);
+				return INVALID_TOKEN;
 			}
+			if (!strncmp (state->ptr + 6, quotes_end, 6)) {
+				state->ptr += 2 * 6;
+				goto double_quote_loop; 
+			}
+
+			s = string = (char *) g_alloca (1 + state->ptr - p);
+			while (p != state->ptr) {
+				if (*p == '&') {
+					if (!strncmp (p, "&amp;", 5)) {
+						p += 5;
+						*s++ = '&';
+						continue;
+					} else if (!strncmp (p, "&lt;", 4)) {
+						p += 4;
+						*s++ = '<';
+						continue;
+					} else if (!strncmp (p, "&gt;", 4)) {
+						p += 4;
+						*s++ = '>';
+						continue;
+					} else if (!strncmp (p, quotes_end, 6)) {
+						p += 12; /* two in a row is the escape mechanism */
+						*s++ = c;
+						continue;
+					} else if (!strncmp (p, "&quot;", 6)) {
+						p += 6;
+						*s++ = '\"';
+						continue;
+					} else if (!strncmp (p, "&apos;", 6)) {
+						p += 6;
+						*s++ = '\'';
+						continue;
+					}
+				}
+				*s++ = *p++;
+			}
+
+			*s = 0;
+			state->ptr += 6;
+
+			v = value_new_string (string);
+			yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
+			return QUOTED_STRING;
+		}
+	}
+
+	if (c == ':' && state->convs->range_sep_colon)
+		return RANGE_SEP;
+
+	if (c == '!' && state->convs->sheet_sep_exclamation)
+		return SHEET_SEP;
+
+	if (c == '.' && *state->ptr == '.' && state->convs->range_sep_dotdot) {
+		state->ptr++;
+		return RANGE_SEP;
+	}
+
+	if (c == ':' && state->convs->sheet_sep_colon)
+		return SHEET_SEP;
+
+	if (c == '#' && state->convs->accept_hash_logicals) {
+		if (!strncmp (state->ptr, "NOT#", 4)) {
+			state->ptr += 4;
+			return NOT;
+		}
+		if (!strncmp (state->ptr, "AND#", 4)) {
+			state->ptr += 4;
+			return AND;
+		}
+		if (!strncmp (state->ptr, "OR#", 3)) {
+			state->ptr += 3;
+			return OR;
 		}
 	}
 
 	if (c == state->separator)
 		return SEPARATOR;
 
-	if (start != (end = state->ref_parser (&ref, start, state->pos))) {
+	if (start != (end = state->convs->ref_parser (&ref, start, state->pos))) {
 		state->ptr = end;
 		if (state->force_absolute_col_references) {
 			if (ref.a.col_relative) {
@@ -1136,7 +1144,7 @@ yylex (void)
 
 		while ((tmp = g_utf8_get_char (state->ptr)) != 0 &&
 		       (g_unichar_isalnum (tmp) || tmp == '_' || tmp == '$' ||
-		       (state->use_excel_conventions && tmp == '.')))
+		       (tmp == '.' && state->convs->dots_in_names)))
 			state->ptr = g_utf8_next_char (state->ptr);
 
 		yylval.expr = register_expr_allocation (gnm_expr_new_constant (
@@ -1211,29 +1219,26 @@ yyerror (const char *s)
 GnmExpr const *
 gnm_expr_parse_str (char const *expr_text, ParsePos const *pos,
 		    GnmExprParseFlags flags,
-		    GnmRangeRefParse ref_parser,
+		    GnmExprConventions *convs,
 		    ParseError *error)
 {
 	GnmExpr const *expr;
 	ParserState pstate;
 
 	g_return_val_if_fail (expr_text != NULL, NULL);
-	g_return_val_if_fail (ref_parser != NULL, NULL);
+	g_return_val_if_fail (convs != NULL, NULL);
 
 	pstate.start = pstate.ptr = expr_text;
 	pstate.pos   = pos;
 
-	pstate.use_excel_conventions		   	= !(flags & (GNM_EXPR_PARSE_USE_APPLIX_CONVENTIONS | GNM_EXPR_PARSE_USE_OPENCALC_CONVENTIONS));
-	pstate.use_applix_conventions			= flags & GNM_EXPR_PARSE_USE_APPLIX_CONVENTIONS;
-	pstate.use_opencalc_conventions			= flags & GNM_EXPR_PARSE_USE_OPENCALC_CONVENTIONS;
 	pstate.create_placeholder_for_unknown_func	= flags & GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC;
 	pstate.force_absolute_col_references		= flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_COL_REFERENCES;
 	pstate.force_absolute_row_references		= flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_ROW_REFERENCES;
 	pstate.force_explicit_sheet_references		= flags & GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 	pstate.unknown_names_are_strings		= flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS;
-	pstate.ref_parser				= ref_parser;
+	pstate.convs                                    = convs;
 
-	if (pstate.use_opencalc_conventions) {
+	if (convs->use_locale_C) {
 		pstate.decimal_point	   = '.';
 		pstate.separator 	   = ';';
 		pstate.array_col_separator = ',';

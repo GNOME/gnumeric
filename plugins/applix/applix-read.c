@@ -75,6 +75,8 @@ typedef struct {
 	int zoom;
 	GSList *sheet_order;
 	GSList *std_names, *real_names;
+
+	GnmExprConventions *exprconv;
 } ApplixReadState;
 
 /* #define NO_DEBUG_APPLIX */
@@ -1083,9 +1085,8 @@ applix_read_cells (ApplixReadState *state)
 				} else
 					expr = gnm_expr_parse_str (expr_string+1,
 						parse_pos_init_cell (&pos, cell),
-						GNM_EXPR_PARSE_USE_APPLIX_CONVENTIONS |
 						GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-						&applix_rangeref_parse,
+						state->exprconv,
 						parse_error_init (&perr));
 
 				if (expr == NULL) {
@@ -1452,6 +1453,21 @@ cb_remove_style (gpointer key, gpointer value, gpointer user_data)
 	return TRUE;
 }
 
+static GnmExprConventions *
+applix_conventions (void)
+{
+	GnmExprConventions *res = gnm_expr_conventions_new ();
+
+	res->ignore_whitespace = TRUE;
+	res->accept_hash_logicals = TRUE;
+	res->allow_absolute_sheet_references = TRUE;
+	res->range_sep_dotdot = TRUE;
+	res->unknown_function_handler = gnm_func_placeholder_factory;
+	res->ref_parser = applix_rangeref_parse;
+
+	return res;
+}
+
 void
 applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 {
@@ -1476,6 +1492,7 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	state.sheet_order = NULL;
 	state.std_names   = NULL;
 	state.real_names  = NULL;
+	state.exprconv    = applix_conventions ();
 
 	/* Actually read the workbook */
 	res = applix_read_impl (&state);
@@ -1523,4 +1540,6 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 
 	if (state.parse_error != NULL)
 		gnumeric_io_error_info_set (io_context, state.parse_error);
+
+	gnm_expr_conventions_free (state.exprconv);
 }

@@ -1,3 +1,23 @@
+2002-11-26  Morten Welinder  <terra@diku.dk>
+
+	* src/parser.y (gnm_expr_parse_str): Take GnmExprConventions, not
+	a ref_parser.  All callers changed.
+	(yylex): Flatten structure and use GnmExprConventions options.
+
+	* src/parse-util.h (struct _GnmExprConventions): New structure for
+	parsing info.
+	(GnmExprParseFlags): Prune lots of flags.
+
+	* src/parse-util.c (parse_util_init, parse_util_shutdown,
+	gnm_expr_conventions_new, gnm_expr_conventions_free): New
+	functions.
+	(gnm_expr_parse_str_simple): New function (was macro).
+
+	* src/libgnumeric.c (gnm_shutdown): Shut down parse_util.
+	(gnm_common_init): Init parse_util.
+
+	* src/func.c (gnm_func_placeholder_factory): New function.
+
 2002-11-25  Jody Goldberg <jody@gnome.org>
 
 	* src/parse-util.c (rangeref_parse) : init sheet_b in the case where

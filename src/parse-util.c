@@ -658,7 +658,9 @@ parse_text_value_or_expr (ParsePos const *pos, char const *text,
 	expr_start = gnm_expr_char_start_p (text);
 	if (NULL != expr_start && *expr_start) {
 		*expr = gnm_expr_parse_str (expr_start, pos,
-			GNM_EXPR_PARSE_DEFAULT, &rangeref_parse, NULL);
+					    GNM_EXPR_PARSE_DEFAULT,
+					    gnm_expr_conventions_default,
+					    NULL);
 		if (*expr != NULL)
 			return;
 	}
@@ -960,3 +962,61 @@ gnm_1_0_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 		res->b.row -= pp->eval.row;
 	return tmp2;
 }
+
+/* ------------------------------------------------------------------------- */
+
+GnmExprConventions *
+gnm_expr_conventions_new (void)
+{
+	GnmExprConventions *res = g_new0 (GnmExprConventions, 1);
+	return res;
+}
+
+void
+gnm_expr_conventions_free (GnmExprConventions *c)
+{
+	if (c->function_rewriter_hash)
+		g_hash_table_destroy (c->function_rewriter_hash);
+
+	g_free (c);
+}
+
+/* ------------------------------------------------------------------------- */
+
+GnmExprConventions *gnm_expr_conventions_default;
+GnmExprConventions *gnm_expr_conventions_default_1_0;
+
+void
+parse_util_init (void)
+{
+	gnm_expr_conventions_default = gnm_expr_conventions_new ();
+	gnm_expr_conventions_default->ref_parser = rangeref_parse;
+	gnm_expr_conventions_default->range_sep_colon = TRUE;
+	gnm_expr_conventions_default->sheet_sep_exclamation = TRUE;	
+	gnm_expr_conventions_default->dots_in_names = TRUE;	
+
+	gnm_expr_conventions_default_1_0 = gnm_expr_conventions_new ();
+	gnm_expr_conventions_default_1_0->ref_parser = gnm_1_0_rangeref_parse;
+	gnm_expr_conventions_default_1_0->range_sep_colon = TRUE;
+	gnm_expr_conventions_default_1_0->sheet_sep_exclamation = TRUE;	
+	gnm_expr_conventions_default_1_0->dots_in_names = TRUE;	
+}
+
+void
+parse_util_shutdown (void)
+{
+	gnm_expr_conventions_free (gnm_expr_conventions_default);
+	gnm_expr_conventions_default = NULL;
+
+	gnm_expr_conventions_free (gnm_expr_conventions_default_1_0);
+	gnm_expr_conventions_default_1_0 = NULL;
+}
+
+GnmExpr const *
+gnm_expr_parse_str_simple (char const *expr, ParsePos const *pp)
+{
+	return gnm_expr_parse_str (expr, pp, GNM_EXPR_PARSE_DEFAULT,
+				   gnm_expr_conventions_default, NULL);
+}
+
+/* ------------------------------------------------------------------------- */

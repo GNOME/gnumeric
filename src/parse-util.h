@@ -67,26 +67,88 @@ void        parse_error_free (ParseError *pe);
 
 typedef enum {
 	GNM_EXPR_PARSE_DEFAULT = 0, /* default is Excel */
-	GNM_EXPR_PARSE_USE_APPLIX_CONVENTIONS	   	   = 1 << 0,
-	GNM_EXPR_PARSE_USE_OPENCALC_CONVENTIONS		   = 1 << 1,
-	GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC = 1 << 2,
-	GNM_EXPR_PARSE_FORCE_ABSOLUTE_COL_REFERENCES	   = 1 << 3,
-	GNM_EXPR_PARSE_FORCE_ABSOLUTE_ROW_REFERENCES	   = 1 << 4,
-	GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES	   = 1 << 5,
-	GNM_EXPR_PARSE_PERMIT_MULTIPLE_EXPRESSIONS	   = 1 << 6,
-	GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS	   = 1 << 7
+	GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC = 1 << 0,
+	GNM_EXPR_PARSE_FORCE_ABSOLUTE_COL_REFERENCES	   = 1 << 1,
+	GNM_EXPR_PARSE_FORCE_ABSOLUTE_ROW_REFERENCES	   = 1 << 2,
+	GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES	   = 1 << 3,
+	GNM_EXPR_PARSE_PERMIT_MULTIPLE_EXPRESSIONS	   = 1 << 4,
+	GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS	   = 1 << 5
 } GnmExprParseFlags;
 
 typedef char const *(*GnmRangeRefParse) (RangeRef *res, char const *in,
 					 ParsePos const *pp);
 					 /* GError **err); */
 
-#define gnm_expr_parse_str_simple(expr_text, pp) \
-	gnm_expr_parse_str (expr_text, pp, GNM_EXPR_PARSE_DEFAULT, &rangeref_parse, NULL)
+/*
+ * On success, this functions should return a non-NULL value and
+ * absorb the args, including the list.
+ */
+typedef GnmExpr const *(*GnmParseFunctionHandler) (const char *name,
+						   GnmExprList *args,
+						   gpointer userdata);
+
+struct _GnmExprConventions {
+#if 0
+	/* Not yet.  */
+	gboolean force_absolute_col_references;
+	gboolean force_absolute_row_references;
+	gboolean force_explicit_sheet_references;
+#endif
+
+	/* What characters are range separators?  */
+	gboolean range_sep_colon;  /* A1:B2 */
+	gboolean range_sep_dotdot; /* A1..B2 */
+
+	/* What characters are sheet separators?  */
+	gboolean sheet_sep_exclamation;  /* Sheet!... */
+	gboolean sheet_sep_colon; /* Sheet:... */
+
+	/* Is ERROR.TYPE allowed?  */
+	gboolean dots_in_names;
+
+	/* Formerly USE_APPLIX_CONVENTIONS.  */
+	gboolean ignore_whitespace;
+
+	/* Formerly more or less part of USE_APPLIX_CONVENTIONS.  */
+	gboolean allow_absolute_sheet_references;
+
+	/* Formerly part of USE_OPENCALC_CONVENTIONS.  */
+	gboolean decode_ampersands;
+
+	/* Formerly part of USE_OPENCALC_CONVENTIONS.  */
+	gboolean use_locale_C;
+
+	/* Accept prefix #NOT# and infixs #AND# and #OR#.  */
+	gboolean accept_hash_logicals;
+
+	/* Called a lot for anything that might be a reference.  */
+	GnmRangeRefParse ref_parser;
+
+	/*
+	 * Optional name->GnmParseFunctionHandler hash.  When a name is
+	 * present in this hash, unknown_function_handler will not be
+	 * called even if the name is unknown.
+	 */
+	GHashTable *function_rewriter_hash;
+
+	/* Called for unknown functions if non-NULL.  */
+	GnmParseFunctionHandler unknown_function_handler;
+};
+
+GnmExprConventions *gnm_expr_conventions_new (void);
+void gnm_expr_conventions_free (GnmExprConventions *c);
+
+extern GnmExprConventions *gnm_expr_conventions_default;
+extern GnmExprConventions *gnm_expr_conventions_default_1_0;
+void parse_util_init (void);
+void parse_util_shutdown (void);
+
 GnmExpr const *gnm_expr_parse_str (char const *expr, ParsePos const *pp,
 				   GnmExprParseFlags flags,
-				   GnmRangeRefParse ref_parser,
+				   GnmExprConventions *conv,
 				   ParseError *error);
+
+GnmExpr const *gnm_expr_parse_str_simple (char const *expr, ParsePos const *pp);
 
 /* Is this string potentially the start of an expression */
 char const *gnm_expr_char_start_p (char const *c);

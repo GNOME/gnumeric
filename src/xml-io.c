@@ -755,7 +755,7 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 		parse_error_init (&perr);
 		expr = gnm_expr_parse_str (expr_str, &pp,
 			GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-			gnm_1_0_rangeref_parse, &perr);
+			gnm_expr_conventions_default_1_0, &perr);
 		if (exp != NULL) {
 			char *err = NULL;
 			expr_name_add (&pp, (char const *)name_str, expr, &err, TRUE);
@@ -1466,7 +1466,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 				if (content != NULL) {
 					expr0 = gnm_expr_parse_str (content, &pp,
 							GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-							&gnm_1_0_rangeref_parse, NULL);
+							gnm_expr_conventions_default_1_0, NULL);
 					xmlFree (content);
 				}
 			}
@@ -1476,7 +1476,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 				if (content != NULL) {
 					expr1 = gnm_expr_parse_str (content, &pp,
 							GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-							&gnm_1_0_rangeref_parse, NULL);
+							gnm_expr_conventions_default_1_0, NULL);
 					xmlFree (content);
 				}
 			}
@@ -1723,7 +1723,7 @@ xml_cell_set_array_expr (Cell *cell, char const *text,
 	GnmExpr const *expr = gnm_expr_parse_str (text,
 		parse_pos_init_cell (&pp, cell),
 		GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-		&gnm_1_0_rangeref_parse, NULL);
+		gnm_expr_conventions_default_1_0, NULL);
 
 	g_return_if_fail (expr != NULL);
 	cell_set_array_formula (cell->base.sheet,
@@ -1938,7 +1938,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 					expr = gnm_expr_parse_str (expr_start,
 						parse_pos_init_cell (&pos, cell),
 						GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-						&gnm_1_0_rangeref_parse, NULL);
+						gnm_expr_conventions_default_1_0, NULL);
 				if (expr != NULL) {
 					cell_set_expr (cell, expr);
 					gnm_expr_unref (expr);
@@ -2743,7 +2743,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 
 			expr = gnm_expr_parse_str ((char const *)content, &pp,
 				GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-				&gnm_1_0_rangeref_parse, NULL);
+				gnm_expr_conventions_default_1_0, NULL);
 
 			g_return_if_fail (expr != NULL);
 #warning TODO : arrays

@@ -36,6 +36,7 @@
 #include "cell.h"
 #include "value.h"
 #include "expr.h"
+#include "parse-util.h"
 #include "rendered-value.h"
 #include "gnumeric-gconf.h"
 
@@ -109,6 +110,7 @@ gnm_common_init (void)
 	g_object_new (GNUMERIC_APPLICATION_TYPE, NULL);
 	gnm_conf_init ();
 	value_init ();
+	parse_util_init ();
 	expr_init ();
 	cell_init ();
 	dependent_types_init ();
@@ -169,6 +171,7 @@ gnm_shutdown (void)
 	dependent_types_shutdown ();
 	cell_shutdown ();
 	expr_shutdown ();
+	parse_util_shutdown ();
 	value_shutdown ();
 
 	global_gnome_font_shutdown ();

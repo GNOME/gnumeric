@@ -69,6 +69,8 @@ typedef struct {
 	MStyle		*style;
 	MStyle		*col_default_styles[SHEET_MAX_COLS];
 	GSList		*sheet_order;
+
+	GnmExprConventions *exprconv;
 } OOParseState;
 
 static void oo_warning (OOParseState *state, char const *fmt, ...)
@@ -212,11 +214,11 @@ oo_attr_enum (OOParseState *state, xmlChar const * const *attrs,
 	return FALSE;
 }
 
+#warning "FIXME: expand this later."
 #define oo_expr_parse_str(str, pp, flags, err)				\
 	gnm_expr_parse_str (str, pp,					\
-		GNM_EXPR_PARSE_USE_OPENCALC_CONVENTIONS |		\
 		GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC |	\
-		flags, &oo_rangeref_parse, err)
+		flags, state->exprconv, err)
 
 /****************************************************************************/
 
@@ -818,6 +820,20 @@ GSF_XML_SAX_NODE (START, OFFICE, "office:document-settings", FALSE, NULL, NULL, 
 
 /****************************************************************************/
 
+static GnmExprConventions *
+oo_conventions (void)
+{
+	GnmExprConventions *res = gnm_expr_conventions_new ();
+
+	res->decode_ampersands = TRUE;
+	res->use_locale_C = TRUE;
+	res->unknown_function_handler = gnm_func_placeholder_factory;
+	res->ref_parser = oo_rangeref_parse;
+
+	return res;
+}
+
+
 void
 openoffice_file_open (GnumFileOpener const *fo, IOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input);
@@ -866,6 +882,7 @@ openoffice_file_open (GnumFileOpener const *fo, IOContext *io_context,
 		(GDestroyNotify) style_format_unref);
 	state.style 	  = NULL;
 	state.sheet_order = NULL;
+	state.exprconv = oo_conventions ();
 
 	state.base.root = opencalc_dtd;
 	if (gsf_xmlSAX_parse (content, &state.base)) {
@@ -894,4 +911,6 @@ openoffice_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	i = workbook_sheet_count (state.pos.wb);
 	while (i-- > 0)
 		sheet_flag_recompute_spans (workbook_sheet_by_index (state.pos.wb, i));
+
+	gnm_expr_conventions_free (state.exprconv);
 }

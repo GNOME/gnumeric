@@ -27,7 +27,6 @@
 #include "gnumeric.h"
 #include "numbers.h"
 
-#include "parse-util.h"
 #include "solver.h"
 #include "func.h"
 #include "cell.h"

@@ -47,7 +47,7 @@ Pending Patches
     6.7) non-ole import (Nick Lamb is working on this)		(DONE)
 
 7) Expr Parser
-    7.1) Move the host of flags into an GnmExprConventions
+    7.1) Move the host of flags into an GnmExprConventions      (DONE)
     7.2) Use conventions obj to generate strings too
     7.3) extend gnm_expr_as_string to handle 1.0 vs 1.1 style rangerefs
 

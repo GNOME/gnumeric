@@ -31,6 +31,7 @@ Morten:
 	* Make autofill UTF-8 safe and fix a bug with negative numbers.
 	* Fix FV problem with rate==0.
 	* Fix DAYS360 incompatibility (with XL).
+	* Improve parsing infra-structure.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.12
