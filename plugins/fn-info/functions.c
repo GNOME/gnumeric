@@ -1843,7 +1843,7 @@ const GnmFuncDescriptor info_functions[] = {
 	{ "iseven",	"f", N_("value"), &help_iseven,
 	  gnumeric_iseven, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "islogical",	"f", N_("value"), &help_islogical,
+	{ "islogical",	"E", N_("value"), &help_islogical,
 	  gnumeric_islogical, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "isna",	"E",   N_("value"), &help_isna,
