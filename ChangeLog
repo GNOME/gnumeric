@@ -1,5 +1,20 @@
 2001-02-16  Jody Goldberg <jgoldberg@home.com>
 
+	* src/dialogs/dialog-cell-format.c (fmt_dialog_init_align_page) :
+	  begin support for indenting.
+	* src/workbook-format-toolbar.c : ditto.
+
+2001-02-16  Jody Goldberg <jgoldberg@home.com>
+
+	* configure.in : post release version bump
+
+2001-02-15  Jody Goldberg <jgoldberg@home.com>
+
+	* s/fit_in_cell/wrap_text/
+	rename this in preparation for supporting shrink_to_fit
+
+2001-02-16  Jody Goldberg <jgoldberg@home.com>
+
 	* Release 0.62
 
 2001-02-16  Jody Goldberg <jgoldberg@home.com>

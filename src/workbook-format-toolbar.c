@@ -374,6 +374,16 @@ workbook_cmd_format_remove_decimals (GtkWidget *ignore, WorkbookControlGUI *wbcg
 	do_modify_format (wbcg, &format_remove_decimal);
 }
 
+static void
+workbook_cmd_format_inc_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+{
+}
+
+static void
+workbook_cmd_format_dec_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
+{
+}
+
 #ifndef ENABLE_BONOBO
 static GnomeUIInfo workbook_format_toolbar [] = {
 	/* Placeholder: font selector */
@@ -428,6 +438,7 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Split"), N_("Split merged ranges of cells"),
 		&cb_unmerge_cells, "Gnumeric_SplitCells"),
+
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (
@@ -445,6 +456,15 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Remove decimals"), N_("Decreases the number of decimals displayed"),
 		workbook_cmd_format_remove_decimals, "Gnumeric_FormatRemovePrecision"),
+
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Increase Indent"), N_("Aligns the contents to the left and increases the indent"),
+		workbook_cmd_format_inc_indent, GNOME_STOCK_PIXMAP_TEXT_INDENT),
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Decrease Indent"), N_("Aligns the contents to the left and decreases the indent"),
+		workbook_cmd_format_dec_indent, GNOME_STOCK_PIXMAP_TEXT_UNINDENT),
 
 	GNOMEUIINFO_END
 };
@@ -465,6 +485,8 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("FormatWithThousands",	  &workbook_cmd_format_add_thousands),
 	BONOBO_UI_UNSAFE_VERB ("FormatIncreasePrecision", &workbook_cmd_format_add_decimals),
 	BONOBO_UI_UNSAFE_VERB ("FormatDecreasePrecision", &workbook_cmd_format_remove_decimals),
+	BONOBO_UI_UNSAFE_VERB ("FormatIncreaseIndent",	  &workbook_cmd_format_inc_indent),
+	BONOBO_UI_UNSAFE_VERB ("FormatDecreaseIndent",	  &workbook_cmd_format_dec_indent),
 	BONOBO_UI_VERB_END
 };
 #endif

@@ -1,3 +1,10 @@
+Gnumeric 0.63
+
+Jody:
+	* Fix parenthesis for XL export.
+	* Enable right/left indent.
+
+--------------------------------------------------------------------------
 Gnumeric 0.62
 
 Chema:

@@ -428,7 +428,7 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 
 	halign = cell_default_halign (cell, mstyle);
 	if (halign != HALIGN_JUSTIFY && valign != VALIGN_JUSTIFY &&
-	    !mstyle_get_fit_in_cell (mstyle)) {
+	    !mstyle_get_wrap_text (mstyle)) {
 		double x, total, len = cell_width_pts;
 
 		switch (halign) {

@@ -229,7 +229,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	     align != HALIGN_CENTER_ACROSS_SELECTION) ||
 	    align == HALIGN_JUSTIFY ||
 	    align == HALIGN_FILL ||
-	    mstyle_get_fit_in_cell (mstyle) ||
+	    mstyle_get_wrap_text (mstyle) ||
 	    mstyle_get_align_v (mstyle) == VALIGN_JUSTIFY) {
 		*col1 = *col2 = cell->pos.col;
 		return;

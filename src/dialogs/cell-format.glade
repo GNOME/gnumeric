@@ -822,8 +822,7 @@
 
 	      <widget>
 		<class>GtkLabel</class>
-		<name>label50</name>
-		<sensitive>False</sensitive>
+		<name>halign_indent_label</name>
 		<label>_Indent</label>
 		<justify>GTK_JUSTIFY_RIGHT</justify>
 		<wrap>False</wrap>
@@ -842,7 +841,7 @@
 		<class>GtkAlignment</class>
 		<name>alignment49</name>
 		<sensitive>False</sensitive>
-		<xalign>7.45058e-09</xalign>
+		<xalign>0</xalign>
 		<yalign>0.5</yalign>
 		<xscale>0.0400004</xscale>
 		<yscale>0</yscale>
@@ -858,11 +857,11 @@
 		  <can_focus>True</can_focus>
 		  <climb_rate>1</climb_rate>
 		  <digits>0</digits>
-		  <numeric>False</numeric>
-		  <update_policy>GTK_UPDATE_ALWAYS</update_policy>
+		  <numeric>True</numeric>
+		  <update_policy>GTK_UPDATE_IF_VALID</update_policy>
 		  <snap>False</snap>
 		  <wrap>False</wrap>
-		  <value>1</value>
+		  <value>0</value>
 		  <lower>0</lower>
 		  <upper>20</upper>
 		  <step>1</step>
@@ -1025,7 +1024,6 @@
 		  <fill>False</fill>
 		</child>
 	      </widget>
-
 	    </widget>
 	  </widget>
 	</widget>

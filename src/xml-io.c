@@ -734,8 +734,8 @@ xml_write_style (XmlParseContext *ctxt,
 		xml_set_value_int (cur, "HAlign", mstyle_get_align_h (style));
 	if (mstyle_is_element_set (style, MSTYLE_ALIGN_V))
 		xml_set_value_int (cur, "VAlign", mstyle_get_align_v (style));
-	if (mstyle_is_element_set (style, MSTYLE_FIT_IN_CELL))
-		xml_set_value_int (cur, "Fit", mstyle_get_fit_in_cell (style));
+	if (mstyle_is_element_set (style, MSTYLE_WRAP_TEXT))
+		xml_set_value_int (cur, "WrapText", mstyle_get_wrap_text (style));
 	if (mstyle_is_element_set (style, MSTYLE_ORIENTATION))
 		xml_set_value_int (cur, "Orient", mstyle_get_orientation (style));
 	if (mstyle_is_element_set (style, MSTYLE_PATTERN))
@@ -1491,8 +1491,11 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (xml_get_value_int (tree, "HAlign", &val))
 		mstyle_set_align_h (mstyle, val);
 
-	if (xml_get_value_int (tree, "Fit", &val))
-		mstyle_set_fit_in_cell (mstyle, val);
+	if (ctxt->version >= GNUM_XML_V6) {
+		if (xml_get_value_int (tree, "WrapText", &val))
+			mstyle_set_wrap_text (mstyle, val);
+	} else if (xml_get_value_int (tree, "Fit", &val))
+		mstyle_set_wrap_text (mstyle, val);
 
 	if (xml_get_value_int (tree, "VAlign", &val))
 		mstyle_set_align_v (mstyle, val);

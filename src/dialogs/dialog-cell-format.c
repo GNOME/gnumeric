@@ -113,6 +113,9 @@ typedef struct _FormatState
 	} format;
 	struct {
 		GtkCheckButton	*wrap;
+		GtkSpinButton	*indent_button;
+		GtkWidget	*indent_label;
+		int		 indent;
 	} align;
 	struct {
 		FontSelector	*selector;
@@ -1009,16 +1012,27 @@ fmt_dialog_init_format_page (FormatState *state)
 /*****************************************************************************/
 
 static void
+cb_indent_changed (GtkEditable *editable, FormatState *state)
+{
+}
+
+static void
 cb_align_h_toggle (GtkToggleButton *button, FormatState *state)
 {
 	if (!gtk_toggle_button_get_active (button))
 		return;
 
 	if (state->enable_edit) {
-		mstyle_set_align_h (
-			state->result,
+		StyleHAlignFlags const new_h =
 			GPOINTER_TO_INT (gtk_object_get_data (
-			GTK_OBJECT (button), "align")));
+				GTK_OBJECT (button), "align"));
+		gboolean const supports_indent =
+			(new_h == HALIGN_LEFT || new_h == HALIGN_RIGHT);
+		mstyle_set_align_h (state->result, new_h);
+		gtk_widget_set_sensitive (GTK_WIDGET (state->align.indent_button),
+					  supports_indent);
+		gtk_widget_set_sensitive (GTK_WIDGET (state->align.indent_label),
+					  supports_indent);
 		fmt_dialog_changed (state);
 	}
 }
@@ -1042,8 +1056,8 @@ static void
 cb_align_wrap_toggle (GtkToggleButton *button, FormatState *state)
 {
 	if (state->enable_edit) {
-		mstyle_set_fit_in_cell (state->result,
-					gtk_toggle_button_get_active (button));
+		mstyle_set_wrap_text (state->result,
+				      gtk_toggle_button_get_active (button));
 		fmt_dialog_changed (state);
 	}
 }
@@ -1093,6 +1107,7 @@ fmt_dialog_init_align_page (FormatState *state)
 	    { NULL }
 	};
 
+	GtkWidget *w;
 	gboolean wrap = FALSE;
 	StyleHAlignFlags    h = HALIGN_GENERAL;
 	StyleVAlignFlags    v = VALIGN_CENTER;
@@ -1117,16 +1132,42 @@ fmt_dialog_init_align_page (FormatState *state)
 					     GTK_SIGNAL_FUNC (cb_align_v_toggle));
 
 	/* Setup the wrap button, and assign the current value */
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_FIT_IN_CELL))
-		wrap = mstyle_get_fit_in_cell (state->style);
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_WRAP_TEXT))
+		wrap = mstyle_get_wrap_text (state->style);
 
-	state->align.wrap =
-	    GTK_CHECK_BUTTON (glade_xml_get_widget (state->gui, "align_wrap"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->align.wrap),
-				      wrap);
-	gtk_signal_connect (GTK_OBJECT (state->align.wrap), "toggled",
+	w = glade_xml_get_widget (state->gui, "align_wrap");
+	state->align.wrap = GTK_CHECK_BUTTON (w);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), wrap);
+	gtk_signal_connect (GTK_OBJECT (w), "toggled",
 			    GTK_SIGNAL_FUNC (cb_align_wrap_toggle),
 			    state);
+
+	if (mstyle_is_element_conflict (state->style, MSTYLE_ALIGN_V) &&
+	    (h != HALIGN_LEFT && h != HALIGN_RIGHT))
+		state->align.indent = 0;
+	else
+		state->align.indent = mstyle_get_indent (state->style);
+
+	state->align.indent_label =
+		glade_xml_get_widget (state->gui, "halign_indent_label");
+	w = glade_xml_get_widget (state->gui, "halign_indent");
+	state->align.indent_button = GTK_SPIN_BUTTON (w);
+	gtk_spin_button_set_value (state->align.indent_button, state->align.indent);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->align.indent_button),
+				  (h == HALIGN_LEFT || h == HALIGN_RIGHT));
+	gtk_widget_set_sensitive (GTK_WIDGET (state->align.indent_label),
+				  (h == HALIGN_LEFT || h == HALIGN_RIGHT));
+
+	/* Catch changes to the spin box */
+	(void) gtk_signal_connect (
+		GTK_OBJECT (w),
+		"changed", GTK_SIGNAL_FUNC (cb_indent_changed),
+		state);
+
+	/* Catch <return> in the spin box */
+	gnome_dialog_editable_enters (
+		GNOME_DIALOG (state->dialog),
+		GTK_EDITABLE (w));
 }
 
 /*****************************************************************************/

@@ -89,7 +89,7 @@ struct _MStyle {
 #define MSTYLE_ANY_BOOLEAN           MSTYLE_FONT_BOLD: \
 				case MSTYLE_FONT_ITALIC: \
 				case MSTYLE_FONT_STRIKETHROUGH: \
-				case MSTYLE_FIT_IN_CELL
+				case MSTYLE_WRAP_TEXT
 
 #define MSTYLE_ANY_GUINT16           MSTYLE_ALIGN_V: \
                                 case MSTYLE_ALIGN_H
@@ -341,7 +341,7 @@ mstyle_element_equal (const MStyleElement a,
 		if (a.u.orientation == b.u.orientation)
 			return TRUE;
 		break;
-	case MSTYLE_FIT_IN_CELL:
+	case MSTYLE_WRAP_TEXT:
 		if (a.u.fit_in_cell == b.u.fit_in_cell)
 			return TRUE;
 		break;
@@ -567,7 +567,7 @@ mstyle_new_default (void)
 	mstyle_set_align_h     (mstyle, HALIGN_GENERAL);
 	mstyle_set_indent      (mstyle, 0);
 	mstyle_set_orientation (mstyle, ORIENT_HORIZ);
-	mstyle_set_fit_in_cell (mstyle, FALSE);
+	mstyle_set_wrap_text   (mstyle, FALSE);
 	mstyle_set_font_name   (mstyle, DEFAULT_FONT);
 	mstyle_set_font_bold   (mstyle, FALSE);
 	mstyle_set_font_italic (mstyle, FALSE);
@@ -1149,20 +1149,20 @@ mstyle_get_orientation (const MStyle *style)
 }
 
 void
-mstyle_set_fit_in_cell (MStyle *style, gboolean f)
+mstyle_set_wrap_text (MStyle *style, gboolean f)
 {
 	g_return_if_fail (style != NULL);
 
-	style->elements[MSTYLE_FIT_IN_CELL].type = MSTYLE_FIT_IN_CELL;
-	style->elements[MSTYLE_FIT_IN_CELL].u.fit_in_cell = f;
+	style->elements[MSTYLE_WRAP_TEXT].type = MSTYLE_WRAP_TEXT;
+	style->elements[MSTYLE_WRAP_TEXT].u.fit_in_cell = f;
 }
 
 gboolean
-mstyle_get_fit_in_cell (const MStyle *style)
+mstyle_get_wrap_text (const MStyle *style)
 {
-	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FIT_IN_CELL), FALSE);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_WRAP_TEXT), FALSE);
 
-	return style->elements[MSTYLE_FIT_IN_CELL].u.fit_in_cell;
+	return style->elements [MSTYLE_WRAP_TEXT].u.fit_in_cell;
 }
 
 gboolean

@@ -1,5 +1,13 @@
 2001-02-16  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-formula-write.c (write_node) : Use some code from expr.c
+	  to simplify binary/unary output and to add parens when necessary.
+
+	* ms-excel-write.c (write_formula) : Start at paren level 0.
+	(write_names) : ditto.
+
+2001-02-16  Jody Goldberg <jgoldberg@home.com>
+
 	* Release 0.62
 
 2001-02-15  Jody Goldberg <jgoldberg@home.com>

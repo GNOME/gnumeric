@@ -527,7 +527,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 						sep +=3;
 						break;
 					}
-					mstyle_set_fit_in_cell (style, TRUE);
+					mstyle_set_wrap_text (style, TRUE);
 					sep +=2;
 					break;
 				}

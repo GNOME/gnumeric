@@ -39,7 +39,7 @@ extern int ms_excel_formula_debug;
 typedef struct _PolishData PolishData;
 typedef struct _FormulaCacheEntry FormulaCacheEntry;
 
-static void write_node (PolishData *pd, ExprTree *tree);
+static void write_node (PolishData *pd, ExprTree *tree, int paren_level);
 
 /* FIXME: Leaks like a leaky bucket */
 
@@ -154,7 +154,7 @@ get_formula_index (ExcelSheet *sheet, const gchar *name)
  * and builds a database of things to write out later.
  **/
 void
-ms_formula_build_pre_data (ExcelSheet *sheet, ExprTree *tree)
+ms_formula_build_pre_data (ExcelSheet *sheet, ExprTree const *tree)
 {
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (sheet != NULL);
@@ -479,7 +479,7 @@ write_funcall (PolishData *pd, FormulaCacheEntry *fce, ExprTree *tree)
 	}
 
 	while (args) {
-		write_node (pd, args->data);
+		write_node (pd, args->data, 0);
 		args = g_list_next (args);
 		num_args++;
 	}
@@ -510,72 +510,53 @@ write_funcall (PolishData *pd, FormulaCacheEntry *fce, ExprTree *tree)
  * Recursion is just so fun.
  **/
 static void
-write_node (PolishData *pd, ExprTree *tree)
+write_node (PolishData *pd, ExprTree *tree, int paren_level)
 {
+	static const struct {
+		guint8 xl_op;
+		int prec;	              /* Precedences -- should match parser.y  */
+		int assoc_left, assoc_right;  /* 0: no, 1: yes.  */
+	} operations [] = {
+		{ FORMULA_PTG_EQUAL,	 1, 1, 0 },
+		{ FORMULA_PTG_GT,	 1, 1, 0 },
+		{ FORMULA_PTG_LT,	 1, 1, 0 },
+		{ FORMULA_PTG_GTE,	 1, 1, 0 },
+		{ FORMULA_PTG_LTE,	 1, 1, 0 },
+		{ FORMULA_PTG_NOT_EQUAL, 1, 1, 0 },
+		{ FORMULA_PTG_ADD,	 3, 1, 0 },
+		{ FORMULA_PTG_SUB,	 3, 1, 0 },
+		{ FORMULA_PTG_MULT,	 4, 1, 0 },
+		{ FORMULA_PTG_DIV,	 4, 1, 0 },
+		{ FORMULA_PTG_EXP,	 6, 0, 1 },
+		{ FORMULA_PTG_CONCAT,	 2, 1, 0 },
+		{ 0, 0, 0, 0 }, /* Funcall  */
+		{ 0, 0, 0, 0 }, /* Name     */
+		{ 0, 0, 0, 0 }, /* Constant */
+		{ 0, 0, 0, 0 }, /* Var      */
+		{ FORMULA_PTG_U_PLUS,	 5, 0, 0 }, /* Unary - */
+		{ FORMULA_PTG_U_MINUS,	 5, 0, 0 }, /* Unary + */
+		{ FORMULA_PTG_PERCENT,	 5, 0, 0 }, /* Percentage (NOT MODULO) */
+		{ 0, 0, 0, 0 }  /* Array    */
+	};
+	int op;
 	g_return_if_fail (pd);
 	g_return_if_fail (tree);
 
-	switch (tree->any.oper) {
-	case OPER_EQUAL:
-		write_node  (pd, tree->binary.value_a);
-		write_node  (pd, tree->binary.value_b);
-		push_guint8 (pd, FORMULA_PTG_EQUAL);
+	op = tree->any.oper;
+	switch (op) {
+	case OPER_ANY_BINARY: {
+		int const prec = operations[op].prec;
+
+		write_node  (pd, tree->binary.value_a,
+			     prec - operations[op].assoc_left);
+		write_node  (pd, tree->binary.value_b,
+			     prec - operations[op].assoc_right);
+		push_guint8 (pd, operations[op].xl_op);
+		if (prec <= paren_level)
+			push_guint8 (pd, FORMULA_PTG_PAREN);
 		break;
-	case OPER_GT:
-		write_node  (pd, tree->binary.value_a);
-		write_node  (pd, tree->binary.value_b);
-		push_guint8 (pd, FORMULA_PTG_GT);
-		break;
-	case OPER_LT:
-		write_node  (pd, tree->binary.value_a);
-		write_node  (pd, tree->binary.value_b);
-		push_guint8 (pd, FORMULA_PTG_LT);
-		break;
-	case OPER_GTE:
-		write_node  (pd, tree->binary.value_a);
-		write_node  (pd, tree->binary.value_b);
-		push_guint8 (pd, FORMULA_PTG_GTE);
-		break;
-	case OPER_LTE:
-		write_node  (pd, tree->binary.value_a);
-		write_node  (pd, tree->binary.value_b);
-		push_guint8 (pd, FORMULA_PTG_LTE);
-		break;
-	case OPER_NOT_EQUAL:
-		write_node  (pd, tree->binary.value_a);
-		write_node  (pd, tree->binary.value_b);
-		push_guint8 (pd, FORMULA_PTG_NOT_EQUAL);
-		break;
-	case OPER_ADD:
-		write_node  (pd, tree->binary.value_a);
-		write_node  (pd, tree->binary.value_b);
-		push_guint8 (pd, FORMULA_PTG_ADD);
-		break;
-	case OPER_SUB:
-		write_node  (pd, tree->binary.value_a);
-		write_node  (pd, tree->binary.value_b);
-		push_guint8 (pd, FORMULA_PTG_SUB);
-		break;
-	case OPER_MULT:
-		write_node  (pd, tree->binary.value_a);
-		write_node  (pd, tree->binary.value_b);
-		push_guint8 (pd, FORMULA_PTG_MULT);
-		break;
-	case OPER_DIV:
-		write_node  (pd, tree->binary.value_a);
-		write_node  (pd, tree->binary.value_b);
-		push_guint8 (pd, FORMULA_PTG_DIV);
-		break;
-	case OPER_EXP:
-		write_node  (pd, tree->binary.value_a);
-		write_node  (pd, tree->binary.value_b);
-		push_guint8 (pd, FORMULA_PTG_EXP);
-		break;
-	case OPER_CONCAT:
-		write_node  (pd, tree->binary.value_a);
-		write_node  (pd, tree->binary.value_b);
-		push_guint8 (pd, FORMULA_PTG_CONCAT);
-		break;
+	}
+
 	case OPER_FUNCALL:
 	{
 		FormulaCacheEntry *fce;
@@ -694,43 +675,37 @@ write_node (PolishData *pd, ExprTree *tree)
 		}
 		break;
 	}
-	case OPER_UNARY_PLUS:
-		write_node  (pd, tree->unary.value);
-		push_guint8 (pd, FORMULA_PTG_U_PLUS);
-		break;
+	case OPER_ANY_UNARY: {
+		int const prec = operations[op].prec;
 
-	case OPER_UNARY_NEG:
-		write_node  (pd, tree->unary.value);
-		push_guint8 (pd, FORMULA_PTG_U_MINUS);
+		write_node (pd, tree->unary.value, operations[op].prec);
+		push_guint8 (pd, operations[op].xl_op);
+		if (prec <= paren_level)
+			push_guint8 (pd, FORMULA_PTG_PAREN);
 		break;
-
-	case OPER_PERCENT:
-		write_node  (pd, tree->unary.value);
-		push_guint8 (pd, FORMULA_PTG_PERCENT);
-		break;
+	}
 
 	case OPER_VAR:
 		write_ref (pd, &tree->var.ref);
 		break;
 
 	case OPER_NAME:
-	  {
-	    guint8 data[14];
-	    guint16 idx;
-	    for (idx = 0; idx <14; idx++) data[idx] = 0;
+	{
+		guint8 data[14];
+		guint16 idx;
+		for (idx = 0; idx <14; idx++) data[idx] = 0;
 
-	    for (idx = 0; idx < pd->sheet->wb->names->len; idx++) {
-	      if (!strcmp(tree->name.name->name->str,
-			  g_ptr_array_index (pd->sheet->wb->names, idx))) {
+		for (idx = 0; idx < pd->sheet->wb->names->len; idx++)
+			if (!strcmp(tree->name.name->name->str,
+				    g_ptr_array_index (pd->sheet->wb->names, idx))) {
 
-		MS_OLE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
-		MS_OLE_SET_GUINT16 (data + 1, idx + 1);
-		ms_biff_put_var_write (pd->bp, data, 15);
-		return;
-	      }
-	    }
-
-	  }
+			    MS_OLE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
+			    MS_OLE_SET_GUINT16 (data + 1, idx + 1);
+			    ms_biff_put_var_write (pd->bp, data, 15);
+			    return;
+			}
+		break;
+	}
 
 	case OPER_ARRAY:
 	default:
@@ -785,7 +760,7 @@ write_arrays (PolishData *pd)
 
 guint32
 ms_excel_write_formula (BiffPut *bp, ExcelSheet *sheet, ExprTree *expr,
-			int fn_col, int fn_row)
+			int fn_col, int fn_row, int paren_level)
 {
 	PolishData *pd;
 	MsOlePos start;
@@ -804,7 +779,7 @@ ms_excel_write_formula (BiffPut *bp, ExcelSheet *sheet, ExprTree *expr,
 	pd->ver    = sheet->wb->ver;
 
 	start = bp->length;
-	write_node (pd, expr);
+	write_node (pd, expr, 0);
 	len = bp->length - start;
 
 	if (pd->arrays) {

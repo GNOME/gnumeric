@@ -1207,10 +1207,10 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 		mstyle_set_format (mstyle, xf->style_format);
 
 	/* Alignment */
-	mstyle_set_align_v     (mstyle, xf->valign);
-	mstyle_set_align_h     (mstyle, xf->halign);
-	mstyle_set_fit_in_cell (mstyle, xf->wrap);
-	mstyle_set_indent      (mstyle, xf->indent);
+	mstyle_set_align_v   (mstyle, xf->valign);
+	mstyle_set_align_h   (mstyle, xf->halign);
+	mstyle_set_wrap_text (mstyle, xf->wrap);
+	mstyle_set_indent    (mstyle, xf->indent);
 	/* mstyle_set_orientation (mstyle, ); */
 
 	/* Font */

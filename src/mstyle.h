@@ -43,7 +43,7 @@ enum _MStyleElementType {
 
 		MSTYLE_ORIENTATION,
 
-		MSTYLE_FIT_IN_CELL,
+		MSTYLE_WRAP_TEXT,
 	/* Delimiter */
 	MSTYLE_ELEMENT_MAX
 };
@@ -103,8 +103,8 @@ void                mstyle_set_indent	   (MStyle *st, int i);
 int		    mstyle_get_indent	   (const MStyle *st);
 void                mstyle_set_orientation (MStyle *st, StyleOrientation o);
 StyleOrientation    mstyle_get_orientation (const MStyle *st);
-void                mstyle_set_fit_in_cell (MStyle *st, gboolean f);
-gboolean            mstyle_get_fit_in_cell (const MStyle *st);
+void                mstyle_set_wrap_text   (MStyle *st, gboolean f);
+gboolean            mstyle_get_wrap_text   (const MStyle *st);
 
 gboolean            mstyle_visible_in_blank(const MStyle *st);
 

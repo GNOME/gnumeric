@@ -699,10 +699,15 @@ xml2ParseStyleRegionStyle (XML2ParseState *state, CHAR const **attrs)
 			mstyle_set_align_h (state->style, val);
 		else if (xml2ParseAttrInt (attrs, "VAlign", &val))
 			mstyle_set_align_v (state->style, val);
+
+		/* Pre version V6 */
 		else if (xml2ParseAttrInt (attrs, "Fit", &val))
-			mstyle_set_fit_in_cell (state->style, val);
+			mstyle_set_wrap_text (state->style, val);
+
+		else if (xml2ParseAttrInt (attrs, "WrapText", &val))
+			mstyle_set_wrap_text (state->style, val);
 		else if (xml2ParseAttrInt (attrs, "Orient", &val))
-			mstyle_set_fit_in_cell (state->style, val);
+			mstyle_set_orientation (state->style, val);
 		else if (xml2ParseAttrInt (attrs, "Shade", &val))
 			mstyle_set_pattern (state->style, val);
 		else if (xml2ParseAttrColour (attrs, "Fore", &colour))

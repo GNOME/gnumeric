@@ -367,7 +367,7 @@ required_updates_for_style (MStyle *style)
 	     mstyle_is_element_set  (style, MSTYLE_FONT_BOLD) ||
 	     mstyle_is_element_set  (style, MSTYLE_FONT_ITALIC) ||
 	     mstyle_is_element_set  (style, MSTYLE_FONT_SIZE) ||
-	     mstyle_is_element_set  (style, MSTYLE_FIT_IN_CELL));
+	     mstyle_is_element_set  (style, MSTYLE_WRAP_TEXT));
 	gboolean const format_change =
 	    mstyle_is_element_set (style, MSTYLE_FORMAT);
 

@@ -188,7 +188,7 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 		rv->height_pixel = font_height;
 	} else if (halign == HALIGN_JUSTIFY ||
 		   mstyle_get_align_v (mstyle) == VALIGN_JUSTIFY ||
-		   mstyle_get_fit_in_cell (mstyle)) {
+		   mstyle_get_wrap_text (mstyle)) {
 		char const *p, *line_begin;
 		char const *first_whitespace = NULL;
 		char const *last_whitespace = NULL;

@@ -1033,7 +1033,7 @@ static char *
 do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 			int paren_level)
 {
-	static struct {
+	static const struct {
 		char const *name;
 		int prec;	              /* Precedences -- should match parser.y  */
 		int assoc_left, assoc_right;  /* 0: no, 1: yes.  */
@@ -1067,14 +1067,12 @@ do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 	case OPER_ANY_BINARY: {
 		char *a, *b, *res;
 		char const *opname;
-		int prec;
-
-		prec = operations[op].prec;
+		int const prec = operations[op].prec;
 
 		a = do_expr_tree_to_string (tree->binary.value_a, pp,
-					 prec - operations[op].assoc_left);
+					    prec - operations[op].assoc_left);
 		b = do_expr_tree_to_string (tree->binary.value_b, pp,
-					 prec - operations[op].assoc_right);
+					    prec - operations[op].assoc_right);
 		opname = operations[op].name;
 
 		if (prec <= paren_level)
@@ -1090,11 +1088,10 @@ do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 	case OPER_ANY_UNARY: {
 		char *res, *a;
 		char const *opname;
-		int prec;
+		int const prec = operations[op].prec;
 
-		prec = operations[op].prec;
 		a = do_expr_tree_to_string (tree->unary.value, pp,
-					 operations[op].prec);
+					    operations[op].prec);
 		opname = operations[op].name;
 
 		if (tree->any.oper != OPER_PERCENT) {

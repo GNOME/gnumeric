@@ -655,7 +655,7 @@ static void
 Sheet_cell_set_alignment (PortableServer_Servant servant,
 			  const CORBA_long col, const CORBA_long row,
 			  const CORBA_long halign, const CORBA_long valign,
-			  const CORBA_long orientation, const CORBA_boolean auto_return,
+			  const CORBA_long orientation, const CORBA_boolean wrap_text,
 			  CORBA_Environment *ev)
 {
 	int v, h;
@@ -721,6 +721,7 @@ Sheet_cell_set_alignment (PortableServer_Servant servant,
 
 	mstyle_set_align_v (mstyle, v);
 	mstyle_set_align_h (mstyle, h);
+	mstyle_set_wrap_text (mstyle, (gboolean) wrap_text);
 	sheet_style_attach_single (sheet_from_servant (servant),
 				   col, row, mstyle);
 }
@@ -729,7 +730,7 @@ static void
 Sheet_cell_get_alignment (PortableServer_Servant servant,
 			  const CORBA_long col, const CORBA_long row,
 			  CORBA_long * halign, CORBA_long * valign,
-			  CORBA_long * orientation, CORBA_boolean * auto_return,
+			  CORBA_long * orientation, CORBA_boolean *wrap_text,
 			  CORBA_Environment *ev)
 {
 	MStyle *mstyle;
@@ -790,7 +791,7 @@ Sheet_cell_get_alignment (PortableServer_Servant servant,
 		break;
 	}
 	*orientation = mstyle_get_orientation (mstyle);
-	*auto_return = mstyle_get_fit_in_cell (mstyle);
+	*wrap_text = mstyle_get_wrap_text (mstyle);
 }
 
 static void
@@ -1086,7 +1087,7 @@ Sheet_range_set_alignment (PortableServer_Servant servant,
 			   CORBA_long             halign,
 			   CORBA_long             valign,
 			   CORBA_long             orientation,
-			   CORBA_boolean          auto_return,
+			   CORBA_boolean          wrap_text,
 			   CORBA_Environment     *ev)
 {
 	Sheet   *sheet = sheet_from_servant (servant);
@@ -1099,7 +1100,7 @@ Sheet_range_set_alignment (PortableServer_Servant servant,
 	mstyle_set_align_h (mstyle, halign);
 	mstyle_set_align_v (mstyle, valign);
 	mstyle_set_orientation (mstyle, orientation);
-	mstyle_set_fit_in_cell (mstyle, (gboolean) auto_return);
+	mstyle_set_wrap_text (mstyle, (gboolean) wrap_text);
 	ranges_set_style (sheet, ranges, mstyle);
 
 	range_list_destroy (ranges);

@@ -1919,7 +1919,7 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 
 	xfd->halign = mstyle_get_align_h (st);
 	xfd->valign = mstyle_get_align_v (st);
-	xfd->wrap   = mstyle_get_fit_in_cell (st);
+	xfd->wrap   = mstyle_get_wrap_text (st);
 	xfd->orientation = mstyle_get_orientation (st);
 
 	/* Borders */
@@ -2208,7 +2208,7 @@ write_names (BiffPut *bp, ExcelWorkbook *wb)
 		ms_biff_put_var_seekto (bp, 14 + name_len);
 		len = ms_excel_write_formula (bp, sheet,
 					      expr_name->t.expr_tree,
-					      0, 0);
+					      0, 0, 0);
 		g_assert (len <= 0xffff);
 		ms_biff_put_var_seekto (bp, 4);
 		MS_OLE_SET_GUINT16 (data, len);
@@ -2448,7 +2448,7 @@ write_formula (BiffPut *bp, ExcelSheet *sheet, const Cell *cell, gint16 xf)
 	MS_OLE_SET_GUINT16 (data + 20, 0x0);
 	ms_biff_put_var_write (bp, data, 22);
 	len = ms_excel_write_formula (bp, sheet, cell->base.expression,
-				      col, row);
+				      col, row, 0);
 	g_assert (len <= 0xffff);
 	ms_biff_put_var_seekto (bp, 20);
 	MS_OLE_SET_GUINT16 (lendat, len);
