@@ -867,6 +867,7 @@ fourier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data = g_new0 (analysis_tools_data_fourier_t, 1);
 	dao  = parse_output (state, NULL);
 
+	data->base.wbc = WORKBOOK_CONTROL (state->wbcg);
 	data->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 	data->base.group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);

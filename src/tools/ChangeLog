@@ -1,3 +1,10 @@
+2004-05-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c (analysis_tool_fourier_calc_length) do not
+	  use dao
+	(analysis_tool_fourier_engine): do not pass dao to
+	  analysis_tool_fourier_calc_length
+	
 2004-03-30  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=138533
