@@ -26,7 +26,7 @@ INCLUDES = 						\
 	$(GNOME_INCLUDEDIR)
 
 libpython_la_LDFLAGS = $(PYTHON_LIB_LOC)  
-libpython_la_LIBADD = -l$(PYTHON_LIBS) 
+libpython_la_LIBADD = -l$(PYTHON_LIBS) $(PTHREAD_LIB)
 
 Pythonscriptsdir = $(datadir)/gnumeric/python
 
