@@ -63,7 +63,7 @@ parse_format_level_str (const gchar *format_level_str, FileFormatLevel def)
 	} else if (g_strcasecmp (format_level_str, "manual_remember") == 0) {
 		format_level = FILE_FL_MANUAL_REMEMBER;
 	} else if (g_strcasecmp (format_level_str, "auto") == 0) {
-		format_level = FILE_FL_MANUAL;
+		format_level = FILE_FL_AUTO;
 	} else {
 		format_level = def;
 	}

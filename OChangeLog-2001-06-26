@@ -1,3 +1,7 @@
+2001-05-27  Zbigniew Chyla  <cybs@gnome.pl>
+
+	* src/plugin-service.c (parse_format_level_str): Fixed typo.
+
 2001-05-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (colrow_move) : no need to queue recalc here.
