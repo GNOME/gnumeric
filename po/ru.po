@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-02-22 20:46-0600\n"
+"POT-Creation-Date: 1999-03-08 22:13-0600\n"
 "PO-Revision-Date: 1999-02-03 14:42-0600\n"
 "Last-Translator: Valek Filippov <val@comptek.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -452,7 +452,7 @@ msgstr "Нет"
 msgid "Use this color"
 msgstr "Использовать этот цвет"
 
-#: src/dialog-cell-format.c:607
+#: src/dialog-cell-format.c:607 src/dialog-cell-format.c:642
 msgid "No change"
 msgstr "Нет изменений"
 
@@ -468,19 +468,19 @@ msgstr "Использовать сплошной цвет"
 msgid "Use a pattern"
 msgstr "Использовать шаблон"
 
-#: src/dialog-cell-format.c:893
+#: src/dialog-cell-format.c:912
 msgid "Number"
 msgstr "Числовой"
 
-#: src/dialog-cell-format.c:894
+#: src/dialog-cell-format.c:913
 msgid "Alignment"
 msgstr "Выравнивание"
 
-#: src/dialog-cell-format.c:895
+#: src/dialog-cell-format.c:914
 msgid "Font"
 msgstr "Шрифт"
 
-#: src/dialog-cell-format.c:896
+#: src/dialog-cell-format.c:915
 msgid "Coloring"
 msgstr "Окрашивание"
 
@@ -660,20 +660,20 @@ msgstr "Деление на ноль"
 msgid "Unknown evaluation error"
 msgstr "Неизвестная ошибка в выражении"
 
-#: src/file.c:217
+#: src/file.c:218
 msgid "File format:"
 msgstr "Формат файла:"
 
-#: src/file.c:256
+#: src/file.c:257
 msgid "Save workbook as"
 msgstr "Сохранить книгу как..."
 
-#: src/file.c:288
+#: src/file.c:289
 msgid "Sorry, there are no file savers loaded, I can not save"
 msgstr ""
 "К сожалению, модуль для сохранения файлов не загружен, сохранение невозможно"
 
-#: src/file.c:316
+#: src/file.c:327
 msgid "Load file"
 msgstr "Загрузить файл"
 
@@ -1911,49 +1911,49 @@ msgstr ""
 msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr ""
 
-#: src/gnumeric-sheet.c:887
+#: src/gnumeric-sheet.c:889
 #, c-format
 msgid "75%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:890
+#: src/gnumeric-sheet.c:892
 #, c-format
 msgid "50%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:893
+#: src/gnumeric-sheet.c:895
 #, c-format
 msgid "25%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:896
+#: src/gnumeric-sheet.c:898
 #, c-format
 msgid "12%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:899
+#: src/gnumeric-sheet.c:901
 #, c-format
 msgid "6%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:902
+#: src/gnumeric-sheet.c:904
 msgid "Horizontal lines"
 msgstr "Горизонтальные линии"
 
-#: src/gnumeric-sheet.c:905
+#: src/gnumeric-sheet.c:907
 msgid "Vertical lines"
 msgstr "Вертикальные линии"
 
-#: src/gnumeric-sheet.c:908 src/gnumeric-sheet.c:911 src/gnumeric-sheet.c:914
-#: src/gnumeric-sheet.c:917
+#: src/gnumeric-sheet.c:910 src/gnumeric-sheet.c:913 src/gnumeric-sheet.c:916
+#: src/gnumeric-sheet.c:919
 msgid "Diagonal lines"
 msgstr "Диагональные линии"
 
-#: src/gnumeric-sheet.c:920
+#: src/gnumeric-sheet.c:922
 msgid "Crossed diagonals"
 msgstr "Пересекающиеся диагонали"
 
-#: src/gnumeric-sheet.c:923
+#: src/gnumeric-sheet.c:925
 msgid "Bricks"
 msgstr "Кирпичи"
 
@@ -2003,7 +2003,7 @@ msgstr "Сдвинуть ячейки вправо и переместить"
 msgid "Cut"
 msgstr "Вырезать"
 
-#: src/item-grid.c:528 src/sheet.c:2501 src/workbook.c:842
+#: src/item-grid.c:528 src/sheet.c:2509 src/workbook.c:842
 msgid "Paste"
 msgstr "Вставить"
 
@@ -2051,19 +2051,19 @@ msgstr "Закрыть"
 msgid "Add..."
 msgstr "Добавить..."
 
-#: src/plugin.c:37
+#: src/plugin.c:39
 msgid "unable to open module file: "
 msgstr "не удалось открыть файл модуля: "
 
-#: src/plugin.c:46
+#: src/plugin.c:49
 msgid "Plugin must contain init_plugin function."
 msgstr "Plugin должен содержать функцию init_plugin /!FIXME/"
 
-#: src/plugin.c:52
+#: src/plugin.c:55
 msgid "init_plugin returned error"
 msgstr "init_plugin возвратил ошибку"
 
-#: src/plugin.c:72
+#: src/plugin.c:75
 msgid "Plugin is still in use.\n"
 msgstr "Plugin еще используется.\n"
 
@@ -2398,69 +2398,69 @@ msgstr "Овал"
 msgid "Creates an ellipse object"
 msgstr "Создать овал"
 
-#: src/workbook.c:957
+#: src/workbook.c:958
 msgid "You should introduce a valid cell name"
 msgstr "Вы должны ввести подходящее имя для ячейки"
 
-#: src/workbook.c:964
+#: src/workbook.c:965
 msgid "Column out of range"
 msgstr "Номер столбца вне диапазона"
 
-#: src/workbook.c:970
+#: src/workbook.c:971
 msgid "Row number out of range"
 msgstr "Номер строки вне диапазона"
 
-#: src/workbook.c:1076
+#: src/workbook.c:1077
 msgid "Sum"
 msgstr "Сум"
 
-#: src/workbook.c:1077
+#: src/workbook.c:1078
 msgid "Min"
 msgstr "Мин"
 
-#: src/workbook.c:1078
+#: src/workbook.c:1079
 msgid "Max"
 msgstr "Макс"
 
-#: src/workbook.c:1079
+#: src/workbook.c:1080
 msgid "Average"
 msgstr "Среднее"
 
-#: src/workbook.c:1080
+#: src/workbook.c:1081
 msgid "Count"
 msgstr "Количество"
 
-#: src/workbook.c:1272
+#: src/workbook.c:1273
 msgid "Untitled.gnumeric"
 msgstr "Безымянный.gnumeric"
 
-#: src/workbook.c:1359
+#: src/workbook.c:1360
 msgid "Zoom out"
 msgstr "Уменьшить"
 
-#: src/workbook.c:1366
+#: src/workbook.c:1367
 msgid "Zoom in"
 msgstr "Увеличить"
 
-#: src/workbook.c:1451
+#: src/workbook.c:1452
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "Вы действительно хотите удалить таблицу `%s' ?"
 
-#: src/workbook.c:1470
+#: src/workbook.c:1471
 msgid "Other sheets depend on the values on this sheet, I can not remove it"
 msgstr ""
 "Другие таблицы зависят от значений в этой таблице, поэтому ее нельзя удалить"
 
-#: src/workbook.c:1490
+#: src/workbook.c:1491
 msgid "Add another sheet"
 msgstr "Добавить другую таблицу"
 
-#: src/workbook.c:1491
+#: src/workbook.c:1492
 msgid "Remove this sheet"
 msgstr "Удалить эту таблицу"
 
-#: src/workbook.c:1752 src/workbook.c:1780
+#: src/workbook.c:1753 src/workbook.c:1781
 #, c-format
 msgid "Sheet %d"
 msgstr "Таблица %d"

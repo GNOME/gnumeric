@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 1999-02-22 20:46-0600\n"
+"POT-Creation-Date: 1999-03-08 22:13-0600\n"
 "Content-Type: text/plain; charset=\n"
 "Date: 1998-12-15 01:37:05-0600\n"
 "From: Miguel de Icaza,computo,622-4680 <miguel@metropolis.nuclecu.unam.mx>\n"
@@ -436,7 +436,7 @@ msgstr ""
 msgid "Use this color"
 msgstr ""
 
-#: src/dialog-cell-format.c:607
+#: src/dialog-cell-format.c:607 src/dialog-cell-format.c:642
 msgid "No change"
 msgstr ""
 
@@ -452,19 +452,19 @@ msgstr ""
 msgid "Use a pattern"
 msgstr ""
 
-#: src/dialog-cell-format.c:893
+#: src/dialog-cell-format.c:912
 msgid "Number"
 msgstr ""
 
-#: src/dialog-cell-format.c:894
+#: src/dialog-cell-format.c:913
 msgid "Alignment"
 msgstr ""
 
-#: src/dialog-cell-format.c:895
+#: src/dialog-cell-format.c:914
 msgid "Font"
 msgstr ""
 
-#: src/dialog-cell-format.c:896
+#: src/dialog-cell-format.c:915
 msgid "Coloring"
 msgstr ""
 
@@ -644,19 +644,19 @@ msgstr ""
 msgid "Unknown evaluation error"
 msgstr ""
 
-#: src/file.c:217
+#: src/file.c:218
 msgid "File format:"
 msgstr ""
 
-#: src/file.c:256
+#: src/file.c:257
 msgid "Save workbook as"
 msgstr ""
 
-#: src/file.c:288
+#: src/file.c:289
 msgid "Sorry, there are no file savers loaded, I can not save"
 msgstr ""
 
-#: src/file.c:316
+#: src/file.c:327
 msgid "Load file"
 msgstr ""
 
@@ -1567,49 +1567,49 @@ msgstr "$#,##0.00_);($#,##0.00)"
 msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr "$#,##0.00_);[red]($#,##0.00)"
 
-#: src/gnumeric-sheet.c:887
+#: src/gnumeric-sheet.c:889
 #, c-format
 msgid "75%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:890
+#: src/gnumeric-sheet.c:892
 #, c-format
 msgid "50%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:893
+#: src/gnumeric-sheet.c:895
 #, c-format
 msgid "25%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:896
+#: src/gnumeric-sheet.c:898
 #, c-format
 msgid "12%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:899
+#: src/gnumeric-sheet.c:901
 #, c-format
 msgid "6%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:902
+#: src/gnumeric-sheet.c:904
 msgid "Horizontal lines"
 msgstr ""
 
-#: src/gnumeric-sheet.c:905
+#: src/gnumeric-sheet.c:907
 msgid "Vertical lines"
 msgstr ""
 
-#: src/gnumeric-sheet.c:908 src/gnumeric-sheet.c:911 src/gnumeric-sheet.c:914
-#: src/gnumeric-sheet.c:917
+#: src/gnumeric-sheet.c:910 src/gnumeric-sheet.c:913 src/gnumeric-sheet.c:916
+#: src/gnumeric-sheet.c:919
 msgid "Diagonal lines"
 msgstr ""
 
-#: src/gnumeric-sheet.c:920
+#: src/gnumeric-sheet.c:922
 msgid "Crossed diagonals"
 msgstr ""
 
-#: src/gnumeric-sheet.c:923
+#: src/gnumeric-sheet.c:925
 msgid "Bricks"
 msgstr ""
 
@@ -1656,7 +1656,7 @@ msgstr ""
 msgid "Cut"
 msgstr ""
 
-#: src/item-grid.c:528 src/sheet.c:2501 src/workbook.c:842
+#: src/item-grid.c:528 src/sheet.c:2509 src/workbook.c:842
 msgid "Paste"
 msgstr ""
 
@@ -1704,19 +1704,19 @@ msgstr ""
 msgid "Add..."
 msgstr ""
 
-#: src/plugin.c:37
+#: src/plugin.c:39
 msgid "unable to open module file: "
 msgstr ""
 
-#: src/plugin.c:46
+#: src/plugin.c:49
 msgid "Plugin must contain init_plugin function."
 msgstr ""
 
-#: src/plugin.c:52
+#: src/plugin.c:55
 msgid "init_plugin returned error"
 msgstr ""
 
-#: src/plugin.c:72
+#: src/plugin.c:75
 msgid "Plugin is still in use.\n"
 msgstr ""
 
@@ -2051,68 +2051,68 @@ msgstr ""
 msgid "Creates an ellipse object"
 msgstr ""
 
-#: src/workbook.c:957
+#: src/workbook.c:958
 msgid "You should introduce a valid cell name"
 msgstr ""
 
-#: src/workbook.c:964
+#: src/workbook.c:965
 msgid "Column out of range"
 msgstr ""
 
-#: src/workbook.c:970
+#: src/workbook.c:971
 msgid "Row number out of range"
 msgstr ""
 
-#: src/workbook.c:1076
+#: src/workbook.c:1077
 msgid "Sum"
 msgstr ""
 
-#: src/workbook.c:1077
+#: src/workbook.c:1078
 msgid "Min"
 msgstr ""
 
-#: src/workbook.c:1078
+#: src/workbook.c:1079
 msgid "Max"
 msgstr ""
 
-#: src/workbook.c:1079
+#: src/workbook.c:1080
 msgid "Average"
 msgstr ""
 
-#: src/workbook.c:1080
+#: src/workbook.c:1081
 msgid "Count"
 msgstr ""
 
-#: src/workbook.c:1272
+#: src/workbook.c:1273
 msgid "Untitled.gnumeric"
 msgstr ""
 
-#: src/workbook.c:1359
+#: src/workbook.c:1360
 msgid "Zoom out"
 msgstr ""
 
-#: src/workbook.c:1366
+#: src/workbook.c:1367
 msgid "Zoom in"
 msgstr ""
 
-#: src/workbook.c:1451
+#: src/workbook.c:1452
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr ""
 
-#: src/workbook.c:1470
+#: src/workbook.c:1471
 msgid "Other sheets depend on the values on this sheet, I can not remove it"
 msgstr ""
 
-#: src/workbook.c:1490
+#: src/workbook.c:1491
 msgid "Add another sheet"
 msgstr ""
 
-#: src/workbook.c:1491
+#: src/workbook.c:1492
 msgid "Remove this sheet"
 msgstr ""
 
-#: src/workbook.c:1752 src/workbook.c:1780
+#: src/workbook.c:1753 src/workbook.c:1781
 #, c-format
 msgid "Sheet %d"
 msgstr ""
