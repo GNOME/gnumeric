@@ -1,3 +1,7 @@
+1999-02-06  Changwoo Ryu  <cwryu@adam.kaist.ac.kr>
+
+	* gnumeric.desktop: Added Korean translations.
+
 1999-02-04  Michael Meeks  <michael@imaginator.com>
 
 	* plugins/excel/ms-excel.ch: Major overhaul of how XF styles
