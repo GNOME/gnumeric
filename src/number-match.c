@@ -366,25 +366,26 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 
 			/* Matches a string */
 		case '"': {
-			const unsigned char *p;
-			char *buf;
+			const unsigned char *p, *q;
 
-			for (p = format+1; *p && *p != '"'; p++)
-				;
+			for (p = format + 1; *p && *p != '"'; p++)
+				; /* Nothing */
 
 			if (*p != '"')
 				goto error;
 
-			if (format+1 != p){
-				buf = g_malloc (p - (format+1) + 1);
-				strncpy (buf, format+1, p - (format+1));
-				buf [p - (format+1)] = 0;
-
-				/* FIXME: we should escape buf */
-				g_string_append (regexp, buf);
-
-				g_free (buf);
+			for (q = format + 1; q < p; q++) {
+				switch (*q) {
+				case '\\': case '$': case '^': case '.':
+				case '+': case '*': case '?': case '|':
+				case '[': case ']':
+					g_string_append_c (regexp, '\\');
+					/* Fall through.  */
+				default:
+					g_string_append_c (regexp, *q);					
+				}
 			}
+
 			format = p;
 			break;
 		}
@@ -411,59 +412,85 @@ print_regex_error (int ret)
 {
 	switch (ret){
 	case REG_BADBR:
-		printf ("There was an invalid `\\{...\\}' construct in the regular\n"
-			"expression.  A valid `\\{...\\}' construct must contain either a\n"
-			"single number, or two numbers in increasing order separated by a\n"
-			"comma.\n");
+		fprintf (stderr,
+			 "There was an invalid `\\{...\\}' construct in the regular\n"
+			 "expression.  A valid `\\{...\\}' construct must contain either a\n"
+			 "single number, or two numbers in increasing order separated by a\n"
+			 "comma.\n");
 		break;
 
 	case REG_BADPAT:
-		printf ("There was a syntax error in the regular expression.\n");
+		fprintf (stderr,
+			 "There was a syntax error in the regular expression.\n");
 		break;
 
 	case REG_BADRPT:
-		printf ("A repetition operator such as `?' or `*' appeared in a bad\n"
-			"position (with no preceding subexpression to act on).\n");
+		fprintf (stderr,
+			 "A repetition operator such as `?' or `*' appeared in a bad\n"
+			 "position (with no preceding subexpression to act on).\n");
 		break;
 
 	case REG_ECOLLATE:
-		printf ("The regular expression referred to an invalid collating element\n"
-			"(one not defined in the current locale for string collation).\n");
+		fprintf (stderr,
+			 "The regular expression referred to an invalid collating element\n"
+			 "(one not defined in the current locale for string collation).\n");
 		break;
 
 	case REG_ECTYPE:
-		printf ("The regular expression referred to an invalid character class name.\n");
+		fprintf (stderr,
+			 "The regular expression referred to an invalid character class name.\n");
 		break;
 
 	case REG_EESCAPE:
-		printf ("The regular expression ended with `\\'.\n");
+		fprintf (stderr,
+			 "The regular expression ended with `\\'.\n");
 		break;
 
 	case REG_ESUBREG:
-		printf ("There was an invalid number in the `\\DIGIT' construct.\n");
+		fprintf (stderr,
+			 "There was an invalid number in the `\\DIGIT' construct.\n");
 		break;
 
 	case REG_EBRACK:
-		printf ("There were unbalanced square brackets in the regular expression.\n");
+		fprintf (stderr,
+			 "There were unbalanced square brackets in the regular expression.\n");
 		break;
 
 	case REG_EPAREN:
-		printf ("An extended regular expression had unbalanced parentheses, or a\n"
-			"basic regular expression had unbalanced `\\(' and `\\)'.\n");
+		fprintf (stderr,
+			 "An extended regular expression had unbalanced parentheses, or a\n"
+			 "basic regular expression had unbalanced `\\(' and `\\)'.\n");
 		break;
 
 	case REG_EBRACE:
-		printf ("The regular expression had unbalanced `\\{' and `\\}'.\n");
+		fprintf (stderr,
+			 "The regular expression had unbalanced `\\{' and `\\}'.\n");
+		break;
+
+	case REG_EBOL:
+		fprintf (stderr, "Found ^ not at the beginning.\n");
+		break;
+
+	case REG_EEOL:
+		fprintf (stderr, "Found $ not at the end.\n");
 		break;
 
 	case REG_ERANGE:
-		printf ("One of the endpoints in a range expression was invalid.\n");
+		fprintf (stderr,
+			 "One of the endpoints in a range expression was invalid.\n");
 		break;
 
 	case REG_ESPACE:
-		printf ("`regcomp' ran out of memory.\n");
+		fprintf (stderr,
+			 "`regcomp' ran out of memory.\n");
 		break;
 
+	case REG_OK:
+		/* Nothing.  */
+		break;
+
+	default:
+		fprintf (stderr, "regexp error %d\n", ret);
 	}
 }
 
@@ -476,7 +503,7 @@ typedef struct {
 
 static GList *format_match_list = NULL;
 
-int
+gboolean
 format_match_define (const char *format)
 {
 	format_parse_t *fp;
@@ -490,9 +517,10 @@ format_match_define (const char *format)
 		return FALSE;
 
 	ret = regcomp (&r, regexp, REG_EXTENDED | REG_ICASE);
-	if (ret != 0){
+	if (ret != REG_OK) {
 		g_warning ("expression %s\nproduced:%s\n", format, regexp);
 		print_regex_error (ret);
+		g_free (regexp);
 		return FALSE;
 	}
 

@@ -3,7 +3,7 @@
 
 #include "gnumeric.h"
 
-int      format_match_define (const char *format);
+gboolean format_match_define (const char *format);
 void     format_match_init   (void);
 void     format_match_finish (void);
 Value   *format_match_simple (const char *s);

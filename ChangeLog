@@ -1,3 +1,12 @@
+2000-12-04  Morten Welinder  <terra@diku.dk>
+
+	* src/number-match.c (print_regex_error): Print error code
+ 	numerically if our switch does not catch it.  Catch REG_EBOL and
+ 	REG_EEOL.  Print errors to stderr.
+	(format_match_define): Change result type to gboolean.  Plug leak.
+	(format_create_regexp): Properly regexp-quote quoted
+ 	format-strings.
+
 2000-12-04  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/sheet-object-widget.c (sheet_widget_checkbox_toggled): calling
