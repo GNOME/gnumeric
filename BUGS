@@ -19,6 +19,14 @@ Pending Patches
 Long term breakage
 ------------------
 
+- We need to sort out 59141 which seems to be an interaction problem between
+  autoformat-assigned formats and the cell format dialog.
+    A1 = 1,234           [With the ","]
+    A2 = 9
+    A3 = A1/A2           [See "137"]
+  Select format cells for A3.  See "general" and "137" at the same time.  Wrong.
+  Should be either a specific format, or else 137.111111
+
 - can_try_save_to uses access().  That's bogus in a number of ways: (a) it
   checks the wrong permissions in the set[gu]id case.  (b) It reports the
   wrong result if the path is not readable.  The Right Way to do this, is
