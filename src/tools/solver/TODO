@@ -37,9 +37,6 @@ Feature enhancements:
     - fix constraints: allowable increase
     - fix constraints: allowable decrease
   * performance report:
-    - fix the titles of the data sparsity (make two line titles)
-    - fix OS to be bold
-    - add the name of the algorithm
     - add options used
     - fix user & system time reporting
   * dual program report:

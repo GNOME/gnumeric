@@ -633,106 +633,112 @@ solver_performance_report (WorkbookControl *wbc,
 	 * Fill in the labels of `Data Sparsity' section.
 	 */
 
-	dao_set_cell (&dao, 2, 11, _("Matrix Elements"));
-	dao_set_cell (&dao, 3, 11, _("Non-zeros (constr.)"));
-	dao_set_cell (&dao, 4, 11, _("Zeros (constr.)"));
-	dao_set_cell (&dao, 5, 11, _("Non-zeros (obj. fn)"));
-	dao_set_cell (&dao, 6, 11, _("Zeros (obj. fn)"));
-	dao_set_cell (&dao, 1, 12, _("Number of"));
-	dao_set_cell (&dao, 1, 13, _("Ratio"));
+	dao_set_cell (&dao, 2, 11, _("Matrix"));
+	dao_set_cell (&dao, 2, 12, _("Elements"));
+	dao_set_cell (&dao, 3, 11, _("Non-zeros in"));
+	dao_set_cell (&dao, 3, 12, _("Constraints"));
+	dao_set_cell (&dao, 4, 11, _("Zeros in"));
+	dao_set_cell (&dao, 4, 12, _("Constraints"));
+	dao_set_cell (&dao, 5, 11, _("Non-zeros in"));
+	dao_set_cell (&dao, 5, 12, _("Obj. fn"));
+	dao_set_cell (&dao, 6, 11, _("Zeros in"));
+	dao_set_cell (&dao, 6, 12, _("Obj. fn"));
+	dao_set_cell (&dao, 1, 13, _("Number of"));
+	dao_set_cell (&dao, 1, 14, _("Ratio"));
 	dao_set_bold (&dao, 0, 11, 6, 11);
-	dao_set_bold (&dao, 1, 12, 1, 13);
+	dao_set_bold (&dao, 0, 12, 6, 12);
+	dao_set_bold (&dao, 1, 13, 1, 14);
 
 	/* Set the `Nbr of Matrix Elements'. */
 	mat_size = res->param->n_variables * res->param->n_constraints;
-	dao_set_cell_value (&dao, 2, 12, value_new_float (mat_size));
+	dao_set_cell_value (&dao, 2, 13, value_new_float (mat_size));
 
 	/* Set the `Ratio of Matrix Elements'. */
 	v = value_new_float (1);
 	value_set_fmt (v, style_format_default_percentage ());
-	dao_set_cell_value (&dao, 2, 13, v);
+	dao_set_cell_value (&dao, 2, 14, v);
 
 	/* Set the `Nbr of Non-zeros (constr.)'. */
-	dao_set_cell_value (&dao, 3, 12, value_new_float (res->n_nonzeros_in_mat));
+	dao_set_cell_value (&dao, 3, 13, value_new_float (res->n_nonzeros_in_mat));
 
 	/* Set the `Nbr of Zeros (constr.)'. */
 	zeros = mat_size - res->n_nonzeros_in_mat;
-	dao_set_cell_value (&dao, 4, 12, value_new_float (zeros));
+	dao_set_cell_value (&dao, 4, 13, value_new_float (zeros));
 
 	/* Set the `Ratio of Non-zeros (constr.)'. */
 	v = value_new_float ((gnum_float) res->n_nonzeros_in_mat / mat_size);
 	value_set_fmt (v, style_format_default_percentage ());
-	dao_set_cell_value (&dao, 3, 13, v);
+	dao_set_cell_value (&dao, 3, 14, v);
 
 	/* Set the `Ratio of Zeros (constr.)'. */
 	v = value_new_float ((gnum_float) zeros / mat_size);
 	value_set_fmt (v, style_format_default_percentage ());
-	dao_set_cell_value (&dao, 4, 13, v);
+	dao_set_cell_value (&dao, 4, 14, v);
 
 
 	/* Set the `Nbr of Non-zeros (obj. fn)'. */
-	dao_set_cell_value (&dao, 5, 12, value_new_float (res->n_nonzeros_in_obj));
+	dao_set_cell_value (&dao, 5, 13, value_new_float (res->n_nonzeros_in_obj));
 
 	/* Set the `Nbr of Zeros (obj. fn)'. */
 	zeros = res->param->n_variables - res->n_nonzeros_in_obj;
-	dao_set_cell_value (&dao, 6, 12, value_new_float (zeros));
+	dao_set_cell_value (&dao, 6, 13, value_new_float (zeros));
 
 	/* Set the `Ratio of Non-zeros (obj. fn)'. */
 	v = value_new_float ((gnum_float) res->n_nonzeros_in_obj /
 			     res->param->n_variables);
 	value_set_fmt (v, style_format_default_percentage ());
-	dao_set_cell_value (&dao, 5, 13, v);
+	dao_set_cell_value (&dao, 5, 14, v);
 			
 	/* Set the `Ratio of Zeros (obj. fn)'. */
 	v = value_new_float ((gnum_float) zeros / res->param->n_variables);
 	value_set_fmt (v, style_format_default_percentage ());
-	dao_set_cell_value (&dao, 6, 13, v);
+	dao_set_cell_value (&dao, 6, 14, v);
 
 
 	/*
 	 * Fill in the labels of `Computing Time' section.
 	 */
 
-	dao_set_cell (&dao, 2, 17, _("User"));
-	dao_set_cell (&dao, 3, 17, _("System"));
-	dao_set_cell (&dao, 4, 17, _("Real"));
-	dao_set_cell (&dao, 1, 18, _("Time (sec.)"));
-	dao_set_bold (&dao, 0, 17, 4, 17);
-	dao_set_bold (&dao, 1, 18, 1, 18);
+	dao_set_cell (&dao, 2, 18, _("User"));
+	dao_set_cell (&dao, 3, 18, _("System"));
+	dao_set_cell (&dao, 4, 18, _("Real"));
+	dao_set_cell (&dao, 1, 19, _("Time (sec.)"));
+	dao_set_bold (&dao, 0, 18, 4, 18);
+	dao_set_bold (&dao, 1, 18, 1, 19);
 
 	/* Set the `User Time'. */
-	dao_set_cell_value (&dao, 2, 18, value_new_float (res->time_user));
+	dao_set_cell_value (&dao, 2, 19, value_new_float (res->time_user));
 
 	/* Set the `System Time'. */
-	dao_set_cell_value (&dao, 3, 18, value_new_float (res->time_system));
+	dao_set_cell_value (&dao, 3, 19, value_new_float (res->time_system));
 
 	/* Set the `Real Time'. */
-	dao_set_cell_value (&dao, 4, 18, value_new_float (res->time_real));
+	dao_set_cell_value (&dao, 4, 19, value_new_float (res->time_real));
 
 
 	/*
 	 * Fill in the labels of `System Information' section.
 	 */
 
-	dao_set_cell (&dao, 2, 22, _("CPU Model"));
-	dao_set_cell (&dao, 3, 22, _("CPU MHz"));
-	dao_set_cell (&dao, 4, 22, _("OS"));
-	dao_set_cell (&dao, 1, 23, _("Name"));
-	dao_set_bold (&dao, 0, 22, 3, 22);
-	dao_set_bold (&dao, 1, 23, 1, 23);
+	dao_set_cell (&dao, 2, 23, _("CPU Model"));
+	dao_set_cell (&dao, 3, 23, _("CPU MHz"));
+	dao_set_cell (&dao, 4, 23, _("OS"));
+	dao_set_cell (&dao, 1, 24, _("Name"));
+	dao_set_bold (&dao, 0, 23, 4, 23);
+	dao_set_bold (&dao, 1, 24, 1, 24);
 
 	if (get_cpu_info (model_name, cpu_mhz, 255)) {
 	        /* Set the `CPU Model'. */
-	        dao_set_cell (&dao, 2, 23, model_name);
+	        dao_set_cell (&dao, 2, 24, model_name);
 
 	        /* Set the `CPU Mhz'. */
-	        dao_set_cell (&dao, 3, 23, cpu_mhz);
+	        dao_set_cell (&dao, 3, 24, cpu_mhz);
 	} else {
 	        /* Set the `CPU Model'. */
-	        dao_set_cell (&dao, 2, 23, _("Unknown"));
+	        dao_set_cell (&dao, 2, 24, _("Unknown"));
 
 	        /* Set the `CPU Mhz'. */
-	        dao_set_cell (&dao, 3, 23, _("Unknown"));
+	        dao_set_cell (&dao, 3, 24, _("Unknown"));
 	}
 
 	/* Set the `OS Name'. */
@@ -740,15 +746,26 @@ solver_performance_report (WorkbookControl *wbc,
 	        char  *tmp = g_strdup_printf (_("Unknown"));
 		Value *r = value_new_string (tmp);
 		g_free (tmp);
-		dao_set_cell_value (&dao, 4, 23, r);
+		dao_set_cell_value (&dao, 4, 24, r);
 	} else {
 	        char  *tmp = g_strdup_printf (_("%s (%s)"),
 					      unamedata.sysname,
 					      unamedata.release);
 		Value *r = value_new_string (tmp);
 		g_free (tmp);
-		dao_set_cell_value (&dao, 4, 23, r);
+		dao_set_cell_value (&dao, 4, 24, r);
 	}
+
+
+	/*
+	 * Fill in the labels of `Options' section.
+	 */
+	/* Set the labels. */
+	dao_set_cell (&dao, 1, 27, _("Algorithm:"));
+	dao_set_bold (&dao, 1, 27, 1, 27);
+
+	/* Set the `Algorithm'. */
+	dao_set_cell (&dao, 2, 27, _("LP Solve 3.2"));
 
 
 	/*
@@ -768,8 +785,9 @@ solver_performance_report (WorkbookControl *wbc,
 	/* Fill in other titles. */
 	dao_set_cell (&dao, 0, 5, _("General Statistics"));
 	dao_set_cell (&dao, 0, 10, _("Data Sparsity"));
-	dao_set_cell (&dao, 0, 16, _("Computing Time"));
-	dao_set_cell (&dao, 0, 21, _("System Information"));
+	dao_set_cell (&dao, 0, 17, _("Computing Time"));
+	dao_set_cell (&dao, 0, 22, _("System Information"));
+	dao_set_cell (&dao, 0, 26, _("Options"));
 }
 
 
