@@ -1,3 +1,16 @@
+2002-01-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gui-util.c (entry_to_float) : 
+	  moved here from dialogs/dialog-analysis-tools.c
+	(entry_to_int) : ditto
+	(float_to_entry) : ditto
+	(int_to_entry) : ditto
+	
+	* src/gui-util.h (entry_to_float) new function (used to be static) 
+	(entry_to_int) : ditto
+	(float_to_entry) : ditto
+	(int_to_entry) : ditto
+
 2002-01-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* item-grid.c (item_grid_event) : don't scroll at end of formula 

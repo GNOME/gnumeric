@@ -454,120 +454,6 @@ typedef union {
 /*  by virtually all tools.                   */
 /**********************************************/
 
-/**
- * entry_to_float:
- * @entry:
- * @the_float:
- * update:
- *
- * retrieve a float from an entry field parsing all reasonable formats
- * 
-  **/
-static int
-entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update)
-{
-	char const  *text      = NULL;
-	Value       *value     = NULL;
-	StyleFormat *format    = NULL;
-
-	text = gtk_entry_get_text (entry);
-	value = format_match_number (text, NULL, &format);
-
-	if ((value == NULL) || !VALUE_IS_NUMBER (value)) { 
-		*the_float = 0.0;
-		return 1;
-	}
-	*the_float = value_get_as_float (value);
-	if (update) {
-		char *tmp = format_value (format, value, NULL, 16);
-		gtk_entry_set_text (entry, tmp);
-		g_free (tmp);	
-	}
-	
-	value_release (value);
-	return 0;
-}
-
-/**
- * entry_to_int:
- * @entry:
- * @the_int:
- * update:
- *
- * retrieve an int from an entry field parsing all reasonable formats
- * 
-  **/
-static int
-entry_to_int (GtkEntry *entry, gint *the_int, gboolean update)
-{
-	char const *text      = NULL;
-	Value       *value     = NULL;
-	StyleFormat *format    = NULL;
-
-	text = gtk_entry_get_text (entry);
-	value = format_match_number (text, NULL, &format);
-
-	if ((value == NULL) || !(value->type == VALUE_INTEGER)) { 
-		*the_int = 0;
-		return 1;
-	}
-	*the_int = value_get_as_int (value);
-	if (update) {
-		char *tmp = format_value (format, value, NULL, 16);
-		gtk_entry_set_text (entry, tmp);
-		g_free (tmp);	
-	}
-	
-	value_release (value);
-	return 0;
-}
-
-/**
- * float_to_entry:
- * @entry:
- * @the_float:
- *
- * 
-  **/
-static void
-float_to_entry (GtkEntry *entry, gnum_float the_float) {
-	char        *text      = NULL;
-	Value       *val = NULL;
-       
-	val = value_new_float(the_float);
-	text = format_value (NULL, val, NULL, 16);
-	if (text) {
-		gtk_entry_set_text (entry, text);
-		g_free (text);	
-	}
-	if (val)
-		value_release(val);
-	return;
-}
-
-/**
- * int_to_entry:
- * @entry:
- * @the_float:
- *
- * 
-  **/
-static void
-int_to_entry (GtkEntry *entry, gint the_int) {
-	char        *text      = NULL;
-	Value       *val = NULL;
-       
-	val = value_new_int(the_int);
-	text = format_value (NULL, val, NULL, 16);
-	if (text) {
-		gtk_entry_set_text (entry, text);
-		g_free (text);	
-	}
-	if (val)
-		value_release(val);
-	return;
-}
-
 
 /**
  * gnumeric_expr_entry_parse_to_value:
@@ -708,7 +594,6 @@ tool_help_cb (GtkWidget *button, GenericToolState *state)
 /**
  * tool_destroy:
  * @window:
- * @focus_widget:
  * @state:
  *
  * Destroy the dialog and associated data structures.

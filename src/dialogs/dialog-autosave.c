@@ -19,120 +19,194 @@
 #include <glade/glade.h>
 
 typedef struct {
+	GladeXML  *gui;
+	GtkWidget *dialog;
         GtkWidget *minutes_entry;
         GtkWidget *prompt_cb;
+	GtkWidget *autosave_on_off;
+	GtkWidget *ok_button;
+	GtkWidget *cancel_button;
+	GtkWidget *help_button;
+	Workbook  *wb;
+	WorkbookControlGUI  *wbcg;
 } autosave_t;
 
+#define AUTOSAVE_KEY            "autosave-setup-dialog"
+
 static void
-autosave_on_off_toggled(GtkWidget *widget, autosave_t *p)
+autosave_set_sensitivity (GtkWidget *widget, autosave_t *state)
 {
-        gboolean active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
+        gboolean active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->autosave_on_off));
+	gint minutes;
+	gint minutes_valid = entry_to_int (GTK_ENTRY (state->minutes_entry), &minutes, FALSE);
+
+	gtk_widget_set_sensitive (state->minutes_entry, active);
+	gtk_widget_set_sensitive (state->prompt_cb, active);
+
+	gtk_widget_set_sensitive (state->ok_button, !active || 
+				  ((minutes_valid == 0) && (minutes > 0)));
 	
-	gtk_widget_set_sensitive (p->minutes_entry, active);
-	gtk_widget_set_sensitive (p->prompt_cb, active);
 }
 
 gboolean
 dialog_autosave_prompt (WorkbookControlGUI *wbcg)
 {
-	GtkWidget *dia;
-	GladeXML *gui;
-	gint v;
+	gint      result;
+	GtkWidget *dialog;
 
-	gui = gnumeric_glade_xml_new (wbcg, "autosave-prompt.glade");
-        if (gui == NULL)
-                return 0;
+	dialog = gtk_message_dialog_new (wbcg_toplevel (wbcg),
+					 GTK_DIALOG_DESTROY_WITH_PARENT,
+					 GTK_MESSAGE_QUESTION,
+					 GTK_BUTTONS_YES_NO,
+					 _("Do you want to save the workbook %s ?"), 
+					 workbook_get_filename (wb_control_workbook 
+								(WORKBOOK_CONTROL (wbcg))));
+	result = gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 
-	dia = glade_xml_get_widget (gui, "AutoSavePrompt");
-	if (!dia) {
-		printf("Corrupt file autosave-prompt.glade\n");
-		return 0;
+	return  result == GTK_RESPONSE_YES;
+}
+
+
+
+/**
+ * dialog_autosave:
+ * @window:
+ * @state:
+ *
+ * Destroy the dialog and associated data structures.
+ *
+ **/
+static gboolean
+dialog_autosave_destroy (GtkObject *w, autosave_t  *state)
+{
+	g_return_val_if_fail (w != NULL, FALSE);
+	g_return_val_if_fail (state != NULL, FALSE);
+
+	if (state->gui != NULL) {
+		g_object_unref (G_OBJECT (state->gui));
+		state->gui = NULL;
 	}
 
-	v = gnumeric_dialog_run (wbcg, GTK_DIALOG (dia));
-	if (v != -1)
-		gtk_object_destroy (GTK_OBJECT (dia));
-	g_object_unref (G_OBJECT (gui));
+	state->dialog = NULL;
 
-	if (v == 0)
-		return TRUE;
-	else
-		return FALSE;
+	g_free (state);
+
+	return FALSE;
+}
+
+/**
+ * cb_autosave_cancel:
+ * @button:
+ * @state:
+ *
+ * Close (destroy) the dialog
+ **/
+static void
+cb_autosave_cancel (GtkWidget *button, autosave_t *state)
+{
+	gtk_widget_destroy (state->dialog);
+	return;
+}
+
+/**
+ * cb_autosave_help:
+ * @button:
+ * @state:
+ **/
+static void
+cb_autosave_help (GtkWidget *button, autosave_t *state)
+{
+	gnumeric_help_display ("autosave.html");
+	return;
+}
+
+/**
+ * cb_autosave_ok:
+ * @button:
+ * @state:
+ **/
+static void
+cb_autosave_ok (GtkWidget *button, autosave_t *state)
+{
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->autosave_on_off))) {
+			int minutes;
+			int minutes_valid = entry_to_int (GTK_ENTRY (state->minutes_entry), 
+							  &minutes, TRUE);
+
+			g_return_if_fail (minutes_valid == 0); /* Why is ok active? */
+			
+		        wbcg_autosave_set (state->wbcg, minutes, 
+					   gtk_toggle_button_get_active (
+						   GTK_TOGGLE_BUTTON (state->prompt_cb)));
+		} else
+			wbcg_autosave_set (state->wbcg, 0, FALSE);
+		gtk_widget_destroy (state->dialog);
 }
 
 void
 dialog_autosave (WorkbookControlGUI *wbcg)
 {
-	GladeXML  *gui;
-	GtkWidget  *dia;
-	GtkWidget  *autosave_on_off;
-	gchar      buf[20];
-	gint       v;
-	autosave_t p;
+	autosave_t *state;
 
-	wbcg_autosave_cancel (wbcg);
+	g_return_if_fail (wbcg != NULL);
 
-	gui = gnumeric_glade_xml_new (wbcg, "autosave.glade");
-        if (gui == NULL)
+	if (gnumeric_dialog_raise_if_exists (wbcg, AUTOSAVE_KEY))
+		return;
+
+	state = g_new (autosave_t, 1);
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+
+	state->gui = gnumeric_glade_xml_new (wbcg, "autosave.glade");
+        if (state->gui == NULL) {
+		g_free (state);
                 return;
+	}
 
-	dia = glade_xml_get_widget (gui, "AutoSave");
-	p.minutes_entry = glade_xml_get_widget (gui, "minutes");
-	p.prompt_cb = glade_xml_get_widget (gui, "prompt_on_off");
-	autosave_on_off = glade_xml_get_widget (gui, "autosave_on_off");
+	state->dialog = glade_xml_get_widget (state->gui, "AutoSave");
+	state->minutes_entry = glade_xml_get_widget (state->gui, "minutes");
+	state->prompt_cb = glade_xml_get_widget (state->gui, "prompt_on_off");
+	state->autosave_on_off = glade_xml_get_widget (state->gui, "autosave_on_off");
+	state->ok_button = glade_xml_get_widget (state->gui, "button1");
+	state->cancel_button = glade_xml_get_widget (state->gui, "button2");
+	state->help_button = glade_xml_get_widget (state->gui, "button3");
 
-	if (!dia || !p.minutes_entry || !p.prompt_cb || !autosave_on_off) {
-		printf ("Corrupt file autosave.glade\n");
+	if (!state->dialog || !state->minutes_entry || !state->prompt_cb || 
+	    !state->autosave_on_off) {
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
+				 _("Could not create the autosave dialog."));
+		g_free (state);
 		return;
 	}
+	
+	float_to_entry (GTK_ENTRY (state->minutes_entry), wbcg->autosave_minutes);
 
-	sprintf(buf, "%d", wbcg->autosave_minutes);
-	gtk_entry_set_text (GTK_ENTRY (p.minutes_entry), buf);
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				      GTK_EDITABLE (state->minutes_entry));
 
-	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
-				      GTK_EDITABLE (p.minutes_entry));
+	gtk_signal_connect (GTK_OBJECT (state->autosave_on_off), "toggled",
+			    GTK_SIGNAL_FUNC (autosave_set_sensitivity),
+			    state);
+	gtk_signal_connect (GTK_OBJECT (state->minutes_entry), "changed",
+			    GTK_SIGNAL_FUNC (autosave_set_sensitivity),
+			    state);
+	gtk_signal_connect (GTK_OBJECT (state->ok_button), "clicked",
+			    GTK_SIGNAL_FUNC (cb_autosave_ok), state);
+	gtk_signal_connect (GTK_OBJECT (state->cancel_button), "clicked",
+			    GTK_SIGNAL_FUNC (cb_autosave_cancel), state);
+	gtk_signal_connect (GTK_OBJECT (state->help_button), "clicked",
+			    GTK_SIGNAL_FUNC (cb_autosave_help), state);
 
-	gtk_signal_connect (GTK_OBJECT (autosave_on_off), "toggled",
-			    GTK_SIGNAL_FUNC (autosave_on_off_toggled),
-			    &p);
-
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autosave_on_off),
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->autosave_on_off),
 				      wbcg->autosave);
-
-	if (!wbcg->autosave) {
-		gtk_widget_set_sensitive (p.minutes_entry, FALSE);
-		gtk_widget_set_sensitive (p.prompt_cb, FALSE);
-	}
-
-	gtk_toggle_button_set_active ((GtkToggleButton *) p.prompt_cb,
+	gtk_toggle_button_set_active ((GtkToggleButton *) state->prompt_cb,
 				      wbcg->autosave_prompt);
-loop:
-	v = gnumeric_dialog_run (wbcg, GTK_DIALOG (dia));
 
-	if (v == 0) {
-		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (autosave_on_off))) {
-			int tmp = atoi (gtk_entry_get_text (
-				GTK_ENTRY (p.minutes_entry)));
-			if (tmp <= 0) {
-				gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-						 _("You should introduce a proper "
-						   "number of minutes in the entry."));
-				gtk_widget_grab_focus (p.minutes_entry);
-				goto loop;
-			}
-			
-		        wbcg_autosave_set (
-				wbcg, tmp, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (p.prompt_cb)));
-		} else
-			wbcg_autosave_set (wbcg, 0, FALSE);
-	} else if (v == 2) {
-		gnumeric_help_display ("autosave.html");
-		goto loop;
-	}
+	autosave_set_sensitivity (NULL, state);
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       AUTOSAVE_KEY);
+	gtk_widget_show (state->dialog);
 
-	if (v != -1)
-		gtk_object_destroy (GTK_OBJECT (dia));
-
-	g_object_unref (G_OBJECT (gui));
 }
 

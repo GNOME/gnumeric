@@ -1,3 +1,17 @@
+2002-01-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (entry_to_float) : moved to gui-utils.c/h
+	(entry_to_int) : ditto
+	(float_to_entry) : ditto
+	(int_to_entry) : ditto
+	* dialog-autosave.c (autosave_on_off_toggled) renamed to 
+	  autosave_set_sensitivity and improved functionality
+	(dialog_autosave_prompt) : rewritten to use standard gtk dialog
+	(dialog_autosave) : rewritten as non-modal
+	(cb_autosave_cancel) : new
+	(cb_autosave_help) : new
+	(cb_autosave_ok) : new
+
 2002-01-24  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-formula-guru.c (cb_formula_guru_entry_focus_in): Align
