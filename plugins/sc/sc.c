@@ -14,7 +14,7 @@
 #include "plugin.h"
 #include "gnumeric.h"
 #include "workbook.h"
-#include "utils.h"
+#include "gutils.h"
 #include "value.h"
 #include "file.h"
 #include "cell.h"

@@ -10,7 +10,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include "symbol.h"
-#include "utils.h"
+#include "gutils.h"
 
 SymbolTable *global_symbol_table;
 

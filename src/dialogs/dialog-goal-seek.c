@@ -17,7 +17,7 @@
 #include "expr.h"
 #include "eval.h"
 #include "value.h"
-#include "utils.h"
+#include "gutils.h"
 #include "workbook.h"
 #include "utils-dialog.h"
 #include "goal-seek.h"

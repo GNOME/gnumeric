@@ -17,7 +17,7 @@
 #include "color.h"
 #include "cursors.h"
 #include "selection.h"
-#include "utils.h"
+#include "gutils.h"
 #include "ranges.h"
 #include "application.h"
 #include "workbook-view.h"

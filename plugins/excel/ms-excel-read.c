@@ -19,7 +19,7 @@
 #include "ms-escher.h"
 #include "print-info.h"
 #include "selection.h"
-#include "utils.h"	/* for cell_name */
+#include "gutils.h"	/* for cell_name */
 #include "ranges.h"
 #include "expr-name.h"
 #include "style.h"

@@ -16,7 +16,7 @@
 #include "cell.h"
 #include "expr.h"
 #include "selection.h"
-#include "utils.h"
+#include "gutils.h"
 #include "utils-dialog.h"
 #include "ranges.h"
 #include "commands.h"

@@ -8,7 +8,7 @@
 
 #include <config.h>
 #include "gnumeric.h"
-#include "utils.h"
+#include "gutils.h"
 #include "cell.h"
 #include "func.h"
 #include "auto-format.h"

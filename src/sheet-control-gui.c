@@ -19,7 +19,7 @@
 #include "sheet-object.h"
 #include "item-cursor.h"
 #include "gnumeric-util.h"
-#include "utils.h"
+#include "gutils.h"
 #include "selection.h"
 #include "application.h"
 #include "cellspan.h"

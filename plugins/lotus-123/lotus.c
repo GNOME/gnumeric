@@ -23,7 +23,7 @@
 #include "main.h"
 #include "sheet.h"
 #include "file.h"
-#include "utils.h"
+#include "gutils.h"
 #include "value.h"
 #include "cell.h"
 #include "command-context.h"

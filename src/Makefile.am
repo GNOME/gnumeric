@@ -103,6 +103,8 @@ GNUMERIC_BASE_SOURCES =				\
 	gnumeric-util.h				\
 	gnumeric-type-util.h			\
 	gnumeric.h				\
+	gutils.c				\
+	gutils.h				\
 	history.c				\
 	history.h				\
 	item-bar.c				\
@@ -180,8 +182,6 @@ GNUMERIC_BASE_SOURCES =				\
 	symbol.c				\
 	test.c					\
 	test.h					\
-	utils.c					\
-	utils.h					\
 	value.c					\
 	value.h					\
 	value-sheet.c				\

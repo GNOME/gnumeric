@@ -12,7 +12,7 @@
 #include "gnumeric.h"
 #include "workbook.h"
 #include "gnumeric-sheet.h"
-#include "utils.h"
+#include "gutils.h"
 #include "gnumeric-util.h"
 #include "eval.h"
 #include "number-match.h"

@@ -11,7 +11,7 @@
 #include "cell.h"
 #include "workbook.h"
 #include "sheet-view.h" /* FIXME : Only for sheet_view_get_style_font */
-#include "utils.h"	/* FIXME : Only for cell_name */
+#include "gutils.h"	/* FIXME : Only for cell_name */
 
 static inline void
 draw_text (GdkDrawable *drawable, GdkFont *font, GdkGC *gc,

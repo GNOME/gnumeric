@@ -174,6 +174,8 @@ graphic_context_auto_guess_series (WizardGraphicContext *gc)
 	}
 
 	graphic_type_init_preview (gc);
+	graphic_series_fill_data (gc);
+	
 	CORBA_exception_free (&ev);
 }
 

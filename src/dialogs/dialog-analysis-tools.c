@@ -16,7 +16,7 @@
 #include "gnumeric-util.h"
 #include "utils-dialog.h"
 #include "dialogs.h"
-#include "utils.h"
+#include "gutils.h"
 #include "utils-dialog.h"
 #include "tools.h"
 #include "ranges.h"

@@ -12,7 +12,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "numbers.h"
-#include "utils.h"
+#include "gutils.h"
 #include "gnumeric.h"
 #include "sheet.h"
 #include "ranges.h"

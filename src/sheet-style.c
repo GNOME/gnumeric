@@ -15,7 +15,7 @@
 #include <gnome.h>
 #include <string.h>
 #include "gnumeric.h"
-#include "utils.h"
+#include "gutils.h"
 #include "gnumeric-util.h"
 #include "eval.h"
 #include "number-match.h"

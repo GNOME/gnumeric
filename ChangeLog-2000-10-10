@@ -1,3 +1,7 @@
+2000-04-07  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/cellspan.c (span_remove): Pretify code.
+
 2000-04-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/file.c (workbook_read) : Do NOT recalc on load for now even

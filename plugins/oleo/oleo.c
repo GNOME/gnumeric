@@ -28,7 +28,7 @@
 #include "sheet.h"
 #include "value.h"
 #include "file.h"
-#include "utils.h"
+#include "gutils.h"
 #include "command-context.h"
 
 #include "oleo.h"

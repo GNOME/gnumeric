@@ -12,7 +12,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "value.h"
-#include "utils.h"
+#include "gutils.h"
 #include <stdlib.h>
 
 Value *

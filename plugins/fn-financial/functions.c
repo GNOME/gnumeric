@@ -10,7 +10,7 @@
 #include <config.h>
 #include <math.h>
 #include "gnumeric.h"
-#include "utils.h"
+#include "gutils.h"
 #include "cell.h"
 #include "func.h"
 #include "goal-seek.h"

@@ -7,7 +7,7 @@
 
 #include <config.h>
 #include "auto-format.h"
-#include "utils.h"
+#include "gutils.h"
 #include "formats.h"
 #include "expr.h"
 #include "cell.h"

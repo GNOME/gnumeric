@@ -17,7 +17,7 @@
 #include "color.h"
 #include "border.h"
 #include "cursors.h"
-#include "utils.h"
+#include "gutils.h"
 #include "cell.h"
 #include "cellspan.h"
 #include "gnumeric-util.h"

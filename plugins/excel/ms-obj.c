@@ -12,7 +12,7 @@
 #include "ms-obj.h"
 #include "ms-chart.h"
 #include "ms-escher.h"
-#include "utils.h"
+#include "gutils.h"
 
 int ms_excel_object_debug;
 

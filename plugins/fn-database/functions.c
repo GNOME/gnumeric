@@ -7,7 +7,7 @@
 #include <config.h>
 #include <math.h>
 #include <glib.h>
-#include "utils.h"
+#include "gutils.h"
 #include "func.h"
 #include "cell.h"
 

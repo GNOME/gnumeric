@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include "numbers.h"
 #include "gnumeric.h"
-#include "utils.h"
+#include "gutils.h"
 #include "solver.h"
 #include "func.h"
 #include "cell.h"

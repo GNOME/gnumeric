@@ -11,7 +11,7 @@
 #include "commands.h"
 #include "cell.h"
 #include "workbook-view.h"
-#include "utils.h"
+#include "gutils.h"
 #include "sort.h"
 #include "value.h"
 

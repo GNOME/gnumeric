@@ -31,7 +31,7 @@
 #include "dialogs.h"
 #include "main.h"
 #include "file.h"
-#include "utils.h"
+#include "gutils.h"
 #include "print-info.h"
 #include "print.h"
 #include "print-cell.h"

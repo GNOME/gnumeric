@@ -16,7 +16,7 @@
 #include "numbers.h"
 #include "symbol.h"
 #include "expr.h"
-#include "utils.h"
+#include "gutils.h"
 #include "gnumeric.h"
 #include "ranges.h"
 #include "value.h"

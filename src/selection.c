@@ -9,7 +9,7 @@
  */
 #include <config.h>
 #include "selection.h"
-#include "utils.h"
+#include "gutils.h"
 #include "clipboard.h"
 #include "ranges.h"
 #include "application.h"

@@ -16,7 +16,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
-#include "utils.h"
+#include "gutils.h"
 #include "tools.h"
 #include "value.h"
 #include "regression.h"

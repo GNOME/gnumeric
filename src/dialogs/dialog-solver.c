@@ -19,7 +19,7 @@
 #include "tools.h"
 #include "value.h"
 #include "workbook.h"
-#include "utils.h"
+#include "gutils.h"
 #include "utils-dialog.h"
 
 /* Different constraint types */

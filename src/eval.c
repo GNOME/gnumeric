@@ -9,7 +9,7 @@
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
-#include "utils.h"
+#include "gutils.h"
 #include "ranges.h"
 #include "eval.h"
 #include "value.h"

@@ -10,7 +10,7 @@
 #include <gnome.h>
 #include <math.h>
 #include "gnumeric.h"
-#include "utils.h"
+#include "gutils.h"
 #include "func.h"
 #include "eval.h"
 #include "cell.h"

@@ -15,7 +15,7 @@
 #include "ms-formula-read.h"
 #include "ms-excel-read.h"
 #include "ms-escher.h"
-#include "utils.h"
+#include "gutils.h"
 #include "style.h"
 #include "expr.h"
 #include "gnumeric-chart.h"

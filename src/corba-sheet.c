@@ -17,7 +17,7 @@
 #include "gnumeric.h"
 #include "idl/Gnumeric.h"
 #include "corba.h"
-#include "utils.h"
+#include "gutils.h"
 #include "ranges.h"
 #include "selection.h"
 #include "commands.h"

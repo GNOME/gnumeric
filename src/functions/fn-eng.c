@@ -12,7 +12,7 @@
 #include <limits.h>
 #include "complex.h"
 #include "gnumeric.h"
-#include "utils.h"
+#include "gutils.h"
 #include "func.h"
 #include "mathfunc.h"
 

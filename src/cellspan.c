@@ -75,6 +75,7 @@ cell_register_span (Cell *cell, int left, int right)
 
 	for (i = left; i <= right; i++){
 		CellSpanInfo *spaninfo = g_new (CellSpanInfo, 1);
+
 		spaninfo->cell  = cell;
 		spaninfo->left  = left;
 		spaninfo->right = right;
@@ -84,10 +85,12 @@ cell_register_span (Cell *cell, int left, int right)
 }
 
 static gboolean
-span_remove(gpointer key, gpointer value, gpointer user_data)
+span_remove (gpointer key, gpointer value, gpointer user_data)
 {
 	CellSpanInfo *span = (CellSpanInfo *)value;
-	if ((Cell *)user_data == span->cell) {
+	Cell *cell = user_data;
+	
+	if (cell == span->cell) {
 		g_free (span); /* free the span descriptor */
 		return TRUE;
 	}

@@ -37,7 +37,7 @@
 #include "sheet-object.h"
 #include "style.h"
 #include "main.h"
-#include "utils.h"
+#include "gutils.h"
 #include "print-info.h"
 #include "command-context.h"
 #include "workbook.h"

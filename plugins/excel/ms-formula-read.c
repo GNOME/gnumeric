@@ -17,7 +17,7 @@
 #include "func.h"
 #include "value.h"
 
-#include "utils.h"
+#include "gutils.h"
 
 #include "excel.h"
 #include "ms-biff.h"

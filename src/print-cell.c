@@ -12,7 +12,7 @@
 #include "eval.h"
 #include "format.h"
 #include "color.h"
-#include "utils.h"
+#include "gutils.h"
 #include "cell.h"
 #include "border.h"
 #include "pattern.h"

@@ -1,3 +1,8 @@
+2000-04-07  Miguel de Icaza  <miguel@gnu.org>
+
+	* main.c (button_cancel): Do not destroy the context here, as it
+	is dereferenced later in the mainloop.
+
 2000-04-09  Michael Meeks  <michael@helixcode.com>
 
 	* graphic-context.c (data_range_new, data_range_new_from_expr): update

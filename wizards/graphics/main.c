@@ -116,7 +116,6 @@ button_next (GtkWidget *widget, WizardGraphicContext *gc)
 static void
 button_cancel (GtkWidget *widget, WizardGraphicContext *gc)
 {
-	graphic_context_destroy (gc);
 	gtk_main_quit ();
 }
 

@@ -22,7 +22,7 @@
 #include "xml-io.h"
 #include "pixmaps.h"
 #include "clipboard.h"
-#include "utils.h"
+#include "gutils.h"
 #include "widgets/widget-editable-label.h"
 #include "ranges.h"
 #include "selection.h"

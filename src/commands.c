@@ -15,7 +15,7 @@
 #include "workbook-view.h"
 #include "ranges.h"
 #include "sort.h"
-#include "utils.h"
+#include "gutils.h"
 #include "clipboard.h"
 #include "selection.h"
 #include "datetime.h"

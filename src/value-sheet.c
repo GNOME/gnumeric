@@ -8,7 +8,7 @@
 #include <locale.h>
 #include <gnome.h>
 #include "value.h"
-#include "utils.h"
+#include "gutils.h"
 #include "symbol.h"
 #include "eval.h"
 #include "expr.h"
