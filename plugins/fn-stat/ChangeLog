@@ -1,3 +1,7 @@
+2002-07-25  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_fisherinv): Improve precision near y = 0.
+
 2002-07-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.6

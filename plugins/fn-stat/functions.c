@@ -725,10 +725,9 @@ static const char *help_fisherinv = {
 static Value *
 gnumeric_fisherinv (FunctionEvalInfo *ei, Value **argv)
 {
-       gnum_float y;
+       gnum_float y = value_get_as_float (argv[0]);
 
-       y = value_get_as_float (argv[0]);
-       return value_new_float ((expgnum (2 * y) - 1.0) / (expgnum (2 * y) + 1.0));
+       return value_new_float (expm1gnum (2 * y) / (expgnum (2 * y) + 1.0));
 }
 
 /***************************************************************************/
@@ -4942,9 +4941,9 @@ gnumeric_geomdist (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	if (cum)
-		return value_new_float (pgeom (k, p, FALSE, FALSE));
+		return value_new_float (pgeom (k, p, TRUE, FALSE));
 	else
-		return value_new_float (dgeom (k, p));
+		return value_new_float (dgeom (k, p, FALSE));
 }
 
 /***************************************************************************/

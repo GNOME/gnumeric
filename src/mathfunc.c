@@ -189,7 +189,7 @@ gnumeric_fake_trunc (gnum_float x)
 
 #define R_DT_Clog(p)	(lower_tail ?				\
 			 log1pgnum(- (log_p ? expgnum(p) : p)) :	\
-			 R_D_log(p))			/* loggnum(1 - p)	in qF */
+			 R_D_log(p))			/* log1pgnum (-p)	in qF */
 
 #define R_Q_P01_check(p)			\
     if ((log_p	&& p > 0) ||			\
@@ -2024,7 +2024,7 @@ static gnum_float pbeta_raw(gnum_float x, gnum_float pin, gnum_float qin, gboole
 	/* now evaluate the finite sum, maybe. */
 
 	if (q > 1) {
-	    xb = p * loggnum(y) + q * loggnum(1 - y) - lbeta(p, q) - loggnum(q);
+	    xb = p * loggnum(y) + q * log1pgnum (-y) - lbeta(p, q) - loggnum(q);
 	    ib = fmax2(xb / lnsml, 0.0);
 	    term = expgnum(xb - ib * lnsml);
 	    c = 1 / (1 - y);
@@ -2227,7 +2227,7 @@ gnum_float qbeta(gnum_float alpha, gnum_float p, gnum_float q, gboolean lower_ta
 		ML_ERR_return_NAN;
 
 	y = (y - a) *
-	    expgnum(logbeta + r * loggnum(xinbta) + t * loggnum(1 - xinbta));
+	    expgnum(logbeta + r * loggnum(xinbta) + t * log1pgnum (-xinbta));
 	if (y * yprev <= 0.)
 	    prev = fmax2(gnumabs(adj),fpu);
 	g = 1;
@@ -2798,7 +2798,7 @@ gnum_float pbinom(gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail,
  */
 
 
-gnum_float dbinom_raw(gnum_float x, gnum_float n, gnum_float p, gnum_float q, gboolean give_log)
+static gnum_float dbinom_raw(gnum_float x, gnum_float n, gnum_float p, gnum_float q, gboolean give_log)
 {
     gnum_float f, lc;
 
@@ -3170,6 +3170,100 @@ gnum_float pexp(gnum_float x, gnum_float scale, gboolean lower_tail, gboolean lo
 		: -expm1(x));
     /* else:  !lower_tail */
     return R_D_exp(x);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/dgeom.c from R.  */
+/*
+ *  AUTHOR
+ *    Catherine Loader, catherine@research.bell-labs.com.
+ *    October 23, 2000.
+ *
+ *  Merge in to R:
+ *	Copyright (C) 2000, 2001 The R Core Development Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *
+ *  DESCRIPTION
+ *
+ *    Computes the geometric probabilities, Pr(X=x) = p(1-p)^x.
+ */
+
+
+gnum_float dgeom(gnum_float x, gnum_float p, gboolean give_log)
+{
+    gnum_float prob;
+
+#ifdef IEEE_754
+    if (isnangnum(x) || isnangnum(p)) return x + p;
+#endif
+
+    if (p < 0 || p > 1) ML_ERR_return_NAN;
+
+    R_D_nonint_check(x);
+    if (x < 0 || !finitegnum(x) || p == 0) return R_D__0;
+    x = R_D_forceint(x);
+
+    /* prob = (1-p)^x, stable for small p */
+    prob = dbinom_raw(0.,x, p,1-p, give_log);
+
+    return((give_log) ? loggnum(p) + prob : p*prob);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/pgeom.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *  Copyright (C) 2000, 2001 The R Development Core Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *  DESCRIPTION
+ *
+ *    The distribution function of the geometric distribution.
+ */
+
+
+gnum_float pgeom(gnum_float x, gnum_float p, gboolean lower_tail, gboolean log_p)
+{
+#ifdef IEEE_754
+    if (isnangnum(x) || isnangnum(p))
+	return x + p;
+#endif
+    x = floorgnum(x+1e-7);
+    if(p < 0 || p > 1) ML_ERR_return_NAN;
+
+    if (x < 0. || p == 0.) return R_DT_0;
+    if (!finitegnum(x)) return R_DT_1;
+    if(log_p && !lower_tail)
+	return log1pgnum (-p) * (x + 1);
+    return R_DT_Cval(powgnum(1 - p, x + 1));
 }
 
 /* ------------------------------------------------------------------------ */
@@ -4293,29 +4387,6 @@ L420:
 	    (*ncalc)++;
 	}
     }
-}
-
-gnum_float
-dgeom (gnum_float x, gnum_float p)
-{ 
-        gnum_float prob;
-
-	/* prob = (1-p)^x, stable for small p */
-	prob = dbinom_raw (0.0, x, p,1 - p, FALSE);
-
-	return p * prob;
-}
-
-gnum_float
-pgeom (gnum_float x, gnum_float p, int lower_tail, int log_p)
-{
-        x = floorgnum (x + 1e-7);
-
-	if (x < 0. || p == 0.) return 0;
-
-	if (log_p && !lower_tail)
-	        return loggnum (1 - p) * (x + 1);
-	return R_DT_Cval (powgnum (1 - p, x + 1));
 }
 
 /* ------------------------------------------------------------------------ */
