@@ -1,3 +1,8 @@
+2001-06-05  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/workbook.c (workbook_new): Slight modification of the previous
+	patch.
+
 2001-06-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_new) : Use the extension associated with

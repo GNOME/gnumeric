@@ -29,7 +29,7 @@
 #include "history.h"
 #include "commands.h"
 #include "main.h"
-#include "file-priv.h"
+#include "file.h"
 #include "io-context.h"
 #include "gutils.h"
 
@@ -453,8 +453,12 @@ workbook_new (void)
 	gboolean is_unique;
 	Workbook  *wb;
 	GnumFileSaver *def_save = get_default_file_saver ();
-	char const *extension = (def_save && def_save->extension)
-		? def_save->extension : "gnumeric";
+	char const *extension = NULL;
+
+	if (def_save != NULL)
+		extension = gnum_file_saver_get_extension (def_save);
+	if (extension == NULL)
+		extension = "gnumeric";
 
 	wb = gtk_type_new (workbook_get_type ());
 
