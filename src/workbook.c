@@ -2207,6 +2207,8 @@ workbook_create_standard_toobar (Workbook *wb)
 
 	/* Zoom combo box */
 	zoom = wb->priv->zoom_entry = gtk_combo_text_new ();
+	if (!gnome_preferences_get_toolbar_relief_btn ())
+		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (zoom), GTK_RELIEF_NONE);
 	entry = GTK_COMBO_TEXT (zoom)->entry;
 	gtk_signal_connect (GTK_OBJECT (entry), "activate",
 			    GTK_SIGNAL_FUNC (change_zoom_in_current_sheet_cb), wb);

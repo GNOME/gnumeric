@@ -240,6 +240,7 @@ gtk_combo_box_init (GtkComboBox *combo_box)
 	 * Create the arrow
 	 */
 	combo_box->priv->arrow_button = gtk_toggle_button_new ();
+
 	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (combo_box->priv->arrow_button), arrow);
 	gtk_box_pack_end (GTK_BOX (combo_box), combo_box->priv->arrow_button, FALSE, FALSE, 0);
@@ -358,4 +359,11 @@ gtk_combo_box_new (GtkWidget *display_widget, GtkWidget *optional_popdown)
 	return GTK_WIDGET (combo_box);
 }
 
+void
+gtk_combo_box_set_arrow_relief (GtkComboBox *cc, GtkReliefStyle relief)
+{
+	g_return_if_fail (cc != NULL);
+	g_return_if_fail (GTK_IS_COMBO_BOX (cc));
 
+	gtk_button_set_relief (GTK_BUTTON (cc->priv->arrow_button), relief);
+}

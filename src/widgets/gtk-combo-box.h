@@ -48,6 +48,8 @@ GtkWidget *gtk_combo_box_new       (GtkWidget *display_widget,
 				    GtkWidget *optional_pop_down_widget);
 void       gtk_combo_box_popup_hide (GtkComboBox *combo_box);
 
+void       gtk_combo_box_set_arrow_relief (GtkComboBox *cc, GtkReliefStyle relief);
+
 #ifdef __cplusplus
 };
 #endif /* __cplusplus */
