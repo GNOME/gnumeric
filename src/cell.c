@@ -214,4 +214,5 @@ cell_set_format (Cell *cell, char *format)
 
 	/* re-render the cell text */
 	cell_render_value (cell);
+	cell_queue_redraw (cell);
 }

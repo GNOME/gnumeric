@@ -1696,8 +1696,16 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 	clipboard_paste_region (content, sheet, dest_col, dest_row, paste_flags);
 }
 
+
+void
+sheet_insert_col (Sheet *sheet, int col, int row, int count)
+{
+	
+}
+
 void
 sheet_style_attach (Sheet *sheet, int start_col, int start_row, int end_col, int end_row, Style *style)
 {
 	printf ("WARNING: sheet_style_attach not implemeneted yet\n");
 }
+

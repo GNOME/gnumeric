@@ -204,12 +204,13 @@ move_cursor (GnumericSheet *gsheet, int col, int row, int clear_selection)
 	if (clear_selection)
 		sheet_selection_clear_only (gsheet->sheet);
 
-	gnumeric_sheet_make_cell_visible (gsheet, col, row);
-
 	if (clear_selection)
 		sheet_selection_append (gsheet->sheet, col, row);
 	
 	item_cursor_set_bounds (item_cursor, col, row, col, row);
+
+	gnumeric_sheet_make_cell_visible (gsheet, col, row);
+
 	gnumeric_sheet_load_cell_val (gsheet);
 }
 
@@ -778,21 +779,19 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 	/* Find the new gsheet->top_col */
 	if (col < gsheet->top_col){
 		new_top_col = col;
-	} else if (col > gsheet->last_visible_col){
+	} else if (col > gsheet->last_full_col){
 		ColRowInfo *ci;
 		int width = canvas->width;
-		int first_col = col;
 		int allocated = 0;
+		int first_col;
 
-		ci = sheet_col_get_info (sheet, col);
-		allocated = ci->pixels;
-		
-		do {
-			first_col--;
+		for (first_col = col; first_col > 0; first_col--){
 			ci = sheet_col_get_info (sheet, first_col);
+
+			if (allocated + ci->pixels > width)
+				break;
 			allocated += ci->pixels;
-		} while ((first_col > 0) && (width - allocated > 0));
-		
+		}
 		new_top_col = first_col+1;
 	} else
 		new_top_col = gsheet->top_col;
@@ -800,21 +799,19 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 	/* Find the new gsheet->top_row */
 	if (row < gsheet->top_row){
 		new_top_row = row;
-	} else if (row > gsheet->last_visible_row){
+	} else if (row > gsheet->last_full_row){
 		ColRowInfo *ri;
 		int height = canvas->height;
-		int first_row = row;
 		int allocated = 0;
+		int first_row;
 
-		ri = sheet_row_get_info (sheet, row);
-		allocated = ri->pixels;
-		
-		do {
-			first_row--;
+		for (first_row = row; first_row > 0; first_row--){
 			ri = sheet_row_get_info (sheet, first_row);
+			
+			if (allocated + ri->pixels > height)
+				break;
 			allocated += ri->pixels;
-		} while ((first_row > 0) && (height - allocated > 0));
-		
+		}
 		new_top_row = first_row+1;
 	} else
 		new_top_row = gsheet->top_row;

@@ -199,11 +199,11 @@ void        sheet_redraw_all          (Sheet *sheet);
 void        sheet_update_auto_expr    (Sheet *sheet);
 
 /* Sheet information manipulation */
-void        sheet_shift_column        (Sheet *sheet,
-				       int    column, int row,
+void        sheet_insert_col          (Sheet *sheet,
+				       int    col, int row,
 				       int    count);
-void        sheet_shift_row           (Sheet *sheet,
-				       int    column, int row,
+void        sheet_insert_row          (Sheet *sheet,
+				       int    col, int row,
 				       int    count);
 
 void        sheet_style_attach        (Sheet *sheet,
