@@ -925,14 +925,15 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_RELEASE: {
 		Sheet *sheet = item_cursor->sheet;
 
+
+		/*
+		 * We flush after the ungrab, to have the ungrab take
+		 * effect inmediately (the copy operation might take
+		 * long, and we do not want the mouse to be grabbed
+		 * all this time).
+		 */
 		gnome_canvas_item_ungrab (item, event->button.time);
-
-#if DEBUG_AUTOFILL
-		g_warning ("Temporary flush after ungrab here\n");
-
-		gnome_canvas_update_now (canvas);
 		gdk_flush ();
-#endif
 
 		if (!((item_cursor->pos.end.col == item_cursor->base_col + item_cursor->base_cols) &&
 		      (item_cursor->pos.end.row == item_cursor->base_row + item_cursor->base_rows))){

@@ -492,9 +492,11 @@ print_job_info_init_sheet (Sheet *sheet, PrintJobInfo *pj)
 	pj->render_info->sheet = sheet;
 }
 
-/* code to count the number of pages that will be printed.
-   Unfortuantely a lot of data here is caclualted again when you
-   actually print the page ... */
+/*
+ * code to count the number of pages that will be printed.
+ * Unfortuantely a lot of data here is caclualted again when you
+ * actually print the page ...
+ */
 
 typedef struct _PageCountInfo {
 	int pages;
@@ -536,9 +538,9 @@ compute_sheet_pages(gpointer key, gpointer value, gpointer user_data)
 	cols = compute_groups (sheet, r.start.col, r.end.col, usable_x, sheet_col_get_info);
 	rows = compute_groups (sheet, r.start.row, r.end.row, usable_y, sheet_row_get_info);
 
-	pc->pages += g_list_length(cols)*g_list_length(rows);
-	g_list_free(cols);
-	g_list_free(rows);
+	pc->pages += g_list_length (cols) * g_list_length (rows);
+	g_list_free (cols);
+	g_list_free (rows);
 }
 
 /*

@@ -1,3 +1,7 @@
+2000-04-04  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/item-cursor.c (item_cursor_autofill_event): Flush the canvas updates
+
 2000-04-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_class_init) : Remove CELL_CHANGED.
