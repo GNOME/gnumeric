@@ -274,7 +274,7 @@ print_info_new (void)
 	load_margin ("margin_header", &pi->margins.header, HALF_CENTIMETER_IN_POINTS);
 	load_margin ("margin_footer", &pi->margins.footer, HALF_CENTIMETER_IN_POINTS);
 
-	pi->header = load_hf ("header", "", _("Sheet &[PAGE]"), "");
+	pi->header = load_hf ("header", "", _("&[TAB]"), "");
 	pi->footer = load_hf ("footer", "", _("Page &[PAGE]"), "");
 
 	s = gnome_config_get_string ("paper=none");

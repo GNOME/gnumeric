@@ -938,23 +938,14 @@ xml_set_print_hf (xmlNodePtr node, const char *name,
 		  const PrintHF * const hf)
 {
 	xmlNodePtr  child;
-	char *tstr;
 
 	if (hf == NULL || name == NULL)
 		return;
 
 	child = xmlNewChild (node, NULL, name, NULL);
-	tstr = xmlEncodeEntitiesReentrant (node->doc, hf->left_format);
-	xml_set_value (child, "Left", tstr);
-	if (tstr) xmlFree (tstr);
-
-	tstr = xmlEncodeEntitiesReentrant (node->doc, hf->middle_format);
-	xml_set_value (child, "Middle", tstr);
-	if (tstr) xmlFree (tstr);
-
-	tstr = xmlEncodeEntitiesReentrant (node->doc, hf->right_format);
-	xml_set_value (child, "Right", tstr);
-	if (tstr) xmlFree (tstr);
+	xml_set_value (child, "Left", hf->left_format);
+	xml_set_value (child, "Middle", hf->middle_format);
+	xml_set_value (child, "Right", hf->right_format);
 }
 
 static void
@@ -1122,7 +1113,7 @@ xml_read_print_info (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	if ((child = xml_search_child (tree, "Header")))
 		xml_get_print_hf (child, pi->header);
 	if ((child = xml_search_child (tree, "Footer")))
-		xml_get_print_hf (child, pi->header);
+		xml_get_print_hf (child, pi->footer);
 
 	if ((child = xml_search_child (tree, "paper"))) {
 		char *txt = xmlNodeGetContent (child);

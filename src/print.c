@@ -14,6 +14,10 @@
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-printer-dialog.h>
 
+#include <libgnomeprint/gnome-print-master.h>
+#include <libgnomeprint/gnome-print-master-preview.h>
+#include <libgnomeprint/gnome-print-dialog.h>
+
 #include "gnumeric.h"
 #include "eval.h"
 #include "gnumeric-util.h"
@@ -42,6 +46,8 @@ typedef struct {
 	int n_copies;
 	gboolean sorted_print;
 
+	int current_output_sheet;		/* current sheet number during output */
+
 	/*
 	 * Part 2: Handy pre-computed information passed around
 	 */
@@ -62,11 +68,6 @@ typedef struct {
 	PrintInformation *pi;
 	GnomePrintContext *print_context;
 
-	/*
-	 * Part 4: Print Preview
-	 */
-	PrintPreview *preview;
-	
 	/*
 	 * For headers and footers
 	 */
@@ -402,12 +403,9 @@ print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj)
 	cols = compute_groups (sheet, r.start.col, r.end.col, usable_x, sheet_col_get_info);
 	rows = compute_groups (sheet, r.start.row, r.end.row, usable_y, sheet_row_get_info);
 
-	pj->render_info->pages = g_list_length (cols) * g_list_length (rows);
-	
 	if (pj->pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT) {
 		int col = r.start.col;
 
-		pj->render_info->page = 1;
 		for (l = cols; l; l = l->next) {
 			int col_count = GPOINTER_TO_INT (l->data);
 			int row = r.start.row;
@@ -428,7 +426,6 @@ print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj)
 	} else {
 		int row = r.start.row;
 
-		pj->render_info->page = 1;
 		for (l = rows; l; l = l->next) {
 			int row_count = GPOINTER_TO_INT (l->data);
 			int col = r.start.col;
@@ -488,6 +485,78 @@ print_job_info_init_sheet (Sheet *sheet, PrintJobInfo *pj)
 	pj->render_info->sheet = sheet;
 }
 
+/* code to count the number of pages that will be printed.
+   Unfortuantely a lot of data here is caclualted again when you
+   actually print the page ... */
+
+typedef struct _PageCountInfo {
+	int pages;
+	PrintJobInfo *pj;
+	Range r;
+	int current_output_sheet;
+} PageCountInfo;
+
+static void
+compute_sheet_pages(gpointer key, gpointer value, gpointer user_data)
+{
+	PageCountInfo *pc = user_data;
+	PrintJobInfo *pj = pc->pj;
+	Sheet *sheet = value;
+	Range r;
+	int usable_x, usable_y;
+	GList *cols, *rows;
+
+	/* only count pages we are printing */
+	if (pj->range == PRINT_SHEET_RANGE) {
+		pc->current_output_sheet++;
+		if (!(pc->current_output_sheet-1 >= pj->start_page
+		      && pc->current_output_sheet-1 <= pj->end_page))
+			return;
+	}
+
+	print_job_info_init_sheet (sheet, pj);
+	if (pj->range == PRINT_SHEET_SELECTION) {
+		r = pc->r;
+	} else {
+		r = sheet_get_extent (sheet);
+		r.end.col++;
+		r.end.row++;
+	}
+	
+	usable_x = pj->x_points - pj->titles_used_x - pj->repeat_cols_used_x;
+	usable_y = pj->y_points - pj->titles_used_y - pj->repeat_rows_used_y;
+
+	cols = compute_groups (sheet, r.start.col, r.end.col, usable_x, sheet_col_get_info);
+	rows = compute_groups (sheet, r.start.row, r.end.row, usable_y, sheet_row_get_info);
+
+	pc->pages += g_list_length(cols)*g_list_length(rows);
+	g_list_free(cols);
+	g_list_free(rows);
+}
+
+/*
+ * Computes the number of pages that will be output by a specific
+ * print request.
+ */
+static int
+compute_pages (Workbook *wb, Sheet *sheet, Range *r, PrintJobInfo *pj)
+{
+	PageCountInfo *pc = g_new0(PageCountInfo, 1);
+	int pages;
+
+	pc->pj = pj;
+	if (r)
+		pc->r = *r;
+	if (wb!=NULL) {
+		g_hash_table_foreach (wb->sheets, compute_sheet_pages, pc);
+	} else {
+		compute_sheet_pages(NULL, sheet, pc);
+	}
+	pages = pc->pages;
+	g_free(pc);
+	return pages;
+}
+
 static void
 print_sheet (gpointer key, gpointer value, gpointer user_data)
 {
@@ -498,6 +567,14 @@ print_sheet (gpointer key, gpointer value, gpointer user_data)
 	g_return_if_fail (pj != NULL);
 	g_return_if_fail (sheet != NULL);
 
+	/* if printing a range, check we are in range, otherwise iterate */
+	if (pj->range == PRINT_SHEET_RANGE) {
+		pj->current_output_sheet++;
+		if (!(pj->current_output_sheet-1 >= pj->start_page
+		      && pj->current_output_sheet-1 <= pj->end_page))
+			return;
+	}
+
 	print_job_info_init_sheet (sheet, pj);
 	extent = sheet_get_extent (sheet);
 	extent.end.col++;
@@ -506,6 +583,7 @@ print_sheet (gpointer key, gpointer value, gpointer user_data)
 	print_sheet_range (sheet, extent, pj);
 }
 
+/* should this print a selection over any range of pages? */
 static void
 sheet_print_selection (Sheet *sheet, PrintJobInfo *pj)
 {
@@ -522,6 +600,8 @@ sheet_print_selection (Sheet *sheet, PrintJobInfo *pj)
 	extent.end.col++;
 	extent.end.row++;
 
+	pj->render_info->pages = compute_pages(sheet->workbook, NULL, &extent, pj);
+
 	print_job_info_init_sheet (sheet, pj);
 	print_sheet_range (sheet, extent, pj);
 }
@@ -530,6 +610,8 @@ static void
 workbook_print_all (Workbook *wb, PrintJobInfo *pj)
 {
 	g_return_if_fail (wb != NULL);
+
+	pj->render_info->pages = compute_pages(wb, NULL, NULL, pj);
 
 	g_hash_table_foreach (wb->sheets, print_sheet, pj);
 }
@@ -553,10 +635,11 @@ print_job_info_get (Sheet *sheet, PrintRange range)
 	 * Values that should be entered in a dialog box
 	 */
 	pj->start_page = 0;
-	pj->end_page = -1;
+	pj->end_page = workbook_sheet_count(sheet->workbook)-1;
 	pj->range = range;
 	pj->sorted_print = TRUE;
 	pj->n_copies = 1;
+	pj->current_output_sheet = 0;
 
 	/* Precompute information */
 	width  = gnome_paper_pswidth  (pj->pi->paper);
@@ -579,6 +662,7 @@ print_job_info_get (Sheet *sheet, PrintRange range)
 	 */
 	pj->render_info = hf_render_info_new ();
 	pj->render_info->sheet = sheet;
+	pj->render_info->page = 1;
 
 	pj->decoration_font = gnome_font_new ("Helvetica", 12);
 	
@@ -600,71 +684,98 @@ sheet_print (Sheet *sheet, gboolean preview,
 {
 	GnomePrinter *printer = NULL;
 	PrintJobInfo *pj;
-	int loop, i;
-	
-	g_return_if_fail (sheet != NULL);
-	
-	if (!preview) {
-		if (!(printer = gnumeric_printer_dialog_run 
-		      (&default_range, sheet->workbook)))
-			return;
-	}
-		
-	pj = print_job_info_get (sheet, default_range);
+	GnomePrintDialog *gpd;
+	GnomePrintMaster *gpm;
+	GnomePrintMasterPreview *pmp;
+	int copies=1, collate=FALSE;
+ 	int first=1, end = workbook_sheet_count(sheet->workbook), range;
 
-	if (pj->sorted_print) {
-		loop = pj->n_copies;
-		pj->n_copies = 1;
-	} else
-		loop = 1;
+  	g_return_if_fail (sheet != NULL);
+
+  	if (!preview) {
+		gpd = (GnomePrintDialog *)gnome_print_dialog_new(_("Print Sheets"), GNOME_PRINT_DIALOG_RANGE|GNOME_PRINT_DIALOG_COPIES);
+		gnome_print_dialog_construct_range_page(gpd,
+							GNOME_PRINT_RANGE_CURRENT|GNOME_PRINT_RANGE_ALL|
+							GNOME_PRINT_RANGE_SELECTION|GNOME_PRINT_RANGE_RANGE,
+							1, workbook_sheet_count(sheet->workbook),
+							_("Active sheet"), _("Sheets"));
+		switch(gnome_dialog_run(GNOME_DIALOG(gpd))) {
+		case GNOME_PRINT_PRINT:
+			break;
+		case GNOME_PRINT_PREVIEW:
+			preview = TRUE;
+			break;
+		case -1:
+  			return;
+		default:
+			gnome_dialog_close(GNOME_DIALOG(gpd));
+			return;
+		}
+		gnome_print_dialog_get_copies(gpd, &copies, &collate);
+		printer = gnome_print_dialog_get_printer(gpd);
+		range = gnome_print_dialog_get_range_page(gpd, &first, &end);
+		gnome_dialog_close(GNOME_DIALOG(gpd));
+		switch (range) {
+		case GNOME_PRINT_RANGE_CURRENT:
+			default_range = PRINT_ACTIVE_SHEET;
+  			break;
+		case GNOME_PRINT_RANGE_ALL:
+			default_range = PRINT_ALL_SHEETS;
+  			break;
+		case GNOME_PRINT_RANGE_SELECTION:
+			default_range = PRINT_SHEET_SELECTION;
+  			break;
+		case GNOME_PRINT_RANGE_RANGE:
+			default_range = PRINT_SHEET_RANGE;
+  			break;
+  		}
+  	}
+	pj = print_job_info_get (sheet, default_range);
+	pj->n_copies = 1;
+	pj->sorted_print = FALSE;
+	if (default_range == PRINT_SHEET_RANGE) {
+		pj->start_page = first-1;
+		pj->end_page = end-1;
+	}
+  
+	gpm = gnome_print_master_new();
+	gnome_print_master_set_paper(gpm, pj->pi->paper);
+	if (printer)
+		gnome_print_master_set_printer(gpm, printer);
+	gnome_print_master_set_copies(gpm, copies, collate);
+	pj->print_context = gnome_print_master_get_context(gpm);
+
+	/* perfrom actual printing */
+	switch (pj->range) {
+		
+	case PRINT_ACTIVE_SHEET:
+		pj->render_info->pages = compute_pages(NULL, sheet, NULL, pj);
+		print_sheet (NULL, sheet, pj);
+		break;
+		
+	case PRINT_ALL_SHEETS:
+	case PRINT_SHEET_RANGE:
+		workbook_print_all (sheet->workbook, pj);
+		break;
+				
+	case PRINT_SHEET_SELECTION:
+		sheet_print_selection (sheet, pj);
+		break;
+		
+	default:
+		g_error ("mis-enumerated print type");
+		break;
+  	}
+
+	gnome_print_master_close(gpm);
 
 	if (preview) {
-		pj->n_copies = 1;
-		loop = 1;
-		pj->preview = print_preview_new (sheet);
-		pj->print_context = print_preview_context (pj->preview);
+		pmp = gnome_print_master_preview_new(gpm, _("Print preview"));
+		gtk_widget_show(GTK_WIDGET(pmp));
 	} else {
-		pj->preview = NULL;
-		pj->print_context = gnome_print_context_new_with_paper_size (
-			printer, gnome_paper_name (pj->pi->paper));
+		gnome_print_master_print(gpm);
 	}
-
-	if (pj->print_context == NULL) {
-		gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR,
-				 _("Printing failed -- bad filename?"));
-		loop = 0;
-	}
-
-	for (i = 0; i < loop; i++) {
-		switch (pj->range) {
-
-		case PRINT_ACTIVE_SHEET:
-			print_sheet (NULL, sheet, pj);
-			break;
-
-		case PRINT_ALL_SHEETS:
-			workbook_print_all (sheet->workbook, pj);
-			break;
-
-		case PRINT_SHEET_SELECTION:
-			sheet_print_selection (sheet, pj);
-			break;
-			
-		default:
-			g_error ("mis-enumerated print type");
-			break;
-		}
-	}
-
-	if (preview)
-		print_preview_print_done (pj->preview);
-	else {
-		if (pj->print_context) {
-			gnome_print_context_close_file (pj->print_context);
-			gtk_object_unref (GTK_OBJECT (pj->print_context));
-		}
-		gtk_object_unref (GTK_OBJECT (printer));
-	}
-	
-	print_job_info_destroy (pj);
+	gtk_object_unref(GTK_OBJECT(gpm));
+  	print_job_info_destroy (pj);
 }
+
