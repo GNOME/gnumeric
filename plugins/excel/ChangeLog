@@ -1,7 +1,22 @@
 2004-06-13  Jody Goldberg <jody@gnome.org>
 
-	* ms-chart.c (ms_excel_write_chart) : more work.  gnumeric and OOo can
-	  now import the basic column charts.  Unfortunately XL still crashes.
+	* ms-escher.c (excel_write_MS_O_DRAWING_GROUP) : merge the xp and 2k
+	  versions and tidy up.  This will likely need some work for blips
+
+	* ms-chart.c (chart_write_plot) : implement the plot types we can
+	  import.
+	(chart_write_axis) : provide a default for inverted and
+	  log-scale so that we only set them if lookup succeeds.
+	(ms_excel_write_chart) : more work.  gnumeric and OOo can
+	  now import the basic column charts.  XL does not like the colours
+	  and gets the formating wrong, but it can at least read a single
+	  chart happilly.
+
+	* ms-excel-write.c (excel_write_chart) : put the spid in the write
+	  spot I was off by two bytes.
+	(excel_write_autofilter_objs) : Move the container wrapper from here
+	(excel_write_objs) : to this new routine so that it can be shared by
+	  filters and charts.  We are now close to bit perfect matches to XP.
 
 2004-06-07  Jody Goldberg <jody@gnome.org>
 

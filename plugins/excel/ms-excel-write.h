@@ -90,7 +90,7 @@ struct _ExcelWriteState {
 		GPtrArray  *indicies;
 	} sst;
 
-	unsigned obj_count;
+	unsigned cur_obj, num_objs;
 	gboolean export_macros;
 };
 

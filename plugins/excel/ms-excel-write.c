@@ -1731,7 +1731,7 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 			style = mstyle_copy (style);
 			mstyle_set_format (style, fmt);
 			g_hash_table_insert (ewb->xf.value_fmt_styles,
-				(gpointer)cell, 
+				(gpointer)cell,
 				sheet_style_find (cell->base.sheet, style));
 		}
 	}
@@ -2689,7 +2689,7 @@ excel_write_RSTRING (ExcelWriteState *ewb, GnmCell const *cell, unsigned xf)
 		GSF_LE_SET_GUINT8 (buf, n);
 		ms_biff_put_var_write  (ewb->bp, buf, 1);
 		for (i = 0; i < n ; i++) {
-			GSF_LE_SET_GUINT8 (buf, 
+			GSF_LE_SET_GUINT8 (buf,
 				g_array_index (txo, gint, i*2));
 			GSF_LE_SET_GUINT8 (buf + 1,
 				g_array_index (txo, gint, i*2+1));
@@ -2699,7 +2699,7 @@ excel_write_RSTRING (ExcelWriteState *ewb, GnmCell const *cell, unsigned xf)
 		GSF_LE_SET_GUINT16 (buf, n);
 		ms_biff_put_var_write  (ewb->bp, buf, 2);
 		for (i = 0; i < n ; i++) {
-			GSF_LE_SET_GUINT16 (buf, 
+			GSF_LE_SET_GUINT16 (buf,
 				g_array_index (txo, gint, i*2));
 			GSF_LE_SET_GUINT16 (buf + 2,
 				g_array_index (txo, gint, i*2+1));
@@ -3182,37 +3182,18 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 		8, 0, 0x57, 0, 0, 0
 	};
 
-	static guint8 const header_obj_v8[] = {
-/* DgContainers */ 0x0f, 0,   2, 0xf0,	   0, 0, 0, 0,	/* fill in length */
-/* Dg */	   0x10, 0,   8, 0xf0,	   8, 0, 0, 0,	3, 0, 0, 0, 2, 4, 0, 0,
-/* SpgrContainer */0x0f, 0,   3, 0xf0,	   0, 0, 0, 0,	/* fill in length */
-/* SpContainer */  0x0f, 0,   4, 0xf0,	0x28, 0, 0, 0,
-/* Spgr */	      1, 0,   9, 0xf0,	0x10, 0, 0, 0,	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-/* Sp */	      2, 0, 0xa, 0xf0,     8, 0, 0, 0,	0, 4, 0, 0, 5, 0, 0, 0
-	};
 	static guint8 const obj_v8[] = {
-/* SpContainer */  0x0f,   0,   4, 0xf0,   0x58, 0, 0, 0,
+/* SpContainer */  0x0f,   0,   4, 0xf0,   0x52, 0, 0, 0,
 /* Sp */	   0x92, 0xc, 0xa, 0xf0,      8, 0, 0, 0,
-			1,  4,  0,  0,	/* fill in spid of the form obj | 0x400 */
-			0,  0xa,  0,  0,
-/* OPT */	   0x53,   0, 0xb, 0xf0,   0x1e, 0, 0, 0,
-			0x7f, 0, 4, 1,   4, 1, /* bool LockAgainstGrouping 127 = 0x1040104; */
-			0xbf, 0, 8, 0,   8, 0, /* bool fFitTextToShape 191 = 0x80008; */
-			0xbf, 1, 0, 0,   1, 0, /* bool fNoFillHitTest  447 = 0x10000; */
-			0xff, 1, 0, 0,   8, 0, /* bool fNoLineDrawDash 511 = 0x80000; */
-			0xbf, 3, 0, 0, 0xa, 0, /* bool fPrint 959 = 0xa0000; */
-/* ClientAnchor */    0, 0, 0x10, 0xf0,
-			0x12, 0, 0, 0,
-				1,0,	/* flags */
-				0,0,	/* start col */
-				0,0,		/* offset */
-				0,0,	/* start row */
-				0,0,		/* offset */
-				0,0,	/* end col */
-				0,0,		/* offset */
-				0,0,	/* end row */
-				0,0,		/* offset */
-
+			0,   0, 0, 0,	/* fill in 0x400 | spid */
+			0, 0xa, 0, 0,
+/* OPT */	   0x43,   0, 0xb, 0xf0,   0x18, 0, 0, 0,
+			0x7f, 0, 4, 1,	4, 1, /* bool LockAgainstGrouping 127 = 0x1040104; */
+			0xbf, 0, 8, 0,	8, 0, /* bool fFitTextToShape 191 = 0x80008; */
+			0xff, 1, 0, 0,	8, 0, /* bool fNoLineDrawDash 511 = 0x80000; */
+			0xbf, 3, 0, 0,	2, 0, /* bool fPrint 959 = 0x20000; */
+/* ClientAnchor */    0, 0, 0x10, 0xf0,	   0x12, 0, 0, 0,	1,0,
+			0,0,  0,0,	0,0,  0,0,	0,0,  0,0,	0,0,  0,0,
 /* ClientData */      0, 0, 0x11, 0xf0,  0, 0, 0, 0
 	};
 	static SheetObjectAnchorType const anchor_types[] = {
@@ -3230,7 +3211,7 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 	unsigned i;
 	SheetObjectAnchor anchor;
 	GnmRange r;
-	
+
 	if (esheet->gnum_sheet->filters == NULL)
 		return;
 	filter = esheet->gnum_sheet->filters->data;
@@ -3238,23 +3219,18 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 
 	/* write combos for the fields */
 	for (i = 0; i < filter->fields->len ; i++) {
-		esheet->ewb->obj_count++;
 		cond = gnm_filter_get_condition (filter, i);
 
 		r.end.col = 1 + (r.start.col = filter->r.start.col + i);
 		sheet_object_anchor_init (&anchor, &r, offsets, anchor_types,
 			SO_DIR_DOWN_RIGHT);
 		if (bp->version >= MS_BIFF_V8) {
-			ms_biff_put_var_next (bp, BIFF_MS_O_DRAWING);
-			if (i == 0) {
-				int n = range_width (&filter->r);
-				memcpy (buf, header_obj_v8, sizeof header_obj_v8);
-				GSF_LE_SET_GUINT32 (buf +  4, 72 + 96*n);
-				GSF_LE_SET_GUINT32 (buf + 28, 48 + 96*n);
-				ms_biff_put_var_write (bp, buf, sizeof header_obj_v8);
-			}
+			/* just merge the content onto the header */
+			if (esheet->ewb->cur_obj++ > 0)
+				ms_biff_put_var_next (bp, BIFF_MS_O_DRAWING);
+
 			memcpy (buf, obj_v8, sizeof obj_v8);
-			GSF_LE_SET_GUINT32 (buf + 16, 0x400 | esheet->ewb->obj_count);
+			GSF_LE_SET_GUINT32 (buf + 16, 0x400 | esheet->ewb->cur_obj);
 			excel_write_anchor (buf + 72, &anchor);
 			ms_biff_put_var_write (bp, buf, sizeof obj_v8);
 			ms_biff_put_commit (bp);
@@ -3264,15 +3240,16 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 			 * I am guessing is tied to the fact that XL created
 			 * this. not the user*/
 			ms_objv8_write_common (bp,
-				esheet->ewb->obj_count, 0x14, 0x2101);
+				esheet->ewb->cur_obj, 0x14, 0x2101);
 			ms_objv8_write_scrollbar (bp);
 			ms_objv8_write_listbox (bp, cond != NULL); /* acts as an end */
 		} else {
 			data = ms_biff_put_len_next (bp, BIFF_OBJ, sizeof std_obj_v7);
 			memcpy (data, std_obj_v7, sizeof std_obj_v7);
 
-			GSF_LE_SET_GUINT32 (data +  0, esheet->ewb->obj_count);
-			GSF_LE_SET_GUINT16 (data +  6, esheet->ewb->obj_count);
+			esheet->ewb->cur_obj++;
+			GSF_LE_SET_GUINT32 (data +  0, esheet->ewb->cur_obj);
+			GSF_LE_SET_GUINT16 (data +  6, esheet->ewb->cur_obj);
 			excel_write_anchor (data + 10, &anchor);
 			if (cond != NULL)
 				GSF_LE_SET_GUINT16 (data + 124, 0xa);
@@ -3285,17 +3262,10 @@ static void
 excel_write_chart (ExcelWriteSheet *esheet, SheetObject *so)
 {
 	static guint8 const obj_v8[] = {
-/* DgContainers */  0xf, 0,   2, 0xf0,	0xba, 0, 0, 0,	/* hard code length */
-/* Dg */	   0x10, 0,   8, 0xf0,	   8, 0, 0, 0,	2, 0, 0, 0, 1, 4, 0, 0,
-/* SpgrContainer */ 0xf, 0,   3, 0xf0,	0xa2, 0, 0, 0,	/* hard code length */
-/* SpContainer */   0xf, 0,   4, 0xf0,	0x28, 0, 0, 0,
-/* Spgr */	      1, 0,   9, 0xf0,	0x10, 0, 0, 0,	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-/* Sp */	      2, 0, 0xa, 0xf0,     8, 0, 0, 0,	0, 4, 0, 0, 5, 0, 0, 0,
 /* SpContainer */   0xf,   0,   4, 0xf0,   0x6a, 0, 0, 0,
 /* Sp */	   0x92, 0xc, 0xa, 0xf0,      8, 0, 0, 0,
-
-			1,  4,  0,  0,	/* fill in spid of the form obj | 0x400 */
-			0,  0xa,  0,  0,
+			0,   0, 0, 0,	/* fill in 0x400 | spid */
+			0, 0xa, 0, 0,
 /* OPT */	   0x83,   0, 0xb, 0xf0,   0x30, 0, 0, 0,
 			0x7f, 0,    4, 1,  4, 1, /* bool   LockAgainstGrouping 127 = 0x1040104; */
 			0xbf, 0,    8, 0,  8, 0, /* bool   fFitTextToShape 191	= 0x0080008; */
@@ -3305,49 +3275,31 @@ excel_write_chart (ExcelWriteSheet *esheet, SheetObject *so)
 			0xc0, 1, 0x4d, 0,  0, 8, /* Colour lineColor 448	= 0x800004d; */
 			0xff, 1,    8, 0,  8, 0, /* bool   fNoLineDrawDash 511	= 0x0080008; */
 			0x3f, 2,    0, 0,  2, 0, /* bool   fshadowObscured 575	= 0x0020000; */
-/* ClientAnchor */    0, 0, 0x10, 0xf0,   0x12, 0, 0, 0, 1,0,
-			0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0,
+/* ClientAnchor */    0, 0, 0x10, 0xf0,   0x12, 0, 0, 0, 0,0,
+			0,0,  0,0,	0,0,  0,0,	0,0,  0,0,	0,0,  0,0,
 /* ClientData */      0, 0, 0x11, 0xf0,  0, 0, 0, 0
 	};
 
 	guint8 buf [sizeof obj_v8];
 	BiffPut *bp = esheet->ewb->bp;
-	
-	ms_biff_put_var_next (bp, BIFF_MS_O_DRAWING);
+
+	/* just merge the content onto the header */
+	if (esheet->ewb->cur_obj++ > 0)
+		ms_biff_put_var_next (bp, BIFF_MS_O_DRAWING);
+
 	memcpy (buf, obj_v8, sizeof obj_v8);
-	esheet->ewb->obj_count++;
-	GSF_LE_SET_GUINT32 (buf + 98, 0x400 | esheet->ewb->obj_count);
-	excel_write_anchor (buf + 170, sheet_object_anchor_get (so));
+	GSF_LE_SET_GUINT32 (buf + 16, 0x400 | esheet->ewb->cur_obj);
+	excel_write_anchor (buf + 0x5a, sheet_object_anchor_get (so));
 	ms_biff_put_var_write (bp, buf, sizeof obj_v8);
 	ms_biff_put_commit (bp);
 
 	ms_biff_put_var_next (bp, BIFF_OBJ);
-	ms_objv8_write_common (bp, esheet->ewb->obj_count, 5, 0x6011);
-
+	ms_objv8_write_common (bp, esheet->ewb->cur_obj, 5, 0x6011);
 	GSF_LE_SET_GUINT32 (buf, 0); /* end */
 	ms_biff_put_var_write (bp, buf, 4);
 
 	ms_biff_put_commit (bp);
 	ms_excel_write_chart (esheet->ewb, so);
-}
-
-static void
-excel_write_charts (ExcelWriteSheet *esheet)
-{
-	GList *ptr;
-
-#if 1
-	return; /* disable in the mainline until XL stops crashing */
-#endif
-
-	/* one thing at a time, lets do xl97+ first */
-	if (esheet->ewb->bp->version < MS_BIFF_V8)
-		return;
-
-#warning handle multiple charts in a graph by creating multiple objects
-	for (ptr = esheet->gnum_sheet->sheet_objects; ptr != NULL; ptr = ptr->next)
-		if (IS_SHEET_OBJECT_GRAPH (ptr->data))
-			excel_write_chart (esheet, ptr->data);
 }
 
 /* See: S59D76.HTM */
@@ -3524,7 +3476,7 @@ excel_write_selections (BiffPut *bp, ExcelWriteSheet *esheet)
 		pos = sv->edit_pos;
 		if (pos.col < sv->unfrozen_top_left.col)
 			pos.col = sv->unfrozen_top_left.col;
-		tmp = g_list_prepend (NULL, 
+		tmp = g_list_prepend (NULL,
 			      range_init_cellpos (&r, &pos, &pos));
 		excel_write_SELECTION (bp, tmp, &pos, 1);
 		g_list_free (tmp);
@@ -3533,14 +3485,14 @@ excel_write_selections (BiffPut *bp, ExcelWriteSheet *esheet)
 		pos = sv->edit_pos;
 		if (pos.row < sv->unfrozen_top_left.row)
 			pos.row = sv->unfrozen_top_left.row;
-		tmp = g_list_prepend (NULL, 
+		tmp = g_list_prepend (NULL,
 			      range_init_cellpos (&r, &pos, &pos));
 		excel_write_SELECTION (bp, tmp, &pos, 2);
 		g_list_free (tmp);
 	}
 	if (sv->unfrozen_top_left.col > 0 && sv->unfrozen_top_left.row > 0) {
 		pos = sv->edit_pos;	/* apparently no bounds check needed */
-		tmp = g_list_prepend (NULL, 
+		tmp = g_list_prepend (NULL,
 			      range_init_cellpos (&r, &pos, &pos));
 		excel_write_SELECTION (bp, tmp, &pos, 0);
 		g_list_free (tmp);
@@ -3774,8 +3726,54 @@ excel_write_CODENAME (ExcelWriteState *ewb, GObject *src)
 	}
 }
 
-/* See: 'Finding records in BIFF files': S59E28.HTM */
-/* and S59D99.HTM */
+static void
+excel_write_objs (ExcelWriteSheet *esheet)
+{
+	BiffPut *bp = esheet->ewb->bp;
+	GSList  *ptr, *charts = sheet_objects_get (esheet->gnum_sheet,
+		NULL, SHEET_OBJECT_GRAPH_TYPE);
+	int	 len, num_filters = 0, num_charts = g_slist_length (charts);
+
+	if (esheet->gnum_sheet->filters != NULL) {
+		GnmFilter const *f = esheet->gnum_sheet->filters->data;
+		num_filters = range_width (&f->r);
+	}
+	if (num_filters == 0 && num_charts == 0)
+		return;
+
+	/* The header */
+	if (bp->version >= MS_BIFF_V8) {
+		static guint8 const header_obj_v8[] = {
+/* DgContainers */ 0x0f, 0,   2, 0xf0,	   0, 0, 0, 0,	/* fill in length */
+/* Dg */	   0x10, 0,   8, 0xf0,	   8, 0, 0, 0,
+			0, 0, 0, 0,			/* fill in count of objects */
+			0, 0, 0, 0,			/* fill in spid | 0x400 */
+/* SpgrContainer */0x0f, 0,   3, 0xf0,	   0, 0, 0, 0,	/* fill in length */
+/* SpContainer */  0x0f, 0,   4, 0xf0,	0x28, 0, 0, 0,
+/* Spgr */	      1, 0,   9, 0xf0,	0x10, 0, 0, 0,	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+/* Sp */	      2, 0, 0xa, 0xf0,     8, 0, 0, 0,	0, 4, 0, 0, 5, 0, 0, 0
+		};
+		guint8 buf [sizeof header_obj_v8];
+		unsigned last = esheet->ewb->cur_obj + num_filters + num_charts;
+
+		ms_biff_put_var_next (bp, BIFF_MS_O_DRAWING);
+		memcpy (buf, header_obj_v8, sizeof header_obj_v8);
+		len = 90*num_filters + 114*num_charts;
+		GSF_LE_SET_GUINT32 (buf +  4, 72 + len);
+		GSF_LE_SET_GUINT32 (buf + 16, esheet->ewb->num_objs);
+		GSF_LE_SET_GUINT32 (buf + 28, 48 + len);
+		GSF_LE_SET_GUINT32 (buf + 20, 0x400 | last);	/* last spid in this group */
+		ms_biff_put_var_write (bp, buf, sizeof header_obj_v8);
+	}
+
+#warning handle multiple charts in a graph by creating multiple objects
+	for (ptr = charts; ptr != NULL ; ptr = ptr->next)
+		excel_write_chart (esheet, ptr->data);
+	g_slist_free (charts);
+
+	excel_write_autofilter_objs (esheet);
+}
+
 static void
 excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 {
@@ -3825,8 +3823,8 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 		excel_write_comments_biff7 (ewb->bp, esheet);
 	excel_sheet_write_INDEX (esheet, index_off, dbcells);
 
-	excel_write_autofilter_objs (esheet);
-	excel_write_charts (esheet);
+	if (ewb->num_objs > 0)
+		excel_write_objs (esheet);
 
 #warning check this.  Why is there a window1 here ?
 	excel_write_WINDOW1 (ewb->bp, esheet->ewb->gnum_wb_view);
@@ -4200,7 +4198,7 @@ excel_write_workbook (ExcelWriteState *ewb)
 	BiffPut		*bp = ewb->bp;
 	ExcelWriteSheet	*s = NULL;
 	guint8 *data;
-	int i, len;
+	unsigned i, len;
 
 	ewb->streamPos = excel_write_BOF (ewb->bp, MS_BIFF_TYPE_Workbook);
 
@@ -4264,7 +4262,7 @@ excel_write_workbook (ExcelWriteState *ewb)
 
 	ms_biff_put_2byte (ewb->bp, BIFF_BACKUP, 0);
 	ms_biff_put_2byte (ewb->bp, BIFF_HIDEOBJ, 0);
-	ms_biff_put_2byte (ewb->bp, BIFF_1904, 
+	ms_biff_put_2byte (ewb->bp, BIFF_1904,
 		workbook_date_conv (ewb->gnum_wb)->use_1904 ? 1 : 0);
 	ms_biff_put_2byte (ewb->bp, BIFF_PRECISION, 0x0001);
 	ms_biff_put_2byte (ewb->bp, BIFF_REFRESHALL, 0);
@@ -4278,7 +4276,7 @@ excel_write_workbook (ExcelWriteState *ewb)
 		ms_biff_put_2byte (ewb->bp, BIFF_USESELFS, 0x01);
 	write_palette (bp, ewb);
 
-	for (i = 0; i < (int)ewb->sheets->len; i++) {
+	for (i = 0; i < ewb->sheets->len; i++) {
 		s = g_ptr_array_index (ewb->sheets, i);
 	        s->boundsheetPos = excel_write_BOUNDSHEET (bp,
 			MS_BIFF_TYPE_Worksheet,
@@ -4296,15 +4294,27 @@ excel_write_workbook (ExcelWriteState *ewb)
 		excel_write_names (ewb);
 
 		/* If there are any objects in the workbook add a header */
-		i = workbook_sheet_count (ewb->gnum_wb);
-		while (i-- > 0) {
-			sheet = workbook_sheet_by_index	(ewb->gnum_wb, i);
-			if (sheet->sheet_objects != NULL)
-				break;
-		}
-		if (i >= 0)
-			excel_write_MS_O_DRAWING_GROUP (ewb->bp);
+		len = 0;
+		for (i = 0; i < (unsigned) workbook_sheet_count (ewb->gnum_wb) ; i++) {
+			GSList *objs;
 
+			sheet = workbook_sheet_by_index	(ewb->gnum_wb, i);
+
+			/* we only export charts for now */
+			objs = sheet_objects_get (sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
+			len += g_slist_length (objs);
+			g_slist_free (objs);
+
+			/* And the autofilters */
+			if (sheet->filters != NULL) {
+				GnmFilter const *filter = sheet->filters->data;
+				len += filter->fields->len;
+			}
+		}
+		if (len > 0) {
+			ewb->num_objs = len + 1;
+			excel_write_MS_O_DRAWING_GROUP (ewb->bp, len + 1);
+		}
 		excel_write_SST (ewb);
 	}
 
@@ -4312,12 +4322,12 @@ excel_write_workbook (ExcelWriteState *ewb)
 
 	workbook_io_progress_set (ewb->io_context, ewb->gnum_wb,
 	                          N_ELEMENTS_BETWEEN_PROGRESS_UPDATES);
-	for (i = 0; i < (int)ewb->sheets->len; i++)
+	for (i = 0; i < ewb->sheets->len; i++)
 		excel_write_sheet (ewb, g_ptr_array_index (ewb->sheets, i));
 	io_progress_unset (ewb->io_context);
 
 	/* Finalise Workbook stuff */
-	for (i = 0; i < (int)ewb->sheets->len; i++) {
+	for (i = 0; i < ewb->sheets->len; i++) {
 		ExcelWriteSheet *s = g_ptr_array_index (ewb->sheets, i);
 		excel_fix_BOUNDSHEET (bp->output, s->boundsheetPos,
 				      s->streamPos);
@@ -4415,7 +4425,7 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 
 	/* look for externsheet references in */
 	excel_write_prep_expressions (ewb);			/* dependents */
-	WORKBOOK_FOREACH_DEPENDENT (ewb->gnum_wb, dep, 
+	WORKBOOK_FOREACH_DEPENDENT (ewb->gnum_wb, dep,
 		excel_write_prep_expr (ewb, dep->expression););
 	excel_foreach_name (ewb, (GHFunc) cb_check_names);	/* names */
 
@@ -4439,7 +4449,7 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 	}
 	pre_pass (ewb);
 
-	ewb->obj_count = 0;
+	ewb->cur_obj = ewb->num_objs = 0;
 
 	return ewb;
 }

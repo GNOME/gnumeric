@@ -117,8 +117,8 @@ excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 }
 
 static void
-excel_read_metadata (Workbook *wb,
-		     GsfInfileMSOle *ole, char const *name, GnmCmdContext *context)
+excel_read_metadata (Workbook  *wb, GsfInfile *ole,
+		     char const *name, GnmCmdContext *context)
 {
 	GError   *err = NULL;
 	GsfInput *stream = gsf_infile_child_by_name (GSF_INFILE (ole), name);

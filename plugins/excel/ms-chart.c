@@ -1798,10 +1798,12 @@ BC_R(valuerange)(XLChartHandler const *handle,
 	xl_axis_get_elem (s->axis, AXIS_ELEM_MINOR_TICK,  "Minor Increment",	flags&0x08, q->data+24);
 	xl_axis_get_elem (s->axis, AXIS_ELEM_CROSS_POINT, "Cross over point",	flags&0x10, q->data+32);
 
+#if 0
 	if (flags & 0x20) {
 		g_object_set (s->axis, "log-scale", TRUE, NULL);
 		d (1, fputs ("Log scaled;\n", stderr););
 	}
+#endif
 	if (flags & 0x40) {
 		g_object_set (s->axis, "invert-axis", TRUE, NULL);
 		d (1, fputs ("Values in reverse order;\n", stderr););
@@ -2657,26 +2659,28 @@ chart_write_LINEFORMAT (XLChartWriteState *s,
 {
 	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_lineformat,
 		(s->bp->version >= MS_BIFF_V8) ? 12: 10);
-	guint16 tmp, color_index, pattern = lstyle->pattern;
+	guint16 w, color_index, pat = lstyle->pattern, flags = 0;
 
 	color_index = chart_write_color (s, data, lstyle->color);
 	if (lstyle->width < 0.) {
-		tmp = 0xffff;
-		pattern = 5;	/* none */
+		w = 0xffff;
+		pat = 5;	/* none */
 	} else if (lstyle->width <= .5)
-		tmp = 0xffff;	/* hairline */
+		w = 0xffff;	/* hairline */
 	else if (lstyle->width <= 1.5)
-		tmp = 0;	/* normal */
+		w = 0;	/* normal */
 	else if (lstyle->width <= 2.5)
-		tmp = 1;	/* medium */
+		w = 1;	/* medium */
 	else
-		tmp = 2;	/* wide */
-	GSF_LE_SET_GUINT16 (data+4, pattern);
-	GSF_LE_SET_GUINT16 (data+6, tmp);
-	GSF_LE_SET_GUINT16 (data+8,
-		(lstyle->auto_color ? 1 : 0) |
-		(draw_ticks ? 4 : 0));
+		w = 2;	/* wide */
 
+	GSF_LE_SET_GUINT16 (data+4, pat);
+	GSF_LE_SET_GUINT16 (data+6, w);
+	if (lstyle->auto_color)
+		flags |= 9; 	/* docs only mention 1, but there is an 8 in there too */
+	if (draw_ticks)
+		flags |= 4;
+	GSF_LE_SET_GUINT16 (data+8, flags);
 	if (s->bp->version >= MS_BIFF_V8)
 		GSF_LE_SET_GUINT16 (data+10, color_index);
 	ms_biff_put_commit (s->bp);
@@ -2725,7 +2729,7 @@ xl_axis_set_elem (GogAxis const *axis,
 static void
 chart_write_axis (XLChartWriteState *s, GogAxis const *axis, unsigned i)
 {
-	gboolean inverted;
+	gboolean inverted = FALSE;
 	guint16 tick_color_index, flags = 0;
 	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_axis, 18);
 	GSF_LE_SET_GUINT32 (data + 0, i);
@@ -2768,10 +2772,12 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis, unsigned i)
 						     * 80 == default date settings */
 		ms_biff_put_commit (s->bp);
 	} else {
-		gboolean log_scale;
+		gboolean log_scale = FALSE;
 
 		g_object_get (G_OBJECT (axis),
+#if 0
 			      "log-scale",		&log_scale,
+#endif
 			      "invert-axis",		&inverted,
 			      NULL);
 		data = ms_biff_put_len_next (s->bp, BIFF_CHART_valuerange, 42);
@@ -2827,6 +2833,24 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis, unsigned i)
 	chart_write_END (s);
 }
 
+static guint16
+map_1_5d_type (XLChartWriteState *s, GogPlot const *plot,
+	       guint16 stacked, guint16 percentage, guint16 flag_3d)
+{
+	char const *type;
+	gboolean in_3d = FALSE;
+	guint16 res;
+
+	g_object_get (G_OBJECT (plot), "type", &type, "in_3d", &in_3d, NULL);
+
+	res = (s->bp->version >= MS_BIFF_V8 && in_3d) ? flag_3d : 0;
+	if (0 == strcmp (type, "stacked"))
+		return res | stacked;
+	if (0 == strcmp (type, "as_percentage"))
+		return res | percentage;
+	return res;
+}
+
 static void
 chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 {
@@ -2835,24 +2859,20 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 	char const *type = G_OBJECT_TYPE_NAME (plot);
 
 	if (0 == strcmp (type, "GogAreaPlot")) {
-		ms_biff_put_2byte (s->bp, BIFF_CHART_area, flags);
+		ms_biff_put_2byte (s->bp, BIFF_CHART_area,
+			map_1_5d_type (s, plot, 1, 2, 4));
 	} else if (0 == strcmp (type, "GogBarColPlot")) {
-		char const *type;
-		int overlap_percentage, gap_percentage;
 		gboolean horizontal;
+		int overlap_percentage, gap_percentage;
 
 		g_object_get (G_OBJECT (plot),
 			      "horizontal",		&horizontal,
-			      "type",			&type,
 			      "overlap_percentage",	&overlap_percentage,
 			      "gap_percentage",		&gap_percentage,
 			      NULL);
 		if (horizontal)
-			flags |= 0x01;
-		if (0 == strcmp (type, "stacked"))
-			flags |= 0x02;
-		else if (0 == strcmp (type, "as_percentage"))
-			flags |= 0x04;
+			flags |= 1;
+		flags |= map_1_5d_type (s, plot, 2, 4, 8);
 
 		data = ms_biff_put_len_next (s->bp, BIFF_CHART_bar, 6);
 		GSF_LE_SET_GINT16 (data, -overlap_percentage); /* dipsticks */
@@ -2860,26 +2880,65 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 		GSF_LE_SET_GUINT16 (data+4, flags);
 		ms_biff_put_commit (s->bp);
 	} else if (0 == strcmp (type, "GogLinePlot")) {
-#warning TODO lineplot
-		ms_biff_put_2byte (s->bp, BIFF_CHART_line, flags);
+		ms_biff_put_2byte (s->bp, BIFF_CHART_line,
+			map_1_5d_type (s, plot, 1, 2, 4));
 	} else if (0 == strcmp (type, "GogPiePlot") ||
 		   0 == strcmp (type, "GogRingPlot")) {
-#warning TODO pie/ring
+		gboolean in_3d = FALSE;
+		float initial_angle = 0., center_size = 0.;
+		short int tmp;
+		g_object_set (G_OBJECT (plot),
+			"in_3d",		&in_3d,
+			"initial_angle",	&initial_angle,
+			"center_size",		&center_size,
+			NULL);
+
 		data = ms_biff_put_len_next (s->bp, BIFF_CHART_pie,
 			(s->bp->version >= MS_BIFF_V8) ? 6 : 4);
+		GSF_LE_SET_GUINT16 (data + 0, (int)initial_angle);
+		tmp = (int)floor (center_size * 100. + .5);
+		if (tmp < 0)
+			tmp = 0;
+		else if (tmp > 100)
+			tmp = 100;
+		GSF_LE_SET_GUINT16 (data + 2, tmp);
+		if (s->bp->version >= MS_BIFF_V8 && in_3d)
+			flags = 1;
+		GSF_LE_SET_GUINT16 (data + 4, flags);
 		ms_biff_put_commit (s->bp);
 	} else if (0 == strcmp (type, "GogRadarPlot")) {
-#warning TODO radar
 		gboolean area;
 		g_object_get (G_OBJECT (plot), "area", &area, NULL);
+		/* TODO : flags : chart contains radar axis labels */
 		ms_biff_put_2byte (s->bp,
 			area ? BIFF_CHART_radararea : BIFF_CHART_radar,
 			flags);
 	} else if (0 == strcmp (type, "GogBubblePlot") ||
 		   0 == strcmp (type, "GogXYPlot")) {
-#warning TODO XY/bubble
 		if (s->bp->version >= MS_BIFF_V8) {
 			data = ms_biff_put_len_next (s->bp, BIFF_CHART_scatter, 6);
+			if (0 == strcmp (type, "GogXYPlot")) {
+				GSF_LE_SET_GUINT16 (data + 0, 100);
+				GSF_LE_SET_GUINT16 (data + 2, 1);
+				GSF_LE_SET_GUINT16 (data + 4, 0);
+			} else {
+				gboolean show_neg = FALSE, in_3d = FALSE, as_area = TRUE;
+				g_object_get (G_OBJECT (plot),
+					"show_negatives",	&show_neg,
+					"in_3d",		&in_3d,
+					"size_as_area",		&as_area,
+					NULL);
+				/* TODO : find accurate size */
+				GSF_LE_SET_GUINT16 (data + 0, 100);
+				GSF_LE_SET_GUINT16 (data + 2, as_area ? 1 : 2);
+
+				flags = 1;
+				if (show_neg)
+					flags |= 2;
+				if (in_3d)
+					flags |= 4;
+				GSF_LE_SET_GUINT16 (data + 4, 0);
+			}
 			ms_biff_put_commit (s->bp);
 		} else 
 			ms_biff_put_empty (s->bp, BIFF_CHART_scatter);
@@ -2907,6 +2966,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 		GSF_LE_SET_GUINT32 (data + 6, 400);
 		GSF_LE_SET_GUINT32 (data + 10, 3000);	/* 75% of 4000th of chart area */
 		GSF_LE_SET_GUINT32 (data + 14, 3000);
+		/* chart_write_position (s, legend, data); */
 		ms_biff_put_commit (s->bp);
 
 		chart_write_BEGIN (s);
