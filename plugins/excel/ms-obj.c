@@ -401,7 +401,8 @@ ms_obj_dump_impl (guint8 const *data, int len, int data_left, char const *name)
 static gboolean
 ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 {
-	guint16 peek_op;
+	guint16 peek_op, tmp;
+	guint8 const *data;
 	/* TODO : Lots of docs for these things.  Write the parser. */
 
 #if 0
@@ -417,7 +418,59 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	obj->id         = GSF_LE_GET_GUINT32(q->data + 6);
 
 	switch (obj->excel_type) {
-	case 9:  /* polygon */
+	case 0: /* group */
+		break;
+	case 1: { /* line */
+		if (GSF_LE_GET_GUINT8 (q->data+38))
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_flag (MS_OBJ_ATTR_ARROW_END));
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_uint (MS_OBJ_ATTR_FILL_COLOR,
+				0x80000000 | GSF_LE_GET_GUINT8 (q->data+34)));
+
+		tmp = GSF_LE_GET_GUINT8 (q->data+40);
+		if (tmp & 0x1)
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_flag (MS_OBJ_ATTR_FLIP_H));
+		if (tmp & 0x2)
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_flag (MS_OBJ_ATTR_FLIP_V));
+		break;
+	}
+	case 2: /* rectangle */
+		break;
+	case 3: /* oval */
+		break;
+	case 4: /* arc */
+		break;
+	case 5: /* chart */
+		break;
+	case 6: /* textbox */
+		if (GSF_LE_GET_GUINT8 (q->data+36) > 0) {
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_flag (MS_OBJ_ATTR_FILLED));
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_uint (MS_OBJ_ATTR_FILL_COLOR,
+					0x80000000 | GSF_LE_GET_GUINT8 (q->data+35)));
+		}
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_uint (MS_OBJ_ATTR_OUTLINE_COLOR,
+				0x80000000 | GSF_LE_GET_GUINT8 (q->data+38)));
+		data = q->data + 70;
+		g_return_val_if_fail ((unsigned)(data - q->data) < q->length, TRUE);
+		data += *data + ((*data & 0x1) ? 1 : 2); /* padding byte */
+		g_return_val_if_fail ((unsigned)(data - q->data) < q->length, TRUE);
+		/* docs lie, there is no fmla structure */
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_ptr (MS_OBJ_ATTR_TEXT,
+				g_strndup (data, GSF_LE_GET_GUINT16 (q->data + 44))));
+		break;
+
+	case 7: /* button */
+		break;
+	case 8: /* picture */
+		break;
+	case 9: /* polygon */
 
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_FILL_COLOR,
@@ -426,28 +479,48 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_OUTLINE_COLOR,
 				0x80000000 | GSF_LE_GET_GUINT8 (q->data+38)));
 
-	if (ms_biff_query_peek_next (q, &peek_op) &&
-	    peek_op == BIFF_COORDLIST) {
-		unsigned i, n;
-		guint tmp;
-		GArray *array;
+		if (ms_biff_query_peek_next (q, &peek_op) &&
+		    peek_op == BIFF_COORDLIST) {
+			unsigned i, n;
+			guint tmp;
+			GArray *array;
 
-		ms_biff_query_next (q);
-		n = q->length / 2;
-		array = g_array_set_size (
-			g_array_new (FALSE, FALSE, sizeof (double)), n + 2);
+			ms_biff_query_next (q);
+			n = q->length / 2;
+			array = g_array_set_size (
+				g_array_new (FALSE, FALSE, sizeof (double)), n + 2);
 
-		for (i = 0; i < n ; i++) {
-			tmp = GSF_LE_GET_GUINT16 (q->data + 2*i);
-			g_array_index (array, double, i) = (double)tmp/ 16384.;
+			for (i = 0; i < n ; i++) {
+				tmp = GSF_LE_GET_GUINT16 (q->data + 2*i);
+				g_array_index (array, double, i) = (double)tmp/ 16384.;
+			}
+			g_array_index (array, double, i)   = g_array_index (array, double, 0);
+			g_array_index (array, double, i+1) = g_array_index (array, double, 1);
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_array (MS_OBJ_ATTR_POLYGON_COORDS, array));
 		}
-		g_array_index (array, double, i)   = g_array_index (array, double, 0);
-		g_array_index (array, double, i+1) = g_array_index (array, double, 1);
-		ms_obj_attr_bag_insert (obj->attrs,
-			ms_obj_attr_new_array (MS_OBJ_ATTR_POLYGON_COORDS, array));
-	}
-	break;
+		break;
 
+	case 0xB  : /* check box */
+		break;
+	case 0xC  : /* option button */
+		break;
+	case 0xD  : /* edit box */
+		break;
+	case 0xE  : /* label */
+		break;
+	case 0xF  : /* dialog frame */
+		break;
+	case 0x10 : /* spinner */
+		break;
+	case 0x11 : /* scrollbar */
+		break;
+	case 0x12 : /* list box */
+		break;
+	case 0x13 : /* group box */
+		break;
+	case 0x14 : /* drop down */
+		break;
 	default :
 		;
 	}

@@ -13,6 +13,8 @@ Jody:
 	* Support the global outline buttons
 	* Optional outline markers at the begining rather than end
 	* Make the label object more useful
+	* Fix XL import for h/v only freeze with non origin start
+	* More attributes for excel97 objects
 
 Jon Kåre:
         * Separate GUI for showing progress and messages before first 

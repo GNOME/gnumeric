@@ -433,8 +433,24 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	}
 
 	/* TextBox */
-	case 0x06: so = g_object_new (sheet_object_text_get_type (), NULL);
-		   break;
+	case 0x06: {
+		StyleColor *fill_color = NULL;
+		StyleColor *outline_color;
+
+		so = g_object_new (sheet_object_text_get_type (), NULL);
+		if (ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FILLED))
+			fill_color = ms_sheet_map_color (esheet, obj,
+				MS_OBJ_ATTR_FILL_COLOR);
+		outline_color = ms_sheet_map_color (esheet, obj,
+			MS_OBJ_ATTR_OUTLINE_COLOR);
+		sheet_object_graphic_fill_color_set (so, fill_color);
+		if (outline_color)
+			sheet_object_filled_outline_color_set (so, outline_color);
+		sheet_object_text_set_text (so, 
+			ms_obj_attr_get_ptr (obj, MS_OBJ_ATTR_TEXT, (char *)""));
+		break;
+	}
+
 	/* Button */
 	case 0x07: so = g_object_new (sheet_widget_button_get_type (), NULL);
 		   break;

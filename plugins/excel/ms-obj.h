@@ -45,6 +45,7 @@ typedef enum {
     /* Ptrs */
 	MS_OBJ_ATTR_IS_PTR_MASK = 0x2000,
 	MS_OBJ_ATTR_ANCHOR,
+	MS_OBJ_ATTR_TEXT,
 
     /* GArrays */
 	MS_OBJ_ATTR_IS_GARRAY_MASK = 0x4000,

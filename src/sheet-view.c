@@ -627,6 +627,10 @@ sv_freeze_panes (SheetView *sv,
 		    unfrozen->row != (SHEET_MAX_ROWS-1)) {
 			sv->frozen_top_left = *frozen;
 			sv->unfrozen_top_left = *unfrozen;
+			if (sv->frozen_top_left.col == sv->unfrozen_top_left.col)
+				sv->frozen_top_left.col = sv->unfrozen_top_left.col = 0;
+			if (sv->frozen_top_left.row == sv->unfrozen_top_left.row)
+				sv->frozen_top_left.row = sv->unfrozen_top_left.row = 0;
 		} else
 			frozen = unfrozen = NULL;
 	}

@@ -1,4 +1,14 @@
+2002-11-24  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-graphic.c (sheet_object_text_set_text) : new.
+
+	* src/cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas-text.c
+	(foo_canvas_text_set_property) : enable line wrapping.
+
 2002-11-23  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-view.c (sv_freeze_panes) : Be more robust about handling
+	  h/v only freezing that have initial positions > A1
 
 	* src/sheet-object-graphic.c : Move the label widget here.  Inherit it
 	  from SheetObjectFilled, and use canvas text.  Still needs some love

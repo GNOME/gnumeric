@@ -1424,6 +1424,27 @@ typedef struct {
 } SheetObjectTextClass;
 static SheetObjectFilledClass *sheet_object_text_parent_class;
 
+void
+sheet_object_text_set_text (SheetObject *so, char const *str)
+{
+	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
+
+	g_return_if_fail (sot != NULL);
+	g_return_if_fail (str != NULL);
+
+	if (sot->label != str) {
+		GList *l;
+		g_free (sot->label);
+		sot->label = g_strdup (str);
+		for (l = so->realized_list; l; l = l->next) {
+			FooCanvasGroup *group = FOO_CANVAS_GROUP (l->data);
+			foo_canvas_item_set (FOO_CANVAS_ITEM (group->item_list->next->data),
+				"text", sot->label,
+				NULL);
+		}
+	}
+}
+
 static void
 sheet_object_text_init_full (SheetObjectText *sot, char const *text)
 {

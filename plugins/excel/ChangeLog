@@ -1,3 +1,7 @@
+2002-11-24  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_obj_read_pre_biff8_obj) : add some fun.
+
 2002-11-20  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-write.c (excel_formula_write_NAME_v7) : support qualified

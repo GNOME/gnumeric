@@ -957,6 +957,8 @@ foo_canvas_text_set_property (GObject            *object,
 
 	case PROP_CLIP_WIDTH:
 		text->clip_width = fabs (g_value_get_double (value));
+		pango_layout_set_width (text->layout,
+			text->clip_width * PANGO_SCALE);
 		break;
 
 	case PROP_CLIP_HEIGHT:

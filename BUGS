@@ -10,7 +10,7 @@ Release Critical
     - XL crashes importing our xls95 exports with names
     - referencing freed named expr from undo clipboard
     - height calculation in render value is hosed for embedded new lines
-    - maptable freeze crash
+    - maptable scrolling oddity
 
 Pending Patches
 ---------------
