@@ -42,8 +42,8 @@ graph_update (Graph *graph, int dirty_flags)
 	graph->dirty_flags = 0;
 }
 
-GNOME_Graph_ChartType
-impl_graph_get_chart_type (PortableServer_Servant servant, CORBA_Environment * ev)
+static GNOME_Graph_ChartType
+impl_graph_get_chart_type (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
@@ -136,10 +136,10 @@ graph_compute_stacked_dimensions (Graph *graph)
 	graph_set_low_high (graph, low, high);
 }
 
-void
+static void
 impl_graph_set_chart_type (PortableServer_Servant servant,
 			   GNOME_Graph_ChartType value,
-			   CORBA_Environment * ev)
+			   CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
@@ -164,16 +164,18 @@ impl_graph_set_chart_type (PortableServer_Servant servant,
 	graph_update (graph);
 }
 
-GNOME_Graph_PlotMode
-impl_graph_get_plot_mode (PortableServer_Servant servant, CORBA_Environment * ev)
+static GNOME_Graph_PlotMode
+impl_graph_get_plot_mode (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
 	return graph->plot_mode;
 }
 
-void
-impl_graph_set_plot_mode (PortableServer_Servant servant, GNOME_Graph_PlotMode value, CORBA_Environment * ev)
+static void
+impl_graph_set_plot_mode (PortableServer_Servant servant,
+			  GNOME_Graph_PlotMode value,
+			  CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
@@ -183,16 +185,18 @@ impl_graph_set_plot_mode (PortableServer_Servant servant, GNOME_Graph_PlotMode v
 	}
 }
 
-GNOME_Graph_ColBarMode
-impl_graph_get_col_bar_mode (PortableServer_Servant servant, CORBA_Environment * ev)
+static GNOME_Graph_ColBarMode
+impl_graph_get_col_bar_mode (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
 	return graph->col_bar_mode;
 }
 
-void
-impl_graph_set_col_bar_mode (PortableServer_Servant servant, GNOME_Graph_ColBarMode value, CORBA_Environment * ev)
+static void
+impl_graph_set_col_bar_mode (PortableServer_Servant servant,
+			     GNOME_Graph_ColBarMode value,
+			     CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
@@ -202,16 +206,18 @@ impl_graph_set_col_bar_mode (PortableServer_Servant servant, GNOME_Graph_ColBarM
 	}
 }
 
-GNOME_Graph_DirMode
-impl_graph_get_direction (PortableServer_Servant servant, CORBA_Environment * ev)
+static GNOME_Graph_DirMode
+impl_graph_get_direction (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
 	return graph->direction;
 }
 
-void
-impl_graph_set_direction (PortableServer_Servant servant, GNOME_Graph_DirMode value, CORBA_Environment * ev)
+static void
+impl_graph_set_direction (PortableServer_Servant servant,
+			  GNOME_Graph_DirMode value,
+			  CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
@@ -221,16 +227,18 @@ impl_graph_set_direction (PortableServer_Servant servant, GNOME_Graph_DirMode va
 	}
 }
 
-GNOME_Graph_LineMode
-impl_graph_get_line_mode (PortableServer_Servant servant, CORBA_Environment * ev)
+static GNOME_Graph_LineMode
+impl_graph_get_line_mode (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
 	return graph->line_mode;
 }
 
-void
-impl_graph_set_line_mode (PortableServer_Servant servant, GNOME_Graph_LineMode value, CORBA_Environment * ev)
+static void
+impl_graph_set_line_mode (PortableServer_Servant servant,
+			  GNOME_Graph_LineMode value,
+			  CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
@@ -240,16 +248,18 @@ impl_graph_set_line_mode (PortableServer_Servant servant, GNOME_Graph_LineMode v
 	}
 }
 
-GNOME_Graph_PieMode
-impl_graph_get_pie_mode (PortableServer_Servant servant, CORBA_Environment * ev)
+static GNOME_Graph_PieMode
+impl_graph_get_pie_mode (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
 	return graph->pie_mode;
 }
 
-void
-impl_graph_set_pie_mode (PortableServer_Servant servant, GNOME_Graph_PieMode value, CORBA_Environment * ev)
+static void
+impl_graph_set_pie_mode (PortableServer_Servant servant,
+			 GNOME_Graph_PieMode value,
+			 CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
@@ -259,16 +269,18 @@ impl_graph_set_pie_mode (PortableServer_Servant servant, GNOME_Graph_PieMode val
 	}
 }
 
-GNOME_Graph_PieDimension
-impl_graph_get_pie_dim (PortableServer_Servant servant, CORBA_Environment * ev)
+static GNOME_Graph_PieDimension
+impl_graph_get_pie_dim (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
 	return graph->pie_dim;
 }
 
-void
-impl_graph_set_pie_dim (PortableServer_Servant servant, GNOME_Graph_PieDimension value, CORBA_Environment * ev)
+static void
+impl_graph_set_pie_dim (PortableServer_Servant servant,
+			GNOME_Graph_PieDimension value,
+			CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
@@ -278,16 +290,18 @@ impl_graph_set_pie_dim (PortableServer_Servant servant, GNOME_Graph_PieDimension
 	}
 }
 
-GNOME_Graph_ScatterPoints
-impl_graph_get_scatter_mode (PortableServer_Servant servant, CORBA_Environment * ev)
+static GNOME_Graph_ScatterPoints
+impl_graph_get_scatter_mode (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
 	return graph->scatter_mode;
 }
 
-void
-impl_graph_set_scatter_mode (PortableServer_Servant servant, GNOME_Graph_ScatterPoints value, CORBA_Environment * ev)
+static void
+impl_graph_set_scatter_mode (PortableServer_Servant servant,
+			     GNOME_Graph_ScatterPoints value,
+			     CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
@@ -297,16 +311,18 @@ impl_graph_set_scatter_mode (PortableServer_Servant servant, GNOME_Graph_Scatter
 	}
 }
 
-GNOME_Graph_ScatterConn
-impl_graph_get_scatter_conn (PortableServer_Servant servant, CORBA_Environment * ev)
+static GNOME_Graph_ScatterConn
+impl_graph_get_scatter_conn (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
 	return graph->scatter_conn;
 }
 
-void
-impl_graph_set_scatter_conn (PortableServer_Servant servant, GNOME_Graph_ScatterConn value, CORBA_Environment * ev)
+static void
+impl_graph_set_scatter_conn (PortableServer_Servant servant,
+			     GNOME_Graph_ScatterConn value,
+			     CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
@@ -316,16 +332,16 @@ impl_graph_set_scatter_conn (PortableServer_Servant servant, GNOME_Graph_Scatter
 	}
 }
 
-GNOME_Graph_SurfaceMode
-impl_graph_get_surface_mode (PortableServer_Servant servant, CORBA_Environment * ev)
+static GNOME_Graph_SurfaceMode
+impl_graph_get_surface_mode (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
 	return graph->surface_mode;
 }
 
-void
-impl_graph_set_surface_mode (PortableServer_Servant servant, GNOME_Graph_SurfaceMode value, CORBA_Environment * ev)
+static void
+impl_graph_set_surface_mode (PortableServer_Servant servant, GNOME_Graph_SurfaceMode value, CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
@@ -335,22 +351,52 @@ impl_graph_set_surface_mode (PortableServer_Servant servant, GNOME_Graph_Surface
 	}
 }
 
-void
-impl_graph_freeze (PortableServer_Servant servant, CORBA_Environment * ev)
+static void
+impl_graph_freeze (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
 	graph->frozen++;
 }
 
-void
-impl_graph_thaw (PortableServer_Servant servant, CORBA_Environment * ev)
+static void
+impl_graph_thaw (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
 	graph->frozen--;
 	if ((graph->frozen == 0) && (graph->dirty_flags != 0))
 		graph_update (graph, 0);
+}
+
+static void
+impl_reset_series (PortableServer_Servant servant, CORBA_Environment *ev)
+{
+	Graph *graph = graph_from_servant (servant);
+	const int n = graph->n_series;
+	int i;
+	
+	for (i = 0; i < n; i++)
+		graph_vector_destroy (graph->vectors [i]);
+	g_free (graph->vectors);
+	graph->vectors = NULL;
+	graph->n_series = 0;
+}
+
+static void
+impl_add_series (PortableServer_Servant servant, GNOME_Gnumeric_Vector vector, CORBA_Environment *ev)
+{
+	Graph *graph = graph_from_servant (servant);
+	GraphVector *v;
+	
+	v = g_renew (GraphVector *, graph->vectors, graph->n_series+1);
+	if (v == NULL){
+		CORBA_exception_set_system (ev, ex_CORBA_NO_MEMORY, CORBA_COMPLETED_NO);
+		return;
+	}
+	
+	graph->series [graph->n_series] = graph_vector_new (vector, NULL, NULL, 0);
+	graph->n_series++;
 }
 
 static void
@@ -380,6 +426,9 @@ init_graph_corba_class (void)
 	graph_epv.freeze = &impl_graph_freeze;
 	graph_epv.thaw   = &impl_graph_thaw;
 
+	graph_epv.reset_series = &impl_reset_series;
+	graph_epv.add_series   = &impl_add_series;
+	
 	/*
 	 * The Vepv
 	 */

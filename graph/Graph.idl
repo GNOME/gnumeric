@@ -21,7 +21,13 @@ module GNOME {
 			SCALE_TYPE_PERCENT
 		};
 
-		interface AxisScale {
+		enum AxisType {
+			AXIS_X,
+			AXIS_Y,
+			AXIS_Z
+		};
+
+		interface Axis {
 			/*
 			 * Whether the Axis is hidden
 			 */
@@ -191,6 +197,21 @@ module GNOME {
 
 			void reset_series ();
 			void add_series (in string label, in Vector vector);
+		};
+
+		//
+		// This one actually contains all the chart elements and controls
+		// its placement.
+		//
+		//   * The Chart
+		//   * The titles
+		//   * The series labels
+		//   * The axis
+		//   * The chart background
+		//
+		interface Layout : GNOME::Unknown {
+			Chart get_chart ();
+			Axis  get_axis (in AxisType axis);
 		};
 	};
 };

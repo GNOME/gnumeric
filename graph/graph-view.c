@@ -1,5 +1,5 @@
 /*
- * Graph Item
+ * Graph Item, the view of the Graph model.
  *
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
@@ -7,8 +7,11 @@
  * (C) 1999 International GNOME Support (http://www.gnome-support.com).
  */
 #include <config.h>
+#include <math.h>
 #include <libgnomeui/gnome-canvas.h>
 #include "graph.h"
+#include "graph-view.h"
+#include "graph-view-colbar.h"
 
 enum {
 	ARG_BBOX,
@@ -22,7 +25,6 @@ static void
 graph_view_destroy (GtkObject *object)
 {
 	GraphView *graph_view = GRAPH_VIEW (object);
-	
 }
 
 static void
@@ -57,58 +59,65 @@ graph_view_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-graph_view_colbar_draw_nth (GraphView *graph_view, GdkDrawable *drawable, int n, int base_x, int base_y)
-{
-	
-}
-
-static void
-graph_view_colbar_draw (GraphView *graph_view, GdkDrawable *drawable, int x, int y, int width, int height)
-{
-	int yl = graph_view->bbox.y1 - graph_view->bbox.y0;
-	int xl = graph_view->bbox.x1 - graph_view->bbox.x0;
-	int first, last, i;
-	double units_per_slot;
-	
-	if (graph_view->graph->direction == GNOME_GRAPH_DIR_BAR){
-		units_per_slot = yl / graph_view->graph->divisions;
-		first = y / units_per_slot;
-		last = (y + width) / units_per_slot;
-
-		for (i = first; i <= last; i++){
-			HERE IS STAYED
-		}
-		
-	} else {
-		units_per_slot = xl / graph_view->graph->divisions;
-		first = x / units_per_slot;
-		last = (x + width) / units_per_slot;
-
-		for (i = first; i <= last; i++){
-			int base = i * units_per_slot;
-			
-			graph_view_colbar_draw_nth (drawable, i, base_x - x, y);
-		};
-	}
-
-}
-
-static void
 graph_view_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
 	GraphView *graph_view = GRAPH_VIEW (item);
 	Graph *graph = graph_view->graph;
 
-	if (graph->plot_mode == GNOME_Graph_PLOT_COLBAR){
-		graph_view_colbar_draw (graph_view, drawable, x, y, width, height);
-		return;
+	switch (graph->chart_type){
+	case GNOME_Graph_CHART_TYPE_CLUSTERED:
+	case GNOME_Graph_CHART_TYPE_STACKED:
+	case GNOME_Graph_CHART_TYPE_STACKED_FULL:
+		if (graph->plot_mode == GNOME_Graph_PLOT_COLBAR){
+			graph_view_colbar_draw (
+				graph_view, drawable,
+				x, y, width, height);
+			return;
+		}
+		graph_view_plot (graph_view, drawable, x, y, width, height);
+		break;
+
+	case GNOME_Graph_CHART_TYPE_BUBBLES:
+		g_error ("Bubbles not implemented yet");
+		break;
+
+	case GNOME_Graph_CHART_TYPE_SCATTER:
+		graph_view_scatter_plot (graph_view, drawable, x, y, width, height);
+		break;
+
+	case GNOME_Graph_CHART_TYPE_SURFACE_2D:
+	case GNOME_Graph_CHART_TYPE_SURFACE_3D:
+		g_error ("Surface 2D/3D not implemented yet");
+		break;
+
+	case GNOME_Graph_CHART_TYPE_3D:
+		g_error ("3D charts not implemented yet");
+		break;
+
+	case GNOME_Graph_CHART_TYPE_PIE:
+		g_error ("Pie charts not yet implemented");
+		break;
+		
+	case GNOME_Graph_CHART_TYPE_STOCK_HIGH_LOW_CLOSE:
+	case GNOME_Graph_CHART_TYPE_STOCK_OPEN_HIGH_LOW_CLOSE:
+	case GNOME_Graph_CHART_TYPE_STOCK_VOL_HIGH_LOW_CLOSE:
+	case GNOME_Graph_CHART_TYPE_STOCK_VOL_OPEN_HIGH_LOW_CLOSE:
+		graph_view_stock_plot (graph_view, drawable,
+				       x, y, width, height);
+		break;
 	}
+
+
+	graph_view_
 }
 
 static double
 graph_view_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 		  GnomeCanvasItem **actual_item)
 {
+	/* For now we are always inside the thing. */
+	*actual_item = item;
+	return 0.0;
 }
 
 static gint

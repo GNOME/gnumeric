@@ -17,10 +17,12 @@ GRAPH_CORBA_GENERATED = 		\
 	Graph.h
 
 graph_SOURCES =			\
-	data-source.c		\
-	data-source.h		\
-	series.c		\
-	series.h		\
+	graph.c			\
+	graph.h			\
+	graph-view.c		\
+	graph-view.h		\
+	graph-view-colbar.c	\
+	graph-view-colbar.h	\
 	vector.c		\
 	vector.h		\
 	$(GRAPH_CORBA_GENERATED)
