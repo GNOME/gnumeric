@@ -62,6 +62,7 @@
 #include "style-color.h"
 #include "summary.h"
 #include "dialogs/dialogs.h"
+#include "tools/dao.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
@@ -4413,6 +4414,7 @@ cmd_analysis_tool_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	if (me->engine (me->dao, me->specs, TOOL_ENGINE_PERFORM_CALC, NULL))
 		return TRUE;
 	
+	dao_autofit_columns (me->dao);
 	sheet_set_dirty (me->dao->sheet, TRUE);
 	sheet_update (me->dao->sheet);
 

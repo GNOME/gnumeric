@@ -1,3 +1,12 @@
+2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/dialogs/anova-one.glade : fix number of table rows
+	* src/dialogs/anova-two.glade : add options
+	* src/dialogs/dialog-analysis-tools.c : make 2 factor anova
+	  undoable and add formatting options
+	* src/dialogs/tools.h : change 2-factor anova into 
+	  cmd_analysis_tools engine
+
 2002-03-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-function-select.c (ialog_function_write_recent_func) : 

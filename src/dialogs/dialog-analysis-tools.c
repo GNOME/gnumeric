@@ -3782,64 +3782,79 @@ dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 static void
 anova_two_factor_tool_ok_clicked_cb (GtkWidget *button, AnovaTwoFactorToolState *state)
 {
-	data_analysis_output_t  dao;
-	Value *input;
-        char   *text;
+	data_analysis_output_t  *dao;
 	GtkWidget *w;
-	gint replication;
-	gnum_float alpha;
 	gint err;
+	analysis_tools_data_anova_two_factor_t *data;
+	char *text;
 
-	input = gnm_expr_entry_parse_as_value
+	data = g_new0 (analysis_tools_data_anova_two_factor_t, 1);
+	dao  = g_new0 (data_analysis_output_t  , 1);
+
+	data->input = gnm_expr_entry_parse_as_value
 		(GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+	data->err = analysis_tools_noerr;
+	data->wbcg = state->wbcg;
 
-        parse_output ((GenericToolState *)state, &dao);
+        parse_output ((GenericToolState *)state, dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha, TRUE);
-	err = entry_to_int (GTK_ENTRY (state->replication_entry), &replication, TRUE);
+	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &data->alpha, TRUE);
+	err = entry_to_int (GTK_ENTRY (state->replication_entry), &data->replication, TRUE);
 
-	if (replication == 1 ) {
-		err = anova_two_factor_without_r_tool (WORKBOOK_CONTROL (state->wbcg),
-						       state->sheet, input, alpha, &dao);
-	} else {
-		err = anova_two_factor_with_r_tool (WORKBOOK_CONTROL (state->wbcg),
-						    state->sheet, input, replication,
-						    alpha, &dao);
-	}
-	switch (err) {
-	case 0:
+	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+			       dao, data, analysis_tool_anova_two_factor_engine)) {
+		switch (data->err) {
+		case analysis_tools_missing_data:
+			error_in_entry ((GenericToolState *) state, 
+					GTK_WIDGET (state->input_entry),
+					data->labels ? _("The given input range should contain at "
+					  "least two columns and two rows of data and the "
+					  "labels.") :
+					_("The given input range should contain at "
+					  "least two columns and two rows of data."));
+			break;
+		case analysis_tools_too_few_cols:
+			error_in_entry ((GenericToolState *) state, 
+					GTK_WIDGET (state->input_entry),
+					data->labels ? _("The given input range should contain at "
+					  "least two columns of data and the "
+					  "labels.") :
+					_("The given input range should contain at "
+					  "least two columns of data."));
+			break;
+		case analysis_tools_too_few_rows:
+			error_in_entry ((GenericToolState *) state, 
+					GTK_WIDGET (state->input_entry),
+					data->labels ? _("The given input range should contain at "
+					  "least two rows of data and the "
+					  "labels.") :
+					_("The given input range should contain at "
+					  "least two rows of data."));
+			break;
+		case analysis_tools_replication_invalid:
+			error_in_entry ((GenericToolState *) state, 
+					GTK_WIDGET (state->input_entry),
+					_("The number of data rows must be a multiple "
+					  "of the replication number."));
+			break;
+		default:
+			text = g_strdup_printf (
+				_("An unexpected error has occurred: %d."), err);
+			error_in_entry ((GenericToolState *) state, 
+					GTK_WIDGET (state->input_entry), text);
+			g_free (text);
+			break;
+		}
+		if (data->input)
+			value_release (data->input);
+		g_free (dao);
+		g_free (data);
+	} else 
 		gtk_widget_destroy (state->dialog);
-		break;
-	case 1:
-		error_in_entry ((GenericToolState *) state, state->replication_entry,
-				_("Each sample must contain the same number "
-				  "of rows."));
-		break;
-	case 2:
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
-				_("Given input range contains non-numeric "
-				  "data."));
-		break;
-	case 3:
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
-				_("The given input range should contain at "
-				  "least two columns of data and the "
-				  "labels."));
-		break;
-	case 4:
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
-				_("One of the factor combinations does not contain\n"
-				  "any observations!"));
-		break;
-	default:
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
-		g_free (text);
-		break;
-	}
+
 	return;
 }
 
@@ -3868,6 +3883,10 @@ anova_two_factor_tool_update_sensitivity_cb (GtkWidget *dummy, AnovaTwoFactorToo
 	i = gnumeric_glade_group_value (state->gui, output_group);
 	err_alpha = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha, FALSE);
 	err_replication = entry_to_int (GTK_ENTRY (state->replication_entry), &replication, FALSE);
+
+	gtk_widget_set_sensitive (state->clear_outputrange_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_format_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_comments_button, (i == 2));
 
 	ready = ((input_range != NULL) &&
                  (err_alpha == 0 && alpha > 0 && alpha < 1) &&

@@ -303,7 +303,7 @@
                 <property name="homogeneous">no</property>
                 <property name="row_spacing">0</property>
                 <property name="column_spacing">0</property>
-                <property name="n-rows">7</property>
+                <property name="n-rows">8</property>
                 <property name="n-columns">2</property>
                 <property name="visible">yes</property>
 

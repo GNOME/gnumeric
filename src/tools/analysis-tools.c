@@ -44,8 +44,10 @@
 #include "workbook.h"
 #include "format.h"
 #include "sheet-object-cell-comment.h"
+#include "gui-util.h"
 
 #include <libgnome/gnome-i18n.h>
+#include <gtk/gtk.h>
 #include <string.h>
 #include <math.h>
 
@@ -2804,7 +2806,6 @@ finish_anova_single_factor_tool:
 
 	dao->offset_row = 0;
 	dao->offset_col = 0;
-	dao_autofit_columns (dao);
 
 	destroy_data_set_list (data);
 
@@ -2860,13 +2861,75 @@ analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs,
  *
  **/
 
-int
-anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
-				 gnum_float alpha,
-				 data_analysis_output_t *dao)
+static gboolean
+analysis_tool_anova_two_factor_prepare_input_range (
+                       analysis_tools_data_anova_two_factor_t *info)
 {
-	GSList *row_input_range = NULL;
-	GSList *col_input_range = NULL;
+	info->row_input_range = NULL;
+	info->col_input_range = NULL;
+
+	info->rows = info->input->v_range.cell.b.row - info->input->v_range.cell.a.row +
+		(info->labels ? 0 : 1);
+	info->n_r = info->rows/info->replication;
+	info->n_c = info->input->v_range.cell.b.col - info->input->v_range.cell.a.col +
+		(info->labels ? 0 : 1);
+
+	if (info->replication == 1) {
+		info->row_input_range = g_slist_prepend (NULL, value_duplicate (info->input));
+		prepare_input_range (&info->row_input_range, GROUPED_BY_ROW);
+		if (info->labels) {
+			GSList *list = info->row_input_range;
+			info->row_input_range = g_slist_remove_link (info->row_input_range, list);
+			range_list_destroy (list);
+		}
+		info->col_input_range = g_slist_prepend (NULL, info->input);
+		prepare_input_range (&info->col_input_range, GROUPED_BY_COL);
+		if (info->labels) {
+			GSList *list = info->col_input_range;
+			info->col_input_range = g_slist_remove_link (info->col_input_range, list);
+			range_list_destroy (list);
+		}
+		info->input = NULL;
+		if (info->col_input_range == NULL || info->row_input_range == NULL ||
+		    info->col_input_range->next == NULL || info->row_input_range->next == NULL) {
+			range_list_destroy (info->col_input_range);
+			info->col_input_range = NULL;
+			range_list_destroy (info->row_input_range);
+			info->row_input_range = NULL;
+			info->err = analysis_tools_missing_data;
+			return TRUE;
+		}
+	} else {
+		/* Check that correct number of rows per sample */
+		if (info->rows % info->replication != 0) {
+			info->err = analysis_tools_replication_invalid;
+			return TRUE;
+		}
+		
+		/* Check that at least two columns of data are given */
+		if (info->n_c < 2) {
+			info->err = analysis_tools_too_few_cols;
+			return TRUE;
+		}
+		/* Check that at least two data rows of data are given */
+		if (info->n_r < 2) {
+			info->err = analysis_tools_too_few_rows;
+			return TRUE;
+		}
+		
+		if (info->labels) {
+			info->input->v_range.cell.a.row += 1;
+			info->input->v_range.cell.a.col += 1;
+		}
+		
+	}
+	return FALSE;
+}
+
+static gboolean
+analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao, 
+						  analysis_tools_data_anova_two_factor_t *info)
+{
 	GPtrArray *row_data = NULL;
 	GPtrArray *col_data = NULL;
 
@@ -2878,41 +2941,20 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *inpu
 	gnum_float    ms_r, ms_c, ms_e, f1, f2, p1, p2, f1_c, f2_c;
 	int        df_r, df_c, df_e, df_t;
 
-	row_input_range = g_slist_prepend (NULL, value_duplicate (input));
-	prepare_input_range (&row_input_range, GROUPED_BY_ROW);
-	if (dao->labels_flag) {
-		GSList *list = row_input_range;
-		row_input_range = g_slist_remove_link (row_input_range, list);
-		range_list_destroy (list);
-	}
-	col_input_range = g_slist_prepend (NULL, input);
-	prepare_input_range (&col_input_range, GROUPED_BY_COL);
-	if (dao->labels_flag) {
-		GSList *list = col_input_range;
-		col_input_range = g_slist_remove_link (col_input_range, list);
-		range_list_destroy (list);
-	}
-	if (col_input_range == NULL || row_input_range == NULL ||
-	    col_input_range->next == NULL || row_input_range->next == NULL) {
-		range_list_destroy (col_input_range);
-		range_list_destroy (row_input_range);
-		return 3;
-	}
 
-	row_data = new_data_set_list (row_input_range, GROUPED_BY_ROW,
-				  FALSE, dao->labels_flag, sheet);
-	col_data = new_data_set_list (col_input_range, GROUPED_BY_COL,
-				  FALSE, dao->labels_flag, sheet);
+	row_data = new_data_set_list (info->row_input_range, GROUPED_BY_ROW,
+				  FALSE, info->labels, dao->sheet);
+	col_data = new_data_set_list (info->col_input_range, GROUPED_BY_COL,
+				  FALSE, info->labels, dao->sheet);
 	if (check_data_for_missing (row_data) ||
 	    check_data_for_missing (col_data)) {
-		range_list_destroy (col_input_range);
-		range_list_destroy (row_input_range);
 		destroy_data_set_list (row_data);
 		destroy_data_set_list (col_data);
-		return 2;
+		gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+				 _("The input range contains non-numeric "
+				   "data."));
+		return TRUE;
 	}
-
-	dao_prepare_output (wbc, dao, _("Anova"));
 
 	cols = col_data->len;
 	rows = row_data->len;
@@ -2985,8 +3027,8 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *inpu
 	f2   = ms_c / ms_e;
 	p1   = pf (f1, df_r, df_e, FALSE, FALSE);
 	p2   = pf (f2, df_c, df_e, FALSE, FALSE);
-	f1_c = qf (alpha, df_r, df_e, FALSE, FALSE);
-	f2_c = qf (alpha, df_c, df_e, FALSE, FALSE);
+	f1_c = qf (info->alpha, df_r, df_e, FALSE, FALSE);
+	f2_c = qf (info->alpha, df_c, df_e, FALSE, FALSE);
 
 	set_cell_text_col (dao, 0, 6 + rows + cols, _("/ANOVA"
 						      "/Source of Variation"
@@ -3023,17 +3065,10 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *inpu
 	dao_set_italic (dao, 1, 7 + rows + cols, 6, 7 + rows + cols);
 	dao_set_italic (dao, 0, 0, 0, 11 + rows + cols);
 
-	dao_autofit_columns (dao);
-
-	range_list_destroy (col_input_range);
-	range_list_destroy (row_input_range);
 	destroy_data_set_list (row_data);
 	destroy_data_set_list (col_data);
 
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (sheet);
-
-	return 0;
+	return FALSE;
 }
 
 
@@ -3064,13 +3099,12 @@ make_label (Sheet *sheet, int col, int row, char *default_format, int index,
 	return g_strdup_printf (default_format, index);
 }
 
-int
-anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
-			      int rows_per_sample, gnum_float alpha,
-			      data_analysis_output_t *dao)
+static gboolean
+analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao, 
+						  analysis_tools_data_anova_two_factor_t *info)
 {
-	guint           rows, i_c, i_r;
-	guint           n_r, n_c, n = 0;
+	guint i_c, i_r;
+	guint n = 0;
 	GPtrArray *col_labels = NULL;
 	GPtrArray *row_labels = NULL;
 	GPtrArray *row_data = NULL;
@@ -3084,72 +3118,51 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 	guint max_sample_size = 0;
 	guint missing_observations = 0;
 	gboolean empty_sample = FALSE;
-	gint return_value = 0;
+	gboolean return_value = FALSE;
 
-	rows = input->v_range.cell.b.row - input->v_range.cell.a.row +
-		(dao->labels_flag ? 0 : 1);
-	n_r = rows/rows_per_sample;
-	n_c = input->v_range.cell.b.col - input->v_range.cell.a.col +
-		(dao->labels_flag ? 0 : 1);
-
-	/* Check that correct number of rows per sample */
-	if (rows % rows_per_sample != 0)
-	        return 1;
-
-	/* Check that at least two columns of data are given */
-	if (n_c < 2)
-	        return 3;
-	/* Check that at least two data rows of data are given */
-	if (n_r < 2)
-	        return 3;
-
-	if (dao->labels_flag) {
-		input->v_range.cell.a.row += 1;
-		input->v_range.cell.a.col += 1;
-	}
 
 	col_labels = g_ptr_array_new ();
-	g_ptr_array_set_size (col_labels, n_c);
-	for (i_c = 0; i_c < n_c; i_c++)
+	g_ptr_array_set_size (col_labels, info->n_c);
+	for (i_c = 0; i_c < info->n_c; i_c++)
 		g_ptr_array_index (col_labels, i_c) = make_label (
-			sheet, input->v_range.cell.a.col + i_c,
-			input->v_range.cell.a.row - 1,
+			dao->sheet, info->input->v_range.cell.a.col + i_c,
+			info->input->v_range.cell.a.row - 1,
 			_("Column %i"), i_c + 1, dao->labels_flag);
 	row_labels = g_ptr_array_new ();
-	g_ptr_array_set_size (row_labels, n_r);
-	for (i_r = 0; i_r < n_r; i_r++)
+	g_ptr_array_set_size (row_labels, info->n_r);
+	for (i_r = 0; i_r < info->n_r; i_r++)
 		g_ptr_array_index (row_labels, i_r) = make_label (
-			sheet,
-			input->v_range.cell.a.col - 1,
-			input->v_range.cell.a.row + i_r * rows_per_sample,
+			dao->sheet,
+			info->input->v_range.cell.a.col - 1,
+			info->input->v_range.cell.a.row + i_r * info->replication,
 			_("Row %i"), i_r + 1, dao->labels_flag);
 
-	input_cp = value_duplicate (input);
+	input_cp = value_duplicate (info->input);
 	input_cp->v_range.cell.b.row = input_cp->v_range.cell.a.row +
-		rows_per_sample - 1;
+		info->replication - 1;
 	row_data = g_ptr_array_new ();
-	while (input_cp->v_range.cell.a.row < input->v_range.cell.b.row) {
+	while (input_cp->v_range.cell.a.row < info->input->v_range.cell.b.row) {
 		GPtrArray *col_data = NULL;
 		GSList *col_input_range = NULL;
 
 		col_input_range = g_slist_prepend (NULL, value_duplicate (input_cp));
 		prepare_input_range (&col_input_range, GROUPED_BY_COL);
 		col_data = new_data_set_list (col_input_range, GROUPED_BY_COL,
-				  TRUE, FALSE, sheet);
+				  TRUE, FALSE, dao->sheet);
 		g_ptr_array_add (row_data, col_data);
 		range_list_destroy (col_input_range);
-		input_cp->v_range.cell.a.row += rows_per_sample;
-		input_cp->v_range.cell.b.row += rows_per_sample;
+		input_cp->v_range.cell.a.row += info->replication;
+		input_cp->v_range.cell.b.row += info->replication;
 	}
 	value_release (input_cp);
 
 /* We have loaded the data, we should now check for missing observations */
 
-	for (i_r = 0; i_r < n_r; i_r++) {
+	for (i_r = 0; i_r < info->n_r; i_r++) {
 		GPtrArray *data = NULL;
 
 		data = g_ptr_array_index (row_data, i_r);
-		for (i_c = 0; i_c < n_c; i_c++) {
+		for (i_c = 0; i_c < info->n_c; i_c++) {
 			data_set_t *cell_data;
 			guint num;
 
@@ -3160,62 +3173,62 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 			else {
 				if (num > max_sample_size)
 					max_sample_size = num;
-				missing_observations += (rows_per_sample - num);
+				missing_observations += (info->replication - num);
 			}
 		}
 	}
 
 	if (empty_sample) {
-		return_value =  4;
+		gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+				 _("One of the factor combinations does not contain "
+				   "any observations!"));
+		return_value =  TRUE;
 		goto anova_two_factor_with_r_tool_end;
 	}
 
-	missing_observations -= ((rows_per_sample - max_sample_size) * n_c * n_r);
+	missing_observations -= ((info->replication - max_sample_size) * info->n_c * info->n_r);
 
 /* We are ready to create the summary table */
-
-	dao_prepare_output (wbc, dao, _("Anova"));
-
 	dao_set_cell (dao, 0, 0, _("Anova: Two-Factor With Replication"));
 	dao_set_cell (dao, 0, 2, _("SUMMARY"));
-	for (i_c = 0; i_c < n_c; i_c++)
+	for (i_c = 0; i_c < info->n_c; i_c++)
 		dao_set_cell (dao, 1 + i_c, 2,
 			 (char *)g_ptr_array_index (col_labels, i_c));
-	dao_set_cell (dao, 1 + n_c, 2, _("Total"));
-	for (i_r = 0; i_r <= n_r; i_r++) {
+	dao_set_cell (dao, 1 + info->n_c, 2, _("Total"));
+	for (i_r = 0; i_r <= info->n_r; i_r++) {
 		set_cell_text_col (dao, 0, 4 + i_r * 6, _("/Count"
 							"/Sum"
 							"/Average"
 							"/Variance"));
-		if (i_r < n_r)
+		if (i_r < info->n_r)
 			dao_set_cell (dao, 0, 3 + i_r * 6,
 				  (char *)g_ptr_array_index (row_labels, i_r));
 	}
-	dao_set_cell (dao, 0, 3 + n_r * 6, _("Total"));
+	dao_set_cell (dao, 0, 3 + info->n_r * 6, _("Total"));
 
-	set_cell_text_col (dao, 0, n_r * 6 + 10, _("/ANOVA"
+	set_cell_text_col (dao, 0, info->n_r * 6 + 10, _("/ANOVA"
 						    "/Source of Variation"
 						    "/Rows"
 						    "/Columns"
 						    "/Interaction"
 						    "/Within"));
-	dao_set_cell (dao, 0, n_r * 6 + 17, _("Total"));
+	dao_set_cell (dao, 0, info->n_r * 6 + 17, _("Total"));
 
-	set_cell_text_row (dao, 1,  n_r * 6 + 11, _("/SS"
+	set_cell_text_row (dao, 1,  info->n_r * 6 + 11, _("/SS"
 						    "/df"
 						    "/MS"
 						    "/F"
 						    "/P-value"
 						    "/F critical"));
 
-	for (i_r = 0; i_r < n_r; i_r++) {
+	for (i_r = 0; i_r < info->n_r; i_r++) {
 		GPtrArray *data = NULL;
 		gnum_float row_sum = 0.0;
 		gnum_float row_sum_sq = 0.0;
 		guint row_cnt = 0;
 
 		data = g_ptr_array_index (row_data, i_r);
-		for (i_c = 0; i_c < n_c; i_c++) {
+		for (i_c = 0; i_c < info->n_c; i_c++) {
 			data_set_t *cell_data;
 			gnum_float v;
 			int error;
@@ -3244,19 +3257,19 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 		n += row_cnt;
 		ss_r += row_sum * row_sum / row_cnt;
 		ss_total += row_sum_sq;
-		dao_set_cell_int (dao, 1 + n_c, 4 + i_r * 6, row_cnt);
-		dao_set_cell_float (dao, 1 + n_c, 5 + i_r * 6, row_sum);
-		dao_set_cell_float (dao, 1 + n_c, 6 + i_r * 6, row_sum / row_cnt);
-		dao_set_cell_float (dao, 1 + n_c, 7 + i_r * 6,
+		dao_set_cell_int (dao, 1 + info->n_c, 4 + i_r * 6, row_cnt);
+		dao_set_cell_float (dao, 1 + info->n_c, 5 + i_r * 6, row_sum);
+		dao_set_cell_float (dao, 1 + info->n_c, 6 + i_r * 6, row_sum / row_cnt);
+		dao_set_cell_float (dao, 1 + info->n_c, 7 + i_r * 6,
 				(row_sum_sq - row_sum * row_sum / row_cnt) / (row_cnt - 1));
 	}
 
-	for (i_c = 0; i_c < n_c; i_c++) {
+	for (i_c = 0; i_c < info->n_c; i_c++) {
 		gnum_float col_sum = 0.0;
 		gnum_float col_sum_sq = 0.0;
 		guint col_cnt = 0;
 
-		for (i_r = 0; i_r < n_r; i_r++) {
+		for (i_r = 0; i_r < info->n_r; i_r++) {
 			data_set_t *cell_data;
 			gnum_float v;
 			int error;
@@ -3275,21 +3288,21 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 			col_sum_sq += v;
 		}
 		ss_c += col_sum * col_sum / col_cnt;
-		dao_set_cell_int (dao, 1 + i_c, 4 + n_r * 6, col_cnt);
-		dao_set_cell_float (dao, 1 + i_c, 5 + n_r * 6, col_sum);
-		dao_set_cell_float (dao, 1 + i_c, 6 + n_r * 6, col_sum / col_cnt);
-		dao_set_cell_float (dao, 1 + i_c, 7 + n_r * 6,
+		dao_set_cell_int (dao, 1 + i_c, 4 + info->n_r * 6, col_cnt);
+		dao_set_cell_float (dao, 1 + i_c, 5 + info->n_r * 6, col_sum);
+		dao_set_cell_float (dao, 1 + i_c, 6 + info->n_r * 6, col_sum / col_cnt);
+		dao_set_cell_float (dao, 1 + i_c, 7 + info->n_r * 6,
 				(col_sum_sq - col_sum * col_sum / col_cnt) / (col_cnt - 1));
 	}
 
-	dao_set_cell_int (dao, 1 + n_c, 4 + n_r * 6, n);
-	dao_set_cell_float (dao, 1 + n_c, 5 + n_r * 6, cm);
-	dao_set_cell_float (dao, 1 + n_c, 6 + n_r * 6, cm / n);
+	dao_set_cell_int (dao, 1 + info->n_c, 4 + info->n_r * 6, n);
+	dao_set_cell_float (dao, 1 + info->n_c, 5 + info->n_r * 6, cm);
+	dao_set_cell_float (dao, 1 + info->n_c, 6 + info->n_r * 6, cm / n);
 	cm = cm * cm/ n;
-	dao_set_cell_float   (dao, 1 + n_c, 7 + n_r * 6, (ss_total - cm) / (n - 1));
+	dao_set_cell_float   (dao, 1 + info->n_c, 7 + info->n_r * 6, (ss_total - cm) / (n - 1));
 
-	df_r = n_r - 1;
-	df_c = n_c - 1;
+	df_r = info->n_r - 1;
+	df_c = info->n_c - 1;
 	df_rc = df_r * df_c;
 	df_total = n - 1;
 	df_e = df_total - df_rc - df_c - df_r;
@@ -3303,11 +3316,11 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 
 		/* Estimate the missing values */
 
-		for (i_r = 0; i_r < n_r; i_r++) {
+		for (i_r = 0; i_r < info->n_r; i_r++) {
 			GPtrArray *data = NULL;
 
 			data = g_ptr_array_index (row_data, i_r);
-			for (i_c = 0; i_c < n_c; i_c++) {
+			for (i_c = 0; i_c < info->n_c; i_c++) {
 				data_set_t *cell_data;
 				guint num, error;
 
@@ -3334,14 +3347,14 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 		cm = 0;
 		n = 0;
 
-		for (i_r = 0; i_r < n_r; i_r++) {
+		for (i_r = 0; i_r < info->n_r; i_r++) {
 			GPtrArray *data = NULL;
 			gnum_float row_sum = 0.0;
 			gnum_float row_sum_sq = 0.0;
 			guint row_cnt = 0;
 
 			data = g_ptr_array_index (row_data, i_r);
-			for (i_c = 0; i_c < n_c; i_c++) {
+			for (i_c = 0; i_c < info->n_c; i_c++) {
 				data_set_t *cell_data;
 				gnum_float v;
 				int error;
@@ -3366,11 +3379,11 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 			ss_total += row_sum_sq;
 		}
 
-		for (i_c = 0; i_c < n_c; i_c++) {
+		for (i_c = 0; i_c < info->n_c; i_c++) {
 			gnum_float col_sum = 0.0;
 			guint col_cnt = 0;
 
-			for (i_r = 0; i_r < n_r; i_r++) {
+			for (i_r = 0; i_r < info->n_r; i_r++) {
 				data_set_t *cell_data;
 				gnum_float v;
 				int error;
@@ -3397,59 +3410,57 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 	ss_total = ss_total - cm;
 	ss_e = ss_total - ss_r - ss_c - ss_rc;
 
-	dao_set_cell_float (dao, 1, n_r * 6 + 12, ss_r);
-	dao_set_cell_float (dao, 1, n_r * 6 + 13, ss_c);
-	dao_set_cell_float (dao, 1, n_r * 6 + 14, ss_rc);
-	dao_set_cell_float (dao, 1, n_r * 6 + 15, ss_e);
-	dao_set_cell_float (dao, 1, n_r * 6 + 17, ss_total);
+	dao_set_cell_float (dao, 1, info->n_r * 6 + 12, ss_r);
+	dao_set_cell_float (dao, 1, info->n_r * 6 + 13, ss_c);
+	dao_set_cell_float (dao, 1, info->n_r * 6 + 14, ss_rc);
+	dao_set_cell_float (dao, 1, info->n_r * 6 + 15, ss_e);
+	dao_set_cell_float (dao, 1, info->n_r * 6 + 17, ss_total);
 
-	dao_set_cell_int   (dao, 2, n_r * 6 + 12, df_r);
-	dao_set_cell_int   (dao, 2, n_r * 6 + 13, df_c);
-	dao_set_cell_int   (dao, 2, n_r * 6 + 14, df_rc);
-	dao_set_cell_int   (dao, 2, n_r * 6 + 15, df_e);
-	dao_set_cell_int   (dao, 2, n_r * 6 + 17, df_total);
+	dao_set_cell_int   (dao, 2, info->n_r * 6 + 12, df_r);
+	dao_set_cell_int   (dao, 2, info->n_r * 6 + 13, df_c);
+	dao_set_cell_int   (dao, 2, info->n_r * 6 + 14, df_rc);
+	dao_set_cell_int   (dao, 2, info->n_r * 6 + 15, df_e);
+	dao_set_cell_int   (dao, 2, info->n_r * 6 + 17, df_total);
 
 	ms_r = ss_r / df_r;
 	ms_c = ss_c / df_c;
 	ms_rc = ss_rc / df_rc;
 	ms_e = ss_e / df_e;
 
-	dao_set_cell_float_na (dao, 3, n_r * 6 + 12, ms_r, df_r > 0);
-	dao_set_cell_float_na (dao, 3, n_r * 6 + 13, ms_c, df_c > 0);
-	dao_set_cell_float_na (dao, 3, n_r * 6 + 14, ms_rc, df_rc > 0);
-	dao_set_cell_float_na (dao, 3, n_r * 6 + 15, ms_e, df_e > 0);
+	dao_set_cell_float_na (dao, 3, info->n_r * 6 + 12, ms_r, df_r > 0);
+	dao_set_cell_float_na (dao, 3, info->n_r * 6 + 13, ms_c, df_c > 0);
+	dao_set_cell_float_na (dao, 3, info->n_r * 6 + 14, ms_rc, df_rc > 0);
+	dao_set_cell_float_na (dao, 3, info->n_r * 6 + 15, ms_e, df_e > 0);
 
 	f_r = ms_r / ms_e;
 	f_c = ms_c / ms_e;
 	f_rc = ms_rc / ms_e;
 
-	dao_set_cell_float_na (dao, 4, n_r * 6 + 12, f_r, ms_e != 0 && df_r > 0);
-	dao_set_cell_float_na (dao, 4, n_r * 6 + 13, f_c, ms_e != 0 && df_c > 0);
-	dao_set_cell_float_na (dao, 4, n_r * 6 + 14, f_rc, ms_e != 0 && df_rc > 0);
+	dao_set_cell_float_na (dao, 4, info->n_r * 6 + 12, f_r, ms_e != 0 && df_r > 0);
+	dao_set_cell_float_na (dao, 4, info->n_r * 6 + 13, f_c, ms_e != 0 && df_c > 0);
+	dao_set_cell_float_na (dao, 4, info->n_r * 6 + 14, f_rc, ms_e != 0 && df_rc > 0);
 
 	p_r = pf (f_r, df_r, df_e, FALSE, FALSE);
 	p_c = pf (f_c, df_c, df_e, FALSE, FALSE);
 	p_rc = pf (f_rc, df_rc, df_e, FALSE, FALSE);
 
-	dao_set_cell_float_na (dao, 5, n_r * 6 + 12, p_r, ms_e != 0 && df_r > 0 && df_e > 0);
-	dao_set_cell_float_na (dao, 5, n_r * 6 + 13, p_c, ms_e != 0 && df_c > 0 && df_e > 0);
-	dao_set_cell_float_na (dao, 5, n_r * 6 + 14, p_rc, ms_e != 0 && df_rc > 0 && df_e > 0);
+	dao_set_cell_float_na (dao, 5, info->n_r * 6 + 12, p_r, ms_e != 0 && df_r > 0 && df_e > 0);
+	dao_set_cell_float_na (dao, 5, info->n_r * 6 + 13, p_c, ms_e != 0 && df_c > 0 && df_e > 0);
+	dao_set_cell_float_na (dao, 5, info->n_r * 6 + 14, p_rc, ms_e != 0 && df_rc > 0 && df_e > 0);
 
-	dao_set_cell_float_na (dao, 6, n_r * 6 + 12,
-			   qf (alpha, df_r, df_e, FALSE, FALSE),
+	dao_set_cell_float_na (dao, 6, info->n_r * 6 + 12,
+			   qf (info->alpha, df_r, df_e, FALSE, FALSE),
 			   df_r > 0 && df_e > 0);
-	dao_set_cell_float_na (dao, 6, n_r * 6 + 13,
-			   qf (alpha, df_c, df_e, FALSE, FALSE),
+	dao_set_cell_float_na (dao, 6, info->n_r * 6 + 13,
+			   qf (info->alpha, df_c, df_e, FALSE, FALSE),
 			   df_c > 0 && df_e > 0);
-	dao_set_cell_float_na (dao, 6, n_r * 6 + 14,
-			   qf (alpha, df_rc, df_e, FALSE, FALSE),
+	dao_set_cell_float_na (dao, 6, info->n_r * 6 + 14,
+			   qf (info->alpha, df_rc, df_e, FALSE, FALSE),
 			   df_rc > 0 && df_e > 0);
 
-	dao_set_italic (dao, 0, n_r * 6 + 11, 6, n_r * 6 + 11);
-	dao_set_italic (dao, 0, 2, 1 + n_c, 2);
-	dao_set_italic (dao, 0, 0, 0, 17 + n_r * 6);
-
-	dao_autofit_columns (dao);
+	dao_set_italic (dao, 0, info->n_r * 6 + 11, 6, info->n_r * 6 + 11);
+	dao_set_italic (dao, 0, 2, 1 + info->n_c, 2);
+	dao_set_italic (dao, 0, 0, 0, 17 + info->n_r * 6);
 
  anova_two_factor_with_r_tool_end:
 
@@ -3457,20 +3468,72 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 		destroy_data_set_list (g_ptr_array_index (row_data, i_r));
 	g_ptr_array_free (row_data, TRUE);
 
-	for (i_c = 0; i_c < n_c; i_c++)
+	for (i_c = 0; i_c < info->n_c; i_c++)
 		g_free (g_ptr_array_index (col_labels, i_c));
 	g_ptr_array_free (col_labels, TRUE);
-	for (i_r = 0; i_r < n_r; i_r++)
+	for (i_r = 0; i_r < info->n_r; i_r++)
 		g_free (g_ptr_array_index (row_labels, i_r));
 	g_ptr_array_free (row_labels, TRUE);
 
-	if (return_value == 0) {
-		sheet_set_dirty (dao->sheet, TRUE);
-		sheet_update (dao->sheet);
-	}
-
 	return return_value;
 }
+
+
+
+static gboolean 
+analysis_tool_anova_two_factor_engine_clean (data_analysis_output_t *dao, gpointer specs)
+{
+	analysis_tools_data_anova_two_factor_t *info = specs;
+
+	range_list_destroy (info->col_input_range);
+	info->col_input_range = NULL;
+	range_list_destroy (info->row_input_range);
+	info->row_input_range = NULL;
+	if (info->input)
+		value_release (info->input);
+	info->input = NULL;
+
+	return FALSE;
+}
+
+gboolean 
+analysis_tool_anova_two_factor_engine (data_analysis_output_t *dao, gpointer specs, 
+				   analysis_tool_engine_t selector, gpointer result)
+{
+	analysis_tools_data_anova_two_factor_t *info = specs;
+
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (
+				dao, (info->replication == 1) ? 
+				_("Two Factor ANOVA (%s), no replication") :
+				_("Two Factor ANOVA (%s),  with replication") , result) 
+			== NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+		if (analysis_tool_anova_two_factor_prepare_input_range (info))
+			return TRUE;
+		if (info->replication == 1)
+			dao_adjust (dao, 7, info->n_c + info->n_r + 12);
+		else
+			dao_adjust (dao, MAX (2 + info->n_c, 7), info->n_r * 6 + 18);
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		return analysis_tool_anova_two_factor_engine_clean (dao, specs);
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("Anova"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("Two Factor ANOVA"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		if (info->replication == 1)
+			return analysis_tool_anova_two_factor_no_rep_engine_run (dao, info);
+		else
+			return analysis_tool_anova_two_factor_engine_run (dao, info);
+	}
+	return TRUE;  /* We shouldn't get here */
+}
+
 
 
 /************* Histogram Tool *********************************************

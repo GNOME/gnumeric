@@ -1,3 +1,7 @@
+2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/commands.c (cmd_analysis_tool_redo) : add dao_autofit_columns
+
 2002-03-28  Morten Welinder  <terra@diku.dk>
 
 	* */*.c: Fix g_warning calls to not have terminating n.

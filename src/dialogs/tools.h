@@ -137,12 +137,6 @@ int ranking_tool          (WorkbookControl *context, Sheet *sheet,
 			   GSList *input, group_by_t group_by,
 			   gboolean av_ties_flag,
 			   data_analysis_output_t *dao);
-int anova_two_factor_without_r_tool (WorkbookControl *context, Sheet *sheet,
-				     Value *input, gnum_float alpha,
-				     data_analysis_output_t *dao);
-int anova_two_factor_with_r_tool (WorkbookControl *context, Sheet *sheet,
-				  Value *input, int rows_per_sample,
-				  gnum_float alpha, data_analysis_output_t *dao);
 int histogram_tool        (WorkbookControl *context, Sheet *sheet,
 			   GSList *input, Value *bin, group_by_t group_by,
 			   gboolean bin_labels, gboolean pareto, gboolean percentage,
@@ -152,6 +146,14 @@ int histogram_tool        (WorkbookControl *context, Sheet *sheet,
 
 /* Section 3: Undoable tools and their data structures */
 
+typedef enum {
+	analysis_tools_noerr = 0,
+	analysis_tools_missing_data,
+	analysis_tools_too_few_cols,
+	analysis_tools_too_few_rows,
+	analysis_tools_replication_invalid
+} analysis_tools_error_code_t;
+
 typedef struct {
 	GSList     *input;
 	group_by_t group_by;
@@ -160,6 +162,24 @@ typedef struct {
 } analysis_tools_data_anova_single_t;
 
 gboolean analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs, 
+					   analysis_tool_engine_t selector, gpointer result);
+
+typedef struct {
+	analysis_tools_error_code_t err;
+	WorkbookControlGUI *wbcg;
+	Value     *input;
+	GSList    *row_input_range;
+	GSList    *col_input_range;
+	group_by_t group_by;
+	gnum_float alpha;
+        gboolean   labels;	
+	gint       replication;
+	gint       rows;
+	guint       n_c;
+	guint       n_r;
+} analysis_tools_data_anova_two_factor_t;
+
+gboolean analysis_tool_anova_two_factor_engine (data_analysis_output_t *dao, gpointer specs, 
 					   analysis_tool_engine_t selector, gpointer result);
 
 #endif
