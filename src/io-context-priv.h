@@ -54,8 +54,9 @@ struct _IOContext {
 	CommandContext parent;
 
 	CommandContext *impl;
-	ErrorInfo *error_info;
+	ErrorInfo *info;
 	gboolean error_occurred;
+	gboolean warning_occurred;
 
 	GList *progress_ranges;
 	gfloat progress_min, progress_max;

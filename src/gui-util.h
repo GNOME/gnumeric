@@ -22,6 +22,7 @@ void       gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref,
 
 void       gnumeric_non_modal_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog);
 gint       gnumeric_dialog_run  (WorkbookControlGUI *wbcg, GtkDialog *dialog);
+GtkWidget* gnumeric_error_info_dialog_new (ErrorInfo *error);
 void       gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg,
                                             ErrorInfo *error);
 void       gnumeric_set_transient (WorkbookControlGUI *context, GtkWindow *window);

@@ -33,8 +33,9 @@ static void
 io_context_init (IOContext *io_context)
 {
 	io_context->impl = NULL;
-	io_context->error_info = NULL;
+	io_context->info = NULL;
 	io_context->error_occurred = FALSE;
+	io_context->warning_occurred = FALSE;
 
 	io_context->progress_ranges = NULL;
 	io_context->progress_min = 0.0;
@@ -52,10 +53,12 @@ ioc_finalize (GObject *obj)
 	g_return_if_fail (IS_IO_CONTEXT (obj));
 
 	io_context = IO_CONTEXT (obj);
-	error_info_free (io_context->error_info);
-	cmd_context_progress_set (io_context->impl, 0.0);
-	cmd_context_progress_message_set (io_context->impl, NULL);
-	g_object_unref (G_OBJECT (io_context->impl));
+	error_info_free (io_context->info);
+	if (io_context->impl) {
+		cmd_context_progress_set (io_context->impl, 0.0);
+		cmd_context_progress_message_set (io_context->impl, NULL);
+		g_object_unref (G_OBJECT (io_context->impl));
+	}
 
 	G_OBJECT_CLASS (g_type_class_peek (COMMAND_CONTEXT_TYPE))->finalize (obj);
 }
@@ -124,6 +127,7 @@ gnumeric_io_context_new (CommandContext *cc)
 	g_return_val_if_fail (IS_COMMAND_CONTEXT (cc), NULL);
 
 	io_context = g_object_new (TYPE_IO_CONTEXT, NULL);
+	/* The cc is optional for subclasses, but mandatory in this class. */
 	io_context->impl = cc;
 	g_object_ref (G_OBJECT (io_context->impl));
 
@@ -134,7 +138,6 @@ void
 gnumeric_io_error_unknown (IOContext *context)
 {
 	g_return_if_fail (context != NULL);
-	g_return_if_fail (context->impl != NULL);
 
 	context->error_occurred = TRUE;
 }
@@ -145,9 +148,9 @@ gnumeric_io_error_info_set (IOContext *context, ErrorInfo *error)
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (error != NULL);
 
-	g_return_if_fail (context->error_info == NULL);
+	g_return_if_fail (context->info == NULL);
 
-	context->error_info = error;
+	context->info = error;
 	context->error_occurred = TRUE;
 }
 
@@ -157,34 +160,48 @@ gnumeric_io_error_push (IOContext *context, ErrorInfo *error)
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (error != NULL);
 
-	error_info_add_details (error, context->error_info);
-	context->error_info = error;
+	error_info_add_details (error, context->info);
+	context->info = error;
 }
 
 void
 gnumeric_io_error_display (IOContext *context)
 {
+	CommandContext *cc;
+	
 	g_return_if_fail (context != NULL);
 
-	if (context->error_info != NULL)
-		gnumeric_error_error_info (context->impl,
-		                           context->error_info);
+	if (context->info != NULL) {
+		if (context->impl)
+			cc = context->impl;
+		else
+			cc = COMMAND_CONTEXT (context);
+		gnumeric_error_error_info (cc, context->info);
 	}
+}
 
+/* TODO: Rename to gnumeric_io_info_clear */
 void
 gnumeric_io_error_clear (IOContext *context)
 {
 	g_return_if_fail (context != NULL);
 
 	context->error_occurred = FALSE;
-	error_info_free (context->error_info);
-	context->error_info = NULL;
+	context->warning_occurred = FALSE;
+	error_info_free (context->info);
+	context->info = NULL;
 }
 
 gboolean
 gnumeric_io_error_occurred (IOContext *context)
 {
 	return context->error_occurred;
+}
+
+gboolean
+gnumeric_io_warning_occurred (IOContext *context)
+{
+	return context->warning_occurred;
 }
 
 void
@@ -203,7 +220,13 @@ io_progress_update (IOContext *io_context, gdouble f)
 		(void) gettimeofday (&tv, NULL);
 		t = tv.tv_sec + tv.tv_usec / 1000000.0;
 		if (t - io_context->last_time >= PROGRESS_UPDATE_PERIOD_SEC) {
-			cmd_context_progress_set (io_context->impl, f);
+			CommandContext *cc;
+
+			if (io_context->impl)
+				cc = io_context->impl;
+			else
+				cc = COMMAND_CONTEXT (io_context);
+			cmd_context_progress_set (cc, f);
 			io_context->last_time = t;
 			io_context->last_progress = f;
 		}
@@ -217,9 +240,15 @@ io_progress_update (IOContext *io_context, gdouble f)
 void
 io_progress_message (IOContext *io_context, const gchar *msg)
 {
+	CommandContext *cc;
+	
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 
-	cmd_context_progress_message_set (io_context->impl, msg);
+	if (io_context->impl)
+		cc = io_context->impl;
+	else
+		cc = COMMAND_CONTEXT (io_context);
+	cmd_context_progress_message_set (cc, msg);
 }
 
 void
@@ -384,21 +413,18 @@ io_progress_unset (IOContext *io_context)
 	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_NONE;
 }
 
-#warning Good Project implement these
 void
 gnm_io_warning (__attribute__((unused)) IOContext *context,
 		char const *fmt, ...)
 {
-	char *msg;
+	ErrorInfo *condition;
 	va_list args;
 
 	va_start (args, fmt);
-	msg = g_strdup_vprintf (fmt, args);
+	context->info = error_info_new_vprintf (GNM_WARNING, fmt, args);
 	va_end (args);
 
-	g_warning ("Implement IO_CONTEXT::warning");
-	g_warning (msg);
-	g_free (msg);
+	context->warning_occurred = TRUE;
 }
 
 void

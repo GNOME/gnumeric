@@ -14,6 +14,7 @@
 
 struct _ErrorInfo {
 	gchar *msg;
+	GnmSeverity severity;
 	GSList *details;          /* list of ErrorInfo */
 };
 
@@ -22,15 +23,23 @@ error_info_new_str (char const *msg)
 {
 	ErrorInfo *error = g_new (ErrorInfo, 1);
 	error->msg = g_strdup (msg);
-	error->details = NULL;
+	error->severity = GNM_ERROR;
+	error->details  = NULL;
 	return error;
 }
 
 ErrorInfo *
-error_info_new_vprintf (char const *msg_format, va_list args)
+error_info_new_vprintf (GnmSeverity severity, char const *msg_format,
+			va_list args)
 {
-	ErrorInfo *error = g_new (ErrorInfo, 1);
+	ErrorInfo *error;
+
+	g_return_val_if_fail (severity >= GNM_WARNING, NULL);
+	g_return_val_if_fail (severity <= GNM_ERROR, NULL);
+	
+	error = g_new (ErrorInfo, 1);
 	error->msg = g_strdup_vprintf (msg_format, args);
+	error->severity = severity;
 	error->details = NULL;
 	return error;
 }
@@ -43,7 +52,7 @@ error_info_new_printf (char const *msg_format, ...)
 	va_list args;
 
 	va_start (args, msg_format);
-	error = error_info_new_vprintf (msg_format, args);
+	error = error_info_new_vprintf (GNM_ERROR, msg_format, args);
 	va_end (args);
 
 	return error;
@@ -72,7 +81,7 @@ error_info_new_from_error_list (GSList *errors)
 
 	switch (g_slist_length (errors)) {
 	case 0:
-		error = error_info_new_str (NULL);
+		error = NULL;
 		break;
 	case 1:
 		error = (ErrorInfo *) errors->data;
@@ -150,7 +159,11 @@ error_info_print_with_offset (ErrorInfo *error, gint offset)
 	GSList *l;
 
 	if (error->msg != NULL) {
-		fprintf (stderr, "%*s%s\n", offset, "", error->msg);
+		char c = 'E';
+		
+		if (error->severity == GNM_WARNING)
+			c = 'W';
+		fprintf (stderr, "%*s%c %s\n", offset, "", c, error->msg);
 		offset += 2;
 	}
 	for (l = error->details; l != NULL; l = l->next)
@@ -179,4 +192,12 @@ error_info_peek_details (ErrorInfo *error)
 	g_return_val_if_fail (error != NULL, NULL);
 
 	return error->details;
+}
+
+GnmSeverity
+error_info_peek_severity (ErrorInfo *error)
+{
+	g_return_val_if_fail (error != NULL, GNM_ERROR);
+
+	return error->severity;
 }

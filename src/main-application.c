@@ -14,6 +14,10 @@
 #include "libgnumeric.h"
 
 #include "command-context.h"
+#include "io-context.h"
+#include "io-context-gtk.h"
+/* TODO: Get rid of this one */
+#include "command-context-stderr.h"
 #include "workbook-control-gui.h"
 #include "workbook-view.h"
 #include "plugin.h"
@@ -86,7 +90,7 @@ handle_paint_events (void)
 
 
 static void
-warn_about_ancient_gnumerics (const char *binary, WorkbookControl *wbc)
+warn_about_ancient_gnumerics (const char *binary, IOContext *ioc)
 {
 	struct stat buf;
 	time_t now = time (NULL);
@@ -99,7 +103,7 @@ warn_about_ancient_gnumerics (const char *binary, WorkbookControl *wbc)
 	    now - buf.st_mtime > days * 24 * 60 * 60) {
 		handle_paint_events ();
 
-		gnumeric_error_system (COMMAND_CONTEXT (wbc),
+		gnumeric_error_system (COMMAND_CONTEXT (ioc),
 				       _("Thank you for using Gnumeric!\n"
 					 "\n"
 					 "The version of Gnumeric you are using is quite old\n"
@@ -119,6 +123,9 @@ main (int argc, char *argv [])
 {
 	char const **startup_files;
 	gboolean opened_workbook = FALSE;
+	gboolean with_gui;
+	IOContext *ioc;
+	WorkbookView *wbv;
 	WorkbookControl *wbc;
 
 	poptContext ctx;
@@ -133,12 +140,26 @@ main (int argc, char *argv [])
 		return 0;
 	}
 
+	with_gui = !func_def_file && !func_state_file;
+	if (with_gui) {
+		ioc = IO_CONTEXT (gnumeric_io_context_gtk_new ());
+		handle_paint_events ();
+	} else {
+		/* TODO: Make this inconsistency go away */
+		CommandContextStderr *ccs = command_context_stderr_new ();
+		ioc = gnumeric_io_context_new (COMMAND_CONTEXT (ccs));
+		g_object_unref (ccs);
+	}
+
+	/* TODO: Use the ioc. */
 	gnm_common_init ();
 
 	if (func_def_file)
 		return gnm_dump_func_defs (func_def_file, TRUE);
 	if (func_state_file)
 		return gnm_dump_func_defs (func_state_file, FALSE);
+
+ 	plugins_init (COMMAND_CONTEXT (ioc));
 
 	/* Load selected files */
 	if (ctx)
@@ -149,42 +170,43 @@ main (int argc, char *argv [])
 #ifdef WITH_BONOBO
 	bonobo_activate ();
 #endif
- 	wbc = workbook_control_gui_new (NULL, NULL);
-
-	/* TODO : make a dialog based command context and do this earlier.  We
-	 * should not arbitrarily be using the 1st workbook as the place to
-	 * link errors or status.
-	 *
-	 * plugin init should be earlier too.
-	 */
- 	plugins_init (COMMAND_CONTEXT (wbc));
 	if (startup_files) {
 		int i;
-		for (i = 0; startup_files [i]  && !initial_workbook_open_complete ; i++) {
- 			if (gui_file_read (WORKBOOK_CONTROL_GUI (wbc),
-					   startup_files[i], NULL))
+		for (i = 0;
+		     startup_files [i] && !initial_workbook_open_complete;
+		     i++) {
+			wbv = wb_view_new_from_file (startup_files[i],
+						     NULL, ioc);
+			if (gnumeric_io_error_occurred (ioc) ||
+			    gnumeric_io_warning_occurred (ioc)) {
+				gnumeric_io_error_display (ioc);
+			}
+			if (wbv != NULL) {
+				workbook_control_gui_new (wbv, NULL);
   				opened_workbook = TRUE;
-
-			/* cheesy attempt to keep the ui from freezing during load */
+			}			
+			/* cheesy attempt to keep the ui from freezing during
+			   load */
 			handle_paint_events ();
 		}
 	}
-
+	/* FIXME: May be we should quit here if we were asked to open
+	   files and failed to do so. */
+	
 	/* If we were intentionally short circuited exit now */
 	if (!initial_workbook_open_complete && !immediate_exit_flag) {
 		initial_workbook_open_complete = TRUE;
 		if (!opened_workbook) {
 			gint n_of_sheets = gnm_app_prefs->initial_sheet_number;
-			while (n_of_sheets--)
-				workbook_sheet_add (wb_control_workbook (wbc),
-						    NULL, FALSE);
 
+			workbook_control_gui_new
+				(NULL, workbook_new_with_sheets (n_of_sheets));
 			/* cheesy attempt to keep the ui from freezing during load */
 			handle_paint_events ();
 		}
-
-		warn_about_ancient_gnumerics (g_get_prgname(), wbc);
-
+		
+		warn_about_ancient_gnumerics (g_get_prgname(), ioc);
+		g_object_unref (ioc);
 		gtk_main ();
 	}
 

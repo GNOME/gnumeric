@@ -545,7 +545,7 @@ wb_view_save_as (WorkbookView *wbv, GnumFileSaver *fs, gchar const *file_name,
 {
 	IOContext *io_context;
 	Workbook  *wb;
-	gboolean error;
+	gboolean has_error, has_warning;
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
 	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), FALSE);
@@ -559,17 +559,19 @@ wb_view_save_as (WorkbookView *wbv, GnumFileSaver *fs, gchar const *file_name,
 	gnum_file_saver_save (fs, io_context, wbv, file_name);
 	cmd_context_set_sensitive (context, TRUE);
 
-	error = gnumeric_io_error_occurred (io_context);
-	if (!error) {
+	has_error   = gnumeric_io_error_occurred (io_context);
+	has_warning = gnumeric_io_warning_occurred (io_context);
+	if (!has_error) {
 		if (workbook_set_filename (wb, file_name) &&
 		    workbook_set_saveinfo (wb,
 			gnum_file_saver_get_format_level (fs), fs))
 			workbook_set_dirty (wb, FALSE);
-	} else
+	}
+	if (has_error || has_warning)
 		gnumeric_io_error_display (io_context);
 	g_object_unref (G_OBJECT (io_context));
 
-	return !error;
+	return !has_error;
 }
 
 /**
@@ -589,7 +591,7 @@ wb_view_save (WorkbookView *wbv, CommandContext *context)
 	IOContext	*io_context;
 	Workbook	*wb;
 	GnumFileSaver	*fs;
-	gboolean error;
+	gboolean has_error, has_warning;
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
 	g_return_val_if_fail (IS_COMMAND_CONTEXT (context), FALSE);
@@ -606,15 +608,16 @@ wb_view_save (WorkbookView *wbv, CommandContext *context)
 	else
 		gnum_file_saver_save (fs, io_context, wbv, workbook_get_filename (wb));
 
-	error = gnumeric_io_error_occurred (io_context);
-	if (error)
-		gnumeric_io_error_display (io_context);
-	else
+	has_error   = gnumeric_io_error_occurred (io_context);
+	has_warning = gnumeric_io_warning_occurred (io_context);
+	if (!has_error)
 		workbook_set_dirty (wb, FALSE);
+	if (has_error || has_warning)
+		gnumeric_io_error_display (io_context);
 
 	g_object_unref (G_OBJECT (io_context));
 
-	return !error;
+	return !has_error;
 }
 
 WorkbookView *

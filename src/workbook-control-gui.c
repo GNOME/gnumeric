@@ -4550,27 +4550,37 @@ workbook_setup_status_area (WorkbookControlGUI *wbcg)
 	workbook_setup_auto_calc (wbcg);
 }
 
-
+/* Replacing gdk_screen_width/height with gdk_screen_get_monitor_geometry
+ * fixes bug 59902: Window too large with xinerama setup. This call was
+ * added for gtk2.2, so it is ifdef'ed out until we declare a dependency on
+ * that version. */
 static int
 show_gui (WorkbookControlGUI *wbcg)
 {
 	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
-	int sx = MAX (gdk_screen_width  (), 600);
-	int sy = MAX (gdk_screen_height (), 200);
+	int sx, sy;
 	gdouble fx, fy;
+#if 0
+	GdkRectangle rect;
+
+	gdk_screen_get_monitor_geometry (gdk_screen_get_default (), 0, &rect);
+	sx = MAX (rect.width, 600);
+	sy = MAX (rect.height, 200);
+#else
+	sx = MAX (gdk_screen_width  (), 600);
+	sy = MAX (gdk_screen_height (), 200);
+#endif	
 
 	fx = gnm_app_prefs->horizontal_window_fraction;
 	fy = gnm_app_prefs->vertical_window_fraction;
-	gtk_window_set_default_size (wbcg->toplevel, sx * fx, sy * fy);
-
-	if (x_geometry && wbv && wbcg->toplevel) {
-		/* FIXME?  Check return value.  */
-		gtk_window_parse_geometry (wbcg->toplevel, x_geometry);
-
-	/* Set grid size to preferred width */
+	if (x_geometry && wbcg->toplevel &&
+	    gtk_window_parse_geometry (wbcg->toplevel, x_geometry)) {
+		/* Successfully parsed geometry string
+		   and urged WM to comply */
 	} else if (wbcg->notebook != NULL &&
 		   wbv != NULL &&
 		   (wbv->preferred_width > 0 || wbv->preferred_height > 0)) {
+		/* Set grid size to preferred width */
 		int pwidth = wbv->preferred_width;
 		int pheight = wbv->preferred_height;
 
@@ -4578,18 +4588,10 @@ show_gui (WorkbookControlGUI *wbcg)
 		pheight = pheight > 0 ? pheight : -2;
 		gtk_widget_set_usize (GTK_WIDGET (wbcg->notebook),
 				      pwidth, pheight);
+	} else {
+		/* Use default */
+		gtk_window_set_default_size (wbcg->toplevel, sx * fx, sy * fy);
 	}
-
-#if 0
-	/* Why?  */
-	GdkWindowHints size_hints = GDK_HINT_MAX_SIZE;
-	GdkGeometry geometry;
-
-	geometry.max_width  = sx;
-	geometry.max_height = sy;
-	gtk_window_set_geometry_hints (wbcg->toplevel, NULL,
-				       &geometry, size_hints);
-#endif
 
 	x_geometry = NULL;
 	gtk_widget_show_all (GTK_WIDGET (wbcg->toplevel));

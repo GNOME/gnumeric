@@ -281,53 +281,58 @@ insert_error_info (GtkTextBuffer* text, ErrorInfo *error, gint level)
 }
 
 /**
- * gnumeric_error_info_dialog_show
+ * gnumeric_error_info_dialog_new
  *
  */
-void
-gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
+GtkWidget *
+gnumeric_error_info_dialog_new (ErrorInfo *error)
 {
 	GtkWidget *dialog;
 	GtkWidget *scrolled_window;
 	GtkTextView *view;
-	gint i;
 	GtkTextBuffer *text;
+	GtkMessageType mtype;
 	gchar *message;
 	gint bf_lim = 1;
+	gint i;
 
-	g_return_if_fail (error != NULL);
+	g_return_val_if_fail (error != NULL, NULL);
 
 	message = (gchar *) error_info_peek_message (error);
 	if (message == NULL)
 		bf_lim++;
 
-	dialog = gtk_message_dialog_new (wbcg_toplevel (wbcg),
-                                  GTK_DIALOG_DESTROY_WITH_PARENT,
-                                  GTK_MESSAGE_ERROR,
-                                  GTK_BUTTONS_CLOSE,
-                                  " ");
+	mtype = GTK_MESSAGE_ERROR;
+	if (error_info_peek_severity (error) < GNM_ERROR)
+		mtype = GTK_MESSAGE_WARNING;
+	dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
+					 mtype, GTK_BUTTONS_CLOSE, " ");
 	gtk_widget_set_usize (dialog, 450, 250);
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), 
-					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window),
-					     GTK_SHADOW_ETCHED_IN);
+					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type
+		(GTK_SCROLLED_WINDOW (scrolled_window),
+		 GTK_SHADOW_ETCHED_IN);
 	view = GTK_TEXT_VIEW (gtk_text_view_new ());
 	gtk_text_view_set_wrap_mode (view, GTK_WRAP_WORD);
 	gtk_text_view_set_editable (view, FALSE);
 	gtk_text_view_set_cursor_visible (view, FALSE);
 
-	gtk_text_view_set_pixels_below_lines (view,
-					      gtk_text_view_get_pixels_inside_wrap (view) + 3);
+	gtk_text_view_set_pixels_below_lines
+		(view, gtk_text_view_get_pixels_inside_wrap (view) + 3);
 	text = gtk_text_view_get_buffer (view);
 	for (i = ERROR_INFO_MAX_LEVEL; i-- > 0;) {
 		gchar *tag_name = g_strdup_printf (ERROR_INFO_TAG_NAME, i);
-		gtk_text_buffer_create_tag (text, tag_name,
-					    "left_margin", i * 12,
-					    "right_margin", i * 12,
-					    "weight", (i < bf_lim) ? PANGO_WEIGHT_BOLD 
-					    : PANGO_WEIGHT_NORMAL,
-                                            NULL);
+		gtk_text_buffer_create_tag
+			(text, tag_name,
+			 "left_margin", i * 12,
+			 "right_margin", i * 12,
+			 "weight", ((i < bf_lim)
+				    ? PANGO_WEIGHT_BOLD
+				    : PANGO_WEIGHT_NORMAL),
+			 NULL);
 	}
 	insert_error_info (text, error, 0);
 
@@ -335,6 +340,17 @@ gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
 	gtk_widget_show_all (GTK_WIDGET (scrolled_window));
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scrolled_window, TRUE, TRUE, 0);
 
+	return dialog;
+}
+
+/**
+ * gnumeric_error_info_dialog_show
+ *
+ */
+void
+gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
+{
+	GtkWidget *dialog = gnumeric_error_info_dialog_new (error);
 	gnumeric_set_transient (wbcg, GTK_WINDOW (dialog));
 	gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
 }

@@ -3,6 +3,10 @@ Gnumeric 1.1.13
 Morten:
 	* Improve qpro importer.
 
+Jon Kåre:
+        * Separate GUI for showing progress and messages before first 
+	  spreadsheet window is displayed.
+
 --------------------------------------------------------------------------
 Gnumeric 1.1.12
 
