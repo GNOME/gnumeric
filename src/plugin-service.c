@@ -209,7 +209,7 @@ gnum_plugin_file_opener_probe (GnumFileOpener const *fo, GsfInput *input,
 	PluginServiceFileOpener *service_file_opener;
 
 	g_return_val_if_fail (IS_GNUM_PLUGIN_FILE_OPENER (fo), FALSE);
-	g_return_val_if_fail (IS_GSF_INPUT (input), FALSE);
+	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
 
 	pfo = GNUM_PLUGIN_FILE_OPENER (fo);
 	service_file_opener = &pfo->service->t.file_opener;
@@ -275,7 +275,7 @@ gnum_plugin_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
 	ErrorInfo *error;
 
 	g_return_if_fail (IS_GNUM_PLUGIN_FILE_OPENER (fo));
-	g_return_if_fail (IS_GSF_INPUT (input));
+	g_return_if_fail (GSF_IS_INPUT (input));
 
 	pfo = GNUM_PLUGIN_FILE_OPENER (fo);
 	service_file_opener = &pfo->service->t.file_opener;

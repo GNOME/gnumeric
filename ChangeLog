@@ -1,3 +1,8 @@
+2002-06-12  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	* src/file.c:
+	* src/plugin-service.c: s/IS_GSF/GSF_IS
+
 2002-06-11  Jon K Hellan  <hellan@acm.org>
 
 	* src/file.c: Include unistd.h to declare unlink, close and read.

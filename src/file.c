@@ -170,7 +170,7 @@ gboolean
 gnum_file_opener_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	g_return_val_if_fail (IS_GNUM_FILE_OPENER (fo), FALSE);
-	g_return_val_if_fail (IS_GSF_INPUT (input), FALSE);
+	g_return_val_if_fail (GSF_IS_INPUT (input), FALSE);
 
 	return GNUM_FILE_OPENER_METHOD (fo, probe) (fo, input, pl);
 }
@@ -193,7 +193,7 @@ gnum_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
                        WorkbookView *wbv, GsfInput *input)
 {
 	g_return_if_fail (IS_GNUM_FILE_OPENER (fo));
-	g_return_if_fail (IS_GSF_INPUT (input));
+	g_return_if_fail (GSF_IS_INPUT (input));
 
 	GNUM_FILE_OPENER_METHOD (fo, open) (fo, io_context, wbv, input);
 }
