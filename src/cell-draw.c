@@ -5,140 +5,25 @@
  * Author:
  *    Miguel de Icaza 1998, 1999 (miguel@kernel.org)
  *    Jody Goldberg 2000-2002    (jody@gnome.org)
+ *    Morten Welinder 2003       (terra@diku.dk)
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "cell-draw.h"
 
 #include "style.h"
-#include "style-color.h"
 #include "cell.h"
 #include "sheet.h"
-#include "str.h"
-#include "value.h"
-#include "workbook.h"
 #include "rendered-value.h"
-#include "sheet-control-gui.h" /* FIXME : Only for scg_get_style_font */
 #include "parse-util.h"
 
 #include <gdk/gdk.h>
 #include <string.h>
 
-static inline void
-draw_text (GdkDrawable *drawable, StyleFont *font, GdkGC *gc,
-	   int x1, int text_base, char const * text, int n, 
-	   PangoAttrList* attrs)
-{
-	PangoLayout *layout = font->pango.layout;
-
-	/* Some Xservers crash when asked to draw strings that are too long
-	 * add an arbitrary limit to keep things simple
-	 */
-	if (n > 1024)
-		n = 1024;
-
-	pango_layout_set_attributes (layout, attrs);
-	pango_layout_set_text (layout, text, n);
-	gdk_draw_layout (drawable, gc, x1, text_base, layout);
-}
-
 static char const hashes[] =
 "################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################";
 
-static void
-draw_overflow (GdkDrawable *drawable, GdkGC *gc, StyleFont *font,
-	       int x1, int text_base, int width,
-               PangoAttrList* attrs)
-{
-	unsigned const len = font->approx_width.pixels.hash;
-	unsigned count = 1;
-
-	if (len > 0) {
-		count = width / len;
-		if (count == 0)
-			count = 1;
-		else if (count >= sizeof (hashes))
-			count = sizeof (hashes) - 1;
-	}
-
-	x1 += (width - count * len) / 2; /* Center */
-	draw_text (drawable, font, gc, x1, text_base, hashes, count, attrs);
-}
-
-/*
- * WARNING : This code is an almost exact duplicate of
- *          print-cell.c:cell_split_text
- * and is very similar to
- *          rendered-value.c:rendered_value_calc_size_ext
- *
- * Try to keep it that way.
- */
-static GList *
-cell_split_text (StyleFont *font, char const *text, int const width)
-{
-	char const *p, *next, *line_begin;
-	char const *first_whitespace = NULL;
-	char const *last_whitespace = NULL;
-	gboolean prev_was_space = FALSE;
-	GList *list = NULL;
-	int used = 0, used_last_space = 0;
-	int len_current;
-
-	for (line_begin = p = text; *p; p = next) {
-		next = g_utf8_next_char (p);
-		len_current = style_font_text_width (font, p, next - p);
-
-		/* Wrap if there is an embeded newline, or we have overflowed */
-		if (*p == '\n' || used + len_current > width) {
-			char const *begin = line_begin;
-			int len;
-
-			if (*p == '\n') {
-				/* start after newline, preserve whitespace */
-				line_begin = p+1;
-				len = p - begin;
-				used = 0;
-			} else if (last_whitespace != NULL) {
-				/* Split at the run of whitespace */
-				line_begin = last_whitespace + 1;
-				len = first_whitespace - begin;
-				used = len_current + used - used_last_space;
-			} else {
-				/* Split before the current character */
-				line_begin = p; /* next line starts here */
-				len = p - begin;
-				used = len_current;
-			}
-
-			list = g_list_append (list, g_strndup (begin, len));
-			first_whitespace = last_whitespace = NULL;
-			prev_was_space = FALSE;
-			continue;
-		}
-
-		used += len_current;
-		if (*p == '-') {
-			used_last_space = used;
-			last_whitespace = p;
-			first_whitespace = p+1;
-			prev_was_space = TRUE;
-		} else if (g_unichar_isspace (g_utf8_get_char (p))) {
-			used_last_space = used;
-			last_whitespace = p;
-			if (!prev_was_space)
-				first_whitespace = p;
-			prev_was_space = TRUE;
-		} else
-			prev_was_space = FALSE;
-	}
-
-	/* Catch the final bit that did not wrap */
-	if (*line_begin)
-		list = g_list_append (list,
-				      g_strndup (line_begin, p - line_begin));
-
-	return list;
-}
+const gunichar zero_width_space = 0x200b;
 
 /*
  *             G      G
@@ -164,38 +49,27 @@ cell_split_text (StyleFont *font, char const *text, int const width)
  *             <= 0 will use width / 2
  */
 void
-cell_draw (Cell const *cell, MStyle const *mstyle,
-	   GdkGC *gc, GdkDrawable *drawable,
+cell_draw (Cell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	   int x1, int y1, int width, int height, int h_center)
 {
-	StyleFont    *style_font;
 	GdkRectangle  rect;
 
 	Sheet const * const sheet = cell->base.sheet;
 	ColRowInfo const * const ci = cell->col_info; /* DEPRECATED */
 	ColRowInfo const * const ri = cell->row_info; /* DEPRECATED */
 	int text_base;
-	int font_height;
-	StyleHAlignFlags halign;
-	StyleVAlignFlags valign;
-	char const *text;
-	int cell_width_pixel, indent;
-	PangoAttrList* attrs;
+	RenderedValue *rv = cell->rendered_value;
+	PangoLayout *layout;
+	int indent;
+	int hoffset;
 
-	/* Don't print zeros if they should be ignored. */
-	if (sheet && sheet->hide_zero && cell_is_zero (cell) &&
-	    (!sheet->display_formulas || !cell_has_expr (cell)))
-		return;
-
-	if (cell->rendered_value == NULL ||
-	    cell->rendered_value->rendered_text == NULL ||
-	    cell->rendered_value->rendered_text->str == NULL) {
+	if (rv == NULL) {
 		g_warning ("Serious cell error at '%s'.", cell_name (cell));
 		return;
 	}
 
-	attrs = cell->rendered_value->attrs;
-	text = cell->rendered_value->rendered_text->str;
+	layout = rv->layout;
+	indent = rv->indent_left + rv->indent_right;
 
 	/* Get the sizes exclusive of margins and grids */
 	/* FIXME : all callers will eventually pass in their cell size */
@@ -203,175 +77,122 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 		width  = ci->size_pixels - (ci->margin_b + ci->margin_a + 1);
 	if (height < 0) /* DEPRECATED */
 		height = ri->size_pixels - (ri->margin_b + ri->margin_a + 1);
-
-	/* This rectangle has the whole area used by this cell
-	 * excluding the surrounding grid lines and margins */
 	if (width <= 0 || height <= 0)
 		return;
 
+	hoffset = rv->indent_left;
+
+	/* This rectangle has the whole area used by this cell
+	 * excluding the surrounding grid lines and margins */
 	rect.x = x1 + 1 + ci->margin_a;
 	rect.y = y1 + 1 + ri->margin_a;
 	rect.width = width + 1;
 	rect.height = height + 1;
 
-	style_font = scg_get_style_font (sheet, mstyle);
-	font_height = style_font_get_height (style_font);
-	valign = mstyle_get_align_v (mstyle);
+	gdk_gc_set_clip_rectangle (gc, &rect);
 
-	switch (valign) {
+	/* if a number overflows, do special drawing */
+	if (rv->layout_natural_width > width - indent &&
+	    cell_is_number (cell) &&
+	    !rv->numeric_overflow &&
+	    !rv->display_formula) {
+		const char *text = pango_layout_get_text (layout);
+		/* This assumes that hash marks are wider than
+		   the characters in the number.  Probably ok.  */
+		pango_layout_set_text (layout, hashes,
+				       MIN (sizeof (hashes) - 1, strlen (text)));
+		rv->numeric_overflow = TRUE;
+		rv->hfilled = TRUE;
+	}
+
+	if (rv->wrap_text) {
+		int wanted_width = MAX (0, (width - indent) * PANGO_SCALE);
+		if (wanted_width != pango_layout_get_width (layout)) {
+			pango_layout_set_width (layout, wanted_width);
+			pango_layout_get_pixel_size (layout,
+						     &rv->layout_natural_width,
+						     &rv->layout_natural_height);
+		}
+	} else {
+		switch (rv->effective_halign) {
+		case HALIGN_RIGHT:
+			hoffset += (width - indent) - rv->layout_natural_width;
+			break;
+		case HALIGN_CENTER:
+		case HALIGN_CENTER_ACROSS_SELECTION:
+			hoffset += ((width - indent) - rv->layout_natural_width) / 2;
+			break;
+		case HALIGN_FILL:
+			if (!rv->hfilled &&
+			    rv->layout_natural_width > 0 &&
+			    width - indent >= 2 * rv->layout_natural_width) {
+				/*
+				 * We ignore kerning between copies in calculating the number
+				 * of copies needed.  Instead we toss in a zero-width-space.
+				 */
+				int copies = (width - indent) / rv->layout_natural_width;
+				const char *copy1 = pango_layout_get_text (layout);
+				size_t len1 = strlen (copy1);
+				GString *multi = g_string_sized_new ((len1 + 6) * copies);
+				int i;
+				for (i = 0; i < copies; i++) {
+					g_string_append_len (multi, copy1, len1);
+					if (i)
+						g_string_append_unichar (multi, zero_width_space);
+				}
+				pango_layout_set_text (layout, multi->str, multi->len);
+				g_string_free (multi, TRUE);
+			}
+			rv->hfilled = TRUE;
+			break;
+
+		default:
+			g_warning ("Unhandled horizontal alignment.");
+		case HALIGN_LEFT:
+			break;
+		}
+	}
+
+	switch (rv->effective_valign) {
 	default:
-		g_warning ("Unhandled cell vertical alignment.");
+		g_warning ("Unhandled vertical alignment.");
+		/* Fall through.  */
 
-	case VALIGN_JUSTIFY:
 	case VALIGN_TOP:
-		/*
-		 * rect.y == first pixel past margin
-		 * add font ascent
-		 */
 		text_base = rect.y;
 		break;
 
-	case VALIGN_CENTER:
-		text_base = rect.y + (height - font_height) / 2;
-		break;
-
 	case VALIGN_BOTTOM:
-		/*
-		 * rect.y == first pixel past margin
-		 * add height == first pixel in lower margin
-		 * subtract font descent
-		 */
-		text_base = rect.y + (height - font_height);
+		text_base = rect.y + MAX (0, height - rv->layout_natural_height);
+		break;
+
+	case VALIGN_CENTER:
+		text_base = rect.y + MAX (0, (height - rv->layout_natural_height) / 2);
+		break;
+
+	case VALIGN_JUSTIFY:
+		text_base = rect.y;
+		if (!rv->vfilled && height > rv->layout_natural_height) {
+			int line_count = pango_layout_get_line_count (layout);
+			if (line_count > 1) {
+				int spacing = PANGO_SCALE * (height - rv->layout_natural_height) /
+					(line_count - 1);
+				pango_layout_set_spacing (layout, spacing);
+				pango_layout_get_pixel_size (layout,
+							     &rv->layout_natural_width,
+							     &rv->layout_natural_height);
+			}
+		}
+		rv->vfilled = TRUE;
 		break;
 	}
-	gdk_gc_set_clip_rectangle (gc, &rect);
-	gdk_gc_set_fill (gc, GDK_SOLID);
 
-	cell_width_pixel = cell_rendered_width (cell);
-	indent = cell_rendered_offset (cell);
+#if 0
+	g_print ("width=%d, w_width=%d, n_width=%d, h_center=%d\n",
+		 width, wanted_width, rv->layout_natural_width, h_center);
+#endif
 
-	/* if a number overflows, do special drawing */
-	if ((cell_width_pixel + indent) > width && cell_is_number (cell) &&
-	    (!cell_has_expr (cell) || (sheet != NULL && !sheet->display_formulas))) {
-		draw_overflow (drawable, gc, style_font, rect.x,
-			       text_base, width, attrs);
-		style_font_unref (style_font);
-		return;
-	}
-
-	halign = style_default_halign (mstyle, cell);
-	if (halign == HALIGN_CENTER_ACROSS_SELECTION || h_center <= 0)
-		h_center = width / 2;
-
-	if (halign != HALIGN_JUSTIFY && valign != VALIGN_JUSTIFY &&
-	    !mstyle_get_wrap_text (mstyle)) {
-		int x, total, len = cell_width_pixel;
-
-		switch (halign) {
-		case HALIGN_FILL: /* fall through */
-		case HALIGN_LEFT:
-			x = rect.x + indent;
-			break;
-
-		case HALIGN_RIGHT:
-			x = rect.x + rect.width - 1 - cell_width_pixel - indent;
-			break;
-
-		case HALIGN_CENTER:
-		case HALIGN_CENTER_ACROSS_SELECTION:
-			x = rect.x + h_center - cell_width_pixel / 2;
-			break;
-
-		default:
-			g_warning ("Single-line justification style not supported.");
-			x = rect.x;
-		}
-
-		total = len; /* don't include partial copies after the first */
-		do {
-			draw_text (drawable, style_font, gc, x, text_base,
-				   text, strlen (text), attrs);
-			x += len;
-			total += len;
-		} while (halign == HALIGN_FILL && total < rect.width && len > 0);
-	} else {
-		GList *lines, *l;
-		int line_count;
-		int x, y_offset, inter_space;
-
-	       	lines = cell_split_text (style_font, text, width);
-	       	line_count = g_list_length (lines);
-
-		switch (valign) {
-		case VALIGN_TOP:
-			y_offset = 0;
-			inter_space = font_height;
-			break;
-
-		case VALIGN_CENTER:
-			y_offset = (height -
-				    (line_count * font_height)) / 2;
-			inter_space = font_height;
-			break;
-
-		case VALIGN_JUSTIFY:
-			if (line_count > 1) {
-				y_offset = 0;
-				inter_space = font_height +
-					(height - (line_count * font_height))
-					/ (line_count - 1);
-
-				/* lines should not overlap */
-				if (inter_space < font_height)
-					inter_space = font_height;
-				break;
-			}
-			/* Else, we become a VALIGN_BOTTOM line */
-
-		case VALIGN_BOTTOM:
-			y_offset = height - (line_count * font_height);
-			inter_space = font_height;
-			break;
-
-		default:
-			g_warning ("Unhandled cell vertical alignment.");
-			y_offset = 0;
-			inter_space = font_height;
-		}
-
-		for (l = lines; l; l = l->next) {
-			char const * const str = l->data;
-			int len = 0;
-
-			switch (halign) {
-			default:
-				g_warning ("Multi-line justification style not supported.");
-			case HALIGN_JUSTIFY:
-				/* fall through */
-			case HALIGN_LEFT:
-				x = rect.x + indent;
-				break;
-
-			case HALIGN_RIGHT:
-				len = style_font_string_width (style_font,str);
-				x = rect.x + rect.width - 1 - len - indent;
-				break;
-
-			case HALIGN_CENTER:
-			case HALIGN_CENTER_ACROSS_SELECTION:
-				len = style_font_string_width (style_font,str);
-				x = rect.x + h_center - len / 2;
-			}
-
-			draw_text (drawable, style_font, gc,
-				   x, rect.y + y_offset,
-				   str, strlen (str), attrs);
-			y_offset += inter_space;
-
-			g_free (l->data);
-		}
-		g_list_free (lines);
-	}
-
-	style_font_unref (style_font);
+	gdk_draw_layout (drawable, gc,
+			 rect.x + hoffset, text_base,
+			 layout);
 }

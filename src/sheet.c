@@ -225,6 +225,12 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->tab_color = NULL;
 	sheet->tab_text_color = NULL;
 
+	/* FIXME: probably not here.  */
+	sheet->context = gdk_pango_context_get ();
+	/* FIXME: barf!  */
+	gdk_pango_context_set_colormap (sheet->context,
+					gtk_widget_get_default_colormap ());
+
 	/* Init menu states */
 	sheet->priv->enable_showhide_detail = TRUE;
 
@@ -307,8 +313,10 @@ sheet_cell_calc_span (Cell *cell, SpanCalcFlags flags)
 			rendered_value_destroy (cell->rendered_value);
 			cell->rendered_value = NULL;
 		}
-	} else if (resize)
-		rendered_value_calc_size (cell);
+	} else if (resize) {
+		/* FIXME: what was wanted here?  */
+		/* rendered_value_calc_size (cell); */
+	}
 
 	/* Is there an existing span ? clear it BEFORE calculating new one */
 	span = row_span_get (cell->row_info, cell->pos.col);
@@ -1059,7 +1067,12 @@ cb_max_cell_height (Sheet *sheet, int col, int row, Cell *cell,
 		   int *max)
 {
 	if (!cell_is_merged (cell)) {
-		int const height = cell_rendered_height (cell);
+		int height;
+
+		if (cell->rendered_value == NULL)
+			cell_render_value (cell, TRUE);
+
+		height = cell_rendered_height (cell);
 		if (height > *max)
 			*max = height;
 	}
@@ -2713,6 +2726,8 @@ sheet_destroy (Sheet *sheet)
 		style_color_unref (sheet->tab_color);
 	if (sheet->tab_text_color != NULL)
 		style_color_unref (sheet->tab_text_color);
+	if (sheet->context)
+		g_object_unref (G_OBJECT (sheet->context));
 	sheet->signature = 0;
 
 	(void) g_idle_remove_by_data (sheet);

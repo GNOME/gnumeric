@@ -2,11 +2,11 @@
 /*
  * MStyle.c: The guts of the style engine.
  *
- * Author:
+ * Authors:
  *   Michael Meeks <mmeeks@gnu.org>
- *
- * Contributors:
  *   Almer S. Tigelaar <almer@gnome.org>
+ *   Jody Goldberg <jody@gnome.org>
+ *   Morten Welinder <terra@diku.dk>
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
@@ -595,8 +595,8 @@ mstyle_copy_merge (const MStyle *orig, const MStyle *overlay)
 	overlay_e = overlay->elements;
 
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
-		res_e [i] = mstyle_element_ref (
-			(overlay_e [i].type ? overlay_e : orig_e) + i);
+		res_e[i] = mstyle_element_ref (
+			(overlay_e[i].type ? overlay_e : orig_e) + i);
 
 	d(("copy merge %p\n", res));
 	return res;
@@ -1398,7 +1398,24 @@ mstyle_get_wrap_text (const MStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_WRAP_TEXT), FALSE);
 
-	return style->elements [MSTYLE_WRAP_TEXT].u.wrap_text;
+	return style->elements[MSTYLE_WRAP_TEXT].u.wrap_text;
+}
+
+/*
+ * Same as mstyle_get_wrap_text except that if either halign or valign
+ * is _JUSTIFY, the result will be TRUE.
+ */
+gboolean
+mstyle_get_effective_wrap_text (const MStyle *style)
+{
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_WRAP_TEXT), FALSE);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_V), 0);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_H), 0);
+
+	/* Note: HALIGN_GENERAL never expands to HALIGN_JUSTIFY.  */
+	return (style->elements[MSTYLE_WRAP_TEXT].u.wrap_text ||
+		style->elements[MSTYLE_ALIGN_V].u.align.v == VALIGN_JUSTIFY ||
+		style->elements[MSTYLE_ALIGN_H].u.align.h == HALIGN_JUSTIFY);
 }
 
 void
@@ -1415,7 +1432,7 @@ mstyle_get_shrink_to_fit (const MStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_SHRINK_TO_FIT), FALSE);
 
-	return style->elements [MSTYLE_SHRINK_TO_FIT].u.wrap_text;
+	return style->elements[MSTYLE_SHRINK_TO_FIT].u.wrap_text;
 }
 void
 mstyle_set_content_locked (MStyle *style, gboolean f)
@@ -1431,7 +1448,7 @@ mstyle_get_content_locked (const MStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_CONTENT_LOCKED), FALSE);
 
-	return style->elements [MSTYLE_CONTENT_LOCKED].u.content_locked;
+	return style->elements[MSTYLE_CONTENT_LOCKED].u.content_locked;
 }
 void
 mstyle_set_content_hidden (MStyle *style, gboolean f)
@@ -1447,7 +1464,7 @@ mstyle_get_content_hidden (const MStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_CONTENT_HIDDEN), FALSE);
 
-	return style->elements [MSTYLE_CONTENT_HIDDEN].u.content_hidden;
+	return style->elements[MSTYLE_CONTENT_HIDDEN].u.content_hidden;
 }
 
 void
@@ -1535,7 +1552,7 @@ mstyle_get_pango_attrs (const MStyle *mstyle, const StyleColor *fore)
 	attr->end_index = -1;
 	pango_attr_list_insert (res, attr);
 
-	/* Handle underlining */
+	/* Handle underlining.  */
 	switch (mstyle_get_font_uline (mstyle)) {
 	case UNDERLINE_SINGLE :
 		attr = pango_attr_underline_new (PANGO_UNDERLINE_SINGLE);
@@ -1555,12 +1572,22 @@ mstyle_get_pango_attrs (const MStyle *mstyle, const StyleColor *fore)
 		break;
 	};
 
-	/* Handle strikethrough */
-	if (mstyle_get_font_strike (mstyle)){
+	/* Handle strike-through.  */
+	if (mstyle_get_font_strike (mstyle)) {
 		attr = pango_attr_strikethrough_new (TRUE);
 		attr->start_index = 0;
 		attr->end_index = -1;
 		pango_attr_list_insert (res, attr);
+	}
+
+	/* Handle font.  */
+	{
+		StyleFont *font = mstyle_get_font (mstyle, 1); /* FIXME: zoom? */
+		attr = pango_attr_font_desc_new (font->pango.font_descr);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (res, attr);
+		style_font_unref (font);
 	}
 
 	return res;

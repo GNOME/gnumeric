@@ -1416,7 +1416,7 @@ find_column_of_field (const EvalPos *ep, Value *database, Value *field)
 	row = database->v_range.cell.a.row;
 
 	for (n = begin_col; n <= end_col; n++) {
-		char *txt;
+		const char *txt;
 		gboolean match;
 
 	        cell = sheet_cell_get (sheet, n, row);
@@ -1424,9 +1424,10 @@ find_column_of_field (const EvalPos *ep, Value *database, Value *field)
 		        continue;
 		cell_eval (cell);
 
-		txt = cell_get_rendered_text (cell);
+		txt = cell->value
+			? value_peek_string (cell->value)
+			: "";
 		match = (g_ascii_strcasecmp (field_name, txt) == 0);
-		g_free (txt);
 		if (match) {
 		        column = n;
 			break;
@@ -1506,7 +1507,6 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 	GSList              *conditions;
 	Cell 		    *cell;
 	func_criteria_t     *cond;
-	gchar               *cell_str;
 	GnmDateConventions const *date_conv = workbook_date_conv (sheet->workbook);
 
         int i, j;
@@ -1530,9 +1530,9 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 				cond->fun = (criteria_test_fun_t) criteria_test_equal;
 			} else {
 				/* Other conditions (in string format) */
-				cell_str = cell_get_rendered_text (cell);
+				const char *cell_str =
+					value_peek_string (cell->value);
 				parse_criteria (cell_str, &cond->fun, &cond->x, date_conv);
-				g_free (cell_str);
 			}
 
 			cond->column = (field_ind != NULL) ? field_ind[j - b_col] : j - b_col;
@@ -1643,17 +1643,21 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 				GSList *c;
 				Cell   *cell;
 				gint    i, trow;
-				gchar  *t1, *t2;
 
 				for (c = rows; c != NULL; c = c->next) {
 					trow = *((gint *) c->data);
 					for (i = first_col; i <= last_col; i++) {
+						const char *t1, *t2;
 						test_cell =
 							sheet_cell_get (sheet, i, trow);
 						cell =
 							sheet_cell_get (sheet, i, row);
-						t1 = cell_get_rendered_text (cell);
-						t2 = cell_get_rendered_text (test_cell);
+						t1 = cell->value
+							? value_peek_string (cell->value)
+							: "";
+						t2 = test_cell->value
+							? value_peek_string (test_cell->value)
+							: "";
 						if (strcmp (t1, t2) != 0)
 							goto row_ok;
 					}

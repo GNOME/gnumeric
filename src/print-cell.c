@@ -92,14 +92,6 @@ print_overflow (GnomePrintContext *context, GnomeFont *font,
 		    count*len, line_offset, num_lines);
 }
 
-/*
- * WARNING : This code is an almost exact duplicate of
- *          cell-draw.c:cell_split_text
- * and is very similar to
- *          rendered-value.c:rendered_value_calc_size_ext
- *
- * Try to keep it that way.
- */
 static GList *
 cell_split_text (GnomeFont *font, char const *text, int const width)
 {

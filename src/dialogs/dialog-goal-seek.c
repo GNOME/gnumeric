@@ -327,14 +327,11 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 			 GoalSeekState *state)
 {
 	char *status_str;
-	char *target_str;
-	char *actual_str;
-	char *solution_str;
-	GoalSeekStatus	status;
-	StyleFormat *format;
-  	gnm_float  max_range_val = 1e24;
-	Value *error_value, *target;
+	GoalSeekStatus status;
+  	gnm_float max_range_val = 1e24;
+	Value *target;
 	RangeRef const *r;
+	StyleFormat *format;
 
 	if (state->warning_dialog != NULL)
 		gtk_widget_destroy (state->warning_dialog);
@@ -406,13 +403,13 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	format = mstyle_get_format (cell_get_mstyle (state->change_cell));
 	if (entry_to_float_with_format (GTK_ENTRY(state->at_least_entry), 
 					 &state->xmin, TRUE, format)) {
-		state->xmin = - max_range_val;
+		state->xmin = -max_range_val;
 		gtk_entry_set_text (GTK_ENTRY (state->at_least_entry), "");
 	}
 
 	if (entry_to_float_with_format (GTK_ENTRY(state->at_most_entry), &state->xmax, 
 					TRUE, format)) {
-  		state->xmax = max_range_val;
+  		state->xmax = +max_range_val;
 		gtk_entry_set_text (GTK_ENTRY (state->at_most_entry), "");
 	}
 
@@ -428,12 +425,14 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	status = gnumeric_goal_seek (state);
 
 	switch (status) {
-	case GOAL_SEEK_OK:
-		format = style_format_new_XL ("General", FALSE);
-		error_value = value_new_float (state->target_value -
-					      value_get_as_float (state->set_cell->value));
-  		target_str = format_value (format, error_value, NULL, 0,
-			workbook_date_conv (state->wb));
+	case GOAL_SEEK_OK: {
+		const char *actual_str;
+		const char *solution_str;
+		StyleFormat *format = style_format_new_XL ("General", FALSE);
+		Value *error_value = value_new_float (state->target_value -
+						      value_get_as_float (state->set_cell->value));
+  		char *target_str = format_value (format, error_value, NULL, 0,
+						 workbook_date_conv (state->wb));
 		gtk_label_set_text (GTK_LABEL (state->target_value_label), target_str);
 		g_free (target_str);
 		value_release (error_value);
@@ -445,15 +444,20 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		gtk_label_set_text (GTK_LABEL (state->result_label), status_str);
 		g_free (status_str);
 
-		actual_str = cell_get_rendered_text (state->set_cell);
+		/* FIXME?  Do a format?  */
+		actual_str = state->set_cell->value
+			? value_peek_string (state->set_cell->value)
+			: "";
 		gtk_label_set_text (GTK_LABEL (state->current_value_label), actual_str);
-		g_free (actual_str);
 
-		solution_str = cell_get_rendered_text (state->change_cell);
+		solution_str = state->change_cell->value
+			? value_peek_string (state->change_cell->value)
+			: "";
 		gtk_label_set_text (GTK_LABEL (state->solution_label), solution_str);
-		g_free (solution_str);
 
 		break;
+	}
+
 	default:
 		status_str =
 			g_strdup_printf (_("Goal seeking with cell %s did not find a solution."),

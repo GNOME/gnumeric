@@ -50,6 +50,7 @@ struct _StyleFont {
 		PangoContext		*context;
 		PangoFontMetrics	*metrics;
 		PangoFont	  	*font;
+		PangoFontDescription  	*font_descr;
 		PangoLayout		*layout;
 	} pango;
 
@@ -72,8 +73,6 @@ int  style_font_get_height   (StyleFont const *sf);
 void style_font_ref          (StyleFont *sf);
 void style_font_unref        (StyleFont *sf);
 int  style_font_string_width (StyleFont const *font, char const *str);
-int  style_font_text_width   (StyleFont const *font, char const *str,
-			      int len);
 
 /*
  * For hashing Styles

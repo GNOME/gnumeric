@@ -78,9 +78,9 @@ void	cell_render_value	(Cell *cell, gboolean dynamic_width);
 int	cell_rendered_height	(Cell const * cell);
 int	cell_rendered_width	(Cell const * cell);	/* excludes offset */
 int	cell_rendered_offset	(Cell const * cell);
-char *	cell_get_rendered_text	(Cell const * cell);
 const PangoColor* cell_get_render_color	(Cell const * cell);
 char *	cell_get_entered_text	(Cell const * cell);
+char *  cell_get_rendered_text  (Cell *cell);
 
 guint cellpos_hash (CellPos const *key);
 gint  cellpos_cmp  (CellPos const *a, CellPos const *b);

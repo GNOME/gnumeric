@@ -150,6 +150,7 @@ item_grid_realize (FooCanvasItem *item)
 
 	gdk_gc_set_foreground (ig->gc.fill,  &gs_white);
 	gdk_gc_set_background (ig->gc.fill,  &gs_light_gray);
+	gdk_gc_set_fill (ig->gc.cell, GDK_SOLID);
 	gdk_gc_set_foreground (ig->gc.bound, &gs_black);
 	gdk_gc_set_line_attributes (ig->gc.bound, 3, GDK_LINE_SOLID,
 				    GDK_CAP_NOT_LAST, GDK_JOIN_MITER);
@@ -254,7 +255,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 			row_calc_spans ((ColRowInfo *)ri, sheet);
 
 		/* FIXME : get the margins from the far col/row too */
-		cell_draw (cell, style, ig->gc.cell, drawable,
+		cell_draw (cell, ig->gc.cell, drawable,
 			   l, t,
 			   r - l - (ci->margin_b + ci->margin_a + 1),
 			   b - t - (ri->margin_b + ri->margin_a + 1), -1);
@@ -564,7 +565,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 				 */
 				Cell const *cell = sheet_cell_get (sheet, col, row);
 				if (!cell_is_blank (cell) && cell != edit_cell)
-					cell_draw (cell, style,
+					cell_draw (cell,
 						   ig->gc.cell, drawable,
 						   x, y, -1, -1, -1);
 
@@ -610,7 +611,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 						col+1, end_span_col + 1);
 				}
 
-				cell_draw (cell, style,
+				cell_draw (cell,
 					   ig->gc.cell, drawable,
 					   real_x, y, tmp_width, -1, center_offset);
 			} else if (col != span->left)

@@ -106,7 +106,7 @@ col_row_name (Sheet *sheet, int col, int row, gboolean header, gboolean is_cols)
 	if (header) {
 		cell = sheet_cell_get (sheet, col, row);
 		if (cell)
-			str = cell_get_rendered_text (cell);
+			str = value_get_as_string (cell->value);
 		else if (is_cols)
 			str = g_strdup_printf (_("Column %s"), col_name (col));
 		else

@@ -2461,6 +2461,17 @@ cb_sheet_order (GtkWidget *widget, WorkbookControlGUI *wbcg)
         dialog_sheet_order (wbcg);
 }
 
+static Value *
+cb_rerender_zeroes (Sheet *sheet, int col, int row, Cell *cell,
+		    gpointer ignored)
+{
+	if (!cell->rendered_value || !cell_is_zero (cell))
+		return NULL;
+	cell_render_value (cell, TRUE);
+	return NULL;
+}
+
+
 #ifdef WITH_BONOBO
 static gboolean
 toggle_util (Bonobo_UIComponent_EventType type,
@@ -2539,7 +2550,13 @@ TOGGLE_HANDLER (display_formulas,{
 		});
 	sheet_adjust_preferences (sheet, TRUE, FALSE);
 })
-TOGGLE_HANDLER (hide_zero, sheet_adjust_preferences (sheet, TRUE, FALSE);)
+TOGGLE_HANDLER (hide_zero, {
+	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+				     0, 0,
+				     SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1,
+				     cb_rerender_zeroes, 0);
+	sheet_adjust_preferences (sheet, TRUE, FALSE);
+})
 TOGGLE_HANDLER (hide_grid, sheet_adjust_preferences (sheet, TRUE, FALSE);)
 TOGGLE_HANDLER (hide_col_header, sheet_adjust_preferences (sheet, FALSE, FALSE);)
 TOGGLE_HANDLER (hide_row_header, sheet_adjust_preferences (sheet, FALSE, FALSE);)

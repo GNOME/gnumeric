@@ -94,8 +94,10 @@ cb_store_data (G_GNUC_UNUSED Sheet *sheet,
 
 	if (data_set->read_label) {
 		if (cell != NULL) {
-			data_set->label = cell_get_rendered_text (cell);
-			if (strlen (data_set->label) == 0) {
+			data_set->label = cell->value
+				? value_get_as_string (cell->value)
+				: NULL;
+			if (data_set->label == NULL || strlen (data_set->label) == 0) {
 				g_free (data_set->label);
 				data_set->label = NULL;
 			}
@@ -3245,8 +3247,8 @@ make_label (Sheet *sheet, int col, int row, char *default_format, int index,
 	if (read_cell) {
 		Cell *cell;
 		cell = sheet_cell_get (sheet, col, row);
-		if (cell)
-			rendered_text = cell_get_rendered_text (cell);
+		if (cell && cell->value)
+			rendered_text = value_get_as_string (cell->value);
 	}
 	if (rendered_text != NULL) {
 		if (strlen (rendered_text) == 0)

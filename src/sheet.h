@@ -4,6 +4,7 @@
 
 #include "gnumeric.h"
 #include "colrow.h"
+#include <pango/pango.h>
 
 typedef struct _SheetPrivate SheetPrivate;
 struct _Sheet {
@@ -63,6 +64,9 @@ struct _Sheet {
 	PrintInformation *print_info;
 	StyleColor	 *tab_color;
 	StyleColor	 *tab_text_color;
+
+	/* This needs to move elsewhere and get shared.  */
+	PangoContext *context;
 };
 
 #define SHEET_SIGNATURE 0x12349876

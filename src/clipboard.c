@@ -642,23 +642,28 @@ cellregion_to_string (CellRegion const *cr)
 	data = g_new0 (char **, cr->rows);
 
 	for (row = 0; row < cr->rows; row++)
-		data [row] = g_new0 (char *, cr->cols);
+		data[row] = g_new0 (char *, cr->cols);
 
 	for (l = cr->content; l; l = l->next) {
 		CellCopy *c_copy = l->data;
 		char *v;
 
 		if (c_copy->type != CELL_COPY_TYPE_TEXT) {
+			/* FIXME: feels bogus to use rendered value.  */
 			MStyle const *mstyle = style_list_get_style (cr->styles,
 				&c_copy->u.cell->pos);
+			/* FIXME: probably not here.  */
+			PangoContext *context = gdk_pango_context_get ();
 			RenderedValue *rv = rendered_value_new (c_copy->u.cell,
-				mstyle, FALSE);
-			v = rendered_value_get_text (rv);
+								mstyle, FALSE,
+								context);
+			v = g_strdup (rendered_value_get_text (rv));
 			rendered_value_destroy (rv);
+			g_object_unref (G_OBJECT (context));
 		} else
 			v = g_strdup (c_copy->u.text);
 
-		data [c_copy->row_offset][c_copy->col_offset] = v;
+		data[c_copy->row_offset][c_copy->col_offset] = v;
 	}
 
 	all = g_string_new (NULL);
@@ -667,9 +672,9 @@ cellregion_to_string (CellRegion const *cr)
 		g_string_assign (line, "");
 
 		for (col = 0; col < cr->cols;) {
-			if (data [row][col]) {
-				g_string_append (line, data [row][col]);
-				g_free (data [row][col]);
+			if (data[row][col]) {
+				g_string_append (line, data[row][col]);
+				g_free (data[row][col]);
 			}
 			if (++col < cr->cols)
 				g_string_append_c (line, '\t');
@@ -686,7 +691,7 @@ cellregion_to_string (CellRegion const *cr)
 	g_string_free (all, TRUE);
 
 	for (row = 0; row < cr->rows; row++)
-		g_free (data [row]);
+		g_free (data[row]);
 	g_free (data);
 
 	return return_val;

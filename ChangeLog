@@ -1,3 +1,45 @@
+2003-01-28  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook-control-gui.c (cb_rerender_zeroes): Rerender cells
+	that are zero when toggling the hide-zeroes flag.
+
+	* src/value.c (find_column_of_field): Don't refer to rendered
+	text, because that is not what is meant.  Use value_get_as_string
+	for now.
+
+	* src/style.c (style_font_new_simple): Create a
+	PangoFontDescription also (for the benefit of
+	mstyle_get_pango_attrs.)
+	(style_font_unref): Get rid of it.
+	(style_font_text_width): Delete.
+
+	* src/stf-export.c (stf_export_cell): Don't use rendered text, use
+	the result of value_get_as_string.  Perhaps this should be a
+	format call.
+
+	* src/sheet.c (sheet_new): Create a PangoContext and store it in
+	the sheet.
+	(sheet_destroy): Unref it.
+
+	* src/rendered-value.c (rendered_value_new): Take and use a
+	PangoContext for creating layouts.  Place the string into the
+	layout.  Handle zero-blanking here.  Process and store all mstyle
+	info, either in layout or in RenderedValue itself.  Implement
+	HALIGN_JUSTIFY modulo a Pango bug.  Implement HALIGN_FILL
+	correctly for multi-line cells.
+
+	* src/preview-grid.c (pg_construct_cell): Changed to match new
+	conventions for rendering cells.
+
+	* src/mstyle.c (mstyle_get_pango_attrs): Handle font also.
+
+	* src/cell-draw.c (cell_draw): Rework to let Pango handle much of
+	the alignment and line-breaking issues.  Clean out #includes.
+	Move gdk_gc_set_fill calls into callers.  (Or rather into their
+	setup routines.)
+
+	* configure.in: post release bump.
+
 2003-01-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.16

@@ -523,7 +523,7 @@ latex2e_write_blank_cell (GsfOutput *output, gint col, gint row, gint index,
  * makes it much more difficult to change column widths later on.
  */
 static void
-latex2e_write_multicolumn_cell (GsfOutput *output, Cell const *cell, int num_merged_cols,
+latex2e_write_multicolumn_cell (GsfOutput *output, Cell *cell, int num_merged_cols,
 				int num_merged_rows,  gint index,
 				StyleBorderType *borders, Sheet *sheet)
 {
@@ -999,7 +999,7 @@ latex_file_save (GnmFileSaver const *fs, IOContext *io_context,
 			/* covered by a span!                                    */
 			the_span = row_span_get (ri, col);
 			if (the_span != NULL) {
-				latex2e_write_multicolumn_cell(output, the_span->cell,
+				latex2e_write_multicolumn_cell(output, (Cell *)the_span->cell,
 							       the_span->right -
 							       col + 1, 1,
 							       col - total_range.start.col,

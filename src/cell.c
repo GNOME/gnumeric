@@ -521,18 +521,38 @@ cell_render_value (Cell *cell, gboolean dynamic_width)
 {
 	RenderedValue *rv;
 	MStyle *mstyle;
+	PangoContext *context;
 
 	g_return_if_fail (cell != NULL);
 
 	mstyle = cell_get_mstyle (cell);
+	context = cell->base.sheet->context;
 
-	rv = rendered_value_new (cell, mstyle, dynamic_width);
+	rv = rendered_value_new (cell, mstyle, dynamic_width, context);
 	if (cell->rendered_value)
 		rendered_value_destroy (cell->rendered_value);
 	cell->rendered_value = rv;
-
-	rendered_value_calc_size_ext (cell, mstyle);
 }
+
+/*
+ * cell_get_rendered_text:
+ *
+ * Warning: use this only when you really want what is displayed on the
+ * screen.  If the user has decided to display formulas instead of values
+ * then that is what you get.
+ */
+char *
+cell_get_rendered_text  (Cell *cell)
+{
+	g_return_val_if_fail (cell != NULL, g_strdup ("ERROR"));
+
+	/* A precursor to just in time rendering Ick! */
+	if (cell->rendered_value == NULL)
+		cell_render_value (cell, TRUE);
+
+	return g_strdup (rendered_value_get_text (cell->rendered_value));
+}
+
 
 MStyle *
 cell_get_mstyle (Cell const *cell)

@@ -38,7 +38,6 @@
 #include "value.h"
 #include "parse-util.h"
 #include "sheet-control-gui.h"
-#include "application.h"
 #include "str.h"
 #include "workbook.h"
 
@@ -58,41 +57,64 @@ static gnm_mem_chunk *rendered_value_pool;
 #define CHUNK_FREE(p,v) g_free ((v))
 #endif
 
+static guint16
+calc_indent (const MStyle *mstyle, Sheet *sheet)
+{
+	int indent = 0;
+	if (mstyle_is_element_set (mstyle, MSTYLE_INDENT)) {
+		indent = mstyle_get_indent (mstyle);
+		if (indent) {
+			StyleFont *style_font =
+				scg_get_style_font (sheet, mstyle);
+			indent *= style_font->approx_width.pixels.digit;
+			style_font_unref (style_font);
+		}
+	}
+	return MIN (indent, 65535);
+}
+
+
 /**
  * rendered_value_new:
  * @cell:   The cell
  * @mstyle: The mstyle associated with the cell
  * @dynamic_width : Allow format to depend on column width.
+ * @context: A pango context for layout.
  *
  * Formats the value of the cell according to the format style given in @mstyle
  *
  * Return value: a new RenderedValue
  **/
 RenderedValue *
-rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
+rendered_value_new (Cell *cell, MStyle const *mstyle,
+		    gboolean dynamic_width,
+		    PangoContext *context)
 {
 	RenderedValue	*res;
 	Sheet		*sheet;
 	StyleColor	*color;
-	double		 col_width = -1.;
-	char *str;
+	char            *str;
+	PangoLayout     *layout;
+	PangoAttrList   *attrs;
+	gboolean        display_formula;
 
 	g_return_val_if_fail (cell != NULL, NULL);
 	g_return_val_if_fail (cell->value != NULL, NULL);
+	g_return_val_if_fail (context != NULL, NULL);
 
 	sheet = cell->base.sheet;
+	display_formula = cell_has_expr (cell) && sheet && sheet->display_formulas;
 
-	if (cell_has_expr (cell) && sheet != NULL && sheet->display_formulas) {
-		ParsePos pp;
-		GString *gstr = g_string_new ("=");
-
-		gnm_expr_as_gstring (gstr, cell->base.expression,
-				     parse_pos_init_cell (&pp, cell),
-				     gnm_expr_conventions_default);
-		str = g_string_free (gstr, FALSE);
+	if (display_formula) {
+		str = cell_get_entered_text (cell);
+		color = NULL;
+		dynamic_width = FALSE;
+	} else if (sheet && sheet->hide_zero && cell_is_zero (cell)) {
+		str = g_strdup ("");
 		color = NULL;
 		dynamic_width = FALSE;
 	} else if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
+		double col_width = -1.;
 		/* entered text CAN be null if called by set_value */
 		StyleFormat *format = mstyle_get_format (mstyle);
 
@@ -109,9 +131,9 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 					double cell_width;
 					if (cell_is_merged (cell)) {
 						Range const *merged =
-							sheet_merge_is_corner (cell->base.sheet, &cell->pos);
+							sheet_merge_is_corner (sheet, &cell->pos);
 
-						cell_width = sheet_col_get_distance_pts (cell->base.sheet,
+						cell_width = sheet_col_get_distance_pts (sheet,
 							merged->start.col, merged->end.col + 1);
 					} else
 						cell_width = cell->col_info->size_pts;
@@ -135,7 +157,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 		} else
 			dynamic_width = FALSE;
 		str = format_value (format, cell->value, &color, col_width,
-				    cell->base.sheet ? workbook_date_conv (cell->base.sheet->workbook) : NULL);
+				    sheet ? workbook_date_conv (sheet->workbook) : NULL);
 	} else {
 		g_warning ("No format: serious error");
 		str = g_strdup ("Error");
@@ -145,14 +167,67 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 
 	res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
 	res->rendered_text = string_get_nocopy (str);
-	res->width_pixel = res->height_pixel = res->offset_pixel = 0;
 	res->dynamic_width = dynamic_width;
+	res->indent_left = res->indent_right = 0;
+	res->numeric_overflow = FALSE;
+	res->hfilled = FALSE;
+	res->vfilled = FALSE;
+	res->wrap_text = mstyle_get_effective_wrap_text (mstyle);
+	res->effective_halign = style_default_halign (mstyle, cell);
+	res->effective_valign = mstyle_get_align_v (mstyle);
+	res->display_formula = display_formula;
 
-	res->layout = NULL;
-	res->attrs = mstyle_get_pango_attrs (mstyle, color);
+	res->layout = layout = pango_layout_new (context);
+	str = res->rendered_text->str;
+	pango_layout_set_text (layout, str, strlen (str));
 
+	attrs = mstyle_get_pango_attrs (mstyle, color);
 	if (color)
 		style_color_unref (color);
+	pango_layout_set_attributes (res->layout, attrs);
+	pango_attr_list_unref (attrs);
+
+	switch (res->effective_halign) {
+	case HALIGN_LEFT:
+		res->indent_left = calc_indent (mstyle, sheet);
+		pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
+		break;
+
+	case HALIGN_JUSTIFY:
+		/*
+		 * The code here should work, but pango doesn't:
+		 * http://bugzilla.gnome.org/show_bug.cgi?id=64538
+		 */
+		pango_layout_set_justify (layout, TRUE);
+		pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
+		break;
+
+	case HALIGN_FILL:
+		/*
+		 * A bit weird, but seems to match XL.  The effect is to
+		 * render newlines as visible characters.
+		 */
+		pango_layout_set_single_paragraph_mode (layout, TRUE);
+		pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
+		break;
+
+	case HALIGN_RIGHT:
+		res->indent_right = calc_indent (mstyle, sheet);
+		pango_layout_set_alignment (layout, PANGO_ALIGN_RIGHT);
+		break;
+
+	case HALIGN_CENTER:
+	case HALIGN_CENTER_ACROSS_SELECTION:
+		pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
+		break;
+
+	default:
+		g_warning ("Line justification style not supported.");
+	}
+
+	pango_layout_get_pixel_size (layout,
+				     &res->layout_natural_width,
+				     &res->layout_natural_height);
 
 	return res;
 }
@@ -165,175 +240,23 @@ rendered_value_destroy (RenderedValue *rv)
 		rv->rendered_text = NULL;
 	}
 
-	if (rv->attrs) {
-		pango_attr_list_unref (rv->attrs);
-		rv->attrs = NULL;
+	if (rv->layout) {
+		g_object_unref (G_OBJECT (rv->layout));
+		rv->layout = NULL;
 	}
 
 	CHUNK_FREE (rendered_value_pool, rv);
 }
 
-/**
- * rendered_value_calc_size:
- * @cell:
- *
- * Calls upon rendered_value_calc_size_ext
- **/
-void
-rendered_value_calc_size (Cell const *cell)
-{
-	MStyle *mstyle = cell_get_mstyle (cell);
-	rendered_value_calc_size_ext (cell, mstyle);
-}
-
-/*
- * rendered_value_calc_size_ext
- * @cell:      The cell we are working on.
- * @style:     the style formatting constraints (font, alignments)
- * @text:      the string contents.
- *
- * Computes the width and height used by the cell based on alignments
- * constraints in the style using the font specified on the style.
- *
- * NOTE :
- * The line splitting code is VERY similar to cell-draw.c:cell_split_text
- * please keep it that way.
- */
-void
-rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
-{
-	Sheet *sheet = cell->base.sheet;
-	RenderedValue *rv = cell->rendered_value;
-	StyleFont *style_font = scg_get_style_font (sheet, mstyle);
-	int font_height = style_font_get_height (style_font);
-	int const cell_w = COL_INTERNAL_WIDTH (cell->col_info);
-	StyleHAlignFlags const halign = mstyle_get_align_h (mstyle);
-	int text_width;
-	const char *text;
-
-	g_return_if_fail (mstyle != NULL);
-	g_return_if_fail (rv != NULL);
-
-	text       = rv->rendered_text->str;
-	text_width = style_font_string_width (style_font,text);
-
-	/* embedded newlines will cause the width to be narrow,
-	 * but still require multiple lines */
-	if ((!mstyle_get_wrap_text (mstyle) && text_width < cell_w) ||
-	    (cell_is_number (cell) &&
-	     sheet != NULL && !sheet->display_formulas)) {
-		rv->width_pixel  = text_width;
-		rv->height_pixel = font_height;
-	} else if (halign == HALIGN_JUSTIFY ||
-		   mstyle_get_align_v (mstyle) == VALIGN_JUSTIFY ||
-		   mstyle_get_wrap_text (mstyle)) {
-		char const *p, *next, *line_begin;
-		char const *first_whitespace = NULL;
-		char const *last_whitespace = NULL;
-		gboolean prev_was_space = FALSE;
-		int used = 0, used_last_space = 0;
-		int h = 0;
-		int len_current;
-
-		rv->width_pixel  = cell_w;
-
-		for (line_begin = p = text; *p; p = next) {
-			next = g_utf8_next_char (p);
-			len_current = style_font_text_width (style_font, p, next - p);
-
-			/* Wrap if there is an embeded newline, or we have overflowed */
-			if (*p == '\n' || used + len_current > cell_w){
-				char const *begin = line_begin;
-				int len;
-
-				if (*p == '\n'){
-					/* start after newline, preserve whitespace */
-					line_begin = p+1;
-					len = p - begin;
-					used = 0;
-				} else if (last_whitespace != NULL){
-					/* Split at the run of whitespace */
-					line_begin = last_whitespace + 1;
-					len = first_whitespace - begin;
-					used = len_current + used - used_last_space;
-				} else {
-					/* Split before the current character */
-					line_begin = p; /* next line starts here */
-					len = p - begin;
-					used = len_current;
-				}
-
-				h += font_height;
-				first_whitespace = last_whitespace = NULL;
-				prev_was_space = FALSE;
-				continue;
-			}
-
-			used += len_current;
-			if (*p == '-') {
-				used_last_space = used;
-				last_whitespace = p;
-				first_whitespace = p+1;
-				prev_was_space = TRUE;
-			} else if (g_unichar_isspace (g_utf8_get_char (p))) {
-				used_last_space = used;
-				last_whitespace = p;
-				if (!prev_was_space)
-					first_whitespace = p;
-				prev_was_space = TRUE;
-			} else
-				prev_was_space = FALSE;
-		}
-
-		/* Catch the final bit that did not wrap */
-		if (*line_begin)
-			h += font_height;
-
-		rv->height_pixel = h;
-	} else {
-		rv->width_pixel  = text_width;
-		rv->height_pixel = font_height;
-	}
-
-	/* 2*width seems to be pretty close to XL's notion */
-	/* FIXME: uses digit -- what should it use?  */
-	if (halign == HALIGN_LEFT || halign == HALIGN_RIGHT)
-		rv->offset_pixel = rint (mstyle_get_indent (mstyle) *
-			2 * style_font->approx_width.pixels.digit);
-	style_font_unref (style_font);
-}
-
 /* Return the value as a single string without format infomation.
- * Caller is responsible for freeing the result
  */
-char *
+const char *
 rendered_value_get_text (RenderedValue const *rv)
 {
 	g_return_val_if_fail (rv != NULL && rv->rendered_text != NULL, g_strdup ("ERROR"));
-	return g_strdup (rv->rendered_text->str);
+	return pango_layout_get_text (rv->layout);
 }
 
-/**
- * cell_get_rendered_text:
- * @cell: the cell from which we want to pull the content from
- *
- * This returns a g_malloc()ed region of memory with a text representation
- * of the cell contents.
- *
- * This will return a text expression if the cell contains a formula, or
- * a string representation of the value.
- */
-char *
-cell_get_rendered_text (Cell const *cell)
-{
-	g_return_val_if_fail (cell != NULL, g_strdup("ERROR"));
-
-	/* A precursor to just in time rendering Ick! */
-	if (cell->rendered_value == NULL)
-		cell_render_value ((Cell *)cell, TRUE);
-
-	return rendered_value_get_text (cell->rendered_value);
-}
 
 /**
  * cell_get_render_color:
@@ -355,7 +278,7 @@ cell_get_render_color (Cell const *cell)
 	if (cell->rendered_value == NULL)
 		cell_render_value ((Cell *)cell, TRUE);
 
-	attrs = cell->rendered_value->attrs;
+	attrs = pango_layout_get_attributes (cell->rendered_value->layout);
 	g_return_val_if_fail (attrs != NULL, NULL);
 
 	it = pango_attr_list_get_iterator (attrs);
@@ -417,38 +340,29 @@ cell_get_entered_text (Cell const *cell)
 int
 cell_rendered_height (Cell const *cell)
 {
-	if (cell == NULL)
+	if (!cell || !cell->rendered_value)
 		return 0;
-
-	/* If we are not rendered and are an expressions just use the font height */
-	if (cell->rendered_value == NULL) {
-		if (cell_has_expr (cell)) {
-			MStyle const *style = sheet_style_get (cell->base.sheet,
-				cell->pos.col, cell->pos.row);
-			StyleFont *style_font = scg_get_style_font (cell->base.sheet, style);
-			int res = style_font_get_height (style_font);
-			style_font_unref (style_font);
-			return res;
-		}
-		return 0;
-	}
-	return cell->rendered_value->height_pixel;
+	else
+		return cell->rendered_value->layout_natural_height;
 }
+
 int
 cell_rendered_width (Cell const *cell)
 {
 	if (!cell || !cell->rendered_value)
 		return 0;
 	else
-		return cell->rendered_value->width_pixel;
+		return cell->rendered_value->layout_natural_width;
 }
+
 int
 cell_rendered_offset (Cell const * cell)
 {
 	if (!cell || !cell->rendered_value)
 		return 0;
 	else
-		return cell->rendered_value->offset_pixel;
+		return cell->rendered_value->indent_left +
+			cell->rendered_value->indent_right;
 }
 
 void

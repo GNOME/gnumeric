@@ -1,3 +1,10 @@
+Gnumeric 1.1.17
+
+Morten:
+	* Make RenderedValue use a PangoLayout for storing the contents
+	  of a cell.  (Operation Snappiness, Part 2.)
+
+--------------------------------------------------------------------------
 Gnumeric 1.1.16
 
 Jody:

@@ -1,3 +1,8 @@
+2003-01-28  Morten Welinder  <terra@diku.dk>
+
+	* dialog-cell-sort.c (col_row_name): Don't refer to rendered text
+	because that is not what is meant.  Use value_get_as_string.
+
 2003-01-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.16

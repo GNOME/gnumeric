@@ -41,7 +41,7 @@
  * escape special characters .. needs work
  */
 static int
-roff_fprintf (GsfOutput *output, const Cell *cell)
+roff_fprintf (GsfOutput *output, Cell *cell)
 {
 	int len, i;
 	const char *p;

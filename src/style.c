@@ -67,15 +67,6 @@ get_substitute_font (gchar const *fontname)
 }
 
 int
-style_font_text_width (StyleFont const *font, char const *str, int len)
-{
-	int w,h;
-	pango_layout_set_text (font->pango.layout, str, len);
-	pango_layout_get_pixel_size (font->pango.layout, &w, &h);
-	return w;
-}
-
-int
 style_font_string_width (StyleFont const *font, char const *str)
 {
 	int w,h;
@@ -177,11 +168,14 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 			if (font->pango.font == NULL) {
 				g_object_unref (G_OBJECT (font->pango.context));
 				font->pango.context = NULL;
+				font->pango.font_descr = NULL;
 				g_hash_table_insert (style_font_negative_hash,
 						     font, font);
 				return NULL;
 			}
 		}
+
+		font->pango.font_descr = pango_font_describe (font->pango.font);
 
 		gdk_pango_context_set_colormap (font->pango.context,
 						gtk_widget_get_default_colormap ());
@@ -302,6 +296,10 @@ style_font_unref (StyleFont *sf)
 	if (sf->pango.font != NULL) {
 		g_object_unref (G_OBJECT (sf->pango.font));
 		sf->pango.font = NULL;
+	}
+	if (sf->pango.font_descr != NULL) {
+		pango_font_description_free (sf->pango.font_descr);
+		sf->pango.font_descr = NULL;
 	}
 	if (sf->pango.metrics != NULL) {
 		pango_font_metrics_unref (sf->pango.metrics);

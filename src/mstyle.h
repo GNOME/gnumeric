@@ -119,6 +119,7 @@ int            	    mstyle_get_rotation    (const MStyle *st);
 
 void                mstyle_set_wrap_text   (MStyle *st, gboolean f);
 gboolean            mstyle_get_wrap_text   (const MStyle *st);
+gboolean            mstyle_get_effective_wrap_text   (const MStyle *st);
 void                mstyle_set_shrink_to_fit (MStyle *st, gboolean f);
 gboolean            mstyle_get_shrink_to_fit (const MStyle *st);
 

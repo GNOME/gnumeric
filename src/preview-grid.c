@@ -222,6 +222,7 @@ pg_construct_cell (PreviewGrid *pg, int const row, int const col)
 	Cell          *cell  = NULL;
 	RenderedValue *res   = NULL;
 	MStyle        *style = NULL;
+	PangoContext  *context;
 
 	g_return_val_if_fail (pg != NULL, 0);
 	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, 0);
@@ -263,14 +264,15 @@ pg_construct_cell (PreviewGrid *pg, int const row, int const col)
 	if (cell->value == NULL)
 		cell->value = value_new_empty ();
 
-	res = rendered_value_new (cell, style, TRUE);
-	cell->rendered_value = res;
+	/* FIXME: probably not here.  */
+	context = gdk_pango_context_get ();
+	/* FIXME: barf!  */
+	gdk_pango_context_set_colormap (context,
+					gtk_widget_get_default_colormap ());
 
-	/*
-	 * Rendered value needs to know text width and height to handle
-	 * alignment properly
-	 */
-	rendered_value_calc_size_ext (cell, style);
+	res = rendered_value_new (cell, style, TRUE, context);
+	g_object_unref (G_OBJECT (context));
+	cell->rendered_value = res;
 
 	return cell;
 }
@@ -341,6 +343,7 @@ preview_grid_realize (FooCanvasItem *item)
 
 	gdk_gc_set_foreground (pg->gc.fill, &gs_white);
 	gdk_gc_set_background (pg->gc.fill, &gs_light_gray);
+	gdk_gc_set_fill (pg->gc.cell, GDK_SOLID);
 
 	/* Initialize hard-coded defaults */
 	pg->def.style = mstyle_new_default ();
@@ -530,7 +533,7 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
  						      colwidths [col], row_height);
 
 			if (!cell_is_blank (cell))
-				cell_draw (cell, style, pg->gc.cell, drawable,
+				cell_draw (cell, pg->gc.cell, drawable,
 					   x, y, -1, -1, -1);
 
 			pg_destruct_cell (cell);

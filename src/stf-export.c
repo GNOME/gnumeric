@@ -30,6 +30,7 @@
 
 #include "sheet.h"
 #include "cell.h"
+#include "value.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -211,7 +212,9 @@ stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
 
 	if (cell) {
 		gboolean quoting = FALSE;
-		char *text = cell_get_rendered_text (cell);
+		char *text = cell->value
+			? value_get_as_string (cell->value)
+			: g_strdup ("");
 		const char *s = text;
 		GString *res = g_string_new ("");
 
