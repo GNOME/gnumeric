@@ -1,3 +1,12 @@
+2000-01-31  Jon K Hellan  <hellan@acm.org>
+
+	* src/xml-io.c (gnumeric_xml_read_workbook): Never return -1
+	without calling gnumeric_error_read
+	(gnumeric_xml_write_workbook): s/read/write/
+
+	* src/file.c (workbook_load_from): Report read failure if all
+	probes fail.
+
 Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* gnumeric.spec.in: Added in some logic to autogenerate the 

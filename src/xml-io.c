@@ -2253,8 +2253,10 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 	 * Load the file into an XML tree.
 	 */
 	res = xmlParseFile (filename);
-	if (res == NULL)
+	if (res == NULL) {
+		gnumeric_error_read (context, "");
 		return -1;
+	}
 	if (res->root == NULL) {
 		xmlFreeDoc (res);
 		gnumeric_error_read
@@ -2305,6 +2307,7 @@ gnumeric_xml_write_workbook (CommandContext *context, Workbook *wb,
 	 */
 	xml = xmlNewDoc ("1.0");
 	if (xml == NULL){
+		gnumeric_error_save (context, "");
 		return -1;
 	}
 	ctxt.doc = xml;
@@ -2318,8 +2321,10 @@ gnumeric_xml_write_workbook (CommandContext *context, Workbook *wb,
 	xmlSetDocCompressMode (xml, 9);
 	ret = xmlSaveFile (filename, xml);
 	xmlFreeDoc (xml);
-	if (ret < 0)
+	if (ret < 0) {
+		gnumeric_error_save (context, "");
 		return -1;
+	}
 	return 0;
 }
 

@@ -177,6 +177,7 @@ workbook_load_from (CommandContext *context, Workbook *wb,
 			return result;
 		}
 	}
+	gnumeric_error_read (context, NULL);
 	return -1;
 }
 
