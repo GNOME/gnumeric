@@ -78,5 +78,5 @@ Do a build:
 And check and build the tarball:
 	make distcheck
 Once the tarball is approved, be sure to commit the files that were updated
-ad part of the tarball generation process (in particular, the ChangeLog
+as part of the tarball generation process (in particular, the ChangeLog
 files and the po files).
