@@ -161,19 +161,53 @@ filter_field_update_bounds (SheetObject *so, GObject *view_obj)
 		foo_canvas_item_hide (view);
 }
 
+/* Cut and paste from gtkwindow.c */
+static void
+do_focus_change (GtkWidget *widget, gboolean   in)
+{
+	GdkEvent *fevent = gdk_event_new (GDK_FOCUS_CHANGE);
+  
+	g_object_ref (widget);
+  
+	if (in)
+		GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
+	else
+		GTK_WIDGET_UNSET_FLAGS (widget, GTK_HAS_FOCUS);
+  
+	fevent->focus_change.type = GDK_FOCUS_CHANGE;
+	fevent->focus_change.window = widget->window;
+	if (widget->window)
+		g_object_ref (widget->window);
+	fevent->focus_change.in = in;
+	
+	gtk_widget_event (widget, fevent);
+  
+	g_object_notify (G_OBJECT (widget), "has_focus");
+
+	g_object_unref (widget);
+	gdk_event_free (fevent);
+}
+
+static void filter_popup_destroy (GtkWidget *popup, GtkWidget *list)
+{
+	/* send focus change event */
+	do_focus_change (list, FALSE);
+	gtk_widget_destroy (popup);
+
+}
+
 static  gint
-cb_filter_key_press (GtkWidget *popup, GdkEventKey *event,
-		    gpointer ignored)
+cb_filter_key_press (GtkWidget *popup, GdkEventKey *event, GtkWidget *list)
 {
 	if (event->keyval != GDK_Escape)
 		return FALSE;
-	gtk_widget_destroy (popup);
+	filter_popup_destroy (popup, list);
 	return TRUE;
 }
 
 static  gint
 cb_filter_button_press (GtkWidget *popup, GdkEventButton *event,
-			GtkWidget *container)
+			GtkWidget *list)
 {
 	if (event->x >= 0 && event->y >= 0 &&
 	    event->x < popup->allocation.width &&
@@ -182,7 +216,7 @@ cb_filter_button_press (GtkWidget *popup, GdkEventButton *event,
 	}
 
 	/* A press outside the popup cancels */
-	gtk_widget_destroy (popup);
+	filter_popup_destroy (popup, list);
 	return TRUE;
 }
 
@@ -249,7 +283,7 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 			sheet_update (field->filter->dep.sheet);
 		}
 	}
-	gtk_widget_destroy (popup);
+	filter_popup_destroy (popup, GTK_WIDGET (list));
 	return TRUE;
 }
 
@@ -461,10 +495,10 @@ cb_filter_button_pressed (GtkButton *button, GnmFilterField *field)
 
 	g_signal_connect (popup,
 		"key_press_event",
-		G_CALLBACK (cb_filter_key_press), NULL);
+		G_CALLBACK (cb_filter_key_press), list);
 	g_signal_connect (popup,
 		"button_press_event",
-		G_CALLBACK (cb_filter_button_press), container);
+		G_CALLBACK (cb_filter_button_press), list);
 	g_signal_connect (popup,
 		"button_release_event",
 		G_CALLBACK (cb_filter_button_release), list);
@@ -482,6 +516,10 @@ cb_filter_button_pressed (GtkButton *button, GnmFilterField *field)
 			select);
 		gtk_tree_path_free (select);
 	}
+
+	gtk_widget_grab_focus (GTK_WIDGET (list));
+	/* send focus change event */
+	do_focus_change (GTK_WIDGET (list), TRUE);
 
 	gtk_grab_add (popup);
 	gdk_pointer_grab (popup->window, TRUE,

@@ -1,3 +1,17 @@
+2002-12-08  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-filter.c (do_focus_change): New. Copied from
+	gtkwindow.c. Send focus_change event to the list
+	(filter_popup_destroy): New. Move keyboard focus away from the
+	popup and destroy it.
+	(cb_filter_key_press, cb_filter_button_press): Take list parameter
+	and call filter_popup_destroy.
+	(cb_filter_button_release): Call filter_popup_destroy.
+	(cb_filter_button_pressed): Pass list argument with
+	key_press_event and button_press_event callbacks. Make popup take
+	keyboard focus by means of deep runes suggested by Owen and seen
+	in gtktreeview.c::gtk_tree_view_real_start_interactive_search.
+
 2002-12-07  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-filter.c : Initial attempt at expr filters
