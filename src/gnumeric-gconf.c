@@ -521,6 +521,9 @@ gnm_conf_init_essential (void)
 	prefs.printer_header_formats_left = go_conf_load_str_list (PRINTSETUP_GCONF_HEADER_FORMAT_LEFT);
 	prefs.printer_header_formats_middle = go_conf_load_str_list (PRINTSETUP_GCONF_HEADER_FORMAT_MIDDLE);
 	prefs.printer_header_formats_right = go_conf_load_str_list (PRINTSETUP_GCONF_HEADER_FORMAT_RIGHT);
+
+	prefs.auto_complete = go_conf_load_bool (GNM_CONF_GUI_ED_AUTOCOMPLETE, TRUE);
+	prefs.live_scrolling = go_conf_load_bool (GNM_CONF_GUI_ED_LIVESCROLLING, TRUE);
 }
 
 static gboolean
@@ -532,12 +535,8 @@ gnm_conf_init_extras (void)
 		FUNCTION_SELECT_GCONF_NUM_OF_RECENT, 0, 40, 10);
 	prefs.recent_funcs = go_conf_load_str_list (FUNCTION_SELECT_GCONF_RECENT);
 
-	prefs.auto_complete = go_conf_load_bool (
-		GNM_CONF_GUI_ED_AUTOCOMPLETE, TRUE);
 	prefs.transition_keys = go_conf_load_bool (
 		GNM_CONF_GUI_ED_TRANSITION_KEYS, FALSE);
-	prefs.live_scrolling = go_conf_load_bool (
-		GNM_CONF_GUI_ED_LIVESCROLLING, TRUE);
 	prefs.recalc_lag = go_conf_load_int (
 		GNM_CONF_GUI_ED_RECALC_LAG, -5000, 5000, 200);
 	prefs.show_sheet_name = go_conf_load_bool (
