@@ -17,7 +17,7 @@ GList    *g_list_map         (GList *list, GnmMapFunc map_func);
 GList    *g_create_list	     (gpointer item1, ...);
 gint      g_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func);
 void      g_list_free_custom (GList *list, GFreeFunc free_func);
-#define   g_string_list_copy(list) g_list_map (list, g_strdup)
+#define   g_string_list_copy(list) g_list_map (list, (GnmMapFunc) g_strdup)
 GList    *g_strsplit_to_list (const gchar *string, const gchar *delimiter);
 #define GNM_LIST_FOREACH(list,valtype,val,stmnt) \
 G_STMT_START { \
@@ -30,6 +30,8 @@ G_STMT_START { \
 } G_STMT_END
 #define GNM_LIST_PREPEND(list,item) \
 	(list = g_list_prepend (list, item))
+#define GNM_LIST_APPEND(list,item) \
+	(list = g_list_append (list, item))
 #define GNM_LIST_REMOVE(list,item) \
 	(list = g_list_remove (list, item))
 #define GNM_LIST_CONCAT(list_a,list_b) \
@@ -42,7 +44,7 @@ G_STMT_START { \
 GSList   *g_slist_map        (GSList *list, GnmMapFunc map_func);
 GSList    *g_create_slist	     (gpointer item1, ...);
 void      g_slist_free_custom (GSList *list, GFreeFunc free_func);
-#define   g_string_slist_copy(list) g_slist_map (list, g_strdup)
+#define   g_string_slist_copy(list) g_slist_map (list, (GnmMapFunc) g_strdup)
 GSList    *g_strsplit_to_slist (const gchar *string, const gchar *delimiter);
 #define GNM_SLIST_FOREACH(list,valtype,val,stmnt) \
 G_STMT_START { \
@@ -55,6 +57,8 @@ G_STMT_START { \
 } G_STMT_END
 #define GNM_SLIST_PREPEND(list,item) \
 	(list = g_slist_prepend (list, item))
+#define GNM_SLIST_APPEND(list,item) \
+	(list = g_slist_append (list, item))
 #define GNM_SLIST_REMOVE(list,item) \
 	(list = g_slist_remove (list, item))
 #define GNM_SLIST_CONCAT(list_a,list_b) \
@@ -64,7 +68,7 @@ G_STMT_START { \
 #define GNM_SLIST_SORT(list,cmp_func) \
 	(list = g_slist_sort (list, cmp_func))
 
-#define GNM_SIZEOF_ARRAY(array) (sizeof (array) / sizeof ((array)[0]))
+#define GNM_SIZEOF_ARRAY(array) ((int) (sizeof (array) / sizeof ((array)[0])))
 
 #define   g_lang_score_is_better(score_a, score_b) (score_a < score_b)
 gint      g_lang_score_in_lang_list (gchar *lang, GList *lang_list);

@@ -1,3 +1,30 @@
+2002-07-31  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/gnumeric-gconf-priv.h: removed PLUGIN_GCONF_KNOWN
+
+	* src/gnumeric-gconf.[ch]
+	(gnm_gconf_get_known_plugins, gnm_gconf_set_known_plugins): removed
+
+	* src/gutils.h
+	(g_string_s]list_copy): added cast to GnmMapFunc
+	(GNM_[S]LIST_APPEND): new
+	(GNM_SIZEOF_ARRAY): cast to int, unsigned ints are evil
+
+	* src/plugin-loader.c
+	(gnumeric_plugin_loader_unload_service_general_real,
+	gnumeric_plugin_loader_unload_service_file_opener_real,
+	gnumeric_plugin_loader_unload_service_file_saver_real,
+	gnumeric_plugin_loader_unload_service_function_group_real,
+	gnumeric_plugin_loader_unload_service_plugin_loader_real):
+	made static
+
+	* src/plugin.[ch]
+	(struct _GnmPlugin): added saved_textdomain
+	(gnm_plugin_init): set saved_textdomain to NULL
+	(gnm_plugin_finalize): g_free it here
+	(gnm_plugin_get_config_prefix): removed
+	(gnm_plugin_get_textdomain): new
+
 2002-07-27  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/gutils.c:

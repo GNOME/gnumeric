@@ -17,22 +17,6 @@
 #define PARENT_TYPE (gtk_object_get_type ())
 #define PL_GET_CLASS(loader)	GNUMERIC_PLUGIN_LOADER_CLASS (G_OBJECT_GET_CLASS (loader))
 
-void gnumeric_plugin_loader_unload_service_general_real (GnumericPluginLoader *loader,
-                                                         PluginService *service,
-                                                         ErrorInfo **ret_error);
-void gnumeric_plugin_loader_unload_service_file_opener_real (GnumericPluginLoader *loader,
-                                                             PluginService *service,
-                                                             ErrorInfo **ret_error);
-void gnumeric_plugin_loader_unload_service_file_saver_real (GnumericPluginLoader *loader,
-                                                            PluginService *service,
-                                                            ErrorInfo **ret_error);
-void gnumeric_plugin_loader_unload_service_function_group_real (GnumericPluginLoader *loader,
-                                                                PluginService *service,
-                                                                ErrorInfo **ret_error);
-void gnumeric_plugin_loader_unload_service_plugin_loader_real (GnumericPluginLoader *loader,
-                                                               PluginService *service,
-                                                               ErrorInfo **ret_error);
-
 static GtkObjectClass *parent_class = NULL;
 
 static void
@@ -57,7 +41,7 @@ gnumeric_plugin_loader_destroy (GtkObject *obj)
 	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
 }
 
-void
+static void
 gnumeric_plugin_loader_unload_service_general_real (GnumericPluginLoader *loader,
                                                     PluginService *service,
                                                     ErrorInfo **ret_error)
@@ -73,7 +57,7 @@ gnumeric_plugin_loader_unload_service_general_real (GnumericPluginLoader *loader
 	cbs->plugin_func_cleanup = NULL;
 }
 
-void
+static void
 gnumeric_plugin_loader_unload_service_file_opener_real (GnumericPluginLoader *loader,
                                                         PluginService *service,
                                                         ErrorInfo **ret_error)
@@ -89,7 +73,7 @@ gnumeric_plugin_loader_unload_service_file_opener_real (GnumericPluginLoader *lo
 	cbs->plugin_func_file_open = NULL;
 }
 
-void
+static void
 gnumeric_plugin_loader_unload_service_file_saver_real (GnumericPluginLoader *loader,
                                                        PluginService *service,
                                                        ErrorInfo **ret_error)
@@ -104,7 +88,7 @@ gnumeric_plugin_loader_unload_service_file_saver_real (GnumericPluginLoader *loa
 	cbs->plugin_func_file_save = NULL;
 }
 
-void
+static void
 gnumeric_plugin_loader_unload_service_function_group_real (GnumericPluginLoader *loader,
                                                            PluginService *service,
                                                            ErrorInfo **ret_error)
@@ -119,9 +103,10 @@ gnumeric_plugin_loader_unload_service_function_group_real (GnumericPluginLoader 
 	cbs->plugin_func_get_full_function_info = NULL;
 }
 
-void gnumeric_plugin_loader_unload_service_plugin_loader_real (GnumericPluginLoader *loader,
-                                                               PluginService *service,
-                                                               ErrorInfo **ret_error)
+static void
+gnumeric_plugin_loader_unload_service_plugin_loader_real (GnumericPluginLoader *loader,
+                                                          PluginService *service,
+                                                          ErrorInfo **ret_error)
 {
 	PluginServicePluginLoaderCallbacks *cbs;
 

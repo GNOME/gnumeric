@@ -101,6 +101,8 @@ struct _GnmPlugin {
 	GHashTable *loader_attrs;
 	GnumericPluginLoader *loader;
 	GSList *services;
+
+	char *saved_textdomain;
 };
 
 typedef struct _GnmPluginClass GnmPluginClass;
@@ -131,6 +133,7 @@ gnm_plugin_init (GObject *obj)
 	plugin->id = NULL;
 	plugin->dir_name = NULL;
 	plugin->has_full_info = FALSE;
+	plugin->saved_textdomain = NULL;
 }
 
 static void
@@ -156,6 +159,8 @@ gnm_plugin_finalize (GObject *obj)
 		}
 		g_slist_free_custom (plugin->services, g_object_unref);
 	}
+	g_free (plugin->saved_textdomain);
+	plugin->saved_textdomain = NULL;
 
 	parent_class->finalize (obj);
 }
@@ -354,15 +359,22 @@ plugin_info_read_full_info_if_needed (GnmPlugin *pinfo)
  */
 
 /**
- * gnm_plugin_get_config_prefix:
+ * gnm_plugin_get_textdomain:
  * @plugin      : The plugin
+ *
+ * Returns plugin's textdomain for use with textdomain(3) and d*gettext(3)
+ * functions.
  */
-gchar *
-gnm_plugin_get_config_prefix (GnmPlugin *pinfo)
+const gchar *
+gnm_plugin_get_textdomain (GnmPlugin *plugin)
 {
-	g_return_val_if_fail (GNM_IS_PLUGIN (pinfo), NULL);
+	g_return_val_if_fail (GNM_IS_PLUGIN (plugin), NULL);
 
-	return g_strdup_printf ("Gnumeric/Plugins-%s", pinfo->id);
+	if (plugin->saved_textdomain == NULL) {
+		plugin->saved_textdomain = g_strconcat ("gnumeric__", plugin->id, NULL);
+	}
+
+	return plugin->saved_textdomain;
 }
 
 /**

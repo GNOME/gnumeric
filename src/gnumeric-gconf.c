@@ -99,22 +99,6 @@ gnm_gconf_set_active_plugins (GSList *list)
 			       GCONF_VALUE_STRING, list, NULL);
 }
 
-GSList *
-gnm_gconf_get_known_plugins (void)
-{
-	return gconf_client_get_list (application_get_gconf_client (), 
-				      PLUGIN_GCONF_KNOWN,
-				      GCONF_VALUE_STRING, NULL);
-}
-
-void
-gnm_gconf_set_known_plugins (GSList *list)
-{
-	gconf_client_set_list (application_get_gconf_client (), 
-			       PLUGIN_GCONF_KNOWN,
-			       GCONF_VALUE_STRING, list, NULL);
-}
-
 gboolean
 gnm_gconf_get_activate_new_plugins (void)
 {

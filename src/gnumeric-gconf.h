@@ -57,9 +57,6 @@ void     gnm_gconf_set_plugin_extra_dirs (GSList *list);
 GSList * gnm_gconf_get_active_plugins (void);
 void     gnm_gconf_set_active_plugins (GSList *list);
 
-GSList * gnm_gconf_get_known_plugins (void);
-void     gnm_gconf_set_known_plugins (GSList *list);
-
 gboolean gnm_gconf_get_activate_new_plugins (void);
 void     gnm_gconf_set_activate_new_plugins (gboolean val);
 
