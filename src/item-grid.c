@@ -449,6 +449,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		col = find_col (item_grid, event->button.x, NULL);
 		row = find_row (item_grid, event->button.y, NULL);
 
+		gnumeric_sheet_accept_pending_output (gsheet);
 		gnumeric_sheet_cursor_set (gsheet, col, row);
 		if (!(event->button.state & GDK_SHIFT_MASK))
 			sheet_selection_clear_only (sheet);
