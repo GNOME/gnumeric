@@ -13500,7 +13500,7 @@ msgstr "ファイル'%s'を開けません"
 #.
 #: src/history.c:124 src/history.c:137
 msgid "File/Print preview"
-msgstr "印刷プレビュー"
+msgstr "ファイル(_F)/印刷プレビュー(_V)"
 
 #: src/history.c:225
 msgid "File/"
