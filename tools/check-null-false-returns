@@ -24,6 +24,7 @@ use strict;
 
 my $exitcode = 0;
 my $verbose = 0;
+my $strict = 0;
 
 warn "$0: should be run from top-level directory.\n"
     unless -r "configure.in" && -r 'ChangeLog';
@@ -53,44 +54,85 @@ my %exceptions =
 	    # print "Checking $filename...\n";
 	    my $lineno = 0;
 	    my $state = 0;
-	    my ($bad,$functype);
+	    my ($good,$dubious,$bad,$functype);
+	    my ($seen_good,$seen_dubious,$seen_bad);
+	    my %values;
 	  LINE:
 	    while (<FIL>) {
 		$lineno++;
 
-		if (/^(static\s+)?(inline\s+)?(gboolean|(unsigned\s|signed\s|const\s)*int|gint)\b[^*]*$/) {
+		if (/^(static\s+)?(inline\s+)?(unsigned\s+|signed\s+|const\s+)*(int|gu?int(|8|16|32|64)|char|gu?char)\b[^*]*$/) {
 		    $state = 1;
+		    $good = '[-+]?\d+';
+		    $dubious = 'FALSE|TRUE';
 		    $bad = 'NULL';
 		    $functype = 'integer';
+		} elsif (/^(static\s+)?(inline\s+)?gboolean\b[^*]*$/) {
+		    $state = 1;
+		    $good = 'FALSE|TRUE';
+		    $dubious = '\d+';
+		    $bad = 'NULL|[-+]\d+';
+		    $functype = 'boolean';
 		} elsif (/^(static\s+)?(inline\s+)?(const\s+)?(gpointer|\S[ a-zA-Z0-9]+\*)/) {
 		    $state = 1;
+		    $good = 'NULL';
+		    $dubious = '0';
 		    $bad = 'FALSE';
 		    $functype = 'pointer';
 		}
 
-		if ($state == 1 && /;\s*$/) {
-		    $state = 0;
-		    next;
-		}
+		if ($state == 1) {
+		    if (/;\s*$/) {
+			$state = 0;
+			next;
+		    }
 
-		if ($state == 1 && /^\{/) {
-		    $state = 2;
-		    next;
+		    if (/^\{/) {
+			$state++;
+			$seen_good = $seen_dubious = $seen_bad = 0;
+			%values = ();
+			next;
+		    }
 		}
-
 
 		if (/^\}/) {
+		    if ($state == 2 && !$strict && $seen_good && $seen_dubious) {
+			print "$filename:$lineno: mixture of good and dubious return values: ";
+			print join (', ', sort keys %values), ".\n";
+		    }
+
 		    $state = 0;
 		    next;
 		}
 
-		if ($state == 2 && /return(\s|\()\s*($bad)/) {
-		    print "$filename:$lineno: returning $2 in a $functype function.\n";
-		    next;
-		}
+		if ($state == 2) {
+		    my $val;
 
-		if ($state == 2 && /g_return_val_if_fail.*,\s*($bad)\s*\)\s*;\s*$/) {
-		    print "$filename:$lineno: returning $1 in a $functype function.\n";
+		    if (/\breturn(\s|\()\s*($good|$dubious|$bad)\s*\)*\s*;/) {
+			$val = $2;
+		    } elsif (/\bg_return_val_if_fail.*,\s*($good|$dubious|$bad)\s*\)\s*;\s*$/) {
+			$val = $1;
+		    } else {
+			next;
+		    }
+
+		    my $barf = 0;
+		    if ($val =~ /^($bad)$/) {
+			$seen_bad = 1;
+			$barf = 1;
+		    } elsif ($val =~ /^($dubious)$/) {
+			$seen_dubious = 1;
+			$barf = 1 if $strict;
+			$values{$val} = 1;
+		    } else {
+			$seen_good = 1;
+			$values{$val} = 1;
+		    }
+
+		    print "$filename:$lineno: returning $val in a $functype function.\n"
+			if $barf;
+
+		    next;
 		}
 	    }
 	    close (*FIL);
