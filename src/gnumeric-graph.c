@@ -581,42 +581,8 @@ gnm_graph_add_vector (GnmGraph *graph, GnmExpr const *expr,
 }
 
 static gboolean
-gnm_graph_setup (GnmGraph *graph, Workbook *wb)
+gnm_graph_setup (GnmGraph *graph)
 {
-#ifdef GNOME2_CONVERSION_COMPLETE
-	CORBA_Environment  ev;
-	Bonobo_Unknown	   o;
-
-	CORBA_exception_init (&ev);
-
-	o = bonobo_activation_activate ("repo_ids.has('" MANAGER_OAF "')",
-		NULL, 0, NULL, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION || o == CORBA_OBJECT_NIL) {
-		g_warning ("'%s' : while attempting to activate a graphing component.\n"
-			   "bonobo-activation-run-query \"repo_ids.has('" MANAGER_OAF "')\"\nshould return a value.",
-			   bonobo_exception_get_text (&ev));
-		graph = NULL;
-	} else {
-		graph->manager = Bonobo_Unknown_queryInterface (o, MANAGER_OAF, &ev);
-
-		g_return_val_if_fail (graph->manager != CORBA_OBJECT_NIL, TRUE);
-
-		graph->manager_client = graph->manager;
-		bonobo_object_release_unref (o, &ev);
-
-#warning FIXME - we need a Bonobo_UIContainer from somewhere.
-		if (sheet_object_bonobo_construct (SHEET_OBJECT_BONOBO (graph),
-						   CORBA_OBJECT_NIL, NULL) == NULL ||
-		    !sheet_object_bonobo_set_server (SHEET_OBJECT_BONOBO (graph),
-						     graph->manager_client)) {
-			graph = NULL;
-		}
-	}
-
-	CORBA_exception_free (&ev);
-
-#endif
 	return graph == NULL;
 }
 
@@ -625,14 +591,14 @@ gnm_graph_setup (GnmGraph *graph, Workbook *wb)
  * so that we can handle standalone graphs.
  */
 GObject *
-gnm_graph_new (Workbook *wb)
+gnm_graph_new (void)
 {
 	GObject *graph = g_object_new (GNUMERIC_GRAPH_TYPE, NULL);
 
 	d(printf ("gnumeric : graph new %p\n", graph));
 
 #ifdef GNOME2_CONVERSION_COMPLETE
-	if (gnm_graph_setup (GNM_GRAPH (graph), wb)) {
+	if (gnm_graph_setup (GNM_GRAPH (graph))) {
 		g_object_unref (graph);
 		return NULL;
 	}
@@ -952,7 +918,7 @@ gnm_graph_read_xml (SheetObject *so,
 	xmlNode *tmp;
 	xmlDoc *doc;
 
-	if (gnm_graph_setup (graph, ctxt->wb))
+	if (gnm_graph_setup (graph))
 		return TRUE;
 
 	tmp = e_xml_get_child_by_name (tree, (xmlChar *)"Vectors");

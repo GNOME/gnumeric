@@ -277,7 +277,7 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 		if (set_condition) {
 			gnm_filter_set_condition (field->filter, field->i,
 						  cond, TRUE);
-			sheet_update (field->filter->dep.sheet);
+			sheet_update (field->filter->sheet);
 		}
 	}
 	filter_popup_destroy (popup, GTK_WIDGET (list));
@@ -371,7 +371,7 @@ collect_unique_elements (GnmFilterField *field,
 	uc.has_blank = FALSE;
 	uc.hash = g_hash_table_new (
 			(GHashFunc) value_hash, (GEqualFunc) value_equal);
-	sheet_foreach_cell_in_range (field->filter->dep.sheet,
+	sheet_foreach_cell_in_range (field->filter->sheet,
 		CELL_ITER_ALL,
 		r.start.col, r.start.row, r.end.col, r.end.row,
 		(CellIterFunc)&cb_collect_unique, &uc);
@@ -820,7 +820,7 @@ filter_field_apply (GnmFilterField *field)
 		if (field->cond->op[1] != GNM_FILTER_UNUSED)
 			filter_expr_init (&data, 1, field->cond);
 
-		sheet_foreach_cell_in_range (filter->dep.sheet,
+		sheet_foreach_cell_in_range (filter->sheet,
 			CELL_ITER_IGNORE_HIDDEN,
 			col, start_row, col, end_row,
 			(CellIterFunc) cb_filter_expr, &data);
@@ -829,12 +829,12 @@ filter_field_apply (GnmFilterField *field)
 		if (field->cond->op[1] != GNM_FILTER_UNUSED)
 			filter_expr_release (&data, 1);
 	} else if (field->cond->op[0] == GNM_FILTER_OP_BLANKS)
-		sheet_foreach_cell_in_range (filter->dep.sheet,
+		sheet_foreach_cell_in_range (filter->sheet,
 			CELL_ITER_IGNORE_HIDDEN,
 			col, start_row, col, end_row,
 			cb_filter_blanks, NULL);
 	else if (field->cond->op[0] == GNM_FILTER_OP_NON_BLANKS)
-		sheet_foreach_cell_in_range (filter->dep.sheet,
+		sheet_foreach_cell_in_range (filter->sheet,
 			CELL_ITER_IGNORE_HIDDEN,
 			col, start_row, col, end_row,
 			cb_filter_non_blanks, NULL);
@@ -845,14 +845,14 @@ filter_field_apply (GnmFilterField *field)
 
 			data.find_max = (field->cond->op[0] & 0x1) ? FALSE : TRUE;
 			data.initialized = FALSE;
-			sheet_foreach_cell_in_range (filter->dep.sheet,
+			sheet_foreach_cell_in_range (filter->sheet,
 				CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
 				col, start_row, col, end_row,
 				(CellIterFunc) cb_filter_find_percentage, &data);
 			offset = (data.high - data.low) * field->cond->count / 100.;
 			data.high -= offset;
 			data.low  += offset;
-			sheet_foreach_cell_in_range (filter->dep.sheet,
+			sheet_foreach_cell_in_range (filter->sheet,
 				CELL_ITER_IGNORE_HIDDEN,
 				col, start_row, col, end_row,
 				(CellIterFunc) cb_hide_unwanted_percentage, &data);
@@ -862,11 +862,11 @@ filter_field_apply (GnmFilterField *field)
 			data.elements    = 0;
 			data.count  = field->cond->count;
 			data.vals   = g_alloca (sizeof (Value *) * data.count);
-			sheet_foreach_cell_in_range (filter->dep.sheet,
+			sheet_foreach_cell_in_range (filter->sheet,
 				CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
 				col, start_row, col, end_row,
 				(CellIterFunc) cb_filter_find_items, &data);
-			sheet_foreach_cell_in_range (filter->dep.sheet,
+			sheet_foreach_cell_in_range (filter->sheet,
 				CELL_ITER_IGNORE_HIDDEN,
 				col, start_row, col, end_row,
 				(CellIterFunc) cb_hide_unwanted_items, &data);
@@ -888,28 +888,6 @@ filter_field_set_active (GnmFilterField *field)
 
 /*************************************************************************/
 
-#define DEP_TO_FILTER(d_ptr) (GnmFilter *)(((char *)d_ptr) - G_STRUCT_OFFSET(GnmFilter, dep))
-
-static void
-filter_eval (Dependent *dep)
-{
-	/* do nothing for now, its unclear whether people want the filter to
-	 * auto reapply */
-}
-static void
-filter_set_expr (Dependent *dep, GnmExpr const *new_expr)
-{
-	g_warning ("TODO : move or invalidate the filter");
-}
-
-static void
-filter_debug_name (Dependent const *dep, FILE *out)
-{
-	fprintf (out, "Filter%p", dep);
-}
-
-static DEPENDENT_MAKE_TYPE (filter, filter_set_expr)
-
 /**
  * gnm_filter_new :
  * @sheet :
@@ -920,7 +898,6 @@ static DEPENDENT_MAKE_TYPE (filter, filter_set_expr)
 GnmFilter *
 gnm_filter_new (Sheet *sheet, Range const *r)
 {
-	static CellPos const dummy = { 0, 0 };
 	/* pretend to fill the cell, then clip the X start later */
 	static SheetObjectAnchorType const anchor_types [4] = {
 		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
@@ -939,10 +916,7 @@ gnm_filter_new (Sheet *sheet, Range const *r)
 	g_return_val_if_fail (r != NULL, NULL);
 
 	filter = g_new0 (GnmFilter, 1);
-	filter->dep.sheet = sheet;
-	filter->dep.flags = filter_get_dep_type ();
-	filter->dep.expression = gnm_expr_new_constant (
-		value_new_cellrange_r (sheet, r));
+	filter->sheet = sheet;
 
 	filter->is_active = FALSE;
 	filter->r = *r;
@@ -962,7 +936,6 @@ gnm_filter_new (Sheet *sheet, Range const *r)
 		g_object_unref (G_OBJECT (field));
 	}
 
-	dependent_link (&filter->dep, &dummy);
 	sheet->filters = g_slist_prepend (sheet->filters, filter);
 
 	return filter;
@@ -979,7 +952,6 @@ gnm_filter_free	(GnmFilter *filter)
 		sheet_object_clear_sheet (g_ptr_array_index (filter->fields, i));
 	g_ptr_array_free (filter->fields, TRUE);
 
-	gnm_expr_unref (filter->dep.expression);
 	filter->fields = NULL;
 	g_free (filter);
 }
@@ -987,16 +959,13 @@ gnm_filter_free	(GnmFilter *filter)
 void
 gnm_filter_remove (GnmFilter *filter)
 {
-	static CellPos const dummy = { 0, 0 };
 	Sheet *sheet;
 	int i;
 
 	g_return_if_fail (filter != NULL);
 
-	sheet = filter->dep.sheet;
+	sheet = filter->sheet;
 	sheet->filters = g_slist_remove (sheet->filters, filter);
-	dependent_unlink (&filter->dep, &dummy);
-
 	for (i = filter->r.start.row; ++i <= filter->r.end.row ; ) {
 		ColRowInfo *ri = sheet_row_fetch (sheet, i);
 		ri->in_filter = FALSE;
@@ -1060,9 +1029,9 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 		 */
 		if (existing_cond) {
 			for (r = filter->r.start.row; ++r <= filter->r.end.row ; ) {
-				ColRowInfo *ri = sheet_row_get (filter->dep.sheet, r);
+				ColRowInfo *ri = sheet_row_get (filter->sheet, r);
 				if (ri != NULL)
-					colrow_set_visibility (filter->dep.sheet,
+					colrow_set_visibility (filter->sheet,
 							       FALSE, TRUE, r, r);
 			}
 			for (i = 0 ; i < filter->fields->len ; i++)
@@ -1092,7 +1061,7 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 
 	if (set_infilter)
 		for (r = filter->r.start.row; ++r <= filter->r.end.row ; ) {
-			ColRowInfo *ri = sheet_row_fetch (filter->dep.sheet, r);
+			ColRowInfo *ri = sheet_row_fetch (filter->sheet, r);
 			ri->in_filter = filter->is_active;
 		}
 }

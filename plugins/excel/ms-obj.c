@@ -401,12 +401,14 @@ ms_obj_dump_impl (guint8 const *data, int len, int data_left, char const *name)
 static gboolean
 ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 {
-	guint16 peek_op, tmp;
+	guint16 peek_op, tmp, len;
 	guint8 const *data;
-	/* TODO : Lots of docs for these things.  Write the parser. */
+	gboolean const has_fmla = GSF_LE_GET_GUINT16 (q->data+26) != 0;
+
+	/* undocumented */
+	gboolean const has_name = GSF_LE_GET_GUINT16 (q->data+30) != 0;
 
 #if 0
-	guint32 const numObjects = GSF_LE_GET_GUINT16(q->data);
 	guint16 const flags = GSF_LE_GET_GUINT16(q->data+8);
 #endif
 	guint8 *anchor = g_malloc (MS_ANCHOR_SIZE);
@@ -420,23 +422,27 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	switch (obj->excel_type) {
 	case 0: /* group */
 		break;
-	case 1: { /* line */
-		if (GSF_LE_GET_GUINT8 (q->data+38))
+	case 1: /* line */
+		tmp = GSF_LE_GET_GUINT8 (q->data+40);
+		if (GSF_LE_GET_GUINT16 (q->data + 10) == 0 &&
+		    GSF_LE_GET_GUINT16 (q->data + 14) < 20) {
+			g_warning("%hhu", tmp);
+		}
+		if (GSF_LE_GET_GUINT8 (q->data+38) & 0x0F)
 			ms_obj_attr_bag_insert (obj->attrs,
 				ms_obj_attr_new_flag (MS_OBJ_ATTR_ARROW_END));
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_FILL_COLOR,
 				0x80000000 | GSF_LE_GET_GUINT8 (q->data+34)));
 
-		tmp = GSF_LE_GET_GUINT8 (q->data+40);
-		if (tmp & 0x1)
+		if (tmp == 1 || tmp == 2)
 			ms_obj_attr_bag_insert (obj->attrs,
 				ms_obj_attr_new_flag (MS_OBJ_ATTR_FLIP_H));
-		if (tmp & 0x2)
+		if (tmp >= 2)
 			ms_obj_attr_bag_insert (obj->attrs,
 				ms_obj_attr_new_flag (MS_OBJ_ATTR_FLIP_V));
 		break;
-	}
+
 	case 2: /* rectangle */
 		break;
 	case 3: /* oval */
@@ -454,16 +460,30 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 					0x80000000 | GSF_LE_GET_GUINT8 (q->data+35)));
 		}
 		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_uint (MS_OBJ_ATTR_FONT_COLOR,
+				0x80000000 | GSF_LE_GET_GUINT8 (q->data+34)));
+		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_OUTLINE_COLOR,
 				0x80000000 | GSF_LE_GET_GUINT8 (q->data+38)));
-		data = q->data + 70;
-		g_return_val_if_fail ((unsigned)(data - q->data) < q->length, TRUE);
-		data += *data + ((*data & 0x1) ? 1 : 2); /* padding byte */
-		g_return_val_if_fail ((unsigned)(data - q->data) < q->length, TRUE);
-		/* docs lie, there is no fmla structure */
-		ms_obj_attr_bag_insert (obj->attrs,
-			ms_obj_attr_new_ptr (MS_OBJ_ATTR_TEXT,
-				g_strndup (data, GSF_LE_GET_GUINT16 (q->data + 44))));
+
+		/* only pull in the text if it exists */
+		len = GSF_LE_GET_GUINT16 (q->data + 44);
+		if (len > 0) {
+			data = q->data + 70;
+			g_return_val_if_fail ((unsigned)(data - q->data) < q->length, TRUE);
+
+			g_return_val_if_fail (!has_fmla, TRUE); /* how would this happen */
+
+			/* skip the obj name if defined */
+			if (has_name) {
+				data += *data + ((*data & 0x1) ? 1 : 2); /* padding byte */
+				g_return_val_if_fail ((unsigned)(data - q->data) < q->length, TRUE);
+			}
+
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_ptr (MS_OBJ_ATTR_TEXT,
+					g_strndup (data, len)));
+		}
 		break;
 
 	case 7: /* button */

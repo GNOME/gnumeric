@@ -1,3 +1,15 @@
+2002-12-24  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_sheet_create_obj) : cut-n-paste-o in line creation
+	  support font color for text boxes.
+	  (excel_palette_get) : just call colour 64 black if it gets this far.
+	    It only happens for shet objects and we need to do more research
+	    on how to handle these.
+
+	* ms-obj.c (ms_obj_read_pre_biff8_obj) : be more picky about what we
+	  call an arrow head.  Fix the directions for lines.  Find the
+	  undocumented flag to fix named objects.
+
 2002-12-22  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.14

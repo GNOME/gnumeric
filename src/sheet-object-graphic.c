@@ -829,7 +829,7 @@ sheet_object_filled_clone (SheetObject const *so, Sheet *sheet)
 	new_so = sheet_object_graphic_clone (so, sheet);
 	new_sof = SHEET_OBJECT_FILLED (new_so);
 
-	new_sof->outline_color = sof->outline_color;
+	new_sof->outline_color = style_color_ref (sof->outline_color);
 
 	return SHEET_OBJECT (new_sof);
 }
@@ -1300,8 +1300,8 @@ sheet_object_polygon_clone (SheetObject const *so, Sheet *sheet)
 
 	new_sop = g_object_new (G_OBJECT_TYPE (so), NULL);
 
-	new_sop->fill_color = style_color_ref (sop->fill_color);
-	new_sop->outline_color = style_color_ref (sop->outline_color);
+	new_sop->fill_color	= style_color_ref (sop->fill_color);
+	new_sop->outline_color	= style_color_ref (sop->outline_color);
 
 	return SHEET_OBJECT (new_sop);
 }
@@ -1418,6 +1418,7 @@ typedef struct {
 	SheetObjectFilled parent;
 
 	char *label;
+	StyleColor  *font_color;
 } SheetObjectText;
 typedef struct {
 	SheetObjectFilledClass	parent;
@@ -1466,6 +1467,7 @@ sheet_object_text_finalize (GObject *obj)
 {
 	SheetObjectText *sot = SHEET_OBJECT_TEXT (obj);
 
+	style_color_unref (sot->font_color);
 	g_free (sot->label);
 	sot->label = NULL;
 
@@ -1479,10 +1481,13 @@ sheet_object_text_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
 	FooCanvasItem *text = NULL, *back = NULL;
 	FooCanvasGroup *group;
+	GdkColor *font_color;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
 	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
 	g_return_val_if_fail (gcanvas != NULL, NULL);
+
+	font_color = (sot->font_color != NULL) ? &sot->font_color->color : NULL;
 
 	foo_canvas_item_raise_to_top (FOO_CANVAS_ITEM (gcanvas->sheet_object_group));
 	group = FOO_CANVAS_GROUP (foo_canvas_item_new (
@@ -1496,6 +1501,7 @@ sheet_object_text_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 		"clip",		TRUE,
 		"x",		0.,
 		"y",		0.,
+		"fill_color_gdk", font_color,
 		NULL);
 	back = sheet_object_filled_new_view_internal (so, sc, gcanvas, group);
 	foo_canvas_item_raise_to_top (text);
@@ -1565,15 +1571,19 @@ sheet_object_text_write_xml (SheetObject const *so,
 
 	xml_node_set_cstr (tree, "Label", sot->label);
 
+	if (sot->font_color)
+		xml_node_set_color (tree, "FontColor", sot->font_color);
 	return FALSE;
 }
 
 static SheetObject *
-sheet_object_text_clone (SheetObject const *src_swl, Sheet *new_sheet)
+sheet_object_text_clone (SheetObject const *src_sot, Sheet *new_sheet)
 {
 	SheetObjectText *sot = g_object_new (SHEET_OBJECT_TEXT_TYPE, NULL);
 	sheet_object_text_init_full (sot,
-		SHEET_OBJECT_TEXT (src_swl)->label);
+		SHEET_OBJECT_TEXT (src_sot)->label);
+
+	sot->font_color = style_color_ref (sot->font_color);
 	return SHEET_OBJECT (sot);
 }
 
@@ -1612,3 +1622,19 @@ sheet_object_text_class_init (GObjectClass *object_class)
 GSF_CLASS (SheetObjectText, sheet_object_text,
 	   sheet_object_text_class_init, sheet_object_text_init,
 	   SHEET_OBJECT_FILLED_TYPE);
+
+void
+sheet_object_test_font_color_set (SheetObject *so, StyleColor *color)
+{
+	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
+	GdkColor *gdk = (color != NULL) ? &color->color : NULL;
+	GList *l;
+
+	g_return_if_fail (sot != NULL);
+
+	style_color_unref (sot->font_color);
+	sot->font_color = color;
+
+	for (l = so->realized_list; l; l = l->next)
+		foo_canvas_item_set (l->data, "fill_color_gdk", gdk, NULL);
+}

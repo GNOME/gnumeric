@@ -323,7 +323,7 @@ sheet_merge_relocate (GnmExprRelocateInfo const *ri)
 		if (range_contains (&ri->origin, r->start.col, r->start.row)) {
 			Range tmp = *r;
 
-			/* Toss any objects that would be clipped. */
+			/* Toss any merges that would be clipped. */
 			sheet_merge_remove (ri->origin_sheet, r, NULL);
 			if (!range_translate (&tmp, ri->col_offset, ri->row_offset))
 				to_move = g_slist_prepend (to_move, range_dup (&tmp));

@@ -1,5 +1,8 @@
 Gnumeric 1.1.15
 
+Jody:
+	* Fix some XL95 object issues.
+
 Jon Kåre:
 	* Open DB connections read only
 

@@ -3,8 +3,6 @@
 #define GNUMERIC_FILTER_H
 
 #include "gnumeric.h"
-#include "dependent.h"
-#include "expr.h"
 
 typedef enum {
 	GNM_FILTER_UNUSED	= -1,
@@ -33,7 +31,7 @@ struct _GnmFilterCondition {
 };
 
 struct _GnmFilter {
-	Dependent dep;
+	Sheet *sheet;
 	Range  r;
 
 	GPtrArray *fields;

@@ -418,7 +418,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		StyleColor *color;
 		MSObjAttr *is_arrow = ms_obj_attr_bag_lookup (obj->attrs,
 			MS_OBJ_ATTR_ARROW_END);
-		so = sheet_object_line_new (is_arrow != NULL); break;
+		so = sheet_object_line_new (is_arrow != NULL);
 
 		color = ms_sheet_map_color (esheet, obj,
 			MS_OBJ_ATTR_FILL_COLOR);
@@ -443,25 +443,32 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		break;
 	}
 
-	case 0x05: { /* Chart */
-		so = SHEET_OBJECT (gnm_graph_new (wb));
+	case 0x05: /* Chart */
+		so = SHEET_OBJECT (gnm_graph_new ());
 		break;
-	}
 
 	case 0x0E: /* Label */
 	case 0x06: { /* TextBox */
-		StyleColor *fill_color = NULL;
-		StyleColor *outline_color;
+		StyleColor *color = NULL;
 
 		so = g_object_new (sheet_object_text_get_type (), NULL);
-		if (ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FILLED))
-			fill_color = ms_sheet_map_color (esheet, obj,
+
+		if (ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FILLED)) {
+			color = ms_sheet_map_color (esheet, obj,
 				MS_OBJ_ATTR_FILL_COLOR);
-		outline_color = ms_sheet_map_color (esheet, obj,
+			sheet_object_graphic_fill_color_set (so, color);
+		}
+
+		color = ms_sheet_map_color (esheet, obj,
 			MS_OBJ_ATTR_OUTLINE_COLOR);
-		sheet_object_graphic_fill_color_set (so, fill_color);
-		if (outline_color)
-			sheet_object_filled_outline_color_set (so, outline_color);
+		if (color)
+			sheet_object_filled_outline_color_set (so, color);
+
+		color = ms_sheet_map_color (esheet, obj,
+			MS_OBJ_ATTR_FONT_COLOR);
+		if (color)
+			sheet_object_test_font_color_set (so, color);
+
 		sheet_object_text_set_text (so, 
 			ms_obj_attr_get_ptr (obj, MS_OBJ_ATTR_TEXT, (char *)""));
 		break;
@@ -1380,7 +1387,7 @@ excel_palette_get (ExcelPalette const *pal, gint idx)
 	d (4, fprintf (stderr,"Color Index %d\n", idx););
 
 	/* Black ? */
-	if (idx == 0)
+	if (idx == 0 || idx == 64)
 		return style_color_black ();
 	/* White ? */
 	if (idx == 1)
@@ -4544,7 +4551,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 			 * at the NEXT record.
 			 */
 			if (q->opcode == BIFF_CHART_units) {
-				GObject *graph = gnm_graph_new (esheet->container.ewb->gnum_wb);
+				GObject *graph = gnm_graph_new ();
 				ms_excel_chart (q, sheet_container (esheet),
 						esheet->container.ver,
 						graph);
@@ -5042,7 +5049,7 @@ excel_read_BOF (BiffQuery	 *q,
 		GObject *graph =
 #if 0
 			/* enable when we support workbooklevel objects */
-			gnm_graph_new (ewb->gnum_wb);
+			gnm_graph_new ();
 #else
 			NULL;
 #endif

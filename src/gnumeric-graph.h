@@ -19,7 +19,7 @@ typedef enum {
 
 GType gnm_graph_get_type (void);
 
-GObject   *gnm_graph_new		  (Workbook *wb);
+GObject   *gnm_graph_new		  (void);
 void	   gnm_graph_clear_vectors	  (GnmGraph *g);
 void	   gnm_graph_arrange_vectors	  (GnmGraph *g);
 void	   gnm_graph_range_to_vectors	  (GnmGraph *g, Sheet *sheet,

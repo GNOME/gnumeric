@@ -106,7 +106,7 @@ Pending Patches
     21.10) select the current condition in the combos		(DONE)
     21.11) expression filters					(DONE)
     21.12) expression dialog					(DONE)
-    21.13) Handle range changes (cut-n-paste or ins/del col/row)
+    21.13) Handle range changes (cut-n-paste or ins/del col/row)(DONE)
     21.14) Handle the relationship between groups and filters	(DONE)
     21.15) xml import/export					(DONE)
     21.16) Fix cursor redraw after filter			(DONE)
@@ -121,6 +121,7 @@ Pending Patches
     21.25) guess initial region if its a singleton
     21.26) combo contains start to end of continuous region
            not just the end of the selected region
+    21.27) filter changes should dirty things
 
 22) Add dirty flags to workbook too, adding a sheet should
     make workbook dirty not the new sheet.

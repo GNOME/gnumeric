@@ -151,7 +151,7 @@ cb_autofilter_ok (G_GNUC_UNUSED GtkWidget *button,
 	if (cond != NULL) {
 		gnm_filter_set_condition (state->filter, state->field,
 				 cond, TRUE);
-		sheet_update (state->filter->dep.sheet);
+		sheet_update (state->filter->sheet);
 	}
 
 	gtk_widget_destroy (state->dialog);

@@ -1663,7 +1663,7 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 		state->graph = graph;
 		g_object_ref (G_OBJECT (state->graph));
 	} else
-		state->graph = GNUMERIC_GRAPH (gnm_graph_new (state->wb));
+		state->graph = GNUMERIC_GRAPH (gnm_graph_new ());
 
 	if (state->graph != NULL && page == 0) {
 		GList *ptr = g_list_last (state->sv->selections);
