@@ -169,11 +169,12 @@ PERL_FILES =					\
 	make-func-index.pl			\
 	make-func-list.pl
 
+# include generated files to simplify installation
 EXTRA_DIST +=					\
 	topic.dat				\
 	func.defs				\
-	func-list.sgml				\
-	func-index.sgml				\
+	func-header.sgml func-footer.sgml	\
+	func-list.sgml func-index.sgml		\
 	gnumeric.1				\
 	$(PERL_FILES)
 
