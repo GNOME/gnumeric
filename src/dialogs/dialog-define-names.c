@@ -166,7 +166,8 @@ cb_name_guru_add (NameGuruState *state)
 static void
 cb_name_guru_value_focus (GtkWidget *w, GdkEventFocus *ev, NameGuruState *state)
 {
-	if (w == state->value) {
+	GtkEntry *entry = GTK_ENTRY (w);
+	if (entry == state->value) {
 		workbook_set_entry (state->wb, state->value);
 		workbook_edit_select_absolute (state->wb);
 	} else

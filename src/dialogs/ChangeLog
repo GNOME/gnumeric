@@ -1,3 +1,7 @@
+2000-07-03  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-define-names.c (cb_name_guru_value_focus) : suppress warning.
+
 2000-07-03  Morten Welinder  <terra@diku.dk>
 
 	* dialog-stf-format-page.c (format_page_format_changed): Plug
