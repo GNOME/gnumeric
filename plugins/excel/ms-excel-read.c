@@ -3407,16 +3407,16 @@ ms_excel_read_cf (BiffQuery *q, ExcelSheet *esheet)
 	ExprTree *expr1 = NULL, *expr2 = NULL;
 
 	switch( op ) {
-	case 0x01 : cond1 = STYLE_CONDITION_GREATER_EQUAL;
-		    cond2 = STYLE_CONDITION_LESS_EQUAL;		break;
-	case 0x02 : cond1 = STYLE_CONDITION_LESS_EQUAL;
-		    cond2 = STYLE_CONDITION_GREATER_EQUAL;	break;
-	case 0x03 : cond1 = STYLE_CONDITION_EQUAL;		break;
-	case 0x04 : cond1 = STYLE_CONDITION_NOT_EQUAL;		break;
-	case 0x05 : cond1 = STYLE_CONDITION_GREATER;		break;
-	case 0x06 : cond1 = STYLE_CONDITION_LESS;		break;
-	case 0x07 : cond1 = STYLE_CONDITION_GREATER_EQUAL;	break;
-	case 0x08 : cond1 = STYLE_CONDITION_LESS_EQUAL;		break;
+	case 0x01 : cond1 = SCO_GREATER_EQUAL;
+		    cond2 = SCO_LESS_EQUAL;		break;
+	case 0x02 : cond1 = SCO_LESS_EQUAL;
+		    cond2 = SCO_GREATER_EQUAL;	break;
+	case 0x03 : cond1 = SCO_EQUAL;		break;
+	case 0x04 : cond1 = SCO_NOT_EQUAL;		break;
+	case 0x05 : cond1 = SCO_GREATER;		break;
+	case 0x06 : cond1 = SCO_LESS;		break;
+	case 0x07 : cond1 = SCO_GREATER_EQUAL;	break;
+	case 0x08 : cond1 = SCO_LESS_EQUAL;		break;
 	default:
 		g_warning ("EXCEL : Unknown condition (%d) for conditional format.", op);
 		return;

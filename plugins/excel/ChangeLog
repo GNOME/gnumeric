@@ -1,3 +1,8 @@
+2001-10-22  Almer S. Tigelaar  <almer@gnome.org>
+
+	* ms-excel-read.c (ms_excel_read_cf): Adjust for
+	changes to style-condition.[ch]
+
 2001-10-18  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.72
