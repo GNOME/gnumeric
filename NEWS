@@ -1,5 +1,8 @@
 Gnumeric 1.3.94
 
+Harald Ashburner:
+	* Update derivatives.gnumeric
+
 Morten:
 	* Fix crash with weird history items.  [#157682]
 

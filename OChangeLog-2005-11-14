@@ -1,3 +1,8 @@
+2004-11-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	for Harald Ashburner <hal.ashburner@gmail.com>:
+	* sample/derivaties.gnumeric: update
+
 2004-11-08  Morten Welinder  <terra@gnome.org>
 
 	* src/history.c: Survive NULL basename (#157682).
