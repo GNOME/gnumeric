@@ -1,5 +1,8 @@
 2000-05-03  Jody Goldberg <jgoldberg@home.com>
 
+	* src/format.c (pre_parse_format) : Fix old typo that was causing
+	  bug 10001 by breaking AM/PM.
+
 	* src/cell.c (cell_set_array_formula) : Add some invariants to catch
 	  inverted arrays.  The function should use the supplier's
 	  reference.  It should not re-reference the supplied expression.

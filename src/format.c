@@ -52,9 +52,9 @@ static void style_entry_free (gpointer data, gpointer user_data);
 
 typedef struct {
         char     *format;
-	int      want_am_pm;
-        char     restriction_type;
-        int      restriction_value;
+	gboolean  want_am_pm;
+        char      restriction_type;
+        int       restriction_value;
 } StyleFormatEntry;
 
 /*
@@ -167,11 +167,15 @@ append_day (GString *string, const guchar *format, const struct tm *time_split)
  * Renders the hour.
  */
 static void
-append_hour (GString *string, int n, const struct tm *time_split, int timeformat)
+append_hour (GString *string, int n, const struct tm *time_split,
+	     gboolean want_am_pm)
 {
 	char *temp = g_alloca (n + 4);
 
-	sprintf (temp, "%0*d", n, timeformat ? (time_split->tm_hour % 12) : time_split->tm_hour);
+	sprintf (temp, "%0*d", n,
+		 want_am_pm
+		 ? (time_split->tm_hour % 12)
+		 : time_split->tm_hour);
 	g_string_append (string, temp);
 
 	return;
@@ -292,7 +296,7 @@ pre_parse_format (StyleFormatEntry *style)
 {
 	const unsigned char *format;
 
-	style->want_am_pm = 0;
+	style->want_am_pm = FALSE;
 	for (format = style->format; *format; format++){
 		switch (*format){
 		case '"':
@@ -315,8 +319,8 @@ pre_parse_format (StyleFormatEntry *style)
 		case 'p':
 		case 'A':
 		case 'P':
-			if (tolower (*(format+1) == 'm'))
-				style->want_am_pm = 1;
+			if (tolower (format[1]) == 'm')
+				style->want_am_pm = TRUE;
 			break;
 		}
 	}
@@ -1189,7 +1193,8 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 				ignore_further_elapsed = TRUE;
 				append_hour_elapsed (result, n, time_split, number);
 			} else
-				append_hour (result, n, time_split, style_format_entry->want_am_pm);
+				append_hour (result, n, time_split,
+					     style_format_entry->want_am_pm);
 			hour_seen = TRUE;
 			break;
 		}
