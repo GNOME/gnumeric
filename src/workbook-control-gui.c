@@ -657,59 +657,50 @@ wbcg_undo_redo_push (WorkbookControl *wbc, char const *text, gboolean is_undo)
 }
 
 static void
-toggle_menu_item (
 #ifndef ENABLE_BONOBO
-		   GtkWidget *menu_item,
-#else
-		   WorkbookControlGUI const *wbcg,
-		   char const *verb_path,
-		   char const *menu_path, /* FIXME we need verb level labels. */
-#endif
-		   gboolean state)
+toggle_menu_item (GtkWidget *menu_item, gboolean state)
 {
-#ifndef ENABLE_BONOBO
 	g_return_if_fail (menu_item != NULL);
 
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), state);
+}
 #else
+toggle_menu_item (WorkbookControlGUI const *wbcg,
+		  char const *verb_path, gboolean state)
+{
 	CORBA_Environment  ev;
 
-	g_return_if_fail (wbcg != NULL);
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
 	CORBA_exception_init (&ev);
-
-#warning look up how to do this
 	bonobo_ui_component_set_prop (wbcg->uic, verb_path,
 				      "state", state ? "1" : "0", &ev);
 	CORBA_exception_free (&ev);	
-#endif
 }
-static void
-change_menu_sensitivity (
-#ifndef ENABLE_BONOBO
-		   GtkWidget *menu_item,
-#else
-		   WorkbookControlGUI const *wbcg,
-		   char const *verb_path,
-		   char const *menu_path, /* FIXME we need verb level labels. */
 #endif
-		   gboolean sensitive)
-{
+
+static void
 #ifndef ENABLE_BONOBO
+change_menu_sensitivity (GtkWidget *menu_item, gboolean sensitive)
+{
 	g_return_if_fail (menu_item != NULL);
 
 	gtk_widget_set_sensitive (menu_item, sensitive);
+}
 #else
+change_menu_sensitivity (WorkbookControlGUI const *wbcg,
+			 char const *verb_path, gboolean sensitive)
+{
 	CORBA_Environment  ev;
 
-	g_return_if_fail (wbcg != NULL);
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
 	CORBA_exception_init (&ev);
 	bonobo_ui_component_set_prop (wbcg->uic, verb_path,
 				      "sensitive", sensitive ? "1" : "0", &ev);
 	CORBA_exception_free (&ev);	
-#endif
 }
+#endif
 
 static void
 wbcg_menu_state_enable_insert (WorkbookControl *wbc, Sheet const *sheet,
@@ -728,11 +719,11 @@ wbcg_menu_state_enable_insert (WorkbookControl *wbc, Sheet const *sheet,
 		change_menu_sensitivity (wbcg->menu_item_insert_cells, sheet->priv->enable_insert_cells);
 #else
 	if (col)
-		change_menu_sensitivity (wbcg, "/commands/InsertColumns", "/menu/Insert/Columns", sheet->priv->enable_insert_cols);
+		change_menu_sensitivity (wbcg, "/commands/InsertColumns", sheet->priv->enable_insert_cols);
 	if (row)
-		change_menu_sensitivity (wbcg, "/commands/InsertRows", "/menu/Insert/Rows", sheet->priv->enable_insert_rows);
+		change_menu_sensitivity (wbcg, "/commands/InsertRows", sheet->priv->enable_insert_rows);
 	if (cell)
-		change_menu_sensitivity (wbcg, "/commands/InsertCells", "/menu/Insert/Cells", sheet->priv->enable_insert_cells);
+		change_menu_sensitivity (wbcg, "/commands/InsertCells", sheet->priv->enable_insert_cells);
 #endif
 }
 
@@ -808,7 +799,7 @@ wbcg_menu_state_paste_special (WorkbookControl *wbc, Sheet const *sheet)
 #ifndef ENABLE_BONOBO
 	change_menu_sensitivity (wbcg->menu_item_paste_special, sheet->priv->enable_paste_special);
 #else
-	change_menu_sensitivity (wbcg, "/commands/EditPasteSpecial", "/menu/Edit/PasteSpecial", sheet->priv->enable_paste_special);
+	change_menu_sensitivity (wbcg, "/commands/EditPasteSpecial", sheet->priv->enable_paste_special);
 #endif
 }
 
@@ -833,11 +824,15 @@ wbcg_menu_state_sheet_prefs (WorkbookControl *wbc, Sheet const *sheet)
 		sheet->hide_row_header);
 #else
 	toggle_menu_item (wbcg,
-		"/commands/SheetDisplayFormulas", "/menu/Format/Sheet/SheetDisplayFormulas",
-		sheet->display_formulas);
+		"/commands/SheetDisplayFormulas", sheet->display_formulas);
 	toggle_menu_item (wbcg,
-		"/commands/SheetDisplayFormulas", "/menu/Format/Sheet/SheetDisplayFormulas",
-		sheet->display_formulas);
+		"/commands/SheetHideZeros", sheet->hide_zero);
+	toggle_menu_item (wbcg,
+		"/commands/SheetHideGridlines", sheet->hide_grid);
+	toggle_menu_item (wbcg,
+		"/commands/SheetHideColHeader", sheet->hide_col_header);
+	toggle_menu_item (wbcg,
+		"/commands/SheetHideRowHeader", sheet->hide_row_header);
 #endif
 	wbcg->updating_ui = FALSE;
 

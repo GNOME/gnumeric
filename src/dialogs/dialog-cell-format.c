@@ -1014,6 +1014,16 @@ fmt_dialog_init_format_page (FormatState *state)
 static void
 cb_indent_changed (GtkEditable *editable, FormatState *state)
 {
+	if (state->enable_edit) {
+		GtkSpinButton *sb = GTK_SPIN_BUTTON (editable);
+		int val = gtk_spin_button_get_value_as_int (sb);
+
+		if (state->align.indent != val) {
+			state->align.indent = val;
+			mstyle_set_indent (state->result, val);
+			fmt_dialog_changed (state);
+		}
+	}
 }
 
 static void
@@ -1033,6 +1043,7 @@ cb_align_h_toggle (GtkToggleButton *button, FormatState *state)
 					  supports_indent);
 		gtk_widget_set_sensitive (GTK_WIDGET (state->align.indent_label),
 					  supports_indent);
+		/* TODO : Should we 0 the indent ? */
 		fmt_dialog_changed (state);
 	}
 }

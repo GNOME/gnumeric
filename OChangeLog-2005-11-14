@@ -1,5 +1,13 @@
 2001-02-19  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-control-gui.c (wbcg_menu_state_enable_insert) : There
+	  has not been a need for the menu path for a while.  Why was this
+	  still here ?
+	(toggle_menu_item) : clean up the #ifdef to make this readable.
+	(wbcg_menu_state_sheet_prefs) : Finish the bonobo case.
+
+2001-02-19  Jody Goldberg <jgoldberg@home.com>
+
 	* src/workbook-control-gui.c (show_gui) : It seems like we need to
 	  show_all for the bonobo build, I don't know why.  Add an explicit
 	  call the scg_adjust_preferences to rehide headers that may be shown

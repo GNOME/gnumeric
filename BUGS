@@ -4,8 +4,8 @@ and longer term bugs.
 
 Release Critical
 ----------------
-	wbcg_menu_state_sheet_prefs : complete for bonobo.
-	toggle_menu_item : complete for bonobo.
+    - implement or disable indent toolbar items
+    - Find breakage in bonobo menu toggles
 
 Long term breakage
 ------------------
