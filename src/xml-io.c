@@ -1018,7 +1018,7 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 	child = xmlNewChild (cur, ctxt->ns, CC2XML ("Scale"), NULL);
 	if (pi->scaling.type == PERCENTAGE) {
 		xml_node_set_cstr  (child, "type", "percentage");
-		xml_node_set_double  (child, "percentage", pi->scaling.percentage, -1);
+		xml_node_set_double  (child, "percentage", pi->scaling.percentage.x, -1);
 	} else {
 		xml_node_set_cstr  (child, "type", "size_fit");
 		xml_node_set_double  (child, "cols", pi->scaling.dim.cols, -1);
@@ -1184,7 +1184,8 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 				double tmp;
 				pi->scaling.type = PERCENTAGE;
 				if (xml_node_get_double (child, "percentage", &tmp))
-					pi->scaling.percentage = tmp;
+					pi->scaling.percentage.x = 
+						pi->scaling.percentage.y = tmp;
 			} else {
 				int cols, rows;
 				pi->scaling.type = SIZE_FIT;

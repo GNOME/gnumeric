@@ -16,9 +16,6 @@ Pending Patches
     http://bugzilla.gnome.org/show_bug.cgi?id=84062
     - XIM menu
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=67822
-    - Fit-to printing
-
 1.2 Targets
 -----------
 
@@ -44,8 +41,9 @@ Pending Patches
     5.1) move existing code into plugin (easy)
     5.2) work on sax-ish exporter				(DONE)
     5.3) convert xml-sax to use gsf sax helper			(DONE)
-    5.4) writeup and discuss proposals for container
-    5.5) writeup and discuss proposals for content
+    5.4) Namespace support for xml import			(DONE)
+    5.5) writeup and discuss proposals for container
+    5.6) writeup and discuss proposals for content
 
 6) XL
     6.1) biff7 externsheet records in charts			(DONE)
@@ -73,10 +71,6 @@ Pending Patches
     8.1) Add characterization (units) to StyleFormat
     8.2) Move type information to function flags.		(DONE)
     8.3) Change commands to infer types.
-
-13) export plugins
-    13.1) Use gsf						(DONE)
-    13.2) UTF-8 -> ??
 
 14) Polish up Open and Save
     14.1) merge open and import dialogs				(DONE)
@@ -314,6 +308,7 @@ Finished
     12.10) sylk                                                 (DONE)
     12.11) dif                                                  (DONE)
     12.12) psion                                                (DONE)
+13) export plugins use gsf					(DONE)
 15) Decide whether to turn on the poor man's UTF-8 regexps.     (DONE)
 16) Outline mode						(DONE)
     16.1) optionally put markers above/left			(DONE)

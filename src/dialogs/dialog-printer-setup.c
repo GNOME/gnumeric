@@ -1347,6 +1347,28 @@ do_setup_page_info (PrinterSetupState *state)
 }
 
 static void
+scaling_type_changed (GtkToggleButton *scale_percentage, PrinterSetupState *state)
+{
+       if (gtk_toggle_button_get_active (scale_percentage)) {
+               state->pi->scaling.type = PERCENTAGE;
+               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-percent-spin")), TRUE);
+               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-percent-label")), TRUE);
+               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-width-spin")), FALSE);
+               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-height-spin")), FALSE);
+               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-wide-label")), FALSE);
+               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-tall-label")), FALSE);
+       } else {
+               state->pi->scaling.type = SIZE_FIT;
+               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-percent-spin")), FALSE);
+               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-percent-label")), FALSE);
+               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-width-spin")), TRUE);
+               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-height-spin")), TRUE);
+               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-wide-label")), TRUE);
+               gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (state->gui, "scale-tall-label")), TRUE);
+       }
+}
+
+static void
 do_setup_page (PrinterSetupState *state)
 {
 	PrintInformation *pi = state->pi;
@@ -1368,17 +1390,24 @@ do_setup_page (PrinterSetupState *state)
 	/*
 	 * Set the scale
 	 */
-	if (pi->scaling.type == PERCENTAGE)
+	if (pi->scaling.type == PERCENTAGE) {
 		toggle = "scale-percent-radio";
-	else
+		gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (gui, "scale-percent-radio")), TRUE);
+	} else {
 		toggle = "scale-size-fit-radio";
+		gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (gui, "scale-percent-radio")), FALSE);
+	}
+
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "scale-percent-radio")), 
+		"toggled",
+		G_CALLBACK (scaling_type_changed), state);
 
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, toggle)), TRUE);
 
 	scale_percent_spin = glade_xml_get_widget (gui, "scale-percent-spin");
 	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (scale_percent_spin), pi->scaling.percentage);
+		GTK_SPIN_BUTTON (scale_percent_spin), pi->scaling.percentage.x);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				      GTK_WIDGET (scale_percent_spin));
 
@@ -1641,7 +1670,8 @@ do_fetch_page (PrinterSetupState *state)
 		state->pi->scaling.type = SIZE_FIT;
 
 	w = glade_xml_get_widget (gui, "scale-percent-spin");
-	state->pi->scaling.percentage = GTK_SPIN_BUTTON (w)->adjustment->value;
+	state->pi->scaling.percentage.x = state->pi->scaling.percentage.y 
+		= GTK_SPIN_BUTTON (w)->adjustment->value;
 
 	w = glade_xml_get_widget (gui, "scale-width-spin");
 	state->pi->scaling.dim.cols = GTK_SPIN_BUTTON (w)->adjustment->value;

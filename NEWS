@@ -34,6 +34,9 @@ Nicolas Peninguy :
 Theppitak Karoonboonyanan:
 	* Improve XIM support.
 
+Wayne Schuller  <k_wayne@linuxpower.org>
+	* Initial implementation of fit-to-pages printing.
+
 --------------------------------------------------------------------------
 Gnumeric 1.1.15
 

@@ -256,7 +256,7 @@ print_info_new (void)
 		pi->scaling.type = PERCENTAGE;
 	else
 		pi->scaling.type = SIZE_FIT;
-	pi->scaling.percentage = gnome_config_get_float ("scale_percent=100");
+	pi->scaling.percentage.x = pi->scaling.percentage.y = gnome_config_get_float ("scale_percent=100");
 	pi->scaling.dim.cols = gnome_config_get_int ("scale_width=1");
 	pi->scaling.dim.rows = gnome_config_get_int ("scale_height=1");
 
@@ -377,7 +377,7 @@ print_info_save (PrintInformation const *pi)
 	gnome_config_set_int ("num_copies", pi->n_copies);
 	gnome_config_set_bool ("vertical_print", pi->orientation == PRINT_ORIENT_VERTICAL);
 	gnome_config_set_bool ("do_scale_percent", pi->scaling.type == PERCENTAGE);
-	gnome_config_set_float ("scale_percent", pi->scaling.percentage);
+	gnome_config_set_float ("scale_percent", pi->scaling.percentage.x);
 	gnome_config_set_int ("scale_width", pi->scaling.dim.cols);
 	gnome_config_set_int ("scale_height", pi->scaling.dim.rows);
 

@@ -187,7 +187,7 @@ print_page_cells (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 		  double base_x, double base_y)
 {
 	/* Invert PostScript Y coordinates to make X&Y cases the same */
-	base_y = (pj->height / (pj->pi->scaling.percentage / 100.)) - base_y;
+	base_y = (pj->height / (pj->pi->scaling.percentage.y / 100.)) - base_y;
 
 	print_cell_range (pj->print_context, sheet, range,
 			  base_x, base_y, !pj->pi->print_grid_lines);
@@ -432,9 +432,10 @@ static void
 setup_scale (PrintJobInfo const *pj)
 {
 	double affine [6];
-	double scale = pj->pi->scaling.percentage / 100.;
+	double x_scale = pj->pi->scaling.percentage.x / 100.;
+	double y_scale = pj->pi->scaling.percentage.y / 100.;
 
-	art_affine_scale (affine, scale, scale);
+	art_affine_scale (affine, x_scale, y_scale);
 	gnome_print_concat (pj->print_context, affine);
 
 }
@@ -547,7 +548,7 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 		if (pj->pi->print_titles)
 			h += sheet->rows.default_style.size_pts;
 		h += repeat_rows_used_y;
-		h *= pj->pi->scaling.percentage / 100.;
+		h *= pj->pi->scaling.percentage.y / 100.;
 		y = (pj->y_points - h)/2;
 	}
 
@@ -559,7 +560,7 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 		if (pj->pi->print_titles)
 			w += sheet->cols.default_style.size_pts;
 		w += repeat_cols_used_x;
-		w *= pj->pi->scaling.percentage / 100.;
+		w *= pj->pi->scaling.percentage.x / 100.;
 		x = (pj->x_points - w)/2;
 	}
 
@@ -619,8 +620,8 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 	gnome_print_newpath (pj->print_context);
 
 	setup_scale (pj);
-	x /= pj->pi->scaling.percentage / 100.;
-	y /= pj->pi->scaling.percentage / 100.;
+	x /= pj->pi->scaling.percentage.x / 100.;
+	y /= pj->pi->scaling.percentage.y / 100.;
 
 	if (pj->pi->repeat_top.use && repeat_rows_used_y > 0.) {
 		/* Intersection of repeated rows and columns */
@@ -659,7 +660,7 @@ compute_group (PrintJobInfo const *pj, Sheet const *sheet,
 	float size_pts = 1.; /* The initial grid line */
 	int idx, count = 0;
 
-	usable /= pj->pi->scaling.percentage / 100.;
+	usable /= pj->pi->scaling.percentage.x / 100.;
 
 	for (idx = start; idx <= end; idx++, count++) {
 		ColRowInfo const *info = (*get_info) (sheet, idx);
@@ -676,6 +677,48 @@ compute_group (PrintJobInfo const *pj, Sheet const *sheet,
 	g_return_val_if_fail (count > 0, 1);
 
 	return count;
+}
+
+/* computer_scale_fit_to
+ * Computes the scaling needed to fit all the rows or columns into the @usable
+ * area.
+ * This function is called when printing, and the user has selected the 'fit-to'
+ * printing option. It will adjust the internal x and y scaling values to
+ * make the sheet fit the desired number of pages, as suggested by the user.
+ * It will only reduce the scaling to fit inside a page, not enlarge.
+ */
+static double
+compute_scale_fit_to (PrintJobInfo const *pj, Sheet const *sheet,
+              int start, int end, float usable,
+              ColRowInfo const *(get_info)(Sheet const *sheet, int const p),
+              gint pages)
+{
+       float size_pts = 1.; /* The initial grid line */
+       int idx;
+       gdouble scale;
+
+       /* Work how much space the sheet requires. */
+       /* FIXME: Without doing end + 1 here a row or column is always missed.
+        * Find out why.
+        */
+       for (idx = start; idx <= end + 1; idx++) {
+               ColRowInfo const *info = (*get_info) (sheet, idx);
+               if (info->visible) {
+                       size_pts += info->size_pts;
+               }
+       }
+
+       usable = usable * (double) pages; /* Our usable area is this big. */
+
+       /* What scale is required to fit the sheet onto this usable area? */
+       scale = (double) (usable / size_pts * 100.);
+
+       /* If the sheet needs to be shrunk, we update the scale.
+        * If it already fits, we simply leave the scale at 100.
+        * Another feature might be to enlarge a sheet so that it fills
+        * the page. But this is not a requested feature yet.
+        */
+       return (scale < 100.) ? scale : 100.;
 }
 
 #define COL_FIT(col) (col >= SHEET_MAX_COLS ? (SHEET_MAX_COLS-1) : col)
@@ -696,6 +739,49 @@ print_range_down_then_right (PrintJobInfo const *pj, Sheet const *sheet,
 	usable_y_initial   = pj->y_points - pj->titles_used_y;
 	usable_y_repeating = usable_y_initial - pj->repeat_rows_used_y;
 
+       /* 
+        * Has the user selected the 'SIZE_FIT' scaling type?
+	* If so adjust the scaling percentages to the correct values.
+        */
+       if (pj->pi->scaling.type == SIZE_FIT) {
+               int col = r->start.col;
+               int row = r->start.row;
+
+              /* Temporarily calculate usable_x. */
+               if (col < pj->pi->repeat_left.range.end.col) {
+                       usable_x = usable_x_initial;
+                       col = MIN (col,
+                                  pj->pi->repeat_left.range.end.col);
+               } else
+                       usable_x = usable_x_repeating;
+
+               /* Re-adjust x-scaling if necessary. */
+               pj->pi->scaling.percentage.x = compute_scale_fit_to (pj,
+                                               sheet,
+                                               col,
+                                               r->end.col,
+                                               usable_x,
+                                               sheet_col_get_info,
+                                               pj->pi->scaling.dim.cols);
+
+               /* Temporarily calculate usable_y. */
+               if (row < pj->pi->repeat_top.range.end.row) {
+                       usable_y = usable_y_initial;
+                       row = MIN (row,
+                                  pj->pi->repeat_top.range.end.row);
+               } else
+                       usable_y = usable_y_repeating;
+
+               /* Re-adjust y-scaling if necessary. */
+               pj->pi->scaling.percentage.y = compute_scale_fit_to (pj,
+                                               sheet,
+                                               row,
+                                               r->end.row,
+                                               usable_y,
+                                               sheet_row_get_info,
+                                               pj->pi->scaling.dim.rows);
+       }
+
 	while (col <= r->end.col) {
 		int col_count;
 		int row = r->start.row;
@@ -707,6 +793,7 @@ print_range_down_then_right (PrintJobInfo const *pj, Sheet const *sheet,
 		} else
 			usable_x = usable_x_repeating;
 
+		usable_x /= pj->pi->scaling.percentage.x / 100.;
 		col_count = compute_group (pj, sheet, col, r->end.col,
 					   usable_x, sheet_col_get_info);
 
@@ -721,6 +808,7 @@ print_range_down_then_right (PrintJobInfo const *pj, Sheet const *sheet,
 			} else
 				usable_y = usable_y_repeating;
 
+			usable_y /= pj->pi->scaling.percentage.y / 100.;
 			row_count = compute_group (pj, sheet, row, r->end.row,
 						   usable_y, sheet_row_get_info);
 			range_init (&range, COL_FIT (col), ROW_FIT (row),
@@ -758,6 +846,49 @@ print_range_right_then_down (PrintJobInfo const *pj, Sheet const *sheet,
 	usable_y_initial   = pj->y_points - pj->titles_used_y;
 	usable_y_repeating = usable_y_initial - pj->repeat_rows_used_y;
 
+       /* Calculate any scaling needed to fit to a requested number
+        * of pages.
+        */
+       if (pj->pi->scaling.type == SIZE_FIT) {
+               int col = r->start.col;
+               int row = r->start.row;
+
+               /* Temporarily calculate usable_x. */
+               if (col < pj->pi->repeat_left.range.end.col) {
+                       usable_x = usable_x_initial;
+                       col = MIN (col,
+                                  pj->pi->repeat_left.range.end.col);
+               } else
+                       usable_x = usable_x_repeating;
+
+               /* Re-adjust x-scaling if necessary. */
+               pj->pi->scaling.percentage.x = compute_scale_fit_to (pj,
+                                               sheet,
+                                               col,
+                                               r->end.col,
+                                               usable_x,
+                                               sheet_col_get_info,
+                                               pj->pi->scaling.dim.cols);
+
+               /* Temporarily calculate usable_y. */
+               if (row < pj->pi->repeat_top.range.end.row) {
+                       usable_y = usable_y_initial;
+                       row = MIN (row,
+                                  pj->pi->repeat_top.range.end.row);
+               } else
+                       usable_y = usable_y_repeating;
+
+               /* Re-adjust y-scaling if necessary. */
+               pj->pi->scaling.percentage.y = compute_scale_fit_to (pj,
+                                               sheet,
+                                               row,
+                                               r->end.row,
+                                               usable_y,
+                                               sheet_row_get_info,
+                                               pj->pi->scaling.dim.rows);
+       }
+
+
 	while (row <= r->end.row) {
 		int row_count;
 		int col = r->start.col;
@@ -769,6 +900,7 @@ print_range_right_then_down (PrintJobInfo const *pj, Sheet const *sheet,
 		} else
 			usable_y = usable_y_repeating;
 
+		usable_y /= pj->pi->scaling.percentage.y / 100.;
 		row_count = compute_group (pj, sheet, row, r->end.row,
 					   usable_y, sheet_row_get_info);
 
@@ -783,6 +915,7 @@ print_range_right_then_down (PrintJobInfo const *pj, Sheet const *sheet,
 			} else
 				usable_x = usable_x_repeating;
 
+			usable_x /= pj->pi->scaling.percentage.x / 100.;
 			col_count = compute_group (pj, sheet, col, r->end.col,
 						   usable_x, sheet_col_get_info);
 

@@ -20,7 +20,16 @@ typedef struct {
 		SIZE_FIT
 	} type;
 
-	double percentage;
+	/* We store separate x and y scales internally, for the 
+	 * 'fit-to' printing feature. (They are calculated at print-time)
+	 * When the user is doing the simple scaling, both these values
+	 * will be equal.
+	 */
+	struct {
+		double x;
+		double y;
+	} percentage;
+
 	struct {
 		int cols;
 		int rows;

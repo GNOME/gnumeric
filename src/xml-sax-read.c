@@ -569,7 +569,7 @@ xml_sax_print_scale (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			pi->scaling.type = strcmp (attrs[1], "percentage")
 				? SIZE_FIT : PERCENTAGE;
 		else if (xml_sax_attr_double (attrs, "percentage", &percentage))
-			pi->scaling.percentage = percentage;
+			pi->scaling.percentage.x = pi->scaling.percentage.y = percentage;
 		else if (xml_sax_attr_int (attrs, "cols", &cols))
 			pi->scaling.dim.cols = cols;
 		else if (xml_sax_attr_int (attrs, "rows", &rows))

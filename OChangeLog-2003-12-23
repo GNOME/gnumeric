@@ -1,3 +1,19 @@
+2003-01-23  Jody Goldberg <jody@gnome.org>
+
+	For Wayne Schuller  <k_wayne@linuxpower.org>
+	* src/print-info.c (print_info_new, print_info_save): Implement the 'fit-to' feature.
+	  Scaling is now broken into x and y. They are equal when normal
+	  scaling is being used (so we just use the x value)
+	 * src/print.c (print_page_cells, setup_scale, print_page,
+	   compute_group, compute_scale_fit_to,
+	   print_range_down_then_right, print_range_right_then_down): Ditto.
+	* src/xml-io.c (xml_write_print_info), (xml_read_print_info): We
+	  don't save the x and y attributes, but just the x attribute for
+	  general percentage scaling.
+
+	* plugins/excel/ms-excel-read.c (excel_read_SETUP): Ditto. 
+	* plugins/xml_sax/xml-sax-read.c (xml_sax_print_scale): Ditto.
+
 2003-01-22  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : bump the gsf req to reflect the updated xml api

@@ -3391,11 +3391,11 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 				? PRINT_ORIENT_VERTICAL
 				: PRINT_ORIENT_HORIZONTAL;
 		}
-		pi->scaling.percentage = GSF_LE_GET_GUINT16 (q->data + 2);
-		if (pi->scaling.percentage < 1. || pi->scaling.percentage > 1000.) {
+		pi->scaling.percentage.x = pi->scaling.percentage.y = GSF_LE_GET_GUINT16 (q->data + 2);
+		if (pi->scaling.percentage.x < 1. || pi->scaling.percentage.x > 1000.) {
 			g_warning ("setting invalid print scaling (%f) to 100%%",
-				   pi->scaling.percentage);
-			pi->scaling.percentage = 100.;
+				   pi->scaling.percentage.x);
+			pi->scaling.percentage.x = pi->scaling.percentage.y = 100.;
 		}
 
 #if 0
