@@ -696,39 +696,39 @@ wb_view_save (WorkbookView *wbv, GnmCmdContext *context)
 
 #ifndef WITH_GNOME
 static void
-gnm_mailto_url_show (const char *url, GError **err);
+gnm_mailto_url_show (char const *url, char const *working_dir, GError **err)
 {
-	static const struct {
+	static struct {
 		char const *app;
 		char const *arg;
-	} fallback_mailers[] = {
+	} const fallback_mailers[] = {
 		{ "evolution",			NULL },
 		{ "evolution-1.6",		NULL },
 		{ "evolution-1.5",		NULL },
 		{ "evolution-1.4",		NULL },
-		{ "balsa"			"-m" },
-		{ "kmail"			NULL },
-		{ "Mozilla"			"-mail" }
+		{ "balsa",			"-m" },
+		{ "kmail",			NULL },
+		{ "mozilla",			"-mail" }
 	};
 	unsigned i;
 
 	for (i = 0 ; i < G_N_ELEMENTS (fallback_mailers); i++) {
-		const char *app = fallback_mailers[i].app;
+		char const *app = fallback_mailers[i].app;
 		if (g_find_program_in_path (app)) {
 			char *argv[4];
-			argv[0] = app;
+			argv[0] = (char *)app;
 			if (fallback_mailers [i].arg == NULL) {
-				argv[1] = url;
+				argv[1] = (char *)url;
 				argv[2] = NULL;
 			} else {
-				argv[1] = fallback_mailers[i].arg;
-				argv[2] = url;
+				argv[1] = (char *)fallback_mailers[i].arg;
+				argv[2] = (char *)url;
 				argv[3] = NULL;
 			}
-			g_spawn_async (template,
+			g_spawn_async (working_dir,
 				       argv, NULL, G_SPAWN_SEARCH_PATH,
 				       NULL, NULL, NULL, err);
-			break;
+			return;
 		}
 	}
 
@@ -797,13 +797,11 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 				g_free (template);
 
 				gnm_cmd_context_error_export (GNM_CMD_CONTEXT (io_context),
-						     _("Failed to create temporary file for sending."));
+					_("Failed to create temporary file for sending."));
 				gnumeric_io_error_display (io_context);
 				problem = TRUE;
 				goto out;
 			}
-
-			g_free (template);			
 		}
 #endif
 
@@ -833,7 +831,7 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 #ifdef WITH_GNOME
 			gnome_url_show (url, &err);
 #else
-			gnm_mailto_url_show (url, &err);
+			gnm_mailto_url_show (url, template, &err);
 #endif
 			if (err != NULL) {
 				gnm_cmd_context_error (GNM_CMD_CONTEXT (io_context), err);

@@ -1,5 +1,7 @@
 2004-09-29  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-view.c (gnm_mailto_url_show) : fix.
+
 	* src/session.c : suppress warning in the --without-gnome case
 
 	* src/sheet-control-gui.c (scg_set_current_object) : new. uses the
