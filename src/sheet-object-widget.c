@@ -29,7 +29,7 @@
 #include "gnumeric-util.h"
 #include "gnumeric-type-util.h"
 #include "dependent.h"
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 #include "sheet-object-widget.h"
 #include "expr.h"
 #include "value.h"
@@ -76,7 +76,7 @@ struct _SheetObjectWidget {
 
 typedef struct {
 	SheetObjectClass parent_class;
-	GtkWidget *(*create_widget)(SheetObjectWidget *, SheetView *);
+	GtkWidget *(*create_widget)(SheetObjectWidget *, SheetControlGUI *);
 } SheetObjectWidgetClass;
 
 static SheetObjectClass *sheet_object_widget_parent_class = NULL;
@@ -94,7 +94,7 @@ sheet_object_widget_set_active (SheetObject *so, gboolean val)
 }
 
 static GnomeCanvasItem *
-sheet_object_widget_new_view (SheetObject *so, SheetView *sheet_view)
+sheet_object_widget_new_view (SheetObject *so, SheetControlGUI *sheet_view)
 {
 	GnomeCanvasItem *item;
 	GtkWidget *view_widget;
@@ -242,7 +242,7 @@ sheet_widget_label_destroy (GtkObject *obj)
 }
 
 static GtkWidget *
-sheet_widget_label_create_widget (SheetObjectWidget *sow, SheetView *sview)
+sheet_widget_label_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
 {
 	return gtk_label_new ("Label");
 }
@@ -272,7 +272,7 @@ sheet_widget_frame_destroy (GtkObject *obj)
 }
 
 static GtkWidget *
-sheet_widget_frame_create_widget (SheetObjectWidget *sow, SheetView *sview)
+sheet_widget_frame_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
 {
 	return gtk_frame_new ("Frame");
 }
@@ -302,7 +302,7 @@ sheet_widget_button_destroy (GtkObject *obj)
 }
 
 static GtkWidget *
-sheet_widget_button_create_widget (SheetObjectWidget *sow, SheetView *sview)
+sheet_widget_button_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
 {
 	return gtk_button_new_with_label (_("Button"));
 }
@@ -456,7 +456,7 @@ sheet_widget_checkbox_toggled (GtkToggleButton *button,
 }
 
 static GtkWidget *
-sheet_widget_checkbox_create_widget (SheetObjectWidget *sow, SheetView *sview)
+sheet_widget_checkbox_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (sow);
 	GtkWidget *button;
@@ -532,7 +532,7 @@ cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number,
 }
 
 static void
-sheet_widget_checkbox_user_config (SheetObject *so, SheetView *sheet_view)
+sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *sheet_view)
 {
 	CheckboxConfigState *state;
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
@@ -600,7 +600,7 @@ sheet_widget_radio_button_destroy (GtkObject *obj)
 }
 
 static GtkWidget *
-sheet_widget_radio_button_create_widget (SheetObjectWidget *sow, SheetView *sview)
+sheet_widget_radio_button_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
 {
 	return gtk_radio_button_new_with_label (NULL, "RadioButton");
 }
@@ -630,7 +630,7 @@ sheet_widget_list_destroy (GtkObject *obj)
 }
 
 static GtkWidget *
-sheet_widget_list_create_widget (SheetObjectWidget *sow, SheetView *sview)
+sheet_widget_list_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
 {
     return gtk_list_new ();
 }
@@ -660,7 +660,7 @@ sheet_widget_combo_destroy (GtkObject *obj)
 }
 
 static GtkWidget *
-sheet_widget_combo_create_widget (SheetObjectWidget *sow, SheetView *sview)
+sheet_widget_combo_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
 {
 	return gtk_combo_new ();
 }

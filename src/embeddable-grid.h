@@ -3,7 +3,7 @@
 
 #include <bonobo/bonobo-embeddable.h>
 
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 
 #define EMBEDDABLE_GRID_TYPE        (embeddable_grid_get_type ())
 #define EMBEDDABLE_GRID(o)          (GTK_CHECK_CAST ((o), EMBEDDABLE_GRID_TYPE, EmbeddableGrid))
@@ -61,7 +61,7 @@ typedef struct _GridView GridView;
 struct _GridView {
 	BonoboView view;
 
-	SheetView      *sheet_view;
+	SheetControlGUI      *sheet_view;
 	EmbeddableGrid *embeddable;
 };
 

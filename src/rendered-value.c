@@ -30,7 +30,7 @@
 #include "format.h"
 #include "value.h"
 #include "parse-util.h"
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 #include "application.h"
 
 /**

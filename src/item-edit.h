@@ -15,7 +15,7 @@ struct _ItemEdit {
 	guint      signal_button_press;	/* ::button-press-event signal in the GtkWidget */
 
 	ItemGrid   *item_grid;
-	SheetView  *sheet_view;
+	SheetControlGUI  *sheet_view;
 	GtkEntry   *entry;		/* Utility pointer to the workbook entry */
 
 	/* Where are we */

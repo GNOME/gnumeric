@@ -12,7 +12,7 @@
 #include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "sheet-object.h"
@@ -192,15 +192,15 @@ sheet_object_item_destroyed (GnomeCanvasItem *item, SheetObject *so)
 /*
  * sheet_object_new_view
  *
- * Creates a GnomeCanvasItem for a SheetView and sets up the event
+ * Creates a GnomeCanvasItem for a SheetControlGUI and sets up the event
  * handlers.
  */
 GnomeCanvasItem *
-sheet_object_new_view (SheetObject *so, SheetView *sheet_view)
+sheet_object_new_view (SheetObject *so, SheetControlGUI *sheet_view)
 {
 	GnomeCanvasItem *item;
 
-	g_return_val_if_fail (IS_SHEET_VIEW (sheet_view), NULL);
+	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (sheet_view), NULL);
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
 
 	item = SO_CLASS (so)->new_view (so, sheet_view);
@@ -214,7 +214,7 @@ sheet_object_new_view (SheetObject *so, SheetView *sheet_view)
 	gtk_object_set_data (GTK_OBJECT (item), 
 			     SHEET_OBJ_VIEW_OBJECT_KEY, so);
 	gtk_object_set_data (GTK_OBJECT (item), 
-			     SHEET_OBJ_VIEW_SHEET_VIEW_KEY, sheet_view);
+			     SHEET_OBJ_VIEW_SHEET_CONTROL_GUI_KEY, sheet_view);
 
 	gtk_signal_connect (GTK_OBJECT (item), "event",
 			    GTK_SIGNAL_FUNC (sheet_object_canvas_event), so);
@@ -228,15 +228,15 @@ sheet_object_new_view (SheetObject *so, SheetView *sheet_view)
 /*
  * sheet_object_remove_view
  *
- * Removes the object from the canvas in the SheetView.
+ * Removes the object from the canvas in the SheetControlGUI.
  */
 static void
-sheet_object_remove_view (SheetObject *so, SheetView *sheet_view)
+sheet_object_remove_view (SheetObject *so, SheetControlGUI *sheet_view)
 {
 	GList *l;
 
 	g_return_if_fail (sheet_view != NULL);
-	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (sheet_view));
 	g_return_if_fail (so != NULL);
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
@@ -256,7 +256,7 @@ sheet_object_remove_view (SheetObject *so, SheetView *sheet_view)
  * sheet_object_realize
  *
  * Realizes the on a Sheet (this in turn realizes the object
- * on every existing SheetView)
+ * on every existing SheetControlGUI)
  */
 void
 sheet_object_realize (SheetObject *so)
@@ -267,7 +267,7 @@ sheet_object_realize (SheetObject *so)
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
 	for (l = so->sheet->sheet_views; l; l = l->next) {
-		SheetView *sheet_view = l->data;
+		SheetControlGUI *sheet_view = l->data;
 		GnomeCanvasItem *item;
 
 		item = sheet_object_new_view (so, sheet_view);
@@ -278,7 +278,7 @@ sheet_object_realize (SheetObject *so)
  * sheet_object_unrealize
  *
  * Destroys the Canvas Item that represents this SheetObject from
- * every SheetView.
+ * every SheetControlGUI.
  */
 void
 sheet_object_unrealize (SheetObject *so)
@@ -289,7 +289,7 @@ sheet_object_unrealize (SheetObject *so)
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
 	for (l = so->sheet->sheet_views; l; l = l->next) {
-		SheetView *sheet_view = l->data;
+		SheetControlGUI *sheet_view = l->data;
 
 		sheet_object_remove_view (so, sheet_view);
 	}
@@ -553,7 +553,7 @@ sheet_object_destroy_control_points (Sheet *sheet)
 
 	for (l = sheet->sheet_views; l; l = l->next) {
 		int i;
-		SheetView *sheet_view = SHEET_VIEW (l->data);
+		SheetControlGUI *sheet_view = SHEET_CONTROL_GUI (l->data);
 
 		if (sheet_view == NULL)
 			return;
@@ -642,7 +642,7 @@ new_control_point (GnomeCanvasGroup *group, SheetObject *so,
  * creating the control point if necessary.
  */
 static void
-set_item_x_y (SheetObject *so, SheetView *sheet_view, int idx,
+set_item_x_y (SheetObject *so, SheetControlGUI *sheet_view, int idx,
 	      double x, double y, ECursorType ct)
 {
 	if (sheet_view->control_points [idx] == NULL)
@@ -659,7 +659,7 @@ set_item_x_y (SheetObject *so, SheetView *sheet_view, int idx,
 }
 
 static void
-set_acetate_coords (SheetObject *so, SheetView *sheet_view,
+set_acetate_coords (SheetObject *so, SheetControlGUI *sheet_view,
 		    double l, double t, double r, double b)
 {
 	l -= 10.; r += 10.;
@@ -715,7 +715,7 @@ update_bbox (SheetObject *so)
 	r = c[2];
 	b = c[3];
 	for (ptr = so->sheet->sheet_views; ptr != NULL; ptr = ptr->next) {
-		SheetView *sheet_view = ptr->data;
+		SheetControlGUI *sheet_view = ptr->data;
 
 		/* set the acetate 1st so that the other points
 		 * will override it
@@ -750,7 +750,7 @@ sheet_object_remove_cb (GtkWidget *widget, SheetObject *so)
 static void
 cb_sheet_object_configure (GtkWidget *widget, GnomeCanvasItem *obj_view)
 {
-	SheetView *sheet_view;
+	SheetControlGUI *sheet_view;
 	SheetObject *so;
 
 	g_return_if_fail (obj_view != NULL);
@@ -758,7 +758,7 @@ cb_sheet_object_configure (GtkWidget *widget, GnomeCanvasItem *obj_view)
 	so = gtk_object_get_data (GTK_OBJECT (obj_view),
 				  SHEET_OBJ_VIEW_OBJECT_KEY);
 	sheet_view = gtk_object_get_data (GTK_OBJECT (obj_view),
-					  SHEET_OBJ_VIEW_SHEET_VIEW_KEY);
+					  SHEET_OBJ_VIEW_SHEET_CONTROL_GUI_KEY);
 
 	SO_CLASS(so)->user_config (so, sheet_view);
 }

@@ -47,6 +47,7 @@ typedef		GList		CellList;
 
 typedef struct _ColRowInfo	 ColRowInfo;
 typedef struct _ColRowCollection ColRowCollection;
+typedef struct _ColRowSegment	 ColRowSegment;
 typedef GSList  ColRowVisList;
 typedef GSList  ColRowSizeList;
 typedef GList   ColRowIndexList;

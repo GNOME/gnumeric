@@ -289,14 +289,22 @@ wb_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 }
 
 void
-wb_view_attach_control (WorkbookControl *wbc)
+wb_view_attach_control (WorkbookView *wbv, WorkbookControl *wbc)
 {
+	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));
-	g_return_if_fail (IS_WORKBOOK_VIEW (wbc->wb_view));
+	g_return_if_fail (wbc->wb_view == NULL);
 
+	wbc->wb_view = wbv;
 	if (wbc->wb_view->wb_controls == NULL)
 		wbc->wb_view->wb_controls = g_ptr_array_new ();
 	g_ptr_array_add (wbc->wb_view->wb_controls, wbc);
+
+	/* Set the title of the newly connected control */
+	if (wbv->wb != NULL) {
+		char *base_name = g_basename (wbv->wb->filename);
+		wb_control_title_set (wbc, base_name);
+	}
 }
 
 void
@@ -353,10 +361,9 @@ wb_view_destroy (GtkObject *object)
 }
 
 void
-workbook_view_init (WorkbookView *wbv, Workbook *optional_workbook)
+workbook_view_init (WorkbookView *wbv, Workbook *opt_wb)
 {
-	wbv->wb = optional_workbook ? optional_workbook : workbook_new ();
-	workbook_attach_view (wbv);
+	workbook_attach_view ((opt_wb != NULL) ? opt_wb : workbook_new (), wbv);
 
 	wbv->show_horizontal_scrollbar = TRUE;
 	wbv->show_vertical_scrollbar = TRUE;
@@ -364,8 +371,8 @@ workbook_view_init (WorkbookView *wbv, Workbook *optional_workbook)
 
 	/* Guess at the current sheet */
 	wbv->current_sheet = NULL;
-	if (optional_workbook != NULL) {
-		GList *sheets = workbook_sheets (optional_workbook);
+	if (opt_wb != NULL) {
+		GList *sheets = workbook_sheets (opt_wb);
 		if (sheets != NULL) {
 			wb_view_sheet_focus (wbv, sheets->data);
 			g_list_free (sheets);

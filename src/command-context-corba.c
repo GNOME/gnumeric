@@ -4,82 +4,75 @@
  * Authors:
  *   Jody Goldberg
  *   Miguel de Icaza (miguel@gnu.org)
- *
  */
 #include <config.h>
 #include "gnumeric-type-util.h"
+#include "workbook-control-priv.h"
 #include "command-context-corba.h"
 #include "gnumeric-util.h"
-
-#define PARENT_TYPE command_context_get_type ()
 
 #define CCG_CLASS(o) CMD_CONTEXT_CORBA_CLASS (GTK_OBJECT (o)->klass)
 
 typedef struct {
-	CommandContext parent;
-} CommandContextCorba;
+	WorkbookControl parent;
+} WorkbookControlCorba;
 
 typedef struct {
-	CommandContextClass parent_class;
-} CommandContextCorbaClass;
+	WorkbookControlClass parent_class;
+} WorkbookControlCorbaClass;
 
 static void
-ccc_error_plugin (WorkbookControl *context, char const * message)
+wbcc_error_system (CommandContext *context, char const * message)
 {
 	/* FIXME set exception */
 }
 
 static void
-ccc_error_read (WorkbookControl *context, char const * message)
+wbcc_error_plugin (CommandContext *context, char const * message)
 {
 	/* FIXME set exception */
 }
 
 static void
-ccc_error_save (WorkbookControl *context, char const * message)
+wbcc_error_read (CommandContext *context, char const * message)
 {
 	/* FIXME set exception */
 }
 
 static void
-ccc_error_sys_err (WorkbookControl *context, char const * message)
+wbcc_error_save (CommandContext *context, char const * message)
 {
 	/* FIXME set exception */
 }
 
 static void
-ccc_error_invalid (WorkbookControl *context, char const * message, char const *value)
+wbcc_error_invalid (CommandContext *context, char const * message, char const *value)
 {
 	/* FIXME set exception */
 }
 
 static void
-ccc_set_progress (WorkbookControl *context, gfloat f)
+wbcc_init_class (GtkObjectClass *object_class)
 {
-    /* Ignore */
+	CommandContextClass *cc_class = (CommandContextClass *) object_class;
+
+	cc_class->error.system	= &wbcc_error_system;
+	cc_class->error.plugin	= &wbcc_error_plugin;
+	cc_class->error.read	= &wbcc_error_read;
+	cc_class->error.save	= &wbcc_error_save;
+	cc_class->error.invalid	= &wbcc_error_invalid;
 }
 
-static void
-ccc_init_class (GtkObjectClass *object_class)
-{
-	WorkbookControlClass *cc_class = (WorkbookControlClass *) object_class;
+GNUMERIC_MAKE_TYPE(workbook_control_corba, "WorkbookControlCorba", WorkbookControlCorba,
+		   wbcc_init_class, NULL, workbook_control_get_type ())
 
-	cc_class->error_plugin		= &ccc_error_plugin;
-	cc_class->error_read		= &ccc_error_read;
-	cc_class->error_save		= &ccc_error_save;
-	cc_class->error_sys_err		= &ccc_error_sys_err;
-	cc_class->error_invalid		= &ccc_error_invalid;
-	cc_class->set_progress		= &ccc_set_progress;
-}
 
-GNUMERIC_MAKE_TYPE(command_context_corba, "WorkbookControlCorba", WorkbookControlCorba, ccc_init_class, NULL, PARENT_TYPE)
-
-WorkbookControl *
+CommandContext *
 command_context_corba_new (void)
 {
-	WorkbookControlCorba *ccg;
+	WorkbookControlCorba *wbcc;
 
-	ccg = gtk_type_new (command_context_corba_get_type ());
+	wbcc = gtk_type_new (workbook_control_corba_get_type ());
 	
-	return COMMAND_CONTEXT (ccg);
+	return COMMAND_CONTEXT (wbcc);
 }

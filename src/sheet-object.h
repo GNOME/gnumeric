@@ -51,18 +51,18 @@ typedef struct {
 
 	/* Virtual methods */
 	GnomeCanvasItem *(*new_view) (SheetObject *sheet_object,
-				      SheetView   *s_view);
+				      SheetControlGUI   *s_view);
 	void        (*populate_menu) (SheetObject *sheet_object,
 				      GnomeCanvasItem *obj_view,
 				      GtkMenu     *menu);
 	void	      (*user_config) (SheetObject *sheet_object,
-				      SheetView   *s_view);
+				      SheetControlGUI   *s_view);
 	void        (*update_bounds) (SheetObject *sheet_object);
 	void                (*print) (SheetObject *so, SheetObjectPrintInfo *pi);
 	void           (*set_active) (SheetObject *so, gboolean val);
 } SheetObjectClass;
 
-#define	SHEET_OBJ_VIEW_SHEET_VIEW_KEY	"SheetView"
+#define	SHEET_OBJ_VIEW_SHEET_CONTROL_GUI_KEY	"SheetControlGUI"
 #define	SHEET_OBJ_VIEW_OBJECT_KEY	"SheetObject"
 
 GtkType sheet_object_get_type      (void);
@@ -71,7 +71,7 @@ int     sheet_object_canvas_event  (GnomeCanvasItem *item, GdkEvent *event,
 				    SheetObject *so);
 void    sheet_object_print         (SheetObject *so, SheetObjectPrintInfo *pi);
 GnomeCanvasItem *sheet_object_new_view (SheetObject *so,
-					SheetView *sheet_view);
+					SheetControlGUI *sheet_view);
 
 /* b = bottom, t = top, l = left, r = right */
 void    sheet_object_get_bounds (SheetObject *sheet_object, double *tlx, double *tly,
@@ -93,7 +93,7 @@ typedef enum {
 } SheetObjectType;
 
 /*
- * This routine creates the SheetObject in the SheetViews's Canvases.
+ * This routine creates the SheetObject in the SheetControlGUIs's Canvases.
  */
 void             sheet_object_realize        (SheetObject *object);
 void             sheet_object_unrealize      (SheetObject *object);

@@ -71,7 +71,7 @@ col_row_foreach (ColRowCollection const *infos, int first, int last,
 
 	i = first;
 	while (i <= last) {
-		ColRowInfo * const * segment = COLROW_GET_SEGMENT (infos, i);
+		ColRowSegment const *segment = COLROW_GET_SEGMENT (infos, i);
 		int sub = COLROW_SUB_INDEX(i);
 
 		i += COLROW_SEGMENT_SIZE - sub;
@@ -79,7 +79,7 @@ col_row_foreach (ColRowCollection const *infos, int first, int last,
 			continue;
 
 		for (; sub < COLROW_SEGMENT_SIZE; ++sub) {
-			ColRowInfo * info = segment[sub];
+			ColRowInfo *info = segment->info[sub];
 			if (info != NULL && (*callback)(info, user_data))
 				return TRUE;
 		}
@@ -284,14 +284,13 @@ col_row_restore_sizes (Sheet *sheet, gboolean const is_cols,
 		/* Reset to the default */
 		if (sizes[i-first] == 0.) {
 			ColRowCollection *infos = is_cols ? &(sheet->cols) : &(sheet->rows);
-			ColRowInfo ***segment =
-				(ColRowInfo ***)&COLROW_GET_SEGMENT(infos, i);
+			ColRowSegment *segment = COLROW_GET_SEGMENT(infos, i);
 			int const sub = COLROW_SUB_INDEX (i);
 			ColRowInfo *cri = NULL;
-			if (*segment != NULL) {
-				cri = (*segment)[sub];
+			if (segment != NULL) {
+				cri = segment->info[sub];
 				if (cri != NULL) {
-					(*segment)[sub] = NULL;
+					segment->info[sub] = NULL;
 					g_free (cri);
 				}
 			}

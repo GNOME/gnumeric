@@ -201,13 +201,15 @@ GNUMERIC_MAKE_TYPE(workbook_control, "WorkbookControl", WorkbookControl,
 
 void
 workbook_control_set_view (WorkbookControl *wbc,
-			   WorkbookView *optional_view, Workbook *optional_wb)
+			   WorkbookView *opt_view, Workbook *opt_wb)
 {
+	WorkbookView *wbv;
+
 	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));
 	g_return_if_fail (wbc->wb_view == NULL);
 
-	wbc->wb_view = (optional_view != NULL) ? optional_view : workbook_view_new (optional_wb);
-	wb_view_attach_control (wbc);
+	wbv = (opt_view != NULL) ? opt_view : workbook_view_new (opt_wb);
+	wb_view_attach_control (wbv, wbc);
 }
 
 void

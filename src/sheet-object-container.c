@@ -14,7 +14,7 @@
 #include "gnumeric.h"
 #include "workbook-control-gui-priv.h"
 #include "gnumeric-util.h"
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 #include "sheet-object-container.h"
 #include "sheet-object-widget.h"
 #include <bonobo/bonobo-item-container.h>
@@ -27,7 +27,7 @@
 static SheetObject *sheet_object_container_parent_class;
 
 static GnomeCanvasItem *
-make_container_item (SheetObject *so, SheetView *sheet_view, GtkWidget *w)
+make_container_item (SheetObject *so, SheetControlGUI *sheet_view, GtkWidget *w)
 {
 	GnomeCanvasItem *item;
 	double x1, y1, x2, y2;
@@ -119,7 +119,7 @@ sheet_object_container_destroy (GtkObject *object)
 }
 
 static GnomeCanvasItem *
-sheet_object_container_new_view (SheetObject *so, SheetView *sheet_view)
+sheet_object_container_new_view (SheetObject *so, SheetControlGUI *sheet_view)
 {
 	SheetObjectContainer *soc;
 	BonoboViewFrame *view_frame;

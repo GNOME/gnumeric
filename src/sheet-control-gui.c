@@ -1,5 +1,5 @@
 /*
- * sheet-view.c: Implements a view of the Sheet.
+ * sheet-control-gui.c: Implements a graphic control for a sheet.
  *
  * Author:
  *    Miguel de Icaza (miguel@kernel.org)
@@ -7,7 +7,7 @@
  */
 #include <config.h>
 
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 #include "item-bar.h"
 #include "gnumeric-sheet.h"
 #include "workbook.h"
@@ -33,10 +33,10 @@
 static GtkTableClass *sheet_view_parent_class;
 
 void
-sheet_view_redraw_all (SheetView *sheet_view)
+sheet_view_redraw_all (SheetControlGUI *sheet_view)
 {
 	g_return_if_fail (sheet_view != NULL);
-	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (sheet_view));
 
 	gnome_canvas_request_redraw (
 		GNOME_CANVAS (sheet_view->canvas),
@@ -53,7 +53,7 @@ sheet_view_redraw_all (SheetView *sheet_view)
  * Redraw selected range, do not honour spans
  */
 void
-sheet_view_redraw_cell_region (SheetView *sheet_view,
+sheet_view_redraw_cell_region (SheetControlGUI *sheet_view,
 			       int start_col, int start_row,
 			       int end_col, int end_row)
 {
@@ -63,7 +63,7 @@ sheet_view_redraw_cell_region (SheetView *sheet_view,
 	int x, y, w, h;
 
 	g_return_if_fail (sheet_view != NULL);
-	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (sheet_view));
 
 	gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
@@ -102,13 +102,13 @@ sheet_view_redraw_cell_region (SheetView *sheet_view,
 }
 
 void
-sheet_view_redraw_headers (SheetView *sheet_view,
+sheet_view_redraw_headers (SheetControlGUI *sheet_view,
 			   gboolean const col, gboolean const row,
 			   Range const * r /* optional == NULL */)
 {
 	GnumericSheet *gsheet;
 	g_return_if_fail (sheet_view != NULL);
-	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (sheet_view));
 
 	gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 
@@ -160,13 +160,13 @@ sheet_view_redraw_headers (SheetView *sheet_view,
 }
 
 void
-sheet_view_update_cursor_pos (SheetView *sheet_view)
+sheet_view_update_cursor_pos (SheetControlGUI *sheet_view)
 {
 	GList *l;
 	GnumericSheet *gsheet;
 
 	g_return_if_fail (sheet_view != NULL);
-	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (sheet_view));
 
 	gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 
@@ -179,14 +179,14 @@ sheet_view_update_cursor_pos (SheetView *sheet_view)
 }
 
 void
-sheet_view_set_zoom_factor (SheetView *sheet_view, double factor)
+sheet_view_set_zoom_factor (SheetControlGUI *sheet_view, double factor)
 {
 	GnumericSheet *gsheet;
 	ItemBar *col_item, *row_item;
 	int h, w;
 
 	g_return_if_fail (sheet_view != NULL);
-	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (sheet_view));
 
 	gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 	col_item = ITEM_BAR (sheet_view->col_item);
@@ -241,7 +241,7 @@ canvas_bar_realized (GtkWidget *widget, gpointer data)
 }
 
 static GnomeCanvas *
-new_canvas_bar (SheetView *sheet_view, GtkOrientation o, GnomeCanvasItem **itemp)
+new_canvas_bar (SheetControlGUI *sheet_view, GtkOrientation o, GnomeCanvasItem **itemp)
 {
 	GtkWidget *canvas =
 	    gnome_canvas_new ();
@@ -250,7 +250,7 @@ new_canvas_bar (SheetView *sheet_view, GtkOrientation o, GnomeCanvasItem **itemp
 	GnomeCanvasItem *item =
 	    gnome_canvas_item_new (group,
 				   item_bar_get_type (),
-				   "ItemBar::SheetView", sheet_view,
+				   "ItemBar::SheetControlGUI", sheet_view,
 				   "ItemBar::Orientation", o,
 				   NULL);
 
@@ -266,7 +266,7 @@ new_canvas_bar (SheetView *sheet_view, GtkOrientation o, GnomeCanvasItem **itemp
 
 /* Manages the scrollbar dimensions and paging parameters. */
 void
-sheet_view_scrollbar_config (SheetView const *sheet_view)
+sheet_view_scrollbar_config (SheetControlGUI const *sheet_view)
 {
 	GtkAdjustment *va = GTK_ADJUSTMENT (sheet_view->va);
 	GtkAdjustment *ha = GTK_ADJUSTMENT (sheet_view->ha);
@@ -308,7 +308,7 @@ sheet_view_scrollbar_config (SheetView const *sheet_view)
  * new sheet view has been configured.
  */
 static void
-sheet_view_make_edit_pos_visible (SheetView const *sheet_view)
+sheet_view_make_edit_pos_visible (SheetControlGUI const *sheet_view)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 
@@ -322,7 +322,7 @@ sheet_view_make_edit_pos_visible (SheetView const *sheet_view)
 #endif
 
 static void
-sheet_view_size_allocate (GtkWidget *widget, GtkAllocation *alloc, SheetView *sheet_view)
+sheet_view_size_allocate (GtkWidget *widget, GtkAllocation *alloc, SheetControlGUI *sheet_view)
 {
 #if 0
 	/* FIXME
@@ -338,7 +338,7 @@ sheet_view_size_allocate (GtkWidget *widget, GtkAllocation *alloc, SheetView *sh
 }
 
 static void
-sheet_view_col_selection_changed (ItemBar *item_bar, int col, int modifiers, SheetView *sheet_view)
+sheet_view_col_selection_changed (ItemBar *item_bar, int col, int modifiers, SheetControlGUI *sheet_view)
 {
 	Sheet *sheet = sheet_view->sheet;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->canvas);
@@ -374,7 +374,7 @@ sheet_view_col_selection_changed (ItemBar *item_bar, int col, int modifiers, She
 
 static void
 sheet_view_col_size_changed (ItemBar *item_bar, int col, int new_size_pixels,
-			     SheetView *sheet_view)
+			     SheetControlGUI *sheet_view)
 {
 	Sheet *sheet = sheet_view->sheet;
 
@@ -392,7 +392,7 @@ sheet_view_col_size_changed (ItemBar *item_bar, int col, int new_size_pixels,
 }
 
 static void
-sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, SheetView *sheet_view)
+sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, SheetControlGUI *sheet_view)
 {
 	Sheet *sheet = sheet_view->sheet;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->canvas);
@@ -428,7 +428,7 @@ sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, She
 
 static void
 sheet_view_row_size_changed (ItemBar *item_bar, int row, int new_size_pixels,
-			     SheetView *sheet_view)
+			     SheetControlGUI *sheet_view)
 {
 	Sheet *sheet = sheet_view->sheet;
 
@@ -449,13 +449,13 @@ sheet_view_row_size_changed (ItemBar *item_bar, int row, int new_size_pixels,
 
 
 static void
-button_select_all (GtkWidget *the_button, SheetView *sheet_view)
+button_select_all (GtkWidget *the_button, SheetControlGUI *sheet_view)
 {
 	cmd_select_all (sheet_view->sheet);
 }
 
 static void
-vertical_scroll_change (GtkAdjustment *adj, SheetView *sheet_view)
+vertical_scroll_change (GtkAdjustment *adj, SheetControlGUI *sheet_view)
 {
 	if (sheet_view->tip) {
 		char buffer [20 + sizeof (long) * 4];
@@ -465,7 +465,7 @@ vertical_scroll_change (GtkAdjustment *adj, SheetView *sheet_view)
 }
 
 static void
-horizontal_scroll_change (GtkAdjustment *adj, SheetView *sheet_view)
+horizontal_scroll_change (GtkAdjustment *adj, SheetControlGUI *sheet_view)
 {
 	if (sheet_view->tip) {
 		char buffer [20 + sizeof (long) * 4];
@@ -475,7 +475,7 @@ horizontal_scroll_change (GtkAdjustment *adj, SheetView *sheet_view)
 }
 
 static int
-horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_view)
+horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetControlGUI *sheet_view)
 {
 	if (event->type == GDK_BUTTON_PRESS){
 		sheet_view->tip = gnumeric_create_tooltip ();
@@ -504,7 +504,7 @@ horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet
 }
 
 static int
-vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_view)
+vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetControlGUI *sheet_view)
 {
 	if (event->type == GDK_BUTTON_PRESS){
 		sheet_view->tip = gnumeric_create_tooltip ();
@@ -533,7 +533,7 @@ vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_v
 }
 
 static void
-sheet_view_init (SheetView *sheet_view)
+sheet_view_init (SheetControlGUI *sheet_view)
 {
 	GtkTable *table = GTK_TABLE (sheet_view);
 
@@ -546,7 +546,7 @@ sheet_view_init (SheetView *sheet_view)
 }
 
 static void
-sheet_view_construct (SheetView *sheet_view)
+sheet_view_construct (SheetControlGUI *sheet_view)
 {
 	GnomeCanvasGroup *root_group;
 	GtkTable  *table = GTK_TABLE (sheet_view);
@@ -664,12 +664,12 @@ sheet_view_construct (SheetView *sheet_view)
 }
 
 void
-sheet_view_set_header_visibility (SheetView *sheet_view,
+sheet_view_set_header_visibility (SheetControlGUI *sheet_view,
 				  gboolean col_headers_visible,
 				  gboolean row_headers_visible)
 {
 	g_return_if_fail (sheet_view != NULL);
-	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (sheet_view));
 
 	if (col_headers_visible){
 		if (!GTK_WIDGET_VISIBLE (GTK_WIDGET (sheet_view->col_canvas)))
@@ -691,7 +691,7 @@ sheet_view_set_header_visibility (SheetView *sheet_view,
 GtkWidget *
 sheet_view_new (Sheet *sheet)
 {
-	SheetView *sheet_view;
+	SheetControlGUI *sheet_view;
 
 	sheet_view = gtk_type_new (sheet_view_get_type ());
 	sheet_view->sheet = sheet;
@@ -705,7 +705,7 @@ sheet_view_new (Sheet *sheet)
 static void
 sheet_view_destroy (GtkObject *object)
 {
-	SheetView *sheet_view = SHEET_VIEW (object);
+	SheetControlGUI *sheet_view = SHEET_CONTROL_GUI (object);
 
 	/* Add shutdown code here */
 	if (sheet_view->tip)
@@ -723,7 +723,7 @@ sheet_view_destroy (GtkObject *object)
 }
 
 static void
-sheet_view_class_init (SheetViewClass *Class)
+sheet_view_class_init (SheetControlGUIClass *Class)
 {
 	GtkObjectClass *object_class;
 
@@ -741,9 +741,9 @@ sheet_view_get_type (void)
 
 	if (!sheet_view_type){
 		GtkTypeInfo sheet_view_info = {
-			"SheetView",
-			sizeof (SheetView),
-			sizeof (SheetViewClass),
+			"SheetControlGUI",
+			sizeof (SheetControlGUI),
+			sizeof (SheetControlGUIClass),
 			(GtkClassInitFunc) sheet_view_class_init,
 			(GtkObjectInitFunc) sheet_view_init,
 			NULL, /* reserved 1 */
@@ -758,7 +758,7 @@ sheet_view_get_type (void)
 }
 
 void
-sheet_view_hide_cursor (SheetView *sheet_view)
+sheet_view_hide_cursor (SheetControlGUI *sheet_view)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 
@@ -766,7 +766,7 @@ sheet_view_hide_cursor (SheetView *sheet_view)
 }
 
 void
-sheet_view_show_cursor (SheetView *sheet_view)
+sheet_view_show_cursor (SheetControlGUI *sheet_view)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 
@@ -776,7 +776,7 @@ sheet_view_show_cursor (SheetView *sheet_view)
 #define TRIANGLE_WIDTH 6
 
 static GnomeCanvasPoints *
-sheet_view_comment_get_points (SheetView *sheet_view, int col, int row)
+sheet_view_comment_get_points (SheetControlGUI *sheet_view, int col, int row)
 {
 	GnomeCanvasPoints *points;
 	int x, y, i;
@@ -804,14 +804,14 @@ sheet_view_comment_get_points (SheetView *sheet_view, int col, int row)
 }
 
 GnomeCanvasItem *
-sheet_view_comment_create_marker (SheetView *sheet_view, int col, int row)
+sheet_view_comment_create_marker (SheetControlGUI *sheet_view, int col, int row)
 {
 	GnomeCanvasPoints *points;
 	GnomeCanvasGroup *group;
 	GnomeCanvasItem *i;
 
 	g_return_val_if_fail (sheet_view != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET_VIEW (sheet_view), NULL);
+	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (sheet_view), NULL);
 
 	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (sheet_view->canvas)->root);
 	points = sheet_view_comment_get_points (sheet_view, col, row);
@@ -827,12 +827,12 @@ sheet_view_comment_create_marker (SheetView *sheet_view, int col, int row)
 }
 
 void
-sheet_view_comment_relocate (SheetView *sheet_view, int col, int row, GnomeCanvasItem *o)
+sheet_view_comment_relocate (SheetControlGUI *sheet_view, int col, int row, GnomeCanvasItem *o)
 {
 	GnomeCanvasPoints *points;
 
 	g_return_if_fail (sheet_view != NULL);
-	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (sheet_view));
 	g_return_if_fail (o != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (o));
 
@@ -843,12 +843,12 @@ sheet_view_comment_relocate (SheetView *sheet_view, int col, int row, GnomeCanva
 }
 
 void
-sheet_view_selection_unant (SheetView *sheet_view)
+sheet_view_selection_unant (SheetControlGUI *sheet_view)
 {
 	GList *l;
 
 	g_return_if_fail (sheet_view != NULL);
-	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (sheet_view));
 
 	if (sheet_view->anted_cursors == NULL)
 		return;
@@ -861,14 +861,14 @@ sheet_view_selection_unant (SheetView *sheet_view)
 }
 
 void
-sheet_view_selection_ant (SheetView *sheet_view)
+sheet_view_selection_ant (SheetControlGUI *sheet_view)
 {
 	GnomeCanvasGroup *group;
 	ItemGrid *grid;
 	GList *l;
 
 	g_return_if_fail (sheet_view != NULL);
-	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (sheet_view));
 
 	if (sheet_view->anted_cursors)
 		sheet_view_selection_unant (sheet_view);
@@ -882,7 +882,7 @@ sheet_view_selection_ant (SheetView *sheet_view)
 
 		item_cursor = ITEM_CURSOR (gnome_canvas_item_new (
 			group, item_cursor_get_type (),
-			"SheetView", sheet_view,
+			"SheetControlGUI", sheet_view,
 			"Grid",  grid,
 			"Style", ITEM_CURSOR_ANTED,
 			NULL));
@@ -896,7 +896,7 @@ sheet_view_selection_ant (SheetView *sheet_view)
 }
 
 void
-sheet_view_adjust_preferences (SheetView *sheet_view)
+sheet_view_adjust_preferences (SheetControlGUI *sheet_view)
 {
 	Sheet *sheet = sheet_view->sheet;
 	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (sheet_view->wbcg));
@@ -944,7 +944,7 @@ sheet_view_get_style_font (const Sheet *sheet, MStyle const * const mstyle)
 /*****************************************************************************/
 
 void
-sheet_view_stop_sliding (SheetView *sheet_view)
+sheet_view_stop_sliding (SheetControlGUI *sheet_view)
 {
 	if (sheet_view->sliding == -1)
 		return;
@@ -958,7 +958,7 @@ sheet_view_stop_sliding (SheetView *sheet_view)
 static gint
 sheet_view_sliding_callback (gpointer data)
 {
-	SheetView *sheet_view = data;
+	SheetControlGUI *sheet_view = data;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 	gboolean change = FALSE;
 	int col, row;
@@ -1046,8 +1046,8 @@ sheet_view_sliding_callback (gpointer data)
 }
 
 gboolean
-sheet_view_start_sliding (SheetView *sheet_view,
-			  SheetViewSlideHandler slide_handler,
+sheet_view_start_sliding (SheetControlGUI *sheet_view,
+			  SheetControlGUISlideHandler slide_handler,
 			  gpointer user_data,
 			  int col, int row, int dx, int dy)
 {
@@ -1083,7 +1083,7 @@ sheet_view_start_sliding (SheetView *sheet_view,
 #if 0
 #ifdef ENABLE_BONOBO
 void
-sheet_view_insert_object (SheetView *sheet_view, BonoboObjectClient *object)
+sheet_view_insert_object (SheetControlGUI *sheet_view, BonoboObjectClient *object)
 {
 /*	GtkWidget *view;*/
 
@@ -1093,7 +1093,7 @@ sheet_view_insert_object (SheetView *sheet_view, BonoboObjectClient *object)
 	 */
 
 	/* view = gnome_bonobo_object_new_view (object); */
-	g_warning ("Stick this into the SheetView");
+	g_warning ("Stick this into the SheetControlGUI");
 }
 #endif
 #endif

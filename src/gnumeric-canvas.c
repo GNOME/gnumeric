@@ -11,7 +11,7 @@
 #include "item-cursor.h"
 #include "item-edit.h"
 #include "item-grid.h"
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 #include "gnumeric-util.h"
 #include "color.h"
 #include "selection.h"
@@ -44,7 +44,7 @@ gnumeric_sheet_destroy (GtkObject *object)
 }
 
 static GnumericSheet *
-gnumeric_sheet_create (SheetView *sheet_view)
+gnumeric_sheet_create (SheetControlGUI *sheet_view)
 {
 	GnumericSheet *gsheet;
 	GnomeCanvas   *canvas;
@@ -303,7 +303,7 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 	gsheet->sel_cursor = ITEM_CURSOR (gnome_canvas_item_new (
 		group,
 		item_cursor_get_type (),
-		"SheetView", gsheet->sheet_view,
+		"SheetControlGUI", gsheet->sheet_view,
 		"Grid",  gsheet->item_grid,
 		"Style", ITEM_CURSOR_ANTED, NULL));
 	item_cursor_set_spin_base (gsheet->sel_cursor, col, row);
@@ -930,7 +930,7 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 }
 
 GtkWidget *
-gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
+gnumeric_sheet_new (SheetControlGUI *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 {
 	GnomeCanvasItem *item;
 	GnumericSheet *gsheet;
@@ -945,7 +945,7 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 	static gint n_drag_types = sizeof (drag_types) / sizeof (drag_types [0]);
 
 	g_return_val_if_fail (sheet_view  != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET_VIEW (sheet_view), NULL);
+	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (sheet_view), NULL);
 	g_return_val_if_fail (colbar != NULL, NULL);
 	g_return_val_if_fail (rowbar != NULL, NULL);
 	g_return_val_if_fail (IS_ITEM_BAR (colbar), NULL);
@@ -970,14 +970,14 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 	/* The grid */
 	item = gnome_canvas_item_new (gsheet_group,
 				      item_grid_get_type (),
-				      "ItemGrid::SheetView", sheet_view,
+				      "ItemGrid::SheetControlGUI", sheet_view,
 				      NULL);
 	gsheet->item_grid = ITEM_GRID (item);
 
 	/* The cursor */
 	item = gnome_canvas_item_new (gsheet_group,
 				      item_cursor_get_type (),
-				      "ItemCursor::SheetView", sheet_view,
+				      "ItemCursor::SheetControlGUI", sheet_view,
 				      "ItemCursor::Grid", gsheet->item_grid,
 				      NULL);
 	gsheet->item_cursor = ITEM_CURSOR (item);

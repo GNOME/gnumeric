@@ -30,6 +30,21 @@ struct _ColRowCollection
 	GPtrArray * info;
 };
 
+/* The size, mask, and shift must be kept in sync */
+#define COLROW_SEGMENT_SIZE	0x80
+#define COLROW_SUB_INDEX(i)	((i) & 0x7f)
+#define COLROW_SEGMENT_START(i)	((i) & ~(0x7f))
+#define COLROW_SEGMENT_END(i)	((i) | 0x7f)
+#define COLROW_SEGMENT_INDEX(i)	((i) >> 7)
+#define COLROW_GET_SEGMENT(seg_array, i) \
+	(g_ptr_array_index ((seg_array)->info, COLROW_SEGMENT_INDEX(i)))
+
+struct _ColRowSegment
+{
+	ColRowInfo *info [COLROW_SEGMENT_SIZE];
+	int needs_respan [(COLROW_SEGMENT_SIZE/sizeof(int)) + 1]; /* be safe */
+};
+
 #define COL_INTERNAL_WIDTH(col) ((col)->size_pixels - ((col)->margin_b + (col)->margin_a + 1))
 
 gboolean col_row_equal   (ColRowInfo const *a, ColRowInfo const *b);

@@ -11,7 +11,7 @@
 #include <string.h>
 #include "gnumeric.h"
 #include "command-context.h"
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
 #include "workbook.h"
@@ -41,7 +41,7 @@
 #    include <libgnorba/gnorba.h>
 #endif
 
-#define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->canvas)
+#define GNUMERIC_SHEET_CONTROL_GUI(p) GNUMERIC_SHEET (SHEET_CONTROL_GUI(p)->canvas)
 
 static void sheet_redraw_partial_row (Sheet const *sheet, int const row,
 				      int const start_col, int const end_col);
@@ -52,7 +52,7 @@ sheet_adjust_preferences (Sheet const *sheet)
 	GList *l;
 
 	for (l = sheet->sheet_views; l; l = l->next){
-		SheetView *sheet_view = l->data;
+		SheetControlGUI *sheet_view = l->data;
 
 		sheet_view_adjust_preferences (sheet_view);
 	}
@@ -64,7 +64,7 @@ sheet_redraw_all (Sheet const *sheet)
 	GList *l;
 
 	for (l = sheet->sheet_views; l; l = l->next){
-		SheetView *sheet_view = l->data;
+		SheetControlGUI *sheet_view = l->data;
 
 		sheet_view_redraw_all (sheet_view);
 	}
@@ -78,7 +78,7 @@ sheet_redraw_headers (Sheet const *sheet,
 	GList *l;
 
 	for (l = sheet->sheet_views; l; l = l->next){
-		SheetView *sheet_view = l->data;
+		SheetControlGUI *sheet_view = l->data;
 
 		sheet_view_redraw_headers (sheet_view, col, row, r);
 	}
@@ -101,7 +101,6 @@ cell_compare (CellPos const * a, CellPos const * b)
 void
 sheet_rename (Sheet *sheet, const char *new_name)
 {
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (new_name != NULL);
 
@@ -111,7 +110,7 @@ sheet_rename (Sheet *sheet, const char *new_name)
 	sheet->name_quoted = sheet_name_quote (new_name);
 }
 
-SheetView *
+SheetControlGUI *
 sheet_new_sheet_view (Sheet *sheet)
 {
 	GtkWidget *sheet_view;
@@ -127,20 +126,20 @@ sheet_new_sheet_view (Sheet *sheet)
 	move_col = sheet->cursor.move_corner.col;
 	move_row = sheet->cursor.move_corner.row;
 
-	gnumeric_sheet_set_cursor_bounds (GNUMERIC_SHEET_VIEW (sheet_view),
+	gnumeric_sheet_set_cursor_bounds (GNUMERIC_SHEET_CONTROL_GUI (sheet_view),
 		MIN (base_col, move_col),
 		MIN (base_row, move_row),
 		MAX (base_col, move_col),
 		MAX (base_row, move_row));
 	sheet->sheet_views = g_list_prepend (sheet->sheet_views, sheet_view);
 
-	return SHEET_VIEW (sheet_view);
+	return SHEET_CONTROL_GUI (sheet_view);
 }
 
 void
-sheet_detach_sheet_view (SheetView *sheet_view)
+sheet_detach_sheet_view (SheetControlGUI *sheet_view)
 {
-	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (sheet_view));
 	g_return_if_fail (IS_SHEET (sheet_view->sheet));
 
 	sheet_view->sheet->sheet_views = g_list_remove (sheet_view->sheet->sheet_views, sheet_view);
@@ -214,9 +213,10 @@ sheet_new (Workbook *wb, const char *name)
 			      COLROW_SEGMENT_INDEX (SHEET_MAX_ROWS-1)+1);
 	sheet->print_info = print_info_new ();
 
-	sheet->cell_hash  = g_hash_table_new (&cell_hash,
-					      (GCompareFunc)&cell_compare);
-	sheet->deps       = dependency_data_new ();
+	sheet->merged_regions	= NULL;
+	sheet->deps		= dependency_data_new ();
+	sheet->cell_hash	= g_hash_table_new (&cell_hash,
+					    (GCompareFunc)&cell_compare);
 
 	mstyle = mstyle_new_default ();
 	sheet_style_attach (sheet, sheet_get_full_range (), mstyle);
@@ -471,7 +471,7 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean respan)
 			 &cb_colrow_compute_pixels_from_pts, &closure);
 
 	for (l = sheet->sheet_views; l; l = l->next){
-		SheetView *sheet_view = l->data;
+		SheetControlGUI *sheet_view = l->data;
 
 		sheet_view_set_zoom_factor (sheet_view, factor);
 	}
@@ -490,7 +490,8 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean respan)
 	 */
 	if (respan) {
 		sheet_calc_spans (sheet, SPANCALC_RESIZE|SPANCALC_RENDER);
-		sheet_update_zoom_controls (sheet);
+		if (sheet->workbook)
+			sheet_update_zoom_controls (sheet);
 	}
 }
 
@@ -499,7 +500,6 @@ sheet_row_new (Sheet *sheet)
 {
 	ColRowInfo *ri = g_new (ColRowInfo, 1);
 
-	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	*ri = sheet->rows.default_style;
@@ -512,7 +512,6 @@ sheet_col_new (Sheet *sheet)
 {
 	ColRowInfo *ci = g_new (ColRowInfo, 1);
 
-	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	*ci = sheet->cols.default_style;
@@ -524,14 +523,14 @@ void
 sheet_col_add (Sheet *sheet, ColRowInfo *cp)
 {
 	int const col = cp->pos;
-	ColRowInfo *** segment = (ColRowInfo ***)&COLROW_GET_SEGMENT (&(sheet->cols), col);
+	ColRowSegment **segment = (ColRowSegment **)&COLROW_GET_SEGMENT (&(sheet->cols), col);
 
 	g_return_if_fail (col >= 0);
 	g_return_if_fail (col < SHEET_MAX_COLS);
 
 	if (*segment == NULL)
-		*segment = g_new0(ColRowInfo *, COLROW_SEGMENT_SIZE);
-	(*segment)[COLROW_SUB_INDEX(col)] = cp;
+		*segment = g_new0 (ColRowSegment, 1);
+	(*segment)->info[COLROW_SUB_INDEX(col)] = cp;
 
 	if (col > sheet->cols.max_used){
 		sheet->cols.max_used = col;
@@ -543,14 +542,14 @@ void
 sheet_row_add (Sheet *sheet, ColRowInfo *rp)
 {
 	int const row = rp->pos;
-	ColRowInfo *** segment = (ColRowInfo ***)&COLROW_GET_SEGMENT(&(sheet->rows), row);
+	ColRowSegment **segment = (ColRowSegment **)&COLROW_GET_SEGMENT (&(sheet->rows), row);
 
 	g_return_if_fail (row >= 0);
 	g_return_if_fail (row < SHEET_MAX_ROWS);
 
 	if (*segment == NULL)
-		*segment = g_new0(ColRowInfo *, COLROW_SEGMENT_SIZE);
-	(*segment)[COLROW_SUB_INDEX(row)] = rp;
+		*segment = g_new0 (ColRowSegment, 1);
+	(*segment)->info[COLROW_SUB_INDEX(row)] = rp;
 
 	if (rp->pos > sheet->rows.max_used){
 		sheet->rows.max_used = row;
@@ -561,17 +560,18 @@ sheet_row_add (Sheet *sheet, ColRowInfo *rp)
 ColRowInfo *
 sheet_col_get_info (Sheet const *sheet, int const col)
 {
-	ColRowInfo *ci = NULL;
-	ColRowInfo ** segment;
+	ColRowInfo    *ci = NULL;
+	ColRowSegment *segment;
 
 	g_return_val_if_fail (col >= 0, NULL);
 	g_return_val_if_fail (col < SHEET_MAX_COLS, NULL);
 
-	segment = COLROW_GET_SEGMENT(&(sheet->cols), col);
-	if (segment != NULL)
-		ci = segment[COLROW_SUB_INDEX(col)];
-	if (ci != NULL)
-		return ci;
+	segment = COLROW_GET_SEGMENT (&(sheet->cols), col);
+	if (segment != NULL) {
+		ci = segment->info[COLROW_SUB_INDEX(col)];
+		if (ci != NULL)
+			return ci;
+	}
 
 	return (ColRowInfo *) &sheet->cols.default_style;
 }
@@ -579,17 +579,18 @@ sheet_col_get_info (Sheet const *sheet, int const col)
 ColRowInfo *
 sheet_row_get_info (Sheet const *sheet, int const row)
 {
-	ColRowInfo *ri = NULL;
-	ColRowInfo ** segment;
+	ColRowInfo    *ri = NULL;
+	ColRowSegment *segment;
 
 	g_return_val_if_fail (row >= 0, NULL);
 	g_return_val_if_fail (row < SHEET_MAX_ROWS, NULL);
 
 	segment = COLROW_GET_SEGMENT(&(sheet->rows), row);
-	if (segment != NULL)
-		ri = segment[COLROW_SUB_INDEX(row)];
-	if (ri != NULL)
-		return ri;
+	if (segment != NULL) {
+		ri = segment->info[COLROW_SUB_INDEX(row)];
+		if (ri != NULL)
+			return ri;
+	}
 
 	return (ColRowInfo *) &sheet->rows.default_style;
 }
@@ -767,7 +768,7 @@ sheet_update (Sheet const *sheet)
 		GList *l;
 
 		for (l = sheet->sheet_views; l; l = l->next){
-			SheetView *sheet_view = l->data;
+			SheetControlGUI *sheet_view = l->data;
 			sheet_view_scrollbar_config (sheet_view);
 		}
 		p->resize_scrollbar = FALSE;
@@ -832,7 +833,7 @@ sheet_compute_visible_ranges (Sheet const *sheet)
 	GList *l;
 
 	for (l = sheet->sheet_views; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
+		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
 
 		gnumeric_sheet_compute_visible_ranges (gsheet, TRUE);
 	}
@@ -853,7 +854,6 @@ sheet_cell_get (Sheet const *sheet, int col, int row)
 	Cell *cell;
 	CellPos pos;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	pos.col = col;
@@ -877,7 +877,6 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
 {
 	Cell *cell;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	cell = sheet_cell_get (sheet, col, row);
@@ -937,7 +936,6 @@ sheet_get_extent (Sheet const *sheet)
 	r.end.col   = 0;
 	r.end.row   = 0;
 
-	g_return_val_if_fail (sheet != NULL, r);
 	g_return_val_if_fail (IS_SHEET (sheet), r);
 
 	g_hash_table_foreach(sheet->cell_hash, &sheet_get_extent_cb, &r);
@@ -1291,7 +1289,6 @@ sheet_redraw_cell_region (Sheet const *sheet,
 	GList *l;
 	int row, min_col = start_col, max_col = end_col;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
@@ -1322,7 +1319,7 @@ sheet_redraw_cell_region (Sheet const *sheet,
 			}
 			/* skip segments with no cells */
 		} else if (row == COLROW_SEGMENT_START (row)) {
-			ColRowInfo const * const * const segment =
+			ColRowSegment const * const segment =
 				COLROW_GET_SEGMENT(&(sheet->rows), row);
 			if (segment == NULL)
 				row = COLROW_SEGMENT_END (row);
@@ -1330,7 +1327,7 @@ sheet_redraw_cell_region (Sheet const *sheet,
 	}
 
 	for (l = sheet->sheet_views; l; l = l->next){
-		SheetView *sheet_view = l->data;
+		SheetControlGUI *sheet_view = l->data;
 
 		sheet_view_redraw_cell_region (
 			sheet_view,
@@ -1342,7 +1339,6 @@ sheet_redraw_cell_region (Sheet const *sheet,
 void
 sheet_redraw_range (Sheet const *sheet, Range const *range)
 {
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (range != NULL);
 
@@ -1658,18 +1654,16 @@ sheet_range_splits_array (Sheet const *sheet, Range const *r)
 ColRowInfo *
 sheet_col_get (Sheet const *sheet, int const pos)
 {
-	ColRowInfo *ci = NULL;
-	ColRowInfo ** segment;
+	ColRowSegment *segment;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (pos < SHEET_MAX_COLS, NULL);
 	g_return_val_if_fail (pos >= 0, NULL);
 
 	segment = COLROW_GET_SEGMENT (&(sheet->cols), pos);
 	if (segment != NULL)
-		ci = segment [COLROW_SUB_INDEX(pos)];
-	return ci;
+		return segment->info [COLROW_SUB_INDEX(pos)];
+	return NULL;
 }
 /**
  * sheet_col_get:
@@ -1696,18 +1690,16 @@ sheet_col_fetch (Sheet *sheet, int pos)
 ColRowInfo *
 sheet_row_get (Sheet const *sheet, int const pos)
 {
-	ColRowInfo *ri = NULL;
-	ColRowInfo ** segment;
+	ColRowSegment *segment;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (pos < SHEET_MAX_ROWS, NULL);
 	g_return_val_if_fail (pos >= 0, NULL);
 
 	segment = COLROW_GET_SEGMENT (&(sheet->rows), pos);
 	if (segment != NULL)
-		ri = segment [COLROW_SUB_INDEX(pos)];
-	return ri;
+		return segment->info [COLROW_SUB_INDEX(pos)];
+	return NULL;
 }
 
 /**
@@ -1760,7 +1752,6 @@ sheet_cell_foreach_range (Sheet *sheet, gboolean only_existing,
 	int i, j;
 	Value *cont;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (callback != NULL, NULL);
 
@@ -1784,7 +1775,7 @@ sheet_cell_foreach_range (Sheet *sheet, gboolean only_existing,
 			if (only_existing) {
 				/* skip segments with no cells */
 				if (i == COLROW_SEGMENT_START (i)) {
-					ColRowInfo const * const * const segment =
+					ColRowSegment const *segment =
 						COLROW_GET_SEGMENT(&(sheet->rows), i);
 					if (segment == NULL)
 						i = COLROW_SEGMENT_END(i);
@@ -1810,7 +1801,7 @@ sheet_cell_foreach_range (Sheet *sheet, gboolean only_existing,
 			if (cell == NULL && only_existing) {
 				/* skip segments with no cells */
 				if (j == COLROW_SEGMENT_START (j)) {
-					ColRowInfo const * const * const segment =
+					ColRowSegment const *segment =
 						COLROW_GET_SEGMENT(&(sheet->cols), j);
 					if (segment == NULL)
 						j = COLROW_SEGMENT_END(j);
@@ -1937,7 +1928,6 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 {
 	Cell *cell;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	cell = g_new0 (Cell, 1);
@@ -1995,7 +1985,6 @@ sheet_cell_remove_simple (Sheet *sheet, Cell *cell)
 void
 sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
 {
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -2056,13 +2045,13 @@ cb_free_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 static void
 sheet_col_destroy (Sheet *sheet, int const col, gboolean free_cells)
 {
-	ColRowInfo ***segment = (ColRowInfo ***)&COLROW_GET_SEGMENT(&(sheet->cols), col);
+	ColRowSegment **segment = (ColRowSegment **)&COLROW_GET_SEGMENT(&(sheet->cols), col);
 	int const sub = COLROW_SUB_INDEX (col);
 	ColRowInfo *ci = NULL;
 
 	if (*segment == NULL)
 		return;
-	ci = (*segment)[sub];
+	ci = (*segment)->info[sub];
 	if (ci == NULL)
 		return;
 
@@ -2072,7 +2061,7 @@ sheet_col_destroy (Sheet *sheet, int const col, gboolean free_cells)
 					  col, SHEET_MAX_ROWS-1,
 					  &cb_free_cell, NULL);
 
-	(*segment)[sub] = NULL;
+	(*segment)->info[sub] = NULL;
 	g_free (ci);
 
 	/* Use >= just in case things are screwed up */
@@ -2090,12 +2079,12 @@ sheet_col_destroy (Sheet *sheet, int const col, gboolean free_cells)
 static void
 sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 {
-	ColRowInfo ***segment = (ColRowInfo ***)&COLROW_GET_SEGMENT(&(sheet->rows), row);
+	ColRowSegment **segment = (ColRowSegment **)&COLROW_GET_SEGMENT(&(sheet->rows), row);
 	int const sub = COLROW_SUB_INDEX(row);
 	ColRowInfo *ri = NULL;
 	if (*segment == NULL)
 		return;
-	ri = (*segment)[sub];
+	ri = (*segment)->info[sub];
 	if (ri == NULL)
 		return;
 
@@ -2108,7 +2097,7 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 	/* Rows have span lists, destroy them too */
 	row_destroy_span (ri);
 
-	(*segment)[sub] = NULL;
+	(*segment)->info[sub] = NULL;
 	g_free (ri);
 
 	/* Use >= just in case things are screwed up */
@@ -2189,7 +2178,6 @@ sheet_destroy (Sheet *sheet)
 {
 	GList *l;
 
-	g_assert (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	if (sheet->print_info) {
@@ -2218,7 +2206,7 @@ sheet_destroy (Sheet *sheet)
 	g_free (sheet->solver_parameters.input_entry_str);
 
 	for (l = sheet->sheet_views; l; l = l->next){
-		SheetView *sheet_view = l->data;
+		SheetControlGUI *sheet_view = l->data;
 
 		gtk_object_unref (GTK_OBJECT (sheet_view));
 	}
@@ -2323,7 +2311,7 @@ sheet_regen_adjacent_spans (Sheet *sheet,
 		if (ri == NULL) {
 			/* skip segments with no cells */
 			if (row == COLROW_SEGMENT_START (row)) {
-				ColRowInfo const * const * const segment =
+				ColRowSegment const *segment =
 					COLROW_GET_SEGMENT(&(sheet->rows), row);
 				if (segment == NULL)
 					row = COLROW_SEGMENT_END(row);
@@ -2384,7 +2372,6 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 	Range r;
 	int min_col, max_col;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
@@ -2453,11 +2440,10 @@ sheet_make_cell_visible (Sheet *sheet, int col, int row)
 {
 	GList *l;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	for (l = sheet->sheet_views; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
+		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
 
 		gnumeric_sheet_make_cell_visible (gsheet, col, row, FALSE);
 	}
@@ -2468,7 +2454,6 @@ sheet_set_edit_pos (Sheet *sheet, int col, int row)
 {
 	int old_col, old_row;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	old_col = sheet->cursor.edit_pos.col;
@@ -2498,7 +2483,6 @@ sheet_cursor_set (Sheet *sheet,
 {
 	GList *l;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 #if 0
@@ -2530,7 +2514,7 @@ sheet_cursor_set (Sheet *sheet,
 	sheet->cursor.move_corner.row = move_row;
 
 	for (l = sheet->sheet_views; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
+		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
 
 		gnumeric_sheet_set_cursor_bounds ( gsheet,
 			MIN (base_col, move_col),
@@ -2545,11 +2529,10 @@ sheet_update_cursor_pos (Sheet const *sheet)
 {
 	GList *l;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	for (l = sheet->sheet_views; l; l = l->next) {
-		SheetView *sheet_view = l->data;
+		SheetControlGUI *sheet_view = l->data;
 		sheet_view_update_cursor_pos (sheet_view);
 	}
 }
@@ -2560,7 +2543,7 @@ sheet_hide_cursor (Sheet *sheet)
 	GList *l;
 
 	for (l = sheet->sheet_views; l; l = l->next){
-		SheetView *sheet_view = l->data;
+		SheetControlGUI *sheet_view = l->data;
 
 		sheet_view_hide_cursor (sheet_view);
 	}
@@ -2573,7 +2556,7 @@ sheet_show_cursor (Sheet *sheet)
 	GList *l;
 
 	for (l = sheet->sheet_views; l; l = l->next){
-		SheetView *sheet_view = l->data;
+		SheetControlGUI *sheet_view = l->data;
 
 		sheet_view_show_cursor (sheet_view);
 	}
@@ -2632,7 +2615,6 @@ sheet_name_quote (const char *name_unquoted)
 void
 sheet_mark_clean (Sheet *sheet)
 {
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	if (sheet->modified)
@@ -2644,7 +2626,6 @@ sheet_mark_clean (Sheet *sheet)
 void
 sheet_set_dirty (Sheet *sheet, gboolean is_dirty)
 {
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	if (sheet->modified)
@@ -2664,7 +2645,6 @@ sheet_set_dirty (Sheet *sheet, gboolean is_dirty)
 gboolean
 sheet_is_pristine (Sheet *sheet)
 {
-	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	return sheet->pristine && !sheet->modified;
@@ -2757,9 +2737,9 @@ colrow_move (Sheet *sheet,
 	     int const old_pos, int const new_pos)
 {
 	gboolean const is_cols = (info_collection == &sheet->cols);
-	ColRowInfo **segment = COLROW_GET_SEGMENT(info_collection, old_pos);
+	ColRowSegment *segment = COLROW_GET_SEGMENT(info_collection, old_pos);
 	ColRowInfo *info = (segment != NULL) ?
-		segment[COLROW_SUB_INDEX(old_pos)] : NULL;
+		segment->info [COLROW_SUB_INDEX(old_pos)] : NULL;
 
 	GList *cells = NULL;
 	Cell  *cell;
@@ -2782,7 +2762,7 @@ colrow_move (Sheet *sheet,
 	cells = g_list_reverse (cells);
 
 	/* Update the position */
-	segment [COLROW_SUB_INDEX (old_pos)] = NULL;
+	segment->info [COLROW_SUB_INDEX (old_pos)] = NULL;
 	info->pos = new_pos;
 
 	/* TODO : Figure out a way to merge these functions */
@@ -2823,7 +2803,6 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 
 	*reloc_storage = NULL;
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
 
@@ -2900,7 +2879,6 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 
 	*reloc_storage = NULL;
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
 
@@ -2973,7 +2951,6 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 
 	*reloc_storage = NULL;
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
 
@@ -3051,7 +3028,6 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 
 	*reloc_storage = NULL;
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
 
@@ -3118,9 +3094,7 @@ sheet_move_range (WorkbookControl *wbc,
 	gboolean inter_sheet_expr, out_of_range;
 
 	g_return_if_fail (rinfo != NULL);
-	g_return_if_fail (rinfo->origin_sheet != NULL);
 	g_return_if_fail (IS_SHEET (rinfo->origin_sheet));
-	g_return_if_fail (rinfo->target_sheet != NULL);
 	g_return_if_fail (IS_SHEET (rinfo->target_sheet));
 
 	dst = rinfo->origin;
@@ -3357,7 +3331,6 @@ sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
 {
 	ColRowInfo *ci;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (width_pts > 0.0);
 
@@ -3381,7 +3354,6 @@ sheet_col_set_size_pixels (Sheet *sheet, int col, int width_pixels,
 {
 	ColRowInfo *ci;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (width_pixels > 0.0);
 
@@ -3478,11 +3450,11 @@ sheet_row_get_distance_pixels (Sheet const *sheet, int from, int to)
 	 * for performance.
 	 */
 	for (i = from ; i < to ; ++i) {
-		ColRowInfo const * const * const segment =
+		ColRowSegment const *segment =
 			COLROW_GET_SEGMENT(&(sheet->rows), i);
 
 		if (segment != NULL) {
-			ColRowInfo const *ri = segment[COLROW_SUB_INDEX(i)];
+			ColRowInfo const *ri = segment->info [COLROW_SUB_INDEX(i)];
 			if (ri == NULL)
 				pixels += default_size;
 			else if (ri->visible)
@@ -3529,11 +3501,11 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 	 * for performance.
 	 */
 	for (i = from ; i < to ; ++i) {
-		ColRowInfo const * const * const segment =
+		ColRowSegment const *segment =
 			COLROW_GET_SEGMENT(&(sheet->rows), i);
 
 		if (segment != NULL) {
-			ColRowInfo const *ri = segment[COLROW_SUB_INDEX(i)];
+			ColRowInfo const *ri = segment->info[COLROW_SUB_INDEX(i)];
 			if (ri == NULL)
 				pts += default_size;
 			else if (ri->visible)
@@ -3568,7 +3540,6 @@ sheet_row_set_size_pts (Sheet *sheet, int row, double height_pts,
 {
 	ColRowInfo *ri;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (height_pts > 0.0);
 
@@ -3606,7 +3577,6 @@ sheet_row_set_size_pixels (Sheet *sheet, int row, int height_pixels,
 {
 	ColRowInfo *ri;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (height_pixels > 0);
 
@@ -3674,7 +3644,7 @@ sheet_create_edit_cursor (Sheet *sheet)
 	GList *l;
 
 	for (l = sheet->sheet_views; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
+		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
 		gnumeric_sheet_create_editing_cursor (gsheet);
 	}
 }
@@ -3683,7 +3653,7 @@ sheet_stop_editing (Sheet *sheet)
 {
 	GList *l;
 	for (l = sheet->sheet_views; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
+		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
 
 		gnumeric_sheet_stop_editing (gsheet);
 	}
@@ -3694,7 +3664,7 @@ sheet_destroy_cell_select_cursor (Sheet *sheet, gboolean clear_string)
 {
 	GList *l;
 	for (l = sheet->sheet_views; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
+		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
 
 		gnumeric_sheet_stop_cell_selection (gsheet, clear_string);
 	}
@@ -3919,4 +3889,35 @@ sheet_duplicate	(Sheet const *src)
 	sheet_redraw_all (dst);
 
 	return dst;
+}
+
+/**
+ * sheet_merge_region :
+ *
+ * Add a range to the list of merge targets.  Checks for array spliting
+ */
+void
+sheet_merge_region (WorkbookControl *ctxt, Sheet *s, Range const *r)
+{
+}
+
+/**
+ * sheet_unnmerge_region :
+ *
+ * Remove a merged range.
+ */
+void
+sheet_unnmerge_region (WorkbookControl *ctxt, Sheet *s, Range const *r)
+{
+}
+
+/**
+ * sheet_get_merged_regions :
+ *
+ * Caller is responsible for freeing the list, but not the content.
+ */
+GSList *
+sheet_get_merged_regions (Sheet *sheet, Range const *r)
+{
+	return NULL;
 }

@@ -17,15 +17,6 @@ struct _SheetSelection {
         Range user;
 };
 
-/* The size, mask, and shift must be kept in sync */
-#define COLROW_SEGMENT_SIZE	0x80
-#define COLROW_SUB_INDEX(i)	((i) & 0x7f)
-#define COLROW_SEGMENT_START(i)	((i) & ~(0x7f))
-#define COLROW_SEGMENT_END(i)	((i) | 0x7f)
-#define COLROW_SEGMENT_INDEX(i)	((i) >> 7)
-#define COLROW_GET_SEGMENT(seg_array, i) \
-	(g_ptr_array_index ((seg_array)->info, COLROW_SEGMENT_INDEX(i)))
-
 
 typedef GList ColStyleList;
 
@@ -90,6 +81,7 @@ struct _Sheet {
 
 	DependencyData  *deps;
 
+	GSList		 *merged_regions;
 	SheetPrivate     *priv;
 	PrintInformation *print_info;
 };
@@ -341,5 +333,11 @@ void  sheet_clear_region (WorkbookControl *context,
 			  int start_col, int start_row,
 			  int end_col, int end_row,
 			  int clear_flags);
+
+void 	sheet_merge_region       (WorkbookControl *ctxt,
+			          Sheet *sheet, Range const *r);
+void 	sheet_unnmerge_region    (WorkbookControl *ctxt,
+			          Sheet *sheet, Range const *r);
+GSList *sheet_get_merged_regions (Sheet *sheet, Range const *r);
 
 #endif /* GNUMERIC_SHEET_H */

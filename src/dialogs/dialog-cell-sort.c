@@ -67,7 +67,7 @@ typedef struct {
 
 
 static gchar *
-column_name (Sheet *sheet, int row, int col, gboolean header)
+col_row_name (Sheet *sheet, int col, int row, gboolean header, gboolean is_cols)
 {
 	Cell *cell;
 	gchar *str = NULL;
@@ -75,24 +75,9 @@ column_name (Sheet *sheet, int row, int col, gboolean header)
 	if (header) {
 		cell = sheet_cell_get (sheet, col, row);
 		if (cell)
-			str = cell_get_entered_text (cell);
-		else
+			str = cell_get_rendered_text (cell);
+		else if (is_cols)
 			str = strdup (col_name (col));
-	} else
-		str = strdup (col_name (col));
-	return str;
-}
-
-static gchar *
-row_name (Sheet *sheet, int row, int col, gboolean header)
-{
-	Cell *cell;
-	gchar *str = NULL;
-
-	if (header) {
-		cell = sheet_cell_get (sheet, col, row);
-		if (cell)
-			str = cell_get_entered_text (cell);
 		else
 			str = g_strdup_printf ("%d", row + 1);
 	} else
@@ -101,32 +86,17 @@ row_name (Sheet *sheet, int row, int col, gboolean header)
 }
 
 static GList *
-column_name_list (Sheet *sheet, int start_col, int end_col,
-			 int row, gboolean header)
+col_row_name_list (Sheet *sheet, int start, int end,
+		   int index, gboolean header, gboolean is_cols)
 {
+	GList *list = NULL;
 	gchar *str;
-	GList *list;
 	int i;
 
-	list = NULL;
-	for (i = start_col; i <= end_col; i++) {
-		str  = column_name (sheet, row, i, header);
-		list = g_list_append (list, (gpointer) str);
-	}
-	return list;
-}
-
-static GList *
-row_name_list (Sheet *sheet, int start_row, int end_row,
-			 int col, gboolean header)
-{
-	gchar *str;
-	GList *list;
-	int i;
-
-	list = NULL;
-	for (i = start_row; i <= end_row; i++) {
-		str  = row_name (sheet, i, col, header);
+	for (i = start; i <= end; i++) {
+		str  = is_cols
+			? col_row_name (sheet, i, index, header, TRUE)
+			: col_row_name (sheet, index, i, header, FALSE);
 		list = g_list_append (list, (gpointer) str);
 	}
 	return list;
@@ -538,26 +508,26 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 	/* Set up the dialog information */
 	sort_flow.header = FALSE;
 	sort_flow.top = TRUE;
-	sort_flow.colnames_plain  = column_name_list (sort_flow.sheet, 
-						      sort_flow.sel->start.col,
-						      sort_flow.sel->end.col,
-						      sort_flow.sel->start.row,
-						      FALSE);
-	sort_flow.colnames_header = column_name_list (sort_flow.sheet,
-						      sort_flow.sel->start.col,
-						      sort_flow.sel->end.col,
-						      sort_flow.sel->start.row,
-						      TRUE);
-	sort_flow.rownames_plain  = row_name_list (sort_flow.sheet,
-						   sort_flow.sel->start.row,
-						   sort_flow.sel->end.row,
-						   sort_flow.sel->start.col,
-						   FALSE);
-	sort_flow.rownames_header = row_name_list (sort_flow.sheet, 
-						   sort_flow.sel->start.row,
-						   sort_flow.sel->end.row,
-						   sort_flow.sel->start.col,
-						   TRUE);
+	sort_flow.colnames_plain  = col_row_name_list (sort_flow.sheet, 
+						       sort_flow.sel->start.col,
+						       sort_flow.sel->end.col,
+						       sort_flow.sel->start.row,
+						       FALSE, TRUE);
+	sort_flow.colnames_header = col_row_name_list (sort_flow.sheet,
+						       sort_flow.sel->start.col,
+						       sort_flow.sel->end.col,
+						       sort_flow.sel->start.row,
+						       TRUE, TRUE);
+	sort_flow.rownames_plain  = col_row_name_list (sort_flow.sheet,
+						       sort_flow.sel->start.row,
+						       sort_flow.sel->end.row,
+						       sort_flow.sel->start.col,
+						       FALSE, FALSE);
+	sort_flow.rownames_header = col_row_name_list (sort_flow.sheet, 
+						       sort_flow.sel->start.row,
+						       sort_flow.sel->end.row,
+						       sort_flow.sel->start.col,
+						       TRUE, FALSE);
 
 	/* Get the dialog and check for errors */
 	gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);

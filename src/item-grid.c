@@ -10,7 +10,7 @@
 #include "item-grid.h"
 #include "item-debug.h"
 #include "gnumeric-sheet.h"
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 #include "item-debug.h"
 #include "color.h"
 #include "dialogs.h"
@@ -43,7 +43,7 @@ static GnomeCanvasItemClass *item_grid_parent_class;
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_SHEET_VIEW,
+	ARG_SHEET_CONTROL_GUI,
 };
 
 static void
@@ -392,7 +392,7 @@ static gboolean
 context_menu_hander (GnumericPopupMenuElement const *element,
 		     gpointer user_data)
 {
-	SheetView *sheet_view = user_data;
+	SheetControlGUI *sheet_view = user_data;
 	Sheet *sheet = sheet_view->sheet;
 	WorkbookControlGUI *wbcg = sheet_view->wbcg;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -453,7 +453,7 @@ context_menu_hander (GnumericPopupMenuElement const *element,
 }
 
 void
-item_grid_popup_menu (SheetView *sheet_view, GdkEventButton *event,
+item_grid_popup_menu (SheetControlGUI *sheet_view, GdkEventButton *event,
 		      gboolean is_col, gboolean is_row)
 {
 	enum {
@@ -629,13 +629,13 @@ drag_start (GtkWidget *widget, GdkEvent *event, Sheet *sheet)
  */
 
 static gboolean
-cb_extend_cell_range (SheetView *sheet_view, int col, int row, gpointer ignored)
+cb_extend_cell_range (SheetControlGUI *sheet_view, int col, int row, gpointer ignored)
 {
 	sheet_selection_extend_to (sheet_view->sheet, col, row);
 	return TRUE;
 }
 static gboolean
-cb_extend_expr_range (SheetView *sheet_view, int col, int row, gpointer ignored)
+cb_extend_expr_range (SheetControlGUI *sheet_view, int col, int row, gpointer ignored)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->canvas);
 	gnumeric_sheet_selection_extend (gsheet, col, row);
@@ -722,7 +722,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		if (x < left || y < top || x >= left + width || y >= top + height) {
 			int dx = 0, dy = 0;
-			SheetViewSlideHandler slide_handler = NULL;
+			SheetControlGUISlideHandler slide_handler = NULL;
 
 			if (item_grid->selecting == ITEM_GRID_NO_SELECTION)
 				return 1;
@@ -830,7 +830,7 @@ item_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	item_grid = ITEM_GRID (o);
 
 	switch (arg_id){
-	case ARG_SHEET_VIEW:
+	case ARG_SHEET_CONTROL_GUI:
 		item_grid->sheet_view = GTK_VALUE_POINTER (*arg);
 		break;
 	}
@@ -850,8 +850,8 @@ item_grid_class_init (ItemGridClass *item_grid_class)
 	object_class = (GtkObjectClass *) item_grid_class;
 	item_class = (GnomeCanvasItemClass *) item_grid_class;
 
-	gtk_object_add_arg_type ("ItemGrid::SheetView", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_SHEET_VIEW);
+	gtk_object_add_arg_type ("ItemGrid::SheetControlGUI", GTK_TYPE_POINTER,
+				 GTK_ARG_WRITABLE, ARG_SHEET_CONTROL_GUI);
 
 	object_class->set_arg = item_grid_set_arg;
 	object_class->destroy = item_grid_destroy;

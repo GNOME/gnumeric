@@ -11,7 +11,7 @@
 #include "item-debug.h"
 #include "item-grid.h"
 #include "gnumeric-sheet.h"
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 #include "sheet.h"
 #include "parse-util.h"
 #include "gnumeric-util.h"
@@ -43,7 +43,7 @@ static GnomeCanvasItem *item_bar_parent_class;
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_SHEET_VIEW,
+	ARG_SHEET_CONTROL_GUI,
 	ARG_ORIENTATION,
 	ARG_FIRST_ELEMENT
 };
@@ -516,7 +516,7 @@ item_bar_end_resize (ItemBar *item_bar, int new_size)
 }
 
 static gboolean
-cb_extend_selection (SheetView *sheet_view, int col, int row, gpointer user_data)
+cb_extend_selection (SheetControlGUI *sheet_view, int col, int row, gpointer user_data)
 {
 	ItemBar * const item_bar = user_data;
 	gboolean const is_vertical = (item_bar->orientation == GTK_ORIENTATION_VERTICAL);
@@ -792,7 +792,7 @@ item_bar_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	item_bar = ITEM_BAR (o);
 
 	switch (arg_id){
-	case ARG_SHEET_VIEW:
+	case ARG_SHEET_CONTROL_GUI:
 		item_bar->sheet_view = GTK_VALUE_POINTER (*arg);
 		break;
 	case ARG_ORIENTATION:
@@ -823,8 +823,8 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 	object_class = (GtkObjectClass *) item_bar_class;
 	item_class = (GnomeCanvasItemClass *) item_bar_class;
 
-	gtk_object_add_arg_type ("ItemBar::SheetView", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_SHEET_VIEW);
+	gtk_object_add_arg_type ("ItemBar::SheetControlGUI", GTK_TYPE_POINTER,
+				 GTK_ARG_WRITABLE, ARG_SHEET_CONTROL_GUI);
 	gtk_object_add_arg_type ("ItemBar::Orientation", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_ORIENTATION);
 

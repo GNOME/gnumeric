@@ -1,3 +1,9 @@
+2000-11-15  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-cell-sort.c (col_row_name) : merged from column_name, row_name.
+	  Use the displayed text rather than the entered text.
+	(col_row_name_list) : merged from column_name_list, row_name_list.
+
 2000-11-13  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.58

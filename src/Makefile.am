@@ -77,6 +77,8 @@ GNUMERIC_BASE_SOURCES =				\
 	command-context.c			\
 	command-context.h			\
 	command-context-priv.h			\
+	command-context-corba.c			\
+	command-context-corba.h			\
 	io-context.c				\
 	io-context.h				\
 	io-context-priv.h			\
@@ -187,8 +189,8 @@ GNUMERIC_BASE_SOURCES =				\
 	sheet-object-graphic.c			\
 	sheet-object-graphic.h			\
 	sheet-style.c				\
-	sheet-view.c				\
-	sheet-view.h				\
+	sheet-control-gui.c			\
+	sheet-control-gui.h			\
 	solver-lp.c                     	\
 	solver.h				\
 	sort.c					\

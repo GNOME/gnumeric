@@ -20,7 +20,7 @@
 #include "item-cursor.h"
 #include "item-grid.h"
 #include "gnumeric-sheet.h"
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 #include "value.h"
 #include "ranges.h"
 #include "parse-util.h"
@@ -116,7 +116,7 @@ entry_create_feedback_range (ItemEdit *item_edit, Range *range)
 		item_edit->feedback_cursor = gnome_canvas_item_new (
 			GNOME_CANVAS_GROUP (item->canvas->root),
 			item_cursor_get_type (),
-			"SheetView",  item_edit->sheet_view,
+			"SheetControlGUI",  item_edit->sheet_view,
 			"Grid",   item_edit->item_grid,
 			"Style",  ITEM_CURSOR_BLOCK,
 			"Color",  "red",

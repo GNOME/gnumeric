@@ -8,7 +8,7 @@
 
 #include "item-cursor.h"
 #include "gnumeric-sheet.h"
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 #include "color.h"
 #include "clipboard.h"
 #include "selection.h"
@@ -32,7 +32,7 @@ static GnomeCanvasItem *item_cursor_parent_class;
 /* The argument we take */
 enum {
 	ARG_0,
-	ARG_SHEETVIEW,		/* The SheetView * argument */
+	ARG_SHEETVIEW,		/* The SheetControlGUI * argument */
 	ARG_ITEM_GRID,		/* The ItemGrid * argument */
 	ARG_STYLE,              /* The style type */
 	ARG_COLOR,              /* The optional color */
@@ -587,7 +587,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		new_item = gnome_canvas_item_new (
 			GNOME_CANVAS_GROUP (canvas->root),
 			item_cursor_get_type (),
-			"ItemCursor::SheetView", ic->sheet_view,
+			"ItemCursor::SheetControlGUI", ic->sheet_view,
 			"ItemCursor::Grid",  ic->item_grid,
 			"ItemCursor::Style", style,
 			NULL);
@@ -763,7 +763,7 @@ item_cursor_target_region_ok (ItemCursor *ic)
 	int v;
 	GtkWidget	*message;
 	GnomeCanvasItem *gci = GNOME_CANVAS_ITEM (ic);
-	SheetView	*sheet_view = ic->sheet_view;
+	SheetControlGUI	*sheet_view = ic->sheet_view;
 
 	g_return_val_if_fail (gci != NULL, FALSE);
 	g_return_val_if_fail (gci->canvas != NULL, FALSE);
@@ -1011,7 +1011,7 @@ item_cursor_tip_setlabel (ItemCursor *item_cursor)
 #endif
 
 static gboolean
-cb_move_cursor (SheetView *sheet_view, int col, int row, gpointer user_data)
+cb_move_cursor (SheetControlGUI *sheet_view, int col, int row, gpointer user_data)
 {
 	ItemCursor *item_cursor = user_data;
 	int const w = (item_cursor->pos.end.col - item_cursor->pos.start.col);
@@ -1046,7 +1046,7 @@ cb_move_cursor (SheetView *sheet_view, int col, int row, gpointer user_data)
 
 static void
 item_cursor_handle_motion (ItemCursor *item_cursor, GdkEvent *event,
-			   SheetViewSlideHandler slide_handler)
+			   SheetControlGUISlideHandler slide_handler)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_cursor)->canvas;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
@@ -1116,7 +1116,7 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 }
 
 static gboolean
-cb_autofill_scroll (SheetView *sheet_view, int col, int row, gpointer user_data)
+cb_autofill_scroll (SheetControlGUI *sheet_view, int col, int row, gpointer user_data)
 {
 	ItemCursor *item_cursor = user_data;
 	int bottom = item_cursor->base_row + item_cursor->base_rows;
@@ -1296,7 +1296,7 @@ item_cursor_class_init (ItemCursorClass *item_cursor_class)
 	object_class = (GtkObjectClass *) item_cursor_class;
 	item_class = (GnomeCanvasItemClass *) item_cursor_class;
 
-	gtk_object_add_arg_type ("ItemCursor::SheetView", GTK_TYPE_POINTER,
+	gtk_object_add_arg_type ("ItemCursor::SheetControlGUI", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_SHEETVIEW);
 	gtk_object_add_arg_type ("ItemCursor::Grid", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_ITEM_GRID);

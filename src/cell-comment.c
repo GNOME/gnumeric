@@ -9,7 +9,7 @@
 #include "cell.h"
 #include "sheet.h"
 #include "cell-comment.h"
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 #include "gnumeric-sheet.h"
 #include <gal/widgets/e-cursors.h>
 
@@ -119,7 +119,7 @@ cell_comment_realize (Cell *cell)
 
 	sheet_cell_comment_link (cell);
 	for (l = cell->base.sheet->sheet_views; l; l = l->next){
-		SheetView *sheet_view = SHEET_VIEW (l->data);
+		SheetControlGUI *sheet_view = SHEET_CONTROL_GUI (l->data);
 		GnomeCanvasItem *o;
 
 		o = sheet_view_comment_create_marker (
@@ -209,7 +209,7 @@ cell_comment_reposition (Cell *cell)
 	/* FIXME : This should use the sheet_view list */
 	for (l = cell->comment->realized_list; l; l = l->next){
 		GnomeCanvasItem *o = l->data;
-		SheetView *sheet_view = GNUMERIC_SHEET (o->canvas)->sheet_view;
+		SheetControlGUI *sheet_view = GNUMERIC_SHEET (o->canvas)->sheet_view;
 
 		sheet_view_comment_relocate (sheet_view, cell->pos.col, cell->pos.row, o);
 	}

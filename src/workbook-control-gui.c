@@ -28,7 +28,7 @@
 #include "workbook-edit.h"
 #include "workbook.h"
 #include "sheet.h"
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 #include "sheet-object.h"
 #include "rendered-value.h"
 #include "dialogs.h"
@@ -81,11 +81,11 @@ wb_control_gui_toplevel (WorkbookControlGUI *wbcg)
 Sheet *
 wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg)
 {
-	SheetView *sheet_view;
+	SheetControlGUI *sheet_view;
 
 	g_return_val_if_fail (wbcg != NULL, NULL);
 
-	sheet_view = SHEET_VIEW (GTK_NOTEBOOK (wbcg->notebook)->cur_page->child);
+	sheet_view = SHEET_CONTROL_GUI (GTK_NOTEBOOK (wbcg->notebook)->cur_page->child);
 
 	g_return_val_if_fail (sheet_view != NULL, NULL);
 
@@ -297,14 +297,14 @@ cb_sheet_label_edit_stopped (EditableLabel *el, WorkbookControlGUI *wbcg)
 }
 
 static void
-sheet_action_add_sheet (GtkWidget *widget, SheetView *sheet_view)
+sheet_action_add_sheet (GtkWidget *widget, SheetControlGUI *sheet_view)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (sheet_view->wbcg);
 	workbook_sheet_add (wb_control_workbook (wbc), sheet_view->sheet, TRUE);
 }
 
 static void
-delete_sheet_if_possible (GtkWidget *ignored, SheetView *sheet_view)
+delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *sheet_view)
 {
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (sheet_view->wbcg));
 	GtkWidget *d, *button_no;
@@ -340,7 +340,7 @@ delete_sheet_if_possible (GtkWidget *ignored, SheetView *sheet_view)
 }
 
 static void
-sheet_action_rename_sheet (GtkWidget *widget, SheetView *sheet_view)
+sheet_action_rename_sheet (GtkWidget *widget, SheetControlGUI *sheet_view)
 {
 	Sheet *sheet = sheet_view->sheet;
 	char *new_name = dialog_get_sheet_name (sheet_view->wbcg, sheet->name_unquoted);
@@ -354,7 +354,7 @@ sheet_action_rename_sheet (GtkWidget *widget, SheetView *sheet_view)
 }
 
 static void
-sheet_action_clone_sheet (GtkWidget *widget, SheetView *sheet_view)
+sheet_action_clone_sheet (GtkWidget *widget, SheetControlGUI *sheet_view)
 {
      	Sheet *new_sheet = sheet_duplicate (sheet_view->sheet);
 	workbook_sheet_attach (sheet_view->sheet->workbook, new_sheet,
@@ -363,7 +363,7 @@ sheet_action_clone_sheet (GtkWidget *widget, SheetView *sheet_view)
 }
 
 static void
-sheet_action_reorder_sheet (GtkWidget *widget, SheetView *sheet_view)
+sheet_action_reorder_sheet (GtkWidget *widget, SheetControlGUI *sheet_view)
 {
 	dialog_sheet_order (sheet_view->wbcg);
 }
@@ -372,13 +372,13 @@ sheet_action_reorder_sheet (GtkWidget *widget, SheetView *sheet_view)
  * sheet_menu_label_run:
  */
 static void
-sheet_menu_label_run (SheetView *sheet_view, GdkEventButton *event)
+sheet_menu_label_run (SheetControlGUI *sheet_view, GdkEventButton *event)
 {
 #define SHEET_CONTEXT_TEST_SIZE 1
 
 	struct {
 		const char *text;
-		void (*function) (GtkWidget *widget, SheetView *sheet_view);
+		void (*function) (GtkWidget *widget, SheetControlGUI *sheet_view);
 		int  flags;
 	} const sheet_label_context_actions [] = {
 		{ N_("Add another sheet"), &sheet_action_add_sheet, 0 },
@@ -441,8 +441,8 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 	}
 
 	if (event->button == 3) {
-		g_return_val_if_fail (IS_SHEET_VIEW (child), FALSE);
-		sheet_menu_label_run (SHEET_VIEW (child), event);
+		g_return_val_if_fail (IS_SHEET_CONTROL_GUI (child), FALSE);
+		sheet_menu_label_run (SHEET_CONTROL_GUI (child), event);
 		return TRUE;
 	}
 
@@ -452,7 +452,7 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 static void workbook_setup_sheets (WorkbookControlGUI *wbcg);
 
 static int
-sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet, SheetView **res)
+sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet, SheetControlGUI **res)
 {
 	int i = 0;
 	GtkWidget *w;
@@ -460,7 +460,7 @@ sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet, SheetView **res)
 	g_return_val_if_fail (IS_SHEET (sheet), -1);
 
 	for ( ; NULL != (w = gtk_notebook_get_nth_page (wbcg->notebook, i)) ; i++) {
-		SheetView *view = SHEET_VIEW (w);
+		SheetControlGUI *view = SHEET_CONTROL_GUI (w);
 		if (view != NULL && view->sheet == sheet) {
 			if (res)
 				*res = view;
@@ -474,7 +474,7 @@ sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet, SheetView **res)
  * wbcg_sheet_add:
  * @sheet: a sheet
  *
- * Creates a new SheetView for the sheet and adds it to the workbook-control-gui.
+ * Creates a new SheetControlGUI for the sheet and adds it to the workbook-control-gui.
  *
  * A callback to yield focus when the sheet view is destroyed is attached
  * to the sheet view. This solves a problem which we encountered e.g. when
@@ -491,7 +491,7 @@ static void
 wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	SheetView *sheet_view;
+	SheetControlGUI *sheet_view;
 	GtkWidget *sheet_label;
 	GList     *ptr;
 
@@ -544,7 +544,7 @@ static void
 wbcg_sheet_remove (WorkbookControl *wbc, Sheet *sheet)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	SheetView *sheet_view;
+	SheetControlGUI *sheet_view;
 	int i;
 
 	/* During destruction we may have already removed the notebook */
@@ -568,7 +568,7 @@ wbcg_sheet_rename (WorkbookControl *wbc, Sheet *sheet)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	GtkWidget *label;
-	SheetView *sheet_view;
+	SheetControlGUI *sheet_view;
 	int i = sheet_to_page_index (wbcg, sheet, &sheet_view);
 
 	g_return_if_fail (i >= 0);
@@ -581,7 +581,7 @@ static void
 wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	SheetView *sheet_view;
+	SheetControlGUI *sheet_view;
 	int i = sheet_to_page_index (wbcg, sheet, &sheet_view);
 
 	/* A sheet added in another view may not yet have a view */
@@ -595,7 +595,7 @@ static void
 wbcg_sheet_move (WorkbookControl *wbc, Sheet *sheet, int new_pos)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	SheetView *sheet_view;
+	SheetControlGUI *sheet_view;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -1191,7 +1191,7 @@ static void
 cb_edit_delete_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	SheetView *res;
+	SheetControlGUI *res;
 
 	if (sheet_to_page_index (wbcg, wb_control_cur_sheet (wbc), &res) >= 0)
 		delete_sheet_if_possible (NULL, res);

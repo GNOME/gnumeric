@@ -124,7 +124,7 @@ void        workbook_calc_spans          (Workbook *wb, SpanCalcFlags const flag
 void workbook_corba_setup    (Workbook *);
 void workbook_corba_shutdown (Workbook *);
 
-void workbook_attach_view (WorkbookView *wbv);
+void workbook_attach_view (Workbook *wb, WorkbookView *wbv);
 void workbook_detach_view (WorkbookView *wbv);
 
 #define WORKBOOK_FOREACH_VIEW(wb, view, code)					\

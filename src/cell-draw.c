@@ -12,7 +12,7 @@
 #include "value.h"
 #include "workbook.h"
 #include "rendered-value.h"
-#include "sheet-view.h" /* FIXME : Only for sheet_view_get_style_font */
+#include "sheet-control-gui.h" /* FIXME : Only for sheet_view_get_style_font */
 #include "parse-util.h"
 
 static inline void

@@ -1,3 +1,40 @@
+2000-11-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control.c (workbook_control_set_view) : Follow
+	  convention that the manager is set when attached, and not before.
+	* src/workbook-view.c (wb_view_attach_control) : Ditto.  Set the
+	  tile on the new control.
+	* src/workbook.c (workbook_attach_view) : Ditto.
+
+2000-11-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/command-context-corba.[ch] : This is incorrectly named and used
+	  the wrong way :-( But at least it is compilable.  I'll fix this
+	  later.
+
+2000-11-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/colrow.c (col_row_foreach) : Use ColRowSegments
+	(col_row_restore_sizes) : Ditto.
+	* src/sheet.c (sheet_{col,row}_add) : Ditto.
+	(sheet_{col,row}_get_info) : Ditto.
+	(sheet_{col,row}_get) : Ditto.
+	(sheet_cell_foreach_range) : Ditto.
+	(sheet_{col,row}_destroy) : Ditto.
+	(sheet_regen_adjacent_spans) : Ditto.
+	(colrow_move) : Ditto.
+	(sheet_{col,row}_get_distance_pixels) : Ditto.
+	(sheet_{col,row}_get_distance_pts) : Ditto.
+	(sheet_{col,row}_set_size_pts) : Ditto.
+
+2000-11-15  Jody Goldberg <jgoldberg@home.com>
+
+	s/sheet-view/sheet-control-gui/
+
+	* src/Makefile.am : Add command-context-corba.[ch] temporarily
+
+	* configure.in : Default to non-bonobo build
+
 2000-11-15  Michael Meeks  <michael@helixcode.com>
 
 	* gnumeric.oafinfo: rename to ObjectFactory

@@ -17,7 +17,7 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "commands.h"
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 #include "gnumeric-util.h"
 
 /*
@@ -285,7 +285,7 @@ sheet_selection_redraw (Sheet const *sheet)
 		GList *view;
 
 		for (view = sheet->sheet_views; view; view = view->next){
-			SheetView *sheet_view = view->data;
+			SheetControlGUI *sheet_view = view->data;
 
 			sheet_view_redraw_cell_region (sheet_view,
 				r->start.col, r->start.row,
@@ -541,7 +541,7 @@ sheet_selection_ant (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	for (l = sheet->sheet_views; l; l = l->next){
-		SheetView *sheet_view = l->data;
+		SheetControlGUI *sheet_view = l->data;
 
 		sheet_view_selection_ant (sheet_view);
 	}
@@ -556,7 +556,7 @@ sheet_selection_unant (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	for (l = sheet->sheet_views; l; l = l->next){
-		SheetView *sheet_view = l->data;
+		SheetControlGUI *sheet_view = l->data;
 
 		sheet_view_selection_unant (sheet_view);
 	}

@@ -9,7 +9,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <libgnomeprint/gnome-print.h>
 #include "gnumeric.h"
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 #include "str.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
@@ -63,7 +63,7 @@ sheet_object_graphic_print (SheetObject *so, SheetObjectPrintInfo *pi)
 }
 
 static GnomeCanvasItem *
-sheet_object_graphic_new_view (SheetObject *so, SheetView *sheet_view)
+sheet_object_graphic_new_view (SheetObject *so, SheetControlGUI *sheet_view)
 {
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	GnomeCanvasItem *item = NULL;
@@ -210,7 +210,7 @@ sheet_object_filled_update_bounds (SheetObject *so)
 }
 
 static GnomeCanvasItem *
-sheet_object_filled_new_view (SheetObject *so, SheetView *sheet_view)
+sheet_object_filled_new_view (SheetObject *so, SheetControlGUI *sheet_view)
 {
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	SheetObjectFilled  *sof = SHEET_OBJECT_FILLED (so);

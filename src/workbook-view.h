@@ -44,7 +44,7 @@ GtkType		 workbook_view_get_type	  (void);
 WorkbookView	*workbook_view_new	  (Workbook *optional_workbook);
 void             workbook_view_init       (WorkbookView *wbv,
 					   Workbook *optional_workbook);
-void		 wb_view_attach_control	  (WorkbookControl *wbc);
+void		 wb_view_attach_control	  (WorkbookView *wbv, WorkbookControl *wbc);
 void		 wb_view_detach_control	  (WorkbookControl *wbc);
 
 /* Information */

@@ -9,14 +9,14 @@
 #include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 #include "dialogs.h"
 #include "sheet-object-item.h"
 
 static SheetObject *sheet_object_item_parent_class;
 
 static GnomeCanvasItem *
-sheet_object_item_new_view (SheetObject *so, SheetView *sheet_view)
+sheet_object_item_new_view (SheetObject *so, SheetControlGUI *sheet_view)
 {
 	GnomeCanvasItem *item = NULL;
 

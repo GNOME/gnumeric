@@ -15,7 +15,7 @@
 #include "complete-sheet.h"
 #include "application.h"
 #include "commands.h"
-#include "sheet-view.h"
+#include "sheet-control-gui.h"
 #include "sheet.h"
 #include "cell.h"
 #include "expr.h"
