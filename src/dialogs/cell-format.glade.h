@@ -61,9 +61,9 @@ gchar *s = N_("None\n"
               "Double\n"
               "");
 gchar *s = N_("None");
+gchar *s = N_("Stri_kethrough");
 gchar *s = N_("Sup_erscript");
 gchar *s = N_("Su_bscript");
-gchar *s = N_("Stri_kethrough");
 gchar *s = N_("Font");
 gchar *s = N_("Reverse Diagonal");
 gchar *s = N_("Left");

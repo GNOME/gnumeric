@@ -110,7 +110,7 @@ expr_tree_new_constant (Value *v)
 		return NULL;
 	
 	ans->ref_count = 1;
-	ans->oper = OPER_CONSTANT;
+	*((Operation *)&(ans->oper)) = OPER_CONSTANT;
 	ans->u.constant = v;
 
 	return ans;
@@ -126,7 +126,7 @@ expr_tree_new_unary  (Operation op, ExprTree *e)
 		return NULL;
 
 	ans->ref_count = 1;
-	ans->oper = op;
+	*((Operation *)&(ans->oper)) = op;
 	ans->u.value = e;
 
 	return ans;
@@ -143,7 +143,7 @@ expr_tree_new_binary (ExprTree *l, Operation op, ExprTree *r)
 		return NULL;
 	
 	ans->ref_count = 1;
-	ans->oper = op;
+	*((Operation *)&(ans->oper)) = op;
 	ans->u.binary.value_a = l;
 	ans->u.binary.value_b = r;
 
@@ -161,7 +161,7 @@ expr_tree_new_funcall (Symbol *sym, GList *args)
 		return NULL;
 	
 	ans->ref_count = 1;
-	ans->oper = OPER_FUNCALL;
+	*((Operation *)&(ans->oper)) = OPER_FUNCALL;
 	ans->u.function.symbol = sym;;
 	ans->u.function.arg_list = args;
 
@@ -227,7 +227,7 @@ expr_tree_new_name (const ExprName *name)
 		return NULL;
 	
 	ans->ref_count = 1;
-	ans->oper = OPER_NAME;
+	*((Operation *)&(ans->oper)) = OPER_NAME;
 	ans->u.name = name;
 
 	return ans;
@@ -243,7 +243,7 @@ expr_tree_new (void)
 		return NULL;
 	
 	ans->ref_count = 1;
-	ans->oper = OPER_CONSTANT;
+	*((Operation *)&(ans->oper)) = OPER_CONSTANT;
 	ans->u.constant = NULL;
 	return ans;
 }*/
@@ -258,7 +258,7 @@ expr_tree_new_var (const CellRef *cr)
 		return NULL;
 	
 	ans->ref_count = 1;
-	ans->oper = OPER_VAR;
+	*((Operation *)&(ans->oper)) = OPER_VAR;
 	ans->u.ref = *cr;
 
 	return ans;
@@ -292,7 +292,7 @@ expr_tree_array_formula (int const x, int const y, int const rows, int const col
 		return NULL;
 	
 	ans->ref_count = 1;
-	ans->oper = OPER_ARRAY;
+	*((Operation *)&(ans->oper)) = OPER_ARRAY;
 	ans->u.array.x = x;
 	ans->u.array.y = y;
 	ans->u.array.rows = rows;
@@ -1064,7 +1064,8 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 			 * is an array return the result, else build an array and
 			 * iterate over the elements, but that theory needs validation.
 			 */
-			a = eval_expr_real (pos, tree->u.array.corner.func.expr, FALSE);
+			a = eval_expr_real (pos, tree->u.array.corner.func.expr,
+					    EVAL_PERMIT_NON_SCALAR);
 			*((Value **)&(tree->u.array.corner.func.value)) = a;
 		} else {
 			ExprTree const * const array =

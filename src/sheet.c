@@ -1493,7 +1493,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 		if (jump_to_boundaries) {
 			if (new_col > sheet->cols.max_used) {
 				if (count > 0)
-					return SHEET_MAX_COLS-1;
+					return find_nonblank ? SHEET_MAX_COLS-1 : prev_col;
 				new_col = sheet->cols.max_used;
 			}
 			keep_looking = (cell_is_blank (sheet_cell_get (sheet, new_col, row)) == find_nonblank);
@@ -1559,7 +1559,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
 		if (jump_to_boundaries) {
 			if (new_row > sheet->rows.max_used) {
 				if (count > 0)
-					return SHEET_MAX_ROWS-1;
+					return find_nonblank ? SHEET_MAX_ROWS-1 : prev_row;
 				new_row = sheet->rows.max_used;
 			}
 

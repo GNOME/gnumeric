@@ -552,7 +552,7 @@ cell_set_array_formula (Sheet *sheet,
 							   num_rows, num_cols);
 			wrapper->u.array.corner.cell = corner;
 			cell_set_expr_internal (cell, wrapper, NULL);
-			cell_formula_changed (corner, queue_recalc);
+			cell_formula_changed (cell, queue_recalc);
 			expr_tree_unref (wrapper);
 		}
 

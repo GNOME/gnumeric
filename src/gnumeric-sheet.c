@@ -267,24 +267,30 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
 	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
+	Sheet *sheet = gsheet->sheet_view->sheet;
 
 	g_return_if_fail (gsheet->selecting_cell == FALSE);
 	g_return_if_fail (gsheet->controling_entry != NULL);
 
-	/* Hide the primary cursor while the range selection cursor is visible */
-	item_cursor_set_visibility (gsheet->item_cursor, FALSE);
+	/* Hide the primary cursor while the range selection cursor is visible 
+	 * and we are selecting on a different sheet than the expr being edited
+	 */
+	if (sheet != sheet->workbook->editing_sheet)
+		item_cursor_set_visibility (gsheet->item_cursor, FALSE);
 
 	gsheet->selecting_cell = TRUE;
 	gsheet->sel_cursor = ITEM_CURSOR (gnome_canvas_item_new (
 		group,
 		item_cursor_get_type (),
-		"Sheet", gsheet->sheet_view->sheet,
+		"Sheet", sheet,
 		"Grid",  gsheet->item_grid,
 		"Style", ITEM_CURSOR_ANTED, NULL));
 	item_cursor_set_spin_base (gsheet->sel_cursor, col, row);
 	item_cursor_set_bounds (ITEM_CURSOR (gsheet->sel_cursor), col, row, col, row);
 
-	item_edit_disable_highlight (ITEM_EDIT (gsheet->item_editor));
+	/* If we are selecting a range on a different sheet this may be NULL */
+	if (gsheet->item_editor)
+		item_edit_disable_highlight (ITEM_EDIT (gsheet->item_editor));
 
 	gsheet->sel_cursor_pos = GTK_EDITABLE (gsheet->controling_entry)->current_pos;
 	gsheet->sel_text_len = 0;
@@ -324,7 +330,10 @@ gnumeric_sheet_stop_cell_selection (GnumericSheet *gsheet, gboolean const clear_
 	gsheet->selecting_cell = FALSE;
 	gtk_object_destroy (GTK_OBJECT (gsheet->sel_cursor));
 	gsheet->sel_cursor = NULL;
-	item_edit_enable_highlight (ITEM_EDIT (gsheet->item_editor));
+
+	/* If we are selecting a range on a different sheet this may be NULL */
+	if (gsheet->item_editor)
+		item_edit_enable_highlight (ITEM_EDIT (gsheet->item_editor));
 
 	/* Make the primary cursor visible again */
 	item_cursor_set_visibility (gsheet->item_cursor, TRUE);

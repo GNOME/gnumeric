@@ -1,5 +1,15 @@
 2000-04-26  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gnumeric-sheet.c (start_cell_selection_at) : Only hide the
+	  primary cursor when selecting cells on a different sheet.
+
+	* src/expr.c (eval_expr_real) : Pass EVAL_PERMIT_NON_SCALAR to
+	  eval_expr_real when evaluating an array.
+
+	* src/cell.c (cell_set_array_formula) : typo.
+
+	* src/sheet.c (sheet_find_boundary_{horizontal,vertical}) : Another thinko.
+
 	* src/dialogs/cell-format.glade : Improve layout of font attributes
 	  slightly.
 
