@@ -123,6 +123,7 @@ xml_parse_ctx_new (xmlDocPtr     doc,
 	ctxt->expr_map     = g_hash_table_new (g_direct_hash, g_direct_equal);
 	ctxt->shared_exprs = g_ptr_array_new ();
 	ctxt->wb_view      = wb_view;
+	ctxt->wb	   = wb_view_workbook (wb_view);
 	ctxt->exprconv     = xml_io_conventions ();
 
 	return ctxt;
@@ -3657,7 +3658,6 @@ xml_workbook_read (IOContext *context,
 	Sheet *sheet;
 	xmlNodePtr child, c;
 	char *old_num_locale, *old_monetary_locale;
-	Workbook *wb = wb_view_workbook (ctxt->wb_view);
 
 	if (strcmp (tree->name, "Workbook")){
 		fprintf (stderr,
@@ -3665,7 +3665,6 @@ xml_workbook_read (IOContext *context,
 			 tree->name);
 		return FALSE;
 	}
-	ctxt->wb = wb;
 
 	old_num_locale = g_strdup (gnumeric_setlocale (LC_NUMERIC, NULL));
 	gnumeric_setlocale (LC_NUMERIC, "C");
@@ -3674,7 +3673,7 @@ xml_workbook_read (IOContext *context,
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("Summary"));
 	if (child)
-		xml_read_summary (ctxt, child, workbook_metadata (wb));
+		xml_read_summary (ctxt, child, workbook_metadata (ctxt->wb));
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("DateConvention"));
 	if (child != NULL) {
@@ -3713,7 +3712,7 @@ xml_workbook_read (IOContext *context,
 	 * Now read names which can have inter-sheet references
 	 * to these sheet titles
 	 */
-	xml_read_names (ctxt, tree, wb, NULL);
+	xml_read_names (ctxt, tree, ctxt->wb, NULL);
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("Sheets"));
 
@@ -3765,7 +3764,7 @@ xml_workbook_read (IOContext *context,
 	gnumeric_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 
-	workbook_queue_all_recalc (wb);
+	workbook_queue_all_recalc (ctxt->wb);
 
 	return TRUE;
 }
