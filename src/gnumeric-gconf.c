@@ -82,11 +82,12 @@ gnm_gconf_get_bool (GConfClient *client, char const *key, gboolean default_val)
 	}
 	return res;
 }
+
 static int
 gnm_gconf_get_int (GConfClient *client, char const *key,
 		   int minima, int maxima, int default_val)
 {
-	int res;
+	int res = -1;
 	GConfValue *val = gnm_gconf_get (client, key, GCONF_VALUE_INT);
 
 	if (val != NULL) {
@@ -104,11 +105,12 @@ gnm_gconf_get_int (GConfClient *client, char const *key,
 	}
 	return res;
 }
+
 static double
 gnm_gconf_get_float (GConfClient *client, char const *key,
-		     float minima, float maxima, float default_val)
+		     double minima, double maxima, double default_val)
 {
-	float res;
+	double res = -1;
 	GConfValue *val = gnm_gconf_get (client, key, GCONF_VALUE_FLOAT);
 
 	if (val != NULL) {
