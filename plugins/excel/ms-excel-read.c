@@ -253,10 +253,11 @@ ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
 			    guint8 const *raw_anchor,
 			    Range *range, float offset[4])
 {
-	/* float const row_denominator = (ver >= MS_BIFF_V8) ? 256. : 1024.;
+	/* NOTE :
+	 * float const row_denominator = (ver >= MS_BIFF_V8) ? 256. : 1024.;
 	 * damn damn damn
 	 * chap03-1.xls suggests that XL95 uses 256 too
-	 * Do we have any tests that confirm the 1024 ?
+	 * Do we have any tests that confirm the docs contention of 1024 ?
 	 */
 	float const row_denominator = 256.;
 	int	i;
@@ -265,7 +266,7 @@ ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
 
 	/* Ignore the first 2 bytes.  What are they ? */
 	/* Dec/1/2000 JEG: I have not researched it, but this may have some
-	 * flags indicating whether or not the object is acnhored to the cell
+	 * flags indicating whether or not the object is anchored to the cell
 	 */
 	raw_anchor += 2;
 
