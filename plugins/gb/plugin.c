@@ -384,5 +384,5 @@ plugin_init_general (ErrorInfo **err)
 	}
 	g_free (proj_name);
 	/* Don't try to deactivate the plugin */
-	gnm_plugin_use_ref (plugins_get_plugin_by_id ("Gnumeric_gb"));
+	gnm_plugin_use_ref (PLUGIN);
 }

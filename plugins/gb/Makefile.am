@@ -1,4 +1,5 @@
 INCLUDES = \
+    -DPLUGIN_ID=\"Gnumeric_gb\"		\
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\
     $(GNUMERIC_CFLAGS) $(GB_CFLAGS)

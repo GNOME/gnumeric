@@ -1,5 +1,6 @@
 gnumeric_guiledir  = $(gnumeric_datadir)/guile
-INCLUDES = 					\
+INCLUDES = \
+    -DPLUGIN_ID=\"Gnumeric_guile\"		\
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\
     $(GUILE_INCS)				\

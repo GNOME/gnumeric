@@ -238,5 +238,5 @@ plugin_init_general (ErrorInfo **ret_error)
 	g_free (name);
 	g_free (dir);
 	/* Don't try to deactivate the plugin */
-	gnm_plugin_use_ref (plugins_get_plugin_by_id ("Gnumeric_guile"));
+	gnm_plugin_use_ref (PLUGIN);
 }

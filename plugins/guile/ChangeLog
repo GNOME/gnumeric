@@ -1,3 +1,10 @@
+2002-08-07  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* Makefile.am (INCLUDES): Define PLUGIN_ID
+
+	* plugin.c (plugin_init_general):
+	Use the PLUGIN macro from module-plugin-defs.h
+
 2002-08-04  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.c (scm_register_function):
