@@ -2365,7 +2365,7 @@ msgstr ""
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
-"IMPRODUKT(\"-j\",\"4-2j\") liefert 6-8j.\n"
+"IMPRODUKT(\"2-j\",\"4-2j\") liefert 6-8j.\n"
 "\n"
 "@SEEALSO=IMDIV"
 
