@@ -182,7 +182,7 @@ sheet_selection_redraw (Sheet const *sheet)
 	for (sel = sheet->selections; sel; sel = sel->next){
 		Range const *r = sel->data;
 
-		SHEET_FOREACH_CONTROL (sheet, control,
+		SHEET_FOREACH_CONTROL (sheet, view, control,
 			sc_redraw_region (control,
 				r->start.col, r->start.row,
 				r->end.col, r->end.row);

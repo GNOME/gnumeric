@@ -81,7 +81,7 @@ sheet_unant (Sheet *sheet)
 	g_list_free (sheet->ants);
 	sheet->ants = NULL;
 
-	SHEET_FOREACH_CONTROL (sheet, control,
+	SHEET_FOREACH_CONTROL (sheet, view, control,
 			       sc_unant (control););
 }
 
@@ -108,14 +108,14 @@ sheet_ant (Sheet *sheet, GList *ranges)
 	}
 	sheet->ants = g_list_reverse (sheet->ants);
 
-	SHEET_FOREACH_CONTROL (sheet, control,
+	SHEET_FOREACH_CONTROL (sheet, view, control,
 		sc_ant (control););
 }
 
 void
 sheet_redraw_all (Sheet const *sheet, gboolean headers)
 {
-	SHEET_FOREACH_CONTROL (sheet, control,
+	SHEET_FOREACH_CONTROL (sheet, view, control,
 		sc_redraw_all (control, headers););
 }
 
@@ -124,7 +124,7 @@ sheet_redraw_headers (Sheet const *sheet,
 		      gboolean col, gboolean row,
 		      Range const *r /* optional == NULL */)
 {
-	SHEET_FOREACH_CONTROL (sheet, control,
+	SHEET_FOREACH_CONTROL (sheet, view, control,
 		sc_redraw_headers (control, col, row, r););
 }
 
@@ -156,34 +156,34 @@ sheet_init_sc (Sheet const *sheet, SheetControl *sc)
 	sc_ant (sc);
 }
 
-/* TODO : these feel like they belong in sheet_control, but workbook_* does it this way.
- * way may want to switch in the future.
- */
 void
-sheet_attach_control (Sheet *sheet, SheetControl *sc)
+sheet_attach_view (Sheet *sheet, SheetView *sv)
 {
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (IS_SHEET_CONTROL (sc));
-	g_return_if_fail (sc_sheet (sc) == NULL);
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (sv_sheet (sv) == NULL);
 
-	sc_sheet_set (sc, sheet);
-	sheet->s_controls = g_list_prepend (sheet->s_controls, sc);
-	sheet_init_sc (sheet, sc);
+	if (sheet->sheet_views == NULL)
+		sheet->sheet_views = g_ptr_array_new ();
+	g_ptr_array_add (sheet->sheet_views, sv);
+	sv->sheet = sheet;
+
+	SHEET_VIEW_FOREACH_CONTROL (sv, control,
+		sheet_init_sc (sheet, control););
 }
 
 void
-sheet_detach_control (SheetControl *sc)
+sheet_detach_view (SheetView *sv)
 {
-	Sheet *sheet;
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (IS_SHEET (sv->sheet));
 
-	g_return_if_fail (IS_SHEET_CONTROL (sc));
-
-	sheet = sc_sheet (sc);
-
-	g_return_if_fail (IS_SHEET (sheet));
-
-	sheet->s_controls = g_list_remove (sheet->s_controls, sc);
-	sc_sheet_set (sc, NULL);
+	g_ptr_array_remove (sv->sheet->sheet_views, sv);
+	if (sv->sheet->sheet_views->len == 0) {
+		g_ptr_array_free (sv->sheet->sheet_views, TRUE);
+		sv->sheet->sheet_views = NULL;
+	}
+	sv->sheet = NULL;
 }
 
 /*
@@ -201,6 +201,7 @@ sheet_new (Workbook *wb, char const *name)
 
 	sheet = g_new0 (Sheet, 1);
 	sheet->priv = g_new0 (SheetPrivate, 1);
+	sheet->sheet_views = NULL;
 #ifdef WITH_BONOBO
 	sheet->priv->corba_server = NULL;
 #endif
@@ -533,7 +534,7 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean update)
 	colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
 			&cb_colrow_compute_pixels_from_pts, &closure);
 
-	SHEET_FOREACH_CONTROL (sheet, control, sc_set_zoom_factor (control););
+	SHEET_FOREACH_CONTROL (sheet, view, control, sc_set_zoom_factor (control););
 
 	/*
 	 * The font size does not scale linearly with the zoom factor
@@ -830,7 +831,7 @@ sheet_update_only_grid (Sheet const *sheet)
 		if (!p->resize && sheet_is_frozen (sheet)) {
 			if (p->reposition_objects.col < sheet->unfrozen_top_left.col ||
 			    p->reposition_objects.row < sheet->unfrozen_top_left.row) {
-				SHEET_FOREACH_CONTROL(sheet, control,
+				SHEET_FOREACH_CONTROL(sheet, view, control,
 						      sc_resize (control, FALSE););
 			}
 		}
@@ -841,7 +842,7 @@ sheet_update_only_grid (Sheet const *sheet)
 
 	if (p->resize) {
 		p->resize = FALSE;
-		SHEET_FOREACH_CONTROL (sheet, control, sc_resize (control, FALSE););
+		SHEET_FOREACH_CONTROL (sheet, view, control, sc_resize (control, FALSE););
 	}
 
 	if (p->recompute_visibility) {
@@ -854,7 +855,7 @@ sheet_update_only_grid (Sheet const *sheet)
 		 */
 		p->recompute_visibility = FALSE;
 		p->resize_scrollbar = FALSE; /* compute_visible_region does this */
-		SHEET_FOREACH_CONTROL(sheet, control,
+		SHEET_FOREACH_CONTROL(sheet, view, control,
 			sc_compute_visible_region (control, TRUE););
 		sheet_redraw_all (sheet, TRUE);
 	}
@@ -1652,7 +1653,7 @@ sheet_redraw_region (Sheet const *sheet,
 		}
 	}
 
-	SHEET_FOREACH_CONTROL (sheet, control,
+	SHEET_FOREACH_CONTROL (sheet, view, control,
 		sc_redraw_region (control,
 			min_col, min_row, max_col, max_row););
 }
@@ -1672,7 +1673,7 @@ static void
 sheet_redraw_partial_row (Sheet const *sheet, int const row,
 			  int const start_col, int const end_col)
 {
-	SHEET_FOREACH_CONTROL (sheet, control,
+	SHEET_FOREACH_CONTROL (sheet, view, control,
 		sc_redraw_region (control,
 			start_col, row, end_col, row););
 }
@@ -1688,7 +1689,7 @@ sheet_redraw_cell (Cell const *cell)
 
 	merged = sheet_merge_is_corner (cell->base.sheet, &cell->pos);
 	if (merged != NULL) {
-		SHEET_FOREACH_CONTROL (cell->base.sheet, control,
+		SHEET_FOREACH_CONTROL (cell->base.sheet, view, control,
 			sc_redraw_region (control,
 				merged->start.col, merged->start.row,
 				merged->end.col, merged->end.row););
@@ -2872,10 +2873,14 @@ sheet_destroy (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	/* Clear the controls first, before we potentialy update */
-	SHEET_FOREACH_CONTROL (sheet, control,
-		g_object_unref (G_OBJECT (control)););
-	g_list_free (sheet->s_controls);
-	sheet->s_controls = NULL;
+	if (sheet->sheet_views != NULL) {
+		SHEET_FOREACH_VIEW (sheet, view, {
+			sheet_detach_view (view);
+			g_object_unref (G_OBJECT (view));
+		});
+		if (sheet->sheet_views != NULL)
+			g_warning ("Unexpected left over views");
+	}
 
 	auto_expr_timer_clear (sheet->priv);
 
@@ -3126,7 +3131,7 @@ sheet_make_cell_visible (Sheet *sheet, int col, int row,
 			 gboolean couple_panes)
 {
 	g_return_if_fail (IS_SHEET (sheet));
-	SHEET_FOREACH_CONTROL(sheet, control,
+	SHEET_FOREACH_CONTROL(sheet, view, control,
 		sc_make_cell_visible (control, col, row, couple_panes););
 }
 
@@ -3223,7 +3228,8 @@ sheet_cursor_set (Sheet *sheet,
 
 	g_return_if_fail (range_is_sane	(bound));
 
-	SHEET_FOREACH_CONTROL(sheet, sc, sc_cursor_bound (sc, bound););
+	SHEET_FOREACH_CONTROL(sheet, view, control,
+		sc_cursor_bound (control, bound););
 }
 
 /**
@@ -4131,7 +4137,7 @@ sheet_scrollbar_config (Sheet const *sheet)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
-	SHEET_FOREACH_CONTROL (sheet, control,
+	SHEET_FOREACH_CONTROL (sheet, view, control,
 		sc_scrollbar_config (control););
 }
 
@@ -4146,7 +4152,7 @@ sheet_adjust_preferences (Sheet const *sheet, gboolean redraw, gboolean resize)
 				  wb_control_menu_state_sheet_prefs (control, sheet););
 		}
 	});
-	SHEET_FOREACH_CONTROL (sheet, control, {
+	SHEET_FOREACH_CONTROL (sheet, view, control, {
 		sc_adjust_preferences (control);
 		if (resize)
 			sc_resize (control, FALSE);
@@ -4484,7 +4490,7 @@ sheet_freeze_panes (Sheet *sheet,
 		sheet->unfrozen_top_left.col = sheet->unfrozen_top_left.row = -1;
 	}
 
-	SHEET_FOREACH_CONTROL (sheet, control,
+	SHEET_FOREACH_CONTROL (sheet, view, control,
 			       sheet_init_sc (sheet, control););
 	WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
 		if (sheet == wb_view_cur_sheet (view)) {

@@ -12,6 +12,7 @@
 
 #include "sheet.h"
 #include "sheet-private.h"
+#include "sheet-view.h"
 #include "sheet-merge.h"
 #include "workbook.h"
 #include "workbook-view.h"
@@ -1047,12 +1048,12 @@ scg_set_panes (SheetControl *sc)
 }
 
 SheetControlGUI *
-sheet_control_gui_new (Sheet *sheet)
+sheet_control_gui_new (SheetView *sv)
 {
 	SheetControlGUI *scg;
 	GtkUpdateType scroll_update_policy;
 
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
 
 	scg = g_object_new (sheet_control_gui_get_type (), NULL);
 
@@ -1164,7 +1165,7 @@ sheet_control_gui_new (Sheet *sheet)
 		"destroy",
 		G_CALLBACK (cb_table_destroy), scg);
 
-	sheet_attach_control (sheet, SHEET_CONTROL (scg));
+	sv_attach_control (sv, SHEET_CONTROL (scg));
 
 	return scg;
 }
@@ -1184,8 +1185,8 @@ scg_finalize (GObject *object)
 	g_ptr_array_free (scg->col_group.buttons, TRUE);
 	g_ptr_array_free (scg->row_group.buttons, TRUE);
 
-	if (sc->sheet)
-		sheet_detach_control (sc);
+	if (sc->view)
+		sv_detach_control (sc);
 
 	if (scg->table)
 		gtk_object_unref (GTK_OBJECT (scg->table));

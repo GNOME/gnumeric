@@ -398,7 +398,7 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 
 	g_object_ref (G_OBJECT (so));
 	sheet->sheet_objects = g_list_prepend (sheet->sheet_objects, so);
-	SHEET_FOREACH_CONTROL (so->sheet, control,
+	SHEET_FOREACH_CONTROL (so->sheet, view, control,
 		sc_object_create_view (control, so););
 	sheet_object_update_bounds (so, NULL);
 

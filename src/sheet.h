@@ -4,6 +4,7 @@
 
 #include "gnumeric.h"
 #include "colrow.h"
+#include "sheet-view.h"
 
 typedef GList ColStyleList;
 typedef struct _SheetPrivate SheetPrivate;
@@ -13,7 +14,7 @@ struct _Sheet {
 	int         index_in_wb;
 	Workbook    *workbook;
 
-	GList       *s_controls;
+	GPtrArray   *sheet_views;
 
 	char        *name_quoted;
 	char        *name_unquoted;
@@ -326,22 +327,32 @@ void  sheet_clear_region (WorkbookControl *context,
 			  int end_col, int end_row,
 			  int clear_flags);
 
-void	sheet_attach_control (Sheet *sheet, SheetControl *sc);
-void    sheet_detach_control (SheetControl *sc);
+void	sheet_attach_view (Sheet *sheet, SheetView *sv);
+void    sheet_detach_view (SheetView *sv);
 
-#define SHEET_FOREACH_CONTROL(sheet, control, code)			\
-do {									\
-	GList *PtR, *NexTPtR;						\
-	for (PtR = (sheet)->s_controls; PtR != NULL ; PtR = NexTPtR) {	\
-		SheetControl *control = PtR->data;			\
-		NexTPtR = PtR->next;					\
-		code							\
-	}								\
+#define SHEET_FOREACH_VIEW(sheet, view, code)					\
+do {										\
+	int InD;								\
+	GPtrArray *views = (sheet)->sheet_views;				\
+	if (views != NULL) /* Reverse is important during destruction */	\
+		for (InD = views->len; InD-- > 0; ) {				\
+			SheetView *view = g_ptr_array_index (views, InD);	\
+			code							\
+		}								\
 } while (0)
 
+#define SHEET_FOREACH_CONTROL(sheet, view, control, code)		\
+	SHEET_FOREACH_VIEW((sheet), view, 				\
+		SHEET_VIEW_FOREACH_CONTROL(view, control, code);)
 
+/*
+ * Walk the dependents.  WARNING: Note, that it is only valid to muck with
+ * the current dependency in the code.
+ */
 #define SHEET_FOREACH_DEPENDENT(sheet, dep, code)					\
   do {											\
+	/* Maybe external deps here.  */						\
+											\
 	if ((sheet)->deps) {								\
 		DEPENDENT_CONTAINER_FOREACH_DEPENDENT ((sheet)->deps, dep, code);	\
 	}										\

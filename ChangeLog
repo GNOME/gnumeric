@@ -1,3 +1,22 @@
+2002-06-19  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (sheet_attach_view) : renamed from sheet_attach_control.
+	(sheet_detach_view) : renamed from sheet_detach_control.
+
+	* src/sheet-view.c : new.
+
+	* src/sheet-control.c (sc_sheet_set) : delete bogus.
+	(sc_view) : new.
+
+	* src/sheet-control-gui.c (sheet_control_gui_new) : A control now takes a
+	  view in place of a model.
+
+	* src/selection.c (sheet_selection_redraw) : adjustment to 
+	  SHEET_FOREACH_CONTROL.
+
+	* src/gnumeric.h : Add SheetView
+	* src/Makefile.am : Add sheet-view.[ch]
+
 2002-06-18  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (cb_insert_current_date) : check for

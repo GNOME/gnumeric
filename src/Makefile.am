@@ -180,6 +180,14 @@ GNUMERIC_BASE =					\
 	selection.h				\
 	sheet.c					\
 	sheet.h					\
+	sheet-view.c		  		\
+	sheet-view.h    			\
+	sheet-control.c		  		\
+	sheet-control.h    			\
+	sheet-control-priv.h 			\
+	sheet-control-gui.c			\
+	sheet-control-gui.h			\
+	sheet-control-gui-priv.h		\
 	sheet-merge.c				\
 	sheet-merge.h				\
 	sheet-private.h				\
@@ -198,12 +206,6 @@ GNUMERIC_BASE =					\
 	sheet-object-widget.h			\
 	sheet-style.c				\
 	sheet-style.h				\
-	sheet-control.c		  		\
-	sheet-control.h    			\
-	sheet-control-priv.h 			\
-	sheet-control-gui.c			\
-	sheet-control-gui.h			\
-	sheet-control-gui-priv.h		\
 	solver.h				\
 	sort.c					\
 	sort.h					\

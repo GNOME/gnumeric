@@ -6,7 +6,8 @@
 struct _SheetControl {
 	GObject object;
 
-	Sheet          	*sheet;
+	Sheet		*sheet; /* not really needed, but convenient */
+	SheetView     	*view;
 	WorkbookControl *wbc;
 };
 

@@ -8,11 +8,11 @@
 #define SHEET_CONTROL(obj)	(G_TYPE_CHECK_INSTANCE_CAST ((obj), SHEET_CONTROL_TYPE, SheetControl))
 #define IS_SHEET_CONTROL(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), SHEET_CONTROL_TYPE))
 
+/* Lifecycle */
 GType sheet_control_get_type	(void);
-
-WorkbookControl *sc_wbc		(SheetControl const *sc);
+SheetView	*sc_view	(SheetControl const *sc);
 Sheet		*sc_sheet	(SheetControl const *sc);
-void		 sc_sheet_set	(SheetControl *sc, Sheet *sheet);
+WorkbookControl *sc_wbc		(SheetControl const *sc);
 
 /**
  * NOTE:

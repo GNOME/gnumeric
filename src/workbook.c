@@ -712,17 +712,10 @@ workbook_attach_view (Workbook *wb, WorkbookView *wbv)
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 	g_return_if_fail (wb_view_workbook (wbv) == NULL);
 
+	if (wb->wb_views == NULL)
+		wb->wb_views = g_ptr_array_new ();
+	g_ptr_array_add (wb->wb_views, wbv);
 	wbv->wb = wb;
-	if (wbv->wb->wb_views == NULL)
-		wbv->wb->wb_views = g_ptr_array_new ();
-	g_ptr_array_add (wbv->wb->wb_views, wbv);
-
-	/* Set the titles of the newly connected view's controls */
-	if (wbv->wb != NULL) {
-		char const *base_name = g_basename (wb->filename);
-		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc,
-			wb_control_title_set (wbc, base_name););
-	}
 }
 
 void
@@ -892,7 +885,7 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 			      == sheet, FALSE);
 
 	/* Finish any object editing */
-	SHEET_FOREACH_CONTROL (sheet, control,
+	SHEET_FOREACH_CONTROL (sheet, view, control,
 		sc_mode_edit (control););
 
 	sheet_index = sheet->index_in_wb;

@@ -119,7 +119,7 @@ WBC_VIRTUAL (paste_from_selection,
 	(WorkbookControl *wbc, PasteTarget const *pt), (wbc, pt))
 
 void
-wb_control_sheet_add (WorkbookControl *wbc, Sheet *new_sheet)
+wb_control_sheet_add (WorkbookControl *wbc, SheetView *sv)
 {
 	WorkbookControlClass *wbc_class;
 
@@ -127,8 +127,9 @@ wb_control_sheet_add (WorkbookControl *wbc, Sheet *new_sheet)
 
 	wbc_class = WBC_CLASS (wbc);
 	if (wbc_class != NULL && wbc_class->sheet.add != NULL) {
+		Sheet *new_sheet = sv_sheet (sv);
 
-		wbc_class->sheet.add (wbc, new_sheet);
+		wbc_class->sheet.add (wbc, sv);
 
 		/* If this is the current sheet init the display */
 		if (new_sheet == wb_control_cur_sheet (wbc)) {
@@ -299,6 +300,8 @@ void
 workbook_control_init_state (WorkbookControl *wbc)
 {
 	GList *sheets, *ptr;
+	Sheet *sheet;
+	WorkbookView *wbv;
 	WorkbookControlClass *wbc_class;
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));
@@ -307,9 +310,15 @@ workbook_control_init_state (WorkbookControl *wbc)
 	command_setup_combos (wbc);
 
 	/* Add views all all existing sheets */
+	wbv = wb_control_view (wbc);
 	sheets = workbook_sheets (wb_control_workbook (wbc));
-	for (ptr = sheets; ptr != NULL ; ptr = ptr->next)
-		wb_control_sheet_add (wbc, ptr->data);
+	for (ptr = sheets; ptr != NULL ; ptr = ptr->next) {
+		sheet = ptr->data;
+		SHEET_FOREACH_VIEW (sheet, view, {
+			if (sv_wbv (view) == wbv)
+				wb_control_sheet_add (wbc, view);
+		});
+	}
 	g_list_free (sheets);
 
 	wbc_class = WBC_CLASS (wbc);

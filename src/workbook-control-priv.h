@@ -29,7 +29,7 @@ typedef struct {
 				     gboolean flag1, gboolean flag2);
 	void (*auto_expr_value)	    (WorkbookControl *wbc);
 	struct {
-		void (*add)	(WorkbookControl *wbc, Sheet *sheet);
+		void (*add)	(WorkbookControl *wbc, SheetView *sv);
 		void (*remove)	(WorkbookControl *wbc, Sheet *sheet);
 		void (*rename)  (WorkbookControl *wbc, Sheet *sheet);
 		void (*focus)   (WorkbookControl *wbc, Sheet *sheet);

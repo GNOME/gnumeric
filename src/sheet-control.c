@@ -76,13 +76,6 @@ sc_sheet (SheetControl const *sc)
 	return sc->sheet;
 }
 
-void
-sc_sheet_set (SheetControl *sc, Sheet *sheet)
-{
-	g_return_if_fail (IS_SHEET_CONTROL (sc));
-	sc->sheet = sheet;
-}
-
 SC_VIRTUAL (resize, (SheetControl *sc, gboolean force_scroll), (sc, force_scroll))
 
 SC_VIRTUAL (set_zoom_factor, (SheetControl *sc), (sc))

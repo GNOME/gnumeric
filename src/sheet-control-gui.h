@@ -11,8 +11,8 @@
 
 #define	SHEET_CONTROL_KEY	"SheetControl"
 
-GType sheet_control_gui_get_type (void);
-SheetControlGUI *sheet_control_gui_new      (Sheet *sheet);
+GType		 sheet_control_gui_get_type (void);
+SheetControlGUI *sheet_control_gui_new	    (SheetView *sv);
 
 GtkWidget *scg_toplevel		(SheetControlGUI *scg);
 void scg_take_focus             (SheetControlGUI *scg);

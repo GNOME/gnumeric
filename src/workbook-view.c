@@ -94,6 +94,7 @@ wb_view_sheet_focus (WorkbookView *wbv, Sheet *sheet)
 void
 wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
 {
+	SheetView *new_view;
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 
 	if (wbv->current_sheet == NULL) {
@@ -103,8 +104,9 @@ wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
 		wb_view_menus_update (wbv);
 	}
 
+	new_view = sheet_view_new (new_sheet, wbv);
 	WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
-		wb_control_sheet_add (control, new_sheet););
+		wb_control_sheet_add (control, new_view););
 }
 
 gboolean
@@ -377,10 +379,10 @@ wb_view_attach_control (WorkbookView *wbv, WorkbookControl *wbc)
 	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));
 	g_return_if_fail (wbc->wb_view == NULL);
 
+	if (wbv->wb_controls == NULL)
+		wbv->wb_controls = g_ptr_array_new ();
+	g_ptr_array_add (wbv->wb_controls, wbc);
 	wbc->wb_view = wbv;
-	if (wbc->wb_view->wb_controls == NULL)
-		wbc->wb_view->wb_controls = g_ptr_array_new ();
-	g_ptr_array_add (wbc->wb_view->wb_controls, wbc);
 
 	if (wbv->wb != NULL) {
 		/* Set the title of the newly connected control */
@@ -441,10 +443,28 @@ wb_view_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
-void
-workbook_view_init (WorkbookView *wbv, Workbook *opt_wb)
+static void
+workbook_view_class_init (GObjectClass *klass)
 {
-	workbook_attach_view ((opt_wb != NULL) ? opt_wb : workbook_new (), wbv);
+	WorkbookViewClass *wbc_class = WORKBOOK_VIEW_CLASS (klass);
+
+	g_return_if_fail (wbc_class != NULL);
+
+	parent_class = g_type_class_peek (G_TYPE_OBJECT);
+
+	klass->finalize = wb_view_finalize;
+}
+
+E_MAKE_TYPE (workbook_view, "WorkbookView", WorkbookView,
+	     workbook_view_class_init, NULL, G_TYPE_OBJECT);
+
+WorkbookView *
+workbook_view_new (Workbook *wb)
+{
+	WorkbookView *wbv = g_object_new (WORKBOOK_VIEW_TYPE, NULL);
+	char const *base_name;
+
+	workbook_attach_view ((wb != NULL) ? wb : workbook_new (), wbv);
 
 	wbv->show_horizontal_scrollbar = TRUE;
 	wbv->show_vertical_scrollbar = TRUE;
@@ -462,38 +482,20 @@ workbook_view_init (WorkbookView *wbv, Workbook *opt_wb)
 
 	/* Guess at the current sheet */
 	wbv->current_sheet = NULL;
-	if (opt_wb != NULL) {
-		GList *sheets = workbook_sheets (opt_wb);
+	if (wb != NULL) {
+		GList *sheets = workbook_sheets (wb);
 		if (sheets != NULL) {
 			wb_view_sheet_focus (wbv, sheets->data);
 			g_list_free (sheets);
 		}
 	}
-}
 
-static void
-workbook_view_class_init (GObjectClass *klass)
-{
-	WorkbookViewClass *wbc_class = WORKBOOK_VIEW_CLASS (klass);
+	/* Set the titles of the newly connected view's controls */
+	base_name = g_basename (wbv->wb->filename);
+	WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc,
+		wb_control_title_set (wbc, base_name););
 
-	g_return_if_fail (wbc_class != NULL);
-
-	parent_class = g_type_class_peek (G_TYPE_OBJECT);
-
-	klass->finalize = wb_view_finalize;
-}
-
-E_MAKE_TYPE (workbook_view, "WorkbookView", WorkbookView,
-	     workbook_view_class_init, NULL, G_TYPE_OBJECT);
-
-WorkbookView *
-workbook_view_new (Workbook *optional_wb)
-{
-	WorkbookView *view;
-
-	view = g_object_new (WORKBOOK_VIEW_TYPE, NULL);
-	workbook_view_init (view, optional_wb);
-	return view;
+	return wbv;
 }
 
 /**

@@ -667,19 +667,22 @@ static void wbcg_menu_state_sheet_count (WorkbookControl *wbc);
  * Creates a new SheetControlGUI for the sheet and adds it to the workbook-control-gui.
  */
 static void
-wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
+wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	SheetControlGUI *scg;
-	SheetControl *sc;
-	GList     *ptr;
+	SheetControl	*sc;
+	Sheet		*sheet;
+	GList *ptr;
 
 	g_return_if_fail (wbcg != NULL);
 
 	if (wbcg->notebook == NULL)
 		workbook_setup_sheets (wbcg);
 
-	scg = sheet_control_gui_new (sheet);
+	sheet = sv_sheet (sv);
+
+	scg = sheet_control_gui_new (sv);
 	sc = (SheetControl *) scg;
 	sc->wbc = wbc;
 	scg->wbcg = wbcg;

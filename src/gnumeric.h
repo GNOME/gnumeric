@@ -16,6 +16,7 @@ typedef struct _WorkbookView		WorkbookView;
 typedef struct _WorkbookControl		WorkbookControl;
 
 typedef struct _Sheet			Sheet;
+typedef struct _SheetView		SheetView;
 typedef struct _SheetControl		SheetControl;
 
 typedef struct _SolverParameters	SolverParameters;

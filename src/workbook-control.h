@@ -31,7 +31,7 @@ void wb_control_edit_set_sensitive   (WorkbookControl *wbc,
 				      gboolean func_guru_flag);
 void wb_control_auto_expr_value	     (WorkbookControl *wbc);
 
-void wb_control_sheet_add	     (WorkbookControl *wbc, Sheet *sheet);
+void wb_control_sheet_add	     (WorkbookControl *wbc, SheetView *sv);
 void wb_control_sheet_remove	     (WorkbookControl *wbc, Sheet *sheet);
 void wb_control_sheet_rename	     (WorkbookControl *wbc, Sheet *sheet);
 void wb_control_sheet_focus	     (WorkbookControl *wbc, Sheet *sheet);
