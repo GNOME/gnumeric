@@ -25,7 +25,7 @@ use strict;
 my $exitcode = 0;
 my $verbose = 0;
 
-die "$0: must be run from top-level directory.\n"
+warn "$0: should be run from top-level directory.\n"
     unless -r "configure.in" && -r 'ChangeLog';
 
 my %base_exceptions =
