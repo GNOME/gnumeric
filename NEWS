@@ -19,6 +19,9 @@ Jody:
 	* Coup de grace to gal, importing the 75 lines of e_xml we used
 	* Keynav for autoformat dialog
 
+Jon Kåre:
+	* Improve color combo
+
 Morten:
 	* Hopefully fix NAN issues on Alphas.
 	* Plug autoformat leak.
