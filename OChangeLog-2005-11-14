@@ -1,3 +1,12 @@
+2000-05-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (cmd_set_date_time_{undo,redo}) : Mark the changed cell for
+	  status update.
+
+	* src/Makefile.am (INCLUDES) : Remove extra '/' at end.
+
+	* src/workbook.c (insert_current_time_cmd) : fix cut-n-paste-o.
+
 2000-05-09  Valek Filippov  <frob@df.ru>
 
 	* src/functions/fn-financial.c: changed "NUM!" to "#NUM!".

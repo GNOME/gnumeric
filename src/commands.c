@@ -1256,6 +1256,10 @@ cmd_set_date_time_undo (GnumericCommand *cmd, CommandContext *context)
 	} else
 		sheet_cell_remove (sheet, cell, TRUE);
 
+	/* see if we need to update status */
+	sheet_flag_status_update_cell (me->pos.sheet,
+				       me->pos.eval.col, me->pos.eval.row);
+
 	sheet_set_dirty (sheet, TRUE);
 	workbook_recalc (sheet->workbook);
 	sheet_update (sheet);
@@ -1299,6 +1303,10 @@ cmd_set_date_time_redo (GnumericCommand *cmd, CommandContext *context)
 	me->contents = (cell->value) ? cell_get_entered_text (cell) : NULL;
 
 	sheet_cell_set_value (cell, v, prefered_format+1);
+
+	/* see if we need to update status */
+	sheet_flag_status_update_cell (me->pos.sheet,
+				       me->pos.eval.col, me->pos.eval.row);
 
 	sheet_set_dirty (me->pos.sheet, TRUE);
 	workbook_recalc (me->pos.sheet->workbook);
@@ -1811,7 +1819,8 @@ cmd_colrow_resize_destroy (GtkObject *cmd)
 	gnumeric_command_destroy (cmd);
 }
 
-gboolean
+/* Disable until finished */
+static gboolean
 cmd_colrow_resize (CommandContext *context,
 		   gboolean is_cols,
 		   GSList *colrows,

@@ -922,7 +922,7 @@ static void
 insert_current_time_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
-	cmd_set_date_time (workbook_command_context_gui (wb), TRUE,
+	cmd_set_date_time (workbook_command_context_gui (wb), FALSE,
 			   sheet, &sheet->cursor.edit_pos);
 }
 
