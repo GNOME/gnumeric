@@ -340,7 +340,6 @@ sheet_style_attach (Sheet  *sheet, Range range,
 	sr = g_new (StyleRegion, 1);
 	sr->range = range;
 	sr->style = mstyle;
-	mstyle_ref (mstyle);
 
 	STYLE_LIST (sheet) = g_list_prepend (STYLE_LIST (sheet), sr);
 

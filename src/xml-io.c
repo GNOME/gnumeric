@@ -685,7 +685,7 @@ xml_write_style (parse_xml_context_t *ctxt,
 			xml_set_color_value (cur, "Fore", mstyle_get_color (style, MSTYLE_COLOR_FORE));
 	}
 	if (mstyle_is_element_set (style, MSTYLE_COLOR_BACK)) {
-		if (!style_is_default_fore (mstyle_get_color (style, MSTYLE_COLOR_BACK)))
+		if (!style_is_default_back (mstyle_get_color (style, MSTYLE_COLOR_BACK)))
 			xml_set_color_value (cur, "Back", mstyle_get_color (style, MSTYLE_COLOR_BACK));
 	}
 	if (mstyle_is_element_set (style, MSTYLE_FORMAT))

@@ -1028,8 +1028,10 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 
 	g_return_val_if_fail (xf != NULL, NULL);
 
-	if (xf->mstyle != NULL)
+	if (xf->mstyle != NULL) {
+		mstyle_ref (xf->mstyle);
 		return xf->mstyle;
+	}
 
 	mstyle = mstyle_new ();
 	mstyle_set_align_v     (mstyle, xf->valign);

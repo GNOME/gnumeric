@@ -1,5 +1,17 @@
 1999-10-24  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/sheet-style.c (sheet_style_attach): kill redundant style_ref.
+
+	* src/xml-io.c (xml_write_style): Use default_back instead of _fore for
+	the background.
+
+	* src/item-edit.c (item_edit_draw): generate a StyleFont when needed.
+	(item_edit_init): init mstyle. (item_edit_destroy): unref mstyle.
+
+	* src/item-edit.h: Use an MStyle instead of a Style.
+
+1999-10-24  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/mstyle.c (mstyle_new_default): Re-enable the standard background
 	color for now so things don't crash everywhere.
 

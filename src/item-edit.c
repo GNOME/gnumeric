@@ -41,13 +41,17 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 {
 	GtkWidget *canvas = GTK_WIDGET (item->canvas);
 	ItemEdit *item_edit = ITEM_EDIT (item);
+	StyleFont *style_font;
 	GdkFont  *font;
 	ColRowInfo *ci;
 	int xd, yd, wd, hd, dx, dy;
 	char *text;
 	int  cursor_pos, text_len, first_part_len, total_len;
 
-	font = style_font_gdk_font (item_edit->style->font);
+	style_font = mstyle_get_font (item_edit->mstyle,
+				      item_edit->sheet->last_zoom_factor_used);
+
+	font = style_font_gdk_font (style_font);
 	
 	text = gtk_entry_get_text (GTK_ENTRY (item_edit->editor));
 	text_len = strlen (text);
@@ -95,6 +99,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		       dx + first_part_len,
 		       dy + hd - font->descent,
 		       text + cursor_pos, text_len - cursor_pos);
+	style_font_unref (style_font);
 }
 
 static double
@@ -143,17 +148,10 @@ item_edit_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int 
 	gnome_canvas_group_child_bounds (
 		GNOME_CANVAS_GROUP (item->parent), item);
 
-	if (item_edit->style)
-		style_unref (item_edit->style);
-
-	{
-		MStyle *mstyle;
-		mstyle = sheet_style_compute (item_edit->sheet,
-					      item_edit->col, item_edit->row);
-		item_edit->style = style_new_mstyle (mstyle, MSTYLE_ELEMENT_MAX,
-						     item_edit->sheet->last_zoom_factor_used);
-		mstyle_unref (mstyle);
-	}
+	if (item_edit->mstyle)
+		mstyle_unref (item_edit->mstyle);
+	item_edit->mstyle = sheet_style_compute (item_edit->sheet,
+						 item_edit->col, item_edit->row);
 }
 
 /*
@@ -175,6 +173,8 @@ item_edit_init (ItemEdit *item_edit)
 	item_edit->sheet = 0;
 	item_edit->col = -1;
 	item_edit->row = -1;
+
+	item_edit->mstyle = NULL;
 }
 
 static void
@@ -201,7 +201,7 @@ item_edit_destroy (GtkObject *o)
 	int x, y, w, h;
 
 	/* Repaint the area where we had edited */
-	style_destroy (item_edit->style);
+	mstyle_unref (item_edit->mstyle);
 	item_edit_get_pixel_coords (item_edit, &x, &y, &w, &h);
 	gnome_canvas_request_redraw (GNOME_CANVAS_ITEM (item_edit)->canvas, x, y, x+w, y+h);
 	
@@ -215,7 +215,7 @@ item_edit_destroy (GtkObject *o)
 static int
 entry_event (GtkEntry *entry, GdkEvent *event, ItemEdit *item_edit)
 {
-	switch (event->type){
+	switch (event->type) {
 	case GDK_KEY_PRESS:
 	case GDK_KEY_RELEASE:
 	case GDK_BUTTON_PRESS:
