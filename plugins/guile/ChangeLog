@@ -1,3 +1,7 @@
+2000-01-05  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (value_to_scm): Correctly handle the VALUE_BOOLEAN case.
+	
 2000-01-05  Jody Goldberg <jgoldberg@home.com>
 
 	* Makefile.am : Install into the versioned directory.

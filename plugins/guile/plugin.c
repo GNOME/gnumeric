@@ -81,11 +81,10 @@ value_to_scm (Value *val, CellRef cell_ref)
 		case VALUE_EMPTY :
 			/* FIXME ?? what belongs here */
 			return scm_long2num(0);
-
+ 
 		case VALUE_BOOLEAN :
-			/* FIXME ?? what belongs here */
-			return scm_long2num(val->v.v_bool);
-
+			return gh_bool2scm(val->v.v_bool);	
+			
 		case VALUE_ERROR :
 			/* FIXME ?? what belongs here */
 			return scm_makfrom0str(val->v.error.mesg->str);
