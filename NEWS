@@ -111,6 +111,8 @@ Morten:
 	* Work around theme engine crash. [backported]
 	http://bugzilla.gnome.org/show_bug.cgi?id=135000
 	* Set accessibility role for save-before-exit dialog.
+	* Improve auto-scrolling when dragging the cursor outside the
+	  window.
 
 --------------------------------------------------------------------------
 
