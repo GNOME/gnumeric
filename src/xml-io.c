@@ -2934,7 +2934,7 @@ xmlChar *
 xml_cellregion_write (WorkbookControl *wbc, CellRegion *cr, int *size)
 {
 	XmlParseContext *ctxt;
-	xmlNode   *clipboard, *container, *cell_node;
+	xmlNode   *clipboard, *cell_node, *container = NULL;
 	GSList    *ptr;
 	StyleList *s_ptr;
 	CellCopyList *c_ptr;
