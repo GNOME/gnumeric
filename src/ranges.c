@@ -55,6 +55,28 @@ range_init_full_sheet (Range *r)
 	return r;
 }
 
+gboolean    
+setup_range_from_value (Range *range, Value *v, gboolean release)
+{
+	g_return_val_if_fail (range != NULL && v != NULL, FALSE &&
+			      v->type == VALUE_CELLRANGE);
+
+	if (v->v_range.cell.a.sheet != v->v_range.cell.a.sheet){
+		if (release)
+			value_release (v);
+		return FALSE;
+	}
+
+	range->start.col = v->v_range.cell.a.col;
+	range->start.row = v->v_range.cell.a.row;
+	range->end.col   = v->v_range.cell.b.col;
+	range->end.row   = v->v_range.cell.b.row;
+	if (release)
+		value_release (v);
+	return TRUE;	
+}
+
+
 /**
  * range_parse:
  * @sheet: the sheet where the cell range is evaluated
@@ -964,6 +986,20 @@ global_range_new (Sheet *sheet, Range const *r)
 	gr->sheet = sheet;
 	gr->range = *r;
 
+	return gr;
+}
+
+GlobalRange *
+value_to_global_range (Value *v) 
+{
+	GlobalRange *gr;
+
+	g_return_val_if_fail (v->type == VALUE_CELLRANGE, NULL);
+
+	gr = g_new0 (GlobalRange, 1);
+	gr->sheet = v->v_range.cell.a.sheet;
+	setup_range_from_value (&gr->range, v, FALSE);
+	
 	return gr;
 }
 

@@ -233,12 +233,7 @@ consolidate_set_destination (Consolidate *cs, Value *range)
 	new = g_new (GlobalRange, 1);
 
 	new->sheet = range->v_range.cell.a.sheet;
-	new->range.start.col = range->v_range.cell.a.col;
-	new->range.start.row = range->v_range.cell.a.row;
-	new->range.end.col = range->v_range.cell.b.col;
-	new->range.end.row = range->v_range.cell.b.row;
-
-	value_release (range);
+	setup_range_from_value (&new->range, range, TRUE);
 
 	/*
 	 * Don't allow the destination to overlap
@@ -272,12 +267,7 @@ consolidate_add_source (Consolidate *cs, Value *range)
 	new = g_new (GlobalRange, 1);
 
 	new->sheet = range->v_range.cell.a.sheet;
-	new->range.start.col = range->v_range.cell.a.col;
-	new->range.start.row = range->v_range.cell.a.row;
-	new->range.end.col = range->v_range.cell.b.col;
-	new->range.end.row = range->v_range.cell.b.row;
-
-	value_release (range);
+	setup_range_from_value (&new->range, range, TRUE);
 
 	/*
 	 * Make sure the range that is added doesn't overlap

@@ -204,23 +204,6 @@ load_model_data (SortFlowState *state)
 		append_data (state, i, index);
 }
 
-static GlobalRange *
-value_to_global_range ( Value *value)
-{
-	GlobalRange *gr;
-
-	g_return_val_if_fail (value->type == VALUE_CELLRANGE, NULL);
-
-	gr = g_new0 (GlobalRange, 1);
-	gr->sheet = value->v_range.cell.a.sheet;
-	gr->range.start.row = value->v_range.cell.a.row;
-	gr->range.start.col = value->v_range.cell.a.col;
-	gr->range.end.row = value->v_range.cell.b.row;
-	gr->range.end.col = value->v_range.cell.b.col;
-	
-	return gr;
-}
-
 /**
  * cb_update_add_sensitivity:
  * @dummy:

@@ -1102,16 +1102,12 @@ range_list_foreach_area (Sheet *sheet, GSList *ranges,
 		Sheet *s;
 		Range   range;
 
-		g_assert (value->type == VALUE_CELLRANGE);
-
 		/*
 		 * FIXME : Are these ranges normalized ?
 		 *         Are they absolute ?
 		 */
-		range.start.col = value->v_range.cell.a.col;
-		range.start.row = value->v_range.cell.a.row;
-		range.end.col   = value->v_range.cell.b.col;
-		range.end.row   = value->v_range.cell.b.row;
+
+		setup_range_from_value (&range, value, FALSE);
 
 		s = sheet;
 		if (value->v_range.cell.b.sheet)

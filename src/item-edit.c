@@ -55,22 +55,6 @@ scan_at (const char *text, int *scan)
 	*scan = i;
 }
 
-static gboolean
-setup_range_from_value (Range *range, Value *v)
-{
-	if (v->v_range.cell.a.sheet != v->v_range.cell.a.sheet){
-		value_release (v);
-		return FALSE;
-	}
-
-	range->start.col = v->v_range.cell.a.col;
-	range->start.row = v->v_range.cell.a.row;
-	range->end.col   = v->v_range.cell.b.col;
-	range->end.row   = v->v_range.cell.b.row;
-	value_release (v);
-	return TRUE;
-}
-
 /*
  * This routine could definitely be better.
  *
@@ -101,7 +85,7 @@ point_is_inside_range (ItemEdit *item_edit, const char *text, Range *range)
 		return FALSE;
 
 	if ((v = range_parse (sheet, &text [scan], FALSE)) != NULL)
-		return setup_range_from_value (range, v);
+		return setup_range_from_value (range, v, TRUE);
 
 	if (scan == cursor_pos && scan > 0)
 		scan--;
@@ -112,7 +96,7 @@ point_is_inside_range (ItemEdit *item_edit, const char *text, Range *range)
 		return FALSE;
 
 	if ((v = range_parse (sheet, &text [scan], FALSE)) != NULL)
-		return setup_range_from_value (range, v);
+		return setup_range_from_value (range, v, TRUE);
 
 	return FALSE;
 }

@@ -78,6 +78,8 @@ gboolean    range_is_sane	(Range const *range);
 gboolean    range_translate     (Range *range, int col_offset, int row_offset);
 gboolean    range_transpose     (Range *range, CellPos const *origin);
 
+gboolean    setup_range_from_value (Range *range, Value *v, gboolean release);
+
 /* TODO : Do these 2 belong here ? or in sheet.h
  * Probably sheet.h but that is overfull.
  */
@@ -95,6 +97,7 @@ GSList     *range_fragment        (Range const *a, Range const *b);
 void        range_fragment_free   (GSList *fragments);
 
 GlobalRange *global_range_new     (Sheet *sheet, Range const *r);
+GlobalRange *value_to_global_range (Value *v);
 void         global_range_free    (GlobalRange *gr);
 gboolean     global_range_overlap (GlobalRange const *a, GlobalRange const *b);
 GlobalRange *global_range_dup     (GlobalRange const *src);
@@ -107,5 +110,6 @@ Value	    *global_range_list_foreach (GSList *gr_list, EvalPos const *ep,
 					ForeachCellCB	handler,
 					gpointer	closure);
 gboolean    global_range_contained (Value *a, Value *b);
+
 
 #endif /* GNUMERIC_RANGES_H */
