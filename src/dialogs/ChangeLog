@@ -1,3 +1,10 @@
+2004-05-21  Jody Goldberg <jody@gnome.org>
+
+	* dialog-sheet-order.c : GtkCellRendererText uses GdkColor the
+	  foreground-gdk, and background-gdk .. quelle suprise ! (doh!)
+	http://bugzilla.gnome.org/show_bug.cgi?id=142687
+	(dialog_sheet_order) : make the colour combos instant apply.
+
 2004-05-17  Morten Welinder  <terra@gnome.org>
 
 	* dialog-printer-setup.c (fill_hf): Don't set things for undefined
