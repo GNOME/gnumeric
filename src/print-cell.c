@@ -52,6 +52,8 @@ print_hline (GnomePrintContext *context,
 int
 print_show_iso8859_1 (GnomePrintContext *pc, char const *text)
 {
+	return gnome_print_show (pc, text);
+#if 0
 	guint32 u4text[128], *u4p;
 	guint32 *dynp = NULL;
 	size_t len;
@@ -84,6 +86,7 @@ print_show_iso8859_1 (GnomePrintContext *pc, char const *text)
 		g_free (dynp);
 
 	return ret;
+#endif
 }
 
 /***********************************************************/

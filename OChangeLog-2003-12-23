@@ -1,5 +1,8 @@
 2000-09-21  Jody Goldberg <jgoldberg@home.com>
 
+	* src/print-cell.c (print_show_iso8859_1) : Temp fix to get things
+	  compiling.  What should we be using?
+
 	* src/position.c (eval_pos_init_dep) : typo.
 
 2000-09-21  Jody Goldberg <jgoldberg@home.com>
