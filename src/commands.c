@@ -1974,30 +1974,58 @@ cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 	ColRowInfo const *cri;
 	int first = -1, last = -1;
 	gboolean visible;
+	int d;
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	cri = is_cols ? sheet_col_get (sheet, index)
 		      : sheet_row_get (sheet, index);
 
-	if (index > 0) {
-		ColRowInfo const *prev = is_cols ? sheet_col_get (sheet, index-1)
-						 : sheet_row_get (sheet, index-1);
+	d = (cri != NULL) ?  cri->outline_level : 0;
+	if (depth > d)
+		depth = d;
 
-		if (prev != NULL && prev->outline_level > depth) {
-			visible = (cri != NULL) ? cri->is_collapsed : FALSE;
-			last = index - 1;
-			first = colrow_find_outline_bound (sheet, is_cols,
-					index-1, prev->outline_level, FALSE);
+	/* Nodes only collapse when selected directly, selecting at a lower
+	 * level is a standard toggle.
+	 */
+	if (depth == d) {
+		if ((is_cols ? sheet->outline_symbols_right : sheet->outline_symbols_below)) {
+			if (index > 0) {
+				ColRowInfo const *prev = is_cols ? sheet_col_get (sheet, index-1)
+					: sheet_row_get (sheet, index-1);
+
+				if (prev != NULL && prev->outline_level > d) {
+					visible = ((d+1) == prev->outline_level &&
+						   cri != NULL && cri->is_collapsed);
+					last = index - 1;
+					first = colrow_find_outline_bound (sheet, is_cols,
+									   index-1, prev->outline_level, FALSE);
+				}
+			}
+		} else if (index+1 < colrow_max (is_cols)) {
+			ColRowInfo const *next = is_cols ? sheet_col_get (sheet, index+1)
+				: sheet_row_get (sheet, index-1);
+
+			if (next != NULL && next->outline_level > d) {
+				visible = ((d+1) == next->outline_level &&
+					   cri != NULL && cri->is_collapsed);
+				first = index + 1;
+				last = colrow_find_outline_bound (sheet, is_cols,
+					index+1, next->outline_level, TRUE);
+			}
 		}
 	}
+
+	/* If nothing done yet do a simple collapse */
 	if (first < 0 && cri != NULL && cri->outline_level > 0) {
+		if (depth < d)
+			++depth;
 		first = colrow_find_outline_bound (sheet, is_cols, index, depth, FALSE);
 		last = colrow_find_outline_bound (sheet, is_cols, index, depth, TRUE);
 		visible = FALSE;
 
 		if (first == last && depth > cri->outline_level)
-			first = last = -1;
+			return TRUE;
 	}
 
 	if (first < 0 || last < 0)

@@ -1,4 +1,14 @@
+2001-04-22  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (cmd_colrow_outline_change) : Extend logic to support
+	  having collapse buttons at the start or end of the range.  Fix a few
+	  for behaviors.
+
 2001-04-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/colrow.c (colrow_visibility) : Don't toggle the visibility of
+	  collapsed regions even if we are only hiding things.  It will make a
+	  mess of undo.
 
 	* src/workbook-control-gui.c (wbcg_menu_state_sheet_prefs) : add some
 	  new prefs for outline mode.

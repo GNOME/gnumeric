@@ -453,7 +453,7 @@ colrow_visibility (Sheet const *sheet, struct colrow_visiblity * const dat,
 					break;
 			} else if ((visible != 0) == (cri->visible != 0))
 				break;
-			else if (visible && cri->is_collapsed)
+			else if (cri->is_collapsed)
 				break;
 		}
 		res = g_new (ColRowIndex, 1);
