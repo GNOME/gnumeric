@@ -537,6 +537,10 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 
 	name_guru_populate_list (state);
 
+	gnumeric_init_help_button (
+		glade_xml_get_widget (state->gui, "helpbutton"),
+		"names.html");
+
 	/* a candidate for merging into attach guru */
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       DEFINE_NAMES_KEY);

@@ -1,3 +1,9 @@
+2002-10-29  Jody Goldberg <jody@gnome.org>
+
+	* dialog-define-names.c (name_guru_init) : add a help button.
+
+	* names.glade : remove seperator, add a help button
+
 2002-10-27  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.10

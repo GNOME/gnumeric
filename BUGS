@@ -65,9 +65,9 @@ Pending Patches
 15) Notice mismatch between suffix and saver (eg .xls for gnumeric file)
 16) Decide whether to turn on the poor man's utf8 regexps.
 17) Outline mode
-    17.1) finish implementing optionally putting markers above/left
-    17.2) Make ungroup smarter about handling extra items of lower level at the edges
-    17.3) implement 'clicked' for numbers callbacks (requires cleanup in the collapse code)
+    17.1) markers above/left isntead of below/right
+    17.2) smarter handling for groups at the edge of selection
+    17.3) implement 'clicked' for numbers callbacks
 18) 3D reference fixes on sheet deletion
 19) 'discard' for invalid expressions enters text as string
 

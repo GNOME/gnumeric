@@ -6,6 +6,7 @@ Jody:
 	* Work around incorrect XL95 export in OpenCalc
 	* Enable full simplistic just in time render & span.
 	* Fix names.
+	* Tidy and brighten up the name dialog.
 
 Morten:
 	* Clean up SERIESSUM.
