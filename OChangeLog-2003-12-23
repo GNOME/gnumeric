@@ -1,5 +1,11 @@
 2000-06-04  Jody Goldberg <jgoldberg@home.com>
 
+	* src/value.c (value_is_empty_cell) : str == "" is not empty
+
+	* src/expr.c (compare) : comparisons between "" and empty are special.
+
+2000-06-04  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet.c (sheet_cell_add_to_hash) : Set the CELL_IN_SHEET_LIST
 	  flag.
 	(sheet_cell_remove_from_hash) : Clear the CELL_IN_SHEET_LIST flag.

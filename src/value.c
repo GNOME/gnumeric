@@ -543,9 +543,7 @@ value_get_as_float (const Value *v)
 gboolean
 value_is_empty_cell (Value const *v)
 {
-	return v == NULL ||
-	      (v->type == VALUE_EMPTY) ||
-	      (v->type == VALUE_STRING && v->v_str.val->str[0] == '\0');
+	return v == NULL || (v->type == VALUE_EMPTY);
 }
 
 /*

@@ -470,7 +470,11 @@ compare (Value const *a, Value const *b)
 	if (ta == VALUE_STRING) {
 		switch (tb) {
 		/* Strings are > (empty, or number) */
-		case VALUE_EMPTY : case VALUE_INTEGER : case VALUE_FLOAT :
+		case VALUE_EMPTY :
+			if (*a->v_str.val->str == '\0')
+				return IS_EQUAL;
+
+		case VALUE_INTEGER : case VALUE_FLOAT :
 			return IS_GREATER;
 
 		/* Strings are < FALSE ?? */
@@ -494,7 +498,11 @@ compare (Value const *a, Value const *b)
 	} else if (tb == VALUE_STRING) {
 		switch (ta) {
 		/* (empty, or number) < String */
-		case VALUE_EMPTY : case VALUE_INTEGER : case VALUE_FLOAT :
+		case VALUE_EMPTY :
+			if (*b->v_str.val->str == '\0')
+				return IS_EQUAL;
+
+		case VALUE_INTEGER : case VALUE_FLOAT :
 			return IS_LESS;
 
 		/* Strings are < FALSE ?? */
