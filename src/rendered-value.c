@@ -300,6 +300,25 @@ cell_get_rendered_text (Cell const *cell)
 }
 
 /**
+ * cell_get_render_color:
+ * @cell: the cell from which we want to pull the color from
+ *
+ * the returned value is a pointer to the StyleColor.
+ * no reference has been added!
+ */
+StyleColor  *
+cell_get_render_color (Cell const *cell)
+{
+	g_return_val_if_fail (cell != NULL, NULL);
+
+	/* A precursor to just in time rendering Ick! */
+	if (cell->rendered_value == NULL)
+		cell_render_value ((Cell *)cell, TRUE);
+
+	return cell->rendered_value->render_color;
+}
+
+/**
  * cell_get_entered_text:
  * @cell: the cell from which we want to pull the content from
  *

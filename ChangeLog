@@ -1,5 +1,10 @@
 2002-01-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/cell.h (cell_get_render_color) : new
+	* src/rendered-value.c (cell_get_render_color) : new
+
+2002-01-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/ranges.h (global_range_name) : new
 	* src/ranges.c (global_range_name) : new
 
