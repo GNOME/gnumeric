@@ -719,8 +719,8 @@ static char *help_weekday = {
 	   "@DESCRIPTION="
 	   "WEEKDAY converts a serial number to a weekday.\n"
 	   "\n"
-	   "This function returns an integer in the range 0-6, where "
-	   "Saturday is 0, Sunday is 1, etc.\n"
+	   "This function returns an integer in the range 1-7, where "
+	   "Sunday is 1, Monday is 2, etc.\n"
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
@@ -736,17 +736,19 @@ static char *help_weekday = {
 static Value *
 gnumeric_weekday (FunctionEvalInfo *ei, Value **argv)
 {
-	int res = 1;
+	int res;
 	GDate *date;
 
 	if (argv[0]->type == VALUE_ERROR)
 		return value_duplicate (argv[0]);
 
 	date = datetime_value_to_g (argv[0]);
-	if (date != NULL) {
-		res = (g_date_weekday (date) + 1) % 7;
-		g_date_free (date);
-	}
+	if (!date)
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+	res = (g_date_weekday (date) % 7) + 1;
+	g_date_free (date);
+
 	return value_new_int (res);
 }
 
@@ -1184,7 +1186,7 @@ date_functions_init(void)
 				 &help_today,       gnumeric_today );
 	auto_format_function_result (def, AF_DATE);
 
-	def = function_add_args (cat,  "weekday",        "S",
+	def = function_add_args (cat,  "weekday",        "?",
 				 "date",
 				 &help_weekday,     gnumeric_weekday);
 
