@@ -361,6 +361,7 @@ gnumeric_error_info_dialog_new (ErrorInfo *error)
 				    ? PANGO_WEIGHT_BOLD
 				    : PANGO_WEIGHT_NORMAL),
 			 NULL);
+		g_free (tag_name);
 	}
 	insert_error_info (text, error, 0);
 

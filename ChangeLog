@@ -1,3 +1,7 @@
+2003-11-03  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnumeric_error_info_dialog_new): Plug leak.
+
 2003-11-03  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=126056
