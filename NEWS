@@ -1,5 +1,8 @@
 Gnumeric 1.1.10
 
+Andreas:
+	* Add XHTML exporter
+
 Jody:
 	* Decrease GAL dependence.
 	* More work on opencalc importer.

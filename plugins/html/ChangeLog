@@ -1,3 +1,12 @@
+2002-10-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html.c : new XHTML version
+	(write_row): place apostrophies arounf property values
+	(write_sheet) : use <p /> for xhtml
+	(html_file_save) : handle version == XHTML
+	(xhtml_file_save) : new
+	* plugin.xml.in : add xhtml file saver
+
 2002-09-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.9

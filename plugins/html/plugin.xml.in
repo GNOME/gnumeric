@@ -33,6 +33,11 @@
 				<_description>HTML (*.html) fragment</_description>
 			</information>
 		</service>
+		<service type="file_saver" id="xhtml" file_extension="xhtml" format_level="write_only">
+			<information>
+				<_description>XHTML (*.xhtml)</_description>
+			</information>
+		</service>
 		<service type="file_saver" id="latex" file_extension="tex" format_level="write_only">
 			<information>
 				<_description>LaTeX 2e (*.tex)</_description>

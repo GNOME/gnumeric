@@ -55,9 +55,10 @@
  *
  */
 typedef enum {
-	HTML40 = 0,
-	HTML32 = 1,
-	HTML40F   = 2
+	HTML40    = 0,
+	HTML32    = 1,
+	HTML40F   = 2,
+	XHTML     = 3
 } html_version_t;
 
 /*
@@ -426,7 +427,7 @@ write_row (FILE *fp, Sheet *sheet, gint row, Range *range, html_version_t versio
 		/* Is this a span */
 		the_span = row_span_get (ri, col);
 		if (the_span != NULL) {
-			fprintf (fp, "<td colspan=%i ", the_span->right - col + 1);
+			fprintf (fp, "<td colspan=\"%i\" ", the_span->right - col + 1);
 			write_cell (fp, sheet, row, the_span->cell->pos.col, version);
 			col = the_span->right;
 			continue;
@@ -438,7 +439,7 @@ write_row (FILE *fp, Sheet *sheet, gint row, Range *range, html_version_t versio
 			if (merge_range->start.col != col ||
 			    merge_range->start.row != row)
 				continue;
-			fprintf (fp, "<td colspan=%i rowspan=%i ",
+			fprintf (fp, "<td colspan=\"%i\" rowspan=\"%i\" ",
 				 merge_range->end.col - merge_range->start.col + 1,
 				 merge_range->end.row - merge_range->start.row + 1);
 			write_cell (fp, sheet, row, col, version);
@@ -466,11 +467,18 @@ write_sheet (FILE *fp, Sheet *sheet, html_version_t version)
 	Range total_range;
 	gint row;
 
-	if (version == HTML40)
+	switch (version) {
+	case HTML40:
 		fputs ("<p><table cellspacing=\"0\" cellpadding=\"3\">\n", fp);
-	else
+		break;
+	case XHTML:
+		fputs ("<p /><table cellspacing=\"0\" cellpadding=\"3\">\n", fp);
+		break;
+	default:
 		fputs ("<p><table border=\"1\">\n", fp);
-
+		break;
+	}
+	
 	fputs ("<caption>", fp);
 	html_print_encoded (fp, sheet->name_unquoted);
 	fputs ("</caption>\n", fp);
@@ -478,7 +486,8 @@ write_sheet (FILE *fp, Sheet *sheet, html_version_t version)
 	total_range = sheet_get_extent (sheet, TRUE);
 	for (row = total_range.start.row; row <=  total_range.end.row; row++) {
 		fputs ("<tr>\n", fp);
-		write_row (fp, sheet, row, &total_range, version);
+		write_row (fp, sheet, row, &total_range, 
+			   (version == XHTML) ? HTML40 : version);
 		fputs ("</tr>\n", fp);
 	}
 	fputs ("</table>\n", fp);
@@ -511,7 +520,7 @@ html_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	case HTML32:
 	fputs (
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">\n"
-"<HTML>\n"
+"<html>\n"
 "<head>\n\t<title>Tables</title>\n"
 "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\n"
 "\t<!-- \"G_PLUGIN_FOR_HTML\" -->\n"
@@ -534,9 +543,33 @@ html_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		fputs (
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\"\n"
 "\t\t\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<HTML>\n"
+"<html>\n"
 "<head>\n\t<title>Tables</title>\n"
 "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\n"
+"\t<!-- \"G_PLUGIN_FOR_HTML\" -->\n"
+"<style type=\"text/css\">\n"
+"tt {\n"
+"\tfont-family: courier;\n"
+"}\n"
+"td {\n"
+"\tfont-family: helvetica, sans-serif;\n"
+"}\n"
+"caption {\n"
+"\tfont-family: helvetica, sans-serif;\n"
+"\tfont-size: 14pt;\n"
+"\ttext-align: left;\n"
+"}\n"
+"</style>\n"
+"</head>\n<body>\n", fp);
+		break;
+	case XHTML  :
+		fputs (
+"<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n"
+"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n"
+"\t\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"
+"<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n"
+"<head>\n\t<title>Tables</title>\n"
+"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
 "\t<!-- \"G_PLUGIN_FOR_HTML\" -->\n"
 "<style type=\"text/css\">\n"
 "tt {\n"
@@ -562,8 +595,8 @@ html_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		write_sheet (fp, (Sheet *) ptr->data, version);
 	}
 	g_list_free (sheets);
-	if (version == HTML32 || version == HTML40)
-		fputs ("</body>\n</HTML>\n", fp);
+	if (version == HTML32 || version == HTML40 || version == XHTML)  
+		fputs ("</body>\n</html>\n", fp);
 	fclose (fp);
 }
 
@@ -591,7 +624,7 @@ html32_file_save (GnumFileSaver const *fs, IOContext *io_context,
 }
 
 /*
- * write every sheet of the workbook to an html 3.2 table
+ * write every sheet of the workbook to an html 4.0 fragment table
  *
  */
 void
@@ -600,3 +633,15 @@ html40frag_file_save (GnumFileSaver const *fs, IOContext *io_context,
 {
 	html_file_save (fs, io_context, wb_view, file_name, HTML40F);
 }
+/*
+ * write every sheet of the workbook to an xhtml 1.0 table
+ *
+ */
+
+void
+xhtml_file_save (GnumFileSaver const *fs, IOContext *io_context,
+                  WorkbookView *wb_view, const gchar *file_name)
+{
+	html_file_save (fs, io_context, wb_view, file_name, XHTML);
+}
+
