@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AC_PACKAGE_NAME AC_PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-29 00:57+0900\n"
+"POT-Creation-Date: 2003-07-31 14:11-0400\n"
 "PO-Revision-Date: 2003-07-29 01:01+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GTP Korean <gnome-kr-translation@gnome.or.kr>\n"
@@ -5145,7 +5145,7 @@ msgid ""
 "error.\n"
 "* If @frequency is other than 1, 2, or 4, MDURATION returns #NUM! error.\n"
 "* If @basis is omitted, MSRB 30/360 is applied.\n"
-"* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
+"* If @basis is invalid, #NUM! error is returned.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -12595,8 +12595,9 @@ msgstr "왼쪽 정렬"
 msgid "Left align"
 msgstr "왼쪽 정렬"
 
-#: src/GNOME_Gnumeric.xml.h:146 src/dialogs/dialog-stf-main-page.c:362
-#: src/workbook-object-toolbar.c:174
+#: src/GNOME_Gnumeric.xml.h:146
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
+#: src/dialogs/dialog-stf-main-page.c:362 src/workbook-object-toolbar.c:174
 msgid "Line"
 msgstr "선"
 
@@ -14063,7 +14064,7 @@ msgid "Text (%s) to Columns (%s)"
 msgstr "열 지움"
 
 #. Fill in the header titles.
-#: src/commands.c:6002 src/dialogs/solver.glade.h:25
+#: src/commands.c:6002 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
@@ -14088,7 +14089,7 @@ msgstr "보냄"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:141
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:132
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:159
 msgid "Title"
 msgstr "제목"
 
@@ -14177,7 +14178,7 @@ msgstr "할 일 : 끝나지 않음"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/names.glade.h:6
-#: src/dialogs/solver.glade.h:27
+#: src/dialogs/solver.glade.h:26
 msgid "_Add"
 msgstr "더하기(_A)"
 
@@ -14191,7 +14192,7 @@ msgid "_Decrease"
 msgstr "감소(_D)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
-#: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:31
+#: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:30
 msgid "_Delete"
 msgstr "지움(_D)"
 
@@ -14218,12 +14219,12 @@ msgstr "텍스트(_T):"
 msgid "Plot Engine"
 msgstr "플롯 모드"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:237
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:230
 #, fuzzy
 msgid "Plot Type"
 msgstr "플롯 모드"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:319
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:312
 msgid "Chart Theme"
 msgstr ""
 
@@ -14414,21 +14415,13 @@ msgstr "그래프(_G)..."
 msgid "_Overlap:"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:129
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd bar/col plot in a chart will be called
+#. * 	PlotBarCol2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:97
 msgid "PlotBarCol"
 msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:287
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
-#: src/dialogs/consolidate.glade.h:10
-msgid "Labels"
-msgstr "꼬리표"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:289
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:194
-#: src/dialogs/consolidate.glade.h:22
-msgid "Values"
-msgstr "값"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -14484,80 +14477,146 @@ msgid "Adjacent vertical columns grouped by major and minor categories."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
+#: src/func.c:687
+#, fuzzy
+msgid "Area"
+msgstr "더하기"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
+msgid "Area plot."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
+#, fuzzy
+msgid "Areas"
+msgstr "더하기"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
 msgid "Bar"
 msgstr "막대형"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:17
 msgid "Column"
 msgstr "열"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
+#, fuzzy
+msgid "Line plot."
+msgstr "인쇄할 제목"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
+#, fuzzy
+msgid "Lines"
+msgstr "선"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D horizontal "
 "bars, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:22
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D vertical "
 "bars, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:17
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:23
 msgid ""
 "Minor categories stacked as percentages of the minor total, in horizontal "
 "bars, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:24
 msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:25
 msgid ""
 "Minor categories stacked in horizontal 3D bars, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:26
 msgid "Minor categories stacked in horizontal bars grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:27
 msgid ""
 "Minor categories stacked in vertical 3D columns, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:22
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:28
 msgid "Minor categories stacked in vertical columns grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:23
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:29
+#, fuzzy
+msgid "Percentage Areas"
+msgstr "퍼센트(_C)"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:30
 #, fuzzy
 msgid "Percentage Bars"
 msgstr "퍼센트(_C)"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:24
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:31
 #, fuzzy
 msgid "Percentage Columns"
 msgstr "열 지움"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:25
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:32
+#, fuzzy
+msgid "Percentage Lines"
+msgstr "퍼센트(_P)"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:33
+#, fuzzy
+msgid "Percentage area plot."
+msgstr "퍼센트(_C)"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:34
+#, fuzzy
+msgid "Percentage line plot."
+msgstr "열 지움"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:35
+#, fuzzy
+msgid "Stacked Areas"
+msgstr "누적 막대형"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:36
 msgid "Stacked Bars"
 msgstr "누적 막대형"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:26
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:37
 #, fuzzy
 msgid "Stacked Columns"
 msgstr "열 지움"
 
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:38
+#, fuzzy
+msgid "Stacked Lines"
+msgstr "누적 막대형"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:39
+#, fuzzy
+msgid "Stacked area plot."
+msgstr "누적 막대형"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:40
+#, fuzzy
+msgid "Stacked line plot."
+msgstr "열 지움"
+
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:1
-msgid "Bar and Column charts"
-msgstr ""
+#, fuzzy
+msgid "1.5d Charts"
+msgstr "도표"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:2
-msgid "Bar/Col Charts"
+msgid "Area plotting engine"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:3
@@ -14565,7 +14624,16 @@ msgid "Bar/Col plotting engine"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:4
-msgid "Default Bar/Col plot types"
+#, fuzzy
+msgid "Default 1.5d plot types"
+msgstr "기본 해석기"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:5
+msgid "Line plotting engine"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:6
+msgid "Line, Area, Bar and Column charts"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:3
@@ -14607,6 +14675,16 @@ msgstr "지움(_D)"
 #, fuzzy
 msgid "PlotPie"
 msgstr "플롯 모드"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
+#: src/dialogs/consolidate.glade.h:10
+msgid "Labels"
+msgstr "꼬리표"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:194
+#: src/dialogs/consolidate.glade.h:22
+msgid "Values"
+msgstr "값"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
 #, fuzzy
@@ -14903,7 +14981,7 @@ msgstr "목록 범위(_R):"
 msgid "N_ew Workbook"
 msgstr "새 워크북(_E)"
 
-#: src/dialogs/advanced-filter.glade.h:7 src/dialogs/solver.glade.h:19
+#: src/dialogs/advanced-filter.glade.h:7
 msgid "Output"
 msgstr "출력"
 
@@ -18718,7 +18796,7 @@ msgstr "워크북"
 msgid "_Expression: "
 msgstr "표현식(_E): "
 
-#: src/dialogs/names.glade.h:9 src/dialogs/solver.glade.h:37
+#: src/dialogs/names.glade.h:9 src/dialogs/solver.glade.h:36
 msgid "_Name: "
 msgstr "이름(_N): "
 
@@ -18859,7 +18937,8 @@ msgstr "머리말(_A):"
 msgid "Headers and footers"
 msgstr "머리말과 꼬리말"
 
-#: src/dialogs/print.glade.h:11 src/tools/solver/reports-write.c:755
+#: src/dialogs/print.glade.h:11 src/dialogs/solver.glade.h:18
+#: src/tools/solver/reports-write.c:755
 msgid "Options"
 msgstr "옵션"
 
@@ -19101,7 +19180,7 @@ msgstr "읽어들이기"
 msgid "Scenario Manager"
 msgstr "Gnumeric 플러그인 관리자"
 
-#: src/dialogs/scenario-manager.glade.h:8 src/dialogs/solver.glade.h:23
+#: src/dialogs/scenario-manager.glade.h:8
 #, fuzzy
 msgid "Scenarios:"
 msgstr "구분자"
@@ -19726,94 +19805,94 @@ msgstr "설명(_D)"
 msgid "Max Time (sec.):"
 msgstr "최대"
 
-#: src/dialogs/solver.glade.h:17 src/tools/solver/reports-write.c:703
-#: src/tools/solver/reports-write.c:711
-msgid "Model Assumptions:"
-msgstr ""
-
-#: src/dialogs/solver.glade.h:18
+#: src/dialogs/solver.glade.h:17
 #, fuzzy
-msgid "Options:"
-msgstr "옵션:"
+msgid "Model"
+msgstr "양식"
 
-#: src/dialogs/solver.glade.h:20
+#: src/dialogs/solver.glade.h:19
 msgid "P_rogram"
 msgstr "프로그램(_R)"
 
-#: src/dialogs/solver.glade.h:21
+#: src/dialogs/solver.glade.h:20
 msgid "Parameters"
 msgstr "매개변수"
 
-#: src/dialogs/solver.glade.h:22
+#: src/dialogs/solver.glade.h:21
 #, fuzzy
-msgid "Reports:"
+msgid "Reports"
 msgstr "읽어들이기"
 
-#: src/dialogs/solver.glade.h:24
+#: src/dialogs/solver.glade.h:22
+#, fuzzy
+msgid "Scenarios"
+msgstr "구분자"
+
+#: src/dialogs/solver.glade.h:23
 msgid "Solve"
 msgstr "해결"
 
-#: src/dialogs/solver.glade.h:26
+#: src/dialogs/solver.glade.h:25
 #, fuzzy
 msgid "Subject to the Constraints:"
 msgstr "내용(_C)"
 
-#: src/dialogs/solver.glade.h:28
+#: src/dialogs/solver.glade.h:27
 #, fuzzy
 msgid "_Answer"
 msgstr "삽입(_I)"
 
-#: src/dialogs/solver.glade.h:29
+#: src/dialogs/solver.glade.h:28
 msgid "_Change"
 msgstr "바꾸기(_C)"
 
-#: src/dialogs/solver.glade.h:30
+#: src/dialogs/solver.glade.h:29
 msgid "_Create a scenario if the optimal solution is found"
 msgstr ""
 
-#: src/dialogs/solver.glade.h:32
+#: src/dialogs/solver.glade.h:31
 #, fuzzy
 msgid "_Do not create scenarios"
 msgstr "이 다음부터 대문자로 시작하지 않음(_D):"
 
-#: src/dialogs/solver.glade.h:33
+#: src/dialogs/solver.glade.h:32
 msgid "_Left Hand Side:"
 msgstr ""
 
-#: src/dialogs/solver.glade.h:34
+#: src/dialogs/solver.glade.h:33
 msgid "_Limits"
 msgstr "제한(_L)"
 
-#: src/dialogs/solver.glade.h:35
+#: src/dialogs/solver.glade.h:34
 msgid "_Linear Model (LP/MILP)"
 msgstr ""
 
-#: src/dialogs/solver.glade.h:36
+#: src/dialogs/solver.glade.h:35
 msgid "_Max"
 msgstr "최대(_M)"
 
-#: src/dialogs/solver.glade.h:38
+#: src/dialogs/solver.glade.h:37
 msgid "_Performance"
 msgstr "성능(_P)"
 
-#: src/dialogs/solver.glade.h:39
+#: src/dialogs/solver.glade.h:38
 msgid "_Quadratic Model (QP/MIQP)"
 msgstr ""
 
-#: src/dialogs/solver.glade.h:40
+#: src/dialogs/solver.glade.h:39
 msgid "_Right Hand Side:"
 msgstr "왼손쪽"
 
-#: src/dialogs/solver.glade.h:41
+#: src/dialogs/solver.glade.h:40
 #, fuzzy
 msgid "_Sensitivity"
 msgstr "과학(_S)"
 
-#: src/dialogs/solver.glade.h:42
+#: src/dialogs/solver.glade.h:41
 msgid "_Set Target Cell:       "
 msgstr ""
 
-#: src/dialogs/solver.glade.h:43
+#: src/dialogs/solver.glade.h:42
 msgid "_Type:"
 msgstr "형식(_T):"
 
@@ -20937,11 +21016,6 @@ msgstr "불리언"
 #, fuzzy
 msgid "Cell Range"
 msgstr "셀 값"
-
-#: src/func.c:687
-#, fuzzy
-msgid "Area"
-msgstr "더하기"
 
 #: src/func.c:689
 #, fuzzy
@@ -22849,6 +22923,10 @@ msgstr "알 수 없음"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
+#: src/tools/solver/reports-write.c:703 src/tools/solver/reports-write.c:711
+msgid "Model Assumptions:"
+msgstr ""
+
 #: src/tools/solver/reports-write.c:704
 #, fuzzy
 msgid "Autoscaling:"
@@ -23698,12 +23776,12 @@ msgstr "과학(_S)"
 msgid "Special"
 msgstr "특별한 기능(_P)"
 
-#: src/widgets/widget-format-selector.c:926
+#: src/widgets/widget-format-selector.c:929
 #, fuzzy
 msgid "Negative Number Format"
 msgstr "음수(_i):"
 
-#: src/widgets/widget-format-selector.c:957
+#: src/widgets/widget-format-selector.c:960
 #, fuzzy
 msgid "Number Formats"
 msgstr "형식 복사"
@@ -24846,3 +24924,7 @@ msgstr "파일 닫기 에러, 에러: %s"
 #: src/xml-io.c:3951
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML 파일 형식"
+
+#, fuzzy
+#~ msgid "Options:"
+#~ msgstr "옵션:"

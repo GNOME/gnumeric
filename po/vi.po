@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-17 17:46-0400\n"
+"POT-Creation-Date: 2003-07-31 14:11-0400\n"
 "PO-Revision-Date: 2003-02-23 09:00+0700\n"
 "Last-Translator: pclouds <pclouds@gmx.net>\n"
 "Language-Team: GnomeVI <gnomevi-list@lists.sourceforge.net>\n"
@@ -701,7 +701,7 @@ msgstr "Liên quan đến tài chính"
 msgid "Functions related to financial derivatives"
 msgstr "Các hàm liên quan đến tài chính"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5150
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5151
 #: plugins/mps/mps.c:549 src/xml-io.c:3839
 msgid "Reading file..."
 msgstr "Đang đọc tập tin..."
@@ -792,70 +792,70 @@ msgstr ""
 msgid "XML document not well formed!"
 msgstr "Tập tin XML sai dạng thức!"
 
-#: plugins/excel/ms-excel-read.c:998
+#: plugins/excel/ms-excel-read.c:999
 msgid "#UNKNOWN!"
 msgstr "@KHÔNG BIẾT!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1089 plugins/excel/ms-excel-read.c:1100
+#: plugins/excel/ms-excel-read.c:1090 plugins/excel/ms-excel-read.c:1101
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:435 src/dialogs/dialog-sheet-order.c:439
 #, c-format
 msgid "Sheet%d"
 msgstr "Trang%d"
 
-#: plugins/excel/ms-excel-read.c:1103
+#: plugins/excel/ms-excel-read.c:1104
 #, c-format
 msgid "Macro%d"
 msgstr "Macro%d"
 
-#: plugins/excel/ms-excel-read.c:1106
+#: plugins/excel/ms-excel-read.c:1107
 #, c-format
 msgid "Chart%d"
 msgstr "Bieudo%d"
 
-#: plugins/excel/ms-excel-read.c:1109
+#: plugins/excel/ms-excel-read.c:1110
 #, c-format
 msgid "Module%d"
 msgstr "Module%d"
 
-#: plugins/excel/ms-excel-read.c:2694
+#: plugins/excel/ms-excel-read.c:2695
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Lỗi phân tích tên '%s'"
 
-#: plugins/excel/ms-excel-read.c:2750
+#: plugins/excel/ms-excel-read.c:2751
 #, c-format
 msgid ""
 "DDE links are no supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:2756
+#: plugins/excel/ms-excel-read.c:2757
 #, c-format
 msgid ""
 "OLE links are no supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:2808
+#: plugins/excel/ms-excel-read.c:2809
 msgid "Failure parsing AutoFilter."
 msgstr "Lỗi phân tích Bộ lọc Tự động."
 
-#: plugins/excel/ms-excel-read.c:4567
+#: plugins/excel/ms-excel-read.c:4568
 msgid "external references"
 msgstr "tham chiếu ngoại"
 
-#: plugins/excel/ms-excel-read.c:5296
+#: plugins/excel/ms-excel-read.c:5297
 msgid "No password supplied"
 msgstr "Chưa cho biết mật khẩu"
 
-#: plugins/excel/ms-excel-read.c:5300
+#: plugins/excel/ms-excel-read.c:5301
 msgid "Invalid password"
 msgstr "Sai mật mã"
 
-#: plugins/excel/ms-excel-read.c:5401
+#: plugins/excel/ms-excel-read.c:5402
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Không thể định vị workbook MS Excel hợp lệ "
 
@@ -866,29 +866,29 @@ msgid ""
 "encoding problems."
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3751
+#: plugins/excel/ms-excel-write.c:3753
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
 "d rows, and this workbook has %d"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3758
+#: plugins/excel/ms-excel-write.c:3760
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
 "rows, and this workbook has %d"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:4162
+#: plugins/excel/ms-excel-write.c:4178
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Không thể mở luồng 'Book' để ghi\n"
 
-#: plugins/excel/ms-excel-write.c:4182
+#: plugins/excel/ms-excel-write.c:4198
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Không thể mở luồng 'Workbook' để ghi\n"
 
-#: plugins/excel/ms-formula-read.c:615
+#: plugins/excel/ms-formula-read.c:614
 msgid "Broken function"
 msgstr "Hàm lỗi"
 
@@ -6327,7 +6327,7 @@ msgid ""
 "error.\n"
 "* If @frequency is other than 1, 2, or 4, MDURATION returns #NUM! error.\n"
 "* If @basis is omitted, MSRB 30/360 is applied.\n"
-"* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
+"* If @basis is invalid, #NUM! error is returned.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -13444,11 +13444,11 @@ msgstr "Ràng buộc:"
 
 #: plugins/mps/mps.c:247 src/commands.c:5452
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:969
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:111
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:105
 #: src/dialogs/dialog-define-names.c:483 src/dialogs/dialog-formula-guru.c:810
 #: src/dialogs/dialog-function-select.c:442
 #: src/dialogs/dialog-function-select.c:464 src/dialogs/dialog-scenarios.c:351
-#: src/dialogs/dialog-simulation.c:228 src/dialogs/dialog-zoom.c:192
+#: src/dialogs/dialog-simulation.c:228 src/dialogs/dialog-zoom.c:191
 #: src/format-template.c:247 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
 #: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:283
@@ -13886,7 +13886,7 @@ msgstr "Hàm python"
 msgid "Sample Python plugin providing some (useless) functions."
 msgstr "Plugin Python mẫu, cung cấp một vài hàm ví dụ."
 
-#: plugins/python-loader/gnm-py-interpreter.c:224
+#: plugins/python-loader/gnm-py-interpreter.c:258
 msgid "Default interpreter"
 msgstr "Bộ thông dịch mặc định"
 
@@ -13898,48 +13898,45 @@ msgstr "Bộ nạp plugin Python"
 msgid "This plugin provides support for Python plugins"
 msgstr "Plugin này hỗ trợ Python plugin"
 
-#: plugins/python-loader/py-console.c:74
+#: plugins/python-loader/py-console.c:90
 #, c-format
 msgid "*** Interpreter: %s\n"
 msgstr "*** Bộ thông dịch: %s\n"
 
-#: plugins/python-loader/py-console.c:125
+#: plugins/python-loader/py-console.c:152
 msgid "Gnumeric Python console"
 msgstr "Gnumeric Python console"
 
-#: plugins/python-loader/py-console.c:135
+#: plugins/python-loader/py-console.c:162
 msgid "E_xecute in:"
 msgstr "_Chạy trong:"
 
-#: plugins/python-loader/py-console.c:179
+#: plugins/python-loader/py-console.c:207
 msgid "C_ommand:"
 msgstr "_Lệnh:"
 
 #: plugins/python-loader/py-gnumeric.c:226
-#: plugins/python-loader/py-gnumeric.c:266
+msgid "Python list is not an array"
+msgstr "Danh sách Python không phải là dãy"
+
+#: plugins/python-loader/py-gnumeric.c:233
+#, c-format
+msgid "Unsupported Python type: %s"
+msgstr "Kiểu Python chưa hỗ trợ: %s"
+
+#: plugins/python-loader/py-gnumeric.c:260
 msgid "Unknown error"
 msgstr "Lỗi lạ"
 
-#: plugins/python-loader/py-gnumeric.c:232
-#: plugins/python-loader/py-gnumeric.c:274
+#: plugins/python-loader/py-gnumeric.c:266
 #, c-format
 msgid "Python exception (%s: %s)"
 msgstr "Lỗi ngoại lệ Python (%s: %s)"
 
-#: plugins/python-loader/py-gnumeric.c:236
-#: plugins/python-loader/py-gnumeric.c:278
+#: plugins/python-loader/py-gnumeric.c:270
 #, c-format
 msgid "Python exception (%s)"
 msgstr "Lỗi ngoại lệ Python (%s)"
-
-#: plugins/python-loader/py-gnumeric.c:409
-msgid "Python list is not an array"
-msgstr "Danh sách Python không phải là dãy"
-
-#: plugins/python-loader/py-gnumeric.c:416
-#, c-format
-msgid "Unsupported Python type: %s"
-msgstr "Kiểu Python chưa hỗ trợ: %s"
 
 #: plugins/python-loader/python-loader.c:82
 msgid "Python module name not given."
@@ -14460,7 +14457,7 @@ msgstr ""
 "nên cảnh báo người dùng khi workbook nhiều trang được lưu theo những dạng "
 "thức này hay không."
 
-#: schemas/gnumeric-general.schemas.in.h:29 src/GNOME_Gnumeric.xml.h:228
+#: schemas/gnumeric-general.schemas.in.h:29 src/GNOME_Gnumeric.xml.h:231
 #: src/workbook-control-gui.c:3999
 msgid "Sort Ascending"
 msgstr "Sắp xuôi"
@@ -14689,7 +14686,7 @@ msgstr "Canh hàng nội dung bên trái và tăng indent"
 msgid "Append a new sheet"
 msgstr "Chèn trang mới"
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-object-toolbar.c:166
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-object-toolbar.c:177
 msgid "Arrow"
 msgstr "Mũi tên"
 
@@ -14729,8 +14726,8 @@ msgstr "Đậm"
 msgid "Borders"
 msgstr "Biên"
 
-#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:421
-#: src/workbook-object-toolbar.c:141
+#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:412
+#: src/workbook-object-toolbar.c:155
 msgid "Button"
 msgstr "Nút"
 
@@ -14788,7 +14785,7 @@ msgstr "Đổi độ rộng cột được chọn"
 msgid "Chart Guru"
 msgstr "Kết quả biểu đồ"
 
-#: src/GNOME_Gnumeric.xml.h:33 src/workbook-object-toolbar.c:148
+#: src/GNOME_Gnumeric.xml.h:33 src/workbook-object-toolbar.c:159
 msgid "Checkbox"
 msgstr "Ô kiểm"
 
@@ -14831,7 +14828,7 @@ msgstr "Co_variance"
 msgid "Collapse an outline group"
 msgstr "Co nhóm phác thảo"
 
-#: src/GNOME_Gnumeric.xml.h:43 src/workbook-object-toolbar.c:160
+#: src/GNOME_Gnumeric.xml.h:43 src/workbook-object-toolbar.c:171
 msgid "Combo Box"
 msgstr "Hộp combo"
 
@@ -14888,31 +14885,31 @@ msgstr "Chép vùng chọn vào clipboard"
 msgid "Covariance"
 msgstr "Hiệp biến"
 
-#: src/GNOME_Gnumeric.xml.h:55 src/workbook-object-toolbar.c:141
+#: src/GNOME_Gnumeric.xml.h:55 src/workbook-object-toolbar.c:155
 msgid "Create a button"
 msgstr "Tạo nút"
 
-#: src/GNOME_Gnumeric.xml.h:56 src/workbook-object-toolbar.c:148
+#: src/GNOME_Gnumeric.xml.h:56 src/workbook-object-toolbar.c:159
 msgid "Create a checkbox"
 msgstr "Tạo ô đánh dấu"
 
-#: src/GNOME_Gnumeric.xml.h:57 src/workbook-object-toolbar.c:160
+#: src/GNOME_Gnumeric.xml.h:57 src/workbook-object-toolbar.c:171
 msgid "Create a combo box"
 msgstr "Tạo combo box"
 
-#: src/GNOME_Gnumeric.xml.h:58 src/workbook-object-toolbar.c:136
+#: src/GNOME_Gnumeric.xml.h:58 src/workbook-object-toolbar.c:150
 msgid "Create a frame"
 msgstr "Tạo khung"
 
-#: src/GNOME_Gnumeric.xml.h:59 src/workbook-object-toolbar.c:133
+#: src/GNOME_Gnumeric.xml.h:59 src/workbook-object-toolbar.c:147
 msgid "Create a label"
 msgstr "Tạo nhãn"
 
-#: src/GNOME_Gnumeric.xml.h:60 src/workbook-object-toolbar.c:163
+#: src/GNOME_Gnumeric.xml.h:60 src/workbook-object-toolbar.c:174
 msgid "Create a line object"
 msgstr "Tạo đối tượng đường thẳng"
 
-#: src/GNOME_Gnumeric.xml.h:61 src/workbook-object-toolbar.c:157
+#: src/GNOME_Gnumeric.xml.h:61 src/workbook-object-toolbar.c:168
 msgid "Create a list"
 msgstr "Tạo danh sách"
 
@@ -14929,873 +14926,894 @@ msgstr "Tạo workbook mới"
 msgid "Create a pivot table"
 msgstr "Tạo bảng pivot"
 
-#: src/GNOME_Gnumeric.xml.h:65 src/workbook-object-toolbar.c:153
+#: src/GNOME_Gnumeric.xml.h:65 src/workbook-object-toolbar.c:164
 msgid "Create a radio button"
 msgstr "Tạo nút chọn"
 
-#: src/GNOME_Gnumeric.xml.h:66 src/workbook-object-toolbar.c:169
+#: src/GNOME_Gnumeric.xml.h:66 src/workbook-object-toolbar.c:180
 msgid "Create a rectangle object"
 msgstr "Tạo đối tượng hình chữ nhật"
 
-#: src/GNOME_Gnumeric.xml.h:67 src/workbook-object-toolbar.c:145
+#: src/GNOME_Gnumeric.xml.h:67 src/workbook-object-toolbar.c:187
 msgid "Create a scrollbar"
 msgstr "Tạo than cuộn"
 
-#: src/GNOME_Gnumeric.xml.h:68 src/workbook-object-toolbar.c:166
+#: src/GNOME_Gnumeric.xml.h:68 src/workbook-object-toolbar.c:193
+#, fuzzy
+msgid "Create a slider"
+msgstr "Tạo danh sách"
+
+#: src/GNOME_Gnumeric.xml.h:69 src/workbook-object-toolbar.c:190
+#, fuzzy
+msgid "Create a spin button"
+msgstr "Tạo nút"
+
+#: src/GNOME_Gnumeric.xml.h:70 src/workbook-object-toolbar.c:177
 msgid "Create an arrow object"
 msgstr "Tạo đối tượng mũi tên"
 
-#: src/GNOME_Gnumeric.xml.h:69 src/workbook-object-toolbar.c:172
+#: src/GNOME_Gnumeric.xml.h:71 src/workbook-object-toolbar.c:183
 msgid "Create an ellipse object"
 msgstr "Tạo đối tượng hình êlíp"
 
-#: src/GNOME_Gnumeric.xml.h:70 src/sheet-control-gui.c:1476
+#: src/GNOME_Gnumeric.xml.h:72 src/sheet-control-gui.c:1476
 msgid "Cu_t"
 msgstr "_Cắt"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:3509
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:3509
 msgid "Current _date"
 msgstr "_Ngày hiện thời"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3515
+#: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:3515
 msgid "Current _time"
 msgstr "_Giờ hiện thời"
 
-#: src/GNOME_Gnumeric.xml.h:73 src/sheet-view.c:338 src/sheet-view.c:341
+#: src/GNOME_Gnumeric.xml.h:75 src/sheet-view.c:338 src/sheet-view.c:341
 #: src/workbook-control-gui.c:3962
 msgid "Cut"
 msgstr "Cắt"
 
-#: src/GNOME_Gnumeric.xml.h:74
+#: src/GNOME_Gnumeric.xml.h:76
 msgid "Cut the selection"
 msgstr "Cắt vùng chọn"
 
-#: src/GNOME_Gnumeric.xml.h:75 src/workbook-control-gui.c:3962
+#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:3962
 msgid "Cut the selection to the clipboard"
 msgstr "Cắt vùng chọn vào clipboard"
 
-#: src/GNOME_Gnumeric.xml.h:76 src/workbook-format-toolbar.c:400
+#: src/GNOME_Gnumeric.xml.h:78 src/workbook-format-toolbar.c:400
 #: src/workbook-format-toolbar.c:480
 msgid "Decrease Indent"
 msgstr "Giảm indent"
 
-#: src/GNOME_Gnumeric.xml.h:77 src/workbook-format-toolbar.c:474
+#: src/GNOME_Gnumeric.xml.h:79 src/workbook-format-toolbar.c:474
 msgid "Decrease Precision"
 msgstr "Giảm độ chính xác"
 
-#: src/GNOME_Gnumeric.xml.h:78 src/workbook-format-toolbar.c:474
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-format-toolbar.c:474
 msgid "Decrease the number of decimals displayed"
 msgstr "Giảm số số thập phân được hiển thị"
 
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:3623
+#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3623
 msgid "Display _Formulas"
 msgstr "Hiện _công thức"
 
-#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3842
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3842
 msgid "Display _Outlines"
 msgstr "Hiện _phác thảo"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3624
+#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3624
 msgid "Display the value of a formula or the formula itself"
 msgstr "Hiện giá trị của công thức hoặc chính công thức đó"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3996
+#: src/GNOME_Gnumeric.xml.h:84 src/workbook-control-gui.c:3996
 msgid "Edit a function in the current cell"
 msgstr "Sửa hàm trong ô hiện tại"
 
-#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3314
+#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3314
 msgid "Edit descriptive information"
 msgstr "Sửa thông tin mô tả"
 
-#: src/GNOME_Gnumeric.xml.h:84 src/workbook-control-gui.c:3524
+#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3524
 msgid "Edit sheet and workbook names"
 msgstr "Sửa tên trang và workbook"
 
-#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3670
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3670
 msgid "Edit the Gnumeric Preferences"
 msgstr "Sửa thông số Gnumeric"
 
-#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3453
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3453
 msgid "Edit the selected cell's comment"
 msgstr "Sửa ghi chú của ô được chọn"
 
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-object-toolbar.c:172
+#: src/GNOME_Gnumeric.xml.h:89 src/workbook-object-toolbar.c:183
 msgid "Ellipse"
 msgstr "Êlíp"
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3580
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3580
 msgid "Ensure columns are just wide enough to display content"
 msgstr "Chắc chắn cột đủ rộng để hiển thị nội dung"
 
-#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3599
+#: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:3599
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Chắc chắn hàng đủ cao để hiển thị nội dung"
 
-#: src/GNOME_Gnumeric.xml.h:90
+#: src/GNOME_Gnumeric.xml.h:92
 msgid "Exponential smoothing"
 msgstr "Mượt theo mũ"
 
-#: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:3755
+#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:3755
 msgid "F_orecasting"
 msgstr "_Dự đoán"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:3932
+#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:3932
 msgid "F_ormat"
 msgstr "Định _dạng"
 
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:3386
+#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:3386
 msgid "Fill according to a linear or exponential series"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:3879
+#: src/GNOME_Gnumeric.xml.h:96 src/workbook-control-gui.c:3879
 msgid "Filter data with given criteria"
 msgstr "Lọc dữ liệu dựa vào tiêu chuẩn được cho"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/dialogs/cell-format.glade.h:43
+#: src/GNOME_Gnumeric.xml.h:97 src/dialogs/cell-format.glade.h:43
 #: src/dialogs/dialog-preferences.c:1393 src/workbook-format-toolbar.c:411
 msgid "Font"
 msgstr "Font"
 
-#: src/GNOME_Gnumeric.xml.h:96 src/workbook-format-toolbar.c:411
+#: src/GNOME_Gnumeric.xml.h:98 src/workbook-format-toolbar.c:411
 #: src/workbook-format-toolbar.c:880
 msgid "Font selector"
 msgstr "Bộ chọn font"
 
-#: src/GNOME_Gnumeric.xml.h:97 src/workbook-format-toolbar.c:882
+#: src/GNOME_Gnumeric.xml.h:99 src/workbook-format-toolbar.c:882
 msgid "Font size"
 msgstr "Cỡ font"
 
-#: src/GNOME_Gnumeric.xml.h:98 src/dialogs/dialog-cell-format.c:2269
+#: src/GNOME_Gnumeric.xml.h:100 src/dialogs/dialog-cell-format.c:2269
 #: src/workbook-format-toolbar.c:855 src/workbook-format-toolbar.c:891
 msgid "Foreground"
 msgstr "Cận cảnh"
 
-#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:3674
+#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3674
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Định dạng vùng dựa vào mẫu cho sẵn"
 
-#: src/GNOME_Gnumeric.xml.h:100 src/dialogs/fourier-analysis.glade.h:3
+#: src/GNOME_Gnumeric.xml.h:102 src/dialogs/fourier-analysis.glade.h:3
 #: src/workbook-control-gui.c:3758
 msgid "Fourier Analysis"
 msgstr "Phân tích Fourier"
 
-#: src/GNOME_Gnumeric.xml.h:101 src/sheet-object-widget.c:192
-#: src/workbook-object-toolbar.c:136
+#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:185
+#: src/workbook-object-toolbar.c:150
 msgid "Frame"
 msgstr "Khung"
 
-#: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:1517
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:1517
 #: src/workbook-control-gui.c:3500
 msgid "Freeze the top left of the sheet"
 msgstr "Giữ đỉnh trái của trang"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/dialogs/function-select.glade.h:3
+#: src/GNOME_Gnumeric.xml.h:105 src/dialogs/function-select.glade.h:3
 #: src/workbook-control-gui.c:3995
 msgid "Function"
 msgstr "Hàm"
 
-#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:3389
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3389
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Phát sinh số ngẫu nhiên dựa vào phân phối được chọn"
 
-#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:3914
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3914
 msgid "Get _External Data"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3595
+#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3595
 msgid "H_eight..."
 msgstr "_Cao..."
 
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3641
+#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3641
 msgid "Hide _Column Headers"
 msgstr "Ẩn tiêu đề cột"
 
-#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3635
+#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3635
 msgid "Hide _Gridlines"
 msgstr "Ẩn lưới"
 
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3647
+#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3647
 msgid "Hide _Row Headers"
 msgstr "Ẩn tiêu đề hàng"
 
-#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3629
+#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3629
 msgid "Hide _Zeros"
 msgstr "Ẩn số không"
 
-#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3583
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3583
 msgid "Hide the selected columns"
 msgstr "Ẩn cột được chọn"
 
-#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3602
+#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:3602
 msgid "Hide the selected rows"
 msgstr "Ẩn hàng được chọn"
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3565
+#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:3565
 msgid "Hyper_link..."
 msgstr "_Siêu liên kết..."
 
-#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:3987
+#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:3987
 msgid "Hyperlink"
 msgstr "Siêu liên kết"
 
-#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:3864
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:3864
 msgid "Import _Text File..."
 msgstr "Nhập tập tin _văn bản..."
 
-#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:3865
+#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:3865
 msgid "Import the text from a file"
 msgstr "Nhập văn bản từ một tập tin"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-format-toolbar.c:379
+#: src/GNOME_Gnumeric.xml.h:119 src/workbook-format-toolbar.c:379
 #: src/workbook-format-toolbar.c:483
 msgid "Increase Indent"
 msgstr "Tăng indent"
 
-#: src/GNOME_Gnumeric.xml.h:118 src/workbook-format-toolbar.c:471
+#: src/GNOME_Gnumeric.xml.h:120 src/workbook-format-toolbar.c:471
 msgid "Increase Precision"
 msgstr "Tăng độ chính xác"
 
-#: src/GNOME_Gnumeric.xml.h:119 src/workbook-format-toolbar.c:471
+#: src/GNOME_Gnumeric.xml.h:121 src/workbook-format-toolbar.c:471
 msgid "Increase the number of decimals displayed"
 msgstr "Tăng số số thập phân được hiển thị"
 
-#: src/GNOME_Gnumeric.xml.h:120
+#: src/GNOME_Gnumeric.xml.h:122
 msgid "Insert Component"
 msgstr "Chèn thành phần"
 
-#: src/GNOME_Gnumeric.xml.h:121
+#: src/GNOME_Gnumeric.xml.h:123
 msgid "Insert Shaped Component"
 msgstr "Chèn thành phần hình"
 
-#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:3566
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:3566
 #: src/workbook-control-gui.c:3988
 msgid "Insert a Hyperlink"
 msgstr "Chèn siêu liên kết"
 
-#: src/GNOME_Gnumeric.xml.h:123 src/workbook-control-gui.c:3560
+#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:3560
 msgid "Insert a function into the selected cell"
 msgstr "Chèn hàm vào ô được chọn"
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:3404
+#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3404
 #: src/workbook-control-gui.c:3546
 msgid "Insert a new sheet"
 msgstr "Chèn trang mới"
 
-#: src/GNOME_Gnumeric.xml.h:125
+#: src/GNOME_Gnumeric.xml.h:127
 msgid "Insert a shaped component into the spreadsheet"
 msgstr "Chèn thành phần hình vào bảng tính"
 
-#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3556
+#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3556
 msgid "Insert an image"
 msgstr "Chèn ảnh"
 
-#: src/GNOME_Gnumeric.xml.h:127
+#: src/GNOME_Gnumeric.xml.h:129
 msgid "Insert an object into the spreadsheet"
 msgstr "Chèn đối tượng vào bảng tính"
 
-#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3537
+#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3537
 msgid "Insert new cells"
 msgstr "Chèn ô mới"
 
-#: src/GNOME_Gnumeric.xml.h:129 src/workbook-control-gui.c:3540
+#: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:3540
 msgid "Insert new columns"
 msgstr "Chèn cột mới"
 
-#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3543
+#: src/GNOME_Gnumeric.xml.h:132 src/workbook-control-gui.c:3543
 msgid "Insert new rows"
 msgstr "Chèn hàng mới"
 
-#: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:3510
+#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:3510
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Chèn ngày hiện thời vào ô được chọn"
 
-#: src/GNOME_Gnumeric.xml.h:132 src/workbook-control-gui.c:3516
+#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:3516
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Chèn giờ hiện thời vào ô được chọn"
 
-#: src/GNOME_Gnumeric.xml.h:133
+#: src/GNOME_Gnumeric.xml.h:135
 msgid "Inserts a Bonobo object"
 msgstr "Chèn đối tượng Bonobo"
 
-#: src/GNOME_Gnumeric.xml.h:134
+#: src/GNOME_Gnumeric.xml.h:136
 msgid "Inserts a Shaped Bonobo object"
 msgstr "Chèn đối tượng hình Bonobo"
 
-#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:3416
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3416
 msgid "Irrevocably remove an entire sheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:136 src/widgets/widget-font-selector.c:152
+#: src/GNOME_Gnumeric.xml.h:138 src/widgets/widget-font-selector.c:152
 #: src/workbook-format-toolbar.c:421
 msgid "Italic"
 msgstr "Nghiêng"
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3799
+#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3799
 msgid "Iteratively recalculate to find a target value"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:3803
+#: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:3803
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3477
+#: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:3477
 msgid "Jump to a specified cell"
 msgstr "Nhảy tới ô xác định"
 
-#: src/GNOME_Gnumeric.xml.h:140
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:114
-#: src/sheet-object-graphic.c:1419 src/workbook-object-toolbar.c:133
+#: src/GNOME_Gnumeric.xml.h:142
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:108
+#: src/sheet-object-graphic.c:1429 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Nhãn"
 
-#: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:3552
+#: src/GNOME_Gnumeric.xml.h:143 src/workbook-control-gui.c:3552
 #: src/workbook-control-gui.c:4009
 #, fuzzy
 msgid "Launch the Chart Guru"
 msgstr "Chạy Graph Guru"
 
-#: src/GNOME_Gnumeric.xml.h:142 src/workbook-format-toolbar.c:437
+#: src/GNOME_Gnumeric.xml.h:144 src/workbook-format-toolbar.c:437
 msgid "Left Align"
 msgstr "Canh trái"
 
-#: src/GNOME_Gnumeric.xml.h:143 src/workbook-format-toolbar.c:437
+#: src/GNOME_Gnumeric.xml.h:145 src/workbook-format-toolbar.c:437
 msgid "Left align"
 msgstr "Canh trái"
 
-#: src/GNOME_Gnumeric.xml.h:144 src/dialogs/dialog-stf-main-page.c:354
-#: src/workbook-object-toolbar.c:163
+#: src/GNOME_Gnumeric.xml.h:146
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
+#: src/dialogs/dialog-stf-main-page.c:362 src/workbook-object-toolbar.c:174
 msgid "Line"
 msgstr "Đường thẳng"
 
-#: src/GNOME_Gnumeric.xml.h:145 src/workbook-object-toolbar.c:157
+#: src/GNOME_Gnumeric.xml.h:147 src/workbook-object-toolbar.c:168
 msgid "List"
 msgstr "Danh sách"
 
-#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:3412
+#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3412
 msgid "Make a copy of the current sheet"
 msgstr "Tạo bản sao trang hiện thời"
 
-#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:3383
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3383
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3586
+#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:3586
 msgid "Make any hidden columns in the selection visible"
 msgstr "Hiện các cột ẩn trong vùng chọn"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3605
+#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:3605
 msgid "Make any hidden rows in the selection visible"
 msgstr "Hiện các cột ẩn trong vùng chọn"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:3784
+#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:3784
 msgid "Manage available plugin modules"
 msgstr "Quản lý các mô đun plugin hiện có"
 
-#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:3398
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3398
 #: src/workbook-control-gui.c:3615
 msgid "Manage the sheets in this workbook"
 msgstr "Quản lý trang trong workbook này"
 
-#: src/GNOME_Gnumeric.xml.h:152 src/sheet-merge.c:73
+#: src/GNOME_Gnumeric.xml.h:154 src/sheet-merge.c:73
 #: src/workbook-format-toolbar.c:453
 msgid "Merge"
 msgstr "Trộn"
 
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-format-toolbar.c:453
+#: src/GNOME_Gnumeric.xml.h:155 src/workbook-format-toolbar.c:453
 msgid "Merge a range of cells"
 msgstr "Trộng các ô"
 
-#: src/GNOME_Gnumeric.xml.h:154 src/workbook-control-gui.c:3380
+#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3380
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:155 src/workbook-control-gui.c:3659
+#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3659
 msgid "Modify the formatting of the selected cells"
 msgstr "Đổi định dạng ô được chọn"
 
-#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3667
+#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3667
 msgid "Modify the workbook attributes"
 msgstr "Đổi thuộc tính workbook"
 
-#: src/GNOME_Gnumeric.xml.h:157 src/workbook-format-toolbar.c:462
+#: src/GNOME_Gnumeric.xml.h:159 src/workbook-format-toolbar.c:462
 msgid "Money"
 msgstr "Tiền"
 
-#: src/GNOME_Gnumeric.xml.h:158
+#: src/GNOME_Gnumeric.xml.h:160
 msgid "Moving average"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:3941
+#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3941
 msgid "New"
 msgstr "Mới"
 
-#: src/GNOME_Gnumeric.xml.h:160
+#: src/GNOME_Gnumeric.xml.h:162
 msgid "One Factor Analysis of Variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3944
+#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:3944
 msgid "Open"
 msgstr "Mở"
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:3944
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3944
 #, fuzzy
 msgid "Open a file"
 msgstr "Nhập tập tin"
 
-#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:3848
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3848
 msgid "Outlines _Below"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3854
+#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3854
 msgid "Outlines _Right"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:165
+#: src/GNOME_Gnumeric.xml.h:167
 msgid "P_aste Special..."
 msgstr "Dán đặc _biệt..."
 
-#: src/GNOME_Gnumeric.xml.h:166 src/GNOME_Gnumeric_Component.xml.h:4
+#: src/GNOME_Gnumeric.xml.h:168 src/GNOME_Gnumeric_Component.xml.h:4
 #: src/workbook-control-gui.c:3297
 msgid "Page Set_up..."
 msgstr "Thiết lập t_rang in..."
 
-#: src/GNOME_Gnumeric.xml.h:167 src/workbook-control-gui.c:3901
+#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3901
 msgid "Parse the text in the selection into data"
 msgstr "Phân tích văn bản trong vùng chọn vào dữ liệu"
 
-#: src/GNOME_Gnumeric.xml.h:168 src/cmd-edit.c:344
+#: src/GNOME_Gnumeric.xml.h:170 src/cmd-edit.c:344
 #: src/workbook-control-gui.c:3968
 msgid "Paste"
 msgstr "Dán"
 
-#: src/GNOME_Gnumeric.xml.h:169
+#: src/GNOME_Gnumeric.xml.h:171
 msgid "Paste the clipboard"
 msgstr "Dán từ clipboard"
 
-#: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:3968
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3968
 msgid "Paste the contents of the clipboard"
 msgstr "Dán từ clipboard"
 
-#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:3438
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3438
 msgid "Paste with optional filters and transformations"
 msgstr "Dán kèm theo bộ lọc và chuyển đổi"
 
-#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3746
+#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3746
 msgid "Pearson Correlation"
 msgstr "Hệ số tương quan Pearson"
 
-#: src/GNOME_Gnumeric.xml.h:173 src/workbook-format-toolbar.c:465
+#: src/GNOME_Gnumeric.xml.h:175 src/workbook-format-toolbar.c:465
 msgid "Percent"
 msgstr "Phần trăm"
 
-#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3770
+#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:3770
 msgid "Periodic and random samples"
 msgstr "Mẫu ngẫu nhiên và tuần hoàn"
 
-#: src/GNOME_Gnumeric.xml.h:175 src/workbook-control-gui.c:3317
+#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3317
 msgid "Preferen_ces..."
 msgstr "_Thông số..."
 
-#: src/GNOME_Gnumeric.xml.h:176 src/dialogs/print.glade.h:14
+#: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:14
 #: src/workbook-control-gui.c:3953
 msgid "Print"
 msgstr "In"
 
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3300
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:3300
 msgid "Print Pre_view..."
 msgstr "_Xem thử bản in..."
 
-#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:3956
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:3956
 msgid "Print Preview"
 msgstr "Xem thử bản in"
 
-#: src/GNOME_Gnumeric.xml.h:179 src/GNOME_Gnumeric_Component.xml.h:6
+#: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
 #: src/print.c:1311 src/workbook-control-gui.c:3301
 #: src/workbook-control-gui.c:3956
 msgid "Print preview"
 msgstr "Xem thử bản in"
 
-#: src/GNOME_Gnumeric.xml.h:180 src/GNOME_Gnumeric_Component.xml.h:7
+#: src/GNOME_Gnumeric.xml.h:182 src/GNOME_Gnumeric_Component.xml.h:7
 msgid "Print the current file"
 msgstr "In tập tin hiện thời"
 
-#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:3953
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3953
 msgid "Print the workbook"
 msgstr "In workbook"
 
-#: src/GNOME_Gnumeric.xml.h:182 src/GNOME_Gnumeric_Component.xml.h:8
+#: src/GNOME_Gnumeric.xml.h:184 src/GNOME_Gnumeric_Component.xml.h:8
 #: src/workbook-control-gui.c:3313
 msgid "Proper_ties..."
 msgstr "_Thuộc tính..."
 
-#: src/GNOME_Gnumeric.xml.h:183
+#: src/GNOME_Gnumeric.xml.h:185
 msgid "Quit the application"
 msgstr "Thoát khỏi ứng dụng"
 
-#: src/GNOME_Gnumeric.xml.h:184
+#: src/GNOME_Gnumeric.xml.h:186
 msgid "Radio Button"
 msgstr "Nút chọn"
 
-#: src/GNOME_Gnumeric.xml.h:185
+#: src/GNOME_Gnumeric.xml.h:187
 #, fuzzy
 msgid "Ranks and _Percentiles..."
 msgstr "Hạng và _tỷ lệ phần trăm"
 
-#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:3764
+#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3764
 msgid "Ranks, placements and percentiles"
 msgstr "Hạng, vị trí và tỷ lệ phần trăm"
 
-#: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:3419
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3419
 #: src/workbook-control-gui.c:3617
 #, fuzzy
 msgid "Re_name"
 msgstr "Đổi tên"
 
-#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3482
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3482
 msgid "Recalculate"
 msgstr "Tính lại"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3483
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3483
 msgid "Recalculate the spreadsheet"
 msgstr "Tính lại bảng tính"
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-object-toolbar.c:169
+#: src/GNOME_Gnumeric.xml.h:192 src/workbook-object-toolbar.c:180
 msgid "Rectangle"
 msgstr "Hình chữ nhật"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:4231
+#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4231
 msgid "Redo the undone action"
 msgstr "Làm lại hành động chưa xong"
 
-#: src/GNOME_Gnumeric.xml.h:192 src/workbook-control-gui.c:3767
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3767
 msgid "Regression Analysis"
 msgstr "Phân tích lùi"
 
-#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:3836
+#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3836
 msgid "Remove an outline group"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3446
+#: src/GNOME_Gnumeric.xml.h:196 src/workbook-control-gui.c:3446
 msgid "Remove selected cells, shifting others into their place"
 msgstr ""
 "Loại bỏ các ô được chọn, chuyển các ô khác sang vị trí các ô bị loại bỏ"
 
-#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3420
+#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3420
 #: src/workbook-control-gui.c:3618
 msgid "Rename the current sheet"
 msgstr "Gỡ bỏ trang hiện thời"
 
-#: src/GNOME_Gnumeric.xml.h:196 src/workbook-format-toolbar.c:445
+#: src/GNOME_Gnumeric.xml.h:198 src/workbook-format-toolbar.c:445
 msgid "Right Align"
 msgstr "Canh phải"
 
-#: src/GNOME_Gnumeric.xml.h:197 src/workbook-format-toolbar.c:445
+#: src/GNOME_Gnumeric.xml.h:199 src/workbook-format-toolbar.c:445
 msgid "Right align"
 msgstr "Canh phải"
 
-#: src/GNOME_Gnumeric.xml.h:198 src/workbook-control-gui.c:3458
+#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:3458
 msgid "S_heet"
 msgstr "T_rang"
 
-#: src/GNOME_Gnumeric.xml.h:199 src/workbook-control-gui.c:3570
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:3570
 msgid "S_pecial"
 msgstr "Đặc _biệt"
 
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:3947
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:3947
 msgid "Save"
 msgstr "Lưu"
 
-#: src/GNOME_Gnumeric.xml.h:201
+#: src/GNOME_Gnumeric.xml.h:203
 msgid "Save _As..."
 msgstr "Lư_u là..."
 
-#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:3947
+#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:3947
 msgid "Save the current workbook"
 msgstr "Lưu workbook hiện thời"
 
-#: src/GNOME_Gnumeric.xml.h:203
+#: src/GNOME_Gnumeric.xml.h:205
 #, fuzzy
 msgid "Save the current workbook with a different name"
 msgstr "Lưu tập tin hiện thời với tên khác"
 
-#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:3813
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3813
 #, fuzzy
 msgid "Sce_narios"
 msgstr "Thanh ngăn cách"
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-object-toolbar.c:145
+#: src/GNOME_Gnumeric.xml.h:207 src/workbook-object-toolbar.c:187
 msgid "Scrollbar"
 msgstr "Thanh cuộn"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3470
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3470
 msgid "Search and Replace..."
 msgstr "Tìm và thay thế..."
 
-#: src/GNOME_Gnumeric.xml.h:207 src/GNOME_Gnumeric_Component.xml.h:10
+#: src/GNOME_Gnumeric.xml.h:209 src/GNOME_Gnumeric_Component.xml.h:10
 #: src/workbook-control-gui.c:3465
 msgid "Search for some text"
 msgstr "Tìm text"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3471
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3471
 msgid "Search for some text and replace it with something else"
 msgstr "Tìm text và thay thế bằng text khác"
 
-#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:3464
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3464
 msgid "Search..."
 msgstr "Tìm..."
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3363
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3363
 msgid "Select Arra_y"
 msgstr "Tìm _dãy"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3348
+#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3348
 msgid "Select _All"
 msgstr "Chọn tất cả"
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3353
+#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3353
 msgid "Select _Column"
 msgstr "Chọn _cột"
 
-#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3368
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3368
 msgid "Select _Depends"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3358
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3358
 msgid "Select _Row"
 msgstr "Chọn _hàng"
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3349
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3349
 msgid "Select all cells in the spreadsheet"
 msgstr "Chọn mọi ô trong bảng tính"
 
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3369
+#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3369
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Chọn mọi ô phụ thuộc vào ô hiệu chỉnh hiện thời"
 
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3364
+#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3364
 msgid "Select an array of cells"
 msgstr "Chọn một dãy ô"
 
-#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3354
+#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3354
 msgid "Select an entire column"
 msgstr "Chọn nguyên cột"
 
-#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3359
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3359
 msgid "Select an entire row"
 msgstr "Chọn nguyên hàng"
 
-#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3310
+#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:3310
 #, fuzzy
 msgid "Sen_d To..."
 msgstr "Đi tới..."
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3311
+#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:3311
 #, fuzzy
 msgid "Send the current file via email"
 msgstr "Gửi tập tin hiện thời bằng thư"
 
-#: src/GNOME_Gnumeric.xml.h:222 src/workbook-format-toolbar.c:468
+#: src/GNOME_Gnumeric.xml.h:224 src/workbook-format-toolbar.c:468
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "Đặt định dạng bao gồm dấu cách 1000 cho ô được chọn"
 
-#: src/GNOME_Gnumeric.xml.h:223 src/workbook-format-toolbar.c:462
+#: src/GNOME_Gnumeric.xml.h:225 src/workbook-format-toolbar.c:462
 msgid "Set the format of the selected cells to monetary"
 msgstr "Chọn định dạng tiền tệ cho ô được chọn"
 
-#: src/GNOME_Gnumeric.xml.h:224 src/workbook-format-toolbar.c:465
+#: src/GNOME_Gnumeric.xml.h:226 src/workbook-format-toolbar.c:465
 msgid "Set the format of the selected cells to percentage"
 msgstr "Chọn định dạng phần trăm cho ô được chọn"
 
-#: src/GNOME_Gnumeric.xml.h:225 src/GNOME_Gnumeric_Component.xml.h:11
+#: src/GNOME_Gnumeric.xml.h:227 src/GNOME_Gnumeric_Component.xml.h:11
 #: src/workbook-control-gui.c:3298
 msgid "Setup the page settings for your current printer"
 msgstr "Cài đặt thiết lập trang cho máy in hiện thời"
 
-#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:3876
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3876
 msgid "Show all filtered and hidden rows"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:3808
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3808
 #, fuzzy
 msgid "Si_mulation..."
 msgstr "Mô phỏng: "
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:4002
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-object-toolbar.c:193
+#, fuzzy
+msgid "Slider"
+msgstr "Đặc"
+
+#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:4002
 msgid "Sort Descending"
 msgstr "Sắp ngược"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3888
+#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:3888
 msgid "Sort the selected region"
 msgstr "Sắp xếp vùng chọn"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:4000
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:4000
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr "Sắp vùng chọn theo thứ tự abc dựa trên cột đầu tiên"
 
-#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:4003
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:4003
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
 msgstr "Sắp xếp vùng chọn theo thứ tự ngược abc dựa trên cột đầu tiên"
 
-#: src/GNOME_Gnumeric.xml.h:233 src/workbook-format-toolbar.c:456
+#: src/GNOME_Gnumeric.xml.h:236
+#, fuzzy
+msgid "Spin Button"
+msgstr "Nút"
+
+#: src/GNOME_Gnumeric.xml.h:237 src/workbook-format-toolbar.c:456
 msgid "Split"
 msgstr "Phân đôi"
 
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-format-toolbar.c:456
+#: src/GNOME_Gnumeric.xml.h:238 src/workbook-format-toolbar.c:456
 msgid "Split merged ranges of cells"
 msgstr "Tách các ô đã được trộn"
 
-#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:3819
+#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:3819
 msgid "Statistical Anal_ysis"
 msgstr "Phân tích thống kê"
 
-#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3992
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3992
 #: src/workbook-control-gui.c:4763 src/workbook-view.c:532
 msgid "Sum"
 msgstr "Tổng"
 
-#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3993
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3993
 msgid "Sum into the current cell"
 msgstr "Tính tổng, kết quả lưu vào ô hiện thời"
 
-#: src/GNOME_Gnumeric.xml.h:238 src/workbook-control-gui.c:3809
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3809
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-format-toolbar.c:468
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-format-toolbar.c:468
 msgid "Thousands Separator"
 msgstr "Dấu ngăn cách 1000"
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3642
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3642
 msgid "Toggle whether or not to display column headers"
 msgstr "Bật/Tắt hiển thị tiêu đề cột"
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3636
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3636
 msgid "Toggle whether or not to display gridlines"
 msgstr "Bật/Tắt hiển thị lưới"
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3843
+#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3843
 msgid "Toggle whether or not to display outline groups"
 msgstr "Bật tắt hiển thị nhóm phác thảo hay không"
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3648
+#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3648
 msgid "Toggle whether or not to display row headers"
 msgstr "Bật/Tắt hiển thị tiêu đề hàng"
 
-#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3630
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3630
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Bật/Tắt hiển thị số không"
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3855
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3855
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Bật tắt hiển thị phát thảo cột bên trái hay bên phải"
 
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3849
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:3849
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Bật tắt hiển thị phác thảo hàng bên trên hay bên dưới"
 
-#: src/GNOME_Gnumeric.xml.h:247
+#: src/GNOME_Gnumeric.xml.h:251
 msgid "Two Factor Analysis of Variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3773
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3773
 msgid "Two _Means"
 msgstr "Hai _kỳ vọng"
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3830
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3830
 msgid "Uncollapse an outline group"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-format-toolbar.c:428
+#: src/GNOME_Gnumeric.xml.h:254 src/workbook-format-toolbar.c:428
 msgid "Underline"
 msgstr "Gạch chân"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:4228
+#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:4228
 msgid "Undo the last action"
 msgstr "Hoàn lại hành động cuối cùng"
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3722
+#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3722
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3727
+#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3727
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:3895
+#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3895
 msgid "Validate input with preset criteria"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3761
+#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3761
 msgid "Various frequency tables"
 msgstr "Bảng tần số khác biệt"
 
-#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3752
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:3752
 msgid "Various summary statistics"
 msgstr "Thông kê tóm tắt khác biệt"
 
-#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3683
+#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3683
 msgid "View, delete and report different scenarios"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3497
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3497
 #: src/workbook-control-gui.c:4234
 msgid "Zoom the spreadsheet in or out"
 msgstr "Phóng to/thu nhỏ bảng tính"
 
-#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3743
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3743
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
-#: src/GNOME_Gnumeric.xml.h:260
+#: src/GNOME_Gnumeric.xml.h:264
 msgid "_About"
 msgstr "_Giới thiệu"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3685
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3685
 #, fuzzy
 msgid "_Add..."
 msgstr "_Thêm"
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3330
+#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:3330
 msgid "_All"
 msgstr "Tất _cả"
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3407
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3407
 #, fuzzy
 msgid "_Append"
 msgstr "_Và"
 
-#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3792
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3792
 msgid "_Auto Save..."
 msgstr "Tự động _lưu..."
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3579
+#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:3579
 #: src/workbook-control-gui.c:3598
 msgid "_Auto fit selection"
 msgstr "Tự động _khít vùng chọn"
 
-#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:3673
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3673
 msgid "_Autoformat..."
 msgstr "_Tự định dạng..."
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3658
+#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:3658
 msgid "_Cells..."
 msgstr "Ô..."
 
-#: src/GNOME_Gnumeric.xml.h:268
+#: src/GNOME_Gnumeric.xml.h:272
 msgid "_Close"
 msgstr "Đón_g"
 
-#: src/GNOME_Gnumeric.xml.h:269 src/dialogs/anova-one.glade.h:13
+#: src/GNOME_Gnumeric.xml.h:273 src/dialogs/anova-one.glade.h:13
 #: src/dialogs/colrow.glade.h:2 src/dialogs/correlation.glade.h:9
 #: src/dialogs/covariance.glade.h:9 src/dialogs/descriptive-stats.glade.h:19
 #: src/dialogs/exp-smoothing.glade.h:11
@@ -15806,230 +15824,229 @@ msgstr "Đón_g"
 msgid "_Columns"
 msgstr "_Cột"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3903
+#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3903
 msgid "_Consolidate..."
 msgstr "_Củng cố..."
 
-#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:3339
+#: src/GNOME_Gnumeric.xml.h:275 src/workbook-control-gui.c:3339
 msgid "_Contents"
 msgstr "_Nội dung"
 
-#: src/GNOME_Gnumeric.xml.h:272 src/item-cursor.c:1016
+#: src/GNOME_Gnumeric.xml.h:276 src/item-cursor.c:1016
 #: src/sheet-control-gui.c:1478
 msgid "_Copy"
 msgstr "_Sao chép"
 
-#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:3745
+#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3745
 #, fuzzy
 msgid "_Correlation..."
 msgstr "Tương _quan"
 
-#: src/GNOME_Gnumeric.xml.h:274 src/dialogs/pivottable.glade.h:8
+#: src/GNOME_Gnumeric.xml.h:278 src/dialogs/pivottable.glade.h:8
 #: src/workbook-control-gui.c:3934
 msgid "_Data"
 msgstr "_Dữ liệu"
 
-#: src/GNOME_Gnumeric.xml.h:275 src/workbook-control-gui.c:3523
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3523
 msgid "_Define..."
 msgstr "Định _nghĩa..."
 
-#: src/GNOME_Gnumeric.xml.h:276 src/sheet-control-gui.c:1496
+#: src/GNOME_Gnumeric.xml.h:280 src/sheet-control-gui.c:1496
 #: src/workbook-control-gui.c:3445
 msgid "_Delete..."
 msgstr "_Xóa"
 
-#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3751
+#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3751
 #, fuzzy
 msgid "_Descriptive Statistics..."
 msgstr "Thống kê mô tả"
 
-#: src/GNOME_Gnumeric.xml.h:278 src/dialogs/sheet-order.glade.h:2
+#: src/GNOME_Gnumeric.xml.h:282 src/dialogs/sheet-order.glade.h:2
 #: src/workbook-control-gui.c:3411
 msgid "_Duplicate"
 msgstr "Tạo bản sao"
 
-#: src/GNOME_Gnumeric.xml.h:279 src/GNOME_Gnumeric_Component.xml.h:15
+#: src/GNOME_Gnumeric.xml.h:283 src/GNOME_Gnumeric_Component.xml.h:15
 msgid "_Edit"
 msgstr "_Hiệu chỉnh"
 
-#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:3705
+#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3705
 #, fuzzy
 msgid "_Exponential Smoothing..."
 msgstr "Mượt theo mũ"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/GNOME_Gnumeric_Component.xml.h:16
+#: src/GNOME_Gnumeric.xml.h:285 src/GNOME_Gnumeric_Component.xml.h:16
 msgid "_File"
 msgstr "_Tập tin"
 
-#: src/GNOME_Gnumeric.xml.h:282 src/dialogs/cell-format.glade.h:96
+#: src/GNOME_Gnumeric.xml.h:286 src/dialogs/cell-format.glade.h:96
 #: src/workbook-control-gui.c:3462
 msgid "_Fill"
 msgstr "Điền đầy"
 
-#: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:3893
+#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3893
 msgid "_Filter"
 msgstr "_Bộ lọc"
 
-#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3333
+#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3333
 msgid "_Formats"
 msgstr "Định _dạng"
 
-#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:3757
+#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3757
 #, fuzzy
 msgid "_Fourier Analysis..."
 msgstr "Phân tích _Fourier"
 
-#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:1514
+#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:1514
 #: src/workbook-control-gui.c:3499
 msgid "_Freeze Panes"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3559
+#: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:3559
 msgid "_Function..."
 msgstr "_Hàm"
 
-#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3669
+#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:3669
 msgid "_Gnumeric..."
 msgstr "_Gnumeric..."
 
-#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3798
+#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3798
 msgid "_Goal Seek..."
 msgstr "_Tìm đích..."
 
-#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:3476
+#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:3476
 msgid "_Goto cell..."
 msgstr "Nhảy tới ô..."
 
-#: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:3907
+#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3907
 msgid "_Group and Outline"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:3832
+#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3832
 msgid "_Group..."
 msgstr "_Nhóm..."
 
-#: src/GNOME_Gnumeric.xml.h:293 src/GNOME_Gnumeric_Component.xml.h:17
+#: src/GNOME_Gnumeric.xml.h:297 src/GNOME_Gnumeric_Component.xml.h:17
 msgid "_Help"
 msgstr "Trợ _giúp"
 
-#: src/GNOME_Gnumeric.xml.h:294 src/sheet-control-gui.c:1521
+#: src/GNOME_Gnumeric.xml.h:298 src/sheet-control-gui.c:1521
 #: src/sheet-control-gui.c:1529 src/workbook-control-gui.c:3582
 #: src/workbook-control-gui.c:3601
 msgid "_Hide"
 msgstr "Ẩ_n"
 
-#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3826
+#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3826
 msgid "_Hide Detail"
 msgstr "Ẩn _chi tiết"
 
-#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3760
+#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3760
 #, fuzzy
 msgid "_Histogram..."
 msgstr "_Biểu đồ"
 
-#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3555
+#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3555
 msgid "_Image..."
 msgstr "Ả_nh..."
 
-#: src/GNOME_Gnumeric.xml.h:298 src/dialogs/function-select.glade.h:6
+#: src/GNOME_Gnumeric.xml.h:302 src/dialogs/function-select.glade.h:6
 #: src/workbook-control-gui.c:3403 src/workbook-control-gui.c:3931
 msgid "_Insert"
 msgstr "_Chèn"
 
-#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3732
+#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3732
 msgid "_Known Variances or Large Sample: Z-Test..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3397
+#: src/GNOME_Gnumeric.xml.h:304 src/workbook-control-gui.c:3397
 #: src/workbook-control-gui.c:3614
 msgid "_Manage Sheets..."
 msgstr "_Quản lý trang..."
 
-#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3379
+#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3379
 #, fuzzy
 msgid "_Merge..."
 msgstr "Trộn..."
 
-#: src/GNOME_Gnumeric.xml.h:302 src/workbook-control-gui.c:3709
+#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:3709
 #, fuzzy
 msgid "_Moving Average..."
 msgstr "Trộn..."
 
-#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3563
+#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3563
 msgid "_Name"
 msgstr "_Tên"
 
-#: src/GNOME_Gnumeric.xml.h:304 src/workbook-control-gui.c:3287
+#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3287
 msgid "_New"
 msgstr "_Mới"
 
-#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3493
+#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3493
 #, fuzzy
 msgid "_New View..."
 msgstr "_Mới..."
 
-#: src/GNOME_Gnumeric.xml.h:306
+#: src/GNOME_Gnumeric.xml.h:310
 msgid "_Object..."
 msgstr "Đối tượn_g..."
 
-#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3693
+#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3693
 #, fuzzy
 msgid "_One Factor..."
 msgstr "_Một hệ số"
 
-#: src/GNOME_Gnumeric.xml.h:308
+#: src/GNOME_Gnumeric.xml.h:312
 msgid "_Open..."
 msgstr "_Mở..."
 
-#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3718
+#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3718
 msgid "_Paired Samples: T-Test..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:310 src/sheet-control-gui.c:1480
+#: src/GNOME_Gnumeric.xml.h:314 src/sheet-control-gui.c:1480
 msgid "_Paste"
 msgstr "_Dán"
 
-#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3909
+#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3909
 msgid "_PivotTable..."
 msgstr "Bảng _Pivot..."
 
-#: src/GNOME_Gnumeric.xml.h:312 src/workbook-control-gui.c:3783
+#: src/GNOME_Gnumeric.xml.h:316 src/workbook-control-gui.c:3783
 msgid "_Plug-ins..."
 msgstr "_Plug-in..."
 
-#: src/GNOME_Gnumeric.xml.h:313 src/GNOME_Gnumeric_Component.xml.h:19
+#: src/GNOME_Gnumeric.xml.h:317 src/GNOME_Gnumeric_Component.xml.h:19
 msgid "_Print..."
 msgstr "_In..."
 
-#: src/GNOME_Gnumeric.xml.h:314
+#: src/GNOME_Gnumeric.xml.h:318
 msgid "_Quit"
 msgstr "T_hoát"
 
-#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3388
+#: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:3388
 msgid "_Random Generator..."
 msgstr "Bộ phát sinh số ngẫu nhiên..."
 
-#: src/GNOME_Gnumeric.xml.h:316 src/workbook-control-gui.c:1558
+#: src/GNOME_Gnumeric.xml.h:320 src/workbook-control-gui.c:1558
 msgid "_Redo"
 msgstr "_Làm lại"
 
-#: src/GNOME_Gnumeric.xml.h:317 src/workbook-control-gui.c:3766
+#: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:3766
 #, fuzzy
 msgid "_Regression..."
 msgstr "_Hồi quy"
 
-#: src/GNOME_Gnumeric.xml.h:318 src/dialogs/autocorrect.glade.h:13
-#: src/dialogs/dialog-stf.glade.h:66 src/dialogs/pivottable.glade.h:12
-#: src/workbook-control-gui.c:3415
+#: src/GNOME_Gnumeric.xml.h:322 src/dialogs/autocorrect.glade.h:13
+#: src/dialogs/pivottable.glade.h:12 src/workbook-control-gui.c:3415
 msgid "_Remove"
 msgstr "_Gỡ bỏ"
 
-#: src/GNOME_Gnumeric.xml.h:319 src/dialogs/pivottable.glade.h:13
+#: src/GNOME_Gnumeric.xml.h:323 src/dialogs/pivottable.glade.h:13
 #: src/workbook-control-gui.c:3663
 msgid "_Row"
 msgstr "_Hàng"
 
-#: src/GNOME_Gnumeric.xml.h:320 src/dialogs/anova-one.glade.h:20
+#: src/GNOME_Gnumeric.xml.h:324 src/dialogs/anova-one.glade.h:20
 #: src/dialogs/colrow.glade.h:3 src/dialogs/correlation.glade.h:16
 #: src/dialogs/covariance.glade.h:16 src/dialogs/descriptive-stats.glade.h:26
 #: src/dialogs/exp-smoothing.glade.h:19
@@ -16040,118 +16057,118 @@ msgstr "_Hàng"
 msgid "_Rows"
 msgstr "_Hàng"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:3769
+#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3769
 #, fuzzy
 msgid "_Sampling..."
 msgstr "Lấ_y mẫu"
 
-#: src/GNOME_Gnumeric.xml.h:322
+#: src/GNOME_Gnumeric.xml.h:326
 msgid "_Save"
 msgstr "_Lưu"
 
-#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:3460
+#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3460
 msgid "_Select"
 msgstr "_Chọn"
 
-#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:3385
+#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3385
 #, fuzzy
 msgid "_Series..."
 msgstr "_Serie"
 
-#: src/GNOME_Gnumeric.xml.h:325
+#: src/GNOME_Gnumeric.xml.h:329
 msgid "_Shaped Object"
 msgstr "Đối tượng hình"
 
-#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:3545
+#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3545
 #: src/workbook-control-gui.c:3664
 msgid "_Sheet"
 msgstr "T_rang"
 
-#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3875
+#: src/GNOME_Gnumeric.xml.h:331 src/workbook-control-gui.c:3875
 msgid "_Show All"
 msgstr "Hiện chi tiết"
 
-#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3829
+#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3829
 msgid "_Show Detail"
 msgstr "Hiện chi tiết"
 
-#: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3802
+#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3802
 msgid "_Solver..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3887
+#: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:3887
 msgid "_Sort..."
 msgstr "_Sắp xếp..."
 
-#: src/GNOME_Gnumeric.xml.h:331 src/workbook-control-gui.c:3607
+#: src/GNOME_Gnumeric.xml.h:335 src/workbook-control-gui.c:3607
 msgid "_Standard Height"
 msgstr "Chiều _cao chuẩn"
 
-#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3588
+#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3588
 msgid "_Standard Width"
 msgstr "Chiều _rộng chuẩn"
 
-#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3382
+#: src/GNOME_Gnumeric.xml.h:337 src/workbook-control-gui.c:3382
 msgid "_Tabulate Dependency..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:3900
+#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3900
 msgid "_Text to Columns..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:335
+#: src/GNOME_Gnumeric.xml.h:339
 msgid "_Toolbars..."
 msgstr "Thanh công cụ..."
 
-#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3933
+#: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3933
 msgid "_Tools"
 msgstr "Công cụ"
 
-#: src/GNOME_Gnumeric.xml.h:337 src/workbook-control-gui.c:3696
+#: src/GNOME_Gnumeric.xml.h:341 src/workbook-control-gui.c:3696
 #, fuzzy
 msgid "_Two Factor..."
 msgstr "Hai hệ số"
 
-#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3775
+#: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3775
 msgid "_Two Variances: FTest..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:339 src/workbook-control-gui.c:1557
+#: src/GNOME_Gnumeric.xml.h:343 src/workbook-control-gui.c:1557
 msgid "_Undo"
 msgstr "_Hoàn lại"
 
-#: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3835
+#: src/GNOME_Gnumeric.xml.h:344 src/workbook-control-gui.c:3835
 msgid "_Ungroup..."
 msgstr "_Tách nhóm..."
 
-#: src/GNOME_Gnumeric.xml.h:341 src/sheet-control-gui.c:1523
+#: src/GNOME_Gnumeric.xml.h:345 src/sheet-control-gui.c:1523
 #: src/sheet-control-gui.c:1531 src/workbook-control-gui.c:3585
 #: src/workbook-control-gui.c:3604
 msgid "_Unhide"
 msgstr "Hiện"
 
-#: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3894
+#: src/GNOME_Gnumeric.xml.h:346 src/workbook-control-gui.c:3894
 msgid "_Validate..."
 msgstr "Định giá..."
 
-#: src/GNOME_Gnumeric.xml.h:343
+#: src/GNOME_Gnumeric.xml.h:347
 msgid "_View"
 msgstr "_Xem"
 
-#: src/GNOME_Gnumeric.xml.h:344 src/workbook-control-gui.c:3682
+#: src/GNOME_Gnumeric.xml.h:348 src/workbook-control-gui.c:3682
 #, fuzzy
 msgid "_View..."
 msgstr "_Mới..."
 
-#: src/GNOME_Gnumeric.xml.h:345 src/workbook-control-gui.c:3576
+#: src/GNOME_Gnumeric.xml.h:349 src/workbook-control-gui.c:3576
 msgid "_Width..."
 msgstr "_Rộng..."
 
-#: src/GNOME_Gnumeric.xml.h:346 src/workbook-control-gui.c:3666
+#: src/GNOME_Gnumeric.xml.h:350 src/workbook-control-gui.c:3666
 msgid "_Workbook..."
 msgstr "_Workbook..."
 
-#: src/GNOME_Gnumeric.xml.h:347 src/workbook-control-gui.c:3496
+#: src/GNOME_Gnumeric.xml.h:351 src/workbook-control-gui.c:3496
 msgid "_Zoom..."
 msgstr "_Phóng to/thu nhỏ..."
 
@@ -16712,43 +16729,51 @@ msgstr ""
 msgid "Shuffle Data"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:107
-msgid "Axis"
+#. FIXME?
+#: src/commands.c:5853
+#, c-format
+msgid "Text (%s) to Columns (%s)"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:46
-#: src/cut-n-paste-code/goffice/graph/gog-graph.c:169
-#, fuzzy
-msgid "Chart"
-msgstr "Bieudo%d"
+#. Fill in the header titles.
+#: src/commands.c:6002 src/dialogs/solver.glade.h:24
+#: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
+#: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
+#: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
+msgid "Solver"
+msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:145
+#: src/commands.c:6090
+#, fuzzy, c-format
+msgid "Goal Seek (%s)"
+msgstr "Tìm đích"
+
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:135
 #, fuzzy
 msgid "Plot"
 msgstr "_Vẽ"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:149
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:99
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:138
 #, fuzzy
 msgid "Legend"
 msgstr "Gửi"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:152
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:141
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:133
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:159
 #, fuzzy
 msgid "Title"
 msgstr "Tựa đề:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:155
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:144
 msgid "X-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:158
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:148
 msgid "Y-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:161
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:152
 msgid "Z-Axis"
 msgstr ""
 
@@ -16778,6 +16803,11 @@ msgstr "_Với:"
 #, fuzzy
 msgid "Graph"
 msgstr "Đồ _thị..."
+
+#: src/cut-n-paste-code/goffice/graph/gog-graph.c:169
+#, fuzzy
+msgid "Chart"
+msgstr "Bieudo%d"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:995
 #, fuzzy
@@ -16809,7 +16839,7 @@ msgstr ""
 "Mẫu"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1180
-#: src/dialogs/dialog-plugin-manager.c:679
+#: src/dialogs/dialog-plugin-manager.c:703
 #: src/dialogs/dialog-preferences.c:543 src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "Mô tả"
@@ -16823,8 +16853,8 @@ msgid "TODO : Unfinished"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
-#: src/dialogs/autocorrect.glade.h:12 src/dialogs/dialog-stf.glade.h:60
-#: src/dialogs/names.glade.h:6 src/dialogs/solver.glade.h:27
+#: src/dialogs/autocorrect.glade.h:12 src/dialogs/names.glade.h:6
+#: src/dialogs/solver.glade.h:26
 msgid "_Add"
 msgstr "_Thêm"
 
@@ -16839,7 +16869,7 @@ msgid "_Decrease"
 msgstr "Giảm"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
-#: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:31
+#: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:30
 msgid "_Delete"
 msgstr "_Xóa"
 
@@ -16858,12 +16888,7 @@ msgstr "Biên"
 msgid "_Top"
 msgstr "Đỉn_h"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:98
-#, fuzzy
-msgid "GraphLabel"
-msgstr "Nhãn khung"
-
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:107
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:102
 #, fuzzy
 msgid "_Text:"
 msgstr "Chữ"
@@ -16873,28 +16898,27 @@ msgstr "Chữ"
 msgid "Plot Engine"
 msgstr "Tên vẽ"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:237
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:230
 #, fuzzy
 msgid "Plot Type"
 msgstr "Tên vẽ"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:319
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:312
 msgid "Chart Theme"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot.c:164
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:59
 #, fuzzy
 msgid "Series"
 msgstr "_Serie"
 
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:138
-#: src/dialogs/dialog-stf.glade.h:19
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:132
+#: src/dialogs/dialog-stf.glade.h:15
 #, fuzzy
 msgid "Data"
 msgstr "_Dữ liệu"
 
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:141
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:135
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Kiểu"
@@ -17031,7 +17055,7 @@ msgstr "_Tập tin:"
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:198
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:223
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:466
-#: src/sheet-object-graphic.c:921 src/sheet-object-graphic.c:938
+#: src/sheet-object-graphic.c:929 src/sheet-object-graphic.c:946
 msgid "Transparent"
 msgstr "Trong suốt"
 
@@ -17042,13 +17066,13 @@ msgstr "Chọn nguyên cột"
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:225
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:228
 #: src/dialogs/dialog-sheet-order.c:928 src/dialogs/dialog-sheet-order.c:941
 msgid "Default"
 msgstr "Mặc định"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:263
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:266
 #, fuzzy
 msgid "Guppi"
 msgstr "Nhóm"
@@ -17078,21 +17102,13 @@ msgstr "Đồ _thị"
 msgid "_Overlap:"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:126
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd bar/col plot in a chart will be called
+#. * 	PlotBarCol2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:97
 msgid "PlotBarCol"
 msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:284
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
-#: src/dialogs/consolidate.glade.h:10
-msgid "Labels"
-msgstr "Nhãn"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:286
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:194
-#: src/dialogs/consolidate.glade.h:22
-msgid "Values"
-msgstr "Giá trị"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 #, fuzzy
@@ -17147,78 +17163,142 @@ msgid "Adjacent vertical columns grouped by major and minor categories."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
+#: src/func.c:687
+msgid "Area"
+msgstr "Vùng"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
+msgid "Area plot."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
+#, fuzzy
+msgid "Areas"
+msgstr "_Vùng"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
 msgid "Bar"
 msgstr "Khối"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
-#: src/dialogs/dialog-stf.glade.h:16
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:17
 msgid "Column"
 msgstr "Cột"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
+#, fuzzy
+msgid "Line plot."
+msgstr "Dòng cần nhập"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
+#, fuzzy
+msgid "Lines"
+msgstr "Đường thẳng"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D horizontal "
 "bars, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:22
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D vertical "
 "bars, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:17
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:23
 msgid ""
 "Minor categories stacked as percentages of the minor total, in horizontal "
 "bars, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:24
 msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:25
 msgid ""
 "Minor categories stacked in horizontal 3D bars, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:26
 msgid "Minor categories stacked in horizontal bars grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:27
 msgid ""
 "Minor categories stacked in vertical 3D columns, grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:22
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:28
 msgid "Minor categories stacked in vertical columns grouped by major category."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:23
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:29
+#, fuzzy
+msgid "Percentage Areas"
+msgstr "Khối phần trăm"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:30
 msgid "Percentage Bars"
 msgstr "Khối phần trăm"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:24
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:31
 msgid "Percentage Columns"
 msgstr "Cột phần trăm"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:25
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:32
+#, fuzzy
+msgid "Percentage Lines"
+msgstr "Đường phần trăm"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:33
+#, fuzzy
+msgid "Percentage area plot."
+msgstr "Khối phần trăm"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:34
+#, fuzzy
+msgid "Percentage line plot."
+msgstr "Đường phần trăm"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:35
+#, fuzzy
+msgid "Stacked Areas"
+msgstr "Khối chồng"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:36
 msgid "Stacked Bars"
 msgstr "Khối chồng"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:26
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:37
 msgid "Stacked Columns"
 msgstr "Cột chồng"
 
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:38
+#, fuzzy
+msgid "Stacked Lines"
+msgstr "Đường chồng"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:39
+#, fuzzy
+msgid "Stacked area plot."
+msgstr "Khối chồng"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:40
+#, fuzzy
+msgid "Stacked line plot."
+msgstr "Đường chồng"
+
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:1
-msgid "Bar and Column charts"
-msgstr ""
+#, fuzzy
+msgid "1.5d Charts"
+msgstr "Bieudo%d"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:2
-msgid "Bar/Col Charts"
+msgid "Area plotting engine"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:3
@@ -17226,7 +17306,16 @@ msgid "Bar/Col plotting engine"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:4
-msgid "Default Bar/Col plot types"
+#, fuzzy
+msgid "Default 1.5d plot types"
+msgstr "Bộ thông dịch mặc định"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:5
+msgid "Line plotting engine"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:6
+msgid "Line, Area, Bar and Column charts"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:3
@@ -17268,6 +17357,16 @@ msgstr "Cạnh"
 #, fuzzy
 msgid "PlotPie"
 msgstr "_Vẽ"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
+#: src/dialogs/consolidate.glade.h:10
+msgid "Labels"
+msgstr "Nhãn"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:194
+#: src/dialogs/consolidate.glade.h:22
+msgid "Values"
+msgstr "Giá trị"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
 #, fuzzy
@@ -17563,7 +17662,7 @@ msgstr "Phạm vi danh sách"
 msgid "N_ew Workbook"
 msgstr "Workbook mới"
 
-#: src/dialogs/advanced-filter.glade.h:7 src/dialogs/solver.glade.h:19
+#: src/dialogs/advanced-filter.glade.h:7
 msgid "Output"
 msgstr "Đầu ra"
 
@@ -19102,7 +19201,7 @@ msgstr "Đôi"
 msgid "Number"
 msgstr "Số"
 
-#: src/dialogs/dialog-cell-format.c:654 src/dialogs/dialog-stf-main-page.c:363
+#: src/dialogs/dialog-cell-format.c:654 src/dialogs/dialog-stf-main-page.c:371
 #: src/widgets/widget-format-selector.c:77
 msgid "Text"
 msgstr "Chữ"
@@ -19225,37 +19324,37 @@ msgstr "Thường dùng"
 msgid "All Functions (long list)"
 msgstr "Hàm không tồn tại"
 
-#: src/dialogs/dialog-goal-seek.c:346
+#: src/dialogs/dialog-goal-seek.c:359
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:358
+#: src/dialogs/dialog-goal-seek.c:371
 msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:371
+#: src/dialogs/dialog-goal-seek.c:384
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:384
+#: src/dialogs/dialog-goal-seek.c:397
 msgid "The cell named in 'By changing cell' must not contain a formula."
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:397
+#: src/dialogs/dialog-goal-seek.c:410
 msgid "The value given in 'To Value:' is not valid."
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:442
+#: src/dialogs/dialog-goal-seek.c:455
 #, c-format
 msgid "Goal seeking with cell %s found a solution."
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:463
+#: src/dialogs/dialog-goal-seek.c:476
 #, c-format
 msgid "Goal seeking with cell %s did not find a solution."
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:615
+#: src/dialogs/dialog-goal-seek.c:653
 msgid "Could not create the Goal-Seek dialog."
 msgstr "Không thể tạo hộp thoại Tìm đích."
 
@@ -19434,67 +19533,67 @@ msgstr ""
 msgid "Skip Blanks"
 msgstr "Bỏ khoảng trắng"
 
-#: src/dialogs/dialog-plugin-manager.c:369
+#: src/dialogs/dialog-plugin-manager.c:372
 msgid "Plugin dependencies"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:377
+#: src/dialogs/dialog-plugin-manager.c:380
 msgid "Unknown plugin"
 msgstr "Plugin lạ"
 
-#: src/dialogs/dialog-plugin-manager.c:391
+#: src/dialogs/dialog-plugin-manager.c:394
 msgid "Plugin services"
 msgstr "Dịch vụ plugin"
 
-#: src/dialogs/dialog-plugin-manager.c:452
+#: src/dialogs/dialog-plugin-manager.c:463
 msgid "Errors while activating plugins"
 msgstr "Lỗi kích hoạt plugin"
 
-#: src/dialogs/dialog-plugin-manager.c:468
+#: src/dialogs/dialog-plugin-manager.c:479
 msgid "Errors while deactivating plugins"
 msgstr "Lỗi hủy kích hoạt plugin"
 
-#: src/dialogs/dialog-plugin-manager.c:564
+#: src/dialogs/dialog-plugin-manager.c:575
 msgid ""
 "The following extra plugins must be activated in order to activate this "
 "one:\n"
 "\n"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:570
+#: src/dialogs/dialog-plugin-manager.c:581
 #, c-format
 msgid "Unknown plugin with id=\"%s\"\n"
 msgstr "Plugin lạ với id=\"%s\"\n"
 
-#: src/dialogs/dialog-plugin-manager.c:577
+#: src/dialogs/dialog-plugin-manager.c:588
 msgid ""
 "\n"
 "Do you want to activate this plugin together with its dependencies?"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:596
+#: src/dialogs/dialog-plugin-manager.c:607
 #, c-format
 msgid "Error while deactivating plugin \"%s\"."
 msgstr "Lỗi hủy kích hoạt plugin \"%s\"."
 
-#: src/dialogs/dialog-plugin-manager.c:600
+#: src/dialogs/dialog-plugin-manager.c:611
 #, c-format
 msgid "Error while activating plugin \"%s\"."
 msgstr "Lỗi kích hoạt plugin \"%s\"."
 
-#: src/dialogs/dialog-plugin-manager.c:655
+#: src/dialogs/dialog-plugin-manager.c:679
 msgid "Active"
 msgstr "Hoạt động"
 
-#: src/dialogs/dialog-plugin-manager.c:660
+#: src/dialogs/dialog-plugin-manager.c:684
 msgid "Plugin name"
 msgstr "Tên plugin"
 
-#: src/dialogs/dialog-plugin-manager.c:683
+#: src/dialogs/dialog-plugin-manager.c:707
 msgid "ID"
 msgstr "ID"
 
-#: src/dialogs/dialog-plugin-manager.c:703
+#: src/dialogs/dialog-plugin-manager.c:727
 msgid "Directory"
 msgstr "Thư mục"
 
@@ -20014,86 +20113,86 @@ msgstr "Đầu _ra:"
 msgid "Could not create the Simulation dialog."
 msgstr "Không thể tạo hộp thoại Mô phỏng"
 
-#: src/dialogs/dialog-solver.c:91
+#: src/dialogs/dialog-solver.c:94
 msgid "Revised Simplex (GLPK 3.2)"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:92
+#: src/dialogs/dialog-solver.c:95
 msgid "Simplex (LP Solve 3.2)"
 msgstr "Simplex (LP Solve 3.2)"
 
-#: src/dialogs/dialog-solver.c:93
+#: src/dialogs/dialog-solver.c:96
 msgid "< Not available >"
 msgstr "< Không có >"
 
-#: src/dialogs/dialog-solver.c:421
+#: src/dialogs/dialog-solver.c:424
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:738
+#: src/dialogs/dialog-solver.c:752
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:747
+#: src/dialogs/dialog-solver.c:761
 msgid ""
 "Neither sensitivity nor limits report are meaningful if the program has "
 "integer constraints.  These reports will not be created."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:765
+#: src/dialogs/dialog-solver.c:779
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:779
+#: src/dialogs/dialog-solver.c:793
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:794
+#: src/dialogs/dialog-solver.c:808
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:834
+#: src/dialogs/dialog-solver.c:848
 #, fuzzy
 msgid "Optimal solution created by solver.\n"
 msgstr "Tìm thấy giải pháp tối ưu"
 
-#: src/dialogs/dialog-solver.c:868
+#: src/dialogs/dialog-solver.c:882
 msgid "Unknown error."
 msgstr "Lỗi lạ."
 
-#: src/dialogs/dialog-solver.c:885
+#: src/dialogs/dialog-solver.c:899
 msgid "You have not specified a problem to be solved"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:904 src/tools/solver/solver.c:377
+#: src/dialogs/dialog-solver.c:918 src/tools/solver/solver.c:377
 msgid "Target cell should contain a formula."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:987
+#: src/dialogs/dialog-solver.c:1001
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:1009
+#: src/dialogs/dialog-solver.c:1023
 msgid "No constraints defined for the problem."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:1059
+#: src/dialogs/dialog-solver.c:1074
 msgid ""
 "The maximum time exceeded. The optimal value could not be found in given "
 "time."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:1354
+#: src/dialogs/dialog-solver.c:1370
 msgid "Could not create the Solver dialog."
 msgstr ""
 
@@ -20193,7 +20292,7 @@ msgstr "Kết thúc dòng:"
 msgid "Macintosh (carriage return)"
 msgstr "Macintosh (carriage return)"
 
-#: src/dialogs/dialog-stf-export.glade.h:24 src/dialogs/dialog-stf.glade.h:32
+#: src/dialogs/dialog-stf-export.glade.h:24 src/dialogs/dialog-stf.glade.h:27
 msgid "Never"
 msgstr "Không bao giờ"
 
@@ -20256,18 +20355,36 @@ msgstr "Toán tử lạ"
 msgid "Windows (carriage return + linefeed)"
 msgstr "Windows (carriage return + linefeed)"
 
-#: src/dialogs/dialog-stf-export.glade.h:39 src/dialogs/dialog-stf.glade.h:71
+#: src/dialogs/dialog-stf-export.glade.h:39 src/dialogs/dialog-stf.glade.h:64
 msgid "`"
 msgstr "`"
 
-#: src/dialogs/dialog-stf-fixed-page.c:82
+#: src/dialogs/dialog-stf-fixed-page.c:51
 msgid "Autodiscovery did not find any columns in the text. Try manually"
 msgstr ""
 
-#: src/dialogs/dialog-stf-fixed-page.c:113
-#, c-format
-msgid "You cannot have more than %d columns in this version of Gnumeric."
+#: src/dialogs/dialog-stf-fixed-page.c:67
+msgid "Delete and Merge _Left"
 msgstr ""
+
+#: src/dialogs/dialog-stf-fixed-page.c:69
+msgid "Delete and Merge _Right"
+msgstr ""
+
+#: src/dialogs/dialog-stf-fixed-page.c:72
+#, fuzzy
+msgid "_Split"
+msgstr "Phân đôi"
+
+#: src/dialogs/dialog-stf-fixed-page.c:75
+#, fuzzy
+msgid "_Widen"
+msgstr "Ẩ_n"
+
+#: src/dialogs/dialog-stf-fixed-page.c:77
+#, fuzzy
+msgid "_Narrow"
+msgstr "Mũi tên"
 
 #: src/dialogs/dialog-stf-format-page.c:126
 #, c-format
@@ -20310,17 +20427,17 @@ msgstr ""
 msgid "Column %d"
 msgstr "Cột %d"
 
-#: src/dialogs/dialog-stf-main-page.c:136
+#: src/dialogs/dialog-stf-main-page.c:144
 #, fuzzy, c-format
 msgid "%d of %d lines to import"
 msgstr "%d dòng cần nhập"
 
-#: src/dialogs/dialog-stf-main-page.c:157
+#: src/dialogs/dialog-stf-main-page.c:165
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr ""
 
-#: src/dialogs/dialog-stf-main-page.c:375
+#: src/dialogs/dialog-stf-main-page.c:383
 #, c-format
 msgid "Data (from %s)"
 msgstr "Dữ liệu (từ %s)"
@@ -20332,224 +20449,205 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:5
-msgid "Add a new column"
-msgstr "Thêm cột mới"
-
-#: src/dialogs/dialog-stf.glade.h:6
 #, fuzzy
 msgid "Always (Both Sides)"
 msgstr "Luôn luôn (hai mặt)"
 
-#: src/dialogs/dialog-stf.glade.h:7
+#: src/dialogs/dialog-stf.glade.h:6
 msgid "Attempt to recognize columns in the text automatically."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:8
-msgid "Auto Column _Discovery"
-msgstr ""
-
-#: src/dialogs/dialog-stf.glade.h:9
+#: src/dialogs/dialog-stf.glade.h:7
 msgid "Ban_g (!)"
 msgstr "Ban_g (!)"
 
-#: src/dialogs/dialog-stf.glade.h:10
+#: src/dialogs/dialog-stf.glade.h:8
 msgid "CSV"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:11
+#: src/dialogs/dialog-stf.glade.h:9
 msgid "C_ustom"
 msgstr "_Tự chọn"
 
-#: src/dialogs/dialog-stf.glade.h:12
+#: src/dialogs/dialog-stf.glade.h:10
 msgid ""
 "Character interpreted as quote character. If a termination or separation "
 "character is encountered within quotes it will be considered part of the "
 "column text."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:13
+#: src/dialogs/dialog-stf.glade.h:11
 msgid "Clear list of columns"
 msgstr "Xoá danh sách cột"
 
-#: src/dialogs/dialog-stf.glade.h:14
-msgid "Co_lumn end: "
-msgstr "Kết thúc cột: "
-
-#: src/dialogs/dialog-stf.glade.h:15
+#: src/dialogs/dialog-stf.glade.h:12
 msgid "Co_mma (,)"
 msgstr "Phẩy (,)"
 
-#: src/dialogs/dialog-stf.glade.h:17
+#: src/dialogs/dialog-stf.glade.h:13
 msgid "Columns"
 msgstr "Cột"
 
-#: src/dialogs/dialog-stf.glade.h:18
+#: src/dialogs/dialog-stf.glade.h:14
 #, fuzzy
 msgid "Custom separator, this can be any character."
 msgstr "Ký tự ngăn cách tự chọn, có thể là bất cứ ký tự nào"
 
-#: src/dialogs/dialog-stf.glade.h:20
+#: src/dialogs/dialog-stf.glade.h:16
 msgid "Define the width of each column manually."
 msgstr "Định nghĩa độ rộng mỗi cột bằng tay."
 
-#: src/dialogs/dialog-stf.glade.h:21
+#: src/dialogs/dialog-stf.glade.h:17
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr "Mỗi cột được ngăn cách bởi 'ký tự ngăn cách', vd dấu chấm phẩy."
 
-#: src/dialogs/dialog-stf.glade.h:22
+#: src/dialogs/dialog-stf.glade.h:18
 #, fuzzy
 msgid "Encoding:"
 msgstr "Gắn kết"
 
-#: src/dialogs/dialog-stf.glade.h:23
-msgid "End"
-msgstr "Kết thúc"
-
-#: src/dialogs/dialog-stf.glade.h:24
+#: src/dialogs/dialog-stf.glade.h:19
 #, fuzzy
 msgid "F_inish"
 msgstr "_Hoàn tất"
 
-#: src/dialogs/dialog-stf.glade.h:25
+#: src/dialogs/dialog-stf.glade.h:20
 #, fuzzy
 msgid "Fixed"
 msgstr "Tập tin/"
 
-#: src/dialogs/dialog-stf.glade.h:26
+#: src/dialogs/dialog-stf.glade.h:21
 msgid "Format"
 msgstr "Dạng thức"
 
-#: src/dialogs/dialog-stf.glade.h:27
+#: src/dialogs/dialog-stf.glade.h:22
 msgid "Fr_om line:"
 msgstr "_Từ dòng:"
 
-#: src/dialogs/dialog-stf.glade.h:28
+#: src/dialogs/dialog-stf.glade.h:23
 msgid "H_yphen (-)"
 msgstr "_Gạch ngang (-)"
 
-#: src/dialogs/dialog-stf.glade.h:29
+#: src/dialogs/dialog-stf.glade.h:24
 msgid "Line breaks:"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:30
+#: src/dialogs/dialog-stf.glade.h:25
 msgid "Lines to import"
 msgstr "Dòng cần nhập"
 
-#: src/dialogs/dialog-stf.glade.h:31
+#: src/dialogs/dialog-stf.glade.h:26
 #, fuzzy
 msgid "Main"
 msgstr "Min"
 
-#: src/dialogs/dialog-stf.glade.h:33
+#: src/dialogs/dialog-stf.glade.h:28
 msgid "Number of lines to import"
 msgstr "Số dòng cần nhập"
 
-#: src/dialogs/dialog-stf.glade.h:34
+#: src/dialogs/dialog-stf.glade.h:29
 msgid "On left side only"
 msgstr "Chỉ bên trái"
 
-#: src/dialogs/dialog-stf.glade.h:35
+#: src/dialogs/dialog-stf.glade.h:30
 msgid "On right side only"
 msgstr "Chỉ bên phải"
 
-#: src/dialogs/dialog-stf.glade.h:36
+#: src/dialogs/dialog-stf.glade.h:31
 msgid "Original data type:"
 msgstr "Kiểu dữ liệu gốc:"
 
-#: src/dialogs/dialog-stf.glade.h:37
+#: src/dialogs/dialog-stf.glade.h:32
 #, fuzzy
 msgid "Overall formatting"
 msgstr "Mỗi định dạng cộ"
 
-#: src/dialogs/dialog-stf.glade.h:38
+#: src/dialogs/dialog-stf.glade.h:33
 msgid "P_ipe (|)"
 msgstr "Ống dẫn (|)"
 
-#: src/dialogs/dialog-stf.glade.h:39
+#: src/dialogs/dialog-stf.glade.h:34
 msgid "Per column formatting"
 msgstr "Mỗi định dạng cộ"
 
-#: src/dialogs/dialog-stf.glade.h:40
+#: src/dialogs/dialog-stf.glade.h:35
 msgid "Processing ends at this line, any subsequent lines will be ignored."
 msgstr "Đang xử lý cuối dòng, mọi dòng phụ sẽ bị bỏ qua."
 
-#: src/dialogs/dialog-stf.glade.h:41
-msgid "Remove selected column"
-msgstr "Loại bỏ cột được chọn"
-
-#: src/dialogs/dialog-stf.glade.h:42
+#: src/dialogs/dialog-stf.glade.h:36
 msgid "S_ee two separators as one"
 msgstr "_Xem hai thanh ngăn cách như một"
 
-#: src/dialogs/dialog-stf.glade.h:43
+#: src/dialogs/dialog-stf.glade.h:37
 msgid "S_pace"
 msgstr "_Khoảng trắng"
 
-#: src/dialogs/dialog-stf.glade.h:44
+#: src/dialogs/dialog-stf.glade.h:38
 msgid "See two successive separators as one."
 msgstr "Xem hai thanh ngăn cách liên tiếp như một"
 
-#: src/dialogs/dialog-stf.glade.h:45
+#: src/dialogs/dialog-stf.glade.h:39
 msgid ""
 "See two successive text indicators as one that does not terminate the cell."
 msgstr "Xem hai bộ chỉ thị text liên tiếp như một mà không ngắt làm hai ô."
 
-#: src/dialogs/dialog-stf.glade.h:46
+#: src/dialogs/dialog-stf.glade.h:40
 msgid "Semicolo_n (;)"
 msgstr "Chấm phẩy (;)"
 
-#: src/dialogs/dialog-stf.glade.h:47
+#: src/dialogs/dialog-stf.glade.h:41
 msgid "Separators"
 msgstr "Thanh ngăn cách"
 
-#: src/dialogs/dialog-stf.glade.h:48
-msgid "Set the end of this column"
-msgstr "Thiết lập  cuối cột này"
-
-#: src/dialogs/dialog-stf.glade.h:49
+#: src/dialogs/dialog-stf.glade.h:42
 msgid "Slas_h (/)"
 msgstr "Slas_h (/)"
 
-#: src/dialogs/dialog-stf.glade.h:50
+#: src/dialogs/dialog-stf.glade.h:43
 #, fuzzy
 msgid "Source Format"
 msgstr "Vùng nguồn"
 
-#: src/dialogs/dialog-stf.glade.h:51
+#: src/dialogs/dialog-stf.glade.h:44
 #, fuzzy
 msgid "Source Locale:"
 msgstr "Vùng nguồn"
 
-#: src/dialogs/dialog-stf.glade.h:52
+#: src/dialogs/dialog-stf.glade.h:45
 msgid "Ta_b"
 msgstr "Ta_b"
 
-#: src/dialogs/dialog-stf.glade.h:53
+#: src/dialogs/dialog-stf.glade.h:46
 msgid "Te_xt indicator: "
 msgstr "Bộ chỉ thị te_xt: "
 
-#: src/dialogs/dialog-stf.glade.h:54
+#: src/dialogs/dialog-stf.glade.h:47
+#, fuzzy
+msgid "Text Import Configuration"
+msgstr "Nhập text (có thể cấu hình)"
+
+#: src/dialogs/dialog-stf.glade.h:48
 #, fuzzy
 msgid "Text indicator"
 msgstr "Bộ chỉ thị te_xt: "
 
-#: src/dialogs/dialog-stf.glade.h:55
+#: src/dialogs/dialog-stf.glade.h:49
 msgid "The carriage return character (ASCII code 13) breaks lines"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:56
+#: src/dialogs/dialog-stf.glade.h:50
 msgid "The line feed character (ASCII code 10) breaks lines"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:57
+#: src/dialogs/dialog-stf.glade.h:51
 msgid ""
 "The sequence of carriage return and line feed (ASCII codes 13 and 10) breaks "
 "lines"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:58
+#: src/dialogs/dialog-stf.glade.h:52
 msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
 "should leave this at the default setting."
@@ -20557,49 +20655,50 @@ msgstr ""
 "Cắt bỏ các khoảng trắng trước và sau ở mỗi cột, nếu bạn không chắc thì nên "
 "để nguyên tùy chọn mặc định."
 
-#: src/dialogs/dialog-stf.glade.h:59
+#: src/dialogs/dialog-stf.glade.h:53
 msgid "Trim:"
 msgstr "Cắt:"
 
-#: src/dialogs/dialog-stf.glade.h:61
+#: src/dialogs/dialog-stf.glade.h:54
 msgid "_Adjacent text indicators escaped"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:62
+#: src/dialogs/dialog-stf.glade.h:55
+#, fuzzy
+msgid "_Auto Column Discovery"
+msgstr "Tự làm khít cột"
+
+#: src/dialogs/dialog-stf.glade.h:56
 msgid "_Clear"
 msgstr "_Xoá"
 
-#: src/dialogs/dialog-stf.glade.h:63
+#: src/dialogs/dialog-stf.glade.h:57
 msgid "_Colon (:)"
 msgstr "_Hai chấm (:)"
 
-#: src/dialogs/dialog-stf.glade.h:64
+#: src/dialogs/dialog-stf.glade.h:58
 #, fuzzy
 msgid "_Fixed width"
 msgstr "Độ rộng cố định"
 
-#: src/dialogs/dialog-stf.glade.h:65
+#: src/dialogs/dialog-stf.glade.h:59
 msgid "_Macintosh (CR)"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:67
+#: src/dialogs/dialog-stf.glade.h:60
 msgid "_Separated"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:68
+#: src/dialogs/dialog-stf.glade.h:61
 msgid "_To line: "
 msgstr "_Tới dòng: "
 
-#: src/dialogs/dialog-stf.glade.h:69
+#: src/dialogs/dialog-stf.glade.h:62
 msgid "_Unix (LF)"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:70
+#: src/dialogs/dialog-stf.glade.h:63
 msgid "_Windows (CR+LF)"
-msgstr ""
-
-#: src/dialogs/dialog-stf.glade.h:72
-msgid "dialog1"
 msgstr ""
 
 #: src/dialogs/dialog-tabulate.c:146
@@ -21276,7 +21375,7 @@ msgstr "Workbook"
 msgid "_Expression: "
 msgstr "_Biểu thức: "
 
-#: src/dialogs/names.glade.h:9 src/dialogs/solver.glade.h:37
+#: src/dialogs/names.glade.h:9 src/dialogs/solver.glade.h:36
 msgid "_Name: "
 msgstr "_Tên: "
 
@@ -21412,7 +21511,8 @@ msgstr "He_ader:"
 msgid "Headers and footers"
 msgstr "Headers and footers"
 
-#: src/dialogs/print.glade.h:11 src/tools/solver/reports-write.c:755
+#: src/dialogs/print.glade.h:11 src/dialogs/solver.glade.h:18
+#: src/tools/solver/reports-write.c:755
 msgid "Options"
 msgstr "Tùy chọn"
 
@@ -21636,7 +21736,7 @@ msgstr "Báo cáo chương trình"
 msgid "Scenario Manager"
 msgstr "Bộ quản lý plugin"
 
-#: src/dialogs/scenario-manager.glade.h:8 src/dialogs/solver.glade.h:23
+#: src/dialogs/scenario-manager.glade.h:8
 #, fuzzy
 msgid "Scenarios:"
 msgstr "Thanh ngăn cách"
@@ -22204,98 +22304,91 @@ msgstr ""
 msgid "Max Time (sec.):"
 msgstr "Khoảng tối đa (giây):"
 
-#: src/dialogs/solver.glade.h:17 src/tools/solver/reports-write.c:703
-#: src/tools/solver/reports-write.c:711
-msgid "Model Assumptions:"
-msgstr ""
+#: src/dialogs/solver.glade.h:17
+#, fuzzy
+msgid "Model"
+msgstr "Chế độ"
 
-#: src/dialogs/solver.glade.h:18
-msgid "Options:"
-msgstr "Tùy chọn:"
-
-#: src/dialogs/solver.glade.h:20
+#: src/dialogs/solver.glade.h:19
 msgid "P_rogram"
 msgstr "_Chương trình"
 
-#: src/dialogs/solver.glade.h:21
+#: src/dialogs/solver.glade.h:20
 msgid "Parameters"
 msgstr "Tham số"
 
-#: src/dialogs/solver.glade.h:22
+#: src/dialogs/solver.glade.h:21
 #, fuzzy
-msgid "Reports:"
+msgid "Reports"
 msgstr "Báo cáo"
 
-#: src/dialogs/solver.glade.h:24
+#: src/dialogs/solver.glade.h:22
+#, fuzzy
+msgid "Scenarios"
+msgstr "Thanh ngăn cách"
+
+#: src/dialogs/solver.glade.h:23
 msgid "Solve"
 msgstr ""
 
-#. Fill in the header titles.
-#: src/dialogs/solver.glade.h:25 src/tools/solver/reports-write.c:195
-#: src/tools/solver/reports-write.c:356 src/tools/solver/reports-write.c:486
-#: src/tools/solver/reports-write.c:747 src/tools/solver/reports-write.c:910
-#: src/tools/solver/reports-write.c:961
-msgid "Solver"
-msgstr ""
-
-#: src/dialogs/solver.glade.h:26
+#: src/dialogs/solver.glade.h:25
 msgid "Subject to the Constraints:"
 msgstr "Chủ đề ràng buộc:"
 
-#: src/dialogs/solver.glade.h:28
+#: src/dialogs/solver.glade.h:27
 msgid "_Answer"
 msgstr "_Trả lời"
 
-#: src/dialogs/solver.glade.h:29
+#: src/dialogs/solver.glade.h:28
 msgid "_Change"
 msgstr "_Thay đổi"
 
-#: src/dialogs/solver.glade.h:30
+#: src/dialogs/solver.glade.h:29
 msgid "_Create a scenario if the optimal solution is found"
 msgstr ""
 
-#: src/dialogs/solver.glade.h:32
+#: src/dialogs/solver.glade.h:31
 #, fuzzy
 msgid "_Do not create scenarios"
 msgstr "Không viết hoa sau:"
 
-#: src/dialogs/solver.glade.h:33
+#: src/dialogs/solver.glade.h:32
 msgid "_Left Hand Side:"
 msgstr ""
 
-#: src/dialogs/solver.glade.h:34
+#: src/dialogs/solver.glade.h:33
 msgid "_Limits"
 msgstr "_Giới hạn"
 
-#: src/dialogs/solver.glade.h:35
+#: src/dialogs/solver.glade.h:34
 msgid "_Linear Model (LP/MILP)"
 msgstr "Mô hình _tuyến tính (LP/MILP)"
 
-#: src/dialogs/solver.glade.h:36
+#: src/dialogs/solver.glade.h:35
 msgid "_Max"
 msgstr "_Max"
 
-#: src/dialogs/solver.glade.h:38
+#: src/dialogs/solver.glade.h:37
 msgid "_Performance"
 msgstr "_Hiệu suất"
 
-#: src/dialogs/solver.glade.h:39
+#: src/dialogs/solver.glade.h:38
 msgid "_Quadratic Model (QP/MIQP)"
 msgstr ""
 
-#: src/dialogs/solver.glade.h:40
+#: src/dialogs/solver.glade.h:39
 msgid "_Right Hand Side:"
 msgstr ""
 
-#: src/dialogs/solver.glade.h:41
+#: src/dialogs/solver.glade.h:40
 msgid "_Sensitivity"
 msgstr "Độ _nhạy"
 
-#: src/dialogs/solver.glade.h:42
+#: src/dialogs/solver.glade.h:41
 msgid "_Set Target Cell:       "
 msgstr "Đặt ô đíc_h:            "
 
-#: src/dialogs/solver.glade.h:43
+#: src/dialogs/solver.glade.h:42
 msgid "_Type:"
 msgstr "_Loại:"
 
@@ -23416,10 +23509,6 @@ msgstr "Luận lý"
 msgid "Cell Range"
 msgstr "Phạm vi ô"
 
-#: src/func.c:687
-msgid "Area"
-msgstr "Vùng"
-
 #: src/func.c:689
 msgid "Scalar or Error"
 msgstr "Vô hướng hoặc Lỗi"
@@ -23432,7 +23521,7 @@ msgstr "Vô hướng"
 msgid "Any"
 msgstr "Bất kỳ"
 
-#: src/func.c:1002
+#: src/func.c:1004
 msgid "Function does not exist"
 msgstr "Hàm không tồn tại"
 
@@ -23468,10 +23557,6 @@ msgstr "Định dạng số thay thế"
 #, fuzzy
 msgid "clipboard"
 msgstr "Dán từ clipboard"
-
-#: src/gui-clipboard.c:129
-msgid "Parse error while trying to parse data into cellregion"
-msgstr "Lỗi khi đang phân tích vùng ô"
 
 #: src/gui-file.c:74
 msgid "Automatically detected"
@@ -23553,7 +23638,7 @@ msgstr "Lưu workbook là"
 msgid "Multiple errors\n"
 msgstr "Nhiều lỗi\n"
 
-#: src/gui-util.c:832
+#: src/gui-util.c:789
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Không thể mở tập tin '%s'"
@@ -23596,12 +23681,12 @@ msgstr "Không thể kích hoạt URL '%s'"
 msgid "Unable to open '%s'"
 msgstr "Không thể mở '%s'"
 
-#: src/item-bar.c:735
+#: src/item-bar.c:738
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Rộng: %.2f pts (%d pixel)"
 
-#: src/item-bar.c:738
+#: src/item-bar.c:741
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Cao: %.2f pts (%d pixel)"
@@ -24372,12 +24457,12 @@ msgstr "không thể tạo đối tượng cho '%s'"
 msgid "Could not load file: %s"
 msgstr "Không thể nạp tập tin: %s"
 
-#: src/sheet-object-widget.c:1036
+#: src/sheet-object-widget.c:1129
 #, c-format
 msgid "CheckBox %d"
 msgstr "Ô đánh dấu %d"
 
-#: src/sheet-object-widget.c:1467 src/workbook-object-toolbar.c:153
+#: src/sheet-object-widget.c:1560 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "Nút chọn"
 
@@ -24415,48 +24500,48 @@ msgstr "Chèn hàng"
 msgid "Too many rows in data to parse: %d"
 msgstr "Quá nhiều hàng trong dữ liệu phân tích: %d"
 
-#: src/stf.c:110
+#: src/stf.c:112
 msgid "Error while trying to read file"
 msgstr "Lỗi đọc tập tin"
 
-#: src/stf.c:264 src/stf.c:300
+#: src/stf.c:266 src/stf.c:302
 msgid "Text to Columns"
 msgstr ""
 
-#: src/stf.c:269
+#: src/stf.c:271
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
 msgstr ""
 
-#: src/stf.c:295
+#: src/stf.c:297
 msgid "There is no data to convert"
 msgstr ""
 
-#: src/stf.c:307
+#: src/stf.c:316
 msgid "Error while trying to parse data into sheet"
 msgstr "Lỗi phân tích dữ liệu vào trang"
 
-#: src/stf.c:358
+#: src/stf.c:359
 msgid "That file is not in the given encoding."
 msgstr ""
 
-#: src/stf.c:375
+#: src/stf.c:376
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Lỗi phân tích dữ liệu vào trang"
 
-#: src/stf.c:418
+#: src/stf.c:419
 msgid "Error while trying to write csv file"
 msgstr "Lỗi ghi tập tin csv"
 
-#: src/stf.c:449
+#: src/stf.c:450
 msgid "Comma or tab separated files (CSV/TSV)"
 msgstr ""
 
-#: src/stf.c:453
+#: src/stf.c:454
 msgid "Text import (configurable)"
 msgstr "Nhập text (có thể cấu hình)"
 
-#: src/stf.c:457
+#: src/stf.c:458
 msgid "Text export (configurable)"
 msgstr "Xuất text (có thể cấu hình)"
 
@@ -25279,6 +25364,10 @@ msgstr "Không biết"
 #, c-format
 msgid "%s (%s)"
 msgstr "%s (%s)"
+
+#: src/tools/solver/reports-write.c:703 src/tools/solver/reports-write.c:711
+msgid "Model Assumptions:"
+msgstr ""
 
 #: src/tools/solver/reports-write.c:704
 msgid "Autoscaling:"
@@ -26142,11 +26231,11 @@ msgstr "_Khoa học"
 msgid "Special"
 msgstr "Đặc _biệt"
 
-#: src/widgets/widget-format-selector.c:924
+#: src/widgets/widget-format-selector.c:929
 msgid "Negative Number Format"
 msgstr "Dạng thức số âm"
 
-#: src/widgets/widget-format-selector.c:955
+#: src/widgets/widget-format-selector.c:960
 msgid "Number Formats"
 msgstr "Dạng thức số"
 
@@ -27205,6 +27294,11 @@ msgstr "Đỉnh và đáy đậm"
 msgid "Set Borders"
 msgstr "Chỉnh biên"
 
+#: src/workbook-object-toolbar.c:190
+#, fuzzy
+msgid "SpinButton"
+msgstr "Nút"
+
 #: src/workbook-view.c:269
 #, c-format
 msgid "%dR x %dC"
@@ -27294,6 +27388,31 @@ msgstr "Lỗi lưu tập tin"
 #: src/xml-io.c:3951
 msgid "Gnumeric XML file format"
 msgstr "Dạng thức tập tin Gnumeric XML"
+
+#, fuzzy
+#~ msgid "GraphLabel"
+#~ msgstr "Nhãn khung"
+
+#~ msgid "Add a new column"
+#~ msgstr "Thêm cột mới"
+
+#~ msgid "Co_lumn end: "
+#~ msgstr "Kết thúc cột: "
+
+#~ msgid "End"
+#~ msgstr "Kết thúc"
+
+#~ msgid "Remove selected column"
+#~ msgstr "Loại bỏ cột được chọn"
+
+#~ msgid "Set the end of this column"
+#~ msgstr "Thiết lập  cuối cột này"
+
+#~ msgid "Options:"
+#~ msgstr "Tùy chọn:"
+
+#~ msgid "Parse error while trying to parse data into cellregion"
+#~ msgstr "Lỗi khi đang phân tích vùng ô"
 
 #~ msgid "Financial"
 #~ msgstr "Tài chính"
@@ -27612,12 +27731,6 @@ msgstr "Dạng thức tập tin Gnumeric XML"
 #~ msgid "Marked lines"
 #~ msgstr "Đường đánh dấu"
 
-#~ msgid "Percentage lines"
-#~ msgstr "Đường phần trăm"
-
-#~ msgid "Stacked lines"
-#~ msgstr "Đường chồng"
-
 #~ msgid "Create a new unshared view of the workbook"
 #~ msgstr "Tạo khung nhìn riêng mới của workbook"
 
@@ -27687,9 +27800,6 @@ msgstr "Dạng thức tập tin Gnumeric XML"
 
 #~ msgid "Worksheet _protected"
 #~ msgstr "Worksheet được _bảo vệ"
-
-#~ msgid "_Hidden"
-#~ msgstr "Ẩ_n"
 
 #~ msgid "Selection has"
 #~ msgstr "Vùng chọn có"

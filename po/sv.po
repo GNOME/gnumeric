@@ -30,14 +30,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-07-29 00:35+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-07-31 14:11-0400\n"
 "PO-Revision-Date: 2003-07-29 00:38+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -17312,10 +17312,11 @@ msgstr ""
 
 #. xgettext: you can translate the funny character as an 'o' if unicode is not available.
 #: plugins/numtheory/numtheory.c:247
+#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -19082,8 +19083,9 @@ msgstr "Vänsterjustera"
 msgid "Left align"
 msgstr "Vänsterjusterat"
 
-#: src/GNOME_Gnumeric.xml.h:146 src/dialogs/dialog-stf-main-page.c:362
-#: src/workbook-object-toolbar.c:174
+#: src/GNOME_Gnumeric.xml.h:146
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
+#: src/dialogs/dialog-stf-main-page.c:362 src/workbook-object-toolbar.c:174
 msgid "Line"
 msgstr "Linje"
 
@@ -20528,7 +20530,7 @@ msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) till kolumner (%s)"
 
 #. Fill in the header titles.
-#: src/commands.c:6002 src/dialogs/solver.glade.h:25
+#: src/commands.c:6002 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
@@ -20550,7 +20552,7 @@ msgstr "Förklaring"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:141
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:132
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:159
 msgid "Title"
 msgstr "Titel"
 
@@ -20635,7 +20637,7 @@ msgstr "ATT GÖRA: Inte klar"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/names.glade.h:6
-#: src/dialogs/solver.glade.h:27
+#: src/dialogs/solver.glade.h:26
 msgid "_Add"
 msgstr "_Lägg till"
 
@@ -20649,7 +20651,7 @@ msgid "_Decrease"
 msgstr "_Minska"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
-#: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:31
+#: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:30
 msgid "_Delete"
 msgstr "_Ta bort"
 
@@ -20674,11 +20676,11 @@ msgstr "_Text:"
 msgid "Plot Engine"
 msgstr "Grafmotor"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:237
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:230
 msgid "Plot Type"
 msgstr "Plottyp"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:319
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:312
 msgid "Chart Theme"
 msgstr "Diagramtema"
 
@@ -20859,21 +20861,13 @@ msgstr "_Mellanrum:"
 msgid "_Overlap:"
 msgstr "_Överlappning:"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:129
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd bar/col plot in a chart will be called
+#. * 	PlotBarCol2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:97
 msgid "PlotBarCol"
 msgstr "PlotStapKol"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:287
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
-#: src/dialogs/consolidate.glade.h:10
-msgid "Labels"
-msgstr "Rubriker"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:289
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:194
-#: src/dialogs/consolidate.glade.h:22
-msgid "Values"
-msgstr "Värden"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -20927,14 +20921,38 @@ msgid "Adjacent vertical columns grouped by major and minor categories."
 msgstr "Närliggande vertikala stolpar grupperade i huvud- och delkategorier."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
+#: src/func.c:687
+msgid "Area"
+msgstr "Område"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
+msgid "Area plot."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
+#, fuzzy
+msgid "Areas"
+msgstr "_Områden"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
 msgid "Bar"
 msgstr "Stolpe"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:17
 msgid "Column"
 msgstr "Kolumn"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
+#, fuzzy
+msgid "Line plot."
+msgstr "Rader att importera"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
+#, fuzzy
+msgid "Lines"
+msgstr "Linje"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D horizontal "
 "bars, grouped by major category."
@@ -20942,7 +20960,7 @@ msgstr ""
 "Delkategorier staplade som procent av delsumman, i horisontella 3D-stolpar, "
 "grupperade efter huvudkategori."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:22
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D vertical "
 "bars, grouped by major category."
@@ -20950,7 +20968,7 @@ msgstr ""
 "Delkategorier staplade som procent av delsumman, i vertikala 3D-stolpar, "
 "grupperade efter huvudkategori."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:17
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:23
 msgid ""
 "Minor categories stacked as percentages of the minor total, in horizontal "
 "bars, grouped by major category."
@@ -20958,7 +20976,7 @@ msgstr ""
 "Delkategorier staplade som procent av delsumman, i horisontella stolpar, "
 "grupperade efter huvudkategori."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:24
 msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
@@ -20966,62 +20984,115 @@ msgstr ""
 "Delkategorier staplade som procent av delsumman, i vertikala kolumner, "
 "grupperade efter huvudkategori."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:25
 msgid ""
 "Minor categories stacked in horizontal 3D bars, grouped by major category."
 msgstr ""
 "Delkategorier staplade i horisontella 3D-stolpar, grupperade efter "
 "huvudkategori."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:26
 msgid "Minor categories stacked in horizontal bars grouped by major category."
 msgstr ""
 "Delkategorier staplade i horisontella stolpar, grupperade efter "
 "huvudkategori."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:27
 msgid ""
 "Minor categories stacked in vertical 3D columns, grouped by major category."
 msgstr ""
 "Delkategorier staplade i vertikala 3D-kolumner, grupperade efter "
 "huvudkategori."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:22
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:28
 msgid "Minor categories stacked in vertical columns grouped by major category."
 msgstr ""
 "Delkategorier staplade i vertikala kolumner, grupperade efter huvudkategori."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:23
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:29
+#, fuzzy
+msgid "Percentage Areas"
+msgstr "Procentstolpar"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:30
 msgid "Percentage Bars"
 msgstr "Procentstolpar"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:24
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:31
 msgid "Percentage Columns"
 msgstr "Procentkolumner"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:25
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:32
+#, fuzzy
+msgid "Percentage Lines"
+msgstr "Procentlinjer"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:33
+#, fuzzy
+msgid "Percentage area plot."
+msgstr "Procentstolpar"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:34
+#, fuzzy
+msgid "Percentage line plot."
+msgstr "Procentlinjer"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:35
+#, fuzzy
+msgid "Stacked Areas"
+msgstr "Staplade stolpar"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:36
 msgid "Stacked Bars"
 msgstr "Staplade stolpar"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:26
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:37
 msgid "Stacked Columns"
 msgstr "Staplade kolumner"
 
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:38
+#, fuzzy
+msgid "Stacked Lines"
+msgstr "Staplade linjer"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:39
+#, fuzzy
+msgid "Stacked area plot."
+msgstr "Staplade stolpar"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:40
+#, fuzzy
+msgid "Stacked line plot."
+msgstr "Staplade linjer"
+
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:1
-msgid "Bar and Column charts"
-msgstr "Stapel- och kolumngrafer"
+#, fuzzy
+msgid "1.5d Charts"
+msgstr "Cirkeldiagram"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:2
-msgid "Bar/Col Charts"
-msgstr "Stapel/kolumngrafer"
+#, fuzzy
+msgid "Area plotting engine"
+msgstr "Cirkeldiagramsritmotor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:3
 msgid "Bar/Col plotting engine"
 msgstr "Stapel/kolumn ritmotor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:4
-msgid "Default Bar/Col plot types"
+#, fuzzy
+msgid "Default 1.5d plot types"
 msgstr "Standard stapel/kolumn graftyper"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:5
+#, fuzzy
+msgid "Line plotting engine"
+msgstr "Cirkeldiagramsritmotor"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:6
+#, fuzzy
+msgid "Line, Area, Bar and Column charts"
+msgstr "Stapel- och kolumngrafer"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:3
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:4
@@ -21061,6 +21132,16 @@ msgstr "Grader"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:103
 msgid "PlotPie"
 msgstr "GrafCirkel"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
+#: src/dialogs/consolidate.glade.h:10
+msgid "Labels"
+msgstr "Rubriker"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:194
+#: src/dialogs/consolidate.glade.h:22
+msgid "Values"
+msgstr "Värden"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
 msgid "Cen_ter size:"
@@ -21353,7 +21434,7 @@ msgstr "List_område:"
 msgid "N_ew Workbook"
 msgstr "Ny arb_etsbok"
 
-#: src/dialogs/advanced-filter.glade.h:7 src/dialogs/solver.glade.h:19
+#: src/dialogs/advanced-filter.glade.h:7
 msgid "Output"
 msgstr "Utdata"
 
@@ -22440,13 +22521,15 @@ msgstr "John Gotts, rpm-paketering."
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:64
-msgid "Andreas J. Glzow, Gnumeric hacker."
+#, fuzzy
+msgid "Andreas J. Gülzow, Gnumeric hacker."
 msgstr "Andreas J. Gülzow, Gnumeric-hacker."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:67
-msgid "Jon Kre Hellan, Gnumeric hacker."
+#, fuzzy
+msgid "Jon Kåre Hellan, Gnumeric hacker."
 msgstr "Jon Kåre Hellan, Gnumeric-hacker."
 
 #: src/dialogs/dialog-about.c:68
@@ -25010,7 +25093,7 @@ msgstr "Arbetsbok"
 msgid "_Expression: "
 msgstr "_Uttryck: "
 
-#: src/dialogs/names.glade.h:9 src/dialogs/solver.glade.h:37
+#: src/dialogs/names.glade.h:9 src/dialogs/solver.glade.h:36
 msgid "_Name: "
 msgstr "_Namn: "
 
@@ -25141,7 +25224,8 @@ msgstr "Sid_huvud:"
 msgid "Headers and footers"
 msgstr "Sidhuvud/sidfot"
 
-#: src/dialogs/print.glade.h:11 src/tools/solver/reports-write.c:755
+#: src/dialogs/print.glade.h:11 src/dialogs/solver.glade.h:18
+#: src/tools/solver/reports-write.c:755
 msgid "Options"
 msgstr "Alternativ"
 
@@ -25358,7 +25442,7 @@ msgstr "Skapa _Sammanfattning"
 msgid "Scenario Manager"
 msgstr "Scenariehanterare"
 
-#: src/dialogs/scenario-manager.glade.h:8 src/dialogs/solver.glade.h:23
+#: src/dialogs/scenario-manager.glade.h:8
 msgid "Scenarios:"
 msgstr "Scenarier:"
 
@@ -25914,88 +25998,90 @@ msgstr "Max iterationer:"
 msgid "Max Time (sec.):"
 msgstr "Maxtid (sekunder):"
 
-#: src/dialogs/solver.glade.h:17 src/tools/solver/reports-write.c:703
-#: src/tools/solver/reports-write.c:711
-msgid "Model Assumptions:"
-msgstr "Modellantaganden:"
+#: src/dialogs/solver.glade.h:17
+#, fuzzy
+msgid "Model"
+msgstr "Läge"
 
-#: src/dialogs/solver.glade.h:18
-msgid "Options:"
-msgstr "Alternativ:"
-
-#: src/dialogs/solver.glade.h:20
+#: src/dialogs/solver.glade.h:19
 msgid "P_rogram"
 msgstr "P_rogram"
 
-#: src/dialogs/solver.glade.h:21
+#: src/dialogs/solver.glade.h:20
 msgid "Parameters"
 msgstr "Parametrar"
 
-#: src/dialogs/solver.glade.h:22
-msgid "Reports:"
+#: src/dialogs/solver.glade.h:21
+#, fuzzy
+msgid "Reports"
 msgstr "Sammanfattningar:"
 
-#: src/dialogs/solver.glade.h:24
+#: src/dialogs/solver.glade.h:22
+#, fuzzy
+msgid "Scenarios"
+msgstr "Scenarier:"
+
+#: src/dialogs/solver.glade.h:23
 msgid "Solve"
 msgstr "Lös"
 
-#: src/dialogs/solver.glade.h:26
+#: src/dialogs/solver.glade.h:25
 msgid "Subject to the Constraints:"
 msgstr "Föremål för bivillkoren:"
 
-#: src/dialogs/solver.glade.h:28
+#: src/dialogs/solver.glade.h:27
 msgid "_Answer"
 msgstr "_Svar"
 
-#: src/dialogs/solver.glade.h:29
+#: src/dialogs/solver.glade.h:28
 msgid "_Change"
 msgstr "_Ändra"
 
-#: src/dialogs/solver.glade.h:30
+#: src/dialogs/solver.glade.h:29
 msgid "_Create a scenario if the optimal solution is found"
 msgstr "_Skapa ett scenarium om en optimal lösning hittas"
 
-#: src/dialogs/solver.glade.h:32
+#: src/dialogs/solver.glade.h:31
 msgid "_Do not create scenarios"
 msgstr "_Skapa inte scenarier"
 
-#: src/dialogs/solver.glade.h:33
+#: src/dialogs/solver.glade.h:32
 msgid "_Left Hand Side:"
 msgstr "_Vänstersida:"
 
-#: src/dialogs/solver.glade.h:34
+#: src/dialogs/solver.glade.h:33
 msgid "_Limits"
 msgstr "_Gränser"
 
-#: src/dialogs/solver.glade.h:35
+#: src/dialogs/solver.glade.h:34
 msgid "_Linear Model (LP/MILP)"
 msgstr "_Linjär modell (LP/MILP)"
 
-#: src/dialogs/solver.glade.h:36
+#: src/dialogs/solver.glade.h:35
 msgid "_Max"
 msgstr "_Max"
 
-#: src/dialogs/solver.glade.h:38
+#: src/dialogs/solver.glade.h:37
 msgid "_Performance"
 msgstr "_Prestanda"
 
-#: src/dialogs/solver.glade.h:39
+#: src/dialogs/solver.glade.h:38
 msgid "_Quadratic Model (QP/MIQP)"
 msgstr "_Kvadratisk modell (QP/MIQP)"
 
-#: src/dialogs/solver.glade.h:40
+#: src/dialogs/solver.glade.h:39
 msgid "_Right Hand Side:"
 msgstr "_Högra ledet:"
 
-#: src/dialogs/solver.glade.h:41
+#: src/dialogs/solver.glade.h:40
 msgid "_Sensitivity"
 msgstr "_Känslighet"
 
-#: src/dialogs/solver.glade.h:42
+#: src/dialogs/solver.glade.h:41
 msgid "_Set Target Cell:       "
 msgstr "_Ställ in målcell:      "
 
-#: src/dialogs/solver.glade.h:43
+#: src/dialogs/solver.glade.h:42
 msgid "_Type:"
 msgstr "T_yp:"
 
@@ -27106,10 +27192,6 @@ msgstr "Boolesk variabel"
 #: src/func.c:685
 msgid "Cell Range"
 msgstr "Cellområde"
-
-#: src/func.c:687
-msgid "Area"
-msgstr "Område"
 
 #: src/func.c:689
 msgid "Scalar or Error"
@@ -29008,6 +29090,10 @@ msgstr "Okänd"
 #, c-format
 msgid "%s (%s)"
 msgstr "%s (%s)"
+
+#: src/tools/solver/reports-write.c:703 src/tools/solver/reports-write.c:711
+msgid "Model Assumptions:"
+msgstr "Modellantaganden:"
 
 #: src/tools/solver/reports-write.c:704
 msgid "Autoscaling:"
@@ -30958,6 +31044,12 @@ msgstr "Fel vid sparande av fil"
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
+#~ msgid "Bar/Col Charts"
+#~ msgstr "Stapel/kolumngrafer"
+
+#~ msgid "Options:"
+#~ msgstr "Alternativ:"
+
 #~ msgid "Add a new column"
 #~ msgstr "Infoga en ny kolumn"
 
@@ -32025,12 +32117,6 @@ msgstr "Gnumeric XML-filformat"
 
 #~ msgid "Minor categories stacked in lines grouped by major category."
 #~ msgstr "Delkategorier staplade i linjer grupperade efter huvudkategori."
-
-#~ msgid "Percentage lines"
-#~ msgstr "Procentlinjer"
-
-#~ msgid "Stacked lines"
-#~ msgstr "Staplade linjer"
 
 #~ msgid "Size"
 #~ msgstr "Storlek"
