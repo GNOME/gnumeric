@@ -376,7 +376,8 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 						/* 12 */ "dd/mm/yy",
 						/* 13 */ "dd.mm.yyyy",
 						/* 14 */ "mmm dd, yyyy",
-						/* 15 */ "mmmm yyyy"
+						/* 15 */ "mmmm yyyy",
+						/* 16 */ "mmm.yyyy"
 					};
 
 					/* General : do nothing */
@@ -388,7 +389,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					if (!isdigit ((unsigned char)sep[1]) ||
 					    (0 == (id = strtol (sep+1, &end, 10))) ||
 					    sep+1 == end ||
-					    id < 1 || id > 15)
+					    id < 1 || id > 16)
 						(void) applix_parse_error (state, "Unknown format");
 
 					format = date_formats[id-1];
