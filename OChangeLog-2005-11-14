@@ -1,3 +1,14 @@
+2001-01-25  Almer S. Tigelaar  <almer1@dds.nl>
+
+        * src/workbook-control-priv.h: Remove insert struct, there
+	is only one function in it anyway so no need for a struct.
+
+	* src/workbook-control.c: Adjust for removal of the insert struct.
+	
+	* src/workbook-control-gui.c 
+	(wbcg_paste_special_enable): Use change_menu_sensitivity.
+	(workbook_control_gui_ctor_class): Adjust for removal of the insert struct.
+
 2001-01-25  Morten Welinder  <terra@diku.dk>
 
 	* src/commands.c (cmd_search_replace_update_after_action): Delete

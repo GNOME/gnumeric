@@ -42,15 +42,13 @@ typedef struct {
 				 char const *undo, char const *redo);
 	} undo_redo;
 	struct {
-		void (*cols_rows_enable) (WorkbookControl *wbc, gboolean col,
-					  gboolean enable);
-	} insert;
-	struct {
 		void (*special_enable) (WorkbookControl *wbc, gboolean enable);
 		void (*from_selection) (WorkbookControl *wbc,
 					PasteTarget const *pt, guint32 time);
 	} paste;
-	gboolean (*claim_selection) (WorkbookControl *wbc);
+	void     (*insert_cols_rows_enable) (WorkbookControl *wbc, gboolean col,
+					     gboolean enable);
+	gboolean (*claim_selection)         (WorkbookControl *wbc);
 } WorkbookControlClass;
 
 #define WORKBOOK_CONTROL_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), WORKBOOK_CONTROL_TYPE, WorkbookControlClass))

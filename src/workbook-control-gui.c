@@ -807,14 +807,12 @@ wbcg_undo_redo_labels (WorkbookControl *wbc, char const *undo, char const *redo)
 static void
 wbcg_paste_special_enable (WorkbookControl *wbc, gboolean enable)
 {
-	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+ 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	
 #ifndef ENABLE_BONOBO
-	gtk_widget_set_sensitive (
-		wbcg->menu_item_paste_special, enable);
+	change_menu_sensitivity (wbcg->menu_item_paste_special, enable);
 #else
-	bonobo_ui_component_set_prop (wbcg->uic,
-				      "/commands/EditPasteSpecial",
-				      "sensitive", enable ? "1" : "0", NULL);
+	change_menu_sensitivity (wbcg, "/commands/EditPasteSpecial", "/menu/Edit/PasteSpecial", enable);
 #endif
 }
 
@@ -3238,11 +3236,11 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->undo_redo.push     = wbcg_undo_redo_push;
 	wbc_class->undo_redo.labels   = wbcg_undo_redo_labels;
 
-	wbc_class->insert.cols_rows_enable = wbcg_insert_cols_rows_enable;
-	
 	wbc_class->paste.special_enable = wbcg_paste_special_enable;
 	wbc_class->paste.from_selection = wbcg_paste_from_selection;
-	wbc_class->claim_selection	= wbcg_claim_selection;
+
+	wbc_class->insert_cols_rows_enable = wbcg_insert_cols_rows_enable;
+	wbc_class->claim_selection	   = wbcg_claim_selection;
 }
 
 GNUMERIC_MAKE_TYPE(workbook_control_gui,
