@@ -42,6 +42,7 @@ Morten:
 	* Plug leaks and improve speed of string functions.
 	* Fix DOLLAR.
 	* Fix ROW and COLUMN.
+	* Prevent gcc 2.96 compilation.
 
 Jon Kåre:
 	* Install bonobo control

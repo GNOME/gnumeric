@@ -3,6 +3,7 @@
  *
  * Author:
  *   Jon Kåre Hellan <hellan@acm.org>
+ *   Morten Welinder <terra@diku.dk>
  *
  * Copyright (C) 2002, Jon Kåre Hellan
  */
@@ -126,7 +127,7 @@ main (int argc, char *argv [])
 	gnm_common_init ();
 
 	if (dump_file_name)
-		return gnm_dump_func_defs (dump_file_name); 
+		return gnm_dump_func_defs (dump_file_name);
 
 	/* Load selected files */
 	if (ctx)

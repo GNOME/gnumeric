@@ -1,3 +1,7 @@
+2002-05-21  Morten Welinder  <terra@diku.dk>
+
+	* configure.in: Refuse to compile with gcc 2.96.
+
 2002-05-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* schemas/gnumeric-dialogs.schemas : add 2 printer schemas

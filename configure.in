@@ -24,6 +24,19 @@ AM_PROG_LIBTOOL
 AC_STDC_HEADERS
 AC_ARG_PROGRAM
 
+if test "$GCC" = "yes"; then
+  gcc_check=`gcc -v 2>&1 | grep '^gcc version 2\.96'`
+  if test "$gcc_check" != ""; then
+    # I know a dead parrot when I see one, and I am looking at
+    # one now.
+    AC_MSG_ERROR([You cannot compile Gnumeric with RedHat gcc 2.96.
+We have seen too many subtle compiler errors.
+Please use another compiler, for example a gcc 2.95 series compiler.])
+    # Mate, this parrot wouldn't "vooom!" if you put four million
+    # Volts through it.
+  fi
+fi
+
 PKG_CHECK_MODULES(GNUMERIC,[
 glib-2.0	>= 2.0.0
 gobject-2.0	>= 2.0.0
