@@ -1,3 +1,7 @@
+2001-11-30  Morten Welinder  <terra@diku.dk>
+
+	* fn-information.c (gnumeric_expression): Fix empty-cell case.
+
 2001-11-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 	* fn-database.c (parse_database_criteria) use sheet from 
 	  criteria range

@@ -23,6 +23,9 @@ Jody:
 	* Fix xml storage of parse position for names.
 	* sync print code with draw code for merges.
 
+Morten:
+	* Fix EXPRESSION crash.
+
 --------------------------------------------------------------------------
 Gnumeric 0.76
 

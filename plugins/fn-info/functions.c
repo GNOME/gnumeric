@@ -301,7 +301,7 @@ gnumeric_expression (FunctionEvalInfo *ei, Value **args)
 		cell = sheet_cell_get (eval_sheet (a->sheet, ei->pos->sheet),
 				       a->col, a->row);
 
-		if (cell_has_expr (cell)) {
+		if (cell && cell_has_expr (cell)) {
 			ParsePos pos;
 			char * expr_string =
 			    expr_tree_as_string (cell->base.expression,
