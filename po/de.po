@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.4\n"
 "POT-Creation-Date: 1999-04-26 13:37-0500\n"
-"PO-Revision-Date: 1998-12-21 16:48 +1\n"
+"PO-Revision-Date: 1999-05-11 16:48 +1\n"
 "Last-Translator: Ralf Baechle <ralf@gnu.org>\n"
 "Language-Team:\n"
 "MIME-Version: 1.0\n"
@@ -35,9 +35,8 @@ msgid "Could not evaluate argument"
 msgstr ""
 
 #: plugins/guile/plugin.c:386
-#, fuzzy
 msgid "Unable to lookup Guile function."
-msgstr "kann Moduldatei nicht öffnen: "
+msgstr "Kann Guile-Funktion nicht finden."
 
 #: plugins/guile/plugin.c:454
 msgid "Guile Plugin"
@@ -412,9 +411,8 @@ msgid "Use this color"
 msgstr "Diese Farbe benutzen"
 
 #: src/dialog-cell-format.c:610 src/dialog-cell-format.c:645
-#, fuzzy
 msgid "No change"
-msgstr "Nichts"
+msgstr "Keine Änderung"
 
 #: src/dialog-cell-format.c:633
 msgid "Background configuration"
@@ -632,9 +630,8 @@ msgid "Unknown evaluation error"
 msgstr "Unbekannter Auswertungsfehler"
 
 #: src/file.c:218
-#, fuzzy
 msgid "File format:"
-msgstr "Zellenformat"
+msgstr "Dateiformat:"
 
 #: src/file.c:257
 msgid "Save workbook as"
@@ -724,7 +721,6 @@ msgstr ""
 "@SEEALSO=HOUR"
 
 #: src/fn-date.c:167
-#, fuzzy
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -743,7 +739,6 @@ msgstr ""
 "werden kann.@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
 #: src/fn-date.c:182
-#, fuzzy
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -763,7 +758,6 @@ msgstr ""
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
 #: src/fn-date.c:197
-#, fuzzy
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -783,7 +777,6 @@ msgstr ""
 "@SEEALSO=MINUTE, NOW, TIME, HOUR"
 
 #: src/fn-date.c:235
-#, fuzzy
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -2914,128 +2907,3 @@ msgstr "Blatt %d"
 #: src/xml-io.c:1645
 msgid "Gnumeric XML file format"
 msgstr ""
-
-#~ msgid "NoName"
-#~ msgstr "Namenlos"
-
-#~ msgid ""
-#~ "@FUNCTION=STDEV\n"
-#~ "@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard "
-#~ "deviation of all the values and cells referenced in the argument list. This "
-#~ "is equivalent to the square root of the variance.\n"
-#~ "@SEEALSO=VARIANCE"
-#~ msgstr ""
-#~ "@FUNCTION+STDEV\n"
-#~ "@SYNTAX = STDEV(wert1, wert2, ...)@DESCRIPTION=Berechnet die\n"
-#~ "Standardabweichung aller in der Argumentliste referenzierten Werte und "
-#~ "Zellen.\n"
-#~ "Dies ist Aequivalent zur Wurzel der Varianz.\n"
-#~ "@SEEALSO=VARIANCE"
-
-#~ msgid ""
-#~ "@FUNCTION=VARIANCE\n"
-#~ "@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Computes the variation "
-#~ "of all the values and cells referenced in the argument list. This "
-#~ "is\tequivalent to the sum of (value - average)^2, divided by the number of "
-#~ "values minus 1. If you want it divided by N instead of N - 1, use "
-#~ "NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
-#~ msgstr ""
-#~ "@FUNCTION=VARIANCE\n"
-#~ "@SYNTAX = VARIANCE(Wert1, Wert2, ...)@DESCRIPTION=Berechnet die Varianz \n"
-#~ "aller in den Argumenten referenzierten Werte und Zellen.  Die ist "
-#~ "aequivalent\n"
-#~ "zur Summe von (Wert - Durchschnitt)^2 dividiert durch die Anzahl der Werte\n"
-#~ "minus 1.  Die NVARIANCE Funktion teilt statt durch N - 1 durch N.\n"
-#~ "@SEEALSO=AVERAGE, NVARIANCE"
-
-#~ msgid ""
-#~ "@FUNCTION=NVARIANCE\n"
-#~ "@SYNTAX = NVARIANVE(value1, value2, ...)@DESCRIPTION=Computes the variation "
-#~ "of all the values and cells references in the argument list. This is "
-#~ "equivalent to the sum of (value - average)^2, divided by the number of "
-#~ "values. If you want it divided by N - 1 instead of N, use "
-#~ "VARIANCE.@SEEALSO=AVERAGE, VARIANCE"
-#~ msgstr ""
-#~ "@FUNCTION=NVARIANCE\n"
-#~ "@SYNTAX = NVARIANCE(Wert1, Wert2, ...)@DESCRIPTION=Berechnet die Varianz\n"
-#~ "aller in den Argumenten referenzierten Werte und Zellen.  Dies ist "
-#~ "aequivalent\n"
-#~ "zur Summe von (Wert - Durchschnitt)^2 dividiert durch die Anzahl der Werte.\n"
-#~ "Die VARIANCE Funktion teilt statt durch N durch N - 1.\n"
-#~ "@SEEALSO=AVERAGE, VARIANCE"
-
-#~ msgid "Statistics Plugin"
-#~ msgstr "Statistik Modul"
-
-#~ msgid "variance - division by 0"
-#~ msgstr "Varianz - Divison durch 0"
-
-#~ msgid "Sets the cell alignment to the left"
-#~ msgstr "Setzt die Formatierung auf Linksbündig"
-
-#~ msgid "Sets the cell alignment to the right"
-#~ msgstr "Setzt die Formatierung auf Rechtsbündig"
-
-#~ msgid "Sets the italic attribute on the cell"
-#~ msgstr "Setzt das Kurzsivattribut der Zelle"
-
-#~ msgid ""
-#~ "@FUNCTION=BIN2DEC\n"
-#~ "@SYNTAX=BIN2DEC(x)\n"
-#~ "@DESCRIPTION=The BIN2DEC function converts a binary number in string or "
-#~ "number to its decimal equivalent.\n"
-#~ "Performing this function on a string or empty cell simply does nothing.\n"
-#~ "@SEEALSO=DEC2BIN"
-#~ msgstr ""
-#~ "@FUNCTION=BIN2DEC\n"
-#~ "@SYNTAX=BIN2DEC(x)\n"
-#~ "@DESCRIPTION=Die BIN2DEC Funktion wandelt eine Binärzahl als Zeichenkette "
-#~ "oder Zahl in ihr dezimales Aequivalent um.\n"
-#~ "Die Anwendung dieser Funktion auf eine Zeichenkette oder leere Zelle macht "
-#~ "nichts.\n"
-#~ "@SEEALSO=DEC2BIN"
-
-#~ msgid "Notice"
-#~ msgstr "Bemerkung"
-
-#~ msgid "Workbook "
-#~ msgstr "Arbeitsbuch "
-
-#~ msgid "_Open..."
-#~ msgstr "Öffnen ..."
-
-#~ msgid "_Save"
-#~ msgstr "_Speichern"
-
-#~ msgid "Save _as..."
-#~ msgstr "Speichern als ..."
-
-#~ msgid "_Close"
-#~ msgstr "Schliessen"
-
-#~ msgid "E_xit"
-#~ msgstr "B_enden"
-
-#~ msgid "Cu_t"
-#~ msgstr "Ausschneiden"
-
-#~ msgid "_Copy"
-#~ msgstr "_Kopieren"
-
-#~ msgid "_Paste"
-#~ msgstr "Ein_fügen"
-
-#~ msgid "_About Gnumeric..."
-#~ msgstr "Über Gnumeric"
-
-#~ msgid "_File"
-#~ msgstr "_Datei"
-
-#~ msgid "_Edit"
-#~ msgstr "_Editieren"
-
-#~ msgid "_View"
-#~ msgstr "Ansicht"
-
-#~ msgid "_Help"
-#~ msgstr "_Hilfe"
