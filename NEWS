@@ -50,6 +50,7 @@ Morten:
 	* Improve accuracy of EFFECT, NOMINAL, MIRR, IRR, XNPV, NPV, PMT,
 	  RATE, PV, FV, IPMT, PPMT for small rates.
 	* Fix accuracy of ZTEST.
+	* Improve prevision of the bessel functions.
 	* Fix validation crash due to excel import.  [backported]
 	* Fix custom validation export.  [backported]
 	* New functions EXPM1 and LN1P.

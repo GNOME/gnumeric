@@ -148,6 +148,10 @@ sub import_file {
 
 	    # Improve precision of "lgammagnum(x+1)".
 	    s/\blgammagnum\s*\(([^()]*\S)\s*\+\s*1(.0*)?\s*\)/lgamma1p ($1)/;
+	    s/\bgamma_cody\s*\(1\.\s*\+\s*([^()]+)\s*\)/expgnum(lgamma1p ($1))/;
+	    if ($filename =~ m|/bessel_i\.c$|) {
+		s/\bgamma_cody\(empal\)/expgnum(lgamma1p(nu))/;
+	    }
 
 	    # Somewhat risky.
 	    s/\%([-0-9.]*)([efgEFG])/\%$1\" GNUM_FORMAT_$2 \"/g;

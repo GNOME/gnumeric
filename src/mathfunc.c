@@ -91,9 +91,6 @@ static inline gnm_float fmax2 (gnm_float x, gnm_float y) { return MAX (x, y); }
 static inline int imin2 (int x, int y) { return MIN (x, y); }
 static inline int imax2 (int x, int y) { return MAX (x, y); }
 
-#define gamma_cody(_x) expgnum (lgammagnum (_x))
-#define lfastchoose(_n,_k) (lgammagnum((_n) + 1.0) - lgammagnum((_k) + 1.0) - lgammagnum((_n) - (_k) + 1.0))
-
 #define MATHLIB_STANDALONE
 #define ML_ERR_return_NAN { return gnm_nan; }
 static void pnorm_both (gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboolean log_p);
@@ -1072,7 +1069,12 @@ gnm_float qpois(gnm_float p, gnm_float lambda, gboolean lower_tail, gboolean log
  */
 
 
-/* stirlerr(n) = loggnum(n!) - loggnum( sqrtgnum(2*pi*n)*(n/e)^n ) */
+/* stirlerr(n) = loggnum(n!) - loggnum( sqrtgnum(2*pi*n)*(n/e)^n )
+ *             = loggnum Gamma(n+1) - 1/2 * [loggnum(2*pi) + loggnum(n)] - n*[loggnum(n) - 1]
+ *             = loggnum Gamma(n+1) - (n + 1/2) * loggnum(n) + n - loggnum(2*pi)/2
+ *
+ * see also lgammacor() in ./lgammacor.c  which computes almost the same!
+ */
 
 static gnm_float stirlerr(gnm_float n)
 {
@@ -1656,7 +1658,7 @@ static gnm_float chebyshev_eval(gnm_float x, const gnm_float *a, const int n)
  *  SEE ALSO
  *
  *    Loader(1999)'s stirlerr() {in ./stirlerr.c} is *very* similar in spirit,
- *    is faster and cleaner, but is only defined for half integers.
+ *    is faster and cleaner, but is only defined "fast" for half integers.
  */
 
 
@@ -2277,6 +2279,7 @@ gnm_float pweibull(gnm_float x, gnm_float shape, gnm_float scale, gboolean lower
  *  Mathlib : A C Library of Special Functions
  *  Copyright (C) 1998 Ross Ihaka
  *  Copyright (C) 2000, 2002 The R Development Core Team
+ *  Copyright (C) 2004       The R Foundation
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -2312,7 +2315,7 @@ gnm_float pbinom(gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gbo
     x = floorgnum(x + 1e-7);
     if (x < 0.0) return R_DT_0;
     if (n <= x) return R_DT_1;
-    return pbeta (p, x + 1, n - x, !lower_tail, log_p);
+    return pbeta(p, x + 1, n - x, !lower_tail, log_p);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -3032,6 +3035,7 @@ gnm_float dgeom(gnm_float x, gnm_float p, gboolean give_log)
  *  Mathlib : A C Library of Special Functions
  *  Copyright (C) 1998 Ross Ihaka
  *  Copyright (C) 2000, 2001 The R Development Core Team
+ *  Copyright (C) 2004	    The R Foundation
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -3059,16 +3063,21 @@ gnm_float pgeom(gnm_float x, gnm_float p, gboolean lower_tail, gboolean log_p)
     if (isnangnum(x) || isnangnum(p))
 	return x + p;
 #endif
-    x = floorgnum(x+1e-7);
+    x = floorgnum(x +1e-7);
     if(p < 0 || p > 1) ML_ERR_return_NAN;
 
     if (x < 0. || p == 0.) return R_DT_0;
     if (!finitegnum(x)) return R_DT_1;
-    if (lower_tail && !log_p)
-	return -expm1gnum ((x + 1) * log1pgnum (-p));
-    if(log_p && !lower_tail)
-	return log1pgnum(-p) * (x + 1);
-    return R_DT_Cval(powgnum(1 - p, x + 1));
+
+    if(p == 1.) { /* we cannot assume IEEE */
+	x = lower_tail ? 1: 0;
+	return log_p ? loggnum(x) : x;
+    }
+    x = log1pgnum(-p) * (x + 1);
+    if (log_p)
+	return R_DT_Clog(x);
+    else
+	return lower_tail ? -expm1gnum(x) : expgnum(x);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -3649,7 +3658,7 @@ L230:
 	       Normalize.  Divide all BI[N] by sum.
 	       --------------------------------------------------------- */
 	    if (nu != 0.)
-		sum *= (gamma_cody(1. + nu) * powgnum(*x * .5, -nu));
+		sum *= (expgnum(lgamma1p (nu)) * powgnum(*x * .5, -nu));
 	    if (*ize == 1)
 		sum *= expgnum(-(*x));
 	    aa = enmten_BESS;
@@ -3673,7 +3682,7 @@ L230:
 	    else
 		halfx = 0.;
 	    if (nu != 0.)
-		aa = powgnum(halfx, nu) / gamma_cody(empal);
+		aa = powgnum(halfx, nu) / expgnum(lgamma1p(nu));
 	    if (*ize == 2)
 		aa *= expgnum(-(*x));
 	    if (*x + 1. > 1.)
