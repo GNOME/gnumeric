@@ -1,6 +1,8 @@
 #ifndef GNUMERIC_SHEET_H
 #define GNUMERIC_SHEET_H
 
+#include "item-grid.h"
+
 #define GNUMERIC_TYPE_SHEET     (gnumeric_sheet_get_type ())
 #define GNUMERIC_SHEET(obj)     (GTK_CHECK_CAST((obj), GNUMERIC_TYPE_SHEET, GnumericSheet))
 #define GNUMERIC_SHEET_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), GNUMERIC_TYPE_SHEET))
@@ -13,8 +15,7 @@ typedef struct {
 	ColType     top_col;
 	RowType     top_row;
 
-	/* Font used for the labels in the columns and rows */
-	GdkFont     *label_font;
+	ItemGrid    *item_grid;
 } GnumericSheet;
 
 GtkType gnumeric_sheet_get_type (void);

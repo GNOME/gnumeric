@@ -36,7 +36,7 @@ workbook_new (void)
 	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->notebook);
 	gnome_app_create_menus (GNOME_APP (wb->toplevel), workbook_menu);
 			     
-	gtk_widget_show (wb->notebook);
+	gtk_widget_show_all (wb->notebook);
 	return wb;
 }
 

@@ -14,6 +14,8 @@ gnumeric_SOURCES =		\
 	gnumeric-sheet.h	\
 	gnumeric-sheet.c	\
 	gnumeric.h		\
+	item-grid.c		\
+	item-grid.h		\
 	main.c			\
 	sheet.c			\
 	sheet.h			\

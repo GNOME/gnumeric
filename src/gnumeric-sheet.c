@@ -9,15 +9,9 @@ enum {
 	GNUMERIC_SHEET_LAST_SIGNAL
 };
 
-enum {
-	ITEM_SHEET_LAST_SIGNAL
-};
-
 static guint sheet_signals [GNUMERIC_SHEET_LAST_SIGNAL] = { 0 };
-static guint item_signals  [ITEM_SHEET_LAST_SIGNAL] = { 0 };
 
 static GnomeCanvasClass *sheet_parent_class;
-static GtkObjectClass *item_parent_class;
 
 static void
 gnumeric_sheet_destroy (GtkObject *object)
@@ -31,8 +25,8 @@ gnumeric_sheet_destroy (GtkObject *object)
 		(*GTK_OBJECT_CLASS (sheet_parent_class)->destroy)(object);
 }
 
-GtkWidget *
-gnumeric_sheet_new (Sheet *sheet)
+static GnumericSheet *
+gnumeric_sheet_create (Sheet *sheet)
 {
 	GnumericSheet *gsheet;
 	GnomeCanvas   *canvas;
@@ -49,6 +43,23 @@ gnumeric_sheet_new (Sheet *sheet)
 	gsheet->top_col = 0;
 	gsheet->top_row = 0;
 
+	return gsheet;
+}
+
+GtkWidget *
+gnumeric_sheet_new (Sheet *sheet)
+{
+	GnumericSheet *gsheet;
+	
+	gsheet = gnumeric_sheet_create (sheet);
+	gnome_canvas_set_size (GNOME_CANVAS (gsheet), 300, 100);
+	
+	gsheet->item_grid = ITEM_GRID (gnome_canvas_item_new (
+		GNOME_CANVAS (gsheet),
+		GNOME_CANVAS_GROUP (GNOME_CANVAS(gsheet)->root),
+		item_grid_get_type (),
+		"ItemGrid::default_grid_color", "gray",
+		NULL));
 	return GTK_WIDGET (gsheet);
 }
 
@@ -69,6 +80,15 @@ gnumeric_sheet_class_init (GnumericSheetClass *class)
 	object_class->destroy = gnumeric_sheet_destroy;
 }
 
+static void
+gnumeric_sheet_init (GnumericSheet *gsheet)
+{
+	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
+
+	printf ("idel_id=%d\n", canvas->idle_id);
+	printf ("pixs=%g\n", canvas->pixels_per_unit);
+}
+
 GtkType
 gnumeric_sheet_get_type (void)
 {
@@ -80,7 +100,7 @@ gnumeric_sheet_get_type (void)
 			sizeof (GnumericSheet),
 			sizeof (GnumericSheetClass),
 			(GtkClassInitFunc) gnumeric_sheet_class_init,
-			(GtkObjectInitFunc) NULL,
+			(GtkObjectInitFunc) gnumeric_sheet_init,
 			NULL, /* reserved 1 */
 			NULL, /* reserved 2 */
 			(GtkClassInitFunc) NULL
