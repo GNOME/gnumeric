@@ -1,3 +1,9 @@
+2004-09-03  Morten Welinder  <terra@gnome.org>
+
+	* graph/plugins/plot_barcol/gog-1.5d.c
+	(gog_series1_5d_populate_editor): Terminate g_object_get call by
+	NULL, not 0.
+
 2004-09-02  Morten Welinder  <terra@gnome.org>
 
 	* graph/plugins/plot_radar/gog-radar-prefs.glade: Someone

@@ -443,7 +443,7 @@ gog_series1_5d_populate_editor (GogSeries *series,
 	if (g_object_class_find_property (G_OBJECT_GET_CLASS (series->plot), "horizontal") == NULL)
 		horizontal = FALSE;
 	else
-		g_object_get (G_OBJECT (series->plot), "horizontal", &horizontal, 0);
+		g_object_get (G_OBJECT (series->plot), "horizontal", &horizontal, NULL);
 	error_page = gog_error_bar_prefs (series, "errors", horizontal, dalloc, cc);
 	gtk_notebook_prepend_page (book, error_page, gtk_label_new (_("Error bars")));
 }
