@@ -901,11 +901,7 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 		workbook_setup_sheets (wbcg);
 
 	sheet = sv_sheet (sv);
-
-	scg = sheet_control_gui_new (sv);
-	sc = (SheetControl *) scg;
-	sc->wbc = wbc;
-	scg->wbcg = wbcg;
+	scg = sheet_control_gui_new (sv, wbcg);
 
 	/*
 	 * NB. this is so we can use editable_label_set_text since
@@ -956,6 +952,7 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	wb_control_menu_state_sheet_count (wbc);
 
 	/* create views for the sheet objects */
+	sc = (SheetControl *) scg;
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next)
 		sc_object_create_view (sc, ptr->data);
 	scg_adjust_preferences (sc);

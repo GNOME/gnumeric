@@ -13,7 +13,7 @@
 #define	SHEET_CONTROL_KEY	"SheetControl"
 
 GType		 sheet_control_gui_get_type (void);
-SheetControlGUI *sheet_control_gui_new	    (SheetView *sv);
+SheetControlGUI *sheet_control_gui_new	    (SheetView *sv, WorkbookControlGUI *wbcg);
 
 GtkWidget *scg_toplevel		(SheetControlGUI *scg);
 void scg_take_focus             (SheetControlGUI *scg);

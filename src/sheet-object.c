@@ -463,6 +463,10 @@ sheet_object_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 	g_return_if_fail (IS_SHEET_CONTROL (sc));
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
+	view = sheet_object_get_view (so, key);
+	if (view != NULL)
+		return;
+
 	view = SO_CLASS (so)->new_view (so, sc, key);
 
 	g_return_if_fail (GTK_IS_OBJECT (view));

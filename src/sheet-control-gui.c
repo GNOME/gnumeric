@@ -1064,7 +1064,7 @@ scg_set_panes (SheetControl *sc)
 }
 
 SheetControlGUI *
-sheet_control_gui_new (SheetView *sv)
+sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg;
 	GtkUpdateType scroll_update_policy;
@@ -1072,6 +1072,8 @@ sheet_control_gui_new (SheetView *sv)
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
 
 	scg = g_object_new (sheet_control_gui_get_type (), NULL);
+	scg->wbcg = wbcg;
+	scg->sheet_control.wbc = WORKBOOK_CONTROL (wbcg);
 
 	scg->active_panes = 1;
 	scg->pane [0].is_active = FALSE;

@@ -1,5 +1,11 @@
 2002-12-03  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-control-gui.c (sheet_control_gui_new) : take a wbcg as a
+	  an argument so that we can assign it at creation rather than later.
+
+	* src/sheet-object.c (sheet_object_new_view) : only create a 
+	  view if there isn't one already.
+
 	* src/sheet-filter.c (cb_filter_blanks) : Use colrow_set_visibility.
 	(cb_filter_non_blanks) : ditto.
 	(gnm_filter_set_condition) : ditto.
