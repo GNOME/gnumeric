@@ -16,7 +16,7 @@
  * nice
  */
 void
-dialog_about (void)
+dialog_about (Workbook *wb)
 {
         GtkWidget *about;
         const gchar *authors[] = {
@@ -37,6 +37,7 @@ dialog_about (void)
 				   "http://www.gnome.org/gnumeric"),
 				 NULL);
 	gtk_window_set_modal (GTK_WINDOW (about), TRUE);
+	gnome_dialog_set_parent (GNOME_DIALOG (about), GTK_WINDOW (wb->toplevel));
 	gnome_dialog_set_close (GNOME_DIALOG (about), TRUE);
         gtk_widget_show (about);
 }

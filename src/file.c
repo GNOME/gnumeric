@@ -34,7 +34,7 @@ workbook_save_as (Workbook *wb)
 			    GTK_SIGNAL_FUNC (set_ok), &accepted);
 	gtk_signal_connect (GTK_OBJECT (fsel->cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
-	gtk_window_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
+	gtk_window_set_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
 	
 	/* Run the dialog */
 	gtk_widget_show (GTK_WIDGET (fsel));
@@ -67,7 +67,7 @@ workbook_save (Workbook *wb)
 }
 
 char *
-dialog_query_load_file (void)
+dialog_query_load_file (Workbook *wb)
 {
 	GtkFileSelection *fsel;
 	gboolean accepted;
@@ -75,12 +75,14 @@ dialog_query_load_file (void)
 	
 	fsel = (GtkFileSelection *) gtk_file_selection_new (_("Load file"));
 
+	gtk_window_set_transient_for (GTK_WINDOW (fsel), GTK_WINDOW (wb->toplevel));
+	
 	/* Connect the signals for Ok and Cancel */
 	gtk_signal_connect (GTK_OBJECT (fsel->ok_button), "clicked",
 			    GTK_SIGNAL_FUNC (set_ok), &accepted);
 	gtk_signal_connect (GTK_OBJECT (fsel->cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
-	gtk_window_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
+	gtk_window_set_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
 
 	/* Run the dialog */
 	gtk_widget_show (GTK_WIDGET (fsel));

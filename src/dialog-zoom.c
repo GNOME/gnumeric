@@ -13,7 +13,7 @@
 #include "dialogs.h"
 
 void
-dialog_zoom (Sheet *sheet)
+dialog_zoom (Workbook *wb, Sheet *sheet)
 {
 	char *custom;
 	int  state [7];

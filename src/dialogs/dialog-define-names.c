@@ -26,7 +26,8 @@ dialog_define_names (Workbook *wb)
 				  _("Add"),
 				  _("Remove"),
 				  NULL);
-
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (wb->toplevel));
+		
 		swin = gtk_scrolled_window_new (NULL, NULL);
 		clist = (GtkCList *) gtk_clist_new (1);
 		gtk_container_add (GTK_CONTAINER (swin), GTK_WIDGET (clist));

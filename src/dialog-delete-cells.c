@@ -12,7 +12,7 @@
 #include "dialogs.h"
 
 void
-dialog_delete_cells (Sheet *sheet)
+dialog_delete_cells (Workbook *wb, Sheet *sheet)
 {
 	int state [4] = { 1, 0, 0, 0 };
 	SheetSelection *ss;

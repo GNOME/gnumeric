@@ -13,6 +13,7 @@
 
 typedef struct 
 {
+	Workbook  *workbook;
 	GtkWidget *dialog;
 	GtkWidget *hbox;
 	GtkWidget *vbbox;
@@ -26,7 +27,7 @@ typedef struct
 static void
 add_to_clist (PluginData *pd, GtkWidget *clist)
 {
-	const gchar *data[2];
+	gchar *data[2];
 	gint row;
 	
 	data [0] = pd->title;
@@ -55,7 +56,7 @@ close_cb (GtkWidget *button, PluginManager *pm)
 static void
 add_cb (GtkWidget *button, PluginManager *pm)
 {
-	char *modfile = dialog_query_load_file ();
+	char *modfile = dialog_query_load_file (pm->workbook);
 	PluginData *pd;
 	
 	if (!modfile)
@@ -87,16 +88,17 @@ row_cb (GtkWidget * clist, gint row, gint col,
 }
 
 GtkWidget *
-plugin_manager_new (void)
+plugin_manager_new (Workbook *wb)
 {
 	PluginManager *pm;
-	const gchar *n_titles[2] = { N_("Name"), N_("File") };
-	const gchar *titles[2] = { N_("Name"), N_("File") };
+	gchar *n_titles[2] = { N_("Name"), N_("File") };
+	gchar *titles[2] = { N_("Name"), N_("File") };
 	
 	pm = g_new0 (PluginManager, 1);
 	if (!pm)
 		return NULL;
-	
+
+	pm->workbook = wb;
 	pm->dialog = gtk_window_new (GTK_WINDOW_DIALOG);
 	
 	pm->hbox = gtk_hbox_new (0, 0);

@@ -786,7 +786,7 @@ cell_properties_close (void)
  * Main entry point for the Cell Format dialog box
  */
 void
-dialog_cell_format (Sheet *sheet)
+dialog_cell_format (Workbook *wb, Sheet *sheet)
 {
 	GtkWidget *prop_win;
 	CellList  *cells;
@@ -799,6 +799,8 @@ dialog_cell_format (Sheet *sheet)
 	cells = sheet_selection_to_list (sheet);
 	
 	prop_win = gnome_property_box_new ();
+	gnome_dialog_set_parent (GNOME_DIALOG (prop_win), GTK_WINDOW (wb->toplevel));
+	
 	if (cells)
 		first_cell = cells->data;
 	else

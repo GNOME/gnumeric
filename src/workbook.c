@@ -61,13 +61,13 @@ new_cmd (void)
 }
 
 static void
-open_cmd (void)
+open_cmd (GtkWidget *widget, Workbook *wb)
 {
-	char *fname = dialog_query_load_file ();
-	Workbook *wb;
+	char *fname = dialog_query_load_file (wb);
+	Workbook *new_wb;
 
-	if ((wb = workbook_read (fname)))
-	  gtk_widget_show (wb->toplevel);
+	if ((new_wb = workbook_read (fname)))
+	  gtk_widget_show (new_wb->toplevel);
 }
 
 static void
@@ -85,7 +85,7 @@ save_as_cmd (GtkWidget *widget, Workbook *wb)
 static void
 plugins_cmd (GtkWidget *widget, Workbook *wb)
 {
-	GtkWidget *pm = plugin_manager_new();
+	GtkWidget *pm = plugin_manager_new (wb);
 	gtk_widget_show(pm);
 }
 
@@ -443,7 +443,7 @@ paste_special_cmd (GtkWidget *widget, Workbook *wb)
 	int flags;
 
 	sheet = workbook_get_current_sheet (wb);
-	flags = dialog_paste_special ();
+	flags = dialog_paste_special (wb);
 	sheet_selection_paste (sheet, sheet->cursor_col, sheet->cursor_row,
 			       flags, GDK_CURRENT_TIME);
 	
@@ -489,7 +489,7 @@ insert_cells_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet;
 
 	sheet = workbook_get_current_sheet (wb);
-	dialog_insert_cells (sheet);
+	dialog_insert_cells (wb, sheet);
 }
 
 static void
@@ -566,7 +566,7 @@ zoom_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet;
 
 	sheet = workbook_get_current_sheet (wb);
-	dialog_zoom (sheet);
+	dialog_zoom (wb, sheet);
 }
 
 static void
@@ -575,7 +575,7 @@ format_cells_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet;
 	
 	sheet = workbook_get_current_sheet (wb);
-	dialog_cell_format (sheet);
+	dialog_cell_format (wb, sheet);
 }
 
 static void
@@ -646,7 +646,7 @@ workbook_edit_comment (GtkWidget *widget, Workbook *wb)
 static void
 about_cmd (GtkWidget *widget, Workbook *wb)
 {
-	dialog_about ();
+	dialog_about (wb);
 }
 
 /* File menu */

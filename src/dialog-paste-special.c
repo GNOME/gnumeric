@@ -46,7 +46,7 @@ enable_op_group (GtkWidget *widget, GtkWidget *group)
 }
 
 int
-dialog_paste_special (void)
+dialog_paste_special (Workbook *wb)
 {
 	GtkWidget *dialog, *hbox;
 	GtkWidget *f1, *f1v, *f2, *f2v;
@@ -57,6 +57,7 @@ dialog_paste_special (void)
 				   GNOME_STOCK_BUTTON_OK,
 				   GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (wb->toplevel));
 	f1  = gtk_frame_new (_("Paste type"));
 	f1v = gtk_vbox_new (TRUE, 0);
 	gtk_container_add (GTK_CONTAINER (f1), f1v);

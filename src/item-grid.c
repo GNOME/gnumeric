@@ -467,7 +467,7 @@ context_paste_special_cmd (GtkWidget *widget, ItemGrid *item_grid)
 	Sheet *sheet = item_grid->sheet;
 	int flags;
 
-	flags = dialog_paste_special ();
+	flags = dialog_paste_special (sheet->workbook);
 	sheet_selection_paste (sheet,
 			       sheet->cursor_col,
 			       sheet->cursor_row,
@@ -479,14 +479,14 @@ context_paste_special_cmd (GtkWidget *widget, ItemGrid *item_grid)
 static void
 context_insert_cmd (GtkWidget *widget, ItemGrid *item_grid)
 {
-	dialog_insert_cells (item_grid->sheet);
+	dialog_insert_cells (item_grid->sheet->workbook, item_grid->sheet);
 	context_destroy_menu (widget);
 }
 
 static void
 context_delete_cmd (GtkWidget *widget, ItemGrid *item_grid)
 {
-	dialog_delete_cells (item_grid->sheet);
+	dialog_delete_cells (item_grid->sheet->workbook, item_grid->sheet);
 	context_destroy_menu (widget);
 }
 
@@ -500,7 +500,7 @@ context_clear_cmd (GtkWidget *widget, ItemGrid *item_grid)
 static void
 context_cell_format_cmd (GtkWidget *widget, ItemGrid *item_grid)
 {
-	dialog_cell_format (item_grid->sheet);
+	dialog_cell_format (item_grid->sheet->workbook, item_grid->sheet);
 	context_destroy_menu (widget);
 }
 
