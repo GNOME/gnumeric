@@ -2599,6 +2599,124 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 	return res;
 }
 
+
+static char *help_mdeterm = {
+	N_("@FUNCTION=MDETERM\n"
+	   "@SYNTAX=MDETERM(array)\n"
+
+	   "@DESCRIPTION="
+	   "MDETERM function returns the determinant of a given matrix. "
+	   "\n"
+	   "If the matrix does not contain equal number of columns and "
+	   "rows, MDETERM returns #VALUE! error."
+	   "\n"
+	   "@SEEALSO=MMULT, MINVERSE")
+};
+
+/* This function implements the LU-Factorization method for solving
+ * matrix determinants.  At first the given matrix, A, is converted to
+ * a product of a lower triangular matrix, L, and an upper triangluar
+ * matrix, U, where A = L*U.  The lower triangular matrix, L, contains
+ * ones along the main diagonal.
+ * 
+ * The determinant of the original matrix, A, is det(A)=det(L)*det(U).
+ * The determinant of any triangular matrix is the product of the
+ * elements along its main diagonal.  Since det(L) is always one, we
+ * can simply write as follows: det(A) = det(U).  As you can see this
+ * algorithm is quite efficient.
+ *
+ * (C) Copyright 1999 by Jukka-Pekka Iivonen <iivonen@iki.fi>
+ **/
+static float_t
+mdeterm(float_t *A, int cols)
+{
+        int i, j, n;
+	float_t product, sum;
+	float_t *L, *U;
+
+#define ARRAY(A,C,R) (*((A) + (R) + (C) * cols))
+
+	L = g_new(float_t, cols*cols);
+	U = g_new(float_t, cols*cols);
+
+	/* Initialize the matrices with value zero, except fill the L's
+	 * main diagonal with ones */
+	for (i=0; i<cols; i++)
+	        for (n=0; n<cols; n++) {
+		        if (i==n)
+		                ARRAY(L, i, n) = 1;
+			else
+		                ARRAY(L, i, n) = 0;
+			ARRAY(U, i, n) = 0;
+		}
+
+	/* Determine L and U so that A=L*U */
+	for (n=0; n<cols; n++) {
+	        for (i=n; i<cols; i++) {
+		        sum = 0;
+			for (j=0; j<n; j++)
+			        sum += ARRAY(U, j, i) * ARRAY(L, n, j);
+			ARRAY(U, n, i) = ARRAY(A, n, i) - sum;
+		}
+
+		for (i=n+1; i<cols; i++) {
+		        sum = 0;
+			for (j=0; j<i-1; j++)
+			        sum += ARRAY(U, j, n) * ARRAY(L, i, j);
+			ARRAY(L, i, n) = (ARRAY(A, i, n) - sum) /
+			  ARRAY(U, n, n);
+		}
+	}
+
+	/* Calculate det(U) */
+	product = ARRAY(U, 0, 0);
+	for (i=1; i<cols; i++)
+	        product *= ARRAY(U, i, i);
+
+#undef ARRAY
+
+	g_free(L);
+	g_free(U);
+
+	return product;
+}
+
+static Value *
+gnumeric_mdeterm (FunctionEvalInfo *ei, Value **argv)
+{
+	EvalPosition const * const ep = &ei->pos;
+
+	int	r, rows;
+	int	c, cols;
+        float_t res;
+        Value   *values = argv[0];
+	float_t *matrix;
+
+	char const *error_string = NULL;
+
+	if (validate_range_numeric_matrix (ep, values, &rows, &cols,
+					   &error_string)) {
+		return value_new_error (&ei->pos, error_string);
+	}
+
+	/* Guarantee shape and non-zero size */
+	if (cols != rows || !rows || !cols)
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+
+	matrix = g_new (float_t, rows*cols);
+	for (c=0; c<cols; c++)
+	        for (r=0; r<rows; r++) {
+		        Value const * a =
+			      value_area_get_x_y (ep, values, c, r);
+		        *(matrix + r + c*cols) = value_get_as_float(a);
+		}
+
+	res = mdeterm(matrix, cols);
+	g_free (matrix);
+
+	return value_new_float(res);
+}
+
 static char *help_sumproduct = {
 	N_("@FUNCTION=SUMPRODUCT\n"
 	   "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -2792,12 +2910,12 @@ void math_functions_init()
 			    &help_transpose, gnumeric_transpose);
 	function_add_args  (cat, "minverse","A",
 			    "array", &help_minverse, gnumeric_minverse);
+	function_add_args  (cat, "mdeterm", "A",
+			    "array[,matrix_type[,bandsize]]",
+			    &help_mdeterm, gnumeric_mdeterm);
 #if 0
 	function_add_args  (cat, "logmdeterm", "A|si",
 			    "array[,matrix_type[,bandsize]]",
 			    &help_logmdeterm, gnumeric_logmdeterm);
-	function_add_args  (cat, "mdeterm", "A|si",
-			    "array[,matrix_type[,bandsize]]",
-			    &help_mdeterm, gnumeric_mdeterm);
 #endif
 }
