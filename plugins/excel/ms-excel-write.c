@@ -417,6 +417,8 @@ excel_write_WINDOW1 (BiffPut *bp, WorkbookView *wb_view)
 	guint16 width = .5 + wb_view->preferred_width / hdpi;
 	guint16 height = .5 + wb_view->preferred_height / vdpi;
 	guint16 options = 0;
+	guint16 active_page = 0;
+	Sheet *sheet;
 
 	if (wb_view->show_horizontal_scrollbar)
 		options |= 0x0008;
@@ -425,13 +427,18 @@ excel_write_WINDOW1 (BiffPut *bp, WorkbookView *wb_view)
 	if (wb_view->show_notebook_tabs)
 		options |= 0x0020;
 
+	sheet = wb_view_cur_sheet (wb_view);
+	if (sheet != NULL)
+		active_page = sheet->index_in_wb;
+
 	GSF_LE_SET_GUINT16 (data+  0, 0x0000);
 	GSF_LE_SET_GUINT16 (data+  2, 0x0000);
 	GSF_LE_SET_GUINT16 (data+  4, width);
 	GSF_LE_SET_GUINT16 (data+  6, height);
 	GSF_LE_SET_GUINT16 (data+  8, options); /* various flags */
-	GSF_LE_SET_GUINT16 (data+ 10, 0x0000); /* selected tab */
-	GSF_LE_SET_GUINT16 (data+ 12, 0x0000); /* displayed tab */
+	GSF_LE_SET_GUINT16 (data+ 10, active_page); /* selected tab */
+	/* We don't know the scroll state of the notebook tabs at this level */
+	GSF_LE_SET_GUINT16 (data+ 12, 0x0000);
 	GSF_LE_SET_GUINT16 (data+ 14, 0x0001);
 	GSF_LE_SET_GUINT16 (data+ 16, 0x0258);
 	ms_biff_put_commit (bp);
@@ -481,7 +488,7 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelSheet *esheet)
 		options &= ~0x0020;
 	}
 	if (sheet == wb_view_cur_sheet (esheet->ewb->gnum_wb_view))
-		options |= 0x400; /* assume selected if it is current */
+		options |= 0x600; /* Excel ignores this and uses WINDOW1 */
 
 	if (bp->version <= MS_BIFF_V7) {
 		data = ms_biff_put_len_next (bp, 0x200|BIFF_WINDOW2, 10);

@@ -1,3 +1,12 @@
+2002-10-28  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_WINDOW2) : go back to selecting the
+	  current sheet.
+	(excel_write_WINDOW1) : store the currently selected sheet here too.
+
+	* ms-excel-read.c (excel_read_EXTERNSHEET_v7) : kludge around screw up
+	  in opencalc exporter.
+
 2002-10-10  Nick Lamb <njl98r@ecs.soton.ac.uk>
 
 	* ms-excel-read.c: Factor out some code into new functions, more

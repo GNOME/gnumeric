@@ -4295,14 +4295,22 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 	 */
 	switch (type) {
 	case 3: {
-		char *name = biff_get_text (q->data + 2,
-			GSF_LE_GET_GUINT8 (q->data), NULL);
+		guint8 len = GSF_LE_GET_GUINT8 (q->data);
+		char *name;
+		
+		/* opencalc screws up its export, overstating
+		 * the length by 1 */
+		if ((unsigned)(len+2) > q->length)
+			len = q->length - 2;
+
+		name = biff_get_text (q->data + 2, len, NULL);
 		if (name != NULL) {
 			sheet = workbook_sheet_by_name (container->ewb->gnum_wb, name);
 			if (sheet == NULL) {
 				sheet = sheet_new (container->ewb->gnum_wb, name);
 				workbook_sheet_attach (container->ewb->gnum_wb, sheet, NULL);
 			}
+			g_free (name);
 		}
 		break;
 	}
@@ -4746,7 +4754,9 @@ excel_read_WINDOW1 (BiffQuery *q, WorkbookView *wb_view)
 		guint16 const height  = GSF_LE_GET_GUINT16 (q->data + 6);
 		guint16 const options = GSF_LE_GET_GUINT16 (q->data + 8);
 #if 0
+		/* duplicated in the WINDOW2 record */
 		guint16 const selTab  = GSF_LE_GET_GUINT16 (q->data + 10);
+
 		guint16 const firstTab= GSF_LE_GET_GUINT16 (q->data + 12);
 		guint16 const tabsSel = GSF_LE_GET_GUINT16 (q->data + 14);
 

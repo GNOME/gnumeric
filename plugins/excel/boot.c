@@ -48,7 +48,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 /* Enables debugging mesgs while reading excel workbooks */
 gint ms_excel_read_debug = 0;
 /* Enables debugging mesgs while reading parsing escher streams */
-gint ms_excel_escher_debug = 0;
+gint ms_excel_escher_debug = 10;
 /* Enables debugging mesgs while reading excel functions */
 gint ms_excel_formula_debug = 0;
 /* Enables debugging mesgs while reading excel charts */
@@ -56,7 +56,7 @@ gint ms_excel_chart_debug = 0;
 /* Enables debugging mesgs while writing excel workbooks */
 gint ms_excel_write_debug = 0;
 /* Enables debugging mesgs while reading excel objects */
-gint ms_excel_object_debug = 0;
+gint ms_excel_object_debug = 10;
 
 MsExcelReadGbFn ms_excel_read_gb = NULL;
 
