@@ -1067,8 +1067,8 @@ focus_on_entry (GtkEntry *entry)
 }
 
 gboolean
-entry_to_float_with_format_default (GtkEntry *entry, gnum_float *the_float, gboolean update, 
-				    StyleFormat *format, gnum_float num)
+entry_to_float_with_format_default (GtkEntry *entry, gnm_float *the_float, gboolean update, 
+				    StyleFormat *format, gnm_float num)
 {
 	char const *text = gtk_entry_get_text (entry);
 	gboolean need_default = (text == NULL);
@@ -1091,7 +1091,7 @@ entry_to_float_with_format_default (GtkEntry *entry, gnum_float *the_float, gboo
 }
 
 gboolean
-entry_to_float_with_format (GtkEntry *entry, gnum_float *the_float, gboolean update, 
+entry_to_float_with_format (GtkEntry *entry, gnm_float *the_float, gboolean update, 
 			    StyleFormat *format)
 {
 	Value *value = format_match_number (gtk_entry_get_text (entry), format);
@@ -1147,7 +1147,7 @@ entry_to_int (GtkEntry *entry, gint *the_int, gboolean update)
  *
  **/
 void
-float_to_entry (GtkEntry *entry, gnum_float the_float)
+float_to_entry (GtkEntry *entry, gnm_float the_float)
 {
 	char        *text      = NULL;
 	Value       *val = NULL;

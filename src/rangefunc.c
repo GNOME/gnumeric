@@ -16,7 +16,7 @@
 #include <string.h>
 
 int
-range_count (const gnum_float *xs, int n, gnum_float *res)
+range_count (const gnm_float *xs, int n, gnm_float *res)
 {
 	*res = n;
 	return 0;
@@ -29,11 +29,11 @@ range_count (const gnum_float *xs, int n, gnum_float *res)
 /* Note: mathematically sum_2 should be zero, except that it */
 /* contains some of the numerical errors from the first pass */
 int
-range_sum (const gnum_float *xs, int n, gnum_float *res)
+range_sum (const gnm_float *xs, int n, gnm_float *res)
 {
-	gnum_float sum_1 = 0;
-	gnum_float sum_2 = 0;
-	gnum_float xbar = 0;
+	gnm_float sum_1 = 0;
+	gnm_float sum_2 = 0;
+	gnm_float xbar = 0;
 	int i;
 
 	if (n == 0) {
@@ -53,11 +53,11 @@ range_sum (const gnum_float *xs, int n, gnum_float *res)
 /* Arithmetic sum of squares.  */
 /* See the explanation for the Arithmetic sum above.*/
 int
-range_sumsq (const gnum_float *xs, int n, gnum_float *res)
+range_sumsq (const gnm_float *xs, int n, gnm_float *res)
 {
-	gnum_float sum_1 = 0;
-	gnum_float sum_2 = 0;
-	gnum_float xbar = 0;
+	gnm_float sum_1 = 0;
+	gnm_float sum_2 = 0;
+	gnm_float xbar = 0;
 	int i;
 
 	if (n == 0) {
@@ -76,7 +76,7 @@ range_sumsq (const gnum_float *xs, int n, gnum_float *res)
 
 /* Arithmetic average.  */
 int
-range_average (const gnum_float *xs, int n, gnum_float *res)
+range_average (const gnm_float *xs, int n, gnm_float *res)
 {
 	if (n <= 0 || range_sum (xs, n, res))
 		return 1;
@@ -87,10 +87,10 @@ range_average (const gnum_float *xs, int n, gnum_float *res)
 
 /* Minimum element.  */
 int
-range_min (const gnum_float *xs, int n, gnum_float *res)
+range_min (const gnm_float *xs, int n, gnm_float *res)
 {
 	if (n > 0) {
-		gnum_float min = xs[0];
+		gnm_float min = xs[0];
 		int i;
 
 		for (i = 1; i < n; i++)
@@ -104,10 +104,10 @@ range_min (const gnum_float *xs, int n, gnum_float *res)
 
 /* Maximum element.  */
 int
-range_max (const gnum_float *xs, int n, gnum_float *res)
+range_max (const gnm_float *xs, int n, gnm_float *res)
 {
 	if (n > 0) {
-		gnum_float max = xs[0];
+		gnm_float max = xs[0];
 		int i;
 
 		for (i = 1; i < n; i++)
@@ -121,10 +121,10 @@ range_max (const gnum_float *xs, int n, gnum_float *res)
 
 /* Minimum absolute element.  */
 int
-range_minabs (const gnum_float *xs, int n, gnum_float *res)
+range_minabs (const gnm_float *xs, int n, gnm_float *res)
 {
 	if (n > 0) {
-		gnum_float min = gnumabs (xs[0]);
+		gnm_float min = gnumabs (xs[0]);
 		int i;
 
 		for (i = 1; i < n; i++)
@@ -138,10 +138,10 @@ range_minabs (const gnum_float *xs, int n, gnum_float *res)
 
 /* Maximum absolute element.  */
 int
-range_maxabs (const gnum_float *xs, int n, gnum_float *res)
+range_maxabs (const gnm_float *xs, int n, gnm_float *res)
 {
 	if (n > 0) {
-		gnum_float max = gnumabs (xs[0]);
+		gnm_float max = gnumabs (xs[0]);
 		int i;
 
 		for (i = 1; i < n; i++)
@@ -156,10 +156,10 @@ range_maxabs (const gnum_float *xs, int n, gnum_float *res)
 
 /* Average absolute deviation from mean.  */
 int
-range_avedev (const gnum_float *xs, int n, gnum_float *res)
+range_avedev (const gnm_float *xs, int n, gnm_float *res)
 {
 	if (n > 0) {
-		gnum_float m, s = 0;
+		gnm_float m, s = 0;
 		int i;
 
 		range_average (xs, n, &m);
@@ -174,9 +174,9 @@ range_avedev (const gnum_float *xs, int n, gnum_float *res)
 
 /* Sum of square deviations from mean.  */
 int
-range_devsq (const gnum_float *xs, int n, gnum_float *res)
+range_devsq (const gnm_float *xs, int n, gnm_float *res)
 {
-	gnum_float m, dx, q = 0;
+	gnm_float m, dx, q = 0;
 	if (n > 0) {
 		int i;
 
@@ -192,10 +192,10 @@ range_devsq (const gnum_float *xs, int n, gnum_float *res)
 
 /* Variance with weight N.  */
 int
-range_var_pop (const gnum_float *xs, int n, gnum_float *res)
+range_var_pop (const gnm_float *xs, int n, gnm_float *res)
 {
 	if (n > 0) {
-		gnum_float q;
+		gnm_float q;
 
 		range_devsq (xs, n, &q);
 		*res = q / n;
@@ -206,10 +206,10 @@ range_var_pop (const gnum_float *xs, int n, gnum_float *res)
 
 /* Variance with weight N-1.  */
 int
-range_var_est (const gnum_float *xs, int n, gnum_float *res)
+range_var_est (const gnm_float *xs, int n, gnm_float *res)
 {
 	if (n > 1) {
-		gnum_float q;
+		gnm_float q;
 
 		range_devsq (xs, n, &q);
 		*res = q / (n - 1);
@@ -220,7 +220,7 @@ range_var_est (const gnum_float *xs, int n, gnum_float *res)
 
 /* Standard deviation with weight N.  */
 int
-range_stddev_pop (const gnum_float *xs, int n, gnum_float *res)
+range_stddev_pop (const gnm_float *xs, int n, gnm_float *res)
 {
 	if (range_var_pop (xs, n, res))
 		return 1;
@@ -232,7 +232,7 @@ range_stddev_pop (const gnum_float *xs, int n, gnum_float *res)
 
 /* Standard deviation with weight N-1.  */
 int
-range_stddev_est (const gnum_float *xs, int n, gnum_float *res)
+range_stddev_est (const gnm_float *xs, int n, gnm_float *res)
 {
 	if (range_var_est (xs, n, res))
 		return 1;
@@ -244,9 +244,9 @@ range_stddev_est (const gnum_float *xs, int n, gnum_float *res)
 
 /* Population skew.  */
 int
-range_skew_pop (const gnum_float *xs, int n, gnum_float *res)
+range_skew_pop (const gnm_float *xs, int n, gnm_float *res)
 {
-	gnum_float m, s, dxn, x3 = 0;
+	gnm_float m, s, dxn, x3 = 0;
 	int i;
 
 	if (n < 1 || range_average (xs, n, &m) || range_stddev_pop (xs, n, &s))
@@ -265,9 +265,9 @@ range_skew_pop (const gnum_float *xs, int n, gnum_float *res)
 
 /* Maximum-likelyhood estimator for skew.  */
 int
-range_skew_est (const gnum_float *xs, int n, gnum_float *res)
+range_skew_est (const gnm_float *xs, int n, gnm_float *res)
 {
-	gnum_float m, s, dxn, x3 = 0;
+	gnm_float m, s, dxn, x3 = 0;
 	int i;
 
 	if (n < 3 || range_average (xs, n, &m) || range_stddev_est (xs, n, &s))
@@ -286,9 +286,9 @@ range_skew_est (const gnum_float *xs, int n, gnum_float *res)
 
 /* Population kurtosis (with offset 3).  */
 int
-range_kurtosis_m3_pop (const gnum_float *xs, int n, gnum_float *res)
+range_kurtosis_m3_pop (const gnm_float *xs, int n, gnm_float *res)
 {
-	gnum_float m, s, dxn, x4 = 0;
+	gnm_float m, s, dxn, x4 = 0;
 	int i;
 
 	if (n < 1 || range_average (xs, n, &m) || range_stddev_pop (xs, n, &s))
@@ -307,10 +307,10 @@ range_kurtosis_m3_pop (const gnum_float *xs, int n, gnum_float *res)
 
 /* Unbiased, I hope, estimator for kurtosis (with offset 3).  */
 int
-range_kurtosis_m3_est (const gnum_float *xs, int n, gnum_float *res)
+range_kurtosis_m3_est (const gnm_float *xs, int n, gnm_float *res)
 {
-	gnum_float m, s, dxn, x4 = 0;
-	gnum_float common_den, nth, three;
+	gnm_float m, s, dxn, x4 = 0;
+	gnm_float common_den, nth, three;
 	int i;
 
 	if (n < 4 || range_average (xs, n, &m) || range_stddev_est (xs, n, &s))
@@ -323,8 +323,8 @@ range_kurtosis_m3_est (const gnum_float *xs, int n, gnum_float *res)
 		x4 += (dxn * dxn) * (dxn * dxn);
 	}
 
-	common_den = (gnum_float)(n - 2) * (n - 3);
-	nth = (gnum_float)n * (n + 1) / ((n - 1) * common_den);
+	common_den = (gnm_float)(n - 2) * (n - 3);
+	nth = (gnm_float)n * (n + 1) / ((n - 1) * common_den);
 	three = 3.0 * (n - 1) * (n - 1) / common_den;
 
 	*res = x4 * nth - three;
@@ -333,10 +333,10 @@ range_kurtosis_m3_est (const gnum_float *xs, int n, gnum_float *res)
 
 /* Harmonic mean of positive numbers.  */
 int
-range_harmonic_mean (const gnum_float *xs, int n, gnum_float *res)
+range_harmonic_mean (const gnm_float *xs, int n, gnm_float *res)
 {
 	if (n > 0) {
-		gnum_float invsum = 0;
+		gnm_float invsum = 0;
 		int i;
 
 		for (i = 0; i < n; i++) {
@@ -351,11 +351,11 @@ range_harmonic_mean (const gnum_float *xs, int n, gnum_float *res)
 }
 
 static void
-product_helper (const gnum_float *xs, int n,
-		gnum_float *res, int *exp2,
+product_helper (const gnm_float *xs, int n,
+		gnm_float *res, int *exp2,
 		gboolean *zerop, gboolean *anynegp)
 {
-	gnum_float x0 = xs[0];
+	gnm_float x0 = xs[0];
 	*zerop = (x0 == 0);
 	*anynegp = (x0 < 0);
 
@@ -364,12 +364,12 @@ product_helper (const gnum_float *xs, int n,
 		*exp2 = 0;
 	} else {
 		int e;
-		gnum_float mant = frexpgnum (x0, &e);
+		gnm_float mant = frexpgnum (x0, &e);
 		int i;
 
 		for (i = 1; i < n; i++) {
 			int thise;
-			gnum_float x = xs[i];
+			gnm_float x = xs[i];
 
 			if (x == 0) {
 				*zerop = TRUE;
@@ -397,7 +397,7 @@ product_helper (const gnum_float *xs, int n,
 
 /* Geometric mean of positive numbers.  */
 int
-range_geometric_mean (const gnum_float *xs, int n, gnum_float *res)
+range_geometric_mean (const gnm_float *xs, int n, gnm_float *res)
 {
 	int exp2;
 	gboolean zerop, anynegp;
@@ -423,7 +423,7 @@ range_geometric_mean (const gnum_float *xs, int n, gnum_float *res)
 
 /* Product.  */
 int
-range_product (const gnum_float *xs, int n, gnum_float *res)
+range_product (const gnm_float *xs, int n, gnm_float *res)
 {
 	if (n == 0) {
 		*res = 1;
@@ -440,14 +440,14 @@ range_product (const gnum_float *xs, int n, gnum_float *res)
 }
 
 int
-range_multinomial (const gnum_float *xs, int n, gnum_float *res)
+range_multinomial (const gnm_float *xs, int n, gnm_float *res)
 {
-	gnum_float result = 1;
+	gnm_float result = 1;
 	int sum = 0;
 	int i;
 
 	for (i = 0; i < n; i++) {
-		gnum_float x = xs[i];
+		gnm_float x = xs[i];
 		int xi;
 
 		if (x < 0)
@@ -477,9 +477,9 @@ range_multinomial (const gnum_float *xs, int n, gnum_float *res)
 
 /* Co-variance.  */
 int
-range_covar (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
+range_covar (const gnm_float *xs, const gnm_float *ys, int n, gnm_float *res)
 {
-	gnum_float ux, uy, s = 0;
+	gnm_float ux, uy, s = 0;
 	int i;
 
 	if (n <= 0 || range_average (xs, n, &ux) || range_average (ys, n, &uy))
@@ -493,9 +493,9 @@ range_covar (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
 
 /* Population correlation coefficient.  */
 int
-range_correl_pop (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
+range_correl_pop (const gnm_float *xs, const gnm_float *ys, int n, gnm_float *res)
 {
-	gnum_float sx, sy, vxy;
+	gnm_float sx, sy, vxy;
 
 	if (range_stddev_pop (xs, n, &sx) || sx == 0 ||
 	    range_stddev_pop (ys, n, &sy) || sy == 0 ||
@@ -508,9 +508,9 @@ range_correl_pop (const gnum_float *xs, const gnum_float *ys, int n, gnum_float 
 
 /* Maximum-likelyhood correlation coefficient.  */
 int
-range_correl_est (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
+range_correl_est (const gnm_float *xs, const gnm_float *ys, int n, gnm_float *res)
 {
-	gnum_float sx, sy, vxy;
+	gnm_float sx, sy, vxy;
 
 	if (range_stddev_est (xs, n, &sx) || sx == 0 ||
 	    range_stddev_est (ys, n, &sy) || sy == 0 ||
@@ -523,7 +523,7 @@ range_correl_est (const gnum_float *xs, const gnum_float *ys, int n, gnum_float 
 
 /* Population R-squared.  */
 int
-range_rsq_pop (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
+range_rsq_pop (const gnm_float *xs, const gnm_float *ys, int n, gnm_float *res)
 {
 	if (range_correl_pop (xs, ys, n, res))
 		return 1;
@@ -534,7 +534,7 @@ range_rsq_pop (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *re
 
 /* Maximum-likelyhood R-squared.  */
 int
-range_rsq_est (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
+range_rsq_est (const gnm_float *xs, const gnm_float *ys, int n, gnm_float *res)
 {
 	if (range_correl_est (xs, ys, n, res))
 		return 1;
@@ -551,10 +551,10 @@ cb_range_mode (gpointer key, gpointer value, gpointer user_data)
 }
 
 static guint
-float_hash (const gnum_float *d)
+float_hash (const gnm_float *d)
 {
 	int expt;
-	gnum_float mant = frexpgnum (gnumabs (*d), &expt);
+	gnm_float mant = frexpgnum (gnumabs (*d), &expt);
 	guint h = ((guint)(0x80000000u * mant)) ^ expt;
 	if (*d >= 0)
 		h ^= 0x55555555;
@@ -562,7 +562,7 @@ float_hash (const gnum_float *d)
 }
 
 static gint
-float_equal (const gnum_float *a, const gnum_float *b)
+float_equal (const gnm_float *a, const gnm_float *b)
 {
 	if (*a == *b)
 	        return 1;
@@ -571,11 +571,11 @@ float_equal (const gnum_float *a, const gnum_float *b)
 
 /* Most-common element.  (First one, in case of several equally common.  */
 int
-range_mode (const gnum_float *xs, int n, gnum_float *res)
+range_mode (const gnm_float *xs, int n, gnm_float *res)
 {
 	GHashTable *h;
 	int i;
-	gnum_float mode = 0;
+	gnm_float mode = 0;
 	int dups = 0;
 
 	if (n <= 1) return 1;
@@ -610,7 +610,7 @@ range_mode (const gnum_float *xs, int n, gnum_float *res)
 
 
 static gint
-float_compare (const gnum_float *a, const gnum_float *b)
+float_compare (const gnm_float *a, const gnm_float *b)
 {
         if (*a < *b)
                 return -1;
@@ -620,14 +620,14 @@ float_compare (const gnum_float *a, const gnum_float *b)
 	        return 1;
 }
 
-static gnum_float *
-range_sort (const gnum_float *xs, int n)
+static gnm_float *
+range_sort (const gnm_float *xs, int n)
 {
 	if (n <= 0)
 		return NULL;
 	else {
-		gnum_float *ys = g_new (gnum_float, n);
-		memcpy (ys, xs, n * sizeof (gnum_float));
+		gnm_float *ys = g_new (gnm_float, n);
+		memcpy (ys, xs, n * sizeof (gnm_float));
 		qsort (ys, n, sizeof (ys[0]), (int (*) (const void *, const void *))&float_compare);
 		return ys;
 	}
@@ -636,9 +636,9 @@ range_sort (const gnum_float *xs, int n)
 
 /* This requires sorted data.  */
 static int
-range_fractile_inter_sorted (const gnum_float *xs, int n, gnum_float *res, gnum_float f)
+range_fractile_inter_sorted (const gnm_float *xs, int n, gnm_float *res, gnm_float f)
 {
-	gnum_float fpos, residual;
+	gnm_float fpos, residual;
 	int pos;
 
 	if (n <= 0 || f < 0.0 || f > 1.0)
@@ -658,9 +658,9 @@ range_fractile_inter_sorted (const gnum_float *xs, int n, gnum_float *res, gnum_
 
 /* Interpolative fractile.  */
 int
-range_fractile_inter (const gnum_float *xs, int n, gnum_float *res, gnum_float f)
+range_fractile_inter (const gnm_float *xs, int n, gnm_float *res, gnm_float f)
 {
-	gnum_float *ys = range_sort (xs, n);
+	gnm_float *ys = range_sort (xs, n);
 	int error = range_fractile_inter_sorted (ys, n, res, f);
 	g_free (ys);
 	return error;
@@ -669,7 +669,7 @@ range_fractile_inter (const gnum_float *xs, int n, gnum_float *res, gnum_float f
 /* Interpolative fractile.  */
 /* This version may reorder data points.  */
 int
-range_fractile_inter_nonconst (gnum_float *xs, int n, gnum_float *res, gnum_float f)
+range_fractile_inter_nonconst (gnm_float *xs, int n, gnm_float *res, gnm_float f)
 {
 	qsort (xs, n, sizeof (xs[0]), (int (*) (const void *, const void *))&float_compare);
 	return range_fractile_inter_sorted (xs, n, res, f);
@@ -677,7 +677,7 @@ range_fractile_inter_nonconst (gnum_float *xs, int n, gnum_float *res, gnum_floa
 
 /* Interpolative median.  */
 int
-range_median_inter (const gnum_float *xs, int n, gnum_float *res)
+range_median_inter (const gnm_float *xs, int n, gnm_float *res)
 {
 	return range_fractile_inter (xs, n, res, 0.5);
 }
@@ -685,16 +685,16 @@ range_median_inter (const gnum_float *xs, int n, gnum_float *res)
 /* Interpolative median.  */
 /* This version may reorder data points.  */
 int
-range_median_inter_nonconst (gnum_float *xs, int n, gnum_float *res)
+range_median_inter_nonconst (gnm_float *xs, int n, gnm_float *res)
 {
 	return range_fractile_inter_nonconst (xs, n, res, 0.5);
 }
 
 /* k-th smallest.  Note: k is zero-based.  */
 int
-range_min_k (const gnum_float *xs, int n, gnum_float *res, int k)
+range_min_k (const gnm_float *xs, int n, gnm_float *res, int k)
 {
-	gnum_float *ys;
+	gnm_float *ys;
 
 	if (k < 0 || k >= n)
 		return 1;
@@ -712,7 +712,7 @@ range_min_k (const gnum_float *xs, int n, gnum_float *res, int k)
 /* k-th smallest.  Note: k is zero-based.  */
 /* This version may reorder data points.  */
 int
-range_min_k_nonconst (gnum_float *xs, int n, gnum_float *res, int k)
+range_min_k_nonconst (gnm_float *xs, int n, gnm_float *res, int k)
 {
 	if (k < 0 || k >= n)
 		return 1;

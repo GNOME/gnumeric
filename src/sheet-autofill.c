@@ -126,7 +126,7 @@ typedef struct _FillItem {
 
 	gboolean delta_is_float;
 	union {
-		gnum_float d_float;
+		gnm_float d_float;
 		int d_int;
 	} delta;
 
@@ -413,7 +413,7 @@ autofill_compute_delta (GList *list_last, gboolean singleton_increment)
 	/* fall through */
 
 	case FILL_NUMBER: {
-		gnum_float a, b;
+		gnm_float a, b;
 
 		if (list_last->prev == NULL) {
 			if ((fi->delta_is_float = (VALUE_TYPE (fi->v.value) == VALUE_FLOAT)))
@@ -615,7 +615,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 		Value *v;
 
 		if (delta->delta_is_float) {
-			const gnum_float d = value_get_as_float (delta->v.value);
+			const gnm_float d = value_get_as_float (delta->v.value);
 			v = value_new_float (d + idx * delta->delta.d_float);
 		} else {
 			int const i = value_get_as_int (delta->v.value);
@@ -632,7 +632,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 		FillItem *delta = fi->group_last;
 		int d = idx * delta->delta.d_int;
 		GDate *date = datetime_value_to_g (delta->v.value);
-		gnum_float res = datetime_value_to_serial_raw (delta->v.value);
+		gnm_float res = datetime_value_to_serial_raw (delta->v.value);
 
 		if (fi->type == FILL_MONTHS) {
 			if (d > 0)
@@ -650,7 +650,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 
 		res -= gnumeric_fake_floor (res);
 		v = (res < 1e-6) ? value_new_int (d)
-			: value_new_float (((gnum_float)d) + res);
+			: value_new_float (((gnm_float)d) + res);
 		value_set_fmt (v, fi->fmt);
 		cell_set_value (cell, v);
 		return;

@@ -413,8 +413,8 @@ gnumeric_strescape (char const *string)
 /* ------------------------------------------------------------------------- */
 
 #ifdef NEED_FAKE_MODFGNUM
-gnum_float
-modfgnum (gnum_float x, gnum_float *iptr)
+gnm_float
+modfgnum (gnm_float x, gnm_float *iptr)
 {
 	double di;
 	static gboolean warned = FALSE;
@@ -435,11 +435,11 @@ modfgnum (gnum_float x, gnum_float *iptr)
 /* ------------------------------------------------------------------------- */
 
 #ifdef NEED_FAKE_STRTOGNUM
-gnum_float
+gnm_float
 strtognum (char const *str, char **end)
 {
 #if defined(HAVE_STRING_TO_DECIMAL) && defined(HAVE_DECIMAL_TO_QUADRUPLE)
-	gnum_float res;
+	gnm_float res;
 	decimal_record dr;
 	enum decimal_string_form form;
 	decimal_mode dm;
@@ -462,7 +462,7 @@ strtognum (char const *str, char **end)
 	return res;
 #else
 	char *myend;
-	gnum_float res;
+	gnm_float res;
 	int count;
 
 	if (end == 0) end = &myend;
@@ -486,13 +486,13 @@ strtognum (char const *str, char **end)
 /* ------------------------------------------------------------------------- */
 
 #ifdef NEED_FAKE_LDEXPGNUM
-gnum_float
-ldexpgnum (gnum_float x, int exp)
+gnm_float
+ldexpgnum (gnm_float x, int exp)
 {
 	if (!finitegnum (x) || x == 0)
 		return x;
 	else {
-		gnum_float res = x * gpow2 (exp);
+		gnm_float res = x * gpow2 (exp);
 		if (finitegnum (res))
 			return res;
 		else {
@@ -506,12 +506,12 @@ ldexpgnum (gnum_float x, int exp)
 /* ------------------------------------------------------------------------- */
 
 #ifdef NEED_FAKE_FREXPGNUM
-gnum_float
-frexpgnum (gnum_float x, int *exp)
+gnm_float
+frexpgnum (gnm_float x, int *exp)
 {
 	static gboolean warned = FALSE;
 	double dbl_res;
-	gnum_float res;
+	gnm_float res;
 
 	if (!warned) {
 		warned = TRUE;
@@ -541,8 +541,8 @@ frexpgnum (gnum_float x, int *exp)
 /* ------------------------------------------------------------------------- */
 
 #ifdef NEED_FAKE_ERFGNUM
-gnum_float
-erfgnum (gnum_float x)
+gnm_float
+erfgnum (gnm_float x)
 {
 	/* FIXME: this looks like it might lack precision for x near zero.  */
 	return pnorm (x * M_SQRT2gnum, 0, 1, TRUE, FALSE) * 2 - 1;
@@ -552,8 +552,8 @@ erfgnum (gnum_float x)
 /* ------------------------------------------------------------------------- */
 
 #ifdef NEED_FAKE_ERFCGNUM
-gnum_float
-erfcgnum (gnum_float x)
+gnm_float
+erfcgnum (gnm_float x)
 {
 	return 2 * pnorm (x * M_SQRT2gnum, 0, 1, FALSE, FALSE);
 }
@@ -562,8 +562,8 @@ erfcgnum (gnum_float x)
 /* ------------------------------------------------------------------------- */
 
 #ifdef NEED_FAKE_YNGNUM
-gnum_float
-yngnum (int n, gnum_float x)
+gnm_float
+yngnum (int n, gnm_float x)
 {
 	static gboolean warned = FALSE;
 	if (!warned) {
@@ -571,7 +571,7 @@ yngnum (int n, gnum_float x)
 		g_warning (_("This version of Gnumeric has been compiled with inadequate precision in yngnum."));
 	}
 
-	return (gnum_float)yn (n, (double)x);
+	return (gnm_float)yn (n, (double)x);
 }
 #endif
 
@@ -691,14 +691,14 @@ gnm_mem_chunk_new (char const *name, size_t user_atom_size, size_t chunk_size)
 	size_t maxalign = 1 + ((sizeof (void *) - 1) |
 			       (sizeof (long) - 1) |
 			       (sizeof (double) - 1) |
-			       (sizeof (gnum_float) - 1));
+			       (sizeof (gnm_float) - 1));
 
 	/*
 	 * The alignment that the caller can expect is 2^(lowest_bit_in_size).
 	 * The fancy bit math computes this.  Think it over.
 	 *
 	 * We don't go lower than pointer-size, so this always comes out as
-	 * 4 or 8.  (Or 16, if gnum_float is long double.)  Sometimes, when
+	 * 4 or 8.  (Or 16, if gnm_float is long double.)  Sometimes, when
 	 * user_atom_size is a multiple of 8, this alignment is bigger than
 	 * really needed, but we don't know if the structure has elements
 	 * with 8-byte alignment.  In those cases we waste memory.

@@ -225,7 +225,7 @@ random_tool_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
 {
 	gboolean   ready  = FALSE;
 	gint       count, vars, i;
-	gnum_float a_float, b_float, from_val, to_val, p_val;
+	gnm_float a_float, b_float, from_val, to_val, p_val;
         Value      *output_range;
 	Value      *disc_prob_range;
 	random_distribution_t the_dist;

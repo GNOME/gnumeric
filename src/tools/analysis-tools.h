@@ -57,7 +57,7 @@ gboolean analysis_tool_covariance_engine  (data_analysis_output_t *dao, gpointer
 
 typedef struct {
 	analysis_tools_data_generic_t base;
-	gnum_float alpha;
+	gnm_float alpha;
 } analysis_tools_data_anova_single_t;
 
 gboolean analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs,
@@ -73,7 +73,7 @@ typedef struct {
         gboolean kth_smallest;
         int      k_smallest;
 	int      k_largest;
-        gnum_float  c_level;
+        gnm_float  c_level;
 } analysis_tools_data_descriptive_t;
 
 gboolean analysis_tool_descriptive_engine (data_analysis_output_t *dao, gpointer specs,
@@ -96,7 +96,7 @@ gboolean analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpoin
 
 typedef struct {
 	analysis_tools_data_generic_t base;
-	gnum_float damp_fact;
+	gnm_float damp_fact;
 	int std_error_flag;
 } analysis_tools_data_exponential_smoothing_t;
 
@@ -144,7 +144,7 @@ gboolean analysis_tool_ranking_engine (data_analysis_output_t *dao, gpointer spe
 typedef struct {
 	analysis_tools_data_generic_t base;
 	Value      *y_input;
-	gnum_float alpha;
+	gnm_float alpha;
 	gint       intercept;
 
 } analysis_tools_data_regression_t;
@@ -165,7 +165,7 @@ typedef struct {
 	Value *range_1;
 	Value *range_2;
 	gboolean   labels;
-	gnum_float alpha;
+	gnm_float alpha;
 } analysis_tools_data_ftest_t;
 
 gboolean analysis_tool_ftest_engine (data_analysis_output_t *dao, gpointer specs,
@@ -175,9 +175,9 @@ gboolean analysis_tool_ftest_engine (data_analysis_output_t *dao, gpointer specs
 
 typedef struct {
 	analysis_tools_data_ftest_t base;
-	gnum_float mean_diff;
-	gnum_float var1;
-	gnum_float var2;
+	gnm_float mean_diff;
+	gnm_float var1;
+	gnm_float var2;
 } analysis_tools_data_ttests_t;
 
 gboolean analysis_tool_ttest_paired_engine (data_analysis_output_t *dao, gpointer specs,
@@ -215,7 +215,7 @@ typedef struct {
 	gboolean   labels;
 	GSList    *row_input_range;
 	GSList    *col_input_range;
-	gnum_float alpha;
+	gnm_float alpha;
 	gint       replication;
 	gint       rows;
 	guint       n_c;
@@ -241,8 +241,8 @@ typedef struct {
 	gboolean   chart;
 	gboolean   max_given;
 	gboolean   min_given;
-	gnum_float max;
-	gnum_float min;
+	gnm_float max;
+	gnm_float min;
 	gint       n;
 
 } analysis_tools_data_histogram_t;

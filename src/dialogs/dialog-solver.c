@@ -65,7 +65,7 @@ typedef struct {
 	GtkOptionMenu       *algorithm_combo;
 	GtkCList            *constraint_list;
 	gint                selected_row;
-	gnum_float          ov_target;
+	gnm_float          ov_target;
 	GSList              *ov;
 	GSList              *ov_stack;
 	GSList              *ov_cell_stack;

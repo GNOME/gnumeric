@@ -20,7 +20,7 @@
 
 typedef struct {
 	guint           alloc_count;
-	gnum_float   *data;
+	gnm_float   *data;
 	guint         count;
 	CollectFlags  flags;
 	GSList       *info;
@@ -29,7 +29,7 @@ typedef struct {
 static Value *
 callback_function_collect (EvalPos const *ep, Value *value, void *closure)
 {
-	gnum_float x;
+	gnm_float x;
 	collect_floats_t *cl = (collect_floats_t *)closure;
 
 	if (value == NULL) {
@@ -91,7 +91,7 @@ callback_function_collect (EvalPos const *ep, Value *value, void *closure)
 
 	if (cl->count == cl->alloc_count) {
 		cl->alloc_count *= 2;
-		cl->data = g_realloc (cl->data, cl->alloc_count * sizeof (gnum_float));
+		cl->data = g_realloc (cl->data, cl->alloc_count * sizeof (gnm_float));
 	}
 
 	cl->data[cl->count++] = x;
@@ -104,7 +104,7 @@ callback_function_collect (EvalPos const *ep, Value *value, void *closure)
 	
 	if (cl->count == cl->alloc_count) {
 		cl->alloc_count *= 2;
-		cl->data = g_realloc (cl->data, cl->alloc_count * sizeof (gnum_float));
+		cl->data = g_realloc (cl->data, cl->alloc_count * sizeof (gnm_float));
 	}
 	
 	cl->info = g_slist_prepend (cl->info, GUINT_TO_POINTER (cl->count));
@@ -135,9 +135,9 @@ callback_function_collect (EvalPos const *ep, Value *value, void *closure)
  *   Non-NULL in case of success.  Then n will be set.
  *
  * Evaluate a list of expressions and return the result as an array of
- * gnum_float.
+ * gnm_float.
  */
-static gnum_float *
+static gnm_float *
 collect_floats (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags,
 		int *n, Value **error, GSList **info)
 {
@@ -155,7 +155,7 @@ collect_floats (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags,
 		flags = flags & COLLECT_NO_INFO_MASK;
 
 	cl.alloc_count = 20;
-	cl.data = g_new (gnum_float, cl.alloc_count);
+	cl.data = g_new (gnm_float, cl.alloc_count);
 	cl.count = 0;
 	cl.flags = flags;
 	cl.info = NULL;
@@ -181,13 +181,13 @@ collect_floats (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags,
 /* Like collect_floats, but takes a value instead of an expression list.
    Presumably most useful when the value is an array.  */
 
-gnum_float *
+gnm_float *
 collect_floats_value (Value const *val, EvalPos const *ep,
 		      CollectFlags flags, int *n, Value **error)
 {
 	GnmExprList *exprlist;
 	GnmExprConstant expr_val;
-	gnum_float *res;
+	gnm_float *res;
 
 	gnm_expr_constant_init (&expr_val, val);
 	exprlist = gnm_expr_list_prepend (NULL, &expr_val);
@@ -200,14 +200,14 @@ collect_floats_value (Value const *val, EvalPos const *ep,
 /* ------------------------------------------------------------------------- */
 /* Like collect_floats_value, but keeps info on missing values */
 
-static gnum_float *
+static gnm_float *
 collect_floats_value_with_info (Value const *val, EvalPos const *ep,
 				CollectFlags flags, int *n, GSList **info, 
 				Value **error)
 {
 	GnmExprList *exprlist;
 	GnmExprConstant expr_val;
-	gnum_float *res;
+	gnm_float *res;
 
 	gnm_expr_constant_init (&expr_val, val);
 	exprlist = gnm_expr_list_prepend (NULL, &expr_val);
@@ -230,7 +230,7 @@ float_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
 		      char const *func_error)
 {
 	Value *error = NULL;
-	gnum_float *vals, res;
+	gnm_float *vals, res;
 	int n, err;
 
 	vals = collect_floats (exprlist, ei->pos, flags, &n, &error, NULL);
@@ -354,7 +354,7 @@ float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 		       CollectFlags flags,
 		       char const *func_error)
 {
-	gnum_float *vals0, *vals1;
+	gnm_float *vals0, *vals1;
 	int n0, n1;
 	Value *error = NULL;
 	Value *res;
@@ -380,24 +380,24 @@ float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 	if (n0 != n1 || n0 == 0)
 		res = value_new_error (ei->pos, func_error);
 	else {
-		gnum_float fres;
+		gnm_float fres;
 		
 		if (missing0 || missing1) {
 			GSList *missing = union_of_int_sets (missing0, missing1);
 			GArray *gval;
 
-			gval = g_array_new (FALSE, FALSE, sizeof (gnum_float));
+			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
 			gval = g_array_append_vals (gval, vals0, n0);
 			g_free (vals0);
 			gval = strip_missing (gval, &missing);
-			vals0 = (gnum_float *)gval->data;
+			vals0 = (gnm_float *)gval->data;
 			g_array_free (gval, FALSE);
 
-			gval = g_array_new (FALSE, FALSE, sizeof (gnum_float));
+			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
 			gval = g_array_append_vals (gval, vals1, n1);
 			g_free (vals1);
 			gval = strip_missing (gval, &missing);
-			vals1 = (gnum_float *)gval->data;
+			vals1 = (gnm_float *)gval->data;
 			g_array_free (gval, FALSE);
 			
 			g_slist_free (missing0);
@@ -477,7 +477,7 @@ callback_function_collect_strings (EvalPos const *ep, Value *value, void *closur
  *   Non-NULL in case of success.
  *
  * Evaluate a list of expressions and return the result as an array of
- * gnum_float.
+ * gnm_float.
  */
 
 static GSList *

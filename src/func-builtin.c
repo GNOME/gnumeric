@@ -77,7 +77,7 @@ static const char *help_product = {
 };
 
 static int
-range_bogusproduct (const gnum_float *xs, int n, gnum_float *res)
+range_bogusproduct (const gnm_float *xs, int n, gnm_float *res)
 {
 	if (n == 0) {
 		*res = 0;  /* Severe Excel brain damange.  */

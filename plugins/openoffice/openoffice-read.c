@@ -145,7 +145,7 @@ oo_attr_int (OOParseState *state, xmlChar const * const *attrs,
 
 static gboolean
 oo_attr_float (OOParseState *state, xmlChar const * const *attrs,
-	       char const *name, gnum_float *res)
+	       char const *name, gnm_float *res)
 {
 	char *end;
 	double tmp;
@@ -358,7 +358,7 @@ oo_cell_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 	GnmExpr const	*expr = NULL;
 	Value		*val = NULL;
 	gboolean	 bool_val;
-	gnum_float	 float_val;
+	gnm_float	 float_val;
 	int array_cols = -1, array_rows = -1;
 	int merge_cols = -1, merge_rows = -1;
 	MStyle *style = NULL;

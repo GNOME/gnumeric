@@ -34,7 +34,7 @@
 --
 -- #include "glprsm.h"
 -- int rsm_feas(RSM *rsm, int (*monit)(void),
---    gnum_float tol_bnd, gnum_float tol_dj, gnum_float tol_piv, gnum_float gvec[],
+--    gnm_float tol_bnd, gnm_float tol_dj, gnm_float tol_piv, gnm_float gvec[],
 --    int relax);
 --
 -- *Description*
@@ -149,30 +149,30 @@
 static int debug = 0; /* debug mode flag (to check the vector gamma) */
 
 int rsm_feas(RSM *rsm, int (*monit)(void),
-      gnum_float tol_bnd, gnum_float tol_dj, gnum_float tol_piv, gnum_float gvec[],
+      gnm_float tol_bnd, gnm_float tol_dj, gnm_float tol_piv, gnm_float gvec[],
       int relax)
 {     int m = rsm->m, n = rsm->n, p, tagp, q, i, k, ret;
-      gnum_float *bbar, *c, *pi, *cbar, *ap, *aq, *zeta;
+      gnm_float *bbar, *c, *pi, *cbar, *ap, *aq, *zeta;
       int *orig_type;
-      gnum_float *orig_lb, *orig_ub;
+      gnm_float *orig_lb, *orig_ub;
       /* check common block for correctness */
       check_rsm(rsm);
       /* allocate working arrays */
-      bbar = ucalloc(1+m, sizeof(gnum_float));
-      c = ucalloc(1+m+n, sizeof(gnum_float));
-      pi = ucalloc(1+m, sizeof(gnum_float));
-      cbar = ucalloc(1+n, sizeof(gnum_float));
-      aq = ucalloc(1+m, sizeof(gnum_float));
+      bbar = ucalloc(1+m, sizeof(gnm_float));
+      c = ucalloc(1+m+n, sizeof(gnm_float));
+      pi = ucalloc(1+m, sizeof(gnm_float));
+      cbar = ucalloc(1+n, sizeof(gnm_float));
+      aq = ucalloc(1+m, sizeof(gnm_float));
       if (gvec != NULL)
-      {  ap = ucalloc(1+n, sizeof(gnum_float));
-         zeta = ucalloc(1+m, sizeof(gnum_float));
+      {  ap = ucalloc(1+n, sizeof(gnm_float));
+         zeta = ucalloc(1+m, sizeof(gnm_float));
       }
       /* save original types and bounds of variables and allocate new
          copy of types and bounds for artificial basis solution */
       orig_type = rsm->type, orig_lb = rsm->lb, orig_ub = rsm->ub;
       rsm->type = ucalloc(1+m+n, sizeof(int));
-      rsm->lb = ucalloc(1+m+n, sizeof(gnum_float));
-      rsm->ub = ucalloc(1+m+n, sizeof(gnum_float));
+      rsm->lb = ucalloc(1+m+n, sizeof(gnm_float));
+      rsm->ub = ucalloc(1+m+n, sizeof(gnm_float));
       for (k = 1; k <= m+n; k++)
       {  rsm->type[k] = orig_type[k];
          rsm->lb[k] = orig_lb[k];
@@ -208,7 +208,7 @@ int rsm_feas(RSM *rsm, int (*monit)(void),
       for (;;)
       {  /* call user-supplied routine */
          if (monit != NULL)
-         {  int *type; gnum_float *lb, *ub;
+         {  int *type; gnm_float *lb, *ub;
             type = rsm->type, lb = rsm->lb, ub = rsm->ub;
             rsm->type = orig_type, rsm->lb = orig_lb, rsm->ub = orig_ub;
             ret = monit();
@@ -226,7 +226,7 @@ int rsm_feas(RSM *rsm, int (*monit)(void),
             break;
          }
          /* check original basis solution for primal feasibility */
-         {  int *type; gnum_float *lb, *ub;
+         {  int *type; gnm_float *lb, *ub;
             type = rsm->type, lb = rsm->lb, ub = rsm->ub;
             rsm->type = orig_type, rsm->lb = orig_lb, rsm->ub = orig_ub;
             ret = check_bbar(rsm, bbar, 0.30 * tol_bnd);
@@ -347,8 +347,8 @@ int rsm_feas(RSM *rsm, int (*monit)(void),
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- int rsm_primal(RSM *rsm, int (*monit)(void), gnum_float c[],
---    gnum_float tol_bnd, gnum_float tol_dj, gnum_float tol_piv, gnum_float gvec[],
+-- int rsm_primal(RSM *rsm, int (*monit)(void), gnm_float c[],
+--    gnm_float tol_bnd, gnm_float tol_dj, gnm_float tol_piv, gnm_float gvec[],
 --    int relax);
 --
 -- *Description*
@@ -409,21 +409,21 @@ int rsm_feas(RSM *rsm, int (*monit)(void),
 static int debug = 0; /* debug mode flag (to check the vector gamma) */
 #endif
 
-int rsm_primal(RSM *rsm, int (*monit)(void), gnum_float c[],
-      gnum_float tol_bnd, gnum_float tol_dj, gnum_float tol_piv, gnum_float gvec[],
+int rsm_primal(RSM *rsm, int (*monit)(void), gnm_float c[],
+      gnm_float tol_bnd, gnm_float tol_dj, gnm_float tol_piv, gnm_float gvec[],
       int relax)
 {     int m = rsm->m, n = rsm->n, p, tagp, q, ret;
-      gnum_float *bbar, *pi, *cbar, *ap, *aq, *zeta;
+      gnm_float *bbar, *pi, *cbar, *ap, *aq, *zeta;
       /* check common block for correctness */
       check_rsm(rsm);
       /* allocate working arrays */
-      bbar = ucalloc(1+m, sizeof(gnum_float));
-      pi = ucalloc(1+m, sizeof(gnum_float));
-      cbar = ucalloc(1+n, sizeof(gnum_float));
-      aq = ucalloc(1+m, sizeof(gnum_float));
+      bbar = ucalloc(1+m, sizeof(gnm_float));
+      pi = ucalloc(1+m, sizeof(gnm_float));
+      cbar = ucalloc(1+n, sizeof(gnm_float));
+      aq = ucalloc(1+m, sizeof(gnm_float));
       if (gvec != NULL)
-      {  ap = ucalloc(1+n, sizeof(gnum_float));
-         zeta = ucalloc(1+m, sizeof(gnum_float));
+      {  ap = ucalloc(1+n, sizeof(gnm_float));
+         zeta = ucalloc(1+m, sizeof(gnm_float));
       }
       /* main loop starts here */
       for (;;)
@@ -513,8 +513,8 @@ int rsm_primal(RSM *rsm, int (*monit)(void), gnum_float c[],
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- int rsm_dual(RSM *rsm, int (*monit)(void), gnum_float c[],
---    gnum_float tol_bnd, gnum_float tol_dj, gnum_float tol_piv, gnum_float dvec[],
+-- int rsm_dual(RSM *rsm, int (*monit)(void), gnm_float c[],
+--    gnm_float tol_bnd, gnm_float tol_dj, gnm_float tol_piv, gnm_float dvec[],
 --    int relax);
 --
 -- *Description*
@@ -575,20 +575,20 @@ int rsm_primal(RSM *rsm, int (*monit)(void), gnum_float c[],
 
 static int debug = 0; /* debug mode flag (to check the vector delta) */
 
-int rsm_dual(RSM *rsm, int (*monit)(void), gnum_float c[],
-      gnum_float tol_bnd, gnum_float tol_dj, gnum_float tol_piv, gnum_float dvec[],
+int rsm_dual(RSM *rsm, int (*monit)(void), gnm_float c[],
+      gnm_float tol_bnd, gnm_float tol_dj, gnm_float tol_piv, gnm_float dvec[],
       int relax)
 {     int m = rsm->m, n = rsm->n, p, tagp, q, ret;
-      gnum_float *bbar, *pi, *cbar, *ap, *aq, *zeta;
+      gnm_float *bbar, *pi, *cbar, *ap, *aq, *zeta;
       /* check common block for correctness */
       check_rsm(rsm);
       /* allocate working arrays */
-      bbar = ucalloc(1+m, sizeof(gnum_float));
-      pi = ucalloc(1+m, sizeof(gnum_float));
-      cbar = ucalloc(1+n, sizeof(gnum_float));
-      ap = ucalloc(1+n, sizeof(gnum_float));
-      aq = ucalloc(1+m, sizeof(gnum_float));
-      zeta = ucalloc(1+m, sizeof(gnum_float));
+      bbar = ucalloc(1+m, sizeof(gnm_float));
+      pi = ucalloc(1+m, sizeof(gnm_float));
+      cbar = ucalloc(1+n, sizeof(gnm_float));
+      ap = ucalloc(1+n, sizeof(gnm_float));
+      aq = ucalloc(1+m, sizeof(gnm_float));
+      zeta = ucalloc(1+m, sizeof(gnm_float));
       /* main loop starts here */
       for (;;)
       {  /* call user-supplied routine */
@@ -623,7 +623,7 @@ int rsm_dual(RSM *rsm, int (*monit)(void), gnum_float c[],
 #if 0 /* 3.0.9; hmm... either ap is computed quite accurately or the
          residual can't be detected due to zero bounds of xN */
          {  int j, k;
-            gnum_float sum = 0.0, alpha;
+            gnm_float sum = 0.0, alpha;
             for (j = 1; j <= n; j++)
             {  alpha = ap[j];
                if (alpha != 0.0)

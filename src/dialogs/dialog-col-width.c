@@ -55,7 +55,7 @@ typedef struct {
 
 	gboolean           set_default_value;
 
-	gnum_float         orig_value;
+	gnm_float         orig_value;
 	gboolean           orig_is_default;
 	gboolean           orig_some_default;
 	gboolean           orig_all_equal;
@@ -65,7 +65,7 @@ typedef struct {
 static void
 dialog_col_width_button_sensitivity (ColWidthState *state)
 {
-	gnum_float value = gtk_spin_button_get_value (state->spin);
+	gnm_float value = gtk_spin_button_get_value (state->spin);
 	gboolean use_default = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->default_check));
 	gboolean changed_info;
@@ -111,7 +111,7 @@ cb_dialog_col_width_cancel_clicked (__attribute__((unused)) GtkWidget *button,
 
 
 static void
-dialog_col_width_set_value (gnum_float value, ColWidthState *state)
+dialog_col_width_set_value (gnm_float value, ColWidthState *state)
 {
 	gtk_spin_button_set_value (state->spin, value);
 }
@@ -120,7 +120,7 @@ static void
 dialog_col_width_load_value (ColWidthState *state)
 {
 	GList *l;
-	gnum_float value = 0.0;
+	gnm_float value = 0.0;
 	state->orig_is_default = TRUE;
 	state->orig_some_default = FALSE;
 	state->orig_all_equal = TRUE;
@@ -184,7 +184,7 @@ static void
 cb_dialog_col_width_apply_clicked (__attribute__((unused)) GtkWidget *button,
 				   ColWidthState *state)
 {
-	gnum_float value = gtk_spin_button_get_value (state->spin);
+	gnm_float value = gtk_spin_button_get_value (state->spin);
 	double const scale =
 		state->sheet->last_zoom_factor_used *
 		application_display_dpi_get (FALSE) / 72.;

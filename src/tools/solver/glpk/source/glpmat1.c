@@ -34,7 +34,7 @@
 -- *Synopsis*
 --
 -- #include "glpmat.h"
--- MAT *aat_numb(MAT *S, MAT *A, gnum_float D[], gnum_float work[]);
+-- MAT *aat_numb(MAT *S, MAT *A, gnm_float D[], gnm_float work[]);
 --
 -- *Description*
 --
@@ -68,15 +68,15 @@
 --
 -- The aat_numb routine returns a pointer to the matrix S. */
 
-MAT *aat_numb(MAT *S, MAT *A, gnum_float D[], gnum_float _work[])
+MAT *aat_numb(MAT *S, MAT *A, gnm_float D[], gnm_float _work[])
 {     ELEM *e, *ee;
       int i, j;
-      gnum_float *work = _work;
+      gnm_float *work = _work;
       if (S == A)
          fault("aat_numb: invalid specification of resultant matrix");
       if (!(S->m == S->n && S->m == A->m))
          fault("aat_numb: inconsistent dimension; product undefined");
-      if (_work == NULL) work = ucalloc(1+A->n, sizeof(gnum_float));
+      if (_work == NULL) work = ucalloc(1+A->n, sizeof(gnm_float));
       for (j = 1; j <= A->n; j++) work[j] = 0.0;
       for (i = 1; i <= S->m; i++)
       {  /* work := i-th row of A */
@@ -84,7 +84,7 @@ MAT *aat_numb(MAT *S, MAT *A, gnum_float D[], gnum_float _work[])
          /* compute i-th row of S */
          for (e = S->row[i]; e != NULL; e = e->row)
          {  /* s[i,j] = a[i,*] * a[j,*] */
-            gnum_float sum = 0.0;
+            gnm_float sum = 0.0;
             if (D == NULL)
             {  for (ee = A->row[e->j]; ee != NULL; ee = ee->row)
                   sum += work[ee->j] * ee->val;
@@ -823,7 +823,7 @@ void delete_per(PER *P)
 -- *Synopsis*
 --
 -- #include "glpmat.h"
--- void eq_scaling(MAT *A, gnum_float R[], gnum_float S[], int ord);
+-- void eq_scaling(MAT *A, gnm_float R[], gnm_float S[], int ord);
 --
 -- *Description*
 --
@@ -854,10 +854,10 @@ void delete_per(PER *P)
 -- if ord = 0, at first rows, then columns;
 -- if ord = 1, at first columns, then rows. */
 
-static void scale_rows(MAT *A, gnum_float R[], gnum_float S[]);
-static void scale_cols(MAT *A, gnum_float R[], gnum_float S[]);
+static void scale_rows(MAT *A, gnm_float R[], gnm_float S[]);
+static void scale_cols(MAT *A, gnm_float R[], gnm_float S[]);
 
-void eq_scaling(MAT *A, gnum_float R[], gnum_float S[], int ord)
+void eq_scaling(MAT *A, gnm_float R[], gnm_float S[], int ord)
 {     if (ord == 0)
       {  scale_rows(A, R, S);
          scale_cols(A, R, S);
@@ -869,11 +869,11 @@ void eq_scaling(MAT *A, gnum_float R[], gnum_float S[], int ord)
       return;
 }
 
-static void scale_rows(MAT *A, gnum_float R[], gnum_float S[])
+static void scale_rows(MAT *A, gnm_float R[], gnm_float S[])
 {     /* this routine performs equilibration scaling of rows */
       ELEM *e;
       int i;
-      gnum_float big, temp;
+      gnm_float big, temp;
       for (i = 1; i <= A->m; i++)
       {  big = 0.0;
          for (e = A->row[i]; e != NULL; e = e->row)
@@ -885,11 +885,11 @@ static void scale_rows(MAT *A, gnum_float R[], gnum_float S[])
       return;
 }
 
-static void scale_cols(MAT *A, gnum_float R[], gnum_float S[])
+static void scale_cols(MAT *A, gnm_float R[], gnm_float S[])
 {     /* this routine performs equilibration scaling of columns */
       ELEM *e;
       int j;
-      gnum_float big, temp;
+      gnm_float big, temp;
       for (j = 1; j <= A->n; j++)
       {  big = 0.0;
          for (e = A->col[j]; e != NULL; e = e->col)
@@ -907,7 +907,7 @@ static void scale_cols(MAT *A, gnum_float R[], gnum_float S[])
 -- *Synopsis*
 --
 -- #include "glpmat.h"
--- void gm_scaling(MAT *A, gnum_float R[], gnum_float S[], int ord, gnum_float eps,
+-- void gm_scaling(MAT *A, gnm_float R[], gnm_float S[], int ord, gnm_float eps,
 --    int itmax);
 --
 -- *Description*
@@ -956,18 +956,18 @@ static void scale_cols(MAT *A, gnum_float R[], gnum_float S[])
 -- On each iteration the gm_scaling routine prints the "quality" of
 -- scaling (see above). */
 
-static gnum_float ratio(MAT *A, gnum_float R[], gnum_float S[]);
+static gnm_float ratio(MAT *A, gnm_float R[], gnm_float S[]);
 
 #define scale_rows scale_rows1
 #define scale_cols scale_cols1
 
-static void scale_rows(MAT *A, gnum_float R[], gnum_float S[]);
-static void scale_cols(MAT *A, gnum_float R[], gnum_float S[]);
+static void scale_rows(MAT *A, gnm_float R[], gnm_float S[]);
+static void scale_cols(MAT *A, gnm_float R[], gnm_float S[]);
 
-void gm_scaling(MAT *A, gnum_float R[], gnum_float S[], int ord, gnum_float eps,
+void gm_scaling(MAT *A, gnm_float R[], gnm_float S[], int ord, gnm_float eps,
       int itmax)
 {     int iter;
-      gnum_float told, tnew;
+      gnm_float told, tnew;
       told = DBL_MAX;
       for (iter = 1; ; iter++)
       {  tnew = ratio(A, R, S);
@@ -990,13 +990,13 @@ void gm_scaling(MAT *A, gnum_float R[], gnum_float S[], int ord, gnum_float eps,
       return;
 }
 
-static gnum_float ratio(MAT *A, gnum_float R[], gnum_float S[])
+static gnm_float ratio(MAT *A, gnm_float R[], gnm_float S[])
 {     /* this routine computes the "quality" of scaling, which is
          beta/alfa, where alfa and beta are, respectively, smallest and
          largest absolute values of elements of the current matrix */
       ELEM *e;
       int i;
-      gnum_float alfa, beta, temp;
+      gnm_float alfa, beta, temp;
       alfa = DBL_MAX; beta = 0.0;
       for (i = 1; i <= A->m; i++)
       {  for (e = A->row[i]; e != NULL; e = e->row)
@@ -1010,11 +1010,11 @@ static gnum_float ratio(MAT *A, gnum_float R[], gnum_float S[])
       return temp;
 }
 
-static void scale_rows(MAT *A, gnum_float R[], gnum_float S[])
+static void scale_rows(MAT *A, gnm_float R[], gnm_float S[])
 {     /* this routine performs geometric mean scaling of rows */
       ELEM *e;
       int i;
-      gnum_float alfa, beta, temp;
+      gnm_float alfa, beta, temp;
       for (i = 1; i <= A->m; i++)
       {  alfa = DBL_MAX; beta = 0.0;
          for (e = A->row[i]; e != NULL; e = e->row)
@@ -1028,11 +1028,11 @@ static void scale_rows(MAT *A, gnum_float R[], gnum_float S[])
       return;
 }
 
-static void scale_cols(MAT *A, gnum_float R[], gnum_float S[])
+static void scale_cols(MAT *A, gnm_float R[], gnm_float S[])
 {     /* this routine performs geometric mean scaling of columns */
       ELEM *e;
       int j;
-      gnum_float alfa, beta, temp;
+      gnm_float alfa, beta, temp;
       for (j = 1; j <= A->n; j++)
       {  alfa = DBL_MAX; beta = 0.0;
          for (e = A->col[j]; e != NULL; e = e->col)
@@ -1074,7 +1074,7 @@ PER *inv_per(PER *P)
 -- *Synopsis*
 --
 -- #include "glpmat.h"
--- gnum_float *iper_vec(gnum_float y[], PER *P, gnum_float x[]);
+-- gnm_float *iper_vec(gnm_float y[], PER *P, gnm_float x[]);
 --
 -- *Description*
 --
@@ -1090,7 +1090,7 @@ PER *inv_per(PER *P)
 --
 -- The iper_vec routine returns a pointer to the array y. */
 
-gnum_float *iper_vec(gnum_float y[], PER *P, gnum_float x[])
+gnm_float *iper_vec(gnm_float y[], PER *P, gnm_float x[])
 {     int j;
       for (j = 1; j <= P->n; j++) y[j] = x[P->col[j]];
       return y;
@@ -1102,7 +1102,7 @@ gnum_float *iper_vec(gnum_float y[], PER *P, gnum_float x[])
 -- *Synopsis*
 --
 -- #include "glpmat.h"
--- gnum_float *l_solve(MAT *L, gnum_float x[]);
+-- gnm_float *l_solve(MAT *L, gnm_float x[]);
 --
 -- *Description*
 --
@@ -1118,10 +1118,10 @@ gnum_float *iper_vec(gnum_float y[], PER *P, gnum_float x[])
 --
 -- The l_solve routine returns a pointer to the array x. */
 
-gnum_float *l_solve(MAT *L, gnum_float x[])
+gnm_float *l_solve(MAT *L, gnm_float x[])
 {     ELEM *e;
       int flag = 1, i;
-      gnum_float piv;
+      gnm_float piv;
       if (L->m != L->n)
          fault("l_solve: matrix is not square");
       for (i = 1; i <= L->m; i++)
@@ -1151,7 +1151,7 @@ gnum_float *l_solve(MAT *L, gnum_float x[])
 -- *Synopsis*
 --
 -- #include "glpmat.h"
--- gnum_float *lt_solve(MAT *L, gnum_float x[]);
+-- gnm_float *lt_solve(MAT *L, gnm_float x[]);
 --
 -- *Description*
 --
@@ -1168,10 +1168,10 @@ gnum_float *l_solve(MAT *L, gnum_float x[])
 --
 -- The lt_solve routine returns a pointer to the array x. */
 
-gnum_float *lt_solve(MAT *L, gnum_float x[])
+gnm_float *lt_solve(MAT *L, gnm_float x[])
 {     ELEM *e;
       int flag = 1, i;
-      gnum_float piv;
+      gnm_float piv;
       if (L->m != L->n)
          fault("lt_solve: matrix is not square");
       for (i = L->m; i >= 1; i--)
@@ -1238,7 +1238,7 @@ MAT *mat_per(MAT *A, PER *P, void *_work[])
 -- *Synopsis*
 --
 -- #include "glpmat.h"
--- gnum_float *mat_vec(gnum_float y[], MAT *A, gnum_float x[]);
+-- gnm_float *mat_vec(gnm_float y[], MAT *A, gnm_float x[]);
 --
 -- *Description*
 --
@@ -1254,11 +1254,11 @@ MAT *mat_per(MAT *A, PER *P, void *_work[])
 --
 -- The mat_vec routine returns a pointer to the array y. */
 
-gnum_float *mat_vec(gnum_float y[], MAT *A, gnum_float x[])
+gnm_float *mat_vec(gnm_float y[], MAT *A, gnm_float x[])
 {     int i, j;
       for (i = 1; i <= A->m; i++) y[i] = 0.0;
       for (j = 1; j <= A->n; j++)
-      {  gnum_float t = x[j];
+      {  gnm_float t = x[j];
          if (t != 0.0)
          {  ELEM *e;
             for (e = A->col[j]; e != NULL; e = e->col)
@@ -1274,7 +1274,7 @@ gnum_float *mat_vec(gnum_float y[], MAT *A, gnum_float x[])
 -- *Synopsis*
 --
 -- #include "glpmat.h"
--- MAT *mprd_numb(MAT *C, MAT *A, MAT *B, gnum_float _work[]);
+-- MAT *mprd_numb(MAT *C, MAT *A, MAT *B, gnm_float _work[]);
 --
 -- *Description*
 --
@@ -1304,15 +1304,15 @@ gnum_float *mat_vec(gnum_float y[], MAT *A, gnum_float x[])
 --
 -- The mprd_symb routine returns a pointer to the matrix C. */
 
-MAT *mprd_numb(MAT *C, MAT *A, MAT *B, gnum_float _work[])
+MAT *mprd_numb(MAT *C, MAT *A, MAT *B, gnm_float _work[])
 {     ELEM *e, *ee;
       int i, j;
-      gnum_float *work = _work;
+      gnm_float *work = _work;
       if (C == A || C == B)
          fault("mprd_numb: invalid specification of resultant matrix");
       if (!(C->m == A->m && A->n == B->m && B->n == C->n))
          fault("mprd_numb: inconsistent dimension; product undefined");
-      if (_work == NULL) work = ucalloc(1+A->n, sizeof(gnum_float));
+      if (_work == NULL) work = ucalloc(1+A->n, sizeof(gnm_float));
       for (j = 1; j <= A->n; j++) work[j] = 0;
       for (i = 1; i <= C->m; i++)
       {  /* work := i-th row of A */
@@ -1320,7 +1320,7 @@ MAT *mprd_numb(MAT *C, MAT *A, MAT *B, gnum_float _work[])
          /* compute i-th row of C */
          for (e = C->row[i]; e != NULL; e = e->row)
          {  /* c[i,j] = a[i,*] * b[*,j] */
-            gnum_float sum = 0.0;
+            gnm_float sum = 0.0;
             for (ee = B->col[e->j]; ee != NULL; ee = ee->col)
                sum += work[ee->i] * ee->val;
             e->val = sum;
@@ -1399,7 +1399,7 @@ MAT *mprd_symb(MAT *C, MAT *A, MAT *B, char _work[])
 -- *Synopsis*
 --
 -- #include "glpmat.h"
--- ELEM *new_elem(MAT *A, int i, int j, gnum_float val);
+-- ELEM *new_elem(MAT *A, int i, int j, gnm_float val);
 --
 -- *Description*
 --
@@ -1418,7 +1418,7 @@ MAT *mprd_symb(MAT *C, MAT *A, MAT *B, char _work[])
 --
 -- The new_elem routine returns a pointer to the created element. */
 
-ELEM *new_elem(MAT *A, int i, int j, gnum_float val)
+ELEM *new_elem(MAT *A, int i, int j, gnm_float val)
 {     ELEM *e;
       if (!(1 <= i && i <= A->m && 1 <= j && j <= A->n))
          fault("new_elem: row or column number out of range");
@@ -1524,7 +1524,7 @@ MAT *per_sym(PER *P, MAT *A, void *work[])
 -- *Synopsis*
 --
 -- #include "glpmat.h"
--- gnum_float *per_vec(gnum_float y[], PER *P, gnum_float x[]);
+-- gnm_float *per_vec(gnm_float y[], PER *P, gnm_float x[]);
 --
 -- *Description*
 --
@@ -1539,7 +1539,7 @@ MAT *per_sym(PER *P, MAT *A, void *work[])
 --
 -- The per_vec routine returns a pointer to the array y. */
 
-gnum_float *per_vec(gnum_float y[], PER *P, gnum_float x[])
+gnm_float *per_vec(gnm_float y[], PER *P, gnm_float x[])
 {     int i;
       for (i = 1; i <= P->n; i++) y[i] = x[P->row[i]];
       return y;
@@ -1574,7 +1574,7 @@ PER *reset_per(PER *P)
 -- *Synopsis*
 --
 -- #include "glpmat.h"
--- int scrape_mat(MAT *A, gnum_float eps);
+-- int scrape_mat(MAT *A, gnm_float eps);
 --
 -- *Description*
 --
@@ -1589,7 +1589,7 @@ PER *reset_per(PER *P)
 -- The scrape_mat routine returns total number of elements which have
 -- been removed from the matrix. */
 
-int scrape_mat(MAT *A, gnum_float eps)
+int scrape_mat(MAT *A, gnm_float eps)
 {     ELEM *e, *ee;
       int i, j, count = 0;
       /* nullify all tiny elements */
@@ -1705,7 +1705,7 @@ MAT *submatrix(MAT *B, MAT *A, int i1, int i2, int j1, int j2)
 -- *Synopsis*
 --
 -- #include "glpmat.h"
--- int sum_mplets(MAT *A, gnum_float eps);
+-- int sum_mplets(MAT *A, gnm_float eps);
 --
 -- *Description*
 --
@@ -1722,7 +1722,7 @@ MAT *submatrix(MAT *B, MAT *A, int i1, int i2, int j1, int j2)
 -- The sum_mplets routine returns total number of elements which have
 -- been removed from the matrix. */
 
-int sum_mplets(MAT *A, gnum_float eps)
+int sum_mplets(MAT *A, gnm_float eps)
 {     int i;
       sort_mat(A);
       for (i = 1; i <= A->m; i++)
@@ -1748,7 +1748,7 @@ int sum_mplets(MAT *A, gnum_float eps)
 -- *Synopsis*
 --
 -- #include "glpmat.h"
--- gnum_float *sym_vec(gnum_float y[], MAT *A, gnum_float x[]);
+-- gnm_float *sym_vec(gnm_float y[], MAT *A, gnm_float x[]);
 --
 -- *Description*
 --
@@ -1764,13 +1764,13 @@ int sum_mplets(MAT *A, gnum_float eps)
 --
 -- The sym_vec routine returns a pointer to the array y. */
 
-gnum_float *sym_vec(gnum_float y[], MAT *A, gnum_float x[])
+gnm_float *sym_vec(gnm_float y[], MAT *A, gnm_float x[])
 {     int i, j;
       if (A->m != A->n)
          fault("sym_vec: matrix is not square");
       for (i = 1; i <= A->m; i++) y[i] = 0.0;
       for (j = 1; j <= A->n; j++)
-      {  gnum_float t = x[j];
+      {  gnm_float t = x[j];
          if (t != 0.0)
          {  ELEM *e;
             for (e = A->col[j]; e != NULL; e = e->col)
@@ -1819,20 +1819,20 @@ MAT *test_mat_d(int n, int c)
       for (i = 1; i <= n; i++)
          new_elem(A, i, i, 1.0);
       for (i = 1; i <= n-c; i++)
-         new_elem(A, i, i+c, (gnum_float)(i+1));
+         new_elem(A, i, i+c, (gnm_float)(i+1));
       for (i = n-c+1; i <= n; i++)
-         new_elem(A, i, i-n+c, (gnum_float)(i+1));
+         new_elem(A, i, i-n+c, (gnm_float)(i+1));
       for (i = 1; i <= n-c-1; i++)
-         new_elem(A, i, i+c+1, (gnum_float)(-i));
+         new_elem(A, i, i+c+1, (gnm_float)(-i));
       for (i = n-c; i <= n; i++)
-         new_elem(A, i, i-n+c+1, (gnum_float)(-i));
+         new_elem(A, i, i-n+c+1, (gnm_float)(-i));
       for (i = 1; i <= n-c-2; i++)
          new_elem(A, i, i+c+2, 16.0);
       for (i = n-c-1; i <= n; i++)
          new_elem(A, i, i-n+c+2, 16.0);
       for (j = 1; j <= 10; j++)
       {  for (i = 1; i <= 11-j; i++)
-            new_elem(A, i, n-11+i+j, 100.0*(gnum_float)j);
+            new_elem(A, i, n-11+i+j, 100.0*(gnm_float)j);
       }
       return A;
 }
@@ -1887,7 +1887,7 @@ MAT *test_mat_e(int n, int c)
 -- *Synopsis*
 --
 -- #include "glpmat.h"
--- gnum_float *tmat_vec(gnum_float y[], MAT *A, gnum_float x[]);
+-- gnm_float *tmat_vec(gnm_float y[], MAT *A, gnm_float x[]);
 --
 -- *Description*
 --
@@ -1904,11 +1904,11 @@ MAT *test_mat_e(int n, int c)
 --
 -- The tmat_vec routine returns a pointer to the array y. */
 
-gnum_float *tmat_vec(gnum_float y[], MAT *A, gnum_float x[])
+gnm_float *tmat_vec(gnm_float y[], MAT *A, gnm_float x[])
 {     int i, j;
       for (j = 1; j <= A->n; j++) y[j] = 0.0;
       for (i = 1; i <= A->m; i++)
-      {  gnum_float t = x[i];
+      {  gnm_float t = x[i];
          if (t != 0.0)
          {  ELEM *e;
             for (e = A->row[i]; e != NULL; e = e->row)

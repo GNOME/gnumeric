@@ -77,7 +77,7 @@ struct SPX
       int p;
       /* the number of basic variable xB[p], 1 <= p <= m, chosen to
          leave the basis; the special case p < 0 means that non-basic
-         gnum_float-bounded variable xN[q] just goes to its opposite bound,
+         gnm_float-bounded variable xN[q] just goes to its opposite bound,
          and the basis remains unchanged; p = 0 means that no choice
          can be made (in the case of primal simplex non-basic variable
          xN[q] can infinitely change, in the case of dual simplex the
@@ -91,26 +91,26 @@ struct SPX
          the case of primal simplex the current basis is dual feasible,
          in the case of dual simplex the dual variable that corresponds
          to xB[p] can infinitely change) */
-      gnum_float *zeta; /* gnum_float zeta[1+m]; */
+      gnm_float *zeta; /* gnm_float zeta[1+m]; */
       /* the p-th row of the inverse inv(B) */
-      gnum_float *ap; /* gnum_float ap[1+n]; */
+      gnm_float *ap; /* gnm_float ap[1+n]; */
       /* the p-th row of the current simplex table:
          ap[0] is not used;
          ap[j], 1 <= j <= n, is an influence coefficient, which defines
          how the non-basic variable xN[j] affects on the basic variable
          xB[p] = ... + ap[j] * xN[j] + ... */
-      gnum_float *aq; /* gnum_float aq[1+m]; */
+      gnm_float *aq; /* gnm_float aq[1+m]; */
       /* the q-th column of the current simplex table;
          aq[0] is not used;
          aq[i], 1 <= i <= m, is an influence coefficient, which defines
          how the non-basic variable xN[q] affects on the basic variable
          xB[i] = ... + aq[i] * xN[q] + ... */
-      gnum_float *gvec; /* gnum_float gvec[1+n]; */
+      gnm_float *gvec; /* gnm_float gvec[1+n]; */
       /* gvec[0] is not used;
          gvec[j], 1 <= j <= n, is a weight of non-basic variable xN[j];
          this vector is used to price non-basic variables in the primal
          simplex (for example, using the steepest edge technique) */
-      gnum_float *dvec; /* gnum_float dvec[1+m]; */
+      gnm_float *dvec; /* gnm_float dvec[1+m]; */
       /* dvec[0] is not used;
          dvec[i], 1 <= i <= m, is a weight of basic variable xB[i]; it
          is used to price basic variables in the dual simplex */
@@ -121,17 +121,17 @@ struct SPX
       int count;
       /* if this count (used in the projected steepest edge technique)
          gets zero, the reference space is automatically redefined */
-      gnum_float *work; /* gnum_float work[1+m+n]; */
+      gnm_float *work; /* gnm_float work[1+m+n]; */
       /* working array (used for various purposes) */
       int *orig_typx; /* orig_typx[1+m+n]; */
       /* is used to save the original types of variables */
-      gnum_float *orig_lb; /* orig_lb[1+m+n]; */
+      gnm_float *orig_lb; /* orig_lb[1+m+n]; */
       /* is used to save the original lower bounds of variables */
-      gnum_float *orig_ub; /* orig_ub[1+m+n]; */
+      gnm_float *orig_ub; /* orig_ub[1+m+n]; */
       /* is used to save the original upper bounds of variables */
       int orig_dir;
       /* is used to save the original optimization direction */
-      gnum_float *orig_coef; /* orig_coef[1+m+n]; */
+      gnm_float *orig_coef; /* orig_coef[1+m+n]; */
       /* is used to save the original objective coefficients */
 };
 
@@ -140,10 +140,10 @@ struct SPX
 int spx_invert(LPX *lp);
 /* reinvert the basis matrix */
 
-void spx_ftran(LPX *lp, gnum_float x[], int save);
+void spx_ftran(LPX *lp, gnm_float x[], int save);
 /* perform forward transformation (FTRAN) */
 
-void spx_btran(LPX *lp, gnum_float x[]);
+void spx_btran(LPX *lp, gnm_float x[]);
 /* perform backward transformation (BTRAN) */
 
 int spx_update(LPX *lp, int j);
@@ -151,7 +151,7 @@ int spx_update(LPX *lp, int j);
 
 /* generic simplex method routines -----------------------------------*/
 
-gnum_float spx_eval_xn_j(LPX *lp, int j);
+gnm_float spx_eval_xn_j(LPX *lp, int j);
 /* determine value of non-basic variable */
 
 void spx_eval_bbar(LPX *lp);
@@ -163,37 +163,37 @@ void spx_eval_pi(LPX *lp);
 void spx_eval_cbar(LPX *lp);
 /* compute reduced costs of non-basic variables */
 
-gnum_float spx_eval_obj(LPX *lp);
+gnm_float spx_eval_obj(LPX *lp);
 /* compute value of the objective function */
 
-void spx_eval_col(LPX *lp, int j, gnum_float col[], int save);
+void spx_eval_col(LPX *lp, int j, gnm_float col[], int save);
 /* compute column of the simplex table */
 
-void spx_eval_rho(LPX *lp, int i, gnum_float rho[]);
+void spx_eval_rho(LPX *lp, int i, gnm_float rho[]);
 /* compute row of the inverse */
 
-void spx_eval_row(LPX *lp, gnum_float rho[], gnum_float row[]);
+void spx_eval_row(LPX *lp, gnm_float rho[], gnm_float row[]);
 /* compute row of the simplex table */
 
-gnum_float spx_check_bbar(LPX *lp, gnum_float tol);
+gnm_float spx_check_bbar(LPX *lp, gnm_float tol);
 /* check primal feasibility */
 
-gnum_float spx_check_cbar(LPX *lp, gnum_float tol);
+gnm_float spx_check_cbar(LPX *lp, gnm_float tol);
 /* check dual feasibility */
 
-int spx_prim_chuzc(SPX *spx, gnum_float tol);
+int spx_prim_chuzc(SPX *spx, gnm_float tol);
 /* choose non-basic variable (primal simplex) */
 
-int spx_prim_chuzr(SPX *spx, gnum_float relax);
+int spx_prim_chuzr(SPX *spx, gnm_float relax);
 /* choose basic variable (primal simplex) */
 
-void spx_dual_chuzr(SPX *spx, gnum_float tol);
+void spx_dual_chuzr(SPX *spx, gnm_float tol);
 /* choose basic variable (dual simplex) */
 
-int spx_dual_chuzc(SPX *spx, gnum_float relax);
+int spx_dual_chuzc(SPX *spx, gnm_float relax);
 /* choose non-basic variable (dual simplex) */
 
-void spx_update_bbar(SPX *spx, gnum_float *obj);
+void spx_update_bbar(SPX *spx, gnm_float *obj);
 /* update values of basic variables */
 
 void spx_update_pi(SPX *spx);
@@ -205,13 +205,13 @@ void spx_update_cbar(SPX *spx, int all);
 int spx_change_basis(SPX *spx);
 /* change basis and update the factorization */
 
-gnum_float spx_err_in_bbar(SPX *spx);
+gnm_float spx_err_in_bbar(SPX *spx);
 /* compute maximal absolute error in bbar */
 
-gnum_float spx_err_in_pi(SPX *spx);
+gnm_float spx_err_in_pi(SPX *spx);
 /* compute maximal absolute error in pi */
 
-gnum_float spx_err_in_cbar(SPX *spx, int all);
+gnm_float spx_err_in_cbar(SPX *spx, int all);
 /* compute maximal absolute error in cbar */
 
 void spx_reset_refsp(SPX *spx);
@@ -220,13 +220,13 @@ void spx_reset_refsp(SPX *spx);
 void spx_update_gvec(SPX *spx);
 /* update the vector gamma for adjacent basis */
 
-gnum_float spx_err_in_gvec(SPX *spx);
+gnm_float spx_err_in_gvec(SPX *spx);
 /* compute maximal absolute error in gvec */
 
 void spx_update_dvec(SPX *spx);
 /* update the vector delta for adjacent basis */
 
-gnum_float spx_err_in_dvec(SPX *spx);
+gnm_float spx_err_in_dvec(SPX *spx);
 /* compute maximal absolute error in dvec */
 
 #endif

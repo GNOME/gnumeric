@@ -3,7 +3,7 @@
 
 extern int        lp_solve_Level;
 
-extern gnum_float lp_solve_Trej;
-extern gnum_float lp_solve_Extrad;
+extern gnm_float lp_solve_Trej;
+extern gnm_float lp_solve_Extrad;
 
 #endif

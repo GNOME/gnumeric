@@ -179,7 +179,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 
 			if (v->type == VALIDATION_TYPE_AS_INT &&
 			    res != NULL && res->type == VALUE_FLOAT) {
-				gnum_float f = value_get_as_float (res);
+				gnm_float f = value_get_as_float (res);
 				gboolean isint = gnumabs (f - gnumeric_fake_round (f)) < 1e-10;
 				if (!isint) {
 					char const *valstr = value_peek_string (val);

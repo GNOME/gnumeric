@@ -47,8 +47,8 @@
 extern int str2int(char *str, int *val);
 /* convert character string to value of integer type */
 
-extern int str2dbl(char *str, gnum_float *val);
-/* convert character string to value of gnum_float type */
+extern int str2dbl(char *str, gnm_float *val);
+/* convert character string to value of gnm_float type */
 
 extern char *strspx(char *str);
 /* remove all spaces from character string */

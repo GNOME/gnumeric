@@ -1043,7 +1043,7 @@ yylex (void)
 		if (c == state->decimal_point || c == 'e' || c == 'E') {
 			/* This is float */
 			char *end;
-			gnum_float d;
+			gnm_float d;
 
 			errno = 0;
 			d = strtognum (start, &end);
@@ -1079,7 +1079,7 @@ yylex (void)
 				v = value_new_int (l);
 				state->ptr = end;
 			} else if (l == LONG_MIN || l == LONG_MAX) {
-				gnum_float d;
+				gnm_float d;
 
 				errno = 0;
 				d = strtognum (start, &end);

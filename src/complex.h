@@ -5,7 +5,7 @@
 #include <math.h>
 
 typedef struct {
-	gnum_float re, im;
+	gnm_float re, im;
 } complex_t;
 
 #ifdef GNUMERIC_COMPLEX_IMPLEMENTATION
@@ -40,7 +40,7 @@ int complex_from_string (complex_t *dst, const char *src, char *imunit);
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (void complex_init (complex_t *dst, gnum_float re, gnum_float im))
+GNUMERIC_COMPLEX_PROTO (void complex_init (complex_t *dst, gnm_float re, gnm_float im))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	dst->re = re;
@@ -50,7 +50,7 @@ GNUMERIC_COMPLEX_PROTO (void complex_init (complex_t *dst, gnum_float re, gnum_f
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (void complex_real (complex_t *dst, gnum_float re))
+GNUMERIC_COMPLEX_PROTO (void complex_real (complex_t *dst, gnm_float re))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	dst->re = re;
@@ -78,7 +78,7 @@ GNUMERIC_COMPLEX_PROTO (int complex_zero_p (const complex_t *src))
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (gnum_float complex_mod (const complex_t *src))
+GNUMERIC_COMPLEX_PROTO (gnm_float complex_mod (const complex_t *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	return hypotgnum (src->re, src->im);
@@ -87,7 +87,7 @@ GNUMERIC_COMPLEX_PROTO (gnum_float complex_mod (const complex_t *src))
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (gnum_float complex_angle (const complex_t *src))
+GNUMERIC_COMPLEX_PROTO (gnm_float complex_angle (const complex_t *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	return atan2gnum (src->im, src->re);
@@ -96,7 +96,7 @@ GNUMERIC_COMPLEX_PROTO (gnum_float complex_angle (const complex_t *src))
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (void complex_to_polar (gnum_float *mod, gnum_float *angle, const complex_t *src))
+GNUMERIC_COMPLEX_PROTO (void complex_to_polar (gnm_float *mod, gnm_float *angle, const complex_t *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	*mod = complex_mod (src);
@@ -106,7 +106,7 @@ GNUMERIC_COMPLEX_PROTO (void complex_to_polar (gnum_float *mod, gnum_float *angl
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (void complex_from_polar (complex_t *dst, gnum_float mod, gnum_float angle))
+GNUMERIC_COMPLEX_PROTO (void complex_from_polar (complex_t *dst, gnm_float mod, gnm_float angle))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst, mod * cosgnum (angle), mod * singnum (angle));
@@ -124,7 +124,7 @@ GNUMERIC_COMPLEX_PROTO (void complex_conj (complex_t *dst, const complex_t *src)
 
 /* ------------------------------------------------------------------------- */
 
-GNUMERIC_COMPLEX_PROTO (void complex_scale_real (complex_t *dst, gnum_float f))
+GNUMERIC_COMPLEX_PROTO (void complex_scale_real (complex_t *dst, gnm_float f))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	dst->re *= f;
@@ -166,7 +166,7 @@ GNUMERIC_COMPLEX_PROTO (void complex_mul (complex_t *dst, const complex_t *a, co
 GNUMERIC_COMPLEX_PROTO (void complex_div (complex_t *dst, const complex_t *a, const complex_t *b))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
-	gnum_float modsqr;
+	gnm_float modsqr;
 
 	modsqr = b->re * b->re + b->im * b->im;
 	complex_init (dst,

@@ -25,127 +25,127 @@ typedef struct {
 } discrete_random_tool_t;
 
 typedef struct {
-        gnum_float lower_limit;
-        gnum_float upper_limit;
+        gnm_float lower_limit;
+        gnm_float upper_limit;
 } uniform_random_tool_t;
 
 typedef struct {
-        gnum_float mean;
-        gnum_float stdev;
+        gnm_float mean;
+        gnm_float stdev;
 } normal_random_tool_t;
 
 typedef struct {
-        gnum_float p;
+        gnm_float p;
 } bernoulli_random_tool_t;
 
 typedef struct {
-        gnum_float a;
-        gnum_float b;
+        gnm_float a;
+        gnm_float b;
 } beta_random_tool_t;
 
 typedef struct {
-        gnum_float p;
+        gnm_float p;
         int     trials;
 } binomial_random_tool_t;
 
 typedef struct {
-        gnum_float p;
+        gnm_float p;
         int     f;
 } negbinom_random_tool_t;
 
 typedef struct {
-        gnum_float lambda;
+        gnm_float lambda;
 } poisson_random_tool_t;
 
 typedef struct {
-        gnum_float b;
+        gnm_float b;
 } exponential_random_tool_t;
 
 typedef struct {
-        gnum_float a;
-        gnum_float b;
+        gnm_float a;
+        gnm_float b;
 } exppow_random_tool_t;
 
 typedef struct {
-        gnum_float a;
+        gnm_float a;
 } cauchy_random_tool_t;
 
 typedef struct {
-        gnum_float nu;
+        gnm_float nu;
 } chisq_random_tool_t;
 
 typedef struct {
-        gnum_float zeta;
-        gnum_float sigma;
+        gnm_float zeta;
+        gnm_float sigma;
 } lognormal_random_tool_t;
 
 typedef struct {
-        gnum_float sigma;
+        gnm_float sigma;
 } rayleigh_random_tool_t;
 
 typedef struct {
-        gnum_float a;
-        gnum_float sigma;
+        gnm_float a;
+        gnm_float sigma;
 } rayleigh_tail_random_tool_t;
 
 typedef struct {
-        gnum_float c;
-        gnum_float alpha;
+        gnm_float c;
+        gnm_float alpha;
 } levy_random_tool_t;
 
 typedef struct {
-        gnum_float nu1;
-        gnum_float nu2;
+        gnm_float nu1;
+        gnm_float nu2;
 } fdist_random_tool_t;
 
 typedef struct {
-        gnum_float nu;
+        gnm_float nu;
 } tdist_random_tool_t;
 
 typedef struct {
-        gnum_float p;
+        gnm_float p;
 } logarithmic_random_tool_t;
 
 typedef struct {
-        gnum_float a;
-        gnum_float b;
+        gnm_float a;
+        gnm_float b;
 } pareto_random_tool_t;
 
 typedef struct {
-        gnum_float a;
+        gnm_float a;
 } logistic_random_tool_t;
 
 typedef struct {
-        gnum_float a;
-        gnum_float b;
+        gnm_float a;
+        gnm_float b;
 } gamma_random_tool_t;
 
 typedef struct {
-        gnum_float a;
-        gnum_float b;
+        gnm_float a;
+        gnm_float b;
 } weibull_random_tool_t;
 
 typedef struct {
-        gnum_float a;
+        gnm_float a;
 } laplace_random_tool_t;
 
 typedef struct {
-        gnum_float a;
-        gnum_float sigma;
+        gnm_float a;
+        gnm_float sigma;
 } gaussian_tail_random_tool_t;
 
 typedef struct {
-        gnum_float a;
-        gnum_float b;
+        gnm_float a;
+        gnm_float b;
 } gumbel_random_tool_t;
 
 typedef struct {
-        gnum_float p;
+        gnm_float p;
 } geometric_random_tool_t;
 
 /* typedef struct { */
-/*         gnum_float from, to; */
-/*         gnum_float step; */
+/*         gnm_float from, to; */
+/*         gnm_float step; */
 /*         int     repeat_number; */
 /*         int     repeat_sequence; */
 /* } patterned_random_tool_t; */

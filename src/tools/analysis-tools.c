@@ -90,7 +90,7 @@ cb_store_data (__attribute__((unused)) Sheet *sheet,
 	       __attribute__((unused)) int row, Cell *cell, void *user_data)
 {
 	data_set_t *data_set = (data_set_t *)user_data;
-	gnum_float the_data;
+	gnm_float the_data;
 
 	if (data_set->read_label) {
 		if (cell != NULL) {
@@ -135,7 +135,7 @@ new_data_set (Value *range, gboolean ignore_non_num, gboolean read_label,
 	CellPos cellpos = {0, 0};
 
 	pos = eval_pos_init (pos, sheet, &cellpos);
-	the_set->data = g_array_new (FALSE, FALSE, sizeof (gnum_float)),
+	the_set->data = g_array_new (FALSE, FALSE, sizeof (gnm_float)),
 	the_set->missing = NULL;
         the_set->label = NULL;
 	the_set->complete = !ignore_non_num;
@@ -338,9 +338,9 @@ strip_missing (GArray * data, GSList * missing)
 		return data;
 
 	sorted_missing = g_slist_sort (g_slist_copy (missing), cb_int_descending);;
-	new_data = g_array_new (FALSE, FALSE, sizeof (gnum_float));
+	new_data = g_array_new (FALSE, FALSE, sizeof (gnm_float));
 	g_array_set_size (new_data, data->len);
-	g_memmove (new_data->data, data->data, sizeof (gnum_float) * data->len);
+	g_memmove (new_data->data, data->data, sizeof (gnm_float) * data->len);
 	g_slist_foreach (sorted_missing, cb_remove_missing_el, &new_data);
 	g_slist_free (sorted_missing);
 
@@ -528,7 +528,7 @@ check_data_for_missing (GPtrArray *data)
 /***** Some general routines ***********************************************/
 
 static gint
-float_compare (const gnum_float *a, const gnum_float *b)
+float_compare (const gnm_float *a, const gnm_float *b)
 {
         if (*a < *b)
                 return -1;
@@ -538,14 +538,14 @@ float_compare (const gnum_float *a, const gnum_float *b)
                 return 1;
 }
 
-static gnum_float *
-range_sort (const gnum_float *xs, int n)
+static gnm_float *
+range_sort (const gnm_float *xs, int n)
 {
 	if (n <= 0)
 		return NULL;
 	else {
-		gnum_float *ys = g_new (gnum_float, n);
-		memcpy (ys, xs, n * sizeof (gnum_float));
+		gnm_float *ys = g_new (gnm_float, n);
+		memcpy (ys, xs, n * sizeof (gnm_float));
 		qsort (ys, n, sizeof (ys[0]),
 		       (int (*) (const void *, const void *))&float_compare);
 		return ys;
@@ -609,12 +609,12 @@ static Value *
 WriteData_ForeachCellCB (Sheet *sheet, int col, int row,
 			      Cell *cell, GArray* data)
 {
-	gnum_float  x;
+	gnm_float  x;
 	if (data->len == 0)
 		return VALUE_TERMINATE;
 	if (cell == NULL)
 		cell = sheet_cell_new (sheet, col, row);
-	x = g_array_index (data, gnum_float, 0);
+	x = g_array_index (data, gnm_float, 0);
 	g_array_remove_index (data, 0);
 	sheet_cell_set_value (cell, value_new_float (x));
 	return NULL;
@@ -698,7 +698,7 @@ analysis_tool_correlation_engine_run (data_analysis_output_t *dao,
 	GPtrArray *data = NULL;
 	guint col, row;
 	int error;
-	gnum_float x;
+	gnm_float x;
 	data_set_t *col_data, *row_data;
 	GArray *clean_col_data, *clean_row_data;
 	GSList *missing;
@@ -732,8 +732,8 @@ analysis_tool_correlation_engine_run (data_analysis_output_t *dao,
 									missing);
 					g_slist_free (missing);
 					error =  range_correl_pop
-						((gnum_float *)(clean_col_data->data),
-						 (gnum_float *)(clean_row_data->data),
+						((gnm_float *)(clean_col_data->data),
+						 (gnm_float *)(clean_row_data->data),
 						 clean_col_data->len, &x);
 					if (clean_col_data != col_data->data)
 						g_array_free (clean_col_data, TRUE);
@@ -808,7 +808,7 @@ analysis_tool_covariance_engine_run (data_analysis_output_t *dao,
 	GPtrArray *data = NULL;
 	guint col, row;
 	int error;
-	gnum_float x;
+	gnm_float x;
 	data_set_t *col_data, *row_data;
 	GArray *clean_col_data, *clean_row_data;
 	GSList *missing;
@@ -842,8 +842,8 @@ analysis_tool_covariance_engine_run (data_analysis_output_t *dao,
 									missing);
 					g_slist_free (missing);
 					error =  range_covar
-						((gnum_float *)(clean_col_data->data),
-						 (gnum_float *)(clean_row_data->data),
+						((gnm_float *)(clean_col_data->data),
+						 (gnm_float *)(clean_row_data->data),
 						 clean_col_data->len, &x);
 					if (clean_col_data != col_data->data)
 						g_array_free (clean_col_data, TRUE);
@@ -913,9 +913,9 @@ analysis_tool_covariance_engine (data_analysis_output_t *dao, gpointer specs,
  **/
 
 typedef struct {
-	gnum_float mean;
+	gnm_float mean;
 	gint       error_mean;
-	gnum_float var;
+	gnm_float var;
 	gint       error_var;
 	gint      len;
 } desc_stats_t;
@@ -951,9 +951,9 @@ summary_statistics (GPtrArray *data,
 
 	for (col = 0; col < data->len; col++) {
 		data_set_t *the_col = (g_ptr_array_index (data, col));
-		const gnum_float *the_data = (gnum_float *)the_col->data->data;
+		const gnm_float *the_data = (gnm_float *)the_col->data->data;
 		int the_col_len = the_col->data->len;
-		gnum_float x, xmin, xmax;
+		gnm_float x, xmin, xmax;
 		int error, error2;
 	        desc_stats_t info = g_array_index (basic_stats, desc_stats_t, col);
 
@@ -1012,10 +1012,10 @@ summary_statistics (GPtrArray *data,
 }
 
 static void
-confidence_level (GPtrArray *data, gnum_float c_level,
+confidence_level (GPtrArray *data, gnm_float c_level,
 		  data_analysis_output_t *dao, GArray *basic_stats)
 {
-        gnum_float x;
+        gnm_float x;
         guint col;
 	char *buffer;
 	char *format;
@@ -1055,7 +1055,7 @@ static void
 kth_largest (GPtrArray *data, int k,
 	     data_analysis_output_t *dao)
 {
-        gnum_float x;
+        gnm_float x;
         guint col;
 	gint error;
 	data_set_t *the_col;
@@ -1068,7 +1068,7 @@ kth_largest (GPtrArray *data, int k,
 		the_col = g_ptr_array_index (data, col);
 		dao_set_cell_printf (dao, col + 1, 0, the_col->label);
 		dao_set_italic (dao, col+1, 0, col+1, 0);
-		error = range_min_k_nonconst ((gnum_float *)(the_col->data->data),
+		error = range_min_k_nonconst ((gnm_float *)(the_col->data->data),
 					      the_col->data->len, &x, the_col->data->len - k);
 		dao_set_cell_float_na (dao, col + 1, 1, x, error == 0);
 	}
@@ -1078,7 +1078,7 @@ static void
 kth_smallest (GPtrArray  *data, int k,
 	      data_analysis_output_t *dao)
 {
-        gnum_float x;
+        gnm_float x;
         guint col;
 	gint error;
 	data_set_t *the_col;
@@ -1091,7 +1091,7 @@ kth_smallest (GPtrArray  *data, int k,
 		the_col = g_ptr_array_index (data, col);
 		dao_set_cell_printf (dao,  col + 1, 0, the_col->label);
 		dao_set_italic (dao, col+1, 0, col+1, 0);
-		error = range_min_k_nonconst ((gnum_float *)(the_col->data->data),
+		error = range_min_k_nonconst ((gnm_float *)(the_col->data->data),
 					      the_col->data->len, &x, k - 1);
 		dao_set_cell_float_na (dao, col + 1, 1, x, error == 0);
 	}
@@ -1109,7 +1109,7 @@ analysis_tool_descriptive_engine_run (data_analysis_output_t *dao,
 	data_set_t    *the_col;
         desc_stats_t  local_info;
 	guint         col;
-	const gnum_float *the_data;
+	const gnm_float *the_data;
 
 	data = new_data_set_list (info->base.input, info->base.group_by,
 				  TRUE, info->base.labels, dao->sheet);
@@ -1118,7 +1118,7 @@ analysis_tool_descriptive_engine_run (data_analysis_output_t *dao,
 		basic_stats = g_array_new (FALSE, FALSE, sizeof (desc_stats_t));
 		for (col = 0; col < data->len; col++) {
 			the_col = g_ptr_array_index (data, col);
-			the_data = (gnum_float *)the_col->data->data;
+			the_data = (gnm_float *)the_col->data->data;
                         local_info.len = the_col->data->len;
 			local_info.error_mean = range_average 
 				(the_data, local_info.len, &(local_info.mean));
@@ -1217,7 +1217,7 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 	guint i, j, data_len;
 	guint n_sample;
 	guint n_data;
-	gnum_float x;
+	gnm_float x;
 
 	data = new_data_set_list (info->base.input, info->base.group_by,
 				  TRUE, info->base.labels, dao->sheet);
@@ -1225,9 +1225,9 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 	for (n_data = 0; n_data < data->len; n_data++) {
 		for (n_sample = 0; n_sample < info->number; n_sample++) {
 			GArray * sample = g_array_new (FALSE, FALSE,
-						       sizeof (gnum_float));
+						       sizeof (gnm_float));
 			GArray * this_data = g_array_new (FALSE, FALSE,
-							  sizeof (gnum_float));
+							  sizeof (gnm_float));
 			data_set_t * this_data_set;
 
 			this_data_set = g_ptr_array_index (data, n_data);
@@ -1239,7 +1239,7 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 
 			g_array_set_size (this_data, data_len);
 			g_memmove (this_data->data, this_data_set->data->data,
-				   sizeof (gnum_float) * data_len);
+				   sizeof (gnm_float) * data_len);
 
 			if (info->periodic) {
 				if ((info->size < 0) || (info->size > data_len)) {
@@ -1249,7 +1249,7 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 					return TRUE;
 				}
 				for (i = info->size - 1; i < data_len; i += info->size) {
-					x = g_array_index (this_data, gnum_float, i);
+					x = g_array_index (this_data, gnm_float, i);
 					g_array_append_val (sample, x);
 				}
 				write_data (info->base.wbc, dao, sample);
@@ -1262,7 +1262,7 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 					random_index = random_01 () * data_len;
 					if (random_index == data_len)
 						random_index--;
-					x = g_array_index (this_data, gnum_float, random_index);
+					x = g_array_index (this_data, gnm_float, random_index);
 					g_array_remove_index_fast (this_data, random_index);
 					g_array_append_val (sample, x);
 					data_len--;
@@ -1332,7 +1332,7 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 	data_set_t *variable_1;
 	data_set_t *variable_2;
 	gboolean no_error;
-	gnum_float mean_1 = 0, mean_2 = 0, z = 0, p = 0;
+	gnm_float mean_1 = 0, mean_2 = 0, z = 0, p = 0;
 	gint mean_error_1 = 0, mean_error_2 = 0;
 
 	variable_1 = new_data_set (info->base.range_1, TRUE, info->base.labels,
@@ -1352,9 +1352,9 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 					"/P (Z<=z) two-tail"
 					"/z Critical two-tail"));
 
-	mean_error_1 = range_average ((const gnum_float *) variable_1->data->data,
+	mean_error_1 = range_average ((const gnm_float *) variable_1->data->data,
 				      variable_1->data->len, &mean_1);
-	mean_error_2 = range_average ((const gnum_float *) variable_2->data->data,
+	mean_error_2 = range_average ((const gnm_float *) variable_2->data->data,
 				      variable_2->data->len, &mean_2);
 	no_error = (mean_error_1 == 0) && (mean_error_2 == 0);
 
@@ -1463,12 +1463,12 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 	GArray * cleaned_variable_2;
 	GSList *missing;
 	GArray * difference;
-	gnum_float     *current_1, *current_2;
+	gnm_float     *current_1, *current_2;
 	guint i;
 	gint mean_error_1 = 0, mean_error_2 = 0, var_error_1 = 0, var_error_2 = 0;
 	gint error = 0, mean_diff_error = 0, var_diff_error = 0;
-	gnum_float    mean_1 = 0, mean_2 = 0;
-	gnum_float    pearson, var_1, var_2, t = 0, p = 0, df, var_diff = 0, mean_diff = 0;
+	gnm_float    mean_1 = 0, mean_2 = 0;
+	gnm_float    pearson, var_1, var_2, t = 0, p = 0, df, var_diff = 0, mean_diff = 0;
 
 	variable_1 = new_data_set (info->base.range_1, TRUE, info->base.labels,
 				   _("Variable %i"), 1, dao->sheet);
@@ -1500,35 +1500,35 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 					"/P (T<=t) two-tail"
 					"/t Critical two-tail"));
 
-	current_1 = (gnum_float *)cleaned_variable_1->data;
-	current_2 = (gnum_float *)cleaned_variable_2->data;
-	difference = g_array_new (FALSE, FALSE, sizeof (gnum_float));
+	current_1 = (gnm_float *)cleaned_variable_1->data;
+	current_2 = (gnm_float *)cleaned_variable_2->data;
+	difference = g_array_new (FALSE, FALSE, sizeof (gnm_float));
 	for (i = 0; i < cleaned_variable_1->len; i++) {
-		gnum_float diff;
+		gnm_float diff;
 		diff = *current_1  - *current_2;
 		current_1++;
 		current_2++;
 		g_array_append_val (difference, diff);
 	}
 
-	mean_error_1 = range_average ((const gnum_float *) cleaned_variable_1->data,
+	mean_error_1 = range_average ((const gnm_float *) cleaned_variable_1->data,
 				      cleaned_variable_1->len, &mean_1);
-	mean_error_2 = range_average ((const gnum_float *) cleaned_variable_2->data,
+	mean_error_2 = range_average ((const gnm_float *) cleaned_variable_2->data,
 				      cleaned_variable_2->len, &mean_2);
-	mean_diff_error = range_average ((const gnum_float *) difference->data,
+	mean_diff_error = range_average ((const gnm_float *) difference->data,
 					 difference->len, &info->mean_diff);
 
 	if (mean_error_1 == 0)
 		var_error_1 = range_var_est (
-			(const gnum_float *)cleaned_variable_1->data,
+			(const gnm_float *)cleaned_variable_1->data,
 			cleaned_variable_1->len , &var_1);
 	if (mean_error_2 == 0)
 		var_error_2 = range_var_est (
-			(const gnum_float *) cleaned_variable_2->data,
+			(const gnm_float *) cleaned_variable_2->data,
 			cleaned_variable_2->len , &var_2);
 	if (mean_diff_error == 0)
 		var_diff_error = range_var_est (
-			(const gnum_float *) difference->data,
+			(const gnm_float *) difference->data,
 			difference->len , &var_diff);
 	else
 		var_diff_error = 99;
@@ -1560,8 +1560,8 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 
 	/* Pearson Correlation */
 	error =  range_correl_pop
-		((gnum_float *)(cleaned_variable_1->data),
-		 (gnum_float *)(cleaned_variable_2->data),
+		((gnm_float *)(cleaned_variable_1->data),
+		 (gnm_float *)(cleaned_variable_2->data),
 		 cleaned_variable_1->len, &pearson);
 	dao_set_cell_float_na (dao, 1, 4, pearson, error == 0);
 
@@ -1641,8 +1641,8 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 	data_set_t *variable_1;
 	data_set_t *variable_2;
 	gboolean no_error;
-	gnum_float mean_1 = 0, mean_2 = 0, var_1 = 0, var_2 = 0;
-	gnum_float t = 0, p = 0, var = 0;
+	gnm_float mean_1 = 0, mean_2 = 0, var_1 = 0, var_2 = 0;
+	gnm_float t = 0, p = 0, var = 0;
 	gint df;
 	gint mean_error_1 = 0, mean_error_2 = 0, var_error_1 = 0, var_error_2 = 0;
 
@@ -1665,18 +1665,18 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 					"/P (T<=t) two-tail"
 					"/t Critical two-tail"));
 
-	mean_error_1 = range_average ((const gnum_float *) variable_1->data->data,
+	mean_error_1 = range_average ((const gnm_float *) variable_1->data->data,
 				      variable_1->data->len, &mean_1);
-	mean_error_2 = range_average ((const gnum_float *) variable_2->data->data,
+	mean_error_2 = range_average ((const gnm_float *) variable_2->data->data,
 				      variable_2->data->len, &mean_2);
 
 	if (mean_error_1 == 0)
 		var_error_1 = range_var_est (
-			(const gnum_float *)variable_1->data->data,
+			(const gnm_float *)variable_1->data->data,
 			variable_1->data->len , &var_1);
 	if (mean_error_2 == 0)
 		var_error_2 = range_var_est (
-			(const gnum_float *) variable_2->data->data,
+			(const gnm_float *) variable_2->data->data,
 			variable_2->data->len , &var_2);
 
 	df = variable_1->data->len + variable_2->data->len - 2;
@@ -1783,9 +1783,9 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 	data_set_t *variable_1;
 	data_set_t *variable_2;
 	gboolean no_error;
-	gnum_float mean_1 = 0, mean_2 = 0, var_1 = 0, var_2 = 0;
-	gnum_float t = 0, p = 0, c = 0;
-	gnum_float df = 0;
+	gnm_float mean_1 = 0, mean_2 = 0, var_1 = 0, var_2 = 0;
+	gnm_float t = 0, p = 0, c = 0;
+	gnm_float df = 0;
 	gint mean_error_1 = 0, mean_error_2 = 0, var_error_1 = 0, var_error_2 = 0;
 
 	variable_1 = new_data_set (info->base.range_1, TRUE, info->base.labels,
@@ -1806,18 +1806,18 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 					"/P (T<=t) two-tail"
 					"/t Critical two-tail"));
 
-	mean_error_1 = range_average ((const gnum_float *) variable_1->data->data,
+	mean_error_1 = range_average ((const gnm_float *) variable_1->data->data,
 				      variable_1->data->len, &mean_1);
-	mean_error_2 = range_average ((const gnum_float *) variable_2->data->data,
+	mean_error_2 = range_average ((const gnm_float *) variable_2->data->data,
 				      variable_2->data->len, &mean_2);
 
 	if (mean_error_1 == 0)
 		var_error_1 = range_var_est (
-			(const gnum_float *)variable_1->data->data,
+			(const gnm_float *)variable_1->data->data,
 			variable_1->data->len , &var_1);
 	if (mean_error_2 == 0)
 		var_error_2 = range_var_est (
-			(const gnum_float *) variable_2->data->data,
+			(const gnm_float *) variable_2->data->data,
 			variable_2->data->len , &var_2);
 
 	no_error = ((mean_error_1 == 0) && (mean_error_2 == 0) &&
@@ -1932,10 +1932,10 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 	int result = 0;
 	gboolean calc_error = FALSE;
 
-	gnum_float    mean_1 = 0, mean_2 = 0, var_1 = 0, var_2 = 0, f = 0;
-	gnum_float  p_right_tail = 0, q_right_tail = 0;
-	gnum_float  p_left_tail = 0, q_left_tail = 0;
-	gnum_float  p_2_tail = 0, q_2_tail_right = 0, q_2_tail_left = 0;
+	gnm_float    mean_1 = 0, mean_2 = 0, var_1 = 0, var_2 = 0, f = 0;
+	gnm_float  p_right_tail = 0, q_right_tail = 0;
+	gnm_float  p_left_tail = 0, q_left_tail = 0;
+	gnm_float  p_2_tail = 0, q_2_tail_right = 0, q_2_tail_left = 0;
 	gint  df_1= 0, df_2 = 0;
 	gint mean_error_1, mean_error_2, var_error_1 = 0, var_error_2 = 0;
 
@@ -1969,18 +1969,18 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 					"/P two-tail"
 					"/F Critical two-tail"));
 	
-	mean_error_1 = range_average ((const gnum_float *) variable_1->data->data,
+	mean_error_1 = range_average ((const gnm_float *) variable_1->data->data,
 				      variable_1->data->len, &mean_1);
-	mean_error_2 = range_average ((const gnum_float *) variable_2->data->data,
+	mean_error_2 = range_average ((const gnm_float *) variable_2->data->data,
 				      variable_2->data->len, &mean_2);
 	
 	if (mean_error_1 == 0)
 		var_error_1 = range_var_est (
-			(const gnum_float *)variable_1->data->data,
+			(const gnm_float *)variable_1->data->data,
 			variable_1->data->len , &var_1);
 	if (mean_error_2 == 0)
 		var_error_2 = range_var_est (
-			(const gnum_float *) variable_2->data->data,
+			(const gnm_float *) variable_2->data->data,
 			variable_2->data->len , &var_2);
 	
 	df_1 = variable_1->data->len - 1;
@@ -2133,8 +2133,8 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	char         *text          = NULL;
 	char         *format;
 	regression_stat_t   *regression_stat = NULL;
-	gnum_float   r;
-	gnum_float   *res,  **xss;
+	gnm_float   r;
+	gnm_float   *res,  **xss;
 	int          i;
 	int          xdim;
 	RegressionResult regerr;
@@ -2183,17 +2183,17 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	}
 
 	/* data is now clean and ready */
-	xss = g_new (gnum_float *, xdim);
-	res = g_new (gnum_float, xdim + 1);
+	xss = g_new (gnm_float *, xdim);
+	res = g_new (gnm_float, xdim + 1);
 
 	for (i = 0; i < xdim; i++) {
-		xss[i] = (gnum_float *)(((data_set_t *)g_ptr_array_index
+		xss[i] = (gnm_float *)(((data_set_t *)g_ptr_array_index
 					 (x_data, i))->data->data);
 	}
 
 	regression_stat = regression_stat_new ();
 	regerr = linear_regression (xss, xdim,
-				    (gnum_float *)(y_data->data->data),
+				    (gnm_float *)(y_data->data->data),
 				    y_data->data->len,
 				    info->intercept, res, regression_stat);
 
@@ -2293,7 +2293,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 			      _("Probability of an observation's absolute value being larger than the t-value's"));
 
 	if (xdim == 1)
-		cor_err =  range_correl_pop (xss[0], (gnum_float *)(y_data->data->data),
+		cor_err =  range_correl_pop (xss[0], (gnm_float *)(y_data->data->data),
 					     y_data->data->len, &r);
 	else r = sqrtgnum (regression_stat->sqr_r);
 
@@ -2354,14 +2354,14 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 
 	/* i==-1 is for intercept, i==0... is for slopes.  */
 	for (i = -info->intercept; i < xdim; i++) {
-		gnum_float this_res = res[i + 1];
+		gnm_float this_res = res[i + 1];
 		/*
 		 * With no intercept se[0] is for the first slope variable;
 		 * with intercept, se[1] is the first slope se
 		 */
-		gnum_float this_se = regression_stat->se[info->intercept + i];
-		gnum_float this_tval = regression_stat->t[info->intercept + i];
-		gnum_float t, P;
+		gnm_float this_se = regression_stat->se[info->intercept + i];
+		gnm_float this_tval = regression_stat->t[info->intercept + i];
+		gnm_float t, P;
 
 		/* Coefficient */
 		dao_set_cell_float (dao, 1, 17 + i, this_res);
@@ -2459,18 +2459,18 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 	GPtrArray     *data;
 	guint         dataset;
 	gint          col = 0;
-	gnum_float    *prev, *prev_av;
+	gnm_float    *prev, *prev_av;
 
 	data = new_data_set_list (info->base.input, info->base.group_by,
 				  TRUE, info->base.labels, dao->sheet);
 
-	prev = g_new (gnum_float, info->interval);
-	prev_av = g_new (gnum_float, info->interval);
+	prev = g_new (gnm_float, info->interval);
+	prev_av = g_new (gnm_float, info->interval);
 
 	for (dataset = 0; dataset < data->len; dataset++) {
 		data_set_t    *current;
-		gnum_float    sum;
-		gnum_float    std_err;
+		gnm_float    sum;
+		gnm_float    std_err;
 		gint         row;
 		int           add_cursor, del_cursor;
 
@@ -2485,7 +2485,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 
 		for (row = 0; row < info->interval - 1; row++) {
 			prev[add_cursor] = g_array_index
-				(current->data, gnum_float, row);
+				(current->data, gnm_float, row);
 			sum += prev[add_cursor];
 			++add_cursor;
 			dao_set_cell_na (dao, col, row + 1);
@@ -2494,7 +2494,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 		}
 		for (row = info->interval - 1; row < (gint)current->data->len; row++) {
 			prev[add_cursor] = g_array_index
-				(current->data, gnum_float, row);
+				(current->data, gnm_float, row);
 			sum += prev[add_cursor];
 			prev_av[add_cursor] = sum / info->interval;
 			dao_set_cell_float (dao, col, row + 1, prev_av[add_cursor]);
@@ -2596,7 +2596,7 @@ analysis_tool_exponential_smoothing_engine_run (data_analysis_output_t *dao,
 
 	for (dataset = 0; dataset < data->len; dataset++) {
 		data_set_t    *current;
-		gnum_float    a, f, F[2] = { 0, 0 }, A[2] = { 0, 0 };
+		gnm_float    a, f, F[2] = { 0, 0 }, A[2] = { 0, 0 };
 		guint         row;
 
 		current = g_ptr_array_index (data, dataset);
@@ -2621,9 +2621,9 @@ analysis_tool_exponential_smoothing_engine_run (data_analysis_output_t *dao,
 							 row + 1);
 			} else {
 			        if (info->std_error_flag) {
-				        gnum_float m1 = a - f;
-					gnum_float m2 = A[0] - F[0];
-					gnum_float m3 = A[1] - F[1];
+				        gnm_float m1 = a - f;
+					gnm_float m2 = A[0] - F[0];
+					gnm_float m3 = A[1] - F[1];
 
 					if (row < 4)
 					        dao_set_cell_na (dao,
@@ -2651,7 +2651,7 @@ analysis_tool_exponential_smoothing_engine_run (data_analysis_output_t *dao,
 				dao_set_cell_float (dao, dataset, row + 1, f);
 
 			}
-			a = g_array_index (current->data, gnum_float, row);
+			a = g_array_index (current->data, gnm_float, row);
 		}
 	}
 	dao_set_italic (dao, 0, 0, data->len - 1, 0);
@@ -2707,7 +2707,7 @@ typedef struct {
         int     rank;
         int     same_rank_count;
         int     point;
-        gnum_float x;
+        gnm_float x;
 } rank_t;
 
 static gint
@@ -2747,7 +2747,7 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 		rank = g_new (rank_t, this_data_set->data->len);
 
 		for (i = 0; i < this_data_set->data->len; i++) {
-		        gnum_float x = g_array_index (this_data_set->data, gnum_float, i);
+		        gnm_float x = g_array_index (this_data_set->data, gnm_float, i);
 
 			rank[i].point = i + 1;
 			rank[i].x = x;
@@ -2755,7 +2755,7 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 			rank[i].same_rank_count = -1;
 
 			for (j = 0; j < this_data_set->data->len; j++) {
-			        gnum_float y = g_array_index (this_data_set->data, gnum_float, j);
+			        gnm_float y = g_array_index (this_data_set->data, gnm_float, j);
 				if (y > x)
 				        rank[i].rank++;
 				else if (y == x)
@@ -2843,11 +2843,11 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 	guint index, i;
 	gint error;
 	gint N = 0;
-	gnum_float ss_b, ss_w, ss_t;
-	gnum_float ms_b, ms_w, f = 0.0, p = 0.0, f_c = 0.0;
-	gnum_float overall_mean;
-	gnum_float *treatment_mean = NULL;
-	gnum_float *ss_terms = NULL;
+	gnm_float ss_b, ss_w, ss_t;
+	gnm_float ms_b, ms_w, f = 0.0, p = 0.0, f_c = 0.0;
+	gnm_float overall_mean;
+	gnm_float *treatment_mean = NULL;
+	gnm_float *ss_terms = NULL;
 	int        df_b, df_w, df_t;
 
 	prepare_input_range (&info->base.input, info->base.group_by);
@@ -2870,14 +2870,14 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 		goto finish_anova_single_factor_tool;
 
 	/* SUMMARY & ANOVA calculation*/
-	treatment_mean = g_new (gnum_float, data->len);
+	treatment_mean = g_new (gnm_float, data->len);
 	for (index = 0; index < data->len; index++) {
-		gnum_float x;
+		gnm_float x;
 		data_set_t *current_data;
-		gnum_float *the_data;
+		gnm_float *the_data;
 
 		current_data = g_ptr_array_index (data, index);
-		the_data = (gnum_float *)current_data->data->data;
+		the_data = (gnm_float *)current_data->data->data;
 
 		/* Label */
 		dao_set_cell_printf (dao, 0, index, current_data->label);
@@ -2930,10 +2930,10 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 	df_t = N - 1;
 
 	error = range_average (treatment_mean, data->len, &overall_mean);
-	ss_terms = g_new (gnum_float, data->len);
+	ss_terms = g_new (gnm_float, data->len);
 	for (index = 0; index < data->len; index++) {
 		data_set_t *current_data = g_ptr_array_index (data, index);
-		gnum_float diff = treatment_mean[index] - overall_mean;
+		gnm_float diff = treatment_mean[index] - overall_mean;
 
 		ss_terms[index] = current_data->data->len * (diff * diff);
 	}
@@ -2941,11 +2941,11 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 
 	for (index = 0; index < data->len; index++) {
 		data_set_t *current_data = g_ptr_array_index (data, index);
-		gnum_float *the_data = (gnum_float *)current_data->data->data;
+		gnm_float *the_data = (gnm_float *)current_data->data->data;
 
 		ss_terms[index] = 0;
 		for (i = 0; i < current_data->data->len; i++) {
-			gnum_float diff = the_data[i] - treatment_mean[index];
+			gnm_float diff = the_data[i] - treatment_mean[index];
 			ss_terms[index] += diff * diff;
 		}
 	}
@@ -3100,9 +3100,9 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 	int        i, n, error;
 	int        cols;
 	int        rows;
-	gnum_float    cm,  sum = 0;
-	gnum_float    ss_r = 0, ss_c = 0, ss_e = 0, ss_t = 0;
-	gnum_float    ms_r, ms_c, ms_e, f1, f2, p1, p2, f1_c, f2_c;
+	gnm_float    cm,  sum = 0;
+	gnm_float    ss_r = 0, ss_c = 0, ss_e = 0, ss_t = 0;
+	gnm_float    ms_r, ms_c, ms_e, f1, f2, p1, p2, f1_c, f2_c;
 	int        df_r, df_c, df_e, df_t;
 
 
@@ -3131,12 +3131,12 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 					"/Variance"));
 
 	for (i = 0; i < rows; i++) {
-	        gnum_float v;
+	        gnm_float v;
 		data_set_t *data_set;
-		gnum_float *the_data;
+		gnm_float *the_data;
 
 		data_set = (data_set_t *)g_ptr_array_index (row_data, i);
-		the_data = (gnum_float *)data_set->data->data;
+		the_data = (gnm_float *)data_set->data->data;
 
 		dao_set_cell (dao, 0, i + 3, data_set->label);
 		dao_set_cell_int (dao, 1, i + 3, data_set->data->len);
@@ -3154,12 +3154,12 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 	}
 
 	for (i = 0; i < cols; i++) {
-	        gnum_float v;
+	        gnm_float v;
 		data_set_t *data_set;
-		gnum_float *the_data;
+		gnm_float *the_data;
 
 		data_set = (data_set_t *)g_ptr_array_index (col_data, i);
-		the_data = (gnum_float *)data_set->data->data;
+		the_data = (gnm_float *)data_set->data->data;
 
 		dao_set_cell (dao, 0, i + 4 + rows, data_set->label);
 		dao_set_cell_int (dao, 1, i + 4 + rows, data_set->data->len);
@@ -3273,11 +3273,11 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 	GPtrArray *row_data = NULL;
 	Value *input_cp;
 	gint df_r, df_c, df_rc, df_e, df_total;
-	gnum_float ss_r = 0.0, ss_c = 0.0, ss_rc = 0.0, ss_e = 0.0, ss_total = 0.0;
-	gnum_float ms_r, ms_c, ms_rc, ms_e;
-	gnum_float f_r, f_c, f_rc;
-	gnum_float p_r, p_c, p_rc;
-	gnum_float cm = 0.0;
+	gnm_float ss_r = 0.0, ss_c = 0.0, ss_rc = 0.0, ss_e = 0.0, ss_total = 0.0;
+	gnm_float ms_r, ms_c, ms_rc, ms_e;
+	gnm_float f_r, f_c, f_rc;
+	gnm_float p_r, p_c, p_rc;
+	gnm_float cm = 0.0;
 	guint max_sample_size = 0;
 	guint missing_observations = 0;
 	gboolean empty_sample = FALSE;
@@ -3386,20 +3386,20 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 
 	for (i_r = 0; i_r < info->n_r; i_r++) {
 		GPtrArray *data = NULL;
-		gnum_float row_sum = 0.0;
-		gnum_float row_sum_sq = 0.0;
+		gnm_float row_sum = 0.0;
+		gnm_float row_sum_sq = 0.0;
 		guint row_cnt = 0;
 
 		data = g_ptr_array_index (row_data, i_r);
 		for (i_c = 0; i_c < info->n_c; i_c++) {
 			data_set_t *cell_data;
-			gnum_float v;
+			gnm_float v;
 			int error;
 			int num;
-			gnum_float *the_data;
+			gnm_float *the_data;
 
 			cell_data = g_ptr_array_index (data, i_c);
-			the_data = (gnum_float *)cell_data->data->data;
+			the_data = (gnm_float *)cell_data->data->data;
 			num = cell_data->data->len;
 			row_cnt += num;
 
@@ -3428,20 +3428,20 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 	}
 
 	for (i_c = 0; i_c < info->n_c; i_c++) {
-		gnum_float col_sum = 0.0;
-		gnum_float col_sum_sq = 0.0;
+		gnm_float col_sum = 0.0;
+		gnm_float col_sum_sq = 0.0;
 		guint col_cnt = 0;
 
 		for (i_r = 0; i_r < info->n_r; i_r++) {
 			data_set_t *cell_data;
-			gnum_float v;
+			gnm_float v;
 			int error;
-			gnum_float *the_data;
+			gnm_float *the_data;
 			GPtrArray *data = NULL;
 
 			data = g_ptr_array_index (row_data, i_r);
 			cell_data = g_ptr_array_index (data, i_c);
-			the_data = (gnum_float *)cell_data->data->data;
+			the_data = (gnm_float *)cell_data->data->data;
 
 			col_cnt += cell_data->data->len;
 			error = range_sum (the_data, cell_data->data->len, &v);
@@ -3490,10 +3490,10 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 				cell_data = g_ptr_array_index (data, i_c);
 				num = cell_data->data->len;
 				if (num < max_sample_size) {
-					gnum_float *the_data, v;
+					gnm_float *the_data, v;
 					guint i;
 
-					the_data = (gnum_float *)cell_data->data->data;
+					the_data = (gnm_float *)cell_data->data->data;
 					error = range_average (the_data, num, &v);
 					for (i = num; i < max_sample_size; i++)
 						g_array_append_val (cell_data->data, v);
@@ -3512,20 +3512,20 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 
 		for (i_r = 0; i_r < info->n_r; i_r++) {
 			GPtrArray *data = NULL;
-			gnum_float row_sum = 0.0;
-			gnum_float row_sum_sq = 0.0;
+			gnm_float row_sum = 0.0;
+			gnm_float row_sum_sq = 0.0;
 			guint row_cnt = 0;
 
 			data = g_ptr_array_index (row_data, i_r);
 			for (i_c = 0; i_c < info->n_c; i_c++) {
 				data_set_t *cell_data;
-				gnum_float v;
+				gnm_float v;
 				int error;
 				int num;
-				gnum_float *the_data;
+				gnm_float *the_data;
 
 				cell_data = g_ptr_array_index (data, i_c);
-				the_data = (gnum_float *)cell_data->data->data;
+				the_data = (gnm_float *)cell_data->data->data;
 				num = cell_data->data->len;
 				row_cnt += num;
 
@@ -3543,19 +3543,19 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 		}
 
 		for (i_c = 0; i_c < info->n_c; i_c++) {
-			gnum_float col_sum = 0.0;
+			gnm_float col_sum = 0.0;
 			guint col_cnt = 0;
 
 			for (i_r = 0; i_r < info->n_r; i_r++) {
 				data_set_t *cell_data;
-				gnum_float v;
+				gnm_float v;
 				int error;
-				gnum_float *the_data;
+				gnm_float *the_data;
 				GPtrArray *data = NULL;
 
 				data = g_ptr_array_index (row_data, i_r);
 				cell_data = g_ptr_array_index (data, i_c);
-				the_data = (gnum_float *)cell_data->data->data;
+				the_data = (gnm_float *)cell_data->data->data;
 
 				col_cnt += cell_data->data->len;
 				error = range_sum (the_data, cell_data->data->len, &v);
@@ -3708,7 +3708,7 @@ analysis_tool_anova_two_factor_engine (data_analysis_output_t *dao, gpointer spe
  **/
 
 typedef struct {
-	gnum_float limit;
+	gnm_float limit;
 	GArray     *counts;
 	char       *label;
 	gboolean   strict;
@@ -3720,7 +3720,7 @@ typedef struct {
 static gint
 bin_compare (const bin_t *set_a, const bin_t *set_b)
 {
-	gnum_float a, b;
+	gnm_float a, b;
 
 	a = set_a->limit;
 	b = set_b->limit;
@@ -3736,13 +3736,13 @@ bin_compare (const bin_t *set_a, const bin_t *set_b)
 static gint
 bin_pareto_at_i (const bin_t *set_a, const bin_t *set_b, guint index)
 {
-	gnum_float a, b;
+	gnm_float a, b;
 
 	if (set_a->counts->len <= index)
 		return 0;
 
-	a = g_array_index (set_a->counts, gnum_float, index);
-	b = g_array_index (set_b->counts, gnum_float, index);
+	a = g_array_index (set_a->counts, gnm_float, index);
+	b = g_array_index (set_b->counts, gnm_float, index);
 
         if (a > b)
                 return -1;
@@ -3775,7 +3775,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 	bin_t  *a_bin;
 	guint  i, j, row, col;
 	GSList * this;
-	gnum_float *this_value;
+	gnm_float *this_value;
 
 
 	data = new_data_set_list (info->input, info->group_by,
@@ -3787,8 +3787,8 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 			a_bin = g_new (bin_t, 1);
 			a_bin->limit = g_array_index (
 				((data_set_t *)g_ptr_array_index ((*bin_data), i))->data,
-				gnum_float, 0);
-			a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnum_float));
+				gnm_float, 0);
+			a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnm_float));
 			a_bin->counts = g_array_set_size (a_bin->counts, data->len);
 			a_bin->label = ((data_set_t *)g_ptr_array_index ((*bin_data), i))->label;
 			a_bin->destroy_label = FALSE;
@@ -3800,7 +3800,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		bin_list = g_slist_sort (bin_list,
 					 (GCompareFunc) bin_compare);
 	} else {
-		gnum_float skip;
+		gnm_float skip;
 		gboolean value_set;
 		char        *text;
 		Value       *val;
@@ -3809,9 +3809,9 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 			value_set = FALSE;
 			for (i = 0; i < data->len; i++) {
 				GArray * the_data;
-				gnum_float a_max;
+				gnm_float a_max;
 				the_data = ((data_set_t *)(g_ptr_array_index (data, i)))->data;
-				if (0 == range_max ((gnum_float *)the_data->data, the_data->len,
+				if (0 == range_max ((gnm_float *)the_data->data, the_data->len,
 						    &a_max)) {
 					if (value_set) {
 						if (a_max > info->max)
@@ -3829,9 +3829,9 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 			value_set = FALSE;
 			for (i = 0; i < data->len; i++) {
 				GArray * the_data;
-				gnum_float a_min;
+				gnm_float a_min;
 				the_data = ((data_set_t *)(g_ptr_array_index (data, i)))->data;
-				if (0 == range_min ((gnum_float *)the_data->data, the_data->len,
+				if (0 == range_min ((gnm_float *)the_data->data, the_data->len,
 						    &a_min)) {
 					if (value_set) {
 						if (a_min < info->min)
@@ -3850,7 +3850,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		for (i = 0; (int)i < info->n;  i++) {
 			a_bin = g_new (bin_t, 1);
 			a_bin->limit = info->max - i * skip;
-			a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnum_float));
+			a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnm_float));
 			a_bin->counts = g_array_set_size (a_bin->counts, data->len);
 			a_bin->label = NULL;
 			a_bin->destroy_label = FALSE;
@@ -3861,7 +3861,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		}
 		a_bin = g_new (bin_t, 1);
 		a_bin->limit = info->min;
-		a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnum_float));
+		a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnm_float));
 		a_bin->counts = g_array_set_size (a_bin->counts, data->len);
 		val = value_new_float(info->min);
 		text = format_value (NULL, val, NULL, 10);
@@ -3883,7 +3883,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 	}
 	a_bin = g_new (bin_t, 1);
 	a_bin->limit = 0.0;
-	a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnum_float));
+	a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnm_float));
 	a_bin->counts = g_array_set_size (a_bin->counts, data->len);
 	a_bin->destroy_label = FALSE;
 	if (info->bin != NULL) {
@@ -3911,10 +3911,10 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 /* count data */
 	for (i = 0; i < data->len; i++) {
 		GArray * the_data;
-		gnum_float *the_sorted_data;
+		gnm_float *the_sorted_data;
 
 		the_data = ((data_set_t *)(g_ptr_array_index (data, i)))->data;
-		the_sorted_data =  range_sort ((gnum_float *)(the_data->data), the_data->len);
+		the_sorted_data =  range_sort ((gnm_float *)(the_data->data), the_data->len);
 
 		this = bin_list;
 		this_value = the_sorted_data;
@@ -3925,7 +3925,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 			     !((bin_t *)this->data)->strict) ||
 			    (this->next == NULL)){
 				(g_array_index (((bin_t *)this->data)->counts,
-						gnum_float, i))++;
+						gnm_float, i))++;
 				j++;
 				this_value++;
 			} else {
@@ -3960,7 +3960,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 	col = 1;
 	for (i = 0; i < data->len; i++) {
 		guint l_col = col;
-		gnum_float y = 0.0;
+		gnm_float y = 0.0;
 		row = 0;
 
 		if (info->labels) {
@@ -3977,10 +3977,10 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 /* print data */
 		this = bin_list;
 		while (this != NULL) {
-			gnum_float x;
+			gnm_float x;
 
 			l_col = col;
-			x = g_array_index (((bin_t *)this->data)->counts, gnum_float, i);
+			x = g_array_index (((bin_t *)this->data)->counts, gnm_float, i);
 			row ++;
 			dao_set_cell_float (dao, col, row,  x);
 			x /= ((data_set_t *)(g_ptr_array_index (data, i)))->data->len;
@@ -4101,7 +4101,7 @@ fourier_fft (const complex_t *in, int n, int skip, complex_t **fourier, gboolean
 	complex_t  *fourier_1, *fourier_2;
 	int        i;
 	int        nhalf = n / 2;
-	gnum_float argstep;
+	gnm_float argstep;
 
 	*fourier = g_new (complex_t, n);
 
@@ -4149,7 +4149,7 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 		int           given_length;
 		int           desired_length = 1;
 		int           i;
-		gnum_float    zero_val = 0.0;
+		gnm_float    zero_val = 0.0;
 
 		current = g_ptr_array_index (data, dataset);
 		given_length = current->data->len;
@@ -4165,7 +4165,7 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 		in = g_new (complex_t, desired_length);
 		for (i = 0; i < desired_length; i++)
 			complex_real (&in[i],
-				      ((const gnum_float *)current->data->data)[i]);
+				      ((const gnm_float *)current->data->data)[i]);
 
 		fourier_fft (in, desired_length, 1, &fourier, info->inverse);
 		g_free (in);

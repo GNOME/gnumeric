@@ -15,7 +15,7 @@
 #include <sunmath.h>
 #endif
 
-typedef long double gnum_float;
+typedef long double gnm_float;
 #ifdef HAVE_STRTOLD
 #ifdef MUST_PROTOTYPE_STRTOLD
 long double strtold (const char *, char **);
@@ -24,7 +24,7 @@ long double strtold (const char *, char **);
 #else
 #define NEED_FAKE_STRTOGNUM
 /* Defined in gutils.c  */
-gnum_float strtognum (const char *str, char **end);
+gnm_float strtognum (const char *str, char **end);
 #endif
 
 #ifdef HAVE_MODFL
@@ -32,7 +32,7 @@ gnum_float strtognum (const char *str, char **end);
 #else
 #define NEED_FAKE_MODFGNUM
 /* Defined in gutils.c  */
-gnum_float modfgnum (gnum_float x, gnum_float *iptr);
+gnm_float modfgnum (gnm_float x, gnm_float *iptr);
 #endif
 
 #ifdef HAVE_LDEXPL
@@ -40,7 +40,7 @@ gnum_float modfgnum (gnum_float x, gnum_float *iptr);
 #else
 #define NEED_FAKE_LDEXPGNUM
 /* Defined in gutils.c  */
-gnum_float ldexpgnum (gnum_float x, int exp);
+gnm_float ldexpgnum (gnm_float x, int exp);
 #endif
 
 #ifdef HAVE_FREXPL
@@ -48,7 +48,7 @@ gnum_float ldexpgnum (gnum_float x, int exp);
 #else
 #define NEED_FAKE_FREXPGNUM
 /* Defined in gutils.c  */
-gnum_float frexpgnum (gnum_float x, int *exp);
+gnm_float frexpgnum (gnm_float x, int *exp);
 #endif
 
 #ifdef HAVE_ERF
@@ -56,7 +56,7 @@ gnum_float frexpgnum (gnum_float x, int *exp);
 #else
 #define NEED_FAKE_ERFGNUM
 /* Defined in gutils.c  */
-gnum_float erfgnum (gnum_float x);
+gnm_float erfgnum (gnm_float x);
 #endif
 
 #ifdef HAVE_ERFC
@@ -64,7 +64,7 @@ gnum_float erfgnum (gnum_float x);
 #else
 #define NEED_FAKE_ERFCGNUM
 /* Defined in gutils.c  */
-gnum_float erfcgnum (gnum_float x);
+gnm_float erfcgnum (gnm_float x);
 #endif
 
 #ifdef HAVE_YNL
@@ -72,7 +72,7 @@ gnum_float erfcgnum (gnum_float x);
 #else
 #define NEED_FAKE_YNGNUM
 /* Defined in gutils.c  */
-gnum_float yngnum (int n, gnum_float x);
+gnm_float yngnum (int n, gnm_float x);
 #endif
 
 #define acosgnum acosl
@@ -119,7 +119,7 @@ gnum_float yngnum (int n, gnum_float x);
 
 #else /* !WITH_LONG_DOUBLE */
 
-typedef double gnum_float;
+typedef double gnm_float;
 
 #define acosgnum acos
 #define acoshgnum acosh

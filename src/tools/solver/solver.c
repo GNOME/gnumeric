@@ -79,14 +79,14 @@ solver_results_init (const SolverParameters *sp)
 {
         SolverResults *res     = g_new (SolverResults, 1);
 
-	res->optimal_values    = g_new (gnum_float,  sp->n_variables);
-	res->original_values   = g_new (gnum_float,  sp->n_variables);
+	res->optimal_values    = g_new (gnm_float,  sp->n_variables);
+	res->original_values   = g_new (gnm_float,  sp->n_variables);
 	res->variable_names    = g_new0 (gchar *,    sp->n_variables);
 	res->constraint_names  = g_new0 (gchar *,    sp->n_total_constraints);
-	res->shadow_prizes     = g_new0 (gnum_float, sp->n_total_constraints);
-	res->slack             = g_new0 (gnum_float, sp->n_total_constraints);
-	res->lhs               = g_new0 (gnum_float, sp->n_total_constraints);
-	res->rhs               = g_new0 (gnum_float, sp->n_total_constraints);
+	res->shadow_prizes     = g_new0 (gnm_float, sp->n_total_constraints);
+	res->slack             = g_new0 (gnm_float, sp->n_total_constraints);
+	res->lhs               = g_new0 (gnm_float, sp->n_total_constraints);
+	res->rhs               = g_new0 (gnm_float, sp->n_total_constraints);
 	res->n_variables       = sp->n_variables;
 	res->n_constraints     = sp->n_constraints;
 	res->n_nonzeros_in_obj = 0;
@@ -103,9 +103,9 @@ solver_results_init (const SolverParameters *sp)
 	res->constr_coeff      = NULL;
 	res->limits            = NULL;
 	res->constr_allowable_increase  =
-	        g_new0 (gnum_float, sp->n_total_constraints);
+	        g_new0 (gnm_float, sp->n_total_constraints);
 	res->constr_allowable_decrease =
-	        g_new0 (gnum_float, sp->n_total_constraints);
+	        g_new0 (gnm_float, sp->n_total_constraints);
 
 	return res;
 }
@@ -238,10 +238,10 @@ write_constraint_str (int lhs_col, int lhs_row, int rhs_col,
  * returns the coefficent of the first variable of the objective
  * function.
  */
-static inline gnum_float
-get_lp_coeff (Cell *target, Cell *change, gnum_float *x0)
+static inline gnm_float
+get_lp_coeff (Cell *target, Cell *change, gnm_float *x0)
 {
-        gnum_float tmp = *x0;
+        gnm_float tmp = *x0;
 
 	cell_set_value (change, value_new_float (1.0));
 	cell_queue_recalc (change);
@@ -308,7 +308,7 @@ restore_original_values (SolverResults *res)
 
 #if 0
 static void
-callback (int iter, gnum_float *x, gnum_float bv, gnum_float cx, int n,
+callback (int iter, gnm_float *x, gnm_float bv, gnm_float cx, int n,
 	  void *data)
 {
         int     i;
@@ -358,11 +358,11 @@ clear_input_vars (int n_variables, SolverResults *res)
 static SolverProgram
 lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 		   SolverResults *res, const SolverLPAlgorithm *alg,
-		   gnum_float start_time, gchar **errmsg)
+		   gnm_float start_time, gchar **errmsg)
 {
         SolverProgram     program;
 	Cell              *target;
-	gnum_float        x, x0, base;
+	gnm_float        x, x0, base;
 	int               i, n, ind;
 
 	/* Initialize the SolverProgram structure. */
@@ -583,11 +583,11 @@ check_program_definition_failures (Sheet            *sheet,
 	(*res)->param = param;
 	(*res)->input_cells_array = input_cells_array;
 	(*res)->constraints_array = constraints_array;
-	(*res)->obj_coeff = g_new0 (gnum_float, param->n_variables);
+	(*res)->obj_coeff = g_new0 (gnm_float, param->n_variables);
 
-	(*res)->constr_coeff = g_new0 (gnum_float *, param->n_total_constraints);
+	(*res)->constr_coeff = g_new0 (gnm_float *, param->n_total_constraints);
 	for (i = 0; i < param->n_total_constraints; i++)
-	        (*res)->constr_coeff[i] = g_new0 (gnum_float,
+	        (*res)->constr_coeff[i] = g_new0 (gnm_float,
 						  param->n_variables);
 	(*res)->limits = g_new (SolverLimits, param->n_variables);
 
@@ -609,10 +609,10 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 	if (check_program_definition_failures (sheet, param, &res, errmsg))
 	        return NULL;
 
-	res->time_user   = - buf.tms_utime / (gnum_float) sysconf (_SC_CLK_TCK);
-	res->time_system = - buf.tms_stime / (gnum_float) sysconf (_SC_CLK_TCK);
+	res->time_user   = - buf.tms_utime / (gnm_float) sysconf (_SC_CLK_TCK);
+	res->time_system = - buf.tms_stime / (gnm_float) sysconf (_SC_CLK_TCK);
 	res->time_real   = - (start.tv_sec +
-			      start.tv_usec / (gnum_float) G_USEC_PER_SEC);
+			      start.tv_usec / (gnm_float) G_USEC_PER_SEC);
 	save_original_values (res, param, sheet);
 
 	program              = lp_qp_solver_init (sheet, param, res, alg, 
@@ -623,10 +623,10 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
         res->status = alg->solve_fn (program);
 	g_get_current_time (&end);
 	times (&buf);
-	res->time_user   += buf.tms_utime / (gnum_float) sysconf (_SC_CLK_TCK);
-	res->time_system += buf.tms_stime / (gnum_float) sysconf (_SC_CLK_TCK);
+	res->time_user   += buf.tms_utime / (gnm_float) sysconf (_SC_CLK_TCK);
+	res->time_system += buf.tms_stime / (gnm_float) sysconf (_SC_CLK_TCK);
 	res->time_real   += end.tv_sec + end.tv_usec /
-	        (gnum_float) G_USEC_PER_SEC;
+	        (gnm_float) G_USEC_PER_SEC;
 	res->n_iterations = alg->get_iterations_fn (program);
 
 	solver_prepare_reports (program, res, sheet);

@@ -53,7 +53,7 @@
 -- factorizing routine in the object lp->inv (for details see comments
 -- in the module GLPINV). */
 
-static int inv_col(void *info, int j, int rn[], gnum_float bj[])
+static int inv_col(void *info, int j, int rn[], gnm_float bj[])
 {     /* this auxiliary routine returns row indices and numerical
          values of non-zero elements of the j-th column of the current
          basis matrix B, which has to be reinverted */
@@ -63,7 +63,7 @@ static int inv_col(void *info, int j, int rn[], gnum_float bj[])
       int *aa_ptr = lp->A->ptr;
       int *aa_len = lp->A->len;
       int *sv_ndx = lp->A->ndx;
-      gnum_float *sv_val = lp->A->val;
+      gnm_float *sv_val = lp->A->val;
       int *indx = lp->indx;
       int k, ptr, len, t;
       insist(1 <= j && j <= m);
@@ -80,14 +80,14 @@ static int inv_col(void *info, int j, int rn[], gnum_float bj[])
          ptr = aa_ptr[k];
          len = aa_len[k];
          memcpy(&rn[1], &sv_ndx[ptr], len * sizeof(int));
-         memcpy(&bj[1], &sv_val[ptr], len * sizeof(gnum_float));
+         memcpy(&bj[1], &sv_val[ptr], len * sizeof(gnm_float));
          for (t = len; t >= 1; t--) bj[t] = - bj[t];
       }
       return len;
 }
 
 int spx_invert(LPX *lp)
-{     static gnum_float piv_tol[1+3] = { 0.00, 0.10, 0.30, 0.70 };
+{     static gnm_float piv_tol[1+3] = { 0.00, 0.10, 0.30, 0.70 };
       int try, ret;
       /* if the invertable form has a wrong size, delete it */
       if (lp->inv != NULL && lp->inv->m != lp->m)
@@ -132,7 +132,7 @@ int spx_invert(LPX *lp)
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- void spx_ftran(LPX *lp, gnum_float x[], int save);
+-- void spx_ftran(LPX *lp, gnm_float x[], int save);
 --
 -- *Description*
 --
@@ -158,7 +158,7 @@ int spx_invert(LPX *lp)
 -- routine should call the routine spx_ftran with the save flag set at
 -- least once before a subsequent call to the routine spx_update. */
 
-void spx_ftran(LPX *lp, gnum_float x[], int save)
+void spx_ftran(LPX *lp, gnm_float x[], int save)
 {     insist(lp->b_stat == LPX_B_VALID);
       inv_ftran(lp->inv, x, save);
       return;
@@ -170,7 +170,7 @@ void spx_ftran(LPX *lp, gnum_float x[], int save)
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- void spx_btran(LPX *lp, gnum_float x[]);
+-- void spx_btran(LPX *lp, gnm_float x[]);
 --
 -- *Description*
 --
@@ -187,7 +187,7 @@ void spx_ftran(LPX *lp, gnum_float x[], int save)
 -- matrix. On exit this array will contain components of the vector x'
 -- in the same locations. */
 
-void spx_btran(LPX *lp, gnum_float x[])
+void spx_btran(LPX *lp, gnm_float x[])
 {     insist(lp->b_stat == LPX_B_VALID);
       inv_btran(lp->inv, x);
       return;

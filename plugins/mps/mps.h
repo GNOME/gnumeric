@@ -59,7 +59,7 @@ typedef struct {
 typedef struct {
         gchar      *name;
         MpsRow     *row;
-        gnum_float value;
+        gnm_float value;
 } MpsCol;
 
 /*
@@ -68,7 +68,7 @@ typedef struct {
 typedef struct {
         gchar      *name;
         MpsRow     *row;
-        gnum_float value;
+        gnm_float value;
 } MpsRange;
 
 /*
@@ -85,7 +85,7 @@ typedef enum {
 typedef struct {
         char         *name;
         gint         col_index;
-        gnum_float   value;
+        gnm_float   value;
         MpsBoundType type;
 } MpsBound;
 
@@ -96,7 +96,7 @@ typedef struct {
 typedef struct {
         gchar      *name;
         MpsRow     *row;
-        gnum_float value;
+        gnm_float value;
 } MpsRhs;
 
 /*
@@ -130,7 +130,7 @@ typedef struct {
         GHashTable *col_hash;
         gchar      **col_name_tbl;
         MpsRow     *objective_row;
-        gnum_float **matrix;
+        gnm_float **matrix;
 } MpsInputContext;
 
 

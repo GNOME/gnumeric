@@ -80,9 +80,9 @@ get_constraint_names (SolverResults *res, Sheet *sheet)
 /*
  * Returns the value of a cell when one of the input variables is reset.
  */
-static gnum_float
+static gnm_float
 get_target_cell_value (SolverResults *res, Cell *target_cell,
-		       int col, gnum_float x, gnum_float *old_value)
+		       int col, gnm_float x, gnm_float *old_value)
 {
         Cell *var_cell;
 
@@ -95,9 +95,9 @@ get_target_cell_value (SolverResults *res, Cell *target_cell,
 }
 
 static gboolean
-is_still_feasible (Sheet *sheet, SolverResults *res, int col, gnum_float value)
+is_still_feasible (Sheet *sheet, SolverResults *res, int col, gnm_float value)
 {
-        gnum_float c_value, rhs, old_value = res->optimal_values [col];
+        gnm_float c_value, rhs, old_value = res->optimal_values [col];
 	int        i, n;
 	Cell       *cell;
 	gboolean   status = FALSE;
@@ -147,7 +147,7 @@ calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
         int i, n;
 
 	for (i = 0; i < param->n_total_constraints; i++) {
-	        gnum_float       slack, lhs, rhs, x, y, old_val;
+	        gnm_float       slack, lhs, rhs, x, y, old_val;
 		SolverConstraint *c = res->constraints_array[i];
 		Cell             *cell;
 
@@ -198,7 +198,7 @@ calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
 static void
 set_optimal_values_to_sheet (SolverProgram *program, Sheet *sheet,
 			     SolverResults *res, const SolverLPAlgorithm *alg,
-			     gnum_float *store)
+			     gnm_float *store)
 {
         int  i;
 	Cell *cell;
@@ -289,7 +289,7 @@ solver_prepare_reports_success (SolverProgram *program, SolverResults *res,
 
 	/* Get allowable increase and decrease for constraints. */
 	if (param->options.sensitivity_report && ! res->ilp_flag) {
-		/* gnum_float *store = g_new (gnum_float, param->n_variables);*/
+		/* gnm_float *store = g_new (gnm_float, param->n_variables);*/
 	        for (i = 0; i < param->n_total_constraints; i++) {
 			SolverConstraint *c = res->constraints_array[i];
 

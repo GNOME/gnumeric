@@ -75,7 +75,7 @@ value_new_int (int i)
 
 static gnm_mem_chunk *value_float_pool;
 Value *
-value_new_float (gnum_float f)
+value_new_float (gnm_float f)
 {
 	if (finitegnum (f)) {
 		ValueFloat *v = CHUNK_ALLOC (ValueFloat, value_float_pool);
@@ -314,7 +314,7 @@ value_new_from_string (ValueType t, char const *str, StyleFormat *sf)
 
 	case VALUE_FLOAT: {
 		char *end;
-		gnum_float d;
+		gnm_float d;
 
 		errno = 0;
 		d = strtognum (str, &end);
@@ -538,7 +538,7 @@ value_hash (Value const *v)
 
 	case VALUE_FLOAT: {
 		int expt;
-		gnum_float mant = frexpgnum (gnumabs (v->v_float.val), &expt);
+		gnm_float mant = frexpgnum (gnumabs (v->v_float.val), &expt);
 		guint h = ((guint)(0x80000000u * mant)) ^ expt;
 		if (v->v_float.val >= 0)
 			h ^= 0x55555555;
@@ -775,7 +775,7 @@ value_get_as_int (Value const *v)
 /*
  * FIXME FIXME FIXME : Support errors
  */
-gnum_float
+gnm_float
 value_get_as_float (Value const *v)
 {
 	if (v == NULL)
@@ -793,13 +793,13 @@ value_get_as_float (Value const *v)
 		return 0.0;
 
 	case VALUE_INTEGER:
-		return (gnum_float) v->v_int.val;
+		return (gnm_float) v->v_int.val;
 
 	case VALUE_ARRAY:
 		return 0.0;
 
 	case VALUE_FLOAT:
-		return (gnum_float) v->v_float.val;
+		return (gnm_float) v->v_float.val;
 
 	case VALUE_BOOLEAN:
 		return v->v_bool.val ? 1. : 0.;
@@ -921,8 +921,8 @@ compare_int_int (Value const *va, Value const *vb)
 static ValueCompare
 compare_float_float (Value const *va, Value const *vb)
 {
-	gnum_float const a = value_get_as_float (va);
-	gnum_float const b = value_get_as_float (vb);
+	gnm_float const a = value_get_as_float (va);
+	gnm_float const b = value_get_as_float (vb);
 	if (a == b)
 		return IS_EQUAL;
 	else if (a < b)
@@ -941,7 +941,7 @@ compare_float_float (Value const *va, Value const *vb)
  *
  * Returns a non-negative difference between 2 values
  */
-gnum_float
+gnm_float
 value_diff (Value const *a, Value const *b)
 {
 	ValueType ta, tb;
@@ -1007,8 +1007,8 @@ value_diff (Value const *a, Value const *b)
 	}
 
 	case VALUE_FLOAT: {
-		const gnum_float da = value_get_as_float (a);
-		const gnum_float db = value_get_as_float (b);
+		const gnm_float da = value_get_as_float (a);
+		const gnm_float db = value_get_as_float (b);
 		return gnumabs (da - db);
 	}
 	default:

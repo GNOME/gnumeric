@@ -76,7 +76,7 @@ mps_set_cell (Sheet *sh, int col, int row, const gchar *str)
 
 /* Writes a float into a cell. */
 static inline void
-mps_set_cell_float (Sheet *sh, int col, int row, const gnum_float f)
+mps_set_cell_float (Sheet *sh, int col, int row, const gnm_float f)
 {
         Cell *cell = sheet_cell_fetch (sh, col, row);
 
@@ -121,9 +121,9 @@ mps_prepare (WorkbookView *wbv, MpsInputContext *ctxt)
 	ctxt->col_name_tbl = g_new (gchar *, ctxt->n_cols);
 	g_hash_table_foreach (ctxt->col_hash, put_into_index, (gpointer) ctxt);
 
-	ctxt->matrix = g_new (gnum_float *, ctxt->n_rows + ctxt->n_bounds);
+	ctxt->matrix = g_new (gnm_float *, ctxt->n_rows + ctxt->n_bounds);
 	for (i = 0; i < ctxt->n_rows + ctxt->n_bounds; i++) {
-	          ctxt->matrix[i] = g_new (gnum_float, ctxt->n_cols);
+	          ctxt->matrix[i] = g_new (gnm_float, ctxt->n_cols);
 		  for (n = 0; n < ctxt->n_cols; n++)
 		            ctxt->matrix[i][n] = 0.0;
 	}

@@ -92,7 +92,7 @@ make_value (SCM scm)
 		v = value_new_string (SCM_CHARS (scm));
 
 	else if ((SCM_NFALSEP (scm_number_p(scm))))
-		v = value_new_float ((gnum_float) scm_num2dbl(scm, 0));
+		v = value_new_float ((gnm_float) scm_num2dbl(scm, 0));
 
 	else if (SCM_BOOLP (scm))
 		v = value_new_bool ((gboolean) scm_i_scm2bool (scm));
@@ -176,7 +176,7 @@ scm_value_new_float (SCM scm)
 	SCM_Value *value;
 
 	if ((SCM_NFALSEP (scm_number_p(scm))))
-		v = value_new_float ((gnum_float) scm_num2dbl(scm, 0));
+		v = value_new_float ((gnm_float) scm_num2dbl(scm, 0));
 	else
 		v = value_new_error (NULL, _("Not a Guile number"));
 

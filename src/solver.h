@@ -65,13 +65,13 @@ typedef SolverProgram
 typedef void
         (solver_remove_fn)              (SolverProgram p);
 typedef void
-        (solver_lp_set_obj_fn)          (SolverProgram p, int col, gnum_float v);
+        (solver_lp_set_obj_fn)          (SolverProgram p, int col, gnm_float v);
 typedef void
         (solver_lp_set_constr_mat_fn)   (SolverProgram p, int col, int row,
-					 gnum_float v);
+					 gnm_float v);
 typedef void
         (solver_lp_set_constr_fn)       (SolverProgram p, int row,
-					 SolverConstraintType t, gnum_float rhs);
+					 SolverConstraintType t, gnm_float rhs);
 typedef void
         (solver_lp_set_maxim_fn)        (SolverProgram p);
 typedef void
@@ -82,16 +82,16 @@ typedef void
         (solver_lp_set_bool_fn)         (SolverProgram p, int col);
 typedef SolverStatus
         (solver_lp_solve_fn)            (SolverProgram p);
-typedef gnum_float
+typedef gnm_float
         (solver_lp_get_obj_fn_value_fn) (SolverProgram p);
-typedef gnum_float
+typedef gnm_float
         (solver_lp_get_obj_fn_var_fn)   (SolverProgram p, int col);
-typedef gnum_float
+typedef gnm_float
         (solver_lp_get_shadow_prize_fn) (SolverProgram p, int row);
 typedef gboolean
         (solver_lp_set_option_fn)       (SolverProgram p, SolverOptionType option,
 					 const gboolean *b_value,
-					 const gnum_float *f_value,
+					 const gnm_float *f_value,
 					 const int *i_value);
 typedef void
         (solver_lp_print_fn)            (SolverProgram p);
@@ -164,10 +164,10 @@ struct _SolverParameters {
 };
 
 typedef struct {
-        gnum_float lower_limit;
-        gnum_float lower_result;
-        gnum_float upper_limit;
-        gnum_float upper_result;
+        gnm_float lower_limit;
+        gnm_float lower_result;
+        gnm_float upper_limit;
+        gnm_float upper_result;
 } SolverLimits;
 
 typedef struct {
@@ -176,30 +176,30 @@ typedef struct {
         int              n_nonzeros_in_mat;
         int              n_nonzeros_in_obj;
 	int              n_iterations;
-        gnum_float       time_user;
-        gnum_float       time_system;
-        gnum_float       time_real;
+        gnm_float       time_user;
+        gnm_float       time_system;
+        gnm_float       time_real;
         gchar            *target_name;
         gchar            **variable_names;
         gchar            **constraint_names;
-        gnum_float       value_of_obj_fn;
-        gnum_float       original_value_of_obj_fn;
-        gnum_float       *optimal_values;
-        gnum_float       *original_values;
-        gnum_float       *shadow_prizes;
-        gnum_float       *slack;
-        gnum_float       *lhs;
-        gnum_float       *rhs;
-        gnum_float       *constr_allowable_increase;
-        gnum_float       *constr_allowable_decrease;
+        gnm_float       value_of_obj_fn;
+        gnm_float       original_value_of_obj_fn;
+        gnm_float       *optimal_values;
+        gnm_float       *original_values;
+        gnm_float       *shadow_prizes;
+        gnm_float       *slack;
+        gnm_float       *lhs;
+        gnm_float       *rhs;
+        gnm_float       *constr_allowable_increase;
+        gnm_float       *constr_allowable_decrease;
         SolverStatus     status;
         gboolean         ilp_flag;   /* This is set if the problem has INT
 				      * constraints.  Some reports cannot
 				      * be created if there are any. */
         Cell             **input_cells_array;
         SolverConstraint **constraints_array;
-        gnum_float       *obj_coeff;
-        gnum_float       **constr_coeff;
+        gnm_float       *obj_coeff;
+        gnm_float       **constr_coeff;
         SolverLimits     *limits;
         SolverParameters *param;
 } SolverResults;

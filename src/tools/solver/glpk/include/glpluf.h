@@ -132,7 +132,7 @@ struct LUF
          vr_cap[i], i = 1, ..., n, is capacity of the i-th row, i.e.
          maximal number of elements, which can be stored there without
          relocating the row, vr_cap[i] >= vr_len[i] */
-      gnum_float *vr_piv; /* gnum_float vr_piv[1+n]; */
+      gnm_float *vr_piv; /* gnm_float vr_piv[1+n]; */
       /* vr_piv[0] is not used;
          vr_piv[p], p = 1, ..., n, is the pivot element v[p,q], which
          corresponds to a diagonal element of the matrix U = P*V*Q */
@@ -198,12 +198,12 @@ struct LUF
       /* sv_ndx[0] is not used;
          sv_ndx[k], 1 <= k <= sv_size, is the index field of the k-th
          location */
-      gnum_float *sv_val; /* gnum_float sv_val[1+sv_size]; */
+      gnm_float *sv_val; /* gnm_float sv_val[1+sv_size]; */
       /* sv_val[0] is not used;
          sv_val[k], 1 <= k <= sv_size, is the value field of the k-th
          location */
       /* in order to efficiently defragment the left part of SVA there
-         is a gnum_float linked list of rows and columns of the matrix V,
+         is a gnm_float linked list of rows and columns of the matrix V,
          where rows have numbers 1, ..., n, and columns have numbers
          n+1, ..., n+n, due to that each row and column can be uniquely
          identified by one integer; in this list rows and columns are
@@ -222,14 +222,14 @@ struct LUF
       /* working arrays */
       int *flag; /* int flag[1+n]; */
       /* integer working array */
-      gnum_float *work; /* gnum_float work[1+n]; */
+      gnm_float *work; /* gnm_float work[1+n]; */
       /* floating-point working array */
       /*--------------------------------------------------------------*/
       /* control parameters */
       int new_sva;
       /* new required size of the sparse vector area, in locations; set
          automatically by the factorizing routine */
-      gnum_float piv_tol;
+      gnm_float piv_tol;
       /* threshold pivoting tolerance, 0 < piv_tol < 1; element v[i,j]
          of the active submatrix fits to be pivot if it satisfies to the
          stability condition |v[i,j]| >= piv_tol * max|v[i,*]|, i.e. if
@@ -249,10 +249,10 @@ struct LUF
          column from the futher consideration until it becomes a column
          singleton; in many cases this reduces a time needed for pivot
          searching */
-      gnum_float eps_tol;
+      gnm_float eps_tol;
       /* epsilon tolerance; each element of the matrix V with absolute
          value less than eps_tol is replaced by exact zero */
-      gnum_float max_gro;
+      gnm_float max_gro;
       /* maximal allowable growth of elements of the matrix V during
          all the factorization process; if on some elimination step the
          ratio big_v / max_a (see below) becomes greater than max_gro,
@@ -269,9 +269,9 @@ struct LUF
       /* number of non-zeros in the matrix V (except pivot elements,
          which correspond to diagonal elements of the matrix U = P*V*Q
          and which are stored separately in the array vr_piv) */
-      gnum_float max_a;
+      gnm_float max_a;
       /* largest of absolute values of elements of the matrix A */
-      gnum_float big_v;
+      gnm_float big_v;
       /* estimated largest of absolute values of elements appeared in
          the active submatrix during all the factorization process */
       int rank;
@@ -280,7 +280,7 @@ struct LUF
 
 struct LUF_WA
 {     /* working area (used only during factorization) */
-      gnum_float *rs_max; /* gnum_float rs_max[1+n]; */
+      gnm_float *rs_max; /* gnm_float rs_max[1+n]; */
       /* rs_max[0] is not used; rs_max[i], 1 <= i <= n, is used only if
          the i-th row of the matrix V belongs to the active submatrix
          and is the largest of absolute values of elements in this row;
@@ -337,17 +337,17 @@ void luf_free_wa(LUF_WA *wa);
 /* free working area */
 
 int luf_decomp(LUF *luf,
-      void *info, int (*col)(void *info, int j, int rn[], gnum_float aj[]),
+      void *info, int (*col)(void *info, int j, int rn[], gnm_float aj[]),
       LUF_WA *wa);
 /* compute LU-factorization */
 
-void luf_f_solve(LUF *luf, int tr, gnum_float x[]);
+void luf_f_solve(LUF *luf, int tr, gnm_float x[]);
 /* solve system F*x = b or F'*x = b */
 
-void luf_v_solve(LUF *luf, int tr, gnum_float x[]);
+void luf_v_solve(LUF *luf, int tr, gnm_float x[]);
 /* solve system V*x = b or V'*x = b */
 
-void luf_solve(LUF *luf, int tr, gnum_float x[]);
+void luf_solve(LUF *luf, int tr, gnm_float x[]);
 /* solve system A*x = b or A'*x = b */
 
 void luf_delete(LUF *luf);

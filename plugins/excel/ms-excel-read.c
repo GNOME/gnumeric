@@ -2596,7 +2596,7 @@ biff_get_rk (guint8 const *ptr)
 	case eIEEEx100:
 	{
 		guint8 tmp[8];
-		gnum_float answer;
+		gnm_float answer;
 		int lp;
 
 		/* Think carefully about big/little endian issues before
@@ -2606,7 +2606,7 @@ biff_get_rk (guint8 const *ptr)
 			tmp[lp] = 0;
 		}
 
-		answer = (gnum_float)gsf_le_get_double (tmp);
+		answer = (gnm_float)gsf_le_get_double (tmp);
 		return value_new_float (type == eIEEEx100 ? answer / 100 : answer);
 	}
 	case eInt:
@@ -2616,7 +2616,7 @@ biff_get_rk (guint8 const *ptr)
 		if ((number % 100) == 0)
 			return value_new_int (number / 100);
 		else
-			return value_new_float ((gnum_float)number / 100);
+			return value_new_float ((gnm_float)number / 100);
 	}
 	while (1) abort ();
 }

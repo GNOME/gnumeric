@@ -540,7 +540,7 @@ static Value *
 gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 {
 	int decimals;
-	gnum_float num;
+	gnm_float num;
 	gboolean commas = TRUE;
 	format_info_t fmt;
 	GString *str;
@@ -559,7 +559,7 @@ gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 
 	if (decimals <= 0) {
 		/* no decimal point : just round and pad 0's */
-		gnum_float mult = gpow10 (decimals);
+		gnm_float mult = gpow10 (decimals);
 		num = (gnumeric_fake_round (num * mult) / mult);
 		fmt.right_req = fmt.right_allowed = 0;
 	} else /* decimal point format */
@@ -936,9 +936,9 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 	StyleFormat *sf;
 	const char *base_format =
 		"%s#,##0%s%s;(%s#,##0%s)%s;_(%s\"-\"??%s_);_(@_)";
-        gnum_float number = value_get_as_float (argv[0]);
+        gnm_float number = value_get_as_float (argv[0]);
         int decimals = argv[1] ? value_get_as_int (argv[1]) : 2;
-	gnum_float p10;
+	gnm_float p10;
 	Value *v;
 	char dotdecimals[1000];
 

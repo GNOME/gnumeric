@@ -69,9 +69,9 @@ typedef struct {
 	Sheet	  *sheet;
 	Workbook  *wb;
 	WorkbookControlGUI  *wbcg;
-	gnum_float target_value;
-	gnum_float xmin;
-	gnum_float xmax;
+	gnm_float target_value;
+	gnm_float xmin;
+	gnm_float xmax;
 	Cell *set_cell;
 	Cell *change_cell;
 	Cell *old_cell;
@@ -82,11 +82,11 @@ typedef struct {
 
 typedef struct {
 	Cell *xcell, *ycell;
-	gnum_float ytarget;
+	gnm_float ytarget;
 } GoalEvalData;
 
 static GoalSeekStatus
-goal_seek_eval (gnum_float x, gnum_float *y, void *vevaldata)
+goal_seek_eval (gnm_float x, gnm_float *y, void *vevaldata)
 {
 	GoalEvalData *evaldata = vevaldata;
 
@@ -111,7 +111,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 	GoalEvalData evaldata;
 	GoalSeekStatus status;
 	gboolean hadold;
-	gnum_float oldx;
+	gnm_float oldx;
 
 	goal_seek_initialise (&seekdata);
 	seekdata.xmin = state->xmin;
@@ -126,7 +126,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 
 	/* PLAN A: Newton's iterative method from initial or midpoint.  */
 	{
-		gnum_float x0;
+		gnm_float x0;
 
 		if (hadold)
 			x0 = oldx;
@@ -152,7 +152,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 
 	/* PLAN C: Trawl normally from middle.  */
 	if (!seekdata.havexpos || !seekdata.havexneg) {
-		gnum_float sigma, mu;
+		gnm_float sigma, mu;
 		int i;
 
 		sigma = seekdata.xmax - seekdata.xmin;
@@ -170,7 +170,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 
 	/* PLAN D: Trawl normally from left.  */
 	if (!seekdata.havexpos || !seekdata.havexneg) {
-		gnum_float sigma, mu;
+		gnm_float sigma, mu;
 		int i;
 
 		sigma = seekdata.xmax - seekdata.xmin;
@@ -188,7 +188,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 
 	/* PLAN E: Trawl normally from right.  */
 	if (!seekdata.havexpos || !seekdata.havexneg) {
-		gnum_float sigma, mu;
+		gnm_float sigma, mu;
 		int i;
 
 		sigma = seekdata.xmax - seekdata.xmin;
@@ -210,7 +210,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 		const int N = 10;
 
 		for (i = 1; i <= N; i++) {
-			gnum_float x0 =	seekdata.xmin +
+			gnm_float x0 =	seekdata.xmin +
 				(seekdata.xmax - seekdata.xmin) / (N + 1) * i;
 
 			status = goal_seek_newton (goal_seek_eval, NULL,
@@ -231,10 +231,10 @@ gnumeric_goal_seek (GoalSeekState *state)
 
  DONE:
 	if (status == GOAL_SEEK_OK) {
-		gnum_float yroot;
+		gnm_float yroot;
 		(void) goal_seek_eval (seekdata.root, &yroot, &evaldata);
 	} else if (hadold) {
-		gnum_float ydummy;
+		gnm_float ydummy;
 		(void) goal_seek_eval (oldx, &ydummy, &evaldata);
 	}
 
@@ -332,7 +332,7 @@ cb_dialog_apply_clicked (__attribute__((unused)) GtkWidget *button,
 	char *solution_str;
 	GoalSeekStatus	status;
 	StyleFormat *format;
-  	gnum_float  max_range_val = 1e24;
+  	gnm_float  max_range_val = 1e24;
 	Value *error_value, *target;
 	RangeRef const *r;
 

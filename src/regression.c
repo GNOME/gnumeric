@@ -24,9 +24,9 @@
   do { int _i, _d1, _d2;				\
        _d1 = (dim1);					\
        _d2 = (dim2);					\
-       (var) = g_new (gnum_float *, _d1);		\
+       (var) = g_new (gnm_float *, _d1);		\
        for (_i = 0; _i < _d1; _i++)			\
-	       (var)[_i] = g_new (gnum_float, _d2);	\
+	       (var)[_i] = g_new (gnm_float, _d2);	\
   } while (0)
 
 #define FREE_MATRIX(var,dim1,dim2)			\
@@ -82,7 +82,7 @@
 	p. 753. MIT Press, 1990.
 */
 static void
-backsolve (gnum_float **LU, int *P, gnum_float *b, int n, gnum_float *res)
+backsolve (gnm_float **LU, int *P, gnm_float *b, int n, gnm_float *res)
 {
 	int i, j;
 
@@ -100,13 +100,13 @@ backsolve (gnum_float **LU, int *P, gnum_float *b, int n, gnum_float *res)
 }
 
 static RegressionResult
-rescale (gnum_float **A, gnum_float *b, int n)
+rescale (gnm_float **A, gnm_float *b, int n)
 {
 	int i;
 
 	for (i = 0; i < n; i++) {
 		int j, expn;
-		gnum_float scale, max;
+		gnm_float scale, max;
 
 		(void)range_maxabs (A[i], n, &max);
 
@@ -141,12 +141,12 @@ rescale (gnum_float **A, gnum_float *b, int n)
  * accordingly.
  */
 static RegressionResult
-LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n, gnum_float *b_scaled)
+LUPDecomp (gnm_float **A, gnm_float **LU, int *P, int n, gnm_float *b_scaled)
 {
 	int i, j, k, tempint;
-	gnum_float highest = 0;
-	gnum_float lowest = GNUM_MAX;
-	gnum_float cond;
+	gnm_float highest = 0;
+	gnm_float lowest = GNUM_MAX;
+	gnm_float cond;
 
 	COPY_MATRIX (LU, A, n, n);
 	for (j = 0; j < n; j++)
@@ -162,7 +162,7 @@ LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n, gnum_float *b_scaled)
 	}
 
 	for (i = 0; i < n; i++) {
-		gnum_float max = 0;
+		gnm_float max = 0;
 		int mov = -1;
 
 		for (j = i; j < n; j++)
@@ -186,7 +186,7 @@ LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n, gnum_float *b_scaled)
 		P[mov] = tempint;
 		/*swap the two rows */
 		for (j = 0; j < n; j++) {
-			gnum_float temp = LU[i][j];
+			gnm_float temp = LU[i][j];
 			LU[i][j] = LU[mov][j];
 			LU[mov][j] = temp;
 		}
@@ -213,10 +213,10 @@ LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n, gnum_float *b_scaled)
 
 
 static RegressionResult
-linear_solve (gnum_float **A, gnum_float *b, int n, gnum_float *res)
+linear_solve (gnm_float **A, gnm_float *b, int n, gnm_float *res)
 {
 	RegressionResult err;
-	gnum_float **LU, *b_scaled;
+	gnm_float **LU, *b_scaled;
 	int *P;
 
 	if (n < 1)
@@ -224,7 +224,7 @@ linear_solve (gnum_float **A, gnum_float *b, int n, gnum_float *res)
 
 	/* Special case.  */
 	if (n == 1) {
-		gnum_float d = A[0][0];
+		gnm_float d = A[0][0];
 		if (d == 0)
 			return REG_singular;
 
@@ -234,7 +234,7 @@ linear_solve (gnum_float **A, gnum_float *b, int n, gnum_float *res)
 
 	/* Special case.  */
 	if (n == 2) {
-		gnum_float d = A[0][0] * A[1][1] - A[1][0] * A[0][1];
+		gnm_float d = A[0][0] * A[1][1] - A[1][0] * A[0][1];
 		if (d == 0)
 			return REG_singular;
 
@@ -250,8 +250,8 @@ linear_solve (gnum_float **A, gnum_float *b, int n, gnum_float *res)
 	ALLOC_MATRIX (LU, n, n);
 	P = g_new (int, n);
 
-	b_scaled = g_new (gnum_float, n);
-	memcpy (b_scaled, b, n * sizeof (gnum_float));
+	b_scaled = g_new (gnm_float, n);
+	memcpy (b_scaled, b, n * sizeof (gnm_float));
 
 	err = LUPDecomp (A, LU, P, n, b_scaled);
 
@@ -267,12 +267,12 @@ linear_solve (gnum_float **A, gnum_float *b, int n, gnum_float *res)
 /* ------------------------------------------------------------------------- */
 
 static RegressionResult
-general_linear_regression (gnum_float **xss, int xdim,
-			   const gnum_float *ys, int n,
-			   gnum_float *result,
+general_linear_regression (gnm_float **xss, int xdim,
+			   const gnm_float *ys, int n,
+			   gnm_float *result,
 			   regression_stat_t *regression_stat, gboolean affine)
 {
-	gnum_float *xTy, **xTx;
+	gnm_float *xTy, **xTx;
 	int i,j;
 	RegressionResult regerr;
 
@@ -282,10 +282,10 @@ general_linear_regression (gnum_float **xss, int xdim,
 	if (xdim > n)
 		return REG_not_enough_data;
 
-	xTy = g_new (gnum_float, xdim);
+	xTy = g_new (gnm_float, xdim);
 	for (i = 0; i < xdim; i++) {
-		const gnum_float *xs = xss[i];
-		register gnum_float res = 0;
+		const gnm_float *xs = xss[i];
+		register gnm_float res = 0;
 		int j;
 		if (xs == NULL)
 			/* NULL represents a 1-vector.  */
@@ -300,11 +300,11 @@ general_linear_regression (gnum_float **xss, int xdim,
 	ALLOC_MATRIX (xTx, xdim, xdim);
 
 	for (i = 0; i < xdim; i++) {
-		const gnum_float *xs1 = xss[i];
+		const gnm_float *xs1 = xss[i];
 		int j;
 		for (j = 0; j <= i; j++) {
-			const gnum_float *xs2 = xss[j];
-			gnum_float res = 0;
+			const gnm_float *xs2 = xss[j];
+			gnm_float res = 0;
 			int k;
 
 			if (xs1 == NULL && xs2 == NULL)
@@ -328,8 +328,8 @@ general_linear_regression (gnum_float **xss, int xdim,
 	if (regression_stat &&
 	    (regerr == REG_ok || regerr == REG_near_singular_good)) {
 		RegressionResult err2;
-		gnum_float *residuals = g_new (gnum_float, n);
-		gnum_float **LU, *one_scaled;
+		gnm_float *residuals = g_new (gnm_float, n);
+		gnm_float **LU, *one_scaled;
 		int *P;
 		int err;
 
@@ -345,7 +345,7 @@ general_linear_regression (gnum_float **xss, int xdim,
 			err = range_sumsq (ys, n, &regression_stat->ss_total);
 		g_assert (err == 0);
 
-		regression_stat->xbar = g_new (gnum_float, n);
+		regression_stat->xbar = g_new (gnm_float, n);
 		for (i = 0; i < xdim; i++) {
 			if (xss[i]) {
 				int err = range_average (xss[i], n, &regression_stat->xbar[i]);
@@ -380,15 +380,15 @@ general_linear_regression (gnum_float **xss, int xdim,
 			: regression_stat->ss_resid / (n - xdim);
 
 		ALLOC_MATRIX (LU, xdim, xdim);
-		one_scaled = g_new (gnum_float, xdim);
+		one_scaled = g_new (gnm_float, xdim);
 		for (i = 0; i < xdim; i++) one_scaled[i] = 1;
 		P = g_new (int, xdim);
 
 		err2 = LUPDecomp (xTx, LU, P, xdim, one_scaled);
-		regression_stat->se = g_new (gnum_float, xdim);
+		regression_stat->se = g_new (gnm_float, xdim);
 		if (err2 == REG_ok || err2 == REG_near_singular_good) {
-			gnum_float *e = g_new (gnum_float, xdim); /* Elementary vector */
-			gnum_float *inv = g_new (gnum_float, xdim);
+			gnm_float *e = g_new (gnm_float, xdim); /* Elementary vector */
+			gnm_float *inv = g_new (gnm_float, xdim);
 			for (i = 0; i < xdim; i++)
 				e[i] = 0;
 			for (i = 0; i < xdim; i++) {
@@ -417,7 +417,7 @@ general_linear_regression (gnum_float **xss, int xdim,
 		g_free (P);
 		g_free (one_scaled);
 
-		regression_stat->t = g_new (gnum_float, xdim);
+		regression_stat->t = g_new (gnm_float, xdim);
 
 		for (i = 0; i < xdim; i++)
 			regression_stat->t[i] = (regression_stat->se[i] == 0)
@@ -454,11 +454,11 @@ general_linear_regression (gnum_float **xss, int xdim,
 /* ------------------------------------------------------------------------- */
 
 typedef struct {
-  gnum_float min_x;
-  gnum_float max_x;
-  gnum_float min_y;
-  gnum_float max_y;
-  gnum_float mean_y;
+  gnm_float min_x;
+  gnm_float max_x;
+  gnm_float min_y;
+  gnm_float max_y;
+  gnm_float mean_y;
 } point_cloud_measure_type;
 
 /* Takes the current 'sign' (res[0]) and 'c' (res[3]) from the calling
@@ -473,18 +473,18 @@ typedef struct {
  */
 
 static int
-transform_x_and_linear_regression_log_fitting (gnum_float *xs,
-					       gnum_float *transf_xs,
-					       const gnum_float *ys, int n,
-					       gnum_float *res,
+transform_x_and_linear_regression_log_fitting (gnm_float *xs,
+					       gnm_float *transf_xs,
+					       const gnm_float *ys, int n,
+					       gnm_float *res,
 					       point_cloud_measure_type
 					       *point_cloud)
 {
         int i;
 	int result = REG_ok;
-	gnum_float mean_transf_x, diff_x, resid_y;
-	gnum_float sum1 = 0;
-	gnum_float sum2 = 0;
+	gnm_float mean_transf_x, diff_x, resid_y;
+	gnm_float sum1 = 0;
+	gnm_float sum2 = 0;
 
 	/* log (always > 0) */
 	for (i=0; i<n; i++)
@@ -506,20 +506,20 @@ transform_x_and_linear_regression_log_fitting (gnum_float *xs,
 }
 
 static int
-log_fitting (gnum_float *xs, const gnum_float *ys, int n,
-	     gnum_float *res, point_cloud_measure_type *point_cloud)
+log_fitting (gnm_float *xs, const gnm_float *ys, int n,
+	     gnm_float *res, point_cloud_measure_type *point_cloud)
 {
         int result = REG_ok;
 	gboolean sign_plus_ok = 1, sign_minus_ok = 1;
-	gnum_float x_range, c_step, c_accuracy_int, c_offset, c_accuracy;
-	gnum_float c_range, c_start, c_end, c_dist;
-	gnum_float *temp_res;
-        gnum_float *transf_xs;
+	gnm_float x_range, c_step, c_accuracy_int, c_offset, c_accuracy;
+	gnm_float c_range, c_start, c_end, c_dist;
+	gnm_float *temp_res;
+        gnm_float *transf_xs;
 
-	temp_res = g_new (gnum_float, 5);
+	temp_res = g_new (gnm_float, 5);
 	x_range = (point_cloud->max_x) - (point_cloud->min_x);
 	/* Not needed here, but allocate it once for all subfunction calls */
-	transf_xs = g_new (gnum_float, n);
+	transf_xs = g_new (gnm_float, n);
 	/* Choose final accuracy of c with respect to range of xs.
 	 * Make accuracy be a whole power of 10. */
 	c_accuracy = log10gnum (x_range);
@@ -609,7 +609,7 @@ log_fitting (gnum_float *xs, const gnum_float *ys, int n,
 							       ys, n, temp_res,
 							       point_cloud);
 		if (temp_res[4] <= res[4])
-		        memcpy (res, temp_res, 5 * sizeof (gnum_float));
+		        memcpy (res, temp_res, 5 * sizeof (gnm_float));
 		else {
 		        temp_res[3] = res[3] - res[0] * c_dist;
 			transform_x_and_linear_regression_log_fitting (xs,
@@ -618,7 +618,7 @@ log_fitting (gnum_float *xs, const gnum_float *ys, int n,
 								  temp_res,
 							          point_cloud);
 			if (temp_res[4] <= res[4])
-			        memcpy (res, temp_res, 5*sizeof (gnum_float));
+			        memcpy (res, temp_res, 5*sizeof (gnm_float));
 		}
 	} while (c_dist > c_accuracy);
 
@@ -644,10 +644,10 @@ log_fitting (gnum_float *xs, const gnum_float *ys, int n,
 /* Please refer to description in regression.h.  */
 
 RegressionResult
-linear_regression (gnum_float **xss, int dim,
-		   const gnum_float *ys, int n,
+linear_regression (gnm_float **xss, int dim,
+		   const gnm_float *ys, int n,
 		   gboolean affine,
-		   gnum_float *res,
+		   gnm_float *res,
 		   regression_stat_t *regression_stat)
 {
 	RegressionResult result;
@@ -656,10 +656,10 @@ linear_regression (gnum_float **xss, int dim,
 	g_return_val_if_fail (n >= 1, REG_invalid_dimensions);
 
 	if (affine) {
-		gnum_float **xss2;
-		xss2 = g_new (gnum_float *, dim + 1);
+		gnm_float **xss2;
+		xss2 = g_new (gnm_float *, dim + 1);
 		xss2[0] = NULL;  /* Substitute for 1-vector.  */
-		memcpy (xss2 + 1, xss, dim * sizeof (gnum_float *));
+		memcpy (xss2 + 1, xss, dim * sizeof (gnm_float *));
 
 		result = general_linear_regression (xss2, dim + 1, ys, n,
 						    res, regression_stat, affine);
@@ -676,20 +676,20 @@ linear_regression (gnum_float **xss, int dim,
 /* Please refer to description in regression.h.  */
 
 RegressionResult
-exponential_regression (gnum_float **xss, int dim,
-			const gnum_float *ys, int n,
+exponential_regression (gnm_float **xss, int dim,
+			const gnm_float *ys, int n,
 			gboolean affine,
-			gnum_float *res,
+			gnm_float *res,
 			regression_stat_t *regression_stat)
 {
-	gnum_float *log_ys;
+	gnm_float *log_ys;
 	RegressionResult result;
 	int i;
 
 	g_return_val_if_fail (dim >= 1, REG_invalid_dimensions);
 	g_return_val_if_fail (n >= 1, REG_invalid_dimensions);
 
-	log_ys = g_new (gnum_float, n);
+	log_ys = g_new (gnm_float, n);
 	for (i = 0; i < n; i++)
 		if (ys[i] > 0)
 			log_ys[i] = loggnum (ys[i]);
@@ -699,10 +699,10 @@ exponential_regression (gnum_float **xss, int dim,
 		}
 
 	if (affine) {
-		gnum_float **xss2;
-		xss2 = g_new (gnum_float *, dim + 1);
+		gnm_float **xss2;
+		xss2 = g_new (gnm_float *, dim + 1);
 		xss2[0] = NULL;  /* Substitute for 1-vector.  */
-		memcpy (xss2 + 1, xss, dim * sizeof (gnum_float *));
+		memcpy (xss2 + 1, xss, dim * sizeof (gnm_float *));
 
 		result = general_linear_regression (xss2, dim + 1, log_ys,
 						    n, res, regression_stat, affine);
@@ -726,13 +726,13 @@ exponential_regression (gnum_float **xss, int dim,
 /* Please refer to description in regression.h.  */
 
 RegressionResult
-logarithmic_regression (gnum_float **xss, int dim,
-			const gnum_float *ys, int n,
+logarithmic_regression (gnm_float **xss, int dim,
+			const gnm_float *ys, int n,
 			gboolean affine,
-			gnum_float *res,
+			gnm_float *res,
 			regression_stat_t *regression_stat)
 {
-        gnum_float **log_xss;
+        gnm_float **log_xss;
 	RegressionResult result;
 	int i, j;
 
@@ -751,10 +751,10 @@ logarithmic_regression (gnum_float **xss, int dim,
 	
 
 	if (affine) {
-		gnum_float **log_xss2;
-		log_xss2 = g_new (gnum_float *, dim + 1);
+		gnm_float **log_xss2;
+		log_xss2 = g_new (gnm_float *, dim + 1);
 		log_xss2[0] = NULL;  /* Substitute for 1-vector.  */
-		memcpy (log_xss2 + 1, log_xss, dim * sizeof (gnum_float *));
+		memcpy (log_xss2 + 1, log_xss, dim * sizeof (gnm_float *));
 
 		result = general_linear_regression (log_xss2, dim + 1, ys, n,
 						    res, regression_stat,
@@ -776,7 +776,7 @@ logarithmic_regression (gnum_float **xss, int dim,
 /* Please refer to description in regression.h.  */
 
 RegressionResult
-logarithmic_fit (gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
+logarithmic_fit (gnm_float *xs, const gnm_float *ys, int n, gnm_float *res)
 {
         point_cloud_measure_type point_cloud_measures;
 	int i, result;
@@ -872,14 +872,14 @@ regression_stat_destroy (regression_stat_t *regression_stat)
  */
 static RegressionResult
 derivative (RegressionFunction f,
-	    gnum_float *df,
-	    gnum_float *x, /* Only one point, not the whole data set. */
-	    gnum_float *par,
+	    gnm_float *df,
+	    gnm_float *x, /* Only one point, not the whole data set. */
+	    gnm_float *par,
 	    int index)
 {
-	gnum_float y1, y2;
+	gnm_float y1, y2;
 	RegressionResult result;
-	gnum_float par_save = par[index];
+	gnm_float par_save = par[index];
 
 	par[index] = par_save - DELTA;
 	result = (*f) (x, par, &y1);
@@ -926,16 +926,16 @@ derivative (RegressionFunction f,
  */
 static RegressionResult
 chi_squared (RegressionFunction f,
-	     gnum_float ** xvals, /* The entire data set. */
-	     gnum_float *par,
-	     gnum_float *yvals,   /* Ditto. */
-	     gnum_float *sigmas,  /* Ditto. */
+	     gnm_float ** xvals, /* The entire data set. */
+	     gnm_float *par,
+	     gnm_float *yvals,   /* Ditto. */
+	     gnm_float *sigmas,  /* Ditto. */
 	     int x_dim,          /* Number of data points. */
-	     gnum_float *chisq)   /* Chi Squared */
+	     gnm_float *chisq)   /* Chi Squared */
 {
 	int i;
 	RegressionResult result;
-	gnum_float tmp, y;
+	gnm_float tmp, y;
 	*chisq = 0;
 
 	for (i = 0; i < x_dim; i++) {
@@ -962,17 +962,17 @@ chi_squared (RegressionFunction f,
  */
 static RegressionResult
 chi_derivative (RegressionFunction f,
-		gnum_float *dchi,
-		gnum_float **xvals, /* The entire data set. */
-		gnum_float *par,
+		gnm_float *dchi,
+		gnm_float **xvals, /* The entire data set. */
+		gnm_float *par,
 		int index,
-		gnum_float *yvals,  /* Ditto. */
-		gnum_float *sigmas, /* Ditto. */
+		gnm_float *yvals,  /* Ditto. */
+		gnm_float *sigmas, /* Ditto. */
 		int x_dim)
 {
-	gnum_float y1, y2;
+	gnm_float y1, y2;
 	RegressionResult result;
-	gnum_float par_save = par[index];
+	gnm_float par_save = par[index];
 
 	par[index] = par_save - DELTA;
 	result = chi_squared (f, xvals, par, yvals, sigmas, x_dim, &y1);
@@ -1028,20 +1028,20 @@ chi_derivative (RegressionFunction f,
  */
 
 static RegressionResult
-coefficient_matrix (gnum_float **A, /* Output matrix. */
+coefficient_matrix (gnm_float **A, /* Output matrix. */
 		    RegressionFunction f,
-		    gnum_float **xvals, /* The entire data set. */
-		    gnum_float *par,
-		    gnum_float *yvals,  /* Ditto. */
-		    gnum_float *sigmas, /* Ditto. */
+		    gnm_float **xvals, /* The entire data set. */
+		    gnm_float *par,
+		    gnm_float *yvals,  /* Ditto. */
+		    gnm_float *sigmas, /* Ditto. */
 		    int x_dim,          /* Number of data points. */
 		    int p_dim,          /* Number of parameters.  */
-		    gnum_float r)
+		    gnm_float r)
 {
 	int i, j, k;
 	RegressionResult result;
-	gnum_float df_i, df_j;
-	gnum_float sum, sigma;
+	gnm_float df_i, df_j;
+	gnm_float sum, sigma;
 
 	/* Notice that the matrix is symetric.  */
 	for (i = 0; i < p_dim; i++) {
@@ -1092,16 +1092,16 @@ coefficient_matrix (gnum_float **A, /* Output matrix. */
 /* FIXME:  I am not happy with the behaviour with infinite errors.  */
 static RegressionResult
 parameter_errors (RegressionFunction f,
-		  gnum_float **xvals, /* The entire data set. */
-		  gnum_float *par,
-		  gnum_float *yvals,  /* Ditto. */
-		  gnum_float *sigmas, /* Ditto. */
+		  gnm_float **xvals, /* The entire data set. */
+		  gnm_float *par,
+		  gnm_float *yvals,  /* Ditto. */
+		  gnm_float *sigmas, /* Ditto. */
 		  int x_dim,          /* Number of data points. */
 		  int p_dim,          /* Number of parameters.  */
-		  gnum_float *errors)
+		  gnm_float *errors)
 {
 	RegressionResult result;
-	gnum_float **A;
+	gnm_float **A;
 	int i;
 
 	ALLOC_MATRIX (A, p_dim, p_dim);
@@ -1147,20 +1147,20 @@ parameter_errors (RegressionFunction f,
  */
 RegressionResult
 non_linear_regression (RegressionFunction f,
-		       gnum_float **xvals, /* The entire data set. */
-		       gnum_float *par,
-		       gnum_float *yvals,  /* Ditto. */
-		       gnum_float *sigmas, /* Ditto. */
+		       gnm_float **xvals, /* The entire data set. */
+		       gnm_float *par,
+		       gnm_float *yvals,  /* Ditto. */
+		       gnm_float *sigmas, /* Ditto. */
 		       int x_dim,          /* Number of data points. */
 		       int p_dim,          /* Number of parameters.  */
-		       gnum_float *chi,
-		       gnum_float *errors)
+		       gnm_float *chi,
+		       gnm_float *errors)
 {
-	gnum_float r = 0.001; /* Pick a conservative initial value. */
-	gnum_float *b, **A;
-	gnum_float *dpar;
-	gnum_float *tmp_par;
-	gnum_float chi_pre, chi_pos, dchi;
+	gnm_float r = 0.001; /* Pick a conservative initial value. */
+	gnm_float *b, **A;
+	gnm_float *dpar;
+	gnm_float *tmp_par;
+	gnm_float chi_pre, chi_pos, dchi;
 	RegressionResult result;
 	int i, count;
 
@@ -1169,9 +1169,9 @@ non_linear_regression (RegressionFunction f,
 		return result;
 
 	ALLOC_MATRIX (A, p_dim, p_dim);
-	dpar    = g_new (gnum_float, p_dim);
-	tmp_par = g_new (gnum_float, p_dim);
-	b       = g_new (gnum_float, p_dim);
+	dpar    = g_new (gnm_float, p_dim);
+	tmp_par = g_new (gnm_float, p_dim);
+	b       = g_new (gnm_float, p_dim);
 #ifdef DEBUG
 	printf ("Chi Squared : %lf", chi_pre);
 #endif

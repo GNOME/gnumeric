@@ -26,7 +26,7 @@
 #endif
 
 static gboolean
-update_data (gnum_float x, gnum_float y, GoalSeekData *data)
+update_data (gnm_float x, gnm_float y, GoalSeekData *data)
 {
 	if (y > 0) {
 		if (data->havexpos) {
@@ -86,10 +86,10 @@ update_data (gnum_float x, gnum_float y, GoalSeekData *data)
  * in a single point.
  */
 static GoalSeekStatus
-fake_df (GoalSeekFunction f, gnum_float x, gnum_float *dfx, gnum_float xstep,
+fake_df (GoalSeekFunction f, gnm_float x, gnm_float *dfx, gnm_float xstep,
 	 GoalSeekData *data, void *user_data)
 {
-	gnum_float xl, xr, yl, yr;
+	gnm_float xl, xr, yl, yr;
 	GoalSeekStatus status;
 
 #ifdef DEBUG_GOAL_SEEK
@@ -158,10 +158,10 @@ goal_seek_initialise (GoalSeekData *data)
  */
 GoalSeekStatus
 goal_seek_point (GoalSeekFunction f, GoalSeekData *data,
-		 void *user_data, gnum_float x0)
+		 void *user_data, gnm_float x0)
 {
 	GoalSeekStatus status;
-	gnum_float y0;
+	gnm_float y0;
 
 	if (x0 < data->xmin || x0 > data->xmax)
 		return GOAL_SEEK_ERROR;
@@ -191,17 +191,17 @@ goal_seek_point (GoalSeekFunction f, GoalSeekData *data,
  */
 GoalSeekStatus
 goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
-		  GoalSeekData *data, void *user_data, gnum_float x0)
+		  GoalSeekData *data, void *user_data, gnm_float x0)
 {
 	int iterations;
-	gnum_float precision = data->precision / 2;
+	gnm_float precision = data->precision / 2;
 
 #ifdef DEBUG_GOAL_SEEK
 	printf ("goal_seek_newton\n");
 #endif
 
 	for (iterations = 0; iterations < 20; iterations++) {
-		gnum_float x1, y0, df0, stepsize;
+		gnm_float x1, y0, df0, stepsize;
 		GoalSeekStatus status;
 
 		/* Check whether we have left the valid interval.  */
@@ -223,7 +223,7 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 		if (df)
 			status = df (x0, &df0, user_data);
 		else {
-			gnum_float xstep;
+			gnm_float xstep;
 
 			if (gnumabs (x0) < 1e-10)
 				if (data->havexneg && data->havexpos)
@@ -290,7 +290,7 @@ GoalSeekStatus
 goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 {
 	int iterations;
-	gnum_float stepsize;
+	gnm_float stepsize;
 	int newton_submethod = 0;
 
 #ifdef DEBUG_GOAL_SEEK
@@ -305,7 +305,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 
 	/* log_2 (10) = 3.3219 < 4.  */
 	for (iterations = 0; iterations < 100 + GNUM_DIG * 4; iterations++) {
-		gnum_float xmid, ymid;
+		gnm_float xmid, ymid;
 		GoalSeekStatus status;
 		enum { M_SECANT, M_RIDDER, M_NEWTON, M_MIDPOINT } method;
 
@@ -327,7 +327,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 			break;
 
 		case M_RIDDER: {
-			gnum_float det;
+			gnm_float det;
 
 			xmid = (data->xpos + data->xneg) / 2;
 			status = f (xmid, &ymid, user_data);
@@ -352,7 +352,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 			break;
 
 		case M_NEWTON: {
-			gnum_float x0, y0, xstep, df0;
+			gnm_float x0, y0, xstep, df0;
 
 			/* This method is only effective close-in.  */
 			if (stepsize > 0.1) {
@@ -444,7 +444,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 GoalSeekStatus
 goal_seek_trawl_uniformly (GoalSeekFunction f,
 			   GoalSeekData *data, void *user_data,
-			   gnum_float xmin, gnum_float xmax,
+			   gnm_float xmin, gnm_float xmax,
 			   int points)
 {
 	int i;
@@ -453,7 +453,7 @@ goal_seek_trawl_uniformly (GoalSeekFunction f,
 		return GOAL_SEEK_ERROR;
 
 	for (i = 0; i < points; i++) {
-		gnum_float x, y;
+		gnm_float x, y;
 		GoalSeekStatus status;
 
 		if (data->havexpos && data->havexneg)
@@ -482,7 +482,7 @@ goal_seek_trawl_uniformly (GoalSeekFunction f,
 GoalSeekStatus
 goal_seek_trawl_normally (GoalSeekFunction f,
 			  GoalSeekData *data, void *user_data,
-			  gnum_float mu, gnum_float sigma,
+			  gnm_float mu, gnm_float sigma,
 			  int points)
 {
 	int i;
@@ -491,7 +491,7 @@ goal_seek_trawl_normally (GoalSeekFunction f,
 		return GOAL_SEEK_ERROR;
 
 	for (i = 0; i < points; i++) {
-		gnum_float x, y;
+		gnm_float x, y;
 		GoalSeekStatus status;
 
 		if (data->havexpos && data->havexneg)
@@ -522,14 +522,14 @@ goal_seek_trawl_normally (GoalSeekFunction f,
 
 #ifdef STANDALONE
 static GoalSeekStatus
-f (gnum_float x, gnum_float *y, void *user_data)
+f (gnm_float x, gnm_float *y, void *user_data)
 {
 	*y = x * x - 2;
 	return GOAL_SEEK_OK;
 }
 
 static GoalSeekStatus
-df (gnum_float x, gnum_float *y, void *user_data)
+df (gnm_float x, gnm_float *y, void *user_data)
 {
 	*y = 2 * x;
 	return GOAL_SEEK_OK;

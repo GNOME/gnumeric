@@ -99,7 +99,7 @@ sub import_file {
 	if ($incomment) {
 	    $incomment = 0 if m|\*/|;
 	} else {
-	    s/\bdouble\b/gnum_float/g;
+	    s/\bdouble\b/gnm_float/g;
 	    s/\bRboolean\b/gboolean/g;
 
 	    # Improve precision of "log(1-x)".
@@ -119,7 +119,7 @@ sub import_file {
 	    s~([-+]?\d+\.\d*)(\s*/\s*)([-+e0-9.]+)~GNUM_const\($1\)$2$3~;
 
 	    # These are made static.
-	    s/^gnum_float\s+(pbeta_both|stirlerr|bd0|dpois_raw|chebyshev_eval|lgammacor|lbeta|pbeta_raw|dbinom_raw)/static gnum_float $1/;
+	    s/^gnm_float\s+(pbeta_both|stirlerr|bd0|dpois_raw|chebyshev_eval|lgammacor|lbeta|pbeta_raw|dbinom_raw)/static gnm_float $1/;
 	    s/^int\s+(chebyshev_init)/static int $1/;
 
 	    s/dnorm4/dnorm/g;
@@ -143,14 +143,14 @@ sub import_file {
 	    if ($filename =~ m|/qgamma\.c$| && /return 0\.5\*scale\*ch;/) {
 		$_ = ("    /* Special Gnumeric patch to improve precision.  */\n" .
 		      "    {\n" .
-		      "\tgnum_float x0 = 0.5*scale*ch;\n" .
-		      "\tgnum_float e0 = pgamma (x0, alpha, scale, lower_tail, log_p) - p;\n" .
+		      "\tgnm_float x0 = 0.5*scale*ch;\n" .
+		      "\tgnm_float e0 = pgamma (x0, alpha, scale, lower_tail, log_p) - p;\n" .
 		      "\n" .
 		      "\tif (e0 != 0 && lower_tail && !log_p) {\n" .
-		      "\t    gnum_float d0 = dgamma (x0, alpha, scale, log_p);\n" .
+		      "\t    gnm_float d0 = dgamma (x0, alpha, scale, log_p);\n" .
 		      "\t    if (d0) {\n" .
-		      "\t\tgnum_float x1 = x0 - e0 / d0;\n" .
-		      "\t\tgnum_float e1 = pgamma (x1, alpha, scale, lower_tail, log_p) - p;\n" .
+		      "\t\tgnm_float x1 = x0 - e0 / d0;\n" .
+		      "\t\tgnm_float e1 = pgamma (x1, alpha, scale, lower_tail, log_p) - p;\n" .
 		      "\t\tif (gnumabs (e1) < gnumabs (e0))\n" .
 		      "\t\t    x0 = x1;\n" .
 		      "\t    }\n" .

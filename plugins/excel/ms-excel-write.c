@@ -2179,7 +2179,7 @@ excel_write_value (ExcelWriteState *ewb, Value *v, guint32 col, guint32 row, gui
 		break;
 	}
 	case VALUE_FLOAT: {
-		gnum_float val = v->v_float.val;
+		gnm_float val = v->v_float.val;
 		gboolean is_int = ((val - (int)val) == 0.0) &&
 			(((((int)val)<<2)>>2) == ((int)val));
 

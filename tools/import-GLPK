@@ -11,7 +11,7 @@
 #       - imports only the selected files from the original source code
 #         distribution
 #       - creates the necessary 'Makefile.am's
-#       - uses gnum_float instead of double in all places
+#       - uses gnm_float instead of double in all places
 #	- uses sqrtgnum instead of sqrt in all places
 #
 #
@@ -171,8 +171,8 @@ for ($i = 0; $src[$i] ne "@"; $i++) {
 
 	    $line = $1;
  
-	    # Use gnum_float instead of double
-	    while ($line =~s/double/gnum_float/) {}
+	    # Use gnm_float instead of double
+	    while ($line =~s/double/gnm_float/) {}
 
 	    # Use sqrtgnum instead of sqrt, etc.
 	    $line =~ s/\b(sqrt|exp|log|pow|log1p|expm1|ceil|floor|sin|sinh|tan)(\s|$|\()/$1gnum$2/g;

@@ -1,11 +1,11 @@
-For floating point operations, Gnumeric uses the C type gnum_float.
+For floating point operations, Gnumeric uses the C type gnm_float.
 Currently that is "double" or "long double", depending on whether
 Gnumeric was configured with --with-long-double.
 
 This has some coding style consequences...
 
 1. Don't use (say) "exp"; use "expgnum".  If you simply use "exp",
-   the argument will be cast from gnum_float to double, thus potentially
+   the argument will be cast from gnm_float to double, thus potentially
    losing precision and the answer will also have reduced range and
    precision.
 
@@ -24,7 +24,7 @@ This has some coding style consequences...
 4. Various <math.h> constants have "gnum" counterparts.  See mathfunc.h.
    For example, M_PIgnum and M_LN2gnum.
 
-5. To print gnum_float use one of the formats GNUM_FORMAT_f,
+5. To print gnm_float use one of the formats GNUM_FORMAT_f,
    GNUM_FORMAT_g, ... defined in numbers.h
 
 -----------------------------------------------------------------------------

@@ -76,7 +76,7 @@ int lpx_integer(LPX *lp)
       LPSOL *sol = NULL;
       struct bbm1_cp parm;
       int j, k, ret, *ndx;
-      gnum_float trick = 1e-12, *val;
+      gnm_float trick = 1e-12, *val;
 #     define prefix "lpx_integer: "
       /* the problem should be of MIP class */
       if (lpx_get_class(lp) != LPX_MIP)
@@ -98,7 +98,7 @@ int lpx_integer(LPX *lp)
       /* copy bounds of rows and columns */
       for (k = 1; k <= m+n; k++)
       {  int typx;
-         gnum_float lb, ub, temp;
+         gnm_float lb, ub, temp;
          if (k <= m)
             lpx_get_row_bnds(lp, k, &typx, &lb, &ub);
          else
@@ -129,10 +129,10 @@ int lpx_integer(LPX *lp)
       }
       /* copy the constraint matrix */
       ndx = ucalloc(1+m, sizeof(int));
-      val = ucalloc(1+m, sizeof(gnum_float));
+      val = ucalloc(1+m, sizeof(gnm_float));
       for (j = 1; j <= n; j++)
       {  int len, t;
-         gnum_float temp;
+         gnm_float temp;
          len = lpx_get_mat_col(lp, j, ndx, val);
          for (t = 1; t <= len; t++)
          {  temp = floorgnum(val[t] + 0.5);
@@ -146,7 +146,7 @@ int lpx_integer(LPX *lp)
       /* copy the objective function */
       mip->dir = (lpx_get_obj_dir(lp) == LPX_MIN ? '-' : '+');
       for (k = 0; k <= m+n; k++)
-      {  gnum_float c, temp;
+      {  gnm_float c, temp;
          if (k == 0)
             c = lpx_get_obj_c0(lp);
          else if (k <= m)
@@ -175,7 +175,7 @@ int lpx_integer(LPX *lp)
       sol->objval = lpx_get_obj_val(lp);
       for (k = 1; k <= m+n; k++)
       {  int tagx;
-         gnum_float vx, dx;
+         gnm_float vx, dx;
          if (k <= m)
             lpx_get_row_info(lp, k, &tagx, &vx, &dx);
          else
@@ -246,7 +246,7 @@ int lpx_integer(LPX *lp)
       }
       if (lp->i_stat == LPX_I_OPT || lp->i_stat == LPX_I_FEAS)
       {  for (k = 1; k <= m+n; k++)
-         {  gnum_float temp;
+         {  gnm_float temp;
             temp = sol->valx[k];
             if (k > m && mip->kind[k-m]) insist(temp == floorgnum(temp));
             lp->mipx[k] = temp;

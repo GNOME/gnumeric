@@ -155,7 +155,7 @@ dialog_pref_create_int_spin (char const *key, char const *schema_key,
 static void
 dialog_pref_create_float_spin (char const *key, char const *schema_key,
 			       GtkWidget *table, gint row, PrefState *state,
-			       gnum_float val, gnum_float from, gnum_float to, gnum_float step,
+			       gnm_float val, gnm_float from, gnm_float to, gnm_float step,
 			       gint digits,
 			       cb_pref_window_set_t pref_window_set,
 			       cb_pref_window_changed_t pref_window_changed)
@@ -418,7 +418,7 @@ cb_value_edited (__attribute__((unused)) GtkCellRendererText *cell,
 	char        *key;
 	char        *schema;
 	gint        the_int;
-	gnum_float  the_float;
+	gnm_float  the_float;
 	gboolean    the_bool;
 	Value       *value;
 	GConfClient *client = application_get_gconf_client ();
@@ -973,10 +973,10 @@ cb_pref_window_set_zoom (GConfClient *gconf,
 			 __attribute__((unused)) GConfEntry *entry,
 			 GtkSpinButton *button)
 {
-	gnum_float float_in_gconf = gconf_client_get_float (gconf,
+	gnm_float float_in_gconf = gconf_client_get_float (gconf,
 							    GNUMERIC_GCONF_GUI_ZOOM,
 							    NULL);
-	gnum_float float_in_button = gtk_spin_button_get_value (button);
+	gnm_float float_in_button = gtk_spin_button_get_value (button);
 	if (float_in_gconf != float_in_button)
 		gtk_spin_button_set_value (button, (gdouble) float_in_gconf);
 }
@@ -997,10 +997,10 @@ cb_pref_window_set_window_height (GConfClient *gconf,
 				  __attribute__((unused)) GConfEntry *entry,
 				GtkSpinButton *button)
 {
-	gnum_float float_in_gconf = gconf_client_get_float (gconf,
+	gnm_float float_in_gconf = gconf_client_get_float (gconf,
 						  GNUMERIC_GCONF_GUI_WINDOW_Y,
 						  NULL);
-	gnum_float float_in_button = gtk_spin_button_get_value (button);
+	gnm_float float_in_button = gtk_spin_button_get_value (button);
 	if (float_in_gconf != float_in_button)
 		gtk_spin_button_set_value (button, (gdouble) float_in_gconf);
 }
@@ -1021,10 +1021,10 @@ cb_pref_window_set_window_width (GConfClient *gconf,
 				 __attribute__((unused)) GConfEntry *entry,
 				GtkSpinButton *button)
 {
-	gnum_float float_in_gconf = gconf_client_get_float (gconf,
+	gnm_float float_in_gconf = gconf_client_get_float (gconf,
 						  GNUMERIC_GCONF_GUI_WINDOW_X,
 						  NULL);
-	gnum_float float_in_button = gtk_spin_button_get_value (button);
+	gnm_float float_in_button = gtk_spin_button_get_value (button);
 	if (float_in_gconf != float_in_button)
 		gtk_spin_button_set_value (button, (gdouble) float_in_gconf);
 }

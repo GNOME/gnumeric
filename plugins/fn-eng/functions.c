@@ -55,7 +55,7 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 	int max, places;
 	char *err, buffer[40];
 	const char *str;
-	gnum_float v, b10;
+	gnm_float v, b10;
 	int digit;
 
 	g_return_val_if_fail (src_base > 1 && src_base <= 36,
@@ -439,7 +439,7 @@ static const char *help_besseli = {
 static Value *
 gnumeric_besseli (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x, order;
+	gnm_float x, order;
 
 	x = value_get_as_float (argv[0]);	/* value to evaluate I_n at. */
 	order = value_get_as_float (argv[1]);	/* the order */
@@ -476,7 +476,7 @@ static const char *help_besselk = {
 static Value *
 gnumeric_besselk (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x, order;
+	gnm_float x, order;
 
 	x = value_get_as_float (argv[0]);	/* value to evaluate K_n at. */
 	order = value_get_as_float (argv[1]);	/* the order */
@@ -669,15 +669,15 @@ static const char *help_convert = {
 
 typedef struct {
         const char *str;
-	gnum_float c;
+	gnm_float c;
 } eng_convert_unit_t;
 
 
-static gnum_float
+static gnm_float
 get_constant_of_unit(const eng_convert_unit_t units[],
 		     const eng_convert_unit_t prefixes[],
 		     const char *unit_name,
-		     gnum_float *c, gnum_float *prefix)
+		     gnm_float *c, gnm_float *prefix)
 {
         int i;
 
@@ -711,9 +711,9 @@ static Value *
 convert (const eng_convert_unit_t units[],
 	 const eng_convert_unit_t prefixes[],
 	 const char *from_unit, const char *to_unit,
-	 gnum_float n, Value **v, const EvalPos *ep)
+	 gnm_float n, Value **v, const EvalPos *ep)
 {
-        gnum_float from_c, from_prefix, to_c, to_prefix;
+        gnm_float from_c, from_prefix, to_c, to_prefix;
 
 	if (get_constant_of_unit (units, prefixes, from_unit, &from_c,
 				  &from_prefix)) {
@@ -782,7 +782,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	#define one_T_to_ga     10000
 
 	/* Temperature constants */
-	const gnum_float C_K_offset = GNUM_const (273.15);
+	const gnm_float C_K_offset = GNUM_const (273.15);
 
 	/* Liquid measure constants */
 	#define one_tsp_to_tbs  (GNUM_const (1.0) / 3)
@@ -920,7 +920,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 		{ NULL,0.0 }
 	};
 
-	gnum_float n;
+	gnm_float n;
 	const char *from_unit, *to_unit;
 	Value *v;
 
@@ -1011,7 +1011,7 @@ static const char *help_erf = {
 static Value *
 gnumeric_erf (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float ans, lower, upper;
+	gnm_float ans, lower, upper;
 
 	lower = value_get_as_float (argv[0]);
 	ans = erfgnum (lower);
@@ -1047,7 +1047,7 @@ static const char *help_erfc = {
 static Value *
 gnumeric_erfc (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x;
+	gnm_float x;
 
 	x = value_get_as_float (argv[0]);
 

@@ -353,7 +353,7 @@ dao_set_cell_printf (data_analysis_output_t *dao, int col, int row,
  *
  **/
 void
-dao_set_cell_float (data_analysis_output_t *dao, int col, int row, gnum_float v)
+dao_set_cell_float (data_analysis_output_t *dao, int col, int row, gnm_float v)
 {
 	dao_set_cell_value (dao, col, row, value_new_float (v));
 }
@@ -408,7 +408,7 @@ dao_set_cell_na (data_analysis_output_t *dao, int col, int row)
  **/
 void
 dao_set_cell_float_na (data_analysis_output_t *dao, int col, int row,
-		       gnum_float v, gboolean is_valid)
+		       gnm_float v, gboolean is_valid)
 {
 	if (is_valid) {
 		dao_set_cell_float (dao, col, row, v);

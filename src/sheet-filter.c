@@ -627,7 +627,7 @@ cb_hide_unwanted_items (Sheet *sheet, int col, int row, Cell *cell,
 
 typedef struct {
 	gboolean	initialized, find_max;
-	gnum_float	low, high;
+	gnm_float	low, high;
 } FilterPercentage;
 
 static Value *
@@ -635,7 +635,7 @@ cb_filter_find_percentage (Sheet *sheet, int col, int row, Cell *cell,
 			   FilterPercentage *data)
 {
 	if (VALUE_IS_NUMBER (cell->value)) {
-		gnum_float const v = value_get_as_float (cell->value);
+		gnm_float const v = value_get_as_float (cell->value);
 
 		if (data->initialized) {
 			if (data->low > v)
@@ -655,7 +655,7 @@ cb_hide_unwanted_percentage (Sheet *sheet, int col, int row, Cell *cell,
 			     FilterPercentage const *data)
 {
 	if (VALUE_IS_NUMBER (cell->value)) {
-		gnum_float const v = value_get_as_float (cell->value);
+		gnm_float const v = value_get_as_float (cell->value);
 		if (data->find_max) {
 			if (v >= data->high)
 				return NULL;
@@ -698,7 +698,7 @@ filter_field_apply (GnmFilterField *field)
 	else if (0x30 == (field->cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
 		if (field->cond->op[0] & 0x2) { /* relative */
 			FilterPercentage data;
-			gnum_float	 offset;
+			gnm_float	 offset;
 
 			data.find_max = (field->cond->op[0] & 0x1) ? FALSE : TRUE;
 			data.initialized = FALSE;

@@ -50,7 +50,7 @@
 
 static Value *
 tabulation_eval (Workbook *wb, int dims,
-		 const gnum_float *x, Cell **xcells, Cell *ycell)
+		 const gnm_float *x, Cell **xcells, Cell *ycell)
 {
 	int i;
 
@@ -81,9 +81,9 @@ do_tabulation (Workbook *wb,
 	       Cell *target,
 	       int dims,
 	       Cell **cells,
-	       const gnum_float *minima,
-	       const gnum_float *maxima,
-	       const gnum_float *steps,
+	       const gnm_float *minima,
+	       const gnm_float *maxima,
+	       const gnm_float *steps,
 	       gboolean with_coordinates)
 {
 	Sheet *sheet = NULL;
@@ -91,7 +91,7 @@ do_tabulation (Workbook *wb,
 	StyleFormat const *targetformat = my_get_format (target);
 	int row = 0;
 
-	gnum_float *values = g_new (gnum_float, dims);
+	gnm_float *values = g_new (gnm_float, dims);
 	int *index = g_new (int, dims);
 	int *counts = g_new (int, dims);
 	Sheet **sheets = NULL;
@@ -116,7 +116,7 @@ do_tabulation (Workbook *wb,
 
 	if (sheetdim) {
 		int dim = 2;
-		gnum_float val = minima[dim];
+		gnm_float val = minima[dim];
 		StyleFormat const *sf = my_get_format (cells[dim]);
 		int i;
 
@@ -342,8 +342,8 @@ get_table_expr_entry (GtkTable *t, int y, int x)
 }
 
 static int
-get_table_float_entry (GtkTable *t, int y, int x, Cell *cell, gnum_float *number,
-		       GtkEntry **wp, gboolean with_default, gnum_float default_float)
+get_table_float_entry (GtkTable *t, int y, int x, Cell *cell, gnm_float *number,
+		       GtkEntry **wp, gboolean with_default, gnm_float default_float)
 {
 	GList *l;
 	StyleFormat *format;
@@ -389,9 +389,9 @@ tabulate_ok_clicked (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
 	gboolean with_coordinates;
 
 	Cell **cells = g_new (Cell *, dd->source_table->nrows);
-	gnum_float *minima = g_new (gnum_float, dd->source_table->nrows);
-	gnum_float *maxima = g_new (gnum_float, dd->source_table->nrows);
-	gnum_float *steps = g_new (gnum_float, dd->source_table->nrows);
+	gnm_float *minima = g_new (gnm_float, dd->source_table->nrows);
+	gnm_float *maxima = g_new (gnm_float, dd->source_table->nrows);
+	gnm_float *steps = g_new (gnm_float, dd->source_table->nrows);
 
 	for (row = 1; row < dd->source_table->nrows; row++) {
 		GtkEntry *e_w;

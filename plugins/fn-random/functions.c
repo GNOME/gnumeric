@@ -89,8 +89,8 @@ static const char *help_randuniform = {
 static Value *
 gnumeric_randuniform (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float a = value_get_as_float (argv[0]);
-	gnum_float b = value_get_as_float (argv[1]);
+	gnm_float a = value_get_as_float (argv[0]);
+	gnm_float b = value_get_as_float (argv[1]);
 
 	if (a > b)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -124,10 +124,10 @@ static const char *help_randdiscrete = {
 };
 
 typedef struct {
-	gnum_float *prob;
+	gnm_float *prob;
 	int        ind;
-	gnum_float x;
-	gnum_float cum;
+	gnm_float x;
+	gnm_float cum;
 	int        x_ind;
 	Value      *res;
 } randdiscrete_t;
@@ -187,7 +187,7 @@ gnumeric_randdiscrete (FunctionEvalInfo *ei, Value **argv)
 
 	if (prob_range) {
 		int        n;
-		gnum_float sum;
+		gnm_float sum;
 
 		if (prob_range->v_range.cell.b.col
 		    - prob_range->v_range.cell.a.col + 1 != cols
@@ -246,7 +246,7 @@ static const char *help_randexp = {
 static Value *
 gnumeric_randexp (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x = value_get_as_float (argv[0]);
+	gnm_float x = value_get_as_float (argv[0]);
 
         return value_new_float (random_exponential (x));
 }
@@ -271,7 +271,7 @@ static const char *help_randpoisson = {
 static Value *
 gnumeric_randpoisson (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x = value_get_as_float (argv[0]);
+	gnm_float x = value_get_as_float (argv[0]);
 
 	if (x < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -300,7 +300,7 @@ static const char *help_randbinom = {
 static Value *
 gnumeric_randbinom (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float p      = value_get_as_float (argv[0]);
+	gnm_float p      = value_get_as_float (argv[0]);
 	int        trials = value_get_as_int (argv[1]);
 
 	if (p < 0 || p > 1 || trials < 0)
@@ -333,7 +333,7 @@ static Value *
 gnumeric_randbetween (FunctionEvalInfo *ei, Value **argv)
 {
         int bottom, top;
-	gnum_float r;
+	gnm_float r;
 
 	bottom = value_get_as_int (argv[0]);
 	top    = value_get_as_int (argv[1]);
@@ -366,7 +366,7 @@ static const char *help_randnegbinom = {
 static Value *
 gnumeric_randnegbinom (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float p = value_get_as_float (argv[0]);
+	gnm_float p = value_get_as_float (argv[0]);
 	int failures = value_get_as_int (argv[1]);
 
 	if (p < 0 || p > 1 || failures < 0)
@@ -395,7 +395,7 @@ static const char *help_randbernoulli = {
 static Value *
 gnumeric_randbernoulli (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float p = value_get_as_float (argv[0]);
+	gnm_float p = value_get_as_float (argv[0]);
 
 	if (p < 0 || p > 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -423,8 +423,8 @@ static const char *help_randgaussian = {
 static Value *
 gnumeric_randgaussian (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float mean  = value_get_as_float (argv[0]);
-	gnum_float stdev = value_get_as_float (argv[1]);
+	gnm_float mean  = value_get_as_float (argv[0]);
+	gnm_float stdev = value_get_as_float (argv[1]);
 
 	if (stdev < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -454,7 +454,7 @@ static const char *help_randcauchy = {
 static Value *
 gnumeric_randcauchy (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float a = value_get_as_float (argv[0]);
+	gnm_float a = value_get_as_float (argv[0]);
 
 	if (a < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -480,8 +480,8 @@ static const char *help_randlognorm = {
 static Value *
 gnumeric_randlognorm (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float zeta  = value_get_as_float (argv[0]);
-	gnum_float sigma = value_get_as_float (argv[1]);
+	gnm_float zeta  = value_get_as_float (argv[0]);
+	gnm_float sigma = value_get_as_float (argv[1]);
 
         return value_new_float (random_lognormal (zeta, sigma));
 }
@@ -504,8 +504,8 @@ static const char *help_randweibull = {
 static Value *
 gnumeric_randweibull (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float a = value_get_as_float (argv[0]);
-	gnum_float b = value_get_as_float (argv[1]);
+	gnm_float a = value_get_as_float (argv[0]);
+	gnm_float b = value_get_as_float (argv[1]);
 
         return value_new_float (random_weibull (a, b));
 }
@@ -530,7 +530,7 @@ static const char *help_randlaplace = {
 static Value *
 gnumeric_randlaplace (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float a = value_get_as_float (argv[0]);
+	gnm_float a = value_get_as_float (argv[0]);
 
         return value_new_float (random_laplace (a));
 }
@@ -553,7 +553,7 @@ static const char *help_randrayleigh = {
 static Value *
 gnumeric_randrayleigh (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float sigma = value_get_as_float (argv[0]);
+	gnm_float sigma = value_get_as_float (argv[0]);
 
         return value_new_float (random_rayleigh (sigma));
 }
@@ -580,8 +580,8 @@ static const char *help_randrayleightail = {
 static Value *
 gnumeric_randrayleightail (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float a     = value_get_as_float (argv[0]);
-	gnum_float sigma = value_get_as_float (argv[1]);
+	gnm_float a     = value_get_as_float (argv[0]);
+	gnm_float sigma = value_get_as_float (argv[1]);
 
         return value_new_float (random_rayleigh_tail (a, sigma));
 }
@@ -606,8 +606,8 @@ static const char *help_randgamma = {
 static Value *
 gnumeric_randgamma (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float a = value_get_as_float (argv[0]);
-	gnum_float b = value_get_as_float (argv[1]);
+	gnm_float a = value_get_as_float (argv[0]);
+	gnm_float b = value_get_as_float (argv[1]);
 
 	if (a <= 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -633,8 +633,8 @@ static const char *help_randpareto = {
 static Value *
 gnumeric_randpareto (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float a = value_get_as_float (argv[0]);
-	gnum_float b = value_get_as_float (argv[1]);
+	gnm_float a = value_get_as_float (argv[0]);
+	gnm_float b = value_get_as_float (argv[1]);
 
         return value_new_float (random_pareto (a, b));
 }
@@ -657,8 +657,8 @@ static const char *help_randfdist = {
 static Value *
 gnumeric_randfdist (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float nu1 = value_get_as_float (argv[0]);
-	gnum_float nu2 = value_get_as_float (argv[1]);
+	gnm_float nu1 = value_get_as_float (argv[0]);
+	gnm_float nu2 = value_get_as_float (argv[1]);
 
         return value_new_float (random_fdist (nu1, nu2));
 }
@@ -681,8 +681,8 @@ static const char *help_randbeta = {
 static Value *
 gnumeric_randbeta (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float a = value_get_as_float (argv[0]);
-	gnum_float b = value_get_as_float (argv[1]);
+	gnm_float a = value_get_as_float (argv[0]);
+	gnm_float b = value_get_as_float (argv[1]);
 
         return value_new_float (random_beta (a, b));
 }
@@ -708,7 +708,7 @@ static const char *help_randlogistic = {
 static Value *
 gnumeric_randlogistic (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float a = value_get_as_float (argv[0]);
+	gnm_float a = value_get_as_float (argv[0]);
 
         return value_new_float (random_logistic (a));
 }
@@ -736,7 +736,7 @@ static const char *help_randgeom = {
 static Value *
 gnumeric_randgeom (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float p = value_get_as_float (argv[0]);
+	gnm_float p = value_get_as_float (argv[0]);
 
 	if (p < 0 || p > 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -794,7 +794,7 @@ static const char *help_randlog = {
 static Value *
 gnumeric_randlog (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float p = value_get_as_float (argv[0]);
+	gnm_float p = value_get_as_float (argv[0]);
 
 	if (p < 0 || p > 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -820,7 +820,7 @@ static const char *help_randchisq = {
 static Value *
 gnumeric_randchisq (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float nu = value_get_as_float (argv[0]);
+	gnm_float nu = value_get_as_float (argv[0]);
 
         return value_new_float (random_chisq (nu));
 }
@@ -843,7 +843,7 @@ static const char *help_randtdist = {
 static Value *
 gnumeric_randtdist (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float nu = value_get_as_float (argv[0]);
+	gnm_float nu = value_get_as_float (argv[0]);
 
         return value_new_float (random_tdist (nu));
 }
@@ -871,8 +871,8 @@ static const char *help_randgumbel = {
 static Value *
 gnumeric_randgumbel (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float a = value_get_as_float (argv[0]);
-	gnum_float b = value_get_as_float (argv[1]);
+	gnm_float a = value_get_as_float (argv[0]);
+	gnm_float b = value_get_as_float (argv[1]);
 	int type     = (argv[2] == NULL) ? 1 : value_get_as_int (argv[2]);
 
 	if (type != 1 && type != 2)
@@ -909,9 +909,9 @@ static const char *help_randlevy = {
 static Value *
 gnumeric_randlevy (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float c     = value_get_as_float (argv[0]);
-	gnum_float alpha = value_get_as_float (argv[1]);
-	gnum_float beta  = argv[2] == NULL ? 0 : value_get_as_float (argv[1]);
+	gnm_float c     = value_get_as_float (argv[0]);
+	gnm_float alpha = value_get_as_float (argv[1]);
+	gnm_float beta  = argv[2] == NULL ? 0 : value_get_as_float (argv[1]);
 
 	if (alpha <= 0 || alpha > 2 || beta < -1 || beta > 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -944,8 +944,8 @@ static const char *help_randexppow = {
 static Value *
 gnumeric_randexppow (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float a = value_get_as_float (argv[0]);
-	gnum_float b = value_get_as_float (argv[1]);
+	gnm_float a = value_get_as_float (argv[0]);
+	gnm_float b = value_get_as_float (argv[1]);
 
 	return value_new_float (random_exppow (a, b));
 }
@@ -1008,8 +1008,8 @@ static const char *help_randgaussiantail = {
 static Value *
 gnumeric_randgaussiantail (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float a     = value_get_as_float (argv[0]);
-	gnum_float sigma = value_get_as_float (argv[1]);
+	gnm_float a     = value_get_as_float (argv[0]);
+	gnm_float sigma = value_get_as_float (argv[1]);
 
 	return value_new_float (random_gaussian_tail (a, sigma));
 }

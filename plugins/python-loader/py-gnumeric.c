@@ -364,7 +364,7 @@ convert_python_to_gnumeric_value (const EvalPos *eval_pos, PyObject *py_val)
 	} else if (PyInt_Check (py_val)) {
 		ret_val = value_new_int ((gint) PyInt_AsLong (py_val));
 	} else if (PyFloat_Check (py_val)) {
-		ret_val = value_new_float ((gnum_float) PyFloat_AsDouble (py_val));
+		ret_val = value_new_float ((gnm_float) PyFloat_AsDouble (py_val));
 	} else if (PyString_Check (py_val)) {
 		ret_val = value_new_string (PyString_AsString (py_val));
 	} else if (py_val_type == (PyObject *) &py_RangeRef_object_type) {

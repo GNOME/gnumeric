@@ -76,7 +76,7 @@ INV *inv_create(int m, int max_upd)
          inv->p0_row[k] = inv->p0_col[k] = k;
       inv->cc_len = -1;
       inv->cc_ndx = ucalloc(1+m, sizeof(int));
-      inv->cc_val = ucalloc(1+m, sizeof(gnum_float));
+      inv->cc_val = ucalloc(1+m, sizeof(gnm_float));
       inv->upd_tol = 1e-12;
       inv->nnz_h = 0;
       return inv;
@@ -89,7 +89,7 @@ INV *inv_create(int m, int max_upd)
 --
 -- #include "glpinv.h"
 -- int inv_decomp(INV *inv,
---    void *info, int (*col)(void *info, int j, int rn[], gnum_float bj[]));
+--    void *info, int (*col)(void *info, int j, int rn[], gnm_float bj[]));
 --
 -- *Description*
 --
@@ -157,7 +157,7 @@ INV *inv_create(int m, int max_upd)
 -- just additionally sets H = I and P0 = P. */
 
 int inv_decomp(INV *inv,
-      void *info, int (*col)(void *info, int j, int rn[], gnum_float bj[]))
+      void *info, int (*col)(void *info, int j, int rn[], gnm_float bj[]))
 {     int *pp_row = inv->luf->pp_row;
       int *pp_col = inv->luf->pp_col;
       int *p0_row = inv->p0_row;
@@ -190,7 +190,7 @@ int inv_decomp(INV *inv,
 -- *Synopsis*
 --
 -- #include "glpinv.h"
--- void inv_h_solve(INV *inv, int tr, gnum_float x[]);
+-- void inv_h_solve(INV *inv, int tr, gnm_float x[]);
 --
 -- *Description*
 --
@@ -204,15 +204,15 @@ int inv_decomp(INV *inv,
 -- matrix H. On exit this array will contain elements of the solution
 -- vector x in the same locations. */
 
-void inv_h_solve(INV *inv, int tr, gnum_float x[])
+void inv_h_solve(INV *inv, int tr, gnm_float x[])
 {     int nfs = inv->hh_nfs;
       int *hh_ndx = inv->hh_ndx;
       int *hh_ptr = inv->hh_ptr;
       int *hh_len = inv->hh_len;
       int *sv_ndx = inv->luf->sv_ndx;
-      gnum_float *sv_val = inv->luf->sv_val;
+      gnm_float *sv_val = inv->luf->sv_val;
       int i, k, beg, end, ptr;
-      gnum_float temp;
+      gnm_float temp;
       if (!inv->valid)
          fault("inv_h_solve: the factorization is not valid");
       if (!tr)
@@ -248,7 +248,7 @@ void inv_h_solve(INV *inv, int tr, gnum_float x[])
 -- *Synopsis*
 --
 -- #include "glpinv.h"
--- void inv_ftran(INV *inv, gnum_float x[], int save);
+-- void inv_ftran(INV *inv, gnm_float x[], int save);
 --
 -- *Description*
 --
@@ -274,17 +274,17 @@ void inv_h_solve(INV *inv, int tr, gnum_float x[])
 -- routine should call the routine inv_ftran with the save flag set at
 -- least once before a subsequent call to the routine inv_update. */
 
-void inv_ftran(INV *inv, gnum_float x[], int save)
+void inv_ftran(INV *inv, gnm_float x[], int save)
 {     int m = inv->m;
       int *pp_row = inv->luf->pp_row;
       int *pp_col = inv->luf->pp_col;
-      gnum_float eps_tol = inv->luf->eps_tol;
+      gnm_float eps_tol = inv->luf->eps_tol;
       int *p0_row = inv->p0_row;
       int *p0_col = inv->p0_col;
       int *cc_ndx = inv->cc_ndx;
-      gnum_float *cc_val = inv->cc_val;
+      gnm_float *cc_val = inv->cc_val;
       int i, len;
-      gnum_float temp;
+      gnm_float temp;
       if (!inv->valid)
          fault("inv_ftran: the factorization is not valid");
       /* B = F*H*V, therefore inv(B) = inv(V)*inv(H)*inv(F) */
@@ -316,7 +316,7 @@ void inv_ftran(INV *inv, gnum_float x[], int save)
 -- *Synopsis*
 --
 -- #include "glpinv.h"
--- void inv_btran(INV *inv, gnum_float x[]);
+-- void inv_btran(INV *inv, gnm_float x[]);
 --
 -- *Description*
 --
@@ -333,7 +333,7 @@ void inv_ftran(INV *inv, gnum_float x[], int save)
 -- matrix. On exit this array will contain components of the vector x'
 -- in the same locations. */
 
-void inv_btran(INV *inv, gnum_float x[])
+void inv_btran(INV *inv, gnm_float x[])
 {     int *pp_row = inv->luf->pp_row;
       int *pp_col = inv->luf->pp_col;
       int *p0_row = inv->p0_row;
@@ -459,7 +459,7 @@ int inv_update(INV *inv, int j)
       int *vr_ptr = luf->vr_ptr;
       int *vr_len = luf->vr_len;
       int *vr_cap = luf->vr_cap;
-      gnum_float *vr_piv = luf->vr_piv;
+      gnm_float *vr_piv = luf->vr_piv;
       int *vc_ptr = luf->vc_ptr;
       int *vc_len = luf->vc_len;
       int *vc_cap = luf->vc_cap;
@@ -468,20 +468,20 @@ int inv_update(INV *inv, int j)
       int *qq_row = luf->qq_row;
       int *qq_col = luf->qq_col;
       int *sv_ndx = luf->sv_ndx;
-      gnum_float *sv_val = luf->sv_val;
-      gnum_float *work = luf->work;
-      gnum_float eps_tol = luf->eps_tol;
+      gnm_float *sv_val = luf->sv_val;
+      gnm_float *work = luf->work;
+      gnm_float eps_tol = luf->eps_tol;
       int *hh_ndx = inv->hh_ndx;
       int *hh_ptr = inv->hh_ptr;
       int *hh_len = inv->hh_len;
       int cc_len = inv->cc_len;
       int *cc_ndx = inv->cc_ndx;
-      gnum_float *cc_val = inv->cc_val;
-      gnum_float upd_tol = inv->upd_tol;
+      gnm_float *cc_val = inv->cc_val;
+      gnm_float upd_tol = inv->upd_tol;
       int ret = 0;
       int i, i_beg, i_end, i_ptr, j_beg, j_end, j_ptr, k, k1, k2, p, q,
          p_beg, p_end, p_ptr, ptr;
-      gnum_float f, temp;
+      gnm_float f, temp;
       if (!inv->valid)
          fault("inv_update: the factorization is not valid");
       if (inv->cc_len < 0)
@@ -553,7 +553,7 @@ int inv_update(INV *inv, int j)
       /* add elements of the new j-th column to the column list */
       j_ptr = vc_ptr[j];
       memmove(&sv_ndx[j_ptr], &cc_ndx[1], cc_len * sizeof(int));
-      memmove(&sv_val[j_ptr], &cc_val[1], cc_len * sizeof(gnum_float));
+      memmove(&sv_val[j_ptr], &cc_val[1], cc_len * sizeof(gnm_float));
       vc_len[j] = cc_len;
       luf->nnz_v += cc_len;
       /* k1 > k2 means that the diagonal element u[k2,k2] is zero and
@@ -703,7 +703,7 @@ int inv_update(INV *inv, int j)
       /* add new elements of the i-th row to the row list */
       i_ptr = vr_ptr[i];
       memmove(&sv_ndx[i_ptr], &cc_ndx[1], cc_len * sizeof(int));
-      memmove(&sv_val[i_ptr], &cc_val[1], cc_len * sizeof(gnum_float));
+      memmove(&sv_val[i_ptr], &cc_val[1], cc_len * sizeof(gnm_float));
       vr_len[i] = cc_len;
       luf->nnz_v += cc_len;
       /* the factorization has been successfully updated */

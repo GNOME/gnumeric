@@ -115,7 +115,7 @@ struct ELEM
       /* row number (1 <= i <= m) */
       int j;
       /* column number (1 <= j <= n) */
-      gnum_float val;
+      gnm_float val;
       /* element value (usually non-zero, but may be zero) */
       ELEM *row;
       /* pointer to the next element in the same row (this linked list
@@ -137,7 +137,7 @@ struct PER
          not used) */
 };
 
-extern MAT *aat_numb(MAT *S, MAT *A, gnum_float D[], gnum_float work[]);
+extern MAT *aat_numb(MAT *S, MAT *A, gnm_float D[], gnm_float work[]);
 /* compute matrix product S = A * D * A'; numeric phase */
 
 extern MAT *aat_symb(MAT *S, MAT *A, char work[]);
@@ -188,41 +188,41 @@ extern void delete_mat(MAT *A);
 extern void delete_per(PER *P);
 /* delete permutation matrix */
 
-extern void eq_scaling(MAT *A, gnum_float R[], gnum_float S[], int ord);
+extern void eq_scaling(MAT *A, gnm_float R[], gnm_float S[], int ord);
 /* implicit equilibration scaling */
 
-extern void gm_scaling(MAT *A, gnum_float R[], gnum_float S[], int ord,
-      gnum_float eps, int itmax);
+extern void gm_scaling(MAT *A, gnm_float R[], gnm_float S[], int ord,
+      gnm_float eps, int itmax);
 /* implicit geometric mean scaling */
 
 extern PER *inv_per(PER *P);
 /* invert permutation matrix */
 
-extern gnum_float *iper_vec(gnum_float y[], PER *P, gnum_float x[]);
+extern gnm_float *iper_vec(gnm_float y[], PER *P, gnm_float x[]);
 /* permute vector elements in inverse order (y := P' * x) */
 
-extern gnum_float *l_solve(MAT *L, gnum_float x[]);
+extern gnm_float *l_solve(MAT *L, gnm_float x[]);
 /* solve lower triangular system L*x = b */
 
 extern MAT *load_mat(char *fname);
 /* read sparse matrix from text file using plain format */
 
-extern gnum_float *lt_solve(MAT *L, gnum_float x[]);
+extern gnm_float *lt_solve(MAT *L, gnm_float x[]);
 /* solve transposed lower triangular system L'*x = b */
 
 extern MAT *mat_per(MAT *A, PER *P, void *work[]);
 /* permute matrix columns (A := A * P) */
 
-extern gnum_float *mat_vec(gnum_float y[], MAT *A, gnum_float x[]);
+extern gnm_float *mat_vec(gnm_float y[], MAT *A, gnm_float x[]);
 /* multiply matrix on vector (y := A * x) */
 
-extern MAT *mprd_numb(MAT *C, MAT *A, MAT *B, gnum_float _work[]);
+extern MAT *mprd_numb(MAT *C, MAT *A, MAT *B, gnm_float _work[]);
 /* multiply matrices (C := A * B); numeric phase */
 
 extern MAT *mprd_symb(MAT *C, MAT *A, MAT *B, char work[]);
 /* multiply matrices (C := A * B); symbolic phase */
 
-extern ELEM *new_elem(MAT *A, int i, int j, gnum_float val);
+extern ELEM *new_elem(MAT *A, int i, int j, gnm_float val);
 /* create new element of matrix */
 
 extern MAT *per_mat(PER *P, MAT *A, void *work[]);
@@ -231,7 +231,7 @@ extern MAT *per_mat(PER *P, MAT *A, void *work[]);
 extern MAT *per_sym(PER *P, MAT *A, void *work[]);
 /* permute symmetric matrix (A := P*A*P') */
 
-extern gnum_float *per_vec(gnum_float y[], PER *P, gnum_float x[]);
+extern gnm_float *per_vec(gnm_float y[], PER *P, gnm_float x[]);
 /* permute vector elements (y := P * x) */
 
 extern PER *reset_per(PER *P);
@@ -240,7 +240,7 @@ extern PER *reset_per(PER *P);
 extern int save_mat(MAT *A, char *fname);
 /* write sparse matrix to text file using plain format */
 
-extern int scrape_mat(MAT *A, gnum_float eps);
+extern int scrape_mat(MAT *A, gnm_float eps);
 /* remove tiny elements from sparse matrix */
 
 extern int show_mat(MAT *A, int type, char *fname);
@@ -252,10 +252,10 @@ extern MAT *sort_mat(MAT *A);
 extern MAT *submatrix(MAT *B, MAT *A, int i1, int i2, int j1, int j2);
 /* copy submatrix */
 
-extern int sum_mplets(MAT *A, gnum_float eps);
+extern int sum_mplets(MAT *A, gnm_float eps);
 /* sum multiplets of sparse matrix */
 
-extern gnum_float *sym_vec(gnum_float y[], MAT *A, gnum_float x[]);
+extern gnm_float *sym_vec(gnm_float y[], MAT *A, gnm_float x[]);
 /* multiply symmetric matrix on vector (y := A * x) */
 
 extern MAT *test_mat_d(int n, int c);
@@ -264,24 +264,24 @@ extern MAT *test_mat_d(int n, int c);
 extern MAT *test_mat_e(int n, int c);
 /* create test sparse matrix of E(n,c) class */
 
-extern gnum_float *tmat_vec(gnum_float y[], MAT *A, gnum_float x[]);
+extern gnm_float *tmat_vec(gnm_float y[], MAT *A, gnm_float x[]);
 /* multiply transposed matrix on vector (y := A' * x) */
 
 extern MAT *trn_mat(MAT *A);
 /* transpose sparse matrix */
 
-extern gnum_float *u_solve(MAT *U, gnum_float x[]);
+extern gnm_float *u_solve(MAT *U, gnm_float x[]);
 /* solve upper triangular system U*x = b */
 
-extern gnum_float *ut_solve(MAT *U, gnum_float x[]);
+extern gnm_float *ut_solve(MAT *U, gnm_float x[]);
 /* solve transposed upper triangular system U'*x = b */
 
-extern gnum_float *v_solve(PER *P, MAT *V, PER *Q, gnum_float x[],
-      gnum_float work[]);
+extern gnm_float *v_solve(PER *P, MAT *V, PER *Q, gnm_float x[],
+      gnm_float work[]);
 /* solve implicit upper triangular system V*x = b */
 
-extern gnum_float *vt_solve(PER *P, MAT *V, PER *Q, gnum_float x[],
-      gnum_float work[]);
+extern gnm_float *vt_solve(PER *P, MAT *V, PER *Q, gnm_float x[],
+      gnm_float work[]);
 /* solve implicit transposed upper triangular system V'*x = b */
 
 #endif

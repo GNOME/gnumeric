@@ -96,25 +96,25 @@ static int n;
 static BBDATA *bb;
 /* branch-and-bound main data block */
 
-static gnum_float *c; /* gnum_float c[1+m+n]; */
+static gnm_float *c; /* gnm_float c[1+m+n]; */
 /* expanded vector of the objective coefficients c = (0, c'), where 0
    is zero subvector for auxiliary variables, c' is the original vector
    of coefficients for structural variables (in case of maximization
    all objective coefficients have opposite signs) */
 
-static gnum_float *dvec; /* gnum_float dvec[1+m]; */
+static gnm_float *dvec; /* gnm_float dvec[1+m]; */
 /* the vector delta (used for the dual steepest edge technique) */
 
-static gnum_float *gvec; /* gnum_float gvec[1+n]; */
+static gnm_float *gvec; /* gnm_float gvec[1+n]; */
 /* the vector gamma (used for the primal steepest edge technique) */
 
 static int *work; /* int work[1+m+n]; */
 /* auxiliary working array */
 
-static gnum_float start;
+static gnm_float start;
 /* the search starting time */
 
-static gnum_float t_last;
+static gnm_float t_last;
 /* most recent time at which visual information was displayed */
 
 /*----------------------------------------------------------------------
@@ -193,8 +193,8 @@ static void initialize(LP *mip, LPSOL *sol)
       bb->rsm->m = m;
       bb->rsm->n = n;
       bb->rsm->type = ucalloc(1+m+n, sizeof(int));
-      bb->rsm->lb = ucalloc(1+m+n, sizeof(gnum_float));
-      bb->rsm->ub = ucalloc(1+m+n, sizeof(gnum_float));
+      bb->rsm->lb = ucalloc(1+m+n, sizeof(gnm_float));
+      bb->rsm->ub = ucalloc(1+m+n, sizeof(gnm_float));
       bb->rsm->A = create_mat(m, m+n);
       bb->rsm->posx = ucalloc(1+m+n, sizeof(int));
       bb->rsm->indb = ucalloc(1+m, sizeof(int));
@@ -215,13 +215,13 @@ static void initialize(LP *mip, LPSOL *sol)
             new_elem(bb->rsm->A, e->i, m+j, -e->val);
       }
       /* allocate the array bbar */
-      bb->bbar = ucalloc(1+m, sizeof(gnum_float));
+      bb->bbar = ucalloc(1+m, sizeof(gnm_float));
       /* create the expanded vector of coefficients of the objective
          function c = (0, c'), where 0 is zero subvector for auxiliary
          variables, c' is the original vector of coefficients for
          structural variables (in case of maximization all coefficients
          have opposite signs) */
-      c = ucalloc(1+m+n, sizeof(gnum_float));
+      c = ucalloc(1+m+n, sizeof(gnm_float));
       for (i = 1; i <= m; i++) c[i] = 0.0;
       switch (mip->dir)
       {  case '-':
@@ -236,9 +236,9 @@ static void initialize(LP *mip, LPSOL *sol)
       /* if the steepest edge technique is required, create the vectors
          delta and gamma */
       if (cp->steep)
-      {  dvec = ucalloc(1+m, sizeof(gnum_float));
+      {  dvec = ucalloc(1+m, sizeof(gnm_float));
          for (i = 1; i <= m; i++) dvec[i] = 1.0;
-         gvec = ucalloc(1+n, sizeof(gnum_float));
+         gvec = ucalloc(1+n, sizeof(gnm_float));
          for (j = 1; j <= n; j++) gvec[j] = 1.0;
       }
       else
@@ -275,9 +275,9 @@ static void initialize(LP *mip, LPSOL *sol)
 -- This routine returns the value of variable x[k] (1 <= k <= m+n) that
 -- corresponds to the current basis solution. */
 
-static gnum_float get_value(int k)
+static gnm_float get_value(int k)
 {     int i, j;
-      gnum_float val;
+      gnm_float val;
       insist(1 <= k && k <= m+n);
       if (bb->rsm->posx[k] > 0)
       {  i = +bb->rsm->posx[k]; /* x[k] = xB[i] */
@@ -302,7 +302,7 @@ static gnum_float get_value(int k)
 -- of subproblems which have been solved. */
 
 static void display(void)
-{     gnum_float s = (bb->mip->dir == '-' ? +1.0 : -1.0);
+{     gnm_float s = (bb->mip->dir == '-' ? +1.0 : -1.0);
       if (!bb->found)
          print("+%6d: mip = %17s; lp = %17.9e (%d; %d)",
             bb->rsm->iter, "not found yet", s * bb->root->objval,
@@ -323,9 +323,9 @@ static void display(void)
 -- solution. In case of maximization the returned value has opposite
 -- sign. */
 
-static gnum_float eval_objfun(void)
+static gnm_float eval_objfun(void)
 {     int j;
-      gnum_float sum = bb->mip->c[0];
+      gnm_float sum = bb->mip->c[0];
       for (j = 1; j <= n; j++) sum += bb->mip->c[j] * get_value(m+j);
       return bb->mip->dir == '-' ? +sum : -sum;
 }
@@ -358,7 +358,7 @@ static int why;
 
 static int dual_monit(void)
 {     int ret = 0;
-      gnum_float spent;
+      gnm_float spent;
       /* determine the spent amount of time */
       spent = utime() - start;
       /* display visual information (once per three seconds) */
@@ -449,13 +449,13 @@ static int phase;
 
 static int primal_monit(void)
 {     int ret = 0;
-      gnum_float spent;
+      gnm_float spent;
       /* determine the spent amount of time */
       spent = utime() - start;
       /* display visual information (once per three seconds) */
       if (t_last < 0.0 || utime() - t_last >= 2.9)
       {  int i, j, k, defect;
-         gnum_float objval, infsum;
+         gnm_float objval, infsum;
          /* compute current values of basic variables */
          eval_bbar(bb->rsm, bb->bbar);
          /* compute current value of the objective function */
@@ -562,7 +562,7 @@ done: /* analyze return code */
 -- of xS[j] (if necessary). The routine assumes that new bound of xS[j]
 -- is *tighter* than its current bound. */
 
-static void new_bound(int j, int type, gnum_float bound)
+static void new_bound(int j, int type, gnm_float bound)
 {     int k;
       RSM *rsm = bb->rsm;
       k = m + j;
@@ -730,7 +730,7 @@ skip: /* restore optimal basis using information accumulated in the
 
 static void round_off(void)
 {     int i, j, k;
-      gnum_float tol = cp->tol_int, ival;
+      gnm_float tol = cp->tol_int, ival;
       /* look up the list of basic variables (since only basic integer
          structural variables may be integer infeasible) */
       for (i = 1; i <= m; i++)
@@ -771,12 +771,12 @@ static void round_off(void)
 -- the current basis solution. (Zero means that the solution is integer
 -- feasible.) */
 
-static gnum_float eval_infsum(void)
+static gnm_float eval_infsum(void)
 {     int j;
-      gnum_float sum = 0.0;
+      gnm_float sum = 0.0;
       for (j = 1; j <= n; j++)
       {  if (bb->mip->kind[j])
-         {  gnum_float val, t1, t2;
+         {  gnm_float val, t1, t2;
             val = get_value(m+j);
             t1 = val - floorgnum(val);
             t2 = ceilgnum(val) - val;
@@ -982,9 +982,9 @@ static void store_sol(LPSOL *sol, int status)
 {     LP *mip = bb->mip;
       RSM *rsm = bb->rsm;
       int i, j, k;
-      gnum_float *bbar = bb->bbar, *pi, *cbar;
-      pi = ucalloc(1+m, sizeof(gnum_float));
-      cbar = ucalloc(1+n, sizeof(gnum_float));
+      gnm_float *bbar = bb->bbar, *pi, *cbar;
+      pi = ucalloc(1+m, sizeof(gnm_float));
+      cbar = ucalloc(1+n, sizeof(gnm_float));
       /* compute simplex multipliers */
       eval_pi(rsm, c, pi);
       /* compute reduced costs of non-basic variables */
@@ -1183,7 +1183,7 @@ static int choose_branch(int *what)
 
 static void split_node(BBNODE *node, int j)
 {     BBNODE *child;
-      gnum_float beta;
+      gnm_float beta;
       /* the current problem should be solved */
       insist(node->solved);
       /* determine value of the branching variable xS[j] in the optimal
@@ -1588,7 +1588,7 @@ done: /* reflect the spent resources in the parameter block */
 
 int branch_first(BBDATA *bb, int *what)
 {     int m = bb->m, n = bb->n, i, j, k, this = 0;
-      gnum_float beta;
+      gnm_float beta;
       for (j = 1; j <= n; j++)
       {  /* skip continuous variable */
          if (!bb->mip->kind[j]) continue;
@@ -1652,7 +1652,7 @@ int branch_first(BBDATA *bb, int *what)
 
 int branch_last(BBDATA *bb, int *what)
 {     int m = bb->m, n = bb->n, i, j, k, this = 0;
-      gnum_float beta;
+      gnm_float beta;
       for (j = n; j >= 1; j--)
       {  /* skip continuous variable */
          if (!bb->mip->kind[j]) continue;
@@ -1749,10 +1749,10 @@ int branch_last(BBDATA *bb, int *what)
 -- by this routine. In other word this routine computes an estimation
 -- (lower bound) of the true degradation. */
 
-static gnum_float degrad(BBDATA *bb, int p, int tagp, gnum_float ap[],
-      gnum_float cbar[])
+static gnm_float degrad(BBDATA *bb, int p, int tagp, gnm_float ap[],
+      gnm_float cbar[])
 {     int m = bb->m, n = bb->n, q, k;
-      gnum_float cur_val, new_val, delta, deg;
+      gnm_float cur_val, new_val, delta, deg;
       /* determine the current value of the variable xB[p] (note that
          the current value is assumed to be non-integer) */
       cur_val = bb->bbar[p];
@@ -1819,14 +1819,14 @@ static gnum_float degrad(BBDATA *bb, int p, int tagp, gnum_float ap[],
 
 int branch_drtom(BBDATA *bb, int *what)
 {     int m = bb->m, n = bb->n, i, j, k, p, this = 0;
-      gnum_float beta, deg_L, deg_U, deg_max = -DBL_MAX;
-      gnum_float *c, *pi, *cbar, *zeta, *ap;
+      gnm_float beta, deg_L, deg_U, deg_max = -DBL_MAX;
+      gnm_float *c, *pi, *cbar, *zeta, *ap;
       /* allocate working arrays */
-      c = ucalloc(1+m+n, sizeof(gnum_float));
-      pi = ucalloc(1+m, sizeof(gnum_float));
-      cbar = ucalloc(1+n, sizeof(gnum_float));
-      zeta = ucalloc(1+m, sizeof(gnum_float));
-      ap = ucalloc(1+n, sizeof(gnum_float));
+      c = ucalloc(1+m+n, sizeof(gnm_float));
+      pi = ucalloc(1+m, sizeof(gnm_float));
+      cbar = ucalloc(1+n, sizeof(gnm_float));
+      zeta = ucalloc(1+m, sizeof(gnm_float));
+      ap = ucalloc(1+n, sizeof(gnm_float));
       /* build the expanded vector of coefficients of the objective
          function (the case of maximization is reduced to the case of
          minimization to simplify program logic) */
@@ -1977,7 +1977,7 @@ BBNODE *btrack_bestp(BBDATA *bb)
 {     BBNODE *this = NULL, *node;
       if (!bb->found)
       {  /* no integer feasible solution has been found */
-         gnum_float best = DBL_MAX;
+         gnm_float best = DBL_MAX;
          for (node = bb->first; node != NULL; node = node->right)
          {  if (best > node->up->objval)
                this = node, best = node->up->objval;
@@ -1985,9 +1985,9 @@ BBNODE *btrack_bestp(BBDATA *bb)
       }
       else
       {  /* the best integer feasible solution is known */
-         gnum_float best = DBL_MAX;
+         gnm_float best = DBL_MAX;
          for (node = bb->first; node != NULL; node = node->right)
-         {  gnum_float deg, val;
+         {  gnm_float deg, val;
             /* deg estimates degradation of the objective function per
                unit of the sum of integer infeasibilities */
             deg = (bb->best - bb->root->objval) / bb->root->infsum;

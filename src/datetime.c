@@ -82,10 +82,10 @@ datetime_g_free (GDate *d)
 
 /* ------------------------------------------------------------------------- */
 
-gnum_float
+gnm_float
 datetime_value_to_serial_raw (Value const *v)
 {
-	gnum_float serial;
+	gnm_float serial;
 
 	if (VALUE_IS_NUMBER (v))
 		serial = value_get_as_float (v);
@@ -107,7 +107,7 @@ datetime_value_to_serial_raw (Value const *v)
 
 /* ------------------------------------------------------------------------- */
 
-gnum_float
+gnm_float
 datetime_timet_to_serial_raw (time_t t)
 {
 	struct tm *tm = localtime (&t);
@@ -117,13 +117,13 @@ datetime_timet_to_serial_raw (time_t t)
         g_date_clear (&date, 1);
 	g_date_set_time (&date, t);
 	secs = tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec;
-	return datetime_g_to_serial (&date) + secs / (gnum_float)SECS_PER_DAY;
+	return datetime_g_to_serial (&date) + secs / (gnm_float)SECS_PER_DAY;
 }
 
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_serial_raw_to_serial (gnum_float raw)
+datetime_serial_raw_to_serial (gnm_float raw)
 {
 	return (int) floorgnum (raw + HALF_SEC);
 }
@@ -175,7 +175,7 @@ datetime_value_to_g (Value const *v)
 /* days with summer time ("daylight savings") changes.  */
 
 int
-datetime_serial_raw_to_seconds (gnum_float raw)
+datetime_serial_raw_to_seconds (gnm_float raw)
 {
 	raw += HALF_SEC;
 	return (raw - floorgnum (raw)) * SECS_PER_DAY;
@@ -494,7 +494,7 @@ coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean eom, gboolean ne
  * Returns the number of days in the coupon period of the settlement date.
  * Currently, returns negative numbers if the branch is not implemented.
  */
-gnum_float
+gnm_float
 coupdays (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean eom)
 {
 	GDate *prev;
@@ -527,7 +527,7 @@ coupdays (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean 
  * Returns the number of days from the beginning of the coupon period to
  * the settlement date.
  */
-gnum_float
+gnm_float
 coupdaybs (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean eom)
 {
 	GDate      *prev_coupon;
@@ -547,7 +547,7 @@ coupdaybs (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean
  * coupon date.
  */
 
-gnum_float
+gnm_float
 coupdaysnc (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean eom)
 {
 	GDate      *next_coupon;

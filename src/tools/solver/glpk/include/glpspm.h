@@ -102,7 +102,7 @@ struct SPM
       int *ndx; /* int ndx[1+size]; */
       /* ndx[0] is not used;
          ndx[k] is the index field of the k-th location */
-      gnum_float *val; /* gnum_float val[1+size]; */
+      gnm_float *val; /* gnm_float val[1+size]; */
       /* val[0] is not used;
          val[k] is the value field of the k-th location */
       /*--------------------------------------------------------------*/
@@ -139,7 +139,7 @@ void spm_add_cols(SPM *A, int ncs);
 /* add new columns to sparse matrix */
 
 void spm_load_data(SPM *A,
-      void *info, gnum_float (*mat)(void *info, int *i, int *j));
+      void *info, gnm_float (*mat)(void *info, int *i, int *j));
 /* load sparse matrix data */
 
 void spm_defrag_sva(SPM *A);
@@ -148,12 +148,12 @@ void spm_defrag_sva(SPM *A);
 int spm_enlarge_cap(SPM *A, int k, int new_cap);
 /* enlarge capacity of row or column */
 
-void spm_set_row(SPM *A, int i, int len, int ndx[], gnum_float val[],
-      gnum_float R[], gnum_float S[]);
+void spm_set_row(SPM *A, int i, int len, int ndx[], gnm_float val[],
+      gnm_float R[], gnm_float S[]);
 /* set (replace) row of sparse matrix */
 
-void spm_set_col(SPM *A, int j, int len, int ndx[], gnum_float val[],
-      gnum_float R[], gnum_float S[]);
+void spm_set_col(SPM *A, int j, int len, int ndx[], gnm_float val[],
+      gnm_float R[], gnm_float S[]);
 /* set (replace) column of sparse matrix */
 
 void spm_clear_rows(SPM *A, int mark[]);

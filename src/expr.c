@@ -816,7 +816,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 		if (a->type != VALUE_FLOAT && b->type != VALUE_FLOAT){
 			int ia = value_get_as_int (a);
 			int ib = value_get_as_int (b);
-			gnum_float dres;
+			gnm_float dres;
 			int ires;
 
 			value_release (a);
@@ -826,27 +826,27 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 			   catch most cases where overflow will not happen.  */
 			switch (expr->any.oper){
 			case GNM_EXPR_OP_ADD:
-				dres = (gnum_float)ia + (gnum_float)ib;
+				dres = (gnm_float)ia + (gnm_float)ib;
 				break;
 
 			case GNM_EXPR_OP_SUB:
-				dres = (gnum_float)ia - (gnum_float)ib;
+				dres = (gnm_float)ia - (gnm_float)ib;
 				break;
 
 			case GNM_EXPR_OP_MULT:
-				dres = (gnum_float)ia * (gnum_float)ib;
+				dres = (gnm_float)ia * (gnm_float)ib;
 				break;
 
 			case GNM_EXPR_OP_DIV:
 				if (ib == 0)
 					return value_new_error (pos, gnumeric_err_DIV0);
-				dres = (gnum_float)ia / (gnum_float)ib;
+				dres = (gnm_float)ia / (gnm_float)ib;
 				break;
 
 			case GNM_EXPR_OP_EXP:
 				if (ia == 0 && ib <= 0)
 					return value_new_error (pos, gnumeric_err_NUM);
-				dres = powgnum ((gnum_float)ia, (gnum_float)ib);
+				dres = powgnum ((gnm_float)ia, (gnm_float)ib);
 				if (!finitegnum (dres))
 					return value_new_error (pos, gnumeric_err_NUM);
 				break;
@@ -861,8 +861,8 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 			else
 				return value_new_float (dres);
 		} else {
-			gnum_float const va = value_get_as_float (a);
-			gnum_float const vb = value_get_as_float (b);
+			gnm_float const va = value_get_as_float (a);
+			gnm_float const vb = value_get_as_float (b);
 			value_release (a);
 			value_release (b);
 
@@ -883,7 +883,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 				    : value_new_float (va / vb);
 
 			case GNM_EXPR_OP_EXP: {
-				gnum_float res;
+				gnm_float res;
 				if ((va == 0 && vb <= 0) ||
 				    (va < 0 && vb != (int)vb))
 					return value_new_error (pos, gnumeric_err_NUM);

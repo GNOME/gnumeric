@@ -39,7 +39,7 @@ struct _ValueInt {
 struct _ValueFloat {
 	ValueType const type;
 	StyleFormat *fmt;
-	gnum_float val;
+	gnm_float val;
 };
 struct _ValueErr {
 	ValueType const type;
@@ -96,7 +96,7 @@ typedef enum {
 Value       *value_new_empty            (void);
 Value       *value_new_bool             (gboolean b);
 Value       *value_new_int              (int i);
-Value       *value_new_float            (gnum_float f);
+Value       *value_new_float            (gnm_float f);
 Value       *value_new_error            (EvalPos const *pos, char const *mesg);
 Value       *value_new_error_str        (EvalPos const *pos, String *mesg);
 Value       *value_new_string           (char const *str);
@@ -115,7 +115,7 @@ void         value_release         (Value *v);
 void	     value_set_fmt	   (Value *v, StyleFormat const *fmt);
 void         value_dump            (Value const *v);
 Value       *value_duplicate       (Value const *v);
-gnum_float   value_diff		   (Value const *a, Value const *b);
+gnm_float   value_diff		   (Value const *a, Value const *b);
 ValueCompare value_compare         (Value const *a, Value const *b,
 				    gboolean case_sensitive);
 int	     value_cmp		   (void const *ptr_a, void const *ptr_b);
@@ -128,7 +128,7 @@ gboolean    value_get_as_checked_bool (Value const *v);
 char       *value_get_as_string       (Value const *v);
 char const *value_peek_string         (Value const *v);
 int         value_get_as_int          (Value const *v);
-gnum_float  value_get_as_float        (Value const *v);
+gnm_float  value_get_as_float        (Value const *v);
 Value	   *value_coerce_to_number    (Value *v, gboolean *valid,
 				       EvalPos const *ep);
 

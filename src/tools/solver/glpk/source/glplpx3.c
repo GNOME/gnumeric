@@ -247,7 +247,7 @@ int lpx_get_int_parm(LPX *lp, int parm)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- void lpx_set_real_parm(LPX *lp, int parm, gnum_float val);
+-- void lpx_set_real_parm(LPX *lp, int parm, gnm_float val);
 --
 -- *Description*
 --
@@ -255,7 +255,7 @@ int lpx_get_int_parm(LPX *lp, int parm)
 -- a real (floating point) control parameter parm. The parameter val
 -- specifies a new value of the control parameter. */
 
-void lpx_set_real_parm(LPX *lp, int parm, gnum_float val)
+void lpx_set_real_parm(LPX *lp, int parm, gnm_float val)
 {     switch (parm)
       {  case LPX_K_RELAX:
             if (!(0.0 <= val && val <= 1.0))
@@ -328,15 +328,15 @@ void lpx_set_real_parm(LPX *lp, int parm, gnum_float val)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- gnum_float lpx_get_real_parm(LPX *lp, int parm);
+-- gnm_float lpx_get_real_parm(LPX *lp, int parm);
 --
 -- *Returns*
 --
 -- The routine lpx_get_real_parm returns the current value of a real
 -- (floating point) control parameter parm. */
 
-gnum_float lpx_get_real_parm(LPX *lp, int parm)
-{     gnum_float val = 0.0;
+gnm_float lpx_get_real_parm(LPX *lp, int parm)
+{     gnm_float val = 0.0;
       switch (parm)
       {  case LPX_K_RELAX:
             val = lp->relax;

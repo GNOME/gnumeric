@@ -84,14 +84,14 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
  *
  */
 
-static gnum_float
-calculate_pvif (gnum_float rate, gnum_float nper)
+static gnm_float
+calculate_pvif (gnm_float rate, gnm_float nper)
 {
 	return (powgnum (1 + rate, nper));
 }
 
-static gnum_float
-calculate_fvifa (gnum_float rate, gnum_float nper)
+static gnm_float
+calculate_fvifa (gnm_float rate, gnm_float nper)
 {
 	/* Removable singularity at rate == 0.  */
 	if (rate == 0)
@@ -102,19 +102,19 @@ calculate_fvifa (gnum_float rate, gnum_float nper)
 }
 
 
-static gnum_float
-calculate_interest_part (gnum_float pv, gnum_float pmt,
-			 gnum_float rate, gnum_float per)
+static gnm_float
+calculate_interest_part (gnm_float pv, gnm_float pmt,
+			 gnm_float rate, gnm_float per)
 {
 	return -(pv * powgnum (1 + rate, per) * rate +
 		 pmt * (powgnum (1 + rate, per) - 1));
 }
 
-static gnum_float
-calculate_pmt (gnum_float rate, gnum_float nper, gnum_float pv, gnum_float fv,
+static gnm_float
+calculate_pmt (gnm_float rate, gnm_float nper, gnm_float pv, gnm_float fv,
 	       int type)
 {
-	gnum_float pvif, fvifa;
+	gnm_float pvif, fvifa;
 
 	/* Calculate the PVIF and FVIFA */
 
@@ -245,7 +245,7 @@ days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 /* Returns the number of coupons to be paid between the settlement
  * and maturity dates.
  */
-static gnum_float
+static gnm_float
 coupnum (GDate *settlement, GDate *maturity, int freq, basis_t basis,
 	 gboolean eom)
 {
@@ -271,7 +271,7 @@ coupnum (GDate *settlement, GDate *maturity, int freq, basis_t basis,
 	return (1 + months / (12 / freq));
 }
 
-static gnum_float
+static gnm_float
 couppcd (GDate *settlement, GDate *maturity, int freq,  basis_t basis,
 	 gboolean eom)
 {
@@ -285,7 +285,7 @@ couppcd (GDate *settlement, GDate *maturity, int freq,  basis_t basis,
 	return serial_date;
 }
 
-static gnum_float
+static gnm_float
 coupncd (GDate *settlement, GDate *maturity, int freq,  basis_t basis,
 	 gboolean eom)
 {
@@ -300,11 +300,11 @@ coupncd (GDate *settlement, GDate *maturity, int freq,  basis_t basis,
 
 }
 
-static gnum_float
-price (GDate *settlement, GDate *maturity, gnum_float rate, gnum_float yield,
-       gnum_float redemption, int freq, basis_t basis)
+static gnm_float
+price (GDate *settlement, GDate *maturity, gnm_float rate, gnm_float yield,
+       gnm_float redemption, int freq, basis_t basis)
 {
-	gnum_float a, d, e, sum, den, base, exponent, first_term, last_term;
+	gnm_float a, d, e, sum, den, base, exponent, first_term, last_term;
 	gint       k, n;
 
 	a = coupdaybs (settlement, maturity, freq, basis, TRUE);
@@ -334,7 +334,7 @@ price (GDate *settlement, GDate *maturity, gnum_float rate, gnum_float yield,
 
 static Value *
 func_coup (FunctionEvalInfo *ei, Value **argv,
-	   gnum_float (coup_fn)(GDate *settlement, GDate *maturity,
+	   gnm_float (coup_fn)(GDate *settlement, GDate *maturity,
 				int freq, basis_t basis, gboolean eom))
 {
         GDate   *settlement;
@@ -425,7 +425,7 @@ gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
         GDate      *settlement;
         GDate      *first_interest;
         GDate      *maturity;
-	gnum_float rate, a, d, par, freq, coefficient, x;
+	gnm_float rate, a, d, par, freq, coefficient, x;
 	int        basis;
 	Value      *result;
 
@@ -507,7 +507,7 @@ static const char *help_accrintm = {
 static Value *
 gnumeric_accrintm (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate, a, d, par;
+	gnm_float rate, a, d, par;
 	int basis;
 
 	rate  = value_get_as_float (argv[2]);
@@ -568,7 +568,7 @@ static const char *help_intrate = {
 static Value *
 gnumeric_intrate (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float investment, redemption, a, d;
+	gnm_float investment, redemption, a, d;
 	int basis;
 
 	investment = value_get_as_float (argv[2]);
@@ -622,7 +622,7 @@ static const char *help_received = {
 static Value *
 gnumeric_received (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float investment, discount, a, d, n;
+	gnm_float investment, discount, a, d, n;
 	int basis;
 
 	investment = value_get_as_float (argv[2]);
@@ -679,7 +679,7 @@ static const char *help_pricedisc = {
 static Value *
 gnumeric_pricedisc (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float discount, redemption, a, d;
+	gnm_float discount, redemption, a, d;
 	int basis;
 
 	discount   = value_get_as_float (argv[2]);
@@ -730,7 +730,7 @@ static const char *help_pricemat = {
 static Value *
 gnumeric_pricemat (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float discount, yield, a, b, dsm, dim, n;
+	gnm_float discount, yield, a, b, dsm, dim, n;
 	int basis;
 
 	discount = value_get_as_float (argv[3]);
@@ -788,7 +788,7 @@ static const char *help_disc = {
 static Value *
 gnumeric_disc (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float par, redemption, dsm, b;
+	gnm_float par, redemption, dsm, b;
 	int basis;
 
 	par        = value_get_as_float (argv[2]);
@@ -842,7 +842,7 @@ static const char *help_effect = {
 static Value *
 gnumeric_effect (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate = value_get_as_float (argv[0]);
+	gnm_float rate = value_get_as_float (argv[0]);
 	int nper = value_get_as_int (argv[1]);
 
 	/* Rate or number of periods cannot be negative */
@@ -880,7 +880,7 @@ static const char *help_nominal = {
 static Value *
 gnumeric_nominal (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate = value_get_as_float (argv[0]);
+	gnm_float rate = value_get_as_float (argv[0]);
 	int nper = value_get_as_int (argv[1]);
 
 	/* Rate or number of periods cannot be negative */
@@ -908,12 +908,12 @@ static const char *help_ispmt = {
 static Value *
 gnumeric_ispmt (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float tmp;
+	gnm_float tmp;
 
-	gnum_float rate = value_get_as_float (argv[0]);
-	gnum_float per = value_get_as_int (argv[1]);
-	gnum_float nper = value_get_as_int (argv[2]);
-	gnum_float pv = value_get_as_float (argv[3]);
+	gnm_float rate = value_get_as_float (argv[0]);
+	gnm_float per = value_get_as_int (argv[1]);
+	gnm_float nper = value_get_as_int (argv[2]);
+	gnm_float pv = value_get_as_float (argv[3]);
 
 	/*
 	 * It seems that with 20 periods, a period number of 20.99 is
@@ -955,9 +955,9 @@ static const char *help_db = {
 static Value *
 gnumeric_db (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate;
-	gnum_float cost, salvage, life, period, month;
-	gnum_float total;
+	gnm_float rate;
+	gnm_float cost, salvage, life, period, month;
+	gnm_float total;
 	int        i;
 
 	cost    = value_get_as_float (argv[0]);
@@ -1016,8 +1016,8 @@ static const char *help_ddb = {
 static Value *
 gnumeric_ddb (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float cost, salvage, life, period, factor;
-	gnum_float total;
+	gnm_float cost, salvage, life, period, factor;
+	gnm_float total;
 	int        i;
 
 	cost    = value_get_as_float (argv[0]);
@@ -1031,7 +1031,7 @@ gnumeric_ddb (FunctionEvalInfo *ei, Value **argv)
 
 	total = 0;
 	for (i = 0; i < life - 1; i++) {
-	        gnum_float period_dep = (cost - total) * (factor / life);
+	        gnm_float period_dep = (cost - total) * (factor / life);
 		if (period - 1 == i)
 		        return value_new_float (period_dep);
 		else
@@ -1084,7 +1084,7 @@ static const char *help_sln = {
 static Value *
 gnumeric_sln (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float cost,salvage_value,life;
+	gnm_float cost,salvage_value,life;
 
 	cost          = value_get_as_float (argv[0]);
 	salvage_value = value_get_as_float (argv[1]);
@@ -1139,7 +1139,7 @@ static const char *help_syd = {
 static Value *
 gnumeric_syd (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float cost, salvage_value, life, period;
+	gnm_float cost, salvage_value, life, period;
 
 	cost          = value_get_as_float (argv[0]);
 	salvage_value = value_get_as_float (argv[1]);
@@ -1178,9 +1178,9 @@ static const char *help_dollarde = {
 static Value *
 gnumeric_dollarde (FunctionEvalInfo *ei, Value **argv)
 {
-        gnum_float fractional_dollar;
+        gnm_float fractional_dollar;
 	int        fraction, n, tmp;
-	gnum_float floored, rest;
+	gnm_float floored, rest;
 
 	fractional_dollar = value_get_as_float (argv[0]);
 	fraction          = value_get_as_int (argv[1]);
@@ -1219,9 +1219,9 @@ static const char *help_dollarfr = {
 static Value *
 gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 {
-        gnum_float fractional_dollar;
+        gnm_float fractional_dollar;
 	int fraction, n, tmp;
-	gnum_float floored, rest;
+	gnm_float floored, rest;
 
 	fractional_dollar = value_get_as_float (argv[0]);
 	fraction          = value_get_as_int (argv[1]);
@@ -1257,8 +1257,8 @@ static const char *help_mirr = {
 static Value *
 gnumeric_mirr (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float frate, rrate, npv_neg, npv_pos;
-	gnum_float *values = NULL, res;
+	gnm_float frate, rrate, npv_neg, npv_pos;
+	gnm_float *values = NULL, res;
 	Value *result = NULL;
 	int i, n;
 
@@ -1273,7 +1273,7 @@ gnumeric_mirr (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 
 	for (i = 0, npv_pos = npv_neg = 0; i < n; i++) {
-		gnum_float v = values[i];
+		gnm_float v = values[i];
 		if (v >= 0)
 			npv_pos += v / powgnum (1 + rrate, i);
 		else
@@ -1325,8 +1325,8 @@ static const char *help_tbilleq = {
 static Value *
 gnumeric_tbilleq (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float settlement, maturity, discount;
-	gnum_float dsm, divisor;
+	gnm_float settlement, maturity, discount;
+	gnm_float dsm, divisor;
 
 	settlement = datetime_value_to_serial (argv[0]);
 	maturity   = datetime_value_to_serial (argv[1]);
@@ -1370,8 +1370,8 @@ static const char *help_tbillprice = {
 static Value *
 gnumeric_tbillprice (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float settlement, maturity, discount;
-	gnum_float res, dsm;
+	gnm_float settlement, maturity, discount;
+	gnm_float res, dsm;
 
 	settlement = datetime_value_to_serial (argv[0]);
 	maturity   = datetime_value_to_serial (argv[1]);
@@ -1411,8 +1411,8 @@ static const char *help_tbillyield = {
 static Value *
 gnumeric_tbillyield (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float settlement, maturity, pr;
-	gnum_float res, dsm;
+	gnm_float settlement, maturity, pr;
+	gnm_float res, dsm;
 
 	settlement = datetime_value_to_serial (argv[0]);
 	maturity   = datetime_value_to_serial (argv[1]);
@@ -1446,11 +1446,11 @@ static const char *help_rate = {
 
 typedef struct {
 	int type;
-	gnum_float nper, pv, fv, pmt;
+	gnm_float nper, pv, fv, pmt;
 } gnumeric_rate_t;
 
 static GoalSeekStatus
-gnumeric_rate_f (gnum_float rate, gnum_float *y, void *user_data)
+gnumeric_rate_f (gnm_float rate, gnm_float *y, void *user_data)
 {
 	if (rate > -1.0 && rate != 0) {
 		gnumeric_rate_t *data = user_data;
@@ -1466,7 +1466,7 @@ gnumeric_rate_f (gnum_float rate, gnum_float *y, void *user_data)
 
 /* The derivative of the above function with respect to rate.  */
 static GoalSeekStatus
-gnumeric_rate_df (gnum_float rate, gnum_float *y, void *user_data)
+gnumeric_rate_df (gnm_float rate, gnm_float *y, void *user_data)
 {
 	if (rate > -1.0 && rate != 0.0) {
 		gnumeric_rate_t *data = user_data;
@@ -1486,7 +1486,7 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 	GoalSeekData    data;
 	GoalSeekStatus  status;
 	gnumeric_rate_t udata;
-	gnum_float      rate0;
+	gnm_float      rate0;
 
 	udata.nper = value_get_as_int (argv[0]);
 	udata.pmt  = value_get_as_float (argv[1]);
@@ -1568,14 +1568,14 @@ static const char *help_irr = {
 
 typedef struct {
         int     n;
-        gnum_float *values;
+        gnm_float *values;
 } gnumeric_irr_t;
 
 static GoalSeekStatus
-irr_npv (gnum_float rate, gnum_float *y, void *user_data)
+irr_npv (gnm_float rate, gnm_float *y, void *user_data)
 {
 	gnumeric_irr_t *p = user_data;
-	gnum_float *values, sum;
+	gnm_float *values, sum;
         int i, n;
 
 	values = p->values;
@@ -1596,10 +1596,10 @@ irr_npv (gnum_float rate, gnum_float *y, void *user_data)
 }
 
 static GoalSeekStatus
-irr_npv_df (gnum_float rate, gnum_float *y, void *user_data)
+irr_npv_df (gnm_float rate, gnm_float *y, void *user_data)
 {
 	gnumeric_irr_t *p = user_data;
-	gnum_float *values, sum;
+	gnm_float *values, sum;
         int i, n;
 
 	values = p->values;
@@ -1620,7 +1620,7 @@ gnumeric_irr (FunctionEvalInfo *ei, Value **argv)
 	GoalSeekStatus  status;
 	Value           *result = NULL;
 	gnumeric_irr_t  p;
-	gnum_float      rate0;
+	gnm_float      rate0;
 
 	rate0 = argv[1] ? value_get_as_float (argv[1]) : 0.1;
 
@@ -1686,15 +1686,15 @@ static const char *help_pv = {
 static Value *
 gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate = value_get_as_float (argv[0]);
-	gnum_float nper = value_get_as_float (argv[1]);
-	gnum_float pmt  = value_get_as_float (argv[2]);
-	gnum_float fv   = argv[3] ? value_get_as_float (argv[3]) : 0;
+	gnm_float rate = value_get_as_float (argv[0]);
+	gnm_float nper = value_get_as_float (argv[1]);
+	gnm_float pmt  = value_get_as_float (argv[2]);
+	gnm_float fv   = argv[3] ? value_get_as_float (argv[3]) : 0;
 	int type = argv[4] ? !!value_get_as_int (argv[4]) : 0;
 
 	/* Calculate the PVIF and FVIFA */
-	gnum_float pvif  = calculate_pvif (rate, nper);
-	gnum_float fvifa = calculate_fvifa (rate, nper);
+	gnm_float pvif  = calculate_pvif (rate, nper);
+	gnm_float fvifa = calculate_fvifa (rate, nper);
 
 	if (pvif == 0)
 	        return value_new_error (ei->pos, gnumeric_err_DIV0);
@@ -1721,8 +1721,8 @@ static const char *help_npv = {
 };
 
 typedef struct {
-        gnum_float rate;
-        gnum_float sum;
+        gnm_float rate;
+        gnm_float sum;
         int     num;
 } financial_npv_t;
 
@@ -1779,8 +1779,8 @@ static const char *help_xnpv = {
 static Value *
 gnumeric_xnpv (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate, *payments = NULL, *dates = NULL;
-	gnum_float sum;
+	gnm_float rate, *payments = NULL, *dates = NULL;
+	gnm_float sum;
 	int  p_n, d_n, i;
 	Value *result = NULL;
 
@@ -1851,15 +1851,15 @@ static const char *help_xirr = {
 
 typedef struct {
         int     n;
-        gnum_float *values;
-        gnum_float *dates;
+        gnm_float *values;
+        gnm_float *dates;
 } gnumeric_xirr_t;
 
 static GoalSeekStatus
-xirr_npv (gnum_float rate, gnum_float *y, void *user_data)
+xirr_npv (gnm_float rate, gnm_float *y, void *user_data)
 {
 	gnumeric_xirr_t *p = user_data;
-	gnum_float *values, *dates, sum;
+	gnm_float *values, *dates, sum;
         int i, n;
 
 	values = p->values;
@@ -1868,7 +1868,7 @@ xirr_npv (gnum_float rate, gnum_float *y, void *user_data)
 
 	sum = 0;
 	for (i = 0; i < n; i++) {
-	        gnum_float d = dates[i] - dates[0];
+	        gnm_float d = dates[i] - dates[0];
 
 		if (d < 0)
 		        return GOAL_SEEK_ERROR;
@@ -1886,7 +1886,7 @@ gnumeric_xirr (FunctionEvalInfo *ei, Value **argv)
 	GoalSeekStatus  status;
 	Value           *result = NULL;
 	gnumeric_xirr_t p;
-	gnum_float      rate0;
+	gnm_float      rate0;
 	int             n, d_n;
 
 	goal_seek_initialise (&data);
@@ -1948,14 +1948,14 @@ static const char *help_fv = {
 static Value *
 gnumeric_fv (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate = value_get_as_float (argv[0]);
-	gnum_float nper = value_get_as_float (argv[1]);
-	gnum_float pmt  = value_get_as_float (argv[2]);
-	gnum_float pv   = argv[3] ? value_get_as_float (argv[3]) : 0.;
+	gnm_float rate = value_get_as_float (argv[0]);
+	gnm_float nper = value_get_as_float (argv[1]);
+	gnm_float pmt  = value_get_as_float (argv[2]);
+	gnm_float pv   = argv[3] ? value_get_as_float (argv[3]) : 0.;
 	int type = argv[4] ? !!value_get_as_int (argv[4]) : 0;
 
-	gnum_float pvif  = calculate_pvif (rate, nper);
-	gnum_float fvifa = calculate_fvifa (rate, nper);
+	gnm_float pvif  = calculate_pvif (rate, nper);
+	gnm_float fvifa = calculate_fvifa (rate, nper);
 
         return value_new_float (-((pv * pvif) + pmt *
 				  (1.0 + rate * type) * fvifa));
@@ -1989,10 +1989,10 @@ static const char *help_pmt = {
 static Value *
 gnumeric_pmt (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate = value_get_as_float (argv[0]);
-	gnum_float nper = value_get_as_float (argv[1]);
-	gnum_float pv   = value_get_as_float (argv[2]);
-	gnum_float fv   = argv[3] ? value_get_as_float (argv[3]) : 0;
+	gnm_float rate = value_get_as_float (argv[0]);
+	gnm_float nper = value_get_as_float (argv[1]);
+	gnm_float pv   = value_get_as_float (argv[2]);
+	gnm_float fv   = argv[3] ? value_get_as_float (argv[3]) : 0;
 	int type = argv[4] ? !!value_get_as_int (argv[4]) : 0;
 
         return value_new_float (calculate_pmt (rate, nper, pv, fv, type));
@@ -2027,11 +2027,11 @@ static const char *help_ipmt = {
 static Value *
 gnumeric_ipmt (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate = value_get_as_float (argv[0]);
-	gnum_float per  = value_get_as_float (argv[1]);
-	gnum_float nper = value_get_as_float (argv[2]);
-	gnum_float pv   = value_get_as_float (argv[3]);
-	gnum_float fv   = argv[4] ? value_get_as_float (argv[4]) : 0;
+	gnm_float rate = value_get_as_float (argv[0]);
+	gnm_float per  = value_get_as_float (argv[1]);
+	gnm_float nper = value_get_as_float (argv[2]);
+	gnm_float pv   = value_get_as_float (argv[3]);
+	gnm_float fv   = argv[4] ? value_get_as_float (argv[4]) : 0;
 	int type = argv[5] ? !!value_get_as_int (argv[5]) : 0;
 
 	/*
@@ -2041,8 +2041,8 @@ gnumeric_ipmt (FunctionEvalInfo *ei, Value **argv)
 	if (per < 1 || per >= nper + 1)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 	else {
-		gnum_float pmt = calculate_pmt (rate, nper, pv, fv, type);
-		gnum_float ipmt = calculate_interest_part (pv, pmt, rate, per - 1);
+		gnm_float pmt = calculate_pmt (rate, nper, pv, fv, type);
+		gnm_float ipmt = calculate_interest_part (pv, pmt, rate, per - 1);
 
 		return value_new_float (ipmt);
 	}
@@ -2077,11 +2077,11 @@ static const char *help_ppmt = {
 static Value *
 gnumeric_ppmt (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate = value_get_as_float (argv[0]);
-	gnum_float per  = value_get_as_float (argv[1]);
-	gnum_float nper = value_get_as_float (argv[2]);
-	gnum_float pv   = value_get_as_float (argv[3]);
-	gnum_float fv   = argv[4] ? value_get_as_float (argv[4]) : 0;
+	gnm_float rate = value_get_as_float (argv[0]);
+	gnm_float per  = value_get_as_float (argv[1]);
+	gnm_float nper = value_get_as_float (argv[2]);
+	gnm_float pv   = value_get_as_float (argv[3]);
+	gnm_float fv   = argv[4] ? value_get_as_float (argv[4]) : 0;
 	int type = argv[5] ? !!value_get_as_int (argv[5]) : 0;
 
 	/*
@@ -2091,8 +2091,8 @@ gnumeric_ppmt (FunctionEvalInfo *ei, Value **argv)
 	if (per < 1 || per >= nper + 1)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 	else {
-		gnum_float pmt = calculate_pmt (rate, nper, pv, fv, type);
-		gnum_float ipmt = calculate_interest_part (pv, pmt, rate, per - 1);
+		gnm_float pmt = calculate_pmt (rate, nper, pv, fv, type);
+		gnm_float ipmt = calculate_interest_part (pv, pmt, rate, per - 1);
 		return value_new_float (pmt - ipmt);
 	}
 }
@@ -2129,12 +2129,12 @@ static const char *help_nper = {
 static Value *
 gnumeric_nper (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float tmp;
+	gnm_float tmp;
 
-	gnum_float rate = value_get_as_float (argv[0]);
-	gnum_float pmt  = value_get_as_float (argv[1]);
-	gnum_float pv   = value_get_as_float (argv[2]);
-	gnum_float fv   = argv[3] ? value_get_as_float (argv[3]) : 0;
+	gnm_float rate = value_get_as_float (argv[0]);
+	gnm_float pmt  = value_get_as_float (argv[1]);
+	gnm_float pv   = value_get_as_float (argv[2]);
+	gnm_float fv   = argv[3] ? value_get_as_float (argv[3]) : 0;
 	int type = argv[4] ? !!value_get_as_int (argv[4]) : 0;
 
 	if (rate == 0 && pmt != 0)
@@ -2186,9 +2186,9 @@ static Value *
 gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
 {
         GDate      *nSettle, *nMat;
-	gnum_float fCoup, fYield;
+	gnm_float fCoup, fYield;
 	gint       nFreq, nBase;
-        gnum_float fNumOfCoups;
+        gnm_float fNumOfCoups;
 	Value      *result;
 
         nSettle    = datetime_value_to_g (argv[0]);
@@ -2239,7 +2239,7 @@ static const char *help_g_duration = {
 static Value *
 gnumeric_g_duration (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float rate, pv, fv;
+	gnm_float rate, pv, fv;
 
 	rate = value_get_as_float (argv[0]);
 	pv   = value_get_as_float (argv[1]);
@@ -2279,7 +2279,7 @@ static const char *help_fvschedule = {
 static Value *
 gnumeric_fvschedule (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float pv, *schedule = NULL;
+	gnm_float pv, *schedule = NULL;
 	Value *result = NULL;
 	int i, n;
 
@@ -2338,7 +2338,7 @@ static const char *help_euro = {
  * Returns one euro as a given national currency. On error, negative
  * value is returned.
  */
-static gnum_float
+static gnm_float
 one_euro (const char *str)
 {
 	switch (*str) {
@@ -2399,7 +2399,7 @@ static Value *
 gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
 {
         const char *str = value_peek_string (argv[0]);
-	gnum_float v    = one_euro (str);
+	gnm_float v    = one_euro (str);
 
 	if (v >= 0)
 		return value_new_float (v);
@@ -2444,11 +2444,11 @@ static const char *help_euroconvert = {
 static Value *
 gnumeric_euroconvert (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float n     = value_get_as_float (argv[0]);
+	gnm_float n     = value_get_as_float (argv[0]);
         const char *str1 = value_peek_string (argv[1]);
         const char *str2 = value_peek_string (argv[2]);
-	gnum_float c1    = one_euro (str1);
-	gnum_float c2    = one_euro (str2);
+	gnm_float c1    = one_euro (str1);
+	gnm_float c2    = one_euro (str2);
 
 	if (c1 >= 0 && c2 >= 0)
 		return value_new_float (n * c2 / c1);
@@ -2492,9 +2492,9 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 {
         GDate      *settlement;
         GDate      *maturity;
-        /* gnum_float a, d, e, n; */
-	/* gnum_float first_term, last_term, den, base, exponent, sum; */
-	gnum_float rate, yield, redemption;
+        /* gnm_float a, d, e, n; */
+	/* gnm_float first_term, last_term, den, base, exponent, sum; */
+	gnm_float rate, yield, redemption;
 	gint       freq, basis;
 	Value      *result;
 
@@ -2564,12 +2564,12 @@ static const char *help_yield = {
 
 typedef struct {
         GDate *settlement, *maturity;
-	gnum_float rate, redemption, par;
+	gnm_float rate, redemption, par;
 	int freq, basis;
 } gnumeric_yield_t;
 
 static GoalSeekStatus
-gnumeric_yield_f (gnum_float yield, gnum_float *y, void *user_data)
+gnumeric_yield_f (gnm_float yield, gnm_float *y, void *user_data)
 {
 	gnumeric_yield_t *data = user_data;
 
@@ -2583,7 +2583,7 @@ gnumeric_yield_f (gnum_float yield, gnum_float *y, void *user_data)
 static Value *
 gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 {
-        gnum_float n;
+        gnm_float n;
 	Value      *result;
 	gnumeric_yield_t udata;
 
@@ -2615,26 +2615,26 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 	n = coupnum (udata.settlement, udata.maturity, udata.freq, udata.basis,
 		     TRUE);
 	if (n <= 1.0) {
-		gnum_float a = coupdaybs (udata.settlement, udata.maturity,
+		gnm_float a = coupdaybs (udata.settlement, udata.maturity,
 					  udata.freq, udata.basis, TRUE);
-		gnum_float d = coupdaysnc (udata.settlement, udata.maturity,
+		gnm_float d = coupdaysnc (udata.settlement, udata.maturity,
 					   udata.freq, udata.basis, TRUE);
-		gnum_float e = coupdays (udata.settlement, udata.maturity,
+		gnm_float e = coupdays (udata.settlement, udata.maturity,
 					 udata.freq, udata.basis, TRUE);
 
-	        gnum_float coeff = udata.freq * e / d;
-		gnum_float num = (udata.redemption / 100.0  + 
+	        gnm_float coeff = udata.freq * e / d;
+		gnm_float num = (udata.redemption / 100.0  + 
 				  udata.rate / udata.freq)
 		        - (udata.par / 100.0  +  (a / e  * 
 						  udata.rate / udata.freq));
-		gnum_float den = udata.par / 100.0  +  (a / e  *  udata.rate /
+		gnm_float den = udata.par / 100.0  +  (a / e  *  udata.rate /
 							udata.freq);
 
 		result = value_new_float (num / den * coeff);
 	} else {
 		GoalSeekData     data;
 		GoalSeekStatus   status;
-		gnum_float       yield0 = 0.1;
+		gnm_float       yield0 = 0.1;
 
 		goal_seek_initialise (&data);
 		data.xmin = MAX (data.xmin, 0);
@@ -2702,7 +2702,7 @@ static Value *
 gnumeric_yielddisc (FunctionEvalInfo *ei, Value **argv)
 {
         GDate      *nSettle, *nMat;
-	gnum_float fPrice, fRedemp;
+	gnm_float fPrice, fRedemp;
 	gint       nBase;
 	Value      *result;
 
@@ -2762,7 +2762,7 @@ static Value *
 gnumeric_yieldmat (FunctionEvalInfo *ei, Value **argv)
 {
         GDate      *nSettle, *nMat, *nIssue;
-	gnum_float fRate, fPrice;
+	gnm_float fRate, fPrice;
 	gint       nBase;
 	Value      *result;
 
@@ -2829,9 +2829,9 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
         GDate      *maturity;
         GDate      *issue;
 	GDate      *first_coupon;
-        gnum_float a, ds, df, e, n;
-	gnum_float term1, term2, last_term, sum;
-	gnum_float rate, yield, redemption;
+        gnm_float a, ds, df, e, n;
+	gnm_float term1, term2, last_term, sum;
+	gnm_float rate, yield, redemption;
 	gint       freq, basis, k;
 	Value      *result;
 
@@ -2969,7 +2969,7 @@ static Value *
 gnumeric_oddlprice (FunctionEvalInfo *ei, Value **argv)
 {
         GDate      *nSettle, *nMat, *nLastCoup;
-	gnum_float fRate, fYield, fRedemp;
+	gnm_float fRate, fYield, fRedemp;
 	gint       nFreq, nBase;
 	Value      *result;
 
@@ -3036,7 +3036,7 @@ static Value *
 gnumeric_oddlyield (FunctionEvalInfo *ei, Value **argv)
 {
         GDate      *nSettle, *nMat, *nLastCoup;
-	gnum_float fRate, fPrice, fRedemp;
+	gnm_float fRate, fPrice, fRedemp;
 	gint       nFreq, nBase;
 	Value      *result;
 
@@ -3101,7 +3101,7 @@ static Value *
 gnumeric_amordegrc (FunctionEvalInfo *ei, Value **argv)
 {
         GDate      *nDate, *nFirstPer;
-	gnum_float fRestVal, fRate, fCost;
+	gnm_float fRestVal, fRate, fCost;
 	gint       nBase, nPer;
 	Value      *result;
 
@@ -3162,7 +3162,7 @@ static Value *
 gnumeric_amorlinc (FunctionEvalInfo *ei, Value **argv)
 {
         GDate      *nDate, *nFirstPer;
-	gnum_float fCost, fRestVal, fRate;
+	gnm_float fCost, fRestVal, fRate;
 	gint       nPer, nBase;
 	Value      *result;
 
@@ -3485,7 +3485,7 @@ static const char *help_cumipmt = {
 static Value *
 gnumeric_cumipmt (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float fRate, fVal;
+	gnm_float fRate, fVal;
 	gint       nNumPeriods, nStartPer, nEndPer, nPayType;
 	Value      *result;
 
@@ -3535,7 +3535,7 @@ static const char *help_cumprinc = {
 static Value *
 gnumeric_cumprinc (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float fRate, fVal;
+	gnm_float fRate, fVal;
 	gint       nNumPeriods, nStartPer, nEndPer, nPayType;
 	Value      *result;
 
@@ -3595,9 +3595,9 @@ static Value *
 gnumeric_mduration (FunctionEvalInfo *ei, Value **argv)
 {
         GDate      *nSettle, *nMat;
-	gnum_float fCoup, fYield;
+	gnm_float fCoup, fYield;
 	gint       nFreq, nBase;
-        gnum_float fNumOfCoups;
+        gnm_float fNumOfCoups;
 	Value      *result;
 
         nSettle    = datetime_value_to_g (argv[0]);
@@ -3649,7 +3649,7 @@ static const char *help_vdb = {
 static Value *
 gnumeric_vdb (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float cost, salvage, life, factor, start_period, end_period;
+	gnm_float cost, salvage, life, factor, start_period, end_period;
 	gboolean   bflag;
 
 	cost         = value_get_as_float (argv[0]);

@@ -667,7 +667,7 @@ solver_performance_report (WorkbookControl *wbc,
 			    value_new_float (res->n_nonzeros_in_mat));
 
 	/* Set the `Ratio of Non-zeros (constr.)'. */
-	v = value_new_float ((gnum_float) res->n_nonzeros_in_mat / mat_size);
+	v = value_new_float ((gnm_float) res->n_nonzeros_in_mat / mat_size);
 	value_set_fmt (v, style_format_default_percentage ());
 	dao_set_cell_value (&dao, 3, 20, v);
 
@@ -676,7 +676,7 @@ solver_performance_report (WorkbookControl *wbc,
 			    value_new_float (res->n_nonzeros_in_obj));
 
 	/* Set the `Ratio of Non-zeros (obj. fn)'. */
-	v = value_new_float ((gnum_float) res->n_nonzeros_in_obj /
+	v = value_new_float ((gnm_float) res->n_nonzeros_in_obj /
 			     res->param->n_variables);
 	value_set_fmt (v, style_format_default_percentage ());
 	dao_set_cell_value (&dao, 4, 20, v);

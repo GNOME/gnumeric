@@ -781,7 +781,7 @@ compute_value (char const *s, const regmatch_t *mp,
 	       GByteArray *array)
 {
 	int const len = array->len;
-	gnum_float number = 0.0;
+	gnm_float number = 0.0;
 	guchar *data = array->data;
 	gboolean percentify = FALSE;
 	gboolean is_number  = FALSE;
@@ -797,7 +797,7 @@ compute_value (char const *s, const regmatch_t *mp,
 	int i;
 	int month, day, year, year_short;
 	int hours, minutes;
-	gnum_float seconds;
+	gnm_float seconds;
 
 	char const thousands_sep = format_get_thousand ();
 	char const decimal = format_get_decimal ();
@@ -893,7 +893,7 @@ compute_value (char const *s, const regmatch_t *mp,
 				char *end;
 				errno = 0; /* strtognum sets errno, but does not clear it.  */
 				if (seconds < 0) {
-					gnum_float fraction;
+					gnm_float fraction;
 
 					for (end = str; *end && *end != 'e' && *end != 'E'; )
 						end++;
@@ -1140,7 +1140,7 @@ format_match_simple (char const *text)
 	/* Is it a double?  */
 	{
 		char *end;
-		gnum_float d;
+		gnm_float d;
 
 		errno = 0; /* strtognum sets errno, but does not clear it.  */
 		d = strtognum (text, &end);

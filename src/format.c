@@ -194,7 +194,7 @@ typedef struct {
 	gboolean    want_am_pm;
 	gboolean    has_fraction;
         char        restriction_type;
-        gnum_float  restriction_value;
+        gnm_float  restriction_value;
 	StyleColor *color;
 } StyleFormatEntry;
 
@@ -650,16 +650,16 @@ lookup_color (const gchar *str, const gchar *end)
 	return NULL;
 }
 
-static gnum_float beyond_precision;
+static gnm_float beyond_precision;
 void
 render_number (GString *result,
-	       gnum_float number,
+	       gnm_float number,
 	       format_info_t const *info)
 {
 	char thousands_sep = format_get_thousand ();
 	char num_buf[(GNUM_MANT_DIG + GNUM_MAX_EXP) * 2 + 1];
 	gchar *num = num_buf + sizeof (num_buf) - 1;
-	gnum_float frac_part, int_part;
+	gnm_float frac_part, int_part;
 	int group, zero_count, digit_count = 0;
 	int left_req = info->left_req;
 	int right_req = info->right_req;
@@ -670,7 +670,7 @@ render_number (GString *result,
 	if (right_allowed >= 0 && !info->has_fraction) {
 		/* Change "rounding" into "truncating".   */
 		/* Note, that we assume number >= 0 here. */
-		gnum_float delta = 5 * gpow10 (-right_allowed - 1);
+		gnm_float delta = 5 * gpow10 (-right_allowed - 1);
 		number += delta;
 	}
 	frac_part = modfgnum (gnumeric_add_epsilon (number), &int_part);
@@ -686,7 +686,7 @@ render_number (GString *result,
 	}
 
 	for (; int_part >= 1. ; int_part /= 10., digit_count++) {
-		gnum_float r = floorgnum (int_part);
+		gnm_float r = floorgnum (int_part);
 		int digit = r - floorgnum (r / 10) * 10;
 
 		if (group-- == 0) {
@@ -755,7 +755,7 @@ render_number (GString *result,
 }
 
 static void
-do_render_number (gnum_float number, format_info_t *info, GString *result)
+do_render_number (gnm_float number, format_info_t *info, GString *result)
 {
 	info->rendered = TRUE;
 
@@ -801,7 +801,7 @@ do_render_number (gnum_float number, format_info_t *info, GString *result)
  * > If no one noticed anything wrong, it must be that no one did it that way.
  */
 static struct tm *
-split_time (gnum_float number)
+split_time (gnm_float number)
 {
 	static struct tm tm;
 	guint secs;
@@ -982,7 +982,7 @@ format_add_decimal (StyleFormat const *fmt)
 /*********************************************************************/
 
 static gchar *
-format_number (gnum_float number, int col_width, StyleFormatEntry const *entry)
+format_number (gnm_float number, int col_width, StyleFormatEntry const *entry)
 {
 	GString *result = g_string_new ("");
 	guchar const *format = (guchar *)(entry->format);
@@ -997,7 +997,7 @@ format_number (gnum_float number, int col_width, StyleFormatEntry const *entry)
 
 	struct tm *time_split = 0;
 	char *res;
-	gnum_float signed_number;
+	gnm_float signed_number;
 
 	memset (&info, 0, sizeof (info));
 	signed_number = number;
@@ -1431,9 +1431,9 @@ style_format_condition (StyleFormatEntry const *entry, Value const *value)
  * @col_width : the approximate width in characters.
  */
 static char *
-fmt_general_float (gnum_float val, double col_width)
+fmt_general_float (gnm_float val, double col_width)
 {
-	gnum_float tmp;
+	gnm_float tmp;
 	int log_val, prec;
 
 	if (col_width < 0.)
@@ -1586,7 +1586,7 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 		break;
 	}
 	case VALUE_FLOAT: {
-		gnum_float val = value->v_float.val;
+		gnm_float val = value->v_float.val;
 
 		if (!finitegnum (val))
 			return g_strdup (gnumeric_err_VALUE);
@@ -1626,7 +1626,7 @@ void
 number_format_init (void)
 {
 	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	/* FIXME: should be related to gnum_float, not double:  */
+	/* FIXME: should be related to gnm_float, not double:  */
 	beyond_precision = gpow10 (GNUM_DIG + 1);
 }
 

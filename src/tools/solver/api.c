@@ -64,19 +64,19 @@
  *   Frees all memory buffers previously allocated for the program.
  *
  * typedef void          (solver_lp_set_obj_fn)          (SolverProgram p,
- *					                  int col, gnum_float v);
+ *					                  int col, gnm_float v);
  *   Sets a coefficent of the objective function.  The column numbering begins
  *   from zero.
  *
  * typedef void          (solver_lp_set_constr_mat_fn)   (SolverProgram p,
  *                                                        int col,
- *						          int row, gnum_float v);
+ *						          int row, gnm_float v);
  *   Sets a coefficent of a constraint.  The column and row numbering begins
  *   from zero.
  *
  * typedef void          (solver_lp_set_constr_fn)  (SolverProgram p,
  *                                                   int row, SolverConstraintType,
- *                                                   gnum_float rhs);
+ *                                                   gnm_float rhs);
  *   Sets the type and the right hand side value of a constraint.  The row numbering 
  *   begins from zero.
  *
@@ -99,18 +99,18 @@
  * typedef SolverStatus  (solver_lp_solve_fn)            (SolverProgram p);
  *   Runs the solver to determine the optimal solution.
  *
- * typedef gnum_float    (solver_lp_get_obj_fn_value_fn) (SolverProgram p);
+ * typedef gnm_float    (solver_lp_get_obj_fn_value_fn) (SolverProgram p);
  *   Returns the final value of the objective function.  If the optimal value
  *   was not found the result is undetermined, otherwise the optimum value
  *   is returned.
  *
- * typedef gnum_float    (solver_lp_get_obj_fn_var_fn)   (SolverProgram p,
+ * typedef gnm_float    (solver_lp_get_obj_fn_var_fn)   (SolverProgram p,
  *                                                        int col);
  *   Returns the value of a variable coeffient if the optimal value was found.
  *   The result is undetermined if the optimal value was not found.  The column
  *   numbering begins from zero.
  *
- * typedef gnum_float    (solver_lp_get_shadow_prize_fn) (SolverProgram p,
+ * typedef gnm_float    (solver_lp_get_shadow_prize_fn) (SolverProgram p,
  *                                                        int row);
  *   Returns the shadow prize for a constraint.  If the optimal value was not
  *   found the result is undetermined.  The row numbering begins from zero.
@@ -118,7 +118,7 @@
  * typedef void          (solver_lp_set_option_fn)       (SolverProgram p,
  *                                                        SolverOptionType option,
  *  					                  const gboolean *b_value,
- *                                                        const gnum_float *f_value,
+ *                                                        const gnm_float *f_value,
  *                                                        const int *i_value);
  *   Sets an option for the solver algorithm.  `option' specifieces which option is
  *   to be set and `b_value', `f_value', and/or `i_value' passes the option value(s).
@@ -188,7 +188,7 @@ w_lp_solve_set_minim (SolverProgram program)
 }
 
 static void
-w_lp_solve_set_obj_fn (SolverProgram program, int col, gnum_float value)
+w_lp_solve_set_obj_fn (SolverProgram program, int col, gnm_float value)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
 
@@ -202,7 +202,7 @@ w_lp_solve_set_obj_fn (SolverProgram program, int col, gnum_float value)
 
 static void
 w_lp_solve_set_constr_mat (SolverProgram program, int col, int row,
-			   gnum_float value)
+			   gnm_float value)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
 
@@ -216,7 +216,7 @@ w_lp_solve_set_constr_mat (SolverProgram program, int col, int row,
 
 static void
 w_lp_solve_set_constr (SolverProgram program, int row,
-		       SolverConstraintType type, gnum_float rhs)
+		       SolverConstraintType type, gnm_float rhs)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
 
@@ -276,7 +276,7 @@ w_lp_solve_solve (SolverProgram program)
         return lp_solve_solve (lp->p);
 }
 
-static gnum_float
+static gnm_float
 w_lp_solve_get_solution (SolverProgram program, int column)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
@@ -284,7 +284,7 @@ w_lp_solve_get_solution (SolverProgram program, int column)
 	if (lp->assume_non_negative)
 	        return lp->p->best_solution [lp->p->rows + column + 1];
 	else {
-	        gnum_float x, neg_x;
+	        gnm_float x, neg_x;
 
 	        x     = lp->p->best_solution [lp->p->rows + 2 * column + 1];
 		neg_x = lp->p->best_solution [lp->p->rows + 2 * column + 2];
@@ -295,7 +295,7 @@ w_lp_solve_get_solution (SolverProgram program, int column)
 	}
 }
 
-static gnum_float
+static gnm_float
 w_lp_solve_get_value_of_obj_fn (SolverProgram program)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
@@ -303,7 +303,7 @@ w_lp_solve_get_value_of_obj_fn (SolverProgram program)
         return lp->p->best_solution [0];
 }
 
-static gnum_float
+static gnm_float
 w_lp_solve_get_dual (SolverProgram program, int row)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
@@ -322,7 +322,7 @@ w_lp_solve_get_iterations (SolverProgram program)
 static gboolean
 w_lp_solve_set_option (SolverProgram program, SolverOptionType option,
 		       const gboolean *b_value,
-		       const gnum_float *f_value, const int *i_value)
+		       const gnm_float *f_value, const int *i_value)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
 
@@ -361,7 +361,7 @@ typedef struct {
         LPX         *p;
 	int         *rn;
 	int         *cn;
-	gnum_float  *a;
+	gnm_float  *a;
 	int         n;
         gboolean    assume_non_negative;
         gboolean    scaling;
@@ -382,7 +382,7 @@ w_glpk_init (const SolverParameters *param)
 
 	lpx_add_cols (lp->p, cols);
 	lpx_add_rows (lp->p, param->n_constraints);
-	lp->a  = g_new (gnum_float, cols * param->n_constraints + 1); 
+	lp->a  = g_new (gnm_float, cols * param->n_constraints + 1); 
 	lp->cn = g_new (int, cols * param->n_constraints + 1); 
 	lp->rn = g_new (int, cols * param->n_constraints + 1); 
 	lp->n  = 1;
@@ -426,7 +426,7 @@ w_glpk_set_minim (SolverProgram program)
 }
 
 static void
-w_glpk_set_obj_fn (SolverProgram program, int col, gnum_float value)
+w_glpk_set_obj_fn (SolverProgram program, int col, gnm_float value)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
 
@@ -435,7 +435,7 @@ w_glpk_set_obj_fn (SolverProgram program, int col, gnum_float value)
 
 static void
 w_glpk_set_constr_mat (SolverProgram program, int col, int row,
-		       gnum_float value)
+		       gnm_float value)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
 
@@ -447,7 +447,7 @@ w_glpk_set_constr_mat (SolverProgram program, int col, int row,
 
 static void
 w_glpk_set_constr (SolverProgram program, int row, SolverConstraintType type,
-		   gnum_float value)
+		   gnm_float value)
 {
         int            typemap [] = { LPX_UP, LPX_LO, LPX_FX, -1, -1, -1 };
         glpk_simplex_t *lp        = (glpk_simplex_t *) program;
@@ -484,7 +484,7 @@ w_glpk_print_lp (SolverProgram program)
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
         int            i, n, cols, rows;
 	int            typex;
-	gnum_float     lb, ub;
+	gnm_float     lb, ub;
 
 	cols = lpx_get_num_cols (lp->p);
 	rows = lpx_get_num_rows (lp->p);
@@ -503,12 +503,12 @@ w_glpk_print_lp (SolverProgram program)
 	printf ("\n");
 
 	for (i = 0; i < rows; i++) {
-		gnum_float *a;
+		gnm_float *a;
 		int        *ndx, t;
 
 	        printf ("Row[%3d]\t", i + 1);
 
-		a   = g_new (gnum_float, cols + 1);
+		a   = g_new (gnm_float, cols + 1);
 		ndx = g_new (int, cols + 1);
 		lpx_get_mat_row (lp->p, i + 1, ndx, a);
 		for (n = 0, t = 1; n < cols; n++) {
@@ -613,11 +613,11 @@ w_glpk_simplex_solve (SolverProgram program)
 	}
 }
 
-static gnum_float
+static gnm_float
 w_glpk_get_solution (SolverProgram program, int col)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
-        gnum_float      x;
+        gnm_float      x;
 
         if (lpx_get_class (lp->p) == LPX_LP)
 		lpx_get_col_info (lp->p, col + 1, NULL, &x, NULL);
@@ -627,7 +627,7 @@ w_glpk_get_solution (SolverProgram program, int col)
 	return x;
 }
 
-static gnum_float
+static gnm_float
 w_glpk_get_value_of_obj_fn (SolverProgram program)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
@@ -638,11 +638,11 @@ w_glpk_get_value_of_obj_fn (SolverProgram program)
 		return lpx_get_mip_obj (lp->p);
 }
 
-static gnum_float
+static gnm_float
 w_glpk_get_dual (SolverProgram program, int row)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
-        gnum_float      x;
+        gnm_float      x;
 
         lpx_get_row_info (lp->p, row + 1, NULL, NULL, &x);
 	return x;
@@ -657,7 +657,7 @@ w_glpk_get_iterations (SolverProgram program)
 static gboolean
 w_glpk_set_option (SolverProgram program, SolverOptionType option,
 		   const gboolean *b_value,
-		   const gnum_float *f_value, const int *i_value)
+		   const gnm_float *f_value, const int *i_value)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
 
@@ -715,14 +715,14 @@ w_qp_dummy_set_minim (SolverProgram program)
 }
 
 static void
-w_qp_dummy_set_obj_fn (SolverProgram program, int col, gnum_float value)
+w_qp_dummy_set_obj_fn (SolverProgram program, int col, gnm_float value)
 {
         printf ("w_qp_dummy_set_obj_fn %d, %" GNUM_FORMAT_g "\n", col, value);
 }
 
 static void
 w_qp_dummy_set_constr_mat (SolverProgram program, int col, int row,
-			   gnum_float value)
+			   gnm_float value)
 {
         printf ("w_qp_dummy_set_constr_mat %d, %d, %" GNUM_FORMAT_g "\n",
 		col, row, value);
@@ -731,7 +731,7 @@ w_qp_dummy_set_constr_mat (SolverProgram program, int col, int row,
 static void
 w_qp_dummy_set_constr (SolverProgram program, int row,
 		       SolverConstraintType type,
-		       gnum_float value)
+		       gnm_float value)
 {
         printf ("w_qp_dummy_set_constr %d, %d, %" GNUM_FORMAT_g "\n",
 		row, type, value);
@@ -756,21 +756,21 @@ w_qp_dummy_solve (SolverProgram program)
 	return SolverInfeasible;
 }
 
-static gnum_float
+static gnm_float
 w_qp_dummy_get_solution (SolverProgram program, int col)
 {
         printf ("w_qp_dummy_get_solution %d\n", col);
 	return 0;;
 }
 
-static gnum_float
+static gnm_float
 w_qp_dummy_get_value_of_obj_fn (SolverProgram program)
 {
         printf ("w_qp_dummy_get_value_of_obj_fn\n");
 	return 0;
 }
 
-static gnum_float
+static gnm_float
 w_qp_dummy_get_dual (SolverProgram program, int row)
 {
         printf ("w_qp_dummy_get_dual %d\n", row);
@@ -786,7 +786,7 @@ w_qp_dummy_solver_lp_get_iterations (SolverProgram p)
 static gboolean
 w_qp_dummy_set_option (SolverProgram program, SolverOptionType option,
 		   const gboolean *b_value,
-		   const gnum_float *f_value, const int *i_value)
+		   const gnm_float *f_value, const int *i_value)
 {
         printf ("w_qp_dummy_set_option %d\n", option);
         return FALSE;

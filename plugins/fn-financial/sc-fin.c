@@ -150,7 +150,7 @@ GetDiffParam (GDate *nStartDate, GDate *nEndDate, gint nMode, gint *rYears,
 }
 
 
-static gnum_float
+static gnm_float
 GetYearFrac (GDate *nStartDate, GDate *nEndDate, gint nMode)
 {
 	gint nYears, nDayDiff, nDaysInYear;
@@ -158,19 +158,19 @@ GetYearFrac (GDate *nStartDate, GDate *nEndDate, gint nMode)
         GetDiffParam ( nStartDate, nEndDate, nMode, &nYears, &nDayDiff,
 		       &nDaysInYear );
 
-        return nYears + (gnum_float) nDayDiff / nDaysInYear;
+        return nYears + (gnm_float) nDayDiff / nDaysInYear;
 }
 
-static gnum_float
-GetRmz ( gnum_float fZins, gnum_float fZzr, gnum_float fBw, gnum_float fZw,
+static gnm_float
+GetRmz ( gnm_float fZins, gnm_float fZzr, gnm_float fBw, gnm_float fZw,
 	 gint nF )
 {
-        gnum_float fRmz;
+        gnm_float fRmz;
 
         if ( fZins == 0.0 )
                 fRmz = ( fBw + fZw ) / fZzr;
         else {
-                gnum_float fTerm = powgnum ( 1.0 + fZins, fZzr );
+                gnm_float fTerm = powgnum ( 1.0 + fZins, fZzr );
                 if ( nF > 0 )
                         fRmz = ( fZw * fZins / ( fTerm - 1.0 ) + fBw * fZins /
 				 ( 1.0 - 1.0 / fTerm ) ) / ( 1.0 + fZins );
@@ -182,16 +182,16 @@ GetRmz ( gnum_float fZins, gnum_float fZzr, gnum_float fBw, gnum_float fZw,
         return -fRmz;
 }
 
-static gnum_float
-GetZw ( gnum_float fZins, gnum_float fZzr, gnum_float fRmz, gnum_float fBw,
+static gnm_float
+GetZw ( gnm_float fZins, gnm_float fZzr, gnm_float fRmz, gnm_float fBw,
 	gint nF )
 {
-        gnum_float fZw;
+        gnm_float fZw;
 
         if ( fZins == 0.0 )
                 fZw = fBw + fRmz * fZzr;
         else {
-                gnum_float fTerm = powgnum ( 1.0 + fZins, fZzr );
+                gnm_float fTerm = powgnum ( 1.0 + fZins, fZzr );
                 if ( nF > 0 )
                         fZw = fBw * fTerm + fRmz * ( 1.0 + fZins ) *
 				( fTerm - 1.0 ) / fZins;
@@ -202,17 +202,17 @@ GetZw ( gnum_float fZins, gnum_float fZzr, gnum_float fRmz, gnum_float fBw,
         return -fZw;
 }
 
-static gnum_float
-Duration (GDate *nSettle, GDate *nMat, gnum_float fCoup, gnum_float fYield,
-	  gint nFreq, gint nBase, gnum_float fNumOfCoups)
+static gnm_float
+Duration (GDate *nSettle, GDate *nMat, gnm_float fCoup, gnm_float fYield,
+	  gint nFreq, gint nBase, gnm_float fNumOfCoups)
 {
-        /* gnum_float  fYearfrac   = GetYearFrac ( nSettle, nMat, nBase ); */
-        gnum_float  fDur        = 0.0;
-	gnum_float  t, p        = 0.0;
+        /* gnm_float  fYearfrac   = GetYearFrac ( nSettle, nMat, nBase ); */
+        gnm_float  fDur        = 0.0;
+	gnm_float  t, p        = 0.0;
 
-        const gnum_float f100   = 100.0;
+        const gnm_float f100   = 100.0;
 
-        fCoup  *= f100 / (gnum_float) nFreq; /* fCoup is used as cash flow */
+        fCoup  *= f100 / (gnm_float) nFreq; /* fCoup is used as cash flow */
         fYield /= nFreq;
         fYield += 1.0;
 
@@ -227,7 +227,7 @@ Duration (GDate *nSettle, GDate *nMat, gnum_float fCoup, gnum_float fYield,
         p += ( fCoup + f100 ) / powgnum ( fYield, fNumOfCoups );
 
         fDur /= p;
-        fDur /= (gnum_float) nFreq;
+        fDur /= (gnm_float) nFreq;
 
         return ( fDur );
 }
@@ -235,12 +235,12 @@ Duration (GDate *nSettle, GDate *nMat, gnum_float fCoup, gnum_float fYield,
 /***************************************************************************/
 
 Value *
-get_amordegrc (gnum_float fCost, GDate *nDate, GDate *nFirstPer, 
-	       gnum_float fRestVal, gint nPer, gnum_float fRate,
+get_amordegrc (gnm_float fCost, GDate *nDate, GDate *nFirstPer, 
+	       gnm_float fRestVal, gint nPer, gnm_float fRate,
 	       gint nBase)
 {
         gint       n;
-	gnum_float fAmorCoeff, fNRate, fRest, fUsePer;
+	gnm_float fAmorCoeff, fNRate, fRest, fUsePer;
 
 #define Round(x,y) (floorgnum ((x) + 0.5))
 
@@ -285,15 +285,15 @@ get_amordegrc (gnum_float fCost, GDate *nDate, GDate *nFirstPer,
 /***************************************************************************/
 
 Value *
-get_amorlinc (gnum_float fCost, GDate *nDate, GDate *nFirstPer, 
-	      gnum_float fRestVal, gint nPer, gnum_float fRate, gint nBase)
+get_amorlinc (gnm_float fCost, GDate *nDate, GDate *nFirstPer, 
+	      gnm_float fRestVal, gint nPer, gnm_float fRate, gint nBase)
 {
-        gnum_float fOneRate          = fCost * fRate;
-        gnum_float fCostDelta        = fCost - fRestVal;
-        gnum_float f0Rate            = GetYearFrac ( nDate, nFirstPer, nBase )
+        gnm_float fOneRate          = fCost * fRate;
+        gnm_float fCostDelta        = fCost - fRestVal;
+        gnm_float f0Rate            = GetYearFrac ( nDate, nFirstPer, nBase )
 	        * fRate * fCost;
         gint       nNumOfFullPeriods = (fCost - fRestVal - f0Rate) / fOneRate;
-	gnum_float result;
+	gnm_float result;
 
         if ( nPer == 0 )
                 result = f0Rate;
@@ -309,10 +309,10 @@ get_amorlinc (gnum_float fCost, GDate *nDate, GDate *nFirstPer,
 
 /***************************************************************************/
 
-Value *    get_yielddisc (GDate *nSettle, GDate *nMat, gnum_float fPrice,
-			  gnum_float fRedemp, gint nBase)
+Value *    get_yielddisc (GDate *nSettle, GDate *nMat, gnm_float fPrice,
+			  gnm_float fRedemp, gint nBase)
 {
-        gnum_float fRet = 1.0 - fPrice / fRedemp;
+        gnm_float fRet = 1.0 - fPrice / fRedemp;
 	/* FIXME: I think this is bogus stuff. */
 
 	fRet /= GetYearFrac ( nSettle, nMat, nBase );
@@ -324,12 +324,12 @@ Value *    get_yielddisc (GDate *nSettle, GDate *nMat, gnum_float fPrice,
 /***************************************************************************/
 
 Value *	   get_yieldmat  (GDate *nSettle, GDate *nMat, GDate *nIssue,
-			  gnum_float fRate, gnum_float fPrice, gint nBase)
+			  gnm_float fRate, gnm_float fPrice, gint nBase)
 {
-        gnum_float   fIssMat = GetYearFrac ( nIssue, nMat, nBase );
-        gnum_float   fIssSet = GetYearFrac ( nIssue, nSettle, nBase );
-        gnum_float   fSetMat = GetYearFrac ( nSettle, nMat, nBase );
-        gnum_float   y       = 1.0 + fIssMat * fRate;
+        gnm_float   fIssMat = GetYearFrac ( nIssue, nMat, nBase );
+        gnm_float   fIssSet = GetYearFrac ( nIssue, nSettle, nBase );
+        gnm_float   fSetMat = GetYearFrac ( nSettle, nMat, nBase );
+        gnm_float   y       = 1.0 + fIssMat * fRate;
 
         y /= fPrice / 100.0 + fIssSet * fRate;
         y--;
@@ -341,14 +341,14 @@ Value *	   get_yieldmat  (GDate *nSettle, GDate *nMat, GDate *nIssue,
 /***************************************************************************/
 
 Value *    get_oddlprice (GDate *nSettle, GDate *nMat, GDate *nLastCoup,
-			  gnum_float fRate, gnum_float fYield,
-			  gnum_float fRedemp, gint nFreq, gint nBase)
+			  gnm_float fRate, gnm_float fYield,
+			  gnm_float fRedemp, gint nFreq, gint nBase)
 {
-        gnum_float fDCi  = GetYearFrac ( nLastCoup, nMat, nBase ) * nFreq;
-        gnum_float fDSCi = GetYearFrac ( nSettle, nMat, nBase ) *  nFreq;
-        gnum_float fAi   = GetYearFrac ( nLastCoup, nSettle, nBase ) * nFreq;
+        gnm_float fDCi  = GetYearFrac ( nLastCoup, nMat, nBase ) * nFreq;
+        gnm_float fDSCi = GetYearFrac ( nSettle, nMat, nBase ) *  nFreq;
+        gnm_float fAi   = GetYearFrac ( nLastCoup, nSettle, nBase ) * nFreq;
 
-        gnum_float p     = fRedemp + fDCi * 100.0 * fRate / nFreq;
+        gnm_float p     = fRedemp + fDCi * 100.0 * fRate / nFreq;
         p /= fDSCi * fYield / nFreq + 1.0;
         p -= fAi * 100.0 * fRate / nFreq;
 
@@ -358,15 +358,15 @@ Value *    get_oddlprice (GDate *nSettle, GDate *nMat, GDate *nLastCoup,
 /***************************************************************************/
 
 Value *    get_oddlyield (GDate *nSettle, GDate *nMat, GDate *nLastCoup,
-			  gnum_float fRate, gnum_float fPrice,
-			  gnum_float fRedemp, gint nFreq, gint nBase)
+			  gnm_float fRate, gnm_float fPrice,
+			  gnm_float fRedemp, gint nFreq, gint nBase)
 {
-        gnum_float      fDCi  = GetYearFrac ( nLastCoup, nMat, nBase ) * nFreq;
-        gnum_float      fDSCi = GetYearFrac ( nSettle, nMat, nBase ) * nFreq;
-        gnum_float      fAi   = GetYearFrac ( nLastCoup, nSettle, nBase ) *
+        gnm_float      fDCi  = GetYearFrac ( nLastCoup, nMat, nBase ) * nFreq;
+        gnm_float      fDSCi = GetYearFrac ( nSettle, nMat, nBase ) * nFreq;
+        gnm_float      fAi   = GetYearFrac ( nLastCoup, nSettle, nBase ) *
 	        nFreq;
 
-        gnum_float      y     = fRedemp + fDCi * 100.0 * fRate / nFreq;
+        gnm_float      y     = fRedemp + fDCi * 100.0 * fRate / nFreq;
         y /= fPrice + fAi * 100.0 * fRate / nFreq;
         y--;
         y *= nFreq / fDSCi;
@@ -376,9 +376,9 @@ Value *    get_oddlyield (GDate *nSettle, GDate *nMat, GDate *nLastCoup,
 
 /***************************************************************************/
 
-Value *    get_duration  (GDate *nSettle, GDate *nMat, gnum_float fCoup,
-			  gnum_float fYield, gint nFreq, gint nBase,
-			  gnum_float fNumOfCoups)
+Value *    get_duration  (GDate *nSettle, GDate *nMat, gnm_float fCoup,
+			  gnm_float fYield, gint nFreq, gint nBase,
+			  gnm_float fNumOfCoups)
 {
         return value_new_float ( Duration (nSettle, nMat, fCoup, fYield, nFreq,
 					   nBase, fNumOfCoups) );
@@ -386,24 +386,24 @@ Value *    get_duration  (GDate *nSettle, GDate *nMat, gnum_float fCoup,
 
 /***************************************************************************/
 
-Value *    get_mduration (GDate *nSettle, GDate *nMat, gnum_float fCoup,
-			  gnum_float fYield, gint nFreq, gint nBase,
-			  gnum_float fNumOfCoups)
+Value *    get_mduration (GDate *nSettle, GDate *nMat, gnm_float fCoup,
+			  gnm_float fYield, gint nFreq, gint nBase,
+			  gnm_float fNumOfCoups)
 {
-	gnum_float fRet = Duration (nSettle, nMat, fCoup, fYield, nFreq, nBase,
+	gnm_float fRet = Duration (nSettle, nMat, fCoup, fYield, nFreq, nBase,
 				    fNumOfCoups);
 
-	fRet /= 1.0 + ( fYield / (gnum_float) nFreq );
+	fRet /= 1.0 + ( fYield / (gnm_float) nFreq );
 
         return value_new_float ( fRet );
 }
 
 /***************************************************************************/
 
-Value *    get_cumprinc  (gnum_float fRate, gint nNumPeriods, gnum_float fVal,
+Value *    get_cumprinc  (gnm_float fRate, gint nNumPeriods, gnm_float fVal,
 			  gint nStart, gint nEnd, gint nPayType)
 {
-        gnum_float fRmz, fKapZ;
+        gnm_float fRmz, fKapZ;
 	gint       i;
 
         fRmz = GetRmz ( fRate, nNumPeriods, fVal, 0.0, nPayType );
@@ -433,10 +433,10 @@ Value *    get_cumprinc  (gnum_float fRate, gint nNumPeriods, gnum_float fVal,
 
 /***************************************************************************/
 
-Value *    get_cumipmt   (gnum_float fRate, gint nNumPeriods, gnum_float fVal,
+Value *    get_cumipmt   (gnm_float fRate, gint nNumPeriods, gnm_float fVal,
 			  gint nStart, gint nEnd, gint nPayType)
 {
-        gnum_float fRmz, fZinsZ;
+        gnm_float fRmz, fZinsZ;
 	gint       i;
 
         fRmz = GetRmz ( fRate, nNumPeriods, fVal, 0.0, nPayType );
@@ -478,11 +478,11 @@ Value *    get_cumipmt   (gnum_float fRate, gint nNumPeriods, gnum_float fVal,
  *
  */
  
-static gnum_float
-ScGetGDA (gnum_float fWert, gnum_float fRest, gnum_float fDauer,
-	  gnum_float fPeriode, gnum_float fFaktor)
+static gnm_float
+ScGetGDA (gnm_float fWert, gnm_float fRest, gnm_float fDauer,
+	  gnm_float fPeriode, gnm_float fFaktor)
 {
-        gnum_float fGda, fZins, fAlterWert, fNeuerWert;  /* FIXME: translate? */
+        gnm_float fGda, fZins, fAlterWert, fNeuerWert;  /* FIXME: translate? */
 
         fZins = fFaktor / fDauer;
         if (fZins >= 1.0) {
@@ -504,26 +504,26 @@ ScGetGDA (gnum_float fWert, gnum_float fRest, gnum_float fDauer,
         return fGda;
 }
 
-static gnum_float
-ScInterVDB (gnum_float cost, gnum_float salvage, gnum_float life,
-	    gnum_float life1, gnum_float period, gnum_float factor)
+static gnm_float
+ScInterVDB (gnm_float cost, gnm_float salvage, gnm_float life,
+	    gnm_float life1, gnm_float period, gnm_float factor)
 {
-        gnum_float fVdb       = 0;
-        gnum_float fIntEnd    = ceilgnum (period);
+        gnm_float fVdb       = 0;
+        gnm_float fIntEnd    = ceilgnum (period);
         int        nLoopEnd   = fIntEnd;
 
-        gnum_float fTerm, fLia;
-        gnum_float fRestwert  = cost - salvage;
+        gnm_float fTerm, fLia;
+        gnm_float fRestwert  = cost - salvage;
         gboolean   bNowLia    = FALSE;
 
-        gnum_float fGda;
+        gnm_float fGda;
         int        i;
 
         fLia = 0;
         for ( i = 1; i <= nLoopEnd; i++ ) {
                 if (!bNowLia) {
                         fGda = ScGetGDA (cost, salvage, life, i, factor);
-                        fLia = fRestwert / (life1 - (gnum_float) (i - 1));
+                        fLia = fRestwert / (life1 - (gnm_float) (i - 1));
 
                         if (fLia > fGda) {
                                 fTerm   = fLia;
@@ -544,13 +544,13 @@ ScInterVDB (gnum_float cost, gnum_float salvage, gnum_float life,
 }
 
 Value *
-get_vdb (gnum_float cost, gnum_float salvage, gnum_float life,
-	 gnum_float start_period, gnum_float end_period, gnum_float factor,
+get_vdb (gnm_float cost, gnm_float salvage, gnm_float life,
+	 gnm_float start_period, gnm_float end_period, gnm_float factor,
 	 gboolean flag)
 {
-	gnum_float fVdb;
-	gnum_float fIntStart = floorgnum (start_period);
-	gnum_float fIntEnd   = ceilgnum (end_period);
+	gnm_float fVdb;
+	gnm_float fIntStart = floorgnum (start_period);
+	gnm_float fIntEnd   = ceilgnum (end_period);
 	int        i;
 	int        nLoopStart = (int) fIntStart;
 	int        nLoopEnd   = (int) fIntEnd;
@@ -559,7 +559,7 @@ get_vdb (gnum_float cost, gnum_float salvage, gnum_float life,
 
 	if ( flag ) {
 		for (i = nLoopStart + 1; i <= nLoopEnd; i++) {
-			gnum_float fTerm;
+			gnm_float fTerm;
 
 			fTerm = ScGetGDA (cost, salvage, life, i, factor);
 			if ( i == nLoopStart+1 )
@@ -570,8 +570,8 @@ get_vdb (gnum_float cost, gnum_float salvage, gnum_float life,
 			fVdb += fTerm;
 		}
 	} else {
-		gnum_float life1 = life;
-		gnum_float fPart;
+		gnm_float life1 = life;
+		gnm_float fPart;
 
 		if ( start_period != floorgnum (start_period) )
 			if (factor > 1) {

@@ -83,7 +83,7 @@ struct BBDATA
       int found;
       /* this flag is set if the solver has found at least one integer
          feasible solution */
-      gnum_float best;
+      gnm_float best;
       /* value of the objective function for the best integer feasible
          solution found by the solver (if the flag found is clear, this
          value is undefined; in the case of maximization this value has
@@ -91,7 +91,7 @@ struct BBDATA
       RSM *rsm;
       /* revised simplex method common block (this block contains all
          information related to the current active problem) */
-      gnum_float *bbar; /* gnum_float bbar[1+m]; */
+      gnm_float *bbar; /* gnm_float bbar[1+m]; */
       /* values of basic variables (for the current active problem) */
 };
 
@@ -109,7 +109,7 @@ struct BBNODE
          node):
          'L' - xS[j] >= new lower bound
          'U' - xS[j] <= new upper bound */
-      gnum_float bound;
+      gnm_float bound;
       /* new lower (if type = 'L') or new upper (if type = 'U') bound
          for the variable xS[j] (not used for the root node) */
       int solved;
@@ -123,11 +123,11 @@ struct BBNODE
          of this problem differs from an optimal basis of its parent (in
          case of the root problem this field is NULL, because the root
          problem has no parent) */
-      gnum_float objval;
+      gnm_float objval;
       /* value of the objective function for optimal solution (if this
          problem has not been solved yet, this value is undefined); in
          the case of maximization this value has opposite sign */
-      gnum_float infsum;
+      gnm_float infsum;
       /* sum of integer infeasibilites (if this problem has not been
          solved yet, this sum is undefined) */
       BBNODE *left, *right;
@@ -194,10 +194,10 @@ struct bbm1_cp
 #define BB_FIFO   0  /* backtrack using FIFO heuristic */
 #define BB_LIFO   1  /* backtrack using LIFO heuristic */
 #define BB_BESTP  2  /* backtrack using the best projection heuristic */
-      gnum_float tol_int;
+      gnm_float tol_int;
       /* absolute tolerance which is used to see if the solution is
          integer feasible */
-      gnum_float tol_obj;
+      gnm_float tol_obj;
       /* relative tolerance which is used to check if current value of
          the objective function is not better than for the best integer
          feasible solution found */
@@ -209,13 +209,13 @@ struct bbm1_cp
       /* if this flag is set, the solver uses two-pass ratio test
          proposed by P.Harris; otherwise the standard "textbook" ratio
          test is used */
-      gnum_float tol_bnd;
+      gnm_float tol_bnd;
       /* relative tolerance which is used to see if the solution is
          primal feasible */
-      gnum_float tol_dj;
+      gnm_float tol_dj;
       /* relative tolerance which is used to see if the solution is
          dual feasible */
-      gnum_float tol_piv;
+      gnm_float tol_piv;
       /* relative tolerance which is used to choose the pivot element
          of the simplex table */
       int it_lim;
@@ -226,7 +226,7 @@ struct bbm1_cp
       int it_cnt;
       /* simplex iterations count; this count is increased by one each
          time when one simplex iteration has been performed */
-      gnum_float tm_lim;
+      gnm_float tm_lim;
       /* searching time limit, in seconds; if this value is positive,
          it is decreased each time when one simplex iteration has been
          performed by the amount of time spent for the iteration, and

@@ -55,7 +55,7 @@ typedef struct {
 	gboolean group_thousands;
 	gboolean has_fraction;
 } format_info_t;
-void render_number (GString *result, gnum_float number, format_info_t const *info);
+void render_number (GString *result, gnm_float number, format_info_t const *info);
 
 /* Locale support routines */
 char const *gnumeric_setlocale      (int category, char const *val);

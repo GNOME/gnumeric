@@ -34,7 +34,7 @@
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- void btran(RSM *rsm, gnum_float u[]);
+-- void btran(RSM *rsm, gnm_float u[]);
 --
 -- *Description*
 --
@@ -50,7 +50,7 @@
 -- On exit this array contains elements of the vector u' in the same
 -- locations. */
 
-void btran(RSM *rsm, gnum_float u[])
+void btran(RSM *rsm, gnm_float u[])
 {     inv_btran(rsm->inv, u);
       return;
 }
@@ -158,7 +158,7 @@ int build_basis(RSM *rsm, LPI *lp)
 -- the type of variable (xB)p.
 --
 -- The special case p < 0 means that the current basis is not changed,
--- but the non-basic variable (xN)q (which should be gnum_float-bounded
+-- but the non-basic variable (xN)q (which should be gnm_float-bounded
 -- variable) just goes from its current bound to the opposite one. The
 -- parameter tagp is ignored in this special case.
 --
@@ -218,7 +218,7 @@ int change_b(RSM *rsm, int p, int tagp, int q)
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- int check_bbar(RSM *rsm, gnum_float bbar[], gnum_float tol);
+-- int check_bbar(RSM *rsm, gnm_float bbar[], gnm_float tol);
 --
 -- *Description*
 --
@@ -248,7 +248,7 @@ int change_b(RSM *rsm, int p, int tagp, int q)
 -- the conditions above) the check_bbar routine returns zero. Otherwise
 -- the routine returns non-zero. */
 
-int check_bbar(RSM *rsm, gnum_float bbar[], gnum_float tol)
+int check_bbar(RSM *rsm, gnm_float bbar[], gnm_float tol)
 {     int m = rsm->m, i, k;
       for (i = 1; i <= m; i++)
       {  k = rsm->indb[i]; /* x[k] = xB[i] */
@@ -272,7 +272,7 @@ int check_bbar(RSM *rsm, gnum_float bbar[], gnum_float tol)
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- int check_cbar(RSM *rsm, gnum_float c[], gnum_float cbar[], gnum_float tol);
+-- int check_cbar(RSM *rsm, gnm_float c[], gnm_float cbar[], gnm_float tol);
 --
 -- *Description*
 --
@@ -311,7 +311,7 @@ int check_bbar(RSM *rsm, gnum_float bbar[], gnum_float tol)
 -- the conditions above), the check_cbar routine returns zero. Otherwise
 -- the routine returns non-zero. */
 
-int check_cbar(RSM *rsm, gnum_float c[], gnum_float cbar[], gnum_float tol)
+int check_cbar(RSM *rsm, gnm_float c[], gnm_float cbar[], gnm_float tol)
 {     int n = rsm->n, j, k;
       for (j = 1; j <= n; j++)
       {  k = rsm->indn[j]; /* x[k] = xN[j] */
@@ -333,7 +333,7 @@ int check_cbar(RSM *rsm, gnum_float c[], gnum_float cbar[], gnum_float tol)
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- gnum_float check_dvec(RSM *rsm, gnum_float dvec[]);
+-- gnm_float check_dvec(RSM *rsm, gnm_float dvec[]);
 --
 -- *Description*
 --
@@ -352,9 +352,9 @@ int check_cbar(RSM *rsm, gnum_float c[], gnum_float cbar[], gnum_float tol)
 --
 -- The check_dvec routine returns the absolute error e (see above). */
 
-gnum_float check_dvec(RSM *rsm, gnum_float dvec[])
+gnm_float check_dvec(RSM *rsm, gnm_float dvec[])
 {     int m = rsm->m, i;
-      gnum_float d, dmax = 0.0;
+      gnm_float d, dmax = 0.0;
       for (i = 1; i <= m; i++)
       {  d = gnumabs(exact_dvec(rsm, i) - dvec[i]);
          if (dmax < d) dmax = d;
@@ -368,7 +368,7 @@ gnum_float check_dvec(RSM *rsm, gnum_float dvec[])
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- gnum_float check_gvec(RSM *rsm, gnum_float gvec[]);
+-- gnm_float check_gvec(RSM *rsm, gnm_float gvec[]);
 --
 -- *Description*
 --
@@ -387,9 +387,9 @@ gnum_float check_dvec(RSM *rsm, gnum_float dvec[])
 --
 -- The check_gvec routine returns the absolute error e (see above). */
 
-gnum_float check_gvec(RSM *rsm, gnum_float gvec[])
+gnm_float check_gvec(RSM *rsm, gnm_float gvec[])
 {     int n = rsm->n, j;
-      gnum_float d, dmax = 0.0;
+      gnm_float d, dmax = 0.0;
       for (j = 1; j <= n; j++)
       {  d = gnumabs(exact_gvec(rsm, j) - gvec[j]);
          if (dmax < d) dmax = d;
@@ -403,7 +403,7 @@ gnum_float check_gvec(RSM *rsm, gnum_float gvec[])
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- int check_rr(gnum_float x, gnum_float x0, gnum_float tol);
+-- int check_rr(gnm_float x, gnm_float x0, gnm_float tol);
 --
 -- *Description*
 --
@@ -423,9 +423,9 @@ gnum_float check_gvec(RSM *rsm, gnum_float gvec[])
 --
 -- where eps = tol * max(1, |x0|). */
 
-int check_rr(gnum_float x, gnum_float x0, gnum_float tol)
+int check_rr(gnm_float x, gnm_float x0, gnm_float tol)
 {     int ret;
-      gnum_float eps;
+      gnm_float eps;
       eps = (x0 >= 0.0 ? +x0 : -x0);
       eps = tol * (eps > 1.0 ? eps : 1.0);
       if (x < x0)
@@ -644,7 +644,7 @@ err2:                fault("check_rsm: invalid tag of non-basic row/col"
 -- length, for a fixed time the Duff scheme cs is used. However, unlike
 -- the scheme rs after initializing the scheme cs the routine scans this
 -- scheme in the order of increasing column lengths and adds all columns
--- the the set C(0), which then is used as ordinary gnum_float linked list
+-- the the set C(0), which then is used as ordinary gnm_float linked list
 -- to access columns in the reverse order.
 --
 -- Note that both schemes rs and cs hold rows and columns of the matrix
@@ -889,8 +889,8 @@ RSM *create_rsm(LPI *lp)
       rsm->m = m;
       rsm->n = n;
       rsm->type = ucalloc(1+m+n, sizeof(int));
-      rsm->lb = ucalloc(1+m+n, sizeof(gnum_float));
-      rsm->ub = ucalloc(1+m+n, sizeof(gnum_float));
+      rsm->lb = ucalloc(1+m+n, sizeof(gnm_float));
+      rsm->ub = ucalloc(1+m+n, sizeof(gnm_float));
       rsm->A = create_mat(m, m+n);
       rsm->posx = ucalloc(1+m+n, sizeof(int));
       rsm->indb = ucalloc(1+m, sizeof(int));
@@ -911,7 +911,7 @@ RSM *create_rsm(LPI *lp)
       /* build the expanded matrix A = (I | -A'), where I is the unity
          matrix, A' is the original matrix of constraint coefficients */
       {  int *cn = ucalloc(1+n, sizeof(int));
-         gnum_float *ai = ucalloc(1+n, sizeof(gnum_float));
+         gnm_float *ai = ucalloc(1+n, sizeof(gnm_float));
          for (i = 1; i <= m; i++)
          {  int nz = glp_get_row_coef(lp, i, cn, ai), t;
             new_elem(rsm->A, i, i, +1.0);
@@ -995,8 +995,8 @@ void delete_rsm(RSM *rsm)
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- int dual_col(RSM *rsm, int tagp, gnum_float ap[], gnum_float cbar[],
---    gnum_float tol);
+-- int dual_col(RSM *rsm, int tagp, gnm_float ap[], gnm_float cbar[],
+--    gnm_float tol);
 --
 -- *Description*
 --
@@ -1054,9 +1054,9 @@ void delete_rsm(RSM *rsm)
 -- direction and therefore the choice us impossible, the routine returns
 -- zero. */
 
-int dual_col(RSM *rsm, int tagp, gnum_float ap[], gnum_float cbar[], gnum_float tol)
+int dual_col(RSM *rsm, int tagp, gnm_float ap[], gnm_float cbar[], gnm_float tol)
 {     int n = rsm->n, j, q;
-      gnum_float big, eps, temp, teta;
+      gnm_float big, eps, temp, teta;
       /* compute the absolute tolerance eps using the given relative
          tolerance tol */
       big = 0.0;
@@ -1118,8 +1118,8 @@ int dual_col(RSM *rsm, int tagp, gnum_float ap[], gnum_float cbar[], gnum_float 
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- int dual_row(RSM *rsm, gnum_float bbar[], gnum_float dvec[], int *tagp,
---    gnum_float tol);
+-- int dual_row(RSM *rsm, gnm_float bbar[], gnm_float dvec[], int *tagp,
+--    gnm_float tol);
 --
 -- *Description*
 --
@@ -1145,7 +1145,7 @@ int dual_col(RSM *rsm, int tagp, gnum_float ap[], gnum_float cbar[], gnum_float 
 -- the subset xU means that the basic variable (xB)p violates its upper
 -- bound and therefore it should be set on its upper bound. Note that if
 -- the basic variable (xB)p is of fixed type, it is considered as
--- gnum_float-bounded variable (with lower bound equal to upper bound),
+-- gnm_float-bounded variable (with lower bound equal to upper bound),
 -- therefore its tag should be corrected before changing the basis by
 -- means of the change_b routine. This exception is used in order to let
 -- other routines know what to do with such fixed basic variable:
@@ -1177,10 +1177,10 @@ int dual_col(RSM *rsm, int tagp, gnum_float ap[], gnum_float cbar[], gnum_float 
 -- if the current basis solution is primal feasible and therefore the
 -- choice is impossible, the routine returns zero. */
 
-int dual_row(RSM *rsm, gnum_float bbar[], gnum_float dvec[], int *_tagp,
-      gnum_float tol)
+int dual_row(RSM *rsm, gnm_float bbar[], gnm_float dvec[], int *_tagp,
+      gnm_float tol)
 {     int m = rsm->m, i, k, p, tagp;
-      gnum_float big, temp;
+      gnm_float big, temp;
       p = 0, tagp = -1, big = 0.0;
       for (i = 1; i <= m; i++)
       {  k = rsm->indb[i]; /* x[k] = xB[i] */
@@ -1221,7 +1221,7 @@ int dual_row(RSM *rsm, gnum_float bbar[], gnum_float dvec[], int *_tagp,
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- void eval_bbar(RSM *rsm, gnum_float bbar[]);
+-- void eval_bbar(RSM *rsm, gnm_float bbar[]);
 --
 -- *Description*
 --
@@ -1238,10 +1238,10 @@ int dual_row(RSM *rsm, gnum_float bbar[], gnum_float dvec[], int *_tagp,
 -- where N[j] is the column of the expanded constraint matrix A, which
 -- corresponds to the non-basic variable xN[j]. */
 
-void eval_bbar(RSM *rsm, gnum_float bbar[])
+void eval_bbar(RSM *rsm, gnm_float bbar[])
 {     ELEM *e;
       int m = rsm->m, n = rsm->n, i, j, k;
-      gnum_float *u = bbar, t;
+      gnm_float *u = bbar, t;
       /* u := - N*xN = - N[1]*xN[1] - ... - N[n]*xN[n] */
       for (i = 1; i <= m; i++) u[i] = 0.0;
       for (j = 1; j <= n; j++)
@@ -1262,7 +1262,7 @@ void eval_bbar(RSM *rsm, gnum_float bbar[])
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- void eval_cbar(RSM *rsm, gnum_float c[], gnum_float pi[], gnum_float cbar[]);
+-- void eval_cbar(RSM *rsm, gnm_float c[], gnm_float pi[], gnm_float cbar[]);
 --
 -- *Description*
 --
@@ -1287,7 +1287,7 @@ void eval_bbar(RSM *rsm, gnum_float bbar[])
 -- the expanded constraint matrix A, which corresponds to the variable
 -- xN[j]. */
 
-void eval_cbar(RSM *rsm, gnum_float c[], gnum_float pi[], gnum_float cbar[])
+void eval_cbar(RSM *rsm, gnm_float c[], gnm_float pi[], gnm_float cbar[])
 {     ELEM *e;
       int n = rsm->n, j, k;
       /* cbar[j] = d[j] = cN[j] - pi * N[j] */
@@ -1306,7 +1306,7 @@ void eval_cbar(RSM *rsm, gnum_float c[], gnum_float pi[], gnum_float cbar[])
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- void eval_col(RSM *rsm, int j, gnum_float aj[], int save);
+-- void eval_col(RSM *rsm, int j, gnm_float aj[], int save);
 --
 -- *Description*
 --
@@ -1328,10 +1328,10 @@ void eval_cbar(RSM *rsm, gnum_float c[], gnum_float pi[], gnum_float cbar[])
 -- where B is the current basis matrix, N[j] is column of the expanded
 -- matrix A, which corresponds to non-basic variable (xN)j. */
 
-void eval_col(RSM *rsm, int j, gnum_float aj[], int save)
+void eval_col(RSM *rsm, int j, gnm_float aj[], int save)
 {     ELEM *e;
       int m = rsm->m, n = rsm->n, i, k;
-      gnum_float *u = aj;
+      gnm_float *u = aj;
       insist(1 <= j && j <= n);
       k = rsm->indn[j]; /* x[k] = xN[j] */
       /* u = N[j] */
@@ -1350,7 +1350,7 @@ void eval_col(RSM *rsm, int j, gnum_float aj[], int save)
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- void eval_pi(RSM *rsm, gnum_float c[], gnum_float pi[]);
+-- void eval_pi(RSM *rsm, gnm_float c[], gnm_float pi[]);
 --
 -- *Description*
 --
@@ -1371,9 +1371,9 @@ void eval_col(RSM *rsm, int j, gnum_float aj[], int save)
 -- subvector of coefficients of the objective function at the basic
 -- variables. */
 
-void eval_pi(RSM *rsm, gnum_float c[], gnum_float pi[])
+void eval_pi(RSM *rsm, gnm_float c[], gnm_float pi[])
 {     int m = rsm->m, i, k;
-      gnum_float *cB = pi;
+      gnm_float *cB = pi;
       /* pi = inv(BT) * cB */
       for (i = 1; i <= m; i++)
       {  k = rsm->indb[i]; /* x[k] = xB[i] */
@@ -1389,7 +1389,7 @@ void eval_pi(RSM *rsm, gnum_float c[], gnum_float pi[])
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- void eval_row(RSM *rsm, gnum_float zeta[], gnum_float ai[]);
+-- void eval_row(RSM *rsm, gnm_float zeta[], gnm_float ai[]);
 --
 -- *Description*
 --
@@ -1410,7 +1410,7 @@ void eval_pi(RSM *rsm, gnum_float c[], gnum_float pi[])
 -- non-basic columns of the expanded matrix A, zeta is i-th row of the
 -- inverse inv(B). */
 
-void eval_row(RSM *rsm, gnum_float zeta[], gnum_float ai[])
+void eval_row(RSM *rsm, gnm_float zeta[], gnm_float ai[])
 {     ELEM *e;
       int n = rsm->n, j , k;
       for (j = 1; j <= n; j++)
@@ -1428,16 +1428,16 @@ void eval_row(RSM *rsm, gnum_float zeta[], gnum_float ai[])
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- gnum_float eval_xn(RSM *rsm, int j);
+-- gnm_float eval_xn(RSM *rsm, int j);
 --
 -- *Returns*
 --
 -- The eval_xn routine returns the value of non-basic variable xN[j],
 -- 1 <= j <= n, that corresponds to the current basis solution. */
 
-gnum_float eval_xn(RSM *rsm, int j)
+gnm_float eval_xn(RSM *rsm, int j)
 {     int n = rsm->n, k;
-      gnum_float t;
+      gnm_float t;
       insist(1 <= j && j <= n);
       k = rsm->indn[j]; /* x[k] = xN[j] */
       switch (rsm->tagn[j])
@@ -1469,7 +1469,7 @@ gnum_float eval_xn(RSM *rsm, int j)
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- void eval_zeta(RSM *rsm, int i, gnum_float zeta[]);
+-- void eval_zeta(RSM *rsm, int i, gnm_float zeta[]);
 --
 -- *Description*
 --
@@ -1484,7 +1484,7 @@ gnum_float eval_xn(RSM *rsm, int j)
 -- where B' is a matrix transposed to the current basis matrix B, e[i]
 -- is the unity vector containing one in i-th position. */
 
-void eval_zeta(RSM *rsm, int i, gnum_float zeta[])
+void eval_zeta(RSM *rsm, int i, gnm_float zeta[])
 {     int m = rsm->m, j;
       insist(1 <= i && i <= m);
       for (j = 1; j <= m; j++) zeta[j] = 0.0;
@@ -1499,7 +1499,7 @@ void eval_zeta(RSM *rsm, int i, gnum_float zeta[])
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- gnum_float exact_dvec(RSM *rsm, int i);
+-- gnm_float exact_dvec(RSM *rsm, int i);
 --
 -- *Description*
 --
@@ -1518,12 +1518,12 @@ void eval_zeta(RSM *rsm, int i, gnum_float zeta[])
 --
 -- The exact_dvec routine returns the computed value of delta[i]. */
 
-gnum_float exact_dvec(RSM *rsm, int i)
+gnm_float exact_dvec(RSM *rsm, int i)
 {     int m = rsm->m, n = rsm->n, j;
-      gnum_float *zeta, *ai, t;
+      gnm_float *zeta, *ai, t;
       insist(1 <= i && i <= m);
-      zeta = ucalloc(1+m, sizeof(gnum_float));
-      ai = ucalloc(1+n, sizeof(gnum_float));
+      zeta = ucalloc(1+m, sizeof(gnm_float));
+      ai = ucalloc(1+n, sizeof(gnm_float));
       eval_zeta(rsm, i, zeta);
       eval_row(rsm, zeta, ai);
       t = 1.0;
@@ -1538,7 +1538,7 @@ gnum_float exact_dvec(RSM *rsm, int i)
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- gnum_float exact_gvec(RSM *rsm, int j);
+-- gnm_float exact_gvec(RSM *rsm, int j);
 --
 -- *Description*
 --
@@ -1557,11 +1557,11 @@ gnum_float exact_dvec(RSM *rsm, int i)
 --
 -- The exact_gvec routine returns the computed value of gamma[j]. */
 
-gnum_float exact_gvec(RSM *rsm, int j)
+gnm_float exact_gvec(RSM *rsm, int j)
 {     int m = rsm->m, n = rsm->n, i;
-      gnum_float *aj, t;
+      gnm_float *aj, t;
       insist(1 <= j && j <= n);
-      aj = ucalloc(1+m, sizeof(gnum_float));
+      aj = ucalloc(1+m, sizeof(gnm_float));
       eval_col(rsm, j, aj, 0);
       t = 1.0;
       for (i = 1; i <= m; i++) t += aj[i] * aj[i];
@@ -1575,7 +1575,7 @@ gnum_float exact_gvec(RSM *rsm, int j)
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- void ftran(RSM *rsm, gnum_float u[], int save);
+-- void ftran(RSM *rsm, gnm_float u[], int save);
 --
 -- *Description*
 --
@@ -1600,7 +1600,7 @@ gnum_float exact_gvec(RSM *rsm, int j)
 -- program should perform at least one call to the ftran routine with
 -- the save flag set before subsequent call to the update_b routine. */
 
-void ftran(RSM *rsm, gnum_float u[], int save)
+void ftran(RSM *rsm, gnm_float u[], int save)
 {     inv_ftran(rsm->inv, u, save);
       return;
 }
@@ -1611,8 +1611,8 @@ void ftran(RSM *rsm, gnum_float u[], int save)
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- int harris_col(RSM *rsm, int tagp, gnum_float ap[], gnum_float c[],
---    gnum_float cbar[], gnum_float tol, gnum_float tol1);
+-- int harris_col(RSM *rsm, int tagp, gnm_float ap[], gnm_float c[],
+--    gnm_float cbar[], gnm_float tol, gnm_float tol1);
 --
 -- *Description*
 --
@@ -1646,10 +1646,10 @@ void ftran(RSM *rsm, gnum_float u[], int save)
 --
 -- For futher details see the program documentation. */
 
-int harris_col(RSM *rsm, int tagp, gnum_float ap[], gnum_float c[],
-      gnum_float cbar[], gnum_float tol, gnum_float tol1)
+int harris_col(RSM *rsm, int tagp, gnm_float ap[], gnm_float c[],
+      gnm_float cbar[], gnm_float tol, gnm_float tol1)
 {     int n = rsm->n, j, q;
-      gnum_float big, eps, temp, teta;
+      gnm_float big, eps, temp, teta;
 #if 0
 #     define gap (tol1 * (gnumabs(c[k]) > 1.0 ? gnumabs(c[k]) : 1.0))
 #else /* 3.0.3 */
@@ -1758,8 +1758,8 @@ up:         temp = (cbar[j] - gap) / ap[j];
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- int harris_row(RSM *rsm, int q, int dir, gnum_float aq[], gnum_float bbar[],
---    int *tagp, gnum_float tol, gnum_float tol1);
+-- int harris_row(RSM *rsm, int q, int dir, gnm_float aq[], gnm_float bbar[],
+--    int *tagp, gnm_float tol, gnm_float tol1);
 --
 -- *Description*
 --
@@ -1785,11 +1785,11 @@ up:         temp = (cbar[j] - gap) / ap[j];
 --
 -- For futher details see the program documentation. */
 
-int harris_row(RSM *rsm, int q, int dir, gnum_float aq[], gnum_float bbar[],
-      int *_tagp, gnum_float tol, gnum_float tol1)
+int harris_row(RSM *rsm, int q, int dir, gnm_float aq[], gnm_float bbar[],
+      int *_tagp, gnm_float tol, gnm_float tol1)
 {     int m = rsm->m, i, k, tag, p, tagp;
-      gnum_float *lb = rsm->lb, *ub = rsm->ub;
-      gnum_float big, eps, temp, teta;
+      gnm_float *lb = rsm->lb, *ub = rsm->ub;
+      gnm_float big, eps, temp, teta;
 #if 0
 #     define gap(bnd) (tol1 * (gnumabs(bnd) > 1.0 ? gnumabs(bnd) : 1.0))
 #else /* 3.0.3 */
@@ -1912,7 +1912,7 @@ up_2:       temp = (ub[k] - bbar[i]) / aq[i];
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- void init_dvec(RSM *rsm, gnum_float dvec[]);
+-- void init_dvec(RSM *rsm, gnm_float dvec[]);
 --
 -- *Description*
 --
@@ -1928,7 +1928,7 @@ up_2:       temp = (ub[k] - bbar[i]) / aq[i];
 --
 -- directly for computing the initial vector delta. */
 
-void init_dvec(RSM *rsm, gnum_float dvec[])
+void init_dvec(RSM *rsm, gnm_float dvec[])
 {     ELEM *e;
       int m = rsm->m, n = rsm->n, i, j;
       for (i = 1; i <= m; i++) dvec[i] = 1.0;
@@ -1945,7 +1945,7 @@ void init_dvec(RSM *rsm, gnum_float dvec[])
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- void init_gvec(RSM *rsm, gnum_float gvec[]);
+-- void init_gvec(RSM *rsm, gnm_float gvec[]);
 --
 -- *Description*
 --
@@ -1961,10 +1961,10 @@ void init_dvec(RSM *rsm, gnum_float dvec[])
 --
 -- directly for computing the initial vector gamma. */
 
-void init_gvec(RSM *rsm, gnum_float gvec[])
+void init_gvec(RSM *rsm, gnm_float gvec[])
 {     ELEM *e;
       int m = rsm->m, n = rsm->n, j;
-      gnum_float t;
+      gnm_float t;
       for (j = 1; j <= n; j++)
       {  t = 1.0;
          for (e = rsm->A->col[m+j]; e != NULL; e = e->col)
@@ -2008,7 +2008,7 @@ void init_gvec(RSM *rsm, gnum_float gvec[])
 -- futher information see descriptions of particular routines that
 -- perform this operation). */
 
-static int col(void *info, int j, int rn[], gnum_float bj[])
+static int col(void *info, int j, int rn[], gnm_float bj[])
 {     /* build j-th column of the current basis matrix */
       RSM *rsm = (RSM *)info;
       ELEM *e;
@@ -2019,7 +2019,7 @@ static int col(void *info, int j, int rn[], gnum_float bj[])
 }
 
 int invert_b(RSM *rsm)
-{     static gnum_float tol[1+3] = { 0.00, 0.10, 0.30, 0.70 };
+{     static gnm_float tol[1+3] = { 0.00, 0.10, 0.30, 0.70 };
       int try, ret;
       for (try = 1; try <= 3; try++)
       {  rsm->inv->luf->piv_tol = tol[try];
@@ -2035,8 +2035,8 @@ int invert_b(RSM *rsm)
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- int pivot_col(RSM *rsm, gnum_float c[], gnum_float cbar[], gnum_float gvec[],
---    gnum_float tol);
+-- int pivot_col(RSM *rsm, gnm_float c[], gnm_float cbar[], gnm_float gvec[],
+--    gnm_float tol);
 --
 -- *Description*
 --
@@ -2091,10 +2091,10 @@ int invert_b(RSM *rsm)
 -- Otherwise, if the current basis solution is dual feasible and the
 -- choice is impossible, the routine returns zero. */
 
-int pivot_col(RSM *rsm, gnum_float c[], gnum_float cbar[], gnum_float gvec[],
-      gnum_float tol)
+int pivot_col(RSM *rsm, gnm_float c[], gnm_float cbar[], gnm_float gvec[],
+      gnm_float tol)
 {     int n = rsm->n, j, k, q, ret;
-      gnum_float big, temp;
+      gnm_float big, temp;
       q = 0, big = 0.0;
       for (j = 1; j <= n; j++)
       {  /* skip column if xN[j] can't change */
@@ -2139,8 +2139,8 @@ int pivot_col(RSM *rsm, gnum_float c[], gnum_float cbar[], gnum_float gvec[],
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- int pivot_row(RSM *rsm, int q, int dir, gnum_float aq[], gnum_float bbar[],
---    int *tagp, gnum_float tol);
+-- int pivot_row(RSM *rsm, int q, int dir, gnm_float aq[], gnm_float bbar[],
+--    int *tagp, gnm_float tol);
 --
 -- *Description*
 --
@@ -2199,16 +2199,16 @@ int pivot_col(RSM *rsm, gnum_float c[], gnum_float cbar[], gnum_float gvec[],
 --
 -- If the choice has been made, the pivot_row routine returns p which
 -- is a number of the chosen basic variable (xB)p, 1 <= p <= m. In the
--- special case, if the non-basic variable (xN)q being gnum_float-bounded
+-- special case, if the non-basic variable (xN)q being gnm_float-bounded
 -- variable reaches its opposite bound before any basic variable, the
 -- routine returns a negative value. Otherwise, if the non-basic
 -- variable (xN)q can unlimitedly change in the feasible direction and
 -- therefore the choice is impossible, the routine returns zero. */
 
-int pivot_row(RSM *rsm, int q, int dir, gnum_float aq[], gnum_float bbar[],
-      int *_tagp, gnum_float tol)
+int pivot_row(RSM *rsm, int q, int dir, gnm_float aq[], gnm_float bbar[],
+      int *_tagp, gnm_float tol)
 {     int m = rsm->m, i, k, tag, p, tagp;
-      gnum_float big, eps, temp, teta;
+      gnm_float big, eps, temp, teta;
       /* compute the absolute tolerance eps using the given relative
          tolerance tol */
       big = 0.0;
@@ -2292,7 +2292,7 @@ up:         temp = (rsm->ub[k] - bbar[i]) / aq[i];
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- void scale_rsm(RSM *rsm, gnum_float R[], gnum_float S[]);
+-- void scale_rsm(RSM *rsm, gnm_float R[], gnm_float S[]);
 --
 -- *Description*
 --
@@ -2313,7 +2313,7 @@ up:         temp = (rsm->ub[k] - bbar[i]) / aq[i];
 -- The purpose of scaling is to replace the original constraint matrix
 -- A by the scaled matrix A' = R * A * S. */
 
-void scale_rsm(RSM *rsm, gnum_float R[], gnum_float S[])
+void scale_rsm(RSM *rsm, gnm_float R[], gnm_float S[])
 {     int m = rsm->m, n = rsm->n, i, j, k;
       /* scale bounds of auxiliary variables */
       if (R != NULL)
@@ -2390,8 +2390,8 @@ int update_b(RSM *rsm, int p)
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- void update_dvec(RSM *rsm, gnum_float dvec[], int p, int q, gnum_float ap[],
---    gnum_float aq[], gnum_float w[]);
+-- void update_dvec(RSM *rsm, gnm_float dvec[], int p, int q, gnm_float ap[],
+--    gnm_float aq[], gnm_float w[]);
 --
 -- *Description*
 --
@@ -2430,11 +2430,11 @@ int update_b(RSM *rsm, int p)
 --
 -- For further details see the program documentation. */
 
-void update_dvec(RSM *rsm, gnum_float dvec[], int p, int q, gnum_float ap[],
-      gnum_float aq[], gnum_float w[])
+void update_dvec(RSM *rsm, gnm_float dvec[], int p, int q, gnm_float ap[],
+      gnm_float aq[], gnm_float w[])
 {     ELEM *e;
       int m = rsm->m, n = rsm->n, i, j, k;
-      gnum_float aiq, t1, t2;
+      gnm_float aiq, t1, t2;
       insist(1 <= p && p <= m && 1 <= q && q <= n);
       dvec[p] = 1.0;
       for (j = 1; j <= n; j++) dvec[p] += ap[j] * ap[j];
@@ -2463,8 +2463,8 @@ void update_dvec(RSM *rsm, gnum_float dvec[], int p, int q, gnum_float ap[],
 -- *Synopsis*
 --
 -- #include "glprsm.h"
--- void update_gvec(RSM *rsm, gnum_float gvec[], int p, int q, gnum_float ap[],
---    gnum_float aq[], gnum_float w[]);
+-- void update_gvec(RSM *rsm, gnm_float gvec[], int p, int q, gnm_float ap[],
+--    gnm_float aq[], gnm_float w[]);
 --
 -- *Description*
 --
@@ -2503,11 +2503,11 @@ void update_dvec(RSM *rsm, gnum_float dvec[], int p, int q, gnum_float ap[],
 --
 -- For further details see the program documentation. */
 
-void update_gvec(RSM *rsm, gnum_float gvec[], int p, int q, gnum_float ap[],
-      gnum_float aq[], gnum_float w[])
+void update_gvec(RSM *rsm, gnm_float gvec[], int p, int q, gnm_float ap[],
+      gnm_float aq[], gnm_float w[])
 {     ELEM *e;
       int m = rsm->m, n = rsm->n, i, j, k;
-      gnum_float apj, tj, t1, t2;
+      gnm_float apj, tj, t1, t2;
       insist(1 <= p && p <= m && 1 <= q && q <= n);
       gvec[q] = 1.0;
       for (i = 1; i <= m; i++) gvec[q] += aq[i] * aq[i];

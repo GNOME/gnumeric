@@ -57,7 +57,7 @@ SPM *spm_create(void)
       A->size = size;
       A->used = 0;
       A->ndx = ucalloc(1+size, sizeof(int));
-      A->val = ucalloc(1+size, sizeof(gnum_float));
+      A->val = ucalloc(1+size, sizeof(gnm_float));
       A->head = A->tail = 0;
       A->prev = ucalloc(1+m_max+n_max, sizeof(int));
       A->next = ucalloc(1+m_max+n_max, sizeof(int));
@@ -91,7 +91,7 @@ void spm_check_data(SPM *A)
       int size = A->size;
       int used = A->used;
       int *ndx = A->ndx;
-      gnum_float *val = A->val;
+      gnm_float *val = A->val;
       int head = A->head;
       int tail = A->tail;
       int *prev = A->prev;
@@ -352,7 +352,7 @@ void spm_add_cols(SPM *A, int ncs)
 --
 -- #include "glpspm.h"
 -- void spm_load_data(SPM *A,
---    void *info, gnum_float (*mat)(void *info, int *i, int *j));
+--    void *info, gnm_float (*mat)(void *info, int *i, int *j));
 --
 -- *Description*
 --
@@ -376,18 +376,18 @@ void spm_add_cols(SPM *A, int ncs)
 -- first element. */
 
 void spm_load_data(SPM *A,
-      void *info, gnum_float (*mat)(void *info, int *i, int *j))
+      void *info, gnm_float (*mat)(void *info, int *i, int *j))
 {     int m = A->m;
       int n = A->n;
       int *ptr = A->ptr;
       int *len = A->len;
       int *cap = A->cap;
       int *ndx = A->ndx;
-      gnum_float *val = A->val;
+      gnm_float *val = A->val;
       int *prev = A->prev;
       int *next = A->next;
       int i, j, k, nnz, loc, i_beg, i_end, i_ptr;
-      gnum_float aij;
+      gnm_float aij;
       /* the first pass is used just to determine lengths of rows and
          columns, which are stored in the array cap, and also to count
          non-zero elements */
@@ -421,7 +421,7 @@ void spm_load_data(SPM *A,
          ufree(val);
          A->size = nnz + nnz;
          ndx = A->ndx = ucalloc(1+A->size, sizeof(int));
-         val = A->val = ucalloc(1+A->size, sizeof(gnum_float));
+         val = A->val = ucalloc(1+A->size, sizeof(gnm_float));
       }
       /* 2*nnz locations will be used */
       A->used = nnz + nnz;
@@ -526,7 +526,7 @@ void spm_defrag_sva(SPM *A)
       int *len = A->len;
       int *cap = A->cap;
       int *ndx = A->ndx;
-      gnum_float *val = A->val;
+      gnm_float *val = A->val;
       int *next = A->next;
       int beg = 1, k;
       /* skip rows and columns, which needn't to be relocated */
@@ -539,7 +539,7 @@ void spm_defrag_sva(SPM *A)
          locations in one continuous extent */
       for (k = k; k != 0; k = next[k])
       {  memmove(&ndx[beg], &ndx[ptr[k]], len[k] * sizeof(int));
-         memmove(&val[beg], &val[ptr[k]], len[k] * sizeof(gnum_float));
+         memmove(&val[beg], &val[ptr[k]], len[k] * sizeof(gnm_float));
          ptr[k] = beg;
          cap[k] = len[k];
          beg += cap[k];
@@ -583,7 +583,7 @@ int spm_enlarge_cap(SPM *A, int k, int new_cap)
       int *len = A->len;
       int *cap = A->cap;
       int *ndx = A->ndx;
-      gnum_float *val = A->val;
+      gnm_float *val = A->val;
       int *prev = A->prev;
       int *next = A->next;
       int extra, cur, ret = 0;
@@ -602,8 +602,8 @@ int spm_enlarge_cap(SPM *A, int k, int new_cap)
             A->ndx = ucalloc(1+A->size, sizeof(int));
             memmove(&A->ndx[1], &ndx[1], A->used * sizeof(int));
             ufree(ndx), ndx = A->ndx;
-            A->val = ucalloc(1+A->size, sizeof(gnum_float));
-            memmove(&A->val[1], &val[1], A->used * sizeof(gnum_float));
+            A->val = ucalloc(1+A->size, sizeof(gnm_float));
+            memmove(&A->val[1], &val[1], A->used * sizeof(gnm_float));
             ufree(val), val = A->val;
             /* SVA has been reallocated */
             ret = 1;
@@ -613,7 +613,7 @@ int spm_enlarge_cap(SPM *A, int k, int new_cap)
       cur = cap[k];
       /* copy existing elements to the beginning of the free part */
       memmove(&ndx[A->used+1], &ndx[ptr[k]], len[k] * sizeof(int));
-      memmove(&val[A->used+1], &val[ptr[k]], len[k] * sizeof(gnum_float));
+      memmove(&val[A->used+1], &val[ptr[k]], len[k] * sizeof(gnm_float));
       /* set new pointer and new capacity of the k-th row/column */
       ptr[k] = A->used+1;
       cap[k] = new_cap;
@@ -652,8 +652,8 @@ int spm_enlarge_cap(SPM *A, int k, int new_cap)
 -- *Synopsis*
 --
 -- #include "glpspm.h"
--- void spm_set_row(SPM *A, int i, int len, int ndx[], gnum_float val[],
---    gnum_float R[], gnum_float S[]);
+-- void spm_set_row(SPM *A, int i, int len, int ndx[], gnm_float val[],
+--    gnm_float R[], gnm_float S[]);
 --
 -- *Description*
 --
@@ -679,17 +679,17 @@ int spm_enlarge_cap(SPM *A, int k, int new_cap)
 -- If the pointer R or/and S is NULL, the corresponding scaling matrix
 -- is considered as the unity matrix, i.e. no scaling is applied. */
 
-void spm_set_row(SPM *A, int i, int len, int ndx[], gnum_float val[],
-      gnum_float R[], gnum_float S[])
+void spm_set_row(SPM *A, int i, int len, int ndx[], gnm_float val[],
+      gnm_float R[], gnm_float S[])
 {     int m = A->m;
       int n = A->n;
       int *A_ptr = A->ptr;
       int *A_len = A->len;
       int *A_cap = A->cap;
       int *A_ndx = A->ndx;
-      gnum_float *A_val = A->val;
+      gnm_float *A_val = A->val;
       int i_beg, i_end, i_ptr, j, j_beg, j_end, j_ptr, t;
-      gnum_float aij;
+      gnm_float aij;
       if (!(1 <= i && i <= m))
          fault("spm_set_row: i = %d; row number out of range", i);
       if (!(0 <= len && len <= n))
@@ -773,8 +773,8 @@ void spm_set_row(SPM *A, int i, int len, int ndx[], gnum_float val[],
 -- *Synopsis*
 --
 -- #include "glpspm.h"
--- void spm_set_col(SPM *A, int j, int len, int ndx[], gnum_float val[],
---    gnum_float R[], gnum_float S[]);
+-- void spm_set_col(SPM *A, int j, int len, int ndx[], gnm_float val[],
+--    gnm_float R[], gnm_float S[]);
 --
 -- *Description*
 --
@@ -800,17 +800,17 @@ void spm_set_row(SPM *A, int i, int len, int ndx[], gnum_float val[],
 -- If the pointer R or/and S is NULL, the corresponding scaling matrix
 -- is considered as the unity matrix, i.e. no scaling is applied. */
 
-void spm_set_col(SPM *A, int j, int len, int ndx[], gnum_float val[],
-      gnum_float R[], gnum_float S[])
+void spm_set_col(SPM *A, int j, int len, int ndx[], gnm_float val[],
+      gnm_float R[], gnm_float S[])
 {     int m = A->m;
       int n = A->n;
       int *A_ptr = A->ptr;
       int *A_len = A->len;
       int *A_cap = A->cap;
       int *A_ndx = A->ndx;
-      gnum_float *A_val = A->val;
+      gnm_float *A_val = A->val;
       int i, i_beg, i_end, i_ptr, j_beg, j_end, j_ptr, t;
-      gnum_float aij;
+      gnm_float aij;
       if (!(1 <= j && j <= n))
          fault("spm_set_col: j = %d; column number out of range", j);
       if (!(0 <= len && len <= m))
@@ -909,7 +909,7 @@ void spm_clear_rows(SPM *A, int mark[])
       int *ptr = A->ptr;
       int *len = A->len;
       int *ndx = A->ndx;
-      gnum_float *val = A->val;
+      gnm_float *val = A->val;
       int i, j, j_ptr, j_end;
       /* clear marked rows */
       for (i = 1; i <= m; i++)
@@ -958,7 +958,7 @@ void spm_clear_cols(SPM *A, int mark[])
       int *ptr = A->ptr;
       int *len = A->len;
       int *ndx = A->ndx;
-      gnum_float *val = A->val;
+      gnm_float *val = A->val;
       int i, i_ptr, i_end, j;
       /* clear marked columns */
       for (j = 1; j <= n; j++)

@@ -48,7 +48,7 @@
 /* FIXME: use Gnumeric's round instead */
 #ifdef CHECK
 #define my_round(val, eps) { \
-	gnum_float absv; \
+	gnm_float absv; \
         absv = ((val) < 0 ? -(val) : (val)); \
         if(absv < (eps)) \
           val = 0; \
@@ -93,13 +93,13 @@ typedef char nstring[NAMELEN];
 typedef struct _matrec
 {
         int        row_nr;
-        gnum_float value;
+        gnm_float value;
 } matrec;
 
 typedef struct _column
 {
         int            row;
-        gnum_float     value;
+        gnm_float     value;
         struct _column *next ;
 } column;
 
@@ -112,22 +112,22 @@ typedef struct _constraint_name
 
 typedef struct _bound
 {
-        gnum_float upbo;
-        gnum_float lowbo;
+        gnm_float upbo;
+        gnm_float lowbo;
 } bound;
 
 typedef struct _tmp_store_struct
 {
         nstring       name;
         int           row;
-        gnum_float    value;
-        gnum_float    rhs_value;
+        gnm_float    value;
+        gnm_float    rhs_value;
         short         relat;
 } tmp_store_struct;
 
 typedef struct _rside /* contains relational operator and rhs value */
 {
-        gnum_float     value;
+        gnm_float     value;
         struct _rside  *next;
         short          relat;
 } rside;
@@ -184,21 +184,21 @@ typedef struct _lprec
         int        *row_end;          /* rows_alloc+1 :row_end[i] is the index
 				       * of the first element in Colno after
 				       * row i */
-        gnum_float *orig_rh;          /* rows_alloc+1 :The RHS after scaling &
+        gnm_float *orig_rh;          /* rows_alloc+1 :The RHS after scaling &
 				       * sign changing, but before `Bound
 				       * transformation' */
-        gnum_float *rh;		      /* rows_alloc+1 :As orig_rh, but after
+        gnm_float *rh;		      /* rows_alloc+1 :As orig_rh, but after
 				       * Bound transformation */
-        gnum_float *rhs;	      /* rows_alloc+1 :The RHS of the current
+        gnm_float *rhs;	      /* rows_alloc+1 :The RHS of the current
 				       * simplex tableau */
         char       *must_be_int;      /* sum_alloc+1 :TRUE if variable must be 
 				       * Integer */
-        gnum_float *orig_upbo;        /* sum_alloc+1 :Bound before
+        gnm_float *orig_upbo;        /* sum_alloc+1 :Bound before
 				       * transformations */
-        gnum_float *orig_lowbo;	      /*  "       "                   */
-        gnum_float *upbo;             /*  " " :Upper bound after 
+        gnm_float *orig_lowbo;	      /*  "       "                   */
+        gnm_float *upbo;             /*  " " :Upper bound after 
 				       * transformation & B&B work */
-        gnum_float *lowbo;            /*  "       "  :Lower bound after 
+        gnm_float *lowbo;            /*  "       "  :Lower bound after 
 				       * transformation & B&B work */
 
         gboolean   basis_valid;       /* TRUE is the basis is still valid */
@@ -217,7 +217,7 @@ typedef struct _lprec
         int        num_inv;           /* The number of real pivots */
         int        max_num_inv;       /* ## The number of real pivots between 
 				       * reinversions */
-        gnum_float *eta_value;        /* eta_alloc :The Structure containing
+        gnm_float *eta_value;        /* eta_alloc :The Structure containing
 				       * the values of Eta */
         int        *eta_row_nr;       /*  "     "  :The Structure containing
 				       * the Row indexes of Eta */
@@ -230,9 +230,9 @@ typedef struct _lprec
 
         gboolean   break_at_int;      /* TRUE if stop at first integer better
 				       * than break_value */
-        gnum_float break_value;        
+        gnm_float break_value;        
 
-        gnum_float obj_bound;         /* ## Objective function bound for
+        gnm_float obj_bound;         /* ## Objective function bound for
 				       * speedup of B&B */
         int        iter;              /* The number of iterations in the
 				       * simplex solver (LP) */
@@ -241,19 +241,19 @@ typedef struct _lprec
         int        max_total_iter;    /* The maximum total number of iterations (B&B)
 				       * (ILP) */
         int        max_time;          /* The maximum time (sec.) before timeout. */
-        gnum_float start_time;        /* The starting time of the solving. */
+        gnm_float start_time;        /* The starting time of the solving. */
         int        max_level;         /* The Deepest B&B level of the last
 				       * solution */
         int	   total_nodes;       /* total number of nodes processed in
 				       * b&b */
-        gnum_float *solution;         /* sum_alloc+1 :The Solution of the
+        gnm_float *solution;         /* sum_alloc+1 :The Solution of the
 				       * last LP, 
 				       * 0 = The Optimal Value, 
 				       * 1..rows The Slacks, 
 				       * rows+1..sum The Variables */
-        gnum_float *best_solution;    /*  "       "  :The Best 'Integer'
+        gnm_float *best_solution;    /*  "       "  :The Best 'Integer'
 				       * Solution */
-        gnum_float *duals;            /* rows_alloc+1 :The dual variables of
+        gnm_float *duals;            /* rows_alloc+1 :The dual variables of
 				       * the last LP */
   
         gboolean   maximise;          /* TRUE if the goal is to maximise the 
@@ -268,29 +268,29 @@ typedef struct _lprec
         gboolean   columns_scaled;    /* TRUE is the columns are scaled too,
 				       * Only use if all variables are
 				       * non-integer */
-        gnum_float *scale;            /* sum_alloc+1:0..Rows the scaling of
+        gnm_float *scale;            /* sum_alloc+1:0..Rows the scaling of
 				       * the Rows, Rows+1..Sum the scaling
 				       * of the columns */
 
         int	   nr_lagrange;       /* Nr. of Langrangian relaxation
 				       * constraints */
-        gnum_float **lag_row;	      /* NumLagrange, columns+1:Pointer to
+        gnm_float **lag_row;	      /* NumLagrange, columns+1:Pointer to
 				       * pointer of rows */
-        gnum_float *lag_rhs;	      /* NumLagrange :Pointer to pointer of
+        gnm_float *lag_rhs;	      /* NumLagrange :Pointer to pointer of
 				       * Rhs */
-        gnum_float *lambda;	      /* NumLagrange :Lambda Values */
+        gnm_float *lambda;	      /* NumLagrange :Lambda Values */
 
         SolverConstraintType
 	           *lag_con_type;     /* NumLagrange :TRUE if constraint type
 				       * SolverEQ */
-        gnum_float lag_bound;	      /* the lagrangian lower bound */
+        gnm_float lag_bound;	      /* the lagrangian lower bound */
 
         gboolean   valid;	      /* Has this lp pased the 'test' */
-        gnum_float infinite;          /* ## numerical stuff */
-        gnum_float epsilon;           /* ## */
-        gnum_float epsb;              /* ## */
-        gnum_float epsd;              /* ## */
-        gnum_float epsel;             /* ## */
+        gnm_float infinite;          /* ## numerical stuff */
+        gnm_float epsilon;           /* ## */
+        gnm_float epsb;              /* ## */
+        gnm_float epsd;              /* ## */
+        gnm_float epsel;             /* ## */
 } lprec;
 
 
@@ -315,27 +315,27 @@ void       lp_solve_delete_lp (lprec *lp);
 void lp_solve_set_max_iter (lprec *lp, int max);
 /* Set the maximum number of iterations. */
 
-void lp_solve_set_max_time (lprec *lp, int max, gnum_float st);
+void lp_solve_set_max_time (lprec *lp, int max, gnm_float st);
 /* Set the maximum time. */
 
-void       lp_solve_set_mat (lprec *lp, int row, int column, gnum_float value);
+void       lp_solve_set_mat (lprec *lp, int row, int column, gnm_float value);
 /* fill in element (Row,Column) of the matrix
    Row in [0..Rows] and Column in [1..Columns] */
 
-void       lp_solve_set_obj_fn (lprec *lp, int col, gnum_float value);
+void       lp_solve_set_obj_fn (lprec *lp, int col, gnm_float value);
 /* set the objective function of the matrix */
 
-void       lp_solve_set_upbo (lprec *lp, int column, gnum_float value);
+void       lp_solve_set_upbo (lprec *lp, int column, gnm_float value);
 /* Set the upperbound of a variable */
 
-void       lp_solve_set_lowbo (lprec *lp, int column, gnum_float value);
+void       lp_solve_set_lowbo (lprec *lp, int column, gnm_float value);
 /* Set the lowerbound of a variable */
 
 void       lp_solve_set_int (lprec *lp, int column, gboolean must_be_int);
 /* Set the type of variable, if must_be_int = TRUE then the variable must
  * be integer */
 
-void       lp_solve_set_rh (lprec *lp, int row, gnum_float value);
+void       lp_solve_set_rh (lprec *lp, int row, gnm_float value);
 /* Set the right hand side of a constraint row */
 
 void       lp_solve_set_maxim (lprec *lp);
@@ -361,18 +361,18 @@ void       lp_solve_print_lp (lprec *lp);
 void       lp_solve_print_solution (lprec *lp);
 /* Print the solution to stdout */
 
-gnum_float lp_solve_get_solution (lprec *lp, int column);
+gnm_float lp_solve_get_solution (lprec *lp, int column);
 /* returns the value of a variable at the given column */
 
-gnum_float lp_solve_get_value_of_obj_fn (lprec *lp);
+gnm_float lp_solve_get_value_of_obj_fn (lprec *lp);
 /* returns the value of the objective function. */
 
-gnum_float lp_solve_get_dual (lprec *lp, int row);
+gnm_float lp_solve_get_dual (lprec *lp, int row);
 /* returns the value of a dual. */
 
 /* functions used internaly by the lp toolkit */
 void       lp_solve_unscale_columns (lprec *lp);
-void       btran (lprec *lp, gnum_float *row);
+void       btran (lprec *lp, gnm_float *row);
 void       invert (lprec *lp);
 void       presolve (lprec *lp);
 

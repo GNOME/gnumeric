@@ -81,7 +81,7 @@
 
 #define MATHLIB_STANDALONE
 #define ML_ERR_return_NAN { return ML_NAN; }
-static void pnorm_both (gnum_float x, gnum_float *cum, gnum_float *ccum, int i_tail, gboolean log_p);
+static void pnorm_both (gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboolean log_p);
 
 /* MW ---------------------------------------------------------------------- */
 
@@ -90,54 +90,54 @@ static void pnorm_both (gnum_float x, gnum_float *cum, gnum_float *ccum, int i_t
  * absolutely).  This makes ROUND (etc.) behave a little closer to what
  * people want, even if it is a bit bogus.
  */
-gnum_float
-gnumeric_add_epsilon (gnum_float x)
+gnm_float
+gnumeric_add_epsilon (gnm_float x)
 {
 	if (!finitegnum (x) || x == 0)
 		return x;
 	else {
 		int exp;
-		gnum_float mant = frexpgnum (gnumabs (x), &exp);
-		gnum_float absres = ldexpgnum (mant + GNUM_EPSILON, exp);
+		gnm_float mant = frexpgnum (gnumabs (x), &exp);
+		gnm_float absres = ldexpgnum (mant + GNUM_EPSILON, exp);
 		return (x < 0) ? -absres : absres;
 	}
 }
 
-gnum_float
-gnumeric_sub_epsilon (gnum_float x)
+gnm_float
+gnumeric_sub_epsilon (gnm_float x)
 {
 	if (!finitegnum (x) || x == 0)
 		return x;
 	else {
 		int exp;
-		gnum_float mant = frexpgnum (gnumabs (x), &exp);
-		gnum_float absres = ldexpgnum (mant - GNUM_EPSILON, exp);
+		gnm_float mant = frexpgnum (gnumabs (x), &exp);
+		gnm_float absres = ldexpgnum (mant - GNUM_EPSILON, exp);
 		return (x < 0) ? -absres : absres;
 	}
 }
 
-gnum_float
-gnumeric_fake_floor (gnum_float x)
+gnm_float
+gnumeric_fake_floor (gnm_float x)
 {
 	return floorgnum (gnumeric_add_epsilon (x));
 }
 
-gnum_float
-gnumeric_fake_ceil (gnum_float x)
+gnm_float
+gnumeric_fake_ceil (gnm_float x)
 {
 	return ceilgnum (gnumeric_sub_epsilon (x));
 }
 
-gnum_float
-gnumeric_fake_round (gnum_float x)
+gnm_float
+gnumeric_fake_round (gnm_float x)
 {
 	return (x >= 0)
 		? gnumeric_fake_floor (x + 0.5)
 		: -gnumeric_fake_floor (-x + 0.5);
 }
 
-gnum_float
-gnumeric_fake_trunc (gnum_float x)
+gnm_float
+gnumeric_fake_trunc (gnm_float x)
 {
 	return (x >= 0)
 		? gnumeric_fake_floor (x)
@@ -241,7 +241,7 @@ gnumeric_fake_trunc (gnum_float x)
  */
 
 
-gnum_float dnorm(gnum_float x, gnum_float mu, gnum_float sigma, gboolean give_log)
+gnm_float dnorm(gnm_float x, gnm_float mu, gnm_float sigma, gboolean give_log)
 {
 #ifdef IEEE_754
     if (isnangnum(x) || isnangnum(mu) || isnangnum(sigma))
@@ -307,9 +307,9 @@ gnum_float dnorm(gnum_float x, gnum_float mu, gnum_float sigma, gboolean give_lo
  *	ACM Transactions on Mathematical Software. 19, 22-32.
  */
 
-gnum_float pnorm(gnum_float x, gnum_float mu, gnum_float sigma, gboolean lower_tail, gboolean log_p)
+gnm_float pnorm(gnm_float x, gnm_float mu, gnm_float sigma, gboolean lower_tail, gboolean log_p)
 {
-    gnum_float p, cp;
+    gnm_float p, cp;
 
     /* Note: The structure of these checks has been carefully thought through.
      * For example, if x == mu and sigma == 0, we still get the correct answer.
@@ -334,26 +334,26 @@ gnum_float pnorm(gnum_float x, gnum_float mu, gnum_float sigma, gboolean lower_t
 
 #define SIXTEN	16 /* Cutoff allowing exact "*" and "/" */
 
-void pnorm_both(gnum_float x, gnum_float *cum, gnum_float *ccum, int i_tail, gboolean log_p)
+void pnorm_both(gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboolean log_p)
 {
 /* i_tail in {0,1,2} means: "lower", "upper", or "both" :
    if(lower) return  *cum := P[X <= x]
    if(upper) return *ccum := P[X >  x] = 1 - P[X <= x]
 */
-    const gnum_float a[5] = {
+    const gnm_float a[5] = {
 	GNUM_const(2.2352520354606839287),
 	GNUM_const(161.02823106855587881),
 	GNUM_const(1067.6894854603709582),
 	GNUM_const(18154.981253343561249),
 	GNUM_const(0.065682337918207449113)
     };
-    const gnum_float b[4] = {
+    const gnm_float b[4] = {
 	GNUM_const(47.20258190468824187),
 	GNUM_const(976.09855173777669322),
 	GNUM_const(10260.932208618978205),
 	GNUM_const(45507.789335026729956)
     };
-    const gnum_float c[9] = {
+    const gnm_float c[9] = {
 	GNUM_const(0.39894151208813466764),
 	GNUM_const(8.8831497943883759412),
 	GNUM_const(93.506656132177855979),
@@ -364,7 +364,7 @@ void pnorm_both(gnum_float x, gnum_float *cum, gnum_float *ccum, int i_tail, gbo
 	GNUM_const(9842.7148383839780218),
 	GNUM_const(1.0765576773720192317e-8)
     };
-    const gnum_float d[8] = {
+    const gnm_float d[8] = {
 	GNUM_const(22.266688044328115691),
 	GNUM_const(235.38790178262499861),
 	GNUM_const(1519.377599407554805),
@@ -374,7 +374,7 @@ void pnorm_both(gnum_float x, gnum_float *cum, gnum_float *ccum, int i_tail, gbo
 	GNUM_const(38912.003286093271411),
 	GNUM_const(19685.429676859990727)
     };
-    const gnum_float p[6] = {
+    const gnm_float p[6] = {
 	GNUM_const(0.21589853405795699),
 	GNUM_const(0.1274011611602473639),
 	GNUM_const(0.022235277870649807),
@@ -382,7 +382,7 @@ void pnorm_both(gnum_float x, gnum_float *cum, gnum_float *ccum, int i_tail, gbo
 	GNUM_const(2.9112874951168792e-5),
 	GNUM_const(0.02307344176494017303)
     };
-    const gnum_float q[5] = {
+    const gnm_float q[5] = {
 	GNUM_const(1.28426009614491121),
 	GNUM_const(0.468238212480865118),
 	GNUM_const(0.0659881378689285515),
@@ -390,9 +390,9 @@ void pnorm_both(gnum_float x, gnum_float *cum, gnum_float *ccum, int i_tail, gbo
 	GNUM_const(7.29751555083966205e-5)
     };
 
-    gnum_float xden, xnum, temp, del, eps, xsq, y;
+    gnm_float xden, xnum, temp, del, eps, xsq, y;
 #ifdef NO_DENORMS
-    gnum_float min = GNUM_MIN;
+    gnm_float min = GNUM_MIN;
 #endif
     int i, lower, upper;
 
@@ -563,9 +563,9 @@ void pnorm_both(gnum_float x, gnum_float *cum, gnum_float *ccum, int i_tail, gbo
  */
 
 
-gnum_float qnorm(gnum_float p, gnum_float mu, gnum_float sigma, gboolean lower_tail, gboolean log_p)
+gnm_float qnorm(gnm_float p, gnm_float mu, gnm_float sigma, gboolean lower_tail, gboolean log_p)
 {
-    gnum_float p_, q, r, val;
+    gnm_float p_, q, r, val;
 
 #ifdef IEEE_754
     if (isnangnum(p) || isnangnum(mu) || isnangnum(sigma))
@@ -660,7 +660,7 @@ gnum_float qnorm(gnum_float p, gnum_float mu, gnum_float sigma, gboolean lower_t
 
 #else
 /*-- use AS 241 --- */
-/* gnum_float ppnd16_(gnum_float *p, long *ifault)*/
+/* gnm_float ppnd16_(gnm_float *p, long *ifault)*/
 /*      ALGORITHM AS241  APPL. STATIST. (1988) VOL. 37, NO. 3
 
         Produces the normal deviate Z corresponding to a given lower
@@ -770,7 +770,7 @@ gnum_float qnorm(gnum_float p, gnum_float mu, gnum_float sigma, gboolean lower_t
  */
 
 
-gnum_float plnorm(gnum_float x, gnum_float logmean, gnum_float logsd, gboolean lower_tail, gboolean log_p)
+gnm_float plnorm(gnm_float x, gnm_float logmean, gnm_float logsd, gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
     if (isnangnum(x) || isnangnum(logmean) || isnangnum(logsd))
@@ -810,7 +810,7 @@ gnum_float plnorm(gnum_float x, gnum_float logmean, gnum_float logsd, gboolean l
  */
 
 
-gnum_float qlnorm(gnum_float p, gnum_float logmean, gnum_float logsd, gboolean lower_tail, gboolean log_p)
+gnm_float qlnorm(gnm_float p, gnm_float logmean, gnm_float logsd, gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
     if (isnangnum(p) || isnangnum(logmean) || isnangnum(logsd))
@@ -850,7 +850,7 @@ gnum_float qlnorm(gnum_float p, gnum_float logmean, gnum_float logsd, gboolean l
  */
 
 
-gnum_float ppois(gnum_float x, gnum_float lambda, gboolean lower_tail, gboolean log_p)
+gnm_float ppois(gnm_float x, gnm_float lambda, gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
     if (isnangnum(x) || isnangnum(lambda))
@@ -901,9 +901,9 @@ gnum_float ppois(gnum_float x, gnum_float lambda, gboolean lower_tail, gboolean 
  */
 
 
-gnum_float qpois(gnum_float p, gnum_float lambda, gboolean lower_tail, gboolean log_p)
+gnm_float qpois(gnm_float p, gnm_float lambda, gboolean lower_tail, gboolean log_p)
 {
-    gnum_float mu, sigma, gamma, z, y;
+    gnm_float mu, sigma, gamma, z, y;
 #ifdef IEEE_754
     if (isnangnum(p) || isnangnum(lambda))
 	return p + lambda;
@@ -1007,7 +1007,7 @@ gnum_float qpois(gnum_float p, gnum_float lambda, gboolean lower_tail, gboolean 
 
 /* stirlerr(n) = loggnum(n!) - loggnum( sqrtgnum(2*pi*n)*(n/e)^n ) */
 
-static gnum_float stirlerr(gnum_float n)
+static gnm_float stirlerr(gnm_float n)
 {
 
 #define S0 GNUM_const(0.083333333333333333333)       /* 1/12 */
@@ -1019,7 +1019,7 @@ static gnum_float stirlerr(gnum_float n)
 /*
   error for 0, 0.5, 1.0, 1.5, ..., 14.5, 15.0.
 */
-    const gnum_float sferr_halves[31] = {
+    const gnm_float sferr_halves[31] = {
 	0.0, /* n=0 - wrong, place holder only */
 	GNUM_const(0.1534264097200273452913848),  /* 0.5 */
 	GNUM_const(0.0810614667953272582196702),  /* 1.0 */
@@ -1052,7 +1052,7 @@ static gnum_float stirlerr(gnum_float n)
 	GNUM_const(0.005746216513010115682023589), /* 14.5 */
 	GNUM_const(0.005554733551962801371038690)  /* 15.0 */
     };
-    gnum_float nn;
+    gnm_float nn;
 
     if (n <= 15.0) {
 	nn = n + n;
@@ -1111,9 +1111,9 @@ static gnum_float stirlerr(gnum_float n)
  *	of log((1+v)/(1-v)) with v = (x-np)/(x+np).
  */
 
-static gnum_float bd0(gnum_float x, gnum_float np)
+static gnm_float bd0(gnm_float x, gnm_float np)
 {
-    gnum_float ej, s, s1, v;
+    gnm_float ej, s, s1, v;
     int j;
 
     if (gnumabs(x-np) < 0.1*(x+np)) {
@@ -1170,7 +1170,7 @@ static gnum_float bd0(gnum_float x, gnum_float np)
  */
 
 
-static gnum_float dpois_raw(gnum_float x, gnum_float lambda, gboolean give_log)
+static gnm_float dpois_raw(gnm_float x, gnm_float lambda, gboolean give_log)
 {
     if (lambda == 0) return( (x == 0) ? R_D__1 : R_D__0 );
     if (x == 0) return( R_D_exp(-lambda) );
@@ -1179,7 +1179,7 @@ static gnum_float dpois_raw(gnum_float x, gnum_float lambda, gboolean give_log)
     return(R_D_fexp( M_2PIgnum*x, -stirlerr(x)-bd0(x,lambda) ));
 }
 
-gnum_float dpois(gnum_float x, gnum_float lambda, gboolean give_log)
+gnm_float dpois(gnm_float x, gnm_float lambda, gboolean give_log)
 {
 #ifdef IEEE_754
     if(isnangnum(x) || isnangnum(lambda))
@@ -1234,10 +1234,10 @@ gnum_float dpois(gnum_float x, gnum_float lambda, gboolean give_log)
  */
 
 
-gnum_float dgamma(gnum_float x, gnum_float shape, gnum_float scale, gboolean give_log)
+gnm_float dgamma(gnm_float x, gnm_float shape, gnm_float scale, gboolean give_log)
 {
 #ifndef D_non_pois
-    gnum_float pr;
+    gnm_float pr;
 #endif
 #ifdef IEEE_754
     if (isnangnum(x) || isnangnum(shape) || isnangnum(scale))
@@ -1326,9 +1326,9 @@ gnum_float dgamma(gnum_float x, gnum_float shape, gnum_float scale, gboolean giv
  */
 
 
-gnum_float pgamma(gnum_float x, gnum_float alph, gnum_float scale, gboolean lower_tail, gboolean log_p)
+gnm_float pgamma(gnm_float x, gnm_float alph, gnm_float scale, gboolean lower_tail, gboolean log_p)
 {
-    const gnum_float
+    const gnm_float
 	xbig = 1.0e+8,
 	xlarge = 1.0e+37,
 
@@ -1338,7 +1338,7 @@ gnum_float pgamma(gnum_float x, gnum_float alph, gnum_float scale, gboolean lowe
 #endif
 	alphlimit = 1000.;/* normal approx. for alph > alphlimit */
 
-    gnum_float pn1, pn2, pn3, pn4, pn5, pn6, arg, a, b, c, an, osum, sum;
+    gnm_float pn1, pn2, pn3, pn4, pn5, pn6, arg, a, b, c, an, osum, sum;
     long n;
     int pearson;
 
@@ -1509,10 +1509,10 @@ gnum_float pgamma(gnum_float x, gnum_float alph, gnum_float scale, gboolean lowe
 /* NaNs propagated correctly */
 
 
-static int chebyshev_init(gnum_float *dos, int nos, gnum_float eta)
+static int chebyshev_init(gnm_float *dos, int nos, gnm_float eta)
 {
     int i, ii;
-    gnum_float err;
+    gnm_float err;
 
     if (nos < 1)
 	return 0;
@@ -1530,9 +1530,9 @@ static int chebyshev_init(gnum_float *dos, int nos, gnum_float eta)
 }
 
 
-static gnum_float chebyshev_eval(gnum_float x, const gnum_float *a, const int n)
+static gnm_float chebyshev_eval(gnm_float x, const gnm_float *a, const int n)
 {
-    gnum_float b0, b1, b2, twox;
+    gnm_float b0, b1, b2, twox;
     int i;
 
     if (n < 1 || n > 1000) ML_ERR_return_NAN;
@@ -1596,9 +1596,9 @@ static gnum_float chebyshev_eval(gnum_float x, const gnum_float *a, const int n)
  */
 
 
-static gnum_float lgammacor(gnum_float x)
+static gnm_float lgammacor(gnm_float x)
 {
-    const gnum_float algmcs[15] = {
+    const gnm_float algmcs[15] = {
 	GNUM_const(+.1666389480451863247205729650822e+0),
 	GNUM_const(-.1384948176067563840732986059135e-4),
 	GNUM_const(+.9810825646924729426157171547487e-8),
@@ -1616,23 +1616,23 @@ static gnum_float lgammacor(gnum_float x)
 	GNUM_const(+.1276642195630062933333333333333e-30)
     };
 
-    gnum_float tmp;
+    gnm_float tmp;
 
 #ifdef NOMORE_FOR_THREADS
     static int nalgm = 0;
-    static gnum_float xbig = 0, xmax = 0;
+    static gnm_float xbig = 0, xmax = 0;
 
     /* Initialize machine dependent constants, the first time gamma() is called.
 	FIXME for threads ! */
     if (nalgm == 0) {
-	/* For IEEE gnum_float precision : nalgm = 5 */
+	/* For IEEE gnm_float precision : nalgm = 5 */
 	nalgm = chebyshev_init(algmcs, 15, GNUM_EPSILON/2);/*was d1mach(3)*/
-	xbig = 1 / sqrtgnum(GNUM_EPSILON/2); /* ~ 94906265.6 for IEEE gnum_float */
+	xbig = 1 / sqrtgnum(GNUM_EPSILON/2); /* ~ 94906265.6 for IEEE gnm_float */
 	xmax = expgnum(fmin2(loggnum(GNUM_MAX / 12), -loggnum(12 * GNUM_MIN)));
-	/*   = GNUM_MAX / 48 ~= 3.745e306 for IEEE gnum_float */
+	/*   = GNUM_MAX / 48 ~= 3.745e306 for IEEE gnm_float */
     }
 #else
-/* For IEEE gnum_float precision GNUM_EPSILON = 2^-52 = GNUM_const(2.220446049250313e-16) :
+/* For IEEE gnm_float precision GNUM_EPSILON = 2^-52 = GNUM_const(2.220446049250313e-16) :
  *   xbig = 2 ^ 26.5
  *   xmax = GNUM_MAX / 48 =  2^1020 / 3 */
 # define nalgm 5
@@ -1694,9 +1694,9 @@ static gnum_float lgammacor(gnum_float x)
  */
 
 
-static gnum_float lbeta(gnum_float a, gnum_float b)
+static gnm_float lbeta(gnm_float a, gnm_float b)
 {
-    gnum_float corr, p, q;
+    gnm_float corr, p, q;
 
     p = q = a;
     if(b < p) p = b;/* := min(a,b) */
@@ -1782,15 +1782,15 @@ static gnum_float lbeta(gnum_float a, gnum_float b)
 
 /* This is called from	qbeta(.) in a root-finding loop --- be FAST! */
 
-static gnum_float pbeta_raw(gnum_float x, gnum_float pin, gnum_float qin, gboolean lower_tail)
+static gnm_float pbeta_raw(gnm_float x, gnm_float pin, gnm_float qin, gboolean lower_tail)
 {
-    gnum_float ans, c, finsum, p, ps, p1, q, term, xb, xi, y;
+    gnm_float ans, c, finsum, p, ps, p1, q, term, xb, xi, y;
     int n, i, ib, swap_tail;
 
-    const gnum_float eps = .5*GNUM_EPSILON;
-    const gnum_float sml = GNUM_MIN;
-    const gnum_float lneps = loggnum(eps);
-    const gnum_float lnsml = loggnum(sml);
+    const gnm_float eps = .5*GNUM_EPSILON;
+    const gnm_float sml = GNUM_MIN;
+    const gnm_float lneps = loggnum(eps);
+    const gnm_float lnsml = loggnum(sml);
 
     /* swap tails if x is greater than the mean */
     if (pin / (pin + qin) < x) {
@@ -1877,7 +1877,7 @@ static gnum_float pbeta_raw(gnum_float x, gnum_float pin, gnum_float qin, gboole
     return ans;
 } /* pbeta_raw() */
 
-gnum_float pbeta(gnum_float x, gnum_float pin, gnum_float qin, gboolean lower_tail, gboolean log_p)
+gnm_float pbeta(gnm_float x, gnm_float pin, gnm_float qin, gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
     if (isnangnum(x) || isnangnum(pin) || isnangnum(qin))
@@ -1948,14 +1948,14 @@ gnum_float pbeta(gnum_float x, gnum_float pin, gnum_float qin, gboolean lower_ta
 #define const3 0.99229
 #define const4 0.04481
 
-static volatile gnum_float xtrunc;/* not a real global .. delicate though! */
+static volatile gnm_float xtrunc;/* not a real global .. delicate though! */
 
-gnum_float qbeta(gnum_float alpha, gnum_float p, gnum_float q, gboolean lower_tail, gboolean log_p)
+gnm_float qbeta(gnm_float alpha, gnm_float p, gnm_float q, gboolean lower_tail, gboolean log_p)
 {
     int swap_tail, i_pb, i_inn;
-    gnum_float a, adj, logbeta, g, h, pp, p_, prev, qq, r, s, t, tx, w, y, yprev;
-    gnum_float acu;
-    volatile gnum_float xinbta;
+    gnm_float a, adj, logbeta, g, h, pp, p_, prev, qq, r, s, t, tx, w, y, yprev;
+    gnm_float acu;
+    volatile gnm_float xinbta;
 
     /* define accuracy and initialize */
 
@@ -2027,7 +2027,7 @@ gnum_float qbeta(gnum_float alpha, gnum_float p, gnum_float q, gboolean lower_ta
 
     /* Desired accuracy should depend on  (a,p)
      * This is from Remark .. on AS 109, adapted.
-     * However, it's not clear if this is "optimal" for IEEE gnum_float prec.
+     * However, it's not clear if this is "optimal" for IEEE gnm_float prec.
 
      * acu = fmax2(acu_min, powgnum(10., -25. - 5./(pp * pp) - 1./(a * a)));
 
@@ -2117,14 +2117,14 @@ gnum_float qbeta(gnum_float alpha, gnum_float p, gnum_float q, gboolean lower_ta
  */
 
 
-gnum_float pt(gnum_float x, gnum_float n, gboolean lower_tail, gboolean log_p)
+gnm_float pt(gnm_float x, gnm_float n, gboolean lower_tail, gboolean log_p)
 {
 /* return  P[ T <= x ]	where
  * T ~ t_{n}  (t distrib. with n degrees of freedom).
 
  *	--> ./pnt.c for NON-central
  */
-    gnum_float val;
+    gnm_float val;
 #ifdef IEEE_754
     if (isnangnum(x) || isnangnum(n))
 	return x + n;
@@ -2191,11 +2191,11 @@ gnum_float pt(gnum_float x, gnum_float n, gboolean lower_tail, gboolean log_p)
  */
 
 
-gnum_float qt(gnum_float p, gnum_float ndf, gboolean lower_tail, gboolean log_p)
+gnm_float qt(gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p)
 {
-    const gnum_float eps = 1.e-12;
+    const gnm_float eps = 1.e-12;
 
-    gnum_float a, b, c, d, p_, P, q, x, y;
+    gnm_float a, b, c, d, p_, P, q, x, y;
     gboolean neg;
 
 #ifdef IEEE_754
@@ -2302,7 +2302,7 @@ gnum_float qt(gnum_float p, gnum_float ndf, gboolean lower_tail, gboolean log_p)
  */
 
 
-gnum_float pf(gnum_float x, gnum_float n1, gnum_float n2, gboolean lower_tail, gboolean log_p)
+gnm_float pf(gnm_float x, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
     if (isnangnum(x) || isnangnum(n1) || isnangnum(n2))
@@ -2354,7 +2354,7 @@ gnum_float pf(gnum_float x, gnum_float n1, gnum_float n2, gboolean lower_tail, g
 */
 
 
-gnum_float qf(gnum_float p, gnum_float n1, gnum_float n2, gboolean lower_tail, gboolean log_p)
+gnm_float qf(gnm_float p, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
     if (isnangnum(p) || isnangnum(n1) || isnangnum(n2))
@@ -2406,7 +2406,7 @@ gnum_float qf(gnum_float p, gnum_float n1, gnum_float n2, gboolean lower_tail, g
  */
 
 
-gnum_float pchisq(gnum_float x, gnum_float df, gboolean lower_tail, gboolean log_p)
+gnm_float pchisq(gnm_float x, gnm_float df, gboolean lower_tail, gboolean log_p)
 {
     return pgamma(x, df / 2.0, 2.0, lower_tail, log_p);
 }
@@ -2438,7 +2438,7 @@ gnum_float pchisq(gnum_float x, gnum_float df, gboolean lower_tail, gboolean log
  */
 
 
-gnum_float qchisq(gnum_float p, gnum_float df, gboolean lower_tail, gboolean log_p)
+gnm_float qchisq(gnm_float p, gnm_float df, gboolean lower_tail, gboolean log_p)
 {
     return qgamma(p, 0.5 * df, 2.0, lower_tail, log_p);
 }
@@ -2470,9 +2470,9 @@ gnum_float qchisq(gnum_float p, gnum_float df, gboolean lower_tail, gboolean log
  */
 
 
-gnum_float dweibull(gnum_float x, gnum_float shape, gnum_float scale, gboolean give_log)
+gnm_float dweibull(gnm_float x, gnm_float shape, gnm_float scale, gboolean give_log)
 {
-    gnum_float tmp1, tmp2;
+    gnm_float tmp1, tmp2;
 #ifdef IEEE_754
     if (isnangnum(x) || isnangnum(shape) || isnangnum(scale))
 	return x + shape + scale;
@@ -2515,7 +2515,7 @@ gnum_float dweibull(gnum_float x, gnum_float shape, gnum_float scale, gboolean g
  */
 
 
-gnum_float pweibull(gnum_float x, gnum_float shape, gnum_float scale, gboolean lower_tail, gboolean log_p)
+gnm_float pweibull(gnm_float x, gnm_float shape, gnm_float scale, gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
     if (isnangnum(x) || isnangnum(shape) || isnangnum(scale))
@@ -2561,7 +2561,7 @@ gnum_float pweibull(gnum_float x, gnum_float shape, gnum_float scale, gboolean l
  *    The distribution function of the binomial distribution.
  */
 
-gnum_float pbinom(gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail, gboolean log_p)
+gnm_float pbinom(gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
     if (isnangnum(x) || isnangnum(n) || isnangnum(p))
@@ -2620,9 +2620,9 @@ gnum_float pbinom(gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail,
  */
 
 
-static gnum_float dbinom_raw(gnum_float x, gnum_float n, gnum_float p, gnum_float q, gboolean give_log)
+static gnm_float dbinom_raw(gnm_float x, gnm_float n, gnm_float p, gnm_float q, gboolean give_log)
 {
-    gnum_float f, lc;
+    gnm_float f, lc;
 
     if (p == 0) return((x == 0) ? R_D__1 : R_D__0);
     if (q == 0) return((x == n) ? R_D__1 : R_D__0);
@@ -2644,7 +2644,7 @@ static gnum_float dbinom_raw(gnum_float x, gnum_float n, gnum_float p, gnum_floa
     return R_D_fexp(f,lc);
 }
 
-gnum_float dbinom(gnum_float x, gnum_float n, gnum_float p, gboolean give_log)
+gnm_float dbinom(gnm_float x, gnm_float n, gnm_float p, gboolean give_log)
 {
 #ifdef IEEE_754
     /* NaNs propagated correctly */
@@ -2695,9 +2695,9 @@ gnum_float dbinom(gnum_float x, gnum_float n, gnum_float p, gboolean give_log)
  */
 
 
-gnum_float qbinom(gnum_float p, gnum_float n, gnum_float pr, gboolean lower_tail, gboolean log_p)
+gnm_float qbinom(gnm_float p, gnm_float n, gnm_float pr, gboolean lower_tail, gboolean log_p)
 {
-    gnum_float q, mu, sigma, gamma, z, y;
+    gnm_float q, mu, sigma, gamma, z, y;
 
 #ifdef IEEE_754
     if (isnangnum(p) || isnangnum(n) || isnangnum(pr))
@@ -2813,9 +2813,9 @@ gnum_float qbinom(gnum_float p, gnum_float n, gnum_float pr, gboolean lower_tail
  */
 
 
-gnum_float dnbinom(gnum_float x, gnum_float n, gnum_float p, gboolean give_log)
+gnm_float dnbinom(gnm_float x, gnm_float n, gnm_float p, gboolean give_log)
 {
-    gnum_float prob;
+    gnm_float prob;
 
 #ifdef IEEE_754
     if (isnangnum(x) || isnangnum(n) || isnangnum(p))
@@ -2828,7 +2828,7 @@ gnum_float dnbinom(gnum_float x, gnum_float n, gnum_float p, gboolean give_log)
     x = R_D_forceint(x);
 
     prob = dbinom_raw(n, x+n, p, 1-p, give_log);
-    p = ((gnum_float)n)/(n+x);
+    p = ((gnm_float)n)/(n+x);
     return((give_log) ? loggnum(p) + prob : p * prob);
 }
 
@@ -2863,7 +2863,7 @@ gnum_float dnbinom(gnum_float x, gnum_float n, gnum_float p, gboolean give_log)
  */
 
 
-gnum_float pnbinom(gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail, gboolean log_p)
+gnm_float pnbinom(gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
     if (isnangnum(x) || isnangnum(n) || isnangnum(p))
@@ -2918,9 +2918,9 @@ gnum_float pnbinom(gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail
  */
 
 
-gnum_float dhyper(gnum_float x, gnum_float r, gnum_float b, gnum_float n, gboolean give_log)
+gnm_float dhyper(gnm_float x, gnm_float r, gnm_float b, gnm_float n, gboolean give_log)
 {
-    gnum_float p, q, p1, p2, p3;
+    gnm_float p, q, p1, p2, p3;
 
 #ifdef IEEE_754
     if (isnangnum(x) || isnangnum(r) || isnangnum(b) || isnangnum(n))
@@ -2939,8 +2939,8 @@ gnum_float dhyper(gnum_float x, gnum_float r, gnum_float b, gnum_float n, gboole
     if (n < x || r < x || n - x > b) return(R_D__0);
     if (n == 0) return((x == 0) ? R_D__1 : R_D__0);
 
-    p = ((gnum_float)n)/((gnum_float)(r+b));
-    q = ((gnum_float)(r+b-n))/((gnum_float)(r+b));
+    p = ((gnm_float)n)/((gnm_float)(r+b));
+    q = ((gnm_float)(r+b-n))/((gnm_float)(r+b));
 
     p1 = dbinom_raw(x,  r, p,q,give_log);
     p2 = dbinom_raw(n-x,b, p,q,give_log);
@@ -2975,13 +2975,13 @@ gnum_float dhyper(gnum_float x, gnum_float r, gnum_float b, gnum_float n, gboole
  *	The distribution function of the hypergeometric distribution.
  */
 
-gnum_float phyper(gnum_float x, gnum_float NR, gnum_float NB, gnum_float n,
+gnm_float phyper(gnm_float x, gnm_float NR, gnm_float NB, gnm_float n,
 	      gboolean lower_tail, gboolean log_p)
 {
 /* Sample of  n balls from  NR red  and	 NB black ones;	 x are red */
 
 /* basically the same code is used also in  ./qhyper.c -- keep in sync! */
-    gnum_float N, xstart, xend, xr, xb, sum, term;
+    gnm_float N, xstart, xend, xr, xb, sum, term;
     int small_N;
 #ifdef IEEE_754
     if(isnangnum(x) || isnangnum(NR) || isnangnum(NB) || isnangnum(n))
@@ -3054,7 +3054,7 @@ gnum_float phyper(gnum_float x, gnum_float NR, gnum_float NB, gnum_float n,
  */
 
 
-gnum_float dexp(gnum_float x, gnum_float scale, gboolean give_log)
+gnm_float dexp(gnm_float x, gnm_float scale, gboolean give_log)
 {
 #ifdef IEEE_754
     /* NaNs propagated correctly */
@@ -3095,7 +3095,7 @@ gnum_float dexp(gnum_float x, gnum_float scale, gboolean give_log)
  *	The distribution function of the exponential distribution.
  */
 
-gnum_float pexp(gnum_float x, gnum_float scale, gboolean lower_tail, gboolean log_p)
+gnm_float pexp(gnm_float x, gnm_float scale, gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
     if (isnangnum(x) || isnangnum(scale))
@@ -3149,9 +3149,9 @@ gnum_float pexp(gnum_float x, gnum_float scale, gboolean lower_tail, gboolean lo
  */
 
 
-gnum_float dgeom(gnum_float x, gnum_float p, gboolean give_log)
+gnm_float dgeom(gnm_float x, gnm_float p, gboolean give_log)
 {
-    gnum_float prob;
+    gnm_float prob;
 
 #ifdef IEEE_754
     if (isnangnum(x) || isnangnum(p)) return x + p;
@@ -3196,7 +3196,7 @@ gnum_float dgeom(gnum_float x, gnum_float p, gboolean give_log)
  */
 
 
-gnum_float pgeom(gnum_float x, gnum_float p, gboolean lower_tail, gboolean log_p)
+gnm_float pgeom(gnm_float x, gnm_float p, gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
     if (isnangnum(x) || isnangnum(p))
@@ -3239,9 +3239,9 @@ gnum_float pgeom(gnum_float x, gnum_float p, gboolean lower_tail, gboolean log_p
  */
 
 
-gnum_float dcauchy(gnum_float x, gnum_float location, gnum_float scale, gboolean give_log)
+gnm_float dcauchy(gnm_float x, gnm_float location, gnm_float scale, gboolean give_log)
 {
-    gnum_float y;
+    gnm_float y;
 #ifdef IEEE_754
     /* NaNs propagated correctly */
     if (isnangnum(x) || isnangnum(location) || isnangnum(scale))
@@ -3282,7 +3282,7 @@ gnum_float dcauchy(gnum_float x, gnum_float location, gnum_float scale, gboolean
  */
 
 
-gnum_float pcauchy(gnum_float x, gnum_float location, gnum_float scale,
+gnm_float pcauchy(gnm_float x, gnm_float location, gnm_float scale,
 	       gboolean lower_tail, gboolean log_p)
 {
 #ifdef IEEE_754
@@ -3460,13 +3460,13 @@ And routine specific :
 #ifndef MATHLIB_STANDALONE
 #endif
 
-static void I_bessel(gnum_float *x, gnum_float *alpha, long *nb,
-		     long *ize, gnum_float *bi, long *ncalc);
+static void I_bessel(gnm_float *x, gnm_float *alpha, long *nb,
+		     long *ize, gnm_float *bi, long *ncalc);
 
-gnum_float bessel_i(gnum_float x, gnum_float alpha, gnum_float expo)
+gnm_float bessel_i(gnm_float x, gnm_float alpha, gnm_float expo)
 {
     long nb, ncalc, ize;
-    gnum_float *bi;
+    gnm_float *bi;
 #ifndef MATHLIB_STANDALONE
     char *vmax;
 #endif
@@ -3490,11 +3490,11 @@ gnum_float bessel_i(gnum_float x, gnum_float alpha, gnum_float expo)
     nb = 1+ (long)floorgnum(alpha);/* nb-1 <= alpha < nb */
     alpha -= (nb-1);
 #ifdef MATHLIB_STANDALONE
-    bi = (gnum_float *) calloc(nb, sizeof(gnum_float));
+    bi = (gnm_float *) calloc(nb, sizeof(gnm_float));
     if (!bi) MATHLIB_ERROR("%s", "bessel_i allocation error");
 #else
     vmax = vmaxget();
-    bi = (gnum_float *) R_alloc(nb, sizeof(gnum_float));
+    bi = (gnm_float *) R_alloc(nb, sizeof(gnm_float));
 #endif
     I_bessel(&x, &alpha, &nb, &ize, bi, &ncalc);
     if(ncalc != nb) {/* error input */
@@ -3515,8 +3515,8 @@ gnum_float bessel_i(gnum_float x, gnum_float alpha, gnum_float expo)
     return x;
 }
 
-static void I_bessel(gnum_float *x, gnum_float *alpha, long *nb,
-		     long *ize, gnum_float *bi, long *ncalc)
+static void I_bessel(gnm_float *x, gnm_float *alpha, long *nb,
+		     long *ize, gnm_float *bi, long *ncalc)
 {
 /* -------------------------------------------------------------------
 
@@ -3611,11 +3611,11 @@ static void I_bessel(gnum_float *x, gnum_float *alpha, long *nb,
     /*-------------------------------------------------------------------
       Mathematical constants
       -------------------------------------------------------------------*/
-    const gnum_float const__ = 1.585;
+    const gnm_float const__ = 1.585;
 
     /* Local variables */
     long nend, intx, nbmx, k, l, n, nstart;
-    gnum_float pold, test,	p, em, en, empal, emp2al, halfx,
+    gnm_float pold, test,	p, em, en, empal, emp2al, halfx,
 	aa, bb, cc, psave, plast, tover, psavel, sum, nu, twonu;
 
     /*Parameter adjustments */
@@ -3644,7 +3644,7 @@ static void I_bessel(gnum_float *x, gnum_float *alpha, long *nb,
    ------------------------------------------------------------------- */
 	    nbmx = *nb - intx;
 	    n = intx + 1;
-	    en = (gnum_float) (n + n) + twonu;
+	    en = (gnm_float) (n + n) + twonu;
 	    plast = 1.;
 	    p = en / *x;
 	    /* ------------------------------------------------
@@ -3654,7 +3654,7 @@ static void I_bessel(gnum_float *x, gnum_float *alpha, long *nb,
 	    if (intx << 1 > nsig_BESS * 5) {
 		test = sqrtgnum(test * p);
 	    } else {
-		test /= powgnum(const__, (gnum_float)intx);
+		test /= powgnum(const__, (gnm_float)intx);
 	    }
 	    if (nbmx >= 3) {
 		/* --------------------------------------------------
@@ -3717,7 +3717,7 @@ L90:
 		    }
 		}
 		n = nend;
-		en = (gnum_float)(n + n) + twonu;
+		en = (gnm_float)(n + n) + twonu;
 		/*---------------------------------------------------
 		  Calculate special significance test for NBMX > 2.
 		  --------------------------------------------------- */
@@ -3742,7 +3742,7 @@ L120:
 	    en += 2.;
 	    bb = 0.;
 	    aa = 1. / p;
-	    em = (gnum_float) n - 1.;
+	    em = (gnm_float) n - 1.;
 	    empal = em + nu;
 	    emp2al = em - 1. + twonu;
 	    sum = aa * empal * emp2al / em;
@@ -3935,13 +3935,13 @@ L230:
 #ifndef MATHLIB_STANDALONE
 #endif
 
-static void K_bessel(gnum_float *x, gnum_float *alpha, long *nb,
-		     long *ize, gnum_float *bk, long *ncalc);
+static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
+		     long *ize, gnm_float *bk, long *ncalc);
 
-gnum_float bessel_k(gnum_float x, gnum_float alpha, gnum_float expo)
+gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo)
 {
     long nb, ncalc, ize;
-    gnum_float *bk;
+    gnm_float *bk;
 #ifndef MATHLIB_STANDALONE
     char *vmax;
 #endif
@@ -3960,11 +3960,11 @@ gnum_float bessel_k(gnum_float x, gnum_float alpha, gnum_float expo)
     nb = 1+ (long)floorgnum(alpha);/* nb-1 <= |alpha| < nb */
     alpha -= (nb-1);
 #ifdef MATHLIB_STANDALONE
-    bk = (gnum_float *) calloc(nb, sizeof(gnum_float));
+    bk = (gnm_float *) calloc(nb, sizeof(gnm_float));
     if (!bk) MATHLIB_ERROR("%s", "bessel_k allocation error");
 #else
     vmax = vmaxget();
-    bk = (gnum_float *) R_alloc(nb, sizeof(gnum_float));
+    bk = (gnm_float *) R_alloc(nb, sizeof(gnm_float));
 #endif
     K_bessel(&x, &alpha, &nb, &ize, bk, &ncalc);
     if(ncalc != nb) {/* error input */
@@ -3984,8 +3984,8 @@ gnum_float bessel_k(gnum_float x, gnum_float alpha, gnum_float expo)
     return x;
 }
 
-static void K_bessel(gnum_float *x, gnum_float *alpha, long *nb,
-		     long *ize, gnum_float *bk, long *ncalc)
+static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
+		     long *ize, gnm_float *bk, long *ncalc)
 {
 /*-------------------------------------------------------------------
 
@@ -4080,38 +4080,38 @@ static void K_bessel(gnum_float *x, gnum_float *alpha, long *nb,
      *	A = LOG(2) - Euler's constant
      *	D = SQRT(2/PI)
      ---------------------------------------------------------------------*/
-    const gnum_float a = GNUM_const(.11593151565841244881);
+    const gnm_float a = GNUM_const(.11593151565841244881);
 
     /*---------------------------------------------------------------------
       P, Q - Approximation for LOG(GAMMA(1+ALPHA))/ALPHA + Euler's constant
       Coefficients converted from hex to decimal and modified
       by W. J. Cody, 2/26/82 */
-    const gnum_float p[8] = { GNUM_const(.805629875690432845),GNUM_const(20.4045500205365151),
+    const gnm_float p[8] = { GNUM_const(.805629875690432845),GNUM_const(20.4045500205365151),
 	    GNUM_const(157.705605106676174),GNUM_const(536.671116469207504),GNUM_const(900.382759291288778),
 	    GNUM_const(730.923886650660393),GNUM_const(229.299301509425145),GNUM_const(.822467033424113231) };
-    const gnum_float q[7] = { GNUM_const(29.4601986247850434),GNUM_const(277.577868510221208),
+    const gnm_float q[7] = { GNUM_const(29.4601986247850434),GNUM_const(277.577868510221208),
 	    GNUM_const(1206.70325591027438),GNUM_const(2762.91444159791519),GNUM_const(3443.74050506564618),
 	    GNUM_const(2210.63190113378647),GNUM_const(572.267338359892221) };
     /* R, S - Approximation for (1-ALPHA*PI/SIN(ALPHA*PI))/(2.D0*ALPHA) */
-    const gnum_float r[5] = { GNUM_const(-.48672575865218401848),GNUM_const(13.079485869097804016),
+    const gnm_float r[5] = { GNUM_const(-.48672575865218401848),GNUM_const(13.079485869097804016),
 	    GNUM_const(-101.96490580880537526),GNUM_const(347.65409106507813131),
 	    GNUM_const(3.495898124521934782e-4) };
-    const gnum_float s[4] = { GNUM_const(-25.579105509976461286),GNUM_const(212.57260432226544008),
+    const gnm_float s[4] = { GNUM_const(-25.579105509976461286),GNUM_const(212.57260432226544008),
 	    GNUM_const(-610.69018684944109624),GNUM_const(422.69668805777760407) };
     /* T    - Approximation for SINH(Y)/Y */
-    const gnum_float t[6] = { GNUM_const(1.6125990452916363814e-10),
+    const gnm_float t[6] = { GNUM_const(1.6125990452916363814e-10),
 	    GNUM_const(2.5051878502858255354e-8),GNUM_const(2.7557319615147964774e-6),
 	    GNUM_const(1.9841269840928373686e-4),GNUM_const(.0083333333333334751799),
 	    GNUM_const(.16666666666666666446) };
     /*---------------------------------------------------------------------*/
-    const gnum_float estm[6] = { 52.0583,5.7607,2.7782,14.4303,185.3004, 9.3715 };
-    const gnum_float estf[7] = { 41.8341,7.1075,6.4306,42.511,1.35633,84.5096,20.};
+    const gnm_float estm[6] = { 52.0583,5.7607,2.7782,14.4303,185.3004, 9.3715 };
+    const gnm_float estf[7] = { 41.8341,7.1075,6.4306,42.511,1.35633,84.5096,20.};
 
     /* Local variables */
     long iend, i, j, k, m, ii, mplus1;
-    gnum_float x2by4, twox, c, blpha, ratio, wminf;
-    gnum_float d1, d2, d3, f0, f1, f2, p0, q0, t1, t2, twonu;
-    gnum_float dm, ex, bk1, bk2, nu;
+    gnm_float x2by4, twox, c, blpha, ratio, wminf;
+    gnm_float d1, d2, d3, f0, f1, f2, p0, q0, t1, t2, twonu;
+    gnm_float dm, ex, bk1, bk2, nu;
 
     ii = 0; /* -Wall */
 
@@ -4428,16 +4428,16 @@ L420:
 /* ------------------------------------------------------------------------ */
 /* --- END MAGIC R SOURCE MARKER --- */
 
-gnum_float
-qgamma (gnum_float p, gnum_float alpha, gnum_float scale, gboolean lower_tail, gboolean log_p)
+gnm_float
+qgamma (gnm_float p, gnm_float alpha, gnm_float scale, gboolean lower_tail, gboolean log_p)
 {
-	gnum_float xlow = 0;
-	gnum_float exlow;
-	gnum_float xhigh = -1;
-	gnum_float exhigh = -1;
-	gnum_float have_xhigh = FALSE;
+	gnm_float xlow = 0;
+	gnm_float exlow;
+	gnm_float xhigh = -1;
+	gnm_float exhigh = -1;
+	gnm_float have_xhigh = FALSE;
 	int i;
-	gnum_float x = 0, e = 0;
+	gnm_float x = 0, e = 0;
 
 #ifdef IEEE_754
 	if (isnangnum(p) || isnangnum(alpha) || isnangnum(scale))
@@ -4457,13 +4457,13 @@ qgamma (gnum_float p, gnum_float alpha, gnum_float scale, gboolean lower_tail, g
 #endif
 	for (i = 0; i < 100; i++) {
 		if (i == 0) {
-			gnum_float v = 2 * alpha;
+			gnm_float v = 2 * alpha;
 			if (v < -1.24 * R_DT_log (p))
 				x = powgnum (R_DT_qIv (p) * alpha * expgnum (lgammagnum (alpha) + alpha * M_LN2gnum),
 					     1 / alpha) / 2;
 			else {
-				gnum_float x1 = qnorm (p, 0, 1, lower_tail, log_p);
-				gnum_float p1 = 0.222222 / v;
+				gnm_float x1 = qnorm (p, 0, 1, lower_tail, log_p);
+				gnm_float p1 = 0.222222 / v;
 				x = v * powgnum (x1 * sqrtgnum (p1) + 1 - p1, 3) / 2;
 			}
 			if (x <= 0) x = 1e-10;
@@ -4513,8 +4513,8 @@ qgamma (gnum_float p, gnum_float alpha, gnum_float scale, gboolean lower_tail, g
 		}
 
 		if (have_xhigh) {
-			gnum_float xmid = (xhigh + xlow) / 2;
-			gnum_float prec = (xhigh - xlow) / xmid;
+			gnm_float xmid = (xhigh + xlow) / 2;
+			gnm_float prec = (xhigh - xlow) / xmid;
 			if (prec < GNUM_EPSILON * 4) {
 				x = xmid;
 				e = pgamma (x, alpha, 1, lower_tail, log_p) - p;
@@ -4523,7 +4523,7 @@ qgamma (gnum_float p, gnum_float alpha, gnum_float scale, gboolean lower_tail, g
 
 			if (i % 3 < 2 &&
 			    prec < 0.05) {
-				gnum_float d =
+				gnm_float d =
 					log_p
 					? 0 /* FIXME? */
 					: dgamma (x, alpha, 1, log_p);
@@ -4572,7 +4572,7 @@ qgamma (gnum_float p, gnum_float alpha, gnum_float scale, gboolean lower_tail, g
  * and between 0 and 1.	 (0 possible, 1 not.)  The result should have about
  * 64 bits randomness.
  */
-gnum_float
+gnm_float
 random_01 (void)
 {
 	static int device_fd = -2;
@@ -4586,13 +4586,13 @@ random_01 (void)
 	}
 
 	if (device_fd >= 0) {
-		unsigned char data[sizeof (gnum_float)];
+		unsigned char data[sizeof (gnm_float)];
 
-		if (fullread (device_fd, &data, sizeof (gnum_float)) == sizeof (gnum_float)) {
-			gnum_float res = 0;
+		if (fullread (device_fd, &data, sizeof (gnm_float)) == sizeof (gnm_float)) {
+			gnm_float res = 0;
 			size_t i;
 
-			for (i = 0; i < sizeof (gnum_float); i++)
+			for (i = 0; i < sizeof (gnm_float); i++)
 				res = (res + data[i]) / 256;
 			return res;
 		}
@@ -4631,7 +4631,7 @@ random_01 (void)
 		r3 = (rand () ^ (rand () << 12)) % prime;
 		r4 = (rand () ^ (rand () << 12)) % prime;
 
-		return (r1 + (r2 + (r3 + r4 / (gnum_float)prime) / prime) / prime) / prime;
+		return (r1 + (r2 + (r3 + r4 / (gnm_float)prime) / prime) / prime) / prime;
 	}
 #endif
 }
@@ -4639,22 +4639,22 @@ random_01 (void)
 /*
  * Generate a N(0,1) distributed number.
  */
-gnum_float
+gnm_float
 random_normal (void)
 {
 	return qnorm (random_01 (), 0, 1, TRUE, FALSE);
 }
 
-static gnum_float
-random_gaussian (gnum_float sigma)
+static gnm_float
+random_gaussian (gnm_float sigma)
 {
 	return sigma * random_normal ();
 }
 
-static gnum_float
-random_gaussian_pdf (gnum_float x, gnum_float sigma)
+static gnm_float
+random_gaussian_pdf (gnm_float x, gnm_float sigma)
 {
-	gnum_float u = x / gnumabs (sigma);
+	gnm_float u = x / gnumabs (sigma);
 
 	return (1 / (sqrtgnum (2 * M_PIgnum) * gnumabs (sigma))) *
 		expgnum (-u * u / 2);
@@ -4663,8 +4663,8 @@ random_gaussian_pdf (gnum_float x, gnum_float sigma)
 /*
  * Generate a poisson distributed number.
  */
-gnum_float
-random_poisson (gnum_float lambda)
+gnm_float
+random_poisson (gnm_float lambda)
 {
 	/*
 	 * This may not be optimal code, but it sure is easy to
@@ -4676,13 +4676,13 @@ random_poisson (gnum_float lambda)
 /*
  * Generate a binomial distributed number.
  */
-gnum_float
-random_binomial (gnum_float p, int trials)
+gnm_float
+random_binomial (gnm_float p, int trials)
 {
-	gnum_float x = powgnum (1 - p, trials);
-	gnum_float r = random_01 ();
-	gnum_float t = x;
-	gnum_float i = 0;
+	gnm_float x = powgnum (1 - p, trials);
+	gnm_float r = random_01 ();
+	gnm_float t = x;
+	gnm_float i = 0;
 
 	/* FIXME: I don't think this is sane for p near 1.  */
 	/* FIXME: how many times can this loop?	 */
@@ -4698,13 +4698,13 @@ random_binomial (gnum_float p, int trials)
 /*
  * Generate a negative binomial distributed number.
  */
-gnum_float
-random_negbinom (gnum_float p, int f)
+gnm_float
+random_negbinom (gnm_float p, int f)
 {
-	gnum_float x = powgnum (p, f);
-	gnum_float r = random_01 ();
-	gnum_float t = x;
-	gnum_float i = 0;
+	gnm_float x = powgnum (p, f);
+	gnm_float r = random_01 ();
+	gnm_float t = x;
+	gnm_float i = 0;
 
 	/* FIXME: I don't think this is sane for p near 1.  */
 	/* FIXME: how many times can this loop?	 */
@@ -4720,8 +4720,8 @@ random_negbinom (gnum_float p, int f)
 /*
  * Generate an exponential distributed number.
  */
-gnum_float
-random_exponential (gnum_float b)
+gnm_float
+random_exponential (gnm_float b)
 {
 	return -b * loggnum (random_01 ());
 }
@@ -4729,10 +4729,10 @@ random_exponential (gnum_float b)
 /*
  * Generate a bernoulli distributed number.
  */
-gnum_float
-random_bernoulli (gnum_float p)
+gnm_float
+random_bernoulli (gnm_float p)
 {
-	gnum_float r = random_01 ();
+	gnm_float r = random_01 ();
 
 	return (r <= p) ? 1.0 : 0.0;
 }
@@ -4741,10 +4741,10 @@ random_bernoulli (gnum_float p)
  * Generate a cauchy distributed number. From the GNU Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
-random_cauchy (gnum_float a)
+gnm_float
+random_cauchy (gnm_float a)
 {
-	gnum_float u;
+	gnm_float u;
 
 	do {
 		u = random_01 ();
@@ -4758,10 +4758,10 @@ random_cauchy (gnum_float a)
  * library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
-random_lognormal (gnum_float zeta, gnum_float sigma)
+gnm_float
+random_lognormal (gnm_float zeta, gnm_float sigma)
 {
-	gnum_float u, v, r2, normal;
+	gnm_float u, v, r2, normal;
 
 	do {
 		/* choose x,y in uniform square (-1,-1) to (+1,+1) */
@@ -4783,10 +4783,10 @@ random_lognormal (gnum_float zeta, gnum_float sigma)
  * library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
-random_weibull (gnum_float a, gnum_float b)
+gnm_float
+random_weibull (gnm_float a, gnm_float b)
 {
-	gnum_float x, z;
+	gnm_float x, z;
 
 	do {
 		x = random_01 ();
@@ -4802,10 +4802,10 @@ random_weibull (gnum_float a, gnum_float b)
  * From the GNU Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
-random_laplace (gnum_float a)
+gnm_float
+random_laplace (gnm_float a)
 {
-	gnum_float u;
+	gnm_float u;
 
 	do {
 		u = 2 * random_01 () - 1.0;
@@ -4817,8 +4817,8 @@ random_laplace (gnum_float a)
 		return -a * loggnum (u);
 }
 
-gnum_float
-random_laplace_pdf (gnum_float x, gnum_float a)
+gnm_float
+random_laplace_pdf (gnm_float x, gnm_float a)
 {
 	return (1 / (2 * a)) * expgnum (-gnumabs (x) / a);
 }
@@ -4828,10 +4828,10 @@ random_laplace_pdf (gnum_float x, gnum_float a)
  * 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
-random_rayleigh (gnum_float sigma)
+gnm_float
+random_rayleigh (gnm_float sigma)
 {
-	gnum_float u;
+	gnm_float u;
 
 	do {
 		u = random_01 ();
@@ -4849,10 +4849,10 @@ random_rayleigh (gnum_float sigma)
  *
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
-random_rayleigh_tail (gnum_float a, gnum_float sigma)
+gnm_float
+random_rayleigh_tail (gnm_float a, gnm_float sigma)
 {
-	gnum_float u;
+	gnm_float u;
 
 	do {
 		u = random_01 ();
@@ -4872,17 +4872,17 @@ random_rayleigh_tail (gnum_float a, gnum_float sigma)
  *  The algorithms below are from Knuth, vol 2, 2nd ed, p. 129.
  */
 
-static gnum_float
-gamma_frac (gnum_float a)
+static gnm_float
+gamma_frac (gnm_float a)
 {
 	/* This is exercise 16 from Knuth; see page 135, and the solution is
 	 * on page 551.	 */
 
-	gnum_float x, q;
-	gnum_float p = M_Egnum / (a + M_Egnum);
+	gnm_float x, q;
+	gnm_float p = M_Egnum / (a + M_Egnum);
 	do {
-		gnum_float v;
-		gnum_float u = random_01 ();
+		gnm_float v;
+		gnm_float u = random_01 ();
 		do {
 			v = random_01 ();
 		} while (v == 0.0);
@@ -4899,8 +4899,8 @@ gamma_frac (gnum_float a)
 	return x;
 }
 
-static gnum_float
-gamma_large (gnum_float a)
+static gnm_float
+gamma_large (gnm_float a)
 {
 	/*
 	 * Works only if a > 1, and is most efficient if a is large
@@ -4910,7 +4910,7 @@ gamma_large (gnum_float a)
 	 * U. Dieter, Computing 12 (1974) 223-246.
 	 */
 
-	gnum_float sqa, x, y, v;
+	gnm_float sqa, x, y, v;
 	sqa = sqrtgnum (2 * a - 1);
 	do {
 		do {
@@ -4924,11 +4924,11 @@ gamma_large (gnum_float a)
 	return x;
 }
 
-static gnum_float
+static gnm_float
 ran_gamma_int (unsigned int a)
 {
 	if (a < 12) {
-		gnum_float prod;
+		gnm_float prod;
 
 		do {
 			unsigned int i;
@@ -4953,11 +4953,11 @@ ran_gamma_int (unsigned int a)
  * Generate a Gamma distributed number.	 From the GNU Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
-random_gamma (gnum_float a, gnum_float b)
+gnm_float
+random_gamma (gnm_float a, gnm_float b)
 {
 	/* assume a > 0 */
-	/* FIXME: why not simply a gnum_float?	*/
+	/* FIXME: why not simply a gnm_float?	*/
 	unsigned int na = floorgnum (a);
 
 	if (a == na)
@@ -4972,10 +4972,10 @@ random_gamma (gnum_float a, gnum_float b)
  * Generate a Pareto distributed number. From the GNU Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
-random_pareto (gnum_float a, gnum_float b)
+gnm_float
+random_pareto (gnm_float a, gnm_float b)
 {
-	gnum_float x;
+	gnm_float x;
 
 	do {
 		x = random_01 ();
@@ -4988,11 +4988,11 @@ random_pareto (gnum_float a, gnum_float b)
  * Generate a F-distributed number. From the GNU Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
-random_fdist (gnum_float nu1, gnum_float nu2)
+gnm_float
+random_fdist (gnm_float nu1, gnm_float nu2)
 {
-	gnum_float Y1 = random_gamma (nu1 / 2, 2.0);
-	gnum_float Y2 = random_gamma (nu2 / 2, 2.0);
+	gnm_float Y1 = random_gamma (nu1 / 2, 2.0);
+	gnm_float Y2 = random_gamma (nu2 / 2, 2.0);
 
 	return (Y1 * nu2) / (Y2 * nu1);
 }
@@ -5001,11 +5001,11 @@ random_fdist (gnum_float nu1, gnum_float nu2)
  * Generate a Beta-distributed number. From the GNU Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
-random_beta (gnum_float a, gnum_float b)
+gnm_float
+random_beta (gnm_float a, gnm_float b)
 {
-	gnum_float x1 = random_gamma (a, 1.0);
-	gnum_float x2 = random_gamma (b, 1.0);
+	gnm_float x1 = random_gamma (a, 1.0);
+	gnm_float x2 = random_gamma (b, 1.0);
 
 	return x1 / (x1 + x2);
 }
@@ -5015,8 +5015,8 @@ random_beta (gnum_float a, gnum_float b)
  * 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
-random_chisq (gnum_float nu)
+gnm_float
+random_chisq (gnm_float nu)
 {
 	return 2 * random_gamma (nu / 2, 1.0);
 }
@@ -5026,10 +5026,10 @@ random_chisq (gnum_float nu)
  * 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
-random_logistic (gnum_float a)
+gnm_float
+random_logistic (gnm_float a)
 {
-	gnum_float x;
+	gnm_float x;
 
 	do {
 		x = random_01 ();
@@ -5043,10 +5043,10 @@ random_logistic (gnum_float a)
  * 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
-random_geometric (gnum_float p)
+gnm_float
+random_geometric (gnm_float p)
 {
-	gnum_float u;
+	gnm_float u;
 
 	if (p == 1)
 		return 1;
@@ -5062,7 +5062,7 @@ random_geometric (gnum_float p)
  * library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
+gnm_float
 random_hypergeometric (unsigned int n1, unsigned int n2, unsigned int t)
 {
 	unsigned int n = n1 + n2;
@@ -5079,7 +5079,7 @@ random_hypergeometric (unsigned int n1, unsigned int n2, unsigned int t)
 
 	if (t < n / 2) {
 		for (i = 0 ; i < t ; i++) {
-			gnum_float u = random_01 ();
+			gnm_float u = random_01 ();
 
 			if (b * u < a) {
 				k++;
@@ -5092,7 +5092,7 @@ random_hypergeometric (unsigned int n1, unsigned int n2, unsigned int t)
 		return k;
 	} else {
 		for (i = 0 ; i < n - t ; i++) {
-			gnum_float u = random_01 ();
+			gnm_float u = random_01 ();
 
 			if (b * u < a) {
 				k++;
@@ -5112,10 +5112,10 @@ random_hypergeometric (unsigned int n1, unsigned int n2, unsigned int t)
  * 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
-random_logarithmic (gnum_float p)
+gnm_float
+random_logarithmic (gnm_float p)
 {
-	gnum_float c, v;
+	gnm_float c, v;
 
 	c = log1pgnum (-p);
 	do {
@@ -5125,7 +5125,7 @@ random_logarithmic (gnum_float p)
 	if (v >= p)
 		return 1;
 	else {
-		gnum_float u, q;
+		gnm_float u, q;
 
 		do {
 			u = random_01 ();
@@ -5145,18 +5145,18 @@ random_logarithmic (gnum_float p)
  * Generate a T-distributed number. From the GNU Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
-random_tdist (gnum_float nu)
+gnm_float
+random_tdist (gnm_float nu)
 {
 	if (nu <= 2) {
-		gnum_float Y1 = random_normal ();
-		gnum_float Y2 = random_chisq (nu);
+		gnm_float Y1 = random_normal ();
+		gnm_float Y2 = random_chisq (nu);
 
-		gnum_float t = Y1 / sqrtgnum (Y2 / nu);
+		gnm_float t = Y1 / sqrtgnum (Y2 / nu);
 
 		return t;
 	} else {
-		gnum_float Y1, Y2, Z, t;
+		gnm_float Y1, Y2, Z, t;
 		do {
 			Y1 = random_normal ();
 			Y2 = random_exponential (1 / (nu / 2 - 1));
@@ -5178,10 +5178,10 @@ random_tdist (gnum_float nu)
  * Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
-random_gumbel1 (gnum_float a, gnum_float b)
+gnm_float
+random_gumbel1 (gnm_float a, gnm_float b)
 {
-	gnum_float x;
+	gnm_float x;
 
 	do {
 		x = random_01 ();
@@ -5195,10 +5195,10 @@ random_gumbel1 (gnum_float a, gnum_float b)
  * Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
-gnum_float
-random_gumbel2 (gnum_float a, gnum_float b)
+gnm_float
+random_gumbel2 (gnm_float a, gnm_float b)
 {
-	gnum_float x;
+	gnm_float x;
 
 	do {
 		x = random_01 ();
@@ -5228,10 +5228,10 @@ random_gumbel2 (gnum_float a, gnum_float b)
  * simulating stable random variates". Journal of the American
  * Statistical Association, JASA 71 340-344 (1976).
  */
-gnum_float
-random_levy (gnum_float c, gnum_float alpha)
+gnm_float
+random_levy (gnm_float c, gnm_float alpha)
 {
-	gnum_float u, v, t, s;
+	gnm_float u, v, t, s;
 
 	do {
 		u = random_01 ();
@@ -5285,10 +5285,10 @@ random_levy (gnum_float c, gnum_float alpha)
  *  variables and processes, preprint Technical University of Wroclaw.
  *  http://www.im.pwr.wroc.pl/~hugo/Publications.html
  */
-gnum_float
-random_levy_skew (gnum_float c, gnum_float alpha, gnum_float beta)
+gnm_float
+random_levy_skew (gnm_float c, gnm_float alpha, gnm_float beta)
 {
-	gnum_float V, W, X;
+	gnm_float V, W, X;
 
 	if (beta == 0) /* symmetric case */
 		return random_levy (c, alpha);
@@ -5309,9 +5309,9 @@ random_levy_skew (gnum_float c, gnum_float alpha, gnum_float beta)
 				     (M_PI_2gnum + beta * V))) / M_PI_2gnum;
 		return c * (X + beta * loggnum (c) / M_PI_2gnum);
 	} else {
-		gnum_float t = beta * tangnum (M_PI_2gnum * alpha);
-		gnum_float B = atangnum (t) / alpha;
-		gnum_float S = powgnum (1 + t * t, 1 / (2 * alpha));
+		gnm_float t = beta * tangnum (M_PI_2gnum * alpha);
+		gnm_float B = atangnum (t) / alpha;
+		gnm_float S = powgnum (1 + t * t, 1 / (2 * alpha));
 
 		X = S * singnum (alpha * (V + B)) / powgnum (cosgnum (V),
 							     1 / alpha)
@@ -5321,10 +5321,10 @@ random_levy_skew (gnum_float c, gnum_float alpha, gnum_float beta)
 	}
 }
 
-gnum_float
-random_exppow_pdf (gnum_float x, gnum_float a, gnum_float b)
+gnm_float
+random_exppow_pdf (gnm_float x, gnm_float a, gnm_float b)
 {
-	gnum_float lngamma = lgammagnum (1 + 1 / b) ;
+	gnm_float lngamma = lgammagnum (1 + 1 / b) ;
 
 	return (1 / (2 * a)) * expgnum (-powgnum (gnumabs (x / a),b) - lngamma);
 }
@@ -5352,13 +5352,13 @@ random_exppow_pdf (gnum_float x, gnum_float a, gnum_float b)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough
  */
 
-gnum_float
-random_exppow (gnum_float a, gnum_float b)
+gnm_float
+random_exppow (gnm_float a, gnm_float b)
 {
 	if (b < 1) {
-		gnum_float u = random_01 ();
-		gnum_float v = random_gamma (1 / b, 1.0);
-		gnum_float z = a * powgnum (v, 1 / b) ;
+		gnm_float u = random_01 ();
+		gnm_float v = random_gamma (1 / b, 1.0);
+		gnm_float z = a * powgnum (v, 1 / b) ;
 
 		if (u > 0.5)
 			return z;
@@ -5368,10 +5368,10 @@ random_exppow (gnum_float a, gnum_float b)
 		return random_laplace (a);   /* Laplace distribution */
 	else if (b < 2) {
 		/* Use laplace distribution for rejection method */
-		gnum_float x, y, h, ratio, u;
+		gnm_float x, y, h, ratio, u;
 
 		/* Scale factor chosen by upper bound on ratio at b = 2 */
-		gnum_float s = 1.4489; 
+		gnm_float s = 1.4489; 
 		do {
 			x     = random_laplace (a);
 			y     = random_laplace_pdf (x, a);
@@ -5385,14 +5385,14 @@ random_exppow (gnum_float a, gnum_float b)
 		return random_gaussian (a / sqrtgnum (2.0));
 	else {
 		/* Use gaussian for rejection method */
-		gnum_float x, y, h, ratio, u;
-		const gnum_float sigma = a / sqrtgnum (2.0);
+		gnm_float x, y, h, ratio, u;
+		const gnm_float sigma = a / sqrtgnum (2.0);
 
 		/* Scale factor chosen by upper bound on ratio at b = infinity.
 		 * This could be improved by using a rational function
 		 * approximation to the bounding curve. */
 
-		gnum_float s = 2.4091 ;	 /* this is sqrt(pi) e / 2 */
+		gnm_float s = 2.4091 ;	 /* this is sqrt(pi) e / 2 */
 
 		do {
 			x     = random_gaussian (sigma) ;
@@ -5411,21 +5411,21 @@ random_exppow (gnum_float a, gnum_float b)
  * Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough
  */
-gnum_float
-random_gaussian_tail (gnum_float a, gnum_float sigma)
+gnm_float
+random_gaussian_tail (gnm_float a, gnm_float sigma)
 {
 	/*
 	 * Returns a gaussian random variable larger than a
 	 * This implementation does one-sided upper-tailed deviates.
 	 */
 
-	gnum_float s = a / sigma;
+	gnm_float s = a / sigma;
 
 	if (s < 1) {
 		/* For small s, use a direct rejection method. The limit s < 1
 		 * can be adjusted to optimise the overall efficiency */
 
-		gnum_float x;
+		gnm_float x;
 
 		do {
 			x = random_gaussian (1.0);
@@ -5438,7 +5438,7 @@ random_gaussian_tail (gnum_float a, gnum_float sigma)
 		 * p139, and the solution, p586.)
 		 */
 
-		gnum_float u, v, x;
+		gnm_float u, v, x;
 
 		do {
 			u = random_01 ();
@@ -5470,10 +5470,10 @@ random_gaussian_tail (gnum_float a, gnum_float sigma)
  *  p(x) = (1/pi) \int_0^\inf dt \exp(-t log(t) - x t) sin(pi t)
  */
 
-gnum_float
+gnm_float
 random_landau (void)
 {
-	static gnum_float F[982] = {
+	static gnm_float F[982] = {
 		00.000000, 00.000000, 00.000000, 00.000000, 00.000000,
 		-2.244733, -2.204365, -2.168163, -2.135219, -2.104898,
 		-2.076740, -2.050397, -2.025605, -2.002150, -1.979866,
@@ -5672,7 +5672,7 @@ random_landau (void)
 		44.912465, 46.769077, 48.792279, 51.005773, 53.437996,
 		56.123356, 59.103894
 	};
-	gnum_float X, U, V, RANLAN;
+	gnm_float X, U, V, RANLAN;
 	int I, i;
 
 	do {
@@ -5720,7 +5720,7 @@ random_landau (void)
 /*
  * Generate 2^n being careful not to overflow
  */
-gnum_float
+gnm_float
 gpow2 (int n)
 {
 #ifdef NEED_FAKE_LDEXPGNUM
@@ -5728,10 +5728,10 @@ gpow2 (int n)
 
 	/* gpow2 is used in our implementation of ldexpgnum.  */
 	if (n >= DBL_MIN_EXP && n <= DBL_MAX_EXP)
-		return (gnum_float) ldexp (1.0, n);
+		return (gnm_float) ldexp (1.0, n);
 	else if (n >= GNUM_MIN_EXP && n <= GNUM_MAX_EXP) {
-		gnum_float res = 1.0;
-		gnum_float p = (n >= 0) ? GNUM_const (2) : GNUM_const (0.5);
+		gnm_float res = 1.0;
+		gnm_float p = (n >= 0) ? GNUM_const (2) : GNUM_const (0.5);
 
 		n = abs (n);
 		while (n > 0) {
@@ -5751,14 +5751,14 @@ gpow2 (int n)
 /*
  * Generate 10^n being careful not to overflow
  */
-gnum_float
+gnm_float
 gpow10 (int n)
 {
-	gnum_float res = 1.0;
-	gnum_float p;
+	gnm_float res = 1.0;
+	gnm_float p;
 	const int maxn = GNUM_MAX_EXP;
 
-	static const gnum_float fast[] = {
+	static const gnm_float fast[] = {
 		GNUM_const (1e-20),
 		GNUM_const (1e-19),
 		GNUM_const (1e-18),
@@ -5837,7 +5837,7 @@ gcd (int a, int b)
 }
 
 
-gnum_float
+gnm_float
 combin (int n, int k)
 {
 	if (n >= 15) {
@@ -5847,7 +5847,7 @@ combin (int n, int k)
 	}
 }
 
-gnum_float
+gnm_float
 permut (int n, int k)
 {
 	if (n >= 15) {
@@ -5857,10 +5857,10 @@ permut (int n, int k)
 	}
 }
 
-gnum_float
+gnm_float
 fact (int n)
 {
-	static gnum_float table[100];
+	static gnm_float table[100];
 	static gboolean init = FALSE;
 
 	if (n < 0)
@@ -5879,21 +5879,21 @@ fact (int n)
 		return floorgnum (0.5 + expgnum (lgammagnum (n + 1)));
 }
 
-gnum_float
-beta (gnum_float a, gnum_float b)
+gnm_float
+beta (gnm_float a, gnm_float b)
 {
 	int sign;
-	gnum_float absres = expgnum (lbeta3 (a, b, &sign));
+	gnm_float absres = expgnum (lbeta3 (a, b, &sign));
 
 	return sign == -1 ? -absres : absres;
 }
 
-gnum_float
-lbeta3 (gnum_float a, gnum_float b, int *sign)
+gnm_float
+lbeta3 (gnm_float a, gnm_float b, int *sign)
 {
 	int sign_a, sign_b, sign_ab;
-	gnum_float ab = a + b;
-	gnum_float res_a, res_b, res_ab;
+	gnm_float ab = a + b;
+	gnm_float res_a, res_b, res_ab;
 
 	*sign = 1;
 	if (a > 0 && b > 0)
@@ -5938,17 +5938,17 @@ lbeta3 (gnum_float a, gnum_float b, int *sign)
  *
  * (C) Copyright 1999 by Jukka-Pekka Iivonen <iivonen@iki.fi>
  **/
-gnum_float
-mdeterm (gnum_float *A, int dim)
+gnm_float
+mdeterm (gnm_float *A, int dim)
 {
 	int i, j, n;
-	gnum_float product, sum;
-	gnum_float *L, *U;
+	gnm_float product, sum;
+	gnm_float *L, *U;
 
 #define ARRAY(A,C,R) (*((A) + (R) + (C) * dim))
 
-	L = g_new (gnum_float, dim * dim);
-	U = g_new (gnum_float, dim * dim);
+	L = g_new (gnm_float, dim * dim);
+	U = g_new (gnm_float, dim * dim);
 
 	/* Initialize the matrices with value zero, except fill the L's
 	 * main diagonal with ones */
@@ -5998,17 +5998,17 @@ mdeterm (gnum_float *A, int dim)
  * (C) Copyright 1999 by Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
 int
-minverse (gnum_float *A, int dim, gnum_float *res)
+minverse (gnm_float *A, int dim, gnm_float *res)
 {
 	int	i, n, r, cols, rows;
-	gnum_float *array, pivot;
+	gnm_float *array, pivot;
 
 #define ARRAY(C,R) (*(array + (R) + (C) * rows))
 
 	/* Initialize the matrix */
 	cols = dim * 2;
 	rows = dim;
-	array = g_new (gnum_float, cols * rows);
+	array = g_new (gnm_float, cols * rows);
 	for (i = 0; i < cols; i++)
 		for (n = 0; n < rows; n++)
 			if (i < dim)
@@ -6028,7 +6028,7 @@ minverse (gnum_float *A, int dim, gnum_float *res)
 			}
 		if (i != r)
 			for (n = 0; n < cols; n++) {
-				gnum_float tmp = ARRAY (n, r);
+				gnm_float tmp = ARRAY (n, r);
 				ARRAY (n, r) = ARRAY (n, i);
 				ARRAY (n, i) = tmp;
 			}
@@ -6075,10 +6075,10 @@ minverse (gnum_float *A, int dim, gnum_float *res)
 /* Calculates the product of two matrixes.
  */
 void
-mmult (gnum_float *A, gnum_float *B, int cols_a, int rows_a, int cols_b,
-       gnum_float *product)
+mmult (gnm_float *A, gnm_float *B, int cols_a, int rows_a, int cols_b,
+       gnm_float *product)
 {
-	gnum_float tmp;
+	gnm_float tmp;
 	int	c, r, i;
 
 	for (c = 0; c < cols_b; ++c) {

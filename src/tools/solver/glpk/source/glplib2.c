@@ -475,7 +475,7 @@ static int jday(int d, int m, int y)
 -- *Synopsis*
 --
 -- #include "glplib.h"
--- gnum_float utime(void);
+-- gnm_float utime(void);
 --
 -- *Returns*
 --
@@ -483,28 +483,28 @@ static int jday(int d, int m, int y)
 -- elapsed since 12:00:00 GMT January 1, 2000. */
 
 #if 1
-gnum_float utime(void)
+gnm_float utime(void)
 {     /* this is a platform independent version */
       time_t timer;
       struct tm *tm;
       int j2000, j;
-      gnum_float secs;
+      gnm_float secs;
       timer = time(NULL);
       tm = gmtime(&timer);
       j2000 = 2451545 /* = jday(1, 1, 2000) */;
       j = jday(tm->tm_mday, tm->tm_mon + 1, 1900 + tm->tm_year);
-      secs = (((gnum_float)(j - j2000) * 24.0 + (gnum_float)tm->tm_hour) * 60.0
-         + (gnum_float)tm->tm_min) * 60.0 + (gnum_float)tm->tm_sec - 43200.0;
+      secs = (((gnm_float)(j - j2000) * 24.0 + (gnm_float)tm->tm_hour) * 60.0
+         + (gnm_float)tm->tm_min) * 60.0 + (gnm_float)tm->tm_sec - 43200.0;
       return secs;
 }
 #endif
 
 #if 0
-gnum_float utime(void)
+gnm_float utime(void)
 {     /* this is a version for Win32 */
       SYSTEMTIME st;
       FILETIME ft0, ft;
-      gnum_float secs;
+      gnm_float secs;
       /* ft0 = 12:00:00 GMT January 1, 2000 */
       ft0.dwLowDateTime  = 0xBAA22000;
       ft0.dwHighDateTime = 0x01BF544F;
@@ -519,8 +519,8 @@ gnum_float utime(void)
       {  ft.dwLowDateTime  += (0xFFFFFFFF - ft0.dwLowDateTime) + 1;
          ft.dwHighDateTime -= ft0.dwHighDateTime + 1;
       }
-      secs = (4294967296.0 * (gnum_float)(LONG)ft.dwHighDateTime +
-         (gnum_float)ft.dwLowDateTime) / 10000000.0;
+      secs = (4294967296.0 * (gnm_float)(LONG)ft.dwHighDateTime +
+         (gnm_float)ft.dwLowDateTime) / 10000000.0;
       return secs;
 }
 #endif

@@ -103,7 +103,7 @@ int lpx_get_num_int(LPX *lp)
 
 int lpx_get_num_bin(LPX *lp)
 {     int count = 0, j, k;
-      gnum_float trick = 1e-12;
+      gnm_float trick = 1e-12;
       if (lp->clss != LPX_MIP)
          fault("lpx_get_num_bin: error -- not a MIP problem");
       for (j = 1; j <= lp->n; j++)
@@ -208,8 +208,8 @@ char *lpx_get_col_name(LPX *lp, int j)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- void lpx_get_row_bnds(LPX *lp, int i, int *typx, gnum_float *lb,
---    gnum_float *ub);
+-- void lpx_get_row_bnds(LPX *lp, int i, int *typx, gnm_float *lb,
+--    gnm_float *ub);
 --
 -- *Description*
 --
@@ -227,7 +227,7 @@ char *lpx_get_col_name(LPX *lp, int j)
 --    LPX_FR   -inf <  x <  +inf   free variable
 --    LPX_LO     lb <= x <  +inf   lower bound
 --    LPX_UP   -inf <  x <=  ub    upper bound
---    LPX_DB     lb <= x <=  ub    gnum_float bound
+--    LPX_DB     lb <= x <=  ub    gnm_float bound
 --    LPX_FX           x  =  lb    fixed variable
 --
 -- where x is the corresponding auxiliary variable.
@@ -236,7 +236,7 @@ char *lpx_get_col_name(LPX *lp, int j)
 -- upper bound, *ub is set to zero. If the row is of fixed type, *lb and
 -- *ub are set to the same value. */
 
-void lpx_get_row_bnds(LPX *lp, int i, int *typx, gnum_float *lb, gnum_float *ub)
+void lpx_get_row_bnds(LPX *lp, int i, int *typx, gnm_float *lb, gnm_float *ub)
 {     if (!(1 <= i && i <= lp->m))
          fault("lpx_get_row_bnds: i = %d; row number out of range", i);
       if (typx != NULL) *typx = lp->typx[i];
@@ -251,8 +251,8 @@ void lpx_get_row_bnds(LPX *lp, int i, int *typx, gnum_float *lb, gnum_float *ub)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- void lpx_get_col_bnds(LPX *lp, int j, int *typx, gnum_float *lb,
---    gnum_float *ub);
+-- void lpx_get_col_bnds(LPX *lp, int j, int *typx, gnm_float *lb,
+--    gnm_float *ub);
 --
 -- *Description*
 --
@@ -270,7 +270,7 @@ void lpx_get_row_bnds(LPX *lp, int i, int *typx, gnum_float *lb, gnum_float *ub)
 --    LPX_FR   -inf <  x <  +inf   free variable
 --    LPX_LO     lb <= x <  +inf   lower bound
 --    LPX_UP   -inf <  x <=  ub    upper bound
---    LPX_DB     lb <= x <=  ub    gnum_float bound
+--    LPX_DB     lb <= x <=  ub    gnm_float bound
 --    LPX_FX           x  =  lb    fixed variable
 --
 -- where x is the corresponding structural variable.
@@ -279,7 +279,7 @@ void lpx_get_row_bnds(LPX *lp, int i, int *typx, gnum_float *lb, gnum_float *ub)
 -- has no upper bound, *ub is set to zero. If the column is of fixed
 -- type, *lb and *ub are set to the same value. */
 
-void lpx_get_col_bnds(LPX *lp, int j, int *typx, gnum_float *lb, gnum_float *ub)
+void lpx_get_col_bnds(LPX *lp, int j, int *typx, gnm_float *lb, gnm_float *ub)
 {     if (!(1 <= j && j <= lp->n))
          fault("lpx_get_col_bnds: j = %d; column number out of range",
             j);
@@ -383,15 +383,15 @@ int lpx_get_obj_dir(LPX *lp)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- gnum_float lpx_get_obj_c0(LPX *lp);
+-- gnm_float lpx_get_obj_c0(LPX *lp);
 --
 -- *Returns*
 --
 -- The routine lpx_get_obj_c0 return a constant term of the objective
 -- function for an LP problem, which the parameter lp points to. */
 
-gnum_float lpx_get_obj_c0(LPX *lp)
-{     gnum_float c0 = lp->coef[0];
+gnm_float lpx_get_obj_c0(LPX *lp)
+{     gnm_float c0 = lp->coef[0];
       return c0;
 }
 
@@ -401,14 +401,14 @@ gnum_float lpx_get_obj_c0(LPX *lp)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- gnum_float lpx_get_row_coef(LPX *lp, int i);
+-- gnm_float lpx_get_row_coef(LPX *lp, int i);
 --
 -- *Returns*
 --
 -- The routine lpx_get_row_coef returns a coefficient of the objective
 -- function at the i-th auxiliary variable (row). */
 
-gnum_float lpx_get_row_coef(LPX *lp, int i)
+gnm_float lpx_get_row_coef(LPX *lp, int i)
 {     if (!(1 <= i && i <= lp->m))
          fault("lpx_get_row_coef: i = %d; row number out of range", i);
       return lp->coef[i] * lp->rs[i];
@@ -420,14 +420,14 @@ gnum_float lpx_get_row_coef(LPX *lp, int i)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- gnum_float lpx_get_col_coef(LPX *lp, int j);
+-- gnm_float lpx_get_col_coef(LPX *lp, int j);
 --
 -- *Returns*
 --
 -- The routine lpx_get_col_coef returns a coefficient of the objective
 -- function at the j-th structural variable (column). */
 
-gnum_float lpx_get_col_coef(LPX *lp, int j)
+gnm_float lpx_get_col_coef(LPX *lp, int j)
 {     if (!(1 <= j && j <= lp->n))
          fault("lpx_get_col_coef: j = %d; column number out of range",
             j);
@@ -441,7 +441,7 @@ gnum_float lpx_get_col_coef(LPX *lp, int j)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- int lpx_get_mat_row(LPX *lp, int i, int ndx[], gnum_float val[]);
+-- int lpx_get_mat_row(LPX *lp, int i, int ndx[], gnm_float val[]);
 --
 -- *Description*
 --
@@ -457,22 +457,22 @@ gnum_float lpx_get_col_coef(LPX *lp, int j)
 -- The routine returns len, which is number of stored elements (length
 -- of the i-th row). */
 
-int lpx_get_mat_row(LPX *lp, int i, int ndx[], gnum_float val[])
+int lpx_get_mat_row(LPX *lp, int i, int ndx[], gnm_float val[])
 {     int m = lp->m;
-      gnum_float *rs = lp->rs;
+      gnm_float *rs = lp->rs;
       int *aa_ptr = lp->A->ptr;
       int *aa_len = lp->A->len;
       int *sv_ndx = lp->A->ndx;
-      gnum_float *sv_val = lp->A->val;
+      gnm_float *sv_val = lp->A->val;
       int beg, len, t;
-      gnum_float rs_i;
+      gnm_float rs_i;
       if (!(1 <= i && i <= m))
          fault("lpx_get_mat_row: i = %d; row number out of range", i);
       beg = aa_ptr[i];
       len = aa_len[i];
       memcpy(&ndx[1], &sv_ndx[beg], len * sizeof(int));
       if (val != NULL)
-      {  memcpy(&val[1], &sv_val[beg], len * sizeof(gnum_float));
+      {  memcpy(&val[1], &sv_val[beg], len * sizeof(gnm_float));
          rs_i = rs[i];
          for (t = 1; t <= len; t++)
             val[t] /= (rs_i * rs[m + ndx[t]]);
@@ -486,7 +486,7 @@ int lpx_get_mat_row(LPX *lp, int i, int ndx[], gnum_float val[])
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- int lpx_get_mat_col(LPX *lp, int j, int ndx[], gnum_float val[]);
+-- int lpx_get_mat_col(LPX *lp, int j, int ndx[], gnm_float val[]);
 --
 -- *Description*
 --
@@ -502,16 +502,16 @@ int lpx_get_mat_row(LPX *lp, int i, int ndx[], gnum_float val[])
 -- The routine returns len, which is number of stored elements (length
 -- of the j-th column). */
 
-int lpx_get_mat_col(LPX *lp, int j, int ndx[], gnum_float val[])
+int lpx_get_mat_col(LPX *lp, int j, int ndx[], gnm_float val[])
 {     int m = lp->m;
       int n = lp->n;
-      gnum_float *rs = lp->rs;
+      gnm_float *rs = lp->rs;
       int *aa_ptr = lp->A->ptr;
       int *aa_len = lp->A->len;
       int *sv_ndx = lp->A->ndx;
-      gnum_float *sv_val = lp->A->val;
+      gnm_float *sv_val = lp->A->val;
       int beg, len, t;
-      gnum_float rs_j;
+      gnm_float rs_j;
       if (!(1 <= j && j <= n))
          fault("lpx_get_mat_col: j = %d; column number out of range",
             j);
@@ -520,7 +520,7 @@ int lpx_get_mat_col(LPX *lp, int j, int ndx[], gnum_float val[])
       len = aa_len[j];
       memcpy(&ndx[1], &sv_ndx[beg], len * sizeof(int));
       if (val != NULL)
-      {  memcpy(&val[1], &sv_val[beg], len * sizeof(gnum_float));
+      {  memcpy(&val[1], &sv_val[beg], len * sizeof(gnm_float));
          rs_j = rs[j];
          for (t = 1; t <= len; t++)
             val[t] /= (rs[ndx[t]] * rs_j);
@@ -680,8 +680,8 @@ int lpx_get_dual_stat(LPX *lp)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- void lpx_get_row_info(LPX *lp, int i, int *tagx, gnum_float *vx,
---    gnum_float *dx);
+-- void lpx_get_row_info(LPX *lp, int i, int *tagx, gnm_float *vx,
+--    gnm_float *dx);
 --
 -- *Description*
 --
@@ -700,11 +700,11 @@ int lpx_get_dual_stat(LPX *lp)
 -- If some of pointers tagx, vx, or dx is NULL, the corresponding value
 -- is not stored. */
 
-void lpx_get_row_info(LPX *lp, int i, int *tagx, gnum_float *vx, gnum_float *dx)
+void lpx_get_row_info(LPX *lp, int i, int *tagx, gnm_float *vx, gnm_float *dx)
 {     int m = lp->m;
       int n = lp->n;
       int tagx_i, t;
-      gnum_float vx_i, dx_i;
+      gnm_float vx_i, dx_i;
       if (!(1 <= i && i <= m))
          fault("lpx_get_row_info: i = %d; row number out of range", i);
       /* obtain the status */
@@ -778,8 +778,8 @@ void lpx_get_row_info(LPX *lp, int i, int *tagx, gnum_float *vx, gnum_float *dx)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- void lpx_get_col_info(LPX *lp, int j, int *tagx, gnum_float *vx,
---    gnum_float *dx);
+-- void lpx_get_col_info(LPX *lp, int j, int *tagx, gnm_float *vx,
+--    gnm_float *dx);
 --
 -- *Description*
 --
@@ -798,11 +798,11 @@ void lpx_get_row_info(LPX *lp, int i, int *tagx, gnum_float *vx, gnum_float *dx)
 -- If some of pointers tagx, vx, or dx is NULL, the corresponding value
 -- is not stored. */
 
-void lpx_get_col_info(LPX *lp, int j, int *tagx, gnum_float *vx, gnum_float *dx)
+void lpx_get_col_info(LPX *lp, int j, int *tagx, gnm_float *vx, gnm_float *dx)
 {     int m = lp->m;
       int n = lp->n;
       int tagx_j, t;
-      gnum_float vx_j, dx_j;
+      gnm_float vx_j, dx_j;
       if (!(1 <= j && j <= n))
          fault("lpx_get_col_info: j = %d; column number out of range",
             j);
@@ -878,7 +878,7 @@ void lpx_get_col_info(LPX *lp, int j, int *tagx, gnum_float *vx, gnum_float *dx)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- gnum_float lpx_get_obj_val(LPX *lp);
+-- gnm_float lpx_get_obj_val(LPX *lp);
 --
 -- *Returns*
 --
@@ -886,11 +886,11 @@ void lpx_get_col_info(LPX *lp, int j, int *tagx, gnum_float *vx, gnum_float *dx)
 -- objective function for an LP problem object, which the parameter lp
 -- points to. */
 
-gnum_float lpx_get_obj_val(LPX *lp)
+gnm_float lpx_get_obj_val(LPX *lp)
 {     int m = lp->m;
       int n = lp->n;
       int i, j;
-      gnum_float sum, coef, vx;
+      gnm_float sum, coef, vx;
       sum = lpx_get_obj_c0(lp);
       for (i = 1; i <= m; i++)
       {  coef = lpx_get_row_coef(lp, i);
@@ -940,7 +940,7 @@ int lpx_get_ips_stat(LPX *lp)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- void lpx_get_ips_row(LPX *lp, int i, gnum_float *vx, gnum_float *dx);
+-- void lpx_get_ips_row(LPX *lp, int i, gnm_float *vx, gnm_float *dx);
 --
 -- *Description*
 --
@@ -949,8 +949,8 @@ int lpx_get_ips_stat(LPX *lp)
 -- parameters vx and dx point to, respectively. If some of pointers vx
 -- or dx is NULL, the corresponding value is not stored. */
 
-void lpx_get_ips_row(LPX *lp, int i, gnum_float *vx, gnum_float *dx)
-{     gnum_float vx_i, dx_i;
+void lpx_get_ips_row(LPX *lp, int i, gnm_float *vx, gnm_float *dx)
+{     gnm_float vx_i, dx_i;
       if (!(1 <= i && i <= lp->m))
          fault("lpx_get_ips_row: i = %d; row number out of range", i);
       switch (lp->t_stat)
@@ -986,7 +986,7 @@ void lpx_get_ips_row(LPX *lp, int i, gnum_float *vx, gnum_float *dx)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- void lpx_get_ips_col(LPX *lp, int j, gnum_float *vx, gnum_float *dx);
+-- void lpx_get_ips_col(LPX *lp, int j, gnm_float *vx, gnm_float *dx);
 --
 -- *Description*
 --
@@ -995,8 +995,8 @@ void lpx_get_ips_row(LPX *lp, int i, gnum_float *vx, gnum_float *dx)
 -- the parameters vx and dx point to, respectively. If some of pointers
 -- vx or dx is NULL, the corresponding value is not stored. */
 
-void lpx_get_ips_col(LPX *lp, int j, gnum_float *vx, gnum_float *dx)
-{     gnum_float vx_j, dx_j;
+void lpx_get_ips_col(LPX *lp, int j, gnm_float *vx, gnm_float *dx)
+{     gnm_float vx_j, dx_j;
       if (!(1 <= j && j <= lp->n))
          fault("lpx_get_ips_col: j = %d; column number out of range",
             j);
@@ -1034,18 +1034,18 @@ void lpx_get_ips_col(LPX *lp, int j, gnum_float *vx, gnum_float *dx)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- gnum_float lpx_get_ips_obj(LPX *lp);
+-- gnm_float lpx_get_ips_obj(LPX *lp);
 --
 -- *Returns*
 --
 -- The routine lpx_get_ips_obj returns an interior point value of the
 -- objective function. */
 
-gnum_float lpx_get_ips_obj(LPX *lp)
+gnm_float lpx_get_ips_obj(LPX *lp)
 {     int m = lp->m;
       int n = lp->n;
       int i, j;
-      gnum_float sum, coef, vx;
+      gnm_float sum, coef, vx;
       sum = lpx_get_obj_c0(lp);
       for (i = 1; i <= m; i++)
       {  coef = lpx_get_row_coef(lp, i);
@@ -1103,15 +1103,15 @@ int lpx_get_mip_stat(LPX *lp)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- gnum_float lpx_get_mip_row(LPX *lp, int i);
+-- gnm_float lpx_get_mip_row(LPX *lp, int i);
 --
 -- *Returns*
 --
 -- The routine returns a value of the i-th auxiliary variable (row) for
 -- a MIP solution contained in the specified problem object. */
 
-gnum_float lpx_get_mip_row(LPX *lp, int i)
-{     gnum_float vx;
+gnm_float lpx_get_mip_row(LPX *lp, int i)
+{     gnm_float vx;
       if (lp->clss != LPX_MIP)
          fault("lpx_get_mip_row: error -- not a MIP problem");
       if (!(1 <= i && i <= lp->m))
@@ -1121,7 +1121,7 @@ gnum_float lpx_get_mip_row(LPX *lp, int i)
       else
       {  vx = lp->mipx[i];
          if (lp->round)
-         {  gnum_float eps = lp->tol_bnd / lp->rs[i];
+         {  gnm_float eps = lp->tol_bnd / lp->rs[i];
             if (gnumabs(vx) <= eps) vx = 0.0;
          }
       }
@@ -1134,15 +1134,15 @@ gnum_float lpx_get_mip_row(LPX *lp, int i)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- gnum_float lpx_get_mip_col(LPX *lp, int j);
+-- gnm_float lpx_get_mip_col(LPX *lp, int j);
 --
 -- *Returns*
 --
 -- The routine returns a value of the j-th structural variable (column)
 -- for a MIP solution contained in the specified problem object. */
 
-gnum_float lpx_get_mip_col(LPX *lp, int j)
-{     gnum_float vx;
+gnm_float lpx_get_mip_col(LPX *lp, int j)
+{     gnm_float vx;
       if (lp->clss != LPX_MIP)
          fault("lpx_get_mip_col: error -- not a MIP problem");
       if (!(1 <= j && j <= lp->n))
@@ -1155,7 +1155,7 @@ gnum_float lpx_get_mip_col(LPX *lp, int j)
          if (lp->kind[j] == LPX_IV)
             insist(vx == floorgnum(vx));
          else if (lp->round)
-         {  gnum_float eps = lp->tol_bnd * lp->rs[lp->m+j];
+         {  gnm_float eps = lp->tol_bnd * lp->rs[lp->m+j];
             if (gnumabs(vx) <= eps) vx = 0.0;
          }
       }
@@ -1168,16 +1168,16 @@ gnum_float lpx_get_mip_col(LPX *lp, int j)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- gnum_float lpx_get_mip_obj(LPX *lp);
+-- gnm_float lpx_get_mip_obj(LPX *lp);
 --
 -- *Returns*
 --
 -- The routine lpx_get_mip_obj returns a value of the obj. function for
 -- a MIP solution contained in the specified problem object. */
 
-gnum_float lpx_get_mip_obj(LPX *lp)
+gnm_float lpx_get_mip_obj(LPX *lp)
 {     int i, j;
-      gnum_float sum, coef;
+      gnm_float sum, coef;
       if (lp->clss != LPX_MIP)
          fault("lpx_get_mip_obj: error -- not a MIP problem");
       sum = lpx_get_obj_c0(lp);

@@ -34,8 +34,8 @@
 -- *Synopsis*
 --
 -- static void eq_scal(int m, int n, void *info,
---    int (*mat)(void *info, int k, int ndx[], gnum_float val[]),
---    gnum_float R[], gnum_float S[], int ord);
+--    int (*mat)(void *info, int k, int ndx[], gnm_float val[]),
+--    gnm_float R[], gnm_float S[], int ord);
 --
 -- *Description*
 --
@@ -82,14 +82,14 @@
 -- if ord = 1, at first columns, then rows. */
 
 static void eq_scal(int m, int n, void *info,
-      int (*mat)(void *info, int k, int ndx[], gnum_float val[]),
-      gnum_float R[], gnum_float S[], int ord)
+      int (*mat)(void *info, int k, int ndx[], gnm_float val[]),
+      gnm_float R[], gnm_float S[], int ord)
 {     int i, j, len, t, pass, *ndx;
-      gnum_float big, temp, *val;
+      gnm_float big, temp, *val;
       if (!(m > 0 && n > 0))
          fault("eq_scal: m = %d; n = %d; invalid parameters", m, n);
       ndx = ucalloc(1 + (m >= n ? m : n), sizeof(int));
-      val = ucalloc(1 + (m >= n ? m : n), sizeof(gnum_float));
+      val = ucalloc(1 + (m >= n ? m : n), sizeof(gnm_float));
       for (pass = 0; pass <= 1; pass++)
       {  if (ord == pass)
          {  /* scale rows of the matrix R*A*S */
@@ -147,8 +147,8 @@ static void eq_scal(int m, int n, void *info,
 -- *Synopsis*
 --
 -- static void gm_scal(int m, int n, void *info,
---    int (*mat)(void *info, int k, int ndx[], gnum_float val[]),
---    gnum_float R[], gnum_float S[], int ord, int it_max, gnum_float eps);
+--    int (*mat)(void *info, int k, int ndx[], gnm_float val[]),
+--    gnm_float R[], gnm_float S[], int ord, int it_max, gnm_float eps);
 --
 -- *Description*
 --
@@ -217,14 +217,14 @@ static void eq_scal(int m, int n, void *info,
 -- on exit. */
 
 static void gm_scal(int m, int n, void *info,
-      int (*mat)(void *info, int k, int ndx[], gnum_float val[]),
-      gnum_float R[], gnum_float S[], int ord, int it_max, gnum_float eps)
+      int (*mat)(void *info, int k, int ndx[], gnm_float val[]),
+      gnm_float R[], gnm_float S[], int ord, int it_max, gnm_float eps)
 {     int iter, i, j, len, t, pass, *ndx;
-      gnum_float alfa, beta, told, tnew, temp, *val;
+      gnm_float alfa, beta, told, tnew, temp, *val;
       if (!(m > 0 && n > 0))
          fault("gm_scal: m = %d; n = %d; invalid parameters", m, n);
       ndx = ucalloc(1 + (m >= n ? m : n), sizeof(int));
-      val = ucalloc(1 + (m >= n ? m : n), sizeof(gnum_float));
+      val = ucalloc(1 + (m >= n ? m : n), sizeof(gnm_float));
       told = DBL_MAX;
       for (iter = 1; ; iter++)
       {  /* compute the scaling "quality" */
@@ -338,7 +338,7 @@ err2:                   fault("gm_scal: i = %d; j = %d; invalid column "
 -- automatically unscaled. However, round-off errors may involve small
 -- distortions (of order DBL_EPSILON) of original data. */
 
-static int mat(void *info, int k, int ndx[], gnum_float val[])
+static int mat(void *info, int k, int ndx[], gnm_float val[])
 {     /* this auxiliary routine is intended to obtain a row or a column
          of the constraint matrix */
       LPX *lp = info;
@@ -347,7 +347,7 @@ static int mat(void *info, int k, int ndx[], gnum_float val[])
       int *aa_ptr = lp->A->ptr;
       int *aa_len = lp->A->len;
       int *sv_ndx = lp->A->ndx;
-      gnum_float *sv_val = lp->A->val;
+      gnm_float *sv_val = lp->A->val;
       int i, j, beg, len;
       if (k > 0)
       {  /* i-th row required */
@@ -364,7 +364,7 @@ static int mat(void *info, int k, int ndx[], gnum_float val[])
          len = aa_len[m+j];
       }
       memcpy(&ndx[1], &sv_ndx[beg], len * sizeof(int));
-      memcpy(&val[1], &sv_val[beg], len * sizeof(gnum_float));
+      memcpy(&val[1], &sv_val[beg], len * sizeof(gnm_float));
       return len;
 }
 
@@ -372,16 +372,16 @@ void lpx_scale_prob(LPX *lp)
 {     /* scale LP problem data */
       int m = lp->m;
       int n = lp->n;
-      gnum_float *lb = lp->lb;
-      gnum_float *ub = lp->ub;
-      gnum_float *rs = lp->rs;
-      gnum_float *coef = lp->coef;
+      gnm_float *lb = lp->lb;
+      gnm_float *ub = lp->ub;
+      gnm_float *rs = lp->rs;
+      gnm_float *coef = lp->coef;
       int *aa_ptr = lp->A->ptr;
       int *aa_len = lp->A->len;
       int *sv_ndx = lp->A->ndx;
-      gnum_float *sv_val = lp->A->val;
+      gnm_float *sv_val = lp->A->val;
       int i, i_beg, i_end, i_ptr, j, j_beg, j_end, j_ptr;
-      gnum_float r_i, s_j;
+      gnm_float r_i, s_j;
       if (m == 0)
          fault("lpx_scale_prob: problem has no rows");
       if (n == 0)
@@ -463,16 +463,16 @@ void lpx_scale_prob(LPX *lp)
 void lpx_unscale_prob(LPX *lp)
 {     int m = lp->m;
       int n = lp->n;
-      gnum_float *lb = lp->lb;
-      gnum_float *ub = lp->ub;
-      gnum_float *rs = lp->rs;
-      gnum_float *coef = lp->coef;
+      gnm_float *lb = lp->lb;
+      gnm_float *ub = lp->ub;
+      gnm_float *rs = lp->rs;
+      gnm_float *coef = lp->coef;
       int *aa_ptr = lp->A->ptr;
       int *aa_len = lp->A->len;
       int *sv_ndx = lp->A->ndx;
-      gnum_float *sv_val = lp->A->val;
+      gnm_float *sv_val = lp->A->val;
       int i, i_beg, i_end, i_ptr, j, j_beg, j_end, j_ptr, k;
-      gnum_float r_i, s_j;
+      gnm_float r_i, s_j;
       /* unscale rows */
       for (i = 1; i <= m; i++)
       {  r_i = rs[i];

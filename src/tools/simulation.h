@@ -9,19 +9,19 @@ typedef enum {
 } sim_errmask_t;
 
 typedef struct {
-	gnum_float *min;
-	gnum_float *max;
-	gnum_float *mean;
-	gnum_float *median;
-	gnum_float *mode;
-	gnum_float *stddev;
-	gnum_float *var;
-	gnum_float *skew;
-	gnum_float *kurtosis;
-	gnum_float *range;
-	gnum_float *confidence;
-	gnum_float *lower;
-	gnum_float *upper;
+	gnm_float *min;
+	gnm_float *max;
+	gnm_float *mean;
+	gnm_float *median;
+	gnm_float *mode;
+	gnm_float *stddev;
+	gnm_float *var;
+	gnm_float *skew;
+	gnm_float *kurtosis;
+	gnm_float *range;
+	gnm_float *confidence;
+	gnm_float *lower;
+	gnm_float *upper;
 	int        *errmask;
 } simstats_t;
 

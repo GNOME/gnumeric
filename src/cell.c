@@ -477,7 +477,7 @@ cell_is_zero (Cell const *cell)
 	case VALUE_INTEGER : return v->v_int.val == 0;
 	case VALUE_FLOAT :
 	{
-		gnum_float res = v->v_float.val;
+		gnm_float res = v->v_float.val;
 		return (-1e-10 < res && res < 1e-10);
 	}
 

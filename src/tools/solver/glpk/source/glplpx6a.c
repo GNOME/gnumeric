@@ -196,7 +196,7 @@ int lpx_prim_opt(LPX *lp)
       int m = lp->m;
       int n = lp->n;
       int ret;
-      gnum_float start = utime(), spent = 0.0;
+      gnm_float start = utime(), spent = 0.0;
       /* the initial basis should be "warmed up" */
       if (lp->b_stat != LPX_B_VALID ||
           lp->p_stat == LPX_P_UNDEF || lp->d_stat == LPX_D_UNDEF)
@@ -221,14 +221,14 @@ int lpx_prim_opt(LPX *lp)
       spx->p = 0;
       spx->p_tag = 0;
       spx->q = 0;
-      spx->zeta = ucalloc(1+m, sizeof(gnum_float));
-      spx->ap = ucalloc(1+n, sizeof(gnum_float));
-      spx->aq = ucalloc(1+m, sizeof(gnum_float));
-      spx->gvec = ucalloc(1+n, sizeof(gnum_float));
+      spx->zeta = ucalloc(1+m, sizeof(gnm_float));
+      spx->ap = ucalloc(1+n, sizeof(gnm_float));
+      spx->aq = ucalloc(1+m, sizeof(gnm_float));
+      spx->gvec = ucalloc(1+n, sizeof(gnm_float));
       spx->dvec = NULL;
       spx->refsp = (lp->price ? ucalloc(1+m+n, sizeof(int)) : NULL);
       spx->count = 0;
-      spx->work = ucalloc(1+m+n, sizeof(gnum_float));
+      spx->work = ucalloc(1+m+n, sizeof(gnm_float));
       spx->orig_typx = NULL;
       spx->orig_lb = spx->orig_ub = NULL;
       spx->orig_dir = 0;
@@ -334,10 +334,10 @@ beg:  /* initialize weights of non-basic variables */
 #if 0
          /* check accuracy of main solution components after updating
             (for debugging purposes only) */
-         {  gnum_float ae_bbar = spx_err_in_bbar(spx);
-            gnum_float ae_pi   = spx_err_in_pi(spx);
-            gnum_float ae_cbar = spx_err_in_cbar(spx, 0);
-            gnum_float ae_gvec = lp->price ? spx_err_in_gvec(spx) : 0.0;
+         {  gnm_float ae_bbar = spx_err_in_bbar(spx);
+            gnm_float ae_pi   = spx_err_in_pi(spx);
+            gnm_float ae_cbar = spx_err_in_cbar(spx, 0);
+            gnm_float ae_gvec = lp->price ? spx_err_in_gvec(spx) : 0.0;
             print("bbar: %g; pi: %g; cbar: %g; gvec: %g",
                ae_bbar, ae_pi, ae_cbar, ae_gvec);
             if (ae_bbar > 1e-7 || ae_pi > 1e-7 || ae_cbar > 1e-7 ||
@@ -514,11 +514,11 @@ done: /* deallocate the common block */
 -- of xv, which is in the range [0,1], can be considered as a measure
 -- of primal infeasibility. */
 
-static gnum_float orig_objfun(SPX *spx)
+static gnm_float orig_objfun(SPX *spx)
 {     /* this auxiliary routine computes the objective function value
          for the original LP problem */
       LPX *lp = spx->lp;
-      gnum_float objval;
+      gnm_float objval;
       void *t;
       t = lp->coef, lp->coef = spx->orig_coef, spx->orig_coef = t;
       objval = spx_eval_obj(lp);
@@ -526,11 +526,11 @@ static gnum_float orig_objfun(SPX *spx)
       return objval;
 }
 
-static gnum_float orig_infeas(SPX *spx)
+static gnm_float orig_infeas(SPX *spx)
 {     /* this auxiliary routine computes the infeasibilitiy measure for
          the original LP problem */
       LPX *lp = spx->lp;
-      gnum_float infeas;
+      gnm_float infeas;
       /* the infeasibility measure is a current value of the artificial
          variable */
       if (lp->tagx[lp->m+lp->n] == LPX_BS)
@@ -558,8 +558,8 @@ int lpx_prim_art(LPX *lp)
       int m = lp->m;
       int n = lp->n;
       int i, j, k, ret, *ndx, final = 0;
-      gnum_float *av, *col;
-      gnum_float start = utime(), spent = 0.0;
+      gnm_float *av, *col;
+      gnm_float start = utime(), spent = 0.0;
       /* the initial basis should be "warmed up" */
       if (lp->b_stat != LPX_B_VALID ||
           lp->p_stat == LPX_P_UNDEF || lp->d_stat == LPX_D_UNDEF)
@@ -581,27 +581,27 @@ int lpx_prim_art(LPX *lp)
       spx->p = 0;
       spx->p_tag = 0;
       spx->q = 0;
-      spx->zeta = ucalloc(1+m, sizeof(gnum_float));
-      spx->ap = ucalloc(1+n+1, sizeof(gnum_float));
-      spx->aq = ucalloc(1+m, sizeof(gnum_float));
-      spx->gvec = ucalloc(1+n+1, sizeof(gnum_float));
+      spx->zeta = ucalloc(1+m, sizeof(gnm_float));
+      spx->ap = ucalloc(1+n+1, sizeof(gnm_float));
+      spx->aq = ucalloc(1+m, sizeof(gnm_float));
+      spx->gvec = ucalloc(1+n+1, sizeof(gnm_float));
       spx->dvec = NULL;
       spx->refsp = (lp->price ? ucalloc(1+m+n+1, sizeof(int)) : NULL);
       spx->count = 0;
-      spx->work = ucalloc(1+m+n+1, sizeof(gnum_float));
+      spx->work = ucalloc(1+m+n+1, sizeof(gnm_float));
       spx->orig_typx = NULL;
       spx->orig_lb = spx->orig_ub = NULL;
       spx->orig_dir = 0;
-      spx->orig_coef = ucalloc(1+m+n+1, sizeof(gnum_float));
+      spx->orig_coef = ucalloc(1+m+n+1, sizeof(gnm_float));
 beg:  /* save the original objective function, because it is changed by
          the routine */
       spx->orig_dir = lp->dir;
-      memcpy(spx->orig_coef, lp->coef, (1+m+n) * sizeof(gnum_float));
+      memcpy(spx->orig_coef, lp->coef, (1+m+n) * sizeof(gnm_float));
       spx->orig_coef[m+n+1] = 0.0;
       /* compute the vector av */
-      av = ucalloc(1+m, sizeof(gnum_float));
+      av = ucalloc(1+m, sizeof(gnm_float));
       for (i = 1; i <= m; i++)
-      {  gnum_float eps = 0.10 * lp->tol_bnd, delta = 100.0, av_i, temp;
+      {  gnm_float eps = 0.10 * lp->tol_bnd, delta = 100.0, av_i, temp;
          k = lp->indx[i]; /* x[k] = xB[i] */
          av_i = 0.0;
          switch (lp->typx[k])
@@ -620,7 +620,7 @@ beg:  /* save the original objective function, because it is changed by
                break;
             case LPX_DB:
             case LPX_FX:
-               /* xB[i] is gnum_float-bounded or fixed variable */
+               /* xB[i] is gnm_float-bounded or fixed variable */
                if (lp->bbar[i] < lp->lb[k] - eps)
                {  temp = 0.5 * gnumabs(lp->lb[k] - lp->ub[k]);
                   if (temp > delta) temp = delta;
@@ -639,7 +639,7 @@ beg:  /* save the original objective function, because it is changed by
       }
       /* compute the column B*av */
       ndx = ucalloc(1+m, sizeof(int));
-      col = ucalloc(1+m, sizeof(gnum_float));
+      col = ucalloc(1+m, sizeof(gnm_float));
       for (i = 1; i <= m; i++) col[i] = 0.0;
       for (j = 1; j <= m; j++)
       {  int k = lp->indx[j]; /* x[k] = xB[j]; */
@@ -809,10 +809,10 @@ sing:       {  /* remove the artificial variable from the problem */
 #if 0
          /* check accuracy of main solution components after updating
             (for debugging purposes only) */
-         {  gnum_float ae_bbar = spx_err_in_bbar(spx);
-            gnum_float ae_pi   = spx_err_in_pi(spx);
-            gnum_float ae_cbar = spx_err_in_cbar(spx, 0);
-            gnum_float ae_gvec = lp->price ? spx_err_in_gvec(spx) : 0.0;
+         {  gnm_float ae_bbar = spx_err_in_bbar(spx);
+            gnm_float ae_pi   = spx_err_in_pi(spx);
+            gnm_float ae_cbar = spx_err_in_cbar(spx, 0);
+            gnm_float ae_gvec = lp->price ? spx_err_in_gvec(spx) : 0.0;
             print("bbar: %g; pi: %g; cbar: %g; gvec: %g",
                ae_bbar, ae_pi, ae_cbar, ae_gvec);
             if (ae_bbar > 1e-7 || ae_pi > 1e-7 || ae_cbar > 1e-7 ||
@@ -832,7 +832,7 @@ sing:       {  /* remove the artificial variable from the problem */
             numerical stability); it is understood that this operation
             is a dual simplex iteration */
          int j;
-         gnum_float big;
+         gnm_float big;
          spx->p = lp->posx[m+n]; /* x[m+n] = xB[p] */
          insist(1 <= spx->p && spx->p <= m);
          /* the artificial variable will be set on its lower bound */
@@ -868,7 +868,7 @@ sing:       {  /* remove the artificial variable from the problem */
       lpx_del_items(lp), n--;
       /* restore the original objective function */
       lp->dir = spx->orig_dir;
-      memcpy(lp->coef, spx->orig_coef, (1+m+n) * sizeof(gnum_float));
+      memcpy(lp->coef, spx->orig_coef, (1+m+n) * sizeof(gnm_float));
       /* since the problem size has been changed, the factorization of
          the basis matrix doesn't exist; reinvert the basis matrix */
       {  int i, j, k;
@@ -1021,7 +1021,7 @@ int lpx_dual_opt(LPX *lp)
       int m = lp->m;
       int n = lp->n;
       int ret;
-      gnum_float start = utime(), spent = 0.0, obj;
+      gnm_float start = utime(), spent = 0.0, obj;
       /* the initial basis should be "warmed up" */
       if (lp->b_stat != LPX_B_VALID ||
           lp->p_stat == LPX_P_UNDEF || lp->d_stat == LPX_D_UNDEF)
@@ -1046,14 +1046,14 @@ int lpx_dual_opt(LPX *lp)
       spx->p = 0;
       spx->p_tag = 0;
       spx->q = 0;
-      spx->zeta = ucalloc(1+m, sizeof(gnum_float));
-      spx->ap = ucalloc(1+n, sizeof(gnum_float));
-      spx->aq = ucalloc(1+m, sizeof(gnum_float));
+      spx->zeta = ucalloc(1+m, sizeof(gnm_float));
+      spx->ap = ucalloc(1+n, sizeof(gnm_float));
+      spx->aq = ucalloc(1+m, sizeof(gnm_float));
       spx->gvec = NULL;
-      spx->dvec = ucalloc(1+m, sizeof(gnum_float));
-      spx->refsp = (lp->price ? ucalloc(1+m+n, sizeof(gnum_float)) : NULL);
+      spx->dvec = ucalloc(1+m, sizeof(gnm_float));
+      spx->refsp = (lp->price ? ucalloc(1+m+n, sizeof(gnm_float)) : NULL);
       spx->count = 0;
-      spx->work = ucalloc(1+m+n, sizeof(gnum_float));
+      spx->work = ucalloc(1+m+n, sizeof(gnm_float));
       spx->orig_typx = NULL;
       spx->orig_lb = spx->orig_ub = NULL;
       spx->orig_dir = 0;
@@ -1166,10 +1166,10 @@ beg:  /* compute initial value of the objective function */
 #if 0
          /* check accuracy of main solution components after updating
             (for debugging purposes only) */
-         {  gnum_float ae_bbar = spx_err_in_bbar(spx);
-            gnum_float ae_pi   = spx_err_in_pi(spx);
-            gnum_float ae_cbar = spx_err_in_cbar(spx, 0);
-            gnum_float ae_dvec = lp->price ? spx_err_in_dvec(spx) : 0.0;
+         {  gnm_float ae_bbar = spx_err_in_bbar(spx);
+            gnm_float ae_pi   = spx_err_in_pi(spx);
+            gnm_float ae_cbar = spx_err_in_cbar(spx, 0);
+            gnm_float ae_dvec = lp->price ? spx_err_in_dvec(spx) : 0.0;
             print("bbar: %g; pi: %g; cbar: %g; dvec: %g",
                ae_bbar, ae_pi, ae_cbar, ae_dvec);
             if (ae_bbar > 1e-9 || ae_pi > 1e-9 || ae_cbar > 1e-9 ||

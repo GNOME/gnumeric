@@ -182,7 +182,7 @@ update_log (simulation_t *sim)
 	g_string_append_printf (buf, "%s %.2f sec.\n", t5, 
 			   sim->end.tv_sec - sim->start.tv_sec +
 			   (sim->end.tv_usec - sim->start.tv_usec) /
-			   (gnum_float) G_USEC_PER_SEC);
+			   (gnm_float) G_USEC_PER_SEC);
 	g_string_append_printf (buf, "%s ", t6);
 	dao_append_date (buf);
 	g_string_append_printf (buf, "\n");

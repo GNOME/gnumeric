@@ -113,7 +113,7 @@ database_find_values (Sheet *sheet, Value *database,
 {
 	GSList *cells, *current;
 	int cellcount, count;
-	gnum_float *res1 = NULL;
+	gnm_float *res1 = NULL;
 	Value **res2 = NULL;
 	void *res;
 
@@ -123,7 +123,7 @@ database_find_values (Sheet *sheet, Value *database,
 	cellcount = g_slist_length (cells);
 	/* Allocate memory -- one extra to make sure we don't get NULL.  */
 	if (floats)
-		res = res1 = g_new (gnum_float, cellcount + 1);
+		res = res1 = g_new (gnm_float, cellcount + 1);
 	else
 		res = res2 = g_new (Value *, cellcount + 1);
 	for (count = 0, current = cells; current; current = current->next) {
@@ -162,8 +162,8 @@ database_float_range_function (FunctionEvalInfo *ei,
 	Sheet *sheet;
 	int count;
 	int err;
-	gnum_float *vals = NULL;
-	gnum_float fres;
+	gnm_float *vals = NULL;
+	gnm_float fres;
 	Value *res;
 
 	fieldno = find_column_of_field (ei->pos, database, field);

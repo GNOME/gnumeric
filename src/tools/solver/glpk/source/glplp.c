@@ -74,8 +74,8 @@ LP *create_lp(int m, int n, int mip)
          for (j = 1; j <= n; j++) lp->kind[j] = 0;
       }
       lp->type = ucalloc(1+m+n, sizeof(int));
-      lp->lb = ucalloc(1+m+n, sizeof(gnum_float));
-      lp->ub = ucalloc(1+m+n, sizeof(gnum_float));
+      lp->lb = ucalloc(1+m+n, sizeof(gnm_float));
+      lp->ub = ucalloc(1+m+n, sizeof(gnm_float));
       /* initially all auxiliary variables are equal to zero and all
          structural variables are non-negative */
       for (k = 1; k <= m+n; k++)
@@ -84,7 +84,7 @@ LP *create_lp(int m, int n, int mip)
       }
       lp->A = create_mat(m, n);
       lp->dir = '-';
-      lp->c = ucalloc(1+n, sizeof(gnum_float));
+      lp->c = ucalloc(1+n, sizeof(gnm_float));
       for (j = 0; j <= n; j++) lp->c[j] = 0.0;
       return lp;
 }
@@ -195,8 +195,8 @@ LPSOL *create_lpsol(int m, int n)
       sol->status = '?';
       sol->objval = 0.0;
       sol->tagx = ucalloc(1+m+n, sizeof(int));
-      sol->valx = ucalloc(1+m+n, sizeof(gnum_float));
-      sol->dx = ucalloc(1+m+n, sizeof(gnum_float));
+      sol->valx = ucalloc(1+m+n, sizeof(gnm_float));
+      sol->dx = ucalloc(1+m+n, sizeof(gnm_float));
       for (k = 1; k <= m+n; k++)
       {  sol->tagx[k] = '?';
          sol->valx[k] = sol->dx[k] = 0.0;
@@ -248,7 +248,7 @@ LP *extract_prob(void *lpi)
 {     LP *lp;
       int m = glp_get_num_rows(lpi), n = glp_get_num_cols(lpi), i, j;
       int *cn = ucalloc(1+n, sizeof(int));
-      gnum_float *ai = ucalloc(1+n, sizeof(gnum_float));
+      gnm_float *ai = ucalloc(1+n, sizeof(gnm_float));
       if (m == 0)
          fault("extract_prob: problem has no rows");
       if (n == 0)
@@ -315,7 +315,7 @@ static int m;
 static int n;
 /* number of columns = number of structural variables */
 
-struct limit { gnum_float val; int cnt; };
+struct limit { gnm_float val; int cnt; };
 /* this structure represents infimum/supremum of a row; val is a finite
    part, and cnt is number of infinite terms */
 

@@ -7,7 +7,7 @@ void
 lp_solve_debug_print_solution (lprec *lp);
 
 void
-lp_solve_debug_print_bounds (lprec *lp, gnum_float *upbo, gnum_float *lowbo);
+lp_solve_debug_print_bounds (lprec *lp, gnm_float *upbo, gnm_float *lowbo);
 
 void
 lp_solve_debug_print (lprec *lp, const char *format, ...)
@@ -52,7 +52,7 @@ lp_solve_debug_print_solution (lprec *lp)
 
 
 void
-lp_solve_debug_print_bounds (lprec *lp, gnum_float *upbo, gnum_float *lowbo)
+lp_solve_debug_print_bounds (lprec *lp, gnm_float *upbo, gnm_float *lowbo)
 {
         int i;
 

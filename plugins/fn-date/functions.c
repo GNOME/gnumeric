@@ -141,7 +141,7 @@ static char const *help_unix2date = {
 static Value *
 gnumeric_unix2date (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float futime = value_get_as_float (argv [0]);
+	gnm_float futime = value_get_as_float (argv [0]);
 	time_t     utime  = (time_t)futime;
 
 	/* Check for overflow.  */
@@ -173,7 +173,7 @@ static char const *help_date2unix = {
 static Value *
 gnumeric_date2unix (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float fserial = value_get_as_float (argv [0]);
+	gnm_float fserial = value_get_as_float (argv [0]);
 	int        serial  = (int)fserial;
 	time_t     utime   = datetime_serial_to_timet (serial);
 
@@ -503,7 +503,7 @@ static char const *help_time = {
 static Value *
 gnumeric_time (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float hours, minutes, seconds;
+	gnm_float hours, minutes, seconds;
 
 	hours   = value_get_as_float (argv [0]);
 	minutes = value_get_as_float (argv [1]);
@@ -534,7 +534,7 @@ static char const *help_timevalue = {
 static Value *
 gnumeric_timevalue (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float raw = datetime_value_to_serial_raw (argv[0]);
+	gnm_float raw = datetime_value_to_serial_raw (argv[0]);
 	return value_new_float (raw - (int)raw);
 }
 
@@ -822,8 +822,8 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 	int day1, day2, month1, month2, year1, year2, result;
 	gboolean flipped;
 
-	gnum_float serial1 = datetime_value_to_serial (argv[0]);
-	gnum_float serial2 = datetime_value_to_serial (argv[1]);
+	gnm_float serial1 = datetime_value_to_serial (argv[0]);
+	gnm_float serial2 = datetime_value_to_serial (argv[1]);
 	int imethod = argv[2] ? value_get_as_int (argv[2]) : 0;
 
 	method = (imethod >= 0 && imethod <= METHOD_US_SANE)
@@ -831,7 +831,7 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 		: METHOD_EUROPE;
 
 	if ((flipped = (serial1 > serial2))) {
-		gnum_float tmp = serial1;
+		gnm_float tmp = serial1;
 		serial1 = serial2;
 		serial2 = tmp;
 	}

@@ -134,13 +134,13 @@ struct INV
       /* cc_ndx[0] is not used;
          cc_ndx[k], k = 1, ..., cc_len, is a row index of the partially
          transformed column element */
-      gnum_float *cc_val; /* gnum_float cc_val[1+m]; */
+      gnm_float *cc_val; /* gnm_float cc_val[1+m]; */
       /* cc_val[0] is not used;
          cc_val[k], k = 1, ..., cc_len, is a numerical (non-zero) value
          of the column element */
       /*--------------------------------------------------------------*/
       /* control parameters */
-      gnum_float upd_tol;
+      gnm_float upd_tol;
       /* update tolerance; if on updating the factorization absolute
          value of some diagonal element of the matrix U = P*V*Q is less
          than upd_tol, the factorization is considered as inaccurate */
@@ -154,16 +154,16 @@ INV *inv_create(int m, int max_upd);
 /* create factorization of the basis matrix */
 
 int inv_decomp(INV *inv,
-      void *info, int (*col)(void *info, int j, int rn[], gnum_float bj[]));
+      void *info, int (*col)(void *info, int j, int rn[], gnm_float bj[]));
 /* compute factorization of the basis matrix */
 
-void inv_h_solve(INV *inv, int tr, gnum_float x[]);
+void inv_h_solve(INV *inv, int tr, gnm_float x[]);
 /* solve system H*x = b or H'*x = b */
 
-void inv_ftran(INV *inv, gnum_float x[], int save);
+void inv_ftran(INV *inv, gnm_float x[], int save);
 /* perform forward transformation (FTRAN) */
 
-void inv_btran(INV *inv, gnum_float x[]);
+void inv_btran(INV *inv, gnm_float x[]);
 /* perform backward transformation (BTRAN) */
 
 int inv_update(INV *inv, int j);

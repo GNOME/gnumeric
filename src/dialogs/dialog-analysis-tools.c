@@ -1031,7 +1031,7 @@ desc_stat_tool_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
 {
 	gboolean ready  = FALSE;
 	int i, j, an_int;
-	gnum_float a_float;
+	gnm_float a_float;
         Value *output_range;
         GSList *input_range;
 
@@ -1283,7 +1283,7 @@ ttest_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
 	gboolean mean_diff_ready = FALSE;
 	gboolean alpha_ready = FALSE;
 	int i, err;
-	gnum_float mean_diff, alpha;
+	gnm_float mean_diff, alpha;
         Value *output_range;
         Value *input_range;
         Value *input_range_2;
@@ -1612,7 +1612,7 @@ ftest_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
 	gboolean output_ready  = FALSE;
 	gboolean alpha_ready = FALSE;
 	int i, err;
-	gnum_float  alpha;
+	gnm_float  alpha;
         Value *output_range;
         Value *input_range;
         Value *input_range_2;
@@ -1950,7 +1950,7 @@ regression_tool_ok_clicked_cb (__attribute__((unused)) GtkWidget *button,
 
 	GtkWidget *w;
 	gint err;
-	gnum_float confidence;
+	gnm_float confidence;
 
 	if (state->base.warning_dialog != NULL)
 		gtk_widget_destroy (state->base.warning_dialog);
@@ -2024,7 +2024,7 @@ regression_tool_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dummy,
 	gboolean input_2_ready  = FALSE;
 	gboolean output_ready  = FALSE;
 	int i, err;
-	gnum_float confidence;
+	gnm_float confidence;
         Value *output_range;
         GSList *input_range;
         Value *input_range_2;
@@ -2170,7 +2170,7 @@ exp_smoothing_tool_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dum
 {
 	gboolean ready  = FALSE;
 	int i, err;
-	gnum_float damp_fact;
+	gnm_float damp_fact;
         Value *output_range;
         GSList *input_range;
 
@@ -2707,7 +2707,7 @@ anova_single_tool_update_sensitivity_cb (__attribute__((unused)) GtkWidget *dumm
 	gboolean output_ready  = FALSE;
 	gboolean ready  = FALSE;
 	int i, err;
-	gnum_float alpha;
+	gnm_float alpha;
         Value *output_range;
         GSList *input_range;
 
@@ -2912,7 +2912,7 @@ anova_two_factor_tool_update_sensitivity_cb (__attribute__((unused)) GtkWidget *
 {
 	gboolean ready  = FALSE;
 	int i, replication, err_alpha, err_replication;
-	gnum_float alpha;
+	gnm_float alpha;
         Value *output_range;
         Value *input_range;
 

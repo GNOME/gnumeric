@@ -229,7 +229,7 @@ gnm_gconf_set_num_of_recent_funcs (guint val)
 
 
 void
-gnm_gconf_set_horizontal_dpi  (gnum_float val)
+gnm_gconf_set_horizontal_dpi  (gnm_float val)
 {
 	gconf_client_set_float (application_get_gconf_client (), 
 			       GNUMERIC_GCONF_GUI_RES_H,
@@ -237,7 +237,7 @@ gnm_gconf_set_horizontal_dpi  (gnum_float val)
 }
 
 void
-gnm_gconf_set_vertical_dpi  (gnum_float val)
+gnm_gconf_set_vertical_dpi  (gnm_float val)
 {
 	gconf_client_set_float (application_get_gconf_client (), 
 			       GNUMERIC_GCONF_GUI_RES_V,
@@ -354,7 +354,7 @@ gnm_gconf_set_autoformat_usr_dirs (char const * string)
 }
 
 void
-gnm_gconf_set_horizontal_window_fraction  (gnum_float val)
+gnm_gconf_set_horizontal_window_fraction  (gnm_float val)
 {
 	gconf_client_set_float (application_get_gconf_client (), 
 			       GNUMERIC_GCONF_GUI_WINDOW_X,
@@ -362,7 +362,7 @@ gnm_gconf_set_horizontal_window_fraction  (gnum_float val)
 }
 
 void
-gnm_gconf_set_vertical_window_fraction  (gnum_float val)
+gnm_gconf_set_vertical_window_fraction  (gnm_float val)
 {
 	gconf_client_set_float (application_get_gconf_client (), 
 			       GNUMERIC_GCONF_GUI_WINDOW_Y,
@@ -435,7 +435,7 @@ gnm_gconf_set_sort_max_initial_clauses (gint val)
 }
 
 void
-gnm_gconf_set_zoom  (gnum_float val)
+gnm_gconf_set_zoom  (gnm_float val)
 {
 	gconf_client_set_float (application_get_gconf_client (), 
 				GNUMERIC_GCONF_GUI_ZOOM,

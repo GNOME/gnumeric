@@ -94,9 +94,9 @@ void     gnm_gconf_set_undo_max_number (gint val);
 
 /* new workbooks */
 void     gnm_gconf_set_initial_sheet_number (gint val);
-void     gnm_gconf_set_horizontal_window_fraction  (gnum_float val);
-void     gnm_gconf_set_vertical_window_fraction  (gnum_float val);
-void     gnm_gconf_set_zoom  (gnum_float val);
+void     gnm_gconf_set_horizontal_window_fraction  (gnm_float val);
+void     gnm_gconf_set_vertical_window_fraction  (gnm_float val);
+void     gnm_gconf_set_zoom  (gnm_float val);
 
 /* xml/files */
 void     gnm_gconf_set_xml_compression_level (gint val);
@@ -122,8 +122,8 @@ void     gnm_gconf_set_printer_command (gchar *str);
 void     gnm_gconf_set_printer_lpr_P (gchar *str);
 
 /* others */
-void     gnm_gconf_set_horizontal_dpi  (gnum_float val);
-void     gnm_gconf_set_vertical_dpi  (gnum_float val);
+void     gnm_gconf_set_horizontal_dpi  (gnm_float val);
+void     gnm_gconf_set_vertical_dpi  (gnm_float val);
 void     gnm_gconf_set_auto_complete (gboolean val);
 void     gnm_gconf_set_live_scrolling (gboolean val);
 void     gnm_gconf_set_recalc_lag (gint val);

@@ -86,12 +86,12 @@ struct RSM
          'F' - free variable:    -inf <  x[k] < +inf
          'L' - lower bound:      l[k] <= x[k] < +inf
          'U' - upper bound:      -inf <  x[k] <= u[k]
-         'D' - gnum_float bound:     l[k] <= x[k] <= u[k]
+         'D' - gnm_float bound:     l[k] <= x[k] <= u[k]
          'S' - fixed variable:   l[k]  = x[k]  = u[k] */
-      gnum_float *lb; /* gnum_float lb[1+m+n]; */
+      gnm_float *lb; /* gnm_float lb[1+m+n]; */
       /* lb[0] is not used; lb[k] is the lower bound of variable x[k]
          (1 <= k <= m+n); if x[k] has no lower bound, lb[k] is zero */
-      gnum_float *ub; /* gnum_float ub[1+m+n]; */
+      gnm_float *ub; /* gnm_float ub[1+m+n]; */
       /* ub[0] is not used; ub[k] is the upper bound of variable x[k]
          (1 <= k <= m+n); if x[k] has no upper bound, ub[k] is zero;
          if x[k] is fixed variable, lb[k] is equal to ub[k] */
@@ -132,10 +132,10 @@ struct RSM
 extern int invert_b(RSM *rsm);
 /* rebuild representation of the basis matrix */
 
-extern void ftran(RSM *rsm, gnum_float u[], int save);
+extern void ftran(RSM *rsm, gnm_float u[], int save);
 /* perform forward transformation */
 
-extern void btran(RSM *rsm, gnum_float u[]);
+extern void btran(RSM *rsm, gnm_float u[]);
 /* perform backward transformation */
 
 extern int update_b(RSM *rsm, int p);
@@ -146,34 +146,34 @@ extern int update_b(RSM *rsm, int p);
 extern void check_rsm(RSM *rsm);
 /* check common block for correctness */
 
-extern gnum_float eval_xn(RSM *rsm, int j);
+extern gnm_float eval_xn(RSM *rsm, int j);
 /* determine value of non-basic variable */
 
-extern void eval_bbar(RSM *rsm, gnum_float bbar[]);
+extern void eval_bbar(RSM *rsm, gnm_float bbar[]);
 /* compute values of basic variables */
 
-extern void eval_pi(RSM *rsm, gnum_float c[], gnum_float pi[]);
+extern void eval_pi(RSM *rsm, gnm_float c[], gnm_float pi[]);
 /* compute simplex multipliers */
 
-extern void eval_cbar(RSM *rsm, gnum_float c[], gnum_float pi[], gnum_float cbar[]);
+extern void eval_cbar(RSM *rsm, gnm_float c[], gnm_float pi[], gnm_float cbar[]);
 /* compute reduced costs of non-basic variables */
 
-extern int check_rr(gnum_float x, gnum_float x0, gnum_float tol);
+extern int check_rr(gnm_float x, gnm_float x0, gnm_float tol);
 /* check relative residual */
 
-extern int check_bbar(RSM *rsm, gnum_float bbar[], gnum_float tol);
+extern int check_bbar(RSM *rsm, gnm_float bbar[], gnm_float tol);
 /* check basis solution for primal feasibility */
 
-extern int check_cbar(RSM *rsm, gnum_float c[], gnum_float cbar[], gnum_float tol);
+extern int check_cbar(RSM *rsm, gnm_float c[], gnm_float cbar[], gnm_float tol);
 /* check basis solution for dual feasibility */
 
-extern void eval_col(RSM *rsm, int j, gnum_float aj[], int save);
+extern void eval_col(RSM *rsm, int j, gnm_float aj[], int save);
 /* compute column of the simplex table */
 
-extern void eval_zeta(RSM *rsm, int i, gnum_float zeta[]);
+extern void eval_zeta(RSM *rsm, int i, gnm_float zeta[]);
 /* compute row of the inverse */
 
-extern void eval_row(RSM *rsm, gnum_float zeta[], gnum_float ai[]);
+extern void eval_row(RSM *rsm, gnm_float zeta[], gnm_float ai[]);
 /* compute row of the simplex table */
 
 extern int change_b(RSM *rsm, int p, int tagp, int q);
@@ -181,76 +181,76 @@ extern int change_b(RSM *rsm, int p, int tagp, int q);
 
 /*** primal steepest edge routines ***/
 
-extern void init_gvec(RSM *rsm, gnum_float gvec[]);
+extern void init_gvec(RSM *rsm, gnm_float gvec[]);
 /* initialize the vector gamma */
 
-extern void update_gvec(RSM *rsm, gnum_float gvec[], int p, int q,
-      gnum_float ap[], gnum_float aq[], gnum_float w[]);
+extern void update_gvec(RSM *rsm, gnm_float gvec[], int p, int q,
+      gnm_float ap[], gnm_float aq[], gnm_float w[]);
 /* update the vector gamma */
 
-extern gnum_float exact_gvec(RSM *rsm, int j);
+extern gnm_float exact_gvec(RSM *rsm, int j);
 /* compute exact value of gamma[j] */
 
-extern gnum_float check_gvec(RSM *rsm, gnum_float gvec[]);
+extern gnm_float check_gvec(RSM *rsm, gnm_float gvec[]);
 /* check accuracy of the vector gamma */
 
 /*** dual steepest edge routines ***/
 
-extern void init_dvec(RSM *rsm, gnum_float dvec[]);
+extern void init_dvec(RSM *rsm, gnm_float dvec[]);
 /* initialize the vector delta */
 
-extern void update_dvec(RSM *rsm, gnum_float dvec[], int p, int q,
-      gnum_float ap[], gnum_float aq[], gnum_float w[]);
+extern void update_dvec(RSM *rsm, gnm_float dvec[], int p, int q,
+      gnm_float ap[], gnm_float aq[], gnm_float w[]);
 /* update the vector delta */
 
-extern gnum_float exact_dvec(RSM *rsm, int i);
+extern gnm_float exact_dvec(RSM *rsm, int i);
 /* compute exact value of delta[i] */
 
-extern gnum_float check_dvec(RSM *rsm, gnum_float dvec[]);
+extern gnm_float check_dvec(RSM *rsm, gnm_float dvec[]);
 /* check accuracy of the vector delta */
 
 /*** primal simplex method routines ***/
 
-extern int pivot_col(RSM *rsm, gnum_float c[], gnum_float cbar[], gnum_float gvec[],
-      gnum_float tol);
+extern int pivot_col(RSM *rsm, gnm_float c[], gnm_float cbar[], gnm_float gvec[],
+      gnm_float tol);
 /* choose non-basic variable (primal) */
 
-extern int pivot_row(RSM *rsm, int q, int dir, gnum_float aq[],
-      gnum_float bbar[], int *tagp, gnum_float tol);
+extern int pivot_row(RSM *rsm, int q, int dir, gnm_float aq[],
+      gnm_float bbar[], int *tagp, gnm_float tol);
 /* choose basic variable (primal, standard technique) */
 
-extern int harris_row(RSM *rsm, int q, int dir, gnum_float aq[],
-      gnum_float bbar[], int *tagp, gnum_float tol, gnum_float tol1);
+extern int harris_row(RSM *rsm, int q, int dir, gnm_float aq[],
+      gnm_float bbar[], int *tagp, gnm_float tol, gnm_float tol1);
 /* choose basic variable (primal, Harris technique) */
 
 /*** dual simplex method routines ***/
 
-extern int dual_row(RSM *rsm, gnum_float bbar[], gnum_float dvec[], int *tagp,
-      gnum_float tol);
+extern int dual_row(RSM *rsm, gnm_float bbar[], gnm_float dvec[], int *tagp,
+      gnm_float tol);
 /* choose basic variable (dual) */
 
-extern int dual_col(RSM *rsm, int tagp, gnum_float ap[], gnum_float cbar[],
-      gnum_float tol);
+extern int dual_col(RSM *rsm, int tagp, gnm_float ap[], gnm_float cbar[],
+      gnm_float tol);
 /* choose non-basic variable (dual, standard technique) */
 
-extern int harris_col(RSM *rsm, int tagp, gnum_float ap[], gnum_float c[],
-      gnum_float cbar[], gnum_float tol, gnum_float tol1);
+extern int harris_col(RSM *rsm, int tagp, gnm_float ap[], gnm_float c[],
+      gnm_float cbar[], gnm_float tol, gnm_float tol1);
 /* choose non-basic variable (dual, Harris technique) */
 
 /*** driver simplex method routines ***/
 
-extern int rsm_primal(RSM *rsm, int (*monit)(void), gnum_float c[],
-      gnum_float tol_bnd, gnum_float tol_dj, gnum_float tol_piv, gnum_float gvec[],
+extern int rsm_primal(RSM *rsm, int (*monit)(void), gnm_float c[],
+      gnm_float tol_bnd, gnm_float tol_dj, gnm_float tol_piv, gnm_float gvec[],
       int relax);
 /* find optimal solution using primal simplex method */
 
-extern int rsm_dual(RSM *rsm, int (*monit)(void), gnum_float c[],
-      gnum_float tol_bnd, gnum_float tol_dj, gnum_float tol_piv, gnum_float dvec[],
+extern int rsm_dual(RSM *rsm, int (*monit)(void), gnm_float c[],
+      gnm_float tol_bnd, gnm_float tol_dj, gnm_float tol_piv, gnm_float dvec[],
       int relax);
 /* find optimal solution using dual simplex method */
 
 extern int rsm_feas(RSM *rsm, int (*monit)(void),
-      gnum_float tol_bnd, gnum_float tol_dj, gnum_float tol_piv, gnum_float gvec[],
+      gnm_float tol_bnd, gnm_float tol_dj, gnm_float tol_piv, gnm_float gvec[],
       int relax);
 /* find feasible solution using primal simplex method */
 
@@ -264,7 +264,7 @@ extern RSM *create_rsm(LPI *lp);
 extern void delete_rsm(RSM *rsm);
 /* delete revised simplex method common block */
 
-extern void scale_rsm(RSM *rsm, gnum_float R[], gnum_float S[]);
+extern void scale_rsm(RSM *rsm, gnm_float R[], gnm_float S[]);
 /* scale problem components in RSM block */
 
 #if 0

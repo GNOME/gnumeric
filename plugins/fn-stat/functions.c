@@ -51,7 +51,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 /***************************************************************************/
 
 static gint
-float_compare (const gnum_float *a, const gnum_float *b)
+float_compare (const gnm_float *a, const gnm_float *b)
 {
         if (*a < *b)
                 return -1;
@@ -63,7 +63,7 @@ float_compare (const gnum_float *a, const gnum_float *b)
 
 typedef struct {
 	int N;
-	gnum_float M, Q, sum;
+	gnm_float M, Q, sum;
         gboolean afun_flag;
 } stat_closure_t;
 
@@ -81,7 +81,7 @@ static Value *
 callback_function_stat (EvalPos const *ep, Value *value, void *closure)
 {
 	stat_closure_t *mm = closure;
-	gnum_float x, dx, dm;
+	gnm_float x, dx, dm;
 
 	if (value != NULL && VALUE_IS_NUMBER (value))
 		x = value_get_as_float (value);
@@ -143,7 +143,7 @@ callback_function_make_list (EvalPos const *ep, Value *value,
 			     void *closure)
 {
 	make_list_t *mm = closure;
-	gnum_float  x;
+	gnm_float  x;
 	gpointer    p;
 
 	if (value != NULL && VALUE_IS_NUMBER (value))
@@ -151,8 +151,8 @@ callback_function_make_list (EvalPos const *ep, Value *value,
 	else
 	        x = 0.;
 
-	p = g_new (gnum_float, 1);
-	*((gnum_float *) p) = x;
+	p = g_new (gnm_float, 1);
+	*((gnm_float *) p) = x;
 	mm->entries = g_slist_append (mm->entries, p);
 	mm->n++;
 
@@ -332,7 +332,7 @@ static const char *help_rank = {
 };
 
 typedef struct {
-        gnum_float x;
+        gnm_float x;
         int     order;
         int     rank;
 } stat_rank_t;
@@ -342,7 +342,7 @@ callback_function_rank (Sheet *sheet, int col, int row,
 			Cell *cell, void *user_data)
 {
         stat_rank_t *p = user_data;
-	gnum_float  x;
+	gnm_float  x;
 
 	if (cell == NULL || cell->value == NULL)
 	        return NULL;
@@ -425,9 +425,9 @@ static const char *help_trimmean = {
 };
 
 static int
-range_trimmean (const gnum_float *xs, int n, gnum_float *res)
+range_trimmean (const gnm_float *xs, int n, gnm_float *res)
 {
-	gnum_float p, sum = 0;
+	gnm_float p, sum = 0;
 	int tc, c, i;
 
 	if (n < 2)
@@ -443,7 +443,7 @@ range_trimmean (const gnum_float *xs, int n, gnum_float *res)
 		return 1;
 
 	/* OK, so we ignore the constness here.  Tough.  */
-	qsort ((gnum_float *) xs, n, sizeof (xs[0]), (void *) &float_compare);
+	qsort ((gnm_float *) xs, n, sizeof (xs[0]), (void *) &float_compare);
 
 	for (i = tc; i < n - tc; i++)
 		sum += xs[i];
@@ -553,7 +553,7 @@ static Value *
 gnumeric_negbinomdist (FunctionEvalInfo *ei, Value **argv)
 {
 	int x, r;
-	gnum_float p;
+	gnm_float p;
 
 	x = value_get_as_int (argv[0]);
 	r = value_get_as_int (argv[1]);
@@ -587,7 +587,7 @@ static const char *help_normsdist = {
 static Value *
 gnumeric_normsdist (FunctionEvalInfo *ei, Value **argv)
 {
-        gnum_float x;
+        gnm_float x;
 
         x = value_get_as_float (argv[0]);
 
@@ -617,7 +617,7 @@ static const char *help_normsinv = {
 static Value *
 gnumeric_normsinv (FunctionEvalInfo *ei, Value **argv)
 {
-        gnum_float p;
+        gnm_float p;
 
         p = value_get_as_float (argv[0]);
 	if (p < 0 || p > 1)
@@ -651,7 +651,7 @@ static const char *help_lognormdist = {
 static Value *
 gnumeric_lognormdist (FunctionEvalInfo *ei, Value **argv)
 {
-        gnum_float x, mean, stdev;
+        gnm_float x, mean, stdev;
 
         x = value_get_as_float (argv[0]);
         mean = value_get_as_float (argv[1]);
@@ -691,7 +691,7 @@ static const char *help_loginv = {
 static Value *
 gnumeric_loginv (FunctionEvalInfo *ei, Value **argv)
 {
-        gnum_float p, mean, stdev;
+        gnm_float p, mean, stdev;
 
         p = value_get_as_float (argv[0]);
         mean = value_get_as_float (argv[1]);
@@ -725,7 +725,7 @@ static const char *help_fisherinv = {
 static Value *
 gnumeric_fisherinv (FunctionEvalInfo *ei, Value **argv)
 {
-       gnum_float y = value_get_as_float (argv[0]);
+       gnm_float y = value_get_as_float (argv[0]);
 
        return value_new_float (expm1gnum (2 * y) / (expgnum (2 * y) + 1.0));
 }
@@ -967,7 +967,7 @@ static const char *help_min = {
 };
 
 static int
-range_min0 (const gnum_float *xs, int n, gnum_float *res)
+range_min0 (const gnm_float *xs, int n, gnm_float *res)
 {
 	if (n == 0) {
 		*res = 0;
@@ -1009,7 +1009,7 @@ static const char *help_max = {
 };
 
 static int
-range_max0 (const gnum_float *xs, int n, gnum_float *res)
+range_max0 (const gnm_float *xs, int n, gnm_float *res)
 {
 	if (n == 0) {
 		*res = 0;
@@ -1125,7 +1125,7 @@ static const char *help_expondist = {
 static Value *
 gnumeric_expondist (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x, y;
+	gnm_float x, y;
 	int cuml;
 	gboolean err;
 
@@ -1164,8 +1164,8 @@ static const char *help_bernoulli = {
            "@SEEALSO=RANDBERNOULLI")
 };
 
-static gnum_float
-random_bernoulli_pdf (int k, gnum_float p)
+static gnm_float
+random_bernoulli_pdf (int k, gnm_float p)
 {
         if (k == 0)
 	        return 1 - p;
@@ -1178,8 +1178,8 @@ random_bernoulli_pdf (int k, gnum_float p)
 static Value *
 gnumeric_bernoulli (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float k = value_get_as_int (argv[0]);
-	gnum_float p = value_get_as_float (argv[1]);
+	gnm_float k = value_get_as_int (argv[0]);
+	gnm_float p = value_get_as_float (argv[1]);
 
 	if (p < 0 || p > 1 || (k != 0 && k != 1))
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -1210,7 +1210,7 @@ static const char *help_gammaln = {
 static Value *
 gnumeric_gammaln (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x;
+	gnm_float x;
 
 	/* FIXME: the gamma function is defined for all real numbers except
 	 * the integers 0, -1, -2, ...  It is positive (and log(gamma(x)) is
@@ -1248,7 +1248,7 @@ static const char *help_gammadist = {
 static Value *
 gnumeric_gammadist (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x, alpha, beta;
+	gnm_float x, alpha, beta;
 	int     cum;
 
 	x = value_get_as_float (argv[0]);
@@ -1288,7 +1288,7 @@ static const char *help_gammainv = {
 static Value *
 gnumeric_gammainv (FunctionEvalInfo *ei, Value **argv)
 {
-        gnum_float p, alpha, beta;
+        gnm_float p, alpha, beta;
 
         p = value_get_as_float (argv[0]);
 	alpha = value_get_as_float (argv[1]);
@@ -1324,7 +1324,7 @@ static const char *help_chidist = {
 static Value *
 gnumeric_chidist (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x;
+	gnm_float x;
 	int     dof;
 
 	x = value_get_as_float (argv[0]);
@@ -1358,7 +1358,7 @@ static const char *help_chiinv = {
 static Value *
 gnumeric_chiinv (FunctionEvalInfo *ei, Value **argv)
 {
-        gnum_float p;
+        gnm_float p;
 	int dof;
 
         p = value_get_as_float (argv[0]);
@@ -1404,12 +1404,12 @@ callback_function_chitest_actual (EvalPos const *ep, Value *value,
 				  void *closure)
 {
 	stat_chitest_t *mm = closure;
-	gnum_float     *p;
+	gnm_float     *p;
 
 	if (!VALUE_IS_NUMBER (value))
 		return VALUE_TERMINATE;
 
-	p = g_new (gnum_float, 1);
+	p = g_new (gnm_float, 1);
 	*p = value_get_as_float (value);
 	mm->column = g_slist_append (mm->column, p);
 
@@ -1429,7 +1429,7 @@ typedef struct {
         GSList *next_col;
         int    cols;
         int    rows;
-        gnum_float sum;
+        gnm_float sum;
 } stat_chitest_t_t;
 
 static Value *
@@ -1437,7 +1437,7 @@ callback_function_chitest_theoretical (EvalPos const *ep, Value *value,
 				       void *closure)
 {
 	stat_chitest_t_t *mm = closure;
-	gnum_float a, e, *p;
+	gnm_float a, e, *p;
 
 	if (!VALUE_IS_NUMBER (value))
 		return VALUE_TERMINATE;
@@ -1534,7 +1534,7 @@ static const char *help_betadist = {
 static Value *
 gnumeric_betadist (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x, alpha, beta, a, b;
+	gnm_float x, alpha, beta, a, b;
 
 	x = value_get_as_float (argv[0]);
 	alpha = value_get_as_float (argv[1]);
@@ -1575,7 +1575,7 @@ static const char *help_betainv = {
 static Value *
 gnumeric_betainv (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float p, alpha, beta, a, b;
+	gnm_float p, alpha, beta, a, b;
 
 	p = value_get_as_float (argv[0]);
 	alpha = value_get_as_float (argv[1]);
@@ -1613,7 +1613,7 @@ static const char *help_tdist = {
 static Value *
 gnumeric_tdist (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x;
+	gnm_float x;
 	int     dof, tails;
 
 	x = value_get_as_float (argv[0]);
@@ -1648,7 +1648,7 @@ static const char *help_tinv = {
 static Value *
 gnumeric_tinv (FunctionEvalInfo *ei, Value **argv)
 {
-        gnum_float p;
+        gnm_float p;
 	int dof;
 
         p = value_get_as_float (argv[0]);
@@ -1684,7 +1684,7 @@ static const char *help_fdist = {
 static Value *
 gnumeric_fdist (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x;
+	gnm_float x;
 	int     dof1, dof2;
 
 	x = value_get_as_float (argv[0]);
@@ -1717,67 +1717,67 @@ static const char *help_landau = {
  *
  * Copyright (C) 2001 David Morrison
  */
-static gnum_float
-random_landau_pdf (gnum_float x)
+static gnm_float
+random_landau_pdf (gnm_float x)
 {
-        static gnum_float P1[5] = {
+        static gnm_float P1[5] = {
 	        0.4259894875E0, -0.1249762550E0, 0.3984243700E-1,
 		-0.6298287635E-2, 0.1511162253E-2
 	};
-	static gnum_float P2[5] = {
+	static gnm_float P2[5] = {
 	        0.1788541609E0, 0.1173957403E0, 0.1488850518E-1,
 		-0.1394989411E-2, 0.1283617211E-3
 	};
-	static gnum_float P3[5] = {
+	static gnm_float P3[5] = {
 	        0.1788544503E0, 0.9359161662E-1, 0.6325387654E-2,
 		0.6611667319E-4, -0.2031049101E-5
 	};
-	static gnum_float P4[5] = {
+	static gnm_float P4[5] = {
 	        0.9874054407E0, 0.1186723273E3, 0.8492794360E3,
 		-0.7437792444E3, 0.4270262186E3
 	};
-	static gnum_float P5[5] = {
+	static gnm_float P5[5] = {
 	        0.1003675074E1, 0.1675702434E3, 0.4789711289E4,
 		0.2121786767E5, -0.2232494910E5
 	};
-	static gnum_float P6[5] = {
+	static gnm_float P6[5] = {
 	        0.1000827619E1, 0.6649143136E3, 0.6297292665E5,
 		0.4755546998E6, -0.5743609109E7
 	};
 
-	static gnum_float Q1[5] = {
+	static gnm_float Q1[5] = {
 	        1.0, -0.3388260629E0, 0.9594393323E-1,
 		-0.1608042283E-1, 0.3778942063E-2
 	};
-	static gnum_float Q2[5] = {
+	static gnm_float Q2[5] = {
 	        1.0, 0.7428795082E0, 0.3153932961E0,
 		0.6694219548E-1, 0.8790609714E-2
 	};
-	static gnum_float Q3[5] = {
+	static gnm_float Q3[5] = {
 	        1.0, 0.6097809921E0, 0.2560616665E0,
 		0.4746722384E-1, 0.6957301675E-2
 	};
-	static gnum_float Q4[5] = {
+	static gnm_float Q4[5] = {
 	        1.0, 0.1068615961E3, 0.3376496214E3,
 		0.2016712389E4, 0.1597063511E4
 	};
-	static gnum_float Q5[5] = {
+	static gnm_float Q5[5] = {
 	        1.0, 0.1569424537E3, 0.3745310488E4,
 		0.9834698876E4, 0.6692428357E5
 	};
-	static gnum_float Q6[5] = {
+	static gnm_float Q6[5] = {
 	        1.0, 0.6514101098E3, 0.5697473333E5,
 		0.1659174725E6, -0.2815759939E7
 	};
 
-	static gnum_float A1[3] = {
+	static gnm_float A1[3] = {
 	        0.4166666667E-1, -0.1996527778E-1, 0.2709538966E-1
 	};
-	static gnum_float A2[2] = {
+	static gnm_float A2[2] = {
 	        -0.1845568670E1, -0.4284640743E1
 	};
 
-	gnum_float U, V, DENLAN;
+	gnm_float U, V, DENLAN;
 
 	V = x;
 	if (V < -5.5) {
@@ -1833,7 +1833,7 @@ random_landau_pdf (gnum_float x)
 static Value *
 gnumeric_landau (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x = value_get_as_float (argv[0]);
+	gnm_float x = value_get_as_float (argv[0]);
 
 	return value_new_float (random_landau_pdf (x));
 }
@@ -1862,7 +1862,7 @@ static const char *help_finv = {
 static Value *
 gnumeric_finv (FunctionEvalInfo *ei, Value **argv)
 {
-        gnum_float p;
+        gnm_float p;
 	int dof1, dof2;
 
         p = value_get_as_float (argv[0]);
@@ -1905,7 +1905,7 @@ gnumeric_binomdist (FunctionEvalInfo *ei, Value **argv)
 {
 	int n, trials, cuml;
 	gboolean err;
-	gnum_float p;
+	gnm_float p;
 
 	n = value_get_as_int (argv[0]);
 	trials = value_get_as_int (argv[1]);
@@ -1943,8 +1943,8 @@ static const char *help_cauchy = {
 static Value *
 gnumeric_cauchy (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x = value_get_as_float (argv[0]);
-	gnum_float a = value_get_as_float (argv[1]);
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float a = value_get_as_float (argv[1]);
 	int        cuml;
 	gboolean   err;
 
@@ -1989,7 +1989,7 @@ static Value *
 gnumeric_critbinom (FunctionEvalInfo *ei, Value **argv)
 {
         int trials;
-        gnum_float p, alpha;
+        gnm_float p, alpha;
 
         trials = value_get_as_int (argv[0]);
         p = value_get_as_float (argv[1]);
@@ -2100,7 +2100,7 @@ static const char *help_confidence = {
 static Value *
 gnumeric_confidence (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x, stddev;
+	gnm_float x, stddev;
 	int size;
 
 	x = value_get_as_float (argv[0]);
@@ -2140,7 +2140,7 @@ static const char *help_standardize = {
 static Value *
 gnumeric_standardize (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x, mean, stddev;
+	gnm_float x, mean, stddev;
 
 	x = value_get_as_float (argv[0]);
 	mean = value_get_as_float (argv[1]);
@@ -2179,7 +2179,7 @@ static const char *help_weibull = {
 static Value *
 gnumeric_weibull (FunctionEvalInfo *ei, Value **argv)
 {
-        gnum_float x, alpha, beta;
+        gnm_float x, alpha, beta;
         int cuml;
 	gboolean err;
 
@@ -2224,7 +2224,7 @@ static const char *help_normdist = {
 static Value *
 gnumeric_normdist (FunctionEvalInfo *ei, Value **argv)
 {
-        gnum_float x, mean, stdev;
+        gnm_float x, mean, stdev;
         int cuml;
 	gboolean err;
 
@@ -2270,7 +2270,7 @@ static const char *help_norminv = {
 static Value *
 gnumeric_norminv (FunctionEvalInfo *ei, Value **argv)
 {
-        gnum_float p, mean, stdev;
+        gnm_float p, mean, stdev;
 
         p = value_get_as_float (argv[0]);
 	mean = value_get_as_float (argv[1]);
@@ -2441,7 +2441,7 @@ static const char *help_fisher = {
 static Value *
 gnumeric_fisher (FunctionEvalInfo *ei, Value **argv)
 {
-        gnum_float x;
+        gnm_float x;
 
         if (!VALUE_IS_NUMBER (argv[0]))
                 return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -2480,7 +2480,7 @@ static const char *help_poisson = {
 static Value *
 gnumeric_poisson (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float mean;
+	gnm_float mean;
 	int x, cuml;
 	gboolean err;
 
@@ -2610,7 +2610,7 @@ static const char *help_large = {
 };
 
 static int
-range_large (gnum_float *xs, int n, gnum_float *res)
+range_large (gnm_float *xs, int n, gnm_float *res)
 {
 	int k;
 
@@ -2657,7 +2657,7 @@ static const char *help_small = {
 };
 
 static int
-range_small (gnum_float *xs, int n, gnum_float *res)
+range_small (gnm_float *xs, int n, gnm_float *res)
 {
 	int k;
 
@@ -2690,14 +2690,14 @@ callback_function_list (Sheet *sheet, int col, int row,
 			Cell *cell, void *user_data)
 {
         stat_list_t *mm = user_data;
-	gnum_float *p;
+	gnm_float *p;
 
 	if (cell == NULL || cell->value == NULL)
 	        return NULL;
 	if (!VALUE_IS_NUMBER (cell->value))
 		return NULL;
 
-	p = g_new (gnum_float, 1);
+	p = g_new (gnm_float, 1);
 	*p = value_get_as_float (cell->value);
 	mm->list = g_slist_append (mm->list, p);
 	mm->num++;
@@ -2735,9 +2735,9 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 	Value *res;
 	Value *error = NULL;
 	int i, prob_n, x_n;
-	gnum_float *prob_vals = NULL, *x_vals = NULL;
-	gnum_float lower_limit, upper_limit;
-	gnum_float total_sum = 0, sum = 0;
+	gnm_float *prob_vals = NULL, *x_vals = NULL;
+	gnm_float lower_limit, upper_limit;
+	gnm_float total_sum = 0, sum = 0;
 
 	lower_limit = value_get_as_float (argv[2]);
 	upper_limit = argv[3] ? value_get_as_float (argv[3]) : lower_limit;
@@ -2768,8 +2768,8 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	for (i = 0; i < x_n; i++) {
-		gnum_float x = x_vals[i];
-		gnum_float prob = prob_vals[i];
+		gnm_float x = x_vals[i];
+		gnm_float prob = prob_vals[i];
 
 		/* FIXME: Check "0" behaviour with Excel and comment.  */
 		if (prob <= 0 || prob > 1) {
@@ -2825,8 +2825,8 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
         Value       *known_y = argv[0];
         Value       *known_x = argv[1];
 	stat_list_t items_x, items_y;
-	gnum_float  sum_x, sum_y, sum_xy, sqrsum_x, sqrsum_y;
-	gnum_float  num, den, k, n;
+	gnm_float  sum_x, sum_y, sum_xy, sqrsum_x, sqrsum_y;
+	gnm_float  num, den, k, n;
 	GSList      *list1, *list2;
 	Value       *ret;
 
@@ -2919,10 +2919,10 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 	sum_xy = 0;
 
 	while (list1 != NULL) {
-	        gnum_float  x, y;
+	        gnm_float  x, y;
 
-		x = *((gnum_float *) list1->data);
-		y = *((gnum_float *) list2->data);
+		x = *((gnm_float *) list1->data);
+		y = *((gnm_float *) list2->data);
 
 		sum_x += x;
 		sum_y += y;
@@ -2977,16 +2977,16 @@ static const char *help_ztest = {
 
 typedef struct {
 	guint32 num;
-        gnum_float x;
-        gnum_float sum;
-        gnum_float sqrsum;
+        gnm_float x;
+        gnm_float sum;
+        gnm_float sqrsum;
 } stat_ztest_t;
 
 static Value *
 callback_function_ztest (EvalPos const *ep, Value *value, void *closure)
 {
 	stat_ztest_t *mm = closure;
-	gnum_float last;
+	gnm_float last;
 
 	if (!VALUE_IS_NUMBER (value))
 		return value_new_error (ep, gnumeric_err_VALUE);
@@ -3006,7 +3006,7 @@ gnumeric_ztest (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	stat_ztest_t p;
 	Value       *status;
-	gnum_float   stdev;
+	gnm_float   stdev;
 
 	p.num    = 0;
 	p.sum    = 0;
@@ -3313,9 +3313,9 @@ static const char *help_percentrank = {
 };
 
 typedef struct {
-        gnum_float x;
-        gnum_float smaller_x;
-        gnum_float greater_x;
+        gnm_float x;
+        gnm_float smaller_x;
+        gnm_float greater_x;
         int     smaller;
         int     greater;
         int     equal;
@@ -3326,7 +3326,7 @@ callback_function_percentrank (EvalPos const *ep, Value *value,
 			       void *user_data)
 {
         stat_percentrank_t *p = user_data;
-	gnum_float y;
+	gnm_float y;
 
 	if (!VALUE_IS_NUMBER (value))
 		return VALUE_TERMINATE;
@@ -3351,7 +3351,7 @@ static Value *
 gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 {
         stat_percentrank_t p;
-        gnum_float         x, k, pr;
+        gnm_float         x, k, pr;
         int                significance;
 	Value		   *ret;
 
@@ -3382,10 +3382,10 @@ gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	if (p.equal == 1)
-	        pr = (gnum_float)p.smaller / (p.smaller + p.greater);
+	        pr = (gnm_float)p.smaller / (p.smaller + p.greater);
 	else if (p.equal == 0) {
-	        gnum_float a = (x - p.smaller_x) / (p.greater_x - p.smaller_x);
-	        pr = (gnum_float)(p.smaller + a - 1) / (p.greater + p.smaller - 1.0);
+	        gnm_float a = (x - p.smaller_x) / (p.greater_x - p.smaller_x);
+	        pr = (gnm_float)(p.smaller + a - 1) / (p.greater + p.smaller - 1.0);
 	} else
 	        pr = (p.smaller + 0.5 * p.equal) /
 		  (p.smaller + p.equal + p.greater);
@@ -3420,7 +3420,7 @@ static const char *help_percentile = {
 static Value *
 gnumeric_percentile (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float *data;
+	gnm_float *data;
 	Value *result = NULL;
 	int n;
 
@@ -3430,8 +3430,8 @@ gnumeric_percentile (FunctionEvalInfo *ei, Value **argv)
 				     COLLECT_IGNORE_BLANKS,
 				     &n, &result);
 	if (!result) {
-		gnum_float p = value_get_as_float (argv[1]);
-		gnum_float res;
+		gnm_float p = value_get_as_float (argv[1]);
+		gnm_float res;
 
 		if (range_fractile_inter_nonconst (data, n, &res, p))
 			result = value_new_error (ei->pos, gnumeric_err_NUM);
@@ -3476,7 +3476,7 @@ static const char *help_quartile = {
 static Value *
 gnumeric_quartile (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float *data;
+	gnm_float *data;
 	Value *result = NULL;
 	int n;
 
@@ -3487,7 +3487,7 @@ gnumeric_quartile (FunctionEvalInfo *ei, Value **argv)
 				     &n, &result);
 	if (!result) {
 		int q = value_get_as_int (argv[1]);
-		gnum_float res;
+		gnm_float res;
 
 		if (range_fractile_inter_nonconst (data, n, &res, q / 4.0))
 			result = value_new_error (ei->pos, gnumeric_err_NUM);
@@ -3524,7 +3524,7 @@ static Value *
 gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
 {
 	stat_closure_t cl;
-	gnum_float     var1, var2, p;
+	gnm_float     var1, var2, p;
 	int            dof1, dof2;
 	Value         *err;
 
@@ -3596,7 +3596,7 @@ static Value *
 callback_function_ttest (EvalPos const *ep, Value *value, void *closure)
 {
 	stat_ttest_t *mm = closure;
-	gnum_float   x;
+	gnm_float   x;
 
 	if (value != NULL && VALUE_IS_NUMBER (value))
 		x = value_get_as_float (value);
@@ -3604,14 +3604,14 @@ callback_function_ttest (EvalPos const *ep, Value *value, void *closure)
 	        x = 0;
 
 	if (mm->first) {
-	        gpointer p = g_new (gnum_float, 1);
-		*((gnum_float *) p) = x;
+	        gpointer p = g_new (gnm_float, 1);
+		*((gnm_float *) p) = x;
 		mm->entries = g_slist_append (mm->entries, p);
 	} else {
 	        if (mm->current == NULL)
 			return VALUE_TERMINATE;
 
-	        *((gnum_float *) mm->current->data) -= x;
+	        *((gnm_float *) mm->current->data) -= x;
 		mm->current = mm->current->next;
 	}
 
@@ -3625,8 +3625,8 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 	stat_ttest_t   t_cl;
 	GnmExprList   *expr_node_list;
         int            tails, type;
-	gnum_float     mean1, mean2, x;
-	gnum_float     s, var1, var2, dof;
+	gnm_float     mean1, mean2, x;
+	gnm_float     s, var1, var2, dof;
 	int            n1, n2;
 	Value         *err;
 
@@ -3640,7 +3640,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 	if (type == 1) {
 	        GSList  *current;
 		GnmExprConstant expr;
-	        gnum_float sum, dx, dm, M, Q, N;
+	        gnm_float sum, dx, dm, M, Q, N;
 
 	        t_cl.first = TRUE;
 		t_cl.entries = NULL;
@@ -3670,7 +3670,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		dx = dm = M = Q = N = sum = 0;
 
 		while (current != NULL) {
-		        x = *((gnum_float *) current->data);
+		        x = *((gnm_float *) current->data);
 
 			dx = x - M;
 			dm = dx / (N + 1);
@@ -3705,7 +3705,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		n2 = cl.N;
 
 		if (type != 2) {
-		        gnum_float c = (var1 / n1) / (var1 / n1 + var2 / n2);
+		        gnm_float c = (var1 / n1) / (var1 / n1 + var2 / n2);
 			dof = 1.0 / ((c * c) / (n1 - 1) + ((1 - c) * (1 - c)) /
 				     (n2 - 1));
 		} else
@@ -3745,7 +3745,7 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 	GSList       *current;
 	make_list_t  data_cl, bin_cl;
 	Value        *err, *res;
-	gnum_float   *bin_array;
+	gnm_float   *bin_array;
 	int          *count, i;
 
 	if ((err = make_list (&data_cl, ei->pos, argv [0])) ||
@@ -3755,14 +3755,14 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 	if (bin_cl.n == 0)
 	        return value_new_int (data_cl.n);
 
-	bin_array = g_new (gnum_float, bin_cl.n);
+	bin_array = g_new (gnm_float, bin_cl.n);
 	i = 0;
 	for (current = bin_cl.entries; current != NULL; current=current->next) {
-		gnum_float *xp = current->data;
+		gnm_float *xp = current->data;
 	        bin_array[i++] = *xp;
 		g_free (xp);
 	}
-	qsort (bin_array, bin_cl.n, sizeof (gnum_float),
+	qsort (bin_array, bin_cl.n, sizeof (gnm_float),
 	       (void *) &float_compare);
 
 	count = g_new (int, bin_cl.n + 1);
@@ -3770,7 +3770,7 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 	        count[i] = 0;
 
 	for (current = data_cl.entries; current != NULL; current=current->next) {
-		gnum_float *xp = current->data;
+		gnm_float *xp = current->data;
 		for (i = 0; i < bin_cl.n; i++)
 		        if (*xp <= bin_array[i])
 				break;
@@ -3847,11 +3847,11 @@ static const char *help_linest = {
 static Value *
 gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 {
-	gnum_float        **xss = NULL, *ys = NULL;
+	gnm_float        **xss = NULL, *ys = NULL;
 	Value             *result = NULL;
 	int               nx, ny, dim, i;
 	int               xarg = 0;
-	gnum_float        *linres = NULL;
+	gnm_float        *linres = NULL;
 	gboolean          affine, stat, err;
 	enum {
 		ARRAY      = 1,
@@ -3895,8 +3895,8 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 	if (argv[1] == NULL || (ytype == ARRAY && argv[1]->type != VALUE_ARRAY) ||
 	    (ytype != ARRAY && argv[1]->type != VALUE_CELLRANGE)){
 		dim = 1;
-		xss = g_new (gnum_float *, 1);
-	        xss[0] = g_new (gnum_float, ny);
+		xss = g_new (gnm_float *, 1);
+	        xss[0] = g_new (gnm_float, ny);
 	        for (nx = 0; nx < ny; nx++)
 		        xss[0][nx] = nx + 1;
 	}
@@ -3919,7 +3919,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 
 		dim = lastcol - firstcol + 1;
 		copy = value_duplicate (argv[1]);
-		xss = g_new (gnum_float *, dim);
+		xss = g_new (gnm_float *, dim);
 		for (i = firstcol; i <= lastcol; i++){
 			copy->v_range.cell.a.col = i;
 			copy->v_range.cell.b.col = i;
@@ -3956,7 +3956,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 
 		dim = lastrow - firstrow + 1;
 		copy = value_duplicate (argv[1]);
-		xss = g_new (gnum_float *, dim);
+		xss = g_new (gnm_float *, dim);
 		for (i = firstrow; i <= lastrow; i++){
 			copy->v_range.cell.a.row = i;
 			copy->v_range.cell.b.row = i;
@@ -3981,7 +3981,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 	else { /*Y is none of the above */
 		xarg = 1;
 		dim = 1;
-		xss = g_new (gnum_float *, dim);
+		xss = g_new (gnm_float *, dim);
 		xss[0] = collect_floats_value (argv[1], ei->pos,
 					       COLLECT_IGNORE_STRINGS |
 					       COLLECT_IGNORE_BOOLS,
@@ -4016,7 +4016,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 	} else
 		stat = FALSE;
 
-	linres = g_new (gnum_float, dim + 1);
+	linres = g_new (gnm_float, dim + 1);
 
 	if (linear_regression (xss, dim, ys, nx, affine,
 			       linres, extra_stat) != REG_ok) {
@@ -4124,11 +4124,11 @@ static const char *help_logreg = {
 static Value *
 gnumeric_logreg (FunctionEvalInfo *ei, Value *argv[])
 {
-	gnum_float        **xss = NULL, *ys = NULL;
+	gnm_float        **xss = NULL, *ys = NULL;
 	Value             *result = NULL;
 	int               nx, ny, dim, i;
 	int               xarg = 0;
-	gnum_float        *logreg_res = NULL;
+	gnm_float        *logreg_res = NULL;
 	gboolean          affine, stat, err;
 	enum {
 		ARRAY      = 1,
@@ -4172,8 +4172,8 @@ gnumeric_logreg (FunctionEvalInfo *ei, Value *argv[])
 	if (argv[1] == NULL || (ytype == ARRAY && argv[1]->type != VALUE_ARRAY) ||
 	    (ytype != ARRAY && argv[1]->type != VALUE_CELLRANGE)){
 		dim = 1;
-		xss = g_new (gnum_float *, 1);
-	        xss[0] = g_new (gnum_float, ny);
+		xss = g_new (gnm_float *, 1);
+	        xss[0] = g_new (gnm_float, ny);
 	        for (nx = 0; nx < ny; nx++)
 		        xss[0][nx] = nx + 1;
 	}
@@ -4196,7 +4196,7 @@ gnumeric_logreg (FunctionEvalInfo *ei, Value *argv[])
 
 		dim = lastcol - firstcol + 1;
 		copy = value_duplicate (argv[1]);
-		xss = g_new (gnum_float *, dim);
+		xss = g_new (gnm_float *, dim);
 		for (i = firstcol; i <= lastcol; i++){
 			copy->v_range.cell.a.col = i;
 			copy->v_range.cell.b.col = i;
@@ -4233,7 +4233,7 @@ gnumeric_logreg (FunctionEvalInfo *ei, Value *argv[])
 
 		dim = lastrow - firstrow + 1;
 		copy = value_duplicate (argv[1]);
-		xss = g_new (gnum_float *, dim);
+		xss = g_new (gnm_float *, dim);
 		for (i = firstrow; i <= lastrow; i++){
 			copy->v_range.cell.a.row = i;
 			copy->v_range.cell.b.row = i;
@@ -4258,7 +4258,7 @@ gnumeric_logreg (FunctionEvalInfo *ei, Value *argv[])
 	else { /*Y is none of the above */
 		xarg = 1;
 		dim = 1;
-		xss = g_new (gnum_float *, dim);
+		xss = g_new (gnm_float *, dim);
 		xss[0] = collect_floats_value (argv[1], ei->pos,
 					       COLLECT_IGNORE_STRINGS |
 					       COLLECT_IGNORE_BOOLS,
@@ -4293,7 +4293,7 @@ gnumeric_logreg (FunctionEvalInfo *ei, Value *argv[])
 	} else
 		stat = FALSE;
 
-	logreg_res = g_new (gnum_float, dim + 1);
+	logreg_res = g_new (gnm_float, dim + 1);
 
 	if (logarithmic_regression (xss, dim, ys, nx, affine,
 				    logreg_res, extra_stat) != REG_ok) {
@@ -4392,10 +4392,10 @@ static const char *help_logfit = {
 static Value *
 gnumeric_logfit (FunctionEvalInfo *ei, Value *argv[])
 {
-        gnum_float         *xs = NULL, *ys = NULL;
+        gnm_float         *xs = NULL, *ys = NULL;
 	Value              *result = NULL;
 	int                nx, ny, i;
-	gnum_float         *logfit_res = NULL;
+	gnm_float         *logfit_res = NULL;
 
         if (argv[0] == NULL || argv[0]->type != VALUE_CELLRANGE)
 	        goto out;
@@ -4423,7 +4423,7 @@ numbers */
 		goto out;
 	}
 
-	logfit_res = g_new (gnum_float, 5);
+	logfit_res = g_new (gnm_float, 5);
 
 	if (logarithmic_fit (xs, ys, nx, logfit_res) != REG_ok) {
 	        result = value_new_error (ei->pos, gnumeric_err_NUM);
@@ -4473,11 +4473,11 @@ static const char *help_trend = {
 static Value *
 gnumeric_trend (FunctionEvalInfo *ei, Value *argv[])
 {
-	gnum_float  *xs = NULL, *ys = NULL, *nxs = NULL;
+	gnm_float  *xs = NULL, *ys = NULL, *nxs = NULL;
 	Value    *result = NULL;
 	int      nx, ny, nnx, i, dim;
 	gboolean affine, err;
-	gnum_float  linres[2];
+	gnm_float  linres[2];
 
 	ys = collect_floats_value (argv[0], ei->pos,
 				   COLLECT_IGNORE_STRINGS |
@@ -4518,10 +4518,10 @@ gnumeric_trend (FunctionEvalInfo *ei, Value *argv[])
 						    COLLECT_IGNORE_BOOLS,
 						    &nnx, &result);
 		} else {
-		        xs = g_new (gnum_float, ny);
+		        xs = g_new (gnm_float, ny);
 			for (nx = 0; nx < ny; nx++)
 			        xs[nx] = nx + 1;
-		        nxs = g_new (gnum_float, ny);
+		        nxs = g_new (gnm_float, ny);
 			for (nnx = 0; nnx < ny; nnx++)
 			        xs[nnx] = nnx + 1;
 		}
@@ -4593,11 +4593,11 @@ static const char *help_logest = {
 static Value *
 gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 {
-	gnum_float        **xss = NULL, *ys = NULL;
+	gnm_float        **xss = NULL, *ys = NULL;
 	Value             *result = NULL;
 	int               affine, nx, ny, dim, i;
 	int               xarg = 0;
-	gnum_float        *expres = NULL;
+	gnm_float        *expres = NULL;
 	gboolean          stat, err;
 	regression_stat_t *extra_stat;
 	enum {
@@ -4641,8 +4641,8 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 	if (argv[1] == NULL || (ytype == ARRAY && argv[1]->type != VALUE_ARRAY) ||
 	    (ytype != ARRAY && argv[1]->type != VALUE_CELLRANGE)){
 		dim = 1;
-		xss = g_new (gnum_float *, 1);
-	        xss[0] = g_new (gnum_float, ny);
+		xss = g_new (gnm_float *, 1);
+	        xss[0] = g_new (gnm_float, ny);
 	        for (nx = 0; nx < ny; nx++)
 		        xss[0][nx] = nx + 1;
 	}
@@ -4664,7 +4664,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 
 		dim = lastcol - firstcol + 1;
 		copy = value_duplicate (argv[1]);
-		xss = g_new (gnum_float *, dim);
+		xss = g_new (gnm_float *, dim);
 		for (i = firstcol; i <= lastcol; i++){
 			copy->v_range.cell.a.col = i;
 			copy->v_range.cell.b.col = i;
@@ -4701,7 +4701,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 
 		dim = lastrow - firstrow + 1;
 		copy = value_duplicate (argv[1]);
-		xss = g_new (gnum_float *, dim);
+		xss = g_new (gnm_float *, dim);
 		for (i = firstrow; i <= lastrow; i++){
 			copy->v_range.cell.a.row = i;
 			copy->v_range.cell.b.row = i;
@@ -4726,7 +4726,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 	else { /*Y is none of the above */
 		xarg = 1;
 		dim = 1;
-		xss = g_new (gnum_float *, dim);
+		xss = g_new (gnm_float *, dim);
 		xss[0] = collect_floats_value (argv[1], ei->pos,
 					       COLLECT_IGNORE_STRINGS |
 					       COLLECT_IGNORE_BOOLS,
@@ -4761,7 +4761,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 	} else
 		stat = FALSE;
 
-	expres = g_new (gnum_float, dim + 1);
+	expres = g_new (gnm_float, dim + 1);
 	if (exponential_regression (xss, dim, ys, nx, affine,
 				    expres, extra_stat) != REG_ok) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
@@ -4838,11 +4838,11 @@ static const char *help_growth = {
 static Value *
 gnumeric_growth (FunctionEvalInfo *ei, Value *argv[])
 {
-	gnum_float  *xs = NULL, *ys = NULL, *nxs = NULL;
+	gnm_float  *xs = NULL, *ys = NULL, *nxs = NULL;
 	Value    *result = NULL;
 	gboolean affine, err;
 	int      nx, ny, nnx, i, dim;
-	gnum_float  expres[2];
+	gnm_float  expres[2];
 
 	affine = TRUE;
 
@@ -4883,10 +4883,10 @@ gnumeric_growth (FunctionEvalInfo *ei, Value *argv[])
 						    COLLECT_IGNORE_BOOLS,
 						    &nnx, &result);
 		} else {
-		        xs = g_new (gnum_float, ny);
+		        xs = g_new (gnm_float, ny);
 			for (nx = 0; nx < ny; nx++)
 			        xs[nx] = nx + 1;
-		        nxs = g_new (gnum_float, ny);
+		        nxs = g_new (gnm_float, ny);
 			for (nnx = 0; nnx < ny; nnx++)
 			        nxs[nnx] = nnx + 1;
 		}
@@ -4951,10 +4951,10 @@ static const char *help_forecast = {
 static Value *
 gnumeric_forecast (FunctionEvalInfo *ei, Value *argv[])
 {
-	gnum_float x, *xs = NULL, *ys = NULL;
+	gnm_float x, *xs = NULL, *ys = NULL;
 	Value *result = NULL;
 	int nx, ny, dim;
-	gnum_float linres[2];
+	gnm_float linres[2];
 
 	x = value_get_as_float (argv[0]);
 
@@ -5018,12 +5018,12 @@ static const char *help_intercept = {
 };
 
 static int
-range_intercept (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
+range_intercept (const gnm_float *xs, const gnm_float *ys, int n, gnm_float *res)
 {
-	gnum_float linres[2];
+	gnm_float linres[2];
 	int dim = 1;
 
-	if (linear_regression ((gnum_float **)&xs, dim,
+	if (linear_regression ((gnm_float **)&xs, dim,
 			       ys, n, 1, linres, NULL) != REG_ok)
 		return 1;
 
@@ -5062,12 +5062,12 @@ static const char *help_slope = {
 };
 
 static int
-range_slope (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
+range_slope (const gnm_float *xs, const gnm_float *ys, int n, gnm_float *res)
 {
-	gnum_float linres[2];
+	gnm_float linres[2];
 	int dim = 1;
 
-	if (linear_regression ((gnum_float **)&xs, dim,
+	if (linear_regression ((gnm_float **)&xs, dim,
 			       ys, n, 1, linres, NULL) != REG_ok)
 		return 1;
 
@@ -5252,8 +5252,8 @@ gnumeric_cronbach (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	int         k, i, j;
 	Value **values;
-	gnum_float sum_variance = 0.0;
-	gnum_float sum_covariance = 0.0;
+	gnm_float sum_variance = 0.0;
+	gnm_float sum_covariance = 0.0;
 	GnmExprList *list = expr_node_list;
 	GnmExprList *short_list;
 
@@ -5340,7 +5340,7 @@ static Value *
 gnumeric_geomdist (FunctionEvalInfo *ei, Value **argv)
 {
 	int        k   = value_get_as_int (argv[0]);
-	gnum_float p   = value_get_as_float (argv[1]);
+	gnm_float p   = value_get_as_float (argv[1]);
 	gboolean   cum = value_get_as_int (argv[2]);
 
 	if (p < 0 || p > 1 || k < 0 || (cum != TRUE && cum != FALSE))
@@ -5368,10 +5368,10 @@ static const char *help_logistic = {
            "@SEEALSO=RANDLOGISTIC")
 };
 
-static gnum_float
-random_logistic_pdf (gnum_float x, gnum_float a)
+static gnm_float
+random_logistic_pdf (gnm_float x, gnm_float a)
 {
-        gnum_float u = expgnum (-gnumabs (x) / a);
+        gnm_float u = expgnum (-gnumabs (x) / a);
 
 	return u / (gnumabs (a) * (1 + u) * (1 + u));
 }
@@ -5379,8 +5379,8 @@ random_logistic_pdf (gnum_float x, gnum_float a)
 static Value *
 gnumeric_logistic (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x = value_get_as_float (argv[0]);
-	gnum_float a = value_get_as_float (argv[1]);
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float a = value_get_as_float (argv[1]);
 
 	if (a <= 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -5404,8 +5404,8 @@ static const char *help_pareto = {
            "@SEEALSO=RANDPARETO")
 };
 
-static gnum_float
-random_pareto_pdf (gnum_float x, gnum_float a, gnum_float b)
+static gnm_float
+random_pareto_pdf (gnm_float x, gnm_float a, gnm_float b)
 {
         if (x >= b)
 	        return (a / b) / powgnum (x / b, a + 1);
@@ -5416,9 +5416,9 @@ random_pareto_pdf (gnum_float x, gnum_float a, gnum_float b)
 static Value *
 gnumeric_pareto (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x = value_get_as_float (argv[0]);
-	gnum_float a = value_get_as_float (argv[1]);
-	gnum_float b = value_get_as_float (argv[2]);
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float a = value_get_as_float (argv[1]);
+	gnm_float b = value_get_as_float (argv[2]);
 
 	if (a <= 0 || b <= 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -5442,13 +5442,13 @@ static const char *help_rayleigh = {
            "@SEEALSO=RANDRAYLEIGH")
 };
 
-static gnum_float
-random_rayleigh_pdf (gnum_float x, gnum_float sigma)
+static gnm_float
+random_rayleigh_pdf (gnm_float x, gnm_float sigma)
 {
         if (x < 0)
 	        return 0;
 	else {
-	        gnum_float u = x / sigma;
+	        gnm_float u = x / sigma;
 
 		return (u / sigma) * expgnum (-u * u / 2.0);
 	}
@@ -5457,8 +5457,8 @@ random_rayleigh_pdf (gnum_float x, gnum_float sigma)
 static Value *
 gnumeric_rayleigh (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x     = value_get_as_float (argv[0]);
-	gnum_float sigma = value_get_as_float (argv[1]);
+	gnm_float x     = value_get_as_float (argv[0]);
+	gnm_float sigma = value_get_as_float (argv[1]);
 
 	if (sigma <= 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -5483,14 +5483,14 @@ static const char *help_rayleightail = {
            "@SEEALSO=RANDRAYLEIGHTAIL")
 };
 
-static gnum_float
-random_rayleigh_tail_pdf (gnum_float x, gnum_float a, gnum_float sigma)
+static gnm_float
+random_rayleigh_tail_pdf (gnm_float x, gnm_float a, gnm_float sigma)
 {
         if (x < a)
 	        return 0;
 	else {
-	        gnum_float u = x / sigma ;
-		gnum_float v = a / sigma ;
+	        gnm_float u = x / sigma ;
+		gnm_float v = a / sigma ;
 
 		return (u / sigma) * expgnum ((v + u) * (v - u) / 2.0) ;
 	}
@@ -5499,9 +5499,9 @@ random_rayleigh_tail_pdf (gnum_float x, gnum_float a, gnum_float sigma)
 static Value *
 gnumeric_rayleightail (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x     = value_get_as_float (argv[0]);
-	gnum_float a     = value_get_as_float (argv[1]);
-	gnum_float sigma = value_get_as_float (argv[2]);
+	gnm_float x     = value_get_as_float (argv[0]);
+	gnm_float a     = value_get_as_float (argv[1]);
+	gnm_float sigma = value_get_as_float (argv[2]);
 
 	if (sigma <= 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -5529,9 +5529,9 @@ static const char *help_exppowdist = {
 static Value *
 gnumeric_exppowdist (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x = value_get_as_float (argv[0]);
-	gnum_float a = value_get_as_float (argv[1]);
-	gnum_float b = value_get_as_float (argv[2]);
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float a = value_get_as_float (argv[1]);
+	gnm_float b = value_get_as_float (argv[2]);
 
 	/* FIXME: Check this condition.  */
 	if (b <= 0)
@@ -5559,8 +5559,8 @@ static const char *help_laplace = {
 static Value *
 gnumeric_laplace (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float x = value_get_as_float (argv[0]);
-	gnum_float a = value_get_as_float (argv[1]);
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float a = value_get_as_float (argv[1]);
 
 	if (a <= 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);

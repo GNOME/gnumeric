@@ -71,7 +71,7 @@
  ***********************************************************************/
 
 static inline void
-gsl_complex_mul_imag (const complex_t *a, gnum_float y, complex_t *res)
+gsl_complex_mul_imag (const complex_t *a, gnm_float y, complex_t *res)
 {                               /* z=a*iy */
         complex_init (res, -y * GSL_IMAG (a), y * GSL_REAL (a));
 }
@@ -79,7 +79,7 @@ gsl_complex_mul_imag (const complex_t *a, gnum_float y, complex_t *res)
 void
 gsl_complex_inverse (const complex_t *a, complex_t *res)
 {                               /* z=1/a */
-        gnum_float s = 1.0 / complex_mod (a);
+        gnm_float s = 1.0 / complex_mod (a);
 
 	complex_init (res, (GSL_REAL (a) * s) * s, -(GSL_IMAG (a) * s) * s);
 }
@@ -95,7 +95,7 @@ gsl_complex_negative (const complex_t *a, complex_t *res)
  **********************************************************************/
 
 static void
-gsl_complex_arcsin_real (gnum_float a, complex_t *res)
+gsl_complex_arcsin_real (gnm_float a, complex_t *res)
 {                               /* z = arcsin(a) */
          if (gnumabs (a) <= 1.0) {
 	         complex_init (res, asingnum (a), 0.0);
@@ -111,39 +111,39 @@ gsl_complex_arcsin_real (gnum_float a, complex_t *res)
 void
 gsl_complex_arcsin (const complex_t *a, complex_t *res)
 {                               /* z = arcsin(a) */
-        gnum_float R = GSL_REAL (a), I = GSL_IMAG (a);
+        gnm_float R = GSL_REAL (a), I = GSL_IMAG (a);
 
 	if (I == 0) {
 	        gsl_complex_arcsin_real (R, res);
 	} else {
-	        gnum_float x = gnumabs (R), y = gnumabs (I);
-		gnum_float r = hypotgnum (x + 1, y);
-		gnum_float s = hypotgnum (x - 1, y);
-		gnum_float A = 0.5 * (r + s);
-		gnum_float B = x / A;
-		gnum_float y2 = y * y;
+	        gnm_float x = gnumabs (R), y = gnumabs (I);
+		gnm_float r = hypotgnum (x + 1, y);
+		gnm_float s = hypotgnum (x - 1, y);
+		gnm_float A = 0.5 * (r + s);
+		gnm_float B = x / A;
+		gnm_float y2 = y * y;
 
-		gnum_float real, imag;
+		gnm_float real, imag;
 
-		const gnum_float A_crossover = 1.5, B_crossover = 0.6417;
+		const gnm_float A_crossover = 1.5, B_crossover = 0.6417;
 
 		if (B <= B_crossover) {
 		        real = asingnum (B);
 		} else {
 		        if (x <= 1) {
-			        gnum_float D = 0.5 * (A + x) *
+			        gnm_float D = 0.5 * (A + x) *
 				        (y2 / (r + x + 1) + (s + (1 - x)));
 				real = atangnum (x / sqrtgnum (D));
 			} else {
-			        gnum_float Apx = A + x;
-				gnum_float D = 0.5 * (Apx / (r + x + 1)
+			        gnm_float Apx = A + x;
+				gnm_float D = 0.5 * (Apx / (r + x + 1)
 						      + Apx / (s + (x - 1)));
 				real = atangnum (x / (y * sqrtgnum (D)));
 			}
 		}
 
 		if (A <= A_crossover) {
-		        gnum_float Am1;
+		        gnm_float Am1;
 
 			if (x < 1) {
 			        Am1 = 0.5 * (y2 / (r + (x + 1)) + y2 /
@@ -164,7 +164,7 @@ gsl_complex_arcsin (const complex_t *a, complex_t *res)
 }
 
 static void
-gsl_complex_arccos_real (gnum_float a, complex_t *res)
+gsl_complex_arccos_real (gnm_float a, complex_t *res)
 {                               /* z = arccos(a) */
         if (gnumabs (a) <= 1.0) {
 	        complex_init (res, acosgnum (a), 0);
@@ -180,40 +180,40 @@ gsl_complex_arccos_real (gnum_float a, complex_t *res)
 void
 gsl_complex_arccos (const complex_t *a, complex_t *res)
 {                               /* z = arccos(a) */
-        gnum_float R = GSL_REAL (a), I = GSL_IMAG (a);
+        gnm_float R = GSL_REAL (a), I = GSL_IMAG (a);
 
 	if (I == 0) {
 	        gsl_complex_arccos_real (R, res);
 	} else {
-	        gnum_float x = gnumabs (R);
-		gnum_float y = gnumabs (I);
-		gnum_float r = hypotgnum (x + 1, y);
-		gnum_float s = hypotgnum (x - 1, y);
-		gnum_float A = 0.5 * (r + s);
-		gnum_float B = x / A;
-		gnum_float y2 = y * y;
+	        gnm_float x = gnumabs (R);
+		gnm_float y = gnumabs (I);
+		gnm_float r = hypotgnum (x + 1, y);
+		gnm_float s = hypotgnum (x - 1, y);
+		gnm_float A = 0.5 * (r + s);
+		gnm_float B = x / A;
+		gnm_float y2 = y * y;
 
-		gnum_float real, imag;
+		gnm_float real, imag;
 
-		const gnum_float A_crossover = 1.5;
-		const gnum_float B_crossover = 0.6417;
+		const gnm_float A_crossover = 1.5;
+		const gnm_float B_crossover = 0.6417;
 
 		if (B <= B_crossover) {
 		        real = acosgnum (B);
 		} else {
 		        if (x <= 1) {
-			        gnum_float D = 0.5 * (A + x) *
+			        gnm_float D = 0.5 * (A + x) *
 				        (y2 / (r + x + 1) + (s + (1 - x)));
 				real = atangnum (sqrtgnum (D) / x);
 			} else {
-			        gnum_float Apx = A + x;
-				gnum_float D = 0.5 * (Apx / (r + x + 1) + Apx /
+			        gnm_float Apx = A + x;
+				gnm_float D = 0.5 * (Apx / (r + x + 1) + Apx /
 						      (s + (x - 1)));
 				real = atangnum ((y * sqrtgnum (D)) / x);
 			}
 		}
 		if (A <= A_crossover) {
-		        gnum_float Am1;
+		        gnm_float Am1;
 
 			if (x < 1) {
 			        Am1 = 0.5 * (y2 / (r + (x + 1)) + y2 /
@@ -236,7 +236,7 @@ gsl_complex_arccos (const complex_t *a, complex_t *res)
 void
 gsl_complex_arctan (const complex_t *a, complex_t *res)
 {                               /* z = arctan(a) */
-        gnum_float R = GSL_REAL (a), I = GSL_IMAG (a);
+        gnm_float R = GSL_REAL (a), I = GSL_IMAG (a);
 
 	if (I == 0) {
 	        complex_init (res, atangnum (R), 0);
@@ -245,11 +245,11 @@ gsl_complex_arctan (const complex_t *a, complex_t *res)
 		 * take into account cancellation errors, overflow, underflow
 		 * etc.  It would benefit from the Hull et al treatment. */
 
-	        gnum_float r = hypotgnum (R, I);
+	        gnm_float r = hypotgnum (R, I);
 
-		gnum_float imag;
+		gnm_float imag;
 
-		gnum_float u = 2 * I / (1 + r * r);
+		gnm_float u = 2 * I / (1 + r * r);
 
 		/* FIXME: the following cross-over should be optimized but 0.1
 		 * seems to work ok */
@@ -257,8 +257,8 @@ gsl_complex_arctan (const complex_t *a, complex_t *res)
 		if (gnumabs (u) < 0.1) {
 		        imag = 0.25 * (log1pgnum (u) - log1pgnum (-u));
 		} else {
-		        gnum_float A = hypotgnum (R, I + 1);
-			gnum_float B = hypotgnum (R, I - 1);
+		        gnm_float A = hypotgnum (R, I + 1);
+			gnm_float B = hypotgnum (R, I - 1);
 			imag = 0.5 * loggnum (A / B);
 		}
 		if (R == 0) {
@@ -309,7 +309,7 @@ gsl_complex_arccot (const complex_t *a, complex_t *res)
 void
 gsl_complex_sinh (const complex_t *a, complex_t *res)
 {                               /* z = sinh(a) */
-        gnum_float R = GSL_REAL (a), I = GSL_IMAG (a);
+        gnm_float R = GSL_REAL (a), I = GSL_IMAG (a);
 
 	complex_init (res, sinhgnum (R) * cosgnum (I), cosh (R) * singnum (I));
 }
@@ -317,7 +317,7 @@ gsl_complex_sinh (const complex_t *a, complex_t *res)
 void
 gsl_complex_cosh (const complex_t *a, complex_t *res)
 {                               /* z = cosh(a) */
-        gnum_float R = GSL_REAL (a), I = GSL_IMAG (a);
+        gnm_float R = GSL_REAL (a), I = GSL_IMAG (a);
 
 	complex_init (res, cosh (R) * cosgnum (I), sinhgnum (R) * singnum (I));
 }
@@ -325,20 +325,20 @@ gsl_complex_cosh (const complex_t *a, complex_t *res)
 void
 gsl_complex_tanh (const complex_t *a, complex_t *res)
 {                               /* z = tanh(a) */
-        gnum_float R = GSL_REAL (a), I = GSL_IMAG (a);
+        gnm_float R = GSL_REAL (a), I = GSL_IMAG (a);
 
 	if (gnumabs (R) < 1.0) {
-	         gnum_float D =
+	         gnm_float D =
 			 powgnum (cosgnum (I), 2.0) +
 			 powgnum (sinhgnum (R), 2.0);
 
 		 complex_init (res, sinhgnum (R) * cosh (R) / D,
 			       0.5 * singnum (2 * I) / D);
 	} else {
-	         gnum_float D =
+	         gnm_float D =
 			 powgnum (cosgnum (I), 2.0) +
 			 powgnum (sinhgnum (R), 2.0);
-		 gnum_float F = 1 + powgnum (cosgnum (I) / sinhgnum (R), 2.0);
+		 gnm_float F = 1 + powgnum (cosgnum (I) / sinhgnum (R), 2.0);
 
 		 complex_init (res, 1.0 / (tanhgnum (R) * F),
 			       0.5 * singnum (2 * I) / D);
@@ -386,7 +386,7 @@ gsl_complex_arccosh (const complex_t *a, complex_t *res)
 }
 
 static void
-gsl_complex_arctanh_real (gnum_float a, complex_t *res)
+gsl_complex_arctanh_real (gnm_float a, complex_t *res)
 {                               /* z = arctanh(a) */
         if (a > -1.0 && a < 1.0) {
 	        complex_init (res, atanhgnum (a), 0);

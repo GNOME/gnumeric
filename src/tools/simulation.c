@@ -47,20 +47,20 @@
 static void
 init_stats (simstats_t *stats, simulation_t *sim)
 {
-	stats->min        = g_new (gnum_float, sim->n_vars);
-	stats->max        = g_new (gnum_float, sim->n_vars);
-	stats->mean       = g_new (gnum_float, sim->n_vars);
-	stats->median     = g_new (gnum_float, sim->n_vars);
-	stats->median     = g_new (gnum_float, sim->n_vars);
-	stats->mode       = g_new (gnum_float, sim->n_vars);
-	stats->stddev     = g_new (gnum_float, sim->n_vars);
-	stats->var        = g_new (gnum_float, sim->n_vars);
-	stats->skew       = g_new (gnum_float, sim->n_vars);
-	stats->kurtosis   = g_new (gnum_float, sim->n_vars);
-	stats->range      = g_new (gnum_float, sim->n_vars);
-	stats->confidence = g_new (gnum_float, sim->n_vars);
-	stats->lower      = g_new (gnum_float, sim->n_vars);
-	stats->upper      = g_new (gnum_float, sim->n_vars);
+	stats->min        = g_new (gnm_float, sim->n_vars);
+	stats->max        = g_new (gnm_float, sim->n_vars);
+	stats->mean       = g_new (gnm_float, sim->n_vars);
+	stats->median     = g_new (gnm_float, sim->n_vars);
+	stats->median     = g_new (gnm_float, sim->n_vars);
+	stats->mode       = g_new (gnm_float, sim->n_vars);
+	stats->stddev     = g_new (gnm_float, sim->n_vars);
+	stats->var        = g_new (gnm_float, sim->n_vars);
+	stats->skew       = g_new (gnm_float, sim->n_vars);
+	stats->kurtosis   = g_new (gnm_float, sim->n_vars);
+	stats->range      = g_new (gnm_float, sim->n_vars);
+	stats->confidence = g_new (gnm_float, sim->n_vars);
+	stats->lower      = g_new (gnm_float, sim->n_vars);
+	stats->upper      = g_new (gnm_float, sim->n_vars);
 	stats->errmask    = g_new (int, sim->n_vars);
 }
 
@@ -84,7 +84,7 @@ free_stats (simstats_t *stats, __attribute__((unused)) simulation_t *sim)
 }
 
 static const gchar *
-eval_inputs_list (simulation_t *sim, gnum_float **outputs, int iter,
+eval_inputs_list (simulation_t *sim, gnm_float **outputs, int iter,
 		  __attribute__((unused)) int round)
 {
 	GSList *cur;
@@ -111,7 +111,7 @@ eval_inputs_list (simulation_t *sim, gnum_float **outputs, int iter,
 }
 
 static const gchar *
-eval_outputs_list (simulation_t *sim, gnum_float **outputs, int iter,
+eval_outputs_list (simulation_t *sim, gnm_float **outputs, int iter,
 		   __attribute__((unused)) int round)
 {
 	GSList *cur;
@@ -137,7 +137,7 @@ eval_outputs_list (simulation_t *sim, gnum_float **outputs, int iter,
 }
 
 static const gchar *
-recompute_outputs (simulation_t *sim, gnum_float **outputs, int iter,
+recompute_outputs (simulation_t *sim, gnm_float **outputs, int iter,
 		   int round)
 {
 	const gchar *err = eval_inputs_list (sim, outputs, iter, round);
@@ -149,10 +149,10 @@ recompute_outputs (simulation_t *sim, gnum_float **outputs, int iter,
 }
 
 static void
-create_stats (simulation_t *sim, gnum_float **outputs, simstats_t *stats)
+create_stats (simulation_t *sim, gnm_float **outputs, simstats_t *stats)
 {
 	int        i, error;
-	gnum_float x;
+	gnm_float x;
 
 	/* Initialize. */
 	for (i = 0; i < sim->n_vars; i++)
@@ -359,7 +359,7 @@ simulation_tool (WorkbookControl        *wbc,
 		 simulation_t           *sim)
 {
 	int          round, i;
-	gnum_float   **outputs;
+	gnm_float   **outputs;
 	simstats_t   **stats;
 	Sheet        *sheet;
 	gchar const  *err;
@@ -371,9 +371,9 @@ simulation_tool (WorkbookControl        *wbc,
 
 	/* Initialize results storage. */
 	sim->cellnames = g_new (gchar *, sim->n_vars);
-	outputs        = g_new (gnum_float *, sim->n_vars);
+	outputs        = g_new (gnm_float *, sim->n_vars);
 	for (i = 0; i < sim->n_vars; i++)
-		outputs [i] = g_new (gnum_float, sim->n_iterations);
+		outputs [i] = g_new (gnm_float, sim->n_iterations);
 
 	stats     = g_new (simstats_t *, sim->last_round + 1);
 	for (i = 0; i <= sim->last_round; i++) {

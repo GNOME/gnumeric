@@ -1063,7 +1063,7 @@ cb_change_zoom (GtkWidget *caller, char *new_zoom, WorkbookControlGUI *wbcg)
 
 	errno = 0; /* strtol sets errno, but does not clear it.  */
 	factor = strtol (new_zoom, &end, 10);
-	if (new_zoom != end && errno != ERANGE && factor == (gnum_float)factor)
+	if (new_zoom != end && errno != ERANGE && factor == (gnm_float)factor)
 		/* The GSList of sheet passed to cmd_zoom will be freed by cmd_zoom,
 		 * and the sheet will fore an updat eof the zoom combo to keep the
 		 * display consistent

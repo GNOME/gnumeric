@@ -34,22 +34,22 @@
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- gnum_float spx_eval_xn_j(LPX *lp, int j);
+-- gnm_float spx_eval_xn_j(LPX *lp, int j);
 --
 -- *Returns*
 --
 -- The routine spx_eval_xn_j returns a value of the non-basic variable
 -- xN[j], 1 <= j <= n, for the current basic solution. */
 
-gnum_float spx_eval_xn_j(LPX *lp, int j)
+gnm_float spx_eval_xn_j(LPX *lp, int j)
 {     int m = lp->m;
       int n = lp->n;
-      gnum_float *lb = lp->lb;
-      gnum_float *ub = lp->ub;
+      gnm_float *lb = lp->lb;
+      gnm_float *ub = lp->ub;
       int *tagx = lp->tagx;
       int *indx = lp->indx;
       int k;
-      gnum_float xn_j;
+      gnm_float xn_j;
       insist(1 <= j && j <= n);
       k = indx[m+j]; /* x[k] = xN[j] */
       switch (tagx[k])
@@ -103,11 +103,11 @@ void spx_eval_bbar(LPX *lp)
       int *aa_ptr = lp->A->ptr;
       int *aa_len = lp->A->len;
       int *sv_ndx = lp->A->ndx;
-      gnum_float *sv_val = lp->A->val;
+      gnm_float *sv_val = lp->A->val;
       int *indx = lp->indx;
-      gnum_float *bbar = lp->bbar;
+      gnm_float *bbar = lp->bbar;
       int i, j, j_beg, j_end, j_ptr, k;
-      gnum_float *rhs = bbar, xn_j;
+      gnm_float *rhs = bbar, xn_j;
       /* rhs := - N*xN = - N[1]*xN[1] - ... - N[n]*xN[n] */
       for (i = 1; i <= m; i++) rhs[i] = 0.0;
       for (j = 1; j <= n; j++)
@@ -158,10 +158,10 @@ void spx_eval_bbar(LPX *lp)
 
 void spx_eval_pi(LPX *lp)
 {     int m = lp->m;
-      gnum_float *coef = lp->coef;
+      gnm_float *coef = lp->coef;
       int *indx = lp->indx;
       int i;
-      gnum_float *cb = lp->pi;
+      gnm_float *cb = lp->pi;
       /* make the vector cB */
       for (i = 1; i <= m; i++) cb[i] = coef[indx[i]];
       /* pi := inv(B') * cB */
@@ -198,16 +198,16 @@ void spx_eval_pi(LPX *lp)
 void spx_eval_cbar(LPX *lp)
 {     int m = lp->m;
       int n = lp->n;
-      gnum_float *coef = lp->coef;
+      gnm_float *coef = lp->coef;
       int *aa_ptr = lp->A->ptr;
       int *aa_len = lp->A->len;
       int *sv_ndx = lp->A->ndx;
-      gnum_float *sv_val = lp->A->val;
+      gnm_float *sv_val = lp->A->val;
       int *indx = lp->indx;
-      gnum_float *pi = lp->pi;
-      gnum_float *cbar = lp->cbar;
+      gnm_float *pi = lp->pi;
+      gnm_float *cbar = lp->cbar;
       int j, j_beg, j_end, j_ptr, k;
-      gnum_float cbar_j;
+      gnm_float cbar_j;
       /* d[j] := cN[j] - pi' * N[j] */
       for (j = 1; j <= n; j++)
       {  k = indx[m+j]; /* x[k] = xN[j] */
@@ -234,22 +234,22 @@ void spx_eval_cbar(LPX *lp)
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- gnum_float spx_eval_obj(LPX *lp);
+-- gnm_float spx_eval_obj(LPX *lp);
 --
 -- *Returns*
 --
 -- The routine spx_eval_obj returns the current value of the objective
 -- function (used mainly for displaying). */
 
-gnum_float spx_eval_obj(LPX *lp)
+gnm_float spx_eval_obj(LPX *lp)
 {     int m = lp->m;
       int n = lp->n;
       int *tagx = lp->tagx;
       int *posx = lp->posx;
-      gnum_float *coef = lp->coef;
-      gnum_float *bbar = lp->bbar;
+      gnm_float *coef = lp->coef;
+      gnm_float *bbar = lp->bbar;
       int i, j, k;
-      gnum_float obj = coef[0];
+      gnm_float obj = coef[0];
       for (k = 1; k <= m+n; k++)
       {  if (tagx[k] == LPX_BS)
          {  /* x[k] = xB[i] */
@@ -272,7 +272,7 @@ gnum_float spx_eval_obj(LPX *lp)
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- void spx_eval_col(LPX *lp, int j, gnum_float col[], int save);
+-- void spx_eval_col(LPX *lp, int j, gnm_float col[], int save);
 --
 -- *Description*
 --
@@ -293,16 +293,16 @@ gnum_float spx_eval_obj(LPX *lp)
 -- where N[j] is the j-th column of the augmented constraint matrix A~,
 -- which corresponds to the non-basic variable xN[j]. */
 
-void spx_eval_col(LPX *lp, int j, gnum_float col[], int save)
+void spx_eval_col(LPX *lp, int j, gnm_float col[], int save)
 {     int m = lp->m;
       int n = lp->n;
       int *aa_ptr = lp->A->ptr;
       int *aa_len = lp->A->len;
       int *sv_ndx = lp->A->ndx;
-      gnum_float *sv_val = lp->A->val;
+      gnm_float *sv_val = lp->A->val;
       int *indx = lp->indx;
       int i, j_beg, j_end, j_ptr, k;
-      gnum_float *rhs = col;
+      gnm_float *rhs = col;
       insist(1 <= j && j <= n);
       /* rhs := N[j] */
       for (i = 1; i <= m; i++) rhs[i] = 0.0;
@@ -330,7 +330,7 @@ void spx_eval_col(LPX *lp, int j, gnum_float col[], int save)
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- void spx_eval_rho(LPX *lp, int i, gnum_float rho[]);
+-- void spx_eval_rho(LPX *lp, int i, gnm_float rho[]);
 --
 -- *Description*
 --
@@ -345,10 +345,10 @@ void spx_eval_col(LPX *lp, int j, gnum_float col[], int save)
 -- where B' is a matrix transposed to B, e[i] is a unity vector, which
 -- contains one in the i-th position. */
 
-void spx_eval_rho(LPX *lp, int i, gnum_float rho[])
+void spx_eval_rho(LPX *lp, int i, gnm_float rho[])
 {     int m = lp->m;
       int j;
-      gnum_float *rhs = rho;
+      gnm_float *rhs = rho;
       insist(1 <= i && i <= m);
       for (j = 1; j <= m; j++) rhs[j] = 0.0;
       rhs[i] = +1.0;
@@ -362,7 +362,7 @@ void spx_eval_rho(LPX *lp, int i, gnum_float rho[])
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- void spx_eval_row(LPX *lp, gnum_float rho[], gnum_float row[]);
+-- void spx_eval_row(LPX *lp, gnm_float rho[], gnm_float row[]);
 --
 -- *Description*
 --
@@ -384,16 +384,16 @@ void spx_eval_rho(LPX *lp, int i, gnum_float rho[])
 -- of the augmented constraint matrix A~, N'[i] is the i-th row of the
 -- matrix N. */
 
-void spx_eval_row(LPX *lp, gnum_float rho[], gnum_float row[])
+void spx_eval_row(LPX *lp, gnm_float rho[], gnm_float row[])
 {     int m = lp->m;
       int n = lp->n;
       int *aa_ptr = lp->A->ptr;
       int *aa_len = lp->A->len;
       int *sv_ndx = lp->A->ndx;
-      gnum_float *sv_val = lp->A->val;
+      gnm_float *sv_val = lp->A->val;
       int *posx = lp->posx;
       int i, i_beg, i_end, i_ptr, j;
-      gnum_float rho_i;
+      gnm_float rho_i;
       for (j = 1; j <= n; j++) row[j] = 0.0;
       for (i = 1; i <= m; i++)
       {  rho_i = rho[i];
@@ -429,7 +429,7 @@ void spx_eval_row(LPX *lp, gnum_float rho[], gnum_float row[])
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- gnum_float spx_check_bbar(LPX *lp, gnum_float tol);
+-- gnm_float spx_check_bbar(LPX *lp, gnm_float tol);
 --
 -- *Description*
 --
@@ -442,16 +442,16 @@ void spx_eval_row(LPX *lp, gnum_float rho[], gnum_float row[])
 -- The routine returns the non-positive sum of primal infeasibilities.
 -- If the basic solution is primal feasible, this sum is exact zero. */
 
-gnum_float spx_check_bbar(LPX *lp, gnum_float tol)
+gnm_float spx_check_bbar(LPX *lp, gnm_float tol)
 {     int m = lp->m;
       int *typx = lp->typx;
-      gnum_float *lb = lp->lb;
-      gnum_float *ub = lp->ub;
+      gnm_float *lb = lp->lb;
+      gnm_float *ub = lp->ub;
       int *indx = lp->indx;
-      gnum_float *bbar = lp->bbar;
+      gnm_float *bbar = lp->bbar;
       int i, k, typx_k;
-      gnum_float lb_k, ub_k, bbar_i;
-      gnum_float sum = 0.0;
+      gnm_float lb_k, ub_k, bbar_i;
+      gnm_float sum = 0.0;
       for (i = 1; i <= m; i++)
       {  k = indx[i]; /* x[k] = xB[i] */
          typx_k = typx[k];
@@ -478,7 +478,7 @@ gnum_float spx_check_bbar(LPX *lp, gnum_float tol)
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- gnum_float spx_check_cbar(LPX *lp, gnum_float tol);
+-- gnm_float spx_check_cbar(LPX *lp, gnm_float tol);
 --
 -- *Description*
 --
@@ -491,16 +491,16 @@ gnum_float spx_check_bbar(LPX *lp, gnum_float tol)
 -- The routine returns the non-positive sum of dual infeasibilities. If
 -- the basic solution is dual feasible, this sum is exact zero. */
 
-gnum_float spx_check_cbar(LPX *lp, gnum_float tol)
+gnm_float spx_check_cbar(LPX *lp, gnm_float tol)
 {     int m = lp->m;
       int n = lp->n;
-      gnum_float dir = (lp->dir == LPX_MIN ? +1.0 : -1.0);
+      gnm_float dir = (lp->dir == LPX_MIN ? +1.0 : -1.0);
       int *tagx = lp->tagx;
       int *indx = lp->indx;
-      gnum_float *cbar = lp->cbar;
+      gnm_float *cbar = lp->cbar;
       int j, k, tagx_k;
-      gnum_float cbar_j;
-      gnum_float sum = 0.0;
+      gnm_float cbar_j;
+      gnm_float sum = 0.0;
       for (j = 1; j <= n; j++)
       {  k = indx[m+j]; /* x[k] = xN[j] */
          tagx_k = tagx[k];
@@ -523,7 +523,7 @@ gnum_float spx_check_cbar(LPX *lp, gnum_float tol)
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- void spx_prim_chuzc(SPX *spx, gnum_float tol);
+-- void spx_prim_chuzc(SPX *spx, gnm_float tol);
 --
 -- *Description*
 --
@@ -553,23 +553,23 @@ gnum_float spx_check_cbar(LPX *lp, gnum_float tol)
 -- Non-zero return code means that the routine recomputed all the basic
 -- solution components in order to improve their numeric accuracy. */
 
-int spx_prim_chuzc(SPX *spx, gnum_float tol)
+int spx_prim_chuzc(SPX *spx, gnm_float tol)
 {     LPX *lp = spx->lp;
       int m = lp->m;
       int n = lp->n;
-      gnum_float dir = (lp->dir == LPX_MIN ? +1.0 : -1.0);
-      gnum_float *coef = lp->coef;
+      gnm_float dir = (lp->dir == LPX_MIN ? +1.0 : -1.0);
+      gnm_float *coef = lp->coef;
       int *aa_ptr = lp->A->ptr;
       int *aa_len = lp->A->len;
       int *sv_ndx = lp->A->ndx;
-      gnum_float *sv_val = lp->A->val;
+      gnm_float *sv_val = lp->A->val;
       int *tagx = lp->tagx;
       int *indx = lp->indx;
-      gnum_float *pi = lp->pi;
-      gnum_float *cbar = lp->cbar;
-      gnum_float *gvec = spx->gvec;
+      gnm_float *pi = lp->pi;
+      gnm_float *cbar = lp->cbar;
+      gnm_float *gvec = spx->gvec;
       int j, j_beg, j_end, j_ptr, k, q, retry = 0;
-      gnum_float best, temp, cbar_j, cbar_q;
+      gnm_float best, temp, cbar_j, cbar_q;
 loop: /* recompute basic solution components (if required) */
       if (retry)
       {  spx_eval_bbar(lp);
@@ -668,7 +668,7 @@ loop: /* recompute basic solution components (if required) */
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- int spx_prim_chuzr(SPX *spx, gnum_float relax);
+-- int spx_prim_chuzr(SPX *spx, gnm_float relax);
 --
 -- *Description*
 --
@@ -688,7 +688,7 @@ loop: /* recompute basic solution components (if required) */
 -- the number of this variable, 1 <= p <= m, and also provide the tag
 -- p_tag, which should be set for xB[p] after it has left the basis.
 -- The special case p < 0 means that the non-basic variable xN[q] being
--- gnum_float-bounded just goes to its opposite bound, so the current basis
+-- gnm_float-bounded just goes to its opposite bound, so the current basis
 -- remains unchanged. If xN[q] can infinitely change and therefore the
 -- choice cannot be made, the routine sets p to 0.
 --
@@ -699,21 +699,21 @@ loop: /* recompute basic solution components (if required) */
 -- it is desirable to reinvert the current basis matrix and repeat the
 -- choice. */
 
-int spx_prim_chuzr(SPX *spx, gnum_float relax)
+int spx_prim_chuzr(SPX *spx, gnm_float relax)
 {     LPX *lp = spx->lp;
       int m = lp->m;
       int n = lp->n;
       int *typx = lp->typx;
-      gnum_float *lb = lp->lb;
-      gnum_float *ub = lp->ub;
-      gnum_float dir = (lp->dir == LPX_MIN ? +1.0 : -1.0);
-      gnum_float *bbar = lp->bbar;
-      gnum_float *cbar = lp->cbar;
+      gnm_float *lb = lp->lb;
+      gnm_float *ub = lp->ub;
+      gnm_float dir = (lp->dir == LPX_MIN ? +1.0 : -1.0);
+      gnm_float *bbar = lp->bbar;
+      gnm_float *cbar = lp->cbar;
       int *indx = lp->indx;
       int q = spx->q;
-      gnum_float *aq = spx->aq;
+      gnm_float *aq = spx->aq;
       int i, i_tag, k, p, p_tag, ret = 0;
-      gnum_float aq_i, abs_aq_i, big, eps, temp, teta;
+      gnm_float aq_i, abs_aq_i, big, eps, temp, teta;
       insist(1 <= q && q <= n);
       /* turn to the case of increasing xN[q] in order to simplify the
          program logic */
@@ -803,7 +803,7 @@ up_1:          if (aq_i < +eps) continue;
          (in absolute value) influence coefficient (element of the q-th
          column of the simplex table) */
       teta *= (1.0 + 3.0 * DBL_EPSILON);
-      /* if xN[q] is gnum_float-bounded variable and can go to the opposite
+      /* if xN[q] is gnm_float-bounded variable and can go to the opposite
          bound, it is reasonable to choose it */
       k = indx[m+q]; /* x[k] = xN[q] */
       if (typx[k] == LPX_DB && ub[k] - lb[k] <= teta)
@@ -871,7 +871,7 @@ done: /* restore original signs of the coefficients aq[i] */
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- void spx_dual_chuzr(SPX *spx, gnum_float tol);
+-- void spx_dual_chuzr(SPX *spx, gnm_float tol);
 --
 -- *Description*
 --
@@ -899,22 +899,22 @@ done: /* restore original signs of the coefficients aq[i] */
 -- the number of this variable, 1 <= p <= m, and also provide the tag
 -- p_tag, which should be set for xB[p] after it has left the basis.
 -- Note that if xB[p] is fixed variable, the routine sets the tag as if
--- xB[p] were gnum_float-bounded variable; this is used in order to know in
+-- xB[p] were gnm_float-bounded variable; this is used in order to know in
 -- what direction this variable will change leaving the basis. If the
 -- current basis is primal feasible and therefore no choice has been
 -- made, the routine sets p to 0. */
 
-void spx_dual_chuzr(SPX *spx, gnum_float tol)
+void spx_dual_chuzr(SPX *spx, gnm_float tol)
 {     LPX *lp = spx->lp;
       int m = lp->m;
       int *typx = lp->typx;
-      gnum_float *lb = lp->lb;
-      gnum_float *ub = lp->ub;
+      gnm_float *lb = lp->lb;
+      gnm_float *ub = lp->ub;
       int *indx = lp->indx;
-      gnum_float *bbar = lp->bbar;
-      gnum_float *dvec = spx->dvec;
+      gnm_float *bbar = lp->bbar;
+      gnm_float *dvec = spx->dvec;
       int i, k, p, p_tag, typx_k;
-      gnum_float best, lb_k, ub_k, bbar_i, temp;
+      gnm_float best, lb_k, ub_k, bbar_i, temp;
       /* nothing chosen so far */
       p = 0, p_tag = 0, best = 0.0;
       /* look through the list of basic variables */
@@ -955,7 +955,7 @@ void spx_dual_chuzr(SPX *spx, gnum_float tol)
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- int spx_dual_chuzc(SPX *spx, gnum_float relax);
+-- int spx_dual_chuzc(SPX *spx, gnm_float relax);
 --
 -- *Description*
 --
@@ -978,19 +978,19 @@ void spx_dual_chuzr(SPX *spx, gnum_float tol)
 -- can infinitely change and therefore the choice cannot be made, the
 -- routine sets q to 0. */
 
-int spx_dual_chuzc(SPX *spx, gnum_float relax)
+int spx_dual_chuzc(SPX *spx, gnm_float relax)
 {     LPX *lp = spx->lp;
       int m = lp->m;
       int n = lp->n;
-      gnum_float dir = (lp->dir == LPX_MIN ? +1.0 : -1.0);
+      gnm_float dir = (lp->dir == LPX_MIN ? +1.0 : -1.0);
       int *indx = lp->indx;
       int *tagx = lp->tagx;
-      gnum_float *cbar = lp->cbar;
+      gnm_float *cbar = lp->cbar;
       int p = spx->p;
       int p_tag = spx->p_tag;
-      gnum_float *ap = spx->ap;
+      gnm_float *ap = spx->ap;
       int j, k, q, ret = 0;
-      gnum_float big, eps, teta, ap_j, abs_ap_j, temp;
+      gnm_float big, eps, teta, ap_j, abs_ap_j, temp;
       insist(1 <= p && p <= m);
       insist(p_tag == LPX_NL || p_tag == LPX_NU);
       /* turn to the case of increasing xB[p] in order to simplify the
@@ -1123,7 +1123,7 @@ done: /* restore original signs of the coefficients ap[j] */
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- void spx_update_bbar(SPX *spx, gnum_float *obj);
+-- void spx_update_bbar(SPX *spx, gnm_float *obj);
 --
 -- *Description*
 --
@@ -1138,22 +1138,22 @@ done: /* restore original signs of the coefficients ap[j] */
 -- variable xN[q] (that define the adjacent basis) have been chosen but
 -- the current basis has not been changed yet. */
 
-void spx_update_bbar(SPX *spx, gnum_float *obj)
+void spx_update_bbar(SPX *spx, gnm_float *obj)
 {     LPX *lp = spx->lp;
       int m = lp->m;
       int n = lp->n;
       int *typx = lp->typx;
-      gnum_float *lb = lp->lb;
-      gnum_float *ub = lp->ub;
+      gnm_float *lb = lp->lb;
+      gnm_float *ub = lp->ub;
       int *tagx = lp->tagx;
       int *indx = lp->indx;
-      gnum_float *bbar = lp->bbar;
+      gnm_float *bbar = lp->bbar;
       int p = spx->p;
       int p_tag = spx->p_tag;
       int q = spx->q;
-      gnum_float *aq = spx->aq;
+      gnm_float *aq = spx->aq;
       int i, k;
-      gnum_float aq_i, dxn_q, new_xb_p;
+      gnm_float aq_i, dxn_q, new_xb_p;
       if (p < 0)
       {  /* the special case: xN[q] goes to its opposite bound */
          insist(1 <= q && q <= n);
@@ -1234,14 +1234,14 @@ void spx_update_pi(SPX *spx)
 {     LPX *lp = spx->lp;
       int m = lp->m;
       int n = lp->n;
-      gnum_float *pi = lp->pi;
-      gnum_float *cbar = lp->cbar;
+      gnm_float *pi = lp->pi;
+      gnm_float *cbar = lp->cbar;
       int p = spx->p;
       int q = spx->q;
-      gnum_float *zeta = spx->zeta;
-      gnum_float *ap = spx->ap;
+      gnm_float *zeta = spx->zeta;
+      gnm_float *ap = spx->ap;
       int i;
-      gnum_float new_cbar_q, zeta_i;
+      gnm_float new_cbar_q, zeta_i;
       /* xB[p] will leave and xN[q] will enter the basis */
       insist(1 <= p && p <= m);
       insist(1 <= q && q <= n);
@@ -1281,12 +1281,12 @@ void spx_update_cbar(SPX *spx, int all)
       int n = lp->n;
       int *tagx = lp->tagx;
       int *indx = lp->indx;
-      gnum_float *cbar = lp->cbar;
+      gnm_float *cbar = lp->cbar;
       int p = spx->p;
       int q = spx->q;
-      gnum_float *ap = spx->ap;
+      gnm_float *ap = spx->ap;
       int j, k;
-      gnum_float new_cbar_q, ap_j;
+      gnm_float new_cbar_q, ap_j;
       /* xB[p] will leave and xN[q] will enter the basis */
       insist(1 <= p && p <= m);
       insist(1 <= q && q <= n);
@@ -1325,7 +1325,7 @@ void spx_update_cbar(SPX *spx, int all)
 -- basis matrix for the adjacent basis.
 --
 -- In the specilal case, which is indicated by p < 0, the current basis
--- is not changed, but the non-basic gnum_float-bounded variable xN[q] goes
+-- is not changed, but the non-basic gnm_float-bounded variable xN[q] goes
 -- from its current bound to the opposite one.
 --
 -- *Returns*
@@ -1395,7 +1395,7 @@ int spx_change_basis(SPX *spx)
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- gnum_float spx_err_in_bbar(SPX *spx);
+-- gnm_float spx_err_in_bbar(SPX *spx);
 --
 -- *Returns*
 --
@@ -1408,13 +1408,13 @@ int spx_change_basis(SPX *spx)
 --
 -- This routine is intended for debugging purposes only. */
 
-gnum_float spx_err_in_bbar(SPX *spx)
+gnm_float spx_err_in_bbar(SPX *spx)
 {     LPX *lp = spx->lp;
       int m = lp->m;
-      gnum_float *bbar = lp->bbar;
+      gnm_float *bbar = lp->bbar;
       int i;
-      gnum_float d, dmax;
-      lp->bbar = ucalloc(1+m, sizeof(gnum_float));
+      gnm_float d, dmax;
+      lp->bbar = ucalloc(1+m, sizeof(gnm_float));
       spx_eval_bbar(lp);
       dmax = 0.0;
       for (i = 1; i <= m; i++)
@@ -1432,7 +1432,7 @@ gnum_float spx_err_in_bbar(SPX *spx)
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- gnum_float spx_err_in_pi(SPX *spx);
+-- gnm_float spx_err_in_pi(SPX *spx);
 --
 -- *Returns*
 --
@@ -1445,13 +1445,13 @@ gnum_float spx_err_in_bbar(SPX *spx)
 --
 -- This routine is intended for debugging purposes only. */
 
-gnum_float spx_err_in_pi(SPX *spx)
+gnm_float spx_err_in_pi(SPX *spx)
 {     LPX *lp = spx->lp;
       int m = lp->m;
-      gnum_float *pi = lp->pi;
+      gnm_float *pi = lp->pi;
       int i;
-      gnum_float d, dmax;
-      lp->pi = ucalloc(1+m, sizeof(gnum_float));
+      gnm_float d, dmax;
+      lp->pi = ucalloc(1+m, sizeof(gnm_float));
       spx_eval_pi(lp);
       dmax = 0.0;
       for (i = 1; i <= m; i++)
@@ -1469,7 +1469,7 @@ gnum_float spx_err_in_pi(SPX *spx)
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- gnum_float spx_err_in_cbar(SPX *spx, int all);
+-- gnm_float spx_err_in_cbar(SPX *spx, int all);
 --
 -- *Returns*
 --
@@ -1483,16 +1483,16 @@ gnum_float spx_err_in_pi(SPX *spx)
 --
 -- This routine is intended for debugging purposes only. */
 
-gnum_float spx_err_in_cbar(SPX *spx, int all)
+gnm_float spx_err_in_cbar(SPX *spx, int all)
 {     LPX *lp = spx->lp;
       int m = lp->m;
       int n = lp->n;
       int *tagx = lp->tagx;
       int *indx = lp->indx;
-      gnum_float *cbar = lp->cbar;
+      gnm_float *cbar = lp->cbar;
       int j, k;
-      gnum_float d, dmax;
-      lp->cbar = ucalloc(1+n, sizeof(gnum_float));
+      gnm_float d, dmax;
+      lp->cbar = ucalloc(1+n, sizeof(gnm_float));
       spx_eval_cbar(lp);
       dmax = 0.0;
       for (j = 1; j <= n; j++)
@@ -1531,8 +1531,8 @@ void spx_reset_refsp(SPX *spx)
       int m = lp->m;
       int n = lp->n;
       int *tagx = lp->tagx;
-      gnum_float *gvec = spx->gvec;
-      gnum_float *dvec = spx->dvec;
+      gnm_float *gvec = spx->gvec;
+      gnm_float *dvec = spx->dvec;
       int *refsp = spx->refsp;
       int i, j, k;
       switch (spx->meth)
@@ -1581,18 +1581,18 @@ void spx_update_gvec(SPX *spx)
       int *aa_ptr = lp->A->ptr;
       int *aa_len = lp->A->len;
       int *sv_ndx = lp->A->ndx;
-      gnum_float *sv_val = lp->A->val;
+      gnm_float *sv_val = lp->A->val;
       int *tagx = lp->tagx;
       int *indx = lp->indx;
       int p = spx->p;
       int q = spx->q;
-      gnum_float *ap = spx->ap;
-      gnum_float *aq = spx->aq;
-      gnum_float *gvec = spx->gvec;
+      gnm_float *ap = spx->ap;
+      gnm_float *aq = spx->aq;
+      gnm_float *gvec = spx->gvec;
       int *refsp = spx->refsp;
       int i, j, j_beg, j_end, j_ptr, k, ref_k, ref_p, ref_q;
-      gnum_float ap_j, ap_q, aq_i, s_j, t1, t2, t3, sum, temp;
-      gnum_float *w = spx->work;
+      gnm_float ap_j, ap_q, aq_i, s_j, t1, t2, t3, sum, temp;
+      gnm_float *w = spx->work;
       insist(1 <= p && p <= m);
       insist(1 <= q && q <= n);
       /* check if it's time to reset the reference space */
@@ -1687,7 +1687,7 @@ done: return;
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- gnum_float spx_err_in_gvec(SPX *spx);
+-- gnm_float spx_err_in_gvec(SPX *spx);
 --
 -- *Returns*
 --
@@ -1700,16 +1700,16 @@ done: return;
 --
 -- This routine is intended for debugging purposes only. */
 
-gnum_float spx_err_in_gvec(SPX *spx)
+gnm_float spx_err_in_gvec(SPX *spx)
 {     LPX *lp = spx->lp;
       int m = lp->m;
       int n = lp->n;
       int *indx = lp->indx;
-      gnum_float *gvec = spx->gvec;
+      gnm_float *gvec = spx->gvec;
       int *refsp = spx->refsp;
-      gnum_float *aj = spx->work;
+      gnm_float *aj = spx->work;
       int i, j, k;
-      gnum_float dmax, d, gvec_j;
+      gnm_float dmax, d, gvec_j;
       dmax = 0.0;
       for (j = 1; j <= n; j++)
       {  /* if xN[j] is fixed variable, skip it, because its weight is
@@ -1756,17 +1756,17 @@ void spx_update_dvec(SPX *spx)
       int *aa_ptr = lp->A->ptr;
       int *aa_len = lp->A->len;
       int *sv_ndx = lp->A->ndx;
-      gnum_float *sv_val = lp->A->val;
+      gnm_float *sv_val = lp->A->val;
       int *indx = lp->indx;
       int p = spx->p;
       int q = spx->q;
-      gnum_float *ap = spx->ap;
-      gnum_float *aq = spx->aq;
-      gnum_float *dvec = spx->dvec;
+      gnm_float *ap = spx->ap;
+      gnm_float *aq = spx->aq;
+      gnm_float *dvec = spx->dvec;
       int *refsp = spx->refsp;
-      gnum_float *w = spx->work;
+      gnm_float *w = spx->work;
       int i, j, j_beg, j_end, j_ptr, k, ref_k, ref_p, ref_q;
-      gnum_float ap_j, aq_p, aq_i, s_i, t1, sum, temp;
+      gnm_float ap_j, aq_p, aq_i, s_i, t1, sum, temp;
       insist(1 <= p && p <= m);
       insist(1 <= q && q <= n);
       /* check if it's time to reset the reference space */
@@ -1866,7 +1866,7 @@ done: return;
 -- *Synopsis*
 --
 -- #include "glpspx.h"
--- gnum_float spx_err_in_dvec(SPX *spx);
+-- gnm_float spx_err_in_dvec(SPX *spx);
 --
 -- *Returns*
 --
@@ -1879,18 +1879,18 @@ done: return;
 --
 -- This routine is intended for debugging purposes only. */
 
-gnum_float spx_err_in_dvec(SPX *spx)
+gnm_float spx_err_in_dvec(SPX *spx)
 {     LPX *lp = spx->lp;
       int m = lp->m;
       int n = lp->n;
       int *typx = lp->typx;
       int *indx = lp->indx;
-      gnum_float *dvec = spx->dvec;
+      gnm_float *dvec = spx->dvec;
       int *refsp = spx->refsp;
-      gnum_float *rho = spx->work;
-      gnum_float *ai = &spx->work[m];
+      gnm_float *rho = spx->work;
+      gnm_float *ai = &spx->work[m];
       int i, j, k;
-      gnum_float dmax, d, dvec_i;
+      gnm_float dmax, d, dvec_i;
       dmax = 0.0;
       for (i = 1; i <= m; i++)
       {  /* if xB[i] is free variable, skip it, because its weight is

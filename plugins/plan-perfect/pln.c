@@ -254,11 +254,11 @@ pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 	return res;
 }
 
-static gnum_float
+static gnm_float
 pln_get_number (guint8 const * ch)
 {
 	int exp;
-	gnum_float dvalue, scale = 256.0;
+	gnm_float dvalue, scale = 256.0;
 	int i;
 
 	dvalue = 0.0;

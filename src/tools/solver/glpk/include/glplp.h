@@ -92,12 +92,12 @@ struct LP
          'F' - free variable:    -inf <  x[k] < +inf
          'L' - lower bound:      l[k] <= x[k] < +inf
          'U' - upper bound:      -inf <  x[k] <= u[k]
-         'D' - gnum_float bound:     l[k] <= x[k] <= u[k]
+         'D' - gnm_float bound:     l[k] <= x[k] <= u[k]
          'S' - fixed variable:   l[k]  = x[k]  = u[k] */
-      gnum_float *lb; /* gnum_float lb[1+m+n]; */
+      gnm_float *lb; /* gnm_float lb[1+m+n]; */
       /* lb[0] is not used; lb[k] is the lower bound of variable x[k]
          (1 <= k <= m+n); if x[k] has no lower bound, lb[k] is zero */
-      gnum_float *ub; /* gnum_float ub[1+m+n]; */
+      gnm_float *ub; /* gnm_float ub[1+m+n]; */
       /* ub[0] is not used; ub[k] is the upper bound of variable x[k]
          (1 <= k <= m+n); if x[k] has no upper bound, ub[k] is zero;
          if x[k] is fixed variable, lb[k] is equal to ub[k] */
@@ -107,7 +107,7 @@ struct LP
       /* optimization direction flag:
          '-' - objective function should be minimized
          '+' - objective function should be maximized */
-      gnum_float *c; /* gnum_float c[1+n]; */
+      gnm_float *c; /* gnm_float c[1+n]; */
       /* c[0] is the constant term of the objective function; c[j] is
          the coefficient of the objective function at the (structural)
          variable x[m+j] (1 <= j <= n) */
@@ -151,7 +151,7 @@ struct LPSOL
          'I' - solution is infeasible (integer infeasible)
          'N' - problem has no feasible (integer feasible) solution
          'U' - problem has unbounded solution */
-      gnum_float objval;
+      gnm_float objval;
       /* value of the objective function */
       int *tagx; /* int tagx[1+m+n]; */
       /* tagx[0] is not used; tagx[k] is the status of variable x[k]
@@ -162,10 +162,10 @@ struct LPSOL
          'U' - non-basic variable on its upper bound
          'F' - non-basic free variable
          'S' - non-basic fixed variable */
-      gnum_float *valx; /* gnum_float valx[1+m+n]; */
+      gnm_float *valx; /* gnm_float valx[1+m+n]; */
       /* valx[0] is not used; valx[k] is the value of the variable x[k]
          (1 <= k <= m+n) */
-      gnum_float *dx; /* gnum_float dx[1+m+n]; */
+      gnm_float *dx; /* gnm_float dx[1+m+n]; */
       /* dx[0] is not used; dx[k] is the reduced cost (marginal value)
          of the variable x[k] (1 <= k <= m+n) */
 };

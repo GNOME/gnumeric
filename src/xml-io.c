@@ -2038,6 +2038,7 @@ xml_write_sheet_filters (XmlParseContext *ctxt, xmlNode *container,
 {
 	GSList *ptr;
 	GnmFilter *filter;
+	xmlNode *filter_node;
 
 	if (sheet->filters == NULL)
 		return;
@@ -2045,8 +2046,9 @@ xml_write_sheet_filters (XmlParseContext *ctxt, xmlNode *container,
 	container = xmlNewChild (container, ctxt->ns, (xmlChar const *)"Filters", NULL);
 	for (ptr = sheet->filters; ptr != NULL ; ptr = ptr->next) {
 		filter = ptr->data;
-		xmlNewChild (container, ctxt->ns, (xmlChar const *)"Filter",
-			     (xmlChar const *)range_name (&filter->r));
+		filter_node = xmlNewChild (container, ctxt->ns,
+				   (xmlChar const *)"Filter",
+				   (xmlChar const *)range_name (&filter->r));
 	}
 }
 

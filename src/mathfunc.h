@@ -21,144 +21,144 @@
 
 /* ------------------------------------------------------------------------- */
 
-gnum_float gnumeric_add_epsilon (gnum_float x);
-gnum_float gnumeric_sub_epsilon (gnum_float x);
-gnum_float gnumeric_fake_floor (gnum_float x);
-gnum_float gnumeric_fake_ceil (gnum_float x);
-gnum_float gnumeric_fake_round (gnum_float x);
-gnum_float gnumeric_fake_trunc (gnum_float x);
+gnm_float gnumeric_add_epsilon (gnm_float x);
+gnm_float gnumeric_sub_epsilon (gnm_float x);
+gnm_float gnumeric_fake_floor (gnm_float x);
+gnm_float gnumeric_fake_ceil (gnm_float x);
+gnm_float gnumeric_fake_round (gnm_float x);
+gnm_float gnumeric_fake_trunc (gnm_float x);
 
 /* ------------------------------------------------------------------------- */
 
-gnum_float beta (gnum_float a, gnum_float b);
-gnum_float lbeta3 (gnum_float a, gnum_float b, int *sign);
+gnm_float beta (gnm_float a, gnm_float b);
+gnm_float lbeta3 (gnm_float a, gnm_float b, int *sign);
 
-gnum_float bessel_i (gnum_float x, gnum_float alpha, gnum_float expo);
-gnum_float bessel_k (gnum_float x, gnum_float alpha, gnum_float expo);
+gnm_float bessel_i (gnm_float x, gnm_float alpha, gnm_float expo);
+gnm_float bessel_k (gnm_float x, gnm_float alpha, gnm_float expo);
 
 /* "d": density.  */
 /* "p": distribution function.  */
 /* "q": inverse distribution function.  */
 
 /* The normal distribution.  */
-gnum_float dnorm (gnum_float x, gnum_float mu, gnum_float sigma, gboolean give_log);
-gnum_float pnorm (gnum_float x, gnum_float mu, gnum_float sigma, gboolean lower_tail, gboolean log_p);
-gnum_float qnorm (gnum_float p, gnum_float mu, gnum_float sigma, gboolean lower_tail, gboolean log_p);
+gnm_float dnorm (gnm_float x, gnm_float mu, gnm_float sigma, gboolean give_log);
+gnm_float pnorm (gnm_float x, gnm_float mu, gnm_float sigma, gboolean lower_tail, gboolean log_p);
+gnm_float qnorm (gnm_float p, gnm_float mu, gnm_float sigma, gboolean lower_tail, gboolean log_p);
 
 /* The log-normal distribution.  */
-gnum_float plnorm (gnum_float x, gnum_float logmean, gnum_float logsd, gboolean lower_tail, gboolean log_p);
-gnum_float qlnorm (gnum_float x, gnum_float logmean, gnum_float logsd, gboolean lower_tail, gboolean log_p);
+gnm_float plnorm (gnm_float x, gnm_float logmean, gnm_float logsd, gboolean lower_tail, gboolean log_p);
+gnm_float qlnorm (gnm_float x, gnm_float logmean, gnm_float logsd, gboolean lower_tail, gboolean log_p);
 
 /* The gamma distribution.  */
-gnum_float dgamma (gnum_float x, gnum_float shape, gnum_float scale, gboolean give_log);
-gnum_float pgamma (gnum_float x, gnum_float p, gnum_float scale, gboolean lower_tail, gboolean log_p);
-gnum_float qgamma (gnum_float p, gnum_float alpha, gnum_float scale, gboolean lower_tail, gboolean log_p);
+gnm_float dgamma (gnm_float x, gnm_float shape, gnm_float scale, gboolean give_log);
+gnm_float pgamma (gnm_float x, gnm_float p, gnm_float scale, gboolean lower_tail, gboolean log_p);
+gnm_float qgamma (gnm_float p, gnm_float alpha, gnm_float scale, gboolean lower_tail, gboolean log_p);
 
 /* The beta distribution.  */
-gnum_float pbeta (gnum_float x, gnum_float pin, gnum_float qin, gboolean lower_tail, gboolean log_p);
-gnum_float qbeta (gnum_float alpha, gnum_float p, gnum_float q, gboolean lower_tail, gboolean log_p);
+gnm_float pbeta (gnm_float x, gnm_float pin, gnm_float qin, gboolean lower_tail, gboolean log_p);
+gnm_float qbeta (gnm_float alpha, gnm_float p, gnm_float q, gboolean lower_tail, gboolean log_p);
 
 /* The t distribution.  */
-gnum_float pt (gnum_float x, gnum_float n, gboolean lower_tail, gboolean log_p);
-gnum_float qt (gnum_float p, gnum_float ndf, gboolean lower_tail, gboolean log_p);
+gnm_float pt (gnm_float x, gnm_float n, gboolean lower_tail, gboolean log_p);
+gnm_float qt (gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p);
 
 /* The F distribution.  */
-gnum_float pf (gnum_float x, gnum_float n1, gnum_float n2, gboolean lower_tail, gboolean log_p);
-gnum_float qf (gnum_float x, gnum_float n1, gnum_float n2, gboolean lower_tail, gboolean log_p);
+gnm_float pf (gnm_float x, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p);
+gnm_float qf (gnm_float x, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p);
 
 /* The chi-squared distribution.  */
-gnum_float pchisq (gnum_float x, gnum_float df, gboolean lower_tail, gboolean log_p);
-gnum_float qchisq (gnum_float p, gnum_float df, gboolean lower_tail, gboolean log_p);
+gnm_float pchisq (gnm_float x, gnm_float df, gboolean lower_tail, gboolean log_p);
+gnm_float qchisq (gnm_float p, gnm_float df, gboolean lower_tail, gboolean log_p);
 
 /* The Weibull distribution.  */
-gnum_float dweibull (gnum_float x, gnum_float shape, gnum_float scale, gboolean give_log);
-gnum_float pweibull (gnum_float x, gnum_float shape, gnum_float scale, gboolean lower_tail, gboolean log_p);
+gnm_float dweibull (gnm_float x, gnm_float shape, gnm_float scale, gboolean give_log);
+gnm_float pweibull (gnm_float x, gnm_float shape, gnm_float scale, gboolean lower_tail, gboolean log_p);
 
 /* The Poisson distribution.  */
-gnum_float dpois (gnum_float x, gnum_float lambda, gboolean give_log);
-gnum_float ppois (gnum_float x, gnum_float lambda, gboolean lower_tail, gboolean log_p);
-gnum_float qpois (gnum_float p, gnum_float lambda, gboolean lower_tail, gboolean log_p);
+gnm_float dpois (gnm_float x, gnm_float lambda, gboolean give_log);
+gnm_float ppois (gnm_float x, gnm_float lambda, gboolean lower_tail, gboolean log_p);
+gnm_float qpois (gnm_float p, gnm_float lambda, gboolean lower_tail, gboolean log_p);
 
 /* The exponential distribution.  */
-gnum_float dexp (gnum_float x, gnum_float scale, gboolean give_log);
-gnum_float pexp (gnum_float x, gnum_float scale, gboolean lower_tail, gboolean log_p);
+gnm_float dexp (gnm_float x, gnm_float scale, gboolean give_log);
+gnm_float pexp (gnm_float x, gnm_float scale, gboolean lower_tail, gboolean log_p);
 
 /* Binomial distribution.  */
-gnum_float dbinom (gnum_float x, gnum_float n, gnum_float p, gboolean give_log);
-gnum_float pbinom (gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail, gboolean log_p);
-gnum_float qbinom (gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail, gboolean log_p);
+gnm_float dbinom (gnm_float x, gnm_float n, gnm_float p, gboolean give_log);
+gnm_float pbinom (gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gboolean log_p);
+gnm_float qbinom (gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gboolean log_p);
 
 /* Negative binomial distribution.  */
-gnum_float dnbinom (gnum_float x, gnum_float n, gnum_float p, gboolean give_log);
-gnum_float pnbinom (gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail, gboolean log_p);
+gnm_float dnbinom (gnm_float x, gnm_float n, gnm_float p, gboolean give_log);
+gnm_float pnbinom (gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gboolean log_p);
 
 /* Hyper-geometrical distribution.  */
-gnum_float dhyper (gnum_float x, gnum_float r, gnum_float b, gnum_float n, gboolean give_log);
-gnum_float phyper (gnum_float x, gnum_float NR, gnum_float NB, gnum_float n, gboolean lower_tail, gboolean log_p);
+gnm_float dhyper (gnm_float x, gnm_float r, gnm_float b, gnm_float n, gboolean give_log);
+gnm_float phyper (gnm_float x, gnm_float NR, gnm_float NB, gnm_float n, gboolean lower_tail, gboolean log_p);
 
 /* Geometrical distribution.  */
-gnum_float dgeom (gnum_float x, gnum_float p, gboolean give_log);
-gnum_float pgeom (gnum_float x, gnum_float p, gboolean lower_tail, gboolean log_p);
+gnm_float dgeom (gnm_float x, gnm_float p, gboolean give_log);
+gnm_float pgeom (gnm_float x, gnm_float p, gboolean lower_tail, gboolean log_p);
 
 /* Cauchy distribution.  */
-gnum_float dcauchy (gnum_float x, gnum_float location, gnum_float scale, gboolean give_log);
-gnum_float pcauchy (gnum_float x, gnum_float location, gnum_float scale, gboolean lower_tail, gboolean log_p);
+gnm_float dcauchy (gnm_float x, gnm_float location, gnm_float scale, gboolean give_log);
+gnm_float pcauchy (gnm_float x, gnm_float location, gnm_float scale, gboolean lower_tail, gboolean log_p);
 
 /* Random number generation. */
-gnum_float random_01             (void);
-gnum_float random_poisson        (gnum_float lambda);
-gnum_float random_binomial       (gnum_float p, int trials);
-gnum_float random_negbinom       (gnum_float p, int f);
-gnum_float random_exponential    (gnum_float b);
-gnum_float random_bernoulli      (gnum_float p);
-gnum_float random_normal         (void);
-gnum_float random_cauchy         (gnum_float a);
-gnum_float random_lognormal      (gnum_float zeta, gnum_float sigma);
-gnum_float random_weibull        (gnum_float a, gnum_float b);
-gnum_float random_laplace        (gnum_float a);
-gnum_float random_rayleigh       (gnum_float sigma);
-gnum_float random_rayleigh_tail  (gnum_float a, gnum_float sigma);
-gnum_float random_gamma          (gnum_float a, gnum_float b);
-gnum_float random_pareto         (gnum_float a, gnum_float b);
-gnum_float random_fdist          (gnum_float nu1, gnum_float nu2);
-gnum_float random_beta           (gnum_float a, gnum_float b);
-gnum_float random_logistic       (gnum_float a);
-gnum_float random_geometric      (gnum_float p);
-gnum_float random_hypergeometric (unsigned int n1, unsigned int n2, 
+gnm_float random_01             (void);
+gnm_float random_poisson        (gnm_float lambda);
+gnm_float random_binomial       (gnm_float p, int trials);
+gnm_float random_negbinom       (gnm_float p, int f);
+gnm_float random_exponential    (gnm_float b);
+gnm_float random_bernoulli      (gnm_float p);
+gnm_float random_normal         (void);
+gnm_float random_cauchy         (gnm_float a);
+gnm_float random_lognormal      (gnm_float zeta, gnm_float sigma);
+gnm_float random_weibull        (gnm_float a, gnm_float b);
+gnm_float random_laplace        (gnm_float a);
+gnm_float random_rayleigh       (gnm_float sigma);
+gnm_float random_rayleigh_tail  (gnm_float a, gnm_float sigma);
+gnm_float random_gamma          (gnm_float a, gnm_float b);
+gnm_float random_pareto         (gnm_float a, gnm_float b);
+gnm_float random_fdist          (gnm_float nu1, gnm_float nu2);
+gnm_float random_beta           (gnm_float a, gnm_float b);
+gnm_float random_logistic       (gnm_float a);
+gnm_float random_geometric      (gnm_float p);
+gnm_float random_hypergeometric (unsigned int n1, unsigned int n2, 
 				  unsigned int t);
-gnum_float random_logarithmic    (gnum_float p);
-gnum_float random_chisq          (gnum_float nu);
-gnum_float random_tdist          (gnum_float nu);
-gnum_float random_gumbel1        (gnum_float a, gnum_float b);
-gnum_float random_gumbel2        (gnum_float a, gnum_float b);
-gnum_float random_levy           (gnum_float c, gnum_float alpha);
-gnum_float random_levy_skew      (gnum_float c, gnum_float alpha,
-				  gnum_float beta);
-gnum_float random_exppow         (gnum_float a, gnum_float b);
-gnum_float random_landau         (void);
-gnum_float random_gaussian_tail  (gnum_float a, gnum_float sigma);
+gnm_float random_logarithmic    (gnm_float p);
+gnm_float random_chisq          (gnm_float nu);
+gnm_float random_tdist          (gnm_float nu);
+gnm_float random_gumbel1        (gnm_float a, gnm_float b);
+gnm_float random_gumbel2        (gnm_float a, gnm_float b);
+gnm_float random_levy           (gnm_float c, gnm_float alpha);
+gnm_float random_levy_skew      (gnm_float c, gnm_float alpha,
+				  gnm_float beta);
+gnm_float random_exppow         (gnm_float a, gnm_float b);
+gnm_float random_landau         (void);
+gnm_float random_gaussian_tail  (gnm_float a, gnm_float sigma);
 
 /* The probability density functions. */
-gnum_float random_exppow_pdf     (gnum_float x, gnum_float a, gnum_float b);
-gnum_float random_laplace_pdf    (gnum_float x, gnum_float a);
+gnm_float random_exppow_pdf     (gnm_float x, gnm_float a, gnm_float b);
+gnm_float random_laplace_pdf    (gnm_float x, gnm_float a);
 
 /* ------------------------------------------------------------------------- */
 
 /* Matrix functions. */
-gnum_float mdeterm (gnum_float *A, int dim);
-int     minverse (gnum_float *A, int dim, gnum_float *res);
-void    mmult (gnum_float *A, gnum_float *B, int cols_a, int rows_a, int cols_b,
-	       gnum_float *product);
+gnm_float mdeterm (gnm_float *A, int dim);
+int     minverse (gnm_float *A, int dim, gnm_float *res);
+void    mmult (gnm_float *A, gnm_float *B, int cols_a, int rows_a, int cols_b,
+	       gnm_float *product);
 
 /* ------------------------------------------------------------------------- */
 
 /* Misc. */
-gnum_float     gpow10 (int n);
-gnum_float     gpow2  (int n);
+gnm_float     gpow10 (int n);
+gnm_float     gpow2  (int n);
 int            gcd    (int a, int b);
-gnum_float     combin (int n, int k);
-gnum_float     permut (int n, int k);
-gnum_float     fact   (int n);
+gnm_float     combin (int n, int k);
+gnm_float     permut (int n, int k);
+gnm_float     fact   (int n);
 
 /* ------------------------------------------------------------------------- */
 

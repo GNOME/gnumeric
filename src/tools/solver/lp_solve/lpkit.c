@@ -33,8 +33,8 @@
 
 /* Globals */
 int        lp_solve_Level;
-gnum_float lp_solve_Trej;
-gnum_float lp_solve_Extrad;
+gnm_float lp_solve_Trej;
+gnm_float lp_solve_Extrad;
 
 
 lprec *
@@ -80,21 +80,21 @@ lp_solve_make_lp (int rows, int columns)
 	newlp->col_end = g_new0 (int, columns + 1);
 	newlp->row_end = g_new0 (int, rows + 1);
 	newlp->row_end_valid = FALSE;
-	newlp->orig_rh = g_new0 (gnum_float, rows + 1);
-	newlp->rh = g_new0 (gnum_float, rows + 1);
-	newlp->rhs = g_new0 (gnum_float, rows + 1);
+	newlp->orig_rh = g_new0 (gnm_float, rows + 1);
+	newlp->rh = g_new0 (gnm_float, rows + 1);
+	newlp->rhs = g_new0 (gnm_float, rows + 1);
 
 	newlp->must_be_int = g_new0 (char, sum + 1);
 	for (i = 0; i <= sum; i++)
 	        newlp->must_be_int[i] = FALSE;
 
-	newlp->orig_upbo = g_new0 (gnum_float, sum + 1);
+	newlp->orig_upbo = g_new0 (gnm_float, sum + 1);
 	for (i = 0; i <= sum; i++)
 	        newlp->orig_upbo[i] = newlp->infinite;
 
-	newlp->upbo = g_new0 (gnum_float, sum + 1);
-	newlp->orig_lowbo = g_new0 (gnum_float, sum + 1);
-	newlp->lowbo = g_new0 (gnum_float, sum + 1);
+	newlp->upbo = g_new0 (gnm_float, sum + 1);
+	newlp->orig_lowbo = g_new0 (gnm_float, sum + 1);
+	newlp->lowbo = g_new0 (gnm_float, sum + 1);
 
 	newlp->basis_valid = TRUE;
 	newlp->bas = g_new0 (int, rows+1);
@@ -120,7 +120,7 @@ lp_solve_make_lp (int rows, int columns)
 
 	newlp->nr_lagrange = 0;
 
-	newlp->eta_value = g_new0 (gnum_float, newlp->eta_alloc);
+	newlp->eta_value = g_new0 (gnm_float, newlp->eta_alloc);
 	newlp->eta_row_nr = g_new0 (int, newlp->eta_alloc);
 
 	/* +1 reported by Christian Rank */
@@ -135,9 +135,9 @@ lp_solve_make_lp (int rows, int columns)
 	newlp->total_iter = 0;
 	newlp->max_total_iter = 1000; /* Default */
 
-	newlp->solution = g_new0 (gnum_float, sum + 1);
-	newlp->best_solution = g_new0 (gnum_float, sum + 1);
-	newlp->duals = g_new0 (gnum_float, rows + 1);
+	newlp->solution = g_new0 (gnm_float, sum + 1);
+	newlp->best_solution = g_new0 (gnm_float, sum + 1);
+	newlp->duals = g_new0 (gnm_float, rows + 1);
 
 	newlp->maximise = FALSE;
 	newlp->floor_first = TRUE;
@@ -226,14 +226,14 @@ lp_solve_set_max_iter (lprec *lp, int max)
 }
 
 void
-lp_solve_set_max_time (lprec *lp, int max, gnum_float st)
+lp_solve_set_max_time (lprec *lp, int max, gnm_float st)
 {
         lp->max_time   = max;
 	lp->start_time = st;
 }
 
 void
-lp_solve_set_mat (lprec *lp, int Row, int Column, gnum_float Value)
+lp_solve_set_mat (lprec *lp, int Row, int Column, gnm_float Value)
 {
         int elmnr, lastelm, i;
 
@@ -331,7 +331,7 @@ lp_solve_set_mat (lprec *lp, int Row, int Column, gnum_float Value)
 }
 
 void
-lp_solve_set_upbo (lprec *lp, int column, gnum_float value)
+lp_solve_set_upbo (lprec *lp, int column, gnm_float value)
 {
         if (column > lp->columns || column < 1)
 	        g_print ("Column out of range");
@@ -344,7 +344,7 @@ lp_solve_set_upbo (lprec *lp, int column, gnum_float value)
 }
 
 void
-lp_solve_set_lowbo (lprec *lp, int column, gnum_float value)
+lp_solve_set_lowbo (lprec *lp, int column, gnm_float value)
 {
         if (column > lp->columns || column < 1)
 	        g_print ("Column out of range");
@@ -372,7 +372,7 @@ lp_solve_set_int (lprec *lp, int column, gboolean must_be_int)
 }
 
 void
-lp_solve_set_rh (lprec *lp, int row, gnum_float value)
+lp_solve_set_rh (lprec *lp, int row, gnm_float value)
 {
         if (row > lp->rows || row < 0)
 	        g_print ("Row out of Range");
@@ -475,9 +475,9 @@ void
 lp_solve_print_lp (lprec *lp)
 {
         int        i, j;
-	gnum_float *fatmat;
+	gnm_float *fatmat;
 
-	fatmat = g_new (gnum_float, (lp->rows + 1) * lp->columns);
+	fatmat = g_new (gnm_float, (lp->rows + 1) * lp->columns);
 	for (i = 1; i <= lp->columns; i++)
 	        for (j = lp->col_end[i - 1]; j < lp->col_end[i]; j++)
 		        fatmat[(i - 1) * (lp->rows + 1) + lp->mat[j].row_nr] =
@@ -568,10 +568,10 @@ lp_solve_print_lp (lprec *lp)
 	g_free (fatmat);
 }  
 
-static gnum_float
-minmax_to_scale (gnum_float min, gnum_float max)
+static gnm_float
+minmax_to_scale (gnm_float min, gnm_float max)
 {
-        gnum_float scale;
+        gnm_float scale;
 
 	/* should do something sensible when min or max is 0, MB */
 	if ((min == 0) || (max == 0))
@@ -612,18 +612,18 @@ void
 lp_solve_auto_scale (lprec *lp)
 {
         int        i, j, row_nr;
-	gnum_float *row_max, *row_min, *scalechange, absval;
-	gnum_float col_max, col_min;
+	gnm_float *row_max, *row_min, *scalechange, absval;
+	gnm_float col_max, col_min;
   
 	if (!lp->scaling_used) {
-	        lp->scale = g_new (gnum_float, lp->sum_alloc + 1);
+	        lp->scale = g_new (gnm_float, lp->sum_alloc + 1);
 		for (i = 0; i <= lp->sum; i++)
 		        lp->scale[i] = 1;
 	}
   
-	row_max     = g_new (gnum_float, lp->rows + 1);
-	row_min     = g_new (gnum_float, lp->rows + 1);
-	scalechange = g_new (gnum_float, lp->sum + 1);
+	row_max     = g_new (gnm_float, lp->rows + 1);
+	row_min     = g_new (gnm_float, lp->rows + 1);
+	scalechange = g_new (gnm_float, lp->sum + 1);
 
 	/* initialise min and max values */
 	for (i = 0; i <= lp->rows; i++) {

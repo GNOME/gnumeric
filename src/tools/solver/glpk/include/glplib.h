@@ -134,7 +134,7 @@ void _insist(const char *expr, const char *file, int line);
    align_datasize macro allows enlarging size of data item in order the
    immediately following data of any type should be properly aligned */
 
-#define align_boundary sizeof(gnum_float)
+#define align_boundary sizeof(gnm_float)
 
 #define align_datasize(size) \
 ((((size) + (align_boundary - 1)) / align_boundary) * align_boundary)
@@ -148,7 +148,7 @@ void *ucalloc(int nmemb, int size);
 void ufree(void *ptr);
 /* free memory block */
 
-gnum_float utime(void);
+gnm_float utime(void);
 /* determine the current universal time */
 
 /**********************************************************************/

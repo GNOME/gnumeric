@@ -60,13 +60,13 @@ LPX *lpx_create_prob(void)
       lp->clss = LPX_LP;
       lp->name = ucalloc(1+m_max+n_max, sizeof(STR *));
       lp->typx = ucalloc(1+m_max+n_max, sizeof(int));
-      lp->lb = ucalloc(1+m_max+n_max, sizeof(gnum_float));
-      lp->ub = ucalloc(1+m_max+n_max, sizeof(gnum_float));
-      lp->rs = ucalloc(1+m_max+n_max, sizeof(gnum_float));
+      lp->lb = ucalloc(1+m_max+n_max, sizeof(gnm_float));
+      lp->ub = ucalloc(1+m_max+n_max, sizeof(gnm_float));
+      lp->rs = ucalloc(1+m_max+n_max, sizeof(gnm_float));
       lp->mark = ucalloc(1+m_max+n_max, sizeof(int));
       lp->obj = NULL;
       lp->dir = LPX_MIN;
-      lp->coef = ucalloc(1+m_max+n_max, sizeof(gnum_float));
+      lp->coef = ucalloc(1+m_max+n_max, sizeof(gnm_float));
       lp->coef[0] = 0.0;
       lp->A = spm_create();
       lp->b_stat = LPX_B_UNDEF;
@@ -76,9 +76,9 @@ LPX *lpx_create_prob(void)
       lp->posx = ucalloc(1+m_max+n_max, sizeof(int));
       lp->indx = ucalloc(1+m_max+n_max, sizeof(int));
       lp->inv = NULL;
-      lp->bbar = ucalloc(1+m_max, sizeof(gnum_float));
-      lp->pi = ucalloc(1+m_max, sizeof(gnum_float));
-      lp->cbar = ucalloc(1+n_max, sizeof(gnum_float));
+      lp->bbar = ucalloc(1+m_max, sizeof(gnm_float));
+      lp->pi = ucalloc(1+m_max, sizeof(gnm_float));
+      lp->cbar = ucalloc(1+n_max, sizeof(gnm_float));
       lp->t_stat = LPX_T_UNDEF;
       lp->pv = NULL;
       lp->dv = NULL;
@@ -120,24 +120,24 @@ void lpx_realloc_prob(LPX *lp, int m_max, int n_max)
       ufree(ptr), ptr = temp
       reallocate(STR *, lp->name, 1+m_max+n_max, 1+m+n);
       reallocate(int, lp->typx, 1+m_max+n_max, 1+m+n);
-      reallocate(gnum_float, lp->lb, 1+m_max+n_max, 1+m+n);
-      reallocate(gnum_float, lp->ub, 1+m_max+n_max, 1+m+n);
-      reallocate(gnum_float, lp->rs, 1+m_max+n_max, 1+m+n);
+      reallocate(gnm_float, lp->lb, 1+m_max+n_max, 1+m+n);
+      reallocate(gnm_float, lp->ub, 1+m_max+n_max, 1+m+n);
+      reallocate(gnm_float, lp->rs, 1+m_max+n_max, 1+m+n);
       reallocate(int, lp->mark, 1+m_max+n_max, 1+m+n);
-      reallocate(gnum_float, lp->coef, 1+m_max+n_max, 1+m+n);
+      reallocate(gnm_float, lp->coef, 1+m_max+n_max, 1+m+n);
       reallocate(int, lp->tagx, 1+m_max+n_max, 1+m+n);
       reallocate(int, lp->posx, 1+m_max+n_max, 1+m+n);
       reallocate(int, lp->indx, 1+m_max+n_max, 1+m+n);
-      reallocate(gnum_float, lp->bbar, 1+m_max, 1+m);
-      reallocate(gnum_float, lp->pi, 1+m_max, 1+m);
-      reallocate(gnum_float, lp->cbar, 1+n_max, 1+n);
+      reallocate(gnm_float, lp->bbar, 1+m_max, 1+m);
+      reallocate(gnm_float, lp->pi, 1+m_max, 1+m);
+      reallocate(gnm_float, lp->cbar, 1+n_max, 1+n);
       if (lp->pv != NULL)
-         reallocate(gnum_float, lp->pv, 1+m_max+n_max, 1+m+n);
+         reallocate(gnm_float, lp->pv, 1+m_max+n_max, 1+m+n);
       if (lp->dv != NULL)
-         reallocate(gnum_float, lp->dv, 1+m_max+n_max, 1+m+n);
+         reallocate(gnm_float, lp->dv, 1+m_max+n_max, 1+m+n);
       if (lp->clss == LPX_MIP)
       {  reallocate(int, lp->kind, 1+n_max, 1+n);
-         reallocate(gnum_float, lp->mipx, 1+m_max+n_max, 1+m+n);
+         reallocate(gnm_float, lp->mipx, 1+m_max+n_max, 1+m+n);
       }
 #     undef reallocate
       lp->m_max = m_max;
@@ -168,11 +168,11 @@ void lpx_add_rows(LPX *lp, int nrs)
       int n = lp->n;
       STR **name = lp->name;
       int *typx = lp->typx;
-      gnum_float *lb = lp->lb;
-      gnum_float *ub = lp->ub;
-      gnum_float *rs = lp->rs;
+      gnm_float *lb = lp->lb;
+      gnm_float *ub = lp->ub;
+      gnm_float *rs = lp->rs;
       int *mark = lp->mark;
-      gnum_float *coef = lp->coef;
+      gnm_float *coef = lp->coef;
       int *tagx = lp->tagx;
       int m_new, i;
       if (nrs < 1)
@@ -197,11 +197,11 @@ void lpx_add_rows(LPX *lp, int nrs)
          about rows and columns (i.e. which have m+n locations) */
       memmove(&name[m_new+1], &name[m+1], n * sizeof(STR *));
       memmove(&typx[m_new+1], &typx[m+1], n * sizeof(int));
-      memmove(&lb[m_new+1], &lb[m+1], n * sizeof(gnum_float));
-      memmove(&ub[m_new+1], &ub[m+1], n * sizeof(gnum_float));
-      memmove(&rs[m_new+1], &rs[m+1], n * sizeof(gnum_float));
+      memmove(&lb[m_new+1], &lb[m+1], n * sizeof(gnm_float));
+      memmove(&ub[m_new+1], &ub[m+1], n * sizeof(gnm_float));
+      memmove(&rs[m_new+1], &rs[m+1], n * sizeof(gnm_float));
       memmove(&mark[m_new+1], &mark[m+1], n * sizeof(int));
-      memmove(&coef[m_new+1], &coef[m+1], n * sizeof(gnum_float));
+      memmove(&coef[m_new+1], &coef[m+1], n * sizeof(gnm_float));
       memmove(&tagx[m_new+1], &tagx[m+1], n * sizeof(int));
       /* initialize new rows */
       for (i = m+1; i <= m_new; i++)
@@ -255,11 +255,11 @@ void lpx_add_cols(LPX *lp, int ncs)
       int clss = lp->clss;
       STR **name = lp->name;
       int *typx = lp->typx;
-      gnum_float *lb = lp->lb;
-      gnum_float *ub = lp->ub;
-      gnum_float *rs = lp->rs;
+      gnm_float *lb = lp->lb;
+      gnm_float *ub = lp->ub;
+      gnm_float *rs = lp->rs;
       int *mark = lp->mark;
-      gnum_float *coef = lp->coef;
+      gnm_float *coef = lp->coef;
       int *tagx = lp->tagx;
       int *kind = lp->kind;
       int n_new, j;
@@ -448,8 +448,8 @@ void lpx_set_col_name(LPX *lp, int j, char *name)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- void lpx_set_row_bnds(LPX *lp, int i, int typx, gnum_float lb,
---    gnum_float ub);
+-- void lpx_set_row_bnds(LPX *lp, int i, int typx, gnm_float lb,
+--    gnm_float ub);
 --
 -- *Description*
 --
@@ -464,7 +464,7 @@ void lpx_set_col_name(LPX *lp, int j, char *name)
 --    LPX_FR   -inf <  x <  +inf   free variable
 --    LPX_LO     lb <= x <  +inf   lower bound
 --    LPX_UP   -inf <  x <=  ub    upper bound
---    LPX_DB     lb <= x <=  ub    gnum_float bound
+--    LPX_DB     lb <= x <=  ub    gnm_float bound
 --    LPX_FX           x  =  lb    fixed variable
 --
 -- where x is the corresponding auxiliary variable.
@@ -474,7 +474,7 @@ void lpx_set_col_name(LPX *lp, int j, char *name)
 -- of fixed type, the parameter lb is used, and the parameter ub is
 -- ignored. */
 
-void lpx_set_row_bnds(LPX *lp, int i, int typx, gnum_float lb, gnum_float ub)
+void lpx_set_row_bnds(LPX *lp, int i, int typx, gnm_float lb, gnm_float ub)
 {     if (!(1 <= i && i <= lp->m))
          fault("lpx_set_row_bnds: i = %d; row number out of range", i);
       lp->typx[i] = typx;
@@ -518,8 +518,8 @@ void lpx_set_row_bnds(LPX *lp, int i, int typx, gnum_float lb, gnum_float ub)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- void lpx_set_col_bnds(LPX *lp, int j, int typx, gnum_float lb,
---    gnum_float ub);
+-- void lpx_set_col_bnds(LPX *lp, int j, int typx, gnm_float lb,
+--    gnm_float ub);
 --
 -- *Description*
 --
@@ -534,7 +534,7 @@ void lpx_set_row_bnds(LPX *lp, int i, int typx, gnum_float lb, gnum_float ub)
 --    LPX_FR   -inf <  x <  +inf   free variable
 --    LPX_LO     lb <= x <  +inf   lower bound
 --    LPX_UP   -inf <  x <=  ub    upper bound
---    LPX_DB     lb <= x <=  ub    gnum_float bound
+--    LPX_DB     lb <= x <=  ub    gnm_float bound
 --    LPX_FX           x  =  lb    fixed variable
 --
 -- where x is the corresponding structural variable.
@@ -544,7 +544,7 @@ void lpx_set_row_bnds(LPX *lp, int i, int typx, gnum_float lb, gnum_float ub)
 -- column is of fixed type, the parameter lb is used, and the parameter
 -- ub is ignored. */
 
-void lpx_set_col_bnds(LPX *lp, int j, int typx, gnum_float lb, gnum_float ub)
+void lpx_set_col_bnds(LPX *lp, int j, int typx, gnm_float lb, gnm_float ub)
 {     if (!(1 <= j && j <= lp->n))
          fault("lpx_set_col_bnds: j = %d; column number out of range",
             j);
@@ -614,7 +614,7 @@ void lpx_set_class(LPX *lp, int clss)
             {  /* allocate and initialize MIP data segment */
                int j;
                lp->kind = ucalloc(1+lp->n_max, sizeof(int));
-               lp->mipx = ucalloc(1+lp->m_max+lp->n_max, sizeof(gnum_float))
+               lp->mipx = ucalloc(1+lp->m_max+lp->n_max, sizeof(gnm_float))
                   ;
                for (j = 1; j <= lp->n; j++) lp->kind[j] = LPX_CV;
                lp->i_stat = LPX_I_UNDEF;
@@ -724,7 +724,7 @@ void lpx_set_obj_dir(LPX *lp, int dir)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- void lpx_set_obj_c0(LPX *lp, gnum_float c0);
+-- void lpx_set_obj_c0(LPX *lp, gnm_float c0);
 --
 -- *Description*
 --
@@ -732,7 +732,7 @@ void lpx_set_obj_dir(LPX *lp, int dir)
 -- objective function for an LP problem object, which the parameter lp
 -- points to. */
 
-void lpx_set_obj_c0(LPX *lp, gnum_float c0)
+void lpx_set_obj_c0(LPX *lp, gnm_float c0)
 {     lp->coef[0] = c0;
       return;
 }
@@ -743,14 +743,14 @@ void lpx_set_obj_c0(LPX *lp, gnum_float c0)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- void lpx_set_row_coef(LPX *lp, int i, gnum_float coef);
+-- void lpx_set_row_coef(LPX *lp, int i, gnm_float coef);
 --
 -- *Description*
 --
 -- The routine lpx_set_row_coef sets (changes) a coefficient of the
 -- objective function at the i-th auxiliary variable (row). */
 
-void lpx_set_row_coef(LPX *lp, int i, gnum_float coef)
+void lpx_set_row_coef(LPX *lp, int i, gnm_float coef)
 {     if (!(1 <= i && i <= lp->m))
          fault("lpx_set_row_coef: i = %d; row number out of range", i);
       lp->coef[i] = coef / lp->rs[i];
@@ -768,14 +768,14 @@ void lpx_set_row_coef(LPX *lp, int i, gnum_float coef)
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- void lpx_set_col_coef(LPX *lp, int j, gnum_float coef);
+-- void lpx_set_col_coef(LPX *lp, int j, gnm_float coef);
 --
 -- *Description*
 --
 -- The routine lpx_set_col_coef sets (changes) a coefficient of the
 -- objective function at the j-th structural variable (column). */
 
-void lpx_set_col_coef(LPX *lp, int j, gnum_float coef)
+void lpx_set_col_coef(LPX *lp, int j, gnm_float coef)
 {     if (!(1 <= j && j <= lp->n))
          fault("lpx_set_col_coef: j = %d; column number out of range",
             j);
@@ -805,7 +805,7 @@ void lpx_set_col_coef(LPX *lp, int j, gnum_float coef)
 -- LPX_BS   - make the row basic (make the constraint inactive);
 -- LPX_NL   - make the row non-basic (make the constraint active);
 -- LPX_NU   - make the row non-basic and set it to the upper bound; if
---            the row is not gnum_float-bounded, this status is equivalent
+--            the row is not gnm_float-bounded, this status is equivalent
 --            to LPX_NL (only in the case of this routine);
 -- LPX_NF   - the same as LPX_NL (only in the case of this routine);
 -- LPX_NS   - the same as LPX_NL (only in the case of this routine). */
@@ -860,7 +860,7 @@ void lpx_set_row_stat(LPX *lp, int i, int stat)
 -- LPX_BS   - make the column basic;
 -- LPX_NL   - make the column non-basic;
 -- LPX_NU   - make the column non-basic and set it to the upper bound;
---            if the column is not of gnum_float-bounded type, this status
+--            if the column is not of gnm_float-bounded type, this status
 --            is the same as LPX_NL (only in the case of this routine);
 -- LPX_NF   - the same as LPX_NL (only in the case of this routine);
 -- LPX_NS   - the same as LPX_NL (only in the case of this routine). */
@@ -908,7 +908,7 @@ void lpx_set_col_stat(LPX *lp, int j, int stat)
 --
 -- #include "glplpx.h"
 -- void lpx_load_mat(LPX *lp,
---    void *info, gnum_float (*mat)(void *info, int *i, int *j));
+--    void *info, gnm_float (*mat)(void *info, int *i, int *j));
 --
 -- *Description*
 --
@@ -936,17 +936,17 @@ struct mat_info
 {     /* transit information passed to the routine mat */
       LPX *lp;
       void *info;
-      gnum_float (*mat)(void *info, int *i, int *j);
+      gnm_float (*mat)(void *info, int *i, int *j);
 };
 
-static gnum_float mat(void *_info, int *i, int *j)
+static gnm_float mat(void *_info, int *i, int *j)
 {     /* this intermediate routine is used to scale data loaded in the
          constraint matrix */
       struct mat_info *info = _info;
       LPX *lp = info->lp;
       int m = lp->m;
       int n = lp->n;
-      gnum_float aij = info->mat(info->info, i, j);
+      gnm_float aij = info->mat(info->info, i, j);
       if (!(*i == 0 && *j == 0))
       {  if (!(1 <= *i && *i <= m))
             fault("lpx_load_mat: i = %d; invalid row number", *i);
@@ -961,7 +961,7 @@ static gnum_float mat(void *_info, int *i, int *j)
 }
 
 void lpx_load_mat(LPX *lp,
-      void *_info, gnum_float (*_mat)(void *info, int *i, int *j))
+      void *_info, gnm_float (*_mat)(void *info, int *i, int *j))
 {     struct mat_info info;
       /* load scaled data in the constraint matrix */
       info.lp = lp;
@@ -983,7 +983,7 @@ void lpx_load_mat(LPX *lp,
 -- *Synopsis*
 --
 -- #include "glplpx.h"
--- void lpx_load_mat3(LPX *lp, int nz, int rn[], int cn[], gnum_float a[]);
+-- void lpx_load_mat3(LPX *lp, int nz, int rn[], int cn[], gnm_float a[]);
 --
 -- *Description*
 --
@@ -1005,11 +1005,11 @@ struct mat3_info
       int nz;
       int *rn;
       int *cn;
-      gnum_float *a;
+      gnm_float *a;
       int ptr;
 };
 
-static gnum_float mat3(void *_info, int *i, int *j)
+static gnm_float mat3(void *_info, int *i, int *j)
 {     /* "reads" a next element of the constraint matrix */
       struct mat3_info *info = _info;
       info->ptr++;
@@ -1023,7 +1023,7 @@ static gnum_float mat3(void *_info, int *i, int *j)
       return info->a[info->ptr];
 }
 
-void lpx_load_mat3(LPX *lp, int nz, int rn[], int cn[], gnum_float a[])
+void lpx_load_mat3(LPX *lp, int nz, int rn[], int cn[], gnm_float a[])
 {     struct mat3_info info;
       info.nz = nz;
       info.rn = rn;
@@ -1041,7 +1041,7 @@ void lpx_load_mat3(LPX *lp, int nz, int rn[], int cn[], gnum_float a[])
 --
 -- #include "glplpx.h"
 -- void lpx_set_mat_row(LPX *lp, int i, int len, int ndx[],
---    gnum_float val[]);
+--    gnm_float val[]);
 --
 -- *Description*
 --
@@ -1057,7 +1057,7 @@ void lpx_load_mat3(LPX *lp, int nz, int rn[], int cn[], gnum_float a[])
 -- Note that zero coefficients and multiplets (i.e. coefficients with
 -- identical column indices) are not allowed. */
 
-void lpx_set_mat_row(LPX *lp, int i, int len, int ndx[], gnum_float val[])
+void lpx_set_mat_row(LPX *lp, int i, int len, int ndx[], gnm_float val[])
 {     int m = lp->m;
       int n = lp->n;
       int i_beg, i_end, i_ptr, j;
@@ -1104,7 +1104,7 @@ void lpx_set_mat_row(LPX *lp, int i, int len, int ndx[], gnum_float val[])
 --
 -- #include "glplpx.h"
 -- void lpx_set_mat_col(LPX *lp, int j, int len, int ndx[],
---    gnum_float val[]);
+--    gnm_float val[]);
 --
 -- *Description*
 --
@@ -1120,7 +1120,7 @@ void lpx_set_mat_row(LPX *lp, int i, int len, int ndx[], gnum_float val[])
 -- Note that zero coefficients and multiplets (i.e. coefficients with
 -- identical row indices) are not allowed. */
 
-void lpx_set_mat_col(LPX *lp, int j, int len, int ndx[], gnum_float val[])
+void lpx_set_mat_col(LPX *lp, int j, int len, int ndx[], gnm_float val[])
 {     int m = lp->m;
       int n = lp->n;
       if (!(1 <= j && j <= n))
@@ -1274,11 +1274,11 @@ void lpx_del_items(LPX *lp)
       int clss = lp->clss;
       STR **name = lp->name;
       int *typx = lp->typx;
-      gnum_float *lb = lp->lb;
-      gnum_float *ub = lp->ub;
-      gnum_float *rs = lp->rs;
+      gnm_float *lb = lp->lb;
+      gnm_float *ub = lp->ub;
+      gnm_float *rs = lp->rs;
       int *mark = lp->mark;
-      gnum_float *coef = lp->coef;
+      gnm_float *coef = lp->coef;
       int *tagx = lp->tagx;
       int *kind = lp->kind;
       int m_new, n_new, k, k_new;

@@ -41,41 +41,41 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-static gnum_float n_d(gnum_float x);
-static gnum_float gf_max(gnum_float x, gnum_float y);
-static int Sgn(gnum_float a);
-gnum_float cum_biv_norm_dist1 (gnum_float a, gnum_float b, gnum_float rho);
-static gnum_float opt_bs1 (char const *call_put_flag, gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float v, gnum_float b);
+static gnm_float n_d(gnm_float x);
+static gnm_float gf_max(gnm_float x, gnm_float y);
+static int Sgn(gnm_float a);
+gnm_float cum_biv_norm_dist1 (gnm_float a, gnm_float b, gnm_float rho);
+static gnm_float opt_bs1 (char const *call_put_flag, gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float v, gnm_float b);
 
-static gnum_float opt_BAW_call	   (gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float b, gnum_float v);
-static gnum_float opt_BAW_put	   (gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float b, gnum_float v);
-static gnum_float NRA_c		   (gnum_float x, gnum_float  t, gnum_float r, gnum_float b, gnum_float v);
-static gnum_float NRA_p		   (gnum_float x, gnum_float t, gnum_float r, gnum_float b, gnum_float v);
-static gnum_float opt_bjerStens1_c (gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float b, gnum_float v);
-/* static gnum_float opt_bjerStens1_p (gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float b, gnum_float v); */
-static gnum_float opt_bjerStens1   (char const *call_put_flag, gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float b, gnum_float v);
-static gnum_float phi		   (gnum_float s, gnum_float t, gnum_float gamma, gnum_float H, gnum_float I, gnum_float r, gnum_float b, gnum_float v);
-static gnum_float CriticalValueOptionsOnOptions (char const *call_put_flag, gnum_float x1, gnum_float x2, gnum_float t,
-						 gnum_float r, gnum_float b, gnum_float v);
-static gnum_float opt_crit_val_chooser (gnum_float s,gnum_float xc,gnum_float xp,gnum_float t,
-					gnum_float tc, gnum_float tp, gnum_float r, gnum_float b, gnum_float v);
-gnum_float opt_bs_vega1 (gnum_float s,gnum_float x,gnum_float t,gnum_float r,gnum_float v,gnum_float b);
-gnum_float opt_bs_carrycost1 (char const *call_put_flag, gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float v, gnum_float b);
+static gnm_float opt_BAW_call	   (gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float b, gnm_float v);
+static gnm_float opt_BAW_put	   (gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float b, gnm_float v);
+static gnm_float NRA_c		   (gnm_float x, gnm_float  t, gnm_float r, gnm_float b, gnm_float v);
+static gnm_float NRA_p		   (gnm_float x, gnm_float t, gnm_float r, gnm_float b, gnm_float v);
+static gnm_float opt_bjerStens1_c (gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float b, gnm_float v);
+/* static gnm_float opt_bjerStens1_p (gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float b, gnm_float v); */
+static gnm_float opt_bjerStens1   (char const *call_put_flag, gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float b, gnm_float v);
+static gnm_float phi		   (gnm_float s, gnm_float t, gnm_float gamma, gnm_float H, gnm_float I, gnm_float r, gnm_float b, gnm_float v);
+static gnm_float CriticalValueOptionsOnOptions (char const *call_put_flag, gnm_float x1, gnm_float x2, gnm_float t,
+						 gnm_float r, gnm_float b, gnm_float v);
+static gnm_float opt_crit_val_chooser (gnm_float s,gnm_float xc,gnm_float xp,gnm_float t,
+					gnm_float tc, gnm_float tp, gnm_float r, gnm_float b, gnm_float v);
+gnm_float opt_bs_vega1 (gnm_float s,gnm_float x,gnm_float t,gnm_float r,gnm_float v,gnm_float b);
+gnm_float opt_bs_carrycost1 (char const *call_put_flag, gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float v, gnm_float b);
 
 
 /* The normal distribution function */
 #define calc_N(x) pnorm(x,0,1,TRUE,FALSE)
 
-static gnum_float
-n_d(gnum_float x)
+static gnm_float
+n_d(gnm_float x)
 {
-	gnum_float gfresult;
+	gnm_float gfresult;
 	gfresult = 1 / sqrtgnum(2 * M_PIgnum) * expgnum(-powgnum (x, 2) / 2);
 	return gfresult;
 }
 
-static gnum_float
-gf_max(gnum_float x, gnum_float y)
+static gnm_float
+gf_max(gnm_float x, gnm_float y)
 {
 	if (x >= y)
 		return x;
@@ -83,7 +83,7 @@ gf_max(gnum_float x, gnum_float y)
 }
 
 static int
-Sgn(gnum_float a)
+Sgn(gnm_float a)
 {
 	if (a>0) return 1;
 	else if (a<0) return -1;
@@ -91,16 +91,16 @@ Sgn(gnum_float a)
 }
 
 /* The cumulative bivariate normal distribution function */
-gnum_float
-cum_biv_norm_dist1 (gnum_float a, gnum_float b, gnum_float rho)
+gnm_float
+cum_biv_norm_dist1 (gnm_float a, gnm_float b, gnm_float rho)
 {
-	gnum_float rho1, rho2 , delta;
-	gnum_float a1, b1, sum = 0.0;
+	gnm_float rho1, rho2 , delta;
+	gnm_float a1, b1, sum = 0.0;
 	int i, j;
 
 
-	gnum_float x[] = {0.24840615, 0.39233107, 0.21141819, 0.03324666, 0.00082485334};
-	gnum_float y[] = {0.10024215, 0.48281397, 1.0609498, 1.7797294, 2.6697604};
+	gnm_float x[] = {0.24840615, 0.39233107, 0.21141819, 0.03324666, 0.00082485334};
+	gnm_float y[] = {0.10024215, 0.48281397, 1.0609498, 1.7797294, 2.6697604};
 	a1 = a / sqrtgnum (2 * (1 - powgnum (rho, 2)));
 	b1 = b / sqrtgnum (2 * (1 - powgnum (rho, 2)));
 
@@ -132,10 +132,10 @@ y[j] - b1) + 2 * rho * (y[i] - a1) * (y[j] - b1));
 static Value *
 cum_biv_norm_dist(FunctionEvalInfo *ei, Value *argv[])
 {
-	gnum_float a = value_get_as_float (argv[0]);
-	gnum_float b = value_get_as_float (argv[1]);
-	gnum_float rho = value_get_as_float (argv[2]);
-	gnum_float result;
+	gnm_float a = value_get_as_float (argv[0]);
+	gnm_float b = value_get_as_float (argv[1]);
+	gnm_float rho = value_get_as_float (argv[2]);
+	gnm_float result;
 
 	result = cum_biv_norm_dist1(a,b,rho);
 	if (result == -123)
@@ -157,13 +157,13 @@ static const char *help_cum_biv_norm_dist = {
 
 
 /* the generalized Black and Scholes formula*/
-static gnum_float
+static gnm_float
 opt_bs1 (char const *call_put_flag,
-	 gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float v,
-	 gnum_float b)
+	 gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float v,
+	 gnm_float b)
 {
-	gnum_float d1;
-	gnum_float d2;
+	gnm_float d1;
+	gnm_float d2;
 
 	d1 = (loggnum (s / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum (t));
 	d2 = d1 - v * sqrtgnum (t);
@@ -183,13 +183,13 @@ static Value *
 opt_bs (FunctionEvalInfo *ei, Value *argv[])
 {
 	char *call_put_flag = value_get_as_string(argv[0]);
-	gnum_float s = value_get_as_float (argv[1]);
-	gnum_float x = value_get_as_float (argv[2]);
-	gnum_float t = value_get_as_float (argv[3]);
-	gnum_float r = value_get_as_float (argv[4]);
-	gnum_float v = value_get_as_float (argv[5]);
-	gnum_float b = 0;
-	gnum_float gfresult;
+	gnm_float s = value_get_as_float (argv[1]);
+	gnm_float x = value_get_as_float (argv[2]);
+	gnm_float t = value_get_as_float (argv[3]);
+	gnm_float r = value_get_as_float (argv[4]);
+	gnm_float v = value_get_as_float (argv[5]);
+	gnm_float b = 0;
+	gnm_float gfresult;
 	if (argv[6]) b = value_get_as_float (argv[6]);
 		gfresult = opt_bs1 (call_put_flag,s,x,t,r,v,b);
 	g_free (call_put_flag);
@@ -223,12 +223,12 @@ static const char *help_opt_bs = {
 };
 
 /* Delta for the generalized Black and Scholes formula */
-static gnum_float
+static gnm_float
 opt_bs_delta1 (char const* call_put_flag,
-	       gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float v, gnum_float b)
+	       gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float v, gnm_float b)
 {
-	gnum_float d1;
-	gnum_float gfresult = 0;
+	gnm_float d1;
+	gnm_float gfresult = 0;
 
 	d1 = (loggnum (s / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum
 							      (t));
@@ -248,13 +248,13 @@ static Value *
 opt_bs_delta (FunctionEvalInfo *ei, Value *argv[])
 {
 	char *call_put_flag = value_get_as_string (argv[0]);
-	gnum_float s = value_get_as_float (argv[1]);
-	gnum_float x = value_get_as_float (argv[2]);
-	gnum_float t = value_get_as_float (argv[3]);
-	gnum_float r = value_get_as_float (argv[4]);
-	gnum_float v = value_get_as_float (argv[5]);
-	gnum_float b = 0;
-	gnum_float gfresult = 0;
+	gnm_float s = value_get_as_float (argv[1]);
+	gnm_float x = value_get_as_float (argv[2]);
+	gnm_float t = value_get_as_float (argv[3]);
+	gnm_float r = value_get_as_float (argv[4]);
+	gnm_float v = value_get_as_float (argv[5]);
+	gnm_float b = 0;
+	gnm_float gfresult = 0;
 
 	if (argv[6]) b = value_get_as_float (argv[6]);
 
@@ -296,10 +296,10 @@ static char const *help_opt_bs_delta = {
 
 
 /* Gamma for the generalized Black and Scholes formula */
-static gnum_float
-opt_bs_gamma1 (gnum_float s,gnum_float x,gnum_float t,gnum_float r,gnum_float v,gnum_float b)
+static gnm_float
+opt_bs_gamma1 (gnm_float s,gnm_float x,gnm_float t,gnm_float r,gnm_float v,gnm_float b)
 {
-	gnum_float d1;
+	gnm_float d1;
 
 	d1 = (loggnum (s / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum
 							      (t));
@@ -311,13 +311,13 @@ opt_bs_gamma1 (gnum_float s,gnum_float x,gnum_float t,gnum_float r,gnum_float v,
 static Value*
 opt_bs_gamma (FunctionEvalInfo *ei, Value *argv[])
 {
-	gnum_float s = value_get_as_float (argv[0]);
-	gnum_float x = value_get_as_float (argv[1]);
-	gnum_float t = value_get_as_float (argv[2]);
-	gnum_float r = value_get_as_float (argv[3]);
-	gnum_float v = value_get_as_float (argv[4]);
-	gnum_float b = 0;
-	gnum_float gfresult;
+	gnm_float s = value_get_as_float (argv[0]);
+	gnm_float x = value_get_as_float (argv[1]);
+	gnm_float t = value_get_as_float (argv[2]);
+	gnm_float r = value_get_as_float (argv[3]);
+	gnm_float v = value_get_as_float (argv[4]);
+	gnm_float b = 0;
+	gnm_float gfresult;
 	if (argv[5]) b = value_get_as_float (argv[5]);
 
 	gfresult = opt_bs_gamma1(s,x,t,r,v,b);
@@ -353,12 +353,12 @@ static char const *help_opt_bs_gamma = {
 };
 
 /* theta for the generalized Black and Scholes formula */
-static gnum_float
+static gnm_float
 opt_bs_theta1 (char const *call_put_flag,
-	       gnum_float s,gnum_float x,gnum_float t,gnum_float r,gnum_float v,gnum_float b)
+	       gnm_float s,gnm_float x,gnm_float t,gnm_float r,gnm_float v,gnm_float b)
 {
-	gnum_float d1, d2;
-	gnum_float gfresult =0;
+	gnm_float d1, d2;
+	gnm_float gfresult =0;
 
 	d1 = (loggnum (s / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum
 							      (t));
@@ -382,13 +382,13 @@ static Value*
 opt_bs_theta (FunctionEvalInfo *ei, Value *argv[])
 {
 	char *call_put_flag = value_get_as_string (argv[0]);
-	gnum_float s = value_get_as_float (argv[1]);
-	gnum_float x = value_get_as_float (argv[2]);
-	gnum_float t = value_get_as_float (argv[3]);
-	gnum_float r = value_get_as_float (argv[4]);
-	gnum_float v = value_get_as_float (argv[5]);
-	gnum_float b = 0;
-	gnum_float gfresult =0;
+	gnm_float s = value_get_as_float (argv[1]);
+	gnm_float x = value_get_as_float (argv[2]);
+	gnm_float t = value_get_as_float (argv[3]);
+	gnm_float r = value_get_as_float (argv[4]);
+	gnm_float v = value_get_as_float (argv[5]);
+	gnm_float b = 0;
+	gnm_float gfresult =0;
 
 	if (argv[6])
 		b = value_get_as_float (argv[6]);
@@ -430,10 +430,10 @@ static char const *help_opt_bs_theta = {
 
 
 /* Vega for the generalized Black and Scholes formula */
-gnum_float
-opt_bs_vega1 (gnum_float s,gnum_float x,gnum_float t,gnum_float r,gnum_float v,gnum_float b)
+gnm_float
+opt_bs_vega1 (gnm_float s,gnm_float x,gnm_float t,gnm_float r,gnm_float v,gnm_float b)
 {
-	gnum_float d1;
+	gnm_float d1;
 
 	d1 = (loggnum (s / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum(t));
 	return (s * expgnum ((b - r) * t) * n_d (d1) * sqrtgnum(t));
@@ -442,13 +442,13 @@ opt_bs_vega1 (gnum_float s,gnum_float x,gnum_float t,gnum_float r,gnum_float v,g
 static Value*
 opt_bs_vega (FunctionEvalInfo *ei, Value *argv[])
 {
-	gnum_float s = value_get_as_float (argv[0]);
-	gnum_float x = value_get_as_float (argv[1]);
-	gnum_float t = value_get_as_float (argv[2]);
-	gnum_float r = value_get_as_float (argv[3]);
-	gnum_float v = value_get_as_float (argv[4]);
-	gnum_float b = 0;
-	gnum_float gfresult;
+	gnm_float s = value_get_as_float (argv[0]);
+	gnm_float x = value_get_as_float (argv[1]);
+	gnm_float t = value_get_as_float (argv[2]);
+	gnm_float r = value_get_as_float (argv[3]);
+	gnm_float v = value_get_as_float (argv[4]);
+	gnm_float b = 0;
+	gnm_float gfresult;
 
 	if (argv[5]) b = value_get_as_float (argv[5]);
 
@@ -486,12 +486,12 @@ static char const *help_opt_bs_vega = {
 
 
 /* Rho for the generalized Black and Scholes formula */
-static gnum_float
-opt_bs_rho1 (char const *call_put_flag,gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float v, gnum_float b)
+static gnm_float
+opt_bs_rho1 (char const *call_put_flag,gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float v, gnm_float b)
 {
 
-	gnum_float d1, d2;
-	gnum_float gfresult =0;
+	gnm_float d1, d2;
+	gnm_float gfresult =0;
 
 
 	d1 = (loggnum (s / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum
@@ -521,13 +521,13 @@ static Value*
 opt_bs_rho (FunctionEvalInfo *ei, Value *argv[])
 {
 	char *call_put_flag = value_get_as_string (argv[0]);
-	gnum_float s = value_get_as_float (argv[1]);
-	gnum_float x = value_get_as_float (argv[2]);
-	gnum_float t = value_get_as_float (argv[3]);
-	gnum_float r = value_get_as_float (argv[4]);
-	gnum_float v = value_get_as_float (argv[5]);
-	gnum_float b = 0;
-	gnum_float gfresult =0;
+	gnm_float s = value_get_as_float (argv[1]);
+	gnm_float x = value_get_as_float (argv[2]);
+	gnm_float t = value_get_as_float (argv[3]);
+	gnm_float r = value_get_as_float (argv[4]);
+	gnm_float v = value_get_as_float (argv[5]);
+	gnm_float b = 0;
+	gnm_float gfresult =0;
 	if (argv[6]) b = value_get_as_float (argv[6]);
 
 	gfresult= opt_bs_rho1(call_put_flag,s,x,t,r,v,b);
@@ -566,11 +566,11 @@ static char const *help_opt_bs_rho = {
 };
 
 /* Carry for the generalized Black and Scholes formula */
-gnum_float
-opt_bs_carrycost1 (char const *call_put_flag, gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float v, gnum_float b)
+gnm_float
+opt_bs_carrycost1 (char const *call_put_flag, gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float v, gnm_float b)
 {
-	gnum_float d1;
-	gnum_float gfresult = 0;
+	gnm_float d1;
+	gnm_float gfresult = 0;
 
 
 	d1 = (loggnum (s / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum
@@ -589,13 +589,13 @@ static Value*
 opt_bs_carrycost (FunctionEvalInfo *ei, Value *argv[])
 {
 	char* call_put_flag = value_get_as_string (argv[0]);
-	gnum_float s = value_get_as_float (argv[1]);
-	gnum_float x = value_get_as_float (argv[2]);
-	gnum_float t = value_get_as_float (argv[3]);
-	gnum_float r = value_get_as_float (argv[4]);
-	gnum_float v = value_get_as_float (argv[5]);
-	gnum_float b = 0;
-	gnum_float gfresult = 0;
+	gnm_float s = value_get_as_float (argv[1]);
+	gnm_float x = value_get_as_float (argv[2]);
+	gnm_float t = value_get_as_float (argv[3]);
+	gnm_float r = value_get_as_float (argv[4]);
+	gnm_float v = value_get_as_float (argv[5]);
+	gnm_float b = 0;
+	gnm_float gfresult = 0;
 
 	if (argv[6]) b = value_get_as_float (argv[6]);
 
@@ -637,14 +637,14 @@ static char const *help_opt_bs_carrycost = {
 
 
 /* Currency Options - Garman and Kohlhagen */
-static gnum_float
+static gnm_float
 opt_garman_kohlhagen1(char const *call_put_flag,
-		      gnum_float s, gnum_float x, gnum_float t,
-		      gnum_float r, gnum_float rf, gnum_float v)
+		      gnm_float s, gnm_float x, gnm_float t,
+		      gnm_float r, gnm_float rf, gnm_float v)
 {
 
 
-	gnum_float d1, d2;
+	gnm_float d1, d2;
 
 	d1 = (loggnum(s / x) + (r - rf + powgnum (v, 2) / 2) * t) / (v * sqrtgnum(t));
 	d2 = d1 - v * sqrtgnum(t);
@@ -661,13 +661,13 @@ static Value*
 opt_garman_kohlhagen(FunctionEvalInfo *ei, Value *argv[])
 {
 	char *call_put_flag = value_get_as_string(argv[0]);
-	gnum_float s = value_get_as_float(argv[1]);
-	gnum_float x = value_get_as_float(argv[2]);
-	gnum_float t = value_get_as_float(argv[3]);
-	gnum_float r = value_get_as_float(argv[4]);
-	gnum_float rf = value_get_as_float(argv[5]);
-	gnum_float v = value_get_as_float(argv[6]);
-	gnum_float gfresult;
+	gnm_float s = value_get_as_float(argv[1]);
+	gnm_float x = value_get_as_float(argv[2]);
+	gnm_float t = value_get_as_float(argv[3]);
+	gnm_float r = value_get_as_float(argv[4]);
+	gnm_float rf = value_get_as_float(argv[5]);
+	gnm_float v = value_get_as_float(argv[6]);
+	gnm_float gfresult;
 
 	gfresult = opt_garman_kohlhagen1(call_put_flag, s, x, t, r, rf, v);
 	g_free (call_put_flag);
@@ -705,11 +705,11 @@ static char const *help_opt_garman_kohlhagen = {
 
 
 /* French (1984) adjusted Black and scholes model for trading day volatility */
-static gnum_float
-opt_french1 (char const *call_put_flag, gnum_float s, gnum_float  x, gnum_float t, gnum_float t1,
-	    gnum_float r, gnum_float v, gnum_float  b)
+static gnm_float
+opt_french1 (char const *call_put_flag, gnm_float s, gnm_float  x, gnm_float t, gnm_float t1,
+	    gnm_float r, gnm_float v, gnm_float  b)
 {
-	gnum_float d1, d2;
+	gnm_float d1, d2;
 
 	d1 = (loggnum(s / x) + b * t + powgnum (v, 2) / 2 * t1) / (v * sqrtgnum(t1));
 	d2 = d1 - v * sqrtgnum(t1);
@@ -726,14 +726,14 @@ static Value*
 opt_french(FunctionEvalInfo *ei, Value *argv[])
 {
 	char *call_put_flag = value_get_as_string(argv[0]);
-	gnum_float s = value_get_as_float(argv[1]);
-	gnum_float x = value_get_as_float(argv[2]);
-	gnum_float t = value_get_as_float(argv[3]);
-	gnum_float t1 = value_get_as_float(argv[4]);
-	gnum_float r = value_get_as_float(argv[5]);
-	gnum_float v = value_get_as_float(argv[6]);
-	gnum_float b = value_get_as_float(argv[7]);				
-	gnum_float gfresult;
+	gnm_float s = value_get_as_float(argv[1]);
+	gnm_float x = value_get_as_float(argv[2]);
+	gnm_float t = value_get_as_float(argv[3]);
+	gnm_float t1 = value_get_as_float(argv[4]);
+	gnm_float r = value_get_as_float(argv[5]);
+	gnm_float v = value_get_as_float(argv[6]);
+	gnm_float b = value_get_as_float(argv[7]);				
+	gnm_float gfresult;
 
 	gfresult = opt_french1(call_put_flag, s, x, t, t1, r, b, v);
 	g_free (call_put_flag);
@@ -771,12 +771,12 @@ static char const *help_opt_french = {
 };
 
 /* Merton jump diffusion model*/
-static gnum_float
-opt_jump_diff1 (char const *call_put_flag, gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float v,
-	       gnum_float lambda, gnum_float gamma)
+static gnm_float
+opt_jump_diff1 (char const *call_put_flag, gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float v,
+	       gnm_float lambda, gnm_float gamma)
 {
-	gnum_float delta, sum;
-	gnum_float Z, vi;
+	gnm_float delta, sum;
+	gnm_float Z, vi;
 	int i;
 
 	delta = sqrtgnum(gamma * powgnum (v, 2) / lambda);
@@ -795,14 +795,14 @@ static Value*
 opt_jump_diff(FunctionEvalInfo *ei, Value *argv[])
 {
 	char *call_put_flag = value_get_as_string(argv[0]);
-	gnum_float s = value_get_as_float(argv[1]);
-	gnum_float x = value_get_as_float(argv[2]);
-	gnum_float t = value_get_as_float(argv[3]);
-	gnum_float r = value_get_as_float(argv[4]);
-	gnum_float v = value_get_as_float(argv[5]);
-	gnum_float lambda = value_get_as_float(argv[6]);
-	gnum_float gamma = value_get_as_float(argv[7]);
-	gnum_float gfresult = 0;
+	gnm_float s = value_get_as_float(argv[1]);
+	gnm_float x = value_get_as_float(argv[2]);
+	gnm_float t = value_get_as_float(argv[3]);
+	gnm_float r = value_get_as_float(argv[4]);
+	gnm_float v = value_get_as_float(argv[5]);
+	gnm_float lambda = value_get_as_float(argv[6]);
+	gnm_float gamma = value_get_as_float(argv[7]);
+	gnm_float gfresult = 0;
 
 	gfresult = opt_jump_diff1(call_put_flag, s, x, t, r, v, lambda, gamma);
 	g_free (call_put_flag);
@@ -828,14 +828,14 @@ static const char *help_opt_jump_diff = {
 
 
 /* Miltersen schwartz (1997) commodity option model */
-static gnum_float
-opt_miltersen_schwartz1 (char const *call_put_flag, gnum_float p_t, gnum_float f_t, gnum_float x, gnum_float t1,
-			 gnum_float t2, gnum_float v_s, gnum_float v_e, gnum_float v_f, gnum_float rho_se,
-			 gnum_float rho_sf, gnum_float rho_ef, gnum_float kappa_e, gnum_float kappa_f)
+static gnm_float
+opt_miltersen_schwartz1 (char const *call_put_flag, gnm_float p_t, gnm_float f_t, gnm_float x, gnm_float t1,
+			 gnm_float t2, gnm_float v_s, gnm_float v_e, gnm_float v_f, gnm_float rho_se,
+			 gnm_float rho_sf, gnm_float rho_ef, gnm_float kappa_e, gnm_float kappa_f)
 {
-	gnum_float vz, vxz;
-	gnum_float d1, d2;
-	gnum_float gfresult;
+	gnm_float vz, vxz;
+	gnm_float d1, d2;
+	gnm_float gfresult;
 
 	vz = powgnum (v_s, 2) * t1 + 2 * v_s * (v_f * rho_sf * 1 / kappa_f * (t1 - 1 / kappa_f * expgnum(-kappa_f * t2) * (expgnum(kappa_f * t1) - 1))
 					    - v_e * rho_se * 1 / kappa_e * (t1 - 1 / kappa_e * expgnum(-kappa_e * t2) * (expgnum(kappa_e * t1) - 1)))
@@ -871,22 +871,22 @@ static Value*
 opt_miltersen_schwartz(FunctionEvalInfo *ei, Value *argv[])
 {
 	char *call_put_flag = value_get_as_string(argv[0]);
-	gnum_float p_t = value_get_as_float(argv[1]);
-	gnum_float f_t = value_get_as_float(argv[2]);
-	gnum_float x = value_get_as_float(argv[3]);
-	gnum_float t1 = value_get_as_float(argv[4]);
-	gnum_float t2 = value_get_as_float(argv[5]);
-	gnum_float v_s = value_get_as_float(argv[6]);
-	gnum_float v_e = value_get_as_float(argv[7]);
-	gnum_float v_f = value_get_as_float(argv[8]);
-	gnum_float rho_se = value_get_as_float(argv[9]);
-	gnum_float rho_sf = value_get_as_float(argv[10]);		
-	gnum_float rho_ef = value_get_as_float(argv[11]);
-	gnum_float kappa_e = value_get_as_float(argv[12]);
-	gnum_float kappa_f = value_get_as_float(argv[13]);
+	gnm_float p_t = value_get_as_float(argv[1]);
+	gnm_float f_t = value_get_as_float(argv[2]);
+	gnm_float x = value_get_as_float(argv[3]);
+	gnm_float t1 = value_get_as_float(argv[4]);
+	gnm_float t2 = value_get_as_float(argv[5]);
+	gnm_float v_s = value_get_as_float(argv[6]);
+	gnm_float v_e = value_get_as_float(argv[7]);
+	gnm_float v_f = value_get_as_float(argv[8]);
+	gnm_float rho_se = value_get_as_float(argv[9]);
+	gnm_float rho_sf = value_get_as_float(argv[10]);		
+	gnm_float rho_ef = value_get_as_float(argv[11]);
+	gnm_float kappa_e = value_get_as_float(argv[12]);
+	gnm_float kappa_f = value_get_as_float(argv[13]);
 
 
-	gnum_float gfresult = 0;
+	gnm_float gfresult = 0;
 
 	gfresult = opt_miltersen_schwartz1(call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, kappa_e, kappa_f);
 	g_free (call_put_flag);
@@ -921,15 +921,15 @@ static char const *help_opt_miltersen_schwartz = {
 
 
 /* American Calls on stocks with known dividends, Roll-Geske-Whaley */
-static gnum_float opt_rgw1(gnum_float s, gnum_float x, gnum_float t1, gnum_float t2, gnum_float r, gnum_float d, gnum_float v)
+static gnm_float opt_rgw1(gnm_float s, gnm_float x, gnm_float t1, gnm_float t2, gnm_float r, gnm_float d, gnm_float v)
 	/*t1 time to dividend payout
 	  t2 time to option expiration */
 {
-	gnum_float sx, i;
-	gnum_float a1, a2, b1, b2;
-	gnum_float HighS, LowS, epsilon;
-	gnum_float ci, infinity;
-	gnum_float gfresult;
+	gnm_float sx, i;
+	gnm_float a1, a2, b1, b2;
+	gnm_float HighS, LowS, epsilon;
+	gnm_float ci, infinity;
+	gnm_float gfresult;
 
 	infinity = 100000000;
 	epsilon = 0.00001;
@@ -983,14 +983,14 @@ static gnum_float opt_rgw1(gnum_float s, gnum_float x, gnum_float t1, gnum_float
 static Value*
 opt_rgw(FunctionEvalInfo *ei, Value *argv[])
 {
-	gnum_float s = value_get_as_float(argv[0]);
-	gnum_float x = value_get_as_float(argv[1]);
-	gnum_float t1 = value_get_as_float(argv[2]);
-	gnum_float t2 = value_get_as_float(argv[3]);
-	gnum_float r = value_get_as_float(argv[4]);
-	gnum_float d = value_get_as_float(argv[5]);
-	gnum_float v = value_get_as_float(argv[6]);
-	gnum_float gfresult = 0;
+	gnm_float s = value_get_as_float(argv[0]);
+	gnm_float x = value_get_as_float(argv[1]);
+	gnm_float t1 = value_get_as_float(argv[2]);
+	gnm_float t2 = value_get_as_float(argv[3]);
+	gnm_float r = value_get_as_float(argv[4]);
+	gnm_float d = value_get_as_float(argv[5]);
+	gnm_float v = value_get_as_float(argv[6]);
+	gnm_float gfresult = 0;
 
 	gfresult = opt_rgw1(s, x, t1, t2, r, d, v);
 
@@ -1019,13 +1019,13 @@ static Value*
 opt_BAW_amer (FunctionEvalInfo *ei, Value *argv[])
 {
 	char *call_put_flag = value_get_as_string(argv[0]);
-	gnum_float s = value_get_as_float(argv[1]);
-	gnum_float x = value_get_as_float(argv[2]);
-	gnum_float t = value_get_as_float(argv[3]);
-	gnum_float r = value_get_as_float(argv[4]);
-	gnum_float b = value_get_as_float(argv[5]);
-	gnum_float v = value_get_as_float(argv[6]);
-	gnum_float gfresult = 0;
+	gnm_float s = value_get_as_float(argv[1]);
+	gnm_float x = value_get_as_float(argv[2]);
+	gnm_float t = value_get_as_float(argv[3]);
+	gnm_float r = value_get_as_float(argv[4]);
+	gnm_float b = value_get_as_float(argv[5]);
+	gnm_float v = value_get_as_float(argv[6]);
+	gnm_float gfresult = 0;
 
 	if (!strcmp(call_put_flag , "c"))
 		gfresult = opt_BAW_call(s, x, t, r, b, v);
@@ -1056,12 +1056,12 @@ static char const *help_opt_BAW_amer = {
 };
 
 /* American call */
-static gnum_float
-opt_BAW_call(gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float b, gnum_float v)
+static gnm_float
+opt_BAW_call(gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float b, gnm_float v)
 {
-	gnum_float sk, n, k;
-	gnum_float d1, q2, a2;
-	gnum_float gfresult;
+	gnm_float sk, n, k;
+	gnm_float d1, q2, a2;
+	gnm_float gfresult;
 	if (b >= r)
 		gfresult = opt_bs1("c", s, x, t, r, v,b);
 	else
@@ -1086,15 +1086,15 @@ opt_BAW_call(gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float 
 
 
 /* Newton Raphson algorithm to solve for the critical commodity price for a Call */
-static gnum_float
-NRA_c(gnum_float x, gnum_float  t, gnum_float r, gnum_float b, gnum_float v)
+static gnm_float
+NRA_c(gnm_float x, gnm_float  t, gnm_float r, gnm_float b, gnm_float v)
 {
-	gnum_float n, m;
-	gnum_float su, si;
-	gnum_float  h2, k;
-	gnum_float d1, q2, q2u;
-	gnum_float LHS, RHS;
-	gnum_float bi, e;
+	gnm_float n, m;
+	gnm_float su, si;
+	gnm_float  h2, k;
+	gnm_float d1, q2, q2u;
+	gnm_float LHS, RHS;
+	gnm_float bi, e;
 
 	/* Calculation of seed value, si */
 	n = 2 * b / powgnum (v, 2);
@@ -1126,12 +1126,12 @@ NRA_c(gnum_float x, gnum_float  t, gnum_float r, gnum_float b, gnum_float v)
 	return si;
 }
 
-static gnum_float
-opt_BAW_put (gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float b, gnum_float v)
+static gnm_float
+opt_BAW_put (gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float b, gnm_float v)
 {
-	gnum_float sk, n, k;
-	gnum_float d1, q1, a1;
-	gnum_float gfresult;
+	gnm_float sk, n, k;
+	gnm_float d1, q1, a1;
+	gnm_float gfresult;
 
 	sk = NRA_p(x, t, r, b, v);
 	n = 2 * b / powgnum (v, 2);
@@ -1149,16 +1149,16 @@ opt_BAW_put (gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float 
 }
 
 /* Newton Raphson algorithm to solve for the critical commodity price for a Put*/
-static gnum_float
-NRA_p(gnum_float x, gnum_float t, gnum_float r, gnum_float b, gnum_float v)
+static gnm_float
+NRA_p(gnm_float x, gnm_float t, gnm_float r, gnm_float b, gnm_float v)
 {
 
-	gnum_float n, m;
-	gnum_float su, si;
-	gnum_float h1, k;
-	gnum_float d1, q1u, q1;
-	gnum_float LHS, RHS;
-	gnum_float bi, e;
+	gnm_float n, m;
+	gnm_float su, si;
+	gnm_float h1, k;
+	gnm_float d1, q1u, q1;
+	gnm_float LHS, RHS;
+	gnm_float bi, e;
 
 	/* Calculation of seed value, si */
 	n = 2 * b / powgnum (v, 2);
@@ -1190,10 +1190,10 @@ NRA_p(gnum_float x, gnum_float t, gnum_float r, gnum_float b, gnum_float v)
 }
 
 /* the Bjerksund and stensland (1993) American approximation */
-static gnum_float
-opt_bjerStens1 (char const *call_put_flag, gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float b, gnum_float v)
+static gnm_float
+opt_bjerStens1 (char const *call_put_flag, gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float b, gnm_float v)
 {
-	gnum_float gfresult;
+	gnm_float gfresult;
 
 	if (!strcmp(call_put_flag , "c"))
 		gfresult = opt_bjerStens1_c(s, x, t, r, b, v);
@@ -1208,13 +1208,13 @@ static Value *
 opt_bjerStens(FunctionEvalInfo *ei, Value *argv[])
 {
 	char* call_put_flag = value_get_as_string(argv[0]);
-	gnum_float s = value_get_as_float(argv[1]);
-	gnum_float x = value_get_as_float(argv[2]);
-	gnum_float t = value_get_as_float(argv[3]);
-	gnum_float r = value_get_as_float(argv[4]);
-	gnum_float v = value_get_as_float(argv[5]);
-	gnum_float b = value_get_as_float(argv[6]);
-	gnum_float gfresult;
+	gnm_float s = value_get_as_float(argv[1]);
+	gnm_float x = value_get_as_float(argv[2]);
+	gnm_float t = value_get_as_float(argv[3]);
+	gnm_float r = value_get_as_float(argv[4]);
+	gnm_float v = value_get_as_float(argv[5]);
+	gnm_float b = value_get_as_float(argv[6]);
+	gnm_float gfresult;
 
 	gfresult = opt_bjerStens1(call_put_flag, s, x, t, r, b, v);
 	g_free(call_put_flag);
@@ -1238,13 +1238,13 @@ static char const *help_opt_bjerStens = {
 	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
 };
 
-static gnum_float
-opt_bjerStens1_c(gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float b, gnum_float v)
+static gnm_float
+opt_bjerStens1_c(gnm_float s, gnm_float x, gnm_float t, gnm_float r, gnm_float b, gnm_float v)
 {
-	gnum_float  BInfinity, B0;
-	gnum_float  ht, I;
-	gnum_float alpha, Beta;
-	gnum_float gfresult;
+	gnm_float  BInfinity, B0;
+	gnm_float  ht, I;
+	gnm_float alpha, Beta;
+	gnm_float gfresult;
 
 	if (b >= r) /* Never optimal to exersice before maturity */
 		gfresult = opt_bs1("c", s, x, t, r, v, b);
@@ -1265,12 +1265,12 @@ opt_bjerStens1_c(gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_fl
 	return gfresult;
 } /*end func*/
 
-static gnum_float
-phi(gnum_float s, gnum_float t, gnum_float gamma, gnum_float H, gnum_float I, gnum_float r, gnum_float b, gnum_float v)
+static gnm_float
+phi(gnm_float s, gnm_float t, gnm_float gamma, gnm_float H, gnm_float I, gnm_float r, gnm_float b, gnm_float v)
 {
-	gnum_float lambda, kappa;
-	gnum_float d;
-	gnum_float gfresult;
+	gnm_float lambda, kappa;
+	gnm_float d;
+	gnm_float gfresult;
 
 	lambda = (-r + gamma * b + 0.5 * gamma * (gamma - 1) * powgnum (v, 2)) * t;
 	d = -(loggnum(s / H) + (b + (gamma - 0.5) * powgnum (v, 2)) * t) / (v * sqrtgnum(t));
@@ -1286,14 +1286,14 @@ static Value *
 opt_exec(FunctionEvalInfo *ei, Value *argv[])
 {
 	char *call_put_flag = value_get_as_string(argv[0]);
-	gnum_float s = value_get_as_float(argv[1]);
-	gnum_float x = value_get_as_float(argv[2]);
-	gnum_float t = value_get_as_float(argv[3]);
-	gnum_float r = value_get_as_float(argv[4]);
-	gnum_float v = value_get_as_float(argv[5]);
-	gnum_float b = value_get_as_float(argv[6]);
-	gnum_float lambda = value_get_as_float(argv[7]);
-	gnum_float gfresult;
+	gnm_float s = value_get_as_float(argv[1]);
+	gnm_float x = value_get_as_float(argv[2]);
+	gnm_float t = value_get_as_float(argv[3]);
+	gnm_float r = value_get_as_float(argv[4]);
+	gnm_float v = value_get_as_float(argv[5]);
+	gnm_float b = value_get_as_float(argv[6]);
+	gnm_float lambda = value_get_as_float(argv[7]);
+	gnm_float gfresult;
 
 	gfresult = expgnum(-lambda * t) * opt_bs1(call_put_flag, s, x, t, r, v, b);
 	g_free (call_put_flag);
@@ -1326,14 +1326,14 @@ static Value*
 opt_forward_start(FunctionEvalInfo *ei, Value *argv[])
 {
 	char *call_put_flag = value_get_as_string(argv[0]);
-	gnum_float s = value_get_as_float(argv[1]);
-	gnum_float alpha = value_get_as_float(argv[2]);
-	gnum_float t1 = value_get_as_float(argv[3]);
-	gnum_float t = value_get_as_float(argv[4]);
-	gnum_float r = value_get_as_float(argv[5]);
-	gnum_float v = value_get_as_float(argv[6]);
-	gnum_float b = value_get_as_float(argv[7]);
-	gnum_float gfresult;
+	gnm_float s = value_get_as_float(argv[1]);
+	gnm_float alpha = value_get_as_float(argv[2]);
+	gnm_float t1 = value_get_as_float(argv[3]);
+	gnm_float t = value_get_as_float(argv[4]);
+	gnm_float r = value_get_as_float(argv[5]);
+	gnm_float v = value_get_as_float(argv[6]);
+	gnm_float b = value_get_as_float(argv[7]);
+	gnm_float gfresult;
 
 	gfresult = s * expgnum((b - r) * t1) * opt_bs1(call_put_flag, 1, alpha, t - t1, r, v, b);
 	g_free (call_put_flag);
@@ -1364,18 +1364,18 @@ static Value*
 opt_time_switch(FunctionEvalInfo *ei, Value *argv[])
 {
 	char *call_put_flag = value_get_as_string(argv[0]);
-	gnum_float s = value_get_as_float(argv[1]);
-	gnum_float x = value_get_as_float(argv[2]);
-	gnum_float a = value_get_as_float(argv[3]);
-	gnum_float t = value_get_as_float(argv[4]);
-	gnum_float m = value_get_as_float(argv[5]);
-	gnum_float dt = value_get_as_float(argv[6]);
-	gnum_float r = value_get_as_float(argv[7]);
-	gnum_float b = value_get_as_float(argv[8]);
-	gnum_float v = value_get_as_float(argv[9]);
+	gnm_float s = value_get_as_float(argv[1]);
+	gnm_float x = value_get_as_float(argv[2]);
+	gnm_float a = value_get_as_float(argv[3]);
+	gnm_float t = value_get_as_float(argv[4]);
+	gnm_float m = value_get_as_float(argv[5]);
+	gnm_float dt = value_get_as_float(argv[6]);
+	gnm_float r = value_get_as_float(argv[7]);
+	gnm_float b = value_get_as_float(argv[8]);
+	gnm_float v = value_get_as_float(argv[9]);
 
-	gnum_float gfresult;
-	gnum_float sum, d;
+	gnm_float gfresult;
+	gnm_float sum, d;
 	int i, n, Z = 0;
 
 	n = t / dt;
@@ -1421,17 +1421,17 @@ static Value*
 opt_simple_chooser(FunctionEvalInfo *ei, Value *argv[])
 {
 
-	gnum_float s = value_get_as_float(argv[0]);
-	gnum_float x = value_get_as_float(argv[1]);
-	gnum_float t1 = value_get_as_float(argv[2]);
-	gnum_float t2 = value_get_as_float(argv[3]);
-	gnum_float r = value_get_as_float(argv[4]);
-	gnum_float b = value_get_as_float(argv[5]);
-	gnum_float v = value_get_as_float(argv[6]);
+	gnm_float s = value_get_as_float(argv[0]);
+	gnm_float x = value_get_as_float(argv[1]);
+	gnm_float t1 = value_get_as_float(argv[2]);
+	gnm_float t2 = value_get_as_float(argv[3]);
+	gnm_float r = value_get_as_float(argv[4]);
+	gnm_float b = value_get_as_float(argv[5]);
+	gnm_float v = value_get_as_float(argv[6]);
 
-	gnum_float gfresult;
+	gnm_float gfresult;
 
-	gnum_float d, y;
+	gnm_float d, y;
 
 	d = (loggnum(s / x) + (b + powgnum (v, 2) / 2) * t2) / (v * sqrtgnum(t2));
 	y = (loggnum(s / x) + b * t2 + powgnum (v, 2) * t1 / 2) / (v * sqrtgnum(t1));
@@ -1465,20 +1465,20 @@ static Value*
 opt_complex_chooser(FunctionEvalInfo *ei, Value *argv[])
 {
 
-	gnum_float s = value_get_as_float(argv[0]);
-	gnum_float xc = value_get_as_float(argv[1]);
-	gnum_float xp = value_get_as_float(argv[2]);
-	gnum_float t = value_get_as_float(argv[3]);
-	gnum_float tc = value_get_as_float(argv[4]);
-	gnum_float tp = value_get_as_float(argv[5]);
-	gnum_float r = value_get_as_float(argv[6]);
-	gnum_float b = value_get_as_float(argv[7]);
-	gnum_float v = value_get_as_float(argv[8]);
+	gnm_float s = value_get_as_float(argv[0]);
+	gnm_float xc = value_get_as_float(argv[1]);
+	gnm_float xp = value_get_as_float(argv[2]);
+	gnm_float t = value_get_as_float(argv[3]);
+	gnm_float tc = value_get_as_float(argv[4]);
+	gnm_float tp = value_get_as_float(argv[5]);
+	gnm_float r = value_get_as_float(argv[6]);
+	gnm_float b = value_get_as_float(argv[7]);
+	gnm_float v = value_get_as_float(argv[8]);
 
-	gnum_float gfresult;
+	gnm_float gfresult;
 
-	gnum_float d1, d2, y1, y2;
-	gnum_float rho1, rho2, I;
+	gnm_float d1, d2, y1, y2;
+	gnm_float rho1, rho2, I;
 
 	I = opt_crit_val_chooser(s, xc, xp, t, tc, tp, r, b, v);
 	d1 = (loggnum(s / I) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum(t));
@@ -1517,12 +1517,12 @@ static char const *help_opt_complex_chooser = {
 
 
 /* Critical value complex chooser option */
-static gnum_float
-opt_crit_val_chooser(gnum_float s,gnum_float xc,gnum_float xp,gnum_float t,
-		     gnum_float tc, gnum_float tp, gnum_float r, gnum_float b, gnum_float v)
+static gnm_float
+opt_crit_val_chooser(gnm_float s,gnm_float xc,gnm_float xp,gnm_float t,
+		     gnm_float tc, gnm_float tp, gnm_float r, gnm_float b, gnm_float v)
 {
-	gnum_float sv, ci, Pi, epsilon;
-	gnum_float dc, dp, yi, di;
+	gnm_float sv, ci, Pi, epsilon;
+	gnm_float dc, dp, yi, di;
 
 	sv = s;
 
@@ -1555,19 +1555,19 @@ static Value*
 opt_on_options(FunctionEvalInfo *ei, Value *argv[])
 {
 	char *type_flag = value_get_as_string(argv[0]);
-	gnum_float s = value_get_as_float(argv[1]);
-	gnum_float x1 = value_get_as_float(argv[2]);
-	gnum_float x2 = value_get_as_float(argv[3]);
-	gnum_float t1 = value_get_as_float(argv[4]);
-	gnum_float t2 = value_get_as_float(argv[5]);
-	gnum_float r = value_get_as_float(argv[6]);
-	gnum_float b = value_get_as_float(argv[7]);
-	gnum_float v = value_get_as_float(argv[8]);
+	gnm_float s = value_get_as_float(argv[1]);
+	gnm_float x1 = value_get_as_float(argv[2]);
+	gnm_float x2 = value_get_as_float(argv[3]);
+	gnm_float t1 = value_get_as_float(argv[4]);
+	gnm_float t2 = value_get_as_float(argv[5]);
+	gnm_float r = value_get_as_float(argv[6]);
+	gnm_float b = value_get_as_float(argv[7]);
+	gnm_float v = value_get_as_float(argv[8]);
 
-	gnum_float gfresult;
+	gnm_float gfresult;
 
-	gnum_float y1, y2, z1, z2;
-	gnum_float I, rho;
+	gnm_float y1, y2, z1, z2;
+	gnm_float I, rho;
 	char const *call_put_flag;
 
 	if (!strcmp (type_flag , "cc") ||
@@ -1620,11 +1620,11 @@ static char const *help_opt_on_options = {
 
 
 /* Calculation of critical price options on options */
-static gnum_float
-CriticalValueOptionsOnOptions (char const *call_put_flag, gnum_float x1, gnum_float x2, gnum_float t,
-			      gnum_float r, gnum_float b, gnum_float v)
+static gnm_float
+CriticalValueOptionsOnOptions (char const *call_put_flag, gnm_float x1, gnm_float x2, gnm_float t,
+			      gnm_float r, gnm_float b, gnm_float v)
 {
-	gnum_float si, ci, di, epsilon;
+	gnm_float si, ci, di, epsilon;
 
 	si = x1;
 	ci = opt_bs1(call_put_flag, si, x1, t, r, v, b);
@@ -1645,19 +1645,19 @@ static Value*
 opt_extendible_writer (FunctionEvalInfo *ei, Value *argv[])
 {
 	char *call_put_flag = value_get_as_string(argv[0]);
-	gnum_float s = value_get_as_float(argv[1]);
-	gnum_float x1 = value_get_as_float(argv[2]);
-	gnum_float x2 = value_get_as_float(argv[3]);
-	gnum_float t1 = value_get_as_float(argv[4]);
-	gnum_float t2 = value_get_as_float(argv[5]);
-	gnum_float r = value_get_as_float(argv[6]);
-	gnum_float b = value_get_as_float(argv[7]);
-	gnum_float v = value_get_as_float(argv[8]);
+	gnm_float s = value_get_as_float(argv[1]);
+	gnm_float x1 = value_get_as_float(argv[2]);
+	gnm_float x2 = value_get_as_float(argv[3]);
+	gnm_float t1 = value_get_as_float(argv[4]);
+	gnm_float t2 = value_get_as_float(argv[5]);
+	gnm_float r = value_get_as_float(argv[6]);
+	gnm_float b = value_get_as_float(argv[7]);
+	gnm_float v = value_get_as_float(argv[8]);
 
-	gnum_float gfresult;
+	gnm_float gfresult;
 
 
-	gnum_float rho, z1, z2;
+	gnm_float rho, z1, z2;
 	rho = sqrtgnum(t1 / t2);
 	z1 = (loggnum(s / x2) + (b + powgnum (v, 2) / 2) * t2) / (v * sqrtgnum(t2));
 	z2 = (loggnum(s / x1) + (b + powgnum (v, 2) / 2) * t1) / (v * sqrtgnum(t1));

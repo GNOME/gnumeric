@@ -81,7 +81,7 @@ LUF *luf_create(int n, int sv_size)
       luf->vr_ptr = ucalloc(1+n, sizeof(int));
       luf->vr_len = ucalloc(1+n, sizeof(int));
       luf->vr_cap = ucalloc(1+n, sizeof(int));
-      luf->vr_piv = ucalloc(1+n, sizeof(gnum_float));
+      luf->vr_piv = ucalloc(1+n, sizeof(gnm_float));
       for (i = 1; i <= n; i++)
       {  luf->vr_ptr[i] = 1;
          luf->vr_len[i] = 0;
@@ -116,7 +116,7 @@ LUF *luf_create(int n, int sv_size)
       luf->sv_beg = 1;
       luf->sv_end = sv_size + 1;
       luf->sv_ndx = ucalloc(1+sv_size, sizeof(int));
-      luf->sv_val = ucalloc(1+sv_size, sizeof(gnum_float));
+      luf->sv_val = ucalloc(1+sv_size, sizeof(gnm_float));
       /* initially all rows and columns of the matrix V are empty, and
          therefore the order 1, ..., n, n+1, ..., n+n is used */
       luf->sv_head = 1;
@@ -130,7 +130,7 @@ LUF *luf_create(int n, int sv_size)
       luf->sv_next[n+n] = 0;
       /* allocate working arrays */
       luf->flag = ucalloc(1+n, sizeof(int));
-      luf->work = ucalloc(1+n, sizeof(gnum_float));
+      luf->work = ucalloc(1+n, sizeof(gnm_float));
       /* set default values of control parameters */
       luf->new_sva = 0;
       luf->piv_tol = 0.10;
@@ -178,7 +178,7 @@ void luf_defrag_sva(LUF *luf)
       int *vc_len = luf->vc_len;
       int *vc_cap = luf->vc_cap;
       int *sv_ndx = luf->sv_ndx;
-      gnum_float *sv_val = luf->sv_val;
+      gnm_float *sv_val = luf->sv_val;
       int *sv_next = luf->sv_next;
       int sv_beg = 1;
       int i, j, k;
@@ -208,7 +208,7 @@ void luf_defrag_sva(LUF *luf)
             memmove(&sv_ndx[sv_beg], &sv_ndx[vr_ptr[i]],
                vr_len[i] * sizeof(int));
             memmove(&sv_val[sv_beg], &sv_val[vr_ptr[i]],
-               vr_len[i] * sizeof(gnum_float));
+               vr_len[i] * sizeof(gnm_float));
             vr_ptr[i] = sv_beg;
             vr_cap[i] = vr_len[i];
             sv_beg += vr_cap[i];
@@ -219,7 +219,7 @@ void luf_defrag_sva(LUF *luf)
             memmove(&sv_ndx[sv_beg], &sv_ndx[vc_ptr[j]],
                vc_len[j] * sizeof(int));
             memmove(&sv_val[sv_beg], &sv_val[vc_ptr[j]],
-               vc_len[j] * sizeof(gnum_float));
+               vc_len[j] * sizeof(gnm_float));
             vc_ptr[j] = sv_beg;
             vc_cap[j] = vc_len[j];
             sv_beg += vc_cap[j];
@@ -263,7 +263,7 @@ int luf_enlarge_row(LUF *luf, int i, int cap)
       int *vr_cap = luf->vr_cap;
       int *vc_cap = luf->vc_cap;
       int *sv_ndx = luf->sv_ndx;
-      gnum_float *sv_val = luf->sv_val;
+      gnm_float *sv_val = luf->sv_val;
       int *sv_prev = luf->sv_prev;
       int *sv_next = luf->sv_next;
       int ret = 0;
@@ -284,7 +284,7 @@ int luf_enlarge_row(LUF *luf, int i, int cap)
       memmove(&sv_ndx[luf->sv_beg], &sv_ndx[vr_ptr[i]],
          vr_len[i] * sizeof(int));
       memmove(&sv_val[luf->sv_beg], &sv_val[vr_ptr[i]],
-         vr_len[i] * sizeof(gnum_float));
+         vr_len[i] * sizeof(gnm_float));
       /* set new pointer and new capacity of the i-th row */
       vr_ptr[i] = luf->sv_beg;
       vr_cap[i] = cap;
@@ -353,7 +353,7 @@ int luf_enlarge_col(LUF *luf, int j, int cap)
       int *vc_len = luf->vc_len;
       int *vc_cap = luf->vc_cap;
       int *sv_ndx = luf->sv_ndx;
-      gnum_float *sv_val = luf->sv_val;
+      gnm_float *sv_val = luf->sv_val;
       int *sv_prev = luf->sv_prev;
       int *sv_next = luf->sv_next;
       int ret = 0;
@@ -374,7 +374,7 @@ int luf_enlarge_col(LUF *luf, int j, int cap)
       memmove(&sv_ndx[luf->sv_beg], &sv_ndx[vc_ptr[j]],
          vc_len[j] * sizeof(int));
       memmove(&sv_val[luf->sv_beg], &sv_val[vc_ptr[j]],
-         vc_len[j] * sizeof(gnum_float));
+         vc_len[j] * sizeof(gnm_float));
       /* set new pointer and new capacity of the j-th column */
       vc_ptr[j] = luf->sv_beg;
       vc_cap[j] = cap;
@@ -430,7 +430,7 @@ LUF_WA *luf_alloc_wa(LUF *luf)
 {     LUF_WA *wa;
       int n = luf->n;
       wa = umalloc(sizeof(LUF_WA));
-      wa->rs_max = ucalloc(1+n, sizeof(gnum_float));
+      wa->rs_max = ucalloc(1+n, sizeof(gnm_float));
       wa->rs_head = ucalloc(1+n, sizeof(int));
       wa->rs_prev = ucalloc(1+n, sizeof(int));
       wa->rs_next = ucalloc(1+n, sizeof(int));
@@ -478,7 +478,7 @@ void luf_free_wa(LUF_WA *wa)
 -- overflow of the sparse vector area, the routine returns non-zero. */
 
 static int initialize(LUF *luf,
-      void *info, int (*col)(void *info, int j, int rn[], gnum_float aj[]),
+      void *info, int (*col)(void *info, int j, int rn[], gnm_float aj[]),
       LUF_WA *wa)
 {     int n = luf->n;
       int *fc_ptr = luf->fc_ptr;
@@ -494,12 +494,12 @@ static int initialize(LUF *luf,
       int *qq_row = luf->qq_row;
       int *qq_col = luf->qq_col;
       int *sv_ndx = luf->sv_ndx;
-      gnum_float *sv_val = luf->sv_val;
+      gnm_float *sv_val = luf->sv_val;
       int *sv_prev = luf->sv_prev;
       int *sv_next = luf->sv_next;
       int *flag = luf->flag;
-      gnum_float *work = luf->work;
-      gnum_float *rs_max = wa->rs_max;
+      gnm_float *work = luf->work;
+      gnm_float *rs_max = wa->rs_max;
       int *rs_head = wa->rs_head;
       int *rs_prev = wa->rs_prev;
       int *rs_next = wa->rs_next;
@@ -508,7 +508,7 @@ static int initialize(LUF *luf,
       int *cs_next = wa->cs_next;
       int ret = 0;
       int i, i_ptr, j, j_beg, j_end, k, len, nnz, sv_beg, sv_end, ptr;
-      gnum_float big, val;
+      gnm_float big, val;
       /* free all locations of the sparse vector area */
       sv_beg = 1;
       sv_end = luf->sv_size + 1;
@@ -529,7 +529,7 @@ static int initialize(LUF *luf,
       big = 0.0;
       for (j = 1; j <= n; j++)
       {  int *rn = pp_row;
-         gnum_float *aj = work;
+         gnm_float *aj = work;
          /* obtain j-th column of the matrix A */
          len = col(info, j, rn, aj);
          if (!(0 <= len && len <= n))
@@ -736,11 +736,11 @@ static int find_pivot(LUF *luf, LUF_WA *wa, int *_p, int *_q)
       int *vc_ptr = luf->vc_ptr;
       int *vc_len = luf->vc_len;
       int *sv_ndx = luf->sv_ndx;
-      gnum_float *sv_val = luf->sv_val;
-      gnum_float piv_tol = luf->piv_tol;
+      gnm_float *sv_val = luf->sv_val;
+      gnm_float piv_tol = luf->piv_tol;
       int piv_lim = luf->piv_lim;
       int suhl = luf->suhl;
-      gnum_float *rs_max = wa->rs_max;
+      gnm_float *rs_max = wa->rs_max;
       int *rs_head = wa->rs_head;
       int *rs_next = wa->rs_next;
       int *cs_head = wa->cs_head;
@@ -748,7 +748,7 @@ static int find_pivot(LUF *luf, LUF_WA *wa, int *_p, int *_q)
       int *cs_next = wa->cs_next;
       int p, q, len, i, i_beg, i_end, i_ptr, j, j_beg, j_end, j_ptr,
          ncand, next_j, min_p, min_q, min_len;
-      gnum_float best, cost, big, temp;
+      gnm_float best, cost, big, temp;
       /* initially no pivot candidates have been found so far */
       p = q = 0, best = DBL_MAX, ncand = 0;
       /* if in the active submatrix there is a column that has the only
@@ -825,7 +825,7 @@ static int find_pivot(LUF *luf, LUF_WA *wa, int *_p, int *_q)
             {  /* the minimal element is a next pivot candidate */
                ncand++;
                /* compute its Markowitz cost */
-               cost = (gnum_float)(min_len - 1) * (gnum_float)(len - 1);
+               cost = (gnm_float)(min_len - 1) * (gnm_float)(len - 1);
                /* choose between the minimal element and the current
                   candidate */
                if (cost < best) p = min_p, q = min_q, best = cost;
@@ -905,7 +905,7 @@ static int find_pivot(LUF *luf, LUF_WA *wa, int *_p, int *_q)
             {  /* the minimal element is a next pivot candidate */
                ncand++;
                /* compute its Markowitz cost */
-               cost = (gnum_float)(len - 1) * (gnum_float)(min_len - 1);
+               cost = (gnm_float)(len - 1) * (gnm_float)(min_len - 1);
                /* choose between the minimal element and the current
                   candidate */
                if (cost < best) p = min_p, q = min_q, best = cost;
@@ -994,18 +994,18 @@ static int eliminate(LUF *luf, LUF_WA *wa, int p, int q)
       int *vr_ptr = luf->vr_ptr;
       int *vr_len = luf->vr_len;
       int *vr_cap = luf->vr_cap;
-      gnum_float *vr_piv = luf->vr_piv;
+      gnm_float *vr_piv = luf->vr_piv;
       int *vc_ptr = luf->vc_ptr;
       int *vc_len = luf->vc_len;
       int *vc_cap = luf->vc_cap;
       int *sv_ndx = luf->sv_ndx;
-      gnum_float *sv_val = luf->sv_val;
+      gnm_float *sv_val = luf->sv_val;
       int *sv_prev = luf->sv_prev;
       int *sv_next = luf->sv_next;
       int *flag = luf->flag;
-      gnum_float *work = luf->work;
-      gnum_float eps_tol = luf->eps_tol;
-      gnum_float *rs_max = wa->rs_max;
+      gnm_float *work = luf->work;
+      gnm_float eps_tol = luf->eps_tol;
+      gnm_float *rs_max = wa->rs_max;
       int *rs_head = wa->rs_head;
       int *rs_prev = wa->rs_prev;
       int *rs_next = wa->rs_next;
@@ -1018,7 +1018,7 @@ static int eliminate(LUF *luf, LUF_WA *wa, int p, int q)
       int ret = 0;
       int len, fill, i, i_beg, i_end, i_ptr, j, j_beg, j_end, j_ptr, k,
          p_beg, p_end, p_ptr, q_beg, q_end, q_ptr;
-      gnum_float fip, val, vpq, temp;
+      gnm_float fip, val, vpq, temp;
       insist(1 <= p && p <= n);
       insist(1 <= q && q <= n);
       /* remove the p-th (pivot) row from the active set; this row will
@@ -1331,7 +1331,7 @@ static int build_v_cols(LUF *luf)
       int *vc_len = luf->vc_len;
       int *vc_cap = luf->vc_cap;
       int *sv_ndx = luf->sv_ndx;
-      gnum_float *sv_val = luf->sv_val;
+      gnm_float *sv_val = luf->sv_val;
       int *sv_prev = luf->sv_prev;
       int *sv_next = luf->sv_next;
       int ret = 0;
@@ -1415,7 +1415,7 @@ static int build_f_rows(LUF *luf)
       int *fc_ptr = luf->fc_ptr;
       int *fc_len = luf->fc_len;
       int *sv_ndx = luf->sv_ndx;
-      gnum_float *sv_val = luf->sv_val;
+      gnm_float *sv_val = luf->sv_val;
       int ret = 0;
       int i, j, j_beg, j_end, j_ptr, ptr, nnz;
       /* clear rows of the matrix F */
@@ -1475,7 +1475,7 @@ done: /* return to the factorizing routine */
 --
 -- #include "glpluf.h"
 -- int luf_decomp(LUF *luf,
---    void *info, int (*col)(void *info, int j, int rn[], gnum_float aj[]),
+--    void *info, int (*col)(void *info, int j, int rn[], gnm_float aj[]),
 --    LUF_WA *wa);
 --
 -- *Description*
@@ -1556,18 +1556,18 @@ done: /* return to the factorizing routine */
 -- where rank, pp_row, and qq_col are members of the structure LUF. */
 
 int luf_decomp(LUF *luf,
-      void *info, int (*col)(void *info, int j, int rn[], gnum_float aj[]),
+      void *info, int (*col)(void *info, int j, int rn[], gnm_float aj[]),
       LUF_WA *_wa)
 {     int n = luf->n;
       int *pp_row = luf->pp_row;
       int *pp_col = luf->pp_col;
       int *qq_row = luf->qq_row;
       int *qq_col = luf->qq_col;
-      gnum_float piv_tol = luf->piv_tol;
+      gnm_float piv_tol = luf->piv_tol;
       int piv_lim = luf->piv_lim;
       int suhl = luf->suhl;
-      gnum_float eps_tol = luf->eps_tol;
-      gnum_float max_gro = luf->max_gro;
+      gnm_float eps_tol = luf->eps_tol;
+      gnm_float max_gro = luf->max_gro;
       LUF_WA *wa = (_wa == NULL ? luf_alloc_wa(luf) : _wa);
       int ret = 0;
       int i, j, k, p, q, t;
@@ -1590,7 +1590,7 @@ more: /* re-allocate the sparse vector area (if required) */
          ufree(luf->sv_val);
          luf->sv_size = luf->new_sva;
          luf->sv_ndx = ucalloc(1+luf->sv_size, sizeof(int));
-         luf->sv_val = ucalloc(1+luf->sv_size, sizeof(gnum_float));
+         luf->sv_val = ucalloc(1+luf->sv_size, sizeof(gnm_float));
          luf->new_sva = 0;
       }
       /* initialize LU-factorization data structures */
@@ -1679,7 +1679,7 @@ done: /* free the working area (if necessary) */
 -- *Synopsis*
 --
 -- #include "glpluf.h"
--- void luf_f_solve(LUF *luf, int tr, gnum_float x[]);
+-- void luf_f_solve(LUF *luf, int tr, gnm_float x[]);
 --
 -- *Description*
 --
@@ -1693,7 +1693,7 @@ done: /* free the working area (if necessary) */
 -- matrix F. On exit this array will contain elements of the solution
 -- vector x in the same locations. */
 
-void luf_f_solve(LUF *luf, int tr, gnum_float x[])
+void luf_f_solve(LUF *luf, int tr, gnm_float x[])
 {     int n = luf->n;
       int *fr_ptr = luf->fr_ptr;
       int *fr_len = luf->fr_len;
@@ -1701,9 +1701,9 @@ void luf_f_solve(LUF *luf, int tr, gnum_float x[])
       int *fc_len = luf->fc_len;
       int *pp_row = luf->pp_row;
       int *sv_ndx = luf->sv_ndx;
-      gnum_float *sv_val = luf->sv_val;
+      gnm_float *sv_val = luf->sv_val;
       int i, j, k, beg, end, ptr;
-      gnum_float xk;
+      gnm_float xk;
       if (!luf->valid)
          fault("luf_f_solve: LU-factorization is not valid");
       if (!tr)
@@ -1741,7 +1741,7 @@ void luf_f_solve(LUF *luf, int tr, gnum_float x[])
 -- *Synopsis*
 --
 -- #include "glpluf.h"
--- void luf_v_solve(LUF *luf, int tr, gnum_float x[]);
+-- void luf_v_solve(LUF *luf, int tr, gnm_float x[]);
 --
 -- *Description*
 --
@@ -1755,20 +1755,20 @@ void luf_f_solve(LUF *luf, int tr, gnum_float x[])
 -- matrix V. On exit this array will contain elements of the solution
 -- vector x in the same locations. */
 
-void luf_v_solve(LUF *luf, int tr, gnum_float x[])
+void luf_v_solve(LUF *luf, int tr, gnm_float x[])
 {     int n = luf->n;
       int *vr_ptr = luf->vr_ptr;
       int *vr_len = luf->vr_len;
-      gnum_float *vr_piv = luf->vr_piv;
+      gnm_float *vr_piv = luf->vr_piv;
       int *vc_ptr = luf->vc_ptr;
       int *vc_len = luf->vc_len;
       int *pp_row = luf->pp_row;
       int *qq_col = luf->qq_col;
       int *sv_ndx = luf->sv_ndx;
-      gnum_float *sv_val = luf->sv_val;
-      gnum_float *b = luf->work;
+      gnm_float *sv_val = luf->sv_val;
+      gnm_float *b = luf->work;
       int i, j, k, beg, end, ptr;
-      gnum_float temp;
+      gnm_float temp;
       if (!luf->valid)
          fault("luf_v_solve: LU-factorization is not valid");
       for (k = 1; k <= n; k++) b[k] = x[k], x[k] = 0.0;
@@ -1809,7 +1809,7 @@ void luf_v_solve(LUF *luf, int tr, gnum_float x[])
 -- *Synopsis*
 --
 -- #include "glpluf.h"
--- void luf_solve(LUF *luf, int tr, gnum_float x[]);
+-- void luf_solve(LUF *luf, int tr, gnm_float x[]);
 --
 -- *Description*
 --
@@ -1823,7 +1823,7 @@ void luf_v_solve(LUF *luf, int tr, gnum_float x[])
 -- matrix A. On exit this array will contain elements of the solution
 -- vector x in the same locations. */
 
-void luf_solve(LUF *luf, int tr, gnum_float x[])
+void luf_solve(LUF *luf, int tr, gnm_float x[])
 {     if (!luf->valid)
          fault("luf_solve: LU-factorization is not valid");
       if (!tr)

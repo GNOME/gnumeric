@@ -57,7 +57,7 @@
 typedef struct {
 	gint n;
 	Value **values;
-	gnum_float *cumul_p;
+	gnm_float *cumul_p;
 } discrete_random_tool_local_t;
 
 static void
@@ -83,20 +83,20 @@ tool_random_engine_run_discrete_last_check (__attribute__((unused)) data_analysi
 {
 	discrete_random_tool_local_t *data;
 	Value *range = param->range;
-	gnum_float cumprob = 0;
+	gnm_float cumprob = 0;
 	int j = 0;
 	int i;
 
 	data = *continuity = g_new0 (discrete_random_tool_local_t, 1);
 	data->n = range->v_range.cell.b.row - range->v_range.cell.a.row + 1;
-	data->cumul_p = g_new (gnum_float, data->n);
+	data->cumul_p = g_new (gnm_float, data->n);
 	data->values = g_new0 (Value *, data->n);
 
 	for (i = range->v_range.cell.a.row;
 	     i <= range->v_range.cell.b.row;
 	     i++, j++) {
 		Value *v;
-		gnum_float thisprob;
+		gnm_float thisprob;
 		Cell *cell = sheet_cell_get (range->v_range.cell.a.sheet,
 					     range->v_range.cell.a.col + 1, i);
 		
@@ -163,7 +163,7 @@ tool_random_engine_run_discrete (data_analysis_output_t *dao,
 		int k;
 		for (k = 0; k < info->count; k++) {
 			int j;
-			gnum_float x = random_01 ();
+			gnm_float x = random_01 ();
 			
 			for (j = 0; data->cumul_p[j] < x; j++)
 				;
@@ -182,10 +182,10 @@ tool_random_engine_run_uniform (data_analysis_output_t *dao,
 				uniform_random_tool_t *param)
 {
 	int i, n;
-	gnum_float range = param->upper_limit - param->lower_limit;
+	gnm_float range = param->upper_limit - param->lower_limit;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = range * random_01 () + param->lower_limit;
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -200,12 +200,12 @@ tool_random_engine_run_uniform_int (data_analysis_output_t *dao,
 				    uniform_random_tool_t *param)
 {
 	int        i, n;
-	gnum_float lower = floorgnum (param->lower_limit);
-	gnum_float range = floorgnum (param->upper_limit) - lower;
+	gnm_float lower = floorgnum (param->lower_limit);
+	gnm_float range = floorgnum (param->upper_limit) - lower;
 
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = floorgnum (0.5 + range * random_01 ()) + lower;
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -222,7 +222,7 @@ tool_random_engine_run_normal (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = param->stdev * random_normal () + param->mean;
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -238,7 +238,7 @@ tool_random_engine_run_bernoulli (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float tmp = random_bernoulli (param->p);
+			gnm_float tmp = random_bernoulli (param->p);
 			dao_set_cell_int (dao, i, n, (int)tmp);
 		}
 	}
@@ -253,7 +253,7 @@ tool_random_engine_run_beta (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float tmp = random_beta (param->a, param->b);
+			gnm_float tmp = random_beta (param->a, param->b);
 			dao_set_cell_float (dao, i, n, tmp);
 		}
 	}
@@ -268,7 +268,7 @@ tool_random_engine_run_binomial (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_binomial (param->p,
 					     param->trials);
 			dao_set_cell_float (dao, i, n, v);
@@ -285,7 +285,7 @@ tool_random_engine_run_negbinom (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_negbinom (param->p,
 					     param->f);
 			dao_set_cell_float (dao, i, n, v);
@@ -302,7 +302,7 @@ tool_random_engine_run_poisson (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_poisson (param->lambda);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -318,7 +318,7 @@ tool_random_engine_run_exponential (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_exponential (param->b);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -334,7 +334,7 @@ tool_random_engine_run_exppow (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_exppow (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -350,7 +350,7 @@ tool_random_engine_run_cauchy (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_cauchy (param->a);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -366,7 +366,7 @@ tool_random_engine_run_chisq (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_chisq (param->nu);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -382,7 +382,7 @@ tool_random_engine_run_pareto (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_pareto (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -398,7 +398,7 @@ tool_random_engine_run_rayleigh (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_rayleigh (param->sigma);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -414,7 +414,7 @@ tool_random_engine_run_rayleigh_tail (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_rayleigh_tail (param->a, param->sigma);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -430,7 +430,7 @@ tool_random_engine_run_levy (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_levy (param->c, param->alpha);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -446,7 +446,7 @@ tool_random_engine_run_fdist (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_fdist (param->nu1, param->nu2);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -462,7 +462,7 @@ tool_random_engine_run_lognormal (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_lognormal (param->zeta, param->sigma);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -478,7 +478,7 @@ tool_random_engine_run_logarithmic (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_logarithmic (param->p);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -494,7 +494,7 @@ tool_random_engine_run_logistic (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_logistic (param->a);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -510,7 +510,7 @@ tool_random_engine_run_tdist (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_tdist (param->nu);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -526,7 +526,7 @@ tool_random_engine_run_gamma (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_gamma (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -542,7 +542,7 @@ tool_random_engine_run_geometric (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_geometric (param->p);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -558,7 +558,7 @@ tool_random_engine_run_weibull (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_weibull (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -574,7 +574,7 @@ tool_random_engine_run_laplace (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_laplace (param->a);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -590,7 +590,7 @@ tool_random_engine_run_gaussian_tail (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_gaussian_tail (param->a, param->sigma);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -605,7 +605,7 @@ tool_random_engine_run_landau (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_landau ();
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -621,7 +621,7 @@ tool_random_engine_run_gumbel1 (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_gumbel1 (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 		}
@@ -637,7 +637,7 @@ tool_random_engine_run_gumbel2 (data_analysis_output_t *dao,
 	int i, n;
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
-			gnum_float v;
+			gnm_float v;
 			v = random_gumbel2 (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 		}
