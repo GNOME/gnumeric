@@ -39,7 +39,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.99.x\n"
 "POT-Creation-Date: 2001-12-26 00:56-0500\n"
-"PO-Revision-Date: 2001-12-25 00:44-0700\n"
+"PO-Revision-Date: 2001-12-30 16:22-0700\n"
 "Last-Translator: Christian Meyer <chrisime@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -67,13 +67,12 @@ msgid "Financial"
 msgstr "Finanzen"
 
 #: plugins/derivatives/plugin.xml.in.h:2
-#, fuzzy
 msgid "Financial Derivatives"
 msgstr "Finanzen"
 
 #: plugins/derivatives/plugin.xml.in.h:3
 msgid "Functions related to financial derivatives"
-msgstr ""
+msgstr "Weitere Finanzfunktionen"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
 #: plugins/mps/mps.c:571 src/xml-io.c:3448
@@ -302,7 +301,7 @@ msgstr "Datenbank"
 
 #: plugins/gda/plugin.xml.in.h:2
 msgid "Database functions for allowing the retrieval of data from a database"
-msgstr ""
+msgstr "Datenbank Funktionen um Datenbanken anzusprechen"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:1
 msgid "Gnome Glossary"
@@ -314,7 +313,7 @@ msgstr "GNOME Glossar-PO-Dateiformat"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:3
 msgid "It provides support for saving Gnome Glossary in .po files."
-msgstr ""
+msgstr "Erlaubt GNOME Glossare im PO-Dateiformat zu speichern"
 
 #: plugins/guile/plugin.c:67 src/func.c:778 src/functions/fn-information.c:697
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
@@ -406,9 +405,8 @@ msgid "Program Name"
 msgstr "Programmname"
 
 #: plugins/mps/mps.c:279
-#, fuzzy
 msgid "Objective Value"
-msgstr "Objektiv"
+msgstr "Zielwert"
 
 #. Print 'Status'.
 #: plugins/mps/mps.c:290
@@ -420,9 +418,8 @@ msgstr "Ausführbar"
 #.
 #. Print 'Objective function:'
 #: plugins/mps/mps.c:305
-#, fuzzy
 msgid "Objective function:"
-msgstr "Objektiv"
+msgstr "Zielfunktion"
 
 #. Print 'Current values'
 #: plugins/mps/mps.c:308
@@ -492,15 +489,15 @@ msgstr "Fehler beim Lesen der MPS-Datei."
 
 #: plugins/mps/plugin.xml.in.h:1
 msgid "Linear and integer program (*.mps) file format"
-msgstr ""
+msgstr "MPS Datei Format"
 
 #: plugins/mps/plugin.xml.in.h:2
 msgid "Linear and integer program expression format (MPS) module"
-msgstr ""
+msgstr "Modul: MPS Format"
 
 #: plugins/mps/plugin.xml.in.h:3
 msgid "Reads LP programs stored in the MPS format (*.mps)"
-msgstr ""
+msgstr "Öffnet MPS Dateien"
 
 #: plugins/numtheory/numtheory.c:198
 msgid ""
@@ -745,11 +742,11 @@ msgstr "Dokumente im »Plan Perfect«-Format (PLN) importieren"
 
 #: plugins/plan-perfect/plugin.xml.in.h:2
 msgid "Plan Perfect"
-msgstr ""
+msgstr "PLN Format"
 
 #: plugins/plan-perfect/plugin.xml.in.h:3
 msgid "Plan Perfect Format (PLN) import"
-msgstr ""
+msgstr "PLN Datei importieren"
 
 #: plugins/psiconv/psiconv-read.c:573
 msgid "Error while reading psiconv file."
@@ -761,7 +758,7 @@ msgstr "Fehler beim Parsen der psiconv-Datei."
 
 #: plugins/psiconv/plugin.xml.in.h:1
 msgid "Imports Psion 5 series Sheet files"
-msgstr ""
+msgstr "Importiert Psion 5 Dateien"
 
 #: plugins/psiconv/plugin.xml.in.h:2
 msgid "Psiconv"
@@ -780,7 +777,6 @@ msgid "Python functions"
 msgstr "Python-Funktionen"
 
 #: plugins/py-func/plugin.xml.in.h:3
-#, fuzzy
 msgid "Sample Python plugin providing some (useless) functions."
 msgstr "Beispiel Python Plugin mit ein paar Beispielsfunktionen"
 
@@ -992,7 +988,7 @@ msgstr "Info zu diesem Progamm"
 
 #: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:2887
 msgid "Add an outline group"
-msgstr ""
+msgstr "eine Überblicksgruppe zufügen"
 
 #: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:2917
 msgid "Advanced _Filter..."
@@ -1691,7 +1687,7 @@ msgstr "Rückgängig gemachte Aktion wiederherstellen"
 
 #: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:2890
 msgid "Remove an outline group"
-msgstr ""
+msgstr "Überblicksgruppe löschen"
 
 #: src/GNOME_Gnumeric.xml.h:167
 msgid "Remove selected cells, shifting others into their place"
@@ -1869,7 +1865,7 @@ msgstr "Umschalten, ob Gitterlinien angezeigt werden sollen oder nicht."
 
 #: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2897
 msgid "Toggle whether or not to display outline groups"
-msgstr ""
+msgstr "Umschalten, ob die Überblicksgruppen gezeigt werden oder nicht."
 
 #: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2818
 msgid "Toggle whether or not to display row headers"
@@ -1882,15 +1878,15 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2909
 msgid "Toggle whether to display column outlines on the left or right"
-msgstr ""
+msgstr "Umschalten, ob den Spaltenüberblick links oder rechts zu zeigen."
 
 #: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2903
 msgid "Toggle whether to display row outlines on top or bottom"
-msgstr ""
+msgstr "Umschalten, ob den Zeilenüberblick open oder unten zu zeigen."
 
 #: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2884
 msgid "Uncollapse an outline group"
-msgstr ""
+msgstr "Übersichtsgruppe zeigen"
 
 #: src/GNOME_Gnumeric.xml.h:213 src/workbook-format-toolbar.c:426
 msgid "Underline"
@@ -2145,7 +2141,7 @@ msgstr "Details an_zeigen"
 # 2001-02-13 07:38:35 CET -ke-
 #: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:2866
 msgid "_Solver..."
-msgstr "Anal_ysis..."
+msgstr "Lösungssuche..."
 
 #: src/GNOME_Gnumeric.xml.h:269
 msgid "_Sort..."
@@ -2327,13 +2323,11 @@ msgstr ""
 "Zweiseitiges P (Z<=z)/Zweiseitig Kritisches z"
 
 #: src/analysis-tools.c:1637
-#, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
-msgstr ""
-"/Mittel/Varianz/Beobachtungen/Pooled Variance/Hypothetische Mitteldifferenz/"
+msgstr "/Durchschnitt/Varianz/Beobachtungen/Gemeinsame Varianz/Hypothetische Durchschnittsdifferenz/Beobachtete Durchschnittsdifferenz/df/t Stat/Einseitiger P-Wert/Einseitiger Kritischer t Wert/Zweisieitiger P Wert/ Zweiseitiger Kritischer t Wert"
 
 #: src/analysis-tools.c:1767
 msgid ""
@@ -2350,11 +2344,10 @@ msgid "F-Test"
 msgstr "F-Test"
 
 #: src/analysis-tools.c:1913
-#, fuzzy
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
-msgstr "/Mittel/Varianz/Beobachtungen/Hypothetische Mitteldifferenz/"
+msgstr "/Durchschnitt/Varianz/Beobachtungen/df/F/Rechter P Wert/Rechter Kritischer F Wert/Linker P Wert/Linker Kritischer F Wert/Zweiseitiger P Wert/Zweiseitiger Kritischer F Wert"
 
 #: src/analysis-tools.c:2033 src/analysis-tools.c:2091
 msgid "Random"
@@ -2374,14 +2367,10 @@ msgid "Regression"
 msgstr "Regressionsanalyse"
 
 #: src/analysis-tools.c:2344
-#, fuzzy
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
-msgstr ""
-"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
-"Standardfehler/Beobachtungen//Varianzanalyse//Regression/Residual/Total///"
-"Intercept"
+msgstr "/Zusammenfassung//Regressions Statistik/Multiple R/R Square/Adjusted R Square/Standardfehler/Beobachtungen//Varianzanalyse//Regression/Residual/Gesamt///Intercept"
 
 #: src/analysis-tools.c:2365
 msgid "/df/SS/MS/F/Significance of F"
@@ -2545,7 +2534,7 @@ msgstr "Einfügen nicht möglich."
 
 #: src/clipboard.c:302
 msgid "Content can only be pasted by value or by link."
-msgstr ""
+msgstr "Inhalt kann nur als Wert oder Link eingefügt werden"
 
 #: src/clipboard.c:310
 #, c-format
@@ -3965,7 +3954,7 @@ msgstr "_Spaltenbreite (Punkte):"
 
 #: src/dialogs/consolidate.glade.h:1
 msgid "Add the entered area to the list of source areas"
-msgstr ""
+msgstr "die eingetragene Region der Liste der Quellregionen beifügen"
 
 #: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3617
 msgid "Average"
@@ -4358,12 +4347,10 @@ msgid "Could not create the Covariance Tool dialog."
 msgstr "Es war nicht möglich, den Kovarianz-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:1485
-#, fuzzy
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Es war nicht möglich, den Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:1584
-#, fuzzy
 msgid "Could not create the Rank and  Percentile Tools dialog."
 msgstr "Es war nicht möglich, den Druiden zu erzeugen."
 
@@ -4467,9 +4454,8 @@ msgid "_p Value:"
 msgstr "_p-Wert:"
 
 #: src/dialogs/dialog-analysis-tools.c:2535
-#, fuzzy
 msgid "N_umber of Trials:"
-msgstr "An_zahl der Versuche"
+msgstr "An_zahl der Versuche:"
 
 #: src/dialogs/dialog-analysis-tools.c:2537
 msgid "Negative Binomial"
@@ -4533,14 +4519,12 @@ msgid "_Y Variable:"
 msgstr "_Y-Variable:"
 
 #: src/dialogs/dialog-analysis-tools.c:3294
-#, fuzzy
 msgid "Could not create the Regression Tool dialog."
-msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
+msgstr "Es war nicht möglich, den Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:3466
-#, fuzzy
 msgid "Could not create the Exponential Smoothing Tool dialog."
-msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
+msgstr "Es war nicht möglich, den Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:3637
 msgid "Could not create the Moving Average Tool dialog."
@@ -4615,7 +4599,6 @@ msgid "Random Number Generation"
 msgstr "Erzeugung von Zufallszahlen"
 
 #: src/dialogs/dialog-analysis-tools.c:4372 src/dialogs/rank.glade.h:5
-#, fuzzy
 msgid "Rank and Percentile"
 msgstr "Stelle und Perzentile"
 
@@ -4924,12 +4907,10 @@ msgid "Any"
 msgstr "Irgend einer"
 
 #: src/dialogs/dialog-goal-seek.c:353
-#, fuzzy
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr "Sie müssen einen gültigen Zellennamen in 'Setzen der Zelle' eintragen."
 
 #: src/dialogs/dialog-goal-seek.c:361
-#, fuzzy
 msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr "Die in 'Setzen der Zelle' angegebene Zelle muss eine Formel enthalten."
 
@@ -4944,7 +4925,7 @@ msgstr ""
 
 #: src/dialogs/dialog-goal-seek.c:391
 msgid "The value given in 'To Value:' is not valid."
-msgstr ""
+msgstr "Der Wert im `Auf den Wert:' Feld ist nicht gültig."
 
 #: src/dialogs/dialog-goal-seek.c:468
 #, c-format
@@ -4957,9 +4938,8 @@ msgid "Goal seeking with cell %s did not find a solution."
 msgstr "Zielsuche mit Zelle %s war nicht erfolgreich."
 
 #: src/dialogs/dialog-goal-seek.c:652
-#, fuzzy
 msgid "Could not create the Goal-Seek dialog."
-msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
+msgstr "Es war nicht möglich, den Druiden zu erzeugen."
 
 #: src/dialogs/dialog-goto-cell.c:48 src/solver-lp.c:897 src/solver-lp.c:921
 #: src/solver-lp.c:954 src/solver-lp.c:1048 src/solver-lp.c:1095
@@ -4971,7 +4951,6 @@ msgid "Go to..."
 msgstr "Gehe zu..."
 
 #: src/dialogs/dialog-graph-guru.c:744
-#, fuzzy
 msgid "Step 1 of 3: Select graph type"
 msgstr "Schritt 1 von 3: Graph-Typ auswählen"
 
@@ -4990,18 +4969,16 @@ msgid "Step 3 of 3: Customize graph"
 msgstr "Schritt 3 von 3: Graph anpassen"
 
 #: src/dialogs/dialog-graph-guru.c:759
-#, fuzzy
 msgid "Format Graph"
-msgstr "Formel-Druide"
+msgstr "Graph formatieren"
 
 #: src/dialogs/dialog-graph-guru.c:934
 msgid "Plot name"
 msgstr "Plot-Name"
 
 #: src/dialogs/dialog-graph-guru.c:937
-#, fuzzy
 msgid "Series name"
-msgstr "Ein Blattname"
+msgstr "Reihenname"
 
 # Frame title; shortcut doesn't work here
 # 2001-02-13 06:57:09 CET -ke-
@@ -5201,12 +5178,12 @@ msgstr ""
 
 #: src/dialogs/dialog-solver.c:820
 msgid "The Target Cell value does not converge!"
-msgstr ""
+msgstr "Der Zielzellenwert konvergiert nicht."
 
 #: src/dialogs/dialog-solver.c:824
 #, c-format
 msgid "Solver was not successful: %i"
-msgstr ""
+msgstr "Die Lösungssuche war nicht erfolgreich: %i"
 
 # Contraint != Konstante
 #: src/dialogs/dialog-solver.c:846
@@ -5215,9 +5192,8 @@ msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Beschränkung »%s« ist für eine Zelle, die keine Eingabezelle ist."
 
 #: src/dialogs/dialog-solver.c:1096
-#, fuzzy
 msgid "Could not create the Solver dialog."
-msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
+msgstr "Es war nicht möglich, den Lösungssuche-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-stf-export-sheet-page.c:358
 msgid "You need to select at least one sheet to export"
@@ -5799,14 +5775,12 @@ msgid "_Finish"
 msgstr "_Beenden"
 
 #: src/dialogs/graph-guru.glade.h:5
-#, fuzzy
 msgid "_Plot"
-msgstr "_Sortieren"
+msgstr "_Graph"
 
 #: src/dialogs/graph-guru.glade.h:6
-#, fuzzy
 msgid "_Series"
-msgstr "Blätter"
+msgstr "Reihen"
 
 #: src/dialogs/goalseek.glade.h:1
 msgid "(Maximum):"
@@ -5848,12 +5822,10 @@ msgid "Set Cell:"
 msgstr "Zelle festlegen:"
 
 #: src/dialogs/goalseek.glade.h:10
-#, fuzzy
 msgid "Solution:"
-msgstr "Analysis-Optionen"
+msgstr "Lösung"
 
 #: src/dialogs/goalseek.glade.h:11
-#, fuzzy
 msgid "To Value:"
 msgstr "Auf den Wert:"
 
@@ -5883,19 +5855,16 @@ msgid "C_umulative Percentages"
 msgstr "K_umulativer Prozentwert"
 
 #: src/dialogs/histogram.glade.h:3
-#, fuzzy
 msgid "Chart Output"
 msgstr "_Graphen-Ausgabe"
 
 #: src/dialogs/histogram.glade.h:7
-#, fuzzy
 msgid "Input _Labels"
-msgstr "_Beschriftungen"
+msgstr "_Beschriftungen der Variablen"
 
 #: src/dialogs/histogram.glade.h:11
-#, fuzzy
 msgid "_Bin Labels"
-msgstr "_Beschriftungen"
+msgstr "_Beschriftungen der Klassen"
 
 #: src/dialogs/histogram.glade.h:16
 msgid "_Pareto (Sorted)"
@@ -5946,36 +5915,32 @@ msgid "Unkno_wn"
 msgstr "Unbekannt"
 
 #: src/dialogs/mean-tests.glade.h:12
-#, fuzzy
 msgid "Unknown Pop. Var. are:"
-msgstr "Unbekannter Operator"
+msgstr "Unbekannte Varianzen"
 
 #: src/dialogs/mean-tests.glade.h:13
 msgid "Unpai_red"
 msgstr "Unabhängig"
 
 #: src/dialogs/mean-tests.glade.h:14
-#, fuzzy
 msgid "Variable 1 Pop. Variance:"
-msgstr "Varianz Variable 1 (bekannt):"
+msgstr "Varianz der ersten Variable:"
 
 #: src/dialogs/mean-tests.glade.h:15 src/dialogs/variance-tests.glade.h:7
 msgid "Variable 1 Range:"
-msgstr "Bereich Variable 1:"
+msgstr "Bereich der ersten Variable:"
 
 #: src/dialogs/mean-tests.glade.h:16
-#, fuzzy
 msgid "Variable 2 Pop. Variance:"
-msgstr "Varianz Variable 2 (bekannt):"
+msgstr "Varianz der zweiten Variable:"
 
 #: src/dialogs/mean-tests.glade.h:17 src/dialogs/variance-tests.glade.h:8
 msgid "Variable 2 Range:"
-msgstr "Bereich Variable 2:"
+msgstr "Bereich der zweiten Variable:"
 
 #: src/dialogs/mean-tests.glade.h:18
-#, fuzzy
 msgid "Variables are:"
-msgstr "Bereich Variable 2:"
+msgstr "Die Variablen sind:"
 
 #: src/dialogs/mean-tests.glade.h:19 src/dialogs/variance-tests.glade.h:9
 msgid "_Alpha ="
@@ -5986,9 +5951,8 @@ msgid "_Known"
 msgstr "_Bekannt"
 
 #: src/dialogs/mean-tests.glade.h:24
-#, fuzzy
 msgid "_Paired"
-msgstr "E_infügen"
+msgstr "abhängig"
 
 #: src/dialogs/mean-tests.glade.h:25
 msgid "_Unequal"
@@ -6275,9 +6239,8 @@ msgid "Random Numbers"
 msgstr "Zufallszahlen"
 
 #: src/dialogs/random-generation.glade.h:7
-#, fuzzy
 msgid "Size of _Sample:"
-msgstr "Anzahl Stichproben:"
+msgstr "Größe der Stichprobe:"
 
 #: src/dialogs/random-generation.glade.h:8
 msgid "_Distribution:"
@@ -6293,7 +6256,7 @@ msgstr "Vertrauenswert:"
 
 #: src/dialogs/regression.glade.h:3
 msgid "Force Intercept To Be Zero"
-msgstr ""
+msgstr "Mache y-Abschnitt Null"
 
 #: src/dialogs/regression.glade.h:9
 msgid "X Variables:"
@@ -6328,9 +6291,8 @@ msgid "Sampling Method:"
 msgstr "Stichprobenmethode:"
 
 #: src/dialogs/sampling.glade.h:11
-#, fuzzy
 msgid "Size of Sample:"
-msgstr "Anzahl Stichproben:"
+msgstr "Größe der Stichprobe:"
 
 #: src/dialogs/sampling.glade.h:17
 msgid "_Periodic"
@@ -6341,37 +6303,32 @@ msgid "_Random"
 msgstr "_Zufällig"
 
 #: src/dialogs/search.glade.h:1
-#, fuzzy
 msgid "C_olumn major"
-msgstr "Spalte"
+msgstr "Spaltenweise"
 
 #: src/dialogs/search.glade.h:2
 msgid "Dismiss search center"
-msgstr ""
+msgstr "Schließe den Suchdialog"
 
 #: src/dialogs/search-replace.glade.h:10 src/dialogs/search.glade.h:3
 msgid "Do not consider matches in the middle of words"
 msgstr "Treffer in der Wortmitte nicht berücksichtigen"
 
 #: src/dialogs/search.glade.h:4
-#, fuzzy
 msgid "Find text within cell comments"
-msgstr "Änderungen in den Kommentaren der Zellen durchführen"
+msgstr "In den Kommentaren der Zellen suchen"
 
 #: src/dialogs/search.glade.h:5
-#, fuzzy
 msgid "Find text within expressions"
-msgstr "Änderungen in den Ausdrücken durchführen"
+msgstr "In den Ausdrücken suchen"
 
 #: src/dialogs/search.glade.h:6
-#, fuzzy
 msgid "Find text within non-string values"
-msgstr "Änderungen innerhalb der Werte der Zeichenketten durchführen"
+msgstr "In Werten, die keine Zeichenketten sind, suchen"
 
 #: src/dialogs/search.glade.h:7
-#, fuzzy
 msgid "Find text within string values"
-msgstr "Änderungen innerhalb der Werte der Zeichenketten durchführen"
+msgstr "In Zeichenketten suchen"
 
 #: src/dialogs/search.glade.h:8
 msgid "Match _whole words only"
@@ -6386,9 +6343,8 @@ msgid "Search"
 msgstr "Suchen"
 
 #: src/dialogs/search.glade.h:11
-#, fuzzy
 msgid "Search Center"
-msgstr "Suchen nach"
+msgstr "Suchdialog"
 
 #: src/dialogs/search.glade.h:12
 msgid "Search cells containing"
@@ -6497,9 +6453,8 @@ msgid "_Regular expression"
 msgstr "Regulärer Ausdruck"
 
 #: src/dialogs/search.glade.h:36
-#, fuzzy
 msgid "_Row major"
-msgstr "Spalte"
+msgstr "Zeilenweise"
 
 # Accelerator missing
 #: src/dialogs/search.glade.h:37
@@ -6532,9 +6487,8 @@ msgid "Change cells containing"
 msgstr "Zellen ändern, die beinhalten"
 
 #: src/dialogs/search-replace.glade.h:6
-#, fuzzy
 msgid "Column major"
-msgstr "Spalte"
+msgstr "Spaltenweise"
 
 #: src/dialogs/search-replace.glade.h:7 src/dialogs/summary.glade.h:3
 msgid "Comments"
@@ -6588,11 +6542,11 @@ msgstr "Stelle"
 
 #: src/dialogs/search-replace.glade.h:20
 msgid "Make error expression"
-msgstr ""
+msgstr "ERROR(\"...\") erzeugen"
 
 #: src/dialogs/search-replace.glade.h:21
 msgid "Make string value"
-msgstr ""
+msgstr "Zeichenkettenwerte erzeugen"
 
 #: src/dialogs/search-replace.glade.h:22
 msgid "Match whole words only"
@@ -6612,7 +6566,7 @@ msgstr "Änderungen in den Ausdrücken durchführen"
 
 #: src/dialogs/search-replace.glade.h:28
 msgid "Perform changes within non-string values"
-msgstr ""
+msgstr "Änderungen auch innerhalb Werte, die keine Zeichenketten sind, durchführen"
 
 #: src/dialogs/search-replace.glade.h:29
 msgid "Perform changes within string values"
@@ -6656,7 +6610,7 @@ msgstr "Ersetzung"
 
 #: src/dialogs/search-replace.glade.h:40
 msgid "Row major"
-msgstr ""
+msgstr "Zeilenweise"
 
 # Checkit
 # 2001-02-11 07:31:22 CET -ke-
@@ -6768,9 +6722,8 @@ msgid "Solve"
 msgstr "Lösen"
 
 #: src/dialogs/solver.glade.h:14
-#, fuzzy
 msgid "Solver"
-msgstr "Lösen"
+msgstr "Lösungssuche"
 
 #: src/dialogs/solver.glade.h:15
 msgid "Subject to the Constraints:"
@@ -6846,9 +6799,8 @@ msgid "Title"
 msgstr "Titel"
 
 #: src/dialogs/variance-tests.glade.h:6
-#, fuzzy
 msgid "Testing Equality of 2 Variances (F-Test)"
-msgstr "T-Test: Annahme gleicher Varianzen"
+msgstr "Gleichheit zweier Varianzen bestimmen (F-Test)"
 
 # Accelerator missing
 #: src/dialogs/workbook-attr.glade.h:1
@@ -6880,9 +6832,8 @@ msgid "already defined in workbook"
 msgstr "schon im Arbeitsbuch definiert"
 
 #: src/expr-name.c:249
-#, fuzzy
 msgid "already globally defined "
-msgstr "schon im Blatt definiert"
+msgstr "schon im Allgemeinen definiert"
 
 #: src/expr-name.c:255
 #, c-format
@@ -6930,7 +6881,6 @@ msgid "Cannot get temporary file size."
 msgstr "Es ist nicht möglich, die Größe der temporären Datei festzustellen."
 
 #: src/file.c:293
-#, fuzzy
 msgid "Saving file to stream."
 msgstr "Datei wird gespeichert..."
 
@@ -6939,15 +6889,12 @@ msgid "Error reading temporary file."
 msgstr "Fehler beim Lesen der temporären Datei."
 
 #: src/file.c:319
-#, fuzzy
 msgid "Exception occurred while saving to stream."
-msgstr "Beim Lesen der Kategorieenliste trat ein Fehler auf."
+msgstr "Beim Speichern trat ein Fehler auf."
 
 #: src/file.c:495
-#, fuzzy
 msgid "Saving over old files of this type is disabled for safety."
-msgstr ""
-"Das Speichern über alte Dateien ist aus Sicherheitsgründen abgeschaltet."
+msgstr "Das Speichern über alte Dateien in diesem Format ist aus Sicherheitsgründen abgeschaltet."
 
 #: src/file.c:497
 msgid ""
@@ -8360,7 +8307,7 @@ msgstr "Es ist nicht möglich, die Datei %s anzulegen\n"
 
 #: src/func.c:283
 msgid "Function implementation not available."
-msgstr ""
+msgstr "Funktionen Implementierung nicht verfügbar."
 
 #: src/func.c:499
 msgid "Unknown Function"
@@ -15524,7 +15471,6 @@ msgid "Unable to open file '%s'"
 msgstr "Datei »%s« kann nicht geöffnet werden."
 
 #: src/gui-validation.c:45
-#, fuzzy
 msgid "The value you entered :\n"
 msgstr "Den Wert den Sie eingeben :\n"
 
@@ -15588,13 +15534,12 @@ msgid "Must be a time\n"
 msgstr "Muss eine Zeitangabe sein\n"
 
 #: src/gui-validation.c:107
-#, fuzzy
 msgid "Must have textlength\n"
-msgstr "muss wenigstens einen Buchstaben haben"
+msgstr "Soll eine Länge von ... haben\n"
 
 #: src/gui-validation.c:108
 msgid "Must equal the formula\n"
-msgstr "Muss der Formel gleich sein\n"
+msgstr "Soll der Formel gleich sein\n"
 
 #: src/gui-validation.c:110
 msgid "<unknown>"
@@ -15605,9 +15550,8 @@ msgid "Can be blank\n"
 msgstr "Kann leer sein\n"
 
 #: src/gui-validation.c:146
-#, fuzzy
 msgid "Re-Edit"
-msgstr "_Bearbeiten"
+msgstr "Wieder _Bearbeiten"
 
 #: src/gui-validation.c:146 src/gui-validation.c:151
 msgid "Discard"
@@ -15839,7 +15783,7 @@ msgid "Unknown sheet '%s'"
 msgstr "Unbekanntes Blatt »%s«"
 
 #: src/parser.y:650 src/parser.y:664
-#, fuzzy, c-format
+#, c-format
 msgid "The character %c cannot be used to separate array elements"
 msgstr ""
 "Der Buchstabe %c kann nicht benutzt werden um Array Elemente zu trennen."
@@ -15986,20 +15930,20 @@ msgstr "Fehler beim Speichern der Datei."
 
 #: src/plugin-service.c:712
 msgid "File saver has no id"
-msgstr ""
+msgstr "Dateispeicherer hat keine Kennung."
 
 #: src/plugin-service.c:715
 #, c-format
 msgid "File saver with id=\"%s\" has no description"
-msgstr ""
+msgstr "Dateispeicherer mit Kennung=»%s« hat keine Beschreibung"
 
 #: src/plugin-service.c:867
 msgid "Missing function group id."
-msgstr ""
+msgstr "Fehlende Funktionengruppenkennung"
 
 #: src/plugin-service.c:872 src/plugin-service.c:877
 msgid "Missing function category name."
-msgstr ""
+msgstr "Fehlender Funktionenkategoriename"
 
 #: src/plugin-service.c:1036
 msgid "Missing loader id."
@@ -16385,7 +16329,6 @@ msgid "Could not load file: %s"
 msgstr "Datei kann nicht geladen werden: %s"
 
 #: src/sheet-object-graphic.c:445
-#, fuzzy
 msgid "Configure line or arrow"
 msgstr "Linie oder Pfeil konfigurieren"
 
@@ -16394,9 +16337,8 @@ msgid "Line Width"
 msgstr "Zeilenbreite"
 
 #: src/sheet-object-graphic.c:465
-#, fuzzy
 msgid "Arrow tip"
-msgstr "Pfeil"
+msgstr "Pfeilspitze"
 
 #: src/sheet-object-graphic.c:467
 msgid "Arrow length"
@@ -16412,11 +16354,11 @@ msgstr "Länge von der Pfeilspitze zum Mittelpunkt"
 
 #: src/sheet-object-graphic.c:505
 msgid "Distance from tip of arrowhead to trailing point, measured along shaft"
-msgstr ""
+msgstr "Länge des Pfeiles von der Spitze bis zum Anfangspunkt"
 
 #: src/sheet-object-graphic.c:508
 msgid "Distance of trailing point from outside edge of shaft"
-msgstr ""
+msgstr "Abstand vom Anfangspunkt zur Außenseite des Stiels"
 
 #: src/sheet-object-graphic.c:841
 msgid "Configure filled object"
@@ -16492,7 +16434,7 @@ msgstr "Antwortbericht"
 
 #: src/solver-lp.c:890
 msgid "Gnumeric Solver Answer Report"
-msgstr ""
+msgstr "Bericht der Lösungssuche"
 
 #: src/solver-lp.c:894
 msgid "Target Cell (Maximize)"
@@ -16524,19 +16466,19 @@ msgstr "Formeln"
 
 #: src/solver-lp.c:1005
 msgid "Binding"
-msgstr ""
+msgstr "nicht locker"
 
 #: src/solver-lp.c:1007
 msgid "Not Binding"
-msgstr ""
+msgstr "locker"
 
 #: src/solver-lp.c:1040
 msgid "Sensitivity Report"
-msgstr ""
+msgstr "Bericht der Sensitivität"
 
 #: src/solver-lp.c:1041
 msgid "Gnumeric Solver Sensitivity Report"
-msgstr ""
+msgstr "Bericht der Lösungssensitivität"
 
 #: src/solver-lp.c:1043 src/solver-lp.c:1089
 msgid "Final"
@@ -16831,9 +16773,9 @@ msgstr ""
 "geändert."
 
 #: src/workbook-control-gui.c:1786
-#, fuzzy, c-format
+#, c-format
 msgid "Comment in cell %s!%s"
-msgstr "Konsolidierung nach %s!%s"
+msgstr "Kommentar in Zelle %s!%s"
 
 #. TODO : No need to check simplicty.  XL applies for each non-discrete
 #. * selected region, (use selection_apply).  Arrays and Merged regions
@@ -16870,7 +16812,7 @@ msgstr "Verbergen"
 
 #: src/workbook-control-gui.c:2278
 msgid "can only be performed on an existing group"
-msgstr ""
+msgstr "kann nur bezüglich einer existierenden Gruppe durchgeführt werden"
 
 #: src/workbook-control-gui.c:2302
 msgid "Group"
@@ -17034,20 +16976,21 @@ msgstr "Ausdruck bearbeiten"
 
 #: src/workbook-edit.c:119
 msgid "Discard Expression"
-msgstr ""
+msgstr "Ausdruck vergessen"
 
 # Checkit
 # 2001-02-16 06:53:51 CET -ke-
 #: src/workbook-edit.c:165
-#, fuzzy
 msgid "Gnumeric : Validation"
-msgstr "Quelle der Abweichung"
+msgstr "Gnumeric: Gültigkeit Überprüfen"
 
 #: src/workbook-edit.c:167
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
 msgstr ""
+"Dieser Wert ist ungültig.\n"
+"Nur bestimmte Werte sind in dieser Zelle erlaubt."
 
 #: src/workbook-format-toolbar.c:86
 msgid "Set Horizontal Alignment"
@@ -17070,7 +17013,6 @@ msgid "Format as Money"
 msgstr "Als Geld formatieren"
 
 #: src/workbook-format-toolbar.c:318
-#, fuzzy
 msgid "Format with thousands separator"
 msgstr "Mit Trennzeichen für Tausender formatieren"
 
@@ -17278,7 +17220,7 @@ msgstr "Interner FEHLER"
 
 #: src/workbook-view.c:655
 msgid "Default file saver is not available."
-msgstr ""
+msgstr "Der übliche Dateienspeicherer ist nicht verfügbar."
 
 #: src/workbook-view.c:744
 msgid "No sheets in workbook."
@@ -17335,7 +17277,7 @@ msgstr "Datei wird eingelesen..."
 
 #: src/xml-io.c:3445
 msgid "Not enough memory to create zlib decompression state."
-msgstr ""
+msgstr "Ungenügend Speicher verfügbar, um zlib-Kompressierung zu erlauben. "
 
 #: src/xml-io.c:3480
 msgid "Is not an Gnumeric Workbook file"
