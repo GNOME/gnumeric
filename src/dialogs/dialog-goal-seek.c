@@ -382,7 +382,7 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 	}
 
 
-	format = mstyle_get_format (cell_get_mstyle (state->change_cell));
+	format = mstyle_get_format (cell_get_mstyle (state->set_cell));
 	if (entry_to_float_with_format (GTK_ENTRY(state->to_value_entry), 
 					&state->target_value, TRUE, format)){
 		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
@@ -394,6 +394,7 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 		return;
 	}
 
+	format = mstyle_get_format (cell_get_mstyle (state->change_cell));
 	if (entry_to_float_with_format (GTK_ENTRY(state->at_least_entry), 
 					 &state->xmin, TRUE, format)) {
 		state->xmin = - max_range_val;
