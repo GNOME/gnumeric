@@ -86,13 +86,14 @@ typedef enum {
 	GNM_FUNC_IS_PLACEHOLDER		= 0x08,
 	GNM_FUNC_FREE_NAME		= 0x10,
 
-	GNM_FUNC_AUTO_UNITLESS          = 0 << 5,  /* Like COUNT */
+	GNM_FUNC_AUTO_UNKNOWN           = 0 << 5,
 	GNM_FUNC_AUTO_MONETARY          = 1 << 5,  /* Like PV */
 	GNM_FUNC_AUTO_DATE              = 2 << 5,  /* Like DATE */
 	GNM_FUNC_AUTO_TIME              = 3 << 5,  /* Like TIME */
 	GNM_FUNC_AUTO_PERCENT           = 4 << 5,  /* Like IRR */
 	GNM_FUNC_AUTO_FIRST             = 5 << 5,  /* Like SUM */
 	GNM_FUNC_AUTO_SECOND            = 6 << 5,  /* Like IF */
+	GNM_FUNC_AUTO_UNITLESS          = 7 << 5,  /* Like COUNT */
 	GNM_FUNC_AUTO_MASK              = 7 << 5   /* The bits we use for AUTO.  */
 } GnmFuncFlags;
 

@@ -1,3 +1,7 @@
+2002-11-04  Morten Welinder  <terra@diku.dk>
+
+	* src/func.h: Add GNM_FUNC_AUTO_UNKNOWN.
+
 2002-11-03  Morten Welinder  <terra@diku.dk>
 
 	* src/func.h: Add type flags here.

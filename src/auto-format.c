@@ -57,7 +57,6 @@
  */
 /* ------------------------------------------------------------------------- */
 
-static const GnmFuncFlags AF_UNKNOWN = 0;
 #define AF_EXPLICIT ((GnmFuncFlags)(GNM_FUNC_AUTO_MASK + 1))
 
 static GnmFuncFlags do_af_suggest_list (GnmExprList *list,
@@ -98,7 +97,7 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 		GnmFuncFlags typ;
 
 		typ = do_af_suggest (expr->binary.value_a, epos, explicit);
-		if (typ != AF_UNKNOWN && typ != GNM_FUNC_AUTO_UNITLESS)
+		if (typ != GNM_FUNC_AUTO_UNKNOWN && typ != GNM_FUNC_AUTO_UNITLESS)
 			return typ;
 
 		return do_af_suggest (expr->binary.value_b, epos, explicit);
@@ -113,7 +112,7 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 
 		if (typ1 == GNM_FUNC_AUTO_DATE && typ2 == GNM_FUNC_AUTO_DATE)
 			return GNM_FUNC_AUTO_UNITLESS;
-		else if (typ1 != AF_UNKNOWN && typ1 != GNM_FUNC_AUTO_UNITLESS) {
+		else if (typ1 != GNM_FUNC_AUTO_UNKNOWN && typ1 != GNM_FUNC_AUTO_UNITLESS) {
 			*explicit = explicit1;
 			return typ1;
 		} else {
@@ -154,16 +153,16 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 		case VALUE_STRING:
 		case VALUE_ERROR:
 		case VALUE_ARRAY:
-			return AF_UNKNOWN;
+			return GNM_FUNC_AUTO_UNKNOWN;
 
 		case VALUE_CELLRANGE: {
 			struct cb_af_suggest closure;
 
 			/* If we don't have a sheet, we cannot look up vars. */
 			if (epos->sheet == NULL)
-				return AF_UNKNOWN;
+				return GNM_FUNC_AUTO_UNKNOWN;
 
-			closure.typ = AF_UNKNOWN;
+			closure.typ = GNM_FUNC_AUTO_UNKNOWN;
 			closure.explicit = explicit;
 			workbook_foreach_cell_in_range (epos, v,
 				CELL_ITER_IGNORE_BLANK,
@@ -186,15 +185,15 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 		sheet = eval_sheet (ref->sheet, epos->sheet);
 		/* If we don't have a sheet, we cannot look up vars.  */
 		if (sheet == NULL)
-			return AF_UNKNOWN;
+			return GNM_FUNC_AUTO_UNKNOWN;
 
 		cellref_get_abs_pos (ref, &epos->eval, &pos);
 		cell = sheet_cell_get (sheet, pos.col, pos.row);
 		if (cell == NULL)
-			return AF_UNKNOWN;
+			return GNM_FUNC_AUTO_UNKNOWN;
 
 		*explicit = cell_get_format (cell);
-		return *explicit ? AF_EXPLICIT : AF_UNKNOWN;
+		return *explicit ? AF_EXPLICIT : GNM_FUNC_AUTO_UNKNOWN;
 	}
 
 	case GNM_EXPR_OP_UNARY_NEG:
@@ -209,15 +208,15 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 	case GNM_EXPR_OP_NAME:
 	case GNM_EXPR_OP_ARRAY:
 	default:
-		return AF_UNKNOWN;
+		return GNM_FUNC_AUTO_UNKNOWN;
 	}
 }
 
 static GnmFuncFlags
 do_af_suggest_list (GnmExprList *list, const EvalPos *epos, StyleFormat **explicit)
 {
-	GnmFuncFlags typ = AF_UNKNOWN;
-	while (list && (typ == AF_UNKNOWN || typ == GNM_FUNC_AUTO_UNITLESS)) {
+	GnmFuncFlags typ = GNM_FUNC_AUTO_UNKNOWN;
+	while (list && (typ == GNM_FUNC_AUTO_UNKNOWN || typ == GNM_FUNC_AUTO_UNITLESS)) {
 		typ = do_af_suggest (list->data, epos, explicit);
 		list = list->next;
 	}
