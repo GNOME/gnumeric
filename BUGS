@@ -152,6 +152,19 @@ Excel i/o
 Misc stuff that should be fixed
 -------------------------------
 
+- Plugin breakage:
+    - "De-activate all" should take the dependency tree into account and
+      handle the python loader last.
+
+    - When loading a function that already has a definition (such as a stub),
+      we're in trouble: (a) we just overwrite the old definition in the symbol
+      table, (b) both old and new owner want to remove the symbol on exit.
+
+      We should somehow steal the old definition (and complain unless the old
+      was a stub) without changing the GnmFunc address.  On exit we should
+      explicitly check that it is ours to remove.
+
+
 - Missing undo/redo for
     - Freeze panes (tricky this is a view attribute)
     - Duplicate sheet.
