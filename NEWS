@@ -8,6 +8,10 @@ Jody:
 	* Cleanout the internals of PreviewGrid.
 	* Cleanup AutoFormat dialog.
 
+Morten:
+	* Hopefully fix NAN issues on Alphas.
+	* Plug autoformat leak.
+
 --------------------------------------------------------------------------
 
 Gnumeric 1.1.18
