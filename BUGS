@@ -20,6 +20,9 @@ Worries
     : loading in XL corrupts.  xbat is being lost when xl modifies it ??
       Likely some libgsf issue
 
+    We init gnome_print at sheet creation time.  With cups this can cause
+    hangs at startup if the server isn't answering.   --> delay init.
+
 -------------------------------------------------------------------------------
 Pending Patches
 ---------------
