@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-02-24 17:52+0900\n"
-"PO-Revision-Date: 2004-02-13 18:30+0900\n"
+"PO-Revision-Date: 2004-03-08 18:30+0900\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -16716,7 +16716,7 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:27
 msgid "Show Sheet Name in Undo List"
-msgstr ""
+msgstr "シートの名前を元に戻す操作の一覧に表示する"
 
 #: schemas/gnumeric-general.schemas.in.h:28
 msgid ""
@@ -16837,17 +16837,19 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:50
 msgid "This variable determines whether autocompletion is set on."
-msgstr ""
+msgstr "この項目は自動的に補完するかどうかを設定します。"
 
 #: schemas/gnumeric-general.schemas.in.h:51
 msgid ""
 "This variable determines whether live (versus delayed) scrolling is "
 "performed."
 msgstr ""
+"この項目はライブ(遅延ありに対して)スクローリングを実行するかどうか"
+"を決定します。"
 
 #: schemas/gnumeric-general.schemas.in.h:52
 msgid "This variable determines whether transition keys are set on."
-msgstr ""
+msgstr "この項目はキーを変換するかを決定します。"
 
 #: schemas/gnumeric-general.schemas.in.h:53
 msgid "Toolbar Style"
@@ -16859,7 +16861,7 @@ msgstr "ツールバースタイルです。有効な値はboth, both_horiz, ico
 
 #: schemas/gnumeric-general.schemas.in.h:55
 msgid "Transition Keys"
-msgstr ""
+msgstr "キーの変換"
 
 #: schemas/gnumeric-general.schemas.in.h:56
 msgid "Vertical DPI"
@@ -21576,201 +21578,177 @@ msgid "_Use ssmedian"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:62
-#, fuzzy
 msgid "Core"
-msgstr "以上"
+msgstr "コア"
 
 #: src/dialogs/dialog-about.c:63
 msgid "Features"
-msgstr ""
+msgstr "機能"
 
 #: src/dialogs/dialog-about.c:64
-#, fuzzy
 msgid "Analytics"
-msgstr "バルト諸語"
+msgstr "分析論"
 
 #: src/dialogs/dialog-about.c:65
 msgid "Import Export"
-msgstr ""
+msgstr "インポート/エクスポート"
 
 #: src/dialogs/dialog-about.c:66
-#, fuzzy
 msgid "Scripting"
-msgstr "ソート"
+msgstr "スクリプティング"
 
 #: src/dialogs/dialog-about.c:67
 msgid "UI"
-msgstr ""
+msgstr "UI"
 
 #: src/dialogs/dialog-about.c:68
 msgid "Usability"
-msgstr ""
+msgstr "ユーザビリティ"
 
 #: src/dialogs/dialog-about.c:69
-#, fuzzy
 msgid "Documentation"
-msgstr "場所"
+msgstr "ドキュメント作成"
 
 #: src/dialogs/dialog-about.c:70
-#, fuzzy
 msgid "Translation"
-msgstr "表の作成"
+msgstr "翻訳"
 
 #: src/dialogs/dialog-about.c:71
 msgid "QA"
-msgstr ""
+msgstr "品質管理(QA)"
 
 #: src/dialogs/dialog-about.c:72
 msgid "Art"
-msgstr ""
+msgstr "アート"
 
 #: src/dialogs/dialog-about.c:73
 msgid "Packaging"
-msgstr ""
+msgstr "パッケージ作成"
 
 #: src/dialogs/dialog-about.c:82
-#, fuzzy
 msgid "Functions and X-Base importing."
-msgstr "Sean Atkinson, 関数と X-Base の取り込み担当。"
+msgstr "関数とX-Baseのインポート。"
 
 #: src/dialogs/dialog-about.c:84 src/dialogs/dialog-about.c:96
-#, fuzzy
 msgid "Simplex algorithm for Solver (LP Solve)."
-msgstr "Jeroen Dirks,ソルバの簡易アルゴリズム (LP Solve) を担当。"
+msgstr "ソルバのシンプレックス・アルゴリズム(LP Solve)。"
 
 #: src/dialogs/dialog-about.c:86
 msgid "Quality Assurance and sheet copy."
-msgstr ""
+msgstr "品質管理とシートコピー"
 
 #: src/dialogs/dialog-about.c:88
-#, fuzzy
 msgid "OLE2 support."
-msgstr "Arturo Tena, OLEサポートを担当。"
+msgstr "OLE2サポート。"
 
 #: src/dialogs/dialog-about.c:90
-#, fuzzy
 msgid "Localization."
-msgstr "場所"
+msgstr "ローカライズ。"
 
 #: src/dialogs/dialog-about.c:92
 msgid "Plugin system, localization."
-msgstr ""
+msgstr "プラグインシステム、ローカライズ。"
 
 #: src/dialogs/dialog-about.c:94
-#, fuzzy
 msgid "Debian packaging."
-msgstr "J.H.M. Dassen (Ray), Debian パッケージ作成担当。"
+msgstr "Debian パッケージ作成。"
 
 #: src/dialogs/dialog-about.c:98
-#, fuzzy
 msgid "Original plugin engine."
-msgstr "円グラフプロットエンジン"
+msgstr "最初のプラグインエンジン。"
 
 #: src/dialogs/dialog-about.c:100
-#, fuzzy
 msgid "Custom UI tools"
-msgstr "カスタムカラー..."
+msgstr "カスタムUIツール"
 
 #: src/dialogs/dialog-about.c:102
-#, fuzzy
 msgid "RPM packaging"
-msgstr "置換する(_R)"
+msgstr "RPMパッケージ作成"
 
 #: src/dialogs/dialog-about.c:104
 msgid "Statistics and GUI master"
-msgstr ""
+msgstr "解析とGUIマスター"
 
 #: src/dialogs/dialog-about.c:106
 msgid "UI Polish and all round bug fixer"
-msgstr ""
+msgstr "UIの挙動とすべてのバグ修正"
 
 #: src/dialogs/dialog-about.c:108
 msgid "pgamma fucntion"
-msgstr ""
+msgstr "プラグマ関数"
 
 #: src/dialogs/dialog-about.c:110
 msgid "Solver, lots of worksheet functions, and general trailblazer"
-msgstr ""
+msgstr "ソルバ、多くのワークシート関数、全面的な先駆者"
 
 #: src/dialogs/dialog-about.c:112
 msgid "One of the original core contributors"
-msgstr ""
+msgstr "最初のコア・コントリビュータの1人"
 
 #: src/dialogs/dialog-about.c:114
-#, fuzzy
 msgid "Icons and Images"
-msgstr "画像を挿入します"
+msgstr "アイコンと画像"
 
 #: src/dialogs/dialog-about.c:116
-#, fuzzy
 msgid "The original value format engine"
-msgstr "Chris Lahey, 数値フォーマットエンジンを担当。"
+msgstr "最初のフォーマットエンジン"
 
 #: src/dialogs/dialog-about.c:118
-#, fuzzy
 msgid "The original text plugin"
-msgstr "松田 孝史、オリジナルのテキストプラグインを担当。"
+msgstr "最初のテキストプラグイン"
 
 #: src/dialogs/dialog-about.c:120
 msgid "Started the MS Excel import/export engine, and 'GnmStyle'"
-msgstr ""
+msgstr "MS Excelのインポート/エクスポートエンジンと'GnmStyle'を開始"
 
 #: src/dialogs/dialog-about.c:122
-#, fuzzy
 msgid "SheetObject improvement"
-msgstr "Lutz Muller, SheetObject の改良担当。"
+msgstr "SheetObjectの改良"
 
 #: src/dialogs/dialog-about.c:124
 msgid "canvas support"
-msgstr ""
+msgstr "Canvasのサポート"
 
 #: src/dialogs/dialog-about.c:126 src/dialogs/dialog-about.c:132
-#, fuzzy
 msgid "Guile support"
-msgstr "Ariel Rios, Guile サポートを担当。"
+msgstr "Guileサポート"
 
 #: src/dialogs/dialog-about.c:128
-#, fuzzy
 msgid "HTML, troff, LaTeX exporters"
-msgstr "Rasca, HTML, troff, LaTeX の生成を担当。"
+msgstr "HTML, troff, LaTeX の生成"
 
 #: src/dialogs/dialog-about.c:130
-#, fuzzy
 msgid "original CSV support, French localization"
 msgstr ""
-"Vincent Renardias, CSV サポートの原作、フランス語へのローカライズ担当。"
+"最初のCSV サポート、フランス語へのローカライズ"
 
 #: src/dialogs/dialog-about.c:134
 msgid "Initial work on OLE2 for libgsf"
-msgstr ""
+msgstr "OLE2のlibgsfへの最初の作業"
 
 #: src/dialogs/dialog-about.c:136
 msgid "Consolidation and Structured Text importer"
-msgstr ""
+msgstr "統合と構造化テキストインポート"
 
 #: src/dialogs/dialog-about.c:138
-#, fuzzy
 msgid "Pieces of MS Excel import"
-msgstr "インポートする行"
+msgstr "MS Excelのインポートをいくつか"
 
 #: src/dialogs/dialog-about.c:140
-#, fuzzy
 msgid "Initial XML support"
-msgstr "Daniel Veillard, XML サポートを担当。"
+msgstr "最初のXML サポート"
 
 #: src/dialogs/dialog-about.c:142
-#, fuzzy
 msgid "Some financial functions"
-msgstr "財務関数"
+msgstr "いくつかの財務関数"
 
 #: src/dialogs/dialog-about.c:144
 msgid "All round powerhouse"
-msgstr ""
+msgstr "オールラウンドな職人"
 
 #: src/dialogs/dialog-about.c:235
-#, fuzzy
 msgid "About Gnumeric"
-msgstr "Gnumericについて(_A)"
+msgstr "Gnumericについて"
 
 #: src/dialogs/dialog-advanced-filter.c:71
 msgid "The list range is invalid."
