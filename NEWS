@@ -1,5 +1,8 @@
 Gnumeric 1.1.2
 
+Almer:
+	* Make autoformat edges toggleable.
+
 Andreas:
 	* Make Single-Factor ANOVA undoable.
 	* Port search dialog.

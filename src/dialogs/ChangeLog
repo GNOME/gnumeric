@@ -1,3 +1,15 @@
+2002-03-22  Almer S. Tigelaar  <almer@gnome.org>
+
+	* autoformat.glade: Add new edge related check items.
+	
+	* dialog-autoformat.c (cb_apply_item_toggled): Renamed to ...
+	(cb_check_item_toggled): Set new edge related flags.
+	(cb_category_popwin_hide): Cope with function name change.
+	(setup_apply_item): Renamed to ...
+	(setup_check_item): Cope with function name change.
+	(dialog_autoformat): Idem and initialize new edge related
+	check items.
+
 2002-03-22  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-solver.c (solver_reporting): Added handling of max time

@@ -2,8 +2,7 @@
 /*
  * dialog-autoformat.c : implementation of the autoformat dialog
  *
- * Author : Almer. S. Tigelaar.
- * EMail: almer1@dds.nl or almer-t@bigfoot.com
+ * Author : Almer S. Tigelaar <almer@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -107,7 +106,14 @@ typedef struct {
 	GtkTextView    *info_descr;
 
 	GtkCheckMenuItem *number, *border, *font, *patterns, *alignment;
-
+	
+	struct {
+		GtkCheckMenuItem *left;
+		GtkCheckMenuItem *right;
+		GtkCheckMenuItem *top;
+		GtkCheckMenuItem *bottom;
+	} edges;
+	
 	GtkButton      *ok, *cancel;
 
 	GtkTooltips    *tooltips;
@@ -439,18 +445,25 @@ cb_canvas_button_press (GnomeCanvas *canvas, GdkEventButton *event, AutoFormatSt
 }
 
 static void
-cb_apply_item_toggled (GtkCheckMenuItem *item, AutoFormatState *state)
+cb_check_item_toggled (GtkCheckMenuItem *item, AutoFormatState *state)
 {
 	GSList *ptr;
 	int i;
 
 	for (ptr = state->templates; ptr != NULL ; ptr = ptr->next) {
 		FormatTemplate *ft = ptr->data;
+		
 		ft->number    = state->number->active;
 		ft->border    = state->border->active;
 		ft->font      = state->font->active;
 		ft->patterns  = state->patterns->active;
 		ft->alignment = state->alignment->active;
+		
+		ft->edges.left   = state->edges.left->active;
+		ft->edges.right  = state->edges.right->active;
+		ft->edges.top    = state->edges.top->active;
+		ft->edges.bottom = state->edges.bottom->active;
+		
 		ft->invalidate_hash = TRUE;
 	}
 
@@ -480,7 +493,7 @@ cb_category_popwin_hide (GtkWidget *widget, AutoFormatState *state)
 
 	previews_load (state, 0);
 
-	cb_apply_item_toggled (NULL, state);
+	cb_check_item_toggled (NULL, state);
 
 	/* This is for the initial selection */
 	if (state->grid[0] != NULL) {
@@ -518,12 +531,12 @@ cb_gridlines_item_toggled (GtkCheckMenuItem *item, AutoFormatState *state)
  ********************************************************************************/
 
 static GtkCheckMenuItem *
-setup_apply_item (GladeXML *gui, AutoFormatState *state, char const *name)
+setup_check_item (GladeXML *gui, AutoFormatState *state, char const *name)
 {
 	GtkCheckMenuItem *item = GTK_CHECK_MENU_ITEM (glade_xml_get_widget (gui, name));
 	g_signal_connect (G_OBJECT (item),
 		"toggled",
-		G_CALLBACK (cb_apply_item_toggled), state);
+		G_CALLBACK (cb_check_item_toggled), state);
 	return item;
 }
 
@@ -584,11 +597,16 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	state->ok     = GTK_BUTTON (glade_xml_get_widget (gui, "format_ok"));
 	state->cancel = GTK_BUTTON (glade_xml_get_widget (gui, "format_cancel"));
 
- 	state->number      = setup_apply_item (gui, state, "format_number");
-	state->border      = setup_apply_item (gui, state, "format_border");
-	state->font        = setup_apply_item (gui, state, "format_font");
-	state->patterns    = setup_apply_item (gui, state, "format_patterns");
-	state->alignment   = setup_apply_item (gui, state, "format_alignment");
+ 	state->number      = setup_check_item (gui, state, "format_number");
+	state->border      = setup_check_item (gui, state, "format_border");
+	state->font        = setup_check_item (gui, state, "format_font");
+	state->patterns    = setup_check_item (gui, state, "format_patterns");
+	state->alignment   = setup_check_item (gui, state, "format_alignment");
+
+	state->edges.left   = setup_check_item (gui, state, "format_edges_left");
+	state->edges.right  = setup_check_item (gui, state, "format_edges_right");
+	state->edges.top    = setup_check_item (gui, state, "format_edges_top");
+	state->edges.bottom = setup_check_item (gui, state, "format_edges_bottom");
 
 	for (i = 0; i < NUM_PREVIEWS; i++) {
 		char *name;

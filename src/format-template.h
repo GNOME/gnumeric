@@ -83,6 +83,13 @@ struct _FormatTemplate {
 	gboolean patterns : 1;
 	gboolean alignment : 1;
 
+	struct {
+		gboolean left : 1;
+		gboolean right : 1;
+		gboolean top : 1;
+		gboolean bottom : 1;
+	} edges;
+	
 /* <private> */
 	/* pre-calculate styles */
 	GHashTable *table;
@@ -110,7 +117,7 @@ typedef struct {
  * Functions for FormatTemplate
  */
 void            format_template_free           (FormatTemplate *ft);
-FormatTemplate *format_template_clone          (FormatTemplate *ft);
+FormatTemplate *format_template_clone          (FormatTemplate const *ft);
 FormatTemplate *format_template_new            (void);
 FormatTemplate *format_template_new_from_file  (char const *filename,
 						CommandContext *context);

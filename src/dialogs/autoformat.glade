@@ -192,6 +192,97 @@
                                 </child>
 
                                 <child>
+                                  <widget class="GtkMenuItem" id="format_edges">
+                                    <property name="label" translatable="yes">Edges</property>
+                                    <property name="visible">yes</property>
+
+                                    <child>
+                                      <widget class="GtkMenu" id="format_edges_menu">
+
+	                                <child>
+        	                          <widget class="GtkCheckMenuItem" id="format_edges_left">
+                	                    <property name="active">yes</property>
+                        	            <property name="always_show_toggle">yes</property>
+                                	    <property name="visible">yes</property>
+
+	                                    <child>
+        	                              <widget class="GtkAccelLabel" id="convertwidget5">
+	                                        <property name="label" translatable="yes">_Left</property>
+        	                                <property name="xalign">0.0</property>
+                	                        <property name="accel-widget">format_edges_left</property>
+                        	                <property name="use-underline">yes</property>
+                                	        <property name="visible">yes</property>
+	                                      </widget>
+        	                            </child>
+                	                  </widget>
+	                                </child>
+
+	                                <child>
+        	                          <widget class="GtkCheckMenuItem" id="format_edges_right">
+                	                    <property name="active">yes</property>
+                        	            <property name="always_show_toggle">yes</property>
+                                	    <property name="visible">yes</property>
+
+	                                    <child>
+        	                              <widget class="GtkAccelLabel" id="convertwidget5">
+	                                        <property name="label" translatable="yes">_Right</property>
+        	                                <property name="xalign">0.0</property>
+                	                        <property name="accel-widget">format_edges_right</property>
+                        	                <property name="use-underline">yes</property>
+                                	        <property name="visible">yes</property>
+	                                      </widget>
+        	                            </child>
+                	                  </widget>
+	                                </child>
+
+	                                <child>
+        	                          <widget class="GtkCheckMenuItem" id="format_edges_top">
+                	                    <property name="active">yes</property>
+                        	            <property name="always_show_toggle">yes</property>
+                                	    <property name="visible">yes</property>
+
+	                                    <child>
+        	                              <widget class="GtkAccelLabel" id="convertwidget5">
+	                                        <property name="label" translatable="yes">_Top</property>
+        	                                <property name="xalign">0.0</property>
+                	                        <property name="accel-widget">format_edges_top</property>
+                        	                <property name="use-underline">yes</property>
+                                	        <property name="visible">yes</property>
+	                                      </widget>
+        	                            </child>
+                	                  </widget>
+	                                </child>
+
+	                                <child>
+        	                          <widget class="GtkCheckMenuItem" id="format_edges_bottom">
+                	                    <property name="active">yes</property>
+                        	            <property name="always_show_toggle">yes</property>
+                                	    <property name="visible">yes</property>
+
+	                                    <child>
+        	                              <widget class="GtkAccelLabel" id="convertwidget5">
+	                                        <property name="label" translatable="yes">_Bottom</property>
+        	                                <property name="xalign">0.0</property>
+                	                        <property name="accel-widget">format_edges_bottom</property>
+                        	                <property name="use-underline">yes</property>
+                                	        <property name="visible">yes</property>
+	                                      </widget>
+        	                            </child>
+                	                  </widget>
+	                                </child>
+
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
+
+                                <child>
+                                  <widget class="GtkMenuItem" id="separator1">
+                                    <property name="visible">yes</property>
+                                  </widget>
+                                </child>
+
+                                <child>
                                   <widget class="GtkCheckMenuItem" id="format_gridlines">
                                     <property name="active">no</property>
                                     <property name="always_show_toggle">yes</property>

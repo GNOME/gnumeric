@@ -1,3 +1,16 @@
+2002-03-22  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/format-template.h: Extend FormatTemplate struct with
+	edge related flags.
+	
+	* src/format-template.c (formate_template_new): Initialize
+	new edge related members.
+	(format_template_clone): Clone new edge related members and
+	constify.
+	(format_template_transform_edges): Transforms the templates
+	by removing edges if so desired.
+	(format_template_calculate): Use format_template_transform_edges.
+
 2002-03-21  Jody Goldberg <jody@gnome.org>
 
 	* Massive rename
