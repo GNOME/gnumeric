@@ -19,6 +19,7 @@
 #include "plugin.h"
 #include "gnumeric.h"
 #include "file.h"
+#include "command-context.h"
 
 typedef struct {
 	char const *data, *cur;
@@ -236,20 +237,25 @@ g_warning("DIF SUCCESS");
 #   define MAP_FAILED -1
 #endif
 
-static char *
-dif_read_workbook (Workbook *book, char const *filename)
+static int
+dif_read_workbook (CommandContext *context,
+		   Workbook *book, char const *filename)
 {
-	char *result = NULL;
+	int result = 0;
 	int len;
 	struct stat sbuf;
 	char const *data;
 	int const fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return g_strdup (g_strerror(errno));
+
+	if (fd < 0) {
+		gnumeric_error_read (context, g_strerror (errno));
+		return -1;
+	}
 
 	if (fstat(fd, &sbuf) < 0) {
 		close (fd);
-		return g_strdup (g_strerror(errno));
+		gnumeric_error_read (context, g_strerror (errno));
+		return -1;
 	}
 
 	len = sbuf.st_size;
@@ -269,12 +275,16 @@ dif_read_workbook (Workbook *book, char const *filename)
 
 		if (!dif_parse_sheet (&src)) {
 			workbook_detach_sheet (book, src.sheet, TRUE);
-			result = g_strdup(_(("DIF : Failed to load sheet")));
+			gnumeric_error_read
+				(context , _("DIF : Failed to load sheet"));
+			result = -1;
 		}
 
 		munmap((char *)data, len);
-	} else
-		result = g_strdup (_("Unable to mmap the file"));
+	} else {
+		result = -1;
+		gnumeric_error_read (context, _("Unable to mmap the file"));
+	}
 	close(fd);
 
 	return result;
@@ -358,7 +368,8 @@ dif_write_cell (FILE *f, Cell *cell, int col, int row)
  * write every sheet of the workbook to a DIF format file
  */
 static int
-dif_write_workbook (Workbook *wb, const char *filename)
+dif_write_workbook (CommandContext *context,
+		    Workbook *wb, const char *filename)
 {
 	GList *sheet_list;
 	Sheet *sheet;

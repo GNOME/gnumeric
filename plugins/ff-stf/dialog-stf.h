@@ -109,7 +109,7 @@ typedef struct {
 } DruidPageData_t;
 
 /* This is the main function which handles all the dialog import stuff */
-char*   dialog_stf             (FileSource_t *src);
+int     dialog_stf             (CommandContext *context, FileSource_t *src);
 
 /* INIT FUNCTIONS
  *

@@ -24,6 +24,22 @@ ccg_error_plugin_problem (CommandContext *context, char const * const app_ver)
 }
 
 static void
+ccg_error_read (CommandContext *context, char const * const app_ver)
+{
+	CommandContextGui *ccg = COMMAND_CONTEXT_GUI (context);
+
+	gnumeric_notice (ccg->wb, GNOME_MESSAGE_BOX_ERROR, app_ver);
+}
+
+static void
+ccg_error_save (CommandContext *context, char const * const app_ver)
+{
+	CommandContextGui *ccg = COMMAND_CONTEXT_GUI (context);
+
+	gnumeric_notice (ccg->wb, GNOME_MESSAGE_BOX_ERROR, app_ver);
+}
+
+static void
 ccg_error_splits_array (CommandContext *context)
 {
 	CommandContextGui *ccg = COMMAND_CONTEXT_GUI (context);
@@ -38,6 +54,8 @@ ccg_init_class (GtkObjectClass *object_class)
 	CommandContextClass *cc_class = (CommandContextClass *) object_class;
 
 	cc_class->error_plugin_problem = ccg_error_plugin_problem;
+	cc_class->error_read           = ccg_error_read;
+	cc_class->error_save           = ccg_error_save;
 	cc_class->error_splits_array   = ccg_error_splits_array;
 }
 

@@ -24,6 +24,7 @@
 #include "config.h"
 #include "html.h"
 #include "font.h"
+#include "command-context.h"
 
 /*
  * escape special characters
@@ -184,7 +185,8 @@ html_write_cell40 (FILE *fp, Cell *cell)
  * write every sheet of the workbook to a html 3.2 table
  */
 int
-html_write_wb_html32 (Workbook *wb, const char *filename)
+html_write_wb_html32 (CommandContext *context, Workbook *wb,
+		      const char *filename)
 {
 	FILE *fp;
 	GList *sheet_list;
@@ -242,7 +244,8 @@ html_write_wb_html32 (Workbook *wb, const char *filename)
  * write every sheet of the workbook to a html 4.0 table
  */
 int
-html_write_wb_html40 (Workbook *wb, const char *filename)
+html_write_wb_html40 (CommandContext *context, Workbook *wb,
+		      const char *filename)
 {
 	FILE *fp;
 	GList *sheet_list;
@@ -352,8 +355,8 @@ html_get_string (char *s, int *flags)
 /*
  * try at least to read back what we have written before..
  */
-char *
-html_read (Workbook *wb, const char *filename)
+int
+html_read (CommandContext *context, Workbook *wb, const char *filename)
 {
 	FILE *fp;
 	Sheet *sheet;
@@ -363,13 +366,15 @@ html_read (Workbook *wb, const char *filename)
 	char name[64];
 	char buf[LINESIZE];
 
-	g_return_val_if_fail (filename != NULL, "");
+	g_return_val_if_fail (filename != NULL, -1);
 
 	workbook_set_filename (wb, filename);
 
 	fp = fopen (filename, "r");
-	if (!fp)
-		return g_strdup (g_strerror(errno));
+	if (!fp) {
+		gnumeric_error_read (context, g_strerror (errno));
+		return -1;
+	}
 
 	sheet = NULL;
 	col = 0;
@@ -452,6 +457,6 @@ html_read (Workbook *wb, const char *filename)
 		}
 	}
 	fclose (fp);
-	return NULL;
+	return 0;
 }
 

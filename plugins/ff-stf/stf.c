@@ -38,6 +38,7 @@
 #include "file.h"
 #include "mstyle.h"
 #include "formats.h"
+#include "command-context.h"
 
 #include "stf.h"
 #include "dialog-stf.h"
@@ -211,18 +212,20 @@ stf_open_and_read (FileSource_t *src)
 
 /**
  * stf_read_workbook
- * @book : workbook
+ * @context  : command context
+ * @book     : workbook
  * @filename : file to read from+convert
  *
  * Main routine, handles importing a file including all dialog mumbo-jumbo
  *
  * returns : NULL on success or an error message otherwise
  **/
-static char*
-stf_read_workbook (Workbook *book, char const *filename)
+static int
+stf_read_workbook (CommandContext *context, Workbook *book,
+		   char const *filename)
 {        
 	FileSource_t src;
-	char *success = NULL;
+	int result = 0;
 	char *name = g_strdup_printf (_("Imported %s"), g_basename (filename));
 	src.sheet  = sheet_new (book, name);
 	g_free (name);
@@ -235,20 +238,24 @@ stf_read_workbook (Workbook *book, char const *filename)
 
 	if (!stf_open_and_read (&src)) {
 		stf_close_and_free (&src);
-		success = g_strdup (_("Error while trying to memory map file"));
-		return success;
+		gnumeric_error_read
+			(context, _("Error while trying to memory map file"));
+		return -1;
 	}
 
 	if (!stf_convert_to_unix (&src)) {
 		stf_close_and_free (&src);
-		success = g_strdup (_("Error while trying to pre-convert file"));
-		return success;
-		}
+		gnumeric_error_read
+			(context, _("Error while trying to pre-convert file"));
+		return -1;
+	}
 
 	if (!stf_is_valid_input (&src)) {
 		stf_close_and_free (&src);
-		success = g_strdup (_("This file does not seem to be a valid text file"));
-		return success;
+		gnumeric_error_read
+			(context,
+			_("This file does not seem to be a valid text file"));
+		return -1;
 	}
 		
 	src.totallines = stf_get_lines_count (src.data);
@@ -256,9 +263,9 @@ stf_read_workbook (Workbook *book, char const *filename)
 	
 	workbook_attach_sheet (book, src.sheet);
 	
-	success = dialog_stf (&src);
+	result = dialog_stf (context, &src);
 
-	if (success == NULL) {
+	if (result == 0) {
 		Range range = sheet_get_extent (src.sheet);
 
 		sheet_style_optimize (src.sheet, range);
@@ -270,7 +277,7 @@ stf_read_workbook (Workbook *book, char const *filename)
 
 	stf_close_and_free (&src);
 	
-	return (success);
+	return (result);
 }
 
 /**

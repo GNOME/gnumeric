@@ -9,6 +9,7 @@
  **/
 
 #include <config.h>
+#include "command-context.h"
 
 #include "ms-formula-read.h"
 #include "ms-excel-read.h"
@@ -3470,8 +3471,9 @@ ms_excel_read_supporting_wb (BIFF_BOF_DATA *ver, BiffQuery *q)
 #endif
 }
 
-char *
-ms_excel_read_workbook (Workbook *workbook, MsOle *file)
+int
+ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
+			MsOle *file)
 {
 	ExcelWorkbook *wb = NULL;
 	MsOleStream *stream;
@@ -3484,9 +3486,8 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 	cell_deep_freeze_redraws ();
 
 	/* Find that book file */
-	/* Look for workbook before book so that we load the office97 format rather than
-	 * office5 when there are multiple streams.
-	 */
+	/* Look for workbook before book so that we load the office97
+	 * format rather than office5 when there are multiple streams.  */
 	result = ms_ole_stream_open (&stream, file, "/", "workbook", 'r');
 	if (result != MS_OLE_ERR_OK) {
 		ms_ole_stream_close (&stream);
@@ -3494,7 +3495,10 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 		result = ms_ole_stream_open (&stream, file, "/", "book", 'r');
 		if (result != MS_OLE_ERR_OK) {
 			ms_ole_stream_close (&stream);
-			return g_strdup (_("No book or workbook streams found."));
+			gnumeric_error_read
+				(context,
+				 _("No book or workbook streams found."));
+			return -1;
 		}
 	}
 
@@ -3995,8 +3999,9 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 		if (problem_loading == NULL)
 			workbook_recalc (wb->gnum_wb);
 		ms_excel_workbook_destroy (wb);
-		return problem_loading;
+		gnumeric_error_read (context, problem_loading);
+		return -1;
 	}
 
-	return "";
+	return 0;
 }

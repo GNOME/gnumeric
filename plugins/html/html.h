@@ -25,9 +25,11 @@
 #include "../../src/gnumeric.h"
 #include "../../src/gnumeric-util.h"
 
-int html_write_wb_html32 (Workbook *wb, const char *filename);
-int html_write_wb_html40 (Workbook *wb, const char *filename);
-char *html_read (Workbook *wb, const char *filename);
+int html_write_wb_html32 (CommandContext *context, Workbook *wb,
+			  const char *filename);
+int html_write_wb_html40 (CommandContext *context, Workbook *wb,
+			  const char *filename);
+int html_read (CommandContext *context, Workbook *wb, const char *filename);
 
 #define G_PLUGIN_FOR_HTML "GPFH/0.5"
 

@@ -17,7 +17,12 @@ struct _CommandContext {
 
 typedef struct {
 	GtkObjectClass parent_class;
-	void (*error_plugin_problem) (CommandContext *context, char const * const app_ver);
+	void (*error_plugin_problem) (CommandContext *context,
+				      char const * const app_ver);
+	void (*error_read) (CommandContext *context,
+			    char const * const app_ver);
+	void (*error_save) (CommandContext *context,
+			    char const * const app_ver);
 	void (*error_splits_array)   (CommandContext *context);
 } CommandContextClass;
 
@@ -30,6 +35,10 @@ GtkType   command_context_get_type (void);
  *        inheritance (single or multiple).
  */
 void gnumeric_error_plugin_problem (CommandContext *context, char const *const message);
+
+void gnumeric_error_read (CommandContext *context, char const *const message);
+
+void gnumeric_error_save (CommandContext *context, char const *const message);
 
 void gnumeric_error_splits_array   (CommandContext *context);
 

@@ -23,6 +23,7 @@
 #include "sheet.h"
 #include "file.h"
 #include "utils.h"
+#include "command-context.h"
 
 #include "lotus.h"
 #include "lotus-types.h"
@@ -147,19 +148,18 @@ attach_sheet (Workbook *wb, int idx)
 }
 
 /* buf was old siag wb / sheet */
-static char *
+static int
 read_workbook (Workbook *wb, FILE *f)
 {
 	int       sheetidx = 0;
 	Sheet    *sheet = NULL;
-	char     *panic_message = NULL;
 	record_t *r;
 
 	sheet = attach_sheet (wb, sheetidx++);
 
 	r = record_new (f);
 
-	while (panic_message == NULL && record_next (r)) {
+	while (record_next (r)) {
 		Cell    *cell;
 		Value   *v;
 		guint32  i, j;
@@ -256,26 +256,28 @@ read_workbook (Workbook *wb, FILE *f)
 	}
 	record_destroy (r);
 
-	return panic_message;
+	return 0;
 }
 
-char *
-lotus_read (Workbook *wb, const char *filename)
+int
+lotus_read (CommandContext *context, Workbook *wb, const char *filename)
 {
 	FILE *f;
-	char *res;
+	int res;
 
-	if (!(f = fopen (filename, "rb")))
-		return g_strdup (g_strerror(errno));
-
+	if (!(f = fopen (filename, "rb"))) {
+		gnumeric_error_read (context, g_strerror (errno));
+		return -1;
+	}
+		
 	cell_deep_freeze_redraws ();
 
 	res = read_workbook (wb, f);
-	if (res == NULL) {
+	if (res == 0) {
 		workbook_recalc (wb);
 		cell_deep_thaw_redraws ();
-		fclose (f);
 	}
+	fclose (f);
 
 	return res;
 }

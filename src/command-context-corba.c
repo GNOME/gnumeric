@@ -22,6 +22,18 @@ ccc_error_plugin_problem (CommandContext *context, char const * const app_ver)
 }
 
 static void
+ccc_error_read (CommandContext *context, char const * const app_ver)
+{
+	/* FIXME set exception */
+}
+
+static void
+ccc_error_save (CommandContext *context, char const * const app_ver)
+{
+	/* FIXME set exception */
+}
+
+static void
 ccc_error_splits_array (CommandContext *context)
 {
 #if 0
@@ -37,6 +49,8 @@ ccc_init_class (GtkObjectClass *object_class)
 	CommandContextClass *cc_class = (CommandContextClass *) object_class;
 
 	cc_class->error_plugin_problem = ccc_error_plugin_problem;
+	cc_class->error_read           = ccc_error_read;
+	cc_class->error_save           = ccc_error_save;
 	cc_class->error_splits_array   = ccc_error_splits_array;
 }
 

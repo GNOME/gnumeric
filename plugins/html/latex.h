@@ -25,7 +25,9 @@
 #include "../../src/gnumeric.h"
 #include "../../src/gnumeric-util.h"
 
-int html_write_wb_latex (Workbook *wb, const char *filename);
-int html_write_wb_latex2e (Workbook *wb, const char *filename);
+int html_write_wb_latex (CommandContext *context, Workbook *wb,
+			 const char *filename);
+int html_write_wb_latex2e (CommandContext *context, Workbook *wb,
+			   const char *filename);
 #endif
 

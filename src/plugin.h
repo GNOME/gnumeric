@@ -32,9 +32,10 @@ extern GList *plugin_list;
 /* Each plugin must have this one function */
 extern PluginInitResult init_plugin (CommandContext *cmd, PluginData *pd);
 
-void           plugins_init          (void);
-PluginData    *plugin_load           (Workbook *wb, const gchar *filename);
-void           plugin_unload         (Workbook *wb, PluginData *pd);
+void           plugins_init          (CommandContext *context);
+PluginData    *plugin_load           (CommandContext *context,
+				      const gchar *filename);
+void           plugin_unload         (CommandContext *context, PluginData *pd);
 GtkWidget     *plugin_manager_new    (Workbook *wb);
 
 gboolean       plugin_version_mismatch  (CommandContext *cmd, PluginData *pd,

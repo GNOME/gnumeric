@@ -23,6 +23,7 @@
 #include "plugin.h"
 #include "gnumeric.h"
 #include "file.h"
+#include "command-context.h"
 
 #define arraysize(x)     (sizeof(x)/sizeof(*(x)))
 
@@ -396,33 +397,41 @@ sylk_parse_line (sylk_file_state_t *src, char *buf)
 	return TRUE;
 }
 
-static char *
-sylk_parse_sheet (sylk_file_state_t *src)
+static int
+sylk_parse_sheet (CommandContext *context, sylk_file_state_t *src)
 {
 	char buf [BUFSIZ];
 
-	if (fgets_mac (buf, sizeof (buf), src->f) == NULL)
-		return FALSE;
+	if (fgets_mac (buf, sizeof (buf), src->f) == NULL) {
+		gnumeric_error_read (context, g_strerror (errno));
+		return -1;
+	}
 
-	if (strncmp ("ID;", buf, 3))
-		return g_strdup ("Not SYLK file");
+	if (strncmp ("ID;", buf, 3)) {
+		gnumeric_error_read (context, _("Not SYLK file"));
+		return -1;
+	}
 
 	while (fgets_mac (buf, sizeof (buf), src->f) != NULL) {
 		g_strchomp (buf);
 		if ( buf [0] && !sylk_parse_line (src, buf) ) {
-			fprintf (stderr, "error parsing line\n");
-			return FALSE;
+			gnumeric_error_read (context,
+					     _("error parsing line\n"));
+			return -1;
 		}
 	}
 
-	if (ferror (src->f))
-		return "";
+	if (ferror (src->f)) {
+		gnumeric_error_read (context, g_strerror (errno));
+		return -1;
+	}
 
-	return NULL;
+	return 0;
 }
 
-static char *
-sylk_read_workbook (Workbook *book, const char *filename)
+static int
+sylk_read_workbook (CommandContext *context, Workbook *book,
+		    const char *filename)
 {
 	/*
 	 * TODO : When there is a reasonable error reporting
@@ -430,12 +439,14 @@ sylk_read_workbook (Workbook *book, const char *filename)
 	 */
 	sylk_file_state_t src;
 	char *name;
-	char * result;
+	int result;
 	FILE *f;
 
 	f = fopen (filename, "r");
-	if (!f)
-		return g_strdup (g_strerror(errno));
+	if (!f) {
+		gnumeric_error_read (context, g_strerror (errno));
+		return -1;
+	}
 
 	name = g_strdup_printf (_("Imported %s"), g_basename (filename));
 
@@ -447,7 +458,7 @@ sylk_read_workbook (Workbook *book, const char *filename)
 	workbook_attach_sheet (book, src.sheet);
 	g_free (name);
 
-	result = sylk_parse_sheet (&src);
+	result = sylk_parse_sheet (context, &src);
 
 	fclose(f);
 

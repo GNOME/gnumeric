@@ -141,11 +141,13 @@ Workbook   *workbook_core_new            (void);
 Workbook   *workbook_new_with_sheets     (int sheet_count);
 
 gboolean    workbook_set_filename        (Workbook *, const char *);
-Workbook   *workbook_try_read            (const char *filename, char **error_msg);
-Workbook   *workbook_read                (const char *filename);
+Workbook   *workbook_try_read            (CommandContext *context,
+					  const char *filename);
+Workbook   *workbook_read                (CommandContext *context,
+					  const char *filename);
 
-gboolean    workbook_save_as             (Workbook *);
-gboolean    workbook_save                (Workbook *);
+gboolean    workbook_save_as             (CommandContext *context, Workbook *);
+gboolean    workbook_save                (CommandContext *context, Workbook *);
 void        workbook_print               (Workbook *, gboolean);
 void        workbook_attach_sheet        (Workbook *, Sheet *);
 gboolean    workbook_detach_sheet        (Workbook *, Sheet *, gboolean);

@@ -1,3 +1,12 @@
+2000-01-29  Jon K Hellan  <hellan@acm.org>
+
+	* oleo.c (oleo_read): Add CommandContext. Return 0 on success,
+	-1 on failure. Use gnumeric_error_read to report errors.
+
+	* oleo.h (oleo_read): Add CommandContext. Return int.
+
+	* boot.c (oleo_load): Ditto.
+	
 1999-12-30  Jody Goldberg <jgoldberg@home.com>
 
 	* boot.c (oleo_load) : return error messages.

@@ -53,7 +53,7 @@ dialog_autosave_callback (gpointer *data)
 			if (v != 0)
 			        goto out;
 		}
-		workbook_save (wb);
+		workbook_save (workbook_command_context_gui (wb), wb);
 	}
 out:
 	wb->autosave_timer =

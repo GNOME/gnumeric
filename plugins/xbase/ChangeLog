@@ -1,3 +1,13 @@
+2000-01-29  Jon K Hellan  <hellan@acm.org>
+
+	* xbase.h (xbase_open): Add CommandContext.
+
+	* xbase.c (xbase_open): Add CommandContext. Remove progress
+	message to stdout. Use gnumeric_error_read to report errors.
+
+	* boot.c (xbase_load): Add CommandContext. Return 0 on success, -1
+	on failure.
+
 2000-01-17  Jody Goldberg <jgoldberg@home.com>
 
 	* xbase.c : Remove unused xml includes.

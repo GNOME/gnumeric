@@ -7,12 +7,14 @@
 #include <config.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <errno.h>
 #include <gnome.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "format.h"
 #include "color.h"
 #include "sheet-object.h"
+#include "command-context.h"
 
 #include "xbase.h"
 
@@ -212,17 +214,18 @@ xbase_read_field (XBfile *file)
 }
 
 XBfile *
-xbase_open (const char *filename)
+xbase_open (CommandContext *context, const char *filename)
 {
 	XBfile *ans = g_new (XBfile, 1);
 	XBfield *field;
-	printf ("Opening Xbase file \"%s\"...\n", filename);
+
 	if ((ans->f = fopen (filename, "rb")) == NULL) {
-		g_warning ("Error opening \"%s\"", filename);
-		xbase_close (ans);
+		gnumeric_error_read (context, g_strerror (errno));
+		g_free (ans);
 		return NULL;
 	}
-	xbase_read_header (ans);
+	xbase_read_header (ans); /* FIXME: Clean up xbase_read_header
+				  * and handle errors */
 	ans->fields = 0;
 	ans->format = NULL;
 	while ((field = xbase_read_field (ans)) != NULL) {

@@ -13,6 +13,9 @@
  * collected.
  **/
 
+/*
+ * FIXME: Check for errors and propagate upward. We've only started.
+ */
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/mman.h>
@@ -35,6 +38,7 @@
 #include "main.h"
 #include "utils.h"
 #include "print-info.h"
+#include "command-context.h"
 
 #include "ms-ole.h"
 #include "ms-biff.h"
@@ -3119,7 +3123,7 @@ write_block (BiffPut *bp, ExcelSheet *sheet, guint32 begin, int nrows)
 static void
 write_sheet (BiffPut *bp, ExcelSheet *sheet)
 {
-	guint32 y, block_end;
+	guint32 y, block_end, maxrows;
 	int rows_in_block = ROW_BLOCK_MAX_LEN;
 	MsOlePos index_off;
 	/* No. of blocks of rows. Only correct as long as all rows -
@@ -3127,9 +3131,10 @@ write_sheet (BiffPut *bp, ExcelSheet *sheet)
 	guint32 nblocks = (sheet->maxy - 1) / rows_in_block + 1;
 
 	sheet->streamPos = biff_bof_write (bp, sheet->wb->ver, eBiffTWorksheet);
-
-	if (sheet->maxy > 16544)
-		g_error ("Sheet seems impossibly big");
+	/* We catch too large sheets during write check, but leave this in: */
+	maxrows = (sheet->wb->ver >= eBiffV8)
+		? eBiffMaxRowsV8 : eBiffMaxRowsV7;
+	g_assert (sheet->maxy > maxrows);
 
 	if (sheet->wb->ver >= eBiffV8) {
 		guint8 *data = ms_biff_put_len_next (bp, 0x200|BIFF_INDEX,
@@ -3166,15 +3171,15 @@ write_sheet (BiffPut *bp, ExcelSheet *sheet)
 	biff_eof_write (bp);
 }
 
-static void
+static ExcelSheet *
 new_sheet (ExcelWorkbook *wb, Sheet *value)
 {
 	ExcelSheet      *sheet = g_new (ExcelSheet, 1);
 	Range           extent;
 	ExcelCell       **p, **pmax;
 
-	g_return_if_fail (value);
-	g_return_if_fail (wb);
+	g_return_val_if_fail (value, NULL);
+	g_return_val_if_fail (wb, NULL);
 
 	sheet->gnum_sheet = value;
 	sheet->streamPos  = 0x0deadbee;
@@ -3185,14 +3190,14 @@ new_sheet (ExcelWorkbook *wb, Sheet *value)
 	sheet->dbcells    = g_array_new (FALSE, FALSE, sizeof (MsOlePos));
 	sheet->base_char_width = 0;
 
-	g_ptr_array_add (wb->sheets, sheet);
-
 	ms_formula_cache_init (sheet);
 	sheet->cell_used_map = cell_used_map_new (sheet);
 	
 	sheet->cells = g_new (ExcelCell *, sheet->maxy);
 	for (p = sheet->cells, pmax = p + sheet->maxy; p < pmax; p++)
 		*p = g_new0 (ExcelCell, sheet->maxx);
+
+	return sheet;
 }
 
 static void
@@ -3213,6 +3218,7 @@ free_sheet (ExcelSheet *sheet)
 
 /**
  * pre_pass
+ * @context: Command context.
  * @wb: the workbook to scan
  *
  * Scans all the workbook items. Adds all styles, fonts, formats and
@@ -3220,9 +3226,11 @@ free_sheet (ExcelSheet *sheet)
  * occur, hence the records can be written in a linear order.
  *
  **/
-static void
-pre_pass (ExcelWorkbook *wb)
+static int
+pre_pass (CommandContext *context, ExcelWorkbook *wb)
 {
+	int ret = 0;
+	
 	/* The default style first */
 	put_mstyle (wb, wb->xf->default_style);
 	/* Its font and format */
@@ -3234,32 +3242,38 @@ pre_pass (ExcelWorkbook *wb)
 	gather_fonts (wb);
 	gather_formats (wb);
 	gather_palette (wb);
+
+	return ret;
+}
+
+/*
+ * free_workbook
+ * @wb  Workbook
+ *
+ * Free various bits
+ */
+static void
+free_workbook (ExcelWorkbook *wb)
+{
+	int lp;
+	
+	fonts_free   (wb);
+	formats_free (wb);
+	palette_free (wb);
+	xf_free  (wb);
+	for (lp = 0; lp < wb->sheets->len; lp++) {
+		ExcelSheet *s = g_ptr_array_index (wb->sheets, lp);
+		free_sheet (s);
+	}
+
+	g_free (wb);
 }
 
 static void
-write_workbook (BiffPut *bp, Workbook *gwb, eBiff_version ver)
+write_workbook (BiffPut *bp, ExcelWorkbook *wb, eBiff_version ver)
 {
-	ExcelWorkbook *wb = g_new (ExcelWorkbook, 1);
-	ExcelSheet    *s  = 0;
-	int       lp;
-	GList    *sheets;
-
-	wb->ver      = ver;
-	wb->gnum_wb  = gwb;
-	wb->sheets   = g_ptr_array_new ();
-	wb->names    = g_ptr_array_new ();
-	fonts_init (wb);
-	formats_init (wb);
-	palette_init (wb);
-	xf_init (wb);
-
-	sheets = workbook_sheets (gwb);
-	while (sheets) {
-		new_sheet (wb, sheets->data);
-		sheets = g_list_next (sheets);
-	}
-
-	pre_pass (wb);
+	ExcelSheet *s  = 0;
+	int        lp;
 
 	/* Workbook */
 	wb->streamPos = biff_bof_write (bp, ver, eBiffTWorkbook);
@@ -3299,37 +3313,101 @@ write_workbook (BiffPut *bp, Workbook *gwb, eBiff_version ver)
 	}
 	/* End Finalised workbook */
 
-	/* Free various bits */
-	fonts_free   (wb);
-	formats_free (wb);
-	palette_free (wb);
-	xf_free  (wb);
-	for (lp = 0; lp < wb->sheets->len; lp++) {
-		ExcelSheet *s = g_ptr_array_index (wb->sheets, lp);
-		free_sheet (s);
+	free_workbook (wb);
+}
+
+/*
+ * check_sheet
+ * @context  Command context
+ * @sheet    Sheet
+ *
+ * Check if we are able to save the sheet. Return -1 if we would, 0 otherwise.
+ *
+ * FIXME: Check if the 16384 rows limit is a limit on max row no. or
+ * on no. of row records. If the latter, change the test if we avoid
+ * storing empty row records.
+ */
+static int
+check_sheet (CommandContext *context, ExcelSheet *sheet)
+{
+	guint32 maxrows;
+	int ret = 0;
+
+	maxrows = (sheet->wb->ver >= eBiffV8)
+		? eBiffMaxRowsV8 : eBiffMaxRowsV7;
+
+	if (sheet->maxy > maxrows) {
+		gnumeric_error_save
+			(context, _("Too many rows for this format"));
+		ret = -1;
 	}
+
+	return ret;
+}
+
+/*
+ * ms_excel_check_write
+ * @context  Command context
+ * @filename File name
+ *
+ * Check if we are able to save to the file. Return FALSE if we do not
+ * have access or we would lose data.
+ *
+ * TODO: Ask before continuing if there are minor problems, like
+ * losing style information.
+ */
+int
+ms_excel_check_write (CommandContext *context, void **state, Workbook *gwb,
+		      eBiff_version ver)
+{
+	int ret = 0;
+	ExcelWorkbook *wb = g_new (ExcelWorkbook, 1);
+	GList    *sheets;
+
+	g_return_val_if_fail (wb != NULL, -1);
+	g_return_val_if_fail (ver >= eBiffV7, -1);
+
+	*state = wb;
+	
+	wb->ver      = ver;
+	wb->gnum_wb  = gwb;
+	wb->sheets   = g_ptr_array_new ();
+	wb->names    = g_ptr_array_new ();
+	fonts_init (wb);
+	formats_init (wb);
+	palette_init (wb);
+	xf_init (wb);
+
+	sheets = workbook_sheets (gwb);
+	while (sheets) {
+		ExcelSheet *sheet = new_sheet (wb, sheets->data);
+		g_ptr_array_add (wb->sheets, sheet);
+		if ((ret = check_sheet (context, sheet)) != 0)
+			goto cleanup;
+		sheets = g_list_next (sheets);
+	}
+
+	ret = pre_pass (context, wb);
+
+cleanup:
+	if (ret != 0)
+		free_workbook (wb);
 	g_list_free (sheets);
 
-	g_free (wb);
+	return ret;
 }
 
 int
-ms_excel_write_workbook (MsOle *file, Workbook *wb,
+ms_excel_write_workbook (CommandContext *context, MsOle *file, void *state,
 			 eBiff_version ver)
 {
 	MsOleErr     result;
 	char        *strname;
 	MsOleStream *str;
 	BiffPut     *bp;
+	ExcelWorkbook *wb = state;
 
-	g_return_val_if_fail (wb != NULL, 0);
-	g_return_val_if_fail (file != NULL, 0);
-	g_return_val_if_fail (ver >= eBiffV7, 0);
-
-	if (!file || !wb) {
-		printf ("Can't write Null pointers\n");
-		return 0;
-	}
+	g_return_val_if_fail (file != NULL, -1);
 
 	if (ver >= eBiffV8)
 		strname = "Workbook";
@@ -3339,8 +3417,9 @@ ms_excel_write_workbook (MsOle *file, Workbook *wb,
 	result = ms_ole_stream_open (&str, file, "/", strname, 'w');
 
 	if (result != MS_OLE_ERR_OK) {
-		printf ("Can't open stream for writing\n");
-		return 0;
+		gnumeric_error_save
+			(context, _("Can't open stream for writing\n"));
+		return -1;
 	}
 
 	bp = ms_biff_put_new (str);
@@ -3363,5 +3442,5 @@ ms_excel_write_workbook (MsOle *file, Workbook *wb,
 	}
 #endif
 
-	return 1;
+	return 0;
 }

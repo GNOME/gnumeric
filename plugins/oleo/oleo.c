@@ -27,6 +27,7 @@
 #include "sheet.h"
 #include "file.h"
 #include "utils.h"
+#include "command-context.h"
 
 #include "oleo.h"
 
@@ -173,8 +174,8 @@ oleo_deal_with_cell (char *str, Sheet *sheet, int *ccol, int *crow)
 	}
 }
 
-char *
-oleo_read (Workbook *wb, const char *filename)
+int
+oleo_read (CommandContext *context, Workbook *wb, const char *filename)
 {
 	FILE *f = fopen (filename, "rb");
 	int sheetidx  = 0;
@@ -184,9 +185,11 @@ oleo_read (Workbook *wb, const char *filename)
 	Sheet *sheet = NULL;
 	char str[2048];
 
-	if (!f)
-		return g_strdup (g_strerror(errno));
-
+	if (!f) {
+		gnumeric_error_read (context, g_strerror (errno));
+		return -1;
+	}
+	
 	cell_deep_freeze_redraws ();
 	sheet = attach_sheet (wb, sheetidx++);
 
@@ -220,5 +223,5 @@ oleo_read (Workbook *wb, const char *filename)
 	}
 
 	fclose (f);
-	return NULL;
+	return -1;
 }

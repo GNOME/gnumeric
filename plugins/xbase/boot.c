@@ -134,8 +134,8 @@ xbase_field_as_value (XBrecord *record, guint num)
 	}
 }
 
-static char *
-xbase_load (Workbook *wb, const char *filename)
+static int
+xbase_load (CommandContext *context, Workbook *wb, const char *filename)
 {
 	XBfile *file;
 	XBrecord *rec;
@@ -145,8 +145,8 @@ xbase_load (Workbook *wb, const char *filename)
 	Cell *cell;
 	Value *val;
 
-	if ((file = xbase_open (filename)) == NULL)
-		return "";
+	if ((file = xbase_open (context, filename)) == NULL)
+		return -1;
 
 	if ((p = filename_ext (name)) != NULL)
 		*p = '\0'; /* remove "dbf" */
@@ -186,7 +186,7 @@ xbase_load (Workbook *wb, const char *filename)
 
 	xbase_close (file);
 
-	return NULL;
+	return 0;
 }
 
 static int

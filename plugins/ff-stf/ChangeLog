@@ -1,3 +1,21 @@
+2000-01-29  Jon K Hellan  <hellan@acm.org>
+
+	Megacommit.
+
+	The purpose of the changeset is twofold:
+
+	1. Use CommandContexts for error reporting for file read/save.
+	2. This allows us to let FileFormatOpen return 0 on success, -1 on
+	   failure, same as FileFormatSave. The convention to return NULL
+	   on success was highly ideosyncratic.
+
+	* dialog-stf.h: Add CommandContext. Return int.
+
+	* dialog-stf.c (dialog_stf) : Add CommandContext. Return 0 on success,
+	-1 on failure. Use gnumeric_error_read to report errors.
+
+	* stf.c (stf_read_workbook): Ditto.
+
 2000-01-15  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* stf-separated.c, stf-fixed.c :

@@ -1,6 +1,6 @@
 #ifndef OLEO_H
 #define OLEO_H
 
-char * oleo_read (Workbook *wb, const char *filename);
+int oleo_read (CommandContext *context, Workbook *wb, const char *filename);
 
 #endif

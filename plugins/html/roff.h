@@ -25,10 +25,14 @@
 #include "../../src/gnumeric.h"
 #include "../../src/gnumeric-util.h"
 
-int html_write_wb_roff_ps (Workbook *wb, const char *filename);
-int html_write_wb_roff_dvi (Workbook *wb, const char *filename);
-int html_write_wb_roff_pdf (Workbook *wb, const char *filename);
-int html_write_wb_roff (Workbook *wb, const char *filename);
+int html_write_wb_roff_ps (CommandContext *context, Workbook *wb,
+			   const char *filename);
+int html_write_wb_roff_dvi (CommandContext *context, Workbook *wb,
+			    const char *filename);
+int html_write_wb_roff_pdf (CommandContext *context, Workbook *wb,
+			    const char *filename);
+int html_write_wb_roff (CommandContext *context, Workbook *wb,
+			const char *filename);
 
 #endif
 

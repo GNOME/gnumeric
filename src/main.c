@@ -92,17 +92,23 @@ const struct poptOption gnumeric_popt_options [] = {
 
 #include "ranges.h"
 
+/* FIXME: We hardcode the GUI command context. Change once we are able
+ * to tell whether we are in GUI or not. */
 static void
 gnumeric_main (void *closure, int argc, char *argv [])
 {
 	gboolean opened_workbook = FALSE;
 	int i;
 	Workbook *new_book;
+	CommandContext *context; 
 
 	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
 	textdomain (PACKAGE);
 
 	gnumeric_arg_parse (argc, argv);
+
+	/* For reporting errors before we have an application window */
+	context = workbook_command_context_gui (NULL);
 
 	application_init ();
 	string_init ();
@@ -116,7 +122,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	functions_init ();
 	expr_name_init ();
 	print_init ();
-	plugins_init ();
+	plugins_init (context);
 
 	/* The statically linked in file formats */
 	xml_init ();
@@ -139,11 +145,15 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	   special things if the number of workbooks reaches zero.  (And this
 	   would happen if loading the first file specified failed.)  */
 	new_book = workbook_new_with_sheets (1);
+	/* Now we've got a real gui context (but see FIXME above) */
+	gtk_object_unref (GTK_OBJECT (context));
+	context = workbook_command_context_gui (new_book);
 
 	startup_files = poptGetArgs (ctx);
 	if (startup_files)
 		for (i = 0; startup_files [i]; i++) {
-			Workbook *new_book = workbook_read (startup_files [i]);
+			Workbook *new_book = workbook_read (context,
+							    startup_files [i]);
 
 			if (new_book) {
 				opened_workbook = TRUE;

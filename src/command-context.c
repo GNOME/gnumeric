@@ -25,6 +25,26 @@ gnumeric_error_plugin_problem (CommandContext *context,
 }
 
 void
+gnumeric_error_read (CommandContext *context,
+		     char const * const message)
+{
+	g_return_if_fail (context != NULL);
+	g_return_if_fail (IS_COMMAND_CONTEXT (context));
+
+	CC_CLASS (context)->error_read (context, message);
+}
+
+void
+gnumeric_error_save (CommandContext *context,
+		     char const * const message)
+{
+	g_return_if_fail (context != NULL);
+	g_return_if_fail (IS_COMMAND_CONTEXT (context));
+
+	CC_CLASS (context)->error_save (context, message);
+}
+
+void
 gnumeric_error_splits_array (CommandContext *context)
 {
 	g_return_if_fail (context);

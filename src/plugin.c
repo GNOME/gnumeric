@@ -47,11 +47,8 @@ plugin_version_mismatch  (CommandContext *context, PluginData *pd,
 }
 
 PluginData *
-plugin_load (Workbook *wb, const gchar *modfile)
+plugin_load (CommandContext *context, const gchar *modfile)
 {
-	/* FIXME : Get the correct command context here. */
-	CommandContext *context = workbook_command_context_gui (wb);
-
 	PluginData *data;
 	PluginInitResult res;
 
@@ -100,13 +97,13 @@ plugin_load (Workbook *wb, const gchar *modfile)
 }
 
 void
-plugin_unload (Workbook *wb, PluginData *pd)
+plugin_unload (CommandContext *context, PluginData *pd)
 {
 	g_return_if_fail (pd != NULL);
 	
 	if (pd->can_unload && !pd->can_unload (pd)) {
-		gnumeric_notice (wb, GNOME_MESSAGE_BOX_INFO,
-				 _("Plugin is still in use.\n"));
+		gnumeric_error_plugin_problem (context,
+					       _("Plugin is still in use.\n"));
 		return;
 	}
 	
@@ -121,7 +118,7 @@ plugin_unload (Workbook *wb, PluginData *pd)
 }
 
 static void
-plugin_load_plugins_in_dir (char *directory)
+plugin_load_plugins_in_dir (CommandContext *context, char *directory)
 {
 	DIR *d;
 	struct dirent *e;
@@ -134,7 +131,7 @@ plugin_load_plugins_in_dir (char *directory)
 			char *plugin_name;
 			
 			plugin_name = g_strconcat (directory, e->d_name, NULL);
-			plugin_load (NULL, plugin_name);
+			plugin_load (context, plugin_name);
 			g_free (plugin_name);
 		}
 	}
@@ -142,7 +139,7 @@ plugin_load_plugins_in_dir (char *directory)
 }
 
 static void
-load_all_plugins (void)
+load_all_plugins (CommandContext *context)
 {
 	char *plugin_dir;
 	char const * const home_dir = getenv ("HOME");
@@ -150,22 +147,22 @@ load_all_plugins (void)
 	/* Load the user plugins */
 	if (home_dir != NULL) {
 		plugin_dir = g_strconcat (home_dir, "/.gnumeric/plugins/" GNUMERIC_VERSION "/", NULL);
-		plugin_load_plugins_in_dir (plugin_dir);
+		plugin_load_plugins_in_dir (context, plugin_dir);
 		g_free (plugin_dir);
 	}
 
 	/* Load the system plugins */
 	plugin_dir = gnome_unconditional_libdir_file ("gnumeric/plugins/" GNUMERIC_VERSION "/");
-	plugin_load_plugins_in_dir (plugin_dir);
+	plugin_load_plugins_in_dir (context, plugin_dir);
 	g_free (plugin_dir);
 }
 
 void
-plugins_init (void)
+plugins_init (CommandContext *context)
 {
 	if (!g_module_supported ())
 		return;
 
-	load_all_plugins ();
+	load_all_plugins (context);
 }
 

@@ -19,9 +19,19 @@ typedef enum _eBiff_version { eBiffV2=2, eBiffV3=3,
 			      eBiffV8=8, /* Excel 97 */
 			      eBiffVUnknown=0} eBiff_version ;
 
-extern char *   ms_excel_read_workbook  (Workbook *wb, MsOle *file);
-extern int      ms_excel_write_workbook (MsOle *file, Workbook *wb,
-					 eBiff_version ver);
+extern int   ms_excel_read_workbook  (CommandContext *context,
+				      Workbook *wb, MsOle *file);
+/*
+ * Here's why the state which is carried from excel_check_write to
+ * ms_excel_write_workbook is void *: The state is actually an
+ * ExcelWorksheet * as defined in ms-excel-write.h. But we can't
+ * import that definition here: There's a different definition of
+ * ExcelWorksheet in ms-excel-read.h.
+ */
+extern int      ms_excel_check_write (CommandContext *context, void **state,
+				      Workbook *wb, eBiff_version ver);
+extern int      ms_excel_write_workbook (CommandContext *context, MsOle *file,
+					 void *state, eBiff_version ver);
 
 /* We need to use these for both read and write */
 typedef struct {

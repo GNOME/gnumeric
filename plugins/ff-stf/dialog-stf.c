@@ -8,6 +8,7 @@
 #include <config.h>
 #include <gnome.h>
 
+#include "command-context.h"
 #include "dialog-stf.h"
 
 #define GLADE_FILE "stf.glade"
@@ -316,10 +317,10 @@ dialog_stf_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
  *
  * This will start the import druid.
  *
- * returns : NULL on success, a string otherwise.
+ * returns : 0 on success, -1 otherwise.
  **/
-char*
-dialog_stf (FileSource_t *src)
+int
+dialog_stf (CommandContext *context, FileSource_t *src)
 {
 	GladeXML *gui;
 	DruidPageData_t pagedata;
@@ -327,15 +328,16 @@ dialog_stf (FileSource_t *src)
 	CsvInfo_t csv_info;
 	FixedInfo_t fixed_info;
 	FormatInfo_t format_info;
-	char* result;
+	char* message;
 
 	glade_gnome_init();
 
 	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE, NULL);
 	if (!gui) {
-		result = g_strdup_printf (_("Missing %s file"), GLADE_FILE);
-		g_warning (result);
-		return result;
+		message = g_strdup_printf (_("Missing %s file"), GLADE_FILE);
+		gnumeric_error_read (context, message);
+		g_free (message);
+		return -1;
 	}
 	
 	pagedata.canceled = FALSE;
@@ -363,12 +365,7 @@ dialog_stf (FileSource_t *src)
 	gtk_widget_destroy (GTK_WIDGET (pagedata.window));
 	gtk_object_unref (GTK_OBJECT (gui));
 
-	if (pagedata.canceled)
-		result = "CANCEL";
-	else
-		result = NULL;
-		
-	return result;
+	return -1;
 }
 
 

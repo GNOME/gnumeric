@@ -76,7 +76,7 @@ file_open_cmd (GtkWidget *widget, Workbook *wb)
 	if (!fname)
 		return;
 
-	new_wb = workbook_read (fname);
+	new_wb = workbook_read (workbook_command_context_gui (wb), fname);
 
 	if (new_wb != NULL) {
 		gtk_widget_show (new_wb->toplevel);
@@ -101,7 +101,8 @@ file_import_cmd (GtkWidget *widget, Workbook *wb)
 	if (!fname)
 		return;
 	
-	new_wb = workbook_import (wb, fname);
+	new_wb = workbook_import (workbook_command_context_gui (wb), wb,
+				  fname);
 	if (new_wb) {
 		gtk_widget_show (new_wb->toplevel);
 
@@ -119,13 +120,13 @@ file_import_cmd (GtkWidget *widget, Workbook *wb)
 static void
 file_save_cmd (GtkWidget *widget, Workbook *wb)
 {
-	workbook_save (wb);
+	workbook_save (workbook_command_context_gui (wb), wb);
 }
 
 static void
 file_save_as_cmd (GtkWidget *widget, Workbook *wb)
 {
-	workbook_save_as (wb);
+	workbook_save_as (workbook_command_context_gui (wb), wb);
 }
 
 static void
@@ -546,7 +547,7 @@ workbook_can_close (Workbook *wb)
 		switch (button) {
 			/* YES */
 		case 0:
-			done = workbook_save (wb);
+			done = workbook_save (workbook_command_context_gui (wb), wb);
 			break;
 			
 			/* NO */
@@ -1984,19 +1985,18 @@ static int
 workbook_persist_file_load (BonoboPersistFile *ps, const CORBA_char *filename, void *closure)
 {
 	Workbook *wb = closure;
+	CommandContext *context = workbook_command_context_gui (wb);
 
-	if (workbook_load_from (wb, filename))
-		return 0;
-
-	return -1;
+	return workbook_load_from (context, wb, filename);
 }
 
 static int
 workbook_persist_file_save (BonoboPersistFile *ps, const CORBA_char *filename, void *closure)
 {
 	Workbook *wb = closure;
+	CommandContext *context = workbook_command_context_gui (wb);
 
-	return gnumeric_xml_write_workbook (wb, filename);
+	return gnumeric_xml_write_workbook (context, wb, filename);
 }
      
 static void

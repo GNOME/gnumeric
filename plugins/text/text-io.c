@@ -19,6 +19,7 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <errno.h>
+#include "command-context.h"
 #include "text-io.h"
 #include "file.h"
 
@@ -36,7 +37,8 @@ static Sheet    *text_read_sheet     (const char *filename);
 static int       text_write_sheet    (Sheet *sheet, const char *filename);
 */
 
-static int       text_write_workbook (Workbook *wb, const char *filename);
+static int       text_write_workbook (CommandContext *context, Workbook *wb,
+				      const char *filename);
 
 static void      writeTextSheet      (TextData *data, Sheet *sheet);
 static void      writeTextWorkbook   (TextData *data, Workbook *wb);
@@ -287,8 +289,9 @@ text_parse_file (gchar *file, gint flen, gint start,
 }
 
 
-static char *
-readTextWorkbook (Workbook *book, const char* filename, gboolean probe)
+static int
+readTextWorkbook (CommandContext *context, Workbook *book,
+		  const char* filename, gboolean probe)
 {
 	Sheet      *sheet = NULL;
 	struct stat buf;
@@ -296,12 +299,16 @@ readTextWorkbook (Workbook *book, const char* filename, gboolean probe)
 	gchar      *file;	/* data pointer */
 	gint	    idx;
 	int const   fd = open (filename, O_RDONLY);
-	if (fd < 0)
-		return g_strdup (g_strerror (errno));
+
+	if (fd < 0) {
+		gnumeric_error_read (context, g_strerror (errno));
+		return -1;
+	}
 
 	if (fstat (fd, &buf) < 0) {
 		close(fd);
-		return g_strdup (g_strerror(errno));
+		gnumeric_error_read (context, g_strerror (errno));
+		return -1;
 	}
 
 	flen = buf.st_size;
@@ -309,16 +316,19 @@ readTextWorkbook (Workbook *book, const char* filename, gboolean probe)
 	/* FIXME: ARBITRARY VALUE */
 	if (buf.st_size < 1) {
 		close(fd);
-		return g_strdup (_("Empty file"));
+		gnumeric_error_read (context, _("Empty file"));
+		return -1;
 	} else if ( buf.st_size > 1000000){
 		close(fd);
-		return g_strdup (_("File is too large"));
+		gnumeric_error_read (context, _("File is too large"));
+		return -1;
 	}
 
 	file = mmap (NULL, flen, PROT_READ, MAP_PRIVATE, fd, 0);
 	if (file == (char*)-1){
 		close (fd);
-		return g_strdup (_("Can not mmap the file"));
+		gnumeric_error_read (context, _("Can not mmap the file"));
+		return -1;
 	}
 
 	idx = 0;
@@ -338,16 +348,17 @@ readTextWorkbook (Workbook *book, const char* filename, gboolean probe)
 	munmap (file, flen);
 	close (fd);
 
-	return NULL;
+	return 0;
 }
 
-static char *
-text_read_workbook (Workbook *wb, const char* filename)
+static int
+text_read_workbook (CommandContext *context, Workbook *wb,
+		    const char* filename)
 {
-	char *ret;
+	int ret;
 
-	ret = readTextWorkbook (wb, filename, FALSE);
-	if (ret == NULL) {
+	ret = readTextWorkbook (context, wb, filename, FALSE);
+	if (ret == 0) {
 		workbook_set_filename (wb, filename);
 		workbook_recalc_all (wb);
 	}
@@ -389,7 +400,8 @@ text_write_sheet (Sheet * sheet, const char *filename)
 */
 
 int
-text_write_workbook (Workbook *wb, const char *filename)
+text_write_workbook (CommandContext *context, Workbook *wb,
+		     const char *filename)
 {
 	TextData data = { 0, 0, 0, 0, NULL };
 

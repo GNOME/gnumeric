@@ -166,7 +166,8 @@ write_wb_roff (Workbook *wb, FILE *fp)
  * write sheets to a PS file using groff as filter
  */
 int
-html_write_wb_roff_ps (Workbook *wb, const char *filename)
+html_write_wb_roff_ps (CommandContext *context, Workbook *wb,
+		       const char *filename)
 {
 	FILE *fp;
 	int rc = 0;
@@ -190,7 +191,8 @@ html_write_wb_roff_ps (Workbook *wb, const char *filename)
  * write sheets to a DVI file using groff as filter
  */
 int
-html_write_wb_roff_dvi (Workbook *wb, const char *filename)
+html_write_wb_roff_dvi (CommandContext *context, Workbook *wb,
+			const char *filename)
 {
 	FILE *fp;
 	int rc = 0;
@@ -214,7 +216,8 @@ html_write_wb_roff_dvi (Workbook *wb, const char *filename)
  * write sheets to a PDF file using groff and gs as filter
  */
 int
-html_write_wb_roff_pdf (Workbook *wb, const char *filename)
+html_write_wb_roff_pdf (CommandContext *context, Workbook *wb,
+			const char *filename)
 {
 	FILE *fp;
 	int rc = 0;
@@ -241,7 +244,8 @@ html_write_wb_roff_pdf (Workbook *wb, const char *filename)
  * write sheets to a roff file
  */
 int
-html_write_wb_roff (Workbook *wb, const char *filename)
+html_write_wb_roff (CommandContext *context, Workbook *wb,
+		    const char *filename)
 {
 	FILE *fp;
 	int rc = 0;

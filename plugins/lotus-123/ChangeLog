@@ -1,3 +1,15 @@
+2000-01-29  Jon K Hellan  <hellan@acm.org>
+
+	* lotus.c (lotus_read): Add CommandContext. Return 0 on success,
+	-1 on failure. Use gnumeric_error_read to report errors. Close
+	file unconditionally.
+	(read_workbook): Return 0 on success, -1 on failure. Remove unused
+	panic_message variable.
+
+	* lotus.h (lotus_read): Add CommandContext. Return int.
+
+	* boot.c (lotus_load): Ditto
+
 2000-01-18  Jody Goldberg <jgoldberg@home.com>
 
 	* lotus-formula.c (functions) : Enable OPER_UNARY_PLUS.

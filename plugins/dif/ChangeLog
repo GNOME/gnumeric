@@ -1,3 +1,10 @@
+2000-01-29  Jon K Hellan  <hellan@acm.org>
+
+	* dif.c (dif_read_workbook, dif_write_workbook): Add
+	CommandContext.
+	(dif_read_workbook): Return 0 on success, -1 on failure.
+	 Use gnumeric_error_read to report errors.
+
 1999-12-30  Jody Goldberg <jgoldberg@home.com>
 
 	* dif.c (dif_read_workbook) : Preliminary error reporting support.

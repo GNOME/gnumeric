@@ -119,7 +119,7 @@ epsf_write_cell (FILE *fp, Cell *cell, float x, float y)
  * write every sheet of the workbook to a html 3.2 table
  */
 int
-epsf_write_wb (Workbook *wb, const char *filename)
+epsf_write_wb (CommandContext *context, Workbook *wb, const char *filename)
 {
 	FILE *fp;
 	Sheet *sheet;

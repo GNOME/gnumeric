@@ -20,6 +20,7 @@
 #include "plugin.h"
 #include "gnumeric.h"
 #include "file.h"
+#include "command-context.h"
 
 typedef struct {
 	char const *data, *cur;
@@ -696,8 +697,8 @@ g_warning("PLN: Undefined formula code %d", fcode);
 	return result1;
 }
 
-static char *
-pln_parse_sheet (FileSource_t *src)
+static int
+pln_parse_sheet (CommandContext *context, FileSource_t *src)
 {
 	int rcode, rlength;
 	int crow, ccol, ctype, cformat, chelp, clength, cattr, cwidth;
@@ -707,6 +708,8 @@ pln_parse_sheet (FileSource_t *src)
 	char* svalue;
 	int lastrow = SHEET_MAX_ROWS;
 	int lastcol = SHEET_MAX_COLS;
+	char *template = _("Invalid PLN file has more than the maximum\n"
+			   "number of %s %d");
 
 	/*
 	 * Make sure it really is a plan-perfect file
@@ -720,12 +723,18 @@ pln_parse_sheet (FileSource_t *src)
 	 *	12-13	= encryption key
 	 *	14-15	= unused
 	 */
-	if (memcmp(src->cur, "\377WPC\020\0\0\0\011\012", 10) != 0)
-		return g_strdup (_("PLN : Not a PlanPerfect File"));
+	if (memcmp(src->cur, "\377WPC\020\0\0\0\011\012", 10) != 0) {
+		gnumeric_error_read
+			(context, _("PLN : Not a PlanPerfect File"));
+		return -1;
+	}
 
-	if ((*(src->cur + 12) != 0) || (*(src->cur + 13) != 0))
-		return g_strdup (_("PLN : Spreadsheet is password encrypted"));
-
+	if ((*(src->cur + 12) != 0) || (*(src->cur + 13) != 0)) {
+		gnumeric_error_read
+			(context, _("PLN : Spreadsheet is password encrypted"));
+		return -1;
+	}
+	
 	/*
 	 * Point to beginning of real data (16 byte header)
 	 */
@@ -785,9 +794,12 @@ g_warning("PLN : Record handling code for code %d not yet written", rcode);
 	{
 		crow = PLN_WORD(src->cur);
 
-		if (crow >= SHEET_MAX_ROWS)
-			return g_strdup_printf (_("Invalid CSV file has more than the maximum number of rows %d"),
-						SHEET_MAX_ROWS);
+		if (crow >= SHEET_MAX_ROWS) {
+			char *message = g_strdup_printf (template, _("rows"),
+							 SHEET_MAX_ROWS);
+			gnumeric_error_read (context, message);
+			g_free (message);
+		}
 
 		ccol = PLN_WORD(src->cur + 2);
 		ctype = PLN_WORD(src->cur + 12);
@@ -851,23 +863,26 @@ g_warning("PLN : Record handling code for code %d not yet written", rcode);
 		src->cur += 20 + clength + cextra;
 	}
 
-	return NULL;
+	return 0;
 }
 
-static char *
-pln_read_workbook (Workbook *book, char const *filename)
+static int
+pln_read_workbook (CommandContext *context, Workbook *book, char const *filename)
 {
-	char *result = NULL;
+	int result = 0;
 	int len;
 	struct stat sbuf;
 	char const *data;
 	int const fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return g_strdup (g_strerror(errno));
+	if (fd < 0) {
+		gnumeric_error_read (context, g_strerror (errno));
+		return -1;
+	}
 
 	if (fstat(fd, &sbuf) < 0) {
 		close (fd);
-		return g_strdup (g_strerror(errno));
+		gnumeric_error_read (context, g_strerror (errno));
+		return -1;
 	}
 
 	len = sbuf.st_size;
@@ -884,14 +899,16 @@ pln_read_workbook (Workbook *book, char const *filename)
 		workbook_attach_sheet (book, src.sheet);
 		g_free (name);
 
-		result = pln_parse_sheet (&src);
+		result = pln_parse_sheet (context, &src);
 
-		if (result != NULL)
+		if (result != 0)
 			workbook_detach_sheet (book, src.sheet, TRUE);
 
 		munmap((char *)data, len);
-	} else
-		result = g_strdup (_("Unable to mmap the file"));
+	} else {
+		result = -1;
+		gnumeric_error_read (context, _("Unable to mmap the file"));
+	}
 	close(fd);
 
 	return result;

@@ -66,7 +66,8 @@ latex_fprintf (FILE *fp, const char *s)
  * write every sheet of the workbook to a latex table
  */
 int
-html_write_wb_latex (Workbook *wb, const char *filename)
+html_write_wb_latex (CommandContext *context, Workbook *wb,
+		     const char *filename)
 {
 	FILE *fp;
 	GList *sheet_list;
@@ -154,7 +155,8 @@ html_write_wb_latex (Workbook *wb, const char *filename)
  * write every sheet of the workbook to a latex2e table
  */
 int
-html_write_wb_latex2e (Workbook *wb, const char *filename)
+html_write_wb_latex2e (CommandContext *context, Workbook *wb,
+		       const char *filename)
 {
 	FILE *fp;
 	GList *sheet_list;

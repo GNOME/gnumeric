@@ -12,6 +12,7 @@
 #include "dialogs.h"
 #include "xml-io.h"
 #include "file.h"
+#include "command-context.h"
 #include <locale.h>
 
 struct _FileOpener {
@@ -157,13 +158,12 @@ file_format_unregister_save (FileFormatSave save)
  * This function attempts to read the file into the supplied
  * workbook.
  * 
- * Return value: success : NULL
- *               failure : A string describing the error.  If the string is
- *                         "" then a default error message should be used.  If the
- *                         string is non empty it needs to be freed.
+ * Return value: success : 0
+ *               failure : -1
  **/
-char *
-workbook_load_from (Workbook *wb, const char *filename)
+int
+workbook_load_from (CommandContext *context, Workbook *wb,
+		    const char *filename)
 {
 	GList *l;
 
@@ -171,13 +171,13 @@ workbook_load_from (Workbook *wb, const char *filename)
 		FileOpener const * const fo = l->data;
 
 		if (fo->probe != NULL && (*fo->probe) (filename)) {
-			char *result = (*fo->open) (wb, filename);
-			if (result == NULL)
+			int result = (*fo->open) (context, wb, filename);
+			if (result == 0)
 				workbook_mark_clean (wb);
 			return result;
 		}
 	}
-	return "";
+	return -1;
 }
 
 /**
@@ -190,47 +190,25 @@ workbook_load_from (Workbook *wb, const char *filename)
  *               NULL on failure.
  **/
 Workbook *
-workbook_try_read (const char *filename, char **msg)
+workbook_try_read (CommandContext *context, const char *filename)
 {
 	Workbook *wb;
-	char *result;
+	int result;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
 	wb = workbook_new ();
-	result = workbook_load_from (wb, filename);
-	if (result != NULL) {
+	result = workbook_load_from (context, wb, filename);
+	if (result != 0) {
 #ifdef ENABLE_BONOBO
 		bonobo_object_destroy (BONOBO_OBJECT (wb));
 #else
 		gtk_object_destroy   (GTK_OBJECT (wb));
 #endif
-		if (msg)
-			*msg = result;
-		else if (*result)
-			g_free (result);
 		wb = NULL;
 	}
 
 	return wb;
-}
-
-static void 
-file_error_message (char *message, const char *filename, char*plugin_mesg)
-{
-	char *s = g_strdup_printf (message, filename);
-
-	if (plugin_mesg != NULL && *plugin_mesg) {
-		char *tmp = g_strconcat (s, "\n", plugin_mesg, NULL);
-		g_free (plugin_mesg);
-		g_free (s);
-		s = tmp;
-	}
-
-	gnumeric_notice (
-		NULL,
-		GNOME_MESSAGE_BOX_ERROR, s);
-	g_free (s);
 }
 
 /**
@@ -244,10 +222,9 @@ file_error_message (char *message, const char *filename, char*plugin_mesg)
  * Return value: a pointer to a Workbook or NULL.
  **/
 Workbook *
-workbook_read (const char *filename)
+workbook_read (CommandContext *context, const char *filename)
 {
 	Workbook *wb = NULL;
-	char *msg = NULL;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
@@ -258,10 +235,8 @@ workbook_read (const char *filename)
 		return wb;
 	}
 
-	wb = workbook_try_read (filename, &msg);
-	if (!wb)
-		file_error_message (N_("Could not read file %s"), filename, msg);
-	return wb;
+	/* FIXME: We used to display "Could not read file <filename>" */
+	return workbook_try_read (context, filename);
 }
 
 /*
@@ -269,7 +244,8 @@ workbook_read (const char *filename)
  * uses that to load the file
  */
 Workbook *
-workbook_import (Workbook *parent, const char *filename)
+workbook_import (CommandContext *context, Workbook *parent,
+		 const char *filename)
 {
 	Workbook *wb = NULL;
 	GladeXML *gui;
@@ -325,24 +301,23 @@ workbook_import (Workbook *parent, const char *filename)
 	if (ret == 0 && clist->selection) {
 		FileOpener *fo;
 		int sel_row;
-		char *error;
 		
 		sel_row = GPOINTER_TO_INT (clist->selection->data);
 		
 		fo = gtk_clist_get_row_data (clist, sel_row);
 		
 		wb = workbook_new ();
-		error = fo->open (wb, filename);
-		if (error != NULL) {
+		ret = fo->open (context, wb, filename);
+		if (ret != 0) {
 #ifdef ENABLE_BONOBO
 		        bonobo_object_destroy (BONOBO_OBJECT (wb));
 #else
 			gtk_object_destroy   (GTK_OBJECT (wb));
 #endif
 			wb = NULL;
-			if (strcmp (error, "CANCEL"))
-				file_error_message (N_("Could not import file %s"),
-						    filename, error);
+			/* FIXME: Here's where we used to display
+			 * "Could not import file <fname>" unless this
+			 * was a cancel. */ 
 		} else {
 			workbook_mark_clean (wb);
 			/* We will want to change the name before saving */
@@ -484,7 +459,7 @@ fs_key_event (GtkFileSelection *fsel, GdkEventKey *event)
 }
 
 gboolean
-workbook_save_as (Workbook *wb)
+workbook_save_as (CommandContext *context, Workbook *wb)
 {
 	GtkFileSelection *fsel;
 	gboolean accepted = FALSE;
@@ -545,15 +520,15 @@ workbook_save_as (Workbook *wb)
 					name = g_strdup (name);
 
 				/* Files are expected to be in standard C format.  */
-				if (current_saver->save (wb, name) == 0) {
+				if (current_saver->save (context, wb, name)
+				    == 0) {
 					workbook_set_filename (wb, name);
 					workbook_mark_clean (wb);
 					success = TRUE;
-				} else {
-					file_error_message 
-						(N_("Could not save to file %s"), 
-						 name, NULL);
 				}
+				/* FIXME: On failure, we used to
+				display "Could not save to file
+				<name>" */
 
 				g_free (name);
 			}
@@ -565,21 +540,22 @@ workbook_save_as (Workbook *wb)
 }
 
 gboolean
-workbook_save (Workbook *wb)
+workbook_save (CommandContext *context, Workbook *wb)
 {
 	g_return_val_if_fail (wb != NULL, FALSE);
 
 	if (wb->needs_name)
-		return workbook_save_as (wb);
+		return workbook_save_as (context, wb);
 
-	if (gnumeric_xml_write_workbook (wb, wb->filename) == 0) {
+	if (gnumeric_xml_write_workbook (context, wb, wb->filename) == 0) {
 		workbook_mark_clean (wb);
 		return TRUE;
 	} else {
-		file_error_message (N_("Could not save to file %s"), 
-				    wb->filename, NULL);
+		/* FIXME: On failure, we used to display "Could not save to
+		   file <filename>" */
 		return FALSE;
 	}
+
 }
 
 char *

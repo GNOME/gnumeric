@@ -1,3 +1,37 @@
+2000-01-29  Jon K Hellan  <hellan@acm.org>
+
+	Megacommit.
+
+	The purpose of the changeset is twofold:
+
+	1. Use CommandContexts for error reporting for file read/save.
+	2. This allows us to let FileFormatOpen return 0 on success, -1 on
+	   failure, same as FileFormatSave. The convention to return NULL
+	   on success was highly ideosyncratic.
+
+	* epsf.h (epsf_write_wb): Add CommandContext.
+
+	* epsf.c (epsf_write_wb): ditto.
+
+	* latex.h (html_write_wb_latex, html_write_wb_latex2e): ditto
+
+	* latex.c (html_write_wb_latex, html_write_wb_latex2e): ditto
+
+	* roff.c (html_write_wb_roff_ps, html_write_wb_roff_dvi,
+	html_write_wb_roff_pdf, html_write_wb_roff): ditto
+
+	* roff.c (html_write_wb_roff_ps, html_write_wb_roff_dvi,
+	html_write_wb_roff_pdf, html_write_wb_roff): ditto
+
+	* html.h (html_read, html_write_wb_html40, html_write_wb_html32):
+	ditto.
+	(html_read): Return int.
+
+	* html.c (html_read, html_write_wb_html40, html_write_wb_html32):
+	ditto
+	(html_read): Return 0 on success, -1 on failure. Use
+	gnumeric_error_read to report errors.
+
 1999-12-30  Jody Goldberg <jgoldberg@home.com>
 
 	* html.c (html_read) : Return some error strings.

@@ -1,3 +1,78 @@
+2000-01-29  Jon K Hellan  <hellan@acm.org>
+
+	Megacommit.
+
+	The purpose of the changeset is twofold:
+
+	1. Use CommandContexts for error reporting for file read/save.
+	2. This allows us to let FileFormatOpen return 0 on success, -1 on
+	   failure, same as FileFormatSave. The convention to return NULL
+	   on success was highly ideosyncratic.
+
+	* src/file.h (FileFormatOpen, FileFormatSave, workbook_load_from,
+	workbook_import): Add CommandContext
+	(FileFormatOpen, workbook_load_from): Return int instead of char*.
+	
+	* src/file.c (workbook_load_from, workbook_try_read,
+	workbook_read, workbook_import, workbook_save_as, workbook_save)
+	(file_error_message): Remove function
+	(workbook_read, workbook_load_from, workbook_save_as,
+	workbook_save): Do not display message, message, plugin does -
+	using CommandContext.
+	(workbook_load_from): Return int instead of char*.
+	(workbook_load_from, workbook_import): fo->open returns int
+	instead of char*.
+	(workbook_try_read): Remove msg paramenter
+
+	* src/workbook.c (workbook_persist_file_load,
+	workbook_persist_file_save): Use workbook_command_context_gui.
+	(file_import_cmd): ditto
+	(file_open_cmd): ditto
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_filenames_dropped): Use
+	workbook_command_context_gui. Call workbook_try_read without msg
+	argument.
+
+	* src/workbook.h (workbook_try_read, workbook_read,
+	workbook_save_as, workbook_save): Add command context
+	(workbook_try_read): Remove msg paramenter
+
+	* src/dialogs/dialog-autosave.c (dialog_autosave_callback): 
+	ditto
+
+	* src/command-context.[ch] (gnumeric_error_read,
+	gnumeric_error_save): New functions.
+
+	* src/command-context-corba.c (ccc_error_read, ccc_error_save):
+	Ditto.
+	(ccc_init_class): Initialize error_read, error_save.
+
+	* src/command-context-gui.c (ccg_error_read, ccg_error_save):
+	Ditto.
+	(ccg_init_class): Initialize error_read, error_save.
+
+	* src/main.c (gnumeric_main): Make a CommandContext for use before
+	we make first workbook. Unref it when no longer needed. Call
+	plugins_init and workbook_read with CommandContext.
+
+	* src/plugin-manager.c (add_cb): Use gnumeric_error_plugin_problem.
+	(remove_cb): Ditto.
+
+	* src/plugin.c (plugin_load, plugin_unload): CommandContext
+	instead of workbook.
+	(plugins_init): Add CommandContext.
+
+	* src/plugin.c (plugin_load, plugin_unload): CommandContext
+	instead of workbook.
+	(plugin_unload): Use gnumeric_error_plugin_problem.
+	(plugin_load_plugins_in_dir, load_all_plugins, plugins_init): Add
+	CommandContext.
+
+	* src/xml-io.h:  ditto
+
+	* src/xml-io.c (gnumeric_xml_read_workbook,
+	gnumeric_xml_write_workbook):  ditto
+
 2000-01-28    Mike Kestner    <mkestner@ameritech.net>
 
 	* src/sheet-style.c (sheet_style_insert_colrow): Now does option checking

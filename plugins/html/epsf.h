@@ -27,7 +27,8 @@
 #include "../../src/sheet-object.h"
 #include "../../src/sheet-object-graphic.h"
 
-int epsf_write_wb (Workbook *wb, const char *filename);
+int epsf_write_wb (CommandContext *context, Workbook *wb,
+		   const char *filename);
 
 #endif
 

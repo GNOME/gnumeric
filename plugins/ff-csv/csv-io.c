@@ -19,6 +19,7 @@
 #include "plugin.h"
 #include "gnumeric.h"
 #include "file.h"
+#include "command-context.h"
 
 typedef struct {
 	char const *data, *cur;
@@ -29,8 +30,8 @@ typedef struct {
 } FileSource_t;
 
 
-static char *
-csv_parse_field (FileSource_t *src, Cell *cell)
+static int
+csv_parse_field (CommandContext *context, FileSource_t *src, Cell *cell)
 {
 	GString *res = NULL;
 	char *field;
@@ -39,6 +40,9 @@ csv_parse_field (FileSource_t *src, Cell *cell)
 		(*cur != '"' && *cur != '\'')
 		? ',' : *cur;
 	char const * const start = (delim == ',') ? cur : ++cur;
+	char *template = _("Invalid CSV file - \n"
+			   "unexpected end of line at line %d");
+	char *message;
 
 	while (*cur && *cur != delim && *cur != '\n' && *cur != '\r') {
 		if (*cur == '\\') {
@@ -50,9 +54,14 @@ csv_parse_field (FileSource_t *src, Cell *cell)
 			} else
 				res = g_string_new ("");
 
-			if (!cur[1])
-				return g_strdup_printf (_("Invalid CSV file unexpected end of line at line %d"),
-							src->line);
+			if (!cur[1]) {
+				message = g_strdup_printf (template,
+							   src->line);
+				gnumeric_error_read (context, message);
+				g_free (message);
+
+				return -1;
+			}
 
 			/* \r\n is a single embedded newline, ignore the \r */
 			if (cur [1] == '\r' && cur [2] == '\n')
@@ -85,56 +94,78 @@ csv_parse_field (FileSource_t *src, Cell *cell)
 	cell_set_text_simple (cell, field);
 	g_free (field);
 
-	return NULL;
+	return 0;
 }
 
-static char *
-csv_parse_sheet (FileSource_t *src)
+static int
+csv_parse_sheet (CommandContext *context, FileSource_t *src)
 {
 	int row, col;
+	char *template = _("Invalid CSV file has more than the maximum\n"
+			   "number of %s %d");
+	char *message;
+	int result;
 
 	for (row = 0 ; *src->cur ; ++row, ++src->line, ++(src->cur)) {
-		if (row >= SHEET_MAX_ROWS)
-			return g_strdup_printf (_("Invalid CSV file has more than the maximum number of rows %d"),
-						SHEET_MAX_ROWS);
+		if (row >= SHEET_MAX_ROWS) {
+			message = g_strdup_printf (template, _("rows"),
+						   SHEET_MAX_ROWS);
+			gnumeric_error_read (context, message);
+			g_free (message);
 
-		for (col = 0 ; *src->cur && *src->cur != '\n' && *src->cur != '\r' ; ++col) {
-			char *error = NULL;
+			return -1;
+		}
+
+		for (col = 0 ;
+		     *src->cur && *src->cur != '\n' && *src->cur != '\r' ;
+		     ++col) {
 			Cell *cell;
-			if (col >= SHEET_MAX_COLS)
-				return g_strdup_printf (_("Invalid CSV file has more than the maximum number of columns %d"),
-							SHEET_MAX_COLS);
+			if (col >= SHEET_MAX_COLS) {
+				message = g_strdup_printf (template,
+							   _("columns"),
+							   SHEET_MAX_ROWS);
+				gnumeric_error_read (context, message);
+				g_free (message);
+				
+				return -1;
+			}
 
 			cell = sheet_cell_new (src->sheet, col, row);
-			if (NULL != (error = csv_parse_field (src, cell)))
-				return error;
+			result = csv_parse_field (context, src, cell);
+			if (result != 0)
+				return result;
 		}
 
 		/* \r\n is a single end of line, ignore the \r */
 		if (src->cur [0] == '\r' && src->cur [1] == '\n')
 			src->cur++;
 	}
-	return NULL;
+	return 0;
 }
 
 #ifndef MAP_FAILED
 #   define MAP_FAILED -1
 #endif
 
-static char *
-csv_read_workbook (Workbook *book, char const *filename)
+static int
+csv_read_workbook (CommandContext *context, Workbook *book,
+		   char const *filename)
 {
-	char *result = NULL;
+	int result = 0;
 	int len;
 	struct stat sbuf;
 	char const *data;
 	int const   fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return g_strdup (g_strerror(errno));
+
+	if (fd < 0) {
+		gnumeric_error_read (context, g_strerror (errno));
+		return -1;
+	}
 
 	if (fstat(fd, &sbuf) < 0) {
 		close (fd);
-		return g_strdup (g_strerror(errno));
+		gnumeric_error_read (context, g_strerror (errno));
+		return -1;
 	}
 
 	len = sbuf.st_size;
@@ -151,14 +182,17 @@ csv_read_workbook (Workbook *book, char const *filename)
 		workbook_attach_sheet (book, src.sheet);
 		g_free (name);
 
-		result = csv_parse_sheet (&src);
+		result = csv_parse_sheet (context, &src);
 
-		if (result != NULL)
+		if (result != 0)
 			workbook_detach_sheet (book, src.sheet, TRUE);
 
 		munmap((char *)data, len);
-	} else
-		result = g_strdup (_("Unable to mmap the file"));
+	} else {
+		gnumeric_error_read (context, _("Unable to mmap the file"));
+		result = -1;
+	}
+
 	close(fd);
 
 	return result;
@@ -210,7 +244,8 @@ csv_write_cell (FILE *f, Cell *cell, int col, int row)
  * write every sheet of the workbook to a comma-separated-values file
  */
 static int
-csv_write_workbook (Workbook *wb, const char *filename)
+csv_write_workbook (CommandContext *context, Workbook *wb,
+		    const char *filename)
 {
 	GList *sheet_list;
 	Sheet *sheet;

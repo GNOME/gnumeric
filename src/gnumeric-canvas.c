@@ -927,14 +927,17 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 				  GnumericSheet    *gsheet)
 {
 	GList *names, *tmp_list;
+	CommandContext *command_context;
+	Sheet *sheet = gsheet->sheet_view->sheet;
 
+	command_context = workbook_command_context_gui (sheet->workbook);
 	names = gnome_uri_list_extract_filenames ((char *)selection_data->data);
 	tmp_list = names;
 
 	while (tmp_list) {
 		Workbook *new_wb;
-
-		if ((new_wb = workbook_try_read (tmp_list->data, NULL)) == NULL) {
+		if ((new_wb = workbook_try_read (command_context,
+						 tmp_list->data)) == NULL) {
 			gdouble world_x, world_y;
 			gnome_canvas_window_to_world (GNOME_CANVAS (gsheet), x, y,
 						      &world_x, &world_y);

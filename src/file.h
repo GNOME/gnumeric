@@ -4,8 +4,12 @@
 #include "sheet.h"
 
 typedef gboolean  (*FileFormatProbe)(const char *filename);
-typedef char *    (*FileFormatOpen) (Workbook *wb, char const * const filename);
-typedef int       (*FileFormatSave) (Workbook *wb, char const * const filename);
+typedef int       (*FileFormatOpen) (CommandContext *context,
+				     Workbook *wb,
+				     char const * const filename);
+typedef int       (*FileFormatSave) (CommandContext *context,
+				     Workbook *wb,
+				     char const * const filename);
 
 typedef struct _FileOpener FileOpener;
 typedef struct _FileSaver  FileSaver;
@@ -21,7 +25,9 @@ void file_format_register_save   (char           *extension,
 				  FileFormatSave save_fn);
 void file_format_unregister_save (FileFormatSave save);
 
-Workbook *workbook_import        (Workbook *parent_dlg, const char *filename);
-char *    workbook_load_from     (Workbook *wb, const char *filename);
+Workbook *workbook_import        (CommandContext *context,
+				  Workbook *parent_dlg, const char *filename);
+int       workbook_load_from     (CommandContext *context, Workbook *wb,
+				  const char *filename);
 
 #endif /* GNUMERIC_FILE_H */

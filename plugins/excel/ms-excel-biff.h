@@ -79,13 +79,18 @@ typedef enum _eBiffDifferences { /* Differences to parent styles */
 	eBiffDBorderbit = 13,
 	eBiffDFillbit   = 14,
 	eBiffDLockbit   = 15
-} _eBiffDifferences;
+} eBiffDifferences;
 
 typedef struct _BIFF_BOF_DATA
 {
   eBiff_version version ;
   eBiff_filetype type ;
 } BIFF_BOF_DATA ;
+
+typedef enum {
+	eBiffMaxRowsV7 = 16384,
+	eBiffMaxRowsV8 = 65536
+} eBiffMaxRows;
 
 extern BIFF_BOF_DATA *new_ms_biff_bof_data  (BiffQuery *pos) ;
 extern void           free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;

@@ -15,6 +15,7 @@
 #include "gnumeric-util.h"
 #include "file.h"
 #include "main.h"
+#include "command-context.h"
 
 #include "excel.h"
 #include "ms-summary.h"
@@ -47,24 +48,33 @@ excel_probe (const char *filename)
 	return FALSE;
 }
 
-static char *
-excel_load (Workbook *wb, const char *filename)
+/*
+ * excel_load
+ * @context   command context
+ * @wb        workbook
+ * @filename  file name
+ *
+ * Load en excel workbook.
+ * Returns 0 on success, -1 on failure.
+ */
+static int
+excel_load (CommandContext *context, Workbook *wb, const char *filename)
 {
 	MsOleErr  ole_error;
 	MsOle	 *f;
-	char	 *workbook_error;
+	int      result;
 
 	ole_error = ms_ole_open (&f, filename);
 	if (ole_error != MS_OLE_ERR_OK) {
 		ms_ole_destroy (&f);
-		/* FIXME : The null string indicates using the default message
-		 * We need a more detailed message from ole_open */
-		return "";
+		/* FIXME : We need a more detailed message from
+		 * ole_open */
+		gnumeric_error_read (context, "");
+		return -1;
 	}
 
-	printf ("Opening '%s' ", filename);
-	workbook_error = ms_excel_read_workbook (wb, f);
-	if (workbook_error == NULL) {
+	result = ms_excel_read_workbook (context, wb, f);
+	if (result == 0) {
 		char *name = g_strconcat (filename, ".gnumeric", NULL);
 		ms_summary_read (f, wb->summary_info);
 
@@ -77,23 +87,35 @@ excel_load (Workbook *wb, const char *filename)
 
 	ms_ole_destroy (&f);
 
-	return workbook_error;
+	return result;
 }
 
-
+/*
+ * Here's why the state which is carried from excel_check_write to
+ * ms_excel_write_workbook is void *: The state is actually an
+ * ExcelWorksheet * as defined in ms-excel-write.h. But we can't
+ * import that definition here: There's a different definition of
+ * ExcelWorksheet in ms-excel-read.h.
+ */
 static int
-excel_save (Workbook *wb, const char *filename, eBiff_version ver)
+excel_save (CommandContext *context, Workbook *wb, const char *filename,
+	    eBiff_version ver)
 {
 	MsOle *f;
 	int ans;
 	struct stat s;
 	MsOleErr result;
-
+	void *state = NULL;
+	
 	if ((stat (filename, &s) != -1)) {
-		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-				 _("Saving over old files disabled for safety"));
-		return 1;
+		gnumeric_error_save
+			(context,
+			 _("Saving over old files disabled for safety"));
+		return -1;
 	}
+
+	if (ms_excel_check_write (context, &state, wb, ver) != 0)
+		return -1;		
 
 	result = ms_ole_create (&f, filename);
 
@@ -101,37 +123,37 @@ excel_save (Workbook *wb, const char *filename, eBiff_version ver)
 		char *str = g_strdup_printf ("%s %s",
 					     _("Can't open"),
 					     filename);
-		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, str);
+		gnumeric_error_save (context, str);
 
 		ms_ole_destroy (&f);
 		g_free (str);
-		return 1;
+		return -1;
 	}
 
-	ans = ms_excel_write_workbook (f, wb, ver);
+	ans = ms_excel_write_workbook (context, f, state, ver);
 
         ms_summary_write (f, wb->summary_info);
 
 	ms_ole_destroy (&f);
 
-	if (ans)
+	if (ans == 0)
 		printf ("Written successfully\n");
 	else
 		printf ("Error whilst writing\n");
 
-	return !ans;
+	return ans;
 }
 
 static int
-excel_save_98 (Workbook *wb, const char *filename)
+excel_save_98 (CommandContext *context, Workbook *wb, const char *filename)
 {
-	return excel_save (wb, filename, eBiffV8);
+	return excel_save (context, wb, filename, eBiffV8);
 }
 
 static int
-excel_save_95 (Workbook *wb, const char *filename)
+excel_save_95 (CommandContext *context, Workbook *wb, const char *filename)
 {
-	return excel_save (wb, filename, eBiffV7);
+	return excel_save (context, wb, filename, eBiffV7);
 }
 
 void
