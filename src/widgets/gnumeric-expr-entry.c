@@ -28,6 +28,7 @@
 #include <gal/util/e-util.h>
 #include <gtk/gtkentry.h>
 #include <ctype.h>
+#include <stdio.h>
 
 static GtkObjectClass *gnumeric_expr_entry_parent_class;
 
@@ -183,108 +184,75 @@ split_char_p (unsigned char c)
  * Look at the current selection to see how much of it needs to be changed when
  * selecting a range.
  *
- * NOTE : This routine is damn ugly.  I do not like it one bit.
- * There must be a cleaner way to do this.
  **/
 void
 gnumeric_expr_entry_rangesel_start (GnumericExprEntry *ee)
 {
-	gboolean singleton = TRUE, anal_safety = TRUE;
-	int start;
-	char const *text, *end;
+	int cursor, start, last, end;
+	char const *text;
+	char *test;
 	Rangesel *rs;
-	CellRef ref1, ref2;
-	CellPos pos;
-
-	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (ee));
-
+	gboolean single = (ee->flags & (GNUM_EE_SINGLE_RANGE != 0));
+ 
 	rs = &ee->rangesel;
 	text = gtk_entry_get_text (GTK_ENTRY (ee));
-	start = gtk_editable_get_position (GTK_EDITABLE (ee));
-	rs->text_start = start;
-	rs->text_end = start;
-
+	cursor = gtk_editable_get_position (GTK_EDITABLE (ee));
+	last = (text == NULL) ? 0 : strlen (text);
+	rs->abs_col = FALSE;
+	rs->abs_row = FALSE;
+	rs->sheet = ee->target_sheet;
 	if (text == NULL)
 		return;
+	
+	for (start = 0; start <= cursor; start++) {
+		for (end = last; end >= cursor; end--) {
+			GSList *ranges;
 
-	/* This makes addresses use same coord system as absolute */
-	pos.col = pos.row = 0;
+			test = g_strndup (text + start, end - start);
+			ranges = global_range_list_parse (ee->target_sheet, test);
+			g_free(test);
 
-	/* is the cursor in a sheet name ? Do a quick ugly search */
-	end = text + start;
-	while (end[0] != '\0' && !split_char_p (end[0]))
-		end++;
-	if (end[0] == '!')
-		start = end - text + 1;
-
-	loop :
-		end = cellref_get (&ref1, text+start, &pos);
-		if (end == NULL && start > 0 &&
-		    ('$' == text [start-1] ||
-		     isalnum (*((unsigned char *)(text + start -1))))) {
-			start--;
-			goto loop;
+			if (ranges != NULL) {
+				if ((ranges->next == NULL) || single) {
+				       /* Note: 
+					* If single is not true, we just have one range here!
+					**/
+					Value *value;
+					value = (Value *) ((g_slist_last (ranges))->data);
+					rs->abs_col = !value->v_range.cell.a.col_relative;
+					rs->abs_row = !value->v_range.cell.a.row_relative;
+					rs->text_start = start;
+					rs->text_end = end;
+					if (single) {
+						rs->text_start = 0;
+						rs->text_end = last;
+					}
+					range_list_destroy (ranges);
+					return;
+				}
+				range_list_destroy (ranges);
+			}
 		}
-	if (end == NULL)
-		return;
-
-	/* search the start of the reference, match $AA$1 rather than A$1 */
-	for (; start > 0 ; start--) {
-		CellRef tmp;
-		char const *tmp_end = cellref_get (&tmp, text+start-1, &pos);
-		if (tmp_end == NULL)
-			break;
-		end = tmp_end;
-		ref1 = tmp;
 	}
-
-	/* This is the first cell */
-	if (*end == ':') {
-		char const *end2 = cellref_get (&ref2, end+1, &pos);
-		singleton = (end2 == NULL);
-		rs->text_end = (singleton ? end : end2) - text;
-		rs->text_start = start;
-	} else if (start >= 3 && text [start-1] == ':' && anal_safety) {
-		anal_safety = FALSE;
-		start -= 3;
-		goto loop;
+	if (single) {
+		rs->text_start = 0;
+		rs->text_end = last;
 	} else {
-		rs->text_start = start;
-		rs->text_end = end - text;
-	}
-	rs->abs_col = !ref1.col_relative;
-	rs->abs_row = !ref1.row_relative;
-	rs->range.start.col = ref1.col;
-	rs->range.start.row = ref1.row;
-	if (!singleton) {
-		rs->range.end.col = ref2.col;
-		rs->range.end.row = ref2.row;
-	} else
-		rs->range.end = rs->range.start;
-
-	/* default to avoid crash on error */
-	rs->sheet = ee->target_sheet;
-	if (start >= 2 && text[start-1] == '!') {
-		start -= 2;
-		if (text[start] == '\'') {
-			loop2:
-			if (start >= 1 && text[start-1] != '\'') {
-				start--;
-				goto loop2;
+		for (start = cursor; start >= 0; start--) {
+			if (!isalnum (*((unsigned char *)(text + start)))) {
+				break;
 			}
-			if (start >= 2 && text[start-2] == '\\') {
-				start -= 2;
-				goto loop2;
-			}
-		/* TODO build up the unquoted name */
-		} else {
-			while (start > 0 &&
-			       isalnum (*((unsigned char *)(text + start -1))))
-				start--;
 		}
-		/* TODO lookup the sheet */
-		rs->text_start = start;
+		start++;
+		rs->text_start = (cursor < start) ? cursor : start;
+		for (end = cursor; end < last; end++) {
+			if (!isalnum (*((unsigned char *)(text + end)))) {
+				break;
+			}
+		}
+		rs->text_end = (cursor < end) ? end : cursor;
 	}
+	return;
 }
 
 /**

@@ -1,3 +1,8 @@
+2002-01-19  Andreas j. Guelzow <aguelzow@taliesin.ca>
+
+	* gnumeric-expr-entry.c (gnumeric_expr_entry_rangesel_start) :
+	  rewrite
+
 2002-01-19  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (gnumeric_expr_entry_class_init) : add 

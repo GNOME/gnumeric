@@ -1,5 +1,16 @@
 2002-01-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-analysis-tools.c : replace calls to gtk_widget_show
+	  with tool_load_selection
+	(tool_update_sensitivity_cb) : remove
+	(tool_update_sensitivity_multiple_areas_cb) : rename
+	  tool_update_sensitivity_cb
+	(tool_load_selection) : new
+	(dialog_fourier_tool) : call correct sensitivity function
+	(dialog_random_tool) : preload count and var entry
+
+2002-01-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-analysis-tools.c : make dialog_..._tool non-static
 	  delete modal dialog for tool selection
 	(dialog_ttest_paired_tool) : deleted

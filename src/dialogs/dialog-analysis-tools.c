@@ -967,6 +967,47 @@ dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
 	return FALSE;
 }
 
+/**
+ * tool_load_selection:
+ * @state:
+ *
+ * load the current selection in the output and input entries
+ * show the dialog and focus the input_entry
+ *
+ **/
+static void
+tool_load_selection (GenericToolState *state, gboolean allow_multiple)
+{
+	char *text;
+	char const *rangename;
+	char const *sheetname;
+	Range const *first;
+
+	first = selection_first_range (state->sheet, NULL, NULL);
+	
+	if (first != NULL) {
+		sheetname = state->sheet->name_quoted;
+		rangename =  range_name (first);
+		gtk_entry_set_text (GTK_ENTRY (state->output_entry), sheetname);
+		gtk_entry_append_text (GTK_ENTRY (state->output_entry), "!");
+		gtk_entry_append_text (GTK_ENTRY (state->output_entry), rangename);
+
+		if (allow_multiple) {
+			text = selection_to_string (state->sheet, TRUE);
+			gtk_entry_set_text (GTK_ENTRY (state->input_entry), text);
+			g_free (text);
+		} else {
+			gtk_entry_set_text (GTK_ENTRY (state->input_entry), sheetname);
+			gtk_entry_append_text (GTK_ENTRY (state->output_entry), "!");
+			gtk_entry_append_text (GTK_ENTRY (state->output_entry), rangename);
+		}
+	}
+
+	gtk_widget_show (state->dialog);
+	gtk_widget_grab_focus (GTK_WIDGET (state->input_entry));
+	gtk_editable_select_region (GTK_EDITABLE (state->input_entry), 0, -1);
+}
+
 /**********************************************/
 /*  Generic functions for the analysis tools  */
 /*  Functions in this section are being used  */
@@ -979,63 +1020,11 @@ dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
  * @state:
  *
  * Update the dialog widgets sensitivity if the only items of interest
- * are the standard input (one or two ranges) and output items.
- *
- *
- **/
-static void
-tool_update_sensitivity_cb (GtkWidget *dummy, GenericToolState *state)
-{
-	gboolean ready  = FALSE;
-	gboolean input_1_ready  = FALSE;
-	gboolean input_2_ready  = FALSE;
-	gboolean output_ready  = FALSE;
-
-	int i;
-        Value *output_range;
-        Value *input_range;
-        Value *input_range_2;
-
-	output_range = gnumeric_expr_entry_parse_to_value 
-		(GNUMERIC_EXPR_ENTRY (state->output_entry), state->sheet);
-        input_range = gnumeric_expr_entry_parse_to_value 
-		(GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
-	if (state->input_entry_2 != NULL) {
-		input_range_2 = gnumeric_expr_entry_parse_to_value 
-			(GNUMERIC_EXPR_ENTRY (state->input_entry_2), state->sheet); 
-	} else {
-		input_range_2 = NULL;
-	}
-		
-	i = gnumeric_glade_group_value (state->gui, output_group);
-
-	input_1_ready = (input_range != NULL);
-	input_2_ready = ((state->input_entry_2 == NULL) || (input_range_2 != NULL));
-	output_ready =  ((i != 2) || (output_range != NULL));
-
-        if (input_range != NULL) value_release (input_range);
-        if (input_range_2 != NULL) value_release (input_range_2);
-        if (output_range != NULL) value_release (output_range);
-
-	ready = input_1_ready && input_2_ready && output_ready;
-	if (state->apply_button != NULL)
-		gtk_widget_set_sensitive (state->apply_button, ready);
-	gtk_widget_set_sensitive (state->ok_button, ready);
-
-	return;
-}
-
-/**
- * tool_update_sensitivity_multiple_areas_cb:
- * @dummy:
- * @state:
- *
- * Update the dialog widgets sensitivity if the only items of interest
  * are one or two standard input and and one output item, permitting multiple 
  * areas as first input.
  **/
 static void
-tool_update_sensitivity_multiple_areas_cb (GtkWidget *dummy, GenericToolState *state)
+tool_update_sensitivity_cb (GtkWidget *dummy, GenericToolState *state)
 {
 	gboolean ready  = FALSE;
 	gboolean input_1_ready  = FALSE;
@@ -1170,7 +1159,7 @@ dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (state, "correlation.glade", "Correlation",
 			      GTK_SIGNAL_FUNC (corr_tool_ok_clicked_cb),
-			      GTK_SIGNAL_FUNC (tool_update_sensitivity_multiple_areas_cb),
+			      GTK_SIGNAL_FUNC (tool_update_sensitivity_cb),
 			      0)) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("Could not create the Correlation Tool dialog."));
@@ -1181,8 +1170,8 @@ dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       CORRELATION_KEY);
 
-	tool_update_sensitivity_multiple_areas_cb (NULL, state);
-	gtk_widget_show (state->dialog);
+	tool_update_sensitivity_cb (NULL, state);
+	tool_load_selection ((GenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -1285,7 +1274,7 @@ dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (state, "covariance.glade", "Covariance",
 			      GTK_SIGNAL_FUNC (cov_tool_ok_clicked_cb),
-			      GTK_SIGNAL_FUNC (tool_update_sensitivity_multiple_areas_cb),
+			      GTK_SIGNAL_FUNC (tool_update_sensitivity_cb),
 			      0)) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("Could not create the Covariance Tool dialog."));
@@ -1296,8 +1285,8 @@ dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       COVARIANCE_KEY);
 
-	tool_update_sensitivity_multiple_areas_cb (NULL, state);
-	gtk_widget_show (state->dialog);
+	tool_update_sensitivity_cb (NULL, state);
+	tool_load_selection ((GenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -1521,7 +1510,7 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return 0;
 	}
 
-	gtk_widget_show (state->dialog);
+	tool_load_selection ((GenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -1616,7 +1605,7 @@ dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (state, "rank.glade", "RankPercentile",
 			      GTK_SIGNAL_FUNC (rank_tool_ok_clicked_cb),
-			      GTK_SIGNAL_FUNC (tool_update_sensitivity_multiple_areas_cb),
+			      GTK_SIGNAL_FUNC (tool_update_sensitivity_cb),
 			      0)) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("Could not create the Rank and  Percentile Tools dialog."));
@@ -1627,8 +1616,8 @@ dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       RANK_PERCENTILE_KEY);
 
-	tool_update_sensitivity_multiple_areas_cb (NULL, state);
-	gtk_widget_show (state->dialog);
+	tool_update_sensitivity_cb (NULL, state);
+	tool_load_selection ((GenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -2032,7 +2021,7 @@ dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
 		g_free (state);
 		return 0;
 	}
-	gtk_widget_show (state->dialog);
+	tool_load_selection ((GenericToolState *)state, FALSE);
 
         return 0;
 }
@@ -2218,8 +2207,7 @@ dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		g_free (state);
 		return 0;
 	}
-
-	gtk_widget_show (state->dialog);
+	tool_load_selection ((GenericToolState *)state, FALSE);
 
         return 0;
 }
@@ -2473,7 +2461,7 @@ dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		g_free (state);
 		return 0;
 	}
-	gtk_widget_show (state->dialog);
+	tool_load_selection ((GenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -2866,6 +2854,7 @@ dialog_random_tool_init (RandomToolState *state)
 	const DistributionStrs *ds;
 	GList *distribution_type_strs = NULL;
 	GtkTable *table;
+	Range const *first;
 
 	state->gui = gnumeric_glade_xml_new (state->wbcg, "random-generation.glade");
         if (state->gui == NULL)
@@ -2965,6 +2954,18 @@ dialog_random_tool_init (RandomToolState *state)
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       RANDOM_KEY);
 
+	first = selection_first_range (state->sheet, NULL, NULL);
+	if (first != NULL) {
+		gtk_entry_set_text (GTK_ENTRY (state->output_entry), state->sheet->name_quoted);
+		gtk_entry_append_text (GTK_ENTRY (state->output_entry), "!");
+		gtk_entry_append_text (GTK_ENTRY (state->output_entry), range_name (first));
+ 
+		int_to_entry (GTK_ENTRY (state->count_entry), 
+			      first->end.row - first->start.row + 1);
+		int_to_entry (GTK_ENTRY (state->vars_entry), 
+			      first->end.col - first->start.col + 1);
+	}	
+
 	random_tool_update_sensitivity_cb (NULL, state);
 
 	return FALSE;
@@ -3009,6 +3010,7 @@ dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		g_free (state);
 		return 0;
 	}
+
 	gtk_widget_show (state->dialog);
 
         return 0;
@@ -3275,8 +3277,7 @@ dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		g_free (state);
 		return 0;
 	}
-
-	gtk_widget_show (state->dialog);
+	tool_load_selection ((GenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -3448,8 +3449,7 @@ dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		g_free (state);
 		return 0;
 	}
-
-	gtk_widget_show (state->dialog);
+	tool_load_selection ((GenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -3618,8 +3618,7 @@ dialog_average_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		g_free (state);
 		return 0;
 	}
-
-	gtk_widget_show (state->dialog);
+	tool_load_selection ((GenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -3727,7 +3726,7 @@ dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			       FOURIER_KEY);
 
 	tool_update_sensitivity_cb (NULL, state);
-	gtk_widget_show (state->dialog);
+	tool_load_selection ((GenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -4081,7 +4080,7 @@ dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			       HISTOGRAM_KEY);
 
 	histogram_tool_update_sensitivity_cb (NULL, state);
-	gtk_widget_show (state->dialog);
+	tool_load_selection ((GenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -4254,8 +4253,7 @@ dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		g_free (state);
 		return 0;
 	}
-
-	gtk_widget_show (state->dialog);
+	tool_load_selection ((GenericToolState *)state, TRUE);
 
         return 0;
 }
@@ -4458,8 +4456,7 @@ dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		g_free (state);
 		return 0;
 	}
-
-	gtk_widget_show (state->dialog);
+	tool_load_selection ((GenericToolState *)state, FALSE);
 
         return 0;
 }
