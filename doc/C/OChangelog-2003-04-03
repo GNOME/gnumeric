@@ -1,3 +1,13 @@
+2002-01-18  Kevin Breit  <mrproper@ximian.com>
+
+	* new/files.xml (h): XMLized this file
+
+	* new/copying-moving.xml: Made XMLized
+
+	* new/gnumeric.xml: Added selections.xml, copying-moving.xml, and files.xml, to the build list
+
+	* new/selections.xml: Made XMLized
+
 2002-01-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* Makefile.am: added missing figures

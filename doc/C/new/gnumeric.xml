@@ -14,13 +14,15 @@ GNU oleo">
 <!ENTITY formulas	SYSTEM "formulas.sgml">
 -->
 <!ENTITY cellrefer	SYSTEM "cell_refer.xml">
+<!ENTITY selections	SYSTEM "selections.xml">
+<!ENTITY copying-moving	SYSTEM "copying-moving.xml">
 <!--
-<!ENTITY selections	SYSTEM "selections.sgml">
-<!ENTITY copying-moving	SYSTEM "copying-moving.sgml">
 <!ENTITY printing	SYSTEM "printing.sgml">
 <!ENTITY autofill	SYSTEM "autofill.sgml">
 <!ENTITY introduction	SYSTEM "introduction.sgml">
-<!ENTITY files		SYSTEM "files.sgml">
+-->
+<!ENTITY files		SYSTEM "files.xml">
+<!--
 <!ENTITY autosave	SYSTEM "autosave.sgml">
 <!ENTITY functions	SYSTEM "functions.sgml">
 <!ENTITY printing	SYSTEM "printing.sgml">
@@ -105,12 +107,12 @@ GNU oleo">
     <title>Entering data</title>
     &editing;
   </chapter>
-
+-->
   <chapter id="copying-moving">
     <title>Copying and Moving</title>
     &copying-moving;
   </chapter>
-
+<!--
    <chapter id="autofill">
      <title>Autofill</title>
      &autofill;
@@ -120,10 +122,16 @@ GNU oleo">
      <title>Cell Formatting</title>
       &numberformat;
    </chapter>
+-->
 
   <chapter id="files">
     <title>Working with files</title>
     &files;
+  </chapter>
+<!--
+  <chapter id="autosave">
+    <title>Autosave</title>
+    &autosave;
   </chapter>
 
   <chapter id="printing">
@@ -139,6 +147,11 @@ GNU oleo">
   <chapter id="cell-referring">
     <title>Cell Referencing</title>
     &cellrefer;
+  </chapter>
+
+  <chapter id="selections">
+    <title>Selections</title>
+    &selections;
   </chapter>
 
   <chapter id="solver">

@@ -1,0 +1,433 @@
+<sect1 id="copymove">
+  <title>Copying and Moving Using Drag and Drop</title>
+  <para>
+    The easiest way to move or copy a cell or a selection is by simply
+    dragging the selection to a new location using the
+    mouse. An alternative way to move and copy cells is to use cut,
+    copy, and paste operations described in <xref
+    linkend="cutandpaste"  />.
+  </para>
+  <sect2 id="simplecopymove">
+    <title>Simple Copy and Move</title>
+    <procedure>
+    <step>
+	<para>
+	  Select a cell to move by clicking in it. You can also select
+	  a range of cells as described in <xref
+	    linkend="selecting-cells-entering-formulas" />. 
+	 </para>
+      </step>
+	<step>
+	  <para>Click <mousebutton>left</mousebutton> mouse button on
+	    the border of the selection (anywhere except the autofill
+	    square in the bottom right corner). Use
+	    <mousebutton>left</mousebutton> mouse button to move cells
+	    or <keycap>Ctrl</keycap>+<mousebutton>left</mousebutton>
+	    mouse button to copy cells.
+	  </para>
+	</step>
+	
+	<step>
+	  <para>Drag the selection to the new  location.</para>
+	</step>
+      
+	<step>
+	  <para>Release the mouse button.</para>
+	</step>
+      </procedure>
+    
+    <para>
+      The selected cells will be copied or moved to the new
+      location. This will move both cells' content and
+      formatting. When copying, relative cell references in all
+      formulas will change as described in <xref
+	linkend="cell-referencing" />; when moving, relative cell
+	references will remain unchanged.
+    </para>                                 
+  </sect2>
+  <sect2>
+      <title>Right Click Options</title>
+    
+      <para>If you need more options for copying and moving, you can
+      use right mouse button. 
+    </para>
+
+    
+      <procedure> 
+      <step>
+	<para>
+	  Select a cell to move by clicking in it. You can also select
+	  a range of cells as described in <xref
+	  linkend="selecting-cells-entering-formulas" />. 
+	</para>
+      </step>
+      <step>
+	<para>Right click on the border of the selection (anywhere,
+	    except the autofill square in the bottom right corner).
+	  </para>
+	</step>
+      
+	<step>
+	  <para>Drag the cell to the new cell location.
+	  </para>
+	</step>
+	
+	<step>
+	  <para>Release the mouse button. An options menu should
+	  pop-up. These options are described in detail below. 
+	  </para>
+	</step>
+      
+	<step>
+	  <para>Click on  the appropriate option from the menu.
+	  </para>
+	</step>
+    </procedure>
+  </sect2>
+
+  <sect2 id="rightclickmenu">
+      <title>Right Click Options Menu</title>
+
+	
+    <variablelist>
+      <varlistentry>
+      <term><guimenuitem>Copy</guimenuitem></term> 
+      <listitem>
+	<para>
+	  Same effect as the normal copy operation. It copies the
+	  content (whether number, string, or formula) and the
+	  format. Equivalent to <keycap>Ctrl</keycap>+
+	  <mousebutton>left</mousebutton> mouse button.
+	</para>
+      </listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><guimenuitem>Move</guimenuitem></term>
+      <listitem>
+	<para>
+	  Same effect as the normal move operation. It moves the
+	  contents and the format. Equivalent to
+	  <mousebutton>left</mousebutton> mouse button.
+	</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><guimenuitem>Copy Formats</guimenuitem></term>
+      <listitem>
+	<para>
+	  Copies the formatting of the source cells. This
+	  includes number format, color, font, fill type, etc. Does
+	  not copy the contents. 
+	</para>
+      </listitem>
+    </varlistentry>	
+
+    <varlistentry>
+      <term><guimenuitem>Copy Values</guimenuitem></term>
+      <listitem>
+	<para>
+	  Copies the values of the source cell to the destination
+	  cell. Formulas are replaced by their values. For example, if
+	  the original cell contained the formula
+	  <literal>=A1+5</literal>, and cell A1 contained number 7,
+	  then the option <guimenuitem>Copy Values</guimenuitem> will
+	  place in the new cell number 7. 
+	</para> 
+	<para>
+	  This option does not copy the format.
+	</para>
+	</listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term><guimenuitem>Shift Cells Down and Copy</guimenuitem></term>
+      <listitem><para>Not implemented yet</para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><guimenuitem>Shift Cells Right and Copy</guimenuitem></term>
+      <listitem><para>Not implemented yet</para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><guimenuitem>Shift Cells Down and Move</guimenuitem></term>
+      <listitem><para>Not implemented yet</para></listitem>
+    </varlistentry>
+    <varlistentry>
+      <term><guimenuitem>Shift Cells Right and Move</guimenuitem></term>
+      <listitem><para>Not implemented yet</para></listitem>
+    </varlistentry>
+  </variablelist>
+  
+    <figure id="rightclickmove">
+      <title>The option menu for dragging a cell with right click</title>
+      <screenshot>
+	<graphic fileref="figures/dndselection-1.png" format="PNG"></graphic>
+      </screenshot>
+    </figure>
+    
+  </sect2>
+</sect1>
+  
+<!-- ************* sect1 ********************************** -->
+
+<sect1 id="cutandpaste">
+  <title>Cut, Copy and Paste</title>
+  <para>
+    Another, more flexible, way to copy or move a selection is to use
+    cut, copy, and paste operations. These operations allow the user
+    to copy or move     selected cells to the clipboard buffer and
+    then paste the contents of the clipboard buffer to a different
+    location or a different workbook.  
+  </para>
+<sect2 id="cut">
+    <title>Cutting a Selection to the Clipboard</title>
+  <para>
+    To cut a cell or a selection to the clipboard, you should select
+    a cell or range of cells as described in <xref
+    linkend="editing-selections" /> and then use one of
+    the following methods:
+      <itemizedlist>
+	<listitem><para>
+	  Use keyboard shortcut 
+	    <keycombo><keycap>Ctrl</keycap><keycap>X</keycap></keycombo>.
+	  </para>
+	</listitem>        
+	<listitem>
+	  <para>
+	    Choose <guimenuitem>Cut</guimenuitem> from the
+	    <guimenu>Edit</guimenu> menu. 
+	  </para>
+	</listitem>
+        <listitem>
+	  <para>
+	    Click on 
+	    <guiicon><inlinegraphic
+		fileref="figures/button-cut.png"></inlinegraphic> Cut
+	    </guiicon> button in the toolbar.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>Right-click on the selection and choose
+	  <guimenuitem>Cut</guimenuitem> from the context menu. 
+	  </para>
+	</listitem>
+      </itemizedlist>
+      The selection will be copied to the clipboard buffer. To remind
+      you of this, the border of the selection will be shown as
+      "marching ants". The selection will be moved to a new location
+      as soon as you choose <guimenuitem>Paste</guimenuitem> command
+      as described below. 
+    </para>
+  <note>
+    <title>NOTE</title>
+    <para>
+      Please note that the selection will remain in its current
+      location until you paste it. If you want to delete a selection
+      without pasting it to a new location,  use 
+      <guimenuitem>Delete</guimenuitem> command instead. 
+    </para>
+  </note>
+  </sect2><!-- end of "Cut" subsection" -->
+
+<!-- **************** "Copy" subsection *********** -->
+  <sect2 id="copy">
+    <title>Copying a Selection to the Clipboard</title> 
+  <para>
+    To copy a cell or a selection to the clipboard, you should select
+    a cell or range of cells as described in <xref
+    linkend="editing-selections" /> and then  use one of
+    the following methods:
+      <itemizedlist>
+	<listitem><para>
+	  Use keyboard shortcut 
+	    <keycombo><keycap>Ctrl</keycap><keycap>C</keycap></keycombo>.
+	  </para>
+	</listitem>        
+	<listitem>
+	  <para>
+	    Choose <guimenuitem>Copy</guimenuitem> from the
+	    <guimenu>Edit</guimenu> menu. 
+	  </para>
+	</listitem>
+        <listitem>
+	  <para>
+	    Click on 
+	    <guiicon><inlinegraphic
+		fileref="figures/button-copy.png"></inlinegraphic> Copy
+	    </guiicon> button in the toolbar.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>Right-click on the selection and choose
+	  <guimenuitem>Copy</guimenuitem> from the context menu. 
+	  </para>
+	</listitem>
+      </itemizedlist>
+      The selection will be copied to the clipboard buffer. To remind
+      you of this, the selection will outlined by 
+      "marching ants" border. The selection will be copied to a new location
+      as soon as you choose <guimenuitem>Paste</guimenuitem> command
+      as described below. 
+    </para>
+  </sect2><!-- end of "Copy" subsection" -->
+
+<sect2 id="paste">
+    <title>Pasting the Clipboard</title>
+  <para>
+      To paste the contents of the clipboard (i.e., previously cut or
+    copied selection) to a new location, just click on a cell and use
+    one of     the following methods:
+      <itemizedlist>
+	<listitem><para>
+	  Use keyboard shortcut 
+	    <keycombo><keycap>Ctrl</keycap><keycap>V</keycap></keycombo>.
+	  </para>
+	</listitem>        
+	<listitem>
+	  <para>
+	    Choose <guimenuitem>Paste</guimenuitem> from the
+	    <guimenu>Edit</guimenu> menu. 
+	  </para>
+	</listitem>
+        <listitem>
+	  <para>
+	    Click on 
+	    <guiicon><inlinegraphic
+		fileref="figures/button-paste.png"></inlinegraphic> Paste
+	    </guiicon> button in the toolbar.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>Right-click on the cell and choose
+	  <guimenuitem>Paste</guimenuitem> from the context menu. 
+	  </para>
+	</listitem>
+      </itemizedlist>
+      The contents of the clipboard will be pasted in the spreadsheet
+      so that the selected cell becomes the top left corner of the
+      selection. This will also copy the formatting of the original
+      selection.  
+    </para>
+    <para>If you are pasting a selection which was
+      <emphasis>copied</emphasis> to the clipboard buffer, all
+      relative cell references in all formulas will change as
+      described in <xref linkend="cell-referencing" />. The selection
+      remains in the clipboard buffer so that it can be pasted
+      again. The original selection will remain outlined with
+      "marching ants" border.
+    </para>
+    <para>If you are pasting a selection which was
+      <emphasis>cut</emphasis> to the clipboard buffer, all cell
+      references in all formulas will remain unchanged. The original
+      selection will be removed from the workbook and the clipboard
+      buffer will be cleared.
+    </para>
+  </sect2> <!-- end of "Paste" subsection -->
+  
+<!-- ****************** Paste special subsection ************** -->
+  <sect2 id="paste-special">
+    <title>Paste Special</title>
+    <para>
+      Command <guimenuitem>Paste</guimenuitem> described in the
+      previous section copies both contents and formatting of the
+      orignal selection. If you need more options, use
+      <guimenuitem>Paste Special...</guimenuitem> command. You can
+      find it in the <guimenu>Edit</guimenu> menu or in the context
+      menu obtained by right-clicking on a cell in the spreadsheet. 
+    </para>
+    <para>
+       The <guimenuitem>Paste Special...</guimenuitem> menu item opens
+       a dialog with three categories. The defaults make
+       <guimenuitem>Paste Special...</guimenuitem> act as if it were
+       the <guimenuitem>Paste</guimenuitem> menu item.  
+    </para>
+    <para>The first set of choices allow the user to control the
+       data pasted.The user can chose to limit the pasting to only the
+       cell contents (no cell formatting is copied) or the opposite
+       only cell formats copied (no contents). Furthermore, the user
+       can insert the selection while transforming all the contents
+       into values only. Formulas will be replaced by their values. 
+    </para>
+    <para>A second set of choices allows the user to perform simple
+      mathematical operations during the paste. These operations
+      use the current contents of the cells in the paste range and the
+      contents of the clipboard. For example, if you are pasting a
+      cell containing number 5 to a cell that currently contains
+      number 10 and choose option <guilabel>Divide</guilabel>, the
+      result will be 10/5=2. Choosing option <guilabel>None</guilabel>
+      will just replace the previous contents of the cells by the
+      contents of the clipboard buffer (this is the default
+      behavior). 
+    </para>
+    <para>The final choices contains the following options: 
+      <itemizedlist>
+	<listitem><para> <guilabel>Transpose</guilabel>. This option
+	    will transpose the selection, i.e.  interchange the rows
+	    and columns. Thus, a range with k rows and n columns will
+	    become a range with n rows and k columns, so that the firs
+	    row becomes the first column, and so on.
+	  </para>
+	</listitem>
+	<listitem><para> <guilabel>Skip Blanks</guilabel>. This option
+	    prevents <application>Gnumeric</application> from taking
+	    any action for the cells in the selection that are
+	    blank. For such cells, the existing  contents of the cells
+	    in the paste range will be kept. 
+	  </para>
+	</listitem>
+      </itemizedlist>
+    </para>
+  </sect2> <!-- end of "Paste Special" section -->
+
+<!-- ****************** Cut and paste with other applications ******** -->
+  <sect2 id="xclipboard">
+    <title>Cut and Paste Between Gnumeric and Other Applications</title>
+    <para>
+      Cut and paste commands described above allow copying and moving
+      selections from one location in  a spreadsheet to another, or
+      between different spreadsheets. However, you can also use cut
+      and paste to exchange information between
+      <application>Gnumeric</application> and other applications,
+      using so-called X clipboard which is shared by all graphical
+      applications. 
+    </para>
+    <para>
+      Whenever you cut or copy a selection in
+      <application>Gnumeric</application>, it is placed both in
+      <application>Gnumeric</application> clipboard and in X
+      clipboard. In X clipboard, it is placed as text, with formulas
+      replaced by their values and contents of different cells
+      separated by spaces. 
+    </para>
+    <para>
+      To paste the selection from X clipboard to an application, click
+      with middle mouse button (if you have two button mouse, you can
+      emulate middle mouse by pressing left and right buttons
+      simultaneously). Most applications also allow pasting from X
+      clipboard by using keyboard shortcut (usually
+      <keycombo><keycap>Ctrl</keycap><keycap>V</keycap></keycombo>) or
+      by choosing <menuchoice><guimenu>Edit</guimenu>
+      <guimenuitem>Paste</guimenuitem></menuchoice>. 
+    </para>
+    <para>To paste a selection from another application to
+      <application>Gnumeric</application>, place this selection in the
+      X clipboard. Usually it is done by just selecting it with the
+      mouse; some applications also allow you to use keyboard shortcut
+      <keycombo><keycap>Ctrl</keycap><keycap>C</keycap></keycombo>, or
+      choose <menuchoice><guimenu>Edit</guimenu>
+      <guimenuitem>Copy</guimenuitem></menuchoice>. After this, you
+      can paste it in <application>Gnumeric</application> by using
+      <guimenuitem>Paste</guimenuitem> command described <link
+      linkend="paste">above</link>. This command will automatically
+      paste the contents of X clipboard if Gnumeric's own clipboard is
+      empty.
+    </para>
+    <para>
+      Pasting X clipboard in <application>Gnumeric</application> will
+      launch <guilabel>Text Import</guilabel> druid which will assist
+      you in imporitng the  plain text contents of X clipboard into
+      the spreadsheet. The <guilabel>Text Import</guilabel> druid is
+      described in <xref linkend="file-format-csv-import" />. 
+    </para>
+  </sect2>
+</sect1>
