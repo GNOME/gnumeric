@@ -1,5 +1,10 @@
 2002-01-28  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control-gui.c : List Column actions before Row actions.
+	* src/GNOME_Gnumeric.xml : ditto.
+
+2002-01-28  Jody Goldberg <jody@gnome.org>
+
 	* src/sheet-object-widget.c (sheet_widget_checkbox_user_config) :
 	create the table.
 

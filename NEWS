@@ -10,6 +10,7 @@ Jody:
 	* Crash importing scrollbars from xml.
 	* Fix regression in 1.0.3 setting properties for checkbox.
 	* xml-sax support for v10 of gnumeric's format.
+	* Consistently list Column actions before Row actions.
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=69400
 	* Slow sort dialog startup.

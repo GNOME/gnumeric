@@ -230,15 +230,15 @@
 		    accel="*Control*a"
 		    _tip="Select all cells in the spreadsheet"/>
 
-		<menuitem name="EditSelectRow" verb=""
-		    _label="Select _Row"
-		    accel="*Alt*space"
-		    _tip="Select an entire row"/>
-
 		<menuitem name="EditSelectColumn" verb=""
 		    _label="Select _Column"
 		    accel="*Control*space"
 		    _tip="Select an entire column"/>
+
+		<menuitem name="EditSelectRow" verb=""
+		    _label="Select _Row"
+		    accel="*Alt*space"
+		    _tip="Select an entire row"/>
 
 		<menuitem name="EditSelectArray" verb=""
 		    _label="Select Arra_y"
@@ -318,15 +318,15 @@
 		_label="_Sheet"
 		_tip="Insert a new spreadsheet"/>
 
-	    <menuitem name="InsertRows" verb=""
-		pixtype="stock" pixname="Gnumeric_RowAdd"
-		_label="_Rows"
-		_tip="Insert new rows"/>
-
 	    <menuitem name="InsertColumns" verb=""
 		pixtype="stock" pixname="Gnumeric_ColumnAdd"
 		_label="_Columns"
 		_tip="Insert new columns"/>
+
+	    <menuitem name="InsertRows" verb=""
+		pixtype="stock" pixname="Gnumeric_RowAdd"
+		_label="_Rows"
+		_tip="Insert new rows"/>
 
 	    <menuitem name="InsertCells" verb=""
 		_label="C_ells..."
