@@ -1,3 +1,20 @@
+2005-01-24  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object): pass shift state
+	to scg_objects_nudge.
+	* src/gnumeric-pane.c (gnm_pane_object_move): alter real move values
+	with feedback from scg_object_drags. With snap to grid real move can
+	be different than what asked.
+	(cb_slide_handler): update call to gnm_pane_object_move.
+	(cb_control_point_event): update call to scg_object_drag. 
+	Pass shift state to gnm_pane_object_move.
+	* src/sheet-control-gui.c (snap_pos_to_grid): new.
+	(snap_to_grid): new.
+	(apply_move): new.
+	(drag_object): new.
+	(drag_selected_objects): use drag_object.
+	(scg_objects_drag): drag primary object first.
+
 2005-01-22  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	http://bugs.debian.org/291265

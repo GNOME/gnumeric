@@ -577,18 +577,22 @@ gnm_pane_edit_stop (GnmPane *pane)
 static void
 gnm_pane_object_move (GnmPane *pane, GObject *ctrl_pt,
 		      gdouble new_x, gdouble new_y,
-		      gboolean symmetric)
+ 		      gboolean symmetric,
+ 		      gboolean snap_to_grid)
 {
 	int const idx = GPOINTER_TO_INT (g_object_get_data (ctrl_pt, "index"));
 	SheetObject *so  = g_object_get_data (G_OBJECT (ctrl_pt), "so");
-	double dx = new_x - pane->drag.last_x;
-	double dy = new_y - pane->drag.last_y;
-
-	pane->drag.last_x = new_x;
-	pane->drag.last_y = new_y;
+ 	double dx, dy;
+ 	dx = new_x - pane->drag.last_x;
+ 	dy = new_y - pane->drag.last_y;
 	pane->drag.had_motion = TRUE;
-	scg_objects_drag (pane->gcanvas->simple.scg,
-		so, dx, dy, idx, symmetric);
+ 	
+ 	scg_objects_drag (pane->gcanvas->simple.scg, pane->gcanvas,
+ 		so, &dx, &dy, idx, symmetric, snap_to_grid, TRUE);
+ 
+ 	pane->drag.last_x += dx;
+ 	pane->drag.last_y += dy;
+ 
 	if (idx != 8)
 		gnm_pane_display_obj_size_tip (pane, so);
 }
@@ -608,7 +612,7 @@ cb_slide_handler (GnmCanvas *gcanvas, int col, int row, gpointer ctrl_pt)
 	if (scg->rtl)
 		x *= -1;
 
-	gnm_pane_object_move (gcanvas->pane, ctrl_pt, x * scale, y * scale, FALSE);
+	gnm_pane_object_move (gcanvas->pane, ctrl_pt, x * scale, y * scale, FALSE, FALSE);
 
 	return TRUE;
 }
@@ -832,7 +836,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 		else if (pane->drag.created_objects && idx == 7) {
 			double w, h;
 			sheet_object_default_size (so, &w, &h);
-			scg_objects_drag (scg, NULL, w, h, 7, FALSE);
+			scg_objects_drag (scg, NULL, NULL, &w, &h, 7, FALSE, FALSE, FALSE);
 			scg_objects_drag_commit	(scg, 7, TRUE);
 		}
 		gnm_pane_clear_obj_size_tip (pane);
@@ -872,7 +876,8 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 					      cb_slide_handler, ctrl_pt))
 			gnm_pane_object_move (pane, G_OBJECT (ctrl_pt),
 				event->motion.x, event->motion.y,
-				(event->button.state & GDK_CONTROL_MASK) != 0);
+				(event->button.state & GDK_CONTROL_MASK) != 0,
+				(event->button.state & GDK_SHIFT_MASK) != 0);
 		break;
 
 	default:

@@ -1843,72 +1843,142 @@ scg_object_unselect (SheetControlGUI *scg, SheetObject *so)
 
 typedef struct {
 	SheetControlGUI *scg;
+	GnmCanvas	*gcanvas;
+	SheetObject	*primary_object;
 	int	 drag_type;
 	double	 dx, dy;
 	gboolean symmetric;
+	gboolean snap_to_grid;
+	gboolean is_mouse_move;
 } ObjDragInfo;
  
-static void
-cb_drag_selected_objects (SheetObject *so,
-			  double *coords, ObjDragInfo const *info)
+static gboolean
+snap_pos_to_grid (GnmCanvas *gcanvas, gboolean is_col, int *pos, gboolean to_min, gboolean is_mouse_move) 
 {
-	switch (info->drag_type) {
-	case 0: coords [0] += info->dx;
-		coords [1] += info->dy;
-		if (info->symmetric) {
-			coords [2] -= info->dx;
-			coords [3] -= info->dy;
-		}
-		break;
-	case 1: coords [1] += info->dy;
-		if (info->symmetric)
-			coords [3] -= info->dy;
-		break;
-	case 2: coords [1] += info->dy;
-		coords [2] += info->dx;
-		if (info->symmetric) {
-			coords [3] -= info->dy;
-			coords [0] -= info->dx;
-		}
-		break;
-	case 3: coords [0] += info->dx;
-		if (info->symmetric)
-			coords [2] -= info->dx;
-		break;
-	case 4: coords [2] += info->dx;
-		if (info->symmetric)
-			coords [0] -= info->dx;
-		break;
-	case 5: coords [0] += info->dx;
-		coords [3] += info->dy;
-		if (info->symmetric) {
-			coords [2] -= info->dx;
-			coords [1] -= info->dy;
-		}
-		break;
-	case 6: coords [3] += info->dy;
-		if (info->symmetric)
-			coords [1] -= info->dy;
-		break;
-	case 7: coords [2] += info->dx;
-		coords [3] += info->dy;
-		if (info->symmetric) {
-			coords [0] -= info->dx;
-			coords [1] -= info->dy;
-		}
-		break;
-	case 8: coords [0] += info->dx;
-		coords [1] += info->dy;
-		coords [2] += info->dx;
-		coords [3] += info->dy;
-		break;
+	Sheet *sheet = ((SheetControl *) gcanvas->simple.scg)->sheet;
+	int cell = is_col ? gcanvas->first.col : gcanvas->first.row;
+	int pixel = is_col ? gcanvas->first_offset.col : gcanvas->first_offset.row;
+	gboolean snap = FALSE;
+	int length = 0;
+	ColRowInfo const *info;
 
-	default:
-		g_warning ("Should not happen %d", info->drag_type);
-		return;
+	if (*pos < pixel) {
+		while (cell > 0 && *pos < pixel) {
+			info = is_col ? 
+				sheet_col_get_info (sheet, --cell):
+				sheet_row_get_info (sheet, --cell);
+			if (info->visible) {
+				length = info->size_pixels;
+				pixel -= length;
+			}
+		}
+		if (*pos < pixel)
+			*pos = pixel;
+	} else {
+		do {
+			info = is_col ? 
+				sheet_col_get_info (sheet, cell):
+				sheet_row_get_info (sheet, cell);
+			if (info->visible) {
+				length = info->size_pixels;
+				if (pixel <= *pos && *pos <= pixel + length) {
+					snap = TRUE;
+				}
+				pixel += length;
+			}
+		} while (++cell < SHEET_MAX_ROWS && !snap);
+		pixel -= length;	
 	}
+
+	if (snap) {
+		if (is_mouse_move) 
+			*pos = (abs (*pos - pixel) < abs (*pos - pixel - length)) ? pixel : pixel + length;
+		else
+			*pos = (pixel == *pos) ? pixel : (to_min ? pixel : pixel + length);
+	}
+			
+	return snap;
+}
+
+static void
+snap_to_grid (GnmCanvas *gcanvas, 
+	      gboolean snap_x, gboolean snap_y,
+	      double *x, double *y,
+	      gboolean to_left, gboolean to_top,
+	      gboolean is_mouse_move) {
+
+	int x_int, y_int;
+
+	if (gcanvas == NULL)
+		return;
+
+	foo_canvas_w2c (FOO_CANVAS (gcanvas), *x, *y, &x_int, &y_int);
+	if (snap_x) snap_pos_to_grid (gcanvas, TRUE, &x_int, to_left, is_mouse_move);
+	if (snap_y) snap_pos_to_grid (gcanvas, FALSE, &y_int, to_top, is_mouse_move);
+	foo_canvas_c2w (FOO_CANVAS (gcanvas), x_int, y_int, x, y);
+}
+
+static void
+apply_move (SheetObject *so, int x_idx, int y_idx, double *coords, ObjDragInfo *info, gboolean snap) {
+
+	gboolean move_x = (x_idx >= 0);
+	gboolean move_y = (y_idx >= 0);
+	double x, y;
+
+	x = move_x ? coords[x_idx] + info->dx : 0;
+	y = move_y ? coords[y_idx] + info->dy : 0;
+
+	if (snap) {
+		snap_to_grid (info->gcanvas, move_x, move_y, &x, &y, 
+			      info->dx < 0., info->dy < 0., info->is_mouse_move);
+		if (info->primary_object == so || NULL == info->primary_object) {
+			if (move_x) info->dx = x - coords[x_idx];
+			if (move_y) info->dy = y - coords[y_idx];
+		}
+	}
+	
+	if (move_x) coords[x_idx] = x;
+	if (move_y) coords[y_idx] = y;
+
+	if (info->symmetric && !snap) {
+		if (move_x) coords[x_idx == 0 ? 2 : 0] -= info->dx;
+		if (move_y) coords[y_idx == 1 ? 3 : 1] -= info->dy;
+	}
+}	
+	
+static void
+drag_object (SheetObject *so,
+	     double *coords, ObjDragInfo *info)
+{
+	const struct {
+		int x_idx, y_idx;
+	} idx_info[9] = { 
+		{ 0, 1}, {-1, 1}, { 2, 1}, { 0,-1},
+		{ 2,-1}, { 0, 3}, {-1, 3}, { 2, 3},
+		{ 0, 1}
+	};
+		
+	if (info->drag_type <= 8) {
+		apply_move (so, 
+			    idx_info[info->drag_type].x_idx, 
+			    idx_info[info->drag_type].y_idx,
+			    coords,
+			    info, 
+			    info->snap_to_grid);
+		if (info->drag_type == 8)
+			apply_move (so, 2, 3, coords, info, FALSE);
+	} else 
+		g_warning ("Should not happen %d", info->drag_type);
+	
 	SCG_FOREACH_PANE (info->scg, pane,
 		gnm_pane_object_update_bbox (pane, so););
+}
+
+static void
+cb_drag_selected_objects (SheetObject *so,
+			  double *coords, ObjDragInfo *info) {
+	if (so != info->primary_object)
+		drag_object (so, coords, info);
 }
 
 /**
@@ -1925,18 +1995,36 @@ cb_drag_selected_objects (SheetObject *so,
  * objects.
  **/ 
 void
-scg_objects_drag (SheetControlGUI *scg, SheetObject *primary,
-		  gdouble dx, gdouble dy,
-		  int drag_type, gboolean symmetric)
+scg_objects_drag (SheetControlGUI *scg, GnmCanvas *gcanvas,
+		  SheetObject *primary,
+		  gdouble *dx, gdouble *dy,
+		  int drag_type, gboolean symmetric, 
+		  gboolean snap_to_grid,
+		  gboolean is_mouse_move)
 {
+	double *coords;
+	
 	ObjDragInfo info;
 	info.scg = scg;
-	info.dx = dx;
-	info.dy = dy;
+	info.gcanvas = gcanvas;
+	info.primary_object = primary;
+	info.dx = *dx;
+	info.dy = *dy;
 	info.symmetric = symmetric;
 	info.drag_type = drag_type;
+	info.snap_to_grid = snap_to_grid;
+	info.is_mouse_move = is_mouse_move;
+
+	if (primary != NULL) {
+		coords = g_hash_table_lookup (scg->selected_objects, primary);
+		drag_object (primary, coords, &info);
+	}
+
 	g_hash_table_foreach (scg->selected_objects,
 		(GHFunc) cb_drag_selected_objects, &info);
+
+	*dx = info.dx;
+	*dy = info.dy;
 }
 
 typedef struct {
@@ -1989,9 +2077,10 @@ scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
 }
 
 void
-scg_objects_nudge (SheetControlGUI *scg, int drag_type, int dx, int dy, gboolean symmetric)
+scg_objects_nudge (SheetControlGUI *scg, GnmCanvas *gcanvas, 
+		   int drag_type, double dx, double dy, gboolean symmetric, gboolean snap_to_grid)
 {
-	scg_objects_drag (scg, NULL, dx, dy, drag_type, symmetric);
+	scg_objects_drag (scg, gcanvas, NULL, &dx, &dy, drag_type, symmetric, snap_to_grid, FALSE);
 	scg_objects_drag_commit (scg, drag_type, FALSE);
 }
 

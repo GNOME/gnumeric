@@ -28,14 +28,17 @@ void scg_object_anchor_to_coords (SheetControlGUI const *scg,
 void scg_object_coords_to_anchor (SheetControlGUI const *scg,
 				  double const *coords, SheetObjectAnchor *in_out);
 
-void scg_objects_drag		(SheetControlGUI *scg, SheetObject *primary,
-				 gdouble dx, gdouble dy,
-				 int drag_type, gboolean symmetric);
+void scg_objects_drag		(SheetControlGUI *scg, GnmCanvas *gcanvas,
+				 SheetObject *primary,
+				 gdouble *dx, gdouble *dy,
+				 int drag_type, gboolean symmetric, gboolean snap_to_grid,
+				 gboolean is_mouse_move);
 void scg_objects_drag_commit	(SheetControlGUI *scg, int drag_type,
 				 gboolean created_objects);
-void scg_objects_nudge		(SheetControlGUI *scg,
-				 int drag_type, int dx, int dy,
-				 gboolean symmetric);
+void scg_objects_nudge		(SheetControlGUI *scg, GnmCanvas *gcanvas,
+				 int drag_type, double dx, double dy,
+				 gboolean symmetric, 
+				 gboolean snap_to_grid);
 
 void scg_object_select		(SheetControlGUI *scg, SheetObject *so);
 void scg_object_unselect	(SheetControlGUI *scg, SheetObject *so);
