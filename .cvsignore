@@ -19,6 +19,9 @@ stamp.h
 stamp-h.in
 xlibtool
 xltmain.sh
+install-sh
+missing
+mkinstalldirs
 gnumeric.keys
 gnumeric.spec
 gnumeric.desktop
