@@ -709,6 +709,10 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	case GDK_MOTION_NOTIFY:
 		gnome_canvas_w2c (canvas, event->button.x, event->button.y, &x, &y);
+		if (x < 0)
+			x = 0;
+		if (y < 0)
+			y = 0;
 		col = item_grid_find_col (item_cursor->item_grid, x, NULL);
 		row = item_grid_find_row (item_cursor->item_grid, y, NULL);
 

@@ -3151,7 +3151,7 @@ sheet_show_cursor (Sheet *sheet)
 char *
 cellref_name (CellRef *cell_ref, Sheet *eval_sheet, int eval_col, int eval_row)
 {
-	static char buffer [sizeof (long) * 4];
+	static char buffer [sizeof (long) * 4 + 4];
 	char *p = buffer;
 	int col, row;
 	

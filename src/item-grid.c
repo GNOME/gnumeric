@@ -121,6 +121,13 @@ item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
 	int col   = item_grid->left_col;
 	int pixel = item_grid->left_offset;
 
+	/*
+	 * FIXME:  This should probably take negative numbers
+	 * as well to provide sliding when moving backwards (look
+	 * in item-cursor.c
+	 */
+	g_return_if_fail (x >= 0);
+
 	do {
 		ColRowInfo *ci = sheet_col_get_info (item_grid->sheet, col);
 		
@@ -143,6 +150,13 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 	int row   = item_grid->top_row;
 	int pixel = item_grid->top_offset;
 
+	/*
+	 * FIXME:  This should probably take negative numbers
+	 * as well to provide sliding when moving backwards (look
+	 * in item-cursor.c
+	 */
+	g_return_if_fail (y >= 0);
+	
 	do {
 		ColRowInfo *ri = sheet_row_get_info (item_grid->sheet, row);
 		

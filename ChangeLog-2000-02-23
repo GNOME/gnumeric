@@ -1,3 +1,17 @@
+1998-12-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-cursor.c (item_cursor_autofill_event): Do not pass
+	negative numbers to item_grid_find_col and item_grid_find_row. 
+
+	* src/item-grid.c (item_grid_find_row, item_grid_find_col): Check
+	for possitive numbers. I think the right fix is to accept negative
+	numbers and find the column even if the number is negative instead
+	of this ugly restriction.
+
+1998-11-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (cellref_name): Add more space.
+
 1998-12-02  Sebastian Wilhelmi  <wilhelmi@ira.uka.de>
 
 	* src/Makefile.am: make Gnumeric-impl.c dependend on Gnumeric.h to
