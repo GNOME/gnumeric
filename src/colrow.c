@@ -122,6 +122,5 @@ col_row_set_visiblity (Sheet *sheet, gboolean const is_col,
 	}
 
 	sheet_redraw_all (sheet);
-	sheet_redraw_cols (sheet);
-	sheet_redraw_rows (sheet);
+	sheet_redraw_headers (sheet, TRUE, TRUE, NULL);
 }

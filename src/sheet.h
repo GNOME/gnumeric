@@ -321,8 +321,9 @@ void        sheet_compute_visible_ranges  (Sheet const *sheet);
 void        sheet_redraw_cell_region      (Sheet const *sheet,
 				           int start_col, int start_row,
 				           int end_col,   int end_row);
-void	    sheet_redraw_cols		  (Sheet const *sheet);
-void	    sheet_redraw_rows		  (Sheet const *sheet);
+void	    sheet_redraw_headers          (Sheet const *sheet,
+					   gboolean const col, gboolean const row,
+					   Range const * r /* optional == NULL */);
 void        sheet_redraw_selection        (Sheet const *sheet, SheetSelection const *ss);
 void        sheet_redraw_range            (Sheet const *sheet, Range const *sheet_selection);
 void        sheet_redraw_all              (Sheet const *sheet);

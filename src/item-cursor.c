@@ -141,8 +141,10 @@ item_cursor_get_pixel_coords (ItemCursor *item_cursor, int *x, int *y, int *w, i
 	ItemGrid *item_grid = item_cursor->item_grid;
 	Sheet *sheet = item_cursor->sheet;
 
-	*x = sheet_col_get_distance (sheet, item_grid->left_col, item_cursor->pos.start.col);
-	*y = sheet_row_get_distance (sheet, item_grid->top_row, item_cursor->pos.start.row);
+	*x = item_grid->left_offset +
+	    sheet_col_get_distance (sheet, item_grid->left_col, item_cursor->pos.start.col);
+	*y = item_grid->top_offset +
+	    sheet_row_get_distance (sheet, item_grid->top_row, item_cursor->pos.start.row);
 
 	*w = sheet_col_get_distance (sheet, item_cursor->pos.start.col, item_cursor->pos.end.col+1);
 	*h = sheet_row_get_distance (sheet, item_cursor->pos.start.row, item_cursor->pos.end.row+1);

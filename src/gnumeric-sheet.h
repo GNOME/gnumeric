@@ -23,8 +23,6 @@ typedef struct {
 
 	ItemGrid      *item_grid;
 	ItemCursor    *item_cursor;
-	ItemBar       *item_bar_col;
-
 	ItemEdit      *item_editor;
 
 	SheetModeType mode;

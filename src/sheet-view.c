@@ -111,25 +111,59 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 }
 
 void
-sheet_view_redraw_columns (SheetView *sheet_view)
+sheet_view_redraw_headers (SheetView *sheet_view,
+			   gboolean const col, gboolean const row,
+			   Range const * r /* optional == NULL */)
 {
+	GnumericSheet *gsheet;
 	g_return_if_fail (sheet_view != NULL);
 	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
 
-	gnome_canvas_request_redraw (
-		GNOME_CANVAS (sheet_view->col_canvas),
-		0, 0, INT_MAX, INT_MAX);
-}
+	gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 
-void
-sheet_view_redraw_rows (SheetView *sheet_view)
-{
-	g_return_if_fail (sheet_view != NULL);
-	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+	if (col) {
+		int left = 0, right = INT_MAX;
+		if (r != NULL) {
+			int const size = r->end.col - r->start.col;
+/* A rough heuristic guess of the number of when the
+ * trade off point of redrawing all vs calculating the
+ * redraw size is crossed */
+#define COL_HEURISTIC	20
+			if (-COL_HEURISTIC < size && size < COL_HEURISTIC) {
+				left = gsheet->item_grid->left_offset +
+				    sheet_col_get_distance (sheet_view->sheet,
+							    gsheet->left_col, r->start.col);
+				right = left +
+				    sheet_col_get_distance (sheet_view->sheet,
+							    r->start.col, r->end.col+1);
+			}
+		}
+		gnome_canvas_request_redraw (
+			GNOME_CANVAS (sheet_view->col_canvas),
+			left, 0, right, INT_MAX);
+	}
 
-	gnome_canvas_request_redraw (
-		GNOME_CANVAS (sheet_view->row_canvas),
-		0, 0, INT_MAX, INT_MAX);
+	if (row) {
+		int top = 0, bottom = INT_MAX;
+		if (r != NULL) {
+			int const size = r->end.row - r->start.row;
+/* A rough heuristic guess of the number of when the
+ * trade off point of redrawing all vs calculating the
+ * redraw size is crossed */
+#define ROW_HEURISTIC	50
+			if (-ROW_HEURISTIC < size && size < ROW_HEURISTIC) {
+				top = gsheet->item_grid->top_offset +
+				    sheet_row_get_distance (sheet_view->sheet,
+							    gsheet->top_row, r->start.row);
+				bottom = top +
+				    sheet_row_get_distance (sheet_view->sheet,
+							    r->start.row, r->end.row+1);
+			}
+		}
+		gnome_canvas_request_redraw (
+			GNOME_CANVAS (sheet_view->row_canvas),
+			0, top, INT_MAX, bottom);
+	}
 }
 
 void
@@ -197,7 +231,6 @@ new_canvas_bar (SheetView *sheet_view, GtkOrientation o, GnomeCanvasItem **itemp
 				      item_bar_get_type (),
 				      "ItemBar::SheetView", sheet_view,
 				      "ItemBar::Orientation", o,
-				      "ItemBar::First", 0,
 				      NULL);
 
 	*itemp = GNOME_CANVAS_ITEM (item);

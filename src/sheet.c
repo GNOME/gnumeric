@@ -64,26 +64,16 @@ sheet_redraw_all (Sheet const *sheet)
 }
 
 void
-sheet_redraw_cols (Sheet const *sheet)
+sheet_redraw_headers (Sheet const *sheet,
+		      gboolean const col, gboolean const row,
+		      Range const * r /* optional == NULL */)
 {
 	GList *l;
 
 	for (l = sheet->sheet_views; l; l = l->next){
 		SheetView *sheet_view = l->data;
 
-		sheet_view_redraw_columns (sheet_view);
-	}
-}
-
-void
-sheet_redraw_rows (Sheet const *sheet)
-{
-	GList *l;
-
-	for (l = sheet->sheet_views; l; l = l->next){
-		SheetView *sheet_view = l->data;
-
-		sheet_view_redraw_rows (sheet_view);
+		sheet_view_redraw_headers (sheet_view, col, row, r);
 	}
 }
 
@@ -1052,9 +1042,17 @@ int
 sheet_col_get_distance (Sheet const *sheet, int from, int to)
 {
 	int i, pixels = 0;
+	int sign = 1;
 
-	g_assert (from <= to);
 	g_assert (sheet != NULL);
+
+	if (from > to)
+	{
+		int tmp = to;
+		to = from;
+		from = tmp;
+		sign = -1;
+	}
 
 	/* Do not use sheet_foreach_colrow, it ignores empties */
 	for (i = from ; i < to ; ++i) {
@@ -1064,7 +1062,7 @@ sheet_col_get_distance (Sheet const *sheet, int from, int to)
 			pixels += ci->pixels;
 	}
 
-	return pixels;
+	return pixels*sign;
 }
 
 /**
@@ -1146,9 +1144,17 @@ int
 sheet_row_get_distance (Sheet const *sheet, int from, int to)
 {
 	int i, pixels = 0;
+	int sign = 1;
 
-	g_assert (from <= to);
 	g_assert (sheet != NULL);
+
+	if (from > to)
+	{
+		int tmp = to;
+		to = from;
+		from = tmp;
+		sign = -1;
+	}
 
 	/* Do not use sheet_foreach_colrow, it ignores empties */
 	for (i = from ; i < to ; ++i) {
@@ -1158,7 +1164,7 @@ sheet_row_get_distance (Sheet const *sheet, int from, int to)
 			pixels += ri->pixels;
 	}
 
-	return pixels;
+	return pixels*sign;
 }
 
 /**

@@ -215,22 +215,18 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 {
 	ItemBar const * const item_bar = ITEM_BAR (item);
 	Sheet   const * const sheet = item_bar->sheet_view->sheet;
-	int element = item_bar->first_element;
+	GnumericSheet const * const gsheet = GNUMERIC_SHEET (item_bar->sheet_view->sheet_view);
 	int pixels;
 
 	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL) {
-		int total = -y;
 		int const real_width = GTK_WIDGET (item->canvas)->allocation.width;
+		int element = gsheet->top_row;
+		int total = gsheet->item_grid->top_offset - y;
 
 		do {
-			if (element >= SHEET_MAX_ROWS) {
-				GtkWidget *canvas = GTK_WIDGET (item->canvas);
-
-				gtk_draw_shadow (canvas->style, drawable,
-						 GTK_STATE_NORMAL, GTK_SHADOW_OUT,
-						 -x, y, real_width, height);
+			if (element >= SHEET_MAX_ROWS)
 				return;
-			}
+
 			if (item_bar->resize_pos != element) {
 				ColRowInfo const *cri = sheet_row_get_info (sheet, element);
 				pixels = cri->pixels;
@@ -251,18 +247,14 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			++element;
 		} while (total < height);
 	} else {
-		int total = -x;
 		int const real_height = GTK_WIDGET (item->canvas)->allocation.height;
+		int element = gsheet->left_col;
+		int total = gsheet->item_grid->left_offset - x;
 
 		do {
-			if (element >= SHEET_MAX_COLS) {
-				GtkWidget *canvas = GTK_WIDGET (item->canvas);
-
-				gtk_draw_shadow (canvas->style, drawable,
-						 GTK_STATE_NORMAL, GTK_SHADOW_OUT,
-						 x, -y, width, real_height);
+			if (element >= SHEET_MAX_COLS)
 				return;
-			}
+
 			if (item_bar->resize_pos != element) {
 				ColRowInfo const *cri = cri = sheet_col_get_info (sheet, element);
 				pixels = cri->pixels;
@@ -740,8 +732,6 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 				 GTK_ARG_WRITABLE, ARG_SHEET_VIEW);
 	gtk_object_add_arg_type ("ItemBar::Orientation", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_ORIENTATION);
-	gtk_object_add_arg_type ("ItemBar::First", GTK_TYPE_INT,
-				 GTK_ARG_WRITABLE, ARG_FIRST_ELEMENT);
 
 	item_bar_signals [SELECTION_CHANGED] =
 		gtk_signal_new ("selection_changed",

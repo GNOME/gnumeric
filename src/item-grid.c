@@ -378,24 +378,28 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	/* 2. the grids */
 	if (sheet->show_grid) {
 		col = paint_col;
-		for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; ++col){
-			ColRowInfo const * const ci = sheet_col_get_info (sheet, col);
+		x_paint = -diff_x;
+		gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
+		while (x_paint < end_x && col < SHEET_MAX_COLS) {
+			ColRowInfo const * const ci = sheet_col_get_info (sheet, col++);
 			int const tmp = ci->pixels;
 
 			if (tmp > 0) {
-				gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
 				x_paint += ci->pixels;
+				gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
 			}
 		}
 
 		row = paint_row;
-		for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; ++row){
-			ColRowInfo const * const ri = sheet_row_get_info (sheet, row);
+		y_paint = -diff_y;
+		gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
+		while (y_paint < end_y && row < SHEET_MAX_ROWS) {
+			ColRowInfo const * const ri = sheet_row_get_info (sheet, row++);
 			int const tmp = ri->pixels;
 
 			if (tmp > 0) {
-				gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
 				y_paint += ri->pixels;
+				gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
 			}
 		}
 	}

@@ -65,8 +65,9 @@ void             sheet_view_redraw_all            (SheetView *sheet_view);
 void             sheet_view_redraw_cell_region    (SheetView *sheet_view,
 						   int start_col, int start_row,
 						   int end_col, int end_row);
-void             sheet_view_redraw_rows           (SheetView *sheet_view);
-void             sheet_view_redraw_columns        (SheetView *sheet_view);
+void             sheet_view_redraw_headers        (SheetView *sheet_view,
+						   gboolean const col, gboolean const row,
+						   Range const * r /* optional == NULL */);
 
 void             sheet_view_hide_cursor           (SheetView *sheet_view);
 void             sheet_view_show_cursor           (SheetView *sheet_view);

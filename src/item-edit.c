@@ -36,11 +36,15 @@ item_edit_get_pixel_coords (ItemEdit *item_edit, int *x, int *y, int *w, int *h)
 	ItemGrid *item_grid = item_edit->item_grid;
 	Sheet *sheet = item_edit->sheet;
 
-	*x = sheet_col_get_distance (sheet, item_grid->left_col, item_edit->col);
-	*y = sheet_row_get_distance (sheet, item_grid->top_row, item_edit->row);
+	*x = item_grid->left_offset +
+	    sheet_col_get_distance (sheet, item_grid->left_col, item_edit->col);
+	*y = item_grid->top_offset +
+	    sheet_row_get_distance (sheet, item_grid->top_row, item_edit->row);
 
-	*w = sheet_col_get_distance (sheet, item_edit->col, item_edit->col + item_edit->col_span);
-	*h = sheet_row_get_distance (sheet, item_edit->row, item_edit->row + item_edit->row_span);
+	*w = sheet_col_get_distance (sheet, item_edit->col,
+				     item_edit->col + item_edit->col_span);
+	*h = sheet_row_get_distance (sheet, item_edit->row,
+				     item_edit->row + item_edit->row_span);
 }
 
 static void

@@ -16,10 +16,6 @@
 #include "application.h"
 #include "gnumeric-util.h"
 
-static void sheet_selection_change (Sheet *sheet,
-				    SheetSelection *old,
-				    SheetSelection *new);
-
 /*
  * Quick utility routine to test intersect of line segments.
  * Returns : 5 sA == sb eA == eb	a == b
@@ -99,9 +95,7 @@ sheet_selection_append_range (Sheet *sheet,
 
 	sheet_set_selection (sheet, ss);
 	sheet_redraw_selection (sheet, ss);
-
-	sheet_redraw_cols (sheet);
-	sheet_redraw_rows (sheet);
+	sheet_redraw_headers (sheet, TRUE, TRUE, &ss->user);
 
 	sheet_selection_changed_hook (sheet);
 }
@@ -194,19 +188,69 @@ sheet_selection_change (Sheet *sheet, SheetSelection *old, SheetSelection *new)
 		sheet_redraw_selection (sheet, new);
 	}
 	
-	if (new->user.start.col != old->user.start.col ||
-	    new->user.end.col != old->user.end.col ||
-	    ((new->user.start.row == 0 && new->user.end.row == SHEET_MAX_ROWS-1) ^
-	     (old->user.start.row == 0 &&
-	      old->user.end.row == SHEET_MAX_ROWS-1)))
-		sheet_redraw_cols (sheet);
+	/* Has the entire row been selected/unselected */
+	if ((new->user.start.row == 0 && new->user.end.row == SHEET_MAX_ROWS-1) ^
+	    (old->user.start.row == 0 && old->user.end.row == SHEET_MAX_ROWS-1)) {
+		sheet_redraw_headers (sheet, TRUE, FALSE, &new->user);
+	} else
+	{
+		Range tmp = new->user;
+		int diff;
+		diff = new->user.start.col - old->user.start.col;
+		if (diff != 0) {
+			if (diff > 0) {
+				tmp.start.col = old->user.start.col;
+				tmp.end.col = new->user.start.col;
+			} else {
+				tmp.end.col = old->user.start.col;
+				tmp.start.col = new->user.start.col;
+			}
+			sheet_redraw_headers (sheet, TRUE, FALSE, &tmp);
+		}
+		diff = new->user.end.col - old->user.end.col;
+		if (diff != 0) {
+			if (diff > 0) {
+				tmp.start.col = old->user.end.col;
+				tmp.end.col = new->user.end.col;
+			} else {
+				tmp.end.col = old->user.end.col;
+				tmp.start.col = new->user.end.col;
+			}
+			sheet_redraw_headers (sheet, TRUE, FALSE, &tmp);
+		}
+	}
 
-	if (new->user.start.row != old->user.start.row ||
-	    new->user.end.row != old->user.end.row ||
-	    ((new->user.start.col == 0 && new->user.end.col == SHEET_MAX_COLS-1) ^
-	     (old->user.start.col == 0 &&
-	      old->user.end.col == SHEET_MAX_COLS-1)))
-		sheet_redraw_rows (sheet);
+	/* Has the entire col been selected/unselected */
+	if ((new->user.start.col == 0 && new->user.end.col == SHEET_MAX_COLS-1) ^
+	    (old->user.start.col == 0 && old->user.end.col == SHEET_MAX_COLS-1)) {
+		sheet_redraw_headers (sheet, FALSE, TRUE, &new->user);
+	} else
+	{
+		Range tmp = new->user;
+		int diff;
+		diff = new->user.start.row - old->user.start.row;
+		if (diff != 0) {
+			if (diff > 0) {
+				tmp.start.row = old->user.start.row;
+				tmp.end.row = new->user.start.row;
+			} else {
+				tmp.end.row = old->user.start.row;
+				tmp.start.row = new->user.start.row;
+			}
+			sheet_redraw_headers (sheet, FALSE, TRUE, &tmp);
+		}
+		diff = new->user.end.row - old->user.end.row;
+		if (diff != 0) {
+			if (diff > 0) {
+				tmp.start.row = old->user.end.row;
+				tmp.end.row = new->user.end.row;
+			} else {
+				tmp.end.row = old->user.end.row;
+				tmp.start.row = new->user.end.row;
+			}
+			sheet_redraw_headers (sheet, FALSE, TRUE, &tmp);
+		}
+	}
 }
 
 /**
@@ -269,8 +313,7 @@ sheet_select_all (Sheet *sheet)
 		SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 
 	/* Queue redraws for columns and rows */
-	sheet_redraw_rows (sheet);
-	sheet_redraw_cols (sheet);
+	sheet_redraw_headers (sheet, TRUE, TRUE, NULL);
 }
 
 int
@@ -428,31 +471,32 @@ sheet_selection_free (Sheet *sheet)
  * sheet:  The sheet
  *
  * Clears all of the selection ranges.
- * Warning: This does not set a new selection, this should
+ * WARNING: This does not set a new selection this should
  * be taken care on the calling routine.
  */
 void
 sheet_selection_reset_only (Sheet *sheet)
 {
-	GList *list;
+	GList *list, *tmp;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	for (list = sheet->selections; list; list = list->next){
-		SheetSelection *ss = list->data;
+	/* Empty the sheets selection */
+	list = sheet->selections;
+	sheet->selections = NULL;
+
+	/* Redraw the grid, & headers for each region */
+	for (tmp = list; tmp; tmp = tmp->next){
+		SheetSelection *ss = tmp->data;
 
 		sheet_redraw_selection (sheet, ss);
+		sheet_redraw_headers (sheet, TRUE, TRUE, &ss->user);
+		g_free (ss);
 	}
-	sheet_selection_free (sheet);
 
+	g_list_free (tmp);
 	sheet->cursor_selection = NULL;
-
-	/* Redraw column bar */
-	sheet_redraw_cols (sheet);
-
-	/* Redraw the row bar */
-	sheet_redraw_rows (sheet);
 }
 
 /**

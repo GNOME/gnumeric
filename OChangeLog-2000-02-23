@@ -1,13 +1,46 @@
-2000-01-18  Miguel de Icaza  <miguel@gnu.org>
+2000-01-22  Jody Goldberg <jgoldberg@home.com>
 
-	* src/clipboard.c (x_selection_to_cell_region): Do not hardcode
-	',' as a number separator.  Use the locale information to select
-	the proper separator.
+	* src/sheet-view.c (sheet_view_redraw_headers) : New function that
+	  will redraw a subset of an itembar.
+	(sheet_view_redraw_columns) : Delete.
+	(sheet_view_redraw_rows) : Delete.
+
+	* src/sheet.c (sheet_redraw_headers) : Call sheet_view_redraw_headers.
+	(sheet_redraw_columns) : Delete.
+	(sheet_redraw_rows) : Delete.
+
+	* src/gnumeric-sheet.h (GnumericSheet) : Remove unused member item_bar_col.
+
+	* src/colrow.c (col_row_set_visiblity) : Use sheet_redraw_headers
+	  in place of sheet_redraw_{cols,row}.
+	* src/selection.c (sheet_selection_append_range) : Ditto.
+	(sheet_select_all) : Ditto.
+	(sheet_selection_reset_only) : Ditto.  Clear the selection internally.
+
+	* src/sheet.c (sheet_{col,row}_get_distance) : Handle from > to.
+
+	* src/item-cursor.c (item_cursor_get_pixel_coords) : Use the
+	  precalculated offsets.
+	* src/item-edit.c (item_edit_get_pixel_coords) : Ditto.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_bar_set_top_row) : Update the
+	  item_grid's notion of the top.  Calculate the new distance using the
+	  previous top as the start point.
+	(gnumeric_sheet_bar_set_left_col) : Rename from top_col.  Ditto.
+
+2000-01-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c (item_bar_draw) : Remove minor drawing glitch when
+	  drawing at the edge of the sheet.
+	(item_bar_class_init) : Remove the unsed 'First' argument.
+
+	* src/item-grid.c (item_grid_draw) : Draw gridlines even at the
+	  outer edges.
 
 2000-01-16  Miguel de Icaza  <miguel@gnu.org>
 
-	* src/sheet.c (sheet_set_current_value): Change the logic to
-	always shutdown gracefully.
+	* plugins/Makefile.am : Remove python plugin.
+	* plugins/python/Makefile.am : Remove python plugin.
 
 2000-01-21  Jody Goldberg <jgoldberg@home.com>
 

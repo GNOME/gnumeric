@@ -115,7 +115,6 @@ gnumeric_sheet_cursor_set (GnumericSheet *gsheet, int col, int row)
 		gtk_adjustment_value_changed (ha);
 		gtk_adjustment_value_changed (va);
 	}
-
 }
 
 /*
@@ -1154,12 +1153,15 @@ gnumeric_sheet_bar_set_top_row (GnumericSheet *gsheet, int new_top_row)
 	int x;
 
 	g_return_val_if_fail (gsheet != NULL, 0);
+	g_return_val_if_fail (gsheet->item_grid != NULL, 0);
 	g_return_val_if_fail (0 <= new_top_row && new_top_row < SHEET_MAX_ROWS, 0);
 
 	rowc = GNOME_CANVAS_ITEM (gsheet->rowbar)->canvas;
 	sheet = gsheet->sheet_view->sheet;
-	gsheet->top_row = new_top_row;
-	row_distance = sheet_row_get_distance (sheet, 0, gsheet->top_row);
+	row_distance = gsheet->item_grid->top_offset +=
+	    sheet_row_get_distance (sheet, gsheet->top_row, new_top_row);
+	gsheet->top_row = gsheet->item_grid->top_row =
+	    new_top_row;
 
 	gnome_canvas_get_scroll_offsets (rowc, &x, NULL);
 	gnome_canvas_scroll_to (rowc, x, row_distance);
@@ -1184,7 +1186,7 @@ gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_top_row)
 }
 
 static int
-gnumeric_sheet_bar_set_top_col (GnumericSheet *gsheet, int new_left_col)
+gnumeric_sheet_bar_set_left_col (GnumericSheet *gsheet, int new_left_col)
 {
 	GnomeCanvas *colc;
 	Sheet *sheet;
@@ -1192,13 +1194,16 @@ gnumeric_sheet_bar_set_top_col (GnumericSheet *gsheet, int new_left_col)
 	int y;
 
 	g_return_val_if_fail (gsheet != NULL, 0);
+	g_return_val_if_fail (gsheet->item_grid != NULL, 0);
 	g_return_val_if_fail (0 <= new_left_col && new_left_col < SHEET_MAX_COLS, 0);
 
 	colc = GNOME_CANVAS_ITEM (gsheet->colbar)->canvas;
 	sheet = gsheet->sheet_view->sheet;
 
-	gsheet->left_col = new_left_col;
-	col_distance = sheet_col_get_distance (sheet, 0, gsheet->left_col);
+	col_distance = gsheet->item_grid->left_offset +=
+	    sheet_col_get_distance (sheet, gsheet->left_col, new_left_col);
+	gsheet->left_col = gsheet->item_grid->left_col =
+	    new_left_col;
 
 	gnome_canvas_get_scroll_offsets (colc, NULL, &y);
 	gnome_canvas_scroll_to (colc, col_distance, y);
@@ -1215,7 +1220,7 @@ gnumeric_sheet_set_top_col (GnumericSheet *gsheet, int new_left_col)
 	g_return_if_fail (0 <= new_left_col && new_left_col < SHEET_MAX_COLS);
 
 	if (gsheet->left_col != new_left_col) {
-		distance = gnumeric_sheet_bar_set_top_col (gsheet, new_left_col);
+		distance = gnumeric_sheet_bar_set_left_col (gsheet, new_left_col);
 		gnome_canvas_get_scroll_offsets (GNOME_CANVAS (gsheet), NULL, &y);
 		gnumeric_sheet_compute_visible_ranges (gsheet);
 		gnome_canvas_scroll_to (GNOME_CANVAS (gsheet), distance, y);
@@ -1288,7 +1293,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (gsheet), &col_distance, &row_distance);
 
 	if (gsheet->left_col != new_left_col){
-		col_distance = gnumeric_sheet_bar_set_top_col (gsheet, new_left_col);
+		col_distance = gnumeric_sheet_bar_set_left_col (gsheet, new_left_col);
 		did_change = 1;
 	}
 
