@@ -70,6 +70,20 @@
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "gnumeric:read"
 
+typedef enum {
+	MS_SHEET_VISIBLE,
+	MS_SHEET_HIDDEN,
+	MS_SHEET_VERY_HIDDEN
+} MSSheetVisibility;
+typedef struct {
+	ExcelReadSheet	 *esheet;
+	char		 *name;
+	guint32		  streamStartPos;
+	unsigned 	  index;
+	MsBiffFileType	  type;
+	MSSheetVisibility visibility;
+} BiffBoundsheetData;
+
 #define N_BYTES_BETWEEN_PROGRESS_UPDATES   0x1000
 
 /* #define NO_DEBUG_EXCEL */
@@ -451,6 +465,7 @@ unhandled markup for type 0xc
 	}
 
 	case 0x05: /* Chart */
+		/* NOTE : We should not need to do anything for charts */
 		break;
 
 	case 0x0E: /* Label */
@@ -1164,50 +1179,51 @@ ms_biff_bof_data_destroy (MsBiffBofData *data)
 static void
 excel_read_BOUNDSHEET (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 {
-	BiffBoundsheetData *ans;
+	BiffBoundsheetData *bs;
 	char const *default_name = "Unknown%d";
 
-	ans = g_new (BiffBoundsheetData, 1);
+	bs = g_new (BiffBoundsheetData, 1);
 
 	if (ver <= MS_BIFF_V4) {
-		ans->streamStartPos = 0; /* Excel 4 doesn't tell us */
-		ans->type = MS_BIFF_TYPE_Worksheet;
+		bs->streamStartPos = 0; /* Excel 4 doesn't tell us */
+		bs->type = MS_BIFF_TYPE_Worksheet;
 		default_name = _("Sheet%d");
-		ans->hidden = MS_BIFF_H_VISIBLE;
-		ans->name = biff_get_text (q->data + 1,
+		bs->visibility = MS_SHEET_VISIBLE;
+		bs->name = biff_get_text (q->data + 1,
 			GSF_LE_GET_GUINT8 (q->data), NULL, ver);
 	} else {
 		if (ver > MS_BIFF_V8)
 			fprintf (stderr,"Unknown BIFF Boundsheet spec. Assuming same as Biff7 FIXME\n");
-		ans->streamStartPos = GSF_LE_GET_GUINT32 (q->non_decrypted_data);
+		bs->streamStartPos = GSF_LE_GET_GUINT32 (q->non_decrypted_data);
 
-		switch (GSF_LE_GET_GUINT8 (q->data + 4)) {
-		case 0: ans->type = MS_BIFF_TYPE_Worksheet;
+		/* NOTE : MS Docs appear wrong.  It is visiblity _then_ type */
+		switch (GSF_LE_GET_GUINT8 (q->data + 5)) {
+		case 0: bs->type = MS_BIFF_TYPE_Worksheet;
 			default_name = _("Sheet%d");
 			break;
-		case 1: ans->type = MS_BIFF_TYPE_Macrosheet;
+		case 1: bs->type = MS_BIFF_TYPE_Macrosheet;
 			default_name = _("Macro%d");
 			break;
-		case 2: ans->type = MS_BIFF_TYPE_Chart;
+		case 2: bs->type = MS_BIFF_TYPE_Chart;
 			default_name = _("Chart%d");
 			break;
-		case 6: ans->type = MS_BIFF_TYPE_VBModule;
+		case 6: bs->type = MS_BIFF_TYPE_VBModule;
 			default_name = _("Module%d");
 			break;
 		default:
 			fprintf (stderr,"Unknown boundsheet type: %d\n", GSF_LE_GET_GUINT8 (q->data + 4));
-			ans->type = MS_BIFF_TYPE_Unknown;
+			bs->type = MS_BIFF_TYPE_Unknown;
 		}
-		switch ((GSF_LE_GET_GUINT8 (q->data + 5)) & 0x3) {
-		case 0: ans->hidden = MS_BIFF_H_VISIBLE;
+		switch ((GSF_LE_GET_GUINT8 (q->data + 4)) & 0x3) {
+		case 0: bs->visibility = MS_SHEET_VISIBLE;
 			break;
-		case 1: ans->hidden = MS_BIFF_H_HIDDEN;
+		case 1: bs->visibility = MS_SHEET_HIDDEN;
 			break;
-		case 2: ans->hidden = MS_BIFF_H_VERY_HIDDEN;
+		case 2: bs->visibility = MS_SHEET_VERY_HIDDEN;
 			break;
 		default:
 			fprintf (stderr,"Unknown sheet hiddenness %d\n", (GSF_LE_GET_GUINT8 (q->data + 4)) & 0x3);
-			ans->hidden = MS_BIFF_H_VISIBLE;
+			bs->visibility = MS_SHEET_VISIBLE;
 		}
 
 		/* TODO: find some documentation on this.
@@ -1216,7 +1232,7 @@ excel_read_BOUNDSHEET (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 	 	* other locales universally seem to treat the first byte as a length
 	 	* and the second as the unicode flag header.
 	 	*/
-		ans->name = biff_get_text (q->data + 7,
+		bs->name = biff_get_text (q->data + 7,
 			GSF_LE_GET_GUINT8 (q->data + 6), NULL, ver);
 	}
 
@@ -1224,26 +1240,34 @@ excel_read_BOUNDSHEET (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 	 * It appears that if the name is null it defaults to Sheet%d?
 	 * However, we have only one test case and no docs.
 	 */
-	if (ans->name == NULL)
-		ans->name = g_strdup_printf (default_name,
+	if (bs->name == NULL)
+		bs->name = g_strdup_printf (default_name,
 			ewb->boundsheet_sheet_by_index->len);
 
-	/* AARRRGGGG : This is useless XL calls chart tabs 'worksheet' too */
-	/* if (ans->type == MS_BIFF_TYPE_Worksheet) { } */
+	switch (bs->type) {
+	case MS_BIFF_TYPE_Worksheet :
+	case MS_BIFF_TYPE_Macrosheet :
+	case MS_BIFF_TYPE_Chart :
+		bs->esheet = excel_sheet_new (ewb, bs->name);
+		if (bs->type == MS_BIFF_TYPE_Chart) {
+			bs->esheet->sheet->hide_grid	   = 
+			bs->esheet->sheet->hide_col_header =
+			bs->esheet->sheet->hide_row_header = TRUE;
+		} else if (bs->type == MS_BIFF_TYPE_Macrosheet) {
+			bs->esheet->sheet->display_formulas = TRUE;
+		}
+		break;
+	default :
+		bs->esheet = NULL;
+	}
 
-	/* FIXME : Use this kruft instead */
-	if (ans->hidden == MS_BIFF_H_VISIBLE)
-		ans->sheet = excel_sheet_new (ewb, ans->name);
-	else
-		ans->sheet = NULL;
-
-	ans->index = ewb->boundsheet_sheet_by_index->len;
-	g_ptr_array_add (ewb->boundsheet_sheet_by_index, ans->sheet ? ans->sheet->sheet : NULL);
+	bs->index = ewb->boundsheet_sheet_by_index->len;
+	g_ptr_array_add (ewb->boundsheet_sheet_by_index, bs->esheet ? bs->esheet->sheet : NULL);
 	g_hash_table_insert (ewb->boundsheet_data_by_stream,
-		GINT_TO_POINTER (ans->streamStartPos), ans);
+		GUINT_TO_POINTER (bs->streamStartPos), bs);
 
-	d (1, fprintf (stderr,"Boundsheet: %d) '%s' %p, %d:%d\n", ans->index,
-		       ans->name, ans->sheet, ans->type, ans->hidden););
+	d (1, fprintf (stderr,"Boundsheet: %d) '%s' %p, %d:%d\n", bs->index,
+		       bs->name, bs->esheet, bs->type, bs->visibility););
 }
 
 static void
@@ -5592,34 +5616,48 @@ excel_read_BOF (BiffQuery	 *q,
 		else if (ver->version >= MS_BIFF_V2)
 			fprintf (stderr, "Excel 2.x single worksheet\n");
 
-		esheet= excel_sheet_new (ewb, "Worksheet");
+		esheet = excel_sheet_new (ewb, "Worksheet");
 		excel_read_sheet (q, ewb, wb_view, esheet);
 
-	} else if (ver->type == MS_BIFF_TYPE_Worksheet) {
-		gboolean const found_it = NULL != g_hash_table_lookup (
+	} else if (ver->type == MS_BIFF_TYPE_Worksheet ||
+		   ver->type == MS_BIFF_TYPE_Chart) {
+		BiffBoundsheetData *bs = g_hash_table_lookup (
 			ewb->boundsheet_data_by_stream, GINT_TO_POINTER (q->streamPos));
-		ExcelReadSheet *esheet = excel_workbook_get_sheet (ewb, *current_sheet);
-		esheet->container.ver = ver->version;
-		excel_read_sheet (q, ewb, wb_view, esheet);
-		ms_container_realize_objs (sheet_container (esheet));
+		ExcelReadSheet *esheet;
+		if (bs == NULL) {
+			if (ver->version != MS_BIFF_V4) /* be anal */
+				fprintf (stderr,"Sheet offset in stream of 0x%x not found in list\n", q->streamPos);
+			esheet = excel_workbook_get_sheet (ewb, *current_sheet);
+		} else
+			esheet = bs->esheet;
 		(*current_sheet)++;
+		esheet->container.ver = ver->version;
 
-		/* be anal */
-		if (ver->version != MS_BIFF_V4 && !found_it)
-			fprintf (stderr,"Sheet offset in stream of 0x%x not found in list\n", q->streamPos);
-	} else if (ver->type == MS_BIFF_TYPE_Chart) {
-#if 0
-			/* enable when we support workbooklevel objects */
-			sheet_object_graph_new (NULL)
-#endif
-		ms_excel_chart_read (q, &ewb->container, ver->version, NULL);
+		if (ver->type == MS_BIFF_TYPE_Worksheet) {
+			excel_read_sheet (q, ewb, wb_view, esheet);
+			ms_container_realize_objs (sheet_container (esheet));
+		} else {
+			static GnmRange const fixed_size = { { 1, 1 }, { 12, 32 } };
+			SheetObject *so = sheet_object_graph_new (NULL);
+			SheetObjectAnchor anchor;
+
+			ms_excel_chart_read (q, &esheet->container,
+				ver->version, so);
+			sheet_object_anchor_init (&anchor,
+				&fixed_size, NULL, NULL, SO_DIR_DOWN_RIGHT);
+			sheet_object_anchor_set (so, &anchor);
+			sheet_object_set_sheet (so, esheet->sheet);
+			g_object_unref (so);
+		}
 	} else if (ver->type == MS_BIFF_TYPE_VBModule ||
-		 ver->type == MS_BIFF_TYPE_Macrosheet) {
+		   ver->type == MS_BIFF_TYPE_Macrosheet) {
 		/* Skip contents of Module, or MacroSheet */
 		if (ver->type != MS_BIFF_TYPE_Macrosheet)
 			fprintf (stderr,"VB Module.\n");
-		else
+		else {
+			(*current_sheet)++;
 			fprintf (stderr,"XLM Macrosheet.\n");
+		}
 
 		while (ms_biff_query_next (q) && q->opcode != BIFF_EOF)
 			d (5, ms_biff_query_dump (q););

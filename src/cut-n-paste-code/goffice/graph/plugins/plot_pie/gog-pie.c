@@ -130,13 +130,15 @@ gog_pie_plot_set_property (GObject *obj, guint param_id,
 			   GValue const *value, GParamSpec *pspec)
 {
 	GogPiePlot *pie = GOG_PIE_PLOT (obj);
+	float f;
 
 	switch (param_id) {
 	case PLOT_PROP_INITIAL_ANGLE :
 		pie->initial_angle = g_value_get_float (value);
 		break;
 	case PLOT_PROP_DEFAULT_SEPARATION :
-		pie->default_separation = g_value_get_float (value);
+		f = g_value_get_float (value);
+		pie->default_separation = MIN (f, 5.);
 		break;
 	case PLOT_PROP_IN_3D :
 		pie->in_3d = g_value_get_boolean (value);

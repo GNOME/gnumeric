@@ -36,6 +36,7 @@ Jody:
 	* Jump to GLPK 4.5
 	* Add a View -> Windows menu
 	* Improve XL/OO compat for RANK()
+	* XLS import of full page charts
 
 Jon Kåre:
 	* Export images to Excel

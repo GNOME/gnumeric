@@ -1313,8 +1313,6 @@ BC_R(pieformat)(XLChartHandler const *handle,
 {
 	guint16 const default_separation = GSF_LE_GET_GUINT16 (q->data); /* 0-100 */
 
-	g_return_val_if_fail (default_separation <= 100, TRUE);
-
 	/* we only support the default right now.  Also, XL sets this for _all_ types
 	 * rather than just pies. */
 	if (s->plot != NULL &&

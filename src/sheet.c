@@ -139,13 +139,17 @@ sheet_detach_view (SheetView *sv)
 	sv->sheet = NULL;
 }
 
-/*
- * sheet_new
- * @wb              Workbook
- * @name            Unquoted name
- */
+/**
+ * sheet_new_special :
+ * @wb    : #Workbook
+ * @name  : An unquoted name in utf8
+ * @type  : @GnmSheetType
+ *
+ * Create a new Sheet of type @type, and associate it with @wb.
+ * The type can not be changed later
+ **/
 Sheet *
-sheet_new (Workbook *wb, char const *name)
+sheet_new_special (Workbook *wb, char const *name, GnmSheetType type)
 {
 	Sheet  *sheet;
 
@@ -224,6 +228,7 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->outline_symbols_right = TRUE;
 	sheet->tab_color = NULL;
 	sheet->tab_text_color = NULL;
+	sheet->sheet_type = type;
 
 	/* FIXME: probably not here.  */
 	/* See also gtk_widget_create_pango_context ().  */
@@ -235,6 +240,20 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->names = NULL;
 
 	return sheet;
+}
+
+/**
+ * sheet_new :
+ * @wb    : #Workbook
+ * @name  : An unquoted name in utf8
+ *
+ * Create a new Sheet of type SHEET_DATA, and associate it with @wb.
+ * The type can not be changed later
+ **/
+Sheet *
+sheet_new (Workbook *wb, char const *name)
+{
+	return sheet_new_special (wb, name, GNM_SHEET_DATA);
 }
 
 struct resize_colrow {

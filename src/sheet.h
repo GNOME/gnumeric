@@ -7,6 +7,12 @@
 #include <pango/pango.h>
 
 typedef struct _SheetPrivate SheetPrivate;
+typedef enum {
+	GNM_SHEET_DATA,
+	GNM_SHEET_OBJECT,
+	GNM_SHEET_XLM
+} GnmSheetType;
+
 struct _Sheet {
 	GObject	base; /* not really used yet */
 
@@ -69,6 +75,7 @@ struct _Sheet {
 	PrintInformation *print_info;
 	GnmColor	 *tab_color;
 	GnmColor	 *tab_text_color;
+	GnmSheetType	  sheet_type;
 
 	/* This needs to move elsewhere and get shared.  */
 	PangoContext *context;
@@ -78,6 +85,8 @@ struct _Sheet {
 #define IS_SHEET(x) (((x) != NULL) && ((x)->signature == SHEET_SIGNATURE))
 
 Sheet    *sheet_new		 (Workbook *wb, char const *name);
+Sheet    *sheet_new_special	 (Workbook *wb, char const *name,
+				  GnmSheetType type);
 Sheet    *sheet_dup		 (Sheet const *source_sheet);
 void      sheet_destroy		 (Sheet *sheet);
 void      sheet_destroy_contents (Sheet *sheet);

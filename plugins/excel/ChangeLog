@@ -1,3 +1,12 @@
+2004-08-20  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_BOUNDSHEET) : Fix differentiation
+	  between sheet and chart, then handle both.
+	(excel_read_BOF) : Handle full page charts.
+
+	* ms-chart.c (BC_R(pieformat)) : no need to limit separation here.
+	  The plot can handle it.
+
 2004-08-17  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.c: Enable WMF/EMF export.

@@ -47,15 +47,6 @@ typedef struct {
 } ExcelReadSheet;
 
 typedef struct {
-	guint16 index;
-	guint32 streamStartPos;
-	MsBiffFileType type;
-	MsBiffHidden   hidden;
-	char *name;
-	ExcelReadSheet *sheet;
-} BiffBoundsheetData;
-
-typedef struct {
 	GnmCellPos key;
 	guint8 *data;
 	guint32 data_len;
