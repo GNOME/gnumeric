@@ -74,12 +74,16 @@ struct _SummaryItem {
 	} v;
 };
 
-SummaryItem *summary_item_new_boolean (const gchar *name, gboolean i);
-SummaryItem *summary_item_new_short   (const gchar *name, gshort i);
-SummaryItem *summary_item_new_int     (const gchar *name, gint i);
-SummaryItem *summary_item_new_time    (const gchar *name, GTimeVal t);
-SummaryItem *summary_item_new_string  (const gchar *name, const gchar *string, gboolean copy);
-char        *summary_item_as_text     (const SummaryItem *sit);
+SummaryItem *summary_item_new_boolean (gchar const *name, gboolean i);
+SummaryItem *summary_item_new_short   (gchar const *name, gshort i);
+SummaryItem *summary_item_new_int     (gchar const *name, gint i);
+SummaryItem *summary_item_new_time    (gchar const *name, GTimeVal t);
+SummaryItem *summary_item_new_string  (gchar const *name, gchar const *string, gboolean copy);
+char        *summary_item_as_text     (SummaryItem const *sit);
+void         summary_item_free        (SummaryItem *sit);
+SummaryItem *summary_item_copy        (SummaryItem const *sit);
+SummaryItem *summary_item_by_name     (gchar const *name, SummaryInfo const *sin);
+char        *summary_item_as_text_by_name (gchar const *name, SummaryInfo const *sin);
 
 struct _SummaryInfo {
 	GHashTable *names;
@@ -87,7 +91,7 @@ struct _SummaryInfo {
 };
 
 SummaryInfo *summary_info_new	  (void);
-GList       *summary_info_as_list (SummaryInfo *sin);
+GList       *summary_info_as_list (SummaryInfo const *sin);
 void         summary_info_add     (SummaryInfo *sin, SummaryItem *sit);
 void         summary_info_default (SummaryInfo *sin);
 void         summary_info_dump    (SummaryInfo *sin);

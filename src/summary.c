@@ -58,7 +58,7 @@ const gchar *summary_item_name[] = {
 };
 
 static SummaryItem *
-summary_item_new (const gchar *name, SummaryItemType t)
+summary_item_new (gchar const *name, SummaryItemType t)
 {
 	SummaryItem *sit = g_new (SummaryItem, 1);
 	sit->name = g_strdup (name);
@@ -68,7 +68,7 @@ summary_item_new (const gchar *name, SummaryItemType t)
 
 
 SummaryItem *
-summary_item_new_int (const gchar *name, gint i)
+summary_item_new_int (gchar const *name, gint i)
 {
 	SummaryItem *sit = summary_item_new (name, SUMMARY_INT);
 	sit->v.i = i;
@@ -76,7 +76,7 @@ summary_item_new_int (const gchar *name, gint i)
 }
 
 SummaryItem *
-summary_item_new_boolean (const gchar *name, gboolean i)
+summary_item_new_boolean (gchar const *name, gboolean i)
 {
 	SummaryItem *sit = summary_item_new (name, SUMMARY_BOOLEAN);
 	sit->v.boolean = i;
@@ -84,7 +84,7 @@ summary_item_new_boolean (const gchar *name, gboolean i)
 }
 
 SummaryItem *
-summary_item_new_short (const gchar *name, gshort i)
+summary_item_new_short (gchar const *name, gshort i)
 {
 	SummaryItem *sit = summary_item_new (name, SUMMARY_SHORT);
 	sit->v.short_i = i;
@@ -92,7 +92,7 @@ summary_item_new_short (const gchar *name, gshort i)
 }
 
 SummaryItem *
-summary_item_new_time (const gchar *name, GTimeVal t)
+summary_item_new_time (gchar const *name, GTimeVal t)
 {
 	SummaryItem *sit = summary_item_new (name, SUMMARY_TIME);
 	sit->v.time = t;
@@ -100,7 +100,7 @@ summary_item_new_time (const gchar *name, GTimeVal t)
 }
 
 SummaryItem *
-summary_item_new_string (const gchar *name, const gchar *string, gboolean copy)
+summary_item_new_string (gchar const *name, gchar const *string, gboolean copy)
 {
 	SummaryItem *sit = summary_item_new (name, SUMMARY_STRING);
 	sit->v.txt = copy ? g_strdup (string) : (char *)string;
@@ -108,7 +108,7 @@ summary_item_new_string (const gchar *name, const gchar *string, gboolean copy)
 }
 
 char *
-summary_item_as_text (const SummaryItem *sit)
+summary_item_as_text (SummaryItem const *sit)
 {
 	char   *ch_time;
 	time_t  time;
@@ -147,10 +147,11 @@ summary_item_as_text (const SummaryItem *sit)
 	}
 }
 
-static void
+void
 summary_item_free (SummaryItem *sit)
 {
-	g_return_if_fail (sit);
+	if (!sit)
+		return;
 
 	switch (sit->type) {
 	case SUMMARY_STRING:
@@ -215,7 +216,7 @@ summary_info_new (void)
 }
 
 static SummaryItem *
-summary_info_get (SummaryInfo *sin, char *name)
+summary_info_get (SummaryInfo const *sin, char const *name)
 {
 	g_return_val_if_fail (sin != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
@@ -299,7 +300,7 @@ append_item (gchar *key, SummaryItem *item, GList **l)
 }
 
 GList *
-summary_info_as_list (SummaryInfo *sin)
+summary_info_as_list (SummaryInfo const *sin)
 {
 	GList *l = NULL;
 
@@ -330,4 +331,49 @@ summary_info_dump (SummaryInfo *sin)
 			      NULL);
 
 	printf ("... end of summary information\n");
+}
+
+SummaryItem *
+summary_item_copy (SummaryItem const *sit)
+{
+	if (sit == NULL)
+		return NULL;
+
+	switch (sit->type) {
+	case SUMMARY_STRING:
+		return summary_item_new_string (sit->name, sit->v.txt, TRUE);
+
+	case SUMMARY_BOOLEAN:
+		return summary_item_new_boolean (sit->name, sit->v.boolean);
+
+	case SUMMARY_SHORT:
+		return summary_item_new_short (sit->name, sit->v.short_i);
+
+	case SUMMARY_INT:
+		return summary_item_new_int (sit->name, sit->v.i);
+
+	case SUMMARY_TIME:
+		return summary_item_new_time (sit->name, sit->v.time);
+
+	default:
+		g_warning ("Unknown summary type encountered.");
+		return NULL;
+	}
+}
+
+SummaryItem *
+summary_item_by_name (char const *name, SummaryInfo const *sin)
+{
+	return summary_item_copy (summary_info_get (sin, name));
+}
+
+char *
+summary_item_as_text_by_name (char const *name, SummaryInfo const *sin)
+{
+	SummaryItem *sit = summary_info_get (sin, name);
+
+	if (sit)
+		return summary_item_as_text (sit);
+	else
+		return g_strdup ("");
 }

@@ -51,7 +51,6 @@ Long term breakage
     - Duplicate sheet.
     - Remove sheet. This raises some serious design issues.
     - Freeze panes.
-    - Changing summary info.
     - Analysis tools (except single factor ANOVA).
     - Goal seek.
     - Tabulate.

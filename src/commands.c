@@ -6,6 +6,7 @@
  * Copyright (C) 1999-2002 Jody Goldberg (jody@gnome.org)
  *
  * Contributors : Almer S. Tigelaar (almer@gnome.org)
+ *                Andreas J. Guelzow (aguelzow@taliesin.ca)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as published
@@ -59,6 +60,8 @@
 #include "sheet-object.h"
 #include "sheet-control.h"
 #include "style-color.h"
+#include "summary.h"
+#include "dialogs/dialogs.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
@@ -4647,3 +4650,115 @@ cmd_merge_data (WorkbookControl *wbc, Sheet *sheet,
 }
 
 /******************************************************************/
+
+#define CMD_CHANGE_SUMMARY_TYPE        (cmd_change_summary_get_type ())
+#define CMD_CHANGE_SUMMARY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_CHANGE_SUMMARY_TYPE, CmdChangeSummary))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	WorkbookControlGUI *wbcg;
+	GSList *new_info;
+	GSList *old_info;
+} CmdChangeSummary;
+
+GNUMERIC_MAKE_COMMAND (CmdChangeSummary, cmd_change_summary);
+
+static void cb_change_summary_apply_change (SummaryItem *sit, SummaryInfo *sin)
+{
+	summary_info_add (sin, summary_item_copy (sit));
+}
+
+static gboolean
+cmd_change_summary_apply (WorkbookControlGUI *wbcg, GSList *info)
+{
+	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	SummaryInfo *sin = wb->summary_info;
+
+	g_slist_foreach (info, (GFunc) cb_change_summary_apply_change, sin); 
+
+	/* Set Workbook dirty!? */
+	workbook_set_dirty (wb, TRUE);
+	dialog_summary_update (wbcg, FALSE);
+	return FALSE;
+}
+
+static gboolean
+cmd_change_summary_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdChangeSummary *me = CMD_CHANGE_SUMMARY (cmd);
+
+	return cmd_change_summary_apply (me->wbcg, me->old_info);
+}
+
+static gboolean
+cmd_change_summary_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdChangeSummary *me = CMD_CHANGE_SUMMARY (cmd);
+
+	return cmd_change_summary_apply (me->wbcg, me->new_info);
+}
+
+static void
+cb_change_summary_clear_sit (SummaryItem *sit, gpointer ignore)
+{
+	summary_item_free (sit);
+}
+
+static void
+cmd_change_summary_finalize (GObject *cmd)
+{
+	CmdChangeSummary *me = CMD_CHANGE_SUMMARY (cmd);
+
+	g_slist_foreach (me->new_info, (GFunc) cb_change_summary_clear_sit, NULL);
+	g_slist_free (me->new_info);
+	me->new_info = NULL;
+
+	g_slist_foreach (me->old_info, (GFunc) cb_change_summary_clear_sit, NULL);
+	g_slist_free (me->old_info);
+	me->old_info = NULL;
+
+	gnumeric_command_finalize (cmd);
+}
+
+gboolean
+cmd_change_summary (WorkbookControlGUI *wbcg, GSList *sin_changes)
+{
+	GObject          *obj;
+	CmdChangeSummary *me;
+	GSList           *sit_l;
+	WorkbookControl  *wbc = WORKBOOK_CONTROL (wbcg);
+	SummaryInfo const *sin = wb_control_workbook (wbc)->summary_info;
+
+	if (sin_changes == NULL)
+		return FALSE;
+
+	obj = g_object_new (CMD_CHANGE_SUMMARY_TYPE, NULL);
+	me = CMD_CHANGE_SUMMARY (obj);
+
+	me->parent.sheet = NULL;
+	me->parent.size = g_slist_length (sin_changes);
+	me->parent.cmd_descriptor =
+		g_strdup_printf (_("Changing summary info"));
+
+	me->wbcg = wbcg;
+	me->new_info = sin_changes;
+
+	me->old_info = NULL;
+	for (sit_l = sin_changes; sit_l; sit_l = sit_l->next) {
+		SummaryItem *sit = summary_item_by_name 
+			(((SummaryItem *)sit_l->data)->name, sin);
+		if (sit == NULL)
+			sit = summary_item_new_string  (((SummaryItem *)sit_l->data)->name, 
+							"", TRUE);
+		me->old_info = g_slist_prepend (me->old_info, sit);
+	}
+	
+
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
+/******************************************************************/
+

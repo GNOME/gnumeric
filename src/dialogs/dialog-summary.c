@@ -26,6 +26,7 @@
 #include <gui-util.h>
 #include <workbook.h>
 #include <workbook-edit.h>
+#include <commands.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
@@ -33,6 +34,7 @@
 
 #define GLADE_FILE "summary.glade"
 #define SUMMARY_DIALOG_KEY "summary-dialog"
+#define SUMMARY_DIALOG_KEY_DIALOG "summary-dialog-SummaryState"
 
 typedef struct {
 	GladeXML           *gui;
@@ -43,84 +45,102 @@ typedef struct {
 	GtkWidget          *apply_button;
 } SummaryState;
 
+static const char *dialog_summary_names[] = {
+	"title",
+	"author",
+	"category",
+	"keywords",
+	"manager",
+	"company",
+	NULL
+};
 
-static void
+static gboolean
 dialog_summary_get (SummaryState *state)
 {
 	int lp;
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
-	SummaryInfo *sin = wb->summary_info;
+	GSList * changes = NULL;
+	GtkWidget *w;
+	gchar *old_content;
 
-	for (lp = 0; lp < SUMMARY_I_MAX; lp++) {
-		SummaryItem *sit;
-		gchar *name = g_strconcat ("glade_", summary_item_name[lp], NULL);
-		GtkWidget *w = glade_xml_get_widget (state->gui, name);
-
-		if (w == NULL) {
-			g_free (name);
+	for (lp = 0; dialog_summary_names[lp]; lp++) {
+		SummaryItem *sit = NULL;
+		char const *txt;
+		
+		w = glade_xml_get_widget (state->gui, dialog_summary_names[lp]);
+		if (w == NULL) 
 			continue;
-		}
 
-		if (lp == SUMMARY_I_COMMENTS) {
-			char *comments;
-			GtkTextIter start;
-			GtkTextIter end;
-			GtkTextBuffer* buffer;
-
-			buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (w));
-			gtk_text_buffer_get_bounds  (buffer, &start, &end);
-			comments = gtk_text_buffer_get_text (buffer, &start,
-							     &end, FALSE);
-			sit = summary_item_new_string (summary_item_name[lp],
-				comments, FALSE);
-		} else {
-			const char *txt = gtk_entry_get_text (GTK_ENTRY (w));
-			sit = summary_item_new_string (summary_item_name[lp],
-				txt, TRUE);
-		}
-
-		summary_info_add (sin, sit);
-		g_free (name);
+		old_content = summary_item_as_text_by_name (dialog_summary_names[lp], 
+							    wb->summary_info);
+		txt = gtk_entry_get_text (GTK_ENTRY (w));
+		
+		if (0 != strcmp (old_content, txt))
+			sit = summary_item_new_string (dialog_summary_names[lp],
+						       txt, TRUE);
+		g_free (old_content);
+		if (sit)
+			changes = g_slist_prepend (changes, sit);	
 	}
+
+	{
+		char *comments;
+		GtkTextIter start;
+		GtkTextIter end;
+		GtkTextBuffer* buffer;
+		SummaryItem *sit = NULL;
+		
+		w = glade_xml_get_widget (state->gui, summary_item_name[SUMMARY_I_COMMENTS]);
+		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (w));
+		gtk_text_buffer_get_bounds  (buffer, &start, &end);
+		comments = gtk_text_buffer_get_text (buffer, &start,
+						     &end, FALSE);
+		old_content = summary_item_as_text_by_name (summary_item_name[SUMMARY_I_COMMENTS], 
+							    wb->summary_info);
+		if (0 != strcmp (old_content, comments))
+			sit = summary_item_new_string (summary_item_name[SUMMARY_I_COMMENTS],
+						       comments, FALSE);
+		else
+			g_free (comments);
+		g_free (old_content);
+		if (sit)
+			changes = g_slist_prepend (changes, sit);	
+	}
+
+	if (changes)
+		return cmd_change_summary (state->wbcg, changes);
+	return FALSE;
 }
 
 static void
 dialog_summary_put (SummaryState *state)
 {
-	GList *l, *m;
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
 	SummaryInfo *sin = wb->summary_info;
 	GtkWidget   *w ;
+	int i;
 	
-	m = l = summary_info_as_list (sin);
-	while (l) {
-		gchar       *name =  NULL;
-		SummaryItem *sit = l->data;
-
-		if (sit && (sit->type == SUMMARY_STRING)) {
-			name = g_strconcat ("glade_", sit->name, NULL);
-			w = glade_xml_get_widget (state->gui, name);
-			if (w) {
-				gchar *txt = sit->v.txt;
-
-				if (g_strcasecmp (sit->name, 
-						  summary_item_name[SUMMARY_I_COMMENTS]) == 0) {
-					GtkTextBuffer* buffer;
-					buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (w));
-					gtk_text_buffer_set_text (buffer, txt, -1);
-				} else
-					gtk_entry_set_text (GTK_ENTRY (w), txt);
-			}
-			g_free (name);
+	for (i = 0; dialog_summary_names[i]; i++) {
+		w = glade_xml_get_widget (state->gui, dialog_summary_names[i]);
+		if (w) {
+			char *txt = summary_item_as_text_by_name (dialog_summary_names[i], sin);
+			gtk_entry_set_text (GTK_ENTRY (w), txt);
+			g_free (txt);
 		}
-		l = g_list_next (l);
 	}
-	g_list_free (m);
-	
-	w = glade_xml_get_widget (state->gui, "doc_name");
+	w = glade_xml_get_widget (state->gui, summary_item_name[SUMMARY_I_COMMENTS]);
 	if (w) {
-		gtk_entry_set_text (GTK_ENTRY (w), wb->filename);
+		char *txt = summary_item_as_text_by_name (summary_item_name[SUMMARY_I_COMMENTS], 
+							  sin);
+		GtkTextBuffer* buffer;
+		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (w));
+		gtk_text_buffer_set_text (buffer, txt, -1);
+		g_free (txt);
 	}
+	w = glade_xml_get_widget (state->gui, "doc_name");
+	if (w)
+		gtk_entry_set_text (GTK_ENTRY (w), workbook_get_filename (wb));
 }
 
 static void
@@ -140,8 +160,8 @@ cb_dialog_summary_apply_clicked (GtkWidget *button, SummaryState *state)
 static void
 cb_dialog_summary_ok_clicked (GtkWidget *button, SummaryState *state)
 {
-	cb_dialog_summary_apply_clicked (button, state);
-	gtk_widget_destroy (state->dialog);
+	if (!dialog_summary_get (state))
+		gtk_widget_destroy (state->dialog);
 	return;
 }
 
@@ -150,8 +170,6 @@ cb_dialog_summary_destroy (GtkObject *w, SummaryState *state)
 {
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
-
-	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
@@ -166,22 +184,22 @@ cb_dialog_summary_destroy (GtkObject *w, SummaryState *state)
 
 
 void
-dialog_summary_update (WorkbookControlGUI *wbcg)
+dialog_summary_update (WorkbookControlGUI *wbcg, gboolean open_dialog)
 {
 	SummaryState *state;
 	int i;
-	static const char *names[] = {
-	     "glade_title",
-	     "glade_author",
-	     "glade_category",
-	     "glade_keywords",
-	     "glade_manager",
-	     "glade_company"
-	};
+	GtkWidget *dialog;
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (gnumeric_dialog_raise_if_exists (wbcg, SUMMARY_DIALOG_KEY))
+	if (dialog = gnumeric_dialog_raise_if_exists (wbcg, SUMMARY_DIALOG_KEY)) {
+		state = g_object_get_data (G_OBJECT (dialog),
+					   SUMMARY_DIALOG_KEY_DIALOG);
+		dialog_summary_put (state);
+		return;
+	}
+
+	if (!open_dialog)
 		return;
 
 	state = g_new (SummaryState, 1);
@@ -193,9 +211,9 @@ dialog_summary_update (WorkbookControlGUI *wbcg)
 	state->dialog = glade_xml_get_widget (state->gui, "SummaryInformation");
 	g_return_if_fail (state->dialog != NULL);
 
-	for (i = 0; i < (int) (sizeof (names)/sizeof (char *)); i++) {
+	for (i = 0; dialog_summary_names[i]; i++) {
 		GtkWidget *entry;
-		entry = glade_xml_get_widget (state->gui, names[i]);
+		entry = glade_xml_get_widget (state->gui, dialog_summary_names[i]);
 		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 					      GTK_WIDGET (entry));
 	}
@@ -224,9 +242,12 @@ dialog_summary_update (WorkbookControlGUI *wbcg)
 
 	dialog_summary_put (state);
 	
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	g_object_set_data (G_OBJECT (state->dialog), SUMMARY_DIALOG_KEY_DIALOG, 
+			   state);
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SUMMARY_DIALOG_KEY);
 
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 }
+
+

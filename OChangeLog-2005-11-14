@@ -1,3 +1,15 @@
+2002-03-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/commands.[hc] : implement cmd_change_summary
+	* src/summary.[hc] : constify arguments
+	(summary_item_free) : make public, handle NULL argument
+	(summary_item_copy) : new
+	(summary_item_by_name) : new
+	(summary_item_as_text_by_name) : new
+	* src/workbook-control-gui.c (cb_file_summary) : delete unused
+	  variable, add argument to dialog_summary_update
+	* src/workbook.c (workbook_set_filename) : update summary dialog
+
 2002-03-25  Morten Welinder  <terra@diku.dk>
 
 	* src/format.c (StyleFormatEntry): Make the value field a

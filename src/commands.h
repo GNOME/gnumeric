@@ -102,5 +102,6 @@ gboolean cmd_analysis_tool     (WorkbookControl *wbc, Sheet *sheet,
 gboolean cmd_merge_data        (WorkbookControl *wbc, Sheet *sheet,
 				Value *merge_zone, GSList *merge_fields, GSList *merge_data);
 
+gboolean cmd_change_summary    (WorkbookControlGUI *wbcg, GSList *sin_changes);
 
 #endif /* GNUMERIC_COMMANDS_H */

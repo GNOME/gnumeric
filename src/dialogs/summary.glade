@@ -93,7 +93,7 @@
                 <property name="yalign">0</property>
                 <property name="xpad">0</property>
                 <property name="ypad">0</property>
-                <property name="mnemonic_widget">glade_title</property>
+                <property name="mnemonic_widget">title</property>
                 <property name="visible">yes</property>
                 <property name="use_underline">yes</property>
               </widget>
@@ -118,7 +118,7 @@
                 <property name="yalign">0</property>
                 <property name="xpad">0</property>
                 <property name="ypad">0</property>
-                <property name="mnemonic_widget">glade_author</property>
+                <property name="mnemonic_widget">author</property>
                 <property name="visible">yes</property>
                 <property name="use_underline">yes</property>
               </widget>
@@ -143,7 +143,7 @@
                 <property name="yalign">0</property>
                 <property name="xpad">0</property>
                 <property name="ypad">0</property>
-                <property name="mnemonic_widget">glade_category</property>
+                <property name="mnemonic_widget">category</property>
                 <property name="visible">yes</property>
                 <property name="use_underline">yes</property>
               </widget>
@@ -168,7 +168,7 @@
                 <property name="yalign">0</property>
                 <property name="xpad">0</property>
                 <property name="ypad">0</property>
-                <property name="mnemonic_widget">glade_keywords</property>
+                <property name="mnemonic_widget">keywords</property>
                 <property name="visible">yes</property>
                 <property name="use_underline">yes</property>
               </widget>
@@ -193,7 +193,7 @@
                 <property name="yalign">0</property>
                 <property name="xpad">0</property>
                 <property name="ypad">0</property>
-                <property name="mnemonic_widget">glade_manager</property>
+                <property name="mnemonic_widget">manager</property>
                 <property name="visible">yes</property>
                 <property name="use_underline">yes</property>
               </widget>
@@ -219,7 +219,7 @@
 	      <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
 	      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 	        <child>
-		  <widget class="GtkTextView" id="glade_comments">
+		  <widget class="GtkTextView" id="comments">
 		    <property name="can_focus">yes</property>
 		    <property name="editable">yes</property>
 		    <property name="text" translatable="yes"></property>
@@ -246,7 +246,7 @@
             </child>
 
             <child>
-              <widget class="GtkEntry" id="glade_title">
+              <widget class="GtkEntry" id="title">
                 <property name="can_focus">yes</property>
                 <property name="has_focus">yes</property>
                 <property name="editable">yes</property>
@@ -268,7 +268,7 @@
             </child>
 
             <child>
-              <widget class="GtkEntry" id="glade_author">
+              <widget class="GtkEntry" id="author">
                 <property name="can_focus">yes</property>
                 <property name="editable">yes</property>
                 <property name="text" translatable="yes"></property>
@@ -289,7 +289,7 @@
             </child>
 
             <child>
-              <widget class="GtkEntry" id="glade_category">
+              <widget class="GtkEntry" id="category">
                 <property name="can_focus">yes</property>
                 <property name="editable">yes</property>
                 <property name="text" translatable="yes"></property>
@@ -310,7 +310,7 @@
             </child>
 
             <child>
-              <widget class="GtkEntry" id="glade_keywords">
+              <widget class="GtkEntry" id="keywords">
                 <property name="can_focus">yes</property>
                 <property name="editable">yes</property>
                 <property name="text" translatable="yes"></property>
@@ -331,7 +331,7 @@
             </child>
 
             <child>
-              <widget class="GtkEntry" id="glade_manager">
+              <widget class="GtkEntry" id="manager">
                 <property name="can_focus">yes</property>
                 <property name="editable">yes</property>
                 <property name="text" translatable="yes"></property>
@@ -352,7 +352,7 @@
             </child>
 
             <child>
-              <widget class="GtkLabel" id="title">
+              <widget class="GtkLabel" id="header">
                 <property name="label" translatable="yes">Document Summary Information</property>
                 <property name="justify">GTK_JUSTIFY_CENTER</property>
                 <property name="wrap">no</property>
@@ -406,7 +406,7 @@
                 <property name="yalign">0</property>
                 <property name="xpad">0</property>
                 <property name="ypad">0</property>
-                <property name="mnemonic_widget">glade_comments</property>
+                <property name="mnemonic_widget">comments</property>
                 <property name="visible">yes</property>
                 <property name="use_underline">yes</property>
               </widget>
@@ -431,7 +431,7 @@
                 <property name="yalign">0</property>
                 <property name="xpad">0</property>
                 <property name="ypad">0</property>
-                <property name="mnemonic_widget">glade_company</property>
+                <property name="mnemonic_widget">company</property>
                 <property name="visible">yes</property>
                 <property name="use_underline">yes</property>
               </widget>
@@ -469,7 +469,7 @@
             </child>
 
             <child>
-              <widget class="GtkEntry" id="glade_company">
+              <widget class="GtkEntry" id="company">
                 <property name="can_focus">yes</property>
                 <property name="editable">yes</property>
                 <property name="text" translatable="yes"></property>

@@ -35,6 +35,7 @@
 #include "gutils.h"
 #include "gnm-marshalers.h"
 #include "style-color.h"
+#include "dialogs/dialogs.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-persist-file.h>
@@ -523,6 +524,10 @@ workbook_set_filename (Workbook *wb, const char *name)
 
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
 		wb_control_title_set (control, base_name););
+	WORKBOOK_FOREACH_CONTROL (wb, view, control,
+		if (IS_WORKBOOK_CONTROL_GUI (control)) 
+				  dialog_summary_update 
+				  (WORKBOOK_CONTROL_GUI (control), FALSE););
 
 	return TRUE;
 }

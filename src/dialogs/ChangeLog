@@ -1,5 +1,12 @@
 2002-03-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* summary.glade : make entry ids match summary names
+	* dialog-summary.c : make changes undoable and dialog
+	  modeless
+	* dialogs.h (dialog_summary_update) : add switch 
+
+2002-03-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-cell-comment.c : fix typo
 	* dialog-summary.c : port to gnome 2 and make into a guru
 	* dialogs.h : change arguments to dialog_summary_update

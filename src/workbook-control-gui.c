@@ -1457,8 +1457,7 @@ static void
 cb_file_summary (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Workbook *wb = wb_control_workbook (wbc);
-	dialog_summary_update (wbcg);
+	dialog_summary_update (wbcg, TRUE);
 }
 
 static void

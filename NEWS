@@ -13,7 +13,8 @@ Andreas:
 	* Reimplementation of formula guru.
 	* Add `recently used' to function selector.
 	* Fix csv importer crash.
-	* Port summary dialog and turn it into a guru.
+	* Port summary dialog and make it modeless.
+	* Make summary changes undoable.
 
 Jody:
 	* Fix XL import of external function names.
