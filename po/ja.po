@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.99.1\n"
-"POT-Creation-Date: 2001-12-29 16:53+0900\n"
-"PO-Revision-Date: 2001-12-29 16:51+0900\n"
+"POT-Creation-Date: 2001-12-29 17:33+0900\n"
+"PO-Revision-Date: 2001-12-29 17:16+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -5460,7 +5460,7 @@ msgstr "ハイフン(-) (_Y)"
 
 #: src/dialogs/dialog-stf.glade.h:32
 msgid "Importing structured text"
-msgstr "構造化テキストの読み込み"
+msgstr "構造化テキストのインポート"
 
 #: src/dialogs/dialog-stf.glade.h:33
 msgid ""
@@ -5528,8 +5528,7 @@ msgstr "ふたつの連続したセパレータをひとつに見なします。"
 msgid ""
 "See two successive text indicators as one that does not terminate the cell."
 msgstr ""
-"2つの連続したテキストインジケータをセルの終端を示さない一つのものとみなしま"
-"す。"
+"二つの連続したテキストインジケータを一つのセル終端ではないものとみなします。"
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -5537,21 +5536,21 @@ msgid ""
 "left or in the example to select a column. You can then enter a custom "
 "format or select one from the list on the right."
 msgstr ""
-"それぞれの列に対する書式を選択してください。列を選択するには列一覧の左側、あ"
-"るいは凡例をクリックします。そしてカスタム書式設定か、右側の書式のリストから"
-"一つ選択してください。"
+"それぞれの列に対する書式を選択して下さい。\n"
+"列を選択するには列一覧の左側、あるいは凡例をクリックします。\n"
+"そしてカスタム書式設定か、右側の書式のリストから一つ選択して下さい。"
 
 #: src/dialogs/dialog-stf.glade.h:50
 msgid ""
 "Select the separators that appear in the text (you can choose multiple "
 "separators if desired and also enter a custom one)"
 msgstr ""
-"テキストにあるセパレータを選択してください(複数のセパレータを選ぶこともできる"
-"し、好きなものを入力することもできます)"
+"テキストにあるセパレータを選択してください。\n"
+"(複数のセパレータを選ぶことも、お好みのものを入力することも可能です)"
 
 #: src/dialogs/dialog-stf.glade.h:51
 msgid "Select the structure of the text that most closely matches the data."
-msgstr "データに最も一致するテキストを選択"
+msgstr "データに最も一致するテキストを選択して下さい。"
 
 #: src/dialogs/dialog-stf.glade.h:52
 msgid "Semicolo_n (;)"
@@ -5595,7 +5594,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:62
 msgid "_Adjacent text indicators escaped"
-msgstr "隣接するテキストインジケータを抜かす(_A)"
+msgstr "隣接するテキストインジケータを抜き取る(_A)"
 
 #: src/dialogs/dialog-stf.glade.h:64
 msgid "_Colon (:)"
