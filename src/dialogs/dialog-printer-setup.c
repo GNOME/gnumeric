@@ -1397,20 +1397,24 @@ do_setup_page (PrinterSetupState *state)
 	/*
 	 * Set the scale
 	 */
-	if (pi->scaling.type == PERCENTAGE) {
-		toggle = "scale-percent-radio";
-		gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (gui, "scale-percent-radio")), TRUE);
-	} else {
-		toggle = "scale-size-fit-radio";
-		gtk_widget_set_sensitive (GTK_WIDGET (glade_xml_get_widget (gui, "scale-percent-radio")), FALSE);
-	}
-
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "scale-percent-radio")),
+	g_signal_connect (G_OBJECT (glade_xml_get_widget 
+				    (gui, "scale-percent-radio")),
 		"toggled",
 		G_CALLBACK (scaling_type_changed), state);
 
-	gtk_toggle_button_set_active (
-		GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, toggle)), TRUE);
+	if (pi->scaling.type == PERCENTAGE) {
+		toggle = "scale-percent-radio";
+		gtk_toggle_button_set_active 
+			(GTK_TOGGLE_BUTTON 
+			 (glade_xml_get_widget (gui, "scale-percent-radio")), 
+			 TRUE);
+	} else {
+		toggle = "scale-size-fit-radio";
+		gtk_toggle_button_set_active 
+			(GTK_TOGGLE_BUTTON 
+			 (glade_xml_get_widget (gui, "scale-size-fit-radio")), 
+			 TRUE);
+	}
 
 	scale_percent_spin = glade_xml_get_widget (gui, "scale-percent-spin");
 	gtk_spin_button_set_value (

@@ -1,3 +1,9 @@
+2003-07-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=117903
+	* dialog-printer-setup.c: activiate the radio buttons, do not
+	  make them insensitive.
+
 2003-07-16  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=115812
