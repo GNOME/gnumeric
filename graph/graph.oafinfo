@@ -1,0 +1,31 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GOADID:embeddable-factory:Graph:Layout:410c9eae-f468-49e2-b324-d1902ab82d44"
+            type="exe"
+            location="graph-bonobo">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/EmbeddableFactory:1.0"/>
+		<item value="IDL:GNOME/GenericFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+	               value="GNOME Chart component factory."/>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GOADID:embeddable:Graph:Layout:d754a9bb-0c8f-4e87-8518-5912d56543a1"
+            type="factory"
+            location="OAFIID:GOADID:embeddable-factory:Graph:Layout:410c9eae-f468-49e2-b324-d1902ab82d44">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:BonoboObject/text-plain:1.0"/>
+		<item value="IDL:GNOME/Embeddable:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+	               value="GNOME Chart component"/>
+
+</oaf_server>
+
+</oaf_info>

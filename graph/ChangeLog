@@ -1,5 +1,10 @@
 2000-05-01  Michael Meeks  <michael@helixcode.com>
 
+	* graph.oafinfo.in: kill the uuid == version idea, it was
+	truly bad it seems; add version attribute.
+
+2000-05-01  Michael Meeks  <michael@helixcode.com>
+
 	* sample.c (create_test): Update object_activate.
 
 	* Makefile.am: handle the oaf.
