@@ -1,5 +1,9 @@
 Gnumeric 1.0.6
 
+Andreas:
+	* http://bugzilla.gnome.org/show_bug.cgi?id=77000
+	* plug leak in analysis tools
+
 Jody:
 	* Enable sheet object import from XL5/95
 	* Re-enable #REF generation for relocations.

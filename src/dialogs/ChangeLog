@@ -1,3 +1,7 @@
+2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (tool_load_selection) : fix typo (#77000)
+
 2002-03-17  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-format.c (fmt_dialog_init_font_page) : fix underline

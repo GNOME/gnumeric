@@ -998,8 +998,8 @@ tool_load_selection (GenericToolState *state, gboolean allow_multiple)
 			g_free (text);
 		} else {
 			gtk_entry_set_text (GTK_ENTRY (state->input_entry), sheetname);
-			gtk_entry_append_text (GTK_ENTRY (state->output_entry), "!");
-			gtk_entry_append_text (GTK_ENTRY (state->output_entry), rangename);
+			gtk_entry_append_text (GTK_ENTRY (state->input_entry), "!");
+			gtk_entry_append_text (GTK_ENTRY (state->input_entry), rangename);
 		}
 	}
 
