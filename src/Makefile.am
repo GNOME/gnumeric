@@ -177,6 +177,8 @@ BUILT_SOURCES = $(GNUMERIC_CORBA_GENERATED)
 
 Gnumeric-impl.o: Gnumeric.h
 
+CLEANFILES=my_gnumeric_idl
+
 $(GNUMERIC_CORBA_GENERATED): my_gnumeric_idl
 
 my_gnumeric_idl: Gnumeric.idl
