@@ -757,9 +757,9 @@ set_acetate_coords (GnumericPane *pane, GObject *so_view,
 	normalize_high_low (b, t);
 
 	l -= (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2 - 1;
-	r += (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2 - 1;
+	r += (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2;
 	t -= (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2 - 1;
-	b += (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2 - 1;
+	b += (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2;
 
 	if (pane->control_points [8] == NULL) {
 		static char diagonal [] = { 0xcc, 0x66, 0x33, 0x99, 0xcc, 0x66, 0x33, 0x99 };

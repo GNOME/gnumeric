@@ -8,8 +8,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-http://bugzilla.gnome.org/show_bug.cgi?id=130803	[valueformat]
-
 Worries
     http://bugzilla.gnome.org/show_bug.cgi?id=123403
     : loading in XL corrupts.  xbat is being lost when xl modifies it ??

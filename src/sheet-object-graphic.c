@@ -1158,6 +1158,7 @@ sheet_object_filled_init (GObject *obj)
 
 	sof = SHEET_OBJECT_FILLED (obj);
 	sof->outline_color = style_color_new_name ("black");
+	sof->outline_style = 1; /* arbitrary something non-zero */
 	gnm_so_graphic_set_fill_color (SHEET_OBJECT (sof),
 		style_color_new_name ("white"));
 }

@@ -1773,6 +1773,8 @@ excel_read_XF_OLD (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
         xf->format_idx = GSF_LE_GET_GUINT8 (q->data + 1);
 	xf->style_format = (xf->format_idx > 0)
 		? excel_wb_get_fmt (ewb, xf->format_idx) : NULL;
+	xf->is_simple_format = xf->style_format == NULL ||
+		g_slist_length (xf->style_format->entries) <= 1;
 
 	xf->wrap_text = FALSE;
 	xf->shrink_to_fit = FALSE;
@@ -1879,6 +1881,8 @@ excel_read_XF (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 	xf->format_idx = GSF_LE_GET_GUINT16 (q->data + 2);
 	xf->style_format = (xf->format_idx > 0)
 		? excel_wb_get_fmt (ewb, xf->format_idx) : NULL;
+	xf->is_simple_format = xf->style_format == NULL ||
+		g_slist_length (xf->style_format->entries) <= 1;
 
 	data = GSF_LE_GET_GUINT16 (q->data + 4);
 	xf->locked = (data & 0x0001) != 0;
@@ -2451,6 +2455,7 @@ excel_sheet_insert_val (ExcelReadSheet *esheet, int xfidx,
 	g_return_if_fail (xf);
 
 	excel_set_xf (esheet, col, row, xfidx);
+	if (xf->is_simple_format)
 	value_set_fmt (v, xf->style_format);
 	cell_set_value (sheet_cell_fetch (esheet->sheet, col, row), v);
 }
