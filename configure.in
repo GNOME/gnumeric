@@ -704,20 +704,20 @@ dnl **************************************************
 dnl * Check for Perl
 dnl **************************************************
 dnl
-perl_val=false
+perl_msg=yes
 AC_ARG_WITH(perl, [--{with,without}-perl   Compile the Perl plugin loader])
 if test "x$with_perl" != xno; then
     case "x$with_perl" in
     xyes|x)	perl_prog=perl;;
     *)		perl_prog="$with_perl";;
     esac
-    AC_CHECK_PROG(PERL_APP, "$perl_prog", $perl_prog,"")
+    AC_CHECK_PROG(PERL_APP, [$perl_prog], [$perl_prog],"")
     if test "x$PERL_APP" != x; then
 	AC_MSG_CHECKING(for perl ExtUtils::Embed module				)
 	$perl_prog -e 'eval { require ExtUtils::Embed }; if ($@) { exit(1); } else { exit(0); }'
 	if test "x$?" = "x0"; then
 	    AC_MSG_RESULT($marker_ok)
-	    AC_CHECK_LIB(perl, perl_construct, [perl_val=true ; perl_msg="yes (using $perl_prog)"], [perl_msg="missing/invalid libperl"])
+	    AC_CHECK_LIB(perl, perl_construct, [], [perl_msg="missing/invalid libperl"])
 	else
 	    AC_MSG_RESULT($marker_no)
 	    perl_msg="Missing ExtUtils::Embed"
@@ -729,7 +729,8 @@ else
     perl_msg="Disabled by request"
 fi
 
-if test $perl_val ; then
+AM_CONDITIONAL(WITH_PERL, test "x$perl_msg" = xyes)
+if test "x$perl_msg" = xyes ; then
     dnl Use ExtUtils::Embed to figure out the other options.
     PERL_CCCDLFLAGS=`$perl_prog -MConfig -e 'print $Config{cccdlflags},"\n";'`
     PERL_LDDLFLAGS=`$perl_prog -MConfig -e 'print $Config{lddlflags},"\n";'`
@@ -737,109 +738,111 @@ if test $perl_val ; then
     PERL_LD=`$perl_prog -MConfig -e 'print $Config{ld},"\n";'`
     PERL_CCOPTS=`$perl_prog -MExtUtils::Embed -e ccopts`
     PERL_LDOPTS=`$perl_prog -MExtUtils::Embed -e ldopts`
-    AC_SUBST(PERL_CCCDLFLAGS)
-    AC_SUBST(PERL_LDDLFLAGS)
-    AC_SUBST(PERL_CC)
-    AC_SUBST(PERL_LD)
-    AC_SUBST(PERL_CCOPTS)
-    AC_SUBST(PERL_LDOPTS)
+
+    perl_msg="yes (using $PERL_APP)"
 fi
-AM_CONDITIONAL(WITH_PERL, $perl_val)
+AC_SUBST(PERL_CCCDLFLAGS)
+AC_SUBST(PERL_LDDLFLAGS)
+AC_SUBST(PERL_CC)
+AC_SUBST(PERL_LD)
+AC_SUBST(PERL_CCOPTS)
+AC_SUBST(PERL_LDOPTS)
 
 dnl **************************************************
 dnl * Check for Python
 dnl **************************************************
-python_msg=no
+python_msg="yes"
 AC_ARG_WITH(python, [--{with,without}-python   Compile the Python plugin loader])
-
-case "x$with_python" in
-xno)	python_msg="Disabled by request";;
-xyes|x)	python_prog=python;;
-*)	python_prog="$with_python";;
-esac
-
-python_val=false
 if test "x$with_python" != xno; then
-	python_msg="unable to find python"
-	AC_CHECK_PROG(python_val, "$python_prog", true)
-	if $python_val; then
-		  AC_MSG_CHECKING(for python >= 2.0)
-		  PY_PREFIX=`$python_prog -c 'import sys ; print sys.prefix'`
-		  PY_EXEC_PREFIX=`$python_prog -c 'import sys ; print sys.exec_prefix'`
-		  changequote(<<, >>)dnl
-		  PY_VERSION=`$python_prog -c 'import sys ; print sys.version[0:3]'`
-		  broken_py_initialize=`$python_prog -c \
+    case "x$with_python" in
+    xyes|x)	python_prog=python;;
+    *)		python_prog="$with_python";;
+    esac
+    AC_CHECK_PROG(PYTHON_APP, [$python_prog], [$python_prog], "")
+    if test "x$PYTHON_APP" = x; then
+	python_msg="could not find $python_prog"
+    fi
+else
+    python_msg="Disabled by request"
+fi
+
+if test "x$python_msg" = xyes; then
+    AC_MSG_CHECKING([for python >= 2.0])
+    PY_PREFIX=`$python_prog -c 'import sys ; print sys.prefix'`
+    PY_EXEC_PREFIX=`$python_prog -c 'import sys ; print sys.exec_prefix'`
+    changequote(<<, >>)dnl
+    PY_VERSION=`$python_prog -c 'import sys ; print sys.version[0:3]'`
+    broken_py_initialize=`$python_prog -c \
 'import sys
 if int(sys.version[0]) < 2:
     print "yes"
 else:
     print "no"'`
-		  changequote([, ])dnl
-	  	  if test "x$broken_py_initialize" = "xyes"; then
-			  AC_MSG_RESULT(no)
-			  python_val=false
-			  python_msg="NO.  Python version is too old."
-		  else
-			  AC_MSG_RESULT(yes)
-		  fi
-	fi
-	if $python_val; then
-		  AC_MSG_CHECKING(Look for $PY_PREFIX/include/python$PY_VERSION/Python.h)
-		  if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
-			  AC_MSG_RESULT(yes)
-			  PY_LIBS="python$PY_VERSION"
-			  PY_LIB_LOC="-L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
-			  PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
-			  PY_MAKEFILE="$PY_EXEC_PREFIX/lib/python$PY_VERSION/config/Makefile"
-			  PY_LOCALMODLIBS=`sed -n -e 's/^LOCALMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
-			  PY_BASEMODLIBS=`sed -n -e 's/^BASEMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
-			  PY_OTHER_LIBS=`sed -n -e 's/^LIBS=\(.*\)/\1/p' $PY_MAKEFILE`
-			  PY_EXTRA_LIBS="$PY_LOCALMODLIBS $PY_BASEMODLIBS $PY_OTHER_LIBS"
-			  AC_SUBST(PY_LIBS)
-			  AC_SUBST(PY_LIB_LOC)
-			  AC_SUBST(PY_CFLAGS)
-			  AC_SUBST(PY_EXTRA_LIBS)
-		  else
-			  AC_MSG_RESULT(no)
-			  python_val=false
-		  fi
-	fi
-	if $python_val; then
-		AC_MSG_CHECKING(if we can build a shared library depending on libpython)
-		rm -rf testpython
-		mkdir testpython
-		cd testpython
-		cat > testpython.c <<EOF
+    changequote([, ])dnl
+    if test "x$broken_py_initialize" != "xyes"; then
+	AC_MSG_RESULT($marker_ok)
+    else
+	AC_MSG_RESULT($marker_fail)
+	python_msg="NO.  Python version is too old."
+    fi
+fi
+
+if test "x$python_msg" = xyes; then
+    AC_MSG_CHECKING(Look for $PY_PREFIX/include/python$PY_VERSION/Python.h)
+    if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
+	AC_MSG_RESULT($marker_ok)
+	PY_LIBS="python$PY_VERSION"
+	PY_LIB_LOC="-L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
+	PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
+	PY_MAKEFILE="$PY_EXEC_PREFIX/lib/python$PY_VERSION/config/Makefile"
+	PY_LOCALMODLIBS=`sed -n -e 's/^LOCALMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
+	PY_BASEMODLIBS=`sed -n -e 's/^BASEMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
+	PY_OTHER_LIBS=`sed -n -e 's/^LIBS=\(.*\)/\1/p' $PY_MAKEFILE`
+	PY_EXTRA_LIBS="$PY_LOCALMODLIBS $PY_BASEMODLIBS $PY_OTHER_LIBS"
+    else
+	AC_MSG_RESULT($marker_fail)
+	python_msg="unable to find Python.h"
+    fi
+fi
+
+if test "x$python_msg" = xyes; then
+    AC_MSG_CHECKING(if we can build a shared library depending on libpython)
+    rm -rf testpython
+    mkdir testpython
+    cd testpython
+    cat > testpython.c <<EOF
 #include <Python.h>
 int testpython (void)
 {
-Py_Exit (0);
+    Py_Exit (0);
 }
 EOF
-		if /bin/sh ../libtool --mode=compile ${CC} $PY_CFLAGS -c testpython.c >/dev/null 2>&1 && \
-		   /bin/sh ../libtool --mode=link ${CC} -o testpython.la -rpath `pwd` -module -avoid-version $PY_LIB_LOC testpython.lo -l$PY_LIBS $PY_EXTRA_LIBS >/dev/null 2>&1 && \
-		   grep 'dlname.*testpython' testpython.la >/dev/null 2>&1; then
-			AC_MSG_RESULT(yes)
-			python_msg="yes"
-		else
-			AC_MSG_RESULT(no)
-			python_val=false
-			python_msg="unable to link to python"
-		fi
-		cd ..
-		rm -rf testpython
-	fi
-	if $python_val; then
-		PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= 1.99.10,
-				  [python_msg="yes"],
-		        	  [python_msg="NO.  pygtk problem"])
-		AC_SUBST(PYGTK_CFLAGS)
-		if test "x$python_msg" != "xyes"; then
-			python_val=false
-		fi
-	fi
+    if /bin/sh ../libtool --mode=compile ${CC} $PY_CFLAGS -c testpython.c >/dev/null 2>&1 && \
+       /bin/sh ../libtool --mode=link ${CC} -o testpython.la -rpath `pwd` -module -avoid-version $PY_LIB_LOC testpython.lo -l$PY_LIBS $PY_EXTRA_LIBS >/dev/null 2>&1 && \
+       grep 'dlname.*testpython' testpython.la >/dev/null 2>&1; then
+	AC_MSG_RESULT($marker_ok)
+    else
+	AC_MSG_RESULT($marker_fail)
+	python_msg="unable to link to python"
+    fi
+    cd ..
+    rm -rf testpython
 fi
-AM_CONDITIONAL(WITH_PYTHON, $python_val)
+if test "x$python_msg" = xyes; then
+    PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= 1.99.10,
+	    [],
+	    [python_msg="NO.  pygtk problem"])
+fi
+
+AM_CONDITIONAL(WITH_PYTHON, test "x$python_msg" = xyes)
+if test "x$python_msg" = xyes; then
+    python_msg="yes (using $PYTHON_APP)"
+fi
+AC_SUBST(PYGTK_CFLAGS)
+AC_SUBST(PY_LIBS)
+AC_SUBST(PY_LIB_LOC)
+AC_SUBST(PY_CFLAGS)
+AC_SUBST(PY_EXTRA_LIBS)
 
 dnl **************************************************
 dnl * Check for mono

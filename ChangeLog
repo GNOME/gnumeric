@@ -1,3 +1,7 @@
+2004-11-03  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : fix the python test and sync it with the perl test
+
 2004-11-02  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : extend the test for perl
