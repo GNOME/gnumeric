@@ -7,14 +7,15 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+http://bugzilla.gnome.org/show_bug.cgi?id=71551
+
 Pending Patches
 ---------------
 
     Yukihiro's IM support
-    libole2 + vfs support.
 
-Long term breakage
-------------------
+Post 1.0 Breakage
+-----------------
 
 - Auto-format (the "style on a range" kind) assumes a certain data layout,
   such as a final "Total" row.  I would like an extension that would allow
