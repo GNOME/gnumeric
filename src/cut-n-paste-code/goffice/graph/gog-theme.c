@@ -181,20 +181,25 @@ map_area_series_solid_default (GogStyle *style, unsigned ind)
 {
 	static GOColor const palette [] = {
 		0x9c9cffff, 0x9c3163ff, 0xffffceff, 0xceffffff, 0x630063ff,
-		0xff8484ff, 0x0063ceff, 0xceceffff, 0x000084ff, 0xff00ffff,
-		0xffff00ff, 0x00ffffff, 0x840084ff, 0x840000ff, 0x008484ff,
+		0xff8080ff, 0x0063ceff, 0xceceffff, 0x000080ff, 0xff00ffff,
+		0xffff00ff, 0x00ffffff, 0x800080ff, 0x800000ff, 0x008080ff,
 		0x0000ffff, 0x00ceffff, 0xceffffff, 0xceffceff, 0xffff9cff,
 		0x9cceffff, 0xff9cceff, 0xce9cffff, 0xffce9cff, 0x3163ffff,
 		0x31ceceff, 0x9cce00ff, 0xffce00ff, 0xff9c00ff, 0xff6300ff,
 		0x63639cff, 0x949494ff, 0x003163ff, 0x319c63ff, 0x003100ff,
 		0x313100ff, 0x9c3100ff, 0x9c3163ff, 0x31319cff, 0x313131ff,
 		0xffffffff, 0xff0000ff, 0x00ff00ff, 0x0000ffff, 0xffff00ff,
-		0xff00ffff, 0x00ffffff, 0x840000ff, 0x008400ff, 0x000084ff,
-		0x848400ff, 0x840084ff, 0x008484ff, 0xc6c6c6ff, 0x848484ff
+		0xff00ffff, 0x00ffffff, 0x800000ff, 0x008000ff, 0x000080ff,
+		0x808000ff, 0x800080ff, 0x008080ff, 0xc6c6c6ff, 0x808080ff
 	};
 	if (ind >= G_N_ELEMENTS (palette))
 		ind %= G_N_ELEMENTS (palette);
 	style->fill.u.solid.color = palette [ind];
+
+	ind += 8;
+	if (ind >= G_N_ELEMENTS (palette))
+		ind -= G_N_ELEMENTS (palette);
+	style->line.color = palette [ind];
 }
 
 static void
@@ -213,6 +218,7 @@ map_area_series_solid_guppi (GogStyle *style, unsigned ind)
 	if (ind >= G_N_ELEMENTS (palette))
 		ind %= G_N_ELEMENTS (palette);
 	style->fill.u.solid.color = palette [ind];
+	style->line.color = palette [ind];
 }
 
 /**************************************************************************/
@@ -224,7 +230,7 @@ gog_themes_init	(void)
 	GogStyle *style;
 
 /* TODO : have a look at apple's themes */
-	/* An MS Excel-ish theme */
+/* An MS Excel-ish theme */
 	theme = gog_theme_new (_("Default"));
 	gog_theme_register (theme, TRUE);
 
@@ -256,13 +262,14 @@ gog_themes_init	(void)
 	style = gog_style_new ();
 	style->outline.width = 0.; /* hairline */
 	style->outline.color = RGBA_BLACK;
+	style->line.width = 0.; /* hairline */
 	style->fill.type = GOG_FILL_STYLE_SOLID;
 	style->fill.u.solid.is_auto = TRUE;
 	/* FIXME : not really true, will want to split area from line */
 	gog_theme_add_element (theme, style,
 		map_area_series_solid_default, "GogSeries", NULL);
 
-	/* Guppi */
+/* Guppi */
 	theme = gog_theme_new (_("Guppi"));
 	gog_theme_register (theme, FALSE);
 
@@ -293,6 +300,7 @@ gog_themes_init	(void)
 	style = gog_style_new ();
 	style->outline.width = 0.; /* hairline */
 	style->outline.color = RGBA_BLACK;
+	style->line.width = 0.; /* hairline */
 	style->fill.type = GOG_FILL_STYLE_SOLID;
 	style->fill.u.solid.is_auto = FALSE;
 	style->fill.u.solid.color = RGBA_GREY (0xB0);

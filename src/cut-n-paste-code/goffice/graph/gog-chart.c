@@ -412,8 +412,8 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 	GogView *child;
 	GogChart *chart = GOG_CHART (view->model);
 	GogViewAllocation res = *allocation;
-	double outline = gog_renderer_outline_size (
-		view->renderer, chart->base.style);
+	double outline = gog_renderer_line_size (
+		view->renderer, chart->base.style->outline.width);
 
 	res.x += outline;
 	res.y += outline;

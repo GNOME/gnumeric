@@ -1,3 +1,15 @@
+2003-08-01  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_draw_path) : use
+	  the line characteristics, not outline.
+	* graph/gog-renderer-gnome-print.c
+	(gog_renderer_gnome_print_draw_path) : ditto.
+
+	* graph/gog-theme.c (gog_themes_init) : set the line width.
+	(map_area_series_solid_default) : line colour seems to start at an
+	  offset to area colours.
+	(map_area_series_solid_guppi) : set the line colour too.
+
 2003-07-31  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-series.c (gog_series_set_index) : always init the style,

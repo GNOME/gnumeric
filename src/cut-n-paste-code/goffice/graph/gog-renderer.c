@@ -352,32 +352,28 @@ gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
 }
 
 double
-gog_renderer_outline_size (GogRenderer *rend, GogStyle *style)
+gog_renderer_line_size (GogRenderer const *rend, double width)
 {
-	double width;
-
-	g_return_val_if_fail (style != NULL, 0.);
-
-	width = style->outline.width * rend->scale;
+	width *= rend->scale;
 	if (width < 1.) /* cheesy version of hairline */
 		return 1.;
 	return floor (width);
 }
 
 double
-gog_renderer_pt2r_x (GogRenderer *rend, double d)
+gog_renderer_pt2r_x (GogRenderer const *rend, double d)
 {
 	return d * rend->scale_x;
 }
 
 double
-gog_renderer_pt2r_y (GogRenderer *rend, double d)
+gog_renderer_pt2r_y (GogRenderer const *rend, double d)
 {
 	return d * rend->scale_y;
 }
 
 double
-gog_renderer_pt2r (GogRenderer *rend, double d)
+gog_renderer_pt2r (GogRenderer const *rend, double d)
 {
 	return d * rend->scale;
 }

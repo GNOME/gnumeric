@@ -175,8 +175,8 @@ gog_label_view_size_allocate (GogView *view, GogViewAllocation const *a)
 {
 	GogLabel *label = GOG_LABEL (view->model);
 	GogViewAllocation res = *a;
-	double outline = gog_renderer_outline_size (
-		view->renderer, label->base.style);
+	double outline = gog_renderer_line_size (
+		view->renderer, label->base.style->outline.width);
 
 	res.x += outline;
 	res.y += outline;

@@ -1,3 +1,8 @@
+2003-08-01  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-util.c (init_xl_font_widths) : add a bunch of arial
+	  encodings.
+
 2003-07-31  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c (BC_R(line)) : connect to the new line plot.

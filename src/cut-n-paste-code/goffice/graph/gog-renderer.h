@@ -48,9 +48,9 @@ void  gog_renderer_measure_text	  (GogRenderer *rend,
 				   char const *text, GogViewRequisition *size);
 
 /* measurement */
-double gog_renderer_outline_size   (GogRenderer *r, GogStyle *s);
-double gog_renderer_pt2r_x   	   (GogRenderer *r, double d);
-double gog_renderer_pt2r_y   	   (GogRenderer *r, double d);
-double gog_renderer_pt2r   	   (GogRenderer *r, double d);
+double gog_renderer_line_size	  (GogRenderer const *r, double width);
+double gog_renderer_pt2r_x   	  (GogRenderer const *r, double d);
+double gog_renderer_pt2r_y   	  (GogRenderer const *r, double d);
+double gog_renderer_pt2r   	  (GogRenderer const *r, double d);
 
 #endif /* GOG_RENDERER_H */

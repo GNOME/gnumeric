@@ -70,13 +70,13 @@ gog_renderer_pixbuf_draw_path (GogRenderer *renderer, ArtVpath *path)
 {
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (renderer);
 	GogStyle *style = renderer->cur_style;
-	double width = gog_renderer_outline_size (renderer, style);
+	double width = gog_renderer_line_size (renderer, style->line.width);
 	ArtSVP *svp = art_svp_vpath_stroke (path,
 		ART_PATH_STROKE_JOIN_MITER, ART_PATH_STROKE_CAP_SQUARE,
 		width, 4, 0.5);
 	art_rgba_svp_alpha (svp,
 		0, 0, prend->w, prend->h,
-		style->outline.color,
+		style->line.color,
 		prend->pixels, prend->rowstride,
 		NULL);
 	art_svp_free (svp);
@@ -124,7 +124,7 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 	if (!narrow && style->outline.width >= 0.)
 		outline = art_svp_vpath_stroke (path,
 			ART_PATH_STROKE_JOIN_MITER, ART_PATH_STROKE_CAP_SQUARE,
-			gog_renderer_outline_size (renderer, style), 4, 0.5);
+			gog_renderer_line_size (renderer, style->outline.width), 4, 0.5);
 
 	if (style->fill.type != GOG_FILL_STYLE_NONE) {
 		fill = art_svp_from_vpath (path);

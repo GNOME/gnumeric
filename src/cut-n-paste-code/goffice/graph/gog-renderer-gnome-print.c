@@ -104,9 +104,9 @@ gog_renderer_gnome_print_draw_path (GogRenderer *renderer, ArtVpath *path)
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (renderer);
 	GogStyle *style = renderer->cur_style;
 
-	set_color (prend, style->outline.color);
+	set_color (prend, style->line.color);
 	gnome_print_setlinewidth (prend->gp_context, 
-		gog_renderer_outline_size (renderer, style));
+		gog_renderer_line_size (renderer, style->line.width));
 	draw_path (prend, path);
 	gnome_print_stroke (prend->gp_context);
 }
@@ -309,7 +309,7 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 	if (with_outline) {
 		set_color (prend, style->outline.color);
 		gnome_print_setlinewidth (prend->gp_context, 
-			gog_renderer_outline_size (renderer, style));
+			gog_renderer_line_size (renderer, style->outline.width));
 		gnome_print_stroke (prend->gp_context);
 	}
 }

@@ -208,8 +208,8 @@ static void
 gog_legend_view_size_request (GogView *view, GogViewRequisition *req)
 {
 	GogLegend *legend = GOG_LEGEND (view->model);
-	double outline = gog_renderer_outline_size (view->renderer,
-						    legend->base.style);
+	double outline = gog_renderer_line_size (
+		view->renderer, legend->base.style->outline.width);
 	req->w = 2 * outline + gog_renderer_pt2r_x (view->renderer, GO_CM_TO_PT (2));
 	req->h = 2 * outline +
 		(gog_chart_get_cardinality (GOG_CHART (view->model->parent)) *
@@ -232,6 +232,9 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	GogStyle *style = NULL;
 	ArtPoint pos;
 	
+	if ((i * data->step) >= data->view->allocation.h)
+		return;
+
 	if (!gog_style_has_marker (base_style)) {
 		style = gog_style_dup (base_style);
 		style->outline.width = 0; /* hairline */
@@ -258,8 +261,8 @@ gog_legend_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	render_closure closure;
 	GogLegend *legend = GOG_LEGEND (view->model);
-	double outline = gog_renderer_outline_size (view->renderer,
-						    legend->base.style);
+	double outline = gog_renderer_line_size (
+		view->renderer, legend->base.style->outline.width);
 	double pad = gog_renderer_pt2r_y (view->renderer,
 					  legend->swatch_padding_pts);
 

@@ -359,21 +359,6 @@ BC_R(areaformat)(XLChartHandler const *handle,
 		s->style->fill.u.pattern.fore = BC_R(color) (q->data+0, "ForegroundColour");
 		s->style->fill.u.pattern.back = BC_R(color) (q->data+4, "BackgroundColour");
 	}
-#if 0
-	/* Ignore the colour indicies.  Use the colours themselves
-	 * to avoid problems with guessing the strange index values
-	 */
-	if (s->container.ver >= MS_BIFF_V8)
-	{
-		guint16 const fore_index = GSF_LE_GET_GUINT16 (q->data+12);
-		guint16 const back_index = GSF_LE_GET_GUINT16 (q->data+14);
-
-		/* TODO : Ignore result for now,
-		 * Which to use, fore and back, or these ? */
-		ms_excel_palette_get (s->wb->palette, fore_index);
-		ms_excel_palette_get (s->wb->palette, back_index);
-	}
-#endif
 	return FALSE;
 }
 
@@ -965,7 +950,6 @@ static gboolean
 BC_R(lineformat)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
-#if 0
 	guint16 const pattern = GSF_LE_GET_GUINT16 (q->data+4);
 	gint16 const weight = GSF_LE_GET_GUINT16 (q->data+6);
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+8);
@@ -985,22 +969,9 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	auto_format = (flags & 0x01) ? TRUE : FALSE;
 	draw_ticks = (flags & 0x04) ? TRUE : FALSE;
 
-	if (s->style != NULL && !auto_format)
+	if (s->style != NULL)
 		s->style->line.color = BC_R(color) (q->data, "Colour");
-#endif
 
-#if 0
-	/* Ignore the colour indicies.  Use the colours themselves
-	 * to avoid problems with guessing the strange index values
-	 */
-	if (s->container.ver >= MS_BIFF_V8)
-	{
-		guint16 const color_index = GSF_LE_GET_GUINT16 (q->data+10);
-
-		/* Ignore result for now */
-		ms_excel_palette_get (s->wb->palette, color_index);
-	}
-#endif
 	return FALSE;
 }
 
@@ -1041,17 +1012,6 @@ BC_R(markerformat)(XLChartHandler const *handle,
 	}
 
 	if (s->container.ver >= MS_BIFF_V8) {
-#if 0
-		/* Ignore the colour indicies.  Use the colours themselves to
-		 * avoid problems with guessing the strange index values
-		 */
-		StyleColor const * marker_border =
-		    ms_excel_palette_get (s->wb->palette,
-					  GSF_LE_GET_GUINT16 (q->data+12));
-		StyleColor const * marker_fill =
-		    ms_excel_palette_get (s->wb->palette,
-					  GSF_LE_GET_GUINT16 (q->data+14));
-#endif
 		d (1, {
 		guint32 const marker_size = GSF_LE_GET_GUINT32 (q->data+16);
 		fprintf (stderr, "Marker is %u\n", marker_size);
@@ -1427,9 +1387,9 @@ BC_R(shtprops)(XLChartHandler const *handle,
 	blanks = tmp;
 	d (2, fputs (ms_chart_blank[blanks], stderr););
 
-	if (s->container.ver >= MS_BIFF_V8) {
+	if (s->container.ver >= MS_BIFF_V8)
 		ignore_pos_record = (flags&0x10) ? TRUE : FALSE;
-	}
+
 	d (1, {
 	fprintf (stderr, "%sesize chart with window.\n",
 		dont_size_with_window ? "Don't r": "R");
@@ -1554,15 +1514,6 @@ BC_R(tick)(XLChartHandler const *handle,
 		fputs ("Auto rotate", stderr);
 	});
 
-#if 0
-	/* Ignore the colour indicies.  Use the colours themselves
-	 * to avoid problems with guessing the strange index values
-	 */
-	if (s->container.ver >= MS_BIFF_V8) {
-		guint16 const index = GSF_LE_GET_GUINT16 (q->data+26);
-		ms_excel_palette_get (s->wb->palette, index);
-	}
-#endif
 	return FALSE;
 }
 
