@@ -94,5 +94,10 @@ Value *
 eval_node (EvalNode *node)
 {
 	case (node->oper){
+	case OP_ADD:
+	case OP_SUB:
+	case OP_MULT:
+	case OP_DIV:
+	case OP_EXP:
 	}
 }
