@@ -27,6 +27,13 @@
 	
 2003-04-12  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control-gui.c (cb_graph_guru_done) : new.
+	(cb_launch_graph_guru) : simplify the DataAllocator interface.
+	  The whole edit_{begin/end} was needed for wbcg.  We can handle that
+	  here directly without extending the interface.
+
+2003-04-12  Jody Goldberg <jody@gnome.org>
+
 	* icons/chart* : fix the background transparency.
 	* *.c : Use g_type_class_peek_parent and tidy up upchaining a bit
 	  to be more consistent across all classes.

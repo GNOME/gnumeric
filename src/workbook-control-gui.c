@@ -3132,14 +3132,24 @@ cb_add_graph (GOGraph *graph, gpointer wbcg)
 	scg_mode_create_object (scg, sheet_object_graph_new (graph));
 }
 
+static void
+cb_graph_guru_done (WorkbookControlGUI *wbcg)
+{
+	wbcg_edit_detach_guru (wbcg);
+	wbcg_edit_finish (wbcg, FALSE);
+}
+
 #endif
 static void
 cb_launch_graph_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 #ifdef NEW_GRAPHS
-	go_graph_guru (NULL, GO_PLOT_DATA_ALLOCATOR (wbcg),
+	GtkWidget *dialog = go_graph_guru (NULL, GO_PLOT_DATA_ALLOCATOR (wbcg),
 		       COMMAND_CONTEXT (wbcg), wbcg_toplevel (wbcg),
 		       cb_add_graph, (gpointer)wbcg);
+	wbcg_edit_attach_guru (wbcg, dialog);
+	g_object_set_data_full (G_OBJECT (dialog),
+		"guru", wbcg, (GDestroyNotify) cb_graph_guru_done);
 #endif
 }
 
@@ -5345,21 +5355,9 @@ wbcg_plot_data_allocator_allocate (GOPlotDataAllocator *dalloc, GOPlot *plot)
 	sv_selection_to_plot (sc_view (SHEET_CONTROL (scg)), plot);
 }
 
-static void
-wbcg_plot_data_allocator_edit_begin (GOPlotDataAllocator *dalloc, GtkWidget *guru)
-{
-	wbcg_edit_attach_guru (WORKBOOK_CONTROL_GUI (dalloc), guru);
-}
-
-static void
-wbcg_plot_data_allocator_edit_end (GOPlotDataAllocator *dalloc)
-{
-	wbcg_edit_detach_guru (WORKBOOK_CONTROL_GUI (dalloc));
-	wbcg_edit_finish (WORKBOOK_CONTROL_GUI (dalloc), FALSE);
-}
-
-static GtkWidget *
-wbcg_plot_data_allocator_editor (GOPlotDataAllocator *a, GOPlotData *data)
+static gpointer
+wbcg_plot_data_allocator_editor (GOPlotDataAllocator *a,
+				 GOPlotSeries *series, unsigned dim_i)
 {
 #warning TODO
 	return NULL;
@@ -5369,8 +5367,6 @@ static void
 wbcg_go_plot_data_allocator_init (GOPlotDataAllocatorClass *iface)
 {
 	iface->allocate   = wbcg_plot_data_allocator_allocate;
-	iface->edit_begin = wbcg_plot_data_allocator_edit_begin;
-	iface->edit_end	  = wbcg_plot_data_allocator_edit_end;
 	iface->editor	  = wbcg_plot_data_allocator_editor;
 }
 
