@@ -1,5 +1,10 @@
 2005-02-25  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-control-gui.c (wbcg_create_status_area): Keep a ref
+	for ->auto_expr_label in case the idle handler for updating it
+	triggers at an inconvenient time.
+	(wbcg_finalize): Unref.
+
 	* src/main-application.c (main): Fix leak.
 
 	* src/gnumeric-gconf.c (gnm_conf_shutdown): Fix crash with --quit.

@@ -1564,6 +1564,11 @@ wbcg_finalize (GObject *obj)
 		wbcg->font_desc = NULL;
 	}
 
+	if (wbcg->auto_expr_label) {
+		g_object_unref (wbcg->auto_expr_label);
+		wbcg->auto_expr_label = NULL;
+	}
+
 	g_hash_table_destroy (wbcg->visibility_widgets);
 	g_hash_table_destroy (wbcg->toggle_for_fullscreen);
 
@@ -2165,6 +2170,7 @@ wbcg_create_status_area (WorkbookControlGUI *wbcg)
 		GTK_PROGRESS_BAR (wbcg->progress_bar), GTK_PROGRESS_LEFT_TO_RIGHT);
 
 	wbcg->auto_expr_label = tmp = gtk_label_new ("");
+	g_object_ref (wbcg->auto_expr_label);
 	GTK_WIDGET_UNSET_FLAGS (tmp, GTK_CAN_FOCUS);
 	gtk_widget_ensure_style (tmp);
 	gtk_widget_set_size_request (tmp, go_pango_measure_string (
