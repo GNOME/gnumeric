@@ -1339,8 +1339,7 @@ gog_style_gradient_load (xmlNode *node, GogStyle *style)
 	}
 	str = xmlGetProp (node, "brightness");
 	if (str != NULL) {
-		style->fill.gradient.brightness
-			= g_strtod (str, NULL);
+		gog_style_set_fill_brightness (style, g_strtod (str, NULL));
 		xmlFree (str);
 	} else {
 		str = xmlGetProp (node, "end-color");
