@@ -1,0 +1,167 @@
+#!/usr/bin/perl -w
+# -----------------------------------------------------------------------------
+
+use strict;
+
+$| = 1;
+
+my $myself = $0;
+$myself =~ s|^.*/||;
+
+die "$0: must run from top-level gnumeric directory.\n"
+    unless -r "gnumeric-config.h";
+my $dst = "src/cut-n-paste-code/pcre";
+
+my $srcdir = $ARGV[0];
+$srcdir = "../pcre" unless defined $srcdir;
+die "$0: must specify pcre directory on command line.\n"
+    unless -d $srcdir;
+
+-d $dst or mkdir $dst or
+    die "$0: cannot mkdir $dst: $!\n";
+
+# -----------------------------------------------------------------------------
+
+my ($PCRE_MAJOR,$PCRE_MINOR,$PCRE_DATE);
+{
+    my $filename = "$srcdir/configure.in";
+    local (*SRC);
+    open (SRC, "<$filename") or
+	die "$0: Cannot read $filename: $!\n";
+    while (<SRC>) {
+	$PCRE_MAJOR = $1 if /^PCRE_MAJOR\s*=\s*(.*)$/;
+	$PCRE_MINOR = $1 if /^PCRE_MINOR\s*=\s*(.*)$/;
+	$PCRE_DATE = $1 if /^PCRE_DATE\s*=\s*(.*)$/;
+    }
+    close (*SRC);
+}
+
+my @SRC_C = ('maketables.c', 'get.c', 'study.c', 'pcre.c', 'pcreposix.c');
+my @SRC_H = ('internal.h', 'pcreposix.h', 'pcre.h');
+
+my %namehack = ('pcre.h' => 'pcre.in');
+
+for my $filename (@SRC_C, @SRC_H) {
+    my $srcfilename = "$srcdir/" . ($namehack{$filename} || $filename);
+    my $dstfilename = "$dst/$filename";
+    my $tmpfilename = "$dstfilename.new";
+
+    local (*SRC, *DST);
+    open (SRC, "<$srcfilename") or
+	die "$0: Cannot read $srcfilename: $!\n";
+    open (DST, ">$tmpfilename") or
+	die "$0: Cannot create $tmpfilename: $!\n";
+    print STDERR "Creating $dstfilename...";
+
+    my $where;
+    if ($filename =~ /\.h$/) {
+	$where = $filename;
+	$where =~ s/\.h$/.c/;
+    } else {
+	$where = 'below';
+    }
+
+    print DST "/* File import from pcre to gnumeric by $myself.  Do not edit.  */\n\n";
+    print DST "/* This file has been programatically changed.  */\n";
+    print DST "/* This makes the following file fall under GPL license, see $where.  */\n\n";
+
+    while (<SRC>) {
+	s/\@PCRE_MAJOR\@/$PCRE_MAJOR/;
+	s/\@PCRE_MINOR\@/$PCRE_MINOR/;
+	s/\@PCRE_DATE\@/$PCRE_DATE/;
+
+	s/\b(to(lower|upper)|is(lower|upper|digit|xdigit|space|print|cntrl|alpha|alnum|graph|punct))\b/g_unichar_$1/g;
+
+	s/"config\.h"/\<gnumeric-config.h\>/;
+	if (s{^(\s*\#\s*include\s*.ctype\.h.*)}{/* $1 */}) {
+	    print DST "/* Whatever the question is, ctype.h is not the answer.  */\n";
+	}
+
+	if (s{^(\s*\#\s*include\s*.chartables\.c.*)}{/* $1 */}) {
+	    print DST "static const unsigned char *\n";
+	    print DST "make_pcre_default_tables (void)\n";
+	    print DST "{\n";
+	    print DST "  static const unsigned char *res = NULL;\n";
+	    print DST "  if (res == NULL) {\n";
+	    print DST "    res = pcre_maketables ();\n";
+	    print DST "  }\n";
+	    print DST "  return res;\n";
+	    print DST "}\n\n";
+	}
+	s/pcre_default_tables/make_pcre_default_tables ()/;
+
+	if ($filename =~ /posix/i) {
+	    s/\bregex_t\b/gnumeric_regex_t/g;
+	    s/\bregoff_t\b/gnumeric_regoff_t/g;
+	    # Not regmatch_t, for now.
+	    s/\bregcomp\b/gnumeric_regcomp/g;
+	    s/\bregexec\b/gnumeric_regexec/g;
+	    s/\bregerror\b/gnumeric_regerror/g;
+	    s/\bregfree\b/gnumeric_regfree/g;
+
+	    s/options/options | PCRE_UTF8/ if /pcre_compile/;
+	}
+
+	print DST;
+    }
+
+    close (*SRC);
+    close (*DST);
+
+    if (0) {
+	system ("indent", "-kr", "-fc1", "-psl", "-pcs", $tmpfilename);
+	unlink "$tmpfilename~";
+    }
+    &update_file ($dstfilename);
+}
+
+{
+    my $filename = "Makefile.am";
+    my $dstfilename = "$dst/$filename";
+    my $tmpfilename = "$dstfilename.new";
+
+    local (*DST);
+    open (DST, ">$tmpfilename") or
+	die "$0: Cannot create $tmpfilename: $!\n";
+    print STDERR "Creating $dstfilename...";
+
+    print DST "INCLUDES = \\\n";
+    print DST "\t\$(GNUMERIC_CFLAGS) -I\$(top_srcdir) \\\n";
+    print DST "\t -DSUPPORT_UTF8 \\\n";
+    print DST "\t -DNEWLINE=10 \\\n";
+    print DST "\t -DPOSIX_MALLOC_THRESHOLD=10 \\\n";
+    print DST "\t -DLINK_SIZE=2 \\\n";
+    print DST "\t -DMATCH_LIMIT=10000000\n\n";
+
+    print DST "noinst_LIBRARIES = libpcre.a\n";
+    print DST "libpcre_a_SOURCES = ", join (' ', @SRC_C), "\n";
+    print DST "noinst_HEADERS = ", join (' ', @SRC_H), "\n";
+    close (*DST);
+
+    &update_file ($dstfilename);
+}
+
+# -----------------------------------------------------------------------------
+
+sub update_file {
+    my ($old) = @_;
+    my ($new) = "$old.new";
+
+    if (!-r $old) {
+	rename $new, $old or
+	    die "$0: Cannot rename $new to $old: $!\n";
+	print STDERR " -- done.\n";
+    } else {
+	system ("cmp '$old' '$new' >/dev/null");
+	if ($? == 0) {
+	    print STDERR " -- unchanged.\n";
+	    unlink $new;
+	} else {
+	    rename $new, $old or
+		die "$0: Cannot rename $new to $old: $!\n";
+	    print STDERR " -- done.\n";
+	}
+    }
+}
+
+# -----------------------------------------------------------------------------
