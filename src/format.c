@@ -83,12 +83,12 @@ append_year (GString *string, gchar *format, struct tm *time_split)
 {
 	char temp [5];
 	
-	if (format [1] != 'y'){
+	if (tolower (format [1]) != 'y'){
 		g_string_append_c (string, 'y');
 		return 1;
 	}
 	
-	if (format [2] != 'y' || format [3] != 'y'){
+	if (tolower (format [2]) != 'y' || tolower (format [3]) != 'y')){
 		sprintf (temp, "%02d", time_split->tm_year % 100);
 		g_string_append (string, temp);
 		return 2;
@@ -109,20 +109,20 @@ append_month (GString *string, gchar *format, struct tm *time_split)
 {
 	char temp [3];
 	
-	if (format [1] != 'm'){
+	if (tolower (format [1]) != 'm'){
 		sprintf (temp, "%d", time_split->tm_mon+1);
 		g_string_append( string, temp);
 		return 1;
 	}
 	
-	if (format [2] != 'm')
+	if (tolower (format [2]) != 'm')
 	{
 		sprintf (temp, "%02d", time_split->tm_mon+1);
 		g_string_append (string, temp);
 		return 2;
 	}
 	
-	if (format [3] != 'm'){
+	if (tolower (format [3]) != 'm'){
 		g_string_append (string, _(month_short [time_split->tm_mon])+1);
 		return 3;
 	}
@@ -140,7 +140,7 @@ append_hour (GString *string, gchar *format, struct tm *time_split, int timeform
 {
 	char temp[3];
 
-	if (format [1] != 'h'){
+	if (tolower (format [1]) != 'h'){
 	    sprintf (temp, "%d", timeformat ? (time_split->tm_hour % 12) : time_split->tm_hour);
 	    g_string_append (string, temp);
 	    return 1;
@@ -159,19 +159,19 @@ append_day (GString *string, gchar *format, struct tm *time_split)
 {
 	char temp[3];
 
-	if (format [1] != 'd'){
+	if (tolower (format [1]) != 'd'){
 		sprintf (temp, "%d", time_split->tm_mday);
 		g_string_append (string, temp);
 		return 1;
 	}
 
-	if (format [2] != 'd'){
+	if (tolower (format [2]) != 'd'){
 		sprintf (temp, "%02d", time_split->tm_mday);
 		g_string_append (string, temp);
 		return 2;
 	}
 
-	if (format [3] != 'd'){
+	if (tolower (format [3]) != 'd'){
 		g_string_append (string, _(day_short[time_split->tm_wday])+1);
 		return 3;
 	}
@@ -190,7 +190,7 @@ append_minute (GString *string, gchar *format, struct tm *time_split)
 {
 	char temp [3];
 
-	if (format [1] != 'm'){
+	if (tolower (format [1]) != 'm'){
 		sprintf (temp, "%d", time_split->tm_min);
 		g_string_append (string, temp);
 		return 1;
@@ -211,7 +211,7 @@ append_second (GString *string, gchar *format, struct tm *time_split)
 {
 	char temp[3];
 	
-	if (format [1] != 's'){
+	if (tolower (format [1]) != 's'){
 		sprintf (temp, "%d", time_split->tm_sec);
 		g_string_append (string, temp);
 		return 1;
@@ -231,19 +231,19 @@ static int
 append_half (GString *string, gchar *format, struct tm *time_split)
 {
 	if (time_split->tm_hour <= 11){
-		if (format [0] == 'a' || format [0] == 'p')
+		if (tolower (format [0]) == 'a' || tolower (format [0]) == 'p')
 			g_string_append_c (string, 'a');
 		else
 			g_string_append_c (string, 'A');
 	}
 	else {
-		if (format [0] == 'a' || format [0] == 'p')
+		if (tolower (format [0]) == 'a' || tolower (format [0]) == 'p')
 			g_string_append_c (string, 'p');
 		else
 			g_string_append_c (string, 'P');
 	}
 	
-	if (format [1] == 'm' || format [1] == 'M'){
+	if (tolower (format [1]) == 'm'){
 		g_string_append_c (string, format [1]);
 		return 2;
 	} else
@@ -280,8 +280,7 @@ pre_parse_format (StyleFormatEntry *style)
 		case 'p':
 		case 'A':
 		case 'P':
-			if ((*(format+1) == 'm') ||
-			   (*(format+1) == 'M'))
+			if (tolower (*(format+1) == 'm'))
 				style->want_am_pm = 1;
 			break;
 		}
@@ -836,6 +835,7 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 			g_string_append_c (result, ' ');
 			break;
 
+		case 'M':
 		case 'm':
 			if (!time_split)
 				time_split = split_time (number);
@@ -845,18 +845,21 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 				format += append_month (result, format, time_split) - 1;
 			break;
 
+		case 'D':
 		case 'd':
 			if (!time_split)
 				time_split = split_time (number);
 			format += append_day (result, format, time_split) -1;
 			break;
 
+		case 'Y':
 		case 'y':
 			if (!time_split)
 				time_split = split_time (number);
 			format += append_year (result, format, time_split) - 1;
 			break;
 
+		case 'S':
 		case 's':
 			if (!time_split)
 				time_split = split_time (number);
@@ -867,6 +870,7 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 			g_warning ("REPEAT FORMAT NOT YET SUPPORTED\n");
 			break;
 
+		case 'H':
 		case 'h':
 			if (!time_split)
 				time_split = split_time (number);

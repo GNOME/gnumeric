@@ -1,3 +1,10 @@
+1999-02-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/number-match.c (format_create_regexp): Allow upper case
+	format codes.
+
+	* src/format.c: ditto.
+
 1999-02-18  Michael Meeks <michael@imaginator.com>
 
 	* plugins/excel/ms-formula.c (ms_excel_parse_formula):

@@ -503,7 +503,7 @@ item_cursor_target_region_ok (ItemCursor *item_cursor)
 		GNOME_STOCK_BUTTON_NO,
 		NULL);
 	window = gtk_widget_get_toplevel (GTK_WIDGET (canvas));
-	gnome_dialog_set_parent (GNOME_DIALOG (message), window);
+	gnome_dialog_set_parent (GNOME_DIALOG (message), GTK_WINDOW (window));
 	v = gnome_dialog_run (GNOME_DIALOG (message));
 
 	if (v == 0)

@@ -152,25 +152,27 @@ format_create_regexp (char *format, GByteArray **dest)
 			break;
 			
 		case 'h':
+		case 'H':
 			hour_seen = TRUE;
-			if (*(format+1) == 'h')
+			if (tolower (*(format+1)) == 'h')
 				format++;
 			
 			g_string_append (regexp, "([0-9][0-9]?)");
 			append_type (MATCH_HOUR);
 			break;
-			
+
+		case 'M':
 		case 'm':
 			if (hour_seen){
-				if (*(format+1) == 'm')
+				if (tolower (*(format+1)) == 'm')
 					format++;
 				g_string_append (regexp, "([0-9][0-9]?)");
 				append_type (MATCH_MINUTE);
 				hour_seen = FALSE;
 			} else {
-				if (*(format+1) == 'm'){
-					if (*(format+2) == 'm'){
-						if (*(format+3) == 'm'){
+				if (tolower (*(format+1)) == 'm'){
+					if (tolower (*(format+2)) == 'm'){
+						if (tolower (*(format+3)) == 'm'){
 							char *l;
 
 							l = create_option_list (month_long);
@@ -202,16 +204,18 @@ format_create_regexp (char *format, GByteArray **dest)
 			break;
 
 		case 's':
-			if (*(format+1) == 's')
+		case 'S':
+			if (tolower (*(format+1) == 's'))
 				format++;
 			g_string_append (regexp, "([0-9][0-9]?)");
 			append_type (MATCH_SECOND);
 			break;
-			
+
+		case 'D':
 		case 'd':
-			if (*(format+1) == 'd'){
-				if (*(format+2) == 'd'){
-					if (*(format+3) == 'd'){
+			if (tolower (*(format+1) == 'd')){
+				if (tolower (*(format+2) == 'd')){
+					if (tolower (*(format+3) == 'd')){
 						char *l;
 
 						l = create_option_list (day_long);
@@ -239,10 +243,11 @@ format_create_regexp (char *format, GByteArray **dest)
 			}
 			break;
 
+		case 'Y':
 		case 'y':
-			if (*(format+1) == 'y'){
-				if (*(format+2) == 'y'){
-					if (*(format+3) == 'y'){
+			if (tolower (*(format+1) == 'y')){
+				if (tolower (*(format+2) == 'y')){
+					if (tolower (*(format+3) == 'y')){
 						g_string_append (regexp, "([0-9][0-9][0-9][0-9])");
 						append_type (MATCH_YEAR_FULL);
 						format++;
@@ -278,7 +283,7 @@ format_create_regexp (char *format, GByteArray **dest)
 				}
 				format++;
 			}
-			g_string_append (regexp, "(a|p)m?");
+			g_string_append (regexp, "([Aa]|[Pp])[Mm]?");
 			append_type (MATCH_AMPM);
 			break;
 			
