@@ -953,8 +953,6 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 		Range *r = proposed->data;
 		proposed = g_slist_remove (proposed, r);
 
-		range_dump (r);
-
 		(*func) (sheet,
 			 r->start.col, r->start.row,
 			 r->end.col, r->end.row,
