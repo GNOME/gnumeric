@@ -86,16 +86,10 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 
         switch (cell->value->type) {
 	case VALUE_BOOLEAN:
-	        v = value_new_bool (cell->value->v_bool.val);
-		break;
 	case VALUE_INTEGER:
-	        v = value_new_int (cell->value->v_int.val);
-		break;
 	case VALUE_FLOAT:
-	        v = value_new_float (cell->value->v_float.val);
-		break;
 	case VALUE_STRING:
-	        v = value_new_string (cell->value->v_str.val->str);
+	        v = value_duplicate (cell->value);
 		break;
 	case VALUE_EMPTY:
 	default:
@@ -523,7 +517,7 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 	        items.fun = (criteria_test_fun_t) criteria_test_equal;
 		items.test_value = argv[1];
 	} else {
-	        parse_criteria (argv[1]->v_str.val->str,
+	        parse_criteria (value_peek_string (argv[1]),
 				&items.fun, &items.test_value);
 		tmpval = items.test_value;
 	}
@@ -644,7 +638,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	        items.fun = (criteria_test_fun_t) criteria_test_equal;
 		items.test_value = argv[1];
 	} else {
-	        parse_criteria (argv[1]->v_str.val->str,
+	        parse_criteria (value_peek_string (argv[1]),
 				&items.fun, &items.test_value);
 		tmpval = items.test_value;
 	}

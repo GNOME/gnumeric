@@ -354,10 +354,7 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 	if (row < 1 || col < 1)
 	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	if (args[2] == NULL)
-	        abs_num = 1;
-	else
-	        abs_num = value_get_as_int (args [2]);
+	abs_num = args[2] ? value_get_as_int (args [2]) : 1;
 
 	if (args[3] == NULL)
 	        a1 = 1;
@@ -369,58 +366,53 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 	}
 
 	if (args[4] == NULL) {
-	        text = g_new(gchar, 1);
+	        text = g_new (gchar, 1);
 	        text[0] = '\0';
 	} else {
-	        gchar *p = args[4]->v_str.val->str;
-		int   space = 0;
+		const char *s = value_peek_string (args[4]);
+		gboolean space = (strchr (s, ' ') != 0);
 
-		text = g_new(gchar, strlen(p) + 4);
-		while (*p)
-			if (*p++ == ' ')
-			        space = 1;
-		if (space)
-		        sprintf(text, "'%s'", args[4]->v_str.val->str);
-		else
-		        strcpy(text, args[4]->v_str.val->str);
-		strcat(text, "!");
+		text = g_strconcat (space ? "'" : "",
+				    s,
+				    space ? "'!" : "!",
+				    NULL);
 	}
 
-	buf = g_new(gchar, strlen(text) + 50);
+	buf = g_new (gchar, strlen (text) + 50);
 
 	switch (abs_num) {
 	case 1:
 	        if (a1)
-		        sprintf(buf, "%s$%s$%d", text, col_name(col-1), row);
+		        sprintf (buf, "%s$%s$%d", text, col_name (col - 1), row);
 		else
-		        sprintf(buf, "%sR%dC%d", text, row, col);
+		        sprintf (buf, "%sR%dC%d", text, row, col);
 		break;
 	case 2:
 	        if (a1)
-		        sprintf(buf, "%s%s$%d", text, col_name(col-1), row);
+		        sprintf (buf, "%s%s$%d", text, col_name (col - 1), row);
 		else
-		        sprintf(buf, "%sR%dC[%d]", text, row, col);
+		        sprintf (buf, "%sR%dC[%d]", text, row, col);
 		break;
 	case 3:
 	        if (a1)
-		        sprintf(buf, "%s$%s%d", text, col_name(col-1), row);
+		        sprintf (buf, "%s$%s%d", text, col_name (col - 1), row);
 		else
-		        sprintf(buf, "%sR[%d]C%d", text, row, col);
+		        sprintf (buf, "%sR[%d]C%d", text, row, col);
 		break;
 	case 4:
 	        if (a1)
-		        sprintf(buf, "%s%s%d", text, col_name(col-1), row);
+		        sprintf (buf, "%s%s%d", text, col_name (col - 1), row);
 		else
-		        sprintf(buf, "%sR[%d]C[%d]", text, row, col);
+		        sprintf (buf, "%sR[%d]C[%d]", text, row, col);
 		break;
 	default:
-	        g_free(text);
-	        g_free(buf);
+	        g_free (text);
+	        g_free (buf);
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 	}
 	v = value_new_string (buf);
-	g_free(text);
-	g_free(buf);
+	g_free (text);
+	g_free (buf);
 
 	return v;
 }

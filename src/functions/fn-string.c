@@ -694,18 +694,18 @@ static char *help_text = {
 static Value *
 gnumeric_text (FunctionEvalInfo *ei, Value **args)
 {
-	StyleFormat *format  = style_format_new_XL (args[1]->v_str.val->str, TRUE);
+	StyleFormat *format = style_format_new_XL (value_peek_string (args[1]), TRUE);
 	Value *res, *tmp = NULL;
 	Value const *arg  = args[0];
 	gboolean ok = FALSE;
 
 	if (arg->type == VALUE_STRING) {
-		Value *match = format_match (arg->v_str.val->str, NULL, NULL);
+		Value *match = format_match (value_peek_string (arg), NULL, NULL);
 		ok = (match != NULL);
 		if (ok)
 			tmp = match;
 	} else
-		ok = VALUE_IS_NUMBER(arg);
+		ok = VALUE_IS_NUMBER (arg);
 
 	if (ok) {
 		char *str = format_value (format,

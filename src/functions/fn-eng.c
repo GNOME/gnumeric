@@ -49,52 +49,26 @@ static Value *
 val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 	     int src_base, int dest_base)
 {
-	Value *value, *val_places;
+	Value *value;
 	int max, places;
 	char *err, buffer[40];
 	const char *str;
 	double v, b10;
 	int digit;
 
-	if (src_base <= 1 || dest_base <= 1 || dest_base > 36)
-		return value_new_error (ei->pos, _("Base error"));
+	g_return_val_if_fail (src_base > 1 && src_base <= 36,
+			      value_new_error (ei->pos, gnumeric_err_VALUE));
+	g_return_val_if_fail (dest_base > 1 && dest_base <= 36,
+			      value_new_error (ei->pos, gnumeric_err_VALUE));
 
 	value = argv[0];
-	if (num_argv > 1)
-		val_places = argv[1];
-	else
-		val_places = NULL;
-
-	if (val_places) {
-		if (!VALUE_IS_NUMBER (val_places))
-			return value_new_error (ei->pos, gnumeric_err_VALUE);
-		places = value_get_as_int (val_places);
-	} else
-		places = 0;
-
-	switch (value->type){
-	case VALUE_ERROR :
-		return value_duplicate(value);
-
-	case VALUE_STRING:
-		str = value->v_str.val->str;
-		break;
-	case VALUE_BOOLEAN :
-		snprintf (buffer, sizeof (buffer)-1, "%d", value->v_bool.val?1:0);
-		str = buffer;
-		break;
-	case VALUE_INTEGER:
-		snprintf (buffer, sizeof (buffer)-1, "%d", value->v_int.val);
-		str = buffer;
-		break;
-	case VALUE_FLOAT:
-		snprintf (buffer, sizeof (buffer)-1, "%8.0f", value->v_float.val);
-		str = buffer;
-		break;
-	case VALUE_EMPTY:
-	default:
+	if (VALUE_IS_EMPTY (value))
 		return value_new_error (ei->pos, gnumeric_err_NUM);
-	}
+	else if (VALUE_IS_EMPTY_OR_ERROR (value))
+		return value_duplicate (value);
+
+	places = (num_argv >= 2 && argv[1]) ? value_get_as_int (argv[1]) : 0;
+	str = value_peek_string (value);
 
 	v = strtol (str, &err, src_base);
 	if (*err)
@@ -106,8 +80,6 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 
 	if (dest_base == 10)
 		return value_new_int (v);
-	else if (dest_base <= 1) /* log(1) == 0 and log (number < 1) == invalid domain */
-	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	if (v < 0) {
 		max = 10;
@@ -125,8 +97,7 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 		return value_new_error (ei->pos, _("Unimplemented"));
 
 	for (digit = max - 1; digit >= 0; digit--) {
-		int thisdigit;
-		thisdigit = fmod (v + 0.5, dest_base);
+		int thisdigit = fmod (v + 0.5, dest_base);
 		v = floor ((v + 0.5) / dest_base);
 		buffer[digit] = thisdigit["0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 	}

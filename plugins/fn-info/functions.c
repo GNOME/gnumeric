@@ -321,11 +321,10 @@ cb_countblank (Sheet *sheet, int col, int row,
 static Value *
 gnumeric_countblank (FunctionEvalInfo *ei, Value **args)
 {
-	RangeRef const * const r = &args[0]->v_range.cell;
-
 	/* FIXME : This does not handle 3D references */
-	int count = (abs(r->a.col - r->b.col) + 1) *
-		    (abs(r->a.row - r->b.row) + 1);
+	int count =
+		value_area_get_height (ei->pos, args[0]) *
+		value_area_get_width (ei->pos, args[0]);
 
 	workbook_foreach_cell_in_range (ei->pos, args[0], TRUE,
 					&cb_countblank, &count);

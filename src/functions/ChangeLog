@@ -1,3 +1,18 @@
+2001-11-01  Morten Welinder  <terra@diku.dk>
+
+	* fn-lookup.c (gnumeric_address): Use value_peek_string.
+
+	* fn-math.c (gnumeric_countif, gnumeric_sumif): Use
+	value_peek_string.
+
+	* fn-eng.c (val_to_base): Make this suck somewhat less.  Still a
+	lot to do.
+
+	* fn-information.c (gnumeric_countblank): Use value_area_get_width
+	and value_area_get_height.
+
+	* fn-string.c (gnumeric_text): Use value_peek_string.
+
 2001-10-29  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.74
