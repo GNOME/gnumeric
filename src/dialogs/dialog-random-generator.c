@@ -47,6 +47,7 @@
 #include <commands.h>
 
 #include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-dao.h>
 
 #include <gdk/gdkkeysyms.h>
 #include <glade/glade.h>
@@ -225,25 +226,18 @@ random_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				   RandomToolState *state)
 {
 	gboolean   ready  = FALSE;
-	gint       count, vars, i;
+	gint       count, vars;
 	gnm_float a_float, b_float, from_val, to_val, p_val;
-        GnmValue      *output_range;
 	GnmValue      *disc_prob_range;
 	random_distribution_t the_dist;
 
-        output_range = gnm_expr_entry_parse_as_value
-		(GNM_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
 	the_dist = combo_get_distribution (state->distribution_combo);
-
-	i = gnumeric_glade_group_value (state->base.gui, output_group);
 
 	ready = ((entry_to_int (GTK_ENTRY (state->vars_entry), &vars, FALSE) == 0 &&
 		  vars > 0) &&
 		 (entry_to_int (GTK_ENTRY (state->count_entry), &count, FALSE) == 0 &&
 		  count > 0) &&
-                 ((i != 2) ||
-		  (output_range != NULL)));
-        if (output_range != NULL) value_release (output_range);
+                 gnm_dao_is_ready (GNM_DAO (state->base.gdao)));
 
 	switch (the_dist) {
 	case NormalDistribution:
@@ -431,10 +425,6 @@ random_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 			from_val <= to_val;
 		break;
 	}
-
-	gtk_widget_set_sensitive (state->base.clear_outputrange_button, (i == 2));
-	gtk_widget_set_sensitive (state->base.retain_format_button, (i == 2));
-	gtk_widget_set_sensitive (state->base.retain_comments_button, (i == 2));
 
 	gtk_widget_set_sensitive (state->base.apply_button, ready);
 	gtk_widget_set_sensitive (state->base.ok_button, ready);
@@ -862,6 +852,8 @@ dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
+
+	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);
 	dialog_random_tool_init (state);
 	gtk_widget_show (state->base.dialog);
 

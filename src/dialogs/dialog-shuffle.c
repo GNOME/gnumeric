@@ -156,7 +156,7 @@ dialog_shuffle (WorkbookControlGUI *wbcg)
 		return;
 
 	shuffle_update_sensitivity_cb (NULL, state);
-	state->output_entry = NULL;
+	state->gdao = NULL;
 	tool_load_selection ((GenericToolState *)state, FALSE);
 
 	r = selection_first_range (state->sv, NULL, NULL);

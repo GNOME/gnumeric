@@ -43,6 +43,7 @@
 #include <selection.h>
 #include <rendered-value.h>
 #include <cell.h>
+#include <widgets/gnm-dao.h>
 
 #include <dao-gui-utils.h>
 
@@ -65,34 +66,23 @@ static void
 cb_fill_series_update_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 				   FillSeriesState *state)
 {
-	gboolean   ready  = FALSE;
+	gboolean   ready;
 	gboolean   step, stop;
-	gint       i;
-        GnmValue  *output_range;
 	gnm_float  a_float;
-
-        output_range = gnm_expr_entry_parse_as_value
-		(GNM_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
-	i = gnumeric_glade_group_value (state->base.gui, output_group);
-
-	ready = ((i != 2) ||
-		  (output_range != NULL));
-        if (output_range != NULL) value_release (output_range);
 
 	step = !entry_to_float (GTK_ENTRY (state->step_entry),
 				&a_float, FALSE);
 	stop = !entry_to_float (GTK_ENTRY (state->stop_entry),
 				&a_float,FALSE);
 
-	ready = ready && !entry_to_float (GTK_ENTRY (state->start_entry),
-					 &a_float,
-					 FALSE)
-		&& ((i == 2 && (step || stop)) || (step && stop));
+	ready = gnm_dao_is_ready (GNM_DAO (state->base.gdao)) && 
+		!entry_to_float (GTK_ENTRY (state->start_entry),
+				 &a_float,
+				 FALSE) && 
+		((gnm_dao_is_finite (GNM_DAO (state->base.gdao)) 
+		  && (step || stop)) || 
+		 (step && stop));
 	
-	gtk_widget_set_sensitive (state->base.clear_outputrange_button, (i == 2));
-	gtk_widget_set_sensitive (state->base.retain_format_button, (i == 2));
-	gtk_widget_set_sensitive (state->base.retain_comments_button, (i == 2));
-
 	gtk_widget_set_sensitive (state->base.ok_button, ready);
 }
 
@@ -270,8 +260,8 @@ dialog_fill_series (WorkbookControlGUI *wbcg)
 			      0))
 		return;
 	
+	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);
 	dialog_fill_series_tool_init (state);
-
 	gtk_widget_show (state->base.dialog);
 
 	return;

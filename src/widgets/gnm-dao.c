@@ -42,6 +42,7 @@ struct  _GnmDao {
 	GtkWidget *new_sheet;
 	GtkWidget *new_workbook;
 	GtkWidget *output_range;
+	GtkWidget *in_place;
 	GnmExprEntry *output_entry;
         GtkWidget *clear_outputrange_button;
         GtkWidget *retain_format_button;
@@ -87,6 +88,8 @@ gnm_dao_init (GnmDao *gdao)
 						    "newworkbook-button");
 	gdao->output_range  = glade_xml_get_widget (gdao->gui,
 						    "outputrange-button");
+	gdao->in_place  = glade_xml_get_widget (gdao->gui,
+						    "inplace-button");
 	gdao->clear_outputrange_button = glade_xml_get_widget
 		(gdao->gui, "clear_outputrange_button");
 	gdao->retain_format_button = glade_xml_get_widget
@@ -231,7 +234,7 @@ gnm_dao_setup_signals (GnmDao *gdao)
 }
 
 GtkWidget *
-gnm_dao_new (WorkbookControlGUI *wbcg)
+gnm_dao_new (WorkbookControlGUI *wbcg, gchar *inplace_str)
 {
 	GnmDao *gdao = GNM_DAO (g_object_new (GNM_DAO_TYPE, NULL));
 	GtkTable *table;
@@ -253,16 +256,29 @@ gnm_dao_new (WorkbookControlGUI *wbcg)
 	gtk_widget_show (GTK_WIDGET (gdao->output_entry));
 	/* Finished creating the output range expression entry */
 
+	gnm_dao_set_inplace (gdao, inplace_str);
 	gnm_dao_setup_signals (gdao);
 	cb_set_sensitivity (NULL, gdao);
 
 	return GTK_WIDGET (gdao);
 }
 
+void           
+gnm_dao_set_inplace (GnmDao *gdao, gchar *inplace_str)
+{
+	g_return_if_fail (gdao != NULL);
+
+	if (inplace_str) {
+		gtk_button_set_label (GTK_BUTTON (gdao->in_place), 
+				      inplace_str);
+		gtk_widget_show (gdao->in_place);
+	} else 
+		gtk_widget_hide (gdao->in_place);
+}
+
 gboolean
 gnm_dao_get_data (GnmDao *gdao, data_analysis_output_t **dao)
 {
-        GnmValue *output_range;
 	gboolean dao_ready  = FALSE;
 	int grp_val;
 
@@ -270,14 +286,15 @@ gnm_dao_get_data (GnmDao *gdao, data_analysis_output_t **dao)
 
 	grp_val = gnumeric_glade_group_value (gdao->gui, dao_group);
 
-        output_range = gnm_expr_entry_parse_as_value
-		(GNM_EXPR_ENTRY (gdao->output_entry), 
-		 wb_control_cur_sheet (WORKBOOK_CONTROL (gdao->wbcg)));
-
-	dao_ready =  ((grp_val  != 2) || (output_range != NULL));
+	dao_ready =  ((grp_val  != 2) || 
+		      gnm_expr_entry_is_cell_ref 
+		      (GNM_EXPR_ENTRY (gdao->output_entry),
+		       wb_control_cur_sheet (WORKBOOK_CONTROL (gdao->wbcg)),
+		       TRUE));
 
 	if (dao_ready && NULL != dao) {
 		GtkWidget *button;
+		GnmValue *output_range = NULL;
 
 		switch (grp_val) {
 		case 0:
@@ -288,8 +305,13 @@ gnm_dao_get_data (GnmDao *gdao, data_analysis_output_t **dao)
 			*dao = dao_init (*dao, NewWorkbookOutput);
 			break;
 		case 2:
+			output_range = gnm_expr_entry_parse_as_value
+				(GNM_EXPR_ENTRY (gdao->output_entry), 
+				 wb_control_cur_sheet (WORKBOOK_CONTROL 
+						       (gdao->wbcg)));
 			*dao = dao_init (*dao, RangeOutput);
 			dao_load_from_value (*dao, output_range);
+			value_release (output_range);
 			break;
 		case 3:
 			(*dao) = dao_init ((*dao), InPlaceOutput);
@@ -313,11 +335,7 @@ gnm_dao_get_data (GnmDao *gdao, data_analysis_output_t **dao)
 			= (gtk_option_menu_get_history 
 			   (GTK_OPTION_MENU (gdao->put_menu)) 
 			   != 0);
-		
 	}
-	
-        if (output_range != NULL) 
-		value_release (output_range);
 
 	return dao_ready;
 }
@@ -327,6 +345,18 @@ gnm_dao_is_ready (GnmDao *gdao)
 {
 	return gnm_dao_get_data (gdao, NULL);
 }
+
+gboolean        
+gnm_dao_is_finite (GnmDao *gdao)
+{
+	int grp_val;
+
+	g_return_val_if_fail (gdao != NULL, FALSE);
+
+	grp_val = gnumeric_glade_group_value (gdao->gui, dao_group);
+	return ((grp_val == 2) || (grp_val == 3)); 
+}
+
 
 void            
 gnm_dao_set_put (GnmDao *gdao, gboolean show_put, gboolean put_formulas)
@@ -347,4 +377,11 @@ gnm_dao_load_range (GnmDao *gdao, GnmRange const *range)
 		(gdao->output_entry,
 		 wb_control_cur_sheet (WORKBOOK_CONTROL (gdao->wbcg)),
 		 range);
+}
+
+void            
+gnm_dao_focus_output_range (GnmDao *gdao)
+{
+	gtk_toggle_button_set_active
+		    (GTK_TOGGLE_BUTTON (gdao->output_range), TRUE);
 }

@@ -42,6 +42,7 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtktogglebutton.h>
 #include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-dao.h>
 #include "filter.h"
 
 
@@ -60,11 +61,8 @@ static void
 advanced_filter_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				       AdvancedFilterState *state)
 {
-        GnmValue *output_range   = NULL;
         GnmValue *input_range    = NULL;
         GnmValue *criteria_range = NULL;
-
-	int i;
 
         input_range = gnm_expr_entry_parse_as_value (
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
@@ -86,18 +84,11 @@ advanced_filter_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	} else
 		value_release (criteria_range);
 
-	i = gnumeric_glade_group_value (state->gui, output_group);
-	if (i == 2) {
-		output_range = gnm_expr_entry_parse_as_value
-			(GNM_EXPR_ENTRY (state->output_entry),
-			 state->sheet);
-		if (output_range == NULL) {
-			gtk_label_set_text (GTK_LABEL (state->warning),
-					    _("The output range is invalid."));
-			gtk_widget_set_sensitive (state->ok_button, FALSE);
-			return;
-		} else
-			value_release (output_range);
+	if (!gnm_dao_is_ready (GNM_DAO (state->gdao))) {
+		gtk_label_set_text (GTK_LABEL (state->warning),
+				    _("The output range is invalid."));
+		gtk_widget_set_sensitive (state->ok_button, FALSE);
+		return;
 	}
 
 	gtk_label_set_text (GTK_LABEL (state->warning), "");
@@ -203,6 +194,8 @@ dialog_advanced_filter (WorkbookControlGUI *wbcg)
 			      0))
 		return;
 
+	gnm_dao_set_inplace (GNM_DAO (state->gdao), _("Filter _in-place"));
+	gnm_dao_set_put (GNM_DAO (state->gdao), FALSE, FALSE);
 	advanced_filter_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 

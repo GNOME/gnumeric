@@ -33,12 +33,15 @@ typedef struct _GnmDao GnmDao;
 
 
 GType		gnm_dao_get_type	(void);
-GtkWidget * 	gnm_dao_new  	(WorkbookControlGUI *wbcg);
+GtkWidget * 	gnm_dao_new  	(WorkbookControlGUI *wbcg, gchar *inplace_str);
 gboolean        gnm_dao_get_data (GnmDao *gdao, data_analysis_output_t **dao);
 void            gnm_dao_set_put (GnmDao *gdao, gboolean show_put, 
 				 gboolean put_formulas);
 gboolean        gnm_dao_is_ready (GnmDao *gdao);
+gboolean        gnm_dao_is_finite (GnmDao *gdao);
 void            gnm_dao_load_range (GnmDao *gdao, GnmRange const *range);
+void            gnm_dao_focus_output_range (GnmDao *gdao);
+void            gnm_dao_set_inplace (GnmDao *gdao, gchar *inplace_str);
 
 #endif /*__GNM_DAO_H__*/
 

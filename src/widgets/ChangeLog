@@ -1,3 +1,16 @@
+2003-12-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gnm-dao.h (gnm_dao_new): add in-place argument
+	(gnm_dao_is_finite): new
+	(gnm_dao_focus_output_range): new
+	(gnm_dao_set_inplace): new
+	* gnm-dao.c (gdao): add field 
+	(gnm_dao_new): add in-place argument
+	(gnm_dao_is_finite): new
+	(gnm_dao_focus_output_range): new
+	(gnm_dao_set_inplace): new
+	(gnm_dao_get_data): use gnm_expr_entry_is_cell_ref
+
 2003-12-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnm-dao.[hc]: new files, establishing the output page of the 

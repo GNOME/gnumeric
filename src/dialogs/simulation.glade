@@ -2,6 +2,7 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
+<requires lib="gnome"/>
 
 <widget class="GtkDialog" id="Simulation">
   <property name="border_width">6</property>
@@ -98,7 +99,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="var1-label">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Inputs:</property>
+		      <property name="label" translatable="yes">Input variables:</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_RIGHT</property>
@@ -122,7 +123,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="var2-label">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Outputs:</property>
+		      <property name="label" translatable="yes">Output variables:</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_RIGHT</property>
@@ -159,8 +160,8 @@
 	  <child>
 	    <widget class="GtkLabel" id="label1">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">_Variables</property>
-	      <property name="use_underline">True</property>
+	      <property name="label" translatable="yes">Variables</property>
+	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
 	      <property name="wrap">False</property>
@@ -218,7 +219,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label36">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">First Round #:</property>
+		      <property name="label" translatable="yes">First round #:</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -242,7 +243,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label37">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Last Round #:</property>
+		      <property name="label" translatable="yes">Last round #:</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -314,7 +315,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label40">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Max Time:</property>
+		      <property name="label" translatable="yes">Max time:</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -435,8 +436,8 @@
 	  <child>
 	    <widget class="GtkLabel" id="label5">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">_Options</property>
-	      <property name="use_underline">True</property>
+	      <property name="label" translatable="yes">Options</property>
+	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
 	      <property name="wrap">False</property>
@@ -463,7 +464,7 @@
 		  <property name="visible">True</property>
 		  <property name="label_xalign">0</property>
 		  <property name="label_yalign">0.5</property>
-		  <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
+		  <property name="shadow_type">GTK_SHADOW_NONE</property>
 
 		  <child>
 		    <widget class="GtkScrolledWindow" id="scrolledwindow2">
@@ -471,7 +472,7 @@
 		      <property name="can_focus">True</property>
 		      <property name="hscrollbar_policy">GTK_POLICY_ALWAYS</property>
 		      <property name="vscrollbar_policy">GTK_POLICY_ALWAYS</property>
-		      <property name="shadow_type">GTK_SHADOW_NONE</property>
+		      <property name="shadow_type">GTK_SHADOW_IN</property>
 		      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
 		      <child>
@@ -490,9 +491,9 @@
 		  <child>
 		    <widget class="GtkLabel" id="label31">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Simulation Summary:</property>
+		      <property name="label" translatable="yes">&lt;b&gt;Simulation summary:&lt;/b&gt;</property>
 		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
+		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
@@ -519,7 +520,7 @@
 		  <property name="visible">True</property>
 		  <property name="label_xalign">0</property>
 		  <property name="label_yalign">0.5</property>
-		  <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
+		  <property name="shadow_type">GTK_SHADOW_NONE</property>
 
 		  <child>
 		    <widget class="GtkVBox" id="vbox10">
@@ -537,7 +538,7 @@
 			  <property name="can_focus">True</property>
 			  <property name="hscrollbar_policy">GTK_POLICY_ALWAYS</property>
 			  <property name="vscrollbar_policy">GTK_POLICY_ALWAYS</property>
-			  <property name="shadow_type">GTK_SHADOW_NONE</property>
+			  <property name="shadow_type">GTK_SHADOW_IN</property>
 			  <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
 			  <child>
@@ -647,9 +648,9 @@
 		  <child>
 		    <widget class="GtkLabel" id="label32">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Summary of Results:</property>
+		      <property name="label" translatable="yes">&lt;b&gt;Summary of results:&lt;/b&gt;</property>
 		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
+		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
@@ -700,111 +701,10 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkVBox" id="vbox8">
+	    <widget class="GtkHBox" id="dao">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
 	      <property name="spacing">0</property>
-
-	      <child>
-		<widget class="GtkTable" id="output-table">
-		  <property name="border_width">12</property>
-		  <property name="visible">True</property>
-		  <property name="n_rows">3</property>
-		  <property name="n_columns">2</property>
-		  <property name="homogeneous">False</property>
-		  <property name="row_spacing">6</property>
-		  <property name="column_spacing">12</property>
-
-		  <child>
-		    <widget class="GtkRadioButton" id="newsheet-button">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">_New Sheet</property>
-		      <property name="use_underline">True</property>
-		      <property name="relief">GTK_RELIEF_NORMAL</property>
-		      <property name="active">False</property>
-		      <property name="inconsistent">False</property>
-		      <property name="draw_indicator">True</property>
-		    </widget>
-		    <packing>
-		      <property name="left_attach">0</property>
-		      <property name="right_attach">1</property>
-		      <property name="top_attach">0</property>
-		      <property name="bottom_attach">1</property>
-		      <property name="x_options">fill</property>
-		      <property name="y_options"></property>
-		    </packing>
-		  </child>
-
-		  <child>
-		    <widget class="GtkRadioButton" id="newworkbook-button">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">N_ew Workbook</property>
-		      <property name="use_underline">True</property>
-		      <property name="relief">GTK_RELIEF_NORMAL</property>
-		      <property name="active">False</property>
-		      <property name="inconsistent">False</property>
-		      <property name="draw_indicator">True</property>
-		      <property name="group">newsheet-button</property>
-		    </widget>
-		    <packing>
-		      <property name="left_attach">0</property>
-		      <property name="right_attach">1</property>
-		      <property name="top_attach">1</property>
-		      <property name="bottom_attach">2</property>
-		      <property name="x_options">fill</property>
-		      <property name="y_options"></property>
-		    </packing>
-		  </child>
-
-		  <child>
-		    <widget class="GtkRadioButton" id="outputrange-button">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">_Output Range:</property>
-		      <property name="use_underline">True</property>
-		      <property name="relief">GTK_RELIEF_NORMAL</property>
-		      <property name="active">False</property>
-		      <property name="inconsistent">False</property>
-		      <property name="draw_indicator">True</property>
-		      <property name="group">newsheet-button</property>
-		    </widget>
-		    <packing>
-		      <property name="left_attach">0</property>
-		      <property name="right_attach">1</property>
-		      <property name="top_attach">2</property>
-		      <property name="bottom_attach">3</property>
-		      <property name="x_options">fill</property>
-		      <property name="y_options"></property>
-		    </packing>
-		  </child>
-		</widget>
-		<packing>
-		  <property name="padding">0</property>
-		  <property name="expand">True</property>
-		  <property name="fill">True</property>
-		</packing>
-	      </child>
-
-	      <child>
-		<widget class="GtkCheckButton" id="autofit_button">
-		  <property name="border_width">12</property>
-		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">A_utofit Columns</property>
-		  <property name="use_underline">True</property>
-		  <property name="relief">GTK_RELIEF_NORMAL</property>
-		  <property name="active">False</property>
-		  <property name="inconsistent">False</property>
-		  <property name="draw_indicator">True</property>
-		</widget>
-		<packing>
-		  <property name="padding">0</property>
-		  <property name="expand">False</property>
-		  <property name="fill">False</property>
-		</packing>
-	      </child>
 
 	      <child>
 		<placeholder/>

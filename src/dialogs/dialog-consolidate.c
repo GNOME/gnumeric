@@ -36,6 +36,7 @@
 #include <selection.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnumeric-cell-renderer-expr-entry.h>
+#include <widgets/gnm-dao.h>
 #include <workbook-edit.h>
 #include <dao-gui-utils.h>
 #include <tools/dao.h>
@@ -225,14 +226,9 @@ static void
 dialog_set_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 			       ConsolidateState *state)
 {
-	gboolean ready = FALSE;
-	int i = gnumeric_glade_group_value (state->base.gui, output_group);
+	gboolean ready;
 
-	ready = (i != 2) 
-		|| gnm_expr_entry_is_cell_ref 
-		(GNM_EXPR_ENTRY (state->base.output_entry), 
-		 state->base.sheet, TRUE);
-	ready = ready
+	ready = gnm_dao_is_ready (GNM_DAO (state->base.gdao))
 		&& (gtk_tree_model_iter_n_children
 		    (state->source_areas, NULL)> 2);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->base.ok_button), ready);
@@ -568,6 +564,7 @@ dialog_consolidate (WorkbookControlGUI *wbcg)
 			      0))
 		return;
 
+	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);	
 	dialog_consolidate_tool_init (state);
 	gtk_widget_show (GTK_WIDGET (state->base.dialog));
 }

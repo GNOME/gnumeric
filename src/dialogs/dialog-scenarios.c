@@ -247,7 +247,8 @@ dialog_scenario_add (WorkbookControlGUI *wbcg)
 				  strlen (buf->str));
 	g_string_free (buf, FALSE);
 
-	state->base.output_entry = NULL;
+	state->base.gdao = NULL;
+
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->name_entry));
 	scenario_add_update_sensitivity_cb (NULL, state);

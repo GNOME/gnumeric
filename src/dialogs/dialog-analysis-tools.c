@@ -409,8 +409,6 @@ dialog_tool_init (GenericToolState *state,
 		gtk_widget_show (GTK_WIDGET (state->input_entry_2));
 	}
 
-	state->put_menu = glade_xml_get_widget (state->gui, "put_menu"); 
-
 	state->warning = glade_xml_get_widget (state->gui, "warnings");
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	g_signal_connect (G_OBJECT (state->dialog), "destroy",
@@ -450,9 +448,6 @@ tool_load_selection (GenericToolState *state, gboolean allow_multiple)
 		} else
 			gnm_expr_entry_load_from_range (state->input_entry,
 				state->sheet, first);
-		if (state->output_entry != NULL)
-		        gnm_expr_entry_load_from_range (state->output_entry,
-							state->sheet, first);
 		if (state->gdao != NULL)
 			gnm_dao_load_range (GNM_DAO (state->gdao), first);
 	}

@@ -36,6 +36,7 @@
 
 #include <glade/glade.h>
 #include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnm-dao.h>
 #include "simulation.h"
 
 #include <string.h>
@@ -64,11 +65,8 @@ static void
 simulation_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				  SimulationState *state)
 {
-        GnmValue *output_range = NULL;
         GnmValue *input_range  = NULL;
         GnmValue *output_vars  = NULL;
-
-	int i;
 
         input_range = gnm_expr_entry_parse_as_value (
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
@@ -90,18 +88,11 @@ simulation_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	} else
 		value_release (output_vars);
 
-	i = gnumeric_glade_group_value (state->gui, output_group);
-	if (i == 2) {
-		output_range = gnm_expr_entry_parse_as_value
-			(GNM_EXPR_ENTRY (state->output_entry),
-			 state->sheet);
-		if (output_range == NULL) {
+	if (!gnm_dao_is_ready (GNM_DAO (state->gdao))) {
 			gtk_label_set_text (GTK_LABEL (state->warning),
 					    _("The output range is invalid."));
 			gtk_widget_set_sensitive (state->ok_button, FALSE);
 			return;
-		} else
-			value_release (output_range);
 	}
 
 	gtk_label_set_text (GTK_LABEL (state->warning), "");
@@ -453,6 +444,7 @@ dialog_simulation (WorkbookControlGUI *wbcg, G_GNUC_UNUSED Sheet *sheet)
 	gtk_widget_set_sensitive (w, FALSE);
 	gtk_widget_hide (w);
 
+	gnm_dao_set_put (GNM_DAO (state->gdao), FALSE, FALSE);
 	simulation_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
         return;
