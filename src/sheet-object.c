@@ -638,8 +638,11 @@ sheet_object_default_size (SheetObject *so, double *w, double *h)
 	g_return_if_fail (w != NULL);
 	g_return_if_fail (h != NULL);
 
-	*w = SO_CLASS(so)->default_width_pts;
-	*h = SO_CLASS(so)->default_height_pts;
+	if (SO_CLASS (so)->default_size == NULL) {
+		*w = SO_CLASS(so)->default_width_pts;
+		*h = SO_CLASS(so)->default_height_pts;
+	} else
+		SO_CLASS (so)->default_size (so, w, h);
 }
 
 /**

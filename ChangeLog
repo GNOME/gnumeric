@@ -1,3 +1,17 @@
+2002-04-05  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_insert_image) : add insert image.
+
+	* src/sheet-object.c (sheet_object_default_size) : add a default_size
+	  handler that can generate default sizes per instance rather than
+	  class.
+
+	* src/sheet-object-image.c (sheet_object_image_default_size) :
+	  implement.
+	(sheet_object_image_class_init) : register the deafult size handler.
+	* src/application.c  : add insert image.
+	* src/pixmaps/Makefile.am : add insert image.
+
 2002-04-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gnumeric-pane.c (gnm_pane_reposition_cursors) : also 

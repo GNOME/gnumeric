@@ -36,6 +36,7 @@ IMAGES = @STRIP_BEGIN@ 						\
 	auto-sum.xpm		\
 	equal-sign.xpm		\
 	function_selector.xpm	\
+	insert_image_16.png		insert_image_24.png	\
 	bucket.xpm		\
 	font.xpm		\
 	expr_entry.png		\
@@ -120,13 +121,15 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	\
 	gnm_add_decimals			$(srcdir)/add_decimals.xpm			\
 	gnm_remove_decimals			$(srcdir)/remove_decimals.xpm			\
-	gnm_money				$(srcdir)/format_money_24.png				\
-	gnm_percent				$(srcdir)/format_percent_24.png				\
+	gnm_money				$(srcdir)/format_money_24.png			\
+	gnm_percent				$(srcdir)/format_percent_24.png			\
 	gnm_thousand				$(srcdir)/thousands.xpm				\
 	\
 	gnm_auto				$(srcdir)/auto-sum.xpm				\
 	gnm_equal				$(srcdir)/equal-sign.xpm			\
 	gnm_function_selector			$(srcdir)/function_selector.xpm			\
+	gnm_insert_image_16			$(srcdir)/insert_image_16.png			\
+	gnm_insert_image_24			$(srcdir)/insert_image_24.png			\
 	gnm_bucket				$(srcdir)/bucket.xpm				\
 	gnm_font				$(srcdir)/font.xpm				\
 	gnm_expr_entry				$(srcdir)/expr_entry.png			\

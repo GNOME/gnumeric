@@ -15,6 +15,7 @@ Jody:
 	* Make expr parser utf8 clean.
 	* Fix printing.
 	* Fix object import from XL.
+	* Quicky insert image item.
 
 Jukka:
 	* More solver improvements.

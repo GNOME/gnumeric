@@ -126,6 +126,7 @@ application_init (void)
 		{ gnm_auto,				NULL,				"Gnumeric_AutoSum" },
 		{ gnm_equal,				NULL,				"Gnumeric_Equal" },
 		{ gnm_function_selector,		NULL,				"Gnumeric_FormulaGuru" },
+		{ gnm_insert_image_24,			gnm_insert_image_16,		"Gnumeric_InsertImage" },
 		{ gnm_bucket,				NULL,				"Gnumeric_Bucket" },
 		{ gnm_font,				NULL,				"Gnumeric_Font" },
 		{ gnm_expr_entry,			NULL,				"Gnumeric_ExprEntry" },

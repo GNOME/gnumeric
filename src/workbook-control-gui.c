@@ -66,6 +66,8 @@
 #include "gui-util.h"
 #include "widgets/widget-editable-label.h"
 #include "widgets/gnumeric-combo-text.h"
+#include "src/plugin-util.h"
+#include "sheet-object-image.h"
 
 #ifdef ENABLE_BONOBO
 #include "sheet-object-container.h"
@@ -86,6 +88,9 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <errno.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/mman.h>
 
 gboolean
 wbcg_ui_update_begin (WorkbookControlGUI *wbcg)
@@ -2482,6 +2487,37 @@ cb_autosum (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_insert_image (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
+	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
+	GtkFileSelection *fsel;
+
+	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Load file")));
+	gtk_file_selection_hide_fileop_buttons (fsel);
+
+	if (gnumeric_dialog_file_selection (wbcg, fsel)) {
+		int fd, file_size;
+		IOContext *ioc = gnumeric_io_context_new (COMMAND_CONTEXT (wbcg));
+		unsigned char const *data = gnumeric_mmap_open (ioc,
+			gtk_file_selection_get_filename (fsel), &fd, &file_size);
+
+		if (data != NULL) {
+			SheetObject *so = sheet_object_image_new ("", data, file_size, TRUE);
+			gnumeric_mmap_close (ioc, data, fd, file_size);
+			scg_mode_create_object (scg, so);
+			workbook_recalc (sheet->workbook);
+			sheet_update (sheet);
+		} else
+			gnumeric_io_error_display (ioc);
+
+		g_object_unref (G_OBJECT (ioc));
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (fsel));
+}
+
+static void
 cb_formula_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	dialog_formula_guru (wbcg, NULL);
@@ -2865,6 +2901,10 @@ static GnomeUIInfo workbook_menu_insert [] = {
 		cb_insert_sheet),
 
 	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_STOCK (N_("_Image..."),
+		N_("Insert an image..."),
+		cb_insert_image, "Gnumeric_InsertImage"),
 
 	GNOMEUIINFO_ITEM_STOCK (N_("_Function..."),
 		N_("Insert a function into the selected cell"),
@@ -3315,6 +3355,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("InsertCells", cb_insert_cells),
 	BONOBO_UI_UNSAFE_VERB ("InsertFormula", cb_formula_guru),
 	BONOBO_UI_UNSAFE_VERB ("InsertComment", cb_insert_comment),
+	BONOBO_UI_UNSAFE_VERB ("InsertImage", cb_insert_image),
 
 	BONOBO_UI_UNSAFE_VERB ("ColumnAutoSize",
 		workbook_cmd_format_column_auto_fit),

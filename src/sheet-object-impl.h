@@ -58,6 +58,8 @@ typedef struct {
 	SheetObject *       (*clone) (SheetObject const *so,
 				      Sheet *sheet);
 
+	void (*default_size) (SheetObject const *so, double *width, double *height);
+
 	double	 default_width_pts, default_height_pts;
 	gboolean stipple_border;
 	gboolean rubber_band_directly; /* If false, we draw a rectangle where

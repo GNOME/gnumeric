@@ -68,6 +68,7 @@ sheet_object_image_new (char const   *type,
 	} else
 		soi->data = data;
 
+	soi->sheet_object.anchor.direction = SO_DIR_DOWN_RIGHT;
 	return SHEET_OBJECT (soi);
 }
 
@@ -315,6 +316,15 @@ sheet_object_image_print (SheetObject const *so, GnomePrintContext *ctx,
 }
 
 static void
+sheet_object_image_default_size (SheetObject const *so, double *w, double *h)
+{
+	GdkPixbuf *buf = soi_get_pixbuf (SHEET_OBJECT_IMAGE (so), 1.);
+	*w = gdk_pixbuf_get_width  (buf);
+	*h = gdk_pixbuf_get_height (buf);
+	g_object_unref (buf);
+}
+
+static void
 sheet_object_image_class_init (GObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class;
@@ -334,6 +344,7 @@ sheet_object_image_class_init (GObjectClass *object_class)
 	sheet_object_class->user_config   = NULL;
 	sheet_object_class->print         = sheet_object_image_print;
 	sheet_object_class->rubber_band_directly = TRUE;
+	sheet_object_class->default_size  = sheet_object_image_default_size;
 }
 
 static void

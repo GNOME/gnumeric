@@ -3742,6 +3742,45 @@ ms_excel_read_bg_pic (BiffQuery *q, ExcelSheet *esheet)
 	/* Looks like a bmp.  OpenCalc has a basic parser for 24 bit files */
 }
 
+static void
+read_DOPER (guint8 const *data, int index, ExcelSheet *esheet)
+{
+	static GnmExprOp const ops [] = {
+		GNM_EXPR_OP_LT,
+		GNM_EXPR_OP_EQUAL,
+		GNM_EXPR_OP_LTE,
+		GNM_EXPR_OP_GT,
+		GNM_EXPR_OP_NOT_EQUAL,
+		GNM_EXPR_OP_GTE
+	};
+	GnmExprOp op;
+
+	switch (data [0]) {
+	case 0: /* ignore */
+		return;
+	case 2: /* RK */
+	case 4: /* IEEE float */
+	case 6: /* string */
+	case 8: /* bool / err */
+	case 0xC: /* match blanks */
+		break;
+	case 0xE: /* match non-blanks */
+		break;
+	};
+
+	g_return_if_fail (data[1] > 0 && data [1] <=6);
+	op = ops [data [1]];
+}
+
+static void
+ms_excel_read_AUTOFILTER (BiffQuery *q, ExcelSheet *esheet)
+{
+	guint16 const active_filter = MS_OLE_GET_GUINT16 (q->data);
+	guint16 const flags = MS_OLE_GET_GUINT16 (q->data + 2);
+	read_DOPER (q->data +  4, 0, esheet);
+	read_DOPER (q->data + 14, 1, esheet);
+}
+
 static gboolean
 ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
                      WorkbookView *wb_view, ExcelSheet *esheet,
@@ -4076,6 +4115,12 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 			/* the 'standard width dialog' ? */
 			break;
 
+		case BIFF_FILTERMODE:
+		case BIFF_AUTOFILTERINFO:
+			break;
+		case BIFF_AUTOFILTER:
+			ms_excel_read_AUTOFILTER (q, esheet);
+			break;
 		case BIFF_SCL:
 			if (q->length == 4) {
 				/* Zoom stored as an Egyptian fraction */

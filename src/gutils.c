@@ -76,8 +76,8 @@ gnumeric_time_counter_pop (void)
  * use using function e_free_string_list().
  */
 GList *
-gnumeric_config_get_string_list (const gchar *config_path,
-                                 const gchar *item_name_prefix)
+gnumeric_config_get_string_list (gchar const *config_path,
+                                 gchar const *item_name_prefix)
 {
 	GList *items = NULL;
 	gint i;
@@ -126,8 +126,8 @@ gnumeric_config_get_string_list (const gchar *config_path,
  */
 void
 gnumeric_config_set_string_list (GList *items,
-                                 const gchar *config_path,
-                                 const gchar *item_name_prefix)
+                                 gchar const *config_path,
+                                 gchar const *item_name_prefix)
 {
 	GList *l;
 	gint i;
@@ -147,14 +147,14 @@ gnumeric_config_set_string_list (GList *items,
 		g_free (key);
 		gnome_config_pop_prefix ();
 	} else {
-		const gchar **itemv;
+		gchar const **itemv;
 		gint n_items;
 
 		n_items = g_list_length (items);
 		if (n_items > 0) {
-			itemv = g_new (const gchar *, n_items);
+			itemv = g_new (gchar const *, n_items);
 			for (l = items, i = 0; l != NULL; l = l->next, i++) {
-				itemv[i] = (const gchar *) l->data;
+				itemv[i] = (gchar const *) l->data;
 			}
 			gnome_config_set_vector (config_path, n_items, itemv);
 			g_free (itemv);
@@ -274,7 +274,7 @@ g_string_list_copy (GList *list)
  *
  */
 GList *
-g_strsplit_to_list (const gchar *string, const gchar *delimiter)
+g_strsplit_to_list (gchar const *string, gchar const *delimiter)
 {
 	gchar **token_v;
 	GList *string_list = NULL;
@@ -338,15 +338,15 @@ g_lang_score_in_lang_list (gchar *lang, GList *lang_list)
 gint
 gnumeric_strcase_equal (gconstpointer v, gconstpointer v2)
 {
-	return g_strcasecmp ((const gchar*) v, (const gchar*)v2) == 0;
+	return g_strcasecmp ((gchar const *) v, (gchar const *)v2) == 0;
 }
 
 /* a char* hash function from ASU */
 guint
 gnumeric_strcase_hash (gconstpointer v)
 {
-	const unsigned char *s = (const unsigned char *)v;
-	const unsigned char *p;
+	unsigned const char *s = (unsigned const char *)v;
+	unsigned const char *p;
 	guint h = 0, g;
 
 	for(p = s; *p != '\0'; p += 1) {
@@ -362,7 +362,7 @@ gnumeric_strcase_hash (gconstpointer v)
 
 extern char *gnumeric_data_dir;
 char *
-gnumeric_sys_data_dir (const char *subdir)
+gnumeric_sys_data_dir (char const *subdir)
 {
 	return g_strconcat (gnumeric_data_dir, G_DIR_SEPARATOR_S,
 			    subdir, G_DIR_SEPARATOR_S, NULL);
@@ -370,7 +370,7 @@ gnumeric_sys_data_dir (const char *subdir)
 
 extern char *gnumeric_lib_dir;
 char *
-gnumeric_sys_lib_dir (const char *subdir)
+gnumeric_sys_lib_dir (char const *subdir)
 {
 	return g_strconcat (gnumeric_lib_dir, G_DIR_SEPARATOR_S,
 			    subdir, G_DIR_SEPARATOR_S, NULL);
@@ -392,9 +392,9 @@ gnumeric_sys_plugin_dir (void)
 }
 
 char *
-gnumeric_usr_dir (const char *subdir)
+gnumeric_usr_dir (char const *subdir)
 {
-	const char *home_dir = g_get_home_dir ();
+	char const *home_dir = g_get_home_dir ();
 
 	if (home_dir != NULL) {
 		gboolean has_slash = (home_dir[strlen (home_dir) - 1] == G_DIR_SEPARATOR);
@@ -419,7 +419,7 @@ gnumeric_usr_plugin_dir (void)
  */
 
 gint16
-gnumeric_get_le_int16 (const void *p)
+gnumeric_get_le_int16 (void const *p)
 {
 	gint16 data;
 	memcpy (&data, p, sizeof (data));
@@ -427,7 +427,7 @@ gnumeric_get_le_int16 (const void *p)
 }
 
 guint16
-gnumeric_get_le_uint16 (const void *p)
+gnumeric_get_le_uint16 (void const *p)
 {
 	guint16 data;
 	memcpy (&data, p, sizeof (data));
@@ -435,7 +435,7 @@ gnumeric_get_le_uint16 (const void *p)
 }
 
 gint32
-gnumeric_get_le_int32 (const void *p)
+gnumeric_get_le_int32 (void const *p)
 {
 	gint32 data;
 	memcpy (&data, p, sizeof (data));
@@ -443,7 +443,7 @@ gnumeric_get_le_int32 (const void *p)
 }
 
 guint32
-gnumeric_get_le_uint32 (const void *p)
+gnumeric_get_le_uint32 (void const *p)
 {
 	guint32 data;
 	memcpy (&data, p, sizeof (data));
@@ -451,7 +451,7 @@ gnumeric_get_le_uint32 (const void *p)
 }
 
 double
-gnumeric_get_le_double (const void *p)
+gnumeric_get_le_double (void const *p)
 {
 #if G_BYTE_ORDER == G_BIG_ENDIAN
 	if (sizeof (double) == 8) {
@@ -525,11 +525,11 @@ gnumeric_set_le_double (void *p, double d)
  * Also adds quotes around the result.
  */
 char *
-gnumeric_strescape (const char *string)
+gnumeric_strescape (char const *string)
 {
 	char *q, *escaped;
 	int escapechars = 0;
-	const char *p;
+	char const *p;
 
 	g_return_val_if_fail (string != NULL, NULL);
 
@@ -576,7 +576,7 @@ modfgnum (gnum_float x, gnum_float *iptr)
 
 #ifdef NEED_FAKE_STRTOGNUM
 gnum_float
-strtognum (const char *str, char **end)
+strtognum (char const *str, char **end)
 {
 #if defined(HAVE_STRING_TO_DECIMAL) && defined(HAVE_DECIMAL_TO_QUADRUPLE)
 	gnum_float res;
@@ -753,7 +753,7 @@ struct _gnm_mem_chunk {
 
 
 gnm_mem_chunk *
-gnm_mem_chunk_new (const char *name, size_t user_atom_size, size_t chunk_size)
+gnm_mem_chunk_new (char const *name, size_t user_atom_size, size_t chunk_size)
 {
 	int atoms_per_block;
 	gnm_mem_chunk *res;
@@ -935,5 +935,3 @@ gnm_mem_chunk_free (gnm_mem_chunk *chunk, gpointer mem)
 		chunk->freeblocks = g_list_remove (chunk->freeblocks, block);
 	}
 }
-
-/* ------------------------------------------------------------------------- */

@@ -30,6 +30,7 @@
 #include <datetime.h>
 #include <value.h>
 #include <auto-format.h>
+#include <mathfunc.h>
 
 #include <math.h>
 #include <string.h>
@@ -166,7 +167,8 @@ gnumeric_date2unix (FunctionEvalInfo *ei, Value **argv)
 	if (gnumabs (fserial - serial) >= 1.0 || utime == (time_t)-1)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	return value_new_float (utime + DAY_SECONDS * (fserial - serial));
+	return value_new_int (utime +
+		gnumeric_fake_round (DAY_SECONDS * (fserial - serial)));
 }
 
 /***************************************************************************/

@@ -551,7 +551,8 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			if (ms_excel_object_debug > 4) {
 				/* According to the docs this should not fail
 				 * but there appears to be a flag at 0x200 for
-				 * scrollbars
+				 * scrollbars and 0x100 for checkboxes
+				 * assicated with filters.
 				 */
 				if ((options & 0x9fee) != 0)
 					printf ("WARNING : Why is option not 0 (%x)\n",

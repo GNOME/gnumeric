@@ -18,32 +18,26 @@ struct _ErrorInfo {
 };
 
 ErrorInfo *
-error_info_new_str (const gchar *msg)
+error_info_new_str (char const *msg)
 {
-	ErrorInfo *error;
-
-	error = g_new (ErrorInfo, 1);
+	ErrorInfo *error = g_new (ErrorInfo, 1);
 	error->msg = g_strdup (msg);
 	error->details = NULL;
-
 	return error;
 }
 
 ErrorInfo *
-error_info_new_vprintf (const gchar *msg_format, va_list args)
+error_info_new_vprintf (char const *msg_format, va_list args)
 {
-	ErrorInfo *error;
-
-	error = g_new (ErrorInfo, 1);
+	ErrorInfo *error = g_new (ErrorInfo, 1);
 	error->msg = g_strdup_vprintf (msg_format, args);
 	error->details = NULL;
-
 	return error;
 }
 
 
 ErrorInfo *
-error_info_new_printf (const gchar *msg_format, ...)
+error_info_new_printf (char const *msg_format, ...)
 {
 	ErrorInfo *error;
 	va_list args;
@@ -56,24 +50,18 @@ error_info_new_printf (const gchar *msg_format, ...)
 }
 
 ErrorInfo *
-error_info_new_str_with_details (const gchar *msg, ErrorInfo *details)
+error_info_new_str_with_details (char const *msg, ErrorInfo *details)
 {
-	ErrorInfo *error;
-
-	error = error_info_new_str (msg);
+	ErrorInfo *error = error_info_new_str (msg);
 	error_info_add_details (error, details);
-
 	return error;
 }
 
 ErrorInfo *
-error_info_new_str_with_details_list (const gchar *msg, GList *details)
+error_info_new_str_with_details_list (char const *msg, GList *details)
 {
-	ErrorInfo *error;
-
-	error = error_info_new_str (msg);
+	ErrorInfo *error = error_info_new_str (msg);
 	error_info_add_details_list (error, details);
-
 	return error;
 }
 
@@ -109,38 +97,31 @@ error_info_add_details (ErrorInfo *error, ErrorInfo *details)
 {
 	g_return_if_fail (error != NULL);
 
-	if (details == NULL) {
+	if (details == NULL)
 		;
-	} else if (details->msg == NULL) {
+	else if (details->msg == NULL) {
 		error->details = g_list_concat (error->details, details->details);
 		g_free (details);
-	} else {
+	} else
 		error->details = g_list_append (error->details, details);
-	}
 }
 
 void
 error_info_add_details_list (ErrorInfo *error, GList *details)
 {
-	GList *new_details_list, *l;
+	GList *new_details_list, *l, *ll;
 
 	g_return_if_fail (error != NULL);
 
 	new_details_list = NULL;
 	for (l = details; l != NULL; l = l->next) {
-		ErrorInfo *details_error;
-
-		details_error = (ErrorInfo *) l->data;
+		ErrorInfo *details_error = l->data;
 		if (details_error->msg == NULL) {
-			GList *ll;
-
-			for (ll = details_error->details; ll != NULL; ll = ll->next) {
-				new_details_list = g_list_prepend (new_details_list, (ErrorInfo *) l->data);
-			}
+			for (ll = details_error->details; ll != NULL; ll = ll->next)
+				new_details_list = g_list_prepend (new_details_list, l->data);
 			g_free (details_error);
-		} else {
+		} else
 			new_details_list = g_list_prepend (new_details_list, details_error);
-		}
 	}
 	g_list_free (details);
 	new_details_list = g_list_reverse (new_details_list);
@@ -152,14 +133,13 @@ error_info_free (ErrorInfo *error)
 {
 	GList *l;
 
-	if (error == NULL) {
+	if (error == NULL)
 		return;
-	}
 
 	g_free (error->msg);
-	for (l = error->details; l != NULL; l = l->next) {
+	for (l = error->details; l != NULL; l = l->next)
 		error_info_free ((ErrorInfo *) l->data);
-	}
+
 	g_list_free (error->details);
 	g_free(error);
 }
@@ -173,9 +153,8 @@ error_info_print_with_offset (ErrorInfo *error, gint offset)
 		fprintf (stderr, "%*s%s\n", offset, "", error->msg);
 		offset += 2;
 	}
-	for (l = error->details; l != NULL; l = l->next) {
+	for (l = error->details; l != NULL; l = l->next)
 		error_info_print_with_offset ((ErrorInfo *) l->data, offset);
-	}
 }
 
 void
@@ -186,7 +165,7 @@ error_info_print (ErrorInfo *error)
 	error_info_print_with_offset (error, 0);
 }
 
-const gchar *
+char const *
 error_info_peek_message (ErrorInfo *error)
 {
 	g_return_val_if_fail (error != NULL, NULL);

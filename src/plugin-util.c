@@ -158,7 +158,7 @@ gnumeric_mmap_close (IOContext *context, const unsigned char *data, int fdesc, i
  *
  * Return value: a pointer to the mmaped data or NULL on failure.
  **/
-const unsigned char *
+unsigned char const *
 gnumeric_mmap_open (IOContext *context, const char *filename, int *fdesc, int *file_size)
 {
 	caddr_t m;
@@ -176,7 +176,6 @@ gnumeric_mmap_open (IOContext *context, const char *filename, int *fdesc, int *f
 		return NULL;
 
 	if (fstat(fd, &sbuf) < 0) {
-
 		close (fd);
 		gnumeric_io_error_read (context, g_strerror (errno));
 		return NULL;
