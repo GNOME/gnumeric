@@ -1,5 +1,9 @@
 2003-06-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* tabulate.glade: fixed button order
+
+2003-06-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-consolidate.c: replace GTKCList with Treeview
 	* consolidate.glade: ditto
 	
