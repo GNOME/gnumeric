@@ -202,7 +202,6 @@ src/dialogs/summary.glade
 src/dialogs/tabulate.glade
 src/dialogs/variance-tests.glade
 src/dialogs/workbook-attr.glade
-src/embeddable-grid.c
 src/expr-name.c
 src/expr.c
 src/file-autoft.c
