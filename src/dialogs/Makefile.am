@@ -79,7 +79,6 @@ glade_DATA = 				\
 	anova-two.glade			\
 	autocorrect.glade		\
 	autoformat.glade		\
-	autosave-prompt.glade		\
 	autosave.glade			\
 	cell-format.glade		\
 	cell-sort.glade			\
