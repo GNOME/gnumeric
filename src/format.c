@@ -542,16 +542,16 @@ format_compile (StyleFormat *format)
 	for (ptr = format->entries; ptr && counter++ < 4 ; ptr = ptr->next) {
 		StyleFormatEntry *entry = ptr->data;
 
-		if (entry->restriction_type == '*') {
+		/*
+		 * Use default conditional instead of catch-all, except
+		 * for the last entry.
+		 */
+		if (entry->restriction_type == '*' && counter != num_entries) {
 			entry->restriction_value = 0.;
 
 			switch (counter) {
-			/* single conditions should remain catch alls */
-			case 1 : if (num_entries > 1)
-					 entry->restriction_type =
-						 (num_entries > 2) ? '>' : '.';
+			case 1 : entry->restriction_type = (num_entries > 2) ? '>' : '.';
 				 break;
-			/* Once there is more than one condition no catchall */
 			case 2 : entry->restriction_type = '<'; break;
 			case 3 : entry->restriction_type = '='; break;
 			case 4 : entry->restriction_type = '@'; break;
@@ -1503,6 +1503,7 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 	char *v = NULL;
 	StyleFormatEntry const *entry = NULL; /* default to General */
 	GSList *list;
+	gboolean need_abs = FALSE;
 
 	if (color)
 		*color = NULL;
@@ -1525,8 +1526,8 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 				break;
 
 		/* If nothing matches treat it as General */
-		if (NULL != list) {
-			entry = (StyleFormatEntry const *)(list->data);
+		if (list != NULL) {
+			entry = list->data;
 
 			/* Empty formats should be ignored */
 			if (entry->format[0] == '\0')
@@ -1543,6 +1544,9 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 			} else if (strcmp (entry->format, "General") == 0)
 				entry = NULL;
 		}
+
+		/* More than one format? -- abs the value.  */
+		need_abs = entry && format->entries->next;
 	}
 
 	switch (value->type) {
@@ -1550,26 +1554,33 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 		return g_strdup ("");
 	case VALUE_BOOLEAN:
 		return g_strdup (value->v_bool.val ? _("TRUE"):_("FALSE"));
-	case VALUE_INTEGER:
+	case VALUE_INTEGER: {
+		gnum_int val = value->v_int.val;
+		if (need_abs)
+			val = ABS (val);
+
 		if (entry == NULL)
-			return fmt_general_int (value->v_int.val, col_width);
-		v = format_number (value->v_int.val, (int)col_width, entry);
+			return fmt_general_int (val, col_width);
+		v = format_number (val, (int)col_width, entry);
 		break;
-	case VALUE_FLOAT:
-		if (!finitegnum (value->v_float.val))
+	}
+	case VALUE_FLOAT: {
+		gnum_float val = value->v_float.val;
+
+		if (!finitegnum (val))
 			return g_strdup (gnumeric_err_VALUE);
 
+		if (need_abs)
+			val = fabs (val);
+
 		if (entry == NULL) {
-			gnum_float val = value->v_float.val;
-			if ((gnum_float)INT_MAX >= val && val >= (gnum_float)INT_MIN) {
-				gnum_float int_val = floorgnum (value->v_float.val);
-				if (int_val == value->v_float.val)
-					return fmt_general_int (int_val, col_width);
-			}
+			if (INT_MAX >= val && val >= INT_MIN)
+				return fmt_general_int ((int)val, col_width);
 			return fmt_general_float (val, col_width);
 		}
-		v = format_number (value->v_float.val, (int)col_width, entry);
+		v = format_number (val, (int)col_width, entry);
 		break;
+	}
 	case VALUE_ERROR:
 		return g_strdup (value->v_err.mesg->str);
 	case VALUE_STRING:
