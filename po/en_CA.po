@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-15 16:33-0400\n"
-"PO-Revision-Date: 2004-09-15 11:36-0400\n"
+"POT-Creation-Date: 2004-09-24 12:52-0400\n"
+"PO-Revision-Date: 2004-09-24 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -1470,7 +1470,7 @@ msgstr "Financial Derivatives"
 msgid "Functions related to financial derivatives"
 msgstr "Functions related to financial derivatives"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5667
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5713
 #: plugins/mps/mps.c:547 src/xml-io.c:4134
 msgid "Reading file..."
 msgstr "Reading file..."
@@ -1563,7 +1563,7 @@ msgstr "Unexpected attribute %s::%s == '%s'."
 
 #: plugins/excel/excel-xml-read.c:198
 #: plugins/openoffice/openoffice-read.c:1165
-#: plugins/xml_sax/xml-sax-read.c:1621
+#: plugins/xml_sax/xml-sax-read.c:1651
 msgid "XML document not well formed!"
 msgstr "XML document not well formed!"
 
@@ -1573,34 +1573,34 @@ msgstr "#UNKNOWN!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1180 plugins/excel/ms-excel-read.c:1192
+#: plugins/excel/ms-excel-read.c:1173 plugins/excel/ms-excel-read.c:1185
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:494 src/dialogs/dialog-sheet-order.c:498
 #, c-format
 msgid "Sheet%d"
 msgstr "Sheet%d"
 
-#: plugins/excel/ms-excel-read.c:1196
+#: plugins/excel/ms-excel-read.c:1189
 #, c-format
 msgid "Macro%d"
 msgstr "Macro%d"
 
-#: plugins/excel/ms-excel-read.c:1200
+#: plugins/excel/ms-excel-read.c:1193
 #, c-format
 msgid "Chart%d"
 msgstr "Chart%d"
 
-#: plugins/excel/ms-excel-read.c:1203
+#: plugins/excel/ms-excel-read.c:1196
 #, c-format
 msgid "Module%d"
 msgstr "Module%d"
 
-#: plugins/excel/ms-excel-read.c:2990
+#: plugins/excel/ms-excel-read.c:2984
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Failure parsing name '%s'"
 
-#: plugins/excel/ms-excel-read.c:3083
+#: plugins/excel/ms-excel-read.c:3080
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1609,7 +1609,7 @@ msgstr ""
 "DDE links are not supported.\n"
 "Name '%s' will be lost.\n"
 
-#: plugins/excel/ms-excel-read.c:3089
+#: plugins/excel/ms-excel-read.c:3086
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1618,15 +1618,15 @@ msgstr ""
 "OLE links are not supported.\n"
 "Name '%s' will be lost.\n"
 
-#: plugins/excel/ms-excel-read.c:5016
+#: plugins/excel/ms-excel-read.c:5063
 msgid "external references"
 msgstr "external references"
 
-#: plugins/excel/ms-excel-read.c:5039
+#: plugins/excel/ms-excel-read.c:5086
 msgid "No password supplied"
 msgstr "No password supplied"
 
-#: plugins/excel/ms-excel-read.c:5889
+#: plugins/excel/ms-excel-read.c:5938
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Unable to locate valid MS Excel workbook"
 
@@ -1640,7 +1640,7 @@ msgstr ""
 "We already wrote a length for a string that is being truncated due to "
 "encoding problems."
 
-#: plugins/excel/ms-excel-write.c:4152
+#: plugins/excel/ms-excel-write.c:4170
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1649,7 +1649,7 @@ msgstr ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
 "d rows, and this workbook has %d"
 
-#: plugins/excel/ms-excel-write.c:4159
+#: plugins/excel/ms-excel-write.c:4177
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1658,11 +1658,11 @@ msgstr ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
 "rows, and this workbook has %d"
 
-#: plugins/excel/ms-excel-write.c:4920
+#: plugins/excel/ms-excel-write.c:4931
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Couldn't open stream 'Book' for writing\n"
 
-#: plugins/excel/ms-excel-write.c:4940
+#: plugins/excel/ms-excel-write.c:4951
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Couldn't open stream 'Workbook' for writing\n"
 
@@ -8784,7 +8784,7 @@ msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1324
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1431
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1445
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:220
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:117
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:819
@@ -18063,15 +18063,15 @@ msgstr "OpenCalc/StarCalc"
 msgid "OpenOffice OASIS _UNFINISHED_"
 msgstr "OpenOffice OASIS _UNFINISHED_"
 
-#: plugins/paradox/paradox.c:72 plugins/paradox/paradox.c:106
+#: plugins/paradox/paradox.c:73 plugins/paradox/paradox.c:122
 msgid "Error while opening paradox file."
 msgstr "Error while opening paradox file."
 
-#: plugins/paradox/paradox.c:104
+#: plugins/paradox/paradox.c:120
 msgid "Could not allocate memory for record."
 msgstr "Could not allocate memory for record."
 
-#: plugins/paradox/paradox.c:180
+#: plugins/paradox/paradox.c:196
 #, c-format
 msgid "Field type %d is not unsupported."
 msgstr "Field type %d is not unsupported."
@@ -18497,8 +18497,8 @@ msgid ""
 ">This value determines the default setting in the Print Setup dialog whether "
 "print grid lines. Please use the Print Setup dialog to edit this value."
 msgstr ""
-">This value determines the default setting in the Print Setup dialog for "
-"whether to print grid lines. Please use the Print Setup dialog to edit this "
+">This value determines the default setting in the Print Setup dialogue for "
+"whether to print grid lines. Please use the Print Setup dialogue to edit this "
 "value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:2
@@ -18507,8 +18507,8 @@ msgid ""
 "to center pages vertically. Please use the Print Setup dialog to edit this "
 "value."
 msgstr ""
-">This value determines the default setting in the Print Setup dialog for "
-"whether to centre pages vertically. Please use the Print Setup dialog to "
+">This value determines the default setting in the Print Setup dialogue for "
+"whether to centre pages vertically. Please use the Print Setup dialogue to "
 "edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:3
@@ -18665,7 +18665,7 @@ msgstr "Page Header"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:41
 msgid "Please use the Print Setup dialog to edit this value."
-msgstr "Please use the Print Setup dialog to edit this value."
+msgstr "Please use the Print Setup dialogue to edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:42
 msgid "Print Config"
@@ -18682,7 +18682,7 @@ msgid ""
 "in the workbook. Setting this variable to TRUE directs selections to this "
 "entry even the entry does not have keyboard focus."
 msgstr ""
-"Some dialogs contain only a single entry field that allows range selections "
+"Some dialogues contain only a single entry field that allows range selections "
 "in the workbook. Setting this variable to TRUE directs selections to this "
 "entry even the entry does not have keyboard focus."
 
@@ -18732,7 +18732,7 @@ msgid ""
 "page setup dialog."
 msgstr ""
 "The default page footer for new documents that can be modified using the "
-"page setup dialog."
+"page setup dialogue."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:54
 msgid ""
@@ -18740,7 +18740,7 @@ msgid ""
 "page setup dialog."
 msgstr ""
 "The default page header for new documents that can be modified using the "
-"page setup dialog."
+"page setup dialogue."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:55
 msgid ""
@@ -18798,7 +18798,7 @@ msgid ""
 "printed sheet. Please use the Print Setup dialog to edit this value."
 msgstr ""
 "This string gives the default region to be repeated at the left of each "
-"printed sheet. Please use the Print Setup dialog to edit this value."
+"printed sheet. Please use the Print Setup dialogue to edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:65
 msgid ""
@@ -18806,7 +18806,7 @@ msgid ""
 "printed sheet. Please use the Print Setup dialog to edit this value."
 msgstr ""
 "This string gives the default region to be repeated at the top of each "
-"printed sheet. Please use the Print Setup dialog to edit this value."
+"printed sheet. Please use the Print Setup dialogue to edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:66
 msgid ""
@@ -18816,7 +18816,7 @@ msgid ""
 msgstr ""
 "This value determines the default number of pages a printout of the current "
 "sheet is suppposed to be high. 0 disables scaling. Please use the Print "
-"Setup dialog to edit this value."
+"Setup dialogue to edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:67
 msgid ""
@@ -18826,7 +18826,7 @@ msgid ""
 msgstr ""
 "This value determines the default number of pages a printout of the current "
 "sheet is suppposed to be wide. 0 disables scaling. Please use the Print "
-"Setup dialog to edit this value."
+"Setup dialogue to edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:68
 msgid ""
@@ -18834,8 +18834,8 @@ msgid ""
 "ro print row and column headers. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
-"This value determines the default setting in the Print Setup dialog whether "
-"to print row and column headers. Please use the Print Setup dialog to edit "
+"This value determines the default setting in the Print Setup dialogue whether "
+"to print row and column headers. Please use the Print Setup dialogue to edit "
 "this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:69
@@ -18844,8 +18844,8 @@ msgid ""
 "to center pages horizontally. Please use the Print Setup dialog to edit this "
 "value."
 msgstr ""
-"This value determines the default setting in the Print Setup dialog whether "
-"to centre pages horizontally. Please use the Print Setup dialog to edit this "
+"This value determines the default setting in the Print Setup dialogue whether "
+"to centre pages horizontally. Please use the Print Setup dialogue to edit this "
 "value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:70
@@ -18854,8 +18854,8 @@ msgid ""
 "to print empty but formatted cells. Please use the Print Setup dialog to "
 "edit this value."
 msgstr ""
-"This value determines the default setting in the Print Setup dialog whether "
-"to print empty but formatted cells. Please use the Print Setup dialog to "
+"This value determines the default setting in the Print Setup dialogue whether "
+"to print empty but formatted cells. Please use the Print Setup dialogue to "
 "edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:71
@@ -18864,8 +18864,8 @@ msgid ""
 "to print first right then down. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
-"This value determines the default setting in the Print Setup dialog whether "
-"to print first right then down. Please use the Print Setup dialog to edit "
+"This value determines the default setting in the Print Setup dialogue whether "
+"to print first right then down. Please use the Print Setup dialogue to edit "
 "this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:72
@@ -18874,8 +18874,8 @@ msgid ""
 "to print in only black and white. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
-"This value determines the default setting in the Print Setup dialog whether "
-"to print in only black and white. Please use the Print Setup dialog to edit "
+"This value determines the default setting in the Print Setup dialogue whether "
+"to print in only black and white. Please use the Print Setup dialogue to edit "
 "this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:73
@@ -18884,8 +18884,8 @@ msgid ""
 "to scale pages by a given percentage. Please use the Print Setup dialog to "
 "edit this value."
 msgstr ""
-"This value determines the default setting in the Print Setup dialog whether "
-"to scale pages by a given percentage. Please use the Print Setup dialog to "
+"This value determines the default setting in the Print Setup dialogue whether "
+"to scale pages by a given percentage. Please use the Print Setup dialogue to "
 "edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:74
@@ -18893,7 +18893,7 @@ msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
 msgstr ""
-"This value determines whether by default the print set-up dialog applies to "
+"This value determines whether by default the print set-up dialogue applies to "
 "all sheets simultaneously."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:75
@@ -18918,7 +18918,7 @@ msgid ""
 "the end of the body. Please use the Print Setup dialog to edit this value."
 msgstr ""
 "This value gives the default number of points from the bottom of a page to "
-"the end of the body. Please use the Print Setup dialog to edit this value."
+"the end of the body. Please use the Print Setup dialogue to edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:78
 msgid ""
@@ -18926,7 +18926,7 @@ msgid ""
 "start of the body. Please use the Print Setup dialog to edit this value."
 msgstr ""
 "This value gives the default number of points from the top of a page to the "
-"start of the body. Please use the Print Setup dialog to edit this value."
+"start of the body. Please use the Print Setup dialogue to edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:79
 msgid ""
@@ -18934,7 +18934,7 @@ msgid ""
 "use the Print Setup dialog to edit this value."
 msgstr ""
 "This value gives the percentage by which to scale each printed page. Please "
-"use the Print Setup dialog to edit this value."
+"use the Print Setup dialogue to edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:80
 msgid ""
@@ -18961,8 +18961,8 @@ msgid ""
 "dialog the default button."
 msgstr ""
 "Before an existing file is being overwritten, gnumeric will present a "
-"warning dialog. Setting this option will make the overwrite button in that "
-"dialog the default button."
+"warning dialogue. Setting this option will make the overwrite button in that "
+"dialogue the default button."
 
 #: schemas/gnumeric-general.schemas.in.h:4
 msgid "Default Compression Level For Gnumeric Files"
@@ -19060,7 +19060,7 @@ msgid ""
 msgstr ""
 "Setting this option will cause the sort buttons on the toolbar to perform a "
 "case-sensitive sort and determine the initial state of the case-sensitive "
-"checkbox in the sort dialog."
+"checkbox in the sort dialogue."
 
 #: schemas/gnumeric-general.schemas.in.h:26
 msgid ""
@@ -19070,7 +19070,7 @@ msgid ""
 msgstr ""
 "Setting this option will cause the sort buttons on the toolbar to preserve "
 "the cell formats while sorting and determines the initial state of the "
-"preserve-formats checkbox in the sort dialog."
+"preserve-formats checkbox in the sort dialogue."
 
 #: schemas/gnumeric-general.schemas.in.h:27
 msgid "Show Sheet Name in Undo List"
@@ -19164,7 +19164,7 @@ msgid ""
 "sort dialog."
 msgstr ""
 "This option determines the initial state of the sort-order button in the "
-"sort dialog."
+"sort dialogue."
 
 #: schemas/gnumeric-general.schemas.in.h:44
 msgid ""
@@ -19264,7 +19264,7 @@ msgid ""
 "automatically added. This number determines the maximum number of clauses to "
 "be added automatically."
 msgstr ""
-"When selecting a sort region in the sort dialog, search clauses are "
+"When selecting a sort region in the sort dialogue, search clauses are "
 "automatically added. This number determines the maximum number of clauses to "
 "be added automatically."
 
@@ -19397,11 +19397,11 @@ msgstr "Typing \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Ins/Del Column/Row"
 
-#: src/commands.c:1292 src/commands.c:1297 src/sheet.c:3238
+#: src/commands.c:1292 src/commands.c:1297 src/sheet.c:3239
 msgid "Delete Columns"
 msgstr "Delete Columns"
 
-#: src/commands.c:1292 src/commands.c:1297 src/sheet.c:3356
+#: src/commands.c:1292 src/commands.c:1297 src/sheet.c:3357
 msgid "Delete Rows"
 msgstr "Delete Rows"
 
@@ -19446,7 +19446,7 @@ msgid "Deleting row %s"
 msgstr "Deleting row %s"
 
 #. Check for locked cells
-#: src/commands.c:1569 src/commands.c:1573 src/sheet.c:2852
+#: src/commands.c:1569 src/commands.c:1573 src/sheet.c:2853
 msgid "Clear"
 msgstr "Clear"
 
@@ -19891,7 +19891,7 @@ msgid "O_utside"
 msgstr "O_utside"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1453
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1467
 msgid "_Cross"
 msgstr "_Cross"
 
@@ -19925,67 +19925,67 @@ msgstr "_Show Labels"
 msgid "_Type:"
 msgstr "_Type:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:631
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:605
 #: src/dialogs/dialog-random-generator.c:118
 #: src/tools/solver/reports-write.c:712
 msgid "Discrete"
 msgstr "Discrete"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:631
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:605
 msgid "Discrete mapping"
 msgstr "Discrete mapping"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:640
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:614
 msgid "Linear"
 msgstr "Linear"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:640
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:614
 msgid "Linear mapping"
 msgstr "Linear mapping"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:646
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:620
 msgid "Log"
 msgstr "Log"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:646
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:620
 msgid "Logarithm mapping"
 msgstr "Logarithm mapping"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1394
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1403
 msgid "Details"
 msgstr "Details"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1438
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1452
 msgid "Categories between _ticks"
 msgstr "Categories between _ticks"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1439
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1453
 msgid "Categories between _labels"
 msgstr "Categories between _labels"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1440
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1454
 msgid "_Cross at category #"
 msgstr "_Cross at category #"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1446
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1460
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1474
 msgid "Bounds"
 msgstr "Bounds"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1449
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1463
 #: src/dialogs/solver.glade.h:7
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1450
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1464
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1451
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1465
 msgid "Ma_jor Ticks"
 msgstr "Ma_jor Ticks"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1452
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1466
 msgid "Mi_nor Ticks"
 msgstr "Mi_nor Ticks"
 
@@ -19993,53 +19993,61 @@ msgstr "Mi_nor Ticks"
 #. * We need a way to toggle auto vs user formats
 #. * but the selector is too tall already
 #. * disable for now
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1475
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1482
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1489
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1496
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Format"
 msgstr "Format"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1511
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1525
 #: src/sheet-object-graphic.c:1443 src/wbcg-actions.c:1881
 msgid "Label"
 msgstr "Label"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:194
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1528
+msgid "MinorGrid"
+msgstr "MinorGrid"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1531
+msgid "MajorGrid"
+msgstr "MajorGrid"
+
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:195
 msgid "Legend"
 msgstr "Legend"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:197
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:198
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:157
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:179
 msgid "Title"
 msgstr "Title"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:200
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:201
 msgid "Grid"
 msgstr "Grid"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:203
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
 msgid "X-Axis"
 msgstr "X-Axis"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:207
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:208
 msgid "Y-Axis"
 msgstr "Y-Axis"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:211
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:212
 msgid "Z-Axis"
 msgstr "Z-Axis"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:215
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:216
 msgid "Circular-Axis"
 msgstr "Circular-Axis"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:219
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:220
 msgid "Radial-Axis"
 msgstr "Radial-Axis"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:223
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:224
 msgid "Plot"
 msgstr "Plot"
 
@@ -20395,7 +20403,7 @@ msgid "Default"
 msgstr "Default"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:514
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:524
 msgid "Guppi"
 msgstr "Guppi"
 
@@ -20959,12 +20967,12 @@ msgid "PlotXY"
 msgstr "PlotXY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:337
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:490
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:489
 msgid "X"
 msgstr "X"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:339
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:492
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:491
 msgid "Y"
 msgstr "Y"
 
@@ -20972,16 +20980,16 @@ msgstr "Y"
 msgid "PlotBubble"
 msgstr "PlotBubble"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:494
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:493
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 msgid "Bubble"
 msgstr "Bubble"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1020
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1019
 msgid "Y Error bars"
 msgstr "Y Error bars"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1022
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
 msgid "X Error bars"
 msgstr "X Error bars"
 
@@ -22772,7 +22780,7 @@ msgstr "An unexpected error has occurred: %d."
 
 #: src/dialogs/dialog-advanced-filter.c:190
 msgid "Could not create the Advanced Filter dialog."
-msgstr "Could not create the Advanced Filter dialog."
+msgstr "Could not create the Advanced Filter dialogue."
 
 #: src/dialogs/dialog-analysis-tools.c:495
 #: src/dialogs/dialog-analysis-tools.c:1037
@@ -22805,19 +22813,19 @@ msgstr "The selected input areas must have equal size!"
 
 #: src/dialogs/dialog-analysis-tools.c:617
 msgid "Could not create the Correlation Tool dialog."
-msgstr "Could not create the Correlation Tool dialog."
+msgstr "Could not create the Correlation Tool dialogue."
 
 #: src/dialogs/dialog-analysis-tools.c:736
 msgid "Could not create the Covariance Tool dialog."
-msgstr "Could not create the Covariance Tool dialog."
+msgstr "Could not create the Covariance Tool dialogue."
 
 #: src/dialogs/dialog-analysis-tools.c:826
 msgid "Could not create the Rank and Percentile Tools dialog."
-msgstr "Could not create the Rank and Percentile Tools dialog."
+msgstr "Could not create the Rank and Percentile Tools dialogue."
 
 #: src/dialogs/dialog-analysis-tools.c:917
 msgid "Could not create the Fourier Analysis Tool dialog."
-msgstr "Could not create the Fourier Analysis Tool dialog."
+msgstr "Could not create the Fourier Analysis Tool dialogue."
 
 #: src/dialogs/dialog-analysis-tools.c:1046
 msgid "No statistics is selected."
@@ -22834,7 +22842,7 @@ msgstr "K must be a positive integer."
 
 #: src/dialogs/dialog-analysis-tools.c:1128
 msgid "Could not create the Descriptive Statistics Tool dialog."
-msgstr "Could not create the Descriptive Statistics Tool dialog."
+msgstr "Could not create the Descriptive Statistics Tool dialogue."
 
 #: src/dialogs/dialog-analysis-tools.c:1273
 msgid ""
@@ -22854,15 +22862,15 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1498
 msgid "Could not create the Mean Tests Tool dialog."
-msgstr "Could not create the Mean Tests Tool dialog."
+msgstr "Could not create the Mean Tests Tool dialogue."
 
 #: src/dialogs/dialog-analysis-tools.c:1687
 msgid "Could not create the FTest Tool dialog."
-msgstr "Could not create the FTest Tool dialog."
+msgstr "Could not create the FTest Tool dialogue."
 
 #: src/dialogs/dialog-analysis-tools.c:1881
 msgid "Could not create the Sampling Tool dialog."
-msgstr "Could not create the Sampling Tool dialog."
+msgstr "Could not create the Sampling Tool dialogue."
 
 #: src/dialogs/dialog-analysis-tools.c:1997 src/tools/analysis-tools.c:3326
 #: src/tools/analysis-tools.c:3405
@@ -22873,19 +22881,19 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:2091
 msgid "Could not create the Regression Tool dialog."
-msgstr "Could not create the Regression Tool dialog."
+msgstr "Could not create the Regression Tool dialogue."
 
 #: src/dialogs/dialog-analysis-tools.c:2219
 msgid "Could not create the Exponential Smoothing Tool dialog."
-msgstr "Could not create the Exponential Smoothing Tool dialog."
+msgstr "Could not create the Exponential Smoothing Tool dialogue."
 
 #: src/dialogs/dialog-analysis-tools.c:2352
 msgid "Could not create the Moving Average Tool dialog."
-msgstr "Could not create the Moving Average Tool dialog."
+msgstr "Could not create the Moving Average Tool dialogue."
 
 #: src/dialogs/dialog-analysis-tools.c:2563
 msgid "Could not create the Histogram Tool dialog."
-msgstr "Could not create the Histogram Tool dialog."
+msgstr "Could not create the Histogram Tool dialogue."
 
 #: src/dialogs/dialog-analysis-tools.c:2697
 #: src/dialogs/dialog-analysis-tools.c:2911
@@ -22894,7 +22902,7 @@ msgstr "The alpha value should be a number between 0 and 1."
 
 #: src/dialogs/dialog-analysis-tools.c:2745
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr "Could not create the ANOVA (single factor) tool dialog."
+msgstr "Could not create the ANOVA (single factor) tool dialogue."
 
 #: src/dialogs/dialog-analysis-tools.c:2825
 msgid ""
@@ -22946,11 +22954,11 @@ msgstr "The number of rows per sample should be a positive integer."
 
 #: src/dialogs/dialog-analysis-tools.c:2969
 msgid "Could not create the ANOVA (two factor) tool dialog."
-msgstr "Could not create the ANOVA (two factor) tool dialog."
+msgstr "Could not create the ANOVA (two factor) tool dialogue."
 
 #: src/dialogs/dialog-autocorrect.c:329
 msgid "Could not create the AutoCorrect dialog."
-msgstr "Could not create the AutoCorrect dialog."
+msgstr "Could not create the AutoCorrect dialogue."
 
 #: src/dialogs/dialog-autoformat.c:77 src/dialogs/scenario-manager.glade.h:1
 msgid " "
@@ -23054,14 +23062,14 @@ msgstr "81"
 msgid "An error occurred while reading the category list"
 msgstr "An error occurred while reading the category list"
 
-#: src/dialogs/dialog-autosave.c:79
+#: src/dialogs/dialog-autosave.c:78
 #, c-format
 msgid "Do you want to save the workbook %s ?"
 msgstr "Do you want to save the workbook %s ?"
 
-#: src/dialogs/dialog-autosave.c:184
+#: src/dialogs/dialog-autosave.c:183
 msgid "Could not create the autosave dialog."
-msgstr "Could not create the autosave dialog."
+msgstr "Could not create the autosave dialogue."
 
 #: src/dialogs/dialog-cell-format.c:90
 msgid "Single"
@@ -23182,7 +23190,7 @@ msgstr "By Value"
 
 #: src/dialogs/dialog-cell-sort.c:1205
 msgid "Could not create the Cell-Sort dialog."
-msgstr "Could not create the Cell-Sort dialog."
+msgstr "Could not create the Cell-Sort dialogue."
 
 #: src/dialogs/dialog-col-width.c:232
 msgid "Set standard/default column width"
@@ -23211,7 +23219,7 @@ msgstr "The output range overlaps with the input ranges."
 
 #: src/dialogs/dialog-consolidate.c:555
 msgid "Could not create the Consolidate dialog."
-msgstr "Could not create the Consolidate dialog."
+msgstr "Could not create the Consolidate dialogue."
 
 #: src/dialogs/dialog-define-names.c:361
 msgid "Why would you want to define a name to be #NAME?"
@@ -23229,11 +23237,11 @@ msgstr "Delete"
 
 #: src/dialogs/dialog-delete-cells.c:166
 msgid "Could not create the Delete Cell dialog."
-msgstr "Could not create the Delete Cell dialog."
+msgstr "Could not create the Delete Cell dialogue."
 
 #: src/dialogs/dialog-fill-series.c:256
 msgid "Could not create the Fill Series dialog."
-msgstr "Could not create the Fill Series dialog."
+msgstr "Could not create the Fill Series dialogue."
 
 #: src/dialogs/dialog-formula-guru.c:301
 #, c-format
@@ -23288,7 +23296,7 @@ msgstr "Goal seeking with cell %s did not find a solution."
 
 #: src/dialogs/dialog-goal-seek.c:655
 msgid "Could not create the Goal-Seek dialog."
-msgstr "Could not create the Goal-Seek dialog."
+msgstr "Could not create the Goal-Seek dialogue."
 
 #: src/dialogs/dialog-goto-cell.c:188
 msgid "Workbook Level"
@@ -23313,7 +23321,7 @@ msgstr "Cell"
 
 #: src/dialogs/dialog-goto-cell.c:357
 msgid "Could not create the goto dialog."
-msgstr "Could not create the goto dialog."
+msgstr "Could not create the goto dialogue."
 
 #: src/dialogs/dialog-hyperlink.c:149
 msgid "Not a range or name"
@@ -23365,15 +23373,15 @@ msgstr "Remove Hyperlink"
 
 #: src/dialogs/dialog-hyperlink.c:490
 msgid "Could not create the hyperlink dialog."
-msgstr "Could not create the hyperlink dialog."
+msgstr "Could not create the hyperlink dialogue."
 
-#: src/dialogs/dialog-insert-cells.c:136 src/workbook-control-gui.c:529
+#: src/dialogs/dialog-insert-cells.c:136 src/workbook-control-gui.c:530
 msgid "Insert"
 msgstr "Insert"
 
 #: src/dialogs/dialog-insert-cells.c:166
 msgid "Could not create the Insert Cell dialog."
-msgstr "Could not create the Insert Cell dialog."
+msgstr "Could not create the Insert Cell dialogue."
 
 #: src/dialogs/dialog-merge.c:265
 msgid "One field is not part of the merge zone!"
@@ -23557,7 +23565,7 @@ msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
 msgstr ""
-"The items on this page customize the inital settings of the sort dialog and "
+"The items on this page customize the inital settings of the sort dialogue and "
 "the behaviour of the sort toolbar buttons."
 
 #: src/dialogs/dialog-preferences.c:728
@@ -23834,7 +23842,7 @@ msgstr "Weibull"
 
 #: src/dialogs/dialog-random-generator.c:849
 msgid "Could not create the Random Tool dialog."
-msgstr "Could not create the Random Tool dialog."
+msgstr "Could not create the Random Tool dialogue."
 
 #: src/dialogs/dialog-row-height.c:232
 msgid "Set standard/default row height"
@@ -23875,7 +23883,7 @@ msgstr ""
 
 #: src/dialogs/dialog-scenarios.c:216
 msgid "Could not create the Scenario Add dialog."
-msgstr "Could not create the Scenario Add dialog."
+msgstr "Could not create the Scenario Add dialogue."
 
 #: src/dialogs/dialog-scenarios.c:248
 msgid "Created on "
@@ -23887,7 +23895,7 @@ msgstr "Results entry did not contain valid cell names."
 
 #: src/dialogs/dialog-scenarios.c:640
 msgid "Could not create the Scenarios dialog."
-msgstr "Could not create the Scenarios dialog."
+msgstr "Could not create the Scenarios dialogue."
 
 #: src/dialogs/dialog-search-replace.c:156 src/dialogs/dialog-search.c:332
 msgid "You must select some cell types to search."
@@ -23956,7 +23964,7 @@ msgstr "The sheet order has changed. Do you want to update the list?"
 
 #: src/dialogs/dialog-shuffle.c:151
 msgid "Could not create the Data Shuffling dialog."
-msgstr "Could not create the Data Shuffling dialog."
+msgstr "Could not create the Data Shuffling dialogue."
 
 #: src/dialogs/dialog-simulation.c:75
 msgid "The input variable range is invalid."
@@ -23994,17 +24002,17 @@ msgstr "Run on"
 msgid "Variable"
 msgstr "Variable"
 
-#: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:254
-#: src/workbook-control-gui.c:1826
+#: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:247
+#: src/workbook-control-gui.c:1828
 msgid "Min"
 msgstr "Min"
 
-#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1828
+#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1830
 msgid "Average"
 msgstr "Average"
 
-#: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:256
-#: src/workbook-control-gui.c:1827
+#: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:249
+#: src/workbook-control-gui.c:1829
 msgid "Max"
 msgstr "Max"
 
@@ -24022,7 +24030,7 @@ msgstr ""
 
 #: src/dialogs/dialog-simulation.c:421
 msgid "Could not create the Simulation dialog."
-msgstr "Could not create the Simulation dialog."
+msgstr "Could not create the Simulation dialogue."
 
 #: src/dialogs/dialog-solver.c:107
 msgid "Simplex (LP Solve 5.0)"
@@ -24121,7 +24129,7 @@ msgstr "Subject to the Constraints:"
 
 #: src/dialogs/dialog-solver.c:1446
 msgid "Could not create the Solver dialog."
-msgstr "Could not create the Solver dialog."
+msgstr "Could not create the Solver dialogue."
 
 #: src/dialogs/dialog-stf-export.c:350
 msgid "Export"
@@ -24757,8 +24765,8 @@ msgstr "D_ay"
 msgid "Date unit:"
 msgstr "Date unit:"
 
-#: src/dialogs/fill-series.glade.h:4 src/tools/fill-series.c:413
-#: src/tools/fill-series.c:416
+#: src/dialogs/fill-series.glade.h:4 src/tools/fill-series.c:406
+#: src/tools/fill-series.c:409
 msgid "Fill Series"
 msgstr "Fill Series"
 
@@ -25603,7 +25611,7 @@ msgstr "<span weight=\"bold\">Scenarios</span>"
 msgid "Create _Report"
 msgstr "Create _Report"
 
-#: src/dialogs/scenario-manager.glade.h:10 src/tools/scenarios.c:628
+#: src/dialogs/scenario-manager.glade.h:10 src/tools/scenarios.c:623
 msgid "Result Cells:"
 msgstr "Result Cells:"
 
@@ -26001,7 +26009,7 @@ msgid "Prev. Sim."
 msgstr "Prev. Sim."
 
 #. Fill in the header titles.
-#: src/dialogs/simulation.glade.h:18 src/tools/simulation.c:349
+#: src/dialogs/simulation.glade.h:18 src/tools/simulation.c:342
 msgid "Risk Simulation"
 msgstr "Risk Simulation"
 
@@ -26280,7 +26288,7 @@ msgstr "Maximum"
 msgid "Minimum"
 msgstr "Minimum"
 
-#: src/dialogs/tabulate.glade.h:7 src/tools/simulation.c:258
+#: src/dialogs/tabulate.glade.h:7 src/tools/simulation.c:251
 msgid "Mode"
 msgstr "Mode"
 
@@ -27426,11 +27434,11 @@ msgstr ""
 "different file format.\n"
 "Do you want to save only current sheet?"
 
-#: src/gui-util.c:211
+#: src/gui-util.c:212
 msgid "Multiple errors\n"
 msgstr "Multiple errors\n"
 
-#: src/gui-util.c:623
+#: src/gui-util.c:637
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Unable to open file '%s'"
@@ -28135,31 +28143,31 @@ msgid "path"
 msgstr "path"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:577
+#: src/print.c:605
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1122
+#: src/print.c:1150
 msgid "Print Region"
 msgstr "Print Region"
 
-#: src/print.c:1255
+#: src/print.c:1283
 msgid "Print Sheets"
 msgstr "Print Sheets"
 
-#: src/print.c:1263
+#: src/print.c:1291
 msgid "Act_ive sheet"
 msgstr "Act_ive sheet"
 
-#: src/print.c:1263
+#: src/print.c:1291
 msgid "S_heets"
 msgstr "S_heets"
 
-#: src/print.c:1351 src/wbcg-actions.c:1489
+#: src/print.c:1379 src/wbcg-actions.c:1489
 msgid "Print preview"
 msgstr "Print preview"
 
-#: src/print.c:1364
+#: src/print.c:1392
 msgid "Printing failed"
 msgstr "Printing failed"
 
@@ -28429,23 +28437,23 @@ msgstr "Copy"
 msgid "Cut"
 msgstr "Cut"
 
-#: src/sheet.c:2007
+#: src/sheet.c:2008
 msgid "Target region contains merged cells"
 msgstr "Target region contains merged cells"
 
-#: src/sheet.c:2068
+#: src/sheet.c:2069
 msgid "cannot operate on merged cells"
 msgstr "cannot operate on merged cells"
 
-#: src/sheet.c:2078
+#: src/sheet.c:2079
 msgid "cannot operate on array formulae"
 msgstr "cannot operate on array formulae"
 
-#: src/sheet.c:3179
+#: src/sheet.c:3180
 msgid "Insert Columns"
 msgstr "Insert Columns"
 
-#: src/sheet.c:3297
+#: src/sheet.c:3298
 msgid "Insert Rows"
 msgstr "Insert Rows"
 
@@ -28871,7 +28879,7 @@ msgid "Anova: Single Factor"
 msgstr "Anova: Single Factor"
 
 #: src/tools/analysis-tools.c:4029 src/tools/analysis-tools.c:4710
-#: src/tools/simulation.c:343
+#: src/tools/simulation.c:336
 msgid "SUMMARY"
 msgstr "SUMMARY"
 
@@ -29025,7 +29033,7 @@ msgstr "Worksheet:"
 msgid "Report Created: "
 msgstr "Report Created: "
 
-#: src/tools/fill-series.c:403
+#: src/tools/fill-series.c:396
 #, c-format
 msgid "Fill Series (%s)"
 msgstr "Fill Series (%s)"
@@ -29059,20 +29067,20 @@ msgstr "The probabilities may not all be 0!"
 msgid "Random Numbers (%s)"
 msgstr "Random Numbers (%s)"
 
-#: src/tools/scenarios.c:695 src/tools/scenarios.c:731
+#: src/tools/scenarios.c:690 src/tools/scenarios.c:726
 msgid "Scenario Summary"
 msgstr "Scenario Summary"
 
 #. Titles.
-#: src/tools/scenarios.c:698
+#: src/tools/scenarios.c:693
 msgid "Current Values"
 msgstr "Current Values"
 
-#: src/tools/scenarios.c:699
+#: src/tools/scenarios.c:694
 msgid "Changing Cells:"
 msgstr "Changing Cells:"
 
-#: src/tools/simulation.c:101
+#: src/tools/simulation.c:94
 msgid ""
 "Input variable did not yield to a numeric value. Check the model (maybe your "
 "last round # is too high)."
@@ -29080,7 +29088,7 @@ msgstr ""
 "Input variable did not yield to a numeric value. Check the model (maybe your "
 "last round # is too high)."
 
-#: src/tools/simulation.c:126
+#: src/tools/simulation.c:119
 msgid ""
 "Output variable did not yield to a numeric value. Check the output variables "
 "in your model (maybe your last round # is too high)."
@@ -29088,67 +29096,67 @@ msgstr ""
 "Output variable did not yield to a numeric value. Check the output variables "
 "in your model (maybe your last round # is too high)."
 
-#: src/tools/simulation.c:242
+#: src/tools/simulation.c:235
 msgid "Simulation Report"
 msgstr "Simulation Report"
 
-#: src/tools/simulation.c:255
+#: src/tools/simulation.c:248
 msgid "Mean"
 msgstr "Mean"
 
-#: src/tools/simulation.c:257
+#: src/tools/simulation.c:250
 msgid "Median"
 msgstr "Median"
 
-#: src/tools/simulation.c:259
+#: src/tools/simulation.c:252
 msgid "Std. Dev."
 msgstr "Std. Dev."
 
-#: src/tools/simulation.c:260
+#: src/tools/simulation.c:253
 msgid "Variance"
 msgstr "Variance"
 
-#: src/tools/simulation.c:261
+#: src/tools/simulation.c:254
 msgid "Skewness"
 msgstr "Skewness"
 
-#: src/tools/simulation.c:262
+#: src/tools/simulation.c:255
 msgid "Kurtosis"
 msgstr "Kurtosis"
 
-#: src/tools/simulation.c:263
+#: src/tools/simulation.c:256
 msgid "Range"
 msgstr "Range"
 
-#: src/tools/simulation.c:264 src/workbook-control-gui.c:1829
+#: src/tools/simulation.c:257 src/workbook-control-gui.c:1831
 msgid "Count"
 msgstr "Count"
 
-#: src/tools/simulation.c:265
+#: src/tools/simulation.c:258
 msgid "Confidence (95 %)"
 msgstr "Confidence (95 %)"
 
-#: src/tools/simulation.c:266
+#: src/tools/simulation.c:259
 msgid "Lower Limit (95 %)"
 msgstr "Lower Limit (95 %)"
 
-#: src/tools/simulation.c:267
+#: src/tools/simulation.c:260
 msgid "Upper Limit (95 %)"
 msgstr "Upper Limit (95 %)"
 
-#: src/tools/simulation.c:335
+#: src/tools/simulation.c:328
 msgid "SUMMARY OF SIMULATION ROUND #"
 msgstr "SUMMARY OF SIMULATION ROUND #"
 
-#: src/tools/simulation.c:349
+#: src/tools/simulation.c:342
 msgid "Report"
 msgstr "Report"
 
-#: src/tools/simulation.c:396
+#: src/tools/simulation.c:389
 msgid "(Input) "
 msgstr "(Input) "
 
-#: src/tools/simulation.c:411
+#: src/tools/simulation.c:404
 msgid "Maximum time exceeded. Simulation was not completed. "
 msgstr "Maximum time exceeded. Simulation was not completed. "
 
@@ -30357,11 +30365,11 @@ msgstr "_New View..."
 msgid "Create a new view of the workbook"
 msgstr "Create a new view of the workbook"
 
-#: src/wbcg-actions.c:1621 src/workbook-control-gui.c:1023
+#: src/wbcg-actions.c:1621 src/workbook-control-gui.c:1024
 msgid "_Freeze Panes"
 msgstr "_Freeze Panes"
 
-#: src/wbcg-actions.c:1622 src/workbook-control-gui.c:1026
+#: src/wbcg-actions.c:1622 src/workbook-control-gui.c:1027
 msgid "Freeze the top left of the sheet"
 msgstr "Freeze the top left of the sheet"
 
@@ -30851,7 +30859,7 @@ msgid "Remove an outline group"
 msgstr "Remove an outline group"
 
 #. Data -> Filter
-#: src/wbcg-actions.c:1851 src/workbook-control-gui.c:1034
+#: src/wbcg-actions.c:1851 src/workbook-control-gui.c:1035
 msgid "Add _Auto Filter"
 msgstr "Add _Auto Filter"
 
@@ -30885,7 +30893,7 @@ msgid "Import the text from a file"
 msgstr "Import the text from a file"
 
 #. Standard Toolbar
-#: src/wbcg-actions.c:1866 src/workbook-control-gui.c:1825
+#: src/wbcg-actions.c:1866 src/workbook-control-gui.c:1827
 #: src/workbook-view.c:541
 msgid "Sum"
 msgstr "Sum"
@@ -32359,101 +32367,101 @@ msgstr "Taiwan (zh_TW)"
 msgid "Current Locale: "
 msgstr "Current Locale: "
 
-#: src/workbook-control-gui.c:337
+#: src/workbook-control-gui.c:338
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: src/workbook-control-gui.c:527
+#: src/workbook-control-gui.c:528
 msgid "Manage sheets..."
 msgstr "Manage sheets..."
 
-#: src/workbook-control-gui.c:530
+#: src/workbook-control-gui.c:531
 msgid "Append"
 msgstr "Append"
 
-#: src/workbook-control-gui.c:531
+#: src/workbook-control-gui.c:532
 msgid "Duplicate"
 msgstr "Duplicate"
 
-#: src/workbook-control-gui.c:532
+#: src/workbook-control-gui.c:533
 msgid "Remove"
 msgstr "Remove"
 
-#: src/workbook-control-gui.c:533
+#: src/workbook-control-gui.c:534
 msgid "Rename"
 msgstr "Rename"
 
-#: src/workbook-control-gui.c:1022
+#: src/workbook-control-gui.c:1023
 msgid "Un_freeze Panes"
 msgstr "Un_freeze Panes"
 
-#: src/workbook-control-gui.c:1025
+#: src/workbook-control-gui.c:1026
 msgid "Unfreeze the top left of the sheet"
 msgstr "Unfreeze the top left of the sheet"
 
-#: src/workbook-control-gui.c:1033
+#: src/workbook-control-gui.c:1034
 msgid "Remove _Auto Filter"
 msgstr "Remove _Auto Filter"
 
-#: src/workbook-control-gui.c:1036
+#: src/workbook-control-gui.c:1037
 msgid "Remove a filter"
 msgstr "Remove a filter"
 
-#: src/workbook-control-gui.c:1037
+#: src/workbook-control-gui.c:1038
 msgid "Add a filter"
 msgstr "Add a filter"
 
-#: src/workbook-control-gui.c:1048
+#: src/workbook-control-gui.c:1049
 msgid "_Undo"
 msgstr "_Undo"
 
-#: src/workbook-control-gui.c:1049
+#: src/workbook-control-gui.c:1050
 msgid "_Redo"
 msgstr "_Redo"
 
-#: src/workbook-control-gui.c:1177
+#: src/workbook-control-gui.c:1178
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Save changes to workbook '%s' before closing?"
 
-#: src/workbook-control-gui.c:1181
+#: src/workbook-control-gui.c:1182
 msgid "Save changes to workbook before closing?"
 msgstr "Save changes to workbook before closing?"
 
-#: src/workbook-control-gui.c:1187
+#: src/workbook-control-gui.c:1188
 msgid "If you close without saving, changes will be discarded."
 msgstr "If you close without saving, changes will be discarded."
 
-#: src/workbook-control-gui.c:1194
+#: src/workbook-control-gui.c:1195
 msgid "Discard all"
 msgstr "Discard all"
 
-#: src/workbook-control-gui.c:1196 src/workbook-control-gui.c:1205
-#: src/workbook-control-gui.c:1213
+#: src/workbook-control-gui.c:1197 src/workbook-control-gui.c:1206
+#: src/workbook-control-gui.c:1214
 msgid "Discard"
 msgstr "Discard"
 
-#: src/workbook-control-gui.c:1198
+#: src/workbook-control-gui.c:1199
 msgid "Save all"
 msgstr "Save all"
 
-#: src/workbook-control-gui.c:1200 src/workbook-control-gui.c:1207
+#: src/workbook-control-gui.c:1201 src/workbook-control-gui.c:1208
 msgid "Don't quit"
 msgstr "Don't quit"
 
-#: src/workbook-control-gui.c:1215
+#: src/workbook-control-gui.c:1216
 msgid "Don't close"
 msgstr "Don't close"
 
-#: src/workbook-control-gui.c:2222 src/workbook-control-gui.c:2237
+#: src/workbook-control-gui.c:2217 src/workbook-control-gui.c:2232
 msgid "_Re-Edit"
 msgstr "_Re-Edit"
 
-#: src/workbook-control-gui.c:2223 src/workbook-control-gui.c:2228
+#: src/workbook-control-gui.c:2218 src/workbook-control-gui.c:2223
 msgid "_Discard"
 msgstr "_Discard"
 
-#: src/workbook-control-gui.c:2227 src/workbook-control-gui.c:2238
+#: src/workbook-control-gui.c:2222 src/workbook-control-gui.c:2233
 msgid "_Accept"
 msgstr "_Accept"
 
