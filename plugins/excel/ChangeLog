@@ -1,3 +1,7 @@
+2004-04-21  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_LABEL): Plug leak.
+
 2004-04-20  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (sst_read_string) : Use the right string when

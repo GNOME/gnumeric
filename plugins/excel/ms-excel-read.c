@@ -5010,9 +5010,13 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 	excel_set_xf (esheet, q);
 	if (txt != NULL) {
 		GnmFormat *fmt = NULL;
-		if (has_markup)
-			fmt = style_format_new_markup (
-				excel_read_LABEL_markup (q, esheet, txt, str_len));
+		if (has_markup) {
+			PangoAttrList *attrs =
+				excel_read_LABEL_markup (q, esheet,
+							 txt, str_len);
+			fmt = style_format_new_markup (attrs);
+			pango_attr_list_unref (attrs);
+		}
 
 		/* might free txt, do not do this until after parsing markup */
 		v = value_new_string_nocopy (txt);
