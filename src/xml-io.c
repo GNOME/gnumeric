@@ -3840,15 +3840,16 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 	extension = filename ? gsf_extension_pointer (filename) : NULL;
 	if (extension == NULL || g_ascii_strcasecmp (extension, "xml") != 0) {
 		gzout  = GSF_OUTPUT (gsf_output_gzip_new (output, NULL));
-		g_object_unref (output);
 		output = gzout;
 	}
 	xmlIndentTreeOutput = TRUE;
 	if (gsf_xmlDocFormatDump (output, xml, "UTF-8", TRUE) < 0)
 		gnumeric_error_save (COMMAND_CONTEXT (context),
 				     "Error saving XML");
-	if (gzout)
+	if (gzout) {
 		gsf_output_close (gzout);
+		g_object_unref (gzout);
+	}
 
 	xmlFreeDoc (xml);
 }

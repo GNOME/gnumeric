@@ -1,3 +1,8 @@
+2003-05-12  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-io.c (gnumeric_xml_write_workbook): Fix broken object
+	handling.
+
 2003-05-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/stf-parse.c (compare_terminator) : return the byte 
