@@ -7,7 +7,8 @@ appicon_DATA = gnome-gnumeric.png \
                gnome-application-x-xls.png \
                gnome-application-x-applix-spreadsheet.png \
                gnome-application-vnd.lotus-1-2-3.png \
-               gnome-application-x-generic-spreadsheet.png
+               gnome-application-x-generic-spreadsheet.png	\
+	       gnumeric_splash.jpg
 
 icons_DATA = \
 	$(appicon_DATA)		\
