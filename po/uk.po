@@ -357,7 +357,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
-"@DESCRIPTION=Функц╕я BITOR поверта╓ результать виконання лог╕чно╖ операц╕╖"
+"@DESCRIPTION=Функц╕я BITOR поверта╓ результат виконання лог╕чно╖ операц╕╖"
 "АБО над б╕тами ╖╖ ар╜умент╕в.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -383,7 +383,6 @@ msgstr ""
 "@SEEALSO=NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:455
-#, fuzzy
 msgid ""
 "@FUNCTION=BITAND\n"
 "@SYNTAX=BITAND(a,b)\n"
@@ -394,8 +393,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
-"@DESCRIPTION=Функц╕я ITHPRIME поверта╓ @i-те просте число.\n"
-"Ця функц╕я прийма╓ лише одне значення. \n"
+"@DESCRIPTION=Функц╕я BITAND поверта╓ результат виконання лог╕чно╖ операц╕╖"
+"╤ над б╕тами ╖╖ ар╜умент╕в.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=NT_D, NT_SIGMA"
@@ -683,7 +682,7 @@ msgstr "Morten Welinder, хакер."
 
 #: src/about.c:61
 msgid "Kenneth Christiansen, i18n, misc stuff."
-msgstr ""
+msgstr "Kenneth Christiansen, ╕нтернац╕онал╕зац╕я, р╕зне."
 
 #: src/about.c:81 src/functions/fn-sheet.c:136
 msgid "Gnumeric"
@@ -5265,7 +5264,7 @@ msgstr "[$PTE]"
 
 #: src/formats.c:342
 msgid "Portuguese escudo"
-msgstr ""
+msgstr "Порту╜альський ескудо"
 
 #: src/formats.c:343
 msgid "[$PYG]"
@@ -5345,7 +5344,7 @@ msgstr "[$SGD]"
 
 #: src/formats.c:352
 msgid "Singapore dollar"
-msgstr ""
+msgstr "С╕н╜апурський долар"
 
 #: src/formats.c:353
 msgid "[$SHP]"
@@ -7064,7 +7063,7 @@ msgstr ""
 
 #: src/functions/fn-financial.c:973
 msgid "effect - domain error"
-msgstr ""
+msgstr "EFFECT: помилка д╕апазону"
 
 #: src/functions/fn-financial.c:981
 msgid ""
@@ -7086,7 +7085,7 @@ msgstr ""
 
 #: src/functions/fn-financial.c:1011
 msgid "nominal - domain error"
-msgstr ""
+msgstr "NOMINAL: помилка д╕апазону"
 
 #: src/functions/fn-financial.c:1020
 msgid ""
@@ -7155,7 +7154,7 @@ msgstr ""
 
 #: src/functions/fn-financial.c:1200
 msgid "sln - domain error"
-msgstr ""
+msgstr "SLN: помилка д╕апазону"
 
 #: src/functions/fn-financial.c:1208
 msgid ""
@@ -7185,7 +7184,7 @@ msgstr ""
 
 #: src/functions/fn-financial.c:1254
 msgid "syd - domain error"
-msgstr ""
+msgstr "SYD: помилка д╕апазону"
 
 #: src/functions/fn-financial.c:1264
 msgid ""
@@ -7316,7 +7315,7 @@ msgstr ""
 
 #: src/functions/fn-financial.c:1802
 msgid "pv - domain error"
-msgstr ""
+msgstr "PV: помилка д╕апазону"
 
 #: src/functions/fn-financial.c:1818
 msgid ""
@@ -9416,7 +9415,7 @@ msgstr ""
 
 #: src/functions/fn-math.c:3029
 msgid "#3D MULT?"
-msgstr ""
+msgstr "#3D MULT?"
 
 #: src/functions/fn-math.c:3108
 msgid ""
@@ -11913,11 +11912,11 @@ msgstr "Виб╕р шрифту"
 
 #: src/workbook-format-toolbar.c:365
 msgid "Sets the bold font"
-msgstr "Встановлю╓ жирний шрифт"
+msgstr "Встановити жирний шрифт"
 
 #: src/workbook-format-toolbar.c:372
 msgid "Makes the font italic"
-msgstr "Робит шрифт курсивним"
+msgstr "Зробити шрифт курсивним"
 
 #: po/tmp/gnumeric.xml.h:186 src/workbook-format-toolbar.c:379
 msgid "Underline"
@@ -12050,7 +12049,7 @@ msgstr "Розм╕р шрифту"
 
 #: po/tmp/gnumeric.xml.h:113 src/workbook-object-toolbar.c:130
 msgid "Label"
-msgstr "Позначк"
+msgstr "Позначка"
 
 #: src/workbook-object-toolbar.c:130
 msgid "Creates a label"
@@ -12070,21 +12069,19 @@ msgstr "Створити кнопку"
 
 #: po/tmp/gnumeric.xml.h:29 src/workbook-object-toolbar.c:139
 msgid "Checkbox"
-msgstr ""
+msgstr "Графа для в╕дм╕тки"
 
 #: src/workbook-object-toolbar.c:139
-#, fuzzy
 msgid "Creates a checkbox"
-msgstr "Створю╓ нову книгу"
+msgstr "Створити графу для в╕дм╕тки"
 
 #: src/workbook-object-toolbar.c:142
 msgid "RadioButton"
-msgstr ""
+msgstr "Перемикач"
 
 #: src/workbook-object-toolbar.c:142
-#, fuzzy
 msgid "Creates a radio button"
-msgstr "Створити граф╕к"
+msgstr "Сворити перемикач"
 
 #: po/tmp/gnumeric.xml.h:117 src/workbook-object-toolbar.c:145
 msgid "List"
@@ -12095,14 +12092,12 @@ msgid "Creates a list"
 msgstr "Створити список"
 
 #: src/workbook-object-toolbar.c:148
-#, fuzzy
 msgid "Combo"
-msgstr "Кол╕р"
+msgstr "Комб╕нований список"
 
 #: src/workbook-object-toolbar.c:148
-#, fuzzy
 msgid "Creates a combobox"
-msgstr "Створю╓ нову книгу"
+msgstr "Створити комб╕нований список"
 
 #: src/workbook-object-toolbar.c:151
 msgid "Creates a line object"
@@ -12872,9 +12867,8 @@ msgid "Create a new workbook"
 msgstr "Створити нову книгу"
 
 #: po/tmp/gnumeric.xml.h:52
-#, fuzzy
 msgid "Create a radio button"
-msgstr "Створити граф╕к"
+msgstr "Створити перемикач"
 
 #: po/tmp/gnumeric.xml.h:57
 msgid "Cut the selection"
@@ -12890,7 +12884,7 @@ msgstr "Зменшити точн╕сть вибраних ком╕рок"
 
 #: po/tmp/gnumeric.xml.h:62
 msgid "Display the value of a formula or the formula itself"
-msgstr ""
+msgstr "Показувати значення формули, чи саму формулу"
 
 #: po/tmp/gnumeric.xml.h:63
 msgid "Draw a rectangle"
@@ -12914,11 +12908,11 @@ msgstr "Зм╕нити назву поточного аркушу"
 
 #: po/tmp/gnumeric.xml.h:70
 msgid "Ensure columns are just wide enough to display content"
-msgstr ""
+msgstr "Переконатись що стовпчики достатньо широк╕ для в╕дображення вм╕сту"
 
 #: po/tmp/gnumeric.xml.h:71
 msgid "Ensure rows are just tall enough to display content"
-msgstr ""
+msgstr "Переконатись що рядки достатньо висок╕ для в╕дображення вм╕сту"
 
 #: po/tmp/gnumeric.xml.h:72
 msgid "Exit the program"
@@ -12938,7 +12932,7 @@ msgstr "╫уру функц╕й"
 
 #: po/tmp/gnumeric.xml.h:84
 msgid "Graph Guru"
-msgstr ""
+msgstr "╫уру граф╕к╕в"
 
 #: po/tmp/gnumeric.xml.h:85
 msgid "Hide _Column Headers"
@@ -12987,7 +12981,6 @@ msgid "Insert a shaped component into the spreadsheet"
 msgstr "Вставити незвичайний об'╓кт ╕ таблицю"
 
 #: po/tmp/gnumeric.xml.h:100
-#, fuzzy
 msgid "Insert an object into the spreadsheet"
 msgstr "Вставити об'╓кт у таблицю"
 
@@ -13077,9 +13070,8 @@ msgid "Print the workbook"
 msgstr "Надрукувати книгу"
 
 #: po/tmp/gnumeric.xml.h:147
-#, fuzzy
 msgid "Radio Button"
-msgstr "Вниз"
+msgstr "Перемикач"
 
 #: po/tmp/gnumeric.xml.h:151
 msgid "Redo the undone action"
