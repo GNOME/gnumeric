@@ -82,7 +82,7 @@ history_menu_item_create (Workbook *wb, gchar *name, GtkWidget *menu, gint pos)
 
 #ifndef ENABLE_BONOBO
 	gnome_app_fill_menu (GTK_MENU_SHELL (menu), info, NULL, FALSE, pos);
-	gtk_widget_set_data (GTK_OBJECT (info [0].widget), UGLY_GNOME_UI_KEY, name);
+	gtk_object_set_data (GTK_OBJECT (info [0].widget), UGLY_GNOME_UI_KEY, name);
 	gnome_app_install_menu_hints (GNOME_APP (wb->toplevel), info);
 #else
 	{
