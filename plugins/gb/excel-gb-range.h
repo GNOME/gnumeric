@@ -28,7 +28,12 @@ typedef struct {
 } ExcelGBRangeClass;
 
 GtkType       excel_gb_range_get_type (void);
+
 ExcelGBRange *excel_gb_range_new      (GBRunEvalContext *ec,
+				       Sheet            *sheet,
+				       Range             range);
+
+ExcelGBRange *excel_gb_range_new_ref  (GBRunEvalContext *ec,
 				       Sheet            *sheet,
 				       const char       *range);
 

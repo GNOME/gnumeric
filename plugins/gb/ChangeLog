@@ -1,5 +1,13 @@
 2000-10-26  Michael Meeks  <michael@helixcode.com>
 
+	* excel-gb-range.c (excel_gb_range_set_arg): fix.
+
+	* excel-gb-worksheet.c (excel_gb_worksheet_cells): impl.
+
+	* excel-gb-worksheet-function.[ch]: create.
+
+2000-10-26  Michael Meeks  <michael@helixcode.com>
+
 	* Makefile.am (EXTRA_DIST): add README gnumeric.gbp main.gba
 
 	* Lots and lots of lovely work.

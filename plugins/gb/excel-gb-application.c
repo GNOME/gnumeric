@@ -12,6 +12,7 @@
 #include "sheet.h"
 
 #include "excel-gb-application.h"
+#include "excel-gb-worksheet-function.h"
 #include "excel-gb-worksheet.h"
 #include "excel-gb-range.h"
 
@@ -81,6 +82,7 @@ static void
 excel_gb_application_class_init (GBRunObjectClass *klass)
 {
 	GBObjectClass *gb_class = (GBObjectClass *) klass;
+/*	GBRunObjectClass *gbrun_class = (GBRunObjectClass *) klass;*/
 
 	parent_class = gtk_type_class (gbrun_object_get_type ());
 
@@ -127,6 +129,7 @@ excel_gb_application_new (Workbook *wb)
 void
 excel_gb_application_register_types ()
 {
+	excel_gb_worksheet_function_get_type ();
 	excel_gb_range_get_type ();
 	excel_gb_worksheet_get_type ();
 	excel_gb_application_get_type ();

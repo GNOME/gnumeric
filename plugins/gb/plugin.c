@@ -35,6 +35,7 @@
 #include "common.h"
 #include "streams.h"
 #include "excel-gb-application.h"
+#include "excel-gb-worksheet.h"
 #include "../excel/excel.h"
 
 #ifndef MAP_FAILED
@@ -64,53 +65,6 @@ cleanup (PluginData *pd)
 	gb_shutdown ();
 }
 
-/*
-static const GBModule *
-parse_file (char const * filename)
-{
-	int fd, len;
-	struct stat sbuf;
-	char const * data;
-	GBModule const *module;
-	GBEvalContext *ec;
-
-	fd = open (filename, O_RDONLY);
-	if (fd < 0 || fstat (fd, &sbuf) < 0) {
-		fprintf (stderr, "gb: %s : %s\n", filename, strerror (errno));
-
-		if (fd >= 0)
-			close (fd);
-		return NULL;
-	}
-
-	if ((len = sbuf.st_size) <= 0) {
-		fprintf (stderr, "%s : empty file\n", filename);
-		close (fd);
-		return NULL;
-	}
-
-	data = mmap (0, len, PROT_READ, MAP_PRIVATE, fd, 0);
-	if (data == MAP_FAILED) {
-
-		fprintf (stderr, "%s : unable to mmap\n", filename);
-		close (fd);
-		return NULL;
-	}
-
-	ec = gb_eval_context_new ();
-	module = gb_parse_stream (data, len, ec);
-	if (!module)
-		fprintf (stderr, "%s : %s", filename,
-			 gb_eval_context_get_text (ec));
-	gtk_object_destroy (GTK_OBJECT (ec));
-
-	munmap ((char *)data, len);
-	close (fd);
-
-	return module;
-}
-*/
-
 static Value *
 generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 {
@@ -119,7 +73,9 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 	GBValue *gb_ans;
 	Value   *ans;
 	GBWorkbookData *wd;
-	ExcelGBApplication *app;
+
+	ExcelGBApplication *application;
+	ExcelGBWorksheet   *worksheet;
 
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_def != NULL, NULL);
@@ -127,9 +83,13 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 	wd = function_def_get_user_data (ei->func_def);
 	g_return_val_if_fail (wd != NULL, NULL);
 
-	/* Register Excel objects with GB */
-	app = excel_gb_application_new (ei->pos->sheet->workbook);
-	gbrun_project_register_object (wd->proj, GBRUN_OBJECT (app));
+	{ /* Register Excel objects with GB */
+		application = excel_gb_application_new (ei->pos->sheet->workbook);
+		gbrun_project_register_object (wd->proj, GBRUN_OBJECT (application));
+
+		worksheet = excel_gb_worksheet_new (ei->pos->sheet);
+		gbrun_project_register_object (wd->proj, GBRUN_OBJECT (worksheet));
+	}
 
 	for (l = nodes; l; l = l->next) {
 		/*
@@ -171,9 +131,13 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 		args = g_slist_remove (args, args->data);
 	}
 
-	/* De-Register Excel objects with GB */
-	gbrun_project_deregister_object (wd->proj, GBRUN_OBJECT (app));
-	gtk_object_unref (GTK_OBJECT (app));
+	{ /* De-Register Excel objects with GB */
+		gbrun_project_deregister_object (wd->proj, GBRUN_OBJECT (application));
+		gtk_object_unref (GTK_OBJECT (application));
+
+		gbrun_project_deregister_object (wd->proj, GBRUN_OBJECT (worksheet));
+		gtk_object_unref (GTK_OBJECT (worksheet));
+	}
 
 	return ans;
 }

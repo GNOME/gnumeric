@@ -42,7 +42,8 @@ excel_gb_range_set_arg (GBRunEvalContext *ec,
 
 	case VALUE: {
 		Value *value;
-		Cell  *cell;
+		Cell    *cell;
+
 		value = gb_to_value (val);
 		if (!value) {
 			gbrun_exception_firev (ec, "Can't convert value");
@@ -52,7 +53,8 @@ excel_gb_range_set_arg (GBRunEvalContext *ec,
 		cell = sheet_cell_fetch (range->sheet,
 					 range->range.start.col,
 					 range->range.start.row);
-		cell_set_value (cell, value, NULL);
+
+		sheet_cell_set_value (cell, value, NULL);
 
 		return TRUE;
 	}
@@ -63,7 +65,7 @@ excel_gb_range_set_arg (GBRunEvalContext *ec,
 		cell = sheet_cell_fetch (range->sheet,
 					 range->range.start.col,
 					 range->range.start.row);
-		cell_set_text (cell, val->v.s->str);
+		sheet_cell_set_text (cell, val->v.s->str);
 
 		return TRUE;
 	}
@@ -139,8 +141,6 @@ excel_gb_range_select (GBRunEvalContext *ec,
 {
 	ExcelGBRange   *range = EXCEL_GB_RANGE (object);
 
-	g_warning ("Select");
-
 	sheet_selection_add_range (range->sheet,
 				   range->range.start.col,
 				   range->range.start.row,
@@ -163,8 +163,6 @@ excel_gb_range_clear (GBRunEvalContext *ec,
 	/* FIXME: we need to have our own evalcontext with this on ! */
 	CommandContext *context= command_context_corba_new ();
 
-	g_warning ("Clear");
-
 	sheet_clear_region (context, range->sheet,
 			    range->range.start.col,
 			    range->range.start.row,
@@ -186,16 +184,20 @@ excel_gb_range_class_init (GBRunObjectClass *klass)
 	gbrun_class->get_arg = excel_gb_range_get_arg;
 	
 	gbrun_object_add_property (
-		gbrun_class, "value", GB_VALUE_VARIANT, VALUE);
+		gbrun_class, "value", 0, VALUE);
 
 	gbrun_object_add_property (
-		gbrun_class, "text", GB_VALUE_STRING, VALUE);
+		gbrun_class, "text", gb_type_string, VALUE);
 
 	gbrun_object_add_method_arg (gbrun_class, "sub;clear;.;n",
 				     excel_gb_range_clear);
 
 	gbrun_object_add_method_arg (gbrun_class, "sub;select;.;n",
 				     excel_gb_range_select);
+
+	/*
+	 * Delete, HasFormula, Row, Col, Activate, WorkSheet
+	 */
 }
 
 GtkType
@@ -225,9 +227,23 @@ excel_gb_range_get_type (void)
 ExcelGBRange *
 excel_gb_range_new (GBRunEvalContext *ec,
 		    Sheet            *sheet,
-		    const char       *text)
+		    Range             area)
 {
 	ExcelGBRange *range;
+
+	range = gtk_type_new (EXCEL_TYPE_GB_RANGE);
+
+	range->sheet = sheet;
+	range->range = area;
+
+	return range;
+}
+
+ExcelGBRange *
+excel_gb_range_new_ref (GBRunEvalContext *ec,
+			Sheet            *sheet,
+			const char       *text)
+{
 	Range         tmp;
 	int           len;
 
@@ -244,12 +260,5 @@ excel_gb_range_new (GBRunEvalContext *ec,
 	} else
 		tmp.end = tmp.start;
 
-	range = gtk_type_new (EXCEL_TYPE_GB_RANGE);
-
-	range->sheet = sheet;
-	range->range = tmp;
-
-	g_warning ("Created range ok");
-
-	return range;
+	return excel_gb_range_new (ec, sheet, tmp);
 }
