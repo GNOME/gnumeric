@@ -146,6 +146,7 @@ Pending Patches
 	1.16.5) path						(DONE)
 	1.16.6) text						(DONE)
 	1.16.7) markers
+	1.16.8) Rework text drawing to _not_ use libart		(DONE)
     1.17) SheetObject editing					(DONE)
 	1.17.1) Connect SheetObejct::user_config handler	(DONE)
 	1.17.2) Create a gog_object_dup to avoid live updating	(DONE)
@@ -168,7 +169,7 @@ Pending Patches
 	    1.20.1.5) pixmaps fills				(DONE)
 	    1.20.1.6) patterns					(DONE)
 	1.20.2) outline line pattern
-	1.20.3) font selector
+	1.20.3) font selector					(DONE)
 	1.20.4) Add 'is auto' checkboxes
 	    outline
 	    fill

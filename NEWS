@@ -19,6 +19,7 @@ Jody:
 	* Fix gradient's in pie/ring slices
 	* http://bugzilla.gnome.org/show_bug.cgi?id=121045
 	* Adjust the semantics of empty cells passed to optional arguments
+	* Pretty up the legend a bit
 
 Jon Kåre:
 	* Add 'Save As' entry for graph objects.  Support png for now.

@@ -98,6 +98,7 @@ struct _GogStyle {
 		} is_auto;
 	} marker;
 	struct {
+		GOColor	color;
 		GOFont const *font;
 		gboolean auto_scale;
 	} font;

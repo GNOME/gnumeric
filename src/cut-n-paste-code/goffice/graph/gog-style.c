@@ -822,6 +822,7 @@ gog_style_init (GogStyle *style)
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
 	go_pattern_set_solid (&style->fill.u.pattern.pat, 0);
 	style->font.font = go_font_new_by_index (0);
+	style->font.color = RGBA_BLACK;
 }
 
 static gboolean

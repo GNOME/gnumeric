@@ -75,11 +75,11 @@ gog_renderer_pixbuf_finalize (GObject *obj)
 }
 
 static void
-gog_renderer_pixbuf_draw_path (GogRenderer *renderer, ArtVpath *path)
+gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath *path)
 {
-	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (renderer);
-	GogStyle const *style = renderer->cur_style;
-	double width = gog_renderer_line_size (renderer, style->line.width);
+	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
+	GogStyle const *style = rend->cur_style;
+	double width = gog_renderer_line_size (rend, style->line.width);
 	ArtSVP *svp = art_svp_vpath_stroke (path,
 		ART_PATH_STROKE_JOIN_MITER, ART_PATH_STROKE_CAP_SQUARE,
 		width, 4, 0.5);
@@ -99,10 +99,10 @@ gog_art_renderer_new (GogRendererPixbuf *prend)
 }
 
 static void
-gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolean narrow)
+gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath *path, gboolean narrow)
 {
-	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (renderer);
-	GogStyle const *style = renderer->cur_style;
+	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
+	GogStyle const *style = rend->cur_style;
 	ArtRender *render;
 	ArtSVP *fill, *outline = NULL;
 	ArtDRect bbox;
@@ -114,7 +114,7 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 	if (!narrow && style->outline.width >= 0.)
 		outline = art_svp_vpath_stroke (path,
 			ART_PATH_STROKE_JOIN_MITER, ART_PATH_STROKE_CAP_SQUARE,
-			gog_renderer_line_size (renderer, style->outline.width), 4, 0.5);
+			gog_renderer_line_size (rend, style->outline.width), 4, 0.5);
 
 	if (style->fill.type != GOG_FILL_STYLE_NONE) {
 		fill = art_svp_from_vpath (path);
@@ -259,11 +259,12 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint *pos,
 			       char const *text, GogViewRequisition *size)
 {
 	FT_Bitmap ft_bitmap;
-	ArtRender *render;
-	ArtPixMaxDepth color[4];
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
 	PangoRectangle rect;
 	PangoLayout   *layout = make_layout (prend, text);
+	guint8 r, g, b, a, alpha, *dst, *src;
+	int h, w, i;
+	GogStyle const *style = rend->cur_style;
 
 	pango_layout_get_pixel_extents (layout, &rect, NULL);
 	if (rect.width == 0 || rect.height == 0)
@@ -278,24 +279,38 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint *pos,
 	ft_bitmap.palette      = NULL;
 	pango_ft2_render_layout (&ft_bitmap, layout, -rect.x, -rect.y);
 
-#if 0
-	render = art_render_new (pos->x + rect.x, pos->y,
-		pos->x + rect.x + rect.width,
-		pos->y + rect.y + rect.height,
-		prend->pixels, prend->rowstride,
-		gdk_pixbuf_get_n_channels (prend->buffer) - 1,
-		8, ART_ALPHA_SEPARATE, NULL);
-#else
-	render = gog_art_renderer_new (prend);
-#endif
-	go_color_to_artpix (color, RGBA_BLACK);
-	art_render_image_solid (render, color);
-	art_render_mask (render,
-		pos->x + rect.x, pos->y,
-		pos->x + rect.x + rect.width,
-		pos->y + rect.height,
-		ft_bitmap.buffer, ft_bitmap.pitch);
-	art_render_invoke (render);
+	r = UINT_RGBA_R (style->font.color);
+	g = UINT_RGBA_G (style->font.color);
+	b = UINT_RGBA_B (style->font.color);
+	a = UINT_RGBA_A (style->font.color);
+
+	/* do the compositing manually, ArtRender as used in librsvg is dog
+	 * slow, and I do not feel like leaping through 20 different data
+	 * structures to composite 1 byte images, onto rgba */
+	dst = prend->pixels;
+	dst += ((int)pos->y * prend->rowstride);
+	dst += ((int)pos->x + rect.x)* 4;
+	src = ft_bitmap.buffer;
+
+	w = rect.width;
+	if (w > size->w)
+		w = size->w;
+
+	h = rect.height;
+	if (h > size->h)
+		h = size->h;
+	while (h--) {
+		for (i = w; i-- > 0 ; dst += 4, src++) {
+			/* FIXME: Do the libart thing instead of divide by 255 */
+			alpha = (a * (*src)) / 255;
+			dst[0] = (dst[0] * (255 - alpha) + r * alpha) / 255;
+			dst[1] = (dst[1] * (255 - alpha) + g * alpha) / 255;
+			dst[2] = (dst[2] * (255 - alpha) + b * alpha) / 255;
+			dst[3] = (dst[3] * (255 - alpha) + a * alpha) / 255;
+		}
+		dst += prend->rowstride - w*4;
+		src += ft_bitmap.pitch - w;
+	}
 
 	if (size != NULL) {
 		pango_layout_get_pixel_extents (layout, &rect, NULL);
@@ -400,7 +415,7 @@ fontmap_from_cache (double x_dpi, double y_dpi)
 
 /**
  * gog_renderer_update :
- * @renderer :
+ * @prend :
  * @w :
  * @h :
  *

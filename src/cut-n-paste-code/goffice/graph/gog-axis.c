@@ -349,9 +349,11 @@ gog_axis_del_contributor (GogAxis *axis, GogObject *contrib)
 }
 
 /**
- *
-gog_axis_bound_changed   (GogAxis *axis, GogObject *contrib,
-double low, double high);
+ * gog_axis_bound_changed :
+ * @axis : #GogAxis
+ * @contrib : #GogObject
+ * @low :
+ * @high :
 **/
 void
 gog_axis_bound_changed (GogAxis *axis, GogObject *contrib,
@@ -359,7 +361,6 @@ gog_axis_bound_changed (GogAxis *axis, GogObject *contrib,
 {
 	g_return_if_fail (GOG_AXIS (axis) != NULL);
 
-	g_warning ("%p : bound changed to %g -> %g", axis, low, high);
 	gog_object_request_update (GOG_OBJECT (axis));
 }
 
@@ -498,6 +499,14 @@ gog_axis_view_class_init (GogAxisViewClass *gview_klass)
 	view_klass->render	    = gog_axis_view_render;
 }
 
+static void
+gog_axis_init (GogAxis *axis)
+{
+	/* yes we want min = MAX */
+	axis->min_val = DBL_MAX;
+	axis->max_val = DBL_MIN;
+}
+
 static GSF_CLASS (GogAxisView, gog_axis_view,
-		  gog_axis_view_class_init, NULL,
+		  gog_axis_view_class_init, gog_axis_init,
 		  GOG_VIEW_TYPE)

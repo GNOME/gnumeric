@@ -1,5 +1,14 @@
 2003-09-03  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-style.h : add GogStyle::font::color
+	* graph/gog-style.c (gog_style_init) : init font::color
+
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_draw_text) :
+	  composite manually cause libart was dog slow when using the approach
+	  in librsvg.
+
+2003-09-03  Jody Goldberg <jody@gnome.org>
+
 	* graph/gog-label.c (gog_label_view_size_request) : take outline
 	  into account.
 
