@@ -362,8 +362,9 @@
      of rows of random values to be produced.  Thirdly specify the
      random distribution by selecting one of the list items from the
      random distribution list.  The following random distributions are
-     supported: Discrete, Normal, Bernoulli, and Uniform.  Then
-     specify the parameters of the distribution.</para>
+     supported: Discrete, Normal, Poisson, Exponential, Binomial,
+     Negative Binomial, Bernoulli, and Uniform.  Then specify the
+     parameters of the distribution.</para>
 
      <sect2 id="random-distributions">
         <title>Random Distributions</title>
@@ -383,6 +384,36 @@
         <para>For Normal random distribution, specify the mean and the
 	standard deviation.  The default values for them are 0 for
 	mean and 1 for standard deviation.</para>
+
+	<para>For Poisson random distribution, specify the lambda in
+	the ``Lambda'' entry.</para>
+
+	<para>For Exponential random distribution, specify the b in
+	the ``b Value'' entry.</para>
+
+	<para>For Binomial random distribution, specify the
+	probability of success in ``p Value'' entry.  Also specify the
+	number of trials in the ``Number of Trials'' entry.  Binomial
+	distribution is a discrete distribution in which the
+	experiment consists of `n' identical trials, where `n' is
+	fixed in advance.  Each trial is independent of other trials
+	and has two possible outcomes, a success or a failure.  The
+	probability of success is constant from one trial to another.
+	The mean of a random variable that has a Binomial distribution
+	is E(X) = np, and the variance is var(X) = np(1-p).</para>
+
+	<para>For Negative Binomial distribution, specify the
+	probability of success in ``p Value'' entry.  Also specify the
+	number of failures in the ``Number of Failures'' entry.
+	Negative Binomial distribution is a discrete distribution in
+	which the experiment consists of a sequence of independent
+	trials.  Each trial has two possible outcomes, a success or a
+	failure.  The probability of success is constant from one
+	trial to another.  The experiment continues until `r' failures
+	are observed, where `r' is fixed in advance.  The mean of a
+	random variable that has a Negative Binomial distirbution is
+	E(X) = r(1-p)/p, and the variance is var(X) =
+	r(1-p)/p^2.</para>
 
         <para>For Bernoulli random distribution, specify the ``p
         Value''.  This is a probability value between 0 and 1.

@@ -1,5 +1,8 @@
 2001-10-29  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* analysis-tools.sgml: Documented `Binomial' and `Negative
+	Binomial' random distributions.
+
 	* autocorrect.sgml: Documented the autocorrect tool.  Now it
 	should be integrated somewhere...?
 
