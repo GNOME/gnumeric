@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-06-17 00:15+0200\n"
-"PO-Revision-Date: 2002-06-17 00:15+0200\n"
+"POT-Creation-Date: 2002-06-17 15:51+0200\n"
+"PO-Revision-Date: 2002-06-17 15:55+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -63,17 +63,17 @@ msgstr "Tolkningsfel vid läsning av Applix-fil"
 
 #: plugins/applix/applix-read.c:169
 msgid "Missing characters for character encoding"
-msgstr ""
+msgstr "Tecken saknas för teckenkodning"
 
 #: plugins/applix/applix-read.c:173
 #, c-format
 msgid "Invalid characters for in encoding '%c%c'"
-msgstr ""
+msgstr "Ogiltiga tecken för teckenkodningen \"%c%c\""
 
 #: plugins/applix/applix-read.c:1001
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
-msgstr ""
+msgstr "Uttrycket började inte med \"=\" ? \"%s\""
 
 #: plugins/applix/applix-read.c:1012
 #, c-format
@@ -81,6 +81,8 @@ msgid ""
 "%s!%s : unable to parse '%s'\n"
 "     %s"
 msgstr ""
+"%s!%s : kan inte tolka \"%s\"\n"
+"     %s"
 
 #: plugins/applix/plugin.xml.in.h:1
 msgid "Applix"
@@ -3979,7 +3981,6 @@ msgstr ""
 "@SEEALSO=PV,FV"
 
 #: plugins/fn-financial/functions.c:2195
-#, fuzzy
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -4014,6 +4015,7 @@ msgstr ""
 "    ESP     (Spanien)\n"
 "    FIM     (Finland)\n"
 "    FRF     (Frankrike)\n"
+"    GRD     (Grekland)\n"
 "    IEP     (Irland)\n"
 "    ITL     (Italien)\n"
 "    LUF     (Luxemburg)\n"
@@ -5599,7 +5601,6 @@ msgstr ""
 "@SEEALSO=AND, NOT"
 
 #: plugins/fn-logical/functions.c:192
-#, fuzzy
 msgid ""
 "@FUNCTION=XOR\n"
 "@SYNTAX=XOR(b1, b2, ...)\n"
@@ -5616,21 +5617,20 @@ msgid ""
 "\n"
 "@SEEALSO=OR, AND, NOT"
 msgstr ""
-"@FUNCTION=OR\n"
-"@SYNTAX=OR(b1; b2; ...)\n"
-"@DESCRIPTION=OR implementerar den logiska ELLER-funktionen: resultatet är "
-"SANT om något av värdena evalueras till SANT.\n"
+"@FUNCTION=XOR\n"
+"@SYNTAX=XOR(b1; b2; ...)\n"
+"@DESCRIPTION=XOR implementerar den logiska exklusiva ELLER-funktionen: "
+"resultatet är SANT om ett udda antal av värdena evalueras till SANT.\n"
 "@b1 till @bN är uttryck som måste evaluera till SANT eller FALSKT. Om ett "
 "heltal- eller flyttalsvärde anges betraktas noll som FALSKT och allting "
 "annat som SANT.\n"
 "Om värdena innehåller strängar eller tomma celler ignoreras dessa värden. Om "
 "inga logiska värden anges returneras felvärdet #VÄRDE!.\n"
-"Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"OR(TRUE;FALSE) är lika med SANT.\n"
-"OR(3>4;4<3) är lika med SANT.\n"
+"XOR(TRUE;FALSE) är lika med SANT.\n"
+"XOR(3>4;4<3) är lika med SANT.\n"
 "\n"
-"@SEEALSO=AND, NOT"
+"@SEEALSO=OR, AND, NOT"
 
 #: plugins/fn-logical/functions.c:246
 msgid ""
@@ -5832,7 +5832,6 @@ msgid "#ARG!"
 msgstr "#ARG!"
 
 #: plugins/fn-lookup/functions.c:502
-#, fuzzy
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
@@ -10510,6 +10509,14 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=CRONBACH\n"
+"@SYNTAX=CRONBACH(ref1;ref2;...)\n"
+"@DESCRIPTION=Funktionen CRONBACH returnerar Cronbachs alfa för de givna "
+"fallen.\n"
+"@ref1 är en datamängd, @ref2 är den andra datamängden, osv...\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
 #: plugins/fn-stat/functions.c:4704
 msgid "x,alpha,beta,a,b"
@@ -11539,7 +11546,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Mbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Moebius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -11555,7 +11562,7 @@ msgstr ""
 "0 om @n är delbart med kvadraten av ett primtal.\n"
 "Annars returnerar det: \n"
 "-1 om @n har ett udda  antal olika primfaktorer.\n"
-"1  om @n jar ett jämnt antal olika primfaktorer.\n"
+"1  om @n har ett jämnt antal olika primfaktorer.\n"
 "Om @n=1 returnerar det 1\n"
 "\n"
 "@EXAMPLES=\n"
@@ -13943,7 +13950,7 @@ msgstr "Färgbyte på flikar"
 
 #: src/commands.c:4348
 msgid "Changing Sheet Protection"
-msgstr ""
+msgstr "Ändrar bladskydd"
 
 #: src/commands.c:4351
 msgid "Reorganizing Sheets"
@@ -15792,7 +15799,7 @@ msgstr "Värde:"
 
 #: src/dialogs/dialog-cell-format.c:2399
 msgid "The validation criteria are unusable. Disable validation?"
-msgstr ""
+msgstr "Valideringskriteria är oanvändbart. Inaktivera validering?"
 
 #: src/dialogs/dialog-cell-format.c:2663 src/workbook-format-toolbar.c:816
 msgid "Clear Background"
@@ -16147,21 +16154,24 @@ msgstr "Beskrivning"
 
 #: src/dialogs/dialog-preferences.c:657
 msgid "The items on this page customize the behaviour of the undo/redo system."
-msgstr ""
+msgstr "Objekten på denna sida anpassar beteendet på ångra-/gör om-systemet."
 
 #: src/dialogs/dialog-preferences.c:796
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
 msgstr ""
+"Objekten på denna sida anpassar de ursprungliga inställningarna för "
+"sorteringsdialogen och beteendet på verktygsradsknapparna."
 
 #: src/dialogs/dialog-preferences.c:931
 msgid "The items on this page customize the new default workbook."
-msgstr ""
+msgstr "Objekten på denna sida anpassar den nya standardarbetsboken."
 
 #: src/dialogs/dialog-preferences.c:1103
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
+"Objekten på denna sida är relaterade till sparandet och öppnandet av filer."
 
 #: src/dialogs/dialog-printer-setup.c:859
 msgid "Customize header"
@@ -16980,7 +16990,7 @@ msgstr "_Anpassa till markeringen %"
 
 #: src/dialogs/exp-smoothing.glade.h:1
 msgid "0.2"
-msgstr ""
+msgstr "0,2"
 
 #: src/dialogs/exp-smoothing.glade.h:4 src/tools/analysis-tools.c:2645
 #: src/tools/analysis-tools.c:2648
@@ -16988,9 +16998,8 @@ msgid "Exponential Smoothing"
 msgstr "Exponentiell utjämning"
 
 #: src/dialogs/exp-smoothing.glade.h:12
-#, fuzzy
 msgid "_Damping factor:"
-msgstr "Stickprovsmetod:"
+msgstr "_Dämpningsfaktor:"
 
 #: src/dialogs/exp-smoothing.glade.h:18 src/dialogs/moving-averages.glade.h:18
 msgid "_Standard Errors"
@@ -17368,14 +17377,12 @@ msgid "% of normal size"
 msgstr "% av normalstorlek"
 
 #: src/dialogs/print.glade.h:3
-#, fuzzy
 msgid "Apply _to:"
-msgstr "Använd typ_snitt"
+msgstr "Tillämpa _på:"
 
 #: src/dialogs/print.glade.h:4
-#, fuzzy
 msgid "Apply to _all sheets."
-msgstr "Kopiera till ett nytt kalkyl_blad"
+msgstr "Tillämpa på _alla blad."
 
 #: src/dialogs/print.glade.h:5
 msgid "Center on page"
@@ -17540,9 +17547,8 @@ msgid "_Force Intercept To Be Zero"
 msgstr "_Tvinga gräns att vara noll"
 
 #: src/dialogs/row-height.glade.h:1
-#, fuzzy
 msgid "Row Height"
-msgstr "Radhöjd:"
+msgstr "Radhöjd"
 
 #: src/dialogs/row-height.glade.h:2
 msgid "_Row height (pts):"
@@ -17872,9 +17878,8 @@ msgid "Manage Sheets..."
 msgstr "Hantera blad..."
 
 #: src/dialogs/so-arrow.glade.h:1
-#, fuzzy
 msgid "Configure Arrow/Line"
-msgstr "Konfigurera linje eller pil"
+msgstr "Konfigurera pil/linje"
 
 #: src/dialogs/so-arrow.glade.h:2
 msgid "Distance from tip of arrowhead to the center point"
@@ -17895,7 +17900,6 @@ msgid "Checkbox Configure"
 msgstr "Kryssrutekonfiguration"
 
 #: src/dialogs/so-fill.glade.h:1
-#, fuzzy
 msgid "Configure Filled Object"
 msgstr "Konfigurera fyllt objekt"
 
@@ -17944,12 +17948,11 @@ msgstr "Max_tid (sekunder)"
 #: src/dialogs/solver.glade.h:15 src/tools/solver/reports-write.c:795
 #: src/tools/solver/reports-write.c:803
 msgid "Model Assumptions:"
-msgstr ""
+msgstr "Modellantaganden:"
 
 #: src/dialogs/solver.glade.h:16
-#, fuzzy
 msgid "Options:"
-msgstr "Alternativ"
+msgstr "Alternativ:"
 
 #: src/dialogs/solver.glade.h:17
 msgid "P_rogram"
@@ -19719,9 +19722,8 @@ msgstr ""
 "@SEEALSO="
 
 #: src/func-builtin.c:239
-#, fuzzy
 msgid "permit_intersection"
-msgstr "Mittsektion:"
+msgstr "tillåt_överlappning"
 
 #: src/func.c:95
 #, c-format
@@ -19885,9 +19887,8 @@ msgid "Which file format would you like?"
 msgstr "Vilket filformat önskar du?"
 
 #: src/gui-util.c:252
-#, fuzzy
 msgid "Multiple errors\n"
-msgstr "Flera fel"
+msgstr "Flera fel\n"
 
 #: src/gui-util.c:793
 #, c-format
@@ -20118,7 +20119,7 @@ msgstr "Okänt blad \"%s\""
 #: src/parser.y:521
 #, c-format
 msgid "What is a 3D name %s:%s!%s ?"
-msgstr ""
+msgstr "Vad är ett 3D-namn %s:%s!%s ?"
 
 #: src/parser.y:531
 #, c-format
@@ -20721,9 +20722,8 @@ msgid "Too many columns in data to parse: %d"
 msgstr "För många kolumner i data för att tolka: %d"
 
 #: src/stf.c:87
-#, fuzzy
 msgid "Error while trying to read file"
-msgstr "Fel vid skrivning av csv-fil"
+msgstr "Fel vid försök att läsa fil"
 
 #: src/stf.c:98
 msgid "Error while trying to pre-convert file"
@@ -20750,7 +20750,7 @@ msgstr "Fel vid skrivning av csv-fil"
 
 #: src/stf.c:378
 msgid "Text import (auto-detect CSV or tab-delimited)"
-msgstr ""
+msgstr "Textimport (automatisk igenkänning av CVS eller tabulatorseparerad)"
 
 #: src/stf.c:382
 msgid "Text import (configurable)"
@@ -21234,9 +21234,9 @@ msgid "The probabilities may not all be 0!"
 msgstr "Sannolikheterna får inte vara 0!"
 
 #: src/tools/random-generator.c:301
-#, fuzzy, c-format
+#, c-format
 msgid "Random Numbers (%s)"
-msgstr "Slumptal"
+msgstr "Slumptal (%s)"
 
 #: src/tools/solver/reports-write.c:108
 msgid "Gnumeric Solver"
@@ -21283,7 +21283,7 @@ msgstr "Icke bindande"
 
 #: src/tools/solver/reports-write.c:263 src/tools/solver/reports-write.c:982
 msgid "Assume that all variables are integer."
-msgstr ""
+msgstr "Antag att alla variabler är heltal."
 
 #: src/tools/solver/reports-write.c:273
 msgid "Target Cell (Maximize)"
@@ -21407,47 +21407,40 @@ msgid "Performance Report"
 msgstr "Prestandarapport"
 
 #: src/tools/solver/reports-write.c:604
-#, fuzzy
 msgid "Nbr of Iterations"
-msgstr "Max _iterationer"
+msgstr "Antal iterationer"
 
 #: src/tools/solver/reports-write.c:610
-#, fuzzy
 msgid "Minimization"
-msgstr "Förstoring"
+msgstr "Minimering"
 
 #: src/tools/solver/reports-write.c:613
-#, fuzzy
 msgid "Maximization"
-msgstr "Förstoring"
+msgstr "Maximering"
 
 #: src/tools/solver/reports-write.c:616
-#, fuzzy
 msgid "Target value search"
-msgstr "Starta sökning"
+msgstr "Målvärdessökning"
 
 #: src/tools/solver/reports-write.c:623
 msgid "Optimal solution found"
-msgstr ""
+msgstr "Optimal lösning hittad"
 
 #: src/tools/solver/reports-write.c:626
 msgid "Unbounded problem"
-msgstr ""
+msgstr "Gränslöst problem"
 
 #: src/tools/solver/reports-write.c:629
 msgid "Infeasible problem"
-msgstr ""
+msgstr "Olösligt problem"
 
 #: src/tools/solver/reports-write.c:633
-#, fuzzy
 msgid "Maximum number of iterations exceeded: optimization interupted"
-msgstr ""
-"Det maximala antalet iterationer överskreds. Det optimala värdet kunde inte "
-"hittas."
+msgstr "Det maximala antalet iterationer överskreds: optimering avbröts"
 
 #: src/tools/solver/reports-write.c:638
 msgid "Maximum time exceeded: optimization interupted"
-msgstr ""
+msgstr "Maximal tid överskreds: optimering avbröts"
 
 #.
 #. * Fill in the labels of `Problem Size' section.
@@ -21537,19 +21530,16 @@ msgid "Algorithm:"
 msgstr "Algoritm:"
 
 #: src/tools/solver/reports-write.c:796
-#, fuzzy
 msgid "Autoscaling:"
-msgstr "Automatisk _skalning"
+msgstr "Automatisk skalning:"
 
 #: src/tools/solver/reports-write.c:797
-#, fuzzy
 msgid "Max Iterations:"
-msgstr "Max _iterationer"
+msgstr "Max iterationer:"
 
 #: src/tools/solver/reports-write.c:798
-#, fuzzy
 msgid "Max Time:"
-msgstr "Max:"
+msgstr "Maxtid:"
 
 #. Set the options.
 #: src/tools/solver/reports-write.c:802
@@ -21557,29 +21547,25 @@ msgid "LP Solve 3.2"
 msgstr "LP-lösare 3.2"
 
 #: src/tools/solver/reports-write.c:811
-#, fuzzy
 msgid "Non-Negative"
-msgstr "Antag _icke-negativ"
+msgstr "Icke-negativ"
 
 #: src/tools/solver/reports-write.c:818
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: src/tools/solver/reports-write.c:820
-#, fuzzy
 msgid "No"
-msgstr "Ingen"
+msgstr "Nej"
 
 #. Fill in other titles.
 #: src/tools/solver/reports-write.c:842
-#, fuzzy
 msgid "General Information"
-msgstr "Information"
+msgstr "Allmän information"
 
 #: src/tools/solver/reports-write.c:843
-#, fuzzy
 msgid "Problem Size"
-msgstr "Bubbelstorlek"
+msgstr "Problemstorlek"
 
 #: src/tools/solver/reports-write.c:844
 msgid "Data Sparsity"
@@ -21599,7 +21585,7 @@ msgstr "Programrapport"
 
 #: src/tools/solver/reports-write.c:991
 msgid "Assume that all variables take only positive values."
-msgstr ""
+msgstr "Antag att alla variabler endast tar positiva värden."
 
 #: src/tools/solver/reports-write.c:1007
 msgid "Minimize"
@@ -21631,6 +21617,8 @@ msgid ""
 "Model is too large for program report generation. Program report was not "
 "created."
 msgstr ""
+"Modellen är för stor för generering av programrapport. Programrapport "
+"skapades inte."
 
 #: src/tools/solver/solver.c:409
 msgid ""
@@ -21703,9 +21691,8 @@ msgid "Gnumeric: Validation"
 msgstr "Gnumeric: Validering"
 
 #: src/widgets/gnumeric-expr-entry.c:1117
-#, fuzzy
 msgid "Expecting a single range"
-msgstr "Markeringen måste bestå av ett sammanhängande område"
+msgstr "Förväntar sammanhängande område"
 
 #: src/widgets/widget-font-selector.c:116
 msgid "Bold italic"
@@ -21771,23 +21758,21 @@ msgid "Password :"
 msgstr "Lösenord:"
 
 #: src/workbook-control-gui.c:1345
-#, fuzzy, c-format
+#, c-format
 msgid "Workbook '%s' has unsaved changes :"
-msgstr "Arbetsboken %s har osparade ändringar, spara dem?"
+msgstr "Arbetsboken \"%s\" har osparade ändringar:"
 
 #: src/workbook-control-gui.c:1348
-#, fuzzy
 msgid "Workbook has unsaved changes :"
-msgstr "Arbetsboken har osparade ändringar, spara dem?"
+msgstr "Arbetsboken har osparade ändringar:"
 
 #: src/workbook-control-gui.c:1359 src/workbook-control-gui.c:1367
 msgid "Don't Quit"
-msgstr ""
+msgstr "Avsluta inte"
 
 #: src/workbook-control-gui.c:1360
-#, fuzzy
 msgid "Discard All"
-msgstr "Förkasta"
+msgstr "Förkasta alla"
 
 #: src/workbook-control-gui.c:1361 src/workbook-control-gui.c:1368
 #: src/workbook-control-gui.c:1374 src/workbook-control-gui.c:4740
@@ -21796,14 +21781,12 @@ msgid "Discard"
 msgstr "Förkasta"
 
 #: src/workbook-control-gui.c:1362
-#, fuzzy
 msgid "Save All"
-msgstr "Spara so_m"
+msgstr "Spara alla"
 
 #: src/workbook-control-gui.c:1373
-#, fuzzy
 msgid "Don't Close"
-msgstr "Stäng"
+msgstr "Stäng inte"
 
 #: src/workbook-control-gui.c:1927
 #, c-format
@@ -21846,14 +21829,12 @@ msgid "Insert columns"
 msgstr "Infoga kolumner"
 
 #: src/workbook-control-gui.c:2543 src/workbook-control-gui.c:2561
-#, fuzzy
 msgid "Show Detail"
-msgstr "_Visa detaljer"
+msgstr "Visa detaljer"
 
 #: src/workbook-control-gui.c:2543 src/workbook-control-gui.c:2561
-#, fuzzy
 msgid "Hide Detail"
-msgstr "_Dölj detaljer"
+msgstr "Dölj detaljer"
 
 #: src/workbook-control-gui.c:2549
 msgid "can only be performed on an existing group"
@@ -21910,9 +21891,8 @@ msgid "Use the current selection to create names"
 msgstr "Använd aktuell markerking för att skapa namn"
 
 #: src/workbook-control-gui.c:3096
-#, fuzzy
 msgid "Insert an image..."
-msgstr "_Infoga..."
+msgstr "Infoga en bild..."
 
 #: src/workbook-control-gui.c:3180
 msgid "Hide _Column Header"
@@ -22300,6 +22280,15 @@ msgstr "Är inte en Gnumeric-arbetsboksfil"
 #: src/xml-io.c:3433
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid "Assume that all variables are integers."
+#~ msgstr "Antag att alla variabler är heltal."
+
+#~ msgid "Maximum number of iterations exceeded: optimization interrupted"
+#~ msgstr "Det maximala antalet iterationer överskreds: optimering avbröts"
+
+#~ msgid "Maximum time exceeded: optimization interrupted"
+#~ msgstr "Maximal tid överskreds: optimering avbröts"
 
 #~ msgid "x,alpha,beta,cumulative"
 #~ msgstr "x;alfa;beta;kumulativ"

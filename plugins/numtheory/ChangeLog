@@ -1,3 +1,8 @@
+2002-06-17  Christian Rose  <menthos@menthos.com>
+
+	* numtheory.c: Remove illegal non-ASCII character that causes
+	warnings with gettext and character conversion problems.
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4
