@@ -1,3 +1,13 @@
+2001-11-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (exp_smoothing_*) : enable group-by and labels 
+	  as well as large selections, handle all tool returns
+	(average_tool_*) : enable group-by and labels as well as large selections
+	* moving-averages.glade : enable group-by and labels
+	* exp-smoothing.glade : ditto
+	* tools.h (averages_tool) : Use Value instead of Range
+	(exp_smoothing_tool) L ditto
+
 2001-11-09  Morten Welinder  <terra@diku.dk>
 
 	* dialog-stf-preview.c (stf_preview_render): Plug leaks and make

@@ -7,6 +7,7 @@ Andreas:
 	  ANOVA, and t-tests analysis tools.
 	* Fix small errors in F-test, z-test, one-factor 
 	  ANOVA, and t-tests analysis tools.
+	* Improve Exponential Smoothing and Moving Averages tools.
 
 Jody:
 	* More work on the expr entry.

@@ -2604,53 +2604,64 @@ these values can be tiny.*/
 
 
 int
-average_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, int interval,
+average_tool (WorkbookControl *wbc, Sheet *sheet, 
+	      GSList *input, group_by_t group_by,
+	      int interval,
 	      int std_error_flag, data_analysis_output_t *dao)
 {
-        old_data_set_t data_set;
-	GSList     *current;
-	gnum_float    *prev, sum;
-	int        cols, rows, row, add_cursor, del_cursor, count;
+	GSList        *input_range;
+	GPtrArray     *data;
+	guint           dataset;
+
+	gnum_float    *prev;
 
 	/* TODO: Standard error output */
-	cols = range->end.col - range->start.col + 1;
-	rows = range->end.row - range->start.row + 1;
 
-	if ((cols != 1 && rows != 1) || interval < 1)
-	        return 1;
+	input_range = input;
+	prepare_input_range (&input_range, group_by);
+	data = new_data_set_list (input_range, group_by,
+				  TRUE, dao->labels_flag, sheet);
 
 	prepare_output (wbc, dao, _("Moving Averages"));
 
 	prev = g_new (gnum_float, interval);
 
-	get_data (sheet, range, &data_set, FALSE);
-	current = data_set.array;
-	count = add_cursor = del_cursor = row = 0;
-	sum = 0;
+	for (dataset = 0; dataset < data->len; dataset++) {
+		data_set_t    *current;
+		gnum_float    sum;
+		guint         row;
+		int           add_cursor, del_cursor, count;
 
-	while (current != NULL) {
-	        prev[add_cursor] = * ((gnum_float *) current->data);
-		if (count == interval - 1) {
-			sum += prev[add_cursor];
-			set_cell_float (dao, 0, row, sum / interval);
-			++row;
-		        sum -= prev[del_cursor];
-			if (++add_cursor == interval)
-			        add_cursor = 0;
-			if (++del_cursor == interval)
-			        del_cursor = 0;
-		} else {
-		        ++count;
-		        sum += prev[add_cursor];
-			++add_cursor;
-			set_cell_na (dao, 0, row++);
+		current = g_ptr_array_index (data, dataset);
+		set_cell_printf (dao, dataset, 0, current->label);
+
+		count = add_cursor = del_cursor = 0;
+		sum = 0;
+		
+		for (row = 0; row < current->data->len; row++) {
+			prev[add_cursor] = g_array_index 
+				(current->data, gnum_float, row);
+			if (count == interval - 1) {
+				sum += prev[add_cursor];
+				set_cell_float (dao, dataset, row + 1, sum / interval);
+				sum -= prev[del_cursor];
+				if (++add_cursor == interval)
+					add_cursor = 0;
+				if (++del_cursor == interval)
+					del_cursor = 0;
+			} else {
+				sum += prev[add_cursor];
+				++add_cursor;
+				set_cell_na (dao, dataset, ++count);
+			}
 		}
-		current = current->next;
+		
 	}
+	set_italic (dao, 0, 0, data->len - 1, 0);
 
+	destroy_data_set_list (data);
+	range_list_destroy (input_range);
 	g_free (prev);
-
-	free_data_set (&data_set);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);
@@ -2673,52 +2684,56 @@ average_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, int interval,
  **/
 
 int
-exp_smoothing_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
+exp_smoothing_tool (WorkbookControl *wbc, Sheet *sheet,
+		    GSList *input, group_by_t group_by,
 		    gnum_float damp_fact, int std_error_flag,
 		    data_analysis_output_t *dao)
 {
-        old_data_set_t data_set;
-	GSList        *current;
-	int           cols, rows, row;
-	gnum_float    a, f;
+	GSList        *input_range;
+	GPtrArray     *data;
+	guint           dataset;
 
 	/* TODO: Standard error output */
-	cols = range->end.col - range->start.col + 1;
-	rows = range->end.row - range->start.row + 1;
 
-	if ((cols != 1 && rows != 1) || damp_fact < 0 || damp_fact > 1)
-	        return 1;
+	input_range = input;
+	prepare_input_range (&input_range, group_by);
+	data = new_data_set_list (input_range, group_by,
+				  TRUE, dao->labels_flag, sheet);
 
 	prepare_output (wbc, dao, _("Exponential Smoothing"));
 
-	get_data (sheet, range, &data_set, FALSE);
-	current = data_set.array;
-	row = a = f = 0;
-	
-	while (current != NULL) {
-		if (row == 0)
-		        /* Cannot forecast for the first data element */
+	for (dataset = 0; dataset < data->len; dataset++) {
+		data_set_t    *current;
+		gnum_float    a, f;
+		guint           row;
 
-			set_cell_na (dao, 0, row);
-		else if (row == 1) {
-		        /* The second forecast is always the first data element */
-
-		        set_cell_float (dao, 0, row, a);
-			f = a;
-		} else {
-		        /* F(t+1) = F(t) + (1 - damp_fact) * ( A(t) - F(t) ),
-			 * where A(t) is the t'th data element.
-			 */
-
-		        f = f + (1.0 - damp_fact) * (a - f);
-			set_cell_float (dao, 0, row, f);
+		current = g_ptr_array_index (data, dataset);
+		set_cell_printf (dao, dataset, 0, current->label);
+		a = f = 0;
+		for (row = 0; row < current->data->len; row++) {
+			if (row == 0)
+				/* Cannot forecast for the first data element */
+				
+				set_cell_na (dao, dataset, row + 1);
+			else if (row == 1) {
+				/* The second forecast is always the first data element */
+				set_cell_float (dao, dataset, row + 1, a);
+				f = a;
+			} else {
+				/* F(t+1) = F(t) + (1 - damp_fact) * ( A(t) - F(t) ),
+				 * where A(t) is the t'th data element.
+				 */
+				
+				f = f + (1.0 - damp_fact) * (a - f);
+				set_cell_float (dao, dataset, row + 1, f);
+			}
+			a = g_array_index (current->data, gnum_float, row);
 		}
-		++row;
-	        a = * ((gnum_float *) current->data);
-		current = current->next;
 	}
+	set_italic (dao, 0, 0, data->len - 1, 0);
 
-	free_data_set (&data_set);
+	destroy_data_set_list (data);
+	range_list_destroy (input_range);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);

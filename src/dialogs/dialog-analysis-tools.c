@@ -3031,17 +3031,15 @@ static void
 exp_smoothing_tool_ok_clicked_cb (GtkWidget *button, ExpSmoothToolState *state)
 {
 	data_analysis_output_t  dao;
-	Range                   range;
+	GSList                  *input;
         char                    *text;
 	GtkWidget               *w;
 	int                     standard_errors_flag;
 	gnum_float              damp_fact;
+	gint                    err;
 
 	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-	parse_range (text, &range.start.col,
-		     &range.start.row,
-		     &range.end.col,
-		     &range.end.row);
+	input = global_range_list_parse (state->sheet, text);
 
         parse_output ((GenericToolState *)state, &dao);
 
@@ -3053,13 +3051,19 @@ exp_smoothing_tool_ok_clicked_cb (GtkWidget *button, ExpSmoothToolState *state)
 	w = glade_xml_get_widget (state->gui, "std_errors_button");
 	standard_errors_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(w));
 
-	switch (exp_smoothing_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
-				    &range, damp_fact, standard_errors_flag,
-				    &dao)) {
+	err = exp_smoothing_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, input,
+				  gnumeric_glade_group_value (state->gui, grouped_by_group),
+				  damp_fact, standard_errors_flag,
+				  &dao);
+
+	switch (err) {
 	case 0:
 		gtk_widget_destroy (state->dialog);
 		break;
 	default:
+		text = g_strdup_printf(_("An unexpected error has occurred: %d."), err);
+		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), text);
+		g_free (text);
 		break;
 	}
 	return;
@@ -3072,7 +3076,7 @@ exp_smoothing_tool_ok_clicked_cb (GtkWidget *button, ExpSmoothToolState *state)
  * Update the dialog widgets sensitivity.
  * We cannot use tool_update_sensitivity_cb
  * since we are also considering whether in fact
- * an interval is given.
+ * a damping factor is given.
  **/
 static void
 exp_smoothing_tool_update_sensitivity_cb (GtkWidget *dummy,
@@ -3085,12 +3089,12 @@ exp_smoothing_tool_update_sensitivity_cb (GtkWidget *dummy,
 	int i;
 	gnum_float damp_fact;
         Value *output_range;
-        Value *input_range;
+        GSList *input_range;
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
 	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
         output_range = global_range_parse (state->sheet,output_text);
-        input_range = range_parse (state->sheet,input_text,TRUE);
+        input_range = global_range_list_parse (state->sheet,input_text);
 	i = gnumeric_glade_group_value (state->gui, output_group);
 	text = gtk_entry_get_text (GTK_ENTRY (state->damping_fact_entry));
 	damp_fact = atof (text);
@@ -3099,7 +3103,7 @@ exp_smoothing_tool_update_sensitivity_cb (GtkWidget *dummy,
                  (damp_fact >= 0 && damp_fact <= 1) &&
                  ((i != 2) || (output_range != NULL)));
 
-        if (input_range != NULL) value_release (input_range);
+        if (input_range != NULL) range_list_destroy (input_range);
         if (output_range != NULL) value_release (output_range);
 
 	gtk_widget_set_sensitive (state->ok_button, ready);
@@ -3120,7 +3124,7 @@ dialog_exp_smoothing_tool_init (ExpSmoothToolState *state)
 			      "ExpSmoothing",
 			      GTK_SIGNAL_FUNC (exp_smoothing_tool_ok_clicked_cb),
 			      GTK_SIGNAL_FUNC (exp_smoothing_tool_update_sensitivity_cb),
-			      GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL)) {
+			      GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW)) {
 		return TRUE;
 	}
 
@@ -3207,17 +3211,15 @@ static void
 average_tool_ok_clicked_cb (GtkWidget *button, AverageToolState *state)
 {
 	data_analysis_output_t  dao;
-	Range range;
-        char   *text;
-	GtkWidget *w;
-	int standard_errors_flag, interval;
-	gint err;
+	GSList                  *input;
+        char                    *text;
+	GtkWidget               *w;
+	int                     standard_errors_flag, 
+                                interval;
+	gint                    err;
 
 	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-	parse_range (text, &range.start.col,
-		     &range.start.row,
-		     &range.end.col,
-		     &range.end.row);
+	input = global_range_list_parse (state->sheet, text);
 
         parse_output ((GenericToolState *)state, &dao);
 
@@ -3229,8 +3231,9 @@ average_tool_ok_clicked_cb (GtkWidget *button, AverageToolState *state)
 	w = glade_xml_get_widget (state->gui, "std_errors_button");
 	standard_errors_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = average_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
-			    &range, interval, standard_errors_flag, &dao);
+	err = average_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, input,
+			    gnumeric_glade_group_value (state->gui, grouped_by_group),
+			    interval, standard_errors_flag, &dao);
 	switch (err) {
 	case 0:
 		gtk_widget_destroy (state->dialog);
@@ -3262,12 +3265,12 @@ average_tool_update_sensitivity_cb (GtkWidget *dummy, AverageToolState *state)
 	char const *text;
 	int i, interval;
         Value *output_range;
-        Value *input_range;
+        GSList *input_range;
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
 	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
         output_range = global_range_parse (state->sheet,output_text);
-        input_range = range_parse (state->sheet,input_text,TRUE);
+        input_range = global_range_list_parse (state->sheet,input_text);
 	i = gnumeric_glade_group_value (state->gui, output_group);
 	text = gtk_entry_get_text (GTK_ENTRY (state->interval_entry));
 	interval = atoi (text);
@@ -3276,7 +3279,7 @@ average_tool_update_sensitivity_cb (GtkWidget *dummy, AverageToolState *state)
                  (interval > 0) &&
                  ((i != 2) || (output_range != NULL)));
 
-        if (input_range != NULL) value_release (input_range);
+        if (input_range != NULL) range_list_destroy (input_range);
         if (output_range != NULL) value_release (output_range);
 
 	gtk_widget_set_sensitive (state->ok_button, ready);
@@ -3293,17 +3296,19 @@ average_tool_update_sensitivity_cb (GtkWidget *dummy, AverageToolState *state)
 static gboolean
 dialog_average_tool_init (AverageToolState *state)
 {
-	if (dialog_tool_init ((GenericToolState *)state, "moving-averages.glade", "MovAverages",
+	if (dialog_tool_init ((GenericToolState *)state, "moving-averages.glade", 
+			      "MovAverages",
 			      GTK_SIGNAL_FUNC (average_tool_ok_clicked_cb),
 			      GTK_SIGNAL_FUNC (average_tool_update_sensitivity_cb),
-			      GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL)) {
+			      GNUM_EE_ABS_COL | GNUM_EE_ABS_ROW)) {
 		return TRUE;
 	}
 
 	state->interval_entry = glade_xml_get_widget (state->gui, "interval-entry");
 
 	gtk_signal_connect_after (GTK_OBJECT (state->interval_entry), "changed",
-				  GTK_SIGNAL_FUNC (average_tool_update_sensitivity_cb), state);
+				  GTK_SIGNAL_FUNC 
+				  (average_tool_update_sensitivity_cb), state);
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->interval_entry));
 

@@ -1,3 +1,9 @@
+2001-11-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/analysis-tools.c (average_tool) : handle `group-by' and `labels'
+	  as well as larger input selections
+	(exp_smoothing_tool) : ditto
+
 2001-11-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c (cb_file_send) : extra safety.  Ensure

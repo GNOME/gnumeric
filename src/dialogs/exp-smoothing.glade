@@ -159,7 +159,6 @@
 	<widget>
 	  <class>GtkCheckButton</class>
 	  <name>labels_button</name>
-	  <sensitive>False</sensitive>
 	  <can_focus>True</can_focus>
 	  <label>_Labels</label>
 	  <active>False</active>
@@ -218,7 +217,6 @@
 	  <widget>
 	    <class>GtkRadioButton</class>
 	    <name>grouped_by_row</name>
-	    <sensitive>False</sensitive>
 	    <can_focus>True</can_focus>
 	    <label>_Rows</label>
 	    <active>False</active>
