@@ -32,6 +32,8 @@
 #include "item-debug.h"
 #define GNUMERIC_ITEM "EDIT"
 
+#include <libgnome/gnome-i18n.h>
+
 #include <gsf/gsf-impl-utils.h>
 #include <gal/widgets/e-cursors.h>
 #include <ctype.h>
@@ -100,62 +102,6 @@ scan_for_range (ItemEdit *item_edit, const char *text)
 }
 
 static void
-item_edit_draw_cursor (ItemEdit *item_edit, GdkDrawable *drawable, GtkStyle *style,
-		       int x, int y, GdkFont *font)
-{
-	if (!item_edit->cursor_visible)
-		return;
-
-	gdk_draw_line (drawable, style->black_gc,
-		       x, y-font->ascent,
-		       x, y+font->descent);
-}
-
-static void
-item_edit_draw_text (ItemEdit *item_edit, GdkDrawable *drawable, GtkStyle *style,
-		     int x1, int y, int w,
-		     char const *text, int text_length, int cursor_pos)
-{
-	GdkFont *font = item_edit->font;
-
-	GdkGC *gc = style->black_gc;
-
-	/* skip leading newlines */
-	if (*text == '\n') {
-		text++;
-		text_length--;
-		cursor_pos--;
-	}
-
-	/* If this segment contains the cursor draw it */
-	if (0 <= cursor_pos && cursor_pos <= text_length) {
-		if (cursor_pos > 0) {
-			gdk_draw_text (drawable, font, gc, x1, y, text, cursor_pos);
-			x1 += gdk_text_width (font, text, cursor_pos);
-			text += cursor_pos;
-			text_length -= cursor_pos;
-			cursor_pos = 0;
-		}
-
-		item_edit_draw_cursor (item_edit, drawable, style, x1, y, font);
-	}
-
-	if (text_length > 0) {
-		if (text_length > cursor_pos &&
-		    wbcg_auto_completing (item_edit->scg->wbcg)) {
-			if (w < 0)
-				w = gdk_text_width (font, text, text_length);
-			gdk_draw_rectangle (drawable, style->black_gc, TRUE,
-					    x1, y - font->ascent, w,
-					    font->ascent + font->descent);
-			gc = style->white_gc;
-		}
-
-		gdk_draw_text (drawable, font, gc, x1, y, text, text_length);
-	}
-}
-
-static void
 item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		int x, int y, int width, int height)
 {
@@ -170,15 +116,15 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	 * vertical jumping when edit.
 	 */
 	int top_pos = ((int)item->y1) - y + 1; /* grid line */
-	int text_offset = 0;
 	int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (item_edit->entry));
-	GSList *ptr;
 	char const *text;
+	StyleFont	*style_font = item_edit->style_font;
+	PangoLayout	*layout;
+	PangoAttrList	*attrs;
+	PangoRectangle	 pos;
 
-	/* no drawing until the font is set */
-	if (item_edit->font == NULL)
+	if (item_edit->style_font == NULL)
 		return;
-	top_pos += item_edit->font->ascent;
 
        	/* Draw the background (recall that gdk_draw_rectangle excludes far coords) */
 	gdk_draw_rectangle (
@@ -187,27 +133,27 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		(int)(item->x2-item->x1),
 		(int)(item->y2-item->y1));
 
-	/* Make a number of tests for auto-completion */
+	/* copy the layout from the entry so that we get the text */
+	layout = pango_layout_copy (gtk_entry_get_layout (item_edit->entry));
+	pango_layout_set_font_description (layout,
+		pango_context_get_font_description (style_font->pango.context));
+	pango_layout_set_wrap (layout, PANGO_WRAP_CHAR);
+	pango_layout_set_width (layout, (int)(item->x2-item->x1)*PANGO_SCALE);
+	pango_layout_get_pixel_size (layout, &width, &height);
+
+ 	attrs = pango_attr_list_new();
+	pango_layout_set_attributes (layout, attrs);
+
 	text = wbcg_edit_get_display_text (item_edit->scg->wbcg);
-
-	for (ptr = item_edit->text_offsets; ptr != NULL; ptr = ptr->next){
-		int const text_end = GPOINTER_TO_INT (ptr->data);
-
-		item_edit_draw_text (item_edit, drawable, canvas->style,
-				     left_pos, top_pos, width,
-				     text + text_offset,
-				     text_end - text_offset,
-				     cursor_pos - text_offset);
-		text_offset = text_end;
-		top_pos += item_edit->font_height;
-	}
-
-	/* draw the remainder */
-	item_edit_draw_text (item_edit, drawable, canvas->style,
-			     left_pos, top_pos, -1,
-			     text + text_offset,
-			     strlen (text + text_offset),
-			     cursor_pos - text_offset);
+	pango_layout_index_to_pos (layout,
+		g_utf8_offset_to_pointer (text, cursor_pos) - text, &pos);
+	gdk_draw_layout (drawable, canvas->style->black_gc,
+		left_pos, top_pos, layout);
+	if (item_edit->cursor_visible)
+		gdk_draw_line (drawable, canvas->style->black_gc,
+			left_pos + PANGO_PIXELS (pos.x), PANGO_PIXELS (pos.y),
+			left_pos + PANGO_PIXELS (pos.x), PANGO_PIXELS (pos.y + pos.height));
+	g_object_unref (G_OBJECT (layout));
 }
 
 static double
@@ -241,91 +187,45 @@ recalc_spans (GnomeCanvasItem *item)
 {
 	ItemEdit *item_edit = ITEM_EDIT (item);
 	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (item->canvas);
-	int const visible_bottom = gcanvas->first_offset.row +
-		GTK_WIDGET (gcanvas)->allocation.height;
-	int item_bottom = item->y1 + item_edit->font_height;
-	Sheet    *sheet  = sc_sheet (SHEET_CONTROL (item_edit->scg));
-	GdkFont  *font      = item_edit->font;
-	GSList	*text_offsets = NULL;
-	Range const *merged;
+	PangoLayout* layout;
+	int width,height;
+	int col_size;
 	ColRowInfo const *cri;
-	char const *start = wbcg_edit_get_display_text (item_edit->scg->wbcg);
-	char const *text  = start;
-	int col_span, row_span, tmp;
-	int cur_line = 1;
-	int max_col = item_edit->pos.col;
-	int left_in_col, cur_col, ignore_rows = 0;
-
-reset :
+	Sheet    *sheet  = sc_sheet (SHEET_CONTROL (item_edit->scg));
+	StyleFont *style_font = item_edit->style_font;
+	Range const *merged;
+	int col_span,row_span,tmp;
+	int cur_col;
+	
 	cur_col = item_edit->pos.col;
 	cri = sheet_col_get_info (sheet, cur_col);
 
 	g_return_if_fail (cri != NULL);
 
+	layout=pango_layout_copy(gtk_entry_get_layout(item_edit->entry));
+	pango_layout_set_font_description(layout,pango_context_get_font_description(style_font->pango.context));
+	pango_layout_set_wrap(layout,PANGO_WRAP_CHAR);
+	pango_layout_set_width(layout,-1);
+	pango_layout_get_pixel_size(layout,&width,&height);
+
 	/* Start after the grid line and the left margin */
-	left_in_col = cri->size_pixels - cri->margin_a - 1;
+	col_size = cri->size_pixels - cri->margin_a - 1;
 
-	/* the entire string */
-	while (*text) {
-		int pos_size;
-
-		if (*text == '\n') {
-			text_offsets = g_slist_prepend (text_offsets,
-				GINT_TO_POINTER (text - start));
-			text++;
-
-			cur_line++;
-			item_bottom += item_edit->font_height;
-			if (item_bottom > visible_bottom)
-				ignore_rows++;
-			goto reset;
+	while(col_size<width){
+		cur_col++;
+		if (cur_col > gcanvas->last_full.col || cur_col >= SHEET_MAX_COLS) {
+			cur_col--;
+			pango_layout_set_width(layout,col_size*PANGO_SCALE);
+			break;
 		}
-
-		pos_size = gdk_text_width (font, text++, 1);
-
-		while (left_in_col < pos_size) {
-			do {
-				++cur_col;
-				if (cur_col > gcanvas->last_full.col || cur_col >= SHEET_MAX_COLS) {
-					/* Be wary of large fonts and small columns */
-					int offset = text - start - 1;
-					if (offset < 1)
-						offset = 1;
-
-					cur_col = item_edit->pos.col;
-					text_offsets = g_slist_prepend (text_offsets,
-						GINT_TO_POINTER (offset));
-					cur_line++;
-					item_bottom += item_edit->font_height;
-					if (item_bottom > visible_bottom)
-						ignore_rows++;
-				} else if (max_col < cur_col)
-					max_col = cur_col;
-
-				cri = sheet_col_get_info (sheet, cur_col);
-				g_return_if_fail (cri != NULL);
-
-				/* Be careful not to allow for the potential
-				 * of an infinite loop if we somehow start on an
-				 * invisible column
-				 */
-			} while (!cri->visible && cur_col != item_edit->pos.col);
-
-			if (cur_col == item_edit->pos.col)
-				left_in_col = cri->size_pixels - cri->margin_a - 1;
-			else
-				left_in_col += cri->size_pixels;
-		}
-		left_in_col -= pos_size;
+		cri = sheet_col_get_info (sheet, cur_col);
+		g_return_if_fail (cri != NULL);
+		if(cri->visible)
+			col_size += cri->size_pixels;
 	}
-	item_edit->col_span = 1 + max_col - item_edit->pos.col;
-	item_edit->lines = cur_line;
-
-	if (item_edit->text_offsets != NULL)
-		g_slist_free (item_edit->text_offsets);
-	item_edit->text_offsets = g_slist_reverse (text_offsets);
-
-	col_span = item_edit->col_span;
+	pango_layout_get_pixel_size(layout,&width,&height);
+	g_object_unref(layout);
+	col_span = 1 + cur_col - item_edit->pos.col;
 	merged = sheet_merge_is_corner (sheet, &item_edit->pos);
 	if (merged != NULL) {
 		int tmp = merged->end.col - merged->start.col + 1;
@@ -344,9 +244,10 @@ reset :
 
 	tmp = scg_colrow_distance_get (item_edit->scg, FALSE, item_edit->pos.row,
 				       item_edit->pos.row + row_span) - 2;
-	item->y2 = 1 + item->y1 +
-		MAX (item_edit->lines * item_edit->font_height, tmp);
+	item->y2 = 1 + item->y1 + MAX (height, tmp);
+
 }
+	
 
 static void
 item_edit_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
@@ -357,14 +258,14 @@ item_edit_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int 
 		(*GNOME_CANVAS_ITEM_CLASS(item_edit_parent_class)->update)(item, affine, clip_path, flags);
 
 	/* do not calculate spans until after row/col has been set */
-	if (item_edit->font != NULL) {
+	if (item_edit->style_font != NULL) {
 		/* Redraw before and after in case the span changes */
 		gnome_canvas_request_redraw (GNOME_CANVAS_ITEM (item_edit)->canvas,
 					     item->x1, item->y1, item->x2, item->y2);
 		recalc_spans (item);
 		/* Redraw before and after in case the span changes */
 		gnome_canvas_request_redraw (GNOME_CANVAS_ITEM (item_edit)->canvas,
-					     item->x1, item->y1, item->x2, item->y2);
+					     (int)item->x1, (int)item->y1, (int)item->x2, (int)item->y2);
 	}
 }
 
@@ -410,13 +311,10 @@ item_edit_init (ItemEdit *item_edit)
 	item->x2 = 1;
 	item->y2 = 1;
 
-	item_edit->col_span = 1;
-	item_edit->lines = 1;
 	item_edit->scg = NULL;
 	item_edit->pos.col = -1;
 	item_edit->pos.row = -1;
-	item_edit->font = NULL;
-	item_edit->font_height = 1;
+	item_edit->style_font = NULL;
 	item_edit->cursor_visible = TRUE;
 	item_edit->feedback_disabled = FALSE;
 	item_edit->feedback_cursor = NULL;
@@ -445,11 +343,6 @@ item_edit_destroy (GtkObject *o)
 {
 	ItemEdit *item_edit = ITEM_EDIT (o);
 	GtkEntry *entry = item_edit->entry;
-
-	if (item_edit->text_offsets != NULL) {
-		g_slist_free (item_edit->text_offsets);
-		item_edit->text_offsets = NULL;
-	}
 
 	item_edit_cursor_blink_stop (item_edit);
 	entry_destroy_feedback_range (item_edit);
@@ -519,14 +412,10 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	 */
 
 	/* set the font and the upper left corner if this is the first pass */
-	if (item_edit->font == NULL) {
+	if (item_edit->style_font == NULL) {
 		MStyle *mstyle = sheet_style_get (sv->sheet,
 			item_edit->pos.col, item_edit->pos.row);
-		StyleFont *sf = scg_get_style_font (sv->sheet, mstyle);
-
-		item_edit->font = style_font_gdk_font (sf);
-		item_edit->font_height = style_font_get_height (sf);
-		style_font_unref (sf);
+		item_edit->style_font = scg_get_style_font (sv->sheet, mstyle);
 
 		/* move inwards 1 pixel for the grid line */
 		item->x1 = 1 + gcanvas->first_offset.col +

@@ -40,6 +40,7 @@
 #include "ranges.h"
 #include "file.h"
 #include "str.h"
+#include "hlink.h"
 #include "gutils.h"
 #include "plugin-util.h"
 #include "gnumeric-gconf.h"
@@ -613,6 +614,18 @@ xml_write_style (XmlParseContext *ctxt,
 		if (mstyle_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH))
 			xml_node_set_int (child, "StrikeThrough",
 					   mstyle_get_font_strike (style));
+	}
+
+	if (mstyle_is_element_set (style, MSTYLE_HLINK)) {
+		GnmHLink *link = mstyle_get_hlink (style);
+
+			child = xmlNewChild (cur, ctxt->ns,
+				(xmlChar const *)"HyperLink", NULL);
+			xml_node_set_cstr (child, "type",
+				(xmlChar const *) g_type_name (G_OBJECT_TYPE (link)));
+			/* xml_node_set_cstr (child, "target",	v->style); */
+			if (gnm_hlink_get_tip (link) != NULL)
+				xml_node_set_cstr (child, "tip", gnm_hlink_get_tip (link));
 	}
 
 	if (mstyle_is_element_set (style, MSTYLE_VALIDATION)) {
@@ -1406,6 +1419,26 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 
 		} else if (!strcmp (child->name, "StyleBorder")) {
 			xml_read_style_border (ctxt, child, mstyle);
+		} else if (!strcmp (child->name, "HyperLink")) {
+			xmlChar *type, *target, *tip;
+
+			type = xml_node_get_cstr (child, "type");
+			if (type == NULL)
+				continue;
+			target = xml_node_get_cstr (child, "target");
+			if (target != NULL) {
+				GnmHLink *link = g_object_new (g_type_from_name (type),
+								"target", target,
+								NULL);
+				tip = xml_node_get_cstr (child, "tip");
+				if (tip != NULL) {
+					gnm_hlink_set_tip  (link, tip);
+					xmlFree (tip);
+				}
+				mstyle_set_hlink (mstyle, link);
+				xmlFree (target);
+			}
+			xmlFree (type);
 		} else if (!strcmp (child->name, "Validation")) {
 			int dummy;
 			ValidationStyle style;

@@ -1,10 +1,10 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * print-cell.c: Printing of cell regions and cells.
  *
  * Author:
+ *    Jody Goldberg 2000-2002	(jody@gnome.org)
  *    Miguel de Icaza 1999 (miguel@kernel.org)
- *
- * i18n of printing: Copyright 2001 by Vlad Harchev <hvv@hippo.ru>
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
@@ -30,18 +30,6 @@
 #include <string.h>
 #include <locale.h>
 
-/*
-  Define this to enable i18n-wise printing and string measuring - it requires
-  mbstowcs to be available. Most probably printing work fine for ANY locale
-  (though gnome-print doesn't support CJK yet - but when it will be ready, no
-  changes will be needed in the code used when _PROPER_I18N is defined.
-
-  If this macro is undefined, printing will work only for iso-8859-1, so please
-  try hard to avoid undefining it.
-      - Vlad Harchev <hvv@hippo.ru>
-*/
-#define _PROPER_I18N
-
 #if 0
 #define MERGE_DEBUG(range, str) do { range_dump (range, str); } while (0)
 #else
@@ -57,94 +45,6 @@ print_hline (GnomePrintContext *context,
 	gnome_print_stroke (context);
 }
 
-int
-print_show (GnomePrintContext *pc, char const *text)
-{
-#ifdef _PROPER_I18N
-	wchar_t* wcs,wcbuf[4096];
-	char* utf8,utf8buf[4096];
-
-	size_t conv_status;
-	int n = strlen (text);
-	int retval;
-	const int wcbuf_len = sizeof (wcbuf) / sizeof (wcbuf[0]);
-
-	g_return_val_if_fail (pc && text, -1);
-
-	if ( n > wcbuf_len)
-		wcs = g_new (wchar_t,n);
-	else
-		wcs = wcbuf;
-
-	conv_status = mbstowcs (wcs, text, n);
-
-	if (conv_status == (size_t)(-1)){
-		if (wcs != wcbuf)
-			g_free (wcs);
-		return 0;
-	};
-	if (conv_status * 6 > sizeof (utf8buf))
-		utf8 = g_new (gchar, conv_status * 6);
-	else
-		utf8 = utf8buf;
-
-	{
-		size_t i;
-		char* p = utf8;
-		for(i = 0; i < conv_status; ++i)
-			p += g_unichar_to_utf8 ( (gint) wcs[i], p);
-		if (wcs != wcbuf)
-			g_free (wcs);
-		retval = gnome_print_show_sized (pc, utf8, p - utf8);
-	}
-
-	if (utf8 != utf8buf)
-		g_free (utf8);
-	return retval;
-#else
-	return print_show_iso8859_1 (pc, text);
-#endif
-};
-
-double
-get_width_string_n (GnomeFont *font, char const* text, guint n)
-{
-#ifdef _PROPER_I18N
-	wchar_t* wcs, wcbuf[4000];
-	size_t conv_status, i;
-	double total = 0;
-
-	if ( n > (sizeof(wcbuf)/sizeof(wcbuf[0])))
-		wcs = g_new (wchar_t,n);
-	else
-		wcs = wcbuf;
-
-	conv_status = mbstowcs (wcs, text, n);
-
-	if (conv_status == (size_t)(-1)){
-		if (wcs != wcbuf)
-			g_free (wcs);
-		return 0;
-	};
-	for (i = 0; i < conv_status; ++i)
-		total += gnome_font_get_glyph_width (font,
-				gnome_font_lookup_default (font, wcs[i]));
-
-	if (wcs != wcbuf)
-		g_free (wcs);
-	return total;
-#else
-	return gnome_font_get_width_string_n (font, text, n);
-#endif
-};
-
-
-double
-get_width_string (GnomeFont *font, char const* text)
-{
-	return get_width_string_n (font, text, strlen(text));
-};
-
 /***********************************************************/
 
 /*
@@ -155,11 +55,11 @@ get_width_string (GnomeFont *font, char const* text)
 
 static inline void
 print_text (GnomePrintContext *context,
-	    double x, double text_base, char const * text, double len_pts,
+	    double x, double text_base, char const *text, double len_pts,
 	    double const * const line_offset, int num_lines)
 {
 	gnome_print_moveto (context, x, text_base);
-	print_show (context, text);
+	gnome_print_show (context, text);
 
 	/* FIXME how to handle small fonts ?
 	 * the text_base should be at least 2 pixels above the bottom */
@@ -171,24 +71,26 @@ print_text (GnomePrintContext *context,
 	}
 }
 
+static char const hashes[] =
+"################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################";
+
 static void
 print_overflow (GnomePrintContext *context, GnomeFont *font,
 		double x1, double text_base, double width,
 		double const * const line_offset, int num_lines)
 {
-	double const len = get_width_string_n (font, "#", 1);
-	int count = 0;
+	double const len = gnome_font_get_width_utf8_sized (font, "##########", 10) / 10;
+	unsigned count = 1;
 
-	if (len != 0)  {
+	if (len != 0)
 		count = width / len;
-		if (count == 0)
-			count = 1;
-	}
-
-	/* Center */
-	for (x1 += (width - count*len) / 2; --count >= 0 ; x1 += len )
-		print_text (context, x1, text_base, "#", len,
-			   line_offset, num_lines);
+	if (count == 0)
+		count = 1;
+	else if (count >= sizeof (hashes))
+		count = sizeof (hashes) - 1;
+	x1 += (width - count*len) / 2; /* Center */
+	print_text (context, x1, text_base, hashes + sizeof (hashes) - count - 1,
+		    count*len, line_offset, num_lines);
 }
 
 /*
@@ -202,16 +104,17 @@ print_overflow (GnomePrintContext *context, GnomeFont *font,
 static GList *
 cell_split_text (GnomeFont *font, char const *text, int const width)
 {
-	char const *p, *line_begin;
+	char const *p, *next, *line_begin;
 	char const *first_whitespace = NULL;
 	char const *last_whitespace = NULL;
 	gboolean prev_was_space = FALSE;
 	GList *list = NULL;
 	double used = 0., used_last_space = 0.;
+	double len_current;
 
-	for (line_begin = p = text; *p; p++) {
-		double const len_current =
-			get_width_string_n (font, p, 1);
+	for (line_begin = p = text; *p; p = next) {
+		next = g_utf8_next_char (p);
+		len_current = gnome_font_get_width_utf8_sized (font, p, next - p);
 
 		/* Wrap if there is an embeded newline, or we have overflowed */
 		if (*p == '\n' || used + len_current > width) {
@@ -247,6 +150,7 @@ cell_split_text (GnomeFont *font, char const *text, int const width)
 			last_whitespace = p;
 			first_whitespace = p+1;
 			prev_was_space = TRUE;
+#warning utf8_isspace
 		} else if (isspace (*(unsigned char *)p)) {
 			used_last_space = used;
 			last_whitespace = p;
@@ -432,7 +336,7 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 
 	/* FIXME : This will be wrong for JUSTIFIED halignments */
 	halign = style_default_halign (mstyle, cell);
-	cell_width_pts = get_width_string (print_font, text);
+	cell_width_pts = gnome_font_get_width_utf8 (print_font, text);
 	if (halign == HALIGN_LEFT || halign == HALIGN_RIGHT) {
 		/* 2*width seems to be pretty close to XL's notion */
 		/* FIXME: Why use digit?  */
@@ -550,17 +454,17 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 				/* Be cheap, only calculate the width of the
 				 * string if we need to. */
 				if (num_lines > 0)
-					len = get_width_string (print_font, str);
+					len = gnome_font_get_width_utf8 (print_font, str);
 				break;
 
 			case HALIGN_RIGHT:
-				len = get_width_string (print_font, str);
+				len = gnome_font_get_width_utf8 (print_font, str);
 				x = rect_x + rect_width - 1 - len - indent;
 				break;
 
 			case HALIGN_CENTER:
 			case HALIGN_CENTER_ACROSS_SELECTION:
-				len = get_width_string (print_font, str);
+				len = gnome_font_get_width_utf8 (print_font, str);
 				x = rect_x + h_center - len / 2;
 			}
 

@@ -21,11 +21,8 @@ struct _ItemEdit {
 
 	/* Where are we */
 	CellPos	    pos;
-	int         col_span, lines, ignore_lines;
-	GSList	   *text_offsets;
 
-	GdkFont  *font;
-	int	  font_height;
+	StyleFont *style_font;
 	gboolean  cursor_visible;
 	int       blink_timer;
 	int       auto_entry;

@@ -1,3 +1,27 @@
+2002-08-14  Jody Goldberg <jody@gnome.org>
+
+	* src/rendered-value.c (rendered_value_calc_size_ext) : some utf8
+	  cleanliness.  Should probably use pango layout directly ?
+
+	* src/cell-draw.c (draw_overflow) : Use the cached measurement of '#'
+	  and draw the entire string in 1 go.
+	(draw_text) : use the cached layout.
+	(cell_split_text) : same as rendered_value_calc_size_ext.
+
+	* src/print-cell.c (print_overflow) : use the same method as
+	  draw_overflow.
+
+2002-08-14  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=87833
+	Patch from dorami@bu.iij4u.or.jp to do an initial pass at supporting
+	pango in cells.
+
+	* src/cell-draw.c : first pass at using pango.
+	* src/rendered-value.c : ditto.
+	* src/style.c : ditto.
+	* src/item-edit.c : ditto.
+
 2002-08-14  Christian Meyer  <chrisime@gnome.org>
 
 	* src/workgroup-control-component.c: Renamed to Page Setup accordingly.

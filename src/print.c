@@ -294,7 +294,7 @@ print_hf_element (PrintJobInfo const *pj, char const *format,
 		return;
 	}
 
-	len = get_width_string (pj->decoration_font, text);
+	len = gnome_font_get_width_utf8 (pj->decoration_font, text);
 
 	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);	
 	switch (side){
@@ -314,7 +314,7 @@ print_hf_element (PrintJobInfo const *pj, char const *format,
 		x = 0;
 	}
 	gnome_print_moveto (pj->print_context, x, y);
-	print_show (pj->print_context, text);
+	gnome_print_show (pj->print_context, text);
 	g_free (text);
 }
 

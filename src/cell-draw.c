@@ -1,8 +1,10 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * cell-draw.c: Cell drawing on screen
  *
  * Author:
  *    Miguel de Icaza 1998, 1999 (miguel@kernel.org)
+ *    Jody Goldberg 2000-2002    (jody@gnome.org)
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
@@ -24,44 +26,43 @@
 #include <string.h>
 
 static inline void
-draw_text (GdkDrawable *drawable, GdkFont *font, GdkGC *gc,
-	   int x1, int text_base, char const * text, int n, int len_pixels,
-	   int const * const line_offset, int num_lines)
+draw_text (GdkDrawable *drawable, StyleFont *font, GdkGC *gc,
+	   int x1, int text_base, char const * text, int n, 
+	   PangoAttrList* attrs)
 {
+	PangoLayout *layout = font->pango.layout;
+
 	/* Some Xservers crash when asked to draw strings that are too long
 	 * add an arbitrary limit to keep things simple
 	 */
 	if (n > 1024)
 		n = 1024;
 
-	gdk_draw_text (drawable, font, gc, x1, text_base, text, n);
-
-	/* FIXME how to handle small fonts ?
-	 * the text_base should be at least 2 pixels above the bottom */
-	while (--num_lines >= 0) {
-		int y = text_base + line_offset [num_lines];
-		gdk_draw_line (drawable, gc, x1, y, x1+len_pixels, y);
-	}
+	pango_layout_set_attributes (layout, attrs);
+	pango_layout_set_text(layout, text, n);
+	gdk_draw_layout (drawable, gc, x1, text_base, layout);
 }
 
+static char const hashes[] =
+"################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################";
+
 static void
-draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font,
+draw_overflow (GdkDrawable *drawable, GdkGC *gc, StyleFont *font,
 	       int x1, int text_base, int width,
-	       int const * const line_offset, int num_lines)
+               PangoAttrList* attrs)
 {
-	int const len = gdk_string_width (font, "#");
-	int count = 0;
+	unsigned const len = font->approx_width.pixels.hash;
+	unsigned count = 1;
 
-	if (len != 0)  {
+	if (len != 0)
 		count = width / len;
-		if (count == 0)
-			count = 1;
-	}
+	if (count == 0)
+		count = 1;
+	else if (count >= sizeof (hashes))
+		count = sizeof (hashes) - 1;
 
-	/* Center */
-	for (x1 += (width - count*len) / 2; --count >= 0 ; x1 += len )
-		draw_text (drawable, font, gc, x1, text_base, "#", 1, len,
-			   line_offset, num_lines);
+	x1 += (width - count*len) / 2; /* Center */
+	draw_text (drawable, font, gc, x1, text_base, hashes, count, attrs);
 }
 
 /*
@@ -73,17 +74,19 @@ draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font,
  * Try to keep it that way.
  */
 static GList *
-cell_split_text (GdkFont *font, char const *text, int const width)
+cell_split_text (StyleFont *font, char const *text, int const width)
 {
-	char const *p, *line_begin;
+	char const *p, *next, *line_begin;
 	char const *first_whitespace = NULL;
 	char const *last_whitespace = NULL;
 	gboolean prev_was_space = FALSE;
 	GList *list = NULL;
 	int used = 0, used_last_space = 0;
+	int len_current;
 
-	for (line_begin = p = text; *p; p++) {
-		int const len_current = gdk_text_width (font, p, 1);
+	for (line_begin = p = text; *p; p = next) {
+		next = g_utf8_next_char (p);
+		len_current = style_font_text_width (font, p, next - p);
 
 		/* Wrap if there is an embeded newline, or we have overflowed */
 		if (*p == '\n' || used + len_current > width) {
@@ -119,6 +122,7 @@ cell_split_text (GdkFont *font, char const *text, int const width)
 			last_whitespace = p;
 			first_whitespace = p+1;
 			prev_was_space = TRUE;
+#warning utf8_isspace
 		} else if (isspace (*(unsigned char *)p)) {
 			used_last_space = used;
 			last_whitespace = p;
@@ -166,7 +170,6 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	   int x1, int y1, int width, int height, int h_center)
 {
 	StyleFont    *style_font;
-	GdkFont      *font;
 	GdkRectangle  rect;
 
 	Sheet const * const sheet = cell->base.sheet;
@@ -176,11 +179,11 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	int font_height;
 	StyleHAlignFlags halign;
 	StyleVAlignFlags valign;
-	int num_lines = 0;
-	int line_offset [3]; /* There are up to 3 lines, double underlined strikethroughs */
 	char const *text;
 	StyleColor   *fore;
 	int cell_width_pixel, indent;
+	PangoAttrList* attrs;
+	PangoAttribute* attr;
 
 	/* Don't print zeros if they should be ignored. */
 	if (sheet && sheet->hide_zero && cell_is_zero (cell) &&
@@ -217,11 +220,8 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	rect.height = height + 1;
 
 	style_font = scg_get_style_font (sheet, mstyle);
-	font = style_font_gdk_font (style_font);
 	font_height = style_font_get_height (style_font);
 	valign = mstyle_get_align_v (mstyle);
-
-	g_return_if_fail (font != NULL);
 
 	switch (valign) {
 	default:
@@ -233,12 +233,11 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 		 * rect.y == first pixel past margin
 		 * add font ascent
 		 */
-		text_base = rect.y + font->ascent;
+		text_base = rect.y;
 		break;
 
 	case VALIGN_CENTER:
-		text_base = rect.y + font->ascent +
-		    (height - font_height) / 2;
+		text_base = rect.y + (height-font_height)/2;
 		break;
 
 	case VALIGN_BOTTOM:
@@ -247,10 +246,9 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 		 * add height == first pixel in lower margin
 		 * subtract font descent
 		 */
-		text_base = rect.y + height - font->descent;
+		text_base = rect.y + (height-font_height);
 		break;
 	}
-
 	gdk_gc_set_clip_rectangle (gc, &rect);
 
 	/* Set the font colour */
@@ -261,21 +259,33 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	g_return_if_fail (fore != NULL); /* Be extra careful */
 	gdk_gc_set_foreground (gc, &fore->color);
 
+ 	attrs = pango_attr_list_new();
+
 	/* Handle underlining and strikethrough */
 	switch (mstyle_get_font_uline (mstyle)) {
-	case UNDERLINE_SINGLE : num_lines = 1;
-				line_offset[0] = 1;
-				break;
+	case UNDERLINE_SINGLE :
+		attr = pango_attr_underline_new (PANGO_UNDERLINE_SINGLE);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (attrs, attr);
+		break;
 
-	case UNDERLINE_DOUBLE : num_lines = 2;
-				line_offset[0] = 0;
-				line_offset[1] = 2;
+	case UNDERLINE_DOUBLE :
+		attr = pango_attr_underline_new (PANGO_UNDERLINE_DOUBLE);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (attrs, attr);
+		break;
 
 	default :
-				break;
+		break;
 	};
-	if (mstyle_get_font_strike (mstyle))
-		line_offset[num_lines++] = font->ascent/-2;
+	if (mstyle_get_font_strike (mstyle)){
+		attr = pango_attr_strikethrough_new (TRUE);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (attrs, attr);
+	}
 
 	cell_width_pixel = cell_rendered_width (cell);
 	indent = cell_rendered_offset (cell);
@@ -283,9 +293,10 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	/* if a number overflows, do special drawing */
 	if ((cell_width_pixel + indent) > width && cell_is_number (cell) &&
 	    sheet && !sheet->display_formulas) {
-		draw_overflow (drawable, gc, font, rect.x,
-			       text_base, width, line_offset, num_lines);
+		draw_overflow (drawable, gc, style_font, rect.x,
+			       text_base, width, attrs);
 		style_font_unref (style_font);
+		pango_attr_list_unref (attrs);
 		return;
 	}
 
@@ -319,8 +330,8 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 
 		total = len; /* don't include partial copies after the first */
 		do {
-			draw_text (drawable, font, gc, x, text_base,
-				   text, strlen (text), len, line_offset, num_lines);
+			draw_text (drawable, style_font, gc, x, text_base,
+				   text, strlen (text), attrs);
 			x += len;
 			total += len;
 		} while (halign == HALIGN_FILL && total < rect.width && len > 0);
@@ -329,7 +340,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 		int line_count;
 		int x, y_offset, inter_space;
 
-	       	lines = cell_split_text (font, text, width);
+	       	lines = cell_split_text (style_font, text, width);
 	       	line_count = g_list_length (lines);
 
 		switch (valign) {
@@ -381,27 +392,22 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 				/* fall through */
 			case HALIGN_LEFT:
 				x = rect.x + indent;
-
-				/* Be cheap, only calculate the width of the
-				 * string if we need to. */
-				if (num_lines > 0)
-					len = gdk_string_width (font, text);
 				break;
 
 			case HALIGN_RIGHT:
-				len = gdk_string_width (font, str);
+				len = style_font_string_width(style_font,str);
 				x = rect.x + rect.width - 1 - len - indent;
 				break;
 
 			case HALIGN_CENTER:
 			case HALIGN_CENTER_ACROSS_SELECTION:
-				len = gdk_string_width (font, str);
+				len = style_font_string_width(style_font,str);
 				x = rect.x + h_center - len / 2;
 			}
 
-			draw_text (drawable, font, gc,
+			draw_text (drawable, style_font, gc,
 				   x, y1 + y_offset,
-				   str, strlen (str), len, line_offset, num_lines);
+				   str, strlen (str), attrs);
 			y_offset += inter_space;
 
 			g_free (l->data);
@@ -410,4 +416,5 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	}
 
 	style_font_unref (style_font);
+	pango_attr_list_unref(attrs);
 }

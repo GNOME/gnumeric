@@ -42,6 +42,11 @@
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GNM_HLINK_TYPE, GnmHLinkClass)
 
 /**
+ * WARNING WARNING WARNING
+ *
+ * The type names are used in the xml persistence DO NOT CHANGE THEM
+ **/
+/**
  * gnm_hlink_activate :
  * @link :
  * @wbv : the view that activated the link

@@ -69,6 +69,23 @@ get_substitute_font (gchar const *fontname)
 	return NULL;
 }
 
+int
+style_font_text_width (StyleFont const *font, char const *str, int len)
+{
+	int w,h;
+	pango_layout_set_text (font->pango.layout, str, len);
+	pango_layout_get_pixel_size (font->pango.layout, &w, &h);
+	return w;
+}
+
+int
+style_font_string_width (StyleFont const *font, char const *str)
+{
+	int w,h;
+	pango_layout_set_text (font->pango.layout, str, -1);
+	pango_layout_get_pixel_size (font->pango.layout,&w,&h);
+	return w;
+}
 
 static double
 calc_font_width (const StyleFont *font, const char *teststr)
@@ -80,11 +97,11 @@ calc_font_width (const StyleFont *font, const char *teststr)
 	for (p1 = teststr; *p1; p1++) {
 		buf[0] = *p1;
 		buf[1] = 0;
-		w1 = gdk_string_width (font->gdk_font, buf);
+		w1 = style_font_string_width (font, buf);
 		for (p2 = teststr; *p2; p2++) {
 			buf[1] = *p2;
 			buf[2] = 0;
-			w2 = gdk_string_width (font->gdk_font, buf);
+			w2 = style_font_string_width (font, buf);
 			dw = w2 - w1;
 			if (dw > w) {
 				w = dw;
@@ -134,6 +151,7 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 		font->ref_count = 2;
 
 		font->pango.context = gdk_pango_context_get ();
+		font->pango.layout  = pango_layout_new (font->pango.context);
 		desc = pango_context_get_font_description (font->pango.context);
 		pango_font_description_set_family (desc, font_name);
 		pango_font_description_set_weight (desc,
@@ -163,24 +181,12 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 		font->pango.metrics = pango_font_get_metrics (font->pango.font,
 			gtk_get_default_language ());
 
-		/* Worst case scenario */
-		font->gdk_font = gdk_font_from_description (desc);
-		if (font->gdk_font == NULL) {
-			/* xgettext:
-			 * The name of the default font for this locale.
-			 * Preferably something with the correct encoding.
-			 */
-			font->gdk_font = gdk_fontset_load (_("fixed"));
-
-			g_return_val_if_fail (font->gdk_font != NULL, NULL);
-		} else
-			gdk_font_ref (font->gdk_font);
-
 		font->gnome_print_font = gnome_font_find_closest_from_weight_slant (font_name, 
 			bold ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR, italic, size_pts);
 
 		font->approx_width.pixels.digit = calc_font_width (font, "0123456789");
 		font->approx_width.pixels.decimal = calc_font_width (font, ".,");
+		font->approx_width.pixels.hash = calc_font_width (font, "#");
 		font->approx_width.pixels.sign = calc_font_width (font, "-+");
 		font->approx_width.pixels.E = calc_font_width (font, "E");
 		font->approx_width.pixels.e = calc_font_width (font, "e");
@@ -196,12 +202,6 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 			font->approx_width.pixels.E / pts_scale;
 		font->approx_width.pts.e =
 			font->approx_width.pixels.e / pts_scale;
-
-#if 0
-		font->font
-			? gnome_font_get_width_string (font->font, "4444444444") / 10.
-			: 1.;
-#endif
 
 		g_hash_table_insert (style_font_hash, font, font);
 	} else
@@ -240,21 +240,13 @@ style_font_new (char const *font_name, double size_pts, double scale,
 	return font;
 }
 
-GdkFont *
-style_font_gdk_font (StyleFont const *sf)
-{
-	g_return_val_if_fail (sf != NULL, NULL);
-
-	return sf->gdk_font;
-}
-
 int
 style_font_get_height (StyleFont const *sf)
 {
 	g_return_val_if_fail (sf != NULL, 0);
-	g_return_val_if_fail (sf->gdk_font != NULL, 0);
 
-	return sf->gdk_font->ascent + sf->gdk_font->descent;
+	return PANGO_PIXELS(pango_font_metrics_get_ascent(sf->pango.metrics) +
+	       pango_font_metrics_get_descent(sf->pango.metrics));
 }
 
 void
@@ -293,6 +285,10 @@ style_font_unref (StyleFont *sf)
 		g_object_unref (G_OBJECT (sf->pango.context));
 		sf->pango.context = NULL;
 	}
+	if (sf->pango.layout != NULL) {
+		g_object_unref (G_OBJECT (sf->pango.layout));
+		sf->pango.layout = NULL;
+	}
 	if (sf->pango.font != NULL) {
 		g_object_unref (G_OBJECT (sf->pango.font));
 		sf->pango.font = NULL;
@@ -300,10 +296,6 @@ style_font_unref (StyleFont *sf)
 	if (sf->pango.metrics != NULL) {
 		pango_font_metrics_unref (sf->pango.metrics);
 		sf->pango.metrics = NULL;
-	}
-	if (sf->gdk_font != NULL) {
-		gdk_font_unref (sf->gdk_font);
-		sf->gdk_font = NULL;
 	}
 	if (sf->gnome_print_font != NULL) {
 		gnome_font_unref (sf->gnome_print_font);

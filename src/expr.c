@@ -3,6 +3,7 @@
  * expr.c : Expression evaluation in Gnumeric
  *
  * Copyright (C) 2001-2002 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 1998-2000 Miguel de Icaza (miguel@gnu.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public

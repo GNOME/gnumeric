@@ -49,16 +49,16 @@ struct _StyleFont {
 	struct {
 		/* This does not belong here.  */
 		struct {
-			double digit, decimal, sign, E, e;
+			double digit, decimal, sign, E, e, hash;
 		} pixels, pts;
 	} approx_width;
 	struct {
 		PangoContext		*context;
 		PangoFontMetrics	*metrics;
 		PangoFont	  	*font;
+		PangoLayout		*layout;
 	} pango;
 
-	GdkFont	  *gdk_font;
 	GnomeFont *gnome_print_font;
 
 	unsigned int is_bold:1;
@@ -74,10 +74,12 @@ StyleFont     *style_font_new         (const char *font_name,
 StyleFont     *style_font_new_simple  (const char *font_name,
 				       double size_pts, double scale,
 				       gboolean bold, gboolean italic);
-GdkFont       *style_font_gdk_font    (StyleFont const *sf);
-int            style_font_get_height  (StyleFont const *sf);
-void           style_font_ref         (StyleFont *sf);
-void           style_font_unref       (StyleFont *sf);
+int  style_font_get_height   (StyleFont const *sf);
+void style_font_ref          (StyleFont *sf);
+void style_font_unref        (StyleFont *sf);
+int  style_font_string_width (StyleFont const *font, char const *str);
+int  style_font_text_width   (StyleFont const *font, char const *str,
+			      int len);
 
 /*
  * For hashing Styles

@@ -64,7 +64,7 @@
  **/
 static double
 stf_preview_draw_text (GnomeCanvasGroup *group, const char *text,
-		       GdkFont *font, const char *color, double x, double y)
+		       const char *color, double x, double y)
 {
 	GnomeCanvasText *canvastext;
 	double textwidth;
@@ -336,7 +336,6 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GList *row, int c
 
 			textwidth = stf_preview_draw_text (renderdata->group,
 							   text ? text : iterator->data,
-							   gnumeric_default_font->gdk_font,
 							   TEXT_COLOR,
 							   xpos + (CELL_HPAD / 2),
 							   rowy + (CELL_VPAD / 2));
@@ -402,7 +401,7 @@ stf_preview_format_recalc_colwidths (RenderData_t *renderdata, GList *data, int 
 			}
 
 			/* New width calculation */
-			width = gdk_string_width (gnumeric_default_font->gdk_font, subiterator->data) / renderdata->charwidth;
+			width = style_font_string_width(gnumeric_default_font,subiterator->data) / renderdata->charwidth;
 
 			if (width > widths[col])
 				widths[col] = width;
@@ -624,9 +623,9 @@ stf_preview_new (GnomeCanvas *canvas, gboolean formatted)
 	renderdata->group        = NULL;
 	renderdata->gridgroup    = NULL;
 
-	renderdata->charwidth  = gdk_string_width (gnumeric_default_font->gdk_font, "W");
-	renderdata->charheight = gdk_string_height (gnumeric_default_font->gdk_font, "W");
-
+	renderdata->charwidth = style_font_string_width (gnumeric_default_font,"W");
+	renderdata->charheight = style_font_get_height (gnumeric_default_font);
+ 
 	renderdata->activecolumn = -1;
 
 	return renderdata;
@@ -739,7 +738,7 @@ stf_preview_colwidths_add (RenderData_t *renderdata, int width)
 		width = 0;
 
 	caption = g_strdup_printf (_(COLUMN_CAPTION), renderdata->colwidths->len);
-	captionwidth = gdk_string_width (gnumeric_default_font->gdk_font, caption) / renderdata->charwidth;
+	captionwidth = style_font_string_width (gnumeric_default_font,caption) / renderdata->charwidth;
 
 	if (captionwidth > width)
 		g_array_append_val (renderdata->colwidths, captionwidth);

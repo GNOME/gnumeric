@@ -197,7 +197,6 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 	Sheet *sheet = cell->base.sheet;
 	RenderedValue *rv = cell->rendered_value;
 	StyleFont *style_font = scg_get_style_font (sheet, mstyle);
-	GdkFont *gdk_font = style_font_gdk_font (style_font);
 	int font_height = style_font_get_height (style_font);
 	int const cell_w = COL_INTERNAL_WIDTH (cell->col_info);
 	StyleHAlignFlags const halign = mstyle_get_align_h (mstyle);
@@ -208,7 +207,7 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 	g_return_if_fail (rv != NULL);
 
 	text       = rv->rendered_text->str;
-	text_width = gdk_string_measure (gdk_font, text);
+	text_width = style_font_string_width (style_font,text);
 
 	if (text_width < cell_w ||
 	    (cell_is_number (cell) &&
@@ -218,17 +217,19 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 	} else if (halign == HALIGN_JUSTIFY ||
 		   mstyle_get_align_v (mstyle) == VALIGN_JUSTIFY ||
 		   mstyle_get_wrap_text (mstyle)) {
-		char const *p, *line_begin;
+		char const *p, *next, *line_begin;
 		char const *first_whitespace = NULL;
 		char const *last_whitespace = NULL;
 		gboolean prev_was_space = FALSE;
 		int used = 0, used_last_space = 0;
 		int h = 0;
+		int len_current;
 
 		rv->width_pixel  = cell_w;
 
-		for (line_begin = p = text; *p; p++){
-			int const len_current = gdk_text_width (gdk_font, p, 1);
+		for (line_begin = p = text; *p; p = next) {
+			next = g_utf8_next_char (p);
+			len_current = style_font_text_width (style_font, p, next - p);
 
 			/* Wrap if there is an embeded newline, or we have overflowed */
 			if (*p == '\n' || used + len_current > cell_w){
@@ -264,6 +265,7 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 				last_whitespace = p;
 				first_whitespace = p+1;
 				prev_was_space = TRUE;
+#warning utf8_isspace
 			} else if (isspace (*(unsigned char *)p)) {
 				used_last_space = used;
 				last_whitespace = p;

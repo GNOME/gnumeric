@@ -1,7 +1,11 @@
 Gnumeric 1.1.8
 
+dorami@bu.iij4u.or.jp:
+	* Begin to use Pango in cells.
+
 Jody:
 	* Add XL for polygon colours.
+	* More pango work.
 
 Jukka:
 	* Solver improvements:
@@ -17,7 +21,6 @@ Morten:
 Christian Meyer:
 	* Renamed "Print Setup" to "Page Setup" in the file menu and the
 	  gnumeric documents.
-
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.7
