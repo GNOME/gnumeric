@@ -193,7 +193,7 @@ sheet_new (Workbook *wb, const char *name)
 
 	sheet->cell_hash = g_hash_table_new (cell_hash, cell_compare);
 
-	sheet_style = style_new ();
+	sheet_style = style_new (NULL);
 	sheet_style_attach (sheet, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1, sheet_style);
 
 	sheet_init_default_styles (sheet);
@@ -280,8 +280,10 @@ zoom_cell_style (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 	if (cell->style->font->scale == sheet->last_zoom_factor_used)
 		return NULL;
 	
+/* HACK.	
 	sf = style_font_new_from (cell->style->font, sheet->last_zoom_factor_used);
 	cell_set_font_from_style (cell, sf);
+*/
 	
 	return NULL;
 }
@@ -324,17 +326,22 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 	/*
 	 * Scale the internal font styles
 	 */
+	/* HACK: Should be the RenderInfo hash */
 	for (l = sheet->style_list; l; l = l->next){
 		StyleRegion *sr = l->data;
 		Style *style = sr->style;
 		StyleFont *scaled;
+		StyleElement e;
+		e.type = STYLE_FONT_SCALE;
+		e.u.font.scale = factor;
 		
-		if (!(style->valid_flags & STYLE_FONT))
+		style_set (style, e);
+/*		if (!(style->valid_flags & STYLE_FONT))
 			continue;
 
 		scaled = style_font_new_from (style->font, factor);
 		style_font_unref (style->font);
-		style->font = scaled;
+		style->font = scaled;*/
 	}
 }
 
@@ -893,12 +900,12 @@ sheet_set_text (Sheet *sheet, int col, int row, const char *str)
 			 * that we would other wise actually set a "0" format
 			 * for integers and that it would stick.
 			 */
-		} else if (format_match (text, &v, &format)) {
+		} /* HACK else if (format_match (text, &v, &format)) {
 			if (!CELL_IS_FORMAT_SET (cell))
 				cell_set_format_simple (cell, format);
 			cell_set_value (cell, value_new_float (v));
 			text_set = TRUE;
-		}
+			}*/
 	}
 
 	if (!text_set)
@@ -1083,12 +1090,12 @@ sheet_update_controls (Sheet *sheet)
 		 * in the range to compute the values
 		 */
 		SheetSelection *ss = sheet->selections->data;
-		Style *style;
+		RenderInfo *style;
 
 		style = sheet_style_compute (sheet, ss->start_col, ss->start_row, NULL);
 		bold_first = style->font->is_bold;
 		italic_first = style->font->is_italic;
-		style_destroy (style);
+/*		style_destroy (style);*/
 
 		/* Initialize the pointer that is going to be used next */
 		l = cells;
@@ -2288,8 +2295,8 @@ sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 
 		cell->style = sheet_style_compute (sheet, col, row, &flags);
 
-		if (flags & STYLE_FORMAT)
-			cell->flags |= CELL_FORMAT_SET;
+/*		if (flags & STYLE_FORMAT)
+		cell->flags |= CELL_FORMAT_SET;*/
 	}
 	cell_calc_dimensions (cell);
 
@@ -2783,7 +2790,7 @@ sheet_selection_clear_comments (Sheet *sheet)
 static Value *
 clear_cell_format (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
-	cell_set_format (cell, "General");
+/*	cell_set_format (cell, "General");*/
 	return NULL;
 }
 
@@ -3614,6 +3621,13 @@ sheet_style_attach (Sheet *sheet, int start_col, int start_row, int end_col, int
 	sheet->style_list = g_list_prepend (sheet->style_list, sr);
 }
 
+void
+sheet_style_attach_cell (Cell *cell, Style *style)
+{
+	sheet_style_attach (cell->sheet, cell->col->pos, cell->row->pos,
+			    cell->col->pos, cell->row->pos, style);
+}
+
 /**
  * sheet_style_compute:
  * @sheet:   	 Which sheet we are looking up
@@ -3623,10 +3637,10 @@ sheet_style_attach (Sheet *sheet, int start_col, int start_row, int end_col, int
  *               the cell has which are not part of the
  *               default style.
  */
-Style *
+RenderInfo *
 sheet_style_compute (Sheet *sheet, int col, int row, int *non_default)
 {
-	GList *l;
+	GList *l, *a=NULL;
 	Style *style;
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -3634,7 +3648,14 @@ sheet_style_compute (Sheet *sheet, int col, int row, int *non_default)
 	style = style_new_empty ();
 
 	/* Look in the styles applied to the sheet */
-	for (l = sheet->style_list; l; l = l->next){
+	for (l = sheet->style_list; l; l = l->next) {
+		StyleRegion *sr = l->data;
+		if (range_contains (&sr->range, col, row))
+			a = g_list_append (a, l);
+		l = g_list_next (l);
+	}
+	return render_merge (a);
+/*	for (l = sheet->style_list; l; l = l->next){
 		StyleRegion *sr = l->data;
 		int is_default_style = l->next == NULL;
 		int flags;
@@ -3656,7 +3677,7 @@ sheet_style_compute (Sheet *sheet, int col, int row, int *non_default)
 	}
 
 	g_warning ("Strange, no style available here\n");
-	return style_new ();
+	return style_new ();*/
 }
 
 void

@@ -220,15 +220,15 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 	if (cell->render_color)
 		gdk_gc_set_foreground (gc, &cell->render_color->color);
 	else {
-		if (cell->style->valid_flags & STYLE_FORE_COLOR)
+/*		if (cell->style->valid_flags & STYLE_FORE_COLOR)*/
 			gdk_gc_set_foreground (gc, &cell->style->fore_color->color);
 	}
 
-	if (cell->style->valid_flags & STYLE_BACK_COLOR){
+/*	if (cell->style->valid_flags & STYLE_BACK_COLOR)*/{
 		gdk_gc_set_background (gc, &cell->style->back_color->color);
 	}
 
-
+#if 0
 	if ((cell->style->valid_flags & STYLE_PATTERN) && cell->style->pattern){
 #if 0
 		GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
@@ -248,7 +248,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 		gdk_gc_set_fill (gc, GDK_SOLID);
 		gdk_gc_set_stipple (gc, NULL);
 	}
-
+#endif
 	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
 
 	return count;

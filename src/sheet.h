@@ -5,11 +5,6 @@ typedef struct _Workbook	Workbook;
 typedef struct _Sheet		Sheet;
 
 typedef struct {
-	int start_col, start_row;
-	int end_col, end_row;
-} Range;
-
-typedef struct {
 	Sheet *sheet;
 	int   col, row;
 
@@ -41,18 +36,12 @@ typedef struct {
 #include "symbol.h"
 #include "cell.h"
 #include "summary.h"
+#include "style.h"
 
 #define SHEET_MAX_ROWS (16 * 1024)
 #define SHEET_MAX_COLS 256
 
 typedef GList ColStyleList;
-
-gboolean   range_contains (Range *range, int col, int row);
-
-typedef struct {
-	Range  range;
-	Style  *style;
-} StyleRegion;
 
 /* Forward declaration */
 struct _PrintInformation;
@@ -78,9 +67,6 @@ struct _Workbook {
 	String     *auto_expr_desc;
 	GnomeCanvasItem  *auto_expr_label;
 	
-	/* Styles */
-	Style      style;
-
 	/* The sheets */ 
 	GHashTable *sheets;	/* keeps a list of the Sheets on this workbook */
 
@@ -156,7 +142,8 @@ struct _Sheet {
 	
 	char        *name;
 
-	GList       *style_list;	/* The list of styles applied to the sheets */
+	Style       *sheet_style;
+	GList       *style_list;
 
 	ColRowInfo  default_col_style;
 	GList       *cols_info;
@@ -355,7 +342,7 @@ void        sheet_col_set_selection       (Sheet *sheet,
 void        sheet_row_set_selection       (Sheet *sheet,
 					   ColRowInfo *ri, int value);
 				       
-Style      *sheet_style_compute           (Sheet *sheet,
+RenderInfo *sheet_style_compute           (Sheet *sheet,
 					   int col, int row,
 					   int *non_default_style_flags);
 
@@ -388,6 +375,7 @@ void        sheet_style_attach            (Sheet *sheet,
 					   int    start_col, int start_row,
 					   int    end_col,   int end_row,
 					   Style  *style);
+void        sheet_style_attach_cell       (Cell *cell, Style *style);
 Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 
 /*

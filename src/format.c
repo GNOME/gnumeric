@@ -37,6 +37,8 @@
 #include "dates.h"
 #include "utils.h"
 
+#if 0
+
 /* Points to the locale information for number display */
 static struct lconv *lc;
 
@@ -1084,3 +1086,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 
 	return v;
 }
+
+#endif
+
+

@@ -653,14 +653,14 @@ static char *help_text = {
 static Value *
 gnumeric_text (FunctionEvalInfo *ei, Value **args)
 {
-	StyleFormat *format  = style_format_new (args[1]->v.str->str);
+/*	StyleFormat *format  = style_format_new (args[1]->v.str->str);
 	Value *res, *tmp = NULL;
 	Value const *arg  = args[0];
 	gboolean ok = FALSE;
 
-	/* FIXME FIXME FIXME : All this should really be moved
+	* FIXME FIXME FIXME : All this should really be moved
 	 *                     into value_get_as_float
-	 */
+	 *
 	if (arg->type == VALUE_CELLRANGE || arg->type == VALUE_ARRAY) {
 		if (value_area_get_height (&ei->pos, arg) == 1 &&
 		    value_area_get_width (&ei->pos, arg) == 1)
@@ -686,8 +686,8 @@ gnumeric_text (FunctionEvalInfo *ei, Value **args)
 
 	if (tmp != NULL)
 		value_release (tmp);
-	style_format_unref (format);
-	return res;
+	style_format_unref (format);*/
+	return value_new_string ("Wibble");
 }
 
 

@@ -586,7 +586,7 @@ create_background_radio (GtkWidget *prop_win)
 static GtkWidget *
 create_coloring_page (GtkWidget *prop_win, CellList *cells)
 {
-	GtkTable *t;
+/*	GtkTable *t;
 	GtkWidget *fore, *back;
 	int e = GTK_FILL | GTK_EXPAND;
 
@@ -600,14 +600,14 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 
 	fore = create_foreground_radio (prop_win);
 	back = create_background_radio (prop_win);
-
+*/
 	/* Check if all cells have the same properties */
 	/*
 	 * FIXME: This should check the cells *AND* the
 	 * style regions to figure out what to check and what
 	 * not, right now this is broken in that regard
 	 */
-	if (cells){
+/*	if (cells){
 		Cell *cell = (Cell *) cells->data;
 		
 		fore_red   = cell->style->fore_color->color.red;
@@ -617,7 +617,7 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 		back_red   = cell->style->back_color->color.red;
 		back_green = cell->style->back_color->color.green;
 		back_blue  = cell->style->back_color->color.blue;
-
+*/
 		/*
 		 * What follows is ugly: I believe we should use the method illustrated
 		 * in the following two lines:
@@ -626,7 +626,7 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 		 * instead of what we are using, but it just does not work (even though the
 		 * flag is being set/cleared cell by cell and style-wise in function apply_coloring_format)
 		 */
-		if (fore_red   == 0 &&
+/*		if (fore_red   == 0 &&
 		    fore_green == 0 &&
 		    fore_blue  == 0){
 			foreground_flag = 0;
@@ -639,13 +639,13 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 			background_flag = 0;
 		} else {
 			background_flag = STYLE_BACK_COLOR;
-		}
+			}*/
 		
 		/*
 		 * First scan is to find out whether all cells have the same foreground color,
 		 * second one is the equivalent for background
 		 */
-		for (ok_fore = 1, l = cells; l; l = l->next){
+/*		for (ok_fore = 1, l = cells; l; l = l->next){
 			Cell *cell = l->data;
 
 			if (cell->style->fore_color->color.red != fore_red ||
@@ -706,7 +706,8 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 
 	gtk_widget_show_all (GTK_WIDGET (t));
 
-	return GTK_WIDGET (t);
+	return GTK_WIDGET (t); */
+	return NULL;
 }
 
 static void
@@ -840,7 +841,7 @@ static struct {
 static void
 cell_properties_apply (GtkObject *w, int page, CellList *cells)
 {
-	Sheet *sheet;
+/*	Sheet *sheet;
 	Style *style;
 	GList *l;
 	int i;
@@ -850,7 +851,7 @@ cell_properties_apply (GtkObject *w, int page, CellList *cells)
 
 	sheet = (Sheet *) gtk_object_get_data (w, "Sheet");
 
-	/* Now, let each property page apply their style */
+	* Now, let each property page apply their style *
 	style = style_new_empty ();
 	style->valid_flags = 0;
 
@@ -867,7 +868,7 @@ cell_properties_apply (GtkObject *w, int page, CellList *cells)
 
 	cell_thaw_redraws ();
 	
-	/* Attach this style to all of the selections */
+	* Attach this style to all of the selections *
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
 		
@@ -876,7 +877,7 @@ cell_properties_apply (GtkObject *w, int page, CellList *cells)
 			ss->start_col, ss->start_row,
 			ss->end_col,   ss->end_row,
 			style);
-	}
+	}*/
 }
 
 static void

@@ -75,7 +75,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 
 	string_init ();
 	format_match_init ();
-	style_init ();
+	render_init ();
 	format_color_init ();
 	cursors_init ();
 	global_symbol_init ();
@@ -119,7 +119,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	cursors_shutdown ();
 	format_match_finish ();
 	format_color_shutdown ();
-	style_shutdown ();
+	render_shutdown ();
 
 	gnome_config_drop_all ();
 }

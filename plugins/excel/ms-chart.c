@@ -137,9 +137,9 @@ BC_R(ai)(ExcelChartHandler const *handle,
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data + 2);
 	guint16 const fmt_index = MS_OLE_GET_GUINT16 (q->data + 4);
 	guint16 const length = MS_OLE_GET_GUINT16 (q->data + 6);
-	StyleFormat * fmt = biff_format_data_lookup (s->wb, fmt_index);
+/*	StyleFormat * fmt = biff_format_data_lookup (s->wb, fmt_index);*/
 
-	printf ("Format = '%s';\n", fmt->format);
+/*	printf ("Format = '%s';\n", fmt->format);*/
 
 	switch (id) {
 	case 0 : puts ("Linking title or text"); break;
@@ -858,9 +858,9 @@ BC_R(ifmt)(ExcelChartHandler const *handle,
 	   ExcelChartState *s, BiffQuery *q)
 {
 	guint16 const fmt_index = MS_OLE_GET_GUINT16 (q->data);
-	StyleFormat * fmt = biff_format_data_lookup (s->wb, fmt_index);
+/*	StyleFormat * fmt = biff_format_data_lookup (s->wb, fmt_index);
 
-	printf ("Format = '%s';\n", fmt->format);
+	printf ("Format = '%s';\n", fmt->format);*/
 	return FALSE;
 }
 

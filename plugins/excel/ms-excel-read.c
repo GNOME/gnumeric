@@ -527,7 +527,7 @@ char *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
 /* 0x31 */	"@"
 };
 
-StyleFormat *
+/*StyleFormat *
 biff_format_data_lookup (ExcelWorkbook *wb, guint16 idx)
 {
 	char *ans = NULL;
@@ -550,7 +550,7 @@ biff_format_data_lookup (ExcelWorkbook *wb, guint16 idx)
 		return style_format_new (ans);
 	else
 		return NULL;
-}
+}*/
 
 static gboolean
 biff_format_data_destroy (gpointer key, BiffFormatData *d, gpointer userdata)
@@ -872,7 +872,7 @@ ms_excel_palette_destroy (ExcelPalette *pal)
 typedef struct _BiffXFData {
 	guint16 font_idx;
 	guint16 format_idx;
-	StyleFormat *style_format;
+/*	StyleFormat *style_format;*/
 	eBiff_hidden hidden;
 	eBiff_locked locked;
 	eBiff_xftype xftype;	/*  -- Very important field... */
@@ -1074,8 +1074,8 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 
 	xf->font_idx = MS_OLE_GET_GUINT16 (q->data);
 	xf->format_idx = MS_OLE_GET_GUINT16 (q->data + 2);
-	xf->style_format = (xf->format_idx > 0)
-	    ? biff_format_data_lookup (wb, xf->format_idx) : NULL;
+	xf->style_format = NULL; /*(xf->format_idx > 0)
+				   ? biff_format_data_lookup (wb, xf->format_idx) : NULL;*/
 
 	data = MS_OLE_GET_GUINT16 (q->data + 4);
 	xf->locked = (data & 0x0001) ? eBiffLLocked : eBiffLUnlocked;

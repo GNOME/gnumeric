@@ -20,6 +20,8 @@
 #define CELL_HEIGHT(cell) CELL_DIM(cell,row)
 #define CELL_WIDTH(cell)  CELL_DIM(cell,col)
 
+#if 0
+
 static void
 print_border (GnomePrintContext *pc, double x1, double y1, double x2, double y2, StyleBorder *b, int idx)
 {
@@ -356,6 +358,7 @@ print_cell (GnomePrintContext *context, Cell *cell, double x, double y)
 			 x + cell->col->margin_a_pt,
 			 y + cell->row->margin_b_pt);
 }
+#endif
 
 void
 print_cell_range (GnomePrintContext *context,
@@ -364,6 +367,7 @@ print_cell_range (GnomePrintContext *context,
 		  int end_col, int end_row,
 		  double base_x, double base_y)
 {
+#if 0
 	ColRowInfo *ci, *ri;
 	int row, col;
 	double x, y;
@@ -403,8 +407,10 @@ vline (GnomePrintContext *context, double x, double y1, double y2)
 	gnome_print_moveto (context, x, y1);
 	gnome_print_lineto (context, x, y2);
 	gnome_print_stroke (context);
+#endif
 }
 
+#if 0
 static void
 hline (GnomePrintContext *context, double x1, double x2, double y)
 {
@@ -412,6 +418,7 @@ hline (GnomePrintContext *context, double x1, double x2, double y)
 	gnome_print_lineto (context, x2, y);
 	gnome_print_stroke (context);
 }
+#endif
 
 void
 print_cell_grid (GnomePrintContext *context,
@@ -421,6 +428,7 @@ print_cell_grid (GnomePrintContext *context,
 		 double base_x, double base_y,
 		 double width, double height)
 {
+#if 0
 	int col, row;
 	double x, y;
 	
@@ -451,6 +459,7 @@ print_cell_grid (GnomePrintContext *context,
 		hline (context, base_x, base_x + width, y);
 		y -= ri->units + ri->margin_a_pt + ri->margin_b_pt;
 	}
+#endif
 }
 
 
