@@ -64,7 +64,7 @@ typedef struct _XML2ParseState XML2ParseState;
 static void
 xml2UnknownAttr (XML2ParseState *state, CHAR const * const *attrs, char const *name)
 {
-	g_return_val_if_fail (attrs != NULL, FALSE);
+	g_return_if_fail (attrs != NULL);
 	g_warning ("Unexpected attribute '%s'='%s' for element of type %s.", name, attrs[0], attrs[1]);
 }
 

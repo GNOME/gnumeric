@@ -1,3 +1,7 @@
+2001-04-15  Jody Goldberg <jgoldberg@home.com>
+
+	* xml-sax-read.c (xml2UnknownAttr) : warning.
+
 2001-04-12  Jody Goldberg <jgoldberg@home.com>
 
 	* xml-sax-read.c (xml2ParseColRow) : support the outline mode col/row
