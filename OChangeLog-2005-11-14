@@ -1,5 +1,22 @@
 2001-06-03  Zbigniew Chyla  <cyba@gnome.pl>
 
+	Updating i/o progress while saving Gnumeric XML file.
+
+	* src/xml-io.c
+	s/N_ELEMENTS_BETWEEN_UPDATES/N_INPUT_ELEMENTS_BETWEEN_UPDATES
+	(xml_write_cell_and_position): Update i/o progress every
+	N_OUTPUT_ELEMENTS_BETWEEN_UPDATES cells.
+	(xml_write_styles): Ditto for styles.
+	(gnumeric_xml_read_workbook): Better error reporting.
+	(workbook_get_n_elements): Internal function, calculating the number of
+	"elements" (styles and cells) in workbook.
+	(gnumeric_xml_write_workbook): Split saving to three stages: building
+	XML tree, dumping it to memory buffer, saving (compressed) buffer
+	contents to file. Update i/o progress regularly.
+	The second stage still freezes UI though :(
+
+2001-06-03  Zbigniew Chyla  <cyba@gnome.pl>
+
 	* src/func.c (function_def_get_full_info_if_needed): Protected against
 	stack overflow. Probably it doesn't really solve the problem though :(
 
