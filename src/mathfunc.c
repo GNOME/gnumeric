@@ -1747,365 +1747,6 @@ static gnm_float lbeta(gnm_float a, gnm_float b)
 }
 
 /* ------------------------------------------------------------------------ */
-/* Imported src/nmath/pbeta.c from R.  */
-/*
- *  Mathlib : A C Library of Special Functions
- *  Copyright (C) 1998 Ross Ihaka
- *  Copyright (C) 2000 The R Development Core Team
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
- *
- *  SYNOPSIS
- *
- * #include <Rmath.h>
- *
- * double pbeta_raw(double x, double pin, double qin, int lower_tail)
- * double pbeta	   (double x, double pin, double qin, int lower_tail, int log_p)
- *
- *  DESCRIPTION
- *
- *	Returns distribution function of the beta distribution.
- *	( = The incomplete beta ratio I_x(p,q) ).
- *
- *  NOTES
- *
- *	This routine is a translation into C of a Fortran subroutine
- *	by W. Fullerton of Los Alamos Scientific Laboratory.
- *
- *  REFERENCE
- *
- *	Bosten and Battiste (1974).
- *	Remark on Algorithm 179, CACM 17, p153, (1974).
- */
-
-
-/* This is called from	qbeta(.) in a root-finding loop --- be FAST! */
-
-static gnm_float pbeta_raw(gnm_float x, gnm_float pin, gnm_float qin, gboolean lower_tail)
-{
-    gnm_float ans, c, finsum, p, ps, p1, q, term, xb, xi, y;
-    int n, i, ib, swap_tail;
-
-    const gnm_float eps = .5*GNUM_EPSILON;
-    const gnm_float sml = GNUM_MIN;
-    const gnm_float lneps = loggnum(eps);
-    const gnm_float lnsml = loggnum(sml);
-
-    /* swap tails if x is greater than the mean */
-    if (pin / (pin + qin) < x) {
-	swap_tail = 1;
-	y = 1 - x;
-	p = qin;
-	q = pin;
-    }
-    else {
-	swap_tail = 0;
-	y = x;
-	p = pin;
-	q = qin;
-    }
-
-    if ((p + q) * y / (p + 1) < eps) {
-
-	/* tail approximation */
-
-	xb = p * loggnum(fmax2(y, sml)) - loggnum(p) - lbeta(p, q);
-	if (xb > lnsml && y != 0) {
-	    ans = (swap_tail == lower_tail) ? -expm1gnum(xb) : expgnum(xb);
-	} else {
-	    ans = (swap_tail == lower_tail) ? 1. : 0;
-	}
-    }
-    else {
-	/*___ FIXME ___:  This takes forever (or ends wrongly)
-	  when (one or) both p & q  are huge
-	*/
-
-	/* evaluate the infinite sum first.  term will equal */
-	/* y^p / beta(ps, p) * (1 - ps)-sub-i * y^i / fac(i) */
-
-	ps = q - floorgnum(q);
-	if (ps == 0)
-	    ps = 1;
-	xb = p * loggnum(y) - lbeta(ps, p) - loggnum(p);
-	ans = 0;
-	if (xb >= lnsml) {
-	    ans = expgnum(xb);
-	    term = ans * p;
-	    if (ps != 1) {
-		n = fmax2(lneps/loggnum(y), 4.0);
-		for(i=1 ; i <= n ; i++) {
-		    xi = i;
-		    term *= (xi - ps) * y / xi;
-		    ans += term / (p + xi);
-		}
-	    }
-	}
-
-	/* now evaluate the finite sum, maybe. */
-
-	if (q > 1) {
-	    xb = p * loggnum(y) + q * log1pgnum(-y) - lbeta(p, q) - loggnum(q);
-	    ib = fmax2(xb / lnsml, 0.0);
-	    term = expgnum(xb - ib * lnsml);
-	    c = 1 / (1 - y);
-	    p1 = q * c / (p + q - 1);
-
-	    finsum = 0;
-	    n = q;
-	    if (q == n)
-		n--;
-	    for(i=1 ; i<=n ; i++) {
-		if (p1 <= 1 && term / eps <= finsum)
-		    break;
-		xi = i;
-		term = (q - xi + 1) * c * term / (p + q - xi);
-		if (term > 1) {
-		    ib--;
-		    term *= sml;
-		}
-		if (ib == 0)
-		    finsum += term;
-	    }
-	    ans += finsum;
-	}
-	if (swap_tail == lower_tail)
-	    ans = 1 - ans;
-	ans = fmax2(fmin2(ans, 1.), 0.);
-    }
-    return ans;
-} /* pbeta_raw() */
-
-gnm_float pbeta(gnm_float x, gnm_float pin, gnm_float qin, gboolean lower_tail, gboolean log_p)
-{
-#ifdef IEEE_754
-    if (isnangnum(x) || isnangnum(pin) || isnangnum(qin))
-	return x + pin + qin;
-#endif
-
-    if (pin <= 0 || qin <= 0) ML_ERR_return_NAN;
-
-    if (x <= 0)
-	return R_DT_0;
-    if (x >= 1)
-	return R_DT_1;
-    return R_D_val(pbeta_raw(x, pin, qin, lower_tail));
-}
-
-/* ------------------------------------------------------------------------ */
-/* Imported src/nmath/qbeta.c from R.  */
-/*
- *  R : A Computer Language for Statistical Data Analysis
- *  Copyright (C) 1995, 1996  Robert Gentleman and Ross Ihaka
- *  Copyright (C) 1998--2001  The R Development Core Team
- *  based on code (C) 1979 and later Royal Statistical Society
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
- *
-
- * Reference:
- * Cran, G. W., K. J. Martin and G. E. Thomas (1977).
- *	Remark AS R19 and Algorithm AS 109,
- *	Applied Statistics, 26(1), 111-114.
- * Remark AS R83 (v.39, 309-310) and the correction (v.40(1) p.236)
- *	have been incorporated in this version.
- */
-
-
-
-/* set the exponent of accu to -2r-2 for r digits of accuracy */
-#ifdef OLD
-#define acu 1.0e-32
-#define lower 0.0001
-#define upper 0.9999
-
-#else/*---- NEW ---- -- still fails for p = 1e11, q=.5*/
-
-#define fpu 3e-308
-/* acu_min:  Minimal value for accuracy 'acu' which will depend on (a,p);
-	     acu_min >= fpu ! */
-#define acu_min 1e-300
-#define lower fpu
-#define upper 1-2.22e-16
-
-#endif
-
-#define const1 2.30753
-#define const2 0.27061
-#define const3 0.99229
-#define const4 0.04481
-
-static volatile gnm_float xtrunc;/* not a real global .. delicate though! */
-
-gnm_float qbeta(gnm_float alpha, gnm_float p, gnm_float q, gboolean lower_tail, gboolean log_p)
-{
-    int swap_tail, i_pb, i_inn;
-    gnm_float a, adj, logbeta, g, h, pp, p_, prev, qq, r, s, t, tx, w, y, yprev;
-    gnm_float acu;
-    volatile gnm_float xinbta;
-
-    /* define accuracy and initialize */
-
-    xinbta = alpha;
-
-    /* test for admissibility of parameters */
-
-#ifdef IEEE_754
-    if (isnangnum(p) || isnangnum(q) || isnangnum(alpha))
-	return p + q + alpha;
-#endif
-    R_Q_P01_check(alpha);
-
-    if(p < 0. || q < 0.) ML_ERR_return_NAN;
-
-    p_ = R_DT_qIv(alpha);/* lower_tail prob (in any case) */
-
-    if (p_ == 0. || p_ == 1.)
-	return p_;
-
-    logbeta = lbeta(p, q);
-
-    /* change tail if necessary;  afterwards   0 < a <= 1/2	 */
-    if (p_ <= 0.5) {
-	a = p_;	pp = p; qq = q; swap_tail = 0;
-    } else { /* change tail, swap  p <-> q :*/
-	a = (!lower_tail && !log_p)? alpha : 1 - p_;
-	pp = q; qq = p; swap_tail = 1;
-    }
-
-    /* calculate the initial approximation */
-
-    r = sqrtgnum(-loggnum(a * a));
-    y = r - (const1 + const2 * r) / (1. + (const3 + const4 * r) * r);
-    if (pp > 1 && qq > 1) {
-	r = (y * y - 3.) / 6.;
-	s = 1. / (pp + pp - 1.);
-	t = 1. / (qq + qq - 1.);
-	h = 2. / (s + t);
-	w = y * sqrtgnum(h + r) / h - (t - s) * (r + GNM_const(5.) / 6. - 2. / (3. * h));
-	xinbta = pp / (pp + qq * expgnum(w + w));
-    } else {
-	r = qq + qq;
-	t = 1. / (9. * qq);
-	t = r * powgnum(1. - t + y * sqrtgnum(t), 3.0);
-	if (t <= 0.)
-	    xinbta = 1. - expgnum((loggnum((1. - a) * qq) + logbeta) / qq);
-	else {
-	    t = (4. * pp + r - 2.) / t;
-	    if (t <= 1.)
-		xinbta = expgnum((loggnum(a * pp) + logbeta) / pp);
-	    else
-		xinbta = 1. - 2. / (t + 1.);
-	}
-    }
-
-    /* solve for x by a modified newton-raphson method, */
-    /* using the function pbeta_raw */
-
-    r = 1 - pp;
-    t = 1 - qq;
-    yprev = 0.;
-    adj = 1;
-    /* Sometimes the approximation is negative! */
-    if (xinbta < lower)
-	xinbta = (xinbta < lower) ? sqrtgnum (lower) : 1 - sqrtgnum (lower);
-    else if (xinbta > upper)
-	xinbta = (xinbta < lower) ? sqrtgnum (lower) : 1 - sqrtgnum (lower);
-
-    /* Desired accuracy should depend on  (a,p)
-     * This is from Remark .. on AS 109, adapted.
-     * However, it's not clear if this is "optimal" for IEEE gnm_float prec.
-
-     * acu = fmax2(acu_min, powgnum(10., -25. - 5./(pp * pp) - 1./(a * a)));
-
-     * NEW: 'acu' accuracy NOT for squared adjustment, but simple;
-     * ---- i.e.,  "new acu" = sqrtgnum(old acu)
-
-     */
-    acu = fmax2(acu_min, powgnum(10., -13 - 2.5/(pp * pp) - 0.5/(a * a)));
-    tx = prev = 0.;	/* keep -Wall happy */
-
-    for (i_pb=0; i_pb < 1000; i_pb++) {
-	y = pbeta_raw(xinbta, pp, qq, /*lower_tail = */ TRUE);
-	/* y = pbeta_raw2(xinbta, pp, qq, logbeta) -- to SAVE CPU; */
-#ifdef IEEE_754
-	if(!finitegnum(y))
-#else
-	    if (errno)
-#endif
-		ML_ERR_return_NAN;
-
-	y = (y - a) *
-	    expgnum(logbeta + r * loggnum(xinbta) + t * log1pgnum(-xinbta));
-	if (y * yprev <= 0.)
-	    prev = fmax2(gnumabs(adj),fpu);
-	g = 1;
-	for (i_inn=0; i_inn < 1000;i_inn++) {
-	    adj = g * y;
-	    if (gnumabs(adj) < prev) {
-		tx = xinbta - adj; /* trial new x */
-		if (tx >= 0. && tx <= 1) {
-		    if (prev <= acu)	goto L_converged;
-		    if (gnumabs(y) <= acu) goto L_converged;
-		    if (tx != 0. && tx != 1)
-			break;
-		}
-	    }
-	    g /= 3;
-	}
-	xtrunc = tx;	/* this prevents trouble with excess FPU */
-				/* precision on some machines. */
-	if (xtrunc == xinbta)
-	    goto L_converged;
-	xinbta = tx;
-	yprev = y;
-    }
-    /*-- NOT converged: Iteration count --*/
-    ML_ERROR(ME_PRECISION);
-
- L_converged:
-    if (swap_tail)
-	return 1 - xinbta;
-    return xinbta;
-}
-/* Cleaning up done by tools/import-R:  */
-#undef acu
-#undef lower
-#undef upper
-#undef fpu
-#undef acu_min
-#undef lower
-#undef upper
-#undef const1
-#undef const2
-#undef const3
-#undef const4
-
-/* ------------------------------------------------------------------------ */
 /* Imported src/nmath/pt.c from R.  */
 /*
  *  R : A Computer Language for Statistical Data Analysis
@@ -2887,6 +2528,253 @@ gnm_float pnbinom(gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gb
     if (x < 0) return R_DT_0;
     if (!finitegnum(x)) return R_DT_1;
     return pbeta(p, n, x + 1, lower_tail, log_p);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/dbeta.c from R.  */
+/*
+ *  AUTHOR
+ *    Catherine Loader, catherine@research.bell-labs.com.
+ *    October 23, 2000.
+ *
+ *  Merge in to R:
+ *	Copyright (C) 2000, The R Core Development Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *
+ *  DESCRIPTION
+ *    Beta density,
+ *                   (a+b-1)!     a-1       b-1
+ *      p(x;a,b) = ------------ x     (1-x)
+ *                 (a-1)!(b-1)!
+ *
+ *               = (a+b-1) dbinom(a-1; a+b-2,x)
+ *
+ *    We must modify this when a<1 or b<1, to avoid passing negative
+ *    arguments to dbinom_raw. Note that the modifications require
+ *    division by x and/or 1-x, so cannot be used except where necessary.
+ */
+
+
+gnm_float dbeta(gnm_float x, gnm_float a, gnm_float b, gboolean give_log)
+{
+    gnm_float f, p;
+    volatile gnm_float am1, bm1; /* prevent roundoff trouble on some
+                                 platforms */
+
+#ifdef IEEE_754
+    /* NaNs propagated correctly */
+    if (isnangnum(x) || isnangnum(a) || isnangnum(b)) return x + a + b;
+#endif
+
+    if (a <= 0 || b <= 0) ML_ERR_return_NAN;
+    if (x < 0 || x > 1) return(R_D__0);
+    if (x == 0) {
+	if(a > 1) return(R_D__0);
+	if(a < 1) return(ML_POSINF);
+	/* a == 1 : */ return(R_D_val(b));
+    }
+    if (x == 1) {
+	if(b > 1) return(R_D__0);
+	if(b < 1) return(ML_POSINF);
+	/* b == 1 : */ return(R_D_val(a));
+    }
+    if (a < 1) {
+	if (b < 1) {		/* a,b < 1 */
+	    f = a*b/((a+b)*x*(1-x));
+	    p = dbinom_raw(a,a+b, x,1-x, give_log);
+	}
+	else {			/* a < 1 <= b */
+	    f = a/x;
+	    bm1 = b - 1;
+	    p = dbinom_raw(a,a+bm1, x,1-x, give_log);
+	}
+    }
+    else {
+	if (b < 1) {		/* a >= 1 > b */
+	    f = b/(1-x);
+	    am1 = a - 1;
+	    p = dbinom_raw(am1,am1+b, x,1-x, give_log);
+	}
+	else {			/* a,b >= 1 */
+	    f = a+b-1;
+	    am1 = a - 1;
+	    bm1 = b - 1;
+	    p = dbinom_raw(am1,am1+bm1, x,1-x, give_log);
+	}
+    }
+    return( (give_log) ? p + loggnum(f) : p*f );
+}
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/pbeta.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *  Copyright (C) 2000 The R Development Core Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *  SYNOPSIS
+ *
+ * #include <Rmath.h>
+ *
+ * double pbeta_raw(double x, double pin, double qin, int lower_tail)
+ * double pbeta	   (double x, double pin, double qin, int lower_tail, int log_p)
+ *
+ *  DESCRIPTION
+ *
+ *	Returns distribution function of the beta distribution.
+ *	( = The incomplete beta ratio I_x(p,q) ).
+ *
+ *  NOTES
+ *
+ *	This routine is a translation into C of a Fortran subroutine
+ *	by W. Fullerton of Los Alamos Scientific Laboratory.
+ *
+ *  REFERENCE
+ *
+ *	Bosten and Battiste (1974).
+ *	Remark on Algorithm 179, CACM 17, p153, (1974).
+ */
+
+
+/* This is called from	qbeta(.) in a root-finding loop --- be FAST! */
+
+static gnm_float pbeta_raw(gnm_float x, gnm_float pin, gnm_float qin, gboolean lower_tail)
+{
+    gnm_float ans, c, finsum, p, ps, p1, q, term, xb, xi, y;
+    int n, i, ib, swap_tail;
+
+    const gnm_float eps = .5*GNUM_EPSILON;
+    const gnm_float sml = GNUM_MIN;
+    const gnm_float lneps = loggnum(eps);
+    const gnm_float lnsml = loggnum(sml);
+
+    /* swap tails if x is greater than the mean */
+    if (pin / (pin + qin) < x) {
+	swap_tail = 1;
+	y = 1 - x;
+	p = qin;
+	q = pin;
+    }
+    else {
+	swap_tail = 0;
+	y = x;
+	p = pin;
+	q = qin;
+    }
+
+    if ((p + q) * y / (p + 1) < eps) {
+
+	/* tail approximation */
+
+	xb = p * loggnum(fmax2(y, sml)) - loggnum(p) - lbeta(p, q);
+	if (xb > lnsml && y != 0) {
+	    ans = (swap_tail == lower_tail) ? -expm1gnum(xb) : expgnum(xb);
+	} else {
+	    ans = (swap_tail == lower_tail) ? 1. : 0;
+	}
+    }
+    else {
+	/*___ FIXME ___:  This takes forever (or ends wrongly)
+	  when (one or) both p & q  are huge
+	*/
+
+	/* evaluate the infinite sum first.  term will equal */
+	/* y^p / beta(ps, p) * (1 - ps)-sub-i * y^i / fac(i) */
+
+	ps = q - floorgnum(q);
+	if (ps == 0)
+	    ps = 1;
+	xb = p * loggnum(y) - lbeta(ps, p) - loggnum(p);
+	ans = 0;
+	if (xb >= lnsml) {
+	    ans = expgnum(xb);
+	    term = ans * p;
+	    if (ps != 1) {
+		n = fmax2(lneps/loggnum(y), 4.0);
+		for(i=1 ; i <= n ; i++) {
+		    xi = i;
+		    term *= (xi - ps) * y / xi;
+		    ans += term / (p + xi);
+		}
+	    }
+	}
+
+	/* now evaluate the finite sum, maybe. */
+
+	if (q > 1) {
+	    xb = p * loggnum(y) + q * log1pgnum(-y) - lbeta(p, q) - loggnum(q);
+	    ib = fmax2(xb / lnsml, 0.0);
+	    term = expgnum(xb - ib * lnsml);
+	    c = 1 / (1 - y);
+	    p1 = q * c / (p + q - 1);
+
+	    finsum = 0;
+	    n = q;
+	    if (q == n)
+		n--;
+	    for(i=1 ; i<=n ; i++) {
+		if (p1 <= 1 && term / eps <= finsum)
+		    break;
+		xi = i;
+		term = (q - xi + 1) * c * term / (p + q - xi);
+		if (term > 1) {
+		    ib--;
+		    term *= sml;
+		}
+		if (ib == 0)
+		    finsum += term;
+	    }
+	    ans += finsum;
+	}
+	if (swap_tail == lower_tail)
+	    ans = 1 - ans;
+	ans = fmax2(fmin2(ans, 1.), 0.);
+    }
+    return ans;
+} /* pbeta_raw() */
+
+gnm_float pbeta(gnm_float x, gnm_float pin, gnm_float qin, gboolean lower_tail, gboolean log_p)
+{
+#ifdef IEEE_754
+    if (isnangnum(x) || isnangnum(pin) || isnangnum(qin))
+	return x + pin + qin;
+#endif
+
+    if (pin <= 0 || qin <= 0) ML_ERR_return_NAN;
+
+    if (x <= 0)
+	return R_DT_0;
+    if (x >= 1)
+	return R_DT_1;
+    return R_D_val(pbeta_raw(x, pin, qin, lower_tail));
 }
 
 /* ------------------------------------------------------------------------ */
@@ -4444,75 +4332,93 @@ L420:
 /* ------------------------------------------------------------------------ */
 /* --- END MAGIC R SOURCE MARKER --- */
 
-gnm_float
-qgamma (gnm_float p, gnm_float alpha, gnm_float scale, gboolean lower_tail, gboolean log_p)
+typedef gnm_float (*PFunc) (gnm_float x, const gnm_float shape[],
+			    gboolean lower_tail, gboolean log_p);
+typedef gnm_float (*DPFunc) (gnm_float x, const gnm_float shape[],
+			     gboolean log_p);
+
+static gnm_float
+pfuncinverter (gnm_float p, const gnm_float shape[],
+	       gboolean lower_tail, gboolean log_p,
+	       gnm_float xlow, gnm_float xhigh, gnm_float x0,
+	       PFunc pfunc, DPFunc dpfunc_dx)
 {
-	gnm_float xlow = 0;
-	gnm_float exlow;
-	gnm_float xhigh = -1;
-	gnm_float exhigh = -1;
-	gnm_float have_xhigh = FALSE;
-	int i;
+	gboolean have_xlow = finitegnum (xlow);
+	gboolean have_xhigh = finitegnum (xhigh);
+	gnm_float exlow, exhigh;
 	gnm_float x = 0, e = 0;
+	int i;
 
-#ifdef IEEE_754
-	if (isnangnum(p) || isnangnum(alpha) || isnangnum(scale))
-		return p + alpha + scale;
-#endif
-	R_Q_P01_check(p);
-	if (alpha <= 0) ML_ERR_return_NAN;
-
-	if (p == R_DT_0) return 0;
-	if (p == R_DT_1) return ML_POSINF;
+	if (p == R_DT_0) return xlow;
+	if (p == R_DT_1) return xhigh;
 
 	exlow = R_DT_0 - p;
-	if (!lower_tail) exlow = -exlow;
+	exhigh = R_DT_1 - p;
+	if (!lower_tail) {
+		exlow = -exlow;
+		exhigh = -exhigh;
+	}
 
-#ifdef DEBUG_qgamma
+#ifdef DEBUG_pfuncinverter
 	printf ("p=%.15g\n", p);
 #endif
+
 	for (i = 0; i < 100; i++) {
 		if (i == 0) {
-			gnm_float v = 2 * alpha;
-			if (v < -1.24 * R_DT_log (p))
-				x = powgnum (R_DT_qIv (p) * alpha * expgnum (lgammagnum (alpha) + alpha * M_LN2gnum),
-					     1 / alpha) / 2;
-			else {
-				gnm_float x1 = qnorm (p, 0, 1, lower_tail, log_p);
-				gnm_float p1 = 0.222222 / v;
-				x = v * powgnum (x1 * sqrtgnum (p1) + 1 - p1, 3) / 2;
+			/* Use supplied guess.  */
+			x = x0;
+			if (x0 <= xlow || x0 >= xhigh) {
+				if (have_xlow || have_xhigh)
+					x0 = ((have_xhigh ? xhigh : xlow + 1) +
+					      (have_xlow ? xlow : xhigh - 1)) / 2;
+				else
+					x0 = 0;
 			}
-			if (x <= 0) x = 1e-10;
 		} else if (i == 1) {
-			x = have_xhigh ? x / 1.1 : x * 1.1;
-		} else if (xlow == 0 && xhigh < 0.1) {
-			x = xhigh * xhigh;
-			if (x < GNUM_MIN)
-				x = sqrtgnum (xhigh) * sqrtgnum (GNUM_MIN);
-		} else if (have_xhigh) {
-			switch (i % 4) {
+			/*
+			 * Under the assumption that the initial guess was
+			 * good, pick a nearby point that is hopefully on
+			 * the other side.  If we already have both sides,
+			 * just bisect.
+			 */
+			if (have_xlow && have_xhigh)
+				x = (xlow + xhigh) / 2;
+			else if (have_xlow)
+				x = xlow * 1.1;
+			else
+				x = xhigh / 1.1;
+		} else if (have_xlow && have_xhigh) {
+			switch (i % 8) {
 			case 0:
-				x = xhigh - (xhigh - xlow) * (exhigh / (exhigh - exlow));
+			case 4:
+				x = xhigh - (xhigh - xlow) *
+					(exhigh / (exhigh - exlow));
 				break;
 			case 2:
-				if (i > 30 && xhigh < 1)
-					x = sqrtgnum (xhigh) * sqrtgnum (xlow);
-				else
-					x = (xhigh + 1000 * xlow) / 1001;
+				x = (xhigh + 1000 * xlow) / 1001;
+				break;
+			case 6:
+				x = (1000 * xhigh + xlow) / 1001;
 				break;
 			default:
 				x = (xhigh + xlow) / 2;
 			}
-		} else
-			x = xlow ? xlow * 2 : 1;
+		} else if (have_xlow) {
+			/* Agressively seek right in search of xhigh.  */
+			x = (xlow < 1) ? 1 : (2 * i) * xlow;
+		} else {
+			/* Agressively seek left in search of xlow.  */
+			x = (xhigh > -1) ? -1 : (2 * i) * xhigh;
+		}
 
 	newton_retry:
-		if (x <= xlow || (have_xhigh && x >= xhigh))
+		if ((have_xlow && x <= xlow) || (have_xhigh && x >= xhigh))
 			continue;
 
-		e = pgamma (x, alpha, 1, lower_tail, log_p) - p;
+		e = pfunc (x, shape, lower_tail, log_p) - p;
 		if (!lower_tail) e = -e;
-#ifdef DEBUG_qgamma
+
+#ifdef DEBUG_pfuncinverter
 		printf ("  x=%.15g  e=%.15g  l=%.15g  h=%.15g\n",
 			x, e, xlow, xhigh);
 #endif
@@ -4526,32 +4432,30 @@ qgamma (gnm_float p, gnm_float alpha, gnm_float scale, gboolean lower_tail, gboo
 		} else {
 			xlow = x;
 			exlow = e;
+			have_xlow = TRUE;
 		}
 
-		if (have_xhigh) {
-			gnm_float xmid = (xhigh + xlow) / 2;
-			gnm_float prec = (xhigh - xlow) / xmid;
+		if (have_xlow && have_xhigh) {
+			gnm_float prec = (xhigh - xlow) /
+				(gnumabs (xlow) + gnumabs (xhigh));
 			if (prec < GNUM_EPSILON * 4) {
-				x = xmid;
-				e = pgamma (x, alpha, 1, lower_tail, log_p) - p;
+				x = (xhigh + xlow) / 2;
+				e = pfunc (x, shape, lower_tail, log_p) - p;
+				if (!lower_tail) e = -e;
 				goto done;
 			}
 
-			if (i % 3 < 2 &&
-			    prec < 0.05) {
-				gnm_float d =
-					log_p
-					? 0 /* FIXME? */
-					: dgamma (x, alpha, 1, log_p);
+			if (i % 3 < 2 && (i == 0 || prec < 0.05)) {
+				gnm_float d = dpfunc_dx (x, shape, log_p);
 				if (d) {
 					/*
 					 * Deliberately overshoot a bit to help
-					 * with getting good points on both sides
-					 * of the root.
+					 * with getting good points on both
+					 * sides of the root.
 					 */
 					x = x - e / d * 1.000001;
 					if (x > xlow && x < xhigh) {
-#ifdef DEBUG_qgamma
+#ifdef DEBUG_pfuncinverter
 						printf ("Newton ok\n");
 #endif
 						i++;
@@ -4571,12 +4475,104 @@ qgamma (gnm_float p, gnm_float alpha, gnm_float scale, gboolean lower_tail, gboo
 	if (gnumabs (e) > -exlow)
 		e = exlow, x = xlow;
 
-#ifdef DEBUG_qgamma
+#ifdef DEBUG_pfuncinverter
 	printf ("--> %.15g\n\n", x);
 #endif
-	return x * scale;
+	return x;
 }
 
+/* ------------------------------------------------------------------------ */
+
+static gnm_float
+dgamma1 (gnm_float x, const gnm_float *palpha, gboolean log_p)
+{
+	if (log_p)
+		return 0; /* i.e., bail.  */
+	else
+		return dgamma (x, *palpha, 1, log_p);
+}
+
+static gnm_float
+pgamma1 (gnm_float x, const gnm_float *palpha,
+	 gboolean lower_tail, gboolean log_p)
+{
+	return pgamma (x, *palpha, 1, lower_tail, log_p);
+}
+
+
+gnm_float
+qgamma (gnm_float p, gnm_float alpha, gnm_float scale,
+	gboolean lower_tail, gboolean log_p)
+{
+	gnm_float res1, x0, v;
+
+#ifdef IEEE_754
+	if (isnangnum(p) || isnangnum(alpha) || isnangnum(scale))
+		return p + alpha + scale;
+#endif
+	R_Q_P01_check(p);
+	if (alpha <= 0) ML_ERR_return_NAN;
+
+	/* Make an initial guess, x0, assuming scale==1.  */
+	v = 2 * alpha;
+	if (v < -1.24 * R_DT_log (p))
+		x0 = powgnum (R_DT_qIv (p) * alpha * expgnum (lgammagnum (alpha) + alpha * M_LN2gnum),
+			      1 / alpha) / 2;
+	else {
+		gnm_float x1 = qnorm (p, 0, 1, lower_tail, log_p);
+		gnm_float p1 = 0.222222 / v;
+		x0 = v * powgnum (x1 * sqrtgnum (p1) + 1 - p1, 3) / 2;
+	}
+
+	res1 = pfuncinverter (p, &alpha, lower_tail, log_p, 0, ML_POSINF, x0,
+			      pgamma1, dgamma1);
+
+	return res1 * scale;
+}
+
+/* ------------------------------------------------------------------------ */
+
+static gnm_float
+dbeta1 (gnm_float x, const gnm_float shape[], gboolean log_p)
+{
+	if (log_p)
+		return 0; /* i.e., bail.  */
+	else
+		return dbeta (x, shape[0], shape[1], log_p);
+}
+
+static gnm_float
+pbeta1 (gnm_float x, const gnm_float shape[],
+	gboolean lower_tail, gboolean log_p)
+{
+	return R_D_val (pbeta_raw (x, shape[0], shape[1], lower_tail));
+}
+
+
+gnm_float
+qbeta (gnm_float alpha, gnm_float p, gnm_float q, gboolean lower_tail, gboolean log_p)
+{
+	gnm_float x0, shape[2];
+
+#ifdef IEEE_754
+	if (isnangnum(p) || isnangnum(q) || isnangnum(alpha))
+		return p + q + alpha;
+#endif
+	R_Q_P01_check(alpha);
+
+	if(p < 0. || q < 0.) ML_ERR_return_NAN;
+
+	shape[0] = p;
+	shape[1] = q;
+	x0 = powgnum (alpha, 1 / (p + 1)) *
+		powgnum (p, (p + 2) / (p + 1)) /
+		q;
+	x0 /= (1 + x0);
+	return pfuncinverter (alpha, shape, lower_tail, log_p, 0, 1, x0,
+			      pbeta1, dbeta1);
+}
+
+/* ------------------------------------------------------------------------ */
 
 /* FIXME: we need something that catches partials and EAGAIN.  */
 #define fullread read
