@@ -1,3 +1,7 @@
+2000-04-01  Michael Meeks  <michael@helixcode.com>
+
+	* ms-ole-summary.c (ms_ole_summary_open_stream): update for docs.
+
 2000-03-18  Michael Meeks  <michael@helixcode.com>
 
 	* ms-ole.c (read_bb): Kill assertion in favour of silent leak.

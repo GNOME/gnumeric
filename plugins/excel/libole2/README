@@ -1,3 +1,19 @@
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+-- 
+
   This code is imported into the gnumeric tree via a CVS virtual link,
 in order to use the test framework checkout CVS module libole2.
 
@@ -30,4 +46,17 @@ the Somar Software WWW site at http://www.somar.com.
 	The summary information code was extensively updated and re -
 written by Frank Chiulli incorporating both DocumentSummaryInformation
 and SummaryInformation streams, and implementing several new types.	
+
+	This code has been written and is maintained by the following
+people:
+
+	Michael Meeks (michael@helixcode.com)
+	Arturo Tena   (arturo@directmail.org)
+	Frank Chiulli (fc-linux@home.com)
+
+	Any patches should be sent to both Arturo and myself,
+
+
+						Michael Meeks.
+
 

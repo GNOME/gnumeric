@@ -187,7 +187,7 @@ write_items (MsOleSummary *si)
 
 /**
  * ms_ole_summary_open_stream:
- * @s: stream object
+ * @stream: stream object
  * @psid: Property Set ID, indicates which property set to open
  * 
  * Opens @s as a summary stream, returns NULL on failure.
@@ -196,7 +196,8 @@ write_items (MsOleSummary *si)
  * Summary Stream.
  **/
 MsOleSummary *
-ms_ole_summary_open_stream (MsOleStream *s, const MsOlePropertySetID psid)
+ms_ole_summary_open_stream (MsOleStream *stream,
+			    const MsOlePropertySetID psid)
 {
 	guint8              data[64];
 	guint16             byte_order;
@@ -205,14 +206,14 @@ ms_ole_summary_open_stream (MsOleStream *s, const MsOlePropertySetID psid)
 	MsOleSummary       *si;
 	gint                i, sections;
 
-	g_return_val_if_fail (s != NULL, NULL);
+	g_return_val_if_fail (stream != NULL, NULL);
 
-	if (!s->read_copy (s, data, 28))
+	if (!stream->read_copy (stream, data, 28))
 		return NULL;
 
 	si                = g_new (MsOleSummary, 1);
 
-	si->s             = s;
+	si->s             = stream;
 	si->write_items   = NULL;
 	si->sections      = NULL;
 	si->items         = NULL;
@@ -241,7 +242,7 @@ ms_ole_summary_open_stream (MsOleStream *s, const MsOlePropertySetID psid)
 
 	for (i = 0; i < sections; i++) {
 		MsOleSummarySection sect;
-		if (!s->read_copy (s, data, 16 + 4)) {
+		if (!stream->read_copy (stream, data, 16 + 4)) {
 			ms_ole_summary_close (si);
 			return NULL;
 		}
