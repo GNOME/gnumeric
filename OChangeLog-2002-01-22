@@ -1,3 +1,11 @@
+2000-06-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-view.c (sheet_view_size_allocate) : Disable jump to edit
+	  pos to avoid unintended jumping when a sheet is added.
+
+	* src/func.c (function_def_count_args) : Correctly handle vararg
+	  functions that takes nodes.
+
 2000-06-15  JP Rosevear  <jpr@arcavia.com>
 
 	* src/expr.c (eval_expr_real): Use new value_compare API

@@ -293,6 +293,7 @@ sheet_view_scrollbar_config (SheetView const *sheet_view)
 	gtk_adjustment_changed (ha);
 }
 
+#if 0
 /*
  * sheet_view_make_edit_pos_visible
  * @sheet_view  Sheet view
@@ -314,11 +315,21 @@ sheet_view_make_edit_pos_visible (SheetView const *sheet_view)
 		 TRUE);
 
 }
+#endif
 
 static void
 sheet_view_size_allocate (GtkWidget *widget, GtkAllocation *alloc, SheetView *sheet_view)
 {
+#if 0
+	/* FIXME
+	 * When a new sheet is added this is called and if the edit cell was not visible
+	 * we change the scroll position even though to the user the size did not change
+	 * and there is no reason for the scrolling to jump.
+	 *
+	 * Can we somehow do this only if the edit pos was visible initially ?
+	 */
 	sheet_view_make_edit_pos_visible (sheet_view);
+#endif
 	sheet_view_scrollbar_config (sheet_view);
 }
 
