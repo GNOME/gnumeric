@@ -2,8 +2,168 @@
   <title>Configuring Gnumeric Preferences</title>
 
   <para>
-    
+    The <interface>Preferences Dialog</interface> allows to configure 
+    various aspects of <application>Gnumeric</application>. 
   </para>
+
+  <tip>
+    <title>TIP</title>
+
+    <para>
+       When your cursor hovers over an entry field or checkbox, 
+       a tooltip may appear outlining the effect of the option.
+    </para>
+  </tip> 
+
+
+
+<para>
+The <interface>Preferences Dialog</interface> has several pages. Each page 
+addresses a certain aspects of using <application>Gnumeric</application>.
+</para>
+
+  <figure id="configuration-preferences-font">
+    <title><interface>General Font Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/preferences-font.png"
+                   srccredit="Sebastian Klost" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+<para>
+The <interface>General Font Tab</interface> sets the default font name, size and style to be used in the cells on every sheet.
+</para>
+
+  <figure id="configuration-preferences-font-header">
+    <title><interface>Header &amp; Footer Font Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/preferences-font-header.png"
+                   srccredit="Sebastian Klost" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+<para>
+The <interface>Header &amp; Footer Font Tab</interface> sets the default font name, size and style for the headers and footers of each page when printed. THe content of the headers and footers is determined via the  <interface> Page Setup dialog</interface>, detailed in
+    <xref linkend="sect-printing-setup" />
+</para>
+
+  <figure id="configuration-preferences-windows">
+    <title><interface>Windows Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/preferences-windows.png"
+                   srccredit="Sebastian Klost" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+<para>
+The <interface>Windows Tab</interface> includes various settings related to new workbooks, such as the window size and the number of intial sheets.
+</para>
+
+  <figure id="configuration-preferences-files">
+    <title><interface>Files Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/preferences-files.png"
+                   srccredit="Sebastian Klost" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+<para>
+The <interface>Files Tab</interface> provides settings related to the handling of files.
+</para>
+
+  <tip>
+    <title>TIP</title>
+
+    <para>
+      If you are usually using one of a small number of documents, you should set the <interface>Length of File History</interface> to be slightly larger than the number of these documents.
+    </para>
+  </tip> 
+
+  <figure id="configuration-preferences-undo">
+    <title><interface>Undo Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/preferences-undo.png"
+                   srccredit="Sebastian Klost" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+<para>
+The <interface>Undo Tab</interface> permits to customize the undo feature. You would normally like the number of undo items to be in the 10 to 25 range and the maximal undo size to be 10000 to 100000, unless you only have little memory available.
+</para>
+
+  <figure id="configuration-preferences-sorting">
+    <title><interface>Sorting Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/preferences-sorting.png"
+                   srccredit="Sebastian Klost" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+<para>
+The <interface>Sorting Tab</interface> allows to determine the default settings
+for the <interface>Sort Dialog</interface>. See the <xref
+      linkend="sect-sorting" />
+</para>
+
+  <figure id="configuration-preferences-various">
+    <title><interface>Various Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/preferences-various.png"
+                   srccredit="Sebastian Klost" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+<para>
+The <interface>Various Tab</interface> includes a variety of options that did not fit within any of the other tabs. 
+</para>
+
+  <figure id="configuration-preferences-various-internal">
+    <title><interface>Various (Internal) Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/preferences-various-internal.png"
+                   srccredit="Sebastian Klost" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+<para>
+The <interface>Various (Internal) Tab</interface> includes a variety of options that customize the internal working of <application>Gnumeric</application>. 
+</para>
+
+    <warning>
+      <title>WARNING</title>
+
+      <para>
+        Do not change any of the settings in the 
+        <interface>Various (Internal) Tab</interface> without serious 
+        consideration.
+      </para>
+    </warning>
+
+
 
 </sect1>
 

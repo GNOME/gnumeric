@@ -217,6 +217,14 @@ EXTRA_DIST = \
      pointer_text_edit.png \
      pointer_zoom_in.png \
      pointer_zoom_out.png \
+     preferences-files.png \
+     preferences-undo.png \
+     preferences-font-header.png \
+     preferences-various-internal.png \
+     preferences-font.png \
+     preferences-various.png \
+     preferences-sorting.png \
+     preferences-windows.png \
      print-large.png \
      print-preview-back.png \
      print-preview-first.png \
