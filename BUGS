@@ -42,6 +42,13 @@ Release Critical
 Long term breakage
 ------------------
 
+- >          MLK: 44 bytes leaked at 0xd6d960
+  >                g_hash_table_new [ghash.c:89]
+  >                sheet_style_get_uniform [sheet-style.c:1247]
+  >                fmt_dialog_selection_type [dialog-cell-format.c:2258]
+  >                selection_foreach_range [selection.c:1148]
+  >                dialog_cell_format [dialog-cell-format.c:2296]
+
 - Entering "=1e11111" yields "Syntax Error", not "overflow".
   In general parsing needs better error messages.
 
