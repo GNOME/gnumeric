@@ -27,6 +27,7 @@
 <widget>
   <class>GnomeDialog</class>
   <name>AutoSavePrompt</name>
+  <visible>False</visible>
   <title>Auto Save</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>

@@ -27,6 +27,7 @@
 <widget>
   <class>GnomeDialog</class>
   <name>AutoCorrect</name>
+  <visible>False</visible>
   <title>Auto Correct</title>
   <type>GTK_WINDOW_DIALOG</type>
   <position>GTK_WIN_POS_NONE</position>

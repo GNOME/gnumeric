@@ -74,6 +74,11 @@ remove_cb (GtkWidget *button, PluginManager *pm)
 	
 	plugin_unload (pm->workbook, pd);
 	populate_clist (pm);
+	if (GTK_CLIST (pm->clist)->rows > row)
+		gtk_clist_select_row(GTK_CLIST (pm->clist), row, 0);
+	else
+		gnome_dialog_set_sensitive (GNOME_DIALOG (pm->dialog),
+					    BUTTON_REMOVE, FALSE);
 }
 
 static void
@@ -110,9 +115,9 @@ plugin_manager_new (Workbook *wb)
 		return NULL;
 
 	pm->workbook = wb;
-	pm->dialog = gnome_dialog_new("Plug-in Manager",
-				      "Add",
-				      "Remove",
+	pm->dialog = gnome_dialog_new(_("Plug-in Manager"),
+				      _("Add"),
+				      _("Remove"),
 				      GNOME_STOCK_BUTTON_CLOSE,
 				      NULL);
 
@@ -134,6 +139,14 @@ plugin_manager_new (Workbook *wb)
 	gtk_widget_realize (pm->clist);
 	populate_clist (pm);
 
+	if (GTK_CLIST (pm->clist)->rows > 0) {
+		gtk_widget_grab_focus (pm->clist);
+		gtk_clist_select_row(GTK_CLIST (pm->clist), 0, 0);
+	} else {
+		gnome_dialog_set_sensitive (GNOME_DIALOG (pm->dialog),
+					    BUTTON_REMOVE, FALSE);
+	}
+	
 	gnome_dialog_button_connect(GNOME_DIALOG (pm->dialog), BUTTON_ADD,
 				    GTK_SIGNAL_FUNC (add_cb), pm);
 				    
@@ -152,9 +165,7 @@ plugin_manager_new (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (pm->dialog), "key_press_event",
 			    GTK_SIGNAL_FUNC (pm_key_event), NULL);
 
-	gnome_dialog_set_sensitive (GNOME_DIALOG (pm->dialog),
-				    BUTTON_REMOVE, FALSE);
-	gnome_dialog_set_default (GNOME_DIALOG (pm->dialog), BUTTON_CLOSE);
+	gnome_dialog_set_default (GNOME_DIALOG (pm->dialog), BUTTON_ADD);
 	gtk_window_set_policy (GTK_WINDOW (pm->dialog), FALSE, TRUE, FALSE);
 
 	gtk_widget_show_all (GNOME_DIALOG (pm->dialog)->vbox);

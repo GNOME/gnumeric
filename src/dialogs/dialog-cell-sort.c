@@ -106,7 +106,8 @@ dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
 		orderbox->val = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb1));	
 	}
 
-	gtk_object_destroy (GTK_OBJECT (dialog));
+	if (btn != -1)
+		gtk_object_destroy (GTK_OBJECT (dialog));
 	gtk_object_unref (GTK_OBJECT (gui));
 }
 
@@ -164,7 +165,7 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 static void
 order_box_set_default (OrderBox *orderbox)
 {
-	gtk_widget_grab_focus (orderbox->rangetext);
+	gtk_widget_grab_focus (GTK_COMBO (orderbox->rangetext)->entry);
 }
 
 static void
@@ -647,7 +648,8 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 			    GTK_SIGNAL_FUNC (dialog_cell_sort_cols_toggled),   &sort_flow);
 
 	gnome_dialog_set_parent (GNOME_DIALOG (sort_flow.dialog), GTK_WINDOW (sort_flow.wb->toplevel));
-
+	gnome_dialog_close_hides(GNOME_DIALOG (sort_flow.dialog), TRUE);
+	
 	sort_flow.clause_box = gtk_vbox_new (FALSE, FALSE);
 	gtk_table_attach_defaults (GTK_TABLE (table), sort_flow.clause_box, 0, 1, 0, 1);
 

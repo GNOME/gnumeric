@@ -337,6 +337,7 @@
 	  <class>GtkCheckButton</class>
 	  <name>cell_sort_adv_case</name>
 	  <can_focus>True</can_focus>
+	  <has_focus>True</has_focus>
 	  <label>Case sensitive</label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
