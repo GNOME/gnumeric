@@ -2516,46 +2516,38 @@ find_workbook (MsOle *ptr)
 
 /*
  * see S59DEC.HM,
- * but this whole thing seems sketchy.
- * always get 03 00 01 04
  */
 static void
 ms_excel_read_supporting_wb (BIFF_BOF_DATA *ver, BiffQuery *q)
 {
-	guint8 *  data;
 	guint16	numTabs = MS_OLE_GET_GUINT16 (q->data);
+	guint8 encodeType = MS_OLE_GET_GUINT8 (q->data + 2);
 
-	printf("Supporting workbook with %d Tabs\n", numTabs);
-	data = q->data + 2;
-	{
-		guint8 encodeType = MS_OLE_GET_GUINT8(data);
-		++data;
+	/* TODO TODO TODO : Figure out what this is and if it is
+	 * useful.  We always get a record length of FOUR ??
+	 * even when there are supposedly 10 tabs...
+	 * Is this related to EXTERNNAME???
+	 */
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 0) {
-			printf("--> SUPBOOK VirtPath encoding = ");
-			switch (encodeType)
-			{
-			case 0x00 : /* chEmpty */
-				puts("chEmpty");
-				break;
-			case 0x01 : /* chEncode */
-				puts("chEncode");
-#if 0
-				{
-					int i;
-					for (i = 0; i < 50; ++i)
-						printf("%3d (%c)(%x)\n", i, data[i], data[i]);
-				}
-#endif
-				break;
-			case 0x02 : /* chSelf */
-				puts("chSelf");
-				break;
-			default :
-				printf("Unknown/Unencoded ??(%x '%c') %d\n",
-				       encodeType, encodeType, q->length);
-			};
-		}
+	if (ms_excel_read_debug > 0) {
+		printf("Supporting workbook with %d Tabs\n", numTabs);
+		printf("--> SUPBOOK VirtPath encoding = ");
+		switch (encodeType)
+		{
+		case 0x00 : /* chEmpty */
+			puts("chEmpty");
+			break;
+		case 0x01 : /* chEncode */
+			puts("chEncode");
+			break;
+		case 0x02 : /* chSelf */
+			puts("chSelf");
+			break;
+		default :
+			printf("Unknown/Unencoded ??(%x '%c') %d\n",
+			       encodeType, encodeType, q->length);
+		};
+		dump_biff (q);
 	}
 #endif
 
@@ -2563,13 +2555,8 @@ ms_excel_read_supporting_wb (BIFF_BOF_DATA *ver, BiffQuery *q)
 	for (data = q->data + 2; numTabs-- > 0; ) {
 		char *	name;
 		guint32 byte_length, slen;
-		if (ver->version >= eBiffV8) {
-			slen = (guint32) MS_OLE_GET_GUINT16 (data);
-			name = biff_get_text (data += 2, slen, &byte_length);
-		} else {
-			slen = (guint32) MS_OLE_GET_GUINT8 (data);
-			name = biff_get_text (data += 1, slen, &byte_length);
-		}
+		slen = (guint32) MS_OLE_GET_GUINT16 (data);
+		name = biff_get_text (data += 2, slen, &byte_length);
 		puts(name);
 	}
 #endif

@@ -1,3 +1,27 @@
+1999-07-27  Jody Goldberg  <jgoldberg@home.com>
+
+	* src/fn-math.c (gnumeric_transpose) : no need for an array
+          if the input is a singleton.
+
+	* src/expr.c : Add comment explaining the need for a re-org
+          to correctly handle implicit intersetion vs arrays with
+          operators.  Move all value_* functions into.
+
+	* src/value.c : Here.
+
+	* src/func.c : Move const value initialization into value.c.
+
+	* src/clipboard.c (clipboard_prepend_cell) : Return Value * as per
+          change to VALUE_ERROR.
+
+	* src/style.h : Add STYLE_ORIENT_MAX to remove ugly magic number
+          that will change when we add support for diagonals.
+
+	* src/print-cell.c (print_cell_border, print_border) : Use enum
+	  rather than hard coding the number of border types.
+
+	* TODO : Add implicit intersection for operators.
+
 1999-07-25  Jody Goldberg  <jgoldberg@home.com>
 
 	* plugins/guile/plugin.c,

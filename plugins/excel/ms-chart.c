@@ -2000,9 +2000,3 @@ ms_excel_read_chart (BiffQuery *q, ExcelWorkbook *wb, int obj_id)
 		ms_excel_chart (q, wb, bof);
 	ms_biff_bof_data_destroy (bof);
 }
-
-
-void
-gnumeric_chart_destroy (GnumericChart * chart)
-{
-}

@@ -59,6 +59,8 @@ print_border (GnomePrintContext *pc, double x1, double y1, double x2, double y2,
 
 	case BORDER_HAIR:
 		g_warning ("FIXME: What is BORDER_HAIR?");
+
+	default :
 		return;
 	}
 	gnome_print_setlinewidth (pc, width);
@@ -83,6 +85,7 @@ print_border (GnomePrintContext *pc, double x1, double y1, double x2, double y2,
 static void
 print_cell_border (GnomePrintContext *context, Cell *cell, double x1, double y1)
 {
+	int i;
 	gdouble cell_width = CELL_WIDTH (cell);
 	gdouble cell_height = CELL_HEIGHT (cell);
 	StyleBorder *border = cell->style->border;
@@ -91,10 +94,8 @@ print_cell_border (GnomePrintContext *context, Cell *cell, double x1, double y1)
 	x2 = x1 + cell_width;
 	y2 = y1 - cell_height;
 	
-	print_border (context, x1, y1, x1, y2, border, 0);
-	print_border (context, x1, y2, x2, y2, border, 1);
-	print_border (context, x2, y2, x2, y1, border, 2);
-	print_border (context, x2, y1, x1, y1, border, 3);
+	for (i = 0; i < STYLE_ORIENT_MAX; ++i)
+		print_border (context, x1, y1, x1, y2, border, i);
 }
 
 static void

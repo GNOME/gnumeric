@@ -1,3 +1,9 @@
+1999-07-27  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_supporting_wb) : Make this
+          quieter, and add some comments explaining that we have no idea
+          what this does or how it works.
+
 1999-07-26  Jody Goldberg  <jgoldberg@home.com>
 
 	* ms-chart.c (BC_R(chartline)) : More state checking.

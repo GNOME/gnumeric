@@ -47,17 +47,18 @@ typedef enum {
  	BORDER_DOTTED,
  	BORDER_THICK,
  	BORDER_DOUBLE,
- 	BORDER_HAIR
+ 	BORDER_HAIR,
+
+ 	BORDER_MAX
 } StyleBorderType;
 
-#define NUM_STYLE_BORDER 8
-
 typedef enum {
-	STYLE_TOP,
- 	STYLE_BOTTOM,
- 	STYLE_LEFT,
- 	STYLE_RIGHT
-} StyleSide;
+	STYLE_TOP    = 0,
+ 	STYLE_BOTTOM = 1,
+ 	STYLE_LEFT   = 2,
+ 	STYLE_RIGHT  = 3,
+ 	STYLE_ORIENT_MAX  = 4
+} StyleBorderOrient;
 
 typedef struct {
 	int      ref_count;
@@ -66,10 +67,10 @@ typedef struct {
 	 * if the value is BORDER_NONE, then the respective
 	 * color is not allocated, otherwise, it has a
 	 * valid color.
-	 * NB. Use StyleSide to get orientation
+	 * NB. Use StyleBorderOrient to get orientation
 	 **/
- 	StyleBorderType type[4] ;
- 	StyleColor  *color[4] ;
+ 	StyleBorderType type[STYLE_ORIENT_MAX] ;
+ 	StyleColor  *color[STYLE_ORIENT_MAX] ;
 } StyleBorder;
 
 /* Alignment definitions */
@@ -158,8 +159,8 @@ void           style_color_unref      (StyleColor *sc);
 StyleBorder   *style_border_new_plain (void);
 void           style_border_ref       (StyleBorder *sb);
 void           style_border_unref     (StyleBorder *sb);
-StyleBorder   *style_border_new       (StyleBorderType const border_type[4],
- 				       StyleColor *border_color[4]);
+StyleBorder   *style_border_new       (StyleBorderType const border_type[STYLE_ORIENT_MAX],
+ 				       StyleColor *border_color[STYLE_ORIENT_MAX]);
 
 /*
  * For hashing Styles

@@ -2320,6 +2320,10 @@ gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
 	int const cols = value_area_get_width (ep, matrix);
 	int const rows = value_area_get_height (ep, matrix);
 
+	/* Return the value directly for a singleton */
+	if (rows == 1 && cols == 1)
+		return value_duplicate(value_area_get_x_y (ep, matrix, 0, 0));
+
 	res = g_new (Value, 1);
 	res->type = VALUE_ARRAY;
 	res->v.array.x = rows;

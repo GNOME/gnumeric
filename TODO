@@ -29,6 +29,13 @@ Gnumeric Spread Sheet task list
      formula without changing to a different cell.
 
 
+* Expresions
+
+    * Rework the handling of input ranges for functions/operators that take
+      scalars.  To either take implicit intersection of calling cell and range
+      or to create array result and apply function/operator to each input
+      individually.  
+
 * Even More Functions
 
    GROWTH, LINEST, LOGEST, PERCENTILE, QUARTILE, TREND.

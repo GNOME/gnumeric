@@ -54,22 +54,21 @@ struct _Value {
 #define VALUE_IS_PROBLEM(x) ((x == NULL) || \
 			    ((x)->type == VALUE_ERROR))
 
-Value       *value_new_bool          (gboolean b);
-Value       *value_new_error         (EvalPosition const *pos,
-				      char const *mesg);
-Value       *value_new_string        (const char *str);
-Value       *value_new_int           (int i);
-Value       *value_new_float         (float_t f);
-Value       *value_new_cellrange     (const CellRef *a, const CellRef *b);
-Value       *value_new_array         (guint width, guint height);
+Value       *value_new_bool        (gboolean b);
+Value       *value_new_error       (EvalPosition const *pos, char const *mesg);
+Value       *value_new_string      (const char *str);
+Value       *value_new_int         (int i);
+Value       *value_new_float       (float_t f);
+Value       *value_new_cellrange   (const CellRef *a, const CellRef *b);
+Value       *value_new_array       (guint width, guint height);
 
 void         value_release         (Value *value);
-void         value_dump            (const Value *value);
-Value       *value_duplicate       (const Value *value);
-void         value_copy_to         (Value *dest, const Value *source);
+void         value_dump            (Value const *value);
+Value       *value_duplicate       (Value const *value);
+void         value_copy_to         (Value *dest, Value const *source);
 Value       *value_cast_to_float   (Value *v);
 
-gboolean     value_get_as_bool     (const Value *v, gboolean *err);
+gboolean     value_get_as_bool     (Value const *v, gboolean *err);
 char        *value_get_as_string   (const Value *value);
 int          value_get_as_int      (const Value *v);
 float_t      value_get_as_float    (const Value *v);

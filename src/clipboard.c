@@ -435,7 +435,7 @@ typedef struct {
 	CellRegion *r;
 } append_cell_closure_t;
 
-static int
+static Value *
 clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	append_cell_closure_t *c = user_data;
@@ -450,7 +450,7 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_d
 	
 	c->r->list = g_list_prepend (c->r->list, copy);
 
-	return TRUE;
+	return NULL;
 }
 
 /**

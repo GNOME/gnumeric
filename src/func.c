@@ -426,33 +426,3 @@ functions_init (void)
 	database_functions_init();
 	information_functions_init();
 }
-
-/* Initialize temporarily with statics.  The real versions from the locale
- * will be setup in constants_init
- */
-char const *gnumeric_err_NULL  = "#NULL!";
-char const *gnumeric_err_DIV0  = "#DIV/0!";
-char const *gnumeric_err_VALUE = "#VALUE!";
-char const *gnumeric_err_REF   = "#REF!";
-char const *gnumeric_err_NAME  = "#NAME?";
-char const *gnumeric_err_NUM   = "#NUM!";
-char const *gnumeric_err_NA    = "#N/A";
-
-void
-constants_init (void)
-{
-	symbol_install (global_symbol_table, "FALSE", SYMBOL_VALUE,
-			value_new_bool (FALSE));
-	symbol_install (global_symbol_table, "TRUE", SYMBOL_VALUE,
-			value_new_bool (TRUE));
-	symbol_install (global_symbol_table, "GNUMERIC_VERSION", SYMBOL_VALUE,
-			value_new_float (atof (GNUMERIC_VERSION)));
-
-	gnumeric_err_NULL = _("#NULL!");
-	gnumeric_err_DIV0 = _("#DIV/0!");
-	gnumeric_err_VALUE = _("#VALUE!");
-	gnumeric_err_REF = _("#REF!");
-	gnumeric_err_NAME = _("#NAME?");
-	gnumeric_err_NUM = _("#NUM!");
-	gnumeric_err_NA = _("#N/A");
-}
