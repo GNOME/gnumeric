@@ -5,10 +5,12 @@
  *  Miguel de Icaza (miguel@gnu.org)
  *  Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
+
 #include <config.h>
 #include "gnumeric.h"
 #include "utils.h"
 #include "func.h"
+#include "auto-format.h"
 
 
 /***************************************************************************/
@@ -224,14 +226,18 @@ gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 void
 logical_functions_init (void)
 {
+	FunctionDefinition *def;
 	FunctionCategory *cat = function_get_category (_("Logical"));
 
 	function_add_nodes (cat,"and",     0,
 			    "",
 			    &help_and, gnumeric_and);
-	function_add_nodes (cat,"if",      0,
-			    "logical_test,value_if_true,value_if_false",
-			    &help_if,  gnumeric_if);
+
+	def = function_add_nodes (cat,"if",      0,
+				  "logical_test,value_if_true,value_if_false",
+				  &help_if,  gnumeric_if);
+	auto_format_function_result (def, AF_FIRST_ARG_FORMAT2);
+
 	function_add_args  (cat,"not",     "f",
 			    "number",
 			    &help_not, gnumeric_not);

@@ -1,5 +1,13 @@
 2000-01-18  Morten Welinder  <terra@diku.dk>
 
+	* src/functions/fn-logical.c (logical_functions_init): Add result
+ 	type for IF.
+
+	* src/auto-format.h (AutoFormatTypes): Add AF_FIRST_ARG_FORMAT2.
+
+	* src/auto-format.c (do_af_suggest): Implement
+ 	AF_FIRST_ARG_FORMAT2.
+
 	* configure.in (gnome-xml): Make the check HPUX safe.
 
 2000-01-18  Jody Goldberg <jgoldberg@home.com>

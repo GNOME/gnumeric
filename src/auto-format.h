@@ -29,9 +29,11 @@ typedef enum {
 
 	 /*
 	  * Things like SUM(...).  If any of the arguments yield a format
-	  * we use that.
+	  * we use that.  The "2" form, useful for IF, starts at the second
+	  * argument.
 	  */
 	AF_FIRST_ARG_FORMAT,
+	AF_FIRST_ARG_FORMAT2,
 
 	/* ----------------------------------------------------------------- */
 	/* Internal use only from here on.  */

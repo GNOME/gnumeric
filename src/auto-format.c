@@ -168,6 +168,13 @@ do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 			return do_af_suggest_list (expr->u.function.arg_list,
 						   ppos, explicit);
 
+		case AF_FIRST_ARG_FORMAT2: {
+			GList *l;
+			l = expr->u.function.arg_list;
+			if (l) l = l->next;
+			return do_af_suggest_list (l, ppos, explicit);
+		}
+
 		default:
 			return typ;
 		}
