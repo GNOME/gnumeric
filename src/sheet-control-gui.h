@@ -16,12 +16,12 @@ typedef gboolean (*SheetControlGUISlideHandler) (SheetControlGUI *scg, int col, 
 						 gpointer user_data);
 
 struct _SheetControlGUI {
-	SheetControl *sheet_control;
-	GtkTable  *table;
+	SheetControl sheet_control;
 
 	Sheet          		*sheet;
 	WorkbookControlGUI	*wbcg;
 
+	GtkTable  	 *table;
 	GtkWidget	 *select_all_btn;
 	GtkWidget        *canvas;
 	GnomeCanvas      *col_canvas, *row_canvas;
