@@ -23,7 +23,7 @@ Pending Patches
 
 1) graphs
 2) stf
-    2.1) UTF8 cleanliness
+    2.1) UTF-8 cleanliness
     2.2) User specifiable character encoding
     2.3) Replace UI for format selection
     2.4) Provide an optional mechanism for specifying the target location
@@ -51,7 +51,7 @@ Pending Patches
     9.1) finish calculation ui in workbook attr dialog		(DONE)
 10) fix highlighting of completion code				(DONE)
 11) look into using the default gtk font rather than our own
-12) audit all of the import plugins to do utf8 conversions
+12) audit all of the import plugins to do UTF-8 conversions
     12.1)  excel						(DONE)
     12.2)  applix						(DONE)
     12.3)  lotus
@@ -69,7 +69,7 @@ Pending Patches
     13.1) Add characterization (units) to StyleFormat
 14) merge open and import dialogs
 15) Notice mismatch between suffix and saver			(DONE)
-16) Decide whether to turn on the poor man's utf8 regexps.
+16) Decide whether to turn on the poor man's UTF-8 regexps.
 17) Outline mode
     17.1) markers above/left instead of below/right
     17.2) smarter handling for groups at the edge of selection
