@@ -31,12 +31,13 @@ dialog_goto_cell (Workbook *wb)
 {
 	static GtkWidget *dialog;
 	static GtkWidget *clist;
+	static GtkWidget *swin;
 	static GtkWidget *entry;
 	char   *text;
 	
 	if (!dialog){
 		GtkWidget *box;
-		char *titles [2];
+		const gchar *titles [2];
 
 		titles [0] = _("Cell");
 		titles [1] = NULL;
@@ -48,11 +49,10 @@ dialog_goto_cell (Workbook *wb)
 					   GNOME_STOCK_BUTTON_CANCEL,
 					   NULL);
 		gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
-		
+
+		swin = gtk_scrolled_window_new (NULL, NULL);
 		clist = gtk_clist_new_with_titles (1, titles);
-		gtk_clist_set_policy (GTK_CLIST (clist),
-				      GTK_POLICY_AUTOMATIC,
-				      GTK_POLICY_AUTOMATIC);
+		gtk_container_add (GTK_CONTAINER (swin), clist);
 
 		entry = gtk_entry_new ();
 		gtk_signal_connect (GTK_OBJECT (entry), "activate",
@@ -63,7 +63,7 @@ dialog_goto_cell (Workbook *wb)
 
 		box = gtk_vbox_new (FALSE, 0);
 
-		gtk_box_pack_start_defaults (GTK_BOX (box), clist);
+		gtk_box_pack_start_defaults (GTK_BOX (box), swin);
 		gtk_box_pack_start_defaults (GTK_BOX (box), entry);
 
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG (dialog)->vbox),
@@ -82,7 +82,7 @@ dialog_goto_cell (Workbook *wb)
 
 	if (*text){
 		if (workbook_parse_and_jump (wb, text)){
-			char *texts [1];
+			const gchar *texts [1];
 			
 			texts [0] = text;
 			

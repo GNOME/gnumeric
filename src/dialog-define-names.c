@@ -15,7 +15,7 @@ void
 dialog_define_names (Workbook *wb)
 {
 	static GtkWidget *dialog;
-	GtkWidget *l, *box;
+	GtkWidget *l, *box, *swin;
 	GtkCList  *clist;
 	GtkEntry  *name, *refers;
 	
@@ -26,8 +26,11 @@ dialog_define_names (Workbook *wb)
 				  _("Add"),
 				  _("Remove"),
 				  NULL);
-		
+
+		swin = gtk_scrolled_window_new (NULL, NULL);
 		clist = (GtkCList *) gtk_clist_new (1);
+		gtk_container_add (GTK_CONTAINER (swin), GTK_WIDGET (clist));
+		
 		gtk_clist_column_titles_hide (clist);
 
 		name   = (GtkEntry *) gtk_entry_new ();
@@ -40,7 +43,7 @@ dialog_define_names (Workbook *wb)
 		
 		gtk_box_pack_start (GTK_BOX (box), l, TRUE, TRUE, 0);
 		gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (name), TRUE, TRUE, 0);
-		gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (clist), TRUE, TRUE, 0);
+		gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (swin), TRUE, TRUE, 0);
 
 		l = gtk_label_new (_("Refers to"));
 		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);

@@ -26,7 +26,7 @@ typedef struct
 static void
 add_to_clist (PluginData *pd, GtkWidget *clist)
 {
-	gchar *data[2];
+	const gchar *data[2];
 	gint row;
 	
 	data [0] = pd->title;
@@ -90,8 +90,8 @@ GtkWidget *
 plugin_manager_new (void)
 {
 	PluginManager *pm;
-	gchar *n_titles[2] = { N_("Name"), N_("File") };
-	gchar *titles[2] = { N_("Name"), N_("File") };
+	const gchar *n_titles[2] = { N_("Name"), N_("File") };
+	const gchar *titles[2] = { N_("Name"), N_("File") };
 	
 	pm = g_new0 (PluginManager, 1);
 	if (!pm)

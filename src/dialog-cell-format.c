@@ -91,7 +91,7 @@ format_list_fill (int n)
 	gtk_clist_clear (cl);
 
 	for (i = 0; texts [i]; i++){
-		char *t [1];
+		const gchar *t [1];
 
 		t [0] = _(texts [i]);
 		
@@ -211,7 +211,6 @@ my_clist_new (void)
 	
 	cl = GTK_CLIST (gtk_clist_new (1));
 	gtk_clist_column_titles_hide (cl);
-	gtk_clist_set_policy (cl, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_clist_set_selection_mode (cl,GTK_SELECTION_SINGLE);
 				      
 	/* Configure the size */
@@ -236,7 +235,7 @@ static GtkWidget *
 create_number_format_page (GtkWidget *prop_win, CellList *cells)
 {
 	StyleFormat *format;
-	GtkWidget *l;
+	GtkWidget *l, *scrolled_list;
 	GtkTable *t, *tt;
 	int i;
 	
@@ -257,7 +256,9 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
 
 	number_cat_list = my_clist_new ();
-	gtk_table_attach (t, number_cat_list, 0, 1, BOXES_LINE+1, BOXES_LINE+2,
+	scrolled_list = gtk_scrolled_window_new (NULL, NULL);
+	gtk_container_add (GTK_CONTAINER (scrolled_list), number_cat_list);
+	gtk_table_attach (t, scrolled_list, 0, 1, BOXES_LINE+1, BOXES_LINE+2,
 			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 4, 0);
 
 	/* 1.1 Connect our signal handler */
@@ -267,7 +268,7 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 	/* 1.2 Fill the category list */
 	gtk_clist_freeze (GTK_CLIST (number_cat_list));
 	for (i = 0; cell_formats [i].name; i++){
-		char *text [1] = { _(cell_formats [i].name) };
+		const gchar *text [1] = { _(cell_formats [i].name) };
 		
 		gtk_clist_append (GTK_CLIST (number_cat_list), text);
 	}
@@ -296,11 +297,13 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 
 	/* 3. Format codes */
 	number_format_list = my_clist_new ();
+	scrolled_list = gtk_scrolled_window_new (NULL, NULL);
+	gtk_container_add (GTK_CONTAINER (scrolled_list), number_format_list);
 	gtk_table_attach (t, l = gtk_label_new (_("Format codes")),
 			  1, 2, BOXES_LINE, BOXES_LINE+1,
 			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
-	gtk_table_attach_defaults (t, number_format_list, 1, 2, BOXES_LINE + 1, BOXES_LINE + 2);
+	gtk_table_attach_defaults (t, scrolled_list, 1, 2, BOXES_LINE + 1, BOXES_LINE + 2);
 	format_list_fill (0);
 
 	/* 3.1 connect the signal handled for row selected */
@@ -312,8 +315,7 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 	if (format){
 		if (!format_find (format->format))
 		    gtk_entry_set_text (GTK_ENTRY (number_input), format->format);
-	} else 
-		gtk_clist_select_row (GTK_CLIST (number_format_list), 0, 0);
+	}
 
 
 	/* 4. finish */
@@ -327,6 +329,9 @@ apply_number_formats (Style *style, Sheet *sheet, CellList *list)
 {
 	char *str = gtk_entry_get_text (GTK_ENTRY (number_input));
 	
+	if (!strcmp (str, ""))
+		return;
+
 	for (;list; list = list->next){
 		Cell *cell = list->data;
 

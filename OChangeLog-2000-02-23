@@ -1,3 +1,18 @@
+1998-11-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/dialog-cell-format.c (create_number_format_page): Put the
+	clist inside a scrolled window for the new CList api.
+	
+	* src/dialog-define-names.c (dialog_define_names): ditto.
+	
+	* src/dialog-goto-cell.c (dialog_goto_cell): ditto
+	
+
+1998-11-23 Marin Purgar <pmc@iskon.hr>
+
+	* src/dialog-cell-format.c: Style general was applied to more
+	than one cell in various cases.
+
 1998-11-18  Bruno Unna       <bruno@iac.com.mx>
 	* src/style.c: added the default italic font as helvetica-oblique.
 

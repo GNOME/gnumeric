@@ -1327,10 +1327,12 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 	else
 		do_multi_line = FALSE;
 
+#if 0
 	if (cell->text)
 		text = cell->text->str;
 	else
 		text = "";
+#endif
 	
 	if (do_multi_line){
 		GList *lines, *l;
