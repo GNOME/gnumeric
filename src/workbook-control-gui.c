@@ -560,7 +560,6 @@ wbcg_sheet_remove (WorkbookControl *wbc, Sheet *sheet)
 	g_return_if_fail (i >= 0);
 
 	gtk_notebook_remove_page (wbcg->notebook, i);
-	gtk_object_unref (GTK_OBJECT (scg));
 
 	/* Only be scrollable if there are more than 3 tabs */
 	if (g_list_length (wbcg->notebook->children) <= 3)
@@ -1226,6 +1225,25 @@ cb_edit_delete_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_edit_duplicate_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *old_sheet = wb_control_cur_sheet (wbc);
+     	Sheet *new_sheet = sheet_duplicate (old_sheet);
+
+	workbook_sheet_attach (wb_control_workbook (wbc),
+			       new_sheet,
+			       old_sheet);
+	sheet_set_dirty (new_sheet, TRUE);
+}
+
+static void
+cb_edit_rename_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	g_warning ("Not implemented; right-click on tab instead.");
+}
+
+static void
 cb_edit_goto (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	dialog_goto_cell (wbcg);
@@ -1767,6 +1785,27 @@ static GnomeUIInfo workbook_menu_edit_select [] = {
 	GNOMEUIINFO_END
 };
 
+static GnomeUIInfo workbook_menu_edit_sheet [] = {
+	GNOMEUIINFO_ITEM_NONE (N_("_Duplicate"),
+		N_("Make a copy of the current sheet"),
+		cb_edit_duplicate_sheet),
+
+	GNOMEUIINFO_ITEM_NONE (N_("_Insert"),
+		N_("Insert a new sheet"),
+		cb_insert_sheet),
+
+	GNOMEUIINFO_ITEM_NONE (N_("Re_name"),
+		N_("Rename the current sheet"),
+		cb_edit_rename_sheet),
+
+	GNOMEUIINFO_ITEM_NONE (N_("_Remove"),
+		N_("Irrevocably remove an entire sheet"),
+		cb_edit_delete_sheet),
+
+	GNOMEUIINFO_END
+};
+
+
 static GnomeUIInfo workbook_menu_edit [] = {
 	GNOMEUIINFO_MENU_UNDO_ITEM (cb_edit_undo, NULL),
 	GNOMEUIINFO_MENU_REDO_ITEM (cb_edit_redo, NULL),
@@ -1788,13 +1827,11 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Delete..."),
 		N_("Remove selected cells, shifting other into their place"),
 		cb_edit_delete),
-	GNOMEUIINFO_ITEM_NONE (N_("De_lete Sheet"),
-		N_("Irrevocably remove an entire sheet"),
-		cb_edit_delete_sheet),
-
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_SUBTREE(N_("_Select..."), workbook_menu_edit_select),
+	GNOMEUIINFO_SUBTREE(N_("S_heet"), workbook_menu_edit_sheet),
+
+	GNOMEUIINFO_SUBTREE(N_("_Select"), workbook_menu_edit_select),
 
 	/* Default <Ctrl-G> to be goto */
 	{ GNOME_APP_UI_ITEM, N_("_Goto cell..."),
@@ -2137,6 +2174,8 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditPasteSpecial", cb_edit_paste_special),
 	BONOBO_UI_UNSAFE_VERB ("EditDelete", cb_edit_delete),
 	BONOBO_UI_UNSAFE_VERB ("EditDeleteSheet", cb_edit_delete_sheet),
+	BONOBO_UI_UNSAFE_VERB ("EditDuplicateSheet", cb_edit_duplicate_sheet),
+	BONOBO_UI_UNSAFE_VERB ("EditRenameSheet", cb_edit_rename_sheet),
 	BONOBO_UI_UNSAFE_VERB ("EditGoto", cb_edit_goto),
 	BONOBO_UI_UNSAFE_VERB ("EditRecalc", cb_edit_recalc),
 

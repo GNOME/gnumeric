@@ -10,16 +10,16 @@
 	    pixtype="stock" pixname="Open"
 	    accel="F3"/>
 	<cmd name="FileImport"
-	    _label="Import..."
+	    _label="_Import..."
 	    _tip="Imports a file"
 	    pixtype="stock" pixname="Open"/>
 	<cmd name="FileSave"
-	    _label="Save"
+	    _label="_Save"
 	    _tip="Save the current file"
 	    pixtype="stock" pixname="Save"
 	    accel="*Control*s"/>
 	<cmd name="FileSaveAs"
-	    _label="Save As"
+	    _label="Save _As"
 	    _tip="Save the current file with a different name"
 	    pixtype="stock" pixname="Save As"/>
 
@@ -78,7 +78,7 @@
 	    pixtype="stock" pixname="Paste"
 	    accel="*Control*v"/>
 	<cmd name="EditPasteSpecial"
-	    _label="Paste _Special..."
+	    _label="P_aste Special..."
 	    _tip="Paste with optional filters and transformations"
 	    pixtype="stock" pixname="Paste"/>
 
@@ -96,7 +96,7 @@
 	    _tip="Clear the selected cells' contents"/>
 
 	<cmd name="HelpAbout"
-	    _label="About..."
+	    _label="_About..."
 	    _tip="About this application"
 	    pixtype="stock" pixname="About"/>
     </commands>
@@ -138,7 +138,7 @@
 
 	    <separator/>
 
-	    <submenu name="Clear" _label="C_lear...">
+	    <submenu name="Clear" _label="C_lear">
 		<menuitem name="EditClearAll" verb=""/>
 		<menuitem name="EditClearFormats" verb=""/>
 		<menuitem name="EditClearComments" verb=""/>
@@ -149,13 +149,28 @@
 		_label="_Delete..."
 		_tip="Remove selected cells, shifting others into their place"/>
 
-	    <menuitem name="EditDeleteSheet" verb=""
-		_label="De_lete Sheet"
-		_tip="Irrevocably remove an entire sheet"/>
-
 	    <separator/>
 
-	    <submenu name="Select" _label="_Select...">
+	    <submenu name="EditSheet" _label="S_heet">
+		<menuitem name="EditDuplicateSheet" verb=""
+		    _label="_Duplicate"
+		    _tip="Make a copy of the current sheet"/>
+
+		<menuitem name="InsertSheet" verb=""
+		    _label="_Insert new"
+		    _tip="Insert a new sheet"/>
+
+		<menuitem name="EditRenameSheet" verb=""
+		    _label="Re_name"
+		    _tip="Rename the current sheet"/>
+
+		<menuitem name="EditDeleteSheet" verb=""
+		    _label="_Remove"
+		    _tip="Irrevocably remove an entire sheet"/>
+
+	    </submenu>
+
+	    <submenu name="Select" _label="_Select">
 
 		<menuitem name="EditSelectAll" verb=""
 		    _label="Select _All"
@@ -227,7 +242,7 @@
 		_tip="Insert new columns"/>
 
 	    <menuitem name="InsertCells" verb=""
-		_label="_Cells"
+		_label="C_ells..."
 		_tip="Insert new cells"/>
 
 	    <menuitem name="InsertObject" verb=""
