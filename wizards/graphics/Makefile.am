@@ -4,9 +4,7 @@
 # Author: Miguel de Icaza (miguel@kernel.org)
 #
 
-wizarddir = $(libdir)/gnumeric/wizards
-
-wizard_LTLIBRARIES = libwizard.la
+noinst_LIBRARIES = libwizard.a
 
 libwizard_la_SOURCES =			\
 	main.c				\
