@@ -1,3 +1,14 @@
+2003-06-13  Jon K Hellan  <hellan@acm.org>
+
+	* color-palette.c (color_palette_destroy, color_palette_finalize,
+	color_palette_change_custom_color, color_clicked,
+	color_palette_button_new, color_palette_setup,
+	color_palette_construct): Get rid of canvas item for color swatch
+	in button, using canvas's background instead. Change "items" array
+	of canvas items to "swatches" array of canvases.
+
+	* color-palette.h (struct _ColorPalette): Ditto.
+
 2003-06-12  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-optionmenu.c (gnumeric_option_menu_destroy): Leak fix.

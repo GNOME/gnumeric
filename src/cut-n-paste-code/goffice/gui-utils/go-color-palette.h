@@ -48,7 +48,7 @@ typedef struct _ColorPalette {
 	/*
 	 * Array of colors
 	 */
-	FooCanvasItem **items;
+	GtkWidget **swatches;
 	/* The (potentially NULL) default color */
         GdkColor *default_color;
 

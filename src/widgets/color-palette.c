@@ -32,7 +32,6 @@
 #include <gnumeric-config.h>
 #include <gtk/gtk.h>
 #include <libfoocanvas/foo-canvas.h>
-#include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <gdk/gdkcolor.h>
 #include <gnumeric-i18n.h>
 #include <gnm-marshalers.h>
@@ -80,7 +79,7 @@ color_palette_destroy (GtkObject *object)
 
 	color_palette_set_group (P, NULL);
 
-	memset (P->items, 0, P->total * sizeof (FooCanvasItem *));
+	memset (P->swatches, 0, P->total * sizeof (GtkWidget *));
 
 	if (klass->destroy)
                 klass->destroy (object);
@@ -91,7 +90,7 @@ color_palette_finalize (GObject *object)
 {
 	ColorPalette *P = COLOR_PALETTE (object);
 
-	g_free (P->items);
+	g_free (P->swatches);
 
 	(*color_palette_parent_class->finalize) (object);
 }
@@ -149,8 +148,8 @@ static void
 color_palette_change_custom_color (ColorPalette *P, GdkColor const * const new)
 {
 	int index;
-	FooCanvasItem *item;
-	FooCanvasItem *next_item;
+	GtkWidget *swatch;
+	GtkWidget *next_swatch;
 
 	g_return_if_fail (P != NULL);
 	g_return_if_fail (new != NULL);
@@ -161,27 +160,15 @@ color_palette_change_custom_color (ColorPalette *P, GdkColor const * const new)
 		return;
 
 	for (index = P->custom_color_pos; index < P->total - 1; index++) {
-		GdkColor *color;
-		GdkColor *outline;
-		item = P->items[index];
-		next_item = P->items[index + 1];
+		GtkStyle *style;
+		swatch = P->swatches[index];
+		next_swatch = P->swatches[index + 1];
 
-		g_object_get (G_OBJECT (next_item),
-			"fill_color_gdk",	&color,
-			"outline_color_gdk",	&outline,
-			NULL);
-		foo_canvas_item_set (item,
-			"fill_color_gdk",	color,
-			"outline_color_gdk",	outline,
-			NULL);
-		gdk_color_free (color);
-		gdk_color_free (outline);
+		style = gtk_style_copy (next_swatch->style);
+		gtk_widget_set_style (swatch, style);
+		g_object_unref (style);
 	}
-	item = P->items[index];
-	foo_canvas_item_set (item,
-			       "fill_color_gdk", new,
-			       "outline_color_gdk", new,
-			       NULL);
+	next_swatch->style->bg[GTK_STATE_NORMAL] = *new;
 	gnome_color_picker_set_i16 (P->picker,
 				    new->red,
 				    new->green,
@@ -221,19 +208,15 @@ static void
 color_clicked (GtkWidget *button, ColorPalette *P)
 {
 	int              index;
-	FooCanvasItem *item;
-	GdkColor        *gdk_color;
+	GtkWidget       *swatch;
 
 	index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "gal"));
-	item  = P->items[index];
-
-	g_object_get (item,
-		      "fill_color_gdk", &gdk_color,
-		      NULL);
-
-	emit_color_changed (P, gdk_color, FALSE, TRUE, FALSE);
-
-	gdk_color_free (gdk_color);
+	swatch  = P->swatches[index];
+	g_return_if_fail (FOO_IS_CANVAS (swatch));
+	
+	emit_color_changed (P,
+			    &swatch->style->bg[GTK_STATE_NORMAL],
+			    FALSE, TRUE, FALSE);
 }
 
 /*
@@ -283,44 +266,39 @@ color_in_palette (ColorNamePair *set, GdkColor *color)
  *
  * Utility function
  */
-static FooCanvasItem *
+static GtkWidget *
 color_palette_button_new(ColorPalette *P, GtkTable* table,
 			 GtkTooltips *tool_tip, ColorNamePair* color_name,
 			 gint col, gint row, int data)
 {
         GtkWidget *button;
-	GtkWidget *canvas;
-	FooCanvasItem *item;
+	GtkWidget *swatch;
+	GtkStyle  *style;
 
 	button = gtk_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 
-	canvas = foo_canvas_new ();
+	swatch = foo_canvas_new ();
+	style = gtk_style_copy (GTK_WIDGET (swatch)->style);
+	gdk_color_parse (color_name->color,
+			 &style->bg[GTK_STATE_NORMAL]);
+	gtk_widget_set_style (GTK_WIDGET (swatch), style);
+	g_object_unref (style);
 
-	gtk_widget_set_size_request (canvas, COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
-	gtk_container_add (GTK_CONTAINER (button), canvas);
-
-	item  = foo_canvas_item_new (FOO_CANVAS_GROUP (foo_canvas_root
-							   (FOO_CANVAS (canvas))),
-				       foo_canvas_rect_get_type (),
-				       "x1", 0.0,
-				       "y1", 0.0,
-				       "x2", (double) COLOR_PREVIEW_WIDTH,
-				       "y2", (double) COLOR_PREVIEW_HEIGHT,
-				       "fill_color", color_name->color,
-				       NULL);
+	gtk_widget_set_size_request (swatch, COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
+	gtk_container_add (GTK_CONTAINER (button), swatch);
 
 	gtk_tooltips_set_tip (tool_tip, button, _(color_name->name),
 			      "Private+Unused");
 
 	gtk_table_attach (table, button,
-			  col, col+1, row, row+1, GTK_FILL, GTK_FILL, 1, 1);
+			  col, col+1, row, row+1, GTK_EXPAND, GTK_EXPAND, 1, 1);
 
 	g_signal_connect (button, "clicked",
 			  G_CALLBACK (color_clicked), P);
 	g_object_set_data (G_OBJECT (button), "gal",
 				  GINT_TO_POINTER (data));
-	return item;
+	return swatch;
 }
 
 static void
@@ -397,7 +375,7 @@ color_palette_setup (ColorPalette *P,
 						if (P->custom_color_pos == -1) {
 							P->custom_color_pos = total;
 						}
-						P->items[total] =
+						P->swatches[total] =
 							color_palette_button_new(
 								P,
 								GTK_TABLE (table),
@@ -414,7 +392,7 @@ color_palette_setup (ColorPalette *P,
 				break;
 			}
 
-			P->items[total] =
+			P->swatches[total] =
 				color_palette_button_new (
 					P,
 					GTK_TABLE (table),
@@ -434,7 +412,7 @@ color_palette_setup (ColorPalette *P,
 	gtk_table_attach (GTK_TABLE (table), cust_label, 0, ncols - 3 ,
 			  row + 1, row + 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	/*
-	  Keep a poier to the picker so that we can update it's color
+	  Keep a pointer to the picker so that we can update it's color
 	  to keep it in synch with that of other members of the group
 	*/
 	P->picker = GNOME_COLOR_PICKER (gnome_color_picker_new ());
@@ -502,7 +480,7 @@ color_palette_construct (ColorPalette *P,
 	g_return_if_fail (P != NULL);
 	g_return_if_fail (IS_COLOR_PALETTE (P));
 
-	P->items = g_malloc (sizeof (FooCanvasItem *) * ncols * nrows);
+	P->swatches = g_malloc (sizeof (GtkWidget *) * ncols * nrows);
 
 	/*
 	 * Our table selector
