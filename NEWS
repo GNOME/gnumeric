@@ -26,6 +26,8 @@ Andreas:
 	  http://bugzilla.gnome.org/show_bug.cgi?id=82398
 
 Jody:
+	http://bugzilla.gnome.org/show_bug.cgi?id=83392
+	* fix name definition.
 	http://bugzilla.gnome.org/show_bug.cgi?id=79925
 	* Only grab if selection succeeds.
 	* Fix drawing glitch when creating unshared views not at A1
