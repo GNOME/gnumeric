@@ -272,7 +272,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	halign = cell_default_halign (cell, mstyle);
 	if (halign != HALIGN_JUSTIFY && valign != VALIGN_JUSTIFY &&
 	    !mstyle_get_fit_in_cell (mstyle)) {
-		int x, total, len = cell_width_pixel;
+		int x, offset, len = cell_width_pixel;
 
 		switch (halign) {
 		case HALIGN_FILL:
@@ -280,11 +280,12 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 			/* fall through */
 
 		case HALIGN_LEFT:
-			x = rect.x;
+			x = rect.x + cell_rendered_offset (cell);
 			break;
 
 		case HALIGN_RIGHT:
-			x = rect.x + rect.width - 1 - cell_width_pixel;
+			x = rect.x + rect.width - 1 - cell_width_pixel -
+				cell_rendered_offset (cell);
 			break;
 
 		case HALIGN_CENTER:
@@ -297,7 +298,6 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 			x = rect.x;
 		}
 
-		total = 0;
 		draw_text (drawable, font, gc, x, text_base,
 			   text, strlen (text), len, line_offset, num_lines);
 	} else {

@@ -413,6 +413,7 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	if (mstyle_get_font_strike (mstyle))
 		line_offset[num_lines++] = font_ascent/-2;
 
+	/* FIXME : This will be wrong for JUSTIFIED halignments */
 	cell_width_pts = gnome_font_get_width_string (print_font, text);
 
 	/* if a number overflows, do special drawing */
@@ -591,7 +592,7 @@ print_cell_background (GnomePrintContext *context,
  * segments that are selected.
  */
 static void
-print_merged_range (GnomePrintContext *context, Sheet *sheet,
+print_merged_range (GnomePrintContext *context, Sheet const *sheet,
 		    double start_x, double start_y,
 		    Range const *view, Range const *range)
 {
@@ -655,7 +656,7 @@ merged_col_cmp (Range const *a, Range const *b)
 
 void
 print_cell_range (GnomePrintContext *context,
-		  Sheet *sheet,
+		  Sheet const *sheet,
 		  int start_col, int start_row,
 		  int end_col, int end_row,
 		  double base_x, double base_y,

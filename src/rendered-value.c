@@ -338,3 +338,11 @@ cell_rendered_height (Cell const *cell)
 	else
 		return cell->rendered_value->height_pixel;
 }
+int
+cell_rendered_offset (Cell const * cell)
+{
+	if (!cell || !cell->rendered_value)
+		return 0;
+	else
+		return cell->rendered_value->offset;
+}

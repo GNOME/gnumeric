@@ -1,3 +1,27 @@
+2001-02-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print.c (compute_sheet_pages) : Use even_if_only_styles.
+	(print_page) : Ditto.
+	(print_sheet) : Ditto.
+
+	* src/xml-io.c (xml_write_print_info) : Support 'even_if_only_styles'
+	(xml_read_print_info) : Ditto.
+	* src/dialogs/dialog-printer-setup.c (do_fetch_page_info) : ditto.
+	(do_setup_page_info) : Ditto.
+	* src/print-info.c (print_info_copy) : ditto.
+	(print_info_new) : ditto.
+	(print_info_save) : ditto.
+
+2001-02-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell-draw.c (cell_draw) : Support indents for left/right
+	  alignment.
+
+	* src/cellspan.c (cell_calc_span) : Support indents when calculating
+	  spans.
+
+	* src/rendered-value.c (cell_rendered_offset) : new function
+
 2001-02-15  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* preview-grid-controller.c

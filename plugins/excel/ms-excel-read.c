@@ -3522,7 +3522,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
 			break;
 
 		case BIFF_PRINTGRIDLINES :
-			pi->print_line_divisions = (MS_OLE_GET_GUINT16 (q->data) == 1);
+			pi->print_grid_lines = (MS_OLE_GET_GUINT16 (q->data) == 1);
 			break;
 
 		case BIFF_GRIDSET:

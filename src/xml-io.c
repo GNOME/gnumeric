@@ -1212,7 +1212,10 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 	xmlAddChild (cur, child);
 
 	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "grid", NULL);
-	xml_set_value_int  (child, "value",    pi->print_line_divisions);
+	xml_set_value_int  (child, "value",    pi->print_grid_lines);
+	xmlAddChild (cur, child);
+	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "even_if_only_styles", NULL);
+	xml_set_value_int  (child, "value",    pi->print_even_if_only_styles);
 	xmlAddChild (cur, child);
 	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "monochrome", NULL);
 	xml_set_value_int  (child, "value",    pi->print_black_and_white);
@@ -1361,7 +1364,11 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	if ((child = e_xml_get_child_by_name (tree, "grid"))) {
 		xml_get_value_int  (child, "value",    &b);
-		pi->print_line_divisions  = (b == 1);
+		pi->print_grid_lines  = (b == 1);
+	}
+	if ((child = e_xml_get_child_by_name (tree, "even_if_only_styles"))) {
+		xml_get_value_int  (child, "value",    &b);
+		pi->print_even_if_only_styles  = (b == 1);
 	}
 	if ((child = e_xml_get_child_by_name (tree, "monochrome"))) {
 		xml_get_value_int  (child, "value", &b);

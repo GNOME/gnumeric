@@ -12,6 +12,7 @@ Jody:
 	* Fix stupid memory corruption problem in the applix importer.
 	* Some mis-translations for spanish.
 	* Improve pixel matching of XL import.
+	* Add option to manage printing ranges with only styles.
 
 Jon Kåre:
 	* Improve file save dialog.

@@ -90,6 +90,7 @@ void	cell_set_format		(Cell *cell, char const *format);
 
 void	cell_render_value	(Cell *cell, gboolean dynamic_width);
 int	cell_rendered_width	(Cell const * cell);
+int	cell_rendered_offset	(Cell const * cell);
 int	cell_rendered_height	(Cell const * cell);
 char *	cell_get_rendered_text	(Cell const * cell);
 char *	cell_get_entered_text	(Cell const * cell);

@@ -119,13 +119,13 @@ typedef struct {
 } PrintJobInfo;
 
 static void
-print_titles (Sheet *sheet, int start_col, int start_row, int end_col, int end_row,
+print_titles (Sheet const *sheet, int start_col, int start_row, int end_col, int end_row,
 	      double base_x, double base_y, PrintJobInfo *pj)
 {
 }
 
 static void
-print_page_cells (Sheet *sheet,
+print_page_cells (Sheet const *sheet,
 		  int start_col, int start_row, int end_col, int end_row,
 		  double base_x, double base_y,
 		  PrintJobInfo *pj)
@@ -134,7 +134,7 @@ print_page_cells (Sheet *sheet,
 	print_cell_range (pj->print_context, sheet,
 		start_col, start_row,
 		end_col, end_row,
-		base_x, base_y, pj->pi->print_line_divisions);
+		base_x, base_y, pj->pi->print_grid_lines);
 }
 
 /*
@@ -144,7 +144,7 @@ print_page_cells (Sheet *sheet,
  * the page.
  */
 static void
-print_page_repeated_rows (Sheet *sheet,
+print_page_repeated_rows (Sheet const *sheet,
 			  int start_col, int end_col,
 			  double base_x, double base_y,
 			  PrintJobInfo *pj)
@@ -165,7 +165,7 @@ print_page_repeated_rows (Sheet *sheet,
  * on the page.
  */
 static void
-print_page_repeated_cols (Sheet *sheet,
+print_page_repeated_cols (Sheet const *sheet,
 			  int start_row, int end_row,
 			  double base_x, double base_y,
 			  PrintJobInfo *pj)
@@ -188,7 +188,7 @@ print_page_repeated_cols (Sheet *sheet,
  * from the rows, whether order is row and column major. We do the same.
  */
 static void
-print_page_repeated_intersect (Sheet *sheet,
+print_page_repeated_intersect (Sheet const *sheet,
 			       double base_x, double base_y,
 			       double print_width, double print_height,
 			       PrintJobInfo *pj)
@@ -202,7 +202,7 @@ print_page_repeated_intersect (Sheet *sheet,
 #ifdef ENABLE_BONOBO
 
 static void
-print_page_object (Sheet *sheet, SheetObjectPrintInfo *pi,
+print_page_object (Sheet const *sheet, SheetObjectPrintInfo *pi,
 		   int start_col, int start_row,
 		   double base_x, double base_y, PrintJobInfo *pj)
 {
@@ -445,7 +445,7 @@ cb_range_empty (Sheet *sheet, int col, int row, Cell *cell, gpointer flags)
  * regular flow.
  */
 static int
-print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row,
+print_page (Sheet const *sheet, int start_col, int start_row, int end_col, int end_row,
 	    PrintJobInfo *pj, gboolean output)
 {
 	PrintMargins *margins = &pj->pi->margins;
@@ -480,7 +480,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 		repeat_cols_used_x = 0;
 
 	/* If there are no cells in the area check for spans */
-	printed = (NULL != sheet_foreach_cell_in_range (sheet, TRUE,
+	printed = (NULL != sheet_foreach_cell_in_range ((Sheet *)sheet, TRUE,
 							start_col, start_row,
 							end_col, end_row,
 							cb_range_empty, NULL));
@@ -496,7 +496,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 			}
 		}
 	}
-	if (!printed) {
+	if (!printed && pj->pi->print_even_if_only_styles) {
 		Range r;
 		printed = sheet_style_has_visible_content (sheet,
 			range_init (&r, start_col, start_row,
@@ -645,14 +645,14 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
  * at index @start and limited to index @end
  */
 static int
-compute_group (Sheet *sheet, int start, int end, int usable,
-		ColRowInfo *(get_info)(Sheet const *sheet, int const p))
+compute_group (Sheet const *sheet, int start, int end, int usable,
+	       ColRowInfo *(get_info)(Sheet const *sheet, int const p))
 {
 	float size_pts = 1.; /* The initial grid line */
 	int idx, count = 0;
 
 	for (idx = start; idx < end; idx++, count++) {
-		ColRowInfo *info;
+		ColRowInfo const *info;
 
 		info = (*get_info) (sheet, idx);
 
@@ -716,7 +716,7 @@ render_sheet_objects (Sheet *sheet, PrintJobInfo *pj)
 #define ROW_FIT(row) (row >= SHEET_MAX_ROWS ? (SHEET_MAX_ROWS-1) : row)
 
 static int
-print_range_down_then_right (Sheet *sheet, Range r, PrintJobInfo *pj,
+print_range_down_then_right (Sheet const *sheet, Range r, PrintJobInfo *pj,
 			     gboolean output)
 {
 	int usable_x, usable_x_initial, usable_x_repeating;
@@ -780,7 +780,7 @@ print_range_down_then_right (Sheet *sheet, Range r, PrintJobInfo *pj,
 }
 
 static int
-print_range_right_then_down (Sheet *sheet, Range r, PrintJobInfo *pj,
+print_range_right_then_down (Sheet const *sheet, Range r, PrintJobInfo *pj,
 			     gboolean output)
 {
 	int usable_x, usable_x_initial, usable_x_repeating;
@@ -857,7 +857,7 @@ print_range_right_then_down (Sheet *sheet, Range r, PrintJobInfo *pj,
  * Return value: the number of pages printed.
  */
 static int
-print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj, gboolean output)
+print_sheet_range (Sheet const *sheet, Range r, PrintJobInfo *pj, gboolean output)
 {
 	int pages;
 
@@ -889,7 +889,8 @@ print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj, gboolean output)
 }
 
 static double
-print_range_used_units (Sheet *sheet, gboolean compute_rows, PrintRepeatRange *range)
+print_range_used_units (Sheet const *sheet, gboolean compute_rows,
+			PrintRepeatRange const *range)
 {
 	ValueRange const *cell_range = &range->range;
 	CellRef const *cell_a = &cell_range->cell.a;
@@ -904,7 +905,7 @@ print_range_used_units (Sheet *sheet, gboolean compute_rows, PrintRepeatRange *r
 }
 
 static void
-print_job_info_init_sheet (Sheet *sheet, PrintJobInfo *pj)
+print_job_info_init_sheet (Sheet const *sheet, PrintJobInfo *pj)
 {
 	/*
 	 * This should be set in print_job_info_get, but we need
@@ -946,7 +947,7 @@ compute_sheet_pages (gpointer value, gpointer user_data)
 {
 	PageCountInfo *pc = user_data;
 	PrintJobInfo *pj = pc->pj;
-	Sheet *sheet = value;
+	Sheet const *sheet = value;
 	Range r;
 
 	/* only count pages we are printing */
@@ -958,14 +959,16 @@ compute_sheet_pages (gpointer value, gpointer user_data)
 	}
 
 	print_job_info_init_sheet (sheet, pj);
-	if (pj->range == PRINT_SHEET_SELECTION) {
-		r = pc->r;
-	} else {
+	if (pj->range != PRINT_SHEET_SELECTION) {
 		r = sheet_get_extent (sheet);
-		sheet_style_get_extent (sheet, &r);
+		if (pj->pi->print_even_if_only_styles)
+			sheet_style_get_extent (sheet, &r);
+
+		/* FIXME : print_range should be inclusive */
 		r.end.col++;
 		r.end.row++;
-	}
+	} else
+		r = pc->r;
 
 	/* Find out how many pages actually contain data */
 	pc->pages = print_sheet_range (sheet, r, pj, FALSE);
@@ -1016,7 +1019,10 @@ print_sheet (gpointer value, gpointer user_data)
 
 	print_job_info_init_sheet (sheet, pj);
 	extent = sheet_get_extent (sheet);
-	sheet_style_get_extent (sheet, &extent);
+	if (pj->pi->print_even_if_only_styles)
+		sheet_style_get_extent (sheet, &extent);
+
+	/* FIXME : print_range should be inclusive */
 	extent.end.col++;
 	extent.end.row++;
 

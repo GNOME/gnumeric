@@ -1804,7 +1804,7 @@ In
 
 	    <widget>
 	      <class>GtkCheckButton</class>
-	      <name>check-print-divisions</name>
+	      <name>check-grid-lines</name>
 	      <can_focus>True</can_focus>
 	      <label>_Grid lines</label>
 	      <active>False</active>

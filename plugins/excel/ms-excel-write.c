@@ -2913,7 +2913,7 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 
 	/* See: S59DCF.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_PRINTGRIDLINES, 2);
-	MS_OLE_SET_GUINT16 (data, pi->print_line_divisions);
+	MS_OLE_SET_GUINT16 (data, pi->print_grid_lines);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D91.HTM */

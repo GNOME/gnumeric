@@ -1021,7 +1021,8 @@ display_order_icon (GtkToggleButton *toggle, PrinterSetupState *state)
 static void
 do_setup_page_info (PrinterSetupState *state)
 {
-	GtkWidget *divisions = glade_xml_get_widget (state->gui, "check-print-divisions");
+	GtkWidget *gridlines = glade_xml_get_widget (state->gui, "check-grid-lines");
+	GtkWidget *onlystyles= glade_xml_get_widget (state->gui, "check-only-styles");
 	GtkWidget *bw        = glade_xml_get_widget (state->gui, "check-black-white");
 	GtkWidget *titles    = glade_xml_get_widget (state->gui, "check-print-titles");
 	GtkWidget *order_rd  = glade_xml_get_widget (state->gui, "radio-order-right");
@@ -1046,8 +1047,11 @@ do_setup_page_info (PrinterSetupState *state)
 
 	gtk_signal_connect (GTK_OBJECT (order_rd), "toggled", GTK_SIGNAL_FUNC (display_order_icon), state);
 
-	if (state->pi->print_line_divisions)
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (divisions), TRUE);
+	if (state->pi->print_grid_lines)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gridlines), TRUE);
+
+	if (state->pi->print_even_if_only_styles)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (onlystyles), TRUE);
 
 	if (state->pi->print_black_and_white)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (bw), TRUE);
@@ -1416,8 +1420,11 @@ do_fetch_page_info (PrinterSetupState *state)
 	Value *top_range, *left_range;
 	GtkEntry *entry_top, *entry_left;
 
-	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "check-print-divisions"));
-	state->pi->print_line_divisions = t->active;
+	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "check-grid-lines"));
+	state->pi->print_grid_lines = t->active;
+
+	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "check-only-styles"));
+	state->pi->print_even_if_only_styles = t->active;
 
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "check-black-white"));
 	state->pi->print_black_and_white = t->active;

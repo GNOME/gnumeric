@@ -74,7 +74,8 @@ struct _PrintInformation {
 	unsigned int     center_vertically:1;
 	unsigned int     center_horizontally:1;
 
-	unsigned int     print_line_divisions:1;
+	unsigned int     print_grid_lines:1;
+	unsigned int     print_even_if_only_styles:1;
 	unsigned int     print_black_and_white:1;
 	unsigned int     print_as_draft:1;
 	unsigned int     print_titles:1;
@@ -99,7 +100,7 @@ typedef enum {
 } HFRenderType;
 
 typedef struct {
-	Sheet    *sheet;
+	Sheet const *sheet;
 	int       page;
 	int       pages;
 	Value     *date_time;

@@ -285,11 +285,12 @@ print_info_new (void)
 		pi->paper = gnome_paper_with_name (gnome_paper_name_default ());
 	g_free (s);
 
-	pi->center_horizontally   = gnome_config_get_bool ("center_horizontally=false");
-	pi->center_vertically     = gnome_config_get_bool ("center_vertically=false");
-	pi->print_line_divisions  = gnome_config_get_bool ("print_divisions=false");
-	pi->print_black_and_white = gnome_config_get_bool ("print_black_and_white=false");
-	pi->print_titles          = gnome_config_get_bool ("print_titles=false");
+	pi->center_horizontally       = gnome_config_get_bool ("center_horizontally=false");
+	pi->center_vertically         = gnome_config_get_bool ("center_vertically=false");
+	pi->print_grid_lines          = gnome_config_get_bool ("print_grid_lines=false");
+	pi->print_even_if_only_styles = gnome_config_get_bool ("print_even_if_only_styles=true");
+	pi->print_black_and_white     = gnome_config_get_bool ("print_black_and_white=false");
+	pi->print_titles              = gnome_config_get_bool ("print_titles=false");
 
 	if (gnome_config_get_bool ("order_right=true"))
 		pi->print_order = PRINT_ORDER_RIGHT_THEN_DOWN;
@@ -418,7 +419,8 @@ print_info_save (PrintInformation *pi)
 	gnome_config_set_bool ("center_horizontally", pi->center_horizontally);
 	gnome_config_set_bool ("center_vertically", pi->center_vertically);
 
-	gnome_config_set_bool ("print_divisions", pi->print_line_divisions);
+	gnome_config_set_bool ("print_grid_lines", pi->print_grid_lines);
+	gnome_config_set_bool ("print_even_if_only_styles", pi->print_even_if_only_styles);
 	gnome_config_set_bool ("print_black_and_white", pi->print_black_and_white);
 	gnome_config_set_bool ("print_titles", pi->print_titles);
 	gnome_config_set_bool ("order_right", pi->print_order);
@@ -746,13 +748,14 @@ print_info_copy (PrintInformation *src_pi)
 	print_info_margin_copy (&src_pi->margins.footer, &dst_pi->margins.footer);
 
 	/* Booleans */
-	dst_pi->center_vertically     = src_pi->center_vertically;
-	dst_pi->center_horizontally   = src_pi->center_horizontally;
-	dst_pi->print_line_divisions  = src_pi->print_line_divisions;
-	dst_pi->print_black_and_white = src_pi->print_black_and_white;
-	dst_pi->print_as_draft        = src_pi->print_as_draft;
-	dst_pi->print_titles          = src_pi->print_titles;
-	dst_pi->print_order           = src_pi->print_order;
+	dst_pi->center_vertically	  = src_pi->center_vertically;
+	dst_pi->center_horizontally	  = src_pi->center_horizontally;
+	dst_pi->print_grid_lines	  = src_pi->print_grid_lines;
+	dst_pi->print_even_if_only_styles = src_pi->print_even_if_only_styles;
+	dst_pi->print_black_and_white	  = src_pi->print_black_and_white;
+	dst_pi->print_as_draft		  = src_pi->print_as_draft;
+	dst_pi->print_titles		  = src_pi->print_titles;
+	dst_pi->print_order		  = src_pi->print_order;
 
 	/* Headers & Footers */
 	print_hf_free (dst_pi->header);

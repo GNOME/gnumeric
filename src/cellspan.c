@@ -245,7 +245,8 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	case HALIGN_LEFT:
 		*col1 = *col2 = cell->pos.col;
 		pos = cell->pos.col + 1;
-		left = cell_width_pixel - COL_INTERNAL_WIDTH (cell->col_info);
+		left = cell_width_pixel + cell_rendered_offset (cell) -
+			COL_INTERNAL_WIDTH (cell->col_info);
 		margin = cell->col_info->margin_b;
 
 		for (; left > 0 && pos < max_col; pos++){
@@ -270,7 +271,8 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	case HALIGN_RIGHT:
 		*col1 = *col2 = cell->pos.col;
 		pos = cell->pos.col - 1;
-		left = cell_width_pixel - COL_INTERNAL_WIDTH (cell->col_info);
+		left = cell_width_pixel + cell_rendered_offset (cell) -
+			COL_INTERNAL_WIDTH (cell->col_info);
 		margin = cell->col_info->margin_a;
 
 		for (; left > 0 && pos >= min_col; pos--){
