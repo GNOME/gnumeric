@@ -164,7 +164,6 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	rect.y = y1;
 	rect.width  = cell->col->size_pixels + 1;
 	rect.height = cell->row->size_pixels + 1;
-	gdk_gc_set_clip_rectangle (gc, &rect);
 
 	/*
 	 * x1, y1 are relative to this cell origin, but the cell might be using
@@ -177,7 +176,13 @@ cell_draw (Cell *cell, MStyle *mstyle,
 						   start_col, cell->col->pos);
 		rect.x     -= offset;
 		rect.width += offset;
+	} else if (end_col != cell->col->pos) {
+		int const offset =
+		    sheet_col_get_distance_pixels (cell->sheet,
+						   cell->col->pos+1, end_col+1);
+		rect.width += offset;
 	}
+	gdk_gc_set_clip_rectangle (gc, &rect);
 
 	switch (mstyle_get_align_v (mstyle)) {
 	default:
