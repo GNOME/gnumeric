@@ -20,11 +20,11 @@ WorkbookControl *wb_control_wrapper_new (WorkbookControl *wbc,
 
 void wb_control_title_set	     (WorkbookControl *wbc, char const *title);
 void wb_control_prefs_update	     (WorkbookControl *wbc);
-void wb_control_format_feedback	     (WorkbookControl *wbc, MStyle *style);
+void wb_control_format_feedback	     (WorkbookControl *wbc);
 void wb_control_zoom_feedback	     (WorkbookControl *wbc);
 void wb_control_edit_line_set        (WorkbookControl *wbc, char const *text);
 void wb_control_selection_descr_set  (WorkbookControl *wbc, char const *text);
-void wb_control_auto_expr_value	     (WorkbookControl *wbc, char const *value);
+void wb_control_auto_expr_value	     (WorkbookControl *wbc);
 
 void wb_control_sheet_add	     (WorkbookControl *wbc, Sheet *sheet);
 void wb_control_sheet_remove	     (WorkbookControl *wbc, Sheet *sheet);

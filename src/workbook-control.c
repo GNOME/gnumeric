@@ -63,30 +63,26 @@ WBC_VIRTUAL (prefs_update,
 	(WorkbookControl *wbc), (wbc))
 WBC_VIRTUAL (progress_set,
 	(WorkbookControl *wbc, gfloat val), (wbc, val))
-WBC_VIRTUAL (format_feedback,
-	(WorkbookControl *wbc, MStyle *style), (wbc, style))
+WBC_VIRTUAL (format_feedback, (WorkbookControl *wbc), (wbc))
 WBC_VIRTUAL (zoom_feedback,
-	     (WorkbookControl *wbc), (wbc))
+	(WorkbookControl *wbc), (wbc))
 WBC_VIRTUAL (edit_line_set,
-	     (WorkbookControl *wbc, char const *text), (wbc, text))
+	(WorkbookControl *wbc, char const *text), (wbc, text))
 WBC_VIRTUAL (selection_descr_set,
-	     (WorkbookControl *wbc, char const *text), (wbc, text))
-WBC_VIRTUAL (auto_expr_value,
-	     (WorkbookControl *wbc, char const *value), (wbc, value))
+	(WorkbookControl *wbc, char const *text), (wbc, text))
+WBC_VIRTUAL (auto_expr_value, (WorkbookControl *wbc), (wbc))
 
-WBC_VIRTUAL_FULL (sheet_add, sheet.add,
-	     (WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
 WBC_VIRTUAL_FULL (sheet_remove, sheet.remove,
-	     (WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
+	(WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
 WBC_VIRTUAL_FULL (sheet_rename, sheet.rename,
-	     (WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
+	(WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
 WBC_VIRTUAL_FULL (sheet_focus, sheet.focus,
-	     (WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
+	(WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
 WBC_VIRTUAL_FULL (sheet_move, sheet.move,
-	     (WorkbookControl *wbc, Sheet *sheet, int new_pos),
-	     (wbc, sheet, new_pos))
+	(WorkbookControl *wbc, Sheet *sheet, int new_pos),
+	(wbc, sheet, new_pos))
 WBC_VIRTUAL_FULL (sheet_remove_all, sheet.remove_all,
-	     (WorkbookControl *wbc), (wbc))
+	(WorkbookControl *wbc), (wbc))
 
 WBC_VIRTUAL_FULL (undo_redo_clear, undo_redo.clear,
 	(WorkbookControl *wbc, gboolean is_undo), (wbc, is_undo))
@@ -104,6 +100,27 @@ WBC_VIRTUAL_FULL (paste_special_enable, paste.special_enable,
 WBC_VIRTUAL_FULL (paste_from_selection, paste.from_selection,
 	(WorkbookControl *wbc, PasteTarget const *pt, guint32 time),
 	(wbc, pt, time))
+
+void
+wb_control_sheet_add (WorkbookControl *wbc, Sheet *new_sheet)
+{
+	WorkbookControlClass *wbc_class;
+
+	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));
+
+	wbc_class = WBC_CLASS (wbc);
+	if (wbc_class != NULL && wbc_class->sheet.add != NULL) {
+
+		wbc_class->sheet.add (wbc, new_sheet);
+
+		/* If this is the current sheet init the display */
+		if (new_sheet == wb_control_cur_sheet (wbc)) {
+			wb_control_sheet_focus (wbc, new_sheet);
+			wb_control_auto_expr_value (wbc);
+			wb_control_format_feedback (wbc);
+		}
+	}
+}
 
 gboolean
 wb_control_claim_selection (WorkbookControl *wbc)
@@ -196,7 +213,6 @@ workbook_control_set_view (WorkbookControl *wbc,
 void
 workbook_control_sheets_init (WorkbookControl *wbc)
 {
-	Sheet *cur_sheet;
 	GList *sheets, *ptr;
 
 	/* Add views all all existing sheets */
@@ -204,8 +220,4 @@ workbook_control_sheets_init (WorkbookControl *wbc)
 	for (ptr = sheets; ptr != NULL ; ptr = ptr->next)
 		wb_control_sheet_add (wbc, ptr->data);
 	g_list_free (sheets);
-
-	cur_sheet = wb_control_cur_sheet (wbc);
-	if (cur_sheet != NULL)
-		wb_control_sheet_focus (wbc, wb_control_cur_sheet (wbc));
 }

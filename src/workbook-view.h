@@ -10,17 +10,23 @@ struct _WorkbookView {
 	Workbook *wb;
 	GPtrArray *wb_controls;
 
-	/* The auto-expression */
-	ExprTree   *auto_expr;
-	String     *auto_expr_desc;
-
 	Sheet	  *current_sheet;
+
+	/* preferences */
 	gboolean   show_horizontal_scrollbar;
 	gboolean   show_vertical_scrollbar;
 	gboolean   show_notebook_tabs;
 
 	/* Non-normative size information */
 	int preferred_width, preferred_height;
+
+	/* The auto-expression */
+	ExprTree  *auto_expr;
+	char	  *auto_expr_desc;
+	char	  *auto_expr_value_as_string;
+
+	/* Format for feedback */
+	MStyle    *current_format;
 };
 
 typedef struct {
@@ -30,8 +36,8 @@ typedef struct {
 
 #define WORKBOOK_VIEW_TYPE     (workbook_view_get_type ())
 #define WORKBOOK_VIEW(obj)     (GTK_CHECK_CAST ((obj), WORKBOOK_VIEW_TYPE, WorkbookView))
-#define WORKBOOK_VIEW_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), WORKBOOK_VIEW_TYPE, WorkbookViewClass))
 #define IS_WORKBOOK_VIEW(o)    (GTK_CHECK_TYPE ((o), WORKBOOK_VIEW_TYPE))
+#define WORKBOOK_VIEW_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), WORKBOOK_VIEW_TYPE, WorkbookViewClass))
 
 /* Lifecycle */
 GtkType		 workbook_view_get_type	  (void);
@@ -45,6 +51,7 @@ void		 wb_view_detach_control	  (WorkbookControl *wbc);
 Workbook	*wb_view_workbook	  (WorkbookView *wbv);
 Sheet		*wb_view_cur_sheet	  (WorkbookView *wbv);
 void		 wb_view_sheet_focus	  (WorkbookView *wbv, Sheet *sheet);
+void		 wb_view_sheet_add	  (WorkbookView *wbv, Sheet *new_sheet);
 
 /* Manipulation */
 GtkArg		*wb_view_get_attributev	  (WorkbookView *wbv, guint *n_args);
@@ -52,7 +59,8 @@ void		 wb_view_set_attributev	  (WorkbookView *wbv, GList *list);
 void		 wb_view_preferred_size	  (WorkbookView *wbv,
 					   int w_pixels, int h_pixels);
 void		 wb_view_prefs_update	  (WorkbookView *wbv);
-void		 wb_view_auto_expr_recalc (WorkbookView *wbv);
+void		 wb_view_format_feedback  (WorkbookView *wbv, gboolean display);
+void		 wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display);
 void		 wb_view_auto_expr	  (WorkbookView *wbv,
 					   char const *name, char const *expr);
 

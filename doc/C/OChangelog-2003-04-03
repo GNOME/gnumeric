@@ -1,3 +1,7 @@
+2000-11-12  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am : remove the gif files.
+
 2000-11-02  Almer S. Tigelaar  <almer1@dds.nl>
 
 	Fix bug #29305 and #29308

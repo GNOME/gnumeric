@@ -15,6 +15,7 @@
 #include "workbook-format-toolbar.h"
 #include "global-gnome-font.h"
 #include "workbook-control-gui-priv.h"
+#include "workbook-view.h"
 #include "workbook.h"
 #include "application.h"
 #include "commands.h"
@@ -863,17 +864,28 @@ workbook_format_halign_feedback_set (WorkbookControlGUI *wbcg,
  * Updates the edit control state: bold, italic, font name and font size
  */
 void
-workbook_feedback_set (WorkbookControlGUI *wbcg, MStyle *style)
+workbook_feedback_set (WorkbookControlGUI *wbcg)
 {
 #ifndef ENABLE_BONOBO
 	GnumericToolbar *toolbar;
 #endif
-	GtkComboText    *fontsel = GTK_COMBO_TEXT (wbcg->font_name_selector);
-	GtkComboText    *fontsize= GTK_COMBO_TEXT (wbcg->font_size_selector);
+	WorkbookView	*wb_view;
+	MStyle 		*style;
+	GtkComboText    *fontsel;
+	GtkComboText    *fontsize;
 	char             size_str [40];
 
 	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (style != NULL);
+
+	wb_view = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	g_return_if_fail (wb_view != NULL);
+
+	style   = wb_view->current_format;
+	g_return_if_fail (style != NULL);
+
+	fontsel = GTK_COMBO_TEXT (wbcg->font_name_selector);
+	fontsize= GTK_COMBO_TEXT (wbcg->font_size_selector);
 
 #ifndef ENABLE_BONOBO
 	toolbar = GNUMERIC_TOOLBAR (wbcg->format_toolbar);

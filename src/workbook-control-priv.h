@@ -2,6 +2,7 @@
 #define GNUMERIC_WORKBOOK_CONTROL_PRIV_H
 
 #include "command-context-priv.h"
+#include "workbook-control.h"
 
 struct _WorkbookControl {
 	CommandContext	context;
@@ -18,11 +19,11 @@ typedef struct {
 	void (*title_set)	    (WorkbookControl *wbc, char const *title);
 	void (*prefs_update)	    (WorkbookControl *wbc);
 	void (*progress_set)	    (WorkbookControl *wbc, gfloat val);
-	void (*format_feedback)	    (WorkbookControl *wbc, MStyle *style);
+	void (*format_feedback)	    (WorkbookControl *wbc);
 	void (*zoom_feedback)	    (WorkbookControl *wbc);
 	void (*edit_line_set)	    (WorkbookControl *wbc, char const *text);
 	void (*selection_descr_set) (WorkbookControl *wbc, char const *text);
-	void (*auto_expr_value)	    (WorkbookControl *wbc, char const *value);
+	void (*auto_expr_value)	    (WorkbookControl *wbc);
 	struct {
 		void (*add)	(WorkbookControl *wbc, Sheet *sheet);
 		void (*remove)	(WorkbookControl *wbc, Sheet *sheet);

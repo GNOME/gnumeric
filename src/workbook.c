@@ -954,14 +954,8 @@ workbook_sheet_attach (Workbook *wb, Sheet *new_sheet,
 	g_hash_table_insert (wb->sheet_hash_private,
 			     new_sheet->name_unquoted, new_sheet);
 
-	WORKBOOK_FOREACH_CONTROL (wb, view, control,
-		wb_control_sheet_add (control, new_sheet););
-
 	WORKBOOK_FOREACH_VIEW (wb, view,
-	{
-		if (view->current_sheet == NULL)
-			wb_view_sheet_focus (view, new_sheet);
-	});
+		wb_view_sheet_add (view, new_sheet););
 }
 
 /**

@@ -790,23 +790,12 @@ sheet_update (Sheet const *sheet)
 	}
 
 	if (sheet->priv->edit_pos.format_changed) {
-		MStyle *mstyle;
-
 		sheet->priv->edit_pos.format_changed = FALSE;
-
-		mstyle = sheet_style_compute (sheet,
-					      sheet->cursor.edit_pos.col,
-					      sheet->cursor.edit_pos.row);
-
 		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
 		{
-			if (wb_view_cur_sheet (view) == sheet) {
-				WORKBOOK_VIEW_FOREACH_CONTROL(view, control,
-					wb_control_format_feedback (control, mstyle););
-			}
+			if (wb_view_cur_sheet (view) == sheet)
+				wb_view_format_feedback (view, TRUE);
 		});
-
-		mstyle_unref (mstyle);
 	}
 
 	if (sheet->priv->edit_pos.location_changed) {
@@ -827,7 +816,7 @@ sheet_update (Sheet const *sheet)
 		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
 		{
 			if (wb_view_cur_sheet (view) == sheet)
-				wb_view_auto_expr_recalc (view);
+				wb_view_auto_expr_recalc (view, TRUE);
 		});
 	}
 }

@@ -6,7 +6,6 @@
  */
 #include <config.h>
 #include "workbook-control-priv.h"
-#include "workbook-control.h"
 #include "workbook-view.h"
 #include "workbook.h"
 #include "history.h"
@@ -18,6 +17,7 @@
 #include "format.h"
 #include "expr.h"
 #include "value.h"
+#include "mstyle.h"
 #include "position.h"
 #include "parse-util.h"
 #include "gnumeric-type-util.h"
@@ -76,6 +76,21 @@ wb_view_sheet_focus (WorkbookView *wbv, Sheet *sheet)
 }
 
 void
+wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
+{
+	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+
+	if (wbv->current_sheet == NULL) {
+		wbv->current_sheet = new_sheet;
+		wb_view_auto_expr_recalc (wbv, FALSE);
+		wb_view_format_feedback (wbv, FALSE);
+	}
+
+	WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
+		wb_control_sheet_add (control, new_sheet););
+}
+
+void
 wb_view_set_attributev (WorkbookView *wbv, GList *list)
 {
 	gint length, i;
@@ -125,13 +140,42 @@ wb_view_prefs_update (WorkbookView *view)
 }
 
 void
-wb_view_auto_expr (WorkbookView *wbv, char const *name, char const *expression)
+wb_view_format_feedback (WorkbookView *wbv, gboolean display)
+{
+	Sheet *sheet;
+
+	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+
+	sheet = wbv->current_sheet;
+	if (sheet != NULL) {
+		MStyle *mstyle = sheet_style_compute (sheet,
+			sheet->cursor.edit_pos.col,
+			sheet->cursor.edit_pos.row);
+
+		if (wbv->current_format != NULL) {
+			mstyle_unref (wbv->current_format);
+			/* Cheap anti-flicker.
+			 * Compare pointers (content may be invalid)
+			 * No need for an expensive compare.
+			 */
+			if (mstyle == wbv->current_format)
+				return;
+		}
+		wbv->current_format = mstyle;
+		if (display) {
+			WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control,
+				wb_control_format_feedback (control););
+		}
+	}
+}
+
+void
+wb_view_auto_expr (WorkbookView *wbv, char const *descr, char const *expression)
 {
 	char *old_num_locale, *old_monetary_locale, *old_msg_locale;
 	ExprTree *new_auto_expr;
 	ParsePos pp;
 	ParseErr res;
-	String *new_descr;
 
 	old_num_locale = g_strdup (gnumeric_setlocale (LC_NUMERIC, NULL));
 	gnumeric_setlocale (LC_NUMERIC, "C");
@@ -155,43 +199,50 @@ wb_view_auto_expr (WorkbookView *wbv, char const *name, char const *expression)
 	gnumeric_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 
-	new_descr = string_get (name);
-
 	if (wbv->auto_expr_desc)
-		string_unref (wbv->auto_expr_desc);
+		g_free (wbv->auto_expr_desc);
 	if (wbv->auto_expr)
 		expr_tree_unref (wbv->auto_expr);
 
-	wbv->auto_expr_desc = new_descr;
+	wbv->auto_expr_desc = g_strdup (descr);
 	wbv->auto_expr = new_auto_expr;
+
+	if (wbv->current_sheet != NULL)
+		wb_view_auto_expr_recalc (wbv, TRUE);
 }
 
 static void
-wb_view_auto_expr_value_set (WorkbookView *wbv, char const *str)
+wb_view_auto_expr_value_display (WorkbookView *wbv)
 {
 	WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
-		wb_control_auto_expr_value (control, str););
+		wb_control_auto_expr_value (control););
 }
 
 void
-wb_view_auto_expr_recalc (WorkbookView *wbv)
+wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 {
 	static CellPos const cp = {0, 0};
-	EvalPos	  ep;
-	Value    *v;
+	EvalPos	 ep;
+	Value	*v;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 	g_return_if_fail (wbv->auto_expr != NULL);
 
 	v = eval_expr (eval_pos_init (&ep, wbv->current_sheet, &cp),
 		       wbv->auto_expr, EVAL_STRICT);
+
+	if (wbv->auto_expr_value_as_string)
+		g_free (wbv->auto_expr_value_as_string);
 	if (v) {
-		char *s = value_get_as_string (v);
-		wb_view_auto_expr_value_set (wbv, s);
-		g_free (s);
+		char *val_str = value_get_as_string (v);
+		wbv->auto_expr_value_as_string =
+			g_strconcat (wbv->auto_expr_desc, "=", val_str, NULL);
 		value_release (v);
+		g_free (val_str);
 	} else
-		wb_view_auto_expr_value_set (wbv, _("Internal ERROR"));
+		wbv->auto_expr_value_as_string = g_strdup (_("Internal ERROR"));
+
+	wb_view_auto_expr_value_display (wbv);
 }
 
 static void
@@ -268,14 +319,23 @@ wb_view_destroy (GtkObject *object)
 {
 	WorkbookView *wbv = WORKBOOK_VIEW (object);
 
-	if (wbv->auto_expr_desc) {
-		string_unref (wbv->auto_expr_desc);
-		wbv->auto_expr_desc = NULL;
-	}
 	if (wbv->auto_expr) {
 		expr_tree_unref (wbv->auto_expr);
 		wbv->auto_expr = NULL;
 	}
+	if (wbv->auto_expr_desc) {
+		g_free (wbv->auto_expr_desc);
+		wbv->auto_expr_desc = NULL;
+	}
+	if (wbv->auto_expr_value_as_string) {
+		g_free (wbv->auto_expr_value_as_string);
+		wbv->auto_expr_value_as_string = NULL;
+	}
+	if (wbv->current_format != NULL) {
+		mstyle_unref (wbv->current_format);
+		wbv->current_format = NULL;
+	}
+
 	if (wbv->wb != NULL)
 		workbook_detach_view (wbv);
 
@@ -302,11 +362,6 @@ workbook_view_init (WorkbookView *wbv, Workbook *optional_workbook)
 	wbv->show_vertical_scrollbar = TRUE;
 	wbv->show_notebook_tabs = TRUE;
 
-	/* Set the default operation to be performed over selections */
-	wbv->auto_expr      = NULL;
-	wbv->auto_expr_desc = NULL;
-	wb_view_auto_expr (wbv, _("Sum"), "sum(selection(0))");
-
 	/* Guess at the current sheet */
 	wbv->current_sheet = NULL;
 	if (optional_workbook != NULL) {
@@ -316,6 +371,14 @@ workbook_view_init (WorkbookView *wbv, Workbook *optional_workbook)
 			g_list_free (sheets);
 		}
 	}
+
+	/* Set the default operation to be performed over selections */
+	wbv->auto_expr      = NULL;
+	wbv->auto_expr_desc = NULL;
+	wbv->auto_expr_value_as_string = NULL;
+	wb_view_auto_expr (wbv, _("Sum"), "sum(selection(0))");
+
+	wbv->current_format = NULL;
 }
 
 static void

@@ -227,6 +227,7 @@ GNUMERIC_BASE_SOURCES =				\
 	workbook-view.c				\
 	workbook-view.h				\
 	workbook-control.c 			\
+	workbook-control.h 			\
 	workbook-control-priv.h 		\
 	workbook-control-gui.c 			\
 	workbook-control-gui.h 			\

@@ -207,9 +207,9 @@ wbcg_progress_set (WorkbookControl *wbc, gfloat val)
 }
 
 static void
-wbcg_format_feedback (WorkbookControl *wbc, MStyle *style)
+wbcg_format_feedback (WorkbookControl *wbc)
 {
-	workbook_feedback_set ((WorkbookControlGUI *)wbc, style);
+	workbook_feedback_set ((WorkbookControlGUI *)wbc);
 }
 
 static void
@@ -636,18 +636,21 @@ cb_change_zoom (GtkWidget *caller, WorkbookControlGUI *wbcg)
 }
 
 static void
-wbcg_auto_expr_value (WorkbookControl *wbc, char const *text)
+wbcg_auto_expr_value (WorkbookControl *wbc)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	WorkbookView *wbv = wb_control_view (wbc);
-	char *res;
 
-	g_return_if_fail (wbc != NULL);
-	g_return_if_fail (text != NULL);
+	g_return_if_fail (wbcg != NULL);
+	g_return_if_fail (wbv != NULL);
+	g_return_if_fail (wbv->auto_expr_value_as_string != NULL);
+	g_return_if_fail (!wbcg->updating_ui);
 
-	res = g_strconcat (wbv->auto_expr_desc->str, "=", text, NULL);
-	gnome_canvas_item_set (wbcg->auto_expr_label, "text", res, NULL);
-	g_free (res);
+	wbcg->updating_ui = TRUE;
+	gnome_canvas_item_set (wbcg->auto_expr_label,
+			       "text", wbv->auto_expr_value_as_string,
+			       NULL);
+	wbcg->updating_ui = FALSE;
 }
 
 static GtkComboStack *
@@ -2750,14 +2753,13 @@ setup_progress_bar (WorkbookControlGUI *wbcg)
 static void
 cb_auto_expr_changed (GtkWidget *item, WorkbookControlGUI *wbcg)
 {
-	g_return_if_fail (!wbcg->updating_ui);
+	if (wbcg->updating_ui)
+		return;
 
-	wbcg->updating_ui = TRUE;
 	wb_view_auto_expr (
 		wb_control_view (WORKBOOK_CONTROL (wbcg)),
 		gtk_object_get_data (GTK_OBJECT (item), "name"),
 		gtk_object_get_data (GTK_OBJECT (item), "expr"));
-	wbcg->updating_ui = FALSE;
 }
 
 static void

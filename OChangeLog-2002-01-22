@@ -1,3 +1,35 @@
+2000-11-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_sheet_attach) : Use wb_view_sheet_add.
+
+	* src/workbook-view.c (wb_view_sheet_add) : new function.
+	(wb_view_format_feedback) : Ditto.
+	(wb_view_auto_expr) : Store the display result.
+	(wb_view_auto_expr_value_display) : renamed
+	  from wb_view_auto_expr_value_set.
+	(wb_view_destroy) : clear out the new members.
+
+	* src/workbook-format-toolbar.c (workbook_feedback_set) : Calculate
+	  the style here.  This is transitory.  It will eventually move into
+	  the sheet view when that is split.
+
+	* src/workbook-control.c (wb_control_sheet_add) : Do this manually
+	  so that if the new sheet is the focus sheet for the view we can
+	  update the various feedback mechanisms.
+	(workbook_control_sheets_init) : rather than here.
+
+	* src/sheet.c (sheet_update) : prepare for having the wb_view handle
+	  the selection.
+
+	* src/Makefile.am : Add missing workbook-control.h
+
+	* src/workbook-view.c (wb_view_auto_expr) : When the expression
+	  changes, recalculate.
+
+	* src/workbook-control-gui.c (wbcg_auto_expr_value) : Mark as updating
+	  the ui.
+	(cb_auto_expr_changed) : test the updating flag here, don't set it.
+
 2000-11-11  Michael Meeks  <michael@helixcode.com>
 
 	* src/bonobo-io.c (gnumeric_bonobo_obj_write),

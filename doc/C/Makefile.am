@@ -81,7 +81,7 @@ install-data-local: index.html
 	basefile=`basename $$file`; \
 	$(INSTALL_DATA) $$file $(DESTDIR)$(gnumeric_helpdir)/$$basefile; \
 	done
-	-for file in $(srcdir)/images/*.jpg $(srcdir)/images/*.png $(srcdir)/images/*.gif; do \
+	-for file in $(srcdir)/images/*.jpg $(srcdir)/images/*.png ; do \
 	$(INSTALL_DATA) $$file $(DESTDIR)$(gnumeric_helpdir)/images;\
 	done
 

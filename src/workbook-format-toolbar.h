@@ -5,6 +5,6 @@
 #include "workbook-control-gui.h"
 
 void workbook_create_format_toolbar (WorkbookControlGUI *wbcg);
-void workbook_feedback_set (WorkbookControlGUI *wbc, MStyle *style);
+void workbook_feedback_set (WorkbookControlGUI *wbc);
 
 #endif /* GNUMERIC_WORKBOOK_FORMAT_TOOLBAR_H */
