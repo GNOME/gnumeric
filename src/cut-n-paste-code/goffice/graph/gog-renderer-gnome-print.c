@@ -34,6 +34,8 @@
 
 #include <math.h>
 
+extern void go_color_to_artpix (ArtPixMaxDepth *res, GOColor rgba);
+
 #define GOG_RENDERER_GNOME_PRINT_TYPE	(gog_renderer_gnome_print_get_type ())
 #define GOG_RENDERER_GNOME_PRINT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RENDERER_GNOME_PRINT_TYPE, GogRendererGnomePrint))
 #define IS_GOG_RENDERER_GNOME_PRINT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RENDERER_GNOME_PRINT_TYPE))
@@ -120,7 +122,6 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 	GError *err = NULL;
 	ArtDRect bbox;
 	ArtRender *render;
-	ArtSVP *fill;
 	gint i, j, imax, jmax, w, h, x, y;
 	ArtGradientLinear gradient;
 	ArtGradientStop stops[] = {
@@ -156,7 +157,7 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 				gdk_pixbuf_get_pixels (image), 
 				gdk_pixbuf_get_rowstride (image),
 				gdk_pixbuf_get_n_channels (image) - 1,
-				8, ART_ALPHA_NONE, NULL);
+				8, ART_ALPHA_SEPARATE, NULL);
 			switch (style->fill.u.gradient.type) {
 			case GOG_GRADIENT_N_TO_S:
 				gradient. a = 0.;
@@ -199,7 +200,7 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 			art_render_invoke (render);
 			gnome_print_translate (prend->gp_context, 0, bbox.y0 - bbox.y1);
 			gnome_print_scale (prend->gp_context, bbox.x1 - bbox.x0, bbox.y1 - bbox.y0);
-			gnome_print_rgbimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
+			gnome_print_rgbaimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
 									gdk_pixbuf_get_width(image),
 									gdk_pixbuf_get_height(image),
 									gdk_pixbuf_get_rowstride(image));

@@ -1,4 +1,10 @@
+2003-06-25 Jean Brefort <jean.brefort@ac-dijon.fr>
+
+	* graph/gog-renderer-gnome-print.c: use alpha channel when
+	  printing gradients
+
 2003-06-20    Jean Brefort <jean.brefort@ac-dijon.fr>
+
 	* graph/gog-renderer-gnome-print.c (gog_renderer_gnome_print_draw_polygon):
 	  unref the pixmaps
 
