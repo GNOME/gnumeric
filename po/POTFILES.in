@@ -5,13 +5,16 @@ src/dialog-insert-cells.c
 src/dialog-paste-special.c
 src/dialog-zoom.c
 src/expr.c
+src/file.c
 src/fn-math.c
 src/fn-misc.c
 src/fn-sheet.c
 src/format.c
+src/gnumeric-sheet.c
 src/gnumeric-util.c
 src/item-cursor.c
 src/item-grid.c
+src/main.c
 src/sheet-view.c
 src/sheet.c
 src/workbook.c

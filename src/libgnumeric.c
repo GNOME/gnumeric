@@ -7,7 +7,7 @@
 static char *startup_file;
 
 static struct argp_option argp_options [] = {
-	{ "file",   'f',   N_("FILE"),    0, N_("FIle to load at startup"), 0 },
+	{ "file",   'f',   N_("FILE"),    0, N_("File to load at startup"), 0 },
 	{ NULL,     0,     NULL,          0, NULL, 0 },
 };
 
