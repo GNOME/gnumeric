@@ -1,3 +1,9 @@
+2002-03-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-formula-guru.c (dialog_formula_guru_init) : use 
+	  gnumeric_cell_renderer_expr_entry_new rather than 
+	  gtk_cell_renderer_text_new for editable column
+
 2002-03-21  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-about.c (dialog_about): Added the authors of the LP Solve

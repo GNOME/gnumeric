@@ -38,6 +38,7 @@
 #include <func.h>
 #include <format.h>
 #include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnumeric-cell-renderer-expr-entry.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <gdk/gdkkeysyms.h>
@@ -610,7 +611,7 @@ dialog_formula_guru_init (FormulaGuruState *state)
 							   gtk_cell_renderer_text_new (),
 							   "text", ARG_TYPE, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
-	renderer = gtk_cell_renderer_text_new ();
+	renderer = gnumeric_cell_renderer_expr_entry_new (state->wbcg);
 	g_signal_connect (G_OBJECT (renderer), "edited",
 			  G_CALLBACK (cb_dialog_formula_guru_edited), state);
 	column = gtk_tree_view_column_new_with_attributes (_("Function/Argument"),

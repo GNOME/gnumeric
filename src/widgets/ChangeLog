@@ -1,3 +1,11 @@
+2002-03-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gnumeric-cell-renderer-expr-entry.[ch] : new cell renderer using 
+	  the expresion entry widget
+	* src/widgets/gnumeric-expr-entry.[ch] : implement GtkCellEditables 
+	  interface
+	* Makefile.am : add gnumeric-cell-renderer-expr-entry.[ch
+
 2002-03-17  Jody Goldberg <jody@gnome.org>
 
 	* widget-editable-label.c (editable_label_set_color) : fix sense of

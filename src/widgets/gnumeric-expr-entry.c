@@ -28,10 +28,9 @@
 
 #include <gal/util/e-util.h>
 #include <gtk/gtkentry.h>
+#include <gtk/gtkcelleditable.h>
 #include <ctype.h>
 #include <stdio.h>
-
-static GtkObjectClass *gnumeric_expr_entry_parent_class;
 
 typedef struct {
 	Range range;
@@ -55,6 +54,9 @@ struct _GnumericExprEntry {
 
 	GtkUpdateType		 update_policy;
 	guint			 update_timeout_id;
+
+	gboolean                 is_cell_renderer;  /* as cell_editable */
+	gboolean                 editing_canceled;  /* as cell_editable */
 };
 
 typedef struct _GnumericExprEntryClass {
@@ -78,6 +80,184 @@ enum {
 };
 
 static GQuark signals [LAST_SIGNAL] = { 0 };
+
+
+/* GObject, GtkObject methods
+ */
+static void     gee_set_property (GObject *object, guint prop_id,
+				  GValue const *value, GParamSpec *pspec);
+static void     gee_get_property (GObject *object, guint prop_id,
+				  GValue *value, GParamSpec *pspec);
+static void     gee_class_init (GtkObjectClass *klass);
+static void     gee_init (GnumericExprEntry *entry);
+static void     gnumeric_expr_entry_cell_editable_init (GtkCellEditableIface *iface);
+
+
+/* GtkHBox methods
+ */
+
+
+/* GtkCellEditable
+ */
+static void     gnumeric_expr_entry_start_editing (GtkCellEditable *cell_editable,
+						   GdkEvent *event);
+static gboolean gnumeric_cell_editable_key_press_event (GnumericExprEntry *entry,
+							GdkEventKey *key_event,
+							gpointer data);
+static void     gnumeric_cell_editable_entry_activated (GnumericExprEntry *entry, 
+							gpointer data);
+
+/* Call Backs
+ */
+static void     cb_scg_destroy (GnumericExprEntry *gee, SheetControlGUI *scg);
+static void     cb_entry_changed (GtkEntry *ignored, GnumericExprEntry *gee);
+
+/* Internal routines
+ */
+static void     gee_rangesel_reset (GnumericExprEntry *gee);
+static void     gee_make_display_range (GnumericExprEntry *gee, Range *dst);
+static char    *gee_rangesel_make_text (GnumericExprEntry *gee);
+static void     gee_rangesel_update_text (GnumericExprEntry *gee);
+static gboolean split_char_p (unsigned char c);
+static void     gee_detach_scg (GnumericExprEntry *gee);
+static gboolean gee_update_timeout (gpointer data);
+static void     gee_remove_update_timer (GnumericExprEntry *range);
+static void     gee_reset_update_timer (GnumericExprEntry *gee);
+static void     gee_destroy (GtkObject *object);
+static gint     gee_key_press_event (GtkWidget *widget, GdkEventKey *event);
+static void     gee_notify_cursor_position (GObject *object, GParamSpec *pspec, 
+					    GnumericExprEntry *gee);
+
+static GtkHBoxClass *gnumeric_expr_entry_parent_class = NULL;
+
+/* E_MAKE_TYPE (gnumeric_expr_entry, "GnumericExprEntry", GnumericExprEntry, */
+/* 	     gee_class_init, NULL, GTK_TYPE_HBOX)                            */
+
+GType gnumeric_expr_entry_get_type(void)
+{
+        static GType type = 0;                          
+        if (!type){                                     
+                static GtkTypeInfo const object_info = {  
+			(char *) "GnumericExprEntry",
+			sizeof (GnumericExprEntry),
+                        sizeof (GnumericExprEntryClass),              
+                        (GtkClassInitFunc) gee_class_init,            
+			(GtkObjectInitFunc) gee_init,
+                        NULL,      
+                        NULL,   /* class_data */        
+                        (GtkClassInitFunc) NULL,          
+                };                                      
+
+		static const GInterfaceInfo cell_editable_info =
+			{
+				(GInterfaceInitFunc) gnumeric_expr_entry_cell_editable_init, 
+				NULL,                                              
+				NULL                                               
+			};
+		
+		type = gtk_type_unique (GTK_TYPE_HBOX, &object_info);
+		g_type_add_interface_static (type,
+					     GTK_TYPE_CELL_EDITABLE,
+					     &cell_editable_info);
+        }                                               
+        return type;                                    
+}
+
+static void
+gee_class_init (GtkObjectClass *klass)
+{
+	GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
+
+	gnumeric_expr_entry_parent_class
+		= gtk_type_class (gtk_hbox_get_type());
+
+	gobject_class->set_property = gee_set_property;
+	gobject_class->get_property = gee_get_property;
+	klass->destroy		    = gee_destroy;
+
+	signals [UPDATE] = g_signal_new ("update",
+		GNUMERIC_TYPE_EXPR_ENTRY,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnumericExprEntryClass, update),
+		(GSignalAccumulator) NULL, NULL,
+		gnm__VOID__VOID,
+		G_TYPE_NONE,
+		0, G_TYPE_NONE);
+	signals [CHANGED] = g_signal_new ("changed",
+		GNUMERIC_TYPE_EXPR_ENTRY,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnumericExprEntryClass, changed),
+		(GSignalAccumulator) NULL, NULL,
+		gnm__VOID__VOID,
+		G_TYPE_NONE,
+		0, G_TYPE_NONE);
+
+	g_object_class_install_property (gobject_class,
+		PROP_UPDATE_POLICY,
+		g_param_spec_enum ("update_policy",
+			"Update policy",
+			"How frequently changes to the entry should be applied",
+			GTK_TYPE_UPDATE_TYPE,
+			GTK_UPDATE_CONTINUOUS,
+			G_PARAM_READWRITE));
+
+}
+
+static void
+gee_init (GnumericExprEntry *entry)
+{
+	entry->editing_canceled = FALSE;
+	entry->is_cell_renderer = FALSE;
+}
+
+static void
+gnumeric_expr_entry_cell_editable_init (GtkCellEditableIface *iface)
+{
+  iface->start_editing = gnumeric_expr_entry_start_editing;
+}
+
+
+static void
+gnumeric_expr_entry_start_editing (GtkCellEditable *cell_editable,
+				   GdkEvent *event)
+{
+  GNUMERIC_EXPR_ENTRY (cell_editable)->is_cell_renderer = TRUE;
+
+  g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (GNUMERIC_EXPR_ENTRY (cell_editable))), 
+		    "activate",
+		    G_CALLBACK (gnumeric_cell_editable_entry_activated), NULL);
+  g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (GNUMERIC_EXPR_ENTRY (cell_editable))), 
+		    "key_press_event",
+		    G_CALLBACK (gnumeric_cell_editable_key_press_event), NULL);
+
+  gtk_widget_grab_focus (GTK_WIDGET (gnm_expr_entry_get_entry (GNUMERIC_EXPR_ENTRY 
+							       (cell_editable))));
+
+}
+
+static void
+gnumeric_cell_editable_entry_activated (GnumericExprEntry *entry, gpointer data)
+{
+  gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (entry));
+  gtk_cell_editable_remove_widget (GTK_CELL_EDITABLE (entry));
+}
+
+static gboolean
+gnumeric_cell_editable_key_press_event (GnumericExprEntry *entry,
+					GdkEventKey *key_event,
+					gpointer data)
+{
+    if (key_event->keyval == GDK_Escape)
+      {
+	entry->editing_canceled = TRUE;
+	gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (entry));
+	gtk_cell_editable_remove_widget (GTK_CELL_EDITABLE (entry));
+
+	return TRUE;
+      }
+
+    return FALSE;
+}
 
 static void
 gee_rangesel_reset (GnumericExprEntry *gee)
@@ -537,49 +717,6 @@ gee_get_property (GObject      *object,
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 	}
 }
-
-static void
-gee_class_init (GtkObjectClass *klass)
-{
-	GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
-
-	gnumeric_expr_entry_parent_class
-		= gtk_type_class (gtk_entry_get_type());
-
-	gobject_class->set_property = gee_set_property;
-	gobject_class->get_property = gee_get_property;
-	klass->destroy		    = gee_destroy;
-
-	signals [UPDATE] = g_signal_new ("update",
-		GNUMERIC_TYPE_EXPR_ENTRY,
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (GnumericExprEntryClass, update),
-		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__VOID,
-		G_TYPE_NONE,
-		0, G_TYPE_NONE);
-	signals [CHANGED] = g_signal_new ("changed",
-		GNUMERIC_TYPE_EXPR_ENTRY,
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (GnumericExprEntryClass, changed),
-		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__VOID,
-		G_TYPE_NONE,
-		0, G_TYPE_NONE);
-
-	g_object_class_install_property (gobject_class,
-		PROP_UPDATE_POLICY,
-		g_param_spec_enum ("update_policy",
-			"Update policy",
-			"How frequently changes to the entry should be applied",
-			GTK_TYPE_UPDATE_TYPE,
-			GTK_UPDATE_CONTINUOUS,
-			G_PARAM_READWRITE));
-
-}
-
-E_MAKE_TYPE (gnumeric_expr_entry, "GnumericExprEntry", GnumericExprEntry,
-	     gee_class_init, NULL, GTK_TYPE_HBOX)
 
 static void
 cb_entry_changed (GtkEntry *ignored, GnumericExprEntry *gee)
@@ -1101,4 +1238,12 @@ gnm_expr_entry_grab_focus (GnumericExprEntry *gee, gboolean select_all)
 		gtk_entry_set_position (gee->entry, 0);
 		gtk_entry_select_region (gee->entry, 0, gee->entry->text_length);
 	}
+}
+
+gboolean 
+gnm_expr_entry_editing_canceled (GnumericExprEntry *gee)
+{
+	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), TRUE);
+	
+	return gee->editing_canceled;
 }

@@ -68,6 +68,10 @@ void gnumeric_expr_entry_set_update_policy (GnumericExprEntry *e,
 					    GtkUpdateType  policy);
 void gnm_expr_entry_grab_focus (GnumericExprEntry *e, gboolean select_all);
 
+/* Cell Renderer Specific Method */
+
+gboolean gnm_expr_entry_editing_canceled (GnumericExprEntry *e);
+
 /* private : for internal use */
 void gnm_expr_entry_end_of_drag	(GnumericExprEntry *gee);
 

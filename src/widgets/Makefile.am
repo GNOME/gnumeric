@@ -16,6 +16,8 @@ libwidgets_a_SOURCES =				\
 	gnumeric-cell-renderer.h		\
 	gnumeric-cell-renderer-text.c		\
 	gnumeric-cell-renderer-text.h		\
+	gnumeric-cell-renderer-expr-entry.c	\
+	gnumeric-cell-renderer-expr-entry.h	\
 	gnumeric-dashed-canvas-line.c		\
 	gnumeric-dashed-canvas-line.h		\
 	gnumeric-expr-entry.c			\
