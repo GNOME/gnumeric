@@ -179,9 +179,10 @@ void        sheet_selection_append_range (Sheet *sheet,
 CellList   *sheet_selection_to_list      (Sheet *sheet);
 
 /* Operations on the selection */
-void        sheet_selection_clear_content     (Sheet *sheet);
-void        sheet_selection_clear_formats     (Sheet *sheet);
 void        sheet_selection_clear             (Sheet *sheet);
+void        sheet_selection_clear_content     (Sheet *sheet);
+void        sheet_selection_clear_comments    (Sheet *sheet);
+void        sheet_selection_clear_formats     (Sheet *sheet);
 
 /* Cut/Copy/Paste on the workbook selection */
 gboolean    sheet_selection_copy              (Sheet *sheet);
@@ -253,6 +254,9 @@ void        sheet_clear_region_formats    (Sheet *sheet,
 void        sheet_clear_region_content    (Sheet *sheet,
 				           int start_col, int start_row,
 				           int end_col,   int end_row);
+void        sheet_clear_region_comments   (Sheet *sheet,
+				           int start_col, int start_row,
+				           int end_col,   int end_row);	
 
 /* Sets the width/height of a column row in terms of pixels */
 void        sheet_col_set_width           (Sheet *sheet,

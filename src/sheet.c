@@ -410,8 +410,8 @@ sheet_row_info_set_height (Sheet *sheet, ColRowInfo *ri, int height, gboolean he
 	sheet_redraw_all (sheet);
 }
 
-/*
- * sheet_row_set_height
+/**
+ * sheet_row_set_height:
  * @sheet:         	The sheet
  * @row:           	The row
  * @height:        	The desired height
@@ -443,8 +443,8 @@ sheet_row_set_height (Sheet *sheet, int row, int height, gboolean height_set_by_
 		sheet_row_add (sheet, ri);
 }
 
-/*
- * sheet_row_set_internal_height
+/**
+ * sheet_row_set_internal_height:
  * @sheet:         	The sheet
  * @row:           	The row
  * @height:        	The desired height
@@ -474,8 +474,8 @@ sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, int height)
 	sheet_redraw_all (sheet);
 }
 
-/*
- * sheet_recompute_spans_for_col
+/**
+ * sheet_recompute_spans_for_col:
  * @sheet: the sheet
  * @col:   The column that changed
  *
@@ -1689,7 +1689,7 @@ gen_col_blanks (Sheet *sheet, int start_col, int end_col,
 	return TRUE;
 }
 
-/*
+/**
  * sheet_cell_get
  * @sheet:  The sheet where we want to locate the cell
  * @col:    the cell column
@@ -2164,7 +2164,14 @@ clear_cell_content (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 	return TRUE;
 }
 
-/*
+/**
+ * sheet_clear_region_content:
+ * @sheet:     The sheet on which we operate
+ * @start_col: starting column
+ * @start_row: starting row
+ * @end_col:   end column
+ * @end_row:   end row
+ * 
  * Clears the contents in a region of cells
  */
 void
@@ -2185,6 +2192,12 @@ sheet_clear_region_content (Sheet *sheet, int start_col, int start_row, int end_
 		clear_cell_content, NULL);
 }
 
+/**
+ * sheet_selection_clear_content:
+ * @sheet:  The sheet where we operate
+ * 
+ * Removes the contents of all the cells in the current selection.
+ **/
 void
 sheet_selection_clear_content (Sheet *sheet)
 {
@@ -2199,6 +2212,64 @@ sheet_selection_clear_content (Sheet *sheet)
 		sheet_clear_region_content (sheet,
 					    ss->start_col, ss->start_row,
 					    ss->end_col, ss->end_row);
+	}
+}
+
+static int
+clear_cell_comments (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+{
+	cell_comment_destroy (cell);
+	return TRUE;
+}
+
+/**
+ * sheet_clear_region_comments:
+ * @sheet:     The sheet on which we operate
+ * @start_col: starting column
+ * @start_row: starting row
+ * @end_col:   end column
+ * @end_row:   end row
+ * 
+ * Removes all of the comments in the cells in the specified range.
+ **/
+void
+sheet_clear_region_comments (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (start_col <= end_col);
+	g_return_if_fail (start_row <= end_row);
+
+	/* Queue a redraw for the region being redrawn */
+	sheet_redraw_cell_region (sheet, start_col, start_row, end_col, end_row);
+
+	sheet_cell_foreach_range (
+		sheet, TRUE,
+		start_col, start_row,
+		end_col,   end_row,
+		clear_cell_comments, NULL);
+}
+
+/**
+ * sheet_selection_clear_comments:
+ * @sheet:  The sheet where we operate
+ * 
+ * Removes all of the comments on the range of selected cells.
+ **/
+void
+sheet_selection_clear_comments (Sheet *sheet)
+{
+	GList *l;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	for (l = sheet->selections; l; l = l->next){
+		SheetSelection *ss = l->data;
+		
+		sheet_clear_region_comments (sheet,
+					     ss->start_col, ss->start_row,
+					     ss->end_col, ss->end_row);
 	}
 }
 

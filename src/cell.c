@@ -184,6 +184,12 @@ cell_comment_destroy (Cell *cell)
 
 	/* Free resources */
 	string_unref (comment->comment);
+
+	if (comment->timer_tag != -1)
+		gtk_timeout_remove (comment->timer_tag);
+
+	if (comment->window)
+		gtk_object_destroy (GTK_OBJECT (comment->window));
 	
 	for (l = comment->realized_list; l; l = l->next)
 		gtk_object_destroy (l->data);
@@ -192,6 +198,16 @@ cell_comment_destroy (Cell *cell)
 }
 
 static void
+cell_comment_cancel_timer (Cell *cell)
+{
+	if (cell->comment->timer_tag != -1){
+		gtk_timeout_remove (cell->comment->timer_tag);
+		cell->comment->timer_tag = -1;
+	}
+		
+}
+      
+static void
 cell_display_comment (Cell *cell)
 {
 	GtkWidget *window, *label;
@@ -199,6 +215,8 @@ cell_display_comment (Cell *cell)
 	
 	g_return_if_fail (cell != NULL);
 
+	cell_comment_cancel_timer (cell);
+	
 	window = gtk_window_new (GTK_WINDOW_POPUP);
 	label = gtk_label_new (cell->comment->comment->str);
 	gtk_container_add (GTK_CONTAINER (window), label);
@@ -247,10 +265,7 @@ cell_comment_clicked (GnomeCanvasItem *item, GdkEvent *event, Cell *cell)
 		break;
 
 	case GDK_LEAVE_NOTIFY:
-		if (cell->comment->timer_tag != -1){
-			gtk_timeout_remove (cell->comment->timer_tag);
-			cell->comment->timer_tag = -1;
-		}
+		cell_comment_cancel_timer (cell);
 		if (cell->comment->window){
 			gtk_object_destroy (GTK_OBJECT (cell->comment->window));
 			cell->comment->window = NULL;
@@ -1454,6 +1469,8 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 char *
 cell_get_text (Cell *cell)
 {
+	char *str;
+	
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	if (cell->parsed_node){
@@ -1466,6 +1483,7 @@ cell_get_text (Cell *cell)
 		return ret;
 	}
 
-	return value_string (cell->value);
+	str = format_value (cell->style->format, cell->value, NULL);
+	return str;
 }
 

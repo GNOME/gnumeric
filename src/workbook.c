@@ -501,6 +501,15 @@ clear_formats_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+clear_comments_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	sheet_selection_clear_comments (sheet);
+}
+
+static void
 clear_content_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
@@ -626,9 +635,10 @@ static GnomeUIInfo workbook_menu_file [] = {
 /* Edit menu */
 
 static GnomeUIInfo workbook_menu_edit_clear [] = {
-	{ GNOME_APP_UI_ITEM, N_("_All"),     NULL, clear_all_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Formats"), NULL, clear_formats_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Content"), NULL, clear_content_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_All"),      NULL, clear_all_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Formats"),  NULL, clear_formats_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Comments"), NULL, clear_comments_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Content"),  NULL, clear_content_cmd },
 	GNOMEUIINFO_END
 };
 
