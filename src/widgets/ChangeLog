@@ -1,3 +1,7 @@
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.73
+
 2000-10-25  Morten Welinder  <terra@diku.dk>
 
 	* widget-font-selector.c (font_selected): Plug leak.

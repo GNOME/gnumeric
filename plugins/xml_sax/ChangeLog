@@ -1,3 +1,7 @@
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.73
+
 2001-10-27  Almer S. Tigelaar  <almer@gnome.org>
 
 	* xml-sax-read.c (xml_sax_validation): New, Support for

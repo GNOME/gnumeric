@@ -39,7 +39,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
-"POT-Creation-Date: 2001-10-28 06:17-0500\n"
+"POT-Creation-Date: 2001-10-29 02:53-0500\n"
 "PO-Revision-Date: 2001-10-28 19:56+0100\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -4854,11 +4854,11 @@ msgstr "Kildeområdet %s overlapper med destinationsområdet"
 msgid "%s is not a valid source region"
 msgstr "%s er ikke et gyldigt kildeområde"
 
-#: src/dialogs/dialog-define-names.c:380
+#: src/dialogs/dialog-define-names.c:376
 msgid "You cannot redefine a builtin name."
 msgstr "Det er ikke muligt at omdefinere et indbygget navn."
 
-#: src/dialogs/dialog-define-names.c:594
+#: src/dialogs/dialog-define-names.c:589
 msgid "Could not create the Name Guru."
 msgstr "Kunne ikke fremmane navnehjælperen."
 
@@ -6790,40 +6790,40 @@ msgstr "_Faneblade"
 msgid "_Vertical Scrollbar"
 msgstr "_Lodret rullebjælke"
 
-#: src/expr-name.c:151
+#: src/expr-name.c:220
 msgid "already defined in sheet"
 msgstr "allerede defineret i arket"
 
-#: src/expr-name.c:154
+#: src/expr-name.c:224
 msgid "already defined in workbook"
 msgstr "allerede defineret i arbejdsbog"
 
-#: src/expr-name.c:157
+#: src/expr-name.c:228
 msgid "already globally defined "
 msgstr "allerede globalt defineret"
 
-#: src/expr-name.c:163
+#: src/expr-name.c:234
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr "'%s' har en cirkulær henvisning"
 
-#: src/expr-name.c:310
+#: src/expr-name.c:397
 msgid "Builtin"
 msgstr "Indbygget"
 
-#: src/expr-name.c:474 src/expr-name.c:486
+#: src/expr-name.c:489 src/expr-name.c:501
 msgid "Error: no sheet"
 msgstr "Fejl: intet ark"
 
-#: src/expr.c:576
+#: src/expr.c:580
 msgid "Internal type error"
 msgstr "Intern typefejl"
 
-#: src/expr.c:755
+#: src/expr.c:759
 msgid "Unknown operator"
 msgstr "Ukendt operator"
 
-#: src/expr.c:974
+#: src/expr.c:980
 msgid "Unknown evaluation error"
 msgstr "Ukendt evalueringsfejl"
 
@@ -10255,10 +10255,10 @@ msgstr ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(udstedelse,første_rente,anbringelse,rente,pari,frekvens[,"
 "basis])\n"
-"@DESCRIPTION=ACCRINT beregner den påløbne rente for et værdipapir som udbetaler "
-"periodisk rente. @rente er værdipapirets pålydende årlige rente, og @pari er "
-"værdipapirets pålydende værdi. @basis er den type rentedagsberegning du vil "
-"bruge:\n"
+"@DESCRIPTION=ACCRINT beregner den påløbne rente for et værdipapir som "
+"udbetaler periodisk rente. @rente er værdipapirets pålydende årlige rente, "
+"og @pari er værdipapirets pålydende værdi. @basis er den type "
+"rentedagsberegning du vil bruge:\n"
 "\n"
 "0  amerikansk 30/360\n"
 "1  faktiske dage/faktiske dage\n"
@@ -10266,13 +10266,12 @@ msgstr ""
 "3  faktiske dage/365\n"
 "4  europæisk 30/360\n"
 "\n"
-"Hvis dato for @udstedelse "
-"eller @anbringelse ikke er gyldig, returnerer ACCRINT en #TAL!-fejl. Hvis "
-"@rente eller @pari er nul eller negativ returnerer ACCRINT en #TAL!-fejl. "
-"Hvis @basis udelades, anvendes amerikansk 30/360. "
-"Hvis @basis < 0 eller @basis > 4, returnerer ACCRINT en #TAL!-fejl. Hvis "
-"dato for @udstedelse er efter dato for @anbringelse eller de er ens, returnerer "
-"ACCRINT en #TAL!-fejl. \n"
+"Hvis dato for @udstedelse eller @anbringelse ikke er gyldig, returnerer "
+"ACCRINT en #TAL!-fejl. Hvis @rente eller @pari er nul eller negativ "
+"returnerer ACCRINT en #TAL!-fejl. Hvis @basis udelades, anvendes amerikansk "
+"30/360. Hvis @basis < 0 eller @basis > 4, returnerer ACCRINT en #TAL!-fejl. "
+"Hvis dato for @udstedelse er efter dato for @anbringelse eller de er ens, "
+"returnerer ACCRINT en #TAL!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ACCRINTM"
@@ -10316,10 +10315,9 @@ msgstr ""
 "3  faktiske dage/365\n"
 "4  europæisk 30/360\n"
 "\n"
-"Hvis dato for @udstedelse "
-"eller @forfald ikke er gyldig, returnerer ACCRINTM en #TAL!-fejl. Hvis "
-"@rente eller @pari er nul eller negativ returnerer ACCRINTM en #TAL!-fejl. "
-"Hvis @basis udelades, anvendes amerikansk 30/360. "
+"Hvis dato for @udstedelse eller @forfald ikke er gyldig, returnerer ACCRINTM "
+"en #TAL!-fejl. Hvis @rente eller @pari er nul eller negativ returnerer "
+"ACCRINTM en #TAL!-fejl. Hvis @basis udelades, anvendes amerikansk 30/360. "
 "Hvis @basis < 0 eller @basis > 4, returnerer ACCRINTM en #TAL!-fejl. Hvis "
 "dato for @udstedelse er efter dato for @forfald eller de er ens, returnerer "
 "ACCRINTM en #TAL!-fejl. \n"
@@ -11423,10 +11421,8 @@ msgstr ""
 "3  faktiske dage/365\n"
 "4  europæisk 30/360\n"
 "\n"
-"Hvis dato for @anbringelse "
-"eller @forfald ikke er gyldig, returnerer DISC en #TAL!-fejl. "
-"Hvis @basis udelades, anvendes amerikansk 30/360. "
-"Hvis @basis < "
+"Hvis dato for @anbringelse eller @forfald ikke er gyldig, returnerer DISC en "
+"#TAL!-fejl. Hvis @basis udelades, anvendes amerikansk 30/360. Hvis @basis < "
 "0 eller @basis > 4, returnerer DISC en #TAL!-fejl. Hvis dato for "
 "@anbringelse er efter dato for @forfald eller de er ens, returnerer DISC "
 "også en #TAL!-fejl. \n"
@@ -12024,8 +12020,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rente,nper,pv,start_periode,slut_periode,type)\n"
-"@DESCRIPTION=CUMIPMT returnerer den akkumulerede rente betalt på et lån mellem "
-"@start_periode og @slut_periode.\n"
+"@DESCRIPTION=CUMIPMT returnerer den akkumulerede rente betalt på et lån "
+"mellem @start_periode og @slut_periode.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -12042,8 +12038,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rente,nper,pv,startperiode,slutperiode,type)\n"
-"@DESCRIPTION=CUMPRINC returnerer den akkumulerede hovedstol betalt på et lån mellem "
-"@startperiode og @slutperiode.\n"
+"@DESCRIPTION=CUMPRINC returnerer den akkumulerede hovedstol betalt på et lån "
+"mellem @startperiode og @slutperiode.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -12060,8 +12056,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(anbringelse,forfald,kupon,ydelse,frekvens[,basis])\n"
-"@DESCRIPTION=MDURATION returnerer Macauley-varigheden for et værdipapir "
-"med pari-værdi 100.\n"
+"@DESCRIPTION=MDURATION returnerer Macauley-varigheden for et værdipapir med "
+"pari-værdi 100.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -17975,41 +17971,51 @@ msgid "#RECALC!"
 msgstr "#OMBEREGN!"
 
 #: src/parser.y:446
-#, c-format
-msgid "Expression '%s' does not exist on sheet '%s'"
+#, fuzzy, c-format
+msgid "Name '%s' does not exist in sheet '%s'"
 msgstr "Udtrykket '%s' eksisterer ikke på arket '%s'"
 
-#: src/parser.y:467 src/parser.y:490
+#: src/parser.y:468
+#, fuzzy, c-format
+msgid "Unknown workbook '%s'"
+msgstr "Ukendt ark '%s'"
+
+#: src/parser.y:480
+#, fuzzy, c-format
+msgid "Name '%s' does not exist in workbook '%s'"
+msgstr "Udtrykket '%s' eksisterer ikke på arket '%s'"
+
+#: src/parser.y:505 src/parser.y:528
 #, c-format
 msgid "Unknown sheet '%s'"
 msgstr "Ukendt ark '%s'"
 
-#: src/parser.y:583 src/parser.y:597
+#: src/parser.y:621 src/parser.y:635
 #, c-format
 msgid "The character %c cannot be used to separate array elements"
 msgstr "Tegnet %c kan ikke bruges til at adskille matrixelementer"
 
-#: src/parser.y:746 src/parser.y:758 src/parser.y:791
+#: src/parser.y:784 src/parser.y:796 src/parser.y:829
 msgid "The number is out of range"
 msgstr "Tallet er uden for det gyldige interval"
 
-#: src/parser.y:819
+#: src/parser.y:857
 msgid "Could not find matching closing quote"
 msgstr "Kunne ikke finde modsvarende afsluttende anførselstegn"
 
-#: src/parser.y:966
+#: src/parser.y:1004
 msgid "Could not find matching opening parenthesis"
 msgstr "Kunne ikke finde modsvarende indledende parantes"
 
-#: src/parser.y:970
+#: src/parser.y:1008
 msgid "Could not find matching closing parenthesis"
 msgstr "Kunne ikke finde modsvarende afsluttende parantes"
 
-#: src/parser.y:974
+#: src/parser.y:1012
 msgid "Invalid expression"
 msgstr "Ugyldigt udtryk"
 
-#: src/parser.y:979
+#: src/parser.y:1017
 #, c-format
 msgid "Unexpected token %c"
 msgstr "Uventet symbol %c"
