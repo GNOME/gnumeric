@@ -510,7 +510,7 @@ excel_formula_write_NAME_v7 (PolishData *pd, GnmExpr const *expr)
 		ms_biff_put_var_write (pd->ewb->bp, data, 15);
 	} else {
 		int externsheet = (pd->sheet == expr->name.optional_scope)
-			? pd->ewb->sheets->len + 1
+			? (int) (pd->ewb->sheets->len + 1)
 			: expr->name.optional_scope->index_in_wb;
 
 		GSF_LE_SET_GUINT8  (data +  0, FORMULA_PTG_NAME_X);

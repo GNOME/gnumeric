@@ -1307,7 +1307,7 @@ excel_parse_formula (MSContainer const *container,
 			if (a == NULL || name_idx < 1 || a->len < name_idx ||
 			    (nexpr = g_ptr_array_index (a, name_idx-1)) == NULL) {
 				g_warning ("EXCEL: %x (of %x) UNKNOWN name %p.",
-					   name_idx, a ? a->len : -1, container);
+					   name_idx, a ? a->len : 0xffffffff, container);
 				name = gnm_expr_new_constant (
 					value_new_error_REF (NULL));
 			} else
@@ -1435,7 +1435,7 @@ excel_parse_formula (MSContainer const *container,
 			if (a == NULL || name_idx < 1 || a->len < name_idx ||
 			    (nexpr = g_ptr_array_index (a, name_idx-1)) == NULL) {
 				g_warning ("EXCEL: %x (of %x) UNKNOWN name %p.",
-					   name_idx, a ? a->len : -1, container);
+					   name_idx, a ? a->len : 0xffffffff, container);
 				name = gnm_expr_new_constant (
 					value_new_error_REF (NULL));
 			} else {
