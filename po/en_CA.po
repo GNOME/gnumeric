@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-16 01:55-0500\n"
-"PO-Revision-Date: 2005-03-16 11:36-0400\n"
+"POT-Creation-Date: 2005-03-22 03:23-0500\n"
+"PO-Revision-Date: 2005-03-22 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -230,7 +230,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Functions related to financial derivatives"
 
 #: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:5840
-#: ../plugins/mps/mps.c:547 ../src/xml-io.c:3979
+#: ../plugins/mps/mps.c:547 ../src/xml-io.c:3972
 msgid "Reading file..."
 msgstr "Reading file..."
 
@@ -315,14 +315,14 @@ msgstr "Preparing to save..."
 msgid "Saving file..."
 msgstr "Saving file..."
 
-#: ../plugins/excel/excel-xml-read.c:83 ../plugins/xml_sax/xml-sax-read.c:276
+#: ../plugins/excel/excel-xml-read.c:83 ../plugins/xml_sax/xml-sax-read.c:277
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Unexpected attribute %s::%s == '%s'."
 
 #: ../plugins/excel/excel-xml-read.c:196
 #: ../plugins/openoffice/openoffice-read.c:1503
-#: ../plugins/xml_sax/xml-sax-read.c:1771
+#: ../plugins/xml_sax/xml-sax-read.c:1765
 msgid "XML document not well formed!"
 msgstr "XML document not well formed!"
 
@@ -418,11 +418,11 @@ msgstr ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
 "rows, and this workbook has %d"
 
-#: ../plugins/excel/ms-excel-write.c:4991
+#: ../plugins/excel/ms-excel-write.c:4992
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Couldn't open stream 'Book' for writing\n"
 
-#: ../plugins/excel/ms-excel-write.c:5011
+#: ../plugins/excel/ms-excel-write.c:5012
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Couldn't open stream 'Workbook' for writing\n"
 
@@ -1347,28 +1347,6 @@ msgstr "String"
 msgid "String Functions"
 msgstr "String Functions"
 
-#: ../plugins/gb/plugin.c:131
-msgid "Unknown GB error"
-msgstr "Unknown GB error"
-
-#: ../plugins/gb/plugin.c:364
-#, c-format
-msgid "Error initializing gb '%s'"
-msgstr "Error initializing gb '%s'"
-
-#: ../plugins/gb/plugin.c:379
-#, c-format
-msgid "Error in project '%s'"
-msgstr "Error in project '%s'"
-
-#: ../plugins/gb/plugin.xml.in.h:1
-msgid "Enables Gnome Basic support"
-msgstr "Enables Gnome Basic support"
-
-#: ../plugins/gb/plugin.xml.in.h:2
-msgid "Gnome Basic"
-msgstr "Gnome Basic"
-
 #: ../plugins/gda/plugin-gda.c:59
 msgid "Too much data returned"
 msgstr "Too much data returned"
@@ -1421,34 +1399,6 @@ msgstr "Gnome Glossary PO file format"
 #: ../plugins/gnome-glossary/plugin.xml.in.h:3
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "It provides support for saving Gnome Glossary in .po files."
-
-#: ../plugins/guile/plugin.c:107
-msgid "Guile error"
-msgstr "Guile error"
-
-#: ../plugins/guile/plugin.xml.in.h:1
-msgid "Guile Plugin"
-msgstr "Guile Plugin"
-
-#: ../plugins/guile/plugin.xml.in.h:2
-msgid "This plugin enables Guile(scheme) support in Gnumeric"
-msgstr "This plugin enables Guile(scheme) support in Gnumeric"
-
-#: ../plugins/guile/smob-value.c:102
-msgid "Unable to convert value from Guile"
-msgstr "Unable to convert value from Guile"
-
-#: ../plugins/guile/smob-value.c:163
-msgid "Not a Guile boolean"
-msgstr "Not a Guile boolean"
-
-#: ../plugins/guile/smob-value.c:181
-msgid "Not a Guile number"
-msgstr "Not a Guile number"
-
-#: ../plugins/guile/smob-value.c:199
-msgid "Not a Guile string"
-msgstr "Not a Guile string"
 
 #: ../plugins/html/html_read.c:535
 msgid "Unable to parse the html."
@@ -1850,7 +1800,7 @@ msgstr "Python functions"
 msgid "Sample Python plugin providing some (useless) functions."
 msgstr "Sample Python plugin providing some (useless) functions."
 
-#: ../plugins/python-loader/gnm-py-interpreter.c:253
+#: ../plugins/python-loader/gnm-py-interpreter.c:255
 msgid "Default interpreter"
 msgstr "Default interpreter"
 
@@ -2099,7 +2049,7 @@ msgstr "Error while opening xbase file."
 #: ../plugins/xbase/boot.c:176 ../src/dialogs/dialog-goto-cell.c:289
 #: ../src/dialogs/dialog-search.c:447 ../src/dialogs/dialog-stf-export.c:444
 #: ../src/dialogs/print.glade.h:21 ../src/commands.c:4966
-#: ../src/print-info.c:398 ../src/workbook.c:1108 ../src/xml-io.c:3569
+#: ../src/print-info.c:398 ../src/workbook.c:1083 ../src/xml-io.c:3569
 msgid "Sheet"
 msgstr "Sheet"
 
@@ -2138,7 +2088,7 @@ msgstr "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "EXPERIMENTAL SAX based XML"
 
-#: ../plugins/xml_sax/plugin.xml.in.h:3 ../src/xml-io.c:4107
+#: ../plugins/xml_sax/plugin.xml.in.h:3 ../src/xml-io.c:4100
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
@@ -2146,16 +2096,16 @@ msgstr "Gnumeric XML (*.gnumeric)"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "The next generation sax based xml I/O subsystem"
 
-#: ../plugins/xml_sax/xml-sax-read.c:308
+#: ../plugins/xml_sax/xml-sax-read.c:309
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Multiple version specifications.  Assuming %d"
 
-#: ../plugins/xml_sax/xml-sax-read.c:481
+#: ../plugins/xml_sax/xml-sax-read.c:482
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "File has inconsistent SheetNameIndex element."
 
-#: ../plugins/xml_sax/xml-sax-read.c:1321 ../src/xml-io.c:2551
+#: ../plugins/xml_sax/xml-sax-read.c:1322 ../src/xml-io.c:2551
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Unsupported object type '%s'"
@@ -6123,39 +6073,39 @@ msgstr "Importing %i columns and ignoring none."
 msgid "Importing %i columns and ignoring %i."
 msgstr "Importing %i columns and ignoring %i."
 
-#: ../src/dialogs/dialog-stf-format-page.c:156
-#: ../src/dialogs/dialog-stf-format-page.c:440
+#: ../src/dialogs/dialog-stf-format-page.c:157
+#: ../src/dialogs/dialog-stf-format-page.c:441
 #, c-format
 msgid "A maximum of %d columns can be imported."
 msgstr "A maximum of %d columns can be imported."
 
-#: ../src/dialogs/dialog-stf-format-page.c:287
+#: ../src/dialogs/dialog-stf-format-page.c:288
 msgid "Ignore all columns on right"
 msgstr "Ignore all columns on right"
 
-#: ../src/dialogs/dialog-stf-format-page.c:288
+#: ../src/dialogs/dialog-stf-format-page.c:289
 msgid "Ignore all columns on left"
 msgstr "Ignore all columns on left"
 
-#: ../src/dialogs/dialog-stf-format-page.c:289
+#: ../src/dialogs/dialog-stf-format-page.c:290
 msgid "Import all columns on right"
 msgstr "Import all columns on right"
 
-#: ../src/dialogs/dialog-stf-format-page.c:290
+#: ../src/dialogs/dialog-stf-format-page.c:291
 msgid "Import all columns on left"
 msgstr "Import all columns on left"
 
-#: ../src/dialogs/dialog-stf-format-page.c:291
+#: ../src/dialogs/dialog-stf-format-page.c:292
 msgid "Copy format to right"
 msgstr "Copy format to right"
 
-#: ../src/dialogs/dialog-stf-format-page.c:470
+#: ../src/dialogs/dialog-stf-format-page.c:471
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 
-#: ../src/dialogs/dialog-stf-format-page.c:627
+#: ../src/dialogs/dialog-stf-format-page.c:628
 #: ../src/dialogs/dialog-stf-preview.h:26
 #, c-format
 msgid "Column %d"
@@ -9173,7 +9123,7 @@ msgstr "Bold italic"
 msgid "Italic"
 msgstr "Italic"
 
-#: ../src/application.c:307
+#: ../src/application.c:309
 msgid "Cut Object"
 msgstr "Cut Object"
 
@@ -9992,7 +9942,7 @@ msgstr "ObjectToolbar"
 msgid "StandardToolbar"
 msgstr "Standard Toolbar"
 
-#: ../src/gnumeric-pane.c:119
+#: ../src/gnumeric-pane.c:125
 #, c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -10133,10 +10083,12 @@ msgid "Display Gnumeric's version"
 msgstr "Display Gnumeric's version"
 
 #: ../src/main-application.c:62 ../src/ssconvert.c:47 ../src/ssindex.c:54
+#: ../src/test-pango.c:32
 msgid "Set the root library directory"
 msgstr "Set the root library directory"
 
 #: ../src/main-application.c:64 ../src/ssconvert.c:49 ../src/ssindex.c:56
+#: ../src/test-pango.c:34
 msgid "Adjust the root data directory"
 msgstr "Adjust the root data directory"
 
@@ -10152,12 +10104,13 @@ msgstr "FILE"
 msgid "Generate new help and po files"
 msgstr "Generate new help and po files"
 
-#: ../src/main-application.c:74
+#: ../src/main-application.c:74 ../src/test-pango.c:36
 msgid "Enables some debugging functions"
 msgstr "Enables some debugging functions"
 
 #: ../src/main-application.c:74 ../src/main-application.c:77
 #: ../src/main-application.c:79 ../src/main-application.c:81
+#: ../src/test-pango.c:36
 msgid "LEVEL"
 msgstr "LEVEL"
 
@@ -10173,11 +10126,11 @@ msgstr "Enables some debugging functions for expression sharing"
 msgid "Enables some print debugging behavior"
 msgstr "Enables some print debugging behaviour"
 
-#: ../src/main-application.c:84
+#: ../src/main-application.c:84 ../src/test-pango.c:38
 msgid "Specify the size and location of the initial window"
 msgstr "Specify the size and location of the initial window"
 
-#: ../src/main-application.c:84
+#: ../src/main-application.c:84 ../src/test-pango.c:38
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "WIDTHxHEIGHT+XOFF+YOFF"
 
@@ -10302,7 +10255,7 @@ msgstr ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 
-#: ../src/mathfunc.c:7111
+#: ../src/mathfunc.c:7433
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
@@ -12698,41 +12651,41 @@ msgstr "Nothing"
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 
-#: ../src/wbc-gtk.c:1198
+#: ../src/wbc-gtk.c:1201
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Show/Hide toolbar %s"
 
-#: ../src/workbook.c:441
+#: ../src/workbook.c:429
 #, c-format
 msgid "Book%d.%s"
 msgstr "Book%d.%s"
 
-#: ../src/workbook.c:1312
+#: ../src/workbook.c:1288
 msgid "Sheet name is NULL"
 msgstr "Sheet name is NULL"
 
-#: ../src/workbook.c:1321
+#: ../src/workbook.c:1297
 msgid "Sheet name is not valid utf-8"
 msgstr "Sheet name is not valid utf-8"
 
-#: ../src/workbook.c:1329
+#: ../src/workbook.c:1305
 msgid "Sheet name must have at least 1 letter"
 msgstr "Sheet name must have at least 1 letter"
 
-#: ../src/workbook.c:1351
+#: ../src/workbook.c:1327
 msgid "There is already a sheet named"
 msgstr "There is already a sheet named"
 
-#: ../src/workbook.c:1363
+#: ../src/workbook.c:1339
 msgid "You may not use this name twice"
 msgstr "You may not use this name twice"
 
-#: ../src/workbook-control.c:253
+#: ../src/workbook-control.c:255
 msgid "Define Name"
 msgstr "Define Name"
 
-#: ../src/workbook-control.c:274
+#: ../src/workbook-control.c:276
 msgid "Address"
 msgstr "Address"
 
@@ -12908,15 +12861,15 @@ msgstr "Clipboard is in unknown format"
 msgid "Processing file..."
 msgstr "Processing file..."
 
-#: ../src/xml-io.c:4027
+#: ../src/xml-io.c:4020
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "The file is not a Gnumeric Workbook file"
 
-#: ../src/xml-io.c:4064
+#: ../src/xml-io.c:4057
 msgid "Failure saving file"
 msgstr "Failure saving file"
 
-#: ../src/xml-io.c:4112
+#: ../src/xml-io.c:4105
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Gnumeric XML (*.gnumeric) original slow exporter"
 
