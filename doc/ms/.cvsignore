@@ -1,7 +1,6 @@
-Makefile
 Makefile.in
-func-list.xml
-func.defs
+Makefile
 functions.xml
-gnumeric-ms.omf
+func.defs
+gnumeric-*.omf
 omf_timestamp
