@@ -1,5 +1,13 @@
 Gnumeric 0.76
 
+Andreas:
+	* Fix handling of missing observations in F-test, z-test,
+	  one-factor ANOVA, and t-tests analysis tools.
+	* Permit input from other sheets in F-test, z-test, one-factor 
+	  ANOVA, and t-tests analysis tools.
+	* Fix small errors in F-test, z-test, one-factor 
+	  ANOVA, and t-tests analysis tools.
+
 Jody:
 	* More work on the expr entry.
 

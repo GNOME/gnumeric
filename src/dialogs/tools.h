@@ -18,7 +18,7 @@ int sampling_tool         (WorkbookControl *context, Sheet *sheet,
 			   gboolean periodic_flag, guint size, guint number, 
 			   data_analysis_output_t *dao);
 int ftest_tool            (WorkbookControl *context, Sheet *sheet,
-			   Range *input_range1, Range *input_range2,
+			   Value *input_range1, Value *input_range2,
 			   gnum_float alpha,
 			   data_analysis_output_t *dao);
 int regression_tool       (WorkbookControl *context, Sheet *sheet,
@@ -26,19 +26,19 @@ int regression_tool       (WorkbookControl *context, Sheet *sheet,
 			   gnum_float alpha, data_analysis_output_t *dao,
 			   int intercept, int xdim);
 int ttest_paired_tool     (WorkbookControl *context, Sheet *sheet,
-			   Range *input_range1, Range *input_range2,
+			   Value *input_range1, Value *input_range2,
 			   gnum_float mean_diff, gnum_float alpha,
 			   data_analysis_output_t *dao);
 int ttest_eq_var_tool     (WorkbookControl *context, Sheet *sheet,
-			   Range *input_range1, Range *input_range2,
+			   Value *input_range1, Value *input_range2,
 			   gnum_float mean_diff, gnum_float alpha,
 			   data_analysis_output_t *dao);
 int ttest_neq_var_tool    (WorkbookControl *context, Sheet *sheet,
-			   Range *input_range1, Range *input_range2,
+			   Value *input_range1, Value *input_range2,
 			   gnum_float mean_diff, gnum_float alpha,
 			   data_analysis_output_t *dao);
 int ztest_tool            (WorkbookControl *context, Sheet *sheet,
-			   Range *range_input1, Range *range_input2,
+			   Value *range_input1, Value *range_input2,
 			   gnum_float mean_diff, gnum_float var1, gnum_float var2,
 			   gnum_float alpha, data_analysis_output_t *dao);
 int random_tool           (WorkbookControl *context, Sheet *sheet,
@@ -56,7 +56,7 @@ int ranking_tool          (WorkbookControl *context, Sheet *sheet,
 			   data_analysis_output_t *dao);
 
 int anova_single_factor_tool        (WorkbookControl *context, Sheet *sheet,
-				     Range *range, int columns_flag,
+				     GSList *input, group_by_t group_by,
 				     gnum_float alpha, data_analysis_output_t *dao);
 int anova_two_factor_without_r_tool (WorkbookControl *context, Sheet *sheet,
 				     Range *range, gnum_float alpha,

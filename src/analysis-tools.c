@@ -63,7 +63,6 @@ typedef struct {
 	Sheet *sheet;
 } data_list_specs_t;
 
-
 /*
  *  cb_store_data:
  *  @cell:
@@ -143,7 +142,7 @@ destroy_data_set ( data_set_t *data_set)
 {
 
 	if (data_set->data != NULL)
-		g_array_free (data_set->data, FALSE);
+		g_array_free (data_set->data, TRUE);
 	if (data_set->missing != NULL)
 		g_slist_free (data_set->missing);
 	if (data_set->label != NULL)
@@ -272,15 +271,15 @@ union_of_int_sets (GSList * list_1, GSList * list_2)
 	GSList *list_res = NULL;
 
 	if ((list_1 == NULL) || (g_slist_length (list_1) == 0))
-		return ((list_2 == NULL) ? NULL :
-			g_slist_sort (g_slist_copy (list_2), cb_int_descending));
+		return ((list_2 == NULL) ? NULL : 
+			g_slist_copy (list_2));
 	if ((list_2 == NULL) || (g_slist_length (list_2) == 0))
-		return g_slist_sort (g_slist_copy (list_1), cb_int_descending);
-
+		return g_slist_copy (list_1);
+	
 	list_res = g_slist_copy (list_1);
 	g_slist_foreach (list_2, cb_insert_diff_elements, &list_res);
 
-	return g_slist_sort (list_res, cb_int_descending);
+	return list_res;
 }
 
 /*
@@ -311,15 +310,18 @@ static GArray*
 strip_missing (GArray * data, GSList * missing)
 {
 	GArray *new_data;
+	GSList * sorted_missing;
 
 	if ((missing == NULL) || (g_slist_length (missing) == 0))
 		return data;
 
+	sorted_missing = g_slist_sort (g_slist_copy (missing), cb_int_descending);;
 	new_data = g_array_new (FALSE, FALSE, sizeof (gnum_float));
 	g_array_set_size (new_data, data->len);
 	g_memmove (new_data->data, data->data, sizeof (gnum_float) * data->len);
-	g_slist_foreach (missing, cb_remove_missing_el, &new_data);
-
+	g_slist_foreach (sorted_missing, cb_remove_missing_el, &new_data);
+	g_slist_free (sorted_missing);
+	
 	return new_data;
 }
 
@@ -495,13 +497,6 @@ typedef struct {
         int     n;
 } old_data_set_t;
 
-typedef struct {
-	gnum_float mean;
-	gint       error_mean;
-	gnum_float var;
-	gint       error_var;
-	gint      len;
-} desc_stats_t;
 
 
 /***** Some general routines ***********************************************/
@@ -583,6 +578,17 @@ set_cell_na (data_analysis_output_t *dao, int col, int row)
 {
 	set_cell_value (dao, col, row, value_new_error (NULL, gnumeric_err_NA));
 }
+
+static void
+set_cell_float_na (data_analysis_output_t *dao, int col, int row, gnum_float v, gboolean is_valid)
+{
+	if (is_valid) {
+		set_cell_float (dao, col, row, v);
+	} else {
+		set_cell_na (dao, col, row);
+	}
+}
+
 
 /*
  * Set a column of text from a string like "/first/second/third" or "|foo|bar|baz".
@@ -882,15 +888,12 @@ set_italic (data_analysis_output_t *dao, int col1, int row1,
  *
  **/
 
-/* If columns_flag is set, the data entries are grouped by columns
- * otherwise by rows.
- */
 int
 correlation_tool (WorkbookControl *wbc, Sheet *sheet,
 		  GSList *input, group_by_t group_by,
 		  data_analysis_output_t *dao)
 {
-	GSList *input_range = input;
+	GSList *input_range;
 	GPtrArray *data = NULL;
 
 	guint col, row;
@@ -900,6 +903,7 @@ correlation_tool (WorkbookControl *wbc, Sheet *sheet,
 	GArray *clean_col_data, *clean_row_data;
 	GSList *missing;
 
+	input_range = input;
 	prepare_input_range (&input_range, group_by);
 	if (!check_input_range_list_homogeneity (input_range)) {
 		range_list_destroy (input_range);
@@ -1065,6 +1069,13 @@ covariance_tool (WorkbookControl *wbc, Sheet *sheet,
  *
  **/
 
+typedef struct {
+	gnum_float mean;
+	gint       error_mean;
+	gnum_float var;
+	gint       error_var;
+	gint      len;
+} desc_stats_t;
 
 static void
 summary_statistics (WorkbookControl *wbc, GPtrArray *data,
@@ -1109,89 +1120,49 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data,
 		set_italic (dao, col+1, 0, col+1, 0);
 
 	        /* Mean */
-		if (info.error_mean == 0) {
-			set_cell_float (dao, col + 1, 1, info.mean);
-		} else {
-			set_cell_na (dao, col + 1, 1);
-		}
+		set_cell_float_na (dao, col + 1, 1, info.mean, info.error_mean == 0);
 
-		if (info.error_var == 0) {
-			/* Standard Error */
-			set_cell_float (dao, col + 1, 2, sqrt (info.var / info.len));
-			/* Standard Deviation */
-			set_cell_float (dao, col + 1, 5, sqrt (info.var));
-			/* Sample Variance */
-			set_cell_float (dao, col + 1, 6, info.var);
-		} else {
-			set_cell_na (dao, col + 1, 2);
-			set_cell_na (dao, col + 1, 5);
-			set_cell_na (dao, col + 1, 6);
-		}
+		/* Standard Error */
+		set_cell_float_na (dao, col + 1, 2, sqrt (info.var / info.len), 
+				   info.error_var == 0);
+
+		/* Standard Deviation */
+		set_cell_float_na (dao, col + 1, 5, sqrt (info.var), info.error_var == 0);
+
+		/* Sample Variance */
+		set_cell_float_na (dao, col + 1, 6, info.var, info.error_var == 0);
 
 		/* Median */
 		error = range_median_inter (the_data, the_col_len, &x);
-		if (error == 0) {
-			set_cell_float (dao, col + 1, 3, x);
-		} else {
-			set_cell_na (dao, col + 1, 3);
-		}
+		set_cell_float_na (dao, col + 1, 3, x, error == 0);
 
 		/* Mode */
-
 		error = range_mode (the_data, the_col_len, &x);
-		if (error == 0) {
-			set_cell_float (dao, col + 1, 4, x);
-		} else {
-			set_cell_na (dao, col + 1, 4);
-		}
+		set_cell_float_na (dao, col + 1, 4, x, error == 0);
 
 		/* Kurtosis */
 		error = range_kurtosis_m3_est (the_data, the_col_len, &x);
-		if (error == 0) {
-			set_cell_float (dao, col + 1, 7, x);
-		} else {
-			set_cell_na (dao, col + 1, 7);
-		}
+		set_cell_float_na (dao, col + 1, 7, x, error == 0);
 
 		/* Skewness */
 		error = range_skew_est (the_data, the_col_len, &x);
-		if (error == 0) {
-			set_cell_float (dao, col + 1, 8, x);
-		} else {
-			set_cell_na (dao, col + 1, 8);
-		}
+		set_cell_float_na (dao, col + 1, 8, x, error == 0);
 
 		/* Minimum */
 		error = range_min (the_data, the_col_len, &xmin);
-		if (error == 0) {
-			set_cell_float (dao, col + 1, 10, xmin);
-		} else {
-			set_cell_na (dao, col + 1, 10);
-		}
+		set_cell_float_na (dao, col + 1, 10, xmin, error == 0);
 
 		/* Maximum */
 		error2 = range_max (the_data, the_col_len, &xmax);
-		if (error2 == 0) {
-			set_cell_float (dao, col + 1, 11, xmax);
-		} else {
-			set_cell_na (dao, col + 1, 11);
-		}
-
+		set_cell_float_na (dao, col + 1, 11, xmax, error2 == 0);
 
 		/* Range */
-		if (error == 0 && error2 == 0) {
-			set_cell_float (dao, col + 1, 9, xmax - xmin);
-		} else {
-			set_cell_na (dao, col + 1, 9);
-		}
+		set_cell_float_na (dao, col + 1, 9, xmax - xmin,
+				   error == 0 && error2 == 0);
 
 		/* Sum */
 		error = range_sum (the_data, the_col_len, &x);
-		if (error == 0) {
-			set_cell_float (dao, col + 1, 12, x);
-		} else {
-			set_cell_na (dao, col + 1, 12);
-		}
+		set_cell_float_na (dao, col + 1, 12, x, error == 0);
 
 		/* Count */
 		set_cell_int (dao, col + 1, 13, the_col_len);
@@ -1255,11 +1226,7 @@ kth_largest (WorkbookControl *wbc, GPtrArray *data, int k,
 		set_italic (dao, col+1, 0, col+1, 0);
 		error = range_min_k_nonconst ((gnum_float *)(the_col->data->data),
 					      the_col->data->len, &x, the_col->data->len - k);
-		if (error == 0) {
-			set_cell_float (dao, col + 1, 1, x);
-		} else {
-			set_cell_na (dao, col + 1, 1);
-		}
+		set_cell_float_na (dao, col + 1, 1, x, error == 0);
 	}
 }
 
@@ -1283,11 +1250,7 @@ kth_smallest (WorkbookControl *wbc, GPtrArray  *data, int k,
 		set_italic (dao, col+1, 0, col+1, 0);
 		error = range_min_k_nonconst ((gnum_float *)(the_col->data->data),
 					      the_col->data->len, &x, k - 1);
-		if (error == 0) {
-			set_cell_float (dao, col + 1, 1, x);
-		} else {
-			set_cell_na (dao, col + 1, 1);
-		}
+		set_cell_float_na (dao, col + 1, 1, x, error == 0);
 	}
 }
 
@@ -1353,6 +1316,10 @@ descriptive_stat_tool (WorkbookControl *wbc, Sheet *sheet,
 		return 0;
         if (ds->kth_smallest)
                 kth_smallest (wbc, data, ds->k_smallest, dao);
+
+	for (col = 0; col <= data->len; col++) {
+		autofit_column (dao, col);
+	}
 
 	destroy_data_set_list (data);
 	range_list_destroy (input_range);
@@ -1480,91 +1447,96 @@ sampling_tool (WorkbookControl *wbc, Sheet *sheet,
 
 
 int
-ztest_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
-	    Range *input_range2, gnum_float mean_diff, gnum_float known_var1,
-	    gnum_float known_var2, gnum_float alpha,
+ztest_tool (WorkbookControl *wbc, Sheet *sheet, 
+	    Value *input_range_1, Value *input_range_2, 
+	    gnum_float mean_diff, gnum_float known_var_1,
+	    gnum_float known_var_2, gnum_float alpha,
 	    data_analysis_output_t *dao)
 {
-        old_data_set_t set_one, set_two;
-	gnum_float mean1, mean2, var1, var2, z, p;
+	data_set_t *variable_1;
+	data_set_t *variable_2;
+	gboolean no_error;
+	gnum_float mean_1 = 0, mean_2 = 0, z = 0, p = 0;
+	gint mean_error_1 = 0, mean_error_2 = 0;
+
+	variable_1 = new_data_set (input_range_1, TRUE, dao->labels_flag,
+				   _("Variable %i"), 1, sheet);
+	variable_2 = new_data_set (input_range_2, TRUE, dao->labels_flag,
+				   _("Variable %i"), 2, sheet);
 
 	prepare_output (wbc, dao, _("z-Test"));
 
-	get_data (sheet, input_range1, &set_one, FALSE);
-	get_data (sheet, input_range2, &set_two, FALSE);
-
         set_cell (dao, 0, 0, "");
-
-	if (dao->labels_flag) {
-		Cell *cell;
-
-		cell = sheet_cell_get (sheet, input_range1->start.col,
-				       input_range1->start.row);
-		if (cell != NULL && cell->value != NULL)
-			set_cell_value (dao, 1, 0, value_duplicate (cell->value));
-
-		cell = sheet_cell_get (sheet, input_range2->start.col,
-				       input_range2->start.row);
-		if (cell != NULL && cell->value != NULL)
-			set_cell_value (dao, 2, 0, value_duplicate (cell->value));
-
-		input_range1->start.row++;
-		input_range2->start.row++;
-	} else {
-	        set_cell (dao, 1, 0, _("Variable 1"));
-		set_cell (dao, 2, 0, _("Variable 2"));
-	}
-
         set_cell_text_col (dao, 0, 1, _("/Mean"
 					"/Known Variance"
 					"/Observations"
 					"/Hypothesized Mean Difference"
+					"/Observed Mean Difference"
 					"/z"
 					"/P (Z<=z) one-tail"
 					"/z Critical one-tail"
 					"/P (Z<=z) two-tail"
 					"/z Critical two-tail"));
 
-	mean1 = set_one.sum / set_one.n;
-	mean2 = set_two.sum / set_two.n;
-	var1 = (set_one.sqrsum - set_one.sum2 / set_one.n) / (set_one.n - 1);
-	var2 = (set_two.sqrsum - set_two.sum2 / set_two.n) / (set_two.n - 1);
-	z = (mean1 - mean2 - mean_diff) /
-		sqrt (known_var1 / set_one.n + known_var2 / set_two.n);
-	p = 1 - pnorm (z, 0, 1);
+	mean_error_1 = range_average ((const gnum_float *) variable_1->data->data, 
+				      variable_1->data->len, &mean_1);
+	mean_error_2 = range_average ((const gnum_float *) variable_2->data->data, 
+				      variable_2->data->len, &mean_2);
+	no_error = (mean_error_1 == 0) && (mean_error_2 == 0);
+ 
+	if (no_error) {
+		z = (mean_1 - mean_2 - mean_diff) /
+			sqrt (known_var_1 / variable_1->data->len  + known_var_2 / 
+			      variable_2->data->len);
+		p = 1 - pnorm (fabs (z), 0, 1);
+	}
+
+	/* Labels */
+	set_cell_printf (dao, 1, 0, variable_1->label);
+	set_cell_printf (dao, 2, 0, variable_2->label);
 
 	/* Mean */
-	set_cell_float (dao, 1, 1, mean1);
-	set_cell_float (dao, 2, 1, mean2);
+	set_cell_float_na (dao, 1, 1, mean_1, mean_error_1 == 0);
+	set_cell_float_na (dao, 2, 1, mean_2, mean_error_2 == 0);
 
 	/* Known Variance */
-	set_cell_float (dao, 1, 2, known_var1);
-	set_cell_float (dao, 2, 2, known_var2);
+	set_cell_float (dao, 1, 2, known_var_1);
+	set_cell_float (dao, 2, 2, known_var_2);
 
 	/* Observations */
-	set_cell_int (dao, 1, 3, set_one.n);
-	set_cell_int (dao, 2, 3, set_two.n);
+	set_cell_int (dao, 1, 3, variable_1->data->len);
+	set_cell_int (dao, 2, 3, variable_2->data->len);
 
 	/* Hypothesized Mean Difference */
 	set_cell_float (dao, 1, 4, mean_diff);
 
+	/* Observed Mean Difference */
+	set_cell_float_na (dao, 1, 5, mean_1 - mean_2, no_error);
+
 	/* z */
-	set_cell_float (dao, 1, 5, z);
+	set_cell_float_na (dao, 1, 6, z, no_error);
 
 	/* P (Z<=z) one-tail */
-	set_cell_float (dao, 1, 6, p);
+	set_cell_float_na (dao, 1, 7, p, no_error);
 
 	/* z Critical one-tail */
-	set_cell_float (dao, 1, 7, qnorm (alpha, 0, 1));
+	set_cell_float (dao, 1, 8, qnorm (1.0 - alpha, 0, 1));
 
 	/* P (Z<=z) two-tail */
-	set_cell_float (dao, 1, 8, 2 * p);
+	set_cell_float_na (dao, 1, 9, 2 * p, no_error);
 
 	/* z Critical two-tail */
-	set_cell_float (dao, 1, 9, qnorm (1.0 - (1.0 - alpha) / 2, 0, 1));
+	set_cell_float (dao, 1, 10, qnorm (1.0 - alpha / 2, 0, 1));
 
-	free_data_set (&set_one);
-	free_data_set (&set_two);
+	set_italic (dao, 0, 0, 0, 10);
+	set_italic (dao, 0, 0, 2, 0);
+
+	autofit_column (dao, 0);
+	autofit_column (dao, 1);
+	autofit_column (dao, 2);
+
+	destroy_data_set(variable_1);
+	destroy_data_set(variable_2);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);
@@ -1587,48 +1559,42 @@ ztest_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 /* t-Test: Paired Two Sample for Means.
  */
 int
-ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
-		   Range *input_range2, gnum_float mean_diff, gnum_float alpha,
+ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet, 
+		   Value *input_range_1, Value *input_range_2, 
+		   gnum_float mean_diff_hypo, gnum_float alpha,
 		   data_analysis_output_t *dao)
 {
-        old_data_set_t set_one, set_two;
-	GSList     *current_one, *current_two;
-	gnum_float    mean1, mean2, pearson, var1, var2, t, p, df, sum_xy, sum;
-	gnum_float    dx, dm, M, Q, N, s;
+	data_set_t *variable_1;
+	data_set_t *variable_2;
+	GArray * cleaned_variable_1;
+	GArray * cleaned_variable_2;
+	GSList *missing;
+	GArray * difference;
+	gnum_float     *current_1, *current_2;
+	guint i;
+	gint mean_error_1 = 0, mean_error_2 = 0, var_error_1 = 0, var_error_2 = 0;
+	gint error = 0, mean_diff_error = 0, var_diff_error = 0;
+	gnum_float    mean_1 = 0, mean_2 = 0;
+	gnum_float    pearson, var_1, var_2, t = 0, p = 0, df, var_diff = 0, mean_diff = 0;
 
-	get_data (sheet, input_range1, &set_one, FALSE);
-	get_data (sheet, input_range2, &set_two, FALSE);
+	variable_1 = new_data_set (input_range_1, FALSE, dao->labels_flag,
+				   _("Variable %i"), 1, sheet);
+	variable_2 = new_data_set (input_range_2, FALSE, dao->labels_flag,
+				   _("Variable %i"), 2, sheet);
 
-	if (set_one.n != set_two.n) {
-	        free_data_set (&set_one);
-		free_data_set (&set_two);
+	if (variable_1->data->len != variable_2->data->len) {
+		destroy_data_set(variable_1);
+		destroy_data_set(variable_2);
 	        return 1;
 	}
 
+	missing = union_of_int_sets(variable_1->missing, variable_2->missing);
+	cleaned_variable_1 = strip_missing(variable_1->data, missing);
+	cleaned_variable_2 = strip_missing(variable_2->data, missing);
+	
 	prepare_output (wbc, dao, _("t-Test"));
 
         set_cell (dao, 0, 0, "");
-
-	if (dao->labels_flag) {
-		Cell *cell;
-
-		cell = sheet_cell_get (sheet, input_range1->start.col,
-				       input_range1->start.row);
-		if (cell != NULL && cell->value != NULL)
-			set_cell_value (dao, 1, 0, value_duplicate (cell->value));
-
-		cell = sheet_cell_get (sheet, input_range2->start.col,
-				       input_range2->start.row);
-		if (cell != NULL && cell->value != NULL)
-			set_cell_value (dao, 2, 0, value_duplicate (cell->value));
-
-		input_range1->start.row++;
-		input_range2->start.row++;
-	} else {
-	        set_cell (dao, 1, 0, _("Variable 1"));
-		set_cell (dao, 2, 0, _("Variable 2"));
-	}
-
         set_cell_text_col (dao, 0, 1, _("/Mean"
 					"/Variance"
 					"/Observations"
@@ -1641,80 +1607,91 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 					"/P (T<=t) two-tail"
 					"/t Critical two-tail"));
 
-	current_one = set_one.array;
-	current_two = set_two.array;
-	sum = sum_xy = 0;
-	dx = dm = M = Q = N = 0;
-
-	while (current_one != NULL && current_two != NULL) {
-	        gnum_float x, y, d;
-
-		x = * ((gnum_float *) current_one->data);
-		y = * ((gnum_float *) current_two->data);
-		sum_xy += x * y;
-		d = x - y;
-		sum += d;
-		dx = d - M;
-		dm = dx / (N + 1);
-		M += dm;
-		Q += N * dx * dm;
-		N++;
-	        current_one = current_one->next;
-	        current_two = current_two->next;
+	current_1 = (gnum_float *)cleaned_variable_1->data;
+	current_2 = (gnum_float *)cleaned_variable_2->data;
+	difference = g_array_new (FALSE, FALSE, sizeof (gnum_float));
+	for (i = 0; i < cleaned_variable_1->len; i++) {
+		gnum_float diff;
+		diff = *current_1  - *current_2;
+		current_1++;
+		current_2++;
+		g_array_append_val(difference, diff);
 	}
 
-	mean1 = set_one.sum / set_one.n;
-	mean2 = set_two.sum / set_two.n;
+	mean_error_1 = range_average ((const gnum_float *) cleaned_variable_1->data, 
+				      cleaned_variable_1->len, &mean_1);
+	mean_error_2 = range_average ((const gnum_float *) cleaned_variable_2->data, 
+				      cleaned_variable_2->len, &mean_2);
+	mean_diff_error = range_average ((const gnum_float *) difference->data, 
+					 difference->len, &mean_diff);
 
-	var1 = (set_one.sqrsum - set_one.sum2 / set_one.n) / (set_one.n - 1);
-	var2 = (set_two.sqrsum - set_two.sum2 / set_two.n) / (set_two.n - 1);
+	if (mean_error_1 == 0) 
+		var_error_1 = range_var_est (
+			(const gnum_float *)cleaned_variable_1->data, 
+			cleaned_variable_1->len , &var_1);
+	if (mean_error_2 == 0) 
+		var_error_2 = range_var_est (
+			(const gnum_float *) cleaned_variable_2->data, 
+			cleaned_variable_2->len , &var_2);
+	if (mean_diff_error == 0) 
+		var_diff_error = range_var_est (
+			(const gnum_float *) difference->data, 
+			difference->len , &var_diff);
+	else 
+		var_diff_error = 99;
 
-	df = set_one.n - 1;
-	pearson = ((set_one.n * sum_xy - set_one.sum * set_two.sum) /
-		   sqrt ((set_one.n * set_one.sqrsum - set_one.sum2) *
-			 (set_one.n * set_two.sqrsum - set_two.sum2)));
-	s = sqrt (Q / (N - 1));
-	t = (sum / set_one.n - mean_diff) / (s / sqrt (set_one.n));
-	p = 1.0 - pt (fabs (t), df);
+	df = cleaned_variable_1->len - 1;
+
+	if (var_diff_error == 0) {
+		t = (mean_diff - mean_diff_hypo)/sqrt(var_diff/difference->len);
+		p = 1.0 - pt (fabs (t), df);
+	}
+
+
+
+	/* Labels */
+	set_cell_printf (dao, 1, 0, variable_1->label);
+	set_cell_printf (dao, 2, 0, variable_2->label);
 
 	/* Mean */
-	set_cell_float (dao, 1, 1, mean1);
-	set_cell_float (dao, 2, 1, mean2);
+	set_cell_float_na (dao, 1, 1, mean_1, mean_error_1 == 0);
+	set_cell_float_na (dao, 2, 1, mean_2, mean_error_2 == 0);
 
 	/* Variance */
-	set_cell_float (dao, 1, 2, var1);
-	set_cell_float (dao, 2, 2, var2);
+	set_cell_float_na (dao, 1, 2, var_1, (mean_error_1 == 0) && (var_error_1 == 0));
+	set_cell_float_na (dao, 2, 2, var_2, (mean_error_2 == 0) && (var_error_2 == 0));
 
 	/* Observations */
-	set_cell_int (dao, 1, 3, set_one.n);
-	set_cell_int (dao, 2, 3, set_two.n);
+	set_cell_int (dao, 1, 3, cleaned_variable_1->len);
+	set_cell_int (dao, 2, 3, cleaned_variable_2->len);
 
 	/* Pearson Correlation */
-	set_cell_float (dao, 1, 4, pearson);
+	error =  range_correl_pop
+		((gnum_float *)(cleaned_variable_1->data),
+		 (gnum_float *)(cleaned_variable_2->data),
+		 cleaned_variable_1->len, &pearson);
+	set_cell_float_na (dao, 1, 4, pearson, error == 0);
 
 	/* Hypothesized Mean Difference */
-	set_cell_float (dao, 1, 5, mean_diff);
+	set_cell_float (dao, 1, 5, mean_diff_hypo);
 
 	/* df */
 	set_cell_float (dao, 1, 6, df);
 
 	/* t */
-	set_cell_float (dao, 1, 7, t);
+  	set_cell_float_na (dao, 1, 7, t, var_diff_error == 0);
 
 	/* P (T<=t) one-tail */
-	set_cell_float (dao, 1, 8, p);
+	set_cell_float_na (dao, 1, 8, p, var_diff_error == 0);
 
 	/* t Critical one-tail */
-	set_cell_float (dao, 1, 9, qt (alpha, df));
+	set_cell_float (dao, 1, 9, qt (1 - alpha, df));
 
 	/* P (T<=t) two-tail */
-	set_cell_float (dao, 1, 10, 2 * p);
+	set_cell_float_na (dao, 1, 10, 2 * p, var_diff_error == 0);
 
 	/* t Critical two-tail */
-	set_cell_float (dao, 1, 11, qt (1.0 - (1.0 - alpha) / 2, df));
-
-        free_data_set (&set_one);
-        free_data_set (&set_two);
+	set_cell_float (dao, 1, 11, qt (1.0 - alpha / 2, df));
 
 	set_italic (dao, 0, 0, 0, 11);
 	set_italic (dao, 0, 0, 2, 0);
@@ -1722,6 +1699,16 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 	autofit_column (dao, 0);
 	autofit_column (dao, 1);
 	autofit_column (dao, 2);
+
+	if (cleaned_variable_1 != variable_1->data)
+		g_array_free (cleaned_variable_1, TRUE);
+	if (cleaned_variable_2 != variable_2->data)
+		g_array_free (cleaned_variable_2, TRUE);
+
+	g_array_free (difference,TRUE);
+
+	destroy_data_set(variable_1);
+	destroy_data_set(variable_2);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);
@@ -1733,45 +1720,33 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 /* t-Test: Two-Sample Assuming Equal Variances.
  */
 int
-ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
-		   Range *input_range2, gnum_float mean_diff, gnum_float alpha,
+ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet, 
+		   Value *input_range_1, Value *input_range_2, 
+		   gnum_float mean_diff, gnum_float alpha,
 		   data_analysis_output_t *dao)
 {
-        old_data_set_t set_one, set_two;
-	gnum_float    mean1, mean2, var, var1, var2, t, p, df;
+	data_set_t *variable_1;
+	data_set_t *variable_2;
+	gboolean no_error;
+	gnum_float mean_1 = 0, mean_2 = 0, var_1 = 0, var_2 = 0;
+	gnum_float t = 0, p = 0, var = 0;
+	gint df;
+	gint mean_error_1 = 0, mean_error_2 = 0, var_error_1 = 0, var_error_2 = 0;
+
+	variable_1 = new_data_set (input_range_1, TRUE, dao->labels_flag,
+				   _("Variable %i"), 1, sheet);
+	variable_2 = new_data_set (input_range_2, TRUE, dao->labels_flag,
+				   _("Variable %i"), 2, sheet);
 
 	prepare_output (wbc, dao, _("t-Test"));
 
-	get_data (sheet, input_range1, &set_one, FALSE);
-	get_data (sheet, input_range2, &set_two, FALSE);
-
         set_cell (dao, 0, 0, "");
-
-	if (dao->labels_flag) {
-		Cell *cell;
-
-		cell = sheet_cell_get (sheet, input_range1->start.col,
-				       input_range1->start.row);
-		if (cell != NULL && cell->value != NULL)
-			set_cell_value (dao, 1, 0, value_duplicate (cell->value));
-
-		cell = sheet_cell_get (sheet, input_range2->start.col,
-				       input_range2->start.row);
-		if (cell != NULL && cell->value != NULL)
-			set_cell_value (dao, 2, 0, value_duplicate (cell->value));
-
-		input_range1->start.row++;
-		input_range2->start.row++;
-	} else {
-	        set_cell (dao, 1, 0, _("Variable 1"));
-		set_cell (dao, 2, 0, _("Variable 2"));
-	}
-
         set_cell_text_col (dao, 0, 1, _("/Mean"
 					"/Variance"
 					"/Observations"
 					"/Pooled Variance"
 					"/Hypothesized Mean Difference"
+					"/Observed Mean Difference"
 					"/df"
 					"/t Stat"
 					"/P (T<=t) one-tail"
@@ -1779,66 +1754,88 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 					"/P (T<=t) two-tail"
 					"/t Critical two-tail"));
 
-	mean1 = set_one.sum / set_one.n;
-	mean2 = set_two.sum / set_two.n;
+	mean_error_1 = range_average ((const gnum_float *) variable_1->data->data, 
+				      variable_1->data->len, &mean_1);
+	mean_error_2 = range_average ((const gnum_float *) variable_2->data->data, 
+				      variable_2->data->len, &mean_2);
+ 
+	if (mean_error_1 == 0) 
+		var_error_1 = range_var_est (
+			(const gnum_float *)variable_1->data->data, 
+			variable_1->data->len , &var_1);
+	if (mean_error_2 == 0) 
+		var_error_2 = range_var_est (
+			(const gnum_float *) variable_2->data->data, 
+			variable_2->data->len , &var_2);
 
-	var1 = (set_one.sqrsum - set_one.sum2 / set_one.n) / (set_one.n - 1);
-	var2 = (set_two.sqrsum - set_two.sum2 / set_two.n) / (set_two.n - 1);
+	df = variable_1->data->len + variable_2->data->len - 2;
 
-	df = set_one.n + set_two.n - 2;
+	no_error = ((mean_error_1 == 0) && (mean_error_2 == 0) &&
+		       (var_error_1 == 0) && (var_error_2 == 0) && (df > 0));
 
-	var = ((set_one.sqrsum - set_one.sum2 / set_one.n) +
-	       (set_two.sqrsum - set_two.sum2 / set_two.n)) / df;
+	if (no_error) {
+		var = (var_1 * (variable_1->data->len - 1) + 
+		       var_2 * (variable_2->data->len - 1)) / df;
+		if (var != 0) {
+			t = (mean_1 - mean_2 - mean_diff) /
+				sqrt (var / variable_1->data->len + var / variable_2->data->len);
+			p = 1.0 - pt (fabs(t), df);
+		}
+	}
 
-	t = fabs (mean1 - mean2 - mean_diff) /
-		sqrt (var / set_one.n + var / set_two.n);
-	p = 1.0 - pt (t, df);
+	/* Labels */
+	set_cell_printf (dao, 1, 0, variable_1->label);
+	set_cell_printf (dao, 2, 0, variable_2->label);
 
 	/* Mean */
-	set_cell_float (dao, 1, 1, mean1);
-	set_cell_float (dao, 2, 1, mean2);
+	set_cell_float_na (dao, 1, 1, mean_1, mean_error_1 == 0);
+	set_cell_float_na (dao, 2, 1, mean_2, mean_error_2 == 0);
 
 	/* Variance */
-	set_cell_float (dao, 1, 2, var1);
-	set_cell_float (dao, 2, 2, var2);
+	set_cell_float_na (dao, 1, 2, var_1, (mean_error_1 == 0) && (var_error_1 == 0));
+	set_cell_float_na (dao, 2, 2, var_2, (mean_error_2 == 0) && (var_error_2 == 0));
 
 	/* Observations */
-	set_cell_int (dao, 1, 3, set_one.n);
-	set_cell_int (dao, 2, 3, set_two.n);
+	set_cell_int (dao, 1, 3, variable_1->data->len);
+	set_cell_int (dao, 2, 3, variable_2->data->len);
 
 	/* Pooled Variance */
-	set_cell_float (dao, 1, 4, var);
+	set_cell_float_na (dao, 1, 4, var, no_error);
 
 	/* Hypothesized Mean Difference */
 	set_cell_float (dao, 1, 5, mean_diff);
 
+	/* Observed Mean Difference */
+	set_cell_float_na (dao, 1, 6, mean_1 - mean_2, 
+			   (mean_error_1 == 0) && (mean_error_2 == 0));
+
 	/* df */
-	set_cell_float (dao, 1, 6, df);
+	set_cell_float (dao, 1, 7, df);
 
 	/* t */
-	set_cell_float (dao, 1, 7, t);
+	set_cell_float_na (dao, 1, 8, t, no_error && (var != 0));
 
 	/* P (T<=t) one-tail */
-	set_cell_float (dao, 1, 8, p);
+	set_cell_float_na (dao, 1, 9, p, no_error && (var != 0));
 
 	/* t Critical one-tail */
-	set_cell_float (dao, 1, 9, qt (alpha, df));
+	set_cell_float (dao, 1, 10, qt (1.0 - alpha, df));
 
 	/* P (T<=t) two-tail */
-	set_cell_float (dao, 1, 10, 2 * p);
+	set_cell_float_na (dao, 1, 11, 2 * p, no_error && (var != 0));
 
 	/* t Critical two-tail */
-	set_cell_float (dao, 1, 11, qt (1.0 - (1.0 - alpha) / 2, df));
+	set_cell_float (dao, 1, 12, qt (1.0 - alpha / 2, df));
 
-        free_data_set (&set_one);
-        free_data_set (&set_two);
-
-	set_italic (dao, 0, 0, 0, 11);
+	set_italic (dao, 0, 0, 0, 12);
 	set_italic (dao, 0, 0, 2, 0);
 
 	autofit_column (dao, 0);
 	autofit_column (dao, 1);
 	autofit_column (dao, 2);
+
+	destroy_data_set(variable_1);
+	destroy_data_set(variable_2);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);
@@ -1850,44 +1847,32 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 /* t-Test: Two-Sample Assuming Unequal Variances.
  */
 int
-ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
-		    Range *input_range2, gnum_float mean_diff, gnum_float alpha,
+ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet, 
+		    Value *input_range_1, Value *input_range_2, 
+		    gnum_float mean_diff, gnum_float alpha,
 		    data_analysis_output_t *dao)
 {
-        old_data_set_t set_one, set_two;
-	gnum_float    mean1, mean2, var1, var2, t, p, df, c;
+	data_set_t *variable_1;
+	data_set_t *variable_2;
+	gboolean no_error;
+	gnum_float mean_1 = 0, mean_2 = 0, var_1 = 0, var_2 = 0;
+	gnum_float t = 0, p = 0, c = 0;
+	gnum_float df = 0;
+	gint mean_error_1 = 0, mean_error_2 = 0, var_error_1 = 0, var_error_2 = 0;
+
+	variable_1 = new_data_set (input_range_1, TRUE, dao->labels_flag,
+				   _("Variable %i"), 1, sheet);
+	variable_2 = new_data_set (input_range_2, TRUE, dao->labels_flag,
+				   _("Variable %i"), 2, sheet);
 
 	prepare_output (wbc, dao, _("t-Test"));
 
-	get_data (sheet, input_range1, &set_one, FALSE);
-	get_data (sheet, input_range2, &set_two, FALSE);
-
         set_cell (dao, 0, 0, "");
-
-	if (dao->labels_flag) {
-		Cell *cell;
-
-		cell = sheet_cell_get (sheet, input_range1->start.col,
-				       input_range1->start.row);
-		if (cell != NULL && cell->value != NULL)
-			set_cell_value (dao, 1, 0, value_duplicate (cell->value));
-
-		cell = sheet_cell_get (sheet, input_range2->start.col,
-				       input_range2->start.row);
-		if (cell != NULL && cell->value != NULL)
-			set_cell_value (dao, 2, 0, value_duplicate (cell->value));
-
-		input_range1->start.row++;
-		input_range2->start.row++;
-	} else {
-	        set_cell (dao, 1, 0, _("Variable 1"));
-		set_cell (dao, 2, 0, _("Variable 2"));
-	}
-
         set_cell_text_col (dao, 0, 1, _("/Mean"
 					"/Variance"
 					"/Observations"
 					"/Hypothesized Mean Difference"
+					"/Observed Mean Difference"
 					"/df"
 					"/t Stat"
 					"/P (T<=t) one-tail"
@@ -1895,54 +1880,74 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 					"/P (T<=t) two-tail"
 					"/t Critical two-tail"));
 
-	mean1 = set_one.sum / set_one.n;
-	mean2 = set_two.sum / set_two.n;
+	mean_error_1 = range_average ((const gnum_float *) variable_1->data->data, 
+				      variable_1->data->len, &mean_1);
+	mean_error_2 = range_average ((const gnum_float *) variable_2->data->data, 
+				      variable_2->data->len, &mean_2);
+ 
+	if (mean_error_1 == 0) 
+		var_error_1 = range_var_est (
+			(const gnum_float *)variable_1->data->data, 
+			variable_1->data->len , &var_1);
+	if (mean_error_2 == 0) 
+		var_error_2 = range_var_est (
+			(const gnum_float *) variable_2->data->data, 
+			variable_2->data->len , &var_2);
 
-	var1 = (set_one.sqrsum - set_one.sum2 / set_one.n) / (set_one.n - 1);
-	var2 = (set_two.sqrsum - set_two.sum2 / set_two.n) / (set_two.n - 1);
+	no_error = ((mean_error_1 == 0) && (mean_error_2 == 0) &&
+		    (var_error_1 == 0) && (var_error_2 == 0) && 
+		    (variable_1->data->len > 0) && (variable_2->data->len > 0));
 
-	c = (var1 / set_one.n) / (var1 / set_one.n + var2 / set_two.n);
-	df = 1.0 / ((c * c) / (set_one.n - 1.0) + ((1 - c)* (1 - c)) / (set_two.n - 1.0));
+	if (no_error) {
+		c = (var_1 / variable_1->data->len) / 
+			(var_1 / variable_1->data->len + var_2 / variable_2->data->len);
+		df = 1.0 / ((c * c) / (variable_1->data->len - 1.0) + ((1 - c)* (1 - c)) / (variable_2->data->len - 1.0));
+		
+		t =  (mean_1 - mean_2 - mean_diff) /
+			sqrt (var_1 / variable_1->data->len + var_2 / variable_2->data->len);
+		p = 1.0 - pt (fabs(t), df);
+	}
 
-	t = fabs (mean1 - mean2 - mean_diff) /
-		sqrt (var1 / set_one.n + var2 / set_two.n);
-	p = 1.0 - pt (t, df);
+	/* Labels */
+	set_cell_printf (dao, 1, 0, variable_1->label);
+	set_cell_printf (dao, 2, 0, variable_2->label);
 
 	/* Mean */
-	set_cell_float (dao, 1, 1, mean1);
-	set_cell_float (dao, 2, 1, mean2);
+	set_cell_float_na (dao, 1, 1, mean_1, mean_error_1 == 0);
+	set_cell_float_na (dao, 2, 1, mean_2, mean_error_2 == 0);
 
 	/* Variance */
-	set_cell_float (dao, 1, 2, var1);
-	set_cell_float (dao, 2, 2, var2);
+	set_cell_float_na (dao, 1, 2, var_1, (mean_error_1 == 0) && (var_error_1 == 0));
+	set_cell_float_na (dao, 2, 2, var_2, (mean_error_2 == 0) && (var_error_2 == 0));
 
 	/* Observations */
-	set_cell_int (dao, 1, 3, set_one.n);
-	set_cell_int (dao, 2, 3, set_two.n);
+	set_cell_int (dao, 1, 3, variable_1->data->len);
+	set_cell_int (dao, 2, 3, variable_2->data->len);
 
 	/* Hypothesized Mean Difference */
 	set_cell_float (dao, 1, 4, mean_diff);
 
+	/* Observed Mean Difference */
+	set_cell_float_na (dao, 1, 5, mean_1 - mean_2, 
+			   (mean_error_1 == 0) && (mean_error_2 == 0));
+
 	/* df */
-	set_cell_float (dao, 1, 5, df);
+	set_cell_float_na (dao, 1, 6, df, no_error);
 
 	/* t */
-	set_cell_float (dao, 1, 6, t);
+	set_cell_float_na (dao, 1, 7, t, no_error);
 
 	/* P (T<=t) one-tail */
-	set_cell_float (dao, 1, 7, p);
+	set_cell_float_na (dao, 1, 8, p, no_error);
 
 	/* t Critical one-tail */
-	set_cell_float (dao, 1, 8, qt (alpha, df));
+	set_cell_float (dao, 1, 9, qt (1.0 - alpha, df));
 
 	/* P (T<=t) two-tail */
-	set_cell_float (dao, 1, 9, 2 * p);
+	set_cell_float_na (dao, 1, 10, 2 * p, no_error);
 
 	/* t Critical two-tail */
-	set_cell_float (dao, 1, 10, qt (1.0 - (1.0 - alpha) / 2, df));
-
-        free_data_set (&set_one);
-        free_data_set (&set_two);
+	set_cell_float (dao, 1, 11, qt (1.0 - alpha / 2, df));
 
 	set_italic (dao, 0, 0, 0, 11);
 	set_italic (dao, 0, 0, 2, 0);
@@ -1950,6 +1955,9 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 	autofit_column (dao, 0);
 	autofit_column (dao, 1);
 	autofit_column (dao, 2);
+
+	destroy_data_set(variable_1);
+	destroy_data_set(variable_2);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);
@@ -1969,100 +1977,141 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 /* F-Test: Two-Sample for Variances
  */
 int
-ftest_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
-	    Range *input_range2, gnum_float alpha,
+ftest_tool (WorkbookControl *wbc, Sheet *sheet, 
+	    Value *input_range_1, Value *input_range_2, 
+	    gnum_float alpha,
 	    data_analysis_output_t *dao)
 {
-        old_data_set_t set_one, set_two;
-	gnum_float    mean1, mean2, var1, var2, f, p, df1, df2, c;
+	data_set_t *variable_1;
+	data_set_t *variable_2;
+	int result = 0;
+	gboolean calc_error = FALSE;
 
-	prepare_output (wbc, dao, _("F-Test"));
+	gnum_float    mean_1 = 0, mean_2 = 0, var_1 = 0, var_2 = 0, f = 0;
+	gnum_float  p_right_tail = 0, q_right_tail = 0;
+	gnum_float  p_left_tail = 0, q_left_tail = 0;
+	gnum_float  p_2_tail = 0, q_2_tail_right = 0, q_2_tail_left = 0;
+	gint  df_1= 0, df_2 = 0;
+	gint mean_error_1, mean_error_2, var_error_1 = 0, var_error_2 = 0;
 
-        set_cell (dao, 0, 0, "");
+	variable_1 = new_data_set (input_range_1, TRUE, dao->labels_flag,
+			      _("Variable %i"), 1, sheet);
+	variable_2 = new_data_set (input_range_2, TRUE, dao->labels_flag,
+			      _("Variable %i"), 2, sheet);
 
-	if (dao->labels_flag) {
-		Cell *cell;
-
-		cell = sheet_cell_get (sheet, input_range1->start.col,
-				       input_range1->start.row);
-		if (cell != NULL && cell->value != NULL)
-			set_cell_value (dao, 1, 0, value_duplicate (cell->value));
-
-		cell = sheet_cell_get (sheet, input_range2->start.col,
-				       input_range2->start.row);
-		if (cell != NULL && cell->value != NULL)
-			set_cell_value (dao, 2, 0, value_duplicate (cell->value));
-
-		input_range1->start.row++;
-		input_range2->start.row++;
+	if ((variable_1->data->len == 0) ||  (variable_2->data->len == 0))
+	{
+		result = ((variable_1->data->len == 0) ?  1 : 2);
 	} else {
-	        set_cell (dao, 1, 0, _("Variable 1"));
-		set_cell (dao, 2, 0, _("Variable 2"));
+
+		prepare_output (wbc, dao, _("F-Test"));
+		
+		set_cell (dao, 0, 0, "");
+		set_cell (dao, 1, 0, variable_1->label);
+		set_cell (dao, 2, 0, variable_2->label);
+		
+		set_cell_text_col (dao, 0, 1, _("/Mean"
+						"/Variance"
+						"/Observations"
+						"/df"
+						"/F"
+						"/P (F<=f) right-tail"
+						"/F Critical right-tail"
+						"/P (f<=F) left-tail"
+						"/F Critical left-tail"
+						"/P two-tail"
+						"/F Critical two-tail"));
+
+	        mean_error_1 = range_average ((const gnum_float *) variable_1->data->data, 
+					      variable_1->data->len, &mean_1);
+	        mean_error_2 = range_average ((const gnum_float *) variable_2->data->data, 
+					      variable_2->data->len, &mean_2);
+
+		if (mean_error_1 == 0) 
+			var_error_1 = range_var_est (
+				(const gnum_float *)variable_1->data->data, 
+				variable_1->data->len , &var_1);
+		if (mean_error_2 == 0) 
+			var_error_2 = range_var_est (
+				(const gnum_float *) variable_2->data->data, 
+				variable_2->data->len , &var_2);
+
+		df_1 = variable_1->data->len - 1;
+		df_2 = variable_2->data->len - 1;
+
+		
+		
+		calc_error = !((mean_error_1 == 0) && (mean_error_2 == 0) &&
+			(var_error_1 == 0) && (var_error_2 == 0) && (var_2 != 0));
+		
+		if (!calc_error) {
+			f = var_1/var_2;
+			p_right_tail = 1.0 - pf (f, df_1, df_2);
+			q_right_tail = qf (1.0 - alpha, df_1, df_2);
+			p_left_tail =  pf (f, df_1, df_2);
+			q_left_tail =  qf ( alpha, df_1, df_2);
+			if (p_right_tail < 0.5)
+				p_2_tail =  2 * p_right_tail;
+			else
+				p_2_tail =  2 * p_left_tail;
+		
+			q_2_tail_left =  qf (alpha/2.0, df_1, df_2);
+			q_2_tail_right  =  qf (1.0 - alpha/2.0, df_1, df_2);
+		}
+
+		/* Mean */
+		set_cell_float_na (dao, 1, 1, mean_1, mean_error_1 == 0);
+		set_cell_float_na (dao, 2, 1, mean_2, mean_error_2 == 0);
+		
+		/* Variance */
+		set_cell_float_na (dao, 1, 2, var_1, (mean_error_1 == 0) && (var_error_1 == 0));
+		set_cell_float_na (dao, 2, 2, var_2, (mean_error_2 == 0) && (var_error_2 == 0));
+		
+		/* Observations */
+		set_cell_int (dao, 1, 3, variable_1->data->len);
+		set_cell_int (dao, 2, 3, variable_2->data->len);
+		
+		/* df */
+		set_cell_int (dao, 1, 4, df_1);
+		set_cell_int (dao, 2, 4, df_2);
+		
+		/* F */
+		set_cell_float_na (dao, 1, 5, f, !calc_error);
+		
+		/* P (F<=f) right-tail */
+		set_cell_float_na (dao, 1, 6, p_right_tail, !calc_error);
+		
+		/* F Critical right-tail */
+		set_cell_float_na (dao, 1, 7, q_right_tail, !calc_error);
+
+		/* P (F<=f) left-tail */
+		set_cell_float_na (dao, 1, 8, p_left_tail, !calc_error);
+		
+		/* F Critical left-tail */
+		set_cell_float_na (dao, 1, 9, q_left_tail, !calc_error);
+
+		/* P (F<=f) two-tail */
+		set_cell_float_na (dao, 1, 10, p_2_tail, !calc_error);
+		
+		/* F Critical two-tail */
+		set_cell_float_na (dao, 1, 11, q_2_tail_left, !calc_error);
+		set_cell_float_na (dao, 2, 11, q_2_tail_right, !calc_error);
+		
+		set_italic (dao, 0, 0, 0, 11);
+		set_italic (dao, 0, 0, 2, 0);
+		
+		autofit_column (dao, 0);
+		autofit_column (dao, 1);
+		autofit_column (dao, 2);
+		
+		sheet_set_dirty (dao->sheet, TRUE);
+		sheet_update (sheet);
 	}
 
-	get_data (sheet, input_range1, &set_one, FALSE);
-	get_data (sheet, input_range2, &set_two, FALSE);
-
-        set_cell_text_col (dao, 0, 1, _("/Mean"
-					"/Variance"
-					"/Observations"
-					"/df"
-					"/F"
-					"/P (F<=f) one-tail"
-					"/F Critical one-tail"));
-
-	mean1 = set_one.sum / set_one.n;
-	mean2 = set_two.sum / set_two.n;
-
-	var1 = (set_one.sqrsum - set_one.sum2 / set_one.n) / (set_one.n - 1);
-	var2 = (set_two.sqrsum - set_two.sum2 / set_two.n) / (set_two.n - 1);
-
-	c = (var1 / set_one.n) / (var1 / set_one.n + var2 / set_two.n);
-	df1 = set_one.n - 1;
-	df2 = set_two.n - 1;
-
-	f = var1 / var2;
-	p = 1.0 - pf (f, df1, df2);
-
-	/* Mean */
-	set_cell_float (dao, 1, 1, mean1);
-	set_cell_float (dao, 2, 1, mean2);
-
-	/* Variance */
-	set_cell_float (dao, 1, 2, var1);
-	set_cell_float (dao, 2, 2, var2);
-
-	/* Observations */
-	set_cell_int (dao, 1, 3, set_one.n);
-	set_cell_int (dao, 2, 3, set_two.n);
-
-	/* df */
-	set_cell_float (dao, 1, 4, df1);
-	set_cell_float (dao, 2, 4, df2);
-
-	/* F */
-	set_cell_float (dao, 1, 5, f);
-
-	/* P (F<=f) one-tail */
-	set_cell_float (dao, 1, 6, p);
-
-	/* F Critical one-tail */
-	set_cell_float (dao, 1, 7, qf (alpha, df1, df2));
-
-        free_data_set (&set_one);
-        free_data_set (&set_two);
-
-	set_italic (dao, 0, 0, 0, 11);
-	set_italic (dao, 0, 0, 2, 0);
-
-	autofit_column (dao, 0);
-	autofit_column (dao, 1);
-	autofit_column (dao, 2);
-
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (sheet);
-
-	return 0;
+	destroy_data_set(variable_1);
+	destroy_data_set(variable_2);
+	
+	return result;
 }
 
 
@@ -2836,20 +2885,27 @@ ranking_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
  **/
 
 int
-anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
-			  int columns_flag, gnum_float alpha,
-			  data_analysis_output_t *dao)
+anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet, 
+			  GSList *input, group_by_t group_by,
+			  gnum_float alpha, data_analysis_output_t *dao)
 {
-        old_data_set_t *data_sets;
-	int        vars, cols, rows, col, i;
-	gnum_float *mean, mean_total, sum_total, n_total, ssb, ssw, sst;
-	gnum_float ms_b, ms_w, f, p, f_c;
+	GSList *input_range;
+	GPtrArray *data = NULL;
+	guint index;
+	gint error;
+	gboolean A_is_valid = TRUE, T_is_valid = TRUE, CF_is_valid = TRUE;
+	gint N = 0;
+	gnum_float T = 0.0, A = 0.0, CF = 0.0;
+	gnum_float ss_b, ss_w, ss_t;
+	gnum_float ms_b, ms_w, f = 0.0, p = 0.0, f_c = 0.0;
 	int        df_b, df_w, df_t;
 
-	prepare_output (wbc, dao, _("Anova"));
+	input_range = input;
+	prepare_input_range (&input_range, group_by);
+	data = new_data_set_list (input_range, group_by,
+				  TRUE, dao->labels_flag, sheet);
 
-	cols = range->end.col - range->start.col + 1;
-	rows = range->end.row - range->start.row + 1;
+	prepare_output (wbc, dao, _("Anova"));
 
 	set_cell (dao, 0, 0, _("Anova: Single Factor"));
 	set_cell (dao, 0, 2, _("SUMMARY"));
@@ -2858,138 +2914,116 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 					"/Sum"
 					"/Average"
 					"/Variance"));
+	set_italic (dao, 0, 0, 0, data->len + 11);
+	set_italic (dao, 0, 3, 4, 3);
 
-	if (columns_flag) {
-	        vars = cols;
-		for (col = 0; col < vars; col++) {
-			if (dao->labels_flag) {
-			        Cell *cell = sheet_cell_get
-					(sheet, range->start.col + col,
-					 range->start.row);
-				if (cell != NULL && cell->value != NULL)
-				        set_cell_value (dao, 0, col + 4, value_duplicate (cell->value));
-			} else {
-				set_cell_printf (dao, 0, col + 4, _("Column %d"), col + 1);
-			}
-		}
-		data_sets = g_new (old_data_set_t, vars);
-
-		if (dao->labels_flag)
-		        range->start.row++;
-
-		for (i = 0; i < vars; i++)
-		        get_data_groupped_by_columns (sheet,
-						      range, i,
-						      &data_sets[i]);
-	} else {
-	        vars = rows;
-		for (col = 0; col < vars; col++) {
-			if (dao->labels_flag) {
-			        Cell *cell = sheet_cell_get
-					(sheet, range->start.col,
-					 range->start.row + col);
-				if (cell != NULL && cell->value != NULL)
-				        set_cell_value (dao, 0, col + 4, value_duplicate (cell->value));
-			} else {
-				set_cell_printf (dao, 0, col + 4, _("Row %d"), col + 1);
-			}
-		}
-		data_sets = g_new (old_data_set_t, vars);
-
-		if (dao->labels_flag)
-		        range->start.col++;
-
-		for (i = 0; i < vars; i++)
-		        get_data_groupped_by_rows (sheet,
-						   range, i,
-						   &data_sets[i]);
-	}
-
-	/* SUMMARY */
-	for (i = 0; i < vars; i++) {
-	        gnum_float v;
-
-	        /* Count */
-		set_cell_int (dao, 1, i + 4, data_sets[i].n);
-
+	dao->start_row += 4;
+	dao->rows -= 4;
+	if ((dao->type == RangeOutput) &&  (dao->rows <= 0)) 
+		goto finish_anova_single_factor_tool;
+	
+	/* SUMMARY & ANOVA calculation*/
+	for (index = 0; index < data->len; index++) {
+		gnum_float x;
+		data_set_t *current_data;
+		gnum_float *the_data;
+		
+		current_data = g_ptr_array_index(data, index);
+		the_data = (gnum_float *)current_data->data->data;
+		
+		/* Label */
+		set_cell_printf (dao, 0, index, current_data->label);
+		
+		/* Count */
+		set_cell_int (dao, 1, index, current_data->data->len);
+		N += current_data->data->len;
+		
 		/* Sum */
-		set_cell_float (dao, 2, i + 4, data_sets[i].sum);
+		error = range_sum (the_data, 
+				   current_data->data->len, &x);
+		set_cell_float_na (dao, 2, index, x, error == 0);
+		A += (x * x) / current_data->data->len;
+		A_is_valid = A_is_valid && (error == 0) && (current_data->data->len > 0);
+		CF += x;
+		CF_is_valid = CF_is_valid && (error == 0);
 
 		/* Average */
-		set_cell_float (dao, 3, i + 4, data_sets[i].sum / data_sets[i].n);
+		error = range_average (the_data, 
+				       current_data->data->len, &x);
+		set_cell_float_na (dao, 3, index, x, error == 0);
 
+		
 		/* Variance */
-		v = (data_sets[i].sqrsum - data_sets[i].sum2 / data_sets[i].n) /
-			(data_sets[i].n - 1);
-		set_cell_float (dao, 4, i + 4, v);
+		error = range_var_est (the_data, 
+				       current_data->data->len, &x);
+		set_cell_float_na (dao, 4, index, x, error == 0);
+
+		/* Further Calculations */;
+		error = range_sumsq (the_data, current_data->data->len, &x);
+		T += x;
+		T_is_valid = T_is_valid && (error == 0);
 	}
 
-	set_cell_text_col (dao, 0, vars + 6, _("/ANOVA"
+	CF = (CF * CF)/N;
+
+	dao->start_row += data->len + 2;
+	dao->rows -= data->len + 2;
+	if ((dao->type == RangeOutput) &&  (dao->rows <= 0)) 
+		goto finish_anova_single_factor_tool;
+
+
+	set_cell_text_col (dao, 0, 0, _("/ANOVA"
 					       "/Source of Variation"
 					       "/Between Groups"
 					       "/Within Groups"
 					       "/Total"));
-	set_cell_text_row (dao, 1, vars + 7, _("/SS"
+	set_cell_text_row (dao, 1, 1, _("/SS"
 					       "/df"
 					       "/MS"
 					       "/F"
 					       "/P-value"
 					       "/F critical"));
+	set_italic (dao, 1, 1, 6, 1);
 
 	/* ANOVA */
-	mean = g_new (gnum_float, vars);
-	sum_total = n_total = 0;
-	ssb = ssw = sst = 0;
-	for (i = 0; i < vars; i++) {
-	        mean[i] = data_sets[i].sum / data_sets[i].n;
-		sum_total += data_sets[i].sum;
-		n_total += data_sets[i].n;
+	df_b = data->len - 1;
+	df_w = N - data->len;
+	df_t = N - 1;
+	ss_b = A - CF;
+	ss_w = T - A;
+	ss_t = T - CF;
+	ms_b = ss_b / df_b;
+	ms_w = ss_w / df_w;
+	if (A_is_valid && CF_is_valid && T_is_valid) {
+		f    = ms_b / ms_w;
+		p    = 1.0 - pf (f, df_b, df_w);
+		f_c  = qf (1 - alpha, df_b, df_w);
 	}
-	mean_total = sum_total / n_total;
-	for (i = 0; i < vars; i++) {
-	        gnum_float t;
-		t = mean[i] - mean_total;
-		ssb += t * t * data_sets[i].n;
-	}
-	for (i = 0; i < vars; i++) {
-	        GSList  *current = data_sets[i].array;
-		gnum_float t, x;
 
-		while (current != NULL) {
-			x = * ((gnum_float *) current->data);
-			t = x - mean[i];
-		        ssw += t * t;
-			t = x - mean_total;
-			sst += t * t;
-			current = current->next;
-		}
-	}
-	df_b = vars - 1;
-	df_w = n_total - vars;
-	df_t = n_total - 1;
-	ms_b = ssb / df_b;
-	ms_w = ssw / df_w;
-	f    = ms_b / ms_w;
-	p    = 1.0 - pf (f, df_b, df_w);
-	f_c  = qf (alpha, df_b, df_w);
+	set_cell_float_na (dao, 1, 2, ss_b, A_is_valid && CF_is_valid);
+	set_cell_float_na (dao, 1, 3, ss_w, A_is_valid && T_is_valid);
+	set_cell_float_na (dao, 1, 4, ss_t, T_is_valid && CF_is_valid);
+	set_cell_int (dao, 2, 2, df_b);
+	set_cell_int (dao, 2, 3, df_w);
+	set_cell_int (dao, 2, 4, df_t);
+	set_cell_float_na (dao, 3, 2, ms_b, A_is_valid && CF_is_valid);
+	set_cell_float_na (dao, 3, 3, ms_w, A_is_valid && T_is_valid);
+	set_cell_float_na (dao, 4, 2, f, A_is_valid && CF_is_valid && T_is_valid);
+	set_cell_float_na (dao, 5, 2, p, A_is_valid && CF_is_valid && T_is_valid);
+	set_cell_float_na (dao, 6, 2, f_c, A_is_valid && CF_is_valid && T_is_valid);
 
-	set_cell_float (dao, 1, vars + 8, ssb);
-	set_cell_float (dao, 1, vars + 9, ssw);
-	set_cell_float (dao, 1, vars + 11, sst);
-	set_cell_int (dao, 2, vars + 8, df_b);
-	set_cell_int (dao, 2, vars + 9, df_w);
-	set_cell_int (dao, 2, vars + 11, df_t);
-	set_cell_float (dao, 3, vars + 8, ms_b);
-	set_cell_float (dao, 3, vars + 9, ms_w);
-	set_cell_float (dao, 4, vars + 8, f);
-	set_cell_float (dao, 5, vars + 8, p);
-	set_cell_float (dao, 6, vars + 8, f_c);
+finish_anova_single_factor_tool:
 
-	g_free (mean);
+	autofit_column (dao, 0);
+	autofit_column (dao, 1);
+	autofit_column (dao, 2);
+	autofit_column (dao, 3);
+	autofit_column (dao, 4);
+	autofit_column (dao, 5);
+	autofit_column (dao, 6);
 
-	for (i = 0; i < vars; i++)
-	        free_data_set (&data_sets[i]);
-	g_free (data_sets);
+	destroy_data_set_list (data);
+	range_list_destroy (input_range);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);

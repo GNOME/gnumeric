@@ -1,3 +1,25 @@
+2001-11-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (tool_update_sensitivity_global_cb) :
+	  tool_update_sensitivity_cb using global_range_parse
+	(ttest_tool_ok_clicked_cb) : Use Value instead of Range
+	(ftest_tool_ok_clicked_cb) : ditto
+	(ztest_tool_ok_clicked_cb) : ditto
+	(ztest_tool_ok_clicked_cb) : ditto
+	(anova_single_tool_ok_clicked_cb) : ditto
+	(*_tool_ok_clicked_cb) : handle un-expected returns from the
+	  tool invocation
+	* mean-tests.glade : ask for the obvious (alpha) rather than the 
+	  unusual (1 - alpha)
+	* variance-tests.glade : ditto
+	* anova-one.glade : ditto
+	* tools.h (ftest_tool) : Use Value instead of Range
+	(anova_single_tool) : ditto
+	(ttest_paired_tool) : ditto
+	(ttest_eq_var_tool) : ditto
+	(ttest_neq_var_tooll) : ditto
+	(ztest_tool) : ditto
+	
 2001-11-07  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-analysis-tools.c

@@ -228,6 +228,21 @@
 	      <fill>False</fill>
 	    </child>
 	  </widget>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>grouped_by_area</name>
+	    <can_focus>True</can_focus>
+	    <label>_Areas</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>GroupedBy</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 	</widget>
       </widget>
     </widget>
@@ -249,7 +264,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>label3</name>
-	<label>(1 - _Alpha) = </label>
+	<label>_Alpha = </label>
 	<justify>GTK_JUSTIFY_RIGHT</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>
@@ -280,7 +295,7 @@
 	<editable>True</editable>
 	<text_visible>True</text_visible>
 	<text_max_length>0</text_max_length>
-	<text>0.95</text>
+	<text>0.05</text>
 	<child>
 	  <left_attach>1</left_attach>
 	  <right_attach>2</right_attach>

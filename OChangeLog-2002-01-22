@@ -1,3 +1,18 @@
+2001-11-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/analysis-tools.c (cb_store_data) : fix leak
+	(strip_missing) : sort indices to be removed
+	(union_of_int_sets) : don't bother sorting yet
+	(set_cell_float_na) : assist in handling errors
+	(descriptive_stat_tool) : adjust column widths
+	(ztest_tool) : handle missing observations, input from other sheets and
+	  improve error recognition and handling
+	(ttest_paired_tool) : ditto
+	(ttest_eq_var_tool) : ditto
+	(ttest_neq_var_tool) : ditto
+	(anova_single_factor_tool_tool) : ditto
+	(ftest_tool) : ditto
+	
 2001-11-07  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/analysis-tools.c (exp_smoothing_tool): Implemented.
