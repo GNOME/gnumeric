@@ -1,5 +1,19 @@
 1999-06-15  Morten Welinder  <terra@diku.dk>
 
+	* src/style.c (style_font_new_simple): Plug leak.
+
+	* src/cell.c (cell_set_formula_tree_simple): Ref before unref,
+ 	just in case.
+
+	* src/fn-math.c (callback_function_criteria): Just collect the
+ 	values, not (incorrectly) allocated pointers to them.
+	(gnumeric_countif): Release the values.  (Leak fix.)
+	(gnumeric_sumif): Ditto.
+	(gnumeric_countif): Plug leak.
+	(gnumeric_sumif): Ditto.
+	(gnumeric_seriessum): Plug three leaks.
+	(gnumeric_subtotal): Plug leaks and fix error handling.
+
 	* src/style.c (style_font_new_simple): Fix memory access problem.
 
 	* src/style.c (font_init): Rework.  (Work in progress.  Things

@@ -106,7 +106,7 @@ font_compute_hints (StyleFont *font)
 #include <X11/Xlib.h>
 #include "gdk/gdkprivate.h" /* Sorry */
 
-static const char *
+static char *
 my_gdk_actual_font_name (GdkFont *font)
 {
 	GdkFontPrivate *private;
@@ -115,8 +115,13 @@ my_gdk_actual_font_name (GdkFont *font)
 	private = (GdkFontPrivate *)font;
 	font_atom = XInternAtom (private->xdisplay, "FONT", True);
 	if (font_atom != None) {
-		if (XGetFontProperty (private->xfont, font_atom, &atom) == True)
-			return XGetAtomName (private->xdisplay, atom);
+		if (XGetFontProperty (private->xfont, font_atom, &atom) == True) {
+			char *xname, *gname;
+			xname = XGetAtomName (private->xdisplay, atom);
+			gname = g_strdup (xname);
+			XFree (xname);
+			return gname;
+		}
 	}
 	return NULL;
 }
@@ -169,8 +174,11 @@ style_font_new_simple (const char *font_name, int units)
 		}
 
 #ifdef DEBUG_FONTS
-		printf ("was resolved as \"%s\".\n\n",
-			my_gdk_actual_font_name (gdk_font));
+		{
+			char *fname = my_gdk_actual_font_name (gdk_font);
+			printf ("was resolved as \"%s\".\n\n", fname);
+			g_free (fname);
+		}
 #endif
 
 		font_compute_hints (font);

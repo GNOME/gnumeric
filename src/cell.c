@@ -724,13 +724,14 @@ cell_set_formula_tree_simple (Cell *cell, ExprTree *formula)
 
 	cell_modified (cell);
 
+	expr_tree_ref (formula);
+
 	if (cell->parsed_node){
 		sheet_cell_formula_unlink (cell);
 		expr_tree_unref (cell->parsed_node);
 	}
 
 	cell->parsed_node = formula;
-	expr_tree_ref (formula);
 	cell_formula_changed (cell);
 }
 

@@ -122,7 +122,6 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 {
         math_criteria_t *mm = user_data;
 	Value           *v;
-	gpointer        p;
 
 	if (cell == NULL || cell->value == NULL)
 	        return TRUE;
@@ -142,9 +141,7 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 	}
 
 	if (mm->fun(v, mm->test_value)) {
-	        p = g_new(Value, 1);
-		*((Value **) p) = v;
-		mm->list = g_slist_append(mm->list, p);
+		mm->list = g_slist_append (mm->list, v);
 		mm->num++;
 	} else
 	        value_release(v);
@@ -487,6 +484,7 @@ gnumeric_countif (struct FunctionDefinition *i,
 		  Value *argv [], char **error_string)
 {
         Value           *range = argv[0];
+	Value           *tmpvalue = NULL;
 	math_criteria_t items;
 	int             ret;
 	GSList          *list;
@@ -503,9 +501,11 @@ gnumeric_countif (struct FunctionDefinition *i,
 	if (VALUE_IS_NUMBER(argv[1])) {
 	        items.fun = (criteria_test_fun_t) criteria_test_equal;
 		items.test_value = argv[1];
-	} else
+	} else {
 	        parse_criteria(argv[1]->v.str->str,
 			       &items.fun, &items.test_value);
+		tmpvalue = items.test_value;
+	}
 
 	ret = sheet_cell_foreach_range (
 	  range->v.cell_range.cell_a.sheet, TRUE,
@@ -515,6 +515,10 @@ gnumeric_countif (struct FunctionDefinition *i,
 	  range->v.cell_range.cell_b.row,
 	  callback_function_criteria,
 	  &items);
+
+	if (tmpvalue)
+		value_release (tmpvalue);
+
 	if (ret == FALSE) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
@@ -523,7 +527,7 @@ gnumeric_countif (struct FunctionDefinition *i,
         list = items.list;
 
 	while (list != NULL) {
-		g_free(list->data);
+		value_release (list->data);
 		list = list->next;
 	}
 	g_slist_free(items.list);
@@ -549,6 +553,7 @@ gnumeric_sumif (struct FunctionDefinition *i,
 		Value *argv [], char **error_string)
 {
         Value           *range = argv[0];
+	Value           *tmpvalue = NULL;
 	math_criteria_t items;
 	int             ret;
 	float_t         sum;
@@ -566,9 +571,11 @@ gnumeric_sumif (struct FunctionDefinition *i,
 	if (VALUE_IS_NUMBER(argv[1])) {
 	        items.fun = (criteria_test_fun_t) criteria_test_equal;
 		items.test_value = argv[1];
-	} else
+	} else {
 	        parse_criteria(argv[1]->v.str->str,
 			       &items.fun, &items.test_value);
+		tmpvalue = items.test_value;
+	}
 
 	ret = sheet_cell_foreach_range (
 	  range->v.cell_range.cell_a.sheet, TRUE,
@@ -578,6 +585,10 @@ gnumeric_sumif (struct FunctionDefinition *i,
 	  range->v.cell_range.cell_b.row,
 	  callback_function_criteria,
 	  &items);
+
+	if (tmpvalue)
+		value_release (tmpvalue);
+
 	if (ret == FALSE) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
@@ -587,11 +598,11 @@ gnumeric_sumif (struct FunctionDefinition *i,
 	sum = 0;
 
 	while (list != NULL) {
-	        Value *v = *((Value **) list->data);
+	        Value *v = list->data;
 
 		if (v != NULL)
 		       sum += value_get_as_float (v);
-		g_free(list->data);
+		value_release (v);
 		list = list->next;
 	}
 	g_slist_free(items.list);
@@ -2336,12 +2347,15 @@ gnumeric_subtotal (Sheet *tsheet, GList *expr_node_list,
 	}
 
 	val = eval_expr (tsheet, tree, eval_col, eval_row, error_string);
-	if (! VALUE_IS_NUMBER(val)) {
+	if (!val) return NULL;
+	if (!VALUE_IS_NUMBER (val)) {
+		value_release (val);
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
 	fun_nbr = value_get_as_int(val);
+	value_release (val);
 	if (fun_nbr < 1 || fun_nbr > 11) {
 		*error_string = gnumeric_err_NUM;
 		return NULL;
@@ -2449,10 +2463,12 @@ gnumeric_seriessum (Sheet *sheet, GList *expr_node_list,
 	val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
 	if (!val) return NULL;
 	if (!VALUE_IS_NUMBER (val)) {
+		value_release (val);
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 	x = value_get_as_float (val);
+	value_release (val);
 	expr_node_list = expr_node_list->next;
 
 	/* Get n */
@@ -2464,10 +2480,12 @@ gnumeric_seriessum (Sheet *sheet, GList *expr_node_list,
 	val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
 	if (!val) return NULL;
 	if (!VALUE_IS_NUMBER (val)) {
+		value_release (val);
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 	n = value_get_as_float (val);
+	value_release (val);
 	expr_node_list = expr_node_list->next;
 
 	/* Get m */
@@ -2479,10 +2497,12 @@ gnumeric_seriessum (Sheet *sheet, GList *expr_node_list,
 	val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
 	if (!val) return NULL;
 	if (!VALUE_IS_NUMBER (val)) {
+		value_release (val);
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 	m = value_get_as_float (val);
+	value_release (val);
 	expr_node_list = expr_node_list->next;
 
 	p.n = n;

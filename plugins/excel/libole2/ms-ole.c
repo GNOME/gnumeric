@@ -1288,6 +1288,23 @@ ms_ole_create (const char *name)
 	return f;
 }
 
+
+static void
+destroy_pps (GList *l)
+{
+	GList *tmp;
+
+	for (tmp = l; tmp; tmp = g_list_next (tmp)) {
+		PPS *pps = tmp->data;
+		if (pps->name)
+			g_free (pps->name);
+		destroy_pps (pps->children);
+		g_free (pps);
+	}
+	g_list_free (l);
+}
+
+
 /**
  * This closes the file and truncates any free blocks
  **/
@@ -1319,6 +1336,8 @@ ms_ole_destroy (MS_OLE *f)
 		g_free (f->mem);
 		f->mem = 0;
 #endif
+		destroy_pps (f->pps);
+
 		close (f->file_des);
 		g_free (f);
 

@@ -1,5 +1,9 @@
 1999-06-15  Morten Welinder  <terra@diku.dk>
 
+	* ms-formula-read.c (ms_excel_parse_formula): Handle bools.  Plug
+ 	leak.
+	(make_function): Plug leak.
+
 	* ms-excel-read.c (biff_font_data_get_style_font): Supply correct
  	size when initialising.
 	(biff_nasty_font_check_function): Revert last change.  Extra

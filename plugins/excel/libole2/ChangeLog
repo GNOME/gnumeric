@@ -1,3 +1,7 @@
+1999-06-15  Morten Welinder  <terra@diku.dk>
+
+	* ms-ole.c (ms_ole_destroy): Plug leak.
+
 1999-06-15  Michael Meeks  <michael@edenproject.org>
 
 	* ms-ole.c: Large updates to helper macros, to allow

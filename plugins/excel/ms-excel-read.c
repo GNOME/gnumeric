@@ -1413,7 +1413,6 @@ ms_excel_sheet_insert_form (MS_EXCEL_SHEET * sheet, int xfidx,
 			    int col, int row, ExprTree *tr)
 {
 	Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
-	/* NB. cell_set_text _certainly_ strdups *text */
 	if (tr)
 	{
 		sheet->blank = 0 ;

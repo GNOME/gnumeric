@@ -671,8 +671,12 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 		tmp = parse_list_pop (stack) ;
 		if (!tmp || tmp->oper != OPER_CONSTANT ||
 		    tmp->u.constant->type != VALUE_STRING) {
-			parse_list_free (&fn->u.function.arg_list);
+			fn->u.function.symbol =
+				symbol_lookup (global_symbol_table, "ERROR");
+			symbol_ref (fn->u.function.symbol);
+			expr_tree_unref (fn);
 			parse_list_push (stack, expr_tree_string (_("Broken function")));
+			printf ("Killroy was here.  Did not know what he was doing.\n");
 			return 0;
 		}
 		else {
@@ -710,10 +714,17 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 			if (fd->prefix)
 				name = symbol_lookup (global_symbol_table, fd->prefix);
 			if (!name) {
-				printf ("Unknown fn '%s'\n", fd->prefix);
-				parse_list_free (&fn->u.function.arg_list);
-				parse_list_push (stack, expr_tree_string (g_strdup_printf ("Duff fn '%s'", 
-											   fd->prefix?fd->prefix:"Umm...")));
+				char *txt;
+				txt = g_strdup_printf ("[Function '%s']", 
+						       fd->prefix?fd->prefix:"?");
+				printf ("Unknown %s\n", txt);
+				parse_list_push (stack, expr_tree_string (txt));
+				g_free (txt);
+
+				fn->u.function.symbol =
+					symbol_lookup (global_symbol_table, "ERROR");
+				symbol_ref (fn->u.function.symbol);
+				expr_tree_unref (fn);
 				return 0;
 			}
 			symbol_ref (name);
@@ -1095,9 +1106,9 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			ptg_length = 2 ;
 			break;
 		}
-		case FORMULA_PTG_BOOL:  /* FIXME: True / False */
+		case FORMULA_PTG_BOOL:
 		{
-			parse_list_push_raw (&stack, value_new_int (BIFF_GETBYTE(cur)));
+			parse_list_push_raw (&stack, value_new_bool (BIFF_GETBYTE(cur)));
 			ptg_length = 1 ;
 			break ;
 		}
@@ -1168,9 +1179,10 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 	
 	if (!stack)
 		return expr_tree_string ("Stack too short - unusual");
-	if (g_list_length(stack) > 1)
+	if (g_list_length(stack) > 1) {
+		parse_list_free (&stack);
 		return expr_tree_string ("Too much data on stack - probable cause: "
 					 "fixed args function is var-arg, put '-1' in the table above");
+	}
 	return parse_list_pop (&stack);
 }
-
