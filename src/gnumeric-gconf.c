@@ -563,3 +563,22 @@ gnm_gconf_set_vertical_window_fraction  (gnum_float val)
 			       GNUMERIC_GCONF_GUI_WINDOW_Y,
 			       val, NULL);
 }
+
+gint
+gnm_gconf_get_xml_compression_level (void)
+{
+	gint val = gconf_client_get_int (application_get_gconf_client (), 
+					 GNUMERIC_GCONF_XML_COMPRESSION,
+					 NULL);
+	val = MIN (val, 10);
+	val = MAX (0, val);
+	return val;
+}
+
+void
+gnm_gconf_set_xml_compression_level (gint val)
+{
+	gconf_client_set_int (application_get_gconf_client (), 
+			       GNUMERIC_GCONF_XML_COMPRESSION,
+			       val, NULL);
+}

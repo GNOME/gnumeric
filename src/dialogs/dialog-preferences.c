@@ -104,7 +104,135 @@ dialog_pref_load_description (PrefState *state, char const *text)
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer (state->description);
 
 	gtk_text_buffer_set_text (buffer, text, -1);
+}
+
+typedef void (* cb_pref_window_set_t) (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+				       GtkSpinButton *button);
+typedef void  (* cb_pref_window_changed_t) (GtkSpinButton *button, PrefState *state);
+
+static void
+dialog_pref_create_int_spin (char const *key, char const *schema_key, 
+			     GtkWidget *table, gint row, PrefState *state,
+			     gint val, gint from, gint to, gint step, 
+			     cb_pref_window_set_t pref_window_set,
+			     cb_pref_window_changed_t pref_window_changed)
+{
+	guint notif;
+	GtkWidget *item;
+	GConfSchema *the_schema;
+	GtkTooltips *the_tip;
+
+	the_schema = gconf_client_get_schema (state->gconf, schema_key, NULL);
+	item = gtk_label_new (the_schema ? gconf_schema_get_short_desc (the_schema) 
+			      : "schema missing");
+	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
+	gtk_table_attach (GTK_TABLE (table), item, 0, 1, row, row + 1, 0, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (val, from, to,
+									 step, step, step)),
+				     1, 0);
+	pref_window_set (state->gconf, 0, NULL, GTK_SPIN_BUTTON (item));
+	notif = gconf_client_notify_add (state->gconf, key,
+			  (GConfClientNotifyFunc) pref_window_set,
+			  item, NULL, NULL);
+	g_signal_connect (G_OBJECT (table),
+		"destroy",
+		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
+	g_signal_connect (G_OBJECT (item),
+		"value-changed",
+		G_CALLBACK (pref_window_changed), state);
+	gtk_table_attach (GTK_TABLE (table), item, 1, 2, row, row + 1, GTK_FILL | GTK_EXPAND, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	if (the_schema) {
+		the_tip = gtk_tooltips_new ();
+		gtk_tooltips_set_tip (the_tip, item, 
+				      gconf_schema_get_long_desc (the_schema), NULL);
+		gconf_schema_free (the_schema);
+	}
 }	
+
+static void
+dialog_pref_create_float_spin (char const *key, char const *schema_key, 
+			       GtkWidget *table, gint row, PrefState *state,
+			       gnum_float val, gnum_float from, gnum_float to, gnum_float step,
+			       gint digits,
+			       cb_pref_window_set_t pref_window_set,
+			       cb_pref_window_changed_t pref_window_changed)
+{
+	guint notif;
+	GtkWidget *item;
+	GConfSchema *the_schema;
+	GtkTooltips *the_tip;
+
+	the_schema = gconf_client_get_schema (state->gconf, schema_key, NULL);
+	item = gtk_label_new (the_schema ? gconf_schema_get_short_desc (the_schema) 
+			      : "schema missing");
+	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
+	gtk_table_attach (GTK_TABLE (table), item, 0, 1, row, row + 1, 0, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (val, from, to,
+									 step, step, step)),
+				     1, digits);
+	pref_window_set (state->gconf, 0, NULL, GTK_SPIN_BUTTON (item));
+	notif = gconf_client_notify_add (state->gconf, key,
+			  (GConfClientNotifyFunc) pref_window_set,
+			  item, NULL, NULL);
+	g_signal_connect (G_OBJECT (table),
+		"destroy",
+		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
+	g_signal_connect (G_OBJECT (item),
+		"value-changed",
+		G_CALLBACK (pref_window_changed), state);
+	gtk_table_attach (GTK_TABLE (table), item, 1, 2, row, row + 1, GTK_FILL | GTK_EXPAND, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	if (the_schema) {
+		the_tip = gtk_tooltips_new ();
+		gtk_tooltips_set_tip (the_tip, item, 
+				      gconf_schema_get_long_desc (the_schema), NULL);
+		gconf_schema_free (the_schema);
+	}
+}	
+
+typedef void (* cb_pref_window_set_toggled_t) (GConfClient *gconf, guint cnxn_id, 
+					       GConfEntry *entry, 
+					       GtkToggleButton *button);
+typedef void  (* cb_pref_window_toggled_t) (GtkToggleButton *button, PrefState *state);
+
+static void
+dialog_pref_create_checkbox (char const *key, char const *schema_key, 
+			     GtkWidget *table, gint row, PrefState *state,
+			     cb_pref_window_set_toggled_t pref_window_set,
+			     cb_pref_window_toggled_t pref_window_toggled)
+{
+	guint notif;
+	GtkWidget *item;
+	GConfSchema *the_schema;
+	GtkTooltips *the_tip;
+
+	the_schema = gconf_client_get_schema (state->gconf, schema_key, NULL);
+	item = gtk_check_button_new_with_label (the_schema 
+						? gconf_schema_get_short_desc (the_schema) 
+						: "schema missing");
+	pref_window_set (state->gconf, 0, NULL, GTK_TOGGLE_BUTTON (item));
+	notif = gconf_client_notify_add (state->gconf, key,
+			  (GConfClientNotifyFunc) pref_window_set,
+			  item, NULL, NULL);
+	g_signal_connect (G_OBJECT (table),
+		"destroy",
+		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
+	g_signal_connect (G_OBJECT (item),
+		"toggled",
+		G_CALLBACK (pref_window_toggled), state);
+	gtk_table_attach (GTK_TABLE (table), item, 0, 2, row, row + 1, GTK_FILL | GTK_SHRINK, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	if (the_schema) {
+		the_tip = gtk_tooltips_new ();
+		gtk_tooltips_set_tip (the_tip, item, 
+				      gconf_schema_get_long_desc (the_schema), NULL);
+		gconf_schema_free (the_schema);
+	}
+}
+
 
 /*******************************************************************************************/
 /*                     Tree View of selected configuration variables                       */
@@ -617,117 +745,38 @@ GtkWidget *pref_undo_page_initializer (PrefState *state, gpointer data,
 					  GtkNotebook *notebook, gint page_num)
 {
 	GtkWidget *page = gtk_table_new (4, 2, FALSE);
-	guint notif;
-	GtkWidget *item;
-	GConfSchema *the_schema;
-	GtkTooltips *the_tip;
+	gint row = 0;
 
 	/* Sheet name check box */
-	the_schema = gconf_client_get_schema (state->gconf, 
-					      "/schemas" GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME, 
-					      NULL);
-	item = gtk_check_button_new_with_label (gconf_schema_get_short_desc (the_schema));
-	cb_pref_undo_set_sheet_name (state->gconf, 0, NULL, GTK_TOGGLE_BUTTON (item));
-	notif = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME,
-					 (GConfClientNotifyFunc) cb_pref_undo_set_sheet_name,
-						item, NULL, NULL);
-	g_signal_connect (G_OBJECT (page),
-		"destroy",
-		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
-	g_signal_connect (G_OBJECT (item),
-		"toggled",
-		G_CALLBACK (cb_pref_undo_sheet_name_toggled), state);
-	gtk_table_attach (GTK_TABLE (page), item, 0, 2, 0, 1, GTK_FILL | GTK_SHRINK, 
-			  GTK_FILL | GTK_SHRINK, 5, 5);
-	the_tip = gtk_tooltips_new ();
-	gtk_tooltips_set_tip (the_tip, item, gconf_schema_get_long_desc (the_schema), NULL);
-	gconf_schema_free (the_schema);
+	dialog_pref_create_checkbox (GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME, 
+				     "/schemas" GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME, 
+				     page, row++, state,
+				     cb_pref_undo_set_sheet_name,
+				     cb_pref_undo_sheet_name_toggled);
 
 	/* Descriptor Width Spin Button */
-	the_schema = gconf_client_get_schema (state->gconf, 
-					      "/schemas" GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH, 
-					      NULL);
-	item = gtk_label_new (gconf_schema_get_short_desc (the_schema));
-	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
-	gtk_table_attach (GTK_TABLE (page), item, 0, 1, 1, 2, 0, 
-			  GTK_FILL | GTK_SHRINK, 5, 5);
-	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (5,
-									 5, 200, 1, 1, 1)),
-				     1, 0);
-	cb_pref_undo_set_max_descriptor_width (state->gconf, 0, NULL, GTK_SPIN_BUTTON (item));
-	notif = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH,
-			  (GConfClientNotifyFunc) cb_pref_undo_set_max_descriptor_width,
-			  item, NULL, NULL);
-	g_signal_connect (G_OBJECT (page),
-		"destroy",
-		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
-	g_signal_connect (G_OBJECT (item),
-		"value-changed",
-		G_CALLBACK (cb_pref_undo_max_descriptor_width_changed), state);
-	gtk_table_attach (GTK_TABLE (page), item, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 
-			  GTK_FILL | GTK_SHRINK, 5, 5);
-	the_tip = gtk_tooltips_new ();
-	gtk_tooltips_set_tip (the_tip, item, gconf_schema_get_long_desc (the_schema), NULL);
-	gconf_schema_free (the_schema);
+	dialog_pref_create_int_spin (GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH, 
+				     "/schemas" GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH, 
+				     page, row++, state,
+				     5, 5, 200, 1, 
+				     cb_pref_undo_set_max_descriptor_width,
+				     cb_pref_undo_max_descriptor_width_changed);
 	
 	/* Undo Size Spin Button */
-	the_schema = gconf_client_get_schema (state->gconf, 
-					      "/schemas" GNUMERIC_GCONF_UNDO_SIZE, 
-					      NULL);
-	item = gtk_label_new (gconf_schema_get_short_desc (the_schema));
-	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
-	gtk_table_attach (GTK_TABLE (page), item, 0, 1, 2, 3, 0, 
-			  GTK_FILL | GTK_SHRINK, 5, 5);
-	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (1000,
-									 0, 30000, 100, 
-									 1000, 1000)),
-				     1, 0);
-	
-	cb_pref_undo_set_size (state->gconf, 0, NULL, GTK_SPIN_BUTTON (item));
-	notif = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_UNDO_SIZE,
-			  (GConfClientNotifyFunc) cb_pref_undo_set_size,
-			  item, NULL, NULL);
-	g_signal_connect (G_OBJECT (page),
-		"destroy",
-		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
-	g_signal_connect (G_OBJECT (item),
-		"value-changed",
-		G_CALLBACK (cb_pref_undo_size_changed), state);
-	gtk_table_attach (GTK_TABLE (page), item, 1, 2, 2, 3, GTK_FILL | GTK_EXPAND, 
-			  GTK_FILL | GTK_SHRINK, 5, 5);
-	the_tip = gtk_tooltips_new ();
-	gtk_tooltips_set_tip (the_tip, item, gconf_schema_get_long_desc (the_schema), NULL);
-	gconf_schema_free (the_schema);
+	dialog_pref_create_int_spin (GNUMERIC_GCONF_UNDO_SIZE, 
+				     "/schemas" GNUMERIC_GCONF_UNDO_SIZE, 
+				     page, row++, state,
+				     1000, 0, 30000, 100, 
+				     cb_pref_undo_set_size,
+				     cb_pref_undo_size_changed);
 
 	/* Undo Size Spin Button */
-	the_schema = gconf_client_get_schema (state->gconf, 
-					      "/schemas" GNUMERIC_GCONF_UNDO_MAXNUM, 
-					      NULL);
-	item = gtk_label_new (gconf_schema_get_short_desc (the_schema));
-	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
-	gtk_table_attach (GTK_TABLE (page), item, 0, 1, 3, 4, 0, 
-			  GTK_FILL | GTK_SHRINK, 5, 5);
-	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (20,
-									 1, 200, 1, 
-									 5, 5)),
-				     1, 0);
-	
-	cb_pref_undo_set_maxnum (state->gconf, 0, NULL, GTK_SPIN_BUTTON (item));
-	notif = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_UNDO_MAXNUM,
-			  (GConfClientNotifyFunc) cb_pref_undo_set_maxnum,
-			  item, NULL, NULL);
-	g_signal_connect (G_OBJECT (page),
-		"destroy",
-		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
-	g_signal_connect (G_OBJECT (item),
-		"value-changed",
-		G_CALLBACK (cb_pref_undo_maxnum_changed), state);
-	gtk_table_attach (GTK_TABLE (page), item, 1, 2, 3, 4, GTK_FILL | GTK_EXPAND, 
-			  GTK_FILL | GTK_SHRINK, 5, 5);
-	the_tip = gtk_tooltips_new ();
-	gtk_tooltips_set_tip (the_tip, item, gconf_schema_get_long_desc (the_schema), NULL);
-	gconf_schema_free (the_schema);
-
+	dialog_pref_create_int_spin (GNUMERIC_GCONF_UNDO_MAXNUM, 
+				     "/schemas" GNUMERIC_GCONF_UNDO_MAXNUM, 
+				     page, row++, state,
+				     20, 1, 200, 1,
+				     cb_pref_undo_set_maxnum,
+				     cb_pref_undo_maxnum_changed);
 
 	gtk_widget_show_all (page);
 	return page;
@@ -837,117 +886,128 @@ static
 GtkWidget *pref_window_page_initializer (PrefState *state, gpointer data, 
 					  GtkNotebook *notebook, gint page_num)
 {
-	GtkWidget *page = gtk_table_new (3, 2, FALSE);
-	guint notif;
-	GtkWidget *item;
-	GConfSchema *the_schema;
-	GtkTooltips *the_tip;
+	GtkWidget *page = gtk_table_new (4, 2, FALSE);
+	gint row = 0;
 
 	/* Window Height Spin Button */
-	the_schema = gconf_client_get_schema (state->gconf, 
-					      "/schemas" GNUMERIC_GCONF_GUI_WINDOW_Y, 
-					      NULL);
-	item = gtk_label_new (gconf_schema_get_short_desc (the_schema));
-	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
-	gtk_table_attach (GTK_TABLE (page), item, 0, 1, 0, 1, 0, 
-			  GTK_FILL | GTK_SHRINK, 5, 5);
-	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (0.75,
-									 0.25, 1, 0.05, 0.1, 1)),
-				     1, 2);
-	cb_pref_window_set_window_height (state->gconf, 0, NULL, GTK_SPIN_BUTTON (item));
-	notif = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_GUI_WINDOW_Y,
-			  (GConfClientNotifyFunc) cb_pref_window_set_window_height,
-			  item, NULL, NULL);
-	g_signal_connect (G_OBJECT (page),
-		"destroy",
-		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
-	g_signal_connect (G_OBJECT (item),
-		"value-changed",
-		G_CALLBACK (cb_pref_window_height_changed), state);
-	gtk_table_attach (GTK_TABLE (page), item, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 
-			  GTK_FILL | GTK_SHRINK, 5, 5);
-	the_tip = gtk_tooltips_new ();
-	gtk_tooltips_set_tip (the_tip, item, gconf_schema_get_long_desc (the_schema), NULL);
-	gconf_schema_free (the_schema);
+	dialog_pref_create_float_spin (GNUMERIC_GCONF_GUI_WINDOW_Y, 
+				       "/schemas" GNUMERIC_GCONF_GUI_WINDOW_Y, 
+				       page, row++, state,
+				       0.75, 0.25, 1, 0.05, 2,
+				       cb_pref_window_set_window_height,
+				       cb_pref_window_height_changed);
 	
 	/* Window Width Spin Button */
-	the_schema = gconf_client_get_schema (state->gconf, 
-					      "/schemas" GNUMERIC_GCONF_GUI_WINDOW_X, 
-					      NULL);
-	item = gtk_label_new (gconf_schema_get_short_desc (the_schema));
-	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
-	gtk_table_attach (GTK_TABLE (page), item, 0, 1, 1, 2, 0, 
-			  GTK_FILL | GTK_SHRINK, 5, 5);
-	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (0.75,
-									 0.25, 1, 0.05, 0.1, 1)),
-				     1, 2);
-	cb_pref_window_set_window_width (state->gconf, 0, NULL, GTK_SPIN_BUTTON (item));
-	notif = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_GUI_WINDOW_X,
-			  (GConfClientNotifyFunc) cb_pref_window_set_window_width,
-			  item, NULL, NULL);
-	g_signal_connect (G_OBJECT (page),
-		"destroy",
-		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
-	g_signal_connect (G_OBJECT (item),
-		"value-changed",
-		G_CALLBACK (cb_pref_window_width_changed), state);
-	gtk_table_attach (GTK_TABLE (page), item, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 
-			  GTK_FILL | GTK_SHRINK, 5, 5);
-	the_tip = gtk_tooltips_new ();
-	gtk_tooltips_set_tip (the_tip, item, gconf_schema_get_long_desc (the_schema), NULL);
-	gconf_schema_free (the_schema);
-	
+	dialog_pref_create_float_spin (GNUMERIC_GCONF_GUI_WINDOW_X, 
+				       "/schemas" GNUMERIC_GCONF_GUI_WINDOW_X, 
+				       page, row++, state,
+				       0.75, 0.25, 1, 0.05, 2,
+				       cb_pref_window_set_window_width,
+				       cb_pref_window_width_changed);
+
 	/* Sheet Num Spin Button */
-	the_schema = gconf_client_get_schema (state->gconf, 
-					      "/schemas" GNUMERIC_GCONF_WORKBOOK_NSHEETS, 
-					      NULL);
-	item = gtk_label_new (gconf_schema_get_short_desc (the_schema));
-	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
-	gtk_table_attach (GTK_TABLE (page), item, 0, 1, 2, 3, 0, 
-			  GTK_FILL | GTK_SHRINK, 5, 5);
-	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (1,
-									 1, 100, 1, 5, 10)),
-				     1, 0);
-	cb_pref_window_set_sheet_num (state->gconf, 0, NULL, GTK_SPIN_BUTTON (item));
-	notif = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_WORKBOOK_NSHEETS,
-			  (GConfClientNotifyFunc) cb_pref_window_set_sheet_num,
-			  item, NULL, NULL);
-	g_signal_connect (G_OBJECT (page),
-		"destroy",
-		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
-	g_signal_connect (G_OBJECT (item),
-		"value-changed",
-		G_CALLBACK (cb_pref_window_sheet_num_changed), state);
-	gtk_table_attach (GTK_TABLE (page), item, 1, 2, 2, 3, GTK_FILL | GTK_EXPAND, 
-			  GTK_FILL | GTK_SHRINK, 5, 5);
-	the_tip = gtk_tooltips_new ();
-	gtk_tooltips_set_tip (the_tip, item, gconf_schema_get_long_desc (the_schema), NULL);
-	gconf_schema_free (the_schema);
+	dialog_pref_create_int_spin (GNUMERIC_GCONF_WORKBOOK_NSHEETS, 
+				     "/schemas" GNUMERIC_GCONF_WORKBOOK_NSHEETS, 
+				     page, row++, state,
+				     1, 1, 100, 1,
+				     cb_pref_window_set_sheet_num,
+				     cb_pref_window_sheet_num_changed);
 
 	/* Live Scrolling check box */
-	the_schema = gconf_client_get_schema (state->gconf, 
-					      "/schemas" GNUMERIC_GCONF_GUI_ED_LIVESCROLLING, 
-					      NULL);
-	item = gtk_check_button_new_with_label (gconf_schema_get_short_desc (the_schema));
-	cb_pref_window_set_live_scrolling (state->gconf, 0, NULL, GTK_TOGGLE_BUTTON (item));
-	notif = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_GUI_ED_LIVESCROLLING,
-					 (GConfClientNotifyFunc) cb_pref_window_set_live_scrolling,
-						item, NULL, NULL);
-	g_signal_connect (G_OBJECT (page),
-		"destroy",
-		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
-	g_signal_connect (G_OBJECT (item),
-		"toggled",
-		G_CALLBACK (cb_pref_window_live_scrolling_toggled), state);
-	gtk_table_attach (GTK_TABLE (page), item, 0, 2, 3, 4, GTK_FILL | GTK_SHRINK, 
-			  GTK_FILL | GTK_SHRINK, 5, 5);
-	the_tip = gtk_tooltips_new ();
-	gtk_tooltips_set_tip (the_tip, item, gconf_schema_get_long_desc (the_schema), NULL);
-	gconf_schema_free (the_schema);
+	dialog_pref_create_checkbox (GNUMERIC_GCONF_GUI_ED_LIVESCROLLING, 
+				     "/schemas" GNUMERIC_GCONF_GUI_ED_LIVESCROLLING, 
+				     page, row++, state,
+				     cb_pref_window_set_live_scrolling,
+				     cb_pref_window_live_scrolling_toggled);
 
 	gtk_widget_show_all (page);
 	return page;
 }
+
+/*******************************************************************************************/
+/*                     File/XML Preferences Page                                           */
+/*******************************************************************************************/
+
+static void 
+pref_file_page_open (PrefState *state, gpointer data, 
+					  GtkNotebook *notebook, gint page_num)
+{
+	dialog_pref_load_description (state, 
+				      _("The items on this page are related to the saving "
+					"and opening of files."));
+}
+
+
+static void
+cb_pref_file_set_file_history_num (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+			     GtkSpinButton *button)
+{
+	gint int_in_gconf = gconf_client_get_int (gconf,
+						  GNUMERIC_GCONF_FILE_HISTORY_N, 
+						  NULL);
+	gint int_in_button = gtk_spin_button_get_value_as_int (button);
+	if (int_in_gconf != int_in_button)
+		gtk_spin_button_set_value (button, (gdouble) int_in_gconf);
+}
+
+static void 
+cb_pref_file_file_history_changed (GtkSpinButton *button, PrefState *state)
+{
+		gconf_client_set_int (state->gconf,
+				      GNUMERIC_GCONF_FILE_HISTORY_N,
+				      gtk_spin_button_get_value_as_int (button), 
+				      NULL);
+}
+
+static void
+cb_pref_file_set_xml_compression (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+			     GtkSpinButton *button)
+{
+	gint int_in_gconf = gconf_client_get_int (gconf,
+						  GNUMERIC_GCONF_XML_COMPRESSION, 
+						  NULL);
+	gint int_in_button = gtk_spin_button_get_value_as_int (button);
+	if (int_in_gconf != int_in_button)
+		gtk_spin_button_set_value (button, (gdouble) int_in_gconf);
+}
+
+static void 
+cb_pref_file_xml_compression_changed (GtkSpinButton *button, PrefState *state)
+{
+		gconf_client_set_int (state->gconf,
+				       GNUMERIC_GCONF_XML_COMPRESSION,
+				       gtk_spin_button_get_value_as_int (button), 
+				       NULL);
+}
+
+
+static 
+GtkWidget *pref_file_page_initializer (PrefState *state, gpointer data, 
+					  GtkNotebook *notebook, gint page_num)
+{
+	GtkWidget *page = gtk_table_new (2, 2, FALSE);
+	gint row = 0;
+
+	/* File History Number Spin Button */
+	dialog_pref_create_int_spin (GNUMERIC_GCONF_FILE_HISTORY_N, 
+				     "/schemas" GNUMERIC_GCONF_FILE_HISTORY_N, 
+				     page, row++, state,
+				     4, 0, 40, 1,
+				     cb_pref_file_set_file_history_num,
+				     cb_pref_file_file_history_changed);
+
+	/* XML Compression Spin Button */
+	dialog_pref_create_int_spin (GNUMERIC_GCONF_XML_COMPRESSION, 
+				     "/schemas" GNUMERIC_GCONF_XML_COMPRESSION, 
+				     page, row++, state,
+				     9, 0, 9, 1,
+				     cb_pref_file_set_xml_compression,
+				     cb_pref_file_xml_compression_changed);
+
+	gtk_widget_show_all (page);
+	return page;
+}
+
 
 
 
@@ -958,6 +1018,7 @@ GtkWidget *pref_window_page_initializer (PrefState *state, gpointer data,
 static page_info_t page_info[] = {
 	{NULL, GTK_STOCK_ITALIC, pref_font_initializer, pref_font_page_open, NULL},
 	{NULL, "Gnumeric_ObjectCombo", pref_window_page_initializer, pref_window_page_open, NULL},
+	{NULL, GTK_STOCK_FLOPPY, pref_file_page_initializer, pref_file_page_open, NULL},
 	{NULL, GTK_STOCK_UNDO, pref_undo_page_initializer, pref_undo_page_open, NULL},
 	{NULL, GTK_STOCK_PREFERENCES, pref_tree_initializer, pref_tree_page_open, pref_tree_data},
 	{NULL, GTK_STOCK_DIALOG_ERROR, pref_tree_initializer, pref_tree_page_open, pref_tree_data_danger},

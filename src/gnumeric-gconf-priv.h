@@ -65,6 +65,7 @@
 #define GNUMERIC_GCONF_GUI_WINDOW_X GNUMERIC_GCONF_GUI_DIRECTORY "/window/x"
 #define GNUMERIC_GCONF_GUI_WINDOW_Y GNUMERIC_GCONF_GUI_DIRECTORY "/window/y"
 
+#define GNUMERIC_GCONF_XML_COMPRESSION "/apps/gnumeric/core/xml/compression-level"
 
 
 

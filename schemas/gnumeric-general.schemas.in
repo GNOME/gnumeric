@@ -106,7 +106,7 @@
         <type>int</type>
 	<default>5</default>
         <locale name="C">
-        <short>Length of File History.</short>
+        <short>Length of File History</short>
         <long>The number of files kept in the `recent' section of the file menu.</long>
         </locale>
       </schema>
@@ -116,7 +116,7 @@
         <owner>Gnumeric</owner>
         <type>list</type>
         <locale name="C">
-        <short>List of recently used files.</short>
+        <short>List of recently used files</short>
         <long>The file menu shows a list of recently used functions. This is that list.</long>
         </locale>
       </schema>
@@ -195,6 +195,17 @@
         <locale name="C">
         <short>Default Vertical Window Size</short>
         <long>This number (between 0.25 and 1.00) gives the vertical fraction of the screen size covered by the default window.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/xml/compression-level</key>
+        <applyto>/apps/gnumeric/core/xml/compression-level</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>9</default>
+        <locale name="C">
+        <short>Default Compression Level For Gnumeric Files</short>
+        <long>This integer (between 0 and 9) gives the amount compression performed by Gnumeric when saving files in the default file format. 0 is no compression while 9 is maximum compression.</long>
         </locale>
       </schema>
     </schemalist>

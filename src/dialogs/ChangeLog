@@ -1,3 +1,10 @@
+2002-04-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-preferences.c : add file/xml preference page
+	(dialog_pref_create_int_spin) : new
+	(dialog_pref_create_float_spin) : new
+	(dialog_pref_create_checkbox) : new
+
 2002-04-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-preferences.c : add window-size preference page

@@ -41,6 +41,7 @@
 #include "file.h"
 #include "str.h"
 #include "plugin-util.h"
+#include "gnumeric-gconf.h"
 
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
@@ -56,7 +57,6 @@
 #include <gal/widgets/e-colors.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
-#include <libgnome/gnome-config.h>
 #include <locale.h>
 #include <math.h>
 #include <limits.h>
@@ -3250,16 +3250,9 @@ xml_probe (GnumFileOpener const *fo, const gchar *filename, FileProbeLevel pl)
 static void
 gnumeric_xml_set_compression (xmlDoc *doc, int compression)
 {
-	gboolean ok = TRUE;
-
-	if (compression < 0) {
-		gnome_config_push_prefix ("Gnumeric/XML_DOM/");
-		compression = gnome_config_get_int_with_default ("compressionLevel=9", &ok);
-		gnome_config_pop_prefix ();
-	}
-
-	if (compression >= 0)
-		xmlSetDocCompressMode (doc, compression);
+	if (compression < 0)
+		compression = gnm_gconf_get_xml_compression_level ();
+	xmlSetDocCompressMode (doc, compression);
 }
 
 

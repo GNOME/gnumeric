@@ -1,3 +1,11 @@
+2002-04-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-general.schemas : add xml-compression schema
+	* src/gnumeric-gconf-priv.h : new xml-compression-level key
+	* src/gnumeric-gconf.[ch] : new xml-compression-level get/set functions
+	* src/xml-io.c : use get/set methods from src/gnumeric-gconf.h rather
+	  than gnome-config directly
+	
 2002-04-16  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-view.c (wb_view_open) : merge with wb_view_open_custom
