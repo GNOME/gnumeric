@@ -52,7 +52,7 @@ typedef struct
 	gchar 	  *name;
 	gchar	   type;
 	gboolean   is_optional;
-	int	   content_length;
+	gboolean   is_empty;
 	int	   index;
 } ArgumentState;
 
@@ -174,19 +174,20 @@ cb_formula_guru_rolled_entry_event (GtkWidget *w, GdkEvent *ev,
 static void
 cb_formula_guru_entry_changed (GtkEditable *editable, ArgumentState *as)
 {
-	as->content_length
-		= strlen (gtk_entry_get_text (GTK_ENTRY (as->entry)));
+	as->is_empty = strlen (gtk_entry_get_text (GTK_ENTRY (as->entry))) <= 0;
 
-	if (as->content_length) {
+	if (as->is_empty) {
 		if (as->state->max_arg < as->index)
 			as->state->max_arg = as->index;
-	} else {
-		if (as->state->max_arg == as->index) {
-			int i = as->index;
-			while (--i > 0 && as->content_length > 0)
-				;
-			as->state->max_arg = i;
+	} else if (as->state->max_arg == as->index) {
+		FormulaGuruState *state = as->state;
+		int i = as->index;
+		while (--i > 0) {
+			ArgumentState *tmp = g_ptr_array_index (state->args, i);
+			if (!tmp->is_empty)
+				break;
 		}
+		as->state->max_arg = i;
 	}
 
 	formula_guru_set_expr (as->state, as->index, TRUE);
@@ -406,7 +407,7 @@ formula_guru_arg_new (char * const name,
 	as->name = name ? name : g_strdup_printf (_("Value%d"), row+1);
 	as->is_optional = is_optional;
 	as->type = type;
-	as->content_length = 0;
+	as->is_empty = TRUE;
 	as->state = state;
 
 	switch (as->type){

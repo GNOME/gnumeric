@@ -1,3 +1,8 @@
+2001-09-21  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-formula-guru.c (cb_formula_guru_entry_changed) : fix the
+	  handling of empty arguments.
+
 2001-09-14  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-cell-format.c (fmt_dialog_init_format_page) : if we are
