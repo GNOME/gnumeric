@@ -15,7 +15,8 @@
 #include "cursors.h"
 #include "utils.h"
 
-static int         redraws_frozen = 0;
+static int         redraws_frozen      = 0;
+static int         redraws_deep_frozen = 0;
 static GHashTable *cell_hash_queue;
 
 void
@@ -896,6 +897,19 @@ cell_thaw_redraws (void)
 		cell_hash_queue = NULL;
 	}
 }
+void
+cell_deep_freeze_redraws (void)
+{
+	redraws_deep_frozen++;
+}
+
+void
+cell_deep_thaw_redraws (void)
+{
+	redraws_deep_frozen--;
+	if (redraws_frozen < 0)
+		g_warning ("unbalanced deep freeze/thaw\n");
+}
 
 static void
 queue_cell (Cell *cell)
@@ -908,6 +922,10 @@ queue_cell (Cell *cell)
 void
 cell_queue_redraw (Cell *cell)
 {
+	/* You wake up dead after a deep freeze */
+	if (redraws_deep_frozen>0)
+		return;
+
 	g_return_if_fail (cell != NULL);
 
 	if (redraws_frozen){

@@ -1,5 +1,17 @@
 1999-05-06  Michael Meeks  <michael@imaginator.com>
 
+	* src/cell.h: Added deep freeze prototypes.
+
+	* src/cell.c (cell_deep_freeze_redraws): Added
+	(cell_deep_thaw_redraws): Added,
+	(cell_queue_redraw): Updated to use deep_freeze
+	effectively ignore redraw requests.
+
+	* src/xml-io.c (readXmlCell): Added deep freeze/thaw
+	redraws for clean and easy speedup.
+
+1999-05-06  Michael Meeks  <michael@imaginator.com>
+	
 	* src/workbook.c: Moved 'Sort' to the tools menu.
 
 	* HACKING: Pedantic clean.

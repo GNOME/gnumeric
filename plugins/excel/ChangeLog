@@ -1,5 +1,12 @@
 1999-05-06  Michael Meeks  <michael@imaginator.com>
 
+	* ms-ole.c (ms_biff_query_new, ms_biff_merge_continues)
+	Better merge support.
+
+	* ms-biff.h (_BIFF_QUERY): Added merge count
+
+1999-05-06  Michael Meeks  <michael@imaginator.com>
+
 	* ms-excel.c (ms_excelReadWorkbook): Added freeze /
 	thaw redraws for speed.
 

@@ -1234,6 +1234,8 @@ readXmlCell (parseXmlContextPtr ctxt, xmlNodePtr tree)
 	int row = 0, col = 0;
 	char *content = NULL;
 
+	cell_deep_freeze_redraws ();
+
 	if (strcmp (tree->name, "Cell")){
 		fprintf (stderr,
 		 "readXmlCell: invalid element type %s, 'Cell' expected`\n",
@@ -1279,6 +1281,8 @@ readXmlCell (parseXmlContextPtr ctxt, xmlNodePtr tree)
 		free (content);
 	} else
 		cell_set_text_simple (ret, "");
+
+	cell_deep_thaw_redraws ();
 
 	return ret;
 }

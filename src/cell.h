@@ -177,6 +177,12 @@ void        cell_thaw_redraws            (void);
 void        cell_freeze_redraws          (void);
 
 /*
+ * Optimizations to stop any queueing of redraws.
+ */
+void        cell_deep_thaw_redraws            (void);
+void        cell_deep_freeze_redraws          (void);
+
+/*
  * Routines used to lookup which cells displays on a given column
  *
  * These are defined in cellspan.c

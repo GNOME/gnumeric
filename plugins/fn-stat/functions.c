@@ -2,8 +2,8 @@
  * fn-stat.c:  Built in statistical functions and functions registration
  *
  * Authors:
- *  Michael Meeks <michael@imaginator.com>
  *  Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *  Michael Meeks <michael@imaginator.com>
  *  Morten Welinder <terra@diku.dk>
  */
 #include <config.h>

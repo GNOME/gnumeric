@@ -2048,7 +2048,7 @@ ms_excelReadWorkbook (MS_OLE * file)
 	MS_EXCEL_WORKBOOK *wb = NULL;
 	xmlNodePtr child;
 
-	cell_freeze_redraws ();
+	cell_deep_freeze_redraws ();
 
 	if (1){ /* ? */
 		MS_OLE_STREAM *stream;
@@ -2286,7 +2286,7 @@ ms_excelReadWorkbook (MS_OLE * file)
 		ms_ole_stream_close (stream);
 	}
 
-	cell_thaw_redraws ();
+	cell_deep_thaw_redraws ();
 	
 	if (wb)
 	{

@@ -1459,6 +1459,7 @@ ms_biff_query_new (MS_OLE_STREAM *ptr)
 	bq->length        = 0;
 	bq->data_malloced = 0;
 	bq->pos = ptr;
+	bq->num_merges    = 0;
 #if OLE_DEBUG > 0
 	dump_biff(bq);
 #endif
@@ -1523,6 +1524,7 @@ ms_biff_merge_continues (BIFF_QUERY *bq, guint32 len)
 		g_array_append_val (contin, chunk);
 
 		chunk.length = BIFF_GETWORD (tmp+2);
+		bq->num_merges++;
 	} while ((BIFF_GETWORD(tmp) & 0xff) == BIFF_CONTINUE);
 	bq->pos->lseek (bq->pos, -4, MS_OLE_SEEK_CUR); /* back back off */
 
@@ -1552,12 +1554,31 @@ ms_biff_merge_continues (BIFF_QUERY *bq, guint32 len)
 	return 1;
 }
 
+void
+ms_biff_query_unmerge (BIFF_QUERY *bq)
+{
+	if (!bq || !bq->num_merges)
+		return;
+	bq->pos->lseek (bq->pos, -(4*(bq->num_merges+1)
+				   + bq->length), MS_OLE_SEEK_CUR);
+	ms_biff_query_next_merge (bq, FALSE);
+}
+
+
 /**
  * Returns 0 if has hit end
- * NB. if this crashes obscurely, array is being extended over the stack !
  **/
 int
 ms_biff_query_next (BIFF_QUERY *bq)
+{
+	return ms_biff_query_next_merge (bq, TRUE);
+}
+
+/**
+ * Returns 0 if has hit end
+ **/
+int
+ms_biff_query_next_merge (BIFF_QUERY *bq, gboolean do_merge)
 {
 	guint8  tmp[4];
 	int ans=1;
@@ -1565,6 +1586,7 @@ ms_biff_query_next (BIFF_QUERY *bq)
 	if (!bq || bq->pos->position >= bq->pos->size)
 		return 0;
 	if (bq->data_malloced) {
+		bq->num_merges = 0;
 		g_free (bq->data);
 		bq->data_malloced = 0;
 	}
@@ -1585,7 +1607,7 @@ ms_biff_query_next (BIFF_QUERY *bq)
 		} else
 			bq->data_malloced = 1;
 	}
-	if (ans &&
+	if (ans && do_merge &&
 	    bq->pos->read_copy (bq->pos, tmp, 4)) {
 		if ((BIFF_GETWORD(tmp) & 0xff) == BIFF_CONTINUE)
 			return ms_biff_merge_continues (bq, BIFF_GETWORD(tmp+2));

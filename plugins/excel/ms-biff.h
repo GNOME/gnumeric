@@ -8,10 +8,10 @@
 #define GNUMERIC_BIFF_H
 #include "ms-ole.h"
 
-typedef guint8  BYTE ;
-typedef guint16 WORD ;
-typedef guint32 LONG ;
-typedef guint64 DLONG ;
+typedef guint8  BYTE;
+typedef guint16 WORD;
+typedef guint32 LONG;
+typedef guint64 DLONG;
 
 #define BIFF_GETBYTE(p) (*((const BYTE *)(p)+0))
 #define BIFF_GETWORD(p) (guint16)(*((const BYTE *)(p)+0) | (*((const BYTE *)(p)+1)<<8))
@@ -40,20 +40,24 @@ typedef struct _BIFF_QUERY
 	guint32 length;        /* NB. can be extended by a continue opcode */
 	guint8  *data;
 	guint32 streamPos;
+	guint16 num_merges;
 	int     data_malloced; /* is *data a copy ? */
 	MS_OLE_STREAM *pos;
-} BIFF_QUERY ;
+} BIFF_QUERY;
  
 /* Sets up a query on a stream */
-extern BIFF_QUERY *ms_biff_query_new (MS_OLE_STREAM *) ;
+extern BIFF_QUERY *ms_biff_query_new (MS_OLE_STREAM *);
 /* Duplicates this query, so chaining can re-commence here */
-extern BIFF_QUERY *ms_biff_query_copy (const BIFF_QUERY *p) ;
+extern BIFF_QUERY *ms_biff_query_copy (const BIFF_QUERY *p);
 /**
  * Updates the BIFF_QUERY structure with the next BIFF record
  * returns: 1 for succes, and 0 for EOS(tream)
  **/
-extern int ms_biff_query_next (BIFF_QUERY *) ;
-extern void ms_biff_query_destroy (BIFF_QUERY *) ;
+extern int ms_biff_query_next (BIFF_QUERY *);
+extern int ms_biff_query_next_merge (BIFF_QUERY *, gboolean do_merge);
+/* Converts a merged query to the un-merged equivalent */
+extern void ms_biff_query_unmerge (BIFF_QUERY *);
+extern void ms_biff_query_destroy (BIFF_QUERY *);
 /* Returns a stream which contains the data in the BIFF record. */
 extern MS_OLE_STREAM *ms_biff_query_data_to_stream (BIFF_QUERY *);
 #endif
