@@ -1,3 +1,18 @@
+2004-01-10  Jody Goldberg <jody@gnome.org>
+
+	* src/wbc-gtk.c : Display the progress bar
+	  enable the sensitzation/desensitization of the actions.  NOTE :
+	  requires a gtk patch that is not in cvs yet.
+	  Set a tooltip for the border and colour combos, requires another gtk
+	  patch that is not in cvs.
+
+	* src/gnumeric-pane.c : Conditionally disable the stipple border for
+	  now, but fix it to scale properly with zoom anyway.
+
+	* src/Makefile.am (bonobo_component_ui_DATA) : install the GtkAtion ui
+	  file for now.  We can cleanup later.  Display ssconvert too, that
+	  needs to merge or move to a new dir.  It doubles link time.
+
 2004-01-09  Morten Welinder  <terra@gnome.org>
 
 	* src/wbcg-actions.c: Add invisible CopyDown and CopyRight

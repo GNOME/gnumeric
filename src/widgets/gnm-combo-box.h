@@ -71,10 +71,7 @@ void       gnm_combo_box_set_title   (GnmComboBox *combo,
 				      const gchar *title);
 void       gnm_combo_box_set_tearable        (GnmComboBox *combo,
 					      gboolean tearable);
-void       gnm_combo_box_set_arrow_sensitive (GnmComboBox *combo,
-					      gboolean sensitive);
-void       gnm_combo_box_set_arrow_relief    (GnmComboBox *cc,
-					      GtkReliefStyle relief);
+GtkWidget *gnm_combo_box_get_arrow	     (GnmComboBox *combo);
 
 /* protected */
 void       gnm_combo_box_get_pos     (GnmComboBox *combo_box, int *x, int *y);

@@ -1304,14 +1304,6 @@ static GNM_ACTION_DEF (cb_unmerge_cells)
 	range_fragment_free (range_list);
 }
 
-/*
- * toggle_current_font_attr
- * @wbcg:  The workbook to operate on
- * @bold:         TRUE to toggle, FALSE to leave unchanged
- * @italic:       TRUE to toggle, FALSE to leave unchanged
- * @underline:    TRUE to toggle, FALSE to leave unchanged
- * strikethrough: TRUE to toggle, FALSE to leave unchanged
- */
 static void
 toggle_current_font_attr (WorkbookControlGUI *wbcg,
 			  gboolean bold,	gboolean italic,
@@ -1329,6 +1321,8 @@ toggle_current_font_attr (WorkbookControlGUI *wbcg,
 	 */
 	if (wbcg->updating_ui)
 		return;
+
+	g_warning ("DOO");
 
 	new_style = mstyle_new ();
 	current_style = sheet_style_get (sheet,
@@ -2058,10 +2052,10 @@ static GtkToggleActionEntry toggle_actions[] = {
 		N_("_Bold"), "<control>B",
 		N_("Bold"), G_CALLBACK (cb_font_bold), FALSE },
 	{ "FontItalic", GTK_STOCK_ITALIC,
-		N_("_Italic"), "<control>I",
+		N_("_Italic"), "<control>i",
 		N_("Italic"), G_CALLBACK (cb_font_italic), FALSE },
 	{ "FontUnderline", GTK_STOCK_UNDERLINE,
-		N_("_Underline"), "<control>U",
+		N_("_Underline"), "<control>u",
 		N_("Underline"), G_CALLBACK (cb_font_underline), FALSE },
 #warning "Add double underline icon"
 #warning "Add accelerator for double underline"
@@ -2110,7 +2104,7 @@ wbcg_register_actions (WorkbookControlGUI *wbcg, GtkActionGroup *group)
 		toggle_actions, G_N_ELEMENTS (toggle_actions), wbcg);
 }
 
-#ifdef WITH_BONBO
+#ifdef WITH_BONOBO
 static BonoboUIVerb verbs [] = {
 
 	BONOBO_UI_UNSAFE_VERB ("FileNew", cb_file_new),
@@ -2138,8 +2132,8 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditSelectDepends", cb_edit_select_depends),
 	BONOBO_UI_UNSAFE_VERB ("EditSelectInputs", cb_edit_select_inputs),
 
-	BONOBO_UI_UNSAFE_VERB ("EditUndo", cb_edit_undo),
-	BONOBO_UI_UNSAFE_VERB ("EditRedo", cb_edit_redo),
+	BONOBO_UI_UNSAFE_VERB ("Undo", cb_edit_undo),
+	BONOBO_UI_UNSAFE_VERB ("Redo", cb_edit_redo),
 	BONOBO_UI_UNSAFE_VERB ("EditCut", cb_edit_cut),
 	BONOBO_UI_UNSAFE_VERB ("EditCopy", cb_edit_copy),
 	BONOBO_UI_UNSAFE_VERB ("EditPaste", cb_edit_paste),
@@ -2245,10 +2239,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("SortAscending", cb_sort_ascending),
 	BONOBO_UI_UNSAFE_VERB ("SortDescending", cb_sort_descending),
 	BONOBO_UI_UNSAFE_VERB ("ChartGuru", cb_launch_chart_guru),
-#ifdef GNOME2_CONVERSION_COMPLETE
-	BONOBO_UI_UNSAFE_VERB ("InsertComponent", cb_insert_component),
-	BONOBO_UI_UNSAFE_VERB ("InsertShapedComponent", cb_insert_shaped_component),
-#endif
 
 	BONOBO_UI_UNSAFE_VERB ("HelpAbout", cb_help_about),
 
@@ -2289,5 +2279,5 @@ static BonoboUIVerb verbs [] = {
 
 	BONOBO_UI_VERB_END
 };
-#endif
+#endif /* WITH_GNOME */
 

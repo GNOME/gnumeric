@@ -79,16 +79,19 @@ typedef WorkbookControlGUIClass WBCgtkClass;
 static void
 wbc_gtk_actions_sensitive (WorkbookControlGUI *wbcg, gboolean sensitive)
 {
+	WBCgtk *gtk = (WBCgtk *)wbcg;
+	g_object_set (G_OBJECT (gtk->actions), "sensitive", sensitive, NULL);
 }
 
 static void
-wbc_gtk_create_status_area (WorkbookControlGUI *wbcg,
+wbc_gtk_create_status_area (WorkbookControlGUI *wbcg, GtkWidget *progress,
 			    GtkWidget *status, GtkWidget *autoexpr)
 {
 	WBCgtk *gtk = (WBCgtk *)wbcg;
 	gtk->status_area = gtk_hbox_new (FALSE, 2);
 	gtk_box_pack_end (GTK_BOX (gtk->status_area), status, FALSE, TRUE, 0);
 	gtk_box_pack_end (GTK_BOX (gtk->status_area), autoexpr, FALSE, TRUE, 0);
+	gtk_box_pack_end (GTK_BOX (gtk->status_area), progress, TRUE, TRUE, 0);
 	gtk_box_pack_end (GTK_BOX (gtk->everything),
 		gtk->status_area, FALSE, TRUE, 0);
 }
@@ -282,6 +285,7 @@ static void
 wbc_gtk_init_borders (WBCgtk *gtk)
 {
 	gtk->borders = go_action_combo_pixmaps_new ("BorderSelector", border_combo_info, 3, 4);
+	g_object_set (G_OBJECT (gtk->borders), "tooltip", _("Borders"), NULL);
 	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->borders));
 
 #if 0
@@ -340,6 +344,7 @@ wbc_gtk_init_color_fore (WBCgtk *gtk)
 
 	gtk->fore_color = go_action_combo_color_new ("ColorFore", "font",
 		_("Automatic"),	&sc_auto_font->color, NULL);
+	g_object_set (G_OBJECT (gtk->fore_color), "tooltip", _("Foreground"), NULL);
 	style_color_unref (sc_auto_font);
 #if 0
 	g_signal_connect (G_OBJECT (fore_combo),
@@ -396,6 +401,7 @@ wbc_gtk_init_color_back (WBCgtk *gtk)
 {
 	gtk->back_color = go_action_combo_color_new ("ColorBack", "bucket",
 		_("Clear Background"), NULL, NULL);
+	g_object_set (G_OBJECT (gtk->back_color), "tooltip", _("Background"), NULL);
 #if 0
 	g_signal_connect (G_OBJECT (back_combo),
 		"color_changed",
@@ -544,9 +550,12 @@ static void
 wbc_gtk_set_action_sensitivity (WorkbookControlGUI const *wbcg,
 				char const *action, gboolean sensitive)
 {
-#warning TODO
+	WBCgtk *gtk = (WBCgtk *)wbcg;
+	GtkAction *a = gtk_action_group_get_action (gtk->actions, action);
+	g_object_set (G_OBJECT (a), "sensitive", sensitive, NULL);
 }
 
+#warning These semantics seem crufty
 static void
 wbc_gtk_set_action_label (WorkbookControlGUI const *wbcg,
 			  char const *action,
@@ -554,16 +563,10 @@ wbc_gtk_set_action_label (WorkbookControlGUI const *wbcg,
 			  char const *suffix,
 			  char const *new_tip)
 {
-#if 0
-	GtkBin   *bin = GTK_BIN (menu_item);
-	GtkLabel *label = GTK_LABEL (bin->child);
+	WBCgtk *gtk = (WBCgtk *)wbcg;
+	GtkAction *a = gtk_action_group_get_action (gtk->actions, action);
 
-	g_return_if_fail (label != NULL);
-
-	if (prefix == NULL) {
-		gtk_label_set_text (label, suffix);
-		gtk_label_set_use_underline (label, TRUE);
-	} else {
+	if (prefix != NULL) {
 		gchar    *text;
 		gboolean  sensitive = TRUE;
 
@@ -573,33 +576,25 @@ wbc_gtk_set_action_label (WorkbookControlGUI const *wbcg,
 		}
 
 		text = g_strdup_printf ("%s : %s", prefix, suffix);
-
-		gtk_label_set_text (label, text);
-		gtk_label_set_use_underline (label, TRUE);
+		g_object_set (G_OBJECT (a),
+			      "label",	   text,
+			      "sensitive", sensitive,
+			      NULL);
 		g_free (text);
+	} else
+		g_object_set (G_OBJECT (a), "label", suffix, NULL);
 
-		gtk_widget_set_sensitive (menu_item, sensitive);
-	}
-
-	if (new_tip != NULL) {
-		/* MASSIVE HACK
-		 * libGnomeui adds the signal handlers every time we call
-		 * gnome_app_install_menu_hints.  Which builds up a rather
-		 * large signal queue.  So cheat andjsut tweak the underlying
-		 * data structure.  This code is going to get burned out as
-		 * soon as we move to egg menu */
-		g_object_set_data (G_OBJECT (menu_item),
-			"apphelper_statusbar_hint", (gpointer)(L_(new_tip)));
-	}
-#endif
-#warning TODO
+	if (new_tip != NULL)
+		g_object_set (G_OBJECT (a), "tooltip", suffix, NULL);
 }
 
 static void
 wbc_gtk_set_toggle_action_state (WorkbookControlGUI const *wbcg,
 				 char const *action, gboolean state)
 {
-#warning TODO
+	WBCgtk *gtk = (WBCgtk *)wbcg;
+	GtkAction *a = gtk_action_group_get_action (gtk->actions, action);
+	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (a), state);
 }
 
 /****************************************************************************/
@@ -638,22 +633,6 @@ wbc_gtk_undo_redo_push (WorkbookControl *wbc, char const *text, gboolean is_undo
 	go_action_combo_stack_push (ur_stack (wbc, is_undo), text);
 }
 
-static void
-wbc_gtk_menu_state_sensitivity (WorkbookControlGUI *wbcg, gboolean sensitive)
-{
-	/* Don't disable/enable again (prevent toolbar flickering) */
-	if (wbcg->toolbar_is_sensitive == sensitive)
-		return;
-	wbcg->toolbar_is_sensitive = sensitive;
-
-#warning How to desensitize groups ?
-#if 0
-	gtk_widget_set_sensitive (GNOME_APP (wbcg->toplevel)->menubar, sensitive);
-	gtk_widget_set_sensitive (wbcg->standard_toolbar, sensitive);
-	gtk_widget_set_sensitive (wbcg->format_toolbar, sensitive);
-	gtk_widget_set_sensitive (wbcg->object_toolbar, sensitive);
-#endif
-}
 #define TOGGLE_HANDLER(flag, code)					\
 static GNM_ACTION_DEF (cb_sheet_pref_ ## flag )				\
 {									\
@@ -871,22 +850,23 @@ wbc_gtk_init (GObject *obj)
 		char const *name;
 		unsigned    offset;
 	} const toggles[] = {
-		{ "FontBold", G_STRUCT_OFFSET (WBCgtk, font.bold) },
-		{ "FontItalic", G_STRUCT_OFFSET (WBCgtk, font.italic) },
-		{ "FontUnderline", G_STRUCT_OFFSET (WBCgtk, font.underline) },
-		{ "FontStrikeThrough", G_STRUCT_OFFSET (WBCgtk, font.strikethrough) },
-		{ "AlignLeft", G_STRUCT_OFFSET (WBCgtk, h_align.left) },
-		{ "AlignCenter", G_STRUCT_OFFSET (WBCgtk, h_align.center) },
-		{ "AlignRight", G_STRUCT_OFFSET (WBCgtk, h_align.right) },
+		{ "FontBold",		G_STRUCT_OFFSET (WBCgtk, font.bold) },
+		{ "FontItalic",		G_STRUCT_OFFSET (WBCgtk, font.italic) },
+		{ "FontUnderline",	G_STRUCT_OFFSET (WBCgtk, font.underline) },
+		{ "FontStrikeThrough",	G_STRUCT_OFFSET (WBCgtk, font.strikethrough) },
+		{ "AlignLeft",		G_STRUCT_OFFSET (WBCgtk, h_align.left) },
+		{ "AlignCenter",	G_STRUCT_OFFSET (WBCgtk, h_align.center) },
+		{ "AlignRight",		G_STRUCT_OFFSET (WBCgtk, h_align.right) },
 		{ "CenterAcrossSelection", G_STRUCT_OFFSET (WBCgtk, h_align.center_across_selection) },
-		{ "AlignTop", G_STRUCT_OFFSET (WBCgtk, v_align.top) },
-		{ "AlignVCenter", G_STRUCT_OFFSET (WBCgtk, v_align.center) },
-		{ "AlignBottom", G_STRUCT_OFFSET (WBCgtk, v_align.bottom) }
+		{ "AlignTop",		G_STRUCT_OFFSET (WBCgtk, v_align.top) },
+		{ "AlignVCenter",	G_STRUCT_OFFSET (WBCgtk, v_align.center) },
+		{ "AlignBottom",	G_STRUCT_OFFSET (WBCgtk, v_align.bottom) }
 	};
 
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)obj;
 	WBCgtk		   *gtk = (WBCgtk *)obj;
 	GtkAction	   *act;
+	char		   *uifile;
 	unsigned	    i;
 	GError *error = NULL;
 
@@ -936,10 +916,13 @@ wbc_gtk_init (GObject *obj)
 
 	gtk_window_add_accel_group (wbcg->toplevel, 
 		gtk_ui_manager_get_accel_group (gtk->ui));
-	if (!gtk_ui_manager_add_ui_from_file (gtk->ui, "GNOME_Gnumeric-gtk.xml", &error)) {
+	uifile = g_build_filename (gnumeric_sys_data_dir (NULL),
+				   "GNOME_Gnumeric-gtk.xml", NULL);
+	if (!gtk_ui_manager_add_ui_from_file (gtk->ui, uifile, &error)) {
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
+	g_free (uifile);
 
 	gtk_ui_manager_ensure_update (gtk->ui);
 	gtk_widget_show (gtk->everything);

@@ -34,7 +34,6 @@ struct _WorkbookControlGUI {
 
 	gboolean    updating_ui;
 	gint        toolbar_sensitivity_timer;
-	gboolean    toolbar_is_sensitive;
 
 	/* Auto completion */
 	void		*auto_complete;         /* GtkType is (Complete *) */
@@ -71,7 +70,7 @@ typedef struct {
 	WorkbookControlClass base;
 
 	void (*set_transient)		(WorkbookControlGUI *wbcg, GtkWindow *window);
-	void (*create_status_area)	(WorkbookControlGUI *wbcg,
+	void (*create_status_area)	(WorkbookControlGUI *wbcg, GtkWidget *progress,
 					 GtkWidget *status, GtkWidget *autoexpr);
 	void (*actions_sensitive)	(WorkbookControlGUI *wbcg, gboolean sensitive);
 	void (*set_zoom_label)		(WorkbookControlGUI const *wbcg, char const *label);

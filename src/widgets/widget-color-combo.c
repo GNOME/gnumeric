@@ -215,9 +215,11 @@ color_table_setup (ColorCombo *cc,
 void
 color_combo_box_set_preview_relief (ColorCombo *cc, GtkReliefStyle relief)
 {
-	g_return_if_fail (cc != NULL);
+	GtkWidget *w;
 	g_return_if_fail (IS_COLOR_COMBO (cc));
 
+	w = gnm_combo_box_get_arrow (GNM_COMBO_BOX (cc));
+	gtk_button_set_relief (GTK_BUTTON (w), relief);
 	gtk_button_set_relief (GTK_BUTTON (cc->preview_button), relief);
 }
 

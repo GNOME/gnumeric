@@ -479,7 +479,7 @@ gnm_pane_object_stop_editing (GnumericPane *pane)
 }
 
 #define CTRL_PT_SIZE		4
-#define CTRL_PT_OUTLINE		2
+#define CTRL_PT_OUTLINE		0
 /* space for 2 halves and a full */
 #define CTRL_PT_TOTAL_SIZE 	(CTRL_PT_SIZE*4 + CTRL_PT_OUTLINE*2)
 
@@ -705,7 +705,7 @@ new_control_point (GObject *so_view, int idx, double x, double y,
 
 	item = foo_canvas_item_new (
 		gcanvas->object_group,
-		FOO_TYPE_CANVAS_RECT,
+		FOO_TYPE_CANVAS_ELLIPSE,
 		"outline_color", "black",
 		"fill_color",    "white",
 		"width_pixels",  CTRL_PT_OUTLINE,
@@ -765,16 +765,21 @@ set_acetate_coords (GnumericPane *pane, GObject *so_view,
 	b += (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2 - 1;
 
 	if (pane->control_points [8] == NULL) {
-		static char diagonal [] = { 0xcc, 0x66, 0x33, 0x99, 0xcc, 0x66, 0x33, 0x99 };
+#undef WITH_STIPPLE_BORDER /* not so pretty */
+#ifdef WITH_STIPPLE_BORDER
+		static char const diagonal [] = { 0xcc, 0x66, 0x33, 0x99, 0xcc, 0x66, 0x33, 0x99 };
 		GdkBitmap *stipple = gdk_bitmap_create_from_data (GTK_WIDGET (gcanvas)->window,
 								  diagonal, 8, 8);
+#endif
 		FooCanvasItem *item = foo_canvas_item_new (
 			gcanvas->object_group,
 			item_acetate_get_type (),
 			"fill_color",		NULL,
-			"width_pixels",		CTRL_PT_SIZE + CTRL_PT_OUTLINE,
+#ifdef WITH_STIPPLE_BORDER
+			"width_units",		(double)(CTRL_PT_SIZE + CTRL_PT_OUTLINE),
 			"outline_color",	"black",
 			"outline_stipple",	stipple,
+#endif
 #if 0
 			/* work around the screwup in canvas-item-shape that adds a large
 			 * border to anything that uses miter (required for gnome-canvas
@@ -782,7 +787,9 @@ set_acetate_coords (GnumericPane *pane, GObject *so_view,
 			"join_style",		GDK_JOIN_ROUND,
 #endif
 			NULL);
+#ifdef WITH_STIPPLE_BORDER
 		g_object_unref (stipple);
+#endif
 		g_signal_connect (G_OBJECT (item),
 				  "event",
 				  G_CALLBACK (cb_control_point_event), so_view);

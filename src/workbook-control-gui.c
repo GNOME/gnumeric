@@ -90,6 +90,7 @@
 #include <gtk/gtkframe.h>
 #include <gtk/gtkdnd.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtkeventbox.h>
 #include <gtk/gtkprogressbar.h>
 
 #include <string.h>
@@ -979,7 +980,7 @@ wbcg_auto_expr_value (WorkbookControl *wbc)
 
 	if (wbcg_ui_update_begin (wbcg)) {
 		gtk_label_set_text(
-			 GTK_LABEL (GTK_BIN (wbcg->auto_expr_label)->child),
+			 GTK_LABEL (wbcg->auto_expr_label),
 			 wbv->auto_expr_value_as_string);
 		wbcg_ui_update_end (wbcg);
 	}
@@ -1072,8 +1073,8 @@ wbcg_undo_redo_labels (WorkbookControl *wbc, char const *undo, char const *redo)
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	g_return_if_fail (wbcg != NULL);
 
-	wbcg_set_action_label (wbcg, "EditUndo", _("_Undo"), undo, NULL);
-	wbcg_set_action_label (wbcg, "EditRedo", _("_Redo"), redo, NULL);
+	wbcg_set_action_label (wbcg, "Undo", _("_Undo"), undo, NULL);
+	wbcg_set_action_label (wbcg, "Redo", _("_Redo"), redo, NULL);
 }
 
 static void
@@ -1307,8 +1308,7 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 		return TRUE;
 
 	/* If something is still using the control
-	 * eg progress meter for a new book
-	 */
+	 * eg progress meter for a new book */
 	if (G_OBJECT (wbcg)->ref_count > 1)
 		return TRUE;
 
@@ -1805,6 +1805,9 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
 	GtkWidget *item;
 	int i;
 
+	if (event->button != 3)
+		return FALSE;
+
 	menu = gtk_menu_new ();
 
 	for (i = 0; quick_compute_routines [i].displayed_name; i++) {
@@ -2094,19 +2097,24 @@ static void
 wbcg_create_status_area (WorkbookControlGUI *wbcg)
 {
 	WorkbookControlGUIClass *wbcg_class = WBCG_CLASS (wbcg);
-	GtkWidget *tmp, *frame1, *frame2;
+	GtkWidget *tmp, *frame0, *frame1, *frame2;
 
 	wbcg->progress_bar = gtk_progress_bar_new ();
 	gtk_progress_bar_set_orientation (
 		GTK_PROGRESS_BAR (wbcg->progress_bar), GTK_PROGRESS_LEFT_TO_RIGHT);
+	frame0 = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame0), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (frame0), wbcg->progress_bar);
 
-	wbcg->auto_expr_label = tmp = gtk_button_new_with_label ("");
+	wbcg->auto_expr_label = tmp = gtk_label_new ("");
 	GTK_WIDGET_UNSET_FLAGS (tmp, GTK_CAN_FOCUS);
 	gtk_widget_ensure_style (tmp);
 	gtk_widget_set_size_request (tmp, gnm_measure_string (
 					     gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 					     tmp->style->font_desc,
 					     "W") * 15, -1);
+	tmp = gtk_event_box_new ();
+	gtk_container_add (GTK_CONTAINER (tmp), wbcg->auto_expr_label);
 	g_signal_connect (G_OBJECT (tmp),
 		"button_press_event",
 		G_CALLBACK (cb_select_auto_expr), wbcg);
@@ -2124,7 +2132,7 @@ wbcg_create_status_area (WorkbookControlGUI *wbcg)
 	gtk_frame_set_shadow_type (GTK_FRAME (frame2), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (frame2), tmp);
 
-	wbcg_class->create_status_area (wbcg, frame2, frame1);
+	wbcg_class->create_status_area (wbcg, frame0, frame2, frame1);
 }
 
 void
@@ -2455,7 +2463,6 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 static void
 workbook_control_gui_init (WorkbookControlGUI *wbcg)
 {
-	wbcg->toolbar_is_sensitive = TRUE;
 	wbcg->table       = gtk_table_new (0, 0, 0);
 	wbcg->notebook    = NULL;
 	wbcg->updating_ui = FALSE;

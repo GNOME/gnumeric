@@ -501,7 +501,6 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 	gnm_combo_box_set_tearable (GNM_COMBO_BOX (w), FALSE);
 	state->fill_color = style_color_ref (sog->fill_color);
 	gtk_table_attach_defaults (GTK_TABLE (table), w, 1, 2, 0, 1);
-	gnm_combo_box_set_arrow_relief (GNM_COMBO_BOX (w), GTK_RELIEF_NORMAL);
 	color_combo_box_set_preview_relief (COLOR_COMBO (w), GTK_RELIEF_NORMAL);
 	gtk_widget_show (GTK_WIDGET (w));
 	g_signal_connect (G_OBJECT (w),
@@ -953,7 +952,6 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 	gnm_combo_box_set_tearable (GNM_COMBO_BOX (w), FALSE);
 	state->outline_color = style_color_ref (sof->outline_color);
 	gtk_table_attach_defaults (GTK_TABLE (table), w, 1, 2, 0, 1);
-	gnm_combo_box_set_arrow_relief (GNM_COMBO_BOX (w), GTK_RELIEF_NORMAL);
 	color_combo_box_set_preview_relief (COLOR_COMBO (w), GTK_RELIEF_NORMAL);
 	gtk_widget_show (GTK_WIDGET (w));
 	g_signal_connect (G_OBJECT (w),
@@ -972,7 +970,6 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 	gnm_combo_box_set_tearable (GNM_COMBO_BOX (w), FALSE);
 	state->fill_color = style_color_ref (sog->fill_color);
 	gtk_table_attach_defaults (GTK_TABLE (table), w, 1, 2, 1, 2);
-	gnm_combo_box_set_arrow_relief (GNM_COMBO_BOX (w), GTK_RELIEF_NORMAL);
 	color_combo_box_set_preview_relief (COLOR_COMBO (w), GTK_RELIEF_NORMAL);
 	gtk_widget_show (GTK_WIDGET (w));
 	g_signal_connect (G_OBJECT (w),

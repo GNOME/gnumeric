@@ -40,30 +40,22 @@ typedef GtkToolItemClass GOToolComboPixmapsClass;
 #define IS_GO_TOOL_COMBO_PIXMAPS(o)	(G_TYPE_CHECK_INSTANCE_TYPE (o, GO_TOOL_COMBO_PIXMAPS_TYPE))
 
 static GType go_tool_combo_pixmaps_get_type (void);
-#if 0
-static void
-go_tool_combo_pixmaps_finalize (GObject *obj)
-{
-}
-static gboolean
-go_tool_combo_pixmaps_create_menu_proxy (GtkToolItem *tool_item)
-{
-}
 static gboolean
 go_tool_combo_pixmaps_set_tooltip (GtkToolItem *tool_item, GtkTooltips *tooltips,
 				   char const *tip_text,
 				   char const *tip_private)
 {
+	GOToolComboPixmaps *self = (GOToolComboPixmaps *)tool_item;
+	gtk_tooltips_set_tip (tooltips, self->combo->preview_button,
+			      tip_text, tip_private);
+	gtk_tooltips_set_tip (tooltips, gnm_combo_box_get_arrow	(GNM_COMBO_BOX (self->combo)),
+			      tip_text, tip_private);
+	return TRUE;
 }
-#endif
 static void
 go_tool_combo_pixmaps_class_init (GtkToolItemClass *tool_item_klass)
 {
-#if 0
-	gobject_klass->finalize		   = go_tool_combo_pixmaps_finalize;
-	tool_item_klass->create_menu_proxy = go_tool_combo_pixmaps_create_menu_proxy;
-	tool_item_klass->set_tooltip	   = go_tool_combo_pixmaps_set_tooltip;
-#endif
+	tool_item_klass->set_tooltip = go_tool_combo_pixmaps_set_tooltip;
 }
 
 static GSF_CLASS (GOToolComboPixmaps, go_tool_combo_pixmaps,

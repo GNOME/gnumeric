@@ -957,7 +957,6 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 		_("Default"), NULL, cg);
 	gtk_box_pack_start (vbox, state->ccombo_back, 0, 0, 0);
 	gtk_widget_set_sensitive (state->ccombo_back, FALSE);
-	gnm_combo_box_set_arrow_relief (GNM_COMBO_BOX (state->ccombo_back), GTK_RELIEF_NORMAL);
 	color_combo_box_set_preview_relief (COLOR_COMBO (state->ccombo_back), GTK_RELIEF_NORMAL);
 	color_combo_set_instant_apply 
 		(COLOR_COMBO (state->ccombo_back), FALSE);
@@ -970,7 +969,6 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 		_("Default"), NULL, cg);
 	gtk_box_pack_start (vbox, state->ccombo_fore, 1, 1, 0);
 	gtk_widget_set_sensitive (state->ccombo_fore, FALSE);
-	gnm_combo_box_set_arrow_relief (GNM_COMBO_BOX (state->ccombo_fore), GTK_RELIEF_NORMAL);
 	color_combo_box_set_preview_relief (COLOR_COMBO (state->ccombo_fore), GTK_RELIEF_NORMAL);
 	color_combo_set_instant_apply 
 		(COLOR_COMBO (state->ccombo_fore), FALSE);

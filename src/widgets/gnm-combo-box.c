@@ -363,10 +363,13 @@ gnm_combo_box_popup_display (GnmComboBox *combo_box)
 static int
 gnm_combo_toggle_pressed (GtkToggleButton *tbutton, GnmComboBox *combo_box)
 {
-	if (tbutton->active)
+	if (tbutton->active) {
 		gnm_combo_box_popup_display (combo_box);
-	else
+	} else
 		gnm_combo_box_popup_hide_unconditional (combo_box);
+
+	gtk_widget_set_state (combo_box->priv->display_widget,
+		GTK_WIDGET_STATE (tbutton));
 
 	return TRUE;
 }
@@ -791,13 +794,12 @@ gnm_combo_box_new (GtkWidget *display_widget, GtkWidget *optional_popdown)
 	return GTK_WIDGET (combo_box);
 }
 
-void
-gnm_combo_box_set_arrow_relief (GnmComboBox *cc, GtkReliefStyle relief)
+GtkWidget *
+gnm_combo_box_get_arrow (GnmComboBox *cc)
 {
-	g_return_if_fail (cc != NULL);
-	g_return_if_fail (IS_GNM_COMBO_BOX (cc));
+	g_return_val_if_fail (IS_GNM_COMBO_BOX (cc), NULL);
 
-	gtk_button_set_relief (GTK_BUTTON (cc->priv->arrow_button), relief);
+	return cc->priv->arrow_button;
 }
 
 /**
@@ -823,23 +825,6 @@ gnm_combo_box_set_title (GnmComboBox *combo,
 
 	g_object_set_data_full (G_OBJECT (combo), "gnm-combo-title",
 				g_strdup (title), (GDestroyNotify) g_free);
-}
-
-/**
- * gnm_combo_box_set_arrow_sensitive
- * @combo:  Combo box
- * @sensitive:  Sensitivity value
- *
- * Toggle the sensitivity of the arrow button
- */
-
-void
-gnm_combo_box_set_arrow_sensitive (GnmComboBox *combo,
-				   gboolean sensitive)
-{
-	g_return_if_fail (combo != NULL);
-
-	gtk_widget_set_sensitive (combo->priv->arrow_button, sensitive);
 }
 
 /**

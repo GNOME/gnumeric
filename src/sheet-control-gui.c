@@ -54,6 +54,7 @@
 #include <gtk/gtkhscrollbar.h>
 #include <gtk/gtkvscrollbar.h>
 #include <gtk/gtkvbox.h>
+#include <gtk/gtkhbox.h>
 
 #include <string.h>
 
