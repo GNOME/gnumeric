@@ -23,7 +23,7 @@
 #include "workbook-cmd-format.h"
 #include "pattern.h"
 
-static GnomeCanvasItem *item_grid_parent_class;
+static GnomeCanvasItemClass *item_grid_parent_class;
 
 /* The arguments we take */
 enum {

@@ -1,3 +1,9 @@
+1999-12-01  Federico Mena Quintero  <federico@redhat.com>
+
+	* src/item-grid.c: item_grid_parent_class should be a
+	GnomeCanvasItemClass *, not a GnomeCanvasItem *.  Thanks to Nick
+	Lamb (njl98r@ecs.soton.ac.uk) for pointing this out.
+
 1999-11-30  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/workbook.c (cb_sheet_check_dirty): Fixup.
