@@ -39,7 +39,7 @@ EXTRA_DIST = \
 	gnumeric.desktop.in gnumeric.spec.in gnumericConf.sh.in		\
 	gnumeric.keys.in gnumeric.mime $(appicon_DATA) 			\
 	gnumeric.xsd							\
-	README HACKING NEWS BUGS MAINTAINERS AUTHORS $(change_logs)	\
+	README HACKING NEWS BEVERAGES BUGS MAINTAINERS AUTHORS $(change_logs)	\
 	xml-i18n-extract.in	\
 	xml-i18n-merge.in	\
 	xml-i18n-update.in	\
