@@ -1,0 +1,11 @@
+#
+# Configuration file for using gnumeric
+#
+GNUMERIC_PREFIX="@gnumeric_prefix@"
+GNUMERIC_EXEC_PREFIX="@gnumeric_exec_prefix@"
+GNUMERIC_VERISON="@gnumeric_version@"
+GNUMERIC_DATADIR="@gnumeric_datadir@"
+GNUMERIC_LIBDIR="@gnumeric_libdir@"
+GNUMERIC_PLUGINDIR="@gnumeric_plugindir@"
+GNUMERIC_GLADEDIR="@gnumeric_gladedir@"
+GNUMERIC_WITH_BONOBO="@gnumeric_bonobo_enabled@"
