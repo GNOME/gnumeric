@@ -75,6 +75,7 @@ GNUMERIC_BASE =					\
 	eval.c					\
 	expr.c					\
 	expr.h					\
+	expr-impl.h				\
 	expr-name.c				\
 	expr-name.h				\
 	file.c					\
