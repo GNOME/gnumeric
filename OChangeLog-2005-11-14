@@ -1,3 +1,8 @@
+2003-06-13  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (register_xml_ui): Change signature
+	to using GCallback, not a bonobo type.
+
 2003-06-12  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-clipboard.c (text_to_cell_region): Add fixed_encoding
@@ -23,7 +28,7 @@
 
 2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/workbook-control-gui.c: Correct  the description of the mean
+	* src/workbook-control-gui.c: Correct the description of the mean
 	  test.
 	* src/GNOME_Gnumeric.xml: ditto
 	
@@ -36,7 +41,7 @@
 
 	* src/workbook-control-gui.c (workbook_setup_sheets) : Fix my
 	  incorrect replacement on 2003-06-05.  show_border is something
-	  completely different.  Use the properties in stead of the old
+	  completely different.  Use the properties instead of the old
 	  accessors.
 
 2003-06-11  Andreas J. Guelzow <aguelzow@taliesin.ca>

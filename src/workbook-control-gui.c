@@ -1,4 +1,3 @@
-
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
@@ -80,6 +79,7 @@
 #include "sort.h"
 
 #ifdef WITH_BONOBO
+#include <bonobo/bonobo-ui-component.h>
 #include "sheet-object-container.h"
 #ifdef ENABLE_EVOLUTION
 #include <idl/Evolution-Composer.h>
@@ -114,7 +114,7 @@ struct _CustomXmlUI {
 	char *xml_ui;
 	char *textdomain;
 	GSList *verb_list;
-	BonoboUIVerbFn verb_fn;
+	GCallback /*BonoboUIVerbFn*/ verb_fn;
 	gpointer verb_fn_data;
 };
 
@@ -5002,7 +5002,9 @@ wbcg_add_custom_ui (WorkbookControlGUI *wbcg, CustomXmlUI *ui)
 	bonobo_ui_component_set_container (
 		uic, bonobo_ui_component_get_container (wbcg->uic), NULL);
 	GNM_SLIST_FOREACH (ui->verb_list, char, name,
-		bonobo_ui_component_add_verb (uic, name, ui->verb_fn, ui->verb_fn_data);
+		bonobo_ui_component_add_verb (uic, name,
+					      (BonoboUIVerbFn)(ui->verb_fn),
+					      ui->verb_fn_data);
 	);
 	if (ui->textdomain != NULL) {
 		char *old_textdomain;
@@ -5665,7 +5667,7 @@ remove_ui_from_workbook_controls (Workbook *wb, gpointer ui)
 
 CustomXmlUI *
 register_xml_ui (const char *xml_ui, const char *textdomain, GSList *verb_list,
-                BonoboUIVerbFn verb_fn, gpointer verb_fn_data)
+		 GCallback /*BonoboUIVerbFn*/ verb_fn, gpointer verb_fn_data)
 {
 	CustomXmlUI *new_ui;
 

@@ -4,7 +4,6 @@
 #include "workbook-control.h"
 #include "gui-gnumeric.h"
 #include <gtk/gtkwindow.h>
-#include <bonobo/bonobo-ui-component.h>
 
 #define WORKBOOK_CONTROL_GUI_TYPE     (workbook_control_gui_get_type ())
 #define WORKBOOK_CONTROL_GUI(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), WORKBOOK_CONTROL_GUI_TYPE, WorkbookControlGUI))
@@ -39,7 +38,7 @@ void	   wb_control_gui_set_status_text (WorkbookControlGUI *wbcg,
 PangoFontDescription *wbcg_get_font_desc (WorkbookControlGUI *wbcg);
 
 CustomXmlUI *register_xml_ui   (const char *xml_ui, const char *textdomain,
-                                GSList *verb_list, BonoboUIVerbFn verb_fn,
+                                GSList *verb_list, GCallback /*BonoboUIVerbFn*/ verb_fn,
                                 gpointer verb_fn_data);
 void         unregister_xml_ui (CustomXmlUI *ui);
 

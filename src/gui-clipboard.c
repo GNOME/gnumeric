@@ -76,6 +76,7 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 		} else {
 			/* Force STF import since we don't know the charset.  */
 			oneline = FALSE;
+			fixed_encoding = FALSE;
 		}
 	}
 

@@ -1353,7 +1353,8 @@ plugin_service_ui_activate (PluginService *service, ErrorInfo **ret_error)
 
 	textdomain = gnm_plugin_get_textdomain (service->plugin);
 	service_ui->ui = register_xml_ui (
-		xml_ui, textdomain, service_ui->verbs, ui_verb_fn, service);
+		xml_ui, textdomain, service_ui->verbs,
+		G_CALLBACK (ui_verb_fn), service);
 	service->is_active = TRUE;
 	g_free (xml_ui);
 }
