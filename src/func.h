@@ -28,11 +28,19 @@ typedef int (*FunctionIterateCallback)(Sheet *sheet, Value *value, char **error_
  * expr_node_list:   a GList of ExprTrees (what a Gnumeric function would get).
  * eval_col:         Context column in which expressions are evaluated
  * eval_row:         Context row in which expressions are evaluated
- * error_string:     a pointer to a char* where an error message is stored.
+ * error_string:     A pointer to a char* where an error message is stored.
+ *                   The value is initially set to NULL and can be changed by
+ *                   the callback or by the evaluation of an argument.
+ * strict:           If TRUE, the function is considered "strict".  This means
+ *                   that if an error value occurs as an argument, the iteration
+ *                   will stop and that error will be returned.  If FALSE, an
+ *                   error will be passed on to the callback (as a NULL Value *
+ *                   with error_string set).
  *
  * Return value:
  *    TRUE  if no errors were reported.
- *    FALSE if an error was found during evaluation.
+ *    FALSE if an error was found during strict evaluation, or if the callback
+ *          requested termination of the iteration.
  *
  * This routine provides a simple way for internal functions with variable
  * number of arguments to be written: this would iterate over a list of
