@@ -14,6 +14,7 @@
 #include "parse-util.h"
 #include "style.h"
 #include "format.h"
+#include "portability.h"
 #include <stdlib.h>
 #include <errno.h>
 
@@ -747,14 +748,18 @@ value_compare (Value const *a, Value const *b, gboolean case_sensitive)
 		/* If both are strings compare as string */
 		case VALUE_STRING :
 		{
-			int t;
+			gint t;
 
 			if (case_sensitive) {
-				t = strcmp (a->v_str.val->str,
-					    b->v_str.val->str);
+				t = strcoll (a->v_str.val->str, b->v_str.val->str);
 			} else {
-				t = g_strcasecmp (a->v_str.val->str,
-						  b->v_str.val->str);
+				gchar *str_a, *str_b;
+
+				str_a = g_alloca (strlen (a->v_str.val->str) + 1);
+				str_b = g_alloca (strlen (b->v_str.val->str) + 1);
+				g_strdown (strcpy (str_a, a->v_str.val->str));
+				g_strdown (strcpy (str_b, b->v_str.val->str));
+				t = strcoll (str_a, str_b);
 			}
 
 			if (t == 0)

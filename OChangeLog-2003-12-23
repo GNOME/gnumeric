@@ -1,5 +1,10 @@
 2000-12-20  Zbigniew Chyla  <cyba@gnome.pl>
 
+	* src/value.c (value_compare):  Use strcoll() when comparing string
+	values (interpret strings as appropriate for the current locale).
+
+2000-12-20  Zbigniew Chyla  <cyba@gnome.pl>
+
 	* templates/autoformat/*.xml: Added Polish translations.
 
 2000-12-20  Morten Welinder  <terra@diku.dk>
