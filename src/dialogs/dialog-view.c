@@ -55,7 +55,7 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	GdkScreen *screen = NULL;
 	GSList *buttons = gtk_radio_button_get_group (state->location_elsewhere);
 
-	shared = gtk_toggle_button_get_active (glade_xml_get_widget (state->gui, "view_shared"));
+	shared = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "view_shared")));
 
 	while (buttons)
 		if (gtk_toggle_button_get_active (buttons->data))
