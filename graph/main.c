@@ -7,6 +7,7 @@
  * (C) 1999, 2000 Helix Code, Inc.  http://www.helixcode.com
  */
 #include <config.h>
+#include <popt-gnome.h>
 #include <bonobo.h>
 #if USING_OAF
 #	include <liboaf/liboaf.h>
