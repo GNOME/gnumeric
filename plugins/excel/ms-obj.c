@@ -115,14 +115,18 @@ ms_parse_object_anchor (int anchor[4],
 
 	for (i = 0; i < 4; ++i) {
 		guint16 const pos = MS_OLE_GET_GUINT16(data + 4*i);
-		float margin = (MS_OLE_GET_GUINT16(data + 4*i + 2) / (1024./72.));
+		/* FIXME : we are slightly off.  Tweak the pixels/inch ratio
+		 * to make this come out on my screen for pic.xls.
+		 * 66 pixels/inch seems correct ???
+		 */
+		float margin = (MS_OLE_GET_GUINT16(data + 4*i + 2) / (1024./66.));
 
-		/* FIXME : we are slightly off.  What about margins ? */
 		float const tmp = (i&1) /* odds are rows */
 		    ? sheet_row_get_unit_distance (sheet, 0, pos)
 		    : sheet_col_get_unit_distance (sheet, 0, pos);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 1) {
+			printf ("zoom = %f;\n", zoom);
 			printf ("%f units (%d pixels) from ",
 				margin, (int)(zoom * margin));
 			if (i&1)
