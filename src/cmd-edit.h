@@ -14,4 +14,11 @@ void cmd_paste_to_selection (CommandContext *context, Sheet *sheet, int flags);
 void cmd_paste 		    (CommandContext *context, PasteTarget const *pt,
 			     guint32 time);
 
+void cmd_shift_cols  (CommandContext *context, Sheet *sheet,
+		      int start_col, int end_col,
+		      int row,       int count);
+void cmd_shift_rows  (CommandContext *context, Sheet *sheet,
+		      int col,
+		      int start_row, int end_row, int count);
+
 #endif /* GNUMERIC_CMD_EDIT_H */

@@ -363,3 +363,67 @@ cmd_paste_to_selection (CommandContext *context, Sheet *dest_sheet, int paste_fl
 	pt.paste_flags = paste_flags;
 	cmd_paste (context, &pt, GDK_CURRENT_TIME);
 }
+
+/**
+ * cmd_shift_rows:
+ * @context	The error context.
+ * @sheet	the sheet
+ * @col		column marking the start of the shift
+ * @start_row	first row
+ * @end_row	end row
+ * @count	numbers of columns to shift.  negative numbers will
+ *		delete count columns, positive number will insert
+ *		count columns.
+ *
+ * Takes the cells in the region (col,start_row):(MAX_COL,end_row)
+ * and copies them @count units (possibly negative) to the right.
+ */
+
+void
+cmd_shift_rows (CommandContext *context, Sheet *sheet,
+		int col, int start_row, int end_row, int count)
+{
+	ExprRelocateInfo rinfo;
+
+	rinfo.col_offset = count;
+	rinfo.row_offset = 0;
+	rinfo.origin_sheet = rinfo.target_sheet = sheet;
+	rinfo.origin.start.row = start_row;
+	rinfo.origin.start.col = col;
+	rinfo.origin.end.row = end_row;
+	rinfo.origin.end.col = SHEET_MAX_COLS-1;
+
+	cmd_paste_cut (context, &rinfo);
+}
+
+/**
+ * cmd_shift_cols:
+ * @context	The error context.
+ * @sheet	the sheet
+ * @start_col	first column
+ * @end_col	end column
+ * @row		row marking the start of the shift
+ * @count	numbers of rows to shift.  a negative numbers will
+ *		delete count rows, positive number will insert
+ *		count rows.
+ *
+ * Takes the cells in the region (start_col,row):(end_col,MAX_ROW)
+ * and copies them @count units (possibly negative) downwards.
+ */
+void
+cmd_shift_cols (CommandContext *context, Sheet *sheet,
+		int start_col, int end_col, int row, int count)
+{
+	ExprRelocateInfo rinfo;
+
+	rinfo.col_offset = 0;
+	rinfo.row_offset = count;
+	rinfo.origin_sheet = rinfo.target_sheet = sheet;
+	rinfo.origin.start.col = start_col;
+	rinfo.origin.start.row = row;
+	rinfo.origin.end.col = end_col;
+	rinfo.origin.end.row = SHEET_MAX_ROWS-1;
+
+	cmd_paste_cut (context, &rinfo);
+}
+

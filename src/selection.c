@@ -656,7 +656,7 @@ sheet_selection_cut (CommandContext *context, Sheet *sheet)
  * @allow_intersection : Divide the selection into nonoverlappign subranges.
  */
 GSList *
-selection_get_ranges (Sheet * sheet, gboolean const allow_intersection)
+selection_get_ranges (Sheet *sheet, gboolean const allow_intersection)
 {
 	GList  *l;
 	GSList *proposed = NULL;
@@ -695,7 +695,6 @@ selection_get_ranges (Sheet * sheet, gboolean const allow_intersection)
 				clear = g_slist_prepend (clear, a);
 				continue;
 			}
-
 
 #ifdef DEBUG_SELECTION
 			fprintf (stderr, "a = ");

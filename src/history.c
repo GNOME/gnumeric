@@ -132,8 +132,9 @@ history_menu_locate_separator (Workbook *wb)
 	MenuPos ret;
 	
 #ifndef ENABLE_BONOBO
+	char const * menu_name = _("File/Print preview");
 	ret.menu = gnome_app_find_menu_pos (GNOME_APP (wb->toplevel)->menubar, 
-					    _("File/Print preview"), &ret.pos);
+					    menu_name, &ret.pos);
 #else
 	ret.menu = NULL;
 	ret.pos = bonobo_ui_handler_menu_get_pos (wb->uih,
@@ -153,12 +154,18 @@ history_menu_insert_separator (Workbook *wb)
 	
 #ifndef ENABLE_BONOBO
 	GtkWidget *item;
+	char const * menu_name = _("File/Print preview");
 
 	ret.menu = gnome_app_find_menu_pos (GNOME_APP (wb->toplevel)->menubar, 
-					    _("File/Print preview"), &ret.pos);
-	item = gtk_menu_item_new ();
-	gtk_widget_show (item);
-	gtk_menu_shell_insert (GTK_MENU_SHELL (ret.menu), item, ret.pos);
+					    menu_name, &ret.pos);
+	if (ret.menu != NULL) {
+		item = gtk_menu_item_new ();
+		gtk_widget_show (item);
+		gtk_menu_shell_insert (GTK_MENU_SHELL (ret.menu), item, ret.pos);
+	} else
+		g_warning ("Probable mis-translation. '%s' : was not found. "
+			   "Does this match the 'File/Print preview' menu exactly ?",
+			   menu_name);
 #else
 	ret = history_menu_locate_separator (wb);
 	bonobo_ui_handler_menu_new_separator (wb->uih, "/File/histsep",

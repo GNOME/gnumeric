@@ -969,55 +969,45 @@ ranges_set_style (Sheet *sheet, GSList *ranges, MStyle *mstyle)
  * @col_offset: 
  * @row_offset: 
  * 
- * Translate the range, returns TRUE if the range was clipped
- * otherwise FALSE.
- * 
- * Return value: range clipped.
+ * Translate the range clipping to the sheet bounds as needed.
+ *
+ * return TRUE if the range is no longer valid.
  **/
 gboolean
-range_translate (Range *range, int col_offset,
-		 int row_offset)
+range_translate (Range *range, int col_offset, int row_offset)
 {
-	gboolean clipped = FALSE;
+	range->start.col += col_offset;
+	range->end.col   += col_offset;
+	range->start.row += row_offset;
+	range->end.row   += row_offset;
 
-	if (range->end.col   + col_offset < 0 ||
-	    range->start.col + col_offset >= SHEET_MAX_COLS)
-		clipped = TRUE;
+	/* check for inversion */
+	if (range->start.col > range->end.col) {
+		int tmp = range->start.col;
+		range->start.col = range->end.col;
+		range->end.col = tmp;
+	}
+	if (range->start.row > range->end.row) {
+		int tmp = range->start.row;
+		range->start.row = range->end.row;
+		range->end.row = tmp;
+	}
 
-	if (range->end.row   + row_offset < 0 ||
-	    range->start.row + row_offset >= SHEET_MAX_ROWS)
-		clipped = TRUE;
+	/* check for completely out of bounds */
+	if (range->start.col >= SHEET_MAX_COLS || range->end.col < 0 ||
+	    range->start.row >= SHEET_MAX_ROWS || range->end.row < 0)
+		return TRUE;
 
-	range->start.col = MIN (range->start.col + col_offset,
-				SHEET_MAX_COLS - 1);
-	range->end.col   = MIN (range->end.col   + col_offset,
-				SHEET_MAX_COLS - 1);
-	range->start.row = MIN (range->start.row + row_offset,
-				SHEET_MAX_ROWS - 1);
-	range->end.row   = MIN (range->end.row   + row_offset,
-				SHEET_MAX_ROWS - 1);
-
-	if (range->start.col < 0) {
+	if (range->start.col < 0)
 		range->start.col = 0;
-		clipped = TRUE;
-	}
-
-	if (range->start.row < 0) {
+	if (range->end.col >= SHEET_MAX_COLS)
+		range->end.col = SHEET_MAX_COLS-1;
+	if (range->start.row < 0)
 		range->start.row = 0;
-		clipped = TRUE;
-	}
+	if (range->end.row >= SHEET_MAX_ROWS)
+		range->end.row = SHEET_MAX_ROWS-1;
 
-	if (range->end.col < 0) {
-		range->end.col   = 0;
-		clipped = TRUE;
-	}
-
-	if (range->end.row < 0) {
-		range->end.row   = 0;
-		clipped = TRUE;
-	}
-
-	return clipped;
+	return FALSE;
 }
 
 /**

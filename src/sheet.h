@@ -315,7 +315,8 @@ gboolean    sheet_is_pristine             (Sheet *sheet);
 
 /* Sheet information manipulation */
 void        sheet_move_range              (CommandContext *context,
-					   ExprRelocateInfo const * rinfo);
+					   ExprRelocateInfo const * rinfo,
+					   GSList **reloc_storage);
 
 char       *sheet_name_quote              (const char *unquoted_name);
 Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
@@ -373,16 +374,10 @@ gboolean  sheet_insert_cols (CommandContext *context, Sheet *sheet,
 			     int col, int count, GSList **reloc_storage);
 gboolean  sheet_delete_cols (CommandContext *context, Sheet *sheet,
 			     int col, int count, GSList **reloc_storage);
-void      sheet_shift_cols  (CommandContext *context, Sheet *sheet,
-			     int start_col, int end_col,
-			     int row,       int count);
 gboolean  sheet_insert_rows (CommandContext *context, Sheet *sheet,
 			     int row, int count, GSList **reloc_storage);
 gboolean  sheet_delete_rows (CommandContext *context, Sheet *sheet,
 			     int row, int count, GSList **reloc_storage);
-void      sheet_shift_rows  (CommandContext *context, Sheet *sheet,
-			     int col,
-			     int start_row, int end_row, int count);
 
 void sheet_adjust_preferences (Sheet const *sheet);
 

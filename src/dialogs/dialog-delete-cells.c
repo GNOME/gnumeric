@@ -15,6 +15,7 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "commands.h"
+#include "cmd-edit.h"
 
 #define GLADE_FILE "delete-cells.glade"
 
@@ -46,15 +47,15 @@ dialog_delete_cells_impl (Workbook *wb, Sheet *sheet, GladeXML  *gui)
 		rows = ss->user.end.row - ss->user.start.row + 1;
 
 		if (i == 0)
-			sheet_shift_rows (workbook_command_context_gui (wb), sheet,
-					  ss->user.start.col + cols, 
-					  ss->user.start.row, 
-					  ss->user.end.row, -cols);
+			cmd_shift_rows (workbook_command_context_gui (wb), sheet,
+					ss->user.start.col + cols, 
+					ss->user.start.row, 
+					ss->user.end.row, -cols);
 		else if (i == 1)
-			sheet_shift_cols (workbook_command_context_gui (wb), sheet,
-					  ss->user.start.col,
-					  ss->user.end.col, 
-					  ss->user.start.row + rows, -rows);
+			cmd_shift_cols (workbook_command_context_gui (wb), sheet,
+					ss->user.start.col,
+					ss->user.end.col, 
+					ss->user.start.row + rows, -rows);
 		else if (i == 2)
 			cmd_delete_rows (workbook_command_context_gui (wb), sheet,
 					   ss->user.start.row, rows);

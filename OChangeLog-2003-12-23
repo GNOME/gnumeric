@@ -1,3 +1,24 @@
+2000-05-31  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (cmd_ins_del_row_col_destroy) : Fix leak.
+	(cmd_paste_cut_*) : We do need to worry about invalidations.  Any
+	  references to the portions of the destination region that do not
+	  overlap the src region get invalidated.
+
+	* src/ranges.c (range_translate) : Adjust the semantics so that the
+	  result warns of a range that was translated completly out of bounds.
+
+	* src/sheet.c (sheet_move_range) : Invalidate the references to the
+	  portions of the destination range that do NOT overlap with the src.
+	(sheet_shift_{cols,rows}) : Rename and move to..
+	* src/cmd-edit.c (cmd_shift_{cols,rows}) : here.  Use cmd_paste_cut
+	  instead of sheet_move_range directly.
+
+	* src/dialogs/dialog-{insert,delete}.c : Switch to cmd_shift_{cols,rows}.
+
+	* src/history.c (history_menu_insert_separator) : Add a more detailed
+	  explaination when the history lookup fails.
+
 2000-05-30  Morten Welinder  <terra@diku.dk>
 
 	* src/format.c (find_decimal_char): Remove over-constification.

@@ -871,7 +871,7 @@ Sheet_shift_rows (PortableServer_Servant servant,
 	verify_row (end_row);
 	verify_col (col);
 
-	sheet_shift_rows (
+	cmd_shift_rows (
 		command_context_corba (sheet->workbook), sheet,
 		col, start_row, end_row, count);
 }
@@ -888,7 +888,7 @@ Sheet_shift_cols (PortableServer_Servant servant,
 	verify_row (start_row);
 	verify_row (end_row);
 
-	sheet_shift_cols (
+	cmd_shift_cols (
 		command_context_corba (sheet->workbook), sheet,
 		col, start_row, end_row, count);
 }

@@ -3128,17 +3128,15 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 	return FALSE;
 }
 
-/*
- * Excel does not support paste special from a 'cut' will we want to
- * do that ?
- */
 void
 sheet_move_range (CommandContext *context,
-		  ExprRelocateInfo const * rinfo)
+		  ExprRelocateInfo const *rinfo,
+		  GSList **reloc_storage)
 {
 	GList *cells = NULL;
 	Cell  *cell;
-	gboolean inter_sheet_formula;
+	Range  dst;
+	gboolean inter_sheet_formula, out_of_range;
 
 	g_return_if_fail (rinfo != NULL);
 	g_return_if_fail (rinfo->origin_sheet != NULL);
@@ -3146,17 +3144,14 @@ sheet_move_range (CommandContext *context,
 	g_return_if_fail (rinfo->target_sheet != NULL);
 	g_return_if_fail (IS_SHEET (rinfo->target_sheet));
 
+	dst = rinfo->origin;
+	out_of_range = range_translate (&dst,
+					rinfo->col_offset, rinfo->row_offset);
+
 	/* 0. Walk cells in the moving range and ensure arrays aren't divided. */
 
 	/* 1. Fix references to and from the cells which are moving */
-	/* All we really want is the workbook so either sheet will do */
-
-	/* 
-	 * move can never move something off the edge, so we do not need the
-	 * list.
-	 */
-	workbook_expr_unrelocate_free (
-		workbook_expr_relocate (rinfo->origin_sheet->workbook, rinfo));
+	*reloc_storage = workbook_expr_relocate (rinfo->origin_sheet->workbook, rinfo);
 
 	/* 2. Collect the cells */
 	sheet_cell_foreach_range (rinfo->origin_sheet, TRUE,
@@ -3171,14 +3166,56 @@ sheet_move_range (CommandContext *context,
 	 */
 	cells = g_list_reverse (cells);
 
-	/* 4. Clear the target area */
-	sheet_clear_region (context,
-			    rinfo->target_sheet, 
-			    rinfo->origin.start.col + rinfo->col_offset,
-			    rinfo->origin.start.row + rinfo->row_offset,
-			    rinfo->origin.end.col + rinfo->col_offset,
-			    rinfo->origin.end.row + rinfo->row_offset,
-			    CLEAR_VALUES|CLEAR_COMMENTS); /* Do not to clear styles */
+	/* 4. Clear the target area & invalidate references to it */
+	if (!out_of_range) {
+		GList *invalid;
+		ExprRelocateInfo reloc_info;
+
+		/*
+		 * we can clear content but not styles from the destination
+		 * region without worrying if it overlaps with the source,
+		 * because we have already extracted the content.
+		 */
+		sheet_clear_region (context, rinfo->target_sheet, 
+				    dst.start.col, dst.start.row,
+				    dst.end.col, dst.end.row,
+				    CLEAR_VALUES|CLEAR_COMMENTS); /* Do not to clear styles */
+
+		/*
+		 * we DO need to be careful about invalidating references to the old
+		 * content of the destination region.  We only invalidate references
+		 * to regions that are actually lost.
+		 *
+		 * Handle dst cells being pasted over
+		 */
+		if (range_overlap (&rinfo->origin, &dst)) {
+			invalid = range_split_ranges (&rinfo->origin, &dst, NULL);
+		} else {
+			Range *r = g_new (Range, 1);
+			*r = dst;
+			invalid = g_list_append (NULL, r);
+		}
+
+		reloc_info.origin_sheet = reloc_info.target_sheet = rinfo->target_sheet;;
+		reloc_info.col_offset = SHEET_MAX_COLS; /* send to infinity */
+		reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
+
+		while (invalid) {
+			Range *r = invalid->data;
+			invalid = g_list_remove (invalid, r);
+			if (!range_overlap (r, &rinfo->origin)) {
+				reloc_info.origin = *r;
+				*reloc_storage = g_slist_concat (*reloc_storage,
+					workbook_expr_relocate (rinfo->target_sheet->workbook, &reloc_info));
+			}
+			g_free (r);
+		}
+
+		/*
+		 * DO NOT handle src cells moving out the bounds.
+		 * that is handled elsewhere.
+		 */
+	}
 
 	/* 5. Slide styles BEFORE the cells so that spans get computed properly */
 	sheet_style_relocate (rinfo);
@@ -3222,71 +3259,6 @@ sheet_move_range (CommandContext *context,
 	/* 8. Notify sheet of pending update */
 	rinfo->origin_sheet->priv->recompute_spans = TRUE;
 	sheet_flag_status_update_range (rinfo->origin_sheet, &rinfo->origin);
-}
-
-/**
- * sheet_shift_rows:
- * @sheet	the sheet
- * @col		column marking the start of the shift
- * @start_row	first row
- * @end_row	end row
- * @count	numbers of columns to shift.  negative numbers will
- *		delete count columns, positive number will insert
- *		count columns.
- *
- * Takes the cells in the region (col,start_row):(MAX_COL,end_row)
- * and copies them @count units (possibly negative) to the right.
- */
-
-void
-sheet_shift_rows (CommandContext *context, Sheet *sheet,
-		  int col, int start_row, int end_row, int count)
-{
-	ExprRelocateInfo rinfo;
-	rinfo.origin.start.col = col;
-	rinfo.origin.start.row = start_row;
-	rinfo.origin.end.col = SHEET_MAX_COLS-1;
-	rinfo.origin.end.row = end_row;
-	rinfo.origin_sheet = rinfo.target_sheet = sheet;
-	rinfo.col_offset = count;
-	rinfo.row_offset = 0;
-
-	sheet_move_range (context, &rinfo);
-
-	/* FIXME FIXME FIXME : these should be at the command level */
-	sheet_update (rinfo.origin_sheet);
-}
-
-/**
- * sheet_shift_cols:
- * @sheet	the sheet
- * @start_col	first column
- * @end_col	end column
- * @row		row marking the start of the shift
- * @count	numbers of rows to shift.  a negative numbers will
- *		delete count rows, positive number will insert
- *		count rows.
- *
- * Takes the cells in the region (start_col,row):(end_col,MAX_ROW)
- * and copies them @count units (possibly negative) downwards.
- */
-void
-sheet_shift_cols (CommandContext *context, Sheet *sheet,
-		  int start_col, int end_col, int row, int count)
-{
-	ExprRelocateInfo rinfo;
-	rinfo.origin.start.col = start_col;
-	rinfo.origin.start.row = row;
-	rinfo.origin.end.col = end_col;
-	rinfo.origin.end.row = SHEET_MAX_ROWS-1;
-	rinfo.origin_sheet = rinfo.target_sheet = sheet;
-	rinfo.col_offset = 0;
-	rinfo.row_offset = count;
-
-	sheet_move_range (context, &rinfo);
-
-	/* FIXME FIXME FIXME : these should be at the command level */
-	sheet_update (rinfo.origin_sheet);
 }
 
 double *
