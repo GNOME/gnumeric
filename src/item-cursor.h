@@ -25,6 +25,9 @@ typedef struct {
 	GdkGC    *gc;
 	int      state;
 	int      tag;
+
+	/* Cached values of the last bounding box information used */
+	int      cached_x, cached_y, cached_w, cached_h;
 } ItemCursor;
 
 GtkType item_cursor_get_type (void);

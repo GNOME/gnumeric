@@ -627,7 +627,8 @@ gnumeric_sheet_new (Sheet *sheet, ItemBar *colbar, ItemBar *rowbar)
 				      "ItemCursor::Grid", gsheet->item_grid,
 				      NULL);
 	gsheet->item_cursor = ITEM_CURSOR (item);
-
+	item_cursor_set_bounds (gsheet->item_cursor, 0, 0, 1, 1);
+		
 	widget = GTK_WIDGET (gsheet);
 
 	return widget;

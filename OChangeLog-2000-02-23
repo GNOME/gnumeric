@@ -1,5 +1,8 @@
 1998-08-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/item-grid.c (item_grid_event): Call
+	gnumeric_sheet_accept_pending_output before moving the cursor.
+
 	* src/item-cursor.c (item_cursor_event): Event handler for the
 	item_cursors. 
 

@@ -119,11 +119,37 @@ item_cursor_get_pixel_coords (ItemCursor *item_cursor, int *x, int *y, int *w, i
 }
 
 static void
+item_cursor_configure_bounds (ItemCursor *item_cursor)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_cursor);
+	int x, y, w, h, extra;
+
+	item_cursor_get_pixel_coords (item_cursor, &x, &y, &w, &h);
+
+	item_cursor->cached_x = x;
+	item_cursor->cached_y = y;
+	item_cursor->cached_w = w;
+	item_cursor->cached_h = h;
+	
+	item->x1 = x - 1;
+	item->y1 = y - 1;
+
+	if (item_cursor->style == ITEM_CURSOR_SELECTION)
+		extra = 1;
+	else
+		extra = 0;
+	item->x2 = x + w + 1 + extra;
+	item->y2 = y + h + 1 + extra;
+
+	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
+}
+
+static void
 item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
 	int xd, yd, dx, dy;
-	int cursor_width, cursor_height;
+	int cursor_width, cursor_height, w, h;
 	GdkPoint points [40];
 	int draw_external, draw_internal, draw_handle, draw_center, draw_thick;
 	int premove;
@@ -132,6 +158,17 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	item_cursor_get_pixel_coords (item_cursor, &xd, &yd,
 				      &cursor_width, &cursor_height);
 
+	w = cursor_width;
+	h = cursor_height;
+	
+	/* determine if we need to recompute the bounding box */
+	if (xd != item_cursor->cached_x ||
+	    yd != item_cursor->cached_y ||
+	    w  != item_cursor->cached_w ||
+	    h  != item_cursor->cached_h){
+		item_cursor_configure_bounds (item_cursor);
+	}
+	
 	dx = xd - x;
 	dy = yd - y;
 
@@ -253,8 +290,6 @@ void
 item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, int end_col, int end_row)
 {
 	GnomeCanvasItem *item;
-	int x, y, w, h;
-	int extra = 0;
 	
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
@@ -270,17 +305,8 @@ item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, i
 	item_cursor->end_row   = end_row;
 
 	item_cursor_request_redraw (item_cursor);
-	item_cursor_get_pixel_coords (item_cursor, &x, &y, &w, &h);
-	item->x1 = x - 1;
-	item->y1 = y - 1;
 
-	if (item_cursor->style == ITEM_CURSOR_SELECTION)
-		extra = 1;
-	
-	item->x2 = x + w + 1 + extra;
-	item->y2 = y + h + 1 + extra;
-
-	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
+	item_cursor_configure_bounds (item_cursor);
 }
 
 static double
