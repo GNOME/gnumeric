@@ -252,7 +252,7 @@ w_lp_solve_set_bool (SolverProgram program, int col)
 		lp_solve_set_lowbo (lp->p, 2 * col + 1, 0);
 
 	        lp_solve_set_int   (lp->p, 2 * col + 2, TRUE);
-		lp_solve_set_upbo  (lp->p, 2 * col + 2, 1);
+		lp_solve_set_upbo  (lp->p, 2 * col + 2, 0);
 		lp_solve_set_lowbo (lp->p, 2 * col + 2, 0);
 	}
 }

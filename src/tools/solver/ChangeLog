@@ -1,3 +1,8 @@
+2002-03-26  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* api.c (w_lp_solve_set_bool): Bug fix: a boolean variable should
+	not be able to be -TRUE  ;-)
+
 2002-03-24  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* solver.c (restore_original_values) : Wrote.
