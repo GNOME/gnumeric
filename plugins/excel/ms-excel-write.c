@@ -1423,7 +1423,7 @@ static void
 after_put_font (ExcelFont *f, gboolean was_added, gint index, gconstpointer dummy)
 {
 	if (was_added) {
-		d (-1, fprintf (stderr, "Found unique font %d - %s\n",
+		d (1, fprintf (stderr, "Found unique font %d - %s\n",
 			      index, excel_font_to_string (f)););
 	} else
 		excel_font_free (f);
