@@ -26,7 +26,10 @@ typedef struct {
 	GtkWidget *show_button;
 	GtkWidget *delete_button;
 	GtkWidget *summary_button;
-} scenario_buttons_t;
+
+        GtkWidget *scenarios_treeview;
+	GSList    *new_report_sheets;
+} scenario_state_t;
 
 typedef struct {
 	GladeXML  *gui;
@@ -55,9 +58,8 @@ typedef struct {
 	GtkWidget *warning_dialog;
 	GtkWidget *warning;
 
-        scenario_buttons_t *scenario_buttons;
+        scenario_state_t *scenario_state;
         GtkWidget *name_entry;
-        GtkWidget *scenarios_treeview;
 } GenericToolState;
 
 void     tool_load_selection (GenericToolState *state, gboolean allow_multiple);
