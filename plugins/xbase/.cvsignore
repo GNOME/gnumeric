@@ -5,3 +5,4 @@ libxbase.a
 *.la
 .libs
 .deps
+plugin.xml

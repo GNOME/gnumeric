@@ -4,3 +4,4 @@ Makefile
 .libs
 *.lo
 *.la
+plugin.xml

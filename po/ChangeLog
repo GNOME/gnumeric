@@ -1,3 +1,15 @@
+2001-09-25  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.39.
+
+2001-09-23  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.39.
+
+2001-09-23  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.39.
+
 2001-09-17  Carlos Perelló Marín <carlos@gnome-db.org>
 
 	* POTFILES.in: I'm idiot. It's fixed now.

@@ -1,3 +1,7 @@
+2001-09-25  Jon K Hellan  <hellan@acm.org>
+
+	* .cvsignore: Add plugin.xml
+
 2001-09-18  Jody Goldberg <jgoldberg@home.com>
 
 	* psiconv-read.c (value_new_from_psi_cel) : renamed from set_value,

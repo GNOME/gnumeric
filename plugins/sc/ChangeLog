@@ -1,3 +1,7 @@
+2001-09-25  Jon K Hellan  <hellan@acm.org>
+
+	* .cvsignore: Add plugin.xml
+
 2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.xml: Removed

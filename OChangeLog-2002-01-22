@@ -1,3 +1,7 @@
+2001-09-25  Jon K Hellan  <hellan@acm.org>
+
+	* idl/.cvsignore: Adapt to present reality.
+	
 2001-09-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-view.c (wb_view_selection_desc) : fix old typo.

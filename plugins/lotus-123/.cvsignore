@@ -5,3 +5,4 @@ Makefile
 liblotus.la
 *.lo
 *.la
+plugin.xml
