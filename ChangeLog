@@ -1,3 +1,10 @@
+2004-03-11  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* src/wbc-bonobo.c: (wbcb_style_feedback): Remove extraenous
+	semicolon from a test.
+	* src/wbc-gtk.c: (wbc_gtk_style_feedback): Same here. Closes
+	bug #136849.
+
 2004-03-09  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_close_if_user_permits): The

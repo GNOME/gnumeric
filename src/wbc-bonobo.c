@@ -432,7 +432,7 @@ wbcb_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
 	if (mstyle_is_element_set (style, MSTYLE_FONT_BOLD))
 		wbcb_set_toggle_action_state (wbcg, "/commands/FontBold",
 			mstyle_get_font_bold (style));
-	if (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC));
+	if (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC))
 		wbcb_set_toggle_action_state (wbcg, "/commands/FontItalic",
 			mstyle_get_font_italic (style));
 	if (mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE))

@@ -691,7 +691,7 @@ wbc_gtk_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
 	if (changes == NULL || mstyle_is_element_set (changes, MSTYLE_FONT_BOLD))
 		gtk_toggle_action_set_active (wbcg->font.bold,
 			mstyle_get_font_bold (style));
-	if (changes == NULL || mstyle_is_element_set (changes, MSTYLE_FONT_ITALIC));
+	if (changes == NULL || mstyle_is_element_set (changes, MSTYLE_FONT_ITALIC))
 		gtk_toggle_action_set_active (wbcg->font.italic,
 			mstyle_get_font_italic (style));
 	if (changes == NULL || mstyle_is_element_set (changes, MSTYLE_FONT_UNDERLINE))
