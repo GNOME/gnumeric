@@ -320,7 +320,7 @@ if $try_bonobo; then
 
 		AC_MSG_RESULT($using_oaf)
 
-		AM_CONDITIONAL(USING_OAF, test x"using_oaf" = "xyes")
+		AM_CONDITIONAL(USING_OAF, test x"$using_oaf" = "xyes")
 	else
 		if test "$vers" -eq 0; then
 			AC_MSG_RESULT($marker_no not found)
@@ -525,11 +525,9 @@ if $try_evolution; then
 	AC_CHECK_FILE($path_to_composer_idl, evolution=yes, evolution=no)
 	if test x$evolution=xyes; then
 		AC_DEFINE(ENABLE_EVOLUTION)
-		AM_CONDITIONAL(ENABLE_EVOLUTION, true)
-	else
-		AM_CONDITIONAL(ENABLE_EVOLUTION, false)
 	fi
 fi
+AM_CONDITIONAL(ENABLE_EVOLUTION, test x"$evolution" = "xyes")
 
 dnl ******************************
 dnl Check for Applix SHELF

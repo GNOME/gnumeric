@@ -6,7 +6,6 @@ INCLUDES = 						\
 
 if BONOBO
 noinst_LIBRARIES = libGnumericIDL.a
-else
 endif
 
 GNUMERIC_GENERATED = 		\
@@ -36,23 +35,24 @@ libGnumericIDL_a_SOURCES =		\
 
 $(GNUMERIC_GENERATED): $(srcdir)/Gnumeric.idl 
 	orbit-idl -I$(srcdir) $(IDL_FLAGS) $(srcdir)/Gnumeric.idl 
-	touch my_gnumeric_idl
 
 $(GNUMERIC_GRAPHS_GENERATED): $(srcdir)/gnumeric-graphs.idl
 	orbit-idl -I$(srcdir) $(IDL_FLAGS) $(srcdir)/gnumeric-graphs.idl 
-	touch my_gnumeric_graphs_idl
 
+if ENABLE_EVOLUTION
 $(EVOLUTION_GENERATED):
 	$(ORBIT_IDL) `$(GNOME_CONFIG) --datadir`/idl/Evolution-Composer.idl
+endif
 
 idldir   = $(gnumeric_datadir)/idl
 idl_DATA = gnumeric-graphs.idl Gnumeric.idl 
 
 EXTRA_DIST = $(idl_DATA)
-BUILT_SOURCES = $(EVOLUTION_GENERATED)
-CLEANFILES  += my_gnumeric_idl $(GNUMERIC_GENERATED) \
-	       my_gnumeric_graphs_idl $(GNUMERIC_GRAPHS_GENERATED) \
-	       $(BUILT_SOURCES)
+# Do not use built sources BUILT_SOURCES
+# it attempts to build the source even if it is not used.
+CLEANFILES  += $(GNUMERIC_GENERATED) \
+	       $(GNUMERIC_GRAPHS_GENERATED) \
+	       $(EVOLUTION_GENERATED)
 
 dist-hook :
 	cd $(distdir) && rm -f $(CLEANFILES)
