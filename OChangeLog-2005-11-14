@@ -1,3 +1,8 @@
+2001-09-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c (item_bar_event) : fix silliness that was breaking
+	  autoscroll.
+
 2001-09-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-object-graphic.c (sheet_object_graphic_init) : Init the

@@ -750,7 +750,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			gnm_canvas_handle_motion (ib->gcanvas,
 				canvas, &e->motion,
 				GNM_SLIDE_AT_COLROW_BOUND |
-					is_cols ? GNM_SLIDE_X : GNM_SLIDE_Y,
+					(is_cols ? GNM_SLIDE_X : GNM_SLIDE_Y),
 				cb_extend_selection, ib);
 		} else
 			ib_set_cursor (ib, x, y);
