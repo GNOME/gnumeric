@@ -1,19 +1,69 @@
-gnumeric (1.1.5-1) experimental; urgency=low
+gnumeric (1.1.10-3) experimental; urgency=low
 
   * UNRELEASED
-    * Waiting for libgsf to replace libole so we can support .xls without
-      needing to package libole CVS HEAD.
 
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun,  2 Jun 2002 12:00:17 +0200
+ -- <not_a_debian_release>  Wed, 30 Oct 2002 21:40:02 +0100
 
-gnumeric (1.0.6-2) unstable; urgency=high
+gnumeric (1.1.10-2) experimental; urgency=low
 
-  * Fixed doc/{es,ja,no,ru}/topic.dat to refer to 'index.html' rather than
-    'gnumeric.html'. (Closes: #144141)
-  * No longer prevent the psiconv plugin Makefile from being generated, as
-    it no longer causes the build to fail.
+  * Rebuild with the libgal2 released concurrently to this gnumeric; updated
+    build dependencies accordingly.
+  * [debian/control] Corrected gnumeric-doc's section.
 
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 23 Apr 2002 18:02:30 +0200
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 29 Oct 2002 08:10:26 +0100
+
+gnumeric (1.1.10-1) experimental; urgency=low
+
+  * New upstream development release.
+  * [debian/control] Tightened libgsf(-gnome) build dependencies, just in case.
+  * [debian/control] Build-depend on scrollkeeper so the OMF file gets 
+    installed.
+  * [debian/gnumeric-doc.files] Capture the OMF file; removed
+    /usr/share/gnome/help/ .
+  * [debian/gnumeric-doc.doc-base] Removed as gnumeric-doc no longer contains
+    documentation in a format which doc-base knows how to deal with.
+    (Closes: #165804)
+  * The upstream tarball now includes the figures again, so gnumeric-doc does 
+    as well. (Closes: #163768)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 27 Oct 2002 11:57:53 +0100
+
+gnumeric (1.1.9-2) experimental; urgency=low
+
+  * Put /usr/share/gnome/help/gnumeric/*/topic.dat in gnumeric-doc where they
+    belong; added corresponding Replaces.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue,  8 Oct 2002 19:05:08 +0200
+
+gnumeric (1.1.9-1) experimental; urgency=low
+
+  * New upstream development release.
+  * Implemented policy 3.5.7 .
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed,  2 Oct 2002 03:05:44 +0200
+
+gnumeric (1.1.8-2) experimental; urgency=low
+
+  * Register schemas with gconf, as noted by Marek Habersack.
+  * Create /usr/share/doc/gnumeric-doc/html/C so dhelp installation works.
+  * Updated description in control file.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 30 Aug 2002 16:08:57 +0200
+
+gnumeric (1.1.8-1) experimental; urgency=low
+
+  * New upstream development release.
+  * Reworked build dependencies.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 27 Aug 2002 17:19:57 +0200
+
+gnumeric (1.1.7-1) experimental; urgency=low
+
+  * New upstream development release of gnumeric; GNOME2 version. 
+    (Closes: #147632)
+    In experimental for now.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 15 Aug 2002 21:19:42 +0200
 
 gnumeric (1.0.6-1) unstable; urgency=high
 
@@ -787,7 +837,3 @@ gnumeric (0.2-1) unstable; urgency=low
   * Initial Release.
 
  -- Vincent Renardias <vincent@waw.com>  Sat, 26 Sep 1998 17:12:42 +0200
-
-Local variables:
-mode: debian-changelog
-End:

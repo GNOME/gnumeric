@@ -1,4 +1,8 @@
-gnumeric for Debian: FAQs
+This readme is out of date; most of these questions still make sense for
+gnumeric 1.1.x, but their answers are still quite a bit in flux.
+
+
+Gnumeric for Debian: FAQs
 -------------------------
 
 Q: The "help" function does not work. Is gnumeric broken?

@@ -2,30 +2,49 @@ Source: gnumeric
 Section: math
 Priority: optional
 Maintainer: J.H.M. Dassen (Ray) <jdassen@debian.org>
-Build-Depends: debhelper (>= 3.0), libtool, automake (>= 1.4-p4-1), autoconf (>= 2.52), gettext, bison, flex, docbook-utils, intltool, libglib2.0-dev, libgtk2.0-dev, gnome-common, libxslt1-dev, libgnome2-dev (>= 1.105.0-1), liborbit2-dev (>= 2.3.102-2), libgnomeui-dev (>= 1.106.0-1), libgnomeprint2-dev (>= 1.114.0-1), libgnomeprintui-dev (>= 1.114.0-1), libglade2-dev (>= 1.99.4-1), libgal2-0-dev, libbonobo2-dev (>= 1.115.0-1), libbonoboui2-dev (>= 1.117.1-1), libbonobo-activation-dev (>= 0.9.6-1), libxml2-dev (>= 2.4.12-1), libgda2-dev, python2.2-dev (>= 2.2-1), gnome-doc-tools
-Standards-Version: 3.5.6
+Build-Depends: debhelper (>= 3.0), gettext, bison, flex, docbook-utils,
+ gnome-doc-tools, scrollkeeper,
+ libglib2.0-dev (>= 2.0.6-1), libgsf-1-dev (>= 1.5.0-0),
+ libgtk2.0-dev (>= 2.0.6-1), libxml2-dev (>= 2.4.23-2),
+ libglade2-dev (>= 2.0.0-2), libgnomecanvas2-dev (>= 2.0.2-1),
+ libgal2-0-dev (>= 0.0.7-1), 
+ libgnome2-dev (>= 2.0.2-1), libgnomeui-dev (>= 2.0.3-1),
+ libgnomeprint2-dev (>= 1.116.0-2), libgnomeprintui-dev (>= 1.116.0-3),
+ libbonobo2-dev (>= 2.0.0-1), libbonoboui2-dev (>= 2.0.3-1),
+ libbonobo-activation-dev (>= 1.0.3-2.1),
+ libgsf-gnome-1-dev (>= 1.5.0-0),
+ python2.2-dev (>= 2.2.1-6),
+ libgda2-dev,
+Standards-Version: 3.5.7
 
 Package: gnumeric
 Architecture: any
-Depends: ${shlibs:Depends}, gsfonts
+Depends: ${shlibs:Depends}, gsfonts, gconf2
 Suggests: gnumeric-doc, gnumeric-python, gnumeric-gda, eog, guppi-gnumeric, evolution
 Replaces: zh-trans (<< 0.8-1)
 Description: A GNOME spreadsheet application
  Gnumeric is a powerful spreadsheet application that interoperates well
  with other spreadsheets. It comes with plugins that enable it to deal with
- commonly used spreadsheet file formats, including
-  o Microsoft(R) Excel95 (.xls)
+ commonly used spreadsheet file formats.
+ .
+ The following formats can be imported and exported:
+  o Microsoft Excel (tm) 97/2000/XP (.xls)
+  o Microsoft Excel (tm) 95 (.xls)
   o Comma/Character Separated Values (.csv)
-  o XBase (.dbf), 
-  o MultiPlan (.sylk)
-  o PlanPerfect
-  o Lotus 123 (.wks, .wk1)
-  o Applix version 4 (.as)
   o Data Interchange Format (.dif)
+  o Applix version 4 (.as)
+ .
+ Additionally, the following formats can be imported:
   o GNU Oleo (.oleo)
-  o SC/XSpread
   o Linear and integer program expression format (.mps)
- and can export to LaTeX, Roff and HTML as well.
+  o Lotus 123 (.wks, .wk1)
+  o MultiPlan (.sylk)
+  o Plan Perfect (.pln)
+  o Quatro Pro (tm)
+  o SC/XSpread
+  o XBase (.dbf), 
+ .
+ Gnumeric can export to LaTeX 2e (.tex), TROFF (.me) and HTML as well.
  .
  Gnumeric should be easy to use, in particular if you are familiar with
  Excel.
@@ -36,8 +55,9 @@ Description: A GNOME spreadsheet application
 
 Package: gnumeric-doc
 Architecture: all
+Section: doc
 Suggests: gnome-help
-Replaces: gnumeric (<= 1.0.5-1)
+Replaces: gnumeric (<< 1.1.9-2)
 Description: Documentation for Gnumeric, the GNOME spreadsheet application
  The `Gnumeric's User Manual' in Gnome Help (HTML) format.
 

@@ -1,3 +1,11 @@
+2002-10-30  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* debian/TODO, debian/gnumeric.postinst: New.
+	* debian/gnumeric-doc.doc-base: Removed.
+	* debian/README.Debian, debian/changelog, debian/control, 
+	  debian/gnumeric-doc.dirs, debian/gnumeric-doc.files, debian/rules:
+	  Updated.
+
 2002-10-30  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook-edit.c (entry_changed): Ditto.

@@ -1,0 +1,26 @@
+#! /bin/sh
+set -e
+
+case "$1" in
+	configure)
+		for schema in /etc/gconf/schemas/gnumeric-*.schemas ; do
+			echo -n "Registering schema `basename $schema`... " ; \
+			HOME=/root \
+			GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source` \
+			gconftool-2 --makefile-install-rule $schema > /dev/null;
+			echo "done"
+		done
+	;;
+
+	abort-upgrade|abort-remove|abort-deconfigure)
+	;;
+
+	*)
+		echo "postinst called with unknown argument \`$1'" >&2
+		exit 1
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0
