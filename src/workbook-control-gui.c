@@ -2808,6 +2808,10 @@ cb_auto_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	if (filter == NULL) {
 		Range const *src = selection_first_range (sv,
 			COMMAND_CONTEXT (wbcg), _("Add Filter"));
+		if (src == NULL || src->start.row == src->end.row)
+			gnumeric_error_invalid	(COMMAND_CONTEXT (wbcg),
+				 _("AutoFilter"), _("Requires more than 1 row"));
+			return;
 		gnm_filter_new	(sv->sheet, src);
 	} else {
 		/* keep distinct to simplify undo/redo later */

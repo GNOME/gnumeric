@@ -1,3 +1,11 @@
+2002-12-14  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_auto_filter) : It makes no sense to
+	  create a filter for 1 header row.
+
+	* src/sheet-filter.c (filter_field_apply) : be more resilient about
+	  bogus filters.
+
 2002-12-13  Jody Goldberg <jody@gnome.org>
 
 	* src/input-msg.c (gnm_input_msg_get_msg) : new.

@@ -807,6 +807,9 @@ filter_field_apply (GnmFilterField *field)
 	int const start_row = filter->r.start.row + 1;
 	int const end_row = filter->r.end.row;
 
+	if (start_row > end_row)
+		return;
+
 	if (field->cond == NULL ||
 	    field->cond->op[0] == GNM_FILTER_UNUSED)
 		return;
