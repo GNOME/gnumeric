@@ -944,16 +944,6 @@ cell_get_horizontal_align (Cell *cell)
 }
 
 static inline int
-cell_is_number (Cell *cell)
-{
-	if (cell->value)
-		if (cell->value->type == VALUE_FLOAT || cell->value->type == VALUE_INTEGER)
-			return TRUE;
-
-	return FALSE;
-}
-
-static inline int
 cell_contents_fit_inside_column (Cell *cell)
 {
 	if (cell->width < COL_INTERNAL_WIDTH (cell->col))
@@ -984,7 +974,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 	 * alignment modes are set to "justify", then we report only one
 	 * column is used.
 	 */
-	if (cell_is_number (cell) ||
+	if (CELL_IS_NUMBER (cell) ||
 	    cell->style->fit_in_cell ||
 	    cell->style->valign == VALIGN_JUSTIFY ||
 	    cell->style->halign == HALIGN_JUSTIFY ||
@@ -1213,7 +1203,7 @@ cell_calc_dimensions (Cell *cell)
 		int h, w;
 		
 		rendered_text = cell->text->str;
-		calc_text_dimensions (cell_is_number (cell),
+		calc_text_dimensions (CELL_IS_NUMBER (cell),
 				      style, rendered_text,
 				      COL_INTERNAL_WIDTH (cell->col),
 				      ROW_INTERNAL_HEIGHT (cell->row),

@@ -73,6 +73,10 @@ typedef GList CellList;
 
 /* #define CELL_TEXT_GET(cell)      ((cell)->text ? cell->text->str : cell->entered_text->str) */
 #define CELL_IS_FORMAT_SET(cell) ((cell)->flags & CELL_FORMAT_SET)
+#define CELL_IS_NUMBER(cell) (cell->value ? 				\
+			      (cell->value->type == VALUE_FLOAT || 	\
+			       cell->value->type == VALUE_INTEGER) 	\
+			      : 0)
 
 typedef enum {
 	CELL_COPY_TYPE_CELL,

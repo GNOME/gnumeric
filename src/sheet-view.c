@@ -437,7 +437,7 @@ sheet_view_construct (SheetView *sheet_view)
 	GtkTable  *table = GTK_TABLE (sheet_view);
 	GtkWidget *select_all;
 	Sheet *sheet = sheet_view->sheet;
-	
+
 	/* Column canvas */
 	sheet_view->col_canvas = new_canvas_bar (sheet_view, GTK_ORIENTATION_HORIZONTAL, &sheet_view->col_item);
 	gtk_table_attach (table, GTK_WIDGET (sheet_view->col_canvas),
