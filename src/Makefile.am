@@ -359,20 +359,8 @@ gnm-marshalers.c : gnm-marshalers.list $(GLIB_GENMARSHAL)
 	cat $@.tmp >>$@
 	rm -f $@.tmp
 
-.PHONY: all-local
-all-local :
-
-# be really really anal about generating the paths
-gnumeric-paths.h : $(srcdir)/gnumeric-paths.h.in all-local
-	@sed								\
-	  -e 's!@''gnumeric_prefix''@!$(gnumeric_prefix)!'		\
-	  -e 's!@''gnumeric_sysconfdir''@!$(gnumeric_sysconfdir)!'	\
-	  -e 's!@''gnumeric_datadir''@!$(gnumeric_datadir)!'		\
-	  -e 's!@''gnumeric_libdir''@!$(gnumeric_libdir)!'		\
-	  -e 's!@''gnumeric_icondir''@!$(gnumeric_icondir)!'		\
-	  -e 's!@''gnumeric_localedir''@!$(gnumeric_localedir)!'	\
-		< $< > $@.tmp ;						\
-	if cmp -s $@.tmp $@; then rm $@.tmp; else mv $@.tmp $@ ; fi
+gnumeric-paths.h: gnumeric-paths.sh
+	sh $<
 
 # do not include the paths in the tarball
 dist-hook :
@@ -385,7 +373,7 @@ EXTRA_DIST = GNOME_Gnumeric.xml GNOME_Gnumeric_Component.xml	\
 	    main-application.c normal-args.c 			\
 	    main-component.c					\
 	    $(GNUMERIC_BONOBO) README.gnm_float			\
-	    gnumeric-paths.h.in
+	    gnumeric-paths.sh.in
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
 
