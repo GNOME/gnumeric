@@ -41,7 +41,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 1 */	  { "IF",		XL_VARARG, 2, 'V', "VVV" },
 /* 2 */	  { "ISNA",		XL_FIXED,  1, 'V', "V" },
 /* 3 */	  { "ISERROR",		XL_FIXED,  1, 'V', "V" },
-/* 4 */	  { "SUM",		XL_VARARG, 1, 'V', "V" },
+/* 4 */	  { "SUM",		XL_VARARG, 1, 'V', "R" },
 /* 5 */	  { "AVERAGE",		XL_VARARG, 1, 'V', "R" },
 /* 6 */	  { "MIN",		XL_VARARG, 1, 'V', "R" },
 /* 7 */	  { "MAX",		XL_VARARG, 1, 'V', "R" },
@@ -120,7 +120,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 80 */  { "RELREF",		XL_XLM },
 /* 81 */  { "ARGUMENT",		XL_XLM },
 /* 82 */  { "SEARCH",		XL_VARARG, 1, 'V', "V" },	/* Start_num is optional */
-/* 83 */  { "TRANSPOSE",	XL_FIXED,  1, 'V', "A" },
+/* 83 */  { "TRANSPOSE",	XL_FIXED,  1, 'A', "A" },
 /* 84 */  { "ERROR",		XL_XLM },
 /* 85 */  { "STEP",		XL_XLM },
 /* 86 */  { "TYPE",		XL_FIXED,  1, 'V', "V" },
@@ -201,8 +201,8 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 161 */ { "DIALOGBOX",	XL_XLM },
 /* 162 */ { "CLEAN",		XL_FIXED,  1, 'V', "V" },
 /* 163 */ { "MDETERM",		XL_FIXED,  1, 'V', "A" },
-/* 164 */ { "MINVERSE",		XL_FIXED,  1, 'V', "A" },
-/* 165 */ { "MMULT",		XL_FIXED,  2, 'V', "AA" },
+/* 164 */ { "MINVERSE",		XL_FIXED,  1, 'A', "A" },
+/* 165 */ { "MMULT",		XL_FIXED,  2, 'A', "AA" },
 /* 166 */ { "FILES",		XL_XLM },
 /* 167 */ { "IPMT",		XL_VARARG, 1, 'V', "V" },	/* Type is optional */
 /* 168 */ { "PPMT",		XL_VARARG, 1, 'V', "V" },	/* Type is optional */
@@ -816,11 +816,10 @@ excel_parse_formula (MSContainer const *container,
 		*array_element = FALSE;
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_formula_debug > 0) {
+	if (ms_excel_formula_debug > 1) {
 		ms_excel_dump_cellname (container->ewb, esheet, fn_col, fn_row);
 		fprintf (stderr, "\n");
 		if (ms_excel_formula_debug > 1) {
-			fprintf (stderr, "--> len = %d\n", length);
 			gsf_mem_dump (mem, length);
 		}
 	}

@@ -306,7 +306,7 @@ excel_write_BOF (BiffPut *bp, MsBiffFileType type)
 		GSF_LE_SET_GUINT16 (data+ 0, 0x0600);		/* worksheet */
 		GSF_LE_SET_GUINT16 (data+ 4, 0x2775);		/* build id == XP SP3 */
 		GSF_LE_SET_GUINT16 (data+ 6, 0x07cd);		/* build year (= 1997) */
-		GSF_LE_SET_GUINT32 (data+ 8, 0x000080c1);	/* flags */
+		GSF_LE_SET_GUINT32 (data+ 8, 0x000080c9);	/* flags */
 		GSF_LE_SET_GUINT32 (data+12, 0x00000206);
 		break;
 
@@ -2610,7 +2610,11 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelWriteSheet *esheet, GnmCell cons
 	GSF_LE_SET_GUINT16 (data + 14, /* alwaysCalc & calcOnLoad */
 	        (cell->base.flags & DEPENDENT_HAS_DYNAMIC_DEPS) ? 1 : 0);
 
+	/***  This is why XL produces a warning when exiting with files we generate
+	 * and complains about them being from 'older' versions.  The numbers
+	 * have no obvious pattern but I have not looked terribly hard. */
 	GSF_LE_SET_GUINT32 (data + 16, 0x0);
+
 	GSF_LE_SET_GUINT16 (data + 20, 0x0); /* bogus len, fill in later */
 	ms_biff_put_var_write (ewb->bp, data, 22);
 	len = excel_write_formula (ewb, expr, esheet->gnum_sheet,

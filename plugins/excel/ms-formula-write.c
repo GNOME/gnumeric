@@ -223,13 +223,13 @@ static void write_node (PolishData *pd, GnmExpr const *expr,
 static guint8 xl_op_class[NUM_CTXTS][NUM_XL_TYPES][NUM_XL_TYPES+1] = {
 	{ /* CELL | Wants REF	Wants VAL	Wants ARR 	From Root */
 /* From REF */	 { CLASS_REF,	CLASS_VAL,	CLASS_ARRAY, 	CLASS_VAL },
-/* From VAL */	 { CLASS_VAL,	CLASS_VAL,	CLASS_ARRAY, 	CLASS_VAL },
+/* From VAL */	 { CLASS_VAL,	CLASS_VAL,	CLASS_VAL, 	CLASS_VAL },
 /* From ARRAY */ { CLASS_ARRAY,	CLASS_VAL,	CLASS_ARRAY, 	CLASS_VAL },
 	},
 	{ /* ARR  | Wants REF	Wants VAL	Wants ARR 	From Root */
 /* From REF */	 { CLASS_REF,	CLASS_VAL,	CLASS_ARRAY, 	CLASS_VAL },
 /* From VAL */	 { CLASS_ARRAY,	CLASS_VAL,	CLASS_ARRAY, 	CLASS_VAL },
-/* From ARRAY */ { CLASS_ARRAY,	CLASS_VAL,	CLASS_ARRAY, 	CLASS_VAL },
+/* From ARRAY */ { CLASS_ARRAY,	CLASS_VAL,	CLASS_ARRAY, 	CLASS_ARRAY },
 	},
 	{ /* NAME | Wants REF	Wants VAL	Wants ARR 	From Root */
 /* From REF */	 { CLASS_REF,	CLASS_ARRAY,	CLASS_ARRAY, 	CLASS_REF },
@@ -486,7 +486,7 @@ static void
 write_funcall (PolishData *pd, GnmExpr const *expr,
 	       XLOpType target_type)
 {
-	static guint8 zeros[12] = { 0,0,0,0,0,0,0,0,0,0,0,0 };
+	static guint8 const zeros [12];
 
 	/* excel is limited to 128 args max */
 	int      max_args = 126, num_args = 0;
@@ -682,9 +682,12 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 
 	op = expr->any.oper;
 	switch (op) {
+	case GNM_EXPR_OP_ANY_BINARY :
+		if (target_type != XL_ARRAY)
+			target_type = XL_VAL;
+
 	case GNM_EXPR_OP_RANGE_CTOR:
-	case GNM_EXPR_OP_INTERSECT:
-	case GNM_EXPR_OP_ANY_BINARY : {
+	case GNM_EXPR_OP_INTERSECT: {
 		int const prec = operations[op].prec;
 
 		write_node (pd, expr->binary.value_a,
@@ -760,8 +763,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 				target_type);
 			break;
 
-                /* See S59E2B.HTM for some really duff docs */
-		case VALUE_ARRAY : { /* Guestimation */
+		case VALUE_ARRAY : {
 			guint8 data[8];
 
 			if (v->v_array.x > 256 || v->v_array.y > 65536)
@@ -797,7 +799,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 		int const prec = operations[op].prec;
 
 		write_node (pd, expr->unary.value, operations[op].prec,
-			    target_type);
+			(target_type != XL_ARRAY) ? XL_VAL : XL_ARRAY);
 		push_guint8 (pd, operations[op].xl_op);
 		if (prec <= paren_level)
 			push_guint8 (pd, FORMULA_PTG_PAREN);

@@ -1,3 +1,15 @@
+2004-08-15  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-write.c (write_node) : get closer to matching the classes
+	  for the more obscure variants, OOo is wrong, but I don't have a
+	  clear map on what is right yet.
+
+	* ms-excel-write.c (excel_write_BOF) : update the version in the BOF a
+	  bit.
+
+	* ms-formula-read.c : tweak the expected return types for SUM,
+	  TRANSPOSE, MINVERSE, and MMULT
+
 2004-08-11  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-read.c (excel_formula_shared): Simplify using g_memdup.
@@ -13,7 +25,7 @@
 
 2004-08-11  Jon K Hellan  <hellan@acm.org>
 
-        Export images.
+	Export images.
 	
 	* Makefile.am (excel_la_SOURCES): Add crypt-md4.[ch]
 
