@@ -31,10 +31,17 @@ typedef struct {
 	 * Array of colors
 	 */
 	GnomeCanvasItem **items;
-	
-	int cols, rows;
+
+        /*
+	 * Current color
+	 */
+        GdkColor *current;
+
+        /*
+	 * Number of default colors in **items
+	 */
 	int total;
-	int last_index;
+
 } ColorCombo;
 
 typedef struct {
@@ -44,20 +51,18 @@ typedef struct {
 
 GtkType    color_combo_get_type      (void);
 GtkWidget *color_combo_new           (char **icon, char const * const no_color_label);
-void       color_combo_construct     (ColorCombo *cc, char **icon,
-                                      char const * const no_color_label,
-				      int ncols, int nrows, ColorNamePair *color_names);
 GtkWidget *color_combo_new_with_vals (char **icon,
 				      char const * const no_color_label,
 				      int ncols, int nrows,
 				      ColorNamePair *color_names);
-void       color_combo_select_color  (ColorCombo *color_combo, int index);
+void       color_combo_select_color  (ColorCombo *color_combo, GdkColor *color);
+void       color_combo_select_clear  (ColorCombo *color_combo);
 				  
 typedef struct {
 	GnomeCanvasClass parent_class;
 
 	/* Signals emited by this widget */
-	void (* changed) (ColorCombo *color_combo, GdkColor *color, int index);
+	void (* changed) (ColorCombo *color_combo, GdkColor *color);
 } ColorComboClass;
 
 END_GNOME_DECLS

@@ -305,10 +305,12 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 };
 
 static void
-fore_color_changed (ColorCombo *cc, GdkColor *color, int color_index, Workbook *wb)
+fore_color_changed (ColorCombo *cc, GdkColor *color, Workbook *wb)
 {
 	Sheet  *sheet  = wb->current_sheet;
 	MStyle *mstyle = mstyle_new ();
+
+	g_return_if_fail (color != NULL);
 
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, 
 			  style_color_new (color->red, color->green, color->blue));
@@ -318,12 +320,12 @@ fore_color_changed (ColorCombo *cc, GdkColor *color, int color_index, Workbook *
 }
 
 static void
-back_color_changed (ColorCombo *cc, GdkColor *color, int color_index, Workbook *wb)
+back_color_changed (ColorCombo *cc, GdkColor *color, Workbook *wb)
 {
 	Sheet  *sheet = wb->current_sheet;
 	MStyle *mstyle = mstyle_new ();
 
-	if (color_index >= 0) {
+	if (color != NULL) {
 		/* We need to have a pattern of at least solid to draw a background colour */
 		if (!mstyle_is_element_set  (mstyle, MSTYLE_PATTERN) ||
 		    mstyle_get_pattern (mstyle) < 1)
@@ -569,7 +571,7 @@ workbook_create_format_toolbar (Workbook *wb)
 	disable_focus (wb->priv->border_combo, NULL);
 
 	wb->priv->back_combo = color_combo_new (bucket_xpm, _("Clear"));
-	color_combo_select_color (COLOR_COMBO (wb->priv->back_combo), 0);
+	color_combo_select_clear (COLOR_COMBO (wb->priv->back_combo));
 	gtk_widget_show (wb->priv->back_combo);
 	gtk_signal_connect (GTK_OBJECT (wb->priv->back_combo), "changed",
 			    GTK_SIGNAL_FUNC (back_color_changed), wb);

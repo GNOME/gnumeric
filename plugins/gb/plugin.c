@@ -121,7 +121,7 @@ parse_file (char const * filename)
 	struct stat sbuf;
 	char const * data;
 	GBModule const *module;
-	GBParseError error;
+	GBEvalContext *ec;
 
 	fd = open (filename, O_RDONLY);
 	if (fd < 0 || fstat (fd, &sbuf) < 0) {
@@ -146,11 +146,13 @@ parse_file (char const * filename)
 		return NULL;
 	}
 
-	module = gb_parse_stream (data, len, &error);
+	ec = gb_eval_context_new ();
+	module = gb_parse_stream (data, len, ec);
 	if (!module)
 		/* FIXME : Move error into error_result */
-		fprintf (stderr, "%s : Error Line %d '%s'\n",
-			 filename, error.line, error.mesg?error.mesg:"no text");
+		fprintf (stderr, "%s : %s", filename,
+			 gb_eval_context_get_text (ec));
+	gtk_object_destroy (GTK_OBJECT (ec));
 
 	munmap ((char *)data, len);
 	close (fd);

@@ -317,7 +317,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 
 	style_list = NULL;
  	/* Look in the styles applied to the sheet */
-	for (l = STYLE_LIST (sheet); l; l = l->next) {
+	for (l = STYLE_LIST (sheet); l && l->next; l = l->next) {
 		StyleRegion *sr = l->data;
 		if (range_overlap (&sr->range, &range)) {
 			style_list = g_list_prepend (style_list, sr);

@@ -1,3 +1,25 @@
+2000-02-23  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-style.c (sheet_style_optimize): don't optimize with
+	the default style.
+
+	* src/workbook-format-toolbar.c (workbook_create_format_toolbar):
+	use select_clear.
+
+2000-02-21  Dom Lachowicz <dominicl@seas.upenn.edu>
+
+	* src/widgets/widget-color-combo.[ch]: Few minor API changes
+        Added custom color support through a GnomeColorPicker widget
+
+	* src/workbook-format-toolbar.c (fore_color_changed),
+	(back_color_changed): Fix to handle above ColorCombo API change
+
+	* src/dialog-autocorrect.c: Make array static
+
+2000-02-23  Michael Meeks  <michael@helixcode.com>
+	
+	* configure.in (GB_LIBS): bump gb ver. check.
+
 2000-02-21  Michael Meeks  <michael@helixcode.com>
 
 	* src/expr-name.c (name_print_area): implement.
