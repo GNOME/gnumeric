@@ -1,5 +1,9 @@
 Gnumeric 1.2.5
 
+Andreas:
+	http://bugzilla.gnome.org/show_bug.cgi?id=131343
+	* Use the paper selected in the print dialog [backported]
+
 Jody:
 	* New package to work around intltool issues.
 	http://bugzilla.gnome.org/show_bug.cgi?id=130579

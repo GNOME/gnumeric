@@ -1137,13 +1137,31 @@ workbook_print_all (PrintJobInfo *pj, Workbook *wb)
 	g_list_free (sheets);
 }
 
+static void
+print_job_info_update_from_config (PrintJobInfo *pj)
+{
+	double width = 1.0, height = 1.0;
+	double header = 0, footer = 0, left = 0, right = 0;
+	/* We shouldn't use this specific sheet info since the specs */
+	/* for other sheets may differ! */
+	PrintMargins *pm = &pj->sheet->print_info->margins;
+
+	gnome_print_job_get_page_size_from_config (pj->pi->print_config,
+						      &width, &height);
+	pj->width = width;
+	pj->height = height;
+
+	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);
+	pj->x_points = pj->width - (left + right);
+	pj->y_points = pj->height -
+		(MAX (pm->top.points, header) +
+		 MAX (pm->bottom.points, footer));
+}
+
 static PrintJobInfo *
 print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 {
 	PrintJobInfo *pj;
-	PrintMargins *pm = &sheet->print_info->margins;
-	double width = 1.0, height = 1.0;
-	double header = 0, footer = 0, left = 0, right = 0;
 
 	pj = g_new0 (PrintJobInfo, 1);
 
@@ -1164,17 +1182,8 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	pj->current_output_sheet = 0;
 
 	/* Precompute information */
-	gnome_print_job_get_page_size_from_config (pj->pi->print_config,
-						      &width, &height);
-	pj->width = width;
-	pj->height = height;
+	print_job_info_update_from_config (pj);
 
-
-	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);
-	pj->x_points = pj->width - (left + right);
-	pj->y_points = pj->height -
-		(MAX (pm->top.points, header) +
-		 MAX (pm->bottom.points, footer));
 
 	/*
 	 * Setup render info
@@ -1279,6 +1288,8 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
   			break;
   		}
 		gtk_widget_destroy (gnome_print_dialog);
+
+		print_job_info_update_from_config (pj);
   	}
 
 	if (default_range == PRINT_SHEET_RANGE) {
