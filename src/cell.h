@@ -105,6 +105,7 @@ void        cell_set_formula_tree        (Cell *cell, ExprTree *formula);
 void        cell_set_formula_tree_simple (Cell *cell, ExprTree *formula);
 void        cell_set_format              (Cell *cell, char *format);
 void        cell_set_format_simple       (Cell *cell, char *format);
+void        cell_set_format_from_style   (Cell *cell, StyleFormat *style_format);
 void        cell_set_font                (Cell *cell, char *font_name);
 void        cell_set_style               (Cell *cell, Style *reference_style);
 void        cell_set_comment             (Cell *cell, char *str);

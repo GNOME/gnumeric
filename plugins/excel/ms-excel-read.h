@@ -37,10 +37,11 @@ extern void ms_excel_set_cell_xf(MS_EXCEL_SHEET *sheet, Cell *cell, guint16 xfid
 
 typedef struct _MS_EXCEL_PALETTE
 {
-  int *red ;
-  int *green ;
-  int *blue ;
-  int length ;
+	int *red ;
+	int *green ;
+	int *blue ;
+	int length ;
+	StyleColor **gnum_cols ;
 } MS_EXCEL_PALETTE ;
 
 typedef struct _BIFF_FONT_DATA
@@ -54,6 +55,7 @@ typedef struct _BIFF_FONT_DATA
 	int script ;         /* sub = -1, none = 0, super = 1 */
 	eBiffFontUnderline underline ;
 	char *fontname ;
+	StyleFont *style_font ;
 } BIFF_FONT_DATA ;
 
 typedef struct _BIFF_EXTERNSHEET_DATA {

@@ -40,10 +40,10 @@ static void ms_excel_workbook_attach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * a
  **/
 static guint
 biff_guint16_hash (const guint16 *d)
-{ return *d ; }
+{ return *d*2 ; }
 static guint
 biff_guint32_hash (const guint32 *d)
-{ return *d ; }
+{ return *d*2 ; }
 
 static gint
 biff_guint16_equal (const guint16 *a, const guint16 *b)
@@ -74,7 +74,7 @@ biff_get_text (BYTE * ptr, int length)
 	gboolean rich_str ;
 
 	if (!length)
-		return 0;
+		return 0 ;
 
 	ans = (char *) g_malloc (sizeof (char) * length + 2);
 
@@ -145,7 +145,7 @@ biff_get_error_text (guint8 err)
 	case 36: buf = "#NUM!" ;   break ;
 	case 42: buf = "#N/A" ;    break ;
 	default:
-		buf = "#UNKNOWN!" ;
+		buf = "#UNKNOWN!"; break ;
 	}
 	return buf ;
 }
@@ -327,6 +327,84 @@ biff_boundsheet_data_destroy (gpointer key, BIFF_BOUNDSHEET_DATA *d, gpointer us
 }
 
 /**
+ * Ug! FIXME
+ **/
+static char *
+biff_nasty_font_check_function (char *name1, char *name2)
+{
+	if (gdk_font_load(name1))
+	{
+		if (name2)
+			g_free(name2) ;
+		return name1 ;
+	}
+	else
+	{
+		if (name1)
+			g_free(name1) ;
+		return name2 ;
+	}
+}
+
+static StyleFont*
+biff_font_data_get_style_font (BIFF_FONT_DATA *fd)
+{
+	char font_size[16];	/* I know it may seem excessive. Time will say. */
+	int i;
+	char *fname1, *fname2 ;
+	StyleFont *ans ;
+	
+	/*
+	 * FIXME: instead of just copying the windows font into the cell, we 
+	 * should implement a font name mapping mechanism.
+	 * In our first attempt to make it work, let's try to guess the 
+	 * X font name from the windows name, by letting the first word 
+	 * of the name be inserted in 0'th position of the X font name.  
+	 */
+	for (i = 0; fd->fontname[i] != '\0' && fd->fontname[i] != ' '; ++i)
+		fd->fontname[i] = tolower (fd->fontname[i]);
+	fd->fontname[i] = '\x0';
+	
+	fname1 = g_strdup (gnumeric_default_font->font_name) ;
+	fname2 = font_change_component (gnumeric_default_font->font_name, 1, fd->fontname) ;
+	fname1 = biff_nasty_font_check_function (fname2, fname1) ;
+
+/*	printf ("FoNt [-]: %s\n", fname1) ; */
+	if (fd->italic)
+	{
+		fname2 = font_get_italic_name (fname1);
+/*			printf ("FoNt [i]: %s\n", fname2) ;  */
+	}
+	else
+		fname2 = g_strdup (fname1) ;
+	fname1 = biff_nasty_font_check_function (fname2, fname1) ;
+	
+	if (fd->boldness >= 0x2bc) {
+		fname2 = font_get_bold_name (fname1) ;
+/*			printf ("FoNt [b]: %s\n", fname1) ; */
+	}
+	else
+		fname2 = g_strdup (fname1) ;
+	fname1 = biff_nasty_font_check_function (fname2, fname1) ;
+	/* What about underlining? */
+
+	g_assert (snprintf (font_size, 16, "%d", fd->height / 2) != -1);
+	fname2 = font_change_component (fname1, 7, font_size) ;
+	fname1 = biff_nasty_font_check_function (fname2, fname1) ;
+	
+	ans = style_font_new (fname1, 1) ;
+	g_free (fname1) ;
+	
+	if (fd->italic)
+		ans->hint_is_italic = 1 ;
+
+	if (fd->boldness >= 0x2bc)
+		ans->hint_is_bold = 1 ;
+
+	return ans ;
+}
+
+/**
  * NB. 'fount' is the correct, and original _English_
  **/
 static void
@@ -375,12 +453,11 @@ biff_font_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY *q)
 		break;
 	}
 	fd->fontname = biff_get_text (q->data + 15, BIFF_GETBYTE (q->data + 14));
-	/*
-	 * dump (q->data, q->length); 
-	 */
+
 	printf ("Insert font '%s' size %d pts\n",
 		fd->fontname, fd->height * 20);
 
+	fd->style_font = 0 ;
         fd->index = g_hash_table_size (wb->font_data) ;
 	if (fd->index >= 4) /* Wierd: for backwards compatibility */
 		fd->index++ ;
@@ -388,14 +465,16 @@ biff_font_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY *q)
 }
 
 static gboolean 
-biff_font_data_destroy (gpointer key, BIFF_FONT_DATA *d, gpointer userdata)
+biff_font_data_destroy (gpointer key, BIFF_FONT_DATA *fd, gpointer userdata)
 {
-	g_free (d->fontname) ;
-	g_free (d) ;
+	g_free (fd->fontname) ;
+	g_free (fd) ;
+	if (fd->style_font)
+		style_font_unref (fd->style_font) ;
 	return 1 ;
 }
 
-static char *
+static StyleFormat *
 biff_format_data_lookup (MS_EXCEL_WORKBOOK *wb, guint16 idx)
 {
 	char *low_formats[] =
@@ -462,7 +541,10 @@ biff_format_data_lookup (MS_EXCEL_WORKBOOK *wb, guint16 idx)
 		else
 			ans = d->name ;
 	}
-return ans ;
+	if (ans)
+		return style_format_new (ans) ;
+	else
+		return NULL ;
 }
 
 static gboolean 
@@ -482,9 +564,10 @@ ms_excel_palette_new (BIFF_QUERY * q)
 	pal = (MS_EXCEL_PALETTE *) g_malloc (sizeof (MS_EXCEL_PALETTE));
 	len = BIFF_GETWORD (q->data);
 	pal->length = len;
-	pal->red = (int *) g_malloc (sizeof (int) * len);
-	pal->green = (int *) g_malloc (sizeof (int) * len);
-	pal->blue = (int *) g_malloc (sizeof (int) * len);
+	pal->red = g_new (int, len) ;
+	pal->green = g_new (int, len) ;
+	pal->blue = g_new (int, len) ;
+	pal->gnum_cols = g_new (StyleColor *, len) ;
 
 	printf ("New palette with %d entries\n", len);
 	for (lp = 0; lp < len; lp++){
@@ -494,23 +577,44 @@ ms_excel_palette_new (BIFF_QUERY * q)
 		pal->green[lp] = (num & 0x0000ff00) >> 8;
 		pal->blue[lp] = (num & 0x000000ff) >> 0;
 		printf ("Colour %d : (%d,%d,%d)\n", lp, pal->red[lp], pal->green[lp], pal->blue[lp]);
+		pal->gnum_cols[lp] = 0 ;
 	}
 	return pal;
+}
+
+static StyleColor *
+ms_excel_palette_get (MS_EXCEL_PALETTE *pal, guint idx)
+{
+	if (idx < pal->length)
+	{
+		if (!pal->gnum_cols[idx])
+			pal->gnum_cols[idx] = style_color_new (pal->red[idx], pal->green[idx],
+							       pal->blue[idx]) ;
+		return pal->gnum_cols[idx] ;
+	}
+	else
+		return 0 ;
 }
 
 static void
 ms_excel_palette_destroy (MS_EXCEL_PALETTE * pal)
 {
+	guint16 lp ;
+
 	g_free (pal->red);
 	g_free (pal->green);
 	g_free (pal->blue);
+	for (lp=0;lp<pal->length;lp++)
+		if (pal->gnum_cols[lp])
+			style_color_unref (pal->gnum_cols[lp]) ;
 	g_free (pal);
 }
 
 typedef struct _BIFF_XF_DATA {
         guint16 index ;
 	guint16 font_idx;
-	WORD format_idx;
+	guint16 format_idx;
+	StyleFormat *style_format ;
 	eBiff_hidden hidden;
 	eBiff_locked locked;
 	eBiff_xftype xftype;	/*
@@ -523,7 +627,7 @@ typedef struct _BIFF_XF_DATA {
 	eBiff_wrap wrap;
 	BYTE rotation;
 	eBiff_eastern eastern;
-	BYTE border_color[4];	/*
+	guint8 border_color[4];	/*
 				 * Array [StyleSide]
 				 */
 	StyleBorderType border_type[4];	/*
@@ -570,12 +674,7 @@ ms_excel_set_cell_colors (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf
 static void
 ms_excel_set_cell_font (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf)
 {
-	char font_size[16];	/*
-				 * I know it may seem excessive. Time will say.  
-				 */
-	int i;
 	BIFF_FONT_DATA *fd = g_hash_table_lookup (sheet->wb->font_data, &xf->font_idx) ;
-	char *fname ;
 
 	if (!fd)
 	{
@@ -584,50 +683,13 @@ ms_excel_set_cell_font (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf)
 	}
 	g_assert (fd->index != 4);
 
-	/*
-	 * FIXME: instead of just copying the windows font into the cell, we 
-	 * should implement a font name mapping mechanism.
-	 * In our first attempt to make it work, let's try to guess the 
-	 * X font name from the windows name, by letting the first word 
-	 * of the name be inserted in 0'th position of the X font name.  
-	 */
-	for (i = 0; fd->fontname[i] != '\0' && fd->fontname[i] != ' '; ++i)
-		fd->fontname[i] = tolower (fd->fontname[i]);
-	fd->fontname[i] = '\x0';
-	cell_set_font (cell, (fname = font_change_component (cell->style->font->font_name, 1, fd->fontname)));
-	if (fname) g_free (fname) ;
-/*			printf ("FoNt [-]: %s\n", cell->style->font->font_name); */
-	if (fd->italic){
-   		cell_set_font (cell, (fname = font_get_italic_name (cell->style->font->font_name)));
-		if (fname) g_free (fname) ;
-/*				printf ("FoNt [i]: %s\n", cell->style->font->font_name); */
-		cell->style->font->hint_is_italic = 1;
-	}
-	if (fd->boldness >= 0x2bc){
-		cell_set_font (cell, (fname = font_get_bold_name (cell->style->font->font_name))); 
-		if (fname) g_free (fname) ;
-/*				printf ("FoNt [b]: %s\n", cell->style->font->font_name); */
-		cell->style->font->hint_is_bold = 1;
-	}
-	/*
-	 * What about underlining?  
-	 */
-	g_assert (snprintf (font_size, 16, "%d", fd->height / 2) != -1);
-	cell_set_font (cell, (fname = font_change_component (cell->style->font->font_name, 7, font_size)));
-	if (fname) g_free (fname) ;
-}
+	if (!fd->style_font)
+		fd->style_font = biff_font_data_get_style_font (fd) ;
 
-
-static StyleColor *
-get_style_color_from_idx (MS_EXCEL_SHEET *sheet, int idx)
-{
- 	MS_EXCEL_PALETTE *p = sheet->wb->palette;
-	
- 	if (idx >= 0 && p && idx < p->length)
- 		return style_color_new (p->red[idx], p->green[idx],
- 					p->blue[idx]);
- 	else
- 		return NULL;
+	if (fd->style_font)
+		cell_set_font_from_style (cell, fd->style_font) ;
+	else
+		printf ("Duff StyleFont\n") ;
 }
 
 void
@@ -667,22 +729,23 @@ ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, guint16 xfidx)
 	cell_set_alignment (cell, xf->halign, xf->valign, ORIENT_HORIZ, 1);
 	ms_excel_set_cell_colors (sheet, cell, xf);
 	ms_excel_set_cell_font (sheet, cell, xf);
+	if (sheet->wb->palette)
 	{
 		int lp;
  		StyleColor *tmp[4];
  		for (lp=0;lp<4;lp++)
- 			tmp[lp] = get_style_color_from_idx
- 				(sheet, xf->border_color[lp]);
- 		cell_set_border (cell, xf->border_type, tmp);
+			tmp[lp] = ms_excel_palette_get (sheet->wb->palette, xf->border_color[lp]) ;
+		cell_set_border (cell, xf->border_type, tmp);
 	}
 
 	if (xf->format_idx>0)
 	{
-		char *ans = biff_format_data_lookup (sheet->wb, xf->format_idx) ;
-		if (ans)
-		{
-/*			printf ("[%d, %d] Setting format to %d = '%s'\n", cell->col->pos, cell->row->pos, xf->format_idx, ans) ; */
-			cell_set_format (cell, ans) ;
+		if (xf->style_format)
+			cell_set_format_from_style (cell, xf->style_format) ;
+		else {
+			xf->style_format = biff_format_data_lookup (sheet->wb, xf->format_idx) ;
+			if (xf->style_format)
+				cell_set_format_from_style (cell, xf->style_format) ;
 		}
 	}
 }
@@ -736,6 +799,7 @@ biff_xf_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY * q, eBiff_version ver)
 
 	xf->font_idx = BIFF_GETWORD (q->data);
 	xf->format_idx = BIFF_GETWORD (q->data + 2);
+	xf->style_format = 0 ;
 
 	data = BIFF_GETWORD (q->data + 4);
 	xf->locked = (data & 0x0001) ? eBiffLLocked : eBiffLUnlocked;
@@ -937,9 +1001,11 @@ biff_xf_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY * q, eBiff_version ver)
 }
 
 static gboolean 
-biff_xf_data_destroy (gpointer key, BIFF_XF_DATA *d, gpointer userdata)
+biff_xf_data_destroy (gpointer key, BIFF_XF_DATA *xf, gpointer userdata)
 {
-	g_free (d);
+	if (xf->style_format)
+		style_format_unref (xf->style_format) ;
+	g_free (xf);
 	return 1 ;
 }
 
@@ -965,10 +1031,14 @@ void
 ms_excel_sheet_insert (MS_EXCEL_SHEET * sheet, int xfidx, int col, int row, char *text)
 {
 	Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
-
 	/* NB. cell_set_text _certainly_ strdups *text */
-	sheet->blank = 0 ;
-	cell_set_text (cell, text);
+	if (text)
+	{
+		sheet->blank = 0 ;
+		cell_set_text (cell, text);
+	}
+	else
+		cell_set_text (cell, "") ;
 	ms_excel_set_cell_xf (sheet, cell, xfidx);
 }
 
@@ -1116,7 +1186,6 @@ biff_get_rk (guint8 *ptr)
 {
 	LONG number;
 	LONG tmp[2];
-	char buf[65];
 	double answer;
 	enum eType {
 		eIEEE = 0, eIEEEx10 = 1, eInt = 2, eIntx100 = 3
@@ -1166,7 +1235,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		 * printf ("Cell [%d, %d] XF = %x\n", EX_GETCOL(q), EX_GETROW(q),
 		 * EX_GETXF(q)); 
 		 */
-		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), "");
+		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), 0);
 		break;
 	case BIFF_MULBLANK:	/*
 				 * S59DA7.HTM is extremely unclear, this is an educated guess 
@@ -1189,8 +1258,8 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 				lastcol = BIFF_GETWORD (q->data + q->length - 2);	/*
 											 * guess 
 											 */
-				printf ("Cells in row %d are blank starting at col %d until col %d (0x%x)\n",
-				  row, col, lastcol, lastcol);
+/*				printf ("Cells in row %d are blank starting at col %d until col %d (0x%x)\n",
+				row, col, lastcol, lastcol); */
 				/*
 				 * if (lastcol<col)  What to do in this case ? 
 				 * {
@@ -1203,7 +1272,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 				 * g_assert (((lastcol-col)*incr+1)*2+6<=q->length); 
 				 */
 				while (col != lastcol){
-					ms_excel_sheet_insert (sheet, BIFF_GETWORD (ptr), EX_GETCOL (q), EX_GETROW (q), "");
+					ms_excel_sheet_insert (sheet, BIFF_GETWORD (ptr), EX_GETCOL (q), EX_GETROW (q), 0);
 					col += incr;
 					ptr += 2;
 				}
@@ -1268,7 +1337,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		
 /*		printf ("RK number : 0x%x, length 0x%x\n", q->opcode, q->length);
 		dump (q->data, q->length);*/
-		sprintf (buf, "%f", biff_get_rk(q->data+6));
+		snprintf (buf, 64, "%f", biff_get_rk(q->data+6));
 		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf);
 		break;
 	}
@@ -1289,7 +1358,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		g_assert (lastcol>=col) ;
 		while (col<=lastcol)
 		{ /* 2byte XF, 4 byte RK */
-			sprintf (buf, "%f", biff_get_rk(ptr+2)) ;
+			snprintf (buf, 64, "%f", biff_get_rk(ptr+2)) ;
 			ms_excel_sheet_insert(sheet, BIFF_GETWORD(ptr), col, row, buf) ;
 			col++ ;
 			ptr+= 6 ;
@@ -1328,14 +1397,13 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		char *str;
 		guint32 idx = BIFF_GETLONG (q->data + 6) ;
 		
-		if (idx >= sheet->wb->global_string_max)
-		{
+		if (!sheet->wb->global_strings || idx >= sheet->wb->global_string_max)
 			printf ("string index 0x%x out of range\n", idx) ;
-			break ;
+		else
+		{
+			str = sheet->wb->global_strings[idx] ;
+			ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), str);
 		}
-		
-		str = sheet->wb->global_strings[idx] ;
-		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), str);
                 break;
 	}
 	default:
@@ -1408,10 +1476,10 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 						       biff_get_error_text (BIFF_GETBYTE(q->data + 6))) ;
 			else /* Boolean */
 			{
+				char *bl = "0" ; /* FALSE */
 				if (BIFF_GETBYTE(q->data + 6))
-					ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), "1") ; /* TRUE */
-				else
-					ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), "0") ; /* FALSE */
+					bl = "1" ; /* TRUE */
+				ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), bl) ;
 			}
 			break;
 		}
@@ -1522,7 +1590,7 @@ ms_excelReadWorkbook (MS_OLE * file)
 		/*
 		 * Tabulate frequencies for testing 
 		 */
-		{
+/*		{
 			int freq[256];
 			int lp;
 
@@ -1539,7 +1607,7 @@ ms_excelReadWorkbook (MS_OLE * file)
 			printf ("--------- End  Usage Chart ----------\n");
 			ms_biff_query_destroy (q);
 			ms_ole_stream_close (stream);
-		}
+			} */
 
 		/*
 		 * Find that book file 
@@ -1628,6 +1696,8 @@ ms_excelReadWorkbook (MS_OLE * file)
 				{
 					length = BIFF_GETWORD (temp) ;
 					wb->global_strings[k] = biff_get_text (temp+2, length) ;
+					if (!wb->global_strings[k])
+						printf ("Blank string in table at : %d\n", k) ;
 					temp+= length + 3 ;
 				}
 				break;

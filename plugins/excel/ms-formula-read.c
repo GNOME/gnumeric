@@ -561,9 +561,12 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 		}
 		case FORMULA_PTG_EXP: /* FIXME: the formula is the same as another record ... we need a cell_get_funtion call ! */
 		{
+			printf ("FIXME: Array formula\n") ;
 			cell = sheet_cell_fetch (sheet->gnum_sheet, fn_col, fn_row) ;
-			if (!cell->text) /* FIXME: work around cell.c bug, we can't have formatting with no text in a cell ! */
+			if (!cell->text) 
 				cell_set_text_simple(cell, "") ;
+			else
+				cell_set_text_simple(cell, cell->text->str) ;
 			ms_excel_set_cell_xf (sheet, cell, fn_xf) ;
 			return ;
 		}

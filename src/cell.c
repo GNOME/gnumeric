@@ -859,6 +859,28 @@ cell_set_format (Cell *cell, char *format)
 }
 
 void
+cell_set_format_from_style (Cell *cell, StyleFormat *style_format)
+{
+	g_return_if_fail (cell != NULL) ;
+	g_return_if_fail (cell->value) ;
+	g_return_if_fail (style_format != NULL) ;
+	
+	cell_modified (cell);
+	cell_queue_redraw (cell);
+	
+	/* Change the format */
+	style_format_unref (cell->style->format);
+	style_format_ref (style_format) ;
+
+	cell->style->format = style_format ;
+	cell->flags |= CELL_FORMAT_SET;
+	
+	/* re-render the cell text */
+	cell_render_value (cell);
+	cell_queue_redraw (cell);
+}
+
+void
 cell_comment_reposition (Cell *cell)
 {
 	GList *l;

@@ -1,3 +1,22 @@
+1999-02-21  Michael Meeks <michael@imaginator.com>
+
+	* plugins/excel/ms-formula.c FORMULA_PTG_EXP: Fixed several bugs.
+
+	* plugins/excel/ms-excel.c (ms_excel_set_cell_font, biff_font_data_get_style_font):
+	Body of the former moved to the latter, loop invariant code removed for
+	big speedup.
+	(ms_excel_set_cell_xf): Burdern of border color stuff moved to
+	(ms_excel_palette_get): New routine to cache and create
+	StyleColor records as needed.
+	(ms_excel_sheet_insert): Fixed so no NULL pointers can escape
+	into cell_set_text.
+	(ms_excelReadWorkbook): Removed BIFF Usage chart, its slow.
+	(biff_nasty_font_check_function): Sorts out font sillyness.
+	(biff_xf_data_new): Added cached style_format pointer
+	(biff_xf_data_destroy): unref style_format if allocated.
+
+	* src/cell.c (cell_set_format_from_style): Implemented.
+	
 1999-02-19  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* doc/C/Makefile.am (install-data-local): Use $(mkinstalldirs) not
