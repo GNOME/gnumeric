@@ -1,5 +1,10 @@
 2003-07-10  Morten Welinder  <terra@gnome.org>
 
+	* src/format.c (format_toggle_thousands): New function.
+
+	* src/workbook-format-toolbar.c (cb_format_with_thousands): Toggle
+	thousands separator instead of just applying a random format.
+
 	* src/formats.c (style_format_account): Do not discard old part of
 	result.
 	(currency_date_format_init): Add optional quotes around currency

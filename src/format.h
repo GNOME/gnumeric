@@ -46,6 +46,7 @@ void   format_color_shutdown (void);
 
 char  *format_add_decimal      (StyleFormat const *fmt);
 char  *format_remove_decimal   (StyleFormat const *fmt);
+char  *format_toggle_thousands (StyleFormat const *fmt);
 
 typedef struct {
 	int  right_optional, right_spaces, right_req, right_allowed;

@@ -1112,6 +1112,43 @@ format_add_decimal (StyleFormat const *fmt)
 	return res;
 }
 
+char *
+format_toggle_thousands (StyleFormat const *fmt)
+{
+	FormatFamily ff;
+	FormatCharacteristics fc;
+	GString *newformat;
+
+	/* First try to classify the format so we can regenerate it */
+	ff = cell_format_classify (fmt, &fc);
+	fc.thousands_sep = !fc.thousands_sep;
+
+	switch (ff) {
+	case FMT_NUMBER:
+	case FMT_CURRENCY:
+		newformat = g_string_new (NULL);
+		style_format_number (newformat, &fc);
+		break;
+	case FMT_ACCOUNT:
+		/*
+		 * FIXME: this doesn't actually work as no 1000 seps
+		 * are used for accounting.
+		 */
+		newformat = g_string_new (NULL);
+		style_format_account (newformat, &fc);
+		break;
+	case FMT_GENERAL:
+		fc.currency_symbol_index = 0;
+		newformat = g_string_new (NULL);
+		style_format_number (newformat, &fc);
+		break;
+	default:
+		return NULL;
+	}
+
+	return g_string_free (newformat, FALSE);
+}
+
 /*********************************************************************/
 
 static void
