@@ -57,7 +57,7 @@ lotus_load (Workbook *wb, const char *filename)
 	char *name, *p;
 	gboolean ret;
 	
-	ret = lotus_read (filename);
+	ret = lotus_read (wb, filename);
 
 	if (ret) {
 		if ((p = filename_ext (filename)) != NULL)

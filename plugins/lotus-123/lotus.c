@@ -246,29 +246,25 @@ read_workbook (Workbook *wb, FILE *f)
 	return !panic;
 }
 
-Workbook *
-lotus_read (const char *filename)
+gboolean
+lotus_read (Workbook *wb, const char *filename)
 {
 	FILE *f;
-	Workbook *wb = NULL;
 	
 	if (!(f = fopen (filename, "rb")))
-		return NULL;
+		return FALSE;
 
 	cell_deep_freeze_redraws ();
 	
-	wb = workbook_new ();
-
 	if (!read_workbook (wb, f)) {
 		printf ("FIXME: Nasty workbook error, leaked\n");
-		return NULL;
+		return FALSE;
 	}
 
-	if (wb)
-		workbook_recalc (wb);
+	workbook_recalc (wb);
 	cell_deep_thaw_redraws ();
 
 	fclose (f);
-	return wb;
+	return TRUE;
 }
 

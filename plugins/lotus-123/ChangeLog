@@ -1,3 +1,10 @@
+1999-08-11  Michael Meeks  <michael@imaginator.com>
+
+	* boot.c (lotus_load): Add workbook argument to lotus_read.
+
+	* lotus.c (lotus_read): Added Workbook argument and updated
+	return type.
+
 1999-08-09    <miguel@gnu.org>
 
 	* boot.c (lotus_cleanup_plugin): Change to new file open
