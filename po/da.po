@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
-"POT-Creation-Date: 2000-05-20 18:56-0400\n"
+"POT-Creation-Date: 2000-05-22 00:55+0200\n"
 "PO-Revision-Date: 2000-05-16 14:30+02:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Dansk/Danish <dansk@klid.dk>\n"
@@ -68,13 +68,22 @@ msgstr "DOF: Kunne ikke indlæse ark"
 msgid "Unable to mmap the file"
 msgstr "Kan ikke mmap'e filen"
 
-#: plugins/dif/dif.c:422
-msgid "Data Interchange Format (DIF) import"
-msgstr "Data Interchange Format (DIF) import"
+#: plugins/dif/dif.c:418
+msgid "Data Interchange Format (*.dif) file format"
+msgstr "Data Interchange Format (*.dif) filformat"
 
-#: plugins/dif/dif.c:425
+#: plugins/dif/dif.c:421
 msgid "Data Interchange Format (*.dif)"
 msgstr "Data Interchange Format (*.dif)"
+
+#: plugins/dif/dif.c:425
+msgid "Data Interchange Format (CSV) module"
+msgstr "Data Interchange Format (DIF) modul"
+
+#: plugins/dif/dif.c:426
+msgid ""
+"Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgstr "Læser og skriver information gemt i Data Interchange Format'et (*.dif)"
 
 #: plugins/excel/boot.c:122
 msgid "Saving over old files disabled for safety"
@@ -84,15 +93,15 @@ msgstr "Overskrivning af gamle filer er slået fra af sikkerhedsgrunde"
 msgid "Can't open"
 msgstr "Kan ikke åbne"
 
-#: plugins/excel/boot.c:171
+#: plugins/excel/boot.c:173
 msgid "Microsoft(R) Excel file format"
 msgstr "Microsoft(R) Excel-filformat"
 
-#: plugins/excel/boot.c:172
+#: plugins/excel/boot.c:177
 msgid "Excel(R) 97 file format"
 msgstr "Excel(R) 97-filformat"
 
-#: plugins/excel/boot.c:173
+#: plugins/excel/boot.c:181
 msgid "Excel(R) 95 file format"
 msgstr "Excel(R) 95-filformat"
 
@@ -183,6 +192,14 @@ msgstr "Gnome basic"
 msgid "Enables Gnome Basic support"
 msgstr "Muliggør Gnome basic understøttelse"
 
+#: plugins/gda/plugin-gda.c:259
+msgid "Database Access"
+msgstr "Database tilgang"
+
+#: plugins/gda/plugin-gda.c:260
+msgid "Enables database access"
+msgstr "Aktiverer database tilgang"
+
 #: plugins/guile/plugin.c:281 src/func.c:433
 #: src/functions/fn-information.c:574 src/functions/fn-information.c:642
 #: src/functions/fn-information.c:669 src/functions/fn-information.c:695
@@ -205,49 +222,61 @@ msgstr "Udefineret skema funktion"
 msgid "Could not evaluate argument"
 msgstr "Kunne ikke evaluere argument"
 
-#: plugins/guile/plugin.c:481
+#: plugins/guile/plugin.c:478
 msgid "Gnumeric has not been compiled with support for guile."
 msgstr "Gnumeric er ikke oversat med understøttelse for Guile."
 
-#: plugins/html/boot.c:75
+#: plugins/guile/plugin.c:507
+msgid "Guile Plugin"
+msgstr "Guile-indstik"
+
+#: plugins/guile/plugin.c:508
+msgid "This plugin enables Guile(scheme) support in Gnumeric"
+msgstr "Denne indstik aktiverer Guile(scheme) understøttelse"
+
+#: plugins/html/boot.c:74
 msgid "HTML 3.2 file format (*.html)"
 msgstr "HTML 3.2-filformat (*.html)"
 
-#: plugins/html/boot.c:79
+#: plugins/html/boot.c:78
 msgid "HTML 4.0 file format (*.html)"
 msgstr "HTML 4.0-filformat (*.html)"
 
-#: plugins/html/boot.c:83
+#: plugins/html/boot.c:82
 msgid "HTML file made by gnumeric"
 msgstr "HTML-fil lavet af gnumeric"
 
-#: plugins/html/boot.c:87
+#: plugins/html/boot.c:86
 msgid "LaTeX file format (*.tex)"
 msgstr "LaTeX-filformat (*.tex)"
 
-#: plugins/html/boot.c:91
+#: plugins/html/boot.c:90
 msgid "LaTeX2e file format (*.tex)"
 msgstr "LaTeX2e-filformat (*.tex)"
 
-#: plugins/html/boot.c:95
-msgid "PS file format (via groff)"
-msgstr "PS-filformat (via groff)"
-
-#: plugins/html/boot.c:99
+#: plugins/html/boot.c:94
 msgid "DVI TeX file format (via groff)"
 msgstr "DVI TeX-filformat (via groff)"
 
-#: plugins/html/boot.c:103
+#: plugins/html/boot.c:98
 msgid "TROFF file format (*.me)"
 msgstr "TROFF-filformat (*.me)"
 
-#: plugins/html/boot.c:107
+#: plugins/html/boot.c:102
 msgid "PDF file format (via groff/gs)"
 msgstr "PDF-filformat (via groff/gs)"
 
-#: plugins/html/boot.c:112
+#: plugins/html/boot.c:107
 msgid "EPS file format (*.eps)"
 msgstr "EPS-filformat (*.eps)"
+
+#: plugins/html/boot.c:125
+msgid "HTML"
+msgstr ""
+
+#: plugins/html/boot.c:126
+msgid "Import/Export of HTML, TeX, DVI, roff and pdf"
+msgstr ""
 
 #: plugins/html/html.c:409 plugins/lotus-123/lotus.c:224
 #: plugins/oleo/oleo.c:44 src/workbook.c:3210
@@ -255,9 +284,17 @@ msgstr "EPS-filformat (*.eps)"
 msgid "Sheet%d"
 msgstr "Ark%d"
 
-#: plugins/lotus-123/boot.c:86
+#: plugins/lotus-123/boot.c:87
 msgid "Lotus file format (*.wk1)"
 msgstr "Lotus-filformat (*.wk1)"
+
+#: plugins/lotus-123/boot.c:91
+msgid "Lotus 123"
+msgstr ""
+
+#: plugins/lotus-123/boot.c:92
+msgid "Imports Lotus 123 files"
+msgstr "Importerer en Lotus 123-fil"
 
 #: plugins/numtheory/numtheory.c:179
 msgid ""
@@ -358,13 +395,35 @@ msgstr ""
 "Denne funktion tager kun ét argument.\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:412
+#: plugins/numtheory/numtheory.c:409 plugins/numtheory/numtheory.c:425
 msgid "Number Theory"
 msgstr "Talteori"
 
-#: plugins/oleo/boot.c:86
+#: plugins/numtheory/numtheory.c:426
+msgid ""
+"Adds several basic number theory functions, including utilities for prime "
+"numbers, pi, phi and sigma."
+msgstr ""
+
+#: plugins/oleo/boot.c:87
 msgid "GNU Oleo (*.oleo) file format"
-msgstr "GNU Oleo (*.oleo)-filformat"
+msgstr "Gnu Oleo (*.oleo)-filformat"
+
+#: plugins/oleo/boot.c:91
+msgid "GNU Oleo"
+msgstr "Gnu Oleo"
+
+#: plugins/oleo/boot.c:92
+msgid "Imports GNU Oleo documents"
+msgstr "Importerer Gnu Oleo-dokumenter"
+
+#: plugins/perl/perl.c:54
+msgid "Perl"
+msgstr "Perl"
+
+#: plugins/perl/perl.c:55
+msgid "Enables the creation of functions in PERL"
+msgstr "Aktiverer oprettelse af funktioner i Perl"
 
 #: plugins/plan-perfect/pln.c:715
 #, c-format
@@ -383,9 +442,17 @@ msgstr "PLN : ikke en PlanPerfect fil"
 msgid "PLN : Spreadsheet is password encrypted"
 msgstr "PLN : regneark er krypteret med adgangskode"
 
-#: plugins/plan-perfect/pln.c:959
+#: plugins/plan-perfect/pln.c:954
 msgid "Plan Perfect Format (PLN) import"
 msgstr "Plan Perfect Format (PLN) import"
+
+#: plugins/plan-perfect/pln.c:958
+msgid "Plan Perfect"
+msgstr "Plan Perfect"
+
+#: plugins/plan-perfect/pln.c:959
+msgid "Imports Plan Perfect Formatted Documents"
+msgstr "Importerer Plan Perfect-formaterede dokumenter"
 
 #: plugins/python/python.c:45
 msgid "Python exception"
@@ -403,13 +470,25 @@ msgstr "Kan ikke slå Python-kodeobjekt op."
 msgid "object must be callable"
 msgstr "objekt skal være kaldbart"
 
-#: plugins/sample/plugin-sample.c:53
+#: plugins/sample/plugin-sample.c:50 plugins/sample/plugin-sample.c:55
 msgid "Sample Plugin"
 msgstr "Eksempel-indstik"
 
-#: plugins/sc/sc.c:455
+#: plugins/sample/plugin-sample.c:54
+msgid "PlusOne"
+msgstr "PlusOne"
+
+#: plugins/sc/sc.c:458
 msgid "SC/xspread file import"
 msgstr "SC/xspread fil-import"
+
+#: plugins/sc/sc.c:462
+msgid "SC/XSpread "
+msgstr "SC/XSpread"
+
+#: plugins/sc/sc.c:463
+msgid "Imports SC/XSpread files"
+msgstr "Importerer SC/XSpread-filer"
 
 #: plugins/sylk/sylk.c:406
 msgid "Not SYLK file"
@@ -419,9 +498,17 @@ msgstr "Ikke en SYLK-fil"
 msgid "error parsing line\n"
 msgstr "fejl ved tolkning af linie\n"
 
-#: plugins/sylk/sylk.c:510
+#: plugins/sylk/sylk.c:507
 msgid "MultiPlan (SYLK) import"
 msgstr "MultiPlan (SYLK) import"
+
+#: plugins/sylk/sylk.c:511
+msgid "MultiPlan (SYLK)"
+msgstr "MultiPlan (SYLK)"
+
+#: plugins/sylk/sylk.c:512
+msgid "Imports MultiPlan (SYLK) files"
+msgstr "Importerer MultiPlan-filer"
 
 #: plugins/text/text-io.c:312
 msgid "Empty file"
@@ -443,9 +530,17 @@ msgstr "Basal tekst I/U"
 msgid "Read/Write workbooks using a simple text format."
 msgstr "Læse/skrivbare arbejdsbøger med et simpelt tekstformat."
 
-#: plugins/xbase/boot.c:205
+#: plugins/xbase/boot.c:207
 msgid "Xbase (*.dbf) file format"
 msgstr "Xbase (*.dbf) filformat"
+
+#: plugins/xbase/boot.c:211
+msgid "XBase"
+msgstr "XBase"
+
+#: plugins/xbase/boot.c:212
+msgid "Imports XBase files"
+msgstr "Importerer XBase-filer"
 
 #: src/about.c:25
 msgid "Miguel de Icaza, main programmer."
@@ -965,15 +1060,15 @@ msgstr "Kolonner"
 msgid "Error"
 msgstr "Fejl"
 
-#: src/clipboard.c:243
+#: src/clipboard.c:196
 msgid "Error while trying to pre-convert clipboard data"
 msgstr "Fejl under forsøg på at forkonvertere klippebords-fil"
 
-#: src/clipboard.c:250
+#: src/clipboard.c:203
 msgid "This data on the clipboard does not seem to be valid text"
 msgstr "Dette data på klippebordet synes ikke at være gyldig tekst"
 
-#: src/clipboard.c:265
+#: src/clipboard.c:218
 msgid "Parse error while trying to parse data into cellregion"
 msgstr "Fortolkningsfejl under førsøg på at fortolke data i en celleregion"
 
@@ -986,62 +1081,62 @@ msgstr "Du kan ikke ændre en del af et array."
 msgid "Typing \"%s%s\" in %s"
 msgstr "Indtaster \"%s%s\" i %s"
 
-#: src/commands.c:593
+#: src/commands.c:591
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Indtaster \"%s%s\""
 
-#: src/commands.c:785
+#: src/commands.c:781
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "indsætter %d kolonner før %s"
 
-#: src/commands.c:786
+#: src/commands.c:782
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "indsætter %d kolonner før %s"
 
-#: src/commands.c:797
+#: src/commands.c:793
 #, c-format
 msgid "Inserting %d rows before %d"
 msgstr "Indsætter %d rækker før %d"
 
-#: src/commands.c:798
+#: src/commands.c:794
 #, c-format
 msgid "Inserting %d row before %d"
 msgstr "Indsætter %d række før %d"
 
 #. col_name uses a static buffer
-#: src/commands.c:811
+#: src/commands.c:807
 #, c-format
 msgid "Deleting %d columns %s:"
 msgstr "Sletter %d kolonner %s:"
 
-#: src/commands.c:816
+#: src/commands.c:812
 #, c-format
 msgid "Deleting column %s"
 msgstr "Sletter kolonne %s"
 
-#: src/commands.c:826
+#: src/commands.c:822
 #, c-format
 msgid "Deleting %d rows %d:%d"
 msgstr "Sletter %d rækker %d:%d"
 
-#: src/commands.c:828
+#: src/commands.c:824
 #, c-format
 msgid "Deleting row %d"
 msgstr "Sletter række %d"
 
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:969
+#: src/commands.c:963
 msgid "Clear"
 msgstr "Ryd"
 
-#: src/commands.c:1157
+#: src/commands.c:1151
 msgid "Format cells"
 msgstr "Formattér celler"
 
-#: src/commands.c:1228
+#: src/commands.c:1222
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Omdøb ark '%s' '%s'"
@@ -1053,60 +1148,65 @@ msgstr "Omdøb ark '%s' '%s'"
 #. * translators should be aware that the leading character of the
 #. * result will be ignored.
 #.
-#: src/commands.c:1307
+#: src/commands.c:1301
 msgid ">mm/dd/yyyy"
 msgstr ">mm/dd/yyyy"
 
 #. FIXME : See comment above
-#: src/commands.c:1312
+#: src/commands.c:1306
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/commands.c:1373
+#: src/commands.c:1367
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Indsætter nuværende dato i %s"
 
-#: src/commands.c:1374
+#: src/commands.c:1368
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Indsætter nuværende tidspunkt i %s"
 
-#: src/commands.c:1457
+#: src/commands.c:1451
 #, c-format
 msgid "Setting width of column %s"
 msgstr "Angiver bredde på kolonne %s"
 
-#: src/commands.c:1458
+#: src/commands.c:1452
 #, c-format
 msgid "Setting height of row %d"
 msgstr "Angiver højde på række %d"
 
-#: src/commands.c:1581
+#: src/commands.c:1575
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorter %s"
 
-#: src/commands.c:1662
+#: src/commands.c:1656
 msgid "Unhide columns"
 msgstr "Vis kolonner"
 
-#: src/commands.c:1662
+#: src/commands.c:1656
 msgid "Hide columns"
 msgstr "Skjul kolonner"
 
-#: src/commands.c:1663
+#: src/commands.c:1657
 msgid "Unhide rows"
 msgstr "Vis rækker"
 
-#: src/commands.c:1663
+#: src/commands.c:1657
 msgid "Hide rows"
 msgstr "Skjul rækker"
 
 #. FIXME : improve on this
-#: src/commands.c:1771
+#: src/commands.c:1763
 msgid "Moving cells"
 msgstr "Flytter celler"
+
+#: src/commands.c:1874
+#, c-format
+msgid "Pasting into %s"
+msgstr ""
 
 #: src/corba-args.c:33
 msgid "Oaf options"
@@ -1537,12 +1637,14 @@ msgid "_Do not capitalize after:"
 msgstr "_Ikke stort bogstav efter:"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:9
+#: src/dialogs/autocorrect-exceptions.glade.h:13
 #: src/dialogs/dialog-stf.glade.h:46 src/dialogs/solver.glade.h:25
 #: wizards/graphics/graphics.glade.h:28
 msgid "_Add"
 msgstr "_Tilføj"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:10
+#: src/dialogs/autocorrect-exceptions.glade.h:14
 #: src/dialogs/dialog-stf.glade.h:47 wizards/graphics/graphics.glade.h:29
 msgid "_Remove"
 msgstr "Fj_ern"
@@ -1554,18 +1656,6 @@ msgstr "_Første bogstav"
 #: src/dialogs/autocorrect-exceptions.glade.h:12
 msgid "Do _not correct:"
 msgstr "_Korrigér ikke:"
-
-#: src/dialogs/autocorrect-exceptions.glade.h:13
-#: src/dialogs/cell-sort.glade.h:13 src/dialogs/names.glade.h:9
-#: src/dialogs/plugin-manager.glade.h:8
-msgid "Add"
-msgstr "Tilføj"
-
-#: src/dialogs/autocorrect-exceptions.glade.h:14
-#: src/dialogs/cell-sort.glade.h:14 src/dialogs/plugin-manager.glade.h:9
-#: src/sheet-object.c:1031
-msgid "Remove"
-msgstr "Fjern"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:15
 msgid "_INitial CApitals"
@@ -2104,6 +2194,16 @@ msgstr "Et hoved"
 #: src/dialogs/cell-sort.glade.h:10
 msgid "Sort"
 msgstr "Sortér"
+
+#: src/dialogs/cell-sort.glade.h:13 src/dialogs/names.glade.h:9
+#: src/dialogs/plugin-manager.glade.h:8
+msgid "Add"
+msgstr "Tilføj"
+
+#: src/dialogs/cell-sort.glade.h:14 src/dialogs/plugin-manager.glade.h:9
+#: src/sheet-object.c:1031
+msgid "Remove"
+msgstr "Fjern"
 
 #: src/dialogs/cell-sort.glade.h:15
 msgid "Advanced Sort Options"
@@ -2725,32 +2825,31 @@ msgstr "Operation"
 msgid "Transpose"
 msgstr "Transponér"
 
-#: src/dialogs/dialog-plugin-manager.c:93
-#: src/dialogs/plugin-manager.glade.h:16
+#: src/dialogs/dialog-plugin-manager.c:91
 msgid "File name:"
 msgstr "Filnavn:"
 
-#: src/dialogs/dialog-plugin-manager.c:95
+#: src/dialogs/dialog-plugin-manager.c:93
 #, c-format
 msgid "File name: %s"
 msgstr "Filnavn: %s"
 
-#: src/dialogs/dialog-plugin-manager.c:100 src/dialogs/font-sel.glade.h:10
+#: src/dialogs/dialog-plugin-manager.c:98 src/dialogs/font-sel.glade.h:10
 #: src/dialogs/plugin-manager.glade.h:13
 msgid "Size:"
 msgstr "Størrelse:"
 
-#: src/dialogs/dialog-plugin-manager.c:102
+#: src/dialogs/dialog-plugin-manager.c:100
 #, c-format
 msgid "Size: %ld bytes"
 msgstr "Størrelse: %ld byte"
 
-#: src/dialogs/dialog-plugin-manager.c:107
+#: src/dialogs/dialog-plugin-manager.c:105
 #: src/dialogs/plugin-manager.glade.h:14
 msgid "Modified:"
 msgstr "Ændret:"
 
-#: src/dialogs/dialog-plugin-manager.c:110
+#: src/dialogs/dialog-plugin-manager.c:108
 #, c-format
 msgid "Modified: %s"
 msgstr "Ændret: %s"
@@ -3365,20 +3464,20 @@ msgid "Gnumeric Plugin Manager"
 msgstr "Gnumeric indstikshåndtering"
 
 #: src/dialogs/plugin-manager.glade.h:10
-msgid "Plugin Title"
-msgstr "Indstikstitel"
+msgid "Installed Plugins"
+msgstr "Installerede indstik"
 
 #: src/dialogs/plugin-manager.glade.h:11
-msgid "Description:"
+msgid "_Description"
 msgstr "Beskrivelse:"
 
 #: src/dialogs/plugin-manager.glade.h:12
-msgid "Basic"
-msgstr "Basal"
+msgid "Path:"
+msgstr "Sti:"
 
 #: src/dialogs/plugin-manager.glade.h:15
-msgid "Advanced"
-msgstr "Avanceret"
+msgid "_File Details"
+msgstr "_Fil detaljer"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3781,11 +3880,11 @@ msgid "Scrollbars"
 msgstr "Rullegardiner"
 
 #: src/dialogs/workbook-attr.glade.h:8
-msgid "Horizontal Scrollbar"
+msgid "_Horizontal Scrollbar"
 msgstr "Vandret rullegardin"
 
 #: src/dialogs/workbook-attr.glade.h:9
-msgid "Vertical Scrollbar"
+msgid "_Vertical Scrollbar"
 msgstr "Lodret rullegardin"
 
 #: src/dialogs/workbook-attr.glade.h:10
@@ -3793,7 +3892,7 @@ msgid "Notebook"
 msgstr "Notesbog"
 
 #: src/dialogs/workbook-attr.glade.h:11
-msgid "Tabs"
+msgid "_Tabs"
 msgstr "Faneblade"
 
 #: src/dialogs/workbook-attr.glade.h:12
@@ -3816,19 +3915,19 @@ msgstr "Manglende anførselstegn"
 msgid "Impossible!"
 msgstr "Umuligt!"
 
-#: src/expr.c:345
+#: src/expr.c:346
 msgid "Internal error"
 msgstr "Intern fejl"
 
-#: src/expr.c:656
+#: src/expr.c:658
 msgid "Internal type error"
 msgstr "Intern typefejl"
 
-#: src/expr.c:811
+#: src/expr.c:813
 msgid "Unknown operator"
 msgstr "Ukendt operator"
 
-#: src/expr.c:1030
+#: src/expr.c:1032
 msgid "Unknown evaluation error"
 msgstr "Ukendt evalueringsfejl"
 
@@ -5579,17 +5678,6 @@ msgstr ""
 "@DESCRIPTION=DAVERAGE-funktionen returnerer gennemsnittet af værdierne i en "
 "liste eller en database som passer til de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:499
-msgid ""
-"\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5601,16 +5689,6 @@ msgstr ""
 "@SYNTAX=DCOUNT(database,felt,kriterie)\n"
 "@DESCRIPTION=DCOUNT-funktionen tæller cellerne som indeholder tal i en "
 "database som passer til de opgivne betingelser. \n"
-
-#: src/functions/fn-database.c:568
-msgid ""
-"\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
-msgstr ""
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -5624,16 +5702,6 @@ msgstr ""
 "@DESCRIPTION=DCOUNTA-funktionen tæller cellerne som indeholder data i en "
 "database som passer til de opgivne betingelser. \n"
 
-#: src/functions/fn-database.c:629
-msgid ""
-"\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5645,17 +5713,6 @@ msgstr ""
 "@SYNTAX=DGET(database,felt,kriterie)\n"
 "@DESCRIPTION=DGET-funktionen returnerer en enkelt værdi fra en kolonne som "
 "tilfredstiller de specificerede betingelser. \n"
-
-#: src/functions/fn-database.c:687
-msgid ""
-"\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@SEEALSO=DCOUNT"
-msgstr ""
 
 #: src/functions/fn-database.c:747
 msgid ""
@@ -5669,16 +5726,6 @@ msgstr ""
 "@DESCRIPTION=DMAX-funktionen returnerer det største tal i en kolonne som "
 "tilfredstiller de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:755
-msgid ""
-"\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
-
 #: src/functions/fn-database.c:818
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -5691,15 +5738,6 @@ msgstr ""
 "@DESCRIPTION=DMIN-funktionen returnerer det mindste tal i en kolonne som "
 "tilfredstiller de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:826
-msgid ""
-"\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
-
 #: src/functions/fn-database.c:888
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -5711,14 +5749,6 @@ msgstr ""
 "@SYNTAX=DPRODUCT(database,felt,kriterie)\n"
 "@DESCRIPTION=DPRODUCT-funktionen returnerer produktet af tallene i en "
 "kolonne som tilfredstiller de specificerede betingelser. \n"
-
-#: src/functions/fn-database.c:896
-msgid ""
-"\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
-msgstr ""
 
 #: src/functions/fn-database.c:955
 msgid ""
@@ -5734,15 +5764,6 @@ msgstr ""
 "for en population baseret på et udvalg. Populationen består af tal som til- "
 "fredstiller de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:964
-msgid ""
-"\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
-msgstr ""
-
 #: src/functions/fn-database.c:1021
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -5757,15 +5778,6 @@ msgstr ""
 "population baseret på hele populationen. Populationen består af tal som til- "
 "fredstiller de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:1030
-msgid ""
-"\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
-msgstr ""
-
 #: src/functions/fn-database.c:1089
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -5777,15 +5789,6 @@ msgstr ""
 "@SYNTAX=DSUM(database,felt,kriterie)\n"
 "@DESCRIPTION=DSUM-funktionen returnerer summen af tallene i en kolonne som "
 "tilfredsstiller de specificerede betingelser. \n"
-
-#: src/functions/fn-database.c:1097
-msgid ""
-"\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
-msgstr ""
 
 #: src/functions/fn-database.c:1156
 msgid ""
@@ -5801,15 +5804,6 @@ msgstr ""
 "baseret på et udvalg. Populationerne består af tal som tilfredsstiller de "
 "specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:1165
-msgid ""
-"\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
-
 #: src/functions/fn-database.c:1224
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -5823,15 +5817,6 @@ msgstr ""
 "@DESCRIPTION=DVARP-funktionen returnerer variansen til en population baseret "
 "på alle populationerne. Populationerne består af tal som tilfredsstiller de "
 "specificerede betingelser. \n"
-
-#: src/functions/fn-database.c:1233
-msgid ""
-"\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
-msgstr ""
 
 #: src/functions/fn-database.c:1293
 msgid ""
@@ -14576,7 +14561,7 @@ msgstr ""
 msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 
-#: src/parse-util.c:506
+#: src/parse-util.c:509
 msgid "ERROR"
 msgstr "FEJL"
 
@@ -14769,12 +14754,12 @@ msgstr ""
 msgid "Internal ERROR"
 msgstr "Intern FEJL"
 
-#: src/sheet.c:2653
+#: src/sheet.c:2707
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Jeg kunne ikke aktivere objekt %s"
 
-#: src/sheet.c:2665
+#: src/sheet.c:2719
 msgid "I was unable to the bind object"
 msgstr "Jeg kunne ikke binde objekt"
 
@@ -16234,3 +16219,12 @@ msgstr "Trin 3 af 3: Tilpas grafik"
 #: wizards/graphics/main.c:175
 msgid "Unable to launch the graphics service"
 msgstr "Kan ikke opstarte grafiktjenesten"
+
+#~ msgid "PS file format (via groff)"
+#~ msgstr "PS-filformat (via groff)"
+
+#~ msgid "Plugin Title"
+#~ msgstr "Indstikstitel"
+
+#~ msgid "Advanced"
+#~ msgstr "Avanceret"
