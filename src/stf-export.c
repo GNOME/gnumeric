@@ -265,6 +265,7 @@ stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 	GString *separator;
 	gboolean error = FALSE;
 	int col, row;
+	Range r;
 
 	g_return_val_if_fail (export_options != NULL, FALSE);
 	g_return_val_if_fail (sheet != NULL, FALSE);
@@ -276,10 +277,12 @@ stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 
 	separator = g_string_new ("");
 	g_string_append_c (separator, export_options->cell_separator);
+
+	r = sheet_get_extent (sheet);
 	
-	for (row = 0; row <= sheet->rows.max_used; row++) {
+	for (row = r.start.row; row <= r.end.row; row++) {
 	
-		for (col = 0; col <= sheet->cols.max_used; col++) {
+		for (col = r.start.col; col <= r.end.col; col++) {
 			Cell *cell = sheet_cell_get (sheet, col, row);
 			
 			if (!stf_export_cell (export_options, cell)) {
@@ -287,7 +290,7 @@ stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 				return FALSE;
 			}
 
-			if (col != sheet->cols.max_used)
+			if (col != r.end.col)
 				if (!export_options->write_func (separator->str, export_options->write_data)) {
 					g_string_free (separator, TRUE);
 					return FALSE;

@@ -1,3 +1,8 @@
+2000-11-12  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/stf-export.c (stf_export_sheet): Use sheet_get_extent
+	instead of sheet->rows and sheet->cols.
+
 2000-11-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_sheet_attach) : Use wb_view_sheet_add.
