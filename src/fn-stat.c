@@ -1711,7 +1711,7 @@ gnumeric_chidist (struct FunctionDefinition *i, Value *argv [],
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	return value_new_float (pchisq (x, dof));
+	return value_new_float (1.0 - pchisq (x, dof));
 }
 
 static char *help_chiinv = {
@@ -1742,18 +1742,183 @@ gnumeric_chiinv (struct FunctionDefinition *i, Value *argv [],
 		return NULL;
 	}
 
-	return value_new_float (qchisq (p, dof));
+	return value_new_float (qchisq (1.0 - p, dof));
+}
+
+static char *help_chitest = {
+       N_("@FUNCTION=CHITEST\n"
+          "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
+
+          "@DESCRIPTION="
+          "The CHITEST function returns the test for independence of "
+	  "chi-squared distribution. "
+          "\n"
+	  "@actual_range is a range that contains the observed data points. "
+	  "@theoretical_range is a range that contains the expected values "
+	  "of the data points. "
+	  "\n"
+          "@SEEALSO=CHIDIST,CHIINV")
+};
+
+typedef struct {
+        GSList *columns;
+        GSList *column;
+        int col;
+        int row;
+        int cols;
+        int rows;
+} stat_chitest_t;
+
+static int
+callback_function_chitest_actual (Sheet *sheet, Value *value,
+				  char **error_string, void *closure)
+{
+	stat_chitest_t *mm = closure;
+	gpointer       p;
+	float_t        tmp;
+
+	switch (value->type){
+	case VALUE_INTEGER:
+	        tmp = value->v.v_int;
+		break;
+	case VALUE_FLOAT:
+	        tmp = value->v.v_float;
+		break;
+	default:
+	        return FALSE;
+	}
+
+	p = g_new(float_t, 1);
+	*((float_t *) p) = tmp;
+	mm->column = g_slist_append(mm->column, p);
+
+	mm->row++;
+	if (mm->row == mm->rows) {
+	        mm->row = 0;
+		mm->col++;
+		mm->columns = g_slist_append(mm->columns, mm->column);
+		mm->column = NULL;
+	}
+
+	return TRUE;
+}
+
+typedef struct {
+        GSList *current_cell;
+        GSList *next_col;
+        int    cols;
+        int    rows;
+        float_t sum;
+} stat_chitest_t_t;
+
+static int
+callback_function_chitest_theoretical (Sheet *sheet, Value *value,
+				       char **error_string, void *closure)
+{
+	stat_chitest_t_t *mm = closure;
+	gpointer         p;
+	float_t          a, e;
+
+	switch (value->type){
+	case VALUE_INTEGER:
+	        e = value->v.v_int;
+		break;
+	case VALUE_FLOAT:
+	        e = value->v.v_float;
+		break;
+	default:
+	        return FALSE;
+	}
+
+	if (mm->current_cell == NULL) {
+	        mm->current_cell = mm->next_col->data;
+		mm->next_col = mm->next_col->next;
+	}
+	p = mm->current_cell->data;
+	a = *((float_t *) p);
+
+	mm->sum += ((a-e) * (a-e)) / e;
+	g_free(p);
+	mm->current_cell = mm->current_cell->next;
+
+	return TRUE;
+}
+
+static Value *
+gnumeric_chitest (struct FunctionDefinition *i, Value *argv [],
+		  char **error_string)
+{
+        Sheet            *sheet;
+	stat_chitest_t   p1;
+	stat_chitest_t_t p2;
+	GSList           *tmp;
+	int              col, row, ret, dof;
+
+	sheet = argv[0]->v.cell.sheet;
+	col = argv[0]->v.cell.col;
+	row = argv[0]->v.cell.row;
+	p1.cols = argv[0]->v.cell_range.cell_b.col -
+	  argv[0]->v.cell_range.cell_a.col;
+	p2.cols = argv[1]->v.cell_range.cell_b.col -
+	  argv[1]->v.cell_range.cell_a.col;
+	p1.rows = argv[0]->v.cell_range.cell_b.row -
+	  argv[0]->v.cell_range.cell_a.row;
+	p2.rows = argv[1]->v.cell_range.cell_b.row -
+	  argv[1]->v.cell_range.cell_a.row;
+	p1.row = p1.col = 0;
+	p1.columns = p1.column = NULL;
+
+	if (p1.cols != p2.cols || p1.rows != p2.rows) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	ret = function_iterate_do_value (sheet, (FunctionIterateCallback)
+					 callback_function_chitest_actual,
+					 &p1, col, row, argv[0],
+					 error_string);
+	if (ret == FALSE) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	p2.sum = 0;
+	p2.current_cell = p1.columns->data;
+	p2.next_col = p1.columns->next;
+
+	ret = function_iterate_do_value (sheet, (FunctionIterateCallback)
+					 callback_function_chitest_theoretical,
+					 &p2, col, row, argv[1],
+					 error_string);
+	if (ret == FALSE) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	tmp = p1.columns;
+	while (tmp != NULL) {
+	        g_slist_free(tmp->data);
+		tmp = tmp->next;
+	}
+	g_slist_free(p1.columns),
+	dof = p1.rows;
+
+	return value_new_float (1.0 - pchisq (p2.sum, dof));
 }
 
 static char *help_betadist = {
 	N_("@FUNCTION=BETADIST\n"
-	   "@SYNTAX=BETADIST(x,alpha,beta)\n"
+	   "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
 
 	   "@DESCRIPTION="
-	   "BETADIST function returns the cumulative beta distribution. "
+	   "BETADIST function returns the cumulative beta distribution. @a "
+	   "is the optional lower bound of @x and @b is the optinal upper "
+	   "bound of @x.  If @a is not given, BETADIST uses 0.  If @b is "
+	   "not given, BETADIST uses 1. "
 	   "\n"
-	   "If @x < 0 or @x > 1 BETADIST returns #NUM! error. "
+	   "If @x < @a or @x > @b BETADIST returns #NUM! error. "
 	   "If @alpha <= 0 or beta <= 0, BETADIST returns #NUM! error. "
+	   "If @a >= @b BETADIST returns #NUM! error. "
 	   "\n"
 	   "@SEEALSO=BETAINV")
 };
@@ -1762,17 +1927,69 @@ static Value *
 gnumeric_betadist (struct FunctionDefinition *i, Value *argv [],
 		   char **error_string)
 {
-	float_t x, alpha, beta;
+	float_t x, alpha, beta, a, b;
 
 	x = value_get_as_float (argv [0]);
 	alpha = value_get_as_float (argv [1]);
 	beta = value_get_as_float (argv [2]);
+	if (argv[3] == NULL)
+	        a = 0;
+	else
+	        a = value_get_as_float (argv [3]);
+	if (argv[4] == NULL)
+	        b = 1;
+	else
+	        b = value_get_as_float (argv [4]);
 
-	if (x<0 || x>1 || alpha<=0 || beta<=0){
+	if (x<a || x>b || a>=b || alpha<=0 || beta<=0){
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	return value_new_float (pbeta(x, alpha, beta));
+
+	return value_new_float (pbeta((x-a) / (b-a), alpha, beta));
+}
+
+static char *help_betainv = {
+	N_("@FUNCTION=BETAINV\n"
+	   "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
+
+	   "@DESCRIPTION="
+	   "BETAINV function returns the inverse of cumulative beta "
+	   "distribution.  @a is the optional lower bound of @x and @b "
+	   "is the optinal upper bound of @x.  If @a is not given, "
+	   "BETAINV uses 0.  If @b is not given, BETAINV uses 1. "
+	   "\n"
+	   "If @p < 0 or @p > 1 BETAINV returns #NUM! error. "
+	   "If @alpha <= 0 or beta <= 0, BETAINV returns #NUM! error. "
+	   "If @a >= @b BETAINV returns #NUM! error. "
+	   "\n"
+	   "@SEEALSO=BETADIST")
+};
+
+static Value *
+gnumeric_betainv (struct FunctionDefinition *i, Value *argv [],
+		  char **error_string)
+{
+	float_t p, alpha, beta, a, b;
+
+	p = value_get_as_float (argv [0]);
+	alpha = value_get_as_float (argv [1]);
+	beta = value_get_as_float (argv [2]);
+	if (argv[3] == NULL)
+	        a = 0;
+	else
+	        a = value_get_as_float (argv [3]);
+	if (argv[4] == NULL)
+	        b = 1;
+	else
+	        b = value_get_as_float (argv [4]);
+
+	if (p<0 || p>1 || a>=b || alpha<=0 || beta<=0){
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	return value_new_float ((b-a) * qbeta(p, alpha, beta) + a);
 }
 
 static char *help_tdist = {
@@ -1806,9 +2023,9 @@ gnumeric_tdist (struct FunctionDefinition *i, Value *argv [],
 		return NULL;
 	}
 	if (tails == 1)
-	        return value_new_float (pt(x, dof));
+	        return value_new_float (1.0 - pt(x, dof));
 	else
-	        return value_new_float (pt(x, dof)*2);
+	        return value_new_float ((1.0 - pt(x, dof))*2);
 }
 
 static char *help_tinv = {
@@ -1872,7 +2089,7 @@ gnumeric_fdist (struct FunctionDefinition *i, Value *argv [],
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	return value_new_float (pf(x, dof1, dof2));
+	return value_new_float (1.0 - pf(x, dof1, dof2));
 }
 
 static char *help_finv = {
@@ -1905,7 +2122,7 @@ gnumeric_finv (struct FunctionDefinition *i, Value *argv [],
 		return NULL;
 	}
 
-	return value_new_float (qf (p, dof1, dof2));
+	return value_new_float (qf (1.0 - p, dof1, dof2));
 }
 
 static char *help_binomdist = {
@@ -2253,10 +2470,13 @@ gnumeric_normdist (struct FunctionDefinition *i,
         if (cuml) {
 		return value_new_float (pnorm (x, mean, stdev));
         } else {
-		/* FIXME: description, please.  */
-		*error_string = _("Unimplemented");
-		return NULL;
-        }
+	        float_t tmp = x - mean;
+
+		tmp *= tmp;
+
+	        return value_new_float (1.0/(sqrt(2*M_PI) * stdev) * 
+					exp(-tmp/(2*stdev*stdev)));
+	}
 }
 
 static char *help_norminv = {
@@ -2584,9 +2804,14 @@ gnumeric_poisson (struct FunctionDefinition *i,
 
 	cuml = value_get_as_bool (argv[2], &err);
 
-	if (cuml){
-		*error_string = _("Unimplemented");
-		return NULL;
+	if (cuml) {
+	        int k;
+		float_t sum = 0;
+
+	        for (k=0; k<=x; k++)
+		        sum += exp(-mean)*pow(mean,k) / exp (lgamma (k + 1));
+
+		return value_new_float (sum);
 	} else
 		return value_new_float (exp(-mean)*pow(mean,x) /
 				    exp (lgamma (x + 1)));
@@ -3958,14 +4183,18 @@ FunctionDefinition stat_functions [] = {
 	  gnumeric_average, NULL },
 	{ "averagea", 0,      "",           &help_averagea,
 	  gnumeric_averagea, NULL },
-	{ "betadist", "fff", "",            &help_betadist,
+	{ "betadist", "fff|ff", "",         &help_betadist,
 	  NULL, gnumeric_betadist },
+	{ "betainv", "fff|ff", "",          &help_betainv,
+	  NULL, gnumeric_betainv },
 	{ "binomdist", "fffb", "n,t,p,c",   &help_binomdist,
 	  NULL, gnumeric_binomdist },
 	{ "chidist",   "ff",  "",           &help_chidist,
 	  NULL, gnumeric_chidist },
 	{ "chiinv",    "ff",  "",           &help_chiinv,
 	  NULL, gnumeric_chiinv },
+	{ "chitest",   "rr",  "",           &help_chitest,
+	  NULL, gnumeric_chitest },
 	{ "confidence", "fff",  "x,stddev,size", &help_confidence,
 	  NULL, gnumeric_confidence },
 	{ "count",     0,      "",          &help_count,

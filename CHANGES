@@ -2,12 +2,12 @@ Changes between version 0.26 and 0.27
 
 
 Jukka has added the following functions:
-	* PERCENTRANK(), SERIESSUM(), SUBTOTAL(), SUMA(), SLOPE(),
-	* AVERAGEA(), MAXA(), MINA(), STDEVA(), STDEVPA(), VARA(),
-	* VARPA()
+	* CHITEST(), BETAINV(), PERCENTRANK(), SERIESSUM(), SUMA(),
+	* SUBTOTAL(), SLOPE(), AVERAGEA(), MAXA(), MINA(), STDEVA(),
+	* STDEVPA(), VARA(), and VARPA().
 
 And fixed these:
-	* 
+	* BETADIST(), NORMDIST(), and POISSON().
 
 Morten:
 	* Found everyone else's bugs.

@@ -1,3 +1,12 @@
+1999-05-27  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added BETAINV() and CHITEST().  Added optional
+ 	parameters A and B to BETADIST().  Implemented non-cumulative case
+ 	of NORMDIST().  Implemented cumulative case of POISSON().  Fixed
+ 	CHIDIST(), CHIINV(), FDIST(), FINV(), and TDIST() to return the
+ 	complement of the probablity.  It looks like TINV() is still
+ 	broken after file restructurations.
+
 1999-05-26  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet-view.h: Include fix.
