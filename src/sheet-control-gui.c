@@ -105,8 +105,7 @@ scg_redraw_region (SheetControl *sc,
 	for (i = scg->active_panes; i-- > 0 ; ) {
 		GnumericPane *pane = scg->pane + i;
 		gnm_canvas_redraw_region (pane->gcanvas,
-					      start_col, start_row,
-					      end_col, end_row);
+			start_col, start_row, end_col, end_row);
 	}
 }
 
@@ -678,7 +677,7 @@ scg_set_top_row (SheetControlGUI *scg, int row)
 
 static void
 gnm_canvas_set_top_left (GnumericCanvas *gcanvas,
-			     int col, int row, gboolean force_scroll)
+			 int col, int row, gboolean force_scroll)
 {
 	gboolean changed = FALSE;
 	int col_offset, row_offset;
@@ -727,7 +726,7 @@ scg_set_top_left (SheetControl *sc, int col, int row)
 
 static void
 gnm_canvas_make_cell_visible (GnumericCanvas *gcanvas, int col, int row,
-				  gboolean const force_scroll)
+			      gboolean const force_scroll)
 {
 	GnomeCanvas *canvas;
 	Sheet *sheet;
@@ -791,7 +790,7 @@ gnm_canvas_make_cell_visible (GnumericCanvas *gcanvas, int col, int row,
 		new_first_row = gcanvas->first.row;
 
 	gnm_canvas_set_top_left (gcanvas, new_first_col, new_first_row,
-				     force_scroll);
+				 force_scroll);
 }
 
 /**
@@ -838,8 +837,7 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 				     scg->pane[1].gcanvas->first.row,
 				     force_scroll);
 			if (couple_panes)
-				gnm_canvas_set_left_col (scg->pane[3].gcanvas,
-					br->col);
+				gnm_canvas_set_left_col (scg->pane[3].gcanvas, br->col);
 		} else if (couple_panes) { /* pane 2 */
 			/* FIXME : We may need to change the way this routine
 			 * is used to fix this.  Because we only know what the
@@ -1222,7 +1220,7 @@ enum {
 };
 static gboolean
 context_menu_handler (GnumericPopupMenuElement const *element,
-		     gpointer user_data)
+		      gpointer user_data)
 {
 	SheetControlGUI *scg = user_data;
 	SheetControl *sc = (SheetControl *) scg;
@@ -1651,8 +1649,7 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 	gint i;
 
 	switch (event->type) {
-	case GDK_ENTER_NOTIFY:
-	{
+	case GDK_ENTER_NOTIFY: {
 		gpointer p = gtk_object_get_data (GTK_OBJECT (ctrl_pt),
 						  "cursor");
 		e_cursor_set_widget (ctrl_pt->canvas, GPOINTER_TO_UINT (p));
@@ -1711,11 +1708,10 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 		 * the semantics of the col,row args in the callback.  However,
 		 * that is more work than I want to do right now.
 		 */
-		if (gnm_canvas_handle_motion (GNUMERIC_CANVAS
-						  (ctrl_pt->canvas),
-						  ctrl_pt->canvas, &event->motion,
-						  GNM_SLIDE_X | GNM_SLIDE_Y | GNM_SLIDE_EXTERIOR_ONLY,
-						  cb_slide_handler, ctrl_pt))
+		if (gnm_canvas_handle_motion (GNUMERIC_CANVAS (ctrl_pt->canvas),
+					      ctrl_pt->canvas, &event->motion,
+					      GNM_SLIDE_X | GNM_SLIDE_Y | GNM_SLIDE_EXTERIOR_ONLY,
+					      cb_slide_handler, ctrl_pt))
 			scg_object_move (scg, scg->current_object, GNOME_CANVAS_ITEM (so_view),
 					 GTK_OBJECT (ctrl_pt), event->motion.x, event->motion.y);
 		break;
