@@ -108,6 +108,7 @@ static void
 sheet_col_size_changed (ItemBar *item_bar, int col, int width, Sheet *sheet)
 {
 	sheet_col_set_width (sheet, col, width);
+	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (sheet->sheet_view));
 }
 
 static void
@@ -120,6 +121,7 @@ static void
 sheet_row_size_changed (ItemBar *item_bar, int row, int height, Sheet *sheet)
 {
 	sheet_row_set_height (sheet, row, height);
+	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (sheet->sheet_view));
 }
 
 Sheet *
@@ -142,8 +144,11 @@ sheet_new (Workbook *wb, char *name)
 	
 	/* Dummy initialization */
 	sheet_init_dummy_stuff (sheet);
-	
+
+	/* Create the gnumeric sheet and set the initial selection */
 	sheet->sheet_view = gnumeric_sheet_new (sheet);
+	sheet_selection_append (sheet, 0, 0);
+	
 	gtk_widget_show (sheet->sheet_view);
 	gtk_widget_show (sheet->toplevel);
 	
@@ -414,6 +419,7 @@ sheet_col_get_distance (Sheet *sheet, int from_col, int to_col)
 	ColRowInfo *ci;
 	int pixels = 0, i;
 
+	g_assert (sheet);
 	g_assert (from_col <= to_col);
 
 	/* This can be optimized, yes, but the implementation
@@ -450,8 +456,12 @@ sheet_row_get_distance (Sheet *sheet, int from_row, int to_row)
 void
 sheet_get_cell_bounds (Sheet *sheet, ColType col, RowType row, int *x, int *y, int *w, int *h)
 {
-	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet->sheet_view);
+	GnumericSheet *gsheet;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (GNUMERIC_IS_SHEET (sheet->sheet_view));
 	
+	gsheet = GNUMERIC_SHEET (sheet->sheet_view);
 	*x = sheet_col_get_distance (sheet, gsheet->top_col, col);
 	*y = sheet_row_get_distance (sheet, gsheet->top_row, row);
 
@@ -459,11 +469,28 @@ sheet_get_cell_bounds (Sheet *sheet, ColType col, RowType row, int *x, int *y, i
 	*h = sheet_row_get_distance (sheet, row, row + 1);
 }
 
+int
+sheet_selection_equal (SheetSelection *a, SheetSelection *b)
+{
+	if (a->start_col != b->start_col)
+		return 0;
+	if (a->start_row != b->start_row)
+		return 0;
+	
+	if (a->end_col != b->end_col)
+		return 0;
+	if (a->end_row != b->end_row)
+		return 0;
+	return 1;
+}
+
 void
 sheet_selection_append (Sheet *sheet, int col, int row)
 {
 	SheetSelection *ss;
 
+	g_return_if_fail (sheet != NULL);
+	
 	ss = g_new0 (SheetSelection, 1);
 
 	ss->base_col  = col;
@@ -479,19 +506,30 @@ sheet_selection_append (Sheet *sheet, int col, int row)
 	gnumeric_sheet_accept_pending_output (GNUMERIC_SHEET (sheet->sheet_view));
 	gnumeric_sheet_load_cell_val (GNUMERIC_SHEET (sheet->sheet_view));
 	
-	gnumeric_sheet_set_selection (GNUMERIC_SHEET (sheet->sheet_view),
-				      col, row, col, row);
-	sheet_redraw_all (sheet);
+	gnumeric_sheet_set_selection (GNUMERIC_SHEET (sheet->sheet_view), ss);
+	sheet_redraw_selection (sheet, ss);
 }
 
+/*
+ * sheet_selection_extend_to
+ * @sheet: the sheet
+ * @col:   column that gets covered
+ * @row:   row that gets covered
+ *
+ * This extends the selection to cover col, row
+ */
 void
 sheet_selection_extend_to (Sheet *sheet, int col, int row)
 {
-	SheetSelection *ss;
-	
+	SheetSelection *ss, old_selection;
+
+	g_return_if_fail (sheet != NULL);
 	g_assert (sheet->selections);
+
 	ss = (SheetSelection *) sheet->selections->data;
 
+	old_selection = *ss;
+	
 	if (col < ss->base_col){
 		ss->start_col = col;
 		ss->end_col   = ss->base_col;
@@ -508,26 +546,179 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 		ss->start_row = ss->base_row;
 	}
 
-	gnumeric_sheet_set_selection (GNUMERIC_SHEET (sheet->sheet_view),
-				      ss->start_col, ss->start_row,
-				      ss->end_col, ss->end_row);
-				      
-	sheet_redraw_all (sheet);
+	gnumeric_sheet_set_selection (GNUMERIC_SHEET (sheet->sheet_view), ss);
+
+	sheet_redraw_selection (sheet, &old_selection);
+	sheet_redraw_selection (sheet, ss);
 }
 
 void
+sheet_redraw_cell_region (Sheet *sheet, int start_col, int start_row,
+			  int end_col, int end_row)
+{
+	GnumericSheet *gsheet;
+	int x, y, w, h;
+	
+	g_return_if_fail (sheet != NULL);
+
+	gsheet = GNUMERIC_SHEET (sheet->sheet_view);
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
+	
+	x = sheet_col_get_distance (sheet, gsheet->top_col, start_col);
+	y = sheet_row_get_distance (sheet, gsheet->top_row, start_row);
+	w = sheet_col_get_distance (sheet, start_col, end_col+1);
+	h = sheet_col_get_distance (sheet, start_col, end_col+1);
+
+	gnome_canvas_request_redraw (GNOME_CANVAS (gsheet), x, y, x+w, y+h);
+}
+
+void
+sheet_redraw_selection (Sheet *sheet, SheetSelection *ss)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (ss != NULL);
+	
+	sheet_redraw_cell_region (sheet,
+				  ss->start_col, ss->start_row,
+				  ss->end_col, ss->end_row);
+}
+
+int
+sheet_row_check_bound (int row, int diff)
+{
+	int new_val = row + diff;
+
+	if (new_val < 0)
+		return 0;
+	if (new_val >= SHEET_MAX_ROWS)
+		return SHEET_MAX_ROWS - 1;
+
+	return new_val;
+}
+
+int
+sheet_col_check_bound (int col, int diff)
+{
+	int new_val = col + diff;
+
+	if (new_val < 0)
+		return 0;
+	if (new_val >= SHEET_MAX_COLS)
+		return SHEET_MAX_COLS - 1;
+
+	return new_val;
+}
+
+static void
+sheet_selection_change (Sheet *sheet, SheetSelection *old, SheetSelection *new)
+{
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet->sheet_view);
+	
+	if (sheet_selection_equal (old, new))
+		return;
+	
+		
+	gnumeric_sheet_accept_pending_output (gsheet);
+	sheet_redraw_selection (sheet, old);
+	sheet_redraw_selection (sheet, new);
+	
+	gnumeric_sheet_set_selection (gsheet, new);
+}
+
+/*
+ * sheet_selection_extend_horizontal
+ * @sheet:  The Sheet *
+ * @count:  units to extend the selection horizontally
+ */
+void
+sheet_selection_extend_horizontal (Sheet *sheet, int n)
+{
+	SheetSelection *ss;
+	SheetSelection old_selection;
+
+	/* FIXME: right now we only support units (1 or -1)
+	 * to fix this we need to account for the fact that
+	 * the selection boundary might change and adjust
+	 * appropiately
+	 */
+	 
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail ((n == 1 || n == -1));
+	
+	ss = (SheetSelection *)sheet->selections->data;
+	old_selection = *ss;
+	
+	if (ss->base_col < ss->end_col)
+		ss->end_col = sheet_col_check_bound (ss->end_col, n);
+	else if (ss->base_col > ss->start_col)
+		ss->start_col = sheet_col_check_bound (ss->start_col, n);
+	else {
+		if (n > 0)
+			ss->end_col = sheet_col_check_bound (ss->end_col, 1);
+		else
+			ss->start_col = sheet_col_check_bound (ss->start_col, -1);
+	}
+
+	sheet_selection_change (sheet, &old_selection, ss);
+}
+
+/*
+ * sheet_selection_extend_vertical
+ * @sheet:  The Sheet *
+ * @n:      units to extend the selection vertically
+ */
+void
+sheet_selection_extend_vertical (Sheet *sheet, int n)
+{
+	SheetSelection *ss;
+	SheetSelection old_selection;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail ((n == 1 || n == -1));
+	
+	ss = (SheetSelection *)sheet->selections->data;
+	old_selection = *ss;
+	
+	if (ss->base_row < ss->end_row)
+		ss->end_row = sheet_row_check_bound (ss->end_row, n);
+	else if (ss->base_row > ss->start_row)
+		ss->start_row = sheet_row_check_bound (ss->start_row, n);
+	else {
+		if (n > 0)
+			ss->end_row = sheet_row_check_bound (ss->end_row, 1);
+		else
+			ss->start_row = sheet_row_check_bound (ss->start_row, -1);
+	}
+
+	sheet_selection_change (sheet, &old_selection, ss);
+}
+
+/*
+ * sheet_selection_clear
+ * sheet:  The sheet
+ *
+ * Clears all of the selection ranges and resets it to a
+ * selection that only covers the cursor
+ */
+void
 sheet_selection_clear (Sheet *sheet)
 {
+	GnumericSheet *gsheet;
 	GList *list = sheet->selections;
 
+	g_return_if_fail (sheet != NULL);
+
+	gsheet = GNUMERIC_SHEET (sheet->sheet_view);
+	
 	for (list = sheet->selections; list; list = list->next){
 		SheetSelection *ss = list->data;
 
+		sheet_redraw_selection (sheet, ss);
 		g_free (ss);
 	}
 	g_list_free (sheet->selections);
 	sheet->selections = NULL;
-	sheet_redraw_all (sheet);
+	sheet_selection_append (sheet, gsheet->cursor_col, gsheet->cursor_row);
 }
 
 int
@@ -551,10 +742,12 @@ sheet_selection_is_cell_selected (Sheet *sheet, int col, int row)
 ColRowInfo *
 sheet_col_get (Sheet *sheet, int pos)
 {
-	GList *clist = sheet->cols_info;
+	GList *clist;
 	ColRowInfo *col;
+
+	g_return_if_fail (sheet != NULL);
 	
-	for (; clist; clist = clist->next){
+	for (clist = sheet->cols_info; clist; clist = clist->next){
 		col = (ColRowInfo *) clist->data;
 
 		if (col->pos == pos)
@@ -572,10 +765,12 @@ sheet_col_get (Sheet *sheet, int pos)
 ColRowInfo *
 sheet_row_get (Sheet *sheet, int pos)
 {
-	GList *rlist = sheet->rows_info;
+	GList *rlist;
 	ColRowInfo *row;
+
+	g_return_if_fail (sheet != NULL);
 	
-	for (; rlist; rlist = rlist->next){
+	for (rlist = sheet->rows_info; rlist; rlist = rlist->next){
 		row = (ColRowInfo *) rlist->data;
 
 		if (row->pos == pos)
@@ -587,20 +782,72 @@ sheet_row_get (Sheet *sheet, int pos)
 	return row;
 }
 
+static void
+gen_row_blanks (Sheet *sheet, int col, int start_row, int end_row,
+		sheet_cell_foreach_callback callback, void *closure)
+{
+	int row;
+
+	for (row = 0; row < end_row; row++)
+		(*callback)(sheet, col, row, NULL, closure);
+}
+
+static void
+gen_col_blanks (Sheet *sheet, int start_col, int end_col,
+		int start_row, int end_row,
+		sheet_cell_foreach_callback callback, void *closure)
+{
+	int col;
+       
+	for (col = 0; col < end_col; col++)
+		gen_row_blanks (sheet, col, start_row, end_row, callback, closure);
+}
+
+Cell *
+sheet_cell_get (Sheet *sheet, int col, int row)
+{
+	GList *cols;
+	GList *rows;
+
+	g_return_if_fail (sheet != NULL);
+
+	for (cols = sheet->cols_info; cols; cols = cols->next){
+		ColRowInfo *ci = cols->data;
+
+		if (ci->pos == cols){
+			row = (GList *) ci->data;
+			
+			for (; rows; rows = rows->next){
+				ColRowInfo *ri = (ColRowInfo *) rows->data;
+				
+				if (ri->pos == row)
+					return (Cell *) ri->data;
+			}
+		}
+	}
+	return NULL;
+}
+
 /*
  * For each existing cell in the range specified, invoke the
- * callback routine
+ * callback routine.  If the only_existing flag is passed, then
+ * callbacks are only invoked for existing cells.
  */
 void
-sheet_cell_foreach_range (Sheet *sheet,
+sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 			  int start_col, int start_row,
 			  int end_col, int end_row,
 			  sheet_cell_foreach_callback callback,
 			  void *closure)
 {
-	GList *col = sheet->cols_info;
+	GList *col;
 	GList *row;
+	int   last_col_gen = -1, last_row_gen = -1;
 
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (callback != NULL);
+	
+	col = sheet->cols_info;
 	for (; col; col = col->next){
 		ColRowInfo *ci = col->data;
 
@@ -609,6 +856,20 @@ sheet_cell_foreach_range (Sheet *sheet,
 		if (ci->pos > end_col)
 			break;
 
+		if (!only_existing){
+			if ((last_col_gen > 0) && (ci->pos != last_col_gen+1))
+				gen_col_blanks (sheet, last_col_gen, ci->pos,
+						start_row, end_row, callback,
+						closure);
+					
+			if (ci->pos > start_col)
+				gen_col_blanks (sheet, start_col, ci->pos,
+						start_row, end_row, callback,
+						closure);
+		}
+		last_col_gen = ci->pos;
+
+		last_row_gen = -1;
 		for (row = (GList *) ci->data; row; row = row->data){
 			ColRowInfo *ri = row->data;
 
@@ -618,7 +879,21 @@ sheet_cell_foreach_range (Sheet *sheet,
 			if (ri->pos > end_row)
 				break;
 
-			(*callback)(sheet, (Cell *) ri->data);
+			if (!only_existing){
+				if (last_row_gen > 0){
+					if (ri->pos != last_row_gen+1)
+						gen_row_blanks (sheet, ci->pos,
+								last_row_gen,
+								ri->pos,
+								callback,
+								closure);
+				}
+				if (ri->pos > start_row)
+					gen_row_blanks (sheet, ci->pos,
+							ri->pos, start_row,
+							callback, closure);
+			}
+			(*callback)(sheet, ci->pos, ri->pos, (Cell *) ri->data, closure);
 		}
 	}
 }
@@ -626,6 +901,8 @@ sheet_cell_foreach_range (Sheet *sheet,
 Style *
 sheet_style_compute (Sheet *sheet, int col, int row)
 {
+	g_return_if_fail (sheet != NULL);
+	
 	/* FIXME: This should compute the style based on the
 	 * story of the styles applied to the worksheet, the
 	 * sheet, the column and the row and return that.
@@ -652,6 +929,9 @@ sheet_cell_new_with_text (Sheet *sheet, int col, int row, char *text)
 {
 	Cell *cell;
 	GdkFont *font;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (text != NULL);
 	
 	cell = sheet_cell_new (sheet, col, row);
 	cell->text = g_strdup (text);
@@ -660,4 +940,11 @@ sheet_cell_new_with_text (Sheet *sheet, int col, int row, char *text)
 	cell->height = font->ascent + font->descent;
 	
 	return cell;
+}
+
+void
+sheet_cell_add (Sheet *sheet, Cell *cell)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (cell != NULL);
 }

@@ -1,6 +1,9 @@
 #ifndef SHEET_H
 #define SHEET_H
 
+#define SHEET_MAX_ROWS (16 * 1024)
+#define SHEET_MAX_COLS 256
+
 typedef GList ColStyleList;
 
 struct Workbook;
@@ -55,7 +58,7 @@ typedef struct {
 } Sheet;
 
 typedef  void (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *ci, void *user_data);
-typedef  void (*sheet_cell_foreach_callback)(Sheet *sheet, Cell *cell);
+typedef  void (*sheet_cell_foreach_callback)(Sheet *sheet, int col, int row, Cell *cell, void *user_data);
 
 Sheet      *sheet_new                 (Workbook *wb, char *name);
 void        sheet_destroy             (Sheet *sheet);
@@ -68,12 +71,17 @@ void        sheet_get_cell_bounds     (Sheet *sheet, ColType col, RowType row, i
 void        sheet_selection_append    (Sheet *sheet, int col, int row);
 void        sheet_selection_extend_to (Sheet *sheet, int col, int row);
 void        sheet_selection_clear     (Sheet *sheet);
+int         sheet_selection_equal     (SheetSelection *a, SheetSelection *b);
 
-int         sheet_selection_is_cell_selected (Sheet *sheet, int col, int row);
+void        sheet_selection_extend_horizontal (Sheet *sheet, int count);
+void        sheet_selection_extend_vertical   (Sheet *sheet, int count);
+int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
 					 
 /* Create new ColRowInfos from the default sheet style */
 ColRowInfo *sheet_col_new             (Sheet *sheet);
 ColRowInfo *sheet_row_new             (Sheet *sheet);
+int         sheet_row_check_bound     (int row, int diff);
+int         sheet_col_check_bound     (int col, int diff);
 
 /* Duplicates the information of a col/row */
 ColRowInfo *sheet_duplicate_colrow    (ColRowInfo *original);
@@ -100,14 +108,20 @@ void        sheet_row_set_height      (Sheet *sheet, int row, int width);
 
 Style      *sheet_style_compute       (Sheet *sheet, int col, int row);
 
+/* Redraw */
+void        sheet_redraw_cell_region  (Sheet *sheet, int start_col, int start_row,
+				       int end_col, int end_row);
+void        sheet_redraw_selection    (Sheet *sheet, SheetSelection *ss);
+
 /* Cell management */
 Cell       *sheet_cell_new            (Sheet *sheet, int col, int row);
 Cell       *sheet_cell_new_with_text  (Sheet *sheet, int col, int row, char *text);
-void        sheet_cell_foreach_range  (Sheet *sheet,
+void        sheet_cell_foreach_range  (Sheet *sheet, int only_existing,
 				       int start_col, int start_row,
 				       int end_col, int end_row,
 				       sheet_cell_foreach_callback callback,
 				       void *closure);
+Cell       *sheet_cell_get            (Sheet *sheet, int col, int row);
 
 Workbook   *workbook_new              (void);
 Workbook   *workbook_new_with_sheets  (int sheet_count);

@@ -14,13 +14,6 @@
 #include "item-cursor.h"
 #include "item-debug.h"
 
-/* The signals we emit */
-enum {
-	ITEM_CURSOR_LAST_SIGNAL
-};
-
-static guint item_cursor_signals [ITEM_CURSOR_LAST_SIGNAL] = { 0 };
-
 static GnomeCanvasItem *item_cursor_parent_class;
 
 /* The argument we take */

@@ -11,7 +11,7 @@
 
 #include <gnome.h>
 #include "gnumeric.h"
-#include "item-grid.h"
+#include "gnumeric-sheet.h"
 #include "item-debug.h"
 
 /* The signals we emit */
@@ -99,25 +99,6 @@ item_grid_reconfigure (GnomeCanvasItem *item)
 }
 
 /*
- * Draw a cell.  It gets pixel level coordinates
- */
-static void
-item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
-		     int x1, int y1, int width, int height, int col, int row)
-{
-	GdkGC *grid_gc = item_grid->grid_gc;
-	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_grid)->canvas;
-	GdkGC *black_gc = GTK_WIDGET (canvas)->style->black_gc;
-	Cell *cell;
-
-	if (sheet_selection_is_cell_selected (item_grid->sheet, col, row)){
-		gdk_draw_rectangle (drawable, black_gc,
-				    TRUE,
-				    x1+1, y1+1, width - 2, height - 2);
-	}
-}
-
-/*
  * find_col: return the column where x belongs to
  */
 static int
@@ -161,17 +142,51 @@ find_row (ItemGrid *item_grid, int y, int *row_origin)
 	} while (1);
 }
 
+typedef struct {
+	ItemGrid      *item_grid;
+	GdkDrawable   *drawable;
+	GnumericSheet *gsheet;
+	int   	      x_paint;		/* the offsets */
+	int   	      y_paint;
+} paint_data;
+
+/*
+ * Draw a cell.  It gets pixel level coordinates
+ */
+static void
+item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
+		     int x1, int y1, int width, int height, int col, int row)
+{
+	GnumericSheet *gsheet = GNUMERIC_SHEET (item_grid->sheet->sheet_view);
+	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_grid)->canvas;
+	GdkGC *black_gc = GTK_WIDGET (canvas)->style->black_gc;
+	GdkGC *grid_gc = item_grid->grid_gc;
+	Cell  *cell;
+	
+	if (sheet_selection_is_cell_selected (item_grid->sheet, col, row)){
+		if (!(gsheet->cursor_col == col && gsheet->cursor_row == row))
+			gdk_draw_rectangle (drawable, black_gc,
+					    TRUE,
+					    x1+1, y1+1, width - 2, height - 2);
+	}
+
+	cell = sheet_cell_get (item_grid->sheet, col, row);
+	printf ("%s\n", cell);
+}
+
 static void
 item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
 	ItemGrid *item_grid = ITEM_GRID (item);
 	Sheet *sheet = item_grid->sheet;
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet->sheet_view);
 	GdkGC *grid_gc = item_grid->grid_gc;
 	int end_x, end_y;
-	int paint_col, paint_row;
+	int paint_col, paint_row, max_paint_col, max_paint_row;
 	int col, row;
 	int x_paint, y_paint;
 	int diff_x, diff_y;
+	paint_data pd;
 
 	if (x < 0){
 		g_warning ("x < 0\n");
@@ -185,10 +200,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	
 	paint_col = find_col (item_grid, x, &x_paint);
 	paint_row = find_row (item_grid, y, &y_paint);
-#ifdef DEBUG_EXPOSES
-	printf ("Expose at (%d,%d) for (%d,%d) -> [%d,%d] column origin at [%d,%d]\n",
-		x, y, width, height, paint_col, paint_row, x_paint, y_paint);
-#endif
+
 	col = paint_col;
 
 	diff_x = x - x_paint;
@@ -210,6 +222,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 		gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
 		
 		x_paint += ci->pixels;
+		max_paint_col = col;
 	}
 
 	row = paint_row;
@@ -219,8 +232,19 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 		ri = sheet_row_get_info (sheet, row);
 		gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
 		y_paint += ri->pixels;
+		max_paint_row = row;
 	}
 
+	/* The cells */
+	pd.x_paint   = -diff_x;
+	pd.y_paint   = -diff_y;
+	pd.drawable  = drawable;
+	pd.item_grid = item_grid;
+	pd.gsheet    = GNUMERIC_SHEET (item_grid->sheet->sheet_view);
+
+	printf ("Painting the (%d,%d)-(%d,%d) region\n",
+		paint_col, paint_row, max_paint_col, max_paint_row);
+	
 	col = paint_col;
 	for (x_paint = -diff_x; x_paint < end_x; col++){
 		ColRowInfo *ci;
@@ -274,6 +298,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	GnomeCanvas *canvas = item->canvas;
 	ItemGrid *item_grid = ITEM_GRID (item);
 	Sheet *sheet = item_grid->sheet;
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet->sheet_view);
 	int col, row, x, y;
 	int scroll_x, scroll_y;
 
@@ -305,6 +330,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		convert (canvas, event->button.x, event->button.y, &x, &y);
 		col = find_col (item_grid, event->button.x, NULL);
 		row = find_row (item_grid, event->button.y, NULL);
+
+		gnumeric_sheet_cursor_set (gsheet, col, row);
 		if (!(event->button.state & GDK_SHIFT_MASK))
 			sheet_selection_clear (sheet);
 

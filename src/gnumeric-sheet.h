@@ -29,14 +29,13 @@ typedef struct {
 
 GtkType gnumeric_sheet_get_type (void);
 
-GtkWidget *gnumeric_sheet_new            	(Sheet *sheet);
-void       gnumeric_sheet_set_selection  	(GnumericSheet *sheet,
-					 	 int start_col, int start_row,
-					 	 int end_col, int end_row);
-void       gnumeric_sheet_cursor_set     	(GnumericSheet *sheet,
-					 	 int col, int row);
-void       gnumeric_sheet_load_cell_val         (GnumericSheet *gsheet);
-void       gnumeric_sheet_accept_pending_output (GnumericSheet *sheet);
+GtkWidget *gnumeric_sheet_new            	 (Sheet *sheet);
+void       gnumeric_sheet_set_selection  	 (GnumericSheet *sheet, SheetSelection *ss);
+void       gnumeric_sheet_cursor_set     	 (GnumericSheet *sheet,
+					 	  int col, int row);
+void       gnumeric_sheet_load_cell_val          (GnumericSheet *gsheet);
+void       gnumeric_sheet_accept_pending_output  (GnumericSheet *sheet);
+void       gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet);
 
 typedef struct {
 	GnomeCanvasClass parent_class;

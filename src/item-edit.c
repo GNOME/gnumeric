@@ -157,6 +157,11 @@ static void
 item_edit_destroy (GtkObject *o)
 {
 	ItemEdit *item_edit = ITEM_EDIT (o);
+	int x, y, w, h;
+
+	/* Repaint the area where we had edited */
+	item_edit_get_pixel_coords (item_edit, &x, &y, &w, &h);
+	gnome_canvas_request_redraw (GNOME_CANVAS_ITEM (item_edit)->canvas, x, y, x+w, y+h);
 	
 	gtk_signal_disconnect (GTK_OBJECT (item_edit->editor), item_edit->signal);
 	
