@@ -355,19 +355,20 @@ filter_images (const GtkFileFilterInfo *filter_info, gpointer data)
 }
 
 char *
-gui_image_file_select (WorkbookControlGUI *wbcg, const char *initial)
+gui_image_file_select (WorkbookControlGUI *wbcg, const char *initial,
+		       gboolean is_save)
 {
 	GtkFileChooser *fsel;
 	char *result = NULL;
 
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
-			       "action", GTK_FILE_CHOOSER_ACTION_OPEN,
+			       "action", is_save ? GTK_FILE_CHOOSER_ACTION_SAVE : GTK_FILE_CHOOSER_ACTION_OPEN,
 			       "title", _("Select an Image"),
 			       NULL));
 	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+				is_save ? GTK_STOCK_SAVE : GTK_STOCK_OPEN, GTK_RESPONSE_OK,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
 

@@ -1,3 +1,11 @@
+2004-02-23  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-file.c (gui_image_file_select): New arg "is_save" for
+	button and dialog naming.  All callers changed.
+
+	* src/sheet-object-graph.c (cb_save_as): Use
+	gui_image_file_select.  Plug leak.
+
 2004-02-22  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=135044

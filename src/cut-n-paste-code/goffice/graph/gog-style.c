@@ -740,7 +740,8 @@ cb_image_file_select (GtkWidget *cc, StylePrefState *state)
 	g_return_if_fail (GOG_FILL_STYLE_IMAGE == style->fill.type);
 
 	filename = gui_image_file_select (NULL,
-					  style->fill.u.image.filename);
+					  style->fill.u.image.filename,
+					  FALSE);
 	if (filename == NULL)
 		return;
 

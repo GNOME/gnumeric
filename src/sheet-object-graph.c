@@ -29,6 +29,7 @@
 #include "gnumeric-pane.h"
 #include "str.h"
 #include "gui-util.h"
+#include "gui-file.h"
 #include "style-color.h"
 #include "sheet-object-impl.h"
 #include "workbook-edit.h"
@@ -151,7 +152,10 @@ cb_save_as (GtkWidget *widget, GObject *obj_view)
 	SheetObjectGraph *sog;
 	SheetControl *sc;
 	WorkbookControlGUI *wbcg;
-	GtkFileSelection *fsel;
+	char *fname;
+	const char *base, *extension;
+	GError *err = NULL;
+	gboolean ret;
 
 	sog = SHEET_OBJECT_GRAPH (sheet_object_view_obj (obj_view));
 
@@ -159,58 +163,59 @@ cb_save_as (GtkWidget *widget, GObject *obj_view)
 
 	sc  = sheet_object_view_control (obj_view);
 	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
-	fsel = GTK_FILE_SELECTION (gtk_file_selection_new 
-				   (_("Save graph as image")));
-	/* Show file selector */
-	if (gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel))) {
-		char const *fname = gtk_file_selection_get_filename (fsel);
-		char const *base = g_path_get_basename (fname);
-		char const *extension = gsf_extension_pointer (base);
-		GError *err = NULL;
-		gboolean ret;
 
-		if (extension == NULL)
-			fname = g_strdup_printf ("%s.%s", fname, "png");
+	fname = gui_image_file_select (wbcg, NULL, TRUE);
+	if (!fname)
+		return;
 
-		if (g_ascii_strcasecmp (extension, "png") == 0) {
-			GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (
-				GOG_RENDERER_PIXBUF (sog->renderer));
-			ret = gdk_pixbuf_save (pixbuf, fname, "png", &err, NULL);
-		} else if (g_ascii_strcasecmp (extension, "jpg") == 0 ||
-			   g_ascii_strcasecmp (extension, "jpeg") == 0) {
-			GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (
-				GOG_RENDERER_PIXBUF (sog->renderer));
-			ret = gdk_pixbuf_save (pixbuf, fname, "jpg", &err, NULL);
-		} else if (g_ascii_strcasecmp (extension, "svg") == 0) {
-			GsfOutputStdio *output = gsf_output_stdio_new (fname, &err);
+	base = g_path_get_basename (fname);
 
-			if (output != NULL) {
-				double coords [4];
-				sheet_object_position_pts_get (SHEET_OBJECT (sog), coords);
-				ret = gog_graph_export_to_svg (sog->graph, GSF_OUTPUT (output),
-					fabs (coords[2] - coords[0]),
-					fabs (coords[3] - coords[1]),
-					1. / gnm_app_dpi_to_pixels ());
-
-				gsf_output_close (GSF_OUTPUT (output));
-				g_object_unref (output);
-
-				if (!ret && err == NULL)
-					err = g_error_new (gsf_output_error_id (), 0,
-						_("Unknown failure generating SVG for Chart"));
-			} else
-				ret = FALSE;
-		} else {
-			gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				_("Sorry, gnumeric can only save graphs as png, jpg, or svg images"));
-			return;
-		}
-
-		if (!ret)
-			gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
-		if (extension == NULL)
-			g_free ((char *)fname);
+	extension = gsf_extension_pointer (base);
+	if (extension == NULL) {
+		char *new_filename = g_strdup_printf ("%s.%s", fname, "png");
+		g_free (fname);
+		fname = new_filename;
 	}
+
+	if (g_ascii_strcasecmp (extension, "png") == 0) {
+		GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (
+			GOG_RENDERER_PIXBUF (sog->renderer));
+		ret = gdk_pixbuf_save (pixbuf, fname, "png", &err, NULL);
+	} else if (g_ascii_strcasecmp (extension, "jpg") == 0 ||
+		   g_ascii_strcasecmp (extension, "jpeg") == 0) {
+		GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (
+			GOG_RENDERER_PIXBUF (sog->renderer));
+		ret = gdk_pixbuf_save (pixbuf, fname, "jpg", &err, NULL);
+	} else if (g_ascii_strcasecmp (extension, "svg") == 0) {
+		GsfOutputStdio *output = gsf_output_stdio_new (fname, &err);
+
+		if (output != NULL) {
+			double coords [4];
+			sheet_object_position_pts_get (SHEET_OBJECT (sog), coords);
+			ret = gog_graph_export_to_svg (sog->graph, GSF_OUTPUT (output),
+						       fabs (coords[2] - coords[0]),
+						       fabs (coords[3] - coords[1]),
+						       1. / gnm_app_dpi_to_pixels ());
+
+			gsf_output_close (GSF_OUTPUT (output));
+			g_object_unref (output);
+
+			if (!ret && err == NULL)
+				err = g_error_new (gsf_output_error_id (), 0,
+						   _("Unknown failure generating SVG for Chart"));
+		} else
+			ret = FALSE;
+	} else {
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
+				 _("Sorry, gnumeric can only save graphs as png, jpg, or svg images"));
+		/* Use TRUE since we displayed the error already.  */
+		ret = TRUE;
+	}
+
+	if (!ret)
+		gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
+
+	g_free (fname);
 }
 
 static void
