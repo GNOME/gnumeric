@@ -22,23 +22,23 @@ dialog_about (Workbook *wb)
 	
         const gchar *authors[] = {
 		N_("Miguel de Icaza, main programmer."),
-		N_("Adrian Likins, Documentation, debugging."),
-		N_("Bruno Unna, Excel bits."),
-		N_("Chris Lahey, Number format engine."),
-		N_("Daniel Veillard, XML support."),
-		N_("Federico Mena, Canvas support."),
+		N_("Sean Atkinson, Functions and X-Base importing."),
+		N_("Tom Dyas, Plugin support."),
 		N_("Jody Goldberg, Excel hacker."),
 		N_("Jukka-Pekka Iivonen, numerous functions and tools."),
-		N_("Mark Probst, Guile support."),
-		N_("Michael Meeks, Excel and OLE2 importing."),
-		N_("Morten Welinder, Gnumeric hacker."),
 		N_("Jakub Jelinek, Gnumeric hacker."),
-		N_("Rasca, HTML, troff, LaTeX exporters."),
-		N_("Sean Atkinson, Functions and X-Base importing."),
+		N_("Chris Lahey, Number format engine."),
+		N_("Adrian Likins, Documentation, debugging."),
 		N_("Takashi Matsuda, simple text plugin."),
-		N_("Tom Dyas, Plugin support."),
+		N_("Federico Mena, Canvas support."),
+		N_("Michael Meeks, Excel and OLE2 importing."),
+		N_("Mark Probst, Guile support."),
+		N_("Rasca, HTML, troff, LaTeX exporters."),
+		N_("Vincent Renardias, CSV support, French localisation."),
+		N_("Bruno Unna, Excel bits."),
+		N_("Daniel Veillard, XML support."),
 		N_("Vladimir Vuksan, financial functions."),
-		N_("Vincent Renardias, CSV support."),
+		N_("Morten Welinder, Gnumeric hacker."),
 		NULL
 	};
 
@@ -53,7 +53,7 @@ dialog_about (Workbook *wb)
 #endif
 
         about = gnome_about_new (_("Gnumeric"), VERSION,
-				 "(C) 1998-1999 Miguel de Icaza",
+				 _("(C) 1998-1999 Miguel de Icaza"),
 				 authors,
 				 NULL,
 				 NULL);
