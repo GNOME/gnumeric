@@ -5153,13 +5153,16 @@ gnumeric_laplace (FunctionEvalInfo *ei, Value **argv)
 const GnmFuncDescriptor stat_functions[] = {
         { "avedev",       0,      N_("number,number,"),
 	  &help_avedev, NULL, gnumeric_avedev, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "average",      0,      N_("number,number,"),
 	  &help_average, NULL, gnumeric_average, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "averagea",     0,      N_("number,number,"),
 	  &help_averagea, NULL, gnumeric_averagea, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
         { "bernoulli", "ff", N_("k,p"),   &help_bernoulli,
 	  gnumeric_bernoulli, NULL, NULL, NULL, NULL,
@@ -5244,13 +5247,15 @@ const GnmFuncDescriptor stat_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "geomean",      0,      N_("number,number,"),
 	  &help_geomean, NULL, gnumeric_geomean, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "growth",       "A|AAb", N_("known_y's,known_x's,new_x's,const"),
 	  &help_growth, gnumeric_growth, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "harmean",      0,      "",
 	  &help_harmean, NULL, gnumeric_harmean, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "hypgeomdist",  "ffff", N_("x,n,M,N"),
 	  &help_hypgeomdist, gnumeric_hypgeomdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -5262,7 +5267,8 @@ const GnmFuncDescriptor stat_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "large",        0,      N_("number,number,"),
 	  &help_large, NULL, gnumeric_large, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "linest",       "A|Abb",  N_("known_y's,known_x's,const,stat"),
 	  &help_linest, gnumeric_linest, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -5277,22 +5283,28 @@ const GnmFuncDescriptor stat_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "max",          0,      N_("number,number,"),
 	  &help_max, NULL, gnumeric_max, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "maxa",         0,      N_("number,number,"),
 	  &help_maxa, NULL, gnumeric_maxa, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "median",       0,      N_("number,number,"),
 	  &help_median, NULL, gnumeric_median, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "min",          0,      N_("number,number,"),
 	  &help_min, NULL, gnumeric_min, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "mina",         0,      N_("number,number,"),
 	  &help_mina, NULL, gnumeric_mina, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "mode",         0,      N_("number,number,"),
 	  &help_mode, NULL, gnumeric_mode, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "negbinomdist", "fff", N_("f,t,p"),
 	  &help_negbinomdist, gnumeric_negbinomdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -5337,22 +5349,27 @@ const GnmFuncDescriptor stat_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "small",        0,      N_("number,number,"),
 	  &help_small, NULL, gnumeric_small, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "standardize",  "fff",  N_("x,mean,stddev"),
 	  &help_standardize, gnumeric_standardize, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "stdev",        0,      N_("number,number,"),
 	  &help_stdev, NULL, gnumeric_stdev, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "stdeva",       0,      N_("number,number,"),
 	  &help_stdeva, NULL, gnumeric_stdeva, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "stdevp",       0,      N_("number,number,"),
 	  &help_stdevp, NULL, gnumeric_stdevp, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "stdevpa",      0,      N_("number,number,"),
 	  &help_stdevpa, NULL, gnumeric_stdevpa, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "steyx",        "AA", N_("known_y's,known_x's"),
 	  &help_steyx, gnumeric_steyx, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -5373,7 +5390,8 @@ const GnmFuncDescriptor stat_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "trimmean",     0,      N_("ref,fraction"),
 	  &help_trimmean, NULL, gnumeric_trimmean, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "ttest",        "rrff",   N_("array1,array2,tails,type"),
 	  &help_ttest, gnumeric_ttest, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -5435,45 +5453,3 @@ const GnmFuncDescriptor stat_functions[] = {
 
         {NULL}
 };
-
-/* FIXME: Should be merged into the above.  */
-static const struct {
-	const char *func;
-	AutoFormatTypes typ;
-} af_info[] = {
-	{ "avedev", AF_FIRST_ARG_FORMAT },
-	{ "average", AF_FIRST_ARG_FORMAT },
-	{ "averagea", AF_FIRST_ARG_FORMAT },
-	{ "geomean", AF_FIRST_ARG_FORMAT },
-	{ "harmean", AF_FIRST_ARG_FORMAT },
-	{ "large", AF_FIRST_ARG_FORMAT },
-	{ "max", AF_FIRST_ARG_FORMAT },
-	{ "maxa", AF_FIRST_ARG_FORMAT },
-	{ "min", AF_FIRST_ARG_FORMAT },
-	{ "mina", AF_FIRST_ARG_FORMAT },
-	{ "median", AF_FIRST_ARG_FORMAT },
-	{ "mode", AF_FIRST_ARG_FORMAT },
-	{ "small", AF_FIRST_ARG_FORMAT },
-	{ "stdev", AF_FIRST_ARG_FORMAT },
-	{ "stdeva", AF_FIRST_ARG_FORMAT },
-	{ "stdevp", AF_FIRST_ARG_FORMAT },
-	{ "stdevpa", AF_FIRST_ARG_FORMAT },
-	{ "trimmean", AF_FIRST_ARG_FORMAT },
-	{ NULL, AF_UNKNOWN }
-};
-
-void
-plugin_init (void)
-{
-	int i;
-	for (i = 0; af_info[i].func; i++)
-		auto_format_function_result_by_name (af_info[i].func, af_info[i].typ);
-}
-
-void
-plugin_cleanup (void)
-{
-	int i;
-	for (i = 0; af_info[i].func; i++)
-		auto_format_function_result_remove (af_info[i].func);
-}
