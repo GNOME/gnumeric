@@ -884,7 +884,7 @@ scg_set_panes (SheetControl *sc)
 {
 	SheetControlGUI *scg = (SheetControlGUI *) sc;
 	gboolean const being_frozen = sheet_is_frozen (sc->sheet);
-	gboolean const was_frozen =  scg->pane[2].gsheet != NULL;
+	gboolean const was_frozen = scg->pane[2].gsheet != NULL;
 	int col = 0, row = 0;
 
 	if (!being_frozen && !was_frozen)

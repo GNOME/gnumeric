@@ -4470,7 +4470,6 @@ sheet_freeze_panes (Sheet *sheet,
 	}
 
 	SHEET_FOREACH_CONTROL (sheet, control,
-			       sc_set_panes (control);
 			       sheet_init_sc (sheet, control););
 	WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
 		if (sheet == wb_view_cur_sheet (view)) {

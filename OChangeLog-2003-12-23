@@ -1,5 +1,9 @@
 2001-07-15  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet.c (sheet_freeze_panes) : Avoid double calling set_panes.
+
+2001-07-15  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-control-gui.c (scg_resize) : Adust to change in semantics
 	  and name from sheet::frozen::bottom_right ->
 	                sheet::unfrozen_top_left.
