@@ -208,13 +208,15 @@ wbcg_rangesel_possible (WorkbookControlGUI const *wbcg)
 {
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
 
-	if (wbcg_edit_entry_redirect_p (wbcg) || NULL != wbcg->rangesel)
+	/* Already range selecting */
+	if (wbcg->rangesel != NULL)
 		return TRUE;
 
-	if (!wbcg->editing)
+	/* Rangesel requires that we be editing somthing */
+	if (!wbcg->editing && !wbcg_edit_entry_redirect_p (wbcg))
 		return FALSE;
 
-	return wbcg_editing_expr (wbcg);
+	return gnumeric_expr_entry_rangesel_meaningful (wbcg_get_entry (wbcg));
 }
 
 gboolean
@@ -385,6 +387,7 @@ sheet_action_add_sheet (GtkWidget *widget, SheetControlGUI *scg)
 	SheetControl *sc = (SheetControl *) scg;
 
 	workbook_sheet_add (wb_control_workbook (sc->wbc), sc->sheet, TRUE);
+	wb_control_gui_focus_cur_sheet (scg->wbcg);
 }
 
 static void
@@ -446,6 +449,7 @@ sheet_action_clone_sheet (GtkWidget *widget, SheetControlGUI *scg)
 
 	workbook_sheet_attach (sc->sheet->workbook, new_sheet, sc->sheet);
 	sheet_set_dirty (new_sheet, TRUE);
+	wb_control_gui_focus_cur_sheet (scg->wbcg);
 }
 
 static void
@@ -2702,12 +2706,12 @@ static GnomeUIInfo workbook_menu_insert [] = {
 
 /* Format menu */
 static GnomeUIInfo workbook_menu_format_column [] = {
-	GNOMEUIINFO_ITEM_NONE (N_("_Auto fit selection"),
-		N_("Ensure columns are just wide enough to display content"),
-		workbook_cmd_format_column_auto_fit),
 	GNOMEUIINFO_ITEM_STOCK (N_("_Width..."),
 		N_("Change width of the selected columns"),
 		sheet_dialog_set_column_width, "Menu_Gnumeric_ColumnSize"),
+	GNOMEUIINFO_ITEM_NONE (N_("_Auto fit selection"),
+		N_("Ensure columns are just wide enough to display content"),
+		workbook_cmd_format_column_auto_fit),
 	GNOMEUIINFO_ITEM_STOCK (N_("_Hide"),
 		N_("Hide the selected columns"),
 		workbook_cmd_format_column_hide, "Menu_Gnumeric_ColumnHide"),

@@ -151,12 +151,29 @@ update_rangesel_text (GnumericExprEntry *expr_entry)
 	g_free (text);
 }
 
+static gboolean
+split_char_p (unsigned char c)
+{
+	switch (c) {
+	case ',': case '=':
+	case '(': case '<': case '>':
+	case '+': case '-': case '*': case '/':
+	case '^': case '&': case '%': case '!':
+		return TRUE;
+	default :
+		return FALSE;
+	}
+}
+
 /**
  * gnumeric_expr_entry_rangesel_start
  * @expr_entry:   a #GnumericExprEntry
  * 
  * Look at the current selection to see how much of it needs to be changed when
  * selecting a range.
+ *
+ * NOTE : This routine is damn ugly.  I do not like it one bit.
+ * There must be a cleaner way to do this.
  **/
 void
 gnumeric_expr_entry_rangesel_start (GnumericExprEntry *ee)
@@ -182,6 +199,13 @@ gnumeric_expr_entry_rangesel_start (GnumericExprEntry *ee)
 	/* This makes addresses use same coord system as absolute */
 	pos.col = pos.row = 0;
 
+	/* is the cursor in a sheet name ? Do a quick ugly search */
+	end = text + start;
+	while (end[0] != '\0' && !split_char_p (end[0]))
+		end++;
+	if (end[0] == '!')
+		start = end - text + 1;
+
 	loop :
 		end = cellref_get (&ref1, text+start, &pos);
 		if (end == NULL && start > 0 &&
@@ -192,6 +216,16 @@ gnumeric_expr_entry_rangesel_start (GnumericExprEntry *ee)
 		}
 	if (end == NULL)
 		return;
+
+	/* search the start of the reference, match $AA$1 rather than A$1 */
+	for (; start > 0 ; start--) {
+		CellRef tmp;
+		char const *tmp_end = cellref_get (&tmp, text+start-1, &pos);
+		if (tmp_end == NULL)
+			break;
+		end = tmp_end;
+		ref1 = tmp;
+	}
 
 	/* This is the first cell */
 	if (*end == ':') {
@@ -231,11 +265,13 @@ gnumeric_expr_entry_rangesel_start (GnumericExprEntry *ee)
 				start -= 2;
 				goto loop2;
 			}
+		/* TODO build up the unquoted name */
 		} else {
 			while (start > 0 &&
 			       isalnum (*((unsigned char *)(text + start -1))))
 				start--;
 		}
+		/* TODO lookup the sheet */
 		rs->text_start = start;
 	}
 }
@@ -645,7 +681,6 @@ gnumeric_expr_entry_set_absolute (GnumericExprEntry *expr_entry)
 	gnumeric_expr_entry_set_flags (expr_entry, flags, flags);
 }
 
-
 /**
  * gnumeric_expr_entry_rangesel_meaningful
  * @expr_entry:   a #GnumericExprEntry
@@ -671,25 +706,23 @@ gboolean
 gnumeric_expr_entry_rangesel_meaningful (GnumericExprEntry *ee)
 {
 	int cursor_pos;
+	char const *text;
 
 	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (ee), FALSE);
 
-	cursor_pos = GTK_EDITABLE (ee)->current_pos;
+	text = gtk_entry_get_text (GTK_ENTRY (ee));
 
-	if (NULL == gnumeric_char_start_expr_p (GTK_ENTRY (ee)->text_mb) ||
-	    cursor_pos <= 0)
+	/* We need to be editing an expression */
+	if (!wbcg_edit_has_guru (ee->wbcg) &&
+	    gnumeric_char_start_expr_p (text) == NULL)
 		return FALSE;
 
-	switch (GTK_ENTRY (ee)->text [cursor_pos-1]){
-	case ',': case '=':
-	case '(': case '<': case '>':
-	case '+': case '-': case '*': case '/':
-	case '^': case '&': case '%': case '!':
+	gnumeric_expr_entry_rangesel_start (ee);
+	if (ee->rangesel.text_end != ee->rangesel.text_start)
 		return TRUE;
 
-	default :
-		return FALSE;
-	};
+	cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ee));
+	return (cursor_pos > 0) && split_char_p (text [cursor_pos-1]);
 }
 
 /**

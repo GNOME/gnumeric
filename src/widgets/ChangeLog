@@ -1,3 +1,10 @@
+2001-11-10  Jody Goldberg <jgoldberg@home.com>
+
+	* gnumeric-expr-entry.c (gnumeric_expr_entry_rangesel_meaningful) :
+	  rethink this.
+	(gnumeric_expr_entry_rangesel_start) : improve parser.  Still needs
+          more work.
+
 2001-11-09  Jody Goldberg <jgoldberg@home.com>
 
 	* widget-font-selector.c (cb_get_cell_style) : fix style ref leak.

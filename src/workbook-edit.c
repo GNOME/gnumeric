@@ -536,13 +536,6 @@ wbcg_edit_entry_redirect_p (WorkbookControlGUI const *wbcg)
 }
 
 gboolean
-wbcg_editing_expr (WorkbookControlGUI const *wbcg)
-{
-	return (wbcg->edit_line.guru != NULL) ||
-	    gnumeric_expr_entry_rangesel_meaningful (wbcg_get_entry (wbcg));
-}
-
-gboolean
 wbcg_auto_completing (WorkbookControlGUI const *wbcg)
 {
 	return wbcg->auto_completing;

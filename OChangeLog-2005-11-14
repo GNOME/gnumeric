@@ -1,3 +1,20 @@
+2001-11-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (workbook_menu_format_column) :
+	  make col menu consistent with row menu.
+	* src/GNOME_Gnumeric.xml : ditto.
+
+2001-11-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (item_cursor_draw) : make block cursors more
+	  visually appealing.
+
+	* src/workbook-control-gui.c (sheet_action_add_sheet) : restore the
+	  focus to the current sheet so that the new sheet does not get the
+	  key events.
+
+	* src/workbook-edit.c (wbcg_editing_expr) : delete.
+
 2001-11-09  Jody Goldberg <jgoldberg@home.com>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=62131

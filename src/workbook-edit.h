@@ -15,7 +15,6 @@ void	    wbcg_edit_attach_guru	(WorkbookControlGUI *wbcg, GtkWidget *guru);
 void	    wbcg_edit_detach_guru	(WorkbookControlGUI *wbcg);
 gboolean    wbcg_edit_has_guru		(WorkbookControlGUI const *wbcg);
 gboolean    wbcg_edit_entry_redirect_p	(WorkbookControlGUI const *wbcg);
-gboolean    wbcg_editing_expr		(WorkbookControlGUI const *wbcg);
 gboolean    wbcg_auto_completing        (WorkbookControlGUI const *wbcg);
 void	    wbcg_auto_complete_destroy  (WorkbookControlGUI *wbcg);
 char const *wbcg_edit_get_display_text	(WorkbookControlGUI *wbcg);

@@ -369,14 +369,14 @@
 		accel="*Control*1"/>
 
 	    <submenu _label="C_olumn">
-		<menuitem name="AutoFit" verb="ColumnAutoSize"
-		    _label="_Auto fit selection"
-		    _tip="Ensure columns are just wide enough to display content" />
-
 		<menuitem name="Size" verb="ColumnSize"
 		    pixtype="stock" pixname="Gnumeric_ColumnSize"
 		    _label="_Width..."
 		    _tip="Change width of the selected columns" />
+
+		<menuitem name="AutoFit" verb="ColumnAutoSize"
+		    _label="_Auto fit selection"
+		    _tip="Ensure columns are just wide enough to display content" />
 
 		<menuitem name="Hide" verb="ColumnHide"
 		    pixtype="stock" pixname="Gnumeric_ColumnHide"

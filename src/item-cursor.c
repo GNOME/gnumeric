@@ -300,8 +300,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	case ITEM_CURSOR_BLOCK:
 		draw_center   = TRUE;
-		draw_thick    = 1;
-		draw_external = TRUE;
+		draw_thick    = 3;
 		break;
 
 	case ITEM_CURSOR_SELECTION:
