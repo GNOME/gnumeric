@@ -1,5 +1,5 @@
-lang=da
-locale=da
+lang=de
+locale=de_DE
 
 entities =
 EXTRA_DIST =
