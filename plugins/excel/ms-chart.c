@@ -1094,7 +1094,10 @@ static gboolean
 BC_R(gelframe)(ExcelChartHandler const *handle,
 	       ExcelChartReadState *s, BiffQuery *q)
 {
+	gint tmp = ms_excel_escher_debug;
+	ms_excel_escher_debug = 2;
 	ms_escher_parse (q, &s->container);
+	ms_excel_escher_debug = tmp;
 	return FALSE;
 }
 static gboolean

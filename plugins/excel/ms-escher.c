@@ -144,7 +144,7 @@ ms_escher_blip_free (MSEscherBlip *blip)
  * those the sizes match perfectly.
  */
 static guint8 const *
-ms_escher_get_data (MSEscherState * state,
+ms_escher_get_data (MSEscherState *state,
 		    gint offset,	/* bytes from logical start of the stream */
 		    gint num_bytes,	/* how many bytes we want, NOT incl prefix */
 		    gboolean * needs_free)
@@ -413,9 +413,10 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 			type = "pict";
 
 		if (filter != 0xfe /* must be none */	||
-		    (unsigned)(h->len - offset) != compressed_len) {
+		    (unsigned)(h->len - offset) < compressed_len) {
 			failure = TRUE;
-			g_warning ("invalid metafile header;");
+			g_warning ("invalid metafile header %x, %u != %u;", filter,
+				   (h->len - offset), compressed_len);
 		} else {
 			tmp = ms_escher_get_data (state, h->offset + offset,
 				compressed_len, &needs_free);
@@ -451,9 +452,9 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 			type = "dib";
 		offset++;
 		data = ms_escher_get_data (state, h->offset + offset,
-			h->len - offset, &needs_free);
-		blip = ms_escher_blip_new ((guint8 *)data, h->len - offset, type,
-			!needs_free);
+			h->len - offset - COMMON_HEADER_LEN, &needs_free);
+		blip = ms_escher_blip_new ((guint8 *)data,
+			h->len - offset - COMMON_HEADER_LEN, type, !needs_free);
 	} else {
 		failure = TRUE;
 		g_warning ("Don't know what to do with this image %x;", inst);
@@ -1069,7 +1070,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 	int const num_properties = h->instance;
 	gboolean needs_free;
 	guint8 const *data = ms_escher_get_data (state,
-		h->offset + COMMON_HEADER_LEN, h->len, &needs_free);
+		h->offset + COMMON_HEADER_LEN, h->len - COMMON_HEADER_LEN, &needs_free);
 	guint8 const *fopte = data;
 	guint8 const *extra = fopte + 6*num_properties;
 	guint prev_pid = 0; /* A debug tool */
@@ -1937,12 +1938,14 @@ ms_escher_parse (BiffQuery *q, MSContainer *container)
 
 	g_return_if_fail (q != NULL);
 
-	if (q->opcode != BIFF_MS_O_DRAWING)
+	if (q->opcode == BIFF_MS_O_DRAWING)
 		drawing_record_name = "Drawing";
-	else if (q->opcode != BIFF_MS_O_DRAWING_GROUP)
+	else if (q->opcode == BIFF_MS_O_DRAWING_GROUP)
 		drawing_record_name = "Drawing Group";
-	else if (q->opcode != BIFF_MS_O_DRAWING_SELECTION)
+	else if (q->opcode == BIFF_MS_O_DRAWING_SELECTION)
 		drawing_record_name = "Drawing Selection";
+	else if (q->opcode == BIFF_CHART_gelframe)
+		drawing_record_name = "Chart GelFrame";
 	else {
 		g_warning ("EXCEL : unexpected biff type %x;", q->opcode);
 		return;

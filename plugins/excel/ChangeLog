@@ -1,3 +1,16 @@
+2003-05-21  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(gelframe)) : enable debugging when dumping
+	  gelframes.
+
+	* ms-escher.c (ms_escher_parse) : accept gelframes.
+	(ms_escher_read_OPT) : the length _includes_ the header, don't try to
+	  read that too.
+	(ms_escher_read_Blip) : ditto.
+	  weaken size restriction for uncompression.
+	  test-xls/billeterie2000-6.xls has a blip that is larger than its
+	  compressed content, dunno why.
+
 2003-05-20  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c: Adapt to StyleColor changes.

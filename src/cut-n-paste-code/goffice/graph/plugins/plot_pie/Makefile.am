@@ -14,14 +14,14 @@ pie_la_LDFLAGS = -module -avoid-version
 pie_la_SOURCES = \
 	gog-pie-plot.c		\
 	gog-pie-plot.h		\
-	gog-pie-plot-pref.c
+	gog-pie-prefs.c
 
 xml_in_files = plugin.xml.in plot-types.xml.in
-xml_DATA = $(xml_in_files:.xml.in=.xml) gog-pie-plot-pref.glade
+xml_DATA = $(xml_in_files:.xml.in=.xml) gog-pie-prefs.glade
 
 @INTLTOOL_XML_RULE@
 
-glade_DATA = gog-pie-plot-pref.glade
+glade_DATA = gog-pie-prefs.glade
 
 # do not use the intl-tool stuff to merge the text back
 # its simpler to just use gettext directly
