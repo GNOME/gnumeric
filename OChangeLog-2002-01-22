@@ -1,5 +1,8 @@
 2001-11-04  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gui-clipboard.c (x_selection_handler) : Better interaction with
+	  'Klipper'
+
 	* src/gui-validation.c (validation_generate_msg) : support new
 	'boolean expression'
 

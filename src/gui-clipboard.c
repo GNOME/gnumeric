@@ -308,14 +308,15 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data,
 	if (content_needs_free) {
 
 		/* If the other app was a gnumeric, emulate a cut */
-		if (to_gnumeric)
+		if (to_gnumeric) {
 			sheet_clear_region (wbc, sheet,
 				a->start.col, a->start.row,
 				a->end.col,   a->end.row,
 				CLEAR_VALUES|CLEAR_COMMENTS|CLEAR_RECALC_DEPS);
+			application_clipboard_clear (TRUE);
+		}
 
 		cellregion_free (clipboard);
-		application_clipboard_clear (TRUE);
 	}
 }
 

@@ -17,6 +17,7 @@ Jody:
 	* Improve dbf importer.
 	* Make autocorrect non-modal and cleaner.
 	* Make autocompletion a view attribute, with a gui.
+	* Don't clear the clipboard when Klipper requests things.
 	* Enable per sheet style management to support
 	  validation, conditionals, and simply XL export.
 
