@@ -1,11 +1,11 @@
 # Copyright (C) 1999 Free Software Foundation, Inc.
 # Valek Filippov <val@comptek.ru>, 1999.
-# Gnumeric ver. 0.22
+# Gnumeric ver. 0.24 (12-func + 2-string untransltd)
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-04-26 13:37-0500\n"
-"PO-Revision-Date: 1999-04-01 14:42-0600\n"
+"POT-Creation-Date: 1999-04-28 20:53-0400\n"
+"PO-Revision-Date: 1999-04-19 14:42-0600\n"
 "Last-Translator: Valek Filippov <val@comptek.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr "Формат файла Microsoft(R) Excel"
 msgid "Argument must be a Guile expression"
 msgstr "Аргумент должен быть выражением Guile"
 
-#: plugins/guile/plugin.c:241 src/expr.c:659 src/fn-math.c:1496
+#: plugins/guile/plugin.c:241 src/expr.c:659 src/fn-math.c:1284
 #: src/fn-sheet.c:40 src/fn-sheet.c:93 src/fn-string.c:302
 msgid "Invalid number of arguments"
 msgstr "Неверное число аргументов"
@@ -63,7 +63,7 @@ msgstr ""
 
 #: plugins/python/python.c:177
 msgid "Gnumeric/Python module initialized\n"
-msgstr "Модуль Gnumeric/Python м\bинициализирован\n"
+msgstr "Модуль Gnumeric/Python инициализирован\n"
 
 #: plugins/python/python.c:190
 msgid "Python Plugin"
@@ -397,7 +397,7 @@ msgstr "По горизонтали"
 
 #: src/dialog-cell-format.c:433
 msgid "Auto return"
-msgstr "Авто перевод строки"
+msgstr "Автоперевод строки"
 
 #: src/dialog-cell-format.c:602
 msgid "Text color"
@@ -606,7 +606,7 @@ msgstr "Ошибочная кавычка"
 
 #: src/expr.c:67
 msgid "Impossible!"
-msgstr ""
+msgstr "Невозможно!"
 
 #: src/expr.c:724 src/expr.c:1005 src/expr.c:1200 src/fn-string.c:54
 #: src/fn-string.c:76 src/fn-string.c:98 src/fn-string.c:155
@@ -928,7 +928,7 @@ msgstr ""
 "значение не поддерживается, то возвращается ошибка '#VALUE!'. \n"
 "@SEEALSO=OR, NOT"
 
-#: src/fn-math.c:187 src/fn-math.c:1049
+#: src/fn-math.c:187 src/fn-math.c:837
 msgid "#VALUE"
 msgstr ""
 
@@ -1040,21 +1040,6 @@ msgstr ""
 
 #: src/fn-math.c:320
 msgid ""
-"@FUNCTION=AVERAGE\n"
-"@SYNTAX=AVERAGE(value1, value2,...)\n"
-"@DESCRIPTION=Computes the average of all the values and cells referenced in "
-"the argument list.  This is equivalent to the sum of the arguments divided "
-"by the count of the arguments.\n"
-"@SEEALSO=SUM, COUNT"
-msgstr ""
-"@FUNCTION=AVERAGE\n"
-"@SYNTAX=AVERAGE(value1, value2,...)\n"
-"@DESCRIPTION=Вычисляет среднее всех величин и ячеек указанных в списке "
-"аргументов.  Оно равно сумме всех аргументов деленной на их количество.\n"
-"@SEEALSO=SUM, COUNT"
-
-#: src/fn-math.c:365
-msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
 "@DESCRIPTION=The CEIL function rounds x up to the next nearest integer.\n"
@@ -1067,7 +1052,7 @@ msgstr ""
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
-#: src/fn-math.c:384
+#: src/fn-math.c:339
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -1078,17 +1063,17 @@ msgid ""
 "@SEEALSO=CEIL"
 msgstr ""
 
-#: src/fn-math.c:408 src/fn-math.c:1354
+#: src/fn-math.c:363 src/fn-math.c:1142
 msgid "#VALUE!"
 msgstr ""
 
 #. -0
-#: src/fn-math.c:415 src/fn-math.c:946 src/fn-math.c:954 src/fn-math.c:1153
-#: src/fn-math.c:1612 src/fn-math.c:1683 src/fn-math.c:1714
+#: src/fn-math.c:370 src/fn-math.c:734 src/fn-math.c:742 src/fn-math.c:941
+#: src/fn-math.c:1400 src/fn-math.c:1471 src/fn-math.c:1502
 msgid "#NUM!"
 msgstr ""
 
-#: src/fn-math.c:440
+#: src/fn-math.c:395
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -1106,7 +1091,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:460
+#: src/fn-math.c:415
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -1124,22 +1109,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: src/fn-math.c:501
-msgid ""
-"@FUNCTION=COUNT\n"
-"@SYNTAX=COUNT(b1, b2, ...)\n"
-"@DESCRIPTION=Returns the total number of arguments passed.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=AVERAGE"
-msgstr ""
-"@FUNCTION=COUNT\n"
-"@SYNTAX=COUNT(b1, b2, ...)\n"
-"@DESCRIPTION=Функция COUNT(b1, b2, ...) возвращает количество переданных "
-"аргументов.\n"
-" Со строками и пустыми ячейками эта функция ничего не делает.\n"
-"@SEEALSO=AVERAGE"
-
-#: src/fn-math.c:529
+#: src/fn-math.c:436
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -1153,7 +1123,7 @@ msgstr ""
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=RADIANS, PI"
 
-#: src/fn-math.c:550
+#: src/fn-math.c:457
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -1169,7 +1139,7 @@ msgstr ""
 "Применение этой функции к строкам и пустым ячейкам вызывает ошибку.\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: src/fn-math.c:577
+#: src/fn-math.c:484
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -1185,7 +1155,7 @@ msgstr ""
 "Применение этой функции к строкам и пустым ячейкам вызывает ошибку.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:624
+#: src/fn-math.c:531
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -1195,8 +1165,15 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=COMBIN\n"
+"@SYNTAX=COMBIN(n,k)\n"
+"@DESCRIPTION=Вычисляет число комбинаций из n по k.\n"
+"Применение этой функции к нецелым или отрицательным числам вызывает ошибку. "
+"Ошибка возникает также если n меньше чем k.\n"
+"\n"
+"@SEEALSO="
 
-#: src/fn-math.c:666
+#: src/fn-math.c:573
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x)\n"
@@ -1210,7 +1187,7 @@ msgstr ""
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=CEIL, ABS, INT"
 
-#: src/fn-math.c:685
+#: src/fn-math.c:592
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(b1, b2, ...)\n"
@@ -1228,7 +1205,7 @@ msgstr ""
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 
-#: src/fn-math.c:711
+#: src/fn-math.c:618
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x)\n"
@@ -1243,11 +1220,11 @@ msgstr ""
 "domain error'.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:729
+#: src/fn-math.c:636
 msgid "log: domain error"
 msgstr ""
 
-#: src/fn-math.c:736
+#: src/fn-math.c:643
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -1261,7 +1238,7 @@ msgstr ""
 "Применение этой функции к строкам и пустым ячейкам вызывает ошибку.\n"
 "@SEEALSO=EXP"
 
-#: src/fn-math.c:755
+#: src/fn-math.c:662
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -1276,11 +1253,11 @@ msgstr ""
 "domain error'.\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: src/fn-math.c:773
+#: src/fn-math.c:680
 msgid "log2: domain error"
 msgstr ""
 
-#: src/fn-math.c:780
+#: src/fn-math.c:687
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -1295,45 +1272,11 @@ msgstr ""
 "domain error'.\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: src/fn-math.c:799
+#: src/fn-math.c:706
 msgid "log10: domain error"
 msgstr ""
 
-#: src/fn-math.c:806
-msgid ""
-"@FUNCTION=MIN\n"
-"@SYNTAX=MIN(b1, b2, ...)\n"
-"@DESCRIPTION=MIN returns the value of the element of the values passed that "
-"has the smallest value. With negative numbers considered smaller than "
-"positive numbers.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=MAX,ABS"
-msgstr ""
-"@FUNCTION=MIN\n"
-"@SYNTAX=MIN(b1, b2, ...)\n"
-"@DESCRIPTION=Функция MIN возвращает значение наименьшего из переданных "
-"аргументов. Отрицательные числа считаются меньшими чем положительные.\n"
-"Со строками и пустыми ячейками эта функция ничего не делает.\n"
-"@SEEALSO=MAX,ABS"
-
-#: src/fn-math.c:820
-msgid ""
-"@FUNCTION=MAX\n"
-"@SYNTAX=MAX(b1, b2, ...)\n"
-"@DESCRIPTION=MAX returns the value of the element of the values passed that "
-"has the largest value. With negative numbers considered smaller than "
-"positive numbers.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=MIN,ABS"
-msgstr ""
-"@FUNCTION=MAX\n"
-"@SYNTAX=MAX(b1, b2, ...)\n"
-"@DESCRIPTION=Функция MAX возвращает значение наибольшего из переданных "
-"аргументов. Отрицательные числа считаются меньшими чем положительные.\n"
-"Со строками и пустыми ячейками эта функция ничего не делает.\n"
-"@SEEALSO=MIN,ABS"
-
-#: src/fn-math.c:925
+#: src/fn-math.c:713
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -1341,12 +1284,17 @@ msgid ""
 "is divided into abs(number).\n"
 "Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL"
 msgstr ""
+"@FUNCTION=MOD\n"
+"@SYNTAX=MOD(число,делитель)\n"
+"@DESCRIPTION=Implements modulo arithmetic.Returns the remainder when divisor "
+"is divided into abs(number).\n"
+"Вызывает сообщение \"#DIV/0!\" если делитель равен 0.@SEEALSO=INT,FLOOR,CEIL"
 
-#: src/fn-math.c:958
+#: src/fn-math.c:746
 msgid "#DIV/0!"
 msgstr ""
 
-#: src/fn-math.c:966
+#: src/fn-math.c:754
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -1355,8 +1303,14 @@ msgid ""
 "\n"
 "@SEEALSO=AND, OR"
 msgstr ""
+"@FUNCTION=NOT\n"
+"@SYNTAX=NOT(число)\n"
+"@DESCRIPTION= Выполняет функцию \"логическое отрицание\": результат TRUE "
+"если число равно 0; в противном случае результат FALSE.\n"
+"\n"
+"@SEEALSO=AND, OR"
 
-#: src/fn-math.c:987
+#: src/fn-math.c:775
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -1380,7 +1334,7 @@ msgstr ""
 "значение не поддерживается, то возвращается ошибка '#VALUE!'. \n"
 "@SEEALSO=AND, NOT"
 
-#: src/fn-math.c:1056
+#: src/fn-math.c:844
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1394,8 +1348,7 @@ msgstr ""
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:1077
-#, fuzzy
+#: src/fn-math.c:865
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -1404,12 +1357,14 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(char)\n"
-"@DESCRIPTION=Возвращает ASCII-код для символа char.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=RAND\n"
+"@SYNTAX=RAND()\n"
+"@DESCRIPTION=Возвращает случайное число большее или равное 0 и меньшее 1.\n"
+"\n"
+"\n"
+"@SEEALSO="
 
-#: src/fn-math.c:1095
+#: src/fn-math.c:883
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1427,7 +1382,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:1115
+#: src/fn-math.c:903
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1445,7 +1400,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:1136
+#: src/fn-math.c:924
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -1460,7 +1415,7 @@ msgstr ""
 "аргумент.\n"
 "@SEEALSO=POW"
 
-#: src/fn-math.c:1160
+#: src/fn-math.c:948
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1474,7 +1429,7 @@ msgstr ""
 "аргументов.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1250
+#: src/fn-math.c:1038
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMSQ\n"
@@ -1489,7 +1444,7 @@ msgstr ""
 "аргументов.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1304
+#: src/fn-math.c:1092
 #, fuzzy
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
@@ -1504,7 +1459,7 @@ msgstr ""
 "аргументов.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1362
+#: src/fn-math.c:1150
 #, fuzzy
 msgid ""
 "@FUNCTION=PRODUCT\n"
@@ -1519,7 +1474,7 @@ msgstr ""
 "аргументов.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1417
+#: src/fn-math.c:1205
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1537,7 +1492,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1437
+#: src/fn-math.c:1225
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1555,7 +1510,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1457
+#: src/fn-math.c:1245
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1570,7 +1525,7 @@ msgstr ""
 "Эта функция вызывается без аргументов.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1476
+#: src/fn-math.c:1264
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -1587,8 +1542,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1529
-#, fuzzy
+#: src/fn-math.c:1317
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -1596,13 +1550,13 @@ msgid ""
 "integer. \n"
 "@SEEALSO=ODD"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(char)\n"
-"@DESCRIPTION=Возвращает ASCII-код для символа char.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=EVEN\n"
+"@SYNTAX=EVEN(число)\n"
+"@DESCRIPTION=Функция EVEN возвращает число округленное до ближайшего четного "
+"целого.\n"
+"@SEEALSO=ODD"
 
-#: src/fn-math.c:1560
-#, fuzzy
+#: src/fn-math.c:1348
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -1610,12 +1564,13 @@ msgid ""
 "integer. \n"
 "@SEEALSO=EVEN"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(char)\n"
-"@DESCRIPTION=Возвращает ASCII-код для символа char.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ODD\n"
+"@SYNTAX=ODD(число)\n"
+"@DESCRIPTION=Функция ODD возвращает число округленное до ближайшего "
+"нечетного целого.\n"
+"@SEEALSO=EVEN"
 
-#: src/fn-math.c:1591
+#: src/fn-math.c:1379
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -1624,9 +1579,14 @@ msgid ""
 "FACTDOUBLE returns #NUM! error. \n"
 "@SEEALSO=FACT"
 msgstr ""
+"@FUNCTION=FACTDOUBLE\n"
+"@SYNTAX=FACTDOUBLE(число)\n"
+"@DESCRIPTION=Функция FACTDOUBLE возвращает двойной факториал числа. \n"
+"Если число не целое, то дробная часть отбрасывается . Если число "
+"отрицательное, FACTDOUBLE возвращает ошибку #NUM!. \n"
+"@SEEALSO=FACT"
 
-#: src/fn-math.c:1621
-#, fuzzy
+#: src/fn-math.c:1409
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -1634,14 +1594,13 @@ msgid ""
 "@num is the divided and @den is the divisor. \n"
 "@SEEALSO=MOD"
 msgstr ""
-"@FUNCTION=TRUNC\n"
-"@SYNTAX=TRUNC(number[,digits])\n"
-"@DESCRIPTION=Функция TRUNC возвращает значение числа укороченного до "
-"заданного числа цифр. Если число цифр не задано, то подразумевается ноль.\n"
-"\n"
-"@SEEALSO="
+"@FUNCTION=QUOTIENT\n"
+"@SYNTAX=QUOTIENT(число,делитель)\n"
+"@DESCRIPTION=Функция QUOTIENT возвращает целую часть частного от деления. "
+"Аргемент \"число\" - делимое. \n"
+"@SEEALSO=MOD"
 
-#: src/fn-math.c:1642
+#: src/fn-math.c:1430
 #, fuzzy
 msgid ""
 "@FUNCTION=SIGN\n"
@@ -1650,12 +1609,13 @@ msgid ""
 "number is 0, and -1 if the number is negative. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(char)\n"
-"@DESCRIPTION=Возвращает ASCII-код для символа char.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=EVEN\n"
+"@SYNTAX=EVEN(число)\n"
+"@DESCRIPTION=Функция EVEN возвращает число округленное до ближайшего четного "
+"целого.\n"
+"@SEEALSO=ODD"
 
-#: src/fn-math.c:1667
+#: src/fn-math.c:1455
 #, fuzzy
 msgid ""
 "@FUNCTION=SQRTPI\n"
@@ -1671,7 +1631,7 @@ msgstr ""
 "аргумент.\n"
 "@SEEALSO=POW"
 
-#: src/fn-math.c:1692
+#: src/fn-math.c:1480
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -1681,8 +1641,15 @@ msgid ""
 "RANDBETWEEN returns #NUM! error. \n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDBETWEEN\n"
+"@SYNTAX=RANDBETWEEN(низ,верх)\n"
+"@DESCRIPTION=Функция RANDBETWEEN возвращает случайное целое число в "
+"диапазоне между значениями аргументов \"низ\" и \"верх\". \n"
+"Если \"низ\" или \"верх\" не целые, дробная часть отбрасывается. Если "
+"\"низ\" > \"верх\" RANDBETWEEN возвращает ошибку #NUM!. \n"
+"@SEEALSO=RAND"
 
-#: src/fn-math.c:1718
+#: src/fn-math.c:1506
 msgid "#N/A!"
 msgstr ""
 
@@ -1702,10 +1669,9 @@ msgstr ""
 
 #: src/fn-misc.c:34
 msgid "Argument mismatch"
-msgstr "Несоответствие \tаргументов"
+msgstr "Несоответствие аргументов"
 
 #: src/fn-sheet.c:17
-#, fuzzy
 msgid ""
 "@FUNCTION=IF\n"
 "@SYNTAX=IF(condition[,if-true,if-false])\n"
@@ -1721,7 +1687,8 @@ msgstr ""
 "@DESCRIPTION=Функция IF используется для вычисления значения выражения в "
 "зависимости от значения @condition. Если @condition возвращает не нулевое "
 "значение, то IF возвращает значение выражения @if-true, в противном случае "
-"IF возвращает значение выражения @if-false\n"
+"IF возвращает значение выражения @if-false. If ommitted if-true defaults to "
+"TRUE and if-false to FALSE.\n"
 "@SEEALSO="
 
 #: src/fn-sheet.c:73
@@ -2350,7 +2317,7 @@ msgstr "не удалось открыть файл модуля: "
 
 #: src/plugin.c:51
 msgid "Plugin must contain init_plugin function."
-msgstr "Plugin должен содержать функцию init_plugin /!FIXME/"
+msgstr "Дополнение должно содержать функцию init_plugin"
 
 #: src/plugin.c:57
 msgid "init_plugin returned error"
@@ -2358,7 +2325,7 @@ msgstr "init_plugin возвратил ошибку"
 
 #: src/plugin.c:77
 msgid "Plugin is still in use.\n"
-msgstr "Plugin еще используется.\n"
+msgstr "Дополнение еще используется.\n"
 
 #: src/sheet-view.c:336 src/sheet-view.c:410
 #, c-format
@@ -2486,12 +2453,11 @@ msgstr "Перейти к указанной ячейке"
 
 #: src/workbook.c:788
 msgid "Insert object..."
-msgstr ""
+msgstr "Вставить об'ект..."
 
 #: src/workbook.c:789
-#, fuzzy
 msgid "Inserts a Bonobo object"
-msgstr "Создать линию"
+msgstr "Вставить об'ект Bonobo"
 
 #: src/workbook.c:796
 msgid "_Define cell names"
@@ -2587,7 +2553,7 @@ msgstr "Высота"
 
 #: src/workbook.c:863
 msgid "_Change name"
-msgstr "Изменить имя"
+msgstr "Изменить название"
 
 #: src/workbook.c:870
 msgid "Modify the formatting of the selected cells"
@@ -2611,11 +2577,11 @@ msgstr "Строка"
 
 #: src/workbook.c:884
 msgid "_Goal Seek..."
-msgstr ""
+msgstr "Цель поиска..."
 
 #: src/workbook.c:886
 msgid "_Solver..."
-msgstr ""
+msgstr "Решение..."
 
 #: src/workbook.c:902
 msgid "_Insert"
@@ -2627,7 +2593,7 @@ msgstr "Формат"
 
 #: src/workbook.c:904
 msgid "T_ools"
-msgstr ""
+msgstr "Инструменты"
 
 #: src/workbook.c:913
 msgid "New"
@@ -2703,12 +2669,11 @@ msgstr "Использовать в ячейках шрифт наклонного начертания"
 
 #: src/workbook.c:958
 msgid "Graphic"
-msgstr ""
+msgstr "Изображения"
 
 #: src/workbook.c:958
-#, fuzzy
 msgid "Creates a graphic in the spreadsheet"
-msgstr "Создать новую таблицу"
+msgstr "Создать изображение в таблице"
 
 #: src/workbook.c:962
 msgid "Line"
@@ -2813,5 +2778,62 @@ msgstr "Таблица %d"
 msgid "Gnumeric XML file format"
 msgstr "Формат файла - Gnumeric XML"
 
-#~ msgid "NoName"
-#~ msgstr "Без имени"
+#~ msgid ""
+#~ "@FUNCTION=AVERAGE\n"
+#~ "@SYNTAX=AVERAGE(value1, value2,...)\n"
+#~ "@DESCRIPTION=Computes the average of all the values and cells referenced in "
+#~ "the argument list.  This is equivalent to the sum of the arguments divided "
+#~ "by the count of the arguments.\n"
+#~ "@SEEALSO=SUM, COUNT"
+#~ msgstr ""
+#~ "@FUNCTION=AVERAGE\n"
+#~ "@SYNTAX=AVERAGE(value1, value2,...)\n"
+#~ "@DESCRIPTION=Вычисляет среднее всех величин и ячеек указанных в списке "
+#~ "аргументов.  Оно равно сумме всех аргументов деленной на их количество.\n"
+#~ "@SEEALSO=SUM, COUNT"
+
+#~ msgid ""
+#~ "@FUNCTION=COUNT\n"
+#~ "@SYNTAX=COUNT(b1, b2, ...)\n"
+#~ "@DESCRIPTION=Returns the total number of arguments passed.\n"
+#~ "Performing this function on a string or empty cell simply does nothing.\n"
+#~ "@SEEALSO=AVERAGE"
+#~ msgstr ""
+#~ "@FUNCTION=COUNT\n"
+#~ "@SYNTAX=COUNT(b1, b2, ...)\n"
+#~ "@DESCRIPTION=Функция COUNT(b1, b2, ...) возвращает количество переданных "
+#~ "аргументов.\n"
+#~ " Со строками и пустыми ячейками эта функция ничего не делает.\n"
+#~ "@SEEALSO=AVERAGE"
+
+#~ msgid ""
+#~ "@FUNCTION=MIN\n"
+#~ "@SYNTAX=MIN(b1, b2, ...)\n"
+#~ "@DESCRIPTION=MIN returns the value of the element of the values passed that "
+#~ "has the smallest value. With negative numbers considered smaller than "
+#~ "positive numbers.\n"
+#~ "Performing this function on a string or empty cell simply does nothing.\n"
+#~ "@SEEALSO=MAX,ABS"
+#~ msgstr ""
+#~ "@FUNCTION=MIN\n"
+#~ "@SYNTAX=MIN(b1, b2, ...)\n"
+#~ "@DESCRIPTION=Функция MIN возвращает значение наименьшего из переданных "
+#~ "аргументов. Отрицательные числа считаются меньшими чем положительные.\n"
+#~ "Со строками и пустыми ячейками эта функция ничего не делает.\n"
+#~ "@SEEALSO=MAX,ABS"
+
+#~ msgid ""
+#~ "@FUNCTION=MAX\n"
+#~ "@SYNTAX=MAX(b1, b2, ...)\n"
+#~ "@DESCRIPTION=MAX returns the value of the element of the values passed that "
+#~ "has the largest value. With negative numbers considered smaller than "
+#~ "positive numbers.\n"
+#~ "Performing this function on a string or empty cell simply does nothing.\n"
+#~ "@SEEALSO=MIN,ABS"
+#~ msgstr ""
+#~ "@FUNCTION=MAX\n"
+#~ "@SYNTAX=MAX(b1, b2, ...)\n"
+#~ "@DESCRIPTION=Функция MAX возвращает значение наибольшего из переданных "
+#~ "аргументов. Отрицательные числа считаются меньшими чем положительные.\n"
+#~ "Со строками и пустыми ячейками эта функция ничего не делает.\n"
+#~ "@SEEALSO=MIN,ABS"
