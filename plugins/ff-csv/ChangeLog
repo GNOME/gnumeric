@@ -1,0 +1,4 @@
+1999-02-06  Vincent Renardias <vincent@ldsol.com>
+
+	* csv-io.h, csv-io.c: A few fixes.
+

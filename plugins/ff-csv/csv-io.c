@@ -74,8 +74,8 @@ csv_parse_file (const char *filename,Sheet *sheet)
 	struct stat	buf;
 	int		flen;	/* file length */
 	char		*file;	/* data pointer */
-	int		i, idx, lindex;
-	int		crow=0,ccol=0,mrow=0,mcol=0; /* current/max col/row */
+	int		idx, lindex;
+	int		crow=0,ccol=0,mcol=0; /* current/max col/row */
 	int		data=0;
 	int		non_printable=0;
 
@@ -127,6 +127,9 @@ csv_parse_file (const char *filename,Sheet *sheet)
 			}
 			data = 0;
 			lindex = idx+1;
+			if (ccol > mcol){
+				mcol=ccol;
+			}
 			ccol = 0;
 			crow++;
 			idx++;
@@ -156,7 +159,7 @@ csv_parse_file (const char *filename,Sheet *sheet)
 	}
 
 	if (sheet){
-		sheet->max_col_used=ccol;
+		sheet->max_col_used=mcol;
 		sheet->max_row_used=crow;
 	}
 	munmap (file, flen);	
@@ -170,8 +173,6 @@ csv_read_workbook (const char* filename)
 {
 	Workbook	*book;
 	Sheet		*sheet;
-	int		*mcol;
-	int		*mrow;
 
 	book = workbook_new ();  /* FIXME: Can this return NULL? */
 	sheet = sheet_new (book, _("NoName"));
