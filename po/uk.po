@@ -13292,7 +13292,6 @@ msgid "Create a radio button"
 msgstr "Створити перемикач"
 
 #: src/gnumeric.xml.h:48
-#, fuzzy
 msgid "Create an arrow"
 msgstr "Створити стр╕лку"
 
@@ -13305,7 +13304,6 @@ msgid "Decrease Precision"
 msgstr "Зменшити точн╕сть"
 
 #: src/gnumeric.xml.h:55
-#, fuzzy
 msgid "Decrease the precision of the selected cells"
 msgstr "Зменшити точн╕сть вибраних ком╕рок"
 
@@ -13330,7 +13328,6 @@ msgid "Edit a formula in the current cell"
 msgstr "Випривити формулу в поточн╕й ком╕рц╕"
 
 #: src/gnumeric.xml.h:63
-#, fuzzy
 msgid "Edit the name of the current sheet"
 msgstr "Зм╕нити назву поточного аркушу"
 
@@ -13379,7 +13376,6 @@ msgid "Hide the selected rows"
 msgstr "Приховати вибран╕ рядки"
 
 #: src/gnumeric.xml.h:87
-#, fuzzy
 msgid "Includes a thousands separator in the selected cells"
 msgstr "Вставити розд╕лювач розляд╕в у вибран╕ ком╕рки"
 
@@ -13388,7 +13384,6 @@ msgid "Increase Precision"
 msgstr "Зб╕льшити точн╕сть"
 
 #: src/gnumeric.xml.h:89
-#, fuzzy
 msgid "Increase the precision of the selected cells"
 msgstr "Зб╕льшити точн╕сть вибраних ком╕рок"
 
