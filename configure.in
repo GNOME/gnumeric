@@ -69,6 +69,12 @@ AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
 
 dnl **************************************************
+dnl * psiconv support
+dnl **************************************************
+PSICONV_INIT()
+
+
+dnl **************************************************
 dnl * internationalization support
 dnl **************************************************
 dnl 
@@ -651,6 +657,7 @@ plugins/xml_sax/Makefile
 plugins/applix/Makefile
 plugins/plan-perfect/Makefile
 plugins/gda/Makefile
+plugins/psiconv/Makefile
 intl/Makefile
 po/Makefile.in
 templates/Makefile
