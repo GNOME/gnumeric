@@ -1908,10 +1908,10 @@ scg_comment_display (SheetControlGUI *scg, CellComment *cc)
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 	g_return_if_fail (IS_CELL_COMMENT (scg->comment.selected));
 
-	if (cc == NULL) {
-		scg_comment_timer_clear (scg);
+	scg_comment_timer_clear (scg);
+	if (cc == NULL)
 		cc = scg->comment.selected;
-	} else if (scg->comment.selected != cc)
+	else if (scg->comment.selected != cc)
 		scg_comment_unselect (scg, scg->comment.selected);
 
 	g_return_if_fail (IS_CELL_COMMENT (cc));

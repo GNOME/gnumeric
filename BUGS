@@ -5,19 +5,19 @@ and longer term bugs.
 Release Critical
 ----------------
 
-- Persistance of sheet objects.
+- Other anchor types for sheet objects
+- Fix Borders
+- Entering "=1e11111" yields "Syntax Error", not "overflow".
+  In general parsing needs better error messages.
+
 
 Long term breakage
 ------------------
 
-- Other anchor types for sheet objects
 - calculated cells do not respan.
 
 - Look into ability to identify versions of gnumeric xml that are newer than we
   are.  Ask DV about name spaces.
-
-- Entering "=1e11111" yields "Syntax Error", not "overflow".
-  In general parsing needs better error messages.
 
 - Why does the number matching bother comparing against formats that are
   covered by 'General' ?
@@ -47,8 +47,6 @@ Long term breakage
   and remove decimals.
 - While we're playing with those functions, lets add simple ones like inc/dec
   font size and things like that.
-
-- Fix Borders
 
 STF - pasting a single line should not invoke the importer
 
@@ -90,8 +88,7 @@ STF - pasting a single line should not invoke the importer
 - latex : multiline rows not handled properly.
         : nor are spans
 
-- SheetObjects  : use GtkArg and remove cruft from xml-io.
-	 	: Add data member to Class to indicate 'simple' object
+- SheetObjects  : Add data member to Class to indicate 'simple' object
 		  types that can be rubber banded directly.
 		: Add acetate_create virtual to handle shaped objects.
 

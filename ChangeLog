@@ -1,5 +1,13 @@
 2000-12-09  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-control-gui.c (scg_comment_display) : Always clear the
+	  timer.
+
+	* src/gnumeric-util.c (gnumeric_entry_at_subexpr_boundary_p)
+	: Add '<' '>'.  Bug 34642
+
+2000-12-09  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-object.c (sheet_object_construct) : delete.
 	(sheet_object_set_bounds) : Delete.
 	(sheet_object_set_sheet) : new function.
