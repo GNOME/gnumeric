@@ -612,10 +612,6 @@ old_format_number(gdouble number, StyleFormatEntry *style_format_entry)
   info.hasnumbers = FALSE;
 
   if (strcmp (format, "General") == 0){
-      char buffer [40];
-
-      snprintf (buffer, sizeof (buffer), "%g", number);
-      return g_strdup (buffer);
   }
   
   for ( i = 0; i < length; i++ )
@@ -1144,13 +1140,13 @@ format_value (StyleFormat *format, Value *value, char **color_name)
 	switch (value->type){
 	case VALUE_FLOAT:
 		if (is_general)
-			entry.format = "#.##";
+			entry.format = "0.##";
 		v = format_number (value->v.v_float, &entry);
 		break;
 		
 	case VALUE_INTEGER:
 		if (is_general)
-			entry.format = "#";
+			entry.format = "0";
 		v = format_number (value->v.v_int, &entry);
 		break;
 		
