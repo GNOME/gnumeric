@@ -4,10 +4,10 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- Seletion in the font name combo is broken.
+- Selection in the font name combo is partly broken. Manually entering a value
+  does not change the selected entry.
 - Changing an expression name that is in use causes a crash.
 - The max row/col canvas scroll size is still hard coded.
-- Resize row/col undo is unfinished.
 - Saving xml should not rely on changing the textdomain to disable translation
   of TRUE/FALSE.
 

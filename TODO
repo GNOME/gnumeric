@@ -248,11 +248,6 @@ Office 2000 and 'explorer' compatibility.
       which takes a range as a scalar argument, apply the expression to each element
       of the input range.
 
-* Undo 
-  * Commands to link in
-      - Row/Col resize.  The current linkage between itembar and sheet is odd.
-        we seem to set the column size for the sheet several times.
-
 * Make checks for inserting rows/cols more intelligent in the face of multiple
   selections.  Currently it just checks the first selected range for
   infiniteness we need to check all selected ranges.
