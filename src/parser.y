@@ -600,11 +600,10 @@ exp:	  CONSTANT 	{ $$ = $1; }
 function : STRING '(' arg_list ')' {
 		char const *name = $1->constant.value->v_str.val->str;
 		GnmFunc *f = gnm_func_lookup (name, state->pos->wb);
-		GnmFunc *newf = NULL;
 
 		/* THINK TODO: Do we want to make this workbook-local??  */
 		if (f == NULL && state->create_placeholder_for_unknown_func)
-			newf = f = gnm_func_add_placeholder (name, "", TRUE);
+			f = gnm_func_add_placeholder (name, "", TRUE);
 
 		/* We're done with the function name.  */
 		unregister_allocation ($1); gnm_expr_unref ($1);
