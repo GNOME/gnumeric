@@ -1,3 +1,20 @@
+2003-09-11  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-axis.c (gog_axis_view_render) : invert alignment of text
+	  and support tick marks.
+	(gog_axis_view_size_request) : Make axis labels optional, and allocate
+	  size for major and minor ticks.
+	(gog_axis_class_init) : Lots of new options.
+	(gog_axis_get_property) : ditto, not all of them are supported yet.
+	(gog_axis_set_property) : ditto, not all of them are supported yet.
+	(gog_axis_update) : Add pull to 0, and step doubling heuristics.
+
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_draw_text) : Clip
+	  text trying to draw out of the physical bounds.
+
+	* graph/plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_axis_bounds) :
+	  fix cut-n-paste-o.
+
 2003-09-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.90
