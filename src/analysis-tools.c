@@ -5,7 +5,7 @@
  *   Jukka-Pekka Iivonen <iivonen@iki.fi>
  *   Andreas J. Guelzow  <aguelzow@taliesin.ca>
  *
- * (C) Copyright 2000 by Jukka-Pekka Iivonen <iivonen@iki.fi>
+ * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  *
  * Modified 2001 to use range_* functions of mathfunc.h
  */
@@ -2600,6 +2600,74 @@ average_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, int interval,
 	}
 
 	g_free (prev);
+
+	free_data_set (&data_set);
+
+	sheet_set_dirty (dao->sheet, TRUE);
+	sheet_update (sheet);
+
+	return 0;
+}
+
+
+/************* Exponential Smoothing Tool **************************************
+ *
+ * This tool can be used to predict a value based on the prior period.
+ * Exponential smoothing uses the following formula to adjust the error in
+ * the prior forecast:
+ *
+ *    F(t+1) = F(t) + (1 - damp_fact) * ( A(t) - F(t) )
+ *
+ * The results are given in a table which can be printed out in
+ * a new sheet, in a new workbook, or simply into an existing sheet.
+ *
+ **/
+
+int
+exp_smoothing_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
+		    gnum_float damp_fact, int std_error_flag,
+		    data_analysis_output_t *dao)
+{
+        old_data_set_t data_set;
+	GSList        *current;
+	int           cols, rows, row;
+	gnum_float    a, f;
+
+	/* TODO: Standard error output */
+	cols = range->end.col - range->start.col + 1;
+	rows = range->end.row - range->start.row + 1;
+
+	if ((cols != 1 && rows != 1) || damp_fact < 0 || damp_fact > 1)
+	        return 1;
+
+	prepare_output (wbc, dao, _("Exponential Smoothing"));
+
+	get_data (sheet, range, &data_set, FALSE);
+	current = data_set.array;
+	row = a = f = 0;
+	
+	while (current != NULL) {
+		if (row == 0)
+		        /* Cannot forecast for the first data element */
+
+			set_cell_na (dao, 0, row);
+		else if (row == 1) {
+		        /* The second forecast is always the first data element */
+
+		        set_cell_float (dao, 0, row, a);
+			f = a;
+		} else {
+		        /* F(t+1) = F(t) + (1 - damp_fact) * ( A(t) - F(t) ),
+			 * where A(t) is the t'th data element.
+			 */
+
+		        f = f + (1.0 - damp_fact) * (a - f);
+			set_cell_float (dao, 0, row, f);
+		}
+		++row;
+	        a = * ((gnum_float *) current->data);
+		current = current->next;
+	}
 
 	free_data_set (&data_set);
 

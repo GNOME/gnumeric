@@ -3,6 +3,10 @@ Gnumeric 0.76
 Jody:
 	* More work on the expr entry.
 
+Jukka:
+	* Improved function documentation.
+	* Implemented Exponential Smoothing tool.
+
 --------------------------------------------------------------------------
 Gnumeric 0.75
 
