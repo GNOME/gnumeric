@@ -1,5 +1,7 @@
 2003-05-30  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-control.c (wb_control_parse_and_jump): Fix 114045.
+
 	* src/style.c: Eliminate gnumeric_default_bold_font and
 	gnumeric_default_italic_font.
 	(style_font_new): Apply a simpler fall-back scheme that will work

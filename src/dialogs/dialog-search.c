@@ -579,13 +579,16 @@ cursor_change (GtkTreeView *tree_view, DialogState *dd)
 		SearchFilterResult *item = g_ptr_array_index (dd->matches, matchno);
 		int col = item->ep.eval.col;
 		int row = item->ep.eval.row;
-		WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (dd->wbcg));
+		WorkbookControl *wbc = WORKBOOK_CONTROL (dd->wbcg);
+		WorkbookView *wbv = wb_control_view (wbc);
 		SheetView *sv;
 
-		wb_view_sheet_focus (wbv, item->ep.sheet);
+		if (wb_control_cur_sheet (wbc) != item->ep.sheet)
+			wb_view_sheet_focus (wbv, item->ep.sheet);
 		sv = wb_view_cur_sheet_view (wbv);
+		sv_set_edit_pos (sv, &item->ep.eval);
 		sv_selection_set (sv, &item->ep.eval, col, row, col, row);
-		sv_make_cell_visible (sv, col, row, FALSE);
+		sv_update (sv);
 	}
 }
 
