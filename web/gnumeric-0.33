@@ -1,0 +1,72 @@
+Hello guys,
+
+   New version of Gnumeric is out.  This version of gnumeric depends
+on GNOME print 0.7,
+
+* Availability
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnome-print
+
+* What is new on this release
+
+	* Clipboard fixes (Jody).
+
+	* Source code has been re-organized, we have split dialogs,
+	  functions and widgets into their own directories (me).
+
+	* Handle selection properly (Jody, various bug fixes fixed
+	  with this).
+
+	* Print Preview feature (still a bit broken, text is
+	  miss-aligned, but I am puzzled, I do not know what is wrong
+	  with it). Consider this an alpha feature (me)
+
+	* New functions from Jukka-Pekka: ACCRINTM, INTRATE, RECEIVED,
+	  PRICEDISC, ISPMT, MIRR, FVSCHEDULE, TBILLEQ, TBILLPRICE,
+	  TBILLYIELD and PRICEMAT().
+
+	* Double click on column divisions will auto-adjust columns to
+	  the size that best fits the contents (me).
+
+	* Many fixes to the dialog-solved (Jukka-Pekka)
+
+	* Experimental code for drawing properly empty cells (enable
+	  with --debug=1) (me).
+
+	* Sheet objects now move properly according to the zoom factor
+	  (Jody).
+
+	* Improved cell color selection dialog (me).
+
+	* Print Setup: Dialog now displays properly the page you are
+	  going to print.  Previews margins as well (me).
+
+	  If you have a new libglade (the one that will be shortly
+	  announced), you can get nice accelerator support in the
+	  dialog (me)
+
+	* Printing: Fixed a very bad flaw that inhibited proper
+	  priting of sheets 2 and on (me).
+
+	* Fixed warnings related to cursor handling (me).
+
+	* Margin display code fixed when zooming (Jody).
+
+	* Cut/paste bug fixes to mimic Excel's behaviour here (Jody)
+
+	* Danish translation added.
+
+	* More memory leak fixes (Morten).
+
+	* Updated glade files (me)
+
+	* Internationalization fixes (Karl).
+
+* Excel support dept:
+
+	* Fixed writing of integer values (Jody)
+
+	* Vartious bug fixes from Michael Meeks.
+
+	* ISMPT argument handling fixed (Jukka).
