@@ -5,6 +5,10 @@
 	* dialog-search-replace.c: New file.
 	* search-replace.glade: New file.
 
+2001-01-05  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am : Add validate.glade
+
 2001-01-05  Jon K Hellan  <hellan@acm.org>
 
 	* import.glade, plugin-manager.glade, analysis-tools.glade
