@@ -1502,15 +1502,14 @@ gnumeric_erf (struct FunctionDefinition *i,
 	if (argv[1])
 		upper = value_get_as_float (argv[1]);
 
-	if (lower < 0.0)
-	        ans = -erf(-lower);
-	else
-	        ans = erf(lower);
+	if (lower < 0.0 || upper < 0.0) {
+		*error_string = gnumeric_err_NUM;
+	        return NULL;
+	}
+
+	ans = erf(lower);
 	if (argv[1])
-	        if (upper < 0.0)
-		        ans = -erf(-upper) - ans;
-	        else
-		        ans = erf(upper) - ans;
+	        ans = erf(upper) - ans;
 	
 	return value_new_float (ans);
 }

@@ -183,7 +183,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 106 */	{ "GETFORMULA", -2 },
 /* 107 */	{ "GETNAME", -2 },
 /* 108 */	{ "SETVALUE", -2 },
-/* 109 */	{ "LOG", 2 }, /* Base is optional */
+/* 109 */	{ "LOG", -1 }, /* Base is optional */
 /* 110 */	{ "EXEC", -2 },
 /* 111 */	{ "CHAR", 1 },
 /* 112 */	{ "LOWER", 1 },
@@ -271,7 +271,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 194 */	{ "VARP", -1 },
 /* 195 */	{ "DSTDEVP", 3 },
 /* 196 */	{ "DVARP", 3 },
-/* 197 */	{ "TRUNC", 2 }, /* num_digits is optional */
+/* 197 */	{ "TRUNC", -1 }, /* num_digits is optional */
 /* 198 */	{ "ISLOGICAL", 1 },
 /* 199 */	{ "DCOUNTA", 3 },
 /* 200 */	{ "DELETEBAR", -2 },
@@ -344,7 +344,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 267 */	{ "REGISTERID", },
 /* 268 */	{ "GETWORKBOOK", -2 },
 /* 269 */	{ "AVEDEV", -1 },
-/* 270 */	{ "BETADIST", 5 },
+/* 270 */	{ "BETADIST", -1 },
 /* 271 */	{ "GAMMALN", 1 },
 /* 272 */	{ "BETAINV", -1 },
 /* 273 */	{ "BINOMDIST", 4 },
@@ -428,7 +428,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 351 */	{ "DATEDIF", -2 },
 /* 352 */	{ "DATESTRING", -2 },
 /* 353 */	{ "NUMBERSTRING", -2 },
-/* 354 */	{ "ROMAN", 2 },
+/* 354 */	{ "ROMAN", -1 },
 /* 355 */	{ "OPENDIALOG", -2 },
 /* 356 */	{ "SAVEDIALOG", -2 },
 /* 357 */	{ "VIEWGET", -2 },

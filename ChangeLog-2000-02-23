@@ -1,3 +1,8 @@
+1999-06-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-eng.c (gnumeric_erf): ERF() changed back to the previous
+ 	form.  Negative arguments are wrong.
+	
 1999-06-16  Morten Welinder  <terra@diku.dk>
 
 	* src/complex.h, src/complex.c: New files.

@@ -1,3 +1,8 @@
+1999-06-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* ms-formula-read.c (formula_func_data): LOG, ROMAN, TRUNC, and
+ 	BETADIST made var args.
+	
 1999-06-17  Michael Meeks  <michael@edenproject.org>
 
 	* ms-formula-read.c (make_function): Added debug.
