@@ -1,3 +1,8 @@
+2001-02-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-style.c (foreach_tile) : Only apply to applicable row or
+	  col tile segments.
+
 2001-02-09  Jeffrey Stedfast  <fejj@ximian.com>
 	
 	* src/print.c: include ranges.h

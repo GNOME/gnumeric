@@ -636,7 +636,7 @@ foreach_tile (CellTile *tile, int level,
 	int const height = tile_heights [level+1];
 	int const w = tile_widths [level];
 	int const h = tile_heights [level];
-	int c, r, i;
+	int c, r, i, last;
 
 	g_return_if_fail (TILE_TOP_LEVEL >= level && level >= 0);
 	g_return_if_fail (tile != NULL);
@@ -649,14 +649,36 @@ foreach_tile (CellTile *tile, int level,
 	break;
 
 	case TILE_COL :
-	for (c = 0 ; c < TILE_SIZE_COL ; ++c)
+	if (apply_to != NULL) {
+		c    = (apply_to->start.col - corner_col) / w;
+		if (c < 0)
+			c = 0;
+		last = (apply_to->end.col - corner_col) / w + 1;
+		if (last > TILE_SIZE_COL)
+			last = TILE_SIZE_COL;
+	} else {
+		c = 0;
+		last = TILE_SIZE_COL;
+	}
+	for (; c < last ; ++c)
 		(*handler) (tile->style_col.style [c],
 			    corner_col + c*w, corner_row, w, height,
 			    apply_to, user);
 	break;
 
 	case TILE_ROW :
-	for (r = 0 ; r < TILE_SIZE_ROW ; ++r)
+	if (apply_to != NULL) {
+		r    = (apply_to->start.row - corner_row) / h;
+		if (r < 0)
+			r = 0;
+		last = (apply_to->end.row - corner_row) / h + 1;
+		if (last > TILE_SIZE_ROW)
+			last = TILE_SIZE_ROW;
+	} else {
+		r = 0;
+		last = TILE_SIZE_ROW;
+	}
+	for (; r < last ; ++r)
 		(*handler) (tile->style_row.style [r],
 			    corner_col, corner_row + r*h, width, h,
 			    apply_to, user);
@@ -1539,6 +1561,7 @@ cb_style_list_add_node (MStyle *style,
 	range.start.row = corner_row;
 	range.end.col = corner_col + width - 1;
 	range.end.row = corner_row + height - 1;
+
 	if (apply_to) {
 		range.start.col -= apply_to->start.col;
 		if (range.start.col < 0)
@@ -1554,6 +1577,9 @@ cb_style_list_add_node (MStyle *style,
 			range.end.row = apply_to->end.row;
 		range.end.row -= apply_to->start.row;
 	}
+#ifdef DEBUG_STYLE_LIST
+	range_dump (&range, " <= Add node \n");
+#endif
 
 	/* Do some simple minded merging vertically */
 	key.col = range.end.col;
@@ -1573,7 +1599,12 @@ static gboolean
 cb_hash_to_list (gpointer key, gpointer	value, gpointer	user_data)
 {
 	StyleList **res = user_data;
+	StyleRegion *sr = value;
 	*res = g_list_prepend (*res, value);
+
+#ifdef DEBUG_STYLE_LIST
+	range_dump (&sr->range, "\n");
+#endif
 	return TRUE;
 }
 
@@ -1594,7 +1625,13 @@ sheet_style_get_list (Sheet const *sheet, Range const *r)
 	foreach_tile (sheet->style_data->styles,
 		      TILE_TOP_LEVEL, 0, 0, r,
 		      cb_style_list_add_node, cache);
+#ifdef DEBUG_STYLE_LIST
+	fprintf(stderr, "=========\n");
+#endif
 	g_hash_table_foreach_remove (cache, cb_hash_to_list, &res);
+#ifdef DEBUG_STYLE_LIST
+	fprintf(stderr, "=========\n");
+#endif
 	g_hash_table_destroy (cache);
 
 	return res;
