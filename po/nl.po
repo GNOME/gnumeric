@@ -116,8 +116,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 08:44-0500\n"
-"PO-Revision-Date: 2004-02-03 15:36+0100\n"
+"POT-Creation-Date: 2004-02-24 05:14+0100\n"
+"PO-Revision-Date: 2004-02-26 13:32+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
@@ -482,8 +482,8 @@ msgstr ""
 "@SYNTAX=OPT_BS_RHO(call_put_keuze;prijs;koers;resterende_looptijd;rente;"
 "volatiliteit[;cost_of_carry])\n"
 "@DESCRIPTION=OPT_BS_RHO gebruikt het Black-Scholes model voor de berekening "
-"van de \"rho\" van een Europese put call- of put-optie (aangegeven met c of "
-"p) met een uitoefenprijs: @prijs op activa met een koers: @koers.\n"
+"van de \"rho\" van een Europese call- of put-optie (aangegeven met c of p) "
+"met een uitoefenprijs: @prijs op activa met een koers: @koers.\n"
 "\n"
 "(De rho van een optie geeft aan hoeveel de waarde van die optie verandert "
 "als de risico-vrije rentestand verandert.)\n"
@@ -505,7 +505,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:576
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_CARRYCOST\n"
 "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -532,28 +532,33 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=opt_bs_vega\n"
-"@SYNTAX=opt_bs_vega(prijs;koers;volatiliteit;resterende_looptijd;rente)\n"
-"@DESCRIPTION=Gebruikt het Black-Scholes model voor de berekening van de "
-"\"vega\" van een Europese optie met een uitoefenprijs: @prijs op activa met "
-"een koers: @koers.\n"
-"De vega van een optie is de mate van verandering in optiewaarde ten opzichte "
-"van de volatiliteit. De vega heeft dezelfde waarde voor calls en puts.\n"
+"@FUNCTION=OPT_BS_CARRYCOST\n"
+"@SYNTAX=OPT_BS_CARRYCOST(call_put_keuze;prijs;koers;resterende_looptijd;"
+"rente;volatiliteit[;cost_of_carry])\n"
+"@DESCRIPTION=OPT_BS_CARRYCOST gebruikt het Black-Scholes model voor de "
+"berekening van de \"elasticiteit\" van een Europese call- of put-optie "
+"(aangegeven met c of p) met een uitoefenprijs: @prijs op activa met een "
+"koers: @koers.\n"
+"\n"
+"(De elasticiteit van een optie is de mate van verandering van de prijs ten "
+"opzicht van de 'cost of carry'.)\n"
+"\n"
 "@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de "
 "onderliggende waarde), in percentage, van de activa voor de resterende "
 "looptijd.\n"
-"@resterende_looptijd is het aantal dagen tot expiratie.\n"
-"@rente is de risico-vrije rentestand tot expiratie, in percentage.\n"
-"Het gegeven resultaat is uitgedrukt als de verandering in optiewaarde per "
-"100% volatiliteit.\n"
+"@rente is de risico-vrije rentestand tot expiratie, in percentage\n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde, voor "
+"normale aandelen zou dit het dividentrendement zijn.\n"
+"\n"
+"* Het gegeven resultaat is uitgedrukt als de mate van verandering van de "
+"optiewaarde, per 100% volatiliteit.\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, "
-"opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, "
-"opt_bs_gamma"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:646
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
 "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domestic_rate,"
@@ -577,26 +582,35 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=opt_bs_call\n"
-"@SYNTAX=opt_bs_call(prijs;koers;volatiliteit;resterende_looptijd;rente)\n"
-"@DESCRIPTION=Gebruikt het Black-Scholes model voor de berekening van de "
-"waarde van een Europese call optie met een uitoefenprijs: @prijs op activa "
-"met een koers: @koers.\n"
+"@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
+"@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_keuze;prijs;koers;resterende_looptijd;"
+"binnenlands_rente;buitenlandse_rente;volatiliteit[;cost_of_carry])\n"
+"@DESCRIPTION=OPT_GARMAN_KOHLHAGEN berekent de theoretische prijs van een "
+"Europese waardemunt optie met een uitoefenprijs: @prijs op activa met een "
+"koers: @koers.\n"
+"\n"
+"@call_put_keuze is c of p voor respectievelijk een call of een put.\n"
 "@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de "
 "onderliggende waarde), in percentage, van de activa voor de resterende "
 "looptijd.\n"
-"@resterende_looptijd is het aantal dagen tot expiratie.\n"
-"@rente is de risico-vrije rentestand tot expiratie, in percentage.\n"
-"Het gegeven resultaat is uitgedrukt in dezelfde eenheden als @prijs en "
-"@koers.\n"
+"@resterende_looptijd is de tijd tot expiratie (vervaldatum) uitgedrukt in "
+"dagen.\n"
+"@binnenlandse_rente is de binnenlandse risico-vrije rentestand tot "
+"expiratie, in percentage. \n"
+"@buitenlandse_rente is de buitenlandse risico-vrije rentestand tot "
+"expiratie, in percentage.\n"
+"@cost_of_carry is  het waardeverloop van de onderliggende waarde, voor "
+"normale aandelen zou dit het dividentrendement zijn.\n"
+"\n"
+"\"* Het gegeven resultaat is uitgedrukt als de mate van verandering van de "
+"optiewaarde, per 100% volatiliteit.\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=opt_bs_put, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
-"opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
-"opt_bs_gamma"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:715
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FRENCH\n"
 "@SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,volatility[,"
@@ -623,23 +637,6 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=opt_bs_put\n"
-"@SYNTAX=opt_bs_put(priijs;koers;volatiliteit;resterende_looptijd;rente)\n"
-"@DESCRIPTION=Gebruikt het Black-Scholes model voor de berekening van de "
-"waarde van een Europese put optie met een uitoefenprijs: @prijs op activa "
-"met een koers: @koers.\n"
-"@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de "
-"onderliggende waarde), in percentage, van de activa voor de resterende "
-"looptijd.\n"
-"@resterende_looptijd is het aantal dagen tot expiratie.\n"
-"@rente is de risico-vrije rentestand tot expiratie, in percentage.\n"
-"Het gegeven resultaat is uitgedrukt in dezelfde eenheden als @prijs en "
-"@koers.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=opt_bs_call, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
-"opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
-"opt_bs_gamma"
 
 #: plugins/derivatives/options.c:779
 #, no-c-format
@@ -737,6 +734,7 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 
+# onderliggende waarde of onderliggende?
 #: plugins/derivatives/options.c:1220
 #, fuzzy, no-c-format
 msgid ""
@@ -758,29 +756,24 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=OPT_BS\n"
-"@SYNTAX=OPT_BS(prijs;koers;volatiliteit;resterende_looptijd;rente)\n"
-"@DESCRIPTION=OPT_BS gebruikt het Black-Scholes model voor de berekening van "
-"de waarde van een Europese optie met een call_put_keuze. @call_put_keuze \n"
-"\n"
-"\n"
-"\n"
-"met een uitoefenprijs: @prijs op activa met een koers: @koers.\n"
-"\n"
-"@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de "
-"onderliggende waarde), in percentage, van de activa voor de resterende "
-"looptijd.\n"
-"@resterende_looptijd is het aantal dagen tot expiratie.\n"
-"@rente is de risico-vrije rentestand tot expiratie, in percentage.\n"
-"\n"
-"* Het gegeven resultaat is uitgedrukt in dezelfde eenheden als @prijs en "
-"@koers.\n"
+"@FUNCTION=OPT_BJERSTENS\n"
+"@SYNTAX=OPT_BJERSTENS(call_put_keuze;prijs;koers;resterende_looptijd;rente;"
+"volatiliteit[;cost_of_carry])\n"
+"@DESCRIPTION=OPT_BJERSTENS modelleert de theoretische prijs van Amerikaanse "
+"opties volgens de benaderingstechniek van Bjerksund & Stensland.\n"
+"@call_put_keuze voor respectievelijk een call of een put optie. \n"
+"@prijs is de uitoefenprijs van de onderliggende waarde\n"
+"@koers is de koers waarbij de optie wordt geïnd.\n"
+"@resterende_looptijd is het aantal dagen tot expiratie van de optie\n"
+"@rente is het risicovrije jaarlijkse rentepercentage\n"
+"@volatiliteit is de jaarlijkse volatiliteit in prijs van de onderliggende "
+"waarde\n"
+"@cost_of_carry is  het waardeverloop van de onderliggende waarde, voor "
+"normale aandelen zou dit het dividentrendement zijn.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=opt_bs_put, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
-"opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
-"opt_bs_gamma"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1304
 #, no-c-format
@@ -808,7 +801,7 @@ msgid ""
 msgstr ""
 
 #: plugins/derivatives/options.c:1352
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FORWARD_START\n"
 "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,"
@@ -829,23 +822,6 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=opt_bs_put\n"
-"@SYNTAX=opt_bs_put(priijs;koers;volatiliteit;resterende_looptijd;rente)\n"
-"@DESCRIPTION=Gebruikt het Black-Scholes model voor de berekening van de "
-"waarde van een Europese put optie met een uitoefenprijs: @prijs op activa "
-"met een koers: @koers.\n"
-"@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de "
-"onderliggende waarde), in percentage, van de activa voor de resterende "
-"looptijd.\n"
-"@resterende_looptijd is het aantal dagen tot expiratie.\n"
-"@rente is de risico-vrije rentestand tot expiratie, in percentage.\n"
-"Het gegeven resultaat is uitgedrukt in dezelfde eenheden als @prijs en "
-"@koers.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=opt_bs_call, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
-"opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
-"opt_bs_gamma"
 
 #: plugins/derivatives/options.c:1415
 #, no-c-format
@@ -920,7 +896,7 @@ msgid ""
 msgstr ""
 
 #: plugins/derivatives/options.c:1648
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_ON_OPTIONS\n"
 "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,"
@@ -944,26 +920,9 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=opt_bs_put\n"
-"@SYNTAX=opt_bs_put(priijs;koers;volatiliteit;resterende_looptijd;rente)\n"
-"@DESCRIPTION=Gebruikt het Black-Scholes model voor de berekening van de "
-"waarde van een Europese put optie met een uitoefenprijs: @prijs op activa "
-"met een koers: @koers.\n"
-"@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de "
-"onderliggende waarde), in percentage, van de activa voor de resterende "
-"looptijd.\n"
-"@resterende_looptijd is het aantal dagen tot expiratie.\n"
-"@rente is de risico-vrije rentestand tot expiratie, in percentage.\n"
-"Het gegeven resultaat is uitgedrukt in dezelfde eenheden als @prijs en "
-"@koers.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=opt_bs_call, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
-"opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
-"opt_bs_gamma"
 
 #: plugins/derivatives/options.c:1733
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
 "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,"
@@ -987,29 +946,6 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=OPT_BS\n"
-"@SYNTAX=OPT_BS(prijs;koers;volatiliteit;resterende_looptijd;rente)\n"
-"@DESCRIPTION=OPT_BS gebruikt het Black-Scholes model voor de berekening van "
-"de waarde van een Europese optie met een call_put_keuze. @call_put_keuze \n"
-"\n"
-"\n"
-"\n"
-"met een uitoefenprijs: @prijs op activa met een koers: @koers.\n"
-"\n"
-"@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de "
-"onderliggende waarde), in percentage, van de activa voor de resterende "
-"looptijd.\n"
-"@resterende_looptijd is het aantal dagen tot expiratie.\n"
-"@rente is de risico-vrije rentestand tot expiratie, in percentage.\n"
-"\n"
-"* Het gegeven resultaat is uitgedrukt in dezelfde eenheden als @prijs en "
-"@koers.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=opt_bs_put, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
-"opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
-"opt_bs_gamma"
 
 #: plugins/derivatives/options.c:1761 plugins/derivatives/options.c:1766
 #: plugins/derivatives/options.c:1771 plugins/derivatives/options.c:1776
@@ -7766,7 +7702,6 @@ msgstr ""
 
 # prorated: betekent per rente, dus lineair afhankelijk
 #: plugins/fn-financial/functions.c:3179
-#, fuzzy
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -7798,30 +7733,6 @@ msgid ""
 "\n"
 "@SEEALSO=AMORDEGRC"
 msgstr ""
-"@FUNCTION=DURATION\n"
-"@SYNTAX=DURATION(stortingsdatum;vervaldatum;coup;rendement;freq[;"
-"soort_jaar])\n"
-"@DESCRIPTION=DURATION berekent de levensduur van een waardepapier.\n"
-"\n"
-"@stortingsdatum is de stortingsdatum van het waardepapier.\n"
-"@vervaldatum is de vervaldatum van het waardepapier.\n"
-"@soort_jaar is het type dagentelling dat wordt gebruikt:\n"
-"\n"
-"  0  Amerikaans 30/360\n"
-"  1  werkelijk/werkelijk\n"
-"  2  werkelijk/360\n"
-"  3  werkelijk/365\n"
-"  4  Europees 30/360\n"
-"\n"
-"* Als @frequentie anders is dan 1, 2, of 4 geeft DURATION een #GETAL! "
-"foutmelding.\n"
-"* Als @soort_jaar is weggelaten wordt uitgegaan van Amerikaans 30/360.\n"
-"* Als @soort_jaar niet tussen 0 en 4 ligt geeft de functie een #GETAL! "
-"foutmelding.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3237
 msgid ""
@@ -18956,9 +18867,10 @@ msgstr "Verwijder de opmaak van de geselecteerde cellen"
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Verwijder de opmaak, opmerkingen en inhoud van de geselecteerde cellen"
 
+#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:38
 msgid "Close the current file"
-msgstr "Sluit het huidige bestand"
+msgstr "Het huidige bestand sluiten"
 
 #: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3508
 msgid "Co_mment..."
@@ -19636,13 +19548,14 @@ msgstr "De spreadsheet opnieuw berekenen"
 msgid "Rectangle"
 msgstr "Rechthoek"
 
+#. GRUT modified this item
 # betekenis: undo the undo. Het is dus wat verwarrend:
 # Je voert een bewerking uit.
 # Je herstelt de bewerking.
 # Je besluit om toch de bewerking uit te voeren.
 #: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4284
 msgid "Redo the undone action"
-msgstr "Herhaalt de ingreep"
+msgstr "De ongedaan gemaakte actie opnieuw uitvoeren"
 
 #: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3823
 msgid "Regression Analysis"
@@ -19952,9 +19865,10 @@ msgstr "Zoom in of uit"
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
+#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:266
 msgid "_About"
-msgstr "_Info"
+msgstr "In_fo"
 
 #: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3741
 msgid "_Add..."
@@ -20601,10 +20515,15 @@ msgstr "Instellen van kolom %s op standaardbreedte"
 msgid "Setting height of row %s to default"
 msgstr "Instellen van rij %s op standaardhoogte"
 
-#: src/commands.c:1935 src/commands.c:1936
+#: src/commands.c:1935
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Automatisch passend maken kolommen %s"
+
+#: src/commands.c:1936
+#, c-format
+msgid "Autofitting rows %s"
+msgstr "Automatisch passend maken rijen %s"
 
 #: src/commands.c:1939
 #, c-format
@@ -21057,20 +20976,20 @@ msgstr "Z-as"
 msgid "Plot"
 msgstr "Tekenen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "H"
 msgstr "H"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "Height"
 msgstr "Hoogte"
 
 # Width-Breedte
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 msgid "W"
 msgstr "W"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 msgid "Width"
 msgstr "Breedte"
 
@@ -21874,9 +21793,10 @@ msgstr "Standaard punten-grafiektypen"
 msgid "XY Charts"
 msgstr "XY-grafieken"
 
+#. GRUT modified this item
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:222
 msgid "none"
-msgstr "Geen"
+msgstr "geen"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:223
 msgid "square"
@@ -31945,654 +31865,646 @@ msgstr "Fout bij opslaan bestand"
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML bestandsformaat"
 
-#~ msgid "Invalid password"
-#~ msgstr "Ongeldig wachtwoord"
+msgid "Invalid password"
+msgstr "Ongeldig wachtwoord"
 
-#~ msgid "Failure parsing AutoFilter."
-#~ msgstr "Verwerken Autofilter mislukt"
+msgid "Failure parsing AutoFilter."
+msgstr "Verwerken Autofilter mislukt"
 
-#~ msgid "Imported %s"
-#~ msgstr "%s Geïmporteerd."
+msgid "Imported %s"
+msgstr "%s Geïmporteerd."
 
 # dit is voor de grafiekonderdelen die nog niet af zijn
-#~ msgid "TODO : Unfinished"
-#~ msgstr "TODO : Dit moet nog worden geïmlementeerd"
+msgid "TODO : Unfinished"
+msgstr "TODO : Dit moet nog worden geïmlementeerd"
 
-#~ msgid "Interpolate between multi-dimensional points."
-#~ msgstr "Interpoleren tussen mulitdimensionale punten."
+msgid "Interpolate between multi-dimensional points."
+msgstr "Interpoleren tussen mulitdimensionale punten."
 
-#~ msgid "Interpolated points"
-#~ msgstr "Punten interpoleren"
+msgid "Interpolated points"
+msgstr "Punten interpoleren"
 
-#~ msgid "Linearly interpolated points"
-#~ msgstr "Lineair geïnterpoleerde punten"
+msgid "Linearly interpolated points"
+msgstr "Lineair geïnterpoleerde punten"
 
-#~ msgid "Marked linearly interpolated points"
-#~ msgstr "Gemarkeerde lineair geïnterpoleerde punten"
+msgid "Marked linearly interpolated points"
+msgstr "Gemarkeerde lineair geïnterpoleerde punten"
 
-#~ msgid "Plot one series per axis."
-#~ msgstr "Een serie per as tekenen."
+msgid "Plot one series per axis."
+msgstr "Een serie per as tekenen."
 
-#~ msgid "Results:"
-#~ msgstr "Resultaat:"
+msgid "Results:"
+msgstr "Resultaat:"
 
-#~ msgid "Changing cells:"
-#~ msgstr "Cellen _veranderen:"
+msgid "Changing cells:"
+msgstr "Cellen _veranderen:"
 
-#~ msgid "Scenarios:"
-#~ msgstr "Scenarios:"
+msgid "Scenarios:"
+msgstr "Scenarios:"
 
-#~ msgid "Summary Report:"
-#~ msgstr "Ovezichtsrapportage: "
+msgid "Summary Report:"
+msgstr "Ovezichtsrapportage: "
 
-#~ msgid "A_utofit columns"
-#~ msgstr "Kolommen a_utomatisch passend maken "
+msgid "A_utofit columns"
+msgstr "Kolommen a_utomatisch passend maken "
 
-#~ msgid "Inputs: "
-#~ msgstr "Invoer: "
+msgid "Inputs: "
+msgstr "Invoer: "
 
-#~ msgid "Max Time:       "
-#~ msgstr "Max Tijd:       "
+msgid "Max Time:       "
+msgstr "Max Tijd:       "
 
-#~ msgid "Output: "
-#~ msgstr "Uitvoer: "
+msgid "Output: "
+msgstr "Uitvoer: "
 
-#~ msgid "Reporting: "
-#~ msgstr "Rapportages: "
+msgid "Reporting: "
+msgstr "Rapportages: "
 
-#~ msgid "Summary report grupped by rounds"
-#~ msgstr "Overzichtsrapport gegroepeerd op rondes"
+msgid "Summary report grupped by rounds"
+msgstr "Overzichtsrapport gegroepeerd op rondes"
 
-#~ msgid "Summary: "
-#~ msgstr "Overzicht: "
+msgid "Summary: "
+msgstr "Overzicht: "
 
-#~ msgid "Variables: "
-#~ msgstr "Variabelen: "
+msgid "Variables: "
+msgstr "Variabelen: "
 
-#~ msgid "_Output Range: "
-#~ msgstr "_Uitvoerbereik: "
+msgid "_Output Range: "
+msgstr "_Uitvoerbereik: "
 
-#~ msgid "_Summary"
-#~ msgstr "_Overzicht"
+msgid "_Summary"
+msgstr "_Overzicht"
 
-#~ msgid "Sans Regular"
-#~ msgstr "Sans Regulier"
+msgid "Sans Regular"
+msgstr "Sans Regulier"
 
-#~ msgid "Path & File Name"
-#~ msgstr "Map & Bestandsnaam"
+msgid "Path & File Name"
+msgstr "Map & Bestandsnaam"
 
-#~ msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
-#~ msgstr "ONVOLTOOID Gnumeric XML (*.gnumeric)"
+msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
+msgstr "ONVOLTOOID Gnumeric XML (*.gnumeric)"
 
-#~ msgid "Sheet 1"
-#~ msgstr "Blad 1"
+msgid "Sheet 1"
+msgstr "Blad 1"
 
-#~ msgid "S_ize:"
-#~ msgstr "Gr_ootte:"
+msgid "S_ize:"
+msgstr "Gr_ootte:"
 
-#~ msgid "_Style:"
-#~ msgstr "_Stijl:"
+msgid "_Style:"
+msgstr "_Stijl:"
 
-#~ msgid "Adding a sheet"
-#~ msgstr "Een blad toevoegen"
+msgid "Adding a sheet"
+msgstr "Een blad toevoegen"
 
-#~ msgid "Adding sheet '%s'"
-#~ msgstr "Toevoegen blad '%s'"
+msgid "Adding sheet '%s'"
+msgstr "Toevoegen blad '%s'"
 
-#~ msgid "Rename sheet '%s' '%s'"
-#~ msgstr "Naam wijzigen blad '%s' '%s'"
+msgid "Rename sheet '%s' '%s'"
+msgstr "Naam wijzigen blad '%s' '%s'"
 
-#~ msgid "Fill _Color:"
-#~ msgstr "Vul_kleur:"
+msgid "Fill _Color:"
+msgstr "Vul_kleur:"
 
 # Kleurverloop
-#~ msgid "Gradient:"
-#~ msgstr "Verloop:"
-
-#~ msgid "Left to right"
-#~ msgstr "Links naar rechts"
-
-#~ msgid "Not available..."
-#~ msgstr "Niet beschikbaar..."
-
-#~ msgid "S_tart Color:"
-#~ msgstr "_Beginkleur:"
-
-#~ msgid "Top left to bottom right"
-#~ msgstr "Linksboven naar rechtsonder"
-
-#~ msgid "Top right to bottom left"
-#~ msgstr "Rechtsboven naar linksonder"
-
-#~ msgid "Top to bottom"
-#~ msgstr "Boven naar beneden"
-
-#~ msgid "_End Color:"
-#~ msgstr "_Eindkleur:"
-
-#~ msgid "_Fill type:"
-#~ msgstr "_Vultype:"
-
-#~ msgid "_Destination:"
-#~ msgstr "_Doel:"
-
-#~ msgid "Deletion of sheets is not undoable. Do you want to proceed?"
-#~ msgstr ""
-#~ "Verwijderen van bladen is niet te herstellen bewerking. Wilt u toch "
-#~ "doorgaan?"
-
-#~ msgid "<span weight=\"bold\">Output</span>"
-#~ msgstr "<span weight=\"bold\">Uitvoer</span>"
-
-#~ msgid "_Alpha:"
-#~ msgstr "_Alpha:"
-
-#~ msgid "Are you sure you want to remove the sheet called `%s'?"
-#~ msgstr "Weet u zeker dat u blad '%s' wilt verwijderen ?"
-
-#~ msgid "Bar/Col Charts"
-#~ msgstr "Balk/Kolom diagrammen"
-
-#~ msgid "You cannot have more than %d columns in this version of Gnumeric."
-#~ msgstr ""
-#~ "U kunt niet meer dan %d kolommen gebruiken in deze versie van Gnumeric."
-
-#~ msgid "Add a new column"
-#~ msgstr "Voeg een nieuwe kolom toe"
-
-#~ msgid "Co_lumn end: "
-#~ msgstr "Ko_lomeinde: "
-
-#~ msgid "Remove selected column"
-#~ msgstr "Verwijder de geselecteerde kolom."
-
-#~ msgid "dialog1"
-#~ msgstr "dialoog1"
-
-#~ msgid "Options:"
-#~ msgstr "Opties:"
-
-#~ msgid "Parse error while trying to parse data into cellregion"
-#~ msgstr "Fout bij het neerzetten van gegevens in het celbereik"
-
-#~ msgid "Axis"
-#~ msgstr "As"
-
-#~ msgid ""
-#~ "@FUNCTION=AMORDEGRC\n"
-#~ "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
-#~ "basis])\n"
-#~ "@DESCRIPTION=AMORDEGRC returns the depreciation for each accounting "
-#~ "period.\n"
-#~ "\n"
-#~ "@settlement is the settlement date of the security. @maturity is the "
-#~ "maturity date of the security. @basis is the type of day counting system "
-#~ "you want to use:\n"
-#~ "\n"
-#~ "  0  US 30/360\n"
-#~ "  1  actual days/actual days\n"
-#~ "  2  actual days/360\n"
-#~ "  3  actual days/365\n"
-#~ "  4  European 30/360\n"
-#~ "\n"
-#~ "* If @frequency is other than 1, 2, or 4, AMORDEGRC returns #NUM! error.\n"
-#~ "* If @basis is omitted, US 30/360 is applied.\n"
-#~ "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=AMORDEGRC\n"
-#~ "@SYNTAX=AMORDEGRC(prijs;aankoopdatum;eerste_termijn;restwaarde;termijn;"
-#~ "afschrijvingspercentage[;soort_jaar])\n"
-#~ "@DESCRIPTION=AMORDEGRC berekent de afschrijving voor elke "
-#~ "boekingsperiode. \n"
-#~ "\n"
-#~ "@prijs is de kostprijs van de activa, @aankoopdatum is de datum van "
-#~ "aankoop van de activa, @eerste_termijn is de einddatum van de eerste "
-#~ "periode, @restwaarde is de restwaarde aan het einde van de levensduur van "
-#~ "de activa, @termijn is de periode. @soort_jaar is type dagtelling dat u "
-#~ "wilt gebruiken waarbij\n"
-#~ "\n"
-#~ "  0  Amerikaans 30/360\n"
-#~ "  1  werkelijk/werkelijk\n"
-#~ "  2  werkelijk/360\n"
-#~ "  3  werkelijk/365\n"
-#~ "  4  Europees 30/360\n"
-#~ "\n"
-#~ "* Als @soort_jaar is weggelaten, wordt Amerikaans 30/360 toegepast.\n"
-#~ "* Als @soort_jaar niet tussen 0 en 4 zit, geeft AMORDEGR een #GETAL! "
-#~ "foutmelding. \n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=AMORLINC\n"
-#~ "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
-#~ "basis])\n"
-#~ "@DESCRIPTION=AMORLINC returns the depreciation for each accounting "
-#~ "period.\n"
-#~ "\n"
-#~ "@settlement is the settlement date of the security. @maturity is the "
-#~ "maturity date of the security. @basis is the type of day counting system "
-#~ "you want to use:\n"
-#~ "\n"
-#~ "  0  US 30/360\n"
-#~ "  1  actual days/actual days\n"
-#~ "  2  actual days/360\n"
-#~ "  3  actual days/365\n"
-#~ "  4  European 30/360\n"
-#~ "\n"
-#~ "* If @frequency is other than 1, 2, or 4, AMORLINC returns #NUM! error.\n"
-#~ "* If @basis is omitted, US 30/360 is applied.\n"
-#~ "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=AMORLINC\n"
-#~ "@SYNTAX=AMORLINC(prijs;aankoopdatum;eerste_termijn;restwaarde;termijn;"
-#~ "afschrijvingspercentage[;soort_jaar])\n"
-#~ "@DESCRIPTION=AMORLINC berekent de afschrijving voor elke "
-#~ "boekingsperiode.\n"
-#~ "\n"
-#~ "@prijs is de kostprijs van de activa, @aankoopdatum is de datum van "
-#~ "aankoop van de activa, @eerste_termijn is de einddatum van de eerste "
-#~ "periode, @restwaarde is de restwaarde aan het einde van de levensduur van "
-#~ "de activa, @termijn is de periode. @soort_jaar is type dagtelling dat u "
-#~ "wilt gebruiken waarbij\n"
-#~ "\n"
-#~ "  0  Amerikaans 30/360\n"
-#~ "  1  werkelijk/werkelijk\n"
-#~ "  2  werkelijk/360\n"
-#~ "  3  werkelijk/365\n"
-#~ "  4  Europees 30/360\n"
-#~ "\n"
-#~ "* Als @soort_jaar is weggelaten, wordt Amerikaans 30/360 toegepast.\n"
-#~ "* Als @soort_jaar niet tussen 0 en 4 zit, geeft AMORLINC een #GETAL! "
-#~ "foutmelding.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=atl_last\n"
-#~ "@SYNTAX=atl_last(tag)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=atl_last\n"
-#~ "@SYNTAX=atl_last(tag)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid "Financial"
-#~ msgstr "Financieel"
-
-#~ msgid "Random"
-#~ msgstr "Willekeurig"
-
-#~ msgid "Error: could not initialize connection pool"
-#~ msgstr "Fout bij initialiseren verbindings verzameling"
-
-#~ msgid "Insert a new spreadsheet"
-#~ msgstr "Voeg een nieuw rekenblad in"
-
-#~ msgid "_Risk Simulation..."
-#~ msgstr "_Risico-simulatie..."
-
-#~ msgid "Background Color"
-#~ msgstr "Achtergrondkleur"
-
-#~ msgid "C_enter"
-#~ msgstr "Gec_entreerd"
-
-#~ msgid "Co_lor:"
-#~ msgstr "K_leur:"
-
-#~ msgid "Effects"
-#~ msgstr "Effecten"
-
-#~ msgid "Message:"
-#~ msgstr "Bericht:"
-
-#~ msgid "_Center"
-#~ msgstr "Ge_centreerd"
-
-#~ msgid "_Color:"
-#~ msgstr "_Kleur:"
-
-#~ msgid "_Degrees"
-#~ msgstr "_Graden"
-
-#~ msgid "_Style"
-#~ msgstr "_Stijl"
-
-#~ msgid "Add the entered area to the list of source areas"
-#~ msgstr "Voeg het opgegeven bereik toe aan de lijst met bron bereiken."
-
-#~ msgid "D_elete"
-#~ msgstr "V_erwijderen"
-
-#~ msgid "Product"
-#~ msgstr "Product"
-
-#~ msgid "Stdev (sample)"
-#~ msgstr "Stdev (steekproef)"
-
-#~ msgid "Stdevp (population)"
-#~ msgstr "Stdevp (populatie)"
-
-#~ msgid "Var (sample)"
-#~ msgstr "Var (steekproef)"
-
-#~ msgid "Varp (population)"
-#~ msgstr "Varp (populatie)"
-
-#~ msgid "Error saving to temporary file."
-#~ msgstr "Fout tijdens schrijven naar tijdelijk bestand."
-
-#~ msgid "Cannot get temporary file size."
-#~ msgstr "Kan grootte van tijdelijk bestand niet verkrijgen."
-
-#~ msgid "Saving file to stream."
-#~ msgstr "Bezig bestand op te slaan naar stroom."
-
-#~ msgid "Error reading temporary file."
-#~ msgstr "Fout bij lezen van tijdelijk bestand."
-
-#~ msgid "Exception occurred while saving to stream."
-#~ msgstr "Er trad een uitzonderingsfout op bij het opslaan naar de stroom."
-
-#~ msgid "Which file format would you like?"
-#~ msgstr "Welk bestandsformaat wilt u hebben?"
-
-#~ msgid "Too many columns in data to parse: %d"
-#~ msgstr "Gegevens bevatten te veel kolommen om te verwerken: %d"
-
-#~ msgid "Duplicate this sheet"
-#~ msgstr "Dit werkblad dupliceren"
-
-#~ msgid "Rename this sheet"
-#~ msgstr "Geef dit werkblad een andere naam"
-
-#~ msgid "Remove this sheet"
-#~ msgstr "Verwijder dit werkblad"
-
-#~ msgid "Remove selected cells, shifting other into their place"
-#~ msgstr ""
-#~ "Verwijder de geselecteerde cellen waardoor andere cellen in hun plaats "
-#~ "schuiven"
-
-#~ msgid "Create a pivot table."
-#~ msgstr "Een draaitabel maken"
-
-#~ msgid "Format with thousands separator"
-#~ msgstr "Gebruik scheidingsteken voor duizendtallen"
-
-#~ msgid "serial_number,months"
-#~ msgstr "serienummerl;maanden"
-
-#~ msgid "Maths / Trig."
-#~ msgstr "Wiskunde / Trigonometrie"
-
-#~ msgid "x,meean,stdev"
-#~ msgstr "x;gemiddelde;stddev"
-
-#~ msgid "p,mean,stdev"
-#~ msgstr "p;gemiddelde;stddev"
-
-#~ msgid "find,within,start_num"
-#~ msgstr "vinden;binnen;begin_get"
-
-#~ msgid "Is not an Gnumeric Workbook file"
-#~ msgstr "Is geen Gnumeric Werkmapbestand"
-
-#~ msgid "Launch the Graph Guru"
-#~ msgstr "De Grafiek Goeroe opstarten"
-
-#~ msgid "_Add / Modify comment..."
-#~ msgstr "Opmerking _Toevoegen/Aanpassen ..."
-
-#~ msgid "A unique name for the action."
-#~ msgstr "Een unieke naam voor de actie."
-
-#~ msgid "The label used for menu items and buttons that activate this action."
-#~ msgstr "Het label voor menu-items en knoppen die deze actie activeren."
-
-#~ msgid "Short label"
-#~ msgstr "Kort label"
-
-#~ msgid "A shorter label that may be used on toolbar buttons."
-#~ msgstr "Een korter label dat op de werkbalkknoppen kan worden gebruikt."
-
-#~ msgid "Tooltip"
-#~ msgstr "Tooltip"
-
-#~ msgid "A tooltip for this action."
-#~ msgstr "Een tooltip voor deze actie."
-
-#~ msgid "Stock Icon"
-#~ msgstr "Standaardpictogram"
-
-#~ msgid "The stock icon displayed in widgets representing this action."
-#~ msgstr ""
-#~ "Het standaardpictogram dat wordt getoond in widgets die bij deze actie "
-#~ "horen."
-
-#~ msgid "Sensitive"
-#~ msgstr "Gevoelig"
-
-#~ msgid "Whether the action is enabled."
-#~ msgstr "Of de actie aangezet is."
-
-#~ msgid "Visible"
-#~ msgstr "Zichtbaar"
-
-#~ msgid "Whether the action is visible."
-#~ msgstr "Of de actie zichtbaar is."
-
-#~ msgid "Unknown attribute '%s' on line %d char %d"
-#~ msgstr "Onbekend attribuut '%s' op regel %d teken%d"
-
-#~ msgid "Unknown tag '%s' on line %d char %d"
-#~ msgstr "Onbekend merkteken '%s' op regel %d teken %d"
-
-#~ msgid "The orientation of the toolbar"
-#~ msgstr "De oriëntatie van de werkbalk"
-
-#~ msgid "How to draw the toolbar"
-#~ msgstr "Hoe de werkbalk moet worden getoond"
-
-#~ msgid "Show Arrow"
-#~ msgstr "Pijl tonen"
-
-#~ msgid "If an arrow should be shown if the toolbar doesn't fit"
-#~ msgstr "Of een pijl moet worden weergegeven als de schuifbalk niet past."
-
-#~ msgid "Spacer size"
-#~ msgstr "Scheider-grootte:"
-
-#~ msgid "Size of spacers"
-#~ msgstr "Grootte van Scheiders"
-
-#~ msgid "Amount of border space between the toolbar shadow and the buttons"
-#~ msgstr "Hoeveelheid ruimte tussen de werkbalkschaduw en de knoppen."
-
-#~ msgid "Space style"
-#~ msgstr "Scheiders-stijl"
-
-#~ msgid "Whether spacers are vertical lines or just blank"
-#~ msgstr "Of Scheiders vertikale strepen moeten zijn of gewoon onzichtbaar"
-
-#~ msgid "Button relief"
-#~ msgstr "Knopreliëf"
-
-#~ msgid "Type of bevel around toolbar buttons"
-#~ msgstr "Soort kader rondom werkbalk-knoppen"
-
-#~ msgid "Shadow type"
-#~ msgstr "Shaduwtype"
-
-#~ msgid "Style of bevel around the toolbar"
-#~ msgstr "Type kader rondom de werkbalk"
-
-#~ msgid "Text to show in the item."
-#~ msgstr "De tekst in het item"
-
-#~ msgid "Use underline"
-#~ msgstr "Onderstrepen gebruiken"
-
-#~ msgid "Interpret underlines in the item label."
-#~ msgstr "De onderstreping in het itemlabel interpreteren."
-
-#~ msgid "Stock Id"
-#~ msgstr "Standaard id."
-
-#~ msgid "The stock icon displayed on the item."
-#~ msgstr "Het standaardpictogram van het item."
-
-#~ msgid "Icon set"
-#~ msgstr "Pictogramverzameling"
-
-#~ msgid "Icon set to use to draw the item's icon."
-#~ msgstr "Te gebruiken pictogramverzameling voor het pictogram van het item."
-
-#~ msgid "Icon widget"
-#~ msgstr "Pictogram-widget"
-
-#~ msgid "Icon widget to display in the item."
-#~ msgstr "Pictogram-widget dat in het item wordt weergegeven."
-
-#~ msgid "Visible when horizontal"
-#~ msgstr "Zichtbaar bij horizontaal"
-
-#~ msgid ""
-#~ "Whether the toolbar item is visible when the toolbar is in a horizontal "
-#~ "orientation."
-#~ msgstr "Of het werkbalk-item zichtbaar is als de werkbalk horizontaal is."
-
-#~ msgid "Visible when vertical"
-#~ msgstr "Zichtbaar bij vertikaal"
-
-#~ msgid ""
-#~ "Whether the toolbar item is visible when the toolbar is in a vertical "
-#~ "orientation."
-#~ msgstr "Of het werkbalk-item zichtbaar is als de werkbalk vertikaal is."
-
-#~ msgid "Homogeneous size"
-#~ msgstr "Homogene afmeting"
-
-#~ msgid ""
-#~ "Whether the toolbar item should be the same size as other homogeneous "
-#~ "items."
-#~ msgstr ""
-#~ "Of het werkbalk-item dezelfde grootte moet hebben als andere homogene "
-#~ "items."
-
-#~ msgid "Basic Types"
-#~ msgstr "Basistypen"
+msgid "Gradient:"
+msgstr "Verloop:"
+
+msgid "Left to right"
+msgstr "Links naar rechts"
+
+msgid "Not available..."
+msgstr "Niet beschikbaar..."
+
+msgid "S_tart Color:"
+msgstr "_Beginkleur:"
+
+msgid "Top left to bottom right"
+msgstr "Linksboven naar rechtsonder"
+
+msgid "Top right to bottom left"
+msgstr "Rechtsboven naar linksonder"
+
+msgid "Top to bottom"
+msgstr "Boven naar beneden"
+
+msgid "_End Color:"
+msgstr "_Eindkleur:"
+
+msgid "_Fill type:"
+msgstr "_Vultype:"
+
+msgid "_Destination:"
+msgstr "_Doel:"
+
+msgid "Deletion of sheets is not undoable. Do you want to proceed?"
+msgstr ""
+"Verwijderen van bladen is niet te herstellen bewerking. Wilt u toch doorgaan?"
+
+msgid "<span weight=\"bold\">Output</span>"
+msgstr "<span weight=\"bold\">Uitvoer</span>"
+
+msgid "_Alpha:"
+msgstr "_Alpha:"
+
+msgid "Are you sure you want to remove the sheet called `%s'?"
+msgstr "Weet u zeker dat u blad '%s' wilt verwijderen ?"
+
+msgid "Bar/Col Charts"
+msgstr "Balk/Kolom diagrammen"
+
+msgid "You cannot have more than %d columns in this version of Gnumeric."
+msgstr ""
+"U kunt niet meer dan %d kolommen gebruiken in deze versie van Gnumeric."
+
+msgid "Add a new column"
+msgstr "Voeg een nieuwe kolom toe"
+
+msgid "Co_lumn end: "
+msgstr "Ko_lomeinde: "
+
+msgid "Remove selected column"
+msgstr "Verwijder de geselecteerde kolom."
+
+msgid "dialog1"
+msgstr "dialoog1"
+
+msgid "Options:"
+msgstr "Opties:"
+
+msgid "Parse error while trying to parse data into cellregion"
+msgstr "Fout bij het neerzetten van gegevens in het celbereik"
+
+msgid "Axis"
+msgstr "As"
+
+msgid ""
+"@FUNCTION=AMORDEGRC\n"
+"@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
+"basis])\n"
+"@DESCRIPTION=AMORDEGRC returns the depreciation for each accounting period.\n"
+"\n"
+"@settlement is the settlement date of the security. @maturity is the "
+"maturity date of the security. @basis is the type of day counting system you "
+"want to use:\n"
+"\n"
+"  0  US 30/360\n"
+"  1  actual days/actual days\n"
+"  2  actual days/360\n"
+"  3  actual days/365\n"
+"  4  European 30/360\n"
+"\n"
+"* If @frequency is other than 1, 2, or 4, AMORDEGRC returns #NUM! error.\n"
+"* If @basis is omitted, US 30/360 is applied.\n"
+"* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=AMORDEGRC\n"
+"@SYNTAX=AMORDEGRC(prijs;aankoopdatum;eerste_termijn;restwaarde;termijn;"
+"afschrijvingspercentage[;soort_jaar])\n"
+"@DESCRIPTION=AMORDEGRC berekent de afschrijving voor elke boekingsperiode. \n"
+"\n"
+"@prijs is de kostprijs van de activa, @aankoopdatum is de datum van aankoop "
+"van de activa, @eerste_termijn is de einddatum van de eerste periode, "
+"@restwaarde is de restwaarde aan het einde van de levensduur van de activa, "
+"@termijn is de periode. @soort_jaar is type dagtelling dat u wilt gebruiken "
+"waarbij\n"
+"\n"
+"  0  Amerikaans 30/360\n"
+"  1  werkelijk/werkelijk\n"
+"  2  werkelijk/360\n"
+"  3  werkelijk/365\n"
+"  4  Europees 30/360\n"
+"\n"
+"* Als @soort_jaar is weggelaten, wordt Amerikaans 30/360 toegepast.\n"
+"* Als @soort_jaar niet tussen 0 en 4 zit, geeft AMORDEGR een #GETAL! "
+"foutmelding. \n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+
+msgid ""
+"@FUNCTION=AMORLINC\n"
+"@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
+"basis])\n"
+"@DESCRIPTION=AMORLINC returns the depreciation for each accounting period.\n"
+"\n"
+"@settlement is the settlement date of the security. @maturity is the "
+"maturity date of the security. @basis is the type of day counting system you "
+"want to use:\n"
+"\n"
+"  0  US 30/360\n"
+"  1  actual days/actual days\n"
+"  2  actual days/360\n"
+"  3  actual days/365\n"
+"  4  European 30/360\n"
+"\n"
+"* If @frequency is other than 1, 2, or 4, AMORLINC returns #NUM! error.\n"
+"* If @basis is omitted, US 30/360 is applied.\n"
+"* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=AMORLINC\n"
+"@SYNTAX=AMORLINC(prijs;aankoopdatum;eerste_termijn;restwaarde;termijn;"
+"afschrijvingspercentage[;soort_jaar])\n"
+"@DESCRIPTION=AMORLINC berekent de afschrijving voor elke boekingsperiode.\n"
+"\n"
+"@prijs is de kostprijs van de activa, @aankoopdatum is de datum van aankoop "
+"van de activa, @eerste_termijn is de einddatum van de eerste periode, "
+"@restwaarde is de restwaarde aan het einde van de levensduur van de activa, "
+"@termijn is de periode. @soort_jaar is type dagtelling dat u wilt gebruiken "
+"waarbij\n"
+"\n"
+"  0  Amerikaans 30/360\n"
+"  1  werkelijk/werkelijk\n"
+"  2  werkelijk/360\n"
+"  3  werkelijk/365\n"
+"  4  Europees 30/360\n"
+"\n"
+"* Als @soort_jaar is weggelaten, wordt Amerikaans 30/360 toegepast.\n"
+"* Als @soort_jaar niet tussen 0 en 4 zit, geeft AMORLINC een #GETAL! "
+"foutmelding.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+
+msgid ""
+"@FUNCTION=atl_last\n"
+"@SYNTAX=atl_last(tag)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=atl_last\n"
+"@SYNTAX=atl_last(tag)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+
+msgid "Financial"
+msgstr "Financieel"
+
+msgid "Random"
+msgstr "Willekeurig"
+
+msgid "Error: could not initialize connection pool"
+msgstr "Fout bij initialiseren verbindings verzameling"
+
+msgid "Insert a new spreadsheet"
+msgstr "Voeg een nieuw rekenblad in"
+
+msgid "_Risk Simulation..."
+msgstr "_Risico-simulatie..."
+
+msgid "Background Color"
+msgstr "Achtergrondkleur"
+
+msgid "C_enter"
+msgstr "Gec_entreerd"
+
+msgid "Co_lor:"
+msgstr "K_leur:"
+
+msgid "Effects"
+msgstr "Effecten"
+
+msgid "Message:"
+msgstr "Bericht:"
+
+msgid "_Center"
+msgstr "Ge_centreerd"
+
+msgid "_Color:"
+msgstr "_Kleur:"
+
+msgid "_Degrees"
+msgstr "_Graden"
+
+msgid "_Style"
+msgstr "_Stijl"
+
+msgid "Add the entered area to the list of source areas"
+msgstr "Voeg het opgegeven bereik toe aan de lijst met bron bereiken."
+
+msgid "D_elete"
+msgstr "V_erwijderen"
+
+msgid "Product"
+msgstr "Product"
+
+msgid "Stdev (sample)"
+msgstr "Stdev (steekproef)"
+
+msgid "Stdevp (population)"
+msgstr "Stdevp (populatie)"
+
+msgid "Var (sample)"
+msgstr "Var (steekproef)"
+
+msgid "Varp (population)"
+msgstr "Varp (populatie)"
+
+msgid "Error saving to temporary file."
+msgstr "Fout tijdens schrijven naar tijdelijk bestand."
+
+msgid "Cannot get temporary file size."
+msgstr "Kan grootte van tijdelijk bestand niet verkrijgen."
+
+msgid "Saving file to stream."
+msgstr "Bezig bestand op te slaan naar stroom."
+
+msgid "Error reading temporary file."
+msgstr "Fout bij lezen van tijdelijk bestand."
+
+msgid "Exception occurred while saving to stream."
+msgstr "Er trad een uitzonderingsfout op bij het opslaan naar de stroom."
+
+msgid "Which file format would you like?"
+msgstr "Welk bestandsformaat wilt u hebben?"
+
+msgid "Too many columns in data to parse: %d"
+msgstr "Gegevens bevatten te veel kolommen om te verwerken: %d"
+
+msgid "Duplicate this sheet"
+msgstr "Dit werkblad dupliceren"
+
+msgid "Rename this sheet"
+msgstr "Geef dit werkblad een andere naam"
+
+msgid "Remove this sheet"
+msgstr "Verwijder dit werkblad"
+
+msgid "Remove selected cells, shifting other into their place"
+msgstr ""
+"Verwijder de geselecteerde cellen waardoor andere cellen in hun plaats "
+"schuiven"
+
+msgid "Create a pivot table."
+msgstr "Een draaitabel maken"
+
+msgid "Format with thousands separator"
+msgstr "Gebruik scheidingsteken voor duizendtallen"
+
+msgid "serial_number,months"
+msgstr "serienummerl;maanden"
+
+msgid "Maths / Trig."
+msgstr "Wiskunde / Trigonometrie"
+
+msgid "x,meean,stdev"
+msgstr "x;gemiddelde;stddev"
+
+msgid "p,mean,stdev"
+msgstr "p;gemiddelde;stddev"
+
+msgid "find,within,start_num"
+msgstr "vinden;binnen;begin_get"
+
+msgid "Is not an Gnumeric Workbook file"
+msgstr "Is geen Gnumeric Werkmapbestand"
+
+msgid "Launch the Graph Guru"
+msgstr "De Grafiek Goeroe opstarten"
+
+msgid "_Add / Modify comment..."
+msgstr "Opmerking _Toevoegen/Aanpassen ..."
+
+msgid "A unique name for the action."
+msgstr "Een unieke naam voor de actie."
+
+msgid "The label used for menu items and buttons that activate this action."
+msgstr "Het label voor menu-items en knoppen die deze actie activeren."
+
+msgid "Short label"
+msgstr "Kort label"
+
+msgid "A shorter label that may be used on toolbar buttons."
+msgstr "Een korter label dat op de werkbalkknoppen kan worden gebruikt."
+
+msgid "Tooltip"
+msgstr "Tooltip"
+
+msgid "A tooltip for this action."
+msgstr "Een tooltip voor deze actie."
+
+msgid "Stock Icon"
+msgstr "Standaardpictogram"
+
+msgid "The stock icon displayed in widgets representing this action."
+msgstr ""
+"Het standaardpictogram dat wordt getoond in widgets die bij deze actie horen."
+
+msgid "Sensitive"
+msgstr "Gevoelig"
+
+msgid "Whether the action is enabled."
+msgstr "Of de actie aangezet is."
+
+msgid "Visible"
+msgstr "Zichtbaar"
+
+msgid "Whether the action is visible."
+msgstr "Of de actie zichtbaar is."
+
+msgid "Unknown attribute '%s' on line %d char %d"
+msgstr "Onbekend attribuut '%s' op regel %d teken%d"
+
+msgid "Unknown tag '%s' on line %d char %d"
+msgstr "Onbekend merkteken '%s' op regel %d teken %d"
+
+msgid "The orientation of the toolbar"
+msgstr "De oriëntatie van de werkbalk"
+
+msgid "How to draw the toolbar"
+msgstr "Hoe de werkbalk moet worden getoond"
+
+msgid "Show Arrow"
+msgstr "Pijl tonen"
+
+msgid "If an arrow should be shown if the toolbar doesn't fit"
+msgstr "Of een pijl moet worden weergegeven als de schuifbalk niet past."
+
+msgid "Spacer size"
+msgstr "Scheider-grootte:"
+
+msgid "Size of spacers"
+msgstr "Grootte van Scheiders"
+
+msgid "Amount of border space between the toolbar shadow and the buttons"
+msgstr "Hoeveelheid ruimte tussen de werkbalkschaduw en de knoppen."
+
+msgid "Space style"
+msgstr "Scheiders-stijl"
+
+msgid "Whether spacers are vertical lines or just blank"
+msgstr "Of Scheiders vertikale strepen moeten zijn of gewoon onzichtbaar"
+
+msgid "Button relief"
+msgstr "Knopreliëf"
+
+msgid "Type of bevel around toolbar buttons"
+msgstr "Soort kader rondom werkbalk-knoppen"
+
+msgid "Shadow type"
+msgstr "Shaduwtype"
+
+msgid "Style of bevel around the toolbar"
+msgstr "Type kader rondom de werkbalk"
+
+msgid "Text to show in the item."
+msgstr "De tekst in het item"
+
+msgid "Use underline"
+msgstr "Onderstrepen gebruiken"
+
+msgid "Interpret underlines in the item label."
+msgstr "De onderstreping in het itemlabel interpreteren."
+
+msgid "Stock Id"
+msgstr "Standaard id."
+
+msgid "The stock icon displayed on the item."
+msgstr "Het standaardpictogram van het item."
+
+msgid "Icon set"
+msgstr "Pictogramverzameling"
+
+msgid "Icon set to use to draw the item's icon."
+msgstr "Te gebruiken pictogramverzameling voor het pictogram van het item."
+
+msgid "Icon widget"
+msgstr "Pictogram-widget"
+
+msgid "Icon widget to display in the item."
+msgstr "Pictogram-widget dat in het item wordt weergegeven."
+
+msgid "Visible when horizontal"
+msgstr "Zichtbaar bij horizontaal"
+
+msgid ""
+"Whether the toolbar item is visible when the toolbar is in a horizontal "
+"orientation."
+msgstr "Of het werkbalk-item zichtbaar is als de werkbalk horizontaal is."
+
+msgid "Visible when vertical"
+msgstr "Zichtbaar bij vertikaal"
+
+msgid ""
+"Whether the toolbar item is visible when the toolbar is in a vertical "
+"orientation."
+msgstr "Of het werkbalk-item zichtbaar is als de werkbalk vertikaal is."
+
+msgid "Homogeneous size"
+msgstr "Homogene afmeting"
+
+msgid ""
+"Whether the toolbar item should be the same size as other homogeneous items."
+msgstr ""
+"Of het werkbalk-item dezelfde grootte moet hebben als andere homogene items."
+
+msgid "Basic Types"
+msgstr "Basistypen"
 
 # Te veel hoofdletters?
-#~ msgid "_Rows Per Sample:"
-#~ msgstr "_Rijen Per Steekproef:"
+msgid "_Rows Per Sample:"
+msgstr "_Rijen Per Steekproef:"
 
-#~ msgid "The current category"
-#~ msgstr "De huidige categorie"
+msgid "The current category"
+msgstr "De huidige categorie"
 
-#~ msgid "_Category"
-#~ msgstr "_Categorie"
+msgid "_Category"
+msgstr "_Categorie"
 
-#~ msgid "Cust_om"
-#~ msgstr "Aangepast"
+msgid "Cust_om"
+msgstr "Aangepast"
 
-#~ msgid "De_lete Format"
-#~ msgstr "Opmaak verwijderen"
+msgid "De_lete Format"
+msgstr "Opmaak verwijderen"
 
-#~ msgid "Formatted Sample"
-#~ msgstr "Opgemaakt voorbeeld"
+msgid "Formatted Sample"
+msgstr "Opgemaakt voorbeeld"
 
-#~ msgid ""
-#~ "General format cells attempt to select an appropriate format depending on "
-#~ "the value of the cell."
-#~ msgstr ""
-#~ "Het algemene formaat probeert een geschikte opmaak te kiezen afhankelijk "
-#~ "van de waarde van de cel."
+msgid ""
+"General format cells attempt to select an appropriate format depending on "
+"the value of the cell."
+msgstr ""
+"Het algemene formaat probeert een geschikte opmaak te kiezen afhankelijk van "
+"de waarde van de cel."
 
-#~ msgid "Sp_ecial"
-#~ msgstr "Sp_eciaal"
+msgid "Sp_ecial"
+msgstr "Sp_eciaal"
 
-#~ msgid "Te_xt"
-#~ msgstr "Tekst"
+msgid "Te_xt"
+msgstr "Tekst"
 
-#~ msgid "_Number"
-#~ msgstr "_Getal"
+msgid "_Number"
+msgstr "_Getal"
 
-#~ msgid "_Time"
-#~ msgstr "_Tijd"
+msgid "_Time"
+msgstr "_Tijd"
 
-#~ msgid "K:"
-#~ msgstr "K:"
+msgid "K:"
+msgstr "K:"
 
-#~ msgid "Mrt"
-#~ msgstr "Mrt"
+msgid "Mrt"
+msgstr "Mrt"
 
-#~ msgid "_URL"
-#~ msgstr "_URL"
+msgid "_URL"
+msgstr "_URL"
 
-#~ msgid "Column formatting"
-#~ msgstr "Kolom formateren"
+msgid "Column formatting"
+msgstr "Kolom formateren"
 
-#~ msgid "Data type and number of lines"
-#~ msgstr "Gegevenstype en aantal regels"
+msgid "Data type and number of lines"
+msgstr "Gegevenstype en aantal regels"
 
-#~ msgid "Fixed width customization"
-#~ msgstr "Vaste breedte instellen"
+msgid "Fixed width customization"
+msgstr "Vaste breedte instellen"
 
-#~ msgid "Formatting for the selected column"
-#~ msgstr "Opmaak voor de geselecteerde kolom."
+msgid "Formatting for the selected column"
+msgstr "Opmaak voor de geselecteerde kolom."
 
-#~ msgid "Importing structured text"
-#~ msgstr "Importeren van gestructureerde tekst"
+msgid "Importing structured text"
+msgstr "Importeren van gestructureerde tekst"
 
-#~ msgid "Misc"
-#~ msgstr "Overig"
+msgid "Misc"
+msgstr "Overig"
 
-#~ msgid "Separation customization"
-#~ msgstr "Scheiding instellen"
+msgid "Separation customization"
+msgstr "Scheiding instellen"
 
-#~ msgid "Ro_ws"
-#~ msgstr "_Rijen"
+msgid "Ro_ws"
+msgstr "_Rijen"
 
-#~ msgid "Unkno_wn"
-#~ msgstr "_Onbekend"
+msgid "Unkno_wn"
+msgstr "_Onbekend"
 
-#~ msgid "Unknown Pop. Var. are:"
-#~ msgstr "Onbekende Pop. Var. zijn:"
+msgid "Unknown Pop. Var. are:"
+msgstr "Onbekende Pop. Var. zijn:"
 
-#~ msgid "Variable 1 Range:"
-#~ msgstr "Variabele 1 Bereik:"
+msgid "Variable 1 Range:"
+msgstr "Variabele 1 Bereik:"
 
-#~ msgid "Variable 2 Range:"
-#~ msgstr "Variabele 2 Bereik:"
+msgid "Variable 2 Range:"
+msgstr "Variabele 2 Bereik:"
 
-#~ msgid ";[Red]"
-#~ msgstr ";[Rood]"
+msgid ";[Red]"
+msgstr ";[Rood]"
 
-#~ msgid "_);("
-#~ msgstr "_);("
+msgid "_);("
+msgstr "_);("
 
-#~ msgid "_);[Red]("
-#~ msgstr "_);[Rood]("
+msgid "_);[Red]("
+msgstr "_);[Rood]("
 
-#~ msgid "Error while trying to pre-convert clipboard data"
-#~ msgstr "Fout bij omzetten van gegevens op het klembord"
+msgid "Error while trying to pre-convert clipboard data"
+msgstr "Fout bij omzetten van gegevens op het klembord"
