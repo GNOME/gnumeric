@@ -28,7 +28,7 @@ INCLUDES = 								\
 	-I$(top_srcdir)/src/cut-n-paste-code/foocanvas			\
 	$(GNUMERIC_CFLAGS)
 
-CLEANFILES = gnumeric-paths.h
+CLEANFILES = gnumeric-paths.h gnumeric.exe.a
 
 BUILT_SOURCES =					\
 	gnm-marshalers.h			\
@@ -100,6 +100,8 @@ GNUMERIC_BASE =					\
 	func-builtin.h				\
 	format.c				\
 	format.h				\
+	global-gnome-font.c			\
+	global-gnome-font.h			\
 	gnumeric-simple-canvas.c		\
 	gnumeric-simple-canvas.h		\
 	gnumeric-canvas.c			\
@@ -312,15 +314,20 @@ gnumeric_LDADD = 				\
 	$(INTLLIBS)
 
 gnumeric_LDFLAGS = -export-dynamic
+if WITH_WIN32
+    gnumeric_LDFLAGS += -Wl,--export-all-symbols,--output-def,gnumeric.def,--out-implib,gnumeric.exe.a,
+endif
 
 gnumeric_app_libs =				\
 	dialogs/libdialogs.a			\
 	tools/libtools.a			\
 	cut-n-paste-code/goffice/libgoffice.la	\
 	cut-n-paste-code/goffice/cut-n-paste/pcre/libpcre.a	\
-	cut-n-paste-code/goffice/cut-n-paste/egg-recent-files/libeggrecent.a	\
 	cut-n-paste-code/foocanvas/libfoocanvas/libfoocanvas.a	\
 	widgets/libwidgets.a
+if WITH_GNOME
+gnumeric_app_libs += cut-n-paste-code/goffice/cut-n-paste/egg-recent-files/libeggrecent.a
+endif
 
 if ENABLE_SOLVER
 gnumeric_app_libs +=				\
@@ -330,13 +337,13 @@ gnumeric_app_libs +=				\
 endif
 
 ssconvert_LDADD   = $(gnumeric_LDADD)
-ssconvert_LDFLAGS = $(gnumeric_LDFLAGS)
+ssconvert_LDFLAGS = -export-dynamic
 ssconvert_SOURCES =				\
 	$(GNUMERIC_SOURCE)			\
 	ssconvert.c
 
 #test_pango_LDADD   = $(gnumeric_LDADD)
-#test_pango_LDFLAGS = $(gnumeric_LDFLAGS)
+#test_pango_LDFLAGS = -export-dynamic
 #test_pango_SOURCES =				\
 #	$(GNUMERIC_SOURCE) 			\
 #	test-pango.c
@@ -358,10 +365,15 @@ gnumeric-paths.h: gnumeric-paths.sh
 	    mv $@.tmp $@ ; echo updated gnumeric-paths.h ;	\
 	fi
 
+if WITH_WIN32
+gnumeric_rc.o: gnumeric.rc
+	$(WINDRES) -DVERSION=$(VERSION) -DVERSION_NUMBER=`echo $(VERSION).0.0.0 | sed 's/\([0-9]*\)[^.]*\.*\([0-9]*\)[^.]*\.*\([0-9]*\)[^.]*\.*\([0-9]*\).*/\1,\2,\3,\4/'` --include-dir $(srcdir) -i $< -o $@
+else
 install-exec-hook:
 	cd $(DESTDIR)$(bindir) && \
 	mv -f gnumeric$(EXEEXT) gnumeric-$(VERSION)$(EXEEXT) && \
 	$(LN_S) gnumeric-$(VERSION)$(EXEEXT) gnumeric$(EXEEXT)
+endif
 
 uninstall-hook:
 	-cd $(DESTDIR)$(bindir) && \
@@ -378,7 +390,8 @@ EXTRA_DIST = GNOME_Gnumeric-gtk.xml.in				\
 	    main-application.c 					\
 	    main-component.c					\
 	    $(GNUMERIC_GNOME) README.gnm_float			\
-	    gnumeric-paths.sh.in ssconvert.c
+	    gnumeric-paths.sh.in ssconvert.c gnumeric.rc
+DISTCLEANFILES = GNOME_Gnumeric-gtk.xml
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
 
@@ -405,7 +418,7 @@ GNOME_Gnumeric-gtk.xml: GNOME_Gnumeric-gtk.xml.in
 #
 #gnumeric_component_LDADD = $(gnumeric_LDADD)
 #
-#gnumeric_component_LDFLAGS = $(gnumeric_LDFLAGS)
+#gnumeric_component_LDFLAGS = -export-dynamic
 #
 #gnumeric_component_app_libs = $(gnumeric_app_libs)
 #endif

@@ -219,7 +219,7 @@ go_combo_text_init (GoComboText *ct)
 
 	g_signal_connect (G_OBJECT (ct->entry),
 		"activate",
-		G_CALLBACK (cb_entry_activate), (gpointer) ct);
+		GTK_SIGNAL_FUNC (cb_entry_activate), (gpointer) ct);
 	g_signal_connect (G_OBJECT (ct->scroll),
 		"size_request",
 		G_CALLBACK (cb_scroll_size_request), (gpointer) ct);

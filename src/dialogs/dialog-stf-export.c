@@ -26,13 +26,10 @@
 
 #include <command-context.h>
 #include <workbook.h>
-#include <workbook-control.h>
 #include <sheet.h>
 #include <gui-util.h>
 #include <widgets/widget-charmap-selector.h>
 
-#include <goffice/gui-utils/go-gui-utils.h>
-#include <goffice/app/go-cmd-context.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtkcomboboxentry.h>
@@ -58,6 +55,7 @@ enum {
 	STF_EXPORT_COL_EXPORTED,
 	STF_EXPORT_COL_SHEET_NAME,
 	STF_EXPORT_COL_SHEET,
+	STF_EXPORT_COL_NON_EMPTY,
 	STF_EXPORT_COL_MAX
 };
 
@@ -73,8 +71,9 @@ typedef struct {
 	struct {
 		GtkListStore *model;
 		GtkTreeView  *view;
-		GtkWidget    *select_all, *select_none, *up, *down;
-		int num, num_selected;
+		GtkWidget    *select_all, *select_none;
+		GtkWidget    *up, *down, *top, *bottom;
+		int num, num_selected, non_empty;
 	} sheets;
 	struct {
 		GtkComboBox 	*termination;
@@ -244,7 +243,8 @@ static void
 set_sheet_selection_count (TextExportState *state, int n)
 {
 	state->sheets.num_selected = n;
-	gtk_widget_set_sensitive (state->sheets.select_all, state->sheets.num != n);
+	gtk_widget_set_sensitive (state->sheets.select_all, 
+				  state->sheets.non_empty > n);
 	gtk_widget_set_sensitive (state->sheets.select_none, n != 0);
 	gtk_widget_set_sensitive (state->next_button, n != 0);
 }
@@ -253,9 +253,16 @@ static gboolean
 cb_set_sheet (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
 	      gpointer data)
 {
-	gtk_list_store_set (GTK_LIST_STORE (model), iter,
-		STF_EXPORT_COL_EXPORTED, GPOINTER_TO_INT (data),
-		-1);
+	gboolean value;
+
+	gtk_tree_model_get (GTK_TREE_MODEL (model), iter,
+			    STF_EXPORT_COL_NON_EMPTY, &value,
+			    -1);
+	if (value)
+		gtk_list_store_set (GTK_LIST_STORE (model), iter,
+				    STF_EXPORT_COL_EXPORTED, 
+				    GPOINTER_TO_INT (data),
+				    -1);
 	return FALSE;
 }
 
@@ -264,7 +271,7 @@ cb_sheet_select_all (TextExportState *state)
 {
 	gtk_tree_model_foreach (GTK_TREE_MODEL (state->sheets.model),
 		cb_set_sheet, GINT_TO_POINTER (TRUE));
-	set_sheet_selection_count (state, state->sheets.num);
+	set_sheet_selection_count (state, state->sheets.non_empty);
 }
 static void
 cb_sheet_select_none (TextExportState *state)
@@ -274,37 +281,110 @@ cb_sheet_select_none (TextExportState *state)
 	set_sheet_selection_count (state, 0);
 }
 
+/**
+ * Refreshes the buttons on a row (un)selection and selects the chosen sheet
+ * for this view.
+ */
 static void
-move_element (TextExportState *state, gboolean move_up)
+cb_selection_changed (GtkTreeSelection *new_selection,
+		      TextExportState *state)
+{
+	GtkTreeIter iter, it;
+	gboolean first_selected = TRUE, last_selected = TRUE;
+
+	GtkTreeSelection  *selection = 
+		(new_selection == NULL) 
+		? gtk_tree_view_get_selection (state->sheets.view) 
+		: new_selection;
+
+	if (selection != NULL 
+	    && gtk_tree_selection_count_selected_rows (selection) > 0) {
+		gtk_tree_model_get_iter_first 
+			(GTK_TREE_MODEL (state->sheets.model),
+			 &iter);
+		first_selected = gtk_tree_selection_iter_is_selected 
+			(selection, &iter);
+		it = iter;
+		while (gtk_tree_model_iter_next 
+		       (GTK_TREE_MODEL (state->sheets.model),
+			&it))
+			iter = it;
+		last_selected = gtk_tree_selection_iter_is_selected 
+			(selection, &iter);
+	}
+
+	gtk_widget_set_sensitive (state->sheets.top, !first_selected);
+	gtk_widget_set_sensitive (state->sheets.up, !first_selected);
+	gtk_widget_set_sensitive (state->sheets.bottom, !last_selected);
+	gtk_widget_set_sensitive (state->sheets.down, !last_selected);
+
+	return;
+}
+
+static void
+move_element (TextExportState *state, gnm_iter_search_t iter_search)
 {
 	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheets.view);
 	GtkTreeModel *model;
 	GtkTreeIter  a, b;
 
+	g_return_if_fail (selection != NULL);
+
 	if (!gtk_tree_selection_get_selected  (selection, &model, &a))
 		return;
 
 	b = a;
-	if (move_up) {
-		GtkTreePath *path = gtk_tree_model_get_path (model, &a);
-		if (gtk_tree_path_prev (path) &&
-		    gtk_tree_model_get_iter (model, &b, path)) {
-			gtk_tree_path_free (path);
-			return;
-		}
-		gtk_tree_path_free (path);
-	} else if (!gtk_tree_model_iter_next (model, &b))
+	if (!iter_search (model, &b))
 		return;
 
 	gtk_list_store_swap (state->sheets.model, &a, &b);
+	cb_selection_changed (NULL, state);
 }
 
-static void cb_sheet_up   (TextExportState *state) { move_element (state, TRUE); }
-static void cb_sheet_down (TextExportState *state) { move_element (state, FALSE); }
+static void 
+cb_sheet_up   (TextExportState *state) 
+{ 
+	move_element (state, gnm_tree_model_iter_prev); 
+}
+
+static void 
+cb_sheet_down (TextExportState *state) 
+{ 
+	move_element (state, gnm_tree_model_iter_next); 
+}
+
+static void 
+cb_sheet_top   (TextExportState *state) 
+{ 
+	GtkTreeIter this_iter;
+	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheets.view);
+
+	g_return_if_fail (selection != NULL);
+
+	if (!gtk_tree_selection_get_selected  (selection, NULL, &this_iter))
+		return;
+	
+	gtk_list_store_move_after (state->sheets.model, &this_iter, NULL);
+	cb_selection_changed (NULL, state);
+}
+
+static void 
+cb_sheet_bottom (TextExportState *state)
+{
+	GtkTreeIter this_iter;
+	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheets.view);
+
+	g_return_if_fail (selection != NULL);
+
+	if (!gtk_tree_selection_get_selected  (selection, NULL, &this_iter))
+		return;
+	gtk_list_store_move_before (state->sheets.model, &this_iter, NULL);
+	cb_selection_changed (NULL, state);
+}
 
 static void
 cb_sheet_export_toggled (GtkCellRendererToggle *cell,
-			 gchar                 *path_string,
+			 const gchar *path_string,
 			 TextExportState *state)
 {
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
@@ -336,11 +416,15 @@ stf_export_dialog_sheet_page_init (TextExportState *state)
 	state->sheets.select_none = glade_xml_get_widget (state->gui, "sheet_select_none");
 	state->sheets.up	  = glade_xml_get_widget (state->gui, "sheet_up");
 	state->sheets.down	  = glade_xml_get_widget (state->gui, "sheet_down");
+	state->sheets.top	  = glade_xml_get_widget (state->gui, "sheet_top");
+	state->sheets.bottom	  = glade_xml_get_widget (state->gui, "sheet_bottom");
 	gtk_button_set_alignment (GTK_BUTTON (state->sheets.up), 0., .5);
 	gtk_button_set_alignment (GTK_BUTTON (state->sheets.down), 0., .5);
+	gtk_button_set_alignment (GTK_BUTTON (state->sheets.top), 0., .5);
+	gtk_button_set_alignment (GTK_BUTTON (state->sheets.bottom), 0., .5);
 
 	state->sheets.model	  = gtk_list_store_new (STF_EXPORT_COL_MAX,
-		G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_OBJECT);
+		G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_OBJECT, G_TYPE_BOOLEAN);
 	state->sheets.view	  = GTK_TREE_VIEW (
 		glade_xml_get_widget (state->gui, "sheet_list"));
 	gtk_tree_view_set_model (state->sheets.view, GTK_TREE_MODEL (state->sheets.model));
@@ -350,8 +434,12 @@ stf_export_dialog_sheet_page_init (TextExportState *state)
 		"toggled",
 		G_CALLBACK (cb_sheet_export_toggled), state);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (state->sheets.view),
-		gtk_tree_view_column_new_with_attributes (_("Export"),
-			renderer, "active", STF_EXPORT_COL_EXPORTED, NULL));
+		gtk_tree_view_column_new_with_attributes 
+				     (_("Export"),
+				      renderer, 
+				      "active", STF_EXPORT_COL_EXPORTED,
+				      "activatable", STF_EXPORT_COL_NON_EMPTY, 
+				      NULL));
 	gtk_tree_view_append_column (GTK_TREE_VIEW (state->sheets.view),
 		gtk_tree_view_column_new_with_attributes (_("Sheet"),
 			gtk_cell_renderer_text_new (),
@@ -363,16 +451,23 @@ stf_export_dialog_sheet_page_init (TextExportState *state)
 	cur_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg));
 	state->sheets.num = workbook_sheet_count (state->wb);
 	state->sheets.num_selected = 0;
+	state->sheets.non_empty = 0;
 	for (i = 0 ; i < state->sheets.num ; i++) {
+		GnmRange total_range;
+		gboolean export;
 		sheet = workbook_sheet_by_index (state->wb, i);
+		total_range = sheet_get_extent (sheet, TRUE);
+		export =  !sheet_is_region_empty (sheet, &total_range);
 		gtk_list_store_append (state->sheets.model, &iter);
 		gtk_list_store_set (state->sheets.model, &iter,
-				    STF_EXPORT_COL_EXPORTED,	sheet == cur_sheet,
+				    STF_EXPORT_COL_EXPORTED,	export,
 				    STF_EXPORT_COL_SHEET_NAME,	sheet->name_quoted,
 				    STF_EXPORT_COL_SHEET,	sheet,
+				    STF_EXPORT_COL_NON_EMPTY,   export,
 				    -1);
-		if (sheet == cur_sheet) {
-			state->sheets.num_selected = 1;
+		if (export) {
+			state->sheets.num_selected++;
+			state->sheets.non_empty++;
 			gtk_tree_selection_select_iter (selection, &iter);
 		}
 	}
@@ -390,6 +485,19 @@ stf_export_dialog_sheet_page_init (TextExportState *state)
 	g_signal_connect_swapped (G_OBJECT (state->sheets.down),
 		"clicked",
 		G_CALLBACK (cb_sheet_down), state);
+	g_signal_connect_swapped (G_OBJECT (state->sheets.top),
+		"clicked",
+		G_CALLBACK (cb_sheet_top), state);
+	g_signal_connect_swapped (G_OBJECT (state->sheets.bottom),
+		"clicked",
+		G_CALLBACK (cb_sheet_bottom), state);
+
+	cb_selection_changed (NULL, state);
+	g_signal_connect (selection,
+			  "changed",
+			  G_CALLBACK (cb_selection_changed), state);
+
+	gtk_tree_view_set_reorderable (state->sheets.view, TRUE);	
 }
 
 static void
@@ -408,7 +516,7 @@ stf_export_dialog_switch_page (TextExportState *state, TextExportPage new_page)
 	}
 	gtk_widget_set_sensitive (state->back_button,
 				  (state->cur_page != PAGE_SHEETS) &&
-				  (state->sheets.num > 1));
+				  (state->sheets.non_empty > 1));
 	gtk_label_set_label (GTK_LABEL (state->next_label), label);
 	gtk_image_set_from_stock (GTK_IMAGE (state->next_image),
 		image, GTK_ICON_SIZE_BUTTON);
@@ -444,8 +552,8 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
 
-	state.gui = go_libglade_new ("dialog-stf-export.glade", NULL, NULL,
-				     GO_CMD_CONTEXT (wbcg));
+	state.gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+		"dialog-stf-export.glade", NULL, NULL);
 	if (state.gui == NULL)
 		return NULL;
 
@@ -460,17 +568,26 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 	state.result	  = NULL;
 	stf_export_dialog_sheet_page_init (&state);
 	stf_export_dialog_format_page_init (&state);
-	stf_export_dialog_switch_page (&state,
-				       (1 == state.sheets.num) ? PAGE_FORMAT : PAGE_SHEETS);
-	gtk_widget_grab_default (state.next_button);
-	g_signal_connect_swapped (G_OBJECT (state.back_button),
-		"clicked",
-		G_CALLBACK (cb_back_page), &state);
-	g_signal_connect_swapped (G_OBJECT (state.next_button),
-		"clicked",
-		G_CALLBACK (cb_next_page), &state);
+	if (state.sheets.non_empty == 0) {
+		gnumeric_notice (wbcg_toplevel (wbcg),  GTK_MESSAGE_ERROR, 
+				 _("This workbook does not contain any "
+				   "exportable content."));
+	} else {
+		stf_export_dialog_switch_page 
+			(&state,
+			 (1 >= state.sheets.non_empty) ? 
+			 PAGE_FORMAT : PAGE_SHEETS);
+		gtk_widget_grab_default (state.next_button);
+		g_signal_connect_swapped (G_OBJECT (state.back_button),
+					  "clicked",
+					  G_CALLBACK (cb_back_page), &state);
+		g_signal_connect_swapped (G_OBJECT (state.next_button),
+					  "clicked",
+					  G_CALLBACK (cb_next_page), &state);
 
-	gnumeric_dialog_run (wbcg_toplevel (wbcg), GTK_DIALOG (state.window));
+		gnumeric_dialog_run (wbcg_toplevel (wbcg), 
+				     GTK_DIALOG (state.window));
+	}
 	g_object_unref (G_OBJECT (state.gui));
 
 	return state.result;

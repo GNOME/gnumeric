@@ -14,7 +14,6 @@
 #include <file.h>
 #include <workbook-view.h>
 #include <plugin.h>
-#include <workbook.h>
 #include <plugin-util.h>
 #include <module-plugin-defs.h>
 #include <error-info.h>
@@ -29,35 +28,47 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 gboolean lotus_file_probe (GnmFileOpener const *fo, GsfInput *input,
                            FileProbeLevel pl);
 void     lotus_file_open (GnmFileOpener const *fo, IOContext *io_context,
-                          GODoc *doc, GsfInput *input);
+                          WorkbookView *wb_view, GsfInput *input);
 
 
 gboolean
 lotus_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
-	char const *header = NULL;
+	char const *h = NULL;
 	if (!gsf_input_seek (input, 0, G_SEEK_SET))
-		header = gsf_input_read (input, 4, NULL);
-	return header != NULL &&
-	       header[0] == (LOTUS_BOF & 0xff) &&
-	       header[1] == ((LOTUS_BOF >> 8) & 0xff) &&
-	       header[2] == (2 & 0xff) &&
-	       header[3] == ((2 >> 8) & 0xff);
+		h = gsf_input_read (input, 6, NULL);
+
+	if (h == NULL ||
+	    GSF_LE_GET_GUINT16 (h+0) != LOTUS_BOF)
+		return FALSE;
+
+	/* wk1 and wks */
+	if (GSF_LE_GET_GUINT16 (h+2) == 2 &&
+	    (GSF_LE_GET_GUINT8 (h+4) == 4 || GSF_LE_GET_GUINT8 (h+4) == 6) &&
+	    GSF_LE_GET_GUINT8 (h+5) == 4)
+		return TRUE;
+	/* 123 */
+	if (GSF_LE_GET_GUINT8 (h+3) == 0 &&
+	    GSF_LE_GET_GUINT8 (h+4) == 3 &&
+	    GSF_LE_GET_GUINT8 (h+5) == 0x10)
+		return TRUE;
+	return FALSE;
 }
 
 void
 lotus_file_open (GnmFileOpener const *fo, IOContext *io_context,
-                 GODoc *doc, GsfInput *input)
+                 WorkbookView *wb_view, GsfInput *input)
 {
 	LotusWk1Read state;
 
 	state.input	 = input;
 	state.io_context = io_context;
-	state.wb	 = WORKBOOK (doc);
+	state.wbv	 = wb_view;
+	state.wb	 = wb_view_workbook (wb_view);
 	state.sheet	 = NULL;
 	state.converter	 = g_iconv_open ("UTF-8", "ISO-8859-1");
 
-	if (!lotus_wk1_read (&state))
+	if (!lotus_read (&state))
 		gnumeric_io_error_string (io_context,
 			_("Error while reading lotus workbook."));
 

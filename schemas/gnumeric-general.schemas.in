@@ -186,7 +186,11 @@
 	<default>200</default>
         <locale name="C">
         <short>Auto Expression Recalculation Lag</short>
-        <long>If this value is positive, auto expressions are recalculated within that many millesecond after a change. If it is negative they are recalculated with the magnitude many  milleseconds after the last change where 'last' is defined as the end of a  period of that size after a change with no changes.</long>
+        <long>If `lag' is 0, gnumeric recalculates all auto expressions immediately after every change.  Non-zero values of `lag' allow gnumeric to acumulate more changes before each recalculation.
+If `lag' is positive, then whenever a change appears, gnumeric waits `lag'
+milleseconds and then recalculates; if more changes appear during that period,
+they are also processed at that time. If `lag' is negative, then recalculation happens only after a quiet period of
+|lag| milleseconds.</long>
         </locale>
       </schema>
       <schema>

@@ -10,7 +10,6 @@
 #define _perl_dirty dirty
 #undef dirty
 #include <glib.h>
-#include <gnome.h>
 #include "plugin.h"
 #include "error-info.h"
 #include "module-plugin-defs.h"

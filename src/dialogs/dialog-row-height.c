@@ -22,6 +22,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
@@ -36,12 +37,10 @@
 #include <application.h>
 #include <workbook-cmd-format.h>
 
-#include <goffice/gui-utils/go-gui-utils.h>
-#include <goffice/app/go-cmd-context.h>
+#include <glade/glade.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtklabel.h>
-#include <glib/gi18n.h>
 
 #define ROW_HEIGHT_DIALOG_KEY "row-height-dialog"
 
@@ -260,8 +259,8 @@ dialog_row_height (WorkbookControlGUI *wbcg, gboolean use_default)
 	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sv_sheet (state->sv);
 	state->adjusting = FALSE;
-	state->gui = go_libglade_new ("row-height.glade", NULL, NULL,
-				      GO_CMD_CONTEXT (wbcg));
+	state->gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+		"row-height.glade", NULL, NULL);
 	g_return_if_fail (state->gui != NULL);
 
 	state->dialog = glade_xml_get_widget (state->gui, "dialog");

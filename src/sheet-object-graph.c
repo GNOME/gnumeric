@@ -46,6 +46,7 @@
 #include <goffice/graph/gog-renderer-svg.h>
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <goffice/utils/go-file.h>
+#include <goffice/utils/go-units.h>
 #include <graph.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -248,7 +249,7 @@ sog_cb_save_as (SheetObject *so, SheetControl *sc)
 		err = g_error_new (gsf_output_error_id (), 0,
 				   _("Unknown failure while saving image"));
 	if (!ret)
-		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
+		gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
 
 out:
 	g_free (uri);
@@ -377,10 +378,8 @@ sheet_object_graph_remove_from_sheet (SheetObject *so)
 static void
 sheet_object_graph_default_size (SheetObject const *so, double *w, double *h)
 {
-	g_object_get (SHEET_OBJECT_GRAPH (so)->renderer,
-		"logical_width_pts",  w,
-		"logical_height_pts", h,
-		NULL);
+	*w = GO_CM_TO_PT ((double)12);
+	*h = GO_CM_TO_PT ((double)8);
 }
 
 static void
@@ -519,7 +518,7 @@ sheet_object_graph_guru (WorkbookControlGUI *wbcg, GogGraph *graph,
 			 GClosure *closure)
 {
 	GtkWidget *dialog = gog_guru (graph, GOG_DATA_ALLOCATOR (wbcg),
-		       GO_CMD_CONTEXT (wbcg), wbcg_toplevel (wbcg),
+		       GNM_CMD_CONTEXT (wbcg), wbcg_toplevel (wbcg),
 		       closure);
 	wbcg_edit_attach_guru (wbcg, dialog);
 	g_object_set_data_full (G_OBJECT (dialog),

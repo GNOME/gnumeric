@@ -1,11 +1,508 @@
-2004-10-11  Christopher James Lahey  <clahey@ximian.com>
+2004-11-15  Jody Goldberg <jody@gnome.org>
 
-	* plugins/excel/ms-chart.c, plugins/excel/ms-excel-read.c,
-	plugins/excel/ms-excel-write.c, src/gnm-so-filled.c,
-	src/gnm-so-line.c, src/gui-util.c, src/style-color.c,
-	src/wbc-gtk.c, src/xml-io.c, src/dialogs/dialog-about.c,
-	src/dialogs/dialog-cell-format.c: Use the new GO_COLOR macros.
+	* src/stf.c (stf_init) : register some suffixes and mime types
+	* src/xml-io.c (xml_init) : ditto.
 
+	* src/plugin-service.c (plugin_service_file_opener_read_xml) : parse
+	  mime types too.
+
+	* src/gui-file.c (gui_file_open) : Use the new lists of suffixes and
+	  mime types from the openers rather than kluding something from
+	  savers.
+
+	* src/file.c (gnm_file_opener_setup) : store a list of suffixes and
+	  mime types.
+	(gnm_file_opener_finalize) : free the new lists.
+	(gnm_file_opener_new) : take suffixes and mime types as arguments
+	(gnm_file_opener_new_with_enc) : take suffixes and mime types as arguments
+	(gnm_file_opener_get_suffixes) : new.
+	(gnm_file_opener_get_mimes) : new.
+
+2004-11-15  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-widget.c : Add text and markup properties to
+	  checkbox/toggle button
+
+2004-11-14  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-pane.c (gnm_pane_display_obj_size_tip) : tweak the
+	  pixel distances.  The far coordinates are excluded.
+
+2004-11-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=151609
+	* src/commands.c (cmd_objects_restore_location): new
+	(cmd_objects_delete_undo): restore ordering of objects
+	(cmd_objects_delete_finalize): free locations array
+	(cmd_objects_delete): create and save locations array
+	* src/sheet-object.h (sheet_object_get_stacking): new
+	* src/sheet-object.c (sheet_object_get_stacking): new
+
+2004-11-10  Jody Goldberg <jody@gnome.org>
+
+	* src/style.c (required_updates_for_style) : for font size, and wrap
+	  changes add a flag to resize row heights.
+	* src/sheet.c (sheet_apply_style) : use the new SPANCALC_ROW_HEIGHT to
+	  decide when to autosize the rows. (debian #228105)
+
+2004-11-10  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : leave the old perl plugin disabled by default
+	  distros can enable it if desired using --with-perl.
+	  There are just too many build issues with it right now.
+
+2004-11-09  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in (GCONFTOOL, GLIB_GENMARSHAL, GDK_PIXBUF_CSOURCE):
+	  Clarify descriptions of these variables to say that the absolute
+	  path is required.
+
+2004-11-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	for Harald Ashburner <hal.ashburner@gmail.com>:
+	* sample/derivaties.gnumeric: update
+
+2004-11-08  Morten Welinder  <terra@gnome.org>
+
+	* src/history.c: Survive NULL basename (#157682).
+
+2004-11-08  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in: Fix psiconv test.
+
+2004-11-08  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (perl_msg): Disable buggy perl_construct check.
+
+	* src/expr.h: Delete trailing comma in enum.
+	* src/func.h: Ditto.
+
+2004-11-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: Call the "make" command for PY_EXTRA_LIBS with "-s".
+	  Without it, out-of-source builds have problems due to interference 
+	  from make printing entering/leaving directory messages.
+	* configure.in: Corrected $(GNUMERIC_PLUGIN_LDFLAGS) to
+	  $GNUMERIC_PLUGIN_LDFLAGS.
+
+2004-11-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gnumeric-gconf.c (go_conf_get_short_desc) return 
+	  NULL if we don't have a desription
+	(go_conf_get_long_desc): ditto
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	From Jean Bréfort :
+	* src/xml-io.c (xml_read_solver) : handle both formats of constraint
+	  Per and post 1.4
+
+2004-11-05  Jody Goldberg <jody@gnome.org>
+
+	From Ivan Wong:
+	* src/gui-util.c (gnumeric_icondir) : use the variable rather than the
+	  compiled path.
+	* configure.in : The win32 build needs some extra flags for the
+	  plugins
+	* Makefile.am : cheesy hack to build the charting plugins after we
+	  have an execuable.
+
+2004-11-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gnumeric-gconf.h (gnm_gconf_set_autocomplete): new
+	(gnm_gconf_set_unfocused_rs): new
+	(gnm_gconf_set_num_recent_functions): new
+	(gnm_gconf_set_prefer_clipboard): new
+	* src/gnumeric-gconf.c (gnm_gconf_set_autocomplete): new
+	(gnm_gconf_set_unfocused_rs): new
+	(gnm_gconf_set_num_recent_functions): new
+	(gnm_gconf_set_prefer_clipboard): new
+	
+2004-11-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gnumeric-gconf.h (gnm_gconf_set_gui_resolution_h): new
+	(gnm_gconf_set_gui_resolution_v): new
+	* src/gnumeric-gconf.c (gnm_gconf_set_gui_resolution_h): new
+	(gnm_gconf_set_gui_resolution_v): new
+	
+2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gnumeric-gconf.h (gnm_gconf_set_file_overwrite): new
+	(gnm_gconf_set_file_single_sheet_save): new
+	(gnm_gconf_set_gui_transition_keys): new
+	(gnm_gconf_set_gui_livescrolling): new
+	(gnm_gconf_set_sort_retain_form): new
+	(gnm_gconf_set_sort_by_case): new
+	(gnm_gconf_set_sort_ascending): new
+	(gnm_gconf_set_latex_use_utf8): new
+	* src/gnumeric-gconf.c (gnm_gconf_set_file_overwrite): new
+	(gnm_gconf_set_file_single_sheet_save): new
+	(gnm_gconf_set_gui_transition_keys): new
+	(gnm_gconf_set_gui_livescrolling): new
+	(gnm_gconf_set_sort_retain_form): new
+	(gnm_gconf_set_sort_by_case): new
+	(gnm_gconf_set_sort_ascending): new
+	(gnm_gconf_set_latex_use_utf8): new
+	(gnm_gconf_set_show_sheet_name): new
+
+2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gnumeric-gconf.h (gnm_gconf_set_file_history_number): new
+	(gnm_gconf_set_max_descriptor_width): change argument to gint
+	(gnm_gconf_set_xml_compression): new
+	(gnm_gconf_set_sort_dialog_max_initial): new
+	(gnm_gconf_set_workbook_nsheets): new
+	* src/gnumeric-gconf.c (gnm_gconf_set_file_history_number): new
+	(gnm_gconf_set_max_descriptor_width): change argument to gint
+	(gnm_gconf_set_xml_compression): new
+	(gnm_gconf_set_sort_dialog_max_initial): new
+	(gnm_gconf_set_workbook_nsheets): new
+	(gnm_gconf_set_undo_size): set current prefs structure
+	(gnm_gconf_set_undo_max_number): set current prefs structure
+
+2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gnumeric-gconf.c (gnm_gconf_set_hf_font): new
+	* src/gnumeric-gconf.h (gnm_gconf_set_hf_font): new
+
+2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gnumeric-gconf.c (gnm_gconf_set_default_font_name): avoid 
+	  warning
+
+2004-11-02  Stepan Kasal  <kasal@ucw.cz>
+
+	* src/ssconvert.c (main): Don't call gsf_init(); gnm_common_init
+	  will do it (via libgoffice_init) and we don't need it until then.
+
+2004-11-05  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object) : ctrl+alt is the
+	  logic place to do symetric movement with the new layout.
+
+2004-11-04  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in:
+	  Add AC_ARG_VAR declarations for all variables used in
+	  AC_PATH_PROG or AC_CHECK_PROG.
+	  Clean up the checks for psiconv, perl and python.
+	  Remove the check for jw.
+
+2004-11-05  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object): change sheet object
+	manipulation keybindings to something that is not a psychomotor test.
+
+2004-11-04  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_mode_edit) : no need to finish editing
+	  if we are not current sheet.
+
+2004-11-03  Jody Goldberg <jody@gnome.org>
+
+	* src/ranges.c (global_range_contained) : adjust the signature to
+	  provide a Sheet* context.
+
+2004-11-04  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (lgamma1p): Fix gnm_float buglet.
+
+	* src/commands.c (cmd_selection_clear): Fix 157376.
+
+2004-11-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=157238
+	http://bugzilla.gnome.org/show_bug.cgi?id=157239
+	* gnumeric-gconf.h (gnm_gconf_set_gui_window_x): new
+	(gnm_gconf_set_gui_window_y): new
+	(gnm_gconf_set_gui_zoom): new
+	(gnm_gconf_set_default_font_size): new
+	(gnm_gconf_set_default_font_name): new
+	(gnm_gconf_set_default_font_bold): new
+	(gnm_gconf_set_default_font_italic): new
+	* gnumeric-gconf.c (gnm_gconf_set_gui_window_x): new
+	(gnm_gconf_set_gui_window_y): new
+	(gnm_gconf_set_gui_zoom): new
+	(gnm_gconf_set_default_font_size): new
+	(gnm_gconf_set_default_font_name): new
+	(gnm_gconf_set_default_font_bold): new
+	(gnm_gconf_set_default_font_italic): new
+	
+2004-11-03  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : fix the python test and sync it with the perl test
+
+2004-11-02  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : extend the test for perl
+
+	* src/sheet-control-gui.c (cb_collect_objects_to_commit) : set the
+	  anchor of objects that are not rubber banded directly.
+	* src/gnumeric-pane.c (cb_clear_indirect_rubber_bands) : Merge into
+	  cb_collect_objects_to_commit.
+
+2004-11-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=156732
+	* src/gnumeric-gconf.c (gnm_gconf_set_recent_funcs):
+	  also adjust the pref structure.
+
+2004-11-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/rendered-value.c (rendered_value_get_text):
+	  plug leak
+
+2004-11-01  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : post release bump
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-11-01  Yukihiro Nakai  <nakai@gnome.gr.jp>
+
+	* configure.in: Enable perl plugins
+	* plugins/Makefile.am: Add perl-func, perl-loader
+
+2004-11-01  Jody Goldberg <jody@gnome.org>
+
+	* src/Makefile.am : DISTCLEAN GNOME_Gnumeric-gtk.xml it is generated
+
+2004-09-15  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: Add test for zlib, inspired by libxml2's configure.in;
+	  this is needed to link excel.la correctly against libz, if it is
+	  available only as a static library, not as a dynamic one.
+
+2004-11-01  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-clipboard.c (text_to_cell_region): Fix type confusion.
+
+	* src/dependent.c (dependents_unrelocate): Don't access sheet
+	member in union unless there is supposed to be one.
+
+2004-11-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gui-util.h (gnm_iter_search_t): new type
+	(gnm_tree_model_iter_prev): new
+	* src/gui-util.c (gnm_tree_model_iter_prev): new
+	
+2004-10-30  Stepan Kasal  <kasal@ucw.cz>
+
+	A cleanup of ssconvert; don't require Gnome.
+
+	* src/ssconvert.c (list_them): New general function which lists 
+	  importers or exporters.
+	(convert): New function; the main functionality moved here.
+	(mail): Use the above functions; call gsf_init and don't use
+	  Gnome-specific functions.
+
+2004-09-13  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: Don't use test's operators -a and -o, they aren't
+	  portable.  A small cleanup of the python detection code.
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* src/format.c (cb_attrs_as_string) : new.
+	(gnm_format_parse_markup) : parse the content generated above
+	(style_format_new_XL) : handle markup formats
+
+2004-10-30  Jody Goldberg <jody@gnome.org>
+
+	* src/formats.c (cell_format_classify) : handle the quick cheesy hack
+	  to persist attr lists.
+
+2004-10-28  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_update_action_sensitivity) :
+	  renamed from wbcg_edit_set_sensitive (still a bogus title given that
+	  we have related functionality in several places).  Moved the logic
+	  to define what should be sensitive here, rather than from the model.
+	  This allows us to reconfigure on sheet changes.
+
+2004-10-28  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object) : up/down where
+	  reversed.
+
+2004-10-29  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook.c (workbook_set_dirty) : update the title if dirtiness
+	  changed
+
+	* src/workbook-control.c (wb_control_update_title) : Add a HIGy '*'
+	  for modified documents.
+
+	* src/io-context-gtk.c : include string.h to avoid warning
+
+	* src/sheet-control-gui.c (scg_cursor_extend) : finish the edit before
+	  we extend.
+
+	* src/item-edit.c (ie_layout) : handle zoom
+
+2004-10-29  Morten Welinder  <terra@gnome.org>
+
+	* src/io-context-gtk.c (icg_processing_file): Since the progress
+	bar truncates text at the right, limit the text we set to 40
+	characters (give or take) to ensure that the basename can be seen.
+
+	* src/plugin-service.c (plugin_service_ui_finalize): Free actions
+	using the right kind of freer.
+
+	* src/wbc-gtk.c (wbc_gtk_init): Create custom_uis table here.
+	(wbc_gtk_finalize): Destroy it here.
+
+	* src/stf-export.c (stf_export_sheet): Plug leak.
+
+2004-10-29  Jody Goldberg <jody@gnome.org>
+
+	* src/wbc-gtk.c (cb_add_custom_ui) : fix unmerging
+
+2004-10-29  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-gconf.c (gnm_conf_init_extras) : typos in the broken
+	  gconf case
+
+2004-10-29  Jody Goldberg <jody@gnome.org>
+
+	* src/format.c (append_hour) : be XL compat
+
+2004-10-29  Jody Goldberg <jody@gnome.org>
+
+	* src/file-autoft.c : clean up the handling of translations
+	* src/format-template.c (format_template_new) : Name should be
+	  translatable, not translated.
+
+2004-10-29  Jody Goldberg <jody@gnome.org>
+
+	* src/application.c (gnm_action_new) : new
+	(gnm_action_free) : ditto
+	(gnm_app_add_extra_ui) : ditto
+	(gnm_app_remove_extra_ui) : ditto
+	(gnm_app_foreach_extra_ui) : ditto
+
+	* configure.in : enable the sample ui plugin
+	* plugins/Makefile.am : ditto
+	* plugins/python-loader/boot.c : ditto
+	* plugins/python-loader/py-console.c : ditto
+	* plugins/python-loader/python-loader.c : ditto
+
+2004-10-27  Jody Goldberg <jody@gnome.org>
+
+	* src/plugin-service.c : enable the ui service.
+	* plugins/gnome-db/plugin-gnomedb.c : Use the new interface for the ui
+	  plugin
+
+	* src/sheet-object-graph.c (sheet_object_graph_default_size) : be
+	  cheesy.  We're setting the bounds in so many places before this is
+	  called that it's not safe to use the defaults from GogRenderer.  Not
+	  a huge loss, those were pretty arbitrary.
+
+2004-10-26  Jody Goldberg <jody@gnome.org>
+
+	* src/libgnumeric.c (gnm_pre_parse_init) : Set the default
+	  datadir/libdir based on the packge for WIN32
+
+2004-10-28  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* plugins/excel/ms-chart.c (BC_R): handle dash_type property.
+	(ms_excel_chart_read): use GO_LINE_NONE ofr invisible lines.
+	
+2004-10-27  Morten Welinder  <terra@gnome.org>
+
+	* src/complex.c (complex_div, complex_sqrt): Improve accuracy.
+
+	* src/gui-file.c (go_file_is_writable): Use G_IS_DIR_SEPARATOR
+	instead of comparing to G_DIR_SEPARATOR.
+
+2004-10-27  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gnumeric.desktop.in, gnumeric.keys.in: Changed
+	"comma-separated-values" to "text/comma-separated-values", as a "MIME
+	type" without a slash in it is rejected by "update-desktop-database".
+
+2004-10-26  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
+
+	* schemas/gnumeric-dialogs.schemas.in: Fixed Typo
+
+2004-10-26  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (pgamma): Fix various accuracy problems for
+	extreme cases.
+
+	* Makefile.am (gnumeric.desktop): Use %U or %F for Exec as
+	appropritate.
+
+2004-10-25  Yukihiro Nakai  <nakai@gnome.gr.jp>
+
+	* src/plugin-loader.c: (gnm_plugin_loader_load_base)
+	Don't crash but warn when no load_base method.
+	* src/plugin-service.c: (plugin_service_function_group_func_desc_load)
+	Don't crash but warn when no func_desc_load method.
+	
+2004-10-21  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (logfbit): Make global.
+
+2004-10-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/stf.c: (stf_apply_formats): use unsigned int
+	* src/stf-parse.h: make col_import_array_len unsigned
+
+2004-10-21  Jean Brefort  <jean.brefort@normalesup.org>
+	* src/dialogs/dialog-solver.c: (revert_constraint_format): make constraints
+	display correctly in all circumstances.
+
+2004-10-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=139385
+	* src/stf-parse.c (stf_parse_options_new) initialize
+	  cols_exceeded
+	(stf_parse_sheet): set cols_exceeded
+	* src/stf-parse.h: add cols_exceeded to StfParseOptions_t
+	* src/stf.c (stf_apply_formats): remove warning
+	(stf_read_workbook_auto_csvtab): show warning if 
+	  cols_exceeded is set.
+
+2004-10-21  Yukihiro Nakai  <nakai@gnome.gr.jp>
+
+	* src/format-template.c: (xml_read_format_template_members)
+	Gettextize author,name,descr field.
+
+	* templates/autoformat/: Move xml to xml.in and gettextize them
+
+2004-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-general.schemas.in: change recalclag 
+	  description
+
+2004-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/stf-parse.c (stf_parse_options_new): initialize 
+	  col_import_array_len
+	(stf_parse_sheet): make sure we don't index beyond the end 
+	  of the col_import_array
+	(stf_parse_region): ditto
+	* src/stf.c (stf_apply_formats): ditto
+	* src/stf-parse.h: add col_import_array_len to StfParseOptions_t
+
+2004-10-21  Yukihiro Nakai  <nakai@gnome.gr.jp>
+
+	* src/plugin-loader.c (gnm_plugin_loader_load_service):
+	Output error when no set_attributes method.
+
+2004-10-20  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-clipboard.c (x_clipboard_get_cb): Crash protection.
+
+	* src/clipboard.c (cellregion_to_string): Add extra argument
+	checks.
 
 2004-10-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
 

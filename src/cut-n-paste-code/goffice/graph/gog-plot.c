@@ -438,6 +438,7 @@ gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
 	bounds->logical.maxima = go_nan;
 	bounds->logical.minima = go_nan;
 	bounds->is_discrete = FALSE;
+	bounds->center_on_ticks = FALSE;
 	if (klass->axis_get_bounds == NULL)
 		return NULL;
 	return (klass->axis_get_bounds) (plot, axis, bounds);

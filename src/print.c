@@ -1153,7 +1153,7 @@ sheet_print_selection (PrintJobInfo *pj, Sheet const *sheet,
 	GnmRange extent;
 
 	if (!(sel = selection_first_range (sheet_get_view (sheet, wb_control_view (wbc)),
-					   GO_CMD_CONTEXT (wbc), _("Print Region"))))
+					   GNM_CMD_CONTEXT (wbc), _("Print Region"))))
 		return;
 
 	extent = *sel;
@@ -1229,7 +1229,7 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	pj->render_info->sheet = sheet;
 	pj->render_info->page = 1;
 
-	pj->decoration_font = go_font_find_closest_from_weight_slant 
+	pj->decoration_font = gnm_font_find_closest_from_weight_slant 
 	     (mstyle_get_font_name (gnm_app_prefs->printer_decoration_font), 
 	      mstyle_get_font_bold (gnm_app_prefs->printer_decoration_font)
 	      ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR,

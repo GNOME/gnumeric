@@ -194,13 +194,20 @@ cb_sheet_mark_dirty (gpointer key, gpointer value, gpointer user_data)
 void
 workbook_set_dirty (Workbook *wb, gboolean is_dirty)
 {
+	gboolean changed;
+
 	g_return_if_fail (wb != NULL);
 
+	changed = (!workbook_is_dirty (wb) != !is_dirty);
 	wb->modified = is_dirty;
 	if (wb->summary_info != NULL)
 		wb->summary_info->modified = is_dirty;
 	g_hash_table_foreach (wb->sheet_hash_private,
 		cb_sheet_mark_dirty, GINT_TO_POINTER (is_dirty));
+	if (changed) {
+		WORKBOOK_FOREACH_CONTROL (wb, view, control,
+			wb_control_update_title (control););
+	}
 }
 
 static void
@@ -521,9 +528,10 @@ workbook_set_uri (Workbook *wb, char const *uri)
 	g_free (wb->basename);
 	wb->basename = go_basename_from_uri (uri);
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
-		wb_control_title_set (control, wb->basename););
+		wb_control_update_title (control););
 
 	g_signal_emit (G_OBJECT (wb), signals [FILENAME_CHANGED], 0);
+	_gnm_app_flag_windows_changed ();
 	return TRUE;
 }
 
@@ -757,15 +765,6 @@ workbook_iteration_tolerance (Workbook *wb, double tolerance)
 	g_return_if_fail (tolerance >= 0);
 
 	wb->iteration.tolerance = tolerance;
-}
-
-/*************************************************************************/
-
-GPtrArray const *
-workbook_get_views (Workbook const *wb)
-{
-	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
-	return wb->wb_views;
 }
 
 void
@@ -1268,7 +1267,7 @@ workbook_sheet_rename_check (Workbook *wb,
 			     GSList *sheet_indices,
 			     GSList *new_names,
 			     GSList *sheet_indices_deleted,
-			     GOCmdContext *cc)
+			     GnmCmdContext *cc)
 {
 	GSList *sheet_index = sheet_indices;
 	GSList *new_name = new_names;
@@ -1294,7 +1293,8 @@ workbook_sheet_rename_check (Workbook *wb,
 
 			if (the_new_name == NULL && 
 			    GPOINTER_TO_INT (sheet_index->data) != -1) {
-				go_cmd_context_error_invalid (cc, 
+				gnm_cmd_context_error_invalid 
+					(cc, 
 					 _("Sheet name is NULL"),
 					 the_new_name);
 				return FALSE;
@@ -1304,7 +1304,8 @@ workbook_sheet_rename_check (Workbook *wb,
 				
 				/* Is the sheet name valid utf-8 ?*/
 				if (!g_utf8_validate (the_new_name, -1, NULL)) {
-					go_cmd_context_error_invalid (cc, 
+					gnm_cmd_context_error_invalid 
+						(cc, 
 						 _("Sheet name is not valid utf-8"),
 						 the_new_name);
 					return FALSE;
@@ -1312,8 +1313,10 @@ workbook_sheet_rename_check (Workbook *wb,
 				
 				/* Is the sheet name to short ?*/
 				if (1 > g_utf8_strlen (the_new_name, -1)) {
-					go_cmd_context_error_invalid (cc,
-						 _("Sheet name must have at least 1 letter"),
+					gnm_cmd_context_error_invalid 
+						(cc,
+						 _("Sheet name must have at "
+						   "least 1 letter"),
 						 the_new_name);
 					return FALSE;
 				}
@@ -1334,8 +1337,10 @@ workbook_sheet_rename_check (Workbook *wb,
 					}
 
 					if (NULL == tmp_sheets) {
-						go_cmd_context_error_invalid (cc,
-							 _("There is already a sheet named"),
+						gnm_cmd_context_error_invalid 
+							(cc,
+							 _("There is already a "
+							   "sheet named"),
 							 the_new_name);
 						return FALSE;
 					}
@@ -1346,7 +1351,8 @@ workbook_sheet_rename_check (Workbook *wb,
 				    g_slist_find_custom (new_name->next, 
 							 the_new_name, 
 							 gnm_str_compare) != NULL) {
-					go_cmd_context_error_invalid (cc,
+					gnm_cmd_context_error_invalid 
+						(cc,
 						 _("You may not use this name twice"),
 						 the_new_name);
 					return FALSE;
@@ -1375,7 +1381,7 @@ gboolean
 workbook_sheet_rename (Workbook *wb,
 		       GSList *sheet_indices,
 		       GSList *new_names,
-		       GOCmdContext *cc)
+		       GnmCmdContext *cc)
 {
 	GSList *sheet_index = sheet_indices;
 	GSList *new_name = new_names;

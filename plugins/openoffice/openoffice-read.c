@@ -70,6 +70,7 @@ typedef struct {
 	GsfXMLIn base;
 
 	IOContext 	*context;	/* The IOcontext managing things */
+	WorkbookView	*wb_view;	/* View for the new workbook */
 
 	GnmParsePos 	pos;
 
@@ -391,7 +392,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin;
 	GnmStyle *style = NULL;
-	double   *width_pts;
+	double   *width_pts = NULL;
 	int repeat_count = 1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -1383,10 +1384,10 @@ static GsfXMLInDoc *content_doc, *settings_doc, *styles_doc;
 
 void
 openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
-		      GODoc *doc, GsfInput *input);
+		      WorkbookView *wb_view, GsfInput *input);
 void
 openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
-		      GODoc *doc, GsfInput *input)
+		      WorkbookView *wb_view, GsfInput *input)
 {
 	char *old_num_locale, *old_monetary_locale;
 	OOParseState state;
@@ -1396,12 +1397,13 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	GsfInfile *zip;
 	int i;
 
+	g_return_if_fail (IS_WORKBOOK_VIEW (wb_view));
 	g_return_if_fail (GSF_IS_INPUT (input));
 
 	zip = gsf_infile_zip_new (input, &err);
 	if (zip == NULL) {
 		g_return_if_fail (err != NULL);
-		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (io_context),
 			err->message);
 		g_error_free (err);
 		return;
@@ -1409,7 +1411,7 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 
 	content = gsf_infile_child_by_name (zip, "content.xml");
 	if (content == NULL) {
-		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (io_context),
 			 _("No stream named content.xml found."));
 		g_object_unref (G_OBJECT (zip));
 		return;
@@ -1430,6 +1432,8 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 
 	/* init */
 	state.context = io_context;
+	state.wb_view = wb_view;
+	state.pos.wb	= wb_view_workbook (wb_view);
 	state.pos.sheet = NULL;
 	state.pos.eval.col	= -1;
 	state.pos.eval.row	= -1;

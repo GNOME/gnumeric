@@ -37,7 +37,7 @@
 #define FOO_CANVAS_POLYGON_H
 
 
-#include "libfoocanvas/foo-canvas.h"
+#include "cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas.h"
 
 G_BEGIN_DECLS
 

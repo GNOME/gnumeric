@@ -44,8 +44,6 @@
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnumeric-cell-renderer-expr-entry.h>
 
-#include <goffice/gui-utils/go-gui-utils.h>
-#include <goffice/app/go-cmd-context.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtktreestore.h>
 #include <gtk/gtktreeview.h>
@@ -927,8 +925,9 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 		return;
 	}
 
-	gui = go_libglade_new ("formula-guru.glade", NULL, NULL,
-			       GO_CMD_CONTEXT (wbcg));
+	/* Get the dialog and check for errors */
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+		"formula-guru.glade", NULL, NULL);
 	if (gui == NULL)
 		return;
 

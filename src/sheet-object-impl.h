@@ -62,11 +62,8 @@ typedef struct {
 	gboolean    (*write_xml_dom) (SheetObject const *so,
 				      XmlParseContext const *ctxt,
 				      xmlNodePtr	tree);
-	gboolean     (*read_xml_sax) (SheetObject	*so,
-				      char const *type_name,	/* for versioning */
-				      XmlParseContext const *ctxt,
-				      xmlNodePtr	tree);
 	void        (*write_xml_sax) (SheetObject const *so, GsfXMLOut *output);
+	GsfXMLInNode *read_xml_sax;
 
 	/* Called with 0,0 set to the top, left corner of the object, and the
 	 * graphics context saved */

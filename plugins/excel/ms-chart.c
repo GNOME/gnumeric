@@ -165,7 +165,7 @@ BC_R(color) (guint8 const *data, char const *type)
 	guint16 const b = (bgr >> 16) & 0xff;
 
 	d (1, fprintf(stderr, "%s %02x:%02x:%02x;\n", type, r, g, b););
-	return GO_COLOR_FROM_RGBA (r, g, b, 0xff);
+	return RGBA_TO_UINT (r, g, b, 0xff);
 }
 
 /****************************************************************************/
@@ -882,14 +882,14 @@ ms_chart_map_color (XLChartReadState const *s, guint32 raw, guint32 alpha)
 	if ((~0x7ffffff) & raw) {
 		GnmColor *c= excel_palette_get (s->container.ewb->palette,
 			(0x7ffffff & raw));
-		res = GO_COLOR_FROM_GDK (c->color);
+		res = GDK_TO_UINT (c->color);
 		style_color_unref (c);
 	} else {
 		guint8 r, g, b;
 		r = (raw)       & 0xff;
 		g = (raw >> 8)  & 0xff;
 		b = (raw >> 16) & 0xff;
-		res = GO_COLOR_FROM_RGBA (r, g, b, 0xff);
+		res = RGBA_TO_UINT (r, g, b, 0xff);
 	}
 	return res;
 }
@@ -948,7 +948,7 @@ BC_R(gelframe) (XLChartHandler const *handle,
 	} else if (type == 6) { /* fill from center */
 		/* TODO */
 	} else if (type == 7) {
-		GOGradientDirection dir;
+		GOGradientDirection dir = GO_GRADIENT_S_TO_N;
 		guint32 angle = ms_obj_attr_get_uint (attrs, MS_OBJ_ATTR_FILL_ANGLE, 0);
 		gint32 focus = ms_obj_attr_get_int (attrs, MS_OBJ_ATTR_FILL_FOCUS, 0);
 
@@ -1126,6 +1126,14 @@ static gboolean
 BC_R(lineformat)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
+	static GOLineDashType const dash_map []= {
+		GO_LINE_SOLID,
+		GO_LINE_DASH,
+		GO_LINE_DOT,
+		GO_LINE_DASH_DOT,
+		GO_LINE_DASH_DOT_DOT,
+		GO_LINE_NONE
+	};
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+8);
 
 	BC_R(get_style) (s);
@@ -1149,8 +1157,10 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	d (0, fprintf (stderr, "Lines have a %s pattern.\n",
 		       ms_line_pattern [s->style->line.pattern ]););
 
-	if (s->style->line.pattern == 5) /* invisible */
-		s->style->line.width = -1;
+	if (s->style->line.pattern <= G_N_ELEMENTS (dash_map))
+		s->style->line.dash_type = dash_map [s->style->line.pattern];
+	else
+		s->style->line.dash_type = GO_LINE_SOLID;
 
 	return FALSE;
 }
@@ -2232,7 +2242,8 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 
 	if (NULL != (state.sog = sog)) {
 		GogStyle *style = gog_style_new ();
-		style->outline.width = -1;
+		style->outline.width = 0;
+		style->outline.dash_type = GO_LINE_NONE;
 		style->fill.type = GOG_FILL_STYLE_NONE;
 
 		state.graph = sheet_object_graph_get_gog (sog);
@@ -2329,12 +2340,9 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 
 		case BIFF_WINDOW2_v0 :
 		case BIFF_WINDOW2_v2 :
-#if 0
-#warning FIXME FIXME FIXM How does this work with multi-views ?  the same as sheets ?
 			if (full_page != NULL && container->ver > MS_BIFF_V2)
 				if (GSF_LE_GET_GUINT16 (q->data + 0) & 0x0400)
 					wb_view_sheet_focus (container->ewb->wbv, full_page);
-#endif
 			break;
 
 		case BIFF_SCL :
@@ -2483,9 +2491,9 @@ static unsigned
 chart_write_color (XLChartWriteState *s, guint8 *data, GOColor c)
 {
 	guint32 abgr;
-	abgr  = GO_COLOR_R(c);
-	abgr |= GO_COLOR_G(c) << 8;
-	abgr |= GO_COLOR_B(c) << 16;
+	abgr  = UINT_RGBA_R(c);
+	abgr |= UINT_RGBA_G(c) << 8;
+	abgr |= UINT_RGBA_B(c) << 16;
 	GSF_LE_SET_GUINT32 (data, abgr);
 
 	return palette_get_index (s->ewb, abgr & 0xffffff);
@@ -2507,8 +2515,8 @@ chart_write_AREAFORMAT (XLChartWriteState *s, GogStyle const *style, gboolean di
 #warning export images
 		case GOG_FILL_STYLE_NONE:
 			pat = 0;
-			fore = GO_COLOR_WHITE;
-			back = GO_COLOR_WHITE;
+			fore = RGBA_WHITE;
+			back = RGBA_WHITE;
 			break;
 		case GOG_FILL_STYLE_PATTERN: {
 			pat = style->fill.pattern.pattern + 1;

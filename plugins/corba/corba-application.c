@@ -53,22 +53,26 @@ typedef struct {
 
 static GNOME_Gnumeric_Workbook
 capp_workbook_open (PortableServer_Servant ignore,
-		    CORBA_char const      *uri,
+		    CORBA_char const      *file_name,
 		    CORBA_boolean          shared_view,
 		    CORBA_Environment     *ev)
 {
-	Workbook     *wb = gnm_app_workbook_get_by_name (uri);
+	Workbook     *wb = gnm_app_workbook_get_by_name (file_name);
 	WorkbookView *wbv;
 
-	if (wb == NULL) {
-		GOCmdContext *cc = cmd_context_stderr_new ();
+	if (wb != NULL) {
+		if (shared_view && wb->wb_views->len > 0)
+			wbv = g_ptr_array_index (wb->wb_views, 0);
+		else
+			wbv = NULL;
+	} else {
+		GnmCmdContext *cc = cmd_context_stderr_new ();
 		IOContext *io_context = gnumeric_io_context_new (cc);
-		wb = (Workbook *)go_doc_new_from_uri (uri, NULL, io_context, NULL);
+		wbv = wb_view_new_from_uri (file_name, NULL, io_context, NULL);
 		g_object_unref (G_OBJECT (io_context));
 		g_object_unref (G_OBJECT (cc));
 	}
-	wbv = (shared_view && wb->wb_views->len > 0)
-		? g_ptr_array_index (wb->wb_views, 0) : NULL;
+
 	return workbook_control_corba_obj (workbook_control_corba_new (wbv, wb));
 }
 

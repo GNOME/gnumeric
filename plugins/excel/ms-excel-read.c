@@ -242,7 +242,7 @@ ms_sheet_map_color (ExcelReadSheet const *esheet, MSObj const *obj, MSObjAttrID 
 		b = (attr->v.v_uint >> 16) & 0xff;
 	}
 
-	return GO_COLOR_FROM_RGBA (r,g,b,0xff);
+	return RGBA_TO_UINT (r,g,b,0xff);
 }
 
 static SheetObject *
@@ -420,7 +420,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	case 0x04: /* Arc */
 		style = gog_style_new ();
 		style->line.color = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_OUTLINE_COLOR, GO_COLOR_BLACK);
+			MS_OBJ_ATTR_OUTLINE_COLOR, RGBA_BLACK);
 		style->line.width = ms_obj_attr_get_uint (obj->attrs,
 			MS_OBJ_ATTR_OUTLINE_WIDTH, 0) / 256.;
 		style->line.pattern = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE)
@@ -441,15 +441,15 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	case 0x0E: /* Label */
 		style = gog_style_new ();
 		style->outline.color = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_OUTLINE_COLOR, GO_COLOR_BLACK);
+			MS_OBJ_ATTR_OUTLINE_COLOR, RGBA_BLACK);
 		style->outline.width = ms_obj_attr_get_uint (obj->attrs,
 			MS_OBJ_ATTR_OUTLINE_WIDTH, 0) / 256.;
 		style->outline.pattern = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE)
 			? 0 : ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 1);
 		style->fill.pattern.back = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_FILL_COLOR, GO_COLOR_WHITE);
+			MS_OBJ_ATTR_FILL_COLOR, RGBA_WHITE);
 		style->fill.pattern.fore = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_FILL_BACKGROUND, GO_COLOR_BLACK);
+			MS_OBJ_ATTR_FILL_BACKGROUND, RGBA_BLACK);
 		style->fill.type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_UNFILLED)
 			? GOG_FILL_STYLE_NONE : GOG_FILL_STYLE_PATTERN;
 
@@ -481,8 +481,9 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		if (so == NULL)
 			so = g_object_new (GNM_SO_FILLED_TYPE, NULL);  /* placeholder */
 
-#warning "Why do we create these here only to get rid of them?"
-		g_object_unref (so);
+#warning Free the objects.  I have a patch for this once 1.4.0 is out
+		if (so != obj->gnum_obj)
+			g_object_unref (so);
 		break;
 	}
 
@@ -793,10 +794,10 @@ excel_read_string_header (guint8 const *data,
 }
 
 char *
-ms_biff_get_chars (char const *ptr, guint length, gboolean use_utf16)
+ms_biff_get_chars (char const *ptr, size_t length, gboolean use_utf16)
 {
 	char* ans;
-	unsigned i;
+	size_t i;
 
 	if (use_utf16) {
 		gunichar2 *uni_text = g_alloca (sizeof (gunichar2)*length);
@@ -2731,7 +2732,7 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 }
 
 static ExcelWorkbook *
-excel_workbook_new (MsBiffVersion ver, IOContext *context, Workbook *wb)
+excel_workbook_new (MsBiffVersion ver, IOContext *context, WorkbookView *wbv)
 {
 	static MSContainerClass const vtbl = {
 		NULL, NULL,
@@ -2748,7 +2749,7 @@ excel_workbook_new (MsBiffVersion ver, IOContext *context, Workbook *wb)
 	ms_container_init (&ewb->container, &vtbl, NULL, ewb, ver);
 
 	ewb->context = context;
-	ewb->gnum_wb = wb;
+	ewb->wbv = wbv;
 
 	ewb->v8.supbook     = g_array_new (FALSE, FALSE, sizeof (ExcelSupBook));
 	ewb->v8.externsheet = NULL;
@@ -2762,7 +2763,6 @@ excel_workbook_new (MsBiffVersion ver, IOContext *context, Workbook *wb)
 		g_direct_hash, g_direct_equal,
 		NULL, (GDestroyNotify)biff_font_data_destroy);
 	ewb->excel_sheets     = g_ptr_array_new ();
-	ewb->wb_views	      = g_ptr_array_new ();
 	ewb->XF_cell_records  = g_ptr_array_new ();
 	ewb->format_table      = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal,
@@ -2773,16 +2773,8 @@ excel_workbook_new (MsBiffVersion ver, IOContext *context, Workbook *wb)
 	return ewb;
 }
 
-static WorkbookView *
-excel_wb_get_view (ExcelWorkbook *ewb, int view_idx)
-{
-	if (0 <= view_idx && view_idx < (int)ewb->wb_views->len)
-		return g_ptr_array_index (ewb->wb_views, view_idx);
-	return NULL;
-}
-
 static ExcelReadSheet *
-excel_wb_get_sheet (ExcelWorkbook const *ewb, guint idx)
+excel_workbook_get_sheet (ExcelWorkbook const *ewb, guint idx)
 {
 	if (idx < ewb->excel_sheets->len)
 		return g_ptr_array_index (ewb->excel_sheets, idx);
@@ -2834,9 +2826,6 @@ excel_workbook_destroy (ExcelWorkbook *ewb)
 	ewb->boundsheet_data_by_stream = NULL;
 	g_ptr_array_free (ewb->boundsheet_sheet_by_index, TRUE);
 	ewb->boundsheet_sheet_by_index = NULL;
-
-	g_ptr_array_free (ewb->wb_views, TRUE);
-	ewb->wb_views = NULL;
 
 	for (i = 0; i < ewb->excel_sheets->len; i++)
 		excel_sheet_destroy (g_ptr_array_index (ewb->excel_sheets, i));
@@ -3704,16 +3693,14 @@ excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 }
 
 static void
-excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet, int cur_view)
+excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	WorkbookView *wbv = excel_wb_get_view (esheet->container.ewb, cur_view);
-	SheetView *sv = sheet_get_view (esheet->sheet, wbv);
-
 	GnmCellPos edit_pos, tmp;
 	unsigned const pane_number = GSF_LE_GET_GUINT8 (q->data);
 	int i, j = GSF_LE_GET_GUINT16 (q->data + 5);
 	int num_refs = GSF_LE_GET_GUINT16 (q->data + 7);
 	guint8 *refs;
+	SheetView *sv = sheet_get_view (esheet->sheet, esheet->container.ewb->wbv);
 	GnmRange r;
 
 	if (pane_number != esheet->active_pane)
@@ -3812,26 +3799,22 @@ excel_read_GUTS (BiffQuery *q, ExcelReadSheet *esheet)
 	sheet_colrow_gutter (esheet->sheet, FALSE, row_gut);
 }
 
-#if 0
-/* Status as of September 2004: we cannot use this information in a reasonable
-   way yet, as the current (2.8) gnome-print API is problematic:
-   "the printinfo has a gp printconfig which stores the settings [but] when we
-   set a printer it overrides the previous settings with the printer defaults"
-
-   map a BIFF4 SETUP paper size number to the equivalent libgnomeprint paper
+/* Map a BIFF4 SETUP paper size number to the equivalent libgnomeprint paper
    name or width and height.
-   The mapping can be derived from http://sc.openoffice.org/excelfileformat.pdf
-   and the documentation for the Spreadsheet::WriteExcel perl module.
+   This mapping was derived from http://sc.openoffice.org/excelfileformat.pdf
+   and from the documentation for the Spreadsheet::WriteExcel perl module
+   (http://freshmeat.net/projects/writeexcel/).
  */
 #define PAPER_NAMES_LEN 91
 typedef struct {
 	/* libgnomeprint's name for a physical paper size,
-	 * or its width and heigth in gnomeprint units */
+	 * or its width and height in gnomeprint units */
 	const char *gp_name, *gp_width, *gp_height;
 } paper_size_table_entry;
 
 static paper_size_table_entry const paper_size_table[PAPER_NAMES_LEN] = {
 	{ NULL, NULL, NULL },		/* printer default / undefined */
+
 	{ "USLetter", NULL, NULL },
 	{ "USLetter", NULL, NULL },	/* Letter small */
 	{ NULL, "11in", "17in" },	/* Tabloid */
@@ -3844,16 +3827,111 @@ static paper_size_table_entry const paper_size_table[PAPER_NAMES_LEN] = {
 	{ "A4", NULL, NULL },
 	{ "A4", NULL, NULL },		/* A4 small */
 
-	/* TODO: remainder of table */
+	{ "A5", NULL, NULL },
+	{ "B4", NULL, NULL },
+	{ "B5", NULL, NULL },
+	{ NULL, "8.5in", "13in" },	/* Folio */
+	{ NULL, "215mm", "275mm" },	/* Quarto */
+
+	{ NULL, "10in", "14in" },	/* 10x14 */
+	{ NULL, "11in", "17in" },	/* 11x17 */
+	{ NULL, "8.5in", "11in" },	/* Note */
+	{ NULL, "3.875in", "8.875in" },	/* Envelope #9 */
+	{ NULL, "4.125in", "9.5in" },	/* Envelope #10 */
+		/* FIXME: is this "Envelope_No10"? */
+
+	{ NULL, "4.5in", "10.375in" },	/* Envelope #11 */
+	{ NULL, "4.75in", "11in" },	/* Envelope #12 */
+	{ NULL, "5in", "11.5in" },	/* Envelope #14 */
+	{ NULL, "17in", "22in" },	/* C */
+	{ NULL, "22in", "34in" },	/* D */
+
+	{ NULL, "34in", "44in" },	/* E */
+	{ "DL", NULL, NULL },		/* Envelope DL */
+	{ "C5", NULL, NULL },		/* Envelope C5 */
+	{ "C3", NULL, NULL },		/* Envelope C3 */
+	{ "C4", NULL, NULL },		/* Envelope C4 */
+
+	{ "C6", NULL, NULL },		/* Envelope C6 */
+	{ "C6_C5", NULL, NULL },	/* Envelope C6/C5 */
+	{ "B4", NULL, NULL },
+	{ "B5", NULL, NULL },
+	{ "B6", NULL, NULL },
+
+	{ NULL, "110mm", "230mm" },	/* Envelope Italy */
+	{ NULL, "3.875in", "7.5in" },	/* Envelope Monarch */
+	{ NULL, "3.625in", "6.5in" },	/* 6 1/2 Envelope */
+	{ NULL, "14.875in", "11in" },	/* US Standard Fanfold */
+	{ NULL, "8.5in", "12in" },	/* German Std Fanfold */
+
+	{ NULL, "8.5in", "13in" },	/* German Legal Fanfold */
+	{ "B4", NULL, NULL },		/* Yes, twice... */
+	{ NULL, "100mm", "148mm" },	/* Japanese Postcard */
+	{ NULL, "9in", "11in" },	/* 9x11 */
+	{ NULL, "10in", "11in" },	/* 10x11 */
+
+	{ NULL, "15in", "11in" },	/* 15x11 */
+	{ NULL, "220mm", "220mm" },	/* Envelope Invite */
+	{ NULL, NULL, NULL },		/* undefined */
+	{ NULL, NULL, NULL },		/* undefined */
+	{ NULL, "9.5", "12in" },	/* Letter Extra */
+
+	{ NULL, "9.5", "15in" },	/* Legal Extra */
+	{ NULL, "11.6875in", "18in" },	/* Tabloid Extra */
+	{ NULL, "235mm", "232mm" },	/* A4 Extra */
+	{ "USLetter", NULL, NULL },	/* Letter Transverse */
+	{ "A4", NULL, NULL },		/* A4 Transverse */
+
+	{ NULL, "9.5", "12in" },	/* Letter Extra Transverse */
+	{ NULL, "227mm", "356mm" },	/* Super A/A4 */
+	{ NULL, "305mm", "487mm" },	/* Super B/A3 */
+	{ NULL, "8.5in", "12.6876in" },	/* Letter Plus */
+	{ NULL, "210mm", "330mm" },	/* A4 Plus */
+
+	{ "A5",	NULL, NULL },		/* A5 Transverse */
+	{ "B5", NULL, NULL },		/* B5 (JIS) Transverse */
+	{ NULL, "322mm", "445mm" },	/* A3 Extra */
+	{ NULL, "174mm", "235mm" },	/* A5 Extra */
+	{ NULL, "201mm", "276mm" },	/* B5 (ISO) Extra */
+
+	{ "A2", NULL, NULL },
+	{ "A3", NULL, NULL },		/* A3 Transverse */
+	{ NULL, "322mm", "445mm" },	/* A3 Extra Transverse */
+	{ NULL, "200mm", "148mm" },	/* Dbl. Japanese Postcard */
+	{ "A6", NULL, NULL },
+
+	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
+	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
+	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
+	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
+	{ NULL, "11in", "8.5in" },	/* Letter Rotated */
+
+	{ NULL, "420mm", "297mm" },	/* A3 Rotated */
+	{ NULL, "297mm", "210mm" },	/* A4 Rotated */
+	{ NULL, "210mm", "148mm" },	/* A5 Rotated */
+	{ NULL, "364mm", "257mm" },	/* B4 (JIS) Rotated */
+	{ NULL, "257mm", "182mm" },	/* B5 (JIS) Rotated */
+
+	{ NULL, "148mm", "100mm" },	/* Japanese Postcard Rot. */
+	{ NULL, "148mm", "200mm" },	/* Dbl. Jap. Postcard Rot. */
+	{ NULL, "148mm", "105mm" },	/* A6 Rotated */
+	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
+	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
+
+
+	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
+	{ NULL, NULL, NULL },		/* FIXME: No documentation found */
+	{ "B6", NULL, NULL },		/* B6 (JIS) */
+	{ NULL, "182mm", "128mm" },	/* B6 (JIS) Rotated */
+	{ NULL, "12in", "11in" },	/* 12x11 */
 };
-#endif
 
 
 static void
 excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	PrintInformation *pi = esheet->sheet->print_info;
-	guint16  grbit; /* , papersize; */
+	guint16  grbit, papersize;
 
 	g_return_if_fail (q->length == 34);
 
@@ -3880,28 +3958,24 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 			pi->scaling.percentage.x = pi->scaling.percentage.y = 100.;
 		}
 
-#if 0
 		papersize = GSF_LE_GET_GUINT16 (q->data + 0);
-		fprintf (stderr,"Paper size %hu\n", papersize);
-
-		/* Useful somewhere ? */
-		fprintf (stderr,"resolution %hu vert. res. %hu\n",
-			GSF_LE_GET_GUINT16 (q->data + 12),
-			GSF_LE_GET_GUINT16 (q->data + 14));
+		d (2, {
+			fprintf (stderr,"Paper size %hu\n", papersize);
+			fprintf (stderr,"resolution %hu vert. res. %hu\n",
+				GSF_LE_GET_GUINT16 (q->data + 12),
+				GSF_LE_GET_GUINT16 (q->data + 14));
+		});
 
 		if (papersize < PAPER_NAMES_LEN) {
 			guchar *paper_name = (guchar *)paper_size_table[papersize].gp_name;
 			guchar *paper_width = (guchar *)paper_size_table[papersize].gp_width;
 			guchar *paper_height = (guchar *)paper_size_table[papersize].gp_width;
 			if (paper_name != NULL) {
-				gnome_print_config_set(pi->print_config, (guchar *)GNOME_PRINT_KEY_PAPER_SIZE, (guchar *)paper_name);
+				print_info_set_paper (pi, paper_name);
 			} else if ((paper_width != NULL) && (paper_height != NULL)) {
-				gnome_print_config_set(pi->print_config, (guchar *)GNOME_PRINT_KEY_PAPER_WIDTH, (guchar *)paper_width);
-				gnome_print_config_set(pi->print_config, (guchar *)GNOME_PRINT_KEY_PAPER_HEIGHT, (guchar *)paper_height);
+				g_warning ("No gnome-print name for paper size %s x %s - ignoring", paper_width, paper_height);
 			}
-			/* fprintf (stderr,"GPC: %s\n", gnome_print_config_to_string(pi->print_config, 0)); */
 		}
-#endif
 	}
 
 	pi->print_black_and_white = (grbit & 0x8) == 0x8;
@@ -4038,7 +4112,7 @@ excel_read_MERGECELLS (BiffQuery *q, ExcelReadSheet *esheet)
 	while (num_merged-- > 0) {
 		data = excel_read_range (&r, data);
 		sheet_merge_add (esheet->sheet, &r, FALSE,
-			GO_CMD_CONTEXT (esheet->container.ewb->context));
+			GNM_CMD_CONTEXT (esheet->container.ewb->context));
 	}
 }
 
@@ -4153,16 +4227,14 @@ excel_read_ITERATION (BiffQuery *q, ExcelWorkbook *ewb)
 }
 
 static void
-excel_read_PANE (BiffQuery *q, ExcelReadSheet *esheet, int cur_view)
+excel_read_PANE (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 {
-	WorkbookView *wbv = excel_wb_get_view (esheet->container.ewb, cur_view);
-	SheetView *sv = sheet_get_view (esheet->sheet, wbv);
-
 	if (esheet->freeze_panes) {
 		guint16 x = GSF_LE_GET_GUINT16 (q->data + 0);
 		guint16 y = GSF_LE_GET_GUINT16 (q->data + 2);
 		guint16 rwTop = GSF_LE_GET_GUINT16 (q->data + 4);
 		guint16 colLeft = GSF_LE_GET_GUINT16 (q->data + 6);
+		SheetView *sv = sheet_get_view (esheet->sheet, esheet->container.ewb->wbv);
 		GnmCellPos frozen, unfrozen;
 
 		esheet->active_pane = GSF_LE_GET_GUINT16 (q->data + 8);
@@ -4188,12 +4260,11 @@ excel_read_PANE (BiffQuery *q, ExcelReadSheet *esheet, int cur_view)
 }
 
 static void
-excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, int cur_view)
+excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 {
-	WorkbookView *wbv = excel_wb_get_view (esheet->container.ewb, cur_view);
-	SheetView    *sv  = sheet_get_view (esheet->sheet, wbv);
-	guint16 top_row   = 0;
-	guint16 left_col  = 0;
+	SheetView *sv = sheet_get_view (esheet->sheet, esheet->container.ewb->wbv);
+	guint16 top_row    = 0;
+	guint16 left_col   = 0;
 	guint32 biff_pat_col;
 	gboolean set_grid_color;
 
@@ -4216,7 +4287,7 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, int cur_view)
 
 		d (0, if (options & 0x0200) fprintf (stderr,"Sheet flag selected\n"););
 		if (options & 0x0400)
-			wb_view_sheet_focus (wbv, esheet->sheet);
+			wb_view_sheet_focus (wb_view, esheet->sheet);
 
 		if (esheet->container.ver >= MS_BIFF_V8 && q->length >= 14) {
 			d (2, {
@@ -5122,7 +5193,7 @@ excel_read_FILEPASS (BiffQuery *q, ExcelWorkbook *ewb)
 		return NULL;
 
 	while (TRUE) {
-		char *passwd = go_cmd_context_get_password (GO_CMD_CONTEXT (ewb->context),
+		char *passwd = gnm_cmd_context_get_password (GNM_CMD_CONTEXT (ewb->context),
 							     workbook_get_uri (ewb->gnum_wb));
 		if (passwd == NULL)
 			return _("No password supplied");
@@ -5189,13 +5260,13 @@ excel_read_REFMODE (BiffQuery *q, ExcelReadSheet *esheet)
 }
 
 static gboolean
-excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb, ExcelReadSheet *esheet)
+excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
+		  WorkbookView *wb_view, ExcelReadSheet *esheet)
 {
 	MsBiffVersion const ver = esheet->container.ver;
 	PrintInformation *pi;
 	GnmValue *v;
 	unsigned i;
-	int cur_view = -1;
 
 	g_return_val_if_fail (ewb != NULL, FALSE);
 	g_return_val_if_fail (esheet != NULL, FALSE);
@@ -5322,6 +5393,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb, ExcelReadSheet *esheet)
 		case BIFF_HORIZONTALPAGEBREAKS:	break;
 
 		case BIFF_NOTE:		excel_read_NOTE (q, esheet);	  	break;
+		case BIFF_SELECTION:	excel_read_SELECTION (q, esheet);	break;
 		case BIFF_EXTERNNAME_v0:
 		case BIFF_EXTERNNAME_v2:
 			excel_read_EXTERNNAME (q, &esheet->container);
@@ -5355,18 +5427,13 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb, ExcelReadSheet *esheet)
 			pi->print_grid_lines = (GSF_LE_GET_GUINT16 (q->data) == 1);
 			break;
 
-		/* This is probably just an artifact of early gnumeric exporters
-		 * and can be ignored */
-		case BIFF_WINDOW1:	break;
-
-		/* These are a group we assume that WINDOW2 always comes first */
+		case BIFF_WINDOW1:	break; /* what does this do for a sheet ? */
 		case BIFF_WINDOW2_v0:
-		case BIFF_WINDOW2_v2:	excel_read_WINDOW2   (q, esheet, ++cur_view); break;
-		case BIFF_PANE:		excel_read_PANE	     (q, esheet, cur_view); break;
-		case BIFF_SELECTION:	excel_read_SELECTION (q, esheet, cur_view); break;
-		case BIFF_SCL:		excel_read_SCL (q, esheet->sheet);	break;
-
+		case BIFF_WINDOW2_v2:
+			excel_read_WINDOW2 (q, esheet, wb_view);
+			break;
 		case BIFF_BACKUP:	break;
+		case BIFF_PANE:		excel_read_PANE (q, esheet, wb_view);	 break;
 
 		case BIFF_PLS:
 			if (GSF_LE_GET_GUINT16 (q->data) == 0x00) {
@@ -5418,6 +5485,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb, ExcelReadSheet *esheet)
 		case BIFF_FILTERMODE:		break;
 		case BIFF_AUTOFILTERINFO:	break;
 		case BIFF_AUTOFILTER:	excel_read_AUTOFILTER (q, esheet);	break;
+		case BIFF_SCL:		excel_read_SCL (q, esheet->sheet);	break;
 		case BIFF_SETUP:	excel_read_SETUP (q, esheet);		break;
 		case BIFF_GCW:			break;
 		case BIFF_SCENMAN:		break;
@@ -5474,7 +5542,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb, ExcelReadSheet *esheet)
 		case BIFF_FILEPASS: {
 			char *problem = excel_read_FILEPASS (q, ewb);
 			if (problem != NULL) {
-				go_cmd_context_error_import (GO_CMD_CONTEXT (ewb->context), problem);
+				gnm_cmd_context_error_import (GNM_CMD_CONTEXT (ewb->context), problem);
 				return FALSE;
 			}
 			break;
@@ -5604,7 +5672,7 @@ excel_read_SUPBOOK (BiffQuery *q, ExcelWorkbook *ewb)
 }
 
 static void
-excel_read_WINDOW1 (BiffQuery *q, ExcelWorkbook *ewb)
+excel_read_WINDOW1 (BiffQuery *q, WorkbookView *wb_view)
 {
 	if (q->length >= 16) {
 #if 0
@@ -5625,8 +5693,6 @@ excel_read_WINDOW1 (BiffQuery *q, ExcelWorkbook *ewb)
 		/* (width of tab)/(width of horizontal scroll bar) / 1000 */
 		guint16 const ratio   = GSF_LE_GET_GUINT16 (q->data + 16);
 #endif
-		WorkbookView *wb_view = workbook_view_new (ewb->gnum_wb);
-		g_ptr_array_add (ewb->wb_views, wb_view);
 
 		/*
 		 * We are sizing the window including the toolbars,
@@ -5636,8 +5702,8 @@ excel_read_WINDOW1 (BiffQuery *q, ExcelWorkbook *ewb)
 		 * the containing excel window.
 		 */
 		wb_view_preferred_size (wb_view,
-			.5 + width * gnm_app_display_dpi_get (TRUE) / (72. * 20.),
-			.5 + height * gnm_app_display_dpi_get (FALSE) / (72. * 20.));
+					.5 + width * gnm_app_display_dpi_get (TRUE) / (72. * 20.),
+					.5 + height * gnm_app_display_dpi_get (FALSE) / (72. * 20.));
 
 		if (options & 0x0001)
 			fprintf (stderr,"Unsupported: Hidden workbook\n");
@@ -5652,7 +5718,7 @@ excel_read_WINDOW1 (BiffQuery *q, ExcelWorkbook *ewb)
 static ExcelWorkbook *
 excel_read_BOF (BiffQuery	 *q,
 		ExcelWorkbook	 *ewb,
-		Workbook	 *wb,
+		WorkbookView	 *wb_view,
 		IOContext	 *context,
 		MsBiffBofData	**version, int *current_sheet)
 {
@@ -5668,7 +5734,8 @@ excel_read_BOF (BiffQuery	 *q,
 		ver->version = vv;
 
 	if (ver->type == MS_BIFF_TYPE_Workbook) {
-		ewb = excel_workbook_new (ver->version, context, wb);
+		ewb = excel_workbook_new (ver->version, context, wb_view);
+		ewb->gnum_wb = wb_view_workbook (wb_view);
 		if (ver->version >= MS_BIFF_V8) {
 			guint32 ver = GSF_LE_GET_GUINT32 (q->data + 4);
 			if (ver == 0x4107cd18)
@@ -5688,7 +5755,8 @@ excel_read_BOF (BiffQuery	 *q,
 	} else if (ver->type == MS_BIFF_TYPE_Worksheet && ewb == NULL) {
 		/* Top level worksheets existed up to & including 4.x */
 		ExcelReadSheet *esheet;
-		ewb = excel_workbook_new (ver->version, context, wb);
+		ewb = excel_workbook_new (ver->version, context, wb_view);
+		ewb->gnum_wb = wb_view_workbook (wb_view);
 		if (ver->version >= MS_BIFF_V5)
 			fprintf (stderr, "Excel 5+ - shouldn't happen\n");
 		else if (ver->version >= MS_BIFF_V4)
@@ -5699,7 +5767,7 @@ excel_read_BOF (BiffQuery	 *q,
 			fprintf (stderr, "Excel 2.x single worksheet\n");
 
 		esheet = excel_sheet_new (ewb, "Worksheet", GNM_SHEET_DATA);
-		excel_read_sheet (q, ewb, esheet);
+		excel_read_sheet (q, ewb, wb_view, esheet);
 
 	} else if (ver->type == MS_BIFF_TYPE_Worksheet ||
 		   ver->type == MS_BIFF_TYPE_Chart) {
@@ -5709,14 +5777,14 @@ excel_read_BOF (BiffQuery	 *q,
 		if (bs == NULL) {
 			if (ver->version != MS_BIFF_V4) /* be anal */
 				fprintf (stderr,"Sheet offset in stream of 0x%x not found in list\n", q->streamPos);
-			esheet = excel_wb_get_sheet (ewb, *current_sheet);
+			esheet = excel_workbook_get_sheet (ewb, *current_sheet);
 		} else
 			esheet = bs->esheet;
 		(*current_sheet)++;
 		esheet->container.ver = ver->version;
 
 		if (ver->type == MS_BIFF_TYPE_Worksheet) {
-			excel_read_sheet (q, ewb, esheet);
+			excel_read_sheet (q, ewb, wb_view, esheet);
 			ms_container_realize_objs (sheet_container (esheet));
 		} else
 			ms_excel_chart_read (q, sheet_container (esheet),
@@ -5740,11 +5808,8 @@ excel_read_BOF (BiffQuery	 *q,
 	} else if (ver->type == MS_BIFF_TYPE_Workspace) {
 		/* Multiple sheets, XLW format from Excel 4.0 */
 		fprintf (stderr,"Excel 4.x workbook\n");
-#if 0
-#warning looks broken
-		ewb = excel_workbook_new (ver->version, context, wb);
+		ewb = excel_workbook_new (ver->version, context, wb_view);
 		ewb->gnum_wb = wb_view_workbook (wb_view);
-#endif
 	} else
 		fprintf (stderr,"Unknown BOF (%x)\n", ver->type);
 
@@ -5752,7 +5817,7 @@ excel_read_BOF (BiffQuery	 *q,
 }
 
 void
-excel_read_workbook (IOContext *context, Workbook *wb,
+excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		     GsfInput *input, gboolean *is_double_stream_file)
 {
 	ExcelWorkbook *ewb = NULL;
@@ -5783,7 +5848,7 @@ excel_read_workbook (IOContext *context, Workbook *wb,
 		case BIFF_BOF_v2:
 		case BIFF_BOF_v4:
 		case BIFF_BOF_v8:
-			ewb = excel_read_BOF (q, ewb, wb, context, &ver, &current_sheet);
+			ewb = excel_read_BOF (q, ewb, wb_view, context, &ver, &current_sheet);
 			break;
 
 		case BIFF_EOF:
@@ -5793,7 +5858,7 @@ excel_read_workbook (IOContext *context, Workbook *wb,
 
 		case BIFF_FONT_v0:
 		case BIFF_FONT_v2:	excel_read_FONT (q, ewb);			break;
-		case BIFF_WINDOW1:	excel_read_WINDOW1 (q, ewb);			break;
+		case BIFF_WINDOW1:	excel_read_WINDOW1 (q, wb_view);		break;
 		case BIFF_BOUNDSHEET:	excel_read_BOUNDSHEET (q, ewb, ver->version);	break;
 		case BIFF_PALETTE:	excel_read_PALETTE (q, ewb);			break;
 
@@ -5984,11 +6049,11 @@ excel_read_workbook (IOContext *context, Workbook *wb,
 
 		/* If we were forced to stop then the load failed */
 		if (problem_loading != NULL)
-			go_cmd_context_error_import (GO_CMD_CONTEXT (context), problem_loading);
+			gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context), problem_loading);
 		return;
 	}
 
-	go_cmd_context_error_import (GO_CMD_CONTEXT (context),
+	gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
 		_("Unable to locate valid MS Excel workbook"));
 }
 

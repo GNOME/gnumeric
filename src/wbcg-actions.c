@@ -68,7 +68,6 @@
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/utils/go-file.h>
-#include <goffice/app/go-cmd-context.h>
 
 #include "widgets/widget-editable-label.h"
 #include <gtk/gtkactiongroup.h>
@@ -95,7 +94,7 @@ static GNM_ACTION_DEF (cb_file_open)	{ gui_file_open (wbcg, NULL); }
 static GNM_ACTION_DEF (cb_file_save)	{ gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg))); }
 static GNM_ACTION_DEF (cb_file_save_as)	{ gui_file_save_as (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg))); }
 static GNM_ACTION_DEF (cb_file_sendto)	{
-	wb_view_sendto (wb_control_view (WORKBOOK_CONTROL (wbcg)), GO_CMD_CONTEXT (wbcg)); }
+	wb_view_sendto (wb_control_view (WORKBOOK_CONTROL (wbcg)), GNM_CMD_CONTEXT (wbcg)); }
 static GNM_ACTION_DEF (cb_file_page_setup) { dialog_printer_setup (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_file_print)	{
 	sheet_print (wbcg, wbcg_cur_sheet (wbcg), FALSE, PRINT_ACTIVE_SHEET); }
@@ -207,7 +206,7 @@ static GNM_ACTION_DEF (cb_edit_delete_rows)
 	GnmRange const *sel;
 	int rows;
 
-	if (!(sel = selection_first_range (sv, GO_CMD_CONTEXT (wbc), _("Delete"))))
+	if (!(sel = selection_first_range (sv, GNM_CMD_CONTEXT (wbc), _("Delete"))))
 		return;
 	rows = range_height (sel);
 
@@ -221,7 +220,7 @@ static GNM_ACTION_DEF (cb_edit_delete_columns)
 	GnmRange const *sel;
 	int cols;
 
-	if (!(sel = selection_first_range (sv, GO_CMD_CONTEXT (wbc), _("Delete"))))
+	if (!(sel = selection_first_range (sv, GNM_CMD_CONTEXT (wbc), _("Delete"))))
 		return;
 	cols = range_width (sel);
 
@@ -425,7 +424,7 @@ static GNM_ACTION_DEF (cb_edit_fill_autofill)
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	Sheet	  *sheet = wb_control_cur_sheet (wbc);
 
-	GnmRange const *total = selection_first_range (sv, GO_CMD_CONTEXT (wbc), _("Autofill"));
+	GnmRange const *total = selection_first_range (sv, GNM_CMD_CONTEXT (wbc), _("Autofill"));
 	if (total) {
 		GnmRange src = *total;
 		gboolean do_loop;
@@ -631,7 +630,7 @@ static GNM_ACTION_DEF (cb_insert_rows)
 	 * selected region, (use selection_apply).  Arrays and Merged regions
 	 * are permitted.
 	 */
-	if (!(sel = selection_first_range (sv, GO_CMD_CONTEXT (wbc), _("Insert rows"))))
+	if (!(sel = selection_first_range (sv, GNM_CMD_CONTEXT (wbc), _("Insert rows"))))
 		return;
 	cmd_insert_rows (wbc, sheet, sel->start.row, range_height (sel));
 }
@@ -647,7 +646,7 @@ static GNM_ACTION_DEF (cb_insert_cols)
 	 * selected region, (use selection_apply).  Arrays and Merged regions
 	 * are permitted.
 	 */
-	if (!(sel = selection_first_range (sv, GO_CMD_CONTEXT (wbc),
+	if (!(sel = selection_first_range (sv, GNM_CMD_CONTEXT (wbc),
 					   _("Insert columns"))))
 		return;
 	cmd_insert_cols (wbc, sheet, sel->start.col, range_width (sel));
@@ -725,7 +724,7 @@ static GNM_ACTION_DEF (cb_auto_filter)
 	if (filter == NULL) {
 		GnmRange region;
 		GnmRange const *src = selection_first_range (sv,
-			GO_CMD_CONTEXT (wbcg), _("Add Filter"));
+			GNM_CMD_CONTEXT (wbcg), _("Add Filter"));
 
 		if (src == NULL)
 			return;
@@ -736,7 +735,7 @@ static GNM_ACTION_DEF (cb_auto_filter)
 		if (src->start.row == src->end.row)
 			sheet_filter_guess_region  (sv->sheet, &region);
 		if (region.start.row == region.end.row) {
-			go_cmd_context_error_invalid	(GO_CMD_CONTEXT (wbcg),
+			gnm_cmd_context_error_invalid	(GNM_CMD_CONTEXT (wbcg),
 				 _("AutoFilter"), _("Requires more than 1 row"));
 			return;
 		}
@@ -752,7 +751,7 @@ static GNM_ACTION_DEF (cb_auto_filter)
 static GNM_ACTION_DEF (cb_show_all)		{ filter_show_all (wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_data_filter)		{ dialog_advanced_filter (wbcg); }
 static GNM_ACTION_DEF (cb_data_validate)	{ dialog_cell_format (wbcg, FD_VALIDATION); }
-static GNM_ACTION_DEF (cb_data_text_to_columns) { stf_text_to_columns (WORKBOOK_CONTROL (wbcg), GO_CMD_CONTEXT (wbcg)); }
+static GNM_ACTION_DEF (cb_data_text_to_columns) { stf_text_to_columns (WORKBOOK_CONTROL (wbcg), GNM_CMD_CONTEXT (wbcg)); }
 static GNM_ACTION_DEF (cb_data_consolidate)	{ dialog_consolidate (wbcg); }
 
 #ifdef ENABLE_PIVOTS
@@ -765,13 +764,13 @@ hide_show_detail_real (WorkbookControlGUI *wbcg, gboolean is_cols, gboolean show
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = show ? _("Show Detail") : _("Hide Detail");
-	GnmRange const *r = selection_first_range (sv,
-		GO_CMD_CONTEXT (wbc), operation);
+	GnmRange const *r = selection_first_range (sv, GNM_CMD_CONTEXT (wbc),
+						operation);
 
 	/* This operation can only be performed on a whole existing group */
 	if (sheet_colrow_can_group (sv_sheet (sv), r, is_cols)) {
-		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), operation,
-			_("can only be performed on an existing group"));
+		gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc), operation,
+					_("can only be performed on an existing group"));
 		return;
 	}
 
@@ -785,7 +784,7 @@ hide_show_detail (WorkbookControlGUI *wbcg, gboolean show)
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = show ? _("Show Detail") : _("Hide Detail");
 	GnmRange const *r = selection_first_range (sv,
-		GO_CMD_CONTEXT (wbc), operation);
+		GNM_CMD_CONTEXT (wbc), operation);
 	gboolean is_cols;
 
 	/* We only operate on a single selection */
@@ -813,7 +812,7 @@ group_ungroup_colrow (WorkbookControlGUI *wbcg, gboolean group)
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	char const *operation = group ? _("Group") : _("Ungroup");
 	GnmRange const *r = selection_first_range (sv,
-		GO_CMD_CONTEXT (wbc), operation);
+		GNM_CMD_CONTEXT (wbc), operation);
 	gboolean is_cols;
 
 	/* We only operate on a single selection */
@@ -858,7 +857,7 @@ static GNM_ACTION_DEF (cb_help_web)
 
 	gnome_url_show ("http://www.gnumeric.org/", &err);
 	if (err != NULL) {
-		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
+		gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
 		g_error_free (err);
 	}
 #else
@@ -873,7 +872,7 @@ static GNM_ACTION_DEF (cb_help_irc)
 
 	gnome_url_show ("irc://irc.gnome.org/gnumeric", &err);
 	if (err != NULL) {
-		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
+		gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
 		g_error_free (err);
 	}
 #else
@@ -888,7 +887,7 @@ static GNM_ACTION_DEF (cb_help_bug)
 
 	gnome_url_show ("http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric", &err);
 	if (err != NULL) {
-		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
+		gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
 		g_error_free (err);
 	}
 #else
@@ -940,7 +939,7 @@ static GNM_ACTION_DEF (cb_insert_image)
 				sheet_object_image_new ("", (guint8 *)data, len, TRUE));
 			g_object_unref (input);
 		} else
-			go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
+			gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
 
 		g_free (uri);
 	}
@@ -963,7 +962,7 @@ sort_by_rows (WorkbookControlGUI *wbcg, gboolean descending)
 
 	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 
-	if (!(tmp = selection_first_range (sv, GO_CMD_CONTEXT (wbcg), _("Sort"))))
+	if (!(tmp = selection_first_range (sv, GNM_CMD_CONTEXT (wbcg), _("Sort"))))
 		return;
 
 	sel = range_dup (tmp);

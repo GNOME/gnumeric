@@ -329,7 +329,7 @@ void __WINAPI print_str(lprec *lp, char *str)
 /* Parameter setting and retrieval functions                                          */
 /* ---------------------------------------------------------------------------------- */
 
-void __WINAPI set_timeout(lprec *lp, long sectimeout)
+void __WINAPI lp_solve_set_timeout(lprec *lp, long sectimeout)
 {
   lp->sectimeout = sectimeout;
 }
@@ -611,7 +611,7 @@ MYBOOL __WINAPI is_scaletype(lprec *lp, int scaletype)
   return((MYBOOL) (scaletype == testtype));
 }
 
-void __WINAPI set_scalelimit(lprec *lp, REAL scalelimit)
+void __WINAPI lp_solve_set_scalelimit(lprec *lp, REAL scalelimit)
 /* Set the relative scaling convergence criterion for the active scaling mode;
    the integer part specifies the maximum number of iterations (default = 5). */
 {
@@ -3849,14 +3849,14 @@ MYBOOL set_callbacks(lprec *lp)
   lp->set_rh_range            = set_rh_range;
   lp->set_rh_vec              = set_rh_vec;
   lp->set_row_name            = set_row_name;
-  lp->set_scalelimit          = set_scalelimit;
+  lp->set_scalelimit          = lp_solve_set_scalelimit;
   lp->set_scaling             = set_scaling;
   lp->set_semicont            = set_semicont;
   lp->set_sense               = set_sense;
   lp->set_simplextype         = set_simplextype;
   lp->set_solutionlimit       = set_solutionlimit;
   lp->set_splitnegvars        = set_splitnegvars;
-  lp->set_timeout             = set_timeout;
+  lp->set_timeout             = lp_solve_set_timeout;
   lp->set_trace               = set_trace;
   lp->set_upbo                = lp_solve_set_upbo;
   lp->set_var_branch          = set_var_branch;

@@ -124,7 +124,7 @@ typedef enum {
 	STR_SUPPRESS_HEADER	= 8
 } WriteStringFlags;
 
-unsigned excel_write_string_len (guint8 const *txt, unsigned *bytes);
+unsigned excel_write_string_len (guint8 const *txt, size_t *bytes);
 unsigned excel_write_string	(BiffPut *bp, WriteStringFlags flags,
 				 guint8 const *txt);
 unsigned excel_write_BOF	(BiffPut *bp, MsBiffFileType type);

@@ -29,13 +29,10 @@ G_BEGIN_DECLS
 typedef struct _GOApp		GOApp;
 typedef struct _GODoc		GODoc;
 typedef struct _GODocControl	GODocControl;
-
 typedef struct _GOPlugin	GOPlugin;
+typedef struct _GOPluginService	GOPluginService;
 typedef struct _GOPluginLoader	GOPluginLoader;
-typedef struct _GOService	GOService;
-
-typedef struct _GOCmdContext	GOCmdContext;
-typedef struct _GOErrorStack	GOErrorStack;
+typedef struct _GOErrorInfo	GOErrorInfo;
 
 G_END_DECLS
 

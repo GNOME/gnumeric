@@ -45,6 +45,8 @@ void  gog_renderer_draw_sharp_path	(GogRenderer *r, ArtVpath *path,
 					 GogViewAllocation const *bound);
 void  gog_renderer_draw_sharp_polygon   (GogRenderer *r, ArtVpath *path,
 					 gboolean narrow, GogViewAllocation const *bound);
+void  gog_renderer_draw_sharp_rectangle (GogRenderer *r, GogViewAllocation const *rect,
+					 GogViewAllocation const *bound);
 
 void  gog_renderer_draw_path      (GogRenderer *r, ArtVpath const *path,
 				   GogViewAllocation const *bound);
@@ -61,9 +63,9 @@ void  gog_renderer_measure_text	  (GogRenderer *rend,
 				   char const *text, GogViewRequisition *size);
 
 /* measurement */
-double gog_renderer_line_size	  (GogRenderer const *r, double width);
-double gog_renderer_pt2r_x   	  (GogRenderer const *r, double d);
-double gog_renderer_pt2r_y   	  (GogRenderer const *r, double d);
-double gog_renderer_pt2r   	  (GogRenderer const *r, double d);
+double gog_renderer_line_size	  	(GogRenderer const *r, double width);
+double gog_renderer_pt2r_x   	  	(GogRenderer const *r, double d);
+double gog_renderer_pt2r_y   	  	(GogRenderer const *r, double d);
+double gog_renderer_pt2r   	  	(GogRenderer const *r, double d);
 
 #endif /* GOG_RENDERER_H */

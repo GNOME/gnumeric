@@ -20,6 +20,8 @@
 #include <gnumeric-config.h>
 #include "widget-format-selector.h"
 
+#include <glib/gi18n.h>
+
 #include <format.h>
 #include <mstyle.h>
 #include <style-color.h>
@@ -27,7 +29,6 @@
 #include <value.h>
 
 #include <goffice/gui-utils/go-combo-text.h>
-#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <gtk/gtksizegroup.h>
 #include <gtk/gtktreeview.h>
@@ -38,7 +39,6 @@
 #include <gtk/gtkliststore.h>
 #include <gtk/gtkhbox.h>
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
 
 #include <string.h>
 #include <locale.h>
@@ -648,7 +648,7 @@ cb_format_entry_changed (GtkEditable *w, NumberFormatSelector *nfs)
 	if (strcmp (nfs->format.spec->format, fmt)) {
 		style_format_unref (nfs->format.spec);
 		nfs->format.spec = style_format_new_XL (fmt, FALSE);
-		g_signal_emit (G_OBJECT (nfs),
+		g_signal_emit (GTK_OBJECT (nfs),
 			       nfs_signals[NUMBER_FORMAT_CHANGED], 0,
 			       fmt);
 		draw_format_preview (nfs, FALSE);
@@ -873,7 +873,7 @@ nfs_init (NumberFormatSelector *nfs)
 	nfs->enable_edit = FALSE;
 	nfs->locale = NULL;
 
-	nfs->gui = go_libglade_new ("format-selector.glade", NULL, NULL, NULL);
+	nfs->gui = gnm_glade_xml_new (NULL, "format-selector.glade", NULL, NULL);
 	if (nfs->gui == NULL)
 		return;
 
@@ -1168,10 +1168,10 @@ number_format_selector_editable_enters (NumberFormatSelector *nfs,
 {
 	g_return_if_fail (IS_NUMBER_FORMAT_SELECTOR (nfs));
 
-	go_editable_enters (window,
-		GTK_WIDGET (nfs->format.widget[F_DECIMAL_SPIN]));
-	go_editable_enters (window,
-		GTK_WIDGET (nfs->format.widget[F_ENTRY]));
+	gnumeric_editable_enters (window,
+				  GTK_WIDGET (nfs->format.widget[F_DECIMAL_SPIN]));
+	gnumeric_editable_enters (window,
+				  GTK_WIDGET (nfs->format.widget[F_ENTRY]));
 }
 
 
@@ -1183,4 +1183,17 @@ number_format_selector_set_locale (NumberFormatSelector *nfs,
 	nfs->locale = g_strdup (locale);
 
 	cb_format_class_changed (NULL, nfs);
+}
+
+/* The following utility function should possibly be in format.h but we */
+/* access to the array of category names which are better located here. */
+char const *    
+number_format_selector_format_classification (GnmFormat const *style_format)
+{
+  	FormatFamily page = style_format->family;
+
+	if (page < 0 || page > FMT_CUSTOM)
+		page = FMT_CUSTOM; /* Default to custom */
+
+	return _(format_category_names[page]);
 }

@@ -28,12 +28,32 @@
 #include <gui-util.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkcombobox.h>
+#include <gtk/gtkvbox.h>
 
 /*************************************************************************************************
  * MISC UTILITY FUNCTIONS
  *************************************************************************************************/
 
 static void format_page_update_preview (StfDialogData *pagedata);
+
+static void
+format_page_update_column_selection (StfDialogData *pagedata)
+{
+	char *text = NULL;
+	
+	if (pagedata->format.col_import_count == pagedata->format.col_import_array_len) {
+		text = g_strdup_printf (_("Importing %i columns and ignoring none."),
+					pagedata->format.col_import_count);
+	} else {
+		text = g_strdup_printf (_("Importing %i columns and ignoring %i."),
+					pagedata->format.col_import_count,
+					pagedata->format.col_import_array_len - pagedata->format.col_import_count);
+	}
+
+	gtk_label_set_text (GTK_LABEL (pagedata->format.column_selection_label), text);
+
+	g_free (text);
+}
 
 static void
 format_page_trim_menu_changed (G_GNUC_UNUSED GtkMenu *menu,
@@ -111,18 +131,25 @@ cb_col_check_clicked (GtkToggleButton *togglebutton, gpointer _i)
 	StfDialogData *pagedata =
 		g_object_get_data (G_OBJECT (togglebutton), "pagedata");
 	gboolean active = gtk_toggle_button_get_active (togglebutton);
+	GtkCellRenderer   *renderer;
 	
 	g_return_if_fail (i < pagedata->format.col_import_array_len);
 
 	if (pagedata->format.col_import_array[i] == active)
 		return;
+
+	renderer = stf_preview_get_cell_renderer (pagedata->format.renderdata, i);
+	g_object_set (G_OBJECT (renderer), "strikethrough", !active, NULL);
+
 	if (!active) {
 		pagedata->format.col_import_array[i] = FALSE;
-		pagedata->format.col_import_count--;		
+		pagedata->format.col_import_count--;
+		format_page_update_column_selection (pagedata);
 	} else {
 		if (pagedata->format.col_import_count < SHEET_MAX_COLS) {
 			pagedata->format.col_import_array[i] = TRUE;
 			pagedata->format.col_import_count++;
+			format_page_update_column_selection (pagedata);
 		} else {
 			char *msg = g_strdup_printf 
 				(_("A maximum of %d columns can be imported."), 
@@ -341,6 +368,7 @@ format_page_update_preview (StfDialogData *pagedata)
 	int i;
 	int col_import_array_len_old, old_part;
 	GStringChunk *lines_chunk;
+	char *msg = NULL;
 
 	stf_preview_colformats_clear (renderdata);
 	for (ui = 0; ui < pagedata->format.formats->len; ui++) {
@@ -377,42 +405,62 @@ format_page_update_preview (StfDialogData *pagedata)
 		} else {
 			pagedata->format.col_import_array[i] = FALSE;	
 		}
-		
+
+	format_page_update_column_selection (pagedata);
+	
+	if (old_part < renderdata->colcount)
+		msg = g_strdup_printf 
+			(_("A maximum of %d columns can be imported."), 
+			 SHEET_MAX_COLS);
+
 	for (i = old_part; i < renderdata->colcount; i++) {
 		GtkTreeViewColumn *column =
 			stf_preview_get_column (renderdata, i);
 
 		if (NULL == g_object_get_data (G_OBJECT (column), "checkbox")) {
 			GtkWidget *box = gtk_hbox_new (FALSE,5);
+			GtkWidget *vbox = gtk_vbox_new (FALSE,5);
 			GtkWidget *check = gtk_check_button_new ();
 			char * label_text = g_strdup_printf 
 				(pagedata->format.col_header, i+1);
 			GtkWidget *label = gtk_label_new (label_text);
+			GnmFormat *sfg = style_format_general ();
+			GtkWidget *format_label = gtk_label_new 
+				(number_format_selector_format_classification (sfg));
 			
 			g_free (label_text);
-		
+			style_format_unref (sfg);
+			gtk_misc_set_alignment (GTK_MISC (format_label), 0, 0);
+			gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
+
+			g_object_set (G_OBJECT (stf_preview_get_cell_renderer 
+						(pagedata->format.renderdata, i)), 
+				      "strikethrough", 
+				      !pagedata->format.col_import_array[i], NULL);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(check),
 						      pagedata->
-					      format.col_import_array[i]);
-			
+						      format.col_import_array[i]);
 			gtk_tooltips_set_tip (renderdata->tooltips, check,
 					      _("If this checkbox is selected, the "
 						"column will be imported into "
-						"Gnumeric."),
-					      _("At most 256 columns can be imported "
-						"at one time."));
+						"Gnumeric."), msg);
 			g_object_set_data (G_OBJECT (check), "pagedata", pagedata);
 			gtk_box_pack_start (GTK_BOX(box), check, FALSE, FALSE, 0);
 			gtk_box_pack_start (GTK_BOX(box), label, TRUE, TRUE, 0);
-			gtk_widget_show_all (box);
+			gtk_box_pack_start (GTK_BOX(vbox), box, FALSE, FALSE, 0);
+			gtk_box_pack_start (GTK_BOX(vbox), format_label, TRUE, TRUE, 0);
+			gtk_widget_show_all (vbox);
 			
-			gtk_tree_view_column_set_widget (column, box);
+			gtk_tree_view_column_set_widget (column, vbox);
 			g_object_set_data (G_OBJECT (column), "pagedata", pagedata);
 			g_object_set_data (G_OBJECT (column), "checkbox", check);
+			g_object_set_data (G_OBJECT (column), "formatlabel", format_label);
 			g_object_set_data (G_OBJECT (column->button), 
 					   "pagedata", pagedata);
 			g_object_set_data (G_OBJECT (column->button), 
 					   "checkbox", check);
+			g_object_set_data (G_OBJECT (column->button), 
+					   "formatlabel", format_label);
 			g_object_set (G_OBJECT (column), "clickable", TRUE, NULL);
 
 			g_signal_connect (G_OBJECT (check),
@@ -425,6 +473,8 @@ format_page_update_preview (StfDialogData *pagedata)
 					  GINT_TO_POINTER (i));
 		}
 	}
+	if (msg != NULL)
+		g_free (msg);
 }
 
 /*************************************************************************************************
@@ -461,12 +511,21 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 {
 	if (data->format.index >= 0) {
 		GnmFormat *sf;
+		GtkTreeViewColumn* column = 
+			stf_preview_get_column (data->format.renderdata, 
+						data->format.index);
+		GtkWidget *w = g_object_get_data (G_OBJECT (column), 
+						  "formatlabel");
 
-		sf = g_ptr_array_index (data->format.formats, data->format.index);
+		sf = g_ptr_array_index (data->format.formats, 
+					data->format.index);
 		style_format_unref (sf);
 
+		sf = style_format_new_XL (fmt, FALSE);
+		gtk_label_set_text (GTK_LABEL (w), 
+				    number_format_selector_format_classification (sf));
 		g_ptr_array_index (data->format.formats, data->format.index) =
-			style_format_new_XL (fmt, FALSE);
+			sf;
 	}
 
 	format_page_update_preview (data);
@@ -545,6 +604,7 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 
 	pagedata->format.format_data_container = glade_xml_get_widget (gui, "format_data_container");
 	pagedata->format.format_trim   = glade_xml_get_widget (gui, "format_trim");
+	pagedata->format.column_selection_label   = glade_xml_get_widget (gui, "column_selection_label");
 
 	format_hbox = glade_xml_get_widget (gui, "format_hbox");
 	gtk_box_pack_end_defaults (GTK_BOX (format_hbox), GTK_WIDGET (pagedata->format.format_selector));
@@ -583,4 +643,6 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 			  "changed",
 			  G_CALLBACK (format_page_trim_menu_changed), pagedata);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (pagedata->format.format_trim), 0);
+
+	format_page_update_column_selection (pagedata);
 }

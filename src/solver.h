@@ -32,7 +32,7 @@
 
 typedef enum {
         SolverRunning, SolverOptimal, SolverUnbounded, SolverInfeasible,
-	SolverFailure, SolverMilpFailure, SolverMaxIterExc, SolverMaxTimeExc
+	SolverFailure, SolverMaxIterExc, SolverMaxTimeExc
 } SolverStatus;
 
 /* Forward references for structures.  */
@@ -44,7 +44,11 @@ typedef enum {
 } SolverProblemType;
 
 typedef enum {
-        SolverLE, SolverGE, SolverEQ, SolverINT, SolverBOOL, SolverOF
+        SolverLE,
+	SolverGE,
+	SolverEQ,
+	SolverINT,
+	SolverBOOL
 } SolverConstraintType;
 
 typedef enum {

@@ -279,6 +279,11 @@ ie_layout (FooCanvasItem *item)
 		attr->end_index = G_MAXINT;
 		pango_attr_list_insert (attrs, attr);
 	}
+	attr = pango_attr_scale_new (item->canvas->pixels_per_unit);
+	attr->start_index = 0;
+	attr->end_index = G_MAXINT;
+	pango_attr_list_insert_before (attrs, attr);
+
 	pango_layout_set_attributes (ie->layout, attrs);
 	pango_attr_list_unref (attrs);
 

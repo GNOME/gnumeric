@@ -13,6 +13,7 @@
 
 #include "format.h"
 #include "style-color.h"
+#include "global-gnome-font.h"
 #include "application.h"
 #include "sheet.h"
 #include "cell.h"
@@ -22,8 +23,7 @@
 #include "mathfunc.h"
 #include "gnumeric-gconf.h"
 
-#include <goffice/graph/gog-renderer-gnome-print.h>
-#include <goffice/utils/go-font.h>
+#include <pango/pangoft2.h>
 #include <gtk/gtkmain.h>
 #include <string.h>
 
@@ -36,6 +36,8 @@ static GHashTable *style_font_negative_hash;
 double gnumeric_default_font_width;
 static char *gnumeric_default_font_name;
 static double gnumeric_default_font_size;
+static PangoFontFamily	**pango_families;
+static GStringChunk	 *size_names;
 
 /**
  * get_substitute_font
@@ -186,7 +188,7 @@ style_font_new_simple (PangoContext *context,
 			}
 		}
 
-		font->gnome_print_font = go_font_find_closest_from_weight_slant (font_name,
+		font->gnome_print_font = gnm_font_find_closest_from_weight_slant (font_name,
 			bold ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR, italic, size_pts);
 
 		font->pango.font_descr = pango_font_describe (font->pango.font);
@@ -367,16 +369,53 @@ style_font_hash_func (gconstpointer v)
 	return k->size_pts + g_str_hash (k->font_name);
 }
 
+static int
+compare_family_pointers_by_name (gconstpointer a, gconstpointer b)
+{
+	PangoFontFamily * const * const fa = a;
+	PangoFontFamily * const * const fb = b;
+	return g_utf8_collate (pango_font_family_get_name (*fa),
+			       pango_font_family_get_name (*fb));
+}
+
+/**
+ * gnm_pango_context_get :
+ *
+ * Simple wrapper to handle windowless operation
+ **/
+PangoContext *
+gnm_pango_context_get (void)
+{
+	PangoContext *context;
+	GdkScreen *screen = gdk_screen_get_default ();
+
+	if (screen != NULL) {
+		context = gdk_pango_context_get_for_screen (screen);
+		/* FIXME: barf!  */
+		gdk_pango_context_set_colormap (context,
+			gdk_screen_get_default_colormap (screen));
+	} else {
+		PangoFontMap *fontmap = pango_ft2_font_map_new ();
+		pango_ft2_font_map_set_resolution (PANGO_FT2_FONT_MAP (fontmap), 96, 96);
+		context = pango_ft2_font_map_create_context (PANGO_FT2_FONT_MAP (fontmap));
+	}
+	pango_context_set_language (context, gtk_get_default_language ());
+	pango_context_set_base_dir (context, PANGO_DIRECTION_LTR);
+
+	return context;
+}
+
 static void
 font_init (void)
 {
 	PangoContext *context;
 	GnmFont *gnumeric_default_font = NULL;
+	int n_families, i;
 
 	gnumeric_default_font_name = g_strdup (gnm_app_prefs->default_font.name);
 	gnumeric_default_font_size = gnm_app_prefs->default_font.size;
 
-	context = go_pango_context_get ();
+	context = gnm_pango_context_get ();
 	if (gnumeric_default_font_name && gnumeric_default_font_size >= 1)
 		gnumeric_default_font = style_font_new_simple (context,
 			gnumeric_default_font_name, gnumeric_default_font_size,
@@ -409,6 +448,29 @@ font_init (void)
 
 	gnumeric_default_font_width = gnumeric_default_font->approx_width.pts.digit;
 	style_font_unref (gnumeric_default_font);
+
+	size_names = g_string_chunk_new (128);
+
+	pango_context_list_families (context,
+		&pango_families, &n_families);
+	qsort (pango_families, n_families, sizeof (*pango_families),
+	       compare_family_pointers_by_name);
+
+	for (i = 0 ; i < n_families ; i++)
+		gnumeric_font_family_list = g_list_prepend (
+			gnumeric_font_family_list,
+			(gpointer) pango_font_family_get_name (pango_families[i]));
+
+	gnumeric_font_family_list = g_list_reverse (gnumeric_font_family_list);
+
+	for (i = 0; gnumeric_point_sizes [i] != 0; i++){
+		char buffer[4 * sizeof (int)];
+		sprintf (buffer, "%d", gnumeric_point_sizes [i]);
+		gnumeric_point_size_list = g_list_prepend (
+			gnumeric_point_size_list,
+			g_string_chunk_insert (size_names, buffer));
+	}
+
 	g_object_unref (G_OBJECT (context));
 }
 
@@ -417,6 +479,15 @@ font_shutdown (void)
 {
 	g_free (gnumeric_default_font_name);
 	gnumeric_default_font_name = NULL;
+
+	g_free (pango_families);
+	pango_families = NULL;
+	g_list_free (gnumeric_font_family_list);
+	gnumeric_font_family_list = NULL;
+	g_list_free (gnumeric_point_size_list);
+	gnumeric_point_size_list = NULL;
+	g_string_chunk_free (size_names);
+	size_names = NULL;
 }
 
 void
@@ -480,14 +551,17 @@ style_shutdown (void)
  * What changes are required after applying the supplied style.
  */
 SpanCalcFlags
-required_updates_for_style (GnmStyle *style)
+required_updates_for_style (GnmStyle const *style)
 {
-	gboolean const size_change =
-	    (mstyle_is_element_set  (style, MSTYLE_FONT_NAME) ||
-	     mstyle_is_element_set  (style, MSTYLE_FONT_BOLD) ||
-	     mstyle_is_element_set  (style, MSTYLE_FONT_ITALIC) ||
+	SpanCalcFlags res = SPANCALC_SIMPLE;
+
+	gboolean const row_height =
 	     mstyle_is_element_set  (style, MSTYLE_FONT_SIZE) ||
-	     mstyle_is_element_set  (style, MSTYLE_WRAP_TEXT));
+	     mstyle_is_element_set  (style, MSTYLE_WRAP_TEXT);
+	gboolean const size_change = row_height ||
+	     mstyle_is_element_set  (style, MSTYLE_FONT_NAME) ||
+	     mstyle_is_element_set  (style, MSTYLE_FONT_BOLD) ||
+	     mstyle_is_element_set  (style, MSTYLE_FONT_ITALIC);
 	gboolean const format_change =
 	    (mstyle_is_element_set (style, MSTYLE_FORMAT) ||
 	     mstyle_is_element_set (style, MSTYLE_INDENT) ||
@@ -497,9 +571,11 @@ required_updates_for_style (GnmStyle *style)
 	     mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
 	     mstyle_is_element_set (style, MSTYLE_COLOR_FORE));
 
-	return (format_change|size_change)
-		? (SPANCALC_RE_RENDER|SPANCALC_RESIZE)
-		: SPANCALC_SIMPLE;
+	if (row_height)
+		res |= SPANCALC_ROW_HEIGHT;
+	if (format_change || size_change)
+		res |= SPANCALC_RE_RENDER | SPANCALC_RESIZE;
+	return res;
 }
 
 /**
@@ -550,3 +626,50 @@ style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 	return align;
 }
 
+/**
+ * gnm_font_find_closest_from_weight_slant :
+ *
+ * A wrapper around gnome-print because it is stupid.
+ * At least this will warn us when it is stupid
+ **/
+GnomeFont *
+gnm_font_find_closest_from_weight_slant (const guchar *family, 
+					 GnomeFontWeight weight, 
+					 gboolean italic, gdouble size)
+{
+	GnomeFont *font;
+	guchar const *fam;
+	guchar   *name;
+
+	while (1) {
+		font = gnome_font_find_closest_from_weight_slant 
+			(family, weight, italic, size);
+		fam = gnome_font_get_family_name  (font);
+		if (g_ascii_strcasecmp (family, fam) == 0)
+			return font;
+
+		name = gnome_font_get_full_name (font);
+		g_warning ("GnomePrint: Requested %s but using %s (%s)", 
+			   family, fam, name);
+		g_free (name);
+
+		/* put in some fallbacks */
+		if (!g_ascii_strcasecmp (family, "Sans"))
+			family = "Sans Regular";
+		else if (!g_ascii_strcasecmp (family, "Helvetica"))
+			family = "Sans";
+		else if (!g_ascii_strcasecmp (family, "Albany"))
+			family = "Arial";
+		/* one of the arials */
+		else if (!g_ascii_strncasecmp (family, "Arial ", 6))
+			family = "Arial";
+		else if (!g_ascii_strcasecmp (family, "Arial"))
+			family = "Sans";
+		else
+			return font;
+
+		g_warning ("Trying to fallback to '%s'", family);
+	}
+	/* notreached */
+	return font;
+}

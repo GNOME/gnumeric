@@ -17,7 +17,6 @@
 #include <expr.h>
 #include <pango/pango-attributes.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <goffice/utils/go-file.h>
 
 typedef struct {
 	Workbook  *wb;
@@ -98,12 +97,9 @@ typedef struct {
 } ExcelStringEntry;
 
 struct _ExcelWorkbook {
-	GOImporter	  base;
-
-	GsfInfile	 *ole;
 	MSContainer	  container;
 	IOContext	 *context;
-	GsfInput	 *content;
+	WorkbookView	 *wbv;
 
 	GPtrArray	 *excel_sheets;
 	GHashTable	 *boundsheet_data_by_stream;
@@ -121,8 +117,7 @@ struct _ExcelWorkbook {
 
 	ExprTreeSharer   *expr_sharer;
 
-	Workbook         *gnum_wb;
-	GPtrArray	 *wb_views;
+	Workbook            *gnum_wb;
 };
 
 char     *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length,
@@ -135,7 +130,7 @@ ExcelExternSheetV8 const *excel_externsheet_v8 (ExcelWorkbook const *wb, gint16 
 void		excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container);
 MsBiffBofData *ms_biff_bof_data_new     (BiffQuery * q);
 void	       ms_biff_bof_data_destroy (MsBiffBofData * data);
-char	      *ms_biff_get_chars (char const *ptr, guint length,
+char	      *ms_biff_get_chars (char const *ptr, size_t length,
 				  gboolean use_utf16);
 
 GnmColor  *excel_palette_get (ExcelPalette const *pal, gint idx);

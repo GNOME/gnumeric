@@ -365,8 +365,8 @@ static void
 go_marker_init (GOMarker * marker)
 {
 	marker->shape		= GO_MARKER_NONE;
-	marker->outline_color	= GO_COLOR_BLACK;
-	marker->fill_color	= GO_COLOR_WHITE;
+	marker->outline_color	= RGBA_BLACK;
+	marker->fill_color	= RGBA_WHITE;
 	marker->size		= MARKER_DEFAULT_SIZE;
 	marker->pixbuf 		= NULL;
 	marker->scale		= 1.;

@@ -123,9 +123,9 @@ static guint
 go_color_to_bgr (GOColor const c)
 {
 	guint32 abgr;
-	abgr  = GO_COLOR_R(c);
-	abgr |= GO_COLOR_G(c) << 8;
-	abgr |= GO_COLOR_B(c) << 16;
+	abgr  = UINT_RGBA_R(c);
+	abgr |= UINT_RGBA_G(c) << 8;
+	abgr |= UINT_RGBA_B(c) << 16;
 	return abgr;
 }
 
@@ -139,10 +139,10 @@ go_color_to_bgr (GOColor const c)
  * bytes in @bytes.
  **/
 unsigned
-excel_write_string_len (guint8 const *str, unsigned *bytes)
+excel_write_string_len (guint8 const *str, size_t *bytes)
 {
 	guint8 const *p = str;
-	unsigned i = 0;
+	size_t i = 0;
 
 	g_return_val_if_fail (str != NULL, 0);
 
@@ -169,7 +169,7 @@ unsigned
 excel_write_string (BiffPut *bp, WriteStringFlags flags,
 		    guint8 const *txt)
 {
-	unsigned byte_len, out_bytes, offset;
+	size_t byte_len, out_bytes, offset;
 	unsigned char_len = excel_write_string_len (txt, &byte_len);
 	char *in_bytes = (char *)txt; /* bloody strict-aliasing is broken */
 	char *tmp;
@@ -923,7 +923,7 @@ excel_write_NAME (G_GNUC_UNUSED gpointer key,
 {
 	guint8 data [16];
 	guint16 flags = 0;
-	unsigned name_len;
+	size_t name_len;
 	char const *name;
 	int builtin_index;
 
@@ -2674,7 +2674,7 @@ excel_write_comments_biff7 (BiffPut *bp, ExcelWriteSheet *esheet)
 		GnmComment const *cc = l->data;
 		GnmRange const *pos     = sheet_object_get_range (SHEET_OBJECT (cc));
 		char const  *in = cell_comment_text_get (cc);
-		unsigned in_bytes, out_bytes;
+		size_t in_bytes, out_bytes;
 		unsigned len = excel_write_string_len (in, &in_bytes);
 		char *buf;
 
@@ -3288,7 +3288,7 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 }
 
 static void
-excel_write_chart (ExcelWriteSheet *esheet, SheetObject *so)
+excel_write_chart_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 {
 	static guint8 const obj_v8[] = {
 /* SpContainer */   0xf,   0,   4, 0xf0,   0x6a, 0, 0, 0,
@@ -3421,7 +3421,7 @@ blipinf_free (BlipInf *blip)
 }
 
 static void
-excel_write_image (ExcelWriteSheet *esheet, BlipInf *bi)
+excel_write_image_v8 (ExcelWriteSheet *esheet, BlipInf *bi)
 {
 	static guint8 const obj_v8[] = {
 /* SpContainer */   0xf,   0,   4, 0xf0,   0x4c, 0, 0, 0,
@@ -3517,7 +3517,7 @@ excel_write_ClientTextbox(ExcelWriteState *ewb, SheetObject *so)
 }
 
 static void
-excel_write_textbox (ExcelWriteSheet *esheet, SheetObject *so)
+excel_write_textbox_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 {
 	static guint8 const obj_v8[] = {
 /* SpContainer */   0xf,   0,   4, 0xf0,    0x6c, 0, 0, 0,
@@ -3979,7 +3979,7 @@ excel_write_CODENAME (ExcelWriteState *ewb, GObject *src)
 }
 
 static void
-excel_write_objs (ExcelWriteSheet *esheet)
+excel_write_objs_v8 (ExcelWriteSheet *esheet)
 {
 	BiffPut *bp = esheet->ewb->bp;
 	GSList  *ptr, *charts = sheet_objects_get (esheet->gnum_sheet,
@@ -4030,15 +4030,15 @@ excel_write_objs (ExcelWriteSheet *esheet)
 
 #warning handle multiple charts in a graph by creating multiple objects
 	for (ptr = charts; ptr != NULL ; ptr = ptr->next)
-		excel_write_chart (esheet, ptr->data);
+		excel_write_chart_v8 (esheet, ptr->data);
 	g_slist_free (charts);
 
 	for (ptr = esheet->blips; ptr != NULL ; ptr = ptr->next)
 		if (ptr->data)
-			excel_write_image (esheet, ptr->data);
+			excel_write_image_v8 (esheet, ptr->data);
 
 	for (ptr = esheet->textboxes; ptr != NULL ; ptr = ptr->next)
-		excel_write_textbox (esheet, ptr->data);
+		excel_write_textbox_v8 (esheet, ptr->data);
 
 	excel_write_autofilter_objs (esheet);
 }
@@ -4110,7 +4110,7 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	excel_sheet_write_INDEX (esheet, index_off, dbcells);
 
 	if (ewb->num_obj_groups > 0)
-		excel_write_objs (esheet);
+		excel_write_objs_v8 (esheet);
 
 	SHEET_FOREACH_VIEW (esheet->gnum_sheet, view, {
 		if (excel_write_WINDOW2 (ewb->bp, esheet, view))
@@ -4289,7 +4289,8 @@ excel_write_SST (ExcelWriteState *ewb)
 	SSTInf		*extsst = NULL;
 	char *ptr, data [8224];
 	char const * const last = data + sizeof (data);
-	unsigned i, tmp, out_bytes, blocks, char_len, byte_len, scale;
+	size_t out_bytes, char_len, byte_len;
+	unsigned i, tmp, blocks, scale;
 	GnmString const *string;
 	char *str;
 
@@ -4343,7 +4344,7 @@ excel_write_SST (ExcelWriteState *ewb)
 			strncpy (ptr + 1, str, char_len);
 			ptr += char_len + 1;
 		} else {
-			unsigned old_out_bytes, count = 0;
+			size_t old_out_bytes, count = 0;
 			unsigned old_byte_len = INT_MAX;
 			guint8  *len = ptr - 2; /* stash just in case of problem */
 
@@ -4931,7 +4932,7 @@ excel_write_v7 (ExcelWriteState *ewb, GsfOutfile *outfile)
 		ms_biff_put_destroy (ewb->bp);
 		ewb->bp = NULL;
 	} else
-		go_cmd_context_error_export (GO_CMD_CONTEXT (ewb->io_context),
+		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (ewb->io_context),
 			_("Couldn't open stream 'Book' for writing\n"));
 }
 
@@ -4951,7 +4952,7 @@ excel_write_v8 (ExcelWriteState *ewb, GsfOutfile *outfile)
 		ms_biff_put_destroy (ewb->bp);
 		ewb->bp = NULL;
 	} else
-		go_cmd_context_error_export (GO_CMD_CONTEXT (ewb->io_context),
+		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (ewb->io_context),
 			_("Couldn't open stream 'Workbook' for writing\n"));
 }
 

@@ -98,7 +98,7 @@ gog_styled_object_finalize (GObject *obj)
 
 static gpointer
 styled_object_editor (GogObject *gobj, GogDataAllocator *dalloc,
-		      GOCmdContext *cc)
+		      GnmCmdContext *cc)
 {
 	return gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, NULL);
 }

@@ -56,7 +56,11 @@ typedef struct {
 	int                  colcount;              /* Number of columns parsed */
         gboolean             *col_import_array;     /* 0/1 array indicating  */
 	                                            /* which cols to import  */
+	unsigned int         col_import_array_len;
 	GPtrArray            *formats       ;       /* Contains GnmFormat *s */
+	gboolean             cols_exceeded;         /* This is set to TRUE if */
+	                                            /* we tried to import more than */
+	                                            /* SHEET_MAX_COLS columns */
 } StfParseOptions_t;
 
 /* CREATION/DESTRUCTION of stf options struct */

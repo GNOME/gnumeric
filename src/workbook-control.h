@@ -20,15 +20,12 @@ WorkbookControl *wb_control_wrapper_new (WorkbookControl *wbc,
 					 WorkbookView *wbv, Workbook *wb,
 					 void *extra);
 
-void wb_control_title_set	     (WorkbookControl *wbc, char const *title);
+void wb_control_update_title	     (WorkbookControl *wbc);
 void wb_control_prefs_update	     (WorkbookControl *wbc);
 void wb_control_style_feedback	     (WorkbookControl *wbc, GnmStyle const *changes);
 void wb_control_zoom_feedback	     (WorkbookControl *wbc);
 void wb_control_edit_line_set        (WorkbookControl *wbc, char const *text);
 void wb_control_selection_descr_set  (WorkbookControl *wbc, char const *text);
-void wb_control_edit_set_sensitive   (WorkbookControl *wbc,
-				      gboolean enable_edit_ok_cancel,
-				      gboolean enable_actions);
 void wb_control_auto_expr_value	     (WorkbookControl *wbc);
 
 void wb_control_sheet_add	     (WorkbookControl *wbc, SheetView *sv);
@@ -74,6 +71,7 @@ enum {
 void wb_control_menu_state_sheet_prefs	(WorkbookControl *wbc, Sheet const *s);
 void wb_control_menu_state_sheet_count	(WorkbookControl *wbc);
 void wb_control_menu_state_update	(WorkbookControl *wbc, int flags);
+void wb_control_update_action_sensitivity (WorkbookControl *wbc);
 
 void wb_control_paste_from_selection (WorkbookControl *wbc,
 				      GnmPasteTarget const *pt);

@@ -31,6 +31,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 
@@ -40,15 +41,12 @@
 
 #include <glade/glade.h>
 #include <gsf/gsf-impl-utils.h>
-#include <goffice/gui-utils/go-gui-utils.h>
-#include <goffice/app/go-cmd-context.h>
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtkliststore.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtktogglebutton.h>
-#include <gdk/gdkkeysyms.h>
-#include <glib/gi18n.h>
 #include <string.h>
 #include "help.h"
 
@@ -111,7 +109,10 @@ cb_remove_clicked (G_GNUC_UNUSED GtkWidget *widget,
 	gtk_tree_model_get (GTK_TREE_MODEL (s->model), &iter,
 		0, &txt,
 		-1);
-	s->exceptions = g_slist_remove (s->exceptions, txt);
+	s->exceptions = g_slist_delete_link 
+		(s->exceptions, 
+		 g_slist_find_custom (s->exceptions, txt, 
+				      (GCompareFunc)strcmp));
 	gtk_list_store_remove (s->model, &iter);
 	g_free (txt);
 	s->changed = TRUE;
@@ -315,8 +316,8 @@ dialog_autocorrect (WorkbookControlGUI *wbcg)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, AUTO_CORRECT_KEY))
 		return;
-	gui = go_libglade_new ("autocorrect.glade", NULL, NULL,
-			       GO_CMD_CONTEXT (wbcg));
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+		"autocorrect.glade", NULL, NULL);
         if (gui == NULL)
                 return;
 

@@ -106,7 +106,7 @@ xml_io_conventions (void)
 XmlParseContext *
 xml_parse_ctx_new (xmlDocPtr     doc,
 		   xmlNsPtr      ns,
-		   Workbook	*wb)
+		   WorkbookView *wb_view)
 {
 	XmlParseContext *ctxt = g_new0 (XmlParseContext, 1);
 
@@ -122,7 +122,8 @@ xml_parse_ctx_new (xmlDocPtr     doc,
 	ctxt->ns           = ns;
 	ctxt->expr_map     = g_hash_table_new (g_direct_hash, g_direct_equal);
 	ctxt->shared_exprs = g_ptr_array_new ();
-	ctxt->wb	   = wb;
+	ctxt->wb_view      = wb_view;
+	ctxt->wb	   = (wb_view != NULL) ? wb_view_workbook (wb_view) : NULL;
 	ctxt->exprconv     = xml_io_conventions ();
 
 	return ctxt;
@@ -418,7 +419,7 @@ xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *res)
 		r >>= 8;
 		g >>= 8;
 		b >>= 8;
-		*res = GO_COLOR_FROM_RGBA (r,g,b,0xff);
+		*res = RGBA_TO_UINT (r,g,b,0xff);
 		xmlFree (color);
 		return TRUE;
 	}
@@ -2436,7 +2437,7 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 #ifdef ENABLE_SOLVER
 	SolverConstraint *c;
-	xmlNodePtr       child;
+	xmlNodePtr       child, ptr;
 	int              col, row, ptype;
 	xmlChar          *s;
 	Sheet *sheet = ctxt->sheet;
@@ -2458,46 +2459,53 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 	param->input_entry_str = g_strdup ((const gchar *)s);
 	xmlFree (s);
 
-	child = e_xml_get_child_by_name (tree, CC2XML ("Constr"));
 	param->constraints = NULL;
-	while (child != NULL) {
-	        int type;
+	/* Handle both formats.
+	 * Pre 1.4 we would nest the constraints (I suspect this was unintentional)
+	 * After 1.4 we stored them serially. */
+	for (ptr = tree->xmlChildrenNode; ptr != NULL ; ptr = ptr->next) {
+		if (xmlIsBlankNode (ptr) ||
+		    ptr->name == NULL || strcmp (ptr->name, "Constr"))
+			continue;
+		child = ptr;
+		do {
+			int type;
 
-	        c = g_new (SolverConstraint, 1);
-		xml_node_get_int (child, "Lcol", &c->lhs.col);
-		xml_node_get_int (child, "Lrow", &c->lhs.row);
-		xml_node_get_int (child, "Rcol", &c->rhs.col);
-		xml_node_get_int (child, "Rrow", &c->rhs.row);
-		xml_node_get_int (child, "Cols", &c->cols);
-		xml_node_get_int (child, "Rows", &c->rows);
-		xml_node_get_int (child, "Type", &type);
-		switch (type) {
-		case 1:
-		        c->type = SolverLE;
-			break;
-		case 2:
-		        c->type = SolverGE;
-			break;
-		case 4:
-		        c->type = SolverEQ;
-			break;
-		case 8:
-		        c->type = SolverINT;
-			break;
-		case 16:
-		        c->type = SolverBOOL;
-			break;
-		default:
-		        c->type = SolverLE;
-			break;
-		}
-		c->str = write_constraint_str (c->lhs.col, c->lhs.row,
-					       c->rhs.col, c->rhs.row,
-					       c->type, c->cols, c->rows);
+			c = g_new (SolverConstraint, 1);
+			xml_node_get_int (child, "Lcol", &c->lhs.col);
+			xml_node_get_int (child, "Lrow", &c->lhs.row);
+			xml_node_get_int (child, "Rcol", &c->rhs.col);
+			xml_node_get_int (child, "Rrow", &c->rhs.row);
+			xml_node_get_int (child, "Cols", &c->cols);
+			xml_node_get_int (child, "Rows", &c->rows);
+			xml_node_get_int (child, "Type", &type);
+			switch (type) {
+			case 1:
+				c->type = SolverLE;
+				break;
+			case 2:
+				c->type = SolverGE;
+				break;
+			case 4:
+				c->type = SolverEQ;
+				break;
+			case 8:
+				c->type = SolverINT;
+				break;
+			case 16:
+				c->type = SolverBOOL;
+				break;
+			default:
+				c->type = SolverLE;
+				break;
+			}
+			c->str = write_constraint_str (c->lhs.col, c->lhs.row,
+						       c->rhs.col, c->rhs.row,
+						       c->type, c->cols, c->rows);
 
-		param->constraints = g_slist_append (param->constraints, c);
-		child = e_xml_get_child_by_name (child,
-						 CC2XML ("Constr"));
+			param->constraints = g_slist_append (param->constraints, c);
+			child = e_xml_get_child_by_name (child, CC2XML ("Constr"));
+		} while (child != NULL);
 	}
 
 	/* The options of the Solver. */
@@ -3461,14 +3469,14 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar *buffer, int len
 
 	doc = xmlParseDoc (buffer);
 	if (doc == NULL) {
-		go_cmd_context_error_import (GO_CMD_CONTEXT (wbc),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (wbc),
 			_("Unparsable xml in clipboard"));
 		return NULL;
 	}
 	clipboard = doc->xmlRootNode;
 	if (clipboard == NULL || strcmp (clipboard->name, "ClipboardRange")) {
 		xmlFreeDoc (doc);
-		go_cmd_context_error_import (GO_CMD_CONTEXT (wbc),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (wbc),
 			_("Clipboard is in unknown format"));
 		return NULL;
 	}
@@ -4171,7 +4179,7 @@ unref_input:
 static void
 gnumeric_xml_read_workbook (GnmFileOpener const *fo,
                             IOContext *context,
-                            GODoc *doc,
+                            WorkbookView *wb_view,
                             GsfInput *input)
 {
 	xmlParserCtxtPtr pctxt;
@@ -4235,16 +4243,16 @@ gnumeric_xml_read_workbook (GnmFileOpener const *fo,
 	if (gmr == NULL) {
 		if (res != NULL)
 			xmlFreeDoc (res);
-		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
 			_("The file is not a Gnumeric Workbook file"));
 		return;
 	}
 
 	/* Parse the file */
-	ctxt = xml_parse_ctx_new (res, gmr, WORKBOOK (doc));
+	ctxt = xml_parse_ctx_new (res, gmr, wb_view);
 	ctxt->version = version;
 	xml_workbook_read (context, ctxt, res->xmlRootNode);
-	workbook_set_saveinfo (ctxt->wb,
+	workbook_set_saveinfo (wb_view_workbook (ctxt->wb_view),
 		FILE_FL_AUTO, gnm_file_saver_for_id ("Gnumeric_xml_sax:xml_sax"));
 
 	xml_parse_ctx_destroy (ctxt);
@@ -4272,13 +4280,13 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 
 	xml = xmlNewDoc (CC2XML ("1.0"));
 	if (xml == NULL) {
-		go_cmd_context_error_export (GO_CMD_CONTEXT (context),
+		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (context),
 			_("Failure saving file"));
 		return;
 	}
 
 	/* we share context with import const_cast is safe */
-	ctxt = xml_parse_ctx_new (xml, NULL, wb_view_workbook (wb_view));
+	ctxt = xml_parse_ctx_new (xml, NULL, (WorkbookView *)wb_view);
 	ctxt->io_context = context;
 	xml->xmlRootNode = xml_workbook_write (ctxt);
 	xml_parse_ctx_destroy (ctxt);
@@ -4294,8 +4302,8 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 	}
 	xmlIndentTreeOutput = TRUE;
 	if (gsf_xmlDocFormatDump (output, xml, "UTF-8", TRUE) < 0)
-		go_cmd_context_error_export (GO_CMD_CONTEXT (context),
-			"Error saving XML");
+		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (context),
+				     "Error saving XML");
 	if (gzout) {
 		gsf_output_close (gzout);
 		g_object_unref (gzout);
@@ -4307,6 +4315,8 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 void
 xml_init (void)
 {
+	GSList *suffixes = gnm_slist_create (g_strdup ("gnumeric"), g_strdup ("xml"), NULL);
+	GSList *mimes = gnm_slist_create (g_strdup ("application/x-gnumeric"), NULL);
 	xml_sax_prober.comment    = NULL;
 	xml_sax_prober.warning    = NULL;
 	xml_sax_prober.error      = (errorSAXFunc) xml_probe_problem;
@@ -4315,6 +4325,7 @@ xml_init (void)
 	gnm_file_opener_register (gnm_file_opener_new (
 		"Gnumeric_XmlIO:gnum_xml",
 		_("Gnumeric XML (*.gnumeric)"),
+		suffixes, mimes,
 		xml_probe, gnumeric_xml_read_workbook), 50);
 	gnm_file_saver_register_as_default (gnm_file_saver_new (
 		"Gnumeric_XmlIO:gnum_xml", "gnumeric",

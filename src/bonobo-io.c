@@ -56,25 +56,22 @@ gnm_persist_stream_load (PortableServer_Servant  servant,
 	IOContext       *ioc;
 	GsfInput        *input = NULL;
 	Workbook        *old_wb;
-	GODoc		*doc;
 
 	object        = bonobo_object_from_servant (servant);
 	wbc = GNM_PERSIST_STREAM (object)->wbc;
-	ioc = gnumeric_io_context_new (GO_CMD_CONTEXT (wbc));
+	ioc = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbc));
 	input = gsf_input_bonobo_new (stream, NULL);
-	doc = go_doc_new_from_input  (input, NULL, ioc, NULL);
-	if (gnumeric_io_error_occurred (ioc) || doc == NULL) {
+	wb_view = wb_view_new_from_input  (input, NULL, ioc, NULL);
+	if (gnumeric_io_error_occurred (ioc) || wb_view == NULL) {
 		gnumeric_io_error_display (ioc);
 		/* This may be a bad exception to throw, but they're all bad */
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_Bonobo_Persist_WrongDataType, NULL);
 	}
 	g_object_unref (G_OBJECT (ioc));
-	if (BONOBO_EX (ev))
+	if (BONOBO_EX (ev)) {
 		return;
-
-
-WHY ARE WE RE-USING THE OLD CONTOL IF IT IS NOT PRISTINE
+	}
 
 	old_wb = wb_control_workbook (wbc);
 	if (workbook_is_dirty (old_wb)) {

@@ -121,38 +121,25 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *uri,
 	       GnmFileOpener const *optional_format, gchar const *optional_encoding)
 {
 	IOContext *io_context;
-	Workbook *old_wb, *new_wb;
-	GODoc *doc;
-	gboolean check_pristine = TRUE;
+	WorkbookView *wbv;
 
-	go_cmd_context_set_sensitive (GO_CMD_CONTEXT (wbcg), FALSE);
-	io_context = gnumeric_io_context_new (GO_CMD_CONTEXT (wbcg));
-	doc = go_doc_new_from_uri (uri, optional_format, io_context, 
-				   optional_encoding);
+	gnm_cmd_context_set_sensitive (GNM_CMD_CONTEXT (wbcg), FALSE);
+	io_context = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbcg));
+	wbv = wb_view_new_from_uri (uri, optional_format, io_context, 
+				    optional_encoding);
 
 	if (gnumeric_io_error_occurred (io_context) ||
 	    gnumeric_io_warning_occurred (io_context))
 		gnumeric_io_error_display (io_context);
 
 	g_object_unref (G_OBJECT (io_context));
-	go_cmd_context_set_sensitive (GO_CMD_CONTEXT (wbcg), TRUE);
+	gnm_cmd_context_set_sensitive (GNM_CMD_CONTEXT (wbcg), TRUE);
 
-	if (doc == NULL)
-		return FALSE;
-
-	if (!IS_WORKBOOK (doc)) {
-		g_warning ("We imported something that isn't a spreadheet ??");
-		g_object_unref (doc);
-		return FALSE;
+	if (wbv != NULL) {
+		gui_wb_view_show (wbcg, wbv);
+		return TRUE;
 	}
-
-	new_wb = WORKBOOK (doc);
-	if (new_wb->wb_views == NULL || new_wb->wb_views->len == 0)
-		workbook_view_new (new_wb);
-
-	WORKBOOK_FOREACH_VIEW (new_wb, view,
-		gui_wb_view_show (wbcg, view););
-	return TRUE;
+	return FALSE;
 }
 
 static void
@@ -259,28 +246,17 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 		filter = gtk_file_filter_new ();
 		gtk_file_filter_set_name (filter, _("Spreadsheets"));
 		for (l = openers->next; l; l = l->next) {
-			GnmFileOpener *o = l->data;
-			/* FIXME: add all known extensions.  */
-		}
-#warning "FIXME: make extension discovery above work and delete these"
-		/* Use _SAVERS'_ extension for lack of better.  */
-		for (l = get_file_savers ()->next; l; l = l->next) {
-			GnmFileSaver *fs = l->data;
-			const char *ext = gnm_file_saver_get_extension (fs);
-			const char *mime = gnm_file_saver_get_mime_type (fs);
-
-			if (mime)
-				gtk_file_filter_add_mime_type (filter, mime);
-
-			if (ext) {
-				char *pattern = g_strconcat ("*.", ext, NULL);
+			GnmFileOpener const *o = l->data;
+			GSList const *ptr;
+			for (ptr = gnm_file_opener_get_suffixes	(o); ptr != NULL ; ptr = ptr->next) {
+				char *pattern = g_strconcat ("*.", ptr->data, NULL);
 				gtk_file_filter_add_pattern (filter, pattern);
 				g_free (pattern);
 			}
+			for (ptr = gnm_file_opener_get_mimes	(o); ptr != NULL ; ptr = ptr->next)
+				gtk_file_filter_add_mime_type (filter, ptr->data);
+
 		}
-		/* FIXME: delete these also when we can ask the openers.  */
-		gtk_file_filter_add_pattern (filter, "*.csv");
-		gtk_file_filter_add_pattern (filter, "*.tsv");
 
 		gtk_file_chooser_add_filter (fsel, filter);
 		/* Make this filter the default */
@@ -359,7 +335,7 @@ update_preview_cb (GtkFileChooser *chooser)
 		}
 
 		if (buf) {
-			GdkPixbuf *pixbuf = go_pixbuf_intelligent_scale (buf, PREVIEW_HSIZE, PREVIEW_VSIZE);
+			GdkPixbuf *pixbuf = gnm_pixbuf_intelligent_scale (buf, PREVIEW_HSIZE, PREVIEW_VSIZE);
 			gtk_image_set_from_pixbuf (GTK_IMAGE (image), pixbuf);
 			g_object_unref (pixbuf);
 			gtk_widget_show (image);
@@ -404,7 +380,11 @@ go_file_is_writable (char const *uri, GtkWindow *parent)
 	if (!filename)
 		return TRUE;  /* Just assume writable.  */
 
-	if (filename [strlen (filename) - 1] == G_DIR_SEPARATOR ||
+#ifndef G_IS_DIR_SEPARATOR
+/* Recent glib 2.6 addition.  */
+#define G_IS_DIR_SEPARATOR(c) ((c) == G_DIR_SEPARATOR || (c) == '/')
+#endif
+	if (G_IS_DIR_SEPARATOR (filename [strlen (filename) - 1]) ||
 	    g_file_test (filename, G_FILE_TEST_IS_DIR)) {
 		char *msg = g_strdup_printf (_("%s\nis a directory name"), uri);
 		gnumeric_notice (parent, GTK_MESSAGE_ERROR, msg);
@@ -642,7 +622,7 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
 	success = check_multiple_sheet_support_if_needed (fs, parent, wb_view);
 	if (!success) goto out;
 
-	success = wb_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg));
+	success = wb_view_save_as (wb_view, fs, uri, GNM_CMD_CONTEXT (wbcg));
 
 out:
 	return success;
@@ -807,5 +787,5 @@ gui_file_save (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	if (wb->file_format_level < FILE_FL_AUTO)
 		return gui_file_save_as (wbcg, wb_view);
 	else
-		return wb_view_save (wb_view, GO_CMD_CONTEXT (wbcg));
+		return wb_view_save (wb_view, GNM_CMD_CONTEXT (wbcg));
 }

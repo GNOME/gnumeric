@@ -1,4 +1,6 @@
-SUBDIRS = plugins
+if !WITH_WIN32
+  SUBDIRS = plugins
+endif
 # SUBDIRS += tests
 ## Don't put comment on an assignment line!  It can trigger an automake bug.
 
@@ -75,13 +77,13 @@ libgoffice_graph_la_SOURCES = \
 	gog-renderer-svg.c		\
 	gog-renderer-svg.h
 
-goffice_glade_DATA = \
+gnumeric_glade_DATA = 			\
 	gog-guru.glade			\
 	gog-guru-type-selector.glade	\
 	gog-style-prefs.glade		\
 	gog-axis-prefs.glade		\
 	gog-error-bar-prefs.glade
 
-EXTRA_DIST = $(goffice_glade_DATA)
+EXTRA_DIST = $(gnumeric_glade_DATA)
 
 include $(srcdir)/../goffice.mk

@@ -23,9 +23,9 @@
 #define GOG_ERROR_BAR_H
 
 #include <goffice/utils/go-color.h>
-#include <goffice/graph/gog-series.h>
-#include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/gog-axis.h>
+#include "gog-series.h"
+#include "gog-data-set.h"
+#include "gog-axis.h"
 
 typedef enum {
 	GOG_ERROR_BAR_TYPE_NONE,
@@ -42,14 +42,14 @@ typedef enum {
 } GogErrorBarDisplay;
 
 struct  _GogErrorBar{
-	GObject		 base;
-
-	GogErrorBarType    type;
+	GObject	base;
+	GogErrorBarType type;
+	GogSeries *series;
+	int dim_i;
+	int error_i;
 	GogErrorBarDisplay display;
-	GogSeries	*series;
-	GogStyle	*style;
-	int		 dim_i, error_i;
-	float		 width;
+	float width;
+	GogStyle* style;
 };
 
 #define GOG_ERROR_BAR_TYPE		(gog_error_bar_get_type ())
@@ -58,12 +58,12 @@ struct  _GogErrorBar{
 
 GType gog_error_bar_get_type (void);
 
-GogErrorBar *gog_error_bar_dup		(GogErrorBar const *bar);
+GogErrorBar  	*gog_error_bar_dup		(GogErrorBar const *bar);
 
 #ifdef WITH_GTK
 gpointer 	 gog_error_bar_prefs (GogSeries *series, char const* property, 
 				      gboolean horizontal, GogDataAllocator *dalloc, 
-				      GOCmdContext *cc);
+				      GnmCmdContext *cc);
 #endif
 
 gboolean 	 gog_error_bar_get_bounds (const GogErrorBar *bar, int index, 
@@ -76,6 +76,6 @@ void 		 gog_error_bar_render (const GogErrorBar *bar, GogRenderer *rend,
 				       double minus,
 				       double plus,
 				       gboolean horizontal);
-gboolean     gog_error_bar_is_visible (GogErrorBar const *bar);
+gboolean 	 gog_error_bar_is_visible (GogErrorBar *bar);
 
-#endif /* GOG_ERROR_BAR_H */
+#endif

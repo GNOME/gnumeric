@@ -58,7 +58,7 @@
 gboolean excel_xml_file_probe (GnmFileOpener const *fo, GsfInput *input,
 			       FileProbeLevel pl);
 void     excel_xml_file_open (GnmFileOpener const *fo, IOContext *io_context,
-			      GODoc *doc, GsfInput *input);
+			      WorkbookView *wb_view, GsfInput *input);
 
 /*****************************************************************************/
 
@@ -66,9 +66,9 @@ typedef struct {
 	GsfXMLIn base;
 
 	IOContext 	*context;	/* The IOcontext managing things */
+	WorkbookView	*wb_view;	/* View for the new workbook */
 	Workbook	*wb;		/* The new workbook */
-	WorkbookView	*cur_view;	/* The current view for the new workbook */
-	Sheet		*cur_sheet;	/* The current sheet */
+	Sheet		*sheet;		/* The current sheet */
 } ExcelXMLReadState;
 
 /****************************************************************************/
@@ -179,20 +179,20 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", FALSE, FALSE, TRUE,
       GSF_XML_IN_NODE (OPTIONS, PAGEBREAK_ZOOM,	XL_NS_XL, "PageBreakZoom", FALSE, NULL, NULL),
   { NULL }
 };
-static GsfXMLInDoc *xml_doc;
+static GsfXMLInDoc *doc;
 
 void
 excel_xml_file_open (GnmFileOpener const *fo, IOContext *io_context,
-		     GODoc *doc, GsfInput *input)
+		     WorkbookView *wb_view, GsfInput *input)
 {
 	ExcelXMLReadState state;
 
 	/* init */
-	state.base.doc = xml_doc;
+	state.base.doc = doc;
 	state.context = io_context;
-	state.wb = WORKBOOK (doc);
-	state.cur_view = NULL;
-	state.cur_sheet = NULL;
+	state.wb_view = wb_view;
+	state.wb = wb_view_workbook (wb_view);
+	state.sheet = NULL;
 
 	if (!gsf_xml_in_parse (&state.base, input))
 		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
@@ -201,10 +201,10 @@ excel_xml_file_open (GnmFileOpener const *fo, IOContext *io_context,
 void
 excel_xml_read_init (void)
 {
-	xml_doc = gsf_xml_in_doc_new (excel_xml_dtd, content_ns);
+	doc = gsf_xml_in_doc_new (excel_xml_dtd, content_ns);
 }
 void
 excel_xml_read_cleanup (void)
 {
-	gsf_xml_in_doc_free (xml_doc);
+	gsf_xml_in_doc_free (doc);
 }

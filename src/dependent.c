@@ -1493,18 +1493,21 @@ dependents_unrelocate (GSList *info)
 	for (; ptr != NULL ; ptr = ptr->next) {
 		ExprRelocateStorage *tmp = (ExprRelocateStorage *)(ptr->data);
 
-		if (!IS_SHEET (tmp->u.pos.sheet)) {
-			/* FIXME : happens when undoing a move from a deleted
-			 * sheet.  Do we want to do something here */
-		} else if (tmp->dep_type == DEPENDENT_CELL) {
-			GnmCell *cell = sheet_cell_get (tmp->u.pos.sheet,
-				tmp->u.pos.eval.col, tmp->u.pos.eval.row);
+		if (tmp->dep_type == DEPENDENT_CELL) {
+			if (!IS_SHEET (tmp->u.pos.sheet)) {
+				/* FIXME : happens when undoing a move from a deleted
+				 * sheet.  Do we want to do something here */
+			} else {
+				GnmCell *cell = sheet_cell_get
+					(tmp->u.pos.sheet,
+					 tmp->u.pos.eval.col, tmp->u.pos.eval.row);
 
-			/* It is possible to have a NULL if the relocation info
-			 * is not really relevant.  eg when undoing a pasted
-			 * cut that was relocated but also saved to a buffer */
-			if (cell != NULL)
-				sheet_cell_set_expr (cell, tmp->oldtree);
+				/* It is possible to have a NULL if the relocation info
+				 * is not really relevant.  eg when undoing a pasted
+				 * cut that was relocated but also saved to a buffer */
+				if (cell != NULL)
+					sheet_cell_set_expr (cell, tmp->oldtree);
+			}
 		} else if (tmp->dep_type == DEPENDENT_NAME) {
 		} else {
 			dependent_set_expr (tmp->u.dep, tmp->oldtree);

@@ -70,18 +70,6 @@ go_format_eq (GOFormat const *a, GOFormat const *b)
 }
 
 /**
- * go_format_is_general :
- * @fmt : #GOFormat
- *
- * Returns TRUE if @fmt is 'General'
- **/
-gboolean
-go_format_is_general (GOFormat const *fmt)
-{
-	return style_format_is_general (fmt);
-}
-
-/**
  * go_format_general :
  * 
  * Returns the 'General' #GOFormat but does not add a reference

@@ -24,20 +24,14 @@
 #include <glib.h>
 #include <goffice/utils/goffice-utils.h>
 #include <pango/pango-font.h>
-#include <pango/pango-context.h>
 #include <pango/pangofc-fontmap.h>
 
 G_BEGIN_DECLS
 
 struct _GOFont {
+	PangoFontDescription *desc;
 	int	 ref_count;
 	int	 font_index; /* each renderer keeps an array for lookup */
-
-	PangoFontDescription *desc;
-	gboolean	      has_strike;
-	PangoUnderline	      underline;
-	GOColor		      color;
-	/* TODO do we want to tie in an attribute list too ? */
 };
 
 GOFont const *go_font_new_by_desc  (PangoFontDescription *desc);
@@ -48,18 +42,9 @@ GOFont const *go_font_ref	   (GOFont const *font);
 void	      go_font_unref	   (GOFont const *font);
 gboolean      go_font_eq	   (GOFont const *a, GOFont const *b);
 
-GOFont const *go_font_set_color	   (GOFont const *font, GOColor c);
-GOFont const *go_font_set_uline	   (GOFont const *font, PangoUnderline uline);
-GOFont const *go_font_set_strike   (GOFont const *font, gboolean has_strike);
-
 /* cache notification */
 void go_font_cache_register   (GClosure *callback);
 void go_font_cache_unregister (GClosure *callback);
-
-/* not so useful holdover from old gnumeric code */
-extern unsigned const go_font_sizes [];
-extern GSList	     *go_font_family_list;
-PangoContext	     *go_pango_context_get (void);
 
 /* private */
 void go_font_init     (void);

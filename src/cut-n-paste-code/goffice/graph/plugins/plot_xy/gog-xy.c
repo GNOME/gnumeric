@@ -32,8 +32,8 @@
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-math.h>
-#include <goffice/app/go-plugin-module-defs.h>
 
+#include <module-plugin-defs.h>
 #include <glib/gi18n.h>
 #include <gtk/gtklabel.h>
 #include <gsf/gsf-impl-utils.h>
@@ -49,7 +49,7 @@ typedef Gog2DPlotClass GogXYPlotClass;
 
 typedef Gog2DPlotClass GogBubblePlotClass;
 
-GO_PLUGIN_MODULE_INFO_DECL;
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 static GogObjectClass *plot2d_parent_klass;
 static void gog_2d_plot_adjust_bounds (Gog2DPlot *model, double *x_min, double *x_max, double *y_min, double *y_max);
@@ -379,11 +379,10 @@ gog_bubble_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotBubble");
 }
 
-extern gpointer gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc);
+extern gpointer gog_bubble_plot_pref (GogBubblePlot *bubble, GnmCmdContext *cc);
 static gpointer
-gog_bubble_plot_editor (GogObject *item,
-			G_GNUC_UNUSED GogDataAllocator *dalloc,
-			GOCmdContext *cc)
+gog_bubble_plot_editor (GogObject *item, G_GNUC_UNUSED GogDataAllocator *dalloc,
+			GnmCmdContext *cc)
 {
 	return gog_bubble_plot_pref (GOG_BUBBLE_PLOT (item), cc);
 }
@@ -651,7 +650,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				neg_style = gog_style_dup (GOG_STYLED_OBJECT (series)->style);
 				neg_style->fill.type = GOG_FILL_STYLE_PATTERN;
 				neg_style->fill.pattern.pattern = GO_PATTERN_SOLID;
-				neg_style->fill.pattern.back = GO_COLOR_WHITE;
+				neg_style->fill.pattern.back = RGBA_WHITE;
 			}
 			if (model->base.vary_style_by_element)
 				style = gog_style_dup (style);
@@ -939,9 +938,11 @@ gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 	}
 	if (!plot->default_style_has_lines) {
 		style->disable_theming |= GOG_STYLE_LINE;
+		if (style->line.auto_dash)
+			style->line.dash_type = GO_LINE_NONE;
 		if (style->line.auto_color) {
-			style->line.width = -1;
-			style->line.color = 0;
+			style->line.width = 0;
+			style->line.color = RGBA_BLACK;
 		}
 	}
 }
@@ -1013,7 +1014,7 @@ static void
 gog_xy_series_populate_editor (GogSeries *series,
 				GtkNotebook *book,
 				GogDataAllocator *dalloc,
-				GOCmdContext *cc)
+				GnmCmdContext *cc)
 {
 	GtkWidget *error_page;
 	error_page = gog_error_bar_prefs (series, "y-errors", FALSE, dalloc, cc);

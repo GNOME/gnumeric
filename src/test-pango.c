@@ -21,8 +21,6 @@
 #include <gtk/gtkmain.h>
 
 int gnumeric_no_splash = TRUE;
-char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
-char const *gnumeric_data_dir = GNUMERIC_DATADIR;
 
 const struct poptOption
 gnumeric_popt_options[] = {
@@ -71,12 +69,12 @@ cb_exercise_pango (gpointer data)
 int
 main (int argc, char *argv [])
 {
-	GOCmdContext *cc;
+	GnmCmdContext *cc;
 	WorkbookControl *wbc;
 	IOContext *ioc;
 	poptContext ctx;
 
-	init_init (argv[0]);
+	gnm_pre_parse_init (argv[0]);
 
 	ctx = gnumeric_arg_parse (argc, argv);
 
@@ -87,7 +85,7 @@ main (int argc, char *argv [])
 	/* TODO: Use the ioc. */
 	gnm_common_init (FALSE);
 
- 	plugins_init (GO_CMD_CONTEXT (ioc));
+ 	plugins_init (GNM_CMD_CONTEXT (ioc));
 	g_object_unref (ioc);
 
 	initial_workbook_open_complete = TRUE; /* make the last unref exit */

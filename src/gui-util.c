@@ -22,7 +22,7 @@
 #include "format.h"
 #include "application.h"
 #include "workbook.h"
-#include "gnumeric-paths.h"
+#include "libgnumeric.h"
 
 #include <goffice/gui-utils/go-combo-color.h>
 #include <glade/glade.h>
@@ -609,6 +609,40 @@ gnumeric_position_tooltip (GtkWidget *tip, int horizontal)
 	gtk_window_move (GTK_WINDOW (gtk_widget_get_toplevel (tip)), x, y);
 }
 
+/**
+ * gnm_glade_xml_new :
+ * @cc : #GnmCmdContext
+ * @gladefile :
+ *
+ * Simple utility to open glade files
+ **/
+GladeXML *
+gnm_glade_xml_new (GnmCmdContext *cc, char const *gladefile,
+		   char const *root, char const *domain)
+{
+	GladeXML *gui;
+	char *f;
+
+	g_return_val_if_fail (gladefile != NULL, NULL);
+
+	if (!g_path_is_absolute (gladefile)) {
+		char *d = gnm_sys_glade_dir ();
+		f = g_build_filename (d, gladefile, NULL);
+		g_free (d);
+	} else
+		f = g_strdup (gladefile);
+
+	gui = glade_xml_new (f, root, domain);
+	if (gui == NULL && cc != NULL) {
+		char *msg = g_strdup_printf (_("Unable to open file '%s'"), f);
+		gnm_cmd_context_error_system (cc, msg);
+		g_free (msg);
+	}
+	g_free (f);
+
+	return gui;
+}
+
 static gint
 cb_non_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
 {
@@ -735,10 +769,10 @@ go_combo_color_get_style_color (GtkWidget *go_combo_color)
 	GnmColor *sc = NULL;
 	guint16   r, g, b;
 	GOColor color = go_combo_color_get_color (GO_COMBO_COLOR (go_combo_color), NULL);
-	if (GO_COLOR_A (color) >= 0x80) {
-		r  = GO_COLOR_R (color); r |= (r << 8);
-		g  = GO_COLOR_G (color); g |= (g << 8);
-		b  = GO_COLOR_B (color); b |= (b << 8);
+	if (UINT_RGBA_A (color) >= 0x80) {
+		r  = UINT_RGBA_R (color); r |= (r << 8);
+		g  = UINT_RGBA_G (color); g |= (g << 8);
+		b  = UINT_RGBA_B (color); b |= (b << 8);
 		sc = style_color_new (r, g, b);
 	}
 	return sc;
@@ -946,7 +980,7 @@ int_to_entry (GtkEntry *entry, gint the_int)
 char *
 gnumeric_icondir (char const *filename)
 {
-	return g_build_filename (GNUMERIC_ICONDIR, filename, NULL);
+	return g_build_filename (gnumeric_icon_dir, filename, NULL);
 }
 
 GtkWidget *
@@ -1144,6 +1178,69 @@ gnm_fat_cross_cursor (GdkDisplay *display)
 	return gdk_cursor_new_from_pixbuf (display, pixbuf, 17, 17);
 }
 
+/* ------------------------------------------------------------------------- */
+
+/**
+ * gnumeric_button_new_with_stock_image
+ *
+ * Code from gedit
+ *
+ * Creates a new GtkButton with custom label and stock image.
+ * 
+ * text : button label
+ * sotck_id : id for stock icon
+ *
+ * return : newly created button
+ *
+ **/
+
+GtkWidget* 
+gnumeric_button_new_with_stock_image (const gchar* text, const gchar* stock_id)
+{
+	GtkWidget *button;
+	GtkStockItem item;
+	GtkWidget *label;
+	GtkWidget *image;
+	GtkWidget *hbox;
+	GtkWidget *align;
+
+	button = gtk_button_new ();
+
+	if (GTK_BIN (button)->child)
+		gtk_container_remove (GTK_CONTAINER (button),
+				      GTK_BIN (button)->child);
+
+	if (gtk_stock_lookup (stock_id, &item)) {
+		label = gtk_label_new_with_mnemonic (text);
+
+		gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (button));
+
+		image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_BUTTON);
+		hbox = gtk_hbox_new (FALSE, 2);
+
+		align = gtk_alignment_new (0.5, 0.5, 0.0, 0.0);
+
+		gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
+		gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+		gtk_container_add (GTK_CONTAINER (button), align);
+		gtk_container_add (GTK_CONTAINER (align), hbox);
+		gtk_widget_show_all (align);
+
+		return button;
+	}
+
+	label = gtk_label_new_with_mnemonic (text);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (button));
+
+	gtk_misc_set_alignment (GTK_MISC (label), 0.5, 0.5);
+
+	gtk_widget_show (label);
+	gtk_container_add (GTK_CONTAINER (button), label);
+
+	return button;
+}
+
 /**
  * gnumeric_dialog_add_button
  *
@@ -1170,7 +1267,7 @@ gnumeric_dialog_add_button (GtkDialog *dialog, const gchar* text, const gchar* s
 	g_return_val_if_fail (text != NULL, NULL);
 	g_return_val_if_fail (stock_id != NULL, NULL);
 
-	button = go_gtk_button_new_with_stock_image (text, stock_id);
+	button = gnumeric_button_new_with_stock_image (text, stock_id);
 	g_return_val_if_fail (button != NULL, NULL);
 
 	GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
@@ -1287,6 +1384,35 @@ gnumeric_message_dialog_new (GtkWindow * parent,
 	return dialog;
 }
 
+GdkPixbuf*
+gnm_pixbuf_intelligent_scale (GdkPixbuf *buf, guint width, guint height)
+{
+	GdkPixbuf *scaled;
+	int w, h;
+	unsigned long int ow = gdk_pixbuf_get_width (buf);
+	unsigned long int oh = gdk_pixbuf_get_height (buf);
+
+	if (ow <= width && oh <= height)
+		scaled = g_object_ref (buf);
+	else
+	{
+		if (ow * height > oh * width)
+		{
+			w = width;
+			h = width * (((double)oh)/(double)ow);
+		}
+		else
+		{
+			h = height;
+			w = height * (((double)ow)/(double)oh);
+		}
+			
+		scaled = gdk_pixbuf_scale_simple (buf, w, h, GDK_INTERP_BILINEAR);
+	}
+	
+	return scaled;
+}
+
 void
 gnm_widget_disable_focus (GtkWidget *w)
 {
@@ -1294,4 +1420,19 @@ gnm_widget_disable_focus (GtkWidget *w)
 		gtk_container_foreach (GTK_CONTAINER (w),
 			(GtkCallback) gnm_widget_disable_focus, NULL);
 	GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
+}
+
+
+gboolean 
+gnm_tree_model_iter_prev (GtkTreeModel *model, GtkTreeIter* iter)
+{
+	GtkTreePath *path = gtk_tree_model_get_path (model, iter);
+
+	if (gtk_tree_path_prev (path) &&
+	    gtk_tree_model_get_iter (model, iter, path)) {
+		gtk_tree_path_free (path);
+		return TRUE;
+	}
+	gtk_tree_path_free (path);
+	return FALSE;
 }

@@ -184,7 +184,7 @@ go_pattern_set_solid (GOPattern *pat, GOColor fore)
 {
 	g_return_if_fail (pat != NULL);
 	pat->pattern = GO_PATTERN_SOLID;
-	pat->fore = GO_COLOR_BLACK;
+	pat->fore = RGBA_BLACK;
 	pat->back = fore;
 }
 
@@ -535,12 +535,12 @@ go_pattern_render_svp (GOPattern const *pat, ArtSVP const *svp,
 		return;
 	}
 
-	state.fore.r = GO_COLOR_R (pat->fore);
-	state.fore.g = GO_COLOR_G (pat->fore);
-	state.fore.b = GO_COLOR_B (pat->fore);
-	state.back.r = GO_COLOR_R (pat->back);
-	state.back.g = GO_COLOR_G (pat->back);
-	state.back.b = GO_COLOR_B (pat->back);
+	state.fore.r = UINT_RGBA_R (pat->fore);
+	state.fore.g = UINT_RGBA_G (pat->fore);
+	state.fore.b = UINT_RGBA_B (pat->fore);
+	state.back.r = UINT_RGBA_R (pat->back);
+	state.back.g = UINT_RGBA_G (pat->back);
+	state.back.b = UINT_RGBA_B (pat->back);
 	state.buf = buf;
 	state.rowstride = rowstride;
 	state.x0 = x0;
@@ -548,14 +548,14 @@ go_pattern_render_svp (GOPattern const *pat, ArtSVP const *svp,
 	state.pattern = go_patterns [pat->pattern].pattern;
 
 	a = 0x8000;
-	da = (GO_COLOR_A (pat->fore) * 66051 + 0x80) >> 8; /* 66051 equals 2 ^ 32 / (255 * 255) */
+	da = (UINT_RGBA_A (pat->fore) * 66051 + 0x80) >> 8; /* 66051 equals 2 ^ 32 / (255 * 255) */
 	if (da != 65793) opaque = FALSE;
 	for (i = 0; i < 256; i++) {
 		state.fore.alphatab[i] = a >> 16;
 		a += da;
 	}
 	a = 0x8000;
-	da = (GO_COLOR_A (pat->back) * 66051 + 0x80) >> 8; /* 66051 equals 2 ^ 32 / (255 * 255) */
+	da = (UINT_RGBA_A (pat->back) * 66051 + 0x80) >> 8; /* 66051 equals 2 ^ 32 / (255 * 255) */
 	if (da != 65793) opaque = FALSE;
 	for (i = 0; i < 256; i++) {
 		state.back.alphatab[i] = a >> 16;

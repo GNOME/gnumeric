@@ -32,7 +32,6 @@ GOFormat   *go_format_ref		 (GOFormat *fmt);
 void        go_format_unref		 (GOFormat *fmt);
 char	   *go_format_value   		 (GOFormat const *fmt, double val);
 gboolean    go_format_eq		 (GOFormat const *a, GOFormat const *b);
-gboolean    go_format_is_general	 (GOFormat const *fmt);
 GOFormat   *go_format_general		 (void);
 GOFormat   *go_format_default_date	 (void);
 GOFormat   *go_format_default_time	 (void);

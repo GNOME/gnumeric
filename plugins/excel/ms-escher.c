@@ -223,7 +223,9 @@ ms_escher_get_data (MSEscherState *state,
 
 		/* Copy back stub */
 		memcpy (tmp, res, num_bytes - (tmp-buffer));
-		d (1, printf ("record %d) add %d bytes;\n", ++counter, num_bytes - (tmp-buffer)););
+		d (1, printf ("record %d) add %d bytes;\n",
+			      ++counter,
+			      num_bytes - (int)(tmp-buffer)););
 		return buffer;
 	}
 
@@ -1306,6 +1308,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		}
 		prev_pid = pid;
 
+		name = NULL;
 		switch (pid) {
 	/* Transofrmation */
 		/* 0 : fixed point: 16.16 degrees */

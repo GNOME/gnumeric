@@ -87,6 +87,7 @@ struct _WBCgtk {
 	} v_align;
 
 	GtkWidget *menu_zone, *toolbar_zone, *everything;
+	GHashTable *custom_uis;
 };
 typedef WorkbookControlGUIClass WBCgtkClass;
 
@@ -510,7 +511,7 @@ cb_fore_color_changed (GOActionComboColor *a, WorkbookControlGUI *wbcg)
 	c = go_action_combo_color_get_color (a, &is_default);
 
 	if (wbcg_is_editing (wbcg)) {
-		GnmColor *color = style_color_new_go (is_default ? GO_COLOR_BLACK : c);
+		GnmColor *color = style_color_new_go (is_default ? RGBA_BLACK : c);
 		wbcg_edit_add_markup (wbcg, pango_attr_foreground_new (
 			color->color.red, color->color.green, color->color.blue));
 		style_color_unref (color);
@@ -528,11 +529,10 @@ static void
 wbc_gtk_init_color_fore (WBCgtk *gtk)
 {
 	GnmColor *sc_auto_font = style_color_auto_font ();
-	GOColor   default_color = GO_COLOR_FROM_GDK(sc_auto_font->color);
+	GOColor   default_color = GDK_TO_UINT(sc_auto_font->color);
 	style_color_unref (sc_auto_font);
 
-	gtk->fore_color = go_action_combo_color_new ("ColorFore",
-		gnm_app_get_pixbuf ("font"),
+	gtk->fore_color = go_action_combo_color_new ("ColorFore", "font",
 		_("Automatic"),	default_color, NULL); /* set group to view */
 	g_object_set (G_OBJECT (gtk->fore_color),
 		      "label", _("Foreground"),
@@ -582,8 +582,7 @@ cb_back_color_changed (GOActionComboColor *a, WorkbookControlGUI *wbcg)
 static void
 wbc_gtk_init_color_back (WBCgtk *gtk)
 {
-	gtk->back_color = go_action_combo_color_new ("ColorBack",
-		gnm_app_get_pixbuf ("bucket"),
+	gtk->back_color = go_action_combo_color_new ("ColorBack", "bucket",
 		_("Clear Background"), 0, NULL);
 	g_object_set (G_OBJECT (gtk->back_color),
 		      "label", _("Background"),
@@ -627,12 +626,12 @@ cb_font_name_changed (GOActionComboText *a, WBCgtk *gtk)
 static void
 wbc_gtk_init_font_name (WBCgtk *gtk)
 {
-	GSList *ptr;
+	GList *ptr;
 
 	gtk->font_name = g_object_new (go_action_combo_text_get_type (),
 		"name",     "FontName",
 		NULL);
-	for (ptr = go_font_family_list; ptr != NULL; ptr = ptr->next)
+	for (ptr = gnumeric_font_family_list; ptr != NULL; ptr = ptr->next)
 		if (ptr->data) 
 			go_action_combo_text_add_item (gtk->font_name, ptr->data);
 	g_signal_connect (G_OBJECT (gtk->font_name),
@@ -1089,6 +1088,75 @@ cb_regenerate_window_menu (WBCgtk *gtk)
 	}
 }
 
+typedef struct {
+	GtkActionGroup *actions;
+	guint		merge_id;
+} CustomUIHandle;
+
+static void
+cb_custom_ui_handler (GObject *gtk_action, WorkbookControl *wbc)
+{
+	GnmAction *action = g_object_get_data (gtk_action, "GnmAction");
+	GnmAppExtraUI *extra_ui = g_object_get_data (gtk_action, "ExtraUI");
+
+	g_return_if_fail (action != NULL);
+	g_return_if_fail (action->handler != NULL);
+	g_return_if_fail (extra_ui != NULL);
+
+	action->handler (action, wbc, extra_ui->user_data);
+}
+
+static void
+cb_add_custom_ui (G_GNUC_UNUSED GnmApp *app,
+		  GnmAppExtraUI *extra_ui, WBCgtk *gtk)
+{
+	GtkActionEntry   entry;
+	CustomUIHandle  *details;
+	GSList		*ptr;
+	GnmAction	*action;
+	GtkAction       *res;
+
+	details = g_new0 (CustomUIHandle, 1);
+	details->actions = gtk_action_group_new ("DummyName");
+
+	for (ptr = extra_ui->actions; ptr != NULL ; ptr = ptr->next) {
+		action = ptr->data;
+		entry.name = action->id;
+		entry.stock_id = action->icon_name;
+		entry.label = action->label;
+		entry.accelerator = NULL;
+		entry.tooltip = NULL;
+		entry.callback = G_CALLBACK (cb_custom_ui_handler);
+		gtk_action_group_add_actions (details->actions, &entry, 1, gtk);
+		res = gtk_action_group_get_action (details->actions, action->id);
+		g_object_set_data (G_OBJECT (res), "GnmAction", action);
+		g_object_set_data (G_OBJECT (res), "ExtraUI", extra_ui);
+	}
+	gtk_ui_manager_insert_action_group (gtk->ui, details->actions, 0);
+	details->merge_id = gtk_ui_manager_add_ui_from_string (gtk->ui,
+		extra_ui->layout, -1, NULL);
+
+	g_hash_table_insert (gtk->custom_uis, extra_ui, details);
+}
+static void
+cb_remove_custom_ui (G_GNUC_UNUSED GnmApp *app,
+		     GnmAppExtraUI *extra_ui, WBCgtk *gtk)
+{
+	CustomUIHandle *details = g_hash_table_lookup (gtk->custom_uis, extra_ui);
+	if (NULL != details) {
+		gtk_ui_manager_remove_ui (gtk->ui, details->merge_id);
+		gtk_ui_manager_remove_action_group (gtk->ui, details->actions);
+		g_object_unref (details->actions);
+		g_hash_table_remove (gtk->custom_uis, extra_ui);
+	}
+}
+
+static void
+cb_init_extra_ui (GnmAppExtraUI *extra_ui, WBCgtk *gtk)
+{
+	cb_add_custom_ui (NULL, extra_ui, gtk);
+}
+
 /****************************************************************************/
 /* Toolbar menu */
 
@@ -1159,7 +1227,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 }
 
 static void
-cb_show_menu_tip (GtkWidget *proxy, GOCmdContext *cc)
+cb_show_menu_tip (GtkWidget *proxy, GnmCmdContext *cc)
 {
 	GtkAction *action = g_object_get_data (G_OBJECT (proxy), "GtkAction");
 	char *tip;
@@ -1170,7 +1238,7 @@ cb_show_menu_tip (GtkWidget *proxy, GOCmdContext *cc)
 }
 
 static void
-cb_clear_menu_tip (GOCmdContext *cc)
+cb_clear_menu_tip (GnmCmdContext *cc)
 {
 	cmd_context_progress_message_set (cc, " ");
 }
@@ -1179,7 +1247,7 @@ static void
 cb_connect_proxy (G_GNUC_UNUSED GtkUIManager *ui,
 		  GtkAction    *action,
 		  GtkWidget    *proxy, 
-		  GOCmdContext *cc)
+		  GnmCmdContext *cc)
 {
 	/* connect whether there is a tip or not it may change later */
 	if (GTK_IS_MENU_ITEM (proxy)) {
@@ -1195,7 +1263,7 @@ static void
 cb_disconnect_proxy (G_GNUC_UNUSED GtkUIManager *ui,
 		     G_GNUC_UNUSED GtkAction    *action,
 		     GtkWidget    *proxy, 
-		     GOCmdContext *cc)
+		     GnmCmdContext *cc)
 {
 	if (GTK_IS_MENU_ITEM (proxy)) {
 		g_object_set_data (G_OBJECT (proxy), "GtkAction", NULL);
@@ -1336,6 +1404,9 @@ wbc_gtk_init (GObject *obj)
 	}
 	g_free (uifile);
 
+	gtk->custom_uis = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+						 NULL, g_free);
+
 	gtk->file_history.actions = NULL;
 	gtk->file_history.merge_id = 0;
 	wbc_gtk_reload_recent_file_menu (wbcg);
@@ -1346,9 +1417,15 @@ wbc_gtk_init (GObject *obj)
 
 	gtk->windows.actions = NULL;
 	gtk->windows.merge_id = 0;
-	g_signal_connect_object (gnm_app_get_app (),
-		"window-list-changed",
-		G_CALLBACK (cb_regenerate_window_menu), gtk, G_CONNECT_SWAPPED);
+	gnm_app_foreach_extra_ui ((GFunc) cb_init_extra_ui, gtk);
+	g_object_connect ((GObject *) gnm_app_get_app (),
+		"swapped-object-signal::window-list-changed",
+			G_CALLBACK (cb_regenerate_window_menu), gtk,
+		"object-signal::custom-ui-added",
+			G_CALLBACK (cb_add_custom_ui), gtk,
+		"object-signal::custom-ui-removed",
+			G_CALLBACK (cb_remove_custom_ui), gtk,
+		NULL);
 
 	gtk_ui_manager_ensure_update (gtk->ui);
 	gtk_widget_show_all (gtk->everything);
@@ -1375,6 +1452,8 @@ wbc_gtk_finalize (GObject *obj)
 	if (gtk->toolbar.actions != NULL)
 		g_object_unref (gtk->toolbar.actions);
 	g_object_unref (gtk->ui);
+
+	g_hash_table_destroy (gtk->custom_uis);
 
 	parent_class->finalize (obj);
 }

@@ -16,18 +16,16 @@
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 static void
-hello_message (WorkbookControlGUI *wbcg)
+hello_message (GnmAction const *action, WorkbookControl *wbc)
 {
-	char *msg;
-
-	msg = g_strdup_printf (
+	char *msg = g_strdup_printf (
 		_("This is message from the \"%s\" plugin."),
 		gnm_plugin_get_name (PLUGIN));
-	gnumeric_notice (wbcg_toplevel (wbcg), GTK_MESSAGE_INFO, msg);
+	gnumeric_notice (wbcg_toplevel (WORKBOOK_CONTROL_GUI (wbc)), GTK_MESSAGE_INFO, msg);
 	g_free (msg);
 }
 
-const ModulePluginUIVerbInfo hello_ui_verbs[] = {
-	{"HelloWorld", hello_message},
-	{NULL}
+ModulePluginUIActions const hello_ui_actions[] = {
+	{ "HelloWorld", hello_message},
+	{ NULL }
 };

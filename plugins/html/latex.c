@@ -679,8 +679,9 @@ latex2e_write_blank_cell (GsfOutput *output, gint col, gint row, gint index,
  * makes it much more difficult to change column widths later on.
  */
 static void
-latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int num_merged_cols,
-				int num_merged_rows,  gint index,
+latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
+				int num_merged_cols, int num_merged_rows,
+				gint index,
 				StyleBorderType *borders, Sheet *sheet)
 {
 	char * rendered_string;
@@ -702,7 +703,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int num_merged
 		int i;
 
 		for (i = 0; i < num_merged_cols; i++) {
-			ci = sheet_col_get_info (sheet, cell->pos.col + i);
+			ci = sheet_col_get_info (sheet, start_col + i);
 			merge_width += ci->size_pixels;
 		}
 	}
@@ -728,7 +729,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int num_merged
 			gsf_output_printf (output, "p{");
 			for (i = 0; i < num_merged_cols; i++) {
 				gsf_output_printf (output, "\t\\gnumericCol%s+%%\n",
-					 col_name (cell->pos.col + i));
+					 col_name (start_col + i));
 			}
 			gsf_output_printf (output, "\t\\tabcolsep*2*%i}", num_merged_cols - 1);
 		}
@@ -765,7 +766,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int num_merged
 		gsf_output_printf (output, "\\multirow{%d}[%i]*{\\begin{tabular}{p{",
 			 num_merged_rows, num_merged_rows/2);
 		for (i = 0; i < num_merged_cols; i++) {
-			gsf_output_printf (output, "\t\\gnumericCol%s+%%\n", col_name (cell->pos.col + i));
+			gsf_output_printf (output, "\t\\gnumericCol%s+%%\n", col_name (start_col + i));
 		}
 		if (num_merged_cols > 2)
 			gsf_output_printf (output, "\t\\tabcolsep*2*%i}}", num_merged_cols - 2);
@@ -1154,6 +1155,7 @@ latex_file_save (GnmFileSaver const *fs, IOContext *io_context,
 			the_span = row_span_get (ri, col);
 			if (the_span != NULL) {
 				latex2e_write_multicolumn_cell(output, (GnmCell *)the_span->cell,
+							       col,
 							       the_span->right -
 							       col + 1, 1,
 							       col - total_range.start.col,
@@ -1174,7 +1176,7 @@ latex_file_save (GnmFileSaver const *fs, IOContext *io_context,
 			/* Check a merge. */
 			merge_range = sheet_merge_is_corner (current_sheet, &cell->pos);
 			if (merge_range == NULL) {
-				latex2e_write_multicolumn_cell(output, cell, 1, 1,
+				latex2e_write_multicolumn_cell(output, cell, col, 1, 1,
 							       col - total_range.start.col,
 							       next_vert, current_sheet);
 				continue;
@@ -1184,7 +1186,7 @@ latex_file_save (GnmFileSaver const *fs, IOContext *io_context,
 			num_merged_cols = merge_range->end.col - merge_range->start.col + 1;
 			num_merged_rows = merge_range->end.row - merge_range->start.row + 1;
 
-			latex2e_write_multicolumn_cell(output, cell, num_merged_cols,
+			latex2e_write_multicolumn_cell(output, cell, col, num_merged_cols,
 						       num_merged_rows,
 						       col - total_range.start.col,
 						       next_vert, current_sheet);

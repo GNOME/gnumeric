@@ -5,6 +5,7 @@ use strict;
 
 my @files =
     ("dpq.h",
+     "ftrunc.c",
      "dnorm.c",
      "pnorm.c",
      "qnorm.c",
@@ -105,6 +106,8 @@ sub import_file {
 	    s/\bdouble\b/gnm_float/g;
 	    s/\bRboolean\b/gboolean/g;
 
+	    s/^(\s*)(const\s+gnm_float\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\[\s*\d+\s*\]\s*=)/$1static $2/;
+
 	    # Improve precision of "log(1-x)".
 	    s/\blog\s*\(\s*1\s*-\s*([a-zA-Z0-9_]+)\s*\)/log1pgnum (-$1)/g;
 
@@ -113,7 +116,7 @@ sub import_file {
 
 	    s/\bISNAN\b/isnangnum/g;
 	    s/\bR_FINITE\b/finitegnum/g;
-	    s/\b(sqrt|exp|log|pow|log1p|expm1|floor|sin|sinh|tan)(\s|$|\()/$1gnum$2/g;
+	    s/\b(sqrt|exp|log|pow|log1p|expm1|floor|ceil|sin|sinh|tan)(\s|$|\()/$1gnum$2/g;
 	    s/\bfabs\b/gnumabs/g;
 	    s/\bDBL_(EPSILON|MIN|MAX)/GNUM_$1/g;
 
@@ -139,7 +142,7 @@ sub import_file {
 	    s/pnorm5/pnorm/g;
 	    s/qnorm5/qnorm/g;
 
-	    s/\b(trunc|ftrunc)\b/floorgnum/g;
+	    s/\b(trunc|ftrunc)\b/gnm_trunc/g;
 	    s/\b(lgammafn|lgamma)\b/lgammagnum/g;
 	    s/\bML_NAN\b/gnm_nan/g;
 	    s/\bML_VALID\b/\!isnangnum/g;
@@ -149,6 +152,8 @@ sub import_file {
 	    # Improve precision of "lgammagnum(x+1)".
 	    s/\blgammagnum\s*\(([^()]*\S)\s*\+\s*1(.0*)?\s*\)/lgamma1p ($1)/;
 	    s/\bgamma_cody\s*\(1\.\s*\+\s*([^()]+)\s*\)/expgnum(lgamma1p ($1))/;
+	    s/\bR_Log1_Exp\b/swap_log_tail/g;
+
 	    if ($filename =~ m|/bessel_i\.c$|) {
 		s/\bgamma_cody\(empal\)/expgnum(lgamma1p(nu))/;
 	    }

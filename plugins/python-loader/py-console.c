@@ -137,7 +137,7 @@ cb_clear (GtkButton *button, gpointer data)
 }
 
 void
-show_python_console (WorkbookControlGUI *wbcg)
+show_python_console (GnmAction const *action, WorkbookControl *wbc)
 {
 	GtkWidget *vbox, *sc_win, *hbox, *sel, *cline, *w;
 	GtkTextIter enditer;
@@ -151,7 +151,7 @@ show_python_console (WorkbookControlGUI *wbcg)
 
 	sel = gnm_py_interpreter_selector_new (&err);
 	if (err != NULL) {
-		go_cmd_context_error_info (GO_CMD_CONTEXT (wbcg), err);
+		gnm_cmd_context_error_info (GNM_CMD_CONTEXT (wbc), err);
 		error_info_free (err);
 		return;
 	}

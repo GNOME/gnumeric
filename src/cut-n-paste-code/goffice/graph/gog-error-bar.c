@@ -30,11 +30,9 @@
 #include "gog-renderer.h"
 #include "go-data-impl.h"
 #include "go-data.h"
-
 #include <goffice/gui-utils/go-color-palette.h>
 #include <goffice/gui-utils/go-combo-color.h>
 #include <goffice/gui-utils/go-combo-pixmaps.h>
-#include <goffice/gui-utils/go-gui-utils.h>
 #include <goffice/utils/go-math.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkspinbutton.h>
@@ -89,9 +87,9 @@ cb_line_width_changed (GtkAdjustment *adj, GogErrorBarEditor *editor)
 
 static void
 cb_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
-		  G_GNUC_UNUSED gboolean is_custom,
-		  G_GNUC_UNUSED gboolean by_user,
-		  G_GNUC_UNUSED gboolean is_default, GogErrorBarEditor *editor)
+		     G_GNUC_UNUSED gboolean is_custom,
+		     G_GNUC_UNUSED gboolean by_user,
+		     G_GNUC_UNUSED gboolean is_default, GogErrorBarEditor *editor)
 {
 	editor->color = color;
 	if (editor->bar) {
@@ -173,7 +171,7 @@ gog_error_bar_prefs (GogSeries *series,
 			char const* property,
 			gboolean horizontal,
 			GogDataAllocator *dalloc,
-			GOCmdContext *gcc)
+			GnmCmdContext *cc)
 {
 	GladeXML *gui;
 	GtkWidget *w, *bar_prefs;
@@ -195,14 +193,14 @@ gog_error_bar_prefs (GogSeries *series,
 		editor->width = editor->bar->width;
 		editor->display = editor->bar->display;
 	} else {
-		editor->color = GO_COLOR_BLACK;
+		editor->color = RGBA_BLACK;
 		editor->line_width = 1.;
 		editor->width = 5.;
 		editor->display = GOG_ERROR_BAR_DISPLAY_BOTH;
 	}
 	set = GOG_DATASET (series);
 
-	gui = go_libglade_new ("gog-error-bar-prefs.glade", "gog_error_bar_prefs", NULL, gcc);
+	gui = gnm_glade_xml_new (cc, "gog-error-bar-prefs.glade", "gog_error_bar_prefs", NULL);
 
 	/* Style properties */
 
@@ -223,7 +221,7 @@ gog_error_bar_prefs (GogSeries *series,
 	style_table = GTK_TABLE (glade_xml_get_widget (gui, "style_table"));
 
 	/* Color */
-	w = go_combo_color_new (NULL, _("Automatic"), GO_COLOR_BLACK,
+	w = go_combo_color_new (NULL, _("Automatic"), RGBA_BLACK,
 		go_color_group_fetch ("color", NULL));
 	go_combo_color_set_instant_apply (GO_COMBO_COLOR (w), FALSE);
 	go_combo_color_set_allow_alpha (GO_COMBO_COLOR (w), TRUE);
@@ -237,39 +235,39 @@ gog_error_bar_prefs (GogSeries *series,
 	
 	/* Display style */
 	cpx = go_combo_pixmaps_new (4);
-	pixbuf = gdk_pixbuf_new_from_file (GO_ICON_DIR "/bar-none.png", NULL);
+	pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-none.png", NULL);
 	go_combo_pixmaps_add_element  (cpx,
 				       pixbuf,
 				       GOG_ERROR_BAR_DISPLAY_NONE,
 				       _("No error bar displayed"));
 	if (horizontal) {
-		pixbuf = gdk_pixbuf_new_from_file (GO_ICON_DIR "/bar-hplus.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-hplus.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_POSITIVE,
 					       _("Positive error bar displayed"));
-		pixbuf = gdk_pixbuf_new_from_file (GO_ICON_DIR "/bar-hminus.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-hminus.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_NEGATIVE,
 					       _("Negative error bar displayed"));
-		pixbuf = gdk_pixbuf_new_from_file (GO_ICON_DIR "/bar-hboth.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-hboth.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_BOTH,
 					       _("Full error bar displayed"));
 	} else {
-		pixbuf = gdk_pixbuf_new_from_file (GO_ICON_DIR "/bar-vplus.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-vplus.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_POSITIVE,
 					       _("Positive error bar displayed"));
-		pixbuf = gdk_pixbuf_new_from_file (GO_ICON_DIR "/bar-vminus.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-vminus.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_NEGATIVE,
 					       _("Negative error bar displayed"));
-		pixbuf = gdk_pixbuf_new_from_file (GO_ICON_DIR "/bar-vboth.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (GNUMERICICONDIR"/bar-vboth.png", NULL);
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_BOTH,
@@ -317,7 +315,7 @@ gog_error_bar_init (GogErrorBar* bar)
 	bar->display = GOG_ERROR_BAR_DISPLAY_BOTH;
 	bar->width = 5.;
 	bar->style = gog_style_new ();
-	bar->style->line.color = GO_COLOR_BLACK;
+	bar->style->line.color = RGBA_BLACK;
 	bar->style->line.width = 1.;
 }
 
@@ -441,7 +439,7 @@ gog_error_bar_persist_dom_save (GogPersist const *gp, xmlNode *parent)
 		xmlSetProp (parent, CC2XML ("line_width"), CC2XML (str));
 		g_free (str);
 	}
-	if (bar->style->line.color != GO_COLOR_BLACK) {
+	if (bar->style->line.color != RGBA_BLACK) {
 		char *str = go_color_as_str (bar->style->line.color);
 		xmlSetProp (parent, CC2XML ("color"), CC2XML (str));
 		g_free (str);
@@ -477,7 +475,7 @@ gog_error_bar_persist_sax_save (GogPersist const *gp, GsfXMLOut *output)
 		gsf_xml_out_add_float (output, "width", bar->width, 2);
 	if (bar->style->line.width != 1.)
 		gsf_xml_out_add_float (output, "line_width", bar->style->line.width, 2);
-	if (bar->style->line.color != GO_COLOR_BLACK)
+	if (bar->style->line.color != RGBA_BLACK)
 		go_xml_out_add_color (output, "color", bar->style->line.color);
 }
 
@@ -730,7 +728,7 @@ void gog_error_bar_render (const GogErrorBar *bar,
 }
 
 gboolean
-gog_error_bar_is_visible (GogErrorBar const *bar)
+gog_error_bar_is_visible (GogErrorBar *bar)
 {
 	return (bar != NULL) &&
 		(bar->type != GOG_ERROR_BAR_TYPE_NONE) &&

@@ -41,7 +41,7 @@
 	<list_type>string</list_type>
         <locale name="C">
         <short>List of Init Caps Exceptions</short>
-        <long>The autocorrect engine does not correct the inital caps for words in this list.</long>
+        <long>The autocorrect engine does not correct the initial caps for words in this list.</long>
         </locale>
       </schema>
       <schema>
@@ -342,7 +342,7 @@
 	<default>FALSE</default>
         <locale name="C">
         <short>Default Title Printing</short>
-        <long>This value determines the default setting in the Print Setup dialog whether ro print row and column headers. Please use the Print Setup dialog to edit this value.</long>
+        <long>This value determines the default setting in the Print Setup dialog whether to print row and column headers. Please use the Print Setup dialog to edit this value.</long>
         </locale>
       </schema>
       <schema>

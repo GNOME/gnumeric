@@ -88,7 +88,7 @@ go_color_group_init (GOColorGroup *cg)
 	cg->name = NULL;
 	cg->context = NULL;
 	for (i = 0 ; i < GO_COLOR_GROUP_HISTORY_SIZE ; i++)
-		cg->history[i] = GO_COLOR_BLACK;
+		cg->history[i] = RGBA_BLACK;
 }
 
 GSF_CLASS (GOColorGroup, go_color_group,

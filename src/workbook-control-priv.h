@@ -25,16 +25,15 @@ typedef struct {
 	void (*init_state) (WorkbookControl *wbc);
 
 	/* Actions on the workbook UI */
-	void (*title_set)	    (WorkbookControl *wbc, char const *title);
+	void (*set_title)	    (WorkbookControl *wbc, char const *title);
 	void (*prefs_update)	    (WorkbookControl *wbc);
 	void (*style_feedback)	    (WorkbookControl *wbc, GnmStyle const *changes);
 	void (*zoom_feedback)	    (WorkbookControl *wbc);
 	void (*edit_line_set)	    (WorkbookControl *wbc, char const *text);
 	void (*edit_finish)	    (WorkbookControl *wbc, gboolean accept);
 	void (*selection_descr_set) (WorkbookControl *wbc, char const *text);
-	void (*edit_set_sensitive)  (WorkbookControl *wbc,
-				     gboolean flag1, gboolean flag2);
 	void (*auto_expr_value)	    (WorkbookControl *wbc);
+	void (*update_action_sensitivity)  (WorkbookControl *wbc);
 	struct {
 		void (*add)	(WorkbookControl *wbc, SheetView *sv);
 		void (*remove)	(WorkbookControl *wbc, Sheet *sheet);

@@ -36,10 +36,12 @@
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-math.h>
-#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
+#include <src/gui-util.h>
+#include <src/format.h>
+#include <src/widgets/widget-format-selector.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtknotebook.h>
@@ -70,6 +72,7 @@ struct _GogAxis {
 	double		logical_min_val, logical_max_val;
 	gpointer	min_contrib, max_contrib; /* NULL means use the manual sources */
 	gboolean	is_discrete;
+	gboolean	center_on_ticks;
 	GODataVector   *labels;
 	GogPlot	       *plot_that_supplied_labels;
 	GOFormat       *format, *assigned_format;
@@ -108,7 +111,7 @@ enum {
 
 #define GOG_AXIS_MAX_TICK_NBR				1000
 #define GOG_AXIS_LOG_AUTO_MAX_MAJOR_TICK_NBR 		8
-#define GOG_AXIS_DISCRETE_AUTO_MAX_MAJOR_TICK_NBR 	100
+#define GOG_AXIS_DISCRETE_AUTO_MAX_MAJOR_TICK_NBR 	20
 
 static void gog_axis_set_ticks (GogAxis *axis,int tick_nbr, GogAxisTick *ticks);
 
@@ -168,7 +171,9 @@ map_discrete_init (GogAxisMap *map, double offset, double length)
 	data = map->data;
 
 	if (gog_axis_get_bounds (map->axis, &data->min, &data->max)) {
-		data->scale = 1.0 / (data->max - data->min);
+		data->scale = (map->axis->center_on_ticks)?
+				1.0 / (data->max - data->min - 1):
+				1.0 / (data->max - data->min);
 		data->a = data->scale * length;
 		data->b = offset - data->a * data->min;
 		return TRUE;
@@ -195,7 +200,9 @@ map_discrete_to_canvas (GogAxisMap *map, double value, gboolean inverted)
 	MapData *data = map->data;
 
 	return inverted ? 
-		(data->min + data->max - value) * data->a + data->b :
+		((map->axis->center_on_ticks)?
+			(data->min + data->max - 1 - value) * data->a + data->b :
+			(data->min + data->max - value) * data->a + data->b) :
 		value * data->a + data->b;
 }
 
@@ -244,6 +251,8 @@ map_discrete_calc_ticks (GogAxis *axis,
 	}
 		
 	tick_nbr = rint (maximum -minimum) + 1;
+	if (axis->center_on_ticks)
+		tick_nbr--;
 	if (tick_nbr < 1) {
 		gog_axis_set_ticks (axis, 0, NULL);
 		return;
@@ -260,7 +269,7 @@ map_discrete_calc_ticks (GogAxis *axis,
 			ticks[count].type = GOG_AXIS_TICK_MAJOR;
 
 		/* Minimum >= .0 test is a trick to know if it's a barcol or an area/line plot */
-		if (i == 0 && minimum >=.0)
+		if (i == 0 && minimum >=.0 && !axis->center_on_ticks)
 			ticks[count].type = GOG_AXIS_TICK_NONE;
 		if ((i % major_label == 0) && draw_labels && 
 		    (i < tick_nbr - 1 || minimum >= .0)) {
@@ -417,7 +426,7 @@ map_linear_calc_ticks (GogAxis *axis,
 			ticks[i].type = GOG_AXIS_TICK_MAJOR;
 			if (draw_labels) {
 				if (axis->assigned_format == NULL || 
-				    go_format_is_general (axis->assigned_format))
+				    style_format_is_general (axis->assigned_format))
 					ticks[i].label = go_format_value (axis->format, ticks[i].position);
 				else
 					ticks[i].label = go_format_value (axis->assigned_format, ticks[i].position);
@@ -568,7 +577,7 @@ map_log_calc_ticks (GogAxis *axis,
 			if ((i) % major_label == 0 && draw_labels) {
 				ticks[count].type = GOG_AXIS_TICK_MAJOR;
 				if (axis->assigned_format == NULL || 
-				    go_format_is_general (axis->assigned_format))
+				    style_format_is_general (axis->assigned_format))
 					ticks[count].label = go_format_value (axis->format, ticks[count].position);
 				else
 					ticks[count].label = go_format_value (axis->assigned_format, ticks[count].position);
@@ -1214,6 +1223,7 @@ gog_axis_update (GogObject *obj)
 			g_object_ref (labels);
 			axis->labels = GO_DATA_VECTOR (labels);
 			axis->plot_that_supplied_labels = GOG_PLOT (ptr->data);
+			axis->center_on_ticks = bounds.center_on_ticks;
 		}
 
 		if (axis->min_val > bounds.val.minima) {
@@ -1246,9 +1256,13 @@ gog_axis_update (GogObject *obj)
 		axis->auto_bound [AXIS_ELEM_MAX] = axis->logical_max_val;
 
 	gog_axis_calc_ticks (axis);
-	
+
+	/* FIXME: there isn't an easy way to know if a discrete axis
+	 * needs to emit a changed signal. So allways emit changed signal if
+	 * axis is discrete */
 	if (old_min != axis->auto_bound [AXIS_ELEM_MIN] ||
-	    old_max != axis->auto_bound [AXIS_ELEM_MAX])
+	    old_max != axis->auto_bound [AXIS_ELEM_MAX] ||
+	    axis->is_discrete)
 		gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
 }
 
@@ -1369,7 +1383,7 @@ cb_axis_fmt_assignment_toggled (GtkToggleButton *toggle_button, GtkNotebook *not
 #endif
 
 static gpointer
-gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GOCmdContext *gcc)
+gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 {
 	static guint axis_pref_page = 0;
 	static char const *toggle_props[] = {
@@ -1390,7 +1404,8 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GOCmdContext *gcc)
 	/* No preferences for circular axis */
 	if (axis->type == GOG_AXIS_CIRCULAR)
 		return NULL;
-	gui = go_libglade_new ("gog-axis-prefs.glade", "axis_pref_box", NULL, gcc);
+
+	gui = gnm_glade_xml_new (cc, "gog-axis-prefs.glade", "axis_pref_box", NULL);
 	if (gui == NULL)
 		return NULL;
 	notebook = gtk_notebook_new ();
@@ -1398,7 +1413,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GOCmdContext *gcc)
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
 		glade_xml_get_widget (gui, "axis_pref_box"),
 		gtk_label_new (_("Details")));
-	gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), gcc, notebook);
+	gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, notebook);
 
 	if (!axis->is_discrete) {
 		GtkWidget *w = glade_xml_get_widget (gui, "map_type_combo");
@@ -1476,7 +1491,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GOCmdContext *gcc)
 			gtk_label_new (_("Bounds")));
 
 		w = number_format_selector_new ();
-		if (axis->assigned_format != NULL && !go_format_is_general (axis->assigned_format))
+		if (axis->assigned_format != NULL && !style_format_is_general (axis->assigned_format))
 			number_format_selector_set_style_format (NUMBER_FORMAT_SELECTOR (w),
 				axis->assigned_format);
 		else if (axis->format != NULL)
@@ -1624,6 +1639,7 @@ gog_axis_init (GogAxis *axis)
 	axis->max_val = -DBL_MAX;
 	axis->min_contrib = axis->max_contrib = NULL;
 	axis->is_discrete = FALSE;
+	axis->center_on_ticks = FALSE;
 	axis->labels = NULL;
 	axis->plot_that_supplied_labels = NULL;
 	axis->format = axis->assigned_format = NULL;
@@ -2031,6 +2047,7 @@ draw_axis_from_a_to_b (GogView *v, GogAxis *axis, double ax, double ay, double b
 	GogViewRequisition txt_size;
 	GogViewAllocation label_pos, label_result, label_old = {0., 0., 0., 0.};
 	gboolean draw_major, draw_minor;
+	gboolean is_line_visible;
 
 	axis_length = sqrt ((ax-bx)*(ax-bx)+(ay-by)*(ay-by));
 	if (bx - ax != 0) {
@@ -2051,8 +2068,9 @@ draw_axis_from_a_to_b (GogView *v, GogAxis *axis, double ax, double ay, double b
 	cos_alpha = cos (axis_angle + M_PI / 2.0);
 	sin_alpha = sin (axis_angle + M_PI / 2.0);
 
+	is_line_visible = gog_style_is_line_visible (axis->base.style);
 	line_width = gog_renderer_line_size (v->renderer, axis->base.style->line.width) / 2;
-	if (line_width > 0)
+	if (is_line_visible)
 	{
 		path[0].code = ART_MOVETO;
 		path[1].code = ART_LINETO;
@@ -2088,7 +2106,7 @@ draw_axis_from_a_to_b (GogView *v, GogAxis *axis, double ax, double ay, double b
 		pos_x = ax + pos * cos (axis_angle);
 		pos_y = ay + pos * sin (axis_angle);
 
-		if (line_width > 0) {
+		if (is_line_visible) {
 			switch (axis->ticks[i].type) {
 				case GOG_AXIS_TICK_MAJOR:
 					if (draw_major) {
@@ -2132,7 +2150,7 @@ draw_axis_from_a_to_b (GogView *v, GogAxis *axis, double ax, double ay, double b
 		}	
 	}
 
-	if (line_width > 0)
+	if (is_line_visible)
 		gog_axis_map_free (map);
 }
 
@@ -2160,14 +2178,16 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 	double last_label_pos = .0, last_label_size = -DBL_MAX;
 	ArtVpath path[3];
 	GogAxis *axis = GOG_AXIS (v->model);
+	GogStyle *style = axis->base.style;
 	unsigned i;
 	double tick_len, label_pad, dir, center, label_spacing = 0.;
-	double line_width = gog_renderer_line_size (
-		v->renderer, axis->base.style->line.width) / 2;
+	double line_width = gog_renderer_line_size (v->renderer,
+						    style->line.width) / 2.;
 	double pos, offset;
 	double major_in = 0., major_out = 0.;
 	double minor_in = 0., minor_out = 0.;
 	gboolean draw_major, draw_minor;
+	gboolean is_line_visible = gog_style_is_line_visible (style);
 
 	gog_axis_view_render_children (v, bbox);
 
@@ -2176,10 +2196,10 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 	area = gog_chart_view_get_plot_area (v->parent);
 	g_return_if_fail (area != NULL);
 
-	gog_renderer_push_style (v->renderer, axis->base.style);
+	gog_renderer_push_style (v->renderer, style);
 
-	draw_major = (axis->major.tick_in || axis->major.tick_out) && line_width > 0;
-	draw_minor = (axis->minor.tick_in || axis->minor.tick_out) && line_width > 0;
+	draw_major = (axis->major.tick_in || axis->major.tick_out) && is_line_visible; 
+	draw_minor = (axis->minor.tick_in || axis->minor.tick_out) && is_line_visible;
 
 	path[0].code = ART_MOVETO;
 	path[1].code = ART_LINETO;
@@ -2209,7 +2229,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 		minor_out = axis->minor.tick_out ? center + dir * (line_width + tick_len) : center;
 		minor_in  = axis->minor.tick_in  ? center - dir * (line_width + tick_len) : center;
 
-		if (line_width > 0) {
+		if (is_line_visible) {
 			path[0].y = path[1].y = center;
 			path[0].x = area->x - line_width;
 			path[1].x = area->x + area->w + line_width;
@@ -2218,7 +2238,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 		if (axis->major_tick_labeled) {
 			label_pad = gog_renderer_pt2r_y (v->renderer, TICK_LABEL_PAD_VERT);
-			label_pos.y = (axis->major.tick_out && !axis->is_discrete)
+			label_pos.y = (axis->major.tick_out && (!axis->is_discrete || axis->center_on_ticks))
 				? major_out + dir * label_pad
 				: center + dir * (line_width + label_pad);
 			label_pos.h  = area->h - line_width;
@@ -2229,10 +2249,10 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 		if (axis->tick_nbr > 0) {
 			GogAxisMap *map = gog_axis_map_new (axis, area->x, area->w);
-			offset = axis->is_discrete ? -0.5 : 0.0;
+			offset = (axis->is_discrete && !axis->center_on_ticks)? -0.5 : 0.0;
 			for (i = 0; i < axis->tick_nbr; i++) {
 
-				if (line_width > 0) {
+				if (is_line_visible) {
 					pos = gog_axis_map_to_canvas (map, axis->ticks[i].position + offset);
 					switch (axis->ticks[i].type) {
 						case GOG_AXIS_TICK_MAJOR:
@@ -2259,7 +2279,6 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 							break;
 					}
 				}
-
 				if (axis->ticks[i].label != NULL) {
 					label_pos.x = gog_axis_map_to_canvas (map, axis->ticks[i].position);
 					if (fabs (last_label_pos - label_pos.x) > last_label_size + label_spacing) {
@@ -2301,7 +2320,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 		minor_out = axis->minor.tick_out ? center + dir * (line_width + tick_len) : center;
 		minor_in  = axis->minor.tick_in  ? center - dir * (line_width + tick_len) : center;
 
-		if (line_width > 0) {
+		if (is_line_visible) {
 			path[0].x = path[1].x = center;
 			path[0].y = area->y + area->h + line_width;
 			path[1].y = area->y - line_width;
@@ -2310,7 +2329,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 		if (axis->major_tick_labeled) {
 			label_pad = gog_renderer_pt2r_x (v->renderer, TICK_LABEL_PAD_HORIZ);
-			label_pos.x = (axis->major.tick_out && !axis->is_discrete)
+			label_pos.x = (axis->major.tick_out && (!axis->is_discrete || axis->center_on_ticks))
 				? major_out + dir * label_pad
 				: center + dir * (line_width + label_pad);
 			label_pos.w  = area->w - line_width;
@@ -2319,10 +2338,10 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 		if (axis->tick_nbr > 0) {
 			GogAxisMap *map = gog_axis_map_new (axis, area->h + area->y, -area->h);
-			offset = axis->is_discrete ? -0.5 : 0.0;
+			offset = (axis->is_discrete && !axis->center_on_ticks)? -0.5 : 0.0;
 			for (i = 0; i < axis->tick_nbr; i++) {
 				
-				if (line_width > 0) {
+				if (is_line_visible) {
 					pos = gog_axis_map_to_canvas (map, axis->ticks[i].position + offset);
 					switch (axis->ticks[i].type) {
 						case GOG_AXIS_TICK_MAJOR:

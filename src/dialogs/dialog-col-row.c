@@ -31,8 +31,6 @@
 #include <workbook.h>
 #include <workbook-edit.h>
 
-#include <goffice/gui-utils/go-gui-utils.h>
-#include <goffice/app/go-cmd-context.h>
 #include <glade/glade.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtktogglebutton.h>
@@ -104,8 +102,8 @@ dialog_col_row (WorkbookControlGUI *wbcg,  char const *operation,
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, COL_ROW_DIALOG_KEY))
 		return NULL;
-	gui = go_libglade_new ("colrow.glade", NULL, NULL,
-			       GO_CMD_CONTEXT (wbcg));
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+		"colrow.glade", NULL, NULL);
 	if (gui == NULL)
 		return NULL;
 

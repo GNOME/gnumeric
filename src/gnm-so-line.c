@@ -44,7 +44,7 @@ typedef struct {
 static void
 go_arrow_init (GOArrow *res, double a, double b, double c)
 {
-	res->color = GO_COLOR_BLACK;
+	res->color = RGBA_BLACK;
 	res->a = a;
 	res->b = b;
 	res->c = c;
@@ -127,7 +127,7 @@ sol_default_style ()
 	GogStyle *res = gog_style_new ();
 	res->interesting_fields = GOG_STYLE_LINE;
 	res->line.width   = 0; /* hairline */
-	res->line.color   = GO_COLOR_BLACK;
+	res->line.color   = RGBA_BLACK;
 	res->line.pattern = 1; /* anything but 0 */
 	return res;
 }

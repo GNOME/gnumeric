@@ -47,6 +47,8 @@ enum {
 	WORKBOOK_ADDED,
 	WORKBOOK_REMOVED,
 	WINDOW_LIST_CHANGED,
+	CUSTOM_UI_ADDED,
+	CUSTOM_UI_REMOVED,
 	CLIPBOARD_MODIFIED,
 	LAST_SIGNAL
 };
@@ -78,8 +80,9 @@ typedef struct {
 	void (*workbook_added)      (GnmApp *gnm_app, Workbook *wb);
 	void (*workbook_removed)    (GnmApp *gnm_app, Workbook *wb);
 	void (*window_list_changed) (GnmApp *gnm_app);
+	void (*custom_ui_added)	    (GnmApp *gnm_app, GnmAppExtraUI *ui);
+	void (*custom_ui_removed)   (GnmApp *gnm_app, GnmAppExtraUI *ui);
 	void (*clipboard_modified)  (GnmApp *gnm_app);
-
 } GnmAppClass;
 
 static GObjectClass *parent_klass;
@@ -135,8 +138,8 @@ gnm_app_workbook_list_add (Workbook *wb)
 	app->workbook_list = g_list_prepend (app->workbook_list, wb);
 	g_signal_connect (G_OBJECT (wb),
 		"filename_changed",
-		G_CALLBACK (gnm_app_flag_windows_changed), NULL);
-	gnm_app_flag_windows_changed ();
+		G_CALLBACK (_gnm_app_flag_windows_changed), NULL);
+	_gnm_app_flag_windows_changed ();
 	g_signal_emit (G_OBJECT (app), signals [WORKBOOK_ADDED], 0, wb);
 }
 
@@ -154,8 +157,8 @@ gnm_app_workbook_list_remove (Workbook *wb)
 
 	app->workbook_list = g_list_remove (app->workbook_list, wb);
 	g_signal_handlers_disconnect_by_func (G_OBJECT (wb),
-		G_CALLBACK (gnm_app_flag_windows_changed), NULL);
-	gnm_app_flag_windows_changed ();
+		G_CALLBACK (_gnm_app_flag_windows_changed), NULL);
+	_gnm_app_flag_windows_changed ();
 	g_signal_emit (G_OBJECT (app), signals [WORKBOOK_REMOVED], 0, wb);
 }
 
@@ -812,32 +815,42 @@ gnm_app_class_init (GObjectClass *gobject_klass)
 		G_STRUCT_OFFSET (GnmAppClass, workbook_added),
 		(GSignalAccumulator) NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
-		G_TYPE_NONE,
-		1, WORKBOOK_TYPE);
+		G_TYPE_NONE, 1, WORKBOOK_TYPE);
 	signals [WORKBOOK_REMOVED] = g_signal_new ("workbook_removed",
 		GNM_APP_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmAppClass, workbook_removed),
 		(GSignalAccumulator) NULL, NULL,
 		g_cclosure_marshal_VOID__POINTER,
-		G_TYPE_NONE,
-		1, G_TYPE_POINTER);
+		G_TYPE_NONE, 1, G_TYPE_POINTER);
 	signals [WINDOW_LIST_CHANGED] = g_signal_new ("window-list-changed",
 		GNM_APP_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmAppClass, window_list_changed),
 		(GSignalAccumulator) NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE,
-		0);
+		G_TYPE_NONE, 0);
+	signals [CUSTOM_UI_ADDED] = g_signal_new ("custom-ui-added",
+		GNM_APP_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnmAppClass, custom_ui_added),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1, G_TYPE_POINTER);
+	signals [CUSTOM_UI_REMOVED] = g_signal_new ("custom-ui-removed",
+		GNM_APP_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnmAppClass, custom_ui_removed),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1, G_TYPE_POINTER);
 	signals [CLIPBOARD_MODIFIED] = g_signal_new ("clipboard_modified",
 		GNM_APP_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmAppClass, clipboard_modified),
 		(GSignalAccumulator) NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE,
-		0);
+		G_TYPE_NONE, 0);
 }
 
 static void
@@ -864,6 +877,62 @@ GSF_CLASS (GnmApp, gnm_app,
 	   gnm_app_class_init, gnm_app_init,
 	   G_TYPE_OBJECT);
  
+/**********************************************************************/
+static GSList *extra_uis = NULL;
+
+GnmAction *
+gnm_action_new (char const *id, char const *label,
+		char const *icon_name, gboolean always_available,
+		GnmActionHandler handler)
+{
+	GnmAction *res = g_new0 (GnmAction, 1);
+	res->id		= g_strdup (id);
+	res->label	= g_strdup (label);
+	res->icon_name	= g_strdup (icon_name);
+	res->always_available = always_available;
+	res->handler	= handler;
+	return res;
+}
+
+void
+gnm_action_free (GnmAction *action)
+{
+	if (NULL != action) {
+		g_free (action->id);
+		g_free (action->label);
+		g_free (action->icon_name);
+		g_free (action);
+	}
+}
+
+GnmAppExtraUI *
+gnm_app_add_extra_ui (GSList *actions, char *layout,
+		      char const *domain,
+		      gpointer user_data)
+{
+	GnmAppExtraUI *extra_ui = g_new0 (GnmAppExtraUI, 1);
+	extra_uis = g_slist_prepend (extra_uis, extra_ui);
+	extra_ui->actions = actions;
+	extra_ui->layout = layout;
+	extra_ui->user_data = user_data;
+	g_signal_emit (G_OBJECT (app), signals [CUSTOM_UI_ADDED], 0, extra_ui);
+	return extra_ui;
+}
+
+void
+gnm_app_remove_extra_ui (GnmAppExtraUI *extra_ui)
+{
+	g_signal_emit (G_OBJECT (app), signals [CUSTOM_UI_REMOVED], 0, extra_ui);
+}
+
+void
+gnm_app_foreach_extra_ui (GFunc func, gpointer data)
+{
+	g_slist_foreach (extra_uis, func, data);
+}
+
+/**********************************************************************/
+
 static gint windows_update_timer = -1;
 static gboolean
 cb_flag_windows_changed (void)
@@ -874,14 +943,15 @@ cb_flag_windows_changed (void)
 }
 
 /**
- * gnm_app_flag_windows_changed :
+ * _gnm_app_flag_windows_changed :
  *
  * An internal utility routine to flag a regeneration of the window lists
  **/
 void
-gnm_app_flag_windows_changed (void)
+_gnm_app_flag_windows_changed (void)
 {
 	if (windows_update_timer < 0)
 		windows_update_timer = g_timeout_add (100,
 			(GSourceFunc)cb_flag_windows_changed, NULL);
 }
+

@@ -2,7 +2,6 @@
 #define GNUMERIC_IO_CONTEXT_H
 
 #include "gnumeric.h"
-#include <goffice/app/goffice-app.h>
 #include <glib-object.h>
 #include <stdarg.h>
 
@@ -14,7 +13,7 @@ typedef struct _IOContextClass IOContextClass;
 #define IS_IO_CONTEXT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_IO_CONTEXT))
 
 GType      io_context_get_type (void);
-IOContext *gnumeric_io_context_new        (GOCmdContext *cc);
+IOContext *gnumeric_io_context_new        (GnmCmdContext *cc);
 
 void       gnumeric_io_error_unknown      (IOContext *ioc);
 

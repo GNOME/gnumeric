@@ -244,7 +244,7 @@ format_template_new (void)
 
 	ft->filename    = g_strdup ("");
 	ft->author      = g_strdup (gnm_get_real_name ());
-	ft->name        = g_strdup (_("Name"));
+	ft->name        = g_strdup (N_("Name"));
 	ft->description = g_strdup ("");
 
 	ft->category = NULL;
@@ -419,9 +419,9 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
 		xmlChar *name   = xml_node_get_cstr (child, "name");
 		xmlChar *descr  = xml_node_get_cstr (child, "description");
 
-		format_template_set_author (ft, CXML2C (author));
-		format_template_set_name (ft,  CXML2C (name));
-		format_template_set_description (ft,  CXML2C (descr));
+		format_template_set_author (ft, _(CXML2C (author)));
+		format_template_set_name (ft,  _(CXML2C (name)));
+		format_template_set_description (ft,  _(CXML2C (descr)));
 
 		xmlFree (author);
 		xmlFree (name);
@@ -451,7 +451,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
  * Return value: a new FormatTemplate (or NULL on error)
  **/
 FormatTemplate *
-format_template_new_from_file (char const *filename, GOCmdContext *cc)
+format_template_new_from_file (char const *filename, GnmCmdContext *cc)
 {
 	FormatTemplate	*ft = NULL;
 	xmlDoc		*doc;
@@ -463,7 +463,7 @@ format_template_new_from_file (char const *filename, GOCmdContext *cc)
 
 	doc = xmlParseFile (filename);
 	if (doc == NULL) {
-		go_cmd_context_error_import (cc,
+		gnm_cmd_context_error_import (cc,
 			_("Error while trying to load autoformat template"));
 		return NULL;
 	}
@@ -480,16 +480,16 @@ format_template_new_from_file (char const *filename, GOCmdContext *cc)
 			} else {
 				format_template_free (ft);
 				ft = NULL;
-				go_cmd_context_error_import (cc,
+				gnm_cmd_context_error_import (cc,
 					_("Error while trying to build tree from autoformat template file"));
 			}
 
 			xml_parse_ctx_destroy (ctxt);
 		} else
-			go_cmd_context_error_import (cc,
+			gnm_cmd_context_error_import (cc,
 				_("Is not an autoformat template file"));
 	} else
-		go_cmd_context_error_import (cc,
+		gnm_cmd_context_error_import (cc,
 			_("Invalid xml file. Tree is empty?"));
 
 	xmlFreeDoc (doc);
@@ -621,7 +621,7 @@ format_template_compare_name (gconstpointer a, gconstpointer b)
 	FormatTemplate const *ft_a = (FormatTemplate const *) a;
 	FormatTemplate const *ft_b = (FormatTemplate const *) b;
 
-	return g_utf8_collate (ft_a->name, ft_b->name);
+	return g_utf8_collate (_(ft_a->name), _(ft_b->name));
 }
 
 /******************************************************************************
@@ -746,7 +746,7 @@ typedef void (* PCalcCallback) (FormatTemplate *ft, GnmRange *r, GnmStyle *mstyl
  **/
 static gboolean
 format_template_range_check (FormatTemplate *ft, GnmRange const *r,
-			     GOCmdContext *optional_cc)
+			     GnmCmdContext *optional_cc)
 {
 	GSList *iterator;
 	int diff_col_high = -1;
@@ -799,7 +799,7 @@ format_template_range_check (FormatTemplate *ft, GnmRange const *r,
 		}
 
 		if (errmsg != NULL) {
-			go_cmd_context_error_system (optional_cc, errmsg);
+			gnm_cmd_context_error_system (optional_cc, errmsg);
 			g_free (errmsg);
 		}
 	}
@@ -1102,7 +1102,7 @@ cb_format_sheet_style (FormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, Sheet 
  * supplied.
  */
 gboolean
-format_template_check_valid (FormatTemplate *ft, GSList *regions, GOCmdContext *cc)
+format_template_check_valid (FormatTemplate *ft, GSList *regions, GnmCmdContext *cc)
 {
 	g_return_val_if_fail (cc != NULL, FALSE);
 

@@ -63,9 +63,6 @@
 #include <libart_lgpl/art_alphagamma.h>
 #include <libart_lgpl/art_pixbuf.h>
 #include <libart_lgpl/art_rgb_pixbuf_affine.h>
-
-#include <goffice/gui-utils/go-gui-utils.h>
-#include <goffice/app/go-cmd-context.h>
 #include <glade/glade.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtknotebook.h>
@@ -388,7 +385,7 @@ setup_color_pickers (ColorPicker *picker,
 	cg = go_color_group_fetch (color_group,
 		 wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
 	combo = go_combo_color_new (NULL, default_caption, 
-		def_sc ? GO_COLOR_FROM_GDK (def_sc->color) : GO_COLOR_BLACK, cg);
+		def_sc ? GDK_TO_UINT (def_sc->color) : RGBA_BLACK, cg);
 	go_combo_box_set_title (GO_COMBO_BOX (combo), caption);
 
 	/* Connect to the sample canvas and redraw it */
@@ -2529,8 +2526,8 @@ dialog_cell_format (WorkbookControlGUI *wbcg, FormatDialogPosition_t pageno)
 
 	g_return_if_fail (wbcg != NULL);
 
-	gui = go_libglade_new ("cell-format.glade", NULL, NULL,
-			       GO_CMD_CONTEXT (wbcg));
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+		"cell-format.glade", NULL, NULL);
         if (gui == NULL)
                 return;
 

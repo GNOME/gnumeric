@@ -1,0 +1,38 @@
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-29  Morten Welinder  <terra@gnome.org>
+
+	* functions.c: Mark PROBBLOCK as returning a percentage.
+
+2004-10-26  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_offcap): Use goal seek.
+
+2004-10-23  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (guess_carried_traffic): Take complementary gos
+	instead.  all callers changed.
+	(calculate_gos): Add extra "comp" flag and produce complementary
+	gos if true.  All callers changed.
+	(gnumeric_offtraf): Use goal-seek.
+	(gnumeric_dimcirc): Use integer bisection.
+
+2004-10-21  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (calculate_loggos): New function.
+	(calculate_gos): Improve precision.
+
+2004-10-21  Arief Mulya Utama <arief_m_utama@telkomsel.co.id>
+
+	* Release version 0.02 of erlang functions plugin
+	* Now with help descriptions and some input checks
+
+2004-09-20  Arief Mulya Utama <arief_m_utama@telkomsel.co.id>
+
+	* Release 0.01 of erlang functions plugin

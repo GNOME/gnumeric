@@ -173,7 +173,7 @@ sort_permute_invert (int const *perm, int length)
 
 static void
 sort_permute (GnmSortData *data, int const *perm, int length,
-	      GOCmdContext *cc)
+	      GnmCmdContext *cc)
 {
 	int i, *rperm;
 	GnmPasteTarget pt;
@@ -246,7 +246,7 @@ sort_permute (GnmSortData *data, int const *perm, int length,
 }
 
 void
-sort_position (GnmSortData *data, int *perm, GOCmdContext *cc)
+sort_position (GnmSortData *data, int *perm, GnmCmdContext *cc)
 {
 	int length;
 
@@ -255,7 +255,7 @@ sort_position (GnmSortData *data, int *perm, GOCmdContext *cc)
 }
 
 int *
-sort_contents (GnmSortData *data, GOCmdContext *cc)
+sort_contents (GnmSortData *data, GnmCmdContext *cc)
 {
 	ColRowInfo const *cra;
 	SortDataPerm *perm;

@@ -420,7 +420,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (!is_area_plot) {
 			path[i][lengths[i] +1].code = ART_END;
 
-			gog_renderer_draw_sharp_path (view->renderer,
+			gog_renderer_draw_path (view->renderer,
 				path[i], NULL);
 		} else {
 			switch (type) {
@@ -449,7 +449,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				path[i][j+1].code = ART_END;
 				break;
 			}
-			gog_renderer_draw_sharp_polygon (view->renderer,
+			gog_renderer_draw_polygon (view->renderer,
 							 path[i], FALSE, NULL);
 		}
 
@@ -489,7 +489,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				y = path[i][j + 1].y;
 				if (x_margin_min <= x && x <= x_margin_max &&
 				    y_margin_min <= y && y <= y_margin_max &&
-				    path[i][j].code != ART_MOVETO_OPEN) 
+				    path[i][j + 1].code != ART_MOVETO_OPEN) 
 					gog_renderer_draw_marker (view->renderer, x, y);
 			}
 			gog_renderer_pop_style (view->renderer);
@@ -497,10 +497,8 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	}
 
 	for (i = 0; i < num_series; i++) {
-		if (lengths[i] > 0)
-			g_free (path[i]);
-		if (error_data[i])
-			g_free (error_data[i]);
+		g_free (path[i]);
+		g_free (error_data[i]);
 	}
 
 	gog_axis_map_free (x_map);

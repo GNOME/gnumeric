@@ -32,6 +32,7 @@ typedef struct {
 		double minima, maxima;
 	} val, logical;
 	gboolean is_discrete;
+	gboolean center_on_ticks;
 	GOFormat *fmt;
 } GogPlotBoundInfo;
 

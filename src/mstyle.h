@@ -7,7 +7,7 @@
 /*
  * Keep element_size up to date.
  */
-typedef enum _MStyleElementType {
+typedef enum {
 	/* Delimiter */
 	MSTYLE_ELEMENT_UNSET = 0,
 	/* When there is a conflict in a merge */

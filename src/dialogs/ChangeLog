@@ -1,3 +1,250 @@
+2004-11-14  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* dialog-about.c (dialog_about): handle dash_type property.
+
+2004-11-13  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
+
+	* dialog-preferences.c: Fixed typo
+
+2004-11-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=158207
+	* dialog-autocorrect.c (cb_remove_clicked): two 
+	  strings can be the same even if they differ as pointers.
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-11-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-preferences.c: add default text argument to
+	  all calls of *_pref_create_widget
+	(dialog_pref_load_description_from_key): use 
+	  dialog_pref_load_description
+	(bool_pref_create_widget): use default text
+	(int_pref_create_widget): ditto
+	(double_pref_create_widget): ditto
+
+2004-11-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=157239
+	* dialog-preferences.c (double_pref_conf_to_widget): for
+	  doubles use fabs not abs
+
+2004-11-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-preferences.c (pref_tool_page_open): new
+	(pref_tool_page_initializer): new
+	(pref_copypaste_page_open): new
+	(pref_copypaste_page_initializer): new
+	(cb_pref_tree_selection_changed): deleted
+	(pref_tree_page_open): deleted
+	(pref_tree_find_iter): deleted
+	(pref_tree_set_model): deleted
+	(cb_pref_tree_changed_notification): deleted
+	(cb_value_edited): deleted
+	(pref_tree_initializer): deleted
+	(pref_undo_page_initializer): move checkboxes to the bottom
+	(pref_sort_page_initializer): ditto
+	(pref_window_page_initializer): ditto
+
+2004-11-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-preferences.c (pref_screen_page_open): new
+	(pref_screen_page_initializer): new
+	(page_info): add `screen' page and reorder
+	(pref_file_page_initializer): reorder items
+	(int_pref_create_widget): adjust spacing
+	(double_pref_create_widget): adjust spacing
+	
+2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-preferences.c: add setter function arguments to all calls to
+	  gboolean_pref_create_widget and rename int_pref_create_widget to
+	  gint_pref_create_widget throughout
+	(bool_pref_widget_to_conf) call setter function
+	  rather than talking to gconf
+	(bool_pref_create_widget) link setter function.
+
+2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-preferences.c: add setter function arguments to all calls to 
+	  int_pref_create_widget
+	(int_pref_widget_to_conf) call setter function
+	  rather than talking to gconf
+	(int_pref_create_widget) link setter function.
+
+2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-preferences.c (cb_pref_font_hf_has_changed): pass the changes
+	  to gnm_gconf_set_hf_font.
+
+2004-11-04  Jody Goldberg <jody@gnome.org>
+
+	* solver.glade : link up the Type mnemonic, and name the left/right
+	  labels so that we can connect them to the expr entries.  Add some
+	  icons to the constraint page.
+
+	* dialog-solver.c (solver_reporting) : handle the report generation
+	  potentially deleting the dialog and state.
+	(cb_dialog_solve_clicked) : ditto
+	(dialog_init) : have the contraint entries activation add the
+	  constraint rather than running solve.
+	(cb_dialog_set_rhs_sensitivity) : re-enable this code and handle the
+	  label too.
+
+2004-11-03  Jody Goldberg <jody@gnome.org>
+
+	* dialog-solver.c (check_int_constraints) : Adjust calling convention
+	  to handle new signature for global_range_contained.
+	* dialog-merge.c (cb_merge_merge_clicked) : ditto.
+
+2004-11-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-preferences.c: reenable some of the `internal' 
+	  preferences since they are apparently used
+
+2004-11-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=157238
+	http://bugzilla.gnome.org/show_bug.cgi?id=157239
+	* dialog-preferences.c (double_pref_widget_to_conf): use
+	  a specific configuration setting function
+	(double_pref_create_widget): ditto
+	(cb_pref_font_has_changed): do not write directly to gconf
+	(pref_window_page_initializer): specify configuration 
+	  setting functions
+
+2004-11-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-export.c (cb_selection_changed): disable
+	  movement buttons if there is an empty selection.
+	
+2004-11-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-function-select.c (dialog_function_write_recent_func):
+	  gnm_gconf_set_recent_funcs is now owning the list
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-11-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-export.c (cb_selection_changed): disable
+	  movement buttons if there is no selection.
+	
+2004-11-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-export.c (location_of_iter): deleted
+	(cb_selection_changed): check whether first and last item 
+	  are selected
+	(cb_item_move): rewrite using gtk 2.2 api additions
+	(cb_up): change arguments to cb_item_move
+	(cb_down): ditto
+	* dialog-sheet-order.c (gnm_tree_model_iter_prev):
+	  move to gui-util.c
+
+2004-10-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-export.glade: clarify instructions
+
+2004-10-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-export.glade: mark sheet list reorderable
+	* dialog-stf-export.c 
+	(stf_export_dialog_sheet_page_init): mark sheet list reorderable
+	
+2004-10-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-export.glade: fix spelling
+	* dialog-stf-export.c (cb_selection_changed): new
+	(move_element): call cb_selection_changed
+	(cb_sheet_top): ditto
+	(cb_sheet_bottom): ditto
+	(stf_export_dialog_sheet_page_init): link selection
+	  changes to cb_selection_changed
+
+2004-10-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-export.glade: add tool tips and new buttons
+	* dialog-stf-export.c (gnm_tree_model_iter_prev): new
+	(move_element): simplify
+	(cb_sheet_up): change arguments of move_element
+	(cb_sheet_down): ditto
+	(cb_sheet_top): new
+	(cb_sheet_bottom): new
+	(stf_export_dialog_sheet_page_init): setup `top' and
+	  `bottom' buttons
+
+2004-10-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=156710
+	* dialog-stf-export.c (move_element) fix sense of test
+
+2004-10-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=156604
+	* dialog-stf-export.c (set_sheet_selection_count): compare with
+	  number of non-empty sheets only.
+	(cb_set_sheet): do not set empty sheets to be exported
+	(cb_sheet_select_all): `all' means all non-empty sheets.
+	(stf_export_dialog_sheet_page_init): check which sheets are 
+	  non-empty
+	(stf_export_dialog_switch_page): ignore the sheet selection  page 
+	  if there is only one empty sheet.
+	(stf_export_dialog): ditto. Moreover, warn the user if there is no 
+	  content that can be exported.
+
+2004-10-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=156531
+	* dialog-stf-format-page.c (format_page_update_preview): don't 
+	  hardcode maximum number of permissible columns.
+
+2004-10-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=154140
+	* dialog-stf-format-page.c (format_page_update_preview): add
+	  format label to column headers
+	(cb_number_format_changed): change format label in column header
+
+2004-10-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=154137
+	* dialog-stf-fixed-page.c (popup_elements): change text
+
+2004-10-21  Morten Welinder  <terra@gnome.org>
+
+	* dialog-about.c: Add Arief Mulya Utama.
+
+2004-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=154138
+	* dialog-stf.glade: Change trim menu items and add a text field
+	  indicating the number of columns imported.
+	http://bugzilla.gnome.org/show_bug.cgi?id=139385
+	* dialog-stf.c (stf_dialog): handle col_import_array_len
+	* dialog-stf.h: add column_selection_label to FormatInfo_t
+	* dialog-stf-format-page.c (cb_col_check_clicked): call
+	  format_page_update_column_selection
+	(format_page_update_preview): ditto
+	(format_page_update_column_selection): new
+	(stf_dialog_format_page_init): initialize column_selection_label
+	  and call format_page_update_column_selection
+
+2004-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-preferences.c: disabled `internal' preferences
+
+2004-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=154139
+	* dialog-stf-format-page.c (cb_col_check_clicked): switch column 
+	  style
+	(format_page_update_preview): adjust column style
+
 2004-10-19  Morten Welinder  <terra@gnome.org>
 
 	* dialog-search.c (make_matches_table): Add ellipsize property to

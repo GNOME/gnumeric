@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmr:FormatTemplate xmlns:gmr="http://www.gnome.org/gnumeric/format-template/v1">
+  <gmr:Information _author="Gnumeric Team" _name="Button" _description="A button like template" category="3D"/>
+  <gmr:Members>
+    <gmr:Member>
+      <gmr:Row>
+        <gmr:Placement offset="0" offset_gravity="1"/>
+        <gmr:Dimensions size="1"/>
+      </gmr:Row>
+      <gmr:Col>
+        <gmr:Placement offset="0" offset_gravity="1"/>
+        <gmr:Dimensions size="1"/>
+      </gmr:Col>
+      <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
+      <gmr:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="1" Fore="0:0:0" Back="BC1E:BC1E:BC1E" PatternColor="0:0:0" Format="General">
+        <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Arial</gmr:Font>
+        <gmr:StyleBorder>
+          <gmr:Top Style="1" Color="FFFF:FFFF:FFFF"/>
+          <gmr:Bottom Style="0"/>
+          <gmr:Left Style="1" Color="FFFF:FFFF:FFFF"/>
+          <gmr:Right Style="0"/>
+          <gmr:Diagonal Style="0"/>
+          <gmr:Rev-Diagonal Style="0"/>
+        </gmr:StyleBorder>
+      </gmr:Style>
+    </gmr:Member>
+    <gmr:Member>
+      <gmr:Row>
+        <gmr:Placement offset="0" offset_gravity="1"/>
+        <gmr:Dimensions size="1"/>
+      </gmr:Row>
+      <gmr:Col>
+        <gmr:Placement offset="1" offset_gravity="1"/>
+        <gmr:Dimensions size="-1"/>
+      </gmr:Col>
+      <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
+      <gmr:Style HAlign="8" VAlign="2" Fit="0" Rotation="0" Shade="1" Fore="87C1:0:650D" Back="BC1E:BC1E:BC1E" PatternColor="0:0:0" Format="General">
+        <gmr:Font Unit="8" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Arial</gmr:Font>
+        <gmr:StyleBorder>
+          <gmr:Top Style="1" Color="FFFF:FFFF:FFFF"/>
+          <gmr:Bottom Style="1" Color="7070:7070:7070"/>
+          <gmr:Left Style="0"/>
+          <gmr:Right Style="0"/>
+          <gmr:Diagonal Style="0"/>
+          <gmr:Rev-Diagonal Style="0"/>
+        </gmr:StyleBorder>
+      </gmr:Style>
+    </gmr:Member>
+    <gmr:Member>
+      <gmr:Row>
+        <gmr:Placement offset="1" offset_gravity="1"/>
+        <gmr:Dimensions size="-1"/>
+      </gmr:Row>
+      <gmr:Col>
+        <gmr:Placement offset="0" offset_gravity="1"/>
+        <gmr:Dimensions size="1"/>
+      </gmr:Col>
+      <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
+      <gmr:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="1" Fore="0:0:0" Back="BC1E:BC1E:BC1E" PatternColor="0:0:0" Format="General">
+        <gmr:Font Unit="9" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Arial</gmr:Font>
+        <gmr:StyleBorder>
+          <gmr:Top Style="0"/>
+          <gmr:Bottom Style="0"/>
+          <gmr:Left Style="1" Color="FFFF:FFFF:FFFF"/>
+          <gmr:Right Style="1" Color="7E7E:7E7E:7E7E"/>
+          <gmr:Diagonal Style="0"/>
+          <gmr:Rev-Diagonal Style="0"/>
+        </gmr:StyleBorder>
+      </gmr:Style>
+    </gmr:Member>
+    <gmr:Member>
+      <gmr:Row>
+        <gmr:Placement offset="1" offset_gravity="1"/>
+        <gmr:Dimensions size="-1"/>
+      </gmr:Row>
+      <gmr:Col>
+        <gmr:Placement offset="0" offset_gravity="-1"/>
+        <gmr:Dimensions size="1"/>
+      </gmr:Col>
+      <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
+      <gmr:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="1" Fore="0:0:0" Back="BC1E:BC1E:BC1E" PatternColor="0:0:0" Format="General">
+        <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Arial</gmr:Font>
+        <gmr:StyleBorder>
+          <gmr:Top Style="0"/>
+          <gmr:Bottom Style="0"/>
+          <gmr:Left Style="1" Color="FFFF:FFFF:FFFF"/>
+          <gmr:Right Style="1" Color="7E7E:7E7E:7E7E"/>
+          <gmr:Diagonal Style="0"/>
+          <gmr:Rev-Diagonal Style="0"/>
+        </gmr:StyleBorder>
+      </gmr:Style>
+    </gmr:Member>
+    <gmr:Member>
+      <gmr:Row>
+        <gmr:Placement offset="0" offset_gravity="1"/>
+        <gmr:Dimensions size="1"/>
+      </gmr:Row>
+      <gmr:Col>
+        <gmr:Placement offset="0" offset_gravity="-1"/>
+        <gmr:Dimensions size="1"/>
+      </gmr:Col>
+      <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
+      <gmr:Style HAlign="8" VAlign="2" Fit="0" Rotation="0" Shade="1" Fore="87C1:0:650D" Back="BC1E:BC1E:BC1E" PatternColor="0:0:0" Format="General">
+        <gmr:Font Unit="8" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Arial</gmr:Font>
+        <gmr:StyleBorder>
+          <gmr:Top Style="1" Color="FFFF:FFFF:FFFF"/>
+          <gmr:Bottom Style="0"/>
+          <gmr:Left Style="0"/>
+          <gmr:Right Style="1" Color="7E7E:7E7E:7E7E"/>
+          <gmr:Diagonal Style="0"/>
+          <gmr:Rev-Diagonal Style="0"/>
+        </gmr:StyleBorder>
+      </gmr:Style>
+    </gmr:Member>
+    <gmr:Member>
+      <gmr:Row>
+        <gmr:Placement offset="1" offset_gravity="1"/>
+        <gmr:Dimensions size="-1"/>
+      </gmr:Row>
+      <gmr:Col>
+        <gmr:Placement offset="1" offset_gravity="1"/>
+        <gmr:Dimensions size="-1"/>
+      </gmr:Col>
+      <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
+      <gmr:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="1" Fore="0:0:0" Back="BC1E:BC1E:BC1E" PatternColor="0:0:0" Format="General">
+        <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Arial</gmr:Font>
+        <gmr:StyleBorder>
+          <gmr:Top Style="0"/>
+          <gmr:Bottom Style="0"/>
+          <gmr:Left Style="0"/>
+          <gmr:Right Style="0"/>
+          <gmr:Diagonal Style="0"/>
+          <gmr:Rev-Diagonal Style="0"/>
+        </gmr:StyleBorder>
+      </gmr:Style>
+    </gmr:Member>
+    <gmr:Member>
+      <gmr:Row>
+        <gmr:Placement offset="0" offset_gravity="-1"/>
+        <gmr:Dimensions size="1"/>
+      </gmr:Row>
+      <gmr:Col>
+        <gmr:Placement offset="0" offset_gravity="1"/>
+        <gmr:Dimensions size="1"/>
+      </gmr:Col>
+      <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
+      <gmr:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="1" Fore="FF5:55:A6C9" Back="BC1E:BC1E:BC1E" PatternColor="0:0:0" Format="General">
+        <gmr:Font Unit="9" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Arial</gmr:Font>
+        <gmr:StyleBorder>
+          <gmr:Top Style="0"/>
+          <gmr:Bottom Style="1" Color="7E7E:7E7E:7E7E"/>
+          <gmr:Left Style="1" Color="FFFF:FFFF:FFFF"/>
+          <gmr:Right Style="0"/>
+          <gmr:Diagonal Style="0"/>
+          <gmr:Rev-Diagonal Style="0"/>
+        </gmr:StyleBorder>
+      </gmr:Style>
+    </gmr:Member>
+    <gmr:Member>
+      <gmr:Row>
+        <gmr:Placement offset="0" offset_gravity="-1"/>
+        <gmr:Dimensions size="1"/>
+      </gmr:Row>
+      <gmr:Col>
+        <gmr:Placement offset="1" offset_gravity="1"/>
+        <gmr:Dimensions size="-1"/>
+      </gmr:Col>
+      <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
+      <gmr:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="1" Fore="0:0:0" Back="BC1E:BC1E:BC1E" PatternColor="0:0:0" Format="General">
+        <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Arial</gmr:Font>
+        <gmr:StyleBorder>
+          <gmr:Top Style="1" Color="FFFF:FFFF:FFFF"/>
+          <gmr:Bottom Style="1" Color="7E7E:7E7E:7E7E"/>
+          <gmr:Left Style="0"/>
+          <gmr:Right Style="0"/>
+          <gmr:Diagonal Style="0"/>
+          <gmr:Rev-Diagonal Style="0"/>
+        </gmr:StyleBorder>
+      </gmr:Style>
+    </gmr:Member>
+    <gmr:Member>
+      <gmr:Row>
+        <gmr:Placement offset="0" offset_gravity="-1"/>
+        <gmr:Dimensions size="1"/>
+      </gmr:Row>
+      <gmr:Col>
+        <gmr:Placement offset="0" offset_gravity="-1"/>
+        <gmr:Dimensions size="1"/>
+      </gmr:Col>
+      <gmr:Frequency direction="0" repeat="0" skip="0" edge="0"/>
+      <gmr:Style HAlign="1" VAlign="2" Fit="0" Rotation="0" Shade="1" Fore="0:0:0" Back="BC1E:BC1E:BC1E" PatternColor="0:0:0" Format="General">
+        <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Arial</gmr:Font>
+        <gmr:StyleBorder>
+          <gmr:Top Style="0"/>
+          <gmr:Bottom Style="1" Color="7E7E:7E7E:7E7E"/>
+          <gmr:Left Style="0"/>
+          <gmr:Right Style="1" Color="7E7E:7E7E:7E7E"/>
+          <gmr:Diagonal Style="0"/>
+          <gmr:Rev-Diagonal Style="0"/>
+        </gmr:StyleBorder>
+      </gmr:Style>
+    </gmr:Member>
+  </gmr:Members>
+</gmr:FormatTemplate>

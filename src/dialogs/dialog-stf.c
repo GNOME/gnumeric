@@ -20,20 +20,18 @@
  */
 
 #include <gnumeric-config.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialog-stf.h"
-#include <sheet-style.h>
-#include <mstyle.h>
 
 #include <format.h>
 #include <command-context.h>
-#include <clipboard.h>
-
-#include <goffice/gui-utils/go-gui-utils.h>
-#include <goffice/app/go-cmd-context.h>
-#include <gtk/gtkmain.h>
+#include <gui-util.h>
 #include <gdk/gdkkeysyms.h>
-#include <glib/gi18n.h>
+#include <sheet-style.h>
+#include <mstyle.h>
+#include <clipboard.h>
+#include <gtk/gtkmain.h>
 
 /**********************************************************************************************
  * DIALOG CONTROLLING CODE
@@ -336,8 +334,8 @@ stf_dialog (WorkbookControlGUI *wbcg,
 	g_return_val_if_fail (source != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
 
-	gui = go_libglade_new ("dialog-stf.glade", NULL, NULL,
-			       GO_CMD_CONTEXT (wbcg));
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+		"dialog-stf.glade", NULL, NULL);
 	if (gui == NULL)
 		return NULL;
 
@@ -409,8 +407,11 @@ stf_dialog (WorkbookControlGUI *wbcg,
 		pagedata.format.formats = NULL;
 		dialogresult->parseoptions->col_import_array 
 			=  pagedata.format.col_import_array;
+		dialogresult->parseoptions->col_import_array_len 
+			=  pagedata.format.col_import_array_len;
 		pagedata.format.col_import_array = NULL;
 		pagedata.format.col_import_count = 0;
+		pagedata.format.col_import_array_len = 0;
 	}
 
 	stf_dialog_main_page_cleanup   (&pagedata);

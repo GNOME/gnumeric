@@ -59,7 +59,6 @@
 #include <sys/stat.h>
 #include "mathfunc.h"
 #include <goffice/utils/go-file.h>
-#include <goffice/app/go-doc.h>
 #ifdef WITH_GNOME
 #include <libgnome/gnome-url.h>
 #endif
@@ -236,9 +235,10 @@ wb_view_menus_update (WorkbookView *wbv)
 
 	sheet = wbv->current_sheet;
 	if (sheet != NULL) {
-		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control, {
-			wb_control_menu_state_update (control, MS_ALL);
-			wb_control_menu_state_sheet_prefs (control, sheet);
+		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc, {
+			wb_control_menu_state_update (wbc, MS_ALL);
+			wb_control_menu_state_sheet_prefs (wbc, sheet);
+			wb_control_update_action_sensitivity (wbc);
 		});
 	}
 }
@@ -282,8 +282,8 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 		}
 
 		if (optional_wbc == NULL) {
-		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
-			wb_control_selection_descr_set (control, sel_descr););
+		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc,
+			wb_control_selection_descr_set (wbc, sel_descr););
 		} else
 			wb_control_selection_descr_set (optional_wbc, sel_descr);
 	}
@@ -429,10 +429,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 static void
 wb_view_init_control (WorkbookControl *wbc)
 {
-	WorkbookView *wbv = wbc->wb_view;
-	char *name = go_basename_from_uri (workbook_get_uri (wbv->wb));
-	wb_control_title_set (wbc, name);
-	g_free (name);
+	wb_control_update_title (wbc);
 }
 
 void
@@ -570,7 +567,7 @@ wbv_save_to_uri (WorkbookView *wbv, GnmFileSaver const *fs,
 	if (output == NULL) {
 		char *str = g_strdup_printf (_("Can't open '%s' for writing: %s"),
 					     uri, err->message);
-		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context), str);
+		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (io_context), str);
 		g_error_free (err);
 		g_free (str);
 		return;
@@ -595,7 +592,7 @@ wbv_save_to_uri (WorkbookView *wbv, GnmFileSaver const *fs,
 		msg = g_strdup_printf (_("An unexplained error happened while saving %s"),
 				       uri);
 
-	go_cmd_context_error_export (GO_CMD_CONTEXT (io_context), msg);
+	gnm_cmd_context_error_export (GNM_CMD_CONTEXT (io_context), msg);
 	g_free (msg);
 }
 
@@ -614,7 +611,7 @@ wbv_save_to_uri (WorkbookView *wbv, GnmFileSaver const *fs,
  */
 gboolean
 wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *uri,
-		 GOCmdContext *context)
+		 GnmCmdContext *context)
 {
 	IOContext *io_context;
 	Workbook  *wb;
@@ -623,14 +620,14 @@ wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *uri,
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
 	g_return_val_if_fail (IS_GNM_FILE_SAVER (fs), FALSE);
 	g_return_val_if_fail (uri != NULL, FALSE);
-	g_return_val_if_fail (IS_GO_CMD_CONTEXT (context), FALSE);
+	g_return_val_if_fail (IS_GNM_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_workbook (wbv);
 	io_context = gnumeric_io_context_new (context);
 
-	go_cmd_context_set_sensitive (context, FALSE);
+	gnm_cmd_context_set_sensitive (context, FALSE);
 	wbv_save_to_uri (wbv, fs, uri, io_context);
-	go_cmd_context_set_sensitive (context, TRUE);
+	gnm_cmd_context_set_sensitive (context, TRUE);
 
 	has_error   = gnumeric_io_error_occurred (io_context);
 	has_warning = gnumeric_io_warning_occurred (io_context);
@@ -659,7 +656,7 @@ wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *uri,
  * Return value: TRUE if file was successfully saved and FALSE otherwise.
  */
 gboolean
-wb_view_save (WorkbookView *wbv, GOCmdContext *context)
+wb_view_save (WorkbookView *wbv, GnmCmdContext *context)
 {
 	IOContext	*io_context;
 	Workbook	*wb;
@@ -667,7 +664,7 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 	gboolean has_error, has_warning;
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
-	g_return_val_if_fail (IS_GO_CMD_CONTEXT (context), FALSE);
+	g_return_val_if_fail (IS_GNM_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_workbook (wbv);
 	fs = workbook_get_file_saver (wb);
@@ -676,7 +673,7 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 
 	io_context = gnumeric_io_context_new (context);
 	if (fs == NULL)
-		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context),
+		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (io_context),
 			_("Default file saver is not available."));
 	else {
 		char const *uri = workbook_get_uri (wb);
@@ -749,7 +746,7 @@ cb_cleanup_sendto (gpointer path)
 }
 
 gboolean
-wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
+wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 {
 	gboolean problem;
 	IOContext	*io_context;
@@ -757,7 +754,7 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 	GnmFileSaver	*fs;
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
-	g_return_val_if_fail (IS_GO_CMD_CONTEXT (context), FALSE);
+	g_return_val_if_fail (IS_GNM_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_workbook (wbv);
 	fs = workbook_get_file_saver (wb);
@@ -797,7 +794,7 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 			if (errno != EEXIST) {
 				g_free (template);
 
-				go_cmd_context_error_export (GO_CMD_CONTEXT (io_context),
+				gnm_cmd_context_error_export (GNM_CMD_CONTEXT (io_context),
 					_("Failed to create temporary file for sending."));
 				gnumeric_io_error_display (io_context);
 				problem = TRUE;
@@ -851,7 +848,7 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 		g_timeout_add (1000 * 10, cb_cleanup_sendto, full_name);
 		g_free (uri);
 	} else {
-		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context),
+		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (io_context),
 			_("Default file saver is not available."));
 		gnumeric_io_error_display (io_context);
 		problem = TRUE;
@@ -865,13 +862,13 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 	return !problem;
 }
 
-GODoc *
-go_doc_new_from_input (GsfInput *input,
-		       GnmFileOpener const *optional_fmt,
-		       IOContext *io_context,
-		       char const *optional_enc)
+WorkbookView *
+wb_view_new_from_input  (GsfInput *input,
+			 GnmFileOpener const *optional_fmt,
+			 IOContext *io_context,
+			 char const *optional_enc)
 {
-	Workbook *res = NULL;
+	WorkbookView *new_wbv = NULL;
 
 	g_return_val_if_fail (GSF_IS_INPUT(input), NULL);
 	g_return_val_if_fail (optional_fmt == NULL ||
@@ -915,31 +912,34 @@ go_doc_new_from_input (GsfInput *input,
 	}
 
 	if (optional_fmt != NULL) {
-#warning Do we realllllly need this here ?  It would be nice if the importers could just create the workbok
-		/* disable recursive dirtying while loading */
+		Workbook *new_wb;
 		gboolean old;
-		res = workbook_new ();
-		old = workbook_enable_recursive_dirty (res, FALSE);
-		gnm_file_opener_open (optional_fmt, optional_enc, io_context, GO_DOC (res), input);
-		workbook_enable_recursive_dirty (res, old);
+
+		new_wbv = workbook_view_new (NULL);
+		new_wb = wb_view_workbook (new_wbv);
+
+		/* disable recursive dirtying while loading */
+		old = workbook_enable_recursive_dirty (new_wb, FALSE);
+		gnm_file_opener_open (optional_fmt, optional_enc, io_context, new_wbv, input);
+		workbook_enable_recursive_dirty (new_wb, old);
 
 		if (gnumeric_io_error_occurred (io_context)) {
-			g_object_unref (G_OBJECT (res));
-			res = NULL;
-		} else if (workbook_sheet_count (res) == 0) {
+			g_object_unref (G_OBJECT (new_wb));
+			new_wbv = NULL;
+		} else if (workbook_sheet_count (new_wb) == 0) {
 			/* we didn't get a sheet nor an error, */
 			/* the user must have cancelled        */
-			g_object_unref (G_OBJECT (res));
-			res = NULL;			
+			g_object_unref (G_OBJECT (new_wb));
+			new_wbv = NULL;			
 		} else {
-			workbook_recalc (res);
-			workbook_set_dirty (res, FALSE);
+			workbook_recalc (new_wb);
+			workbook_set_dirty (new_wb, FALSE);
 		}
 	} else
-		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
+		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (io_context),
 			_("Unsupported file format."));
 
-	return GO_DOC (res);
+	return new_wbv;
 }
 
 /**
@@ -954,11 +954,11 @@ go_doc_new_from_input (GsfInput *input,
  *
  * Return value: TRUE if file was successfully read and FALSE otherwise.
  */
-GODoc *
-go_doc_new_from_uri (char const *uri,
-		     GnmFileOpener const *optional_fmt,
-		     IOContext *io_context,
-		     char const *optional_enc)
+WorkbookView *
+wb_view_new_from_uri (char const *uri,
+		      GnmFileOpener const *optional_fmt,
+		      IOContext *io_context,
+		      char const *optional_enc)
 {
 	char *msg = NULL;
 	GError *err = NULL;
@@ -968,12 +968,12 @@ go_doc_new_from_uri (char const *uri,
 
 	input = go_file_open (uri, &err);
 	if (input != NULL) {
-		GODoc *res;
+		WorkbookView *res;
 
 		g_print ("Reading %s\n", uri);
-		res = go_doc_new_from_input (input,
-					     optional_fmt, io_context,
-					     optional_enc);
+		res = wb_view_new_from_input (input,
+					      optional_fmt, io_context,
+					      optional_enc);
 		g_object_unref (G_OBJECT (input));
 		return res;
 	}
@@ -988,7 +988,7 @@ go_doc_new_from_uri (char const *uri,
 		msg = g_strdup_printf (_("An unexplained error happened while opening %s"),
 				       uri);
 
-	go_cmd_context_error_import (GO_CMD_CONTEXT (io_context), msg);
+	gnm_cmd_context_error_import (GNM_CMD_CONTEXT (io_context), msg);
 	g_free (msg);
 
 	return NULL;

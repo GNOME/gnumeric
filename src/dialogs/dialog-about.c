@@ -147,6 +147,8 @@ static struct {
 		N_("Consolidation and Structured Text importer") },
 	{ N_("Bruno Unna"),			GNM_IMPORT_EXPORT,
 		N_("Pieces of MS Excel import") },
+	{ N_("Arief Mulya Utama"),              GNM_ANALYTICS,
+		N_("Telecommunications functions") },
 	{ N_("Daniel Veillard"),		GNM_IMPORT_EXPORT,
 		N_("Initial XML support") },
 	{ N_("Vladimir Vuksan"),		GNM_ANALYTICS,
@@ -236,7 +238,7 @@ cb_about_animate (GnmAboutState *state)
 	/* 1-((x-25)/25)**2 */
 	alpha = (state->fade_state - FADE_STATES) / (double)FADE_STATES;
 	alpha *= alpha;
-	state->contributor_style->font.color = GO_COLOR_CHANGE_A (
+	state->contributor_style->font.color = UINT_RGBA_CHANGE_A (
 		state->contributor_style->font.color, (unsigned)(255 * (1. - alpha)));
 	go_data_scalar_str_set_str (GO_DATA_SCALAR_STR (state->contributor_name),
 		_(contributors [state->item_index].name), FALSE);
@@ -277,7 +279,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 	GOG_STYLED_OBJECT (state->graph)->style->fill.pattern.back = 0xFFFF99FF;
 	GOG_STYLED_OBJECT (state->graph)->style->fill.gradient.dir = GO_GRADIENT_W_TO_E_MIRRORED;
 	GOG_STYLED_OBJECT (state->graph)->style->outline.width = 0; /* hairline */
-	GOG_STYLED_OBJECT (state->graph)->style->outline.color = GO_COLOR_BLACK;
+	GOG_STYLED_OBJECT (state->graph)->style->outline.color = RGBA_BLACK;
 	gog_style_set_fill_brightness (
 		GOG_STYLED_OBJECT (state->graph)->style, 70.);
 #if 0
@@ -287,7 +289,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 
 	/* A bar plot of the current contributors activities */
 	chart = gog_object_add_by_name (state->graph, "Chart", NULL);
-	GOG_STYLED_OBJECT (chart)->style->outline.width = -1;
+	GOG_STYLED_OBJECT (chart)->style->outline.dash_type = GO_LINE_NONE;
+	GOG_STYLED_OBJECT (chart)->style->outline.auto_dash = FALSE;
 	GOG_STYLED_OBJECT (chart)->style->fill.type = GOG_FILL_STYLE_NONE;
 	plot = gog_plot_new_by_name ("GogBarColPlot");
 	if (!plot) {
@@ -308,7 +311,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 	state->individual_data = go_data_vector_val_new (
 		state->individual, G_N_ELEMENTS (state->individual));
 	gog_series_set_dim (series, 1, state->individual_data, NULL);
-	GOG_STYLED_OBJECT (series)->style->outline.width = -1;
+	GOG_STYLED_OBJECT (series)->style->outline.dash_type = GO_LINE_NONE;
+	GOG_STYLED_OBJECT (series)->style->outline.auto_dash = FALSE;
 	GOG_STYLED_OBJECT (series)->style->fill.type = GOG_FILL_STYLE_GRADIENT;
 	GOG_STYLED_OBJECT (series)->style->fill.gradient.dir = GO_GRADIENT_N_TO_S_MIRRORED;
 	gog_style_set_fill_brightness (
@@ -327,10 +331,11 @@ dialog_about (WorkbookControlGUI *wbcg)
 		"major-tick-labeled",	FALSE,
 		"major-tick-out",	FALSE,
 		NULL);
-	GOG_STYLED_OBJECT (tmp)->style->line.width = -1;
+	GOG_STYLED_OBJECT (tmp)->style->line.dash_type = GO_LINE_NONE;
+	GOG_STYLED_OBJECT (tmp)->style->line.auto_dash = FALSE;
 	tmp = gog_object_get_child_by_role (chart,
 		gog_object_find_role_by_name (chart, "Y-Axis"));
-	gog_style_set_font_desc (GOG_STYLED_OBJECT (tmp)->style,
+	gog_style_set_font (GOG_STYLED_OBJECT (tmp)->style,
 		pango_font_description_from_string ("Sans 10"));
 
 	tmp = gog_object_add_by_name (chart, "Title", NULL);
@@ -338,12 +343,13 @@ dialog_about (WorkbookControlGUI *wbcg)
 	state->contributor_name = go_data_scalar_str_new ("", FALSE);
 	gog_dataset_set_dim (GOG_DATASET (tmp), 0, state->contributor_name, NULL);
 	state->contributor_style = GOG_STYLED_OBJECT (tmp)->style;
-	gog_style_set_font_desc (GOG_STYLED_OBJECT (tmp)->style,
+	gog_style_set_font (GOG_STYLED_OBJECT (tmp)->style,
 		pango_font_description_from_string ("Sans Bold 10"));
 
 	/* A pie of the cumulative contributions */
 	chart = gog_object_add_by_name (state->graph, "Chart", NULL);
-	GOG_STYLED_OBJECT (chart)->style->outline.width = -1;
+	GOG_STYLED_OBJECT (chart)->style->outline.dash_type = GO_LINE_NONE;
+	GOG_STYLED_OBJECT (chart)->style->outline.auto_dash = FALSE;
 	GOG_STYLED_OBJECT (chart)->style->fill.type = GOG_FILL_STYLE_NONE;
 	gog_chart_set_position  (GOG_CHART (chart), 1, 0, 1, 1);
 	plot = gog_plot_new_by_name ("GogPiePlot");
@@ -358,7 +364,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 	state->contribs_data = go_data_vector_val_new (
 		state->contribs, G_N_ELEMENTS (state->contribs));
 	gog_series_set_dim (series, 1, state->contribs_data, NULL);
-	GOG_STYLED_OBJECT (series)->style->outline.width = -1;
+	GOG_STYLED_OBJECT (series)->style->outline.dash_type = GO_LINE_NONE;
+	GOG_STYLED_OBJECT (series)->style->outline.auto_dash = FALSE;
 	GOG_STYLED_OBJECT (series)->style->fill.type = GOG_FILL_STYLE_GRADIENT;
 	GOG_STYLED_OBJECT (series)->style->fill.gradient.dir = GO_GRADIENT_NW_TO_SE;
 	gog_style_set_fill_brightness (
@@ -372,7 +379,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 			"Copyright \xc2\xa9 2001-2004 Jody Goldberg\n"
 			"Copyright \xc2\xa9 1998-2000 Miguel de Icaza", FALSE),
 		NULL);
-	gog_style_set_font_desc (GOG_STYLED_OBJECT (tmp)->style,
+	gog_style_set_font (GOG_STYLED_OBJECT (tmp)->style,
 		pango_font_description_from_string ("Sans Bold 12"));
 
 	state->canvas = foo_canvas_new ();

@@ -30,8 +30,8 @@
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-math.h>
-#include <goffice/app/go-plugin-module-defs.h>
 
+#include <module-plugin-defs.h>
 #include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
 
@@ -44,7 +44,7 @@ enum {
 	PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS
 };
 
-GO_PLUGIN_MODULE_INFO_DECL;
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 typedef struct {
 	GogSeries base;

@@ -25,6 +25,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
@@ -44,8 +45,6 @@
 #include <selection.h>
 #include <ranges.h>
 
-#include <goffice/gui-utils/go-gui-utils.h>
-#include <goffice/app/go-cmd-context.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <glade/glade.h>
 #include <gtk/gtkcombobox.h>
@@ -55,7 +54,6 @@
 #include <gtk/gtkvscrollbar.h>
 #include <gtk/gtkcheckmenuitem.h>
 #include <gsf/gsf-impl-utils.h>
-#include <glib/gi18n.h>
 #include <string.h>
 
 /* Table to show for
@@ -228,7 +226,7 @@ templates_load (AutoFormatState *state)
 		return FALSE;
 
 	state->templates = category_group_get_templates_list (
-		state->current_category_group, GO_CMD_CONTEXT (state->wbcg));
+		state->current_category_group, GNM_CMD_CONTEXT (state->wbcg));
 	for (l = state->templates; l != NULL; l = l->next) {
 		FormatTemplate *ft = l->data;
 		range_init (&ft->dimension,
@@ -360,7 +358,7 @@ previews_load (AutoFormatState *state, int topindex)
 
 			gtk_tooltips_set_tip (state->tooltips,
 				GTK_WIDGET (state->canvas[i]),
-				ft->name, "");
+				_(ft->name), "");
 
 			gtk_widget_show (GTK_WIDGET (state->canvas[i]));
 			start = g_slist_next (start);
@@ -439,12 +437,12 @@ cb_canvas_button_press (FooCanvas *canvas,
 
 	ft = ptr->data;
 	state->selected_template = ft;
-	gtk_entry_set_text (state->info_name, ft->name);
+	gtk_entry_set_text (state->info_name,   _(ft->name));
 	gtk_entry_set_text (state->info_author, ft->author);
 	gnumeric_textview_set_text (GTK_TEXT_VIEW (state->info_descr),
-		ft->description);
+		_(ft->description));
 
-	gtk_entry_set_text (state->info_cat, ft->category->name);
+	gtk_entry_set_text (state->info_cat, _(ft->category->name));
 
 	return TRUE;
 }
@@ -490,9 +488,9 @@ cb_category_changed (AutoFormatState *state)
 		g_warning ("Error while loading templates!");
 
 	gtk_tooltips_set_tip (state->tooltips, GTK_WIDGET (state->category),
-		(state->current_category_group->description != NULL)
+		_((state->current_category_group->description != NULL)
 			? state->current_category_group->description
-			: state->current_category_group->name,
+			: state->current_category_group->name),
 		"");
 
 	previews_load (state, 0);
@@ -527,7 +525,7 @@ category_group_cmp (gconstpointer a, gconstpointer b)
 {
 	FormatTemplateCategoryGroup const *group_a = a;
 	FormatTemplateCategoryGroup const *group_b = b;
-	return g_utf8_collate (group_a->name, group_b->name);
+	return g_utf8_collate (_(group_a->name), _(group_b->name));
 }
 
 static gboolean
@@ -557,8 +555,8 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	AutoFormatState *state;
 	int i;
 
-	gui = go_libglade_new ("autoformat.glade", NULL, NULL,
-			       GO_CMD_CONTEXT (wbcg));
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+		"autoformat.glade", NULL, NULL);
 	if (gui == NULL)
 		return;
 
@@ -668,14 +666,11 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 
 		for (i = 0 ; ptr != NULL ; ptr = ptr->next, i++) {
 			FormatTemplateCategoryGroup *group = ptr->data;
-			/* This is a name of the "General" autoformat template category.
-			   Please use the same translation as in General.category XML file */
-			if (!strcmp (group->name, _("General")) ||
-			    !strcmp (group->name,   "General" ))
+			if (!strcmp (group->name,   "General" ))
 				select = i;
 			gtk_list_store_append (store, &iter);
 			gtk_list_store_set (store, &iter,
-						0, group->name,
+						0, _(group->name),
 						-1);
 		}
 

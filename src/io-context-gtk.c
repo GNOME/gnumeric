@@ -28,6 +28,7 @@
 #include <gtk/gtkimage.h>
 #include <gtk/gtkframe.h>
 #include <stdlib.h>
+#include <string.h>
 
 extern int gnumeric_no_splash;
 
@@ -198,14 +199,14 @@ icg_user_is_impatient (IOContextGtk *icg)
 }
 
 static char *
-icg_get_password (GOCmdContext *cc, char const *filename)
+icg_get_password (GnmCmdContext *cc, char const *filename)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
 	return dialog_get_password (icg->window, filename);
 }
 
 static void
-icg_progress_set (GOCmdContext *cc, gfloat val)
+icg_progress_set (GnmCmdContext *cc, gfloat val)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
 
@@ -222,7 +223,7 @@ icg_progress_set (GOCmdContext *cc, gfloat val)
 }
 
 static void
-icg_progress_message_set (GOCmdContext *cc, gchar const *msg)
+icg_progress_message_set (GnmCmdContext *cc, gchar const *msg)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
 
@@ -241,7 +242,7 @@ icg_progress_message_set (GOCmdContext *cc, gchar const *msg)
 }
 
 static void
-icg_error_error_info (G_GNUC_UNUSED GOCmdContext *cc,
+icg_error_error_info (G_GNUC_UNUSED GnmCmdContext *cc,
 		      ErrorInfo *error)
 {
 	GtkWidget *dialog = gnumeric_error_info_dialog_new (error);
@@ -265,6 +266,9 @@ icg_processing_file (IOContext *ioc, char const *file)
 
 	icg->files_done++;
 	if (icg->window != NULL && icg->file_bar != NULL) {
+		int len = strlen (file);
+		int maxlen = 40;
+
 		/* If not iconified raise to the top */
 		if (GTK_WIDGET_VISIBLE (icg->window))
 			gtk_window_present (icg->window);
@@ -272,8 +276,31 @@ icg_processing_file (IOContext *ioc, char const *file)
 		if (icg->files_total > 0)
 			gtk_progress_bar_set_fraction (icg->file_bar,
 				 (float) icg->files_done / (float) icg->files_total);
-		gtk_progress_bar_set_text (icg->file_bar, file);
+
 		gtk_progress_bar_set_fraction (icg->work_bar, 0.0);
+
+		if (len <= maxlen)
+			gtk_progress_bar_set_text (icg->file_bar, file);
+		else {
+			char *shown_text = g_strdup (file);
+			char *p = shown_text + len;
+
+			while (1) {
+				char *last_p = p;
+				while (p > shown_text && p[-1] != '/')
+					p--;
+				if (p > shown_text && shown_text + len - p < maxlen) {
+					p--;
+					continue;
+				}
+				p = g_strdup_printf ("...%s", last_p);
+				gtk_progress_bar_set_text (icg->file_bar, p);
+				g_free (p);
+				break;
+			}
+
+			g_free (shown_text);
+		}
 	}
 }
 
@@ -306,7 +333,7 @@ icg_finalize (GObject *obj)
 }
 
 static void
-icg_gnm_cmd_context_init (GOCmdContextClass *cc_class)
+icg_gnm_cmd_context_init (GnmCmdContextClass *cc_class)
 {
 	cc_class->get_password         = icg_get_password;
 	cc_class->progress_set         = icg_progress_set;
@@ -342,7 +369,7 @@ icg_init (IOContextGtk *icg)
 GSF_CLASS_FULL (IOContextGtk, io_context_gtk,
 		icg_class_init, icg_init,
 		TYPE_IO_CONTEXT, 0,
-		GSF_INTERFACE (icg_gnm_cmd_context_init, GO_CMD_CONTEXT_TYPE))
+		GSF_INTERFACE (icg_gnm_cmd_context_init, GNM_CMD_CONTEXT_TYPE))
 
 void
 icg_set_transient_for (IOContextGtk *icg, GtkWindow *parent_window)

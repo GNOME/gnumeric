@@ -25,6 +25,7 @@
 #include "func.h"
 #include "application.h"
 #include "print-info.h"
+#include "global-gnome-font.h"
 #include "style.h"
 #include "mstyle.h"
 #include "style-color.h"
@@ -54,20 +55,42 @@ int expression_sharing_debugging = 0;
 int immediate_exit_flag = 0;
 int print_debugging = 0;
 gboolean initial_workbook_open_complete = FALSE;
+char	   *x_geometry;
+char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
+char const *gnumeric_data_dir = GNUMERIC_DATADIR;
+char const *gnumeric_icon_dir = GNUMERIC_ICONDIR;
+char const *gnumeric_locale_dir = GNUMERIC_LOCALEDIR;
 
-char *x_geometry;
-
-/* Actions common to application and component init
-   - to do before arg parsing */
+/**
+ * gnm_pre_parse_init :
+ * @gnumeric_binary : argv[0]
+ *
+ * Initialization to be done before cmd line arguments are handled.
+ **/
 void
-init_init (char const* gnumeric_binary)
+gnm_pre_parse_init (char const* gnumeric_binary)
 {
 	g_set_prgname (gnumeric_binary);
 
 	/* Make stdout line buffered - we only use it for debug info */
 	setvbuf (stdout, NULL, _IOLBF, 0);
 
-	bindtextdomain (GETTEXT_PACKAGE, GNUMERIC_LOCALEDIR);
+#ifdef G_OS_WIN32
+{
+	char *dir;
+	dir = g_win32_get_package_installation_directory (NULL, NULL);
+	gnumeric_data_dir = g_build_filename (dir,
+		"share", "gnumeric", GNUMERIC_VERSION, NULL);
+	gnumeric_lib_dir = g_build_filename (dir,
+		"lib", "gnumeric", GNUMERIC_VERSION, NULL);
+	gnumeric_icon_dir = g_build_filename (dir,
+		"lib", "pixmaps", "gnumeric", NULL);
+	gnumeric_locale_dir = g_build_filename (dir,
+		"lib", "locale", NULL);
+}
+#endif
+
+	bindtextdomain (GETTEXT_PACKAGE, gnumeric_locale_dir);
 	textdomain (GETTEXT_PACKAGE);
 
 	/* Force all of the locale segments to update from the environment.
@@ -91,7 +114,6 @@ gnumeric_check_for_components (void)
 #endif
 
 extern void libgoffice_init (void);
-extern char *gnumeric_data_dir;
 /*
  * FIXME: We hardcode the GUI command context. Change once we are able
  * to tell whether we are in GUI or not.
@@ -99,9 +121,10 @@ extern char *gnumeric_data_dir;
 void
 gnm_common_init (gboolean fast)
 {
-	g_object_new (GNM_APP_TYPE, NULL);
 	plugin_services_init ();
 	libgoffice_init ();
+
+	g_object_new (GNM_APP_TYPE, NULL);
 	mathfunc_init ();
 	gnm_string_init ();
 	mstyle_init ();
@@ -139,7 +162,7 @@ int
 gnm_dump_func_defs (char const* filename, gboolean def_or_state)
 {
 	int retval;
-	GOCmdContext *cc = cmd_context_stderr_new ();
+	GnmCmdContext *cc = cmd_context_stderr_new ();
 
 	plugins_init (cc);
 	if ((retval = cmd_context_stderr_get_status (COMMAND_CONTEXT_STDERR (cc))) == 0)

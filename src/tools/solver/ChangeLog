@@ -1,3 +1,23 @@
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-11-04  Jody Goldberg <jody@gnome.org>
+
+	* reports-write.c (solver_program_report) : remove the debug test that
+	  has been in there for 3 years!  re-enable the program report
+
+	* api.c (w_lp_solve_set_option) : Implement max-iter and timeout.
+	  Dummy out the autoscale support, it's not really relevant here.
+	  We should really query the engine for that type of thing.
+
+	* solver.c (lp_qp_solver_init) : Add more error messages when faced
+	  with option setting failures.
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
 2004-10-05  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.91

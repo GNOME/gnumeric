@@ -1715,7 +1715,7 @@ MYBOOL __EXPORT_TYPE __WINAPI set_outputfile(lprec *lp, char *filename);
 void __EXPORT_TYPE __WINAPI set_verbose(lprec *lp, int verbose);
 int __EXPORT_TYPE __WINAPI get_verbose(lprec *lp);
 
-void __EXPORT_TYPE __WINAPI set_timeout(lprec *lp, long sectimeout);
+void __EXPORT_TYPE __WINAPI lp_solve_set_timeout(lprec *lp, long sectimeout);
 long __EXPORT_TYPE __WINAPI get_timeout(lprec *lp);
 
 void __EXPORT_TYPE __WINAPI set_print_sol(lprec *lp, int print_sol);
@@ -1775,8 +1775,8 @@ int __EXPORT_TYPE __WINAPI get_scaling(lprec *lp);
 MYBOOL __EXPORT_TYPE __WINAPI is_scalemode(lprec *lp, int testmask);
 MYBOOL __EXPORT_TYPE __WINAPI is_scaletype(lprec *lp, int scaletype);
 MYBOOL __EXPORT_TYPE __WINAPI is_integerscaling(lprec *lp);
-void __EXPORT_TYPE __WINAPI set_scalelimit(lprec *lp, REAL scalelimit);
-REAL __EXPORT_TYPE __WINAPI get_scalelimit(lprec *lp);
+void __EXPORT_TYPE __WINAPI lp_solve_set_scalelimit(lprec *lp, REAL scalelimit);
+REAL __EXPORT_TYPE __WINAPI lp_solve_get_scalelimit(lprec *lp);
 
 void __EXPORT_TYPE __WINAPI set_improve(lprec *lp, int improve);
 int __EXPORT_TYPE __WINAPI get_improve(lprec *lp);

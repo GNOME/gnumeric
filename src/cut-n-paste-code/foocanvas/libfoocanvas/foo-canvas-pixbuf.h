@@ -26,7 +26,7 @@
 #define FOO_CANVAS_PIXBUF_H
 
 
-#include "libfoocanvas/foo-canvas.h"
+#include "cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas.h"
 
 G_BEGIN_DECLS
 

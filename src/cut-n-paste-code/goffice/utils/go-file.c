@@ -169,7 +169,7 @@ go_dirname_from_uri (const char *uri, gboolean brief)
 	dirname = raw_uri ? g_path_get_dirname (raw_uri) : NULL;
 	g_free (raw_uri);
 #else
-	char *uri_dirname = g_path_get_dirname (filename);
+	char *uri_dirname = g_path_get_dirname (uri);
 	char *dir = uri_dirname ? go_filename_from_uri (uri_dirname) : NULL;
 	dirname = dirname ? g_strconcat ("file://", dirname, NULL) : NULL;
 	g_free (dir);

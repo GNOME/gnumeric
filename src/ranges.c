@@ -1174,6 +1174,7 @@ global_range_list_foreach (GSList *gr_list, GnmEvalPos const *ep,
 
 /**
  * global_range_contained:
+ * @sheet : The calling context #Sheet for references with sheet==NULL
  * @a:
  * @b:
  *
@@ -1181,16 +1182,22 @@ global_range_list_foreach (GSList *gr_list, GnmEvalPos const *ep,
  * we do not handle 3d ranges
  **/
 gboolean
-global_range_contained (GnmValue *a, GnmValue *b)
+global_range_contained (Sheet const *sheet, GnmValue const *a, GnmValue const *b)
 {
+	Sheet *target;
+
+	g_return_val_if_fail (a != NULL, FALSE);
+	g_return_val_if_fail (b != NULL, FALSE);
+
 	if ((a->type != VALUE_CELLRANGE) || (b->type != VALUE_CELLRANGE))
 		return FALSE;
 
-	if (a->v_range.cell.a.sheet != a->v_range.cell.b.sheet)
+	target = eval_sheet (a->v_range.cell.a.sheet, sheet);
+	if (target != eval_sheet (a->v_range.cell.b.sheet, sheet))
 		return FALSE;
 
-	if ((a->v_range.cell.a.sheet != b->v_range.cell.a.sheet)
-	    && (a->v_range.cell.a.sheet != b->v_range.cell.b.sheet))
+	if (target != eval_sheet (b->v_range.cell.a.sheet, sheet) ||
+	    target != eval_sheet (b->v_range.cell.b.sheet, sheet))
 		return FALSE;
 
 	if (a->v_range.cell.a.row < b->v_range.cell.a.row)

@@ -3,6 +3,7 @@
 #undef GTK_DISABLE_DEPRECATED
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
+#include <gnumeric.h>
 
 /* GNOME libraries - GdkPixbuf item for the GNOME canvas
  *
@@ -27,8 +28,8 @@
  */
 
 #include <math.h>
-#include "foo-canvas.h"
-#include "foo-canvas-util.h"
+#include "cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas.h"
+#include "cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas-util.h"
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "foo-canvas-pixbuf.h"
 

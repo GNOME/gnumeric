@@ -23,17 +23,90 @@
 #include <goffice/graph/gog-plot-engine.h>
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-theme.h>
-#include <goffice/app/go-object.h>
 #include <glib/gi18n.h>
+#include <xml-io.h>
 
 #include <gsf/gsf-impl-utils.h>
 
 #include <string.h>
 
+static GSList *refd_plugins;
+
+/***************************************************************************/
+/* Support plot engines in plugins */
+
+#include <plugin-service-impl.h>
+
+#define GOG_PLOT_ENGINE_SERVICE_TYPE  (gog_plot_engine_service_get_type ())
+#define GOG_PLOT_ENGINE_SERVICE(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_PLOT_ENGINE_SERVICE_TYPE, GogPlotEngineService))
+#define IS_GOG_PLOT_ENGINE_SERVICE(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_PLOT_ENGINE_SERVICE_TYPE))
+
+static GType gog_plot_engine_service_get_type (void);
+
+typedef PluginServiceGObjectLoader	GogPlotEngineService;
+typedef PluginServiceGObjectLoaderClass GogPlotEngineServiceClass;
+
+static GHashTable *pending_engines = NULL;
+
+static char *
+gog_plot_engine_service_get_description (GnmPluginService *service)
+{
+	return g_strdup (_("Plot Engine"));
+}
+
+static void
+gog_plot_engine_service_class_init (PluginServiceGObjectLoaderClass *gobj_loader_class)
+{
+	GnmPluginServiceClass *ps_class = GPS_CLASS (gobj_loader_class);
+
+	ps_class->get_description = gog_plot_engine_service_get_description;
+
+	gobj_loader_class->pending =
+		pending_engines = g_hash_table_new (g_str_hash, g_str_equal);
+}
+
+GSF_CLASS (GogPlotEngineService, gog_plot_engine_service,
+           gog_plot_engine_service_class_init, NULL,
+           GNM_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE)
+
 GogPlot *
 gog_plot_new_by_name (char const *id)
 {
-	return go_object_new (id, NULL);
+	GType type = g_type_from_name (id);
+
+	if (type == 0) {
+		ErrorInfo *err = NULL;
+		GnmPluginService *service =
+			pending_engines
+			? g_hash_table_lookup (pending_engines, id)
+			: NULL;
+		GnmPlugin *plugin;
+
+		if (!service || !service->is_active)
+			return NULL;
+
+		g_return_val_if_fail (!service->is_loaded, NULL);
+
+		plugin_service_load (service, &err);
+		type = g_type_from_name (id);
+
+		if (err != NULL) {
+			error_info_print (err);
+			error_info_free	(err);
+		}
+
+		g_return_val_if_fail (type != 0, NULL);
+
+		/*
+		 * The plugin defined a gtype so it must not be unloaded.
+		 */
+		plugin = plugin_service_get_plugin (service);
+		refd_plugins = g_slist_prepend (refd_plugins, plugin);
+		g_object_ref (plugin);
+		gnm_plugin_use_ref (plugin);
+	}
+
+	return g_object_new (type, NULL);
 }
 
 /***************************************************************************/
@@ -46,46 +119,18 @@ gog_plot_new_by_name (char const *id)
 GType gog_plot_type_service_get_type (void);
 
 typedef struct {
-	GObject	 base;
+	PluginServiceSimple	base;
 
 	GSList	*families, *types;
 } GogPlotTypeService;
 
 typedef struct{
-	GObjectClass	base;
+	PluginServiceSimpleClass	base;
 } GogPlotTypeServiceClass;
 
-static GsfXMLInDoc	*doc;
-static GHashTable	*pending_plot_type_files = NULL;
-static GObjectClass	*plot_type_parent_klass;
+static GHashTable *pending_plot_type_files = NULL;
+static GObjectClass *plot_type_parent_klass;
 
-static void
-go_plot_engine_type (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
-{
-}
-static void
-go_plot_engine_property (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
-{
-}
-static void
-go_plot_engine_family (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
-{
-}
-
-#define GO_CHART	0
-static GsfXMLInNS content_ns[] = {
-	GSF_XML_IN_NS (GO_CHART, "http://office.gnome.org/charts_v2.dtd"),
-	{ NULL }
-};
-
-static GsfXMLInNode go_chart_dtd_2_0[] = {
-GSF_XML_IN_NODE_FULL (START, START, -1, NULL, FALSE, FALSE, TRUE, NULL, NULL, 0),
-GSF_XML_IN_NODE_FULL (START, TYPES, GO_CHART, "Types", FALSE, TRUE, FALSE, NULL, NULL, 0),
-  GSF_XML_IN_NODE (TYPES, TYPE,	     GO_CHART, "Type", FALSE, &go_plot_engine_type, NULL),
-    GSF_XML_IN_NODE (TYPE, PROPERTY, GO_CHART, "Type", FALSE, &go_plot_engine_property, NULL),
-  GSF_XML_IN_NODE (TYPES, FAMILY, GO_CHART, "Family", FALSE, &go_plot_engine_family, NULL),
-  { NULL }
-};
 static void
 cb_pending_plot_types_load (char const *path,
 			    GogPlotTypeService *service,
@@ -172,7 +217,7 @@ pending_plot_types_load (void)
 }
 
 static void
-gog_plot_type_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+gog_plot_type_service_read_xml (GnmPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
 {
 	char    *path;
 	xmlNode *ptr;
@@ -181,7 +226,7 @@ gog_plot_type_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorIn
 		if (0 == xmlStrcmp (ptr->name, "file") &&
 		    NULL != (path = xmlNodeGetContent (ptr))) {
 			if (!g_path_is_absolute (path)) {
-				char const *dir = go_plugin_get_dir (
+				char const *dir = gnm_plugin_get_dir_name (
 					plugin_service_get_plugin (service));
 				char *tmp = g_build_filename (dir, path, NULL);
 				g_free (path);
@@ -196,7 +241,7 @@ gog_plot_type_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorIn
 }
 
 static char *
-gog_plot_type_service_get_description (GOPluginService *service)
+gog_plot_type_service_get_description (GnmPluginService *service)
 {
 	return g_strdup (_("Plot Type"));
 }
@@ -232,7 +277,7 @@ gog_plot_type_service_init (GObject *obj)
 static void
 gog_plot_type_service_class_init (GObjectClass *gobject_klass)
 {
-	GOPluginServiceClass *ps_class = GPS_CLASS (gobject_klass);
+	GnmPluginServiceClass *ps_class = GPS_CLASS (gobject_klass);
 
 	plot_type_parent_klass = g_type_class_peek_parent (gobject_klass);
 	gobject_klass->finalize		= gog_plot_type_service_finalize;
@@ -257,7 +302,7 @@ typedef PluginServiceSimple GogThemeService;
 typedef PluginServiceSimpleClass GogThemeServiceClass;
 
 static void
-gog_theme_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+gog_theme_service_read_xml (GnmPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
 {
 	char    *path;
 	xmlNode *ptr;
@@ -266,7 +311,7 @@ gog_theme_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo *
 		if (0 == xmlStrcmp (ptr->name, "file") &&
 		    NULL != (path = xmlNodeGetContent (ptr))) {
 			if (!g_path_is_absolute (path)) {
-				char const *dir = go_plugin_get_dir (
+				char const *dir = gnm_plugin_get_dir_name (
 					plugin_service_get_plugin (service));
 				char *tmp = g_build_filename (dir, path, NULL);
 				g_free (path);
@@ -278,13 +323,13 @@ gog_theme_service_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo *
 }
 
 static char *
-gog_theme_service_get_description (GOPluginService *service)
+gog_theme_service_get_description (GnmPluginService *service)
 {
 	return g_strdup (_("Chart Theme"));
 }
 
 static void
-gog_theme_service_class_init (GOPluginServiceClass *ps_class)
+gog_theme_service_class_init (GnmPluginServiceClass *ps_class)
 {
 	ps_class->read_xml	  = gog_theme_service_read_xml;
 	ps_class->get_description = gog_theme_service_get_description;
@@ -299,7 +344,6 @@ GSF_CLASS (GogThemeService, gog_theme_service,
 void
 gog_plugin_services_init (void)
 {
-	doc = gsf_xml_in_doc_new (go_chart_dtd_2_0, content_ns);
 	plugin_service_define ("plot_engine", &gog_plot_engine_service_get_type);
 	plugin_service_define ("plot_type",   &gog_plot_type_service_get_type);
 	plugin_service_define ("chart_theme",  &gog_theme_service_get_type);
@@ -308,7 +352,9 @@ gog_plugin_services_init (void)
 void
 gog_plugin_services_shutdown (void)
 {
-	gsf_xml_in_doc_free (doc);
+	g_slist_foreach (refd_plugins, (GFunc)gnm_plugin_use_unref, NULL);
+	g_slist_foreach (refd_plugins, (GFunc)g_object_unref, NULL);
+	g_slist_free (refd_plugins);
 }
 
 /***************************************************************************/

@@ -3,6 +3,7 @@
 #undef GTK_DISABLE_DEPRECATED
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
+#include <gnumeric.h>
 
 /*
  * Copyright (C) 1999, 2000 Red Hat, Inc.
@@ -31,7 +32,7 @@
 
 #include <glib-object.h>
 
-#include "libfoocanvas.h"
+#include "cut-n-paste-code/foocanvas/libfoocanvas/libfoocanvas.h"
 
 GType
 foo_canvas_points_get_type (void)

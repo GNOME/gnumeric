@@ -34,7 +34,8 @@ void scg_objects_drag		(SheetControlGUI *scg, SheetObject *primary,
 void scg_objects_drag_commit	(SheetControlGUI *scg, int drag_type,
 				 gboolean created_objects);
 void scg_objects_nudge		(SheetControlGUI *scg,
-				 int drag_type, int dx, int dy);
+				 int drag_type, int dx, int dy,
+				 gboolean symmetric);
 
 void scg_object_select		(SheetControlGUI *scg, SheetObject *so);
 void scg_object_unselect	(SheetControlGUI *scg, SheetObject *so);

@@ -16,6 +16,7 @@
 #include "module-plugin-defs.h"
 #include "io-context.h"
 #include "error-info.h"
+#include "workbook-view.h"
 #include "workbook.h"
 #include "parse-util.h"
 #include "value.h"
@@ -29,14 +30,13 @@
 #include <gsf/gsf-input-textline.h>
 #include <string.h>
 #include <math.h>
-#include <stdlib.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 gboolean sc_file_probe (GnmFileOpener const *fo, GsfInput *input,
 			FileProbeLevel pl);
 void sc_file_open (GnmFileOpener const *fo, IOContext *io_context,
-                   GODoc *doc, GsfInput *input);
+                   WorkbookView *wb_view, GsfInput *input);
 
 typedef enum {
 	LABEL,
@@ -384,7 +384,7 @@ sc_parse_sheet (GsfInputTextline *input, Sheet *sheet, GIConv ic)
 
 void
 sc_file_open (GnmFileOpener const *fo, IOContext *io_context,
-              GODoc *doc, GsfInput *input)
+              WorkbookView *wb_view, GsfInput *input)
 {
 	Workbook  *wb;
 	char      *name;
@@ -393,7 +393,7 @@ sc_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	GsfInputTextline *textline;
 	GIConv    ic;
 
-	wb    = WORKBOOK (doc);
+	wb    = wb_view_workbook (wb_view);
 	name  = workbook_sheet_get_free_name (wb, "SC", FALSE, TRUE);
 	sheet = sheet_new (wb, name);
 	g_free (name);

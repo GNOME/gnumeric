@@ -20,6 +20,8 @@
  */
 
 #include <goffice/goffice-config.h>
+/* <style.h> is only needed for gnm_font_find_closest_from_weight_slant */
+#include <style.h>
 #include <goffice/graph/gog-renderer-gnome-print.h>
 #include <goffice/graph/gog-renderer-impl.h>
 #include <goffice/graph/gog-style.h>
@@ -130,7 +132,7 @@ get_font (GogRendererGnomePrint *prend, GOFont const *gf)
 
 	if (res == NULL) {
 		PangoFontDescription *desc = gf->desc;
-		res = go_font_find_closest_from_weight_slant (
+		res = gnm_font_find_closest_from_weight_slant (
 			pango_font_description_get_family (desc),
 			pango_font_description_get_weight (desc) >= PANGO_WEIGHT_BOLD ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR,
 			pango_font_description_get_style (desc) != PANGO_STYLE_NORMAL,
@@ -144,10 +146,10 @@ get_font (GogRendererGnomePrint *prend, GOFont const *gf)
 static void
 set_color (GogRendererGnomePrint *prend, GOColor color)
 {
-	double r = ((double) GO_COLOR_R (color)) / 255.;
-	double g = ((double) GO_COLOR_G (color)) / 255.;
-	double b = ((double) GO_COLOR_B (color)) / 255.;
-	double a = ((double) GO_COLOR_A (color)) / 255.;
+	double r = ((double) UINT_RGBA_R (color)) / 255.;
+	double g = ((double) UINT_RGBA_G (color)) / 255.;
+	double b = ((double) UINT_RGBA_B (color)) / 255.;
+	double a = ((double) UINT_RGBA_A (color)) / 255.;
 	gnome_print_setrgbcolor (prend->gp_context, r, g, b);
 	gnome_print_setopacity (prend->gp_context, a);
 }
@@ -205,19 +207,42 @@ setup_clip (GogRendererGnomePrint *prend, GogViewAllocation const *bound)
 }
 
 static void
+set_dash (GogRendererGnomePrint *prend, ArtVpathDash *dash)
+{
+	if (dash == NULL ||
+	    dash->n_dash == 0)
+		gnome_print_setdash (prend->gp_context, 0, NULL, 0.);
+	else
+		gnome_print_setdash (prend->gp_context, dash->n_dash, dash->dash, dash->offset);
+}
+
+static void
 gog_renderer_gnome_print_draw_path (GogRenderer *renderer, ArtVpath const *path,
 				    GogViewAllocation const *bound)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (renderer);
 	GogStyle const *style = renderer->cur_style;
 
+	if (style->line.dash_type == GO_LINE_NONE)
+		return;
+
 	set_color (prend, style->line.color);
+	set_dash (prend, renderer->line_dash);
 	gnome_print_setlinewidth (prend->gp_context,
 		gog_renderer_line_size (renderer, style->line.width));
+
 	if (bound != NULL)
 		setup_clip (prend, bound);
-	draw_path (prend, path);
+	
+	if (style->line.dash_type != GO_LINE_SOLID && renderer->cur_clip != NULL) {
+		ArtVpath *clipped = go_line_clip_vpath (path, &renderer->cur_clip->area);
+		draw_path (prend, clipped);
+		g_free (clipped);
+	} else
+		draw_path (prend, path);
+
 	gnome_print_stroke (prend->gp_context);
+	
 	if (bound != NULL)
 		gnome_print_grestore (prend->gp_context);
 }
@@ -242,7 +267,7 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *pa
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (renderer);
 	GogStyle const *style = renderer->cur_style;
-	gboolean with_outline = (!narrow && style->outline.width >= 0.);
+	gboolean with_outline = (!narrow && style->outline.dash_type != GO_LINE_NONE);
 	GdkPixbuf *image;
 	ArtDRect bbox;
 	ArtRender *render;
@@ -255,7 +280,12 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *pa
 		setup_clip (prend, bound);
 
 	if (style->fill.type != GOG_FILL_STYLE_NONE || with_outline) {
-		draw_path (prend, path);
+		if (style->outline.dash_type != GO_LINE_SOLID && renderer->cur_clip != NULL) {
+			ArtVpath *clipped = go_line_clip_vpath (path, &renderer->cur_clip->area);
+			draw_path (prend, clipped);
+			g_free (clipped);
+		} else
+			draw_path (prend, path);
 		gnome_print_closepath (prend->gp_context);
 	}
 
@@ -399,6 +429,7 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *pa
 
 	if (with_outline) {
 		set_color (prend, style->outline.color);
+		set_dash (prend, renderer->outline_dash);
 		gnome_print_setlinewidth (prend->gp_context,
 			gog_renderer_line_size (renderer, style->outline.width));
 		gnome_print_stroke (prend->gp_context);
@@ -612,52 +643,4 @@ gog_graph_print_to_gnome_print (GogGraph *graph,
 	
 	gog_view_render	(prend->base.view, NULL);
 	g_object_unref (prend);
-}
-
-/**
- * go_font_find_closest_from_weight_slant :
- *
- * A wrapper around gnome-print because it is stupid.
- * At least this will warn us when it is stupid
- **/
-GnomeFont *
-go_font_find_closest_from_weight_slant (const guchar *family, 
-					GnomeFontWeight weight, 
-					gboolean italic, gdouble size)
-{
-	GnomeFont *font;
-	guchar const *fam;
-	guchar   *name;
-
-	while (1) {
-		font = gnome_font_find_closest_from_weight_slant 
-			(family, weight, italic, size);
-		fam = gnome_font_get_family_name  (font);
-		if (g_ascii_strcasecmp (family, fam) == 0)
-			return font;
-
-		name = gnome_font_get_full_name (font);
-		g_warning ("GnomePrint: Requested %s but using %s (%s)", 
-			   family, fam, name);
-		g_free (name);
-
-		/* put in some fallbacks */
-		if (!g_ascii_strcasecmp (family, "Sans"))
-			family = "Sans Regular";
-		else if (!g_ascii_strcasecmp (family, "Helvetica"))
-			family = "Sans";
-		else if (!g_ascii_strcasecmp (family, "Albany"))
-			family = "Arial";
-		/* one of the arials */
-		else if (!g_ascii_strncasecmp (family, "Arial ", 6))
-			family = "Arial";
-		else if (!g_ascii_strcasecmp (family, "Arial"))
-			family = "Sans";
-		else
-			return font;
-
-		g_warning ("Trying to fallback to '%s'", family);
-	}
-	/* notreached */
-	return font;
 }

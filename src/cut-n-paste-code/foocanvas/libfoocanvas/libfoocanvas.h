@@ -28,14 +28,14 @@
 #ifndef LIBFOOCANVAS_H
 #define LIBFOOCANVAS_H
 
-#include "libfoocanvas/foo-canvas.h"
-#include "libfoocanvas/foo-canvas-line.h"
-#include "libfoocanvas/foo-canvas-text.h"
-#include "libfoocanvas/foo-canvas-polygon.h"
-#include "libfoocanvas/foo-canvas-pixbuf.h"
-#include "libfoocanvas/foo-canvas-widget.h"
-#include "libfoocanvas/foo-canvas-rect-ellipse.h"
-#include "libfoocanvas/foo-canvas-util.h"
+#include "cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas.h"
+#include "cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas-line.h"
+#include "cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas-text.h"
+#include "cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas-polygon.h"
+#include "cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas-pixbuf.h"
+#include "cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas-widget.h"
+#include "cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas-rect-ellipse.h"
+#include "cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas-util.h"
 
 G_BEGIN_DECLS
 

@@ -9,9 +9,11 @@
  */
 
 #include <gnumeric-config.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "widget-font-selector.h"
 
+#include "../global-gnome-font.h"
 #include <value.h>
 #include <mstyle.h>
 #include <preview-grid.h>
@@ -20,9 +22,10 @@
 #include <mstyle.h>
 #include <preview-grid.h>
 
-#include <goffice/gui-utils/go-gui-utils.h>
-#include <goffice/utils/go-font.h>
 #include <gsf/gsf-impl-utils.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtktreeview.h>
@@ -30,9 +33,6 @@
 #include <gtk/gtkliststore.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <glade/glade.h>
-#include <stdlib.h>
-#include <string.h>
-#include <glib/gi18n.h>
 
 struct _FontSelector {
 	GtkHBox box;
@@ -85,7 +85,7 @@ fs_modify_style (FontSelector *fs, GnmStyle *modification)
 	g_return_if_fail (modification != NULL);
 
 	fs->mstyle = mstyle_copy_merge (original, modification);
-	g_signal_emit (G_OBJECT (fs),
+	g_signal_emit (GTK_OBJECT (fs),
 		fs_signals[FONT_CHANGED], 0, modification);
 	foo_canvas_item_set (fs->font_preview_grid,
 		"default-style",  fs->mstyle,
@@ -180,20 +180,20 @@ font_selected (GtkTreeSelection *selection,
 static void
 fs_fill_font_name_list (FontSelector *fs)
 {
-	GSList *ptr;
+	GList *l;
 	GtkListStore *store;
 	GtkTreeIter iter;
 
 	list_init (fs->font_name_list);
 	store = GTK_LIST_STORE (gtk_tree_view_get_model (fs->font_name_list));
-	for (ptr = go_font_family_list; ptr != NULL; ptr = ptr->next) {
+	 for (l = gnumeric_font_family_list; l; l = l->next) {
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 0, ptr->data, -1);
-	}
+		gtk_list_store_set (store, &iter, 0, l->data, -1);
+	 }
 
-	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (fs->font_name_list)),
-		"changed",
-		G_CALLBACK (font_selected), fs);
+	 g_signal_connect (
+		 G_OBJECT (gtk_tree_view_get_selection (fs->font_name_list)), "changed",
+		 GTK_SIGNAL_FUNC (font_selected), fs);
 }
 
 static char const *styles[] = {
@@ -309,15 +309,15 @@ size_changed (GtkEntry *entry, FontSelector *fs)
 	 g_signal_handlers_block_by_func (
 	 			gtk_tree_view_get_selection (fs->font_size_list),
 				 size_selected, fs);
-	for (i = 0; go_font_sizes [i] != 0; i++)
-		if (go_font_sizes [i] == size) {
+	for (i = 0; gnumeric_point_sizes[i] != 0; i++) {
+		if (gnumeric_point_sizes[i] == size) {
 			select_row (fs->font_size_list, i);
 			 g_signal_handlers_unblock_by_func (
 						gtk_tree_view_get_selection (fs->font_size_list),
 						size_selected, fs);
 			return;
 		}
-
+	}
 	select_row (fs->font_size_list, -1);
 	g_signal_handlers_unblock_by_func (
 				gtk_tree_view_get_selection (fs->font_size_list),
@@ -333,9 +333,9 @@ fs_fill_font_size_list (FontSelector *fs)
 
 	list_init (fs->font_size_list);
 	store = GTK_LIST_STORE (gtk_tree_view_get_model (fs->font_size_list));
-	for (i = 0; go_font_sizes [i] != 0; i++) {
+	for (i = 0; gnumeric_point_sizes[i] != 0; i++) {
 		char buffer[4 * sizeof (int)];
-		sprintf (buffer, "%d", go_font_sizes [i]);
+		sprintf (buffer, "%d", gnumeric_point_sizes[i]);
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter, 0, buffer, -1);
 	}
@@ -369,7 +369,7 @@ fs_init (FontSelector *fs)
 {
 	GtkWidget *w;
 
-	fs->gui = go_libglade_new ("font-sel.glade", "toplevel-table", NULL, NULL);
+	fs->gui = gnm_glade_xml_new (NULL, "font-sel.glade", "toplevel-table", NULL);
 	if (fs->gui == NULL)
                 return;
 
@@ -481,17 +481,17 @@ void
 font_selector_set_name (FontSelector *fs,
 			const char *font_name)
 {
-	GSList *ptr;
+	GList *l;
 	int row;
 
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 	g_return_if_fail (font_name != NULL);
 
-	for (row = 0, ptr = go_font_family_list; ptr != NULL; ptr = ptr->next, row++)
-		if (g_ascii_strcasecmp (font_name, ptr->data) == 0)
+	for (row = 0, l = gnumeric_font_family_list; l; l = l->next, row++)
+		if (g_ascii_strcasecmp (font_name, l->data) == 0)
 			break;
 
-	if (ptr != NULL)
+	if (l != NULL)
 		select_row (fs->font_name_list, row);
 
 }
@@ -569,14 +569,14 @@ font_selector_set_points (FontSelector *fs,
 
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 
-	for (i = 0; go_font_sizes [i] != 0; i++) {
-		if (go_font_sizes [i] == point_size) {
+	for (i = 0; gnumeric_point_sizes[i] != 0; i++) {
+		if (gnumeric_point_sizes[i] == point_size) {
 			select_row (fs->font_size_list, i);
 			break;
 		}
 	}
 
-	if (go_font_sizes [i] == 0) {
+	if (gnumeric_point_sizes[i] == 0) {
 		char *buffer;
 		buffer = g_strdup_printf ("%g", point_size);
 		gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), buffer);

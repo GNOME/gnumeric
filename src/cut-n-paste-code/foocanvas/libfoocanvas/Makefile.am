@@ -1,7 +1,8 @@
 INCLUDES = \
-	$(WARN_CFLAGS) $(GNUMERIC_CFLAGS)		\
-	-I$(top_srcdir)/src/cut-n-paste-code/foocanvas	\
+	-I$(top_srcdir) 				\
 	-I$(top_builddir)				\
+	$(WARN_CFLAGS) 					\
+	$(GNUMERIC_CFLAGS) -I$(top_srcdir)/src			\
         -DFOOCANVASLIBDIR=\""$(libdir)"\" 		\
         -DFOOCANVASDATADIR=\""$(datadir)"\" 		\
         -DFOOCANVASPIXMAPDIR=\""$(datadir)/pixmaps"\"	\

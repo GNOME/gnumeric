@@ -20,6 +20,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  **/
 #include <gnumeric-config.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
@@ -33,21 +34,17 @@
 #include <value.h>
 #include <workbook-edit.h>
 
+#include <glade/glade.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnm-dao.h>
 #include "simulation.h"
 
-#include <glade/glade.h>
+#include <string.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkliststore.h>
-
-#include <glib/gi18n.h>
-#include <stdlib.h>
-#include <string.h>
-
 
 #define SIMULATION_KEY         "simulation-dialog"
 

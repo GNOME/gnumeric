@@ -17,6 +17,7 @@
 #include <gnumeric.h>
 #include "file.h"
 #include "io-context.h"
+#include "workbook-view.h"
 #include "workbook.h"
 #include "cell.h"
 #include "sheet.h"
@@ -45,7 +46,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 gboolean sylk_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
 void     sylk_file_open (GnmFileOpener const *fo, IOContext *io_context,
-                         GODoc *doc, GsfInput *input);
+                         WorkbookView *wb_view, GsfInput *input);
 
 typedef struct {
 	IOContext	 *io_context;
@@ -481,14 +482,14 @@ sylk_parse_sheet (SylkReadState *state, ErrorInfo **ret_error)
 void
 sylk_file_open (GnmFileOpener const *fo,
 		IOContext	*io_context,
-                GODoc		*doc,
+                WorkbookView	*wb_view,
 		GsfInput	*input)
 {
 	SylkReadState state;
 	char const *input_name;
 	char *base;
 	int i;
-	Workbook *wb = WORKBOOK (doc);
+	Workbook *book = wb_view_workbook (wb_view);
 	ErrorInfo *sheet_error;
 	char *old_num_locale, *old_monetary_locale;
 
@@ -500,13 +501,13 @@ sylk_file_open (GnmFileOpener const *fo,
 	memset (&state, 0, sizeof (state));
 	state.io_context = io_context;
 	state.input = (GsfInputTextline *) gsf_input_textline_new (input);
-	state.sheet = sheet_new (wb, base);
+	state.sheet = sheet_new (book, base);
 	state.col = state.row = 1;
 	state.converter = g_iconv_open ("UTF-8", "ISO-8859-1");
 	state.formats	= g_ptr_array_new ();
 	state.finished = FALSE;
 
-	workbook_sheet_attach (wb, state.sheet, NULL);
+	workbook_sheet_attach (book, state.sheet, NULL);
 	g_free (base);
 
 	old_num_locale = g_strdup (gnm_setlocale (LC_NUMERIC, NULL));

@@ -1,8 +1,8 @@
 #ifndef PLUGIN_PY_CONSOLE_H
 #define PLUGIN_PY_CONSOLE_H
 
-#include <workbook-control-gui.h>
+#include <application.h>
 
-void show_python_console (WorkbookControlGUI *wbcg);
+void show_python_console (GnmAction const *action, WorkbookControl *wbc);
 
 #endif /* PLUGIN_PY_CONSOLE_H */

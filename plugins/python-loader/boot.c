@@ -25,9 +25,9 @@ python_get_loader_type (ErrorInfo **ret_error)
 	return TYPE_GNM_PLUGIN_LOADER_PYTHON;
 }
 
-const ModulePluginUIVerbInfo console_ui_verbs[] = {
-	{"ShowConsole", show_python_console},
-	{NULL}
+ModulePluginUIActions const console_ui_actions[] = {
+	{ "ShowConsole", show_python_console },
+	{ NULL }
 };
 
 void

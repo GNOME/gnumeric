@@ -1,8 +1,9 @@
 #ifndef GNUMERIC_STYLE_H
 #define GNUMERIC_STYLE_H
 
+#include <gdk/gdk.h>
+#include <libgnomeprint/gnome-font.h>
 #include "gnumeric.h"
-#include <pango/pango.h>
 
 #define DEFAULT_FONT "Sans"
 #define DEFAULT_SIZE 10.0
@@ -52,7 +53,7 @@ struct _GnmFont {
 		PangoLayout		*layout;
 	} pango;
 
-	void *gnome_print_font;
+	GnomeFont *gnome_print_font;
 
 	unsigned int is_bold:1;
 	unsigned int is_italic:1;
@@ -71,11 +72,15 @@ void style_font_unref        (GnmFont *sf);
 guint          style_font_hash_func (gconstpointer v);
 gint           style_font_equal (gconstpointer v, gconstpointer v2);
 
-SpanCalcFlags	 required_updates_for_style (GnmStyle *style);
+SpanCalcFlags	 required_updates_for_style (GnmStyle const *style);
 StyleHAlignFlags style_default_halign (GnmStyle const *mstyle, GnmCell const *c);
 
 extern double gnumeric_default_font_width;
 
+GnomeFont *gnm_font_find_closest_from_weight_slant (const guchar *family, 
+						    GnomeFontWeight weight, 
+						    gboolean italic, 
+						    gdouble size);
 PangoContext *gnm_pango_context_get (void);
 
 #include "mstyle.h"

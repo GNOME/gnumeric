@@ -284,7 +284,7 @@ go_dock_item_class_init (GoDockItemClass *klass)
 			G_SIGNAL_RUN_LAST,
 			G_STRUCT_OFFSET (GoDockItemClass, dock_drag_motion),
 			NULL, NULL,
-			go__VOID__INT_INT,
+			gnm__VOID__INT_INT,
 			G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
   dock_item_signals[DOCK_DRAG_END] =

@@ -821,6 +821,22 @@ sheet_object_anchor_init (SheetObjectAnchor *anchor,
 /*****************************************************************************/
 
 gint
+sheet_object_get_stacking (SheetObject *so)
+{
+	GList *l = so->realized_list;
+
+	if (l != NULL) {
+		FooCanvasItem *item = FOO_CANVAS_ITEM (l->data);
+		FooCanvasGroup *parent = FOO_CANVAS_GROUP (item->parent);
+		GList *link = g_list_find (parent->item_list, item);
+		return g_list_position (parent->item_list, link);
+	}
+	return -1;
+}
+
+/*****************************************************************************/
+
+gint
 sheet_object_adjust_stacking (SheetObject *so, gint positions)
 {
 	GList *l;

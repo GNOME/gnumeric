@@ -20,6 +20,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
@@ -34,12 +35,10 @@
 #include <sheet-filter.h>
 #include <number-match.h>
 
-#include <goffice/gui-utils/go-gui-utils.h>
-#include <goffice/app/go-cmd-context.h>
+#include <glade/glade.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkspinbutton.h>
-#include <glib/gi18n.h>
 #include <string.h>
 
 typedef struct {
@@ -234,9 +233,9 @@ dialog_auto_filter (WorkbookControlGUI *wbcg,
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, DIALOG_KEY))
 		return;
-	gui = go_libglade_new (
-		(is_expr ? "autofilter-expression.glade" : "autofilter-top10.glade"),
-		NULL, NULL, GO_CMD_CONTEXT (wbcg));
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+			(is_expr ? "autofilter-expression.glade" : "autofilter-top10.glade"),
+			NULL, NULL);
 	if (gui == NULL)
 		return;
 

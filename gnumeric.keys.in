@@ -68,7 +68,7 @@ text/x-comma-separated-values
 	view=gnumeric %f
 	icon-filename=@gnumeric_icondir@/gnome-application-x-generic-spreadsheet.png
 
-comma-separated-values
+text/comma-separated-values
 	open=gnumeric %f
 	view=gnumeric %f
 	icon-filename=@gnumeric_icondir@/gnome-application-x-generic-spreadsheet.png

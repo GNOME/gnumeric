@@ -3,7 +3,7 @@
 
 #include "workbook-control-gui.h"
 #include "error-info.h"
-#include <goffice/app/goffice-app.h>
+#include "command-context.h"
 #include "gutils.h"
 #include <gtk/gtkbutton.h>
 #include <gtk/gtkcombo.h>
@@ -53,6 +53,9 @@ void gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event);
  */
 void        gnumeric_position_tooltip (GtkWidget *tip, int horizontal);
 GtkWidget  *gnumeric_create_tooltip (void);
+
+GladeXML   *gnm_glade_xml_new (GnmCmdContext *cc, char const *gladefile,
+			       char const *root, char const *domain);
 
 typedef struct {
 	char const *name;
@@ -114,6 +117,7 @@ void gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct);
 void gnm_widget_set_cursor (GtkWidget *w, GdkCursor *ct);
 GdkCursor *gnm_fat_cross_cursor (GdkDisplay *display);
 
+GtkWidget * gnumeric_button_new_with_stock_image (char const *text, char const *stock_id);
 GtkWidget * gnumeric_dialog_add_button (GtkDialog *dialog, char const *text, char const *stock_id,
 					gint response_id);
 GtkWidget * gnumeric_message_dialog_new (GtkWindow * parent,
@@ -122,6 +126,13 @@ GtkWidget * gnumeric_message_dialog_new (GtkWindow * parent,
 					 char const *primary_message,
 					 char const *secondary_message);
 
+GdkPixbuf* gnm_pixbuf_intelligent_scale (GdkPixbuf *pixbuf, 
+					 guint width, guint height);
 void	   gnm_widget_disable_focus (GtkWidget *w);
+
+typedef gboolean gnm_iter_search_t (GtkTreeModel *model, GtkTreeIter* iter);
+#define gnm_tree_model_iter_next gtk_tree_model_iter_next
+gboolean gnm_tree_model_iter_prev (GtkTreeModel *model, GtkTreeIter* iter);
+
 
 #endif /* GNUMERIC_GUI_UTIL_H */

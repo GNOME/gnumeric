@@ -32,16 +32,17 @@
 #include <goffice/graph/gog-plot-engine.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-control-foocanvas.h>
-#include <goffice/gui-utils/go-gui-utils.h>
+
+#include <glib/gi18n.h>
+#include <gui-util.h>
 
 #include <libxml/parser.h>
 #include <libfoocanvas/foo-canvas.h>
 #include <libfoocanvas/foo-canvas-pixbuf.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtklabel.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkentry.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreestore.h>
@@ -55,8 +56,6 @@
 #include <gtk/gtkcellrendererpixbuf.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtkliststore.h>
-#include <gdk/gdkkeysyms.h>
-#include <glib/gi18n.h>
 #include <string.h>
 
 typedef struct _GraphGuruState		GraphGuruState;
@@ -67,7 +66,7 @@ struct _GraphGuruState {
 	GogChart    *chart;
 	GogPlot	    *plot;
 
-	GOCmdContext	 *gcc;
+	GnmCmdContext	 *cc;
 	GogDataAllocator *dalloc;
 	GClosure         *register_closure;
 
@@ -99,6 +98,7 @@ struct _GraphGuruState {
 	gboolean valid;
 	gboolean updating;
 	gboolean fmt_page_initialized;
+	gboolean editing;
 
 	/* hackish reuse of State as a closure */
 	GogObject *search_target, *new_child;
@@ -768,7 +768,7 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 		gog_object_can_reorder (obj, &inc_ok, &dec_ok);
 
 		/* create a prefs page for the graph obj */
-		editor = gog_object_get_editor (obj, s->dalloc, s->gcc);
+		editor = gog_object_get_editor (obj, s->dalloc, s->cc);
 		if (GTK_IS_NOTEBOOK (editor)) {
 			notebook = editor;
 		} else {
@@ -1012,7 +1012,7 @@ graph_guru_init_format_page (GraphGuruState *s)
 	s->prec.last  = glade_xml_get_widget (s->gui, "last_precedence");
 
 	g_signal_connect_swapped (G_OBJECT (s->delete_button),
-		"activate",
+		"clicked",
 		G_CALLBACK (cb_graph_guru_delete_item), s);
 	g_signal_connect_swapped (G_OBJECT (s->prec.first),
 		"activate",
@@ -1158,6 +1158,26 @@ graph_guru_init_button (GraphGuruState *s, char const *widget_name)
 	return button;
 }
 
+static GtkWidget *
+graph_guru_init_ok_button (GraphGuruState *s)
+{
+	GtkButton *button = GTK_BUTTON (glade_xml_get_widget 
+				       (s->gui, "button_ok"));
+	
+	if (s->editing) {
+		gtk_button_set_label (button, GTK_STOCK_APPLY);
+		gtk_button_set_use_stock (button, TRUE);
+	} else {
+		gtk_button_set_use_stock (button, FALSE);
+		gtk_button_set_use_underline (button, TRUE);
+		gtk_button_set_label (button, _("_Insert"));
+	}
+	g_signal_connect (G_OBJECT (button),
+		"clicked",
+		G_CALLBACK (cb_graph_guru_clicked), s);
+	return GTK_WIDGET (button);
+}
+
 static void
 typesel_set_selection_color (GraphGuruTypeSelector *typesel)
 {
@@ -1184,7 +1204,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	GtkWidget *selector;
 	GladeXML *gui;
 
-	gui = go_libglade_new ("gog-guru-type-selector.glade", NULL, NULL, s->gcc);
+	gui = gnm_glade_xml_new (s->cc, "gog-guru-type-selector.glade", "type_selector", NULL);
 
 	typesel = g_new0 (GraphGuruTypeSelector, 1);
 	typesel->state = s;
@@ -1277,7 +1297,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 static gboolean
 graph_guru_init (GraphGuruState *s)
 {
-	s->gui = go_libglade_new ("gog-guru.glade", NULL, NULL, s->gcc);
+	s->gui = gnm_glade_xml_new (s->cc, "gog-guru.glade", NULL, NULL);
         if (s->gui == NULL)
                 return TRUE;
 
@@ -1287,7 +1307,7 @@ graph_guru_init (GraphGuruState *s)
 	/* Buttons */
 	s->button_cancel   = graph_guru_init_button (s, "button_cancel");
 	s->button_navigate = graph_guru_init_button (s, "button_navigate");
-	s->button_ok	   = graph_guru_init_button (s, "button_ok");
+	s->button_ok	   = graph_guru_init_ok_button (s);
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (s->gui, "help_button"),
@@ -1306,7 +1326,7 @@ graph_guru_init (GraphGuruState *s)
  */
 GtkWidget *
 gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
-	  GOCmdContext *gcc, GtkWindow *toplevel,
+	  GnmCmdContext *cc, GtkWindow *toplevel,
 	  GClosure *closure)
 {
 	int page = (graph != NULL) ? 1 : 0;
@@ -1316,8 +1336,9 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	state->valid	= FALSE;
 	state->updating = FALSE;
 	state->fmt_page_initialized = FALSE;
+	state->editing  = (graph != NULL);
 	state->gui	= NULL;
-	state->gcc      = gcc;
+	state->cc       = cc;
 	state->dalloc   = dalloc;
 	state->current_page	= -1;
 	state->register_closure	= closure;

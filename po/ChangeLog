@@ -1,7 +1,110 @@
+2004-11-15  Raphael Higino  <raphaelh@cvs.gnome.org>
+
+	* pt_BR.po: Updated Brazilian Portuguese translation.
+
+2004-11-15  Jan Morén  <jan.moren@lucs.lu.se>
+
+	* sv.po: Updated Swedish translation.
+
+2004-11-13  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
+
+	* es.po: Updated Spanih translation.
+
+2004-11-11  Alessio Frusciante  <algol@firenze.linux.it>
+
+	* it.po: Updated Italian translation by
+	Luca Ferretti <elle.uca@infinito.it>.
+
+2004-11-10  Jordi Mallach  <jordi@sindominio.net>
+
+	* ca.po: Updated Catalan translation.
+
+2004-11-09  Jan Morén  <jan.moren@lucs.lu.se>
+
+	* sv.po: Updated Swedish translation.
+
+2004-11-09  Miloslav Trmac  <mitr@volny.cz>
+
+	* cs.po: Updated Czech translation.
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-11-06  Alexander Shopov  <ash@contact.bg>
+
+	* bg.po: One bugfix just slipped the
+	previous commit.
+
+2004-11-06  Alexander Shopov  <ash@contact.bg>
+
+	* bg.po: Small bugfixes prompted by
+	Radostin Radnev <radnev@yahoo.com>
+
+2004-11-03  Miloslav Trmac  <mitr@volny.cz>
+
+	* cs.po: Updated Czech translation.
+
+2004-11-03  Jan Morén  <jan.moren@lucs.lu.se>
+
+	* sv.po: Updated Swedish translation.
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-30  Vincent van Adrighem  <adrighem@gnome.org>
+
+	* nl.po: Translation updated by Tino Meinen.
+
+2004-10-30  Miloslav Trmac  <mitr@volny.cz>
+
+	* cs.po: Updated Czech translation.
+
+2004-10-28  Miloslav Trmac  <mitr@volny.cz>
+
+	* cs.po: Updated Czech translation.
+
+2004-10-26  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
+
+	* es.po: Updated Spanish translation.
+
+2004-10-25  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
+
+	* es.po: Updated Spanish translation.
+
+2004-10-25  Jody Goldberg <jody@gnome.org>
+
+	* fr.po : Adjust some menu mnemonics to avoid conflict
+
+2004-10-22  Jody Goldberg <jody@gnome.org>
+
+	* POTFILES.in : Add the category files
+
+2004-10-24  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
+
+	* es.po: Updated Spanih translation.
+
+2004-10-22  Miloslav Trmac  <mitr@volny.cz>
+
+	* cs.po: Updated Czech translation.
+
+2004-10-21  Adam Weinberger  <adamw@gnome.org>
+
+	* en_CA.po: Updated Canadian English translation.
+
+2004-10-21  Yukihiro Nakai  <nakai@gnome.gr.jp>
+
+	* POTFILES.in: Add templates xml files.
+
+2004-10-20  Adam Weinberger  <adamw@gnome.org>
+
+	* en_CA.po: Updated Canadian English translation.
+
 2004-10-19  David Lodge <dave@cirt.net>
-                                                                                
-        * en_GB.po: Updated British English translation.
-                                                                                
+
+	* en_GB.po: Updated British English translation.
+
 2004-10-19  Adam Weinberger  <adamw@gnome.org>
 
 	* en_CA.po: Updated Canadian English translation.
@@ -15,9 +118,9 @@
 	* pt_BR.po: Updated Brazilian Portuguese translation.
 
 2004-10-18  David Lodge <dave@cirt.net>
-                                                                                
-        * en_GB.po: Updated British English translation.
-                                                                                
+
+	* en_GB.po: Updated British English translation.
+
 2004-10-18  Adam Weinberger  <adamw@gnome.org>
 
 	* en_CA.po: Updated Canadian English translation.
@@ -27,9 +130,9 @@
 	* ja.po: Update Japanese translation for #155644
 	
 2004-10-17  David Lodge <dave@cirt.net>
-                                                                                
-        * en_GB.po: Updated British English translation.
-                                                                                
+
+	* en_GB.po: Updated British English translation.
+
 2004-10-16  Miloslav Trmac  <mitr@volny.cz>
 
 	* cs.po: Updated Czech translation.
@@ -47,9 +150,9 @@
 	* en_CA.po: Updated Canadian English translation.
 
 2004-10-13  David Lodge <dave@cirt.net>
-                                                                                
-        * en_GB.po: Updated British English translation.
-                                                                                
+
+	* en_GB.po: Updated British English translation.
+
 2004-10-13  Yukihiro Nakai  <nakai@gnome.gr.jp>
 
 	* ja.po: Some minor update.

@@ -327,7 +327,7 @@ wbcg_autosave_set (WorkbookControlGUI *wbcg, int minutes, gboolean prompt)
 /****************************************************************************/
 
 static void
-wbcg_title_set (WorkbookControl *wbc, char const *title)
+wbcg_set_title (WorkbookControl *wbc, char const *title)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	char *full_title;
@@ -391,7 +391,7 @@ wbcg_edit_selection_descr_set (WorkbookControl *wbc, char const *text)
 }
 
 static void
-wbcg_set_sensitive (GOCmdContext *cc, gboolean sensitive)
+wbcg_set_sensitive (GnmCmdContext *cc, gboolean sensitive)
 {
 	GtkWindow *toplevel = wbcg_toplevel (WORKBOOK_CONTROL_GUI (cc));
 
@@ -400,11 +400,21 @@ wbcg_set_sensitive (GOCmdContext *cc, gboolean sensitive)
 }
 
 static void
-wbcg_edit_set_sensitive (WorkbookControl *wbc,
-			 gboolean enable_edit_ok_cancel,
-			 gboolean enable_actions)
+wbcg_update_action_sensitivity (WorkbookControl *wbc)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (wbc);
+	SheetControlGUI	   *scg = wbcg_cur_scg (wbcg);
+	gboolean edit_object = scg != NULL &&
+		(scg->selected_objects != NULL || scg->new_object != NULL);
+	gboolean enable_actions = TRUE;
+	gboolean enable_edit_ok_cancel = FALSE;
+
+	if (edit_object || wbcg->edit_line.guru != NULL)
+		enable_actions = FALSE;
+	else if (wbcg_is_editing (wbcg)) {
+		enable_actions = FALSE;
+		enable_edit_ok_cancel = TRUE;
+	}
 
 	/* These are only sensitive while editing */
 	gtk_widget_set_sensitive (wbcg->ok_button, enable_edit_ok_cancel);
@@ -823,18 +833,14 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	gtk_drag_dest_set (scg->label, GTK_DEST_DEFAULT_ALL,
 			drag_types, G_N_ELEMENTS (drag_types),
 			GDK_ACTION_MOVE);
-	g_signal_connect (G_OBJECT (scg->label), "drag_begin",
-			G_CALLBACK (cb_sheet_label_drag_begin), wbcg);
-	g_signal_connect (G_OBJECT (scg->label), "drag_end",
-			G_CALLBACK (cb_sheet_label_drag_end), wbcg);
-	g_signal_connect (G_OBJECT (scg->label), "drag_leave",
-			G_CALLBACK (cb_sheet_label_drag_leave), wbcg);
-	g_signal_connect (G_OBJECT (scg->label), "drag_data_get",
-			G_CALLBACK (cb_sheet_label_drag_data_get), wbcg);
-	g_signal_connect (G_OBJECT (scg->label), "drag_data_received",
-			G_CALLBACK (cb_sheet_label_drag_data_received), wbcg);
-	g_signal_connect (G_OBJECT (scg->label), "drag_motion",
-			G_CALLBACK (cb_sheet_label_drag_motion), wbcg);
+	g_object_connect (G_OBJECT (scg->label),
+		"signal::drag_begin", G_CALLBACK (cb_sheet_label_drag_begin), wbcg,
+		"signal::drag_end", G_CALLBACK (cb_sheet_label_drag_end), wbcg,
+		"signal::drag_leave", G_CALLBACK (cb_sheet_label_drag_leave), wbcg,
+		"signal::drag_data_get", G_CALLBACK (cb_sheet_label_drag_data_get), wbcg,
+		"signal::drag_data_received", G_CALLBACK (cb_sheet_label_drag_data_received), wbcg,
+		"signal::drag_motion", G_CALLBACK (cb_sheet_label_drag_motion), wbcg,
+		NULL);
 
 	gtk_widget_show (scg->label);
 	gtk_widget_show_all (GTK_WIDGET (scg->table));
@@ -1098,7 +1104,7 @@ wbcg_claim_selection (WorkbookControl *wbc)
 }
 
 static char *
-wbcg_get_password (GOCmdContext *cc, char const* filename)
+wbcg_get_password (GnmCmdContext *cc, char const* filename)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (cc);
 
@@ -1106,14 +1112,14 @@ wbcg_get_password (GOCmdContext *cc, char const* filename)
 }
 
 static void
-wbcg_error_error (GOCmdContext *cc, GError *err)
+wbcg_error_error (GnmCmdContext *cc, GError *err)
 {
 	gnumeric_notice (wbcg_toplevel (WORKBOOK_CONTROL_GUI (cc)),
 		GTK_MESSAGE_ERROR, err->message);
 }
 
 static void
-wbcg_error_error_info (GOCmdContext *cc, ErrorInfo *error)
+wbcg_error_error_info (GnmCmdContext *cc, ErrorInfo *error)
 {
 	gnumeric_error_info_dialog_show (
 		wbcg_toplevel (WORKBOOK_CONTROL_GUI (cc)), error);
@@ -2022,26 +2028,24 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	gchar *target_type = gdk_atom_name (selection_data->target);
 
 	if (!strcmp (target_type, "text/uri-list")) { /* filenames from nautilus */
-		IOContext *ioc = gnumeric_io_context_new (GO_CMD_CONTEXT (wbcg));
+		WorkbookView *wbv;
+		IOContext *ioc = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbcg));
 		char *cdata = g_strndup (selection_data->data, selection_data->length);
-		GSList *ptr, *uris = go_file_split_uris (cdata);
-		g_free (cdata);
+		GSList *l, *uris = go_file_split_uris (cdata);
 
-		for (ptr = uris; ptr != NULL; ptr = ptr->next) {
+		g_free (cdata);
 		for (l = uris; l; l = l-> next) {
 			const char *uri_str = l->data;
 			GError *err = NULL;
 			GsfInput *input = go_file_open (uri_str, &err);
 			if (input != NULL) {
-				GODoc *doc = go_doc_new_from_input (input, NULL, ioc, NULL);
-				if (doc != NULL) {
-					WORKBOOK_FOREACH_VIEW (WORKBOOK (doc), view,
-						gui_wb_view_show (wbcg, wbv););
-				}
-			} else
-				go_cmd_context_error_import (GO_CMD_CONTEXT (ioc),
+				wbv = wb_view_new_from_input (input, NULL, ioc, NULL);
+				if (wbv != NULL)
+					gui_wb_view_show (wbcg, wbv);
+			} else {
+				gnm_cmd_context_error_import (GNM_CMD_CONTEXT (ioc),
 					err->message);
-
+			}
 			if (gnumeric_io_error_occurred (ioc) ||
 			    gnumeric_io_warning_occurred (ioc)) {
 				gnumeric_io_error_display (ioc);
@@ -2271,14 +2275,14 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 }
 
 static void
-wbcg_progress_set (GOCmdContext *cc, gfloat val)
+wbcg_progress_set (GnmCmdContext *cc, gfloat val)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)cc;
 	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (wbcg->progress_bar), val);
 }
 
 static void
-wbcg_progress_message_set (GOCmdContext *cc, gchar const *msg)
+wbcg_progress_message_set (GnmCmdContext *cc, gchar const *msg)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)cc;
 	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), msg);
@@ -2447,7 +2451,7 @@ wbcg_go_plot_data_allocator_init (GogDataAllocatorClass *iface)
 
 guint wbcg_signals [WBCG_LAST_SIGNAL];
 static void
-wbcg_gnm_cmd_context_init (GOCmdContextClass *iface)
+wbcg_gnm_cmd_context_init (GnmCmdContextClass *iface)
 {
 	iface->get_password	    = wbcg_get_password;
 	iface->set_sensitive	    = wbcg_set_sensitive;
@@ -2470,13 +2474,13 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 	parent_class = g_type_class_peek_parent (object_class);
 	object_class->finalize = wbcg_finalize;
 
-	wbc_class->title_set		= wbcg_title_set;
+	wbc_class->set_title		= wbcg_set_title;
 	wbc_class->prefs_update		= wbcg_prefs_update;
 	wbc_class->zoom_feedback	= wbcg_zoom_feedback;
 	wbc_class->edit_line_set	= wbcg_edit_line_set;
 	wbc_class->selection_descr_set	= wbcg_edit_selection_descr_set;
-	wbc_class->edit_set_sensitive	= wbcg_edit_set_sensitive;
 	wbc_class->auto_expr_value	= wbcg_auto_expr_value;
+	wbc_class->update_action_sensitivity = wbcg_update_action_sensitivity;
 
 	wbc_class->sheet.add        = wbcg_sheet_add;
 	wbc_class->sheet.remove	    = wbcg_sheet_remove;
@@ -2544,7 +2548,7 @@ GSF_CLASS_FULL (WorkbookControlGUI, workbook_control_gui,
 		workbook_control_gui_class_init, workbook_control_gui_init,
 		WORKBOOK_CONTROL_TYPE, G_TYPE_FLAG_ABSTRACT,
 		GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GOG_DATA_ALLOCATOR_TYPE);
-		GSF_INTERFACE (wbcg_gnm_cmd_context_init, GO_CMD_CONTEXT_TYPE))
+		GSF_INTERFACE (wbcg_gnm_cmd_context_init, GNM_CMD_CONTEXT_TYPE))
 
 static void
 wbcg_create (WorkbookControlGUI *wbcg,
@@ -2571,6 +2575,7 @@ wbcg_create (WorkbookControlGUI *wbcg,
 	if (sheet != NULL) {
 		wb_control_menu_state_update (wbc, MS_ALL);
 		wb_control_menu_state_sheet_prefs (wbc, sheet);
+		wb_control_update_action_sensitivity (wbc);
 		wb_control_style_feedback (wbc, NULL);
 		wb_control_zoom_feedback (wbc);
 	}

@@ -22,7 +22,7 @@
 #define GOG_GURU_H
 
 #include <goffice/graph/goffice-graph.h>
-#include <goffice/app/goffice-app.h>
+#include <command-context.h>
 #include <gtk/gtkwindow.h>
 
 G_BEGIN_DECLS
@@ -32,7 +32,7 @@ G_BEGIN_DECLS
 /* typedef void (*GogGuruRegister) (GogGraph *graph, gpointer user); */
 
 GtkWidget *gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
-		     GOCmdContext *cc, GtkWindow *toplevel,
+		     GnmCmdContext *cc, GtkWindow *toplevel,
 		     GClosure *closure);
 
 G_END_DECLS

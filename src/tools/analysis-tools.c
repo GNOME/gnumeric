@@ -1458,7 +1458,7 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 			if (info->periodic) {
 				if ((info->size < 0) || (info->size > data_len)) {
 					destroy_data_set_list (data);
-					go_cmd_context_error_calc (GO_CMD_CONTEXT (info->base.wbc),
+					gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->base.wbc),
 						_("The requested sample size is too large for a periodic sample."));
 					return TRUE;
 				}
@@ -3322,7 +3322,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	if (y_data->data->len != ((data_set_t *)g_ptr_array_index (x_data, 0))->data->len) {
 		destroy_data_set (y_data);
 		destroy_data_set_list (x_data);
-		go_cmd_context_error_calc (GO_CMD_CONTEXT (info->base.wbc),
+		gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->base.wbc),
 			_("There must be an equal number of entries for each variable in the regression."));
 		info->base.err = analysis_tools_reported_err_input;
 		return TRUE;
@@ -3375,7 +3375,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		g_free (res);
 		switch (regerr) {
 		case REG_not_enough_data:
-			go_cmd_context_error_calc (GO_CMD_CONTEXT (info->base.wbc),
+			gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->base.wbc),
 					 _("There are too few data points to conduct this "
 					   "regression.\nThere must be at least as many "
 					   "data points as free variables."));
@@ -3383,7 +3383,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 			break;
 
 		case REG_near_singular_bad:
-			go_cmd_context_error_calc (GO_CMD_CONTEXT (info->base.wbc),
+			gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->base.wbc),
 					 _("Two or more of the independent variables "
 					   "are nearly linearly\ndependent.  All numerical "
 					   "precision was lost in the computation."));
@@ -3391,7 +3391,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 			break;
 
 		case REG_singular:
-			go_cmd_context_error_calc (GO_CMD_CONTEXT (info->base.wbc),
+			gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->base.wbc),
 					 _("Two or more of the independent variables "
 					   "are linearly\ndependent, and the regression "
 					   "cannot be calculated.\n\nRemove one of these\n"
@@ -3401,7 +3401,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 
 		case REG_invalid_data:
 		case REG_invalid_dimensions:
-			go_cmd_context_error_calc (GO_CMD_CONTEXT (info->base.wbc),
+			gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->base.wbc),
 					 _("There must be an equal number of entries "
 					   "for each variable in the regression."));
 			info->base.err = analysis_tools_reported_err_input;
@@ -3573,7 +3573,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	g_free (res);
 
 	if (regerr == REG_near_singular_good) 
-		go_cmd_context_error_calc (GO_CMD_CONTEXT (info->base.wbc),
+		gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->base.wbc),
 			_("Two or more of the independent variables "
 			  "are nearly linearly\ndependent.  Treat the "
 			  "regression result with great care!"));
@@ -4478,7 +4478,7 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 	    check_data_for_missing (col_data)) {
 		destroy_data_set_list (row_data);
 		destroy_data_set_list (col_data);
-		go_cmd_context_error_calc (GO_CMD_CONTEXT (info->wbc),
+		gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->wbc),
 			_("The input range contains non-numeric data."));
 		return TRUE;
 	}
@@ -4696,7 +4696,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 	}
 
 	if (empty_sample) {
-		go_cmd_context_error_calc (GO_CMD_CONTEXT (info->wbc),
+		gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->wbc),
 				 _("One of the factor combinations does not contain "
 				   "any observations!"));
 		return_value =  TRUE;

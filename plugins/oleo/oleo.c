@@ -29,7 +29,6 @@
 #include <gsf/gsf-input-textline.h>
 
 #include <string.h>
-#include <stdlib.h>
 
 #define OLEO_DEBUG 0
 

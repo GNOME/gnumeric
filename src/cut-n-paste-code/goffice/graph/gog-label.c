@@ -97,7 +97,7 @@ gog_label_finalize (GObject *obj)
 }
 
 static gpointer
-gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, GOCmdContext *cc)
+gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 {
 	static guint label_pref_page = 0;
 	GtkWidget *notebook = gtk_notebook_new ();
@@ -229,7 +229,7 @@ gog_label_view_render (GogView *view, GogViewAllocation const *bbox)
 				rect = view->allocation;
 				rect.w = req.w + 2. * outline + pad_x;
 				rect.h = req.h + 2. * outline + pad_y;
-				gog_renderer_draw_rectangle (view->renderer, &rect, NULL);
+				gog_renderer_draw_sharp_rectangle (view->renderer, &rect, NULL);
 			}
 			gog_renderer_draw_text (view->renderer, text,
 						&view->residual, GTK_ANCHOR_NW, NULL);

@@ -37,8 +37,6 @@
 #include <application.h>
 #include <gnumeric-gconf.h>
 
-#include <goffice/gui-utils/go-gui-utils.h>
-#include <goffice/app/go-cmd-context.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glade/glade.h>
 #include <gtk/gtktreestore.h>
@@ -119,8 +117,6 @@ dialog_function_write_recent_func (FunctionSelectState *state, GnmFunc const *fd
 	}
 	gnm_gconf_set_recent_funcs (gconf_value_list);
 	go_conf_sync ();
-	g_slist_foreach (gconf_value_list, (GFunc)g_free, NULL);
-	g_slist_free (gconf_value_list);
 }
 
 
@@ -508,8 +504,8 @@ dialog_function_select (WorkbookControlGUI *wbcg, char const *key)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, FUNCTION_SELECT_KEY))
 		return;
-	gui = go_libglade_new ("function-select.glade", NULL, NULL,
-			       GO_CMD_CONTEXT (wbcg));
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+		"function-select.glade", NULL, NULL);
         if (gui == NULL)
 		return;
 

@@ -42,7 +42,7 @@ typedef struct {
 	GogStyledObjectClass base;
 	
 	/* Virtuals */
-	gpointer (*gse_editor) (GogObject *gobj, GOCmdContext *cc);
+	gpointer (*gse_editor) (GogObject *gobj, GnmCmdContext *cc);
 } GogSeriesElementClass;
 
 #define GOG_SERIES_ELEMENT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_SERIES_ELEMENT_TYPE, GogSeriesElementClass))
@@ -90,7 +90,7 @@ typedef struct {
 
 	/* Virtuals */
 	void (*dim_changed) (GogSeries *series, int dim_i);
-	void (*populate_editor) (GogSeries *series, GtkNotebook* book, GogDataAllocator *dalloc, GOCmdContext *cc);
+	void (*populate_editor) (GogSeries *series, GtkNotebook* book, GogDataAllocator *dalloc, GnmCmdContext *cc);
 } GogSeriesClass;
 
 #define GOG_SERIES_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_SERIES_TYPE, GogSeriesClass))

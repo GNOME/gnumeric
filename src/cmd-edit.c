@@ -337,7 +337,7 @@ cmd_paste (WorkbookControl *wbc, GnmPasteTarget const *pt)
 				(dst.end.row - dst.start.row)+1,
 				(dst.end.col - dst.start.col)+1,
 				rows+1, cols+1);
-			go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),
+			gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc),
 				_("Unable to paste into selection"), msg);
 			g_free (msg);
 			return;
@@ -375,7 +375,7 @@ cmd_paste_to_selection (WorkbookControl *wbc, SheetView *dest_sv, int paste_flag
 	GnmRange const *r;
 	GnmPasteTarget pt;
 
-	if (!(r = selection_first_range (dest_sv, GO_CMD_CONTEXT (wbc), _("Paste"))))
+	if (!(r = selection_first_range (dest_sv, GNM_CMD_CONTEXT (wbc), _("Paste"))))
 		return;
 
 	g_return_if_fail (r !=NULL);

@@ -1651,6 +1651,7 @@ scg_mode_clear (SheetControlGUI *scg)
 		scg->new_object = NULL;
 	}
 	scg_object_unselect (scg, NULL);
+	wb_control_update_action_sensitivity (sc_wbc (SHEET_CONTROL (scg)));
 
 	return TRUE;
 }
@@ -1673,14 +1674,14 @@ scg_mode_edit (SheetControl *sc)
 	scg_mode_clear (scg);
 
 	/* During destruction we have already been disconnected
-	 * so don't bother changing the cursor
-	 */
+	 * so don't bother changing the cursor */
 	if (sc->sheet != NULL && sc->view != NULL) {
 		scg_set_display_cursor (scg);
 		scg_cursor_visible (scg, TRUE);
 	}
 
-	if (scg->wbcg != NULL && wbcg_edit_get_guru (scg->wbcg) != NULL)
+	if (scg->wbcg != NULL && wbcg_edit_get_guru (scg->wbcg) != NULL &&
+	    scg == wbcg_cur_scg	(scg->wbcg))
 		wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
 }
 
@@ -1702,6 +1703,7 @@ scg_mode_create_object (SheetControlGUI *scg, SheetObject *so)
 		scg_cursor_visible (scg, FALSE);
 		scg_take_focus (scg);
 		scg_set_display_cursor (scg);
+		wb_control_update_action_sensitivity (sc_wbc (SHEET_CONTROL (scg)));
 	}
 }
 
@@ -1757,7 +1759,7 @@ scg_object_select (SheetControlGUI *scg, SheetObject *so)
 		scg->selected_objects = g_hash_table_new_full (
 			g_direct_hash, g_direct_equal,
 			(GDestroyNotify) g_object_unref, (GDestroyNotify) g_free);
-		wb_control_edit_set_sensitive (sc_wbc (SHEET_CONTROL (scg)), FALSE, FALSE);
+		wb_control_update_action_sensitivity (sc_wbc (SHEET_CONTROL (scg)));
 	} else {
 		g_return_if_fail (g_hash_table_lookup (scg->selected_objects, so) == NULL);
 		g_object_ref (so);
@@ -1826,7 +1828,7 @@ scg_object_unselect (SheetControlGUI *scg, SheetObject *so)
 	g_hash_table_destroy (scg->selected_objects);
 	scg->selected_objects = NULL;
 	scg_mode_edit (SHEET_CONTROL (scg));
-	wb_control_edit_set_sensitive (sc_wbc (SHEET_CONTROL (scg)), TRUE, TRUE);
+	wb_control_update_action_sensitivity (sc_wbc (SHEET_CONTROL (scg)));
 }
 
 typedef struct {
@@ -1932,13 +1934,27 @@ typedef struct {
 	GSList *objects, *anchors;
 } CollectObjectsData;
 static void
-cb_collect_objects (SheetObject *so, double *coords, CollectObjectsData *data)
+cb_collect_objects_to_commit (SheetObject *so, double *coords, CollectObjectsData *data)
 {
 	SheetObjectAnchor *anchor = g_new0 (SheetObjectAnchor, 1);
 	sheet_object_anchor_cpy	(anchor, sheet_object_get_anchor (so));
 	scg_object_coords_to_anchor (data->scg, coords, anchor);
 	data->objects = g_slist_prepend (data->objects, so);
 	data->anchors = g_slist_prepend (data->anchors, anchor);
+
+	if (!sheet_object_rubber_band_directly (so)) {
+		SCG_FOREACH_PANE (data->scg, pane, {
+			FooCanvasItem **ctrl_pts = g_hash_table_lookup (pane->drag.ctrl_pts, so);
+			if (NULL != ctrl_pts[9]) {
+				double const *pts = g_hash_table_lookup (
+					pane->gcanvas->simple.scg->selected_objects, so);
+				gtk_object_destroy (GTK_OBJECT (ctrl_pts[9]));
+				ctrl_pts[9] = NULL;
+				sheet_object_view_set_bounds (sheet_object_get_view (so, (SheetObjectViewContainer *)pane),
+					pts, TRUE);
+			}
+		});
+	}
 }
 
 void
@@ -1949,7 +1965,7 @@ scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
 	data.objects = data.anchors = NULL;
 	data.scg = scg;
 	g_hash_table_foreach (scg->selected_objects,
-		(GHFunc) cb_collect_objects, &data);
+		(GHFunc) cb_collect_objects_to_commit, &data);
 	cmd_objects_move (WORKBOOK_CONTROL (scg_get_wbcg (scg)),
 		data.objects, data.anchors, created_objects,
 		created_objects /* This is somewhat cheesy and should use ngettext */
@@ -1958,9 +1974,9 @@ scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
 }
 
 void
-scg_objects_nudge (SheetControlGUI *scg, int drag_type, int dx, int dy)
+scg_objects_nudge (SheetControlGUI *scg, int drag_type, int dx, int dy, gboolean symmetric)
 {
-	scg_objects_drag (scg, NULL, dx, dy, drag_type, FALSE);
+	scg_objects_drag (scg, NULL, dx, dy, drag_type, symmetric);
 	scg_objects_drag_commit (scg, drag_type, FALSE);
 }
 
@@ -2568,6 +2584,9 @@ scg_cursor_extend (SheetControlGUI *scg, int n,
 	SheetView *sv = ((SheetControl *) scg)->view;
 	GnmCellPos move = sv->cursor.move_corner;
 	GnmCellPos visible = scg->pane[0].gcanvas->first;
+
+	if (!wbcg_edit_finish (scg->wbcg, WBC_EDIT_ACCEPT, NULL))
+		return;
 
 	if (horiz)
 		visible.col = move.col = sheet_find_boundary_horizontal (sv->sheet,

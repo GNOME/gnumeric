@@ -746,6 +746,9 @@ cell_format_classify (GnmFormat const *sf, FormatCharacteristics *info)
 	if (g_ascii_strcasecmp (sf->format, cell_format_general[0]) == 0)
 		return FMT_GENERAL;
 
+	if (fmt[0] == '@' && fmt[1] == '[')
+		return FMT_MARKUP;
+
 	/* Can we parse it ? */
 	if ((res = cell_format_is_number (fmt, info)) != FMT_UNKNOWN)
 		return res;

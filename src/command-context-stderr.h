@@ -2,7 +2,6 @@
 #define GNUMERIC_COMMAND_CONTEXT_STDERR_H
 
 #include "gnumeric.h"
-#include <goffice/app/go-cmd-context.h>
 #include <glib-object.h>
 
 #define CMD_CONTEXT_STDERR_TYPE		(cmd_context_stderr_get_type ())
@@ -12,7 +11,7 @@
 typedef struct _CmdContextStderr CmdContextStderr;
 
 GType		cmd_context_stderr_get_type   (void);
-GOCmdContext   *cmd_context_stderr_new	      (void);
+GnmCmdContext  *cmd_context_stderr_new	      (void);
 void		cmd_context_stderr_set_status (CmdContextStderr *, int status);
 int		cmd_context_stderr_get_status (CmdContextStderr *);
 

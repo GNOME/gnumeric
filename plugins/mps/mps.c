@@ -65,24 +65,24 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /* Writes a string into a cell. */
 static inline void
-mps_set_cell (Sheet *sheet, int col, int row, const gchar *str)
+mps_set_cell (Sheet *sh, int col, int row, const gchar *str)
 {
-        GnmCell *cell = sheet_cell_fetch (sheet, col, row);
+        GnmCell *cell = sheet_cell_fetch (sh, col, row);
 
         sheet_cell_set_value (cell, value_new_string (str));
 }
 
 /* Writes a float into a cell. */
 static inline void
-mps_set_cell_float (Sheet *sheet, int col, int row, const gnm_float f)
+mps_set_cell_float (Sheet *sh, int col, int row, const gnm_float f)
 {
-        GnmCell *cell = sheet_cell_fetch (sheet, col, row);
+        GnmCell *cell = sheet_cell_fetch (sh, col, row);
 
         sheet_cell_set_value (cell, value_new_float (f));
 }
 
 static void
-mps_set_style (Sheet *sheet, int c1, int r1, int c2, int r2,
+mps_set_style (Sheet *sh, int c1, int r1, int c2, int r2,
 	       gboolean italic, gboolean bold, gboolean ulined)
 {
         GnmStyle *mstyle;
@@ -93,7 +93,7 @@ mps_set_style (Sheet *sheet, int c1, int r1, int c2, int r2,
 	mstyle_set_font_italic (mstyle, italic);
 	mstyle_set_font_bold   (mstyle, bold);
 	mstyle_set_font_uline  (mstyle, ulined);
-	sheet_style_apply_range (sheet, &range, mstyle);
+	sheet_style_apply_range (sh, &range, mstyle);
 }
 
 /* Callback for the hash table mapping. */
@@ -108,7 +108,7 @@ put_into_index (gpointer key, gpointer value, gpointer user_data)
 
 /* Make the constraint coefficient matrix and other preparations. */
 static void
-mps_prepare (Sheet *sheet, MpsInputContext *ctxt)
+mps_prepare (WorkbookView *wbv, MpsInputContext *ctxt)
 {
         gint i, n, col;
         GSList *current, *tmp;
@@ -154,7 +154,7 @@ mps_prepare (Sheet *sheet, MpsInputContext *ctxt)
 
 		ctxt->matrix[ctxt->n_rows][bound->col_index] = 1.0;
 
-		mps_set_cell_float (sheet, col + 3,
+		mps_set_cell_float (wbv->current_sheet, col + 3,
 				    i-- + CONSTRAINT_ROW,
 				    bound->value);
 
@@ -167,7 +167,7 @@ mps_prepare (Sheet *sheet, MpsInputContext *ctxt)
 
 
 static void
-mps_write_sheet_labels (MpsInputContext *ctxt, Sheet *sheet)
+mps_write_sheet_labels (MpsInputContext *ctxt, Sheet *sh)
 {
 	int i, row, col, inc;
 	int n_rows_per_fn;
@@ -178,61 +178,61 @@ mps_write_sheet_labels (MpsInputContext *ctxt, Sheet *sheet)
 
 	/* Print 'Program Name'. */
 	n_rows_per_fn = (ctxt->n_cols + MAX_COL - 1) / MAX_COL;
-	mps_set_cell (sheet, MAIN_INFO_COL, MAIN_INFO_ROW - 1, _("Program Name"));
-	mps_set_style (sheet, MAIN_INFO_COL, MAIN_INFO_ROW - 1,
+	mps_set_cell (sh, MAIN_INFO_COL, MAIN_INFO_ROW - 1, _("Program Name"));
+	mps_set_style (sh, MAIN_INFO_COL, MAIN_INFO_ROW - 1,
 		       MAIN_INFO_COL + 5, MAIN_INFO_ROW - 1,
 		       FALSE, TRUE, FALSE);
 
 	/* Print 'Status'. */
-	mps_set_cell (sheet, MAIN_INFO_COL + 3, MAIN_INFO_ROW - 1, _("Feasible"));
+	mps_set_cell (sh, MAIN_INFO_COL + 3, MAIN_INFO_ROW - 1, _("Feasible"));
 
 	/* Names of the variables. */
 	row = VARIABLE_ROW - 1;
 	if (n_rows_per_fn == 1) {
 		for (i = 0; i < ctxt->n_cols; i++)
-			mps_set_cell (sheet, VARIABLE_COL + i, row,
+			mps_set_cell (sh, VARIABLE_COL + i, row,
 				      ctxt->col_name_tbl [i]);
 	} else {
 		GString *buf;
 		for (i = 0; i < MAX_COL; i++) {
 			buf = g_string_new (NULL);
 			g_string_append_printf (buf, "C[%d]", i + 1);
-			mps_set_cell (sheet, VARIABLE_COL + i, row, buf->str);
+			mps_set_cell (sh, VARIABLE_COL + i, row, buf->str);
 			g_string_free (buf, FALSE);
 		}
 
 		for (i = 0; i < n_rows_per_fn; i++) {
 			buf = g_string_new (NULL);
 			g_string_append_printf (buf, "R[%d]", i + 1);
-			mps_set_cell (sheet, VARIABLE_COL - 1, row + i + 1,
+			mps_set_cell (sh, VARIABLE_COL - 1, row + i + 1,
 				      buf->str);
 			g_string_free (buf, FALSE);
 		}
-		mps_set_style (sheet, VARIABLE_COL - 1, row,
+		mps_set_style (sh, VARIABLE_COL - 1, row,
 			       VARIABLE_COL - 1, row + n_rows_per_fn,
 			       FALSE, TRUE, FALSE);
 	}
-	mps_set_style (sheet, VARIABLE_COL, row, VARIABLE_COL + MAX_COL,
+	mps_set_style (sh, VARIABLE_COL, row, VARIABLE_COL + MAX_COL,
 		       row, FALSE, TRUE, FALSE);
 
 
 	/* Print 'Objective value'. */
-	mps_set_cell (sheet, MAIN_INFO_COL + 1, MAIN_INFO_ROW - 1,
+	mps_set_cell (sh, MAIN_INFO_COL + 1, MAIN_INFO_ROW - 1,
 		      _("Objective Value"));
 
 	inc = n_rows_per_fn * 2;
 
 	/* Print 'Objective function:' */
-	mps_set_cell (sheet, VARIABLE_COL, VARIABLE_ROW - 2,
+	mps_set_cell (sh, VARIABLE_COL, VARIABLE_ROW - 2,
 		      _("Objective function:"));
-	mps_set_style (sheet, VARIABLE_COL, VARIABLE_ROW - 2,
+	mps_set_style (sh, VARIABLE_COL, VARIABLE_ROW - 2,
 		       VARIABLE_COL, VARIABLE_ROW - 2,
 		       FALSE, TRUE, TRUE);
 
 	/* Print 'Constraints:'. */
-	mps_set_cell (sheet, CONSTRAINT_COL, CONSTRAINT_ROW - 2 + inc,
+	mps_set_cell (sh, CONSTRAINT_COL, CONSTRAINT_ROW - 2 + inc,
 		      _("Constraints:"));
-	mps_set_style (sheet, CONSTRAINT_COL, CONSTRAINT_ROW - 2 + inc,
+	mps_set_style (sh, CONSTRAINT_COL, CONSTRAINT_ROW - 2 + inc,
 		       CONSTRAINT_COL, CONSTRAINT_ROW - 2 + inc,
 		       FALSE, TRUE, TRUE);
 
@@ -242,23 +242,23 @@ mps_write_sheet_labels (MpsInputContext *ctxt, Sheet *sheet)
 
 	/* Name field. */
 	row = CONSTRAINT_ROW - 1 + inc;
-	mps_set_cell (sheet, CONSTRAINT_COL - 1, row, _("Name"));
+	mps_set_cell (sh, CONSTRAINT_COL - 1, row, _("Name"));
 
 	/* Names of the variables. */
 	if (n_rows_per_fn == 1) {
 		for (i = 0; i < ctxt->n_cols; i++)
-			mps_set_cell (sheet, CONSTRAINT_COL + i, row,
+			mps_set_cell (sh, CONSTRAINT_COL + i, row,
 				      ctxt->col_name_tbl [i]);
 	} else {
 		GString *buf;
 		for (i = 0; i < MAX_COL; i++) {
 			buf = g_string_new (NULL);
 			g_string_append_printf (buf, "C[%d]", i + 1);
-			mps_set_cell (sheet, CONSTRAINT_COL + i, row, buf->str);
+			mps_set_cell (sh, CONSTRAINT_COL + i, row, buf->str);
 			g_string_free (buf, FALSE);
 		}
 	}
-	mps_set_style (sheet, CONSTRAINT_COL - 1, row,
+	mps_set_style (sh, CONSTRAINT_COL - 1, row,
 		       CONSTRAINT_COL + MAX_COL + 5,
 		       row, FALSE, TRUE, FALSE);
 
@@ -269,15 +269,15 @@ mps_write_sheet_labels (MpsInputContext *ctxt, Sheet *sheet)
 	else
 		col = CONSTRAINT_COL + MAX_COL - 1;
 
-	mps_set_cell (sheet, col + 1, row, _("Value"));
-	mps_set_cell (sheet, col + 2, row, _("Type"));
-	mps_set_cell (sheet, col + 3, row, _("RHS"));
-	mps_set_cell (sheet, col + 4, row, _("Slack"));
+	mps_set_cell (sh, col + 1, row, _("Value"));
+	mps_set_cell (sh, col + 2, row, _("Type"));
+	mps_set_cell (sh, col + 3, row, _("RHS"));
+	mps_set_cell (sh, col + 4, row, _("Slack"));
 }
 
 
 static void
-mps_write_coefficients (MpsInputContext *ctxt, Sheet *sheet,
+mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 			SolverParameters *param)
 {
 	GSList  *current;
@@ -300,9 +300,9 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sheet,
 	else
 		ecol = CONSTRAINT_COL + MAX_COL - 1;
 	for (i = 0; i < ctxt->n_cols; i++) {
-		  mps_set_cell_float (sheet, VARIABLE_COL + i % MAX_COL,
+		  mps_set_cell_float (sh, VARIABLE_COL + i % MAX_COL,
 				      VARIABLE_ROW + (i / MAX_COL), 0.0);
-		  mps_set_cell_float (sheet, VARIABLE_COL + i % MAX_COL,
+		  mps_set_cell_float (sh, VARIABLE_COL + i % MAX_COL,
 				      VARIABLE_ROW + n_rows_per_fn
 				      + (i / MAX_COL) + 1,
 		           ctxt->matrix[ctxt->objective_row->index][i]);
@@ -350,7 +350,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sheet,
 		  r   = CONSTRAINT_ROW  +  i * n_rows_per_fn  +  inc2;
 		  
 		  /* Add row name. */
-		  mps_set_cell (sheet, col - 1, r, row->name);
+		  mps_set_cell (sh, col - 1, r, row->name);
 
 		  /* Coefficients. */
 		  for (n = 0; n < ctxt->n_cols; n++)
@@ -361,16 +361,16 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sheet,
 			  if (ctxt->matrix [row->index][n] != 0)
 #endif
 				  mps_set_cell_float
-					  (sheet, col + n % MAX_COL,
+					  (sh, col + n % MAX_COL,
 					   r + n / MAX_COL,
 					   ctxt->matrix[row->index][n]);
 
 		  /* Add Type field. */
-		  mps_set_cell (sheet, ecol + 2, r, type_str[(int) row->type]);
+		  mps_set_cell (sh, ecol + 2, r, type_str[(int) row->type]);
 
 
 		  /* Add RHS field (zero). */
-		  mps_set_cell_float (sheet, ecol + 3, r, 0);
+		  mps_set_cell_float (sh, ecol + 3, r, 0);
 
 
 		  /* Add LHS field using SUMPRODUCT function. */
@@ -383,21 +383,21 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sheet,
 			  ((GList *) args, (gpointer) gnm_expr_new_constant
 				 (value_new_cellrange_r (NULL, &range)));
 
-		  cell = sheet_cell_fetch (sheet, ecol + 1, r);
+		  cell = sheet_cell_fetch (sh, ecol + 1, r);
 		  expr = (GnmExpr *) gnm_expr_new_funcall
 			  (gnm_func_lookup ("SUMPRODUCT", NULL), args);
 		  cell_set_expr (cell, expr);
 		  cell_queue_recalc (cell);
 
 		  /* Add Slack calculation */
-		  cellref_init (&ref1, sheet, ecol + 1, r, FALSE);
-		  cellref_init (&ref2, sheet, ecol + 3, r, FALSE);
+		  cellref_init (&ref1, sh, ecol + 1, r, FALSE);
+		  cellref_init (&ref2, sh, ecol + 3, r, FALSE);
 		  expr = (GnmExpr *) gnm_expr_new_binary
 			  (gnm_expr_new_cellref (&ref1),
 			   GNM_EXPR_OP_SUB,
 			   gnm_expr_new_cellref (&ref2));
 		  args = (GnmExprList *) g_list_append (NULL, (gpointer) expr);
-		  cell = sheet_cell_fetch (sheet, ecol + 4, r);
+		  cell = sheet_cell_fetch (sh, ecol + 4, r);
 		  expr = (GnmExpr *) gnm_expr_new_funcall
 			  (gnm_func_lookup ("ABS", NULL), args);
 		  cell_set_expr (cell, expr);
@@ -428,7 +428,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sheet,
 	while (current != NULL) {
 	          MpsRhs *rhs = (MpsRhs *) current->data;
 
-		  mps_set_cell_float (sheet, ecol + 3,
+		  mps_set_cell_float (sh, ecol + 3,
 				      r + rhs->row->index * n_rows_per_fn,
 				      rhs->value);
 		  current = current->next;
@@ -444,7 +444,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sheet,
 			   var_range[0]->str,
 			   range_name (&range));
 
-	cell = sheet_cell_fetch (sheet, OBJECTIVE_VALUE_COL, MAIN_INFO_ROW);
+	cell = sheet_cell_fetch (sh, OBJECTIVE_VALUE_COL, MAIN_INFO_ROW);
 	sheet_cell_set_text (cell, buf->str, NULL);
 	g_string_free (buf, FALSE);
 
@@ -462,21 +462,22 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sheet,
 
 /* Creates the spreadsheet model. */
 static void
-mps_create_sheet (MpsInputContext *ctxt, Workbook *wb)
+mps_create_sheet (MpsInputContext *ctxt, WorkbookView *wbv)
 {
-        Sheet *sheet = workbook_sheet_add (wb, NULL, FALSE);
-	SolverParameters *param = sheet->solver_parameters;
-	gint   i;
-	int    n_rows_per_fn = (ctxt->n_cols + MAX_COL - 1) / MAX_COL;
+        Sheet            *sh = wbv->current_sheet;
+	gint             i;
+	int              n_rows_per_fn;
+	SolverParameters *param = sh->solver_parameters;
 
-	mps_prepare (sheet, ctxt);
+	n_rows_per_fn = (ctxt->n_cols + MAX_COL - 1) / MAX_COL;
+	mps_prepare (wbv, ctxt);
 
-	mps_write_sheet_labels (ctxt, sheet);
-	mps_write_coefficients (ctxt, sheet, param);
+	mps_write_sheet_labels (ctxt, sh);
+	mps_write_coefficients (ctxt, sh, param);
 
 	/* Print the name of the objective function */
 	if (ctxt->n_cols < MAX_COL)
-		mps_set_cell (sheet, VARIABLE_COL - 1,
+		mps_set_cell (sh, VARIABLE_COL - 1,
 			      VARIABLE_ROW + 1 + n_rows_per_fn,
 			      ctxt->objective_row->name);
 	else {
@@ -484,29 +485,29 @@ mps_create_sheet (MpsInputContext *ctxt, Workbook *wb)
 			GString *buf = g_string_new (NULL);
 			g_string_append_printf (buf, "%s (R[%d])",
 					   ctxt->objective_row->name, i+1);
-			mps_set_cell (sheet, VARIABLE_COL - 1,
+			mps_set_cell (sh, VARIABLE_COL - 1,
 				      VARIABLE_ROW + 1 + i + n_rows_per_fn,
 				      buf->str);
 			g_string_free (buf, FALSE);
 		}
 	}
 
-	param->target_cell = sheet_cell_fetch (sheet, OBJECTIVE_VALUE_COL,
+	param->target_cell = sheet_cell_fetch (sh, OBJECTIVE_VALUE_COL,
 					       MAIN_INFO_ROW);
 	param->problem_type = SolverMinimize;
 
 	/* Write the name of the program. */
 	if (ctxt->name != NULL)
-		mps_set_cell (sheet, MAIN_INFO_COL, MAIN_INFO_ROW, ctxt->name);
+		mps_set_cell (sh, MAIN_INFO_COL, MAIN_INFO_ROW, ctxt->name);
 
 
 	/* Autofit column A */
-	i = sheet_col_size_fit_pixels (sheet, 0);
+	i = sheet_col_size_fit_pixels (sh, 0);
 	if (i == 0)
 	          return;
-	sheet_col_set_size_pixels (sheet, 0, i, TRUE);
-	sheet_recompute_spans_for_col (sheet, 0);
-	workbook_recalc (sheet->workbook);
+	sheet_col_set_size_pixels (sh, 0, i, TRUE);
+	sheet_recompute_spans_for_col (sh, 0);
+	workbook_recalc (sh->workbook);
 }
 
 
@@ -638,18 +639,20 @@ mps_input_context_destroy (MpsInputContext *ctxt)
 
 void
 mps_file_open (GnmFileOpener const *fo, IOContext *io_context,
-               GODoc *doc, GsfInput *input)
+               WorkbookView *wbv, GsfInput *input)
 {
         MpsInputContext *ctxt;
 
-	ctxt = mps_input_context_new (io_context, WORKBOOK (doc), input);
+	ctxt = mps_input_context_new (io_context, wb_view_workbook (wbv),
+				      input);
 	if (ctxt != NULL) {
 	        mps_parse_file (ctxt);
-		if (gnumeric_io_error_occurred (io_context))
-		        gnumeric_io_error_push (io_context,
-				error_info_new_str (_("Error while reading MPS file.")));
-		else
-			mps_create_sheet (ctxt, WORKBOOK (doc));
+		if (gnumeric_io_error_occurred (io_context)) {
+		        gnumeric_io_error_push (io_context, error_info_new_str
+						(_("Error while reading MPS "
+						   "file.")));
+		} else
+			mps_create_sheet (ctxt, wbv);
 		mps_input_context_destroy (ctxt);
 	} else if (!gnumeric_io_error_occurred (io_context))
 		gnumeric_io_error_unknown (io_context);

@@ -203,21 +203,25 @@ char *
 go_conf_get_short_desc (char const *key)
 {
 	GConfSchema *schema = get_schema (key);
-	char *desc = g_strdup ((schema == NULL) ? 
-			       "" : gconf_schema_get_short_desc (schema));
-	if (schema != NULL)
+
+	if (schema != NULL) {
+		char *desc = g_strdup (gconf_schema_get_short_desc (schema));
 		gconf_schema_free (schema);
-	return desc;
+		return desc;
+	}
+	return NULL;
 }
 char *
 go_conf_get_long_desc  (char const *key)
 {
 	GConfSchema *schema = get_schema (key);
-	char *desc = g_strdup ((schema == NULL) ? 
-			       "" : gconf_schema_get_long_desc (schema));
-	if (schema != NULL)
+
+	if (schema != NULL) {
+		char *desc =  g_strdup (gconf_schema_get_long_desc (schema));
 		gconf_schema_free (schema);
-	return desc;
+		return desc;
+	}
+	return NULL;
 }
 
 GType
@@ -454,12 +458,12 @@ go_conf_load_str_list (G_GNUC_UNUSED char const *key)
 char *
 go_conf_get_short_desc (char const *key)
 {
-	return g_strdup ("Dummy short");
+	return NULL;
 }
 char *
 go_conf_get_long_desc  (char const *key)
 {
-	return g_strdup ("Dummy long");
+	return NULL;
 }
 
 GType
@@ -633,12 +637,12 @@ gnm_conf_init_extras (void)
 	prefs.autoformat.extra_dirs = go_conf_load_str_list (AUTOFORMAT_GCONF_EXTRA_DIRS);
 	tmp = go_conf_load_string (AUTOFORMAT_GCONF_SYS_DIR);
 	if (tmp == NULL)
-		tmp = g_strdup ("autoformat-template");
+		tmp = g_strdup ("autoformat-templates");
 	prefs.autoformat.sys_dir = gnm_sys_data_dir (tmp);
 	g_free (tmp);
 	tmp = go_conf_load_string (AUTOFORMAT_GCONF_USR_DIR);
 	if (tmp == NULL)
-		tmp = g_strdup ("autoformat-template");
+		tmp = g_strdup ("autoformat-templates");
 	prefs.autoformat.usr_dir = gnm_usr_dir (tmp);
 	g_free (tmp);
 
@@ -741,6 +745,22 @@ void
 gnm_gconf_set_recent_funcs (GSList *list)
 {
 	go_conf_set_str_list (FUNCTION_SELECT_GCONF_RECENT, list);
+
+	/* the const_casts are ok, the const in the header is just to keep
+	 * people for doing stupid things */
+	g_slist_foreach ((GSList *)prefs.recent_funcs, (GFunc)g_free, NULL);
+	g_slist_free ((GSList *)prefs.recent_funcs);
+
+	prefs.recent_funcs = list;
+}
+
+void
+gnm_gconf_set_num_recent_functions (gint val)
+{
+	if (val < 0)
+		val = 0;
+	prefs.num_of_recent_funcs = val;
+	go_conf_set_int ( FUNCTION_SELECT_GCONF_NUM_OF_RECENT, val);
 }
 
 void
@@ -757,10 +777,21 @@ gnm_gconf_set_file_history_files (GSList *list)
 }
 
 void
+gnm_gconf_set_file_history_number (gint val)
+{
+	if (val < 0)
+		val = 0;
+	prefs.file_history_max = val; 
+	go_conf_set_int (GNM_CONF_FILE_HISTORY_N, val);
+}
+
+
+void
 gnm_gconf_set_undo_size (gint val)
 {
 	if (val < 1)
 		val = 1;
+	prefs.undo_size = val; 
 	go_conf_set_int (GNM_CONF_UNDO_SIZE, val);
 }
 
@@ -770,6 +801,7 @@ gnm_gconf_set_undo_max_number (gint val)
 {
 	if (val < 1)
 		val = 1;
+	prefs.undo_max_number = val;
 	go_conf_set_int (GNM_CONF_UNDO_MAXNUM, val);
 }
 
@@ -898,5 +930,239 @@ gnm_gconf_set_print_header_formats (GSList *left, GSList *middle,
 	gnm_slist_free_custom (middle, g_free);
 	go_conf_set_str_list (PRINTSETUP_GCONF_HEADER_FORMAT_RIGHT, right);
 	gnm_slist_free_custom (right, g_free);
+}
+
+void     
+gnm_gconf_set_gui_window_x (gnm_float val)
+{
+	prefs.horizontal_window_fraction = val;
+	go_conf_set_double (GNM_CONF_GUI_WINDOW_X, val);
+}
+
+void     
+gnm_gconf_set_gui_window_y (gnm_float val)
+{
+	prefs.vertical_window_fraction = val;
+	go_conf_set_double (GNM_CONF_GUI_WINDOW_Y, val);
+}
+
+void     
+gnm_gconf_set_gui_zoom (gnm_float val)
+{
+	prefs.zoom = val;
+	go_conf_set_double (GNM_CONF_GUI_WINDOW_Y, val);
+}
+
+void     
+gnm_gconf_set_default_font_size (gnm_float val)
+{
+	prefs.default_font.size = val;
+	go_conf_set_double (GNM_CONF_FONT_SIZE, val);
+}
+
+void     
+gnm_gconf_set_default_font_name (char const *str)
+{
+	g_return_if_fail (str != NULL);
+
+	/* the const_casts are ok, the const in the header is just to keep
+	 * people for doing stupid things */
+	if (prefs.default_font.name != NULL)
+		g_free ((char *) prefs.default_font.name);
+	prefs.default_font.name = g_strdup (str);
+	go_conf_set_string (GNM_CONF_FONT_NAME, str);
+}
+
+void     
+gnm_gconf_set_default_font_bold (gboolean val)
+{
+	prefs.default_font.is_bold = val;
+	go_conf_set_bool (GNM_CONF_FONT_BOLD, val);
+}
+
+void     
+gnm_gconf_set_default_font_italic (gboolean val)
+{
+	prefs.default_font.is_italic = val;
+	go_conf_set_bool (GNM_CONF_FONT_ITALIC, val);
+}
+
+void
+gnm_gconf_set_hf_font (GnmStyle const *mstyle)
+{
+	GnmStyle *old_style = (prefs.printer_decoration_font != NULL) ?
+		prefs.printer_decoration_font :
+		mstyle_new_default ();
+	
+	prefs.printer_decoration_font = mstyle_copy_merge (old_style, mstyle);
+	mstyle_unref (old_style);
+	
+	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_SIZE))
+		go_conf_set_double (PRINTSETUP_GCONF_HF_FONT_SIZE,
+			mstyle_get_font_size (mstyle));
+	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_NAME))
+		go_conf_set_string (PRINTSETUP_GCONF_HF_FONT_NAME,
+			mstyle_get_font_name (mstyle));
+	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_BOLD))
+		go_conf_set_bool (PRINTSETUP_GCONF_HF_FONT_BOLD,
+			mstyle_get_font_bold (mstyle));
+	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
+		go_conf_set_bool (PRINTSETUP_GCONF_HF_FONT_ITALIC,
+			mstyle_get_font_italic (mstyle));
+}
+
+
+void
+gnm_gconf_set_max_descriptor_width (gint val)
+{
+	if (val < 1)
+		val = 1;
+	prefs.max_descriptor_width = val;
+	go_conf_set_int (GNM_CONF_UNDO_MAX_DESCRIPTOR_WIDTH, val);
+}
+
+void
+gnm_gconf_set_sort_dialog_max_initial (gint val)
+{
+	if (val < 1)
+		val = 1;
+	prefs.sort_max_initial_clauses = val;
+	go_conf_set_int (GNM_CONF_SORT_DIALOG_MAX_INITIAL, val);
+}
+
+void
+gnm_gconf_set_workbook_nsheets (gint val)
+{
+	if (val < 1)
+		val = 1;
+	prefs.initial_sheet_number = val;
+	go_conf_set_int (GNM_CONF_WORKBOOK_NSHEETS, val);
+}
+
+void
+gnm_gconf_set_xml_compression (gint val)
+{
+	if (val < 0)
+		val = 0;
+	prefs.xml_compression_level = val;
+	go_conf_set_int (GNM_CONF_XML_COMPRESSION, val);
+}
+
+void     
+gnm_gconf_set_show_sheet_name (gboolean val)
+{
+	prefs.show_sheet_name = val;
+	go_conf_set_bool( GNM_CONF_UNDO_SHOW_SHEET_NAME, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_latex_use_utf8 (gboolean val)
+{
+	prefs.latex_use_utf8 = val;
+	go_conf_set_bool( PLUGIN_GCONF_LATEX_USE_UTF8, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_sort_retain_form (gboolean val)
+{
+	prefs.sort_default_retain_formats = val;
+	go_conf_set_bool( GNM_CONF_SORT_DEFAULT_RETAIN_FORM, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_sort_by_case (gboolean val)
+{
+	prefs.sort_default_by_case = val;
+	go_conf_set_bool( GNM_CONF_SORT_DEFAULT_BY_CASE, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_sort_ascending (gboolean val)
+{
+	prefs.sort_default_ascending = val;
+	go_conf_set_bool( GNM_CONF_SORT_DEFAULT_ASCENDING, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_gui_transition_keys (gboolean val)
+{
+	prefs.transition_keys = val;
+	go_conf_set_bool( GNM_CONF_GUI_ED_TRANSITION_KEYS, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_gui_livescrolling (gboolean val)
+{
+	prefs.live_scrolling = val;
+	go_conf_set_bool( GNM_CONF_GUI_ED_LIVESCROLLING, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_file_overwrite (gboolean val)
+{
+	prefs.file_overwrite_default_answer = val;
+	go_conf_set_bool( GNM_CONF_FILE_OVERWRITE_DEFAULT, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_file_single_sheet_save (gboolean val)
+{
+	prefs.file_ask_single_sheet_save = val;
+	go_conf_set_bool( GNM_CONF_FILE_SINGLE_SHEET_SAVE, 
+			  val != FALSE);
+}
+
+void    
+gnm_gconf_set_gui_resolution_h (gnm_float val)
+{
+	if (val < 50)
+		val = 50;
+	if (val > 250)
+		val = 250;
+	prefs.horizontal_dpi = val;
+	go_conf_set_double (GNM_CONF_GUI_RES_H, val);
+}
+
+void     
+gnm_gconf_set_gui_resolution_v (gnm_float val)
+{
+	if (val < 50)
+		val = 50;
+	if (val > 250)
+		val = 250;
+	prefs.vertical_dpi = val;
+	go_conf_set_double (GNM_CONF_GUI_RES_V, val);
+}
+
+void     
+gnm_gconf_set_unfocused_rs (gboolean val)
+{
+	prefs.unfocused_range_selection = val;
+	go_conf_set_bool( DIALOGS_GCONF_UNFOCUSED_RS, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_autocomplete (gboolean val)
+{
+	prefs.auto_complete = val;
+	go_conf_set_bool( GNM_CONF_GUI_ED_AUTOCOMPLETE, 
+			  val != FALSE);
+}
+
+void     
+gnm_gconf_set_prefer_clipboard  (gboolean val)
+{
+	prefs.prefer_clipboard_selection = val;
+	go_conf_set_bool( GNM_CONF_CUTANDPASTE_PREFER_CLIPBOARD, 
+			  val != FALSE);
 }
 

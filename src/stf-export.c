@@ -412,6 +412,7 @@ stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 		}
 	}
 
+	g_string_free (separator, TRUE);
 	return TRUE;
 }
 

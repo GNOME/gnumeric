@@ -97,11 +97,11 @@ gog_barcol_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotBarCol");
 }
 
-extern gpointer gog_barcol_plot_pref (GogBarColPlot *barcol, GOCmdContext *cc);
+extern gpointer gog_barcol_plot_pref (GogBarColPlot *barcol, GnmCmdContext *cc);
 static gpointer
 gog_barcol_plot_editor (GogObject *item,
 			G_GNUC_UNUSED GogDataAllocator *dalloc,
-			GOCmdContext *cc)
+			GnmCmdContext *cc)
 {
 	return gog_barcol_plot_pref (GOG_BARCOL_PLOT (item), cc);
 }

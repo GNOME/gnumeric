@@ -4,7 +4,7 @@
 #include "gnumeric.h"
 #include <glib-object.h>
 #include <gsf/gsf.h>
-#include <goffice/app/goffice-app.h>
+
 
 /*
  * File format levels. They are ordered. When we save a file, we
@@ -22,6 +22,22 @@ typedef enum {
 } FileFormatLevel;
 
 /*
+ * File probe level tells file opener (its probe method to be exact), how
+ * hard it should try to recognize the type of the file. File openers may
+ * ignore this or support only some probe levels, but if specifies
+ * "reccomened" behaviour.
+ * Before opening any file we detect its type by calling probe for
+ * every registered file opener (in order of priority) and passing
+ * FILE_PROBE_FILE_NAME as probe level. If none of them recogizes the file,
+ * we increase probe level and try again...
+ */
+typedef enum {
+	FILE_PROBE_FILE_NAME,	/* Test only file name, don't read file contents */
+	FILE_PROBE_CONTENT,	/* Read the whole file if it's necessary */
+	FILE_PROBE_LAST
+} FileProbeLevel;
+
+/*
  * FileSaveScope specifies what information file saver can save in a file.
  * Many savers can save the whole workbook (with all sheets), but others
  * save only current sheet, usually because of file format limitations.
@@ -32,6 +48,59 @@ typedef enum {
 	FILE_SAVE_RANGE,
 	FILE_SAVE_LAST
 } FileSaveScope;
+
+/*
+ * GnmFileOpener
+ */
+
+typedef struct _GnmFileOpenerClass GnmFileOpenerClass;
+
+#define TYPE_GNM_FILE_OPENER             (gnm_file_opener_get_type ())
+#define GNM_FILE_OPENER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GNM_FILE_OPENER, GnmFileOpener))
+#define IS_GNM_FILE_OPENER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GNM_FILE_OPENER))
+
+typedef gboolean (*GnmFileOpenerProbeFunc) (GnmFileOpener const *fo,
+					    GsfInput *input,
+					    FileProbeLevel pl);
+typedef void     (*GnmFileOpenerOpenFunc) (GnmFileOpener const *fo,
+					   IOContext *io_context,
+					   WorkbookView *wbv,
+					   GsfInput *input);
+typedef void     (*GnmFileOpenerOpenFuncWithEnc) (GnmFileOpener const *fo,
+						  gchar const *enc,
+						  IOContext *io_context,
+						  WorkbookView *wbv,
+						  GsfInput *input);
+
+GType gnm_file_opener_get_type (void);
+
+GnmFileOpener *gnm_file_opener_new (char const *id,
+				    char const *description,
+				    GSList *suffixes,
+				    GSList *mimes,
+				    GnmFileOpenerProbeFunc probe_func,
+				    GnmFileOpenerOpenFunc open_func);
+GnmFileOpener *gnm_file_opener_new_with_enc (char const *id,
+					     char const *description,
+					     GSList *suffixes,
+					     GSList *mimes,
+					     GnmFileOpenerProbeFunc probe_func,
+					     GnmFileOpenerOpenFuncWithEnc open_func);
+
+
+gboolean     gnm_file_opener_probe (GnmFileOpener const *fo, GsfInput *input,
+				    FileProbeLevel pl);
+void         gnm_file_opener_open (GnmFileOpener const *fo, gchar const *opt_enc,
+				   IOContext *io_context,
+				   WorkbookView *wbv, GsfInput *input);
+
+char const *gnm_file_opener_get_id		  (GnmFileOpener const *fo);
+char const *gnm_file_opener_get_description	  (GnmFileOpener const *fo);
+gboolean    gnm_file_opener_is_encoding_dependent (GnmFileOpener const *fo);
+gboolean    gnm_file_opener_can_probe		  (GnmFileOpener const *fo,
+						   FileProbeLevel pl);
+GSList const *gnm_file_opener_get_suffixes	  (GnmFileOpener const *fo);
+GSList const *gnm_file_opener_get_mimes	  	  (GnmFileOpener const *fo);
 
 /*
  * GnmFileSaver

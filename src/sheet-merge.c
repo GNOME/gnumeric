@@ -59,7 +59,7 @@ range_row_cmp (GnmRange const *a, GnmRange const *b)
  */
 gboolean
 sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
-		 GOCmdContext *cc)
+		 GnmCmdContext *cc)
 {
 	GSList *test;
 	GnmRange  *r_copy;
@@ -76,7 +76,7 @@ sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
 	test = sheet_merge_get_overlap (sheet, r);
 	if (test != NULL) {
 		if (cc != NULL)
-			go_cmd_context_error (cc, g_error_new (go_error_invalid(), 0,
+			gnm_cmd_context_error (cc, g_error_new (gnm_error_invalid(), 0,
 				_("There is already a merged region that intersects\n%s!%s"),
 				sheet->name_unquoted, range_name (r)));
 		g_slist_free (test);
@@ -159,7 +159,7 @@ sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
  * returns TRUE if there was an error.
  */
 gboolean
-sheet_merge_remove (Sheet *sheet, GnmRange const *r, GOCmdContext *cc)
+sheet_merge_remove (Sheet *sheet, GnmRange const *r, GnmCmdContext *cc)
 {
 	GnmRange   *r_copy;
 	GnmCell    *cell;

@@ -165,7 +165,7 @@ gnm_hlink_cur_wb_activate (GnmHLink *lnk, WorkbookControl *wbc)
 			target = gnm_expr_get_range (nexpr->expr);
 	}
 	if (target == NULL) {
-		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),
+		gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc),
 					_("Link target"),
 					lnk->target);
 		return FALSE;
@@ -225,7 +225,7 @@ gnm_hlink_url_activate (GnmHLink *lnk, WorkbookControl *wbc)
 
 	if (err != NULL) {
 		char *msg = g_strdup_printf(_("Unable to activate the url '%s'"), lnk->target);
-		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), msg, err->message);
+		gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc), msg, err->message);
 		g_free (msg);
 		g_error_free (err);
 	}
@@ -275,7 +275,7 @@ gnm_hlink_external_activate (GnmHLink *lnk, WorkbookControl *wbc)
 #warning TODO
 	if (err != NULL) {
 		char *msg = g_strdup_printf(_("Unable to open '%s'"), lnk->target);
-		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), msg, err->message);
+		gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc), msg, err->message);
 		g_free (msg);
 		g_error_free (err);
 	}

@@ -677,6 +677,7 @@ mstyle_copy_merge (const GnmStyle *orig, const GnmStyle *overlay)
  *
  * Return value: the default style.
  **/
+
 GnmStyle *
 mstyle_new_default (void)
 {

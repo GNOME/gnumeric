@@ -215,9 +215,8 @@ attach_sheet (Workbook *wb, int idx)
 	return sheet;
 }
 
-/* buf was old siag wb / sheet */
 gboolean
-lotus_wk1_read (LotusWk1Read *state)
+lotus_read (LotusWk1Read *state)
 {
 	gboolean result = TRUE;
 	int sheetidx = 0;

@@ -5010,7 +5010,7 @@ while ((c = *(++ptr)) != 0)
     UTF-8 characters, so check backwards from where we are. */
 
 #ifdef SUPPORT_UTF8
-    if (1 /* utf8 */)
+    if (1 /* utf8 */ && ptr != (uschar *)pattern)
       {
       const uschar *lastptr = ptr - 1;
       if ((*lastptr & 0x80) != 0)

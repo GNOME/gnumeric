@@ -38,7 +38,7 @@ void xhtml_range_file_save (GnmFileSaver const *fs, IOContext *io_context,
 			    WorkbookView const  *wb_view, GsfOutput *output);
 
 void html_file_open (GnmFileOpener const *fo, IOContext *io_context, 
-		     GODoc *doc, GsfInput *input);
+		     WorkbookView *wb_view, GsfInput *input);
 
 #define G_PLUGIN_FOR_HTML "GPFH/0.5"
 

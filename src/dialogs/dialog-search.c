@@ -40,10 +40,9 @@
 #include <sheet-object-cell-comment.h>
 #include <selection.h>
 
-#include <goffice/gui-utils/go-gui-utils.h>
-#include <goffice/app/go-cmd-context.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnumeric-lazy-list.h>
+#include <glade/glade.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtkbox.h>
 #include <gtk/gtktreeview.h>
@@ -463,8 +462,8 @@ dialog_search (WorkbookControlGUI *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, SEARCH_KEY))
 		return;
 
-	gui = go_libglade_new ("search.glade", NULL, NULL,
-			       GO_CMD_CONTEXT (wbcg));
+	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+		"search.glade", NULL, NULL);
         if (gui == NULL)
                 return;
 

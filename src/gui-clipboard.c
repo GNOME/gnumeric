@@ -77,7 +77,7 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 		}
 
 	if (oneline && (opt_encoding == NULL || strcmp (opt_encoding, "UTF-8") != 0)) {
-		int bytes_written;
+		size_t bytes_written;
 		const char *enc = opt_encoding ? opt_encoding : "ASCII";
 
 		data_converted = g_convert (data, data_len,
@@ -140,14 +140,14 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
  * as well, but the file_opener service makes workbooks, not sheets.
  *
  * We use the file_opener service by wrapping the selection data in a GsfInput,
- * and calling go_doc_new_from_input.
+ * and calling wb_view_new_from_input.
  **/
 static GnmCellRegion *
 table_cellregion_read (WorkbookControl *wbc, const char *reader_id,
 		       GnmPasteTarget *pt, guchar *buffer, int length)
 {
 	WorkbookView *wb_view = NULL;
-	GODoc *doc = NULL;
+	Workbook *wb = NULL;
 	GList *l = NULL;
 	GnmCellRegion *ret = NULL;
 	const GnmFileOpener *reader = gnm_file_opener_for_id (reader_id);
@@ -159,16 +159,17 @@ table_cellregion_read (WorkbookControl *wbc, const char *reader_id,
 		return NULL;
 	}
 
-	ioc = gnumeric_io_context_new (GO_CMD_CONTEXT (wbc));
+	ioc = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbc));
 	input = gsf_input_memory_new (buffer, length, FALSE);
-	doc = go_doc_new_from_input  (input, reader, ioc, NULL);
-	if (gnumeric_io_error_occurred (ioc) || doc == NULL) {
+	wb_view = wb_view_new_from_input  (input, reader, ioc, NULL);
+	if (gnumeric_io_error_occurred (ioc) || wb_view == NULL) {
 		gnumeric_io_error_display (ioc);
 		goto out;
 	}
 
-	l = workbook_sheets (WORKBOOK (doc));
-	if (l != NULL) {
+	wb = wb_view_workbook (wb_view);
+	l = workbook_sheets (wb);
+	if (l) {
 		GnmRange r;
 		Sheet *tmpsheet = (Sheet *) l->data;
 
@@ -183,8 +184,8 @@ out:
 		g_list_free (l);
 	if (wb_view)
 		g_object_unref (wb_view);
-	if (doc)
-		g_object_unref (doc);
+	if (wb)
+		g_object_unref (wb);
 	g_object_unref (G_OBJECT (ioc));
 	g_object_unref (G_OBJECT (input));
 
@@ -369,7 +370,7 @@ table_cellregion_write (WorkbookControl *wbc, GnmCellRegion *cr,
 		return NULL;
 
 	output = gsf_output_memory_new ();
-	ioc = gnumeric_io_context_new (GO_CMD_CONTEXT (wbc));
+	ioc = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbc));
 	wb = workbook_new_with_sheets (1);
 	wb_view = workbook_view_new (wb);
 
@@ -379,7 +380,7 @@ table_cellregion_write (WorkbookControl *wbc, GnmCellRegion *cr,
 	r.end.row = cr->rows - 1;
 	
 	paste_target_init (&pt, sheet, &r, PASTE_ALL_TYPES);
-	if (clipboard_paste_region (cr, &pt, GO_CMD_CONTEXT (wbc)) == FALSE) {
+	if (clipboard_paste_region (cr, &pt, GNM_CMD_CONTEXT (wbc)) == FALSE) {
 		gnm_file_saver_save (saver, ioc, wb_view, output);
 		if (!gnumeric_io_error_occurred (ioc)) {
 			GsfOutputMemory *omem = GSF_OUTPUT_MEMORY (output);
@@ -471,6 +472,8 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		PangoContext *context = gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg)));
 		char *rendered_selection = cellregion_to_string (clipboard, context);
 
+		if (rendered_selection == NULL)
+			rendered_selection = g_strdup ("");
 		gtk_selection_data_set_text (selection_data, 
 					     (gchar *) rendered_selection,
 					     strlen (rendered_selection));
@@ -490,7 +493,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 				a->start.col, a->start.row,
 				a->end.col,   a->end.row,
 				CLEAR_VALUES|CLEAR_COMMENTS|CLEAR_RECALC_DEPS,
-				GO_CMD_CONTEXT (wbc));
+				GNM_CMD_CONTEXT (wbc));
 			gnm_app_clipboard_clear (TRUE);
 		}
 
