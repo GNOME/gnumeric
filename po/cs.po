@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
-"POT-Creation-Date: 2002-03-09 16:44-0500\n"
+"POT-Creation-Date: 2002-04-13 18:34-0400\n"
 "PO-Revision-Date: 1999-10-22 21:20+02:00\n"
 "Last-Translator: Petr Vyyhnalek <petr.vyhnalek@email.cz>\n"
 "Language-Team: \n"
@@ -260,8 +260,8 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4524
-#: plugins/mps/mps.c:579 src/xml-io.c:3379
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4531
+#: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr ""
 
@@ -380,25 +380,25 @@ msgstr ""
 msgid "Module%d"
 msgstr "Pøesun"
 
-#: plugins/excel/ms-excel-read.c:4519
+#: plugins/excel/ms-excel-read.c:4526
 msgid "No book or workbook streams found."
 msgstr ""
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4683
+#: plugins/excel/ms-excel-read.c:4690
 msgid "Password protected workbooks are not supported yet."
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:4796
+#: plugins/excel/ms-excel-read.c:4803
 msgid "Unable to locate valid MS Excel workbook"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3511
+#: plugins/excel/ms-excel-write.c:3573
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3737
+#: plugins/excel/ms-excel-write.c:3799
 msgid "Can't open stream for writing\n"
 msgstr ""
 
@@ -504,27 +504,10 @@ msgstr "XML formát star¹ích verzí Gnumericu"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr ""
 
-#: plugins/guile/plugin.c:67 src/func.c:810 src/functions/fn-information.c:697
-#: src/functions/fn-information.c:768 src/functions/fn-information.c:796
-#: src/functions/fn-information.c:823 src/functions/fn-information.c:874
-#: src/functions/fn-information.c:904 src/functions/fn-information.c:971
-#: src/functions/fn-logical.c:196 src/functions/fn-string.c:325
-msgid "Invalid number of arguments"
-msgstr "©patný poèet argumentu"
-
-#. FIXME : This looks like a leak (JEG 4/4/00)
-#: plugins/guile/plugin.c:72 plugins/guile/plugin.c:77
-msgid "First argument to SCM must be a Guile expression"
-msgstr "První argument SCM musí být výraz Guile"
-
-#: plugins/guile/plugin.c:81
-msgid "Undefined scheme function"
-msgstr ""
-
-#: plugins/guile/plugin.c:100
+#: plugins/guile/plugin.c:106
 #, fuzzy
-msgid "Could not evaluate argument"
-msgstr "©patný poèet argumentu"
+msgid "Guile error"
+msgstr "Násob."
 
 #: plugins/guile/plugin.xml.in.h:1
 msgid "Guile Plugin"
@@ -1220,7 +1203,7 @@ msgid "Automatically save the current document at regular intervals"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:15
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:819
+#: src/dialogs/dialog-cell-format.c:2583 src/workbook-format-toolbar.c:819
 #: src/workbook-format-toolbar.c:875
 msgid "Background"
 msgstr "Pozadí"
@@ -1466,7 +1449,7 @@ msgstr "Vytvoø nový list"
 msgid "Create an arrow"
 msgstr "Vytvoøí ¹ipku"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1392
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1393
 #: src/workbook-control-gui.c:2734
 #, fuzzy
 msgid "Cu_t"
@@ -1587,7 +1570,7 @@ msgstr "F_ormát"
 msgid "Filter data with given criteria"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:89 src/dialogs/cell-format.glade.h:39
+#: src/GNOME_Gnumeric.xml.h:89 src/dialogs/cell-format.glade.h:38
 #: src/workbook-format-toolbar.c:758
 msgid "Font"
 msgstr "Font"
@@ -1602,7 +1585,7 @@ msgstr "Font"
 msgid "Font selector"
 msgstr "Výbìr zlomku"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2572
+#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2578
 #: src/workbook-format-toolbar.c:844 src/workbook-format-toolbar.c:878
 msgid "Foreground"
 msgstr "Popøedí"
@@ -1611,7 +1594,7 @@ msgstr "Popøedí"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4094
+#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4096
 #: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3038
 #, fuzzy
 msgid "Fourier Analysis"
@@ -1783,7 +1766,7 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:130 src/dialogs/cell-format.glade.h:53
+#: src/GNOME_Gnumeric.xml.h:130 src/dialogs/cell-format.glade.h:52
 #: src/workbook-format-toolbar.c:629
 msgid "Left"
 msgstr "Vlevo"
@@ -1793,7 +1776,7 @@ msgstr "Vlevo"
 msgid "Left justifies the contents of each cell"
 msgstr "Vycentruje buòku"
 
-#: src/GNOME_Gnumeric.xml.h:132 src/dialogs/cell-format.glade.h:54
+#: src/GNOME_Gnumeric.xml.h:132 src/dialogs/cell-format.glade.h:53
 #: src/workbook-object-toolbar.c:185
 msgid "Line"
 msgstr "Èára"
@@ -1946,7 +1929,7 @@ msgstr ""
 msgid "Pearson Correlation"
 msgstr "Korelace"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/analysis-tools.c:2741
+#: src/GNOME_Gnumeric.xml.h:166 src/analysis-tools.c:2743
 #: src/workbook-format-toolbar.c:463
 msgid "Percent"
 msgstr "Procenta"
@@ -2054,7 +2037,7 @@ msgstr ""
 msgid "Rename the current sheet"
 msgstr "list"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/dialogs/cell-format.glade.h:68
+#: src/GNOME_Gnumeric.xml.h:189 src/dialogs/cell-format.glade.h:67
 #: src/workbook-format-toolbar.c:631
 msgid "Right"
 msgstr "Vpravo"
@@ -2385,7 +2368,7 @@ msgid "_Content"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:260 src/item-cursor.c:1030
-#: src/sheet-control-gui.c:1394 src/workbook-control-gui.c:2738
+#: src/sheet-control-gui.c:1395 src/workbook-control-gui.c:2738
 #, fuzzy
 msgid "_Copy"
 msgstr "Kopie"
@@ -2405,7 +2388,7 @@ msgstr "Datum"
 msgid "_Define..."
 msgstr "Mazání"
 
-#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1412
+#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1413
 #: src/workbook-control-gui.c:2755
 #, fuzzy
 msgid "_Delete..."
@@ -2435,7 +2418,7 @@ msgstr ""
 msgid "_File"
 msgstr "Vyplnit"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/dialogs/cell-format.glade.h:109
+#: src/GNOME_Gnumeric.xml.h:270 src/dialogs/cell-format.glade.h:107
 #: src/workbook-control-gui.c:2764
 #, fuzzy
 msgid "_Fill"
@@ -2489,8 +2472,8 @@ msgstr ""
 msgid "_Help"
 msgstr "_Náhled"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1435
-#: src/sheet-control-gui.c:1443 src/workbook-control-gui.c:2876
+#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1436
+#: src/sheet-control-gui.c:1444 src/workbook-control-gui.c:2876
 #: src/workbook-control-gui.c:2895
 #, fuzzy
 msgid "_Hide"
@@ -2556,7 +2539,7 @@ msgstr "Otevøi"
 msgid "_Paired Samples: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1396
+#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1397
 #: src/workbook-control-gui.c:2742
 #, fuzzy
 msgid "_Paste"
@@ -2685,8 +2668,8 @@ msgstr ""
 msgid "_Ungroup"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1437
-#: src/sheet-control-gui.c:1445 src/workbook-control-gui.c:2879
+#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1438
+#: src/sheet-control-gui.c:1446 src/workbook-control-gui.c:2879
 #: src/workbook-control-gui.c:2898
 msgid "_Unhide"
 msgstr ""
@@ -2715,12 +2698,12 @@ msgstr "Nový se¹it"
 msgid "_Zoom..."
 msgstr "Mìøítko..."
 
-#: src/analysis-tools.c:195 src/analysis-tools.c:3234
+#: src/analysis-tools.c:195 src/analysis-tools.c:3236
 #, fuzzy, c-format
 msgid "Row %i"
 msgstr "Øádek: %d"
 
-#: src/analysis-tools.c:198 src/analysis-tools.c:3226
+#: src/analysis-tools.c:198 src/analysis-tools.c:3228
 #, fuzzy, c-format
 msgid "Column %i"
 msgstr "Sloupec: %s"
@@ -2735,17 +2718,17 @@ msgstr "Min"
 msgid "Area %i"
 msgstr ""
 
-#: src/analysis-tools.c:810 src/analysis-tools.c:813
+#: src/analysis-tools.c:812 src/analysis-tools.c:815
 #, fuzzy
 msgid "Correlations"
 msgstr "Korelace"
 
-#: src/analysis-tools.c:902 src/analysis-tools.c:905
+#: src/analysis-tools.c:904 src/analysis-tools.c:907
 #, fuzzy
 msgid "Covariances"
 msgstr "Kovariance"
 
-#: src/analysis-tools.c:984
+#: src/analysis-tools.c:986
 msgid "Summary Statistics"
 msgstr ""
 
@@ -2756,278 +2739,278 @@ msgstr ""
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/analysis-tools.c:995
+#: src/analysis-tools.c:997
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
 
-#: src/analysis-tools.c:1081
+#: src/analysis-tools.c:1083
 msgid "Confidence Interval for the Mean"
 msgstr ""
 
-#: src/analysis-tools.c:1082
+#: src/analysis-tools.c:1084
 #, c-format
 msgid "/%g%% CI for the Mean from/to"
 msgstr ""
 
-#: src/analysis-tools.c:1119 src/dialogs/descriptive-stats.glade.h:10
+#: src/analysis-tools.c:1121 src/dialogs/descriptive-stats.glade.h:10
 #, fuzzy
 msgid "Kth Largest"
 msgstr "K-tý nejvìt¹í"
 
-#: src/analysis-tools.c:1120
+#: src/analysis-tools.c:1122
 #, c-format
 msgid "Largest (%d)"
 msgstr ""
 
-#: src/analysis-tools.c:1144 src/dialogs/descriptive-stats.glade.h:11
+#: src/analysis-tools.c:1146 src/dialogs/descriptive-stats.glade.h:11
 #, fuzzy
 msgid "Kth Smallest"
 msgstr "K-tý nejmen¹í:"
 
-#: src/analysis-tools.c:1145
+#: src/analysis-tools.c:1147
 #, fuzzy, c-format
 msgid "Smallest (%d)"
 msgstr "K-tý nejmen¹í:"
 
-#: src/analysis-tools.c:1266 src/dialogs/cell-format.glade.h:70
+#: src/analysis-tools.c:1268 src/dialogs/cell-format.glade.h:69
 #, fuzzy
 msgid "Sample"
 msgstr "Pøíklad:"
 
-#: src/analysis-tools.c:1363 src/analysis-tools.c:1365
-#: src/analysis-tools.c:1482 src/analysis-tools.c:1484
-#: src/analysis-tools.c:1641 src/analysis-tools.c:1643
-#: src/analysis-tools.c:1769 src/analysis-tools.c:1771
-#: src/analysis-tools.c:1905 src/analysis-tools.c:1907
+#: src/analysis-tools.c:1365 src/analysis-tools.c:1367
+#: src/analysis-tools.c:1484 src/analysis-tools.c:1486
+#: src/analysis-tools.c:1643 src/analysis-tools.c:1645
+#: src/analysis-tools.c:1771 src/analysis-tools.c:1773
+#: src/analysis-tools.c:1907 src/analysis-tools.c:1909
 #, fuzzy, c-format
 msgid "Variable %i"
 msgstr "Rozsah promìnné 2:"
 
-#: src/analysis-tools.c:1367
+#: src/analysis-tools.c:1369
 #, fuzzy
 msgid "z-Test"
 msgstr "Text"
 
-#: src/analysis-tools.c:1370
+#: src/analysis-tools.c:1372
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1498 src/analysis-tools.c:1645
-#: src/analysis-tools.c:1773
+#: src/analysis-tools.c:1500 src/analysis-tools.c:1647
+#: src/analysis-tools.c:1775
 #, fuzzy
 msgid "t-Test"
 msgstr "Text"
 
-#: src/analysis-tools.c:1501
+#: src/analysis-tools.c:1503
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
 "two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1648
+#: src/analysis-tools.c:1650
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1776
+#: src/analysis-tools.c:1778
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1914
+#: src/analysis-tools.c:1916
 #, fuzzy
 msgid "F-Test"
 msgstr "Text"
 
-#: src/analysis-tools.c:1920
+#: src/analysis-tools.c:1922
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:2038 src/analysis-tools.c:2096
+#: src/analysis-tools.c:2040 src/analysis-tools.c:2098
 msgid "Random"
 msgstr ""
 
-#: src/analysis-tools.c:2212
+#: src/analysis-tools.c:2214
 #, fuzzy
 msgid "Not implemented yet.\n"
 msgstr "Neimplementováno"
 
-#: src/analysis-tools.c:2289
+#: src/analysis-tools.c:2291
 #, fuzzy
 msgid "Y Variable"
 msgstr "Rozsah promìnné 2:"
 
-#: src/analysis-tools.c:2348 src/dialogs/regression.glade.h:8
+#: src/analysis-tools.c:2350 src/dialogs/regression.glade.h:8
 msgid "Regression"
 msgstr "Regrese"
 
-#: src/analysis-tools.c:2350
+#: src/analysis-tools.c:2352
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 
-#: src/analysis-tools.c:2371
+#: src/analysis-tools.c:2373
 msgid "/df/SS/MS/F/Significance of F"
 msgstr ""
 
-#: src/analysis-tools.c:2378
+#: src/analysis-tools.c:2380
 #, c-format
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
 msgstr ""
 
-#: src/analysis-tools.c:2546
+#: src/analysis-tools.c:2548
 #, fuzzy
 msgid "Moving Averages"
 msgstr "vlo¾ buòky"
 
-#: src/analysis-tools.c:2561
+#: src/analysis-tools.c:2563
 #, fuzzy
 msgid "Standard Error"
 msgstr "Chyba syntaxe"
 
-#: src/analysis-tools.c:2649
+#: src/analysis-tools.c:2651
 msgid "Exponential Smoothing"
 msgstr ""
 
-#: src/analysis-tools.c:2729
+#: src/analysis-tools.c:2731
 #, fuzzy
 msgid "Ranks"
 msgstr "Rozsah"
 
-#: src/analysis-tools.c:2738
+#: src/analysis-tools.c:2740
 #, fuzzy
 msgid "Point"
 msgstr "Tisk"
 
-#: src/analysis-tools.c:2740
+#: src/analysis-tools.c:2742
 #, fuzzy
 msgid "Rank"
 msgstr "Rozsah"
 
 #. We are ready to create the summary table
-#: src/analysis-tools.c:2829 src/analysis-tools.c:3024
-#: src/analysis-tools.c:3286
+#: src/analysis-tools.c:2831 src/analysis-tools.c:3026
+#: src/analysis-tools.c:3288
 msgid "Anova"
 msgstr ""
 
-#: src/analysis-tools.c:2831
+#: src/analysis-tools.c:2833
 msgid "Anova: Single Factor"
 msgstr ""
 
-#: src/analysis-tools.c:2832 src/analysis-tools.c:3289
+#: src/analysis-tools.c:2834 src/analysis-tools.c:3291
 msgid "SUMMARY"
 msgstr ""
 
-#: src/analysis-tools.c:2833
+#: src/analysis-tools.c:2835
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/analysis-tools.c:2889
+#: src/analysis-tools.c:2891
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 
-#: src/analysis-tools.c:2894 src/analysis-tools.c:3106
-#: src/analysis-tools.c:3313
+#: src/analysis-tools.c:2896 src/analysis-tools.c:3108
+#: src/analysis-tools.c:3315
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 
-#: src/analysis-tools.c:3030
+#: src/analysis-tools.c:3032
 msgid "Anova: Two-Factor Without Replication"
 msgstr ""
 
-#: src/analysis-tools.c:3031
+#: src/analysis-tools.c:3033
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/analysis-tools.c:3100
+#: src/analysis-tools.c:3102
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr ""
 
-#: src/analysis-tools.c:3288
+#: src/analysis-tools.c:3290
 msgid "Anova: Two-Factor With Replication"
 msgstr ""
 
-#: src/analysis-tools.c:3293 src/analysis-tools.c:3303
-#: src/analysis-tools.c:3311 src/dialogs/dialog-autoformat.c:74
+#: src/analysis-tools.c:3295 src/analysis-tools.c:3305
+#: src/analysis-tools.c:3313 src/dialogs/dialog-autoformat.c:74
 #: src/dialogs/dialog-autoformat.c:78
 #, fuzzy
 msgid "Total"
 msgstr "Titulek"
 
-#: src/analysis-tools.c:3295
+#: src/analysis-tools.c:3297
 msgid "/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/analysis-tools.c:3305
+#: src/analysis-tools.c:3307
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr ""
 
-#: src/analysis-tools.c:3773
+#: src/analysis-tools.c:3775
 #, c-format
 msgid "<%s"
 msgstr ""
 
-#: src/analysis-tools.c:3777
+#: src/analysis-tools.c:3779
 msgid "Too Small"
 msgstr ""
 
-#: src/analysis-tools.c:3794
+#: src/analysis-tools.c:3796
 #, fuzzy
 msgid "More"
 msgstr "Pøesun"
 
-#: src/analysis-tools.c:3802
+#: src/analysis-tools.c:3804
 #, c-format
 msgid ">%s"
 msgstr ""
 
-#: src/analysis-tools.c:3806
+#: src/analysis-tools.c:3808
 #, fuzzy
 msgid "Too Large"
 msgstr "K-tý nejvìt¹í"
 
-#: src/analysis-tools.c:3847 src/dialogs/histogram.glade.h:7
+#: src/analysis-tools.c:3849 src/dialogs/histogram.glade.h:7
 msgid "Histogram"
 msgstr ""
 
-#: src/analysis-tools.c:3852
+#: src/analysis-tools.c:3854
 #, fuzzy
 msgid "Bin"
 msgstr "Min"
 
-#: src/analysis-tools.c:3877
+#: src/analysis-tools.c:3879
 msgid "Frequency"
 msgstr ""
 
-#: src/analysis-tools.c:3879 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3881 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr ""
 
-#: src/analysis-tools.c:3882
+#: src/analysis-tools.c:3884
 #, no-c-format
 msgid "Cumulative %"
 msgstr ""
 
-#: src/analysis-tools.c:4114
+#: src/analysis-tools.c:4116
 #, fuzzy
 msgid "Real"
 msgstr "Obdélník"
 
-#: src/analysis-tools.c:4115
+#: src/analysis-tools.c:4117
 #, fuzzy
 msgid "Imaginary"
 msgstr "Leden"
@@ -3037,7 +3020,7 @@ msgstr "Leden"
 msgid "Error '%s' opening workbook stream"
 msgstr ""
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3402
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3409
 msgid "Invalid xml file. Tree is empty ?"
 msgstr ""
 
@@ -3806,7 +3789,7 @@ msgstr ""
 msgid "_First Letter"
 msgstr "_První stránka"
 
-#: src/dialogs/autocorrect.glade.h:10 src/dialogs/cell-format.glade.h:111
+#: src/dialogs/autocorrect.glade.h:10 src/dialogs/cell-format.glade.h:109
 #, fuzzy
 msgid "_General"
 msgstr "Obecný"
@@ -3997,7 +3980,7 @@ msgstr ""
 msgid "Background Color"
 msgstr "Pozadí"
 
-#: src/dialogs/cell-format.glade.h:17 src/dialogs/dialog-cell-format.c:2567
+#: src/dialogs/cell-format.glade.h:17 src/dialogs/dialog-cell-format.c:2573
 #, fuzzy
 msgid "Border"
 msgstr "Poøadí stránek"
@@ -4041,7 +4024,7 @@ msgstr "Barvy"
 msgid "Control"
 msgstr "Souèet"
 
-#: src/dialogs/cell-format.glade.h:26 src/dialogs/dialog-cell-format.c:2106
+#: src/dialogs/cell-format.glade.h:26 src/dialogs/dialog-cell-format.c:2112
 msgid "Criteria"
 msgstr ""
 
@@ -4090,442 +4073,430 @@ msgstr "Diagonální èára"
 msgid "Display the value exactly as it was entered"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:1303
-#: src/dialogs/dialog-cell-format.c:1363
-#, fuzzy
-msgid "Double"
-msgstr "modrá"
-
-#: src/dialogs/cell-format.glade.h:37
+#: src/dialogs/cell-format.glade.h:36
 msgid "Effects"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:38
+#: src/dialogs/cell-format.glade.h:37
 #, fuzzy
 msgid "Error Alert"
 msgstr "©ipka"
 
-#: src/dialogs/cell-format.glade.h:40
+#: src/dialogs/cell-format.glade.h:39
 #, fuzzy
 msgid "Foreground Solid"
 msgstr "Popøedí"
 
-#: src/dialogs/cell-format.glade.h:41
+#: src/dialogs/cell-format.glade.h:40
 msgid ""
 "General format cells attempt to select an appropriate format depending on "
 "the value of the cell."
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:42
+#: src/dialogs/cell-format.glade.h:41
 msgid "Horizontal"
 msgstr "Horizontálnì"
 
-#: src/dialogs/cell-format.glade.h:43
+#: src/dialogs/cell-format.glade.h:42
 #, fuzzy
 msgid "Horizontal Stripe"
 msgstr "Horizontální èára"
 
-#: src/dialogs/cell-format.glade.h:44
+#: src/dialogs/cell-format.glade.h:43
 #, fuzzy
 msgid "In a list"
 msgstr "Vytvoøí èáru"
 
-#: src/dialogs/cell-format.glade.h:45
+#: src/dialogs/cell-format.glade.h:44
 msgid "In-_cell dropdown"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:46
+#: src/dialogs/cell-format.glade.h:45
 msgid "Information  (allows invalid input)"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:47
+#: src/dialogs/cell-format.glade.h:46
 #, fuzzy
 msgid "Input Message"
 msgstr "Vstupní rozsah:"
 
-#: src/dialogs/cell-format.glade.h:48
+#: src/dialogs/cell-format.glade.h:47
 #, fuzzy
 msgid "Inside"
 msgstr "Vlo¾"
 
-#: src/dialogs/cell-format.glade.h:49
+#: src/dialogs/cell-format.glade.h:48
 #, fuzzy
 msgid "Inside Horizontal"
 msgstr "Horizontálnì"
 
-#: src/dialogs/cell-format.glade.h:50
+#: src/dialogs/cell-format.glade.h:49
 #, fuzzy
 msgid "Inside Vertical"
 msgstr "Vertikálnì"
 
-#: src/dialogs/cell-format.glade.h:51
+#: src/dialogs/cell-format.glade.h:50
 #, fuzzy
 msgid "J_ustify"
 msgstr "Zarovnávání"
 
-#: src/dialogs/cell-format.glade.h:52
+#: src/dialogs/cell-format.glade.h:51
 msgid "Large Circles"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:55
+#: src/dialogs/cell-format.glade.h:54
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:56
+#: src/dialogs/cell-format.glade.h:55
 #, fuzzy
 msgid "Message :"
 msgstr "Prumìr"
 
-#: src/dialogs/cell-format.glade.h:57
+#: src/dialogs/cell-format.glade.h:56
 #, fuzzy
 msgid "Negative number:"
 msgstr "Èíslo p_rvní stránky:"
 
-#: src/dialogs/cell-format.glade.h:58 src/dialogs/dialog-cell-format.c:1305
-#: src/dialogs/dialog-cell-format.c:1361 src/dialogs/dialog-paste-special.c:34
+#: src/dialogs/cell-format.glade.h:57 src/dialogs/dialog-cell-format.c:1306
+#: src/dialogs/dialog-cell-format.c:1358 src/dialogs/dialog-cell-format.c:1364
+#: src/dialogs/dialog-paste-special.c:34
 msgid "None"
 msgstr "®ádný"
 
-#: src/dialogs/cell-format.glade.h:59
+#: src/dialogs/cell-format.glade.h:58
 msgid "None          (silently accept invalid input)"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:440
+#: src/dialogs/cell-format.glade.h:59 src/dialogs/dialog-formula-guru.c:440
 #: src/dialogs/dialog-search.c:126
 msgid "Number"
 msgstr "Èíslo"
 
-#: src/dialogs/cell-format.glade.h:61
+#: src/dialogs/cell-format.glade.h:60
 #, fuzzy
 msgid "Numbers"
 msgstr "Èíslo"
 
-#: src/dialogs/cell-format.glade.h:62 src/dialogs/print.glade.h:11
+#: src/dialogs/cell-format.glade.h:61 src/dialogs/print.glade.h:11
 msgid "Orientation"
 msgstr "Orientace"
 
-#: src/dialogs/cell-format.glade.h:63
+#: src/dialogs/cell-format.glade.h:62
 msgid "Outline"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2582
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:2588
 #, fuzzy
 msgid "Pattern"
 msgstr "Vlo¾it"
 
-#: src/dialogs/cell-format.glade.h:65
+#: src/dialogs/cell-format.glade.h:64
 #, fuzzy
 msgid "Protection"
 msgstr "Zlomek"
 
-#: src/dialogs/cell-format.glade.h:66
+#: src/dialogs/cell-format.glade.h:65
 msgid "Reverse Diagonal"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:67
+#: src/dialogs/cell-format.glade.h:66
 msgid "Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:69
+#: src/dialogs/cell-format.glade.h:68
 msgid "S_ymbol:"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:71
+#: src/dialogs/cell-format.glade.h:70
 msgid "Semi Circles"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:72
+#: src/dialogs/cell-format.glade.h:71
 msgid "Shrin_k to fit"
 msgstr ""
 
-#. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:73 src/dialogs/dialog-cell-format.c:1301
-#: src/dialogs/dialog-cell-format.c:1362
-#, fuzzy
-msgid "Single"
-msgstr "Øetìz"
-
-#: src/dialogs/cell-format.glade.h:74
+#: src/dialogs/cell-format.glade.h:72
 msgid "Small Circles"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:75
+#: src/dialogs/cell-format.glade.h:73
 #, fuzzy
 msgid "Solid"
 msgstr "Tuònì"
 
-#: src/dialogs/cell-format.glade.h:76
+#: src/dialogs/cell-format.glade.h:74
 #, fuzzy
 msgid "Sp_ecial"
 msgstr "Zvlá¹tnosti"
 
-#: src/dialogs/cell-format.glade.h:77
+#: src/dialogs/cell-format.glade.h:75
 msgid "Stop           (never allow invalid input)"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:78
+#: src/dialogs/cell-format.glade.h:76
 msgid "Stri_kethrough"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:79
+#: src/dialogs/cell-format.glade.h:77
 msgid "Su_bscript"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:80
+#: src/dialogs/cell-format.glade.h:78
 msgid "Sup_erscript"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:81
+#: src/dialogs/cell-format.glade.h:79
 #, fuzzy
 msgid "Te_xt"
 msgstr "Text"
 
-#: src/dialogs/cell-format.glade.h:82
+#: src/dialogs/cell-format.glade.h:80
 msgid "Text length"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:83
+#: src/dialogs/cell-format.glade.h:81
 msgid "Thatch"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:84
+#: src/dialogs/cell-format.glade.h:82
 msgid "Thick Diagonal Crosshatch"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:85
+#: src/dialogs/cell-format.glade.h:83
 msgid "Thin Diagonal Crosshatch"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:86
+#: src/dialogs/cell-format.glade.h:84
 #, fuzzy
 msgid "Thin Diagonal Stripe"
 msgstr "Diagonální èára"
 
-#: src/dialogs/cell-format.glade.h:87
+#: src/dialogs/cell-format.glade.h:85
 #, fuzzy
 msgid "Thin Horizontal Crosshatch"
 msgstr "Diagonální èára"
 
-#: src/dialogs/cell-format.glade.h:88
+#: src/dialogs/cell-format.glade.h:86
 #, fuzzy
 msgid "Thin Horizontal Stripe"
 msgstr "Horizontální èára"
 
-#: src/dialogs/cell-format.glade.h:89
+#: src/dialogs/cell-format.glade.h:87
 msgid "Thin Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:90
+#: src/dialogs/cell-format.glade.h:88
 #, fuzzy
 msgid "Thin Vertical Stripe"
 msgstr "Vertikální èára"
 
-#: src/dialogs/cell-format.glade.h:91
+#: src/dialogs/cell-format.glade.h:89
 #, fuzzy
 msgid "Time"
 msgstr "Èas"
 
-#: src/dialogs/cell-format.glade.h:92
+#: src/dialogs/cell-format.glade.h:90
 #, fuzzy
 msgid "Title :"
 msgstr "Titulek"
 
-#: src/dialogs/cell-format.glade.h:93
+#: src/dialogs/cell-format.glade.h:91
 msgid "Top"
 msgstr "Nahoru"
 
-#: src/dialogs/cell-format.glade.h:94
+#: src/dialogs/cell-format.glade.h:92
 msgid "Unfinished"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:95
+#: src/dialogs/cell-format.glade.h:93
 #, fuzzy
 msgid "Validation"
 msgstr "XML formát star¹ích verzí Gnumericu"
 
-#: src/dialogs/cell-format.glade.h:96
+#: src/dialogs/cell-format.glade.h:94
 #, fuzzy
 msgid "Vertical Alignment"
 msgstr "Zarovnávání"
 
-#: src/dialogs/cell-format.glade.h:97
+#: src/dialogs/cell-format.glade.h:95
 #, fuzzy
 msgid "Vertical Stripe"
 msgstr "Vertikální èára"
 
-#: src/dialogs/cell-format.glade.h:98
+#: src/dialogs/cell-format.glade.h:96
 msgid "Warning      (accept/discard invalid input)"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:99
+#: src/dialogs/cell-format.glade.h:97
 #, fuzzy
 msgid "Whole numbers"
 msgstr "Èísla"
 
-#: src/dialogs/cell-format.glade.h:100
+#: src/dialogs/cell-format.glade.h:98
 msgid "Worksheet _protected"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:101
+#: src/dialogs/cell-format.glade.h:99
 msgid "_Accounting"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:102
+#: src/dialogs/cell-format.glade.h:100
 #, fuzzy
 msgid "_Allow :"
 msgstr "V¹e"
 
-#: src/dialogs/cell-format.glade.h:103
+#: src/dialogs/cell-format.glade.h:101
 #, fuzzy
 msgid "_Bottom"
 msgstr "_Dole:"
 
-#: src/dialogs/cell-format.glade.h:104
+#: src/dialogs/cell-format.glade.h:102
 #, fuzzy
 msgid "_Center"
 msgstr "Doprosøed"
 
-#: src/dialogs/cell-format.glade.h:105
+#: src/dialogs/cell-format.glade.h:103
 #, fuzzy
 msgid "_Color :"
 msgstr "Barvy"
 
-#: src/dialogs/cell-format.glade.h:106
+#: src/dialogs/cell-format.glade.h:104
 #, fuzzy
 msgid "_Condition :"
 msgstr "Zlomek"
 
-#: src/dialogs/cell-format.glade.h:107
+#: src/dialogs/cell-format.glade.h:105
 msgid "_Currency"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:108
+#: src/dialogs/cell-format.glade.h:106
 #, fuzzy
 msgid "_Date"
 msgstr "Datum"
 
-#: src/dialogs/cell-format.glade.h:110
+#: src/dialogs/cell-format.glade.h:108
 #, fuzzy
 msgid "_Fraction"
 msgstr "Zlomek"
 
-#: src/dialogs/cell-format.glade.h:112
+#: src/dialogs/cell-format.glade.h:110
 msgid "_Hidden"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:113
+#: src/dialogs/cell-format.glade.h:111
 #, fuzzy
 msgid "_Ignore blank cells"
 msgstr "Vlo¾ buòky"
 
-#: src/dialogs/cell-format.glade.h:114
+#: src/dialogs/cell-format.glade.h:112
 #, fuzzy
 msgid "_Indent"
 msgstr "Vlo¾it"
 
-#: src/dialogs/cell-format.glade.h:115
+#: src/dialogs/cell-format.glade.h:113
 #, fuzzy
 msgid "_Justify"
 msgstr "Zarovnávání"
 
-#: src/dialogs/cell-format.glade.h:116
+#: src/dialogs/cell-format.glade.h:114
 #, fuzzy
 msgid "_Left"
 msgstr "V_levo"
 
-#: src/dialogs/cell-format.glade.h:117
+#: src/dialogs/cell-format.glade.h:115
 msgid "_Locked"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:118
+#: src/dialogs/cell-format.glade.h:116
 #, fuzzy
 msgid "_Message :"
 msgstr "Prumìr"
 
-#: src/dialogs/cell-format.glade.h:119
+#: src/dialogs/cell-format.glade.h:117
 #, fuzzy
 msgid "_Number"
 msgstr "Èíslo"
 
-#: src/dialogs/cell-format.glade.h:120
+#: src/dialogs/cell-format.glade.h:118
 #, fuzzy
 msgid "_Percentage"
 msgstr "Procenta"
 
-#: src/dialogs/cell-format.glade.h:121
+#: src/dialogs/cell-format.glade.h:119
 msgid "_Right"
 msgstr "V_pravo"
 
-#: src/dialogs/cell-format.glade.h:122
+#: src/dialogs/cell-format.glade.h:120
 #, fuzzy
 msgid "_Scientific"
 msgstr "Vìdecký"
 
-#: src/dialogs/cell-format.glade.h:123
+#: src/dialogs/cell-format.glade.h:121
 msgid "_Show input message when cell is selected"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:124
+#: src/dialogs/cell-format.glade.h:122
 msgid "_Style"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:125
+#: src/dialogs/cell-format.glade.h:123
 #, fuzzy
 msgid "_Time"
 msgstr "Èas"
 
-#: src/dialogs/cell-format.glade.h:126
+#: src/dialogs/cell-format.glade.h:124
 #, fuzzy
 msgid "_Top"
 msgstr "Na_hoøe:"
 
-#: src/dialogs/cell-format.glade.h:127
+#: src/dialogs/cell-format.glade.h:125
 #, fuzzy
 msgid "_Type"
 msgstr "Na_hoøe:"
 
-#: src/dialogs/cell-format.glade.h:128
+#: src/dialogs/cell-format.glade.h:126
 msgid "_Underline:"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:129
+#: src/dialogs/cell-format.glade.h:127
 msgid "_Use Separator for 1000's"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:130
+#: src/dialogs/cell-format.glade.h:128
 msgid "_Wrap text"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:131
-msgid "min <= val <= max         (between)"
+#: src/dialogs/cell-format.glade.h:129
+msgid "min &lt;= val &lt;= max         (between)"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:132
+#: src/dialogs/cell-format.glade.h:130
 msgid "val != bound                  (not equal to)"
 msgstr ""
 
+#: src/dialogs/cell-format.glade.h:131
+msgid "val &gt;  bound                  (greater than)"
+msgstr ""
+
+#: src/dialogs/cell-format.glade.h:132
+msgid "val &gt;=bound                  (greater than or equal to)"
+msgstr ""
+
 #: src/dialogs/cell-format.glade.h:133
-msgid "val <  bound                  (less than)"
+msgid "val &lt;  bound                  (less than)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:134
-msgid "val <= min || max <= val (not between)"
+msgid "val &lt;= min || max &lt;= val (not between)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:135
-msgid "val <=bound                  (less than or equal to)"
+msgid "val &lt;=bound                  (less than or equal to)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:136
 msgid "val == bound                 (equal to)"
-msgstr ""
-
-#: src/dialogs/cell-format.glade.h:137
-msgid "val >  bound                  (greater than)"
-msgstr ""
-
-#: src/dialogs/cell-format.glade.h:138
-msgid "val >=bound                  (greater than or equal to)"
 msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:1
@@ -5418,54 +5389,67 @@ msgstr "V 'Nastavit buòku' byste mìl(a) uvést správnou buòku"
 msgid "Cell comment"
 msgstr "Komentáø k buòce"
 
-#: src/dialogs/dialog-cell-format.c:423
+#: src/dialogs/dialog-cell-format.c:424
 msgid ";[Red]"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:425
+#: src/dialogs/dialog-cell-format.c:426
 msgid "_);("
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:427
+#: src/dialogs/dialog-cell-format.c:428
 #, fuzzy
 msgid "_);[Red]("
 msgstr "#,##0_);[red](#,##0)"
 
-#: src/dialogs/dialog-cell-format.c:2105
+#. There must be a better way than this
+#: src/dialogs/dialog-cell-format.c:1302 src/dialogs/dialog-cell-format.c:1359
+#: src/dialogs/dialog-cell-format.c:1365
+#, fuzzy
+msgid "Single"
+msgstr "Øetìz"
+
+#: src/dialogs/dialog-cell-format.c:1304 src/dialogs/dialog-cell-format.c:1360
+#: src/dialogs/dialog-cell-format.c:1366
+#, fuzzy
+msgid "Double"
+msgstr "modrá"
+
+#: src/dialogs/dialog-cell-format.c:2111
 #, fuzzy
 msgid "Source"
 msgstr "seøadit podle"
 
-#: src/dialogs/dialog-cell-format.c:2118 src/dialogs/dialog-cell-format.c:2125
+#: src/dialogs/dialog-cell-format.c:2124 src/dialogs/dialog-cell-format.c:2131
 #: src/sheet-object-widget.c:809
 #, fuzzy
 msgid "Min :"
 msgstr "Min"
 
-#: src/dialogs/dialog-cell-format.c:2119 src/dialogs/dialog-cell-format.c:2128
+#: src/dialogs/dialog-cell-format.c:2125 src/dialogs/dialog-cell-format.c:2134
 #: src/sheet-object-widget.c:813
 #, fuzzy
 msgid "Max :"
 msgstr "Max"
 
-#: src/dialogs/dialog-cell-format.c:2122
+#: src/dialogs/dialog-cell-format.c:2128
 #, fuzzy
 msgid "Value :"
 msgstr "Hodnoty"
 
-#: src/dialogs/dialog-cell-format.c:2501
+#: src/dialogs/dialog-cell-format.c:2507
 #, fuzzy
 msgid "Format Cells"
 msgstr "Seøadit buòky"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2567 src/dialogs/dialog-cell-format.c:2572
-#: src/dialogs/dialog-cell-format.c:2582 src/functions/fn-information.c:429
+#: src/dialogs/dialog-cell-format.c:2573 src/dialogs/dialog-cell-format.c:2578
+#: src/dialogs/dialog-cell-format.c:2588 src/functions/fn-information.c:429
 #: src/workbook-format-toolbar.c:837
 msgid "Automatic"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:812
+#: src/dialogs/dialog-cell-format.c:2583 src/workbook-format-toolbar.c:812
 #, fuzzy
 msgid "Clear Background"
 msgstr "Pozadí"
@@ -5854,15 +5838,15 @@ msgstr "Komentáøe"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:65
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:66
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
 #, fuzzy
 msgid "="
 msgstr "<="
@@ -5910,28 +5894,28 @@ msgstr ""
 msgid "\""
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
-msgid "'"
-msgstr ""
+#: src/dialogs/dialog-stf-export.glade.h:2
+#, fuzzy
+msgid "&lt;- Remove"
+msgstr "Odstranit"
 
 #: src/dialogs/dialog-stf-export.glade.h:3
 #, fuzzy
-msgid "<- Remove"
+msgid "&lt;- Remove all"
 msgstr "Odstranit"
 
-#: src/dialogs/dialog-stf-export.glade.h:4
-#, fuzzy
-msgid "<- Remove all"
-msgstr "Odstranit"
+#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+msgid "'"
+msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:5
 #, fuzzy
-msgid "Add ->"
+msgid "Add -&gt;"
 msgstr "Pøidat "
 
 #: src/dialogs/dialog-stf-export.glade.h:6
 #, fuzzy
-msgid "Add all ->"
+msgid "Add all -&gt;"
 msgstr "Pøidat "
 
 #: src/dialogs/dialog-stf-export.glade.h:7
@@ -6973,7 +6957,7 @@ msgid "Scale"
 msgstr "Mìøítko"
 
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3087
+#: src/workbook.c:1065 src/xml-io.c:3094
 msgid "Sheet"
 msgstr "List"
 
@@ -7548,6 +7532,14 @@ msgstr "Zadejte jméno nového listu:"
 #, fuzzy
 msgid "Rename sheet"
 msgstr "list"
+
+#: src/dialogs/solver.glade.h:1
+msgid "&gt;="
+msgstr ""
+
+#: src/dialogs/solver.glade.h:2
+msgid "&lt;="
+msgstr ""
 
 #: src/dialogs/solver.glade.h:4
 #, fuzzy
@@ -9264,20 +9256,28 @@ msgstr ""
 msgid "[Red]"
 msgstr ""
 
-#: src/func.c:131
+#: src/func.c:133
 #, fuzzy, c-format
 msgid "Cannot create file %s\n"
 msgstr "Nelze zapsat soubor %s\n"
 
-#: src/func.c:288
+#: src/func.c:290
 msgid "Function implementation not available."
 msgstr ""
 
-#: src/func.c:504
+#: src/func.c:506
 msgid "Unknown Function"
 msgstr "Neznámá funkce"
 
-#: src/func.c:857
+#: src/func.c:812 src/functions/fn-information.c:697
+#: src/functions/fn-information.c:768 src/functions/fn-information.c:796
+#: src/functions/fn-information.c:823 src/functions/fn-information.c:874
+#: src/functions/fn-information.c:904 src/functions/fn-information.c:971
+#: src/functions/fn-logical.c:196 src/functions/fn-string.c:325
+msgid "Invalid number of arguments"
+msgstr "©patný poèet argumentu"
+
+#: src/func.c:859
 msgid "Function does not exist"
 msgstr ""
 
@@ -9521,7 +9521,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-date.c:27
+#: src/functions/fn-date.c:28
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -9542,7 +9542,7 @@ msgid ""
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 
-#: src/functions/fn-date.c:97
+#: src/functions/fn-date.c:98
 msgid ""
 "@FUNCTION=UNIX2DATE\n"
 "@SYNTAX=UNIX2DATE(unixtime)\n"
@@ -9556,7 +9556,7 @@ msgid ""
 "@SEEALSO=NOW, DATE, DATE2UNIX"
 msgstr ""
 
-#: src/functions/fn-date.c:127
+#: src/functions/fn-date.c:128
 msgid ""
 "@FUNCTION=DATE2UNIX\n"
 "@SYNTAX=DATE2UNIX(serial)\n"
@@ -9570,7 +9570,7 @@ msgid ""
 "@SEEALSO=NOW, DATE, UNIX2DATE"
 msgstr ""
 
-#: src/functions/fn-date.c:158
+#: src/functions/fn-date.c:160
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
@@ -9582,7 +9582,7 @@ msgid ""
 "@SEEALSO=DATE"
 msgstr ""
 
-#: src/functions/fn-date.c:183
+#: src/functions/fn-date.c:185
 msgid ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(date1,date2,interval)\n"
@@ -9605,7 +9605,7 @@ msgid ""
 "@SEEALSO=DATE"
 msgstr ""
 
-#: src/functions/fn-date.c:350
+#: src/functions/fn-date.c:352
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -9621,7 +9621,7 @@ msgid ""
 "@SEEALSO=DATE"
 msgstr ""
 
-#: src/functions/fn-date.c:404
+#: src/functions/fn-date.c:406
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY()\n"
@@ -9634,7 +9634,7 @@ msgid ""
 "@SEEALSO=NOW"
 msgstr ""
 
-#: src/functions/fn-date.c:427
+#: src/functions/fn-date.c:429
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -9653,7 +9653,7 @@ msgid ""
 "@SEEALSO=TODAY"
 msgstr ""
 
-#: src/functions/fn-date.c:458
+#: src/functions/fn-date.c:460
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -9665,7 +9665,7 @@ msgid ""
 "@SEEALSO=HOUR"
 msgstr ""
 
-#: src/functions/fn-date.c:487
+#: src/functions/fn-date.c:489
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -9679,7 +9679,7 @@ msgid ""
 "@SEEALSO=HOUR,MINUTE"
 msgstr ""
 
-#: src/functions/fn-date.c:516
+#: src/functions/fn-date.c:518
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -9694,7 +9694,7 @@ msgid ""
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 msgstr ""
 
-#: src/functions/fn-date.c:545
+#: src/functions/fn-date.c:547
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -9709,7 +9709,7 @@ msgid ""
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
 
-#: src/functions/fn-date.c:575
+#: src/functions/fn-date.c:577
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -9724,7 +9724,7 @@ msgid ""
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
 
-#: src/functions/fn-date.c:605
+#: src/functions/fn-date.c:607
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -9738,7 +9738,7 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
 
-#: src/functions/fn-date.c:642
+#: src/functions/fn-date.c:644
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -9752,7 +9752,7 @@ msgid ""
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/functions/fn-date.c:679
+#: src/functions/fn-date.c:681
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -9766,7 +9766,7 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/functions/fn-date.c:716
+#: src/functions/fn-date.c:718
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serial_number[, method])\n"
@@ -9788,7 +9788,7 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/functions/fn-date.c:769
+#: src/functions/fn-date.c:771
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -9808,11 +9808,11 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/functions/fn-date.c:807
+#: src/functions/fn-date.c:809
 msgid "Unsupported method"
 msgstr "Nepodporovaná metoda"
 
-#: src/functions/fn-date.c:872
+#: src/functions/fn-date.c:874
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -9827,7 +9827,7 @@ msgid ""
 "@SEEALSO=MONTH"
 msgstr ""
 
-#: src/functions/fn-date.c:922
+#: src/functions/fn-date.c:924
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
@@ -9843,12 +9843,12 @@ msgid ""
 msgstr ""
 
 #. Path of the current directory or folder.
-#: src/functions/fn-date.c:958 src/functions/fn-eng.c:77
+#: src/functions/fn-date.c:960 src/functions/fn-eng.c:77
 #: src/functions/fn-information.c:395 src/functions/fn-information.c:411
 msgid "Unimplemented"
 msgstr "Neimplementováno"
 
-#: src/functions/fn-date.c:993
+#: src/functions/fn-date.c:995
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
@@ -9863,7 +9863,7 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 
-#: src/functions/fn-date.c:1124
+#: src/functions/fn-date.c:1126
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -9878,7 +9878,7 @@ msgid ""
 "@SEEALSO=WEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1168
+#: src/functions/fn-date.c:1170
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -9900,7 +9900,7 @@ msgid ""
 "@SEEALSO=ISOWEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1227
+#: src/functions/fn-date.c:1229
 msgid "Date / Time"
 msgstr "Datim / Èas"
 
@@ -15346,74 +15346,60 @@ msgstr "Posuò buòky doprava a pøesuò"
 msgid "C_ancel"
 msgstr "Kovariance"
 
-#: src/main.c:83
+#: src/main.c:84
 msgid "Display Gnumeric's version"
 msgstr ""
 
-#: src/main.c:85
+#: src/main.c:86
 msgid "Set the root library directory"
 msgstr ""
 
-#: src/main.c:87
+#: src/main.c:88
 msgid "Adjust the root data directory"
 msgstr ""
 
-#: src/main.c:90
+#: src/main.c:91
 msgid "Dumps the function definitions"
 msgstr ""
 
-#: src/main.c:90
+#: src/main.c:91
 msgid "FILE"
 msgstr "SOUBOR"
 
-#: src/main.c:93
+#: src/main.c:94
 msgid "Enables some debugging functions"
 msgstr ""
 
-#: src/main.c:93 src/main.c:96 src/main.c:98
+#: src/main.c:94 src/main.c:97 src/main.c:99
 msgid "LEVEL"
 msgstr "ÚROVEÒ"
 
-#: src/main.c:96
+#: src/main.c:97
 msgid "Enables some dependency related debugging functions"
 msgstr ""
 
-#: src/main.c:98
+#: src/main.c:99
 msgid "Enables some print debugging behavior"
 msgstr ""
 
-#: src/main.c:102
+#: src/main.c:103
 #, fuzzy
 msgid "Enables extra consistency checking while reading ole files"
 msgstr "Povoluje ladící zprávy pøi naèítaní diagramù excelu"
 
-#: src/main.c:106
+#: src/main.c:107
 msgid "Specify the size and location of the initial window"
 msgstr ""
 
-#: src/main.c:106
+#: src/main.c:107
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr ""
 
-#: src/main.c:110
+#: src/main.c:111
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 
-#: src/main.c:139
-msgid ""
-"Thank you for using Gnumeric!\n"
-"\n"
-"The version of Gnumeric you are using is quite old\n"
-"by now.  It is likely that many bugs have been fixed\n"
-"and that new features have been added in the meantime.\n"
-"\n"
-"Please consider upgrading before reporting any bugs.\n"
-"Consult http://www.gnumeric.org/ for details.\n"
-"\n"
-"-- The Gnumeric Team."
-msgstr ""
-
-#: src/main.c:193
+#: src/main.c:164
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -15421,11 +15407,11 @@ msgid ""
 "libdir := '%s'\n"
 msgstr ""
 
-#: src/main.c:245
+#: src/main.c:222
 msgid "Could not initialize Workbook factory"
 msgstr ""
 
-#: src/main.c:249
+#: src/main.c:226
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr ""
 
@@ -15697,7 +15683,7 @@ msgstr ""
 msgid "Unable to mmap the file."
 msgstr "nemohu otevøít soubor modulu:"
 
-#: src/plugin-util.c:318 src/xml-io.c:3368
+#: src/plugin-util.c:318 src/xml-io.c:3375
 #, fuzzy
 msgid "Cannot get file size."
 msgstr "Nelze zapsat soubor %s\n"
@@ -15959,17 +15945,17 @@ msgstr ""
 msgid "cannot be performed with multiple ranges selected"
 msgstr ""
 
-#: src/sheet-control-gui.c:555
+#: src/sheet-control-gui.c:556
 #, fuzzy, c-format
 msgid "Row: %s"
 msgstr "Øádek: %d"
 
-#: src/sheet-control-gui.c:570
+#: src/sheet-control-gui.c:571
 #, c-format
 msgid "Column: %s"
 msgstr "Sloupec: %s"
 
-#: src/sheet-control-gui.c:1398
+#: src/sheet-control-gui.c:1399
 #, fuzzy
 msgid "Paste _Special"
 msgstr "Vlo¾it jinak"
@@ -15981,48 +15967,48 @@ msgstr "Vlo¾it jinak"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1410
+#: src/sheet-control-gui.c:1411
 #, fuzzy
 msgid "_Insert..."
 msgstr "Vlo¾it"
 
-#: src/sheet-control-gui.c:1414
+#: src/sheet-control-gui.c:1415
 #, fuzzy
 msgid "_Insert Column(s)"
 msgstr "Vlo¾ sloupec(e)"
 
-#: src/sheet-control-gui.c:1416
+#: src/sheet-control-gui.c:1417
 #, fuzzy
 msgid "_Delete Column(s)"
 msgstr "Vlo¾ sloupec(e)"
 
-#: src/sheet-control-gui.c:1418
+#: src/sheet-control-gui.c:1419
 #, fuzzy
 msgid "_Insert Row(s)"
 msgstr "Vlo¾ øádky"
 
-#: src/sheet-control-gui.c:1420
+#: src/sheet-control-gui.c:1421
 #, fuzzy
 msgid "_Delete Row(s)"
 msgstr "Mazání"
 
-#: src/sheet-control-gui.c:1423
+#: src/sheet-control-gui.c:1424
 msgid "Clear Co_ntents"
 msgstr ""
 
-#: src/sheet-control-gui.c:1429
+#: src/sheet-control-gui.c:1430
 #, fuzzy
 msgid "_Format Cells..."
 msgstr "Buòky..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1433
+#: src/sheet-control-gui.c:1434
 #, fuzzy
 msgid "Column _Width..."
 msgstr "©íøka _sloupce:"
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1441
+#: src/sheet-control-gui.c:1442
 #, fuzzy
 msgid "_Row Height..."
 msgstr "Délka"
@@ -16292,12 +16278,12 @@ msgstr "Náhled:"
 msgid "R.H. Side"
 msgstr ""
 
-#: src/stf-parse.c:35
+#: src/stf-parse.c:37
 #, c-format
 msgid "Too many rows in data to parse: %d"
 msgstr ""
 
-#: src/stf-parse.c:36
+#: src/stf-parse.c:38
 #, c-format
 msgid "Too many columns in data to parse: %d"
 msgstr ""
@@ -17063,35 +17049,42 @@ msgstr ""
 msgid "Error while trying to build tree from autoformat template file"
 msgstr ""
 
-#: src/xml-io.c:2800
+#: src/xml-io.c:2807
 #, fuzzy
 msgid "Unparsable xml in clipboard"
 msgstr "Vlo¾í schránky"
 
-#: src/xml-io.c:2807
+#: src/xml-io.c:2814
 msgid "Clipboard is in unknown format"
 msgstr ""
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3213
+#: src/xml-io.c:3220
 #, fuzzy
 msgid "Processing file..."
 msgstr "Øetìz"
 
-#: src/xml-io.c:3376
+#: src/xml-io.c:3383
 msgid "Not enough memory to create zlib decompression state."
 msgstr ""
 
-#: src/xml-io.c:3411
+#: src/xml-io.c:3418
 msgid "Is not an Gnumeric Workbook file"
 msgstr ""
 
-#: src/xml-io.c:3468
+#: src/xml-io.c:3475
 #, fuzzy
 msgid "Gnumeric XML file format"
 msgstr "XML formát star¹ích verzí Gnumericu"
+
+#~ msgid "First argument to SCM must be a Guile expression"
+#~ msgstr "První argument SCM musí být výraz Guile"
+
+#, fuzzy
+#~ msgid "Could not evaluate argument"
+#~ msgstr "©patný poèet argumentu"
 
 #, fuzzy
 #~ msgid "Text File Export (*.csv)"

@@ -70,7 +70,7 @@ $(docname)/index.html: $(srcdir)/$(docname).sgml
 	if test "$(HAVE_JW)" = 'yes' ; then 		\
 		jw -c /etc/sgml/catalog $$srcdir/$(docname).sgml -o $$srcdir/$(docname); \
 	else 						\
-		db2html $$srcdir/$(docname).sgml; 	\
+		db2html $$srcdir/$(docname).sgml;	\
 	 fi
 
 app-dist-hook: index.html

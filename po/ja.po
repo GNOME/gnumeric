@@ -6,11 +6,10 @@
 # Yukihiro Nakai <nakai@gnome.gr.jp>, 2000-2001.
 # Takeshi Aihana <aihana@gnome.gr.jp>, 2000-2002.
 # 
-#, no-wrap
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.5\n"
-"POT-Creation-Date: 2002-03-11 23:35+0900\n"
+"POT-Creation-Date: 2002-04-13 18:34-0400\n"
 "PO-Revision-Date: 2002-03-11 23:17+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -407,8 +406,8 @@ msgstr ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, "
 "opt_bs_gamma"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4524
-#: plugins/mps/mps.c:579 src/xml-io.c:3379
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4531
+#: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr "ファイルの読み込み中..."
 
@@ -526,25 +525,25 @@ msgstr "グラフ%d"
 msgid "Module%d"
 msgstr "モジュール%d"
 
-#: plugins/excel/ms-excel-read.c:4519
+#: plugins/excel/ms-excel-read.c:4526
 msgid "No book or workbook streams found."
 msgstr "ブックあるいはワークブックストリームが見つかりませんでした。"
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4683
+#: plugins/excel/ms-excel-read.c:4690
 msgid "Password protected workbooks are not supported yet."
 msgstr "パスワード保護されたワークブックは、まだサポートされていません。"
 
-#: plugins/excel/ms-excel-read.c:4796
+#: plugins/excel/ms-excel-read.c:4803
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "有効な MS Excel のワークブックが見つかりません"
 
-#: plugins/excel/ms-excel-write.c:3511
+#: plugins/excel/ms-excel-write.c:3573
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "この形式には行数が多すぎます (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3737
+#: plugins/excel/ms-excel-write.c:3799
 msgid "Can't open stream for writing\n"
 msgstr "書き出しのストリームが開けません\n"
 
@@ -651,26 +650,10 @@ msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr ""
 ".po ファイルの中にある GNOME 用語を保存するためのサポートを提供します。"
 
-#: plugins/guile/plugin.c:67 src/func.c:810 src/functions/fn-information.c:697
-#: src/functions/fn-information.c:768 src/functions/fn-information.c:796
-#: src/functions/fn-information.c:823 src/functions/fn-information.c:874
-#: src/functions/fn-information.c:904 src/functions/fn-information.c:971
-#: src/functions/fn-logical.c:196 src/functions/fn-string.c:325
-msgid "Invalid number of arguments"
-msgstr "引数の数が正しくありません"
-
-#. FIXME : This looks like a leak (JEG 4/4/00)
-#: plugins/guile/plugin.c:72 plugins/guile/plugin.c:77
-msgid "First argument to SCM must be a Guile expression"
-msgstr "SCM の最初の引数は Guile 式でなければなりません"
-
-#: plugins/guile/plugin.c:81
-msgid "Undefined scheme function"
-msgstr "未定義の scheme 関数"
-
-#: plugins/guile/plugin.c:100
-msgid "Could not evaluate argument"
-msgstr "引数を評価できません"
+#: plugins/guile/plugin.c:106
+#, fuzzy
+msgid "Guile error"
+msgstr "乗算エラー"
 
 #: plugins/guile/plugin.xml.in.h:1
 msgid "Guile Plugin"
@@ -1403,7 +1386,7 @@ msgid "Automatically save the current document at regular intervals"
 msgstr "一定間隔で現在の文書を自動的に保存します"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:15
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:819
+#: src/dialogs/dialog-cell-format.c:2583 src/workbook-format-toolbar.c:819
 #: src/workbook-format-toolbar.c:875
 msgid "Background"
 msgstr "背景"
@@ -1628,7 +1611,7 @@ msgstr "スクロールバーの作成"
 msgid "Create an arrow"
 msgstr "矢印オブジェクトの作成"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1392
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1393
 #: src/workbook-control-gui.c:2734
 msgid "Cu_t"
 msgstr "切り取り(_T)"
@@ -1737,7 +1720,7 @@ msgstr "フォーマット(_O)"
 msgid "Filter data with given criteria"
 msgstr "指定された条件でデータをフィルタリングします"
 
-#: src/GNOME_Gnumeric.xml.h:89 src/dialogs/cell-format.glade.h:39
+#: src/GNOME_Gnumeric.xml.h:89 src/dialogs/cell-format.glade.h:38
 #: src/workbook-format-toolbar.c:758
 msgid "Font"
 msgstr "フォント"
@@ -1751,7 +1734,7 @@ msgstr "フォントのサイズを変更します"
 msgid "Font selector"
 msgstr "フォントを変更します"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2572
+#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2578
 #: src/workbook-format-toolbar.c:844 src/workbook-format-toolbar.c:878
 msgid "Foreground"
 msgstr "背景"
@@ -1760,7 +1743,7 @@ msgstr "背景"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "先にに定義されたテンプレートをセルの書式に適用します"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4094
+#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4096
 #: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3038
 msgid "Fourier Analysis"
 msgstr "フーリエ解析"
@@ -1909,7 +1892,7 @@ msgstr "特定のセルへ移動します"
 msgid "Label"
 msgstr "ラベル"
 
-#: src/GNOME_Gnumeric.xml.h:130 src/dialogs/cell-format.glade.h:53
+#: src/GNOME_Gnumeric.xml.h:130 src/dialogs/cell-format.glade.h:52
 #: src/workbook-format-toolbar.c:629
 msgid "Left"
 msgstr "左"
@@ -1918,7 +1901,7 @@ msgstr "左"
 msgid "Left justifies the contents of each cell"
 msgstr "セルの内容をそれぞれ左揃えにします"
 
-#: src/GNOME_Gnumeric.xml.h:132 src/dialogs/cell-format.glade.h:54
+#: src/GNOME_Gnumeric.xml.h:132 src/dialogs/cell-format.glade.h:53
 #: src/workbook-object-toolbar.c:185
 msgid "Line"
 msgstr "直線"
@@ -2057,7 +2040,7 @@ msgstr "オプションのフィルタを使って変換して貼り付けます"
 msgid "Pearson Correlation"
 msgstr "ピアソン相関"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/analysis-tools.c:2741
+#: src/GNOME_Gnumeric.xml.h:166 src/analysis-tools.c:2743
 #: src/workbook-format-toolbar.c:463
 msgid "Percent"
 msgstr "パーセント"
@@ -2153,7 +2136,7 @@ msgstr "選択されたセルを削除して、その場所に他のセルをずらします"
 msgid "Rename the current sheet"
 msgstr "現在のシート名を変更します"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/dialogs/cell-format.glade.h:68
+#: src/GNOME_Gnumeric.xml.h:189 src/dialogs/cell-format.glade.h:67
 #: src/workbook-format-toolbar.c:631
 msgid "Right"
 msgstr "右"
@@ -2454,7 +2437,7 @@ msgid "_Content"
 msgstr "内容(_C)"
 
 #: src/GNOME_Gnumeric.xml.h:260 src/item-cursor.c:1030
-#: src/sheet-control-gui.c:1394 src/workbook-control-gui.c:2738
+#: src/sheet-control-gui.c:1395 src/workbook-control-gui.c:2738
 msgid "_Copy"
 msgstr "コピー(_C)"
 
@@ -2470,7 +2453,7 @@ msgstr "データ(_D)"
 msgid "_Define..."
 msgstr "定義(_D)..."
 
-#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1412
+#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1413
 #: src/workbook-control-gui.c:2755
 msgid "_Delete..."
 msgstr "削除(_D)..."
@@ -2495,7 +2478,7 @@ msgstr "指数のスムーズ化(_E)"
 msgid "_File"
 msgstr "ファイル(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/dialogs/cell-format.glade.h:109
+#: src/GNOME_Gnumeric.xml.h:270 src/dialogs/cell-format.glade.h:107
 #: src/workbook-control-gui.c:2764
 msgid "_Fill"
 msgstr "繰り返し(_F)"
@@ -2541,8 +2524,8 @@ msgstr "グループとアウトライン(_G)"
 msgid "_Help"
 msgstr "ヘルプ(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1435
-#: src/sheet-control-gui.c:1443 src/workbook-control-gui.c:2876
+#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1436
+#: src/sheet-control-gui.c:1444 src/workbook-control-gui.c:2876
 #: src/workbook-control-gui.c:2895
 msgid "_Hide"
 msgstr "隠す(_H)"
@@ -2600,7 +2583,7 @@ msgstr "開く(_O)..."
 msgid "_Paired Samples: T-Test"
 msgstr "対のサンプル: T-検定(_P)"
 
-#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1396
+#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1397
 #: src/workbook-control-gui.c:2742
 msgid "_Paste"
 msgstr "貼付け(_P)"
@@ -2715,8 +2698,8 @@ msgstr "元に戻す(_U)"
 msgid "_Ungroup"
 msgstr "グループ化解除(_U)"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1437
-#: src/sheet-control-gui.c:1445 src/workbook-control-gui.c:2879
+#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1438
+#: src/sheet-control-gui.c:1446 src/workbook-control-gui.c:2879
 #: src/workbook-control-gui.c:2898
 msgid "_Unhide"
 msgstr "出す(_U)"
@@ -2741,12 +2724,12 @@ msgstr "ワークブック(_W)..."
 msgid "_Zoom..."
 msgstr "ズーム(_Z)..."
 
-#: src/analysis-tools.c:195 src/analysis-tools.c:3234
+#: src/analysis-tools.c:195 src/analysis-tools.c:3236
 #, c-format
 msgid "Row %i"
 msgstr "%i 行"
 
-#: src/analysis-tools.c:198 src/analysis-tools.c:3226
+#: src/analysis-tools.c:198 src/analysis-tools.c:3228
 #, c-format
 msgid "Column %i"
 msgstr "%i 列"
@@ -2761,15 +2744,15 @@ msgstr "Bin %i"
 msgid "Area %i"
 msgstr "範囲 %i"
 
-#: src/analysis-tools.c:810 src/analysis-tools.c:813
+#: src/analysis-tools.c:812 src/analysis-tools.c:815
 msgid "Correlations"
 msgstr "相関"
 
-#: src/analysis-tools.c:902 src/analysis-tools.c:905
+#: src/analysis-tools.c:904 src/analysis-tools.c:907
 msgid "Covariances"
 msgstr "共分散"
 
-#: src/analysis-tools.c:984
+#: src/analysis-tools.c:986
 msgid "Summary Statistics"
 msgstr "統計量一覧"
 
@@ -2780,7 +2763,7 @@ msgstr "統計量一覧"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/analysis-tools.c:995
+#: src/analysis-tools.c:997
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -2788,51 +2771,51 @@ msgstr ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 
-#: src/analysis-tools.c:1081
+#: src/analysis-tools.c:1083
 msgid "Confidence Interval for the Mean"
 msgstr "平均の信頼範囲"
 
-#: src/analysis-tools.c:1082
+#: src/analysis-tools.c:1084
 #, c-format
 msgid "/%g%% CI for the Mean from/to"
 msgstr "%g%% CI for the Mean from/to"
 
-#: src/analysis-tools.c:1119 src/dialogs/descriptive-stats.glade.h:10
+#: src/analysis-tools.c:1121 src/dialogs/descriptive-stats.glade.h:10
 msgid "Kth Largest"
 msgstr "K 番目に大きな値"
 
-#: src/analysis-tools.c:1120
+#: src/analysis-tools.c:1122
 #, c-format
 msgid "Largest (%d)"
 msgstr "最大 (%d)"
 
-#: src/analysis-tools.c:1144 src/dialogs/descriptive-stats.glade.h:11
+#: src/analysis-tools.c:1146 src/dialogs/descriptive-stats.glade.h:11
 msgid "Kth Smallest"
 msgstr "K 番目に小さな値"
 
-#: src/analysis-tools.c:1145
+#: src/analysis-tools.c:1147
 #, c-format
 msgid "Smallest (%d)"
 msgstr "最小 (%d)"
 
-#: src/analysis-tools.c:1266 src/dialogs/cell-format.glade.h:70
+#: src/analysis-tools.c:1268 src/dialogs/cell-format.glade.h:69
 msgid "Sample"
 msgstr "例"
 
-#: src/analysis-tools.c:1363 src/analysis-tools.c:1365
-#: src/analysis-tools.c:1482 src/analysis-tools.c:1484
-#: src/analysis-tools.c:1641 src/analysis-tools.c:1643
-#: src/analysis-tools.c:1769 src/analysis-tools.c:1771
-#: src/analysis-tools.c:1905 src/analysis-tools.c:1907
+#: src/analysis-tools.c:1365 src/analysis-tools.c:1367
+#: src/analysis-tools.c:1484 src/analysis-tools.c:1486
+#: src/analysis-tools.c:1643 src/analysis-tools.c:1645
+#: src/analysis-tools.c:1771 src/analysis-tools.c:1773
+#: src/analysis-tools.c:1907 src/analysis-tools.c:1909
 #, c-format
 msgid "Variable %i"
 msgstr "変数 %i"
 
-#: src/analysis-tools.c:1367
+#: src/analysis-tools.c:1369
 msgid "z-Test"
 msgstr "z検定"
 
-#: src/analysis-tools.c:1370
+#: src/analysis-tools.c:1372
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -2842,12 +2825,12 @@ msgstr ""
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 
-#: src/analysis-tools.c:1498 src/analysis-tools.c:1645
-#: src/analysis-tools.c:1773
+#: src/analysis-tools.c:1500 src/analysis-tools.c:1647
+#: src/analysis-tools.c:1775
 msgid "t-Test"
 msgstr "t 検定"
 
-#: src/analysis-tools.c:1501
+#: src/analysis-tools.c:1503
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
@@ -2857,7 +2840,7 @@ msgstr ""
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
 "two-tail"
 
-#: src/analysis-tools.c:1648
+#: src/analysis-tools.c:1650
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -2867,7 +2850,7 @@ msgstr ""
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 
-#: src/analysis-tools.c:1776
+#: src/analysis-tools.c:1778
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -2877,11 +2860,11 @@ msgstr ""
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 
-#: src/analysis-tools.c:1914
+#: src/analysis-tools.c:1916
 msgid "F-Test"
 msgstr "F検定"
 
-#: src/analysis-tools.c:1920
+#: src/analysis-tools.c:1922
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -2889,23 +2872,23 @@ msgstr ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 
-#: src/analysis-tools.c:2038 src/analysis-tools.c:2096
+#: src/analysis-tools.c:2040 src/analysis-tools.c:2098
 msgid "Random"
 msgstr "乱数"
 
-#: src/analysis-tools.c:2212
+#: src/analysis-tools.c:2214
 msgid "Not implemented yet.\n"
 msgstr "未だ実装されていません。\n"
 
-#: src/analysis-tools.c:2289
+#: src/analysis-tools.c:2291
 msgid "Y Variable"
 msgstr "Y 変数"
 
-#: src/analysis-tools.c:2348 src/dialogs/regression.glade.h:8
+#: src/analysis-tools.c:2350 src/dialogs/regression.glade.h:8
 msgid "Regression"
 msgstr "回帰"
 
-#: src/analysis-tools.c:2350
+#: src/analysis-tools.c:2352
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -2913,146 +2896,146 @@ msgstr ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 
-#: src/analysis-tools.c:2371
+#: src/analysis-tools.c:2373
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/Significance of F"
 
-#: src/analysis-tools.c:2378
+#: src/analysis-tools.c:2380
 #, c-format
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
 msgstr ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
 
-#: src/analysis-tools.c:2546
+#: src/analysis-tools.c:2548
 msgid "Moving Averages"
 msgstr "移動平均"
 
-#: src/analysis-tools.c:2561
+#: src/analysis-tools.c:2563
 msgid "Standard Error"
 msgstr "標準エラー出力"
 
-#: src/analysis-tools.c:2649
+#: src/analysis-tools.c:2651
 msgid "Exponential Smoothing"
 msgstr "指数のスムーズ化"
 
-#: src/analysis-tools.c:2729
+#: src/analysis-tools.c:2731
 msgid "Ranks"
 msgstr "階数"
 
-#: src/analysis-tools.c:2738
+#: src/analysis-tools.c:2740
 msgid "Point"
 msgstr "点"
 
-#: src/analysis-tools.c:2740
+#: src/analysis-tools.c:2742
 msgid "Rank"
 msgstr "階数"
 
 #. We are ready to create the summary table
-#: src/analysis-tools.c:2829 src/analysis-tools.c:3024
-#: src/analysis-tools.c:3286
+#: src/analysis-tools.c:2831 src/analysis-tools.c:3026
+#: src/analysis-tools.c:3288
 msgid "Anova"
 msgstr "分散解析"
 
-#: src/analysis-tools.c:2831
+#: src/analysis-tools.c:2833
 msgid "Anova: Single Factor"
 msgstr "分散解析: 一元配置"
 
-#: src/analysis-tools.c:2832 src/analysis-tools.c:3289
+#: src/analysis-tools.c:2834 src/analysis-tools.c:3291
 msgid "SUMMARY"
 msgstr "SUMMARY"
 
-#: src/analysis-tools.c:2833
+#: src/analysis-tools.c:2835
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Groups/Count/Sum/Average/Variance"
 
-#: src/analysis-tools.c:2889
+#: src/analysis-tools.c:2891
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 
-#: src/analysis-tools.c:2894 src/analysis-tools.c:3106
-#: src/analysis-tools.c:3313
+#: src/analysis-tools.c:2896 src/analysis-tools.c:3108
+#: src/analysis-tools.c:3315
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-value/F critical"
 
-#: src/analysis-tools.c:3030
+#: src/analysis-tools.c:3032
 msgid "Anova: Two-Factor Without Replication"
 msgstr "分散解析: 繰り返しのない二元配置"
 
-#: src/analysis-tools.c:3031
+#: src/analysis-tools.c:3033
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/SUMMARY/Count/Sum/Average/Variance"
 
-#: src/analysis-tools.c:3100
+#: src/analysis-tools.c:3102
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 
-#: src/analysis-tools.c:3288
+#: src/analysis-tools.c:3290
 msgid "Anova: Two-Factor With Replication"
 msgstr "分散解析: 繰り返しのある二元配置"
 
-#: src/analysis-tools.c:3293 src/analysis-tools.c:3303
-#: src/analysis-tools.c:3311 src/dialogs/dialog-autoformat.c:74
+#: src/analysis-tools.c:3295 src/analysis-tools.c:3305
+#: src/analysis-tools.c:3313 src/dialogs/dialog-autoformat.c:74
 #: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr "合計"
 
-#: src/analysis-tools.c:3295
+#: src/analysis-tools.c:3297
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Count/Sum/Average/Variance"
 
-#: src/analysis-tools.c:3305
+#: src/analysis-tools.c:3307
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 
-#: src/analysis-tools.c:3773
+#: src/analysis-tools.c:3775
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/analysis-tools.c:3777
+#: src/analysis-tools.c:3779
 msgid "Too Small"
 msgstr "小さすぎ"
 
-#: src/analysis-tools.c:3794
+#: src/analysis-tools.c:3796
 msgid "More"
 msgstr "以上"
 
-#: src/analysis-tools.c:3802
+#: src/analysis-tools.c:3804
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/analysis-tools.c:3806
+#: src/analysis-tools.c:3808
 msgid "Too Large"
 msgstr "大きすぎ"
 
-#: src/analysis-tools.c:3847 src/dialogs/histogram.glade.h:7
+#: src/analysis-tools.c:3849 src/dialogs/histogram.glade.h:7
 msgid "Histogram"
 msgstr "ヒストグラム"
 
-#: src/analysis-tools.c:3852
+#: src/analysis-tools.c:3854
 msgid "Bin"
 msgstr "貯蓄"
 
-#: src/analysis-tools.c:3877
+#: src/analysis-tools.c:3879
 msgid "Frequency"
 msgstr "頻度"
 
-#: src/analysis-tools.c:3879 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3881 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3882
+#: src/analysis-tools.c:3884
 #, no-c-format
 msgid "Cumulative %"
 msgstr "進捗 %"
 
-#: src/analysis-tools.c:4114
+#: src/analysis-tools.c:4116
 msgid "Real"
 msgstr "実数"
 
-#: src/analysis-tools.c:4115
+#: src/analysis-tools.c:4117
 msgid "Imaginary"
 msgstr "虚数"
 
@@ -3061,7 +3044,7 @@ msgstr "虚数"
 msgid "Error '%s' opening workbook stream"
 msgstr "ワークブックストリームを開くときにエラー '%s' が発生しました"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3402
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3409
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "不正な xml ファイルです。ツリーは空ですか？"
 
@@ -3804,7 +3787,7 @@ msgstr "次に続く単語の先頭を大文字にしない:"
 msgid "_First Letter"
 msgstr "先頭の文字(_F)"
 
-#: src/dialogs/autocorrect.glade.h:10 src/dialogs/cell-format.glade.h:111
+#: src/dialogs/autocorrect.glade.h:10 src/dialogs/cell-format.glade.h:109
 msgid "_General"
 msgstr "汎用(_G)"
 
@@ -3973,7 +3956,7 @@ msgstr "何か値                     (検証なし)"
 msgid "Background Color"
 msgstr "背景色"
 
-#: src/dialogs/cell-format.glade.h:17 src/dialogs/dialog-cell-format.c:2567
+#: src/dialogs/cell-format.glade.h:17 src/dialogs/dialog-cell-format.c:2573
 msgid "Border"
 msgstr "罫線"
 
@@ -4009,7 +3992,7 @@ msgstr "色 :"
 msgid "Control"
 msgstr "文字の制御"
 
-#: src/dialogs/cell-format.glade.h:26 src/dialogs/dialog-cell-format.c:2106
+#: src/dialogs/cell-format.glade.h:26 src/dialogs/dialog-cell-format.c:2112
 msgid "Criteria"
 msgstr "条件"
 
@@ -4051,394 +4034,384 @@ msgstr "左下がり斜線の縞"
 msgid "Display the value exactly as it was entered"
 msgstr "入力された通りに値を表示します"
 
-#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:1303
-#: src/dialogs/dialog-cell-format.c:1363
-msgid "Double"
-msgstr "二重"
-
-#: src/dialogs/cell-format.glade.h:37
+#: src/dialogs/cell-format.glade.h:36
 msgid "Effects"
 msgstr "効果"
 
-#: src/dialogs/cell-format.glade.h:38
+#: src/dialogs/cell-format.glade.h:37
 msgid "Error Alert"
 msgstr "エラー通知"
 
-#: src/dialogs/cell-format.glade.h:40
+#: src/dialogs/cell-format.glade.h:39
 msgid "Foreground Solid"
 msgstr "前景色で塗りつぶし"
 
-#: src/dialogs/cell-format.glade.h:41
+#: src/dialogs/cell-format.glade.h:40
 msgid ""
 "General format cells attempt to select an appropriate format depending on "
 "the value of the cell."
 msgstr "セルの値によって適当な形式の選択を試みる、汎用形式です。"
 
-#: src/dialogs/cell-format.glade.h:42
+#: src/dialogs/cell-format.glade.h:41
 msgid "Horizontal"
 msgstr "横位置"
 
-#: src/dialogs/cell-format.glade.h:43
+#: src/dialogs/cell-format.glade.h:42
 msgid "Horizontal Stripe"
 msgstr "横縞"
 
-#: src/dialogs/cell-format.glade.h:44
+#: src/dialogs/cell-format.glade.h:43
 msgid "In a list"
 msgstr "リストの中"
 
-#: src/dialogs/cell-format.glade.h:45
+#: src/dialogs/cell-format.glade.h:44
 msgid "In-_cell dropdown"
 msgstr "In-セルのドロップダウン(_C)"
 
-#: src/dialogs/cell-format.glade.h:46
+#: src/dialogs/cell-format.glade.h:45
 msgid "Information  (allows invalid input)"
 msgstr "情報 (不正な入力は許可されます)"
 
-#: src/dialogs/cell-format.glade.h:47
+#: src/dialogs/cell-format.glade.h:46
 msgid "Input Message"
 msgstr "入力メッセージ"
 
-#: src/dialogs/cell-format.glade.h:48
+#: src/dialogs/cell-format.glade.h:47
 msgid "Inside"
 msgstr "内側"
 
-#: src/dialogs/cell-format.glade.h:49
+#: src/dialogs/cell-format.glade.h:48
 msgid "Inside Horizontal"
 msgstr "内側・水平"
 
-#: src/dialogs/cell-format.glade.h:50
+#: src/dialogs/cell-format.glade.h:49
 msgid "Inside Vertical"
 msgstr "内側・垂直"
 
-#: src/dialogs/cell-format.glade.h:51
+#: src/dialogs/cell-format.glade.h:50
 msgid "J_ustify"
 msgstr "両端揃え(_U)"
 
-#: src/dialogs/cell-format.glade.h:52
+#: src/dialogs/cell-format.glade.h:51
 msgid "Large Circles"
 msgstr "大きな円"
 
-#: src/dialogs/cell-format.glade.h:55
+#: src/dialogs/cell-format.glade.h:54
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr "セルのロックや式を隠すのは保護されたワークシートのみに有効です"
 
-#: src/dialogs/cell-format.glade.h:56
+#: src/dialogs/cell-format.glade.h:55
 msgid "Message :"
 msgstr "メッセージ :"
 
-#: src/dialogs/cell-format.glade.h:57
+#: src/dialogs/cell-format.glade.h:56
 msgid "Negative number:"
 msgstr "負の数:"
 
-#: src/dialogs/cell-format.glade.h:58 src/dialogs/dialog-cell-format.c:1305
-#: src/dialogs/dialog-cell-format.c:1361 src/dialogs/dialog-paste-special.c:34
+#: src/dialogs/cell-format.glade.h:57 src/dialogs/dialog-cell-format.c:1306
+#: src/dialogs/dialog-cell-format.c:1358 src/dialogs/dialog-cell-format.c:1364
+#: src/dialogs/dialog-paste-special.c:34
 msgid "None"
 msgstr "なし"
 
-#: src/dialogs/cell-format.glade.h:59
+#: src/dialogs/cell-format.glade.h:58
 msgid "None          (silently accept invalid input)"
 msgstr "なし         (不正な入力を黙って受け入れます)"
 
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:440
+#: src/dialogs/cell-format.glade.h:59 src/dialogs/dialog-formula-guru.c:440
 #: src/dialogs/dialog-search.c:126
 msgid "Number"
 msgstr "数値"
 
-#: src/dialogs/cell-format.glade.h:61
+#: src/dialogs/cell-format.glade.h:60
 msgid "Numbers"
 msgstr "数値"
 
-#: src/dialogs/cell-format.glade.h:62 src/dialogs/print.glade.h:11
+#: src/dialogs/cell-format.glade.h:61 src/dialogs/print.glade.h:11
 msgid "Orientation"
 msgstr "方向"
 
-#: src/dialogs/cell-format.glade.h:63
+#: src/dialogs/cell-format.glade.h:62
 msgid "Outline"
 msgstr "外枠"
 
-#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2582
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:2588
 msgid "Pattern"
 msgstr "パターン"
 
-#: src/dialogs/cell-format.glade.h:65
+#: src/dialogs/cell-format.glade.h:64
 msgid "Protection"
 msgstr "保護"
 
-#: src/dialogs/cell-format.glade.h:66
+#: src/dialogs/cell-format.glade.h:65
 msgid "Reverse Diagonal"
 msgstr "右下がりの対角線"
 
-#: src/dialogs/cell-format.glade.h:67
+#: src/dialogs/cell-format.glade.h:66
 msgid "Reverse Diagonal Stripe"
 msgstr "右下がり斜線の縞"
 
-#: src/dialogs/cell-format.glade.h:69
+#: src/dialogs/cell-format.glade.h:68
 msgid "S_ymbol:"
 msgstr "記号(_Y)"
 
-#: src/dialogs/cell-format.glade.h:71
+#: src/dialogs/cell-format.glade.h:70
 msgid "Semi Circles"
 msgstr "半円"
 
-#: src/dialogs/cell-format.glade.h:72
+#: src/dialogs/cell-format.glade.h:71
 msgid "Shrin_k to fit"
 msgstr "セルに合わせて縮小"
 
-#. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:73 src/dialogs/dialog-cell-format.c:1301
-#: src/dialogs/dialog-cell-format.c:1362
-msgid "Single"
-msgstr "一重"
-
-#: src/dialogs/cell-format.glade.h:74
+#: src/dialogs/cell-format.glade.h:72
 msgid "Small Circles"
 msgstr "小円"
 
-#: src/dialogs/cell-format.glade.h:75
+#: src/dialogs/cell-format.glade.h:73
 msgid "Solid"
 msgstr "色なし"
 
-#: src/dialogs/cell-format.glade.h:76
+#: src/dialogs/cell-format.glade.h:74
 msgid "Sp_ecial"
 msgstr "特別(_E)"
 
-#: src/dialogs/cell-format.glade.h:77
+#: src/dialogs/cell-format.glade.h:75
 msgid "Stop           (never allow invalid input)"
 msgstr "停止           (不正な入力は許可しない)"
 
-#: src/dialogs/cell-format.glade.h:78
+#: src/dialogs/cell-format.glade.h:76
 msgid "Stri_kethrough"
 msgstr "取消線(_K)"
 
-#: src/dialogs/cell-format.glade.h:79
+#: src/dialogs/cell-format.glade.h:77
 msgid "Su_bscript"
 msgstr "下付き(_B)"
 
-#: src/dialogs/cell-format.glade.h:80
+#: src/dialogs/cell-format.glade.h:78
 msgid "Sup_erscript"
 msgstr "上付き(_E)"
 
-#: src/dialogs/cell-format.glade.h:81
+#: src/dialogs/cell-format.glade.h:79
 msgid "Te_xt"
 msgstr "テキスト(_X)"
 
-#: src/dialogs/cell-format.glade.h:82
+#: src/dialogs/cell-format.glade.h:80
 msgid "Text length"
 msgstr "テキスト長さ"
 
-#: src/dialogs/cell-format.glade.h:83
+#: src/dialogs/cell-format.glade.h:81
 msgid "Thatch"
 msgstr "わらふき"
 
-#: src/dialogs/cell-format.glade.h:84
+#: src/dialogs/cell-format.glade.h:82
 msgid "Thick Diagonal Crosshatch"
 msgstr "太い斜線の格子"
 
-#: src/dialogs/cell-format.glade.h:85
+#: src/dialogs/cell-format.glade.h:83
 msgid "Thin Diagonal Crosshatch"
 msgstr "細い斜線の格子"
 
-#: src/dialogs/cell-format.glade.h:86
+#: src/dialogs/cell-format.glade.h:84
 msgid "Thin Diagonal Stripe"
 msgstr "細い左下がり斜線の縞"
 
-#: src/dialogs/cell-format.glade.h:87
+#: src/dialogs/cell-format.glade.h:85
 msgid "Thin Horizontal Crosshatch"
 msgstr "細い横線の格子"
 
-#: src/dialogs/cell-format.glade.h:88
+#: src/dialogs/cell-format.glade.h:86
 msgid "Thin Horizontal Stripe"
 msgstr "細い横縞"
 
-#: src/dialogs/cell-format.glade.h:89
+#: src/dialogs/cell-format.glade.h:87
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "細い右下がり斜線の縞"
 
-#: src/dialogs/cell-format.glade.h:90
+#: src/dialogs/cell-format.glade.h:88
 msgid "Thin Vertical Stripe"
 msgstr "細い縦縞"
 
-#: src/dialogs/cell-format.glade.h:91
+#: src/dialogs/cell-format.glade.h:89
 msgid "Time"
 msgstr "時間"
 
-#: src/dialogs/cell-format.glade.h:92
+#: src/dialogs/cell-format.glade.h:90
 msgid "Title :"
 msgstr "題名 :"
 
-#: src/dialogs/cell-format.glade.h:93
+#: src/dialogs/cell-format.glade.h:91
 msgid "Top"
 msgstr "上"
 
-#: src/dialogs/cell-format.glade.h:94
+#: src/dialogs/cell-format.glade.h:92
 msgid "Unfinished"
 msgstr "未完成"
 
-#: src/dialogs/cell-format.glade.h:95
+#: src/dialogs/cell-format.glade.h:93
 msgid "Validation"
 msgstr "検証"
 
-#: src/dialogs/cell-format.glade.h:96
+#: src/dialogs/cell-format.glade.h:94
 msgid "Vertical Alignment"
 msgstr "縦位置"
 
-#: src/dialogs/cell-format.glade.h:97
+#: src/dialogs/cell-format.glade.h:95
 msgid "Vertical Stripe"
 msgstr "縦縞"
 
-#: src/dialogs/cell-format.glade.h:98
+#: src/dialogs/cell-format.glade.h:96
 msgid "Warning      (accept/discard invalid input)"
 msgstr "警告      (不正な入力を受け入れる/無視する)"
 
-#: src/dialogs/cell-format.glade.h:99
+#: src/dialogs/cell-format.glade.h:97
 msgid "Whole numbers"
 msgstr "すべての番号"
 
-#: src/dialogs/cell-format.glade.h:100
+#: src/dialogs/cell-format.glade.h:98
 msgid "Worksheet _protected"
 msgstr "ワークシートを保護する(_P)"
 
-#: src/dialogs/cell-format.glade.h:101
+#: src/dialogs/cell-format.glade.h:99
 msgid "_Accounting"
 msgstr "会計(_A)"
 
-#: src/dialogs/cell-format.glade.h:102
+#: src/dialogs/cell-format.glade.h:100
 msgid "_Allow :"
 msgstr "許可(_A) :"
 
-#: src/dialogs/cell-format.glade.h:103
+#: src/dialogs/cell-format.glade.h:101
 msgid "_Bottom"
 msgstr "下(_B)"
 
-#: src/dialogs/cell-format.glade.h:104
+#: src/dialogs/cell-format.glade.h:102
 msgid "_Center"
 msgstr "中央(_C)"
 
-#: src/dialogs/cell-format.glade.h:105
+#: src/dialogs/cell-format.glade.h:103
 msgid "_Color :"
 msgstr "色(_C) :"
 
-#: src/dialogs/cell-format.glade.h:106
+#: src/dialogs/cell-format.glade.h:104
 msgid "_Condition :"
 msgstr "状態(_C) :"
 
-#: src/dialogs/cell-format.glade.h:107
+#: src/dialogs/cell-format.glade.h:105
 msgid "_Currency"
 msgstr "通貨(_C)"
 
-#: src/dialogs/cell-format.glade.h:108
+#: src/dialogs/cell-format.glade.h:106
 msgid "_Date"
 msgstr "日付(_D)"
 
-#: src/dialogs/cell-format.glade.h:110
+#: src/dialogs/cell-format.glade.h:108
 msgid "_Fraction"
 msgstr "分数(_F)"
 
-#: src/dialogs/cell-format.glade.h:112
+#: src/dialogs/cell-format.glade.h:110
 msgid "_Hidden"
 msgstr "式を隠す(_H)"
 
-#: src/dialogs/cell-format.glade.h:113
+#: src/dialogs/cell-format.glade.h:111
 msgid "_Ignore blank cells"
 msgstr "空白のセルを無視する(_I)"
 
-#: src/dialogs/cell-format.glade.h:114
+#: src/dialogs/cell-format.glade.h:112
 msgid "_Indent"
 msgstr "インデント(_I)"
 
-#: src/dialogs/cell-format.glade.h:115
+#: src/dialogs/cell-format.glade.h:113
 msgid "_Justify"
 msgstr "両端揃え(_J)"
 
-#: src/dialogs/cell-format.glade.h:116
+#: src/dialogs/cell-format.glade.h:114
 msgid "_Left"
 msgstr "左(_L)"
 
-#: src/dialogs/cell-format.glade.h:117
+#: src/dialogs/cell-format.glade.h:115
 msgid "_Locked"
 msgstr "セルをロックする(_L)"
 
-#: src/dialogs/cell-format.glade.h:118
+#: src/dialogs/cell-format.glade.h:116
 msgid "_Message :"
 msgstr "メッセージ(_M) :"
 
-#: src/dialogs/cell-format.glade.h:119
+#: src/dialogs/cell-format.glade.h:117
 msgid "_Number"
 msgstr "数値(_N)"
 
-#: src/dialogs/cell-format.glade.h:120
+#: src/dialogs/cell-format.glade.h:118
 msgid "_Percentage"
 msgstr "パーセント(_P)"
 
-#: src/dialogs/cell-format.glade.h:121
+#: src/dialogs/cell-format.glade.h:119
 msgid "_Right"
 msgstr "右(_R)"
 
-#: src/dialogs/cell-format.glade.h:122
+#: src/dialogs/cell-format.glade.h:120
 msgid "_Scientific"
 msgstr "科学技術(_S)"
 
-#: src/dialogs/cell-format.glade.h:123
+#: src/dialogs/cell-format.glade.h:121
 msgid "_Show input message when cell is selected"
 msgstr "セルが選択されたら入力メッセージを表示する(_S)"
 
-#: src/dialogs/cell-format.glade.h:124
+#: src/dialogs/cell-format.glade.h:122
 msgid "_Style"
 msgstr "スタイル(_S)"
 
-#: src/dialogs/cell-format.glade.h:125
+#: src/dialogs/cell-format.glade.h:123
 msgid "_Time"
 msgstr "時間(_T)"
 
-#: src/dialogs/cell-format.glade.h:126
+#: src/dialogs/cell-format.glade.h:124
 msgid "_Top"
 msgstr "上(_T)"
 
-#: src/dialogs/cell-format.glade.h:127
+#: src/dialogs/cell-format.glade.h:125
 msgid "_Type"
 msgstr "型(_T)"
 
-#: src/dialogs/cell-format.glade.h:128
+#: src/dialogs/cell-format.glade.h:126
 msgid "_Underline:"
 msgstr "下線(_U)"
 
-#: src/dialogs/cell-format.glade.h:129
+#: src/dialogs/cell-format.glade.h:127
 msgid "_Use Separator for 1000's"
 msgstr "1000単位でセパレータを使用する(_U)"
 
-#: src/dialogs/cell-format.glade.h:130
+#: src/dialogs/cell-format.glade.h:128
 msgid "_Wrap text"
 msgstr "折り返し(_W)"
 
-#: src/dialogs/cell-format.glade.h:131
+#: src/dialogs/cell-format.glade.h:129
 msgid "min &lt;= val &lt;= max         (between)"
 msgstr "最小値 &lt;= 値 &lt;= 最大値     (範囲内)"
 
-#: src/dialogs/cell-format.glade.h:132
+#: src/dialogs/cell-format.glade.h:130
 msgid "val != bound                  (not equal to)"
 msgstr "値 != 境界値                   (等しくない)"
 
-#: src/dialogs/cell-format.glade.h:133
+#: src/dialogs/cell-format.glade.h:131
 msgid "val &gt;  bound                  (greater than)"
 msgstr "値 &gt; 境界値                        (大きい)"
 
-#: src/dialogs/cell-format.glade.h:134
+#: src/dialogs/cell-format.glade.h:132
 msgid "val &gt;=bound                  (greater than or equal to)"
 msgstr "値 &gt;= 境界値                      (大きいまたは等しい)"
 
-#: src/dialogs/cell-format.glade.h:135
+#: src/dialogs/cell-format.glade.h:133
 msgid "val &lt;  bound                  (less than)"
 msgstr "値 &lt 境界値                     (小さい)"
 
-#: src/dialogs/cell-format.glade.h:136
+#: src/dialogs/cell-format.glade.h:134
 msgid "val &lt;= min || max &lt;= val (not between)"
 msgstr "値 &lt;= 最小値 || 最大値 &lt;= 値  (範囲外)"
 
-#: src/dialogs/cell-format.glade.h:137
+#: src/dialogs/cell-format.glade.h:135
 msgid "val &lt;=bound                  (less than or equal to)"
 msgstr "値 &lt;= 境界値                    (小さいまたは等しい)"
 
-#: src/dialogs/cell-format.glade.h:138
+#: src/dialogs/cell-format.glade.h:136
 msgid "val == bound                 (equal to)"
 msgstr "値 == 境界値                  (等しい)"
 
@@ -5269,48 +5242,59 @@ msgstr "正しい数字を分単位で入力してください。"
 msgid "Cell comment"
 msgstr "セルの注釈"
 
-#: src/dialogs/dialog-cell-format.c:423
+#: src/dialogs/dialog-cell-format.c:424
 msgid ";[Red]"
 msgstr ";[Red]"
 
-#: src/dialogs/dialog-cell-format.c:425
+#: src/dialogs/dialog-cell-format.c:426
 msgid "_);("
 msgstr "_);("
 
-#: src/dialogs/dialog-cell-format.c:427
+#: src/dialogs/dialog-cell-format.c:428
 msgid "_);[Red]("
 msgstr "_);[Red]("
 
-#: src/dialogs/dialog-cell-format.c:2105
+#. There must be a better way than this
+#: src/dialogs/dialog-cell-format.c:1302 src/dialogs/dialog-cell-format.c:1359
+#: src/dialogs/dialog-cell-format.c:1365
+msgid "Single"
+msgstr "一重"
+
+#: src/dialogs/dialog-cell-format.c:1304 src/dialogs/dialog-cell-format.c:1360
+#: src/dialogs/dialog-cell-format.c:1366
+msgid "Double"
+msgstr "二重"
+
+#: src/dialogs/dialog-cell-format.c:2111
 msgid "Source"
 msgstr "ソース"
 
-#: src/dialogs/dialog-cell-format.c:2118 src/dialogs/dialog-cell-format.c:2125
+#: src/dialogs/dialog-cell-format.c:2124 src/dialogs/dialog-cell-format.c:2131
 #: src/sheet-object-widget.c:809
 msgid "Min :"
 msgstr "最小 :"
 
-#: src/dialogs/dialog-cell-format.c:2119 src/dialogs/dialog-cell-format.c:2128
+#: src/dialogs/dialog-cell-format.c:2125 src/dialogs/dialog-cell-format.c:2134
 #: src/sheet-object-widget.c:813
 msgid "Max :"
 msgstr "最大 :"
 
-#: src/dialogs/dialog-cell-format.c:2122
+#: src/dialogs/dialog-cell-format.c:2128
 msgid "Value :"
 msgstr "値 :"
 
-#: src/dialogs/dialog-cell-format.c:2501
+#: src/dialogs/dialog-cell-format.c:2507
 msgid "Format Cells"
 msgstr "セルの書式設定"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2567 src/dialogs/dialog-cell-format.c:2572
-#: src/dialogs/dialog-cell-format.c:2582 src/functions/fn-information.c:429
+#: src/dialogs/dialog-cell-format.c:2573 src/dialogs/dialog-cell-format.c:2578
+#: src/dialogs/dialog-cell-format.c:2588 src/functions/fn-information.c:429
 #: src/workbook-format-toolbar.c:837
 msgid "Automatic"
 msgstr "自動"
 
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:812
+#: src/dialogs/dialog-cell-format.c:2583 src/workbook-format-toolbar.c:812
 msgid "Clear Background"
 msgstr "背景を消去"
 
@@ -6720,7 +6704,7 @@ msgid "Scale"
 msgstr "拡大"
 
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3087
+#: src/workbook.c:1065 src/xml-io.c:3094
 msgid "Sheet"
 msgstr "シート"
 
@@ -8913,20 +8897,28 @@ msgstr "ジンバブエ・ドル"
 msgid "[Red]"
 msgstr "[Red]"
 
-#: src/func.c:131
+#: src/func.c:133
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "ファイル %s を作成できません\n"
 
-#: src/func.c:288
+#: src/func.c:290
 msgid "Function implementation not available."
 msgstr "関数の実装が有効ではありません。"
 
-#: src/func.c:504
+#: src/func.c:506
 msgid "Unknown Function"
 msgstr "不明な関数"
 
-#: src/func.c:857
+#: src/func.c:812 src/functions/fn-information.c:697
+#: src/functions/fn-information.c:768 src/functions/fn-information.c:796
+#: src/functions/fn-information.c:823 src/functions/fn-information.c:874
+#: src/functions/fn-information.c:904 src/functions/fn-information.c:971
+#: src/functions/fn-logical.c:196 src/functions/fn-string.c:325
+msgid "Invalid number of arguments"
+msgstr "引数の数が正しくありません"
+
+#: src/func.c:859
 msgid "Function does not exist"
 msgstr "関数がありません"
 
@@ -9305,7 +9297,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-date.c:27
+#: src/functions/fn-date.c:28
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -9343,7 +9335,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/functions/fn-date.c:97
+#: src/functions/fn-date.c:98
 msgid ""
 "@FUNCTION=UNIX2DATE\n"
 "@SYNTAX=UNIX2DATE(unixtime)\n"
@@ -9367,7 +9359,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NOW, DATE, DATE2UNIX"
 
-#: src/functions/fn-date.c:127
+#: src/functions/fn-date.c:128
 msgid ""
 "@FUNCTION=DATE2UNIX\n"
 "@SYNTAX=DATE2UNIX(serial)\n"
@@ -9391,7 +9383,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NOW, DATE, UNIX2DATE"
 
-#: src/functions/fn-date.c:158
+#: src/functions/fn-date.c:160
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
@@ -9411,7 +9403,7 @@ msgstr ""
 "DATEVALUE(\"1/1/1999\") = 36160 です。\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:183
+#: src/functions/fn-date.c:185
 msgid ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(date1,date2,interval)\n"
@@ -9449,7 +9441,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:350
+#: src/functions/fn-date.c:352
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -9475,7 +9467,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:404
+#: src/functions/fn-date.c:406
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY()\n"
@@ -9497,7 +9489,7 @@ msgstr ""
 " \n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/functions/fn-date.c:427
+#: src/functions/fn-date.c:429
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -9529,7 +9521,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TODAY"
 
-#: src/functions/fn-date.c:458
+#: src/functions/fn-date.c:460
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -9549,7 +9541,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-date.c:487
+#: src/functions/fn-date.c:489
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -9573,7 +9565,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR,MINUTE"
 
-#: src/functions/fn-date.c:516
+#: src/functions/fn-date.c:518
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -9599,7 +9591,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:545
+#: src/functions/fn-date.c:547
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -9624,7 +9616,7 @@ msgstr ""
 "MINUTE(0.128472) = 5 です。\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:575
+#: src/functions/fn-date.c:577
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -9650,7 +9642,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
-#: src/functions/fn-date.c:605
+#: src/functions/fn-date.c:607
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -9674,7 +9666,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 
-#: src/functions/fn-date.c:642
+#: src/functions/fn-date.c:644
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -9698,7 +9690,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:679
+#: src/functions/fn-date.c:681
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -9722,7 +9714,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:716
+#: src/functions/fn-date.c:718
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serial_number[, method])\n"
@@ -9762,7 +9754,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:769
+#: src/functions/fn-date.c:771
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -9797,11 +9789,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:807
+#: src/functions/fn-date.c:809
 msgid "Unsupported method"
 msgstr "サポートされていない手法です"
 
-#: src/functions/fn-date.c:872
+#: src/functions/fn-date.c:874
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -9827,7 +9819,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH"
 
-#: src/functions/fn-date.c:922
+#: src/functions/fn-date.c:924
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
@@ -9853,12 +9845,12 @@ msgstr ""
 "@SEEALSO=NETWORKDAYS"
 
 #. Path of the current directory or folder.
-#: src/functions/fn-date.c:958 src/functions/fn-eng.c:77
+#: src/functions/fn-date.c:960 src/functions/fn-eng.c:77
 #: src/functions/fn-information.c:395 src/functions/fn-information.c:411
 msgid "Unimplemented"
 msgstr "未実装です"
 
-#: src/functions/fn-date.c:993
+#: src/functions/fn-date.c:995
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
@@ -9884,7 +9876,7 @@ msgstr ""
 "\n"
 "@SEEALSO=WORKDAY"
 
-#: src/functions/fn-date.c:1124
+#: src/functions/fn-date.c:1126
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -9911,7 +9903,7 @@ msgstr ""
 "セル A1 が 12/21/00 の場合、ISOWEEKNUM(A1)=51 です。\n"
 "@SEEALSO=WEEKNUM"
 
-#: src/functions/fn-date.c:1168
+#: src/functions/fn-date.c:1170
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -9951,7 +9943,7 @@ msgstr ""
 "セル A1 が 12/21/00 の場合、WEEKNUM(A1,2)=51 です。\n"
 "@SEEALSO=ISOWEEKNUM"
 
-#: src/functions/fn-date.c:1227
+#: src/functions/fn-date.c:1229
 msgid "Date / Time"
 msgstr "日付/時間"
 
@@ -19062,83 +19054,59 @@ msgstr "セルを右にずらして移動(_T)"
 msgid "C_ancel"
 msgstr "キャンセル(_A)"
 
-#: src/main.c:83
+#: src/main.c:84
 msgid "Display Gnumeric's version"
 msgstr "Gnumeric のバージョンを表示"
 
-#: src/main.c:85
+#: src/main.c:86
 msgid "Set the root library directory"
 msgstr "ライブラリディレクトリの root を設定"
 
-#: src/main.c:87
+#: src/main.c:88
 msgid "Adjust the root data directory"
 msgstr "データディレクトリの root を調節"
 
-#: src/main.c:90
+#: src/main.c:91
 msgid "Dumps the function definitions"
 msgstr "関数定義をダンプ"
 
-#: src/main.c:90
+#: src/main.c:91
 msgid "FILE"
 msgstr "ファイル"
 
-#: src/main.c:93
+#: src/main.c:94
 msgid "Enables some debugging functions"
 msgstr "デバッグ関数を有効にする"
 
-#: src/main.c:93 src/main.c:96 src/main.c:98
+#: src/main.c:94 src/main.c:97 src/main.c:99
 msgid "LEVEL"
 msgstr "レベル"
 
-#: src/main.c:96
+#: src/main.c:97
 msgid "Enables some dependency related debugging functions"
 msgstr "依存関係に関連するデバッグ関数を有効にする"
 
-#: src/main.c:98
+#: src/main.c:99
 msgid "Enables some print debugging behavior"
 msgstr "印刷のデバッグ状況を有効にする"
 
-#: src/main.c:102
+#: src/main.c:103
 msgid "Enables extra consistency checking while reading ole files"
 msgstr "oleファイルの読込中に矛盾がないかのチェックを有効にする"
 
-#: src/main.c:106
+#: src/main.c:107
 msgid "Specify the size and location of the initial window"
 msgstr "指定したサイズと位置でウィンドウを起動する"
 
-#: src/main.c:106
+#: src/main.c:107
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "幅x高さ+X座標+Y座標"
 
-#: src/main.c:110
+#: src/main.c:111
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr "選択されたブックをロード後即座に終了する(テスト時に便利です)。"
 
-#: src/main.c:139
-msgid ""
-"Thank you for using Gnumeric!\n"
-"\n"
-"The version of Gnumeric you are using is quite old\n"
-"by now.  It is likely that many bugs have been fixed\n"
-"and that new features have been added in the meantime.\n"
-"\n"
-"Please consider upgrading before reporting any bugs.\n"
-"Consult http://www.gnumeric.org/ for details.\n"
-"\n"
-"-- The Gnumeric Team."
-msgstr ""
-"Gnumeric を使ってくれてありがとう！\n"
-"\n"
-"ご使用のこのバージョンの Gnumeric ではちょっとだけ\n"
-"新しくなっています。そうこうしている間に、おそらく\n"
-"沢山のバグが Fix され、新しい機能が追加されるでしょう。\n"
-"\n"
-"バグを報告する前にバージョンアップをしてみて下さい。\n"
-"詳細は http://www.gnumeric.org/ でどうぞ。\n"
-"\n"
-"-- Gnumeric チーム。"
-
-#: src/main.c:193
+#: src/main.c:164
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -19149,11 +19117,11 @@ msgstr ""
 "データディレクトリ := '%s'\n"
 "ライブラリディレクトリ := '%s'\n"
 
-#: src/main.c:245
+#: src/main.c:222
 msgid "Could not initialize Workbook factory"
 msgstr "ワークブックファクトリを初期化できませんでした"
 
-#: src/main.c:249
+#: src/main.c:226
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "埋め込みグリッドファクトリを初期化できませんでした"
 
@@ -19411,7 +19379,7 @@ msgstr "ファイル \"%s\" を読み込みでオープン中にエラーが発生しました。"
 msgid "Unable to mmap the file."
 msgstr "ファイルを mmap できません。"
 
-#: src/plugin-util.c:318 src/xml-io.c:3368
+#: src/plugin-util.c:318 src/xml-io.c:3375
 msgid "Cannot get file size."
 msgstr "ファイルサイズを取得できません。"
 
@@ -19662,17 +19630,17 @@ msgstr "置換する中に不正なバックスラッシュ '\\' があります。"
 msgid "cannot be performed with multiple ranges selected"
 msgstr "複数選択のもとで実行できません"
 
-#: src/sheet-control-gui.c:555
+#: src/sheet-control-gui.c:556
 #, c-format
 msgid "Row: %s"
 msgstr "行: %s"
 
-#: src/sheet-control-gui.c:570
+#: src/sheet-control-gui.c:571
 #, c-format
 msgid "Column: %s"
 msgstr "列: %s"
 
-#: src/sheet-control-gui.c:1398
+#: src/sheet-control-gui.c:1399
 msgid "Paste _Special"
 msgstr "特別貼り付け(_S)"
 
@@ -19683,41 +19651,41 @@ msgstr "特別貼り付け(_S)"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1410
+#: src/sheet-control-gui.c:1411
 msgid "_Insert..."
 msgstr "挿入(_I)..."
 
-#: src/sheet-control-gui.c:1414
+#: src/sheet-control-gui.c:1415
 msgid "_Insert Column(s)"
 msgstr "列を挿入(_I)"
 
-#: src/sheet-control-gui.c:1416
+#: src/sheet-control-gui.c:1417
 msgid "_Delete Column(s)"
 msgstr "列を削除(_D)"
 
-#: src/sheet-control-gui.c:1418
+#: src/sheet-control-gui.c:1419
 msgid "_Insert Row(s)"
 msgstr "行を挿入(_I)"
 
-#: src/sheet-control-gui.c:1420
+#: src/sheet-control-gui.c:1421
 msgid "_Delete Row(s)"
 msgstr "行を削除(_D)"
 
-#: src/sheet-control-gui.c:1423
+#: src/sheet-control-gui.c:1424
 msgid "Clear Co_ntents"
 msgstr "内容を消去(_N)"
 
-#: src/sheet-control-gui.c:1429
+#: src/sheet-control-gui.c:1430
 msgid "_Format Cells..."
 msgstr "セルの書式設定(_F)..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1433
+#: src/sheet-control-gui.c:1434
 msgid "Column _Width..."
 msgstr "列の幅(_W)..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1441
+#: src/sheet-control-gui.c:1442
 msgid "_Row Height..."
 msgstr "行の高さ(_R)..."
 
@@ -19957,12 +19925,12 @@ msgstr "価格"
 msgid "R.H. Side"
 msgstr "R.H. Side"
 
-#: src/stf-parse.c:35
+#: src/stf-parse.c:37
 #, c-format
 msgid "Too many rows in data to parse: %d"
 msgstr "解析するための行が多すぎます: %d"
 
-#: src/stf-parse.c:36
+#: src/stf-parse.c:38
 #, c-format
 msgid "Too many columns in data to parse: %d"
 msgstr "データの中に解析する列が多すぎます: %d"
@@ -20690,32 +20658,64 @@ msgstr "自動書式のテンプレートファイルではありません"
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "自動書式テンプレートからツリーの構築中にエラー"
 
-#: src/xml-io.c:2800
+#: src/xml-io.c:2807
 msgid "Unparsable xml in clipboard"
 msgstr "クリップボードの中に解析不可の XML があります"
 
-#: src/xml-io.c:2807
+#: src/xml-io.c:2814
 msgid "Clipboard is in unknown format"
 msgstr "クリップボードは不明な書式の中にあります"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3213
+#: src/xml-io.c:3220
 msgid "Processing file..."
 msgstr "ファイルの解析中..."
 
-#: src/xml-io.c:3376
+#: src/xml-io.c:3383
 msgid "Not enough memory to create zlib decompression state."
 msgstr "zlib で解凍状況を生成するためのメモリが足りません。"
 
-#: src/xml-io.c:3411
+#: src/xml-io.c:3418
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Gnumericワークブックファイルではありません"
 
-#: src/xml-io.c:3468
+#: src/xml-io.c:3475
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML ファイル形式"
+
+#~ msgid "First argument to SCM must be a Guile expression"
+#~ msgstr "SCM の最初の引数は Guile 式でなければなりません"
+
+#~ msgid "Undefined scheme function"
+#~ msgstr "未定義の scheme 関数"
+
+#~ msgid "Could not evaluate argument"
+#~ msgstr "引数を評価できません"
+
+#~ msgid ""
+#~ "Thank you for using Gnumeric!\n"
+#~ "\n"
+#~ "The version of Gnumeric you are using is quite old\n"
+#~ "by now.  It is likely that many bugs have been fixed\n"
+#~ "and that new features have been added in the meantime.\n"
+#~ "\n"
+#~ "Please consider upgrading before reporting any bugs.\n"
+#~ "Consult http://www.gnumeric.org/ for details.\n"
+#~ "\n"
+#~ "-- The Gnumeric Team."
+#~ msgstr ""
+#~ "Gnumeric を使ってくれてありがとう！\n"
+#~ "\n"
+#~ "ご使用のこのバージョンの Gnumeric ではちょっとだけ\n"
+#~ "新しくなっています。そうこうしている間に、おそらく\n"
+#~ "沢山のバグが Fix され、新しい機能が追加されるでしょう。\n"
+#~ "\n"
+#~ "バグを報告する前にバージョンアップをしてみて下さい。\n"
+#~ "詳細は http://www.gnumeric.org/ でどうぞ。\n"
+#~ "\n"
+#~ "-- Gnumeric チーム。"
 
 #~ msgid ""
 #~ "@FUNCTION=RandBinom\n"

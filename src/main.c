@@ -34,6 +34,7 @@
 #include "eval.h"
 #include "sheet-autofill.h"
 #include "xml-io.h"
+#include "command-context-stderr.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -204,8 +205,14 @@ main (int argc, char *argv [])
 	glade_gnome_init ();
 
 	if (dump_file_name) {
-		function_dump_defs (dump_file_name);
-		exit (0);
+		int retval;
+		CommandContextStderr *ccs = command_context_stderr_new ();
+
+		plugins_init (COMMAND_CONTEXT (ccs));
+		if ((retval = command_context_stderr_get_status (ccs)) == 0)
+			function_dump_defs (dump_file_name);
+
+		return retval;
 	}
 
 #ifdef ENABLE_BONOBO

@@ -103,10 +103,12 @@ copy_hash_table_to_ptr_array (gpointer key, gpointer value, gpointer array)
 	Symbol *sym = value;
 	FunctionDefinition *fd = sym->data;
 
-	function_def_get_full_info_if_needed (fd);
-	if (sym->type == SYMBOL_FUNCTION &&
-	    fd->help != NULL && fd->name != NULL)
-		g_ptr_array_add (array, fd);
+	if (sym->type == SYMBOL_FUNCTION && fd->name != NULL) {
+		if (fd->fn_type == FUNCTION_NAMEONLY)
+			function_def_get_full_info_if_needed (fd);
+		if (fd->help != NULL)
+			g_ptr_array_add (array, fd);
+	}
 }
 
 static int

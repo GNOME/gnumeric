@@ -2209,7 +2209,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		if (esheet->wb->warn_unsupported_graphs) {
 			/* TODO : Use IOContext when available */
 			esheet->wb->warn_unsupported_graphs = FALSE;
-			g_warning ("Images are not supported in non-bonobo version");
+			g_warning ("Graphs are not supported in non-bonobo version");
 		}
 #endif
 		break;

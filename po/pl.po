@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-03-09 16:44-0500\n"
+"POT-Creation-Date: 2002-04-13 18:34-0400\n"
 "PO-Revision-Date: 2002-02-10 00:36+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -261,8 +261,8 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4524
-#: plugins/mps/mps.c:579 src/xml-io.c:3379
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4531
+#: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr "Wczytywanie pliku..."
 
@@ -383,25 +383,25 @@ msgstr "Wykres%d"
 msgid "Module%d"
 msgstr "Modu³%d"
 
-#: plugins/excel/ms-excel-read.c:4519
+#: plugins/excel/ms-excel-read.c:4526
 msgid "No book or workbook streams found."
 msgstr "Nie odnaleziono strumieni zeszytów."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4683
+#: plugins/excel/ms-excel-read.c:4690
 msgid "Password protected workbooks are not supported yet."
 msgstr "Zeszyty zabezpieczone has³em nie s± jeszcze obs³ugiwane."
 
-#: plugins/excel/ms-excel-read.c:4796
+#: plugins/excel/ms-excel-read.c:4803
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nie mo¿na odnale¼æ poprawnego zeszytu MS Excela"
 
-#: plugins/excel/ms-excel-write.c:3511
+#: plugins/excel/ms-excel-write.c:3573
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Zbyt wiele wierszy dla tego formatu (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3737
+#: plugins/excel/ms-excel-write.c:3799
 msgid "Can't open stream for writing\n"
 msgstr "Nie mo¿na otworzyæ strumienia do zapisu\n"
 
@@ -508,26 +508,10 @@ msgstr "Format pliku PO s³ownika GNOME"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Udostêpnia mo¿liwo¶æ zapisu s³ownika GNOME w plikach .po."
 
-#: plugins/guile/plugin.c:67 src/func.c:810 src/functions/fn-information.c:697
-#: src/functions/fn-information.c:768 src/functions/fn-information.c:796
-#: src/functions/fn-information.c:823 src/functions/fn-information.c:874
-#: src/functions/fn-information.c:904 src/functions/fn-information.c:971
-#: src/functions/fn-logical.c:196 src/functions/fn-string.c:325
-msgid "Invalid number of arguments"
-msgstr "Niew³a¶ciwa liczba argumentów"
-
-#. FIXME : This looks like a leak (JEG 4/4/00)
-#: plugins/guile/plugin.c:72 plugins/guile/plugin.c:77
-msgid "First argument to SCM must be a Guile expression"
-msgstr "Pierwszy argument dla CSM musi byæ wyra¿eniem Guile"
-
-#: plugins/guile/plugin.c:81
-msgid "Undefined scheme function"
-msgstr "Niezdefiniowana funkcja scheme"
-
-#: plugins/guile/plugin.c:100
-msgid "Could not evaluate argument"
-msgstr "Nie mo¿na obliczyæ argumentu"
+#: plugins/guile/plugin.c:106
+#, fuzzy
+msgid "Guile error"
+msgstr "Wyst±pi³o wiele b³êdów"
 
 #: plugins/guile/plugin.xml.in.h:1
 msgid "Guile Plugin"
@@ -1267,7 +1251,7 @@ msgid "Automatically save the current document at regular intervals"
 msgstr "Automatyczny zapis bie¿±cego dokumentu w regularnych ostêpach czasu"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:15
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:819
+#: src/dialogs/dialog-cell-format.c:2583 src/workbook-format-toolbar.c:819
 #: src/workbook-format-toolbar.c:875
 msgid "Background"
 msgstr "T³o"
@@ -1485,7 +1469,7 @@ msgstr "Tworzy pasek przewijania"
 msgid "Create an arrow"
 msgstr "Tworzy strza³kê"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1392
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1393
 #: src/workbook-control-gui.c:2734
 msgid "Cu_t"
 msgstr "_Wytnij"
@@ -1594,7 +1578,7 @@ msgstr "_Format"
 msgid "Filter data with given criteria"
 msgstr "Filtruje dane wed³ug podanych kryteriów"
 
-#: src/GNOME_Gnumeric.xml.h:89 src/dialogs/cell-format.glade.h:39
+#: src/GNOME_Gnumeric.xml.h:89 src/dialogs/cell-format.glade.h:38
 #: src/workbook-format-toolbar.c:758
 msgid "Font"
 msgstr "Czcionka"
@@ -1608,7 +1592,7 @@ msgstr "Rozmiar czcionki"
 msgid "Font selector"
 msgstr "Wybór czcionki"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2572
+#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2578
 #: src/workbook-format-toolbar.c:844 src/workbook-format-toolbar.c:878
 msgid "Foreground"
 msgstr "U¿ywany kolor"
@@ -1617,7 +1601,7 @@ msgstr "U¿ywany kolor"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formatuje obszar komórek zgodnie z predefioniowanym szablonem"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4094
+#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4096
 #: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3038
 msgid "Fourier Analysis"
 msgstr "Analiza Fouriera"
@@ -1770,7 +1754,7 @@ msgstr "Przenosi kursor do okre¶lonej komórki"
 msgid "Label"
 msgstr "Etykieta"
 
-#: src/GNOME_Gnumeric.xml.h:130 src/dialogs/cell-format.glade.h:53
+#: src/GNOME_Gnumeric.xml.h:130 src/dialogs/cell-format.glade.h:52
 #: src/workbook-format-toolbar.c:629
 msgid "Left"
 msgstr "Lewa"
@@ -1779,7 +1763,7 @@ msgstr "Lewa"
 msgid "Left justifies the contents of each cell"
 msgstr "Wyrównuje zawarto¶æ ka¿dej z komórek do lewej"
 
-#: src/GNOME_Gnumeric.xml.h:132 src/dialogs/cell-format.glade.h:54
+#: src/GNOME_Gnumeric.xml.h:132 src/dialogs/cell-format.glade.h:53
 #: src/workbook-object-toolbar.c:185
 msgid "Line"
 msgstr "Linia"
@@ -1918,7 +1902,7 @@ msgstr "Wstawia z opcjonalnym zastosowaniem filtrów i przekszta³ceñ"
 msgid "Pearson Correlation"
 msgstr "Korelacja Pearsona"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/analysis-tools.c:2741
+#: src/GNOME_Gnumeric.xml.h:166 src/analysis-tools.c:2743
 #: src/workbook-format-toolbar.c:463
 msgid "Percent"
 msgstr "Procentowe"
@@ -2014,7 +1998,7 @@ msgstr "Usuwa zaznaczone komórki, przesuwaj±c inne w ich miejsce"
 msgid "Rename the current sheet"
 msgstr "Modyfikuje nazwê bie¿±cego arkusza"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/dialogs/cell-format.glade.h:68
+#: src/GNOME_Gnumeric.xml.h:189 src/dialogs/cell-format.glade.h:67
 #: src/workbook-format-toolbar.c:631
 msgid "Right"
 msgstr "Prawa"
@@ -2319,7 +2303,7 @@ msgid "_Content"
 msgstr "_Zawarto¶æ"
 
 #: src/GNOME_Gnumeric.xml.h:260 src/item-cursor.c:1030
-#: src/sheet-control-gui.c:1394 src/workbook-control-gui.c:2738
+#: src/sheet-control-gui.c:1395 src/workbook-control-gui.c:2738
 msgid "_Copy"
 msgstr "S_kopiuj"
 
@@ -2335,7 +2319,7 @@ msgstr "_Dane"
 msgid "_Define..."
 msgstr "_Zdefiniuj..."
 
-#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1412
+#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1413
 #: src/workbook-control-gui.c:2755
 msgid "_Delete..."
 msgstr "_Usuñ..."
@@ -2360,7 +2344,7 @@ msgstr ""
 msgid "_File"
 msgstr "_Plik"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/dialogs/cell-format.glade.h:109
+#: src/GNOME_Gnumeric.xml.h:270 src/dialogs/cell-format.glade.h:107
 #: src/workbook-control-gui.c:2764
 msgid "_Fill"
 msgstr "Wyp_e³niona"
@@ -2406,8 +2390,8 @@ msgstr "_Grupy i konspekt"
 msgid "_Help"
 msgstr "Pomo_c"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1435
-#: src/sheet-control-gui.c:1443 src/workbook-control-gui.c:2876
+#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1436
+#: src/sheet-control-gui.c:1444 src/workbook-control-gui.c:2876
 #: src/workbook-control-gui.c:2895
 msgid "_Hide"
 msgstr "Uk_ryj"
@@ -2465,7 +2449,7 @@ msgstr "_Otwórz..."
 msgid "_Paired Samples: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1396
+#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1397
 #: src/workbook-control-gui.c:2742
 msgid "_Paste"
 msgstr "Wk_lej"
@@ -2580,8 +2564,8 @@ msgstr "Cof_nij"
 msgid "_Ungroup"
 msgstr "_Rozgrupuj"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1437
-#: src/sheet-control-gui.c:1445 src/workbook-control-gui.c:2879
+#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1438
+#: src/sheet-control-gui.c:1446 src/workbook-control-gui.c:2879
 #: src/workbook-control-gui.c:2898
 msgid "_Unhide"
 msgstr "_Odkryj"
@@ -2606,12 +2590,12 @@ msgstr "_Zeszyt..."
 msgid "_Zoom..."
 msgstr "_Powiêkszenie..."
 
-#: src/analysis-tools.c:195 src/analysis-tools.c:3234
+#: src/analysis-tools.c:195 src/analysis-tools.c:3236
 #, c-format
 msgid "Row %i"
 msgstr "Wiersz %i"
 
-#: src/analysis-tools.c:198 src/analysis-tools.c:3226
+#: src/analysis-tools.c:198 src/analysis-tools.c:3228
 #, c-format
 msgid "Column %i"
 msgstr "Kolumna %i"
@@ -2626,15 +2610,15 @@ msgstr "Zbiór %i"
 msgid "Area %i"
 msgstr "Obszar %i"
 
-#: src/analysis-tools.c:810 src/analysis-tools.c:813
+#: src/analysis-tools.c:812 src/analysis-tools.c:815
 msgid "Correlations"
 msgstr "Korelacje"
 
-#: src/analysis-tools.c:902 src/analysis-tools.c:905
+#: src/analysis-tools.c:904 src/analysis-tools.c:907
 msgid "Covariances"
 msgstr "Kowariancje"
 
-#: src/analysis-tools.c:984
+#: src/analysis-tools.c:986
 msgid "Summary Statistics"
 msgstr "Statystyki podsumowuj±ce"
 
@@ -2645,7 +2629,7 @@ msgstr "Statystyki podsumowuj±ce"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/analysis-tools.c:995
+#: src/analysis-tools.c:997
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -2653,254 +2637,254 @@ msgstr ""
 "/¦rednia/B³±d standardowy/Mediana/Tryb/Odchylenie standardowe/Próbka "
 "Wariancja/Kurtoza/Zakrzywienie/Zakres/Minimum/Maksimum/Suma/Ilo¶æ"
 
-#: src/analysis-tools.c:1081
+#: src/analysis-tools.c:1083
 msgid "Confidence Interval for the Mean"
 msgstr "Przedzia³ istotno¶ci dla ¶redniej"
 
-#: src/analysis-tools.c:1082
+#: src/analysis-tools.c:1084
 #, c-format
 msgid "/%g%% CI for the Mean from/to"
 msgstr ""
 
-#: src/analysis-tools.c:1119 src/dialogs/descriptive-stats.glade.h:10
+#: src/analysis-tools.c:1121 src/dialogs/descriptive-stats.glade.h:10
 msgid "Kth Largest"
 msgstr "K-ta najwiêksza"
 
-#: src/analysis-tools.c:1120
+#: src/analysis-tools.c:1122
 #, c-format
 msgid "Largest (%d)"
 msgstr "Najwiêksza (%d)"
 
-#: src/analysis-tools.c:1144 src/dialogs/descriptive-stats.glade.h:11
+#: src/analysis-tools.c:1146 src/dialogs/descriptive-stats.glade.h:11
 msgid "Kth Smallest"
 msgstr "K-ta najmniejsza"
 
-#: src/analysis-tools.c:1145
+#: src/analysis-tools.c:1147
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Najmniejsza (%d)"
 
-#: src/analysis-tools.c:1266 src/dialogs/cell-format.glade.h:70
+#: src/analysis-tools.c:1268 src/dialogs/cell-format.glade.h:69
 msgid "Sample"
 msgstr "Próbka"
 
-#: src/analysis-tools.c:1363 src/analysis-tools.c:1365
-#: src/analysis-tools.c:1482 src/analysis-tools.c:1484
-#: src/analysis-tools.c:1641 src/analysis-tools.c:1643
-#: src/analysis-tools.c:1769 src/analysis-tools.c:1771
-#: src/analysis-tools.c:1905 src/analysis-tools.c:1907
+#: src/analysis-tools.c:1365 src/analysis-tools.c:1367
+#: src/analysis-tools.c:1484 src/analysis-tools.c:1486
+#: src/analysis-tools.c:1643 src/analysis-tools.c:1645
+#: src/analysis-tools.c:1771 src/analysis-tools.c:1773
+#: src/analysis-tools.c:1907 src/analysis-tools.c:1909
 #, c-format
 msgid "Variable %i"
 msgstr "Zmienna %i"
 
-#: src/analysis-tools.c:1367
+#: src/analysis-tools.c:1369
 msgid "z-Test"
 msgstr "Test z"
 
-#: src/analysis-tools.c:1370
+#: src/analysis-tools.c:1372
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1498 src/analysis-tools.c:1645
-#: src/analysis-tools.c:1773
+#: src/analysis-tools.c:1500 src/analysis-tools.c:1647
+#: src/analysis-tools.c:1775
 msgid "t-Test"
 msgstr "Test t"
 
-#: src/analysis-tools.c:1501
+#: src/analysis-tools.c:1503
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
 "two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1648
+#: src/analysis-tools.c:1650
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1776
+#: src/analysis-tools.c:1778
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1914
+#: src/analysis-tools.c:1916
 msgid "F-Test"
 msgstr "Test F"
 
-#: src/analysis-tools.c:1920
+#: src/analysis-tools.c:1922
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:2038 src/analysis-tools.c:2096
+#: src/analysis-tools.c:2040 src/analysis-tools.c:2098
 msgid "Random"
 msgstr "Losowa"
 
-#: src/analysis-tools.c:2212
+#: src/analysis-tools.c:2214
 msgid "Not implemented yet.\n"
 msgstr "Nie zaimplementowane.\n"
 
-#: src/analysis-tools.c:2289
+#: src/analysis-tools.c:2291
 msgid "Y Variable"
 msgstr "Zmienna Y"
 
-#: src/analysis-tools.c:2348 src/dialogs/regression.glade.h:8
+#: src/analysis-tools.c:2350 src/dialogs/regression.glade.h:8
 msgid "Regression"
 msgstr "Regresja"
 
-#: src/analysis-tools.c:2350
+#: src/analysis-tools.c:2352
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 
-#: src/analysis-tools.c:2371
+#: src/analysis-tools.c:2373
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/Istotno¶æ F"
 
-#: src/analysis-tools.c:2378
+#: src/analysis-tools.c:2380
 #, c-format
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
 msgstr ""
 
-#: src/analysis-tools.c:2546
+#: src/analysis-tools.c:2548
 msgid "Moving Averages"
 msgstr "¦rednia ruchoma"
 
-#: src/analysis-tools.c:2561
+#: src/analysis-tools.c:2563
 msgid "Standard Error"
 msgstr "B³±d standardowy"
 
-#: src/analysis-tools.c:2649
+#: src/analysis-tools.c:2651
 msgid "Exponential Smoothing"
 msgstr ""
 
-#: src/analysis-tools.c:2729
+#: src/analysis-tools.c:2731
 msgid "Ranks"
 msgstr "Korelacje rangowe"
 
-#: src/analysis-tools.c:2738
+#: src/analysis-tools.c:2740
 msgid "Point"
 msgstr "Punkt"
 
-#: src/analysis-tools.c:2740
+#: src/analysis-tools.c:2742
 msgid "Rank"
 msgstr "Korelacja rangowa"
 
 #. We are ready to create the summary table
-#: src/analysis-tools.c:2829 src/analysis-tools.c:3024
-#: src/analysis-tools.c:3286
+#: src/analysis-tools.c:2831 src/analysis-tools.c:3026
+#: src/analysis-tools.c:3288
 msgid "Anova"
 msgstr "Analiza wariancji"
 
-#: src/analysis-tools.c:2831
+#: src/analysis-tools.c:2833
 msgid "Anova: Single Factor"
 msgstr "Analiza wariancji: jeden czynnik"
 
-#: src/analysis-tools.c:2832 src/analysis-tools.c:3289
+#: src/analysis-tools.c:2834 src/analysis-tools.c:3291
 msgid "SUMMARY"
 msgstr "PODSUMOWANIE"
 
-#: src/analysis-tools.c:2833
+#: src/analysis-tools.c:2835
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupy/Liczba/Suma/¦rednia/Wariancja"
 
-#: src/analysis-tools.c:2889
+#: src/analysis-tools.c:2891
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 
-#: src/analysis-tools.c:2894 src/analysis-tools.c:3106
-#: src/analysis-tools.c:3313
+#: src/analysis-tools.c:2896 src/analysis-tools.c:3108
+#: src/analysis-tools.c:3315
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 
-#: src/analysis-tools.c:3030
+#: src/analysis-tools.c:3032
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Analiza wariancji: dwa czynniki bez powtórzeñ"
 
-#: src/analysis-tools.c:3031
+#: src/analysis-tools.c:3033
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/PODSUMOWANIE/Liczba/Suma/¦rednia/Wariancja"
 
-#: src/analysis-tools.c:3100
+#: src/analysis-tools.c:3102
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/Analiza wariancji/¬ród³o wariancji/Wiersze/Kolumny/B³±d/Ogó³em"
 
-#: src/analysis-tools.c:3288
+#: src/analysis-tools.c:3290
 msgid "Anova: Two-Factor With Replication"
 msgstr "Analiza wariancji: dwa czynniki z powtórzeniami"
 
-#: src/analysis-tools.c:3293 src/analysis-tools.c:3303
-#: src/analysis-tools.c:3311 src/dialogs/dialog-autoformat.c:74
+#: src/analysis-tools.c:3295 src/analysis-tools.c:3305
+#: src/analysis-tools.c:3313 src/dialogs/dialog-autoformat.c:74
 #: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr "Ogó³em"
 
-#: src/analysis-tools.c:3295
+#: src/analysis-tools.c:3297
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Liczba/Suma/¦rednia/Wariancja"
 
-#: src/analysis-tools.c:3305
+#: src/analysis-tools.c:3307
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/Analiza wariancji/¬ród³o wariancji/Wiersze/Kolumny/Interakcja/W"
 
-#: src/analysis-tools.c:3773
+#: src/analysis-tools.c:3775
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/analysis-tools.c:3777
+#: src/analysis-tools.c:3779
 msgid "Too Small"
 msgstr "Zbyt ma³a"
 
-#: src/analysis-tools.c:3794
+#: src/analysis-tools.c:3796
 msgid "More"
 msgstr "Wiêcej"
 
-#: src/analysis-tools.c:3802
+#: src/analysis-tools.c:3804
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/analysis-tools.c:3806
+#: src/analysis-tools.c:3808
 msgid "Too Large"
 msgstr "Zbyt du¿a"
 
-#: src/analysis-tools.c:3847 src/dialogs/histogram.glade.h:7
+#: src/analysis-tools.c:3849 src/dialogs/histogram.glade.h:7
 msgid "Histogram"
 msgstr "Histogram"
 
-#: src/analysis-tools.c:3852
+#: src/analysis-tools.c:3854
 msgid "Bin"
 msgstr "Zbiór"
 
-#: src/analysis-tools.c:3877
+#: src/analysis-tools.c:3879
 msgid "Frequency"
 msgstr "Czêsto¶æ"
 
-#: src/analysis-tools.c:3879 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3881 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3882
+#: src/analysis-tools.c:3884
 #, no-c-format
 msgid "Cumulative %"
 msgstr "£±czny %"
 
-#: src/analysis-tools.c:4114
+#: src/analysis-tools.c:4116
 msgid "Real"
 msgstr "Rzeczywista"
 
-#: src/analysis-tools.c:4115
+#: src/analysis-tools.c:4117
 msgid "Imaginary"
 msgstr "Urojona"
 
@@ -2909,7 +2893,7 @@ msgstr "Urojona"
 msgid "Error '%s' opening workbook stream"
 msgstr "Przy otwieraniu strumienia zeszytu wyst±pi³ b³±d \"%s\""
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3402
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3409
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Niepoprawny plik xml. Drzewo jest puste?"
 
@@ -3656,7 +3640,7 @@ msgstr "_Bez kapitalika po:"
 msgid "_First Letter"
 msgstr "_Pierwsza litera"
 
-#: src/dialogs/autocorrect.glade.h:10 src/dialogs/cell-format.glade.h:111
+#: src/dialogs/autocorrect.glade.h:10 src/dialogs/cell-format.glade.h:109
 msgid "_General"
 msgstr "_Ogólne"
 
@@ -3825,7 +3809,7 @@ msgstr "Dowolna warto¶æ            (bez ograniczenia)"
 msgid "Background Color"
 msgstr "Kolor T³a"
 
-#: src/dialogs/cell-format.glade.h:17 src/dialogs/dialog-cell-format.c:2567
+#: src/dialogs/cell-format.glade.h:17 src/dialogs/dialog-cell-format.c:2573
 msgid "Border"
 msgstr "Krawêd¼"
 
@@ -3861,7 +3845,7 @@ msgstr "Kolor :"
 msgid "Control"
 msgstr "Sterowanie"
 
-#: src/dialogs/cell-format.glade.h:26 src/dialogs/dialog-cell-format.c:2106
+#: src/dialogs/cell-format.glade.h:26 src/dialogs/dialog-cell-format.c:2112
 msgid "Criteria"
 msgstr "Kryterium"
 
@@ -3903,24 +3887,19 @@ msgstr "Uko¶ne pr±¿ki"
 msgid "Display the value exactly as it was entered"
 msgstr "Wy¶wietlanie warto¶ci dok³adnie we wpisanej postaci"
 
-#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:1303
-#: src/dialogs/dialog-cell-format.c:1363
-msgid "Double"
-msgstr "Podwójne"
-
-#: src/dialogs/cell-format.glade.h:37
+#: src/dialogs/cell-format.glade.h:36
 msgid "Effects"
 msgstr "Efekty"
 
-#: src/dialogs/cell-format.glade.h:38
+#: src/dialogs/cell-format.glade.h:37
 msgid "Error Alert"
 msgstr "Komunikat o b³êdzie"
 
-#: src/dialogs/cell-format.glade.h:40
+#: src/dialogs/cell-format.glade.h:39
 msgid "Foreground Solid"
 msgstr "Wype³nienie kolorem"
 
-#: src/dialogs/cell-format.glade.h:41
+#: src/dialogs/cell-format.glade.h:40
 msgid ""
 "General format cells attempt to select an appropriate format depending on "
 "the value of the cell."
@@ -3928,375 +3907,376 @@ msgstr ""
 "Przy formacie ogólnym odpowiedni format zostanie wybrany automatycznie na "
 "podstawie warto¶ci komórki."
 
-#: src/dialogs/cell-format.glade.h:42
+#: src/dialogs/cell-format.glade.h:41
 msgid "Horizontal"
 msgstr "Wyrównanie poziome"
 
-#: src/dialogs/cell-format.glade.h:43
+#: src/dialogs/cell-format.glade.h:42
 msgid "Horizontal Stripe"
 msgstr "Poziome pr±¿ki"
 
-#: src/dialogs/cell-format.glade.h:44
+#: src/dialogs/cell-format.glade.h:43
 msgid "In a list"
 msgstr "Warto¶æ z listy"
 
-#: src/dialogs/cell-format.glade.h:45
+#: src/dialogs/cell-format.glade.h:44
 msgid "In-_cell dropdown"
 msgstr "Rozwijane menu wewn±trz _komórki"
 
-#: src/dialogs/cell-format.glade.h:46
+#: src/dialogs/cell-format.glade.h:45
 msgid "Information  (allows invalid input)"
 msgstr "Informacja  (zezwolenie na niepoprawne dane)"
 
-#: src/dialogs/cell-format.glade.h:47
+#: src/dialogs/cell-format.glade.h:46
 msgid "Input Message"
 msgstr "Opis wprowadzanych danych"
 
-#: src/dialogs/cell-format.glade.h:48
+#: src/dialogs/cell-format.glade.h:47
 msgid "Inside"
 msgstr "Wewnêtrzne"
 
-#: src/dialogs/cell-format.glade.h:49
+#: src/dialogs/cell-format.glade.h:48
 msgid "Inside Horizontal"
 msgstr "Wewnêtrzne poziome"
 
-#: src/dialogs/cell-format.glade.h:50
+#: src/dialogs/cell-format.glade.h:49
 msgid "Inside Vertical"
 msgstr "Wewnêtrzne pionowe"
 
-#: src/dialogs/cell-format.glade.h:51
+#: src/dialogs/cell-format.glade.h:50
 msgid "J_ustify"
 msgstr "Wyju_stowana"
 
-#: src/dialogs/cell-format.glade.h:52
+#: src/dialogs/cell-format.glade.h:51
 msgid "Large Circles"
 msgstr "Du¿e okrêgi"
 
-#: src/dialogs/cell-format.glade.h:55
+#: src/dialogs/cell-format.glade.h:54
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr ""
 "Blokowanie komórek oraz ukrywanie formu³ funkcjonuje tylko w zabezpieczonych "
 "zeszytach."
 
-#: src/dialogs/cell-format.glade.h:56
+#: src/dialogs/cell-format.glade.h:55
 msgid "Message :"
 msgstr "Komunikat :"
 
-#: src/dialogs/cell-format.glade.h:57
+#: src/dialogs/cell-format.glade.h:56
 msgid "Negative number:"
 msgstr "Liczba ujemna:"
 
-#: src/dialogs/cell-format.glade.h:58 src/dialogs/dialog-cell-format.c:1305
-#: src/dialogs/dialog-cell-format.c:1361 src/dialogs/dialog-paste-special.c:34
+#: src/dialogs/cell-format.glade.h:57 src/dialogs/dialog-cell-format.c:1306
+#: src/dialogs/dialog-cell-format.c:1358 src/dialogs/dialog-cell-format.c:1364
+#: src/dialogs/dialog-paste-special.c:34
 msgid "None"
 msgstr "Brak"
 
-#: src/dialogs/cell-format.glade.h:59
+#: src/dialogs/cell-format.glade.h:58
 msgid "None          (silently accept invalid input)"
 msgstr "Brak  (ciche akceptowanie niepoprawnych danych)"
 
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:440
+#: src/dialogs/cell-format.glade.h:59 src/dialogs/dialog-formula-guru.c:440
 #: src/dialogs/dialog-search.c:126
 msgid "Number"
 msgstr "Liczba"
 
-#: src/dialogs/cell-format.glade.h:61
+#: src/dialogs/cell-format.glade.h:60
 msgid "Numbers"
 msgstr "Liczby"
 
-#: src/dialogs/cell-format.glade.h:62 src/dialogs/print.glade.h:11
+#: src/dialogs/cell-format.glade.h:61 src/dialogs/print.glade.h:11
 msgid "Orientation"
 msgstr "U³o¿enie"
 
-#: src/dialogs/cell-format.glade.h:63
+#: src/dialogs/cell-format.glade.h:62
 msgid "Outline"
 msgstr "Ustawia obwódkê"
 
-#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2582
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:2588
 msgid "Pattern"
 msgstr "Deseñ"
 
-#: src/dialogs/cell-format.glade.h:65
+#: src/dialogs/cell-format.glade.h:64
 msgid "Protection"
 msgstr "Zabezpieczenie"
 
-#: src/dialogs/cell-format.glade.h:66
+#: src/dialogs/cell-format.glade.h:65
 msgid "Reverse Diagonal"
 msgstr "Odwrotnie uko¶na linia"
 
-#: src/dialogs/cell-format.glade.h:67
+#: src/dialogs/cell-format.glade.h:66
 msgid "Reverse Diagonal Stripe"
 msgstr "Odwrócone uko¶ne pr±¿ki"
 
-#: src/dialogs/cell-format.glade.h:69
+#: src/dialogs/cell-format.glade.h:68
 msgid "S_ymbol:"
 msgstr "Sym_bol:"
 
-#: src/dialogs/cell-format.glade.h:71
+#: src/dialogs/cell-format.glade.h:70
 msgid "Semi Circles"
 msgstr "Pó³okrêgi"
 
-#: src/dialogs/cell-format.glade.h:72
+#: src/dialogs/cell-format.glade.h:71
 msgid "Shrin_k to fit"
 msgstr "_Dopasowanie do zaznaczenia"
 
-#. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:73 src/dialogs/dialog-cell-format.c:1301
-#: src/dialogs/dialog-cell-format.c:1362
-msgid "Single"
-msgstr "Pojedyncze"
-
-#: src/dialogs/cell-format.glade.h:74
+#: src/dialogs/cell-format.glade.h:72
 msgid "Small Circles"
 msgstr "Ma³e okrêgi"
 
-#: src/dialogs/cell-format.glade.h:75
+#: src/dialogs/cell-format.glade.h:73
 msgid "Solid"
 msgstr "Jednolity"
 
-#: src/dialogs/cell-format.glade.h:76
+#: src/dialogs/cell-format.glade.h:74
 msgid "Sp_ecial"
 msgstr "_Specjalne"
 
-#: src/dialogs/cell-format.glade.h:77
+#: src/dialogs/cell-format.glade.h:75
 msgid "Stop           (never allow invalid input)"
 msgstr "Zatrzymanie  (bez zezwolenia na wprowadzenie niepoprawnych danych)"
 
-#: src/dialogs/cell-format.glade.h:78
+#: src/dialogs/cell-format.glade.h:76
 msgid "Stri_kethrough"
 msgstr "P_rzekre¶lenie"
 
-#: src/dialogs/cell-format.glade.h:79
+#: src/dialogs/cell-format.glade.h:77
 msgid "Su_bscript"
 msgstr "_Indeks górny"
 
-#: src/dialogs/cell-format.glade.h:80
+#: src/dialogs/cell-format.glade.h:78
 msgid "Sup_erscript"
 msgstr "I_ndeks dolny"
 
-#: src/dialogs/cell-format.glade.h:81
+#: src/dialogs/cell-format.glade.h:79
 msgid "Te_xt"
 msgstr "Te_kst"
 
-#: src/dialogs/cell-format.glade.h:82
+#: src/dialogs/cell-format.glade.h:80
 msgid "Text length"
 msgstr "D³ugo¶æ tekstu"
 
-#: src/dialogs/cell-format.glade.h:83
+#: src/dialogs/cell-format.glade.h:81
 msgid "Thatch"
 msgstr "S³oma"
 
-#: src/dialogs/cell-format.glade.h:84
+#: src/dialogs/cell-format.glade.h:82
 msgid "Thick Diagonal Crosshatch"
 msgstr "Grube uko¶nie skrzy¿owane pr±¿ki"
 
-#: src/dialogs/cell-format.glade.h:85
+#: src/dialogs/cell-format.glade.h:83
 msgid "Thin Diagonal Crosshatch"
 msgstr "Cienkie skrzy¿owane uko¶nie pr±¿ki"
 
-#: src/dialogs/cell-format.glade.h:86
+#: src/dialogs/cell-format.glade.h:84
 msgid "Thin Diagonal Stripe"
 msgstr "Cienkie uko¶ne pr±¿ki"
 
-#: src/dialogs/cell-format.glade.h:87
+#: src/dialogs/cell-format.glade.h:85
 msgid "Thin Horizontal Crosshatch"
 msgstr "Cienkie skrzy¿owane poziomo pr±¿ki"
 
-#: src/dialogs/cell-format.glade.h:88
+#: src/dialogs/cell-format.glade.h:86
 msgid "Thin Horizontal Stripe"
 msgstr "Cienkie poziome pr±¿ki"
 
-#: src/dialogs/cell-format.glade.h:89
+#: src/dialogs/cell-format.glade.h:87
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Cienkie odwrócone uko¶ne pr±¿ki"
 
-#: src/dialogs/cell-format.glade.h:90
+#: src/dialogs/cell-format.glade.h:88
 msgid "Thin Vertical Stripe"
 msgstr "Cienkie pionowe pr±¿ki"
 
-#: src/dialogs/cell-format.glade.h:91
+#: src/dialogs/cell-format.glade.h:89
 msgid "Time"
 msgstr "Czas"
 
-#: src/dialogs/cell-format.glade.h:92
+#: src/dialogs/cell-format.glade.h:90
 msgid "Title :"
 msgstr "Tytu³ :"
 
-#: src/dialogs/cell-format.glade.h:93
+#: src/dialogs/cell-format.glade.h:91
 msgid "Top"
 msgstr "Górna"
 
-#: src/dialogs/cell-format.glade.h:94
+#: src/dialogs/cell-format.glade.h:92
 msgid "Unfinished"
 msgstr "Nieukoñczone"
 
-#: src/dialogs/cell-format.glade.h:95
+#: src/dialogs/cell-format.glade.h:93
 msgid "Validation"
 msgstr "Sprawdzanie poprawno¶ci"
 
-#: src/dialogs/cell-format.glade.h:96
+#: src/dialogs/cell-format.glade.h:94
 msgid "Vertical Alignment"
 msgstr "Wyrównanie pionowe"
 
-#: src/dialogs/cell-format.glade.h:97
+#: src/dialogs/cell-format.glade.h:95
 msgid "Vertical Stripe"
 msgstr "Pionowe pr±¿ki"
 
-#: src/dialogs/cell-format.glade.h:98
+#: src/dialogs/cell-format.glade.h:96
 msgid "Warning      (accept/discard invalid input)"
 msgstr "Ostrze¿enie  (akceptacja/porzucenie niepoprawnych danych)"
 
-#: src/dialogs/cell-format.glade.h:99
+#: src/dialogs/cell-format.glade.h:97
 msgid "Whole numbers"
 msgstr "Liczby ca³kowite"
 
-#: src/dialogs/cell-format.glade.h:100
+#: src/dialogs/cell-format.glade.h:98
 msgid "Worksheet _protected"
 msgstr "Zabezpieczony z_eszyt"
 
-#: src/dialogs/cell-format.glade.h:101
+#: src/dialogs/cell-format.glade.h:99
 msgid "_Accounting"
 msgstr "_Rachunkowe"
 
-#: src/dialogs/cell-format.glade.h:102
+#: src/dialogs/cell-format.glade.h:100
 msgid "_Allow :"
 msgstr "_Dopuszczalne :"
 
-#: src/dialogs/cell-format.glade.h:103
+#: src/dialogs/cell-format.glade.h:101
 msgid "_Bottom"
 msgstr "_Dó³"
 
-#: src/dialogs/cell-format.glade.h:104
+#: src/dialogs/cell-format.glade.h:102
 msgid "_Center"
 msgstr "_Wy¶rodkowana"
 
-#: src/dialogs/cell-format.glade.h:105
+#: src/dialogs/cell-format.glade.h:103
 msgid "_Color :"
 msgstr "_Kolor :"
 
-#: src/dialogs/cell-format.glade.h:106
+#: src/dialogs/cell-format.glade.h:104
 msgid "_Condition :"
 msgstr "_Warunek :"
 
-#: src/dialogs/cell-format.glade.h:107
+#: src/dialogs/cell-format.glade.h:105
 msgid "_Currency"
 msgstr "_Waluta"
 
-#: src/dialogs/cell-format.glade.h:108
+#: src/dialogs/cell-format.glade.h:106
 msgid "_Date"
 msgstr "_Data"
 
-#: src/dialogs/cell-format.glade.h:110
+#: src/dialogs/cell-format.glade.h:108
 msgid "_Fraction"
 msgstr "U³_amki"
 
-#: src/dialogs/cell-format.glade.h:112
+#: src/dialogs/cell-format.glade.h:110
 msgid "_Hidden"
 msgstr "_Ukryta"
 
-#: src/dialogs/cell-format.glade.h:113
+#: src/dialogs/cell-format.glade.h:111
 msgid "_Ignore blank cells"
 msgstr "_Ignorowanie pustych komórek"
 
-#: src/dialogs/cell-format.glade.h:114
+#: src/dialogs/cell-format.glade.h:112
 msgid "_Indent"
 msgstr "Wc_iêcie"
 
-#: src/dialogs/cell-format.glade.h:115
+#: src/dialogs/cell-format.glade.h:113
 msgid "_Justify"
 msgstr "Wyj_ustowana"
 
-#: src/dialogs/cell-format.glade.h:116
+#: src/dialogs/cell-format.glade.h:114
 msgid "_Left"
 msgstr "_Lewa"
 
-#: src/dialogs/cell-format.glade.h:117
+#: src/dialogs/cell-format.glade.h:115
 msgid "_Locked"
 msgstr "_Zablokowana"
 
-#: src/dialogs/cell-format.glade.h:118
+#: src/dialogs/cell-format.glade.h:116
 msgid "_Message :"
 msgstr "_Komunikat :"
 
-#: src/dialogs/cell-format.glade.h:119
+#: src/dialogs/cell-format.glade.h:117
 msgid "_Number"
 msgstr "_Liczba"
 
-#: src/dialogs/cell-format.glade.h:120
+#: src/dialogs/cell-format.glade.h:118
 msgid "_Percentage"
 msgstr "_Procentowe"
 
-#: src/dialogs/cell-format.glade.h:121
+#: src/dialogs/cell-format.glade.h:119
 msgid "_Right"
 msgstr "_Prawa"
 
-#: src/dialogs/cell-format.glade.h:122
+#: src/dialogs/cell-format.glade.h:120
 msgid "_Scientific"
 msgstr "_Naukowe"
 
-#: src/dialogs/cell-format.glade.h:123
+#: src/dialogs/cell-format.glade.h:121
 msgid "_Show input message when cell is selected"
 msgstr "_Wy¶wietlanie opisu wprowadzanych danych po zaznaczeniu komórki"
 
-#: src/dialogs/cell-format.glade.h:124
+#: src/dialogs/cell-format.glade.h:122
 msgid "_Style"
 msgstr "_Styl"
 
-#: src/dialogs/cell-format.glade.h:125
+#: src/dialogs/cell-format.glade.h:123
 msgid "_Time"
 msgstr "_Czas"
 
-#: src/dialogs/cell-format.glade.h:126
+#: src/dialogs/cell-format.glade.h:124
 msgid "_Top"
 msgstr "_Góra"
 
-#: src/dialogs/cell-format.glade.h:127
+#: src/dialogs/cell-format.glade.h:125
 msgid "_Type"
 msgstr "_Typ"
 
-#: src/dialogs/cell-format.glade.h:128
+#: src/dialogs/cell-format.glade.h:126
 msgid "_Underline:"
 msgstr "_Podkre¶lenie"
 
-#: src/dialogs/cell-format.glade.h:129
+#: src/dialogs/cell-format.glade.h:127
 msgid "_Use Separator for 1000's"
 msgstr "Separatory _tysiêcy"
 
-#: src/dialogs/cell-format.glade.h:130
+#: src/dialogs/cell-format.glade.h:128
 msgid "_Wrap text"
 msgstr "_Zawijanie tekstu"
 
-#: src/dialogs/cell-format.glade.h:131
-msgid "min <= val <= max         (between)"
+#: src/dialogs/cell-format.glade.h:129
+#, fuzzy
+msgid "min &lt;= val &lt;= max         (between)"
 msgstr "minimum <= warto¶æ <= maksimum  (pomiêdzy)"
 
-#: src/dialogs/cell-format.glade.h:132
+#: src/dialogs/cell-format.glade.h:130
 msgid "val != bound                  (not equal to)"
 msgstr "warto¶æ <> ograniczenie  (ró¿ne od)"
 
+#: src/dialogs/cell-format.glade.h:131
+#, fuzzy
+msgid "val &gt;  bound                  (greater than)"
+msgstr "warto¶æ > ograniczenie  (wiêksze ni¿)"
+
+#: src/dialogs/cell-format.glade.h:132
+#, fuzzy
+msgid "val &gt;=bound                  (greater than or equal to)"
+msgstr "warto¶æ >= ograniczenie  (nie mniejsze ni¿)"
+
 #: src/dialogs/cell-format.glade.h:133
-msgid "val <  bound                  (less than)"
+#, fuzzy
+msgid "val &lt;  bound                  (less than)"
 msgstr "warto¶æ < ograniczenie  (mniejsze ni¿)"
 
 #: src/dialogs/cell-format.glade.h:134
-msgid "val <= min || max <= val (not between)"
+#, fuzzy
+msgid "val &lt;= min || max &lt;= val (not between)"
 msgstr "warto¶æ <= minimum lub warto¶æ >= maksimum  (poza zakresem)"
 
 #: src/dialogs/cell-format.glade.h:135
-msgid "val <=bound                  (less than or equal to)"
+#, fuzzy
+msgid "val &lt;=bound                  (less than or equal to)"
 msgstr "warto¶æ <= ograniczenie  (nie wiêksze ni¿)"
 
 #: src/dialogs/cell-format.glade.h:136
 msgid "val == bound                 (equal to)"
 msgstr "warto¶æ == ograniczenie  (równe)"
-
-#: src/dialogs/cell-format.glade.h:137
-msgid "val >  bound                  (greater than)"
-msgstr "warto¶æ > ograniczenie  (wiêksze ni¿)"
-
-#: src/dialogs/cell-format.glade.h:138
-msgid "val >=bound                  (greater than or equal to)"
-msgstr "warto¶æ >= ograniczenie  (nie mniejsze ni¿)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5121,48 +5101,59 @@ msgstr "Nale¿y wprowadziæ poprawn± liczbê minut."
 msgid "Cell comment"
 msgstr "Komentarz do komórki"
 
-#: src/dialogs/dialog-cell-format.c:423
+#: src/dialogs/dialog-cell-format.c:424
 msgid ";[Red]"
 msgstr ";[Czerwony]"
 
-#: src/dialogs/dialog-cell-format.c:425
+#: src/dialogs/dialog-cell-format.c:426
 msgid "_);("
 msgstr "_);("
 
-#: src/dialogs/dialog-cell-format.c:427
+#: src/dialogs/dialog-cell-format.c:428
 msgid "_);[Red]("
 msgstr "_);[Czerwony]("
 
-#: src/dialogs/dialog-cell-format.c:2105
+#. There must be a better way than this
+#: src/dialogs/dialog-cell-format.c:1302 src/dialogs/dialog-cell-format.c:1359
+#: src/dialogs/dialog-cell-format.c:1365
+msgid "Single"
+msgstr "Pojedyncze"
+
+#: src/dialogs/dialog-cell-format.c:1304 src/dialogs/dialog-cell-format.c:1360
+#: src/dialogs/dialog-cell-format.c:1366
+msgid "Double"
+msgstr "Podwójne"
+
+#: src/dialogs/dialog-cell-format.c:2111
 msgid "Source"
 msgstr "¬ród³o"
 
-#: src/dialogs/dialog-cell-format.c:2118 src/dialogs/dialog-cell-format.c:2125
+#: src/dialogs/dialog-cell-format.c:2124 src/dialogs/dialog-cell-format.c:2131
 #: src/sheet-object-widget.c:809
 msgid "Min :"
 msgstr "Minimum :"
 
-#: src/dialogs/dialog-cell-format.c:2119 src/dialogs/dialog-cell-format.c:2128
+#: src/dialogs/dialog-cell-format.c:2125 src/dialogs/dialog-cell-format.c:2134
 #: src/sheet-object-widget.c:813
 msgid "Max :"
 msgstr "Maksimum :"
 
-#: src/dialogs/dialog-cell-format.c:2122
+#: src/dialogs/dialog-cell-format.c:2128
 msgid "Value :"
 msgstr "Warto¶æ :"
 
-#: src/dialogs/dialog-cell-format.c:2501
+#: src/dialogs/dialog-cell-format.c:2507
 msgid "Format Cells"
 msgstr "Format komórek"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2567 src/dialogs/dialog-cell-format.c:2572
-#: src/dialogs/dialog-cell-format.c:2582 src/functions/fn-information.c:429
+#: src/dialogs/dialog-cell-format.c:2573 src/dialogs/dialog-cell-format.c:2578
+#: src/dialogs/dialog-cell-format.c:2588 src/functions/fn-information.c:429
 #: src/workbook-format-toolbar.c:837
 msgid "Automatic"
 msgstr "Automatyczny"
 
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:812
+#: src/dialogs/dialog-cell-format.c:2583 src/workbook-format-toolbar.c:812
 msgid "Clear Background"
 msgstr "Wyczy¶æ t³o"
 
@@ -5529,15 +5520,15 @@ msgstr "Komentarz"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Czy na pewno chcesz usun±æ arkusz \"%s\"?"
 
-#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:65
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:66
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
@@ -5582,24 +5573,28 @@ msgstr "Czy na pewno chcesz anulowaæ?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2
+#, fuzzy
+msgid "&lt;- Remove"
+msgstr "<- Usuñ"
+
+#: src/dialogs/dialog-stf-export.glade.h:3
+#, fuzzy
+msgid "&lt;- Remove all"
+msgstr "<- Usuñ wszystkie"
+
+#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
-#: src/dialogs/dialog-stf-export.glade.h:3
-msgid "<- Remove"
-msgstr "<- Usuñ"
-
-#: src/dialogs/dialog-stf-export.glade.h:4
-msgid "<- Remove all"
-msgstr "<- Usuñ wszystkie"
-
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add ->"
+#, fuzzy
+msgid "Add -&gt;"
 msgstr "Dodaj ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-msgid "Add all ->"
+#, fuzzy
+msgid "Add all -&gt;"
 msgstr "Dodaj wszystkie ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
@@ -6575,7 +6570,7 @@ msgid "Scale"
 msgstr "Skala"
 
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3087
+#: src/workbook.c:1065 src/xml-io.c:3094
 msgid "Sheet"
 msgstr "Arkusz"
 
@@ -7092,6 +7087,14 @@ msgstr "Wprowad¼ now± nazwê _arkusza:"
 #: src/dialogs/sheet-rename.glade.h:2
 msgid "Rename sheet"
 msgstr "Zmiana nazwy arkusza"
+
+#: src/dialogs/solver.glade.h:1
+msgid "&gt;="
+msgstr ""
+
+#: src/dialogs/solver.glade.h:2
+msgid "&lt;="
+msgstr ""
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -8766,20 +8769,28 @@ msgstr "Dolar Zimbabwe"
 msgid "[Red]"
 msgstr "[Czerwony]"
 
-#: src/func.c:131
+#: src/func.c:133
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Nie mo¿na stworzyæ pliku %s\n"
 
-#: src/func.c:288
+#: src/func.c:290
 msgid "Function implementation not available."
 msgstr "Implementacja funkcji nie jest dostêpna."
 
-#: src/func.c:504
+#: src/func.c:506
 msgid "Unknown Function"
 msgstr "Nieznana funkcja"
 
-#: src/func.c:857
+#: src/func.c:812 src/functions/fn-information.c:697
+#: src/functions/fn-information.c:768 src/functions/fn-information.c:796
+#: src/functions/fn-information.c:823 src/functions/fn-information.c:874
+#: src/functions/fn-information.c:904 src/functions/fn-information.c:971
+#: src/functions/fn-logical.c:196 src/functions/fn-string.c:325
+msgid "Invalid number of arguments"
+msgstr "Niew³a¶ciwa liczba argumentów"
+
+#: src/func.c:859
 msgid "Function does not exist"
 msgstr "Funkcja nie istnieje"
 
@@ -9154,7 +9165,7 @@ msgid ""
 msgstr ""
 
 # FIXME - sprawd¼ zapis daty po polsku (w EXAMPLES)
-#: src/functions/fn-date.c:27
+#: src/functions/fn-date.c:28
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -9192,7 +9203,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/functions/fn-date.c:97
+#: src/functions/fn-date.c:98
 msgid ""
 "@FUNCTION=UNIX2DATE\n"
 "@SYNTAX=UNIX2DATE(unixtime)\n"
@@ -9216,7 +9227,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NOW, DATE, DATE2UNIX"
 
-#: src/functions/fn-date.c:127
+#: src/functions/fn-date.c:128
 msgid ""
 "@FUNCTION=DATE2UNIX\n"
 "@SYNTAX=DATE2UNIX(serial)\n"
@@ -9240,7 +9251,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NOW, DATE, UNIX2DATE"
 
-#: src/functions/fn-date.c:158
+#: src/functions/fn-date.c:160
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
@@ -9260,7 +9271,7 @@ msgstr ""
 "DATEVALUE(\"1/1/1999\") jest równe 36161.\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:183
+#: src/functions/fn-date.c:185
 msgid ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(date1,date2,interval)\n"
@@ -9302,7 +9313,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:350
+#: src/functions/fn-date.c:352
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -9331,7 +9342,7 @@ msgstr ""
 "@SEEALSO=DATE"
 
 # FIXME - sprawd¼ zapis daty
-#: src/functions/fn-date.c:404
+#: src/functions/fn-date.c:406
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY()\n"
@@ -9353,7 +9364,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NOW"
 
-#: src/functions/fn-date.c:427
+#: src/functions/fn-date.c:429
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -9385,7 +9396,7 @@ msgstr ""
 "@SEEALSO=TODAY"
 
 # FIXME - sprawd¼ zapis czasu
-#: src/functions/fn-date.c:458
+#: src/functions/fn-date.c:460
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -9406,7 +9417,7 @@ msgstr ""
 "@SEEALSO=HOUR"
 
 # FIXME - sprawd¼ zapis czasu
-#: src/functions/fn-date.c:487
+#: src/functions/fn-date.c:489
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -9430,7 +9441,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-date.c:516
+#: src/functions/fn-date.c:518
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -9456,7 +9467,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:545
+#: src/functions/fn-date.c:547
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -9482,7 +9493,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:575
+#: src/functions/fn-date.c:577
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -9508,7 +9519,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
-#: src/functions/fn-date.c:605
+#: src/functions/fn-date.c:607
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -9532,7 +9543,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 
-#: src/functions/fn-date.c:642
+#: src/functions/fn-date.c:644
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -9556,7 +9567,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:679
+#: src/functions/fn-date.c:681
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -9580,7 +9591,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:716
+#: src/functions/fn-date.c:718
 #, fuzzy
 msgid ""
 "@FUNCTION=WEEKDAY\n"
@@ -9615,7 +9626,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:769
+#: src/functions/fn-date.c:771
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -9651,11 +9662,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:807
+#: src/functions/fn-date.c:809
 msgid "Unsupported method"
 msgstr "Nieobs³ugiwana metoda"
 
-#: src/functions/fn-date.c:872
+#: src/functions/fn-date.c:874
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -9681,7 +9692,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH"
 
-#: src/functions/fn-date.c:922
+#: src/functions/fn-date.c:924
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
@@ -9708,12 +9719,12 @@ msgstr ""
 "@SEEALSO=NETWORKDAYS"
 
 #. Path of the current directory or folder.
-#: src/functions/fn-date.c:958 src/functions/fn-eng.c:77
+#: src/functions/fn-date.c:960 src/functions/fn-eng.c:77
 #: src/functions/fn-information.c:395 src/functions/fn-information.c:411
 msgid "Unimplemented"
 msgstr "Nie zaimplementowane"
 
-#: src/functions/fn-date.c:993
+#: src/functions/fn-date.c:995
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
@@ -9740,7 +9751,7 @@ msgstr ""
 "\n"
 "@SEEALSO=WORKDAY"
 
-#: src/functions/fn-date.c:1124
+#: src/functions/fn-date.c:1126
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -9755,7 +9766,7 @@ msgid ""
 "@SEEALSO=WEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1168
+#: src/functions/fn-date.c:1170
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -9777,7 +9788,7 @@ msgid ""
 "@SEEALSO=ISOWEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1227
+#: src/functions/fn-date.c:1229
 msgid "Date / Time"
 msgstr "Data i czas"
 
@@ -18248,85 +18259,60 @@ msgstr "Pr_zesuñ komórki w prawo i przenie¶"
 msgid "C_ancel"
 msgstr "_Anuluj"
 
-#: src/main.c:83
+#: src/main.c:84
 msgid "Display Gnumeric's version"
 msgstr "Wypisuje wersjê Gnumerica"
 
-#: src/main.c:85
+#: src/main.c:86
 msgid "Set the root library directory"
 msgstr "Ustawia g³ówny katalog bibliotek"
 
-#: src/main.c:87
+#: src/main.c:88
 msgid "Adjust the root data directory"
 msgstr "Ustawia g³ówny katalog danych"
 
-#: src/main.c:90
+#: src/main.c:91
 msgid "Dumps the function definitions"
 msgstr "Wypisuje definicje funkcji"
 
-#: src/main.c:90
+#: src/main.c:91
 msgid "FILE"
 msgstr "PLIK"
 
-#: src/main.c:93
+#: src/main.c:94
 msgid "Enables some debugging functions"
 msgstr "Uaktywnia funkcje ¶ledzenia b³êdów"
 
-#: src/main.c:93 src/main.c:96 src/main.c:98
+#: src/main.c:94 src/main.c:97 src/main.c:99
 msgid "LEVEL"
 msgstr "POZIOM"
 
-#: src/main.c:96
+#: src/main.c:97
 msgid "Enables some dependency related debugging functions"
 msgstr "Uaktywnia funkcje ¶ledzenia b³êdów zwi±zane z zale¿no¶ciami"
 
-#: src/main.c:98
+#: src/main.c:99
 msgid "Enables some print debugging behavior"
 msgstr "Uaktywnia funkcje ¶ledzenia b³êdów zwi±zane z drukowaniem"
 
-#: src/main.c:102
+#: src/main.c:103
 msgid "Enables extra consistency checking while reading ole files"
 msgstr "Uaktywnia dodatkowe sprawdzanie spójno¶ci przy odczycie plików ole"
 
-#: src/main.c:106
+#: src/main.c:107
 msgid "Specify the size and location of the initial window"
 msgstr "Okre¶la rozmiar i po³o¿enie okna pierwszego okna"
 
-#: src/main.c:106
+#: src/main.c:107
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "SZERxWYSxPOZXxPOZY"
 
-#: src/main.c:110
+#: src/main.c:111
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Koñczy pracê po wczytaniu wybranych zeszytów (przydatne przy testowaniu)."
 
-#: src/main.c:139
-msgid ""
-"Thank you for using Gnumeric!\n"
-"\n"
-"The version of Gnumeric you are using is quite old\n"
-"by now.  It is likely that many bugs have been fixed\n"
-"and that new features have been added in the meantime.\n"
-"\n"
-"Please consider upgrading before reporting any bugs.\n"
-"Consult http://www.gnumeric.org/ for details.\n"
-"\n"
-"-- The Gnumeric Team."
-msgstr ""
-"Dziêkujemy za skorzystanie z Gnumerica!\n"
-"\n"
-"U¿ywana przez Ciebie wersja programu jest ju¿ do¶æ\n"
-"stara. Najprawdopodobniej w miêdzyczasie poprawiono\n"
-"wiele b³êdów oraz dodano wiele nowych mo¿liwo¶ci.\n"
-"\n"
-"Zalecamy aktualizacjê programu do nowszej wersji\n"
-"przed zg³aszaniem b³êdów na jego temat. Aby uzyskaæ\n"
-"szczegó³y, odwied¼ witrynê http://www.gnumeric.org/.\n"
-"\n"
-"-- Zespó³ Twórców Gnumerica."
-
-#: src/main.c:193
+#: src/main.c:164
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -18337,11 +18323,11 @@ msgstr ""
 "Katalog z danymi := %s\n"
 "Katalog z bibliotekami := %s\n"
 
-#: src/main.c:245
+#: src/main.c:222
 msgid "Could not initialize Workbook factory"
 msgstr "Nie mo¿na zainicjowaæ generatora zeszytów (Workbook)"
 
-#: src/main.c:249
+#: src/main.c:226
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr ""
 "Nie mo¿na zainicjowaæ generatora zagnie¿d¿alnych siatek (EmbeddableGrid)"
@@ -18598,7 +18584,7 @@ msgstr "Wyst±pi³ b³±d podczas otwierania pliku \"%s\" do odczytu."
 msgid "Unable to mmap the file."
 msgstr "Nie mo¿na odwzorowaæ pliku w pamiêci."
 
-#: src/plugin-util.c:318 src/xml-io.c:3368
+#: src/plugin-util.c:318 src/xml-io.c:3375
 msgid "Cannot get file size."
 msgstr "Nie mo¿na pobraæ rozmiaru pliku."
 
@@ -18853,17 +18839,17 @@ msgstr ""
 msgid "cannot be performed with multiple ranges selected"
 msgstr "nie mo¿e zostaæ wykonane z wielokrotnym zaznaczeniem"
 
-#: src/sheet-control-gui.c:555
+#: src/sheet-control-gui.c:556
 #, c-format
 msgid "Row: %s"
 msgstr "Wiersz: %s"
 
-#: src/sheet-control-gui.c:570
+#: src/sheet-control-gui.c:571
 #, c-format
 msgid "Column: %s"
 msgstr "Kolumna: %s"
 
-#: src/sheet-control-gui.c:1398
+#: src/sheet-control-gui.c:1399
 msgid "Paste _Special"
 msgstr "Wklej sp_ecjalnie"
 
@@ -18874,41 +18860,41 @@ msgstr "Wklej sp_ecjalnie"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1410
+#: src/sheet-control-gui.c:1411
 msgid "_Insert..."
 msgstr "W_staw..."
 
-#: src/sheet-control-gui.c:1414
+#: src/sheet-control-gui.c:1415
 msgid "_Insert Column(s)"
 msgstr "W_staw kolumny"
 
-#: src/sheet-control-gui.c:1416
+#: src/sheet-control-gui.c:1417
 msgid "_Delete Column(s)"
 msgstr "_Usuñ kolumny"
 
-#: src/sheet-control-gui.c:1418
+#: src/sheet-control-gui.c:1419
 msgid "_Insert Row(s)"
 msgstr "W_staw wiersze"
 
-#: src/sheet-control-gui.c:1420
+#: src/sheet-control-gui.c:1421
 msgid "_Delete Row(s)"
 msgstr "_Usuñ wiersze"
 
-#: src/sheet-control-gui.c:1423
+#: src/sheet-control-gui.c:1424
 msgid "Clear Co_ntents"
 msgstr "Wyczy¶æ _zawarto¶æ"
 
-#: src/sheet-control-gui.c:1429
+#: src/sheet-control-gui.c:1430
 msgid "_Format Cells..."
 msgstr "_Format komórek..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1433
+#: src/sheet-control-gui.c:1434
 msgid "Column _Width..."
 msgstr "Szeroko¶æ kolu_mny..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1441
+#: src/sheet-control-gui.c:1442
 msgid "_Row Height..."
 msgstr "Wysoko¶æ wiersz_a..."
 
@@ -19149,12 +19135,12 @@ msgstr "Cena"
 msgid "R.H. Side"
 msgstr "Prawa strona"
 
-#: src/stf-parse.c:35
+#: src/stf-parse.c:37
 #, c-format
 msgid "Too many rows in data to parse: %d"
 msgstr "Zbyt wiele wierszy z danymi: %d"
 
-#: src/stf-parse.c:36
+#: src/stf-parse.c:38
 #, c-format
 msgid "Too many columns in data to parse: %d"
 msgstr "Zbyt wiele kolumn z danymi: %d"
@@ -19893,32 +19879,65 @@ msgstr ""
 "Wyst±pi³ b³±d przy próbie stworzenia drzewa z pliku szablonu automatycznego "
 "formatowania"
 
-#: src/xml-io.c:2800
+#: src/xml-io.c:2807
 msgid "Unparsable xml in clipboard"
 msgstr "Schowek zawiera niepoprawne dane w XML-u"
 
-#: src/xml-io.c:2807
+#: src/xml-io.c:2814
 msgid "Clipboard is in unknown format"
 msgstr "Dane w schowku s± w nieznanym formacie"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3213
+#: src/xml-io.c:3220
 msgid "Processing file..."
 msgstr "Przetwarzanie pliku..."
 
-#: src/xml-io.c:3376
+#: src/xml-io.c:3383
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Brak pamiêci na stworzenie obiektu stanu dekompresji."
 
-#: src/xml-io.c:3411
+#: src/xml-io.c:3418
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Plik nie zawiera zeszytu Gnumerica"
 
-#: src/xml-io.c:3468
+#: src/xml-io.c:3475
 msgid "Gnumeric XML file format"
 msgstr "Format Gnumeric XML"
+
+#~ msgid "First argument to SCM must be a Guile expression"
+#~ msgstr "Pierwszy argument dla CSM musi byæ wyra¿eniem Guile"
+
+#~ msgid "Undefined scheme function"
+#~ msgstr "Niezdefiniowana funkcja scheme"
+
+#~ msgid "Could not evaluate argument"
+#~ msgstr "Nie mo¿na obliczyæ argumentu"
+
+#~ msgid ""
+#~ "Thank you for using Gnumeric!\n"
+#~ "\n"
+#~ "The version of Gnumeric you are using is quite old\n"
+#~ "by now.  It is likely that many bugs have been fixed\n"
+#~ "and that new features have been added in the meantime.\n"
+#~ "\n"
+#~ "Please consider upgrading before reporting any bugs.\n"
+#~ "Consult http://www.gnumeric.org/ for details.\n"
+#~ "\n"
+#~ "-- The Gnumeric Team."
+#~ msgstr ""
+#~ "Dziêkujemy za skorzystanie z Gnumerica!\n"
+#~ "\n"
+#~ "U¿ywana przez Ciebie wersja programu jest ju¿ do¶æ\n"
+#~ "stara. Najprawdopodobniej w miêdzyczasie poprawiono\n"
+#~ "wiele b³êdów oraz dodano wiele nowych mo¿liwo¶ci.\n"
+#~ "\n"
+#~ "Zalecamy aktualizacjê programu do nowszej wersji\n"
+#~ "przed zg³aszaniem b³êdów na jego temat. Aby uzyskaæ\n"
+#~ "szczegó³y, odwied¼ witrynê http://www.gnumeric.org/.\n"
+#~ "\n"
+#~ "-- Zespó³ Twórców Gnumerica."
 
 #~ msgid ""
 #~ "@FUNCTION=RandBinom\n"

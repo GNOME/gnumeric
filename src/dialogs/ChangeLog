@@ -1,3 +1,7 @@
+2002-04-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.6
+
 2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (tool_load_selection) : fix typo (#77000)

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
-"POT-Creation-Date: 2002-03-09 16:44-0500\n"
+"POT-Creation-Date: 2002-04-13 18:34-0400\n"
 "PO-Revision-Date: 2001-09-30 16:07+0200\n"
 "Last-Translator: Softcatalà <tradgnome@softcatala.org>\n"
 "Language-Team: Catalan <linux@softcatala.org>\n"
@@ -262,8 +262,8 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4524
-#: plugins/mps/mps.c:579 src/xml-io.c:3379
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4531
+#: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr "S'està llegint el fitxer..."
 
@@ -390,27 +390,27 @@ msgstr ""
 msgid "Module%d"
 msgstr "Mode"
 
-#: plugins/excel/ms-excel-read.c:4519
+#: plugins/excel/ms-excel-read.c:4526
 msgid "No book or workbook streams found."
 msgstr "No s'han trobat fluxos de llibres ni llibres de treball"
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4683
+#: plugins/excel/ms-excel-read.c:4690
 msgid "Password protected workbooks are not supported yet."
 msgstr ""
 "La protecció mitjançant contrasenya dels llibres de treball encara no s'ha "
 "implementat."
 
-#: plugins/excel/ms-excel-read.c:4796
+#: plugins/excel/ms-excel-read.c:4803
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "No es pot trobar un llibre de treball de MS Excel vàlid"
 
-#: plugins/excel/ms-excel-write.c:3511
+#: plugins/excel/ms-excel-write.c:3573
 #, fuzzy, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Hi ha massa files per aquest format"
 
-#: plugins/excel/ms-excel-write.c:3737
+#: plugins/excel/ms-excel-write.c:3799
 msgid "Can't open stream for writing\n"
 msgstr "No es pot obrir el flux d'escriptura\n"
 
@@ -524,32 +524,10 @@ msgstr "Format de fitxer Gnumeric XML"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr ""
 
-# src/func.c:437 src/functions/fn-information.c:573
-# src/functions/fn-information.c:641 src/functions/fn-information.c:668
-# src/functions/fn-information.c:694 src/functions/fn-information.c:743
-# src/functions/fn-information.c:772 src/functions/fn-information.c:837
-# src/functions/fn-logical.c:194 src/functions/fn-lookup.c:469
-# src/functions/fn-lookup.c:580 src/functions/fn-string.c:343
-#: plugins/guile/plugin.c:67 src/func.c:810 src/functions/fn-information.c:697
-#: src/functions/fn-information.c:768 src/functions/fn-information.c:796
-#: src/functions/fn-information.c:823 src/functions/fn-information.c:874
-#: src/functions/fn-information.c:904 src/functions/fn-information.c:971
-#: src/functions/fn-logical.c:196 src/functions/fn-string.c:325
-msgid "Invalid number of arguments"
-msgstr "Nombre d'arguments no vàlid"
-
-#. FIXME : This looks like a leak (JEG 4/4/00)
-#: plugins/guile/plugin.c:72 plugins/guile/plugin.c:77
-msgid "First argument to SCM must be a Guile expression"
-msgstr "El primer argument a SCM ha de ser una expressió de Guile"
-
-#: plugins/guile/plugin.c:81
-msgid "Undefined scheme function"
-msgstr "Funció de 'scheme' no definida"
-
-#: plugins/guile/plugin.c:100
-msgid "Could not evaluate argument"
-msgstr "No s'ha pogut avaluar l'argument"
+#: plugins/guile/plugin.c:106
+#, fuzzy
+msgid "Guile error"
+msgstr "Errors múltiples"
 
 #: plugins/guile/plugin.xml.in.h:1
 #, fuzzy
@@ -1332,7 +1310,7 @@ msgid "Automatically save the current document at regular intervals"
 msgstr "Desa el document actual a intervals regulars actualment"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:15
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:819
+#: src/dialogs/dialog-cell-format.c:2583 src/workbook-format-toolbar.c:819
 #: src/workbook-format-toolbar.c:875
 msgid "Background"
 msgstr "Fons"
@@ -1555,7 +1533,7 @@ msgstr "Crea un marc"
 msgid "Create an arrow"
 msgstr "Crea una fletxa"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1392
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1393
 #: src/workbook-control-gui.c:2734
 msgid "Cu_t"
 msgstr "Tall_a"
@@ -1668,7 +1646,7 @@ msgstr "F_ormat"
 msgid "Filter data with given criteria"
 msgstr "Filtra les dades a partir dels criteris donats"
 
-#: src/GNOME_Gnumeric.xml.h:89 src/dialogs/cell-format.glade.h:39
+#: src/GNOME_Gnumeric.xml.h:89 src/dialogs/cell-format.glade.h:38
 #: src/workbook-format-toolbar.c:758
 msgid "Font"
 msgstr "Tipus de lletra"
@@ -1682,7 +1660,7 @@ msgstr "Mida de la lletra"
 msgid "Font selector"
 msgstr "Selector de tipus de lletra"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2572
+#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2578
 #: src/workbook-format-toolbar.c:844 src/workbook-format-toolbar.c:878
 msgid "Foreground"
 msgstr "Primer pla"
@@ -1691,7 +1669,7 @@ msgstr "Primer pla"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formata una regió de cel·les seguint un patró predefinit"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4094
+#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4096
 #: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3038
 msgid "Fourier Analysis"
 msgstr "Anàlisi de Fourier"
@@ -1843,7 +1821,7 @@ msgstr "Salta a una cel·la específica"
 msgid "Label"
 msgstr "Etiqueta"
 
-#: src/GNOME_Gnumeric.xml.h:130 src/dialogs/cell-format.glade.h:53
+#: src/GNOME_Gnumeric.xml.h:130 src/dialogs/cell-format.glade.h:52
 #: src/workbook-format-toolbar.c:629
 msgid "Left"
 msgstr "Esquerra"
@@ -1852,7 +1830,7 @@ msgstr "Esquerra"
 msgid "Left justifies the contents of each cell"
 msgstr "Justifica a l'esquerra el contingut de cada cel·la"
 
-#: src/GNOME_Gnumeric.xml.h:132 src/dialogs/cell-format.glade.h:54
+#: src/GNOME_Gnumeric.xml.h:132 src/dialogs/cell-format.glade.h:53
 #: src/workbook-object-toolbar.c:185
 msgid "Line"
 msgstr "Línia"
@@ -1994,7 +1972,7 @@ msgstr "Enganxa amb filtres i transformacions opcionals"
 msgid "Pearson Correlation"
 msgstr "Correlació de Pearson"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/analysis-tools.c:2741
+#: src/GNOME_Gnumeric.xml.h:166 src/analysis-tools.c:2743
 #: src/workbook-format-toolbar.c:463
 msgid "Percent"
 msgstr "Percent"
@@ -2095,7 +2073,7 @@ msgstr "Suprimeix les cel·les seleccionades, desplaçant les altres al seu lloc"
 msgid "Rename the current sheet"
 msgstr "Canvia el nom del full actual"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/dialogs/cell-format.glade.h:68
+#: src/GNOME_Gnumeric.xml.h:189 src/dialogs/cell-format.glade.h:67
 #: src/workbook-format-toolbar.c:631
 msgid "Right"
 msgstr "Dreta"
@@ -2415,7 +2393,7 @@ msgid "_Content"
 msgstr "_Contingut"
 
 #: src/GNOME_Gnumeric.xml.h:260 src/item-cursor.c:1030
-#: src/sheet-control-gui.c:1394 src/workbook-control-gui.c:2738
+#: src/sheet-control-gui.c:1395 src/workbook-control-gui.c:2738
 msgid "_Copy"
 msgstr "_Copia"
 
@@ -2432,7 +2410,7 @@ msgstr "_Dades"
 msgid "_Define..."
 msgstr "_Defineix..."
 
-#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1412
+#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1413
 #: src/workbook-control-gui.c:2755
 msgid "_Delete..."
 msgstr "_Suprimeix"
@@ -2459,7 +2437,7 @@ msgstr "Exponencial"
 msgid "_File"
 msgstr "_Fitxer"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/dialogs/cell-format.glade.h:109
+#: src/GNOME_Gnumeric.xml.h:270 src/dialogs/cell-format.glade.h:107
 #: src/workbook-control-gui.c:2764
 msgid "_Fill"
 msgstr "_Omple"
@@ -2508,8 +2486,8 @@ msgstr "_Grup i Contorn"
 msgid "_Help"
 msgstr "_Ajuda"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1435
-#: src/sheet-control-gui.c:1443 src/workbook-control-gui.c:2876
+#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1436
+#: src/sheet-control-gui.c:1444 src/workbook-control-gui.c:2876
 #: src/workbook-control-gui.c:2895
 msgid "_Hide"
 msgstr "_Oculta"
@@ -2572,7 +2550,7 @@ msgstr "Obre"
 msgid "_Paired Samples: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1396
+#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1397
 #: src/workbook-control-gui.c:2742
 msgid "_Paste"
 msgstr "_Enganxa"
@@ -2694,8 +2672,8 @@ msgstr "_Desfés"
 msgid "_Ungroup"
 msgstr "_Desagrupa"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1437
-#: src/sheet-control-gui.c:1445 src/workbook-control-gui.c:2879
+#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1438
+#: src/sheet-control-gui.c:1446 src/workbook-control-gui.c:2879
 #: src/workbook-control-gui.c:2898
 msgid "_Unhide"
 msgstr "_Mostra"
@@ -2720,12 +2698,12 @@ msgstr "_Llibre de treball"
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: src/analysis-tools.c:195 src/analysis-tools.c:3234
+#: src/analysis-tools.c:195 src/analysis-tools.c:3236
 #, fuzzy, c-format
 msgid "Row %i"
 msgstr "Fila %d"
 
-#: src/analysis-tools.c:198 src/analysis-tools.c:3226
+#: src/analysis-tools.c:198 src/analysis-tools.c:3228
 #, fuzzy, c-format
 msgid "Column %i"
 msgstr "Columna %d"
@@ -2740,15 +2718,15 @@ msgstr "Bin"
 msgid "Area %i"
 msgstr ""
 
-#: src/analysis-tools.c:810 src/analysis-tools.c:813
+#: src/analysis-tools.c:812 src/analysis-tools.c:815
 msgid "Correlations"
 msgstr "Correlacions"
 
-#: src/analysis-tools.c:902 src/analysis-tools.c:905
+#: src/analysis-tools.c:904 src/analysis-tools.c:907
 msgid "Covariances"
 msgstr "Covariances"
 
-#: src/analysis-tools.c:984
+#: src/analysis-tools.c:986
 msgid "Summary Statistics"
 msgstr "Estadístiques de resum"
 
@@ -2759,7 +2737,7 @@ msgstr "Estadístiques de resum"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/analysis-tools.c:995
+#: src/analysis-tools.c:997
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -2767,52 +2745,52 @@ msgstr ""
 "/Mitjana/Error estàndard/Mediana/mode/Desviació estàndard/Variança de mostra/"
 "Curtosi/Esbiaix/Amplitud/Mínim/Màxim/Suma/Compta"
 
-#: src/analysis-tools.c:1081
+#: src/analysis-tools.c:1083
 #, fuzzy
 msgid "Confidence Interval for the Mean"
 msgstr "Nivell de confiança per la mitjana"
 
-#: src/analysis-tools.c:1082
+#: src/analysis-tools.c:1084
 #, c-format
 msgid "/%g%% CI for the Mean from/to"
 msgstr ""
 
-#: src/analysis-tools.c:1119 src/dialogs/descriptive-stats.glade.h:10
+#: src/analysis-tools.c:1121 src/dialogs/descriptive-stats.glade.h:10
 msgid "Kth Largest"
 msgstr "K-èssim més gran"
 
-#: src/analysis-tools.c:1120
+#: src/analysis-tools.c:1122
 #, c-format
 msgid "Largest (%d)"
 msgstr "Més gran (%d)"
 
-#: src/analysis-tools.c:1144 src/dialogs/descriptive-stats.glade.h:11
+#: src/analysis-tools.c:1146 src/dialogs/descriptive-stats.glade.h:11
 msgid "Kth Smallest"
 msgstr "K-èssim més petit"
 
-#: src/analysis-tools.c:1145
+#: src/analysis-tools.c:1147
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Més petit (%d)"
 
-#: src/analysis-tools.c:1266 src/dialogs/cell-format.glade.h:70
+#: src/analysis-tools.c:1268 src/dialogs/cell-format.glade.h:69
 msgid "Sample"
 msgstr "Exemple"
 
-#: src/analysis-tools.c:1363 src/analysis-tools.c:1365
-#: src/analysis-tools.c:1482 src/analysis-tools.c:1484
-#: src/analysis-tools.c:1641 src/analysis-tools.c:1643
-#: src/analysis-tools.c:1769 src/analysis-tools.c:1771
-#: src/analysis-tools.c:1905 src/analysis-tools.c:1907
+#: src/analysis-tools.c:1365 src/analysis-tools.c:1367
+#: src/analysis-tools.c:1484 src/analysis-tools.c:1486
+#: src/analysis-tools.c:1643 src/analysis-tools.c:1645
+#: src/analysis-tools.c:1771 src/analysis-tools.c:1773
+#: src/analysis-tools.c:1907 src/analysis-tools.c:1909
 #, fuzzy, c-format
 msgid "Variable %i"
 msgstr "Variable 2"
 
-#: src/analysis-tools.c:1367
+#: src/analysis-tools.c:1369
 msgid "z-Test"
 msgstr "Test-z"
 
-#: src/analysis-tools.c:1370
+#: src/analysis-tools.c:1372
 #, fuzzy
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
@@ -2822,12 +2800,12 @@ msgstr ""
 "/Mitjana/Variança coneguda/Observacions/Diferència mitjana hipotètica/z/P "
 "(Z<=z) una cua/z crítica una cua/P (Z<=z) dues cues/z crítica dues cues"
 
-#: src/analysis-tools.c:1498 src/analysis-tools.c:1645
-#: src/analysis-tools.c:1773
+#: src/analysis-tools.c:1500 src/analysis-tools.c:1647
+#: src/analysis-tools.c:1775
 msgid "t-Test"
 msgstr "Test-t"
 
-#: src/analysis-tools.c:1501
+#: src/analysis-tools.c:1503
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
@@ -2837,7 +2815,7 @@ msgstr ""
 "hipotètica/df/Estadístic t/P (T<=t) una cua/t crítica una cua/P (T<=t) dues "
 "cues/t crítica dues cues"
 
-#: src/analysis-tools.c:1648
+#: src/analysis-tools.c:1650
 #, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
@@ -2848,7 +2826,7 @@ msgstr ""
 "hipotètica/df/Estadístic t/P (T<=t) una cua/t crítica una cua/P (T<=t) dues "
 "cues/t crítica dues cues"
 
-#: src/analysis-tools.c:1776
+#: src/analysis-tools.c:1778
 #, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
@@ -2858,11 +2836,11 @@ msgstr ""
 "/Mitjana/Variança/Observacions/Diferència mitjana hipotètica/df/Estadística "
 "t/P (T<=t) una cua/t crítica una cua/P (T<=t) dues cues/t crítica dues cues"
 
-#: src/analysis-tools.c:1914
+#: src/analysis-tools.c:1916
 msgid "F-Test"
 msgstr "Test-F"
 
-#: src/analysis-tools.c:1920
+#: src/analysis-tools.c:1922
 #, fuzzy
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
@@ -2871,24 +2849,24 @@ msgstr ""
 "/Mitjana/Variança/Observacions/Diferència mitjana hipotètica/df/Estadística "
 "t/P (T<=t) una cua/t crítica una cua/P (T<=t) dues cues/t crítica dues cues"
 
-#: src/analysis-tools.c:2038 src/analysis-tools.c:2096
+#: src/analysis-tools.c:2040 src/analysis-tools.c:2098
 msgid "Random"
 msgstr "Aleatori"
 
-#: src/analysis-tools.c:2212
+#: src/analysis-tools.c:2214
 msgid "Not implemented yet.\n"
 msgstr "Encara no s'ha implementat.\n"
 
-#: src/analysis-tools.c:2289
+#: src/analysis-tools.c:2291
 #, fuzzy
 msgid "Y Variable"
 msgstr "Variable 2"
 
-#: src/analysis-tools.c:2348 src/dialogs/regression.glade.h:8
+#: src/analysis-tools.c:2350 src/dialogs/regression.glade.h:8
 msgid "Regression"
 msgstr "Regressió"
 
-#: src/analysis-tools.c:2350
+#: src/analysis-tools.c:2352
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -2897,154 +2875,154 @@ msgstr ""
 "quadràtica ajustada/Error estàndard/Observacions//ANOVA//Regressió/Residual/"
 "Total///Intercepció"
 
-#: src/analysis-tools.c:2371
+#: src/analysis-tools.c:2373
 #, fuzzy
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/F significativa"
 
-#: src/analysis-tools.c:2378
+#: src/analysis-tools.c:2380
 #, fuzzy, c-format
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
 msgstr ""
 "/Coeficients/Error estàndard/Estadístic t/Valor P/Inferior a 95%/Superior a "
 "95%"
 
-#: src/analysis-tools.c:2546
+#: src/analysis-tools.c:2548
 msgid "Moving Averages"
 msgstr "Mitjanes mòbils"
 
-#: src/analysis-tools.c:2561
+#: src/analysis-tools.c:2563
 msgid "Standard Error"
 msgstr "Error estàndard"
 
-#: src/analysis-tools.c:2649
+#: src/analysis-tools.c:2651
 #, fuzzy
 msgid "Exponential Smoothing"
 msgstr "Exponencial"
 
-#: src/analysis-tools.c:2729
+#: src/analysis-tools.c:2731
 msgid "Ranks"
 msgstr "Abasts"
 
-#: src/analysis-tools.c:2738
+#: src/analysis-tools.c:2740
 msgid "Point"
 msgstr "Punt"
 
-#: src/analysis-tools.c:2740
+#: src/analysis-tools.c:2742
 msgid "Rank"
 msgstr "Abast"
 
 #. We are ready to create the summary table
-#: src/analysis-tools.c:2829 src/analysis-tools.c:3024
-#: src/analysis-tools.c:3286
+#: src/analysis-tools.c:2831 src/analysis-tools.c:3026
+#: src/analysis-tools.c:3288
 msgid "Anova"
 msgstr "Anova"
 
-#: src/analysis-tools.c:2831
+#: src/analysis-tools.c:2833
 msgid "Anova: Single Factor"
 msgstr "Anova d'un factor"
 
-#: src/analysis-tools.c:2832 src/analysis-tools.c:3289
+#: src/analysis-tools.c:2834 src/analysis-tools.c:3291
 msgid "SUMMARY"
 msgstr "RESUM"
 
-#: src/analysis-tools.c:2833
+#: src/analysis-tools.c:2835
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grups/Compta/Suma/Mitjana/Variança"
 
-#: src/analysis-tools.c:2889
+#: src/analysis-tools.c:2891
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Font de variació/Entre grups/Dins de grups/Total"
 
-#: src/analysis-tools.c:2894 src/analysis-tools.c:3106
-#: src/analysis-tools.c:3313
+#: src/analysis-tools.c:2896 src/analysis-tools.c:3108
+#: src/analysis-tools.c:3315
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/Valor P/F crítica"
 
-#: src/analysis-tools.c:3030
+#: src/analysis-tools.c:3032
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: dos factors sense replicació"
 
-#: src/analysis-tools.c:3031
+#: src/analysis-tools.c:3033
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/RESUM/Compta/Suma/Mitjana/Variança"
 
-#: src/analysis-tools.c:3100
+#: src/analysis-tools.c:3102
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Font de variació/Files/Columnes/Error/Total"
 
-#: src/analysis-tools.c:3288
+#: src/analysis-tools.c:3290
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: dos factors amb replicació"
 
-#: src/analysis-tools.c:3293 src/analysis-tools.c:3303
-#: src/analysis-tools.c:3311 src/dialogs/dialog-autoformat.c:74
+#: src/analysis-tools.c:3295 src/analysis-tools.c:3305
+#: src/analysis-tools.c:3313 src/dialogs/dialog-autoformat.c:74
 #: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr "Total"
 
-#: src/analysis-tools.c:3295
+#: src/analysis-tools.c:3297
 #, fuzzy
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Grups/Compta/Suma/Mitjana/Variança"
 
-#: src/analysis-tools.c:3305
+#: src/analysis-tools.c:3307
 #, fuzzy
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Font de variació/Files/Columnes/Error/Total"
 
-#: src/analysis-tools.c:3773
+#: src/analysis-tools.c:3775
 #, c-format
 msgid "<%s"
 msgstr ""
 
-#: src/analysis-tools.c:3777
+#: src/analysis-tools.c:3779
 msgid "Too Small"
 msgstr ""
 
-#: src/analysis-tools.c:3794
+#: src/analysis-tools.c:3796
 #, fuzzy
 msgid "More"
 msgstr "Mode"
 
-#: src/analysis-tools.c:3802
+#: src/analysis-tools.c:3804
 #, c-format
 msgid ">%s"
 msgstr ""
 
-#: src/analysis-tools.c:3806
+#: src/analysis-tools.c:3808
 #, fuzzy
 msgid "Too Large"
 msgstr "K-èssim més gran"
 
-#: src/analysis-tools.c:3847 src/dialogs/histogram.glade.h:7
+#: src/analysis-tools.c:3849 src/dialogs/histogram.glade.h:7
 msgid "Histogram"
 msgstr "Histograma"
 
-#: src/analysis-tools.c:3852
+#: src/analysis-tools.c:3854
 msgid "Bin"
 msgstr "Bin"
 
-#: src/analysis-tools.c:3877
+#: src/analysis-tools.c:3879
 msgid "Frequency"
 msgstr "Freqüència"
 
-#: src/analysis-tools.c:3879 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3881 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3882
+#: src/analysis-tools.c:3884
 #, no-c-format
 msgid "Cumulative %"
 msgstr "% acumulat"
 
-#: src/analysis-tools.c:4114
+#: src/analysis-tools.c:4116
 #, fuzzy
 msgid "Real"
 msgstr "Residual"
 
-#: src/analysis-tools.c:4115
+#: src/analysis-tools.c:4117
 #, fuzzy
 msgid "Imaginary"
 msgstr "Gener"
@@ -3054,7 +3032,7 @@ msgstr "Gener"
 msgid "Error '%s' opening workbook stream"
 msgstr "Error '%s' en obrir el corrent del llibre de treball"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3402
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3409
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Fitxer xml no vàlid. Està buit l'arbre ?"
 
@@ -3808,7 +3786,7 @@ msgstr "_No escriguis en majúscules després de:"
 msgid "_First Letter"
 msgstr "_Primera lletra"
 
-#: src/dialogs/autocorrect.glade.h:10 src/dialogs/cell-format.glade.h:111
+#: src/dialogs/autocorrect.glade.h:10 src/dialogs/cell-format.glade.h:109
 msgid "_General"
 msgstr "_General"
 
@@ -3979,7 +3957,7 @@ msgstr "val !=límit                 (no és igual a)"
 msgid "Background Color"
 msgstr "Color de fons"
 
-#: src/dialogs/cell-format.glade.h:17 src/dialogs/dialog-cell-format.c:2567
+#: src/dialogs/cell-format.glade.h:17 src/dialogs/dialog-cell-format.c:2573
 msgid "Border"
 msgstr "Contorn"
 
@@ -4016,7 +3994,7 @@ msgstr "Color :"
 msgid "Control"
 msgstr "Control"
 
-#: src/dialogs/cell-format.glade.h:26 src/dialogs/dialog-cell-format.c:2106
+#: src/dialogs/cell-format.glade.h:26 src/dialogs/dialog-cell-format.c:2112
 #, fuzzy
 msgid "Criteria"
 msgstr "C_riteri de abast:"
@@ -4059,25 +4037,20 @@ msgstr "Línia diagonal"
 msgid "Display the value exactly as it was entered"
 msgstr "Mostra el valor tal i com es va introduir"
 
-#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:1303
-#: src/dialogs/dialog-cell-format.c:1363
-msgid "Double"
-msgstr "Doble"
-
-#: src/dialogs/cell-format.glade.h:37
+#: src/dialogs/cell-format.glade.h:36
 msgid "Effects"
 msgstr "Efectes"
 
-#: src/dialogs/cell-format.glade.h:38
+#: src/dialogs/cell-format.glade.h:37
 #, fuzzy
 msgid "Error Alert"
 msgstr "Alerta d'_error"
 
-#: src/dialogs/cell-format.glade.h:40
+#: src/dialogs/cell-format.glade.h:39
 msgid "Foreground Solid"
 msgstr "Sòlid en primer pla"
 
-#: src/dialogs/cell-format.glade.h:41
+#: src/dialogs/cell-format.glade.h:40
 msgid ""
 "General format cells attempt to select an appropriate format depending on "
 "the value of the cell."
@@ -4085,389 +4058,390 @@ msgstr ""
 "Les cel·les amb el formatatge general intenten seleccionar un format "
 "apropiat que depèn del valor de la cel·la."
 
-#: src/dialogs/cell-format.glade.h:42
+#: src/dialogs/cell-format.glade.h:41
 msgid "Horizontal"
 msgstr "Horitzontal"
 
-#: src/dialogs/cell-format.glade.h:43
+#: src/dialogs/cell-format.glade.h:42
 msgid "Horizontal Stripe"
 msgstr "Línia horitzontal"
 
-#: src/dialogs/cell-format.glade.h:44
+#: src/dialogs/cell-format.glade.h:43
 #, fuzzy
 msgid "In a list"
 msgstr "Crea una llista"
 
-#: src/dialogs/cell-format.glade.h:45
+#: src/dialogs/cell-format.glade.h:44
 #, fuzzy
 msgid "In-_cell dropdown"
 msgstr "_Menú desplegable a dins de la cel·la"
 
-#: src/dialogs/cell-format.glade.h:46
+#: src/dialogs/cell-format.glade.h:45
 msgid "Information  (allows invalid input)"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:47
+#: src/dialogs/cell-format.glade.h:46
 #, fuzzy
 msgid "Input Message"
 msgstr "Missatge d'_entrada"
 
-#: src/dialogs/cell-format.glade.h:48
+#: src/dialogs/cell-format.glade.h:47
 msgid "Inside"
 msgstr "Interior"
 
-#: src/dialogs/cell-format.glade.h:49
+#: src/dialogs/cell-format.glade.h:48
 msgid "Inside Horizontal"
 msgstr "Horitzontal interior"
 
-#: src/dialogs/cell-format.glade.h:50
+#: src/dialogs/cell-format.glade.h:49
 msgid "Inside Vertical"
 msgstr "Vertical interior"
 
-#: src/dialogs/cell-format.glade.h:51
+#: src/dialogs/cell-format.glade.h:50
 msgid "J_ustify"
 msgstr "J_ustifica"
 
-#: src/dialogs/cell-format.glade.h:52
+#: src/dialogs/cell-format.glade.h:51
 msgid "Large Circles"
 msgstr "Cercles grans"
 
-#: src/dialogs/cell-format.glade.h:55
+#: src/dialogs/cell-format.glade.h:54
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr ""
 "El bloqueig de cel·les o l'ocultació de fórmules només afecta fulls de "
 "treball protegits."
 
-#: src/dialogs/cell-format.glade.h:56
+#: src/dialogs/cell-format.glade.h:55
 #, fuzzy
 msgid "Message :"
 msgstr "Missat_ge :"
 
-#: src/dialogs/cell-format.glade.h:57
+#: src/dialogs/cell-format.glade.h:56
 #, fuzzy
 msgid "Negative number:"
 msgstr "Nombre _negatiu:"
 
-#: src/dialogs/cell-format.glade.h:58 src/dialogs/dialog-cell-format.c:1305
-#: src/dialogs/dialog-cell-format.c:1361 src/dialogs/dialog-paste-special.c:34
+#: src/dialogs/cell-format.glade.h:57 src/dialogs/dialog-cell-format.c:1306
+#: src/dialogs/dialog-cell-format.c:1358 src/dialogs/dialog-cell-format.c:1364
+#: src/dialogs/dialog-paste-special.c:34
 msgid "None"
 msgstr "Cap"
 
-#: src/dialogs/cell-format.glade.h:59
+#: src/dialogs/cell-format.glade.h:58
 msgid "None          (silently accept invalid input)"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:440
+#: src/dialogs/cell-format.glade.h:59 src/dialogs/dialog-formula-guru.c:440
 #: src/dialogs/dialog-search.c:126
 msgid "Number"
 msgstr "Nombre"
 
-#: src/dialogs/cell-format.glade.h:61
+#: src/dialogs/cell-format.glade.h:60
 #, fuzzy
 msgid "Numbers"
 msgstr "Nombre"
 
-#: src/dialogs/cell-format.glade.h:62 src/dialogs/print.glade.h:11
+#: src/dialogs/cell-format.glade.h:61 src/dialogs/print.glade.h:11
 msgid "Orientation"
 msgstr "Orientació"
 
-#: src/dialogs/cell-format.glade.h:63
+#: src/dialogs/cell-format.glade.h:62
 msgid "Outline"
 msgstr "Contorn"
 
-#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2582
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:2588
 msgid "Pattern"
 msgstr "Patró"
 
-#: src/dialogs/cell-format.glade.h:65
+#: src/dialogs/cell-format.glade.h:64
 msgid "Protection"
 msgstr "Protecció"
 
-#: src/dialogs/cell-format.glade.h:66
+#: src/dialogs/cell-format.glade.h:65
 msgid "Reverse Diagonal"
 msgstr "Diagonal inversa"
 
-#: src/dialogs/cell-format.glade.h:67
+#: src/dialogs/cell-format.glade.h:66
 msgid "Reverse Diagonal Stripe"
 msgstr "Línia diagonal invertida"
 
-#: src/dialogs/cell-format.glade.h:69
+#: src/dialogs/cell-format.glade.h:68
 msgid "S_ymbol:"
 msgstr "S_ímbol:"
 
-#: src/dialogs/cell-format.glade.h:71
+#: src/dialogs/cell-format.glade.h:70
 msgid "Semi Circles"
 msgstr "Semicercles"
 
-#: src/dialogs/cell-format.glade.h:72
+#: src/dialogs/cell-format.glade.h:71
 msgid "Shrin_k to fit"
 msgstr "_Encongeix fins que encaixi"
 
-#. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:73 src/dialogs/dialog-cell-format.c:1301
-#: src/dialogs/dialog-cell-format.c:1362
-msgid "Single"
-msgstr "Simple"
-
-#: src/dialogs/cell-format.glade.h:74
+#: src/dialogs/cell-format.glade.h:72
 msgid "Small Circles"
 msgstr "Cercles petits"
 
-#: src/dialogs/cell-format.glade.h:75
+#: src/dialogs/cell-format.glade.h:73
 msgid "Solid"
 msgstr "Sòlid"
 
-#: src/dialogs/cell-format.glade.h:76
+#: src/dialogs/cell-format.glade.h:74
 msgid "Sp_ecial"
 msgstr "_Especial"
 
-#: src/dialogs/cell-format.glade.h:77
+#: src/dialogs/cell-format.glade.h:75
 msgid "Stop           (never allow invalid input)"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:78
+#: src/dialogs/cell-format.glade.h:76
 msgid "Stri_kethrough"
 msgstr "_Ratllat"
 
-#: src/dialogs/cell-format.glade.h:79
+#: src/dialogs/cell-format.glade.h:77
 msgid "Su_bscript"
 msgstr "Su_bíndex"
 
-#: src/dialogs/cell-format.glade.h:80
+#: src/dialogs/cell-format.glade.h:78
 msgid "Sup_erscript"
 msgstr "Su_períndex"
 
-#: src/dialogs/cell-format.glade.h:81
+#: src/dialogs/cell-format.glade.h:79
 msgid "Te_xt"
 msgstr "Te_xt"
 
-#: src/dialogs/cell-format.glade.h:82
+#: src/dialogs/cell-format.glade.h:80
 msgid "Text length"
 msgstr "Longitud del text"
 
-#: src/dialogs/cell-format.glade.h:83
+#: src/dialogs/cell-format.glade.h:81
 msgid "Thatch"
 msgstr "Línia superior"
 
-#: src/dialogs/cell-format.glade.h:84
+#: src/dialogs/cell-format.glade.h:82
 msgid "Thick Diagonal Crosshatch"
 msgstr "Línies gruixudes creuades en diagonal"
 
-#: src/dialogs/cell-format.glade.h:85
+#: src/dialogs/cell-format.glade.h:83
 msgid "Thin Diagonal Crosshatch"
 msgstr "Línies primes creuades en diagonal"
 
-#: src/dialogs/cell-format.glade.h:86
+#: src/dialogs/cell-format.glade.h:84
 msgid "Thin Diagonal Stripe"
 msgstr "Línia diagonal prima"
 
-#: src/dialogs/cell-format.glade.h:87
+#: src/dialogs/cell-format.glade.h:85
 msgid "Thin Horizontal Crosshatch"
 msgstr "Línies gruixudes creuades en diagonal"
 
-#: src/dialogs/cell-format.glade.h:88
+#: src/dialogs/cell-format.glade.h:86
 msgid "Thin Horizontal Stripe"
 msgstr "Línia horitzontal prima"
 
-#: src/dialogs/cell-format.glade.h:89
+#: src/dialogs/cell-format.glade.h:87
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Línia diagonal invertida prima"
 
-#: src/dialogs/cell-format.glade.h:90
+#: src/dialogs/cell-format.glade.h:88
 msgid "Thin Vertical Stripe"
 msgstr "Línia vertical prima"
 
-#: src/dialogs/cell-format.glade.h:91
+#: src/dialogs/cell-format.glade.h:89
 msgid "Time"
 msgstr "Hora"
 
-#: src/dialogs/cell-format.glade.h:92
+#: src/dialogs/cell-format.glade.h:90
 #, fuzzy
 msgid "Title :"
 msgstr "Tít_ol :"
 
-#: src/dialogs/cell-format.glade.h:93
+#: src/dialogs/cell-format.glade.h:91
 msgid "Top"
 msgstr "Superior"
 
-#: src/dialogs/cell-format.glade.h:94
+#: src/dialogs/cell-format.glade.h:92
 msgid "Unfinished"
 msgstr "Inacabat"
 
-#: src/dialogs/cell-format.glade.h:95
+#: src/dialogs/cell-format.glade.h:93
 #, fuzzy
 msgid "Validation"
 msgstr "Validació d'entrada"
 
-#: src/dialogs/cell-format.glade.h:96
+#: src/dialogs/cell-format.glade.h:94
 msgid "Vertical Alignment"
 msgstr "Alineació vertical"
 
-#: src/dialogs/cell-format.glade.h:97
+#: src/dialogs/cell-format.glade.h:95
 msgid "Vertical Stripe"
 msgstr "Línia vertical"
 
-#: src/dialogs/cell-format.glade.h:98
+#: src/dialogs/cell-format.glade.h:96
 msgid "Warning      (accept/discard invalid input)"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:99
+#: src/dialogs/cell-format.glade.h:97
 msgid "Whole numbers"
 msgstr "Números sencers"
 
-#: src/dialogs/cell-format.glade.h:100
+#: src/dialogs/cell-format.glade.h:98
 msgid "Worksheet _protected"
 msgstr "Full de treball _protegit"
 
-#: src/dialogs/cell-format.glade.h:101
+#: src/dialogs/cell-format.glade.h:99
 msgid "_Accounting"
 msgstr "_Estadístiques"
 
-#: src/dialogs/cell-format.glade.h:102
+#: src/dialogs/cell-format.glade.h:100
 #, fuzzy
 msgid "_Allow :"
 msgstr "_Permet :"
 
-#: src/dialogs/cell-format.glade.h:103
+#: src/dialogs/cell-format.glade.h:101
 msgid "_Bottom"
 msgstr "_Inferior"
 
-#: src/dialogs/cell-format.glade.h:104
+#: src/dialogs/cell-format.glade.h:102
 msgid "_Center"
 msgstr "_Centre"
 
-#: src/dialogs/cell-format.glade.h:105
+#: src/dialogs/cell-format.glade.h:103
 #, fuzzy
 msgid "_Color :"
 msgstr "Color :"
 
-#: src/dialogs/cell-format.glade.h:106
+#: src/dialogs/cell-format.glade.h:104
 #, fuzzy
 msgid "_Condition :"
 msgstr "_Condició :"
 
-#: src/dialogs/cell-format.glade.h:107
+#: src/dialogs/cell-format.glade.h:105
 msgid "_Currency"
 msgstr "_Moneda"
 
-#: src/dialogs/cell-format.glade.h:108
+#: src/dialogs/cell-format.glade.h:106
 msgid "_Date"
 msgstr "_Data"
 
-#: src/dialogs/cell-format.glade.h:110
+#: src/dialogs/cell-format.glade.h:108
 msgid "_Fraction"
 msgstr "_Fracció"
 
-#: src/dialogs/cell-format.glade.h:112
+#: src/dialogs/cell-format.glade.h:110
 msgid "_Hidden"
 msgstr "_Amagat"
 
-#: src/dialogs/cell-format.glade.h:113
+#: src/dialogs/cell-format.glade.h:111
 #, fuzzy
 msgid "_Ignore blank cells"
 msgstr "Ignora l'espai en _blanc"
 
-#: src/dialogs/cell-format.glade.h:114
+#: src/dialogs/cell-format.glade.h:112
 msgid "_Indent"
 msgstr "_Sagna"
 
-#: src/dialogs/cell-format.glade.h:115
+#: src/dialogs/cell-format.glade.h:113
 msgid "_Justify"
 msgstr "_Justifica"
 
-#: src/dialogs/cell-format.glade.h:116
+#: src/dialogs/cell-format.glade.h:114
 msgid "_Left"
 msgstr "_Esquerra"
 
-#: src/dialogs/cell-format.glade.h:117
+#: src/dialogs/cell-format.glade.h:115
 msgid "_Locked"
 msgstr "_Bloquejat"
 
-#: src/dialogs/cell-format.glade.h:118
+#: src/dialogs/cell-format.glade.h:116
 #, fuzzy
 msgid "_Message :"
 msgstr "Missat_ge :"
 
-#: src/dialogs/cell-format.glade.h:119
+#: src/dialogs/cell-format.glade.h:117
 msgid "_Number"
 msgstr "_Nombre"
 
-#: src/dialogs/cell-format.glade.h:120
+#: src/dialogs/cell-format.glade.h:118
 msgid "_Percentage"
 msgstr "_Percentatge"
 
-#: src/dialogs/cell-format.glade.h:121
+#: src/dialogs/cell-format.glade.h:119
 msgid "_Right"
 msgstr "_Dreta"
 
-#: src/dialogs/cell-format.glade.h:122
+#: src/dialogs/cell-format.glade.h:120
 msgid "_Scientific"
 msgstr "_Científic"
 
-#: src/dialogs/cell-format.glade.h:123
+#: src/dialogs/cell-format.glade.h:121
 #, fuzzy
 msgid "_Show input message when cell is selected"
 msgstr "Mostra el _missatge d'entrada quan se seleccioni la cel·la"
 
-#: src/dialogs/cell-format.glade.h:124
+#: src/dialogs/cell-format.glade.h:122
 msgid "_Style"
 msgstr "_Estil"
 
-#: src/dialogs/cell-format.glade.h:125
+#: src/dialogs/cell-format.glade.h:123
 msgid "_Time"
 msgstr "_Hora"
 
-#: src/dialogs/cell-format.glade.h:126
+#: src/dialogs/cell-format.glade.h:124
 msgid "_Top"
 msgstr "_Superior"
 
-#: src/dialogs/cell-format.glade.h:127
+#: src/dialogs/cell-format.glade.h:125
 msgid "_Type"
 msgstr "_Tipus"
 
-#: src/dialogs/cell-format.glade.h:128
+#: src/dialogs/cell-format.glade.h:126
 msgid "_Underline:"
 msgstr "_Subratllat:"
 
-#: src/dialogs/cell-format.glade.h:129
+#: src/dialogs/cell-format.glade.h:127
 msgid "_Use Separator for 1000's"
 msgstr "_Utilitza el separador pels milers"
 
-#: src/dialogs/cell-format.glade.h:130
+#: src/dialogs/cell-format.glade.h:128
 msgid "_Wrap text"
 msgstr "_Ajusta el text"
 
-#: src/dialogs/cell-format.glade.h:131
-msgid "min <= val <= max         (between)"
+#: src/dialogs/cell-format.glade.h:129
+#, fuzzy
+msgid "min &lt;= val &lt;= max         (between)"
 msgstr "mín <= val <= màx          (entre)"
 
-#: src/dialogs/cell-format.glade.h:132
+#: src/dialogs/cell-format.glade.h:130
 msgid "val != bound                  (not equal to)"
 msgstr "val !=límit                 (no és igual a)"
 
+#: src/dialogs/cell-format.glade.h:131
+#, fuzzy
+msgid "val &gt;  bound                  (greater than)"
+msgstr "val >  límit                   (més gran que)"
+
+#: src/dialogs/cell-format.glade.h:132
+#, fuzzy
+msgid "val &gt;=bound                  (greater than or equal to)"
+msgstr "val >=límit                  (més gran que o igual a)"
+
 #: src/dialogs/cell-format.glade.h:133
-msgid "val <  bound                  (less than)"
+#, fuzzy
+msgid "val &lt;  bound                  (less than)"
 msgstr "val <  límit                  (menor que)"
 
 #: src/dialogs/cell-format.glade.h:134
-msgid "val <= min || max <= val (not between)"
+#, fuzzy
+msgid "val &lt;= min || max &lt;= val (not between)"
 msgstr "val <= mín || màx <= val (no entre)"
 
 #: src/dialogs/cell-format.glade.h:135
-msgid "val <=bound                  (less than or equal to)"
+#, fuzzy
+msgid "val &lt;=bound                  (less than or equal to)"
 msgstr "val <=límit                  (menor que o igual a)"
 
 #: src/dialogs/cell-format.glade.h:136
 msgid "val == bound                 (equal to)"
 msgstr "val == límit                (igual a)"
-
-#: src/dialogs/cell-format.glade.h:137
-msgid "val >  bound                  (greater than)"
-msgstr "val >  límit                   (més gran que)"
-
-#: src/dialogs/cell-format.glade.h:138
-msgid "val >=bound                  (greater than or equal to)"
-msgstr "val >=límit                  (més gran que o igual a)"
 
 #: src/dialogs/cell-sort.glade.h:1
 #, fuzzy
@@ -5331,52 +5305,63 @@ msgstr "Heu d'introduir un nombre de minuts apropiat al camp d'entrada."
 msgid "Cell comment"
 msgstr "Comentari de la cel·la"
 
-#: src/dialogs/dialog-cell-format.c:423
+#: src/dialogs/dialog-cell-format.c:424
 msgid ";[Red]"
 msgstr ";[Vermell]"
 
-#: src/dialogs/dialog-cell-format.c:425
+#: src/dialogs/dialog-cell-format.c:426
 msgid "_);("
 msgstr "_);("
 
-#: src/dialogs/dialog-cell-format.c:427
+#: src/dialogs/dialog-cell-format.c:428
 msgid "_);[Red]("
 msgstr "_);[Vermell]("
 
-#: src/dialogs/dialog-cell-format.c:2105
+#. There must be a better way than this
+#: src/dialogs/dialog-cell-format.c:1302 src/dialogs/dialog-cell-format.c:1359
+#: src/dialogs/dialog-cell-format.c:1365
+msgid "Single"
+msgstr "Simple"
+
+#: src/dialogs/dialog-cell-format.c:1304 src/dialogs/dialog-cell-format.c:1360
+#: src/dialogs/dialog-cell-format.c:1366
+msgid "Double"
+msgstr "Doble"
+
+#: src/dialogs/dialog-cell-format.c:2111
 #, fuzzy
 msgid "Source"
 msgstr "Àrees origen"
 
-#: src/dialogs/dialog-cell-format.c:2118 src/dialogs/dialog-cell-format.c:2125
+#: src/dialogs/dialog-cell-format.c:2124 src/dialogs/dialog-cell-format.c:2131
 #: src/sheet-object-widget.c:809
 #, fuzzy
 msgid "Min :"
 msgstr "Mínim"
 
-#: src/dialogs/dialog-cell-format.c:2119 src/dialogs/dialog-cell-format.c:2128
+#: src/dialogs/dialog-cell-format.c:2125 src/dialogs/dialog-cell-format.c:2134
 #: src/sheet-object-widget.c:813
 #, fuzzy
 msgid "Max :"
 msgstr "Màxim"
 
-#: src/dialogs/dialog-cell-format.c:2122
+#: src/dialogs/dialog-cell-format.c:2128
 msgid "Value :"
 msgstr "Valor :"
 
-#: src/dialogs/dialog-cell-format.c:2501
+#: src/dialogs/dialog-cell-format.c:2507
 msgid "Format Cells"
 msgstr "Formata cel·les"
 
 # src/functions/fn-information.c:308 src/workbook-format-toolbar.c:649
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2567 src/dialogs/dialog-cell-format.c:2572
-#: src/dialogs/dialog-cell-format.c:2582 src/functions/fn-information.c:429
+#: src/dialogs/dialog-cell-format.c:2573 src/dialogs/dialog-cell-format.c:2578
+#: src/dialogs/dialog-cell-format.c:2588 src/functions/fn-information.c:429
 #: src/workbook-format-toolbar.c:837
 msgid "Automatic"
 msgstr "Automàtic"
 
-#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:812
+#: src/dialogs/dialog-cell-format.c:2583 src/workbook-format-toolbar.c:812
 msgid "Clear Background"
 msgstr "Buida el fons"
 
@@ -5763,15 +5748,15 @@ msgstr "Comentaris"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Esteu segurs que voleu eliminar el full anumenat `%s'?"
 
-#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:65
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:66
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
@@ -5818,24 +5803,28 @@ msgstr "Esteu segur que voleu cancel·lar?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2
+#, fuzzy
+msgid "&lt;- Remove"
+msgstr "<- Suprimeix"
+
+#: src/dialogs/dialog-stf-export.glade.h:3
+#, fuzzy
+msgid "&lt;- Remove all"
+msgstr "<- Suprimeix-los tots"
+
+#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
-#: src/dialogs/dialog-stf-export.glade.h:3
-msgid "<- Remove"
-msgstr "<- Suprimeix"
-
-#: src/dialogs/dialog-stf-export.glade.h:4
-msgid "<- Remove all"
-msgstr "<- Suprimeix-los tots"
-
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add ->"
+#, fuzzy
+msgid "Add -&gt;"
 msgstr "Afegeix ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-msgid "Add all ->"
+#, fuzzy
+msgid "Add all -&gt;"
 msgstr "Afegeix-los tots ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
@@ -6874,7 +6863,7 @@ msgstr "Escala"
 
 # src/functions/fn-sheet.c:104
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3087
+#: src/workbook.c:1065 src/xml-io.c:3094
 msgid "Sheet"
 msgstr "Full"
 
@@ -7450,6 +7439,14 @@ msgstr "Introduïu un nou nom de _full:"
 #: src/dialogs/sheet-rename.glade.h:2
 msgid "Rename sheet"
 msgstr "Reanomena el full"
+
+#: src/dialogs/solver.glade.h:1
+msgid "&gt;="
+msgstr ""
+
+#: src/dialogs/solver.glade.h:2
+msgid "&lt;="
+msgstr ""
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -9148,20 +9145,34 @@ msgstr "Dòlar de Zimbabwe"
 msgid "[Red]"
 msgstr "[Red]"
 
-#: src/func.c:131
+#: src/func.c:133
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "No es pot crear el fitxer %s\n"
 
-#: src/func.c:288
+#: src/func.c:290
 msgid "Function implementation not available."
 msgstr "Funció d'implementació no disponible"
 
-#: src/func.c:504
+#: src/func.c:506
 msgid "Unknown Function"
 msgstr "Funció desconeguda"
 
-#: src/func.c:857
+# src/func.c:437 src/functions/fn-information.c:573
+# src/functions/fn-information.c:641 src/functions/fn-information.c:668
+# src/functions/fn-information.c:694 src/functions/fn-information.c:743
+# src/functions/fn-information.c:772 src/functions/fn-information.c:837
+# src/functions/fn-logical.c:194 src/functions/fn-lookup.c:469
+# src/functions/fn-lookup.c:580 src/functions/fn-string.c:343
+#: src/func.c:812 src/functions/fn-information.c:697
+#: src/functions/fn-information.c:768 src/functions/fn-information.c:796
+#: src/functions/fn-information.c:823 src/functions/fn-information.c:874
+#: src/functions/fn-information.c:904 src/functions/fn-information.c:971
+#: src/functions/fn-logical.c:196 src/functions/fn-string.c:325
+msgid "Invalid number of arguments"
+msgstr "Nombre d'arguments no vàlid"
+
+#: src/func.c:859
 msgid "Function does not exist"
 msgstr "Funció inexistent"
 
@@ -9545,7 +9556,7 @@ msgstr ""
 "l'error #REF!. \n"
 "@SEEALSO="
 
-#: src/functions/fn-date.c:27
+#: src/functions/fn-date.c:28
 #, fuzzy
 msgid ""
 "@FUNCTION=DATE\n"
@@ -9576,7 +9587,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/functions/fn-date.c:97
+#: src/functions/fn-date.c:98
 msgid ""
 "@FUNCTION=UNIX2DATE\n"
 "@SYNTAX=UNIX2DATE(unixtime)\n"
@@ -9590,7 +9601,7 @@ msgid ""
 "@SEEALSO=NOW, DATE, DATE2UNIX"
 msgstr ""
 
-#: src/functions/fn-date.c:127
+#: src/functions/fn-date.c:128
 msgid ""
 "@FUNCTION=DATE2UNIX\n"
 "@SYNTAX=DATE2UNIX(serial)\n"
@@ -9604,7 +9615,7 @@ msgid ""
 "@SEEALSO=NOW, DATE, UNIX2DATE"
 msgstr ""
 
-#: src/functions/fn-date.c:158
+#: src/functions/fn-date.c:160
 #, fuzzy
 msgid ""
 "@FUNCTION=DATEVALUE\n"
@@ -9625,7 +9636,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:183
+#: src/functions/fn-date.c:185
 #, fuzzy
 msgid ""
 "@FUNCTION=DATEDIF\n"
@@ -9665,7 +9676,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:350
+#: src/functions/fn-date.c:352
 #, fuzzy
 msgid ""
 "@FUNCTION=EDATE\n"
@@ -9692,7 +9703,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:404
+#: src/functions/fn-date.c:406
 #, fuzzy
 msgid ""
 "@FUNCTION=TODAY\n"
@@ -9713,7 +9724,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/functions/fn-date.c:427
+#: src/functions/fn-date.c:429
 #, fuzzy
 msgid ""
 "@FUNCTION=NOW\n"
@@ -9745,7 +9756,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/functions/fn-date.c:458
+#: src/functions/fn-date.c:460
 #, fuzzy
 msgid ""
 "@FUNCTION=TIME\n"
@@ -9764,7 +9775,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-date.c:487
+#: src/functions/fn-date.c:489
 #, fuzzy
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
@@ -9786,7 +9797,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-date.c:516
+#: src/functions/fn-date.c:518
 #, fuzzy
 msgid ""
 "@FUNCTION=HOUR\n"
@@ -9813,7 +9824,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:545
+#: src/functions/fn-date.c:547
 #, fuzzy
 msgid ""
 "@FUNCTION=MINUTE\n"
@@ -9839,7 +9850,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:575
+#: src/functions/fn-date.c:577
 #, fuzzy
 msgid ""
 "@FUNCTION=SECOND\n"
@@ -9865,7 +9876,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
-#: src/functions/fn-date.c:605
+#: src/functions/fn-date.c:607
 #, fuzzy
 msgid ""
 "@FUNCTION=YEAR\n"
@@ -9889,7 +9900,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 
-#: src/functions/fn-date.c:642
+#: src/functions/fn-date.c:644
 #, fuzzy
 msgid ""
 "@FUNCTION=MONTH\n"
@@ -9913,7 +9924,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:679
+#: src/functions/fn-date.c:681
 #, fuzzy
 msgid ""
 "@FUNCTION=DAY\n"
@@ -9937,7 +9948,7 @@ msgstr ""
 "day (\"24/10/1968\") és igual a 24.\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:716
+#: src/functions/fn-date.c:718
 #, fuzzy
 msgid ""
 "@FUNCTION=WEEKDAY\n"
@@ -9974,7 +9985,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:769
+#: src/functions/fn-date.c:771
 #, fuzzy
 msgid ""
 "@FUNCTION=DAYS360 \n"
@@ -10009,11 +10020,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:807
+#: src/functions/fn-date.c:809
 msgid "Unsupported method"
 msgstr "Mètode no implementat"
 
-#: src/functions/fn-date.c:872
+#: src/functions/fn-date.c:874
 #, fuzzy
 msgid ""
 "@FUNCTION=EOMONTH\n"
@@ -10038,7 +10049,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH"
 
-#: src/functions/fn-date.c:922
+#: src/functions/fn-date.c:924
 #, fuzzy
 msgid ""
 "@FUNCTION=WORKDAY\n"
@@ -10064,12 +10075,12 @@ msgstr ""
 "@SEEALSO=NETWORKDAYS"
 
 #. Path of the current directory or folder.
-#: src/functions/fn-date.c:958 src/functions/fn-eng.c:77
+#: src/functions/fn-date.c:960 src/functions/fn-eng.c:77
 #: src/functions/fn-information.c:395 src/functions/fn-information.c:411
 msgid "Unimplemented"
 msgstr "No implementat"
 
-#: src/functions/fn-date.c:993
+#: src/functions/fn-date.c:995
 #, fuzzy
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
@@ -10094,7 +10105,7 @@ msgstr ""
 "\n"
 "@SEEALSO=WORKDAY"
 
-#: src/functions/fn-date.c:1124
+#: src/functions/fn-date.c:1126
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -10109,7 +10120,7 @@ msgid ""
 "@SEEALSO=WEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1168
+#: src/functions/fn-date.c:1170
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -10131,7 +10142,7 @@ msgid ""
 "@SEEALSO=ISOWEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1227
+#: src/functions/fn-date.c:1229
 msgid "Date / Time"
 msgstr "Data / Hora"
 
@@ -19667,87 +19678,63 @@ msgstr "Canvia a la dre_ta i mou"
 msgid "C_ancel"
 msgstr "C_ancel·la"
 
-#: src/main.c:83
+#: src/main.c:84
 msgid "Display Gnumeric's version"
 msgstr "Mostra la versió de Gnumeric"
 
-#: src/main.c:85
+#: src/main.c:86
 msgid "Set the root library directory"
 msgstr "Especifica el directori arrel de la llibreria"
 
-#: src/main.c:87
+#: src/main.c:88
 msgid "Adjust the root data directory"
 msgstr "Ajusta el directori arrel de les dades"
 
-#: src/main.c:90
+#: src/main.c:91
 msgid "Dumps the function definitions"
 msgstr "Mostra les definicions de funcions"
 
-#: src/main.c:90
+#: src/main.c:91
 msgid "FILE"
 msgstr "FITXER"
 
-#: src/main.c:93
+#: src/main.c:94
 msgid "Enables some debugging functions"
 msgstr "Habilita algunes funcions de depuració"
 
-#: src/main.c:93 src/main.c:96 src/main.c:98
+#: src/main.c:94 src/main.c:97 src/main.c:99
 msgid "LEVEL"
 msgstr "NIVELL"
 
-#: src/main.c:96
+#: src/main.c:97
 msgid "Enables some dependency related debugging functions"
 msgstr ""
 "Habilita algunes dependències relacionades amb la depuració de funcions"
 
-#: src/main.c:98
+#: src/main.c:99
 msgid "Enables some print debugging behavior"
 msgstr "Habilita alguns comportaments de depuració de la impressió"
 
-#: src/main.c:102
+#: src/main.c:103
 msgid "Enables extra consistency checking while reading ole files"
 msgstr ""
 "Habilita la comprovació extra de consistència mentre es llegeixen fitxers ole"
 
-#: src/main.c:106
+#: src/main.c:107
 msgid "Specify the size and location of the initial window"
 msgstr ""
 
-#: src/main.c:106
+#: src/main.c:107
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr ""
 
-#: src/main.c:110
+#: src/main.c:111
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Sortir immediatament després de carregar els llibres seleccionats (útil per "
 "a proves)."
 
-#: src/main.c:139
-msgid ""
-"Thank you for using Gnumeric!\n"
-"\n"
-"The version of Gnumeric you are using is quite old\n"
-"by now.  It is likely that many bugs have been fixed\n"
-"and that new features have been added in the meantime.\n"
-"\n"
-"Please consider upgrading before reporting any bugs.\n"
-"Consult http://www.gnumeric.org/ for details.\n"
-"\n"
-"-- The Gnumeric Team."
-msgstr ""
-"Gràcies per utilitzar el Gnumeric\n"
-"\n"
-"La versió de Gnumeric que esteu fent servint és bastant antiga ara com ara.\n"
-"És probable que molts errors s'hagin arreglat i que, mentrestant, s'hagin\n"
-"afegit noves característiques.\n"
-"\n"
-"Si us plau, penseu en actualitzar-lo abans d'informar-nos sobre errors.\n"
-"Consulteu http://www.gnumeric.org/ per més detalls.\n"
-"\n"
-"-- L'equip del Gnumeric."
-
-#: src/main.c:193
+#: src/main.c:164
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -19758,11 +19745,11 @@ msgstr ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 
-#: src/main.c:245
+#: src/main.c:222
 msgid "Could not initialize Workbook factory"
 msgstr "No s'ha pogut inicialitzar el creador de llibres de treball"
 
-#: src/main.c:249
+#: src/main.c:226
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "No s'ha pogut inicialitzar el creador de graelles incrustables"
 
@@ -20021,7 +20008,7 @@ msgstr "S'ha produït un error en obrir el fitxer \"%s\" per llegir-lo."
 msgid "Unable to mmap the file."
 msgstr "No s'ha pogut fer el mapatge a memòria (mmap) el fitxer."
 
-#: src/plugin-util.c:318 src/xml-io.c:3368
+#: src/plugin-util.c:318 src/xml-io.c:3375
 msgid "Cannot get file size."
 msgstr "No es pot aconseguir la mida del fitxer."
 
@@ -20286,17 +20273,17 @@ msgstr "Barra inclinada negra de cua invàlida en el reemplaçament."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "No es pot realitzar amb seleccions d'àmbit múltiples"
 
-#: src/sheet-control-gui.c:555
+#: src/sheet-control-gui.c:556
 #, c-format
 msgid "Row: %s"
 msgstr "Fila: %s"
 
-#: src/sheet-control-gui.c:570
+#: src/sheet-control-gui.c:571
 #, c-format
 msgid "Column: %s"
 msgstr "Columna: %s"
 
-#: src/sheet-control-gui.c:1398
+#: src/sheet-control-gui.c:1399
 msgid "Paste _Special"
 msgstr "Enganxa_especial"
 
@@ -20307,41 +20294,41 @@ msgstr "Enganxa_especial"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1410
+#: src/sheet-control-gui.c:1411
 msgid "_Insert..."
 msgstr "_Insereix..."
 
-#: src/sheet-control-gui.c:1414
+#: src/sheet-control-gui.c:1415
 msgid "_Insert Column(s)"
 msgstr "_Insereix columna(es)"
 
-#: src/sheet-control-gui.c:1416
+#: src/sheet-control-gui.c:1417
 msgid "_Delete Column(s)"
 msgstr "_Suprimeix columna(es)"
 
-#: src/sheet-control-gui.c:1418
+#: src/sheet-control-gui.c:1419
 msgid "_Insert Row(s)"
 msgstr "_Insereix fila(es)"
 
-#: src/sheet-control-gui.c:1420
+#: src/sheet-control-gui.c:1421
 msgid "_Delete Row(s)"
 msgstr "_Suprimeix fila(es)"
 
-#: src/sheet-control-gui.c:1423
+#: src/sheet-control-gui.c:1424
 msgid "Clear Co_ntents"
 msgstr "Buida Co_ntingut"
 
-#: src/sheet-control-gui.c:1429
+#: src/sheet-control-gui.c:1430
 msgid "_Format Cells..."
 msgstr "_Format de cel·les..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1433
+#: src/sheet-control-gui.c:1434
 msgid "Column _Width..."
 msgstr "Amplada de _Columna..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1441
+#: src/sheet-control-gui.c:1442
 msgid "_Row Height..."
 msgstr "_Alçada de columna..."
 
@@ -20597,12 +20584,12 @@ msgstr "Preu"
 msgid "R.H. Side"
 msgstr "Costat dret"
 
-#: src/stf-parse.c:35
+#: src/stf-parse.c:37
 #, c-format
 msgid "Too many rows in data to parse: %d"
 msgstr "Hi ha massa files a les dades per analitzar: %d"
 
-#: src/stf-parse.c:36
+#: src/stf-parse.c:38
 #, c-format
 msgid "Too many columns in data to parse: %d"
 msgstr "Hi ha massa columnes a les dades per analitzar: %d"
@@ -21352,12 +21339,12 @@ msgstr ""
 "S'ha produït un error en intentar construir l'arbre des del fitxer de "
 "plantilles d'autoformatatge"
 
-#: src/xml-io.c:2800
+#: src/xml-io.c:2807
 #, fuzzy
 msgid "Unparsable xml in clipboard"
 msgstr "Enganxa el porta-retalls"
 
-#: src/xml-io.c:2807
+#: src/xml-io.c:2814
 #, fuzzy
 msgid "Clipboard is in unknown format"
 msgstr "El fitxer \"%s\" té un format desconegut."
@@ -21365,22 +21352,56 @@ msgstr "El fitxer \"%s\" té un format desconegut."
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3213
+#: src/xml-io.c:3220
 #, fuzzy
 msgid "Processing file..."
 msgstr "S'està analitzant el fitxer XML..."
 
-#: src/xml-io.c:3376
+#: src/xml-io.c:3383
 msgid "Not enough memory to create zlib decompression state."
 msgstr "No hi ha memòria suficient per a crear l'estat de descompressió zlib"
 
-#: src/xml-io.c:3411
+#: src/xml-io.c:3418
 msgid "Is not an Gnumeric Workbook file"
 msgstr "No és un fitxer de llibre de treball del Gnumeric"
 
-#: src/xml-io.c:3468
+#: src/xml-io.c:3475
 msgid "Gnumeric XML file format"
 msgstr "Format de fitxer Gnumeric XML"
+
+#~ msgid "First argument to SCM must be a Guile expression"
+#~ msgstr "El primer argument a SCM ha de ser una expressió de Guile"
+
+#~ msgid "Undefined scheme function"
+#~ msgstr "Funció de 'scheme' no definida"
+
+#~ msgid "Could not evaluate argument"
+#~ msgstr "No s'ha pogut avaluar l'argument"
+
+#~ msgid ""
+#~ "Thank you for using Gnumeric!\n"
+#~ "\n"
+#~ "The version of Gnumeric you are using is quite old\n"
+#~ "by now.  It is likely that many bugs have been fixed\n"
+#~ "and that new features have been added in the meantime.\n"
+#~ "\n"
+#~ "Please consider upgrading before reporting any bugs.\n"
+#~ "Consult http://www.gnumeric.org/ for details.\n"
+#~ "\n"
+#~ "-- The Gnumeric Team."
+#~ msgstr ""
+#~ "Gràcies per utilitzar el Gnumeric\n"
+#~ "\n"
+#~ "La versió de Gnumeric que esteu fent servint és bastant antiga ara com "
+#~ "ara.\n"
+#~ "És probable que molts errors s'hagin arreglat i que, mentrestant, "
+#~ "s'hagin\n"
+#~ "afegit noves característiques.\n"
+#~ "\n"
+#~ "Si us plau, penseu en actualitzar-lo abans d'informar-nos sobre errors.\n"
+#~ "Consulteu http://www.gnumeric.org/ per més detalls.\n"
+#~ "\n"
+#~ "-- L'equip del Gnumeric."
 
 # src/functions/fn-math.c:1316
 #~ msgid ""

@@ -52,6 +52,8 @@ GNUMERIC_BASE =					\
 	command-context.c			\
 	command-context.h			\
 	command-context-priv.h			\
+	command-context-stderr.c		\
+	command-context-stderr.h		\
 	consolidate.c				\
 	consolidate.h				\
 	io-context.c				\
