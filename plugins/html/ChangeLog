@@ -1,3 +1,11 @@
+2000-07-25  Jody Goldberg <jgoldberg@home.com>
+
+	* latex.c (latex_fprint_string) : New function split from
+	  latex_printf.
+	(latex_fprintf_cell) : Renamed from latex_printf,
+	(html_write_wb_latex) :  Use latex_fprint_string for sheet name.
+	(html_write_wb_latex2e) : Ditto.
+
 2000-06-18  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.56

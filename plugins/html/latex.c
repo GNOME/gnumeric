@@ -32,47 +32,45 @@
 /*
  * escape special characters
  */
-static int
-latex_fprintf (FILE *fp, const Cell *cell)
+static void
+latex_fprint_string (FILE *fp, char const *str)
 {
-	int len, i;
-	const char *p;
-	char * s;
+	for (; *str ; str++) {
+		switch (*str) {
+		case '>':
+		case '<':
+			fprintf (fp, "$%c$", *str);
+			continue;
+
+		case '&':
+		case '_':
+		case '%':
+		case '"':
+		case '$':
+		case '#':
+			fputc ('\\', fp);
+
+		default :
+		}
+		fputc ((unsigned char)*str, fp);
+	}
+}
+
+static void
+latex_fprintf_cell (FILE *fp, const Cell *cell)
+{
+	char *s;
 
 	if (cell_is_blank (cell))
-		return 0;
+		return;
 
 	s = cell_get_rendered_text (cell);
-	len = strlen (s);
-	p = s;
-	for (i = 0; i < len; i++) {
-		switch (*p) {
-			case '>':
-			case '<':
-				fprintf (fp, "$%c$", *p);
-				break;
-			case '&':
-			case '_':
-			case '%':
-			case '"':
-			case '$':
-			case '#':
-				fprintf (fp, "\\%c", *p);
-				break;
-			default:
-				fprintf (fp, "%c", *p);
-				break;
-		}
-		p++;
-	}
+	latex_fprint_string (fp, s);
 	g_free (s);
-	return len;
 }
 
 /*
  * write every sheet of the workbook to a latex table
- *
- * FIXME: Should latex quote sheet name (and everything else)
  */
 int
 html_write_wb_latex (CommandContext *context, Workbook *wb,
@@ -100,9 +98,10 @@ html_write_wb_latex (CommandContext *context, Workbook *wb,
 	sheet_list = workbook_sheets (wb);
 	while (sheet_list) {
 		sheet = sheet_list->data;
-		fprintf (fp, "%s\n\n", sheet->name_unquoted);
+		latex_fprint_string (fp, sheet->name_unquoted);
+		fprintf (fp, "\n\n");
 		fprintf (fp, "\\begin{tabular}{|");
-		for (col = 0; col < sheet->cols.max_used; col++) {
+		for (col = 0; col <= sheet->cols.max_used; col++) {
 			fprintf (fp, "l|");
 		}
 		fprintf (fp, "}\\hline\n");
@@ -141,7 +140,7 @@ html_write_wb_latex (CommandContext *context, Workbook *wb,
 						fprintf (fp, "{\\bf ");
 					if (mstyle_get_font_italic (mstyle))
 						fprintf (fp, "{\\em ");
-					latex_fprintf (fp, cell);
+					latex_fprintf_cell (fp, cell);
 					if (mstyle_get_font_italic (mstyle))
 						fprintf (fp, "}");
 					if (mstyle_get_font_bold (mstyle))
@@ -200,7 +199,8 @@ html_write_wb_latex2e (CommandContext *context, Workbook *wb,
 	sheet_list = workbook_sheets (wb);
 	while (sheet_list) {
 		sheet = sheet_list->data;
-		fprintf (fp, "%s\n\n", sheet->name_unquoted);
+		latex_fprint_string (fp, sheet->name_unquoted);
+		fprintf (fp, "\n\n");
 		fprintf (fp, "\\begin{tabular}{|");
 		for (col = 0; col <= sheet->cols.max_used; col++) {
 			fprintf (fp, "l|");
@@ -243,7 +243,7 @@ html_write_wb_latex2e (CommandContext *context, Workbook *wb,
 						fprintf (fp, "\\textbf{");
 					if (mstyle_get_font_italic (mstyle))
 						fprintf (fp, "{\\em ");
-					latex_fprintf (fp, cell);
+					latex_fprintf_cell (fp, cell);
 					if (mstyle_get_font_italic (mstyle))
 						fprintf (fp, "}");
 					if (mstyle_get_font_bold (mstyle))

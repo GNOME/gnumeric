@@ -444,7 +444,7 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 			}
 
 			print_text (context,
-				    x1 + x_offset, text_base + y_offset, str,
+				    x1 + x_offset, y1 + y_offset, str,
 				    len, line_offset, num_lines);
 
 			y_offset -= inter_space;

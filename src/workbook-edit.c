@@ -198,6 +198,9 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 
 	g_return_if_fail (wb != NULL);
 
+	if (wb->editing)
+		return;
+
 	/* Avoid recursion, and do not begin editing if a guru is up */
 	if (inside_editing || workbook_edit_has_guru (wb))
 		return;

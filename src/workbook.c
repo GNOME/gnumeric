@@ -2454,11 +2454,11 @@ static void
 change_displayed_zoom_cb (GtkObject *unused, Sheet* sheet, gpointer data)
 {
 	Workbook* wb = (Workbook*)data;
-	GtkWidget *combo;
 	gchar *str;
 	int factor = (int) (sheet->last_zoom_factor_used * 100);
+	GtkWidget *combo = wb->priv->zoom_entry;
 
-	g_return_if_fail (combo = wb->priv->zoom_entry);
+	g_return_if_fail (combo != NULL);
 
 	str = g_strdup_printf("%d%%", factor);
 

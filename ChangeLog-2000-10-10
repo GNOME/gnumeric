@@ -1,3 +1,13 @@
+2000-07-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print-cell.c (print_cell) : resync with cell-draw.
+
+2000-07-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (change_displayed_zoom_cb) : Fix typo.
+
+	* src/workbook-edit.c (workbook_start_editing_at_cursor) : Don't start
+	  editing if we are already editing.
 
 2000-07-16  James R. Van Zandt  <jrv@vanzandt.mv.com>
 
