@@ -1,3 +1,9 @@
+1999-04-23  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added GAMMADIST() function.  It uses pgamma()
+ 	function written by Ross Ihaka.  Thanks to Morten for pointing
+ 	this piece of code.
+
 1999-04-21  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook.c (workbook_do_destroy): Release the sheets and the
