@@ -4,11 +4,12 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- Morten has identified a major leak in the style code.
 
 Long term breakage
 ------------------
 - Copy with destination larger than source does not duplicate the styles.
+- Cut/Paste of a cell with bold onto a cell with underline yields a cell with
+  both ??
 
 - border style double_line does handle all of the different intersection cases.
 
@@ -20,7 +21,7 @@ Long term breakage
   It parses as a Date (Oct 1) and gets converted.
 
 - The File->Print Preview icon is too big.  Use the stock version when the next
-  release of gnome-libs is made.
+  release of gnome-libs is made. (tigert is adding to gnome-libs)
 
 - non string values entered directly are not really editable in that we
   may not be able to parse the formated version.
