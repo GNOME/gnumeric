@@ -100,9 +100,9 @@ build_binop (ExprTree *l, Operation op, ExprTree *r)
 }
 
 static ExprTree *
-build_array_formula (ExprTree * func,
-		     ExprTree * expr_num_cols, ExprTree * expr_num_rows,
-		     ExprTree * expr_x, ExprTree * expr_y)
+build_array_formula (ExprTree *func,
+		     ExprTree *expr_num_cols, ExprTree *expr_num_rows,
+		     ExprTree *expr_x, ExprTree *expr_y)
 {
 	int const num_cols = expr_tree_get_const_int (expr_num_cols);
 	int const num_rows = expr_tree_get_const_int (expr_num_rows);
@@ -192,7 +192,7 @@ build_array (GList *cols)
 line:	  exp           { *parser_result = $1; }
 
         | '{' exp '}' '(' NUMBER SEPARATOR NUMBER ')' '[' NUMBER ']' '[' NUMBER ']' {
-		*parser_result = build_array_formula ($2, $5, $7, $10, $13) ;
+		*parser_result = build_array_formula ($2, $7, $5, $13, $10) ;
 	}
 
 	| error 	{ parser_error = PARSE_ERR_SYNTAX; }

@@ -1,5 +1,8 @@
 1999-11-14  Jody Goldberg <jgoldberg@home.com>
 
+	* src/parser.y (build_array) : Rows and cols were reversed
+	  when parsing.
+
 	* plugins/ff-csv/csv.io.[ch] : Rewrite to merge parser
 	  and sheet handler.  Use mmap.
 
