@@ -1,6 +1,7 @@
 1999-07-13  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-read.c (ms_excel_formula_shared): Fixup previous patch.
+	(ms_excel_read_formula): Re-arrange logic.
 
 1999-07-11  Michael Meeks  <michael@edenproject.org>
 

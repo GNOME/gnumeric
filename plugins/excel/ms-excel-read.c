@@ -1515,10 +1515,12 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		 *                     when the flag is set.
 		 */
 		cell_set_formula_tree_simple (cell, expr);
-	} else if (!array_elem && !ms_excel_formula_shared (q, sheet, cell)) {
-		cell_set_text (cell, "Broken expr a");
-		g_warning ("NULL expr a");
-		return;
+	} else if (!array_elem) {
+		if (!ms_excel_formula_shared (q, sheet, cell)) {
+			cell_set_text (cell, "Broken expr a");
+			g_warning ("NULL expr a");
+			return;
+		} /* else has been set properly */
 	} else { /* Expr is NULL */
 		g_warning ("NULL expr b");
 		cell_set_text (cell, "Broken expr b");
