@@ -7,4 +7,6 @@ dist-hook : app-dist-hook
 
 EXTRA_DIST = topic.dat
 
+docname ?= gnumeric
+
 include $(srcdir)/../gnumeric-doc.make

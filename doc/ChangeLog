@@ -1,3 +1,10 @@
+2002-12-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* Makefile.am, de/Makefile.am, es/Makefile.am, hu/Makefile.am,
+	ja/Makefile.am, nl/Makefile.am, no/Makefile.am, pl/Makefile.am,
+	pt/Makefile.am, ru/Makefile.am, sk/Makefile.am, sv/Makefile.am:
+	ensure there's a docname to work with.
+
 2002-11-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* C/Makefile.am, de/Makefile.am, es/Makefile.am, hu/Makefile.am,

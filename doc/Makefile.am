@@ -21,3 +21,5 @@ EXTRA_DIST = 				\
 	python-gnumeric.txt 		\
 	stf-export.txt 			\
 	stf-parser.txt
+
+docname ?= gnumeric
