@@ -3864,10 +3864,12 @@ excel_foreach_name (ExcelWriteState *ewb, GHFunc func)
 	}
 	for (i = 0; i < num_sheets; i++) {
 		sheet = workbook_sheet_by_index (wb, i);
-		g_hash_table_foreach (sheet->names->names,
-			func, ewb);
-		g_hash_table_foreach (sheet->names->placeholders,
-			func, ewb);
+		if (sheet->names != NULL) {
+			g_hash_table_foreach (sheet->names->names,
+				func, ewb);
+			g_hash_table_foreach (sheet->names->placeholders,
+				func, ewb);
+		}
 	}
 }
 

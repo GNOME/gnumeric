@@ -1,3 +1,7 @@
+2003-01-21  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_foreach_name) : doh!
+
 2003-01-08  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_sheet_new) : fix the text of the warning
