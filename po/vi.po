@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 2002-07-21 08:41-0400\n"
-"PO-Revision-Date: 2002-05-31 21:42+0700\n"
+"POT-Creation-Date: 2002-07-26 06:16+0200\n"
+"PO-Revision-Date: 2002-07-27 00:34+0700\n"
 "Last-Translator: pclouds <pclouds@gmx.net>\n"
 "Language-Team: GnomeVI <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -39,17 +39,17 @@ msgstr "Lỗi phân tích khi đang đọc tập tin Applix."
 
 #: plugins/applix/applix-read.c:169
 msgid "Missing characters for character encoding"
-msgstr ""
+msgstr "Thiếu ký tự cho mã hóa ký tự"
 
 #: plugins/applix/applix-read.c:173
 #, c-format
 msgid "Invalid characters for in encoding '%c%c'"
-msgstr ""
+msgstr "Ký tự không hợp lệ trong mã hóa '%c%c'"
 
 #: plugins/applix/applix-read.c:999
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
-msgstr ""
+msgstr "Biểu thức không bắt đầu bằng dấu '=' ? '%s'"
 
 #: plugins/applix/applix-read.c:1010
 #, c-format
@@ -57,6 +57,8 @@ msgid ""
 "%s!%s : unable to parse '%s'\n"
 "     %s"
 msgstr ""
+"%s!%s : không thể phân tích '%s'\n"
+"     %s"
 
 #: plugins/applix/plugin.xml.in.h:1
 msgid "Applix"
@@ -70,7 +72,7 @@ msgstr "Applix (*.as)"
 msgid "Imports version 4.[234] spreadsheets"
 msgstr "Nhập bảng tính phiên bản 4.[234]"
 
-#: plugins/derivatives/options.c:291
+#: plugins/derivatives/options.c:304
 msgid ""
 "@FUNCTION=opt_bs_call\n"
 "@SYNTAX=opt_bs_call(strike,price,volatility,days_to_maturity,rate)\n"
@@ -89,7 +91,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:311
+#: plugins/derivatives/options.c:324
 msgid ""
 "@FUNCTION=opt_bs_put\n"
 "@SYNTAX=opt_bs_put(strike,price,volatility,days_to_maturity,rate)\n"
@@ -108,7 +110,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:331
+#: plugins/derivatives/options.c:344
 msgid ""
 "@FUNCTION=opt_bs_call_delta\n"
 "@SYNTAX=opt_bs_call_delta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -129,7 +131,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:354
+#: plugins/derivatives/options.c:367
 msgid ""
 "@FUNCTION=opt_bs_put_delta\n"
 "@SYNTAX=opt_bs_put_delta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -150,7 +152,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:378
+#: plugins/derivatives/options.c:391
 #, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_call_rho\n"
@@ -172,7 +174,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:402
+#: plugins/derivatives/options.c:415
 #, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_put_rho\n"
@@ -194,7 +196,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:425
+#: plugins/derivatives/options.c:438
 msgid ""
 "@FUNCTION=opt_bs_call_theta\n"
 "@SYNTAX=opt_bs_call_theta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -214,7 +216,7 @@ msgid ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:448
+#: plugins/derivatives/options.c:461
 msgid ""
 "@FUNCTION=opt_bs_put_theta\n"
 "@SYNTAX=opt_bs_put_theta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -234,7 +236,7 @@ msgid ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_vega, opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:471
+#: plugins/derivatives/options.c:484
 msgid ""
 "@FUNCTION=opt_bs_gamma\n"
 "@SYNTAX=opt_bs_gamma(strike,price,volatility,days_to_maturity,rate)\n"
@@ -255,7 +257,7 @@ msgid ""
 "opt_bs_vega"
 msgstr ""
 
-#: plugins/derivatives/options.c:495
+#: plugins/derivatives/options.c:508
 #, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_vega\n"
@@ -360,18 +362,17 @@ msgid ""
 msgstr "Đọc và ghi thông tin được lưu vào Data Interchange Format (*.dif)"
 
 #: plugins/excel/boot.c:121
-#, fuzzy
 msgid "No Workbook or Book streams found."
-msgstr "Không thểm tìm thấy book hay hoặc workbook stream."
+msgstr "Không tìm thấy luồng Book hoặc Workbook."
 
 #: plugins/excel/boot.c:165
 msgid "Preparing for save..."
 msgstr "Đang phân tích để lưu..."
 
 #: plugins/excel/boot.c:177
-#, fuzzy, c-format
+#, c-format
 msgid "Can't open '%s' : %s"
-msgstr "Không thể mở"
+msgstr "Không thể mở '%s': %s"
 
 #: plugins/excel/boot.c:186
 msgid "Saving file..."
@@ -427,7 +428,6 @@ msgid "Too many rows for this format (%d > %d)"
 msgstr "Quá nhiều hàng trong dạng thức này (%d > %d)"
 
 #: plugins/excel/ms-excel-write.c:3812
-#, fuzzy
 msgid "Couldn't open stream for writing\n"
 msgstr "Không thể mở luồng để ghi\n"
 
@@ -557,7 +557,6 @@ msgstr ""
 "@SEEALSO=IMAGINARY,IMREAL"
 
 #: plugins/fn-complex/functions.c:246
-#, fuzzy
 msgid ""
 "@FUNCTION=IMINV\n"
 "@SYNTAX=IMINV(inumber)\n"
@@ -568,17 +567,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(inumber)\n"
-"@DESCRIPTION=IMSIN trả về sin của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") bằng 1.29846+0.63496j.\n"
-"\n"
-"@SEEALSO=IMCOS,IMTAN"
 
 #: plugins/fn-complex/functions.c:274
-#, fuzzy
 msgid ""
 "@FUNCTION=IMNEG\n"
 "@SYNTAX=IMNEG(inumber)\n"
@@ -589,14 +579,6 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMEXP\n"
-"@SYNTAX=IMEXP(inumber)\n"
-"@DESCRIPTION=IMEXP trả về mũ của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMEXP(\"2-j\") bằng 3.992324-6.217676j.\n"
-"\n"
-"@SEEALSO=IMLN"
 
 #: plugins/fn-complex/functions.c:302
 msgid ""
@@ -619,7 +601,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:330
-#, fuzzy
 msgid ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
@@ -635,11 +616,11 @@ msgstr ""
 "@DESCRIPTION=IMTAN trả về tan của số phức.\n"
 "Hàm này tương thích với Excel.\n"
 "@EXAMPLES=\n"
+"IMTAN(\"2-j\") bằng -0.2434582-1.1667363j.\n"
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
 
 #: plugins/fn-complex/functions.c:358
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSEC\n"
 "@SYNTAX=IMSEC(inumber)\n"
@@ -650,17 +631,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMCSC,IMCOT"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS trả về cosine của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") bằng 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:387
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCSC\n"
 "@SYNTAX=IMCSC(inumber)\n"
@@ -671,17 +643,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMSEC,IMCOT"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS trả về cosine của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") bằng 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:416
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOT\n"
 "@SYNTAX=IMCOT(inumber)\n"
@@ -692,14 +655,6 @@ msgid ""
 "\n"
 "@SEEALSO=IMSEC,IMCSC"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS trả về cosine của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") bằng 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:445
 msgid ""
@@ -870,7 +825,6 @@ msgstr ""
 "@SEEALSO=IMCOS,IMTAN"
 
 #: plugins/fn-complex/functions.c:688
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSINH\n"
 "@SYNTAX=IMSINH(z)\n"
@@ -882,17 +836,17 @@ msgid ""
 "\n"
 "@SEEALSO=IMCOSH,IMTANH"
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(inumber)\n"
-"@DESCRIPTION=IMSIN trả về sin của số phức.\n"
+"@FUNCTION=IMSINH\n"
+"@SYNTAX=IMSINH(z)\n"
+"@DESCRIPTION=IMSINH trả về hyperbol sin của số phức z.\n"
+"sinh(z) = (exp(z) - exp(-z))/2.\n"
 "Hàm này tương thích với Excel.\n"
 "@EXAMPLES=\n"
-"IMSIN(\"1+j\") bằng 1.29846+0.63496j.\n"
+"IMSINH(\"1+j\") bằng 0.63496+1.29846j.\n"
 "\n"
-"@SEEALSO=IMCOS,IMTAN"
+"@SEEALSO=IMCOSH,IMTANH"
 
 #: plugins/fn-complex/functions.c:716
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOSH\n"
 "@SYNTAX=IMCOSH(z)\n"
@@ -904,17 +858,17 @@ msgid ""
 "\n"
 "@SEEALSO=IMSINH,IMTANH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS trả về cosine của số phức.\n"
+"@FUNCTION=IMCOSH\n"
+"@SYNTAX=IMCOSH(z)\n"
+"@DESCRIPTION=IMCOS trả về hyperbol cosine của số phức z.\n"
+"cosh(z) = (exp(z) + exp(-z))/2.\n"
 "Hàm này tương thích với Excel.\n"
 "@EXAMPLES=\n"
-"IMCOS(\"1+j\") bằng 0.833730-0.988898j.\n"
+"IMCOSH(\"1+j\") bằng 0.83373+0.988898j.\n"
 "\n"
-"@SEEALSO=IMSIN,IMTAN"
+"@SEEALSO=IMSINH,IMTANH"
 
 #: plugins/fn-complex/functions.c:744
-#, fuzzy
 msgid ""
 "@FUNCTION=IMTANH\n"
 "@SYNTAX=IMTANH(z)\n"
@@ -926,17 +880,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMSINH,IMCOSH"
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(inumber)\n"
-"@DESCRIPTION=IMSIN trả về sin của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") bằng 1.29846+0.63496j.\n"
-"\n"
-"@SEEALSO=IMCOS,IMTAN"
 
 #: plugins/fn-complex/functions.c:772
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSECH\n"
 "@SYNTAX=IMSECH(z)\n"
@@ -948,17 +893,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMCSCH,IMCOTH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS trả về cosine của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") bằng 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:800
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCSCH\n"
 "@SYNTAX=IMCSCH(z)\n"
@@ -970,17 +906,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMSECH,IMCOTH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS trả về cosine của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") bằng 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:828
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOTH\n"
 "@SYNTAX=IMCOTH(z)\n"
@@ -992,17 +919,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMSECH,IMCSCH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS trả về cosine của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") bằng 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:856
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSIN\n"
 "@SYNTAX=IMARCSIN(z)\n"
@@ -1015,17 +933,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCCOS,IMARCTAN"
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(inumber)\n"
-"@DESCRIPTION=IMSIN trả về sin của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") bằng 1.29846+0.63496j.\n"
-"\n"
-"@SEEALSO=IMCOS,IMTAN"
 
 #: plugins/fn-complex/functions.c:885
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOS\n"
 "@SYNTAX=IMARCCOS(z)\n"
@@ -1038,17 +947,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSIN,IMARCTAN"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS trả về cosine của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") bằng 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:914
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCTAN\n"
 "@SYNTAX=IMARCTAN(z)\n"
@@ -1061,17 +961,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSIN,IMARCCOS"
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(inumber)\n"
-"@DESCRIPTION=IMSIN trả về sin của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") bằng 1.29846+0.63496j.\n"
-"\n"
-"@SEEALSO=IMCOS,IMTAN"
 
 #: plugins/fn-complex/functions.c:943
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSEC\n"
 "@SYNTAX=IMARCSEC(z)\n"
@@ -1083,17 +974,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCCSC,IMARCOT"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS trả về cosine của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") bằng 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:971
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCSC\n"
 "@SYNTAX=IMARCCSC(z)\n"
@@ -1105,17 +987,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSEC,IMARCOT"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS trả về cosine của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") bằng 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:999
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOT\n"
 "@SYNTAX=IMARCCOT(z)\n"
@@ -1127,17 +1000,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSEC,IMARCSC"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS trả về cosine của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") bằng 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:1027
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSINH\n"
 "@SYNTAX=IMARCSINH(z)\n"
@@ -1150,17 +1014,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCCOSH,IMARCTANH"
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(inumber)\n"
-"@DESCRIPTION=IMSIN trả về sin của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") bằng 1.29846+0.63496j.\n"
-"\n"
-"@SEEALSO=IMCOS,IMTAN"
 
 #: plugins/fn-complex/functions.c:1056
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOSH\n"
 "@SYNTAX=IMARCCOSH(z)\n"
@@ -1173,17 +1028,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSINH,IMARCTANH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS trả về cosine của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") bằng 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:1085
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCTANH\n"
 "@SYNTAX=IMARCTANH(z)\n"
@@ -1196,17 +1042,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSINH,IMARCCOSH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS trả về cosine của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") bằng 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:1114
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSECH\n"
 "@SYNTAX=IMARCSECH(z)\n"
@@ -1218,17 +1055,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCCSCH,IMARCOTH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS trả về cosine của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") bằng 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:1142
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCSCH\n"
 "@SYNTAX=IMARCCSCH(z)\n"
@@ -1240,17 +1068,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSECH,IMARCOTH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS trả về cosine của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") bằng 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:1170
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOTH\n"
 "@SYNTAX=IMARCCOTH(z)\n"
@@ -1262,14 +1081,6 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSECH,IMARCSCH"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS trả về cosine của số phức.\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") bằng 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:1198
 msgid ""
@@ -1352,19 +1163,16 @@ msgstr ""
 "@SEEALSO=IMSUB"
 
 #: plugins/fn-complex/plugin.xml.in.h:1
-#, fuzzy
 msgid "Complex"
-msgstr "Mẫu"
+msgstr "Số phức"
 
 #: plugins/fn-complex/plugin.xml.in.h:2
-#, fuzzy
 msgid "Complex Functions"
-msgstr "Hàm tra cứu"
+msgstr "Hàm phức"
 
 #: plugins/fn-complex/plugin.xml.in.h:3
-#, fuzzy
 msgid "Functions for complex numbers"
-msgstr "Functions for manipulating strings"
+msgstr "Hàm xử lý số phức"
 
 #. *************************************************************************
 #. *************************************************************************
@@ -2315,7 +2123,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-date/functions.c:1155
-#, fuzzy
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -2331,20 +2138,8 @@ msgid ""
 "If A1 contains 12/21/00 then ISOWEEKNUM(A1)=51\n"
 "@SEEALSO=WEEKNUM, ISOYEAR"
 msgstr ""
-"@FUNCTION=ISOWEEKNUM\n"
-"@SYNTAX=ISOWEEKNUM (date)\n"
-"@DESCRIPTION=ISOWEEKNUM trả về số tuần của @date theo ISO 8601.\n"
-"Trả về #NUM! nếu ngày không hợp lệ.\n"
-"Tuần theo ISO 8601 bắt đầu bằng Thứ Hai. Tuần được đánh số từ 1. Một tuần "
-"bao gồm những ngày của nhiều năm được gán cho năm có nhiều ngày nhất. Nghĩa "
-"là ngày 31 tháng 12 có thể là tuần 1 của năm kế tiếp, và ngày 1 tháng giêng "
-"có thể là tuần thứ 52 hoặc 53 của năm trước đó.\n"
-"@EXAMPLES=\n"
-"Nếu A1 chứa 21/12/00 thì ISOWEEKNUM(A1)=51\n"
-"@SEEALSO=WEEKNUM"
 
 #: plugins/fn-date/functions.c:1200
-#, fuzzy
 msgid ""
 "@FUNCTION=ISOYEAR\n"
 "@SYNTAX=ISOYEAR (date)\n"
@@ -2360,17 +2155,6 @@ msgid ""
 "If A1 contains 12/31/2001 then ISOYEAR(A1)=2002\n"
 "@SEEALSO=ISOWEEKNUM"
 msgstr ""
-"@FUNCTION=ISOWEEKNUM\n"
-"@SYNTAX=ISOWEEKNUM (date)\n"
-"@DESCRIPTION=ISOWEEKNUM trả về số tuần của @date theo ISO 8601.\n"
-"Trả về #NUM! nếu ngày không hợp lệ.\n"
-"Tuần theo ISO 8601 bắt đầu bằng Thứ Hai. Tuần được đánh số từ 1. Một tuần "
-"bao gồm những ngày của nhiều năm được gán cho năm có nhiều ngày nhất. Nghĩa "
-"là ngày 31 tháng 12 có thể là tuần 1 của năm kế tiếp, và ngày 1 tháng giêng "
-"có thể là tuần thứ 52 hoặc 53 của năm trước đó.\n"
-"@EXAMPLES=\n"
-"Nếu A1 chứa 21/12/00 thì ISOWEEKNUM(A1)=51\n"
-"@SEEALSO=WEEKNUM"
 
 #: plugins/fn-date/functions.c:1254
 msgid ""
@@ -3049,15 +2833,15 @@ msgstr ""
 
 #: plugins/fn-eng/plugin.xml.in.h:1
 msgid "Engineering"
-msgstr ""
+msgstr "Kỹ thuật"
 
 #: plugins/fn-eng/plugin.xml.in.h:2
 msgid "Engineering Functions"
-msgstr ""
+msgstr "Hàm kỹ thuật"
 
 #: plugins/fn-eng/plugin.xml.in.h:3
 msgid "Functions for complex numbers, base conversions, and more"
-msgstr ""
+msgstr "Hàm xử lý số phức, chuyển đổi cơ số ..."
 
 #: plugins/fn-financial/functions.c:398
 msgid ""
@@ -4220,6 +4004,10 @@ msgid ""
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
 "@DESCRIPTION=VDB calculates the depreciation of an asset for a given period "
 "or partial period using the double-declining balance method.\n"
+"If @start_period < 0, VDB returns #NUM! error. If @start_period > "
+"@end_period, VDB returns #NUM! error. If @end_period > @life, VDB returns "
+"#NUM! error. If @cost < 0, VDB returns #NUM! error. If @salvage > @cost, VDB "
+"returns #NUM! error. If @factor <= 0, VDB returns #NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DB"
@@ -4800,7 +4588,7 @@ msgstr "chuỗi"
 
 #: plugins/fn-info/plugin.xml.in.h:1
 msgid "Functions for inspecting values, cells, and more"
-msgstr ""
+msgstr "Hàm theo dõi giá trị, ô, và nhiều nữa"
 
 #: plugins/fn-info/plugin.xml.in.h:2
 msgid "Information"
@@ -5013,19 +4801,19 @@ msgstr ""
 
 #: plugins/fn-logical/functions.c:351 plugins/fn-logical/functions.c:352
 #: plugins/fn-logical/functions.c:353 plugins/fn-math/functions.c:3114
-#: plugins/fn-stat/functions.c:4696 plugins/fn-stat/functions.c:4698
-#: plugins/fn-stat/functions.c:4700 plugins/fn-stat/functions.c:4716
-#: plugins/fn-stat/functions.c:4718 plugins/fn-stat/functions.c:4728
-#: plugins/fn-stat/functions.c:4756 plugins/fn-stat/functions.c:4764
-#: plugins/fn-stat/functions.c:4766 plugins/fn-stat/functions.c:4768
-#: plugins/fn-stat/functions.c:4770 plugins/fn-stat/functions.c:4780
-#: plugins/fn-stat/functions.c:4782 plugins/fn-stat/functions.c:4784
-#: plugins/fn-stat/functions.c:4786 plugins/fn-stat/functions.c:4788
-#: plugins/fn-stat/functions.c:4790 plugins/fn-stat/functions.c:4822
-#: plugins/fn-stat/functions.c:4826 plugins/fn-stat/functions.c:4828
-#: plugins/fn-stat/functions.c:4830 plugins/fn-stat/functions.c:4832
-#: plugins/fn-stat/functions.c:4848 plugins/fn-stat/functions.c:4850
-#: plugins/fn-stat/functions.c:4852 plugins/fn-stat/functions.c:4854
+#: plugins/fn-stat/functions.c:5149 plugins/fn-stat/functions.c:5151
+#: plugins/fn-stat/functions.c:5153 plugins/fn-stat/functions.c:5173
+#: plugins/fn-stat/functions.c:5175 plugins/fn-stat/functions.c:5185
+#: plugins/fn-stat/functions.c:5217 plugins/fn-stat/functions.c:5225
+#: plugins/fn-stat/functions.c:5227 plugins/fn-stat/functions.c:5229
+#: plugins/fn-stat/functions.c:5235 plugins/fn-stat/functions.c:5247
+#: plugins/fn-stat/functions.c:5249 plugins/fn-stat/functions.c:5251
+#: plugins/fn-stat/functions.c:5253 plugins/fn-stat/functions.c:5255
+#: plugins/fn-stat/functions.c:5257 plugins/fn-stat/functions.c:5295
+#: plugins/fn-stat/functions.c:5299 plugins/fn-stat/functions.c:5301
+#: plugins/fn-stat/functions.c:5303 plugins/fn-stat/functions.c:5305
+#: plugins/fn-stat/functions.c:5321 plugins/fn-stat/functions.c:5323
+#: plugins/fn-stat/functions.c:5325 plugins/fn-stat/functions.c:5327
 #: src/func-builtin.c:139 src/func-builtin.c:145
 msgid "number,number,"
 msgstr "number,number,"
@@ -5046,8 +4834,8 @@ msgstr "number,number,"
 #: plugins/fn-math/functions.c:3108 plugins/fn-math/functions.c:3110
 #: plugins/fn-math/functions.c:3112 plugins/fn-math/functions.c:3120
 #: plugins/fn-math/functions.c:3128 plugins/fn-math/functions.c:3130
-#: plugins/fn-stat/functions.c:4740 plugins/fn-stat/functions.c:4742
-#: plugins/fn-stat/functions.c:4750 plugins/fn-stat/functions.c:4798
+#: plugins/fn-stat/functions.c:5199 plugins/fn-stat/functions.c:5201
+#: plugins/fn-stat/functions.c:5209 plugins/fn-stat/functions.c:5265
 #: plugins/fn-string/functions.c:1233
 msgid "number"
 msgstr "number"
@@ -6659,7 +6447,7 @@ msgstr ""
 #: plugins/fn-math/functions.c:2243 plugins/fn-math/functions.c:2263
 #: plugins/fn-math/functions.c:2357 plugins/fn-math/functions.c:2377
 #: plugins/fn-math/functions.c:2469 plugins/fn-math/functions.c:2489
-#: plugins/fn-stat/functions.c:2644 plugins/fn-stat/functions.c:2674
+#: plugins/fn-stat/functions.c:2866 plugins/fn-stat/functions.c:2896
 msgid "Array version not implemented!"
 msgstr "Phiên bản dãy chưa được làm!"
 
@@ -6819,7 +6607,7 @@ msgstr "range,criteria"
 msgid "number,significance"
 msgstr "number,significance"
 
-#: plugins/fn-math/functions.c:3060 plugins/fn-stat/functions.c:4730
+#: plugins/fn-math/functions.c:3060 plugins/fn-stat/functions.c:5189
 msgid "n,k"
 msgstr "n,k"
 
@@ -6866,8 +6654,8 @@ msgstr "range,range,"
 
 #: plugins/fn-math/functions.c:3122 plugins/fn-math/functions.c:3124
 #: plugins/fn-math/functions.c:3126 plugins/fn-math/functions.c:3136
-#: plugins/fn-stat/functions.c:4724 plugins/fn-stat/functions.c:4726
-#: plugins/fn-stat/functions.c:4806 plugins/fn-stat/functions.c:4814
+#: plugins/fn-stat/functions.c:5181 plugins/fn-stat/functions.c:5183
+#: plugins/fn-stat/functions.c:5275 plugins/fn-stat/functions.c:5287
 msgid "array1,array2"
 msgstr "array1,array2"
 
@@ -6909,7 +6697,6 @@ msgstr ""
 "@SEEALSO=RANDBETWEEN"
 
 #: plugins/fn-random/functions.c:68
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDUNIFORM\n"
 "@SYNTAX=RANDUNIFORM(a,b)\n"
@@ -6925,14 +6712,6 @@ msgid ""
 "\n"
 "@SEEALSO=RANDBETWEEN,RAND"
 msgstr ""
-"@FUNCTION=RAND\n"
-"@SYNTAX=RAND()\n"
-"@DESCRIPTION=RAND trả về một số ngẫu nhiên trong khoảng [0,1].\n"
-"Hàm này tương thích với Excel.\n"
-"@EXAMPLES=\n"
-"RAND() trả về số tự nhiên trong khoảng từ 0 tới 1.\n"
-"\n"
-"@SEEALSO=RANDBETWEEN"
 
 #: plugins/fn-random/functions.c:101
 msgid ""
@@ -6957,20 +6736,14 @@ msgid ""
 "@FUNCTION=RANDPOISSON\n"
 "@SYNTAX=RANDPOISSON(lambda)\n"
 "@DESCRIPTION=RANDPOISSON returns a poisson-distributed random number. \n"
+"If @lambda < 0 RANDPOISSON returns #NUM! error. \n"
 "@EXAMPLES=\n"
 "RANDPOISSON(3).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=RANDPOISSON\n"
-"@SYNTAX=RANDPOISSON(lambda)\n"
-"@DESCRIPTION=RANDPOISSON trả về số ngẫu nhiên theo phân phối poisson.\n"
-"@EXAMPLES=\n"
-"RANDPOISSON(3).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:150
+#: plugins/fn-random/functions.c:152
 msgid ""
 "@FUNCTION=RANDBINOM\n"
 "@SYNTAX=RANDBINOM(p,trials)\n"
@@ -6992,8 +6765,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:180
-#, fuzzy
+#: plugins/fn-random/functions.c:182
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -7007,19 +6779,8 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDUNIFORM"
 msgstr ""
-"@FUNCTION=RANDBETWEEN\n"
-"@SYNTAX=RANDBETWEEN(bottom,top)\n"
-"@DESCRIPTION=RANDBETWEEN trả về số ngẫu nhiên trong khoảng từ @bottom tới "
-"@top.\n"
-"Nếu @bottom hoặc @top không phải là số nguyên thì nó bị cắt bớt (trunc). Nếu "
-"@bottom > @top thì trả về lỗi #NUM!.\n"
-"Hàm này tương thích với Excel. \n"
-"@EXAMPLES=\n"
-"RANDBETWEEN(3,7).\n"
-"\n"
-"@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:214
+#: plugins/fn-random/functions.c:217
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -7033,7 +6794,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: plugins/fn-random/functions.c:245
+#: plugins/fn-random/functions.c:248
 msgid ""
 "@FUNCTION=RANDBERNOULLI\n"
 "@SYNTAX=RANDBERNOULLI(p)\n"
@@ -7053,8 +6814,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:273
-#, fuzzy
+#: plugins/fn-random/functions.c:276
 msgid ""
 "@FUNCTION=RANDGAUSSIAN\n"
 "@SYNTAX=RANDGAUSSIAN(mean,stdev)\n"
@@ -7065,17 +6825,8 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDBERNOULLI\n"
-"@SYNTAX=RANDBERNOULLI(p)\n"
-"@DESCRIPTION=RANDBERNOULLI trả về số ngẫu nhiên theo phân phối Bernoulli.\n"
-"Nếu @p < 0 hoặc @p > 1 thì trả về lỗi #NUM!.\n"
-"@EXAMPLES=\n"
-"RANDBERNOULLI(0.5).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:302
-#, fuzzy
+#: plugins/fn-random/functions.c:305
 msgid ""
 "@FUNCTION=RANDCAUCHY\n"
 "@SYNTAX=RANDCAUCHY(a)\n"
@@ -7088,18 +6839,8 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDBINOM\n"
-"@SYNTAX=RANDBINOM(p,trials)\n"
-"@DESCRIPTION=RANDBINOM trả về số ngẫu nhiên theo phân phối nhị thức.\n"
-"Nếu @p < 0 hoặc @p > 1 thì trả về lỗi #NUM!. Nếu @trials < 0 thì trả về lỗi "
-"#NUM!.\n"
-"@EXAMPLES=\n"
-"RANDBINOM(0.5,2).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:332
-#, fuzzy
+#: plugins/fn-random/functions.c:335
 msgid ""
 "@FUNCTION=RANDLOGNORM\n"
 "@SYNTAX=RANDLOGNORM(zeta,sigma)\n"
@@ -7109,16 +6850,8 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDPOISSON\n"
-"@SYNTAX=RANDPOISSON(lambda)\n"
-"@DESCRIPTION=RANDPOISSON trả về số ngẫu nhiên theo phân phối poisson.\n"
-"@EXAMPLES=\n"
-"RANDPOISSON(3).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:356
-#, fuzzy
+#: plugins/fn-random/functions.c:359
 msgid ""
 "@FUNCTION=RANDWEIBULL\n"
 "@SYNTAX=RANDWEIBULL(a,b)\n"
@@ -7128,16 +6861,8 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDEXP\n"
-"@SYNTAX=RANDEXP(b)\n"
-"@DESCRIPTION=RANDEXP trả về số ngẫu nhiên theo phân phối mũ.\n"
-"@EXAMPLES=\n"
-"RANDEXP(0.5).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:380
-#, fuzzy
+#: plugins/fn-random/functions.c:383
 msgid ""
 "@FUNCTION=RANDLAPLACE\n"
 "@SYNTAX=RANDLAPLACE(a)\n"
@@ -7149,16 +6874,8 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDEXP\n"
-"@SYNTAX=RANDEXP(b)\n"
-"@DESCRIPTION=RANDEXP trả về số ngẫu nhiên theo phân phối mũ.\n"
-"@EXAMPLES=\n"
-"RANDEXP(0.5).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:405
-#, fuzzy
+#: plugins/fn-random/functions.c:408
 msgid ""
 "@FUNCTION=RANDRAYLEIGH\n"
 "@SYNTAX=RANDRAYLEIGH(sigma)\n"
@@ -7168,15 +6885,8 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDEXP\n"
-"@SYNTAX=RANDEXP(b)\n"
-"@DESCRIPTION=RANDEXP trả về số ngẫu nhiên theo phân phối mũ.\n"
-"@EXAMPLES=\n"
-"RANDEXP(0.5).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:428
+#: plugins/fn-random/functions.c:431
 msgid ""
 "@FUNCTION=RANDRAYLEIGHTAIL\n"
 "@SYNTAX=RANDRAYLEIGHTAIL(a,sigma)\n"
@@ -7190,8 +6900,7 @@ msgid ""
 "@SEEALSO=RAND,RANDRAYLEIGH"
 msgstr ""
 
-#: plugins/fn-random/functions.c:455
-#, fuzzy
+#: plugins/fn-random/functions.c:458
 msgid ""
 "@FUNCTION=RANDGAMMA\n"
 "@SYNTAX=RANDGAMMA(a,b)\n"
@@ -7202,17 +6911,8 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDBERNOULLI\n"
-"@SYNTAX=RANDBERNOULLI(p)\n"
-"@DESCRIPTION=RANDBERNOULLI trả về số ngẫu nhiên theo phân phối Bernoulli.\n"
-"Nếu @p < 0 hoặc @p > 1 thì trả về lỗi #NUM!.\n"
-"@EXAMPLES=\n"
-"RANDBERNOULLI(0.5).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:484
-#, fuzzy
+#: plugins/fn-random/functions.c:487
 msgid ""
 "@FUNCTION=RANDPARETO\n"
 "@SYNTAX=RANDPARETO(a,b)\n"
@@ -7222,16 +6922,8 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDEXP\n"
-"@SYNTAX=RANDEXP(b)\n"
-"@DESCRIPTION=RANDEXP trả về số ngẫu nhiên theo phân phối mũ.\n"
-"@EXAMPLES=\n"
-"RANDEXP(0.5).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:508
-#, fuzzy
+#: plugins/fn-random/functions.c:511
 msgid ""
 "@FUNCTION=RANDFDIST\n"
 "@SYNTAX=RANDFDIST(nu1,nu2)\n"
@@ -7241,16 +6933,8 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDGAMMA"
 msgstr ""
-"@FUNCTION=RANDPOISSON\n"
-"@SYNTAX=RANDPOISSON(lambda)\n"
-"@DESCRIPTION=RANDPOISSON trả về số ngẫu nhiên theo phân phối poisson.\n"
-"@EXAMPLES=\n"
-"RANDPOISSON(3).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:532
-#, fuzzy
+#: plugins/fn-random/functions.c:535
 msgid ""
 "@FUNCTION=RANDBETA\n"
 "@SYNTAX=RANDBETA(a,b)\n"
@@ -7260,16 +6944,8 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDGAMMA"
 msgstr ""
-"@FUNCTION=RANDEXP\n"
-"@SYNTAX=RANDEXP(b)\n"
-"@DESCRIPTION=RANDEXP trả về số ngẫu nhiên theo phân phối mũ.\n"
-"@EXAMPLES=\n"
-"RANDEXP(0.5).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:556
-#, fuzzy
+#: plugins/fn-random/functions.c:559
 msgid ""
 "@FUNCTION=RANDLOGISTIC\n"
 "@SYNTAX=RANDLOGISTIC(a)\n"
@@ -7281,16 +6957,8 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDPOISSON\n"
-"@SYNTAX=RANDPOISSON(lambda)\n"
-"@DESCRIPTION=RANDPOISSON trả về số ngẫu nhiên theo phân phối poisson.\n"
-"@EXAMPLES=\n"
-"RANDPOISSON(3).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:581
-#, fuzzy
+#: plugins/fn-random/functions.c:584
 msgid ""
 "@FUNCTION=RANDGEOM\n"
 "@SYNTAX=RANDGEOM(p)\n"
@@ -7304,17 +6972,8 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDBINOM\n"
-"@SYNTAX=RANDBINOM(p,trials)\n"
-"@DESCRIPTION=RANDBINOM trả về số ngẫu nhiên theo phân phối nhị thức.\n"
-"Nếu @p < 0 hoặc @p > 1 thì trả về lỗi #NUM!. Nếu @trials < 0 thì trả về lỗi "
-"#NUM!.\n"
-"@EXAMPLES=\n"
-"RANDBINOM(0.5,2).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:612
+#: plugins/fn-random/functions.c:615
 msgid ""
 "@FUNCTION=RANDHYPERG\n"
 "@SYNTAX=RANDHYPERG(n1,n2,t)\n"
@@ -7328,8 +6987,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:640
-#, fuzzy
+#: plugins/fn-random/functions.c:643
 msgid ""
 "@FUNCTION=RANDLOG\n"
 "@SYNTAX=RANDLOG(p)\n"
@@ -7340,17 +6998,8 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDBERNOULLI\n"
-"@SYNTAX=RANDBERNOULLI(p)\n"
-"@DESCRIPTION=RANDBERNOULLI trả về số ngẫu nhiên theo phân phối Bernoulli.\n"
-"Nếu @p < 0 hoặc @p > 1 thì trả về lỗi #NUM!.\n"
-"@EXAMPLES=\n"
-"RANDBERNOULLI(0.5).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:668
-#, fuzzy
+#: plugins/fn-random/functions.c:671
 msgid ""
 "@FUNCTION=RANDCHISQ\n"
 "@SYNTAX=RANDCHISQ(nu)\n"
@@ -7360,16 +7009,8 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDGAMMA"
 msgstr ""
-"@FUNCTION=RANDEXP\n"
-"@SYNTAX=RANDEXP(b)\n"
-"@DESCRIPTION=RANDEXP trả về số ngẫu nhiên theo phân phối mũ.\n"
-"@EXAMPLES=\n"
-"RANDEXP(0.5).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:691
-#, fuzzy
+#: plugins/fn-random/functions.c:694
 msgid ""
 "@FUNCTION=RANDTDIST\n"
 "@SYNTAX=RANDTDIST(nu)\n"
@@ -7379,16 +7020,8 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDEXP\n"
-"@SYNTAX=RANDEXP(b)\n"
-"@DESCRIPTION=RANDEXP trả về số ngẫu nhiên theo phân phối mũ.\n"
-"@EXAMPLES=\n"
-"RANDEXP(0.5).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:714
-#, fuzzy
+#: plugins/fn-random/functions.c:717
 msgid ""
 "@FUNCTION=RANDGUMBEL\n"
 "@SYNTAX=RANDGUMBEL(a,b[,type])\n"
@@ -7402,16 +7035,8 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDBERNOULLI\n"
-"@SYNTAX=RANDBERNOULLI(p)\n"
-"@DESCRIPTION=RANDBERNOULLI trả về số ngẫu nhiên theo phân phối Bernoulli.\n"
-"Nếu @p < 0 hoặc @p > 1 thì trả về lỗi #NUM!.\n"
-"@EXAMPLES=\n"
-"RANDBERNOULLI(0.5).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:750
+#: plugins/fn-random/functions.c:753
 msgid ""
 "@FUNCTION=RANDLEVY\n"
 "@SYNTAX=RANDLEVY(c,alpha[,beta])\n"
@@ -7427,7 +7052,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:784
+#: plugins/fn-random/functions.c:787
 msgid ""
 "@FUNCTION=RANDEXPPOW\n"
 "@SYNTAX=RANDEXPPOW(a,b)\n"
@@ -7442,95 +7067,125 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:816 plugins/fn-random/functions.c:836
-#: plugins/fn-random/functions.c:846 plugins/fn-stat/functions.c:4800
+#: plugins/fn-random/functions.c:816
+msgid ""
+"@FUNCTION=RANDLANDAU\n"
+"@SYNTAX=RANDLANDAU()\n"
+"@DESCRIPTION=RANDLANDAU returns a random variate from the Landau "
+"distribution. The probability distribution for Landau random variates is "
+"defined analytically by the complex integral, p(x) = (1/(2 pi i)) int_{c-i "
+"infty}^{c+i infty} ds exp(s log(s) + x s). For numerical purposes it is more "
+"convenient to use the following equivalent form of the integral, p(x) = (1/"
+"pi) int_0^ infty dt exp(-t log(t) - x t) sin(pi t).\n"
+"@EXAMPLES=\n"
+"RANDLANDAU().\n"
+"\n"
+"@SEEALSO=RAND"
+msgstr ""
+
+#: plugins/fn-random/functions.c:843
+msgid ""
+"@FUNCTION=RANDGAUSSIANTAIL\n"
+"@SYNTAX=RANDGAUSSIANTAIL(a,sigma)\n"
+"@DESCRIPTION=RANDGAUSSIANTAIL returns a random variates from the upper tail "
+"of a Gaussian distribution with standard deviation sigma. The values "
+"returned are larger than the lower limit a, which must be positive. The "
+"method is based on Marsaglia's famous rectangle-wedge-tail algorithm (Ann "
+"Math Stat 32, 894-899 (1961)), with this aspect explained in Knuth, v2, 3rd "
+"ed, p139, 586 (exercise 11).\n"
+"The probability distribution for Gaussian tail random variates is, p(x) dx = "
+"{1 over N(a;sigma)} exp (- x^2/(2 sigma^2)) dx, for x > a where N(a;sigma) "
+"is the normalization constant, N(a;sigma) = (1/2) erfc(a / sqrt(2 "
+"sigma^2)). \n"
+"@EXAMPLES=\n"
+"RANDGAUSSIANTAIL(0.5,0.1).\n"
+"\n"
+"@SEEALSO=RAND"
+msgstr ""
+
+#: plugins/fn-random/functions.c:880 plugins/fn-random/functions.c:902
+#: plugins/fn-random/functions.c:914 plugins/fn-stat/functions.c:5267
 msgid "p"
 msgstr "p"
 
-#: plugins/fn-random/functions.c:818 plugins/fn-random/functions.c:830
-#: plugins/fn-random/functions.c:834 plugins/fn-random/functions.c:856
-#: plugins/fn-random/functions.c:866 plugins/fn-random/functions.c:868
-#, fuzzy
+#: plugins/fn-random/functions.c:882 plugins/fn-random/functions.c:894
+#: plugins/fn-random/functions.c:898 plugins/fn-random/functions.c:924
+#: plugins/fn-random/functions.c:934 plugins/fn-random/functions.c:936
 msgid "a,b"
-msgstr "tab"
+msgstr "a,b"
 
-#: plugins/fn-random/functions.c:820
+#: plugins/fn-random/functions.c:884
 msgid "bottom,top"
 msgstr "bottom,top"
 
-#: plugins/fn-random/functions.c:822
+#: plugins/fn-random/functions.c:886
 msgid "p,trials"
 msgstr "p,trials"
 
-#: plugins/fn-random/functions.c:824 plugins/fn-random/functions.c:842
-#: plugins/fn-random/functions.c:848
+#: plugins/fn-random/functions.c:888 plugins/fn-random/functions.c:910
+#: plugins/fn-random/functions.c:916
 msgid "a"
-msgstr ""
+msgstr "a"
 
-#: plugins/fn-random/functions.c:826 plugins/fn-random/functions.c:864
+#: plugins/fn-random/functions.c:890 plugins/fn-random/functions.c:932
 msgid "nu"
-msgstr ""
+msgstr "nu"
 
-#: plugins/fn-random/functions.c:828
+#: plugins/fn-random/functions.c:892
 msgid "b"
 msgstr "b"
 
-#: plugins/fn-random/functions.c:832
-#, fuzzy
+#: plugins/fn-random/functions.c:896
 msgid "nu1,nu2"
-msgstr "xnum,ynum"
+msgstr "nu1,nu2"
 
-#: plugins/fn-random/functions.c:838
+#: plugins/fn-random/functions.c:900 plugins/fn-random/functions.c:930
+msgid "a,sigma"
+msgstr "a,sigma"
+
+#: plugins/fn-random/functions.c:904
 msgid "a,b[,type]"
-msgstr ""
+msgstr "a,b[,type]"
 
-#: plugins/fn-random/functions.c:840
+#: plugins/fn-random/functions.c:906
 msgid "n1,n2,t"
-msgstr ""
+msgstr "n1,n2,t"
 
-#: plugins/fn-random/functions.c:844
-#, fuzzy
+#: plugins/fn-random/functions.c:912
 msgid "c,alpha[,beta]"
-msgstr "p,alpha,beta,a,b"
+msgstr "c,alpha[,beta]"
 
-#: plugins/fn-random/functions.c:850
+#: plugins/fn-random/functions.c:918
 msgid "zeta,sigma"
-msgstr ""
+msgstr "zeta,sigma"
 
-#: plugins/fn-random/functions.c:852
+#: plugins/fn-random/functions.c:920
 msgid "p,failures"
 msgstr "p,failures"
 
-#: plugins/fn-random/functions.c:854
-#, fuzzy
+#: plugins/fn-random/functions.c:922
 msgid "mean,stdev"
-msgstr "p,mean,stdev"
+msgstr "mean,stdev"
 
-#: plugins/fn-random/functions.c:858
+#: plugins/fn-random/functions.c:926
 msgid "lambda"
 msgstr "lambda"
 
-#: plugins/fn-random/functions.c:860
+#: plugins/fn-random/functions.c:928
 msgid "sigma"
-msgstr ""
-
-#: plugins/fn-random/functions.c:862
-msgid "a,sigma"
-msgstr ""
+msgstr "sigma"
 
 #: plugins/fn-random/plugin.xml.in.h:1
-#, fuzzy
 msgid "Functions for generating random numbers"
-msgstr "Hàm xử lý giá trị sự thật"
+msgstr "Hàm phát sinh số ngẫu nhiên"
 
 #: plugins/fn-random/plugin.xml.in.h:2
 msgid "Random"
 msgstr "Ngẫu nhiên"
 
 #: plugins/fn-random/plugin.xml.in.h:3
-#, fuzzy
 msgid "Random Number Functions"
-msgstr "Phát sinh số ngẫu nghiên"
+msgstr "Hàm số ngẫu nhiên"
 
 #: plugins/fn-stat/functions.c:190
 msgid ""
@@ -7753,7 +7408,7 @@ msgid ""
 "@SEEALSO=FISHER"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:737
+#: plugins/fn-stat/functions.c:736
 msgid ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
@@ -7770,7 +7425,7 @@ msgid ""
 "@SEEALSO=AVERAGE,MEDIAN"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:773
+#: plugins/fn-stat/functions.c:772
 msgid ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
@@ -7785,7 +7440,7 @@ msgid ""
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:805
+#: plugins/fn-stat/functions.c:804
 msgid ""
 "@FUNCTION=GEOMEAN\n"
 "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
@@ -7800,7 +7455,7 @@ msgid ""
 "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:836
+#: plugins/fn-stat/functions.c:835
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -7825,7 +7480,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: plugins/fn-stat/functions.c:879
+#: plugins/fn-stat/functions.c:878
 msgid ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=COUNTA(b1, b2, ...)\n"
@@ -7840,7 +7495,7 @@ msgid ""
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:921
+#: plugins/fn-stat/functions.c:920
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -7856,7 +7511,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:953
+#: plugins/fn-stat/functions.c:952
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -7872,7 +7527,7 @@ msgid ""
 "@SEEALSO=MAX,ABS"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:995
+#: plugins/fn-stat/functions.c:994
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -7888,7 +7543,7 @@ msgid ""
 "@SEEALSO=MIN,ABS"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1037
+#: plugins/fn-stat/functions.c:1036
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -7908,7 +7563,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1075
+#: plugins/fn-stat/functions.c:1074
 msgid ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(n1, n2, ...)\n"
@@ -7923,7 +7578,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1108
+#: plugins/fn-stat/functions.c:1107
 msgid ""
 "@FUNCTION=EXPONDIST\n"
 "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
@@ -7938,7 +7593,21 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1151
+#: plugins/fn-stat/functions.c:1150
+msgid ""
+"@FUNCTION=BERNOULLI\n"
+"@SYNTAX=BERNOULLI(k,p)\n"
+"@DESCRIPTION=BERNOULLI returns the probability p(k) of obtaining @k from a "
+"Bernoulli distribution with probability parameter @p. \n"
+"If @k != 0 and @k != 1 BERNOULLI returns #NUM! error. If @p < 0 or @p > 1 "
+"BERNOULLI returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"BERNOULLI(0,0.5).\n"
+"\n"
+"@SEEALSO=RANDBERBOULLI"
+msgstr ""
+
+#: plugins/fn-stat/functions.c:1192
 msgid ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
@@ -7953,7 +7622,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1188
+#: plugins/fn-stat/functions.c:1229
 msgid ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
@@ -7969,7 +7638,7 @@ msgid ""
 "@SEEALSO=GAMMAINV"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1229
+#: plugins/fn-stat/functions.c:1270
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -7984,7 +7653,7 @@ msgid ""
 "@SEEALSO=GAMMADIST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1265
+#: plugins/fn-stat/functions.c:1306
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -7999,7 +7668,7 @@ msgid ""
 "@SEEALSO=CHIINV,CHITEST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1301
+#: plugins/fn-stat/functions.c:1342
 msgid ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
@@ -8013,7 +7682,7 @@ msgid ""
 "@SEEALSO=CHIDIST,CHITEST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1335
+#: plugins/fn-stat/functions.c:1376
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
@@ -8028,7 +7697,7 @@ msgid ""
 "@SEEALSO=CHIDIST,CHIINV"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1473
+#: plugins/fn-stat/functions.c:1514
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -8045,7 +7714,7 @@ msgid ""
 "@SEEALSO=BETAINV"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1513
+#: plugins/fn-stat/functions.c:1554
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -8062,7 +7731,7 @@ msgid ""
 "@SEEALSO=BETADIST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1553
+#: plugins/fn-stat/functions.c:1594
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -8078,7 +7747,7 @@ msgid ""
 "@SEEALSO=TINV,TTEST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1590
+#: plugins/fn-stat/functions.c:1631
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -8092,7 +7761,7 @@ msgid ""
 "@SEEALSO=TDIST,TTEST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1624
+#: plugins/fn-stat/functions.c:1665
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -8108,7 +7777,19 @@ msgid ""
 "@SEEALSO=FINV"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1661
+#: plugins/fn-stat/functions.c:1702
+msgid ""
+"@FUNCTION=LANDAU\n"
+"@SYNTAX=LANDAU(x)\n"
+"@DESCRIPTION=LANDAU returns the probability density p(x) at @x for the "
+"Landau distribution using an approximation method. \n"
+"@EXAMPLES=\n"
+"LANDAU(0.34).\n"
+"\n"
+"@SEEALSO=RANDLANDAU"
+msgstr ""
+
+#: plugins/fn-stat/functions.c:1844
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=FINV(p,dof1,dof2)\n"
@@ -8123,7 +7804,7 @@ msgid ""
 "@SEEALSO=FDIST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1697
+#: plugins/fn-stat/functions.c:1880
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -8141,7 +7822,20 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1743
+#: plugins/fn-stat/functions.c:1926
+msgid ""
+"@FUNCTION=CAUCHY\n"
+"@SYNTAX=CAUCHY(x,a)\n"
+"@DESCRIPTION=CAUCHY returns the probability density p(x) at x for @a Cauchy "
+"distribution with scale parameter @a. \n"
+"If @a < 0 CAUCHY returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"CAUCHY(0.43,1).\n"
+"\n"
+"@SEEALSO=RANDCAUCHY"
+msgstr ""
+
+#: plugins/fn-stat/functions.c:1965
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -8159,7 +7853,7 @@ msgid ""
 "@SEEALSO=BINOMDIST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1783
+#: plugins/fn-stat/functions.c:2005
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -8174,7 +7868,7 @@ msgid ""
 "@SEEALSO=COMBIN"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1818
+#: plugins/fn-stat/functions.c:2040
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
@@ -8191,7 +7885,7 @@ msgid ""
 "@SEEALSO=BINOMDIST,POISSON"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1857
+#: plugins/fn-stat/functions.c:2079
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -8207,7 +7901,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1898
+#: plugins/fn-stat/functions.c:2120
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
@@ -8222,7 +7916,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1936
+#: plugins/fn-stat/functions.c:2158
 msgid ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -8239,7 +7933,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:1982
+#: plugins/fn-stat/functions.c:2204
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
@@ -8254,7 +7948,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2027
+#: plugins/fn-stat/functions.c:2249
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stdev)\n"
@@ -8270,7 +7964,7 @@ msgid ""
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2065
+#: plugins/fn-stat/functions.c:2287
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -8291,7 +7985,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2105
+#: plugins/fn-stat/functions.c:2327
 msgid ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -8307,7 +8001,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2139
+#: plugins/fn-stat/functions.c:2361
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -8322,7 +8016,7 @@ msgid ""
 "@SEEALSO=STDEV"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2170
+#: plugins/fn-stat/functions.c:2392
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -8338,7 +8032,7 @@ msgid ""
 "@SEEALSO=STDEV"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2203
+#: plugins/fn-stat/functions.c:2425
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -8352,7 +8046,7 @@ msgid ""
 "@SEEALSO=SKEW"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2238
+#: plugins/fn-stat/functions.c:2460
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -8368,7 +8062,7 @@ msgid ""
 "@SEEALSO=NORMDIST, WEIBULL"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2281
+#: plugins/fn-stat/functions.c:2503
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
@@ -8381,7 +8075,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2306
+#: plugins/fn-stat/functions.c:2528
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
@@ -8394,7 +8088,7 @@ msgid ""
 "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2336
+#: plugins/fn-stat/functions.c:2558
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -8410,7 +8104,7 @@ msgid ""
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2370
+#: plugins/fn-stat/functions.c:2592
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -8427,7 +8121,7 @@ msgid ""
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2417
+#: plugins/fn-stat/functions.c:2639
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -8444,7 +8138,7 @@ msgid ""
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2488
+#: plugins/fn-stat/functions.c:2710
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
@@ -8461,7 +8155,7 @@ msgid ""
 "@SEEALSO=BINOMDIST,CRITBINOM"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2580
+#: plugins/fn-stat/functions.c:2802
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -8479,7 +8173,7 @@ msgid ""
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2735
+#: plugins/fn-stat/functions.c:2957
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
@@ -8495,7 +8189,7 @@ msgid ""
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2816
+#: plugins/fn-stat/functions.c:3038
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -8513,7 +8207,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2851
+#: plugins/fn-stat/functions.c:3073
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -8531,7 +8225,7 @@ msgid ""
 "@SEEALSO=MAX,MINA"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2886
+#: plugins/fn-stat/functions.c:3108
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -8549,7 +8243,7 @@ msgid ""
 "@SEEALSO=MIN,MAXA"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2921
+#: plugins/fn-stat/functions.c:3143
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -8567,7 +8261,7 @@ msgid ""
 "@SEEALSO=VAR,VARPA"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2956
+#: plugins/fn-stat/functions.c:3178
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -8585,7 +8279,7 @@ msgid ""
 "@SEEALSO=VARP,VARP"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:2991
+#: plugins/fn-stat/functions.c:3213
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -8603,7 +8297,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:3026
+#: plugins/fn-stat/functions.c:3248
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -8621,7 +8315,7 @@ msgid ""
 "@SEEALSO=STDEVA,STDEVP"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:3061
+#: plugins/fn-stat/functions.c:3283
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -8641,7 +8335,7 @@ msgid ""
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:3171
+#: plugins/fn-stat/functions.c:3393
 msgid ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
@@ -8659,7 +8353,7 @@ msgid ""
 "@SEEALSO=QUARTILE"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:3220
+#: plugins/fn-stat/functions.c:3442
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -8684,7 +8378,7 @@ msgid ""
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:3276
+#: plugins/fn-stat/functions.c:3498
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -8700,7 +8394,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:3326
+#: plugins/fn-stat/functions.c:3548
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -8730,7 +8424,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:3494
+#: plugins/fn-stat/functions.c:3716
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -8746,7 +8440,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-stat/functions.c:3569
+#: plugins/fn-stat/functions.c:3791
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -8774,7 +8468,7 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:3841
+#: plugins/fn-stat/functions.c:4063
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -8795,7 +8489,7 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:3954
+#: plugins/fn-stat/functions.c:4176
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -8822,7 +8516,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4209
+#: plugins/fn-stat/functions.c:4431
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -8842,7 +8536,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4324
+#: plugins/fn-stat/functions.c:4546
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -8862,7 +8556,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4395
+#: plugins/fn-stat/functions.c:4617
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -8881,7 +8575,7 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4445
+#: plugins/fn-stat/functions.c:4667
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -8896,7 +8590,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4489
+#: plugins/fn-stat/functions.c:4711
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -8927,7 +8621,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4564
+#: plugins/fn-stat/functions.c:4786
 msgid ""
 "@FUNCTION=CRONBACH\n"
 "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
@@ -8938,155 +8632,267 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4702
+#: plugins/fn-stat/functions.c:4916
+msgid ""
+"@FUNCTION=GEOMDIST\n"
+"@SYNTAX=GEOMDIST(k,p,cum)\n"
+"@DESCRIPTION=GEOMDIST returns the probability p(k) of obtaining @k from a "
+"geometric distribution with probability parameter @p.\n"
+"If @k < 0 GEOMDIST returns #NUM! error. If @p < 0 or @p > 1 GEOMDIST returns "
+"#NUM! error. If @cum != TRUE and @cum != FALSE GEOMDIST returns #NUM! "
+"error. \n"
+"@EXAMPLES=\n"
+"GEOMDIST(2,10.4,TRUE).\n"
+"\n"
+"@SEEALSO=RANDGEOM"
+msgstr ""
+
+#: plugins/fn-stat/functions.c:4952
+msgid ""
+"@FUNCTION=LOGISTIC\n"
+"@SYNTAX=LOGISTIC(x,a)\n"
+"@DESCRIPTION=LOGISTIC returns the probability density p(x) at @x for a "
+"logistic distribution with scale parameter @a.\n"
+"@EXAMPLES=\n"
+"LOGISTIC(0.4,1).\n"
+"\n"
+"@SEEALSO=RANDLOGISTIC"
+msgstr ""
+
+#: plugins/fn-stat/functions.c:4985
+msgid ""
+"@FUNCTION=PARETO\n"
+"@SYNTAX=PARETO(x,a,b)\n"
+"@DESCRIPTION=PARETO returns the probability density p(x) at @x for a Pareto "
+"distribution with exponent @a and scale @b.\n"
+"@EXAMPLES=\n"
+"PARETO(0.6,1,2).\n"
+"\n"
+"@SEEALSO=RANDPARETO"
+msgstr ""
+
+#: plugins/fn-stat/functions.c:5020
+msgid ""
+"@FUNCTION=RAYLEIGH\n"
+"@SYNTAX=RAYLEIGH(x,sigma)\n"
+"@DESCRIPTION=RAYLEIGH returns the probability density p(x) at @x for a "
+"Rayleigh distribution with scale parameter @sigma.\n"
+"@EXAMPLES=\n"
+"RAYLEIGH(0.4,1).\n"
+"\n"
+"@SEEALSO=RANDRAYLEIGH"
+msgstr ""
+
+#: plugins/fn-stat/functions.c:5057
+msgid ""
+"@FUNCTION=RAYLEIGHTAIL\n"
+"@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
+"@DESCRIPTION=RAYLEIGHTAIL returns the probability density p(x) at @x for a "
+"Rayleigh tail distribution with scale parameter @sigma and lower limit @a.\n"
+"@EXAMPLES=\n"
+"RAYLEIGHTAIL(0.6,0.3,1).\n"
+"\n"
+"@SEEALSO=RANDRAYLEIGHTAIL"
+msgstr ""
+
+#: plugins/fn-stat/functions.c:5097
+msgid ""
+"@FUNCTION=EXPPOWDIST\n"
+"@SYNTAX=EXPPOWDIST(x,a,b)\n"
+"@DESCRIPTION=EXPPOWDIST returns the probability density p(x) at @x for "
+"Exponential Power distribution with scale parameter @a and exponent @b. \n"
+"@EXAMPLES=\n"
+"EXPPOWDIST(0.4,1,2).\n"
+"\n"
+"@SEEALSO=RANDEXPPOW"
+msgstr ""
+
+#: plugins/fn-stat/functions.c:5124
+msgid ""
+"@FUNCTION=LAPLACE\n"
+"@SYNTAX=LAPLACE(x,a)\n"
+"@DESCRIPTION=LAPLACE returns the probability density p(x) at @x for Laplace "
+"distribution with mean @a. \n"
+"@EXAMPLES=\n"
+"LAPLACE(0.4,1).\n"
+"\n"
+"@SEEALSO=RANDLAPLACE"
+msgstr ""
+
+#: plugins/fn-stat/functions.c:5155 plugins/fn-stat/functions.c:5215
+msgid "k,p"
+msgstr "k,p"
+
+#: plugins/fn-stat/functions.c:5157
 msgid "x,alpha,beta,a,b"
 msgstr "x,alpha,beta,a,b"
 
-#: plugins/fn-stat/functions.c:4704
+#: plugins/fn-stat/functions.c:5159
 msgid "p,alpha,beta,a,b"
 msgstr "p,alpha,beta,a,b"
 
-#: plugins/fn-stat/functions.c:4706
+#: plugins/fn-stat/functions.c:5161
 msgid "n,t,p,c"
 msgstr "n,t,p,c"
 
-#: plugins/fn-stat/functions.c:4708
+#: plugins/fn-stat/functions.c:5163 plugins/fn-stat/functions.c:5233
+#: plugins/fn-stat/functions.c:5243
+msgid "x,a"
+msgstr "x,a"
+
+#: plugins/fn-stat/functions.c:5165
 msgid "x,dof"
 msgstr "x,dof"
 
-#: plugins/fn-stat/functions.c:4710 plugins/fn-stat/functions.c:4840
+#: plugins/fn-stat/functions.c:5167 plugins/fn-stat/functions.c:5313
 msgid "p,dof"
 msgstr "p,dof"
 
-#: plugins/fn-stat/functions.c:4712
+#: plugins/fn-stat/functions.c:5169
 msgid "act_range,theo_range"
 msgstr "act_range,theo_range"
 
-#: plugins/fn-stat/functions.c:4714
+#: plugins/fn-stat/functions.c:5171
 msgid "x,stddev,size"
 msgstr "x,stddev,size"
 
-#: plugins/fn-stat/functions.c:4720
+#: plugins/fn-stat/functions.c:5177
 msgid "trials,p,alpha"
 msgstr "trials,p,alpha"
 
-#: plugins/fn-stat/functions.c:4722
+#: plugins/fn-stat/functions.c:5179
 msgid "ref,ref,"
 msgstr "ref,ref,"
 
-#: plugins/fn-stat/functions.c:4732
+#: plugins/fn-stat/functions.c:5187 plugins/fn-stat/functions.c:5269
+msgid "x,a,b"
+msgstr "x,a,b"
+
+#: plugins/fn-stat/functions.c:5191
 msgid "x,mean,cumulative"
 msgstr "x,mean,cumulative"
 
-#: plugins/fn-stat/functions.c:4734
+#: plugins/fn-stat/functions.c:5193
 msgid "x,y,cumulative"
 msgstr "x,y,cumulative"
 
-#: plugins/fn-stat/functions.c:4736
+#: plugins/fn-stat/functions.c:5195
 msgid "x,dof of num,dof of denom"
 msgstr "x,dof of num,dof of denom"
 
-#: plugins/fn-stat/functions.c:4738
+#: plugins/fn-stat/functions.c:5197
 msgid "p,dof of num,dof of denom"
 msgstr "p,dof of num,dof of denom"
 
-#: plugins/fn-stat/functions.c:4744
+#: plugins/fn-stat/functions.c:5203
 msgid "x,known y's,known x's"
 msgstr "x,known y's,known x's"
 
-#: plugins/fn-stat/functions.c:4746
+#: plugins/fn-stat/functions.c:5205
 msgid "data_array,bins_array"
 msgstr "data_array,bins_array"
 
-#: plugins/fn-stat/functions.c:4748
+#: plugins/fn-stat/functions.c:5207
 msgid "arr1,arr2"
 msgstr "arr1,arr2"
 
-#: plugins/fn-stat/functions.c:4752
+#: plugins/fn-stat/functions.c:5211
 msgid "number,alpha,beta,cum"
 msgstr "number,alpha,beta,cum"
 
-#: plugins/fn-stat/functions.c:4754
+#: plugins/fn-stat/functions.c:5213
 msgid "number,alpha,beta"
 msgstr "number,alpha,beta"
 
-#: plugins/fn-stat/functions.c:4758 plugins/fn-stat/functions.c:4842
+#: plugins/fn-stat/functions.c:5219 plugins/fn-stat/functions.c:5315
 msgid "known_y's,known_x's,new_x's,const"
 msgstr "known_y's,known_x's,new_x's,const"
 
-#: plugins/fn-stat/functions.c:4762
+#: plugins/fn-stat/functions.c:5223
 msgid "x,n,M,N"
 msgstr "x,n,M,N"
 
-#: plugins/fn-stat/functions.c:4772 plugins/fn-stat/functions.c:4774
+#: plugins/fn-stat/functions.c:5231
+msgid "x"
+msgstr "x"
+
+#: plugins/fn-stat/functions.c:5237 plugins/fn-stat/functions.c:5239
 msgid "known_y's,known_x's,const,stat"
 msgstr "known_y's,known_x's,const,stat"
 
-#: plugins/fn-stat/functions.c:4776
+#: plugins/fn-stat/functions.c:5241
 msgid "p,mean,stddev"
 msgstr "p,mean,stddev"
 
-#: plugins/fn-stat/functions.c:4778
+#: plugins/fn-stat/functions.c:5245
 msgid "x,meean,stdev"
 msgstr "x,meean,stdev"
 
-#: plugins/fn-stat/functions.c:4792
+#: plugins/fn-stat/functions.c:5259
 msgid "f,t,p"
 msgstr "f,t,p"
 
-#: plugins/fn-stat/functions.c:4794
+#: plugins/fn-stat/functions.c:5261
 msgid "x,mean,stdev,cumulative"
 msgstr "x,mean,stdev,cumulative"
 
-#: plugins/fn-stat/functions.c:4796
+#: plugins/fn-stat/functions.c:5263
 msgid "p,mean,stdev"
 msgstr "p,mean,stdev"
 
-#: plugins/fn-stat/functions.c:4802
+#: plugins/fn-stat/functions.c:5271
 msgid "array,k"
 msgstr "array,k"
 
-#: plugins/fn-stat/functions.c:4804
+#: plugins/fn-stat/functions.c:5273
 msgid "array,x,significance"
 msgstr "array,x,significance"
 
-#: plugins/fn-stat/functions.c:4808
+#: plugins/fn-stat/functions.c:5277
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr "x_range,prob_range,lower_limit,upper_limit"
 
-#: plugins/fn-stat/functions.c:4810
+#: plugins/fn-stat/functions.c:5279
 msgid "array,quart"
 msgstr "array,quart"
 
-#: plugins/fn-stat/functions.c:4820 plugins/fn-stat/functions.c:4834
+#: plugins/fn-stat/functions.c:5283
+msgid "x,sigma"
+msgstr "x,sigma"
+
+#: plugins/fn-stat/functions.c:5285
+msgid "x,a,sigma"
+msgstr "x,a,sigma"
+
+#: plugins/fn-stat/functions.c:5293 plugins/fn-stat/functions.c:5307
 msgid "known_y's,known_x's"
 msgstr "known_y's,known_x's"
 
-#: plugins/fn-stat/functions.c:4824
+#: plugins/fn-stat/functions.c:5297
 msgid "x,mean,stddev"
 msgstr "x,mean,stddev"
 
-#: plugins/fn-stat/functions.c:4836
+#: plugins/fn-stat/functions.c:5309
 msgid "function_nbr,ref,ref,"
 msgstr "function_nbr,ref,ref,"
 
-#: plugins/fn-stat/functions.c:4838
+#: plugins/fn-stat/functions.c:5311
 msgid "x,dof,tails"
 msgstr "x,dof,tails"
 
-#: plugins/fn-stat/functions.c:4844
+#: plugins/fn-stat/functions.c:5317
 msgid "ref,fraction"
 msgstr "ref,fraction"
 
-#: plugins/fn-stat/functions.c:4846
+#: plugins/fn-stat/functions.c:5319
 msgid "array1,array2,tails,type"
 msgstr "array1,array2,tails,type"
 
-#: plugins/fn-stat/functions.c:4856
+#: plugins/fn-stat/functions.c:5329
 msgid "x.alpha,beta,cumulative"
 msgstr "x.alpha,beta,cumulative"
 
-#: plugins/fn-stat/functions.c:4858
+#: plugins/fn-stat/functions.c:5331
 msgid "ref,x"
 msgstr "ref,x"
 
@@ -9643,7 +9449,7 @@ msgstr "Gnome Basic"
 
 #: plugins/gda/plugin-gda.c:58
 msgid "Too much data returned"
-msgstr ""
+msgstr "Quá nhiều dữ liệu trả về"
 
 #: plugins/gda/plugin-gda.c:85
 msgid ""
@@ -9732,9 +9538,8 @@ msgid "Not a Guile string"
 msgstr "Không phải là chuỗi Guile"
 
 #: plugins/html/html_read.c:287
-#, fuzzy
 msgid "Unable to parse the html."
-msgstr "Không thể dán"
+msgstr "Không thể phân tích HTML."
 
 #: plugins/html/plugin.xml.in.h:1
 msgid "DVI TeX (via groff)"
@@ -9742,7 +9547,7 @@ msgstr "DVI TeX (thông qu groff)"
 
 #: plugins/html/plugin.xml.in.h:2
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: plugins/html/plugin.xml.in.h:3
 msgid "HTML & TeX"
@@ -9860,27 +9665,27 @@ msgstr "Lỗi đọc tập tin MPS."
 
 #: plugins/mps/parser.c:550
 msgid "Problem name was not defined in the file."
-msgstr ""
+msgstr "Tên vấn đề chưa được định nghĩa trong tập tin."
 
 #: plugins/mps/parser.c:555
 msgid "Invalid ROWS section in the file."
-msgstr ""
+msgstr "Phần ROWS không hợp lệ trong tập tin."
 
 #: plugins/mps/parser.c:560
 msgid "Invalid COLUMNS section in the file."
-msgstr ""
+msgstr "Phần COLUMNS không hợp lệ trong tập tin."
 
 #: plugins/mps/parser.c:565
 msgid "Invalid RHS section in the file."
-msgstr ""
+msgstr "Phần RHS không hợp lệ trong tập tin."
 
 #: plugins/mps/parser.c:570
 msgid "Invalid RANGES section in the file."
-msgstr ""
+msgstr "Phần RANGES không hợp lệ trong tập tin."
 
 #: plugins/mps/parser.c:575
 msgid "Invalid BOUNDS section in the file."
-msgstr ""
+msgstr "Phần BOUNDS không hợp lệ trong tập tin."
 
 #: plugins/mps/plugin.xml.in.h:1
 msgid "Linear and integer program (*.mps) file format"
@@ -9894,7 +9699,7 @@ msgstr "Môđun dạng thức biểu thức chương trình số nguyên và tuy
 msgid "Reads LP programs stored in the MPS format (*.mps)"
 msgstr "Đọc các chương trình LP được lưu bằng dạng MPS (*.mps)"
 
-#: plugins/numtheory/numtheory.c:198
+#: plugins/numtheory/numtheory.c:212
 msgid ""
 "@FUNCTION=NT_PHI\n"
 "@SYNTAX=NT_PHI(n)\n"
@@ -9912,7 +9717,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:233
+#: plugins/numtheory/numtheory.c:247
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -9940,7 +9745,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
-#: plugins/numtheory/numtheory.c:272
+#: plugins/numtheory/numtheory.c:286
 msgid ""
 "@FUNCTION=NT_D\n"
 "@SYNTAX=NT_D(n)\n"
@@ -9956,7 +9761,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:306
+#: plugins/numtheory/numtheory.c:320
 msgid ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
@@ -9973,7 +9778,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
-#: plugins/numtheory/numtheory.c:341
+#: plugins/numtheory/numtheory.c:355
 msgid ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
@@ -9989,7 +9794,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:369
+#: plugins/numtheory/numtheory.c:383
 msgid ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
@@ -10005,7 +9810,7 @@ msgstr ""
 "Hàm này chỉ nhận một đối số.\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:395
+#: plugins/numtheory/numtheory.c:409
 msgid ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
@@ -10020,7 +9825,7 @@ msgstr ""
 "Hàm này chỉ nhận một đối số.\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:422
+#: plugins/numtheory/numtheory.c:436
 msgid ""
 "@FUNCTION=BITOR\n"
 "@SYNTAX=BITOR(a,b)\n"
@@ -10036,7 +9841,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITXOR,BITAND"
 
-#: plugins/numtheory/numtheory.c:441
+#: plugins/numtheory/numtheory.c:455
 msgid ""
 "@FUNCTION=BITXOR\n"
 "@SYNTAX=BITXOR(a,b)\n"
@@ -10053,7 +9858,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITAND"
 
-#: plugins/numtheory/numtheory.c:460
+#: plugins/numtheory/numtheory.c:474
 msgid ""
 "@FUNCTION=BITAND\n"
 "@SYNTAX=BITAND(a,b)\n"
@@ -10069,7 +9874,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITXOR"
 
-#: plugins/numtheory/numtheory.c:480
+#: plugins/numtheory/numtheory.c:494
 msgid ""
 "@FUNCTION=BITLSHIFT\n"
 "@SYNTAX=BITLSHIFT(x,n)\n"
@@ -10087,7 +9892,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITRSHIFT"
 
-#: plugins/numtheory/numtheory.c:507
+#: plugins/numtheory/numtheory.c:521
 msgid ""
 "@FUNCTION=BITRSHIFT\n"
 "@SYNTAX=BITRSHIFT(x,n)\n"
@@ -10263,7 +10068,7 @@ msgstr "Tên mô đun Python"
 
 #: plugins/python-loader/python-loader.c:370
 msgid "Some name"
-msgstr ""
+msgstr "Vài tên"
 
 #: plugins/python-loader/python-loader.c:438
 #: plugins/python-loader/python-loader.c:523
@@ -10320,17 +10125,16 @@ msgid "Unhandled Python exception: %s"
 msgstr "Lỗi ngoại lệ Python không xử lý: %s"
 
 #: plugins/qpro/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports Quatro Pro (tm) files"
-msgstr "Nhập tập tin MultiPlan (SYLK)"
+msgstr "Nhập tập tin Quatro Pro (tm)"
 
 #: plugins/qpro/plugin.xml.in.h:2
 msgid "Quatro Pro"
-msgstr ""
+msgstr "Quatro Pro"
 
 #: plugins/qpro/plugin.xml.in.h:3
 msgid "Quatro Pro(tm)"
-msgstr ""
+msgstr "Quatro Pro(tm)"
 
 #: plugins/sample_datasource/sample_datasource.c:250
 #, no-c-format
@@ -10366,9 +10170,8 @@ msgid "Error parsing line"
 msgstr "Lỗi phân tích dòng"
 
 #: plugins/sc/sc.c:399
-#, fuzzy
 msgid "Not an SC File"
-msgstr "Không phải tập tin SYLK"
+msgstr "Không phải tập tin SC"
 
 #: plugins/sylk/plugin.xml.in.h:1
 msgid "Imports MultiPlan (SYLK) files"
@@ -10589,7 +10392,7 @@ msgstr "Co_variance"
 
 #: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3344
 msgid "Collapse an outline group"
-msgstr ""
+msgstr "Co nhóm phác thảo"
 
 #: src/GNOME_Gnumeric.xml.h:38
 msgid "Combo Box"
@@ -10746,7 +10549,7 @@ msgstr "Hiện _công thức"
 
 #: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:3359
 msgid "Display _Outlines"
-msgstr ""
+msgstr "Hiện _phác thảo"
 
 #: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:3164
 msgid "Display the value of a formula or the formula itself"
@@ -10778,7 +10581,7 @@ msgstr "Sửa tên trang và workbook"
 
 #: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3210
 msgid "Edit the Gnumeric Preferences"
-msgstr ""
+msgstr "Sửa thông số Gnumeric"
 
 #: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3107
 msgid "Edit the selected cell's comment"
@@ -11846,49 +11649,40 @@ msgid "_Zoom..."
 msgstr "_Phóng to/thu nhỏ..."
 
 #: src/GNOME_Gnumeric_Component.xml.h:1
-#, fuzzy
 msgid "About the Gnumeric Spreadsheet Program"
-msgstr "Bảng tính Gnumeric"
+msgstr "Giới thiệu chương trình bảng tính Gnumeric"
 
 #: src/GNOME_Gnumeric_Component.xml.h:2
-#, fuzzy
 msgid "C_lear Cells"
-msgstr "Xoá _nội dung"
+msgstr "_Xoá ô"
 
 #: src/GNOME_Gnumeric_Component.xml.h:3
-#, fuzzy
 msgid "Cu_t Cells"
-msgstr "Đặ_t ô:"
+msgstr "_Cắt ô"
 
 #: src/GNOME_Gnumeric_Component.xml.h:4
-#, fuzzy
 msgid "P_roperties"
-msgstr "_Thuộc tính..."
+msgstr "_Thuộc tính"
 
 #: src/GNOME_Gnumeric_Component.xml.h:9
-#, fuzzy
 msgid "Search Workbook"
-msgstr "Gnumeric Workbook"
+msgstr "Tìm Workbook"
 
 #: src/GNOME_Gnumeric_Component.xml.h:12
-#, fuzzy
 msgid "View descriptive information"
-msgstr "Sửa thông tin mô tả"
+msgstr "Xem thông tin mô tả"
 
 #: src/GNOME_Gnumeric_Component.xml.h:13
-#, fuzzy
 msgid "_About Gnumeric"
-msgstr "Gnumeric"
+msgstr "_Giới thiệu Gnumeric"
 
 #: src/GNOME_Gnumeric_Component.xml.h:14
-#, fuzzy
 msgid "_Copy Cells"
-msgstr "Chép nhãn"
+msgstr "_Chép ô"
 
 #: src/GNOME_Gnumeric_Component.xml.h:18
-#, fuzzy
 msgid "_Paste Cells"
-msgstr "Định dạng ô"
+msgstr "_Dán ô"
 
 #: src/bonobo-io.c:89 src/workbook-view.c:657
 msgid "Unsupported file format."
@@ -11991,14 +11785,14 @@ msgid "Would split an array"
 msgstr "Tách dãy"
 
 #: src/commands.c:221
-#, fuzzy, c-format
+#, c-format
 msgid "%s is locked. Unprotect the workbook to enable editing."
-msgstr "Bỏ bảo vệ workbook để có thể sửa chữa"
+msgstr "%s bị khóa. Bỏ bảo vệ workbook để cho phép hiệu chỉnh."
 
 #: src/commands.c:222
-#, fuzzy, c-format
+#, c-format
 msgid "%s is locked. Unprotect the sheet to enable editing."
-msgstr "Bỏ bảo vệ trang để có thể sửa chữa."
+msgstr "%s bị khóa. Bỏ bảo vệ trang để cho phép hiệu chỉnh."
 
 #: src/commands.c:392
 msgid "..."
@@ -12093,9 +11887,8 @@ msgid "Clearing %s in %s"
 msgstr "Đang xóa %s trong %s"
 
 #: src/commands.c:1603
-#, fuzzy
 msgid "Changing Format"
-msgstr "Đang đổi định dạng của %s"
+msgstr "Đang đổi định dạng"
 
 #: src/commands.c:1729
 #, c-format
@@ -12158,9 +11951,8 @@ msgid "Setting height of rows %s to default"
 msgstr "Chỉnh độ cao của hàng %s về mặc định"
 
 #: src/commands.c:1936
-#, fuzzy
 msgid "Sorting"
-msgstr "Đang sắp xếp %s"
+msgstr "Đang sắp"
 
 #: src/commands.c:1956
 #, c-format
@@ -12346,7 +12138,7 @@ msgstr "Đang đổi màu Tab"
 
 #: src/commands.c:4421
 msgid "Changing Sheet Protection"
-msgstr ""
+msgstr "Bảo vệ trang tránh thay đổi"
 
 #: src/commands.c:4424
 msgid "Reorganizing Sheets"
@@ -13088,7 +12880,7 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:45
 msgid "Information  (allows invalid input)"
-msgstr ""
+msgstr "Thông tin (cho phép đầu vào không hợp lệ)"
 
 #: src/dialogs/cell-format.glade.h:46
 msgid "Input Message"
@@ -13152,7 +12944,7 @@ msgstr "Hướng"
 
 #: src/dialogs/cell-format.glade.h:62
 msgid "Outline"
-msgstr ""
+msgstr "Phác thảo"
 
 #: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:2669
 msgid "Pattern"
@@ -13477,9 +13269,8 @@ msgid "_Use Default"
 msgstr "Dùng _mặc định"
 
 #: src/dialogs/colrow.glade.h:1
-#, fuzzy
 msgid "Group/Ungroup"
-msgstr "Tách nhóm"
+msgstr "Nhóm/Tách nhóm"
 
 #: src/dialogs/consolidate.glade.h:1
 msgid "Add the entered area to the list of source areas"
@@ -13539,7 +13330,7 @@ msgstr "Min"
 
 #: src/dialogs/consolidate.glade.h:15
 msgid "Product"
-msgstr ""
+msgstr "Nhân"
 
 #: src/dialogs/consolidate.glade.h:16
 msgid "Source areas"
@@ -13886,7 +13677,6 @@ msgid "Could not create the Rank and  Percentile Tools dialog."
 msgstr "Không thể tạo hộp thoại Công cụ Hạng và tỷ lệ phần trăm."
 
 #: src/dialogs/dialog-analysis-tools.c:909
-#, fuzzy
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Không thể tạo hộp thoại Công cụ phân tích Fourier."
 
@@ -14253,7 +14043,7 @@ msgstr ""
 
 #: src/dialogs/dialog-function-select.c:218
 msgid "Recently Used"
-msgstr ""
+msgstr "Thường dùng"
 
 #: src/dialogs/dialog-function-select.c:420
 msgid "Could not create the function selector dialog."
@@ -14334,7 +14124,7 @@ msgstr "Định dạng biểu đồ"
 
 #: src/dialogs/dialog-graph-guru.c:1018
 msgid "Plot name"
-msgstr ""
+msgstr "Tên vẽ"
 
 #: src/dialogs/dialog-graph-guru.c:1021
 msgid "Series name"
@@ -14370,7 +14160,7 @@ msgstr "Dữ liệu vào"
 
 #: src/dialogs/dialog-merge.c:378
 msgid "Merge Field"
-msgstr ""
+msgstr "Trộn trường"
 
 #: src/dialogs/dialog-paste-special.c:40
 msgid "All"
@@ -14567,229 +14357,230 @@ msgid "Uniform"
 msgstr "Đồng dạng"
 
 #: src/dialogs/dialog-random-generator.c:104
+#: src/dialogs/dialog-random-generator.c:106
 msgid "_Lower Bound:"
 msgstr "Chặn _dưới:"
 
 #: src/dialogs/dialog-random-generator.c:104
+#: src/dialogs/dialog-random-generator.c:106
 msgid "_Upper Bound:"
 msgstr "Chặn _trên:"
 
 #: src/dialogs/dialog-random-generator.c:106
+msgid "Uniform Integer"
+msgstr "Số nguyên đồng nhất"
+
+#: src/dialogs/dialog-random-generator.c:109
 #: src/widgets/widget-font-selector.c:114
 msgid "Normal"
 msgstr "Bình thường"
 
-#: src/dialogs/dialog-random-generator.c:106
+#: src/dialogs/dialog-random-generator.c:109
 msgid "_Mean:"
 msgstr "_Kỳ vọng:"
 
-#: src/dialogs/dialog-random-generator.c:106
+#: src/dialogs/dialog-random-generator.c:109
 msgid "_Standard Deviation:"
 msgstr "Độ _lệch chuẩn:"
 
-#: src/dialogs/dialog-random-generator.c:108
+#: src/dialogs/dialog-random-generator.c:111
 #: src/tools/solver/reports-write.c:808
 msgid "Discrete"
 msgstr "Rời rạc"
 
-#: src/dialogs/dialog-random-generator.c:108
+#: src/dialogs/dialog-random-generator.c:111
 msgid "_Value And Probability Input Range:"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:114
+#: src/dialogs/dialog-random-generator.c:117
 msgid "Bernoulli"
 msgstr "Bernoulli"
 
-#: src/dialogs/dialog-random-generator.c:114
-#: src/dialogs/dialog-random-generator.c:118
-#: src/dialogs/dialog-random-generator.c:132
-#: src/dialogs/dialog-random-generator.c:138
-#: src/dialogs/dialog-random-generator.c:144
+#: src/dialogs/dialog-random-generator.c:117
+#: src/dialogs/dialog-random-generator.c:121
+#: src/dialogs/dialog-random-generator.c:137
+#: src/dialogs/dialog-random-generator.c:145
+#: src/dialogs/dialog-random-generator.c:151
 msgid "_p Value:"
 msgstr "Giá trị _p:"
 
-#: src/dialogs/dialog-random-generator.c:116
+#: src/dialogs/dialog-random-generator.c:119
 msgid "Beta"
-msgstr ""
+msgstr "Beta"
 
-#: src/dialogs/dialog-random-generator.c:116
-#: src/dialogs/dialog-random-generator.c:120
-#: src/dialogs/dialog-random-generator.c:126
-#: src/dialogs/dialog-random-generator.c:130
-#: src/dialogs/dialog-random-generator.c:134
-#: src/dialogs/dialog-random-generator.c:140
+#: src/dialogs/dialog-random-generator.c:119
+#: src/dialogs/dialog-random-generator.c:123
+#: src/dialogs/dialog-random-generator.c:129
+#: src/dialogs/dialog-random-generator.c:133
+#: src/dialogs/dialog-random-generator.c:135
+#: src/dialogs/dialog-random-generator.c:141
 #: src/dialogs/dialog-random-generator.c:147
-#: src/dialogs/dialog-random-generator.c:153
-#: src/dialogs/dialog-random-generator.c:157
-#: src/dialogs/dialog-random-generator.c:159
-#: src/dialogs/dialog-random-generator.c:161
-#, fuzzy
+#: src/dialogs/dialog-random-generator.c:154
+#: src/dialogs/dialog-random-generator.c:160
+#: src/dialogs/dialog-random-generator.c:164
+#: src/dialogs/dialog-random-generator.c:166
+#: src/dialogs/dialog-random-generator.c:168
 msgid "_a Value:"
-msgstr "Giá trị _p:"
+msgstr "Giá trị _a:"
 
-#: src/dialogs/dialog-random-generator.c:116
-#: src/dialogs/dialog-random-generator.c:124
-#: src/dialogs/dialog-random-generator.c:126
-#: src/dialogs/dialog-random-generator.c:130
-#: src/dialogs/dialog-random-generator.c:147
-#: src/dialogs/dialog-random-generator.c:157
-#: src/dialogs/dialog-random-generator.c:159
-#: src/dialogs/dialog-random-generator.c:161
+#: src/dialogs/dialog-random-generator.c:119
+#: src/dialogs/dialog-random-generator.c:127
+#: src/dialogs/dialog-random-generator.c:129
+#: src/dialogs/dialog-random-generator.c:133
+#: src/dialogs/dialog-random-generator.c:154
+#: src/dialogs/dialog-random-generator.c:164
+#: src/dialogs/dialog-random-generator.c:166
+#: src/dialogs/dialog-random-generator.c:168
 msgid "_b Value:"
 msgstr "Giá trị _b:"
 
-#: src/dialogs/dialog-random-generator.c:118
+#: src/dialogs/dialog-random-generator.c:121
 msgid "Binomial"
 msgstr "Nhị thức"
 
-#: src/dialogs/dialog-random-generator.c:118
+#: src/dialogs/dialog-random-generator.c:121
 msgid "N_umber of Trials:"
 msgstr "_Số phép thử:"
 
-#: src/dialogs/dialog-random-generator.c:120
+#: src/dialogs/dialog-random-generator.c:123
 msgid "Cauchy"
-msgstr ""
+msgstr "Cauchy"
 
-#: src/dialogs/dialog-random-generator.c:122
+#: src/dialogs/dialog-random-generator.c:125
 msgid "Chisq"
-msgstr ""
+msgstr "Chisq"
 
-#: src/dialogs/dialog-random-generator.c:122
-#, fuzzy
+#: src/dialogs/dialog-random-generator.c:125
 msgid "_nu Value:"
-msgstr "Giá trị _p:"
+msgstr "Giá trị _nu:"
 
-#: src/dialogs/dialog-random-generator.c:124
+#: src/dialogs/dialog-random-generator.c:127
 msgid "Exponential"
 msgstr "Mũ"
 
-#: src/dialogs/dialog-random-generator.c:126
-#, fuzzy
+#: src/dialogs/dialog-random-generator.c:129
 msgid "Exponential Power"
-msgstr "Mũ"
+msgstr "Mũ e"
 
-#: src/dialogs/dialog-random-generator.c:128
+#: src/dialogs/dialog-random-generator.c:131
 msgid "F"
-msgstr ""
+msgstr "F"
 
-#: src/dialogs/dialog-random-generator.c:128
-#, fuzzy
+#: src/dialogs/dialog-random-generator.c:131
 msgid "nu_1 Value:"
-msgstr "Giá trị _b:"
+msgstr "Giá trị nu_1:"
 
-#: src/dialogs/dialog-random-generator.c:128
-#, fuzzy
+#: src/dialogs/dialog-random-generator.c:131
 msgid "nu_2 Value:"
-msgstr "Giá trị _b:"
+msgstr "Giá trị nu_2:"
 
-#: src/dialogs/dialog-random-generator.c:130
+#: src/dialogs/dialog-random-generator.c:133
 msgid "Gamma"
-msgstr ""
+msgstr "Gamma"
 
-#: src/dialogs/dialog-random-generator.c:132
-#, fuzzy
+#: src/dialogs/dialog-random-generator.c:135
+msgid "Gaussian Tail"
+msgstr "Đuôi Gauss"
+
+#: src/dialogs/dialog-random-generator.c:135
+#: src/dialogs/dialog-random-generator.c:149
+msgid "_Sigma"
+msgstr "_Sigma"
+
+#: src/dialogs/dialog-random-generator.c:137
 msgid "Geometric"
-msgstr "Gnumeric"
+msgstr "Hình học"
 
-#: src/dialogs/dialog-random-generator.c:134
-#, fuzzy
+#: src/dialogs/dialog-random-generator.c:139
+msgid "Landau"
+msgstr "Landau"
+
+#: src/dialogs/dialog-random-generator.c:141
 msgid "Laplace"
-msgstr "Space"
+msgstr "Laplace"
 
-#: src/dialogs/dialog-random-generator.c:136
+#: src/dialogs/dialog-random-generator.c:143
 msgid "Levy alpha-Stable"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:136
-#, fuzzy
+#: src/dialogs/dialog-random-generator.c:143
 msgid "_c Value:"
-msgstr "Giá trị _p:"
+msgstr "Giá trị _c:"
 
-#: src/dialogs/dialog-random-generator.c:136
-#, fuzzy
+#: src/dialogs/dialog-random-generator.c:143
 msgid "_alpha:"
-msgstr "_Alpha ="
+msgstr "_alpha:"
 
-#: src/dialogs/dialog-random-generator.c:138
+#: src/dialogs/dialog-random-generator.c:145
 msgid "Logarithmic"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:140
-#, fuzzy
+#: src/dialogs/dialog-random-generator.c:147
 msgid "Logistic"
-msgstr "Danh sách"
-
-#: src/dialogs/dialog-random-generator.c:142
-#, fuzzy
-msgid "Lognormal"
-msgstr "Bình thường"
-
-#: src/dialogs/dialog-random-generator.c:142
-#, fuzzy
-msgid "_Zeta Value:"
-msgstr "Giá trị _p:"
-
-#: src/dialogs/dialog-random-generator.c:142
-msgid "_Sigma"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:144
+#: src/dialogs/dialog-random-generator.c:149
+msgid "Lognormal"
+msgstr "Log thường"
+
+#: src/dialogs/dialog-random-generator.c:149
+msgid "_Zeta Value:"
+msgstr "Giá trị _Zeta:"
+
+#: src/dialogs/dialog-random-generator.c:151
 msgid "Negative Binomial"
 msgstr "Nhị thức âm"
 
-#: src/dialogs/dialog-random-generator.c:145
+#: src/dialogs/dialog-random-generator.c:152
 msgid "N_umber of Failures"
 msgstr "Số phép thử _không thành công"
 
-#: src/dialogs/dialog-random-generator.c:147
-#, fuzzy
+#: src/dialogs/dialog-random-generator.c:154
 msgid "Pareto"
-msgstr "Đích"
+msgstr "Pareto"
 
-#: src/dialogs/dialog-random-generator.c:149
+#: src/dialogs/dialog-random-generator.c:156
 msgid "Poisson"
 msgstr "Poisson"
 
-#: src/dialogs/dialog-random-generator.c:149
+#: src/dialogs/dialog-random-generator.c:156
 msgid "_Lambda:"
 msgstr "_Lambda:"
 
-#: src/dialogs/dialog-random-generator.c:151
-#, fuzzy
+#: src/dialogs/dialog-random-generator.c:158
 msgid "Rayleigh"
-msgstr "Phải"
+msgstr "Rayleigh"
 
-#: src/dialogs/dialog-random-generator.c:151
-#: src/dialogs/dialog-random-generator.c:153
+#: src/dialogs/dialog-random-generator.c:158
+#: src/dialogs/dialog-random-generator.c:160
 msgid "_Sigma:"
-msgstr ""
+msgstr "_Sigma:"
 
-#: src/dialogs/dialog-random-generator.c:153
+#: src/dialogs/dialog-random-generator.c:160
 msgid "Rayleigh Tail"
-msgstr ""
+msgstr "Đuôi Rayleigh"
 
-#: src/dialogs/dialog-random-generator.c:155
+#: src/dialogs/dialog-random-generator.c:162
 msgid "T"
-msgstr ""
+msgstr "T"
 
-#: src/dialogs/dialog-random-generator.c:155
-#, fuzzy
+#: src/dialogs/dialog-random-generator.c:162
 msgid "nu Value:"
-msgstr "Giá trị _b:"
+msgstr "Giá trị _nu:"
 
-#: src/dialogs/dialog-random-generator.c:157
+#: src/dialogs/dialog-random-generator.c:164
 msgid "Type I Gumbel"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:159
+#: src/dialogs/dialog-random-generator.c:166
 msgid "Type II Gumbel"
 msgstr ""
 
-#: src/dialogs/dialog-random-generator.c:161
+#: src/dialogs/dialog-random-generator.c:168
 msgid "Weibull"
-msgstr ""
+msgstr "Weibull"
 
-#: src/dialogs/dialog-random-generator.c:842
+#: src/dialogs/dialog-random-generator.c:889
 msgid "Could not create the Random Tool dialog."
 msgstr "Không thể tạo hộp thoại Công cụ ngẫu nhiên."
 
@@ -14809,11 +14600,11 @@ msgstr "Bạn phải chọn vài loại ô để tìm kiếm."
 
 #: src/dialogs/dialog-search-replace.c:322
 msgid "Perform no more replacements"
-msgstr ""
+msgstr "Không thay thế nữa"
 
 #: src/dialogs/dialog-search-replace.c:326
 msgid "Do not perform this replacement"
-msgstr ""
+msgstr "Không thực hiện thay thế này"
 
 #: src/dialogs/dialog-search-replace.c:330
 msgid "Perform this replacement"
@@ -14845,7 +14636,7 @@ msgstr "Tên mới"
 
 #: src/dialogs/dialog-sheet-order.c:608
 msgid "Deletion of sheets is not undoable. Do you want to proceed?"
-msgstr ""
+msgstr "Xóa trang là công việc không thể phục hồi. Bạn có muốn thực hiện không?"
 
 #: src/dialogs/dialog-sheet-order.c:740 src/dialogs/dialog-sheet-order.c:752
 msgid "Default"
@@ -14910,7 +14701,7 @@ msgstr ""
 
 #: src/dialogs/dialog-solver.c:799
 msgid "Unknown error."
-msgstr ""
+msgstr "Lỗi lạ."
 
 #: src/dialogs/dialog-solver.c:816
 msgid "You have not specified a problem to be solved"
@@ -15400,23 +15191,23 @@ msgstr ""
 
 #: src/dialogs/dialog-tabulate.c:420
 msgid "You should introduce a valid number as minimum"
-msgstr ""
+msgstr "Giá trị tối thiểu phải hợp lệ"
 
 #: src/dialogs/dialog-tabulate.c:428
 msgid "You should introduce a valid number as maximum"
-msgstr ""
+msgstr "Giá trị tối đa phải hợp lệ"
 
 #: src/dialogs/dialog-tabulate.c:435
 msgid "The maximum value should be bigger than the minimum"
-msgstr ""
+msgstr "Giá trị tối đa phải lớn hơn giá trị tối thiểu"
 
 #: src/dialogs/dialog-tabulate.c:443
 msgid "You should introduce a valid number as step size"
-msgstr ""
+msgstr "Cỡ bước phải là số hợp lệ"
 
 #: src/dialogs/dialog-tabulate.c:450
 msgid "The step size should be positive"
-msgstr ""
+msgstr "Cỡ bước phải là số dương"
 
 #: src/dialogs/dialog-tabulate.c:460
 msgid "You should introduce one or more dependency cells"
@@ -15428,7 +15219,7 @@ msgstr ""
 
 #: src/dialogs/dialog-tabulate.c:476
 msgid "The target cell should contain an expression"
-msgstr ""
+msgstr "Ô đích không được chứa biểu thức"
 
 #: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3934
 #, no-c-format
@@ -15484,7 +15275,7 @@ msgstr "_Vừa khớp vùng chọn %"
 
 #: src/dialogs/exp-smoothing.glade.h:1
 msgid "0.2"
-msgstr ""
+msgstr "0.2"
 
 #: src/dialogs/exp-smoothing.glade.h:4 src/tools/analysis-tools.c:2646
 #: src/tools/analysis-tools.c:2649
@@ -15492,9 +15283,8 @@ msgid "Exponential Smoothing"
 msgstr "Mượt theo mũ"
 
 #: src/dialogs/exp-smoothing.glade.h:12
-#, fuzzy
 msgid "_Damping factor:"
-msgstr "Cách lấy mẫu:"
+msgstr ""
 
 #: src/dialogs/exp-smoothing.glade.h:18 src/dialogs/moving-averages.glade.h:18
 msgid "_Standard Errors"
@@ -15590,7 +15380,7 @@ msgstr "_Hoàn tất"
 
 #: src/dialogs/graph-guru.glade.h:5
 msgid "_Plot"
-msgstr ""
+msgstr "_Vẽ"
 
 #: src/dialogs/graph-guru.glade.h:6
 msgid "_Series"
@@ -15863,9 +15653,8 @@ msgid "_Scan plugin directories"
 msgstr ""
 
 #: src/dialogs/preferences.glade.h:1
-#, fuzzy
 msgid "Gnumeric Preferences"
-msgstr "Đổi thông số Gnumeric"
+msgstr "Thông số Gnumeric"
 
 #: src/dialogs/print.glade.h:2
 #, no-c-format
@@ -15878,7 +15667,7 @@ msgstr "Á_p dụng cho:"
 
 #: src/dialogs/print.glade.h:4
 msgid "Apply to _all sheets."
-msgstr ""
+msgstr "Áp dụng cho _mọi trang."
 
 #: src/dialogs/print.glade.h:5
 msgid "Center on page"
@@ -15996,8 +15785,8 @@ msgstr "Số _biến:"
 msgid "Random Number Generation"
 msgstr "Phát sinh số ngẫu nghiên"
 
-#: src/dialogs/random-generation.glade.h:8 src/tools/random-generator.c:625
-#: src/tools/random-generator.c:628
+#: src/dialogs/random-generation.glade.h:8 src/tools/random-generator.c:676
+#: src/tools/random-generator.c:679
 msgid "Random Numbers"
 msgstr "Số ngẫu nhiên"
 
@@ -16031,7 +15820,7 @@ msgstr "0.95"
 
 #: src/dialogs/regression.glade.h:4
 msgid "Confidence Level:"
-msgstr ""
+msgstr "Mức tin tưởng:"
 
 #: src/dialogs/regression.glade.h:9 src/tools/analysis-tools.c:2432
 #: src/tools/analysis-tools.c:2435
@@ -16072,7 +15861,7 @@ msgstr "Cỡ mẫu:"
 
 #: src/dialogs/sampling.glade.h:17
 msgid "_Input Range: "
-msgstr ""
+msgstr "Phạm vi _nhập: "
 
 #: src/dialogs/sampling.glade.h:21
 msgid "_Periodic"
@@ -16624,11 +16413,11 @@ msgstr "Xem"
 
 #: src/dialogs/workbook-attr.glade.h:4
 msgid "Workbook _Protected"
-msgstr ""
+msgstr "Workbook được bảo _vệ"
 
 #: src/dialogs/workbook-attr.glade.h:5
 msgid "_Auto Complete Text in Cells"
-msgstr ""
+msgstr "_Tự động hoàn thành chữ trong ô"
 
 #: src/dialogs/workbook-attr.glade.h:6
 msgid "_Horizontal Scrollbar"
@@ -16653,7 +16442,7 @@ msgstr "đã định nghĩa toàn cục"
 #: src/expr-name.c:286
 #, c-format
 msgid "'%s' has a circular reference"
-msgstr ""
+msgstr "'%s' có tham chiếu vòng"
 
 #: src/expr-name.c:448
 msgid "Builtin"
@@ -16811,7 +16600,7 @@ msgstr "[$AFA]"
 
 #: src/formats.c:259
 msgid "Afghanistan afghani"
-msgstr ""
+msgstr "Afghani (Afghanistan)"
 
 #: src/formats.c:260
 msgid "[$ALL]"
@@ -16819,7 +16608,7 @@ msgstr "[$ALL]"
 
 #: src/formats.c:260
 msgid "Albanian lek"
-msgstr ""
+msgstr "Lek (Albania)"
 
 #: src/formats.c:261
 msgid "[$ANG]"
@@ -16843,7 +16632,7 @@ msgstr "[$ARA]"
 
 #: src/formats.c:263
 msgid "Argentine peso"
-msgstr ""
+msgstr "Pese (Achentina)"
 
 #: src/formats.c:264
 msgid "[$ATS]"
@@ -16851,7 +16640,7 @@ msgstr "[$ATS]"
 
 #: src/formats.c:264
 msgid "Austrian schilling"
-msgstr ""
+msgstr "Schilling (Áo)"
 
 #: src/formats.c:265
 msgid "[$AUD]"
@@ -16883,7 +16672,7 @@ msgstr "[$BDT]"
 
 #: src/formats.c:268
 msgid "Bangladeshi taka"
-msgstr ""
+msgstr "Taka (Bangladesh)"
 
 #: src/formats.c:269
 msgid "[$BEF]"
@@ -16891,7 +16680,7 @@ msgstr "[$BEF]"
 
 #: src/formats.c:269
 msgid "Belgian franc"
-msgstr ""
+msgstr "Franc (Bỉ)"
 
 #: src/formats.c:270
 msgid "[$BGL]"
@@ -16899,7 +16688,7 @@ msgstr "[$BGL]"
 
 #: src/formats.c:270
 msgid "Bulgarian lev"
-msgstr ""
+msgstr "Lev (Bulgari)"
 
 #: src/formats.c:271
 msgid "[$BHD]"
@@ -16907,7 +16696,7 @@ msgstr "[$BHD]"
 
 #: src/formats.c:271
 msgid "Bahraini dinar"
-msgstr ""
+msgstr "Dinar (Bahrain)"
 
 #: src/formats.c:272
 msgid "[$BIF]"
@@ -16915,7 +16704,7 @@ msgstr "[$BIF]"
 
 #: src/formats.c:272
 msgid "Burundi franc"
-msgstr ""
+msgstr "Franc (Burundi)"
 
 #: src/formats.c:273
 msgid "[$BMD]"
@@ -16923,7 +16712,7 @@ msgstr "[$BMD]"
 
 #: src/formats.c:273
 msgid "Bermudian dollar"
-msgstr ""
+msgstr "Dollar (Bermundia)"
 
 #: src/formats.c:274
 msgid "[$BND]"
@@ -16931,7 +16720,7 @@ msgstr "[$BND]"
 
 #: src/formats.c:274
 msgid "Brunei dollar"
-msgstr ""
+msgstr "Dollar (Brunei)"
 
 #: src/formats.c:275
 msgid "[$BOB]"
@@ -16939,7 +16728,7 @@ msgstr "[$BOB]"
 
 #: src/formats.c:275
 msgid "Bolivian boliviano"
-msgstr ""
+msgstr "Boliviano (Bolivia)"
 
 #: src/formats.c:276
 msgid "[$BRE]"
@@ -16947,7 +16736,7 @@ msgstr "[$BRE]"
 
 #: src/formats.c:276
 msgid "Brazilian real"
-msgstr ""
+msgstr "Real (Brazil)"
 
 #: src/formats.c:277
 msgid "[$BSD]"
@@ -16955,7 +16744,7 @@ msgstr "[$BSD]"
 
 #: src/formats.c:277
 msgid "Bahamian dollar"
-msgstr ""
+msgstr "Dollar (Bahamas)"
 
 #: src/formats.c:278
 msgid "[$BTN]"
@@ -16963,7 +16752,7 @@ msgstr "[$BTN]"
 
 #: src/formats.c:278
 msgid "Bhutan ngultrum"
-msgstr ""
+msgstr "Ngultrum (Bhutan)"
 
 #: src/formats.c:279
 msgid "[$BWP]"
@@ -16979,7 +16768,7 @@ msgstr "[$BYB]"
 
 #: src/formats.c:280
 msgid "Belarussian ruble"
-msgstr ""
+msgstr "Ruble (Belarus)"
 
 #: src/formats.c:281
 msgid "[$BZD]"
@@ -16987,7 +16776,7 @@ msgstr "[$BZD]"
 
 #: src/formats.c:281
 msgid "Belize dollar"
-msgstr ""
+msgstr "Dollar (Belize)"
 
 #: src/formats.c:282
 msgid "[$CAD]"
@@ -16995,7 +16784,7 @@ msgstr "[$CAD]"
 
 #: src/formats.c:282
 msgid "Canadian dollar"
-msgstr ""
+msgstr "Dollar (Canada)"
 
 #: src/formats.c:283
 msgid "[$CHF]"
@@ -17003,7 +16792,7 @@ msgstr "[$CHF]"
 
 #: src/formats.c:283
 msgid "Swiss franc"
-msgstr ""
+msgstr "Franc (Thụy Sĩ)"
 
 #: src/formats.c:284
 msgid "[$CLP]"
@@ -17019,7 +16808,7 @@ msgstr "[$CNY]"
 
 #: src/formats.c:285
 msgid "Chinese yuan renminbi"
-msgstr ""
+msgstr "Nhân dân tệ (Trung Quốc)"
 
 #: src/formats.c:286
 msgid "[$COP]"
@@ -17035,7 +16824,7 @@ msgstr "[$CRC]"
 
 #: src/formats.c:287
 msgid "Costa Rican colon"
-msgstr ""
+msgstr "Colon (Costa Rica)"
 
 #: src/formats.c:288
 msgid "[$CSK]"
@@ -17059,7 +16848,7 @@ msgstr "[$CVE]"
 
 #: src/formats.c:290
 msgid "Cape Verde escudo"
-msgstr ""
+msgstr "Escudo (Mũi Verde)"
 
 #: src/formats.c:291
 msgid "[$CYP]"
@@ -17067,7 +16856,7 @@ msgstr "[$CYP]"
 
 #: src/formats.c:291
 msgid "Cyprus pound"
-msgstr ""
+msgstr "Pound (Cyprus)"
 
 #: src/formats.c:292
 msgid "[$DEM]"
@@ -17091,7 +16880,7 @@ msgstr "[$DKK]"
 
 #: src/formats.c:294
 msgid "Danish krone"
-msgstr ""
+msgstr "Krone (Đan Mạch)"
 
 #: src/formats.c:295
 msgid "[$DOP]"
@@ -17099,7 +16888,7 @@ msgstr "[$DOP]"
 
 #: src/formats.c:295
 msgid "Dominican peso"
-msgstr ""
+msgstr "Peso (Dominica)"
 
 #: src/formats.c:296
 msgid "[$DZD]"
@@ -17107,7 +16896,7 @@ msgstr "[$DZD]"
 
 #: src/formats.c:296
 msgid "Algerian dinar"
-msgstr ""
+msgstr "Dinar (Algeri)"
 
 #: src/formats.c:297
 msgid "[$ECS]"
@@ -17115,7 +16904,7 @@ msgstr "[$ECS]"
 
 #: src/formats.c:297
 msgid "Ecuador sucre"
-msgstr ""
+msgstr "Sucre (Ecuador)"
 
 #: src/formats.c:298
 msgid "[$EGP]"
@@ -17123,7 +16912,7 @@ msgstr "[$EGP]"
 
 #: src/formats.c:298
 msgid "Egyptian pound"
-msgstr ""
+msgstr "Pound (Ai Cập)"
 
 #: src/formats.c:299
 msgid "[$ESP]"
@@ -17131,7 +16920,7 @@ msgstr "[$ESP]"
 
 #: src/formats.c:299
 msgid "Spanish peseta"
-msgstr ""
+msgstr "Peseta (Tây Ban Nha)"
 
 #: src/formats.c:300
 msgid "[$ETB]"
@@ -17139,7 +16928,7 @@ msgstr "[$ETB]"
 
 #: src/formats.c:300
 msgid "Ethiopian birr"
-msgstr ""
+msgstr "Birr (Ethiopie)"
 
 #: src/formats.c:301
 msgid "[$EUR]"
@@ -17147,7 +16936,7 @@ msgstr "[$EUR]"
 
 #: src/formats.c:301
 msgid "Euro"
-msgstr ""
+msgstr "Euro"
 
 #: src/formats.c:302
 msgid "[$FIM]"
@@ -17155,7 +16944,7 @@ msgstr "[$FIM]"
 
 #: src/formats.c:302
 msgid "Finnish markka"
-msgstr ""
+msgstr "Markka (Phần Lan)"
 
 #: src/formats.c:303
 msgid "[$FJD]"
@@ -17163,7 +16952,7 @@ msgstr "[$FJD]"
 
 #: src/formats.c:303
 msgid "Fiji dollar"
-msgstr ""
+msgstr "Dollar (Fiji)"
 
 #: src/formats.c:304
 msgid "[$FKP]"
@@ -17171,7 +16960,7 @@ msgstr "[$FKP]"
 
 #: src/formats.c:304
 msgid "Falkland Islands pound"
-msgstr ""
+msgstr "Pound (Đảo Falkland)"
 
 #: src/formats.c:305
 msgid "[$FRF]"
@@ -17179,7 +16968,7 @@ msgstr "[$FRF]"
 
 #: src/formats.c:305
 msgid "French franc"
-msgstr ""
+msgstr "Franc (Pháp)"
 
 #: src/formats.c:306
 msgid "[$GBP]"
@@ -17195,7 +16984,7 @@ msgstr "[$GHC]"
 
 #: src/formats.c:307
 msgid "Ghanaian cedi"
-msgstr ""
+msgstr "Cedi (Ghana)"
 
 #: src/formats.c:308
 msgid "[$GIP]"
@@ -17203,7 +16992,7 @@ msgstr "[$GIP]"
 
 #: src/formats.c:308
 msgid "Gibraltar pound"
-msgstr ""
+msgstr "Pound (Gibraltar)"
 
 #: src/formats.c:309
 msgid "[$GMD]"
@@ -17211,7 +17000,7 @@ msgstr "[$GMD]"
 
 #: src/formats.c:309
 msgid "Gambian dalasi"
-msgstr ""
+msgstr "Dalasi (Gambia)"
 
 #: src/formats.c:310
 msgid "[$GNF]"
@@ -17219,7 +17008,7 @@ msgstr "[$GNF]"
 
 #: src/formats.c:310
 msgid "Guinea franc"
-msgstr ""
+msgstr "Franc (Guinea)"
 
 #: src/formats.c:311
 msgid "[$GRD]"
@@ -17227,7 +17016,7 @@ msgstr "[$GRD]"
 
 #: src/formats.c:311
 msgid "Greek drachma"
-msgstr ""
+msgstr "Drachma (Hy Lạp)"
 
 #: src/formats.c:312
 msgid "[$GTQ]"
@@ -17235,7 +17024,7 @@ msgstr "[$GTQ]"
 
 #: src/formats.c:312
 msgid "Guatemalan quetzal"
-msgstr ""
+msgstr "Quetzal (Guatemala)"
 
 #: src/formats.c:313
 msgid "[$GWP]"
@@ -17243,7 +17032,7 @@ msgstr "[$GWP]"
 
 #: src/formats.c:313
 msgid "Guinea-Bissau peso"
-msgstr ""
+msgstr "Peso (Guinea-Bissau)"
 
 #: src/formats.c:314
 msgid "[$GYD]"
@@ -17251,7 +17040,7 @@ msgstr "[$GYD]"
 
 #: src/formats.c:314
 msgid "Guyanan dollar"
-msgstr ""
+msgstr "Dollar (Guyana)"
 
 #: src/formats.c:315
 msgid "[$HKD]"
@@ -17259,7 +17048,7 @@ msgstr "[$HKD]"
 
 #: src/formats.c:315
 msgid "Hong Kong dollar"
-msgstr ""
+msgstr "Dollar Hồng Kông"
 
 #: src/formats.c:316
 msgid "[$HNL]"
@@ -17267,7 +17056,7 @@ msgstr "[$HNL]"
 
 #: src/formats.c:316
 msgid "Honduran lempira"
-msgstr ""
+msgstr "Lempira (Honduras)"
 
 #: src/formats.c:317
 msgid "[$HRK]"
@@ -17275,7 +17064,7 @@ msgstr "[$HRK]"
 
 #: src/formats.c:317
 msgid "Croatian kuna"
-msgstr ""
+msgstr "Kuna (Croatia)"
 
 #: src/formats.c:318
 msgid "[$HTG]"
@@ -17283,7 +17072,7 @@ msgstr "[$HTG]"
 
 #: src/formats.c:318
 msgid "Haitian gourde"
-msgstr ""
+msgstr "Gourde (Haiti)"
 
 #: src/formats.c:319
 msgid "[$HUF]"
@@ -17291,7 +17080,7 @@ msgstr "[$HUF]"
 
 #: src/formats.c:319
 msgid "Hungarian forint"
-msgstr ""
+msgstr "Forint (Hungari)"
 
 #: src/formats.c:320
 msgid "[$IDR]"
@@ -17299,7 +17088,7 @@ msgstr "[$IDR]"
 
 #: src/formats.c:320
 msgid "Indonesian rupiah"
-msgstr ""
+msgstr "Rupiah (Indonesia)"
 
 #: src/formats.c:321
 msgid "[$IEP]"
@@ -17307,7 +17096,7 @@ msgstr "[$IEP]"
 
 #: src/formats.c:321
 msgid "Irish punt"
-msgstr ""
+msgstr "Pint (Ai Len)"
 
 #: src/formats.c:322
 msgid "[$IEX]"
@@ -17323,7 +17112,7 @@ msgstr "[$ILS]"
 
 #: src/formats.c:323
 msgid "Israeli shekel"
-msgstr ""
+msgstr "Shekel (Israel)"
 
 #: src/formats.c:324
 msgid "[$INR]"
@@ -17331,7 +17120,7 @@ msgstr "[$INR]"
 
 #: src/formats.c:324
 msgid "Indian rupee"
-msgstr ""
+msgstr "Ruppee (Ấn Độ)"
 
 #: src/formats.c:325
 msgid "[$IQD]"
@@ -17339,7 +17128,7 @@ msgstr "[$IQD]"
 
 #: src/formats.c:325
 msgid "Iraqi dinar"
-msgstr ""
+msgstr "Dinar (I Rắc)"
 
 #: src/formats.c:326
 msgid "[$IRR]"
@@ -17347,7 +17136,7 @@ msgstr "[$IRR]"
 
 #: src/formats.c:326
 msgid "Iranian rial"
-msgstr ""
+msgstr "Rial (I Ran)"
 
 #: src/formats.c:327
 msgid "[$ISK]"
@@ -17355,7 +17144,7 @@ msgstr "[$ISK]"
 
 #: src/formats.c:327
 msgid "Iceland krona"
-msgstr ""
+msgstr "Krona (Ai xơ len)"
 
 #: src/formats.c:328
 msgid "[$ITL]"
@@ -17363,7 +17152,7 @@ msgstr "[$ITL]"
 
 #: src/formats.c:328
 msgid "Italian lira"
-msgstr ""
+msgstr "Lira (Ý)"
 
 #: src/formats.c:329
 msgid "[$JMD]"
@@ -17371,7 +17160,7 @@ msgstr "[$JMD]"
 
 #: src/formats.c:329
 msgid "Jamaican dollar"
-msgstr ""
+msgstr "Dollar (Jamaica)"
 
 #: src/formats.c:330
 msgid "[$JOD]"
@@ -17379,7 +17168,7 @@ msgstr "[$JOD]"
 
 #: src/formats.c:330
 msgid "Jordanian dinar"
-msgstr ""
+msgstr "Dinar (Jordani)"
 
 #: src/formats.c:331
 msgid "[$JPY]"
@@ -17387,7 +17176,7 @@ msgstr "[$JPY]"
 
 #: src/formats.c:331
 msgid "Japanese yen"
-msgstr ""
+msgstr "Yen (Nhật)"
 
 #: src/formats.c:332
 msgid "[$KES]"
@@ -17395,7 +17184,7 @@ msgstr "[$KES]"
 
 #: src/formats.c:332
 msgid "Kenyan shilling"
-msgstr ""
+msgstr "Shilling (Kenya)"
 
 #: src/formats.c:333
 msgid "[$KHR]"
@@ -17403,7 +17192,7 @@ msgstr "[$KHR]"
 
 #: src/formats.c:333
 msgid "Kampuchean riel"
-msgstr ""
+msgstr "Riel (Campuchia)"
 
 #: src/formats.c:334
 msgid "[$KMF]"
@@ -17411,7 +17200,7 @@ msgstr "[$KMF]"
 
 #: src/formats.c:334
 msgid "Comoros franc"
-msgstr ""
+msgstr "Franc (Comoros)"
 
 #: src/formats.c:335
 msgid "[$KPW]"
@@ -17419,7 +17208,7 @@ msgstr "[$KPW]"
 
 #: src/formats.c:335
 msgid "North Korean won"
-msgstr ""
+msgstr "Won (Bắc Hàn)"
 
 #: src/formats.c:336
 msgid "[$KRW]"
@@ -17427,7 +17216,7 @@ msgstr "[$KRW]"
 
 #: src/formats.c:336
 msgid "Republic of Korea won"
-msgstr ""
+msgstr "Won (Triều Tiên)"
 
 #: src/formats.c:337
 msgid "[$KWD]"
@@ -17435,7 +17224,7 @@ msgstr "[$KWD]"
 
 #: src/formats.c:337
 msgid "Kuwaiti dinar"
-msgstr ""
+msgstr "Dinar (Kuwait)"
 
 #: src/formats.c:338
 msgid "[$KYD]"
@@ -17443,7 +17232,7 @@ msgstr "[$KYD]"
 
 #: src/formats.c:338
 msgid "Cayman Islands dollar"
-msgstr ""
+msgstr "Dollar (Đảo Cayman)"
 
 #: src/formats.c:339
 msgid "[$LAK]"
@@ -17451,7 +17240,7 @@ msgstr "[$LAK]"
 
 #: src/formats.c:339
 msgid "Lao kip"
-msgstr ""
+msgstr "Kip (Lào)"
 
 #: src/formats.c:340
 msgid "[$LBP]"
@@ -17459,7 +17248,7 @@ msgstr "[$LBP]"
 
 #: src/formats.c:340
 msgid "Lebanese pound"
-msgstr ""
+msgstr "Pound (Leban)"
 
 #: src/formats.c:341
 msgid "[$LKR]"
@@ -17467,7 +17256,7 @@ msgstr "[$LKR]"
 
 #: src/formats.c:341
 msgid "Sri Lanka rupee"
-msgstr ""
+msgstr "Rupee (Srk Lanka)"
 
 #: src/formats.c:342
 msgid "[$LRD]"
@@ -17475,7 +17264,7 @@ msgstr "[$LRD]"
 
 #: src/formats.c:342
 msgid "Liberian dollar"
-msgstr ""
+msgstr "Dollar (Liberia)"
 
 #: src/formats.c:343
 msgid "[$LSL]"
@@ -17483,7 +17272,7 @@ msgstr "[$LSL]"
 
 #: src/formats.c:343
 msgid "Lesotho loti"
-msgstr ""
+msgstr "Loti (Lesotho)"
 
 #: src/formats.c:344
 msgid "[$LUF]"
@@ -17491,7 +17280,7 @@ msgstr "[$LUF]"
 
 #: src/formats.c:344
 msgid "Luxembourg franc"
-msgstr ""
+msgstr "Franc (Luxembourg)"
 
 #: src/formats.c:345
 msgid "[$LYD]"
@@ -17499,7 +17288,7 @@ msgstr "[$LYD]"
 
 #: src/formats.c:345
 msgid "Libyan dinar"
-msgstr ""
+msgstr "Dinar (Libi)"
 
 #: src/formats.c:346
 msgid "[$MAD]"
@@ -17507,7 +17296,7 @@ msgstr "[$MAD]"
 
 #: src/formats.c:346
 msgid "Moroccan dirham"
-msgstr ""
+msgstr "Dirham (Maroc)"
 
 #: src/formats.c:347
 msgid "[$MDL]"
@@ -17515,7 +17304,7 @@ msgstr "[$MDL]"
 
 #: src/formats.c:347
 msgid "Moldovan leu"
-msgstr ""
+msgstr "Leu (Moldova)"
 
 #: src/formats.c:348
 msgid "[$MGF]"
@@ -17523,7 +17312,7 @@ msgstr "[$MGF]"
 
 #: src/formats.c:348
 msgid "Malagasy franc"
-msgstr ""
+msgstr "Franc (Malagasy)"
 
 #: src/formats.c:349
 msgid "[$MLF]"
@@ -17531,7 +17320,7 @@ msgstr "[$MLF]"
 
 #: src/formats.c:349
 msgid "Mali franc"
-msgstr ""
+msgstr "Franc (Mali)"
 
 #: src/formats.c:350
 msgid "[$MMK]"
@@ -17539,7 +17328,7 @@ msgstr "[$MMK]"
 
 #: src/formats.c:350
 msgid "Myanmar kyat"
-msgstr ""
+msgstr "Kyat (Mianma)"
 
 #: src/formats.c:351
 msgid "[$MNT]"
@@ -17555,7 +17344,7 @@ msgstr "[$MOP]"
 
 #: src/formats.c:352
 msgid "Macau pataca"
-msgstr ""
+msgstr "Pataca (Ma Cao)"
 
 #: src/formats.c:353
 msgid "[$MRO]"
@@ -17563,7 +17352,7 @@ msgstr "[$MRO]"
 
 #: src/formats.c:353
 msgid "Mauritanian ouguiya"
-msgstr ""
+msgstr "Ouguiya (Mauritania)"
 
 #: src/formats.c:354
 msgid "[$MTL]"
@@ -17571,7 +17360,7 @@ msgstr "[$MTL]"
 
 #: src/formats.c:354
 msgid "Maltese lira"
-msgstr ""
+msgstr "Lira (Maltese)"
 
 #: src/formats.c:355
 msgid "[$MUR]"
@@ -17579,7 +17368,7 @@ msgstr "[$MUR]"
 
 #: src/formats.c:355
 msgid "Mauritius rupee"
-msgstr ""
+msgstr "Rupee (Mauritius)"
 
 #: src/formats.c:356
 msgid "[$MVR]"
@@ -17587,7 +17376,7 @@ msgstr "[$MVR]"
 
 #: src/formats.c:356
 msgid "Maldive rupee"
-msgstr ""
+msgstr "Rupee (Maldive)"
 
 #: src/formats.c:357
 msgid "[$MWK]"
@@ -17595,7 +17384,7 @@ msgstr "[$MWK]"
 
 #: src/formats.c:357
 msgid "Malawi kwacha"
-msgstr ""
+msgstr "Kwacha (Malawi)"
 
 #: src/formats.c:358
 msgid "[$MXP]"
@@ -17603,7 +17392,7 @@ msgstr "[$MXP]"
 
 #: src/formats.c:358
 msgid "Mexican peso"
-msgstr ""
+msgstr "Peso (Mexico)"
 
 #: src/formats.c:359
 msgid "[$MYR]"
@@ -17611,7 +17400,7 @@ msgstr "[$MYR]"
 
 #: src/formats.c:359
 msgid "Malaysian ringgit"
-msgstr ""
+msgstr "Ringgit (Malaysia)"
 
 #: src/formats.c:360
 msgid "[$MZM]"
@@ -17619,7 +17408,7 @@ msgstr "[$MZM]"
 
 #: src/formats.c:360
 msgid "Mozambique metical"
-msgstr ""
+msgstr "Metical (Mozambique)"
 
 #: src/formats.c:361
 msgid "[$NGN]"
@@ -17627,7 +17416,7 @@ msgstr "[$NGN]"
 
 #: src/formats.c:361
 msgid "Nigerian naira"
-msgstr ""
+msgstr "Naira (Nigeria)"
 
 #: src/formats.c:362
 msgid "[$NIO]"
@@ -17635,7 +17424,7 @@ msgstr "[$NIO]"
 
 #: src/formats.c:362
 msgid "Nicaraguan cordoba oro"
-msgstr ""
+msgstr "Cordoba Oro (Nicaragua)"
 
 #: src/formats.c:363
 msgid "[$NLG]"
@@ -17643,7 +17432,7 @@ msgstr "[$NLG]"
 
 #: src/formats.c:363
 msgid "Netherlands guilder"
-msgstr ""
+msgstr "Guilder (Hà Lan)"
 
 #: src/formats.c:364
 msgid "[$NOK]"
@@ -17651,7 +17440,7 @@ msgstr "[$NOK]"
 
 #: src/formats.c:364
 msgid "Norwegian krone"
-msgstr ""
+msgstr "Krone (Na Uy)"
 
 #: src/formats.c:365
 msgid "[$NPR]"
@@ -17659,7 +17448,7 @@ msgstr "[$NPR]"
 
 #: src/formats.c:365
 msgid "Nepalese rupee"
-msgstr ""
+msgstr "Rupee (Nepal)"
 
 #: src/formats.c:366
 msgid "[$NZD]"
@@ -17667,7 +17456,7 @@ msgstr "[$NZD]"
 
 #: src/formats.c:366
 msgid "New Zealand dollar"
-msgstr ""
+msgstr "Dollar (New Zealand)"
 
 #: src/formats.c:367
 msgid "[$OMR]"
@@ -17683,7 +17472,7 @@ msgstr "[$PAB]"
 
 #: src/formats.c:368
 msgid "Panamanian balboa"
-msgstr ""
+msgstr "Balboa (Panama)"
 
 #: src/formats.c:369
 msgid "[$PEI]"
@@ -17691,7 +17480,7 @@ msgstr "[$PEI]"
 
 #: src/formats.c:369
 msgid "Peruvian inti"
-msgstr ""
+msgstr "Inti (Peru)"
 
 #: src/formats.c:370
 msgid "[$PGK]"
@@ -17699,7 +17488,7 @@ msgstr "[$PGK]"
 
 #: src/formats.c:370
 msgid "Papua New Guinea kina"
-msgstr ""
+msgstr "Kina (Papua New Guinea)"
 
 #: src/formats.c:371
 msgid "[$PHP]"
@@ -17707,7 +17496,7 @@ msgstr "[$PHP]"
 
 #: src/formats.c:371
 msgid "Philippino peso"
-msgstr ""
+msgstr "Peso (Philipin)"
 
 #: src/formats.c:372
 msgid "[$PKR]"
@@ -17715,7 +17504,7 @@ msgstr "[$PKR]"
 
 #: src/formats.c:372
 msgid "Pakistan rupee"
-msgstr ""
+msgstr "Rupee (Pakistan)"
 
 #: src/formats.c:373
 msgid "[$PLZ]"
@@ -17731,7 +17520,7 @@ msgstr "[$PTE]"
 
 #: src/formats.c:374
 msgid "Portuguese escudo"
-msgstr ""
+msgstr "Escudo (Bồ Đào Nha)"
 
 #: src/formats.c:375
 msgid "[$PYG]"
@@ -17739,7 +17528,7 @@ msgstr "[$PYG]"
 
 #: src/formats.c:375
 msgid "Paraguay guarani"
-msgstr ""
+msgstr "Guarani (Paraguay)"
 
 #: src/formats.c:376
 msgid "[$QAR]"
@@ -17747,7 +17536,7 @@ msgstr "[$QAR]"
 
 #: src/formats.c:376
 msgid "Qatari rial"
-msgstr ""
+msgstr "Rial (Qatar)"
 
 #: src/formats.c:377
 msgid "[$ROL]"
@@ -17755,7 +17544,7 @@ msgstr "[$ROL]"
 
 #: src/formats.c:377
 msgid "Romanian leu"
-msgstr ""
+msgstr "Leu (Rumani)"
 
 #: src/formats.c:378
 msgid "[$RUR]"
@@ -17763,7 +17552,7 @@ msgstr "[$RUR]"
 
 #: src/formats.c:378
 msgid "Russian ruble"
-msgstr ""
+msgstr "Ruble (Nga)"
 
 #: src/formats.c:379
 msgid "[$RWF]"
@@ -17771,7 +17560,7 @@ msgstr "[$RWF]"
 
 #: src/formats.c:379
 msgid "Rwanda franc"
-msgstr ""
+msgstr "Franc (Rwanda)"
 
 #: src/formats.c:380
 msgid "[$SAR]"
@@ -17779,7 +17568,7 @@ msgstr "[$SAR]"
 
 #: src/formats.c:380
 msgid "Saudi Arabian riyal"
-msgstr ""
+msgstr "Riyal (Ả Rập Saudi)"
 
 #: src/formats.c:381
 msgid "[$SBD]"
@@ -17787,7 +17576,7 @@ msgstr "[$SBD]"
 
 #: src/formats.c:381
 msgid "Solomon Islands dollar"
-msgstr ""
+msgstr "Dollar (Đảo Solomon)"
 
 #: src/formats.c:382
 msgid "[$SCR]"
@@ -17795,7 +17584,7 @@ msgstr "[$SCR]"
 
 #: src/formats.c:382
 msgid "Seychelles rupee"
-msgstr ""
+msgstr "Rupee (Seychelles)"
 
 #: src/formats.c:383
 msgid "[$SDP]"
@@ -17803,7 +17592,7 @@ msgstr "[$SDP]"
 
 #: src/formats.c:383
 msgid "Sudanese pound"
-msgstr ""
+msgstr "Pound (Sudan)"
 
 #: src/formats.c:384
 msgid "[$SEK]"
@@ -17811,7 +17600,7 @@ msgstr "[$SEK]"
 
 #: src/formats.c:384
 msgid "Swedish krona"
-msgstr ""
+msgstr "Krona (Thụy Sĩ)"
 
 #: src/formats.c:385
 msgid "[$SGD]"
@@ -17819,7 +17608,7 @@ msgstr "[$SGD]"
 
 #: src/formats.c:385
 msgid "Singapore dollar"
-msgstr ""
+msgstr "Dollar (Singapore)"
 
 #: src/formats.c:386
 msgid "[$SHP]"
@@ -17827,7 +17616,7 @@ msgstr "[$SHP]"
 
 #: src/formats.c:386
 msgid "St.Helena pound"
-msgstr ""
+msgstr "Pound (St.Helena)"
 
 #: src/formats.c:387
 msgid "[$SIT]"
@@ -17835,7 +17624,7 @@ msgstr "[$SIT]"
 
 #: src/formats.c:387
 msgid "Slovenia tolar"
-msgstr ""
+msgstr "Tolar (Slovenia)"
 
 #: src/formats.c:388
 msgid "[$SLL]"
@@ -17843,7 +17632,7 @@ msgstr "[$SLL]"
 
 #: src/formats.c:388
 msgid "Sierra Leone leone"
-msgstr ""
+msgstr "Leone (Sierra Leone)"
 
 #: src/formats.c:389
 msgid "[$SOS]"
@@ -17851,7 +17640,7 @@ msgstr "[$SOS]"
 
 #: src/formats.c:389
 msgid "Somali shilling"
-msgstr ""
+msgstr "Shilling (Somali)"
 
 #: src/formats.c:390
 msgid "[$SRG]"
@@ -17867,7 +17656,7 @@ msgstr "[$STD]"
 
 #: src/formats.c:391
 msgid "Sao Tome and Principe dobra"
-msgstr ""
+msgstr "Dobra (Sao Tome và Pricipe)"
 
 #: src/formats.c:392
 msgid "[$SUR]"
@@ -17875,7 +17664,7 @@ msgstr "[$SUR]"
 
 #: src/formats.c:392
 msgid "USSR rouble"
-msgstr ""
+msgstr "Rouble (USSR)"
 
 #: src/formats.c:393
 msgid "[$SVC]"
@@ -17883,7 +17672,7 @@ msgstr "[$SVC]"
 
 #: src/formats.c:393
 msgid "El Salvador colon"
-msgstr ""
+msgstr "Colon (El Salvador)"
 
 #: src/formats.c:394
 msgid "[$SYP]"
@@ -17891,7 +17680,7 @@ msgstr "[$SYP]"
 
 #: src/formats.c:394
 msgid "Syrian pound"
-msgstr ""
+msgstr "Pound (Syria)"
 
 #: src/formats.c:395
 msgid "[$SZL]"
@@ -17907,7 +17696,7 @@ msgstr "[$THB]"
 
 #: src/formats.c:396
 msgid "Thai baht"
-msgstr ""
+msgstr "Baht (Thái)"
 
 #: src/formats.c:397
 msgid "[$TND]"
@@ -17915,7 +17704,7 @@ msgstr "[$TND]"
 
 #: src/formats.c:397
 msgid "Tunisian dinar"
-msgstr ""
+msgstr "Dinar (Tunisia)"
 
 #: src/formats.c:398
 msgid "[$TOP]"
@@ -17931,7 +17720,7 @@ msgstr "[$TPE]"
 
 #: src/formats.c:399
 msgid "East Timor escudo"
-msgstr ""
+msgstr "Escudo (Đông Timor)"
 
 #: src/formats.c:400
 msgid "[$TRL]"
@@ -17939,7 +17728,7 @@ msgstr "[$TRL]"
 
 #: src/formats.c:400
 msgid "Turkish lira"
-msgstr ""
+msgstr "Lira (Thổ Nhĩ Kỳ)"
 
 #: src/formats.c:401
 msgid "[$TTD]"
@@ -17947,7 +17736,7 @@ msgstr "[$TTD]"
 
 #: src/formats.c:401
 msgid "Trinidad and Tobago dollar"
-msgstr ""
+msgstr "Dollar (Trinidad và Tobago)"
 
 #: src/formats.c:402
 msgid "[$TWD]"
@@ -17955,7 +17744,7 @@ msgstr "[$TWD]"
 
 #: src/formats.c:402
 msgid "New Taiwan dollar"
-msgstr ""
+msgstr "Dollar (Đài Loan)"
 
 #: src/formats.c:403
 msgid "[$TZS]"
@@ -17963,7 +17752,7 @@ msgstr "[$TZS]"
 
 #: src/formats.c:403
 msgid "Tanzanian shilling"
-msgstr ""
+msgstr "Shilling (Tanzania)"
 
 #: src/formats.c:404
 msgid "[$UAH]"
@@ -17971,7 +17760,7 @@ msgstr "[$UAH]"
 
 #: src/formats.c:404
 msgid "Ukrainian hryvnia"
-msgstr ""
+msgstr "Hryvnia (Ukraina)"
 
 #: src/formats.c:405
 msgid "[$UGX]"
@@ -17979,7 +17768,7 @@ msgstr "[$UGX]"
 
 #: src/formats.c:405
 msgid "Ugandan shilling"
-msgstr ""
+msgstr "Shilling (Uganda)"
 
 #: src/formats.c:406
 msgid "[$USD]"
@@ -17987,7 +17776,7 @@ msgstr "[$USD]"
 
 #: src/formats.c:406
 msgid "US dollar"
-msgstr ""
+msgstr "Đô la Mỹ"
 
 #: src/formats.c:407
 msgid "[$UYP]"
@@ -17995,7 +17784,7 @@ msgstr "[$UYP]"
 
 #: src/formats.c:407
 msgid "Uruguayan peso"
-msgstr ""
+msgstr "Peso (Uruguay)"
 
 #: src/formats.c:408
 msgid "[$VEB]"
@@ -18003,7 +17792,7 @@ msgstr "[$VEB]"
 
 #: src/formats.c:408
 msgid "Venezuelan bolivar"
-msgstr ""
+msgstr "Bolivar (Venezuela)"
 
 #: src/formats.c:409
 msgid "[$VND]"
@@ -18011,7 +17800,7 @@ msgstr "[$VND]"
 
 #: src/formats.c:409
 msgid "Vietnamese dong"
-msgstr ""
+msgstr "Đồng (Việt Nam)"
 
 #: src/formats.c:410
 msgid "[$VUV]"
@@ -18019,7 +17808,7 @@ msgstr "[$VUV]"
 
 #: src/formats.c:410
 msgid "Vanuatu vatu"
-msgstr ""
+msgstr "Vatu (Vanuatu)"
 
 #: src/formats.c:411
 msgid "[$WST]"
@@ -18027,7 +17816,7 @@ msgstr "[$WST]"
 
 #: src/formats.c:411
 msgid "Samoan tala"
-msgstr ""
+msgstr "Tala (Samoa)"
 
 #: src/formats.c:412
 msgid "[$XCD]"
@@ -18035,7 +17824,7 @@ msgstr "[$XCD]"
 
 #: src/formats.c:412
 msgid "East Caribbean dollar"
-msgstr ""
+msgstr "Dollar (Đông Caribe)"
 
 #: src/formats.c:413
 msgid "[$XEU]"
@@ -18043,7 +17832,7 @@ msgstr "[$XEU]"
 
 #: src/formats.c:413
 msgid "European currency unit"
-msgstr ""
+msgstr "Đơn vị tiền tệ châu Âu"
 
 #: src/formats.c:414
 msgid "[$YDD]"
@@ -18051,7 +17840,7 @@ msgstr "[$YDD]"
 
 #: src/formats.c:414
 msgid "Democratic Yemeni dinar"
-msgstr ""
+msgstr "Dinar (Yemen)"
 
 #: src/formats.c:415
 msgid "[$YER]"
@@ -18059,7 +17848,7 @@ msgstr "[$YER]"
 
 #: src/formats.c:415
 msgid "Yemeni rial"
-msgstr ""
+msgstr "Rial (Yemen)"
 
 #: src/formats.c:416
 msgid "[$YUN]"
@@ -18067,7 +17856,7 @@ msgstr "[$YUN]"
 
 #: src/formats.c:416
 msgid "New Yugoslavia dinar"
-msgstr ""
+msgstr "Dinar (Nam Tư)"
 
 #: src/formats.c:417
 msgid "[$ZAL]"
@@ -18083,7 +17872,7 @@ msgstr "[$ZAR]"
 
 #: src/formats.c:418
 msgid "South African rand"
-msgstr ""
+msgstr "Rand (Nam Phi)"
 
 #: src/formats.c:419
 msgid "[$ZMK]"
@@ -18091,7 +17880,7 @@ msgstr "[$ZMK]"
 
 #: src/formats.c:419
 msgid "Zambian kwacha"
-msgstr ""
+msgstr "Kwacha (Zambia)"
 
 #: src/formats.c:420
 msgid "[$ZRZ]"
@@ -18099,7 +17888,7 @@ msgstr "[$ZRZ]"
 
 #: src/formats.c:420
 msgid "Zaire Zaire"
-msgstr ""
+msgstr "Zaire (Zaire)"
 
 #: src/formats.c:421
 msgid "[$ZWD]"
@@ -18107,7 +17896,7 @@ msgstr "[$ZWD]"
 
 #: src/formats.c:421
 msgid "Zimbabwe dollar"
-msgstr ""
+msgstr "Dollar (Zimbabwe)"
 
 #: src/formats.c:553
 msgid "[Red]"
@@ -18387,14 +18176,13 @@ msgid "File/"
 msgstr "Tập tin/"
 
 #: src/hlink.c:144
-#, fuzzy
 msgid "Link target"
-msgstr "Liên kết tới:"
+msgstr "Đích liên kết"
 
 #: src/hlink.c:240
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to activate the url '%s'"
-msgstr "Không thể tạo đối tượng loại '%s'"
+msgstr "Không thể kích hoạt URL '%s'"
 
 #: src/item-bar.c:625
 #, c-format
@@ -18580,7 +18368,7 @@ msgstr "Trang lạ '%s'"
 #: src/parser.y:503
 #, c-format
 msgid "What is a 3D name %s:%s!%s ?"
-msgstr ""
+msgstr "Tên 3D là gì %s:%s!%s ?"
 
 #: src/parser.y:513
 #, c-format
@@ -19169,9 +18957,8 @@ msgid "Too many columns in data to parse: %d"
 msgstr "Quá nhiều cột trong dữ liệu phân tích: %d"
 
 #: src/stf.c:88
-#, fuzzy
 msgid "Error while trying to read file"
-msgstr "Lỗi ghi tập tin csv"
+msgstr "Lỗi đọc tập tin"
 
 #: src/stf.c:100
 msgid "Error while trying to pre-convert file"
@@ -19198,7 +18985,7 @@ msgstr "Lỗi ghi tập tin csv"
 
 #: src/stf.c:384
 msgid "Text import (auto-detect CSV or tab-delimited)"
-msgstr ""
+msgstr "Nhập text (tự xác định CVS hoặc ngăn cách tab)"
 
 #: src/stf.c:388
 msgid "Text import (configurable)"
@@ -19289,7 +19076,7 @@ msgstr "Thống kê mô tả (%s)"
 
 #: src/tools/analysis-tools.c:1245
 msgid "The requested sample size is to large for a periodic sample."
-msgstr ""
+msgstr "Cỡ mẫu yêu cầu quá lớn so với mẫu tuần hoàn."
 
 #: src/tools/analysis-tools.c:1293
 #, c-format
@@ -19364,7 +19151,7 @@ msgstr ""
 
 #: src/tools/analysis-tools.c:1950
 msgid "A data set is empty"
-msgstr ""
+msgstr "Tập dữ liệu rỗng"
 
 #: src/tools/analysis-tools.c:1958
 msgid ""
@@ -19645,7 +19432,7 @@ msgstr ""
 msgid "The probabilities may not all be 0!"
 msgstr "Xác suất không thể bằng 0 tất cả!"
 
-#: src/tools/random-generator.c:607
+#: src/tools/random-generator.c:658
 #, c-format
 msgid "Random Numbers (%s)"
 msgstr "Số ngẫu nhiên (%s)"
@@ -19836,7 +19623,7 @@ msgstr "Tìm giá trị đích"
 
 #: src/tools/solver/reports-write.c:623
 msgid "Optimal solution found"
-msgstr ""
+msgstr "Tìm thấy giải pháp tối ưu"
 
 #: src/tools/solver/reports-write.c:626
 msgid "Unbounded problem"
@@ -20683,6 +20470,9 @@ msgstr "Không phải là tập tin Gnumeric Workbook"
 msgid "Gnumeric XML file format"
 msgstr "Dạng thức tập tin Gnumeric XML"
 
+#~ msgid "Undo Clear"
+#~ msgstr "Bỏ xóa"
+
 #~ msgid ""
 #~ "This file is not an 'OLE' file.  It may be too old for Gnumeric to read.\n"
 #~ "Sorry, the management."
@@ -20709,20 +20499,17 @@ msgstr "Dạng thức tập tin Gnumeric XML"
 #~ msgid "xmlCreateFileParserCtxt () failed."
 #~ msgstr "xmlCreateFileParserCtxt () thất bại."
 
-#~ msgid "Undo Clear"
-#~ msgstr "Bỏ xóa"
-
 #~ msgid "Error while trying to memory map file"
 #~ msgstr "Lỗi ánh xạ tập tin lên bộ nhớ"
-
-#~ msgid "Text import (defaults to csv)"
-#~ msgstr "Nhập text (mặc định CSV)"
 
 #~ msgid "Zeros in"
 #~ msgstr "Zero trong"
 
 #~ msgid "Not enough memory to create zlib decompression state."
 #~ msgstr "Không đủ bộ nhớ để tạo giải nén bằng zlib."
+
+#~ msgid "Text import (defaults to csv)"
+#~ msgstr "Nhập text (mặc định CSV)"
 
 #~ msgid ""
 #~ "Sort the selected region in ascending order based on the first column "
@@ -20754,9 +20541,6 @@ msgstr "Dạng thức tập tin Gnumeric XML"
 
 #~ msgid "_Bottom:"
 #~ msgstr "_Đáy:"
-
-#~ msgid "_Landscape"
-#~ msgstr "_Nằm ngang"
 
 #~ msgid "_Left:"
 #~ msgstr "T_rái:"
