@@ -186,9 +186,11 @@ gnumeric_varp (Sheet *sheet, GList *expr_node_list, int eval_col,
 
 	setup_stat_closure (&cl);
 
-	function_iterate_argument_values (sheet, callback_function_stat,
-					  &cl, expr_node_list,
-					  eval_col, eval_row, error_string);
+	if (!function_iterate_argument_values (sheet, callback_function_stat,
+					       &cl, expr_node_list,
+					       eval_col, eval_row,
+					       error_string, TRUE))
+		return NULL;
 
 	if (cl.N <= 0) {
 		*error_string = gnumeric_err_NUM;
@@ -223,9 +225,11 @@ gnumeric_var (Sheet *sheet, GList *expr_node_list, int eval_col,
 
 	setup_stat_closure (&cl);
 
-	function_iterate_argument_values (sheet, callback_function_stat,
-					  &cl, expr_node_list,
-					  eval_col, eval_row, error_string);
+	if (!function_iterate_argument_values (sheet, callback_function_stat,
+					       &cl, expr_node_list,
+					       eval_col, eval_row,
+					       error_string, TRUE))
+		return NULL;
 
 	if (cl.N <= 1) {
 		*error_string = gnumeric_err_NUM;
@@ -462,45 +466,50 @@ gnumeric_trimmean (Sheet *sheet, GList *expr_node_list,
 	GSList      *list;
 	int         trim_count, n, count;
 	float_t     sum;
+	Value       *result = NULL;
 
 	p.num   = 0;
 	p.list  = NULL;
 
-	function_iterate_argument_values (sheet, callback_function_trimmean,
-					  &p, expr_node_list,
-					  eval_col, eval_row, error_string);
+	if (function_iterate_argument_values (sheet, callback_function_trimmean,
+					       &p, expr_node_list,
+					       eval_col, eval_row,
+					       error_string, TRUE)) {
+		p.num--;
+		trim_count = (p.num * p.last) / 2;
+		count = p.num - 2 * trim_count;
+		p.list = g_slist_sort (p.list, (GCompareFunc) float_compare);
+		list  = p.list;
 
-	p.num--;
-	trim_count = (p.num * p.last) / 2;
-	count = p.num - 2 * trim_count;
-	p.list = g_slist_sort (p.list, (GCompareFunc) float_compare);
-	list  = p.list;
+		/* Skip the trimmed numbers in the beginning of the list */
+		for (n = 0; n < trim_count; n++){
+			g_free (list->data);
+			list = list->next;
+		}
 
-	/* Skip the trimmed numbers in the beginning of the list */
-	for (n = 0; n < trim_count; n++){
-	        g_free (list->data);
-		list = list->next;
-	}
+		/* Count the sum for mean */
+		for (n = sum = 0; n < count; n++){
+			float_t *x;
 
-	/* Count the sum for mean */
-	for (n = sum = 0; n < count; n++){
-	        float_t *x;
+			x = list->data;
+			sum += *x;
+			g_free (x);
+			list = list->next;
+		}
 
-		x = list->data;
-		sum += *x;
-		g_free (x);
-		list = list->next;
-	}
+		result = value_new_float (sum / count);
+	} else
+		list = p.list;
 
 	/* Free the rest of the number on the list */
-	for (n = 0; n < trim_count; n++){
+	while (list) {
 	        g_free (list->data);
 		list = list->next;
 	}
 
 	g_slist_free (p.list);
 
-	return value_new_float (sum / count);
+	return result;
 }
 
 static char *help_covar = {
@@ -579,7 +588,8 @@ gnumeric_covar (Sheet *sheet, GList *expr_node_list,
 
 	function_iterate_argument_values (sheet, callback_function_covar,
 					  &pr, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
 	list1 = pr.array1;
 	list2 = pr.array2;
 	sum = 0.0;
@@ -602,7 +612,7 @@ gnumeric_covar (Sheet *sheet, GList *expr_node_list,
 	g_slist_free (pr.array1);
 	g_slist_free (pr.array2);
 
-	return value_new_float (sum / pr.count);
+	return *error_string ? NULL : value_new_float (sum / pr.count);
 }
 
 static char *help_correl = {
@@ -685,7 +695,8 @@ gnumeric_correl (Sheet *sheet, GList *expr_node_list,
 
 	function_iterate_argument_values (sheet, callback_function_correl,
 					  &pr, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
 	list1 = pr.array1;
 	list2 = pr.array2;
 	sum = 0.0;
@@ -704,6 +715,9 @@ gnumeric_correl (Sheet *sheet, GList *expr_node_list,
 
 	g_slist_free (pr.array1);
 	g_slist_free (pr.array2);
+
+	if (*error_string)
+		return NULL;
 
 	tmp = (pr.sqrsum1-(pr.sum1*pr.sum1)/pr.count) *
 	        (pr.sqrsum2-(pr.sum2*pr.sum2)/pr.count);
@@ -974,7 +988,8 @@ gnumeric_mode (Sheet *sheet, GList *expr_node_list,
 
        function_iterate_argument_values (sheet, callback_function_mode,
                                          &pr, expr_node_list,
-                                         eval_col, eval_row, error_string);
+                                         eval_col, eval_row,
+					 error_string, TRUE);
 
        g_hash_table_destroy (pr.hash_table);
        tmp = pr.items;
@@ -983,6 +998,10 @@ gnumeric_mode (Sheet *sheet, GList *expr_node_list,
 	       tmp = tmp->next;
        }
        g_slist_free (pr.items);
+
+       if (*error_string)
+	       return NULL;
+
        if (pr.count < 2){
 		*error_string = gnumeric_err_NA;
 		return NULL;
@@ -1001,7 +1020,8 @@ gnumeric_harmean (Sheet *sheet, GList *expr_node_list,
 
 	if (function_iterate_argument_values (sheet, callback_function_stat_inv_sum,
 					      &pr, expr_node_list,
-					      eval_col, eval_row, error_string)) {
+					      eval_col, eval_row,
+					      error_string, TRUE)) {
 		float_t num;
 		num = (float_t)pr.num;
 		return value_new_float (1.0 / (1.0/num * pr.sum));
@@ -1054,7 +1074,11 @@ gnumeric_geomean (Sheet *sheet, GList *expr_node_list,
 
 	function_iterate_argument_values (sheet, callback_function_stat_prod,
 					  &pr, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
+	if (*error_string)
+		return NULL;
+
 	/* FIXME: What should happen with negative numbers?  */
 	return value_new_float (pow (pr.product, 1.0 / pr.num));
 }
@@ -1079,7 +1103,7 @@ callback_function_count (Sheet *sheet, Value *value,
 {
 	Value *result = (Value *) closure;
 
-	if (VALUE_IS_NUMBER (value))
+	if (value && VALUE_IS_NUMBER (value))
 		result->v.v_int++;
 	return TRUE;
 }
@@ -1093,7 +1117,8 @@ gnumeric_count (Sheet *sheet, GList *expr_node_list,
 	result = value_new_int (0);
 	function_iterate_argument_values (sheet, callback_function_count,
 					  result, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, FALSE);
 	return result;
 }
 
@@ -1112,19 +1137,8 @@ callback_function_counta (Sheet *sheet, Value *value,
 			  char **error_string, void *closure)
 {
         Value *result = (Value *) closure;
-
-        switch (value->type){
-        case VALUE_INTEGER:
-        case VALUE_FLOAT:
-	case VALUE_STRING:
-	case VALUE_CELLRANGE:
-	case VALUE_ARRAY:
-                result->v.v_int++;
-                break;
-        default:
-                break;
-        }
-        return TRUE;
+	result->v.v_int++;
+	return TRUE;
 }
 
 Value *
@@ -1136,7 +1150,8 @@ gnumeric_counta (Sheet *sheet, GList *expr_node_list,
         result = value_new_int (0);
         function_iterate_argument_values (sheet, callback_function_counta,
 					  result, expr_node_list,
-                                          eval_col, eval_row, error_string);
+                                          eval_col, eval_row,
+					  error_string, FALSE);
         return result;
 }
 
@@ -1281,7 +1296,12 @@ gnumeric_min (Sheet *sheet, GList *expr_node_list,
 
 	function_iterate_argument_values (sheet, callback_function_min_max,
 					  &closure, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
+	if (*error_string) {
+		value_release (closure.result);
+		return NULL;
+	}
 
 	return 	closure.result;
 }
@@ -1298,7 +1318,13 @@ gnumeric_max (Sheet *sheet, GList *expr_node_list,
 
 	function_iterate_argument_values (sheet, callback_function_min_max,
 					  &closure, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
+	if (*error_string) {
+		value_release (closure.result);
+		return NULL;
+	}
+	
 	return 	closure.result;
 }
 
@@ -1369,7 +1395,10 @@ gnumeric_skew (Sheet *sheet, GList *expr_node_list,
 
 	function_iterate_argument_values (sheet, callback_function_skew_sum,
 					  &pr, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
+	if (*error_string)
+		return NULL;
 
 	if (pr.num < 3){
 		*error_string = gnumeric_err_NUM;
@@ -1701,7 +1730,7 @@ gnumeric_chitest (struct FunctionDefinition *i, Value *argv [],
 	ret = function_iterate_do_value (sheet, (FunctionIterateCallback)
 					 callback_function_chitest_actual,
 					 &p1, col, row, argv[0],
-					 error_string);
+					 error_string, TRUE);
 	if (ret == FALSE) {
 		*error_string = gnumeric_err_NUM;
 		return NULL;
@@ -1714,7 +1743,7 @@ gnumeric_chitest (struct FunctionDefinition *i, Value *argv [],
 	ret = function_iterate_do_value (sheet, (FunctionIterateCallback)
 					 callback_function_chitest_theoretical,
 					 &p2, col, row, argv[1],
-					 error_string);
+					 error_string, TRUE);
 	if (ret == FALSE) {
 		*error_string = gnumeric_err_NUM;
 		return NULL;
@@ -2400,7 +2429,10 @@ gnumeric_kurt (Sheet *sheet, GList *expr_node_list,
 	}
 	function_iterate_argument_values (sheet, callback_function_kurt_sum,
                                           &pr, expr_node_list,
-                                          eval_col, eval_row, error_string);
+                                          eval_col, eval_row,
+					  error_string, TRUE);
+	if (*error_string)
+		return NULL;
 
 	if (pr.num < 4){
                 *error_string = gnumeric_err_NUM;
@@ -2470,7 +2502,10 @@ gnumeric_avedev (Sheet *sheet, GList *expr_node_list,
 	function_iterate_argument_values (sheet,
 					  callback_function_stat_avedev_sum,
 					  &pr, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
+	if (*error_string)
+		return NULL;
 
 	return value_new_float (pr.sum / pr.num);
 }
@@ -2499,7 +2534,10 @@ gnumeric_devsq (Sheet *sheet, GList *expr_node_list,
 
 	function_iterate_argument_values (sheet, callback_function_stat,
 					  &cl, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
+	if (*error_string)
+		return NULL;
 
 	return value_new_float (cl.Q);
 }
@@ -2626,7 +2664,8 @@ gnumeric_pearson (Sheet *sheet, GList *expr_node_list,
 
 	function_iterate_argument_values (sheet, callback_function_correl,
 					  &pr, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
 	list1 = pr.array1;
 	list2 = pr.array2;
 	sum = 0.0;
@@ -2645,9 +2684,12 @@ gnumeric_pearson (Sheet *sheet, GList *expr_node_list,
 	g_slist_free(pr.array1);
 	g_slist_free(pr.array2);
 
-	return value_new_float (((pr.count*sum - pr.sum1*pr.sum2)) /
-			    sqrt((pr.count*pr.sqrsum1 - pr.sum1*pr.sum1) *
-				 (pr.count*pr.sqrsum2 - pr.sum2*pr.sum2)));
+	if (*error_string)
+		return NULL;
+	else
+		return value_new_float (((pr.count*sum - pr.sum1*pr.sum2)) /
+					sqrt((pr.count*pr.sqrsum1 - pr.sum1*pr.sum1) *
+					     (pr.count*pr.sqrsum2 - pr.sum2*pr.sum2)));
 }
 
 static char *help_rsq = {
@@ -2697,7 +2739,8 @@ gnumeric_rsq (Sheet *sheet, GList *expr_node_list,
 
 	function_iterate_argument_values (sheet, callback_function_correl,
 					  &pr, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
 	list1 = pr.array1;
 	list2 = pr.array2;
 	sum = 0.0;
@@ -2715,6 +2758,9 @@ gnumeric_rsq (Sheet *sheet, GList *expr_node_list,
 
 	g_slist_free(pr.array1);
 	g_slist_free(pr.array2);
+
+	if (*error_string)
+		return NULL;
 
 	r = (((pr.count*sum - pr.sum1*pr.sum2)) /
 	     sqrt((pr.count*pr.sqrsum1 - pr.sum1*pr.sum1) *
@@ -2772,7 +2818,8 @@ gnumeric_median (Sheet *sheet, GList *expr_node_list,
 
 	function_iterate_argument_values (sheet, callback_function_median,
 					  &p, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
 
 	median_ind = (p.num - 1) / 2;
 	p.list = g_slist_sort (p.list, (GCompareFunc) float_compare);
@@ -2799,6 +2846,9 @@ gnumeric_median (Sheet *sheet, GList *expr_node_list,
 	}
 
 	g_slist_free(p.list);
+
+	if (*error_string)
+		return NULL;
 
 	return value_new_float (median);
 }
@@ -2831,13 +2881,15 @@ gnumeric_large (Sheet *sheet, GList *expr_node_list,
 
 	function_iterate_argument_values (sheet, callback_function_trimmean,
 					  &p, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
 
 	p.num--;
 	k = ((int) p.last);
 
-	if (p.num == 0 || k<=0 || k > p.num){
-		*error_string = gnumeric_err_NUM;
+	if (*error_string || p.num == 0 || k<=0 || k > p.num){
+		if (!*error_string)
+			*error_string = gnumeric_err_NUM;
 		list  = p.list;
 		while (list != NULL){
 		        g_free(list->data);
@@ -2896,13 +2948,15 @@ gnumeric_small (Sheet *sheet, GList *expr_node_list,
 
 	function_iterate_argument_values (sheet, callback_function_trimmean,
 					  &p, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
 
 	p.num--;
 	k = ((int) p.last);
 
-	if (p.num == 0 || k<=0 || k > p.num){
-		*error_string = gnumeric_err_NUM;
+	if (*error_string || p.num == 0 || k<=0 || k > p.num){
+		if (!*error_string)
+			*error_string = gnumeric_err_NUM;
 		list  = p.list;
 		while (list != NULL){
 		        g_free(list->data);
@@ -3303,8 +3357,10 @@ callback_function_ztest (Sheet *sheet, Value *value,
 	stat_ztest_t *mm = closure;
 	float_t last;
 
-	if (!VALUE_IS_NUMBER (value))
+	if (!VALUE_IS_NUMBER (value)) {
+	        *error_string = gnumeric_err_VALUE;
 		return FALSE;
+	}
 
 	last = value_get_as_float (value);
 	if (mm->num > 0) {
@@ -3332,12 +3388,10 @@ gnumeric_ztest (Sheet *sheet, GList *expr_node_list,
 						   callback_function_ztest,
 						   &p, expr_node_list,
 						   eval_col, eval_row,
-						   error_string);
-
-	if (status == FALSE) {
-	        *error_string = gnumeric_err_VALUE;
+						   error_string, TRUE);
+	if (*error_string)
 		return NULL;
-	}
+
 	p.num--;
 	if (p.num < 2) {
 	        *error_string = gnumeric_err_DIV0;
@@ -3489,7 +3543,13 @@ gnumeric_maxa (Sheet *sheet, GList *expr_node_list,
 
 	function_iterate_argument_values (sheet, callback_function_mina_maxa,
 					  &closure, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
+	if (*error_string) {
+		value_release (closure.result);
+		return NULL;
+	}		
+
 	return 	closure.result;
 }
 
@@ -3520,7 +3580,13 @@ gnumeric_mina (Sheet *sheet, GList *expr_node_list,
 
 	function_iterate_argument_values (sheet, callback_function_mina_maxa,
 					  &closure, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
+	if (*error_string) {
+		value_release (closure.result);
+		return NULL;
+	}		
+
 	return 	closure.result;
 }
 
@@ -3550,7 +3616,10 @@ gnumeric_vara (Sheet *sheet, GList *expr_node_list, int eval_col,
 
 	function_iterate_argument_values (sheet, callback_function_stat,
 					  &cl, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
+	if (*error_string)
+		return NULL;
 
 	if (cl.N <= 1) {
 		*error_string = gnumeric_err_NUM;
@@ -3586,7 +3655,10 @@ gnumeric_varpa (Sheet *sheet, GList *expr_node_list, int eval_col,
 
 	function_iterate_argument_values (sheet, callback_function_stat,
 					  &cl, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
+	if (*error_string)
+		return NULL;
 
 	if (cl.N <= 0) {
 		*error_string = gnumeric_err_NUM;
@@ -3890,7 +3962,7 @@ gnumeric_percentrank (struct FunctionDefinition *i,
 	ret = function_iterate_do_value (sheet, (FunctionIterateCallback)
 					 callback_function_percentrank,
 					 &p, col, row, argv[0],
-					 error_string);
+					 error_string, TRUE);
 
 	if (ret == FALSE || (p.smaller+p.greater+p.equal==0)) {
 	        *error_string = gnumeric_err_NUM;

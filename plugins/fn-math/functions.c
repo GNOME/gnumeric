@@ -203,8 +203,9 @@ gnumeric_gcd (Sheet *sheet, GList *expr_node_list,
 					      callback_function_makeslist,
 					      &p, expr_node_list,
 					      eval_col, eval_row,
-					      error_string) == FALSE) {
-		*error_string = gnumeric_err_NUM;
+					      error_string, TRUE) == FALSE) {
+		if (!*error_string)
+			*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -289,8 +290,9 @@ gnumeric_lcm (Sheet *sheet, GList *expr_node_list,
 	if (function_iterate_argument_values (sheet, callback_function_lcm,
 					      result, expr_node_list,
 					      eval_col, eval_row,
-					      error_string) == FALSE) {
-		*error_string = gnumeric_err_NUM;
+					      error_string, TRUE) == FALSE) {
+		if (!*error_string)
+			*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
@@ -1327,8 +1329,13 @@ gnumeric_sum (Sheet *sheet, GList *expr_node_list,
 	result->type = VALUE_INTEGER;
 	result->v.v_int = 0;
 
-	function_iterate_argument_values (sheet, callback_function_sum, result, expr_node_list,
-					  eval_col, eval_row, error_string);
+	if (!function_iterate_argument_values (sheet, callback_function_sum,
+					       result, expr_node_list,
+					       eval_col, eval_row,
+					       error_string, TRUE)) {
+		value_release (result);
+		return NULL;
+	}
 
 	return result;
 }
@@ -1359,9 +1366,13 @@ gnumeric_suma (Sheet *sheet, GList *expr_node_list,
 	result->type = VALUE_INTEGER;
 	result->v.v_int = 0;
 
-	function_iterate_argument_values (sheet, callback_function_sum,
-					  result, expr_node_list,
-					  eval_col, eval_row, error_string);
+	if (!function_iterate_argument_values (sheet, callback_function_sum,
+					       result, expr_node_list,
+					       eval_col, eval_row,
+					       error_string, TRUE)) {
+		value_release (result);
+		return NULL;
+	}
 
 	return result;
 }
@@ -1414,9 +1425,11 @@ gnumeric_sumsq (Sheet *sheet, GList *expr_node_list, int eval_col,
 	p.num = 0;
 	p.sum = 0;
 
-	function_iterate_argument_values (sheet, callback_function_sumsq,
-					  &p, expr_node_list,
-					  eval_col, eval_row, error_string);
+	if (!function_iterate_argument_values (sheet, callback_function_sumsq,
+					       &p, expr_node_list,
+					       eval_col, eval_row,
+					       error_string, TRUE))
+		return NULL;
 
 	return value_new_float (p.sum);
 }
@@ -1471,8 +1484,9 @@ gnumeric_multinomial (Sheet *sheet, GList *expr_node_list, int eval_col,
 					      callback_function_multinomial,
 					      &p, expr_node_list,
 					      eval_col, eval_row,
-					      error_string) == FALSE) {
-	        *error_string = gnumeric_err_VALUE;
+					      error_string, TRUE) == FALSE) {
+		if (!*error_string)
+			*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
@@ -1527,9 +1541,11 @@ gnumeric_product (Sheet *sheet, GList *expr_node_list, int eval_col,
 	p.num = 0;
 	p.product = 1;
 
-	function_iterate_argument_values (sheet, callback_function_product,
-					  &p, expr_node_list,
-					  eval_col, eval_row, error_string);
+	if (!function_iterate_argument_values (sheet, callback_function_product,
+					       &p, expr_node_list,
+					       eval_col, eval_row,
+					       error_string, TRUE))
+		return NULL;
 
 	return value_new_float (p.product);
 }
@@ -2575,8 +2591,9 @@ gnumeric_seriessum (Sheet *sheet, GList *expr_node_list,
 					      callback_function_seriessum,
 					      &p, expr_node_list,
 					      eval_col, eval_row,
-					      error_string) == FALSE) {
-		*error_string = gnumeric_err_VALUE;
+					      error_string, TRUE) == FALSE) {
+		if (!*error_string)
+			*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 

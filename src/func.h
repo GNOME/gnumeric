@@ -46,7 +46,8 @@ function_iterate_argument_values (Sheet                   *sheet,
 				  GList                   *expr_node_list,
 				  int                     eval_col,
 				  int			  eval_row,
-				  char                    **error_string);
+				  char                    **error_string,
+				  gboolean                strict);
 				  
 
 /*
@@ -72,7 +73,8 @@ function_iterate_do_value (Sheet                   *sheet,
 			   int                     eval_col,
 			   int                     eval_row,
 			   Value                   *value,
-			   char                    **error_string);
+			   char                    **error_string,
+			   gboolean                strict);
 
 void        install_symbols               (FunctionDefinition *functions,
 					   gchar *description);

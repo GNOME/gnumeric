@@ -1042,8 +1042,8 @@ gnumeric_improduct (Sheet *sheet, GList *expr_node_list,
         if (function_iterate_argument_values (sheet, callback_function_imoper,
                                               &p, expr_node_list,
                                               eval_col, eval_row,
-                                              error_string) == FALSE) {
-                *error_string = gnumeric_err_NUM;
+                                              error_string, TRUE) == FALSE) {
+		/* Handler or iterator sets error_string.  */
                 return NULL;
         }
 
@@ -1072,8 +1072,8 @@ gnumeric_imsum (Sheet *sheet, GList *expr_node_list,
         if (function_iterate_argument_values (sheet, callback_function_imoper,
                                               &p, expr_node_list,
                                               eval_col, eval_row,
-                                              error_string) == FALSE) {
-                *error_string = gnumeric_err_NUM;
+                                              error_string, TRUE) == FALSE) {
+		/* Handler or iterator sets error_string.  */
                 return NULL;
         }
 

@@ -1,3 +1,18 @@
+1999-06-17  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (gnumeric_count): Make non-strict and ignore cells
+ 	with errors.
+
+	* src/fn-logical.c (gnumeric_or, gnumeric_and): Make strict!.
+
+	* src/func.c (IterateCallbackClosure): Add strict member.
+	(iterate_cellrange_callback): Handle strict and non-strict case.
+	(function_iterate_argument_values): New argument, strict.  All
+ 	callers changed.  Initialise error_string always.  Handle strict
+ 	and non-strict case.
+	(function_iterate_do_value): New argument, strict.  Handle strict
+ 	and non-strict case.  All callers changed.
+
 1999-06-18  Michael Meeks  <michael@edenproject.org>
 
 	* src/main.c (gnumeric_main): Add xbase_init

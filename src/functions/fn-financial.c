@@ -393,7 +393,6 @@ static char *help_npv = {
 };
 
 typedef struct {
-        int first;
         guint32 num;
         float_t rate;
         float_t sum;
@@ -407,9 +406,8 @@ callback_function_npv (Sheet *sheet, Value *value, char **error_string, void *cl
 	if (!VALUE_IS_NUMBER (value))
 		return TRUE;
 
-	if (mm->first == TRUE) {
+	if (mm->num == 0) {
 		mm->rate = value_get_as_float (value);
-		mm->first = FALSE;
 	} else
 		mm->sum += value_get_as_float (value) / pow (1 + mm->rate, mm->num);
 	mm->num++;
@@ -421,13 +419,14 @@ gnumeric_npv (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, c
 {
         financial_npv_t p;
 
-	p.first = TRUE;
 	p.sum   = 0.0;
 	p.num   = 0;
 
-        function_iterate_argument_values (sheet, callback_function_npv,
-                                          &p, expr_node_list,
-                                          eval_col, eval_row, error_string);
+        if (!function_iterate_argument_values (sheet, callback_function_npv,
+					       &p, expr_node_list,
+					       eval_col, eval_row,
+					       error_string, TRUE))
+		return FALSE;
 	return value_new_float (p.sum);
 }
 

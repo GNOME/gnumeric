@@ -17,10 +17,13 @@
 /* The list of categories */
 static GPtrArray *categories = NULL;
 
+/* ------------------------------------------------------------------------- */
+
 typedef struct {
 	FunctionIterateCallback  callback;
 	void                     *closure;
 	char                     **error_string;
+	gboolean                 strict;
 } IterateCallbackClosure;
 
 /*
@@ -33,7 +36,6 @@ static int
 iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	IterateCallbackClosure *data = user_data;
-	int cont;
 
 	if (cell->generation != sheet->workbook->generation){
 		cell->generation = sheet->workbook->generation;
@@ -42,18 +44,14 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *us
 			cell_eval (cell);
 	}
 
-	if (!cell->value){
-		/*
-		 * FIXME: If this is a formula, is it worth recursing on
-		 * this one? IFF !(cell->flags & CELL_ERROR) &&
-		 * cell->generation != cell->sheet->workbook->generation?
-		 */
-		return TRUE;
+	/* If we encounter an error for the strict case, short-circuit here.  */
+	if (data->strict && !cell->value) {
+		*data->error_string = cell->text->str;
+		return FALSE;
 	}
 
-	cont = (*data->callback)(sheet, cell->value, data->error_string, data->closure);
-
-	return cont;
+	/* All other cases -- including error -- just call the handler.  */
+	return (*data->callback)(sheet, cell->value, data->error_string, data->closure);
 }
 
 /*
@@ -68,7 +66,8 @@ function_iterate_do_value (Sheet                   *sheet,
 			   int                     eval_col,
 			   int                     eval_row,
 			   Value                   *value,
-			   char                    **error_string)
+			   char                    **error_string,
+			   gboolean                strict)
 {
 	int ret = TRUE;
 
@@ -88,7 +87,8 @@ function_iterate_do_value (Sheet                   *sheet,
 				ret = function_iterate_do_value (
 					sheet, callback, closure,
 					eval_col, eval_row,
-					value->v.array.vals [x][y], error_string);
+					value->v.array.vals [x][y],
+					error_string, strict);
 				if (ret == FALSE)
 					return FALSE;
 			}
@@ -102,6 +102,7 @@ function_iterate_do_value (Sheet                   *sheet,
 		data.callback = callback;
 		data.closure  = closure;
 		data.error_string = error_string;
+		data.strict = strict;
 
 		cell_get_abs_col_row (&value->v.cell_range.cell_a,
 				      eval_col, eval_row,
@@ -129,9 +130,11 @@ function_iterate_argument_values (Sheet                   *sheet,
 				  GList                   *expr_node_list,
 				  int                     eval_col,
 				  int                     eval_row,
-				  char                    **error_string)
+				  char                    **error_string,
+				  gboolean                strict)
 {
 	int result = TRUE;
+	*error_string = NULL;
 
 	for (; result && expr_node_list; expr_node_list = expr_node_list->next){
 		ExprTree *tree = (ExprTree *) expr_node_list->data;
@@ -139,17 +142,26 @@ function_iterate_argument_values (Sheet                   *sheet,
 
 		val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
 
-		if (val){
+		if (val) {
 			result = function_iterate_do_value (
 				sheet, callback, callback_closure,
 				eval_col, eval_row, val,
-				error_string);
+				error_string, strict);
 
 			value_release (val);
+		} else if (strict) {
+			/* A strict function -- just short circuit.  */
+			return FALSE;
+		} else {
+			/* A non-strict function -- call the handler.  */
+			result = (*callback) (sheet, val, error_string, callback_closure);
 		}
 	}
 	return result;
 }
+
+/* ------------------------------------------------------------------------- */
+
 
 GPtrArray *
 function_categories_get (void)
@@ -306,4 +318,3 @@ constants_init (void)
 	gnumeric_err_NUM = _("#NUM!");
 	gnumeric_err_NA = _("#N/A");
 }
-

@@ -37,11 +37,11 @@ callback_function_and (Sheet *sheet, Value *value,
 	int *result = closure;
 	int err;
 
-	if (!value_get_as_bool (value, &err) && !err) {
-		*result = 0;
+	*result = value_get_as_bool (value, &err) && *result;
+	if (err) {
+		*error_string = gnumeric_err_VALUE;
 		return FALSE;
 	}
-	*result = 1;
 
 	return TRUE;
 }
@@ -53,9 +53,13 @@ gnumeric_and (Sheet *sheet, GList *expr_node_list,
 {
 	int result = -1;
 
+	/* Yes, AND is actually strict.  */
 	function_iterate_argument_values (sheet, callback_function_and,
 					  &result, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
+	if (*error_string)
+		return NULL;
 
 	/* See if there was any value worth using */
 	if (result == -1){
@@ -109,11 +113,11 @@ callback_function_or (Sheet *sheet, Value *value,
 	int *result = closure;
 	int err;
 
-	if (value_get_as_bool (value, &err) && !err) {
-		*result = 1;
+	*result = value_get_as_bool (value, &err) || *result == 1;
+	if (err) {
+		*error_string = gnumeric_err_VALUE;
 		return FALSE;
 	}
-	*result = 0;
 
 	return TRUE;
 }
@@ -124,9 +128,13 @@ gnumeric_or (Sheet *sheet, GList *expr_node_list,
 {
 	int result = -1;
 
+	/* Yes, OR is actually strict.  */
 	function_iterate_argument_values (sheet, callback_function_or,
 					  &result, expr_node_list,
-					  eval_col, eval_row, error_string);
+					  eval_col, eval_row,
+					  error_string, TRUE);
+	if (*error_string)
+		return NULL;
 
 	/* See if there was any value worth using */
 	if (result == -1){
