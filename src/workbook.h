@@ -158,6 +158,7 @@ int         workbook_parse_and_jump      (Workbook *wb, const char *text);
 Sheet      *workbook_sheet_lookup        (Workbook *wb, const char *sheet_name);
 void        workbook_mark_clean          (Workbook *wb);
 void        workbook_set_dirty           (Workbook *wb, gboolean is_dirty);
+gboolean    workbook_is_dirty            (Workbook *wb);
 gboolean    workbook_is_pristine         (Workbook *wb);
 gboolean    workbook_rename_sheet        (Workbook *wb,
 					  const char *old_name,

@@ -452,7 +452,7 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 	*dirty = TRUE;
 }
 
-static inline gboolean
+gboolean
 workbook_is_dirty (Workbook *wb)
 {
 	gboolean dirty = FALSE;

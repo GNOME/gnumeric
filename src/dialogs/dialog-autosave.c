@@ -32,7 +32,7 @@ dialog_autosave_callback (gpointer *data)
 {
         Workbook *wb = (Workbook *) data;
 
-	if (wb->autosave) {
+	if (wb->autosave && workbook_is_dirty (wb)) {
 	        if (wb->autosave_prompt) {
 		        GladeXML  *gui = 
 			        glade_xml_new (GNUMERIC_GLADEDIR

@@ -1,7 +1,8 @@
 Gnumeric 0.49
 
 Jukka:
-	* More minor improvements to the Solver tool.
+	* More minor improvements for the Solver tool.
+	* Minor improvements for the AutoSave tool.
 	* GUI improvements for the Data Analysis tool.
 
 --------------------------------------------------------------------------

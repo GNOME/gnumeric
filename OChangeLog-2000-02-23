@@ -1,3 +1,10 @@
+2000-01-25  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/workbook.[ch]: Made workbook_is_dirty() public.
+
+	* src/dialogs/dialog-autosave.c (dialog_autosave_callback): Added
+ 	checking whether the workbook is changed or not before saving it.
+
 2000-01-24  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell-draw.c (cell_draw) : Take the style as an argument, no need
