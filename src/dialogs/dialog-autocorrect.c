@@ -57,18 +57,20 @@ autocorrect_tool (char *command)
 
         if (autocorrect_init_caps) {
 		for (s = command; *s; s++) {
+		skip_ic_correct:
 		        if (isupper (*s) && isupper (s[1])) {
 			        if (islower (s[2])) {
 				        GList *c = autocorrect_in_exceptions;
 					while (c != NULL) {
 					        gchar *a = (gchar *) c->data;
 					        if (strncmp(s, a, strlen(a))
-						    == 0)
+						    == 0) {
+						        s++;
 						        goto skip_ic_correct;
+						}
 						c = c->next;
 					}
 				        s[1] = tolower (s[1]);
-				skip_ic_correct:
 				} else
 				        while (!isspace(*s))
 					        ++s;
@@ -80,6 +82,7 @@ autocorrect_tool (char *command)
 	        char *p;
 
 	        for (s = command; *s; s = p+1) {
+		skip_first_letter:
 		        p = strchr(s, '.');
 			if (p == NULL)
 			        break;
@@ -99,11 +102,12 @@ autocorrect_tool (char *command)
 						else
 						        break;
 				        if (s-command > l+spaces &&
-					    strncmp(s-l-spaces, c, l) == 0)
+					    strncmp(s-l-spaces, c, l) == 0) {
+					        s = p+1;
 					        goto skip_first_letter;
+					}
 				}
 			        *s = toupper (*s);
-			skip_first_letter:
 			}
 		}
 	}
