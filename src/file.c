@@ -30,7 +30,7 @@
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-utils.h>
-#ifdef WITH_BONOBO
+#ifdef WITH_GNOME
 #include <gsf-gnome/gsf-input-gnomevfs.h>
 #endif
 #include <string.h>
@@ -916,16 +916,14 @@ go_file_open (char const *path, GError **err)
 	if (in_stdio != NULL)
 		return GSF_INPUT (in_stdio);
 
-#ifdef WITH_BONOBO
+#ifdef WITH_GNOME
 	{
 		GsfInputGnomeVFS *in_vfs;
-				
-		g_error_free (err);
-		err = NULL;
-
-		in_vfs = gsf_input_gnomevfs_new (filename, &err);
+		g_error_free (*err);
+		*err = NULL;
+		in_vfs = gsf_input_gnomevfs_new (path, err);
 		if (in_vfs != NULL)
-			input = GSF_INPUT (in_vfs);
+			return GSF_INPUT (in_vfs);
 	}
 #endif
 	return NULL; 

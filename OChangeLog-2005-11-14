@@ -1,3 +1,7 @@
+2004-04-27  Jody Goldberg <jody@gnome.org>
+
+	* src/file.c (go_file_open) : fix the gnome-vfs case
+
 2004-04-22  Morten Welinder  <terra@gnome.org>
 
 	* src/print-info.c (print_info_get_orientation): Plug leak.
