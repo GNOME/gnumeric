@@ -21,7 +21,8 @@ struct _WorkbookControlGUI {
 		GnmExprEntry *entry; /* The real edit line */
 		GnmExprEntry *temp_entry; /* A tmp overlay eg from a guru */
 		GtkWidget*guru;
-		gulong         signal_changed, signal_insert, signal_delete, signal_cursor_pos;
+		gulong         signal_changed, signal_insert, signal_delete;
+		gulong         signal_cursor_pos, signal_selection_bound;
 		PangoAttrList *full_content;	/* include the cell attrs too */
 		PangoAttrList *markup;	/* just the markup */
 		PangoAttrList *cur_fmt;	/* attrs for new text (depends on position) */

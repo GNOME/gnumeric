@@ -190,21 +190,50 @@ go_conf_load_str_list (char const *key)
 		key, GCONF_VALUE_STRING, NULL);
 }
 
+static GConfSchema *
+get_schema (char const *key)
+{
+	char *schema_key = g_strconcat ("/schema", key, NULL);
+	GConfSchema *schema = gconf_client_get_schema (
+		gnm_app_get_gconf_client (), schema_key, NULL);
+	g_free (schema_key);
+	return schema;
+}
 char *
 go_conf_get_short_desc (char const *key)
 {
+	GConfSchema *schema = get_schema (key);
+	char *desc = g_strdup (gconf_schema_get_short_desc (schema));
+	gconf_schema_free (schema);
+	return desc;
 }
 char *
 go_conf_get_long_desc  (char const *key)
 {
+	GConfSchema *schema = get_schema (key);
+	char *desc = g_strdup (gconf_schema_get_long_desc (schema));
+	gconf_schema_free (schema);
+	return desc;
 }
+
 GType
 go_conf_get_type (char const *key)
 {
+	GConfSchema *schema = get_schema (key);
+	GType t;
+
+	switch (gconf_schema_get_type (schema)) {
+	case GCONF_VALUE_STRING:
+	case GCONF_VALUE_FLOAT:
+	case GCONF_VALUE_INT:
+	case GCONF_VALUE_BOOL:
+	}
+	gconf_schema_free (schema);
+	return t;
 }
 
 char *
-go_conf_get_value_as_str   (char const *key)
+go_conf_get_value_as_str (char const *key)
 {
 	char *value_string;
 	GConfClient *gconf = gnm_app_get_gconf_client ();
@@ -936,30 +965,6 @@ void
 gnm_gconf_set_print_scale_percentage_value (gnm_float val)
 {
 	go_conf_set_double (PRINTSETUP_GCONF_SCALE_PERCENTAGE_VALUE, val);
-}
-
-void     
-gnm_gconf_set_print_scale_width (gint val)
-{
-	go_conf_set_int (PRINTSETUP_GCONF_SCALE_WIDTH, val);
-}
-
-void     
-gnm_gconf_set_print_scale_height (gint val)
-{
-	go_conf_set_int (PRINTSETUP_GCONF_SCALE_HEIGHT, val);
-}
-
-void     
-gnm_gconf_set_print_repeat_top (gchar const *str)
-{
-	go_conf_set_string (PRINTSETUP_GCONF_REPEAT_TOP, str);
-}
-
-void    
-gnm_gconf_set_print_repeat_left (gchar const *str)
-{
-	go_conf_set_string (PRINTSETUP_GCONF_REPEAT_LEFT, str);
 }
 
 void     

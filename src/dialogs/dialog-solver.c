@@ -533,7 +533,7 @@ restore_original_values (GSList *input_cells, GSList *ov)
 	        char const *str = ov->data;
 	        GnmCell *cell = input_cells->data;
 
-		sheet_cell_set_text (cell, str);
+		sheet_cell_set_text (cell, str, NULL);
 		ov = ov->next;
 		input_cells = input_cells->next;
 	}

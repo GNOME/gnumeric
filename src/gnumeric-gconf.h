@@ -147,10 +147,6 @@ void     gnm_gconf_set_print_titles (gboolean val);
 void     gnm_gconf_set_print_order_right_then_down (gboolean val);
 void     gnm_gconf_set_print_scale_percentage (gboolean val);
 void     gnm_gconf_set_print_scale_percentage_value (gnm_float val);
-void     gnm_gconf_set_print_scale_width (gint val);
-void     gnm_gconf_set_print_scale_height (gint val);
-void     gnm_gconf_set_print_repeat_top (gchar const *str);
-void     gnm_gconf_set_print_repeat_left (gchar const *str);
 void     gnm_gconf_set_print_tb_margins (PrintMargins const *pm);
 void     gnm_gconf_set_print_header_formats (GSList *left, GSList *middle, 
 					     GSList *right);

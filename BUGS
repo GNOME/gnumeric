@@ -105,16 +105,18 @@ Pending Patches
 8) Rich Text
     8.1) font actions valid while editing			(DONE)
     8.2) accumulate markup from toolbar while editing		(DONE)
-    8.3) display the markedup content in edit-item		(DONE)
+    8.3) display the marked-up content in edit-item		(DONE)
     8.4) maintain consistency when text deleted			(DONE)
     8.5) maintain consistency when text inserted		(DONE)
     8.6) Keep a 'current' format that changes with edit_pos	(DONE)
-    8.7) Store the markup in a value fmt
-    8.8) Persist markup as pseudo format
-    8.9) Parse markup in pseudo format
-    8.10) load markup from xls
-    8.11) Update fmt action state as cursor moves		(DONE)
-    8.12) editing while zoomed
+    8.7) Store the markup in a value fmt			(DONE)
+    8.8) Update fmt action state as cursor moves		(DONE)
+    8.9) extended rendered value to use the markup in fmts	(DONE)
+    8.10) Use existing markup when editing a cell		(DONE)
+    8.11) Persist markup as pseudo format
+    8.12) Parse markup in pseudo format
+    8.13) load markup from xls
+    8.14) editing while zoomed
 
 -------------------------------------------------------------------------------
 1.3 Target Features

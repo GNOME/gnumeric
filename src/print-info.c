@@ -20,6 +20,7 @@
 #include "value.h"
 #include "workbook.h"
 #include "gnumeric-gconf.h"
+#include "gnumeric-gconf-priv.h"
 
 #include <string.h>
 #include <locale.h>
@@ -318,8 +319,8 @@ print_info_save (PrintInformation const *pi)
 {
 	gnm_gconf_set_print_scale_percentage (pi->scaling.type == PERCENTAGE);
 	gnm_gconf_set_print_scale_percentage_value (pi->scaling.percentage.x);
-	gnm_gconf_set_print_scale_width (pi->scaling.dim.cols);
-	gnm_gconf_set_print_scale_height (pi->scaling.dim.rows);
+	go_conf_set_int (PRINTSETUP_GCONF_SCALE_WIDTH,  pi->scaling.dim.cols);
+	go_conf_set_int (PRINTSETUP_GCONF_SCALE_HEIGHT, pi->scaling.dim.rows);
 
 	gnm_gconf_set_print_tb_margins (&pi->margins);
 
@@ -331,12 +332,10 @@ print_info_save (PrintInformation const *pi)
 	gnm_gconf_set_print_titles (pi->print_titles);
 	gnm_gconf_set_print_order_right_then_down (pi->print_order);
 	
-	gnm_gconf_set_print_repeat_top ((pi->repeat_top.use) ? 
-					range_name (&pi->repeat_top.range) 
-					: "");
-	gnm_gconf_set_print_repeat_left ((pi->repeat_left.use) ? 
-					 range_name (&pi->repeat_left.range) 
-					 : "");
+	go_conf_set_string (PRINTSETUP_GCONF_REPEAT_TOP,
+		pi->repeat_top.use ? range_name (&pi->repeat_top.range) : "");
+	go_conf_set_string (PRINTSETUP_GCONF_REPEAT_LEFT,
+		pi->repeat_left.use ? range_name (&pi->repeat_left.range) : "");
 
 	save_formats ();
 

@@ -511,6 +511,10 @@ entry_key_press (FooCanvasItem *item)
 static int
 entry_cursor_event (FooCanvasItem *item)
 {
+	/* ensure we draw a cursor when moving quickly no matter what the
+	 * current state is */
+	ITEM_EDIT (item)->cursor_visible = TRUE;
+
 	entry_changed (item);
 	return TRUE;
 }

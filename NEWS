@@ -4,6 +4,10 @@ Christian Neumair:
 	* Put delete actions from edit main menu into their own submenu.
 	* HIGify some dialogs when it comes to spacing.
 
+Jody:
+	* Edit and display rich text in cells (no persistence yet)
+	* Make the last dependency above gtk optional to enable a win32 build
+
 Morten:
 	* Fix crash related to database functions (#138600).  [backported]
 	* Fix [h]:mm precision (#138182).  [backported]

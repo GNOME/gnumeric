@@ -447,7 +447,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 			   range_name (&range));
 
 	cell = sheet_cell_fetch (sh, OBJECTIVE_VALUE_COL, MAIN_INFO_ROW);
-	sheet_cell_set_text (cell, buf->str);
+	sheet_cell_set_text (cell, buf->str, NULL);
 	g_string_free (buf, FALSE);
 
 	/* Store the input cell range for the Solver dialog. */

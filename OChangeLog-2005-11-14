@@ -1,3 +1,9 @@
+2004-04-12  Jody Goldberg <jody@gnome.org>
+
+	* src/format.c (style_format_new_markup) : new.
+
+	* src/commands.c (cmd_set_text*) : Handle markup
+
 2004-04-12  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (pow1p, pow1pm1): New functions.

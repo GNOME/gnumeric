@@ -795,9 +795,10 @@ typedef struct {
 	GnmCommand cmd;
 
 	GnmEvalPos pos;
-	gchar *text;
-	gboolean has_user_format;
-	GnmCellRegion *old_contents;
+	gchar		*text;
+	PangoAttrList	*markup;
+	gboolean	 has_user_format;
+	GnmCellRegion	*old_contents;
 } CmdSetText;
 
 MAKE_GNM_COMMAND (CmdSetText, cmd_set_text);
@@ -825,7 +826,7 @@ cmd_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	GnmCell *cell = sheet_cell_fetch (me->pos.sheet,
 				       me->pos.eval.col,
 				       me->pos.eval.row);
-	sheet_cell_set_text (cell, me->text);
+	sheet_cell_set_text (cell, me->text, me->markup);
 	expr = cell->base.expression;
 
 	if (!me->has_user_format && expr) {
@@ -852,6 +853,8 @@ cmd_set_text_finalize (GObject *cmd)
 	CmdSetText *me = CMD_SET_TEXT (cmd);
 	if (me->old_contents)
 		cellregion_free (me->old_contents);
+	if (me->markup)
+		pango_attr_list_unref (me->markup);
 	g_free (me->text);
 	gnm_command_finalize (cmd);
 }
@@ -859,7 +862,8 @@ cmd_set_text_finalize (GObject *cmd)
 gboolean
 cmd_set_text (WorkbookControl *wbc,
 	      Sheet *sheet, GnmCellPos const *pos,
-	      char const *new_text)
+	      char const *new_text,
+	      PangoAttrList *markup)
 {
 	GObject *obj;
 	CmdSetText *me;
@@ -889,6 +893,8 @@ cmd_set_text (WorkbookControl *wbc,
 	me->pos.sheet = sheet;
 	me->pos.eval = *pos;
 	me->text = corrected_text;
+	if (NULL != (me->markup = markup))
+		pango_attr_list_ref (me->markup);
 	r.start = r.end = *pos;
 	me->old_contents = clipboard_copy_range (sheet, &r);
 
@@ -907,10 +913,8 @@ cmd_set_text (WorkbookControl *wbc,
 	g_free (where);
 	g_free (text);
 
-	me->has_user_format =
-		!style_format_is_general
-		(mstyle_get_format (sheet_style_get (sheet,
-						     pos->col, pos->row)));
+	me->has_user_format = !style_format_is_general (
+		mstyle_get_format (sheet_style_get (sheet, pos->col, pos->row)));
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
@@ -3512,7 +3516,7 @@ cmd_search_replace_undo (GnmCommand *cmd,
 			GnmCell *cell = sheet_cell_get (sri->pos.sheet,
 						     sri->pos.eval.col,
 						     sri->pos.eval.row);
-			sheet_cell_set_text (cell, sri->old.text);
+			sheet_cell_set_text (cell, sri->old.text, NULL);
 			break;
 		}
 		case SRI_comment:
@@ -3550,7 +3554,7 @@ cmd_search_replace_redo (GnmCommand *cmd,
 			GnmCell *cell = sheet_cell_get (sri->pos.sheet,
 						     sri->pos.eval.col,
 						     sri->pos.eval.row);
-			sheet_cell_set_text (cell, sri->new.text);
+			sheet_cell_set_text (cell, sri->new.text, NULL);
 			break;
 		}
 		case SRI_comment:
@@ -3659,7 +3663,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 			if (doit) {
 				SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
 
-				sheet_cell_set_text (cell_res.cell, cell_res.new_text);
+				sheet_cell_set_text (cell_res.cell, cell_res.new_text, NULL);
 
 				sri->pos = *ep;
 				sri->old_type = sri->new_type = SRI_text;
@@ -6169,7 +6173,7 @@ cmd_solver_impl (GSList *cell_stack, GSList *value_stack)
 			GnmCell *cell = cells->data;
 			
 			if (cell != NULL) {
-				sheet_cell_set_text (cell, str);
+				sheet_cell_set_text (cell, str, NULL);
 				cells = cells->next;
 			}
 			values = values->next;

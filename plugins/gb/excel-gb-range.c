@@ -67,7 +67,7 @@ excel_gb_range_set_arg (GBRunEvalContext *ec,
 		cell = sheet_cell_fetch (range->sheet,
 					 range->range.start.col,
 					 range->range.start.row);
-		sheet_cell_set_text (cell, val->v.s->str);
+		sheet_cell_set_text (cell, val->v.s->str, NULL);
 
 		return TRUE;
 	}

@@ -5,6 +5,7 @@
 #include "numbers.h"
 #include <sys/types.h>
 #include "regutf8.h"
+#include <pango/pango-attributes.h>
 
 typedef enum {
 	FMT_UNKNOWN	= -1,
@@ -19,7 +20,9 @@ typedef enum {
 	FMT_FRACTION	= 7,
 	FMT_SCIENCE	= 8,
 	FMT_TEXT	= 9,
-	FMT_SPECIAL	= 10
+	FMT_SPECIAL	= 10,
+
+	FMT_MARKUP	= 11	/* Internal use only */
 } FormatFamily;
 
 typedef struct {
@@ -49,13 +52,15 @@ struct _GnmFormat {
 	gnumeric_regex_t      regexp;
 	FormatFamily          family;
 	FormatCharacteristics family_info;
+	PangoAttrList	     *markup; /* only for FMT_MARKUP */
 };
 
-char	      *style_format_delocalize  (char const *descriptor_string);
+char	    *style_format_delocalize	(char const *descriptor_string);
+GnmFormat   *style_format_new_markup	(PangoAttrList *markup);
 GnmFormat   *style_format_new_XL	(char const *descriptor_string,
 					 gboolean delocalize);
-GnmFormat   *style_format_build       (FormatFamily family,
-					 const FormatCharacteristics *info);
+GnmFormat   *style_format_build		(FormatFamily family,
+					 FormatCharacteristics const *info);
 
 char   	      *style_format_as_XL	(GnmFormat const *fmt,
 					 gboolean localized);
@@ -73,6 +78,7 @@ GnmFormat *style_format_default_percentage (void);
 GnmFormat *style_format_default_money	   (void);
 
 #define style_format_is_general(sf) ((sf)->family == FMT_GENERAL)
+#define style_format_is_markup(sf) ((sf)->family == FMT_MARKUP)
 #define style_format_is_text(sf) ((sf)->family == FMT_TEXT)
 
 char  *format_value   (GnmFormat const *format, GnmValue const *value, GnmColor **color,

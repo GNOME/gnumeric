@@ -238,7 +238,8 @@ char	*sheet_name_quote	(char const *unquoted_name);
  */
 void	     sheet_cell_set_expr    (GnmCell *cell, GnmExpr const *expr);
 void	     sheet_cell_set_value   (GnmCell *cell, GnmValue *v);
-void	     sheet_cell_set_text    (GnmCell *cell, char const *str);
+void	     sheet_cell_set_text    (GnmCell *cell, char const *str,
+				     PangoAttrList *markup);
 GnmValue const *sheet_cell_get_value(Sheet *sheet, int col, int row);
 void	     sheet_range_set_text   (GnmParsePos const *pos, GnmRange const *r, char const *str);
 void	     sheet_apply_style	    (Sheet  *sheet, GnmRange const *range, GnmStyle *mstyle);

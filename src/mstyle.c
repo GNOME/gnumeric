@@ -1693,6 +1693,7 @@ mstyle_generate_attrs_full (GnmStyle const *st)
 		add_attr (l, pango_attr_underline_new (PANGO_UNDERLINE_DOUBLE));
 		break;
 	default :
+		add_attr (l, pango_attr_underline_new (PANGO_UNDERLINE_NONE));
 		break;
 	}
 

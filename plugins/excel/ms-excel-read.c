@@ -50,6 +50,7 @@
 #include <sheet-object-graphic.h>
 #include <sheet-object-graph.h>
 #include <sheet-object-image.h>
+#include <goffice/utils/go-units.h>
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
@@ -611,18 +612,11 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	return so;
 }
 
-static double
-inches_to_points (double inch)
-{
-	return inch * 72.0;
-}
-
-
 static void
 excel_print_unit_init_inch (PrintUnit *pu, double val)
 {
 	GnomePrintUnit const *uinch = gnome_print_unit_get_by_abbreviation ("in");
-	pu->points = inches_to_points (val);
+	pu->points = GO_IN_TO_PT (val);
 	pu->desired_display = uinch; /* FIXME: should be more global */
 }
 
@@ -652,8 +646,8 @@ excel_init_margins (ExcelReadSheet *esheet)
 	excel_print_unit_init_inch (&pi->margins.top, 1.0);
 	excel_print_unit_init_inch (&pi->margins.bottom, 1.0);
 
-	points = inches_to_points (0.75);
-	short_points = inches_to_points (0.5);
+	points = GO_IN_TO_PT (0.75);
+	short_points = GO_IN_TO_PT (0.5);
 	print_info_set_margins (pi, short_points, short_points, points, points);
 }
 
@@ -764,16 +758,15 @@ biff_string_get_flags (guint8 const *ptr,
 static void
 get_xtn_lens (guint32 *pre_len, guint32 *end_len, guint8 const *ptr, gboolean ext_str, gboolean rich_str)
 {
-	static gboolean rich_warn = TRUE;
 	*end_len = 0;
 	*pre_len = 0;
 
 	if (rich_str) { /* The data for this appears after the string */
 		guint16 formatting_runs = GSF_LE_GET_GUINT16 (ptr);
 
-		(*end_len) += formatting_runs * 4; /* 4 bytes per */
-		(*pre_len) += 2;
-		ptr        += 2;
+		*end_len += formatting_runs * 4; /* 4 bytes per */
+		*pre_len += 2;
+		ptr      += 2;
 
 		if (rich_warn) {
 			rich_warn = FALSE;
@@ -3749,9 +3742,9 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 #endif
 
 	print_info_set_margin_header 
-		(pi, inches_to_points (gsf_le_get_double (q->data + 16)));
+		(pi, GO_IN_TO_PT (gsf_le_get_double (q->data + 16)));
 	print_info_set_margin_footer 
-		(pi, inches_to_points (gsf_le_get_double (q->data + 24)));
+		(pi, GO_IN_TO_PT (gsf_le_get_double (q->data + 24)));
 }
 
 static void
@@ -5125,11 +5118,11 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 
 		case BIFF_LEFT_MARGIN:
 			print_info_set_margin_left 
-				(pi, inches_to_points (gsf_le_get_double (q->data)));
+				(pi, GO_IN_TO_PT (gsf_le_get_double (q->data)));
 			break;
 		case BIFF_RIGHT_MARGIN:
 			print_info_set_margin_right
-				(pi, inches_to_points (gsf_le_get_double (q->data)));
+				(pi, GO_IN_TO_PT (gsf_le_get_double (q->data)));
 			break;
 		case BIFF_TOP_MARGIN:
 			excel_print_unit_init_inch (&pi->margins.top,

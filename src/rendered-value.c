@@ -252,6 +252,12 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		style_color_unref (color);
 	}
 #endif
+
+	if (cell->value != NULL) {
+		GnmFormat const *fmt = VALUE_FMT (cell->value);
+		if (fmt != NULL && style_format_is_markup (fmt))
+			pango_attr_list_splice (attrs, fmt->markup, 0, 0);
+	}
 	pango_layout_set_attributes (res->layout, attrs);
 	pango_attr_list_unref (attrs);
 

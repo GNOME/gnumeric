@@ -1322,7 +1322,7 @@ sheet_cell_get_value (Sheet *sheet, int const col, int const row)
  * Queues recalcs
  */
 void
-sheet_cell_set_text (GnmCell *cell, char const *text)
+sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 {
 	GnmExpr const *expr;
 	GnmValue	      *val;
@@ -1347,7 +1347,15 @@ sheet_cell_set_text (GnmCell *cell, char const *text)
 		/* clear spans from _other_ cells */
 		sheet_cell_calc_span (cell, SPANCALC_SIMPLE);
 	} else {
+		g_return_if_fail (val != NULL);
+
 		cell_set_value (cell, val);
+		if (markup != NULL && VALUE_IS_STRING (cell->value)) {
+			GnmFormat *fmt = style_format_new_markup (markup);
+			value_set_fmt (cell->value, fmt);
+			style_format_unref (fmt);
+		}
+
 		sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
 	}
 

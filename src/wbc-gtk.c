@@ -55,9 +55,9 @@
 #include "gdk/gdkkeysyms.h"
 #include <glib/gi18n.h>
 #include <errno.h>
+#include <string.h>
 
 #define CHECK_MENU_UNDERLINES
-
 
 struct _WBCgtk {
 	WorkbookControlGUI base;

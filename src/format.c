@@ -686,6 +686,10 @@ format_destroy (GnmFormat *format)
 	g_slist_foreach (format->entries, &format_entry_dtor, NULL);
 	g_slist_free (format->entries);
 	format->entries = NULL;
+	if (format->markup != NULL) {
+		pango_attr_list_ref (format->markup);
+		format->markup = NULL;
+	}
 	format_match_release (format);
 }
 
@@ -2304,6 +2308,37 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 #endif
 
 	g_free (desc_copy);
+	return format;
+}
+
+/**
+ * style_format_new_markup :
+ *
+ * @markup : #PangoAttrList
+ *
+ * Make a reference to @markup and create a MARKUP format
+ */
+GnmFormat *
+style_format_new_markup (PangoAttrList *markup)
+{
+	GnmFormat *format = g_new0 (GnmFormat, 1);
+
+	format->format = g_strdup_printf ("@%p", markup);
+	format->entries = NULL;
+	format->regexp_str = NULL;
+	format->match_tags = NULL;
+	format->family = FMT_MARKUP;
+	format->markup = markup;
+	pango_attr_list_ref (markup);
+
+	g_hash_table_insert (style_format_hash, format->format, format);
+	format->ref_count++;
+
+#ifdef DEBUG_REF_COUNT
+	g_message (__FUNCTION__ " format=%p '%s' ref_count=%d",
+		   format, format->format, format->ref_count);
+#endif
+
 	return format;
 }
 
