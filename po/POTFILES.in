@@ -42,6 +42,15 @@ src/dialogs/dialog-plugin-manager.c
 src/dialogs/dialog-printer-setup.c
 src/dialogs/dialog-printer.c
 src/dialogs/dialog-solver.c
+src/dialogs/dialog-stf-csv-page.c
+src/dialogs/dialog-stf-export-format-page.c
+src/dialogs/dialog-stf-export-sheet-page.c
+src/dialogs/dialog-stf-export.c
+src/dialogs/dialog-stf-fixed-page.c
+src/dialogs/dialog-stf-format-page.c
+src/dialogs/dialog-stf-main-page.c
+src/dialogs/dialog-stf-preview.c
+src/dialogs/dialog-stf.c
 src/dialogs/dialog-zoom.c
 src/dialogs/dialog-zoom.glade.h
 src/dialogs/font-sel.glade.h
@@ -94,6 +103,9 @@ src/sheet-object-container.c
 src/sheet-object.c
 src/sheet-view.c
 src/sheet.c
+src/stf-export.c
+src/stf-parse.c
+src/stf.c
 src/style.c
 src/value-sheet.c
 src/value.c
