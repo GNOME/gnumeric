@@ -1,5 +1,10 @@
 2003-05-31  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control-gui.c (cb_auto_filter) : update the menu when
+	  adding or removing a filter.
+
+2003-05-31  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=114084
 	* src/parser.y (find_matching_close) : Generated spurious paren errors
 	  because gnm_strunescape points to the first char after the string

@@ -2832,7 +2832,8 @@ cb_auto_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 		gnm_filter_remove (filter);
 		gnm_filter_free (filter);
 	}
-
+	WORKBOOK_VIEW_FOREACH_CONTROL(sv->wbv, wbc,
+		wb_control_menu_state_update (wbc, MS_ADD_VS_REMOVE_FILTER););
 }
 
 static void
@@ -3775,7 +3776,7 @@ static GnomeUIInfo workbook_menu_data_external [] = {
 #endif
 
 static GnomeUIInfo workbook_menu_data_filter [] = {
-	GNOMEUIINFO_ITEM_NONE (N_("Add/Remove an _Auto Filter"),
+	GNOMEUIINFO_ITEM_NONE (N_("Add _Auto Filter"),
 		N_("Add or remove a filter"),
 		cb_auto_filter),
 	GNOMEUIINFO_ITEM_NONE (N_("_Show All"),
