@@ -1,3 +1,10 @@
+2000-09-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-format-toolbar.c (workbook_create_format_toolbar) : Fix
+	  typo.
+
+	* src/gnumeric-util.c (gnumeric_dialog_show) : improve readability
+
 2000-09-06  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in: Check for bonobo 0.19

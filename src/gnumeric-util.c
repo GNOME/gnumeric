@@ -60,13 +60,13 @@ gnumeric_wb_dialog_run (Workbook *wb, GnomeDialog *dialog)
 
 	gtk_object_ref (app);
 	res = gnome_dialog_run (dialog);
-	
+
 	/* If the application was closed close the dialog too */
 	if (res < 0 && GTK_OBJECT_DESTROYED (app))
 		gnome_dialog_close (dialog);
 
 	/* TODO :
-	 * 2) Handle destruction of the dialog 
+	 * 2) Handle destruction of the dialog
 	 * 3) Handle the more interesting case of exiting of the
 	 *    main window.
 	 */
@@ -84,7 +84,7 @@ gnumeric_dialog_run (Workbook *wb, GnomeDialog *dialog)
 {
 	if (wb)
 		return gnumeric_wb_dialog_run (wb, dialog);
-	else 
+	else
 		return gnome_dialog_run (dialog);
 }
 
@@ -121,7 +121,7 @@ on_close (GnomeDialog *dialog,
 
 /**
  * connect_to_parent_close
- * 
+ *
  * Attach a handler to close if the parent closes.
  */
 static void
@@ -163,22 +163,21 @@ gnumeric_dialog_show (GtkObject *parent, GnomeDialog *dialog,
 		      gboolean click_closes, gboolean close_with_parent)
 {
 	DialogRunInfo *run_info = NULL;
-	
+
 	g_return_if_fail(GNOME_IS_DIALOG(dialog));
 	if (parent) {
 		run_info = g_new0 (DialogRunInfo, 1);
+		run_info->parent_toplevel =
 #if ENABLE_BONOBO
-		if (BONOBO_IS_APP (parent))
-			run_info->parent_toplevel = bonobo_app_get_window (BONOBO_APP (parent));
-		else
+			bonobo_app_get_window (BONOBO_APP (parent));
+#else
+			gtk_widget_get_toplevel (GTK_WIDGET (parent));
 #endif
-		run_info->parent_toplevel
-			= gtk_widget_get_toplevel (GTK_WIDGET (parent));
 
 		gnome_dialog_set_parent
 			(GNOME_DIALOG (dialog),
 			 GTK_WINDOW (run_info->parent_toplevel));
-		if (close_with_parent) 
+		if (close_with_parent)
 			connect_to_parent_close (dialog, run_info);
 	}
 
@@ -200,14 +199,14 @@ gnumeric_set_transient (CommandContext *context, GtkWindow *window)
 {
 	if (IS_COMMAND_CONTEXT_GUI (context)) {
 		CommandContextGui *ccg = COMMAND_CONTEXT_GUI(context);
-		gtk_window_set_transient_for 
+		gtk_window_set_transient_for
 			(window, GTK_WINDOW (workbook_get_toplevel (ccg->wb)));
 	}
 }
 
 /**
  * gnumeric_editable_enters: Make the "activate" signal of an editable click
- * the default dialog button. 
+ * the default dialog button.
  * @window: dialog to affect.
  * @editable: Editable to affect.
  *
@@ -217,9 +216,9 @@ gnumeric_set_transient (CommandContext *context, GtkWindow *window)
  * Normally if there's an editable widget (such as #GtkEntry) in your
  * dialog, pressing Enter will activate the editable rather than the
  * default dialog button. However, in most cases, the user expects to
- * type something in and then press enter to close the dialog. This 
+ * type something in and then press enter to close the dialog. This
  * function enables that behavior.
- * 
+ *
  **/
 void  gnumeric_editable_enters (GtkWindow *window, GtkEditable *editable)
 {
@@ -227,10 +226,10 @@ void  gnumeric_editable_enters (GtkWindow *window, GtkEditable *editable)
 	g_return_if_fail(editable != NULL);
 	g_return_if_fail(GTK_IS_WINDOW(window));
 	g_return_if_fail(GTK_IS_EDITABLE(editable));
-	
+
 	gtk_signal_connect_object
 		(GTK_OBJECT(editable), "activate",
-		 GTK_SIGNAL_FUNC(gtk_window_activate_default), 
+		 GTK_SIGNAL_FUNC(gtk_window_activate_default),
 		 GTK_OBJECT(window));
 }
 
@@ -238,7 +237,7 @@ void  gnumeric_editable_enters (GtkWindow *window, GtkEditable *editable)
  * gnumeric_combo_enters:
  * @window: dialog to affect
  * @combo: Combo to affect
- * 
+ *
  * This calls upon gnumeric_editable_enters so the dialog
  * is closed instead of the list with options popping up
  * when enter is pressed
@@ -344,7 +343,7 @@ gtk_radio_button_select (GSList *group, int n)
 	int len = g_slist_length (group);
 
 	g_return_if_fail ((n >= 0) && n < len);
-	
+
 	l = g_slist_nth (group, len - n - 1);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (l->data), 1);
 }
@@ -468,9 +467,9 @@ char *
 x11_font_get_bold_name (const char *fontname, int units)
 {
 	char *f;
-	
+
 	/*
-	 * FIXME: this scheme is poor: in some cases, the fount strength is called 'bold', 
+	 * FIXME: this scheme is poor: in some cases, the fount strength is called 'bold',
 	 * whereas in some others it is 'black', in others... Look font_get_italic_name
 	 */
 	f = x11_font_change_component (fontname, 2, "bold");
@@ -519,7 +518,7 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 /*
  * Helper for gnumeric_clist_moveto. Ensures that we move in the same way
  * whether direct or from a callback.
- */ 
+ */
 static void
 clist_moveto (GtkCList *clist, gint row)
 {
@@ -548,7 +547,7 @@ cb_clist_moveto (GtkWidget *clist, gpointer row)
  *
  * Scroll the viewing area of the list to the given row.
  * We do it this way because gtk_clist_moveto only works if the list is
- * mapped.  
+ * mapped.
  */
 void
 gnumeric_clist_moveto (GtkCList *clist, gint row)
@@ -571,7 +570,7 @@ void
 gnumeric_clist_make_selection_visible (GtkCList *clist)
 {
 	guint selection_length;
-	
+
 	g_return_if_fail(GTK_IS_CLIST(clist));
 
 	selection_length = g_list_length (clist->selection);
@@ -584,10 +583,10 @@ gnumeric_clist_make_selection_visible (GtkCList *clist)
 /**
  * gnumeric_option_menu_get_selected_index:
  * @optionmenu: a gtkoptionmenu
- * 
+ *
  * Tries to find out (in an ugly way) the selected
  * item in @optionsmenu
- * 
+ *
  * Return value: the selected index or -1 on error (or no selection?)
  **/
 int
@@ -600,19 +599,19 @@ gnumeric_option_menu_get_selected_index (GtkOptionMenu *optionmenu)
 	int i = 0;
 
 	g_return_val_if_fail (optionmenu != NULL, -1);
-	
+
 	menu = (GtkMenu *) gtk_option_menu_get_menu (optionmenu);
 	iterator = GTK_MENU_SHELL (menu)->children;
 	selected = (GtkMenuItem *) gtk_menu_get_active (menu);
-	
+
 	while (iterator) {
-		
+
 		if (iterator->data == selected) {
-		
+
 			index = i;
 			break;
 		}
-		
+
 		iterator = iterator->next;
 		i++;
 	}
@@ -625,7 +624,7 @@ gnumeric_create_tooltip (void)
 {
 	GtkWidget *tip, *label, *frame;
 	static GtkRcStyle*rc_style = NULL;
-	
+
 	if (rc_style == NULL) {
 		int i;
 		rc_style = gtk_rc_style_new ();
@@ -646,7 +645,7 @@ gnumeric_create_tooltip (void)
 
 	gtk_container_add (GTK_CONTAINER (tip), frame);
 	gtk_container_add (GTK_CONTAINER (frame), label);
-	
+
 	return label;
 }
 
@@ -727,7 +726,7 @@ cb_non_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
 	if(e->keyval == GDK_Escape) {
 		gtk_widget_destroy (w);
 		return TRUE;
-	} 
+	}
 
 	return FALSE;
 }

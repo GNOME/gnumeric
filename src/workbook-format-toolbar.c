@@ -597,6 +597,8 @@ workbook_create_format_toolbar (Workbook *wb)
 	gtk_box_pack_start (GTK_BOX (wb->priv->main_vbox), toolbar,
 			    FALSE, FALSE, 0);
 #else
+	app = GNOME_APP (wb->toplevel);
+
 	g_return_val_if_fail (app != NULL, NULL);
 
 	toolbar = gnumeric_toolbar_new (workbook_format_toolbar,
@@ -606,14 +608,12 @@ workbook_create_format_toolbar (Workbook *wb)
 	if (!gnome_preferences_get_menubar_detachable ())
 		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
 
-	app = GNOME_APP (wb->toplevel);
 	gnome_app_add_toolbar (
 		app,
 		GTK_TOOLBAR (toolbar),
 		name,
 		behavior,
 		GNOME_DOCK_TOP, 2, 0, 0);
-
 #endif
 
 	/*
@@ -697,7 +697,7 @@ workbook_create_format_toolbar (Workbook *wb)
 	 */
 	wb->priv->back_combo = color_combo_new (bucket_xpm, _("Clear Background"),
 						/* Draw an outline for the default */
-						NULL);
+						NULL, "back_color_group");
 	gtk_widget_show (wb->priv->back_combo);
 	gtk_signal_connect (GTK_OBJECT (wb->priv->back_combo), "changed",
 			    GTK_SIGNAL_FUNC (back_color_changed), wb);
@@ -714,7 +714,8 @@ workbook_create_format_toolbar (Workbook *wb)
 	 */
 	wb->priv->fore_combo = color_combo_new (font_xpm, _("Automatic"),
 						/* Draw black for the default */
-						&gs_black);
+						&gs_black,
+						"for_colorgroup");
 	gtk_widget_show (wb->priv->fore_combo);
 	gtk_signal_connect (GTK_OBJECT (wb->priv->fore_combo), "changed",
 			    GTK_SIGNAL_FUNC (fore_color_changed), wb);
