@@ -836,13 +836,19 @@ go_plugin_loader_init (GOPluginLoaderClass *iface)
 	iface->service_unload		= gplp_service_unload;
 }
 
-static GType gnm_python_loader_type;
+static GType gnm_python_plugin_loader_type;
+GType
+gnm_python_plugin_loader_get_type ()
+{
+	return gnm_python_plugin_loader_type;
+}
+
 void
-gnm_python_loader_register (GOPlugin *plugin)
+gnm_python_plugin_loader_register (GOPlugin *plugin)
 {
 	GSF_DYNAMIC_CLASS_FULL (GnmPythonPluginLoader, gnm_python_plugin_loader,
 		gplp_class_init, gplp_init,
 		G_TYPE_OBJECT, 0,
-		GSF_INTERFACE_FULL (gnm_python_loader_type, go_plugin_loader_init, GO_PLUGIN_LOADER_TYPE),
-		G_TYPE_MODULE (plugin), gnm_python_loader_type);
+		GSF_INTERFACE_FULL (gnm_python_plugin_loader_type, go_plugin_loader_init, GO_PLUGIN_LOADER_TYPE),
+		G_TYPE_MODULE (plugin), gnm_python_plugin_loader_type);
 }

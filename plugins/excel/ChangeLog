@@ -1,6 +1,11 @@
+2005-03-15  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_workbook) : init n when totaling the
+	  number of cells.
+
 2005-03-14  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* ms-chart.c: : import/export logarithmic axis.
+	* ms-chart.c: import/export logarithmic axis.
 
 2005-03-13  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 

@@ -50,6 +50,7 @@ static void
 gnumeric_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 			   gboolean is_col_header)
 {
+	Sheet *sheet;
 	FooCanvas *canvas = gnm_simple_canvas_new (scg);
 	FooCanvasGroup *group = FOO_CANVAS_GROUP (canvas->root);
 	FooCanvasItem *item = foo_canvas_item_new (group,
@@ -73,6 +74,11 @@ gnumeric_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 	pane->colrow_resize.points = NULL;
 	pane->colrow_resize.start  = NULL;
 	pane->colrow_resize.guide  = NULL;
+
+	if (NULL != scg &&
+	    NULL != (sheet = sc_sheet (SHEET_CONTROL (scg))) &&
+	    fabs (1. - sheet->last_zoom_factor_used) > 1e-6)
+		foo_canvas_set_pixels_per_unit (canvas, sheet->last_zoom_factor_used);
 
 	g_signal_connect (G_OBJECT (canvas),
 		"realize",
@@ -195,6 +201,12 @@ gnm_pane_init (GnmPane *pane, SheetControlGUI *scg,
 	g_signal_connect_swapped (pane->gcanvas,
 		"popup-menu",
 		G_CALLBACK (cb_pane_popup_menu), pane);
+
+	if (NULL != scg &&
+	    NULL != (sheet = sc_sheet (SHEET_CONTROL (scg))) &&
+	    fabs (1. - sheet->last_zoom_factor_used) > 1e-6)
+		foo_canvas_set_pixels_per_unit (FOO_CANVAS (pane->gcanvas),
+						sheet->last_zoom_factor_used);
 
 	item = foo_canvas_item_new (pane->gcanvas->grid_items,
 		item_grid_get_type (),

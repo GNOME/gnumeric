@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gnm-py-interpreter.c : GObject wrapper around Python interpreter
  *
@@ -10,6 +11,7 @@
 #include <gutils.h>
 #include "py-gnumeric.h"
 #include "gnm-py-interpreter.h"
+#include "gnm-python.h"
 
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/module-plugin-defs.h>
@@ -280,6 +282,12 @@ gnm_py_interpreter_compare (gconstpointer a, gconstpointer b)
 }
 
 static GType gnm_py_interpreter_type;
+GType
+gnm_py_interpreter_get_type ()
+{
+	return gnm_py_interpreter_type;
+}
+
 void
 gnm_py_interpreter_register (GOPlugin *plugin)
 {

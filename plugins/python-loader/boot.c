@@ -36,5 +36,5 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	gnm_python_register (plugin);
 	gnm_py_command_line_register (plugin);
 	gnm_py_interpreter_selector_register (plugin);
-	gnm_python_loader_register (plugin);
+	gnm_python_plugin_loader_register (plugin);
 }

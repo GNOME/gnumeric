@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * py-interpreter-selector.c: A widget that can be used to select Python
  *                            interpreter from the list of available ones.
@@ -255,6 +256,12 @@ gnm_py_interpreter_selector_get_current (GnmPyInterpreterSelector *sel)
 }
 
 static GType gnm_py_interpreter_type;
+GType
+gnm_py_interpreter_selector_get_type ()
+{
+    return gnm_py_interpreter_type;
+}
+
 void
 gnm_py_interpreter_selector_register (GOPlugin *plugin)
 {

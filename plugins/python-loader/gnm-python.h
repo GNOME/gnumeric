@@ -24,6 +24,6 @@ void gnm_py_interpreter_register	  (GOPlugin *plugin);
 void gnm_python_register		  (GOPlugin *plugin);
 void gnm_py_command_line_register	  (GOPlugin *plugin);
 void gnm_py_interpreter_selector_register (GOPlugin *plugin);
-void gnm_python_loader_register		  (GOPlugin *plugin);
+void gnm_python_plugin_loader_register	  (GOPlugin *plugin);
 
 #endif /* PLUGIN_GNM_PYTHON_H */

@@ -4946,6 +4946,7 @@ excel_write_workbook (ExcelWriteState *ewb)
 
 	ms_biff_put_empty (ewb->bp, BIFF_EOF);
 
+	n = 0;
 	for (i = workbook_sheet_count (ewb->gnum_wb) ; i-- > 0 ;) {
 		Sheet const *sheet = workbook_sheet_by_index (ewb->gnum_wb, i);
 		n += g_hash_table_size (sheet->cell_hash);

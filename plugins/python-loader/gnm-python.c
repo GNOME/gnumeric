@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gnm-python.c :
  *
@@ -45,7 +46,6 @@ static guint signals[LAST_SIGNAL] = { 0 };
 static GObjectClass *parent_class = NULL;
 
 static GnmPython *gnm_python_obj = NULL;
-
 
 static void
 gnm_python_init (GnmPython *gpy)
@@ -264,6 +264,11 @@ gnm_python_clear_error_if_needed (GnmPython *gpy)
 }
 
 static GType gnm_python_type;
+GType
+gnm_python_get_type ()
+{
+	return gnm_python_type;
+}
 void
 gnm_python_register (GOPlugin *plugin)
 {

@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * py-command-line.c: Simple wrapper around GtkEntry with history support
  *
@@ -5,16 +6,17 @@
  */
 
 #include <gnumeric-config.h>
+#include "py-command-line.h"
+#include "gnm-python.h"
+#include <gnumeric.h>
+#include <gutils.h>
 #include <goffice/utils/go-glib-extras.h>
-#include <string.h>
+#include <goffice/app/module-plugin-defs.h>
+#include <gsf/gsf-impl-utils.h>
 #include <glib-object.h>
 #include <gtk/gtkentry.h>
 #include <gdk/gdkkeysyms.h>
-#include <gsf/gsf-impl-utils.h>
-#include <gnumeric.h>
-#include <gutils.h>
-#include <goffice/app/module-plugin-defs.h>
-#include "py-command-line.h"
+#include <string.h>
 
 #define MAX_HISTORY_SIZE  100
 
@@ -164,6 +166,11 @@ gnm_py_command_line_new (void)
 }
 
 static GType gnm_py_command_line_type;
+GType
+gnm_py_command_line_get_type ()
+{
+	return gnm_py_command_line_type;
+}
 void
 gnm_py_command_line_register (GOPlugin *plugin)
 {

@@ -2,6 +2,12 @@
 
 	* src/parse-util.c (row_parse): Fix parsing problem.  [#170465]
 
+2005-03-13  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=169830
+	* src/gnumeric-pane.c (gnm_pane_init) : init the zoom.
+	(gnumeric_pane_header_init) : ditto.
+
 2005-03-16  Stepan Kasal  <kasal@ucw.cz>
 
 	* autogen.sh: require intltool >= 0.29; fix IFS handling;
