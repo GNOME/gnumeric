@@ -34,6 +34,7 @@ extern int ms_excel_read_debug;
 extern int ms_excel_formula_debug;
 extern int ms_excel_color_debug;
 extern int ms_excel_chart_debug;
+extern int ms_excel_write_debug;
 extern gboolean libole2_debug;
 
 static char *dump_file_name = NULL;
@@ -65,6 +66,10 @@ const struct poptOption gnumeric_popt_options [] = {
 	{ "debug_excel_chart", '\0', POPT_ARG_INT,
 	    &ms_excel_chart_debug, 0,
 	  N_("Enables debugging mesgs while reading excel charts"),
+	  N_("LEVEL") },
+	{ "debug_excel_write", '\0', POPT_ARG_INT,
+	    &ms_excel_write_debug, 0,
+	  N_("Enables debugging mesgs while reading excel workbooks"),
 	  N_("LEVEL") },
 	{ "debug_ole", '\0', POPT_ARG_NONE,
 	    &libole2_debug, 0,

@@ -50,6 +50,13 @@ typedef struct {
 		}                align;
 		StyleOrientation orientation;
 		gboolean         fit_in_cell;
+
+		/* Convenience members */
+		gpointer         any_pointer;
+		gboolean         any_boolean;
+		float            any_float;
+		guint16          any_guint16;
+		guint32          any_guint32;
 	} u;
 } MStyleElement;
 
@@ -62,12 +69,28 @@ struct _MStyle {
 #define MSTYLE_ANY_COLOR             MSTYLE_COLOR_FORE: \
 				case MSTYLE_COLOR_BACK: \
 				case MSTYLE_COLOR_PATTERN
+
 #define MSTYLE_ANY_BORDER            MSTYLE_BORDER_TOP: \
 				case MSTYLE_BORDER_BOTTOM: \
 				case MSTYLE_BORDER_LEFT: \
 				case MSTYLE_BORDER_RIGHT: \
 				case MSTYLE_BORDER_DIAGONAL: \
 				case MSTYLE_BORDER_REV_DIAGONAL
+
+#define MSTYLE_ANY_POINTER           MSTYLE_FONT_NAME: \
+				case MSTYLE_FORMAT
+
+#define MSTYLE_ANY_BOOLEAN           MSTYLE_FONT_BOLD: \
+				case MSTYLE_FONT_ITALIC: \
+				case MSTYLE_FIT_IN_CELL
+
+#define MSTYLE_ANY_GUINT16           MSTYLE_ALIGN_V: \
+                                case MSTYLE_ALIGN_H
+
+#define MSTYLE_ANY_GUINT32           MSTYLE_PATTERN
+
+#define MSTYLE_ANY_FLOAT             MSTYLE_FONT_SIZE
+
 
 extern const char *mstyle_names [MSTYLE_ELEMENT_MAX];
 
@@ -103,15 +126,33 @@ mstyle_hash (gconstpointer st)
 	int     i;
 	guint32 hash;
 
-	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
+	for (i = MSTYLE_ELEMENT_CONFLICT + 1; i < MSTYLE_ELEMENT_MAX; i++) {
 		const MStyleElement *e = &mstyle->elements [i];
-		hash = hash << 8;
+		hash = hash << 7;
 		switch (i) {
 		case MSTYLE_ANY_COLOR:
 			hash = hash ^ GPOINTER_TO_UINT (e->u.color.any);
 			break;
 		case MSTYLE_ANY_BORDER:
 			hash = hash ^ GPOINTER_TO_UINT (e->u.border.any);
+			break;
+		case MSTYLE_ANY_POINTER:
+			hash = hash ^ GPOINTER_TO_UINT (e->u.any_pointer);
+			break;
+		case MSTYLE_ELEMENT_MAX_BLANK: /* A dummy element */
+			break;
+		case MSTYLE_ANY_BOOLEAN:
+			if (e->u.any_boolean)
+				hash = hash ^ 0x1379;
+			break;
+		case MSTYLE_ANY_FLOAT:
+			hash = hash ^ ((int)(e->u.any_float * 97));
+			break;
+		case MSTYLE_ANY_GUINT16:
+			hash = hash ^ e->u.any_guint16;
+			break;
+		case MSTYLE_ANY_GUINT32:
+			hash = hash ^ e->u.any_guint32;
 			break;
 		default:
 			g_warning ("Unimplemented hash item");

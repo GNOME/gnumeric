@@ -32,6 +32,7 @@
  * >1 increasing levels of detail.
  */
 int ms_excel_read_debug    = 0;
+int ms_excel_write_debug   = 0;
 int ms_excel_formula_debug = 0;
 int ms_excel_color_debug   = 0;
 int ms_excel_chart_debug   = 0;
@@ -567,6 +568,11 @@ char *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
 /* 0x31 */	"@"
 };
 
+/* 
+ * FIXME: This code falsely assumes that the builtin formats are
+ * fixed. The builtins get translated to local currency formats. E.g.
+ * Format data : 0x05 == '"kr"\ #,##0;"kr"\ \-#,##0' 
+*/
 StyleFormat *
 biff_format_data_lookup (ExcelWorkbook *wb, guint16 idx)
 {
@@ -1615,7 +1621,8 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 	g_ptr_array_add (wb->XF_cell_records, xf);
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 2) {
-		printf ("XF : Fore %d, Back %d\n",
+		printf ("XF : Font %d, Format %d, Fore %d, Back %d\n",
+			xf->font_idx, xf->format_idx,
 			xf->pat_foregnd_col, xf->pat_backgnd_col);
 	}
 #endif
@@ -2377,6 +2384,11 @@ print_font_mapping_debug_info (ExcelSheet *sheet, MStyle const *ms)
  * scaled appropriately. Using the sample below, we reduce the
  * difference in precision between Times and Helvetica to 0.13%.  
  */
+/* 
+ * FIXME: If a column is marked italic, Excel exports a different width.
+ * Looks like it tracks bold/italic variations, but we know that it doesn't 
+ * track family/size. Weird.
+ */
 static double
 lookup_base_char_width (ExcelSheet *sheet)
 {
@@ -2546,6 +2558,7 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 	guint16 const firstcol = MS_OLE_GET_GUINT16(q->data);
 	guint16       lastcol  = MS_OLE_GET_GUINT16(q->data+2);
 	guint16       width    = MS_OLE_GET_GUINT16(q->data+4);
+	guint16 const xf       = MS_OLE_GET_GUINT16(q->data+6);
 	guint16 const options  = MS_OLE_GET_GUINT16(q->data+8);
 	gboolean const hidden = (options & 0x0001) ? TRUE : FALSE;
 #if 0
@@ -2559,6 +2572,8 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 			printf ("Odd Colinfo\n");
 		printf ("Column Formatting from col %d to %d of width "
 			"%f characters\n", firstcol, lastcol, width/256.0);
+		printf ("Options %hd, default style %hd from col %d to %d\n",
+			options, xf, firstcol, lastcol);
 	}
 #endif
 	g_return_if_fail (firstcol < SHEET_MAX_COLS);
@@ -2655,6 +2670,12 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		{
 			ptr -= 2;
 			xf_index = MS_OLE_GET_GUINT16 (ptr);
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_read_debug > 2) {
+				printf (" xf(%s) = 0x%x",
+					col_name (i), xf_index);
+			}
+#endif
 			if (prev_xf != xf_index) {
 				if (prev_xf >= 0)
 					ms_excel_set_xf_segment (sheet, i + 1, range_end,
@@ -2665,6 +2686,11 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		} while (--i >= firstcol);
 		ms_excel_set_xf_segment (sheet, firstcol, range_end,
 					 row, prev_xf);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 2) {
+			printf ("\n");
+		}
+#endif
 		break;
 	}
 
@@ -3723,7 +3749,12 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 				d->name = biff_get_text(q->data+1, MS_OLE_GET_GUINT8(q->data), NULL);
 				d->idx = g_hash_table_size (wb->format_data) + 0x32;
 			}
-			/*				printf ("Format data : %d == '%s'\n", d->idx, d->name); */
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_read_debug > 2) {
+				printf ("Format data : 0x%x == '%s'\n", 
+					d->idx, d->name);
+			}
+#endif
 			g_hash_table_insert (wb->format_data, &d->idx, d);
 			break;
 		}
@@ -3897,6 +3928,14 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
 		printf ("finished read\n");
+	}
+#endif
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 0
+	    || ms_excel_formula_debug > 0
+	    || ms_excel_color_debug   > 0
+	    || ms_excel_chart_debug > 0) {
+		fflush (stdout);
 	}
 #endif
 

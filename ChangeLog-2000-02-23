@@ -1,3 +1,13 @@
+1999-11-30  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/mstyle.c (mstyle_hash): updated.
+
+1999-11-30  Jon K Hellan  <hellan@acm.org>
+
+	* src/mstyle.c (mstyle_hash): implement.
+
+	* src/main.c: Add debug_excel_write parameter.
+
 1999-11-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_new) : Disable for bonobo case
