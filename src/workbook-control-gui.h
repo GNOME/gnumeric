@@ -1,0 +1,23 @@
+#ifndef GNUMERIC_WORKBOOK_CONTROL_GUI_H
+#define GNUMERIC_WORKBOOK_CONTROL_GUI_H
+
+#include "gnumeric.h"
+#include "workbook-control.h"
+#include <gnome.h>
+
+#define WORKBOOK_CONTROL_GUI_TYPE     (workbook_control_get_type ())
+#define WORKBOOK_CONTROL_GUI(obj)     (GTK_CHECK_CAST ((obj), WORKBOOK_CONTROL_GUI_TYPE, WorkbookControlGUI))
+#define WORKBOOK_CONTROL_GUI_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), WORKBOOK_CONTROL_GUI_TYPE, WorkbookControlClassGUI))
+#define IS_WORKBOOK_CONTROL_GUI(o)    (GTK_CHECK_TYPE ((o), WORKBOOK_CONTROL_GUI_TYPE))
+
+typedef struct _WorkbookControlGUI WorkbookControlGUI;
+
+GtkType          workbook_control_gui_get_type  (void);
+WorkbookControl *workbook_control_gui_new       (WorkbookView *);
+void		 workbook_control_gui_init      (WorkbookControlGUI *wbcg,
+						 WorkbookView *optional_view);
+
+GtkWindow *wb_control_gui_toplevel (WorkbookControlGUI *wbcg);
+void       wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg);
+
+#endif /* GNUMERIC_WORKBOOK_CONTROL_GUI_H */
