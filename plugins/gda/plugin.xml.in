@@ -12,6 +12,7 @@
 			<_category>Database</_category>
 			<functions>
 				<function name="execSQL"/>
+				<function name="readDBTable"/>
 			</functions>
 		</service>
 	</services>

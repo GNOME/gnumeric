@@ -1,3 +1,12 @@
+2002-12-28  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	* plugin-gda.c (gnumeric_execSQL): added better documentation for
+	the execSQL function, now with an example.
+	(gnumeric_readDBTable): added new function to GDA plugin, to read a
+	table, without the need for a SQL command.
+
+	* plugin.xml.in: added new function.
+
 2002-12-23  Jon K Hellan  <hellan@acm.org>
 
 	* plugin-gda.c (gnumeric_execSQL):  Adapted to changes in

@@ -81,16 +81,19 @@ display_recordset (GdaDataModel *recset, FunctionEvalInfo *ei)
  */
 static char const *help_execSQL = {
 	N_("@FUNCTION=EXECSQL\n"
-	   "@SYNTAX=EXECSQL(i)\n"
+	   "@SYNTAX=EXECSQL(dsn,username,password,sql)\n"
 	   "@DESCRIPTION="
-	   "The EXECSQL function lets you execute a command in a\n"
-	   " database server, and show the results returned in\n"
-	   " current sheet. It uses libgda as the means for\n"
+	   "The EXECSQL function lets you execute a command in a"
+	   " database server, and show the results returned in"
+	   " current sheet. It uses libgda as the means for"
 	   " accessing the databases.\n"
-	   ""
+	   "For using it, you need first to set up a libgda data source."
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "@SEEALSO=")
+	   "To get all the data from the table \"Customers\" present"
+	   " in the \"mydatasource\" GDA data source, you would use:\n"
+	   "EXECSQL(\"mydatasource\",\"username\",\"password\",\"SELECT * FROM customers\")\n"
+	   "@SEEALSO=READDBTABLE")
 };
 
 static Value *
@@ -148,6 +151,84 @@ gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
 	return ret;
 }
 
+/*
+ * readDBTable function
+ */
+static char const *help_readDBTable = {
+	N_("@FUNCTION=READDBTABLE\n"
+	   "@SYNTAX=READDBTABLE(dsn,username,password,table)\n"
+	   "@DESCRIPTION="
+	   "The READDBTABLE function lets you get the contents of"
+	   " a table, as stored in a database."
+	   "For using it, you need first to set up a libgda data source."
+	   "\n"
+	   "Note that this function returns all the rows in the given"
+	   " table. If you want to get data from more than one table"
+	   " or want a more precise selection (conditions), use the"
+	   " EXECSQL function."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "To get all the data from the table \"Customers\" present"
+	   " in the \"mydatasource\" GDA data source, you would use:\n"
+	   "READDBTABLE(\"mydatasource\",\"username\",\"password\",\"customers\")\n"
+	   "@SEEALSO=EXECSQL")
+};
+
+static Value *
+gnumeric_readDBTable (FunctionEvalInfo *ei, Value **args)
+{
+	Value*         ret;
+	gchar*         dsn_name;
+	gchar*         user_name;
+	gchar*         password;
+	gchar*         table;
+	GdaConnection* cnc;
+	GdaDataModel*  recset;
+	GList*         recset_list;
+	GdaCommand*    cmd;
+
+	dsn_name = value_get_as_string (args[0]);
+	user_name = value_get_as_string (args[1]);
+	password = value_get_as_string (args[2]);
+	table = value_get_as_string (args[3]);
+	if (!dsn_name || !table)
+		return value_new_error (ei->pos, _("Format: readDBTable(dsn,user,password,table)"));
+
+	/* initialize connection pool if first time */
+	if (!GDA_IS_CLIENT (connection_pool)) {
+		connection_pool = gda_client_new ();
+		if (!connection_pool) {
+			return value_new_error (ei->pos, _("Error: could not initialize connection pool"));
+		}
+	}
+	cnc = gda_client_open_connection (connection_pool, 
+					  dsn_name, 
+					  user_name, 
+					  password, 
+					  GDA_CONNECTION_OPTIONS_READ_ONLY);
+	if (!GDA_IS_CONNECTION (cnc)) {
+		return value_new_error(ei->pos, _("Error: could not open connection to %s"));
+	}
+
+	/* execute command */
+	cmd = gda_command_new (table, GDA_COMMAND_TYPE_TABLE, 0);
+	recset_list = gda_connection_execute_command (cnc, cmd, NULL);
+	gda_command_free (cmd);
+	if (recset_list) {
+		recset = (GdaDataModel *) recset_list->data;
+		if (!GDA_IS_DATA_MODEL (recset))
+			ret = value_new_error (ei->pos, _("Error: no recordsets were returned"));
+		else
+			ret = display_recordset (recset, ei);
+
+		g_list_foreach (recset_list, (GFunc) g_object_unref, NULL);
+		g_list_free (recset_list);
+	} else
+		ret = value_new_empty ();
+
+	return ret;
+}
+
 void
 plugin_cleanup (void)
 {
@@ -160,5 +241,6 @@ plugin_cleanup (void)
 
 GnmFuncDescriptor gdaif_functions[] = {
 	{"execSQL", "ssss", "dsn,username,password,sql", &help_execSQL, &gnumeric_execSQL, NULL, NULL, NULL },
+	{"readDBTable", "ssss", "dsn,username,password,table", &help_readDBTable, &gnumeric_readDBTable, NULL, NULL, NULL },
 	{NULL}
 };
