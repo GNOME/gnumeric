@@ -1801,6 +1801,7 @@ xml_write_solver (parse_xml_context_t *ctxt, SolverParameters *param)
 	String           *s;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Solver", NULL);
+
 	if (param->target_cell != NULL) {
 	        xml_set_value_int (cur, "TargetCol",
 				   param->target_cell->col->pos);
@@ -1976,14 +1977,12 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	ctxt->parent = cells;
 	g_hash_table_foreach (sheet->cell_hash, xml_write_cell_to, ctxt);
 
-#if NOT_BROKEN
 	/*
 	 * Solver informations
 	 */
 	solver = xml_write_solver (ctxt, &sheet->solver_parameters);
 	if (solver)
 		xmlAddChild (cur, solver);
-#endif
 
 	return cur;
 }
@@ -2154,14 +2153,12 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		}
 	}
 
-#if NOT_BROKEN
 	/*
 	 * Solver informations
 	 */
 	child = xml_search_child (tree, "Solver");
 	if (child != NULL)
 	        xml_read_solver (ret, ctxt, child, &(ret->solver_parameters));
-#endif
 
 	cell_deep_thaw_redraws ();
 

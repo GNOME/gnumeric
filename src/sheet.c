@@ -160,6 +160,10 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->rows.max_used = -1;
 	sheet->solver_parameters.options.assume_linear_model = TRUE;
 	sheet->solver_parameters.options.assume_non_negative = TRUE;
+	sheet->solver_parameters.input_entry_str = g_strdup ("");
+	sheet->solver_parameters.problem_type = SolverMaximize;
+	sheet->solver_parameters.constraints = NULL;
+	sheet->solver_parameters.target_cell = NULL;
 
 	g_ptr_array_set_size (sheet->cols.info = g_ptr_array_new (), 
 			      COLROW_SEGMENT_INDEX (SHEET_MAX_COLS-1)+1);
