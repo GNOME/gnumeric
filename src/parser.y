@@ -162,6 +162,9 @@ build_array (GList *cols)
 	return expr_tree_new_constant (array);
 }
 
+/* Make byacc happier */
+int yyparse(void);
+
 %}
 
 %union {
@@ -198,10 +201,10 @@ line:	  exp           { *parser_result = $1; }
 	| error 	{ parser_error = PARSE_ERR_SYNTAX; }
 	;
 
-exp:	  NUMBER 	{ $$ = $1 }
-	| STRING        { $$ = $1 }
-        | cellref       { $$ = $1 }
-	| CONSTANT      { $$ = $1 }
+exp:	  NUMBER 	{ $$ = $1; }
+	| STRING        { $$ = $1; }
+        | cellref       { $$ = $1; }
+	| CONSTANT      { $$ = $1; }
 	| exp '+' exp	{ $$ = build_binop ($1, OPER_ADD,       $3); }
 	| exp '-' exp	{ $$ = build_binop ($1, OPER_SUB,       $3); }
 	| exp '*' exp	{ $$ = build_binop ($1, OPER_MULT,      $3); }
@@ -276,8 +279,8 @@ arg_list: exp {
         | { $$ = NULL; }
 	;
 
-array_exp:	  NUMBER 	{ $$ = $1 }
-		| STRING        { $$ = $1 }
+array_exp:	  NUMBER 	{ $$ = $1; }
+		| STRING        { $$ = $1; }
 	;
 
 array_row: array_exp {

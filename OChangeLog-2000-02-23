@@ -1,5 +1,7 @@
 1999-12-20  Jody Goldberg <jgoldberg@home.com>
 
+	* src/parser.y : Clean up for byacc.
+
 	* src/workbook.c (file_open_cmd) : Handle failed opens.
 	(file_import_cmd) : Handle failed imports.
 
