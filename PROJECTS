@@ -1,6 +1,27 @@
-Description						Difficulty Integration
-------------------------------------------------------  ---------- -----------
-- Dialog to change the order of sheets.			Easy		Low
+Description                                             Difficulty  Integration
+------------------------------------------------------  ----------  -----------
+- Dialog to change the order of sheets.                 Easy        Low
 
-- Ability to Create a new sheet that is a copy		Medium		Medium
+- Ability to Create a new sheet that is a copy          Medium      Medium
   of an existing sheet.
+
+- Financial functions (src/functions/fn-financial.c)    Medium      Very low
+
+- Thoroughly check for division-by-zero and other       Low         Low
+  arithmetic problems in functions, mostly financial.
+
+- Add tests for all kinds of error conditions for       Low         Low
+  functions to samples/regress.gnumeric so we can be
+  sure that we are returning the right error code.
+
+
+
+
+
+
+Difficulty: an estimate of how hard the task would be for the average hacker.
+  (This is not an estimate of project size; a project can be very big, but
+   easy at the same time.)
+
+Integration: an estimate of how much of Gnumeric's internals you need to know
+  in order to take on this project
