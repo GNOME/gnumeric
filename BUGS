@@ -7,10 +7,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-- validate expression names to ensure that they are not simple values (eg TRUE)
-- height calculation in render value is hosed for embedded new lines
-- fix stf export warnings
-
 Pending Patches
 ---------------
     - ?? more work on D&D based sheet reorg ?
@@ -18,6 +14,9 @@ Pending Patches
 
 1.2 Targets
 -----------
+
+- validate expression names to ensure that they are not simple values (eg TRUE)
+- height calculation in render value is hosed for embedded new lines
 
 1) graphs
 2) stf
@@ -85,11 +84,13 @@ Probably Post 1.2 Targets
 - finish corba plugin
 - conditional formats : could be done if someone wanted to work on the dialog
 - pivots and scripting
+- drawing rotated borders
 - undo/redo transaction file
 - load/save of external references
 - input message				(Stored)
 - validation from list
 - clipboard handlers in plugins
+- Put a pango layout in rendered value
 
 Excel i/o
     - 'Forms' import.
