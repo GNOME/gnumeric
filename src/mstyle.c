@@ -84,6 +84,7 @@ struct _MStyle {
 	Sheet	      *linked_sheet;
 	MStyleElement  elements[MSTYLE_ELEMENT_MAX];
 	PangoAttrList *pango_attrs;
+	double         pango_attrs_zoom;
 	StyleFont     *font;
 	double         font_zoom;
 };
@@ -1592,17 +1593,21 @@ mstyle_visible_in_blank (const MStyle *st)
 }
 
 PangoAttrList *
-mstyle_get_pango_attrs (const MStyle *mstyle)
+mstyle_get_pango_attrs (const MStyle *mstyle, double zoom)
 {
 	PangoAttribute *attr;
 	PangoAttrList *res;
 
 	if (mstyle->pango_attrs) {
-		pango_attr_list_ref (mstyle->pango_attrs);
-		return mstyle->pango_attrs;
+		if (zoom == mstyle->pango_attrs_zoom) {
+			pango_attr_list_ref (mstyle->pango_attrs);
+			return mstyle->pango_attrs;
+		}
+		pango_attr_list_unref (((MStyle *)mstyle)->pango_attrs);
 	}
 
 	((MStyle *)mstyle)->pango_attrs = res = pango_attr_list_new ();
+	((MStyle *)mstyle)->pango_attrs_zoom = zoom;
 
 	/* Foreground colour.  */
 	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
@@ -1644,7 +1649,7 @@ mstyle_get_pango_attrs (const MStyle *mstyle)
 
 	/* Handle font.  */
 	{
-		StyleFont *font = mstyle_get_font (mstyle, 1); /* FIXME: zoom? */
+		StyleFont *font = mstyle_get_font (mstyle, zoom);
 		attr = pango_attr_font_desc_new (font->pango.font_descr);
 		attr->start_index = 0;
 		attr->end_index = -1;

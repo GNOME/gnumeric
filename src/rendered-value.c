@@ -175,6 +175,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 	PangoAttrList   *attrs;
 	const StyleColor *fore;
 	gboolean        display_formula;
+	double          zoom;
 
 	/* This screws thread safety (which we don't need).  */
 	static GString  *str = NULL;
@@ -216,7 +217,8 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 	res->layout = layout = pango_layout_new (context);
 	pango_layout_set_text (layout, str->str, str->len);
 
-	attrs = mstyle_get_pango_attrs (mstyle);
+	zoom = sheet->last_zoom_factor_used;
+	attrs = mstyle_get_pango_attrs (mstyle, zoom);
 #ifdef BUG_105322
 	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
 	fore = color ? color : mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);

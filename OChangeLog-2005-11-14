@@ -1,3 +1,8 @@
+2003-05-01  Morten Welinder  <terra@gnome.org>
+
+	* src/mstyle.c (mstyle_get_pango_attrs): Add zoom parameter.
+	* src/rendered-value.c (rendered_value_new): Supply zoom.
+
 2003-05-01  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object.c (sheet_object_default_size) : simplify.

@@ -139,7 +139,7 @@ GnmInputMsg   	   *mstyle_get_input_msg	(const MStyle *st);
 
 gboolean            mstyle_visible_in_blank (const MStyle *st);
 
-PangoAttrList      *mstyle_get_pango_attrs (const MStyle *st);
+PangoAttrList      *mstyle_get_pango_attrs (const MStyle *st, double zoom);
 
 char       *mstyle_to_string   (const MStyle *st); /* Debug only ! leaks like a sieve */
 void        mstyle_dump        (const MStyle *st);
