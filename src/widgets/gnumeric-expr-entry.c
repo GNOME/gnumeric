@@ -388,6 +388,7 @@ gee_init (GnmExprEntry *gee)
 		G_CALLBACK (gee_notify_cursor_position), gee);
 	gtk_box_pack_start (GTK_BOX (gee), GTK_WIDGET (gee->entry),
 		TRUE, TRUE, 0);
+	gtk_widget_show (GTK_WIDGET (gee->entry));
 }
 
 static void
