@@ -1389,25 +1389,27 @@ readXmlSheet (parseXmlContextPtr ctxt, xmlNodePtr tree)
 	/* xmlNodePtr styles; */
 	xmlNodePtr cells;
 	xmlNodePtr objects;
-	Sheet *ret;
+	Sheet *ret = NULL;
 	const char *val;
 
 	if (strcmp (tree->name, "Sheet")){
 		fprintf (stderr,
-			 "readXmlSheet: invalid element type %s, 'Sheet' expected`\n",
+			 "readXmlSheet: invalid element type %s, 'Sheet' expected\n",
 			 tree->name);
 	}
 	child = tree->childs;
+
 	/*
-	 * Get the name to create the sheet
+	 * Get the name of the sheet.  If it does exist, use the existing
+	 * name, otherwise create a sheet (ie, for the case of only reading
+	 * a new sheet).
 	 */
 	val = xmlGetValue (tree, "Name");
 	if (val != NULL){
-		ret = sheet_new (ctxt->wb, (char *) val);
-	} else {
-		fprintf (stderr, "readXmlSheet: Sheet has no name\n");
-		ret = sheet_new (ctxt->wb, _ ("NoName"));
-	}
+		ret = workbook_sheet_lookup (ctxt->wb, (const char *) val);
+		if (ret == NULL)
+			ret = sheet_new (ctxt->wb, (const char *) val);
+	} 
 
 	if (ret == NULL)
 		return NULL;
@@ -1522,6 +1524,29 @@ writeXmlWorkbook (parseXmlContextPtr ctxt, Workbook *wb)
 	return cur;
 }
 
+static void
+createXmlSheet (parseXmlContextPtr ctxt, xmlNodePtr tree)
+{
+	const char *val;
+	xmlNodePtr child;
+	
+	if (strcmp (tree->name, "Sheet")){
+		fprintf (stderr,
+			 "createXmlSheet: invalid element type %s, 'Sheet' expected\n",
+			 tree->name);
+		return;
+	}
+	child = tree->childs;
+	val = xmlGetValue (tree, "Name");
+	if (val != NULL){
+		Sheet *sheet;
+		
+		sheet = sheet_new (ctxt->wb, (char *) val);
+		workbook_attach_sheet (ctxt->wb, sheet);
+	}
+	return;
+}
+
 /*
  * Create a Workbook equivalent to the XML subtree of doc.
  */
@@ -1530,7 +1555,7 @@ readXmlWorkbook (parseXmlContextPtr ctxt, xmlNodePtr tree)
 {
 	Workbook *ret;
 	Sheet *sheet;
-	xmlNodePtr child;
+	xmlNodePtr child, c;
 
 	if (strcmp (tree->name, "Workbook")){
 		fprintf (stderr,
@@ -1556,12 +1581,25 @@ readXmlWorkbook (parseXmlContextPtr ctxt, xmlNodePtr tree)
 	child = xmlSearchChild (tree, "Sheets");
 	if (child == NULL)
 		return ret;
-	child = child->childs;
-	while (child != NULL){
-		sheet = readXmlSheet (ctxt, child);
-		if (sheet != NULL)
-			workbook_attach_sheet (ret, sheet);
-		child = child->next;
+
+	/*
+	 * Pass 1: Create all the sheets, to make sure
+	 * all of the references to forward sheets are properly
+	 * handled
+	 */
+	c = child->childs;
+	while (c != NULL){
+		createXmlSheet (ctxt, c);
+		c = c->next;
+	}
+	
+	/*
+	 * Pass 2: read the contents
+	 */
+	c = child->childs;
+	while (c != NULL){
+		sheet = readXmlSheet (ctxt, c);
+		c = c->next;
 	}
 	
 	return ret;

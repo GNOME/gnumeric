@@ -105,3 +105,7 @@ GNOME Spread Sheet task list
    Integrate 'advance' into read_copy, and write, and rename to lseek
 
    Snarf wine OLE API.
+
+* Sheets
+
+When adding a sheet or renaming a sheet, should we reparse everything?
