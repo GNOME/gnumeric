@@ -1,3 +1,8 @@
+2003-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* figures/Makefile.am (EXTRA_DIST): Sorted in sort(1) order; added
+	missing images. (Debian #218580)
+
 2003-10-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.1

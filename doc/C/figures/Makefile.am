@@ -1,6 +1,8 @@
 
-EXTRA_DIST = advanced-filter-1.png \
+EXTRA_DIST = \
+     advanced-filter-1.png \
      advanced-filter-2.png \
+     analysis-tools.png \
      analysistools-ANOVA1-ex1.png \
      analysistools-ANOVA1-ex2.png \
      analysistools-ANOVA2w-ex1.png \
@@ -31,7 +33,6 @@ EXTRA_DIST = advanced-filter-1.png \
      analysistools-moving-average-ex2.png \
      analysistools-moving-average.png \
      analysistools-outputoptions.png \
-     analysis-tools.png \
      analysistools-random-ex1.png \
      analysistools-random-ex2.png \
      analysistools-random.png \
@@ -56,15 +57,16 @@ EXTRA_DIST = advanced-filter-1.png \
      analysistools-ttest-paired-ex1.png \
      analysistools-ttest-paired-ex2.png \
      analysistools-ttest-paired.png \
-     analysistools-ttest.png \
      analysistools-ttest-unequal-ex1.png \
      analysistools-ttest-unequal-ex2.png \
      analysistools-ttest-unequal.png \
+     analysistools-ttest.png \
      analysistools-ztest-ex1.png \
      analysistools-ztest-ex2.png \
      analysistools-ztest.png \
-     autofill-10.png \
+     auto-save.png \
      autofill-1.png \
+     autofill-10.png \
      autofill-2.png \
      autofill-3.png \
      autofill-4.png \
@@ -93,9 +95,7 @@ EXTRA_DIST = advanced-filter-1.png \
      button-frame.png \
      button-function.png \
      button-graph.png \
-     buttonGroup-bonobo.png \
-     buttonGroup-filesystem.png \
-     buttonGroup-printing.png \
+     button-graphEditor-add.png \
      button-increase-indent.png \
      button-increase-precision.png \
      button-insert-component.png \
@@ -125,11 +125,14 @@ EXTRA_DIST = advanced-filter-1.png \
      button-underline.png \
      button-undo-and-history.png \
      button-zoom.png \
+     buttonGroup-bonobo.png \
+     buttonGroup-filesystem.png \
+     buttonGroup-printing.png \
      cell-grid.png \
-     cells-1.png \
-     cells-2.png \
      cell-selected.png \
      cell-with-text.png \
+     cells-1.png \
+     cells-2.png \
      dialog-auto-correct.png \
      dialog-autosave.png \
      dialog-border.png \
@@ -137,6 +140,10 @@ EXTRA_DIST = advanced-filter-1.png \
      dialog-graphing.png \
      dialog-insert-object.png \
      dialog-summary.png \
+     example-colGraph-modified.png \
+     example-colGraph.png \
+     example-columnSelect.png \
+     example-data.png \
      file-dialog.png \
      file-formats-import-list.png \
      files-csv-export-ex1.png \
@@ -148,12 +155,13 @@ EXTRA_DIST = advanced-filter-1.png \
      files-csv-import-ex5.png \
      files-dvi-example.png \
      files-formats-list.png \
+     files-html-example.png \
      files-html32-example.png \
      files-html40-example.png \
-     files-html-example.png \
      files-latex-example.png \
      files-xml-example.png \
      gnumeric-empty.png \
+     gnumeric-icon-24.png \
      gnumeric-labelled.png \
      gnumeric-power-example.png \
      gnumeric-rearranged.png \
@@ -166,8 +174,8 @@ EXTRA_DIST = advanced-filter-1.png \
      label-three.png \
      label-transparent.png \
      label-two.png \
-     menubar.png \
      menu-context-col-row-header.png \
+     menu-context-graph.png \
      menu-context-grid.png \
      menu-context-object.png \
      menu-context-tabs.png \
@@ -181,6 +189,7 @@ EXTRA_DIST = advanced-filter-1.png \
      menu-tools-labelled.png \
      menu-torn-off.png \
      menu-view-labelled.png \
+     menubar.png \
      number-format-border-dialog.png \
      number-format-buttonbar.png \
      number-format-color-dialog.png \
@@ -189,11 +198,11 @@ EXTRA_DIST = advanced-filter-1.png \
      number-format-justification-dialog-2.png \
      number-format-justification.png \
      number-format-protection.png \
-     number-format-validation.png \
      number-format-validation-warning.png \
+     number-format-validation.png \
      pointer_arrow_left_std.png \
-     pointer_cross_hair.png \
      pointer_cross.png \
+     pointer_cross_hair.png \
      pointer_cross_wide.png \
      pointer_diagonal_resize.png \
      pointer_double_horizontal_arrow.png \
@@ -208,15 +217,7 @@ EXTRA_DIST = advanced-filter-1.png \
      pointer_text_edit.png \
      pointer_zoom_in.png \
      pointer_zoom_out.png \
-     printing-preview.png \
-     printing-setup-header-config.png \
-     printing-setup-header.png \
-     printing-setup-margins.png \
-     printing-setup-page-1.png \
-     printing-setup-page.png \
-     printing-setup-sheet.png \
      print-large.png \
-     print.png \
      print-preview-back.png \
      print-preview-first.png \
      print-preview-fit.png \
@@ -224,13 +225,21 @@ EXTRA_DIST = advanced-filter-1.png \
      print-preview-fitwide.png \
      print-preview-last.png \
      print-preview-next.png \
-     print-preview.png \
      print-preview-toolbar.png \
      print-preview-zoomin.png \
      print-preview-zoomout.png \
+     print-preview.png \
      print-worksheet.png \
-     selection-10.png \
+     print.png \
+     printing-preview.png \
+     printing-setup-header-config.png \
+     printing-setup-header.png \
+     printing-setup-margins.png \
+     printing-setup-page-1.png \
+     printing-setup-page.png \
+     printing-setup-sheet.png \
      selection-1.png \
+     selection-10.png \
      selection-2.png \
      selection-3.png \
      selection-4.png \
@@ -246,9 +255,9 @@ EXTRA_DIST = advanced-filter-1.png \
      solver-05.png \
      toolbar-format.png \
      toolbar-object.png \
+     toolbar-standard.png \
      toolbar.png \
      toolbars.png \
-     toolbar-standard.png \
      worksheet-all-1.png \
      worksheet-cols-1.png \
      worksheet-data-1.png \
@@ -259,5 +268,5 @@ EXTRA_DIST = advanced-filter-1.png \
      worksheet-rows-1.png \
      worksheet-running-calc-1.png \
      zoom-dialog.png \
-     zoom.png \
      zoom-toolbar.png 	
+     zoom.png \
