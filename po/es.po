@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-23 16:12-0500\n"
+"POT-Creation-Date: 2003-12-28 21:53-0500\n"
 "PO-Revision-Date: 2003-12-13 13:52+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
@@ -1400,7 +1400,7 @@ msgstr ""
 "Ya escribimos una longitud para una cadena que ha sido truncada debido a "
 "problemas de codificación."
 
-#: plugins/excel/ms-excel-write.c:3759
+#: plugins/excel/ms-excel-write.c:3760
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1409,7 +1409,7 @@ msgstr ""
 "Se perderá algo de contenido si lo guarda como MS Excel (tm) 95. Sólo "
 "soporta %d filas, y este libro de cuentas tiene %d"
 
-#: plugins/excel/ms-excel-write.c:3766
+#: plugins/excel/ms-excel-write.c:3767
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1418,11 +1418,11 @@ msgstr ""
 "Algunos contenidos se perderán al guardar como MS Excel (tm). Excel sólo "
 "soporta %d filas y este libro de cuentas tiene %d"
 
-#: plugins/excel/ms-excel-write.c:4285
+#: plugins/excel/ms-excel-write.c:4287
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "No se pudo el flujo «Libro» para escritura\n"
 
-#: plugins/excel/ms-excel-write.c:4305
+#: plugins/excel/ms-excel-write.c:4307
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "No se puede abrir el flujo «Libro de cuentas» para escritura\n"
 
@@ -17478,7 +17478,7 @@ msgstr "Restricciones:"
 #: src/dialogs/dialog-function-select.c:445
 #: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:362
 #: src/dialogs/dialog-simulation.c:226 src/dialogs/dialog-zoom.c:198
-#: src/format-template.c:247 src/tools/solver/reports-write.c:81
+#: src/format-template.c:248 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
 #: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:283
 #: src/tools/solver/reports-write.c:395 src/tools/solver/reports-write.c:402
@@ -27057,23 +27057,23 @@ msgstr ""
 "Puede desactivar esta característica en forma segura, editando el archivo "
 "plugin.xml apropiado."
 
-#: src/format-template.c:467
+#: src/format-template.c:468
 msgid "Error while trying to load autoformat template"
 msgstr "Error al intentar cargar plantilla de autoformato"
 
-#: src/format-template.c:484
+#: src/format-template.c:485
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Error al intentar construir árbol desde la plantilla de autoformato"
 
-#: src/format-template.c:490
+#: src/format-template.c:491
 msgid "Is not an autoformat template file"
 msgstr "No es una plantilla de autoformato"
 
-#: src/format-template.c:493
+#: src/format-template.c:494
 msgid "Invalid xml file. Tree is empty?"
 msgstr "El archivo xml no es válido: ¿Está vacío el árbol?"
 
-#: src/format-template.c:826
+#: src/format-template.c:827
 #, c-format
 msgid ""
 "The target region is too small.  It should be at least %d rows by %d columns"
@@ -27081,13 +27081,13 @@ msgstr ""
 "La región de destino es muy pequeña, debe tener al menos %d filas por %d "
 "columnas"
 
-#: src/format-template.c:830
+#: src/format-template.c:831
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
 msgstr ""
 "La región de destino es muy pequeña, debe tener al menos %d columnas de ancho"
 
-#: src/format-template.c:834
+#: src/format-template.c:835
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr ""

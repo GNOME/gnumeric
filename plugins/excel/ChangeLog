@@ -1,3 +1,7 @@
+2003-12-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.4
+
 2003-12-24  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_WRITEACCESS) : don't free memory we do

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-23 16:12-0500\n"
+"POT-Creation-Date: 2003-12-28 21:53-0500\n"
 "PO-Revision-Date: 2003-05-05 18:20+0000\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -894,7 +894,7 @@ msgstr ""
 "可能数据发生了损坏。\n"
 "现已写入因编码问题而被截断的字符串长度。"
 
-#: plugins/excel/ms-excel-write.c:3759
+#: plugins/excel/ms-excel-write.c:3760
 #, fuzzy, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -903,7 +903,7 @@ msgstr ""
 "如果以 Excel 95 格式保存，则会丢失某些内容。这种格式只支持 %d 行，而此工作簿"
 "有 %d 行"
 
-#: plugins/excel/ms-excel-write.c:3766
+#: plugins/excel/ms-excel-write.c:3767
 #, fuzzy, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -912,11 +912,11 @@ msgstr ""
 "如果以 Excel 格式保存，则会丢失某些内容。这种格式只支持 %d 行，而此工作簿有 %"
 "d 行"
 
-#: plugins/excel/ms-excel-write.c:4285
+#: plugins/excel/ms-excel-write.c:4287
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "无法打开流“工作簿”写入\n"
 
-#: plugins/excel/ms-excel-write.c:4305
+#: plugins/excel/ms-excel-write.c:4307
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "无法打开流“工作簿”写入\n"
 
@@ -15432,7 +15432,7 @@ msgstr "约束条件："
 #: src/dialogs/dialog-function-select.c:445
 #: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:362
 #: src/dialogs/dialog-simulation.c:226 src/dialogs/dialog-zoom.c:198
-#: src/format-template.c:247 src/tools/solver/reports-write.c:81
+#: src/format-template.c:248 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
 #: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:283
 #: src/tools/solver/reports-write.c:395 src/tools/solver/reports-write.c:402
@@ -25849,35 +25849,35 @@ msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 
-#: src/format-template.c:467
+#: src/format-template.c:468
 msgid "Error while trying to load autoformat template"
 msgstr "试图装入自动套用格式模板时出错"
 
-#: src/format-template.c:484
+#: src/format-template.c:485
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "试图从自动套用格式模板文件建立树时出错"
 
-#: src/format-template.c:490
+#: src/format-template.c:491
 msgid "Is not an autoformat template file"
 msgstr "不是一个自动套用格式模板文件"
 
-#: src/format-template.c:493
+#: src/format-template.c:494
 #, fuzzy
 msgid "Invalid xml file. Tree is empty?"
 msgstr "无效的 XML 文件。树是空的吗?"
 
-#: src/format-template.c:826
+#: src/format-template.c:827
 #, fuzzy, c-format
 msgid ""
 "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr "目标区域太小, 它至少应有 %d 行和 %d 列"
 
-#: src/format-template.c:830
+#: src/format-template.c:831
 #, fuzzy, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
 msgstr "目标区域太小, 它至少应有 %d 列宽"
 
-#: src/format-template.c:834
+#: src/format-template.c:835
 #, fuzzy, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "目标区域太小, 它至少应有 %d 行高"

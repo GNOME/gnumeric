@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-23 16:12-0500\n"
+"POT-Creation-Date: 2003-12-28 21:53-0500\n"
 "PO-Revision-Date: 2003-09-24 00:24+0200\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@kde.org>\n"
 "Language-Team: Slovak <sk-i18n@linux.sk>\n"
@@ -1052,7 +1052,7 @@ msgstr ""
 "Toto je čiastočne poškodené.\n"
 "Už sme zapísali dĺžku reťazca, ktorý se skrátený kvôli problémom s kódovaním."
 
-#: plugins/excel/ms-excel-write.c:3759
+#: plugins/excel/ms-excel-write.c:3760
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1061,7 +1061,7 @@ msgstr ""
 "Pri ukladaní ako MS Excel (tm) 95 bude časť obsahu stratená. Podporuje iba %"
 "d riadkov a tento zošit ich má %d"
 
-#: plugins/excel/ms-excel-write.c:3766
+#: plugins/excel/ms-excel-write.c:3767
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1070,11 +1070,11 @@ msgstr ""
 "Pri ukladaní ako MS Excel (tm) bude časť obsahu stratená. Podporuje iba %d "
 "riadkov a tento zošit ich má %d"
 
-#: plugins/excel/ms-excel-write.c:4285
+#: plugins/excel/ms-excel-write.c:4287
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Nepodarilo sa otvoriť kanál 'Book' pre zápis\n"
 
-#: plugins/excel/ms-excel-write.c:4305
+#: plugins/excel/ms-excel-write.c:4307
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Nepodarilo sa otvoriť kanál 'Workbook' pre zápis\n"
 
@@ -15986,7 +15986,7 @@ msgstr "Obmedzenia:"
 #: src/dialogs/dialog-function-select.c:445
 #: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:362
 #: src/dialogs/dialog-simulation.c:226 src/dialogs/dialog-zoom.c:198
-#: src/format-template.c:247 src/tools/solver/reports-write.c:81
+#: src/format-template.c:248 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
 #: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:283
 #: src/tools/solver/reports-write.c:395 src/tools/solver/reports-write.c:402
@@ -25462,35 +25462,35 @@ msgstr ""
 "Túto funkciu môžete bezpečne vypnúť úpravou zodpovedajúceho súboru plugin."
 "xml."
 
-#: src/format-template.c:467
+#: src/format-template.c:468
 msgid "Error while trying to load autoformat template"
 msgstr "Chyba pri načítavaní šablóny autoformátu"
 
-#: src/format-template.c:484
+#: src/format-template.c:485
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Chyba pri vytváraní stromu z šablóny autoformátu"
 
-#: src/format-template.c:490
+#: src/format-template.c:491
 msgid "Is not an autoformat template file"
 msgstr "Nie je šablóna autoformátu"
 
-#: src/format-template.c:493
+#: src/format-template.c:494
 msgid "Invalid xml file. Tree is empty?"
 msgstr "Neplatný súbor XML. Strom je prázdny?"
 
-#: src/format-template.c:826
+#: src/format-template.c:827
 #, c-format
 msgid ""
 "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr ""
 "Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
 
-#: src/format-template.c:830
+#: src/format-template.c:831
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
 msgstr "Cieľová oblasť je príliš malá, mala by byť široká aspoň %d stĺpcov"
 
-#: src/format-template.c:834
+#: src/format-template.c:835
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Cieľová oblasť je príliš malá, mala by byť vysoká aspoň %d riadkov"

@@ -116,7 +116,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-23 16:12-0500\n"
+"POT-Creation-Date: 2003-12-28 21:53-0500\n"
 "PO-Revision-Date: 2003-10-30 18:50+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
@@ -1261,7 +1261,7 @@ msgstr ""
 "We hebben reeds een lengte geschreven van een tekenreeks die wordt afgekapt "
 "vanwege tekenset-problemen."
 
-#: plugins/excel/ms-excel-write.c:3759
+#: plugins/excel/ms-excel-write.c:3760
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1271,7 +1271,7 @@ msgstr ""
 "(tm) 95 bestand. Excel (tm) 95 ondersteunt slechts %d rijen, en dit werkboek "
 "heeft er %d"
 
-#: plugins/excel/ms-excel-write.c:3766
+#: plugins/excel/ms-excel-write.c:3767
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1281,11 +1281,11 @@ msgstr ""
 "(tm) bestand. MS Excel ondersteunt slechts %d rijen en dit werkboek heeft er "
 "%d"
 
-#: plugins/excel/ms-excel-write.c:4285
+#: plugins/excel/ms-excel-write.c:4287
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Kon de stroom 'Map' niet openen voor schrijven\n"
 
-#: plugins/excel/ms-excel-write.c:4305
+#: plugins/excel/ms-excel-write.c:4307
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kon de stroom 'Werkmap' niet openen voor schrijven\n"
 
@@ -17393,7 +17393,7 @@ msgstr "Voorwaarden:"
 #: src/dialogs/dialog-function-select.c:445
 #: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:362
 #: src/dialogs/dialog-simulation.c:226 src/dialogs/dialog-zoom.c:198
-#: src/format-template.c:247 src/tools/solver/reports-write.c:81
+#: src/format-template.c:248 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
 #: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:283
 #: src/tools/solver/reports-write.c:395 src/tools/solver/reports-write.c:402
@@ -27039,35 +27039,35 @@ msgstr ""
 "U kunt deze beveiliging uitzetten door het betreffende plugin.xml bestand te "
 "bewerken."
 
-#: src/format-template.c:467
+#: src/format-template.c:468
 msgid "Error while trying to load autoformat template"
 msgstr "Fout bij laden autoformat sjabloon bestand"
 
-#: src/format-template.c:484
+#: src/format-template.c:485
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Fout bij verwerken autoformat sjabloon bestand"
 
-#: src/format-template.c:490
+#: src/format-template.c:491
 msgid "Is not an autoformat template file"
 msgstr "Is geen autoformat sjabloon bestand"
 
-#: src/format-template.c:493
+#: src/format-template.c:494
 msgid "Invalid xml file. Tree is empty?"
 msgstr "Ongeldig xml-bestand. Boom is leeg?"
 
-#: src/format-template.c:826
+#: src/format-template.c:827
 #, c-format
 msgid ""
 "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr ""
 "Het doelbereik is te klein, het moet tenminste %d rijen bij %d kolommen zijn."
 
-#: src/format-template.c:830
+#: src/format-template.c:831
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
 msgstr "Het doelbereik is te klein, het moet tenminste %d kolommen breed zijn."
 
-#: src/format-template.c:834
+#: src/format-template.c:835
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Het doelbereik is te klein, het moet tenminste %d rijen hoog zijn."

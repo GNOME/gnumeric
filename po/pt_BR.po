@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-23 16:12-0500\n"
+"POT-Creation-Date: 2003-12-28 21:53-0500\n"
 "PO-Revision-Date: 2003-10-02 11:57-0400\n"
 "Last-Translator: Johnny Birnfeld <akiractb@icqmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
@@ -911,7 +911,7 @@ msgstr ""
 "Nós já escrevemos um comprimento para a string que foi truncada devido a "
 "problemas de codificação."
 
-#: plugins/excel/ms-excel-write.c:3759
+#: plugins/excel/ms-excel-write.c:3760
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -920,7 +920,7 @@ msgstr ""
 "Algum conteúdo será perdido quando salvar como MS-EXCEL (tm) 95. Ele apenas "
 "suporta %d colunas, e esse WorkBook tem %d"
 
-#: plugins/excel/ms-excel-write.c:3766
+#: plugins/excel/ms-excel-write.c:3767
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -929,12 +929,12 @@ msgstr ""
 "Algum conteúdo será perdido quando salvar como MS-EXCEL (tm). Ele apenas "
 "suporta %d colunas, e esse WorkBook tem %d"
 
-#: plugins/excel/ms-excel-write.c:4285
+#: plugins/excel/ms-excel-write.c:4287
 #, fuzzy
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Não pôde abrir corrente 'Livro' para escrita\n"
 
-#: plugins/excel/ms-excel-write.c:4305
+#: plugins/excel/ms-excel-write.c:4307
 #, fuzzy
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Não pôde abrir corrente 'WorkBook' para escrita\n"
@@ -13909,7 +13909,7 @@ msgstr "Restrições:"
 #: src/dialogs/dialog-function-select.c:445
 #: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:362
 #: src/dialogs/dialog-simulation.c:226 src/dialogs/dialog-zoom.c:198
-#: src/format-template.c:247 src/tools/solver/reports-write.c:81
+#: src/format-template.c:248 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
 #: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:283
 #: src/tools/solver/reports-write.c:395 src/tools/solver/reports-write.c:402
@@ -23865,24 +23865,24 @@ msgstr ""
 "Você pode desabilitar esta opção de segurança editando o arquivo plugin.xml "
 "apropriado."
 
-#: src/format-template.c:467
+#: src/format-template.c:468
 msgid "Error while trying to load autoformat template"
 msgstr "Erro ao tentar carregar modelo de auto-formatação"
 
-#: src/format-template.c:484
+#: src/format-template.c:485
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Erro ao tentar montar árvore do arquivo modelo de auto-formatação"
 
-#: src/format-template.c:490
+#: src/format-template.c:491
 msgid "Is not an autoformat template file"
 msgstr "Não é um arquivo modelo de autoformato"
 
-#: src/format-template.c:493
+#: src/format-template.c:494
 #, fuzzy
 msgid "Invalid xml file. Tree is empty?"
 msgstr "Arquivo xml inválido. A árvore está vazia?"
 
-#: src/format-template.c:826
+#: src/format-template.c:827
 #, c-format
 msgid ""
 "The target region is too small.  It should be at least %d rows by %d columns"
@@ -23890,14 +23890,14 @@ msgstr ""
 "A região destino é pequena demais. Deveria ter no mínimo %d linhas por %d "
 "colunas"
 
-#: src/format-template.c:830
+#: src/format-template.c:831
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
 msgstr ""
 "A região destino é pequena demais. Deveria ter no mínimo %d colunas de "
 "largura"
 
-#: src/format-template.c:834
+#: src/format-template.c:835
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr ""

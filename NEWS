@@ -1,9 +1,19 @@
+Gnumeric 1.2.4
+
+Jody:
+	http://bugzilla.gnome.org/show_bug.cgi?id=128524
+	* COUNTRY record position is xls version specific [backported]
+	* Generate an SST record even without strings to placate french version
+	  of MS Excel [backported]
+	* Fix memory error introduced in 1.2.3 when saving to xls
+
+--------------------------------------------------------------------------
 Gnumeric 1.2.3
 
 Adrian Bunk:
 	* Portability fixes.
 
-Andreas
+Andreas:
 	* http://bugzilla.gnome.org/show_bug.cgi?id=128166
 	  Mark workbook as dirty on sheet deletion/addition
 	* Bug fixes: 128915, 128611
@@ -15,7 +25,6 @@ Andreas
 	  Fix printing of non-word-wrapped cells with hard line breaks
 	* http://bugzilla.gnome.org/show_bug.cgi?id=129049
 	  Make sure dialogs are visible on session manager communications
-	
 
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=128565

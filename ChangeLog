@@ -1,3 +1,16 @@
+2003-12-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.4
+
+2003-12-28  Jody Goldberg <jody@gnome.org>
+
+	* es.po : backport recent extensions from HEAD
+	* cs.po : ditto
+
+2003-12-28  Jody Goldberg <jody@gnome.org>
+
+	* src/gutils.c (gnm_get_real_name) : backport an extension.
+
 2003-12-23  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : Post release bump

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-23 16:12-0500\n"
+"POT-Creation-Date: 2003-12-28 21:53-0500\n"
 "PO-Revision-Date: 2001-12-31 08:21+0200\n"
 "Last-Translator: Dan Damian <dand@softhome.net>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
@@ -878,26 +878,26 @@ msgid ""
 "encoding problems."
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3759
+#: plugins/excel/ms-excel-write.c:3760
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
 "d rows, and this workbook has %d"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3766
+#: plugins/excel/ms-excel-write.c:3767
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
 "rows, and this workbook has %d"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:4285
+#: plugins/excel/ms-excel-write.c:4287
 #, fuzzy
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Nu pot deschide fluxul pentru scriere\n"
 
-#: plugins/excel/ms-excel-write.c:4305
+#: plugins/excel/ms-excel-write.c:4307
 #, fuzzy
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Nu pot deschide fluxul pentru scriere\n"
@@ -10272,7 +10272,7 @@ msgstr "Constrângeri:"
 #: src/dialogs/dialog-function-select.c:445
 #: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:362
 #: src/dialogs/dialog-simulation.c:226 src/dialogs/dialog-zoom.c:198
-#: src/format-template.c:247 src/tools/solver/reports-write.c:81
+#: src/format-template.c:248 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
 #: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:283
 #: src/tools/solver/reports-write.c:395 src/tools/solver/reports-write.c:402
@@ -20260,26 +20260,26 @@ msgstr ""
 "Puteţi dezactiva această măsură de precauţie prin editarea fişierului plugin."
 "xml corespunzător."
 
-#: src/format-template.c:467
+#: src/format-template.c:468
 msgid "Error while trying to load autoformat template"
 msgstr "Eroare la încercarea de a autoformata şablonul"
 
-#: src/format-template.c:484
+#: src/format-template.c:485
 msgid "Error while trying to build tree from autoformat template file"
 msgstr ""
 "Eroare la încercarea de a construi un arbore din fişierul şablon de "
 "autoformatare"
 
-#: src/format-template.c:490
+#: src/format-template.c:491
 msgid "Is not an autoformat template file"
 msgstr "Nu este un fişier şablon de autoformatare"
 
-#: src/format-template.c:493
+#: src/format-template.c:494
 #, fuzzy
 msgid "Invalid xml file. Tree is empty?"
 msgstr "Fişier xml invalid. Arborele este vid?"
 
-#: src/format-template.c:826
+#: src/format-template.c:827
 #, c-format
 msgid ""
 "The target region is too small.  It should be at least %d rows by %d columns"
@@ -20287,13 +20287,13 @@ msgstr ""
 "Regiunea ţintă este prea mică. Ar trebui să aibe cel puţin %d rânduri pe %d "
 "coloane"
 
-#: src/format-template.c:830
+#: src/format-template.c:831
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
 msgstr ""
 "Regiunea ţintă este prea mică. Ar trebui să aibe cel puţin %d coloane lăţime"
 
-#: src/format-template.c:834
+#: src/format-template.c:835
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr ""
