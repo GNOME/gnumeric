@@ -6,6 +6,7 @@
  *
  */
  
+#include <config.h>
 #include "dialog-stf-export-private.h"
 
 /*

@@ -7,6 +7,7 @@
  * Copyright 2000 Helix Code, Inc.
  **/
 
+#include <config.h>
 #include <stdio.h>
 #include <ms-ole-vba.h>
 

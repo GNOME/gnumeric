@@ -1,3 +1,4 @@
+#include <config.h>
 #include <glib.h>
 #include <stdio.h>
 #include "numbers.h"

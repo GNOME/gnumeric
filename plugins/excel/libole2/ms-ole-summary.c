@@ -10,6 +10,7 @@
  *    Somar Software's CPPSUM (http://www.somar.com)
  **/
 
+#include <config.h>
 #include <glib.h>
 #include <stdio.h>
 

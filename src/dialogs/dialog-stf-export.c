@@ -19,6 +19,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <config.h>
 #include "command-context.h"
 #include "dialog-stf-export.h"
 #include "dialog-stf-export-private.h"

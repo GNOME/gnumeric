@@ -62,6 +62,7 @@
  * look in the stf-parse.[ch] for more details on this.
  */ 
 
+#include <config.h>
 #include "format.h"
 #include "number-match.h"
 #include "value.h"
