@@ -901,7 +901,7 @@ msgid ""
 "Square/Standard "
 "Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
-"SUMMARISK UDDATA"//Regression statistik/Multipel R/R2/Justeret R2/"
+"SUMMARISK UDDATA//Regression statistik/Multipel R/R2/Justeret R2/"
 "Standardfejl/Observationer//ANOVA//Regression/Residual/Total///Sammenfald"
 
 #: src/analysis-tools.c:1983
