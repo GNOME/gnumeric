@@ -1,5 +1,9 @@
 2004-09-27  Jan Morén  <jan.moren@lucs.lu.se>
 
+	* sv.po: Updated Swedish translation.
+
+2004-09-27  Jan Morén  <jan.moren@lucs.lu.se>
+
 	* POTFILES.in: Removed so-arrow.glade and so-fill.glade.
 
 2004-09-24  Jody Goldberg <jody@gnome.org>
