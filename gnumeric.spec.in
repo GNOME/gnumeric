@@ -12,7 +12,6 @@ Group: 		Applications/Spreadsheets
 Source: ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/gnumeric-%{ver}.tar.gz
 Url:		http://www.gnome.org/gnumeric
 BuildRoot:	/var/tmp/gnumeric-%{PACKAGE_VERSION}-root
-Obsoletes: 	gnumeric
 Docdir: 	%{prefix}/doc
 
 Requires: gnome-libs >= 1.0.0
