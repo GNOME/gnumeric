@@ -1050,6 +1050,21 @@ xml_write_uidata (GnmOutputXML *state)
 	gsf_xml_out_end_element (state->output); /* </gmr:UIData> */
 }
 
+static void
+xml_write_calculation (GnmOutputXML *state)
+{
+	gsf_xml_out_start_element (state->output, GMR "Calculation");
+	gsf_xml_out_add_bool (state->output, 
+		"ManualRecalc",		!state->wb->recalc_auto);
+	gsf_xml_out_add_bool (state->output, 
+		"EnableIteration",	state->wb->iteration.enabled);
+	gsf_xml_out_add_int (state->output, 
+		"MaxIterations",	state->wb->iteration.max_number);
+	gsf_xml_out_add_float (state->output, 
+		"IterationTolerance",	state->wb->iteration.tolerance, -1);
+	gsf_xml_out_end_element (state->output); /* </gmr:Calculation> */
+}
+
 static GnmExprConventions *
 xml_io_conventions (void)
 {
@@ -1113,6 +1128,7 @@ xml_sax_file_save (GnmFileSaver const *fs, IOContext *io_context,
 	xml_write_geometry 	    (&state);
 	xml_write_sheets 	    (&state);
 	xml_write_uidata 	    (&state);
+	xml_write_calculation 	    (&state);
 
 	gsf_xml_out_end_element (state.output); /* </Workbook> */
 

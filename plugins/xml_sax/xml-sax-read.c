@@ -341,6 +341,26 @@ xml_sax_wb_view (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	if (width > 0 && height > 0)
 		wb_view_preferred_size (state->wb_view, width, height);
 }
+static void
+xml_sax_calculation (GsfXMLIn *gsf_state, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
+	gboolean b;
+	int 	 i;
+	double	 d;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (xml_sax_attr_bool (attrs, "ManualRecalc", &b))
+			workbook_autorecalc_enable (state->wb, b);
+		else if (xml_sax_attr_bool (attrs, "EnableIteration", &b))
+			workbook_iteration_enabled (state->wb, b);
+		else if (xml_sax_attr_int  (attrs, "MaxIterations", &i))
+			workbook_iteration_max_number (state->wb, i);
+		else if (xml_sax_attr_double (attrs, "IterationTolerance", &d))
+			workbook_iteration_tolerance (state->wb, d);
+		else
+			unknown_attr (state, attrs, "WorkbookView");
+}
 
 static void
 xml_sax_finish_parse_wb_attr (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
@@ -1464,6 +1484,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
 
   GSF_XML_IN_NODE (WB, WB_GEOMETRY, GNM, "Geometry", FALSE, &xml_sax_wb_view, NULL),
   GSF_XML_IN_NODE (WB, WB_VIEW, GNM, "UIData", FALSE, &xml_sax_wb_view, NULL),
+  GSF_XML_IN_NODE (WB, WB_CALC, GNM, "Calculation", FALSE, &xml_sax_calculation, NULL),
   { NULL }
 };
 static GsfXMLInDoc *doc;

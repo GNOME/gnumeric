@@ -1,3 +1,7 @@
+2003-11-15  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (write_sheet_head) : save the manual recalc flag.
+
 2003-11-14  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=126908

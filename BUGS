@@ -8,6 +8,7 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    http://bugzilla.gnome.org/show_bug.cgi?id=126907	[manual recalc]
     : X axis label seperation
     : text in boxes for text-xls/pivot.xls is white ??
     : guia.xls complains of problems importing autofilter
@@ -219,8 +220,8 @@ Short Term Goals
 	1.14.16) Respect user supplied min/max/major/minor	(DONE)
 	1.14.17) Draw major ticks in				(DONE)
 	1.14.18) Draw major ticks out				(DONE)
-	1.14.19) Draw minor ticks in
-	1.14.20) Draw minor ticks out
+	1.14.19) Draw minor ticks in				(DONE)
+	1.14.20) Draw minor ticks out				(DONE)
 	1.14.21) Why don't we honour selected font ?		(DONE)
     1.15) per series plot type specific data			(DONE)
     1.16) libart based render akin to guppicanvas.		(DONE)
@@ -241,12 +242,12 @@ Short Term Goals
     1.18) Extend sheet object anchor assignment to call object	(DONE)
           specfic handlers so that we can set the logical size
 	  of the graph.
-    1.19) Precedence
+    1.19) Precedence						(DONE)
 	1.19.1) Sort GogObject::children 			(DONE)
 	1.19.2) Keep corresponding views in sync		(DONE)
 	1.19.3) Have guru maintain order for add/remove		(DONE)
-	1.19.4) api for changing order
-	1.19.5) Extend Guru to support changing precedence
+	1.19.4) api for changing order				(DONE)
+	1.19.5) Extend Guru to support changing precedence	(DONE)
     1.20) GogStyle Editor page
 	1.20.1) fill type					(DONE)
 	    1.20.1.1) none					(DONE)
@@ -261,7 +262,7 @@ Short Term Goals
 	    1.20.4.1) outline (colour)				(DONE)
 	    1.20.4.2) line (color)				(DONE)
 	    1.20.4.3) fill (colors)	 			(DONE)
-	    1.20.4.4) marker 
+	    1.20.4.4) marker 					(DONE)
 	    1.20.4.5) font 
 	    1.20.4.6) fill type
 	1.20.5) image selector
@@ -411,6 +412,15 @@ Short Term Goals
 	6.13.1) Excel95
 	6.13.1) Excel97
     6.14) chart export
+    6.15) Store and round trip macros
+	6.15.1) blob CompObj stream				(DONE)
+	6.15.2) blob property streams to get the flags		(DONE)
+	6.15.3) export OBPROJ record if necessary 		(DONE)
+	6.15.4) export CODENAME records if necessary 		(DONE)
+	6.15.5) Store a workbook local function stub in import
+	6.15.6) use appropriate NAME record for function stubs
+	6.15.7) generate CompObj stream
+	6.15.8) generate property streams to get the flags
 
 14) Polish up Open and Save
     14.1) merge open and import dialogs				(DONE)

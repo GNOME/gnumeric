@@ -8,7 +8,7 @@
     <xsd:annotation>
         <xsd:documentation xml:lang="en">
             Schema for gnumeric spreadsheet documents
-            Assumes Gnumeric 1.0.3
+            Assumes Gnumeric 1.2.2
             Based on gnumeric source code and sample gnumeric documents
             Author: Marc Johnson (marc_johnson27591@hotmail.com)
         </xsd:documentation>
@@ -40,6 +40,14 @@
             <xsd:element name="UIData">
                 <xsd:complexType>
                     <xsd:attribute name="SelectedTab" type="xsd:nonNegativeInteger" use="required"/>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="Calculation">
+                <xsd:complexType>
+                    <xsd:attribute name="ManualRecalc"		type="xsd:boolean"/>
+                    <xsd:attribute name="EnableIteration"	type="xsd:boolean"/>
+                    <xsd:attribute name="MaxIterations"		type="xsd:nonNegativeInteger"/>
+		    <xsd:attribute name="IterationTolerance"	type="xsd:double"/>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>

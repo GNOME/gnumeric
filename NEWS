@@ -85,6 +85,9 @@ Jody:
 	* default to rows when rows == cols
 	* Support minor ticks
 	* Tune chart axis ticks to avoid anti-aliasing blur
+	* Export 'Manual Recalc' flag to xls
+	http://bugzilla.gnome.org/show_bug.cgi?id=126907
+	* Recalc new expressions even when manually recalculating
 
 Morten:
 	* Fix crash with STF import and gazillions of columns.

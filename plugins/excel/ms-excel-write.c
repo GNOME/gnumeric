@@ -3311,7 +3311,7 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 {
 	guint8 *data;
 	PrintInformation *pi;
-	Workbook *ewb = esheet->gnum_sheet->workbook;
+	Workbook *wb = esheet->gnum_sheet->workbook;
 	double header = 0, footer = 0, left = 0, right = 0;
 
 	g_return_if_fail (esheet != NULL);
@@ -3322,27 +3322,27 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 
 	/* See: S59D63.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_CALCMODE, 2);
-	GSF_LE_SET_GUINT16 (data, 0x0001);
+	GSF_LE_SET_GUINT16 (data, wb->recalc_auto ? 1 : 0);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D62.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_CALCCOUNT, 2);
-	GSF_LE_SET_GUINT16 (data, ewb->iteration.max_number);
+	GSF_LE_SET_GUINT16 (data, wb->iteration.max_number);
 	ms_biff_put_commit (bp);
 
 	/* See: S59DD7.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_REFMODE, 2);
-	GSF_LE_SET_GUINT16 (data, 0x0001);
+	GSF_LE_SET_GUINT16 (data, 0x0001); /* A1 */
 	ms_biff_put_commit (bp);
 
 	/* See: S59D9C.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_ITERATION, 2);
-	GSF_LE_SET_GUINT16 (data, ewb->iteration.enabled ? 1 : 0);
+	GSF_LE_SET_GUINT16 (data, wb->iteration.enabled ? 1 : 0);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D75.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_DELTA, 8);
-	gsf_le_set_double (data, ewb->iteration.tolerance);
+	gsf_le_set_double (data, wb->iteration.tolerance);
 	ms_biff_put_commit (bp);
 
 	/* See: S59DDD.HTM */

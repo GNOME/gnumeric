@@ -1,3 +1,15 @@
+2003-11-15  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.xsd : Add the Calculation info
+
+	* src/xml-io.c (xml_workbook_write) : Save manual recalc and iteration
+	  preferences.
+	(xml_workbook_read) : And read them.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=126907
+	* src/commands.c (cmd_set_text_redo) : even when using manual recalc
+	  we should calculate newly entered expression.
+
 2003-11-14  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=68794

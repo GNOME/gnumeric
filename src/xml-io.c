@@ -3561,6 +3561,12 @@ xml_workbook_write (XmlParseContext *ctxt)
 	xml_node_set_int (child, "SelectedTab", wb_view_cur_sheet (ctxt->wb_view)->index_in_wb);
 	xmlAddChild (cur, child);
 
+	child = xmlNewChild (cur, ctxt->ns, CC2XML ("Calculation"), NULL);
+	xml_node_set_bool   (child, "ManualRecalc",	 !ctxt->wb->recalc_auto);
+	xml_node_set_bool   (child, "EnableIteration",    ctxt->wb->iteration.enabled);
+	xml_node_set_int    (child, "MaxIterations",      ctxt->wb->iteration.max_number);
+	xml_node_set_double (child, "IterationTolerance", ctxt->wb->iteration.tolerance, -1);
+
 	gnumeric_setlocale (LC_MONETARY, old_monetary_locale);
 	g_free (old_monetary_locale);
 	gnumeric_setlocale (LC_NUMERIC, old_num_locale);
@@ -3736,6 +3742,22 @@ xml_workbook_read (IOContext *context,
 		if (xml_node_get_int (child, "SelectedTab", &sheet_index))
 			wb_view_sheet_focus (ctxt->wb_view,
 				workbook_sheet_by_index (ctxt->wb, sheet_index));
+	}
+
+	child = e_xml_get_child_by_name (tree, CC2XML ("Calculation"));
+	if (child != NULL) {
+		gboolean b;
+		int 	 i;
+		double	 d;
+
+		if (xml_node_get_bool (child, "ManualRecalc", &b))
+			workbook_autorecalc_enable (ctxt->wb, b);
+		if (xml_node_get_bool   (child, "EnableIteration", &b))
+			workbook_iteration_enabled (ctxt->wb, b);
+		if (xml_node_get_int    (child, "MaxIterations", &i))
+			workbook_iteration_max_number (ctxt->wb, i);
+		if (xml_node_get_double (child, "IterationTolerance", &d))
+			workbook_iteration_tolerance (ctxt->wb, d);
 	}
 
 	gnumeric_setlocale (LC_MONETARY, old_monetary_locale);
