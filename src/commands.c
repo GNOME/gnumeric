@@ -481,7 +481,7 @@ command_undo (WorkbookControl *wbc)
 
 	WORKBOOK_FOREACH_CONTROL (wb, view, control, {
 		wb_control_undo_redo_pop (control, TRUE);
-		wb_control_undo_redo_push (control, cmd->cmd_descriptor, FALSE);
+		wb_control_undo_redo_push (control, FALSE, cmd->cmd_descriptor, cmd);
 	});
 	undo_redo_menu_labels (wb);
 	/* TODO : Should we mark the workbook as clean or pristine too */
@@ -520,10 +520,8 @@ command_redo (WorkbookControl *wbc)
 					    wb->redo_commands->data);
 	wb->undo_commands = g_slist_prepend (wb->undo_commands, cmd);
 
-	WORKBOOK_FOREACH_CONTROL (wb, view, control,
-	{
-		wb_control_undo_redo_push (control,
-					   cmd->cmd_descriptor, TRUE);
+	WORKBOOK_FOREACH_CONTROL (wb, view, control, {
+		wb_control_undo_redo_push (control, TRUE, cmd->cmd_descriptor, cmd);
 		wb_control_undo_redo_pop (control, FALSE);
 	});
 	undo_redo_menu_labels (wb);
@@ -548,7 +546,7 @@ command_setup_combos (WorkbookControl *wbc)
 	tmp = g_slist_reverse (wb->undo_commands);
 	for (ptr = tmp ; ptr != NULL ; ptr = ptr->next) {
 		undo_label = get_menu_label (ptr);
-		wb_control_undo_redo_push (wbc, undo_label, TRUE);
+		wb_control_undo_redo_push (wbc, TRUE, undo_label, ptr->data);
 	}
 	g_slist_reverse (tmp);
 
@@ -556,7 +554,7 @@ command_setup_combos (WorkbookControl *wbc)
 	tmp = g_slist_reverse (wb->redo_commands);
 	for (ptr = tmp ; ptr != NULL ; ptr = ptr->next) {
 		redo_label = get_menu_label (ptr);
-		wb_control_undo_redo_push (wbc, redo_label, FALSE);
+		wb_control_undo_redo_push (wbc, FALSE, redo_label, ptr->data);
 	}
 	g_slist_reverse (tmp);
 
@@ -694,7 +692,7 @@ command_register_undo (WorkbookControl *wbc, GObject *obj)
 	undo_trunc = truncate_undo_info (wb);
 
 	WORKBOOK_FOREACH_CONTROL (wb, view, control, {
-		wb_control_undo_redo_push (control, cmd->cmd_descriptor, TRUE);
+		wb_control_undo_redo_push (control, TRUE, cmd->cmd_descriptor, cmd);
 		if (undo_trunc >= 0)
 			wb_control_undo_redo_truncate (control, undo_trunc, TRUE);
 		wb_control_undo_redo_truncate (control, 0, FALSE);

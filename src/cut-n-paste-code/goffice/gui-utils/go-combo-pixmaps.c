@@ -201,8 +201,7 @@ pixmap_combo_construct (PixmapCombo *pc, PixmapComboElement const *elements,
 	gtk_widget_show_all (pc->preview_button);
 
 	gnm_combo_box_construct (GNM_COMBO_BOX (pc),
-				 pc->preview_button,
-				 pc->combo_table);
+		pc->preview_button, pc->combo_table, pc->combo_table);
 }
 
 GtkWidget *

@@ -410,8 +410,7 @@ stf_write_workbook (GnmFileSaver const *fs, IOContext *context,
 		(StfEWriteFunc) stf_write_func, (gpointer) output);
 	if (stf_export (result->export_options) == FALSE)
 		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
-#warning change string after branch
-			_("Error while trying to write csv file"));
+			_("Error while trying to export file as text"));
 	stf_export_dialog_result_free (result);
 }
 
@@ -431,7 +430,7 @@ stf_write_csv (GnmFileSaver const *fs, IOContext *context,
 
 	if (stf_export (config) == FALSE)
 		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
-			_("Error while trying to write csv file"));
+			_("Error while trying to write CSV file"));
 	stf_export_options_free (config);
 }
 

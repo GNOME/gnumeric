@@ -47,8 +47,8 @@ typedef struct {
 	struct {
 		void (*truncate)(WorkbookControl *wbc, int n, gboolean is_undo);
 		void (*pop)	(WorkbookControl *wbc, gboolean is_undo);
-		void (*push)	(WorkbookControl *wbc,
-				 char const *text, gboolean is_undo);
+		void (*push)	(WorkbookControl *wbc, gboolean is_undo,
+				 char const *text, gpointer key);
 		void (*labels)	(WorkbookControl *wbc,
 				 char const *undo, char const *redo);
 	} undo_redo;

@@ -275,8 +275,7 @@ color_combo_construct (ColorCombo *cc, GdkPixbuf *icon,
 	gtk_widget_show_all (cc->preview_button);
 
 	gnm_combo_box_construct (GNM_COMBO_BOX (cc),
-				 cc->preview_button,
-				 GTK_WIDGET (cc->palette));
+	    cc->preview_button, GTK_WIDGET (cc->palette), GTK_WIDGET (cc->palette));
 
 	color = color_palette_get_current_color (cc->palette, NULL);
 	color_combo_set_color_internal (cc, color);

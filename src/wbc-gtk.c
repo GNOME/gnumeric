@@ -322,9 +322,10 @@ wbc_gtk_undo_redo_pop (WorkbookControl *wbc, gboolean is_undo)
 }
 
 static void
-wbc_gtk_undo_redo_push (WorkbookControl *wbc, char const *text, gboolean is_undo)
+wbc_gtk_undo_redo_push (WorkbookControl *wbc, gboolean is_undo,
+			char const *text, gpointer key)
 {
-	go_action_combo_stack_push (ur_stack (wbc, is_undo), text);
+	go_action_combo_stack_push (ur_stack (wbc, is_undo), text, key);
 }
 
 static GOActionComboStack *

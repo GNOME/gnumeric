@@ -19,8 +19,6 @@ libwidgets_a_SOURCES =				\
 	widget-pixmap-combo.h			\
 	gnm-combo-box.c				\
 	gnm-combo-box.h				\
-	gnm-combo-stack.c			\
-	gnm-combo-stack.h			\
 	gnm-dao.c				\
 	gnm-dao.h				\
 	preview-file-selection.c		\

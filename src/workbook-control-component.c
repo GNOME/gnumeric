@@ -132,8 +132,8 @@ static void
 wbcc_undo_redo_pop (WorkbookControl *wbc, gboolean is_undo) {}
 
 static void
-wbcc_undo_redo_push (WorkbookControl *wbc,
-		     char const *text, gboolean is_undo) {}
+wbcc_undo_redo_push (WorkbookControl *wbc, gboolean is_undo
+		     char const *text, gpointer key) {}
 
 static void
 wbcc_undo_redo_labels (WorkbookControl *wbc,

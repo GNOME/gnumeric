@@ -63,10 +63,9 @@ struct _GnmComboBoxClass {
 /* public */
 GtkType    gnm_combo_box_get_type    (void);
 void       gnm_combo_box_construct   (GnmComboBox *combo_box,
-				      GtkWidget   *display_widget,
-				      GtkWidget   *optional_pop_down_widget);
-GtkWidget *gnm_combo_box_new         (GtkWidget *display_widget,
-				      GtkWidget *optional_pop_down_widget);
+				      GtkWidget *display_widget,
+				      GtkWidget *popdown_container,
+				      GtkWidget	*popdown_focus);
 void       gnm_combo_box_set_title   (GnmComboBox *combo,
 				      const gchar *title);
 void       gnm_combo_box_set_tearable        (GnmComboBox *combo,

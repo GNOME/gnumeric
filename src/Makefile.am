@@ -353,6 +353,11 @@ gnumeric-paths.h: gnumeric-paths.sh
 	    mv $@.tmp $@ ; echo updated gnumeric-paths.h ;	\
 	fi
 
+install-exec-hook:
+	cd $(DESTDIR)$(bindir) && \
+	mv -f gnumeric$(EXEEXT) gnumeric-$(VERSION)$(EXEEXT) && \
+	$(LN_S) gnumeric-$(VERSION)$(EXEEXT) gnumeric$(EXEEXT)
+
 # do not include the paths in the tarball
 dist-hook :
 	-rm -f $(distdir)/gnumeric-paths.h $(distdir)/gnumeric-paths.sh

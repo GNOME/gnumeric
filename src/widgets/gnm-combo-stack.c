@@ -232,7 +232,7 @@ gnm_combo_stack_new (char const *stock,
 }
 
 void
-gnm_combo_stack_push (GnmComboStack *combo, char const *item)
+gnm_combo_stack_push (GnmComboStack *combo, char const *item, gpointer key)
 {
 	GtkWidget *listitem;
 

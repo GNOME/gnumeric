@@ -1,5 +1,15 @@
 2004-01-16  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : check for symbolic link support
+	* src/Makefile.am : install executable as
+	    gnumeric-<version>
+	  with a symlink to that from gnumeric
+
+2004-01-16  Jody Goldberg <jody@gnome.org>
+
+	* src/stf.c (stf_write_workbook) : update the string and drop the
+	  warning.
+
 	* src/wbc-gtk.c (wbc_gtk_init) : enable translations for menus and
 	  toolbars.
 

@@ -281,7 +281,7 @@ gnm_combo_text_init (GnmComboText *ct)
 
 	gtk_widget_show (ct->entry);
 	gnm_combo_box_construct (GNM_COMBO_BOX (ct),
-		ct->entry, ct->scroll);
+		ct->entry, ct->scroll, ct->list);
 	g_signal_connect (G_OBJECT (ct),
 		"pop_down_done",
 		G_CALLBACK (cb_pop_down), NULL);

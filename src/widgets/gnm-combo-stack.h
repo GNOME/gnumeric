@@ -39,7 +39,7 @@ GtkType    gnm_combo_stack_get_type   (void);
 GtkWidget *gnm_combo_stack_new        (char const *stock_name,
 				       gboolean const is_scrolled);
 void       gnm_combo_stack_push	      (GnmComboStack *combo_stack,
-				       char const *item);
+				       char const *item, gpointer key);
 void       gnm_combo_stack_pop	      (GnmComboStack *combo, int n);
 void       gnm_combo_stack_truncate   (GnmComboStack *combo, int n);
 GtkWidget *gnm_combo_stack_get_button (GnmComboStack *combo);

@@ -25,14 +25,15 @@
 
 G_BEGIN_DECLS
 
-#define GO_ACTION_COMBO_STACK_TYPE  (go_action_combo_stack ())
+#define GO_ACTION_COMBO_STACK_TYPE  (go_action_combo_stack_get_type ())
 #define GO_ACTION_COMBO_STACK(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GO_ACTION_COMBO_STACK_TYPE, GOActionComboStack))
 #define IS_GO_ACTION_COMBO_STACK(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_ACTION_COMBO_STACK_TYPE))
 
 typedef struct _GOActionComboStack	GOActionComboStack;
 
 GType go_action_combo_stack_get_type (void);
-void  go_action_combo_stack_push     (GOActionComboStack *act, char const *str);
+void  go_action_combo_stack_push     (GOActionComboStack *act,
+				      char const *str, gpointer key);
 void  go_action_combo_stack_pop	     (GOActionComboStack *act, unsigned n);
 void  go_action_combo_stack_truncate (GOActionComboStack *act, unsigned n);
 

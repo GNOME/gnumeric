@@ -100,8 +100,8 @@ WBC_VIRTUAL_FULL (undo_redo_truncate, undo_redo.truncate,
 WBC_VIRTUAL_FULL (undo_redo_pop, undo_redo.pop,
 	(WorkbookControl *wbc, gboolean is_undo), (wbc, is_undo))
 WBC_VIRTUAL_FULL (undo_redo_push, undo_redo.push,
-	(WorkbookControl *wbc, char const *text, gboolean is_undo),
-	(wbc, text, is_undo))
+	(WorkbookControl *wbc, gboolean is_undo, char const *text, gpointer key),
+	(wbc, is_undo, text, key))
 WBC_VIRTUAL_FULL (undo_redo_labels, undo_redo.labels,
 	(WorkbookControl *wbc, char const *undo, char const *redo),
 	(wbc, undo, redo))

@@ -102,9 +102,10 @@ wbcg_undo_redo_pop (WorkbookControl *wbc, gboolean is_undo)
 }
 
 static void
-wbcg_undo_redo_push (WorkbookControl *wbc, char const *text, gboolean is_undo)
+wbcb_undo_redo_push (WorkbookControl *wbc, gboolean is_undo,
+		     char const *text, gpointer key)
 {
-	gnm_combo_stack_push (ur_stack (wbc, is_undo), text);
+	gnm_combo_stack_push (ur_stack (wbc, is_undo), text, key);
 }
 
 static void
