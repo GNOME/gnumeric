@@ -1,5 +1,12 @@
 2001-11-04  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gui-validation.c (validation_generate_msg) : support new
+	'boolean expression'
+
+	* src/style-condition.c (style_condition_expr_eval) : ditto.
+
+2001-11-04  Jody Goldberg <jgoldberg@home.com>
+
 	* configure.in : bump libole version req.
 	* gnumeric.spec.in : ditto.
 	* README : ditto.

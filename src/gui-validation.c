@@ -78,6 +78,7 @@ validation_generate_msg (StyleCondition *sc)
 			case SCO_LESS          : t = _("Must be less than %s\n");                break;
 			case SCO_GREATER_EQUAL : t = _("Must be greater than or equal to %s\n"); break;
 			case SCO_LESS_EQUAL    : t = _("Must be less than or equal to %s\n");    break;
+			case SCO_BOOLEAN_EXPR  : t = _("The expression must be true.");		 break;
 			default :
 				t = _("<unknown> <%s>\n");
 			}

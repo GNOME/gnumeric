@@ -25,6 +25,7 @@ typedef enum {
 	SCO_LESS,
 	SCO_GREATER_EQUAL,
 	SCO_LESS_EQUAL,
+	SCO_BOOLEAN_EXPR,
 	SCO_LAST
 } StyleConditionOperator;
 

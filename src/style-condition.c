@@ -209,6 +209,11 @@ style_condition_expr_eval (StyleConditionExpr *sce, Value *val, StyleFormat *for
 		g_return_val_if_fail (sce->val != NULL, FALSE);
 	}
 
+	if (sce->op == SCO_BOOLEAN_EXPR) {
+		gboolean dummy;
+		return value_get_as_bool (sce->val, &dummy);
+	}
+
 	vc = value_compare (val, sce->val, TRUE);
 			
 	switch (sce->op) {
@@ -304,6 +309,7 @@ style_condition_dump (StyleCondition *sc)
 			case SCO_LESS          : t = "<  Less";          break;
 			case SCO_GREATER_EQUAL : t = ">= Greater Equal"; break;
 			case SCO_LESS_EQUAL    : t = "<= Less Equal";    break;
+			case SCO_BOOLEAN_EXPR  : t = "Boolean expression"; break;
 			default :
 				t = "?  Unknown";
 			}
