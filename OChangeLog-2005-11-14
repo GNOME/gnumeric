@@ -1,3 +1,8 @@
+2002-04-15  Jody Goldberg <jody@gnome.org>
+
+	* src/libgnumeric.c : delete some stale code that is no longer needed
+	  in gtk2.
+
 2002-04-15  Jon K Hellan  <hellan@acm.org>
 
 	* src/libgnumeric.c: Renamed from src/main.c. Don't include main.h
