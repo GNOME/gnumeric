@@ -1,3 +1,23 @@
+1999-09-30  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/Gnumeric-value.idl: New file, move the value structure
+	definition here. 
+
+	* src/Gnumeric.idl: Add new interface for data access.
+	
+	* src/value-sheet.c: New file.  Moved here the value code that
+	uses a Sheet directly.
+	(value_dump): moved here.
+	(value_cellrange_get_as_string): ditto.
+	(encode_cellref): ditto.
+	(value_area_get_width): ditto.
+	(value_area_get_height): ditto.
+	(value_area_get_x_y): ditto.
+	(constants_init): ditto.
+	(value_area_foreach): ditto
+	(wrapper_foreach_cell_in_area_callback): ditto.
+	(value_area_fetch_x_y): ditto.
+
 1999-10-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (sheet_action_delete_sheet) : Use a

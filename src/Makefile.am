@@ -145,6 +145,8 @@ GNUMERIC_BASE_SOURCES =				\
 	utils.h					\
 	value.c					\
 	value.h					\
+	value-sheet.c				\
+	value-sheet.h				\
 	workbook.c				\
 	workbook.h				\
 	workbook-cmd-format.c			\
@@ -177,12 +179,12 @@ BUILT_SOURCES = $(GNUMERIC_CORBA_GENERATED)
 
 Gnumeric-impl.o: Gnumeric.h
 
-CLEANFILES=my_gnumeric_idl
+CLEANFILES = my_gnumeric_idl
 
 $(GNUMERIC_CORBA_GENERATED): my_gnumeric_idl
 
-my_gnumeric_idl: Gnumeric.idl
-	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl $(srcdir)/Gnumeric.idl
+my_gnumeric_idl: Gnumeric.idl Gnumeric-value.idl
+	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Gnumeric.idl
 	touch my_gnumeric_idl
 
 gnumeric_SOURCES =				\
@@ -246,7 +248,7 @@ dist-hook:
 #	$(INTLLIBS)
 
 idldir   = $(datadir)/idl
-idl_DATA = Gnumeric.idl
+idl_DATA = Gnumeric.idl Gnumeric-value.idl
 
 
 MYHACKAROUNDAUTOMAKE=$(shell echo $(GNUMERIC_CORBA_GENERATED))
