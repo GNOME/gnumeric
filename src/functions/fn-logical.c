@@ -22,7 +22,7 @@ static char *help_and = {
 
 	   "@DESCRIPTION="
 	   "AND implements the logical AND function: the result is TRUE "
-	   "if all of the expression evaluates to TRUE, otherwise it returns "
+	   "if all of the expressions evaluate to TRUE, otherwise it returns "
 	   "FALSE.\n"
 
 	   "@b1, trough @bN are expressions that should evaluate to TRUE "
