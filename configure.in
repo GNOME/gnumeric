@@ -142,7 +142,10 @@ AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
 AC_PATH_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource)
 
 ## this should come after `AC_PROG_CC'
-ifdef([GNOME_COMPILE_WARNINGS],[GNOME_COMPILE_WARNINGS],)
+ifdef([GNOME_COMPILE_WARNINGS],
+	[GNOME_COMPILE_WARNINGS] CFLAGS="$CFLAGS $WARN_CFLAGS",
+	[]
+)
 set_more_warnings=yes
 if test "$GCC" = "yes" -a "x$set_more_warnings" != "xno"; then
 	for option in -Wsign-promo -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts -Wwrite-strings; do
