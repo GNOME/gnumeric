@@ -1,5 +1,8 @@
 Gnumeric 1.1.9
 
+Jody:
+	* start enabling the graph guru.
+
 Morten:
 	* Leak plugging.
 	* Speeding a few string value constructions.
