@@ -99,25 +99,22 @@ GNUMERIC_BASE_SOURCES =			\
 	xml-io.c			\
 	xml-io.h
 
-#if WITH_ORBIT
-#GNUMERIC_CORBA_GENERATED =		\
-#	Gnumeric-common.c		\
-#	Gnumeric-skels.c		\
-#	Gnumeric-stubs.c		\
-#	Gnumeric.h
-#
-#GNUMERIC_CORBA_SOURCES =		\
-#	Gnumeric-impl.c			\
-#	$(GNUMERIC_CORBA_GENERATED) 
-#
-#$(GNUMERIC_CORBA_GENERATED: Gnumeric.idl
-#	orbit-idl Gnumeric.idl
-#
-#	$(GNUMERIC_CORBA_SOURCES)	\
-#endif
+GNUMERIC_CORBA_GENERATED =		\
+	Gnumeric-common.c		\
+	Gnumeric-skels.c		\
+	Gnumeric-stubs.c		\
+	Gnumeric.h
+
+GNUMERIC_CORBA_SOURCES =		\
+	Gnumeric-impl.c			\
+	$(GNUMERIC_CORBA_GENERATED) 
+
+$(GNUMERIC_CORBA_GENERATED): Gnumeric.idl
+	orbit-idl -I`gnome-config --datadir`/idl Gnumeric.idl
 
 gnumeric_SOURCES =			\
 	main.c				\
+	$(GNUMERIC_CORBA_SOURCES)	\
 	$(GNUMERIC_BASE_SOURCES)
 
 gnumeric_LDFLAGS = -export-dynamic

@@ -1,3 +1,15 @@
+1998-11-27  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/Gnumeric-impl.c: Empty stubs for now.
+	
+	* src/Makefile.am (GNUMERIC_CORBA_SOURCES): Add rules for
+	compiling the CORBA support.
+
+	* plugins/python/Makefile.am (LIBTOOL): This one needs xlibtool
+	instead of our modified libtool.
+
+	* plugins/sample/Makefile.am (GNUMERIC_SRC_DIR): Simplified Makefile.am
+
 1998-11-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/item-grid.c (item_grid_realize): Removed bogus calls to

@@ -1,31 +1,20 @@
+#include <factory.idl>
+#include <Table.idl>
+
 module GNOME {
 
-	interface Table {
-		const short VALUE_STRING  = 0;
-		const short VALUE_INTEGER = 1;
-		const short VALUE_FLOAT   = 2;
-
-		union Value switch(short) {
-			case VALUE_INTEGER: long   v_int;
-			case VALUE_FLOAT:   double v_float;
-			case VALUE_STRING:  string str;
-		};
-
-		exception OutOfRange {};
-
-		Value get (in long col, in long row)
-			raises (OutOfRange);
-
-		long set (in long col, in long row, in Value val)
-			raises (OutOfRange);
-
-	};
-
 	interface Spreadsheet : Table {
-		void set_string (in string text);
+		void   set_string (in string text, in long col, in long row)
+			raises (OutOfRange);
+
+		string get_string (in long col, in long row)
+			raises (OutOfRange);
 	};
 		
 	interface Gnumeric : Spreadsheet {
+	};
+
+	interface GnumericFactory : Factory {
 	};
 };
 	

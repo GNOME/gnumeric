@@ -17,6 +17,7 @@ plugindir = $(libdir)/gnumeric/plugins
 plugin_LTLIBRARIES = libpython.la
 
 libpython_la_SOURCES = python.c
+LIBTOOL= $(SHELL) $(top_builddir)/xlibtool
 
 INCLUDES = 						\
 	-I$(GNUMERIC_SRC_DIR)				\

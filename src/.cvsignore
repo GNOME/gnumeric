@@ -7,3 +7,7 @@ test-format
 test-parser
 parser.c
 number-match
+Gnumeric-common.c
+Gnumeric-skels.c
+Gnumeric-stubs.c
+Gnumeric.h
