@@ -1049,6 +1049,7 @@ static GNM_ACTION_DEF (cb_insert_image)
 	gtk_file_selection_hide_fileop_buttons (fsel);
 
 	if (gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel))) {
+#warning "Why doesn't this simply use libgsf?"
 		int fd, file_size;
 		IOContext *ioc = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbcg));
 		unsigned char const *data = gnumeric_mmap_open (ioc,
