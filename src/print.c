@@ -38,9 +38,7 @@
 
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprint/gnome-print-config.h>
-#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
 #include <libgnomeprint/gnome-print-pango.h>
-#endif
 #include <libgnomeprintui/gnome-print-job-preview.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
 
@@ -310,7 +308,6 @@ print_hf_element (PrintJobInfo const *pj, char const *format,
 	g_return_if_fail (text != NULL);
 
 	if (text[0]) {
-#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
 		const double dummy_dpi = 300; /* FIXME: What exactly is this?  */
 		PangoLayout *layout =
 			gnome_print_pango_create_layout (pj->print_context);
@@ -357,7 +354,6 @@ print_hf_element (PrintJobInfo const *pj, char const *format,
 		}
 		gnome_print_moveto (pj->print_context, x, y);
 		gnome_print_show (pj->print_context, text);
-#endif
 	}
 	g_free (text);
 }

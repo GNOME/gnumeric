@@ -246,14 +246,12 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		gdk_gc_set_rgb_fg_color (gc, color);
 
 		if (rv->rotation) {
-#ifdef HAVE_PANGO_CONTEXT_SET_MATRIX
 			PangoMatrix rotmat = PANGO_MATRIX_INIT;
 
 			context = pango_layout_get_context (rv->layout);
 			pango_matrix_rotate (&rotmat, rv->rotation);
 			pango_context_set_matrix (context, &rotmat);
 			pango_layout_context_changed (rv->layout);
-#endif
 		}
 
 		gdk_draw_layout (drawable, gc,
@@ -262,10 +260,8 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 				 rv->layout);
 
 		if (context) {
-#ifdef HAVE_PANGO_CONTEXT_SET_MATRIX
 			pango_context_set_matrix (context, NULL);
 			pango_layout_context_changed (rv->layout);
-#endif
 		}
 	}
 }

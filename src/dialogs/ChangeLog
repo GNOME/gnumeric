@@ -1,3 +1,8 @@
+2005-02-04  Morten Welinder  <terra@gnome.org>
+
+	* dialog-search.c (make_matches_table): Remove old #ifdef
+	HAVE_foos.
+
 2005-01-20  Jody Goldberg <jody@gnome.org>
 
 	* dialog-sheet-order.c : Support a toggle for rtl

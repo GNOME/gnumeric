@@ -1,5 +1,8 @@
 2005-02-04  Morten Welinder  <terra@gnome.org>
 
+	* src/print.c (print_hf_element): Remove old #ifdef HAVE_foo.
+	* src/cell-draw.c (cell_draw): Ditto.
+
 	* src/print-cell.c: Eliminate old printing code.
 
 	* src/style.c (style_font_new_simple): No need for setting
