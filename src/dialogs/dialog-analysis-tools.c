@@ -1529,6 +1529,7 @@ rank_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	GtkWidget *w;
 	GSList *input;
 	gint err;
+	gboolean av_ties_flag;
 
 	input = gnumeric_expr_entry_parse_to_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
@@ -1538,9 +1539,12 @@ rank_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	w = glade_xml_get_widget (state->gui, "labels_button");
         dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
+	w = glade_xml_get_widget (state->gui, "rank_button");
+        av_ties_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
 	err = ranking_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, input,
 			    gnumeric_glade_group_value (state->gui, grouped_by_group),
-			    &dao);
+			    av_ties_flag, &dao);
 	switch (err) {
 	case 0: gtk_widget_destroy (state->dialog);
 		break;

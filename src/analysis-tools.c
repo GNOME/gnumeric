@@ -2693,7 +2693,7 @@ rank_compare (const rank_t *a, const rank_t *b)
 
 int
 ranking_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input,
-	      group_by_t group_by, data_analysis_output_t *dao)
+	      group_by_t group_by, gboolean av_ties_flag, data_analysis_output_t *dao)
 {
 	GSList *input_range = input;
 	GPtrArray *data = NULL;
@@ -2750,7 +2750,8 @@ ranking_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input,
 
 			/* Rank */
 			set_cell_float (dao, n_data * 4 + 2, i + 1, 
-					rank[i].rank + rank[i].same_rank_count/2.);
+					rank[i].rank + 
+					(av_ties_flag ? rank[i].same_rank_count/2. : 0));
 
 			/* Percent */
 			set_cell_float_na (dao, n_data * 4 + 3, i + 1,

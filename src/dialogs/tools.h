@@ -54,6 +54,7 @@ int exp_smoothing_tool    (WorkbookControl *context, Sheet *sheet,
 			   data_analysis_output_t *dao);
 int ranking_tool          (WorkbookControl *context, Sheet *sheet,
 			   GSList *input, group_by_t group_by,
+			   gboolean av_ties_flag,
 			   data_analysis_output_t *dao);
 
 int anova_single_factor_tool        (WorkbookControl *context, Sheet *sheet,

@@ -2,6 +2,8 @@ Gnumeric 1.0.2
 
 Andreas:
 	* Add `autofit columns' checkbox to all analysis tools.
+	* Add radio buttons to rank dialog to let user choose 
+	  behaviour in case of ties.
 
 Morten:
 	* Make sure Linux ends up using IEEE_754 code in mathfunc.c.

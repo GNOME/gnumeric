@@ -1,7 +1,12 @@
 2002-01-07  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* analysis-tools.c (ranking_tool) : calculate rank for ties
+	  based on av_ties_flag
+
+2002-01-07  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* analysis-tools.h : add autofit_flag to data_analysis_output_t
-	* analysis-tools.c insert lots of calls to autofit_columns
+	* analysis-tools.c : insert lots of calls to autofit_columns
 	(autofit_columns) : new procedure
 	
 2002-01-07  Morten Welinder  <welinder@rentec.com>

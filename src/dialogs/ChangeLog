@@ -1,5 +1,12 @@
 2002-01-07  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* dialog-analysis-tools.c (rank_tool_ok_clicked_cb) : read new
+	  radiobuttons and pass to ranking_tool
+	* rank.glade : add radio buttons
+	* tools.h : add av_ties_flag to ranking_tool
+
+2002-01-07  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* anova-one.glade : add 'autofit columns' checkbox
 	* anova-two.glade : ditto
 	* correlation.glade : ditto
