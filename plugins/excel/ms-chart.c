@@ -774,6 +774,7 @@ BC_R(fbi)(XLChartHandler const *handle,
 	guint16 const scale_basis = GSF_LE_GET_GUINT16 (q->data+6);
 	guint16 const index = GSF_LE_GET_GUINT16 (q->data+8);
 
+	gsf_mem_dump (q->data, q->length);
 	d (2, fprintf (stderr, "Font %hu (%hu x %hu) scale=%hu, height=%hu\n",
 		index, x_basis, y_basis, scale_basis, applied_height););
 	return FALSE;

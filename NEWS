@@ -6,6 +6,9 @@ Andreas:
 	  supported encodings
 	* Some small improvements to the Text Import dialog
 
+Ben Liblit:
+	* Move the various compile time paths into a generated header.
+
 Jody:
 	* More work on graphs.
 	* Set alwaysCalc flag when xls exporting dynamic dependencies.

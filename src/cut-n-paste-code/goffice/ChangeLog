@@ -1,3 +1,11 @@
+2003-05-27  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-guru.c (cb_typesel_sample_plot_resize) : fix sizing.
+	(cb_sample_plot_resize) : ditto.
+
+	* graph/gog-renderer.c (gog_renderer_set_property) : doh!
+	  set the values if they are _different_ not the same.
+
 2003-05-26  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-guru.c (graph_guru_set_page) : we can't run the

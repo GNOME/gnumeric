@@ -174,8 +174,8 @@ gog_legend_view_render (GogView *view, GogViewAllocation const *bbox)
 	closure.swatch.x = view->allocation.x + outline + 2;
 	closure.swatch.y = view->allocation.y + outline + 2;
 	closure.swatch.w = closure.swatch.h = 10.;
-	g_warning ("1/2cm x == %g pixels", gog_renderer_pt2r_x (view->renderer, GO_CM_TO_PT (.5)));
-	g_warning ("1/2cm y == %g pixels", gog_renderer_pt2r_y (view->renderer, GO_CM_TO_PT (.5)));
+	g_warning ("1\" x == %g pixels", gog_renderer_pt2r_x (view->renderer, GO_IN_TO_PT (1)));
+	g_warning ("1\" y == %g pixels", gog_renderer_pt2r_y (view->renderer, GO_IN_TO_PT (1)));
 	gog_chart_foreach_elem (GOG_CHART (view->model->parent),
 		(GogEnumFunc) cb_render_elements, &closure);
 

@@ -310,14 +310,6 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
 )
 AM_GLIB_GNU_GETTEXT
 
-# AM_GNOME_GETTEXT above substs $DATADIRNAME
-# this is the directory where the *.{mo,gmo} files are installed
-AC_MSG_CHECKING(locale directory)
-GNUMERIC_LOCALE_DIR="${prefix}/${DATADIRNAME}/locale"
-AC_DEFINE_UNQUOTED(GNUMERIC_LOCALE_DIR, "$GNUMERIC_LOCALE_DIR",
-	[The directory in which gnumeric's locale data will be stored])
-AC_MSG_RESULT("$GNUMERIC_LOCALE_DIR")
-
 #AC_PATH_PROG(TPUT_CMD,tput,no)
 TPUT_CMD=no
 marker_ok="<yes >"
@@ -623,33 +615,33 @@ fi
 dnl **************************************************
 dnl * Config defaults (Must be after bonobo)
 dnl **************************************************
-gnumeric_prefix="${prefix}"
-gnumeric_exec_prefix="${exec_prefix}"
+gnumeric_prefix='${prefix}'
+gnumeric_exec_prefix='${exec_prefix}'
 gnumeric_version="${VERSION}${bonobo_suffix}"
-gnumeric_datadir="${datadir}/gnumeric/${gnumeric_version}"
-gnumeric_libdir="${libdir}/gnumeric/${gnumeric_version}"
-gnumeric_plugindir="${gnumeric_libdir}/plugins"
-gnumeric_gladedir="${gnumeric_datadir}/glade"
-gnumeric_icondir="${datadir}/pixmaps/gnumeric"
+gnumeric_sysconfdir='${sysconfdir}'
+gnumeric_datadir='${datadir}/gnumeric/${gnumeric_version}'
+gnumeric_libdir='${libdir}/gnumeric/${gnumeric_version}'
+gnumeric_plugindir='${gnumeric_libdir}/plugins'
+gnumeric_gladedir='${gnumeric_datadir}/glade'
+gnumeric_icondir='${datadir}/pixmaps/gnumeric'
+gnumeric_localedir='${prefix}/${DATADIRNAME}/locale'
 
-gnumeric_autoformatdir="${gnumeric_datadir}/autoformat-templates"
+gnumeric_autoformatdir='${gnumeric_datadir}/autoformat-templates'
 
 dnl Export to gnumeric-config.h
 AC_DEFINE_UNQUOTED(GNUMERIC_VERSION, "$gnumeric_version",
 	[The version number of this Gnumeric release, possibly suffixed for bonobo]
 )
-AC_DEFINE_UNQUOTED(GNUMERIC_PREFIX,  "$gnumeric_prefix",
-	[The prefix under which gnumeric is to be installed]
-)
-
 AC_SUBST(gnumeric_prefix)
 AC_SUBST(gnumeric_exec_prefix)
+AC_SUBST(gnumeric_sysconfdir)
 AC_SUBST(gnumeric_datadir)
 AC_SUBST(gnumeric_version)
 AC_SUBST(gnumeric_libdir)
 AC_SUBST(gnumeric_plugindir)
 AC_SUBST(gnumeric_gladedir)
 AC_SUBST(gnumeric_icondir)
+AC_SUBST(gnumeric_localedir)
 AC_SUBST(gnumeric_autoformatdir)
 AC_SUBST(gnumeric_bonobo_enabled)
 

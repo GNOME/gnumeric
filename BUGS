@@ -15,8 +15,6 @@ Release Critical
 Pending Patches
 ---------------
 
-    - Makefile to put paths in a generated header.
-
     - ?? more work on D&D based sheet reorg ?
 
     http://bugzilla.gnome.org/show_bug.cgi?id=84062

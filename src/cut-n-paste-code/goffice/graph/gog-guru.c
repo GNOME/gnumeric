@@ -327,12 +327,13 @@ static void
 cb_typesel_sample_plot_resize (G_GNUC_UNUSED GtkWidget *canvas,
 			       GtkAllocation *alloc, GraphGuruTypeSelector *typesel)
 {
+	/* Use 96dpi and 50% zoom */
 	if (typesel->sample_graph_item != NULL)
 		foo_canvas_item_set (typesel->sample_graph_item,
 			"w", (double)alloc->width,
 			"h", (double)alloc->height,
-			"logical_width_pts", ((double)alloc->width) / (96. * 2),
-			"logical_height_pts", ((double)alloc->height) / (96. * 2),
+			"logical_width_pts",  (72. * 2 * (double)alloc->width) / 96.,
+			"logical_height_pts", (72. * 2 * (double)alloc->height) / 96.,
 			NULL);
 }
 
@@ -907,8 +908,8 @@ cb_sample_plot_resize (G_GNUC_UNUSED GtkWidget *canvas,
 	foo_canvas_item_set (s->sample_graph_item,
 		"w", (double)alloc->width,
 		"h", (double)alloc->height,
-		"logical_width_pts", ((double)alloc->width) / (96. * 2),
-		"logical_height_pts", ((double)alloc->height) / (96. * 2),
+		"logical_width_pts",  (72. * 2 * (double)alloc->width) / 96.,
+		"logical_height_pts", (72. * 2 * (double)alloc->height) / 96.,
 		NULL);
 }
 

@@ -7,4 +7,5 @@ gnumeric-component
 parser.c
 gnm-marshalers.c
 gnm-marshalers.h
+gnumeric-paths.h
 test-pango

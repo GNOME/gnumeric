@@ -87,14 +87,15 @@ gog_renderer_set_property (GObject *obj, guint param_id,
 		break;
 	case RENDERER_PROP_LOGICAL_WIDTH_PTS:
 		tmp = g_value_get_double (value);
-		if (tmp != rend->logical_width_pts)
+		if (tmp == rend->logical_width_pts)
 			return;
 		rend->logical_width_pts = tmp;
+		g_warning ("logical w = %g", tmp);
 		break;
 
 	case RENDERER_PROP_LOGICAL_HEIGHT_PTS:
 		tmp = g_value_get_double (value);
-		if (tmp != rend->logical_height_pts)
+		if (tmp == rend->logical_height_pts)
 			return;
 		rend->logical_height_pts = tmp;
 		break;

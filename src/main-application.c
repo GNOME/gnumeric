@@ -24,6 +24,7 @@
 #include "workbook.h"
 #include "gui-file.h"
 #include "gnumeric-gconf.h"
+#include "gnumeric-paths.h"
 
 #include <gtk/gtkmain.h>
 

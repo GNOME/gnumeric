@@ -11,11 +11,6 @@ bin_PROGRAMS = gnumeric # ssconvert
 check_PROGRAMS = test-pango # number-match
 
 INCLUDES = 								\
-	-DGNUMERIC_PREFIX=\""$(gnumeric_prefix)"\"			\
-	-DGNUMERIC_SYSCONFDIR=\""$(sysconfdir)"\"			\
-	-DGNUMERIC_DATADIR=\""$(gnumeric_datadir)"\"			\
-	-DGNUMERIC_LIBDIR=\""$(gnumeric_libdir)"\"			\
-	-DGNUMERIC_ICONDIR=\""$(gnumeric_icondir)"\"			\
 	-I$(top_srcdir)							\
 	-I$(srcdir)							\
 	-I$(srcdir)/widgets						\
@@ -25,9 +20,12 @@ INCLUDES = 								\
 	-I$(top_srcdir)/src/cut-n-paste-code/foocanvas			\
 	$(GNUMERIC_CFLAGS)
 
+CLEANFILES = gnumeric-paths.h
+
 BUILT_SOURCES =					\
 	gnm-marshalers.h			\
-	gnm-marshalers.c
+	gnm-marshalers.c			\
+	gnumeric-paths.h
 
 GNUMERIC_BASE =					\
 	$(BUILT_SOURCES)			\
@@ -360,13 +358,24 @@ gnm-marshalers.c : gnm-marshalers.list $(GLIB_GENMARSHAL)
 	cat $@.tmp >>$@
 	rm -f $@.tmp
 
+gnumeric-paths.h: gnumeric-paths.h.in
+	sed								\
+	  -e 's!@''gnumeric_prefix''@!$(gnumeric_prefix)!'		\
+	  -e 's!@''gnumeric_sysconfdir''@!$(gnumeric_sysconfdir)!'	\
+	  -e 's!@''gnumeric_datadir''@!$(gnumeric_datadir)!'		\
+	  -e 's!@''gnumeric_libdir''@!$(gnumeric_libdir)!'		\
+	  -e 's!@''gnumeric_icondir''@!$(gnumeric_icondir)!'		\
+	  -e 's!@''gnumeric_localedir''@!$(gnumeric_localedir)!'	\
+	<$< >$@
+
 # include conditional files to ensure everything gets distributed no matter
 # what the build
 EXTRA_DIST = GNOME_Gnumeric.xml GNOME_Gnumeric_Component.xml	\
 	    gnm-marshalers.list	                        	\
 	    main-application.c normal-args.c 			\
 	    main-component.c					\
-	    $(GNUMERIC_BONOBO) README.gnm_float
+	    $(GNUMERIC_BONOBO) README.gnm_float			\
+	    gnumeric-paths.h.in
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
 

@@ -10,6 +10,7 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "libgnumeric.h"
+#include "gnumeric-paths.h"
 
 #include <libgnome/gnome-program.h>
 #include <libgnomeui/gnome-ui-init.h>
