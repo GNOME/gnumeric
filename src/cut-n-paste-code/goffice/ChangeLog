@@ -1,3 +1,7 @@
+2004-12-01  Jody Goldberg <jody@gnome.org>
+
+	* goffice.mk (INCLUDES) : remove GNUMERIC_ICON_DIR
+
 2004-11-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.0
@@ -5,8 +9,8 @@
 2004-11-19  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-style.c (gog_style_gradient_load): call
-       gog_style_set_fill_brightness in order to correctly initialize start
-       and end colors.
+	  gog_style_set_fill_brightness in order to correctly initialize start
+	  and end colors.
 
 2004-11-18  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
