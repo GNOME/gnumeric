@@ -990,7 +990,7 @@ static char const *help_networkdays = {
 };
 
 /*
- * A utility routine to return the last monday <= the serial if its valid
+ * A utility routine to return the last monday <= the serial if it's valid
  * Returns -1 on error
  */
 static int

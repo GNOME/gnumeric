@@ -459,7 +459,7 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 		g_warning ("Don't know what to do with this image %x;", inst);
 	}
 
-	/* Always add a blip to keep the indicies in sync, even if its NULL */
+	/* Always add a blip to keep the indicies in sync, even if it's NULL */
 	ms_container_add_blip (state->container, blip);
 	return failure;
 }

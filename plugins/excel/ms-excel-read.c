@@ -699,7 +699,7 @@ biff_string_get_flags (guint8 const *ptr,
 	header = GSF_LE_GET_GUINT8 (ptr);
 	/* I assume that this header is backwards compatible with raw ASCII */
 
-	/* Its a proper Unicode header grbit byte */
+	/* It's a proper Unicode header grbit byte */
 	if (((header & 0xf2) == 0)) {
 		*word_chars = (header & 0x1) != 0;
 		*extended   = (header & 0x4) != 0;
@@ -4286,7 +4286,7 @@ excel_read_AUTOFILTER (BiffQuery *q, ExcelReadSheet *esheet)
 	filter = esheet->sheet->filters->data;
 
 	if (esheet->container.ver >= MS_BIFF_V8 && flags & 0x10)
-		/* its a top/bottom n */
+		/* it's a top/bottom n */
 		cond = gnm_filter_condition_new_bucket (
 			    (flags & 0x20) ? TRUE  : FALSE,
 			    (flags & 0x40) ? FALSE : TRUE,
