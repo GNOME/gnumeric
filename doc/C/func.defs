@@ -2116,6 +2116,15 @@ DSUM(A1:C7, "Salary", A9:B11) equals 81565.
 
 @SEEALSO=DPRODUCT
 
+@FUNCTION=EXPRESSION
+@SYNTAX=EXPRESSION(cell)
+@DESCRIPTION=EXPRESSION returns expression in @cell as a string, orempty if the cell is not an expression.
+@EXAMPLES=
+in A1 EXPRESSION(A2) equals 'EXPRESSION(A3)'.
+in A2 EXPRESSION(A3) equals empty.
+
+@SEEALSO=TEXT
+
 @FUNCTION=TBILLPRICE
 @SYNTAX=TBILLPRICE(settlement,maturity,discount)
 @DESCRIPTION=TBILLPRICE function returns the price per $100 value for a treasury bill where @settlement is the settlement date and @maturity is the maturity date of the bill.  @discount is the treasury bill's discount rate. 
@@ -2828,10 +2837,9 @@ TREND(A1:A5,B1:B5) equals 156.52.
 @DESCRIPTION=IPMT calculates the amount of a payment of an annuity going towards interest.
 Formula for IPMT is:
 
-IPMT(PER) = PMT - PRINCIPAL(PER-1) * INTEREST_RATE
+IPMT(PER) = -PRINCIPAL(PER-1) * INTEREST_RATE
 where:
-PMT = Payment received on annuity
-PRINCIPA(per-1) = amount of the remaining principal from last period
+PRINCIPAL(PER-1) = amount of the remaining principal from last period
 @EXAMPLES=
 
 @SEEALSO=PPMT,PV,FV

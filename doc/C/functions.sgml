@@ -96,6 +96,7 @@
 <listitem><para><link linkend="gnumeric-EXACT">EXACT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EXP">EXP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EXPONDIST">EXPONDIST</link></para></listitem>
+<listitem><para><link linkend="gnumeric-EXPRESSION">EXPRESSION</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FACT">FACT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FACTDOUBLE">FACTDOUBLE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FDIST">FDIST</link></para></listitem>
@@ -6468,6 +6469,34 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-EXPRESSION">EXPRESSION</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>EXPRESSION</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>EXPRESSION(cell)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>EXPRESSION returns expression in @cell as a string, orempty if the cell is not an expression.</para>
+
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para>in A1 EXPRESSION(A2) equals 'EXPRESSION(A3)'.</para>        <para>in A2 EXPRESSION(A3) equals empty.</para>        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-TEXT">TEXT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-TBILLPRICE">TBILLPRICE</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -8603,7 +8632,7 @@
       <refsect1>
         <title>Description</title>
         <para>IPMT calculates the amount of a payment of an annuity going towards interest.</para>
-        <para>Formula for IPMT is:</para>        <para></para>        <para>IPMT(PER) = PMT - PRINCIPAL(PER-1) * INTEREST_RATE</para>        <para>where:</para>        <para>PMT = Payment received on annuity</para>        <para>PRINCIPA(per-1) = amount of the remaining principal from last period</para>
+        <para>Formula for IPMT is:</para>        <para></para>        <para>IPMT(PER) = -PRINCIPAL(PER-1) * INTEREST_RATE</para>        <para>where:</para>        <para>PRINCIPAL(PER-1) = amount of the remaining principal from last period</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>

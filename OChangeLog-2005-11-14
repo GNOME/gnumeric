@@ -1,3 +1,8 @@
+2000-04-12  Miguel de Icaza  <miguel@helixcode.com>
+
+	* configure.in: New version of Gnumeric coming out.  New version
+	of gnumeric coming out.
+
 2000-04-12  Jon K Hellan  <hellan@acm.org>
 
 	* src/history.c (history_menu_item_create): Really add
