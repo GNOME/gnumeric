@@ -56,12 +56,14 @@ ms_escher_blip_new (guint8 const *data, guint32 len, char const *repoid,
 		    ExcelWorkbook * wb)
 {
 	EscherBlip *blip = g_new (EscherBlip, 1);
+#ifndef ENABLE_BONOBO
 	guint8 *mem      = g_malloc (len);
 	memcpy (mem, data, len);
+#endif
 
 	blip->reproid  = repoid;
 #ifdef ENABLE_BONOBO
-	blip->stream   = bonobo_stream_mem_create (mem, len, TRUE);
+	blip->stream   = bonobo_stream_mem_create (data, len, TRUE, FALSE);
 #else
 	blip->raw_data = mem;
 #endif

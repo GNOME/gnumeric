@@ -1,3 +1,7 @@
+2000-04-20  Dan Winship  <danw@helixcode.com>
+
+	* ms-escher.c (ms_escher_blip_new): update for changes to bonobo
+
 2000-04-09  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-read.c (ms_excel_sheet_append_comment): Constify.
