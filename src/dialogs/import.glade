@@ -84,6 +84,7 @@
 	<name>import-clist</name>
 	<height>113</height>
 	<can_focus>True</can_focus>
+	<has_focus>True</has_focus>
 	<columns>1</columns>
 	<column_widths>80</column_widths>
 	<selection_mode>GTK_SELECTION_SINGLE</selection_mode>
