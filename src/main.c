@@ -6,11 +6,19 @@
 #include "format.h"
 #include "color.h"
 #include "cursors.h"
+#include "dump.h"
 
 /* If set, the file to load at startup time */
 static GList *startup_files;
 
+static char *dump_file_name;
+
+enum {
+	DUMP_FUNCS_KEY = -1
+};
+
 static struct argp_option argp_options [] = {
+	{ "dump-func-defs",  DUMP_FUNCS_KEY, N_("FILE"),  0, N_("Dumps the functions definitions") },
 	{ NULL,     0,     NULL,          0, NULL, 0 },
 };
 
@@ -18,6 +26,10 @@ static error_t
 parse_an_arg (int key, char *arg, struct argp_state *state)
 {
 	switch (key){
+	case DUMP_FUNCS_KEY:
+		dump_file_name = arg;
+		break;
+		
 	case ARGP_KEY_INIT:
 	case ARGP_KEY_FINI:
 		return 0;
@@ -54,6 +66,12 @@ main (int argc, char *argv [])
 	functions_init ();
 	plugins_init ();
 
+	if (dump_file_name){
+		dump_functions (dump_file_name);
+		exit (1);
+	}
+
+	/* Load any specified files on the command line */
 	for (l = startup_files; l; l = l->next){
 		current_workbook = gnumericReadXmlWorkbook (l->data);
 

@@ -29,15 +29,18 @@ GNUMERIC_BASE_SOURCES =			\
 	dialog-paste-special.c		\
 	dialog-zoom.c			\
 	dialogs.h			\
+	dump.c				\
+	dump.h				\
 	eval.c				\
 	expr.c				\
 	expr.h				\
 	file.c				\
 	func.c				\
 	func.h				\
-	fn-sheet.c			\
+	fn-date.c			\
 	fn-math.c			\
 	fn-misc.c			\
+	fn-sheet.c			\
 	format.c			\
 	format.h			\
 	gnumeric-sheet.c		\

@@ -24,4 +24,6 @@ void    symbol_unref          (Symbol *);
 void    symbol_unref_ptr      (Symbol **);
 Symbol *symbol_ref_string     (char *str);
 
+extern GHashTable *symbol_hash_table;
+
 #endif

@@ -1,5 +1,13 @@
 1998-09-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/fn-date.c: New file, implements various date and time
+	manipulation routines.
+	
+	* src/main.c: Accept --dump-func-defs flag to dump the help
+	available for our built in functions.
+
+	* src/symbol.c: Export the symbol hash table.
+
 	* src/format.c (render_number): Use the locale provided rendering
 	number.  This will require translators to also translate correctly
 	the default formats for their locale.

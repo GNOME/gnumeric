@@ -10,7 +10,7 @@
 #include <ctype.h>
 #include "symbol.h"
 
-static GHashTable *symbol_hash_table;
+GHashTable *symbol_hash_table;
 
 Symbol *
 symbol_lookup (char *str)
@@ -149,3 +149,4 @@ symbol_init (void)
 {
 	symbol_hash_table = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 }
+
