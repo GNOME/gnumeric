@@ -510,6 +510,28 @@ AC_SUBST(PSPELL_LIBS)
 dnl AM_CONDITIONAL(HAVE_PSPELL, $have_pspell)
 
 dnl ******************************
+dnl Check for Evolution
+dnl ******************************
+try_evolution=$have_bonobo
+evolution=no
+AC_ARG_WITH(evolution,
+	[--{with,without}-evolution Use evolution to send images (bonobo needed).],
+	if test x$withval=xno; then
+		try_evolution=false
+	fi
+)
+if $try_evolution; then
+	path_to_composer_idl=`gnome-config --datadir`/idl/Evolution-Composer.idl
+	AC_CHECK_FILE($path_to_composer_idl, evolution=yes, evolution=no)
+	if test x$evolution=xyes; then
+		AC_DEFINE(ENABLE_EVOLUTION)
+		AM_CONDITIONAL(ENABLE_EVOLUTION, true)
+	else
+		AM_CONDITIONAL(ENABLE_EVOLUTION, false)
+	fi
+fi
+
+dnl ******************************
 dnl Check for Applix SHELF
 dnl ******************************
 dnl try_applix_shelf=false
@@ -553,7 +575,7 @@ dnl Check for libgda
 dnl ****************************
 try_gda=true
 AC_ARG_WITH(gda,
-	[--{with,without}-gda   Compile the Gnome Database Access plugin],
+	[--{with,without}-gda      Compile the Gnome Database Access plugin],
 	if test x$withval = xno; then
 		try_gda=false
 	fi
@@ -649,6 +671,7 @@ Configuration:
 	Compiler:		${CC} 
 
 	Bonobo Support:		${bonobo_msg}
+	Evolution Support:      $evolution
 	GB Support:		${gb_msg}
 "
 
