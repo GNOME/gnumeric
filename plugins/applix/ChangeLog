@@ -1,0 +1,6 @@
+2000-07-07  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_read_cells) : Fix array formulas.
+	(applix_read_views) : Implement a bit more.
+	(applix_read_view) : new function.
+

@@ -1,6 +1,4 @@
-/* vim: set sw=8:
- * $Id$
- */
+/* vim: set sw=8: */
 
 /*
  * applix.c : Routines to read applix version 4 spreadsheets.
@@ -117,11 +115,11 @@ applix_read_header (FILE *file)
 	return strcmp (encoding_buffer, "7BIT") == 0;
 }
 static gboolean
-applix_read_colormap (ApplixReadState *state, FILE *file)
+applix_read_colormap (ApplixReadState *state)
 {
 	char buffer[128];
 
-	if (NULL == fgets (buffer, sizeof(buffer), file))
+	if (NULL == fgets (buffer, sizeof(buffer), state->file))
 		return TRUE;
 
 	if (strcmp (buffer, "COLORMAP\n"))
@@ -132,7 +130,7 @@ applix_read_colormap (ApplixReadState *state, FILE *file)
 		char *pos, * iter;
 		long numbers[6];
 
-		if (NULL == fgets (buffer, sizeof(buffer), file))
+		if (NULL == fgets (buffer, sizeof(buffer), state->file))
 			return TRUE;
 
 		if (!strcmp (buffer, "END COLORMAP\n"))
@@ -193,18 +191,18 @@ applix_read_colormap (ApplixReadState *state, FILE *file)
 }
 
 static gboolean
-applix_read_typefaces (ApplixReadState *state, FILE *file)
+applix_read_typefaces (ApplixReadState *state)
 {
 	char buffer[128];
 
-	if (NULL == fgets (buffer, sizeof(buffer), file))
+	if (NULL == fgets (buffer, sizeof(buffer), state->file))
 		return TRUE;
 
 	if (strcmp (buffer, "TYPEFACE TABLE\n"))
 		return TRUE;
 
 	do {
-		if (NULL == fgets (buffer, sizeof(buffer), file))
+		if (NULL == fgets (buffer, sizeof(buffer), state->file))
 			return TRUE;
 	} while (strcmp (buffer, "END TYPEFACE TABLE\n"));
 	return FALSE;
@@ -395,7 +393,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					return NULL;
 				};
 				if (format)
-					mstyle_set_format (style, format);
+					mstyle_set_format_text (style, format);
 				if (needs_free)
 					g_free (format);
 			}
@@ -563,19 +561,19 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 }
 
 static int
-applix_read_attributes (ApplixReadState *state, FILE *file)
+applix_read_attributes (ApplixReadState *state)
 {
 	char buffer[128];
 	int count = 0;
 
-	if (NULL == fgets (buffer, sizeof(buffer), file) ||
+	if (NULL == fgets (buffer, sizeof(buffer), state->file) ||
 	    strcmp (buffer, "Attr Table Start\n"))
 		return applix_parse_error (state, "Invalid attribute table");
 
 	while (1) {
 		char *tmp = buffer+1;
 		MStyle *style;
-		if (NULL == fgets (buffer, sizeof(buffer), file))
+		if (NULL == fgets (buffer, sizeof(buffer), state->file))
 			return applix_parse_error (state, "Invalid attribute");
 
 		if (!strcmp (buffer, "Attr Table End\n"))
@@ -595,59 +593,6 @@ applix_read_attributes (ApplixReadState *state, FILE *file)
 
 	/* NOTREACHED */
 	return 0;
-}
-
-static int
-applix_read_views (ApplixReadState *state, FILE *file)
-{
-	char buffer[128];
-
-	if (NULL == fgets (buffer, sizeof(buffer), file))
-		return TRUE;
-
-	if (strcmp (buffer, "View, Name: ~Current~\n"))
-		return TRUE;
-
-	do {
-		if (NULL == fgets (buffer, sizeof(buffer), file))
-			return TRUE;
-	} while (strcmp (buffer, "End View, Name: ~Current~\n"));
-
-#if 0
-	View Start, Name: ~%s:~
-	View Unlocked
-	View Top Left: A:A1
-	View Open Cell: A:A1
-	View Default Column Width 10
-	View Default Row Height: 14
-	View Propagate widths: 1
-	View Propagate breaks: 1
-	View Propagate heights: 1
-
-	/* These seem to assume
-	 * top margin 2
-	 * bottom margin 1
-	 * size in pixels = val -32768
-	 */
-	View Row Heights: 3:32822 4:32774 5:32811 6:32824 7:32795 
-	View Row Heights: 8:32795 9:32795 10:32801 11:32798 12:32792 
-	View Row Heights: 13:32805 14:32805 
-
-	View Rows Visible: A:1-A:32767
-	View Columns Visible: A:A-A:ZZ
-	View End, Name: ~A:~
-#endif
-
-	return 0;
-}
-
-/**
- * TODO : Handle continuations at lines greater  than <width> in size.
- */
-static gboolean
-applix_get_line (ApplixReadState *state, char *buffer)
-{
-	return NULL != fgets(buffer, 80, state->file);
 }
 
 static Sheet *
@@ -692,6 +637,114 @@ applix_parse_cellref (ApplixReadState *state, char *buffer,
 	*sheet = NULL;
 	*col = *row = -1;
 	return NULL;
+}
+
+
+static int
+applix_read_view (ApplixReadState *state, char const *name)
+{
+	char buffer[128];
+
+#if 0
+	View Start, Name: ~%s:~
+	View Unlocked
+	View Top Left: A:A1
+	View Open Cell: A:A1
+	View Default Column Width 10
+	View Default Row Height: 14
+	View Propagate widths: 1
+	View Propagate breaks: 1
+	View Propagate heights: 1
+
+	View Row Heights: 3:32822 4:32774 5:32811 6:32824 7:32795 
+	View Row Heights: 8:32795 9:32795 10:32801 11:32798 12:32792 
+	View Row Heights: 13:32805 14:32805 
+
+	View Rows Visible: A:1-A:32767
+	View Columns Visible: A:A-A:ZZ
+	View End, Name: ~A:~
+#endif
+
+	/* Ignore current view */
+	if (!strcmp (name, "Current"))
+		return 0;
+
+	do {
+		if (NULL == fgets (buffer, sizeof(buffer), state->file))
+			return TRUE;
+
+		if (!strncmp ("View Top Left: ", buffer, 15)) {
+			Sheet *sheet;
+			int col, row;
+			if (applix_parse_cellref (state, buffer+15, &sheet, &col, &row, ':'))
+				sheet_make_cell_visible (sheet, col, row);
+		}
+
+		if (!strncmp ("View Open Cell: ", buffer, 16)) {
+			Sheet *sheet;
+			int col, row;
+			if (applix_parse_cellref (state, buffer+16, &sheet, &col, &row, ':'))
+				sheet_selection_set (sheet, col, row, col, row, col, row);
+		}
+		if (!strncmp ("View Default Column Width ", buffer, 26)) {
+		}
+		if (!strncmp ("View Default Row Height: ", buffer, 25)) {
+		}
+		if (!strncmp (buffer, "View Row Heights: ", 18)) {
+			char *ptr = buffer + 17;
+			do {
+				int row, height;
+				char *tmp;
+
+				row = strtol (++ptr, &tmp, 10) - 1;
+				if (tmp == ptr || row < 0 || tmp[0] != ':')
+					return applix_parse_error (state, "Invalid row size row number");
+				ptr = tmp;
+				height = strtol (++ptr, &tmp, 10) - 1;
+				if (tmp == ptr || height < 32768)
+					return applix_parse_error (state, "Invalid row size");
+
+				/* These seem to assume
+				 * top margin 2
+				 * bottom margin 1
+				 * size in pixels = val -32768
+				 */
+			} while (*ptr == ' ');
+		}
+	} while (strncmp (buffer, "End View, Name: ~", 17));
+
+	return 0;
+}
+
+static int
+applix_read_views (ApplixReadState *state)
+{
+	char buffer[128];
+
+	if (NULL == fgets (buffer, sizeof(buffer), state->file))
+		return TRUE;
+
+	while (strncmp (buffer, "View, Name: ~", 13)) {
+		char *name = buffer + 13;
+		int len = strlen (name);
+
+		g_return_val_if_fail (name[len-1] != '\n', -1);
+		g_return_val_if_fail (name[len-2] != '~', -1);
+		g_return_val_if_fail (name[len-3] != ':', -1);
+
+		name[len-3] = '\0';
+		applix_read_view (state, name);
+	}
+	return 0;
+}
+
+/**
+ * TODO : Handle continuations at lines greater  than <width> in size.
+ */
+static gboolean
+applix_get_line (ApplixReadState *state, char *buffer)
+{
+	return NULL != fgets(buffer, 80, state->file);
 }
 
 static int
@@ -786,6 +839,7 @@ applix_read_cells (ApplixReadState *state)
 					return applix_parse_error (state, "Invalid expression");
 
 				if (is_array) {
+					expr_tree_ref (expr);
 					cell_set_array_formula (sheet,
 								r.start.row, r.start.col,
 								r.end.row, r.end.col,
@@ -879,11 +933,11 @@ applix_read_impl (ApplixReadState *state)
 		printf ("Applix load '%s' : Saved with revision %d.%d\n",
 			real_name, major_rev, minor_rev);
 #endif
-	if (applix_read_colormap (state, state->file))
+	if (applix_read_colormap (state))
 		return applix_parse_error (state, "invalid colormap");
-	if (applix_read_typefaces (state, state->file))
+	if (applix_read_typefaces (state))
 		return applix_parse_error (state, "invalid typefaces");
-	if (0 != (res = applix_read_attributes (state, state->file)))
+	if (0 != (res = applix_read_attributes (state)))
 		return res;
 
 	if (1 != fscanf (state->file, "No Auto Start Rt: %d\n", &dummy))
@@ -973,7 +1027,7 @@ applix_read_impl (ApplixReadState *state)
 	if (1 != fscanf (state->file, "Charting Preference: %s\n", buffer))
 		return applix_parse_error (state, "invalid chart pref");
 
-	if (0 != applix_read_views (state, state->file))
+	if (0 != applix_read_views (state))
 		return -1;
 
 	while (NULL != fgets (buffer, sizeof(buffer), state->file) &&
@@ -1021,17 +1075,9 @@ applix_read_impl (ApplixReadState *state)
 	if (!applix_read_cells (state)) {
 	}
 
-	/* Make the top left cell visible.
-	 * NOTE : do not parse these until AFTER the cells are entered
-	 * otherwise the sheets get out of order.
-	 */
-	if (applix_parse_cellref (state, top_cell_addr, &sheet, &col, &row, ':'))
-		sheet_make_cell_visible (sheet, col, row);
-
-	if (applix_parse_cellref (state, cur_cell_addr, &sheet, &col, &row, ':')) {
-		sheet_selection_set (sheet, col, row, col, row, col, row);
+	/* We only need the sheet, the visible cell, and edit pos are already set */
+	if (applix_parse_cellref (state, cur_cell_addr, &sheet, &col, &row, ':'))
 		workbook_focus_sheet (sheet);
-	}
 
 	return 0;
 }
