@@ -2,9 +2,7 @@
 #define GNUMERIC_PRINT_CELL_H
 
 void print_cell_range (GnomePrintContext *context,
-		       Sheet const *sheet,
-		       int start_col, int start_row,
-		       int end_col, int end_row,
+		       Sheet const *sheet, Range *range,
 		       double base_x, double base_y,
 		       gboolean hide_grid);
 

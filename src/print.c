@@ -114,23 +114,21 @@ typedef struct {
 } PrintJobInfo;
 
 static void
-print_titles (PrintJobInfo const *pj, Sheet const *sheet,
-	      int start_col, int start_row, int end_col, int end_row,
+print_titles (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 	      double base_x, double base_y)
 {
 }
 
 static void
-print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet,
-		     int start_col, int start_row, int end_col, int end_row,
+print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 		     double base_x, double base_y)
 {
 	GList *l;
-	Range range;
 	double end_x, end_y;
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (pj != NULL);
+	g_return_if_fail (range != NULL);
 
 	gnome_print_gsave (pj->print_context);
 
@@ -138,10 +136,10 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet,
 	 * Make sure the object doesn't go beyond the specified
 	 * cells.
 	 */
-	end_x = base_x + sheet_col_get_distance_pts (sheet, start_col,
-						     end_col + 1);
-	end_y = base_y - sheet_row_get_distance_pts (sheet, start_row,
-						     end_row + 1);
+	end_x = base_x + sheet_col_get_distance_pts (sheet, range->start.col,
+						     range->end.col + 1);
+	end_y = base_y - sheet_row_get_distance_pts (sheet, range->start.row,
+						     range->end.row + 1);
 	print_make_rectangle_path (pj->print_context, base_x, base_y,
 				   end_x, end_y);
 #ifndef NO_DEBUG_PRINT
@@ -156,15 +154,13 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet,
 #endif
 	gnome_print_clip (pj->print_context);
 
-	range_init (&range, start_col, start_row, end_col, end_row);
-
 	for (l = sheet->sheet_objects; l; l = l->next) {
 		SheetObject *so = SHEET_OBJECT (l->data);
 		double coords [4];
 		double obj_base_x = 0.0, obj_base_y = 0.0;
 
 		/* First check if we need to print this object */
-		if (!range_overlap (&range, &so->cell_bound))
+		if (!range_overlap (range, &so->cell_bound))
 			continue;
 
 		sheet_object_position_pts (so, coords);
@@ -172,10 +168,10 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet,
 		case PERCENTAGE:
 			obj_base_x = base_x + coords [0] 
 				- sheet_col_get_distance_pts (sheet, 0,
-							      start_col);
+							      range->start.col);
 			obj_base_y = base_y - coords [3]
 				+ sheet_row_get_distance_pts (sheet, 0, 
-							      start_row);
+							      range->start.row);
 			break;
 		case SIZE_FIT:
 			g_warning ("SIZE_FIT not implemented for "
@@ -191,19 +187,15 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet,
 }
 
 static void
-print_page_cells (PrintJobInfo const *pj, Sheet const *sheet,
-		  int start_col, int start_row, int end_col, int end_row,
+print_page_cells (PrintJobInfo const *pj, Sheet const *sheet, Range *range, 
 		  double base_x, double base_y)
 {
 	/* Invert PostScript Y coordinates to make X&Y cases the same */
 	base_y = (pj->height / (pj->pi->scaling.percentage / 100.)) - base_y;
 
-	print_cell_range (pj->print_context, sheet,
-			  start_col, start_row,
-			  end_col, end_row,
+	print_cell_range (pj->print_context, sheet, range, 
 			  base_x, base_y, !pj->pi->print_grid_lines);
-	print_sheet_objects (pj, sheet, start_col, start_row, end_col, end_row,
-			     base_x, base_y);
+	print_sheet_objects (pj, sheet, range, base_x, base_y);
 }
 
 /*
@@ -218,11 +210,11 @@ print_page_repeated_rows (PrintJobInfo const *pj, Sheet const *sheet,
 			  double base_x, double base_y)
 {
 	Range const *r = &pj->pi->repeat_top.range;
+	Range range;
 
-	print_page_cells (pj, sheet,
-		start_col, MIN (r->start.row, r->end.row),
-		end_col,   MAX (r->start.row, r->end.row),
-		base_x, base_y);
+	range_init (&range, start_col, MIN (r->start.row, r->end.row),
+			    end_col,   MAX (r->start.row, r->end.row));
+	print_page_cells (pj, sheet, &range, base_x, base_y);
 }
 
 /*
@@ -237,11 +229,11 @@ print_page_repeated_cols (PrintJobInfo const *pj, Sheet const *sheet,
 			  double base_x, double base_y)
 {
 	Range const *r = &pj->pi->repeat_left.range;
+	Range range;
 
-	print_page_cells (pj, sheet,
-		MIN (r->start.col, r->end.col), start_row,
-		MAX (r->start.col, r->end.col), end_row,
-		base_x, base_y);
+	range_init (&range, MIN (r->start.col, r->end.col), start_row,
+			    MAX (r->start.col, r->end.col), end_row);
+	print_page_cells (pj, sheet, &range, base_x, base_y);
 }
 
 /*
@@ -475,10 +467,7 @@ cb_range_empty (Sheet *sheet, int col, int row, Cell *cell, gpointer flags)
 /**
  * print_page:
  * @sheet:     the sheet to print
- * @start_col: starting column
- * @start_row: starting row
- * @end_col:   end column
- * @end_row:   end row
+ * @range:     a range
  * @pj:        printing context
  *
  * Return value: always 0
@@ -489,8 +478,7 @@ cb_range_empty (Sheet *sheet, int col, int row, Cell *cell, gpointer flags)
  * regular flow.
  */
 static int
-print_page (PrintJobInfo const *pj, Sheet const *sheet,
-	    int start_col, int start_row, int end_col, int end_row,
+print_page (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 	    gboolean output)
 {
 	PrintMargins *margins = &pj->pi->margins;
@@ -507,57 +495,52 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet,
 
 	/* Space for repeated rows depends on whether we print them or not */
 	if (pj->pi->repeat_top.use &&
-	    start_row > pj->pi->repeat_top.range.start.row) {
+	    range->start.row > pj->pi->repeat_top.range.start.row) {
 		repeat_rows_used_y = pj->repeat_rows_used_y;
 		/* Make sure start_row never is inside the repeated range */
-		start_row = MAX (start_row,
-				 pj->pi->repeat_top.range.end.row + 1);
+		range->start.row = MAX (range->start.row,
+				        pj->pi->repeat_top.range.end.row + 1);
 	} else
 		repeat_rows_used_y = 0;
 
 	/* Space for repeated cols depends on whether we print them or not */
 	if (pj->pi->repeat_left.use &&
-	    start_col > pj->pi->repeat_left.range.start.col) {
+	    range->start.col > pj->pi->repeat_left.range.start.col) {
 		repeat_cols_used_x = pj->repeat_cols_used_x;
 		/* Make sure start_col never is inside the repeated range */
-		start_col = MAX (start_col,
-				 pj->pi->repeat_left.range.end.col + 1);
+		range->start.col = MAX (range->start.col,
+				        pj->pi->repeat_left.range.end.col + 1);
 	} else
 		repeat_cols_used_x = 0;
 
 	/* If there are no cells in the area check for spans */
 	printed = (NULL != sheet_foreach_cell_in_range ((Sheet *)sheet, TRUE,
-							start_col, start_row,
-							end_col, end_row,
+							range->start.col,
+							range->start.row,
+							range->end.col,
+							range->end.row,
 							cb_range_empty, NULL));
 	if (!printed) {
-		int i = start_row;
-		for (; i <= end_row ; ++i) {
+		int i = range->start.row;
+		for (; i <= range->end.row ; ++i) {
 			ColRowInfo const *ri = sheet_row_get_info (sheet, i);
 			if (ri->visible &&
-			    (NULL != row_span_get (ri, start_col) ||
-			     NULL != row_span_get (ri, end_col))) {
+			    (NULL != row_span_get (ri, range->start.col) ||
+			     NULL != row_span_get (ri, range->end.col))) {
 				printed = TRUE;
 				break;
 			}
 		}
 	}
-	if (!printed && pj->pi->print_even_if_only_styles) {
-		Range r;
-		printed = sheet_style_has_visible_content (sheet,
-			range_init (&r, start_col, start_row,
-				    end_col, end_row));
-	}
+	if (!printed && pj->pi->print_even_if_only_styles)
+		printed = sheet_style_has_visible_content (sheet, range);
 
 	/* Check for sheet objects if nothing has been found so far */
-	if (!printed) {
-		Range range;
-		range_init (&range, start_col, start_row, end_col, end_row);
+	if (!printed)
 		for (l = sheet->sheet_objects; l && !printed; l = l->next) {
 			SheetObject *so = SHEET_OBJECT (l->data);
-			printed = range_overlap (&range, &so->cell_bound);
+			printed = range_overlap (range, &so->cell_bound);
 		}
-	}
 
 	if (!output)
 		return printed;
@@ -568,8 +551,8 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet,
 	x = 0.;
 	y = 0.;
 
-	print_height = sheet_row_get_distance_pts (sheet,
-						   start_row, end_row + 1);
+	print_height = sheet_row_get_distance_pts (sheet, range->start.row,
+						   range->end.row + 1);
 	if (pj->pi->center_vertically){
 		double h = print_height;
 
@@ -579,7 +562,8 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet,
 		y = (pj->y_points - h)/2;
 	}
 
-	print_width = sheet_col_get_distance_pts (sheet, start_col, end_col+1);
+	print_width = sheet_col_get_distance_pts (sheet, range->start.col,
+						  range->end.col + 1);
 	if (pj->pi->center_horizontally){
 		double w = print_width;
 
@@ -618,9 +602,7 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet,
 	 * Print any titles that might be used
 	 */
 	if (pj->pi->print_titles) {
-		print_titles (pj, sheet,
-			start_col, start_row, end_col, end_row,
-			x, y);
+		print_titles (pj, sheet, range, x, y);
 		x += sheet->cols.default_style.size_pts;
 		y += sheet->rows.default_style.size_pts;
 	}
@@ -656,19 +638,19 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet,
 			print_page_repeated_intersect (pj, sheet,
 				x, y, repeat_cols_used_x, repeat_rows_used_y);
 
-		print_page_repeated_rows (pj, sheet,
-			start_col, end_col, x + repeat_cols_used_x, y);
+		print_page_repeated_rows (pj, sheet, range->start.col,
+					  range->end.col,
+					  x + repeat_cols_used_x, y);
 		y += repeat_rows_used_y;
 	}
 
 	if (pj->pi->repeat_left.use && repeat_cols_used_x > 0. ) {
-		print_page_repeated_cols (pj, sheet,
-			start_row, end_row, x, y);
+		print_page_repeated_cols (pj, sheet, range->start.row,
+					  range->end.row, x, y);
 		x += repeat_cols_used_x;
 	}
 
-	print_page_cells (pj, sheet,
-			  start_col, start_row, end_col, end_row, x, y);
+	print_page_cells (pj, sheet, range, x, y);
 
 	gnome_print_showpage (pj->print_context);
 
@@ -740,6 +722,7 @@ print_range_down_then_right (PrintJobInfo const *pj, Sheet const *sheet,
 					   usable_x, sheet_col_get_info);
 
 		while (row <= r->end.row) {
+			Range range;
 			int row_count;
 
 			if (row < pj->pi->repeat_top.range.end.row) {
@@ -751,11 +734,10 @@ print_range_down_then_right (PrintJobInfo const *pj, Sheet const *sheet,
 
 			row_count = compute_group (pj, sheet, row, r->end.row,
 						   usable_y, sheet_row_get_info);
-			printed = print_page (pj, sheet,
-				COL_FIT (col), ROW_FIT (row),
-				COL_FIT (col + col_count - 1),
-				ROW_FIT (row + row_count - 1),
-				output);
+			range_init (&range, COL_FIT (col), ROW_FIT (row),
+				    COL_FIT (col + col_count - 1),
+				    ROW_FIT (row + row_count - 1));
+			printed = print_page (pj, sheet, &range, output);
 
 			row += row_count;
 
@@ -802,6 +784,7 @@ print_range_right_then_down (PrintJobInfo const *pj, Sheet const *sheet,
 					   usable_y, sheet_row_get_info);
 
 		while (col <= r->end.col) {
+			Range range;
 			int col_count;
 
 			if (col < pj->pi->repeat_left.range.end.col) {
@@ -814,11 +797,10 @@ print_range_right_then_down (PrintJobInfo const *pj, Sheet const *sheet,
 			col_count = compute_group (pj, sheet, col, r->end.col,
 						   usable_x, sheet_col_get_info);
 
-			printed = print_page (pj, sheet,
-				COL_FIT (col), ROW_FIT (row),
-				COL_FIT (col + col_count - 1),
-				ROW_FIT (row + row_count - 1),
-				output);
+			range_init (&range, COL_FIT (col), ROW_FIT (row),
+				    COL_FIT (col + col_count - 1),
+				    ROW_FIT (row + row_count - 1));
+			printed = print_page (pj, sheet, &range, output);
 
 			col += col_count;
 

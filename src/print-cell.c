@@ -733,16 +733,14 @@ merged_col_cmp (Range const *a, Range const *b)
 
 void
 print_cell_range (GnomePrintContext *context,
-		  Sheet const *sheet,
-		  int start_col, int start_row,
-		  int end_col, int end_row,
+		  Sheet const *sheet, Range *range,
 		  double base_x, double base_y,
 		  gboolean hide_grid)
 {
 	int n, col, row;
 	double x, y;
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
-
+	int start_row, start_col, end_col, end_row;
 	StyleRow sr, next_sr;
 	MStyle const **styles;
 	StyleBorder const **borders, **prev_vert;
@@ -756,8 +754,14 @@ print_cell_range (GnomePrintContext *context,
 
 	g_return_if_fail (GNOME_IS_PRINT_CONTEXT (context));
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (start_col <= end_col);
-	g_return_if_fail (start_row <= end_row);
+	g_return_if_fail (range != NULL);
+	g_return_if_fail (range->start.col <= range->end.col);
+	g_return_if_fail (range->start.row <= range->end.row);
+
+	start_col = range->start.col;
+	start_row = range->start.row;
+	end_col = range->end.col;
+	end_row = range->end.row;
 
 	/* Skip any hidden rows at the start */
 	for (; start_row <= end_row ; ++start_row) {

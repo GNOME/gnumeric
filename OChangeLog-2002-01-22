@@ -1,3 +1,11 @@
+2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+
+	* src/print-cell.[c,h] (print_cell_range): Use a Range as parameter
+	instead of four ints
+	* src/print.c (print_titles), (print_sheet_objects), (print_page_cells),
+	(print_page): Same here. In addition, adjust calls to these functions
+	all over the place.
+
 2001-08-14  Jody Goldberg <jgoldberg@home.com>
 
 	* idl/Makefile.am : Use stamp files to make parallel compiles work.
