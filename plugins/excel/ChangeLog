@@ -1,3 +1,11 @@
+1999-07-14  Michael Meeks  <michael@edenproject.org>
+
+	* ms-summary.c: Big clean, quiet and sensible handling of
+	errors.
+
+	* boot.c (excel_load): Put summary call back in.
+	Add excel_read_debug, dump summary info if > 0
+
 1999-07-13  Michael Meeks  <michael@edenproject.org>
 
 	* Makefile.am: Added ms-summary.[ch]

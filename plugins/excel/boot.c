@@ -17,6 +17,8 @@
 #include "ms-summary.h"
 #include "boot.h"
 
+extern int ms_excel_read_debug;
+
 static gboolean
 excel_probe (const char *filename)
 {
@@ -46,7 +48,11 @@ excel_load (const char *filename)
 	wb = ms_excel_read_workbook (f);
 	if (wb) {
 		char *name = g_strconcat (filename, ".gnumeric", NULL);
-/*		ms_summary_read (f, wb->sin); */
+		ms_summary_read (f, wb->sin);
+
+		if (ms_excel_read_debug > 0)
+			summary_info_dump (wb->sin);
+
 		workbook_set_filename (wb, name);
 		g_free(name);
 	}
