@@ -257,6 +257,6 @@ With intersection and iteration support
 
 Without intersection or iteration support
     r : cell range	content is _NOT_ guaranteed to have been evaluated yet
-    A : area		either range or array (range as above)
+    A : area		array, range, (range as above), or scalar
     a : array
     ? : anything
