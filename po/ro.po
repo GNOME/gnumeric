@@ -1269,11 +1269,11 @@ msgstr "Cadru"
 
 #: src/GNOME_Gnumeric.xml.h:86
 msgid "Function Guru"
-msgstr "Guru funcþii"
+msgstr "Ghid funcþii"
 
 #: src/GNOME_Gnumeric.xml.h:87 src/dialogs/graph-guru.glade.h:2
 msgid "Graph Guru"
-msgstr "Guru diagrame"
+msgstr "Ghid diagrame"
 
 #: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:2765
 msgid "H_eight..."
@@ -1374,7 +1374,7 @@ msgstr "Insereazã un obiect Bonobo"
 
 #: src/GNOME_Gnumeric.xml.h:112
 msgid "Invoke the graph guru to create a graph"
-msgstr "Invocã guru de diagrame pentru a crea o diagramã"
+msgstr "Invocã ghidul de diagrame pentru a crea o diagramã"
 
 #: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2591
 msgid "Irrevocably remove an entire sheet"
@@ -4723,7 +4723,7 @@ msgstr "Nu puteþi redefini un nume predefinit."
 
 #: src/dialogs/dialog-define-names.c:591
 msgid "Could not create the Name Guru."
-msgstr "Nu am putut crea Guru denumire."
+msgstr "Nu am putut crea Ghidul de denumire."
 
 #: src/dialogs/dialog-formula-guru.c:424
 #, c-format
@@ -5588,7 +5588,7 @@ msgstr "Dimensiune:"
 
 #: src/dialogs/formula-guru.glade.h:1
 msgid "Formula Guru"
-msgstr "Guru formule"
+msgstr "Ghid formule"
 
 #: src/dialogs/fourier-analysis.glade.h:1
 msgid "Fourier Analysis"
