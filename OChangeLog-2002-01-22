@@ -1,3 +1,29 @@
+2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/plugin-service.c
+	(plugin_service_file_opener_read, plugin_service_file_saver_read):
+	Get opener/saver description from translated content of <description>
+	node inside <information> not from <information>'s attributes.
+	(plugin_service_function_group_read):
+	Get category name (both translated and untranslated) from <category>'s
+	content, not from "name" attribute.
+
+	* src/plugin.c
+	(plugin_info_read):
+	Get plugin name and description from translated content of <name> and
+	<description> nodes inside <information>, not from <information>'s
+	attributes.
+	(plugin_loader_get_type_by_id, plugin_loader_is_available_by_id,
+	plugin_db_activate_plugin_list, plugin_db_deactivate_plugin_list,
+	plugin_db_get_plugin_info_by_plugin_id,
+	plugin_db_update_saved_active_plugin_id_list):
+	Removed unnecessary casts.
+
+	* src/plugin-loader-module.c (gnumeric_plugin_loader_module_load,
+	gnumeric_plugin_loader_module_unload): Put (possibly long) g_module
+	error string in ErrorInfo details instead of appending it to our
+	error message.
+
 2001-08-20  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : post release bump

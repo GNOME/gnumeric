@@ -121,8 +121,9 @@ gnumeric_plugin_loader_module_load (GnumericPluginLoader *loader, ErrorInfo **re
 		} else {
 			if (handle == NULL) {
 				*ret_error = error_info_new_printf (
-				             _("Unable to open module file \"%s\": %s"),
-				             full_module_file_name, g_module_error());
+				             _("Unable to open module file \"%s\"."),
+				             full_module_file_name);
+				error_info_add_details (*ret_error, error_info_new_str (g_module_error()));
 			} else {
 				*ret_error = error_info_new_printf (
 				             _("Module file \"%s\" has invalid format."),
@@ -166,8 +167,9 @@ gnumeric_plugin_loader_module_unload (GnumericPluginLoader *loader, ErrorInfo **
 	}
 	if (!g_module_close (loader_module->handle)) {
 		*ret_error = error_info_new_printf (
-		             _("Unable to close module file \"%s\": %s"),
-		             loader_module->module_file_name, g_module_error());
+		             _("Unable to close module file \"%s\"."),
+		             loader_module->module_file_name);
+		error_info_add_details (*ret_error, error_info_new_str (g_module_error()));
 	}
 	loader_module->handle = NULL;
 	loader_module->plugin_init_func = NULL;

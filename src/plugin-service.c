@@ -9,6 +9,7 @@
 #include <fnmatch.h>
 #include <glib.h>
 #include <gnome-xml/tree.h>
+#include <gnome-xml/xmlmemory.h>
 #include <libgnome/libgnome.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/util/e-util.h>
@@ -394,9 +395,20 @@ plugin_service_file_opener_read (xmlNode *tree, ErrorInfo **ret_error)
 	has_probe = e_xml_get_bool_prop_by_name_with_default (tree, "probe", TRUE);
 	can_open = e_xml_get_bool_prop_by_name_with_default (tree, "open", TRUE);
 	can_import = e_xml_get_bool_prop_by_name_with_default (tree, "import", FALSE);
-	information_node = e_xml_get_child_by_name_by_lang_list (tree, "information", NULL);
+	information_node = e_xml_get_child_by_name (tree, "information");
 	if (information_node != NULL) {
-		description = e_xml_get_string_prop_by_name (information_node, "description");
+		xmlNode *node;
+		xmlChar *val;
+
+		node = e_xml_get_child_by_name_by_lang_list (
+		       information_node, "description", NULL);
+		if (node != NULL) {
+			val = xmlNodeGetContent (node);
+			description = g_strdup (val);
+			xmlFree (val);
+		} else {
+			description = NULL;
+		}
 	} else {
 		description = NULL;
 	}
@@ -655,9 +667,20 @@ plugin_service_file_saver_read (xmlNode *tree, ErrorInfo **ret_error)
 	file_extension = e_xml_get_string_prop_by_name (tree, "file_extension");
 	format_level_str = e_xml_get_string_prop_by_name (tree, "format_level");
 	save_scope_str = e_xml_get_string_prop_by_name (tree, "save_scope");
-	information_node = e_xml_get_child_by_name_by_lang_list (tree, "information", NULL);
+	information_node = e_xml_get_child_by_name (tree, "information");
 	if (information_node != NULL) {
-		description = e_xml_get_string_prop_by_name (information_node, "description");
+		xmlNode *node;
+		xmlChar *val;
+
+		node = e_xml_get_child_by_name_by_lang_list (
+		       information_node, "description", NULL);
+		if (node != NULL) {
+			val = xmlNodeGetContent (node);
+			description = g_strdup (val);
+			xmlFree (val);
+		} else {
+			description = NULL;
+		}
 	} else {
 		description = NULL;
 	}
@@ -778,7 +801,11 @@ plugin_service_function_group_read (xmlNode *tree, ErrorInfo **ret_error)
 	group_id = e_xml_get_string_prop_by_name (tree, "id");
 	category_node = e_xml_get_child_by_name_no_lang (tree, "category");
 	if (category_node != NULL) {
-		category_name = e_xml_get_string_prop_by_name (category_node, "name");
+		xmlChar *val;
+
+		val = xmlNodeGetContent (category_node);
+		category_name = g_strdup (val);
+		xmlFree (val);
 	} else {
 		category_name = NULL;
 	}
@@ -788,7 +815,11 @@ plugin_service_function_group_read (xmlNode *tree, ErrorInfo **ret_error)
 
 		lang = e_xml_get_string_prop_by_name (translated_category_node, "xml:lang");
 		if (lang != NULL) {
-			translated_category_name = e_xml_get_string_prop_by_name (translated_category_node, "name");
+			xmlChar *val;
+
+			val = xmlNodeGetContent (translated_category_node);
+			translated_category_name = g_strdup (val);
+			xmlFree (val);
 			g_free (lang);
 		} else {
 			translated_category_name = NULL;

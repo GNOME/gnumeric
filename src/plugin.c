@@ -498,9 +498,8 @@ plugin_loader_get_type_by_id (const gchar *id_str, ErrorInfo **ret_error)
 
 	*ret_error = NULL;
 	for (l = registered_loader_types; l != NULL; l = l->next) {
-		PluginLoaderTypeInfo *loader_type_info;
+		PluginLoaderTypeInfo *loader_type_info = l->data;
 
-		loader_type_info = (PluginLoaderTypeInfo *) l->data;
 		if (strcmp (loader_type_info->id_str, id_str) == 0) {
 			if (loader_type_info->has_type) {
 				return loader_type_info->loader_type;
@@ -540,9 +539,8 @@ plugin_loader_is_available_by_id (const gchar *id_str)
 	g_return_val_if_fail (id_str != NULL, FALSE);
 
 	for (l = registered_loader_types; l != NULL; l = l->next) {
-		PluginLoaderTypeInfo *loader_type_info;
+		PluginLoaderTypeInfo *loader_type_info = l->data;
 
-		loader_type_info = (PluginLoaderTypeInfo *) l->data;
 		if (strcmp (loader_type_info->id_str, id_str) == 0) {
 			return TRUE;
 		}
@@ -739,10 +737,29 @@ plugin_info_read (PluginInfo *pinfo, const gchar *dir_name, ErrorInfo **ret_erro
 	}
 	tree = doc->xmlRootNode;
 	id = e_xml_get_string_prop_by_name (tree, "id");
-	information_node = e_xml_get_child_by_name_by_lang_list (tree, "information", NULL);
+	information_node = e_xml_get_child_by_name (tree, "information");
 	if (information_node != NULL) {
-		name = e_xml_get_string_prop_by_name (information_node, "name");
-		description = e_xml_get_string_prop_by_name (information_node, "description");
+		xmlNode *node;
+		xmlChar *val;
+
+		node = e_xml_get_child_by_name_by_lang_list (
+		       information_node, "name", NULL);
+		if (node != NULL) {
+			val = xmlNodeGetContent (node);
+			name = g_strdup (val);
+			xmlFree (val);
+		} else {
+			name = NULL;
+		}
+		node = e_xml_get_child_by_name_by_lang_list (
+		       information_node, "description", NULL);
+		if (node != NULL) {
+			val = xmlNodeGetContent (node);
+			description = g_strdup (val);
+			xmlFree (val);
+		} else {
+			description = NULL;
+		}
 	} else {
 		name = NULL;
 		description = NULL;
@@ -1440,13 +1457,12 @@ plugin_db_activate_plugin_list (GList *plugins, ErrorInfo **ret_error)
 
 	*ret_error = NULL;
 	for (l = plugins; l != NULL; l = l->next) {
-		PluginInfo *pinfo;
+		PluginInfo *pinfo = l->data;
 
-		pinfo = (PluginInfo *) l->data;
 		if (!pinfo->is_active) {
 			ErrorInfo *error;
 
-			activate_plugin ((PluginInfo *) l->data, &error);
+			activate_plugin (pinfo, &error);
 			if (error != NULL) {
 				ErrorInfo *new_error;
 
@@ -1480,9 +1496,8 @@ plugin_db_deactivate_plugin_list (GList *plugins, ErrorInfo **ret_error)
 
 	*ret_error = NULL;
 	for (l = plugins; l != NULL; l = l->next) {
-		PluginInfo *pinfo;
+		PluginInfo *pinfo = l->data;
 
-		pinfo = (PluginInfo *) l->data;
 		if (pinfo->is_active && plugin_can_deactivate (pinfo)) {
 			ErrorInfo *error;
 
@@ -1525,9 +1540,8 @@ plugin_db_get_plugin_info_by_plugin_id (const gchar *plugin_id)
 	g_return_val_if_fail (plugin_id != NULL, NULL);
 
 	for (l = available_plugin_info_list; l != NULL; l = l->next) {
-		PluginInfo *pinfo;
+		PluginInfo *pinfo = l->data;
 
-		pinfo = (PluginInfo *) l->data;
 		if (strcmp (pinfo->id, plugin_id) == 0) {
 			return pinfo;
 		}
@@ -1546,9 +1560,8 @@ plugin_db_update_saved_active_plugin_id_list (void)
 	}
 	saved_active_plugin_id_list = NULL;
 	for (l = available_plugin_info_list; l != NULL; l = l->next) {
-		PluginInfo *pinfo;
+		PluginInfo *pinfo = l->data;
 
-		pinfo = (PluginInfo *) l->data;
 		if (pinfo->is_active) {
 			saved_active_plugin_id_list = g_list_prepend (saved_active_plugin_id_list,
 			                                              g_strdup (pinfo->id));
@@ -1623,6 +1636,7 @@ plugin_db_init (ErrorInfo **ret_error)
 	new_plugin_ids = NULL;
 	for (l = available_plugin_info_list; l != NULL; l = l->next) {
 		gchar *plugin_id = ((PluginInfo *) l->data)->id;
+
 		if (g_hash_table_lookup (known_plugin_id_hash, plugin_id) == NULL)
 			new_plugin_ids = g_list_prepend (new_plugin_ids, g_strdup (plugin_id));
 	}
