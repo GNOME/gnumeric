@@ -754,8 +754,8 @@ format_add_thousand (const char *format_string)
  * Finds the decimal char in @str doing the proper parsing of a
  * format string
  */
-static const char *
-find_decimal_char (const char *str)
+static char *
+find_decimal_char (char *str)
 {
 	char dc = DECIMAL_CHAR_OF_LC (lc);
 
@@ -817,7 +817,7 @@ char *
 format_remove_decimal (const char *format_string)
 {
 	int offset = 1;
-	char *ret, *t, *p;
+	char *ret, *p;
 
 	if (!lc)
 		lc = localeconv ();
@@ -832,7 +832,7 @@ format_remove_decimal (const char *format_string)
 		format_string = "0.########";
 
 	ret = g_strdup (format_string);
-	p = (char *) find_decimal_char (ret);
+	p = find_decimal_char (ret);
 	if (!p){
 		g_free (ret);
 		return NULL;
@@ -847,8 +847,7 @@ format_remove_decimal (const char *format_string)
 	else
 		offset = 2;
 
-	for (t = p; *t; ++t)
-		*t = *(t+offset);
+	strcpy (p, p + offset);
 
 	return ret;
 }
