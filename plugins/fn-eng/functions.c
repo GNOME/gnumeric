@@ -31,6 +31,7 @@
 #include <str.h>
 #include <value.h>
 #include <mathfunc.h>
+#include <collect.h>
 
 #include <math.h>
 #include <limits.h>
@@ -1165,6 +1166,59 @@ gnumeric_gestep (FunctionEvalInfo *ei, GnmValue **argv)
 
 /***************************************************************************/
 
+static char const *help_invsuminv = {
+	N_("@FUNCTION=INVSUMINV\n"
+	   "@SYNTAX=INVSUMINV(x1,x2,...)\n"
+	   "@DESCRIPTION="
+	   "INVSUMINV sum calculates the inverse of the sum of inverses.\n"
+	   "\n"
+	   "The primary use of this is for calculating equivalent resistance for "
+	   "parallel resistors or equivalent capacitance of a series of capacitors.\n"
+	   "\n"
+	   "* All arguments must be non-negative, or else a #VALUE! result is returned.\n"
+	   "* If any argument is zero, the result is zero.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "INVSUMINV(2000,2000) equals 1000.\n"
+	   "\n"
+	   "@SEEALSO=HARMEAN")
+};
+
+static int
+range_invsuminv (gnm_float const *xs, int n, gnm_float *res)
+{
+	int i;
+	gnm_float suminv = 0;
+	gboolean zerop = FALSE;
+
+	if (n <= 0) return 1;
+
+	for (i = 0; i < n; i++) {
+		gnm_float x = xs[i];
+		if (x < 0) return 1;
+		if (x == 0)
+			zerop = TRUE;
+		else
+			suminv += 1 / x;
+	}
+
+	*res = zerop ? 0 : 1 / suminv;
+	return 0;
+}
+
+static GnmValue *
+gnumeric_invsuminv (FunctionEvalInfo *ei, GnmExprList *nodes)
+{
+	return float_range_function (nodes, ei,
+				     range_invsuminv,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     GNM_ERROR_VALUE);
+}
+
+/***************************************************************************/
+
 const GnmFuncDescriptor engineering_functions[] = {
         { "besseli",     "ff",   "xnum,ynum", &help_besseli,
 	  gnumeric_besseli, NULL, NULL, NULL, NULL,
@@ -1225,6 +1279,10 @@ const GnmFuncDescriptor engineering_functions[] = {
         { "hex2oct",     "S|f",  "xnum,ynum", &help_hex2oct,
 	  gnumeric_hex2oct, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+
+	{ "invsuminv",    0, "",              &help_invsuminv,
+	  NULL, gnumeric_invsuminv, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
         { "oct2bin",     "S|f",  "xnum,ynum", &help_oct2bin,
 	  gnumeric_oct2bin, NULL, NULL, NULL, NULL,

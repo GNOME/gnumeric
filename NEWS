@@ -16,6 +16,7 @@ Morten:
 	* Add Ctrl-Shift-D for double underline.
 	* Fix error return for GEOMEAN and HARMEAN.
 	* Fix IMCONJUGATE and IMABS for reals.  [#148323, backported]
+	* New function INVSUMINV.
 
 Uwe Steinmann:
 	* Paradox DB import.

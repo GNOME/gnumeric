@@ -29,6 +29,7 @@
 				<function name="hex2bin"/>
 				<function name="hex2dec"/>
 				<function name="hex2oct"/>
+				<function name="invsuminv"/>
 				<function name="oct2bin"/>
 				<function name="oct2dec"/>
 				<function name="oct2hex"/>
