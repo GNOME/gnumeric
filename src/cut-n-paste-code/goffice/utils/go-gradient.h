@@ -48,6 +48,8 @@ typedef enum {
 	GO_GRADIENT_NE_TO_SW_MIRRORED	
 } GOGradientDirection;
 
+GOGradientDirection go_gradient_dir_from_str (const gchar *name);
+const gchar *go_gradient_dir_as_str (GOGradientDirection dir);
 GtkWidget *go_gradient_selector (GOColor fore, GOColor back);
 void go_gradient_setup (ArtGradientLinear *gradient,
 			GOGradientDirection dir, GOColor col0, GOColor col1,

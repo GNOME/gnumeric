@@ -949,119 +949,6 @@ fill_style_as_str (GogFillStyle fstyle)
 }
 
 static struct {
-	GOPatternType pattern;
-	const gchar  *name;
-} pattern_names[] = {
-	GO_PATTERN_SOLID,            "solid",
-	GO_PATTERN_GREY75,           "grey75",
-	GO_PATTERN_GREY50,           "grey50",
-	GO_PATTERN_GREY25,           "grey25",
-	GO_PATTERN_GREY125,          "grey12.5",
-	GO_PATTERN_GREY625,          "grey6.25",
-	GO_PATTERN_HORIZ,            "horiz",
-	GO_PATTERN_VERT,             "vert",
-	GO_PATTERN_REV_DIAG,         "rev-diag",
-	GO_PATTERN_DIAG,             "diag",
-	GO_PATTERN_DIAG_CROSS,       "diag-cross",
-	GO_PATTERN_THICK_DIAG_CROSS, "thick-diag-cross",
-	GO_PATTERN_THIN_HORIZ,       "thin-horiz",
-	GO_PATTERN_THIN_VERT,        "thin-vert",
-	GO_PATTERN_THIN_REV_DIAG,    "rev-diag",
-	GO_PATTERN_THIN_DIAG,        "thin-diag",
-	GO_PATTERN_THIN_HORIZ_CROSS, "thin-horiz-cross",
-	GO_PATTERN_THIN_DIAG_CROSS,  "thin-diag-cross",
-	GO_PATTERN_FOREGROUND_SOLID, "foreground-solid",
-	GO_PATTERN_SMALL_CIRCLES,    "small-circles",
-	GO_PATTERN_SEMI_CIRCLES,     "semi-circles",
-	GO_PATTERN_THATCH,           "thatch",
-	GO_PATTERN_LARGE_CIRCLES,    "large-circles",
-	GO_PATTERN_BRICKS,           "bricks"
-};
-
-static GOPatternType
-str_as_pattern (const gchar *name)
-{
-	unsigned i;
-	GogFillStyle ret = GO_PATTERN_SOLID;
-
-	for (i = 0; i < sizeof pattern_names / sizeof pattern_names[0]; i++) {
-		if (strcmp (pattern_names[i].name, name) == 0) {
-			ret = pattern_names[i].pattern;
-			break;
-		}
-	}
-	return ret;
-}
-
-static const gchar *
-pattern_as_str (GOPatternType pattern)
-{
-	unsigned i;
-	const gchar *ret = "none";
-
-	for (i = 0; i < sizeof pattern_names / sizeof pattern_names[0]; i++) {
-		if (pattern_names[i].pattern == pattern) {
-			ret = pattern_names[i].name;
-			break;
-		}
-	}
-	return ret;
-}
-
-static struct {
-	GOGradientDirection dir;
-	const gchar  *name;
-} grad_dir_names[] = {
-	GO_GRADIENT_N_TO_S,            "n-s",
-	GO_GRADIENT_S_TO_N,            "s-n",
-	GO_GRADIENT_N_TO_S_MIRRORED,   "n-s-mirrored",
-	GO_GRADIENT_S_TO_N_MIRRORED,   "s-n-mirrored",
-	GO_GRADIENT_W_TO_E,            "w-e",
-	GO_GRADIENT_E_TO_W,            "e-w",
-	GO_GRADIENT_W_TO_E_MIRRORED,   "w-e-mirrored",
-	GO_GRADIENT_E_TO_W_MIRRORED,   "e-w-mirrored",
-	GO_GRADIENT_NW_TO_SE,          "nw-se",
-	GO_GRADIENT_SE_TO_NW,          "se-nw",
-	GO_GRADIENT_NW_TO_SE_MIRRORED, "nw-se-mirrored",
-	GO_GRADIENT_SE_TO_NW_MIRRORED, "se-nw-mirrored",
-	GO_GRADIENT_NE_TO_SW,          "ne-sw",
-	GO_GRADIENT_SW_TO_NE,          "sw-ne",
-	GO_GRADIENT_SW_TO_NE_MIRRORED, "sw-ne-mirrored",
-	GO_GRADIENT_NE_TO_SW_MIRRORED, "ne-sw-mirrored",
-};
-
-static GOGradientDirection
-str_as_grad_dir (const gchar *name)
-{
-	unsigned i;
-	GOGradientDirection ret = GO_GRADIENT_N_TO_S;
-
-	for (i = 0; 
-	     i < sizeof grad_dir_names / sizeof grad_dir_names[0]; i++) {
-		if (strcmp (grad_dir_names[i].name, name) == 0) {
-			ret = grad_dir_names[i].dir;
-			break;
-		}
-	}
-	return ret;
-}
-
-static const gchar *
-grad_dir_as_str (GOGradientDirection dir)
-{
-	unsigned i;
-	const gchar *ret = "pattern";
-
-	for (i = 0; i < sizeof grad_dir_names / sizeof grad_dir_names[0]; i++) {
-		if (grad_dir_names[i].dir == dir) {
-			ret = grad_dir_names[i].name;
-			break;
-		}
-	}
-	return ret;
-}
-
-static struct {
 	GOMarkerShape shape;
 	const gchar  *name;
 } marker_shape_names[] = {
@@ -1155,7 +1042,7 @@ gog_style_gradient_load (xmlNode *node, GogStyle *style)
 	char    *str = xmlGetProp (node, "direction");
 	if (str != NULL) {
 		style->fill.u.gradient.dir
-			= str_as_grad_dir (str);
+			= go_gradient_dir_from_str (str);
 		xmlFree (str);
 	}
 	str = xmlGetProp (node, "brightness");
@@ -1186,7 +1073,7 @@ gog_style_gradient_save (xmlNode *parent, GogStyle *style)
 	xmlNode *node =  xmlNewDocNode (parent->doc, NULL, "gradient", NULL);
 
 	xmlSetProp (node, (xmlChar const *) "direction", 
-		    grad_dir_as_str (style->fill.u.gradient.dir));
+		    go_gradient_dir_as_str (style->fill.u.gradient.dir));
 	/* FIXME: According to gog-style.h, condition is >= 0 */
 	if (style->fill.u.gradient.brightness > 0) {
 		str = g_strdup_printf ("%f",  
@@ -1225,7 +1112,7 @@ gog_style_fill_load (xmlNode *node, GogStyle *style)
 				str = xmlGetProp (ptr, "type");
 				if (str != NULL) {
 					style->fill.u.pattern.pat.pattern
-						= str_as_pattern (str);
+						= go_pattern_from_str (str);
 					xmlFree (str);
 				}
 				str = xmlGetProp (ptr, "fore");
@@ -1274,7 +1161,7 @@ gog_style_fill_save (xmlNode *parent, GogStyle *style)
 	case GOG_FILL_STYLE_PATTERN:
 		child =  xmlNewDocNode (parent->doc, NULL, "pattern", NULL);
 		xmlSetProp (child, (xmlChar const *) "type", 
-			    pattern_as_str (style->fill.u.pattern.pat.pattern));
+			    go_pattern_as_str (style->fill.u.pattern.pat.pattern));
 		str = go_color_as_str (style->fill.u.pattern.pat.fore);
 		xmlSetProp (child, (xmlChar const *) "fore", str);
 		g_free (str);

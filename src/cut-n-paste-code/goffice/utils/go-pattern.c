@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-pattern.c :
+ * go-pattern.c :
  *
  * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
  *
@@ -84,6 +84,66 @@ static GOPatternSpec const go_patterns [] = {
 	{ 8, 8, /* Applix Brick */
 		{ 0x20, 0x20, 0x20, 0xff, 0x02, 0x02, 0x02, 0xff } }
 };
+
+static struct {
+	GOPatternType pattern;
+	const gchar  *name;
+} pattern_names[] = {
+	GO_PATTERN_SOLID,            "solid",
+	GO_PATTERN_GREY75,           "grey75",
+	GO_PATTERN_GREY50,           "grey50",
+	GO_PATTERN_GREY25,           "grey25",
+	GO_PATTERN_GREY125,          "grey12.5",
+	GO_PATTERN_GREY625,          "grey6.25",
+	GO_PATTERN_HORIZ,            "horiz",
+	GO_PATTERN_VERT,             "vert",
+	GO_PATTERN_REV_DIAG,         "rev-diag",
+	GO_PATTERN_DIAG,             "diag",
+	GO_PATTERN_DIAG_CROSS,       "diag-cross",
+	GO_PATTERN_THICK_DIAG_CROSS, "thick-diag-cross",
+	GO_PATTERN_THIN_HORIZ,       "thin-horiz",
+	GO_PATTERN_THIN_VERT,        "thin-vert",
+	GO_PATTERN_THIN_REV_DIAG,    "rev-diag",
+	GO_PATTERN_THIN_DIAG,        "thin-diag",
+	GO_PATTERN_THIN_HORIZ_CROSS, "thin-horiz-cross",
+	GO_PATTERN_THIN_DIAG_CROSS,  "thin-diag-cross",
+	GO_PATTERN_FOREGROUND_SOLID, "foreground-solid",
+	GO_PATTERN_SMALL_CIRCLES,    "small-circles",
+	GO_PATTERN_SEMI_CIRCLES,     "semi-circles",
+	GO_PATTERN_THATCH,           "thatch",
+	GO_PATTERN_LARGE_CIRCLES,    "large-circles",
+	GO_PATTERN_BRICKS,           "bricks"
+};
+
+
+GOPatternType
+go_pattern_from_str (const gchar *name)
+{
+	unsigned i;
+	GOPatternType ret = GO_PATTERN_SOLID;
+
+	for (i = 0; i < sizeof pattern_names / sizeof pattern_names[0]; i++) {
+		if (strcmp (pattern_names[i].name, name) == 0) {
+			ret = pattern_names[i].pattern;
+			break;
+		}
+	}
+	return ret;
+}
+const gchar *
+go_pattern_as_str (GOPatternType pattern)
+{
+	unsigned i;
+	const gchar *ret = "none";
+
+	for (i = 0; i < sizeof pattern_names / sizeof pattern_names[0]; i++) {
+		if (pattern_names[i].pattern == pattern) {
+			ret = pattern_names[i].name;
+			break;
+		}
+	}
+	return ret;
+}
 
 /**
  * go_pattern_is_solid :

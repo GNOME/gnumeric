@@ -28,6 +28,60 @@
 #include <gdk-pixbuf/gdk-pixdata.h>
 #include <string.h>
 
+
+static struct {
+	GOGradientDirection dir;
+	const gchar  *name;
+} grad_dir_names[] = {
+	GO_GRADIENT_N_TO_S,            "n-s",
+	GO_GRADIENT_S_TO_N,            "s-n",
+	GO_GRADIENT_N_TO_S_MIRRORED,   "n-s-mirrored",
+	GO_GRADIENT_S_TO_N_MIRRORED,   "s-n-mirrored",
+	GO_GRADIENT_W_TO_E,            "w-e",
+	GO_GRADIENT_E_TO_W,            "e-w",
+	GO_GRADIENT_W_TO_E_MIRRORED,   "w-e-mirrored",
+	GO_GRADIENT_E_TO_W_MIRRORED,   "e-w-mirrored",
+	GO_GRADIENT_NW_TO_SE,          "nw-se",
+	GO_GRADIENT_SE_TO_NW,          "se-nw",
+	GO_GRADIENT_NW_TO_SE_MIRRORED, "nw-se-mirrored",
+	GO_GRADIENT_SE_TO_NW_MIRRORED, "se-nw-mirrored",
+	GO_GRADIENT_NE_TO_SW,          "ne-sw",
+	GO_GRADIENT_SW_TO_NE,          "sw-ne",
+	GO_GRADIENT_SW_TO_NE_MIRRORED, "sw-ne-mirrored",
+	GO_GRADIENT_NE_TO_SW_MIRRORED, "ne-sw-mirrored",
+};
+
+GOGradientDirection
+go_gradient_dir_from_str (const gchar *name)
+{
+	unsigned i;
+	GOGradientDirection ret = GO_GRADIENT_N_TO_S;
+
+	for (i = 0; 
+	     i < sizeof grad_dir_names / sizeof grad_dir_names[0]; i++) {
+		if (strcmp (grad_dir_names[i].name, name) == 0) {
+			ret = grad_dir_names[i].dir;
+			break;
+		}
+	}
+	return ret;
+}
+
+const gchar *
+go_gradient_dir_as_str (GOGradientDirection dir)
+{
+	unsigned i;
+	const gchar *ret = "pattern";
+
+	for (i = 0; i < sizeof grad_dir_names / sizeof grad_dir_names[0]; i++) {
+		if (grad_dir_names[i].dir == dir) {
+			ret = grad_dir_names[i].name;
+			break;
+		}
+	}
+	return ret;
+}
+
 GtkWidget *
 go_gradient_selector (GOColor start, GOColor end)
 {

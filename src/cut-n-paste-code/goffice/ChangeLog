@@ -1,3 +1,18 @@
+2003-09-06  Jon K Hellan  <hellan@acm.org>
+
+	* utils/go-pattern.[ch] (go_pattern_as_str, go_pattern_as_str): Move
+	from gog-style.c and rename.
+
+	* utils/go-gradient.[ch] (go_gradient_dir_from_str) 
+	(go_gradient_dir_as_str): Ditto.
+
+	* graph/gog-style.c (str_as_pattern, pattern_as_str,
+	str_as_grad_dir, grad_dir_as_str): Move to utils/go-pattern /
+	go-gradient and rename.
+	(gog_style_gradient_load, gog_style_gradient_save,
+	gog_style_fill_load, gog_style_fill_save): Use renamed version of
+	above functions.
+
 2003-09-05  Jon K Hellan  <hellan@acm.org>
 
 	* utils/go-color.[ch] (go_color_from_str, go_color_as_str):
