@@ -915,7 +915,7 @@ static char *help_imln = {
 	   "result will have an imaginary part between -pi an +pi.  The "
 	   "natural logarithm is not uniquely defined on complex numbers. "
 	   "You may need to add or subtract an even multiple of pi to the "
-	   "imaginary part.)"
+	   "imaginary part.)\n"
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
