@@ -1,5 +1,6 @@
 /etc/gconf/schemas/*
 /usr/bin/gnumeric*
+/usr/bin/ssconvert
 /usr/lib/bonobo/servers/GNOME_Gnumeric.server
 /usr/lib/gnumeric/*/plugins/*/*.la
 /usr/lib/gnumeric/*/plugins/*/*.so

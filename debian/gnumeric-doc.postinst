@@ -4,7 +4,7 @@ set -e
 case "$1" in
 	configure)
 		if [ -x /usr/bin/scrollkeeper-update ]; then
-			/usr/bin/scrollkeeper-update
+			/usr/bin/scrollkeeper-update -o /usr/share/omf/gnumeric
 		fi
 	;;
 

@@ -1,3 +1,16 @@
+gnumeric (1.2.1-1) experimental; urgency=low
+
+  * New upstream release.
+    * Upload to experimental to give 1.2.0-1 a chance to go into testing RSN.
+    * No longer uses gdk_pango_context_get (which in combination with
+      -DGDK_MULTIHEAD_SAFE caused segfaults on ia64). (Closes: #198690)
+  * [debian/gnumeric-doc.postinst] Have scrollkeeper-update process our OMF
+    file only.
+  * [debian/gnumeric.install] Include the new ssconvert conversion utility.
+  * [debian/gnumeric.manpages] Add ssconvert(1).
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu,  9 Oct 2003 10:38:49 +0200
+
 gnumeric (1.2.0-1) unstable; urgency=low
 
   * New upstream stable release.
