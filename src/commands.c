@@ -753,6 +753,9 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		me->old_content = g_slist_prepend (me->old_content,
 			clipboard_copy_range (me->pos.sheet, r));
 
+		/* Queue depends of region as a block beforehand */
+		sheet_region_queue_recalc (me->pos.sheet, r);
+
 		/* If there is an expression then this was an array */
 		if (expr != NULL)
 			cell_set_array_formula (me->pos.sheet,
@@ -764,7 +767,6 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 		/* mark content as dirty */
 		sheet_flag_status_update_range (me->pos.sheet, r);
-		sheet_region_queue_recalc (me->pos.sheet, r);
 	}
 
 	/*
@@ -2633,6 +2635,9 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		me->parent.size += (g_list_length (me->content->content) +
 				    g_list_length (me->content->styles) +
 				    1);
+	/* Queue depends of region as a block beforehand */
+	sheet_region_queue_recalc (me->dst.sheet, &me->dst.range);
+
 	sheet_autofill (me->dst.sheet,
 			me->base_col, me->base_row, me->w, me->h,
 			me->end_col, me->end_row);
@@ -2644,7 +2649,6 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 				   me->base_col, me->base_row,
 				   me->end_col, me->end_row);
 
-	sheet_region_queue_recalc (me->dst.sheet, &me->dst.range);
 	sheet_range_calc_spans (me->dst.sheet, me->dst.range, SPANCALC_RENDER);
 	sheet_flag_status_update_range (me->dst.sheet, &me->dst.range);
 	sheet_make_cell_visible	(me->dst.sheet, me->base_col, me->base_row);

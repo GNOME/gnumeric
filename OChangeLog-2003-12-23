@@ -1,3 +1,16 @@
+2001-05-23  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_cell_destroy) : optionally queue the dependents
+	  of this cell for recalc.
+
+2001-05-23  Jody Goldberg <jgoldberg@home.com>
+
+	* src/eval.c (dependent_changed) : Use cb_dependent_queue_recalc to
+	  recursively queue the depends.
+	Eg A1 : =sum(b1:b2)
+	   B1 : =3
+	if we do not recurse the assignment of '=3' would queue B1 but not A1
+
 2001-05-22  Jody Goldberg <jgoldberg@home.com>
 
 	* gnumeric.spec.in : bump version of libole2

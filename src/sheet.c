@@ -2459,22 +2459,27 @@ sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 }
 
 /**
- * sheet_cell_remove_simple : Remove the cell from the web of depenancies of a
- *        sheet.  Do NOT redraw or free the cell.
+ * sheet_cell_destroy : Remove the cell from the web of depenancies of a
+ *        sheet.  Do NOT redraw.
  */
 static void
-sheet_cell_remove_simple (Sheet *sheet, Cell *cell)
+sheet_cell_destroy (Sheet *sheet, Cell *cell, gboolean queue_recalc)
 {
-	if (cell_needs_recalc (cell))
+	gboolean const needs_recalc = cell_needs_recalc (cell);
+
+	if (needs_recalc)
 		dependent_unqueue (CELL_TO_DEP (cell));
 
-	if (cell_has_expr (cell))
+	if (cell_has_expr (cell)) {
 		dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 
-	/* queue the things depending on the cell */
-	cell_queue_recalc (cell);
+		/* if it needs recalc then its depends are already queued */
+		if (queue_recalc && !needs_recalc)
+			cell_foreach_dep (cell, cb_dependent_queue_recalc, NULL);
+	}
 
 	sheet_cell_remove_from_hash (sheet, cell);
+	cell_destroy (cell);
 }
 
 /**
@@ -2495,8 +2500,10 @@ sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
 		sheet_flag_status_update_cell (cell);
 	}
 
-	sheet_cell_remove_simple (sheet, cell);
-	cell_destroy (cell);
+	/* FIXME : room for optimization here.
+	 * queuing depends should be optional
+	 */
+	sheet_cell_destroy (sheet, cell, TRUE);
 }
 
 /*
@@ -2505,8 +2512,7 @@ sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
 static Value *
 cb_free_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
-	sheet_cell_remove_simple (sheet, cell);
-	cell_destroy (cell);
+	sheet_cell_destroy (sheet, cell, FALSE);
 	return NULL;
 }
 

@@ -141,18 +141,29 @@ dependent_queue_recalc (Dependent *dep)
 	}
 }
 
+void
+cb_dependent_queue_recalc (Dependent *dep, gpointer ignore)
+{
+	if (!(dep->flags & DEPENDENT_NEEDS_RECALC)) {
+		dependent_queue_recalc (dep);
+		if ((dep->flags & DEPENDENT_TYPE_MASK) == DEPENDENT_CELL)
+			cell_foreach_dep (DEP_TO_CELL (dep),
+				cb_dependent_queue_recalc, NULL);
+	}
+}
+
+
 /**
  * dependent_queue_recalc_list :
  * @list :
+ * @recurse : optionally recursively dirty things
  *
  * Queues any elements of @list for recalc that are not already queued,
  * and marks all elements as needing a recalc.  Yes this code is the same as
- * above, but this is a hgh volume operation.
- *
- * NOTE : This does not recursively queue the dependents of elements of @list.
+ * above, but this is a high volume operation.
  */
 static void
-dependent_queue_recalc_list (GList const *list)
+dependent_queue_recalc_list (GList const *list, gboolean recurse)
 {
 	for (; list != NULL ; list = list->next) {
 		Dependent *dep = list->data;
@@ -177,6 +188,15 @@ dependent_queue_recalc_list (GList const *list)
 			wb->eval_queue = g_list_prepend (wb->eval_queue, dep);
 			dep->flags |= DEPENDENT_IN_RECALC_QUEUE;
 		}
+
+		/* FIXME : it would be better if we queued the entire list then
+		 * recursed.  That would save time, but we need to keep track
+		 * of deps that are already queued
+		 */
+		if (recurse &&
+		    (dep->flags & DEPENDENT_TYPE_MASK) == DEPENDENT_CELL)
+			cell_foreach_dep (DEP_TO_CELL (dep),
+				cb_dependent_queue_recalc, NULL);
 	}
 }
 
@@ -707,8 +727,9 @@ dependent_changed (Dependent *dep, CellPos const *pos, gboolean queue_recalc)
 {
 	dependent_link (dep, pos);
 	if (queue_recalc)
-		dependent_queue_recalc (dep);
+		cb_dependent_queue_recalc (dep, NULL);
 }
+
 /**
  * cell_add_dependencies:
  * @cell:
@@ -753,17 +774,6 @@ cell_eval (Cell *cell)
 	if (cell->base.flags & DEPENDENT_NEEDS_RECALC) {
 		cell->base.flags &= ~DEPENDENT_NEEDS_RECALC;
 		cell_eval_content (cell);
-	}
-}
-
-static void
-cb_dependent_queue_recalc (Dependent *dep, gpointer ignore)
-{
-	if (!(dep->flags & DEPENDENT_NEEDS_RECALC)) {
-		dependent_queue_recalc (dep);
-		if ((dep->flags & DEPENDENT_TYPE_MASK) == DEPENDENT_CELL)
-			cell_foreach_dep (DEP_TO_CELL (dep),
-				cb_dependent_queue_recalc, NULL);
 	}
 }
 
@@ -883,21 +893,21 @@ cb_region_contained_depend (gpointer key, gpointer value, gpointer user)
 	Range const *target = user;
 
 	if (range_overlap (target, range))
-		dependent_queue_recalc_list (deprange->dependent_list);
+		dependent_queue_recalc_list (deprange->dependent_list, TRUE);
 }
 
 static void
 cb_range_recalc_all_depends (gpointer key, gpointer value, gpointer ignore)
 {
 	DependencyRange const *deprange = key;
-	dependent_queue_recalc_list (deprange->dependent_list);
+	dependent_queue_recalc_list (deprange->dependent_list, FALSE);
 }
 
 static void
 cb_single_recalc_all_depends (gpointer key, gpointer value, gpointer ignore)
 {
 	DependencySingle const *single = value;
-	dependent_queue_recalc_list (single->dependent_list);
+	dependent_queue_recalc_list (single->dependent_list, FALSE);
 }
 
 /**
@@ -1139,7 +1149,7 @@ workbook_recalc (Workbook *wb)
 void
 workbook_recalc_all (Workbook *wb)
 {
-	dependent_queue_recalc_list (wb->dependents);
+	dependent_queue_recalc_list (wb->dependents, FALSE);
 	workbook_recalc (wb);
 	WORKBOOK_FOREACH_VIEW (wb, view,
 		sheet_update (wb_view_cur_sheet (view)););

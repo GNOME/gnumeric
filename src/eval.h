@@ -43,6 +43,7 @@ void dependent_unlink		 (Dependent *dep, CellPos const *pos);
 void dependent_unlink_sheet	 (Sheet const *sheet);
 void dependent_changed		 (Dependent *dep, CellPos const *pos,
 				  gboolean queue_recalc);
+void cb_dependent_queue_recalc	 (Dependent *dep, gpointer ignore);
 
 void cell_add_dependencies	 (Cell *cell);
 void cell_drop_dependencies	 (Cell *cell);
