@@ -1,0 +1,14 @@
+2003-07-24  Christian Neumair  <chris@gnome-de.org>
+
+	* .cvsignore:
+	* Makefile.am:
+	* func-header.xml:
+	* gnumeric-de.omf:
+	Updated.
+
+	* ChangeLog:
+	* TODO:
+	* authors.xml:
+	* license.xml:
+	* topic.dat:
+	Added.

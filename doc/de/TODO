@@ -1,0 +1,17 @@
+Bitte beachten:
+  Diese Datei sollte stets mit den TODO-Abschnitten in den einzelnen Dateien
+  abgeglichen werden.
+
+TODO
+  Unübersetzende Dateien:
+  analysis-tools.xml, appendix-glossary.xml, autocorrect.xml, autofill.xml,
+  autosave.xml, cell_refer.xml, chapter-autofill.xml, chapter-getting-started.xml,
+  copying-moving.xml, editing.xml, fdl-appendix.xml, files.xml, filter.xml,
+  formulas.xml, functions.xml, gnumeric.xml, graphs.xml, gui-elements.xml,
+  keybinding-appendix.xml, menus.xml, number-format.xml, preface.xml,
+  printing.xml, selections.xml, simulation.xml, solver.xml, toolbars.xml,
+  worksheet.xml
+
+
+Letzte Aktualisierung:
+24.07.2003, Christian Neumair <chris@gnome-de.org>

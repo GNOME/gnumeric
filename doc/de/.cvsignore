@@ -1,7 +1,9 @@
 Makefile
 Makefile.in
-func-list.xml
-func.defs
-functions.xml
-gnumeric-de.omf
+gnumeric.junk
+gnumeric
+func-index.sgml
+func-list.sgml
+index.html
+DBTOHTML_OUTPUT_DIR*
 omf_timestamp
