@@ -1,5 +1,0 @@
-When translating gnumeric, plese note that there is also the
-po-functions directory.
-But you have to set up it first: please run
-	TRANSL_ONLY=1 ./autogen.sh
-at the top level directory.

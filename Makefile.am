@@ -43,7 +43,7 @@ CLEANFILES = $(server_DATA) $(server_in_files) \
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
 EXTRA_DIST = \
-	gnumeric.desktop.in gnumeric.spec.in GNOME_Gnumeric.server.in.in\
+	gnumeric.desktop.in gnumeric.spec.in GNOME_Gnumeric.server.in.in \
 	gnumeric.keys.in gnumeric.mime 					\
 	gnumeric.xsd							\
 	README HACKING NEWS BEVERAGES BUGS MAINTAINERS AUTHORS $(change_logs)	\

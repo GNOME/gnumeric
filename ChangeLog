@@ -1,3 +1,12 @@
+2005-03-21  Stepan Kasal  <kasal@ucw.cz>
+
+	* autogen.sh: Remove the unfortunate TRANSL_ONLY; fix the explanation
+	  why we need our own copy of po/Makefile.in.in; use a nicer code to
+	  generate po-functions/POTFILES.*.
+	* README: Fix the Debian package name for pango, remove the intltool
+	  requirement.
+	* gnumeric.spec.in: Update the dependencies.
+
 2005-03-17  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c (x_claim_clipboard): Check for content == NULL.

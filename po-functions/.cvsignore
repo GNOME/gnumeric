@@ -2,10 +2,7 @@
 *.mo
 Makefile
 Makefile.in
-Makefile.in.in
 POTFILES
-POTFILES.in
-POTFILES.skip
 cat-id-tbl.c
 gnumeric.pot
 stamp-cat-id
