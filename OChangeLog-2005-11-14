@@ -1,3 +1,7 @@
+2004-10-21  Jean Brefort  <jean.brefort@normalesup.org>
+	* src/dialogs/dialog-solver.c: (revert_constraint_format): make constraints
+	display correctly in all circumstances.
+
 2004-10-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=139385

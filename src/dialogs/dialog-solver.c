@@ -721,7 +721,6 @@ revert_constraint_format (constraint_conversion_t * conv)
 	GtkTreeIter iter;
 	GtkListStore *store = GTK_LIST_STORE (gtk_tree_view_get_model (conv->c_listing));
 	GSList *engine_constraint_list = conv->c_list;
-	gchar  *text[2] = {NULL, NULL};
 
 	while (engine_constraint_list != NULL) {
 		const SolverConstraint *engine_constraint =
@@ -744,9 +743,8 @@ revert_constraint_format (constraint_conversion_t * conv)
 								 &r);
 
 		a_constraint->type = engine_constraint->type;
-		text[0] = engine_constraint->str;
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 0, text, 1, a_constraint, -1);
+		gtk_list_store_set (store, &iter, 0, engine_constraint->str, 1, a_constraint, -1);
 		engine_constraint_list = engine_constraint_list->next;
 	}
 }
