@@ -109,7 +109,7 @@ rendered_value_destroy (RenderedValue *rv)
 }
 
 /*
- * calc_text_dimensions
+ * rendered_value_calc_size
  * @cell:      The cell we are working on.
  * @style:     the style formatting constraints (font, alignments)
  * @text:      the string contents.

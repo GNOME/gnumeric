@@ -1189,12 +1189,10 @@ solver_lp_copy (SolverParameters const *src_param, Sheet *new_sheet)
 	dst_param = &new_sheet->solver_parameters;
 
 	if (src_param->target_cell != NULL)
-	{
-		gint row, col;
-		row = src_param->target_cell->col_info->pos;
-		col = src_param->target_cell->row_info->pos;
-	        dst_param->target_cell = sheet_cell_fetch (new_sheet, col, row);
-	}
+	        dst_param->target_cell =
+		    sheet_cell_fetch (new_sheet, 
+				      src_param->target_cell->pos.row,
+				      src_param->target_cell->pos.col);
 
 	dst_param->problem_type = src_param->problem_type;
 	g_free (dst_param->input_entry_str);

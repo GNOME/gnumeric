@@ -278,7 +278,7 @@ parse_string_as_value (ExprTree *str)
 	char const *txt = str->constant.value->v_str.val->str;
 	/*
 	 * Try to match the entered text against any of the known number
-	 * formating codes, if this succeeds, we store this as a float +
+	 * formating codes, if this succeeds, we store this as a Value +
 	 * format, otherwise, we return a string.  Be extra careful with empty
 	 * strings (""),  They may match some formats ....
 	 */

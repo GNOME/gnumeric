@@ -720,13 +720,10 @@ print_info_copy (PrintInformation *src_pi)
 	dst_pi->print_order           = src_pi->print_order;
 
 	/* Headers & Footers */
-	dst_pi->header->left_format   = g_strdup (src_pi->header->left_format);
-	dst_pi->header->middle_format = g_strdup (src_pi->header->middle_format);
-	dst_pi->header->right_format  = g_strdup (src_pi->header->right_format);
-
-	dst_pi->footer->left_format   = g_strdup (src_pi->footer->left_format);
-	dst_pi->footer->middle_format = g_strdup (src_pi->footer->middle_format);
-	dst_pi->footer->right_format  = g_strdup (src_pi->footer->right_format);
+	print_hf_free (dst_pi->header);
+	dst_pi->header = print_hf_copy (src_pi->header);
+	print_hf_free (dst_pi->footer);
+	dst_pi->header = print_hf_copy (src_pi->footer);
 
 	/* Paper */
 	dst_pi->paper = gnome_paper_with_name (gnome_paper_name (src_pi->paper));

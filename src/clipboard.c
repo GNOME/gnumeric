@@ -230,9 +230,9 @@ paste_cell (Sheet *dest_sheet,
 			Cell *new_cell = cell_copy (c_copy->u.cell);
 
 			/* Cell can not be linked in yet, but it needs an accurate location */
-			new_cell->sheet	   = dest_sheet;
-			new_cell->col_info = sheet_col_fetch (dest_sheet, target_col);
-			new_cell->row_info = sheet_row_fetch (dest_sheet, target_row);
+			new_cell->sheet	  = dest_sheet;
+			new_cell->pos.col = target_col;
+			new_cell->pos.row = target_row;
 
 			if (cell_has_expr (new_cell)) {
 				if (paste_flags & PASTE_FORMULAS)
