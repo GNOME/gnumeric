@@ -361,6 +361,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
 			       "action", GTK_FILE_CHOOSER_ACTION_SAVE,
+			       "local-only", FALSE,
 			       "title", _("Select a file"),
 			       NULL));
 	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
