@@ -59,7 +59,11 @@ validation_new (ValidationStyle style,
 {
 	GnmValidation *v;
 
-	g_return_val_if_fail (!(type == VALIDATION_TYPE_CUSTOM && op != VALIDATION_OP_NONE), NULL);
+	if (type == VALIDATION_TYPE_CUSTOM && op != VALIDATION_OP_NONE) {
+		/* This can happen if an .xls file was saved as a .gnumeric.  */
+		g_warning ("VALIDATION_TYPE_CUSTOM needs to go with VALIDATION_OP_NONE.  Fixing.");
+		op = VALIDATION_OP_NONE;
+	}
 
 	v = g_new0 (GnmValidation, 1);
 	v->ref_count = 1;
