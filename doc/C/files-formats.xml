@@ -809,7 +809,7 @@ gunzip Book1.text.gz
 	    <entry>
 	      <emphasis role="bold">Compatible Programs:</emphasis>
             </entry>
-	    <entry><application>GUN oleo</application></entry>
+	    <entry><application>GNU oleo</application></entry>
 	  </row>
 	  <row>
 	    <entry>
