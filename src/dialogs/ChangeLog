@@ -1,3 +1,11 @@
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-function-wizard.c (cb_formula_guru_entry_focus_in) :
+	  Use the same number of args as the default for var args as for the
+	  max visibility.
+	(formula_guru_init_args) : Handle varargs here.
+	(dialog_formula_guru) : Not here.
+
 2000-06-18  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-function-wizard.c (formula_guru_arg_new): Use constant

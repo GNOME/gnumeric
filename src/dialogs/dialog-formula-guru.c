@@ -204,7 +204,8 @@ cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, Ar
 			/* FIXME : scroll window to make visible if necessary */
 		} else {
 			lim = MAX (as->index+1, state->max_arg) +1;
-			if (lim < 2) lim = 2;
+			if (lim < MAX_ARGS_DISPLAYED)
+				lim = MAX_ARGS_DISPLAYED;
 
 			for (; i >= lim ; --i) {
 				ArgumentState *tmp = g_ptr_array_index (state->args, i);
@@ -379,7 +380,7 @@ formula_guru_arg_new (char * const name,
 }
 
 static void
-formula_guru_init_args (FormulaGuruState *state)
+formula_guru_init_args (FormulaGuruState *state, ExprTree const *expr, Cell const *cell)
 {
 	gchar *copy_args;
 	const gchar *syntax;
@@ -397,8 +398,8 @@ formula_guru_init_args (FormulaGuruState *state)
 	state->var_args = (arg_max == G_MAXINT);
 
 	if (state->var_args) {
-		/* Display 2 argument for vararg functions by default */
-		for (i = 0; i < 2; i++)
+		/* Display at least MAX_ARGS_DISPLAYED vararg functions */
+		for (i = 0; i < MAX_ARGS_DISPLAYED; i++)
 			formula_guru_arg_new (NULL, '?', TRUE, state);
 		return;
 	}
@@ -445,6 +446,30 @@ formula_guru_init_args (FormulaGuruState *state)
 	}
 
 	g_free (copy_args);
+
+	/* If there were arguments initialize the fields */
+	if (expr != NULL) {
+		GList *l;
+		int i = 0;
+		char *str;
+		ParsePos pos;
+		parse_pos_init_cell (&pos, cell);
+
+		for (l = expr->func.arg_list; l; l = l->next) {
+			ArgumentState *as;
+
+			while (i >= state->args->len)
+				formula_guru_arg_new (NULL, '?', TRUE, state);
+
+			as = g_ptr_array_index (state->args, i++);
+			str = expr_tree_as_string (l->data, &pos);
+			gtk_entry_set_text (as->entry, str);
+			if (i == 0)
+				gtk_widget_grab_focus (GTK_WIDGET (as->entry));
+			g_free (str);
+		}
+	}
+
 }
 
 static GtkWidget *
@@ -476,7 +501,7 @@ formula_guru_set_scrollwin_size (FormulaGuruState *state)
 }
 
 static gboolean
-formula_guru_init (FormulaGuruState *state)
+formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *cell)
 {
 	TokenizedHelp *help_tokens;
 
@@ -506,7 +531,7 @@ formula_guru_init (FormulaGuruState *state)
 	state->description  = glade_xml_get_widget (state->gui, "description");
 	state->arg_requisition.width = state->arg_requisition.height = 0; 
 
-	formula_guru_init_args (state);
+	formula_guru_init_args (state, expr, cell);
 
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_formula_guru_destroy),
@@ -529,7 +554,6 @@ formula_guru_init (FormulaGuruState *state)
 	workbook_edit_attach_guru (state->wb, state->dialog);
 	formula_guru_set_expr (state, 0);
 	formula_guru_set_rolled_state (state, FALSE);
-	gtk_widget_show (state->dialog);
 
 	return FALSE;
 }
@@ -580,36 +604,13 @@ dialog_formula_guru (Workbook *wb)
 	state->wb	= wb;
 	state->fd	= fd;
 	state->valid	= FALSE;
-	if (formula_guru_init (state)) {
+	if (formula_guru_init (state, expr, cell)) {
 		g_free (state);
 		return;
 	}
 
-	/* If there were arguments initialize the fields */
-	if (expr != NULL) {
-		GList *l;
-		int i = 0;
-		char *str;
-		ParsePos pos;
-		parse_pos_init_cell (&pos, cell);
-
-		for (l = expr->func.arg_list; l; l = l->next) {
-			ArgumentState *as;
-
-			while (i >= state->args->len)
-				formula_guru_arg_new (NULL, '?', TRUE, state);
-
-			as = g_ptr_array_index (state->args, i++);
-			str = expr_tree_as_string (l->data, &pos);
-			gtk_entry_set_text (as->entry, str);
-			if (i == 0)
-				gtk_widget_grab_focus (GTK_WIDGET (as->entry));
-			g_free (str);
-		}
-	}
-
 	/* Ok everything is hooked up. Let-er rip */
 	state->valid = TRUE;
-	gtk_widget_show_all (state->arg_table);
+	gtk_widget_show (state->dialog);
 	formula_guru_set_expr (state, 0);
 }
