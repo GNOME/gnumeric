@@ -419,13 +419,13 @@ add_range_dep (DependencyContainer *deps, Dependent *dependent,
 				GSList const *cl = g_slist_find (result->dependent_list,
 								 dependent);
 				if (cl)
-					return;
+					continue;
 
 				/* It was not: add it */
 				result->dependent_list = g_slist_prepend (result->dependent_list,
 									  dependent);
 
-				return;
+				continue;
 			}
 		}
 
@@ -445,11 +445,11 @@ drop_range_dep (DependencyContainer *deps, Dependent *dependent,
 	int i = r->range.start.row / BUCKET_SIZE;
 	int const end = r->range.end.row / BUCKET_SIZE;
 
+	if (!deps)
+		return;
+
 	for ( ; i <= end; i++) {
 		DependencyRange *result;
-
-		if (!deps)
-			return;
 
 		result = g_hash_table_lookup (deps->range_hash[i], r);
 		if (result) {
@@ -1257,7 +1257,8 @@ sheet_dump_dependencies (Sheet const *sheet)
 		for (i = (SHEET_MAX_ROWS-1)/BUCKET_SIZE; i >= 0 ; i--) {
 			GHashTable *hash = sheet->deps->range_hash[i];
 			if (hash != NULL && g_hash_table_size (hash) > 0) {
-				printf ("Range hash size %d: range over which cells in list depend\n",
+				printf ("Bucket %d (%d-%d): Range hash size %d: range over which cells in list depend\n",
+					i, i * BUCKET_SIZE, (i + 1) * BUCKET_SIZE - 1,
 					g_hash_table_size (hash));
 				g_hash_table_foreach (hash,
 						      dump_range_dep, NULL);

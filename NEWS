@@ -2,6 +2,7 @@ Gnumeric 0.74
 
 Morten:
 	* Find and fix leaks.
+	* Fix an ugly dependency bug.
 
 --------------------------------------------------------------------------
 Gnumeric 0.73
