@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-07 01:25-0500\n"
-"PO-Revision-Date: 2004-11-03 13:32+0100\n"
+"POT-Creation-Date: 2004-11-09 11:18+0100\n"
+"PO-Revision-Date: 2004-11-09 15:12+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18690,6 +18690,7 @@ msgid "Activate New Plugins"
 msgstr "Aktivovat nové zásuvné moduly"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:708
 msgid "Allow Unfocused Range Selections"
 msgstr "Povolit nezaměřené výběry oblastí"
 
@@ -18826,6 +18827,7 @@ msgid "List of recently used functions."
 msgstr "Seznam nedávno použitých funkcí."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:38
+#: src/dialogs/dialog-preferences.c:699
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Maximální délka seznamu nedávno použitých funkcí"
 
@@ -19125,6 +19127,7 @@ msgid "Auto Expression Recalculation Lag"
 msgstr "Prodleva automatického přepočítávání výrazů"
 
 #: schemas/gnumeric-general.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:704
 msgid "Autocomplete"
 msgstr "Automatické doplňování"
 
@@ -19138,6 +19141,7 @@ msgstr ""
 "Nastavením této volby učiníte tlačítko \"Přepsat\" v tomto dialogu výchozím."
 
 #: schemas/gnumeric-general.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:616
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "Výchozí úroveň komprimace souborů Gnumeric"
 
@@ -19146,22 +19150,27 @@ msgid "Default Font Size"
 msgstr "Výchozí velikost písma"
 
 #: schemas/gnumeric-general.schemas.in.h:6
+#: src/dialogs/dialog-preferences.c:564
 msgid "Default Horizontal Window Size"
 msgstr "Výchozí vodorovná velikost okna"
 
 #: schemas/gnumeric-general.schemas.in.h:7
+#: src/dialogs/dialog-preferences.c:572
 msgid "Default Number of Sheets"
 msgstr "Výchozí počet listů"
 
 #: schemas/gnumeric-general.schemas.in.h:8
+#: src/dialogs/dialog-preferences.c:621
 msgid "Default To Overwriting Files"
 msgstr "Implicitně přepisovat soubory"
 
 #: schemas/gnumeric-general.schemas.in.h:9
+#: src/dialogs/dialog-preferences.c:560
 msgid "Default Vertical Window Size"
 msgstr "Výchozí svislá velikost okna"
 
 #: schemas/gnumeric-general.schemas.in.h:10
+#: src/dialogs/dialog-preferences.c:568
 msgid "Default Zoom Factor"
 msgstr "Výchozí poměr zvětšení"
 
@@ -19170,6 +19179,7 @@ msgid "Default font name"
 msgstr "Výchozí název písma"
 
 #: schemas/gnumeric-general.schemas.in.h:12
+#: src/dialogs/dialog-preferences.c:662
 msgid "Horizontal DPI"
 msgstr "Horizontální DPI"
 
@@ -19191,6 +19201,7 @@ msgstr ""
 "tichém období |lag| milisekund."
 
 #: schemas/gnumeric-general.schemas.in.h:14
+#: src/dialogs/dialog-preferences.c:612
 msgid "Length of File History"
 msgstr "Délka historie souborů"
 
@@ -19203,22 +19214,27 @@ msgid "List of recently used files"
 msgstr "Seznam nedávno použitých souborů"
 
 #: schemas/gnumeric-general.schemas.in.h:17
+#: src/dialogs/dialog-preferences.c:580
 msgid "Live Scrolling"
 msgstr "Živé posunování"
 
 #: schemas/gnumeric-general.schemas.in.h:18
+#: src/dialogs/dialog-preferences.c:474
 msgid "Maximal Undo Size"
 msgstr "Maximální velikost zpětných operací"
 
 #: schemas/gnumeric-general.schemas.in.h:19
+#: src/dialogs/dialog-preferences.c:515
 msgid "Number of Automatic Clauses"
 msgstr "Počet automatických klauzulí"
 
 #: schemas/gnumeric-general.schemas.in.h:20
+#: src/dialogs/dialog-preferences.c:478
 msgid "Number of Undo Items"
 msgstr "Počet zpětných položek"
 
 #: schemas/gnumeric-general.schemas.in.h:21
+#: src/dialogs/dialog-preferences.c:741
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "Dávat přednost výběru CLIPBOARD před PRIMARY"
 
@@ -19252,6 +19268,7 @@ msgstr ""
 "okénka pro zachování formátu v dialogu třídění."
 
 #: schemas/gnumeric-general.schemas.in.h:27
+#: src/dialogs/dialog-preferences.c:482
 msgid "Show Sheet Name in Undo List"
 msgstr "Zobrazovat název listu v seznamu zpětných operací"
 
@@ -19265,7 +19282,8 @@ msgstr ""
 "určuje, zdali bude uživatel varován, pokud se má uložit pouze jeden list "
 "sešitu s více listy."
 
-#: schemas/gnumeric-general.schemas.in.h:29 src/wbcg-actions.c:1903
+#: schemas/gnumeric-general.schemas.in.h:29
+#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1903
 msgid "Sort Ascending"
 msgstr "Setřídit vzestupně"
 
@@ -19274,6 +19292,7 @@ msgid "Sort is Case-Sensitive"
 msgstr "Rozlišovat velikost písmen při třídění"
 
 #: schemas/gnumeric-general.schemas.in.h:31
+#: src/dialogs/dialog-preferences.c:519
 msgid "Sorting Preserves Formats"
 msgstr "Třídění zachovává formát"
 
@@ -19417,14 +19436,17 @@ msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
 msgstr "Styl lišty nástrojů. Platné hodnoty jsou both, both_horiz, icon a text"
 
 #: schemas/gnumeric-general.schemas.in.h:55
+#: src/dialogs/dialog-preferences.c:576
 msgid "Transition Keys"
 msgstr "Klávesy přechodu"
 
 #: schemas/gnumeric-general.schemas.in.h:56
+#: src/dialogs/dialog-preferences.c:666
 msgid "Vertical DPI"
 msgstr "Vertikální DPI"
 
 #: schemas/gnumeric-general.schemas.in.h:57
+#: src/dialogs/dialog-preferences.c:625
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Varovat při exportu do formátu s jediným listem"
 
@@ -19459,6 +19481,7 @@ msgstr ""
 "nainstalován balík LaTeXu ucs."
 
 #: schemas/gnumeric-plugins.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:630
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Používat UTF-8 v exportu do LaTeXu"
 
@@ -19724,7 +19747,7 @@ msgstr "Nastavení šířky sloupců %s na výchozí"
 msgid "Setting height of rows %s to default"
 msgstr "Nastavení výšky řádků %s na výchozí"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:704
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Třídění"
 
@@ -20410,7 +20433,7 @@ msgid "%d x %d"
 msgstr "%d × %d"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:881
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:697
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:763
 msgid "Font"
 msgstr "Písmo"
 
@@ -24010,11 +24033,15 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Adresář"
 
-#: src/dialogs/dialog-preferences.c:442
+#: src/dialogs/dialog-preferences.c:455
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr "Položky na této stránce upravují chování systému kroků zpět."
 
-#: src/dialogs/dialog-preferences.c:477
+#: src/dialogs/dialog-preferences.c:470
+msgid "Length of Undo Descriptors"
+msgstr "Délka popisovačů zpětných operací"
+
+#: src/dialogs/dialog-preferences.c:498
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
@@ -24022,60 +24049,59 @@ msgstr ""
 "Položky na této stránce upravují počáteční nastavení v dialogu třídění a "
 "chování tlačítek třídění v lištách nástrojů."
 
-#: src/dialogs/dialog-preferences.c:515
+#: src/dialogs/dialog-preferences.c:523
+msgid "Sorting is Case-Sensitive"
+msgstr "Třídění rozlišuje velikost písmen"
+
+#: src/dialogs/dialog-preferences.c:544
 msgid "The items on this page customize the new default workbook."
 msgstr "Položky na této stránce upravují výchozí nový sešit."
 
-#: src/dialogs/dialog-preferences.c:555
+#: src/dialogs/dialog-preferences.c:596
 msgid "The items on this page are related to the saving and opening of files."
 msgstr "Položky na této stránce se týkají ukládání a otevírání souborů."
 
-#: src/dialogs/dialog-preferences.c:593
-#, fuzzy
+#: src/dialogs/dialog-preferences.c:646
 msgid "The items on this page are related to the screen layout and resolution."
-msgstr "Položky na této stránce se týkají ukládání a otevírání souborů."
+msgstr "Položky na této stránce se týkají rozložení a rozlišení obrazovky."
 
-#: src/dialogs/dialog-preferences.c:625
-#, fuzzy
+#: src/dialogs/dialog-preferences.c:682
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
 "tools."
-msgstr "Položky na této stránce se týkají ukládání a otevírání souborů."
+msgstr "Položky na této stránce se týkají různých geometrických nástrojů."
 
-#: src/dialogs/dialog-preferences.c:660
-#, fuzzy
+#: src/dialogs/dialog-preferences.c:724
 msgid "The items on this page arerelated to copy. cut and paste."
-msgstr "Položky na této stránce se týkají ukládání a otevírání souborů."
+msgstr "Položky na této stránce se týkají kopírování, vyjímání a vložení."
 
-#: src/dialogs/dialog-preferences.c:698
+#: src/dialogs/dialog-preferences.c:764
 msgid "Copy and Paste"
-msgstr ""
+msgstr "Kopírovat a vložit"
 
-#: src/dialogs/dialog-preferences.c:699
+#: src/dialogs/dialog-preferences.c:765
 msgid "Files"
 msgstr "Soubory"
 
-#: src/dialogs/dialog-preferences.c:700
-#, fuzzy
+#: src/dialogs/dialog-preferences.c:766
 msgid "Tools"
-msgstr "_Nástroje"
+msgstr "Nástroje"
 
-#: src/dialogs/dialog-preferences.c:701 src/wbc-gtk.c:472
+#: src/dialogs/dialog-preferences.c:767 src/wbc-gtk.c:472
 msgid "Undo"
 msgstr "Zpět"
 
-#: src/dialogs/dialog-preferences.c:702
+#: src/dialogs/dialog-preferences.c:768
 msgid "Windows"
 msgstr "Okna"
 
-#: src/dialogs/dialog-preferences.c:703
+#: src/dialogs/dialog-preferences.c:769
 msgid "Header/Footer"
 msgstr "Hlavičky/patičky"
 
-#: src/dialogs/dialog-preferences.c:705
-#, fuzzy
+#: src/dialogs/dialog-preferences.c:771
 msgid "Screen"
-msgstr "Obrazovka %d"
+msgstr "Obrazovka"
 
 #: src/dialogs/dialog-printer-setup.c:873
 msgid "Customize header"
@@ -30057,28 +30083,25 @@ msgstr ""
 
 #: src/tools/solver/solver.c:465
 msgid "EqualTo models are not supported yet.  Please use Min or Max"
-msgstr ""
+msgstr "Modely RovnáSe ještě nejsou podporovány. Použijte prosím Min nebo Max."
 
 #: src/tools/solver/solver.c:478
 msgid ""
 "Failure setting automatic scaling with this solver, try a different "
 "algorithm."
-msgstr ""
+msgstr "Nemohu nastavit automatické měřítko s tímto řešitelem, zkuste jiný algoritmus."
 
 #: src/tools/solver/solver.c:484
-#, fuzzy
 msgid ""
 "Failure setting the maximum number of iterations with this solver, try a "
 "different algorithm."
-msgstr ""
-"Tato hodnota určuje maximální počet položek v seznamu zpětných operací či "
-"jejich vrácení."
+msgstr "Nemohu nastavit maximální počet iterací s tímto řešitelem, zkuste jiný algoritmus."
 
 #: src/tools/solver/solver.c:490
 msgid ""
 "Failure setting setting the maximum solving time with this solver, try a "
 "different algorithm."
-msgstr ""
+msgstr "Nemohu nastavit maximální čas měření s tímto řešitelem, zkuste jiný algoritmus."
 
 #: src/tools/solver/solver.c:536
 msgid ""
