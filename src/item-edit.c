@@ -185,13 +185,15 @@ item_edit_draw_text (ItemEdit *item_edit, GdkDrawable *drawable, GtkStyle *style
 			x += gdk_text_width (font, text, cursor_pos);
 			text += cursor_pos;
 			text_length -= cursor_pos;
+			cursor_pos = 0;
 		}
 
 		item_edit_draw_cursor (item_edit, drawable, style, x, y, font);
 	}
 
 	if (text_length > 0){
-		if (workbook_auto_completing (item_edit->scg->wbcg)){
+		if (text_length > cursor_pos &&
+		    workbook_auto_completing (item_edit->scg->wbcg)){
 			gdk_draw_rectangle (
 				drawable, style->black_gc, TRUE,
 				x, y - font->ascent,
