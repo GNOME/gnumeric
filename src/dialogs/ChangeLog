@@ -1,3 +1,13 @@
+2002-05-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* plugin-manager.glade : add rescan button
+	* dialog-plugin-manager.c (cb_pm_button_install_plugin_clicked) : 
+	  deleted
+	(cb_pm_button_rescan_directories_clicked) : new
+	(pm_dialog_init) : link button to cb_pm_button_rescan_directories_clicked
+	(cb_dir_changed_notification) : call cb_pm_button_rescan_directories_clicked
+	(dialog_plugin_manager) : stoer button pointer
+
 2002-05-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-plugin-manager.c (pm_delete_dir) : new

@@ -1396,22 +1396,17 @@ plugin_info_list_read_for_subdirs_of_dir_list (GSList *dir_list, ErrorInfo **ret
 GSList *
 gnumeric_extra_plugin_dirs (void)
 {
-	static GSList *extra_dirs;
-	static gboolean list_ready = FALSE;
-
-	if (!list_ready) {
-		gchar const *plugin_path_env;
-
-		extra_dirs = gnm_gconf_get_plugin_extra_dirs ();
-		plugin_path_env = g_getenv ("GNUMERIC_PLUGIN_PATH");
-		if (plugin_path_env != NULL) {
-			extra_dirs = g_slist_concat (extra_dirs,
-			                            g_strsplit_to_slist (plugin_path_env, ":"));
-		}
-		list_ready = TRUE;
+	GSList *extra_dirs;
+	gchar const *plugin_path_env;
+	
+	extra_dirs = gnm_gconf_get_plugin_extra_dirs ();
+	plugin_path_env = g_getenv ("GNUMERIC_PLUGIN_PATH");
+	if (plugin_path_env != NULL) {
+		extra_dirs = g_slist_concat (extra_dirs,
+					     g_strsplit_to_slist (plugin_path_env, ":"));
 	}
 
-	return g_string_slist_copy (extra_dirs);
+	return extra_dirs;
 }
 
 /*
@@ -1655,6 +1650,105 @@ plugin_db_shutdown (ErrorInfo **ret_error)
 	*ret_error = NULL;
 	plugin_db_deactivate_plugin_list (available_plugin_info_list, &error);
 	*ret_error = error;
+}
+
+void 
+plugin_db_rescan (void)
+{
+	ErrorInfo *error = NULL;
+	GSList *available_plugins = plugin_info_list_read_for_all_dirs (&error);
+	GHashTable *already_available_plugin_id_hash;
+	GHashTable *new_plugins_hash;
+	GHashTable *known_plugin_id_hash;
+	GSList *new_plugin_ids = NULL, *old_plugins = NULL, *l;
+
+	/* FIXME : Handle error */
+	if (error) {
+		error_info_free (error);
+		g_warning ("Unhandled error occurred.");
+		return;
+	}
+
+        /* Add new plugins to the list of known plugins */
+	known_plugin_id_list =  gnm_gconf_get_known_plugins ();
+	known_plugin_id_hash = g_hash_table_new (&g_str_hash, &g_str_equal);
+	for (l = known_plugin_id_list; l != NULL; l = l->next)
+		g_hash_table_insert (known_plugin_id_hash, l->data, l->data);
+	for (l = available_plugins; l != NULL; l = l->next) {
+		gchar const *plugin_id = plugin_info_peek_id ((PluginInfo *) l->data);
+
+		if (g_hash_table_lookup (known_plugin_id_hash, plugin_id) == NULL)
+			new_plugin_ids = g_slist_prepend (new_plugin_ids, g_strdup (plugin_id));
+	}
+	g_hash_table_destroy (known_plugin_id_hash);
+	if (new_plugin_ids != NULL) {
+		known_plugin_id_list = g_slist_concat (known_plugin_id_list,
+				new_plugin_ids);
+		gnm_gconf_set_known_plugins (known_plugin_id_list);
+	}
+	new_plugin_ids = NULL;
+
+	/* Find not any longer available plugins */
+	new_plugins_hash = g_hash_table_new (&g_str_hash, &g_str_equal);
+	for (l = available_plugins; l != NULL; l = l->next)
+		g_hash_table_insert (new_plugins_hash,
+				     (char *) plugin_info_peek_id ((PluginInfo *) l->data),
+				     (PluginInfo *) l->data);
+	for (l = available_plugin_info_list; l != NULL; l = l->next) {
+		gchar const *plugin_id = plugin_info_peek_id ((PluginInfo *) l->data);
+		PluginInfo *found_plugin = g_hash_table_lookup (new_plugins_hash, plugin_id);
+		
+		if (found_plugin == NULL || strcmp(found_plugin->dir_name, 
+						   ((PluginInfo *) l->data)->dir_name)) {
+			old_plugins = g_slist_prepend (old_plugins,
+						       (PluginInfo *) l->data);
+		}
+	}
+	g_hash_table_destroy (new_plugins_hash);
+	if (old_plugins != NULL) {
+		ErrorInfo *ret_error = NULL;
+		plugin_db_deactivate_plugin_list (old_plugins, &ret_error);
+		/* FIXME: we should probably handle these errors. */
+		error_info_free (ret_error);
+
+		for (l = old_plugins; l != NULL; l = l->next) {
+			if (((PluginInfo *) l->data)->is_active)
+			/* FIXME What do we have to do about old still active plugins? */
+				g_warning ("Plugin (%s) from (%s) shouldn't be "
+					   "available any more.", 
+					   ((PluginInfo *) l->data)->id,
+					   ((PluginInfo *) l->data)->dir_name);
+			else {
+				available_plugin_info_list = g_slist_remove (
+					available_plugin_info_list,
+					l->data);
+				plugin_info_free ((PluginInfo *) l->data);
+			}
+		}
+		g_slist_free (old_plugins);
+	}
+
+	/* Find previously not available plugins */
+	already_available_plugin_id_hash = g_hash_table_new (&g_str_hash, &g_str_equal);
+	for (l = available_plugin_info_list; l != NULL; l = l->next)
+		g_hash_table_insert (already_available_plugin_id_hash,
+				     (char *) plugin_info_peek_id ((PluginInfo *) l->data),
+				     (PluginInfo *) l->data);
+	for (l = available_plugins; l != NULL; l = l->next) {
+		gchar const *plugin_id = plugin_info_peek_id ((PluginInfo *) l->data);
+		PluginInfo *old_plugin = g_hash_table_lookup (already_available_plugin_id_hash,
+							      plugin_id);
+
+		if (old_plugin == NULL) {
+			available_plugin_info_list = g_slist_prepend (available_plugin_info_list,
+								      l->data);
+			l->data = NULL;
+		}
+		
+	}
+	g_hash_table_destroy (already_available_plugin_id_hash);
+
+	g_slist_free_custom (available_plugins, (GFreeFunc) plugin_info_free);
 }
 
 static void

@@ -161,8 +161,6 @@ Dialogs
 -------
 - Formula Guru
     : Fix keyboard interface
-    : We should not be allowed to enter ranges directly into the edit line 
-      on the sheet while the formula guru is open.
 - Import Dialog
     : Rewrite main page preview (see Bug #66393)
 
@@ -192,9 +190,6 @@ Plugins
 -------
 - i18n support for third-party plugins.
 - Add extra info (authors, etc.) to XML file.
-- Plugin manager: add "refresh list" button.
-- Plugin manager: adding or removing  extra directories with plugins should 
-                  immediately affect the plugin list.
 - Beautify ErrorInfo dialog (it's ugly).
 - Mark plugin as "broken" if deactivation failed.
 - mps

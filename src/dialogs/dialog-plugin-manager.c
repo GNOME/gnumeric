@@ -52,7 +52,7 @@ typedef struct {
 	GtkTreeSelection   *selection;
 	GtkButton *button_activate_plugin, *button_deactivate_plugin,
 	          *button_activate_all, *button_deactivate_all,
-	          *button_install_plugin;
+	          *button_rescan_directories;
 	GtkButton *button_directory_add, *button_directory_delete;
 	GtkCheckButton *checkbutton_install_new;
 	GtkEntry *entry_name, *entry_directory, *entry_id;
@@ -276,10 +276,10 @@ free_plugin_id (gpointer data)
 }
 
 static void
-cb_pm_button_install_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
+cb_pm_button_rescan_directories_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
 {
-	g_warning ("Not implemented");
-	/* FIXME */
+	plugin_db_rescan ();
+	update_plugin_manager_view (pm_gui);
 }
 
 static void
@@ -407,9 +407,9 @@ pm_dialog_init (PluginManagerGUI *pm_gui)
 	g_signal_connect (G_OBJECT (pm_gui->button_deactivate_all),
 		"clicked",
 		G_CALLBACK (cb_pm_button_deactivate_all_clicked), pm_gui);
-	g_signal_connect (G_OBJECT (pm_gui->button_install_plugin),
+	g_signal_connect (G_OBJECT (pm_gui->button_rescan_directories),
 		"clicked",
-		G_CALLBACK (cb_pm_button_install_plugin_clicked), pm_gui);
+		G_CALLBACK (cb_pm_button_rescan_directories_clicked), pm_gui);
 	g_signal_connect (G_OBJECT (pm_gui->button_directory_add),
 		"clicked",
 		G_CALLBACK (cb_pm_button_directory_add_clicked), pm_gui);
@@ -630,6 +630,7 @@ cb_dir_changed_notification (GConfClient *gconf, guint cnxn_id, GConfEntry *entr
 			    PluginManagerGUI *pm_gui)
 {
 	pm_gui_load_directory_page (pm_gui);	
+	cb_pm_button_rescan_directories_clicked (NULL, pm_gui);
 }
 
 void
@@ -663,8 +664,8 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 						  (gui, "button_activate_all"));
 	pm_gui->button_deactivate_all = GTK_BUTTON (glade_xml_get_widget
 						    (gui, "button_deactivate_all"));
-	pm_gui->button_install_plugin = GTK_BUTTON (glade_xml_get_widget
-						    (gui, "button_install_plugin"));
+	pm_gui->button_rescan_directories = GTK_BUTTON (glade_xml_get_widget
+						    (gui, "button_rescan_directories"));
 	pm_gui->checkbutton_install_new = GTK_CHECK_BUTTON (glade_xml_get_widget
 							    (gui, "checkbutton_install_new"));
 

@@ -1,3 +1,10 @@
+2002-05-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/plugin.c (gnumeric_extra_plugin_dirs) : don't memorize the 
+	  answer
+	(plugin_db_rescan) : new
+	* src/plugin.h (plugin_db_rescan) : new
+
 2002-05-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/workbook-control-gui.c (workbook_close_if_user_permits) : add 
