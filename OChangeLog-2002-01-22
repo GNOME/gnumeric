@@ -1,3 +1,16 @@
+2000-06-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/functions/fn-math.c (callback_function_sumproduct) : Handle
+	  empty.
+	(gnumeric_sumproduct) : Handle blank cells correctly, correct error
+	  handling slightly.
+
+	* src/func.c (iterate_cellrange_callback) : Handle empty cells.
+	(function_iterate_do_value) : Add a new argument to control the
+	  handling of empty cells.
+	(function_iterate_argument_values) : Hard code the ignore_blanks
+	  argument to TRUE the same as the previous behavior.
+
 2000-06-13  Morten Welinder  <terra@diku.dk>
 
 	* src/stf-parse.c (trim_spaces_inplace): New function.

@@ -3314,7 +3314,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *args)
 {
         math_sumproduct_t p;
 	GSList            *current;
-	float_t           sum;
+	float_t           sum = 0.;
 	Value            *result=NULL;
 
 	if (args == NULL)

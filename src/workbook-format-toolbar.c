@@ -38,8 +38,21 @@
 #include "pixmaps/font.xpm"
 #include "pixmaps/bucket.xpm"
 
-static const char *money_format   = "Default Money Format:$#,##0.00_);($#,##0.00)";
-static const char *percent_format = "Default Percent Format:0.00%";
+/*
+ * These string control the money and percent formats applied by the toolbar
+ * buttons.  The translated strings must be of the form
+ *	<potentially empty garbage>:format
+ * The ':' is important.
+ *
+ * Where format currently uses the MS excel representation.
+ * Of particular note are
+ * 	- The currency
+ * 	- The placement of the currency (pre vs post)
+ * No need to translate the decimal point or thousands seperator
+ * that is handled automaticly.
+ */
+static const char *money_format   = N_("Default Money Format:$#,##0.00_);($#,##0.00)");
+static const char *percent_format = N_("Default Percent Format:0.00%");
 
 static void
 workbook_format_halign_feedback_set (Workbook *wb,
