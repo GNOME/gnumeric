@@ -11,7 +11,9 @@ wizard_LTLIBRARIES = libwizard.la
 libwizard_la_SOURCES =			\
 	main.c				\
 	graphic-context.c		\
-	graphic-context.h
+	graphic-type.c			\
+	graphic-context.h		\
+	wizard.h
 
 libwizard_la_LIBADD =			\
 	$(GNOME_LIBDIR) 		\

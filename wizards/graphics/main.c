@@ -10,7 +10,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include <glade/glade.h>
-#include "graphic-context.h"
+#include "wizard.h"
 
 #define LAST_PAGE 2
 
@@ -24,6 +24,8 @@ customize (GladeXML *gui, GraphicContext *gc)
 	/* Now, customize the GUI */
 	gc->steps_notebook = GTK_NOTEBOOK (glade_xml_get_widget (gui, "main-notebook"));
 	gtk_notebook_set_show_tabs (gc->steps_notebook, FALSE);
+
+	fill_graphic_types (gui, gc);
 }
 
 static void

@@ -1664,7 +1664,7 @@ cell_get_content (Cell *cell)
 	}
 
 	/*
-	 * If a value is set, return that text formatted
+	 * Return the value wihtout parsing.
 	 */
 	if (cell->value)
 		str = value_string (cell->value);
