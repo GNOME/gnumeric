@@ -261,6 +261,22 @@ workbook_widget_destroy (GtkWidget *widget, Workbook *wb)
 	workbook_do_destroy (wb);
 }
 
+static void
+cb_sheet_mark_clean (gpointer key, gpointer value, gpointer user_data)
+{
+	Sheet *sheet = value;
+
+	sheet_mark_clean (sheet);
+}
+
+void
+workbook_mark_clean (Workbook *wb)
+{
+	g_return_if_fail (wb != NULL);
+
+	g_hash_table_foreach (wb->sheets, cb_sheet_mark_clean, NULL);
+}
+
 typedef enum {
 	CLOSE_DENY,
 	CLOSE_ALLOW,
@@ -268,7 +284,7 @@ typedef enum {
 } CloseAction;
 
 static void
-sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
+cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 {
 	Sheet *sheet = value;
 	GtkWidget *d, *l;
@@ -306,11 +322,24 @@ sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 	gtk_window_position (GTK_WINDOW (d), GTK_WIN_POS_MOUSE);
 	button = gnome_dialog_run (GNOME_DIALOG (d));
 
-	if (button == -1 || button == 2){
-		*allow_close = CLOSE_DENY;
-	} else if (button == 0){
+	switch (button){
+		/* YES */
+	case 0:
 		workbook_save (sheet->workbook);
 		*allow_close = CLOSE_RECHECK;
+		break;
+
+		/* NO */
+	case 1:
+		workbook_mark_unmodified (sheet->workbook);
+		break;
+		
+		/* CANCEL */
+	case -1:
+	case 2:
+		*allow_close = CLOSE_DENY;
+		break;
+
 	} 
 
 	gtk_widget_destroy (d);
@@ -323,8 +352,8 @@ workbook_can_close (Workbook *wb)
 
 	do {
 		allow_close = CLOSE_ALLOW;
-		g_hash_table_foreach (wb->sheets, sheet_check_dirty,
-				      &allow_close);
+		g_hash_table_foreach (
+			wb->sheets, cb_sheet_check_dirty, &allow_close);
 	} while (allow_close == CLOSE_RECHECK);
 
 	g_assert (allow_close == CLOSE_ALLOW || allow_close == CLOSE_DENY);

@@ -3197,3 +3197,11 @@ cellref_name (CellRef *cell_ref, Sheet *eval_sheet, int eval_col, int eval_row)
 
 }
 
+void
+sheet_mark_clean (Sheet *sheet)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	sheet->modified = FALSE;
+}
