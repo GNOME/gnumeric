@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.66\n"
-"POT-Creation-Date: 2001-08-11 16:20-0400\n"
-"PO-Revision-Date: 2001-08-10 20:12+0400\n"
+"POT-Creation-Date: 2001-08-14 10:58+0400\n"
+"PO-Revision-Date: 2001-08-14 11:14+0400\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -852,18 +852,18 @@ msgid "Total"
 msgstr "Итого"
 
 #: src/analysis-tools.c:2869 src/dialogs/consolidate.glade.h:5
-#: src/workbook-control-gui.c:3535
+#: src/workbook-control-gui.c:3386
 msgid "Count"
 msgstr "Количество"
 
 #: src/GNOME_Gnumeric.xml.h:199 src/analysis-tools.c:2870
 #: src/dialogs/consolidate.glade.h:19 src/workbook-control-gui.c:2775
-#: src/workbook-control-gui.c:3531 src/workbook-view.c:509
+#: src/workbook-control-gui.c:3382 src/workbook-view.c:509
 msgid "Sum"
 msgstr "Сумма"
 
 #: src/analysis-tools.c:2871 src/dialogs/consolidate.glade.h:2
-#: src/workbook-control-gui.c:3534
+#: src/workbook-control-gui.c:3385
 msgid "Average"
 msgstr "Среднее"
 
@@ -940,7 +940,7 @@ msgstr "Кумулятивный %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Ошибка \"%s\" при открытии потока рабочей книги"
 
-#: src/bonobo-io.c:466 src/xml-io-autoft.c:417 src/xml-io.c:3434
+#: src/bonobo-io.c:466 src/xml-io-autoft.c:417 src/xml-io.c:3437
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Испорченный XML-файл. Дерево пусто?"
 
@@ -2395,11 +2395,11 @@ msgstr "В верхнюю строку"
 msgid "Labels"
 msgstr "Метки"
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3533
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3384
 msgid "Max"
 msgstr "Макс"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3532
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3383
 msgid "Min"
 msgstr "Мин"
 
@@ -3729,7 +3729,7 @@ msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
 msgstr ""
-"Реальная обработка будет начинаться на этой строке, любые предыдующие строки "
+"Реальная обработка будет начинаться на этой строке, любые предыдущие строки "
 "будут игнорироваться"
 
 #: src/dialogs/dialog-stf.glade.h:4
@@ -4266,6 +4266,10 @@ msgstr "Метка осей Y:"
 msgid "_Z axis"
 msgstr "Оси Z"
 
+#: src/dialogs/graph-guru.glade.h:43
+msgid "label27"
+msgstr "Метка"
+
 #: src/dialogs/hf-config.glade.h:1
 msgid "Center section:"
 msgstr "Отцентрировать:"
@@ -4492,7 +4496,7 @@ msgid "Scale"
 msgstr "Масштаб"
 
 #: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:136
-#: src/workbook.c:1057 src/xml-io.c:3056
+#: src/workbook.c:1057 src/xml-io.c:3059
 msgid "Sheet"
 msgstr "Таблица"
 
@@ -5095,34 +5099,42 @@ msgid "_Title :"
 msgstr "Заглавие:"
 
 #: src/dialogs/validate.glade.h:32
+msgid "label11"
+msgstr "Метка"
+
+#: src/dialogs/validate.glade.h:33
+msgid "label12"
+msgstr "Метка"
+
+#: src/dialogs/validate.glade.h:34
 msgid "min <= val <= max         (between)"
 msgstr "мин. <= значение <= макс.  (между)"
 
-#: src/dialogs/validate.glade.h:33
+#: src/dialogs/validate.glade.h:35
 msgid "val != bound                  (not equal to)"
 msgstr "значение != bound  (не равно)                         "
 
-#: src/dialogs/validate.glade.h:34
+#: src/dialogs/validate.glade.h:36
 msgid "val >  bound                  (greater than)"
 msgstr "значение > bound  (больше чем)"
 
-#: src/dialogs/validate.glade.h:35
+#: src/dialogs/validate.glade.h:37
 msgid "val >=bound                  (greater than or equal to)"
 msgstr "значение >= bound  (больше чем или равно)"
 
-#: src/dialogs/validate.glade.h:36
+#: src/dialogs/validate.glade.h:38
 msgid "val <  bound                  (less than)"
 msgstr "значение < bound  (меньше чем)                         "
 
-#: src/dialogs/validate.glade.h:37
+#: src/dialogs/validate.glade.h:39
 msgid "val <= min || max <= val (not between)"
 msgstr "значение <= мин. || макс. <= значение (не между)"
 
-#: src/dialogs/validate.glade.h:38
+#: src/dialogs/validate.glade.h:40
 msgid "val <=bound                  (less than or equal to)"
 msgstr "значение <= bound  (меньше чем или равно)"
 
-#: src/dialogs/validate.glade.h:39
+#: src/dialogs/validate.glade.h:41
 msgid "val == bound                 (equal to)"
 msgstr "значение == bound  (равно)                         "
 
@@ -5325,8 +5337,8 @@ msgid "[$ARA]"
 msgstr "[$ARA]"
 
 #: src/formats.c:263
-msgid "Argentine austral"
-msgstr "Аргентинские австрали"
+msgid "Argentine peso"
+msgstr "Аргентинские песо"
 
 #: src/formats.c:264
 msgid "[$ATS]"
@@ -5429,8 +5441,8 @@ msgid "[$BRE]"
 msgstr "[$BRE]"
 
 #: src/formats.c:276
-msgid "Brazilian cruzeiro"
-msgstr "Бразильские крузейро"
+msgid "Brazilian real"
+msgstr "Бразильские риалы"
 
 #: src/formats.c:277
 msgid "[$BSD]"
@@ -6591,21 +6603,21 @@ msgstr "[Red]"
 #: src/format-template.c:881
 #, c-format
 msgid ""
-"The target region is too small, is should be at least %d rows by %d columns"
+"The target region is too small.  It should be at least %d rows by %d columns"
 msgstr ""
 "Область назначения слишком мала, она должна быть как минимум %d строк на %d "
 "столбцов"
 
 #: src/format-template.c:884
 #, c-format
-msgid "The target region is too small, it should be at least %d columns wide"
+msgid "The target region is too small.  It should be at least %d columns wide"
 msgstr ""
 "Область назначения слишком мала, она должна быть как минимум %d столбцов "
 "шириной"
 
 #: src/format-template.c:887
 #, c-format
-msgid "The target region is too small, it should be at least %d rows high"
+msgid "The target region is too small.  It should be at least %d rows high"
 msgstr ""
 "Область назначения слишком мала, она должна быть как минимум %d строк высотой"
 
@@ -11756,7 +11768,7 @@ msgstr ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
 "@DESCRIPTION=Функция TAN возвращает значение тангенса @x, где @x задается в "
-"радианах. Эта функция Excel-cовместима. \n"
+"радианах. Эта функция Excel-cсовместима. \n"
 "@EXAMPLES=\n"
 "TAN(3) равняется -0.1425465.\n"
 "\n"
@@ -13088,7 +13100,7 @@ msgstr ""
 "момент.  Асимметрия для симметричного (например нормального) распределения "
 "равна 0.\n"
 "Строки и пустые ячейки игнорируются.\n"
-"Если задано меньшe трех номеров, SKEW возвращает ошибку #DIV/0!. Эта функция "
+"Если задано меньшеe трех номеров, SKEW возвращает ошибку #DIV/0!. Эта функция "
 "Excel-совместима. \n"
 "@EXAMPLES=\n"
 "Предположим, что ячейки A1, A2, ..., A5 содержат числа 11.4, 17.3, 21.3, "
@@ -15483,7 +15495,7 @@ msgstr "Создать радио-кнопку"
 msgid "Create an arrow"
 msgstr "Создать стрелку"
 
-#: src/GNOME_Gnumeric.xml.h:54 src/sheet-control-gui.c:1306
+#: src/GNOME_Gnumeric.xml.h:54 src/sheet-control-gui.c:1304
 msgid "Cu_t"
 msgstr "Вырезать"
 
@@ -16145,7 +16157,7 @@ msgid "_Content"
 msgstr "Содержимое"
 
 #: src/GNOME_Gnumeric.xml.h:226 src/item-cursor.c:1020
-#: src/sheet-control-gui.c:1308
+#: src/sheet-control-gui.c:1306
 msgid "_Copy"
 msgstr "Скопировать"
 
@@ -16161,7 +16173,7 @@ msgstr "Анализ данных..."
 msgid "_Define"
 msgstr "Определить"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/sheet-control-gui.c:1326
+#: src/GNOME_Gnumeric.xml.h:230 src/sheet-control-gui.c:1324
 #: src/workbook-control-gui.c:2410
 msgid "_Delete..."
 msgstr "Удаление..."
@@ -16210,8 +16222,8 @@ msgstr "Группы и структуры"
 msgid "_Help"
 msgstr "Справка"
 
-#: src/GNOME_Gnumeric.xml.h:242 src/sheet-control-gui.c:1349
-#: src/sheet-control-gui.c:1357 src/workbook-control-gui.c:2520
+#: src/GNOME_Gnumeric.xml.h:242 src/sheet-control-gui.c:1347
+#: src/sheet-control-gui.c:1355 src/workbook-control-gui.c:2520
 #: src/workbook-control-gui.c:2539
 msgid "_Hide"
 msgstr "Скрыть"
@@ -16249,7 +16261,7 @@ msgstr "Объект"
 msgid "_Open"
 msgstr "Открыть"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/sheet-control-gui.c:1310
+#: src/GNOME_Gnumeric.xml.h:251 src/sheet-control-gui.c:1308
 msgid "_Paste"
 msgstr "Вставить"
 
@@ -16314,8 +16326,8 @@ msgstr "Откат"
 msgid "_Ungroup"
 msgstr "Разгруппировать"
 
-#: src/GNOME_Gnumeric.xml.h:269 src/sheet-control-gui.c:1351
-#: src/sheet-control-gui.c:1359 src/workbook-control-gui.c:2523
+#: src/GNOME_Gnumeric.xml.h:269 src/sheet-control-gui.c:1349
+#: src/sheet-control-gui.c:1357 src/workbook-control-gui.c:2523
 #: src/workbook-control-gui.c:2542
 msgid "_Unhide"
 msgstr "Показать"
@@ -16604,7 +16616,7 @@ msgid ""
 msgstr ""
 "Благодарим вас за использование Gnumeric\n"
 "\n"
-"Версия Gnumeric, которую вы используюте очень стара.\n"
+"Версия Gnumeric, которую вы используете очень стара.\n"
 "Скорее всего к настоящему моменту существует более новая версия,\n"
 "в которой исправлены многие ошибки и добавлено много новых возможностей.\n"
 "\n"
@@ -16675,7 +16687,7 @@ msgid "Unknown sheet '%s'"
 msgstr "Неизвестный лист \"%s\""
 
 #: src/parser.y:587 src/parser.y:601
-#, fuzzy, c-format
+#, c-format
 msgid "The character %c cannot be used to separate array elements"
 msgstr "Символ %c не может быть использован для разделения элементов массива"
 
@@ -16807,7 +16819,7 @@ msgstr "Ошибки при отключении сервиса дополнения #%d."
 
 #: src/plugin.c:1151 src/plugin.c:1201
 msgid "Cannot load plugin loader."
-msgstr "Невозможно загрузить загрузчик дополения."
+msgstr "Невозможно загрузить загрузчик дополнения."
 
 #: src/plugin.c:1208
 #, c-format
@@ -17126,51 +17138,49 @@ msgstr "Недопустимая завершающая обратная косая в заменяющей строке."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "не может быть выполнено при множественных выделениях"
 
-#: src/sheet.c:2188
+#: src/sheet.c:2202
 msgid "Target region contains merged cells"
 msgstr "Область назначения содержит объединенные ячейки"
 
-#: src/sheet.c:2250
-#, fuzzy
+#: src/sheet.c:2264
 msgid "cannot operate on merged cells"
 msgstr "невозможно действовать на объединенных ячейках"
 
-#: src/sheet.c:2261
-#, fuzzy
+#: src/sheet.c:2275
 msgid "cannot operate on array formulae"
 msgstr "невозможно действовать на формулах массива"
 
-#: src/sheet.c:3062
+#: src/sheet.c:3076
 msgid "Clear"
 msgstr "Очистить"
 
-#: src/sheet.c:3431
+#: src/sheet.c:3445
 msgid "Insert Columns"
 msgstr "Вставить столбцы"
 
-#: src/sheet.c:3499
+#: src/sheet.c:3513
 msgid "Delete Columns"
 msgstr "Удалить столбцы"
 
-#: src/sheet.c:3563
+#: src/sheet.c:3577
 msgid "Insert Rows"
 msgstr "Вставить строки"
 
-#: src/sheet.c:3631
+#: src/sheet.c:3645
 msgid "Delete Rows"
 msgstr "Удалить строки"
 
-#: src/sheet-control-gui.c:498
+#: src/sheet-control-gui.c:497
 #, c-format
 msgid "Row: %s"
 msgstr "Строка: %s"
 
-#: src/sheet-control-gui.c:513
+#: src/sheet-control-gui.c:512
 #, c-format
 msgid "Column: %s"
 msgstr "Столбец: %s"
 
-#: src/sheet-control-gui.c:1312
+#: src/sheet-control-gui.c:1310
 msgid "Paste _Special"
 msgstr "Специальная вставка"
 
@@ -17181,41 +17191,41 @@ msgstr "Специальная вставка"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1324
+#: src/sheet-control-gui.c:1322
 msgid "_Insert..."
 msgstr "Вставка..."
 
-#: src/sheet-control-gui.c:1328
+#: src/sheet-control-gui.c:1326
 msgid "_Insert Column(s)"
 msgstr "Вставить столбцы"
 
-#: src/sheet-control-gui.c:1330
+#: src/sheet-control-gui.c:1328
 msgid "_Delete Column(s)"
 msgstr "Удалить столбцы"
 
-#: src/sheet-control-gui.c:1332
+#: src/sheet-control-gui.c:1330
 msgid "_Insert Row(s)"
 msgstr "Вставить строки"
 
-#: src/sheet-control-gui.c:1334
+#: src/sheet-control-gui.c:1332
 msgid "_Delete Row(s)"
 msgstr "Удалить строки"
 
-#: src/sheet-control-gui.c:1337
+#: src/sheet-control-gui.c:1335
 msgid "Clear Co_ntents"
 msgstr "Очистить содержимое"
 
-#: src/sheet-control-gui.c:1343
+#: src/sheet-control-gui.c:1341
 msgid "_Format Cells..."
 msgstr "Формат ячеек..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1347
+#: src/sheet-control-gui.c:1345
 msgid "Column _Width..."
 msgstr "Ширина столбца..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1355
+#: src/sheet-control-gui.c:1353
 msgid "_Row Height..."
 msgstr "Высота строки..."
 
@@ -17797,11 +17807,11 @@ msgstr ""
 "Отсортировать выделенный диапазон в убывающем порядке значений первого "
 "столбца выделения."
 
-#: src/workbook-control-gui.c:3683
+#: src/workbook-control-gui.c:3534
 msgid "Send"
 msgstr "Отправить"
 
-#: src/workbook-control-gui.c:3683
+#: src/workbook-control-gui.c:3534
 msgid "Send the current file in email"
 msgstr "Отправить текущий файл по эл.почте"
 
@@ -18057,42 +18067,30 @@ msgstr "Ошибка при попытке построить файл шаблона автоформатирования"
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3182
+#: src/xml-io.c:3185
 msgid "Processing XML tree..."
 msgstr "Обработка дерева XML..."
 
-#: src/xml-io.c:3345
+#: src/xml-io.c:3348
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Неправильные XML данные в буфере обмена. Дерево пусто?"
 
-#: src/xml-io.c:3397 src/xml-io.c:3408
+#: src/xml-io.c:3400 src/xml-io.c:3411
 msgid "Not enough memory to create zlib decompression state."
 msgstr ""
 
-#: src/xml-io.c:3411
+#: src/xml-io.c:3414
 msgid "Parsing XML file..."
 msgstr "Синтаксический анализ файла XML..."
 
-#: src/xml-io.c:3443
+#: src/xml-io.c:3446
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Это не файл рабочей книги Gnumeric"
 
-#: src/xml-io.c:3501
+#: src/xml-io.c:3504
 msgid "Gnumeric XML file format"
 msgstr "Формат файла Gnumeric XML"
 
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "Электронная таблица GNOME"
-
-#~ msgid "label27"
-#~ msgstr "Метка"
-
-#~ msgid "label11"
-#~ msgstr "Метка"
-
-#~ msgid "label12"
-#~ msgstr "Метка"
-
-#~ msgid "Save _As"
-#~ msgstr "Сохранить как"
