@@ -499,19 +499,14 @@ typedef enum {
 } DepOperation;
 
 static guint
-deprange_hash_func (gconstpointer v)
+deprange_hash (DependencyRange const *r)
 {
-	DependencyRange const *r = v;
-
 	return ((((r->range.start.row << 8) + r->range.end.row) << 8) +
 		(r->range.start.col << 8) + (r->range.end.col));
 }
 static gint
-deprange_equal_func (gconstpointer v, gconstpointer v2)
+deprange_equal (DependencyRange const *r1, DependencyRange const *r2)
 {
-	DependencyRange const *r1 = (DependencyRange const *) v;
-	DependencyRange const *r2 = (DependencyRange const *) v2;
-
 	if (r1->range.start.col != r2->range.start.col)
 		return 0;
 	if (r1->range.start.row != r2->range.start.row)
@@ -598,9 +593,9 @@ add_range_dep (DependencyContainer *deps, Dependent *dep,
 		DependencyRange *result;
 
 		if (deps->range_hash [i] == NULL) {
-			deps->range_hash [i] =
-				g_hash_table_new (deprange_hash_func,
-						  deprange_equal_func);
+			deps->range_hash [i] = g_hash_table_new (
+				(GHashFunc)  deprange_hash,
+				(GEqualFunc) deprange_equal);
 			result = NULL;
 		} else {
 			result = g_hash_table_lookup (deps->range_hash[i], r);
@@ -1412,8 +1407,8 @@ dependency_data_new (void)
 
 	deps->range_hash  = g_new0 (GHashTable *,
 				    (SHEET_MAX_ROWS-1)/BUCKET_SIZE + 1);
-	deps->single_hash = g_hash_table_new (depsingle_hash,
-					      depsingle_equal);
+	deps->single_hash = g_hash_table_new ((GHashFunc) depsingle_hash,
+					      (GEqualFunc) depsingle_equal);
 	deps->names       = g_hash_table_new (g_direct_hash,
 					      g_direct_equal);
 
