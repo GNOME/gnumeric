@@ -1891,11 +1891,31 @@ show_gui (WorkbookControlGUI *wbcg)
 		/* Set grid size to preferred width */
 		int pwidth = wbv->preferred_width;
 		int pheight = wbv->preferred_height;
+		GtkRequisition requisition;
 
-		pwidth = pwidth > 0 ? pwidth : -2;
-		pheight = pheight > 0 ? pheight : -2;
+		pwidth = pwidth > 0 ? pwidth : -1;
+		pheight = pheight > 0 ? pheight : -1;
 		gtk_widget_set_size_request (GTK_WIDGET (wbcg->notebook),
 					     pwidth, pheight);
+		gtk_widget_size_request (GTK_WIDGET (wbcg->toplevel),
+					 &requisition);
+		/* We want to test if toplevel is bigger than screen.
+		 * gtk_widget_size_request tells us the space
+		 * allocated to the  toplevel proper, but not how much is
+		 * need for WM decorations or a possible panel. 
+		 *
+		 * The test below should very rarely maximize when there is
+		 * actually room on the screen.
+		 *
+		 * We maximize instead of resizing for two reasons:
+		 * - The preferred width / height is restored with one click on
+		 *   unmaximize.
+		 * - We don't have to guess what size we should resize to.
+		 */
+		if (requisition.height + 20 > rect.height || 
+		    requisition.width > rect.width) {
+			gtk_window_maximize (GTK_WINDOW (wbcg->toplevel));
+		}
 	} else {
 		/* Use default */
 		gtk_window_set_default_size (wbcg->toplevel, sx * fx, sy * fy);

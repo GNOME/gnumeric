@@ -1,3 +1,8 @@
+2004-10-06  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (show_gui): Maximize when preferred
+	size is larger than screen.
+
 2004-10-05  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump
