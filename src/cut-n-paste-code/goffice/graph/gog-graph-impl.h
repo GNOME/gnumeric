@@ -24,25 +24,24 @@
 
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/graph/gog-graph.h>
-#include <goffice/graph/gog-styled-object.h>
+#include <goffice/graph/gog-outlined-object.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
 
 struct _GogGraph {
-	GogStyledObject	 base;
+	GogOutlinedObject	 base;
 
 	GogTheme *theme;
 	GSList	 *charts;
 	GSList	 *data;
 
-	double	  padding_pts;
 	unsigned  num_cols, num_rows;
 
 	guint	  idle_handler;
 };
 typedef struct {
-	GogStyledObjectClass base;
+	GogOutlinedObjectClass base;
 
 	/* signals */
 	void (*add_data)    (GogGraph *graph, GOData *input);

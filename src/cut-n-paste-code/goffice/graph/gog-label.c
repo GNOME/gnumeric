@@ -21,7 +21,7 @@
 
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-label.h>
-#include <goffice/graph/gog-styled-object.h>
+#include <goffice/graph/gog-outlined-object.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
@@ -38,7 +38,7 @@
 #include <gtk/gtkbox.h>
 
 struct _GogLabel {
-	GogStyledObject	base;
+	GogOutlinedObject	base;
 
 	GogDatasetElement text;
 	gboolean	  allow_markup;
@@ -53,9 +53,6 @@ enum {
 static GType gog_label_view_get_type (void);
 static GObjectClass *label_parent_klass;
 static GogViewClass *lview_parent_klass;
-
-/* a property ? */
-#define PAD_HACK	4	/* pts */
 
 static void
 gog_label_set_property (GObject *obj, guint param_id,
@@ -173,13 +170,13 @@ gog_label_dataset_init (GogDatasetClass *iface)
 
 GSF_CLASS_FULL (GogLabel, gog_label,
 		gog_label_class_init, NULL,
-		GOG_STYLED_OBJECT_TYPE, 0,
+		GOG_OUTLINED_OBJECT_TYPE, 0,
 		GSF_INTERFACE (gog_label_dataset_init, GOG_DATASET_TYPE))
 
 /************************************************************************/
 
-typedef GogView		GogLabelView;
-typedef GogViewClass	GogLabelViewClass;
+typedef GogOutlinedView		GogLabelView;
+typedef GogOutlinedViewClass	GogLabelViewClass;
 
 #define GOG_LABEL_VIEW_TYPE	(gog_label_view_get_type ())
 #define GOG_LABEL_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LABEL_VIEW_TYPE, GogLabelView))
@@ -189,45 +186,17 @@ static void
 gog_label_view_size_request (GogView *v, GogViewRequisition *req)
 {
 	GogLabel *l = GOG_LABEL (v->model);
-	double outline = gog_renderer_line_size (
-		v->renderer, l->base.style->outline.width);
 
 	req->w = req->h = 0.;
 	if (l->text.data != NULL) {
 		char const *text = go_data_scalar_get_str (GO_DATA_SCALAR (l->text.data));
 		if (text != NULL) {
-			gog_renderer_push_style (v->renderer, l->base.style);
+			gog_renderer_push_style (v->renderer, l->base.base.style);
 			gog_renderer_measure_text (v->renderer, text, req);
 			gog_renderer_pop_style (v->renderer);
 		}
 	}
-	if (outline > 0) {
-		double pad_y = gog_renderer_pt2r_y (v->renderer, PAD_HACK);
-		double pad_x = gog_renderer_pt2r_y (v->renderer, PAD_HACK);
-		req->w += outline * 2 + pad_x;
-		req->h += outline * 2 + pad_y;
-	}
-}
-
-static void
-gog_label_view_size_allocate (GogView *v, GogViewAllocation const *a)
-{
-	GogLabel *l = GOG_LABEL (v->model);
-	GogViewAllocation res = *a;
-	double outline = gog_renderer_line_size (
-		v->renderer, l->base.style->outline.width);
-
-	/* We only need internal padding if there is an outline */
-	if (outline > 0) {
-		double pad_x = gog_renderer_pt2r_x (v->renderer, PAD_HACK);
-		double pad_y = gog_renderer_pt2r_y (v->renderer, PAD_HACK);
-
-		res.x += outline + pad_x/2;
-		res.y += outline + pad_y/2;
-		res.w -= outline * 2. + pad_x;
-		res.h -= outline * 2. + pad_y;
-	}
-	(lview_parent_klass->size_allocate) (v, &res);
+	lview_parent_klass->size_request (v, req);
 }
 
 static void
@@ -235,9 +204,9 @@ gog_label_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogLabel *l = GOG_LABEL (view->model);
 
-	gog_renderer_push_style (view->renderer, l->base.style);
-	gog_renderer_draw_rectangle (view->renderer, &view->allocation);
+	(lview_parent_klass->render) (view, bbox);
 
+	gog_renderer_push_style (view->renderer, l->base.base.style);
 	if (l->text.data != NULL) {
 		char const *text = go_data_scalar_get_str (GO_DATA_SCALAR (l->text.data));
 		if (text != NULL)
@@ -245,7 +214,6 @@ gog_label_view_render (GogView *view, GogViewAllocation const *bbox)
 				&view->residual, GTK_ANCHOR_NW, NULL);
 	}
 	gog_renderer_pop_style (view->renderer);
-	(lview_parent_klass->render) (view, bbox);
 }
 
 static void
@@ -255,10 +223,9 @@ gog_label_view_class_init (GogLabelViewClass *gview_klass)
 
 	lview_parent_klass = g_type_class_peek_parent (gview_klass);
 	view_klass->size_request    = gog_label_view_size_request;
-	view_klass->size_allocate   = gog_label_view_size_allocate;
 	view_klass->render	    = gog_label_view_render;
 }
 
 static GSF_CLASS (GogLabelView, gog_label_view,
 	   gog_label_view_class_init, NULL,
-	   GOG_VIEW_TYPE)
+	   GOG_OUTLINED_VIEW_TYPE)

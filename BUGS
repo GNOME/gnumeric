@@ -11,7 +11,6 @@ Release Critical
     http://bugzilla.gnome.org/show_bug.cgi?id=124271	[crash on undo free ?]
     http://bugzilla.gnome.org/show_bug.cgi?id=124315	[line plot ignores axis]
     http://bugzilla.gnome.org/show_bug.cgi?id=124318	[line plot should center ticks]
-    http://bugzilla.gnome.org/show_bug.cgi?id=124316	[pad graph, and chart]
     http://bugzilla.gnome.org/show_bug.cgi?id=124244	[unable to open group]
     - Verify histogram tool.  Feels fubar.
     : text in boxes for text-xls/pivot.xls is white ??
@@ -30,7 +29,8 @@ Important
 Pending Patches
 ---------------
 
-    - ReFreeze			: John Gill 	: on list	: 1.3 (UI change)
+    - ReFreeze			: John Gill 		: on list	: 1.3 (UI change)
+    - use manual axis bounds	: Emmanuel Pacaud	: on list
 
     http://bugzilla.gnome.org/show_bug.cgi?id=84062
     - XIM menu, blocking on gtk changes
@@ -273,6 +273,7 @@ Short Term Goals
 	    1.20.5.1) drag destination for background images
 	    1.20.5.2) scale image preview                       (DONE)
 	    1.20.5.3) Use file selector with image preview	(DONE)
+	1.20.6) De-sensitize (out)line colour when size == -1
     1.21) themes
 	1.21.1) Actually use the themes to initialize styles	(DONE)
 	1.21.2) load from xml
@@ -294,6 +295,7 @@ Short Term Goals
 	1.23.8) pass in available space				(DONE)
 	1.23.9) How to support axis labels (siblings need
 		common residual)
+	1.23.10) Create a common base for outlined objects	(DONE)
     1.24) Sizing units						(DONE)
 	1.24.1) Have the legend use pts to size swatches	(DONE)
 	1.24.2) Test renderers mapping between pts & pixels	(DONE)

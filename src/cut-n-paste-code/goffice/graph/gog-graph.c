@@ -35,7 +35,6 @@
 
 enum {
 	GRAPH_PROP_0,
-	GRAPH_PROP_PADDING_PTS,
 	GRAPH_PROP_THEME,
 	GRAPH_PROP_THEME_NAME
 };
@@ -56,10 +55,6 @@ gog_graph_set_property (GObject *obj, guint param_id,
 	GogGraph *graph = GOG_GRAPH (obj);
 
 	switch (param_id) {
-	case GRAPH_PROP_PADDING_PTS :
-		graph->padding_pts = g_value_get_double (value);
-		gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
-		break;
 	case GRAPH_PROP_THEME :
 		gog_graph_set_theme (graph, g_value_get_object (value));
 		break;
@@ -80,9 +75,6 @@ gog_graph_get_property (GObject *obj, guint param_id,
 	GogGraph *graph = GOG_GRAPH (obj);
 
 	switch (param_id) {
-	case GRAPH_PROP_PADDING_PTS :
-		g_value_set_double (value, graph->padding_pts);
-		break;
 	case GRAPH_PROP_THEME :
 		g_value_set_object (value, graph->theme);
 		break;
@@ -203,10 +195,6 @@ gog_graph_class_init (GogGraphClass *klass)
 		G_TYPE_NONE,
 		1, G_TYPE_OBJECT);
 
-	g_object_class_install_property (gobject_klass, GRAPH_PROP_PADDING_PTS,
-		g_param_spec_double ("padding_pts", "Padding Pts",
-			"# of pts separating charts in the grid.",
-			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, GRAPH_PROP_THEME,
 		g_param_spec_object ("theme", "Theme",
 			"the theme for elements of the graph",
@@ -227,14 +215,14 @@ gog_graph_init (GogGraph *graph)
 
 	/* Cheat and assign a name here, graphs will not have parents until we
 	 * support graphs in graphs */
-	graph->base.base.user_name = g_strdup (_("Graph"));
+	GOG_OBJECT (graph)->user_name = g_strdup (_("Graph"));
 	gog_theme_init_style (graph->theme,
-		graph->base.style, GOG_OBJECT (graph), 0);
+		GOG_STYLED_OBJECT (graph)->style, GOG_OBJECT (graph), 0);
 }
 
 GSF_CLASS (GogGraph, gog_graph,
 	   gog_graph_class_init, gog_graph_init,
-	   GOG_STYLED_OBJECT_TYPE)
+	   GOG_OUTLINED_OBJECT_TYPE)
 
 /**
  * gog_graph_validate_chart_layout :
@@ -493,8 +481,8 @@ gog_graph_request_update (GogGraph *graph)
 
 /************************************************************************/
 
-typedef GogView		GogGraphView;
-typedef GogViewClass	GogGraphViewClass;
+typedef GogOutlinedView		GogGraphView;
+typedef GogOutlinedViewClass	GogGraphViewClass;
 
 #define GOG_GRAPH_VIEW_TYPE	(gog_graph_view_get_type ())
 #define GOG_GRAPH_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_GRAPH_VIEW_TYPE, GogGraphView))
@@ -531,13 +519,7 @@ gog_graph_view_size_allocate (GogView *view, GogViewAllocation const *a)
 	GogView *child;
 	GogGraph *graph = GOG_GRAPH (view->model);
 	GogViewAllocation tmp, res = *a;
-	double outline = gog_renderer_line_size (
-		view->renderer, graph->base.style->outline.width);
 
-	res.x += outline;
-	res.y += outline;
-	res.w -= outline * 2.;
-	res.h -= outline * 2.;
 	(gview_parent_klass->size_allocate) (view, &res);
 
 	if (gog_graph_num_cols (graph) <= 0 ||
@@ -562,16 +544,6 @@ gog_graph_view_size_allocate (GogView *view, GogViewAllocation const *a)
 }
 
 static void
-gog_graph_view_render (GogView *view, GogViewAllocation const *bbox)
-{
-	GogGraph *graph = GOG_GRAPH (view->model);
-	gog_renderer_push_style (view->renderer, graph->base.style);
-	gog_renderer_draw_rectangle (view->renderer, &view->allocation);
-	gog_renderer_pop_style (view->renderer);
-	(gview_parent_klass->render) (view, bbox);
-}
-
-static void
 gog_graph_view_class_init (GogGraphViewClass *gview_klass)
 {
 	GogViewClass *view_klass    = (GogViewClass *) gview_klass;
@@ -580,7 +552,6 @@ gog_graph_view_class_init (GogGraphViewClass *gview_klass)
 	gview_parent_klass = g_type_class_peek_parent (gview_klass);
 	gobject_klass->set_property = gog_graph_view_set_property;
 	view_klass->size_allocate   = gog_graph_view_size_allocate;
-	view_klass->render	    = gog_graph_view_render;
 
 	g_object_class_install_property (gobject_klass, GRAPH_VIEW_PROP_RENDERER,
 		g_param_spec_object ("renderer", "renderer",
@@ -590,4 +561,4 @@ gog_graph_view_class_init (GogGraphViewClass *gview_klass)
 
 GSF_CLASS (GogGraphView, gog_graph_view,
 	   gog_graph_view_class_init, NULL,
-	   GOG_VIEW_TYPE)
+	   GOG_OUTLINED_VIEW_TYPE)

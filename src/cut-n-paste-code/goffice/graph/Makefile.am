@@ -10,6 +10,8 @@ libgoffice_graph_la_SOURCES = \
 	gog-object-xml.h		\
 	gog-styled-object.c		\
 	gog-styled-object.h		\
+	gog-outlined-object.c		\
+	gog-outlined-object.h		\
 	gog-view.c			\
 	gog-view.h			\
 	\

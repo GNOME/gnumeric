@@ -21,7 +21,7 @@
 
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-legend.h>
-#include <goffice/graph/gog-styled-object.h>
+#include <goffice/graph/gog-outlined-object.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-chart.h>
@@ -33,7 +33,7 @@
 #include <src/gnumeric-i18n.h>
 
 struct _GogLegend {
-	GogStyledObject	base;
+	GogOutlinedObject base;
 
 	double	 swatch_size_pts;
 	double	 swatch_padding_pts;
@@ -206,14 +206,14 @@ gog_legend_init (GogLegend *legend)
 
 GSF_CLASS (GogLegend, gog_legend,
 	   gog_legend_class_init, gog_legend_init,
-	   GOG_STYLED_OBJECT_TYPE)
+	   GOG_OUTLINED_OBJECT_TYPE)
 
 typedef struct {
-	GogView		base;
+	GogOutlinedView	base;
 	double		line_height;
 	gboolean	uses_lines;
 } GogLegendView;
-typedef GogViewClass	GogLegendViewClass;
+typedef GogOutlinedViewClass	GogLegendViewClass;
 
 #define GOG_LEGEND_VIEW_TYPE	(gog_legend_view_get_type ())
 #define GOG_LEGEND_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_LEGEND_VIEW_TYPE, GogLegendView))
@@ -254,7 +254,7 @@ gog_legend_view_size_request (GogView *v, GogViewRequisition *avail)
 	double pad_y = gog_renderer_pt2r_y (
 		v->renderer, l->swatch_padding_pts);
 	double outline = gog_renderer_line_size (
-		v->renderer, l->base.style->outline.width);
+		v->renderer, GOG_STYLED_OBJECT (l)->style->outline.width);
 	unsigned n, mult = 1;
 
 #warning TODO : make this smarter (multiple columns and shrinking text)
@@ -285,27 +285,6 @@ gog_legend_view_size_request (GogView *v, GogViewRequisition *avail)
 		avail->w += outline * 2 + pad_x;
 		avail->h += outline * 2 + pad_y;
 	}
-}
-
-static void
-gog_legend_view_size_allocate (GogView *v, GogViewAllocation const *a)
-{
-	GogLegend *l = GOG_LEGEND (v->model);
-	GogViewAllocation res = *a;
-	double outline = gog_renderer_line_size (
-		v->renderer, l->base.style->outline.width);
-
-	/* We only need internal padding if there is an outline */
-	if (outline > 0) {
-		double pad_x = gog_renderer_pt2r_x (v->renderer, l->swatch_padding_pts);
-		double pad_y = gog_renderer_pt2r_y (v->renderer, l->swatch_padding_pts);
-
-		res.x += outline + pad_x/2;
-		res.y += outline + pad_y/2;
-		res.w -= outline * 2. + pad_x;
-		res.h -= outline * 2. + pad_y;
-	}
-	(lview_parent_klass->size_allocate) (v, &res);
 }
 
 typedef struct {
@@ -367,10 +346,6 @@ gog_legend_view_render (GogView *v, GogViewAllocation const *bbox)
 	double pad_x = gog_renderer_pt2r_x (v->renderer, l->swatch_padding_pts);
 	double pad_y = gog_renderer_pt2r_y (v->renderer, l->swatch_padding_pts);
 
-	gog_renderer_push_style (v->renderer, l->base.style);
-	gog_renderer_draw_rectangle (v->renderer, &v->allocation);
-	gog_renderer_pop_style (v->renderer);
-
 	(lview_parent_klass->render) (v, bbox);
 
 	dat.view = v;
@@ -403,10 +378,9 @@ gog_legend_view_class_init (GogLegendViewClass *gview_klass)
 
 	lview_parent_klass = g_type_class_peek_parent (gview_klass);
 	view_klass->size_request    = gog_legend_view_size_request;
-	view_klass->size_allocate   = gog_legend_view_size_allocate;
 	view_klass->render	    = gog_legend_view_render;
 }
 
 static GSF_CLASS (GogLegendView, gog_legend_view,
 		  gog_legend_view_class_init, NULL,
-		  GOG_VIEW_TYPE)
+		  GOG_OUTLINED_VIEW_TYPE)

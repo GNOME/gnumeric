@@ -1,3 +1,30 @@
+2003-10-18  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-chart-impl.h : Inherit from GogOutlinedObject and use the
+	  padding there.
+	* graph/gog-graph-impl.h : ditto.
+	* graph/gog-label.c : ditto.
+	* graph/gog-legend.c : ditto.
+
+	* graph/gog-chart.c (gog_chart_get_property) : padding is in outlined
+	  object now.
+	(gog_chart_set_property) : delete.
+	(gog_chart_class_init) : delete set_prop method and padding_pts prop
+	(gog_chart_init) : delete padding_pts.
+	(gog_chart_view_size_allocate) : use outlined view.
+	(gog_chart_view_render) : ditto.
+	(gog_chart_view_class_init) : just use render in outlined view.
+
+	* graph/gog-graph.c (gog_graph_set_property) : remove PADDING
+	(gog_graph_get_property) : ditto.
+	(gog_graph_class_init) : ditto.
+	(gog_graph_init) : we don't inherit directly from StyledObject anymore
+	(gog_graph_view_size_allocate) : use OutlinedView.
+	(gog_graph_view_render) : ditto.
+	(gog_graph_view_class_init) : ditto.
+
+	* graph/Makefile.am : Add gog-outlined-object.[ch]
+
 2003-10-13  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=122546

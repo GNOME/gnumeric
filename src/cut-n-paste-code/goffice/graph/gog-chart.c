@@ -28,7 +28,6 @@
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-grid.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/utils/go-units.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
@@ -37,7 +36,6 @@
 
 enum {
 	CHART_PROP_0,
-	CHART_PROP_PADDING_PTS,
 	CHART_PROP_CARDINALITY_VALID
 };
 
@@ -70,30 +68,11 @@ gog_chart_finalize (GObject *obj)
 }
 
 static void
-gog_chart_set_property (GObject *obj, guint param_id,
-			GValue const *value, GParamSpec *pspec)
-{
-	GogChart *chart = GOG_CHART (obj);
-	switch (param_id) {
-	case CHART_PROP_PADDING_PTS :
-		chart->padding_pts = g_value_get_double (value);
-		gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
-		break;
-
-	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
-		 return; /* NOTE : RETURN */
-	}
-}
-
-static void
 gog_chart_get_property (GObject *obj, guint param_id,
 			GValue *value, GParamSpec *pspec)
 {
 	GogChart *chart = GOG_CHART (obj);
 	switch (param_id) {
-	case CHART_PROP_PADDING_PTS :
-		g_value_set_double (value, chart->padding_pts);
-		break;
 	case CHART_PROP_CARDINALITY_VALID:
 		g_value_set_boolean (value, chart->cardinality_valid);
 		break;
@@ -224,13 +203,8 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 
 	chart_parent_klass = g_type_class_peek_parent (gog_klass);
 	gobject_klass->finalize = gog_chart_finalize;
-	gobject_klass->set_property = gog_chart_set_property;
 	gobject_klass->get_property = gog_chart_get_property;
 
-	g_object_class_install_property (gobject_klass, CHART_PROP_PADDING_PTS,
-		g_param_spec_double ("padding_pts", "Padding Pts",
-			"# of pts separating charts in the grid.",
-			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, CHART_PROP_CARDINALITY_VALID,
 		g_param_spec_boolean ("cardinality-valid", "cardinality-valid",
 			"Is the charts cardinality currently vaid",
@@ -249,7 +223,6 @@ gog_chart_init (GogChart *chart)
 	chart->y     = 0;
 	chart->cols  = 0;
 	chart->rows  = 0;
-	chart->padding_pts = GO_CM_TO_PT (.25);
 
 	/* start as true so that we can queue an update when it changes */
 	chart->cardinality_valid = TRUE;
@@ -258,7 +231,7 @@ gog_chart_init (GogChart *chart)
 
 GSF_CLASS (GogChart, gog_chart,
 	   gog_chart_class_init, gog_chart_init,
-	   GOG_STYLED_OBJECT_TYPE)
+	   GOG_OUTLINED_OBJECT_TYPE)
 
 /**
  * gog_chart_get_position :
@@ -488,12 +461,12 @@ gog_chart_get_grid (GogChart const *chart)
 /*********************************************************************/
 
 typedef struct {
-	GogView base;
+	GogOutlinedView base;
 
 	/* indents */
 	double pre_x, post_x;
 } GogChartView;
-typedef GogViewClass	GogChartViewClass;
+typedef GogOutlinedViewClass	GogChartViewClass;
 
 #define GOG_CHART_VIEW_TYPE	(gog_chart_view_get_type ())
 #define GOG_CHART_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_CHART_VIEW_TYPE, GogChartView))
@@ -511,15 +484,7 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 	GogAxis const *axis;
 	GogViewAllocation tmp, res = *allocation;
 	GogViewRequisition req;
-	double outline = gog_renderer_line_size (
-		view->renderer, chart->base.style->outline.width);
-	outline += gog_renderer_line_size (
-		view->renderer, chart->padding_pts);
 
-	res.x += outline;
-	res.y += outline;
-	res.w -= outline * 2.;
-	res.h -= outline * 2.;
 	(cview_parent_klass->size_allocate) (view, &res);
 
 	res = view->residual;
@@ -612,16 +577,6 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 }
 
 static void
-gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
-{
-	GogChart *chart = GOG_CHART (view->model);
-	gog_renderer_push_style (view->renderer, chart->base.style);
-	gog_renderer_draw_rectangle (view->renderer, &view->allocation);
-	gog_renderer_pop_style (view->renderer);
-	(cview_parent_klass->render) (view, bbox);
-}
-
-static void
 gog_chart_view_init (GogChartView *cview)
 {
 	cview->pre_x = cview->post_x = 0.;
@@ -634,12 +589,11 @@ gog_chart_view_class_init (GogChartViewClass *gview_klass)
 
 	cview_parent_klass = g_type_class_peek_parent (gview_klass);
 	view_klass->size_allocate   = gog_chart_view_size_allocate;
-	view_klass->render	    = gog_chart_view_render;
 }
 
 static GSF_CLASS (GogChartView, gog_chart_view,
 		  gog_chart_view_class_init, gog_chart_view_init,
-		  GOG_VIEW_TYPE)
+		  GOG_OUTLINED_VIEW_TYPE)
 
 /**
  * gog_chart_view_get_indents :

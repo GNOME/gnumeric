@@ -24,15 +24,13 @@
 
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-styled-object.h>
+#include <goffice/graph/gog-outlined-object.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
 
 struct _GogChart {
-	GogStyledObject	 base;
-
-	double	 padding_pts;
+	GogOutlinedObject	 base;
 
 	GSList  *plots;
 	unsigned cardinality;
@@ -45,7 +43,7 @@ struct _GogChart {
 	GSList  *axes;
 	GogAxisSet axis_set;
 };
-typedef GogStyledObjectClass GogChartClass;
+typedef GogOutlinedObjectClass GogChartClass;
 
 #define GOG_CHART_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_CHART_TYPE, GogChartClass))
 #define IS_GOG_CHART_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_CHART_TYPE))
