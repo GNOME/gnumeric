@@ -198,6 +198,7 @@ void	 sheet_range_bounding_box    (Sheet const *sheet, Range *r);
 
 /* Redraw */
 void        sheet_redraw_all              (Sheet const *sheet, gboolean header);
+void        sheet_redraw_headers (Sheet const *sheet, gboolean col, gboolean row, Range const *r /* optional == NULL */);
 void        sheet_redraw_cell             (Cell const *cell);
 void        sheet_redraw_range            (Sheet const *sheet, Range const *r);
 void        sheet_redraw_region      	  (Sheet const *sheet,

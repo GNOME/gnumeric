@@ -117,6 +117,7 @@ void     gnm_gconf_set_all_sheets (gboolean val);
 void     gnm_gconf_set_printer (gchar *str);
 void     gnm_gconf_set_printer_backend (gchar *str);
 void     gnm_gconf_set_printer_filename (gchar *str);
+gchar   *gnm_gconf_get_printer_command (void);
 void     gnm_gconf_set_printer_command (gchar *str);
 void     gnm_gconf_set_printer_lpr_P (gchar *str);
 

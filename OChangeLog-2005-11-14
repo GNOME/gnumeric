@@ -7,6 +7,12 @@
 	  behalf.
 	  Actually honour --enable-compile-warnings=... .
 	* src/parse-util.h, src/regutf8.c, src/regutf8.h: Don't use // comments.
+	* src/func.c (gnm_func_group_remove_func),
+	  src/parse-util.c (wbref_parse),
+	  src/plugin.c (gnm_plugin_type_module_load),
+	  src/plugin.c (gnm_plugin_type_module_unload): Made static.
+	* src/gnumeric-gconf.h: Added gnm_gconf_get_printer_command prototype.
+	* src/sheet.h: Added sheet_redraw_headers prototype.
 
 2002-11-01  Jody Goldberg <jody@gnome.org>
 

@@ -731,7 +731,7 @@ unquote (char *dst, char const *src, int n)
  *           the end of the name.
  *           Otherwise returns @start and does not modify @wb.
  * **/
-char const *
+static char const *
 wbref_parse (char const *start, Workbook **wb)
 {
 	/* Is this an external reference ? */

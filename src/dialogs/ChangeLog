@@ -1,3 +1,7 @@
+2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* dialog-search.c (lazy_list_new, lazy_list_set_rows):  Made static.
+
 2002-11-01  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-format.c (validation_rebuild_validation) : simplify

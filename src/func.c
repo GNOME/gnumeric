@@ -260,7 +260,7 @@ gnm_func_group_add_func (GnmFuncGroup *fn_group,
 	fn_group->functions = g_list_append (fn_group->functions, fn_def);
 }
 
-void
+static void
 gnm_func_group_remove_func (GnmFuncGroup *fn_group, GnmFunc *func)
 {
 	g_return_if_fail (fn_group != NULL);

@@ -365,7 +365,7 @@ lazy_list_get_type (void)
 	return lazy_list_type;
 }
 
-LazyList *
+static LazyList *
 lazy_list_new (LazyListValueGetFunc get_value,
 	       gpointer user_data,
 	       gint n_columns,
@@ -391,7 +391,7 @@ lazy_list_new (LazyListValueGetFunc get_value,
 	return retval;
 }
 
-void
+static void
 lazy_list_set_rows (LazyList *ll, gint rows)
 {
 	g_return_if_fail (IS_LAZY_LIST (ll));

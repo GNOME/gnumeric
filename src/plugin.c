@@ -163,7 +163,7 @@ gnm_plugin_finalize (GObject *obj)
 	parent_class->finalize (obj);
 }
 
-gboolean
+static gboolean
 gnm_plugin_type_module_load (GTypeModule *module)
 {
 	GnmPlugin *plugin = GNM_PLUGIN (module);
@@ -181,7 +181,7 @@ gnm_plugin_type_module_load (GTypeModule *module)
 	return TRUE;
 }
 
-void
+static void
 gnm_plugin_type_module_unload (GTypeModule *module)
 {
 	GnmPlugin *plugin = GNM_PLUGIN (module);
