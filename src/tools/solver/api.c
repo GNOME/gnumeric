@@ -56,10 +56,10 @@
  * various options, and fetching the results for reporting.
  *
  *
- * typedef SolverProgram (solver_lp_init_fn)             (const SolverParameters *param);
+ * typedef SolverProgram (solver_init_fn)                (const SolverParameters *param);
  *   Initializes the program.
  *
- * typedef void          (solver_lp_remove_fn)           (SolverProgram p);
+ * typedef void          (solver_remove_fn)              (SolverProgram p);
  *   Frees all memory buffers previously allocated for the program.
  *
  * typedef void          (solver_lp_set_obj_fn)          (SolverProgram p,
@@ -580,6 +580,114 @@ w_glpk_print_lp (SolverProgram program)
 /* ------------------------------------------------------------------------- */
 
 /*
+ * Solver's API wrappings for QP (currently dummy only).
+ *
+ * Package:    none
+ * Version:    0
+ * License:    GPL
+ * Homepage:   -
+ * Algorithm:  -
+ *
+ */
+
+SolverProgram
+w_qp_dummy_init (const SolverParameters *param)
+{
+        printf("w_qp_dummy_init\n");
+}
+
+void
+w_qp_dummy_delete (SolverProgram program)
+{
+        printf("w_qp_dummy_delete\n");
+}
+
+void
+w_qp_dummy_set_maxim (SolverProgram program)
+{
+        printf("w_qp_set_maxim\n");
+}
+
+void
+w_qp_dummy_set_minim (SolverProgram program)
+{
+        printf("w_qp_set_minim\n");
+}
+
+void
+w_qp_dummy_set_obj_fn (SolverProgram program, int col, gnum_float value)
+{
+        printf("w_qp_dummy_set_obj_fn %d, %g\n", col, value);
+}
+
+void
+w_qp_dummy_set_constr_mat (SolverProgram program, int col, int row, gnum_float value)
+{
+        printf("w_qp_dummy_set_constr_mat %d, %d, %g\n", col, row, value);
+}
+
+void
+w_qp_dummy_set_constr (SolverProgram program, int row, SolverConstraintType type,
+		   gnum_float value)
+{
+        printf("w_qp_dummy_set_constr %d, %d, %g\n", row, type, value);
+}
+
+void
+w_qp_dummy_set_int (SolverProgram program, int col)
+{
+        printf("w_qp_dummy_set_int %d\n", col);
+}
+
+void
+w_qp_dummy_set_bool (SolverProgram program, int col)
+{
+        printf("w_qp_dummy_set_bool %d\n", col);
+}
+
+SolverStatus
+w_qp_dummy_solve (SolverProgram program)
+{
+        printf("w_qp_dummy_solve\n");
+	return SolverInfeasible;
+}
+
+gnum_float
+w_qp_dummy_get_solution (SolverProgram program, int col)
+{
+        printf("w_qp_dummy_get_solution %d\n", col);
+}
+
+gnum_float
+w_qp_dummy_get_value_of_obj_fn (SolverProgram program)
+{
+        printf("w_qp_dummy_get_value_of_obj_fn\n");
+}
+
+gnum_float
+w_qp_dummy_get_dual (SolverProgram program, int row)
+{
+        printf("w_qp_dummy_get_dual %d\n", row);
+}
+
+gboolean
+w_qp_dummy_set_option (SolverProgram program, SolverOptionType option,
+		   const gboolean *b_value,
+		   const gnum_float *f_value, const int *i_value)
+{
+        printf("w_qp_dummy_set_option %d\n", option);
+        return FALSE;
+}
+
+void
+w_qp_dummy_print (SolverProgram program)
+{
+        printf("w_qp_dummy_print\n");
+}
+
+/* ------------------------------------------------------------------------- */
+
+/*
  * This array contains the linear programming algorithms available.
  * Each algorithm should implement the API defined by the
  * SolverLPAlgorithm data structure.  The algorithms should be able to
@@ -588,8 +696,8 @@ w_glpk_print_lp (SolverProgram program)
 SolverLPAlgorithm lp_algorithm [] = {
         {
 	        NULL,
-		(solver_lp_init_fn*)             w_lp_solve_init,
-		(solver_lp_remove_fn*)           w_lp_solve_delete_lp,
+		(solver_init_fn*)                w_lp_solve_init,
+		(solver_remove_fn*)              w_lp_solve_delete_lp,
 		(solver_lp_set_obj_fn*)          w_lp_solve_set_obj_fn,
 		(solver_lp_set_constr_mat_fn*)   w_lp_solve_set_constr_mat,
 		(solver_lp_set_constr_fn*)       w_lp_solve_set_constr,
@@ -608,8 +716,8 @@ SolverLPAlgorithm lp_algorithm [] = {
 #if __HAVE_GLPK__
         {
 	        NULL,
-		(solver_lp_init_fn*)             w_glpk_init,
-		(solver_lp_remove_fn*)           w_glpk_delete_lp,
+		(solver_init_fn*)                w_glpk_init,
+		(solver_remove_fn*)              w_glpk_delete_lp,
 		(solver_lp_set_obj_fn*)          w_glpk_set_obj_fn,
 		(solver_lp_set_constr_mat_fn*)   w_glpk_set_constr_mat,
 		(solver_lp_set_constr_fn*)       w_glpk_set_constr,
@@ -626,5 +734,27 @@ SolverLPAlgorithm lp_algorithm [] = {
 	},
 #endif
 
+	{ NULL }
+};
+
+SolverLPAlgorithm qp_algorithm [] = {
+        {
+	        NULL,
+		(solver_init_fn*)                w_qp_dummy_init,
+		(solver_remove_fn*)              w_qp_dummy_delete,
+		(solver_lp_set_obj_fn*)          w_qp_dummy_set_obj_fn,
+		(solver_lp_set_constr_mat_fn*)   w_qp_dummy_set_constr_mat,
+		(solver_lp_set_constr_fn*)       w_qp_dummy_set_constr,
+		(solver_lp_set_maxim_fn*)        w_qp_dummy_set_maxim,
+		(solver_lp_set_minim_fn*)        w_qp_dummy_set_minim,
+		(solver_lp_set_int_fn*)          w_qp_dummy_set_int,
+		(solver_lp_set_bool_fn*)         w_qp_dummy_set_bool,
+		(solver_lp_solve_fn*)            w_qp_dummy_solve,
+		(solver_lp_get_obj_fn_value_fn*) w_qp_dummy_get_value_of_obj_fn,
+		(solver_lp_get_obj_fn_var_fn*)   w_qp_dummy_get_solution,
+		(solver_lp_get_shadow_prize_fn*) w_qp_dummy_get_dual,
+		(solver_lp_set_option_fn*)       w_qp_dummy_set_option,
+		(solver_lp_print_fn*)            w_qp_dummy_print
+	},
 	{ NULL }
 };

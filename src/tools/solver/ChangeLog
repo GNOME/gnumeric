@@ -1,3 +1,8 @@
+2002-03-19  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* api.[ch], reports.c, solver.c : Started the implementation of QP
+	program reporting.
+
 2002-03-18  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* reports.c, solver.c, reports-write.c: More clean up.

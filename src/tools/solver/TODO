@@ -63,8 +63,8 @@ Regarding QP:
 
 * implement support for QP (quadratic programming)
   - support for fetching the QP obj. fn
-  - QP solver API
-  - QP solver algorithms
+  - finish the program reporting for QP
+  - add QP solver algorithms
   - QP results reporting
   - QP extensions for the MPS plugin
 

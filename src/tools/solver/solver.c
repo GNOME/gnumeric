@@ -162,6 +162,8 @@ solver_get_constraint (SolverResults *res, int n)
         return res->constraints_array[n];
 }
 
+/* ------------------------------------------------------------------------- */
+
 static SolverConstraint*
 create_solver_constraint (int lhs_col, int lhs_row, int rhs_col, int rhs_row,
 			  SolverConstraintType type)
@@ -173,14 +175,59 @@ create_solver_constraint (int lhs_col, int lhs_row, int rhs_col, int rhs_row,
 	c->lhs.row = lhs_row;
 	c->rhs.col = rhs_col;
 	c->rhs.row = rhs_row;
-	c->rows = 1;
-	c->cols = 1;
-	c->type = type;
-	c->str  = write_constraint_str (lhs_col, lhs_row, rhs_col,
-					rhs_row, type, 1, 1);
+	c->rows    = 1;
+	c->cols    = 1;
+	c->type    = type;
+	c->str     = write_constraint_str (lhs_col, lhs_row, rhs_col,
+					   rhs_row, type, 1, 1);
 
 	return c;
 }
+
+char *
+write_constraint_str (int lhs_col, int lhs_row, int rhs_col,
+		      int rhs_row, SolverConstraintType type,
+		      int cols, int rows)
+{
+	GString    *buf = g_string_new ("");
+	const char *type_str[] = { "<=", ">=", "=", "Int", "Bool" };
+	char       *result;
+
+	if (cols == 1 && rows == 1)
+		g_string_sprintfa (buf, "%s %s ",
+				   cell_coord_name (lhs_col, lhs_row),
+				   type_str[type]);
+	else {
+	        g_string_append (buf, cell_coord_name (lhs_col, lhs_row));
+		g_string_append_c (buf, ':');
+		g_string_append (buf,
+				 cell_coord_name (lhs_col + cols - 1,
+						  lhs_row + rows - 1));
+		g_string_append_c (buf, ' ');
+		g_string_append (buf, type_str[type]);
+		g_string_append_c (buf, ' ');
+	}
+
+	if (type != SolverINT && type != SolverBOOL) {
+	        if (cols == 1 && rows == 1)
+		        g_string_append (buf, cell_coord_name (rhs_col,
+							       rhs_row));
+		else {
+		        g_string_append (buf, cell_coord_name (rhs_col,
+							       rhs_row));
+			g_string_append_c (buf, ':');
+		        g_string_append (buf,
+					 cell_coord_name (rhs_col + cols - 1,
+							  rhs_row + rows - 1));
+		}
+	}
+
+	result = buf->str;
+	g_string_free (buf, FALSE);
+	return result;
+}
+
+/* ------------------------------------------------------------------------- */
 
 /*
  * This function implements a simple way to determine linear
@@ -270,44 +317,49 @@ get_col_nbr (SolverResults *res, CellPos *pos)
 	return -1;
 }
 
+/* ------------------------------------------------------------------------- */
+
 /*
  * Initializes the program according to the information given in the
  * solver dialog and the related sheet.  After the call, the LP
  * program is ready to run.
  */
 static SolverProgram
-lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
-		gchar **errmsg)
+lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
+		   SolverResults *res, SolverLPAlgorithm *alg, 
+		   gchar **errmsg)
 {
         SolverProgram     program;
-	SolverLPAlgorithm *alg;
 	Cell              *target;
 	gnum_float        x;
 	int               i, n, ind;
 
 	/* Initialize the SolverProgram structure. */
-	alg = &lp_algorithm[param->options.algorithm];
 	program = alg->init_fn (param);
 
 	/* Set up the objective function coefficients. */
 	target = solver_get_target_cell (sheet);
-	for (i = 0; i < param->n_variables; i++) {
-	        x = get_lp_coeff (target, solver_get_input_var (res, i));
-		if (x != 0) {
-		        alg->set_obj_fn (program, i, x);
-			res->n_nonzeros_in_obj += 1;
-			res->obj_coeff[i] = x;
+	if (param->options.model_type == SolverLPModel) {
+	        for (i = 0; i < param->n_variables; i++) {
+		        x = get_lp_coeff (target, solver_get_input_var (res, i));
+			if (x != 0) {
+			        alg->set_obj_fn (program, i, x);
+				res->n_nonzeros_in_obj += 1;
+				res->obj_coeff[i] = x;
+			}
 		}
+		/* Check that the target cell contains a formula. */
+		for (i = 0; i < param->n_variables; i++) {
+		        if (res->obj_coeff[i] != 0)
+			        goto target_cell_formula_ok;
+		}
+		*errmsg = _("Target cell should contain a formula.");
+		solver_results_free (res);
+		return NULL;
+	} else {
+	        /* FIXME: Init qp */
 	}
 
-	/* Check that the target cell contains a formula. */
-	for (i = 0; i < param->n_variables; i++) {
-	        if (res->obj_coeff[i] != 0)
-		        goto target_cell_formula_ok;
-	}
-	*errmsg = _("Target cell should contain a formula.");
-	solver_results_free (res);
-	return NULL;
  target_cell_formula_ok:
 
 	/* Add constraints. */
@@ -395,49 +447,6 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 	alg->print_fn (program);
 
 	return program;
-}
-
-char *
-write_constraint_str (int lhs_col, int lhs_row, int rhs_col,
-		      int rhs_row, SolverConstraintType type,
-		      int cols, int rows)
-{
-	GString    *buf = g_string_new ("");
-	const char *type_str[] = { "<=", ">=", "=", "Int", "Bool" };
-	char       *result;
-
-	if (cols == 1 && rows == 1)
-		g_string_sprintfa (buf, "%s %s ",
-				   cell_coord_name (lhs_col, lhs_row),
-				   type_str[type]);
-	else {
-	        g_string_append (buf, cell_coord_name (lhs_col, lhs_row));
-		g_string_append_c (buf, ':');
-		g_string_append (buf,
-				 cell_coord_name (lhs_col + cols - 1,
-						  lhs_row + rows - 1));
-		g_string_append_c (buf, ' ');
-		g_string_append (buf, type_str[type]);
-		g_string_append_c (buf, ' ');
-	}
-
-	if (type != SolverINT && type != SolverBOOL) {
-	        if (cols == 1 && rows == 1)
-		        g_string_append (buf, cell_coord_name (rhs_col,
-							       rhs_row));
-		else {
-		        g_string_append (buf, cell_coord_name (rhs_col,
-							       rhs_row));
-			g_string_append_c (buf, ':');
-		        g_string_append (buf,
-					 cell_coord_name (rhs_col + cols - 1,
-							  rhs_row + rows - 1));
-		}
-	}
-
-	result = buf->str;
-	g_string_free (buf, FALSE);
-	return result;
 }
 
 /*
@@ -545,10 +554,10 @@ check_program_definition_failures (Sheet            *sheet,
 }
 
 SolverResults *
-solver_lp (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
+solver_run (WorkbookControl *wbc, Sheet *sheet,
+	    SolverLPAlgorithm *alg, gchar **errmsg)
 {
 	SolverParameters  *param = sheet->solver_parameters;
-	SolverLPAlgorithm *alg;
 	SolverProgram     program;
 	SolverResults     *res;
 	Cell              *cell;
@@ -556,24 +565,24 @@ solver_lp (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	GTimeVal          start, end;
 	gnum_float        lhs, rhs;
 
-	alg = &lp_algorithm[param->options.algorithm];
+	g_get_current_time (&start);
 	if (check_program_definition_failures (sheet, param, &res, errmsg))
 	        return NULL;
 
 	save_original_values (res, param, sheet);
 
-	program              = lp_solver_init (sheet, param, res, errmsg);
+	program              = lp_qp_solver_init (sheet, param, res, alg, errmsg);
 	if (program == NULL)
 	        return NULL;
 
-	g_get_current_time (&start);
         res->status = alg->solve_fn (program);
 	g_get_current_time (&end);
 	res->time_real = end.tv_sec - start.tv_sec
 	        + (end.tv_usec - start.tv_usec) / (gnum_float) G_USEC_PER_SEC;
 
+	solver_prepare_reports (program, res, sheet);
 	if (res->status == SolverOptimal) {
-	        if (solver_prepare_reports (program, res, sheet)) {
+	        if (solver_prepare_reports_success (program, res, sheet)) {
 		        alg->remove_fn (program);
 			return NULL;
 		}
@@ -585,34 +594,23 @@ solver_lp (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 }
 
 SolverResults *
-solver_qp (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
-{
-	SolverParameters  *param = sheet->solver_parameters;
-
-	*errmsg = _("Quadratic Programming is not yet implemented.");
-	return NULL;
-}
-
-SolverResults *
-solver_nlp (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
-{
-	SolverParameters  *param = sheet->solver_parameters;
-
-	*errmsg = _("Nonlinear Programming is not yet implemented.");
-	return NULL;
-}
-
-SolverResults *
 solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 {
+	SolverLPAlgorithm *alg;
+	SolverParameters  *param = sheet->solver_parameters;
+
         switch (sheet->solver_parameters->options.model_type) {
 	case SolverLPModel:
-	        return solver_lp (wbc, sheet, errmsg);
+	        alg = &lp_algorithm [param->options.algorithm];
+		break;
 	case SolverQPModel:
-		return solver_qp (wbc, sheet, errmsg);
+	        alg = &qp_algorithm [param->options.algorithm];
+		break;
 	case SolverNLPModel:
-	        return solver_nlp (wbc, sheet, errmsg);
+	        return NULL;
 	}
+
+	return solver_run (wbc, sheet, alg, errmsg);
 }
 
 /* FIXME */

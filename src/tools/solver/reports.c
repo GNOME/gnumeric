@@ -236,11 +236,11 @@ calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
  */
 static void
 set_optimal_values_to_sheet (SolverProgram *program, Sheet *sheet,
-			     SolverResults *res, gnum_float *store)
+			     SolverResults *res, SolverLPAlgorithm *alg,
+			     gnum_float *store)
 {
-        int               i;
-	SolverLPAlgorithm *alg = &lp_algorithm[res->param->options.algorithm];
-	Cell              *cell;
+        int  i;
+	Cell *cell;
 
 	for (i = 0; i < res->param->n_variables; i++) {
 	        store[i] = alg->get_obj_fn_var_fn (program, i);
@@ -250,14 +250,19 @@ set_optimal_values_to_sheet (SolverProgram *program, Sheet *sheet,
 	workbook_recalc (sheet->workbook);
 }
 
-gboolean
+void
 solver_prepare_reports (SolverProgram *program, SolverResults *res,
 			Sheet *sheet)
 {
 	SolverParameters  *param = res->param;
         Cell              *cell;
 	int               i;
-	SolverLPAlgorithm *alg = &lp_algorithm[param->options.algorithm];
+	SolverLPAlgorithm *alg;
+
+	if (res->param->options.model_type == SolverLPModel)
+	        alg = &lp_algorithm[param->options.algorithm];
+	else
+	        alg = &qp_algorithm[param->options.algorithm];
 
         res->target_name = find_name (sheet,
 				      res->param->target_cell->pos.col,
@@ -265,10 +270,27 @@ solver_prepare_reports (SolverProgram *program, SolverResults *res,
         get_input_variable_names (res, sheet);
         get_constraint_names (res, sheet);
 
+}
+
+gboolean
+solver_prepare_reports_success (SolverProgram *program, SolverResults *res,
+				Sheet *sheet)
+{
+	SolverParameters  *param = res->param;
+        Cell              *cell;
+	int               i;
+	SolverLPAlgorithm *alg;
+
+	if (res->param->options.model_type == SolverLPModel)
+	        alg = &lp_algorithm[param->options.algorithm];
+	else
+	        alg = &qp_algorithm[param->options.algorithm];
+
+
 	/*
 	 * Set optimal values into the program.
 	 */
-	set_optimal_values_to_sheet (program, sheet, res,
+	set_optimal_values_to_sheet (program, sheet, res, alg,
 				     &res->optimal_values[0]);
 
 	/*
@@ -325,27 +347,23 @@ solver_prepare_reports (SolverProgram *program, SolverResults *res,
 }
 
 void
-solver_lp_reports (WorkbookControl *wbc, Sheet *sheet, SolverResults *res,
-		   gboolean answer, gboolean sensitivity, gboolean limits,
-		   gboolean performance, gboolean program, gboolean dual)
+solver_reports (WorkbookControl *wbc, Sheet *sheet, SolverResults *res,
+		gboolean answer, gboolean sensitivity, gboolean limits,
+		gboolean performance, gboolean program, gboolean dual)
 {
-        if (answer)
+        if (answer && res->param->options.model_type == SolverLPModel)
 	        solver_answer_report (wbc, sheet, res);
-	if (sensitivity && ! res->ilp_flag)
+	if (sensitivity && ! res->ilp_flag
+	    && res->param->options.model_type == SolverLPModel)
 	        solver_sensitivity_report (wbc, sheet, res);
-	if (limits && ! res->ilp_flag)
+	if (limits && ! res->ilp_flag
+	    && res->param->options.model_type == SolverLPModel)
 	        solver_limits_report (wbc, sheet, res);
-	if (performance)
+	if (performance
+	    && res->param->options.model_type == SolverLPModel)
 	        solver_performance_report (wbc, sheet, res);
 	if (program)
 	        solver_program_report (wbc, sheet, res);
-	if (dual)
+	if (dual && res->param->options.model_type == SolverLPModel)
 	        solver_dual_program_report (wbc, sheet, res);
-}
-
-void
-solver_qp_reports (WorkbookControl *wbc, Sheet *sheet, SolverResults *res,
-		   gboolean answer, gboolean sensitivity, gboolean limits,
-		   gboolean performance, gboolean program, gboolean dual)
-{
 }

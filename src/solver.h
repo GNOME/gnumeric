@@ -38,9 +38,9 @@ typedef gpointer SolverProgram;
  * Solver's API for LP solving algorithms
  */
 typedef SolverProgram
-        (solver_lp_init_fn)             (const SolverParameters *param);
+        (solver_init_fn)                (const SolverParameters *param);
 typedef void
-        (solver_lp_remove_fn)           (SolverProgram p);
+        (solver_remove_fn)              (SolverProgram p);
 typedef void
         (solver_lp_set_obj_fn)          (SolverProgram p, int col, gnum_float v);
 typedef void
@@ -76,8 +76,8 @@ typedef void
 
 typedef struct {
         const char                    *name;
-        solver_lp_init_fn             *init_fn;
-        solver_lp_remove_fn           *remove_fn;
+        solver_init_fn                *init_fn;
+        solver_remove_fn              *remove_fn;
         solver_lp_set_obj_fn          *set_obj_fn;
         solver_lp_set_constr_mat_fn   *set_constr_mat_fn;
         solver_lp_set_constr_fn       *set_constr_fn;
@@ -179,7 +179,7 @@ typedef struct {
 
 SolverResults    *solver               (WorkbookControl *wbc, Sheet *sheet,
 					gchar **errmsg);
-void             solver_lp_reports     (WorkbookControl *wbc, Sheet *sheet,
+void             solver_reports        (WorkbookControl *wbc, Sheet *sheet,
 					SolverResults *res,
 					gboolean answer, gboolean sensitivity, 
 					gboolean limits, gboolean performance,

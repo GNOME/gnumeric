@@ -794,27 +794,33 @@ solver_program_report (WorkbookControl *wbc,
 
 
 	/* Print the objective function. */
-	col = max_col = 0;
-        for (i = 0; i < vars; i++) {
-	        if (res->obj_coeff[i] != 0) {
-		        /* Print the sign. */
-		        if (res->obj_coeff[i] < 0)
-			        dao_set_cell (&dao, 1 + col*3, 6, "-");
-			else if (col > 0)
-			        dao_set_cell (&dao, 1 + col*3, 6, "+");
+	max_col = 0;
+	if (res->param->options.model_type == SolverLPModel) {
+	        /* This is for linear models. */
+	        col = 0;
+		for (i = 0; i < vars; i++) {
+		        if (res->obj_coeff[i] != 0) {
+			        /* Print the sign. */
+			        if (res->obj_coeff[i] < 0)
+				        dao_set_cell (&dao, 1 + col*3, 6, "-");
+				else if (col > 0)
+				        dao_set_cell (&dao, 1 + col*3, 6, "+");
 
-			/* Print the coefficent. */
-			if (gnumabs (res->obj_coeff[i]) != 1)
-			        dao_set_cell_float (&dao, 2 + col*3, 6,
-						gnumabs (res->obj_coeff[i]));
+				/* Print the coefficent. */
+				if (gnumabs (res->obj_coeff[i]) != 1)
+				        dao_set_cell_float (&dao, 2 + col*3, 6,
+					        gnumabs (res->obj_coeff[i]));
 
-			/* Print the name of the variable. */
-			dao_set_cell (&dao, 3 + col*3, 6,
-				      res->variable_names [i]);
-			col++;
-			if (col > max_col)
-			        max_col = col;
+				/* Print the name of the variable. */
+				dao_set_cell (&dao, 3 + col*3, 6,
+					      res->variable_names [i]);
+				col++;
+				if (col > max_col)
+				        max_col = col;
+			}
 		}
+	} else {
+	        /* This is for quadratic models. (SolverQPModel) */
 	}
 
 
