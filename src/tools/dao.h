@@ -39,6 +39,7 @@ typedef enum {
 typedef struct {
         data_analysis_output_type_t type;
         Sheet                       *sheet;
+        int                         sheet_idx;
         int                         start_col, cols;
         int                         start_row, rows;
 	int                         offset_col, offset_row;
@@ -115,7 +116,6 @@ gboolean dao_put_formulas (data_analysis_output_t *dao);
 
 void dao_convert_to_values (data_analysis_output_t *dao);
 void dao_redraw_respan (data_analysis_output_t *dao);
-
-
+void dao_update_sheet_pointer (data_analysis_output_t *dao);
 
 #endif

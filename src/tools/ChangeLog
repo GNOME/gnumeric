@@ -1,5 +1,12 @@
 2003-08-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dao.c (dao_update_sheet_pointer): new
+	(dao_prepare_output): update sheet pointer before using and
+	  set sheet_idx when setting sheet
+	* dao.h (dao_update_sheet_pointer): new
+
+2003-08-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* tabulate.[ch]: new
 	* Makefile.am: added tabulate.[ch]
 

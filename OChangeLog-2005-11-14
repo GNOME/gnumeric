@@ -1,3 +1,10 @@
+2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/commands.c (cmd_analysis_tool_undo): call 
+	  dao_update_sheet_pointer before causing the sheet pointer to
+	  be used
+	(cmd_analysis_tool_redo): ditto
+
 2003-08-04  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Make Python plugin depend on python >= 2.0 and

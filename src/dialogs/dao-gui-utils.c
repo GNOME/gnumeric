@@ -30,6 +30,7 @@
 #include "dao-gui-utils.h"
 
 #include "value.h"
+#include "sheet.h"
 #include "gui-util.h"
 #include "workbook-control-gui.h"
 #include "selection.h"
@@ -227,6 +228,8 @@ parse_output (GenericToolState *state, data_analysis_output_t *dao)
 		value_release (output_range);
 		break;
 	}
+
+	dao->sheet_idx = (dao->sheet != NULL) ? dao->sheet->index_in_wb : -1;
 
 	button = glade_xml_get_widget (state->gui, "autofit_button");
 	if (button != NULL)

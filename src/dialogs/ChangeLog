@@ -1,5 +1,9 @@
 2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* dao-gui-utils.c (parse_output): also set sheet_idx
+
+2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* dialog-scenarios.c: Put scenario specific fields into
 	  ScenariosState rather than GenericToolState and use 
 	  ScenariosState thoughout
