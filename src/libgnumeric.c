@@ -167,31 +167,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	bonobo_activate ();
 #endif
 
-	{
-		Range a, b;
-		GList *l;
-		
-		a.start.col = 1;
-		a.start.row = 1;
-		a.end.col = 1;
-		a.end.row = 1;
-
-		b = a;
-
-		l = range_fragment (&a, &b);
-
-		printf ("Split ranges:\n");
-		for (; l; l = l->next){
-			Range *r = l->data;
-			
-			printf ("  %d %d %d %d\n",
-				r->start.col, r->start.row,
-				r->end.col, r->end.row);
-
-			range_dump (l->data);
-		}
-	}
-	
 	if (!immediate_exit_flag)
 		gtk_main ();
 
