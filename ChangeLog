@@ -1,5 +1,9 @@
 2002-03-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/clipboard.h : PASTE_ALL_TYPES should include comments
+
+2002-03-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/clipboard.c (paste_cell) : paste comment
 	(clipboard_prepend_cell) : store comment info
 	(clipboard_copy_range) : check all cells

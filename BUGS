@@ -52,9 +52,12 @@ Long term breakage
 - Missing undo/redo for
     - Add/duplicate sheet.
     - Remove sheet.
-    - Delete Comment.
     - Freeze panes.
     - Changing summary info.
+
+- Current implementation of undo/redo for comment deletion/clearing uses 
+  sheet_foreach_cell_in_range with only_existing == FALSE, this is an 
+  undesirable performance hit.
 
 - Misc.
     - Add an idle handler at start up to check for availablity of

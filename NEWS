@@ -34,6 +34,7 @@ Andreas:
 	* Improve Sheet-Order dialog
 	* Make add/modify comment undoable
 	* Make comment clearing undoable
+	* Make comment deletion undoable
 
 Jody:
 	* Initial port to gnome2.
