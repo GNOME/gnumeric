@@ -152,6 +152,7 @@ CharsetInfo const charset_trans_array[] = {
 	{N_("Turkisk (Windows-1254)"),            "windows-1254",          LG_TURKISH},
 	{N_("Unicode (UTF-7)"),                   "UTF-7",                 LG_UNICODE},
 	{N_("Unicode (UTF-8)"),                   "UTF-8",                 LG_UNICODE},
+	{N_("Unicode (UTF-9)"),                   "UTF-9",                 LG_UNICODE},
 	{N_("Unicode (UTF-16BE)"),                "UTF-16BE",              LG_UNICODE},
 	{N_("Unicode (UTF-16LE)"),                "UTF-16LE",              LG_UNICODE},
 	{N_("Unicode (UTF-32BE)"),                "UTF-32BE",              LG_UNICODE},
@@ -272,10 +273,16 @@ cs_init (CharmapSelector *cs)
 		while (charset_trans->lgroup != LG_LAST) {
 			GtkWidget *subitem;
 			if (charset_trans->lgroup == lgroup->lgroup) {
-				subitem = gtk_check_menu_item_new_with_label 
-					(_(charset_trans->charset_title));
-				gtk_widget_show (subitem);
-				gtk_menu_append (submenu, subitem);
+				/* Is it supported?  */
+				GIConv ic = g_iconv_open (charset_trans->charset_name,
+							  "UTF-8");
+				if (ic != (GIConv)-1) {
+					g_iconv_close (ic);
+					subitem = gtk_check_menu_item_new_with_label 
+						(_(charset_trans->charset_title));
+					gtk_widget_show (subitem);
+					gtk_menu_append (submenu, subitem);
+				}
 			}
 			charset_trans++;
 		}

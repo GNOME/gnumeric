@@ -1,3 +1,8 @@
+2003-05-13  Morten Welinder  <terra@gnome.org>
+
+	* widget-charmap-selector.c (cs_init): Filter out unsupported
+	encodings.
+
 2003-05-13  Jody Goldberg <jody@gnome.org>
 
 	* widget-charmap-selector.c (cs_class_init) : support being a mnemonic
