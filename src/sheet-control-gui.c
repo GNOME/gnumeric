@@ -41,10 +41,6 @@
 #include "sheet-merge.h"
 #include "ranges.h"
 
-#ifdef ENABLE_BONOBO
-#include <bonobo/bonobo-view-frame.h>
-#endif
-
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdkx.h>
 #include <gal/util/e-util.h>
@@ -576,7 +572,6 @@ scg_init (SheetControlGUI *scg)
 
 	scg->new_object = NULL;
 	scg->current_object = NULL;
-	scg->active_object_frame = NULL;
 	scg->drag_object = NULL;
 }
 
@@ -1457,15 +1452,15 @@ scg_object_destroy_control_points (SheetControlGUI *scg)
 static void
 scg_object_stop_editing (SheetControlGUI *scg, SheetObject *so)
 {
+	GtkObject *view;
+
 	if (so != NULL) {
 		if (so == scg->current_object) {
+			view = sheet_object_get_view (so, scg);
 			scg_object_destroy_control_points (scg);
 			scg->current_object = NULL;
 			if (SO_CLASS (so)->set_active != NULL)
-				SO_CLASS (so)->set_active (so, FALSE);
-#ifdef ENABLE_BONOBO
-			scg_deactivate_view_frame (scg);
-#endif
+				SO_CLASS (so)->set_active (so, view, FALSE);
 		}
 	}
 }
@@ -1517,14 +1512,15 @@ scg_mode_edit (SheetControl *sc)
 void
 scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 {
-	GtkObject *view = sheet_object_get_view (so, scg);
+	GtkObject *view;
 
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
 	if (scg_mode_clear (scg)) {
+		view = sheet_object_get_view (so, scg);
 		scg->current_object = so;
 		if (SO_CLASS (so)->set_active != NULL)
-			SO_CLASS (so)->set_active (so, TRUE);
+			SO_CLASS (so)->set_active (so, view, TRUE);
 		scg_cursor_visible (scg, FALSE);
 		scg_object_update_bbox (scg, so, GNOME_CANVAS_ITEM(view), NULL);
 	}
@@ -2677,34 +2673,6 @@ scg_colrow_resize_move (SheetControlGUI *scg,
 	for (i = scg->active_panes; i-- > 0 ; )
 		gnumeric_pane_colrow_resize_move (scg->pane + i, is_cols, pos);
 }
-
-#ifdef ENABLE_BONOBO
-void
-scg_activate_view_frame (SheetControlGUI *scg, BonoboViewFrame *view_frame)
-{
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
-
-	/* Deactivate activated frame (if any) */
-	scg_deactivate_view_frame (scg); 
-
-	/* Activate given frame */
-	bonobo_view_frame_view_activate (view_frame);
-	bonobo_view_frame_set_covered (view_frame, FALSE);
-	scg->active_object_frame = view_frame;
-}
-
-void
-scg_deactivate_view_frame (SheetControlGUI *scg)
-{
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
-	
-	if (scg->active_object_frame) {
-		bonobo_view_frame_view_deactivate (scg->active_object_frame);
-		bonobo_view_frame_set_covered (scg->active_object_frame, TRUE);
-		scg->active_object_frame = NULL;
-	}
-}
-#endif
 
 static void
 scg_class_init (GtkObjectClass *object_class)

@@ -1,3 +1,19 @@
+2001-07-20  Lutz Müller  <urc8@rz.uni-karlsruhe.de>
+
+	* src/sheet-object-impl.h: Add the view as parameter to the virtual
+	method set_active.
+	* src/sheet-object-container.c:
+	(sheet_object_container_set_active): New. Overrides above virtual and 
+	handles (de)activation of view frames.
+	* src/sheet-control-gui-priv.h: Do not let the SheetControlGUI know
+	about an active_object_frame - remove this variable.
+	* src/sheet-control-gui.[c,h]:
+	(scg_activate_view_frame),
+	(scg_deactivate_view_frame): Removed. Now handled by the objects
+	themselves through set_active virtual method.
+	(scg_object_stop_editing),
+	(scg_mode_edit_object): Adjust parameters for virtual method set_active.
+	
 2001-07-18  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/dialogs/dialog-function-wizard.c (formula_guru_init_args): Use

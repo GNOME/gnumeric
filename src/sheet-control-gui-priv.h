@@ -25,7 +25,6 @@ struct _SheetControlGUI {
 	SheetObject	 *drag_object;
 	double		  object_coords [4];
 	double		  last_x, last_y;
-	void        	 *active_object_frame;	/* FIXME remove this */
 	GnomeCanvasItem  *control_points [9]; /* Control points for the current item */
 
 	/* Keep track of a rangeselector state */

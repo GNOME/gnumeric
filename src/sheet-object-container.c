@@ -36,7 +36,6 @@ cb_user_activation_request (BonoboViewFrame *view_frame, GtkObject *so_view)
 	SheetControlGUI *scg = sheet_object_view_control (so_view);
 	SheetObject *so = sheet_object_view_obj (so_view);
 
-	scg_activate_view_frame (scg, view_frame);
 	scg_mode_edit_object (scg, so);
 
 	return FALSE;
@@ -108,6 +107,33 @@ sheet_object_container_update_bounds (SheetObject *so, GtkObject *view,
 }
 
 static void
+sheet_object_container_set_active (SheetObject *so, GtkObject *view, 
+				   gboolean active)
+{
+	BonoboViewFrame *view_frame;
+
+	g_return_if_fail (IS_SHEET_OBJECT_CONTAINER (so));
+
+	/*
+	 * We need to ref the view_frame on activation because the view
+	 * can get destroyed. Sure, we will be called during destruction, but
+	 * at this point, the view_frame will already be gone and we won't 
+	 * be able to correcly deactivate.
+	 */
+	view_frame = gtk_object_get_data (GTK_OBJECT (view), "view_frame");
+
+	if (active) {
+		bonobo_object_ref (BONOBO_OBJECT (view_frame));
+		bonobo_view_frame_view_activate (view_frame);
+		bonobo_view_frame_set_covered (view_frame, FALSE);
+	} else {
+		bonobo_view_frame_view_deactivate (view_frame);
+		bonobo_view_frame_set_covered (view_frame, TRUE);
+		bonobo_object_unref (BONOBO_OBJECT (view_frame));
+	}
+}
+
+static void
 sheet_object_container_class_init (GtkObjectClass *object_class)
 {
 	SheetObjectClass *so_class;
@@ -121,6 +147,7 @@ sheet_object_container_class_init (GtkObjectClass *object_class)
 	so_class = SHEET_OBJECT_CLASS (object_class);
 	so_class->new_view 	= sheet_object_container_new_view;
 	so_class->update_bounds = sheet_object_container_update_bounds;
+	so_class->set_active    = sheet_object_container_set_active;
 }
 
 SheetObject *

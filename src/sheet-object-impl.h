@@ -54,6 +54,7 @@ typedef struct {
 				      GtkObject		*obj_view,
 				      SheetControlGUI	*s_control);
 	void           (*set_active) (SheetObject	*so,
+				      GtkObject         *obj_view,
 				      gboolean		val);
 	gboolean	 (*read_xml) (SheetObject	*so,
 				      XmlParseContext const *ctxt,
