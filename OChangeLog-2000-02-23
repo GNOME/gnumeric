@@ -1,3 +1,8 @@
+2000-01-15  Morten Welinder  <terra@diku.dk>
+
+	* src/functions/fn-math.c (range_bogusproduct): New function.
+	(gnumeric_product): Use it.
+
 2000-01-14  Morten Welinder  <terra@diku.dk>
 
 	* configure.in (GTK+): Really do use base 1000.

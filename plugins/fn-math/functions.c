@@ -1508,11 +1508,22 @@ static char *help_product = {
 	   "@SEEALSO=SUM, COUNT")
 };
 
+static int
+range_bogusproduct (const float_t *xs, int n, float_t *res)
+{
+	if (n == 0) {
+		*res = 0;  /* Severe Excel brain damange.  */
+		return 0;
+	} else
+		return range_product (xs, n, res);
+}
+
+
 static Value *
 gnumeric_product (FunctionEvalInfo *ei, GList *nodes)
 {
 	return float_range_function (nodes, ei,
-				     range_product,
+				     range_bogusproduct,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
