@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.34\n"
-"POT-Creation-Date: 1999-09-22 18:27-0500\n"
+"POT-Creation-Date: 1999-09-23 13:37-0500\n"
 "PO-Revision-Date: 1999-09-16 22:08+02:00\n"
 "Last-Translator: Birger langkjer <birger.langkjer@image.dk>\n"
 "Language-Team: Danish <sslug-locale@sslug.dk>\n"
@@ -7101,6 +7101,7 @@ msgid "Plugin is still in use.\n"
 msgstr "Plugin er stadig i brug.\n"
 
 #: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
+#: src/print-info.c:269
 msgid "Page &[PAGE]"
 msgstr "Side &[PAGE]"
 
@@ -7118,12 +7119,9 @@ msgid "&[DATE]"
 msgstr "&[DATE]"
 
 #: src/print-info.c:268
-msgid "Sheet &[NUM]"
-msgstr "Ark &[NUM]"
-
-#: src/print-info.c:269
-msgid "Page &[NUM]"
-msgstr "Side &[NUM]"
+#, fuzzy
+msgid "Sheet &[PAGE]"
+msgstr "Side &[PAGE]"
 
 #: src/print-info.c:419
 msgid "pts"
@@ -7311,16 +7309,16 @@ msgstr "Række: %d"
 msgid "Column: %s"
 msgstr "Kolonne: %s"
 
-#: src/sheet.c:997
+#: src/sheet.c:995
 msgid "Internal ERROR"
 msgstr "Intern FEJL"
 
-#: src/sheet.c:3767
+#: src/sheet.c:3765
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Kan ikke aktivere objektet %s"
 
-#: src/sheet.c:3779
+#: src/sheet.c:3777
 msgid "I was unable to the bind object"
 msgstr "Kan ikke binde objektet"
 
@@ -7891,9 +7889,15 @@ msgstr ""
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr ""
 
-#: src/xml-io.c:2274
+#: src/xml-io.c:2277
 msgid "Old Gnumeric XML file format"
 msgstr "Gammelt Gnumeric XML-filformat"
+
+#~ msgid "Sheet &[NUM]"
+#~ msgstr "Ark &[NUM]"
+
+#~ msgid "Page &[NUM]"
+#~ msgstr "Side &[NUM]"
 
 #~ msgid "Zoom"
 #~ msgstr "Zoom"

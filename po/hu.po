@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-09-22 18:27-0500\n"
+"POT-Creation-Date: 1999-09-23 13:37-0500\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
 "Language-Team: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
@@ -8101,6 +8101,7 @@ msgid "Plugin is still in use.\n"
 msgstr ""
 
 #: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
+#: src/print-info.c:269
 msgid "Page &[PAGE]"
 msgstr ""
 
@@ -8118,12 +8119,9 @@ msgid "&[DATE]"
 msgstr ""
 
 #: src/print-info.c:268
-msgid "Sheet &[NUM]"
-msgstr ""
-
-#: src/print-info.c:269
-msgid "Page &[NUM]"
-msgstr ""
+#, fuzzy
+msgid "Sheet &[PAGE]"
+msgstr "M_unkalap"
 
 #: src/print-info.c:419
 #, fuzzy
@@ -8332,17 +8330,17 @@ msgstr "Sor: %d"
 msgid "Column: %s"
 msgstr "Oszlop: %s"
 
-#: src/sheet.c:997
+#: src/sheet.c:995
 #, fuzzy
 msgid "Internal ERROR"
 msgstr "Szintaktikai hiba"
 
-#: src/sheet.c:3767
+#: src/sheet.c:3765
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:3779
+#: src/sheet.c:3777
 msgid "I was unable to the bind object"
 msgstr ""
 
@@ -8940,7 +8938,7 @@ msgstr ""
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr ""
 
-#: src/xml-io.c:2274
+#: src/xml-io.c:2277
 msgid "Old Gnumeric XML file format"
 msgstr ""
 

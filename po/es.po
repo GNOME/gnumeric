@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.35\n"
-"POT-Creation-Date: 1999-09-22 18:27-0500\n"
+"POT-Creation-Date: 1999-09-23 13:37-0500\n"
 "PO-Revision-Date: 1998-11-25 18:01:18+0100\n"
 "Last-Translator: Pablo Saratxaga <srtxg@chanae.alphanet.ch>\n"
 "Language-Team: \n"
@@ -8407,6 +8407,7 @@ msgid "Plugin is still in use.\n"
 msgstr "La extensión todavía está en uso\n"
 
 #: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
+#: src/print-info.c:269
 msgid "Page &[PAGE]"
 msgstr "Página &[PAGE]"
 
@@ -8424,12 +8425,9 @@ msgid "&[DATE]"
 msgstr "&[DATE]"
 
 #: src/print-info.c:268
-msgid "Sheet &[NUM]"
-msgstr "Hoja &[NUM]"
-
-#: src/print-info.c:269
-msgid "Page &[NUM]"
-msgstr "Página &[NUM]"
+#, fuzzy
+msgid "Sheet &[PAGE]"
+msgstr "Página &[PAGE]"
 
 #: src/print-info.c:419
 msgid "pts"
@@ -8623,16 +8621,16 @@ msgstr "Renglón: %d"
 msgid "Column: %s"
 msgstr "Columna: %s"
 
-#: src/sheet.c:997
+#: src/sheet.c:995
 msgid "Internal ERROR"
 msgstr "ERROR interno"
 
-#: src/sheet.c:3767
+#: src/sheet.c:3765
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "No se pudo activar el objeto %s"
 
-#: src/sheet.c:3779
+#: src/sheet.c:3777
 msgid "I was unable to the bind object"
 msgstr "No se pudo ligar el objeto"
 
@@ -9205,9 +9203,15 @@ msgstr ""
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr ""
 
-#: src/xml-io.c:2274
+#: src/xml-io.c:2277
 msgid "Old Gnumeric XML file format"
 msgstr "Antiguo formato de archivo XML para Gnumeric"
+
+#~ msgid "Sheet &[NUM]"
+#~ msgstr "Hoja &[NUM]"
+
+#~ msgid "Page &[NUM]"
+#~ msgstr "Página &[NUM]"
 
 #~ msgid "Zoom"
 #~ msgstr "Amplificar"

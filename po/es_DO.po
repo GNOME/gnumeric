@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.27\n"
-"POT-Creation-Date: 1999-09-22 18:27-0500\n"
+"POT-Creation-Date: 1999-09-23 13:37-0500\n"
 "PO-Revision-Date: 1998-11-25 18:01:18+0100\n"
 "Last-Translator: Pablo Saratxaga <srtxg@chanae.alphanet.ch>\n"
 "Language-Team: \n"
@@ -7252,6 +7252,7 @@ msgid "Plugin is still in use.\n"
 msgstr ""
 
 #: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
+#: src/print-info.c:269
 msgid "Page &[PAGE]"
 msgstr ""
 
@@ -7269,11 +7270,7 @@ msgid "&[DATE]"
 msgstr ""
 
 #: src/print-info.c:268
-msgid "Sheet &[NUM]"
-msgstr ""
-
-#: src/print-info.c:269
-msgid "Page &[NUM]"
+msgid "Sheet &[PAGE]"
 msgstr ""
 
 #: src/print-info.c:419
@@ -7461,16 +7458,16 @@ msgstr ""
 msgid "Column: %s"
 msgstr ""
 
-#: src/sheet.c:997
+#: src/sheet.c:995
 msgid "Internal ERROR"
 msgstr ""
 
-#: src/sheet.c:3767
+#: src/sheet.c:3765
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:3779
+#: src/sheet.c:3777
 msgid "I was unable to the bind object"
 msgstr ""
 
@@ -8031,6 +8028,6 @@ msgstr ""
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr ""
 
-#: src/xml-io.c:2274
+#: src/xml-io.c:2277
 msgid "Old Gnumeric XML file format"
 msgstr ""

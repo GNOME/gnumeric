@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.35\n"
-"POT-Creation-Date: 1999-09-22 18:27-0500\n"
+"POT-Creation-Date: 1999-09-23 13:37-0500\n"
 "PO-Revision-Date: 1998-12-05 07:00+09:00\n"
 "Last-Translator: Mitsuru Oka <95i44@is.kochi-u.ac.jp>\n"
 "Language-Team: \n"
@@ -8286,6 +8286,7 @@ msgid "Plugin is still in use.\n"
 msgstr "プラグインはまだ使用中です。\n"
 
 #: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
+#: src/print-info.c:269
 msgid "Page &[PAGE]"
 msgstr ""
 
@@ -8303,12 +8304,9 @@ msgid "&[DATE]"
 msgstr ""
 
 #: src/print-info.c:268
-msgid "Sheet &[NUM]"
-msgstr ""
-
-#: src/print-info.c:269
-msgid "Page &[NUM]"
-msgstr ""
+#, fuzzy
+msgid "Sheet &[PAGE]"
+msgstr "シート(_S)"
 
 #: src/print-info.c:419
 #, fuzzy
@@ -8516,17 +8514,17 @@ msgstr "行: %d"
 msgid "Column: %s"
 msgstr "列: %s"
 
-#: src/sheet.c:997
+#: src/sheet.c:995
 #, fuzzy
 msgid "Internal ERROR"
 msgstr "構文エラーです"
 
-#: src/sheet.c:3767
+#: src/sheet.c:3765
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:3779
+#: src/sheet.c:3777
 msgid "I was unable to the bind object"
 msgstr ""
 
@@ -9121,7 +9119,7 @@ msgstr ""
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr ""
 
-#: src/xml-io.c:2274
+#: src/xml-io.c:2277
 msgid "Old Gnumeric XML file format"
 msgstr ""
 

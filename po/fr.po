@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-09-23 17:20+0200\n"
+"POT-Creation-Date: 1999-09-23 13:37-0500\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Vincent Renardias <vincent@ldsol.com>\n"
 "Language-Team: GNOME French Team <gnomefr@gnomefr.traduc.org>\n"
@@ -4520,7 +4520,6 @@ msgid ""
 "@SYNTAX=INFO()\n"
 "@DESCRIPTION=INFO returns information about the current operating "
 "environment. This function is Excel compatible. \n"
-"Cette fonction est compatible avec Excel.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -9702,6 +9701,7 @@ msgid "Plugin is still in use.\n"
 msgstr "Le plugin est toujours en cours d'utilisation.\n"
 
 #: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
+#: src/print-info.c:269
 msgid "Page &[PAGE]"
 msgstr "Page &[PAGE]"
 
@@ -9719,12 +9719,9 @@ msgid "&[DATE]"
 msgstr "&[DATE]"
 
 #: src/print-info.c:268
-msgid "Sheet &[NUM]"
-msgstr "Feuille &[NUM]"
-
-#: src/print-info.c:269
-msgid "Page &[NUM]"
-msgstr "Page &[NUM]"
+#, fuzzy
+msgid "Sheet &[PAGE]"
+msgstr "Page &[PAGE]"
 
 #: src/print-info.c:419
 msgid "pts"
@@ -9912,16 +9909,16 @@ msgstr "Ligne: %d"
 msgid "Column: %s"
 msgstr "Colonne: %s"
 
-#: src/sheet.c:996
+#: src/sheet.c:995
 msgid "Internal ERROR"
 msgstr "Erreur interne"
 
-#: src/sheet.c:3766
+#: src/sheet.c:3765
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Je n'ai pas pu activer l'objet %s"
 
-#: src/sheet.c:3778
+#: src/sheet.c:3777
 msgid "I was unable to the bind object"
 msgstr "Je n'ai pas pu associer l'objet"
 
@@ -10498,6 +10495,12 @@ msgstr ""
 #: src/xml-io.c:2277
 msgid "Old Gnumeric XML file format"
 msgstr "Ancien format de fichier Gnumeric XML"
+
+#~ msgid "Sheet &[NUM]"
+#~ msgstr "Feuille &[NUM]"
+
+#~ msgid "Page &[NUM]"
+#~ msgstr "Page &[NUM]"
 
 #~ msgid "Zoom"
 #~ msgstr "Zoom"

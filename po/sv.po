@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.31\n"
-"POT-Creation-Date: 1999-09-22 18:27-0500\n"
+"POT-Creation-Date: 1999-09-23 13:37-0500\n"
 "PO-Revision-Date: 1999-09-08 20:00+0200\n"
 "Last-Translator: Richard Hult <rhult@hem2.passagen.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -8512,6 +8512,7 @@ msgid "Plugin is still in use.\n"
 msgstr "Tillägget används fortfarande.\n"
 
 #: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
+#: src/print-info.c:269
 msgid "Page &[PAGE]"
 msgstr "Sida &[PAGE]"
 
@@ -8529,12 +8530,9 @@ msgid "&[DATE]"
 msgstr "&[DATE]"
 
 #: src/print-info.c:268
-msgid "Sheet &[NUM]"
-msgstr "Sheet &[NUM]"
-
-#: src/print-info.c:269
-msgid "Page &[NUM]"
-msgstr "Sida &[NUM]"
+#, fuzzy
+msgid "Sheet &[PAGE]"
+msgstr "Sida &[PAGE]"
 
 #: src/print-info.c:419
 msgid "pts"
@@ -8722,16 +8720,16 @@ msgstr "Rad: %d"
 msgid "Column: %s"
 msgstr "Kolumn: %s"
 
-#: src/sheet.c:997
+#: src/sheet.c:995
 msgid "Internal ERROR"
 msgstr "Internt FEL"
 
-#: src/sheet.c:3767
+#: src/sheet.c:3765
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Kunde inte aktivera objekt %s"
 
-#: src/sheet.c:3779
+#: src/sheet.c:3777
 msgid "I was unable to the bind object"
 msgstr "Kunde inte binda objektet"
 
@@ -9302,9 +9300,15 @@ msgstr ""
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr ""
 
-#: src/xml-io.c:2274
+#: src/xml-io.c:2277
 msgid "Old Gnumeric XML file format"
 msgstr "Gammalt Gnumeric XML filformat"
+
+#~ msgid "Sheet &[NUM]"
+#~ msgstr "Sheet &[NUM]"
+
+#~ msgid "Page &[NUM]"
+#~ msgstr "Sida &[NUM]"
 
 #~ msgid "Zoom"
 #~ msgstr "Zoom"

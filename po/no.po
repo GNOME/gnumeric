@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.36\n"
-"POT-Creation-Date: 1999-09-23 20:00+0200\n"
+"POT-Creation-Date: 1999-09-23 13:37-0500\n"
 "PO-Revision-Date: 1999-09-23 20:00+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -9215,6 +9215,7 @@ msgid "Plugin is still in use.\n"
 msgstr "Tillegget er fremdeles i bruk.\n"
 
 #: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
+#: src/print-info.c:269
 msgid "Page &[PAGE]"
 msgstr "Side &[SIDE]"
 
@@ -9232,12 +9233,9 @@ msgid "&[DATE]"
 msgstr "&[DATO]"
 
 #: src/print-info.c:268
-msgid "Sheet &[NUM]"
-msgstr "Ark &[NUM]"
-
-#: src/print-info.c:269
-msgid "Page &[NUM]"
-msgstr "Side &[NUM]"
+#, fuzzy
+msgid "Sheet &[PAGE]"
+msgstr "Side &[SIDE]"
 
 #: src/print-info.c:419
 msgid "pts"
@@ -9958,7 +9956,8 @@ msgstr "Tusenskilletegn"
 
 #: src/workbook-format-toolbar.c:428
 msgid "Sets the format of the selected cells to include a thousands separator"
-msgstr "Setter formateringen for valgte celler til å inkludere et tusenskilletegn"
+msgstr ""
+"Setter formateringen for valgte celler til å inkludere et tusenskilletegn"
 
 #: src/workbook-format-toolbar.c:431
 msgid "Add decimals"
@@ -9994,7 +9993,8 @@ msgstr "Bakgrunn"
 
 #: src/workbook-cmd-format.c:83
 msgid "You entered an invalid column width value.  It must be bigger than 0"
-msgstr "Du skrev inn en ugyldig verdi for kolonnebredde. Den må være større enn 0"
+msgstr ""
+"Du skrev inn en ugyldig verdi for kolonnebredde. Den må være større enn 0"
 
 #: src/workbook-cmd-format.c:162
 msgid "You entered an invalid row height value.  It must be bigger than 0"
@@ -10003,3 +10003,9 @@ msgstr ""
 #: src/xml-io.c:2277
 msgid "Old Gnumeric XML file format"
 msgstr "Gammelt Gnumeric XML filformat"
+
+#~ msgid "Sheet &[NUM]"
+#~ msgstr "Ark &[NUM]"
+
+#~ msgid "Page &[NUM]"
+#~ msgstr "Side &[NUM]"
