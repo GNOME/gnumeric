@@ -289,6 +289,8 @@ colrow_compute_pts_from_pixels (Sheet const *sheet, ColRowInfo *info, gboolean c
 	    application_display_dpi_get (horizontal) / 72.;
 
 	info->size_pts = info->size_pixels / scale;
+
+	g_return_if_fail (info->size_pts >= info->margin_a + info->margin_b);
 }
 
 struct resize_colrow {

@@ -1091,7 +1091,7 @@ item_cursor_tip_setstatus (ItemCursor *item_cursor)
 }
 
 static gboolean
-cb_move_cursor (SheetControlGUI *scg, int col, int row, gpointer user_data)
+cb_move_cursor (GnumericSheet *gsheet, int col, int row, gpointer user_data)
 {
 	ItemCursor *item_cursor = user_data;
 	int const w = (item_cursor->pos.end.col - item_cursor->pos.start.col);
@@ -1126,45 +1126,14 @@ cb_move_cursor (SheetControlGUI *scg, int col, int row, gpointer user_data)
 
 static void
 item_cursor_handle_motion (ItemCursor *item_cursor, GdkEvent *event,
-			   SheetControlGUISlideHandler slide_handler)
+			   GnumericSheetSlideHandler slide_handler)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_cursor)->canvas;
-	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
-	int x, y;
-	int left, top;
-	int width, height;
-	int col, row;
 
-	gnome_canvas_w2c (canvas, event->button.x, event->button.y, &x, &y);
-	gnome_canvas_get_scroll_offsets (canvas, &left, &top);
-
-	width = GTK_WIDGET (canvas)->allocation.width;
-	height = GTK_WIDGET (canvas)->allocation.height;
-
-	col = gnumeric_sheet_find_col (gsheet, x, NULL);
-	row = gnumeric_sheet_find_row (gsheet, y, NULL);
-
-	if (x < left || y < top || x >= left + width || y >= top + height) {
-		int dx = 0, dy = 0;
-
-		if (x < left)
-			dx = x - left;
-		else if (x >= left + width)
-			dx = x - width - left;
-
-		if (y < top)
-			dy = y - top;
-		else if (y >= top + height)
-			dy = y - height - top;
-
-		if (scg_start_sliding (item_cursor->scg,
-					      slide_handler, item_cursor,
-					      col, row, dx, dy))
-			return;
-	}
-	scg_stop_sliding (item_cursor->scg);
-
-	(*slide_handler) (item_cursor->scg, col, row, item_cursor);
+	gnumeric_sheet_handle_motion (GNUMERIC_SHEET (canvas),
+				      canvas, &event->motion,
+				      TRUE, TRUE, TRUE,
+				      slide_handler, item_cursor);
 }
 
 static gint
@@ -1176,7 +1145,7 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_RELEASE:
 		/* Note : see comment below, and bug 30507 */
 		if ((int)event->button.button == ic->drag_button) {
-			scg_stop_sliding (ic->scg);
+			gnumeric_sheet_stop_sliding (GNUMERIC_SHEET (item->canvas));
 			gnome_canvas_item_ungrab (item, event->button.time);
 			item_cursor_do_drop (ic, (GdkEventButton *) event);
 		}
@@ -1200,7 +1169,7 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 }
 
 static gboolean
-cb_autofill_scroll (SheetControlGUI *scg, int col, int row, gpointer user_data)
+cb_autofill_scroll (GnumericSheet *gsheet, int col, int row, gpointer user_data)
 {
 	ItemCursor *item_cursor = user_data;
 	int bottom = item_cursor->base.row + item_cursor->base_rows;
@@ -1236,14 +1205,12 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 	
 	switch (event->type){
 
-	case GDK_BUTTON_RELEASE: {
-		scg_stop_sliding (item_cursor->scg);
+	case GDK_BUTTON_RELEASE:
+		gnumeric_sheet_stop_sliding (GNUMERIC_SHEET (item->canvas));
 
-		/*
-		 * We flush after the ungrab, to have the ungrab take
-		 * effect inmediately (the copy operation might take
-		 * long, and we do not want the mouse to be grabbed
-		 * all this time).
+		/* We flush after the ungrab, to have the ungrab take effect
+		 * immediately (the fill operation might take a while, and we
+		 * do not want the mouse to be grabbed the entire time).
 		 */
 		gnome_canvas_item_ungrab (item, event->button.time);
 		gdk_flush ();
@@ -1257,7 +1224,6 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		gtk_object_destroy (GTK_OBJECT (item));
 
 		return TRUE;
-	}
 
 	case GDK_MOTION_NOTIFY:
 		item_cursor_handle_motion (item_cursor, event, &cb_autofill_scroll);

@@ -1,8 +1,8 @@
 #ifndef GNUMERIC_SHEET_CONTROL_GUI_H
 #define GNUMERIC_SHEET_CONTROL_GUI_H
 
-#include "sheet-control-priv.h"
 #include "gui-gnumeric.h"
+#include "sheet-control.h"
 
 #define SHEET_CONTROL_GUI_TYPE        (sheet_control_gui_get_type ())
 #define SHEET_CONTROL_GUI(obj)        (GTK_CHECK_CAST((obj), SHEET_CONTROL_GUI_TYPE, SheetControlGUI))
@@ -13,14 +13,6 @@
 
 GtkType sheet_control_gui_get_type (void);
 SheetControlGUI *sheet_control_gui_new      (Sheet *sheet);
-
-typedef gboolean (*SheetControlGUISlideHandler) (SheetControlGUI *scg, int col, int row,
-						 gpointer user_data);
-void	 scg_stop_sliding	      (SheetControlGUI *scg);
-gboolean scg_start_sliding	      (SheetControlGUI *scg,
-				       SheetControlGUISlideHandler handler,
-				       gpointer user_data,
-				       int col, int row, int dx, int dy);
 
 void scg_take_focus             (SheetControlGUI *scg);
 

@@ -1,3 +1,83 @@
+2001-07-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_draw) : Draw bound lines for panes.
+
+	* src/gnumeric-pane.c (gnumeric_pane_set_bounds) : new function.
+
+2001-07-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-control-gui.c (scg_resize) : Federico wins a dinner for
+	  pointing out the source of the bug with frozen panes starting
+	  somewhere other than 0,0.  It seems that scroll_regions are more
+	  powerful than I thought.
+	(scg_init) : the slider handling is elsewhere.
+	(bar_set_top_row) : remove debug spewage.
+	(scg_stop_sliding) : move to gnumeric_sheet.
+	(scg_sliding_callback) : ditto.
+	(scg_start_sliding) : ditto.
+	(cb_slide_handler) : signature change for slide callbacks.
+	(cb_control_point_event) : changes for panes.
+
+	* src/item-grid.c (cb_extend_cell_range) : signature change for slide
+	  callbacks.
+	(cb_extend_expr_range) : ditto.
+	(item_grid_event) : use gnumeric_sheet_handle_motion.
+	(item_grid_finalize) : switch over from destroy.
+	(item_grid_class_init) : add bound args.
+	(item_grid_set_arg) : ditto.
+	(item_grid_draw) : begin using the bound arg.
+	(item_grid_init) : init the bound arg to fullsheet.
+	(item_grid_realize) : Add an extra GC for drawing the bounding lines.
+	(item_grid_unrealize) : release the new GC.
+
+	* src/item-cursor.c (cb_move_cursor) : signature change for slide
+	  callbacks.
+	(cb_autofill_scroll) : ditto.
+	(item_cursor_handle_motion) : use gnumeric_sheet_handle_motion.
+
+	* src/item-bar.c (item_bar_draw) : remove debug spewage.
+	(cb_extend_selection) : signature change for slide callbacks.
+	(item_bar_event) : use gnumeric_sheet_handle_motion and simplify the
+	  code alot.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_init) : init the sliding members.
+	  The sliding used to be managed by the scg, but it is now handled
+	  with the gsheet (could just as easily be gpane) becuase scrolling
+	  panes needs to know _which_ pane is scrolling.
+	(gsheet_compute_visible_region) : remove the debug spewage.
+	(gnumeric_sheet_stop_sliding) : moved from scg_stop_sliding.
+	(gsheet_sliding_callback) : moved from scg_sliding_callback and
+	  revamped to support frozen panes.
+	(gnumeric_sheet_handle_motion) : new routine to merge in the old
+	  scg_start_sliding and add a pile of replicated code from all the
+	  different users of the sliding mechanism.
+	(gnumeric_sheet_new) : take max col/row as arg.
+
+	* src/gnumeric-pane.c (canvas_bar_adjustment_changed) : delete debug routine.
+	(gnumeric_pane_header_init) : no need for adjust_size handler.
+
+2001-07-10  Jody Goldberg <jgoldberg@home.com>
+
+	* idl/Makefile.am : improve evo handling.
+
+	* configure.in : Fix definition of ENABLE_EVOLUTION in makefiles.
+
+2001-07-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c (item_bar_event) : clip the minimum col/row size at
+	  the margins.
+
+	* src/sheet.c (colrow_compute_pts_from_pixels) : add some sanity
+	  checking.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_handle_motion) : new function.
+	  begin the process of getting enough information to scroll
+	  effectively with frozen panes.  Also merge alot of similar code.
+
+	* src/item-bar.c (item_bar_event) : Use gnumeric_sheet_handle_motion.
+	* src/item-cursor.c (item_cursor_handle_motion) : ditto.
+	* src/sheet-control-gui.c (cb_slide_handler) : ditto.
+
 2001-07-11  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/workbook-control-gui.c (wbcg_menu_state_update): Fixed path for

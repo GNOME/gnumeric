@@ -13,4 +13,7 @@ typedef struct _GnumericPane		GnumericPane;
 typedef struct _SheetControlGUI		SheetControlGUI;
 typedef struct _WorkbookControlGUI	WorkbookControlGUI;
 
+typedef gboolean (*GnumericSheetSlideHandler) (GnumericSheet *gsheet,
+					       int col, int row,
+					       gpointer user_data);
 #endif /* GUI_GNUMERIC_H */

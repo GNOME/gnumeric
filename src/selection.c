@@ -24,7 +24,7 @@
 #include "cell.h"
 #include "sheet-merge.h"
 #include "sheet-private.h"
-#include "sheet-control-gui.h"
+#include "sheet-control.h"
 #include "gnumeric-util.h"
 
 /*

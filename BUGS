@@ -27,8 +27,6 @@ Release Critical
 
 Pending Patches
 ---------------
-	- almer : csv import with defaults
-	        : auto paren close
 
 Long term breakage
 ------------------

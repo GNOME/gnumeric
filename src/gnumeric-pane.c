@@ -11,31 +11,12 @@
 #include <gnumeric-sheet.h>
 #include <item-bar.h>
 #include <sheet-control-gui.h>
+#include <ranges.h>
 
 static void
 canvas_bar_realized (GtkWidget *widget, gpointer ignored)
 {
 	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
-}
-
-static void
-canvas_bar_adjustment_changed (GtkAdjustment *adjustment, gpointer data)
-{
-	GnumericPane *pane = data;
-#if 0
-	Sheet *sheet = sc_sheet (SHEET_CONTROL (pane->gsheet->scg));
-	CellPos const *tl = &sheet->frozen.top_left;
-	gnumeric_sheet_set_top_left (pane->gsheet,
-				     tl->col, tl->row, FALSE);
-	bar_set_top_row (pane->gsheet, pane->gsheet->row.first);
-	bar_set_left_col (pane->gsheet, pane->gsheet->col.first);
-#endif
-	int left, top;
-	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (pane->gsheet), &left, &top);
-	printf ("o2 0x%p (0x%p) = %d -> %g\n",
-		pane->row.canvas,
-		gtk_layout_get_vadjustment (GTK_LAYOUT (pane->row.canvas)),
-		top, adjustment->value);
 }
 
 static void
@@ -75,9 +56,6 @@ gnumeric_pane_header_init (GnumericPane *pane, gboolean is_col_header)
 	item_bar_calc_size (ITEM_BAR (item));
 	gtk_signal_connect (GTK_OBJECT (canvas), "realize",
 		canvas_bar_realized, NULL);
-	if (pane->index == 2 && !is_col_header)
-		gtk_signal_connect (GTK_OBJECT (gtk_layout_get_vadjustment (GTK_LAYOUT (canvas))), "value_changed",
-			canvas_bar_adjustment_changed, pane);
 }
 
 void
@@ -86,6 +64,7 @@ gnumeric_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 {
 	pane->gsheet = gnumeric_sheet_new (scg, pane);
 	pane->index = index;
+
 	if (headers) {
 		gnumeric_pane_header_init (pane, TRUE);
 		gnumeric_pane_header_init (pane, FALSE);
@@ -109,6 +88,22 @@ gnumeric_pane_release (GnumericPane *pane)
 		gtk_object_destroy (GTK_OBJECT (pane->row.canvas));
 		pane->row.canvas = NULL;
 	}
+}
+
+void
+gnumeric_pane_set_bounds (GnumericPane *pane,
+			  int start_col, int start_row,
+			  int end_col, int end_row)
+{
+	Range r;
+
+	g_return_if_fail (pane != NULL);
+	g_return_if_fail (pane->gsheet != NULL);
+
+	range_init (&r, start_col, start_row, end_col, end_row);
+	gnome_canvas_item_set (pane->gsheet->item_grid,
+			       "ItemGrid::Bound", &r,
+			       NULL);
 }
 
 void

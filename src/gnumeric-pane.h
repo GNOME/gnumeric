@@ -23,6 +23,9 @@ struct _GnumericPane {
 void gnumeric_pane_init		(GnumericPane *pane, SheetControlGUI *scg,
 				 gboolean headers, int index);
 void gnumeric_pane_release	(GnumericPane *pane);
+void gnumeric_pane_set_bounds	(GnumericPane *pane,
+				 int start_col, int start_row,
+				 int end_col, int end_row);
 
 void gnumeric_pane_colrow_resize_end	(GnumericPane *pane);
 void gnumeric_pane_colrow_resize_start	(GnumericPane *pane,

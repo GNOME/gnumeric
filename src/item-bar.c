@@ -398,16 +398,6 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 		int total = 1 + gsheet->row_offset.first - y;
 		int row = gsheet->row.first;
 
-		if (gsheet->pane->index == 2) {
-			int left, top;
-			gnome_canvas_get_scroll_offsets (GNOME_CANVAS (canvas),
-							 &left, &top);
-			printf ("o1 0x%p (0x%p) = %d\n",
-				canvas,
-				gtk_layout_get_vadjustment (GTK_LAYOUT (canvas)),
-				top);
-		}
-
 		rect.x = ib->indent - x;
 		rect.width = ib->cell_width;
 
@@ -645,11 +635,13 @@ item_bar_end_resize (ItemBar *ib, int new_size)
 }
 
 static gboolean
-cb_extend_selection (SheetControlGUI *scg, int col, int row, gpointer user_data)
+cb_extend_selection (GnumericSheet *gsheet,
+		     int col, int row, gpointer user_data)
 {
 	ItemBar * const ib = user_data;
 	gboolean const is_cols = ib->is_col_header;
-	scg_colrow_select (scg, is_cols, is_cols ? col : row, GDK_SHIFT_MASK);
+	scg_colrow_select (gsheet->scg,
+			   is_cols, is_cols ? col : row, GDK_SHIFT_MASK);
 	return TRUE;
 }
 
@@ -726,8 +718,9 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 
 			g_return_val_if_fail (cri != NULL, TRUE);
 
-			if (new_size <= (cri->margin_a + cri->margin_b))
-				break;
+			/* Ensure we always have enough room for the margins */
+			if (new_size < (cri->margin_a + cri->margin_b))
+				new_size = cri->margin_a + cri->margin_b;
 
 			ib->colrow_resize_size = new_size;
 			colrow_tip_setlabel (ib, is_cols, new_size);
@@ -737,45 +730,17 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			gnome_canvas_request_redraw (canvas, 0, 0, INT_MAX/2, INT_MAX/2);
 
 		} else if (ib->start_selection != -1) {
-			int left, top, width, height, col, row;
-
-			gnome_canvas_get_scroll_offsets (canvas, &left, &top);
-
-			width = GTK_WIDGET (canvas)->allocation.width;
-			height = GTK_WIDGET (canvas)->allocation.height;
-
-			col = gnumeric_sheet_find_col (gsheet, x, NULL);
-			row = gnumeric_sheet_find_row (gsheet, y, NULL);
 
 			if (wbcg_edit_has_guru (wbcg) &&
 			    !wbcg_edit_entry_redirect_p (wbcg))
 				break;
 
-			scg_colrow_select (scg, is_cols,
-					   is_cols ? col : row,
-					   GDK_SHIFT_MASK);
-			if (x < left || y < top || x >= left + width || y >= top + height) {
-				int dx = 0, dy = 0;
-
-				if (is_cols) {
-					if (x < left)
-						dx = x - left;
-					else if (x >= left + width)
-						dx = x - width - left;
-				} else {
-					if (y < top)
-						dy = y - top;
-					else if (y >= top + height)
-						dy = y - height - top;
-				}
-
-				scg_start_sliding (scg,
-						   &cb_extend_selection, ib,
-						   col, row, dx, dy);
-			} else
-				scg_stop_sliding (scg);
-		}
-		ib_set_cursor (ib, x, y);
+			gnumeric_sheet_handle_motion (ib->gsheet,
+						      canvas, &e->motion,
+						      is_cols, !is_cols, TRUE,
+						      cb_extend_selection, ib);
+		} else
+			ib_set_cursor (ib, x, y);
 		break;
 
 	case GDK_BUTTON_PRESS:
@@ -867,7 +832,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (e->button.button > 3)
 			return FALSE;
 
-		scg_stop_sliding (scg);
+		gnumeric_sheet_stop_sliding (ib->gsheet);
 
 		if (ib->start_selection >= 0) {
 			needs_ungrab = TRUE;

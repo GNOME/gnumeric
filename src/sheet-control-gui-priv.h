@@ -19,13 +19,6 @@ struct _SheetControlGUI {
 	GtkWidget	*vs, *hs;	/* Scrollbars */
 	GtkObject	*va, *ha;	/* Adjustments */
 
-	/* Sliding scroll */
-	SheetControlGUISlideHandler	slide_handler;
-	gpointer   slide_data;
-	int        sliding;	/* a gtk_timeout tag, -1 means not set */
-	int        sliding_col, sliding_row;
-	int        sliding_x, sliding_y;
-
 	/* SheetObject support */
 	SheetObject	 *new_object;	/* A newly created object that has yet to be realized */
 	SheetObject	 *current_object;

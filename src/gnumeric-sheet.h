@@ -33,6 +33,14 @@ struct _GnumericSheet {
 	/* Input context for dead key support */
 	GdkIC     *ic;
 	GdkICAttr *ic_attr;
+
+	/* Sliding scroll */
+	GnumericSheetSlideHandler slide_handler;
+	gpointer   slide_data;
+	int        sliding;	/* a gtk_timeout tag, -1 means not set */
+	int        sliding_x, sliding_y;
+	int        sliding_dx, sliding_dy;
+	gboolean   sliding_adjacent_h, sliding_adjacent_v;
 };
 
 GtkType        gnumeric_sheet_get_type (void);
@@ -41,6 +49,7 @@ GnumericSheet *gnumeric_sheet_new      (SheetControlGUI *scg, GnumericPane *pane
 int  gnumeric_sheet_find_col	 (GnumericSheet *gsheet, int x, int *col_origin);
 int  gnumeric_sheet_find_row	 (GnumericSheet *gsheet, int y, int *row_origin);
 
+void gnumeric_sheet_set_bound	   (GnumericSheet *gsheet, Range const *bound);
 void gnumeric_sheet_create_editor  (GnumericSheet *gsheet);
 void gnumeric_sheet_stop_editing   (GnumericSheet *gsheet);
 void gnumeric_sheet_cursor_bound   (GnumericSheet *gsheet, Range const *r);
@@ -48,11 +57,19 @@ void gnumeric_sheet_rangesel_bound (GnumericSheet *gsheet, Range const *r);
 void gnumeric_sheet_rangesel_start (GnumericSheet *gsheet, int col, int row);
 void gnumeric_sheet_rangesel_stop  (GnumericSheet *gsheet);
 
-void gsheet_compute_visible_region    (GnumericSheet *gsheet,
+void gsheet_compute_visible_region (GnumericSheet *gsheet,
 				       gboolean const full_recompute);
 
 void gnumeric_sheet_redraw_region  (GnumericSheet *gsheet,
 				    int start_col, int start_row,
 				    int end_col, int end_row);
+
+void gnumeric_sheet_stop_sliding  (GnumericSheet *gsheet);
+void gnumeric_sheet_handle_motion (GnumericSheet *gsheet,
+				   GnomeCanvas *canvas, GdkEventMotion *event,
+				   gboolean allow_h, gboolean allow_v,
+				   gboolean colrow_bound,
+				   GnumericSheetSlideHandler slide_handler,
+				   gpointer user_data);
 
 #endif /* GNUMERIC_GNUMERIC_SHEET_H */
