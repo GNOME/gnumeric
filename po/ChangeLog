@@ -1,3 +1,7 @@
+2001-02-07  Karl Eichwalder  <ke@suse.de>
+
+	* de.po: Start to resolve some fuzzies.
+
 2001-02-07  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation.
@@ -16,7 +20,7 @@
 
 2001-01-31  Szabolcs Ban  <shooby@gnome.hu>
 
-        * hu.po: Terminology fixes by Andras Timar <timar@gnome.hu>
+	* hu.po: Terminology fixes by Andras Timar <timar@gnome.hu>
 
 2001-01-29  Jody Goldberg <jgoldberg@home.com>
 
@@ -24,8 +28,8 @@
 
 2001-01-25  Szabolcs Ban  <shooby@gnome.hu>
 
-        * hu.po: Updated Hungarian translation from
-	  Andras Timar <timar@gnome.hu>
+	* hu.po: Updated Hungarian translation from Andras Timar
+	<timar@gnome.hu>.
 
 2001-01-26  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
 
@@ -37,8 +41,8 @@
 
 2001-01-24  Szabolcs Ban  <shooby@gnome.hu>
 
-        * hu.po: Tons of fixes by Andras and Emese (spelling,
-          terminology, headers)
+	* hu.po: Tons of fixes by Andras and Emese (spelling, terminology,
+	headers).
 
 2001-01-23  Valek Filippov  <frob@df.ru>
 
@@ -61,7 +65,7 @@
 2001-01-16  Szabolcs Ban  <shooby@gnome.hu>
 
         * hu.po: Updated some Hungarian translations,
-          thanks to Emese Kovács <emese@gnome.hu>
+          thanks to Emese Kovacs <emese@gnome.hu>
 
 2001-01-16  Valek Filippov  <frob@df.ru>
 
@@ -1085,7 +1089,7 @@
 
 	* no.po: Updated Norwegian translation.
 	
-1999-10-17  Martin Norb$Bdc(Bk  <norpan@bigfoot.com>
+1999-10-17  Martin Norb$(Bdc(Bk  <norpan@bigfoot.com>
 
 	* sv.po: Updated translation again.
 
@@ -1170,7 +1174,7 @@
 
 	* Updated fr.po:
 	avant:	896 translated messages, 60 fuzzy translations, 42 untranslated messages.
-	apr$Bhs(B:  958 translated messages, 13 fuzzy translations, 27 untranslated messages.
+	apr$(Bhs(B:  958 translated messages, 13 fuzzy translations, 27 untranslated messages.
 
 1999-09-06  Kjartan Maraas  <kmaraas@online.no>
 
