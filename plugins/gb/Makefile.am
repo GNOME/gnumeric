@@ -1,7 +1,6 @@
 INCLUDES = \
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
     -I$(includedir)	-I$(top_srcdir)/src	\
-    -I$(top_srcdir)/libole2			\
     $(GNOME_INCLUDEDIR) $(GB_CFLAGS)
 
 gnumeric_plugin_LTLIBRARIES = gnum_gb.la

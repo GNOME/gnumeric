@@ -1,3 +1,9 @@
+2000-05-30  Michael Meeks  <michael@helixcode.com>
+
+	* src/Makefile.am (gnumeric_libs): kill libole2 hack.
+
+	* configure.in: kill CONFIG_SUBDIRS for libole2.
+
 2000-05-31  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* src/dialogs/dialog-stf.c :

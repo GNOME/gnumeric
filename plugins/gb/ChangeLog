@@ -1,3 +1,7 @@
+2000-05-30  Michael Meeks  <michael@helixcode.com>
+
+	* Makefile.am (-DGNOMELOCALEDIR): kill explicit libole2 include.
+
 2000-05-20  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.54
