@@ -1,3 +1,7 @@
+2003-06-20  Jon K Hellan  <hellan@acm.org>
+
+	* widget-color-combo.c (color_combo_get_color): Fix typos.
+
 2003-06-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* widget-format-selector.h (number_format_selector_set_locale): new

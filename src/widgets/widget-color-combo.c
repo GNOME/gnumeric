@@ -277,8 +277,8 @@ color_combo_construct (ColorCombo *cc, GdkPixbuf *icon,
 GdkColor *
 color_combo_get_color (ColorCombo *cc, gboolean *is_default)
 {
-	g_return_if_fail (cc != NULL);
-	g_return_if_fail (IS_COLOR_COMBO (cc));
+	g_return_val_if_fail (cc != NULL, NULL);
+	g_return_val_if_fail (IS_COLOR_COMBO (cc), NULL);
 
 	return color_palette_get_current_color (cc->palette, is_default);
 }
