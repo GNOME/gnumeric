@@ -4,8 +4,6 @@ appropriate for new developers.
 Description                                             Difficulty  Integration
 ------------------------------------------------------  ----------  -----------
 
-- Financial functions (src/functions/fn-financial.c)    Medium      Very low
-
 - Save/Restore the values of the last selected colours	Low	    Low
   from the toolbar for background or font.
 
@@ -14,15 +12,6 @@ Description                                             Difficulty  Integration
 
 - Audit the help text for all the functions.  Some are	Low	    Low
   missing or do not conform to the style guides, 
-
-- Add dynamic tooltips to the toolbar combo boxes	Medium	    Low
-  eg when mousing over the colour combo toolbar
-     we should be told what colour is selected.
-
-- gtk-combo-text : A prettier mouse over for the	Medium	    Low
-  text entry would be nice.
-
-- Brush up the code in src/dialogs/dialog-autosave.c    Very low    Low
 
 -------------------------------------------------------------------------------
 Difficulty: an estimate of how hard the task would be for the average hacker.

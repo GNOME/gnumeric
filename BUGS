@@ -62,8 +62,6 @@ Long term breakage
 - Misc.
     - Add an idle handler at start up to check for availablity of
       evo and guppi.  They should only be enabled if they are available.
-    - config check for xml-i18n-tool version (or should it be
-      intltool ?)
 
 - Names
     : references in names do not get changed with cut/paste or ins/del row/col.
@@ -73,8 +71,7 @@ Long term breakage
 	  or by selecting the first named expression in scope that contains the
 	  current cell.
 	* Should <ok> add the name ?
-    : Fix XL named expr import for sheet local names
-      * test for unicode
+    : Check xl import of unicode names
     : Check scoping changes.
 
 - can_try_save_to uses access().  That's bogus in a number of ways: (a) it
@@ -86,6 +83,7 @@ Long term breakage
 
 - Panes 
     : support horizontal or vertical only
+
 - outline mode
     : finish implementing optionally putting markers above/left
     : Make ungroup smarter about handling extra items of lower level at the edges
@@ -152,6 +150,8 @@ Long term breakage
     : Other anchor types for sheet objects
     : Add keyboard controls for the control points
     : Add object control for resize to disable invalid sizes.
+    : Add 'is_printable' flag and import
+    : research the other xl object flags.
 
 - Add a warning when attempting to save using the suffix from a different saver.
   eg saving .gnumeric as foo.xls

@@ -14,6 +14,7 @@ Jody:
 	* Only grab if selection succeeds.
 	* Fix drawing glitch when creating unshared views not at A1
 	* Copy freeze state and outline info
+	* Ignore combos associated with filters.
 
 Morten:
 	* Cleanup fn-database.
