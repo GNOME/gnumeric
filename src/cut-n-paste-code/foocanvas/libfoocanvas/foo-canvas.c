@@ -430,7 +430,9 @@ foo_canvas_item_invoke_update (FooCanvasItem *item,
 			FOO_CANVAS_ITEM_GET_CLASS (item)->update (item, i2w_dx, i2w_dy, child_flags);
 	}
 
-	g_return_if_fail (!(item->object.flags & FOO_CANVAS_ITEM_NEED_UPDATE));
+	/* If this fail you probably forgot to chain up to
+	 * FooCanvasItem::update from a derived class */
+ 	g_return_if_fail (!(item->object.flags & FOO_CANVAS_ITEM_NEED_UPDATE));
 }
 
 /*

@@ -294,7 +294,7 @@ foo_canvas_pixbuf_destroy (GtkObject *object)
 	    foo_canvas_item_request_redraw (item);
 
 	    if (priv->pixbuf)
-		gdk_pixbuf_unref (priv->pixbuf);
+		g_object_unref (priv->pixbuf);
 
 	    g_free (priv);
 	    gcp->priv = NULL;
@@ -346,7 +346,7 @@ foo_canvas_pixbuf_set_property (GObject            *object,
 			}
 
 			if (priv->pixbuf)
-				gdk_pixbuf_unref (priv->pixbuf);
+				g_object_unref (priv->pixbuf);
 
 			priv->pixbuf = pixbuf;
 		}
@@ -711,17 +711,11 @@ foo_canvas_pixbuf_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		pixbuf = g_object_ref (priv->pixbuf);
 	}
 
-	gdk_pixbuf_render_to_drawable_alpha (pixbuf, drawable,
-					     0, 0,
-					     item->x1, item->y1,
-					     w, h,
-					     GDK_PIXBUF_ALPHA_FULL,
-					     0,
-					     GDK_RGB_DITHER_MAX,
-					     0, 0);
+	gdk_draw_pixbuf (drawable, NULL, pixbuf,
+			 0, 0, item->x1, item->y1, w, h,
+			 GDK_RGB_DITHER_MAX, 0, 0);
 
-
-	gdk_pixbuf_unref (pixbuf);
+	g_object_unref (pixbuf);
 }
 
 
