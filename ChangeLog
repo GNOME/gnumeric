@@ -1,5 +1,11 @@
 2004-09-29  Morten Welinder  <terra@gnome.org>
 
+	* src/clipboard.c (clipboard_copy_range): Fix
+	gboolean/CellIterFlags confusion.
+	* src/workbook-control-gui.c (cb_workbook_debug_info): Ditto.
+	* src/sheet-view.c (sv_is_region_empty_or_selected): Ditto.
+	* src/print.c (print_page): Ditto.
+
 	* src/sheet.c (sheet_foreach_cell_in_range): Don't consider a cell
 	with an un-evaluated expression empty.  Add paranoia.
 

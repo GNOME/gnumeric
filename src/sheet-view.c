@@ -623,7 +623,8 @@ sv_is_region_empty_or_selected (SheetView const *sv, GnmRange const *r)
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), TRUE);
 
 	return sheet_foreach_cell_in_range (
-		sv->sheet, TRUE, r->start.col, r->start.row, r->end.col, r->end.row,
+		sv->sheet, CELL_ITER_IGNORE_NONEXISTENT,
+		r->start.col, r->start.row, r->end.col, r->end.row,
 		fail_if_not_selected, (gpointer)sv) == NULL;
 }
 

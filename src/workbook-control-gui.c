@@ -1375,7 +1375,8 @@ cb_workbook_debug_info (WorkbookControlGUI *wbcg)
 		ExprTreeSharer *es = expr_tree_sharer_new ();
 
 		WORKBOOK_FOREACH_SHEET (wb, sheet, {
-			sheet_foreach_cell_in_range (sheet, TRUE, 0, 0,
+			sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
+						     0, 0,
 						     SHEET_MAX_COLS - 1,
 						     SHEET_MAX_ROWS - 1,
 						     &cb_share_a_cell,

@@ -526,7 +526,8 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 		repeat_cols_used_x = 0;
 
 	/* If there are no cells in the area check for spans */
-	printed = (NULL != sheet_foreach_cell_in_range ((Sheet *)sheet, TRUE,
+	printed = (NULL != sheet_foreach_cell_in_range ((Sheet *)sheet,
+							CELL_ITER_IGNORE_NONEXISTENT,
 							range->start.col,
 							range->start.row,
 							range->end.col,

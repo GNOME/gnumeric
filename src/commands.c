@@ -4784,7 +4784,7 @@ cmd_reorganize_sheets_delete_get_all_sheets_info (GnmCommand *cmd,
 
 static void
 cmd_reorganize_sheets_delete_recreate_sheet (WorkbookControl *wbc, Workbook *wb, 
-			    cmd_reorganize_sheets_delete_t *sheet)
+					     cmd_reorganize_sheets_delete_t *sheet)
 {
 	Sheet *a_new_sheet;
 	guint pos = sheet->pos;

@@ -534,7 +534,7 @@ clipboard_copy_range (Sheet *sheet, GnmRange const *r)
 	cr->cols = range_width (r);
 	cr->rows = range_height (r);
 
-	sheet_foreach_cell_in_range ( sheet, TRUE,
+	sheet_foreach_cell_in_range ( sheet, CELL_ITER_IGNORE_NONEXISTENT,
 		r->start.col, r->start.row,
 		r->end.col, r->end.row,
 		(CellIterFunc) cb_clipboard_prepend_cell, cr);
