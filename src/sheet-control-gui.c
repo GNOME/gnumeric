@@ -1293,7 +1293,7 @@ scg_ant (SheetControl *sc)
 				pane->gcanvas->anted_group,
 				item_cursor_get_type (),
 				"SheetControlGUI", scg,
-				"Style", ITEM_CURSOR_ANTED,
+				"style",	ITEM_CURSOR_ANTED,
 				NULL));
 			item_cursor_bound_set (ic, r);
 			pane->anted_cursors =

@@ -7,8 +7,6 @@
  *     Jody Goldberg   (jody@gnome.org)
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include "gnumeric.h"
@@ -81,15 +79,16 @@ struct _ItemCursor {
 	GdkPixmap *stipple;
 	GdkColor  color;
 };
+typedef FooCanvasItemClass ItemCursorClass;
 
-static FooCanvasItem *item_cursor_parent_class;
+static FooCanvasItemClass *parent_class;
 
 enum {
-	ARG_0,
-	ARG_SHEET_CONTROL_GUI,	/* The SheetControlGUI * argument */
-	ARG_STYLE,              /* The style type */
-	ARG_BUTTON,		/* The button used to drag this cursor around */
-	ARG_COLOR               /* The optional color */
+	ITEM_CURSOR_PROP_0,
+	ITEM_CURSOR_PROP_SHEET_CONTROL_GUI,
+	ITEM_CURSOR_PROP_STYLE,
+	ITEM_CURSOR_PROP_BUTTON,
+	ITEM_CURSOR_PROP_COLOR
 };
 
 static int
@@ -103,19 +102,17 @@ cb_item_cursor_animation (ItemCursor *ic)
 }
 
 static void
-item_cursor_destroy (GtkObject *object)
+item_cursor_finalize (GObject *obj)
 {
-	ItemCursor *ic;
-
-	ic = ITEM_CURSOR (object);
+	ItemCursor *ic = ITEM_CURSOR (obj);
 
 	if (ic->tip) {
 		gtk_widget_destroy (gtk_widget_get_toplevel (ic->tip));
 		ic->tip = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (item_cursor_parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (item_cursor_parent_class)->destroy)(object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(*G_OBJECT_CLASS (parent_class)->finalize) (obj);
 }
 
 static void
@@ -124,8 +121,8 @@ item_cursor_realize (FooCanvasItem *item)
 	ItemCursor *ic;
 	GdkWindow  *window;
 
-	if (FOO_CANVAS_ITEM_CLASS (item_cursor_parent_class)->realize)
-		(*FOO_CANVAS_ITEM_CLASS (item_cursor_parent_class)->realize)(item);
+	if (parent_class->realize)
+		(*parent_class->realize) (item);
 
 	ic = ITEM_CURSOR (item);
 	window = GTK_WIDGET (item->canvas)->window;
@@ -172,8 +169,8 @@ item_cursor_unrealize (FooCanvasItem *item)
 		ic->animation_timer = -1;
 	}
 
-	if (FOO_CANVAS_ITEM_CLASS (item_cursor_parent_class)->unrealize)
-		(*FOO_CANVAS_ITEM_CLASS (item_cursor_parent_class)->unrealize)(item);
+	if (parent_class->unrealize)
+		(*parent_class->unrealize) (item);
 }
 
 static void
@@ -224,8 +221,8 @@ item_cursor_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags
 	/* for the autohandle */
 	extra = (ic->style == ITEM_CURSOR_SELECTION) ? AUTO_HANDLE_WIDTH : 0;
 
-	item->x2 = x + w + 2 + extra;
-	item->y2 = y + h + 2 + extra;
+	item->x2 = x + w + 3 + extra;
+	item->y2 = y + h + 3 + extra;
 
 	/* Draw the new cursor */
 	item_cursor_request_redraw (ic);
@@ -233,8 +230,8 @@ item_cursor_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags
 #if 0
 	fprintf (stderr, "update %d,%d %d,%d\n", x, y, w,h);
 #endif
-	if (FOO_CANVAS_ITEM_CLASS(item_cursor_parent_class)->update)
-		(*FOO_CANVAS_ITEM_CLASS(item_cursor_parent_class)->update)(item, i2w_dx, i2w_dy, flags);
+	if (parent_class->update)
+		(*parent_class->update) (item, i2w_dx, i2w_dy, flags);
 }
 
 /*
@@ -332,7 +329,7 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 			fore = &gs_dark_gray;
 			back = &gs_light_gray;
 		}
-	};
+	}
 
 	if (ic->use_color) {
 		fore = &ic->color;
@@ -398,7 +395,7 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 		default :
 			g_assert_not_reached ();
-		};
+		}
 		gdk_draw_lines (drawable, ic->gc, points, 5);
 	}
 
@@ -474,7 +471,7 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		}
 		gdk_draw_rectangle (drawable, ic->gc, FALSE,
 				    dx0, dy0,
-				    dx1 - dx0, dy1 - dy0);
+				    abs (dx1 - dx0), abs (dy1 - dy0));
 	}
 }
 
@@ -1272,7 +1269,7 @@ item_cursor_event (FooCanvasItem *item, GdkEvent *event)
 	case GDK_2BUTTON_PRESS: printf ("2press %d\n", ic->style); break;
 	default :
 	    break;
-	};
+	}
 #endif
 	switch (ic->style) {
 	case ITEM_CURSOR_ANTED:
@@ -1295,72 +1292,68 @@ item_cursor_event (FooCanvasItem *item, GdkEvent *event)
 }
 
 static void
-item_cursor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+item_cursor_set_property (GObject *obj, guint param_id,
+			  GValue const *value, GParamSpec *pspec)
 {
-	FooCanvasItem *item;
-	ItemCursor *ic;
+	FooCanvasItem *item = FOO_CANVAS_ITEM (obj);
+	ItemCursor *ic = ITEM_CURSOR (obj);
+	GdkColor color;
+	char const *color_name;
 
-	item = FOO_CANVAS_ITEM (o);
-	ic = ITEM_CURSOR (o);
-
-	switch (arg_id) {
-	case ARG_SHEET_CONTROL_GUI:
-		ic->scg = GTK_VALUE_POINTER (*arg);
+	switch (param_id) {
+	case ITEM_CURSOR_PROP_SHEET_CONTROL_GUI:
+		ic->scg = g_value_get_object (value);
 		break;
-	case ARG_STYLE:
-		ic->style = GTK_VALUE_INT (*arg);
+	case ITEM_CURSOR_PROP_STYLE:
+		ic->style = g_value_get_int (value);
 		break;
-	case ARG_BUTTON :
-		ic->drag_button = GTK_VALUE_INT (*arg);
+	case ITEM_CURSOR_PROP_BUTTON :
+		ic->drag_button = g_value_get_int (value);
 		break;
-	case ARG_COLOR: {
-		GdkColor color;
-		char *color_name = GTK_VALUE_STRING (*arg);
+	case ITEM_CURSOR_PROP_COLOR:
+		color_name = g_value_get_string (value);
 		if (foo_canvas_get_color (item->canvas, color_name, &color)) {
 			ic->color = color;
 			ic->use_color = 1;
 		}
 	}
-	}
 }
-
-typedef struct {
-	FooCanvasItemClass parent_class;
-} ItemCursorClass;
 
 /*
  * ItemCursor class initialization
  */
 static void
-item_cursor_class_init (ItemCursorClass *item_cursor_class)
+item_cursor_class_init (GObjectClass *gobject_klass)
 {
-	GtkObjectClass  *object_class;
-	FooCanvasItemClass *item_class;
+	FooCanvasItemClass *item_klass = (FooCanvasItemClass *) gobject_klass;
 
-	item_cursor_parent_class = g_type_class_peek_parent (item_cursor_class);
+	parent_class = g_type_class_peek_parent (gobject_klass);
 
-	object_class = (GtkObjectClass *) item_cursor_class;
-	item_class = (FooCanvasItemClass *) item_cursor_class;
+	gobject_klass->set_property = item_cursor_set_property;
+	gobject_klass->finalize     = item_cursor_finalize;
+	g_object_class_install_property (gobject_klass, ITEM_CURSOR_PROP_SHEET_CONTROL_GUI,
+		g_param_spec_object ("SheetControlGUI", "SheetControlGUI",
+			"the sheet control gui controlling the item",
+			SHEET_CONTROL_GUI_TYPE, G_PARAM_WRITABLE));
+	g_object_class_install_property (gobject_klass, ITEM_CURSOR_PROP_STYLE,
+		g_param_spec_int ("style", "Style",
+			"What type of cursor",
+			0, G_MAXINT, 0, G_PARAM_WRITABLE));
+	g_object_class_install_property (gobject_klass, ITEM_CURSOR_PROP_BUTTON,
+		g_param_spec_int ("button", "Button",
+			"what button initiated the drag",
+			0, G_MAXINT, 0, G_PARAM_WRITABLE));
+	g_object_class_install_property (gobject_klass, ITEM_CURSOR_PROP_COLOR,
+		g_param_spec_string ("color", "Color",
+			"name of the cursor's color",
+			"black", G_PARAM_WRITABLE));
 
-	gtk_object_add_arg_type ("ItemCursor::SheetControlGUI", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_SHEET_CONTROL_GUI);
-	gtk_object_add_arg_type ("ItemCursor::Style", GTK_TYPE_INT,
-				 GTK_ARG_WRITABLE, ARG_STYLE);
-	gtk_object_add_arg_type ("ItemCursor::Button", GTK_TYPE_INT,
-				 GTK_ARG_WRITABLE, ARG_BUTTON);
-	gtk_object_add_arg_type ("ItemCursor::Color", GTK_TYPE_STRING,
-				 GTK_ARG_WRITABLE, ARG_COLOR);
-
-	object_class->set_arg = item_cursor_set_arg;
-	object_class->destroy = item_cursor_destroy;
-
-	/* FooCanvasItem method overrides */
-	item_class->update      = item_cursor_update;
-	item_class->realize     = item_cursor_realize;
-	item_class->unrealize   = item_cursor_unrealize;
-	item_class->draw        = item_cursor_draw;
-	item_class->point       = item_cursor_point;
-	item_class->event       = item_cursor_event;
+	item_klass->update      = item_cursor_update;
+	item_klass->realize     = item_cursor_realize;
+	item_klass->unrealize   = item_cursor_unrealize;
+	item_klass->draw        = item_cursor_draw;
+	item_klass->point       = item_cursor_point;
+	item_klass->event       = item_cursor_event;
 }
 
 static void

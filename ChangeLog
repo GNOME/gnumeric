@@ -1,5 +1,10 @@
 2003-06-03  Jody Goldberg <jody@gnome.org>
 
+	* src/item-cursor.c : clear out deprecated GtkObject::Arg goo.
+	(item_cursor_draw) : pixel noise drawing zero sized animated cursors.
+
+2003-06-03  Jody Goldberg <jody@gnome.org>
+
 	* src/sheet.h : delete some non-existant decls.
 
 	* src/sheet-object.c (sheet_objects_relocate) : kludgy tweak so that

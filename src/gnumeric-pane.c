@@ -109,7 +109,7 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 
 	item = foo_canvas_item_new (gcanvas_group,
 		item_cursor_get_type (),
-		"ItemCursor::SheetControlGUI", scg,
+		"SheetControlGUI", scg,
 		NULL);
 	pane->cursor.std = ITEM_CURSOR (item);
 	gnm_pane_cursor_bound_set (pane, range_init (&r, 0, 0, 0, 0)); /* A1 */
@@ -349,7 +349,8 @@ gnm_pane_rangesel_start (GnumericPane *pane, Range const *r)
 	tmp = foo_canvas_item_new (group,
 		item_cursor_get_type (),
 		"SheetControlGUI", pane->gcanvas->simple.scg,
-		"Style", ITEM_CURSOR_ANTED, NULL);
+		"style",	ITEM_CURSOR_ANTED,
+		NULL);
 	pane->cursor.rangesel = ITEM_CURSOR (tmp);
 	item_cursor_bound_set (pane->cursor.rangesel, r);
 
@@ -394,9 +395,9 @@ gnm_pane_special_cursor_start (GnumericPane *pane, int style, int button)
 	item = foo_canvas_item_new (
 		FOO_CANVAS_GROUP (canvas->root),
 		item_cursor_get_type (),
-		"ItemCursor::SheetControlGUI", pane->gcanvas->simple.scg,
-		"ItemCursor::Style", style,
-		"ItemCursor::Button", button,
+		"SheetControlGUI", pane->gcanvas->simple.scg,
+		"style",	   style,
+		"button",	   button,
 		NULL);
 	pane->cursor.special = ITEM_CURSOR (item);
 }

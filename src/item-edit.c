@@ -106,8 +106,8 @@ ie_scan_for_range (ItemEdit *ie)
 					FOO_CANVAS_GROUP (ie->canvas_item.canvas->root),
 					item_cursor_get_type (),
 					"SheetControlGUI",	ie->scg,
-					"Style",		ITEM_CURSOR_BLOCK,
-					"Color",		"blue",
+					"style",		ITEM_CURSOR_BLOCK,
+					"color",		"blue",
 					NULL);
 			item_cursor_bound_set (ITEM_CURSOR (ie->feedback_cursor), &range);
 			return;
@@ -577,7 +577,7 @@ item_edit_class_init (GObjectClass *gobject_class)
 
 	g_object_class_install_property (gobject_class, ARG_SHEET_CONTROL_GUI,
 		g_param_spec_object ("SheetControlGUI", "SheetControlGUI",
-			"the GogView parent",
+			"the sheet control gui controlling the item",
 			SHEET_CONTROL_GUI_TYPE, G_PARAM_WRITABLE));
 
 	/* FooCanvasItem method overrides */
