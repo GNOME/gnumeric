@@ -2023,6 +2023,13 @@ msgid ""
 "coefficents by which each successive power of @x is multiplied. \n"
 "@SEEALSO=COUNT,SUM"
 msgstr ""
+"@FUNCTION=SERIESSUM\n"
+"@SYNTAX=SERIESSUM(x,n,m,koeffisienter)\n"
+"@DESCRIPTION=SERIESSUM-funksjonen returnerer summen av en potensrekke.  @x er "
+"basen for potensrekken, @n er første potens @x skal oppheves i, @m er økningen "
+"av potensen for hvert ledd i rekken, og @koeffisienter er koeffisientene "
+"som hver suksessiv potens av @x blir muliplisert med. \n"
+"@SEEALSO=COUNT,SUM"
 
 #: src/fn-misc.c:22
 msgid "Argument mismatch"
@@ -2582,15 +2589,15 @@ msgstr "mmm/dd/yyyy"
 
 #: src/formats.c:50
 msgid "mmm/ddd/yy"
-msgstr "mmm/ddd/yy
+msgstr "mmm/ddd/yy"
 
 #: src/formats.c:51
 msgid "mmm/ddd/yyyy"
-msgstr "mmm/ddd/yyyy
+msgstr "mmm/ddd/yyyy"
 
 #: src/formats.c:52
 msgid "mm/ddd/yy"
-msgstr "mm/ddd/yy
+msgstr "mm/ddd/yy"
 
 #: src/formats.c:53
 msgid "mm/ddd/yyyy"
