@@ -1,3 +1,14 @@
+2003-07-04  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	* plugin-gda.c: include (conditionally) libgnomedb code to provide
+	a GUI for the different operations.
+	(open_connection): new function to contain the connecting code, using
+	libgnomedb widgets for getting input from the user if available.
+	(gnumeric_execSQL): call open_connection.
+	(gnumeric_readDBTable): call open_connection.
+
+	* Makefile.am: added libgnomedb CFLAGS and LIBS.
+
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.19

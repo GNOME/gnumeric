@@ -21,6 +21,10 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include <libgda/libgda.h>
+#ifdef HAVE_LIBGNOMEDB
+#include <libgnomedb/gnome-db-login-dialog.h>
+#include <libgnomedb/gnome-db-login.h>
+#endif
 
 #include "func.h"
 #include "plugin.h"
@@ -76,6 +80,54 @@ display_recordset (GdaDataModel *recset, FunctionEvalInfo *ei)
 	return array;
 }
 
+static GdaConnection *
+open_connection (const gchar *dsn, const gchar *user, const gchar *password, GdaConnectionOptions options)
+{
+	GdaConnection *cnc;
+	gchar *real_dsn, *real_user, *real_password;
+#ifdef HAVE_LIBGNOMEDB
+	GtkWidget *dialog, *login;
+#endif
+
+	/* initialize connection pool if first time */
+	if (!GDA_IS_CLIENT (connection_pool)) {
+		connection_pool = gda_client_new ();
+		if (!connection_pool)
+			return NULL;
+	}
+
+#ifdef HAVE_LIBGNOMEDB
+	dialog = gnome_db_login_dialog_new (_("Database Connection"));
+	login = gnome_db_login_dialog_get_login_widget (GNOME_DB_LOGIN_DIALOG (dialog));
+
+	gnome_db_login_set_username (GNOME_DB_LOGIN (login), user);
+	gnome_db_login_set_password (GNOME_DB_LOGIN (login), password);
+
+	if (gnome_db_login_dialog_run (GNOME_DB_LOGIN_DIALOG (dialog))) {
+		real_dsn = g_strdup (gnome_db_login_get_dsn (GNOME_DB_LOGIN (login)));
+		real_user = g_strdup (gnome_db_login_get_username (GNOME_DB_LOGIN (login)));
+		real_password = g_strdup (gnome_db_login_get_password (GNOME_DB_LOGIN (login)));
+
+		gtk_widget_destroy (dialog);
+	} else {
+		gtk_widget_destroy (dialog);
+		return NULL;
+	}
+#else
+	real_dsn = g_strdup (dsn);
+	real_user = g_strdup (user);
+	real_password = g_strdup (password);
+#endif
+
+	cnc = gda_client_open_connection (connection_pool, real_dsn, real_user, real_password, options);
+
+	g_free (real_dsn);
+	g_free (real_user);
+	g_free (real_password);
+
+	return cnc;
+}
+
 /*
  * execSQL function
  */
@@ -116,18 +168,7 @@ gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
 	if (!dsn_name || !sql)
 		return value_new_error (ei->pos, _("Format: execSQL(dsn,user,password,sql)"));
 
-	/* initialize connection pool if first time */
-	if (!GDA_IS_CLIENT (connection_pool)) {
-		connection_pool = gda_client_new ();
-		if (!connection_pool) {
-			return value_new_error (ei->pos, _("Error: could not initialize connection pool"));
-		}
-	}
-	cnc = gda_client_open_connection (connection_pool, 
-					  dsn_name, 
-					  user_name, 
-					  password, 
-					  GDA_CONNECTION_OPTIONS_READ_ONLY);
+	cnc = open_connection (dsn_name, user_name, password, GDA_CONNECTION_OPTIONS_READ_ONLY);
 	if (!GDA_IS_CONNECTION (cnc)) {
 		return value_new_error(ei->pos, _("Error: could not open connection to %s"));
 	}
@@ -194,18 +235,7 @@ gnumeric_readDBTable (FunctionEvalInfo *ei, Value **args)
 	if (!dsn_name || !table)
 		return value_new_error (ei->pos, _("Format: readDBTable(dsn,user,password,table)"));
 
-	/* initialize connection pool if first time */
-	if (!GDA_IS_CLIENT (connection_pool)) {
-		connection_pool = gda_client_new ();
-		if (!connection_pool) {
-			return value_new_error (ei->pos, _("Error: could not initialize connection pool"));
-		}
-	}
-	cnc = gda_client_open_connection (connection_pool, 
-					  dsn_name, 
-					  user_name, 
-					  password, 
-					  GDA_CONNECTION_OPTIONS_READ_ONLY);
+	cnc = open_connection (dsn_name, user_name, password, GDA_CONNECTION_OPTIONS_READ_ONLY);
 	if (!GDA_IS_CONNECTION (cnc)) {
 		return value_new_error(ei->pos, _("Error: could not open connection to %s"));
 	}
