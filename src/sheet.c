@@ -15,6 +15,9 @@
 #include "eval.h"
 #include "number-match.h"
 #include "format.h"
+#ifdef ENABLE_BONOBO
+#    include <libgnorba/gnorba.h>
+#endif
 
 #define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);
 
@@ -3413,7 +3416,7 @@ sheet_lookup_by_name (Sheet *base, char *name)
 	return NULL;
 }
 
-#ifdef ENABLE_BONOBO
+#ifdef 0
 void
 sheet_insert_object (Sheet *sheet, char *repoid)
 {
@@ -3446,14 +3449,7 @@ sheet_insert_object (Sheet *sheet, char *repoid)
 		gtk_object_unref (GTK_OBJECT (client_site));
 		return;
 	}
-
-	sheet->client_site_list = g_list_prepend (sheet->client_site_list, client_site);
-
-	for (l = sheet->sheet_views; l; l = g_list_next (l)){
-		SheetView *sheet_view = l->data;
-
-		sheet_view_insert_object (sheet_view, object_server);
-	}
+	
 }
 
 #endif

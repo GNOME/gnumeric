@@ -125,6 +125,8 @@ sheet_object_construct (SheetObject *sheet_object, Sheet *sheet)
 
 	sheet_object->sheet = sheet;
 	sheet_object->bbox_points = gnome_canvas_points_new (2);
+
+	sheet->objects = g_list_prepend (sheet->objects, sheet_object);
 }
 
 /*

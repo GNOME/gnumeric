@@ -150,8 +150,6 @@ sheet_object_create_line (Sheet *sheet, int is_arrow,
 	sog->color = string_get (color);
 	sog->width = w;
 	
-	sheet->objects = g_list_prepend (sheet->objects, sog);
-
 	return SHEET_OBJECT (sog);
 }
 
@@ -280,9 +278,6 @@ sheet_object_create_filled (Sheet *sheet, int type,
 
 	if (fill_color)
 		sof->fill_color = string_get (fill_color);
-
-	sheet->objects = g_list_prepend (sheet->objects, sof);
-	
 	return so;
 }
 

@@ -697,7 +697,7 @@ insert_object_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet = workbook_get_current_sheet (wb);
 	char *repoid = "IDL:Sample/server:1.0";
 
-	sheet_insert_object (sheet, repoid);
+/*	sheet_insert_object (sheet, repoid); */
 }
 #endif
 
