@@ -1,5 +1,8 @@
 Gnumeric 1.1.11
 
+Adrian:
+	* Some LaTeX exporter fixes
+
 Andreas:
 	* Fix 97246
 

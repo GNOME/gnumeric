@@ -1,3 +1,10 @@
+2002-10-30  Andreas J. Guelzow <aguelzow@taliesin.ca> for 
+	Adrian V. Custer <acuster@nature.berkeley.edu>
+
+	* latex.c (latex2e_write_file_header): make 
+	  \def\gnumericTableWidthDefined a \global.
+	(latex_file_save): add some linebreaks.
+
 2002-10-31  Morten Welinder  <terra@diku.dk>
 
 	* latex.c (latex_file_save): Fix col/row confusion.
