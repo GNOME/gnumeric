@@ -476,15 +476,16 @@ static void
 colrow_tip_setlabel (ItemBar *item_bar, gboolean const is_vertical, int size_pixels)
 {
 	if (item_bar->tip) {
-		char buffer [20 + sizeof (long) * 4];
+		char *buffer;
 		double const scale = 72. / application_display_dpi_get (is_vertical);
 		if (is_vertical)
-			snprintf (buffer, sizeof (buffer), _("Height: %.2f pts (%d pixels)"),
+			buffer = g_strdup_printf (_("Height: %.2f pts (%d pixels)"),
 				  scale*size_pixels, size_pixels);
 		else
-			snprintf (buffer, sizeof (buffer), _("Width: %.2f pts (%d pixels)"),
+			buffer = g_strdup_printf (_("Width: %.2f pts (%d pixels)"),
 				  scale*size_pixels, size_pixels);
 		gtk_label_set_text (GTK_LABEL (item_bar->tip), buffer);
+		g_free(buffer);
 	}
 }
 

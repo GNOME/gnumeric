@@ -107,10 +107,10 @@ refresh_right_frame (PluginData *pd, PluginManager *pm)
 		str = g_strdup (_("Modified:"));
 	else {
 		time_t l = plugin_data_last_modified (pd);
-		char *timestr = g_strdup (ctime (&l));
-		timestr [strlen (timestr) - 1] = '\0'; /* get rid of '\n' */
+		char timestr[128];
+		/* This is strftime format. Use custom one if "%c" prints only last 2 digits of year in your locale. */
+		strftime(timestr, sizeof timestr, _("%c"), localtime(&l));
 		str = g_strdup_printf (_("Modified: %s"), timestr);
-		g_free (timestr);
 	}
 	gtk_label_set_text (GTK_LABEL (pm->modified_lbl), str);
 	g_free (str);

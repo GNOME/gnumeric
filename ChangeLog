@@ -1,5 +1,17 @@
 2000-11-22  Zbigniew Chyla  <cyba@gnome.pl>
 
+	* src/dialogs/dialog-plugin-manager.c (refresh_right_frame):
+	Replaced ctime() with strftime() to display translated form of
+	plugin modification date.
+
+	* src/item-bar.c: (colrow_tip_setlabel): Translated (Polish) version
+	of string doesn't fit within "buffer". Dropped static array and used
+	dynamic memory allocation (g_strdup_printf).
+	(vertical_scroll_change, horizontal_scroll_change): It fits with Polish
+	translation but code is similar to the above.
+
+2000-11-22  Zbigniew Chyla  <cyba@gnome.pl>
+
 	* src/dialogs/summary.glade: Centered "Document Summary
 	Information" label.
 	

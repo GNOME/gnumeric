@@ -456,9 +456,10 @@ static void
 vertical_scroll_change (GtkAdjustment *adj, SheetControlGUI *scg)
 {
 	if (scg->tip) {
-		char buffer [20 + sizeof (long) * 4];
-		snprintf (buffer, sizeof (buffer), _("Row: %d"), (int) adj->value + 1);
+		char *buffer;
+		buffer = g_strdup_printf (_("Row: %d"), (int) adj->value + 1);
 		gtk_label_set_text (GTK_LABEL (scg->tip), buffer);
+		g_free(buffer);
 	}
 }
 
@@ -466,9 +467,10 @@ static void
 horizontal_scroll_change (GtkAdjustment *adj, SheetControlGUI *scg)
 {
 	if (scg->tip) {
-		char buffer [20 + sizeof (long) * 4];
-		snprintf (buffer, sizeof (buffer), _("Column: %s"), col_name (adj->value));
+		char *buffer;
+		buffer = g_strdup_printf(_("Column: %s"), col_name (adj->value));
 		gtk_label_set_text (GTK_LABEL (scg->tip), buffer);
+		g_free(buffer);
 	}
 }
 
