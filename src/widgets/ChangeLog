@@ -1,3 +1,34 @@
+2003-06-15  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* Makefile.am : added reference to widget-format-selector.[ch]
+	* widget-format-selector.[ch] :
+		new, based on the number format part of
+		src/dialogs/dialog-cell-format.c
+		(generate_format),
+		(draw_format_preview),
+		(fillin_negative_samples),
+		(cb_decimals_changed),
+		(cb_separator_toggle),
+		(fmt_dialog_init_fmt_list),
+		(fmt_dialog_enable_widgets),
+		(cb_format_class_changed),
+		(cb_format_entry_changed),
+		(cb_format_list_select),
+		(cb_format_currency_select),
+		(cb_format_negative_form_selected),
+		(funny_currency_order) : based on dialog_cell_format.c functions
+		(nfs_init) : based on previous fmt_dialog_init_format_page in
+		dialog_cell_format.c
+		(set_format_category_menu_from_style) : new
+		(nfs_destroy) : new
+		(nfs_class_init) : new
+		(number_format_selector_new),
+		(number_format_selector_set_focus),
+		(number_format_selector_set_style_format),
+		(number_format_selector_set_value),
+		(number_format_selector_set_date_conv),
+		(number_format_selector_editable_enters) : new
+		
 2003-06-14  Jon K Hellan  <hellan@acm.org>
 
 	* color-palette.c (color_palette_button_new):  Wrap preview

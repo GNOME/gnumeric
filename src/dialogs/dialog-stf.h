@@ -6,6 +6,7 @@
 #include <stf-parse.h>
 #include <libgnomeui/gnome-druid.h>
 #include "widgets/widget-charmap-selector.h"
+#include "widgets/widget-format-selector.h"
 
 /* for the main_page */
 typedef struct {
@@ -56,11 +57,10 @@ typedef struct {
 
 /* for the format_page */
 typedef struct {
-	/*GtkCList*/ void          *format_collist, *format_sublist;
-	GtkScrolledWindow *format_sublistholder;
-	GtkEntry          *format_format;
+	/*GtkCList*/ void          *format_collist;
 	GtkWidget         *format_data_container;
         GtkOptionMenu     *format_trim;
+	NumberFormatSelector *format_selector;
      
 	/* Page members that are created at run-time */
 	RenderData_t      *renderdata;

@@ -9,6 +9,9 @@ Andreas:
 	* Added new function SSMEDIAN (social science median, or 
           median for grouped data)
 
+Emmanuel Pacaud:
+	* New format selector for stf.
+
 Jean Brefort:
 	* Support image files in chart areas (background, bar/col or pie)
 

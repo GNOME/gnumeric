@@ -1,3 +1,53 @@
+2003-06-15  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* Makefile.am : add number-format-selector.glade
+	* cell-format.glade : remove number format page
+	* number-format-selector.glade : 
+		new, based on the number format page of cell-format.glade, 
+		excepted the use of a GtkOptionMenu for the format category
+		selection
+	* dialog-cell-format.c 
+		(_FormatState) : remove number format related variables
+		(_FormatWidget) : removed
+		(generate_format),
+		(draw_format_preview),
+		(fillin_negative_samples),
+		(cb_decimals_changed),
+		(cb_separator_toggle),
+		(fmt_dialog_init_fmt_list),
+		(fmt_dialog_enable_widgets),
+		(cb_format_class_changed),
+		(cb_format_entry_changed),
+		(cb_format_list_select),
+		(cb_format_currency_select),
+		(cb_format_negative_form_selected),
+		(funny_currency_order : removed
+		(cb_number_format_changed) : new
+		(fmt_dialog_init_format_page) : now only add number format
+		selector widget at the first notebook page
+		(cb_fmt_dialog_dialog_destroy) : remove unref of
+		state->format.spec
+		(set_initial_focus) : use number_format_selector_set_focus to
+		give the focus to the number format page
+	* dialog-stf-format-page.c 
+	 	(format_page_collist_select_row) : use
+		number_format_selector_set_style_format to set the current
+		style format of the slector widget
+		(format_page_sublist_select_row) : removed
+		(format_page_format_changed) : removed
+		(cb_number_format_changed) : new
+		(stf_dialog_format_page_init) : remove format list creation
+		code ; add initialisation of the number format selector widget
+	* dialog-stf.c 
+		(stf_dialog_set_initial_keyboard_focus) : use
+		number_format_selector_set_focus
+	 	(stf_dialog_editables_enter) : use
+		number_format_selector_editable_enters
+	* dialog-stf.h : removed format list related variables
+	* dialog-stf.glade : 
+		reduced the requested size of the preview area from 250 to 100
+		removed format list in the format page
+		
 2003-06-16  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-csv-page.c (csv_page_parseoptions_to_gui): Use

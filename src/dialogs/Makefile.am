@@ -103,6 +103,7 @@ glade_DATA = 				\
 	exp-smoothing.glade		\
 	fill-series.glade		\
 	font-sel.glade			\
+	format-selector.glade		\
 	formula-guru.glade		\
 	fourier-analysis.glade		\
 	function-select.glade 		\

@@ -31,7 +31,7 @@ typedef enum {
 
 typedef struct {
 	StfParseType_t       parsetype;             /* The type of import to do */
-	StfTrimType_t        trim_spaces;           /* Trim spaces in fields ? */
+	StfTrimType_t        trim_spaces;           /* Trim spaces in fields? */
 
 	GSList *             terminator;            /* Line terminators */
 	struct {
@@ -44,8 +44,8 @@ typedef struct {
 		char   *chr;
 	} sep;
 	gunichar             stringindicator;       /* String indicator */
-	gboolean             indicator_2x_is_single;/* 2 quote chars are a single non-terminating quote */
-	gboolean             duplicates;            /* See two text separator's as one? */
+	gboolean             indicator_2x_is_single;/* 2 quote chars form a single non-terminating quote */
+	gboolean             duplicates;            /* See two text separators as one? */
      
 	/* Fixed width related */
 	GArray              *splitpositions;        /* Positions where text will be split vertically */

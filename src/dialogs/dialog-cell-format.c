@@ -56,6 +56,8 @@
 #include <preview-grid.h>
 #include <widgets/gnumeric-expr-entry.h>
 
+#include <widgets/widget-format-selector.h>
+
 #include <libart_lgpl/art_alphagamma.h>
 #include <libart_lgpl/art_pixbuf.h>
 #include <libart_lgpl/art_rgb_pixbuf_affine.h>
@@ -82,20 +84,8 @@ typedef enum
 	BORDER_PRESET_MAX
 } BorderPresets;
 
-/* The available format widgets */
-typedef enum
-{
-    F_GENERAL,		F_DECIMAL_BOX,	F_SEPARATOR,
-    F_SYMBOL_LABEL,	F_SYMBOL,	F_DELETE,
-    F_ENTRY,		F_LIST_SCROLL,	F_LIST,
-    F_TEXT,		F_DECIMAL_SPIN,	F_NEGATIVE_SCROLL,
-    F_NEGATIVE,         F_MAX_WIDGET
-} FormatWidget;
-
-/* The maximum number of chars in the formatting sample */
-#define FORMAT_PREVIEW_MAX 40
-
 struct _FormatState;
+
 typedef struct
 {
 	struct _FormatState *state;
@@ -129,6 +119,7 @@ typedef struct {
 	GtkLabel	*name;
 	GnmExprEntry	*entry;
 } ExprEntry;
+
 typedef struct _FormatState
 {
 	GladeXML	*gui;
@@ -147,28 +138,8 @@ typedef struct _FormatState
 	int	 	 selection_mask;
 	gboolean	 enable_edit;
 
-	struct {
-		GtkLabel	*preview;
-		GtkBox		*box;
-		GtkWidget	*widget[F_MAX_WIDGET];
-		struct {
-			GtkTreeView	 *view;
-			GtkListStore	 *model;
-			GtkTreeSelection *selection;
-		} negative_types;
-		struct {
-			GtkTreeView	 *view;
-			GtkListStore	 *model;
-			GtkTreeSelection *selection;
-		} formats;
+	GtkWidget *	number_format_selector;
 
-		StyleFormat	*spec;
-		gint		 current_type;
-		int		 num_decimals;
-		int		 negative_format;
-		int		 currency_index;
-		gboolean	 use_separator;
-	} format;
 	struct {
 		GtkCheckButton	*wrap;
 		GtkSpinButton	*indent_button;
@@ -319,7 +290,7 @@ cb_toggle_changed (GtkToggleButton *button, PatternPicker *picker)
  */
 static void
 setup_pattern_button (GladeXML  *gui,
-		      char const * const name,
+		      char const *const name,
 		      PatternPicker *picker,
 		      gboolean const flag,
 		      int const index,
@@ -329,7 +300,7 @@ setup_pattern_button (GladeXML  *gui,
 	if (tmp != NULL) {
 		GtkButton *button = GTK_BUTTON (tmp);
 		if (flag) {
-			GtkWidget * image = gnumeric_load_image (name);
+			GtkWidget *image = gnumeric_load_image (name);
 			if (image != NULL)
 				gtk_container_add (GTK_CONTAINER (tmp), image);
 		}
@@ -359,10 +330,10 @@ setup_pattern_button (GladeXML  *gui,
 
 static void
 setup_color_pickers (ColorPicker *picker,
-	             char const * const color_group,
-	             char const * const container,
-		     char const * const default_caption,
-		     char const * const caption,
+	             char const *const color_group,
+	             char const *const container,
+		     char const *const default_caption,
+		     char const *const caption,
 		     FormatState *state,
 		     GCallback preview_update,
 		     MStyleElementType const e,
@@ -434,11 +405,11 @@ setup_color_pickers (ColorPicker *picker,
  * button of the same name.
  */
 static GtkWidget *
-init_button_image (GladeXML *gui, char const * const name)
+init_button_image (GladeXML *gui, char const *const name)
 {
 	GtkWidget *tmp = glade_xml_get_widget (gui, name);
 	if (tmp != NULL) {
-		GtkWidget * image = gnumeric_load_image (name);
+		GtkWidget *image = gnumeric_load_image (name);
 		if (image != NULL)
 			gtk_container_add (GTK_CONTAINER (tmp), image);
 	}
@@ -449,629 +420,51 @@ init_button_image (GladeXML *gui, char const * const name)
 /*****************************************************************************/
 
 static void
-generate_format (FormatState *state)
+cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
+			  char *fmt,
+			  FormatState *state)
 {
-	FormatFamily const page = state->format.current_type;
-	GString		*new_format = g_string_new (NULL);
+	gboolean changed = FALSE;
+	g_return_if_fail (state != NULL);
 
-	/* It is a strange idea not to reuse FormatCharacteristics
-	 in this file */
-	/* So build one to pass to the style_format_... function */
-	FormatCharacteristics format;
-
-	format.thousands_sep = state->format.use_separator;
-	format.num_decimals = state->format.num_decimals;
-	format.negative_fmt = state->format.negative_format;
-	format.currency_symbol_index = state->format.currency_index;
-	format.list_element = 0; /* Don't need this one. */
-	format.date_has_days = FALSE;
-	format.date_has_months = FALSE;
-
-	/* Update the format based on the current selections and page */
-	switch (page) {
-	case FMT_GENERAL :
-	case FMT_TEXT :
-		g_string_append (new_format, cell_formats[page][0]);
-		break;
-
-	case FMT_NUMBER :
-		/* Make sure no currency is selected */
-		format.currency_symbol_index = 0;
-
-	case FMT_CURRENCY :
-		style_format_number(new_format, &format);
-		break;
-
-	case FMT_ACCOUNT :
-		style_format_account(new_format, &format);
-		break;
-
-	case FMT_PERCENT :
-		style_format_percent(new_format, &format);
-		break;
-
-	case FMT_SCIENCE :
-		style_format_science(new_format, &format);
-		break;
-
-	default :
-		break;
-	};
-
-	if (new_format->len > 0) {
-		char *tmp = style_format_str_as_XL (new_format->str, TRUE);
-		gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]),
-				    tmp);
-		g_free (tmp);
-	}
-
-	g_string_free (new_format, TRUE);
-}
-
-static void
-draw_format_preview (FormatState *state, gboolean regen_format)
-{
-	gchar		*preview;
-	StyleFormat	*sf = NULL;
-
-	if (regen_format)
-		generate_format (state);
-
-	/* Nothing to sample. */
-	if (state->value == NULL)
-		return;
-
-	if (mstyle_is_element_set (state->result, MSTYLE_FORMAT))
-		sf = mstyle_get_format (state->result);
-	else if (!mstyle_is_element_conflict (state->style, MSTYLE_FORMAT))
-		sf = mstyle_get_format (state->style);
-
-	if (sf == NULL || state->value == NULL)
-		return;
-
-	if (style_format_is_general (sf) &&
-	    VALUE_FMT (state->value) != NULL)
-		sf = VALUE_FMT (state->value);
-
-	preview = format_value (sf, state->value, NULL, -1,
-			workbook_date_conv (state->sheet->workbook));
-	if (strlen (preview) > FORMAT_PREVIEW_MAX)
-		strcpy (&preview[FORMAT_PREVIEW_MAX - 5], " ...");
-
-	gtk_label_set_text (state->format.preview, preview);
-	g_free (preview);
-}
-
-static void
-fillin_negative_samples (FormatState *state)
-{
-	static char const * const decimals = "098765432109876543210987654321";
-	static char const * const formats[4] = {
-		"-%s%s3%s210%s%s%s%s",
-		"%s%s3%s210%s%s%s%s",
-		"(%s%s3%s210%s%s%s%s)",
-		"(%s%s3%s210%s%s%s%s)"
-	};
-	int const n = 30 - state->format.num_decimals;
-
-	int const page = state->format.current_type;
-	char const *space_b = "", *currency_b;
-	char const *space_a = "", *currency_a;
-	char decimal[2] = { '\0', '\0' } ;
-	char thousand_sep[2] = { '\0', '\0' } ;
-	int i;
-	GtkTreeIter  iter;
-	GtkTreePath *path;
-
-	g_return_if_fail (page == 1 || page == 2);
-	g_return_if_fail (state->format.num_decimals <= 30);
-
-	if (state->format.use_separator)
-		thousand_sep[0] = format_get_thousand ();
-	if (state->format.num_decimals > 0)
-		decimal[0] = format_get_decimal ();
-
-	if (page == 2) {
-		currency_b = (const gchar *)currency_symbols[state->format.currency_index].symbol;
-		/*
-		 * FIXME : This should be better hidden.
-		 * Ideally the render would do this for us.
-		 */
-		if (currency_b[0] == '[' && currency_b[1] == '$') {
-			char const *end = strchr (currency_b+2, '-');
-			if (end == NULL)
-				end = strchr (currency_b+2, ']');
-			currency_b = g_strndup (currency_b+2, end-currency_b-2);
-		} else
-			currency_b = g_strdup (currency_b);
-
-		if (currency_symbols[state->format.currency_index].has_space)
-			space_b = " ";
-
-		if (!currency_symbols[state->format.currency_index].precedes) {
-			currency_a = currency_b;
-			currency_b = "";
-			space_a = space_b;
-			space_b = "";
-		} else {
-			currency_a = "";
-		}
-	} else
-		currency_a = currency_b = "";
-
-	gtk_list_store_clear (state->format.negative_types.model);
-
-	for (i = 0 ; i < 4; i++) {
-		char *buf = g_strdup_printf (formats[i],
-					     currency_b, space_b, thousand_sep, decimal,
-					     decimals + n, space_a, currency_a);
-		gtk_list_store_append (state->format.negative_types.model, &iter);
-		gtk_list_store_set (state->format.negative_types.model, &iter,
-			0, i,
-			1, buf,
-			2, (i % 2) ? "red" : NULL,
-			-1);
-		g_free (buf);
-	}
-
-	/* If non empty then free the string */
-	if (*currency_a)
-		g_free ((char*)currency_a);
-	if (*currency_b)
-		g_free ((char*)currency_b);
-
-	path = gtk_tree_path_new ();
-	gtk_tree_path_append_index (path, state->format.negative_format);
-	gtk_tree_selection_select_path (state->format.negative_types.selection, path);
-	gtk_tree_path_free (path);
-}
-
-static void
-cb_decimals_changed (GtkEditable *editable, FormatState *state)
-{
-	int const page = state->format.current_type;
-
-	state->format.num_decimals =
-		gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (editable));
-
-	if (page == 1 || page == 2)
-		fillin_negative_samples (state);
-
-	draw_format_preview (state, TRUE);
-}
-
-static void
-cb_separator_toggle (GtkObject *obj, FormatState *state)
-{
-	state->format.use_separator =
-		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj));
-	fillin_negative_samples (state);
-
-	draw_format_preview (state, TRUE);
-}
-
-static void
-fmt_dialog_init_fmt_list (FormatState *state, char const * const *formats,
-			  GtkTreeIter *select)
-{
-	GtkTreeIter iter;
-	char *fmt;
-	char const *cur_fmt = state->format.spec->format;
-
-	for (; *formats; formats++) {
-		gtk_list_store_append (state->format.formats.model, &iter);
-		fmt = style_format_str_as_XL (*formats, TRUE);
-		gtk_list_store_set (state->format.formats.model, &iter,
-			0, fmt, -1);
-		g_free (fmt);
-
-		if (!strcmp (*formats, cur_fmt))
-			*select = iter;
-	}
-}
-
-static void
-fmt_dialog_enable_widgets (FormatState *state, int page)
-{
-	static FormatWidget const contents[12][8] = {
-		/* General */
-		{ F_GENERAL, F_MAX_WIDGET },
-		/* Number */
-		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_SEPARATOR,
-		  F_NEGATIVE_SCROLL, F_NEGATIVE, F_MAX_WIDGET },
-		/* Currency */
-		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_SEPARATOR, F_SYMBOL_LABEL, F_SYMBOL,
-		  F_NEGATIVE_SCROLL, F_NEGATIVE, F_MAX_WIDGET },
-		/* Accounting */
-		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_SYMBOL_LABEL, F_SYMBOL, F_MAX_WIDGET },
-		/* Date */
-		{ F_LIST_SCROLL, F_LIST, F_MAX_WIDGET },
-		/* Time */
-		{ F_LIST_SCROLL, F_LIST, F_MAX_WIDGET },
-		/* Percentage */
-		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_MAX_WIDGET },
-		/* Fraction */
-		{ F_LIST_SCROLL, F_LIST, F_MAX_WIDGET },
-		/* Scientific */
-		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_MAX_WIDGET },
-		/* Text */
-		{ F_TEXT, F_MAX_WIDGET },
-		/* Special */
-		{ F_MAX_WIDGET },
-		/* Custom */
-		{ F_ENTRY, F_LIST_SCROLL, F_LIST, F_DELETE, F_MAX_WIDGET }
-	};
-
-	int const old_page = state->format.current_type;
-	int i;
-	FormatWidget tmp;
-
-	/* Hide widgets from old page */
-	if (old_page >= 0)
-		for (i = 0; (tmp = contents[old_page][i]) != F_MAX_WIDGET ; ++i)
-			gtk_widget_hide (state->format.widget[tmp]);
-
-	/* Set the default format if appropriate */
-	if (page == FMT_GENERAL || page == FMT_ACCOUNT || page == FMT_FRACTION || page == FMT_TEXT) {
-		FormatCharacteristics info;
-		int list_elem = 0;
-		char *tmp;
-		if (page == cell_format_classify (state->format.spec, &info))
-			list_elem = info.list_element;
-
-		tmp = style_format_str_as_XL (cell_formats[page][list_elem], TRUE);
-		gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]), tmp);
-		g_free (tmp);
-	}
-
-	state->format.current_type = page;
-	for (i = 0; (tmp = contents[page][i]) != F_MAX_WIDGET ; ++i) {
-		GtkWidget *w = state->format.widget[tmp];
-		gtk_widget_show (w);
-
-		if (tmp == F_LIST) {
-			int start = 0, end = -1;
-			GtkTreeIter select;
-
-			switch (page) {
-			case 4: case 5: case 7:
-				start = end = page;
-				break;
-
-			case 11:
-				start = 0; end = 8;
-				break;
-
-			default :
-				g_assert_not_reached ();
-			};
-
-			select.stamp = 0;
-			gtk_list_store_clear (state->format.formats.model);
-			for (; start <= end ; ++start)
-				fmt_dialog_init_fmt_list (state,
-					cell_formats[start], &select);
-
-			/* If this is the custom page and the format has
-			 * not been found append it */
-			/* TODO We should add the list of other custom formats created.
-			 *      It should be easy.  All that is needed is a way to differentiate
-			 *      the std formats and the custom formats in the StyleFormat hash.
-			 */
-			if  (page == 11 && select.stamp == 0) {
-				char *tmp = style_format_as_XL (state->format.spec, TRUE);
-				gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]), tmp);
-				g_free (tmp);
-			} else if (select.stamp == 0)
-				gtk_tree_model_get_iter_first (
-					GTK_TREE_MODEL (state->format.formats.model),
-					&select);
-
-			if (select.stamp != 0)
-				gtk_tree_selection_select_iter (
-					state->format.formats.selection, &select);
-		} else if (tmp == F_NEGATIVE)
-			fillin_negative_samples (state);
-		else if (tmp == F_DECIMAL_SPIN)
-			gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->format.widget[F_DECIMAL_SPIN]),
-				state->format.num_decimals);
-		else if (tmp == F_SEPARATOR)
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->format.widget[F_SEPARATOR]),
-				state->format.use_separator);
-	}
-
-#if 0
-	if ((cl = GTK_CLIST (state->format.widget[F_LIST])) != NULL)
-		gnumeric_clist_make_selection_visible (cl);
-#endif
-
-	draw_format_preview (state, TRUE);
-}
-
-/*
- * Callback routine to manage the relationship between the number
- * formating radio buttons and the widgets required for each mode.
- */
-static void
-cb_format_class_changed (GtkToggleButton *button, FormatState *state)
-{
-	if (gtk_toggle_button_get_active (button))
-		fmt_dialog_enable_widgets (state, GPOINTER_TO_INT (
-			g_object_get_data (G_OBJECT (button), "index")));
-}
-
-static void
-cb_format_entry_changed (GtkEditable *w, FormatState *state)
-{
-	char *fmt;
 	if (!state->enable_edit)
 		return;
 
-	fmt = style_format_delocalize (gtk_entry_get_text (GTK_ENTRY (w)));
-	if (strcmp (state->format.spec->format, fmt)) {
-		style_format_unref (state->format.spec);
-		state->format.spec = style_format_new_XL (fmt, FALSE);
-		mstyle_set_format_text (state->result, fmt);
-		fmt_dialog_changed (state);
-		draw_format_preview (state, FALSE);
-	} else
-		g_free (fmt);
-}
-
-static void
-cb_format_list_select (GtkTreeSelection *selection, FormatState *state)
-{
-	GtkTreeIter iter;
-	gchar *text;
-
-	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
-		return;
-
-	gtk_tree_model_get (GTK_TREE_MODEL (state->format.formats.model),
-		&iter, 0, &text, -1);
-	gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]), text);
-}
-
-static gboolean
-cb_format_currency_select (G_GNUC_UNUSED GtkWidget *ct,
-			   char *new_text, FormatState *state)
-{
-	int i;
-
-	/* ignore the clear while assigning a new value */
-	if (!state->enable_edit || new_text == NULL || *new_text == '\0')
-		return FALSE;
-
-	for (i = 0; currency_symbols[i].symbol != NULL ; ++i)
-		if (!strcmp (_(currency_symbols[i].description), new_text)) {
-			state->format.currency_index = i;
-			break;
-		}
-
-	if (state->format.current_type == 1 || state->format.current_type == 2)
-		fillin_negative_samples (state);
-	draw_format_preview (state, TRUE);
-
-	return TRUE;
-}
-
-static void
-cb_format_negative_form_selected (GtkTreeSelection *selection, FormatState *state)
-{
-	GtkTreeIter iter;
-	int type;
-
-	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
-		return;
-
-	gtk_tree_model_get (GTK_TREE_MODEL (state->format.negative_types.model),
-		&iter, 0, &type, -1);
-	state->format.negative_format = type;
-	draw_format_preview (state, TRUE);
-}
-
-static gint
-funny_currency_order (gconstpointer _a, gconstpointer _b)
-{
-	char const *a = (char const *)_a;
-	char const *b = (char const *)_b;
-
-	/* One letter versions?  */
-	gboolean a1 = (a[0] && *(g_utf8_next_char(a)) == '\0');
-	gboolean b1 = (b[0] && *(g_utf8_next_char(b)) == '\0');
-
-	if (a1) {
-		if (b1) {
-			return strcmp (a, b);
-		} else {
-			return -1;
-		}
-	} else {
-		if (b1) {
-			return +1;
-		} else {
-			return strcmp (a, b);
-		}
+	if (fmt)
+	{
+	  	mstyle_set_format_text (state->result, g_strdup (fmt));
+		changed =  TRUE;
 	}
+
+	if (changed)
+		fmt_dialog_changed (state);
 }
 
 static void
 fmt_dialog_init_format_page (FormatState *state)
 {
-	static char const * const format_buttons[] = {
-	    "format_general",	"format_number",
-	    "format_currency",	"format_accounting",
-	    "format_date",	"format_time",
-	    "format_percentage","format_fraction",
-	    "format_scientific","format_text",
-	    "format_special",	"format_custom",
-	    NULL
-	};
+	NumberFormatSelector *nfs;
 
-	/* The various format widgets */
-	static char const * const widget_names[] = {
-		"format_general_label",	"format_decimal_box",
-		"format_separator",	"format_symbol_label",
-		"format_symbol_select",	"format_delete",
-		"format_entry",
-		"format_list_scroll",	"format_list",
-		"format_text_label",	"format_number_decimals",
-		"format_negatives_scroll", "format_negatives",
-		NULL
-	};
+	state->number_format_selector = number_format_selector_new ();
+	nfs = NUMBER_FORMAT_SELECTOR (state->number_format_selector);
 
-	GtkWidget *tmp;
-	GtkTreeViewColumn *column;
-	GnmComboText *combo;
-	char const *name;
-	int i, page;
-	FormatCharacteristics info;
-	StyleFormat *fmt;
+	gtk_notebook_prepend_page (GTK_NOTEBOOK (state->notebook),
+				   state->number_format_selector,
+				   gtk_label_new (_("Number")));
+	gtk_widget_show (GTK_WIDGET (nfs));
 
-	/* Get the current format */
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_FORMAT))
-		fmt = mstyle_get_format (state->style);
-	else
-		fmt = style_format_general ();
+		number_format_selector_set_style_format (nfs,
+							 mstyle_get_format (state->style));
+	if (state->value)
+		number_format_selector_set_value (nfs, state->value);
+	number_format_selector_set_date_conv (nfs,
+					      workbook_date_conv (state->sheet->workbook));
+	number_format_selector_editable_enters (nfs, GTK_WINDOW (state->dialog));
 
-	if (style_format_is_general (fmt) &&
-	    state->value != NULL && VALUE_FMT (state->value) != NULL)
-		fmt = VALUE_FMT (state->value);
-
-	state->format.preview = NULL;
-	state->format.spec = fmt;
-	style_format_ref (fmt);
-
-	/* The handlers will set the format family later.  -1 flags that
-	 * all widgets are already hidden. */
-	state->format.current_type = -1;
-
-	/* Attempt to extract general parameters from the current format */
-	if ((page = cell_format_classify (fmt, &info)) < 0)
-		page = 11; /* Default to custom */
-
-	/* Even if the format was not recognized it has set intelligent defaults */
-	state->format.use_separator = info.thousands_sep;
-	state->format.num_decimals = info.num_decimals;
-	state->format.negative_format = info.negative_fmt;
-	state->format.currency_index = info.currency_symbol_index;
-
-	state->format.box = GTK_BOX (glade_xml_get_widget (state->gui, "format_box"));
-	state->format.preview = GTK_LABEL (glade_xml_get_widget (state->gui, "format_sample"));
-
-	/* Collect all the required format widgets and hide them */
-	for (i = 0; (name = widget_names[i]) != NULL; ++i) {
-		tmp = glade_xml_get_widget (state->gui, name);
-
-		g_return_if_fail (tmp != NULL);
-
-		gtk_widget_hide (tmp);
-		state->format.widget[i] = tmp;
-	}
-
-	/* setup the structure of the negative type list */
-	state->format.negative_types.model = gtk_list_store_new (3,
-		G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING);
-	state->format.negative_types.view =
-		GTK_TREE_VIEW (state->format.widget[F_NEGATIVE]);
-	gtk_tree_view_set_model (state->format.negative_types.view,
-		GTK_TREE_MODEL (state->format.negative_types.model));
-	column = gtk_tree_view_column_new_with_attributes (_("Negative Number Format"),
-			gtk_cell_renderer_text_new (),
-			"text",		1,
-			"foreground",	2,
-			NULL);
-	gtk_tree_view_append_column (state->format.negative_types.view, column);
-	state->format.negative_types.selection =
-		gtk_tree_view_get_selection (state->format.negative_types.view);
-	gtk_tree_selection_set_mode (state->format.negative_types.selection,
-				     GTK_SELECTION_SINGLE);
-	g_signal_connect (G_OBJECT (state->format.negative_types.selection),
-		"changed",
-		G_CALLBACK (cb_format_negative_form_selected), state);
-
-	/* Catch changes to the spin box */
-	g_signal_connect (G_OBJECT (state->format.widget[F_DECIMAL_SPIN]),
-		"changed",
-		G_CALLBACK (cb_decimals_changed), state);
-
-	/* Catch <return> in the spin box */
-	gnumeric_editable_enters (
-		GTK_WINDOW (state->dialog),
-		GTK_WIDGET (state->format.widget[F_DECIMAL_SPIN]));
-
-	/* Setup special handlers for : Numbers */
-	g_signal_connect (G_OBJECT (state->format.widget[F_SEPARATOR]),
-		"toggled",
-		G_CALLBACK (cb_separator_toggle), state);
-
-	/* setup custom format list */
-	state->format.formats.model = gtk_list_store_new (1,
-		G_TYPE_STRING);
-	state->format.formats.view =
-		GTK_TREE_VIEW (state->format.widget[F_LIST]);
-	gtk_tree_view_set_model (state->format.formats.view,
-		GTK_TREE_MODEL (state->format.formats.model));
-	column = gtk_tree_view_column_new_with_attributes (_("Number Formats"),
-			gtk_cell_renderer_text_new (),
-			"text",		0,
-			NULL);
-	gtk_tree_view_append_column (state->format.formats.view, column);
-	state->format.formats.selection =
-		gtk_tree_view_get_selection (state->format.formats.view);
-	gtk_tree_selection_set_mode (state->format.formats.selection,
-				     GTK_SELECTION_BROWSE);
-	g_signal_connect (G_OBJECT (state->format.formats.selection),
-		"changed",
-		G_CALLBACK (cb_format_list_select), state);
-
-	/* Setup handler Currency & Accounting currency symbols */
-	combo = GNM_COMBO_TEXT (state->format.widget[F_SYMBOL]);
-	if (combo != NULL) {
-		GList *ptr, *l = NULL;
-
-		for (i = 0; currency_symbols[i].symbol != NULL ; ++i)
-			l = g_list_append (l, _((const gchar *)currency_symbols[i].description));
-		l = g_list_sort (l, funny_currency_order);
-
-		for (ptr = l; ptr != NULL ; ptr = ptr->next)
-			gnm_combo_text_add_item	(combo, ptr->data);
-		g_list_free (l);
-		gnm_combo_text_set_text	 (combo,
-			_((const gchar *)currency_symbols[state->format.currency_index].description),
-			GNM_COMBO_TEXT_FROM_TOP);
-
-		g_signal_connect (G_OBJECT (combo),
-			"entry_changed",
-			G_CALLBACK (cb_format_currency_select), state);
-	}
-
-	/* Setup special handler for Custom */
-	g_signal_connect (G_OBJECT (state->format.widget[F_ENTRY]),
-		"changed",
-		G_CALLBACK (cb_format_entry_changed), state);
-	gnumeric_editable_enters (
-		GTK_WINDOW (state->dialog),
-		GTK_WIDGET (state->format.widget[F_ENTRY]));
-
-	/* Setup format buttons to toggle between the format pages */
-	for (i = 0; (name = format_buttons[i]) != NULL; ++i) {
-		tmp = glade_xml_get_widget (state->gui, name);
-		if (tmp == NULL)
-			continue;
-		g_object_set_data (G_OBJECT (tmp), "index",
-				   GINT_TO_POINTER (i));
-
-		if (i == page) {
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp), TRUE);
-			cb_format_class_changed (GTK_TOGGLE_BUTTON (tmp), state);
-		}
-
-		g_signal_connect (G_OBJECT (tmp),
-			"toggled",
-			G_CALLBACK (cb_format_class_changed), state);
-
-	}
+	g_signal_connect (G_OBJECT (state->number_format_selector),
+			  "number_format_changed",
+			  G_CALLBACK (cb_number_format_changed), state);
 }
 
 /*****************************************************************************/
@@ -1139,7 +532,7 @@ cb_align_wrap_toggle (GtkToggleButton *button, FormatState *state)
 }
 
 static void
-fmt_dialog_init_align_radio (char const * const name,
+fmt_dialog_init_align_radio (char const *const name,
 			     int const val, int const target,
 			     FormatState *state,
 			     GCallback handler)
@@ -1354,7 +747,7 @@ static void
 fmt_dialog_init_align_page (FormatState *state)
 {
 	static struct {
-		char const * const	name;
+		char const *const	name;
 		StyleHAlignFlags	align;
 	} const h_buttons[] = {
 	    { "halign_left",	HALIGN_LEFT },
@@ -1367,7 +760,7 @@ fmt_dialog_init_align_page (FormatState *state)
 	    { NULL }
 	};
 	static struct {
-		char const * const	name;
+		char const *const	name;
 		StyleVAlignFlags	align;
 	} const v_buttons[] = {
 	    { "valign_top", VALIGN_TOP },
@@ -1795,7 +1188,7 @@ static struct
 static StyleBorder *
 border_get_mstyle (FormatState const *state, StyleBorderLocation const loc)
 {
-	BorderPicker const * edge = & state->border.edge[loc];
+	BorderPicker const *edge = & state->border.edge[loc];
 	StyleColor *color;
 	/* Don't set borders that have not been changed */
 	if (!edge->is_set)
@@ -2036,7 +1429,7 @@ draw_border_preview (FormatState *state)
 				points->coords[j] = line_info[i].points[j];
 
 			if (line_info[i].states & state->selection_mask) {
-				BorderPicker const * p =
+				BorderPicker const *p =
 				    & state->border.edge[line_info[i].location];
 				state->border.lines[i] =
 					gnome_canvas_item_new (group,
@@ -2173,7 +1566,7 @@ init_border_button (FormatState *state, StyleBorderLocation const i,
 		state->border.edge[i].pattern_index = STYLE_BORDER_INCONSISTENT;
 		state->border.edge[i].is_selected = TRUE;
 	} else {
-		StyleColor const * c = border->color;
+		StyleColor const *c = border->color;
 		state->border.edge[i].rgba =
 		    GNOME_CANVAS_COLOR (c->color.red >> 8,
 					c->color.green >> 8,
@@ -2667,7 +2060,6 @@ static void
 cb_fmt_dialog_dialog_destroy (FormatState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
-	style_format_unref (state->format.spec);
 	mstyle_unref (state->back.style);
 	mstyle_unref (state->style);
 	mstyle_unref (state->result);
@@ -2700,7 +2092,10 @@ set_initial_focus (FormatState *s)
 	name = gtk_widget_get_name (pagew);
 
 	if (strcmp (name, "number_box") == 0)
-		focus_widget = glade_xml_get_widget (s->gui, "format_general");
+	{
+		number_format_selector_set_focus (NUMBER_FORMAT_SELECTOR(s->number_format_selector));
+		return;
+	}
 	else if (strcmp (name, "alignment_box") == 0)
 	      focus_widget = glade_xml_get_widget (s->gui, "halign_left");
 	else if (strcmp (name, "font_box") == 0)
@@ -2724,7 +2119,7 @@ static void
 fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 {
 	static struct {
-		char const * const name;
+		char const *const name;
 		StyleBorderType const pattern;
 	} const line_pattern_buttons[] = {
 		{ "line_pattern_none", STYLE_BORDER_NONE },
@@ -2750,7 +2145,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 
 		{ NULL }
 	};
-	static char const * const pattern_buttons[] = {
+	static char const *const pattern_buttons[] = {
 		"gp_solid", "gp_75grey", "gp_50grey",
 		"gp_25grey", "gp_125grey", "gp_625grey",
 
@@ -2779,7 +2174,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	};
 
 	/* The order corresponds to the BorderLocation enum */
-	static char const * const border_buttons[] = {
+	static char const *const border_buttons[] = {
 		"top_border",	"bottom_border",
 		"left_border",	"right_border",
 		"rev_diag_border",	"diag_border",
@@ -2788,7 +2183,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	};
 
 	/* The order corresponds to BorderPresets */
-	static char const * const border_preset_buttons[] = {
+	static char const *const border_preset_buttons[] = {
 		"no_border", "outline_border", "inside_border",
 		NULL
 	};
@@ -2808,6 +2203,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	/* Initialize */
 	state->dialog	   = GTK_DIALOG (dialog);
 	state->notebook	   = GTK_NOTEBOOK (glade_xml_get_widget (state->gui, "notebook"));
+
 	state->enable_edit = FALSE;  /* Enable below */
 
 	state->border.canvas	= NULL;
@@ -2818,7 +2214,16 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	state->back.style             = mstyle_new_default ();
 	state->back.pattern.cur_index = 0;
 
+	fmt_dialog_init_format_page (state);
+	fmt_dialog_init_align_page (state);
+	fmt_dialog_init_font_page (state);
+	fmt_dialog_init_background_page (state);
+	fmt_dialog_init_protection_page (state);
+	fmt_dialog_init_validation_page (state);
+	fmt_dialog_init_input_msg_page (state);
+
 	default_border_color = &GTK_WIDGET (state->dialog)->style->black;
+
 
 	if (pageno == FD_CURRENT)
 		pageno = fmt_dialog_page;
@@ -2830,14 +2235,6 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	g_signal_connect (G_OBJECT (state->notebook),
 		"destroy",
 		G_CALLBACK (cb_notebook_destroy), GINT_TO_POINTER (page_signal));
-
-	fmt_dialog_init_format_page (state);
-	fmt_dialog_init_align_page (state);
-	fmt_dialog_init_font_page (state);
-	fmt_dialog_init_background_page (state);
-	fmt_dialog_init_protection_page (state);
-	fmt_dialog_init_validation_page (state);
-	fmt_dialog_init_input_msg_page (state);
 
 	/* Setup border line pattern buttons & select the 1st button */
 	for (i = MSTYLE_BORDER_TOP; i < MSTYLE_BORDER_DIAGONAL; i++) {
@@ -3010,6 +2407,7 @@ fmt_dialog_selection_type (SheetView *sv,
 
 	sheet_style_get_uniform (state->sheet, range,
 				 &(state->style), state->borders);
+
 	return TRUE;
 }
 

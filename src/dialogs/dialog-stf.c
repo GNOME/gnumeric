@@ -102,8 +102,7 @@ stf_dialog_set_initial_keyboard_focus (DruidPageData_t *pagedata)
 			(&pagedata->fixed.fixed_colend->entry);
 		break; /* ?? */
 	case DPG_FORMAT:
-		focus_widget =
-			GTK_WIDGET (pagedata->format.format_format);
+		number_format_selector_set_focus (pagedata->format.format_selector);
 		break;
 	default:
 		g_warning ("Unknown druid position");
@@ -416,9 +415,9 @@ stf_dialog_editables_enter (DruidPageData_t *pagedata)
 	gnumeric_editable_enters
 		(pagedata->window,
 		 GTK_WIDGET (&pagedata->fixed.fixed_colend->entry));
-	gnumeric_editable_enters
-		(pagedata->window,
-		 GTK_WIDGET (pagedata->format.format_format));
+	number_format_selector_editable_enters
+		(pagedata->format.format_selector,
+	         pagedata->window);
 }
 
 /**
