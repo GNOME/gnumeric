@@ -25,9 +25,9 @@ create_bitmap_and_mask_from_xpm (GdkBitmap **bitmap, GdkBitmap **mask, gchar **x
 	int height, width, colors;
 	char pixmap_buffer [(32 * 32)/8];
 	char mask_buffer [(32 * 32)/8];
-	int x, y, pix;
+	int x, y, pix, yofs;
 	int transparent_color, black_color;
-	
+
 	sscanf (xpm [0], "%d %d %d %d", &height, &width, &colors, &pix);
 
 	g_assert (height == 32);
@@ -36,16 +36,17 @@ create_bitmap_and_mask_from_xpm (GdkBitmap **bitmap, GdkBitmap **mask, gchar **x
 
 	transparent_color = ' ';
 	black_color = '.';
-	
+
+	yofs = colors + 1;
 	for (y = 0; y < 32; y++){
 		for (x = 0; x < 32;){
 			char value = 0, maskv = 0;
 			
 			for (pix = 0; pix < 8; pix++, x++){
-				if (xpm [4+y][x] != transparent_color){
+				if (xpm [y + yofs][x] != transparent_color){
 					maskv |= 1 << pix;
 
-					if (xpm [4+y][x] != black_color){
+					if (xpm [y + yofs][x] != black_color){
 						value |= 1 << pix;
 					}
 				}

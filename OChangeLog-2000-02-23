@@ -1,3 +1,10 @@
+1999-09-07  Morten Welinder  <terra@diku.dk>
+
+	* src/mathfunc.h: Make up for deficient header files.
+
+	* src/cursors.c (create_bitmap_and_mask_from_xpm): Fix bitmap
+ 	loading.  This code isn't exactly elegant.
+
 1999-09-05  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/print-preview.c (preview_canvas_event): Add an event handler
