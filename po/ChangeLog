@@ -1,3 +1,9 @@
+2001-08-08  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* no.po: Updated Norwegian (bokmål) translation.
+	* nn.po: Updated Norwegian (nynorsk) translation from
+	Roy-Magne Mo <rmo@sunnmore.net>.	
+
 2001-08-17  Yukihiro Nakai <nakai@gnome.gr.jp>
 
 	* zh_CN.GB2312.po: Update Chinese translation from Donald Park.
