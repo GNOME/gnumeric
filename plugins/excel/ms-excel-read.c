@@ -2773,6 +2773,7 @@ excel_prepare_autofilter (ExcelWorkbook *ewb, GnmNamedExpr *nexpr)
 
 			if (valid) {
 				(void) gnm_filter_new (r.sheet, &r.range);
+				expr_name_remove (nexpr);
 				return;
 			}
 		}

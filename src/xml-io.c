@@ -143,6 +143,24 @@ xml_node_set_cstr (xmlNodePtr node, char const *name, char const *val)
 }
 
 gboolean
+xml_node_get_bool (xmlNodePtr node, char const *name, gboolean *val)
+{
+	xmlChar *buf = xml_node_get_cstr (node, name);
+	if (buf == NULL)
+		return FALSE;
+
+	*val = (0 == g_ascii_strcasecmp (buf, "true"));
+	g_free (buf);
+	return TRUE;
+}
+
+void
+xml_node_set_bool (xmlNodePtr node, char const *name, gboolean val)
+{
+	xml_node_set_cstr (node, name, val ? "true" : "false");
+}
+
+gboolean
 xml_node_get_int (xmlNodePtr node, char const *name, int *val)
 {
 	xmlChar *buf;
@@ -261,16 +279,9 @@ static void
 xml_node_set_print_unit (xmlNodePtr node, char const *name,
 			 PrintUnit const *pu)
 {
-	xmlChar *tstr;
-
-	const char *txt = pu->desired_display->abbr;
 	xmlNodePtr child = xmlNewChild (node, NULL, CC2XML (name), NULL);
-
 	xml_node_set_points (child, "Points", pu->points);
-
-	tstr = xmlEncodeEntitiesReentrant (node->doc, CC2XML (txt));
-	xml_node_set_cstr (child, "PrefUnit", CXML2C (tstr));
-	if (tstr) xmlFree (tstr);
+	xml_node_set_cstr (child, "PrefUnit", pu->desired_display->abbr);
 }
 
 static void
@@ -278,19 +289,13 @@ xml_node_set_print_margins (xmlNodePtr node, char const *name,
 			    double points)
 {
 	xmlNodePtr  child;
-	char const *txt = "Pt";
-	xmlChar       *tstr;
 
 	if (name == NULL)
 		return;
 
 	child = xmlNewChild (node, NULL, CC2XML (name), NULL);
-
 	xml_node_set_points (child, "Points", points);
-
-	tstr = xmlEncodeEntitiesReentrant (node->doc, CC2XML (txt));
-	xml_node_set_cstr (child, "PrefUnit", CXML2C (tstr));
-	if (tstr) xmlFree (tstr);
+	xml_node_set_cstr (child, "PrefUnit", "Pt");
 }
 
 static void
@@ -605,17 +610,10 @@ xml_write_style (XmlParseContext *ctxt,
 					     CC2XML ("UseDropdown"),
 			v->use_dropdown);
 
-		if (v->title != NULL && v->title->str[0] != '\0') {
-			tstr = xmlEncodeEntitiesReentrant (ctxt->doc, CC2XML (v->title->str));
-			xml_node_set_cstr (child, "Title", CXML2C (tstr));
-			if (tstr) xmlFree (tstr);
-		}
-
-		if (v->msg != NULL && v->msg->str[0] != '\0') {
-			tstr = xmlEncodeEntitiesReentrant (ctxt->doc, CC2XML (v->msg->str));
-			xml_node_set_cstr (child, "Message", CXML2C (tstr));
-			if (tstr) xmlFree (tstr);
-		}
+		if (v->title != NULL && v->title->str[0] != '\0')
+			xml_node_set_cstr (child, "Title", v->title->str);
+		if (v->msg != NULL && v->msg->str[0] != '\0')
+			xml_node_set_cstr (child, "Message", v->msg->str);
 
 		parse_pos_init (&pp, ctxt->wb, ctxt->sheet, 0, 0);
 		if (v->expr[0] != NULL &&
@@ -2019,25 +2017,174 @@ xml_write_sheet_layout (XmlParseContext *ctxt, xmlNodePtr tree, Sheet const *she
 	}
 }
 
+static char const *filter_cond_name[] = { "eq", "gt", "lt", "gte", "lte", "ne" };
+static struct { char const *op, *valtype, *val; } filter_expr_attrs[] = {
+	{ "Op0", "Value0", "ValueType0" },
+	{ "Op1", "Value1", "ValueType1" }
+};
+
+static GnmFilterCondition *
+xml_read_filter_expr (XmlParseContext *ctxt, xmlNode *field)
+{
+	ValueType value_type;
+	GnmFilterOp op[2];
+	Value *v[2];
+	int i, j;
+	xmlChar *tmp;
+
+	for (i = 0 ; i < 2 ; i++) {
+		/* get the operator */
+		tmp = xml_node_get_cstr (field, filter_expr_attrs[i].op);
+		if (tmp == NULL)
+			break;
+		for (j = G_N_ELEMENTS (filter_cond_name); j-- ; )
+			if (!g_ascii_strcasecmp (tmp, filter_cond_name[j]))
+				break;
+		xmlFree (tmp);
+		if (j < 0)
+			break;
+		op[i] = j;
+
+		/* get value */
+		if (!xml_node_get_int (field, filter_expr_attrs[i].valtype, &j))
+			break;
+		value_type = j;
+
+		tmp = xml_node_get_cstr (field, filter_expr_attrs[i].val);
+		if (tmp == NULL)
+			break;
+		v[i] = value_new_from_string (value_type,
+			CXML2C (tmp), NULL);
+		xmlFree (tmp);
+	}
+
+	if (i == 0)
+		return NULL;
+	if (i == 1)
+		return gnm_filter_condition_new_single (op[0], v[0]);
+
+	if (i == 2) {
+		gboolean is_and = TRUE;
+		xml_node_get_bool (field, "IsAnd", &is_and);
+		return gnm_filter_condition_new_double (
+			op[0], v[0], is_and, op[1], v[1]);
+	}
+
+	return NULL;
+}
+
+static void
+xml_write_filter_expr (XmlParseContext *ctxt, xmlNode *field,
+		       GnmFilterCondition const *cond, unsigned i)
+{
+	char    *text;
+	xml_node_set_cstr (field, filter_expr_attrs[i].op,
+			   filter_cond_name [cond->op[i]]);
+	xml_node_set_int (field, filter_expr_attrs[i].valtype,
+			  cond->value[i]->type);
+
+	text = C2XML (value_get_as_string (cond->value[i]));
+	xml_node_set_cstr (field, filter_expr_attrs[i].val, text);
+	g_free (text);
+}
+
+static void
+xml_read_filter_field (XmlParseContext *ctxt, xmlNode *field, GnmFilter *filter)
+{
+	GnmFilterCondition *cond = NULL;
+	char *type;
+	int i;
+
+	if (!xml_node_get_int (field, "Index", &i))
+		return;
+
+	type = xml_node_get_cstr (field, "Type");
+	if (type == NULL)
+		return;
+
+	if (!g_ascii_strcasecmp (type, "expr"))
+		cond = xml_read_filter_expr (ctxt, field);
+	else if (!g_ascii_strcasecmp (type, "blanks"))
+		cond = gnm_filter_condition_new_single (
+				  GNM_FILTER_OP_BLANKS, NULL);
+	else if (!g_ascii_strcasecmp (type, "nonblanks"))
+		cond = gnm_filter_condition_new_single (
+				  GNM_FILTER_OP_NON_BLANKS, NULL);
+	else if (!g_ascii_strcasecmp (type, "bucket")) {
+		gboolean top, items;
+		int count;
+
+		if (xml_node_get_bool (field, CC2XML ("Top"), &top) &&
+		    xml_node_get_bool (field, CC2XML ("Items"), &items) &&
+		    xml_node_get_int (field, CC2XML ("Count"), &count))
+			cond = gnm_filter_condition_new_bucket (
+					top, items, count);
+	}
+	xmlFree (type);
+
+	if (cond != NULL)
+		gnm_filter_set_condition (filter, i, cond, FALSE);
+}
+
+static void
+xml_write_filter_field (XmlParseContext *ctxt, xmlNode *filter,
+			GnmFilterCondition const *cond, unsigned i)
+{
+	xmlNode *field = xmlNewChild (filter, ctxt->ns,
+				      CC2XML ("Field"), NULL);
+	xml_node_set_int (field, "Index", i);
+
+	switch (GNM_FILTER_OP_TYPE_MASK & cond->op[0]) {
+	case 0: xml_node_set_cstr (field, "Type", "expr");
+		xml_write_filter_expr (ctxt, field, cond, 0);
+		if (cond->op[1] != GNM_FILTER_UNUSED) {
+			xml_write_filter_expr (ctxt, field, cond, 1);
+			xml_node_set_bool (field, "IsAnd", cond->is_and);
+		}
+		break;
+	case GNM_FILTER_OP_BLANKS:
+		xml_node_set_cstr (field, "Type", "blanks");
+		break;
+	case GNM_FILTER_OP_NON_BLANKS:
+		xml_node_set_cstr (field, "Type", "nonblanks");
+		break;
+	case GNM_FILTER_OP_TOP_N:
+		xml_node_set_cstr (field, "Type", "bucket");
+		xml_node_set_bool (field, "top",
+			cond->op[0] & 1 ? TRUE : FALSE);
+		xml_node_set_bool (field, "items",
+			cond->op[0] & 2 ? TRUE : FALSE);
+		xml_node_set_int (field, "count", cond->count);
+		break;
+	};
+}
+
 static void
 xml_read_sheet_filters (XmlParseContext *ctxt, xmlNode const *container)
 {
-	xmlNode *filter;
+	xmlNode *filter_node, *field;
 	Range	 r;
+	xmlChar   *area;
+	GnmFilter *filter;
 
 	container = e_xml_get_child_by_name (container, CC2XML ("Filters"));
 	if (container == NULL)
 		return;
 
-	for (filter = container->xmlChildrenNode; filter != NULL; filter = filter->next)
-		if (!xmlIsBlankNode (filter)) {
-			xmlChar *content = xml_node_get_cstr (filter, NULL);
-			if (content != NULL) {
-				if (parse_range (CXML2C (content), &r))
-					gnm_filter_new (ctxt->sheet, &r);
-				xmlFree (content);
-			}
+	for (filter_node = container->xmlChildrenNode; filter_node != NULL; filter_node = filter_node->next) {
+		if (xmlIsBlankNode (filter_node))
+			continue;
+		area = xml_node_get_cstr (filter_node, "Area");
+		if (area == NULL)
+			continue;
+		if (parse_range (CXML2C (area), &r)) {
+			filter = gnm_filter_new (ctxt->sheet, &r);
+			for (field = filter_node->xmlChildrenNode; field != NULL; field = field->next)
+				if (!xmlIsBlankNode (field))
+					xml_read_filter_field (ctxt, field, filter);
 		}
+		xmlFree (area);
+	}
 }
 
 static void
@@ -2046,7 +2193,9 @@ xml_write_sheet_filters (XmlParseContext *ctxt, xmlNode *container,
 {
 	GSList *ptr;
 	GnmFilter *filter;
+	GnmFilterCondition const *cond;
 	xmlNode *filter_node;
+	unsigned i;
 
 	if (sheet->filters == NULL)
 		return;
@@ -2055,8 +2204,18 @@ xml_write_sheet_filters (XmlParseContext *ctxt, xmlNode *container,
 	for (ptr = sheet->filters; ptr != NULL ; ptr = ptr->next) {
 		filter = ptr->data;
 		filter_node = xmlNewChild (container, ctxt->ns,
-				   CC2XML ("Filter"),
-				   CC2XML (range_name (&filter->r)));
+				   CC2XML ("Filter"), NULL);
+
+		if (filter_node != NULL) {
+			xml_node_set_cstr (filter_node, "Area", 
+				range_name (&filter->r));
+			for (i = filter->fields->len ; i-- > 0 ; ) {
+				cond = gnm_filter_get_condition (filter, i);
+				if (cond != NULL &&
+				    cond->op[0] != GNM_FILTER_UNUSED)
+					xml_write_filter_field (ctxt, filter_node, cond, i);
+			}
+		}
 	}
 }
 

@@ -4386,6 +4386,9 @@ wbcg_finalize (GObject *obj)
 	if (wbcg->toplevel != NULL)
 		gtk_object_destroy (GTK_OBJECT (wbcg->toplevel));
 
+	if (wbcg->font_desc)
+		pango_font_description_free (wbcg->font_desc);
+
 	parent_class = g_type_class_peek (WORKBOOK_CONTROL_TYPE);
 	if (parent_class != NULL && parent_class->finalize != NULL)
 		(parent_class)->finalize (obj);

@@ -1,3 +1,8 @@
+2002-12-08  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_prepare_autofilter) : don't fully register
+	  the magic filter name.
+
 2002-12-06  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_AUTOFILTER) : don't forget the unicode

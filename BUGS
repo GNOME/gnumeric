@@ -17,7 +17,6 @@ Pending Patches
 -----------
 
 - XL crashes importing our xls95 exports with names
-- referencing freed named expr from undo clipboard
 - height calculation in render value is hosed for embedded new lines
 - validate expression names to ensure that they are not simple values (eg TRUE)
 
@@ -85,12 +84,13 @@ Pending Patches
     21.12) expression dialog					(DONE)
     21.13) Handle range changes (cut-n-paste or ins/del col/row)
     21.14) Handle the relationship between groups and filters	(DONE)
-    21.15) xml import/export
+    21.15) xml import/export					(DONE)
     21.16) Fix cursor redraw after filter			(DONE)
     21.17) Link filters to Show All menu			(DONE)
     21.18) Have the show all action clear filter conditions	(DONE)
     21.19) Change value entries in expr dialog into combos
-    21.20) editable enters for value entries
+    21.20) editable enters for expr dialog value entries
+    21.21) 2nd value in expr dialog only if 1st is active
     21.21) drag scroll for value combos
 
 22) Add dirty flags to workbook too, adding a sheet should

@@ -461,9 +461,6 @@ expr_name_remove (GnmNamedExpr *nexpr)
 	g_hash_table_remove (
 		nexpr->is_placeholder ? scope->placeholders : scope->names,
 		nexpr->name->str);
-	nexpr->active = FALSE;
-	expr_name_set_expr (nexpr, NULL);
-	expr_name_unref (nexpr);
 }
 
 /**

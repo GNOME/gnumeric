@@ -1,3 +1,12 @@
+2002-12-08  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_write_sheet_filters) : filter export.
+
+	* src/workbook-control-gui.c (wbcg_finalize) : patch leak.
+
+	* src/expr-name.c (expr_name_remove) : removing a name dfrom the hash
+	  will already set the expr to NULL and unref.  No need to do it again.
+
 2002-12-09  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet-filter.c (filter_field_apply): Filter out blanks per
