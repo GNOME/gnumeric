@@ -1,3 +1,10 @@
+2000-11-02  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook.c (workbook_history_update): Fix test to avoid
+	changing an already correct history.
+	(workbook_destroy): Don't free wb->filename until we're through 
+	using it.
+
 2000-11-01  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-sheet.c (selection_insert_selection_string) :

@@ -97,7 +97,7 @@ workbook_history_update (GList *wl, gchar *filename)
 	add_sep = (hl == NULL);
 
 	/* Do nothing if filename already at head of list */
-	if (hl && strcmp ((gchar *)hl->data, canonical_name) != 0) {
+	if (!(hl && strcmp ((gchar *)hl->data, canonical_name) == 0)) {
 		history_menu_flush (wl, hl); /* Remove the old entries */
 		
 		/* Update the history list */
@@ -194,15 +194,15 @@ workbook_destroy (GtkObject *wb_object)
 	   state.  Careful here.  */
 	g_hash_table_destroy (wb->sheet_hash_private);
 
-	if (wb->filename)
-	       g_free (wb->filename);
-
 	wb->names = expr_name_list_destroy (wb->names);
 
 	workbook_private_delete (wb->priv);
 
 	if (wb->file_format_level > FILE_FL_NEW)
 		workbook_history_update (application_workbook_list (), wb->filename);
+
+	if (wb->filename)
+	       g_free (wb->filename);
 
 	if (initial_workbook_open_complete && application_workbook_list () == NULL) {
 		application_history_write_config ();
