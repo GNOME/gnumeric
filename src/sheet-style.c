@@ -422,15 +422,15 @@ sheet_style_init (Sheet *sheet)
 	sheet->style_data = g_new (SheetStyleData, 1);
 	sheet->style_data->style_hash =
 		g_hash_table_new (mstyle_hash, (GCompareFunc) mstyle_equal);
+	sheet->style_data->auto_pattern_color = g_new (StyleColor, 1);
+	memcpy (sheet->style_data->auto_pattern_color,
+		style_color_auto_pattern(), sizeof (StyleColor));
+	sheet->style_data->auto_pattern_color->ref_count = 1;
 	sheet->style_data->default_style =
 		sheet_style_find (sheet, mstyle_new_default ());
 	sheet->style_data->styles =
 		cell_tile_style_new (sheet->style_data->default_style,
 				     TILE_SIMPLE);
-	sheet->style_data->auto_pattern_color = g_new (StyleColor, 1);
-	memcpy (sheet->style_data->auto_pattern_color,
-		style_color_auto_pattern(), sizeof (StyleColor));
-	sheet->style_data->auto_pattern_color->ref_count = 1;
 }
 
 static gboolean
@@ -479,15 +479,18 @@ sheet_style_shutdown (Sheet *sheet)
 void
 sheet_style_set_auto_pattern_color (Sheet  *sheet, StyleColor *pattern_color)
 {
+	StyleColor *apc;
 	int ref_count;
 	
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->style_data != NULL);
 
-	ref_count = sheet->style_data->auto_pattern_color->ref_count;
-	memcpy(sheet->style_data->auto_pattern_color, pattern_color,
-	       sizeof (StyleColor));
-	sheet->style_data->auto_pattern_color->ref_count = ref_count;
+	apc = sheet->style_data->auto_pattern_color;
+	ref_count = apc->ref_count;
+	memcpy(apc, pattern_color, sizeof (StyleColor));
+	apc->is_auto = TRUE;
+	apc->ref_count = ref_count;
+	style_color_unref (pattern_color);
 }
 
 /**
@@ -498,7 +501,7 @@ sheet_style_set_auto_pattern_color (Sheet  *sheet, StyleColor *pattern_color)
  * Returns the color for rendering auto colored patterns in this sheet.
  */
 StyleColor *
-sheet_style_get_auto_pattern_color (Sheet  *sheet)
+sheet_style_get_auto_pattern_color (Sheet const *sheet)
 {
 	StyleColor *sc;
 	g_return_val_if_fail (IS_SHEET (sheet), style_color_black ());

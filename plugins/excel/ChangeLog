@@ -1,3 +1,8 @@
+2002-02-08  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-read.c (ms_excel_read_window2): No need to unref
+	pattern_color, sheet_style_set_auto_pattern_color now does that.
+
 2002-02-05  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-read.c (black_or_white_contrast): Burn.

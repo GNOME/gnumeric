@@ -54,7 +54,7 @@ style_color_new_uninterned (gushort red, gushort green, gushort blue,
 	sc->selected_color.blue = blue;
 	sc->selected_color.pixel = e_color_alloc (red, green, blue);
 	
-	sc->ref_count = 0;
+	sc->ref_count = 1;
 
 	return sc;
 }
@@ -74,8 +74,8 @@ style_color_new (gushort red, gushort green, gushort blue)
 	if (!sc) {
 		sc = style_color_new_uninterned (red, green, blue, FALSE);
 		g_hash_table_insert (style_color_hash, sc, sc);
-	}
-	sc->ref_count++;
+	} else
+		sc->ref_count++;
 
 	return sc;
 }

@@ -46,7 +46,7 @@ void sheet_style_shutdown (Sheet *sheet);
 
 void        sheet_style_set_auto_pattern_color (Sheet  *sheet,
 						StyleColor *grid_color);
-StyleColor *sheet_style_get_auto_pattern_color (Sheet  *sheet);
+StyleColor *sheet_style_get_auto_pattern_color (Sheet const *sheet);
 
 MStyle const    *style_list_get_style	(StyleList const *l, CellPos const *pos);
 void		 style_list_free	(StyleList *l);

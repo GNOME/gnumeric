@@ -677,17 +677,108 @@ mstyle_unref (MStyle *style)
 }
 
 /**
+ * Replace auto pattern color in style with sheet's auto pattern color.
+ * make_copy tells if we are allowed to modify the style in place or we must
+ * make a copy first.
+ */
+static MStyle *
+link_pattern_color (MStyle *style, StyleColor *auto_color, gboolean make_copy)
+{
+	MStyleElementType etype = MSTYLE_COLOR_PATTERN;
+	StyleColor *pattern_color = style->elements[etype].u.color.any;
+	
+	if (pattern_color->is_auto && auto_color != pattern_color) {
+		style_color_ref (auto_color);
+		if (make_copy) {
+			MStyle *orig = style;
+			style = mstyle_copy (style);
+			mstyle_unref (orig);
+		}
+		mstyle_set_color (style, etype, auto_color);
+	}
+	return style;
+}
+
+/**
+ * Replace auto border colors in style with sheet's auto pattern
+ * color. (pattern is *not* a typo.)
+ * make_copy tells if we are allowed to modify the style in place or we must
+ * make a copy first.
+ *
+ * FIXME: We conjecture that XL color 64 in border should change with the
+ * pattern, but not color 127. That distinction is not yet represented in
+ * our data structures.
+ */
+static MStyle *
+link_border_colors (MStyle *style, StyleColor *auto_color, gboolean make_copy)
+{
+	MStyleElementType etype;
+	StyleBorder *border;
+	StyleColor *color;
+	int i;
+
+	for (i = MSTYLE_BORDER_TOP ; i <= MSTYLE_BORDER_DIAGONAL ; ++i) {
+		if (mstyle_is_element_set (style, i)) {
+			border = style->elements[i].u.border.any;
+			color = border->color;
+			if (color->is_auto && auto_color != color) {
+				StyleBorder *new_border;
+				StyleBorderOrientation orientation;
+		
+				switch (i) {
+				case MSTYLE_BORDER_LEFT:
+				case MSTYLE_BORDER_RIGHT:
+					orientation = STYLE_BORDER_VERTICAL;
+					break;
+				case MSTYLE_BORDER_REV_DIAGONAL:
+				case MSTYLE_BORDER_DIAGONAL:
+					orientation = STYLE_BORDER_DIAGONAL;
+					break;
+				case MSTYLE_BORDER_TOP:
+				case MSTYLE_BORDER_BOTTOM:
+				default:
+					orientation = STYLE_BORDER_HORIZONTAL;
+					break;
+				}	
+				style_color_ref (auto_color);
+				new_border = style_border_fetch (
+					border->line_type, auto_color,
+					orientation);
+
+				if (make_copy) {
+					MStyle *orig = style;
+					style = mstyle_copy (style);
+					mstyle_unref (orig);
+					make_copy = FALSE;
+				}
+				mstyle_set_border (style, i, new_border);
+			}
+			return style;
+		}
+	}
+}
+
+/**
  * mstyle_link_sheet :
  * @style :
  * @sheet :
  *
  * ABSORBS a reference to the style and sets the link count to 1.
+ *
+ * Where auto pattern color occurs in the style (it may for pattern and
+ * borders), it is replaced with the sheet's auto pattern color. We make
+ * sure that we do not modify the style which was passed in to us, but also
+ * that we don't copy more than once. The final argument to the
+ * link_xxxxx_color functions tell whether or not to copy.
  */
 MStyle *
 mstyle_link_sheet (MStyle *style, Sheet *sheet)
 {
+	StyleColor *auto_color;
+	MStyle *orig = style;
+	int i;
+
 	if (style->linked_sheet != NULL) {
-		MStyle *orig = style;
 		style = mstyle_copy (style);
 		mstyle_unref (orig);
 
@@ -697,6 +788,12 @@ mstyle_link_sheet (MStyle *style, Sheet *sheet)
 
 	g_return_val_if_fail (style->link_count == 0, style);
 	g_return_val_if_fail (style->linked_sheet == NULL, style);
+
+	auto_color = sheet_style_get_auto_pattern_color (sheet);
+	if (mstyle_is_element_set (style, MSTYLE_COLOR_PATTERN))
+		style = link_pattern_color (style, auto_color, style == orig);
+	style = link_border_colors (style, auto_color, style == orig);
+	style_color_unref (auto_color);
 
 	style->linked_sheet = sheet;
 	style->link_count = 1;
@@ -925,7 +1022,7 @@ mstyle_set_border (MStyle *st, MStyleElementType t,
 		st->elements[t].u.border.any = border;
 		break;
 	default:
-		g_warning ("Not a color element");
+		g_warning ("Not a border element");
 		break;
 	}
 

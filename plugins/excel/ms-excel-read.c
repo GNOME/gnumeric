@@ -3395,9 +3395,6 @@ ms_excel_read_window2 (BiffQuery *q, ExcelSheet *esheet, WorkbookView *wb_view)
 				      pattern_color->color.blue););
 			sheet_style_set_auto_pattern_color (
 				esheet->gnum_sheet, pattern_color);
-			/* sheet_style_set_auto_pattern_color made a copy,
-			   and is responsible for the copy's life cycle. */
-			style_color_unref (pattern_color);
 		}
 
 		d (0, if (options & 0x0200) printf ("Sheet flag selected\n"););

@@ -4388,6 +4388,9 @@ sheet_duplicate	(Sheet const *src)
 	print_info_free (dst->print_info);
 	dst->print_info = print_info_copy (src->print_info);
 
+	sheet_style_set_auto_pattern_color (
+		dst, sheet_style_get_auto_pattern_color (src));
+	
 	sheet_clone_styles         (src, dst);
 	sheet_clone_merged_regions (src, dst);
 	sheet_clone_colrow_info    (src, dst);

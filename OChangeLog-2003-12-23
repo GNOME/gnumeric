@@ -1,3 +1,27 @@
+2002-02-08  Jon K Hellan  <hellan@acm.org>
+
+	* src/style-color.c (style_color_new_uninterned): Create with
+	refcount 1.
+	(style_color_new): Only increment refcount if using cached color.
+
+	* src/sheet.c (sheet_duplicate): Clone auto pattern color
+
+	* src/sheet-style.c (sheet_style_init): Move auto_pattern_color
+	initialization forward. sheet_style_get_auto_pattern_color is
+	called from sheet_style_find below.
+	(sheet_style_set_auto_pattern_color): Tag it as an auto
+	color. Unref the input color.
+
+	* src/sheet-style.[ch]: (sheet_style_get_auto_pattern_color): constify.
+
+	* src/mstyle.c (link_pattern_color): New function.  Replace auto
+	pattern color in style with sheet's auto pattern color.
+	(link_border_colors): New function. Replace auto border colors in
+	style with sheet's auto pattern color.
+	(mstyle_link_sheet): Use target sheet's auto pattern color by
+	calling link_xxxx_color functions.
+	(mstyle_set_border): Fix typo.
+
 2002-02-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/analysis-tools.c (anova_single_factor_tool) : be more
