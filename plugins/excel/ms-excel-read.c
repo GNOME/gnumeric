@@ -5003,6 +5003,8 @@ excel_read_FILEPASS (BiffQuery *q, ExcelWorkbook *ewb)
 			return _("No password supplied");
 		if (ms_biff_query_set_decrypt (q, ewb->container.ver, passwd))
 			return NULL;
+
+		gnm_destroy_password (passwd);
 		g_free (passwd);
 	}
 }

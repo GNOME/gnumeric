@@ -1,3 +1,7 @@
+2004-06-08  Morten Welinder  <terra@gnome.org>
+
+	* src/gutils.c (gnm_destroy_password): New function.
+
 2004-06-05  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object-image.c : add sax export, and actually dump the

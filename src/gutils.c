@@ -948,3 +948,17 @@ gnm_get_real_name (void)
 	}
 	return gnm_real_name;
 }
+
+/**
+ * gnm_destroy_password :
+ *
+ * Overwrite a string holding a password.  This is a separate routine to
+ * ensure that the compiler does not try to outsmart us.
+ *
+ * Note: this does not free the memory.
+ **/
+void
+gnm_destroy_password (char *passwd)
+{
+	memset (passwd, 0, strlen (passwd));
+}

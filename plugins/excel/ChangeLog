@@ -1,3 +1,7 @@
+2004-06-08  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_FILEPASS): Use gnm_destroy_password.
+
 2004-06-05  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_chart) : sync the sizes when exporting

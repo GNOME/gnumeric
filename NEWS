@@ -85,6 +85,8 @@ Morten:
 	* Fix a weird IF semantics where the argument count including
 	  empties matters.
 	* Fix parser problem with single empty arg after expression.  [backported]
+	* Avoid keeping passwords in memory.  (Will need gtk+ fix to be really
+	  effective.)
 
 	(For those worrying over the pile of accuracy fixes above it should
 	be noted that prior versions of Gnumeric were already pretty good,

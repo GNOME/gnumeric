@@ -89,12 +89,14 @@ void      gnm_string_append_gstring (GString *target, const GString *source);
 
 char *    gnumeric_utf8_strcapital (char const *p, ssize_t len);
 
+const char*  gnm_get_real_name          (void);
+void         gnm_destroy_password       (char *passwd);
+
 GnmMemChunk *gnm_mem_chunk_new		(char const *, size_t, size_t);
 void	     gnm_mem_chunk_destroy	(GnmMemChunk *, gboolean);
 gpointer     gnm_mem_chunk_alloc	(GnmMemChunk *);
 gpointer     gnm_mem_chunk_alloc0	(GnmMemChunk *);
 void         gnm_mem_chunk_free		(GnmMemChunk *, gpointer);
 void         gnm_mem_chunk_foreach_leak (GnmMemChunk *, GFunc, gpointer);
-const char*  gnm_get_real_name          (void);
 
 #endif /* GNUMERIC_UTILS_H */
