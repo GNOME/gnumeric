@@ -18,26 +18,35 @@
 gchar *
 history_item_label (gchar const *filename, int accel_number)
 {
-	char *label, *menuname, *basename, *tmp;
+	GString *res = g_string_new (NULL);
+	char *menuname, *basename, *tmp;
+	int len;
 
 	basename = g_path_get_basename (filename);
 
 	/* Remove .gnumeric, if present.  */
-	tmp = strstr (basename, ".gnumeric");
-	if (tmp && tmp[9] == 0)
-		tmp[0] = 0;
+	len = strlen (basename);
+	if (len > 9 && strcmp (basename + len - 9, ".gnumeric") == 0)
+		basename[len - 9] = 0;
+
+	if (accel_number <= 9)
+		g_string_append_printf (res, "_%d ", accel_number);
+	else if (accel_number == 10)
+		g_string_append (res, "1_0 ");
+	else
+		g_string_append_printf (res, "%d ", accel_number);
 
 	menuname = g_filename_to_utf8 (basename, -1, NULL, NULL, NULL);
 	if (!menuname)
 		menuname = g_strdup (_("(Filename in invalid encoding)"));
 	g_free (basename);
-
-	/* Translate '_' to '-' so menu will not show underline.  */
-	for (tmp = menuname; (tmp = strchr (tmp, '_')); )
-		*tmp = '-';
-
-	label = g_strdup_printf ("_%d %s", accel_number, menuname);
+	/* Underscores need to be doubled.  */
+	for (tmp = menuname; *tmp; tmp++) {
+		if (*tmp == '_')
+			g_string_append_c (res, '_');
+		g_string_append_c (res, *tmp);
+	}
 	g_free (menuname);
 
-	return label;
+	return g_string_free (res, FALSE);
 }

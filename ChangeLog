@@ -1,3 +1,8 @@
+2004-04-12  Morten Welinder  <terra@gnome.org>
+
+	* src/history.c (history_item_label): Handle accel_number >= 10
+	better.  Handle "_" properly.
+
 2004-04-09  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (pcauchy): New implementation.
