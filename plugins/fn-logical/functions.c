@@ -281,8 +281,7 @@ gnumeric_if (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 					_("Invalid number of arguments"));
 
 	/* Compute the if part */
-	value = gnm_expr_eval (expr_node_list->data, ei->pos,
-			       GNM_EXPR_EVAL_STRICT);
+	value = gnm_expr_eval (expr_node_list->data, ei->pos, 0);
 	if (VALUE_IS_EMPTY_OR_ERROR(value))
 		return value;
 

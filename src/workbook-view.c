@@ -373,7 +373,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 	ei.pos = eval_pos_init_sheet (&ep, wbv->current_sheet);
 	ei.func_call = (GnmExprFunction const *)wbv->auto_expr;
 
-	v = function_call_with_list (&ei, selection, GNM_EXPR_EVAL_STRICT);
+	v = function_call_with_list (&ei, selection, 0);
 	gnm_expr_list_unref (selection);
 
 	if (wbv->auto_expr_value_as_string)

@@ -47,7 +47,7 @@ style_condition_expr_dep_eval (Dependent *dep)
 	if (dep->expression != NULL) {
 		EvalPos ep;
 		sce->val = gnm_expr_eval (dep->expression,
-			eval_pos_init_dep (&ep, dep), GNM_EXPR_EVAL_STRICT);
+			eval_pos_init_dep (&ep, dep), 0);
 	}
 }
 

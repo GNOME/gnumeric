@@ -59,55 +59,6 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-enum Value_Class {
-	VALUE_CLASS_NUMBER  = 1,
-	VALUE_CLASS_TEXT    = 2,
-	VALUE_CLASS_BOOL    = 4,
-	VALUE_CLASS_FORMULA = 8,
-	VALUE_CLASS_ERROR   = 16,
-	VALUE_CLASS_ARRAY   = 64,
-	VALUE_CLASS_BOGUS   = -1
-};
-
-
-static enum Value_Class
-get_value_class (FunctionEvalInfo *ei, GnmExpr *expr)
-{
-	Value *value;
-	enum Value_Class res;
-
-	value = gnm_expr_eval (expr, ei->pos,
-			   GNM_EXPR_EVAL_PERMIT_NON_SCALAR|GNM_EXPR_EVAL_PERMIT_EMPTY);
-	if (value) {
-		switch (value->type) {
-		case VALUE_INTEGER:
-		case VALUE_FLOAT:
-			res = VALUE_CLASS_NUMBER;
-			break;
-		case VALUE_STRING:
-			res = VALUE_CLASS_TEXT;
-			break;
-		case VALUE_BOOLEAN:
-			res = VALUE_CLASS_BOOL;
-			break;
-		case VALUE_ERROR:
-			res = VALUE_CLASS_ERROR;
-			break;
-		case VALUE_ARRAY:
-			res = VALUE_CLASS_ARRAY;
-			break;
-		case VALUE_EMPTY:
-		default:
-			res = VALUE_CLASS_BOGUS;
-			break;
-		}
-		value_release (value);
-	} else
-		res = VALUE_CLASS_ERROR;
-
-	return res;
-}
-
 /***************************************************************************/
 
 static const char *help_cell = {
@@ -1380,44 +1331,10 @@ static const char *help_iserror = {
 	   "@SEEALSO=ERROR")
 };
 
-/* A utility routine to evaluate a single argument and return any errors
- * directly
- */
 static Value *
-gnumeric_check_for_err (FunctionEvalInfo *ei, GnmExprList *expr_node_list,
-			Value ** err)
+gnumeric_iserror (FunctionEvalInfo *ei, Value **argv)
 {
-	Value * tmp;
-
-	if (gnm_expr_list_length (expr_node_list) != 1) {
-		*err = value_new_error(ei->pos,
-				       _("Argument mismatch"));
-		return NULL;
-	}
-	tmp = gnm_expr_eval (expr_node_list->data, ei->pos,
-			     GNM_EXPR_EVAL_STRICT);
-
-	if (tmp != NULL) {
-		if (tmp->type == VALUE_ERROR)
-			return tmp;
-		value_release (tmp);
-	}
-	return NULL;
-}
-
-static Value *
-gnumeric_iserror (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
-{
-	Value * res, *err = NULL;
-	res = gnumeric_check_for_err (ei, expr_node_list, &err);
-	if (err != NULL)
-		return err;
-
-	if (res) {
-		value_release (res);
-		return value_new_bool (TRUE);
-	} else
-		return value_new_bool (FALSE);
+	return value_new_bool (argv[0]->type == VALUE_ERROR);
 }
 
 /***************************************************************************/
@@ -1441,18 +1358,10 @@ static const char *help_isna = {
  * the error handling mechanism
  */
 static Value *
-gnumeric_isna (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
+gnumeric_isna (FunctionEvalInfo *ei, Value **argv)
 {
-	Value * res, *err = NULL;
-	gboolean b;
-
-	res = gnumeric_check_for_err (ei, expr_node_list, &err);
-	if (err != NULL)
-		return err;
-
-	b = (res && !strcmp (gnumeric_err_NA, res->v_err.mesg->str));
-	if (res) value_release (res);
-	return value_new_bool (b);
+	return value_new_bool (argv[0]->type == VALUE_ERROR &&
+			       !strcmp (gnumeric_err_NA, argv[0]->v_err.mesg->str));
 }
 
 /***************************************************************************/
@@ -1472,18 +1381,10 @@ static const char *help_iserr = {
 };
 
 static Value *
-gnumeric_iserr (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
+gnumeric_iserr (FunctionEvalInfo *ei, Value **argv)
 {
-	Value * res, *err = NULL;
-	gboolean b;
-
-	res = gnumeric_check_for_err (ei, expr_node_list, &err);
-	if (err != NULL)
-		return err;
-
-	b = (res && strcmp (gnumeric_err_NA, res->v_err.mesg->str));
-	if (res) value_release (res);
-	return value_new_bool (b);
+	return value_new_bool (argv[0]->type == VALUE_ERROR &&
+			       strcmp (gnumeric_err_NA, argv[0]->v_err.mesg->str));
 }
 
 /***************************************************************************/
@@ -1510,18 +1411,14 @@ static const char *help_error_type = {
 };
 
 static Value *
-gnumeric_error_type (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
+gnumeric_error_type (FunctionEvalInfo *ei, Value **argv)
 {
 	int retval = -1;
 	char const * mesg;
-	Value * res, *err = NULL;
-	res = gnumeric_check_for_err (ei, expr_node_list, &err);
-	if (err != NULL)
-		return err;
-	if (res == NULL)
+	if (argv[0]->type != VALUE_ERROR)
 		return value_new_error (ei->pos, gnumeric_err_NA);
 
-	mesg = res->v_err.mesg->str;
+	mesg = argv[0]->v_err.mesg->str;
 	if (!strcmp (gnumeric_err_NULL, mesg))
 		retval = 1;
 	else if (!strcmp (gnumeric_err_DIV0, mesg))
@@ -1536,12 +1433,9 @@ gnumeric_error_type (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 		retval = 6;
 	else if (!strcmp (gnumeric_err_NA, mesg))
 		retval = 7;
-	else {
-		value_release (res);
+	else
 		return value_new_error (ei->pos, gnumeric_err_NA);
-	}
 
-	value_release (res);
 	return value_new_int (retval);
 }
 
@@ -1677,17 +1571,9 @@ static const char *help_islogical = {
 };
 
 static Value *
-gnumeric_islogical (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
+gnumeric_islogical (FunctionEvalInfo *ei, Value **argv)
 {
-	enum Value_Class cl;
-
-	if (gnm_expr_list_length (expr_node_list) != 1)
-		return value_new_error (ei->pos,
-					_("Invalid number of arguments"));
-
-	cl = get_value_class (ei, expr_node_list->data);
-
-	return value_new_bool (cl == VALUE_CLASS_BOOL);
+	return value_new_bool (argv[0]->type == VALUE_BOOLEAN);
 }
 
 /***************************************************************************/
@@ -1707,14 +1593,9 @@ static const char *help_isnontext = {
 };
 
 static Value *
-gnumeric_isnontext (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
+gnumeric_isnontext (FunctionEvalInfo *ei, Value **argv)
 {
-	if (gnm_expr_list_length (expr_node_list) != 1)
-		return value_new_error (ei->pos,
-					_("Invalid number of arguments"));
-
-	return value_new_bool (get_value_class (ei, expr_node_list->data)
-			       != VALUE_CLASS_TEXT);
+	return value_new_bool (argv[0]->type != VALUE_STRING);
 }
 
 /***************************************************************************/
@@ -1734,14 +1615,10 @@ static const char *help_isnumber = {
 };
 
 static Value *
-gnumeric_isnumber (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
+gnumeric_isnumber (FunctionEvalInfo *ei, Value **argv)
 {
-	if (gnm_expr_list_length (expr_node_list) != 1)
-		return value_new_error (ei->pos,
-					_("Invalid number of arguments"));
-
-	return value_new_bool (get_value_class (ei, expr_node_list->data)
-			       == VALUE_CLASS_NUMBER);
+	return value_new_bool (argv[0]->type == VALUE_INTEGER ||
+			       argv[0]->type == VALUE_FLOAT);
 }
 
 /***************************************************************************/
@@ -1815,14 +1692,9 @@ static const char *help_istext = {
 };
 
 static Value *
-gnumeric_istext (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
+gnumeric_istext (FunctionEvalInfo *ei, Value **argv)
 {
-	if (gnm_expr_list_length (expr_node_list) != 1)
-		return value_new_error (ei->pos,
-					_("Invalid number of arguments"));
-
-	return value_new_bool (get_value_class (ei, expr_node_list->data)
-			       == VALUE_CLASS_TEXT);
+	return value_new_bool (argv[0]->type == VALUE_STRING);
 }
 
 /***************************************************************************/
@@ -1872,6 +1744,11 @@ static const char *help_type = {
 
 	   "@DESCRIPTION="
 	   "TYPE returns a number indicating the data type of a value.\n\n"
+	   "1  == number\n"
+	   "2  == text\n"
+	   "4  == boolean\n"
+	   "16 == error\n"
+	   "64 == array\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -1882,13 +1759,30 @@ static const char *help_type = {
 };
 
 static Value *
-gnumeric_type (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
+gnumeric_type (FunctionEvalInfo *ei, Value **argv)
 {
-	if (gnm_expr_list_length (expr_node_list) != 1)
-		return value_new_error (ei->pos,
-					_("Invalid number of arguments"));
-
-	return value_new_int (get_value_class (ei, expr_node_list->data));
+	switch (argv[0]->type) {
+	/* case VALUE_EMPTY : not possible, S arguments convert this to int(0)
+	 * This is XL compatible, although I don't really agree with it
+	 */
+	case VALUE_BOOLEAN:
+		return value_new_int (4);
+	case VALUE_INTEGER:
+	case VALUE_FLOAT:
+		return value_new_int (1);
+	case VALUE_ERROR:
+		return value_new_int (16);
+	case VALUE_STRING:
+		return value_new_int (2);
+	/* case VALUE_CELLRANGE: S argument handles this */
+#warning FIXME : S arguments will filter arrays
+	case VALUE_ARRAY:
+		return value_new_int (64);
+	default:
+		break;
+	}
+	/* not reached */
+	return value_new_error (ei->pos, gnumeric_err_VALUE);
 }
 
 /***************************************************************************/
@@ -1922,47 +1816,47 @@ gnumeric_getenv (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 const ModulePluginFunctionInfo info_functions[] = {
-	{ "cell", "sr", N_("info_type, cell"), &help_cell,
+	{ "cell",	"sr", N_("info_type, cell"), &help_cell,
 	  gnumeric_cell, NULL, NULL, NULL },
-        { "countblank", "r",  N_("range"), &help_countblank,
+        { "countblank",	"r",  N_("range"), &help_countblank,
 	  gnumeric_countblank, NULL, NULL, NULL },
-	{ "error",   "s",  N_("text"), &help_error,
+	{ "error",	"s",  N_("text"), &help_error,
 	  gnumeric_error, NULL, NULL, NULL },
-	{ "error.type", NULL, N_("value"), &help_error_type,
-	  NULL, gnumeric_error_type, NULL, NULL },
-	{ "expression", "r",   N_("cell"), &help_expression,
+	{ "error.type",	"S", N_("value"), &help_error_type,
+	  gnumeric_error_type, NULL, NULL, NULL },
+	{ "expression",	"r",   N_("cell"), &help_expression,
 	  gnumeric_expression, NULL, NULL, NULL },
-	{ "info", "s", N_("info_type"), &help_info,
+	{ "info",	"s", N_("info_type"), &help_info,
 	  gnumeric_info, NULL, NULL, NULL },
-	{ "isblank", NULL, N_("value"), &help_isblank,
+	{ "isblank",	NULL, N_("value"), &help_isblank,
 	  NULL, gnumeric_isblank, NULL, NULL },
-	{ "iserr", NULL,   N_("value"), &help_iserr,
-	  NULL, gnumeric_iserr, NULL, NULL },
-	{ "iserror", NULL,   N_("value"), &help_iserror,
-	  NULL, gnumeric_iserror, NULL, NULL },
-	{ "iseven", "?", N_("value"), &help_iseven,
+	{ "iserr",	"S",   N_("value"), &help_iserr,
+	  gnumeric_iserr, NULL, NULL, NULL },
+	{ "iserror",	"S",   N_("value"), &help_iserror,
+	  gnumeric_iserror, NULL, NULL, NULL },
+	{ "iseven",	"S", N_("value"), &help_iseven,
 	  gnumeric_iseven, NULL, NULL, NULL },
-	{ "islogical", NULL, N_("value"), &help_islogical,
-	  NULL, gnumeric_islogical, NULL, NULL },
-	{ "isna", NULL,   N_("value"), &help_isna,
-	  NULL, gnumeric_isna, NULL, NULL },
-	{ "isnontext", NULL, N_("value"), &help_isnontext,
-	  NULL, gnumeric_isnontext, NULL, NULL },
-	{ "isnumber", NULL, N_("value"), &help_isnumber,
-	  NULL, gnumeric_isnumber, NULL, NULL },
-	{ "isodd", "?", N_("value"), &help_isodd,
+	{ "islogical",	"S", N_("value"), &help_islogical,
+	  gnumeric_islogical, NULL, NULL, NULL },
+	{ "isna",	"S",   N_("value"), &help_isna,
+	  gnumeric_isna, NULL, NULL, NULL },
+	{ "isnontext",	"S", N_("value"), &help_isnontext,
+	  gnumeric_isnontext, NULL, NULL, NULL },
+	{ "isnumber",	"S", N_("value"), &help_isnumber,
+	  gnumeric_isnumber, NULL, NULL, NULL },
+	{ "isodd",	"S", N_("value"), &help_isodd,
 	  gnumeric_isodd, NULL, NULL, NULL },
-	{ "isref", NULL, N_("value"), &help_isref,
+	{ "isref",	NULL, N_("value"), &help_isref,
 	  NULL, gnumeric_isref, NULL, NULL },
-	{ "istext", NULL, N_("value"), &help_istext,
-	  NULL, gnumeric_istext, NULL, NULL },
-	{ "n", "?", N_("value"), &help_n,
+	{ "istext",	"S", N_("value"), &help_istext,
+	  gnumeric_istext, NULL, NULL, NULL },
+	{ "n",		"S", N_("value"), &help_n,
 	  gnumeric_n, NULL, NULL, NULL },
-	{ "na",      "",  "", &help_na,
+	{ "na",		"",  "", &help_na,
 	  gnumeric_na, NULL, NULL, NULL },
-	{ "type",   NULL, N_("value"), &help_type,
-	  NULL, gnumeric_type, NULL, NULL },
-	{ "getenv", "s", N_("string"), &help_getenv,
+	{ "type",	"S", N_("value"), &help_type,
+	  gnumeric_type, NULL, NULL, NULL },
+	{ "getenv",	"s", N_("string"), &help_getenv,
 	  gnumeric_getenv, NULL, NULL, NULL },
         {NULL}
 };

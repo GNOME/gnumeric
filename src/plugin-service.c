@@ -548,7 +548,7 @@ gnum_plugin_file_opener_probe (GnumFileOpener const *fo, GsfInput *input,
 	if (pl == FILE_PROBE_FILE_NAME && service_file_opener->file_patterns != NULL) {
 		gboolean match = FALSE;
 		GSList *l;
-		gchar *base_file_name = gsf_input_name (input);
+		gchar *base_file_name = (gchar *)gsf_input_name (input);
 
 		if (base_file_name == NULL)
 			return FALSE;

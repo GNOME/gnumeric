@@ -95,9 +95,6 @@ GnmExpr const *gnm_expr_rewrite (GnmExpr            const *expr,
 Value *gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 		      GnmExprEvalFlags flags);
 
-/* minor utilities, these _will_ change to support implicit iteration  */
-Value *gnm_expr_array_intersection    (Value *v);
-
 /*****************************************************************************/
 
 #define gnm_expr_list_append(l,e)  g_slist_append ((l), (gpointer)(e))

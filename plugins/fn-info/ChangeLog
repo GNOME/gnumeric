@@ -1,3 +1,18 @@
+2002-09-13  Jody Goldberg <jody@gnome.org>
+
+	*  functions.c (get_value_class) : delete.
+	(gnumeric_check_for_err) : delete.
+	(gnumeric_iserror) : make this a 'node' function that takes a scalar
+	  This allows implicit iteration to work.
+	(gnumeric_isna) : ditto.
+	(gnumeric_iserr) : ditto.
+	(gnumeric_error_type) : ditto.
+	(gnumeric_islogical) : ditto.
+	(gnumeric_isnontext) : ditto.
+	(gnumeric_isnumber) : ditto.
+	(gnumeric_istext) : ditto.
+	(gnumeric_type) : ditto.
+
 2002-08-30  Morten Welinder  <terra@diku.dk>
 
 	* functions.c (gnumeric_expression): Avoid copying string.

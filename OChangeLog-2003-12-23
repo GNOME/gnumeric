@@ -1,3 +1,24 @@
+2002-09-13  Jody Goldberg <jody@gnome.org>
+
+	* src/func.c (function_call_with_list) : support implicit iteration.
+
+	* src/value-sheet.c (value_area_fetch_x_y) : catch value_empty too.
+
+	* src/parse-util.c (col_parse) : don't change accept the column unless
+	  at least 1 char was read.
+	(row_parse) : ditto.
+	(rangeref_parse) : off by 1 error when handling full ranges.
+
+	* src/dependent.h (cell_eval) : make this a macro.
+
+	* src/plugin-service.c (gnum_plugin_file_opener_probe) : silence a
+	  warning.
+
+	* src/expr.c (gnm_expr_eval) : rename from expr_eval_real and move the
+	  empty handling into.
+	(handle_empty) : here.
+	(gnm_expr_array_intersection) : delete.
+
 2002-09-11  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-graph.c (gnm_graph_new_view) : stub so that sheets with

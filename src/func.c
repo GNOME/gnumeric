@@ -742,10 +742,11 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 			 GnmExprEvalFlags flags)
 {
 	FunctionDefinition const *fn_def;
-	int	 argc, i, optional;
-	char	 arg_type;
-	Value	*tmp, **args;
-	GnmExpr *expr;
+	int	  argc, i, optional, iter_count, iter_width, iter_height;
+	char	  arg_type;
+	Value	 *tmp, **args;
+	GnmExpr  *expr;
+	int 	 *iter_item = NULL;
 
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_call != NULL, NULL);
@@ -768,6 +769,8 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 
 	optional = 0;
 	args = g_alloca (sizeof (Value *) * fn_def->fn.args.max_args);
+	iter_count = (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR) ? 0 : -1;
+
 	for (i = 0; l; l = l->next, ++i) {
 		arg_type = fn_def->fn.args.arg_types[i];
 		expr = l->data;
@@ -780,6 +783,8 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 				CellRef r;
 				cellref_make_abs (&r, &expr->cellref.ref, ei->pos);
 				args[i] = value_new_cellrange_unsafe (&r, &r);
+				/* TODO decide on the semantics of these argument types */
+#warning do we need to force an eval here ?
 			} else {
 				tmp = args[i] = gnm_expr_eval (expr, ei->pos,
 					optional | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
@@ -800,16 +805,43 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 
 		/* force scalars whenever we are certain */
 		tmp = args[i] = gnm_expr_eval (expr, ei->pos, optional |
-			((flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR) || arg_type == '?')
-			       ? GNM_EXPR_EVAL_PERMIT_NON_SCALAR : GNM_EXPR_EVAL_STRICT);
+		       (iter_count >= 0 || arg_type == '?')
+			       ? GNM_EXPR_EVAL_PERMIT_NON_SCALAR : 0);
 
-		/* Optional arguments can be empty */
-		if (tmp == NULL)
+		if (tmp == NULL ||	/* Optional arguments can be empty */
+		    arg_type == '?')	/* '?' arguments are unrestriced */
 			continue;
 
+		/* Handle implicit intersection or iteration depending on flags */
+		if (tmp->type == VALUE_CELLRANGE || tmp->type == VALUE_ARRAY) {
+			if (iter_count < 0) {
+				tmp = value_intersection (tmp, ei->pos);
+				if (tmp == NULL) {
+					free_values (args, i);
+					return value_new_error (ei->pos, gnumeric_err_VALUE);
+				}
+			} else {
+				if (iter_count != 0) {
+					if (iter_width != value_area_get_width (ei->pos, tmp) ||
+					    iter_height != value_area_get_height (ei->pos, tmp)) {
+						/* no need to free inter_vals, there is nothing there yet */
+						free_values (args, i + 1);
+						return value_new_error (ei->pos, gnumeric_err_VALUE);
+					}
+				} else {
+					iter_item = g_alloca (sizeof (int) * argc);
+					iter_width = value_area_get_width (ei->pos, tmp);
+					iter_height = value_area_get_height (ei->pos, tmp);
+				}
+				iter_item[iter_count] = iter_count;
+				iter_count++;
+			}
+		}
+
+		/* All of these argument types must be scalars */
 		switch (arg_type) {
-		case 'f':
 		case 'b':
+		case 'f':
 			if (tmp->type == VALUE_STRING) {
 				tmp = format_match_number (value_peek_string (tmp), NULL);
 				if (tmp == NULL) {
@@ -842,7 +874,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 			break;
 
 		case 'S': /* nothing necessary */
-		case '?': /* nothing necessary */
+		/* case '?': handled above */
 			break;
 		default :
 			g_warning ("Unknown argument type '%c'", arg_type);
@@ -852,7 +884,64 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 
 	while (i < fn_def->fn.args.max_args)
 		args [i++] = NULL;
-	tmp = fn_def->fn.args.func (ei, args);
+
+	if (iter_item != NULL) {
+		int x, y;
+		Value *res = value_new_array_empty (iter_width, iter_height);
+		Value const *elem, *err;
+		Value **iter_vals = g_alloca (sizeof (Value *) * iter_count);
+		Value **iter_args = g_alloca (sizeof (Value *) * iter_count);
+
+		/* collect the args we will iterate on */
+		for (i = 0 ; i < iter_count; i++)
+			iter_vals[i] = args[iter_item[i]];
+
+		for (x = iter_width; x-- > 0 ; )
+			for (y = iter_height; y-- > 0 ; ) {
+				/* marshal the args */
+				err = NULL;
+				for (i = 0 ; i < iter_count; i++) {
+					elem = value_area_fetch_x_y (ei->pos, iter_vals[i], x, y);
+					arg_type = fn_def->fn.args.arg_types[iter_item[i]];
+					if  (arg_type == 'b' || arg_type == 'f') {
+						if (elem->type == VALUE_STRING) {
+							tmp = format_match_number (value_peek_string (elem), NULL);
+							if (tmp != NULL) {
+								args [iter_item[i]] = iter_args [i] = tmp;
+								continue;
+							} else
+								break;
+						} else if (elem->type == VALUE_ERROR) {
+							err = elem;
+							break;
+						} else if (elem->type != VALUE_INTEGER &&
+							   elem->type != VALUE_FLOAT &&
+							   elem->type != VALUE_BOOLEAN)
+							break;
+					} else if (arg_type == 's') {
+						if (elem->type == VALUE_ERROR) {
+							err = elem;
+							break;
+						} else if (tmp->type != VALUE_STRING)
+							break;
+					}
+					args [iter_item[i]] = iter_args [i] = value_duplicate (elem);
+				}
+
+				res->v_array.vals[x][y] = (i == iter_count)
+					? fn_def->fn.args.func (ei, args)
+					: ((err != NULL) ? value_duplicate (err)
+							 : value_new_error (ei->pos, gnumeric_err_VALUE));
+				free_values (iter_args, i);
+			}
+
+		/* free the primaries, not the already freed iteration */
+		for (i = 0 ; i < iter_count; i++)
+			args[iter_item[i]] = iter_vals[i];
+		tmp = res;
+		i = fn_def->fn.args.max_args;
+	} else 
+		tmp = fn_def->fn.args.func (ei, args);
 
 	free_values (args, i);
 	return tmp;

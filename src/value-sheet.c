@@ -137,7 +137,7 @@ value_area_fetch_x_y (EvalPos const *ep, Value const *v, int x, int y)
 {
 	Value const * const res = value_area_get_x_y (ep, v, x, y);
 	static Value *value_zero = NULL;
-	if (res)
+	if (res && res->type != VALUE_EMPTY)
 		return res;
 
 	if (value_zero == NULL)
@@ -215,9 +215,8 @@ value_area_get_x_y (EvalPos const *ep, Value const *v, int x, int y)
 
 		if (cell && cell->value)
 			return cell->value;
-	} else {
+	} else
 		return v;
-	}
 
 	return NULL;
 }

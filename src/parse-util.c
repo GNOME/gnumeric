@@ -763,7 +763,7 @@ col_parse (char const *str, int *res, unsigned char *relative)
 			col = col * 26 + (*ptr - 'a');
 		else if (('A' <= *ptr && *ptr <= 'Z'))
 			col = col * 26 + (*ptr - 'A');
-		else if (col < SHEET_MAX_COLS) {
+		else if (ptr != str && col < SHEET_MAX_COLS) {
 			*res = col;
 			return ptr;
 		} else
@@ -780,7 +780,7 @@ row_parse (char const *str, int *res, unsigned char *relative)
 		ptr++;
 
 	row = strtol (str, (char **)&ptr, 10);
-	if (0 < row && row <= SHEET_MAX_ROWS) {
+	if (ptr != str && 0 < row && row <= SHEET_MAX_ROWS) {
 		*res = row - 1;
 		return ptr;
 	} else
@@ -858,12 +858,12 @@ rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 		return tmp2;
 	ptr = tmp2;
 
-	tmp1 = col_parse (ptr, &res->b.col, &res->b.col_relative);
-	if (tmp1 == tmp2)
-		return ptr;	/* valid singleton */
+	tmp1 = col_parse (ptr+1, &res->b.col, &res->b.col_relative);
+	if (tmp1 == (ptr+1))
+		return ptr;	/* strange, but valid singleton */
 	tmp2 = row_parse (tmp1, &res->b.row, &res->b.row_relative);
 	if (tmp2 == tmp1)
-		return ptr;	/* valid singleton */
+		return ptr;	/* strange, but valid singleton */
 
 	if (res->b.col_relative)
 		res->b.col -= pp->eval.col;

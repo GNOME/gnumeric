@@ -14,6 +14,8 @@ Jody:
 	* Make autocorrect unicode safe, and port dialog to treeview
 	* Fix 'address' so that we pass all of the tests
 	* Fix handling of optional scalar arguments.
+	* Covert many of the IS* info functions to nodal:scalar
+	* Support implicit iteration for array expressions
 
 Morten:
 	* Leak plugging.

@@ -2601,7 +2601,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GnmExprList *nodes)
 	if (tree == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_STRICT);
+	val = gnm_expr_eval (tree, ei->pos, 0);
 	if (!val) return NULL;
 	if (!VALUE_IS_NUMBER (val)) {
 		value_release (val);
@@ -2617,7 +2617,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GnmExprList *nodes)
 	if (tree == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_STRICT);
+	val = gnm_expr_eval (tree, ei->pos, 0);
 	if (!val) return NULL;
 	if (! VALUE_IS_NUMBER (val)) {
 		value_release (val);
@@ -2636,7 +2636,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GnmExprList *nodes)
 	if (tree == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_STRICT);
+	val = gnm_expr_eval (tree, ei->pos, 0);
 	if (!val) return NULL;
 	if (! VALUE_IS_NUMBER (val)) {
 		value_release (val);

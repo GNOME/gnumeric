@@ -471,7 +471,7 @@ gnumeric_choose (FunctionEvalInfo *ei, GnmExprList *l)
 	if (argc < 1 || !l->data)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	v = gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_STRICT);
+	v = gnm_expr_eval (l->data, ei->pos, 0);
 	if (!v)
 		return NULL;
 
@@ -777,8 +777,7 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 			expr = tmp;
 		}
 		if (expr->any.oper == GNM_EXPR_OP_CELLREF) {
-			Value *res = gnm_expr_eval (expr, ei->pos,
-						    GNM_EXPR_EVAL_STRICT);
+			Value *res = gnm_expr_eval (expr, ei->pos, 0);
 			gnm_expr_unref (expr);
 			return res;
 		} else if (expr->any.oper == GNM_EXPR_OP_CONSTANT) {

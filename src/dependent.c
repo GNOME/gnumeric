@@ -960,7 +960,7 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
  * it should not be used by anyone. It is an internal
  * function.
  **/
-static gboolean
+gboolean
 cell_eval_content (Cell *cell)
 {
 	static Cell *iterating = NULL;
@@ -1023,7 +1023,7 @@ cell_eval_content (Cell *cell)
 	max_iteration = cell->base.sheet->workbook->iteration.max_number;
 
 iterate :
-	v = gnm_expr_eval (cell->base.expression, &pos, GNM_EXPR_EVAL_STRICT);
+	v = gnm_expr_eval (cell->base.expression, &pos, 0);
 	if (v == NULL)
 		v = value_new_error (&pos, "Internal error");
 
@@ -1085,21 +1085,6 @@ iterate :
 #endif
 	cell->base.flags &= ~DEPENDENT_BEING_CALCULATED;
 	return iterating == NULL;
-}
-
-void
-cell_eval (Cell *cell)
-{
-	g_return_if_fail (cell != NULL);
-
-	if (cell_needs_recalc (cell)) {
-		gboolean finished = cell_eval_content (cell);
-
-		/* This should always be the top of the stack */
-		g_return_if_fail (finished);
-
-		cell->base.flags &= ~DEPENDENT_NEEDS_RECALC;
-	}
 }
 
 /**

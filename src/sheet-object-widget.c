@@ -478,8 +478,7 @@ scrollbar_eval (Dependent *dep)
 	Value *v;
 	EvalPos pos;
 
-	v = gnm_expr_eval (dep->expression,
-		eval_pos_init_dep (&pos, dep), GNM_EXPR_EVAL_STRICT);
+	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep), 0);
 	sheet_widget_scrollbar_set_value (DEP_TO_SCROLLBAR(dep),
 		value_get_as_float (v));
 	value_release (v);
@@ -949,8 +948,7 @@ checkbox_eval (Dependent *dep)
 	EvalPos pos;
 	gboolean err, result;
 
-	v = gnm_expr_eval (dep->expression,
-		eval_pos_init_dep (&pos, dep), GNM_EXPR_EVAL_STRICT);
+	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep), 0);
 	result = value_get_as_bool (v, &err);
 	value_release (v);
 	if (!err) {
@@ -1400,8 +1398,7 @@ radio_button_eval (Dependent *dep)
 	gboolean err;
 	int result;
 
-	v = gnm_expr_eval (dep->expression,
-		eval_pos_init_dep (&pos, dep), GNM_EXPR_EVAL_STRICT);
+	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep), 0);
 	result = value_get_as_int (v);
 	value_release (v);
 	if (!err) {
@@ -1514,8 +1511,7 @@ list_eval (Dependent *dep)
 	gboolean err;
 	int result;
 
-	v = gnm_expr_eval (dep->expression,
-		eval_pos_init_dep (&pos, dep), GNM_EXPR_EVAL_STRICT);
+	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep), 0);
 	result = value_get_as_int (v);
 	value_release (v);
 	if (!err) {
@@ -1613,8 +1609,7 @@ combo_input_eval (Dependent *dep)
 	gboolean err;
 	int result;
 
-	v = gnm_expr_eval (dep->expression,
-		eval_pos_init_dep (&pos, dep), GNM_EXPR_EVAL_STRICT);
+	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep), 0);
 	result = value_get_as_int (v);
 	value_release (v);
 	if (!err) {
@@ -1639,8 +1634,7 @@ combo_output_eval (Dependent *dep)
 	gboolean err;
 	int result;
 
-	v = gnm_expr_eval (dep->expression,
-		eval_pos_init_dep (&pos, dep), GNM_EXPR_EVAL_STRICT);
+	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep), 0);
 	result = value_get_as_int (v);
 	value_release (v);
 	if (!err) {

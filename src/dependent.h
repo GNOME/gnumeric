@@ -88,7 +88,15 @@ void     dependents_unrelocate_free (GSList *info);
 
 void cell_queue_recalc		 (Cell const *cell);
 void cell_foreach_dep		 (Cell const *cell, DepFunc func, gpointer user);
-void cell_eval		 	 (Cell *cell);
+gboolean cell_eval_content	 (Cell *cell);
+
+#define cell_eval(cell)							\
+{									\
+	if (cell_needs_recalc (cell)) {					\
+		cell_eval_content (cell);				\
+		cell->base.flags &= ~DEPENDENT_NEEDS_RECALC;		\
+	}								\
+}
 
 void sheet_region_queue_recalc	 (Sheet const *sheet, Range const *range);
 void sheet_deps_destroy		 (Sheet *sheet);
@@ -107,7 +115,6 @@ void		 gnm_dep_container_dump	(GnmDepContainer const *deps);
 		dep = _next;					\
 	}							\
   } while (0)
-
 
 #define DEPENDENT_MAKE_TYPE(t, set_expr_handler)		\
 guint								\

@@ -1072,6 +1072,9 @@ value_set_fmt (Value *v, StyleFormat const *fmt)
  * Return value:
  *     If the intersection succeeded return a duplicate of the value
  *     at the intersection point.  This value needs to be freed.
+ * Returns the upper left corner of an array.
+ *
+ * FIXME FIXME FIXME : This will need to be reworked
  **/
 Value *
 value_intersection (Value *v, EvalPos const *pos)
@@ -1079,6 +1082,12 @@ value_intersection (Value *v, EvalPos const *pos)
 	Value *res = NULL;
 	Range rng;
 	Sheet *start_sheet, *end_sheet;
+
+	if (v->type == VALUE_ARRAY) {
+		res = value_duplicate (v->v_array.vals[0][0]);
+		value_release (v);
+		return res;
+	}
 
 	/* handle inverted ranges */
 	value_cellrange_normalize (pos, v, &start_sheet, &end_sheet, &rng);

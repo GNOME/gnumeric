@@ -139,7 +139,6 @@ typedef enum _SpanCalcFlags {
 
 typedef enum
 {
-	GNM_EXPR_EVAL_STRICT		= 0x0,
 	GNM_EXPR_EVAL_PERMIT_NON_SCALAR	= 0x1,
 	GNM_EXPR_EVAL_PERMIT_EMPTY	= 0x2
 } GnmExprEvalFlags;
