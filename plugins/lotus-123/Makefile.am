@@ -13,6 +13,7 @@ plugin_LTLIBRARIES = liblotus.la
 
 liblotus_la_SOURCES =		\
 	boot.c			\
+	config.h		\
 	lotus.c			\
 	lotus.h			\
 	lotus-types.h		\
