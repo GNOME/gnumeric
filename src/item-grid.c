@@ -195,8 +195,9 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 		last = range->end.row;
 	b += scg_colrow_distance_get (grid->scg, FALSE, view->start.row, last+1);
 
-	if (is_selected ||
-	    gnumeric_background_set_gc (mstyle, gc, grid->canvas_item.canvas, is_selected))
+	/* Check for background THEN selection */
+	if (gnumeric_background_set_gc (mstyle, gc, grid->canvas_item.canvas, is_selected) ||
+	    is_selected)
 		/* Remember X excludes the far pixels */
 		gdk_draw_rectangle (drawable, gc, TRUE, l, t, r-l+1, b-t+1);
 

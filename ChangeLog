@@ -1,5 +1,8 @@
 2001-02-23  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-grid.c (item_grid_draw_merged_range) : check for background
+	  before checking for selection.
+
 	* src/sheet-merge.c (sheet_merge_add) : don't apply the borders from
 	  the corner cell to the whole region.  Just the content.
 
