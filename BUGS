@@ -21,6 +21,8 @@ Long term breakage
 
 - The mps plugin has some fixed-length arrays that can be overrun.
 
+- The dif plugin uses g_alloca inside function calls.  This does not work.
+
 - can_try_save_to uses access().  That's bogus in a number of ways: (a) it
   checks the wrong permissions in the set[gu]id case.  (b) It reports the
   wrong result if the path is not readable.  The Right Way to do this, is
