@@ -27,7 +27,7 @@ typedef struct {
 gboolean
 criteria_test_equal (Value const *x, Value const *y)
 {
-        if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
+        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        if (value_get_as_float (x) == value_get_as_float (y))
 		        return 1;
 		else
@@ -42,13 +42,13 @@ criteria_test_equal (Value const *x, Value const *y)
 gboolean
 criteria_test_unequal (Value const *x, Value const *y)
 {
-        if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
+        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        if (value_get_as_float (x) != value_get_as_float (y))
 		        return 1;
 		else
 		        return 0;
 	else if (x->type == VALUE_STRING && y->type == VALUE_STRING
-		 && g_strcasecmp(x->v_str.val->str, y->v_str.val->str) != 0)
+		 && g_strcasecmp (x->v_str.val->str, y->v_str.val->str) != 0)
 	        return 1;
 	else
 	        return 0;
@@ -57,7 +57,7 @@ criteria_test_unequal (Value const *x, Value const *y)
 gboolean
 criteria_test_less (Value const *x, Value const *y)
 {
-        if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
+        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        if (value_get_as_float (x) < value_get_as_float (y))
 		        return 1;
 		else
@@ -69,7 +69,7 @@ criteria_test_less (Value const *x, Value const *y)
 gboolean
 criteria_test_greater (Value const *x, Value const *y)
 {
-        if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
+        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        if (value_get_as_float (x) > value_get_as_float (y))
 		        return 1;
 		else
@@ -81,7 +81,7 @@ criteria_test_greater (Value const *x, Value const *y)
 gboolean
 criteria_test_less_or_equal (Value const *x, Value const *y)
 {
-        if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
+        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        if (value_get_as_float (x) <= value_get_as_float (y))
 		        return 1;
 		else
@@ -93,7 +93,7 @@ criteria_test_less_or_equal (Value const *x, Value const *y)
 gboolean
 criteria_test_greater_or_equal (Value const *x, Value const *y)
 {
-        if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
+        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        if (value_get_as_float (x) >= value_get_as_float (y))
 		        return 1;
 		else
@@ -136,7 +136,7 @@ find_column_of_field (const EvalPos *ep, Value *database, Value *field)
 		char *txt;
 		gboolean match;
 
-	        cell = sheet_cell_get(sheet, n, row);
+	        cell = sheet_cell_get (sheet, n, row);
 		if (cell == NULL)
 		        continue;
 
@@ -156,7 +156,7 @@ find_column_of_field (const EvalPos *ep, Value *database, Value *field)
 /* Frees the allocated memory.
  */
 void
-free_criterias(GSList *criterias)
+free_criterias (GSList *criterias)
 {
         GSList *list = criterias;
 
@@ -170,11 +170,11 @@ free_criterias(GSList *criterias)
 			g_free (cond);
 		}
 
-		g_slist_free(criteria->conditions);
+		g_slist_free (criteria->conditions);
 		g_free (criteria);
 	        criterias = criterias->next;
 	}
-	g_slist_free(list);
+	g_slist_free (list);
 }
 
 void
@@ -185,30 +185,30 @@ parse_criteria (char const *criteria, criteria_test_fun_t *fun,
 	gnum_float tmp;
 	int     len;
 
-        if (strncmp(criteria, "<=", 2) == 0) {
+        if (strncmp (criteria, "<=", 2) == 0) {
 	        *fun = (criteria_test_fun_t) criteria_test_less_or_equal;
-		len=2;
-	} else if (strncmp(criteria, ">=", 2) == 0) {
+		len = 2;
+	} else if (strncmp (criteria, ">=", 2) == 0) {
 	        *fun = (criteria_test_fun_t) criteria_test_greater_or_equal;
-		len=2;
-	} else if (strncmp(criteria, "<>", 2) == 0) {
+		len = 2;
+	} else if (strncmp (criteria, "<>", 2) == 0) {
 	        *fun = (criteria_test_fun_t) criteria_test_unequal;
-		len=2;
+		len = 2;
 	} else if (*criteria == '<') {
 	        *fun = (criteria_test_fun_t) criteria_test_less;
-		len=1;
+		len = 1;
 	} else if (*criteria == '=') {
 	        *fun = (criteria_test_fun_t) criteria_test_equal;
-		len=1;
+		len = 1;
 	} else if (*criteria == '>') {
 	        *fun = (criteria_test_fun_t) criteria_test_greater;
-		len=1;
+		len = 1;
 	} else {
 	        *fun = (criteria_test_fun_t) criteria_test_equal;
-		len=0;
+		len = 0;
 	}
 
-	*test_value = format_match (criteria+len, NULL, NULL);
+	*test_value = format_match (criteria + len, NULL, NULL);
 }
 
 
@@ -225,41 +225,41 @@ parse_criteria_range(Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 
         int i, j;
 
-	for (i=b_row; i<=e_row; i++) {
-	        new_criteria = g_new(database_criteria_t, 1);
+	for (i = b_row; i <= e_row; i++) {
+	        new_criteria = g_new (database_criteria_t, 1);
 		conditions = NULL;
 
-		for (j=b_col; j<=e_col; j++) {
-		        cell = sheet_cell_get(sheet, j, i);
+		for (j = b_col; j <= e_col; j++) {
+		        cell = sheet_cell_get (sheet, j, i);
 			if (cell == NULL || cell->value == NULL)
 			        continue;
 
-			cond = g_new(func_criteria_t, 1);
+			cond = g_new (func_criteria_t, 1);
 
 			/* Equality condition (in number format) */
-			if (VALUE_IS_NUMBER(cell->value)) {
+			if (VALUE_IS_NUMBER (cell->value)) {
 			        cond->x = value_duplicate (cell->value);
 				cond->fun =
 				  (criteria_test_fun_t) criteria_test_equal;
-				cond->column = field_ind[j-b_col];
-				conditions = g_slist_append(conditions, cond);
+				cond->column = field_ind[j - b_col];
+				conditions = g_slist_append (conditions, cond);
 				continue;
 			}
 
 			/* Other conditions (in string format) */
 			cell_str = cell_get_rendered_text (cell);
-			parse_criteria(cell_str, &cond->fun, &cond->x);
+			parse_criteria (cell_str, &cond->fun, &cond->x);
 			if (field_ind != NULL)
-			        cond->column = field_ind[j-b_col];
+			        cond->column = field_ind[j - b_col];
 			else
-			        cond->column = j-b_col;
+			        cond->column = j - b_col;
 			g_free (cell_str);
 
-			conditions = g_slist_append(conditions, cond);
+			conditions = g_slist_append (conditions, cond);
 		}
 
 		new_criteria->conditions = conditions;
-		criterias = g_slist_append(criterias, new_criteria);
+		criterias = g_slist_append (criterias, new_criteria);
 	}
 
 	return criterias;
@@ -285,25 +285,26 @@ parse_database_criteria (const EvalPos *ep, Value *database,
 	e_col = criteria->v_range.cell.b.col;
 	e_row = criteria->v_range.cell.b.row;
 
-	field_ind = g_new(int, (e_col-b_col+1));
+	field_ind = g_new (int, (e_col - b_col + 1));
 
 	/* Find the index numbers for the columns of criterias */
-	for (i=b_col; i<=e_col; i++) {
-	        cell = sheet_cell_get(sheet, i, b_row);
+	for (i = b_col; i <= e_col; i++) {
+	        cell = sheet_cell_get (sheet, i, b_row);
 		if (cell == NULL || cell->value == NULL)
 		        continue;
-		field_ind[i-b_col] =
+		field_ind[i - b_col] =
 		        find_column_of_field (ep, database, cell->value);
-		if (field_ind[i-b_col] == -1) {
-		        g_free(field_ind);
+		if (field_ind[i - b_col] == -1) {
+		        g_free (field_ind);
 			return NULL;
 		}
 	}
 
-	criterias = parse_criteria_range (sheet, b_col, b_row+1, e_col, e_row,
+	criterias = parse_criteria_range (sheet, b_col, b_row + 1,
+					  e_col, e_row,
 					  field_ind);
 
-	g_free(field_ind);
+	g_free (field_ind);
 	return criterias;
 }
 
@@ -342,7 +343,7 @@ find_cells_that_match (Sheet *sheet, Value *database,
 					cond->column, row);
 
 				if (tmp != NULL && tmp->value != NULL) {
-					if (! cond->fun (tmp->value, cond->x)) {
+					if (!cond->fun (tmp->value, cond->x)) {
 						add_flag = FALSE;
 						break;
 					}
@@ -371,13 +372,13 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 	int    row, add_flag;
 	rows = NULL;
 
-	for (row=first_row; row<=last_row; row++) {
+	for (row = first_row; row <= last_row; row++) {
 		Cell   *test_cell;
 
 		current = criterias;
 		add_flag = 1;
 		for (current = criterias; current != NULL;
-		     current=current->next) {
+		     current = current->next) {
 			database_criteria_t *current_criteria;
 
 			add_flag = 1;
@@ -388,13 +389,13 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 				func_criteria_t *cond = conditions->data;
 
 				test_cell =
-					sheet_cell_get(sheet,
+					sheet_cell_get (sheet,
 						       first_col + cond->column, row);
 				if (test_cell == NULL ||
 				    test_cell->value == NULL)
 					continue;
 
-				if (! cond->fun (test_cell->value, cond->x)) {
+				if (!cond->fun (test_cell->value, cond->x)) {
 					add_flag = 0;
 					break;
 				}
@@ -413,13 +414,13 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 				gint    i, trow;
 				gchar  *t1, *t2;
 
-				for (c=rows; c != NULL; c=c->next) {
+				for (c = rows; c != NULL; c = c->next) {
 					trow = *((gint *) c->data);
-					for (i=first_col; i<=last_col; i++) {
+					for (i = first_col; i <= last_col; i++) {
 						test_cell =
-							sheet_cell_get(sheet, i, trow);
+							sheet_cell_get (sheet, i, trow);
 						cell =
-							sheet_cell_get(sheet, i, row);
+							sheet_cell_get (sheet, i, row);
 						t1 = cell_get_rendered_text (cell);
 						t2 = cell_get_rendered_text (test_cell);
 						if (strcmp (t1, t2) != 0)
@@ -432,7 +433,7 @@ row_ok:
 			}
 			p = g_new (gint, 1);
 			*p = row;
-			rows = g_slist_append(rows, (gpointer) p);
+			rows = g_slist_append (rows, (gpointer) p);
 filter_row:
 			;
 		}
@@ -535,15 +536,15 @@ gnumeric_daverage (FunctionEvalInfo *ei, Value **argv)
 	while (current != NULL) {
 	        Cell *cell = current->data;
 
-		if (VALUE_IS_NUMBER(cell->value)) {
+		if (VALUE_IS_NUMBER (cell->value)) {
 			count++;
 			sum += value_get_as_float (cell->value);
 		}
-		current = g_slist_next(current);
+		current = g_slist_next (current);
 	}
 
-	g_slist_free(cells);
-	free_criterias(criterias);
+	g_slist_free (cells);
+	free_criterias (criterias);
 
 	if ( count > 0 )
 	        return value_new_float (sum / count);
@@ -601,13 +602,13 @@ gnumeric_dcount (FunctionEvalInfo *ei, Value **argv)
 	while (current != NULL) {
 	        Cell *cell = current->data;
 
-		if (VALUE_IS_NUMBER(cell->value))
+		if (VALUE_IS_NUMBER (cell->value))
 		        count++;
-		current = g_slist_next(current);
+		current = g_slist_next (current);
 	}
 
-	g_slist_free(cells);
-	free_criterias(criterias);
+	g_slist_free (cells);
+	free_criterias (criterias);
 
         return value_new_int (count);
 }
@@ -661,11 +662,11 @@ gnumeric_dcounta (FunctionEvalInfo *ei, Value **argv)
 
 	while (current != NULL) {
 	        count++;
-		current = g_slist_next(current);
+		current = g_slist_next (current);
 	}
 
-	g_slist_free(cells);
-	free_criterias(criterias);
+	g_slist_free (cells);
+	free_criterias (criterias);
 
         return value_new_int (count);
 }
@@ -725,11 +726,11 @@ gnumeric_dget (FunctionEvalInfo *ei, Value **argv)
 	while (current != NULL) {
 	        cell = current->data;
 	        count++;
-		current = g_slist_next(current);
+		current = g_slist_next (current);
 	}
 
-	g_slist_free(cells);
-	free_criterias(criterias);
+	g_slist_free (cells);
+	free_criterias (criterias);
 
 	if (count == 0)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -795,16 +796,16 @@ gnumeric_dmax (FunctionEvalInfo *ei, Value **argv)
 	        gnum_float v;
 
 	        cell = current->data;
-		if (VALUE_IS_NUMBER(cell->value)) {
+		if (VALUE_IS_NUMBER (cell->value)) {
 			v = value_get_as_float (cell->value);
 			if (max < v)
 				max = v;
 		}
-		current = g_slist_next(current);
+		current = g_slist_next (current);
 	}
 
-	g_slist_free(cells);
-	free_criterias(criterias);
+	g_slist_free (cells);
+	free_criterias (criterias);
 
         return value_new_float (max);
 }
@@ -865,16 +866,16 @@ gnumeric_dmin (FunctionEvalInfo *ei, Value **argv)
 	        gnum_float v;
 
 	        cell = current->data;
-		if (VALUE_IS_NUMBER(cell->value)) {
+		if (VALUE_IS_NUMBER (cell->value)) {
 			v = value_get_as_float (cell->value);
 			if (min > v)
 				min = v;
 		}
-		current = g_slist_next(current);
+		current = g_slist_next (current);
 	}
 
-	g_slist_free(cells);
-	free_criterias(criterias);
+	g_slist_free (cells);
+	free_criterias (criterias);
 
         return value_new_float (min);
 }
@@ -937,11 +938,11 @@ gnumeric_dproduct (FunctionEvalInfo *ei, Value **argv)
 	        cell = current->data;
 		v = value_get_as_float (cell->value);
 		product *= v;
-		current = g_slist_next(current);
+		current = g_slist_next (current);
 	}
 
-	g_slist_free(cells);
-	free_criterias(criterias);
+	g_slist_free (cells);
+	free_criterias (criterias);
 
         return value_new_float (product);
 }
@@ -1000,11 +1001,11 @@ gnumeric_dstdev (FunctionEvalInfo *ei, Value **argv)
 
 		/* FIXME : What about errors ? */
 		callback_function_stat (NULL, cell->value, &p);
-		current = g_slist_next(current);
+		current = g_slist_next (current);
 	}
 
-	g_slist_free(cells);
-	free_criterias(criterias);
+	g_slist_free (cells);
+	free_criterias (criterias);
 
 	if (p.N - 1 == 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -1068,11 +1069,11 @@ gnumeric_dstdevp (FunctionEvalInfo *ei, Value **argv)
 
 		/* FIXME : What about errors ? */
 		callback_function_stat (NULL, cell->value, &p);
-		current = g_slist_next(current);
+		current = g_slist_next (current);
 	}
 
-	g_slist_free(cells);
-	free_criterias(criterias);
+	g_slist_free (cells);
+	free_criterias (criterias);
 
 	if (p.N == 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -1138,11 +1139,11 @@ gnumeric_dsum (FunctionEvalInfo *ei, Value **argv)
 	        cell = current->data;
 		v = value_get_as_float (cell->value);
 		sum += v;
-		current = g_slist_next(current);
+		current = g_slist_next (current);
 	}
 
-	g_slist_free(cells);
-	free_criterias(criterias);
+	g_slist_free (cells);
+	free_criterias (criterias);
 
         return value_new_float (sum);
 }
@@ -1203,11 +1204,11 @@ gnumeric_dvar (FunctionEvalInfo *ei, Value **argv)
 
 		/* FIXME : What about errors ? */
 		callback_function_stat (NULL, cell->value, &p);
-		current = g_slist_next(current);
+		current = g_slist_next (current);
 	}
 
-	g_slist_free(cells);
-	free_criterias(criterias);
+	g_slist_free (cells);
+	free_criterias (criterias);
 
 	if (p.N - 1 == 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -1272,11 +1273,11 @@ gnumeric_dvarp (FunctionEvalInfo *ei, Value **argv)
 
 		/* FIXME : What about errors ? */
 		callback_function_stat (NULL, cell->value, &p);
-		current = g_slist_next(current);
+		current = g_slist_next (current);
 	}
 
-	g_slist_free(cells);
-	free_criterias(criterias);
+	g_slist_free (cells);
+	free_criterias (criterias);
 
 	if (p.N == 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -1313,22 +1314,23 @@ gnumeric_getpivotdata (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_REF);
 
 	row = argv[0]->v_range.cell.b.row;
-	cell = sheet_cell_get(ei->pos->sheet, col, row);
+	cell = sheet_cell_get (ei->pos->sheet, col, row);
 
 	/* FIXME: Lots of stuff missing */
 
 	if (cell == NULL || cell->value == NULL ||
-	    !VALUE_IS_NUMBER(cell->value))
+	    !VALUE_IS_NUMBER (cell->value))
 		return value_new_error (ei->pos, gnumeric_err_REF);
 
-        return value_new_float (value_get_as_float(cell->value));
+        return value_new_float (value_get_as_float (cell->value));
 }
 
 /***************************************************************************/
 
-void database_functions_init(void);
+void database_functions_init (void);
+
 void
-database_functions_init(void)
+database_functions_init (void)
 {
 	FunctionCategory *cat = function_get_category_with_translation ("Database", _("Database"));
 
