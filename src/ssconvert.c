@@ -30,6 +30,9 @@ static gboolean ssconvert_one_file_per_sheet = FALSE;
 static char const *ssconvert_import_encoding = NULL;
 static char const *ssconvert_export_id = NULL;
 
+#ifdef WIN32
+#define POPT_STATIC
+#endif
 const struct poptOption
 ssconvert_popt_options[] = {
 	{ NULL, '\0', POPT_ARG_INTL_DOMAIN, (char *)GETTEXT_PACKAGE, 0, NULL, NULL },

@@ -22,7 +22,7 @@
 #include "format.h"
 #include "application.h"
 #include "workbook.h"
-#include "gnumeric-paths.h"
+#include "libgnumeric.h"
 
 #include <goffice/gui-utils/go-combo-color.h>
 #include <glade/glade.h>
@@ -980,7 +980,7 @@ int_to_entry (GtkEntry *entry, gint the_int)
 char *
 gnumeric_icondir (char const *filename)
 {
-	return g_build_filename (GNUMERIC_ICONDIR, filename, NULL);
+	return g_build_filename (gnumeric_icon_dir, filename, NULL);
 }
 
 GtkWidget *

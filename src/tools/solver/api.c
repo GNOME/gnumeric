@@ -200,7 +200,7 @@ w_lp_solve_solve (SolverProgram program)
 #endif
         switch ((res = res = lp_solve_solve (lp->p))) {
 	default:
-		g_warning ("unknown result from lp_solve_solve '%d'" ,lp->p);
+		g_warning ("unknown result from lp_solve_solve '%d'" , res);
 
 	case UNKNOWNERROR:
 	case DATAIGNORED:

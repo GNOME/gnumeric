@@ -13,6 +13,8 @@ extern gboolean	 initial_workbook_open_complete;
 extern char	*x_geometry;
 extern char const *gnumeric_lib_dir;
 extern char const *gnumeric_data_dir;
+extern char const *gnumeric_icon_dir;
+extern char const *gnumeric_locale_dir;
 
 void gnm_pre_parse_init (char const* gnumeric_binary);
 void gnm_common_init	(gboolean fast);

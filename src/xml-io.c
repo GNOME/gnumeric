@@ -2437,7 +2437,7 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 #ifdef ENABLE_SOLVER
 	SolverConstraint *c;
-	xmlNodePtr       child;
+	xmlNodePtr       child, ptr;
 	int              col, row, ptype;
 	xmlChar          *s;
 	Sheet *sheet = ctxt->sheet;
@@ -2459,46 +2459,53 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 	param->input_entry_str = g_strdup ((const gchar *)s);
 	xmlFree (s);
 
-	child = e_xml_get_child_by_name (tree, CC2XML ("Constr"));
 	param->constraints = NULL;
-	while (child != NULL) {
-	        int type;
+	/* Handle both formats.
+	 * Pre 1.4 we would nest the constraints (I suspect this was unintentional)
+	 * After 1.4 we stored them serially. */
+	for (ptr = tree->xmlChildrenNode; ptr != NULL ; ptr = ptr->next) {
+		if (xmlIsBlankNode (ptr) ||
+		    ptr->name == NULL || strcmp (ptr->name, "Constr"))
+			continue;
+		child = ptr;
+		do {
+			int type;
 
-	        c = g_new (SolverConstraint, 1);
-		xml_node_get_int (child, "Lcol", &c->lhs.col);
-		xml_node_get_int (child, "Lrow", &c->lhs.row);
-		xml_node_get_int (child, "Rcol", &c->rhs.col);
-		xml_node_get_int (child, "Rrow", &c->rhs.row);
-		xml_node_get_int (child, "Cols", &c->cols);
-		xml_node_get_int (child, "Rows", &c->rows);
-		xml_node_get_int (child, "Type", &type);
-		switch (type) {
-		case 1:
-		        c->type = SolverLE;
-			break;
-		case 2:
-		        c->type = SolverGE;
-			break;
-		case 4:
-		        c->type = SolverEQ;
-			break;
-		case 8:
-		        c->type = SolverINT;
-			break;
-		case 16:
-		        c->type = SolverBOOL;
-			break;
-		default:
-		        c->type = SolverLE;
-			break;
-		}
-		c->str = write_constraint_str (c->lhs.col, c->lhs.row,
-					       c->rhs.col, c->rhs.row,
-					       c->type, c->cols, c->rows);
+			c = g_new (SolverConstraint, 1);
+			xml_node_get_int (child, "Lcol", &c->lhs.col);
+			xml_node_get_int (child, "Lrow", &c->lhs.row);
+			xml_node_get_int (child, "Rcol", &c->rhs.col);
+			xml_node_get_int (child, "Rrow", &c->rhs.row);
+			xml_node_get_int (child, "Cols", &c->cols);
+			xml_node_get_int (child, "Rows", &c->rows);
+			xml_node_get_int (child, "Type", &type);
+			switch (type) {
+			case 1:
+				c->type = SolverLE;
+				break;
+			case 2:
+				c->type = SolverGE;
+				break;
+			case 4:
+				c->type = SolverEQ;
+				break;
+			case 8:
+				c->type = SolverINT;
+				break;
+			case 16:
+				c->type = SolverBOOL;
+				break;
+			default:
+				c->type = SolverLE;
+				break;
+			}
+			c->str = write_constraint_str (c->lhs.col, c->lhs.row,
+						       c->rhs.col, c->rhs.row,
+						       c->type, c->cols, c->rows);
 
-		param->constraints = g_slist_append (param->constraints, c);
-		child = e_xml_get_child_by_name (child,
-						 CC2XML ("Constr"));
+			param->constraints = g_slist_append (param->constraints, c);
+			child = e_xml_get_child_by_name (child, CC2XML ("Constr"));
+		} while (child != NULL);
 	}
 
 	/* The options of the Solver. */

@@ -58,6 +58,8 @@ gboolean initial_workbook_open_complete = FALSE;
 char	   *x_geometry;
 char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
 char const *gnumeric_data_dir = GNUMERIC_DATADIR;
+char const *gnumeric_icon_dir = GNUMERIC_ICONDIR;
+char const *gnumeric_locale_dir = GNUMERIC_LOCALEDIR;
 
 /**
  * gnm_pre_parse_init :
@@ -73,27 +75,28 @@ gnm_pre_parse_init (char const* gnumeric_binary)
 	/* Make stdout line buffered - we only use it for debug info */
 	setvbuf (stdout, NULL, _IOLBF, 0);
 
-	bindtextdomain (GETTEXT_PACKAGE, GNUMERIC_LOCALEDIR);
+#ifdef G_OS_WIN32
+{
+	char *dir;
+	dir = g_win32_get_package_installation_directory (NULL, NULL);
+	gnumeric_data_dir = g_build_filename (dir,
+		"share", "gnumeric", GNUMERIC_VERSION, NULL);
+	gnumeric_lib_dir = g_build_filename (dir,
+		"lib", "gnumeric", GNUMERIC_VERSION, NULL);
+	gnumeric_icon_dir = g_build_filename (dir,
+		"lib", "pixmaps", "gnumeric", NULL);
+	gnumeric_locale_dir = g_build_filename (dir,
+		"lib", "locale", NULL);
+}
+#endif
+
+	bindtextdomain (GETTEXT_PACKAGE, gnumeric_locale_dir);
 	textdomain (GETTEXT_PACKAGE);
 
 	/* Force all of the locale segments to update from the environment.
 	 * Unless we do this they will default to C
 	 */
 	setlocale (LC_ALL, "");
-
-#ifdef G_OS_WIN32
-{
-	char *dir;
-	dir = g_win32_get_package_installation_subdirectory (
-		NULL, NULL, "share");
-	gnumeric_data_dir = g_build_filename (d,
-		"gnumeric", GNUMERIC_VERSION, NULL);
-	dir = g_win32_get_package_installation_subdirectory (
-		NULL, NULL, "lib");
-	gnumeric_lib_dir = g_build_filename (d,
-		"gnumeric", GNUMERIC_VERSION, NULL);
-}
-#endif
 }
 
 #if 0

@@ -1,4 +1,6 @@
-SUBDIRS = plugins
+if !WITH_WIN32
+  SUBDIRS = plugins
+endif
 # SUBDIRS += tests
 ## Don't put comment on an assignment line!  It can trigger an automake bug.
 

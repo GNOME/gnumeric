@@ -10,7 +10,7 @@ xmldir	 = $(goffice_graph_surfacedir)
 gladedir = $(goffice_graph_surfacedir)
 
 goffice_graph_surface_LTLIBRARIES = surface.la
-surface_la_LDFLAGS = -module -avoid-version
+surface_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
 surface_la_SOURCES = \
 	gog-surface.c		\
 	gog-surface.h		\

@@ -1,3 +1,19 @@
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	From Jean Bréfort :
+	* src/xml-io.c (xml_read_solver) : handle both formats of constraint
+	  Per and post 1.4
+
+2004-11-05  Jody Goldberg <jody@gnome.org>
+
+	From Ivan Wong:
+	* src/gui-util.c (gnumeric_icondir) : use the variable rather than the
+	  compiled path.
+	* configure.in : The win32 build needs some extra flags for the
+	  plugins
+	* Makefile.am : cheesy hack to build the charting plugins after we
+	  have an execuable.
+
 2004-11-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gnumeric-gconf.h (gnm_gconf_set_autocomplete): new

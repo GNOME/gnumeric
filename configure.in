@@ -179,8 +179,16 @@ GNUMERIC_CFLAGS="$GNUMERIC_CFLAGS -I\$(top_srcdir)/src/cut-n-paste-code"
 AC_SUBST(GNUMERIC_LIBS)
 AC_SUBST(GNUMERIC_CFLAGS)
 
-dnl a hook for the win32 build to tweak
-GNUMERIC_PLUGIN_LDFLAGS="-avoid-version"
+case $host_os in
+*mingw* | pw32* | cygwin*)
+    win32=yes
+    GNUMERIC_PLUGIN_LDFLAGS="-no-undefined $GNUMERIC_LIBS -Wl,--enable-runtime-pseudo-relo,\$(top_builddir)/src/gnumeric.exe.a -s"
+    AC_CHECK_TOOL(WINDRES, windres, :)
+    ;;
+esac
+AM_CONDITIONAL(WITH_WIN32, test x"$win32" = "xyes")
+
+GNUMERIC_PLUGIN_LDFLAGS="-avoid-version $(GNUMERIC_PLUGIN_LDFLAGS)"
 AC_SUBST(GNUMERIC_PLUGIN_LDFLAGS)
 
 dnl disable for in stable release, re-enable for development series
