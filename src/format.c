@@ -651,6 +651,11 @@ format_compile (GnmFormat *format)
 			real_start = NULL;
 			break;
 
+		case '*':
+			if (fmt != format->format)
+				format->is_var_width = TRUE;
+			break;
+
 		default :
 			break;
 		}
@@ -2445,10 +2450,13 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 		format->regexp_str = NULL;
 		format->match_tags = NULL;
 		format->family = cell_format_classify (format, &format->family_info);
+		format->is_var_width = FALSE;
 		if (format->family == FMT_MARKUP)
 			format->markup = gnm_format_parse_markup (format->format);
 		else if (!style_format_is_general (format))
 			format_compile (format);
+		else
+			format->is_var_width = TRUE;
 
 		g_hash_table_insert (style_format_hash, format->format, format);
 	}

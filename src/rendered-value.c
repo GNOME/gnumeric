@@ -114,11 +114,11 @@ rendered_value_render (GString *str,
 		GnmFormat *format = mstyle_get_format (mstyle);
 
 		/* For format general approximate the cell width in characters */
-		if (style_format_is_general (format)) {
+		if (style_format_is_var_width (format)) {
 			gboolean is_rotated = (mstyle_get_rotation (mstyle) != 0);
 			is_variable_width = !is_rotated &&
 				(VALUE_FMT (cell->value) == NULL ||
-				 style_format_is_general (VALUE_FMT (cell->value)));
+				 style_format_is_var_width (VALUE_FMT (cell->value)));
 			if (is_variable_width && allow_variable_width) {
 				GnmFont *style_font =
 					scg_get_style_font (context, sheet, mstyle);
@@ -149,7 +149,7 @@ rendered_value_render (GString *str,
 					col_width = cell_width / wdigit;
 				}
 				style_font_unref (style_font);
-			} else
+			} else if (style_format_is_general (format))
 				format = VALUE_FMT (cell->value);
 		}
 		format_value_gstring (str, format, cell->value, color,

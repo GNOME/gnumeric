@@ -1,5 +1,16 @@
 2005-01-14  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=163438
+	* src/format.c (format_compile) : notice fmts that request a fill
+	(style_format_new_XL) : init the new is_var_width flag
+
+	* src/rendered-value.c (rendered_value_render) : there are formats
+	  other than General that have variable widths.  Are measurement of
+	  col width and characters sucks.   We really need to do the fills at
+	  a higher level where we have font metrics.
+
+2005-01-14  Jody Goldberg <jody@gnome.org>
+
 	http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=290388
 	* src/sheet-object-cell-comment.c (comment_get_points) : This will
 	  need work for RTL, but we do need to compensate for the zoom.

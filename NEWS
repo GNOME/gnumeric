@@ -39,6 +39,7 @@ Jody:
 	* Redo var width content when resizing all cols at once [debian #288157]
 	* Handle zero sized charts [#163939]
 	* Fix comment indicator position when zoomed [debian #290388]
+	* Some support for filled styles [#163438]
 
 Matthias Drochner:
 	* Use non bash specific substitution for autformat templates [#161782]

@@ -49,9 +49,10 @@ struct _GnmFormat {
         GSList               *entries;  /* Of type StyleFormatEntry. */
 	char                 *regexp_str;
 	GByteArray           *match_tags;
-	go_regex_t      regexp;
+	go_regex_t	      regexp;
 	FormatFamily          family;
 	FormatCharacteristics family_info;
+	gboolean	      is_var_width;
 	PangoAttrList	     *markup; /* only for FMT_MARKUP */
 };
 
@@ -78,9 +79,10 @@ GnmFormat *style_format_default_date_time  (void);
 GnmFormat *style_format_default_percentage (void);
 GnmFormat *style_format_default_money	   (void);
 
-#define style_format_is_general(sf) ((sf)->family == FMT_GENERAL)
-#define style_format_is_markup(sf) ((sf)->family == FMT_MARKUP)
-#define style_format_is_text(sf) ((sf)->family == FMT_TEXT)
+#define style_format_is_general(fmt)	((fmt)->family == FMT_GENERAL)
+#define style_format_is_markup(fmt)	((fmt)->family == FMT_MARKUP)
+#define style_format_is_text(fmt)	((fmt)->family == FMT_TEXT)
+#define style_format_is_var_width(fmt)	((fmt)->is_var_width)
 
 char  *format_value   (GnmFormat const *format, GnmValue const *value, GnmColor **color,
 		       double col_width, GnmDateConventions const *date_conv);
