@@ -2967,7 +2967,7 @@ excel_write_COLINFO (BiffPut *bp, ExcelWriteSheet *esheet,
 	if (ci->is_collapsed)
 		options |= 0x1000;
 
-	d (1, {
+	d (-1, {
 		fprintf (stderr, "Column Formatting %s!%s of width "
 		      "%hu/256 characters (%f pts)\n",
 		      esheet->gnum_sheet->name_quoted,

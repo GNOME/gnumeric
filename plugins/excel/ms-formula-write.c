@@ -282,7 +282,6 @@ push_gint16 (PolishData *pd, gint16 b)
 	ms_biff_put_var_write (pd->ewb->bp, data, sizeof(data));
 }
 
-#if 0
 static void
 push_guint32 (PolishData *pd, guint32 b)
 {
@@ -290,7 +289,6 @@ push_guint32 (PolishData *pd, guint32 b)
 	GSF_LE_SET_GUINT32 (data, b);
 	ms_biff_put_var_write (pd->ewb->bp, data, sizeof(data));
 }
-#endif
 
 static void
 write_cellref_v7 (PolishData *pd, GnmCellRef const *ref,
@@ -872,7 +870,15 @@ write_arrays (PolishData *pd)
 			for (x = 0; x < array->v_array.x; x++) {
 				GnmValue const *v = array->v_array.vals[x][y];
 
-				if (VALUE_IS_NUMBER (v)) {
+				if (v->type == VALUE_BOOLEAN) {
+					push_guint8 (pd, 4);
+					push_guint32 (pd, v->v_bool.val ? 1 : 0);
+					push_guint32 (pd, 0);
+				} else if (v->type == VALUE_ERROR) {
+					push_guint8 (pd, 16);
+					push_guint32 (pd, excel_write_map_errcode (v));
+					push_guint32 (pd, 0);
+				} else if (VALUE_IS_NUMBER (v)) {
 					push_guint8 (pd, 1);
 					gsf_le_set_double (data, value_get_as_float (v));
 					ms_biff_put_var_write (pd->ewb->bp, data, 8);

@@ -1,3 +1,8 @@
+2005-01-10  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-write.c (write_arrays) : handle booleans and errors in
+	  arrays
+
 2004-11-13  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (ms_sheet_realize_obj) : We have a clear separation

@@ -3100,7 +3100,8 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GnmExprList *args)
 			for (x = 0; x < thissizex; x++) {
 				/* FIXME: efficiency worries?  */
 				GnmValue const *v = value_area_fetch_x_y (val, x, y, ei->pos);
-				if (v->type == VALUE_ERROR) {
+				switch (v->type) {
+				case VALUE_ERROR :
 					/*
 					 * We carefully tranverse the argument
 					 * list and then the arrays in such an
@@ -3117,8 +3118,14 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GnmExprList *args)
 					result = value_dup (v);
 					value_release (val);
 					goto done;
+				case VALUE_INTEGER:
+				case VALUE_FLOAT:
+					data[i][y * thissizex + x] = value_get_as_float (v);
+					break;
+				default :
+					/* Ignore booleans and strings to be consistent with XL */
+					data[i][y * thissizex + x] = 0.;
 				}
-				data[i][y * thissizex + x] = value_get_as_float (v);
 			}
 		}
 		value_release (val);
