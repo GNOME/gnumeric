@@ -82,7 +82,6 @@ src/dialogs/font-sel.glade
 src/dialogs/formula-guru.glade
 src/dialogs/function-select.glade
 src/dialogs/hf-config.glade
-src/dialogs/import.glade
 src/dialogs/insert-cells.glade
 src/dialogs/names.glade
 src/dialogs/plugin-manager.glade
