@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-03-10 16:22-0500\n"
-"PO-Revision-Date: 2002-03-09 00:31+0100\n"
+"POT-Creation-Date: 2002-03-11 00:31+0100\n"
+"PO-Revision-Date: 2002-03-11 00:32+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1228,28 +1228,28 @@ msgstr "Inläsare för Python-insticksmoduler"
 msgid "This plugin provides support for Python plugins"
 msgstr "Denna insticksmodul tillhandahåller stöd för Python-insticksmoduler"
 
-#: plugins/python-loader/py-gnumeric.c:273
-#: plugins/python-loader/py-gnumeric.c:313
+#: plugins/python-loader/py-gnumeric.c:274
+#: plugins/python-loader/py-gnumeric.c:314
 msgid "Unknown error"
 msgstr "Okänt fel"
 
-#: plugins/python-loader/py-gnumeric.c:279
-#: plugins/python-loader/py-gnumeric.c:321
+#: plugins/python-loader/py-gnumeric.c:280
+#: plugins/python-loader/py-gnumeric.c:322
 #, c-format
 msgid "Python exception (%s: %s)"
 msgstr "Python-undantag (%s: %s)"
 
-#: plugins/python-loader/py-gnumeric.c:283
-#: plugins/python-loader/py-gnumeric.c:325
+#: plugins/python-loader/py-gnumeric.c:284
+#: plugins/python-loader/py-gnumeric.c:326
 #, c-format
 msgid "Python exception (%s)"
 msgstr "Python-undantag (%s)"
 
-#: plugins/python-loader/py-gnumeric.c:456
+#: plugins/python-loader/py-gnumeric.c:457
 msgid "Python list is not an array"
 msgstr "Python-listan är inte en vektor"
 
-#: plugins/python-loader/py-gnumeric.c:463
+#: plugins/python-loader/py-gnumeric.c:464
 #, c-format
 msgid "Unsupported Python type: %s"
 msgstr "Python-typen stöds inte: %s"
@@ -1258,49 +1258,49 @@ msgstr "Python-typen stöds inte: %s"
 msgid "Python module name not given."
 msgstr "Python-modulnamn har inte angivits."
 
-#: plugins/python-loader/python-loader.c:172
+#: plugins/python-loader/python-loader.c:173
 #, c-format
 msgid "Module \"%s\" doesn't exist."
 msgstr "Modulen \"%s\" finns inte."
 
-#: plugins/python-loader/python-loader.c:197
+#: plugins/python-loader/python-loader.c:199
 #, c-format
 msgid "Execution of module \"%s\" failed."
 msgstr "Körning av modulen \"%s\" misslyckades."
 
-#: plugins/python-loader/python-loader.c:229 src/plugin-loader-module.c:193
+#: plugins/python-loader/python-loader.c:231 src/plugin-loader-module.c:193
 msgid "Loader"
 msgstr "Inläsare"
 
-#: plugins/python-loader/python-loader.c:232
+#: plugins/python-loader/python-loader.c:234
 msgid "Python module name"
 msgstr "Python-modulnamn"
 
-#: plugins/python-loader/python-loader.c:333
+#: plugins/python-loader/python-loader.c:336
 msgid "Some name"
 msgstr "Något namn"
 
-#: plugins/python-loader/python-loader.c:394
-#: plugins/python-loader/python-loader.c:478
-#: plugins/python-loader/python-loader.c:689
+#: plugins/python-loader/python-loader.c:398
+#: plugins/python-loader/python-loader.c:483
+#: plugins/python-loader/python-loader.c:695
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Python-filen \"%s\" har ett ogiltigt format."
 
-#: plugins/python-loader/python-loader.c:399
-#: plugins/python-loader/python-loader.c:405
-#: plugins/python-loader/python-loader.c:483 src/plugin-loader-module.c:440
+#: plugins/python-loader/python-loader.c:403
+#: plugins/python-loader/python-loader.c:409
+#: plugins/python-loader/python-loader.c:488 src/plugin-loader-module.c:440
 #: src/plugin-loader-module.c:446 src/plugin-loader-module.c:511
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "Filen innehåller inte funktionen \"%s\"."
 
-#: plugins/python-loader/python-loader.c:694
+#: plugins/python-loader/python-loader.c:700
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "Filen innehåller inte ordboken \"%s\"."
 
-#: plugins/python-loader/python-loader.c:699
+#: plugins/python-loader/python-loader.c:705
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Objektet \"%s\" är inte en ordbok."
@@ -1317,19 +1317,19 @@ msgstr "Denna insticksmodul tillhandahåller stöd för språket Python i Gnumer
 msgid "Python exception"
 msgstr "Python-undantag"
 
-#: plugins/python/python.c:579
+#: plugins/python/python.c:586
 msgid "Unknown Python type"
 msgstr "Okänd Pythontyp"
 
-#: plugins/python/python.c:619
+#: plugins/python/python.c:626
 msgid "Unable to lookup Python code object."
 msgstr "Kan inte hitta Python-objektet."
 
-#: plugins/python/python.c:825
+#: plugins/python/python.c:835
 msgid "object must be callable"
 msgstr "objektet måste vara anropsbart"
 
-#: plugins/python/python.c:927
+#: plugins/python/python.c:939
 #, c-format
 msgid "Unhandled Python exception: %s"
 msgstr "Ohanterat Python-undantag: %s"
@@ -3459,9 +3459,8 @@ msgid "ANOVA - Single Factor"
 msgstr "ANOVA - Enkel faktor"
 
 #: src/dialogs/anova-one.glade.h:4
-#, fuzzy
 msgid "Clear Output Range"
-msgstr "Utdataområde:"
+msgstr "Töm utdataområde"
 
 #: src/dialogs/anova-one.glade.h:5 src/dialogs/correlation.glade.h:3
 #: src/dialogs/covariance.glade.h:3 src/dialogs/descriptive-stats.glade.h:7
@@ -3493,13 +3492,12 @@ msgid "Output"
 msgstr "Utdata"
 
 #: src/dialogs/anova-one.glade.h:9
-#, fuzzy
 msgid "Retain Output Range Comments"
-msgstr "_Utdataområde: "
+msgstr "Behåll kommentarer i utdataområde"
 
 #: src/dialogs/anova-one.glade.h:10
 msgid "Retain Output Range Formatting"
-msgstr ""
+msgstr "Behåll formatering av utdataområde"
 
 #: src/dialogs/anova-one.glade.h:11 src/dialogs/anova-two.glade.h:9
 msgid "_Alpha = "
@@ -5472,7 +5470,7 @@ msgstr "Nytt namn"
 
 #: src/dialogs/dialog-sheet-order.c:410
 msgid "Deletion of sheets is not undoable. Do you want to proceed?"
-msgstr ""
+msgstr "Borttagning av blad kan inte ångras. Vill du fortsätta?"
 
 #: src/dialogs/dialog-solver.c:64
 msgid "<="
@@ -5516,9 +5514,9 @@ msgid "The Target Cell value does not converge!"
 msgstr "Målcellens värde konvergerar inte!"
 
 #: src/dialogs/dialog-solver.c:800
-#, fuzzy, c-format
+#, c-format
 msgid "Solver was not successful: %s"
-msgstr "Lösaran lyckades inte: %i"
+msgstr "Lösaran lyckades inte: %s"
 
 #: src/dialogs/dialog-solver.c:825
 #, c-format
@@ -7031,9 +7029,8 @@ msgid "_Regular expression"
 msgstr "_Reguljärt uttryck"
 
 #: src/dialogs/sheet-order.glade.h:1
-#, fuzzy
 msgid "Manage Sheets..."
-msgstr "Namnbyte på blad"
+msgstr "Hantera blad..."
 
 #: src/dialogs/sheet-rename.glade.h:1
 msgid "Enter new name for the current _sheet:"
@@ -7077,9 +7074,8 @@ msgid "M_in"
 msgstr "M_in"
 
 #: src/dialogs/solver.glade.h:11
-#, fuzzy
 msgid "P_rogram"
-msgstr "_Program"
+msgstr "P_rogram"
 
 #: src/dialogs/solver.glade.h:12
 msgid "Parameters"
@@ -7110,9 +7106,8 @@ msgid "_Change"
 msgstr "_Ändra"
 
 #: src/dialogs/solver.glade.h:21
-#, fuzzy
 msgid "_Dual Program"
-msgstr "_Program"
+msgstr "_Andra program"
 
 #: src/dialogs/solver.glade.h:22
 msgid "_Left Hand Side:"
@@ -7127,9 +7122,8 @@ msgid "_Max"
 msgstr "_Max"
 
 #: src/dialogs/solver.glade.h:25
-#, fuzzy
 msgid "_Performance"
-msgstr "_Program"
+msgstr "_Prestanda"
 
 #: src/dialogs/solver.glade.h:26
 msgid "_Right Hand Side:"
@@ -7246,9 +7240,8 @@ msgid "View"
 msgstr "Visa"
 
 #: src/dialogs/workbook-attr.glade.h:4
-#, fuzzy
 msgid "Workbook _Protected"
-msgstr "Blad _skyddat"
+msgstr "Arbetsbok _skyddad"
 
 #: src/dialogs/workbook-attr.glade.h:5
 msgid "_Auto Complete Text in Cells"
@@ -20204,7 +20197,7 @@ msgstr "/SS/df/MS/F/P-värde/F-kritisk"
 #: src/tools/analysis-tools.c:3108
 #, c-format
 msgid "Single Factor ANOVA (%s)"
-msgstr ""
+msgstr "Enkelfaktors-ANOVA (%s)"
 
 #. We are ready to create the summary table
 #: src/tools/analysis-tools.c:3117 src/tools/analysis-tools.c:3189
@@ -20213,9 +20206,8 @@ msgid "Anova"
 msgstr "Anova"
 
 #: src/tools/analysis-tools.c:3120
-#, fuzzy
 msgid "Single Factor ANOVA"
-msgstr "Anova: en faktor"
+msgstr "Enkelfaktors-ANOVA"
 
 #: src/tools/analysis-tools.c:3195
 msgid "Anova: Two-Factor Without Replication"
@@ -20439,9 +20431,8 @@ msgstr "Övre"
 #.
 #. Fill in the header titles.
 #: src/tools/solver/reports.c:565 src/tools/solver/reports.c:723
-#, fuzzy
 msgid "Performance Report"
-msgstr "Programrapport"
+msgstr "Prestandarapport"
 
 #.
 #. * Fill in the labels of `General Statistics' section.
@@ -20549,33 +20540,29 @@ msgid "Program Report"
 msgstr "Programrapport"
 
 #: src/tools/solver/reports.c:863
-#, fuzzy
 msgid "Minimize"
-msgstr "Minimum"
+msgstr "Minimera"
 
 #: src/tools/solver/reports.c:866
-#, fuzzy
 msgid "Maximize"
-msgstr "Maximum"
+msgstr "Maximera"
 
 #: src/tools/solver/reports.c:869
-#, fuzzy
 msgid "Equal to"
-msgstr "Lika med:"
+msgstr "Lika med"
 
 #. Print `Subject to' title.
 #: src/tools/solver/reports.c:875
 msgid "Subject to"
-msgstr ""
+msgstr "Påverkas av"
 
 #.
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
 #: src/tools/solver/reports.c:890 src/tools/solver/reports.c:903
-#, fuzzy
 msgid "Dual Program Report"
-msgstr "Programrapport"
+msgstr "Andraprogramrapport"
 
 #: src/tools/solver/solver.c:419
 msgid "Target cell is empty. The objective function cannot be determined."
@@ -20640,6 +20627,30 @@ msgstr "Gnumeric: Validering"
 msgid "Terminate"
 msgstr "Terminera"
 
+#: src/widgets/gnumeric-cell-renderer.c:129
+msgid "Toggle state"
+msgstr "Växlingstillstånd"
+
+#: src/widgets/gnumeric-cell-renderer.c:130
+msgid "The toggle state of the button"
+msgstr "Växlingstillståndet för knappen"
+
+#: src/widgets/gnumeric-cell-renderer.c:138
+msgid "Activatable"
+msgstr "Aktiveringsbar"
+
+#: src/widgets/gnumeric-cell-renderer.c:139
+msgid "The toggle button can be activated"
+msgstr "Växlingsknappen kan aktiveras"
+
+#: src/widgets/gnumeric-cell-renderer.c:147
+msgid "Pixbuf Object"
+msgstr "Pixbuf-objekt"
+
+#: src/widgets/gnumeric-cell-renderer.c:148
+msgid "The pixbuf to render."
+msgstr "Pixbufen att rendera."
+
 #: src/widgets/widget-font-selector.c:116
 msgid "Bold italic"
 msgstr "Fet kursiv"
@@ -20687,9 +20698,8 @@ msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Är du säker på att du vill ta bort bladet med namn `%s'?"
 
 #: src/workbook-control-gui.c:462
-#, fuzzy
 msgid "Manage sheets..."
-msgstr "Byt namn på blad"
+msgstr "Hantera blad..."
 
 #: src/workbook-control-gui.c:463
 msgid "Duplicate this sheet"
@@ -20808,9 +20818,8 @@ msgid "Select all the cells that depend on the current edit cell."
 msgstr "Markera alla celler som beror på cellen som redigeras."
 
 #: src/workbook-control-gui.c:2677 src/workbook-control-gui.c:2863
-#, fuzzy
 msgid "_Manage Sheets..."
-msgstr "Ändra _ordning på blad..."
+msgstr "_Hantera blad..."
 
 #: src/workbook-control-gui.c:2699
 msgid "P_aste special..."
@@ -20955,15 +20964,15 @@ msgstr "Adress"
 #: src/workbook-edit.c:353
 #, c-format
 msgid "%s!%s is locked"
-msgstr ""
+msgstr "%s!%s är skyddad"
 
 #: src/workbook-edit.c:357
 msgid "Unprotect the workbook to enable editing."
-msgstr ""
+msgstr "Ta bort skydd på arbetsboken för att tillåta redigering."
 
 #: src/workbook-edit.c:358
 msgid "Unprotect the sheet to enable editing."
-msgstr ""
+msgstr "Ta bort skydd på bladet för att tillåta redigering."
 
 #: src/workbook-format-toolbar.c:84
 msgid "Set Horizontal Alignment"
@@ -21926,9 +21935,6 @@ msgstr "Gnumeric XML-filformat"
 
 #~ msgid "_Define"
 #~ msgstr "_Definera"
-
-#~ msgid "_Object"
-#~ msgstr "_Objekt"
 
 #~ msgid "Unknown formula"
 #~ msgstr "Okänd formel"
