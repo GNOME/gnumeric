@@ -1,3 +1,11 @@
+2000-11-04  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (scm_cell_expr): Return SCM_EOL instead of expr_to_scm. 
+	* guile-support.c (value_to_scm): Correctly create the list unto the guile interpreter.
+	Greatest PBB ever! In the VALUE_EMPTY case we now return SCM_EOL instead of SCM_UNSPECIFIED.
+	Clean some comments.
+	(expr_to_scm): Comment this function that it is not needed 
+
 2000-11-01  Ariel Rios  <ariel@arcavia.com>
 
 	* plugin.c (func_marshal_func): Added a nice SCM cast to remove warning.

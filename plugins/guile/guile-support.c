@@ -140,7 +140,7 @@ value_to_scm (Value const *val, CellRef cell_ref)
 	switch (val->type)
 	{
 		case VALUE_EMPTY :
-			return gh_eval_str ("'()");
+			return SCM_EOL;
  
 		case VALUE_BOOLEAN :
 			return gh_bool2scm (val->v_bool.val);	
@@ -171,13 +171,10 @@ value_to_scm (Value const *val, CellRef cell_ref)
 				x = val->v_array.x;
 				y = val->v_array.y;
 
-				//ls = gh_eval_str ("'()");
-
-				/* FIXME : I added the value_to_scm wrapper. This seems more correct */
 				for (i = 0; i < y; i++)
 					for (ii = 0; i < x; i++)
 						{
-							*ls = scm_cons (value_to_scm (val->v_array.vals[ii][i], cell_ref), *ls);
+							*ls = scm_cons (value_to_scm (val->v_array.vals[i][ii], cell_ref), *ls);
 							ls = SCM_CDRLOC (*ls);
 						}
 				*ls = SCM_EOL;
@@ -187,7 +184,7 @@ value_to_scm (Value const *val, CellRef cell_ref)
 			}
 	}
 
-	return SCM_UNSPECIFIED;
+	return SCM_EOL;
 }
 
 Value*
@@ -221,10 +218,10 @@ scm_to_value (SCM scm)
 
 	return NULL;		/* maybe we should return something more meaningful!? */
 }
-
+/*
 SCM
 expr_to_scm (ExprTree *expr, CellRef cell_ref)
-{
+{a
 	switch (expr->any.oper)
 	{
 		case OPER_EQUAL :
@@ -301,12 +298,12 @@ expr_to_scm (ExprTree *expr, CellRef cell_ref)
 					 expr_to_scm(expr->binary.value_b, cell_ref));
 			
 	       case OPER_FUNCALL :
-	               return SCM_UNSPECIFIED;
-		  /*
-			return SCM_LIST3(scm_symbolfrom0str("funcall"),
-					 scm_makfrom0str(expr->func.func->name),
-					 list_to_scm(expr->func.arg_list, cell_ref));
-		  */
+	               return SCM_EOL;
+		       
+		       //return SCM_LIST3(scm_symbolfrom0str("funcall"),
+				//	 scm_makfrom0str(expr->func.func->name),
+				// list_to_scm(expr->func.arg_list, cell_ref));
+		  
 		case OPER_CONSTANT :
 			return value_to_scm(expr->constant.value, cell_ref);
 
@@ -316,11 +313,13 @@ expr_to_scm (ExprTree *expr, CellRef cell_ref)
 
 	        case OPER_NAME :
 
-	        case OPER_ARRAY :
-		
+	case OPER_ARRAY : return scm_cons(scm_symbolfrom0str("var"), SCM_EOL);
 
-		/* FIXME : default : */
+	default : return SCM_EOL;
+
+		
 	}
 
-	return SCM_UNSPECIFIED;
+	return SCM_EOL;
 }
+*/

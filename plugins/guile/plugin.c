@@ -120,7 +120,7 @@ scm_cell_expr (SCM scm)
 	if (cell == NULL || cell_has_expr (cell))
 		return SCM_EOL;
 
-	return expr_to_scm (cell->base.expression, cell_ref);
+	return SCM_EOL;//expr_to_scm (cell->base.expression, cell_ref);
 }
 
 static SCM
