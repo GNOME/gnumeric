@@ -66,7 +66,24 @@ The Gnumeric feature list for gnumeric 0.42
 	 Horizontal (general, left, center, right, fill, justify)
 	 Vertical   (top, center, bottom, justify)
 	 Wrap text
-     
+    
+  ** Autofill
+
+	Autofill for various sequences is supported.
+
+  ** Automatic guessing of input
+
+	Gnumeric will try to parse user entered input as a number
+	with a format applied (so you can enter dates directly, and
+	they will be stored internally as a number + a format to
+	render it).
+
+* International
+
+	Gnumeric has been localized to various languages, and 
+	we welcome new contributions.  It handles numeric formats
+	properly for various countries and languages.
+ 
 * Import filters
 
   ** Excel
