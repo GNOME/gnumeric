@@ -588,7 +588,8 @@ sheet_print (Sheet *sheet, gboolean preview,
 	g_return_if_fail (sheet != NULL);
 	
 	if (!preview) {
-		if (!(printer = gnumeric_printer_dialog_run (&default_range)))
+		if (!(printer = gnumeric_printer_dialog_run 
+		      (&default_range, sheet->workbook)))
 			return;
 	}
 		

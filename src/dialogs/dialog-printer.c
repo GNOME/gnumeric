@@ -151,23 +151,35 @@ gnumeric_printer_dialog_new (PrintRange default_range)
 /**
  * gnumeric_printer_dialog_run:
  * @range: pointer to the default range
+ * @workbook: The workbook calling the routine.
  * 
  * A convenience function.
  * 
  * Return value: the selected range in *range.
  **/
 GnomePrinter *
-gnumeric_printer_dialog_run (PrintRange *range)
+gnumeric_printer_dialog_run (PrintRange *range, Workbook *wb)
 {
 	int                    bn;
 	GnumericPrinterDialog *pd;
+	GnomePrinterWidget    *pw;
 	GnomePrinter          *printer;
 	GtkWidget             *printer_dialog;
 	
 	printer_dialog = gnumeric_printer_dialog_new (*range);
 	pd = GNUMERIC_PRINTER_DIALOG (printer_dialog);
-		
+	pw = pd->gnome_printer_widget;
+
+	/* The printer menu is better, but gnome_printer_dialog does
+           not expose it */
+	gtk_widget_grab_focus (GTK_WIDGET(pw->r1));
+	gnome_dialog_editable_enters(GNOME_DIALOG(pd), 
+				     GTK_EDITABLE(pw->entry_command));
+	gnome_dialog_editable_enters(GNOME_DIALOG(pd), 
+				     GTK_EDITABLE(pw->entry_filename));
+
 	gtk_window_set_modal (GTK_WINDOW (printer_dialog), TRUE);
+	gnome_dialog_set_parent (GNOME_DIALOG (printer_dialog), GTK_WINDOW(wb->toplevel));
 	bn = gnome_dialog_run (GNOME_DIALOG (printer_dialog));
 	
 	if (bn < 0)
