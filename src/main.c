@@ -165,9 +165,11 @@ gnumeric_main (void *closure, int argc, char *argv [])
 			if (new_book) {
 				opened_workbook = TRUE;
 
+/*				workbook_style_test (new_book);*/
 				gtk_widget_show (new_book->toplevel);
 			}
 
+			/* FIXME: we need to mask input events correctly here */
 			while (gtk_events_pending ()) /* Show something coherent */
 				gtk_main_iteration ();
 		}

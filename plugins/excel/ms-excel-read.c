@@ -1412,7 +1412,7 @@ excel_map_pattern_index_from_excel (int const i)
 		 0,
 		 1,  3,  2,  4,  7,  8,
 		 10, 9, 11, 12, 13, 14,
-		15, 16, 17, 18,  5,  6
+		 15, 16, 17, 18,  5,  6
 	};
 
 	/* Default to Solid if out of range */
@@ -1730,7 +1730,7 @@ ms_excel_sheet_insert (ExcelSheet *sheet, int xfidx,
 
 	if (text) {
 		cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
-		cell_set_value (cell, value_new_string(text), NULL);
+		cell_set_value (cell, value_new_string (text), NULL);
 	}
 }
 
@@ -3684,7 +3684,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 			wb->palette = ms_excel_palette_new (q);
 			break;
 
-		case BIFF_FONT:	        /* see S59D8C.HTM */
+		case BIFF_FONT: /* see S59D8C.HTM */
 			biff_font_data_new (wb, q);
 			break;
 

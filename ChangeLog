@@ -1,3 +1,9 @@
+2000-04-22  Michael Meeks  <michael@helixcode.com>
+
+	* src/test.c (zero_stats, dump_stats): implement.
+	(thrash_scroll): implement. (thrash_insert): implement.
+	(workbook_style_test): use them.
+
 2000-04-22  Tuomas Kuosmanen  <tigert@gimp.org>
 
 	* src/pixmaps/auto-sum.xpm: New icon for Jody.
