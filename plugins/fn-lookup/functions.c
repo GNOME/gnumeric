@@ -43,13 +43,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
-
-
 static gboolean
 find_type_valid (GnmValue const *find)
 {

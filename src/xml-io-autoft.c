@@ -31,7 +31,6 @@
 #include "xml-io.h"
 #include "format-template.h"
 #include "gutils.h"
-#include "plugin-util.h"
 #include "mstyle.h"
 
 #include <libxml/parserInternals.h>

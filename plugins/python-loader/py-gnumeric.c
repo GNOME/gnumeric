@@ -22,7 +22,6 @@
 #include "expr.h"
 #include "func.h"
 #include "str.h"
-#include "plugin.h"
 #include "parse-util.h"
 #include "gnm-py-interpreter.h"
 #include "py-gnumeric.h"
@@ -2083,7 +2082,7 @@ py_GnmPlugin_get_dir_name_method (py_GnmPlugin_object *self, PyObject *args)
 		return NULL;
 	}
 
-	return PyString_FromString (gnm_plugin_get_dir_name (self->pinfo));
+	return PyString_FromString (go_plugin_get_dir (self->pinfo));
 }
 
 static PyObject *

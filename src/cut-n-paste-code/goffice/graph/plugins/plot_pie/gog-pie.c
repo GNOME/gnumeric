@@ -28,8 +28,8 @@
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-math.h>
+#include <goffice/app/go-plugin-impl.h>
 
-#include <module-plugin-defs.h>
 #include <numbers.h>
 
 #include <glib/gi18n.h>
@@ -120,7 +120,6 @@ enum {
 	PLOT_PROP_IN_3D
 };
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 static GObjectClass *pie_parent_klass;
 static GType gog_pie_view_get_type (void);
@@ -715,15 +714,15 @@ GSF_CLASS (GogPieSeries, gog_pie_series,
 	   gog_pie_series_class_init, NULL,
 	   GOG_SERIES_TYPE)
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin)
 {
 	gog_pie_series_element_get_type ();
 	gog_pie_plot_get_type ();
 	gog_ring_plot_get_type ();
 }
 
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_cleanup (GOPlugin *plugin)
 {
 }

@@ -10,27 +10,22 @@
 #define _perl_dirty dirty
 #undef dirty
 #include <glib.h>
-#include "plugin.h"
 #include "error-info.h"
-#include "module-plugin-defs.h"
 #include "gutils.h"
 #define dirty _perl_dirty
 #undef _perl_dirty
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 extern void xs_init(void);
 
 static PerlInterpreter *gnumeric_perl_interp;
 
-void
-plugin_cleanup_general (ErrorInfo **ret_error)
+G_MODULE_EXPORT void
+go_plugin_cleanup (GOPlugin *plugin)
 {
-	*ret_error = NULL;
 }
 
-void
-plugin_init_general (ErrorInfo **ret_error)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin)
 {
 	char *argv[] = { "", NULL, NULL, NULL };
 	char *arg;

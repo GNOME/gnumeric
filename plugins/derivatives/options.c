@@ -31,16 +31,11 @@
 #include "func.h"
 #include "numbers.h"
 #include "mathfunc.h"
-#include "plugin.h"
 #include "value.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
 
 #include <glib/gi18n.h>
 #include <math.h>
 #include <string.h>
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 typedef enum {
 	OS_Call,

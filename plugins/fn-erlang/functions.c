@@ -43,10 +43,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
-
 /*
  * comp_gos == 1 - gos
  */
@@ -115,7 +111,6 @@ calculate_gos (gnm_float traffic, gnm_float circuits, gboolean comp)
 	return gos;
 }
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /***************************************************************************/
 static char const *help_probblock = {

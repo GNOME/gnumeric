@@ -27,14 +27,9 @@
 #endif
 
 #include "func.h"
-#include "plugin.h"
-#include "plugin-util.h"
 #include "error-info.h"
-#include "module-plugin-defs.h"
 #include "expr.h"
 #include "value.h"
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 static GdaClient* connection_pool = NULL;
 
@@ -260,8 +255,16 @@ gnumeric_readDBTable (FunctionEvalInfo *ei, GnmValue **args)
 	return ret;
 }
 
-void
-plugin_cleanup (void)
+GnmFuncDescriptor gdaif_functions[] = {
+	{ "execSQL",	 "ssss", "dsn,username,password,sql",
+	    &help_execSQL, &gnumeric_execSQL, NULL, NULL, NULL },
+	{ "readDBTable", "ssss", "dsn,username,password,table",
+	    &help_readDBTable, &gnumeric_readDBTable, NULL, NULL, NULL },
+	{NULL}
+};
+
+G_MODULE_EXPORT void
+go_plugin_cleanup (GOPlugin *plugin)
 {
 	/* close the connection pool */
 	if (GDA_IS_CLIENT (connection_pool)) {
@@ -270,8 +273,3 @@ plugin_cleanup (void)
 	}
 }
 
-GnmFuncDescriptor gdaif_functions[] = {
-	{"execSQL", "ssss", "dsn,username,password,sql", &help_execSQL, &gnumeric_execSQL, NULL, NULL, NULL },
-	{"readDBTable", "ssss", "dsn,username,password,table", &help_readDBTable, &gnumeric_readDBTable, NULL, NULL, NULL },
-	{NULL}
-};

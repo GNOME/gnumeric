@@ -36,14 +36,7 @@
 #include <value.h>
 #include <mathfunc.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
 #include "gsl-complex.h"
-
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
-
 
 /* Converts a complex number string into its coefficients.  Returns 0 if ok,
  * 1 if an error occurred.

@@ -26,13 +26,8 @@
 #include <glib.h>
 
 #include "func.h"
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
 #include "value.h"
 #include <limits.h>
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 #ifndef WORD_BIT
 #define WORD_BIT ((int)(sizeof (int) * CHAR_BIT))
@@ -592,13 +587,6 @@ func_bitrshift (FunctionEvalInfo *ei, GnmValue *argv [])
 
 /* ------------------------------------------------------------------------- */
 
-void
-plugin_cleanup (void)
-{
-	g_free (prime_table);
-	prime_table = NULL;
-}
-
 const GnmFuncDescriptor num_theory_functions[] = {
 	{"ithprime", "f", "number", &help_ithprime,
 	 &gnumeric_ithprime, NULL, NULL, NULL, NULL,
@@ -646,3 +634,11 @@ const GnmFuncDescriptor bitwise_functions[] = {
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{NULL}
 };
+
+G_MODULE_EXPORT void
+go_plugin_cleanup (GOPlugin *plugin)
+{
+	g_free (prime_table);
+	prime_table = NULL;
+}
+

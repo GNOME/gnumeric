@@ -21,11 +21,6 @@
 #include "expr.h"
 #include "expr-impl.h"
 #include "io-context.h"
-#include "plugin-util.h"
-#include "plugin.h"
-#include "plugin-service.h"
-#include "plugin-loader.h"
-#include "module-plugin-defs.h"
 #include "perl-loader.h"
 
 #define dirty _perl_dirty
@@ -118,7 +113,7 @@ gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error)
 	char *argv[] = { (char*)"", NULL, NULL, NULL };
 	const char *arg;
 
-	arg = gnm_plugin_get_dir_name (loader->plugin);
+	arg = go_plugin_get_dir (loader->plugin);
 	argv[1] = g_strconcat ("-I", arg, NULL);
 	argv[2] = g_build_filename (arg, "perl_func.pl", NULL);
 

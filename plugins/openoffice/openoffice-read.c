@@ -23,7 +23,6 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 
-#include <module-plugin-defs.h>
 #include <workbook-view.h>
 #include <workbook.h>
 #include <sheet.h>
@@ -42,6 +41,8 @@
 #include <format.h>
 #include <command-context.h>
 #include <io-context.h>
+
+#include <goffice/app/go-plugin-impl.h>
 #include <goffice/utils/go-units.h>
 
 #include <glib/gi18n.h>
@@ -53,7 +54,6 @@
 #include <string.h>
 #include <locale.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 typedef enum {
 	OO_STYLE_UNKNOWN,
@@ -1497,15 +1497,15 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	g_free (old_num_locale);
 }
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin)
 {
 	styles_doc   = gsf_xml_in_doc_new (opencalc_styles_dtd, content_ns);
 	content_doc  = gsf_xml_in_doc_new (opencalc_content_dtd, content_ns);
 	settings_doc = gsf_xml_in_doc_new (opencalc_settings_dtd, content_ns);
 }
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_cleanup (GOPlugin *plugin)
 {
 	gsf_xml_in_doc_free (styles_doc);
 	gsf_xml_in_doc_free (content_doc);

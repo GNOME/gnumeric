@@ -21,6 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-xy.h"
+
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-style.h>
@@ -32,8 +33,8 @@
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-math.h>
+#include <goffice/app/go-plugin-impl.h>
 
-#include <module-plugin-defs.h>
 #include <glib/gi18n.h>
 #include <gtk/gtklabel.h>
 #include <gsf/gsf-impl-utils.h>
@@ -46,10 +47,7 @@ typedef struct {
 } Gog2DPlotClass;
 
 typedef Gog2DPlotClass GogXYPlotClass;
-
 typedef Gog2DPlotClass GogBubblePlotClass;
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 static GogObjectClass *plot2d_parent_klass;
 static void gog_2d_plot_adjust_bounds (Gog2DPlot *model, double *x_min, double *x_max, double *y_min, double *y_max);
@@ -1052,14 +1050,14 @@ static GSF_CLASS (GogXYSeries, gog_xy_series,
 	   gog_xy_series_class_init, gog_xy_series_init,
 	   GOG_SERIES_TYPE)
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin)
 {
 	gog_xy_plot_get_type ();
 	gog_bubble_plot_get_type ();
 }
 
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_cleanup (GOPlugin *plugin)
 {
 }

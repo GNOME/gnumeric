@@ -33,13 +33,11 @@
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-math.h>
+#include <goffice/app/go-plugin-impl.h>
 
-#include <module-plugin-defs.h>
-#include <glib/gi18n.h>
 #include <gtk/gtklabel.h>
 #include <gsf/gsf-impl-utils.h>
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+#include <glib/gi18n.h>
 
 enum {
 	GOG_1_5D_PROP_0,
@@ -498,8 +496,8 @@ GSF_CLASS (GogSeries1_5d, gog_series1_5d,
 
 /* Plugin initialization */
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin)
 {
 	gog_plot1_5d_get_type ();
 	gog_line_plot_get_type ();
@@ -507,7 +505,7 @@ plugin_init (void)
 	gog_barcol_plot_get_type ();
 }
 
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_cleanup (GOPlugin *plugin)
 {
 }

@@ -26,7 +26,6 @@
 #include <gb/gb-mmap-lex.h>
 #include <gbrun/libgbrun.h>
 
-#include "plugin.h"
 #include "expr.h"
 #include "func.h"
 

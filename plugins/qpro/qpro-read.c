@@ -26,7 +26,6 @@
 #include "qpro.h"
 
 #include <gutils.h>
-#include <plugin-util.h>
 #include <file.h>
 #include <workbook-view.h>
 #include <workbook.h>
@@ -37,7 +36,6 @@
 #include <sheet-style.h>
 #include <style-color.h>
 #include <parse-util.h>
-#include <module-plugin-defs.h>
 #include <io-context.h>
 
 #include <gsf/gsf-utils.h>
@@ -45,7 +43,6 @@
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 gboolean qpro_file_probe (GnmFileOpener const *fo, GsfInput *input,
 			  FileProbeLevel pl);

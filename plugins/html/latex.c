@@ -40,7 +40,6 @@
 #include <gnumeric.h>
 #include <gnumeric-gconf.h>
 #include "latex.h"
-#include <plugin-util.h>
 #include <io-context.h>
 #include <error-info.h>
 #include <workbook-view.h>

@@ -10,10 +10,6 @@
 
 #include <workbook-control-gui.h>
 #include <gui-util.h>
-#include <plugin.h>
-#include <module-plugin-defs.h>
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 static void
 hello_message (GnmAction const *action, WorkbookControl *wbc)

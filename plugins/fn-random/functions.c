@@ -37,12 +37,6 @@
 #include <cell.h>
 #include <collect.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
-
 /***************************************************************************/
 
 static char const *help_rand = {

@@ -15,7 +15,6 @@
 #include <gnumeric.h>
 #include <gutils.h>
 #include <gui-util.h>
-#include <module-plugin-defs.h>
 #include "gnm-python.h"
 #include "gnm-py-interpreter.h"
 #include "py-interpreter-selector.h"

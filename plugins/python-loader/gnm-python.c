@@ -10,9 +10,7 @@
 #include <pygobject.h>
 #include <glib.h>
 #include <gutils.h>
-#include <plugin.h>
 #include <error-info.h>
-#include <module-plugin-defs.h>
 #include "gnm-py-interpreter.h"
 #include "gnm-python.h"
 #include "py-gnumeric.h"

@@ -53,7 +53,6 @@
 #include "workbook-control.h"
 #include "workbook-cmd-format.h"
 #include "io-context.h"
-#include "plugin-util.h"
 #include "dialogs/dialogs.h"
 #include "sheet-object-image.h"
 #include "sheet-object-widget.h"

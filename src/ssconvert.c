@@ -14,7 +14,6 @@
 #include "gnumeric.h"
 #include "libgnumeric.h"
 #include "gnumeric-paths.h"
-#include "plugin.h"
 #include "command-context-stderr.h"
 #include "io-context.h"
 #include "workbook-view.h"

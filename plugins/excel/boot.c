@@ -18,8 +18,6 @@
 #include "command-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
 
 #include "excel.h"
 #include "ms-excel-write.h"
@@ -28,6 +26,7 @@
 #include "ms-excel-read.h"
 #include "excel-xml-read.h"
 
+#include <goffice/app/go-plugin-impl.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
@@ -38,7 +37,6 @@
 #include <gsf/gsf-outfile-msole.h>
 #include <gsf/gsf-structured-blob.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /* Used to toggle debug messages on & off */
 /*
@@ -65,7 +63,6 @@ void excel_file_open (GnmFileOpener const *fo, IOContext *context, WorkbookView 
 void excel_biff7_file_save (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
 void excel_biff8_file_save (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
 void excel_dsf_file_save   (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
-void plugin_cleanup (void);
 
 static GsfInput *
 find_content_stream (GsfInfile *ole, gboolean *is_97)
@@ -303,19 +300,14 @@ excel_biff7_file_save (GnmFileSaver const *fs, IOContext *context,
 }
 
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin)
 {
 	excel_read_init ();
 	excel_xml_read_init ();
 }
-
-/*
- * Cleanup allocations made by this plugin.
- * (Called right before we are unloaded.)
- */
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_cleanup (GOPlugin *plugin)
 {
 	destroy_xl_font_widths ();
 	excel_read_cleanup ();

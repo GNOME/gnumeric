@@ -39,7 +39,6 @@
 #include "sheet-merge.h"
 #include "value.h"
 #include "font.h"
-#include "plugin-util.h"
 #include "error-info.h"
 #include "style-border.h"
 #include <rendered-value.h>

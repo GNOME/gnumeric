@@ -14,7 +14,6 @@
 
 #include "application.h"
 #include "stf.h"
-#include "plugin.h"
 #include "format.h"
 #include "command-context.h"
 #include "command-context-stderr.h"

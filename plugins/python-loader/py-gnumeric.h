@@ -3,7 +3,6 @@
 
 #include <Python.h>
 #include <glib.h>
-#include <plugin.h>
 #include "gnm-py-interpreter.h"
 
 void     py_initgnumeric (GnmPyInterpreter *interpreter);

@@ -12,14 +12,11 @@
 #include <gdk/gdkkeysyms.h>
 #include <command-context.h>
 #include <workbook-control-gui.h>
-#include <plugin.h>
-#include <module-plugin-defs.h>
 #include "gnm-python.h"
 #include "python-loader.h"
 #include "py-interpreter-selector.h"
 #include "py-command-line.h"
 #include "py-console.h"
-
 
 typedef enum {
 	FORMAT_COMMAND,

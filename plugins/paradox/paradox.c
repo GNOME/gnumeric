@@ -15,17 +15,12 @@
 #include <workbook.h>
 #include <cell.h>
 #include <value.h>
-#include <plugin.h>
-#include <plugin-util.h>
-#include <module-plugin-defs.h>
 #include <sheet.h>
 #include <datetime.h>
 #include <ranges.h>
 #include <mstyle.h>
 #include <sheet-style.h>
 #include <io-context.h>
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 void paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
                         WorkbookView *wb_view, GsfInput *input);

@@ -43,8 +43,6 @@
 #include "io-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
 #include "ranges.h"
 #include "style.h"
 #include "value.h"
@@ -55,7 +53,6 @@
 #include "expr.h"
 #include "mps.h"
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 
 /*************************************************************************

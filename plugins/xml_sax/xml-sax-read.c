@@ -25,9 +25,6 @@
 #include <gnumeric.h>
 #include "xml-io-version.h"
 #include "io-context.h"
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
 #include "sheet-view.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"
@@ -55,6 +52,7 @@
 #include "gnm-so-filled.h"
 #include "sheet-object-graph.h"
 
+#include <goffice/app/go-plugin-impl.h>
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-memory.h>
@@ -66,7 +64,6 @@
 #include <string.h>
 #include <locale.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 gboolean xml_sax_file_probe (GnmFileOpener const *fo, GsfInput *input,
                              FileProbeLevel pl);
@@ -1780,16 +1777,17 @@ xml_sax_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	g_hash_table_destroy (state.expr_map);
 }
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin)
 {
 	doc = gsf_xml_in_doc_new (gnumeric_1_0_dtd, content_ns);
 #if 0 /* requires gsf 1.11.0 */
 	gsf_xml_in_doc_set_unknown_handler (doc, &xml_sax_unknown);
 #endif
 }
-void
-plugin_cleanup (void)
+
+G_MODULE_EXPORT void
+go_plugin_cleanup (GOPlugin *plugin)
 {
 	gsf_xml_in_doc_free (doc);
 }

@@ -31,7 +31,6 @@
 #include "cell.h"
 #include "io-context.h"
 #include "error-info.h"
-#include "plugin-util.h"
 #include "cellspan.h"
 
 #include <string.h>

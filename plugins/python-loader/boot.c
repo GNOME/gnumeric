@@ -5,18 +5,16 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib.h>
-#include <module-plugin-defs.h>
+#include <gnumeric.h>
 #include <error-info.h>
+#include <goffice/app/go-plugin-impl.h>
+
 #include "gnm-python.h"
 #include "gnm-py-interpreter.h"
 #include "python-loader.h"
 #include "py-console.h"
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
-
 GType python_get_loader_type (ErrorInfo **ret_error);
-
 
 GType
 python_get_loader_type (ErrorInfo **ret_error)
@@ -31,7 +29,7 @@ ModulePluginUIActions const console_ui_actions[] = {
 };
 
 void
-plugin_init (void)
+go_plugin_init (GOPlugin *plugin)
 {
 	/* when loading previously loaded plugin we must re-register
 	   all dynamic types */

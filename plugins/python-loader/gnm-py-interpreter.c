@@ -10,9 +10,7 @@
 #include <stdio.h>
 #include <glib.h>
 #include <gnumeric.h>
-#include <plugin.h>
 #include <gutils.h>
-#include <module-plugin-defs.h>
 #include "py-gnumeric.h"
 #include "gnm-py-interpreter.h"
 

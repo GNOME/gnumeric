@@ -30,8 +30,8 @@
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-math.h>
+#include <goffice/app/go-plugin-impl.h>
 
-#include <module-plugin-defs.h>
 #include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
 
@@ -44,7 +44,6 @@ enum {
 	PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS
 };
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 typedef struct {
 	GogSeries base;
@@ -477,14 +476,14 @@ GSF_CLASS (GogRadarSeries, gog_radar_series,
 	   gog_radar_series_class_init, NULL,
 	   GOG_SERIES_TYPE)
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin)
 {
 	gog_radar_plot_get_type ();
 	gog_radar_area_plot_get_type ();
 }
 
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_cleanup (GOPlugin *plugin)
 {
 }

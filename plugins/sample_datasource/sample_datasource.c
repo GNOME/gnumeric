@@ -21,16 +21,14 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
 
 #include "func.h"
-#include "plugin.h"
 #include "value.h"
 #include "workbook.h"
 #include "sheet.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
+
+#include <goffice/app/go-plugin-impl.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -40,11 +38,11 @@
 #include <string.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <glib/gi18n.h>
 
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "gnumeric:atl"
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 static int    atl_fd = -1;
 static char * atl_filename = NULL;
@@ -142,7 +140,7 @@ cb_atl_input (GIOChannel *gioc, GIOCondition cond, gpointer ignored)
 }
 
 void
-plugin_init (void)
+go_plugin_init (GOPlugin *plugin)
 {
 	GIOChannel *channel = NULL;
 	char *filename;
@@ -175,41 +173,6 @@ plugin_init (void)
 	watchers = g_hash_table_new (
 		(GHashFunc)  watcher_hash,
 		(GEqualFunc) watcher_equal);
-}
-
-/* TODO : init and cleanup should be given CommandContexts
- * to make things tidier
- */
-void
-plugin_cleanup (void)
-{
-	fprintf (stderr, "UNLOAD ATL >>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
-
-	if (atl_source) {
-		g_source_remove (atl_source);
-		atl_source = 0;
-	}
-
-	if (atl_filename) {
-		unlink (atl_filename);
-		g_free (atl_filename);
-		atl_filename = NULL;
-	}
-
-	if (atl_fd >= 0) {
-		close (atl_fd);
-		atl_fd = -1;
-	}
-
-	if (atl_file != NULL) {
-		fclose (atl_file);
-		atl_file = NULL;
-	}
-
-	g_hash_table_destroy (watched_values);
-	watched_values = NULL;
-	g_hash_table_destroy (watchers);
-	watchers = NULL;
 }
 
 static GnmValue *
@@ -289,3 +252,36 @@ GnmFuncDescriptor const ATL_functions[] = {
 
 	{NULL}
 };
+
+G_MODULE_EXPORT void
+go_plugin_cleanup (GOPlugin *plugin)
+{
+	fprintf (stderr, "UNLOAD ATL >>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
+
+	if (atl_source) {
+		g_source_remove (atl_source);
+		atl_source = 0;
+	}
+
+	if (atl_filename) {
+		unlink (atl_filename);
+		g_free (atl_filename);
+		atl_filename = NULL;
+	}
+
+	if (atl_fd >= 0) {
+		close (atl_fd);
+		atl_fd = -1;
+	}
+
+	if (atl_file != NULL) {
+		fclose (atl_file);
+		atl_file = NULL;
+	}
+
+	g_hash_table_destroy (watched_values);
+	watched_values = NULL;
+	g_hash_table_destroy (watchers);
+	watchers = NULL;
+}
+

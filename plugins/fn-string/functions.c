@@ -46,11 +46,7 @@
 #include <limits.h>
 #include <string.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+#include <goffice/app/go-plugin-impl.h>
 
 /***************************************************************************/
 
@@ -1198,17 +1194,16 @@ const GnmFuncDescriptor string_functions[] = {
         {NULL}
 };
 
-
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin)
 {
 	int codepage = gsf_msole_iconv_win_codepage ();
 	CHAR_iconv = gsf_msole_iconv_open_for_import (codepage);
 	CODE_iconv = gsf_msole_iconv_open_for_export ();
 }
 
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_cleanup (GOPlugin *plugin)
 {
 	gsf_iconv_close (CHAR_iconv);
 	gsf_iconv_close (CODE_iconv);

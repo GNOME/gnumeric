@@ -22,11 +22,6 @@
 #include "expr.h"
 #include "expr-impl.h"
 #include "io-context.h"
-#include "plugin-util.h"
-#include "plugin.h"
-#include "plugin-service.h"
-#include "plugin-loader.h"
-#include "module-plugin-defs.h"
 #include "py-gnumeric.h"
 #include "gnm-python.h"
 #include "python-loader.h"
@@ -114,7 +109,7 @@ gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error)
 		gchar *file_name = g_strconcat (
 			loader_python->module_name, ".", *file_ext, NULL);
 		gchar *path = g_build_filename (
-			gnm_plugin_get_dir_name (loader->plugin),
+			go_plugin_get_dir (loader->plugin),
 			file_name, NULL);
 		g_free (file_name);
 		if (g_file_test (path, G_FILE_TEST_EXISTS)) {

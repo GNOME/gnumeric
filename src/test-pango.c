@@ -10,7 +10,6 @@
 #include "command-context-stderr.h"
 #include "workbook-control-gui.h"
 #include "workbook-view.h"
-#include "plugin.h"
 #include "selection.h"
 #include "sheet-view.h"
 #include "commands.h"

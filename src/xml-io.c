@@ -51,7 +51,6 @@
 #include "str.h"
 #include "hlink.h"
 #include "gutils.h"
-#include "plugin-util.h"
 #include "gnumeric-gconf.h"
 
 #include <goffice/utils/go-locale.h>

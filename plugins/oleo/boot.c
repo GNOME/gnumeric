@@ -11,11 +11,6 @@
 #include "oleo.h"
 
 #include <workbook-view.h>
-#include <plugin.h>
-#include <plugin-util.h>
-#include <module-plugin-defs.h>
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 void oleo_file_open (GnmFileOpener const *fo, IOContext *io_context,
                      WorkbookView *wb_view, GsfInput *input);

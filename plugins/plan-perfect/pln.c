@@ -9,9 +9,6 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>
-#include <plugin.h>
-#include <plugin-util.h>
-#include <module-plugin-defs.h>
 #include <io-context.h>
 #include <sheet.h>
 #include <ranges.h>
@@ -31,7 +28,6 @@
 #include <string.h>
 #include <math.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 gboolean pln_file_probe (GnmFileOpener const *fo, GsfInput *input,
 			 FileProbeLevel pl);

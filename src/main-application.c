@@ -22,7 +22,6 @@
 #include "command-context-stderr.h"
 #include "workbook-control-gui.h"
 #include "workbook-view.h"
-#include "plugin.h"
 #include "workbook.h"
 #include "gui-file.h"
 #include "gnumeric-gconf.h"

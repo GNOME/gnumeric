@@ -30,9 +30,6 @@
 #include "sheet-style.h"
 #include "number-match.h"
 #include "error-info.h"
-#include "plugin-util.h"
-#include "plugin.h"
-#include "module-plugin-defs.h"
 
 #include <string.h>
 #include <errno.h>
@@ -42,7 +39,6 @@
 #include <gsf/gsf-input-textline.h>
 #include <gsf/gsf-utils.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 gboolean sylk_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
 void     sylk_file_open (GnmFileOpener const *fo, IOContext *io_context,

@@ -32,10 +32,7 @@
 #include <guile/gh.h>
 #include <gnome.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
 #include "error-info.h"
-#include "module-plugin-defs.h"
 #include "expr.h"
 #include "expr-impl.h"
 #include "gutils.h"
@@ -46,8 +43,6 @@
 #include "command-context.h"
 #include "guile-support.h"
 #include "smob-value.h"
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /* This is damn ugly.
  * However, it will get things working again (I hope)
@@ -214,14 +209,13 @@ scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_categor
 	return SCM_UNSPECIFIED;
 }
 
-void
-plugin_cleanup_general (ErrorInfo **ret_error)
+G_MODULE_EXPORT void
+go_plugin_cleanup (GOPlugin *plugin)
 {
-	*ret_error = NULL;
 }
 
-void
-plugin_init_general (ErrorInfo **ret_error)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin)
 {
 	char *name, *dir;
 

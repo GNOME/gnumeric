@@ -13,17 +13,12 @@
 
 #include <file.h>
 #include <workbook-view.h>
-#include <plugin.h>
-#include <plugin-util.h>
-#include <module-plugin-defs.h>
 #include <error-info.h>
 #include <gutils.h>
 #include <io-context.h>
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 gboolean lotus_file_probe (GnmFileOpener const *fo, GsfInput *input,
                            FileProbeLevel pl);

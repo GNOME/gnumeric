@@ -29,13 +29,12 @@
 #include <application.h>
 #include <workbook-priv.h>
 #include <workbook-view.h>
-#include <plugin-util.h>
-#include <module-plugin-defs.h>
 #include <io-context.h>
 #include <command-context.h>
 #include <command-context-stderr.h>
-#include <glib/gi18n.h>
+#include <goffice/app/go-plugin-impl.h>
 
+#include <glib/gi18n.h>
 #include <bonobo.h>
 
 #undef DEBUG_CORBA
@@ -113,8 +112,8 @@ static BONOBO_TYPE_FUNC_FULL (CorbaApplication,
 /***************************************************************/
 static CorbaApplication *capp = NULL;
 
-void
-plugin_init_general (ErrorInfo **ret_error)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin)
 {
 	if (capp)
 		return;
@@ -138,8 +137,8 @@ plugin_init_general (ErrorInfo **ret_error)
 	}
 }
 
-void
-plugin_cleanup_general (ErrorInfo **ret_error)
+G_MODULE_EXPORT void
+go_plugin_cleanup (GOPlugin *plugin)
 {
 	if (capp) {
 		bonobo_activation_unregister_active_server (
@@ -150,5 +149,4 @@ plugin_cleanup_general (ErrorInfo **ret_error)
 	}
 }
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 

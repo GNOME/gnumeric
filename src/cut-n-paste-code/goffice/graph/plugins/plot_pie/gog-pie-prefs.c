@@ -21,8 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-pie.h"
-#include <src/plugin.h>
-#include <src/gui-util.h>
+#include <goffice/app/go-plugin.h>
 
 #include <glade/glade-xml.h>
 #include <gtk/gtkspinbutton.h>
@@ -40,7 +39,7 @@ GtkWidget *
 gog_pie_series_element_pref (GogPieSeriesElement *element, GnmCmdContext *cc)
 {
 	GtkWidget  *w;
-	char const *dir = gnm_plugin_get_dir_name (
+	char const *dir = go_plugin_get_dir (
 		plugins_get_plugin_by_id ("GOffice_plot_pie"));
 	char	 *path = g_build_filename (dir, "gog-pie-series.glade", NULL);
 	GladeXML *gui = gnm_glade_xml_new (cc, path, "gog_pie_series_element_prefs", NULL);
@@ -113,7 +112,7 @@ GtkWidget *
 gog_pie_plot_pref (GogPiePlot *pie, GnmCmdContext *cc)
 {
 	GtkWidget  *w;
-	char const *dir = gnm_plugin_get_dir_name (
+	char const *dir = go_plugin_get_dir (
 		plugins_get_plugin_by_id ("GOffice_plot_pie"));
 	char	 *path = g_build_filename (dir, "gog-pie-prefs.glade", NULL);
 	GladeXML *gui = gnm_glade_xml_new (cc, path, "gog_pie_prefs", NULL);
@@ -146,7 +145,7 @@ GtkWidget *
 gog_ring_plot_pref (GogRingPlot *ring, GnmCmdContext *cc)
 {
 	GtkWidget  *w;
-	char const *dir = gnm_plugin_get_dir_name (
+	char const *dir = go_plugin_get_dir (
 		plugins_get_plugin_by_id ("GOffice_plot_pie"));
 	char	 *path = g_build_filename (dir, "gog-ring-prefs.glade", NULL);
 	GladeXML *gui = gnm_glade_xml_new (cc, path, "gog_ring_prefs", NULL);
@@ -184,7 +183,7 @@ GtkWidget *
 gog_pie_series_pref (GogPieSeries *pie, GnmCmdContext *cc)
 {
 	GtkWidget  *w;
-	char const *dir = gnm_plugin_get_dir_name (
+	char const *dir = go_plugin_get_dir (
 		plugins_get_plugin_by_id ("GOffice_plot_pie"));
 	char	 *path = g_build_filename (dir, "gog-pie-prefs.glade", NULL);
 	GladeXML *gui = gnm_glade_xml_new (cc, path, "gog_pie_prefs", NULL);

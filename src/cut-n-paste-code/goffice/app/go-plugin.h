@@ -36,18 +36,18 @@ GType go_plugin_get_type (void);
 GOErrorStack *go_plugin_load		(GOPlugin *plugin);
 
 /* Info */
-gboolean    go_plugin_is_enabled	(GOPlugin *plugin);
-gboolean    go_plugin_is_loaded		(GOPlugin *plugin);
-char const *go_plugin_get_dir		(GOPlugin *plugin);
-char const *go_plugin_get_id		(GOPlugin *plugin);
-char const *go_plugin_get_name		(GOPlugin *plugin);
-char const *go_plugin_get_description	(GOPlugin *plugin);
-char const *go_plugin_get_textdomain	(GOPlugin *plugin);
-GSList     *go_plugin_get_dependencies	(GOPlugin *plugin);
-GSList     *go_plugin_get_services	(GOPlugin *plugin);
+gboolean    go_plugin_is_enabled	(GOPlugin const *plugin);
+gboolean    go_plugin_is_loaded		(GOPlugin const *plugin);
+char const *go_plugin_get_dir		(GOPlugin const *plugin);
+char const *go_plugin_get_id		(GOPlugin const *plugin);
+char const *go_plugin_get_name		(GOPlugin const *plugin);
+char const *go_plugin_get_description	(GOPlugin const *plugin);
+char const *go_plugin_get_textdomain	(GOPlugin const *plugin);
+GSList     *go_plugin_get_dependencies	(GOPlugin const *plugin);
+GSList     *go_plugin_get_services	(GOPlugin const *plugin);
 
 /* Utilities */
-char	   *go_plugin_build_filename	(GOPlugin *plugin,
+char	   *go_plugin_build_filename	(GOPlugin const *plugin,
 					 char const *first_element, ...);
 
 G_END_DECLS

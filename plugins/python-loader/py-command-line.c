@@ -12,7 +12,6 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gnumeric.h>
 #include <gutils.h>
-#include <module-plugin-defs.h>
 #include "py-command-line.h"
 
 #define MAX_HISTORY_SIZE  100

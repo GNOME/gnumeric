@@ -21,7 +21,6 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-xy.h"
-#include <src/plugin.h>
 #include <src/gui-util.h>
 
 #include <glade/glade-xml.h>
@@ -72,7 +71,7 @@ GtkWidget *
 gog_bubble_plot_pref (GogBubblePlot *bubble, GnmCmdContext *cc)
 {
 	GtkWidget  *w;
-	char const *dir = gnm_plugin_get_dir_name (
+	char const *dir = go_plugin_get_dir (
 		plugins_get_plugin_by_id ("GOffice_plot_xy"));
 	char	 *path = g_build_filename (dir, "gog-bubble-prefs.glade", NULL);
 	GladeXML *gui = gnm_glade_xml_new (cc, path, "gog_bubble_prefs", NULL);

@@ -37,8 +37,6 @@
 #include <command-context.h>
 #include <workbook-control.h>
 #include <workbook.h>
-#include <plugin.h>
-#include <plugin-service.h>
 #include <gnumeric-gconf.h>
 #include <application.h>
 
@@ -382,7 +380,7 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 		}
 		gtk_text_buffer_set_text (
 			pm_gui->text_description, plugin_desc, strlen (plugin_desc));
-		gtk_entry_set_text (pm_gui->entry_directory, gnm_plugin_get_dir_name (pinfo));
+		gtk_entry_set_text (pm_gui->entry_directory, go_plugin_get_dir (pinfo));
 
 		gtk_tree_store_clear (pm_gui->model_details);
 		gtk_tree_store_append (pm_gui->model_details, &iter, NULL);

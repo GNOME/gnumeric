@@ -29,10 +29,7 @@
 #include <gbrun/libgbrun.h>
 #include <libole2/ms-ole-vba.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
 #include "error-info.h"
-#include "module-plugin-defs.h"
 #include "expr.h"
 #include "func.h"
 #include "sheet.h"
@@ -43,8 +40,6 @@
 #include "excel-gb-worksheet.h"
 #include "excel-gb-context.h"
 #include "../excel/excel.h"
-
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 #ifndef MAP_FAILED
 /* Someone needs their head examining - BSD ? */
@@ -60,8 +55,8 @@ typedef struct {
 
 int gb_debug = 0;
 
-void
-plugin_cleanup_general (ErrorInfo **ret_error)
+G_MODULE_EXPORT void
+go_plugin_cleanup (GOPlugin *plugin)
 {
 	*ret_error = NULL;
 	gbrun_shutdown ();
@@ -346,8 +341,8 @@ file_provider (GBRunEvalContext *ec,
 	return ret;
 }
 
-void
-plugin_init_general (ErrorInfo **err)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin)
 {
 	GBEvalContext *ec;
 	GBLexerStream *proj_stream;

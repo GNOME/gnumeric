@@ -20,6 +20,8 @@
  */
 
 #include <goffice/goffice-config.h>
+#include "gog-surface.h"
+
 #include <goffice/graph/go-data.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-renderer.h>
@@ -27,9 +29,8 @@
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-math.h>
 #include <goffice/utils/go-color.h>
-#include "gog-surface.h"
+#include <goffice/app/go-plugin-impl.h>
 
-#include <module-plugin-defs.h>
 #include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
 
@@ -40,7 +41,6 @@ typedef struct {
 	GogPlotClass	base;
 } GogContourPlotClass;
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 static GogObjectClass *plot_contour_parent_klass;
 
@@ -1311,13 +1311,13 @@ GSF_CLASS (GogSurfaceSeries, gog_surface_series,
 	   gog_surface_series_class_init, NULL,
 	   GOG_SERIES_TYPE)
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin)
 {
 	gog_contour_plot_get_type ();
 }
 
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_cleanup (GOPlugin *plugin)
 {
 }

@@ -25,7 +25,6 @@
 #include "gnumeric.h"
 #include "stf.h"
 
-#include "plugin-util.h"
 #include "file.h"
 #include "sheet.h"
 #include "sheet-view.h"

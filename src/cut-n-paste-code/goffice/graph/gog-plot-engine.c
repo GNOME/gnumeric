@@ -226,7 +226,7 @@ gog_plot_type_service_read_xml (GnmPluginService *service, xmlNode *tree, ErrorI
 		if (0 == xmlStrcmp (ptr->name, "file") &&
 		    NULL != (path = xmlNodeGetContent (ptr))) {
 			if (!g_path_is_absolute (path)) {
-				char const *dir = gnm_plugin_get_dir_name (
+				char const *dir = go_plugin_get_dir (
 					plugin_service_get_plugin (service));
 				char *tmp = g_build_filename (dir, path, NULL);
 				g_free (path);
@@ -311,7 +311,7 @@ gog_theme_service_read_xml (GnmPluginService *service, xmlNode *tree, ErrorInfo 
 		if (0 == xmlStrcmp (ptr->name, "file") &&
 		    NULL != (path = xmlNodeGetContent (ptr))) {
 			if (!g_path_is_absolute (path)) {
-				char const *dir = gnm_plugin_get_dir_name (
+				char const *dir = go_plugin_get_dir (
 					plugin_service_get_plugin (service));
 				char *tmp = g_build_filename (dir, path, NULL);
 				g_free (path);

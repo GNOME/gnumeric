@@ -64,7 +64,6 @@
 #include "error-info.h"
 #include "gui-util.h"
 #include "widgets/widget-editable-label.h"
-#include "src/plugin-util.h"
 #include "sheet-object-image.h"
 #include "gnumeric-gconf.h"
 #include "filter.h"
