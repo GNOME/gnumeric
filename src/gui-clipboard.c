@@ -384,7 +384,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		xmlFree (buffer);
 		to_gnumeric = TRUE;
 	} else {
-		PangoContext *context = gtk_widget_get_pango_context (wbcg_toplevel (wbcg));
+		PangoContext *context = gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg)));
 		char *rendered_selection = cellregion_to_string (context, clipboard);
 
 		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING, 8,
@@ -431,10 +431,13 @@ void
 x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt)
 {
 	PasteTarget *new_pt;
+	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (wbcg_toplevel (wbcg)));
 	GtkClipboard *clipboard =
-		gtk_clipboard_get (gnm_app_prefs->prefer_clipboard_selection
-				   ? GDK_SELECTION_CLIPBOARD
-				   : GDK_SELECTION_PRIMARY);
+		gtk_clipboard_get_for_display
+		(display,
+		 gnm_app_prefs->prefer_clipboard_selection
+		 ? GDK_SELECTION_CLIPBOARD
+		 : GDK_SELECTION_PRIMARY);
 	GdkAtom atom_targets  = gdk_atom_intern (TARGETS_ATOM_NAME, FALSE);
 
 	if (wbcg->clipboard_paste_callback_data != NULL)
@@ -452,6 +455,7 @@ x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt)
 gboolean
 x_claim_clipboard (WorkbookControlGUI *wbcg)
 {
+	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (wbcg_toplevel (wbcg)));
 	static GtkTargetEntry const targets[] = {
 		{ (char *) GNUMERIC_ATOM_NAME,  GTK_TARGET_SAME_WIDGET, GNUMERIC_ATOM_INFO },
 		/* { (char *)"text/html", 0, 0 }, */
@@ -462,13 +466,13 @@ x_claim_clipboard (WorkbookControlGUI *wbcg)
 
 	return
 	gtk_clipboard_set_with_owner (
-		gtk_clipboard_get (GDK_SELECTION_CLIPBOARD),
+		gtk_clipboard_get_for_display (display, GDK_SELECTION_CLIPBOARD),
 		targets, G_N_ELEMENTS (targets),
 		(GtkClipboardGetFunc) x_clipboard_get_cb,
 		(GtkClipboardClearFunc) x_clipboard_clear_cb,
 		G_OBJECT (wbcg)) &&
 	gtk_clipboard_set_with_owner (
-		gtk_clipboard_get (GDK_SELECTION_PRIMARY),
+		gtk_clipboard_get_for_display (display, GDK_SELECTION_PRIMARY),
 		targets, G_N_ELEMENTS (targets),
 		(GtkClipboardGetFunc) x_clipboard_get_cb,
 		(GtkClipboardClearFunc) x_clipboard_clear_cb,
