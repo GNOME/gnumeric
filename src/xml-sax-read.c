@@ -505,6 +505,26 @@ xml2_parse_attr_elem (XML2ParseState *state)
 }
 
 static void
+xml2ParseSheet (XML2ParseState *state, CHAR const **attrs)
+{
+	int tmp;
+
+	for (; attrs[0] && attrs[1] ; attrs += 2)
+		if (xml2ParseAttrInt (attrs, "DisplayFormulas", &tmp))
+			state->sheet->display_formulas = tmp;
+		else if (xml2ParseAttrInt (attrs, "DisplayZero", &tmp))
+			state->sheet->display_zero = tmp;
+		else if (xml2ParseAttrInt (attrs, "ShowGrid", &tmp))
+			state->sheet->show_grid = tmp;
+		else if (xml2ParseAttrInt (attrs, "ShowColHeader", &tmp))
+			state->sheet->show_col_header = tmp;
+		else if (xml2ParseAttrInt (attrs, "ShowRowHeader", &tmp))
+			state->sheet->show_row_header = tmp;
+		else
+			xml2UnknownAttr (state, attrs, "Sheet");
+}
+
+static void
 xml2ParseSheetName (XML2ParseState *state)
 {
 	char const * content = state->content->str;
@@ -1129,6 +1149,7 @@ xml2StartElement (XML2ParseState *state, CHAR const *name, CHAR const **attrs)
 
 	case STATE_WB_SHEETS :
 		if (xml2SwitchState (state, name, STATE_SHEET)) {
+			xml2ParseSheet (state, attrs);
 		} else
 			xml2UnknownState (state, name);
 		break;

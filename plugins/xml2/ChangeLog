@@ -1,3 +1,7 @@
+2001-02-17  Jody Goldberg <jgoldberg@home.com>
+
+	* xml2.c (xml2ParseSheet) : Support the new sheet attributes.
+
 2001-02-16  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.62

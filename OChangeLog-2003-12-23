@@ -1,5 +1,10 @@
 2001-02-17  Jody Goldberg <jgoldberg@home.com>
 
+	* src/xml-io.c (xml_sheet_write) : Store some flags about the sheet.
+	(xml_sheet_read) : Restore them.
+
+2001-02-17  Jody Goldberg <jgoldberg@home.com>
+
 	* src/commands.c (cmd_clear_undo) : reset the selection to queue a
 	  redraw.
 

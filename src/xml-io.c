@@ -532,7 +532,7 @@ xml_read_selection_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
 }
 
 static void
-xml_write_selection_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
+xml_write_selection_info (XmlParseContext *ctxt, Sheet const *sheet, xmlNodePtr tree)
 {
 	GList *ptr, *copy;
 	tree = xmlNewChild (tree, ctxt->ns, "Selections", NULL);
@@ -2178,7 +2178,7 @@ xml_read_solver (Sheet *sheet, XmlParseContext *ctxt, xmlNodePtr tree,
 }
 
 static xmlNodePtr
-xml_write_solver (XmlParseContext *ctxt, SolverParameters *param)
+xml_write_solver (XmlParseContext *ctxt, SolverParameters const *param)
 {
 	xmlNodePtr       cur;
 	xmlNodePtr       constr;
@@ -2270,7 +2270,7 @@ copy_hash_table_to_ptr_array (gpointer key, gpointer value, gpointer user_data)
  * Create an XML subtree of doc equivalent to the given Sheet.
  */
 static xmlNodePtr
-xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
+xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 {
 	xmlNodePtr cur;
 	xmlNsPtr gmr;
@@ -2290,10 +2290,22 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 	if (cur == NULL)
 		return NULL;
 	if (ctxt->ns == NULL) {
-	    gmr = xmlNewNs (cur, "http://www.gnome.org/gnumeric/", "gmr");
-	    xmlSetNs (cur, gmr);
-	    ctxt->ns = gmr;
+		gmr = xmlNewNs (cur, "http://www.gnome.org/gnumeric/", "gmr");
+		xmlSetNs (cur, gmr);
+		ctxt->ns = gmr;
 	}
+
+	e_xml_set_bool_prop_by_name (cur, "DisplayFormulas",
+				     sheet->display_formulas);
+	e_xml_set_bool_prop_by_name (cur, "DisplayZero",
+				     sheet->display_zero);
+	e_xml_set_bool_prop_by_name (cur, "ShowGrid",
+				     sheet->show_grid);
+	e_xml_set_bool_prop_by_name (cur, "ShowColHeader",
+				     sheet->show_col_header);
+	e_xml_set_bool_prop_by_name (cur, "ShowRowHeader",
+				     sheet->show_row_header);
+
 	tstr = xmlEncodeEntitiesReentrant (ctxt->doc, sheet->name_unquoted);
 	xmlNewChild (cur, ctxt->ns, "Name",  tstr);
 	if (tstr) xmlFree (tstr); {
@@ -2670,6 +2682,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	Sheet *ret = NULL;
 	double zoom_factor;
 	char *val;
+	int tmp;
 
 	if (strcmp (tree->name, "Sheet")){
 		fprintf (stderr,
@@ -2695,6 +2708,17 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 		return NULL;
 
 	ctxt->sheet = ret;
+
+	ret->display_formulas = e_xml_get_bool_prop_by_name_with_default (tree,
+		"DisplayFormulas", FALSE);
+	ret->display_zero = e_xml_get_bool_prop_by_name_with_default (tree,
+		 "DisplayZero", TRUE);
+	ret->show_grid = e_xml_get_bool_prop_by_name_with_default (tree,
+		 "ShowGrid", TRUE);
+	ret->show_col_header = e_xml_get_bool_prop_by_name_with_default (tree,
+		 "ShowColHeader", TRUE);
+	ret->show_row_header = e_xml_get_bool_prop_by_name_with_default (tree,
+		 "ShowRowHeader", TRUE);
 
 	xml_get_value_int (tree, "MaxCol", &ret->cols.max_used);
 	xml_get_value_int (tree, "MaxRow", &ret->rows.max_used);
