@@ -503,6 +503,7 @@ stf_preview_merge_with_hash (RenderData_t *renderdata, GSList *list, int colcoun
 			/* Reformat the line */
 			if (renderdata->formatted && data != NULL)
 				stf_preview_format_line (renderdata, data, colcount);
+
 		}
 
 		if (result != NULL) {

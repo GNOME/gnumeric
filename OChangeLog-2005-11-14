@@ -1,3 +1,14 @@
+2000-04-08  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* src/dialogs/dialog-stf-csv-page.c
+	(csv_page_global_change) : Result of gtk_editable_get_chars was not
+	freed. (2x)
+
+	* src/stf-parse.c
+	(stf_parse_region) : Only the last item of the GSList's would be
+	freed
+	(stf_parse_sheet) : ditto
+	
 2000-04-08  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet.c (cellref_name): Remove unused variable.

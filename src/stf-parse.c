@@ -874,7 +874,7 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 	while (*src->position && *src->position != parseoptions->terminator) {
 
 		field = stf_parse_fixed_cell (src, parseoptions);
-
+		
 		if (list != NULL) {
 
 			listend = g_slist_append (listend, field)->next;
@@ -1368,6 +1368,7 @@ Sheet*
 stf_parse_sheet (StfParseOptions_t *parseoptions, const char *data, Sheet *sheet)
 {
 	GSList *list;
+	GSList *list_start;
 	GSList *sublist;
 	int row = 0, col;
 
@@ -1376,6 +1377,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions, const char *data, Sheet *sheet
 	g_return_val_if_fail (sheet != NULL, NULL);
 
 	list = stf_parse_general (parseoptions, data);
+	list_start = list;
 
 	while (list) {
 
@@ -1409,13 +1411,13 @@ stf_parse_sheet (StfParseOptions_t *parseoptions, const char *data, Sheet *sheet
 			col++;
 		}
 
-		g_slist_free (sublist);
+		g_slist_free (list->data);
 
 		list = g_slist_next (list);
 		row++;
 	}
 
-	g_slist_free (list);
+	g_slist_free (list_start);
 
 	return sheet;
 }
@@ -1425,6 +1427,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, const char *data)
 {
 	CellRegion *cr;
 	GSList *list;
+	GSList *list_start;
 	GSList *sublist;
 	GList *resultlist = NULL;
 	int row = 0, col = 0, colhigh = 0;
@@ -1433,7 +1436,8 @@ stf_parse_region (StfParseOptions_t *parseoptions, const char *data)
 	g_return_val_if_fail (data != NULL, NULL);
 
 	list = stf_parse_general (parseoptions, data);
-
+	list_start = list;
+	
 	while (list) {
 
 		sublist = list->data;
@@ -1472,7 +1476,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, const char *data)
 			col++;
 		}
 
-		g_slist_free (sublist);
+		g_slist_free (list->data);
 
 		if (col > colhigh)
 			colhigh = col;
@@ -1481,7 +1485,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, const char *data)
 		row++;
 	}
 
-	g_slist_free (list);
+	g_slist_free (list_start);
 
 	cr         = g_new (CellRegion, 1);
 	cr->list   = resultlist;

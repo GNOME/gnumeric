@@ -43,6 +43,8 @@ csv_page_global_change (GtkWidget *widget, DruidPageData_t *data)
 			stf_parse_options_csv_set_customfieldseparator (parseoptions, csvcustomtext[0]);
 			customvalid = TRUE;
 		}
+		
+		g_free (csvcustomtext);
 	}
 
 	stf_parse_options_csv_set_separators (parseoptions,
@@ -59,9 +61,10 @@ csv_page_global_change (GtkWidget *widget, DruidPageData_t *data)
 
 	textfieldtext = gtk_editable_get_chars (GTK_EDITABLE (info->csv_textfield), 0, -1);
 	stf_parse_options_csv_set_stringindicator (parseoptions, textfieldtext[0]);
+	g_free (textfieldtext);
 
 	stf_parse_options_csv_set_indicator_2x_is_single  (parseoptions,
-		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_2x_indicator)));
+							   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_2x_indicator)));
 
 	stf_parse_options_csv_set_duplicates (parseoptions,
 					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_duplicates)));
