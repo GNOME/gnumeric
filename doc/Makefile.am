@@ -27,13 +27,13 @@ TEXT_FILES =			\
 	Future-Roadmap		\
 	saving.txt
 
-PERL_SCRIPTS = 
+PERL_FILES = 			\
 	make-index.pl		\
 	make-docbook.pl	
 
 EXTRA_DIST = \
 	$(SGML_FILES)		\
-	$(PERL_SCRIPTS)		\
+	$(PERL_FILES)		\
 	$(TEXT_FILES)
 
 all: 
