@@ -19,6 +19,7 @@
 #include "commands.h"
 #include "value.h"
 #include "cell.h"
+#include "sheet-merge.h"
 #include "sheet-control-gui.h"
 #include "gnumeric-util.h"
 
@@ -109,7 +110,7 @@ selection_is_simple (WorkbookControl *wbc, Sheet const *sheet,
 	r = sheet->selections->data;
 
 	if (!allow_merged) {
-		merged = sheet_region_get_merged (sheet, r);
+		merged = sheet_merge_get_overlap (sheet, r);
 		if (merged != NULL) {
 			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), command_name,
 				_("can not operate on merged cells"));
@@ -312,7 +313,7 @@ sheet_selection_set_internal (Sheet *sheet,
 	/* expand to include any merged regions */
 looper :
 	changed = FALSE;
-	merged = sheet_region_get_merged (sheet, &new_sel);
+	merged = sheet_merge_get_overlap (sheet, &new_sel);
 	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 		Range const *r = ptr->data;
 		if (new_sel.start.col > r->start.col) {
@@ -1165,7 +1166,7 @@ walk_boundaries (Sheet const *sheet, Range const * const bound,
 {
 	int const step = forward ? 1 : -1;
 	CellPos pos = sheet->edit_pos_real;
-	Range const *merge = sheet_region_is_merge_cell (sheet, &sheet->edit_pos);
+	Range const *merge = sheet_merge_is_corner (sheet, &sheet->edit_pos);
 
 	*res = pos;
 loop :
@@ -1201,7 +1202,7 @@ loop :
 			pos.row += step;
 	}
 	if (smart_merge) {
-		merge = sheet_region_get_merged_cell (sheet, &pos);
+		merge = sheet_merge_contains_pos (sheet, &pos);
 		if (merge != NULL) {
 			if (forward) {
 				if (pos.col != merge->start.col ||
@@ -1250,7 +1251,7 @@ sheet_selection_walk_step (Sheet *sheet,
 			is_singleton = TRUE;
 		else if (ss->start.col == sheet->edit_pos.col &&
 			 ss->start.row == sheet->edit_pos.row) {
-			Range const *merge = sheet_region_is_merge_cell (sheet,
+			Range const *merge = sheet_merge_is_corner (sheet,
 				&sheet->edit_pos);
 			if (merge != NULL && range_equal (merge, ss))
 				is_singleton = TRUE;

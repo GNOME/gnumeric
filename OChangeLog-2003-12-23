@@ -1,5 +1,22 @@
 2000-12-29  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-autofill.c (sheet_autofill_dir) : support merged cells.
+	(fill_item_new) : Ditto.
+
+	* src/sheet.c
+	(sheet_merge_add) : rename
+	(sheet_merge_remove) : rename
+	(sheet_merge_get_overlap) : rename
+	(sheet_merge_contains_pos) : rename
+	(sheet_merge_is_corner) : rename
+	(sheet_merged_relocate) : rename
+	(sheet_merge_get_adjacent) : rename
+
+	* src/rendered-value.c (rendered_value_new) : Use
+	  sheet_merge_is_corner rather than sheet_region_get_merged_cell.
+
+2000-12-29  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-control-gui.c (scg_object_update_bbox) : Use the stored
 	  coordinates for movement.
 	(scg_object_calc_position) : handle inversion and store the coordinates.

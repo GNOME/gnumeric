@@ -176,6 +176,8 @@ GNUMERIC_BASE_SOURCES =				\
 	selection.h				\
 	sheet.c					\
 	sheet.h					\
+	sheet-merge.c				\
+	sheet-merge.h				\
 	sheet-private.h				\
 	sheet-autofill.c			\
 	sheet-autofill.h			\

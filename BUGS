@@ -97,7 +97,6 @@ STF - pasting a single line should not invoke the importer
 - Other anchor types for sheet objects
 
 - Merged Cells
-    - autofill
     - copy/paste (cut works)
     - fix undo ins/del row/col to restore lost merged regions
     - printing

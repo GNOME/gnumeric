@@ -4,7 +4,7 @@
  * rendered-value.c: Management & utility routines for formated
  *     colored text.
  *
- * Copyright (C) 2000 Jody Goldberg (jgoldberg@home.com)
+ * Copyright (C) 2000, 2001 Jody Goldberg (jgoldberg@home.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -27,6 +27,7 @@
 #include "cell.h"
 #include "style.h"
 #include "sheet.h"
+#include "sheet-merge.h"
 #include "format.h"
 #include "value.h"
 #include "parse-util.h"
@@ -83,10 +84,10 @@ rendered_value_new (Cell *cell, MStyle *mstyle, gboolean dynamic_width)
 					float cell_width;
 					if (cell_is_merged (cell)) {
 						Range const *merged =
-							sheet_region_get_merged_cell (cell->base.sheet, &cell->pos);
+							sheet_merge_is_corner (cell->base.sheet, &cell->pos);
+
 						cell_width = sheet_col_get_distance_pts (cell->base.sheet,
 							merged->start.col, merged->end.col + 1);
-											
 					} else
 						cell_width = cell->col_info->size_pts;
 					cell_width -= cell->col_info->margin_a + cell->col_info->margin_b;

@@ -27,6 +27,8 @@
 #include "formats.h"
 #include "datetime.h"
 #include "mstyle.h"
+#include "ranges.h"
+#include "sheet-merge.h"
 #include "errno.h"
 
 #include <math.h>
@@ -92,9 +94,11 @@ typedef struct {
 
 typedef struct _FillItem {
 	FillType     type;
-	Cell        *reference;
 	StyleFormat *fmt;
 	MStyle	    *style;
+
+	gboolean     is_merged;
+	CellPos	     merged_size;
 
 	union {
 		ExprTree *formula;
@@ -260,13 +264,22 @@ fill_item_new (Sheet *sheet, int col, int row)
 	ValueType  value_type;
 	FillItem  *fi;
 	Cell *cell;
+	CellPos	pos;
+	Range const *merged;
+
+	pos.col = col;
+	pos.row = row;
 
 	fi = g_new (FillItem, 1);
 	fi->type = FILL_EMPTY;
 	fi->style = sheet_style_compute (sheet, col, row);
+	merged = sheet_merge_is_corner (sheet, &pos);
+	if ((fi->is_merged = (merged != NULL))) {
+		fi->merged_size.col = merged->end.col - col;
+		fi->merged_size.row = merged->end.row - row;
+	}
 
 	cell = sheet_cell_get (sheet, col, row);
-	fi->reference = cell;
 	if (!cell)
 		return fi;
 
@@ -734,6 +747,14 @@ sheet_autofill_dir (Sheet *sheet,
 				cell = sheet_cell_new (sheet, col, row);
 			autofill_cell (cell,
 				       loops * group_count + sub_index, fi);
+		}
+
+		if (fi->is_merged) {
+			Range tmp;
+			range_init (&tmp, col, row,
+				    col + fi->merged_size.col,
+				    row + fi->merged_size.row);
+			sheet_merge_add	(NULL, sheet, &tmp);
 		}
 
 		col += col_inc;

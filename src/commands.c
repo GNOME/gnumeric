@@ -36,6 +36,7 @@
 #include "eval.h"
 #include "expr.h"
 #include "cell.h"
+#include "sheet-merge.h"
 #include "parse-util.h"
 #include "clipboard.h"
 #include "selection.h"
@@ -2408,7 +2409,7 @@ cmd_unmerge_cells_undo_internal (GnumericCommand *cmd, WorkbookControl *wbc,
 
 	for (i = 0 ; i < me->unmerged_regions->len ; ++i) {
 		Range const *tmp = &(g_array_index (me->unmerged_regions, Range, i));
-		sheet_region_merge (COMMAND_CONTEXT (wbc), me->sheet, tmp);
+		sheet_merge_add (COMMAND_CONTEXT (wbc), me->sheet, tmp);
 		if (re_span)
 			sheet_range_calc_spans (me->sheet, *tmp, SPANCALC_RE_RENDER);
 	}
@@ -2429,13 +2430,13 @@ cmd_unmerge_cells_redo_internal (GnumericCommand *cmd, WorkbookControl *wbc,
 
 	me->unmerged_regions = g_array_new (FALSE, FALSE, sizeof (Range));
 	for (i = 0 ; i < me->ranges->len ; ++i) {
-		GSList *ptr, *merged = sheet_region_get_merged (me->sheet,
+		GSList *ptr, *merged = sheet_merge_get_overlap (me->sheet,
 			&(g_array_index (me->ranges, Range, i)));
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 			Range tmp = *(Range *)(ptr->data);
 			g_array_append_val (me->unmerged_regions, tmp);
-			sheet_region_unmerge (COMMAND_CONTEXT (wbc),
-					      me->sheet, &tmp);
+			sheet_merge_remove (COMMAND_CONTEXT (wbc),
+					    me->sheet, &tmp);
 			if (re_span)
 				sheet_range_calc_spans (me->sheet, tmp,
 							SPANCALC_RE_RENDER);
@@ -2536,8 +2537,8 @@ cmd_merge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	for (i = 0 ; i < me->unmerge.ranges->len ; ++i) {
 		Range const * r = &(g_array_index (me->unmerge.ranges, Range, i));
-		sheet_region_unmerge (COMMAND_CONTEXT (wbc),
-				      me->unmerge.sheet, r);
+		sheet_merge_remove (COMMAND_CONTEXT (wbc),
+				    me->unmerge.sheet, r);
 	}
 	cmd_unmerge_cells_undo_internal (cmd, wbc, FALSE);
 
@@ -2589,7 +2590,7 @@ cmd_merge_cells_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 					    CLEAR_VALUES | CLEAR_FORMATS |
 					    CLEAR_COMMENTS | CLEAR_NOCHECKARRAY);
 
-		sheet_region_merge (COMMAND_CONTEXT (wbc),
+		sheet_merge_add (COMMAND_CONTEXT (wbc),
 				    me->unmerge.sheet, r);
 	}
 

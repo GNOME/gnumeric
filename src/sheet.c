@@ -31,11 +31,11 @@
 #include "commands.h"
 #include "cellspan.h"
 #include "cell.h"
+#include "sheet-merge.h"
 #include "dependent.h"
 #include "sheet-private.h"
 #include "expr-name.h"
 #include "rendered-value.h"
-#include "sheet-object.h"
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
 
@@ -329,7 +329,7 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 	else if (resize)
 		rendered_value_calc_size (cell);
 
-	if (sheet_region_is_merge_cell (cell->base.sheet, &cell->pos)) {
+	if (sheet_merge_is_corner (cell->base.sheet, &cell->pos)) {
 		sheet_redraw_cell (cell);
 		return;
 	}
@@ -1391,7 +1391,7 @@ sheet_redraw_cell (Cell const *cell)
 
 	g_return_if_fail (cell != NULL);
 
-	merged = sheet_region_is_merge_cell (cell->base.sheet, &cell->pos);
+	merged = sheet_merge_is_corner (cell->base.sheet, &cell->pos);
 	if (merged != NULL) {
 		SHEET_FOREACH_CONTROL (cell->base.sheet, control,
 			sheet_view_redraw_cell_region (control,
@@ -1487,7 +1487,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 		GSList *merged, *ptr;
 
 		lagged_start_col = check_merge.start.col = check_merge.end.col = start_col;
-		merged = sheet_region_get_merged (sheet, &check_merge);
+		merged = sheet_merge_get_overlap (sheet, &check_merge);
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 			Range const * const r = ptr->data;
 			if (count > 0) {
@@ -1585,7 +1585,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 		GSList *merged, *ptr;
 
 		lagged_start_row = check_merge.start.row = check_merge.end.row = start_row;
-		merged = sheet_region_get_merged (sheet, &check_merge);
+		merged = sheet_merge_get_overlap (sheet, &check_merge);
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 			Range const * const r = ptr->data;
 			if (count > 0) {
@@ -2003,7 +2003,7 @@ sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 
 	g_hash_table_insert (sheet->cell_hash, &cell->pos, cell);
 
-	if (sheet_region_get_merged_cell (sheet, &cell->pos))
+	if (sheet_merge_is_corner (sheet, &cell->pos))
 		cell->base.flags |= CELL_IS_MERGED;
 }
 
@@ -2537,7 +2537,7 @@ sheet_set_edit_pos (Sheet *sheet, int col, int row)
 	old = sheet->edit_pos;
 
 	if (old.col != col || old.row != row) {
-		Range const *merged = sheet_region_is_merge_cell (sheet, &old);
+		Range const *merged = sheet_merge_is_corner (sheet, &old);
 
 		sheet->priv->edit_pos.location_changed =
 		sheet->priv->edit_pos.content_changed =
@@ -2555,7 +2555,7 @@ sheet_set_edit_pos (Sheet *sheet, int col, int row)
 		sheet->edit_pos_real.row = row;
 
 		/* Redraw after change (handling merged cells) */
-		merged = sheet_region_get_merged_cell (sheet, &sheet->edit_pos_real);
+		merged = sheet_merge_contains_pos (sheet, &sheet->edit_pos_real);
 		if (merged != NULL) {
 			sheet_redraw_cell_region (sheet,
 				merged->start.col, merged->start.row,
@@ -2908,7 +2908,7 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 			     &sheet->cols, i, i + count);
 
 	/* 4. Slide the StyleRegions and Merged regions to the right */
-	sheet_relocate_merged (&reloc_info);
+	sheet_merge_relocate (&reloc_info);
 	sheet_relocate_objects (&reloc_info);
 	sheet_style_insert_colrow (sheet, col, count, TRUE);
 
@@ -2980,7 +2980,7 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 			     &sheet->cols, i, i-count);
 
 	/* 5. Slide the StyleRegions and Merge regions left */
-	sheet_relocate_merged (&reloc_info);
+	sheet_merge_relocate (&reloc_info);
 	sheet_relocate_objects (&reloc_info);
 	sheet_style_delete_colrow (sheet, col, count, TRUE);
 
@@ -3057,7 +3057,7 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 			     &sheet->rows, i, i+count);
 
 	/* 4. Slide the StyleRegions and Merge regions down */
-	sheet_relocate_merged (&reloc_info);
+	sheet_merge_relocate (&reloc_info);
 	sheet_relocate_objects (&reloc_info);
 	sheet_style_insert_colrow (sheet, row, count, FALSE);
 
@@ -3129,7 +3129,7 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 			     &sheet->rows, i, i-count);
 
 	/* 5. Slide the StyleRegions and Merge regions up */
-	sheet_relocate_merged (&reloc_info);
+	sheet_merge_relocate (&reloc_info);
 	sheet_relocate_objects (&reloc_info);
 	sheet_style_delete_colrow (sheet, row, count, FALSE);
 
@@ -3277,7 +3277,7 @@ sheet_move_range (WorkbookControl *wbc,
 
 	/* 7. Move objects in the range */
 	sheet_relocate_objects (rinfo);
-	sheet_relocate_merged (rinfo);
+	sheet_merge_relocate (rinfo);
 
 	/* 8. Recompute dependencies */
 	sheet_recalc_dependencies (rinfo->target_sheet);
@@ -3720,7 +3720,7 @@ sheet_clone_merged_regions (Sheet const *src, Sheet *dst)
 {
 	GSList *ptr;
 	for (ptr = src->list_merged ; ptr != NULL ; ptr = ptr->next)
-		sheet_region_merge (NULL, dst, ptr->data);
+		sheet_merge_add (NULL, dst, ptr->data);
 }
 
 static void
@@ -3872,260 +3872,4 @@ sheet_duplicate	(Sheet const *src)
 	sheet_redraw_all (dst);
 
 	return dst;
-}
-
-/***********************************************************************************/
-
-static gint
-range_row_cmp (Range const *a, Range const *b)
-{
-	int tmp = b->start.row - a->start.row;
-	if (tmp == 0)
-		tmp = a->start.col - b->start.col; /* YES I DO MEAN a - b */
-	return tmp;
-}
-
-/**
- * sheet_region_merge :
- *
- * @cc : command context
- * @sheet : the sheet which will contain the region
- * @src : The region to merge
- *
- * Add a range to the list of merge targets.  Checks for array spliting returns
- * TRUE if there was an error.  Does not regen spans, redraw or render.
- */
-gboolean
-sheet_region_merge (CommandContext *cc, Sheet *sheet, Range const *range)
-{
-	GSList *test;
-	Range  *r_copy;
-	Cell   *cell;
-
-	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-	g_return_val_if_fail (range != NULL, TRUE);
-
-	if (sheet_range_splits_array (sheet, range)) {
-		gnumeric_error_splits_array (cc, _("Merge"));
-		return TRUE;
-	}
-
-	test = sheet_region_get_merged (sheet, range);
-	if (test != NULL) {
-		gnumeric_error_invalid (cc,
-			_("There is already a merged region that intersects"),
-			range_name (range));
-		g_slist_free (test);
-		return TRUE;
-	}
-
-	r_copy = range_copy (range);
-	g_hash_table_insert (sheet->hash_merged, &r_copy->start, r_copy);
-
-	/* Store in order from bottom to top then LEFT TO RIGHT (by start coord) */
-	sheet->list_merged = g_slist_insert_sorted (sheet->list_merged, r_copy,
-						    (GCompareFunc)range_row_cmp);
-
-	cell = sheet_cell_get (sheet, range->start.col, range->start.row);
-	if (cell != NULL)
-		cell->base.flags |= CELL_IS_MERGED;
-
-	sheet->priv->reposition_selection = TRUE;
-	return FALSE;
-}
-
-/**
- * sheet_region_unmerge :
- *
- * @cc    : command context
- * @sheet : the sheet which will contain the region
- * @range     : The region
- *
- * Remove a merged range.
- * returns TRUE if there was an error.
- */
-gboolean
-sheet_region_unmerge (CommandContext *cc, Sheet *sheet, Range const *range)
-{
-	Range *r_copy;
-	Cell *cell;
-
-	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-	g_return_val_if_fail (range != NULL, TRUE);
-
-	r_copy = g_hash_table_lookup (sheet->hash_merged, &range->start);
-
-	g_return_val_if_fail (r_copy != NULL, TRUE);
-	g_return_val_if_fail (range_equal (range, r_copy), TRUE);
-
-	g_hash_table_remove (sheet->hash_merged, &r_copy->start);
-	sheet->list_merged = g_slist_remove (sheet->list_merged, r_copy);
-	g_free (r_copy);
-
-	cell = sheet_cell_get (sheet, range->start.col, range->start.row);
-	if (cell != NULL)
-		cell->base.flags &= ~CELL_IS_MERGED;
-
-	sheet->priv->reposition_selection = TRUE;
-	return FALSE;
-}
-
-/**
- * sheet_region_get_merged :
- *
- * Returns a list of the merged regions that overlap the target region.
- * The list is ordered from top to bottom and RIGHT TO LEFT (by start coord).
- * Caller is responsible for freeing the list, but not the content.
- */
-GSList *
-sheet_region_get_merged (Sheet const *sheet, Range const *range)
-{
-	GSList *ptr, *res = NULL;
-
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (range != NULL, NULL);
-
-	for (ptr = sheet->list_merged ; ptr != NULL ; ptr = ptr->next) {
-		Range * const test = ptr->data;
-
-		if (range_overlap (range, test))
-			res = g_slist_prepend (res, test);
-	}
-
-	return res;
-}
-
-/**
- * sheet_region_get_merged_cell :
- *
- * If the CellPos is contained in the a merged region return the range.
- * The Range should NOT be freed.
- */
-Range const *
-sheet_region_get_merged_cell (Sheet const *sheet, CellPos const *pos)
-{
-	GSList *ptr;
-
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (pos != NULL, NULL);
-
-	for (ptr = sheet->list_merged ; ptr != NULL ; ptr = ptr->next) {
-		Range const * const range = ptr->data;
-		if (range_contains (range, pos->col, pos->row))
-			return range;
-	}
-	return NULL;
-}
-
-/**
- * sheet_region_adjacent_merge
- * @sheet : The sheet to look in.
- * @pos : the cell to test for adjacent regions.
- * @left : the return for a region on the left
- * @right : the return for a region on the right
- *
- * Returns the nearest regions to either side of @pos.
- */
-void
-sheet_region_adjacent_merge (Sheet const *sheet, CellPos const *pos,
-			     Range const **left, Range const **right)
-{
-	GSList *ptr;
-
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (pos != NULL);
-
-	*left = *right = NULL;
-	for (ptr = sheet->list_merged ; ptr != NULL ; ptr = ptr->next) {
-		Range const * const test = ptr->data;
-		if (test->start.row <= pos->row && pos->row <= test->end.row) {
-			int const diff = test->end.col - pos->col;
-
-			g_return_if_fail (diff != 0);
-
-			if (diff < 0) {
-				if (*left == NULL || (*left)->end.col < test->end.col)
-					*left = test;
-			} else {
-				if (*right == NULL || (*right)->start.col > test->start.col)
-					*right = test;
-			}
-		}
-	}
-}
-
-/**
- * sheet_region_is_merge_cell :
- *
- * @sheet :
- * @pos : cellpos if top left corner
- *
- * Returns a Range pointer if the @pos is the topleft of a merged region.
- * The pointer should NOT be freed by the caller.
- */
-Range const *
-sheet_region_is_merge_cell (Sheet const *sheet, CellPos const *pos)
-{
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (pos != NULL, NULL);
-
-	return g_hash_table_lookup (sheet->hash_merged, pos);
-}
-
-/**
- * sheet_relocate_merged :
- *
- * @rinfo : Descriptor of what is moving.
- *
- * Shifts merged regions that need to move.
- */
-void
-sheet_relocate_merged (ExprRelocateInfo const *ri)
-{
-	GSList   *ptr, *copy, *to_move = NULL;
-	Range	 dest;
-	gboolean clear, change_sheets;
-
-	g_return_if_fail (ri != NULL);
-	g_return_if_fail (IS_SHEET (ri->origin_sheet));
-	g_return_if_fail (IS_SHEET (ri->target_sheet));
-	    
-	dest = ri->origin;
-	clear = range_translate (&dest, ri->col_offset, ri->row_offset);
-	change_sheets = (ri->origin_sheet != ri->target_sheet);
-
-	/* Clear the destination range on the target sheet */
-	if (change_sheets) {
-		copy = g_slist_copy (ri->target_sheet->list_merged);
-		for (ptr = copy; ptr != NULL ; ptr = ptr->next) {
-			Range const *r = ptr->data;
-			if (range_contains (&dest, r->start.col, r->start.row))
-				sheet_region_unmerge (NULL, ri->target_sheet, r);
-		}
-		g_slist_free (copy);
-	}
-
-	copy = g_slist_copy (ri->origin_sheet->list_merged);
-	for (ptr = copy; ptr != NULL ; ptr = ptr->next ) {
-		Range const *r = ptr->data;
-		if (range_contains (&ri->origin, r->start.col, r->start.row)) {
-			Range tmp = *r;
-
-			/* Toss any objects that would be clipped. */
-			sheet_region_unmerge (NULL, ri->origin_sheet, r);
-			if (!range_translate (&tmp, ri->col_offset, ri->row_offset))
-				to_move = g_slist_prepend (to_move, range_copy (&tmp));
-		} else if (!change_sheets &&
-			   range_contains (&dest, r->start.col, r->start.row))
-			sheet_region_unmerge (NULL, ri->origin_sheet, r);
-	}
-	g_slist_free (copy);
-
-	/* move the ranges after removing the previous content in case of overlap */
-	for (ptr = to_move ; ptr != NULL ; ptr = ptr->next) {
-		Range *dest = ptr->data;
-		sheet_region_merge (NULL, ri->target_sheet, dest);
-		g_free (dest);
-	}
-	g_slist_free (to_move);
 }

@@ -25,6 +25,7 @@
 #include "ranges.h"
 #include "style.h"
 #include "parse-util.h"
+#include "sheet-merge.h"
 #include "workbook.h"
 #include "workbook-edit.h"
 #include "gnumeric-util.h"
@@ -347,7 +348,7 @@ recalc_spans (GnomeCanvasItem *item)
 	item_edit->text_offsets = g_slist_reverse (text_offsets);
 
 	col_span = item_edit->col_span;
-	merged = sheet_region_get_merged_cell (sheet, &item_edit->pos);
+	merged = sheet_merge_is_corner (sheet, &item_edit->pos);
 	if (merged != NULL) {
 		int tmp = merged->end.col - merged->start.col + 1;
 		if (col_span < tmp)

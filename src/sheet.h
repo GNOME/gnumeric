@@ -305,17 +305,6 @@ void  sheet_clear_region (WorkbookControl *context,
 			  int end_col, int end_row,
 			  int clear_flags);
 
-gboolean     sheet_region_merge		(CommandContext *cc,
-					 Sheet *sheet, Range const *r);
-gboolean     sheet_region_unmerge	(CommandContext *cc,
-					 Sheet *sheet, Range const *r);
-GSList      *sheet_region_get_merged	(Sheet const *sheet, Range const *r);
-Range const *sheet_region_get_merged_cell(Sheet const *sheet, CellPos const *pos);
-Range const *sheet_region_is_merge_cell (Sheet const *sheet, CellPos const *pos);
-void	     sheet_relocate_merged	(ExprRelocateInfo const *ri);
-void	     sheet_region_adjacent_merge(Sheet const *sheet, CellPos const *pos,
-					 Range const **left, Range const **right);
-
 #define SHEET_FOREACH_CONTROL(sheet, control, code)			\
 do {									\
 	GList *PtR;							\

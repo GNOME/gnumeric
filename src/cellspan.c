@@ -4,6 +4,7 @@
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
+ *   Jody Goldberg (jgoldberg@home.com)
  *
  * The information on cell spanning is attached in the row ColRowInfo
  * structures.  The actual representation of this information is
@@ -17,6 +18,7 @@
 #include <config.h>
 #include "cellspan.h"
 #include "cell.h"
+#include "sheet-merge.h"
 #include "style.h"
 #include "colrow.h"
 #include "value.h"
@@ -209,7 +211,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	 * 	- The alignment mode are set to "justify"
 	 */
 	if (sheet != NULL) {
-		if (sheet_region_is_merge_cell (sheet, &cell->pos) ||
+		if (cell_is_merged (cell) ||
 		    (!sheet->display_formulas && cell_is_number (cell))) {
 			*col1 = *col2 = cell->pos.col;
 			return;
@@ -235,8 +237,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 
 	cell_width_pixel = cell_rendered_width (cell);
 
-	sheet_region_adjacent_merge (sheet, &cell->pos,
-				     &merge_left, &merge_right);
+	sheet_merge_get_adjacent (sheet, &cell->pos, &merge_left, &merge_right);
 	min_col = (merge_left != NULL) ? merge_left->end.col : 0;
 	max_col = (merge_right != NULL) ? merge_right->start.col : SHEET_MAX_COLS;
 

@@ -16,6 +16,7 @@
 #include "workbook-control-gui-priv.h"
 #include "sheet-control-gui.h"
 #include "sheet.h"
+#include "sheet-merge.h"
 #include "sheet-object-impl.h"
 #include "gnumeric-type-util.h"
 #include "cell.h"
@@ -393,7 +394,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 
 	first_row = TRUE;
 	merged_active = merged_active_seen = merged_used = NULL;
-	merged_unused = sheet_region_get_merged (sheet,
+	merged_unused = sheet_merge_get_overlap (sheet,
 		range_init (&view, paint_col, paint_row, end_col-1, end_row-1));
 
 	row = paint_row;
