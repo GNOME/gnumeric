@@ -1032,7 +1032,7 @@ gog_axis_size_allocate (GogView *v, GogViewAllocation const *a)
 	GogAxis *axis = GOG_AXIS (v->model);
 	GogViewRequisition tmp;
 	char *label;
-	int i;
+	int i, n, step;
 	double total = 0., max = 0., tick_major = 0., tick_minor = 0., pad = 0.;
 
 	aview_parent_klass->size_allocate (v, a);
@@ -1041,7 +1041,8 @@ gog_axis_size_allocate (GogView *v, GogViewAllocation const *a)
 		return;
 
 	gog_renderer_push_style (v->renderer, axis->base.style);
-	for (i = gog_axis_num_markers (axis, NULL, NULL) ; i-- > 0 ; ) {
+	n = gog_axis_num_markers (axis, NULL, NULL);
+	for (i = 0 ; i < n ; i += step) {
 		label = gog_axis_get_marker (axis, i);
 		gog_renderer_measure_text (v->renderer, label, &tmp);
 		g_free (label);

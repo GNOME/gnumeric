@@ -59,7 +59,8 @@ void	colrow_compute_pixels_from_pts (ColRowInfo *cri, Sheet const *sheet,
 void	colrow_compute_pts_from_pixels (ColRowInfo *cri, Sheet const *sheet,
 					gboolean horizontal);
 
-gboolean colrow_is_default (ColRowInfo const *a);
+gboolean colrow_is_default (ColRowInfo const *cri);
+gboolean colrow_is_empty   (ColRowInfo const *cri);
 gboolean colrow_equal	   (ColRowInfo const *a, ColRowInfo const *b);
 void     colrow_copy	   (ColRowInfo *dst, ColRowInfo const *src);
 

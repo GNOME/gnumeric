@@ -72,6 +72,22 @@ colrow_is_default (ColRowInfo const *cri)
 }
 
 /**
+ * colrow_is_empty :
+ * @colrow : #ColRowInfo
+ *
+ * TRUE if there is any information in col/row @cri.
+ **/
+gboolean
+colrow_is_empty (ColRowInfo const *cri)
+{
+	if (cri == NULL)
+		return FALSE;
+	return !cri->is_default ||
+		cri->outline_level > 0 ||
+		cri->is_collapsed;
+}
+
+/**
  * colrow_equal :
  * @a : ColRowInfo #1
  * @b : ColRowInfo #2

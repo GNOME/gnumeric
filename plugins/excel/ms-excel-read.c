@@ -3230,8 +3230,8 @@ excel_read_ROW (BiffQuery *q, ExcelReadSheet *esheet)
 	 */
 	gboolean const is_std_height = (height & 0x8000) != 0;
 
-	d (1, {
-		fprintf (stderr,"Row %d height 0x%x;\n", row + 1, height);
+	d (-1, {
+		fprintf (stderr,"Row %d height 0x%x, flags=0x%x;\n", row + 1, height,flags);
 		if (is_std_height)
 			puts ("Is Std Height");
 		if (flags2 & 0x1000)
@@ -3246,7 +3246,8 @@ excel_read_ROW (BiffQuery *q, ExcelReadSheet *esheet)
 	 */
 	if (!is_std_height) {
 		double hu = get_row_height_units (height);
-		sheet_row_set_size_pts (esheet->sheet, row, hu, TRUE);
+		sheet_row_set_size_pts (esheet->sheet, row, hu,
+			(flags & 0x40) ? TRUE : FALSE);
 	}
 
 	if (flags & 0x20)
@@ -3255,7 +3256,7 @@ excel_read_ROW (BiffQuery *q, ExcelReadSheet *esheet)
 	if (flags & 0x80) {
 		if (xf != 0)
 			excel_set_xf_segment (esheet, 0, SHEET_MAX_COLS - 1,
-						 row, row, xf);
+					      row, row, xf);
 		d (1, fprintf (stderr,"row %d has flags 0x%x a default style %hd;\n",
 			      row + 1, flags, xf););
 	}
@@ -3508,9 +3509,11 @@ excel_read_GUTS (BiffQuery *q, ExcelReadSheet *esheet)
 
 	/* ignore the specification of how wide/tall the gutters are */
 	row_gut = GSF_LE_GET_GUINT16 (q->data + 4);
+	g_warning ("row_gut = %d", row_gut);
 	if (row_gut >= 1)
 		row_gut--;
 	col_gut = GSF_LE_GET_GUINT16 (q->data + 6);
+	g_warning ("col_gut = %d", row_gut);
 	if (col_gut >= 1)
 		col_gut--;
 	sheet_colrow_gutter (esheet->sheet, TRUE, col_gut);
@@ -3706,7 +3709,7 @@ excel_read_DIMENSIONS (BiffQuery *q, ExcelWorkbook *ewb)
 	} else
 		excel_read_range (&r, q->data);
 
-	d (0, fprintf (stderr,"Dimension = %s\n", range_name (&r)););
+	d (-1, fprintf (stderr,"Dimension = %s\n", range_name (&r)););
 }
 
 static MSContainer *

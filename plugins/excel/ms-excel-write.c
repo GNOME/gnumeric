@@ -2761,10 +2761,14 @@ excel_write_GUTS (BiffPut *bp, ExcelWriteSheet *esheet)
 	int row_size = 0, col_size = 0;
 
 	/* This seems to be what the default is */
-	if (row_level > 0)
+	if (row_level > 0) {
+		row_level++;
 		row_size = 5 + 12 * row_level;
-	if (col_level > 0)
+	}
+	if (col_level > 0) {
+		col_level++;
 		col_size = 5 + 12 * col_level;
+	}
 	GSF_LE_SET_GUINT16 (data+0, row_size);
 	GSF_LE_SET_GUINT16 (data+2, col_size);
 	GSF_LE_SET_GUINT16 (data+4, row_level);
@@ -3264,16 +3268,16 @@ excel_write_DIMENSION (BiffPut *bp, ExcelWriteSheet *esheet)
 	if (bp->version >= MS_BIFF_V8) {
 		data = ms_biff_put_len_next (bp, 0x200 | BIFF_DIMENSIONS, 14);
 		GSF_LE_SET_GUINT32 (data +  0, 0);
-		GSF_LE_SET_GUINT32 (data +  4, esheet->max_row);
+		GSF_LE_SET_GUINT32 (data +  4, esheet->max_row-1);
 		GSF_LE_SET_GUINT16 (data +  8, 0);
-		GSF_LE_SET_GUINT16 (data + 10, esheet->max_col);
+		GSF_LE_SET_GUINT16 (data + 10, esheet->max_col-1);
 		GSF_LE_SET_GUINT16 (data + 12, 0x0000);
 	} else {
 		data = ms_biff_put_len_next (bp, BIFF_DIMENSIONS, 10);
 		GSF_LE_SET_GUINT16 (data +  0, 0);
-		GSF_LE_SET_GUINT16 (data +  2, esheet->max_row);
+		GSF_LE_SET_GUINT16 (data +  2, esheet->max_row-1);
 		GSF_LE_SET_GUINT16 (data +  4, 0);
-		GSF_LE_SET_GUINT16 (data +  6, esheet->max_col);
+		GSF_LE_SET_GUINT16 (data +  6, esheet->max_col-1);
 		GSF_LE_SET_GUINT16 (data +  8, 0x0000);
 	}
 	ms_biff_put_commit (bp);
@@ -3743,18 +3747,19 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 }
 
 static ExcelWriteSheet *
-excel_sheet_new (ExcelWriteState *ewb, Sheet *gnum_sheet,
+excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 		 gboolean biff7, gboolean biff8)
 {
 	int const maxrows = biff7 ? MsBiffMaxRowsV7 : MsBiffMaxRowsV8;
 	ExcelWriteSheet *esheet = g_new (ExcelWriteSheet, 1);
-	GnmRange       extent;
+	GnmRange extent;
+	int i;
 
-	g_return_val_if_fail (gnum_sheet, NULL);
+	g_return_val_if_fail (sheet, NULL);
 	g_return_val_if_fail (ewb, NULL);
 
 	/* Ignore spans and merges past the bound */
-	extent = sheet_get_extent (gnum_sheet, FALSE);
+	extent = sheet_get_extent (sheet, FALSE);
 
 	if (extent.end.row >= maxrows) {
 		gnm_io_warning (ewb->io_context,
@@ -3771,17 +3776,30 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *gnum_sheet,
 		extent.end.col = 256;
 	}
 
-	sheet_style_get_extent (gnum_sheet, &extent, esheet->col_style);
+	sheet_style_get_extent (sheet, &extent, esheet->col_style);
+
+	/* include collapsed or hidden rows */
+	for (i = maxrows ; i-- > extent.end.row ; )
+		if (!colrow_is_empty (sheet_row_get (sheet, i))) {
+			extent.end.row = i;
+			break;
+		}
+	/* include collapsed or hidden rows */
+	for (i = 256 ; i-- > extent.end.col ; )
+		if (!colrow_is_empty (sheet_col_get (sheet, i))) {
+			extent.end.col = i;
+			break;
+		}
 
 #warning dont lose cols/rows with attributes outside the useful region
-	esheet->gnum_sheet = gnum_sheet;
+	esheet->gnum_sheet = sheet;
 	esheet->streamPos  = 0x0deadbee;
 	esheet->ewb        = ewb;
 	/* makes it easier to refer to 1 past the end */
 	esheet->max_col    = extent.end.col + 1;
 	esheet->max_row    = extent.end.row + 1;
 	esheet->validations= biff8
-		? sheet_style_get_validation_list (gnum_sheet, NULL)
+		? sheet_style_get_validation_list (sheet, NULL)
 		: NULL;
 
 	/* It is ok to have formatting out of range, we can disregard that. */

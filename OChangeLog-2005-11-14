@@ -1,3 +1,7 @@
+2003-11-20  Jody Goldberg <jody@gnome.org>
+
+	* src/colrow.c (colrow_is_empty) : new.
+
 2003-11-19  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/print-info.c (print_info_new): don't read n_copies from
