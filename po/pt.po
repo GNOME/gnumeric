@@ -1,0 +1,170 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnumeric CVS\n"
+"POT-Creation-Date: 1998-07-25 14:00+0100\n"
+"PO-Revision-Date: 1998-07-25 14:04+01:00\n"
+"Last-Translator: Nuno Ferreira <nmrf@rnl.ist.utl.pt>\n"
+"Language-Team: Portuguese <pt@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/format.c:30
+msgid "Sun"
+msgstr "Dom"
+
+#: src/format.c:31
+msgid "Mon"
+msgstr "Seg"
+
+#: src/format.c:32
+msgid "Tue"
+msgstr "Ter"
+
+#: src/format.c:33
+msgid "Wed"
+msgstr "Qua"
+
+#: src/format.c:34
+msgid "Thu"
+msgstr "Qui"
+
+#: src/format.c:35
+msgid "Fri"
+msgstr "Sex"
+
+#: src/format.c:36
+msgid "Sat"
+msgstr "Sáb"
+
+#: src/format.c:41
+msgid "Sunday"
+msgstr "Domingo"
+
+#: src/format.c:42
+msgid "Monday"
+msgstr "Segunda"
+
+#: src/format.c:43
+msgid "Tuesday"
+msgstr "Terça"
+
+#: src/format.c:44
+msgid "Wednesday"
+msgstr "Quarta"
+
+#: src/format.c:45
+msgid "Thursday"
+msgstr "Quinta"
+
+#: src/format.c:46
+msgid "Friday"
+msgstr "Sexta"
+
+#: src/format.c:47
+msgid "Saturday"
+msgstr "Sábado"
+
+#: src/format.c:52
+msgid "Jan"
+msgstr "Jan"
+
+#: src/format.c:53
+msgid "Feb"
+msgstr "Fev"
+
+#: src/format.c:54
+msgid "Mar"
+msgstr "Mar"
+
+#: src/format.c:55
+msgid "Apr"
+msgstr "Abr"
+
+#: src/format.c:56 src/format.c:72
+msgid "May"
+msgstr "Mai"
+
+#: src/format.c:57
+msgid "Jun"
+msgstr "Jun"
+
+#: src/format.c:58
+msgid "Jul"
+msgstr "Jul"
+
+#: src/format.c:59
+msgid "Aug"
+msgstr "Ago"
+
+#: src/format.c:60
+msgid "Sep"
+msgstr "Set"
+
+#: src/format.c:61
+msgid "Oct"
+msgstr "Out"
+
+#: src/format.c:62
+msgid "Nov"
+msgstr "Nov"
+
+#: src/format.c:63
+msgid "Dec"
+msgstr "Dez"
+
+#: src/format.c:68
+msgid "January"
+msgstr "Janeiro"
+
+#: src/format.c:69
+msgid "Februrary"
+msgstr "Fevereiro"
+
+#: src/format.c:70
+msgid "March"
+msgstr "Março"
+
+#: src/format.c:71
+msgid "April"
+msgstr "Abril"
+
+#: src/format.c:73
+msgid "June"
+msgstr "Junho"
+
+#: src/format.c:74
+msgid "July"
+msgstr "Julho"
+
+#: src/format.c:75
+msgid "August"
+msgstr "Agosto"
+
+#: src/format.c:76
+msgid "September"
+msgstr "Setembro"
+
+#: src/format.c:77
+msgid "October"
+msgstr "Outubro"
+
+#: src/format.c:78
+msgid "November"
+msgstr "Novembro"
+
+#: src/format.c:79
+msgid "December"
+msgstr "Dezembro"
+
+#: src/workbook.c:20
+msgid "Exit"
+msgstr "Sair"
+
+#: src/workbook.c:26
+msgid "File"
+msgstr "Ficheiro"
