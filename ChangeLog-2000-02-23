@@ -1,5 +1,31 @@
 1998-08-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/sheet.c (sheet_cursor_set): New function.  Use this instead
+	of the view-specific routine (gnumeric_cursor_set).
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_can_move_cursor): ':' is a
+	valid separator for activating the cursor-cell selection mode.
+
+	* src/cell.c (cell_auto_align): New function.  This tries to
+	auto-align the cell contents depending on the value type. 
+
+	* src/dialog-cell-format.c (cell_properties_apply): Create a
+	single style that is attached to a region and let each property
+	page fill the structure in.
+	(apply_align_format): Implement.  No wonder it was not working
+	last night.
+	(apply_number_formats): Fill the passed Style structure only.
+	Remove obsolete code.
+
+	* src/sheet.c (sheet_cell_new): New cells are born with auto-style
+	flag turned on.
+
+	* src/clipboard.c (paste_cell): Render the cell after computation
+	is finished.  Clean up the usage of the cell manipulation;  make
+	auto-style work on pasted cells.
+
+	* src/str.c (string_ref): Return the value referenced.
+
 	* src/item-cursor.c (item_cursor_do_drop): New function:  Handles
 	the action from the cursor drag operation.
 

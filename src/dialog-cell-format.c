@@ -366,11 +366,9 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 }
 
 static void
-apply_number_formats (Sheet *sheet, CellList *list)
+apply_number_formats (Style *style, Sheet *sheet, CellList *list)
 {
 	char *str = gtk_entry_get_text (GTK_ENTRY (number_input));
-	Style *style;
-	GList *l;
 	
 	for (;list; list = list->next){
 		Cell *cell = list->data;
@@ -378,18 +376,8 @@ apply_number_formats (Sheet *sheet, CellList *list)
 		cell_set_format (cell, str);
 	}
 
-	style = style_new_empty ();
-	style->valid_flags = STYLE_FORMAT;
-
-	for (l = sheet->selections; l; l = l->next){
-		SheetSelection *ss = l->data;
-		
-		sheet_style_attach (
-			sheet,
-			ss->start_col, ss->start_row,
-			ss->end_col,   ss->end_row,
-			style);
-	}
+	style->valid_flags |= STYLE_FORMAT;
+	style->format = style_format_new (str);
 }
 
 typedef struct {
@@ -493,7 +481,7 @@ create_align_page (GtkWidget *prop_win, CellList *cells)
 		}
 	}
 
-	/* Now after we *potentially toggled the radio button above, we
+	/* Now after we *potentially* toggled the radio button above, we
 	 * connect the signals to activate the propertybox
 	 */
 	for (sl = hradio_list; sl; sl = sl->next){
@@ -512,14 +500,28 @@ create_align_page (GtkWidget *prop_win, CellList *cells)
 }
 
 static void
-apply_align_format (Sheet *sheet, CellList *cells)
+apply_align_format (Style *style, Sheet *sheet, CellList *cells)
 {
+	int i;
+	int halign, valign;
+
+	i = gtk_radio_group_get_selected (hradio_list);
+	halign = horizontal_aligns [i].flag;
+	i = gtk_radio_group_get_selected (vradio_list);
+	valign = vertical_aligns [i].flag;
+	
+	for (; cells; cells = cells->next){
+		Cell *cell = cells->data;
+		
+		cell_set_alignment (cell, halign, valign, ORIENT_HORIZ);
+	}
+	style->valid_flags |= STYLE_ALIGN;
 }
 
 static struct {
 	char      *title;
 	GtkWidget *(*create_page)(GtkWidget *prop_win, CellList *cells);
-	void      (*apply_page)(Sheet *sheet, CellList *cells);
+	void      (*apply_page)(Style *style, Sheet *sheet, CellList *cells);
 } cell_format_pages [] = {
 	{ N_("Number"),    create_number_format_page,  apply_number_formats },
 	{ N_("Alignment"), create_align_page,          apply_align_format   },
@@ -530,6 +532,8 @@ static void
 cell_properties_apply (GtkObject *w, int page, CellList *cells)
 {
 	Sheet *sheet;
+	Style *style;
+	GList *l;
 	int i;
 	
 	if (page != -1)
@@ -537,8 +541,23 @@ cell_properties_apply (GtkObject *w, int page, CellList *cells)
 
 	sheet = (Sheet *) gtk_object_get_data (w, "Sheet");
 
+	/* Now, let each property page apply their style */
+	style = style_new_empty ();
+	style->valid_flags = 0;
+	
 	for (i = 0; cell_format_pages [i].title; i++)
-		(*cell_format_pages [i].apply_page)(sheet, cells);
+		(*cell_format_pages [i].apply_page)(style, sheet, cells);
+
+	/* Attach this style to all of the selections */
+	for (l = sheet->selections; l; l = l->next){
+		SheetSelection *ss = l->data;
+		
+		sheet_style_attach (
+			sheet,
+			ss->start_col, ss->start_row,
+			ss->end_col,   ss->end_row,
+			style);
+	}
 }
 
 static void

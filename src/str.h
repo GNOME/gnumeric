@@ -10,7 +10,7 @@ void    string_init           (void);
 
 String *string_lookup         (char *s);
 String *string_get            (char *s);
-void    string_ref            (String *);
+String *string_ref            (String *);
 void    string_unref          (String *);
 void    string_unref_ptr      (String **);
 

@@ -45,12 +45,14 @@ string_get (char *s)
 	return string;
 }
 
-void
+String *
 string_ref (String *string)
 {
-	g_return_if_fail (string != NULL);
+	g_return_val_if_fail (string != NULL, NULL);
 
 	string->ref_count++;
+
+	return string;
 }
 
 void

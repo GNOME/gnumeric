@@ -35,15 +35,11 @@ cell_eval (Cell *cell)
 		value_release (cell->value);
 	
 	if (v == NULL){
-		cell->text = string_get (error_msg);
+		cell_set_rendered_text (cell, error_msg);
 		cell->value = NULL;
 	} else {
-		/* FIXME: Use the format stuff */
-		char *str = value_format (v, cell->style->format, NULL);
-		
 		cell->value = v;
-		cell->text  = string_get (str);
-		g_free (str);
+		cell_render_value (cell);
 	}
 
 	cell_calc_dimensions (cell);

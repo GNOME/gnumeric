@@ -179,7 +179,6 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	if (!cell)
 		return;
 
-	printf ("Drawing %d %d: ", col, row);
 	/* The offsets where we start drawing the text */
 	x_offset = y_offset = 0;
 

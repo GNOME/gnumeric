@@ -106,6 +106,7 @@ void        sheet_get_cell_bounds      	 (Sheet *sheet,
 					  ColType col, RowType row, 
 				       	  int *x, int *y,
 				       	  int *w, int *h);
+void        sheet_cursor_set             (Sheet *sheet, int col, int row);
 
 /* Selection management */
 void        sheet_select_all             (Sheet *sheet);

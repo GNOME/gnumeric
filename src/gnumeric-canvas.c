@@ -71,6 +71,7 @@ gnumeric_sheet_set_current_value (GnumericSheet *gsheet)
 	col = gsheet->cursor_col;
 	row = gsheet->cursor_row;
 	cell = sheet_cell_get (gsheet->sheet, col, row);
+	
 	if (!cell)
 		cell = sheet_cell_new (gsheet->sheet, gsheet->cursor_col, gsheet->cursor_row);
 	
@@ -300,6 +301,7 @@ gnumeric_sheet_can_move_cursor (GnumericSheet *gsheet)
 	switch (entry->text [cursor_pos-1]){
 	case '=': case '-': case '*': case '/': case '^': 
 	case '+': case '&': case '(': case '%': case '!':
+	case ':':
 		return TRUE;
 	}
 	

@@ -125,7 +125,7 @@ sheet_col_selection_changed (ItemBar *item_bar, int column, int reset, Sheet *sh
 	ci = sheet_col_get (sheet, column);
 	
 	if (reset){
-		gnumeric_sheet_cursor_set (GNUMERIC_SHEET (sheet->sheet_view), column, 0);
+		sheet_cursor_set (sheet, column, 0);
 		sheet_selection_clear (sheet);
 		sheet_selection_append_range (sheet,
 					      column, 0,
@@ -151,7 +151,7 @@ sheet_row_selection_changed (ItemBar *item_bar, int row, int reset, Sheet *sheet
 	ri = sheet_row_get (sheet, row);
 
 	if (reset){
-		gnumeric_sheet_cursor_set (GNUMERIC_SHEET (sheet->sheet_view), 0, row);
+		sheet_cursor_set (sheet, 0, row);
 		sheet_selection_clear (sheet);
 		sheet_selection_append_range (sheet,
 					      0, row,
@@ -868,7 +868,7 @@ sheet_select_all (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet_selection_clear_only (sheet);
-	gnumeric_sheet_cursor_set (GNUMERIC_SHEET (sheet->sheet_view), 0, 0);
+	sheet_cursor_set (sheet, 0, 0);
 	sheet_selection_append_range (sheet, 0, 0, 0, 0,
 		SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 
@@ -1540,7 +1540,7 @@ sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 	cell->col   = sheet_col_get (sheet, col);
 	cell->row   = sheet_row_get (sheet, row);
 	cell->style = sheet_style_compute (sheet, col, row);
-
+		
 	cell->width = cell->col->margin_a + cell->col->margin_b;
 	
 	cellref = g_new0 (CellPos, 1);
@@ -1561,6 +1561,8 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL); 
 
 	cell = g_new0 (Cell, 1);
+	cell->flags |= 	CELL_DEFAULT_STYLE;
+
 	sheet_cell_add (sheet, cell, col, row);
 	return cell;
 }
@@ -1698,6 +1700,7 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 		return;
 	
 	clipboard_paste_region (content, sheet, dest_col, dest_row, paste_flags);
+	sheet_cursor_set (sheet, dest_col, dest_row);
 }
 
 
@@ -1713,3 +1716,11 @@ sheet_style_attach (Sheet *sheet, int start_col, int start_row, int end_col, int
 	printf ("WARNING: sheet_style_attach not implemeneted yet\n");
 }
 
+void
+sheet_cursor_set (Sheet *sheet, int col, int row)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	gnumeric_sheet_cursor_set (GNUMERIC_SHEET (sheet->sheet_view), col, row);
+}

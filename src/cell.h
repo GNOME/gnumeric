@@ -25,7 +25,15 @@ typedef struct {
 } ColRowInfo;
 
 typedef enum {
-	CELL_COLOR_IS_SET
+	CELL_COLOR_IS_SET  = 1,
+
+	/* If this flag is set we are free to change the style of a cell
+	 * automatically depending on the type of data entered (strings
+	 * get left alignment, numbers right alignment, etc).
+	 *
+	 * If it is not set, then we can do this.
+	 */
+	CELL_DEFAULT_STYLE = 2, 
 } CellFlags;
 
 typedef struct {

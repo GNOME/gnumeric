@@ -68,7 +68,7 @@ static int
 paste_cell (Sheet *dest_sheet, Cell *new_cell, int target_col, int target_row, int paste_flags)
 {
 	sheet_cell_add (dest_sheet, new_cell, target_col, target_row);
-
+	
 	if (!(paste_flags & PASTE_FORMULAS)){
 		if (new_cell->parsed_node){
 			expr_tree_unref (new_cell->parsed_node);
@@ -97,16 +97,14 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell, int target_col, int target_row, i
 			new_cell->parsed_node = NULL;
 		}
 	}
+
+	cell_render_value (new_cell);
 	
 	if (!(paste_flags & PASTE_FORMULAS)){
-		char *rendered;
-		
-		rendered = value_string (new_cell->value);
 		string_unref (new_cell->entered_text);
-		new_cell->entered_text = string_get (rendered);
-		g_free (rendered);
+		new_cell->entered_text = string_ref (new_cell->text);
 	}
-	
+
 	sheet_redraw_cell_region (dest_sheet,
 				  target_col, target_row,
 				  target_col, target_row);

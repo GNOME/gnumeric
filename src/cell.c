@@ -34,6 +34,77 @@ cell_set_formula (Cell *cell, char *text)
 	cell_formula_changed (cell);
 }
 
+/*
+ * cell_set_alignment:
+ *
+ * @cell: the cell to change the alignment of
+ * @halign: the horizontal alignemnt
+ * @valign: the vertical alignemnt
+ * @orient: the text orientation
+ *
+ * This routine changes the alignment of a cell to those specified.
+ */
+void
+cell_set_alignment (Cell *cell, int halign, int valign, int orient)
+{
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (cell->style != NULL);
+
+	cell->flags &= ~CELL_DEFAULT_STYLE;
+
+	if ((cell->style->halign == halign) &&
+	    (cell->style->halign == valign) &&
+	    (cell->style->orientation == orient))
+		return;
+
+	cell->style->halign = halign;
+	cell->style->valign = valign;
+	cell->style->orientation = orient;
+
+	cell_queue_redraw (cell);
+}
+
+/*
+ * cell_auto_align:
+ * @cell:  The cell to configure the alignment to
+ *
+ * This routine sets the alignemnt of a cell depending on the data
+ * represented in the cell.  This routine does nothing if a style
+ * has been explicitly set
+ */
+static void
+cell_auto_align (Cell *cell)
+{
+	int align;
+
+	if (!(cell->flags & CELL_DEFAULT_STYLE))
+		return;
+	
+	if (!cell->value)
+		align = HALIGN_LEFT;
+	else 
+		switch (cell->value->type){
+		case VALUE_STRING:
+			align = HALIGN_LEFT;
+			break;
+		case VALUE_INTEGER:
+		case VALUE_FLOAT:
+			align = HALIGN_RIGHT;
+			break;
+		default:
+			return;
+		}
+
+	cell->style->halign = align;
+	cell_queue_redraw (cell);
+}
+
+/*
+ * cell_calc_dimensions
+ * @cell:  The cell
+ *
+ * This routine updates the dimensions of the the rendered text of a cell
+ */
 void
 cell_calc_dimensions (Cell *cell)
 {
@@ -51,6 +122,14 @@ cell_calc_dimensions (Cell *cell)
 	cell->height = font->ascent + font->descent;
 }
 
+/*
+ * cell_set_rendered_text
+ * @cell:          the cell we will modify
+ * @rendered_text: the text we will display
+ *
+ * This routine sets the rendered text field of the cell
+ * it recomputes the bounding box for the cell as well
+ */
 void
 cell_set_rendered_text (Cell *cell, char *rendered_text)
 {
@@ -64,6 +143,12 @@ cell_set_rendered_text (Cell *cell, char *rendered_text)
 	cell_calc_dimensions (cell);
 }
 
+/*
+ * cell_render_value
+ * @cell: The cell whose value needs to be rendered
+ *
+ * The value of the cell is formated according to the format style
+ */
 void
 cell_render_value (Cell *cell)
 {
@@ -72,6 +157,7 @@ cell_render_value (Cell *cell)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->value != NULL);
 
+	cell_auto_align (cell);
 	str = value_format (cell->value, cell->style->format, NULL);
 	cell_set_rendered_text (cell, str);
 	g_free (str);
@@ -99,7 +185,7 @@ cell_set_text (Cell *cell, char *text)
 		cell->parsed_node = NULL;
 	}
 	
-	if (text [0] == '='){
+ 	if (text [0] == '='){
 		cell_set_formula (cell, text); 
 	} else {
 		Value *v = g_new (Value, 1);
@@ -146,10 +232,6 @@ cell_set_text (Cell *cell, char *text)
 				      cell->row->pos);
 	if (deps)
 		cell_queue_recalc_list (deps);
-
-	
-	/* Finish setting the values for this cell */
-	cell->flags = 0;
 }
 
 /*
@@ -222,20 +304,3 @@ cell_set_format (Cell *cell, char *format)
 	cell_queue_redraw (cell);
 }
 
-void
-cell_set_alignment (Cell *cell, int halign, int valign, int orient)
-{
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->style != NULL);
-	
-	if ((cell->style->halign == halign) &&
-	    (cell->style->halign == valign) &&
-	    (cell->style->orientation == orient))
-		return;
-
-	cell->style->halign = halign;
-	cell->style->valign = valign;
-	cell->style->orientation = orient;
-
-	cell_queue_redraw (cell);
-}
