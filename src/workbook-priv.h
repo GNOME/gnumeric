@@ -78,10 +78,9 @@ char       *workbook_sheet_get_free_name (Workbook *wb,
 					  const char *base,
 					  gboolean always_suffix,
 					  gboolean handle_counter);
-gboolean    workbook_sheet_rename        (WorkbookControl *,
-					  Workbook *wb,
-					  const char *old_name,
-					  const char *new_name);
+gboolean    workbook_sheet_reorganize    (WorkbookControl *wbc,
+					  GSList *changed_names, GSList *new_order,  
+					  GSList *new_names,  GSList *old_names);
 
 /* IO Routines */
 gboolean       workbook_set_filename   (Workbook *wb, const gchar *);

@@ -1,3 +1,10 @@
+2002-03-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-sheet-name.c (cb_sheet_name_ok_clicked ) : change the 
+	  invocation of cmd_rename_sheet
+	* dialog-sheet-order.c : implement sheet renaming and check whether
+	  any changes are pending before submitting a command.
+	
 2002-03-02  Jody Goldberg <jody@gnome.org>
 
 	* dialog-formula-guru.c (cb_formula_guru_rolled_entry_changed) : Use
@@ -40,8 +47,9 @@
 
 2002-02-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-tabulate.c (ok_clicked) : lots of changes to use the new expr entry
-	  widget, renamed to (tabulate_ok_clicked)
+	* dialog-tabulate.c (ok_clicked) : lots of changes 
+	  to use the new expr entry widget, renamed to 
+	  (tabulate_ok_clicked)
 	(get_table_expr_entry) : new
 	(get_table_entry) : deleted
 	(get_table_float_entry) : new

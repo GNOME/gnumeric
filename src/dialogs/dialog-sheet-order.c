@@ -39,9 +39,34 @@ typedef struct {
 
 enum {
 	SHEET_NAME,
+	SHEET_NEW_NAME,
 	SHEET_POINTER,
+	IS_EDITABLE_COLUMN,
 	NUM_COLMNS
 };
+
+static void
+edited (GtkCellRendererText *cell,
+	gchar               *path_string,
+	gchar               *new_text,
+        SheetManager        *state)
+{
+  GtkTreeIter iter;
+  GtkTreePath *path;
+
+/* FIXME: is this the appropriate test for an utf8 string? */
+  if (strlen (new_text) > 0) {
+	  path = gtk_tree_path_new_from_string (path_string);
+	  
+	  gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), &iter, path);
+	  gtk_list_store_set (state->model, &iter, SHEET_NEW_NAME, new_text, -1);
+	  
+	  gtk_tree_path_free (path);
+  } else 
+	  gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
+			   _("A sheet name must have at least 1 character."));
+
+}
 
 static gint
 location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
@@ -122,9 +147,10 @@ populate_sheet_list (SheetManager *state)
 	GtkWidget *scrolled = glade_xml_get_widget (state->gui, "scrolled");
 	Sheet *cur_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg));
 	int i, n = workbook_sheet_count (state->wb);
+	GtkCellRenderer *renderer;
 
 	state->model = gtk_list_store_new (NUM_COLMNS,
-		G_TYPE_STRING, G_TYPE_POINTER);
+		G_TYPE_STRING, 	G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN);
 	state->sheet_list = GTK_TREE_VIEW (gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));
 	selection = gtk_tree_view_get_selection (state->sheet_list);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
@@ -133,9 +159,11 @@ populate_sheet_list (SheetManager *state)
 		Sheet *sheet = workbook_sheet_by_index (state->wb, i);
 		gtk_list_store_append (state->model, &iter);
 		gtk_list_store_set (state->model, &iter,
-			  SHEET_NAME, sheet->name_unquoted,
-			  SHEET_POINTER, sheet,
-			  -1);
+				    SHEET_NAME, sheet->name_unquoted,
+				    SHEET_NEW_NAME, sheet->name_unquoted,
+				    SHEET_POINTER, sheet,
+				    IS_EDITABLE_COLUMN,	TRUE,   
+				    -1);
 		if (sheet == cur_sheet)
 			gtk_tree_selection_select_iter (selection, &iter);
 		state->old_order = g_slist_prepend (state->old_order, sheet);
@@ -143,12 +171,20 @@ populate_sheet_list (SheetManager *state)
 
 	state->old_order = g_slist_reverse (state->old_order);
 
-	column = gtk_tree_view_column_new_with_attributes ("Sheets",
+	column = gtk_tree_view_column_new_with_attributes (_("Current Name"),
 			gtk_cell_renderer_text_new (),
 			"text", SHEET_NAME, NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (_("New Name"),
+							   renderer,
+							   "text", SHEET_NEW_NAME, 
+							   "editable", IS_EDITABLE_COLUMN,
+							   NULL);
+	gtk_tree_view_append_column (state->sheet_list, column);
+	g_signal_connect (G_OBJECT (renderer), "edited",
+			  G_CALLBACK (edited), state);
 	gtk_tree_view_set_reorderable (state->sheet_list, TRUE);
-	gtk_tree_view_set_headers_visible (state->sheet_list, FALSE);
 
 	/* Init the buttons & selection */
 	cb_selection_changed (NULL, state);
@@ -166,6 +202,7 @@ static void
 move_cb (SheetManager *state, gint direction)
 {
 	char* name;
+	char* new_name;
 	Sheet * sheet;
 	GtkTreeIter iter;
 	gint row;
@@ -176,6 +213,7 @@ move_cb (SheetManager *state, gint direction)
 
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
 			    SHEET_NAME, &name,
+			    SHEET_NEW_NAME, &new_name,
 			    SHEET_POINTER, &sheet,
 			    -1);
 	row = location_of_iter (&iter, state->model);
@@ -185,10 +223,13 @@ move_cb (SheetManager *state, gint direction)
 	gtk_list_store_insert (state->model, &iter, row + direction);
 	gtk_list_store_set (state->model, &iter,
 			    SHEET_NAME, name,
+			    SHEET_NEW_NAME, new_name,
+			    IS_EDITABLE_COLUMN, TRUE,
 			    SHEET_POINTER, sheet,
 			    -1);
 	gtk_tree_selection_select_iter (selection, &iter);
 	g_free (name);
+	g_free (new_name);
 
 	wb_view_sheet_focus (
 		wb_control_view (WORKBOOK_CONTROL (state->wbcg)),
@@ -211,28 +252,63 @@ static void
 cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 {
 	GSList *new_order = NULL;
+	GSList *changed_names = NULL;
+	GSList *new_names = NULL;
 	Sheet *this_sheet;
+	char *old_name, *new_name;
 	GtkTreeIter this_iter;
 	gint n = 0;
-	
+	GSList *this_new, *this_old;
+	gboolean order_has_changed = FALSE;
+
 	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
 					       &this_iter, NULL, n)) {
-		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &this_iter, SHEET_POINTER,
-				    &this_sheet, -1);
+		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &this_iter, 
+				    SHEET_POINTER, &this_sheet, 
+				    SHEET_NAME, &old_name,
+				    SHEET_NEW_NAME, &new_name,
+				    -1);
+
 		new_order = g_slist_prepend (new_order, this_sheet);
+
+		if (0 != g_str_compare (old_name, new_name)) {
+			changed_names = g_slist_prepend (changed_names, this_sheet);
+			new_names = g_slist_prepend (new_names, new_name);
+		} else {
+			g_free (new_name);
+		}
+		g_free (old_name);
 		n++;
 	}
 
 	new_order = g_slist_reverse (new_order);
 
-/* FIXME we shouldn't bother invoking cmd_reorganize_sheets unless there are changes */
+	this_new = new_order;
+	this_old = state->old_order;
+	while (this_new != NULL && this_old != NULL) {
+		if (this_new->data != this_old->data) {
+			order_has_changed = TRUE;
+			break;
+		}
+		this_new = this_new->next;
+		this_old = this_old->next;
+	}
 
-	if (!cmd_reorganize_sheets (WORKBOOK_CONTROL (state->wbcg), state->old_order,
-				   new_order, NULL, NULL)) {
-		state->old_order = NULL;
-		gtk_widget_destroy (GTK_WIDGET (state->dialog));
-	} else 
+	if (!order_has_changed) {
 		g_slist_free (new_order);
+		new_order = NULL;
+	}
+
+	if (new_order == NULL && changed_names == NULL) {
+		gtk_widget_destroy (GTK_WIDGET (state->dialog));
+		return;
+	} 
+
+	if (!cmd_reorganize_sheets (WORKBOOK_CONTROL (state->wbcg), 
+				    (new_order == NULL) ? NULL : g_slist_copy (state->old_order),
+				    new_order, changed_names, new_names)) {
+		gtk_widget_destroy (GTK_WIDGET (state->dialog));
+	} 
 }
 
 static void

@@ -1528,79 +1528,6 @@ cmd_format (WorkbookControl *wbc, Sheet *sheet,
 
 /******************************************************************/
 
-#define CMD_RENAME_SHEET_TYPE        (cmd_rename_sheet_get_type ())
-#define CMD_RENAME_SHEET(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_RENAME_SHEET_TYPE, CmdRenameSheet))
-
-typedef struct
-{
-	GnumericCommand parent;
-
-	Workbook *wb;
-	char *old_name, *new_name;
-} CmdRenameSheet;
-
-GNUMERIC_MAKE_COMMAND (CmdRenameSheet, cmd_rename_sheet);
-
-static gboolean
-cmd_rename_sheet_undo (GnumericCommand *cmd, WorkbookControl *wbc)
-{
-	CmdRenameSheet *me = CMD_RENAME_SHEET (cmd);
-
-	g_return_val_if_fail (me != NULL, TRUE);
-
-	return workbook_sheet_rename (wbc, me->wb,
-				      me->new_name, me->old_name);
-}
-
-static gboolean
-cmd_rename_sheet_redo (GnumericCommand *cmd, WorkbookControl *wbc)
-{
-	CmdRenameSheet *me = CMD_RENAME_SHEET (cmd);
-
-	g_return_val_if_fail (me != NULL, TRUE);
-
-	return workbook_sheet_rename (wbc, me->wb,
-				      me->old_name, me->new_name);
-}
-static void
-cmd_rename_sheet_finalize (GObject *cmd)
-{
-	CmdRenameSheet *me = CMD_RENAME_SHEET (cmd);
-
-	me->wb = NULL;
-	g_free (me->old_name);
-	g_free (me->new_name);
-	gnumeric_command_finalize (cmd);
-}
-
-gboolean
-cmd_rename_sheet (WorkbookControl *wbc, const char *old_name, const char *new_name)
-{
-	GObject *obj;
-	CmdRenameSheet *me;
-	Workbook *wb = wb_control_workbook (wbc);
-
-	g_return_val_if_fail (wb != NULL, TRUE);
-
-	obj = g_object_new (CMD_RENAME_SHEET_TYPE, NULL);
-	me = CMD_RENAME_SHEET (obj);
-
-	/* Store the specs for the object */
-	me->wb = wb;
-	me->old_name = g_strdup (old_name);
-	me->new_name = g_strdup (new_name);
-
-	me->parent.sheet = NULL;
-	me->parent.size = 1;
-	me->parent.cmd_descriptor =
-	    g_strdup_printf (_("Rename sheet '%s' '%s'"), old_name, new_name);
-
-	/* Register the command object */
-	return command_push_undo (wbc, obj);
-}
-
-/******************************************************************/
-
 #define CMD_RESIZE_COLROW_TYPE        (cmd_resize_colrow_get_type ())
 #define CMD_RESIZE_COLROW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_RESIZE_COLROW_TYPE, CmdResizeColRow))
 
@@ -4016,37 +3943,15 @@ typedef struct
 	GnumericCommand parent;
 
 	Workbook *wb;
-	GSList      *old_order;
+	WorkbookControl *wbc;
 	GSList      *new_order;
-	GSList      *old_names;
+	GSList      *old_order;
+	GSList      *changed_names;
 	GSList      *new_names;
+	GSList      *old_names;
 } CmdReorganizeSheets;
 
 GNUMERIC_MAKE_COMMAND (CmdReorganizeSheets, cmd_reorganize_sheets);
-
-static gboolean
-cmd_reorganize_sheets_apply (GSList *new_order,  GSList *new_names)
-{
-	GSList *this = new_order;
-	gint old_pos, new_pos = 0;
-	while (this) {
-		Sheet *sheet = this->data;
-		Workbook *wb = sheet->workbook;
-		old_pos = workbook_sheet_index_get (wb, sheet);
-		if (new_pos != old_pos) {
-			g_ptr_array_remove_index (wb->sheets, old_pos);
-			g_ptr_array_insert (wb->sheets, sheet, new_pos);
-			WORKBOOK_FOREACH_CONTROL (wb, view, control,
-						  wb_control_sheet_move (control, 
-									 sheet, new_pos););
-			sheet_set_dirty (sheet, TRUE);
-		}
-		new_pos++;
-		this = this->next;
-	}
-	return FALSE;
-}
-
 
 static gboolean
 cmd_reorganize_sheets_undo (GnumericCommand *cmd, WorkbookControl *wbc)
@@ -4055,7 +3960,8 @@ cmd_reorganize_sheets_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	return cmd_reorganize_sheets_apply (me->old_order,  me->old_names);
+	return workbook_sheet_reorganize (me->wbc, me->changed_names, me->old_order,  
+					  me->old_names, me->new_names);
 }
 
 static gboolean
@@ -4065,7 +3971,8 @@ cmd_reorganize_sheets_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	return cmd_reorganize_sheets_apply (me->new_order, me->new_names);
+	return workbook_sheet_reorganize (me->wbc, me->changed_names, me->new_order, 
+					  me->new_names, me->old_names);
 }
 
 static void
@@ -4074,10 +3981,13 @@ cmd_reorganize_sheets_finalize (GObject *cmd)
 	CmdReorganizeSheets *me = CMD_REORGANIZE_SHEETS (cmd);
 
 	g_slist_free (me->old_order);
-	me->old_order = NULL;
+	me->new_order = NULL;
 
 	g_slist_free (me->new_order);
 	me->new_order = NULL;
+
+	g_slist_free (me->changed_names);
+	me->changed_names = NULL;
 
 	e_free_string_slist (me->old_names);
 	me->old_names = NULL;
@@ -4090,21 +4000,32 @@ cmd_reorganize_sheets_finalize (GObject *cmd)
 
 gboolean
 cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_order, 
-		       GSList *old_names, GSList *new_names)
+		       GSList *changed_names, GSList *new_names)
 {
 	GObject *obj;
 	CmdReorganizeSheets *me;
 	Workbook *wb = wb_control_workbook (wbc);
-
+	GSList *the_names;
+	
 	obj = g_object_new (CMD_REORGANIZE_SHEETS_TYPE, NULL);
 	me = CMD_REORGANIZE_SHEETS (obj);
 
 	/* Store the specs for the object */
 	me->wb = wb;
-	me->old_order = old_order;
+	me->wbc = wbc;
 	me->new_order = new_order;
-	me->old_names = old_names;
+	me->old_order = old_order;
+	me->changed_names = changed_names;
 	me->new_names = new_names;
+
+	me->old_names = NULL;
+	the_names = changed_names;
+	while (the_names) {
+		Sheet *sheet = the_names->data;
+		me->old_names = g_slist_prepend (me->old_names, g_strdup (sheet->name_unquoted));
+		the_names = the_names->next;
+	}
+	me->old_names = g_slist_reverse (me->old_names);
 
 	me->parent.sheet = NULL;
 	me->parent.size = 1;
@@ -4113,8 +4034,8 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 			me->parent.cmd_descriptor = g_strdup ("Nothing to do?");
 		else if (new_names->next == NULL)
 			me->parent.cmd_descriptor = g_strdup_printf (_("Rename sheet '%s' '%s'"), 
-								     (const char *)old_names->data,
-								     (const char *)new_names->data);
+					      ((Sheet *)changed_names->data)->name_unquoted,
+					      (const char *)new_names->data);
 		else
 			me->parent.cmd_descriptor = g_strdup (_("Renaming Sheets"));		
 	} else {
@@ -4127,6 +4048,32 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
+}
+
+/* Note:  cmd_rename_sheet does not free old_name or new_name */
+/*        one of sheet and old_name may be NULL               */
+gboolean 
+cmd_rename_sheet (WorkbookControl *wbc, Sheet *sheet, char const *old_name, char const *new_name)
+{
+       
+	Workbook *wb = wb_control_workbook (wbc);
+	GSList *changed_names = NULL;
+	GSList *new_names = NULL;
+
+	g_return_val_if_fail (new_name != NULL, TRUE);
+	g_return_val_if_fail (sheet != NULL || old_name != NULL, TRUE);
+	
+	if (sheet == NULL) {
+		sheet = (Sheet *) g_hash_table_lookup (wb->sheet_hash_private, 
+						       old_name);
+	}
+
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	changed_names = g_slist_prepend (changed_names, sheet);
+	new_names = g_slist_prepend (new_names, g_strdup (new_name));
+
+	return cmd_reorganize_sheets (wbc, NULL, NULL, changed_names, new_names);
 }
 
 /******************************************************************/

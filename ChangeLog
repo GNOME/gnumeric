@@ -1,3 +1,17 @@
+2002-03-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/commands.c (cmd_rename_sheet,...) : now a wrapper around 
+	  cmd_reorganize_sheets.
+	(cmd_reorganize_sheets_apply) : moved into workbook.c as
+	  workbook_sheet_reorganize
+	(cmd_reorganize_sheets,...) : implement sheet renaming
+	* src/commands.h : add an argument to cmd_rename_sheet
+	* src/workbook-control-gui.c (cb_sheet_label_changed) : 
+	  change invocation of cmd_rename_sheet
+	* src/workbook.c (workbook_sheet_rename) replaced by
+	  workbook_sheet_reorganize
+	* src/workbook.h: ditto
+
 2002-03-02  Jody Goldberg <jody@gnome.org>
 
 	* src/eval.c (handle_tree_deps) : Use hooks for per dependent

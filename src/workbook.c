@@ -1158,61 +1158,103 @@ workbook_sheet_get_free_name (Workbook *wb,
 	return name;
 }
 
-/**
- * workbook_sheet_rename:
- * @wb:       the workbook where the sheet is
- * @old_name: the name of the sheet we want to rename
- * @new_name: new name we want to assing to the sheet.
- *
- * Returns TRUE if there was a problem changing the name
- * return FALSE otherwise.
- */
 gboolean
-workbook_sheet_rename (WorkbookControl *wbc,
-		       Workbook *wb,
-		       const char *old_name,
-		       const char *new_name)
+workbook_sheet_reorganize (WorkbookControl *wbc, 
+			   GSList *changed_names, GSList *new_order,  
+			   GSList *new_names,  GSList *old_names)
 {
-	Sheet *tmp, *sheet;
+	GSList *this = new_order;
+	gint old_pos, new_pos = 0;
+	GSList *the_names;
+	GSList *the_sheets;
+	Workbook *wb = wb_control_workbook (wbc);
 
-	g_return_val_if_fail (wb != NULL, TRUE);
-	g_return_val_if_fail (old_name != NULL, TRUE);
-	g_return_val_if_fail (new_name != NULL, TRUE);
+/* We need to verify validity of the new names */
+	the_names = new_names;
+	the_sheets = changed_names;
+	while (the_names) {
+		Sheet *tmp;
+		Sheet *sheet = the_sheets->data;
+		char *new_name = the_names->data;
 
-	/* Did the name change? */
-	if (strcmp (old_name, new_name) == 0)
-		return TRUE;
+		g_return_val_if_fail (the_sheets != NULL, TRUE);
 
-	if (strlen (new_name) < 1) {
-		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Sheet name"),
-					_("must have at least 1 letter"));
-		return TRUE;
+		/* Is the sheet name to short ?*/
+		if (1 > strlen (new_name)) {
+			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), 
+						_("Sheet name must have at least 1 letter"),
+						new_name);
+			return TRUE;
+		}
+
+		/* Is the sheet name already in use ?*/
+		tmp = (Sheet *) g_hash_table_lookup (sheet->workbook->sheet_hash_private, 
+						     new_name);
+		
+		if (tmp != NULL) {
+			/* Perhaps it is a sheet also to be renamed */
+			GSList *tmp_sheets = g_slist_find (changed_names, tmp);
+			if (NULL == tmp_sheets) {
+				gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
+							_("There is already a sheet named"),
+							new_name);
+				return TRUE;
+			}
+		}
+
+		/* Will we try to use the same name a second time ?*/
+		if (the_names->next != NULL && 
+		    g_slist_find_custom (the_names->next, new_name, g_str_compare) != NULL) {
+				gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
+							_("You may not use this name twice"),
+							new_name);
+				return TRUE;			
+		}
+		the_names = the_names->next;
+		the_sheets = the_sheets->next;
+	}
+/* Names are indeed valid */
+
+	the_names = old_names;
+	while (the_names) {
+		g_hash_table_remove (wb->sheet_hash_private, the_names->data);
+		the_names = the_names->next;
 	}
 
-	sheet = (Sheet *) g_hash_table_lookup (wb->sheet_hash_private,
-					       old_name);
+	the_names = new_names;
+	the_sheets = changed_names;
+	while (the_names) {
+		Sheet *sheet = the_sheets->data;
 
-	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-
-	/* Do not let two sheets in the workbook have the same name */
-	tmp = (Sheet *) g_hash_table_lookup (wb->sheet_hash_private, new_name);
-	if (tmp != NULL && tmp != sheet) {
-		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
-					_("There is already a sheet named"),
-					new_name);
-		return TRUE;
-	}
-
-	g_hash_table_remove (wb->sheet_hash_private, old_name);
-	sheet_rename (sheet, new_name);
-	g_hash_table_insert (wb->sheet_hash_private,
+		sheet_rename (sheet, the_names->data);
+		g_hash_table_insert (wb->sheet_hash_private,
 			     sheet->name_unquoted, sheet);
 
-	sheet_set_dirty (sheet, TRUE);
+		sheet_set_dirty (sheet, TRUE);
 
-	WORKBOOK_FOREACH_CONTROL (wb, view, control,
-		wb_control_sheet_rename	(control, sheet););
+		WORKBOOK_FOREACH_CONTROL (wb, view, control,
+					  wb_control_sheet_rename (control, sheet););
 
+		the_names = the_names->next;
+		the_sheets = the_sheets->next;
+	}
+	
+
+	while (this) {
+		Sheet *sheet = this->data;
+		Workbook *this_wb = sheet->workbook;
+		old_pos = workbook_sheet_index_get (this_wb, sheet);
+		if (new_pos != old_pos) {
+			g_ptr_array_remove_index (this_wb->sheets, old_pos);
+			g_ptr_array_insert (this_wb->sheets, sheet, new_pos);
+			WORKBOOK_FOREACH_CONTROL (this_wb, view, control,
+						  wb_control_sheet_move (control, 
+									 sheet, new_pos););
+			sheet_set_dirty (sheet, TRUE);
+		}
+		new_pos++;
+		this = this->next;
+	}
 	return FALSE;
 }
 

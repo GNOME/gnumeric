@@ -84,8 +84,9 @@ gboolean cmd_object_move	(WorkbookControl *wbc, SheetObject *so,
 				 SheetObjectAnchor const *old_anchor,
 				 gboolean resize);
 
-gboolean cmd_rename_sheet (WorkbookControl *wbc, const char *old_name, const char *new_name);
 gboolean cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_order, 
-				GSList *old_names, GSList *new_names);
+				GSList *changed_names, GSList *new_names);
+gboolean cmd_rename_sheet      (WorkbookControl *wbc, Sheet *sheet, 
+				char const *old_name, char const *new_name);
 
 #endif /* GNUMERIC_COMMANDS_H */

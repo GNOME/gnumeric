@@ -38,6 +38,7 @@
 
 typedef struct {
 	WorkbookControlGUI *wbcg;
+	Sheet              *sheet;
 	GtkWidget          *dialog;
 	GtkWidget          *entry;
 	GtkWidget          *ok_button;
@@ -76,11 +77,10 @@ static void
 cb_sheet_name_ok_clicked (GtkWidget *button, SheetNameChangeState *state)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
 	char const *new_name;
 
 	new_name = gtk_entry_get_text (GTK_ENTRY (state->entry));
-	cmd_rename_sheet (wbc, sheet->name_unquoted, new_name);
+	cmd_rename_sheet (wbc, state->sheet, NULL, new_name);
 	gtk_widget_destroy (state->dialog);
 	return;
 }
@@ -106,6 +106,7 @@ dialog_sheet_name (WorkbookControlGUI *wbcg)
 
 	state = g_new (SheetNameChangeState, 1);
 	state->wbcg  = wbcg;
+	state->sheet = sheet;
 
 	state->gui = gnumeric_glade_xml_new (wbcg, "sheet-rename.glade");
 	g_return_if_fail (state->gui != NULL);

@@ -374,7 +374,7 @@ static gboolean
 cb_sheet_label_changed (EditableLabel *el,
 			const char *new_name, WorkbookControlGUI *wbcg)
 {
-	gboolean ans = !cmd_rename_sheet (WORKBOOK_CONTROL (wbcg),
+	gboolean ans = !cmd_rename_sheet (WORKBOOK_CONTROL (wbcg), NULL,
 		editable_label_get_text (el), new_name);
 	wbcg_focus_cur_scg (wbcg);
 	return ans;
