@@ -30,7 +30,7 @@ use Getopt::Long;
 
 #---------------------------
 
-my $VERSION     = "0.7";
+my $VERSION     = "0.7.1";
 
 #---------------------------
 
@@ -206,7 +206,14 @@ sub Convert($) {
         my $translate = "label|title|text|format|copyright|comments|preview_text|tooltip";
 
         while ($input =~ /<($translate)>(..[^<]*)<\/($translate)>/sg) {
+
+	    # Glade has some bugs, especially it uses translations tags to contain little
+	    # non-translatable content. We work around this, by not including these
+            # strings that only includes something like: label4, and window1
+            if ($2 =~ /^(window|label)[0-9]$/g) {
+            } else {
                 $string{$2} = [];
+            }
         }}
     }
 
