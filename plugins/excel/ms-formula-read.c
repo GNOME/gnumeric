@@ -1121,11 +1121,23 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			guint16 w     = MS_OLE_GET_GUINT16(cur+1) ;
 			ptg_length = 3 ;
 			if (grbit == 0x00) {
+				static gboolean warned_a = FALSE;
+				static gboolean warned_3 = FALSE;
+				if (w == 0xa) {
+					if (warned_a)
+						break;
+					warned_a = TRUE;
+				} else if (w == 3) {
+					if (warned_3)
+						break;
+					warned_3 = TRUE;
+				} /* else always warn */
+
 				ms_excel_dump_cellname (sheet, fn_col, fn_row);
 				printf ("Hmm, ptgAttr of type 0 ??\n"
-					"This appears to indicate a 1x1 array formula, what do the flags mean.\n"
-					"I have seen flags of 0x3, and 0xA.  What values does this one have ?\n"
-					"flags = 0x%X\n", w);
+					"I've seen a case where an instance of this with flag A and another with flag 3\n"
+					"bracket a 1x1 array formula.  please send us this file.\n"
+					"Flags = 0x%X\n", w);
 			} else if (grbit & 0x01) {
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 0) {

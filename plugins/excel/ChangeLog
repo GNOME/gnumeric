@@ -1,3 +1,8 @@
+2000-09-20  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-formula-read.c (ms_excel_parse_formula) : Make the warning
+	  quieter.
+
 2000-09-10  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_sheet_obj_realize) : Adjust to new object
