@@ -1,5 +1,16 @@
 2001-10-06  Morten Welinder  <terra@diku.dk>
 
+	* src/workbook-control-gui.c (cb_edit_search_action): Handle
+ 	comments.
+
+	* src/search.c (search_replace_cell, search_replace_comment): New
+ 	functions, extracted from commands.c.
+
+	* src/commands.c (cmd_search_replace_do_cell): Use search_replace
+ 	and search_replace_comment.
+
+2001-10-06  Morten Welinder  <terra@diku.dk>
+
 	* src/workbook-control-gui.c (cb_edit_search): Implement search.
 
 	* src/search.c (search_collect_cells): New function, extracted

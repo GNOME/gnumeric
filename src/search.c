@@ -19,6 +19,9 @@
 #include "sheet.h"
 #include "workbook.h"
 #include "position.h"
+#include "cell.h"
+#include "value.h"
+#include "sheet-object-cell-comment.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -498,6 +501,100 @@ search_collect_cells (SearchReplace *sr, Sheet *sheet)
 	       sr->by_row ? cb_order_sheet_row_col : cb_order_sheet_col_row);
 
 	return cells;
+}
+
+/* ------------------------------------------------------------------------- */
+
+gboolean
+search_replace_comment (SearchReplace *sr,
+			const EvalPos *ep,
+			gboolean repl,
+			SearchReplaceCommentResult *res)
+{
+	g_return_val_if_fail (res, FALSE);
+
+	res->comment = NULL;
+	res->old_text = NULL;
+	res->new_text = NULL;
+
+	g_return_val_if_fail (sr && sr->comp_search, FALSE);
+
+	if (!sr->search_comments) return FALSE;
+
+	res->comment = cell_has_comment_pos (ep->sheet, &ep->eval);
+	if (!res->comment) return FALSE;
+
+	res->old_text = cell_comment_text_get (res->comment);
+
+	if (repl) {
+		res->new_text = search_replace_string (sr, res->old_text);
+		return (res->new_text != NULL);
+	} else
+		return search_match_string (sr, res->old_text);
+}
+
+/* ------------------------------------------------------------------------- */
+
+gboolean
+search_replace_cell (SearchReplace *sr,
+		     const EvalPos *ep,
+		     gboolean repl,
+		     SearchReplaceCellResult *res)
+{
+	Cell *cell;
+	Value *v;
+	gboolean is_expr, is_value, is_string, is_other;
+
+	g_return_val_if_fail (res, FALSE);
+
+	res->cell = NULL;
+	res->old_text = NULL;
+	res->new_text = NULL;
+
+	g_return_val_if_fail (sr && sr->comp_search, FALSE);
+
+	cell = res->cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
+	if (!cell) return FALSE;
+
+	v = cell->value;
+
+	is_expr = cell_has_expr (cell);
+	is_value = !is_expr && !cell_is_blank (cell) && v;
+	is_string = is_value && (v->type == VALUE_STRING);
+	is_other = is_value && !is_string;
+
+	if ((is_expr && sr->search_expressions) ||
+	    (is_string && sr->search_strings) ||
+	    (is_other && sr->search_other_values)) {
+		const char *actual_src;
+		gboolean initial_quote;
+
+		res->old_text = cell_get_entered_text (cell);
+		initial_quote = (is_value && res->old_text[0] == '\'');
+
+		actual_src = res->old_text + (initial_quote ? 1 : 0);
+
+		if (repl) {
+			res->new_text = search_replace_string (sr, actual_src);
+			if (res->new_text) {
+				if (initial_quote) {
+					/*
+					 * The initial quote was not part of the s-a-r,
+					 * so tack it back on.
+					 */
+					char *tmp = g_new (char, strlen (res->new_text) + 2);
+					tmp[0] = '\'';
+					strcpy (tmp + 1, res->new_text);
+					g_free (res->new_text);
+					res->new_text = tmp;
+				}
+				return TRUE;
+			}
+		} else
+			return search_match_string (sr, actual_src);
+	}
+
+	return FALSE;
 }
 
 /* ------------------------------------------------------------------------- */

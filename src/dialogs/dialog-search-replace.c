@@ -398,6 +398,8 @@ dialog_search_notify (WorkbookControlGUI *wbcg,
 
 	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "search_notify_dialog"));
 
+	gtk_entry_set_text (GTK_ENTRY (glade_xml_get_widget (gui, "sn_searchtext")),
+			    sr->search_text);
 	gtk_entry_set_text (GTK_ENTRY (glade_xml_get_widget (gui, "sn_location")),
 			    location);
 

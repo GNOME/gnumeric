@@ -3374,160 +3374,128 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 			    gboolean test_run)
 {
 	SearchReplace *sr = me->sr;
-	gboolean is_expr, is_value, is_string, is_other;
-	Cell *cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
-	Value *v = cell ? cell->value : NULL;
 
-	is_expr = cell && cell_has_expr (cell);
-	is_value = cell && !is_expr && !cell_is_blank (cell) && v;
-	is_string = is_value && (v->type == VALUE_STRING);
-	is_other = is_value && !is_string;
+	SearchReplaceCellResult cell_res;
+	SearchReplaceCommentResult comment_res;
 
-	if ((is_expr && sr->search_expressions) ||
-	    (is_string && sr->search_strings) ||
-	    (is_other && sr->search_other_values)) {
-		char *old_text = cell_get_entered_text (cell);
-		gboolean initial_quote = (is_value && old_text[0] == '\'');
-		char *new_text = search_replace_string (sr, old_text + (initial_quote ? 1 : 0));
+	if (search_replace_cell (sr, ep, TRUE, &cell_res)) {
+		ExprTree *expr;
+		Value *val;
+		gboolean err;
 
-		if (new_text) {
-			ExprTree *expr;
-			Value *val;
-			gboolean err;
+		parse_text_value_or_expr (ep, cell_res.new_text, &val, &expr,
+					  mstyle_get_format (cell_get_mstyle (cell_res.cell)));
 
-			if (initial_quote) {
-				/*
-				 * The initial quote was not part of the s-a-r,
-				 * so tack it back on.
-				 */
-				char *tmp = g_new (char, strlen (new_text) + 2);
-				tmp[0] = '\'';
-				strcpy (tmp + 1, new_text);
-				g_free (new_text);
-				new_text = tmp;
-			}
+		/*
+		 * FIXME: this is a hack, but parse_text_value_or_expr
+		 * does not have a better way of signaling an error.
+		 */
+		err = val && gnumeric_char_start_expr_p (cell_res.new_text);
 
-			parse_text_value_or_expr (ep, new_text, &val, &expr,
-				mstyle_get_format (cell_get_mstyle (cell)));
+		if (val) value_release (val);
+		if (expr) expr_tree_unref (expr);
 
-			/*
-			 * FIXME: this is a hack, but parse_text_value_or_expr
-			 * does not have a better way of signaling an error.
-			 */
-			err = val && gnumeric_char_start_expr_p (new_text);
-
-			if (val) value_release (val);
-			if (expr) expr_tree_unref (expr);
-
-			if (err) {
-				if (test_run) {
-					if (sr->query_func)
-						sr->query_func (SRQ_fail,
-								sr,
-								cell,
-								old_text,
-								new_text);
-					g_free (old_text);
-					g_free (new_text);
-					return TRUE;
-				} else {
-					switch (sr->error_behaviour) {
-					case SRE_error: {
-						char *tmp = gnumeric_strescape (new_text);
-						g_free (new_text);
-						new_text = g_strconcat ("=ERROR(", tmp, ")", NULL);
-						g_free (tmp);
-						err = FALSE;
-						break;
-					}
-					case SRE_string: {
-						/* FIXME: quoting isn't right.  */
-						char *tmp = gnumeric_strescape (new_text);
-						g_free (new_text);
-						new_text = tmp;
-						err = FALSE;
-						break;
-					}
-					case SRE_fail:
-						g_assert_not_reached ();
-					case SRE_skip:
-					default:
-						; /* Nothing */
-					}
+		if (err) {
+			if (test_run) {
+				if (sr->query_func)
+					sr->query_func (SRQ_fail,
+							sr,
+							cell_res.cell,
+							cell_res.old_text,
+							cell_res.new_text);
+				g_free (cell_res.old_text);
+				g_free (cell_res.new_text);
+				return TRUE;
+			} else {
+				switch (sr->error_behaviour) {
+				case SRE_error: {
+					char *tmp = gnumeric_strescape (cell_res.new_text);
+					g_free (cell_res.new_text);
+					cell_res.new_text = g_strconcat ("=ERROR(", tmp, ")", NULL);
+					g_free (tmp);
+					err = FALSE;
+					break;
+				}
+				case SRE_string: {
+					/* FIXME: quoting isn't right.  */
+					char *tmp = gnumeric_strescape (cell_res.new_text);
+					g_free (cell_res.new_text);
+					cell_res.new_text = tmp;
+					err = FALSE;
+					break;
+				}
+				case SRE_fail:
+					g_assert_not_reached ();
+				case SRE_skip:
+				default:
+					; /* Nothing */
 				}
 			}
-
-			if (!err && !test_run) {
-				gboolean doit = TRUE;
-				if (sr->query && sr->query_func) {
-					int res = sr->query_func (SRQ_query,
-								  sr,
-								  cell,
-								  old_text,
-								  new_text);
-					if (res == -1) {
-						g_free (old_text);
-						g_free (new_text);
-						return TRUE;
-					}
-					doit = (res == 0);
-				}
-
-				if (doit) {
-					SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
-
-					sheet_cell_set_text (cell, new_text);
-
-					sri->pos = *ep;
-					sri->old_type = sri->new_type = SRI_text;
-					sri->old.text = old_text;
-					sri->new.text = new_text;
-					me->cells = g_list_prepend (me->cells, sri);
-
-					old_text = new_text = NULL;
-				}
-			}
-
-			g_free (new_text);
 		}
 
-		g_free (old_text);
+		if (!err && !test_run) {
+			gboolean doit = TRUE;
+			if (sr->query && sr->query_func) {
+				int res = sr->query_func (SRQ_query,
+							  sr,
+							  cell_res.cell,
+							  cell_res.old_text,
+							  cell_res.new_text);
+				if (res == -1) {
+					g_free (cell_res.old_text);
+					g_free (cell_res.new_text);
+					return TRUE;
+				}
+				doit = (res == 0);
+			}
+
+			if (doit) {
+				SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
+
+				sheet_cell_set_text (cell_res.cell, cell_res.new_text);
+
+				sri->pos = *ep;
+				sri->old_type = sri->new_type = SRI_text;
+				sri->old.text = cell_res.old_text;
+				sri->new.text = cell_res.new_text;
+				me->cells = g_list_prepend (me->cells, sri);
+
+				cell_res.old_text = cell_res.new_text = NULL;
+			}
+		}
+
+		g_free (cell_res.new_text);
+		g_free (cell_res.old_text);
 	}
 
-	if (!test_run && sr->search_comments) {
-		CellComment *comment = cell_has_comment_pos (ep->sheet, &ep->eval);
-		if (comment) {
-			const char *old_text = cell_comment_text_get (comment);
-			char *new_text = search_replace_string (sr, old_text);
-			if (new_text) {
-				gboolean doit = TRUE;
-				if (sr->query && sr->query_func) {
-					int res = sr->query_func (SRQ_querycommment,
-								  sr,
-								  ep->sheet,
-								  &ep->eval,
-								  old_text,
-								  new_text);
-					if (res == -1) {
-						g_free (new_text);
-						return TRUE;
-					}
-					doit = (res == 0);
-				}
+	if (!test_run && search_replace_comment (sr, ep, TRUE, &comment_res)) {
+		gboolean doit = TRUE;
 
-				if (doit) {
-					SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
-					sri->pos = *ep;
-					sri->old_type = sri->new_type = SRI_comment;
-					sri->old.comment = g_strdup (old_text);
-					sri->new.comment = new_text;
-					me->cells = g_list_prepend (me->cells, sri);
-
-					cell_comment_text_set (comment, new_text);
-				} else
-					g_free (new_text);
+		if (sr->query && sr->query_func) {
+			int res = sr->query_func (SRQ_querycommment,
+						  sr,
+						  ep->sheet,
+						  &ep->eval,
+						  comment_res.old_text,
+						  comment_res.new_text);
+			if (res == -1) {
+				g_free (comment_res.new_text);
+				return TRUE;
 			}
+			doit = (res == 0);
 		}
+
+		if (doit) {
+			SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
+			sri->pos = *ep;
+			sri->old_type = sri->new_type = SRI_comment;
+			sri->old.comment = g_strdup (comment_res.old_text);
+			sri->new.comment = comment_res.new_text;
+			me->cells = g_list_prepend (me->cells, sri);
+
+			cell_comment_text_set (comment_res.comment, comment_res.new_text);
+		} else
+			g_free (comment_res.new_text);
 	}
 
 	return FALSE;

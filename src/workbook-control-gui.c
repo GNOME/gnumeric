@@ -1796,33 +1796,18 @@ cb_edit_search_action (WorkbookControlGUI *wbcg,
 	for (i = 0; i < cells->len; i++) {
 		EvalPos *ep = g_ptr_array_index (cells, i);
 
-		Cell *cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
-		Value *v = cell ? cell->value : NULL;
-		gboolean is_expr, is_value, is_string, is_other;
-		gboolean matches = FALSE;
+		SearchReplaceCellResult cell_res;
+		SearchReplaceCommentResult comment_res;
+		gboolean found;
 
-		is_expr = cell && cell_has_expr (cell);
-		is_value = cell && !is_expr && !cell_is_blank (cell) && v;
-		is_string = is_value && (v->type == VALUE_STRING);
-		is_other = is_value && !is_string;
-
-		if ((is_expr && sr->search_expressions) ||
-		    (is_string && sr->search_strings) ||
-		    (is_other && sr->search_other_values)) {
-			char *old_text = cell_get_entered_text (cell);
-			gboolean initial_quote = (is_value && old_text[0] == '\'');
-			matches = search_match_string (sr, old_text + (initial_quote ? 1 : 0));
-			g_free (old_text);
-		}
-
-		if (matches) {
-			Sheet *sheet = cell->base.sheet;
-			char *pos_name = g_strconcat (sheet->name_unquoted, "!",
-						      cell_name (cell), NULL);
+		found = search_replace_cell (sr, ep, FALSE, &cell_res);
+		g_free (cell_res.old_text);
+		if (found) {
+			char *pos_name = g_strconcat (ep->sheet->name_unquoted, "!",
+						      cell_pos_name (&ep->eval), NULL);
 			int res;
 
-			common_cell_goto (sheet, &cell->pos);
-
+			common_cell_goto (ep->sheet, &ep->eval);
 			res = dialog_search_notify (wbcg, sr, pos_name);
 			g_free (pos_name);
 
@@ -1832,21 +1817,33 @@ cb_edit_search_action (WorkbookControlGUI *wbcg,
 				break;
 		}
 
-		g_free (ep);
+		if (search_replace_comment (sr, ep, TRUE, &comment_res)) {
+			char *pos_name = g_strdup_printf (_("Comment in cell %s!%s"),
+							  ep->sheet->name_unquoted,
+							  cell_pos_name (&ep->eval));
+			int res;
+
+			common_cell_goto (ep->sheet, &ep->eval);
+			res = dialog_search_notify (wbcg, sr, pos_name);
+			g_free (pos_name);
+
+			complain_no_match = FALSE;
+
+			if (res == -1)
+				break;
+		}
 	}
 
-	/* On cancel, free the rest.  */
-	for (; i < cells->len; i++) {
+	for (i = 0; i < cells->len; i++) {
 		EvalPos *ep = g_ptr_array_index (cells, i);
 		g_free (ep);
 	}
+	g_ptr_array_free (cells, TRUE);
 
 	if (complain_no_match) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("Search text was not found."));
 	}
-
-	g_ptr_array_free (cells, TRUE);
 
 	return TRUE;
 }

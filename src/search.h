@@ -77,4 +77,24 @@ gboolean search_match_string (SearchReplace *sr, const char *src);
 
 GPtrArray *search_collect_cells (SearchReplace *sr, Sheet *sheet);
 
+typedef struct SearchReplaceCommentResult {
+	CellComment *comment;
+	const char *old_text;
+	char *new_text; /* Caller must free if replacing and found.  */
+} SearchReplaceCommentResult;
+gboolean search_replace_comment (SearchReplace *sr,
+				 const EvalPos *ep,
+				 gboolean repl,
+				 SearchReplaceCommentResult *res);
+
+typedef struct SearchReplaceCellResult {
+	Cell *cell;
+	char *old_text; /* Caller must free if.  */
+	char *new_text; /* Caller must free if replacing and found.  */
+} SearchReplaceCellResult;
+gboolean search_replace_cell (SearchReplace *sr,
+			      const EvalPos *ep,
+			      gboolean repl,
+			      SearchReplaceCellResult *res);
+
 #endif
