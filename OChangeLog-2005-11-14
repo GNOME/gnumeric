@@ -1,5 +1,8 @@
 2001-01-10  Jon K Hellan  <hellan@acm.org>
 
+	* src/workbook-control-gui.c (wbcg_undo_redo_labels): Add "_" in
+	bonobo menu labels.
+
 	* src/gnumeric.xml: Caught another missing "_" in menu labels.
 
 2001-01-10  Morten Welinder  <terra@diku.dk>

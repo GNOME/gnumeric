@@ -751,9 +751,9 @@ wbcg_undo_redo_labels (WorkbookControl *wbc, char const *undo, char const *redo)
 	change_menu_label (wbcg->menu_item_redo, _("Redo"), redo);
 #else
 	change_menu_label (wbcg, "/commands/EditUndo", "/menu/Edit/Undo",
-			   _("Undo"), undo);
+			   _("_Undo"), undo);
 	change_menu_label (wbcg, "/commands/EditRedo", "/menu/Edit/Redo",
-			   _("Redo"), redo);
+			   _("_Redo"), redo);
 #endif
 }
 
