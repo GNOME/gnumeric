@@ -12,8 +12,12 @@
 #include "formats.h"
 
 /* The various formats */
-const char *cell_format_numbers [] = {
+const char *cell_format_general [] = {
 	N_("General"),
+	NULL
+};
+
+const char *cell_format_numbers [] = {
 	N_("0"),
 	N_("0.00"),
 	N_("#,##0"),
@@ -112,3 +116,58 @@ const char *cell_format_money [] = {
 	NULL,
 
 };
+
+#if 0
+typedef enum
+{
+    FMT_UNKNOWN = -1,
+
+    FMT_GENERAL = 0,
+    FMT_NUMBER,
+    FMT_CURRENCY,
+    FMT_ACCOUNT,
+    FMT_DATE,
+    FMT_TIME,
+    FMT_PERCENT,
+    FMT_FRACTION,
+    FMT_SCIENCE,
+    FMT_TEXT,
+    FMT_SPECIAL,
+} FormatFamily;
+
+typdef struct
+{
+	gint	 catalog_element;
+
+	gboolean thousands_sep;
+	gint	 num_decimals;	/* 0 - 30 */
+	gint	 negative_fmt;	/* 0 - 3 */
+} FormatCharacteristics;
+
+FormatFamily
+cell_format_classify (char const * const fmt, FormatCharacteristics *info)
+{
+	g_return_val_if_fail (fmt != NULL, FMT_GENERAL);
+	g_return_val_if_fail (info != NULL, FMT_GENERAL);
+
+	/* Is it General */
+	if (g_strcasecmp (_("General"), fmt) == 0) {
+		info->catalog_element = 0;
+		return FMT_GENERAL;
+	}
+
+	/* All number formats begin with 0 or # .*/
+	if (fmt[0] == '0' || fmt[0] == '#')
+	{
+		gboolean is_viable = TRUE;
+		if (fmt[0] == '#') {
+			prefix = g_strconcat ("#", format_get_thousand(), "###", NULL);
+			g_free (prefix);
+		}
+
+		is_viable = TRUE;
+		return FMT_NUMBER;
+	}
+}
+
+#endif

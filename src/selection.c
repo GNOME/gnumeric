@@ -55,7 +55,7 @@ sheet_get_selection_name (Sheet const *sheet)
 		  ss->user.end.col - ss->user.start.col + 1);
 	return buffer;
 }
- 
+
 static void
 sheet_selection_changed_hook (Sheet *sheet)
 {
@@ -269,7 +269,7 @@ sheet_is_all_selected (Sheet *sheet)
 	}
 	return FALSE;
 }
- 
+
 /**
  * sheet_selection_extend_horizontal:
  *
@@ -474,7 +474,7 @@ assemble_cell_list (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 }
 
 static void
-assemble_selection_list (Sheet *sheet, 
+assemble_selection_list (Sheet *sheet,
 			 int start_col, int start_row,
 			 int end_col,   int end_row,
 			 void *closure)
@@ -522,7 +522,7 @@ sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 	GString *result_str;
 	GList   *selections;
 	char    *result;
-	
+
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (sheet->selections, NULL);
@@ -533,7 +533,7 @@ sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 
 		if (*result_str->str)
 			g_string_append_c (result_str, ',');
-		
+
 		if (include_sheet_name_prefix){
 			g_string_append_c (result_str, '\'');
 			g_string_append (result_str, sheet->name);
@@ -557,7 +557,7 @@ void
 sheet_selection_ant (Sheet *sheet)
 {
 	GList *l;
-	
+
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -595,7 +595,7 @@ sheet_selection_copy (Sheet *sheet)
 		return FALSE;
 
 	sheet_selection_ant (sheet);
-	
+
 	ss = sheet->selections->data;
 
 	application_clipboard_copy (sheet, &ss->user);
@@ -608,7 +608,7 @@ sheet_selection_cut (Sheet *sheet)
 {
 	SheetSelection *ss;
 
-	/* 
+	/*
 	 * 'cut' is a poor description of what we're
 	 * doing here.  'move' would be a better
 	 * approximation.  The key portion of this process is that
@@ -628,7 +628,7 @@ sheet_selection_cut (Sheet *sheet)
 		return FALSE;
 
 	sheet_selection_ant (sheet);
-	
+
 	ss = sheet->selections->data;
 
 	application_clipboard_cut (sheet, &ss->user);
@@ -825,9 +825,23 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 			Range *a = proposed->data;
 			proposed = g_slist_remove (proposed, a);
 
+			/* The region was already subsumed completely by previous
+			 * elements */
+			if (b == NULL) {
+				clear = g_slist_prepend (clear, a);
+				continue;
+			}
+
 			col_intersect =
 				segments_intersect (a->start.col, a->end.col,
 						    b->start.col, b->end.col);
+
+#if 0
+			printf ("col = %d\na = %d -> %d\nb = %d -> %d\n",
+				col_intersect,
+				a->start.col, a->end.col,
+				b->start.col, b->end.col);
+#endif
 
 			/* No intersection */
 			if (col_intersect == 0) {
@@ -838,6 +852,13 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 			row_intersect =
 				segments_intersect (a->start.row, a->end.row,
 						    b->start.row, b->end.row);
+#if 0
+			printf ("row = %d\na = %d -> %d\nb = %d -> %d\n",
+				row_intersect,
+				a->start.row, a->end.row,
+				b->start.row, b->end.row);
+#endif
+
 			/* No intersection */
 			if (row_intersect == 0) {
 				clear = g_slist_prepend (clear, a);
@@ -862,8 +883,13 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 					break;
 
 				case 2 : /* b contains a */
-					/* Split existing range */
-					if (b->start.col > 0) {
+					if (a->end.col == b->end.col) {
+						/* Shrink existing range */
+						a->end.col = b->start.col - 1;
+						break;
+					} else if (a->start.col != b->start.col &&
+						   b->start.col > 0) {
+						/* Split existing range */
 						tmp = range_copy (a);
 						tmp->end.col = b->start.col - 1;
 						clear = g_slist_prepend (clear,
@@ -917,6 +943,7 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 					/* shrink the left segment */
 					if (b->start.col == 0) {
 						g_free(a);
+						a = NULL;
 						continue;
 					}
 					a->end.col = b->start.col - 1;
@@ -929,13 +956,6 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 
 			case 2 : /* b contains a */
 				switch (row_intersect) {
-				case 4 : /* a contains b */
-					/* Split region */
-					tmp = range_copy (a);
-					tmp->start.row = b->end.row + 1;
-					clear = g_slist_prepend (clear, tmp);
-					/* fall through */
-
 				case 3 : /* overlap top */
 					/* shrink the top segment */
 					a->end.row = b->start.row - 1;
@@ -944,7 +964,22 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 				case 2 : /* b contains a */
 					/* remove the selection */
 					g_free (a);
+					a = NULL;
 					continue;
+
+				case 4 : /* a contains b */
+					if (a->end.row == b->end.row) {
+						/* Shrink existing range */
+						a->end.row = b->start.row - 1;
+						break;
+					} else if (a->start.row != b->start.row &&
+						   b->start.row > 0) {
+						/* Split region */
+						tmp = range_copy (a);
+						tmp->end.row = b->start.row - 1;
+						clear = g_slist_prepend (clear, tmp);
+					}
+					/* fall through */
 
 				case 1 : /* overlap bottom */
 					/* shrink the top segment */
@@ -1021,7 +1056,7 @@ typedef struct
 } selection_to_string_closure;
 
 static void
-range_to_string (Sheet *sheet, 
+range_to_string (Sheet *sheet,
 		 int start_col, int start_row,
 		 int end_col,   int end_row,
 		 void *closure)
@@ -1128,3 +1163,37 @@ selection_foreach_range (Sheet *sheet,
 		range_cb (sheet, &ss->user, user_data);
 	}
 }
+
+static gboolean
+cb_set_row_height (Sheet *sheet, ColRowInfo *info, void *dummy)
+{
+	/* If the size was not set by the user then auto resize */
+	if (!info->hard_size) {
+		int const new_size = sheet_row_size_fit (sheet, info->pos);
+		sheet_row_set_internal_height (sheet, info, new_size);
+	}
+	return FALSE;
+}
+
+/**
+ *
+ * sheet_selection_height_update:
+ * * @sheet:  The sheet,
+ *
+ * Use this function having changed the font height to auto
+ * resize the row heights to make the text fit nicely.
+ **/
+void
+sheet_selection_height_update (Sheet *sheet)
+{
+	GList *l;
+
+	for (l = sheet->selections; l; l = l->next) {
+		SheetSelection *ss = l->data;
+
+		sheet_foreach_colrow (sheet, &sheet->rows,
+				      ss->user.start.row, ss->user.end.row,
+				      &cb_set_row_height, NULL);
+	}
+}
+

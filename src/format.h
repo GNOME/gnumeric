@@ -15,4 +15,7 @@ char  *format_add_thousand   (const char *format);
 char  *format_add_decimal    (const char *format);
 char  *format_remove_decimal (const char *format);
 
+char  *format_get_thousand   (void);
+char  *format_get_decimal    (void);
+
 #endif /* GNUMERIC_FORMAT_H */

@@ -1,3 +1,22 @@
+1999-11-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/selection.c (cb_set_row_height, sheet_selection_height_update) :
+	  Put these back until we support shrinking in calc_dimensions.
+
+	* src/dialogs/dialog-cell-format.c (cb_fmt_dialog_dialog_apply):
+	  replace call to height_update.
+
+	* src/workbook-format-toolbar.c (change_font_size_in_selection_cmd): 
+	Replace call.
+
+1999-11-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/selection.c (selection_apply) : Bug 3382.  Be more careful
+	  when regions are completely contained.
+
+	* src/format.c (format_get_thousand, format_get_decimal) : New
+	  functions.
+
 1999-11-07  Michael Meeks  <mmeeks@gnu.org>
 
 	* plugins/Makefile.am (SUBDIRS): add oleo.
@@ -9,10 +28,10 @@
 	* src/ranges.c (range_translate): implemented.
 
 	* src/selection.c (sheet_selection_paste): Add sheet_selection_move.
-	(sheet_selection_move): implement.a
+	(sheet_selection_move): implement.
 
-	* src/sheet.c (sheet_new): clear dirty flag ( attaching the default
-	style was setting it ).
+	* src/sheet.c (sheet_new): clear dirty flag (attaching the default
+	  style was setting it).
 
 1999-11-07  Michael Meeks  <mmeeks@gnu.org>
 

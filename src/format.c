@@ -1364,3 +1364,16 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 
 	return v;
 }
+
+char *
+format_get_thousand ()
+{
+    return (lc)->thousands_sep[0] ? (lc)->thousands_sep : ",";
+}
+
+char *
+format_get_decimal ()
+{
+	return (lc)->decimal_point[0] ? (lc)->decimal_point : ".";
+}
+

@@ -27,6 +27,7 @@ void        sheet_selection_clear             (Sheet *sheet);
 void        sheet_selection_clear_content     (Sheet *sheet);
 void        sheet_selection_clear_comments    (Sheet *sheet);
 void        sheet_selection_clear_formats     (Sheet *sheet);
+void        sheet_selection_height_update     (Sheet *sheet);
 
 /* Cut/Copy/Paste on the workbook selection */
 gboolean    sheet_selection_copy              (Sheet *sheet);

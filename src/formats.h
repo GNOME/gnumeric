@@ -1,6 +1,7 @@
 #ifndef GNUMERIC_FORMATS_H
 #define GNUMERIC_FORMATS_H
 
+extern const char *cell_format_general [];
 extern const char *cell_format_numbers [];
 extern const char *cell_format_accounting [];
 extern const char *cell_format_date [];
