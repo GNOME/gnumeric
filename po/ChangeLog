@@ -1,3 +1,20 @@
+2000-09-21  Kenneth Christiansen <kenneth@gnu.org>
+
+	* xml2pot.pl: Corrected small errors. Thanks to
+	Morten Welinder, for giving me suggestings to
+        improve the script, and thanks to all testers 
+        also.
+
+2000-09-20  Kenneth Christiansen <kenneth@gnu.org>
+
+        * xml2pot.pl: Added script used by update.pl
+        It adds translation of XML files.
+	* update.pl: Changed/updated update.pl, so it
+        works with xml2pot.pl
+	* XMLFILES.in: New file which specifices which
+        files should be processed by xml2pot.pl
+	* da.po: New update. 
+
 2000-09-21  Jesus Bravo Alvarez  <jba@pobox.com>
 
 	* gl.po: Updated Galician translation.
