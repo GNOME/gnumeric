@@ -1,3 +1,16 @@
+2000-12-30  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (wbcg_size_pixels_set): Remove it.
+	(workbook_setup_edit_area, workbook_setup_sheets)): Add GTK_SHRINK
+	option to gtk_table_attach.
+	(show_gui): New function. Size window, then show it.  If
+	the workbook specifies a preferred size, the notebook is sized,
+	and the window size constrained to not exceed the screen
+	size. Otherwise, a size is computed based on screen size. Parts
+	extracted from workbook_control_gui_init.
+	(workbook_control_gui_init): Move sizing to show_gui. To be sure
+	that everything is initialized, run show_gui as a GTK idle proc.
+
 2000-12-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell-draw.c (cell_draw) : sync drawing with

@@ -197,19 +197,6 @@ wbcg_title_set (WorkbookControl *wbc, char const *title)
 }
 
 static void
-wbcg_size_pixels_set (WorkbookControl *wbc, int width, int height)
-{
-	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	int const screen_width = gdk_screen_width ();
-	int const screen_height = gdk_screen_height ();
-
-	/* FIXME : This should really be sizing the notebook */
-	gtk_window_set_default_size (wbcg->toplevel,
-				     MIN (screen_width - 64, width),
-				     MIN (screen_height - 64, height));
-}
-
-static void
 cb_prefs_update (gpointer key, gpointer value, gpointer user_data)
 {
 	Sheet *sheet = value;
@@ -2607,7 +2594,7 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 
 	gtk_table_attach (GTK_TABLE (wbcg->table), box2,
 			  0, 1, 0, 1,
-			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
+			  GTK_FILL | GTK_EXPAND | GTK_SHRINK, 0, 0, 0);
 
 	/* Do signal setup for the editing input line */
 	gtk_signal_connect (GTK_OBJECT (entry), "focus-in-event",
@@ -2742,7 +2729,8 @@ workbook_setup_sheets (WorkbookControlGUI *wbcg)
 
 	gtk_table_attach (GTK_TABLE (wbcg->table), GTK_WIDGET (wbcg->notebook),
 			  0, 1, 1, 2,
-			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
+			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
+			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
 			  0, 0);
 	gtk_widget_show (w);
 }
@@ -2934,12 +2922,44 @@ workbook_setup_status_area (WorkbookControlGUI *wbcg)
 	workbook_setup_auto_calc (wbcg);
 }
 
+static int
+show_gui (WorkbookControlGUI *wbcg)
+{
+  
+	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	int sx = MAX (gdk_screen_width  () - 64, 600);
+	int sy = MAX (gdk_screen_height () - 64, 200);
+	
+	/* Set grid size to preferred width */
+	if (wbv && (wbv->preferred_width > 0 || wbv->preferred_height > 0)) {
+		int pwidth = wbv->preferred_width;
+		int pheight = wbv->preferred_height;
+		GdkGeometry geometry;
+
+		pwidth = pwidth > 0 ? pwidth : -2;
+		pheight = pheight > 0 ? pheight : -2;
+		gtk_widget_set_usize (GTK_WIDGET (wbcg->notebook),
+				      pwidth, pheight);
+
+		geometry.max_width  = sx;
+		geometry.max_height = sy;
+		gtk_window_set_geometry_hints (wbcg->toplevel, NULL,
+					       &geometry, GDK_HINT_MAX_SIZE);
+	} else {
+		sx = (sx * 3) / 4;
+		sy = (sy * 3) / 4;
+		gtk_window_set_default_size (wbcg->toplevel, sx, sy);
+	}
+
+	gtk_widget_show_all (GTK_WIDGET (wbcg->toplevel));
+
+	return FALSE;
+}
+
 void
 workbook_control_gui_init (WorkbookControlGUI *wbcg,
 			   WorkbookView *optional_view, Workbook *optional_wb)
 {
-	int sx, sy;
-
 #ifdef ENABLE_BONOBO
 	BonoboUIContainer *ui_container;
 #endif
@@ -3041,18 +3061,14 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	/* Now that everything is initialized set the size */
 	/* TODO : use gnome-config ? */
 	gtk_window_set_policy (wbcg->toplevel, TRUE, TRUE, FALSE);
-	sx = MAX (gdk_screen_width  () - 64, 600);
-	sy = MAX (gdk_screen_height () - 64, 200);
-	sx = (sx * 3) / 4;
-	sy = (sy * 3) / 4;
-	wbcg_size_pixels_set (WORKBOOK_CONTROL (wbcg), sx, sy);
 
 	/* Init autosave */
 	wbcg->autosave_timer = 0;
 	wbcg->autosave_minutes = 0;
 	wbcg->autosave_prompt = FALSE;
 
-	gtk_widget_show_all (GTK_WIDGET (wbcg->toplevel));
+	/* Postpone showing the GUI, so that we may resize it freely. */
+	gtk_idle_add ((GtkFunction) show_gui, wbcg);
 }
 
 static void
