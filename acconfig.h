@@ -23,11 +23,3 @@
 #undef USE_WM_ICONS
 
 @BOTTOM@
-/* This is from libglade */
-
-#ifdef DEBUG
-#  define debug(stmnt) stmnt
-#else
-#  define debug(stmnt) /* nothing */
-#endif
-
