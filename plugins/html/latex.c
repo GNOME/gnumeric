@@ -6,6 +6,9 @@
  *
  * Copyright (C) 2001 Adrian Custer, Berkeley
  * email: acuster@nature.berkeley.edu
+ * 
+ * Copyright (C) 2001 Andreas J. Guelzow, Edmonton
+ * email: aguelzow@taliesin.ca
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,6 +57,7 @@
 #include <style-color.h>
 #include <font.h>
 #include <cell.h>
+#include <formats.h>
 
 #include <errno.h>
 
@@ -290,7 +294,9 @@ latex2e_write_file_header(FILE *fp)
                     ]{report}
 	\\usepackage[latin1]{inputenc}
 	\\usepackage{color}
+        \\usepackage{array}
 	\\usepackage{longtable}
+        \\usepackage{calc}
 
 	\\begin{document}
 
@@ -319,7 +325,17 @@ latex2e_write_file_header(FILE *fp)
 %%                                                                  %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%  The \\setlongtables command keeps column widths the same across  %%
+\\providecommand{\\gnumericPB}[1]%
+{\\let\\gnumericTemp=\\\\#1\\let\\\\=\\gnumericTemp\\hspace{0pt}}
+
+%%  The default table format retains the relative column widths of  %%
+%%  gnumeric. They can easily be changed to c, r or l. In that case %%
+%%  you may want to comment out the next line and uncomment the one %%
+%%  thereafter                                                      %%
+\\providecommand\\gnumbox{\\makebox[0pt]}
+%%\\providecommand\\gnumbox[1][]{\\makebox}
+
+%%  The \\setlongtables command keeps column widths the same across %%
 %%  pages. Simply comment out next line for varying column widths.  %%
 \\setlongtables
 
@@ -390,48 +406,98 @@ latex2e_write_table_header(FILE *fp, int num_cols)
  * @num_merged_cols : an integer value of the number of columns to merge.
  *
  * This function creates all the LaTeX code for the cell of a table (i.e. all
- * the code that might fall between two ampersands (&)). All cells for the
- * moment are \multicolumn with width of 1 for single cells. A parallel
- * function might be created latex2e_multirow_write_cell() for cells created
- * with \multirow but this doesn't handle borders correctly.
+ * the code that might fall between two ampersands (&)). 
+ *
+ * Note: we are _not_ putting single cell into \multicolumns since this
+ * makes it much more difficult to change column widths later on.
  */
 static void
-latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged_cols)
+latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged_cols, 
+				gboolean first_col, Sheet *sheet)
 {
 	char * rendered_string;
 	StyleColor *textColor;
 	gushort r,g,b;
+	gboolean wrap = FALSE;
+	char *cell_format_str;
+	FormatCharacteristics cell_format_characteristic;
+	FormatFamily cell_format_family;
 
 	/* Print the cell according to its style. */
 	MStyle *mstyle = cell_get_mstyle (cell);
+
 	g_return_if_fail (mstyle != NULL);
 
+	/* We only set up a multicolumn command if necessary */
+	if (num_merged_cols > 1) {
+		ColRowInfo const * ci;
+		int merge_width = 0;
+		int i;
 
-	/* Open the multicolumn statement. */
-	fprintf (fp, "\\multicolumn{%d}{",num_merged_cols);
-
-	/* Drop in the left hand format delimiter. */
-	fprintf (fp, "|");
+		for (i = 0; i < num_merged_cols; i++) {
+			ci = sheet_col_get (sheet, cell->col_info->pos + i);
+			merge_width += ci->size_pixels;
+		}
+		
+		ci = cell->col_info;
+		
+		/* Open the multicolumn statement. */
+		fprintf (fp, "\\multicolumn{%d}{", num_merged_cols);
+		
+		if (first_col)
+			fprintf (fp, "|");
+/* FIXME: merge_width is a touch too small since it doesn't include the space betweeen the cols */
+		/* Drop in the left hand format delimiter. */
+		fprintf (fp, "p{%ipt+\\tabcolsep*%i}", 
+			 merge_width * 10 / 12, 2 * (num_merged_cols - 1));
+		
+		/*Close the right delimiter, as above. Also open the text delimiter.*/
+		fprintf (fp,"|}%%\n\t{");
+	}
 
 	/* Send the alignment of the cell through a routine to deal with
 	 * HALIGN_GENERAL and then deal with the three cases. */
 	switch ( style_default_halign(mstyle, cell) ) {
-			case HALIGN_RIGHT:
-				fprintf (fp, "r");
-				break;
-			case  HALIGN_CENTER:
-			/*case HALIGN_CENTER_ACROSS_SELECTION: No not here. */
-				fprintf (fp, "c");
-				break;
-			case HALIGN_LEFT:
-				fprintf(fp, "l");
-			default:
-				break;
+	case HALIGN_RIGHT:
+		fprintf (fp, "\\gnumericPB{\\raggedleft}");
+		break;
+	case  HALIGN_CENTER:
+		/*case HALIGN_CENTER_ACROSS_SELECTION: No not here. */
+		fprintf (fp, "\\gnumericPB{\\centering}");
+		break;
+	case HALIGN_LEFT:
+		fprintf (fp, "\\gnumericPB{\\raggedright}");
+		break;
+	case HALIGN_JUSTIFY:
+		break;
+	default:
+		break;
 	}
-	/* could support this with packed boxes. (mstyle_get_align_v (mstyle) & VALIGN_TOP)*/
 
-	/*Close the right delimiter, as above. Also open the text delimiter.*/
-	fprintf(fp,"|}{");
+        /* Check whether we should do word wrapping */
+	wrap = mstyle_get_wrap_text (mstyle);
+
+	/* if we don't wrap put it into an mbox, adjusted to width 0 to avoid moving */
+	/* it to the second line of the parbox */
+	if (!wrap)
+		switch ( style_default_halign(mstyle, cell) ) {
+		case HALIGN_RIGHT:
+			fprintf (fp, "\\gnumbox[r]{");
+			break;
+		case  HALIGN_CENTER:
+			/*case HALIGN_CENTER_ACROSS_SELECTION: No not here. */
+			fprintf (fp, "\\gnumbox{");
+			break;
+		case HALIGN_LEFT:
+			fprintf (fp, "\\gnumbox[l]{");
+			break;
+		case HALIGN_JUSTIFY:
+			fprintf (fp, "\\gnumbox[s]{");
+			break;
+		default:
+			fprintf (fp, "\\makebox{");
+			break;
+		}
 
 	/* Check the foreground (text) colour. */
 	textColor = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
@@ -440,7 +506,7 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 	b = textColor->blue;
 	if (r != 0 || g != 0 || b != 0)
 		fprintf (fp, "{\\color[rgb]{%.2f,%.2f,%.2f} ",
-		(double)r/65535, (double)g/65535, (double)b/65535);
+		(double)r/65535, (double)g/65535, (double)b/65535);       
 
 	/* Establish the font's style for the styles that can be addressed by LaTeX.
 	 * More complicated efforts (like changing fonts) are left to the user.
@@ -454,12 +520,26 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 	if (mstyle_get_font_italic (mstyle))
 		fprintf (fp, "\\textit{");
 
+
+	cell_format_str = cell_get_format (cell);
+	cell_format_family = cell_format_classify (cell_format_str, &cell_format_characteristic);
+	g_free (cell_format_str);
+	if (cell_format_family == FMT_NUMBER || cell_format_family == FMT_CURRENCY ||
+	    cell_format_family == FMT_PERCENT || cell_format_family == FMT_FRACTION ||
+	    cell_format_family == FMT_SCIENCE) 
+		fprintf (fp, "$");
+
 	/* Print the cell contents. */
 	if (!cell_is_blank (cell)) {
 		rendered_string = cell_get_rendered_text (cell);
 		latex_fputs (rendered_string, fp);
 		g_free (rendered_string);
 	}
+
+	if (cell_format_family == FMT_NUMBER || cell_format_family == FMT_CURRENCY ||
+	    cell_format_family == FMT_PERCENT || cell_format_family == FMT_FRACTION ||
+	    cell_format_family == FMT_SCIENCE) 
+		fprintf (fp, "$");
 
 	/* Close the styles for the cell. */
 	if (mstyle_get_font_italic (mstyle))
@@ -473,8 +553,13 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 	if (r != 0 || g != 0 || b != 0)
 		fprintf (fp, "}");
 
+	/* if we don't wrap close the mbox */
+	if (!wrap)
+		fprintf (fp, "}");
+
 	/* Close the multicolumn text bracket. */
-	fprintf(fp, "}");
+	if (num_merged_cols > 1)	
+		fprintf(fp, "}");
 
 	/* And we are done. */
 	fprintf (fp, "\n");
@@ -531,10 +616,12 @@ latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	num_cols = total_range.end.col - total_range.start.col + 1;
 
 	/* Start outputting the table. */
-	fprintf (fp, "\\begin{longtable}[c]{");
+	fprintf (fp, "\\begin{longtable}[c]{|");
 	for (col = total_range.start.col; col <=  total_range.end.col; col++) {
-		/* The alignment is over-ridden by the \multicolumn statements. */
-		fprintf (fp, "l");
+		ColRowInfo const * ci;
+		ci = sheet_col_get_info (current_sheet, col);
+		/* The alignment is over-ridden later. */
+		fprintf (fp, "p{%ipt}|", ci->size_pixels * 10 / 12);
 	}
 	fprintf (fp, "}\n\n");
 
@@ -555,16 +642,18 @@ latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
 			else
 				fprintf (fp, "\t ");
 
-			/* A blank cell gets right and left delimiters and a newline. */
+			/* A blank cell gets a newline. */
 			if (cell_is_blank(cell)) {
-				fprintf (fp, "\\multicolumn{1}{|l|}{}\n");
+				fprintf (fp, "\n");
 				continue;
 			}
 
 			/* Check a merge. */
 			merge_range = sheet_merge_is_corner (current_sheet, &cell->pos);
 			if (merge_range == NULL) {
-				latex2e_write_multicolumn_cell(fp, cell, 1);
+				latex2e_write_multicolumn_cell(fp, cell, 1, 
+							       col == total_range.start.col,
+							       current_sheet);
 				continue;
 			}
 
@@ -582,7 +671,9 @@ latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
 
 			/* Check for a single row, we can handle with \multicolumn. */
 			if (num_merged_cols > 1) {
-				latex2e_write_multicolumn_cell(fp, cell, num_merged_cols);
+				latex2e_write_multicolumn_cell(fp, cell, num_merged_cols,
+							       col == total_range.start.col,
+							       current_sheet);
 				/* increment the columns by num_of_columns of merge region. */
 				col += (num_merged_cols - 1);
 				continue;

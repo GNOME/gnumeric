@@ -1,8 +1,16 @@
+2001-12-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c (latex2e_write_multicolumn_cell) wrap text 
+	  (http://bugzilla.gnome.org/show_bug.cgi?id=20898)
+	  use math mode for mathematical formats
+	  (http://bugzilla.gnome.org/show_bug.cgi?id=63395)
+	(latex2e_file_save) retain relative column sizes
+
 2001-11-19  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.76
 
-2001-11-05  Jody Goldberg <jgoldberg@home,com>
+2001-11-05  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.75
 

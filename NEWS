@@ -19,6 +19,9 @@ Andreas:
 	  according to locale (# 65404)
 	* In histogram tool add percentage column and format all 
 	  percentages appropriately (# 62164)
+	* Implement text wrap in LaTeX exporter (# 20898)
+	* Implement math mode in LaTeX exporter (# 63395)
+	* Use gnumeric column widths in LaTeX exporter
 
 Jody:
 	* Tricky corner cases for style applications.
