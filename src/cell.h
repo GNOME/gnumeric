@@ -78,9 +78,9 @@ void cell_set_expr		(Cell *c, ExprTree *expr,
 				 StyleFormat *opt_fmt);
 void cell_set_expr_unsafe 	(Cell *cell, ExprTree *expr,
 				 StyleFormat *opt_fmt);
-void cell_set_array_formula	(Sheet *sheet, int rowa, int cola,
-				 int rowb, int colb, ExprTree *expr,
-				 gboolean queue_recalc);
+void cell_set_array_formula	(Sheet *sheet,
+				 int cola, int rowa, int colb, int rowb,
+				 ExprTree *expr);
 void cell_convert_expr_to_value	(Cell *cell);
 
 /**

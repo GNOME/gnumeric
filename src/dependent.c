@@ -98,6 +98,7 @@ dependent_set_expr (Dependent *dep, ExprTree *expr)
 		 * replacing the corner of an array.
 		 */
 		cell_set_expr_unsafe (DEP_TO_CELL (dep), expr, NULL);
+#warning Check to see what recalc assumptions the callers make
 	} else {
 		DependentClass *klass = g_ptr_array_index (dep_classes, t);
 
@@ -625,7 +626,7 @@ handle_tree_deps (Dependent *dep, CellPos const *pos,
  * Adds the dependent to the workbook wide list of dependents.
  */
 void
-dependent_link (Dependent *dep, const CellPos *pos)
+dependent_link (Dependent *dep, CellPos const *pos)
 {
 	Workbook *wb;
 
@@ -720,7 +721,8 @@ dependent_unlink_sheet (Sheet const *sheet)
  * @cell : the dependent that changed
  * @queue_recalc: also queue a recalc for the dependent.
  *
- * Registers the expression with the sheet and optionally queues a recalc.
+ * Registers the expression with the sheet and optionally queues a recalc
+ * of the dependent.
  */
 void
 dependent_changed (Dependent *dep, CellPos const *pos, gboolean queue_recalc)
@@ -1118,6 +1120,12 @@ workbook_deps_destroy (Workbook *wb)
 	g_list_free (sheets);
 }
 
+void
+workbook_queue_all_recalc (Workbook *wb)
+{
+	dependent_queue_recalc_list (wb->dependents, FALSE);
+}
+
 /*
  * Computes all of the cells pending computation and
  * any dependency.
@@ -1163,7 +1171,7 @@ workbook_recalc (Workbook *wb)
 void
 workbook_recalc_all (Workbook *wb)
 {
-	dependent_queue_recalc_list (wb->dependents, FALSE);
+	workbook_queue_all_recalc (wb);
 	workbook_recalc (wb);
 	WORKBOOK_FOREACH_VIEW (wb, view,
 		sheet_update (wb_view_cur_sheet (view)););

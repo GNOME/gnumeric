@@ -1158,11 +1158,9 @@ xml_cell_set_array_expr (Cell *cell, char const *text,
 
 	g_return_if_fail (expr != NULL);
 	cell_set_array_formula (cell->base.sheet,
-				cell->pos.row,
-				cell->pos.col,
-				cell->pos.row + rows-1,
-				cell->pos.col + cols-1,
-				expr, TRUE);
+				cell->pos.col, cell->pos.row,
+				cell->pos.col + cols-1, cell->pos.row + rows-1,
+				expr);
 }
 
 /**
@@ -1927,6 +1925,8 @@ xml_sax_file_open (GnumFileOpener const *fo, IOContext *io_context,
 		gnumeric_io_error_info_set (io_context,
 		                            error_info_new_str (
 		                            _("XML document not well formed!")));
+	else
+		workbook_queue_all_recalc (state.wb);
 
 	ctxt->sax = NULL;
 	xmlFreeParserCtxt (ctxt);

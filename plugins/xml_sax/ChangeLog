@@ -1,3 +1,9 @@
+2001-05-26  Jody Goldberg <jgoldberg@home.com>
+
+	* xml-sax-read.c (xml_sax_file_open) : If successful queue everything
+	  for recalc.
+	(xml_cell_set_array_expr) : no need to queue a recalc for arrays.
+
 2001-05-22  Almer S. Tigelaar  <almer@gnome.org>
 
 	* xml-sax-read.c (xml_sax_sheet_name): Don't create

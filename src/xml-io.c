@@ -1787,11 +1787,9 @@ xml_cell_set_array_expr (Cell *cell, char const *text,
 
 	g_return_if_fail (expr != NULL);
 	cell_set_array_formula (cell->base.sheet,
-				cell->pos.row,
-				cell->pos.col,
-				cell->pos.row + rows-1,
-				cell->pos.col + cols-1,
-				expr, TRUE);
+				cell->pos.col, cell->pos.row,
+				cell->pos.col + cols-1, cell->pos.row + rows-1,
+				expr);
 }
 
 /**
@@ -3101,6 +3099,8 @@ xml_workbook_read (IOContext *context, WorkbookView *wb_view,
 	g_free (old_msg_locale);
 	gnumeric_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
+
+	workbook_queue_all_recalc (wb);
 
 	return TRUE;
 }

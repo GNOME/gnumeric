@@ -299,7 +299,7 @@ cell_relocate (Cell *cell, ExprRewriteInfo *rwinfo)
 		}
 
 		/* Relink the expression.  */
-		dependent_changed (CELL_TO_DEP (cell), &cell->pos, TRUE);
+		dependent_link (CELL_TO_DEP (cell), &cell->pos);
 	}
 }
 
@@ -499,7 +499,7 @@ cell_set_expr_internal (Cell *cell, ExprTree *expr, StyleFormat *opt_fmt)
  *         marks the sheet as dirty.  Intented for use by import routines that
  *         do bulk assignment.
  *
- * The cell IS marked for recalc.
+ * The cell is NOT marked for recalc.
  *
  * If an optional format is supplied it is stored for later use.
  *
@@ -515,7 +515,7 @@ cell_set_expr_unsafe (Cell *cell, ExprTree *expr, StyleFormat *opt_fmt)
 	g_return_if_fail (expr != NULL);
 
 	cell_set_expr_internal (cell, expr, opt_fmt);
-	dependent_changed (CELL_TO_DEP (cell), &cell->pos, TRUE);
+	dependent_link (CELL_TO_DEP (cell), &cell->pos);
 }
 
 /**
@@ -556,9 +556,8 @@ cell_set_expr (Cell *cell, ExprTree *expr, StyleFormat *opt_fmt)
  */
 void
 cell_set_array_formula (Sheet *sheet,
-			int row_a, int col_a, int row_b, int col_b,
-			ExprTree *formula,
-			gboolean queue_recalc)
+			int col_a, int row_a, int col_b, int row_b,
+			ExprTree *formula)
 {
 	int const num_rows = 1 + row_b - row_a;
 	int const num_cols = 1 + col_b - col_a;
@@ -589,13 +588,11 @@ cell_set_array_formula (Sheet *sheet,
 			cell = sheet_cell_fetch (sheet, col_a + x, row_a + y);
 			wrapper = expr_tree_new_array (x, y, num_rows, num_cols);
 			cell_set_expr_internal (cell, wrapper, NULL);
-			dependent_changed (CELL_TO_DEP (cell),
-					   &cell->pos, queue_recalc);
+			dependent_link (CELL_TO_DEP (cell), &cell->pos);
 			expr_tree_unref (wrapper);
 		}
 
-	/* Put the corner at the head of the recalc list */
-	dependent_changed (CELL_TO_DEP (corner), &corner->pos, queue_recalc);
+	dependent_link (CELL_TO_DEP (corner), &corner->pos);
 }
 
 /***************************************************************************/

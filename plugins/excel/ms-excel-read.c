@@ -1854,10 +1854,9 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 
 		if (is_array)
 			cell_set_array_formula (sheet->gnum_sheet,
-						array_row_first,
-						array_col_first,
-						array_row_last,
-						array_col_last, expr, FALSE);
+						array_col_first, array_row_first,
+						array_col_last, array_row_last,
+						expr);
 		return expr;
 	}
 

@@ -57,6 +57,7 @@ void sheet_foreach_dep		 (Sheet *sheet, DepFunc func, gpointer user);
  */
 void sheet_deps_destroy		 (Sheet *sheet);
 void workbook_deps_destroy	 (Workbook *wb);
+void workbook_queue_all_recalc	 (Workbook *wb);
 
 DependencyData *dependency_data_new (void);
 

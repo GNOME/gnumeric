@@ -1019,9 +1019,9 @@ applix_read_cells (ApplixReadState *state)
 				if (is_array) {
 					expr_tree_ref (expr);
 					cell_set_array_formula (sheet,
-								r.start.row, r.start.col,
-								r.end.row, r.end.col,
-								expr, FALSE);
+								r.start.col, r.start.row,
+								r.end.col, r.end.row,
+								expr);
 					cell_assign_value (cell, val, NULL);
 				} else
 					cell_set_expr_and_value (cell, expr, val, NULL, TRUE);

@@ -1,3 +1,30 @@
+2001-05-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (colrow_move) : no need to queue recalc here.
+	(cb_sheet_cell_copy) : Actually copy the array values.
+
+	* src/cell.c (cell_relocate) : Just relink, no need to queue a recalc.
+	(cell_set_array_formula) : Remove the ability to queue the recalc at
+	  this level.  Just link the formulas in.  Reorder the the arguments
+	  to match the standard approach.
+
+	* src/eval.c (workbook_recalc_all) : Used here.
+	(workbook_queue_all_recalc) : new function.
+
+	* src/xml-io.c (xml_workbook_read) : Queue everything for recalc.
+	(xml_cell_set_array_expr) : no need to queue a recalc here.
+
+	* src/commands.c (cmd_autofill_redo) : queue the recalc here.
+	(cmd_area_set_text_redo) : we need to manually queue a recalc for
+	  arrays now.
+
+	* src/sheet.c (sheet_cell_set_text) : we need to queue a recalc for
+	  both expressions and values now.
+	(sheet_range_set_text) : queue recalcs for the region as a block.
+
+	* src/graph-vector.c (graph_vector_new) : Just use dependent_link if
+	  we don't want a recalc.
+
 2001-05-27  Karl Eichwalder  <ke@suse.de>
 
 	* Run xml-i18n-prepare:

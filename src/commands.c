@@ -757,12 +757,13 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		sheet_region_queue_recalc (me->pos.sheet, r);
 
 		/* If there is an expression then this was an array */
-		if (expr != NULL)
+		if (expr != NULL) {
 			cell_set_array_formula (me->pos.sheet,
-						r->start.row, r->start.col,
-						r->end.row, r->end.col,
-						expr, TRUE);
-		else
+						r->start.col, r->start.row,
+						r->end.col, r->end.row,
+						expr);
+			sheet_region_queue_recalc (me->pos.sheet, r);
+		} else
 			sheet_range_set_text (&me->pos, r, me->text);
 
 		/* mark content as dirty */
@@ -2649,6 +2650,7 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 				   me->base_col, me->base_row,
 				   me->end_col, me->end_row);
 
+	sheet_region_queue_recalc (me->dst.sheet, &me->dst.range);
 	sheet_range_calc_spans (me->dst.sheet, me->dst.range, SPANCALC_RENDER);
 	sheet_flag_status_update_range (me->dst.sheet, &me->dst.range);
 	sheet_make_cell_visible	(me->dst.sheet, me->base_col, me->base_row);

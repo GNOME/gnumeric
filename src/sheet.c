@@ -1337,6 +1337,7 @@ sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str)
 	}
 	g_slist_free (merged);
 
+	sheet_region_queue_recalc (pos->sheet, r);
 	if (closure.format)
 		style_format_unref (closure.format);
 
@@ -1385,8 +1386,8 @@ sheet_cell_set_text (Cell *cell, char const *text)
 	} else {
 		cell_set_value (cell, val, format);
 		sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
-		cell_queue_recalc (cell);
 	}
+	cell_queue_recalc (cell);
 	if (format)
 		style_format_unref (format);
 	sheet_flag_status_update_cell (cell);
@@ -3217,7 +3218,6 @@ colrow_move (Sheet *sheet,
 
 		sheet_cell_add_to_hash (sheet, cell);
 		cell_relocate (cell, NULL);
-		cell_queue_recalc (cell);
 	}
 }
 
@@ -3614,7 +3614,6 @@ sheet_move_range (WorkbookControl *wbc,
 			dependent_link (CELL_TO_DEP (cell), &cell->pos);
 
 		cell_relocate (cell, NULL);
-		cell_queue_recalc (cell);
 	}
 
 	/* 7. Move objects in the range */
@@ -4176,16 +4175,25 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 		ExprArray const* array = cell_is_array (cell);
 		if (array != NULL) {
 			if (array->x == 0 && array->y == 0) {
+				int i, j;
 				ExprTree *expr = array->corner.expr;
 				expr_tree_ref (expr);
 				cell_set_array_formula (dst,
-							cell->pos.row, cell->pos.col,
-							cell->pos.row + array->rows-1,
-							cell->pos.col + array->cols-1,
-							expr,
-
-							/* FIXME : We should copy the values */
-							TRUE);
+					cell->pos.col, cell->pos.row,
+					cell->pos.col + array->cols-1,
+					cell->pos.row + array->rows-1,
+					expr);
+				for (i = 0; i < array->cols ; i++)
+					for (j = 0; j < array->rows ; j++)
+						if (i != 0 || j != 0) {
+							Cell const *in = sheet_cell_fetch (cell->base.sheet,
+								cell->pos.col + i,
+								cell->pos.row + j);
+							Cell *out = sheet_cell_fetch (dst,
+								cell->pos.col + i,
+								cell->pos.row + j);
+							cell_set_value (out, in->value, in->format);
+						}
 			}
 			return;
 		}
