@@ -127,7 +127,7 @@ sub import_file {
 	    # Fix a bug...
 	    s/\(\(-37\.5193 < x\) \|\| \(x < 8\.2924\)\)/((-37.5193 < x) && (x < 8.2924))/;
 
-	    # Optimization given out stupid gammafn.
+	    # Optimization given our stupid gammafn.
 	    s|> 10|< 10| if /p and q are small: p <= q > 10/;
 	    s|loggnum\(gammafn\(p\) \* \(gammafn\(q\) / gammafn\(p \+ q\)\)\)|lgammagnum(p) + lgammagnum(q) - lgammagnum(p + q)|;
 
@@ -148,6 +148,11 @@ sub import_file {
 	    s/int give_log/gboolean give_log/g;
 	    s/int log_p/gboolean log_p/g;
 	    s/int lower_tail/gboolean lower_tail/g;
+
+	    if ($filename =~ m|/pgeom\.c$| && /^(\s*)return R_DT_Cval/) {
+		print "$1if (lower_tail && !log_p)\n";
+		print "$1  return -expm1gnum ((x + 1) * log1pgnum (-p));\n";
+	    }
 
 	    if ($filename =~ m|/qbeta\.c$| && /xinbta = 0\.5;/) {
 		s/0\.5/(xinbta < lower) ? sqrtgnum (lower) : 1 - sqrtgnum (lower)/;

@@ -116,6 +116,7 @@ Morten:
 	* Set accessibility role for save-before-exit dialog.
 	* Improve auto-scrolling when dragging the cursor outside the
 	  window.
+	* Improve pgeom (and thus GEODIST) accuracy.
 
 --------------------------------------------------------------------------
 

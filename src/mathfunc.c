@@ -3294,6 +3294,8 @@ gnm_float pgeom(gnm_float x, gnm_float p, gboolean lower_tail, gboolean log_p)
     if (!finitegnum(x)) return R_DT_1;
     if(log_p && !lower_tail)
 	return log1pgnum(-p) * (x + 1);
+    if (lower_tail && !log_p)
+      return -expm1gnum ((x + 1) * log1pgnum (-p));
     return R_DT_Cval(powgnum(1 - p, x + 1));
 }
 
