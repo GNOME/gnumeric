@@ -973,9 +973,24 @@ format_remove_decimal (StyleFormat const *fmt)
 	case FMT_SCIENCE:
 		return reformat_decimals (&fc, &style_format_science, -1);
 	case FMT_FRACTION:
-		if (fc.num_decimals <= 1)
-			return NULL;
-		return reformat_decimals (&fc, &style_format_fraction, -1);
+		if (fc.fraction_denominator >= 2) {
+			if (fc.fraction_denominator > 2 &&
+			    ((fc.fraction_denominator & (fc.fraction_denominator - 1)) == 0))
+				/* It's a power of two.  */
+				fc.fraction_denominator /= 2;
+			else if (fc.fraction_denominator > 10 &&
+				 fc.fraction_denominator % 10 == 0)
+				/* It's probably a power of ten.  */
+				fc.fraction_denominator /= 10;
+			else
+				return NULL;
+
+			return reformat_decimals (&fc, &style_format_fraction, 0);
+		} else {
+			if (fc.num_decimals <= 1)
+				return NULL;
+			return reformat_decimals (&fc, &style_format_fraction, -1);
+		}
 
 	case FMT_TIME:
 		/* FIXME: we might have decimals on seconds part.  */
@@ -1057,10 +1072,25 @@ format_add_decimal (StyleFormat const *fmt)
 	case FMT_SCIENCE:
 		return reformat_decimals (&fc, &style_format_science, +1);
 	case FMT_FRACTION:
-		if (fc.num_decimals >= 5)
-			return NULL;
-		return reformat_decimals (&fc, &style_format_fraction, +1);
-		
+		if (fc.fraction_denominator >= 2) {
+			if (fc.fraction_denominator <= INT_MAX / 2 &&
+			    ((fc.fraction_denominator & (fc.fraction_denominator - 1)) == 0))
+				/* It's a power of two.  */
+				fc.fraction_denominator *= 2;
+			else if (fc.fraction_denominator <= INT_MAX / 10 &&
+				 fc.fraction_denominator % 10 == 0)
+				/* It's probably a power of ten.  */
+				fc.fraction_denominator *= 10;
+			else
+				return NULL;
+
+			return reformat_decimals (&fc, &style_format_fraction, 0);
+		} else {
+			if (fc.num_decimals >= 5)
+				return NULL;
+			return reformat_decimals (&fc, &style_format_fraction, +1);
+		}
+
 	case FMT_TIME:
 		/* FIXME: we might have decimals on seconds part.  */
 	case FMT_DATE:

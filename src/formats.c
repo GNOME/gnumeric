@@ -130,6 +130,13 @@ static char const * const
 cell_format_fraction [] = {
 	"# ?/?",
 	"# ?" "?/?" "?",  /* Don't accidentally use trigraph.  */
+	"# ?" "?" "?/?" "?" "?",
+	"# ?/2",
+	"# ?/4",
+	"# ?/8",
+	"# ?/16",
+	"# ?/10",
+	"# ?/100",
 	NULL
 };
 
@@ -204,7 +211,7 @@ currency_date_format_init (void)
 	/* This one is for FMT_PERCENT and FMT_SCIENCE, extended regexp */
 	char const *pattern_percent_science = "^0(.0{1,30})?(%|E+00)$";
 
-	char const *pattern_fraction = "^# (\\?+)/\\1$";
+	char const *pattern_fraction = "^#\\\\? (\\?+)/(\\?+|[1-9]\\d*)$";
 
 	/* This one is for FMT_ACCOUNT */
 
@@ -727,12 +734,20 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 static gboolean
 cell_format_is_fraction (char const *fmt, FormatCharacteristics *info)
 {
-	regmatch_t match[2];
+	regmatch_t match[3];
+	const char *denominator;
 
 	if (gnumeric_regexec (&re_fraction, fmt, G_N_ELEMENTS (match), match, 0) != 0)
 		return FALSE;
 
-	info->num_decimals = match[1].rm_eo - match[1].rm_so;
+	denominator = fmt + match[2].rm_so;
+	if (denominator[0] == '?') {
+		info->num_decimals = match[1].rm_eo - match[1].rm_so;
+		info->fraction_denominator = 0;
+	} else {
+		info->num_decimals = 0;
+		info->fraction_denominator = atoi (denominator);
+	}
 	return TRUE;
 }
 
@@ -755,6 +770,7 @@ cell_format_classify (StyleFormat const *sf, FormatCharacteristics *info)
 	info->currency_symbol_index = 1; /* '$' */
 	info->date_has_days = FALSE;
 	info->date_has_months = FALSE;
+	info->fraction_denominator = 0;
 
 	if (style_format_is_general (sf))
 		return FMT_GENERAL;
@@ -793,13 +809,18 @@ cell_format_classify (StyleFormat const *sf, FormatCharacteristics *info)
 void
 style_format_fraction (GString *res, FormatCharacteristics const *fmt)
 {
-	g_return_if_fail (fmt->num_decimals > 0);
-	g_return_if_fail (fmt->num_decimals <= NUM_ZEROS);
+	if (fmt->fraction_denominator >= 2) {
+		g_string_append (res, "# ?/");
+		g_string_append_printf (res, "%d", fmt->fraction_denominator);
+	} else {
+		g_return_if_fail (fmt->num_decimals > 0);
+		g_return_if_fail (fmt->num_decimals <= NUM_ZEROS);
 
-	g_string_append (res, "# ");
-	g_string_append_len (res, qmarks, fmt->num_decimals);
-	g_string_append_c (res, '/');
-	g_string_append_len (res, qmarks, fmt->num_decimals);
+		g_string_append (res, "# ");
+		g_string_append_len (res, qmarks, fmt->num_decimals);
+		g_string_append_c (res, '/');
+		g_string_append_len (res, qmarks, fmt->num_decimals);
+	}
 }
 
 void

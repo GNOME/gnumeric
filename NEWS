@@ -93,10 +93,11 @@ Morten:
 	* Speed up loading.
 	* Use pool allocation for cell style tiles.
 	* Fix rounding and error problems with GCD and LCM.
-	* Make +/- buttons work for changing precision of fraction formats.
+	* Make +/- buttons work for changing precision of fractional formats.
 	* Fix +/- buttons for cells with value formats.
 	* Fix +/- buttons for currency formats.
 	* Make the 1000-separator button do something more useful.
+	* Improve the support for fractional formats.
 
 --------------------------------------------------------------------------
 

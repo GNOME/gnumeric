@@ -28,12 +28,13 @@ typedef struct {
 
 typedef struct {
 	gboolean thousands_sep;
-	gint	 num_decimals;	/* 0 - 30 */
-	gint	 negative_fmt;	/* 0 - 3 */
-	gint	 currency_symbol_index;
-	gint	 list_element;
+	int	 num_decimals;	/* 0 - 30 */
+	int	 negative_fmt;	/* 0 - 3 */
+	int	 currency_symbol_index;
+	int	 list_element;
 	gboolean date_has_days;
 	gboolean date_has_months;
+	int      fraction_denominator;
 } FormatCharacteristics;
 
 FormatFamily cell_format_classify (StyleFormat const *fmt, FormatCharacteristics *info);

@@ -1,5 +1,18 @@
 2003-07-11  Morten Welinder  <terra@gnome.org>
 
+	* src/formats.c (style_format_fraction): Handle fixed-denominator
+	fractional formats.
+	(cell_format_fraction): Add three-digit general and several
+	fixed-denominator fractional formats.
+	(currency_date_format_init): Recognize fractional formats with
+	explicit denominator.
+	(cell_format_is_fraction): Recognize explicit denominator.
+
+	* src/format.c (format_add_decimal, format_remove_decimal): Do
+	something sensible for fixed-denominator fractional formats.
+
+2003-07-11  Morten Welinder  <terra@gnome.org>
+
 	* src/format.c (format_toggle_thousands, format_add_decimal,
 	format_remove_decimal, reformat_decimals): Return a StyleFormat,
 	not a [vile XL format] string.  All callers changed.
