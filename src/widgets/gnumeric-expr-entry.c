@@ -108,7 +108,7 @@ static gboolean
 split_char_p (unsigned char const *c)
 {
 	switch (*c) {
-	case '=':
+	case '=': case ' ':
 	case '(': case '<': case '>':
 	case '+': case '-': case '*': case '/':
 	case '^': case '&': case '%': case '!':

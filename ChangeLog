@@ -1,3 +1,22 @@
+2004-06-22  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=134014
+	* src/print-cell.c (print_merged_range) : sync with canvas item
+	  recalling that y-coords are negative.  Enable diagonals.
+
+2004-06-08  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=143577
+	* src/style-border.c (style_border_print_diag) : handle NULL and none
+	(style_border_set_pc) : back out my incorrect fix and sync with gui.
+
+2004-06-07  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=143512
+	* src/main-application.c (main) : call
+	  gnome_authentication_manager_init to enable stock authentication
+	  callbacks for gnome-vfs
+
 2004-06-04  Morten Welinder  <terra@gnome.org>
 
 	* src/parser.y (arg_list): handle the empty arg in =IF(TRUE,)

@@ -92,6 +92,7 @@ plugins/uihello/hello.xml
 plugins/uihello/plugin.xml.in
 plugins/uihello/uihello.c
 plugins/xbase/boot.c
+plugins/xbase/xbase.c
 plugins/xbase/plugin.xml.in
 plugins/xml_sax/plugin.xml.in
 plugins/xml_sax/xml-sax-read.c

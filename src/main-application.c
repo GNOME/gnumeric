@@ -35,6 +35,7 @@
 #include <fcntl.h>
 #include <time.h>
 #include <string.h>
+#include <libgnomeui/gnome-authentication-manager.h>
 
 #ifdef WITH_BONOBO
 #include <bonobo/bonobo-main.h>
@@ -178,6 +179,7 @@ main (int argc, char *argv [])
 	else
 		startup_files = NULL;
 
+	gnome_authentication_manager_init ();
 #ifdef WITH_BONOBO
 	bonobo_activate ();
 #endif

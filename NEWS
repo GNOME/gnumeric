@@ -5,6 +5,8 @@ Andreas:
 	* Handle borders in latex export correctly (broken in 1.2.12 only)
 	http://bugzilla.gnome.org/show_bug.cgi?id=142219
 	* Handle borders in latex export correctly
+	http://bugzilla.gnome.org/show_bug.cgi?id=143577
+	* fix grid printing
 
 Emmanuel Pacaud:
 	http://bugzilla.gnome.org/show_bug.cgi?id=142212
@@ -23,6 +25,8 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=142474
 	* Use first rather than last conditional value fmt as catch-all
 	* Enable implicit iteration for operators
+	http://bugzilla.gnome.org/show_bug.cgi?id=143577
+	* Re-enable gridline printing
 
 Morten:
 	* Fix image-inside-xls problem.
