@@ -1,3 +1,8 @@
+2000-01-24  Sergey Panov <sipan@mit.edu>
+
+	* ru.po: Updated Russian translation from
+	 Valek Filippov <frob@df.ru>
+
 2000-01-18  Jody Goldberg <jgoldberg@home.com>
 
 	* POTFILES.in : remove the stat plugin.
