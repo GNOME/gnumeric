@@ -43,32 +43,9 @@ expr_parse_string (const char *expr, Sheet *sheet, int col, int row,
 	return NULL;
 }
 
-static void
-do_expr_tree_ref (ExprTree *tree)
-{
-	g_return_if_fail (tree != NULL);
-	g_return_if_fail (tree->ref_count > 0);
-
-	tree->ref_count++;
-	switch (tree->oper){
-	case OPER_VAR:
-	case OPER_CONSTANT:
-	case OPER_FUNCALL:
-		break;
-
-	case OPER_ANY_BINARY:
-		do_expr_tree_ref (tree->u.binary.value_a);
-		do_expr_tree_ref (tree->u.binary.value_b);
-		break;
-
-	case OPER_ANY_UNARY:
-		do_expr_tree_ref (tree->u.value);
-		break;
-	}
-}
 
 ExprTree *
-expr_tree_new ()
+expr_tree_new (void)
 {
 	ExprTree *ans = g_new (ExprTree, 1);
 	if (!ans) return NULL;
@@ -88,26 +65,32 @@ expr_tree_ref (ExprTree *tree)
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (tree->ref_count > 0);
 
-	do_expr_tree_ref (tree);
+	tree->ref_count++;
 }
 
 static void
 do_expr_tree_unref (ExprTree *tree)
 {
-	tree->ref_count--;
+	if (--tree->ref_count > 0)
+		return;
+
 	switch (tree->oper){
 	case OPER_VAR:
 		break;
 
 	case OPER_CONSTANT:
-		if (tree->ref_count == 0)
-			value_release (tree->u.constant);
+		value_release (tree->u.constant);
 		break;
 
-	case OPER_FUNCALL:
-		if (tree->ref_count == 0)
-			symbol_unref (tree->u.function.symbol);
+	case OPER_FUNCALL: {
+		GList *l;
+
+		for (l = tree->u.function.arg_list; l; l = l->next)
+			do_expr_tree_unref (l->data);
+		g_list_free (tree->u.function.arg_list);
+		symbol_unref (tree->u.function.symbol);
 		break;
+	}
 
 	case OPER_ANY_BINARY:
 		do_expr_tree_unref (tree->u.binary.value_a);
@@ -119,10 +102,15 @@ do_expr_tree_unref (ExprTree *tree)
 		break;
 	}
 
-	if (tree->ref_count == 0)
-		g_free (tree);
+	g_free (tree);
 }
 
+/*
+ * expr_tree_unref:
+ * Decrements the ref_count for part of a tree.  (All trees are expected
+ * to have been created with a ref-count of one, so when we hit zero, we
+ * go down over the tree and unref the tree and its leaves stuff.)
+ */
 void
 expr_tree_unref (ExprTree *tree)
 {
@@ -183,6 +171,7 @@ value_release (Value *value)
 			g_free (value->v.array.vals [i]);
 
 		g_free (value->v.array.vals);
+		break;
 	}
 
 	case VALUE_CELLRANGE:
@@ -276,12 +265,14 @@ value_str (const char *str)
 }
 
 Value *
-value_cellrange (CellRef *a, CellRef *b)
+value_cellrange (const CellRef *a, const CellRef *b)
 {
 	Value *v = g_new (Value, 1);
+
 	v->type = VALUE_CELLRANGE;
-	memcpy (&v->v.cell_range.cell_a, a, sizeof(CellRef));
-	memcpy (&v->v.cell_range.cell_b, b, sizeof(CellRef));
+	v->v.cell_range.cell_a = *a;
+	v->v.cell_range.cell_b = *b;
+
 	return v;
 }
 

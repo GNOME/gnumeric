@@ -661,6 +661,8 @@ split_time (gdouble number)
 	secs -= tm.tm_min * 60;
 	tm.tm_sec  = floor (secs);
 
+	g_date_free (date);
+
 	return &tm;
 }
 

@@ -163,7 +163,7 @@ ExprTree   *expr_tree_relocate   (ExprTree *expr, int col_diff, int row_diff);
 char       *expr_decode_tree     (ExprTree *tree, Sheet *sheet,
 				  int col, int row);
 
-ExprTree   *expr_tree_new        ();
+ExprTree   *expr_tree_new        (void);
 void        expr_tree_ref        (ExprTree *tree);
 void        expr_tree_unref      (ExprTree *tree);
 
@@ -195,7 +195,7 @@ Value       *value_array_new       (guint width, guint height);
 void         value_array_resize    (Value *v, guint width, guint height);
 void         value_array_copy_to   (Value *dest, const Value *src);
 
-Value       *value_cellrange       (CellRef *a, CellRef *b);
+Value       *value_cellrange       (const CellRef *a, const CellRef *b);
 			 
 void        value_dump           (Value *value);
 char       *value_string         (const Value *value);

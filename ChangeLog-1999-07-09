@@ -1,5 +1,16 @@
 1999-05-03  Morten Welinder  <terra@diku.dk>
 
+	* src/format.c (split_time): Fix leak.
+
+	* src/parser.y (forget): Fix leak.
+
+	* src/expr.c (do_expr_tree_ref): Delete.
+	(expr_tree_ref): Just increase the ref-count.
+	(do_expr_tree_unref): Properly decrease all the way.
+	(expr_tree_new): Fix prototype.
+	(value_release): Add "break".
+	(value_cellrange): Make args const.  Don't use memcpy call.
+
 	* src/parser.y (v_new): Fix type.
 	(alloc_register): Ditto.
 	(dump_tree): Fix reference to variable cell.

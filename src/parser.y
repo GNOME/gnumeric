@@ -141,18 +141,13 @@ exp:	  NUMBER 	{ $$ = $1 }
 	}
 
         | cellref ':' cellref {
-		CellRef a, b;
-
-		a = $1->u.ref;
-		b = $3->u.ref;
-
 		$$ = p_new (ExprTree);
 		$$->ref_count = 1;
 		$$->oper = OPER_CONSTANT;
 		$$->u.constant = v_new ();
 		$$->u.constant->type = VALUE_CELLRANGE;
-		$$->u.constant->v.cell_range.cell_a = a;
-		$$->u.constant->v.cell_range.cell_b = b;
+		$$->u.constant->v.cell_range.cell_a = $1->u.ref;
+		$$->u.constant->v.cell_range.cell_b = $3->u.ref;
 
 		forget_tree ($1);
 		forget_tree ($3);
@@ -230,7 +225,7 @@ return_cellref (char *p)
 	/*  Ok, parsed successfully, create the return value */
 	e = p_new (ExprTree);
 	e->ref_count = 1;
-	
+
 	e->oper = OPER_VAR;
 
 	ref = &e->u.ref;
@@ -249,7 +244,7 @@ return_cellref (char *p)
 	ref->col_relative = col_relative;
 	ref->row_relative = row_relative;
 	ref->sheet = parser_sheet;
-	
+
 	yylval.tree = e;
 
 	return CELLREF;
@@ -624,6 +619,7 @@ forget (AllocType type, void *data)
 		if (a_info->type == type && a_info->data == data){
 			alloc_list = g_list_remove_link (alloc_list, l);
 			g_list_free_1 (l);
+			g_free (a_info);
 			return;
 		}
 	}
@@ -638,8 +634,8 @@ forget_glist (GList *list)
 static void
 forget_tree (ExprTree *tree)
 {
+	expr_tree_unref (tree);
 	forget (ALLOC_BUFFER, tree);
-	expr_tree_unref (tree); 
 }
 
 void
