@@ -143,12 +143,16 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_KP_End:
 	case GDK_End:
-		/* do the ctrl-end jump to IV65536 in 2 steps */
-		(*movefn)(gsheet->scg, SHEET_MAX_COLS, FALSE, TRUE);
-		if ((event->state & GDK_CONTROL_MASK))
-			(*movefn)(gsheet->scg, SHEET_MAX_ROWS, FALSE, FALSE);
-		break;
+	{
+		Range r = sheet_get_extent (sheet);
 		
+		/* do the ctrl-end jump to the extent in 2 steps */
+		(*movefn)(gsheet->scg, r.end.col - sheet->edit_pos.col, FALSE, TRUE);
+		if ((event->state & GDK_CONTROL_MASK))
+			(*movefn)(gsheet->scg, r.end.row - sheet->edit_pos.row, FALSE, FALSE);
+		break;
+	}
+	
 	case GDK_KP_Delete:
 	case GDK_Delete:
 		cmd_clear_selection (WORKBOOK_CONTROL (wbcg), sheet, CLEAR_VALUES);
