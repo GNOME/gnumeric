@@ -1,5 +1,9 @@
 2000-11-12  Ariel Rios  <ariel@arcavia.com>
 
+	* functions.scm: Cleaned old commented scheme functions.
+
+2000-11-12  Ariel Rios  <ariel@arcavia.com>
+
 	* functions.scm (fibo): Use value-get-as-int for getting the integer value.
 	* guile-support.c (value_to_scm): We now create a new smob value instead of dealing 
 	with a case per case basis.
