@@ -22,11 +22,6 @@
 #include "selection.h"
 #include "application.h"
 
-/* Sizes for column/row headers */
-
-#define COLUMN_HEADER_HEIGHT 20
-#define ROW_HEADER_WIDTH 50
-
 static GtkTableClass *sheet_view_parent_class;
 
 void
@@ -173,28 +168,40 @@ sheet_view_set_zoom_factor (SheetView *sheet_view, double factor)
 {
 	GList *l;
 	GnumericSheet *gsheet;
+	ItemBar *col_item, *row_item;
+	int h, w;
 
 	g_return_if_fail (sheet_view != NULL);
 	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
 	
 	gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+	col_item = ITEM_BAR (sheet_view->col_item);
+	row_item = ITEM_BAR (sheet_view->row_item);
 
 	/* Set pixels_per_unit before the font.  The item bars look here for the number */
 	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (gsheet), factor);
 	
 	/* resize the header fonts */
-	item_bar_fonts_init (ITEM_BAR (sheet_view->col_item));
-	item_bar_fonts_init (ITEM_BAR (sheet_view->row_item));
+	item_bar_fonts_init (col_item);
+	item_bar_fonts_init (row_item);
 
-	gtk_widget_set_usize (GTK_WIDGET (sheet_view->col_canvas),
-			      -1, COLUMN_HEADER_HEIGHT * factor);
+	/*
+	 * Use the size of the bold header font to size the free dimensions
+	 * No need to zoom, the size of the font takes that into consideration.
+	 */
+
+	/* 2 pixels above and below */
+	h = 2 + 2 + style_font_get_height (col_item->bold_font);
+	/* 5 pixels left and right plus the width of the widest string I can think of */
+	w = 5 + 5 + gdk_string_width (style_font_gdk_font (col_item->bold_font), "88888");
+
+	gtk_widget_set_usize (GTK_WIDGET (sheet_view->col_canvas), -1, h);
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (sheet_view->col_canvas), 0, 0,
-					1000000*factor, COLUMN_HEADER_HEIGHT*factor);
+					1000000*factor, h);
 
-	gtk_widget_set_usize (GTK_WIDGET (sheet_view->row_canvas),
-			      ROW_HEADER_WIDTH * factor, -1);
+	gtk_widget_set_usize (GTK_WIDGET (sheet_view->row_canvas), w, -1);
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (sheet_view->row_canvas), 0, 0,
-					ROW_HEADER_WIDTH*factor, 1200000*factor);
+					w, 1200000*factor);
 
 	/* Recalibrate the starting offsets */
 	gsheet->col_offset.first =
@@ -224,40 +231,25 @@ canvas_bar_realized (GtkWidget *widget, gpointer data)
 static GnomeCanvas *
 new_canvas_bar (SheetView *sheet_view, GtkOrientation o, GnomeCanvasItem **itemp)
 {
-	GnomeCanvasGroup *group;
-	GnomeCanvasItem *item;
-	GtkWidget *canvas;
-	int w, h;
-	
-	canvas = gnome_canvas_new ();
+	GtkWidget *canvas =
+	    gnome_canvas_new ();
+	GnomeCanvasGroup *group =
+	    GNOME_CANVAS_GROUP (GNOME_CANVAS (canvas)->root);
+	GnomeCanvasItem *item =
+	    gnome_canvas_item_new (group,
+				   item_bar_get_type (),
+				   "ItemBar::SheetView", sheet_view,
+				   "ItemBar::Orientation", o,
+				   NULL);
 
 	gtk_signal_connect (GTK_OBJECT (canvas), "realize",
 			    (GtkSignalFunc) canvas_bar_realized,
 			    NULL);
 
-	/* FIXME: need to set the correct scrolling regions.  This will do for now */
-
-	if (o == GTK_ORIENTATION_VERTICAL){
-		w = ROW_HEADER_WIDTH;
-		h = -1;
-		gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0, 0, w, 1200000);
-	} else {
-		w = -1;
-		h = COLUMN_HEADER_HEIGHT;
-		gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0, 0, 1000000, h);
-	}
-	gtk_widget_set_usize (canvas, w, h);
-	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (canvas)->root);
-	item = gnome_canvas_item_new (group,
-				      item_bar_get_type (),
-				      "ItemBar::SheetView", sheet_view,
-				      "ItemBar::Orientation", o,
-				      NULL);
-
-	*itemp = GNOME_CANVAS_ITEM (item);
+	*itemp = item;
 	gtk_widget_show (canvas);
 	
-	return GNOME_CANVAS (canvas);
+	return GNOME_CANVAS(canvas);
 }
 
 /* Manages the scrollbar dimensions and paging parameters. */
@@ -617,6 +609,7 @@ sheet_view_construct (SheetView *sheet_view)
 			  GTK_FILL,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  0, 0);
+	sheet_view_set_zoom_factor (sheet_view, 1.);
 }
 
 void

@@ -89,7 +89,9 @@ gnumeric_sheet_get_cell_bounds (GnumericSheet *gsheet, int col, int row, int *x,
  * placed at base_col, base_row
  */
 void
-gnumeric_sheet_set_selection (GnumericSheet *gsheet, SheetSelection const *ss)
+gnumeric_sheet_set_selection (GnumericSheet *gsheet,
+			      int base_col, int base_row,
+			      SheetSelection const *ss)
 {
 	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (ss != NULL);
@@ -97,7 +99,7 @@ gnumeric_sheet_set_selection (GnumericSheet *gsheet, SheetSelection const *ss)
 
 	sheet_cursor_set (
 		gsheet->sheet_view->sheet,
-		ss->base.col, ss->base.row,
+		base_col, base_row,
 		ss->user.start.col, ss->user.start.row,
 		ss->user.end.col, ss->user.end.row);
 }

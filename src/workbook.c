@@ -2137,7 +2137,7 @@ change_displayed_zoom_cb (GtkObject *caller, Sheet* sheet, gpointer data)
 	
 	g_return_if_fail (combo = WORKBOOK (caller)->priv->zoom_entry);
 
-	str = g_strdup_printf("%d", factor);
+	str = g_strdup_printf("%d%%", factor);
 	
 	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO_TEXT (combo)->entry),
 			    str);
@@ -2169,17 +2169,14 @@ workbook_standard_toolbar_orient (GtkToolbar *toolbar,
 static GtkWidget *
 workbook_create_standard_toobar (Workbook *wb)
 {
-#define NUM_PRESET_ZOOM 5
-#define DEF_PRESET_ZOOM 1
-	static struct {
-		char const * const name;
-		char const * const factor;
-	} preset_zoom[NUM_PRESET_ZOOM] = {
-		{ "200%", "200" },
-		{ "100%", "100" },
-		{ "75%", "75" },
-		{ "50%", "50" },
-		{ "25%", "25" },
+	char const * const preset_zoom[] =
+	{
+	    "200%",
+	    "100%",
+	    "75%",
+	    "50%",
+	    "25%",
+	    NULL
 	};
 	int i, len;
 	
@@ -2211,12 +2208,9 @@ workbook_create_standard_toobar (Workbook *wb)
 	gtk_widget_set_usize (entry, len, 0);
 
 	/* Preset values */
-	for (i = 0; i < NUM_PRESET_ZOOM; i++)
-	{
+	for (i = 0; preset_zoom[i] != NULL ; ++i)
 		gtk_combo_text_add_item(GTK_COMBO_TEXT (zoom),
-					preset_zoom[i].name,
-					preset_zoom[i].factor);
-	}
+					preset_zoom[i], preset_zoom[i]);
 
 	/* Add it to the toolbar */
 	gtk_widget_show (zoom);
@@ -2229,8 +2223,6 @@ workbook_create_standard_toobar (Workbook *wb)
 		GTK_SIGNAL_FUNC (&workbook_standard_toolbar_orient), wb);
 
 	return toolbar;
-#undef NUM_PRESET_ZOOM
-#undef DEF_PRESET_ZOOM
 }
 
 static void

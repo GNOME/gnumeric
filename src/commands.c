@@ -178,6 +178,7 @@ void
 command_undo (CommandContext *context, Workbook *wb)
 {
 	GnumericCommand *cmd;
+	GnumericCommandClass *klass;
 
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (wb->undo_commands != NULL);
@@ -185,12 +186,17 @@ command_undo (CommandContext *context, Workbook *wb)
 	cmd = GNUMERIC_COMMAND(wb->undo_commands->data);
 	g_return_if_fail (cmd != NULL);
 
+	klass = GNUMERIC_COMMAND_CLASS(cmd->parent.klass);
+	g_return_if_fail (klass != NULL);
+
+	/* TRUE indicates a failure to undo.  Leave the command where it is */
+	if (klass->undo_cmd (cmd, context))
+		return;
+
 	wb->undo_commands = g_slist_remove (wb->undo_commands,
 					    wb->undo_commands->data);
-	GNUMERIC_COMMAND_CLASS(cmd->parent.klass)->undo_cmd (cmd, context);
 	wb->redo_commands = g_slist_prepend (wb->redo_commands, cmd);
 	undo_redo_menu_labels (wb);
-
 	/* TODO : Should we mark the workbook as clean or pristine too */
 }
 
@@ -207,6 +213,7 @@ void
 command_redo (CommandContext *context, Workbook *wb)
 {
 	GnumericCommand *cmd;
+	GnumericCommandClass *klass;
 
 	g_return_if_fail (wb);
 	g_return_if_fail (wb->redo_commands);
@@ -214,10 +221,16 @@ command_redo (CommandContext *context, Workbook *wb)
 	cmd = GNUMERIC_COMMAND(wb->redo_commands->data);
 	g_return_if_fail (cmd != NULL);
 
+	klass = GNUMERIC_COMMAND_CLASS(cmd->parent.klass);
+	g_return_if_fail (klass != NULL);
+
+	/* TRUE indicates a failure to undo.  Leave the command where it is */
+	if (klass->redo_cmd (cmd, context))
+		return;
+
 	/* Remove the command from the undo list */
 	wb->redo_commands = g_slist_remove (wb->redo_commands,
 					    wb->redo_commands->data);
-	GNUMERIC_COMMAND_CLASS(cmd->parent.klass)->redo_cmd (cmd, context);
 	wb->undo_commands = g_slist_prepend (wb->undo_commands, cmd);
 	undo_redo_menu_labels (wb);
 }

@@ -97,9 +97,10 @@ col_row_info_init (ColRowInfo *cri, double points)
 static void
 sheet_init_default_styles (Sheet *sheet)
 {
-	/* Sizes seem to match excel */
-	col_row_info_init (&sheet->cols.default_style, 40.);
-	col_row_info_init (&sheet->rows.default_style, 9.);
+	col_row_info_init (&sheet->cols.default_style,
+			   gdk_string_width (style_font_gdk_font (gnumeric_default_font), "n") *
+			   8.43 /* characters */ );
+	col_row_info_init (&sheet->rows.default_style, 12.75);
 }
 
 /* Initialize some of the columns and rows, to test the display engine */
@@ -3144,12 +3145,13 @@ sheet_insert_object (Sheet *sheet, char *goadid)
 }
 
 void
-sheet_set_selection (Sheet *sheet, SheetSelection const *ss)
+sheet_set_selection (Sheet *sheet, int base_col, int base_row,
+		     SheetSelection const *ss)
 {
 	GList *l = sheet->sheet_views;
 	for (; l != NULL; l = l->next) {
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
-		gnumeric_sheet_set_selection (gsheet, ss);
+		gnumeric_sheet_set_selection (gsheet, base_col, base_row, ss);
 	}
 }
 

@@ -421,6 +421,9 @@ color_hash (gconstpointer v)
 static void
 font_init (void)
 {
+	/* NOTE : these fonts are NOT scaled by resolution.
+	 *        The size of the default rows and columns depend on that.
+	 */
 	gnumeric_default_font = style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE, 1.0, FALSE, FALSE);
 
 	if (!gnumeric_default_font) {

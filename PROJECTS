@@ -22,6 +22,8 @@ Description                                             Difficulty  Integration
   browsing/listing the funtions & I/O routines it
   provides.
 
+- Reorder colours in src/widgets/widget-color-combo.c	Artistic    Very Low.
+  to be less random.
 
 
 Difficulty: an estimate of how hard the task would be for the average hacker.

@@ -265,7 +265,9 @@ void        sheet_col_set_selection       (Sheet *sheet,
 					   ColRowInfo *ci, int value);
 void        sheet_row_set_selection       (Sheet *sheet,
 					   ColRowInfo *ri, int value);
-void        sheet_set_selection           (Sheet *sheet, SheetSelection const *ss);
+void        sheet_set_selection           (Sheet *sheet,
+					   int base_col, int base_row,
+					   SheetSelection const *ss);
 
 void	    sheet_row_col_visible         (Sheet *sheet, gboolean const is_col,
 					   gboolean const visible,

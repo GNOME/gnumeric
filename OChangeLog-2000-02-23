@@ -1,3 +1,27 @@
+2000-02-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (change_displayed_zoom_cb) : Add a '%' at the end of
+	  the zoom specification.
+	(workbook_create_standard_toobar) : Adjust the list of zoom labels.
+
+	* src/style.c (font_init) : Add comment explaining that the default
+	  fonts are not scaled by resolution, and that we depend on that.
+
+	* src/sheet.c (sheet_init_default_styles) : Set the default sizes
+	  based on the size of the default font not on pixels.
+
+	* src/sheet-view.c (new_canvas_bar) : Don't set the size or scroll
+	  region here.
+	(sheet_view_construct) : Call sheet_view_set_zoom_factor with a factor
+	  of 1 to set sizes and scroll regions.
+	(sheet_view_set_zoom_factor) : Do not hard code the sizes of the free
+	  dimensions.  Set them based on the font used for the headers.
+
+2000-02-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (command_undo) : Be more careful and only undo
+	  commands the successfully undo.
+
 2000-02-06  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet-object.c (sheet_object_construct): mark sheet as modified.

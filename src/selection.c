@@ -94,7 +94,7 @@ sheet_selection_append_range (Sheet *sheet,
 	sheet_accept_pending_input (sheet);
 	sheet_load_cell_val (sheet);
 
-	sheet_set_selection (sheet, ss);
+	sheet_set_selection (sheet, base_col, base_row, ss);
 	sheet_redraw_selection (sheet, ss);
 	sheet_redraw_headers (sheet, TRUE, TRUE, &ss->user);
 
@@ -168,7 +168,7 @@ sheet_selection_change (Sheet *sheet, SheetSelection *old, SheetSelection *new)
 
 	sheet_accept_pending_input (sheet);
 
-	sheet_set_selection (sheet, new);
+	sheet_set_selection (sheet, new->base.col, new->base.row, new);
 	sheet_selection_changed_hook (sheet);
 
 	if (range_overlap (&old->user, &new->user)){
