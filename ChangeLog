@@ -1,3 +1,8 @@
+2002-05-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/print.c (compute_sheet_pages) : don't overwrite number of 
+	  pages from previous sheets.
+
 2002-04-29  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=77682
