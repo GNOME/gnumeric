@@ -39,6 +39,10 @@
 #include <math.h>
 #include <string.h>
 
+#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
+#include <libgnomeprint/gnome-print-pango.h>
+#endif
+
 #define GOG_RENDERER_GNOME_PRINT_TYPE	(gog_renderer_gnome_print_get_type ())
 #define GOG_RENDERER_GNOME_PRINT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RENDERER_GNOME_PRINT_TYPE, GogRendererGnomePrint))
 #define IS_GOG_RENDERER_GNOME_PRINT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RENDERER_GNOME_PRINT_TYPE))
@@ -48,8 +52,9 @@ typedef struct _GogRendererGnomePrint GogRendererGnomePrint;
 struct _GogRendererGnomePrint {
 	GogRenderer base;
 
-	GPtrArray	*fonts;
+	GPtrArray *fonts;
 	GnomePrintContext *gp_context;
+	PangoLayout *layout;
 };
 
 typedef GogRendererClass GogRendererGnomePrintClass;
@@ -66,6 +71,11 @@ gog_renderer_gnome_print_finalize (GObject *obj)
 	if (prend->gp_context != NULL) {
 		g_object_unref (prend->gp_context);
 		prend->gp_context = NULL;
+	}
+
+	if (prend->layout) {
+		g_object_unref (prend->layout);
+		prend->layout = NULL;
 	}
 
 	if (prend->fonts != NULL) {
@@ -405,49 +415,68 @@ gog_renderer_gnome_print_draw_text (GogRenderer *rend, char const *text,
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
 	GnomeFont *gfont = get_font (prend,  rend->cur_style->font.font);
-	double const font_ascent = gnome_font_get_ascender (gfont);
-	double x, y, w, h;
 
-	w = gnome_font_get_width_utf8 (gfont, text);
-	h = font_ascent + gnome_font_get_descender (gfont);
+	if (text[0]) {
+		double x, y;
+#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
+		int w, h;
+		const double dummy_dpi = 300; /* FIXME: What exactly is this?  */
+		PangoFontDescription *pango_font =   /* FIXME: can i get the pango font directly ? */
+			gnome_font_get_pango_description (gfont, dummy_dpi);
 
-	x = pos->x;
-	switch (anchor) {
-	case GTK_ANCHOR_CENTER : case GTK_ANCHOR_N : case GTK_ANCHOR_S :
-		x -= w / 2;
-		break;
-	case GTK_ANCHOR_NE : case GTK_ANCHOR_SE : case GTK_ANCHOR_E :
-		x -= w;
-		break;
-	default : break;
-	}
-	if (x <= 0)
-		x = 0;
+		pango_layout_set_font_description (prend->layout, pango_font);
+		pango_layout_set_text (prend->layout, text, -1);
+		pango_layout_get_size (prend->layout, &w, &h);
+#else
+		/* This code will die when we require libgnomeprint 2.8  */
+		double font_ascent = gnome_font_get_ascender (gfont);
+		double w = gnome_font_get_width_utf8 (gfont, text);
+		double h = font_ascent + gnome_font_get_descender (gfont);
+#endif	
+		x = pos->x;
+		switch (anchor) {
+		case GTK_ANCHOR_CENTER : case GTK_ANCHOR_N : case GTK_ANCHOR_S :
+			x -= w / 2.0;
+			break;
+		case GTK_ANCHOR_NE : case GTK_ANCHOR_SE : case GTK_ANCHOR_E :
+			x -= w;
+			break;
+		default : break;
+		}
+		if (x <= 0)
+			x = 0;
+	
+		y = pos->y;
+		switch (anchor) {
+		case GTK_ANCHOR_CENTER : case GTK_ANCHOR_E : case GTK_ANCHOR_W :
+			y -= h / 2.0;
+			break;
+		case GTK_ANCHOR_SE : case GTK_ANCHOR_S : case GTK_ANCHOR_SW :
+			y -= h;
+			break;
+		default : break;
+		}
+		if (y <= 0)
+			y = 0;
+		
+#warning "add clipping"
 
-	y = pos->y;
-	switch (anchor) {
-	case GTK_ANCHOR_CENTER : case GTK_ANCHOR_E : case GTK_ANCHOR_W :
-		y -= h / 2;
-		break;
-	case GTK_ANCHOR_SE : case GTK_ANCHOR_S : case GTK_ANCHOR_SW :
-		y -= h;
-		break;
-	default : break;
-	}
-	if (y <= 0)
-		y = 0;
-
-#warning add clipping
-
-	gnome_print_setfont (prend->gp_context, gfont);
-	gnome_print_moveto (prend->gp_context, x, -y - font_ascent);
-	gnome_print_show (prend->gp_context, text);
-
-	if (result != NULL) {
-		result->x = x;
-		result->y = y;
-		result->w = w;
-		result->h = h;
+#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
+		gnome_print_moveto (prend->gp_context,x, -y);
+		gnome_print_pango_layout (prend->gp_context, prend->layout);
+		pango_font_description_free (pango_font);
+#else	
+		/* This code will die when we require libgnomeprint 2.8  */		
+		gnome_print_setfont (prend->gp_context, gfont);
+		gnome_print_moveto (prend->gp_context, x, -y - font_ascent);
+		gnome_print_show (prend->gp_context, text);
+#endif	
+		if (result != NULL) {
+			result->x = x;
+			result->y = y;
+			result->w = w;
+			result->h = h;
+		}
 	}
 }
 
@@ -547,8 +576,8 @@ gog_graph_print_to_gnome_print (GogGraph *graph,
 			      "model", graph,
 			      "zoom", 1.,
 			      NULL);
-	g_object_ref (gp_context);
-	prend->gp_context = gp_context;
+	prend->gp_context = g_object_ref (gp_context);
+	prend->layout = gnome_print_pango_create_layout (prend->gp_context);
 	allocation.x = 0.;
 	allocation.y = 0.;
 	allocation.w = width;

@@ -40,6 +40,7 @@ Uwe Steinmann:
 
 Yaacov Zamir:
 	* Fix header/footer printing to use pango layouts.
+	* Fix graph printing to use pango layouts for text.
 
 --------------------------------------------------------------------------
 

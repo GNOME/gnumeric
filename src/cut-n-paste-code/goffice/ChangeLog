@@ -1,3 +1,9 @@
+2004-09-22  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-renderer-gnome-print.c
+	(gog_renderer_gnome_print_draw_text): Print using pango layouts.
+	Adapted from code by Yaacov Zamir <kzamir@walla.co.il>.
+
 2004-09-21  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=153289
