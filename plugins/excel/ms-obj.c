@@ -480,8 +480,13 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container)
 	}
 
 	/* Chart, There should be a BOF next */
-	if (obj->excel_type == 0x5)
-		ms_excel_read_chart (q, container, obj->gnum_obj);
+	if (obj->excel_type == 0x5) {
+		if (ms_excel_read_chart (q, container, obj->gnum_obj)) {
+			gtk_object_unref (GTK_OBJECT (obj->gnum_obj));
+			g_free (obj);
+			return NULL;
+		}
+	}
 
 #if 0
 	printf ("Registered object 0x%p\n", obj);

@@ -2243,7 +2243,7 @@ chart_parse_expr  (MSContainer *container, guint8 const *data, int length)
 	return NULL;
 }
 
-void
+gboolean
 ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObject *graph)
 {
 	static MSContainerClass const vtbl = {
@@ -2285,11 +2285,8 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObje
 	/* All chart handling is debug for now, so just
 	 * lobotomize it here if user isnt interested.
 	 */
-	if (ms_excel_chart_debug <= 0) {
+	if (ms_excel_chart_debug <= 0)
 		state.graph = NULL;
-		if (graph != NULL)
-			gtk_object_unref (graph);
-	}
 #ifdef ENABLE_BONOBO
 	else if (graph != NULL)
 		state.graph = GNUMERIC_GRAPH (graph);
@@ -2335,7 +2332,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObje
 				if (ms_excel_chart_debug > 0)
 					puts ("}; /* CHART */");
 #endif
-				g_return_if_fail(state.stack->len == 0);
+				g_return_val_if_fail(state.stack->len == 0, TRUE);
 				break;
 
 			case BIFF_PROTECT : {
@@ -2413,7 +2410,8 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObje
 	}
 
 #ifdef ENABLE_BONOBO
-	gnm_graph_import_specification (state.graph, state.xml.doc);
+	if (state.graph != NULL)
+		gnm_graph_import_specification (state.graph, state.xml.doc);
 #endif
 
 	/* Cleanup */
@@ -2425,21 +2423,25 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObje
 	}
 	g_ptr_array_free (state.series, TRUE);
 	ms_container_finalize (&state.container);
+
+	return FALSE;
 }
 
-void
+gboolean
 ms_excel_read_chart (BiffQuery *q, MSContainer *container, GtkObject *graph)
 {
 	MsBiffBofData *bof;
+	gboolean res = TRUE;
 
 	/* 1st record must be a valid BOF record */
-	g_return_if_fail (ms_biff_query_next (q));
+	g_return_val_if_fail (ms_biff_query_next (q), TRUE);
 	bof = ms_biff_bof_data_new (q);
 
-	g_return_if_fail (bof != NULL);
-	g_return_if_fail (bof->type == MS_BIFF_TYPE_Chart);
+	g_return_val_if_fail (bof != NULL, TRUE);
+	g_return_val_if_fail (bof->type == MS_BIFF_TYPE_Chart, TRUE);
 
 	if (bof->version != MS_BIFF_V_UNKNOWN)
-		ms_excel_chart (q, container, bof->version, graph);
+		res = ms_excel_chart (q, container, bof->version, graph);
 	ms_biff_bof_data_destroy (bof);
+	return res;
 }

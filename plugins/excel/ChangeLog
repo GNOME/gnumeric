@@ -1,3 +1,8 @@
+2001-09-04  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c (ms_excel_chart) : don't import the spec if we did not
+	  create the graph.
+
 2001-09-03  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_cf) : Do some guessing about how they
