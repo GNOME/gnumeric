@@ -131,6 +131,20 @@ insert_value (Sheet *sheet, guint32 col, guint32 row, Value *val)
 	return cell;
 }
 
+static Sheet *
+attach_sheet (Workbook *wb, int idx)
+{
+	Sheet *sheet;
+	char  *sheet_name;
+
+	sheet_name = g_strdup_printf ("Sheet%d\n", idx);
+	sheet = sheet_new (wb, sheet_name);
+	g_free (sheet_name);
+	workbook_attach_sheet (wb, sheet);
+
+	return sheet;
+}
+
 /* buf was old siag wb / sheet */
 static gboolean
 read_workbook (Workbook *wb, FILE *f)
@@ -139,6 +153,8 @@ read_workbook (Workbook *wb, FILE *f)
 	Sheet    *sheet = NULL;
 	gboolean  panic = FALSE;
 	record_t *r;
+       
+	sheet = attach_sheet (wb, sheetidx++);
 
 	r = record_new (f);
 
@@ -149,13 +165,9 @@ read_workbook (Workbook *wb, FILE *f)
 
 		switch (r->type) {
 		case LOTUS_BOF:
-		{
-			char *name = g_strdup_printf ("Sheet%d\n", sheetidx++);
-			sheet = sheet_new (wb, name);
-			g_free (name);
-			workbook_attach_sheet (wb, sheet);
+			if (sheetidx > 1)
+				sheet = attach_sheet (wb, sheetidx++);
 			break;
-		}
 
 		case LOTUS_EOF:
 			sheet = NULL;

@@ -1,3 +1,10 @@
+1999-10-13  Michael Meeks  <mmeeks@gnu.org>
+
+	* lotus.c (read_workbook): Pre-initialize the only sheet we
+	can read, so if we don't get a BOF (!) we can cope.
+	(attach_sheet): create.	(read_workbook): update so we allways
+	have at least one sheet attached.
+
 1999-08-11  Michael Meeks  <michael@imaginator.com>
 
 	* boot.c (lotus_load): Add workbook argument to lotus_read.
