@@ -1,3 +1,8 @@
+1999-03-13  Richard Hult <rhult@hem2.passagen.se>
+
+	* src/xml-io.c (xmlGetGnomeCanvasPoints): test against the value
+	returned by xmlGetValue, not the GnomeCanvasPoints value. 
+
 1999-03-13  Michael Meeks <michael@imaginator.com>
 
 	* src/fn-eng.c (val_to_base, val_to_base_place),

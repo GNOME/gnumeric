@@ -227,7 +227,7 @@ xmlGetGnomeCanvasPoints (xmlNodePtr node, const char *name)
 	float coord[20];	/* TODO: must be dynamic !!!! */
 
 	val = xmlGetValue (node, name);
-	if (ret == NULL) return(NULL);
+	if (val == NULL) return(NULL);
 	ptr = val;
 	do {
 		while ((*ptr) && (*ptr != '('))
