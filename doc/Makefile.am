@@ -32,6 +32,8 @@ PERL_FILES = 			\
 	make-docbook.pl	
 
 EXTRA_DIST = \
+	topic.dat		\
+	func.defs		\
 	$(SGML_FILES)		\
 	$(PERL_FILES)		\
 	$(TEXT_FILES)
@@ -59,6 +61,7 @@ func.defs: $(top_builddir)/src/gnumeric
 dist-hook:
 	mkdir $(distdir)/gnumeric
 	-cp gnumeric/*.html gnumeric/*.css $(distdir)/gnumeric
+	-cp gnumeric.html $(distdir)
 
 install-data-local: gnumeric.html
 	$(srcdir)/../mkinstalldirs $(gnumeric_helpdir)/images
@@ -75,3 +78,4 @@ gnumeric.ps: gnumeric.sgml
 
 gnumeric.rtf: gnumeric.sgml	
 	-db2rtf $<
+
