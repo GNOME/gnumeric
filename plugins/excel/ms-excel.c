@@ -1974,8 +1974,10 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 				left_vis_col = BIFF_GETWORD(q->data + 4) ;
 				if (options & 0x0200)
 					printf ("Sheet flag selected\n") ;
-				if (options & 0x0400)
+				if (options & 0x0400) {
 					printf ("Sheet top in workbook\n") ;
+					workbook_focus_sheet (sheet->gnum_sheet);
+				}
 				if (options & 0x0001)
 					printf ("FIXME: Sheet display formulae\n") ;
 				break ;

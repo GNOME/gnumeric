@@ -1079,6 +1079,39 @@ workbook_focus_current_sheet (Workbook *wb)
 	return sheet;
 }
 
+void
+workbook_focus_sheet (Sheet *sheet)
+{
+	SheetView *sheet_view;
+	GtkNotebook *notebook;
+	int sheets, i;
+
+	g_return_if_fail (sheet);
+	g_return_if_fail (sheet->workbook);
+	g_return_if_fail (sheet->workbook->notebook);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	notebook = GTK_NOTEBOOK (sheet->workbook->notebook);
+	sheets = workbook_sheet_count (sheet->workbook);
+
+	if (sheets == 1)
+		return;
+
+	for (i = 0; i < sheets; i++){
+		Sheet *this_sheet;
+		GtkWidget *w;
+
+		w = gtk_notebook_get_nth_page (notebook, i);
+
+		this_sheet = gtk_object_get_data (GTK_OBJECT (w), "sheet");
+
+		if (this_sheet == sheet){
+			gtk_notebook_set_page (notebook, i);
+			break;
+		}
+	}
+}
+
 static void
 wb_input_finished (GtkEntry *entry, Workbook *wb)
 {

@@ -1,3 +1,9 @@
+1999-05-10  Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet.h: Added workbook_focus_sheet.
+
+	* src/workbook.c (workbook_focus_sheet): Added.
+
 1999-05-10  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-eng.c: Added IMARGUMENT(), IMCONJUGATE(), IMCOS(),

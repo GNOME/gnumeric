@@ -1,3 +1,8 @@
+1999-05-10  Michael Meeks  <michael@imaginator.com>
+
+	* ms-excel.c (ms_excel_read_sheet): Added new
+	workbook_focus_sheet stuff.
+
 1999-05-10  Nuno Ferreira  <nmrf@rnl.ist.utl.pt>
 
 	* Makefile.am (INCLUDES): Use -I$(srcdir)/libole2 instead of

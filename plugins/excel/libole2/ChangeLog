@@ -1,3 +1,12 @@
+1999-05-10  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (next_free_bb): recurse for safety.
+	More debugging checks throught
+	More safty bracketing in macros.
+	(next_free_pps): Added read_root_list.
+	(extend_file): Removed redundant daft UNUSED setting
+	code.
+
 1999-05-08  Michael Meeks  <michael@imaginator.com>
 
 	* ms-ole.c (ms_ole_directory_create): Added 'w' mode check.
