@@ -943,7 +943,6 @@ sheet_get_intersheet_deps (Sheet *sheet)
 
 typedef struct {
 	Range r;
-	Sheet *sheet;
 	GList *list;
 } get_range_dep_closure_t;
 
@@ -955,11 +954,10 @@ search_range_deps (gpointer key, gpointer value, gpointer closure)
 	get_range_dep_closure_t *c =  closure;
 	GList                   *l;
 
-	/* No intersection is the common case */
 	if (!range_overlap (range, &c->r))
 		return;
 
-	/* verbose list concat */
+	/* concat a copy of depend list */
 	for (l = deprange->cell_list; l; l = l->next)
 		c->list = g_list_prepend (c->list, l->data);
 }
@@ -977,33 +975,71 @@ sheet_region_get_deps (Sheet *sheet, int start_col, int start_row,
 	closure.r.start.row = start_row;
 	closure.r.end.col   = end_col;
 	closure.r.end.row   = end_row;
-	closure.sheet       = sheet;
 	closure.list        = NULL;
 
 	g_hash_table_foreach (sheet->deps->range_hash,
 			      &search_range_deps, &closure);
 
+	/*
+	 * FIXME : Only an existing cell can depend on things.
+	 * we should clip this.
+	 */
 	for (ix = start_col; ix <= end_col; ix++) {
 		for (iy = start_row; iy <= end_row; iy++) {
 			GList *l = get_single_dependencies (sheet, ix, iy);
 
-			closure.list = g_list_append (closure.list, l);
+			closure.list = g_list_concat (closure.list, l);
 		}
 	}
 
 	return closure.list;
 }
 
+static void
+cb_sheet_get_all_depends (gpointer key, gpointer value, gpointer closure)
+{
+	DependencyRange *deprange  =  key;
+	GList 		*l, *res = *((GList **)closure);
+
+	/* concat a copy of depend list */
+	for (l = deprange->cell_list; l; l = l->next)
+		res = g_list_prepend (res, l->data);
+	*((GList **)closure) = res;
+}
+
+static void
+cb_cell_get_all_depends (gpointer key, gpointer value, gpointer closure)
+{
+	Cell	*cell = (Cell *) value;
+	GList *l = get_single_dependencies (cell->sheet,
+					    cell->col->pos,
+					    cell->row->pos);
+	*((GList **)closure) = g_list_concat (l, *((GList **)closure));
+}
+
+/**
+ * sheet_recalc_dependencies :
+ * Force a recalc of anything that depends on the cells in this sheet.
+ *
+ * @sheet : The sheet.
+ *
+ * This seems like over kill we could probably use a finer grained test.
+ */
 void
 sheet_recalc_dependencies (Sheet *sheet)
 {
-	GList *deps;
+	GList *deps = NULL;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	deps = sheet_region_get_deps (sheet, 0, 0, SHEET_MAX_COLS - 1,
-				      SHEET_MAX_ROWS - 1);
+	/* Find anything that depends on something in this sheet */
+	g_hash_table_foreach (sheet->deps->range_hash,
+			      &cb_sheet_get_all_depends, &deps);
+
+	/* Find anything that depends on existing cells. */
+	g_hash_table_foreach (sheet->cell_hash,
+			      &cb_cell_get_all_depends, &deps);
 
 	if (deps) {
 		cell_queue_recalc_list (deps, TRUE);

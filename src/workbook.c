@@ -1702,44 +1702,6 @@ workbook_set_auto_expr (Workbook *wb,
 	wb->auto_expr_desc = string_get (description);
 }
 
-/*
- * A utility to temporarily remove a workbook auto expr.  The current
- * expression and description are returned to the caller in @expr and @desc so
- * that they can be reset via sheet_resume_auto_expr later.  The caller is
- * responsible for managing the string and expression until they are returned
- * to the workbook via sheet_suspend_auto_expr.
- */
-void
-sheet_suspend_auto_expr (Workbook *wb, ExprTree **expr, String **desc)
-{
-	g_return_if_fail (wb != NULL);
-
-	*expr = wb->auto_expr;
-	wb->auto_expr = NULL;
-	*desc = wb->auto_expr_desc;
-	wb->auto_expr_desc = NULL;
-}
-
-/*
- * The counter point to sheet_suspend_auto_expr it reset previously suspended
- * auto expressions and retakes responsibility for managing the strings and
- * expressions.
- */
-void
-sheet_resume_auto_expr (Workbook *wb, ExprTree *expr, String *desc)
-{
-	Sheet *sheet;
-
-	g_return_if_fail (wb != NULL);
-	g_return_if_fail (expr != NULL);
-	g_return_if_fail (desc != NULL);
-
-       	sheet = workbook_get_current_sheet (wb);
-	wb->auto_expr = expr;
-	wb->auto_expr_desc = desc;
-	sheet_update_auto_expr (sheet);
-}
-
 static void
 change_auto_expr (GtkWidget *item, Workbook *wb)
 {
@@ -2393,7 +2355,7 @@ sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
 		rinfo.col_offset = SHEET_MAX_COLS-1;
 		rinfo.row_offset = SHEET_MAX_ROWS-1;
 
-		workbook_expr_relocate (wb, &rinfo);
+		workbook_expr_unrelocate_free(workbook_expr_relocate (wb, &rinfo));
 	}
 
 	/*
@@ -2798,42 +2760,104 @@ workbook_foreach (WorkbookCallback cback, gpointer data)
 	}
 }
 
+struct expr_relocate_storage
+{
+	EvalPosition pos;
+	ExprTree *oldtree;
+};
+
 /**
- * workbook_expr_relocate:
- * @wb: the workbook to modify
- * @sheet: the sheet containing the column/row that was moved
- * @col: starting column that was moved.
- * @row: starting row that was moved.
- * @coldelta: signed column distance that cells were moved.
- * @rowcount: signed row distance that cells were moved.
- *
- * Fixes references after a column or row move.
+ * workbook_expr_unrelocate_free : Release the storage associated with
+ *    the list.
  */
+void
+workbook_expr_unrelocate_free (GSList *info)
+{
+	while (info != NULL) {
+		GSList *cur = info;
+		struct expr_relocate_storage *tmp =
+		    (struct expr_relocate_storage *)(info->data);
+
+		info = info->next;
+		expr_tree_unref (tmp->oldtree);
+		g_free (tmp);
+		g_slist_free_1 (cur);
+	}
+}
 
 void
+workbook_expr_unrelocate (Workbook *wb, GSList *info)
+{
+	while (info != NULL) {
+		GSList *cur = info;
+		struct expr_relocate_storage *tmp =
+		    (struct expr_relocate_storage *)info->data;
+		Cell *cell = sheet_cell_get (tmp->pos.sheet,
+					     tmp->pos.eval.col,
+					     tmp->pos.eval.row);
+
+		g_return_if_fail (cell != NULL);
+
+		cell_set_formula_tree (cell, tmp->oldtree);
+		expr_tree_unref (tmp->oldtree);
+
+		info = info->next;
+		g_free (tmp);
+		g_slist_free_1 (cur);
+	}
+}
+
+/**
+ * workbook_expr_relocate:
+ * Fixes references to or from a region that is going to be moved.
+ *
+ * @wb: the workbook to modify
+ * @info : the descriptor record for what is being moved where.
+ *
+ * Returns a list of the locations and expressions that were changed
+ * outside of the region.
+ */
+GSList *
 workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 {
 	GList *cells, *l;
-	EvalPosition pos;
-
-	g_return_if_fail (wb != NULL);
+	GSList *undo_info = NULL;
 
 	if (info->col_offset == 0 && info->row_offset == 0)
-		return;
+		return NULL;
+
+	g_return_val_if_fail (wb != NULL, NULL);
 
 	/* Copy the list since it will change underneath us.  */
 	cells = g_list_copy (wb->formula_cell_list);
 
 	for (l = cells; l; l = l->next)	{
 		Cell *cell = l->data;
+		EvalPosition pos;
 		ExprTree *newtree = expr_relocate (cell->parsed_node,
 						   eval_pos_cell (&pos, cell),
 						   info);
-		if (newtree)
+
+		if (newtree) {
+			/* Don't store relocations if they were inside the region
+			 * being moved.  That is handled elsewhere */
+			if (info->origin_sheet != pos.sheet ||
+			    !range_contains (&info->origin, pos.eval.col, pos.eval.row)) {
+				struct expr_relocate_storage *tmp =
+				    g_new(struct expr_relocate_storage, 1);
+				tmp->pos = pos;
+				tmp->oldtree = cell->parsed_node;
+				expr_tree_ref (tmp->oldtree);
+				undo_info = g_slist_prepend (undo_info, tmp);
+			}
+
 			cell_set_formula_tree (cell, newtree);
+		}
 	}
 
 	g_list_free (cells);
+
+	return undo_info;
 }
 
 GList *

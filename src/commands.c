@@ -12,11 +12,11 @@
 #include "sheet.h"
 #include "workbook-view.h"
 #include "utils.h"
+#include "clipboard.h"
 
 /*
  * NOTE : This is a work in progress
- * Only the SetText command is complete and working
- * insert/delete row/col is connected but not implemented.
+ * Only the SetText and insert/delete row/col commands are complete and working
  * the rest need to be filled in.
  *
  * Feel free to lend a hand.  There are several distinct stages to
@@ -409,6 +409,8 @@ typedef struct
 	int		 count;
 
 	double		*sizes;
+	CellRegion 	*contents;
+	GSList		*reloc_storage;
 } CmdInsDelRowCol;
 
 GNUMERIC_MAKE_COMMAND (CmdInsDelRowCol, cmd_ins_del_row_col);
@@ -418,68 +420,111 @@ cmd_ins_del_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 {
 	CmdInsDelRowCol *me = CMD_INS_DEL_ROW_COL(cmd);
 	int index;
+	GSList *tmp = NULL;
+	gboolean trouble;
 
 	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->sizes != NULL, TRUE);
+	g_return_val_if_fail (me->contents != NULL, TRUE);
 
-	/* TODO : 1) Restore the values of the deleted cells */
-	/* TODO : 2) Restore the styles in the cleared range */
 	if (!me->is_insert) {
 		index = me->index;
 		if (me->is_cols)
-			sheet_insert_cols (context, me->sheet, me->index, me->count);
+			trouble = sheet_insert_cols (context, me->sheet, me->index, me->count, &tmp);
 		else
-			sheet_insert_rows (context, me->sheet, me->index, me->count);
+			trouble = sheet_insert_rows (context, me->sheet, me->index, me->count, &tmp);
 	} else {
 		index = ((me->is_cols) ? SHEET_MAX_COLS : SHEET_MAX_ROWS) - me->count;
 		if (me->is_cols)
-			sheet_delete_cols (context, me->sheet, me->index, me->count);
+			trouble = sheet_delete_cols (context, me->sheet, me->index, me->count, &tmp);
 		else
-			sheet_delete_rows (context, me->sheet, me->index, me->count);
+			trouble = sheet_delete_rows (context, me->sheet, me->index, me->count, &tmp);
 	}
+
+	/* restore row/col sizes */
 	sheet_restore_row_col_sizes (me->sheet, me->is_cols, index, me->count,
 				     me->sizes);
 	me->sizes = NULL;
 
-	return FALSE;
+	/* restore row/col contents */
+	if (me->is_cols)
+		clipboard_paste_region (context, me->contents, me->sheet,
+					index, 0, PASTE_ALL_TYPES,
+					GDK_CURRENT_TIME);
+	else
+		clipboard_paste_region (context, me->contents, me->sheet,
+					0, index, PASTE_ALL_TYPES,
+					GDK_CURRENT_TIME);
+	clipboard_release (me->contents);
+	me->contents = NULL;
+
+	/* Throw away the undo info for the expressions after the action*/
+	workbook_expr_unrelocate_free (tmp);
+
+	/* Restore the changed expressions before the action */
+	workbook_expr_unrelocate (me->sheet->workbook, me->reloc_storage);
+	me->reloc_storage = NULL;
+
+	return trouble;
 }
 
 static gboolean
 cmd_ins_del_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 {
 	CmdInsDelRowCol *me = CMD_INS_DEL_ROW_COL(cmd);
+	gboolean trouble;
+	int index;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->sizes == NULL, TRUE);
+	g_return_val_if_fail (me->contents == NULL, TRUE);
 
-	/* TODO : 1) Save the values of the deleted cells */
-	/* TODO : 2) Save the styles in the cleared range */
+	index = (me->is_insert)
+	    ? (((me->is_cols) ? SHEET_MAX_COLS : SHEET_MAX_ROWS) - me->count)
+	    : me->index;
+
+	me->sizes = sheet_save_row_col_sizes (me->sheet, me->is_cols,
+					      index, me->count);
+	me->contents = (me->is_cols)
+	    ? clipboard_copy_cell_range (me->sheet,
+					 index,			0,
+					 index + me->count - 1,	SHEET_MAX_ROWS-1)
+	    : clipboard_copy_cell_range  (me->sheet,
+					  0,			index,
+					  SHEET_MAX_COLS-1,	index + me->count - 1);
+
 	if (me->is_insert) {
-		int const index = ((me->is_cols) ? SHEET_MAX_COLS : SHEET_MAX_ROWS) -
-			me->count;
-		me->sizes = sheet_save_row_col_sizes (me->sheet, me->is_cols,
-						      index, me->count);
 		if (me->is_cols)
-			sheet_insert_cols (context, me->sheet, me->index, me->count);
+			trouble = sheet_insert_cols (context, me->sheet, me->index,
+						     me->count, &me->reloc_storage);
 		else
-			sheet_insert_rows (context, me->sheet, me->index, me->count);
+			trouble = sheet_insert_rows (context, me->sheet, me->index,
+						     me->count, &me->reloc_storage);
 	} else {
-		me->sizes = sheet_save_row_col_sizes (me->sheet, me->is_cols,
-						      me->index, me->count);
 		if (me->is_cols)
-			sheet_delete_cols (context, me->sheet, me->index, me->count);
+			trouble = sheet_delete_cols (context, me->sheet, me->index,
+						     me->count, &me->reloc_storage);
 		else
-			sheet_delete_rows (context, me->sheet, me->index, me->count);
+			trouble =sheet_delete_rows (context, me->sheet, me->index,
+						    me->count, &me->reloc_storage);
 	}
 
-	return FALSE;
+	return trouble;
 }
+
 static void
 cmd_ins_del_row_col_destroy (GtkObject *cmd)
 {
 	CmdInsDelRowCol *me = CMD_INS_DEL_ROW_COL(cmd);
 
-	if (me->sizes)
+	if (me->sizes) {
 		g_free (me->sizes);
+		me->sizes = NULL;
+	}
+	if (me->contents) {
+		clipboard_release (me->contents);
+		me->contents = NULL;
+	}
 	gnumeric_command_destroy (cmd);
 }
 
@@ -505,6 +550,7 @@ cmd_ins_del_row_col (CommandContext *context,
 	me->index = index;
 	me->count = count;
 	me->sizes = NULL;
+	me->contents = NULL;
 
 	me->parent.cmd_descriptor = descriptor;
 

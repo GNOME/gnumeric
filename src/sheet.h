@@ -317,15 +317,6 @@ void        sheet_redraw_all              (Sheet const *sheet);
 				       
 void        sheet_update_auto_expr        (Sheet *sheet);
 
-/*
- * A Pair of utilities to temporarily suspend auto_expr's while reading
- * worksheets.
- */
-void        sheet_suspend_auto_expr       (Workbook *wb,
-					   ExprTree **expr, String **desc);
-void        sheet_resume_auto_expr        (Workbook *wb,
-					   ExprTree *expr, String *desc);
-
 void        sheet_mark_clean              (Sheet *sheet);
 void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);
 gboolean    sheet_is_pristine             (Sheet *sheet);
@@ -392,17 +383,17 @@ void sheet_corba_shutdown    (Sheet *);
  * These have undo/redo capabilities
  * and will route error messages to the caller appropriately.
  */
-void  sheet_insert_cols (CommandContext *context, Sheet *sheet,
-			 int col, int count);
-void  sheet_delete_cols (CommandContext *context, Sheet *sheet,
-			 int col, int count);
+gboolean  sheet_insert_cols (CommandContext *context, Sheet *sheet,
+			     int col, int count, GSList **reloc_storage);
+gboolean  sheet_delete_cols (CommandContext *context, Sheet *sheet,
+			     int col, int count, GSList **reloc_storage);
 void  sheet_shift_cols  (CommandContext *context, Sheet *sheet,
 			 int start_col, int end_col,
 			 int row,       int count);
-void  sheet_insert_rows (CommandContext *context, Sheet *sheet,
-			 int row, int count);
-void  sheet_delete_rows (CommandContext *context, Sheet *sheet,
-			 int row, int count);
+gboolean  sheet_insert_rows (CommandContext *context, Sheet *sheet,
+			 int row, int count, GSList **reloc_storage);
+gboolean  sheet_delete_rows (CommandContext *context, Sheet *sheet,
+			 int row, int count, GSList **reloc_storage);
 void  sheet_shift_rows  (CommandContext *context, Sheet *sheet,
 			 int col,
 			 int start_row, int end_row, int count);

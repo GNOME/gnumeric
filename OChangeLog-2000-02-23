@@ -1,3 +1,25 @@
+2000-01-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (cmd_ins_del_row_col_*) : Implement.
+
+	* src/cell.c (cell_set_formula_tree_simple) : Correct the docs.
+
+	* src/sheet.c (sheet_insert_cols, sheet_insert_rows,
+	  sheet_delete_cols, sheet_delete_rows) : Return flags to
+	  indicate failure.  return list of expressions and locations that
+	  were modified as a result of the change.
+
+	* src/workbook.c (workbook_expr_relocate) : Correct documentation.
+	(sheet_suspend_auto_expr, sheet_resume_auto_expr) : Delete unused functions.
+	(workbook_expr_unrelocate, workbook_expr_unrelocate_free) : New functions.
+
+	* src/eval.c (sheet_get_intersheet_deps) : No need for sheet member.
+	(sheet_region_get_deps) : No need to init sheet.  Use g_list_concat.
+	(sheet_recalc_dependencies) : All regions & cells in the sheet
+	  contribute.
+	(cb_cell_get_all_depends) : New function.
+	(cb_sheet_get_all_depends) : New function.
+
 2000-01-06  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : correct typo as per bug 4936.

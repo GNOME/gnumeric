@@ -585,9 +585,6 @@ cell_set_text (Cell *cell, const char *text)
  *
  *   - It does not queue redraws (so you have to queue the redraw yourself
  *     or queue a full redraw).
- *
- *   - It does not queue any recomputations.  You have to queue the
- *     recompute yourself.
  */
 void
 cell_set_formula_tree_simple (Cell *cell, ExprTree *formula)

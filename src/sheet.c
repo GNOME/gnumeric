@@ -3314,20 +3314,24 @@ colrow_move (Sheet *sheet,
  * @col     At which position we want to insert
  * @count   The number of columns to be inserted
  */
-void
+gboolean
 sheet_insert_cols (CommandContext *context, Sheet *sheet,
-		   int col, int count)
+		   int col, int count, GSList **reloc_storage)
 {
 	ExprRelocateInfo reloc_info;
 	int   i;
 
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (count != 0);
+	g_return_val_if_fail (reloc_storage != NULL, TRUE);
+
+	*reloc_storage = NULL;
+
+	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (count != 0, TRUE);
 
 	/* Is there any work to do? */
 	if (sheet->cols.max_used < 0)
-		return;
+		return FALSE;
 
 	/* 0. Walk cells in displaced col and ensure arrays aren't divided. */
 	if (col > 0)	/* No need to test leftmost column */
@@ -3336,12 +3340,17 @@ sheet_insert_cols (CommandContext *context, Sheet *sheet,
 					      &avoid_dividing_array_horizontal,
 					      NULL) != NULL){
 			gnumeric_error_splits_array (context);
-			return;
+			return TRUE;
 		}
 
-	/* TODO TODO : Walk the right edge to make sure nothing is split
-	 * due to over run.
-	 */
+	/* Walk the right edge to make sure nothing is split due to over run.  */
+	if (sheet_cell_foreach_range (sheet, TRUE, SHEET_MAX_COLS-count, 0,
+				      SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
+				      &avoid_dividing_array_horizontal,
+				      NULL) != NULL){
+		gnumeric_error_splits_array (context);
+		return TRUE;
+	}
 
 	/* 1. Delete all columns (and their cells) that will fall off the end */
 	for (i = sheet->cols.max_used; i >= SHEET_MAX_COLS - count ; --i)
@@ -3355,7 +3364,7 @@ sheet_insert_cols (CommandContext *context, Sheet *sheet,
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = count;
 	reloc_info.row_offset = 0;
-	workbook_expr_relocate (sheet->workbook, &reloc_info);
+	*reloc_storage = workbook_expr_relocate (sheet->workbook, &reloc_info);
 
 	/* 3. Move the columns to their new location (From right to left) */
 	for (i = sheet->cols.max_used; i >= col ; --i)
@@ -3370,6 +3379,8 @@ sheet_insert_cols (CommandContext *context, Sheet *sheet,
 
 	/* 6. Redraw */
 	sheet_redraw_all (sheet);
+
+	return FALSE;
 }
 
 /*
@@ -3378,27 +3389,31 @@ sheet_insert_cols (CommandContext *context, Sheet *sheet,
  * @col     At which position we want to start deleting columns
  * @count   The number of columns to be deleted
  */
-void
+gboolean
 sheet_delete_cols (CommandContext *context, Sheet *sheet,
-		   int col, int count)
+		   int col, int count, GSList **reloc_storage)
 {
 	ExprRelocateInfo reloc_info;
 	int i;
 
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (count != 0);
+	g_return_val_if_fail (reloc_storage != NULL, TRUE);
+	
+	*reloc_storage = NULL;
+
+	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (count != 0, TRUE);
 
 	/* Is there any work to do? */
 	if (sheet->cols.max_used < 0)
-		return;
+		return FALSE;
 
 	/* 0. Walk cells in deleted cols and ensure arrays aren't divided. */
 	if (!sheet_check_for_partial_array (sheet, 0, col, 
 					    SHEET_MAX_ROWS-1, col+count-1))
 	{
 		gnumeric_error_splits_array (context);
-		return;
+		return TRUE;
 	}
 
 	/* 1. Delete all columns (and their cells) that will fall off the end */
@@ -3413,14 +3428,16 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = SHEET_MAX_COLS; /* send them to infinity */
 	reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
-	workbook_expr_relocate (sheet->workbook, &reloc_info);
+	*reloc_storage = workbook_expr_relocate (sheet->workbook, &reloc_info);
 
 	/* 3. Fix references to and from the cells which are moving */
 	reloc_info.origin.start.col = col+count;
 	reloc_info.origin.end.col = SHEET_MAX_COLS-1;
 	reloc_info.col_offset = -count;
 	reloc_info.row_offset = 0;
-	workbook_expr_relocate (sheet->workbook, &reloc_info);
+	*reloc_storage = g_slist_concat (*reloc_storage,
+					 workbook_expr_relocate (sheet->workbook,
+								 &reloc_info));
 
 	/* 4. Move the columns to their new location (from left to right) */
 	for (i = col + count ; i <= sheet->cols.max_used; ++i)
@@ -3435,6 +3452,8 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
 
 	/* 7. Redraw */
 	sheet_redraw_all (sheet);
+
+	return FALSE;
 }
 
 /**
@@ -3443,20 +3462,24 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
  * @row     At which position we want to insert
  * @count   The number of rows to be inserted
  */
-void
+gboolean
 sheet_insert_rows (CommandContext *context, Sheet *sheet,
-		   int row, int count)
+		   int row, int count, GSList **reloc_storage)
 {
 	ExprRelocateInfo reloc_info;
 	int   i;
 
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (count != 0);
+	g_return_val_if_fail (reloc_storage != NULL, TRUE);
+	
+	*reloc_storage = NULL;
+
+	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (count != 0, TRUE);
 
 	/* Is there any work to do? */
 	if (sheet->rows.max_used < 0)
-		return;
+		return FALSE;
 
 	/* 0. Walk cells in displaced row and ensure arrays aren't divided. */
 	if (row > 0)	/* No need to test leftmost column */
@@ -3466,12 +3489,17 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
 					      &avoid_dividing_array_vertical,
 					      NULL) != NULL) {
 			gnumeric_error_splits_array (context);
-			return;
+			return TRUE;
 		}
 
-	/* TODO TODO : Walk the right edge to make sure nothing is split
-	 * due to over run.
-	 */
+	/* Walk the lower edge to make sure nothing is split due to over run.  */
+	if (sheet_cell_foreach_range (sheet, TRUE, 0, SHEET_MAX_ROWS-count,
+				      SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
+				      &avoid_dividing_array_vertical,
+				      NULL) != NULL){
+		gnumeric_error_splits_array (context);
+		return TRUE;
+	}
 
 	/* 1. Delete all rows (and their cells) that will fall off the end */
 	for (i = sheet->rows.max_used; i >= SHEET_MAX_ROWS - count ; --i)
@@ -3485,7 +3513,7 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = 0;
 	reloc_info.row_offset = count;
-	workbook_expr_relocate (sheet->workbook, &reloc_info);
+	*reloc_storage = workbook_expr_relocate (sheet->workbook, &reloc_info);
 
 	/* 3. Move the rows to their new location (from bottom to top) */
 	for (i = sheet->rows.max_used; i >= row ; --i)
@@ -3500,6 +3528,8 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
 
 	/* 6. Redraw */
 	sheet_redraw_all (sheet);
+
+	return FALSE;
 }
 
 /*
@@ -3508,27 +3538,31 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
  * @row     At which position we want to start deleting rows
  * @count   The number of rows to be deleted
  */
-void
+gboolean
 sheet_delete_rows (CommandContext *context, Sheet *sheet,
-		   int row, int count)
+		   int row, int count, GSList **reloc_storage)
 {
 	ExprRelocateInfo reloc_info;
 	int i;
 
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (count != 0);
+	g_return_val_if_fail (reloc_storage != NULL, TRUE);
+	
+	*reloc_storage = NULL;
+
+	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (count != 0, TRUE);
 
 	/* Is there any work to do? */
 	if (sheet->rows.max_used < 0)
-		return;
+		return FALSE;
 
 	/* 0. Walk cells in deleted rows and ensure arrays aren't divided. */
 	if (!sheet_check_for_partial_array (sheet, row, 0, 
 					    row+count-1, SHEET_MAX_COLS-1))
 	{
 		gnumeric_error_splits_array (context);
-		return;
+		return TRUE;
 	}
 
 	/* 1. Delete all cols (and their cells) that will fall off the end */
@@ -3543,14 +3577,16 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = SHEET_MAX_COLS; /* send them to infinity */
 	reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
-	workbook_expr_relocate (sheet->workbook, &reloc_info);
+	*reloc_storage = workbook_expr_relocate (sheet->workbook, &reloc_info);
 
 	/* 3. Fix references to and from the cells which are moving */
 	reloc_info.origin.start.row = row + count;
 	reloc_info.origin.end.row = SHEET_MAX_ROWS-1;
 	reloc_info.col_offset = 0;
 	reloc_info.row_offset = -count;
-	workbook_expr_relocate (sheet->workbook, &reloc_info);
+	*reloc_storage = g_slist_concat (*reloc_storage,
+					 workbook_expr_relocate (sheet->workbook,
+								 &reloc_info));
 
 	/* 4. Move the rows to their new location (from top to bottom) */
 	for (i = row + count ; i <= sheet->rows.max_used; ++i)
@@ -3565,6 +3601,8 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 
 	/* 7. Redraw */
 	sheet_redraw_all (sheet);
+
+	return FALSE;
 }
 
 /*
