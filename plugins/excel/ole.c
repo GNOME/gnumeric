@@ -831,18 +831,20 @@ dump_vba_module (const MsOleDirectory *dir)
 				printf ("Possibly found the text !\n");
 				p = txt;
 				while (i < s->size) {
-					for (j = 0; j < 8 && i + j < s->size; j++) {
+					for (j = 0; j < 8 && i + j < s->size; j++, i++)
 						*p++ = *ptr++;
-					}
 					i++;
 					ptr++;
 				}
 				*p = '\0';
 				printf ("Text is '%s'\n", txt);
+				g_free (txt);
 				break;
 			}
 			ptr++; i++;
 		} while (i < s->size - 10);
+
+		g_free (data);
 	}
 	
 	ms_ole_stream_close (s);
@@ -909,7 +911,7 @@ dump_vba (MsOle *f)
 		}	
 		if (!module_count)
 			printf ("Strange no modules found\n");
-		ms_ole_directory_destroy (dir);
+		ms_ole_directory_destroy (tmp);
 	}
 }
 

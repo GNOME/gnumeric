@@ -1,3 +1,8 @@
+1999-08-08  Michael Meeks  <michael@imaginator.com>
+
+	* ole.c (dump_vba_module): Kill leak & fix logic.
+	(dump_vba): destroy correct directory.
+
 1999-08-06  Michael Meeks  <michael@imaginator.com>
 
 	* ole.c (list_files): Fix so it shows directories...

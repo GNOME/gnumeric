@@ -2296,8 +2296,12 @@ sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 	cell_calc_dimensions (cell);
 
 	sheet_cell_add_to_hash (sheet, cell);
-	cell->col->data = g_list_insert_sorted (cell->col->data, cell,
-						&CRowSort);
+	if ((tmp = g_list_last (cell->col->data)) &&
+	    CRowSort (tmp->data, cell) < 0)
+		cell->col->data = g_list_append (cell->col->data, cell);
+	else
+		cell->col->data = g_list_insert_sorted (cell->col->data, cell,
+							&CRowSort);
 }
 
 Cell *

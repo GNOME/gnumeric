@@ -1,3 +1,14 @@
+1999-08-09  Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet.c (sheet_cell_add): Optimise by checking last
+	element of the list for a simple append before calling
+	g_list_insert_sorted. CRowSort took up way too much time in my
+	profile :-). [ This fix is quite temporary ]
+
+	* src/workbook.c (workbook_init): Conditionaly compile bonobo
+	specific code.
+	(workbook_class_init): Grotesque hack so it compiles.
+
 1999-08-08  Jacob Berkman  <jberkman@andrew.cmu.edu>
 
 	* src/workbook.c: use smaller menu stock icon instead of large one

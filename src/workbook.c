@@ -1766,13 +1766,16 @@ workbook_init (GtkObject *object)
 	workbook_list = g_list_prepend (workbook_list, wb);
 
 	workbook_corba_setup (wb);
+#ifdef ENABLE_BONOBO
 	workbook_bonobo_setup (wb);
+#endif
 }
 
 static void
 workbook_class_init (GtkObjectClass *object_class)
 {
-	workbook_parent_class = gtk_type_class (WORKBOOK_PARENT_CLASS_TYPE);
+/* FIXME: comment out so CVS compiles */
+/*	workbook_parent_class = gtk_type_class (WORKBOOK_PARENT_CLASS_TYPE);*/
 
 	object_class->destroy = workbook_destroy;
 }
