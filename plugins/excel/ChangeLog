@@ -1,3 +1,7 @@
+1999-11-18  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-excel-read.c (ms_excel_read_guts): rename.
+
 1999-11-17  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_mergecells) : New function.

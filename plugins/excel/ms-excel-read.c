@@ -2679,7 +2679,7 @@ ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
 }
 
 static void
-ms_excel_read_GUTS (BiffQuery *q, ExcelSheet *sheet)
+ms_excel_read_guts (BiffQuery *q, ExcelSheet *sheet)
 {
 	g_return_if_fail (q->length == 8);
 	{
@@ -2857,7 +2857,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			break;
 
 		case BIFF_GUTS:
-			ms_excel_read_GUTS (q, sheet);
+			ms_excel_read_guts (q, sheet);
 			break;
 
 		case BIFF_HEADER: /* FIXME : S59D94 */

@@ -1104,12 +1104,12 @@ pps_encode_tree_chain (MsOle *f, GList *list)
 	len      = g_list_length (pps->children);
 	l        = pps->children;
 
-	if (len==0) {
+	if (len == 0) {
 #if OLE_DEBUG > 0
 		printf ("Empty directory '%s'\n", pps->name);
 		return;
 #endif		
-	} else if (len==1) {
+	} else if (len == 1) {
 		p = l->data;
 		PPS_SET_DIR  (parmem, p->idx);
 		return;
@@ -1124,7 +1124,7 @@ pps_encode_tree_chain (MsOle *f, GList *list)
 	if (len/2==1)
 		l = g_list_next (l);
 
-	for (lp=1;lp<len/2;lp++) {
+	for (lp = 1; lp < len / 2; lp++) {
 		p    = l->data;
 		prev = g_list_previous(l)->data;
 
