@@ -537,7 +537,7 @@ plugin_cleanup (void)
 	prime_table = NULL;
 }
 
-ModulePluginFunctionInfo num_theory_functions[] = {
+const ModulePluginFunctionInfo num_theory_functions[] = {
 	{"ithprime", "f", "number", &help_ithprime, &gnumeric_ithprime, NULL, NULL, NULL },
 	{"nt_phi",   "f", "number", &help_phi,      &gnumeric_phi,      NULL, NULL, NULL },
 	{"nt_d",     "f", "number", &help_d,        &gnumeric_d,        NULL, NULL, NULL },
@@ -548,7 +548,7 @@ ModulePluginFunctionInfo num_theory_functions[] = {
 	{NULL}
 };
 
-ModulePluginFunctionInfo bitwise_functions[] = {
+const ModulePluginFunctionInfo bitwise_functions[] = {
 	{"bitor",     "ff", "A,B", &help_bitor,     &func_bitor,     NULL, NULL, NULL },
 	{"bitxor",    "ff", "A,B", &help_bitxor,    &func_bitxor,    NULL, NULL, NULL },
 	{"bitand",    "ff", "A,B", &help_bitand,    &func_bitand,    NULL, NULL, NULL },
