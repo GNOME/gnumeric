@@ -301,6 +301,11 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		g_free (ctxt);
 		return;
 	}
+
+#if 0
+	for (j = 0; j < atom_count && table_atom == GDK_NONE; j++)
+		puts (gdk_atom_name (targets[j]));
+#endif
 	
 	/* The data is a list of atoms */
 	/* Find the best table format offered */
@@ -308,8 +313,7 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		/* Look for one we can use */
 		GdkAtom atom = gdk_atom_intern (table_fmts[i], FALSE);
 		/* is it on offer? */
-		for (j = 0; j < atom_count && table_atom == GDK_NONE;
-		     j++) {
+		for (j = 0; j < atom_count && table_atom == GDK_NONE; j++) {
 			if (targets [j] == atom)
 				table_atom = atom;
 		}

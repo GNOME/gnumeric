@@ -125,11 +125,11 @@ main (int argc, char *argv [])
 				res = FALSE;
 				if (ssconvert_export_id == NULL)
 					fprintf (stderr, "Unable to guess exporter to use for '%s'.\n"
-						 "Try --list-exports to see a list of possibilities.",
+						 "Try --list-exports to see a list of possibilities.\n",
 						 args[1]);
 				else
 					fprintf (stderr, "Unknown exporter '%s'.\n"
-						 "Try --list-exports to see a list of possibilities.",
+						 "Try --list-exports to see a list of possibilities.\n",
 						 ssconvert_export_id);
 			} else  {
 				if (gnm_file_saver_get_save_scope (fs) != FILE_SAVE_WORKBOOK)

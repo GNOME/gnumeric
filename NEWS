@@ -30,6 +30,7 @@ Jody:
 	* Tweak the axis auto range selector to keep things symetric
 	* Enable basic style import for chart elements
 	* Drop in a basic implementatin of ssconvert
+	* Be anal about exporting unicode chars > 0xfeff to xls
 
 John Gill:
 	* Heuristics to improve finger feel of autofilter range selection
