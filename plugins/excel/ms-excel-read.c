@@ -634,6 +634,7 @@ static int externsheet = 0;
 
 static void
 biff_name_data_new (ExcelWorkbook *wb, char const *name,
+		    guint16 const sheet_index,
 		    guint8 const *formula, guint16 const len,
 		    gboolean const external)
 {
@@ -651,10 +652,10 @@ biff_name_data_new (ExcelWorkbook *wb, char const *name,
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
-		printf ("%s : %x %x '%s'\n",
+		printf ("%s : %x %x sheet=%d '%s'\n",
 			external ? "EXTERNNAME" : "NAME",
 			externsheet,
-			wb->name_data->len, bnd->name);
+			wb->name_data->len, sheet_index, bnd->name);
 	}
 	if (ms_excel_read_debug > 2)
 		dump (bnd->v.store.data, bnd->v.store.len);
@@ -1892,8 +1893,8 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 	guint8  name_len       = MS_OLE_GET_GUINT8  (q->data + 3);
 	guint16 name_def_len;
 	guint8 *name_def_data;
-#if 0
 	guint16 sheet_idx      = MS_OLE_GET_GUINT16 (q->data + 6);
+#if 0
 	guint16 ixals          = MS_OLE_GET_GUINT16 (q->data + 8); /* dup */
 #endif
 	guint8  menu_txt_len   = MS_OLE_GET_GUINT8  (q->data + 10);
@@ -1985,7 +1986,8 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 	}
 #endif
 
-	biff_name_data_new (sheet->wb, name, name_def_data, name_def_len,
+	biff_name_data_new (sheet->wb, name, sheet_idx,
+			    name_def_data, name_def_len,
 			    FALSE);
 	if (menu_txt)
 		g_free (menu_txt);
@@ -2018,7 +2020,7 @@ ms_excel_externname (BiffQuery *q, ExcelSheet *sheet)
 				      MS_OLE_GET_GUINT8(q->data), NULL);
 	}
 
-	biff_name_data_new (sheet->wb, name, defn, defnlen, TRUE);
+	biff_name_data_new (sheet->wb, name, 0, defn, defnlen, TRUE);
 }
 
 /**
@@ -2857,33 +2859,32 @@ ms_excel_read_workbook (MsOle *file)
 
 
 		case BIFF_EXTERNSHEET: /* See: S59D82.HTM */
-			{
-				++externsheet;
-				if (ver->version == eBiffV8) {
-					guint16 numXTI = MS_OLE_GET_GUINT16(q->data);
-					guint16 cnt;
+			++externsheet;
+			if (ver->version == eBiffV8) {
+				guint16 numXTI = MS_OLE_GET_GUINT16(q->data);
+				guint16 cnt;
 
-					wb->num_extern_sheets = numXTI;
-					/* printf ("ExternSheet (%d entries)\n", numXTI);
-					   dump (q->data, q->length); */
+				wb->num_extern_sheets = numXTI;
+				/* printf ("ExternSheet (%d entries)\n", numXTI);
+				   dump (q->data, q->length); */
 
-					wb->extern_sheets = g_new (BiffExternSheetData, numXTI+1);
+				wb->extern_sheets = g_new (BiffExternSheetData, numXTI+1);
 
-					for (cnt=0; cnt < numXTI; cnt++) {
-						wb->extern_sheets[cnt].sup_idx   =  MS_OLE_GET_GUINT16(q->data + 2 + cnt*6 + 0);
-						wb->extern_sheets[cnt].first_tab =  MS_OLE_GET_GUINT16(q->data + 2 + cnt*6 + 2);
-						wb->extern_sheets[cnt].last_tab  =  MS_OLE_GET_GUINT16(q->data + 2 + cnt*6 + 4);
-						/* printf ("SupBook : %d First sheet %d, Last sheet %d\n", MS_OLE_GET_GUINT16(q->data + 2 + cnt*6 + 0),
-						   MS_OLE_GET_GUINT16(q->data + 2 + cnt*6 + 2), MS_OLE_GET_GUINT16(q->data + 2 + cnt*6 + 4)); */
-					}
+				for (cnt=0; cnt < numXTI; cnt++) {
+					wb->extern_sheets[cnt].sup_idx   =  MS_OLE_GET_GUINT16(q->data + 2 + cnt*6 + 0);
+					wb->extern_sheets[cnt].first_tab =  MS_OLE_GET_GUINT16(q->data + 2 + cnt*6 + 2);
+					wb->extern_sheets[cnt].last_tab  =  MS_OLE_GET_GUINT16(q->data + 2 + cnt*6 + 4);
+					/* printf ("SupBook : %d First sheet %d, Last sheet %d\n", MS_OLE_GET_GUINT16(q->data + 2 + cnt*6 + 0),
+					   MS_OLE_GET_GUINT16(q->data + 2 + cnt*6 + 2), MS_OLE_GET_GUINT16(q->data + 2 + cnt*6 + 4)); */
 				}
-#ifdef NO_DEBUG_EXCEL
-				else if (ms_excel_read_debug > 0) {
-					printf ("ExternSheet : only BIFF8 supported so far...\n");
-				}
-#endif
-				break;
 			}
+#ifdef NO_DEBUG_EXCEL
+			else if (ms_excel_read_debug > 0) {
+				printf ("ExternSheet : only BIFF8 supported so far...\n");
+			}
+#endif
+			break;
+
 		case BIFF_FORMAT: /* S59D8E.HTM */
 			{
 				BiffFormatData *d = g_new(BiffFormatData,1);
