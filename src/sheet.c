@@ -126,6 +126,9 @@ sheet_rename (Sheet *sheet, char const *new_name)
 static void
 sheet_init_sc (Sheet const *sheet, SheetControl *sc)
 {
+	sc_set_panes (sc);
+	sc_scrollbar_config (sc);
+
 	/* Set the visible bound, not the logical bound */
 	sc_cursor_bound (sc, selection_first_range (sheet, NULL, NULL));
 	sc_ant (sc);

@@ -61,18 +61,6 @@ sc_class_init (GtkObjectClass *object_class)
 E_MAKE_TYPE (sheet_control, "SheetControl", SheetControl,
 	     sc_class_init, NULL, GTK_TYPE_OBJECT);
 
-void
-sc_init_state (SheetControl *sc)
-{
-	SheetControlClass *sc_class;
-
-	g_return_if_fail (IS_SHEET_CONTROL (sc));
-
-	sc_class = SC_CLASS (sc);
-	if (sc_class != NULL && sc_class->init_state != NULL)
-		sc_class->init_state (sc);
-}
-
 Sheet *
 sc_sheet (SheetControl *sc)
 {

@@ -9,7 +9,6 @@
 #define IS_SHEET_CONTROL(o)	  (GTK_CHECK_TYPE ((o), SHEET_CONTROL_TYPE))
 
 GtkType sheet_control_get_type    (void);
-void sc_init_state  (SheetControl *sc);
 
 Sheet *sc_sheet	(SheetControl *sc);
 void   sc_set_sheet (SheetControl *sc, Sheet *sheet);

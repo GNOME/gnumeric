@@ -364,8 +364,6 @@ scg_scrollbar_config (SheetControl const *sc)
 
 	gtk_adjustment_changed (va);
 	gtk_adjustment_changed (ha);
-
-	wb_control_gui_set_status_text (scg->wbcg, "");
 }
 
 #if 0
@@ -522,7 +520,8 @@ vertical_scroll_offset_changed (GtkAdjustment *adj, int top, int is_hint,
 		wb_control_gui_set_status_text (scg->wbcg, buffer);
 		g_free (buffer);
 	} else {
-		wb_control_gui_set_status_text (scg->wbcg, "");
+		if (scg->wbcg)
+			wb_control_gui_set_status_text (scg->wbcg, "");
 		scg_set_top_row (scg, top);
 	}
 }
@@ -536,7 +535,8 @@ horizontal_scroll_offset_changed (GtkAdjustment *adj, int left, int is_hint,
 		wb_control_gui_set_status_text (scg->wbcg, buffer);
 		g_free (buffer);
 	} else {
-		wb_control_gui_set_status_text (scg->wbcg, "");
+		if (scg->wbcg)
+			wb_control_gui_set_status_text (scg->wbcg, "");
 		scg_set_left_col (scg, left);
 	}
 }
@@ -826,6 +826,9 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 				     : scg->pane[0].gsheet->col.first,
 				     scg->pane[1].gsheet->row.first,
 				     force_scroll);
+			if (couple_panes)
+				gnumeric_sheet_set_left_col (scg->pane[3].gsheet,
+					br->col + 1);
 		} else if (couple_panes) { /* pane 2 */
 			/* FIXME : We may need to change the way this routine
 			 * is used to fix this.  Because we only know what the
@@ -851,6 +854,9 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 			? br->row + 1
 			: scg->pane[0].gsheet->row.first,
 			force_scroll);
+		if (couple_panes)
+			gnumeric_sheet_set_top_row (scg->pane[1].gsheet,
+				br->row + 1);
 	} else {			 /* pane 0 */
 		gnumeric_sheet_make_cell_visible (scg->pane[0].gsheet,
 			col, row, force_scroll);
@@ -877,11 +883,15 @@ static void
 scg_set_panes (SheetControl *sc)
 {
 	SheetControlGUI *scg = (SheetControlGUI *) sc;
-	gboolean const frozen = sheet_is_frozen (sc->sheet);
+	gboolean const being_frozen = sheet_is_frozen (sc->sheet);
+	gboolean const was_frozen =  scg->pane[2].gsheet != NULL;
 	int col = 0, row = 0;
 
+	if (!being_frozen && !was_frozen)
+		return;
+
 	/* TODO : support just h or v split */
-	if (frozen) {
+	if (being_frozen) {
 		CellPos const *tl = &sc->sheet->frozen.top_left;
 		CellPos const *br = &sc->sheet->frozen.bottom_right;
 
@@ -943,7 +953,7 @@ scg_set_panes (SheetControl *sc)
 	scg_adjust_preferences (SHEET_CONTROL (scg));
 	scg_resize (SHEET_CONTROL (scg), TRUE);
 
-	if (frozen) {
+	if (being_frozen) {
 		/* scroll to starting points */
 		CellPos const *tl = &sc->sheet->frozen.top_left;
 		CellPos const *br = &sc->sheet->frozen.bottom_right;
@@ -963,8 +973,6 @@ scg_set_panes (SheetControl *sc)
 static void
 scg_construct (SheetControlGUI *scg)
 {
-	SheetControl *sc = (SheetControl *) scg;
-	Sheet *sheet = sc->sheet;
 	int i;
 
 	scg->active_panes = 1;
@@ -1006,8 +1014,8 @@ scg_construct (SheetControlGUI *scg)
 	gtk_widget_show_all (GTK_WIDGET (scg->inner_table));
 
 	/* Scroll bars and their adjustments */
-	scg->va = gtk_adjustment_new (0., 0., sheet->rows.max_used, 1., 1., 1.);
-	scg->ha = gtk_adjustment_new (0., 0., sheet->cols.max_used, 1., 1., 1.);
+	scg->va = gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
+	scg->ha = gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
 	scg->vs = gnumeric_vscrollbar_new (GTK_ADJUSTMENT (scg->va));
 	scg->hs = gnumeric_hscrollbar_new (GTK_ADJUSTMENT (scg->ha));
 	gtk_signal_connect (GTK_OBJECT (scg->vs), "offset_changed",
@@ -1047,8 +1055,8 @@ sheet_control_gui_new (Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	scg = gtk_type_new (sheet_control_gui_get_type ());
-	sheet_attach_control (sheet, SHEET_CONTROL (scg));
 	scg_construct (scg);
+	sheet_attach_control (sheet, SHEET_CONTROL (scg));
 
 	return scg;
 }

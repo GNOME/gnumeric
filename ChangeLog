@@ -1,3 +1,25 @@
+2001-07-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_init_sc) : set the panes.
+
+	* src/sheet-control.c (sc_init_state) : delete unused.
+
+	* src/sheet-control-gui.c (scg_make_cell_visible) : when landing in a
+	  partially frozen pane (1 or 3) if the panes are coupled move the
+	  other pane too.
+	(scg_set_panes) : Only use herioc measures if panes are changing, not
+	  when initializing.
+	(sheet_control_gui_new) : construct before attaching.
+	(horizontal_scroll_offset_changed) : don't clear wbcg msg text if we
+	  are't connected yet.
+	(vertical_scroll_offset_changed) : ditto.
+	(scg_scrollbar_config) :  no need to clear here.  We are already doing
+	  it in the adjustment handlers.
+
+	* src/gnumeric-sheet.c (gsheet_sliding_callback) : simplify and
+	  improve feel at bounds when scrolling in reverse.  Also remove debug
+	  spewage.
+
 2001-07-13  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-cursor.c (item_cursor_set_bounds_visibly) : no need to make

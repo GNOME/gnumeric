@@ -1203,8 +1203,7 @@ gsheet_sliding_callback (gpointer data)
 		}
 	} else if (gsheet->sliding_dx < 0) {
 		slide_x = FALSE;
-		if (pane_index != 1 && pane_index != 2 &&
-		    !gsheet->sliding_adjacent_h) {
+		if (pane_index != 1 && pane_index != 2) {
 			int x = gsheet->col_offset.first + gsheet->sliding_dx;
 			col = gnumeric_sheet_find_col (gsheet, x, NULL);
 			/* Be careful if sheet is narrow, don't
@@ -1228,8 +1227,6 @@ gsheet_sliding_callback (gpointer data)
 		}
 	} 
 
-	printf ("%d, %d, %s  \n", gsheet->sliding_dy,
-		pane_index, gsheet->sliding_adjacent_v ? "adjacent" : "not");
 	if (gsheet->sliding_dy > 0) {
 		GnumericSheet *target_gsheet = gsheet;
 
@@ -1260,18 +1257,16 @@ gsheet_sliding_callback (gpointer data)
 		}
 	} else if (gsheet->sliding_dy < 0) {
 		slide_y = FALSE;
-		if (pane_index != 3 && pane_index != 2 &&
-		    !gsheet->sliding_adjacent_v) {
+		if (pane_index != 3 && pane_index != 2) {
 			int y = gsheet->row_offset.first + gsheet->sliding_dy;
 			row = gnumeric_sheet_find_row (gsheet, y, NULL);
-			/* Be careful if sheet is narrow, don't
+			/* Be careful if sheet is short, don't
 			 * autoscroll past edge
 			 */
 			if (gsheet2 != NULL && row <= gsheet2->row.last_visible) {
 				if (row < gsheet2->row.first)
 					row = gsheet2->row.first;
 				gsheet->sliding_adjacent_v = TRUE;
-				printf ("row = %d\n", row);
 			} else
 				slide_y = TRUE;
 		}
