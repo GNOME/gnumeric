@@ -559,7 +559,7 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 		GTK_SIGNAL_FUNC (cb_sheet_label_edit_stopped), wbcg);
 	gtk_signal_connect (
 		GTK_OBJECT (sheet_label), "button_press_event",
-		GTK_SIGNAL_FUNC (cb_sheet_label_button_press), scg);
+		GTK_SIGNAL_FUNC (cb_sheet_label_button_press), scg->table);
 
 	gtk_widget_show (sheet_label);
 	gtk_widget_show_all (GTK_WIDGET (scg->table));

@@ -1,3 +1,8 @@
+2001-05-25  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (wbcg_sheet_add): Bugfix: Connect
+	button_press_event handler with scg->table as data instead of scg.
+
 2001-05-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-view.c (wb_view_open_custom) : fix logic to avoid
