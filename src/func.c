@@ -252,20 +252,41 @@ tokenized_help_destroy (TokenizedHelp *tok)
 	g_free (tok);
 }
 
-FunctionCategory *function_get_category (gchar *description)
+static gint
+function_category_compare(gconstpointer	a, gconstpointer b)
 {
-	FunctionCategory *cat = g_new (FunctionCategory, 1);
+	FunctionCategory const *cat_a = a;
+	FunctionCategory const *cat_b = b;
+	return g_strcasecmp(cat_a->name, cat_b->name);
+}
+
+FunctionCategory *
+function_get_category (gchar *description)
+{
+	FunctionCategory *cat;
+	FunctionCategory  tmp;
+
+	g_return_val_if_fail(description != NULL, NULL);
+
+	tmp.name = description;
+       	cat = g_list_find_custom(categories, &tmp,
+				 &function_category_compare);
 	
-/* FIXME: should search for name first */
+	if (cat != NULL)
+		return cat;
+
+       	cat = g_new (FunctionCategory, 1);
 	cat->name = description;
 	cat->functions = NULL;
-	categories = g_list_append (categories, cat);
+	categories = g_list_insert_sorted(categories, cat,
+					  &function_category_compare);
 
 	return cat;
 }
 
 static void
-fn_def_init (FunctionDefinition *fd, char *name, char *args, char *arg_names, char **help)
+fn_def_init (FunctionDefinition *fd,
+	     char *name, char *args, char *arg_names, char **help)
 {
 	int lp, lp2;
 	char valid_tokens[] = "fsbraA?|";
@@ -293,12 +314,13 @@ fn_def_init (FunctionDefinition *fd, char *name, char *args, char *arg_names, ch
 			SYMBOL_FUNCTION, fd);
 }
 
-FunctionDefinition *function_add_nodes (FunctionCategory *parent,
-					char *name,
-					char *args,
-					char *arg_names,
-					char **help,
-					FunctionNodes *fn)
+FunctionDefinition *
+function_add_nodes (FunctionCategory *parent,
+		    char *name,
+		    char *args,
+		    char *arg_names,
+		    char **help,
+		    FunctionNodes *fn)
 {
 	FunctionDefinition *fd;
 
@@ -314,12 +336,10 @@ FunctionDefinition *function_add_nodes (FunctionCategory *parent,
 	return fd;
 }
 
-FunctionDefinition *function_add_args (FunctionCategory *parent,
-				       char *name,
-				       char *args,
-				       char *arg_names,
-				       char **help,
-				       FunctionArgs *fn)
+FunctionDefinition *
+function_add_args (FunctionCategory *parent,
+		   char *name, char *args, char *arg_names, char **help,
+		   FunctionArgs *fn)
 {
 	FunctionDefinition *fd;
 

@@ -1,3 +1,7 @@
+1999-08-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/func.c (function_get_category) : Lookup/store in sorted list.
+
 1999-08-05  Morten Welinder  <terra@diku.dk>
 
 	* src/cell.c (cell_set_font): Obsolete -- #if 0 for now.
@@ -33,6 +37,8 @@
 	* src/corba-sheet.c (fill_corba_value): Corrected the argument here.
 	
 1999-08-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/plugin.h (struct) : 'private' is a C++ keyword.
 
 	* src/sheet.h : Add GHashTable *dependency_hash to sheet.
 
