@@ -1116,8 +1116,8 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 
 	scg->col_group.buttons = g_ptr_array_new ();
 	scg->row_group.buttons = g_ptr_array_new ();
-	scg->col_group.button_box = gtk_vbox_new (0, TRUE);
-	scg->row_group.button_box = gtk_hbox_new (0, TRUE);
+	scg->col_group.button_box = gtk_vbox_new (TRUE, 0);
+	scg->row_group.button_box = gtk_hbox_new (TRUE, 0);
 	scg->select_all_btn = gtk_button_new ();
 	GTK_WIDGET_UNSET_FLAGS (scg->select_all_btn, GTK_CAN_FOCUS);
 	g_signal_connect (G_OBJECT (scg->select_all_btn),

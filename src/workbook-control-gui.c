@@ -2069,8 +2069,8 @@ wbcg_create_edit_area (WorkbookControlGUI *wbcg)
 	wbcg->selection_descriptor = gtk_entry_new ();
 	wbcg_edit_ctor (wbcg);
 	entry = wbcg_get_entry (wbcg);
-	box   = gtk_hbox_new (0, 0);
-	box2  = gtk_hbox_new (0, 0);
+	box   = gtk_hbox_new (FALSE, 0);
+	box2  = gtk_hbox_new (FALSE, 0);
 
 	/* Set a reasonable width for the selection box. */
 	len = gnm_measure_string (
