@@ -46,14 +46,15 @@ IMAGES = @STRIP_BEGIN@ 						\
 	object_line_24.png 	\
 	object_rectangle_24.png \
 	\
-	button.xpm		\
-	object_checkbox_24.png 	\
+	object_button_24.png		\
+	object_checkbox_24.png 		\
 	object_combo_24.png		\
-	object_frame_24.png 	\
-	object_label_24.png 	\
+	object_frame_24.png 		\
+	object_label_24.png 		\
 	object_list_24.png		\
-	radiobutton.xpm		\
-	object_scrollbar_24.png \
+	object_radiobutton_24.png	\
+	object_scrollbar_24.png 	\
+	object_spinbutton_24.png 	\
 	\
 	border_all.xpm			\
 	border_bottom.xpm		\
@@ -155,14 +156,15 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_object_line_24			$(srcdir)/object_line_24.png			\
 	gnm_object_rectangle_24			$(srcdir)/object_rectangle_24.png		\
 	\
-	gnm_object_button_24			$(srcdir)/button.xpm				\
+	gnm_object_button_24			$(srcdir)/object_button_24.png			\
 	gnm_object_checkbox_24			$(srcdir)/object_checkbox_24.png		\
 	gnm_object_combo_24			$(srcdir)/object_combo_24.png			\
 	gnm_object_frame_24			$(srcdir)/object_frame_24.png			\
 	gnm_object_label_24			$(srcdir)/object_label_24.png			\
 	gnm_object_list_24			$(srcdir)/object_list_24.png			\
-	gnm_object_radiobutton_24		$(srcdir)/radiobutton.xpm			\
+	gnm_object_radiobutton_24		$(srcdir)/object_radiobutton_24.png		\
 	gnm_object_scrollbar_24			$(srcdir)/object_scrollbar_24.png		\
+	gnm_object_spinbutton_24		$(srcdir)/object_spinbutton_24.png		\
 	\
 	gnm_border_left				$(srcdir)/border_left.xpm			\
 	gnm_border_none				$(srcdir)/border_none.xpm			\

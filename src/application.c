@@ -588,8 +588,9 @@ gnumeric_application_setup_icons (void)
 		{ gnm_object_frame_24,			NULL,				"Gnumeric_ObjectFrame" },
 		{ gnm_object_label_24,			NULL,				"Gnumeric_ObjectLabel" },
 		{ gnm_object_list_24,			NULL,				"Gnumeric_ObjectList" },
-		{ gnm_object_radiobutton_24,		NULL,				"Gnumeric_ObjectRadiobutton" },
+		{ gnm_object_radiobutton_24,		NULL,				"Gnumeric_ObjectRadioButton" },
 		{ gnm_object_scrollbar_24,		NULL,				"Gnumeric_ObjectScrollbar" },
+		{ gnm_object_spinbutton_24,		NULL,				"Gnumeric_ObjectSpinButton" },
 
 		{ gnm_pivottable_24,	                gnm_pivottable_16,		"Gnumeric_PivotTable" },
 		{ gnm_protection_yes,	                NULL,				"Gnumeric_Protection_Yes" },

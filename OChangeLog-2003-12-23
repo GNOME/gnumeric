@@ -1,3 +1,11 @@
+2003-07-08  Jody Goldberg <jody@gnome.org>
+
+	* src/application.c (gnumeric_application_setup_icons) : add
+	  spinbutton
+
+	* src/pixmaps/Makefile.am : Add spin button and use the icons from
+	  glade for button and radio button.
+
 2003-07-08  Morten Welinder  <terra@gnome.org>
 
 	* src/datetime.c (days_between_basis): Handle new basis
