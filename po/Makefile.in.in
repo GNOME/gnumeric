@@ -14,6 +14,7 @@ SHELL = /bin/sh
 
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
+top_builddir = ..
 VPATH = @srcdir@
 
 prefix = @prefix@
@@ -33,9 +34,12 @@ GENCAT = @GENCAT@
 GMSGFMT = PATH=../src:$$PATH @GMSGFMT@
 MSGFMT = @MSGFMT@
 XGETTEXT = PATH=../src:$$PATH @XGETTEXT@
-MSGMERGE = PATH=$(top_srcdir)/po:../src:$$PATH perl $(top_srcdir)/po/update.pl --dist
-GENPOT   = PATH=$(top_srcdir)/po:../src:$$PATH perl $(top_srcdir)/po/update.pl --pot
-GENHEAD  = PATH=$(top_srcdir)/po:../src:$$PATH perl $(top_srcdir)/po/update.pl --headers
+XML_I18N_UPDATE = @XML_I18N_UPDATE@
+XML_I18N_EXTRACT = @XML_I18N_EXTRACT@
+ 
+MSGMERGE = XML_I18N_EXTRACT=$(XML_I18N_EXTRACT) $(XML_I18N_UPDATE) --dist
+GENPOT   = XML_I18N_EXTRACT=$(XML_I18N_EXTRACT) $(XML_I18N_UPDATE) --pot
+
 
 DEFS = @DEFS@
 CFLAGS = @CFLAGS@
@@ -49,7 +53,7 @@ SOURCES = cat-id-tbl.c
 POFILES = @POFILES@
 GMOFILES = @GMOFILES@
 DISTFILES = ChangeLog Makefile.in.in POTFILES.in $(PACKAGE).pot \
-stamp-cat-id $(POFILES) $(GMOFILES) $(SOURCES) update.pl ui-extract.pl
+stamp-cat-id $(POFILES) $(GMOFILES) $(SOURCES) $(XML_I18N_UPDATE) $(XML_I18N_EXTRACT)
 
 POTFILES = \
 
@@ -214,18 +218,27 @@ update-po: Makefile
 	  cp $$lang.po $$lang.old.po; \
 	  echo "$$lang:"; \
 	  if $(MSGMERGE) $$lang; then \
-	  rm -f $$lang.old.po; \
+	    rm -f $$lang.old.po; \
 	  else \
 	    echo "msgmerge for $$cat failed!"; \
 	    mv $$lang.old.po $$lang.po; \
 	  fi; \
 	done
 
-.headerlock:
-	$(GENHEAD)
-	touch .headerlock
+.po: Makefile
+	$(MAKE)  $(PACKAGE).pot;
+	PATH=`pwd`/../src:$$PATH; \
+	echo; printf "$*: "; \
+	if $(MSGMERGE) $*; then \
+	  rm -f $*.old.po; \
+	  else \
+	    echo "msgmerge for * failed!"; \
+	    mv $*.old.po $*.po; \
+	fi; \
+	msgfmt --statistics $*.po; echo;
 
-POTFILES: POTFILES.in .headerlock
+
+POTFILES: POTFILES.in
 	( if test 'x$(srcdir)' != 'x.'; then \
 	    posrcprefix='$(top_srcdir)/'; \
 	  else \
