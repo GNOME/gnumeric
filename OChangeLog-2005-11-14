@@ -1,3 +1,8 @@
+2002-03-09  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* samples/solver/blend.mps: Added another Netlib demo.  The
+	results seem to be correct now, so we are finally getting close..
+
 2002-03-09  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (cb_editline_focus_in) : if editing fails
