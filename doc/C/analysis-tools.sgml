@@ -19,7 +19,7 @@
   be printed into a new sheet, into a new workbook, or into
   a given output range on a sheet of the current workbook.  To select the output method
   select one of the radio buttons inside the <guilabel>Output</guilabel>
-  frame. If you have chosen <guibutton>Output Range</guibutton> you must also enter a single 
+  frame. If you have chosen <quote><guibutton>Output Range</guibutton></quote> you must also enter a single 
   range in the entry field.</para>
   <note><para>If the chosen output range is too
   small, some of the results will be lost.</para></note>
@@ -56,20 +56,20 @@
 
      <para>Use this tool to perform a single factor analysis of the
      variances of given variables. The variables are specified by the
-     <guilabel>Input Range:</guilabel> entry.  The given range can be grouped 
+     <quote><guilabel>Input Range:</guilabel></quote> entry.  The given range can be grouped 
      into the variables either
-     by columns, by rows or by areas.  The <guilabel>Alpha:</guilabel> entry specifies the 
+     by columns, by rows or by areas.  The <quote><guilabel>Alpha:</guilabel></quote> entry specifies the 
      significance level which is by default 5&#037;.</para>
 
      <para>If the first row or first column of the given range, or the 
-     first field of each area contains labels, select the <guibutton>Labels
-     </guibutton> option. The names of 
+     first field of each area contains labels, select the <quote><guibutton>Labels
+     </guibutton></quote> option. The names of 
      the variables will be included in the  output table.</para>
 
      <para>The results of this analysis of variance are presented in 
-     a standard ANOVA table. The <guilabel>F critical</guilabel>
+     a standard ANOVA table. The <quote><guilabel>F critical</guilabel></quote>
      value is the largest value of F that is statistically significant
-     using the given significance level (<guilabel>Alpha</guilabel>).</para>
+     using the given significance level (<quote><guilabel>Alpha</guilabel></quote>).</para>
 
      <para>This tool also calculates the count, sum, average,
      and the variance of each variable.</para>
@@ -93,9 +93,9 @@
      factor while each row is interpreted as a level of the second factor.
      </para>
      <para>The first row and column of the range may contain labels for 
-     these levels. In this case the <guibutton>Labels</guibutton> option should be selected.
+     these levels. In this case the <quote><guibutton>Labels</guibutton></quote> option should be selected.
      </para>
-     <para> The <guilabel>Alpha:</guilabel> entry specifies the 
+     <para> The <quote><guilabel>Alpha:</guilabel></quote> entry specifies the 
      significance level which is by default 5&#037;.</para>
  <example id="usinganovatwofactorwotool">
  <title>Using the 2-factor ANOVA Without Replication Tool</title>
@@ -124,13 +124,13 @@
      performs a two factor fixed effects ANOVA with replication. Each
      column of the input range is interpreted as a level of the first 
      factor while groups of rows (the number of rows in each group given 
-     by the <guilabel>number of rows per sample</guilabel> value) are interpreted as levels 
+     by the <quote><guilabel>number of rows per sample</guilabel></quote> value) are interpreted as levels 
      of the second factor.
      </para>
      <para>The first row and column of the range may contain labels for 
-     these levels. In this case the <guibutton>Labels</guibutton> option should be selected.
+     these levels. In this case the <quote><guibutton>Labels</guibutton></quote> option should be selected.
      </para>
-     <para> The <guilabel>Alpha:</guilabel> entry specifies the 
+     <para> The <quote><guilabel>Alpha:</guilabel></quote> entry specifies the 
      significance level which is by default 5&#037;.</para>
      <para>See <xref linkend="anova-two-factor-with-tool-ex1"> for an example 
      of a completed dialog and <xref linkend="anova-two-factor-with-tool-ex2">
@@ -172,14 +172,14 @@
      correlation coefficients of the
      given variables.  Use this tool to calculate any number of
      correlation coefficients at the same time.  The variables for
-     which the correlations are calculated are specified by the <guilabel>Input
-     Range:</guilabel> entry. The input range can consist of either a single 
+     which the correlations are calculated are specified by the <quote><guilabel>Input
+     Range:</guilabel></quote> entry. The input range can consist of either a single 
      range or a comma separated list of ranges. The given range or 
      ranges can be grouped by columns, by rows, or by areas.</para>
 
      <para>If the first row or column of the given ranges, or the 
      first field of each area contains labels,  the
-     <guibutton>Labels</guibutton> option should be selected.
+     <quote><guibutton>Labels</guibutton></quote> option should be selected.
      </para>
 
   <figure id="correlation-example-1">
@@ -197,15 +197,15 @@
      (see <xref linkend="correlation-example-1">).</para>
 <orderedlist>
      <listitem><para>
-     Enter A1:B11 in the <guilabel>Input Range:</guilabel> entry by typing 
+     Enter A1:B11 in the <quote><guilabel>Input Range:</guilabel></quote> entry by typing 
      this directly into the entry or clicking in the entry field and 
      then selecting that range on the sheet. In the latter case the 
      entry will also contain the sheet name. </para></listitem>
      <listitem><para>
-     Select the <guibutton>Columns</guibutton> radio button next to 
-     <guilabel>Grouped By:</guilabel>, 
+     Select the <quote><guibutton>Columns</guibutton></quote> radio button next to 
+     <quote><guilabel>Grouped By:</guilabel></quote>, 
      since each variable is in its own column.</para></listitem>
-     <listitem><para> Select the <guibutton>Labels</guibutton>
+     <listitem><para> Select the <quote><guibutton>Labels</guibutton></quote>
      option since the first row contains labels. (see 
      <xref linkend="correlation-example-2">).</para></listitem>
      <listitem><para> Specify the output 
@@ -248,14 +248,14 @@
      covariance coefficients of the
      given variables.  Use this tool to calculate any number of
      covariance coefficients at the same time.  The variables for
-     which the covariances are calculated are specified by the <guilabel>Input
-     Range:</guilabel> entry. The input range can consist of either a single 
+     which the covariances are calculated are specified by the <quote><guilabel>Input
+     Range:</guilabel></quote> entry. The input range can consist of either a single 
      range or a comma separated list of ranges. The given range or 
      ranges can be grouped by columns, by rows, or by areas.</para>
 
      <para>If the first row or column of the given ranges, or the 
      first field of each area contains labels,  the
-     <guibutton>Labels</guibutton> option should be selected.
+     <quote><guibutton>Labels</guibutton></quote> option should be selected.
      </para>
 
   <figure id="covariance-example-1">
@@ -273,15 +273,15 @@
      (see <xref linkend="covariance-example-1">).</para>
 <orderedlist>
      <listitem><para>
-     Enter A1:B11 in the <guilabel>Input Range:</guilabel> entry by typing 
+     Enter A1:B11 in the <quote><guilabel>Input Range:</guilabel></quote> entry by typing 
      this directly into the entry or clicking in the entry field and 
      then selecting that range on the sheet. In the latter case the 
      entry will also contain the sheet name. </para></listitem>
      <listitem><para>
-     Select the <guibutton>Columns</guibutton> radio button next to 
-     <guilabel>Grouped By:</guilabel>, 
+     Select the <quote><guibutton>Columns</guibutton></quote> radio button next to 
+     <quote><guilabel>Grouped By:</guilabel></quote>, 
      since each variable is in its own column.</para></listitem>
-     <listitem><para> Select the <guibutton>Labels</guibutton>
+     <listitem><para> Select the <quote><guibutton>Labels</guibutton></quote>
      option since the first row contains labels.
      </para></listitem>
      <listitem><para> Specify the output 
@@ -317,21 +317,21 @@
 
      <para>The descriptive statistics tool calculates various statistics 
      for the given variables and a confidence interval for the population
-     mean. The variables are specified via the <guilabel>Input
-     Range:</guilabel> entry.  The given range or list of ranges can be grouped into 
+     mean. The variables are specified via the <quote><guilabel>Input
+     Range:</guilabel></quote> entry.  The given range or list of ranges can be grouped into 
      variables by columns, rows, or areas.</para>
 
      <para>This tool can produce four different kinds of statistical
      data.
      </para>
      <itemizedlist>
-     <listitem><para>If the <guibutton>Summary Statistics</guibutton> option is selected,  
+     <listitem><para>If the <quote><guibutton>Summary Statistics</guibutton></quote> option is selected,  
      this tool calculates the
      mean, standard error, median, mode, standard deviation, sample
      variance, kurtosis, skewness, range, minimum, maximum, sum, and
      count for each variable.</para>
      </listitem>
-     <listitem><para>If the <guibutton>Confidence Interval for the Mean</guibutton> option is 
+     <listitem><para>If the <quote><guibutton>Confidence Interval for the Mean</guibutton></quote> option is 
      selected, the tool calculates  confidence intervals for the population
      mean of each variable.
      Specify the confidence level in the entry box.  The default confidence 
@@ -343,20 +343,20 @@
      estimates the population standard deviation using the sample standard
      deviation.</para></note></listitem>
 
-     <listitem><para>If the <guibutton>Kth Largest:</guibutton> option is selected, the tool finds
+     <listitem><para>If the <quote><guibutton>Kth Largest:</guibutton></quote> option is selected, the tool finds
      the <parameter>k</parameter>th largest value of each of the variables.  Specify 
      <parameter>k</parameter> in
      the entry box next to the option. The default is 1.
      </para></listitem>
 
-     <listitem><para>If the <guibutton>Kth Smallest:</guibutton> option is selected, the tool finds
+     <listitem><para>If the <quote><guibutton>Kth Smallest:</guibutton></quote> option is selected, the tool finds
      the <parameter>k</parameter>th smallest value of each of the variables.  Specify 
      <parameter>k</parameter> in
      the entry box next to the option. The default is 1.
      </para></listitem>
      </itemizedlist>
      <para>If the first entry for each variable contains the label,
-     select the <guibutton>Labels</guibutton> option.
+     select the <quote><guibutton>Labels</guibutton></quote> option.
      </para>
   <figure id="descstats-example-1">
     <title>Some Example Data</title>
@@ -388,7 +388,7 @@
      value in the original data set.</para>
 
      <para>You can define the prior forecast adjustment in the
-     <guilabel>Damping factor</guilabel> entry.  A good value could be, for example,
+     <quote><guilabel>Damping factor</guilabel></quote> entry.  A good value could be, for example,
      between 0.2 and 0.3 representing 20 to 30 percent error
      adjustment in the prior forecast.</para>
 
@@ -412,13 +412,13 @@
      variances are different against the null hypothesis that
      they are not.</para>
 
-     <para>Specify the variables in the <guilabel>Variable 1 Range:</guilabel>
-     and <guilabel>Variable 2 Range:</guilabel> entries. The <guilabel>Alpha:</guilabel> 
+     <para>Specify the variables in the <quote><guilabel>Variable 1 Range:</guilabel></quote>
+     and <quote><guilabel>Variable 2 Range:</guilabel></quote> entries. The <quote><guilabel>Alpha:</guilabel></quote> 
      entry contains the 
      significance level which is by default 5&#037;.</para>
 
      <para>If the first field of each range contains labels, 
-     select the <guibutton>Labels</guibutton> option. The names of 
+     select the <quote><guibutton>Labels</guibutton></quote> option. The names of 
      the variables will be included in the  output table.</para>
 
      <para>The results are given in a table.  This table contains
@@ -427,12 +427,12 @@
      the one-tailed probability for the F-value, and the F Critical
      value for one-tailed test and the corresponding values for a two 
      tailed test. The one-tailed probability for the
-     F-value (<guilabel>P(F&lt;=f) one-tail</guilabel> row) is the probability of making a
+     F-value (<quote><guilabel>P(F&lt;=f) one-tail</guilabel></quote> row) is the probability of making a
      Type I error in the one-tailed test. Similarly, the two-tailed 
-     probability for the F-value (<guilabel>P two-tail</guilabel> row)
+     probability for the F-value (<quote><guilabel>P two-tail</guilabel></quote> row)
      is the probability of making a Type I error in the two-tailed test.
      Since in the two-tailed F-Test both critical values are positive, the
-     <guilabel>F Critical two-tail</guilabel> row contains two numbers.</para>
+     <quote><guilabel>F Critical two-tail</guilabel></quote> row contains two numbers.</para>
 
      <para>If the output is directed into a specific output range, that
      range should contain at least three columns and eight rows.</para>
@@ -473,37 +473,37 @@
      selected.  
      </para>
      <para>
-     The <guilabel>Input Range</guilabel> entry contains a single range or a list of ranges, that
-     can be grouped into variables by rows, columns, or areas. The <guilabel>Bin Range</guilabel>
+     The <quote><guilabel>Input Range</guilabel></quote> entry contains a single range or a list of ranges, that
+     can be grouped into variables by rows, columns, or areas. The <quote><guilabel>Bin Range</guilabel></quote>
      entry contains a single range of cutoff values. Both ranges may also include 
      labels.
      </para>
      <para>If the first row or column of the given input ranges, or the 
      first field of each area contains labels,  the
-     <guibutton>Input Labels</guibutton> option should be selected.
+     <quote><guibutton>Input Labels</guibutton></quote> option should be selected.
      </para>
      <para>If the first column of the given bin range contains labels,  the
-     <guibutton>Bin Labels</guibutton> option should be selected.
+     <quote><guibutton>Bin Labels</guibutton></quote> option should be selected.
      </para>
      <para> The remaining options modify the appearance of the histogram:</para>
      <itemizedlist>
      <listitem>
-     <para> The <guibutton>Pareto</guibutton> option causes the bins to be sorted by decreasing 
+     <para> The <quote><guibutton>Pareto</guibutton></quote> option causes the bins to be sorted by decreasing 
      frequency of the first variable.
      </para>
      </listitem>
      <listitem>
-     <para> The <guibutton>Percentage</guibutton> option adds a histogram in terms of 
+     <para> The <quote><guibutton>Percentage</guibutton></quote> option adds a histogram in terms of 
      percentages rather than frequencies.
      </para>
      </listitem>
      <listitem>
-     <para> The <guibutton>Cumulative Percentages</guibutton> option adds a cumulative 
+     <para> The <quote><guibutton>Cumulative Percentages</guibutton></quote> option adds a cumulative 
      histogram.
      </para>
      </listitem>
      <listitem>
-     <para> The <guibutton>Chart</guibutton> option is not implemented.
+     <para> The <quote><guibutton>Chart</guibutton></quote> option is not implemented.
      </para>
      </listitem>
      </itemizedlist>
@@ -524,23 +524,23 @@
      (see <xref linkend="histogram-example-1">).</para>
 <orderedlist>
      <listitem><para>
-     Enter A1:A21 in the <guilabel>Input Range:</guilabel> entry by typing 
+     Enter A1:A21 in the <quote><guilabel>Input Range:</guilabel></quote> entry by typing 
      this directly into the entry or clicking in the entry field and 
      then selecting that range on the sheet. In the latter case the 
      entry will also contain the sheet name. </para></listitem>
      <listitem><para>
-     Since you only have one variable select the <guibutton>Areas</guibutton> or 
-     <guibutton>Columns</guibutton> radio 
-     button next to <guilabel>Grouped By:</guilabel>.
+     Since you only have one variable select the <quote><guibutton>Areas</guibutton></quote> or 
+     <quote><guibutton>Columns</guibutton></quote> radio 
+     button next to <quote><guilabel>Grouped By:</guilabel></quote>.
      </para></listitem>
      <listitem><para>
-     Enter C1:D5 in the <guilabel>Bin Range:</guilabel> entry. </para></listitem>
-      <listitem><para> Select the <guibutton>Bin Labels</guibutton>
+     Enter C1:D5 in the <quote><guilabel>Bin Range:</guilabel></quote> entry. </para></listitem>
+      <listitem><para> Select the <quote><guibutton>Bin Labels</guibutton></quote>
      option since the first column of the Bin Range contains labels. 
      </para></listitem>
      <listitem><para>
-     Select the <guibutton>Percentage</guibutton> and <guibutton>Cumulative Percentages
-     </guibutton> options.
+     Select the <quote><guibutton>Percentage</guibutton></quote> and <quote><guibutton>Cumulative Percentages
+     </guibutton></quote> options.
      </para></listitem>     
      <listitem><para> Specify the output 
      options as described above.</para></listitem>
@@ -569,8 +569,8 @@
      prize.</para>
 
      <para>To use this tool, first specify the cells containing the
-     values whose moving averages you want to calculate in the <guilabel>Input
-     Range</guilabel> entry.  Then specify the <guilabel>Interval</guilabel> for the moving
+     values whose moving averages you want to calculate in the <quote><guilabel>Input
+     Range</guilabel></quote> entry.  Then specify the <quote><guilabel>Interval</guilabel></quote> for the moving
      average.  The interval specifies the number of values to be
      included in the moving average.</para>
 
@@ -589,7 +589,7 @@
      probability distributions.</para>
 
      <para>To use this tool, first specify the number of variables in
-     the <guilabel>Number of Variables:</guilabel> entry box.  This determines the
+     the <quote><guilabel>Number of Variables:</guilabel></quote> entry box.  This determines the
      number of columns of random values to be produced.  Secondly,
      specify the number of random numbers.  This determines the number
      of rows of random values to be produced.  Thirdly specify the
@@ -603,8 +603,8 @@
         <title>Random Distributions</title>
 
         <para>For Discrete random distribution, specify the value and
-	probability input range in the <guilabel>Value and Probability Input
-	Range:</guilabel> entry box.  That is a table consisting of two columns
+	probability input range in the <quote><guilabel>Value and Probability Input
+	Range:</guilabel></quote> entry box.  That is a table consisting of two columns
 	and any number of rows.  The first column specifies the
 	discrete random values and the second column the probabilities
 	for them.  The discrete random values do not have to be
@@ -619,18 +619,18 @@
 	mean and 1 for standard deviation.</para>
 
 	<para>For Poisson random distribution, specify the lambda in
-	the <guilabel>Lambda</guilabel> entry.</para>
+	the <quote><guilabel>Lambda</guilabel></quote> entry.</para>
 
 	<para>For Exponential random distribution, specify the b in
-	the <guilabel>b Value</guilabel> entry.</para>
+	the <quote><guilabel>b Value</guilabel></quote> entry.</para>
 
 	<para>For Binomial random distribution, specify the
-	probability of success in <guilabel>p Value</guilabel> entry.  Also specify the
-	number of trials in the <guilabel>Number of Trials</guilabel> entry.  
+	probability of success in <quote><guilabel>p Value</guilabel></quote> entry.  Also specify the
+	number of trials in the <quote><guilabel>Number of Trials</guilabel></quote> entry.  
 	Binomial
 	distribution is a discrete distribution in which the
-	experiment consists of <guilabel>n</guilabel> identical trials, where 
-	<guilabel>n</guilabel> is
+	experiment consists of <quote><guilabel>n</guilabel></quote> identical trials, where 
+	<quote><guilabel>n</guilabel></quote> is
 	fixed in advance.  Each trial is independent of other trials
 	and has two possible outcomes, a success or a failure.  The
 	probability of success is constant from one trial to another.
@@ -638,28 +638,28 @@
 	is E(X) = np, and the variance is var(X) = np(1-p).</para>
 
 	<para>For Negative Binomial distribution, specify the
-	probability of success in <guilabel>p Value</guilabel> entry.  Also specify the
-	number of failures in the <guilabel>Number of Failures</guilabel> entry.
+	probability of success in <quote><guilabel>p Value</guilabel></quote> entry.  Also specify the
+	number of failures in the <quote><guilabel>Number of Failures</guilabel></quote> entry.
 	Negative Binomial distribution is a discrete distribution in
 	which the experiment consists of a sequence of independent
 	trials.  Each trial has two possible outcomes, a success or a
 	failure.  The probability of success is constant from one
-	trial to another.  The experiment continues until <guilabel>r</guilabel> failures
-	are observed, where <guilabel>r</guilabel> is fixed in advance.  The mean of a
+	trial to another.  The experiment continues until <quote><guilabel>r</guilabel></quote> failures
+	are observed, where <quote><guilabel>r</guilabel></quote> is fixed in advance.  The mean of a
 	random variable that has a Negative Binomial distribution is
 	E(X) = r(1-p)/p, and the variance is var(X) =
 	r(1-p)/p^2.</para>
 
-        <para>For Bernoulli random distribution, specify the <guilabel>p
-        Value</guilabel>.  This is a probability value between 0 and 1.
+        <para>For Bernoulli random distribution, specify the <quote><guilabel>p
+        Value</guilabel></quote>.  This is a probability value between 0 and 1.
         Bernoulli distribution has two random values 0 and 1, and the
-        <guilabel>p Value</guilabel> specifies the probability of value 1.  The mean of
+        <quote><guilabel>p Value</guilabel></quote> specifies the probability of value 1.  The mean of
         a random variable that has a Bernoulli distribution is E(X) =
         1(p) + 0(1-p) = p, and the variance is var(X) = p(1-p).</para>
 
         <para>For Uniform random distribution, specify the range of
-        the random variables by filling the <guilabel>Between:</guilabel> and 
-	<guilabel>And:</guilabel>
+        the random variables by filling the <quote><guilabel>Between:</guilabel></quote> and 
+	<quote><guilabel>And:</guilabel></quote>
         entries.  The default values for them are 0 and 1 that gives
         random numbers between zero and one.</para>
      </sect2>
@@ -677,7 +677,7 @@
 
      <para>Use this tool to rank given data and to calculate the
      percentiles of each data point.   The variables for
-     are specified by the <guilabel>Input  Range:</guilabel> entry.  
+     are specified by the <quote><guilabel>Input  Range:</guilabel></quote> entry.  
      The given range can be grouped either by columns or by rows.</para>
 
      <para>For each variable, the tool creates three columns in the 
@@ -688,15 +688,88 @@
 
      <para>If you have labels, for example the names of the variables,
      in the first row (or column) of the given range, you should select the
-     <guilabel>Labels</guilabel> option.  This leaves the first row (or column)  of
+     <quote><guilabel>Labels</guilabel></quote> option.  This leaves the first row (or column)  of
      the input range out of the analysis.  In addition, the names of
      the variables are printed in the output table.</para>
   </sect1>
 
   <sect1 id="regression-tool">
      <title>Regression Tool</title>
+  <figure id="regression-tool-dialog">
+    <title>Regression Tool Dialog</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-regression.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+  <para>The regression tool performs a multiple regression analysis.</para>
+  <para>Enter a range or list of ranges containing the independent variables 
+  into the <quote><guilabel>X Variables:</guilabel></quote> entry. These ranges 
+  can be grouped into the various independent variables by columns, by rows, 
+  or by areas. Select the appropriate option.</para>
+  <para>Enter a single range containing the dependent variable into the
+   <quote><guilabel>Y Variable:</guilabel></quote> entry.</para>
+  <para>If the ranges for the independent and dependent variables also contains 
+  labels in the first field of each row, column or area, select the <quote>
+  <guilabel>Labels</guilabel></quote> option.</para>
+  <para> Specify the confidence level in the <quote><guilabel>Confidence
+  Level:</guilabel></quote> entry. The default is 95&#037;.</para>
+  <para>To force the regression line or plane to pass through the origin, select the
+  <quote><guilabel>Force Intercept To Be Zero</guilabel></quote> option.</para>
+  <para>Specify the output options as described above. If the output is directed 
+  into a specific output range, that
+  range should contain at least seven columns and 17 rows more than there are 
+  independent variables.</para>
 
-     <para>WriteMe</para>
+  <figure id="regression-example-1">
+    <title>Regression Example Data</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-regression-ex1.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+
+ <example id="usingregressiontool">
+ <title>Using the Regression Tool</title>
+    <para>Suppose you want to perform a regression analysis on the data given in 
+     <xref linkend="regression-example-1"> using <parameter>v</parameter> and 
+     <parameter>y</parameter> as independent 
+     variables and <parameter>u</parameter> as dependent variable.</para>
+<orderedlist>
+     <listitem><para>
+     Enter B1:B9,E1:E9 in the <quote><guilabel>X Variables:</guilabel></quote> 
+     entry by typing 
+     this directly into the entry or clicking in the entry field and 
+     then selecting the first part range on the sheet, typing comma, and then 
+     selecting the second range. In the latter case the 
+     entry will also contain the sheet name. </para></listitem>
+     <listitem><para>
+     Enter A1:A9  in the <quote><guilabel>Y Variable:</guilabel></quote> 
+     entry. </para></listitem>
+     <listitem><para>
+     Select the <quote><guibutton>Columns</guibutton></quote> or 
+     <quote><guibutton>Areas</guibutton></quote> option 
+     since each variable is in its own column and also its own area.</para></listitem>
+     <listitem><para> Select the <quote><guibutton>Labels</guibutton></quote>
+     option since the first row contains labels. (see 
+     <xref linkend="regression-example-2">).</para></listitem>
+     <listitem><para> Specify the output 
+     options as described above.</para></listitem>
+     <listitem><para> Press the OK button. </para></listitem>
+</orderedlist>
+     <para> The output of this regression analysis is shown in
+     <xref linkend="regression-example-3">.</para>
+ </example>
+  <figure id="regression-example-2">
+    <title>Completed Regression Dialog</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-regression-ex2.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+  <figure id="regression-example-3">
+    <title>Regression Tool Output</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-regression-ex3.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
   </sect1>
 
   <sect1 id="sampling-tool">
@@ -708,13 +781,13 @@
      taken to the sample.</para>
 
      <para>To use this tool, first specify the data set by setting the
-     <guilabel>Input Range:</guilabel> entry.  Then select the sampling method which
+     <quote><guilabel>Input Range:</guilabel></quote> entry.  Then select the sampling method which
      can be either periodic or random.  Periodic sampling requires
-     that you specify the period by typing a number to the <guilabel>Period:</guilabel>
+     that you specify the period by typing a number to the <quote><guilabel>Period:</guilabel></quote>
      entry.  For example, if you specify the period to be three then
      you will get a sample that has every third value of the original
      data set.  Random sampling requires that you specify the size of
-     the random sample in <guilabel>Number of Samples:</guilabel> entry.  The size
+     the random sample in <quote><guilabel>Number of Samples:</guilabel></quote> entry.  The size
      cannot be larger than the original data set since each value of
      the original data set is taken at most once to the sample.</para>
   </sect1>
@@ -734,14 +807,14 @@
   </figure>
 
      <para>Depending on the options settings, the appropriate test will be performed. The 
-     entries in the <guilabel>Input</guilabel>, <guilabel>Test</guilabel>, and 
-     <guilabel>Output</guilabel> frames are independent from the specific test.</para>
+     entries in the <quote><guilabel>Input</guilabel></quote>, <quote><guilabel>Test</guilabel></quote>, and 
+     <quote><guilabel>Output</guilabel></quote> frames are independent from the specific test.</para>
 
-     <para>Enter the first variable in the <guilabel>Variable 1 Range</guilabel> entry 
-     and the second variable in the <guilabel>Variable 2 Range</guilabel> entry.</para>
+     <para>Enter the first variable in the <quote><guilabel>Variable 1 Range</guilabel></quote> entry 
+     and the second variable in the <quote><guilabel>Variable 2 Range</guilabel></quote> entry.</para>
      <para>Enter the hypothesized difference between the population means in the 
-     <guilabel>Hypothesized Mean Difference</guilabel> entry, which has a default of 0.
-     Enter the significance level in the <guilabel>Alpha</guilabel> entry, which has a 
+     <quote><guilabel>Hypothesized Mean Difference</guilabel></quote> entry, which has a default of 0.
+     Enter the significance level in the <quote><guilabel>Alpha</guilabel></quote> entry, which has a 
      default of 5 &#037;.</para>
      <para> Specify the output 
      options as described above. If the output is printed into a range, it should have at
@@ -749,26 +822,26 @@
 
      <para>There are up to three possible options that can be selected:</para>
      <variablelist>
-     <varlistentry><term><guilabel>Paired</guilabel> versus <guilabel>Unpaired</guilabel>
+     <varlistentry><term><quote><guilabel>Paired</guilabel></quote> versus <quote><guilabel>Unpaired</guilabel></quote>
      </term><listitem><para>
-     If the variables are dependent (or paired) select the <guilabel>Paired</guilabel>
+     If the variables are dependent (or paired) select the <quote><guilabel>Paired</guilabel></quote>
      option.
      </para></listitem>
      </varlistentry>
-     <varlistentry><term><guilabel>Known</guilabel> versus <guilabel>Unknown</guilabel>
+     <varlistentry><term><quote><guilabel>Known</guilabel></quote> versus <quote><guilabel>Unknown</guilabel></quote>
      </term><listitem><para>
      For unpaired or independent variables, the population variances may be known 
      or unknown. In the latter case they will be estimated using the sample variances.
-     Select the <guilabel>Known</guilabel> option if you in fact know the population 
+     Select the <quote><guilabel>Known</guilabel></quote> option if you in fact know the population 
      variances prior to collecting the sample.
      </para></listitem>
      </varlistentry>
-     <varlistentry><term><guilabel>Equal</guilabel> versus <guilabel>Unequal</guilabel>
+     <varlistentry><term><quote><guilabel>Equal</guilabel></quote> versus <quote><guilabel>Unequal</guilabel></quote>
      </term><listitem><para>
      For paired variables with unknown population variances, we may either assume 
      that the population variances are equal or not. If the population variances are
      assumed to be equal, gnumeric will estimate the common variance by pooling the 
-     sample variances. Select the <guilabel>Equal</guilabel> option to assume that
+     sample variances. Select the <quote><guilabel>Equal</guilabel></quote> option to assume that
      the population variances are equal.
      </para></listitem>
      </varlistentry>
@@ -783,7 +856,7 @@
     </screenshot>
   </figure>
      <para>For paired variables, when you click on 
-     <guibutton>OK</guibutton>, gnumeric will test whether the 
+     <quote><guibutton>OK</guibutton></quote>, gnumeric will test whether the 
      mean of the difference between the paired variables is equal to 
      the given hypothesized mean difference.</para>
 
@@ -818,7 +891,7 @@
     </screenshot>
   </figure>
      <para>For unpaired variables with unknown but assumed equal population variances,
-     when you click on <guibutton>OK</guibutton>, gnumeric will test whether the 
+     when you click on <quote><guibutton>OK</guibutton></quote>, gnumeric will test whether the 
      mean of the difference between the paired variables is equal to the given hypothesized
      mean difference.</para>
 
@@ -853,7 +926,7 @@
     </screenshot>
   </figure>
      <para>For unpaired  variables with unknown and assumed unequal population variances,
-     when you click on <guibutton>OK</guibutton>, gnumeric will test whether the 
+     when you click on <quote><guibutton>OK</guibutton></quote>, gnumeric will test whether the 
      mean of the difference between the paired variables is equal to the given hypothesized
      mean difference.</para> 
 
@@ -888,9 +961,9 @@
     </screenshot>
   </figure>
      <para>For unpaired  variables with known population variances, enter those variances 
-     in the <guilabel>Variable 1 Pop. Variance</guilabel> and 
-     <guilabel>Variable 2 Pop. Variance</guilabel> entries.
-     When you click on <guibutton>OK</guibutton>, gnumeric will test whether the 
+     in the <quote><guilabel>Variable 1 Pop. Variance</guilabel></quote> and 
+     <quote><guilabel>Variable 2 Pop. Variance</guilabel></quote> entries.
+     When you click on <quote><guibutton>OK</guibutton></quote>, gnumeric will test whether the 
      mean of the difference between the paired variables is equal to the given hypothesized
      mean difference.</para> 
 

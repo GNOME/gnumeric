@@ -1,3 +1,13 @@
+2001-12-17 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Wrote Regression Tool
+	  descriptions. Quote guilabels and guibuttons
+	  since they don't differ from straight text.
+	* figures/analysistools-regression-ex1.png : new figure
+	* figures/analysistools-regression-ex2.png : new figure
+	* figures/analysistools-regression-ex3.png : new figure
+	* figures/analysistools-regression.png : new figure
+
 2001-12-16 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* analysis-tools.sgml : Wrote t-Tests and z-Test
