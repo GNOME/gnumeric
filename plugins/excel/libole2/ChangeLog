@@ -1,3 +1,7 @@
+1999-12-18  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-ole.c (ms_ole_create_vfs): NULL pointer after free in error state.
+
 1999-12-16  Frank Chiulli  <fc-linux@home.com>
 	
 	* ms-ole.c (pps_get_text): Remove code that skips the first character if

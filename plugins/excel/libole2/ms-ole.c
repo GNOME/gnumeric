@@ -1606,6 +1606,7 @@ ms_ole_create_vfs (MsOle **f, const char *name, gboolean try_mmap,
 	    == -1) {
 		printf ("Can't create file '%s'\n", name);
 		g_free (*f);
+		*f = NULL;
 		return MS_OLE_ERR_PERM;
 	}
 
@@ -1615,6 +1616,7 @@ ms_ole_create_vfs (MsOle **f, const char *name, gboolean try_mmap,
 		printf ("Serious error extending file to %d bytes\n",
 			BB_BLOCK_SIZE*init_blocks);
 		g_free (*f);
+		*f = NULL;
 		return MS_OLE_ERR_SPACE;
 	}
 
