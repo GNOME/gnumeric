@@ -6,13 +6,27 @@
 my @cmd = ();
 my $target;
 my $tmptarget;
+my $sanitize = 0;
 
 while (@ARGV) {
     my $arg = shift @ARGV;
+    if ($arg =~ /^--sanitize=(.*)/) {
+	$sanitize = $1;
+	next;
+    }
+
+    if ($sanitize && $arg =~ /^-/ && $arg !~ /^-(threads|D|U|I|c|o)/) {
+	# Options that get here are not in the desiret set.
+	# Notably we drop "-fPIC" (some variant of which should probably
+	# also occur in an unsanitized section).
+	print STDERR "$0: warning dropping $arg\n";
+	next;
+    }
+
     push @cmd, $arg;
     if ($arg eq '-o' && $ARGV[0] =~ /\.lo$/) {
 	$target = $tmptarget = shift @ARGV;
-	$tmptarget =~ s/\.lo$/.o/;
+	$tmptarget =~ s/\.lo$/-tmp.o/;
 	push @cmd, $tmptarget;
     }
 }
