@@ -45,7 +45,7 @@ cell_modified (Cell *cell)
 
 
 /* Empty a cell's value, entered_text, and parsed_node.  */
-static void
+void
 cell_cleanout (Cell *cell)
 {
 	if (cell->parsed_node){
@@ -100,6 +100,9 @@ cell_set_formula (Cell *cell, const char *text)
 	if (new_expr->oper == OPER_ARRAY) {
 		/* The corner sets up the entire array block */
 		if (new_expr->u.array.x != 0 || new_expr->u.array.y != 0) {
+			/* Throw away the expression, including the inner
+			   one.  */
+			expr_tree_unref (new_expr->u.array.corner.func.expr);
 			expr_tree_unref (new_expr);
 			/*
 			 *   Reading an xml stream the terminal node may be

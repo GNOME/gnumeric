@@ -196,7 +196,7 @@ simplex_step_four(float_t *table, int col, int row, int n_vars, int n_rows)
 
 int solver_simplex (Workbook *wb, Sheet *sheet)
 {
-        int i, j, n;
+        int i, n;
 	SolverParameters *param = &sheet->solver_parameters;
         CellList *cell_list = param->input_cells;
 	GSList   *constraints = param->constraints;

@@ -8,6 +8,9 @@ Jody :
 	* Improve xml export of borders to include cleared borders.
 	* Undo.
 
+Morten:
+	* Revamp the memory handling of the parser.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.47

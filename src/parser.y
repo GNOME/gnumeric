@@ -2,10 +2,12 @@
 /*
  * Gnumeric Parser
  *
- * (C) 1998 the Free Software Foundation
+ * (C) 1998-2000 the Free Software Foundation
  *
  * Author:
  *    Miguel de Icaza (miguel@gnu.org)
+ *    Jody Goldberg (jgoldberg@home.com)
+ *    Morten Welinder (terra@diku.dk)
  */
 #include <config.h>
 #include <ctype.h>
@@ -18,40 +20,138 @@
 #include "expr.h"
 #include "sheet.h"
 #include "utils.h"
-	
-/* Allocation with disposal-on-error */ 
-static void *alloc_buffer    (int size);
-static void  register_symbol (Symbol *sym);
-static void  alloc_clean     (void);
-static void  alloc_glist     (GList *l); 
-static void  forget_glist    (GList *list);
-static void  forget_array    (GList *array);
-static void  forget_tree     (ExprTree *tree);
-static void  release_const_tree (ExprTree *tree);
-static void  alloc_list_free (void); 
-static Value*v_new (void);
-static void  v_forget (Value *v);
-	
-#define ERROR -1
- 
-/* Types of items we know how to dispose on error */ 
-typedef enum {
-	ALLOC_SYMBOL,
-	ALLOC_VALUE,
-	ALLOC_BUFFER,
-	ALLOC_LIST
-} AllocType;
 
-/* How we keep track of them */ 
+/* ------------------------------------------------------------------------- */
+/* Allocation with disposal-on-error */
+
+/*
+ * If some dork enters "=1+2+2*(1+" we have already allocated space for
+ * "1+2", "2", and "1" before the parser sees the syntax error and warps
+ * us to the error production in the "line" non-terminal.
+ *
+ * To make sure we can clean up, we register every allocation.  On success,
+ * nothing should be left (except the final expression which is unregistered),
+ * but on failure we must free everything allocated.
+ *
+ * Note: there is some room left for optimisation here.  Talk to terra@diku.dk
+ * before you set out to do it.
+ */
+
+static void
+free_expr_list (GList *list)
+{
+	GList *l;
+	for (l = list; l; l = l->next)
+		expr_tree_unref (l->data);
+	g_list_free (list);
+}
+
+static void
+free_expr_list_list (GList *list)
+{
+	GList *l;
+	for (l = list; l; l = l->next)
+		free_expr_list (l->data);
+	g_list_free (list);
+}
+
+typedef void (*ParseDeallocator) (void *);
 typedef struct {
-	AllocType type;
-	void      *data;
+	void *data;
+	ParseDeallocator freer;
 } AllocRec;
 
-/* This keeps a list of  AllocRecs */
 static GList *alloc_list;
- 
-/* Bison/Yacc internals */ 
+
+static void
+deallocate_all (void)
+{
+	GList *l;
+
+	for (l = alloc_list; l; l = l->next) {
+		AllocRec *rec = l->data;
+		/* fprintf (stderr, "*** freeing %p ***\n", rec->data); */
+		rec->freer (rec->data);
+		g_free (rec);
+	}
+	g_list_free (alloc_list);
+	alloc_list = NULL;
+}
+
+static void
+deallocate_assert_empty (void)
+{
+	GList *l;
+
+	if (alloc_list == NULL)
+		return;
+
+	fprintf (stderr, "Problem in parser.y: alloc_list not empty as expected:\n");
+	for (l = alloc_list; l; l = l->next) {
+		AllocRec *rec = l->data;
+
+		if (rec->freer == (ParseDeallocator)&expr_tree_unref) {
+			fprintf (stderr, "Expression:\n");
+			expr_dump_tree (rec->data);
+		} else if (rec->freer == (ParseDeallocator)&free_expr_list) {
+			GList *l = rec->data;
+
+			fprintf (stderr, "Expression list begin:\n");
+			while (l) {
+				expr_dump_tree (l->data);
+				l = l->next;
+			}
+			fprintf (stderr, "Expression list end:\n");
+		} else {
+			fprintf (stderr, "Unknown type.\n");
+		}
+	}
+	deallocate_all ();
+}
+
+static void *
+register_allocation (void *data, ParseDeallocator freer)
+{
+	AllocRec *rec = g_new (AllocRec, 1);
+	rec->data = data;
+	rec->freer = freer;
+	alloc_list = g_list_prepend (alloc_list, rec);
+	return data;
+}
+
+#define register_expr_allocation(expr) \
+  register_allocation ((expr), (ParseDeallocator)&expr_tree_unref)
+
+#define register_expr_list_allocation(list) \
+  register_allocation ((list), (ParseDeallocator)&free_expr_list)
+
+#define register_expr_list_list_allocation(list) \
+  register_allocation ((list), (ParseDeallocator)&free_expr_list_list)
+
+static void
+unregister_allocation (const void *data)
+{
+	GList *l;
+
+	for (l = alloc_list; l; l = l->next) {
+		AllocRec *rec = l->data;
+		if (rec->data == data) {
+			alloc_list = g_list_remove_link (alloc_list, l);
+			g_list_free_1 (l);
+			g_free (rec);
+			return;
+		}
+	}
+
+	/* Not good.  */
+	g_assert (l != NULL);
+}
+
+/* ------------------------------------------------------------------------- */
+
+#define ERROR -1
+
+/* Bison/Yacc internals */
 static int  yylex (void);
 static int  yyerror (char *s);
 
@@ -74,30 +174,22 @@ static const char **parser_desired_format;
 static char parser_decimal_point;
 static char parser_separator;
 static char parser_array_col_separator;
- 
-static ExprTree **parser_result;
 
-#define p_new(type) ((type *) alloc_buffer ((unsigned) sizeof (type)))
+static ExprTree **parser_result;
 
 static ExprTree *
 build_unary_op (Operation op, ExprTree *expr)
 {
-	ExprTree *res = p_new (ExprTree);
-	res->ref_count = 1;
-	res->oper = op;
-	res->u.value = expr;
-	return res;
+	unregister_allocation (expr);
+	return register_expr_allocation (expr_tree_new_unary (op, expr));
 }
 
 static ExprTree *
 build_binop (ExprTree *l, Operation op, ExprTree *r)
 {
-	ExprTree *res = p_new (ExprTree);
-	res->ref_count = 1;
-	res->u.binary.value_a = l;
-	res->oper = op;
-	res->u.binary.value_b = r;
-	return res;
+	unregister_allocation (r);
+	unregister_allocation (l);
+	return register_expr_allocation (expr_tree_new_binary (l, op, r));
 }
 
 static ExprTree *
@@ -105,17 +197,13 @@ build_array_formula (ExprTree *func, int cols, int rows, int x, int y)
 {
 	ExprTree *res = expr_tree_array_formula (x, y, rows, cols);
 
+	/*
+	 * Note: for a non-corner cell, caller must arrange to have the
+	 * inner expression ("func") unref'ed.  This happens in
+	 * cell_set_formula.
+	 */
 	res->u.array.corner.func.expr = func;
 	return res;
-}
-
-static void
-release_const_tree (ExprTree *tree)
-{
-	g_assert (tree->oper == OPER_CONSTANT);
-
-	g_free (tree->u.constant);
-	g_free (tree);
 }
 
 static ExprTree *
@@ -149,10 +237,8 @@ build_array (GList *cols)
 
 			g_assert (expr->oper == OPER_CONSTANT);
 
-			value_array_set (array, x, y, v);
-			v_forget (v);
-			g_free (expr);
-			
+			value_array_set (array, x, y, value_duplicate (v));
+
 			x++;
 			row = g_list_next (row);
 		}
@@ -165,7 +251,7 @@ build_array (GList *cols)
 		cols = g_list_next (cols);
 	}
 
-	return expr_tree_new_constant (array);
+	return register_expr_allocation (expr_tree_new_constant (array));
 }
 
 /* Make byacc happier */
@@ -190,7 +276,7 @@ int yyparse(void);
 
 %left '&'
 %left '<' '>' '=' GTE LTE NE
-%left '-' '+' 
+%left '-' '+'
 %left '*' '/'
 %left NEG PLUS
 %left '!'
@@ -198,7 +284,10 @@ int yyparse(void);
 %right '%'
 
 %%
-line:	  exp           { *parser_result = $1; }
+line:	  exp {
+		unregister_allocation ($1);
+		*parser_result = $1;
+	}
 
         | '{' exp '}' '(' NUMBER SEPARATOR NUMBER ')' '[' NUMBER ']' '[' NUMBER ']' {
 		const int num_cols = expr_tree_get_const_int ($7);
@@ -206,16 +295,21 @@ line:	  exp           { *parser_result = $1; }
 		const int x = expr_tree_get_const_int ($13);
 		const int y = expr_tree_get_const_int ($10);
 
-		*parser_result = build_array_formula ($2, num_cols, num_rows, x, y);
-
 		/*
 		 * Notice that we have no use for the ExprTrees for the NUMBERS,
 		 * so we deallocate them.
 		 */
-		release_const_tree ($7);
-		release_const_tree ($5);
-		release_const_tree ($13);
-		release_const_tree ($10);
+		unregister_allocation ($13);
+		expr_tree_unref ($13);
+		unregister_allocation ($10);
+		expr_tree_unref ($10);
+		unregister_allocation ($7);
+		expr_tree_unref ($7);
+		unregister_allocation ($5);
+		expr_tree_unref ($5);
+
+		unregister_allocation ($2);
+		*parser_result = build_array_formula ($2, num_cols, num_rows, x, y);
 	}
 
 	| error 	{ parser_error = PARSE_ERR_SYNTAX; }
@@ -248,25 +342,23 @@ exp:	  NUMBER 	{ $$ = $1; }
 	}
 
         | '{' array_cols '}' {
+		unregister_allocation ($2);
 		$$ = build_array ($2);
-		forget_array ($2);
+		free_expr_list_list ($2);
 	}
 
         | cellref ':' cellref {
-		$$ = p_new (ExprTree);
-		$$->ref_count  = 1;
-		$$->oper       = OPER_CONSTANT;
-		$$->u.constant = v_new ();
-		$$->u.constant->type = VALUE_CELLRANGE;
-		$$->u.constant->v.cell_range.cell_a = $1->u.ref;
-		$$->u.constant->v.cell_range.cell_b = $3->u.ref;
-
-		forget_tree ($1);
-		forget_tree ($3);
+		unregister_allocation ($3);
+		unregister_allocation ($1);
+		$$ = register_expr_allocation
+			(expr_tree_new_constant
+			 (value_new_cellrange (&($1->u.ref), &($3->u.ref))));
+		expr_tree_unref ($3);
+		expr_tree_unref ($1);
 	}
 
-
 	| FUNCALL '(' arg_list ')' {
+		unregister_allocation ($3);
 		$$ = $1;
 		$$->u.function.arg_list = $3;
 	}
@@ -282,19 +374,22 @@ cellref:  CELLREF {
 	}
 
 	| '[' BOOKREF ']' SHEETREF '!' CELLREF {
+		/* FIXME: what about $2?  -- MW.  */
 	        $$ = $6;
 		$$->u.ref.sheet = $4;
 	}
 	;
 
 arg_list: exp {
+		unregister_allocation ($1);
 		$$ = g_list_prepend (NULL, $1);
-		alloc_glist ($$);
+		register_expr_list_allocation ($$);
         }
 	| exp SEPARATOR arg_list {
-		forget_glist ($3);
+		unregister_allocation ($3);
+		unregister_allocation ($1);
 		$$ = g_list_prepend ($3, $1);
-		alloc_glist ($$);
+		register_expr_list_allocation ($$);
 	}
         | { $$ = NULL; }
 	;
@@ -304,22 +399,25 @@ array_exp:	  NUMBER 	{ $$ = $1; }
 	;
 
 array_row: array_exp {
+		unregister_allocation ($1);
 		$$ = g_list_prepend (NULL, $1);
-		alloc_glist ($$);
+		register_expr_list_allocation ($$);
         }
 	| array_exp ',' array_row {
 		if (parser_array_col_separator == ',') {
-			forget_glist ($3);
+			unregister_allocation ($3);
+			unregister_allocation ($1);
 			$$ = g_list_prepend ($3, $1);
-			alloc_glist  ($$);
+			register_expr_list_allocation ($$);
 		} else
 			parser_error = PARSE_ERR_SYNTAX;
 	}
 	| array_exp '\\' array_row {
 		if (parser_array_col_separator == '\\') {
-			forget_glist ($3);
+			unregister_allocation ($3);
+			unregister_allocation ($1);
 			$$ = g_list_prepend ($3, $1);
-			alloc_glist  ($$);
+			register_expr_list_allocation ($$);
 		} else
 			parser_error = PARSE_ERR_SYNTAX;
 	}
@@ -327,13 +425,15 @@ array_row: array_exp {
 	;
 
 array_cols: array_row {
+		unregister_allocation ($1);
 		$$ = g_list_prepend (NULL, $1);
-		alloc_glist ($$);
+		register_expr_list_list_allocation ($$);
         }
         | array_row ';' array_cols {
-		forget_glist ($3);
+		unregister_allocation ($3);
+		unregister_allocation ($1);
 		$$ = g_list_prepend ($3, $1);
-		alloc_glist  ($$);
+		register_expr_list_list_allocation ($$);
 	}
         | { $$ = NULL; }
 	;
@@ -343,21 +443,12 @@ static int
 return_cellref (char *p)
 {
 	CellRef   ref;
-	ExprTree *e;
 
-	if (!cellref_get (&ref, p, parser_col, parser_row))
+	if (cellref_get (&ref, p, parser_col, parser_row)) {
+		yylval.tree = register_expr_allocation (expr_tree_new_var (&ref));
+		return CELLREF;
+	} else
 		return 0;
-
-	/*  Ok, parsed successfully, create the return value */
-	e = p_new (ExprTree);
-	e->ref_count = 1;
-
-	e->oper  = OPER_VAR;
-	e->u.ref = ref;
-
-	yylval.tree = e;
-
-	return CELLREF;
 }
 
 static int
@@ -370,15 +461,10 @@ return_sheetref (Sheet *sheet)
 static int
 make_string_return (char const *string, gboolean const possible_number)
 {
-	ExprTree *e;
 	Value *v;
 	double fv;
 	char *format;
 
-	e = p_new (ExprTree);
-	e->ref_count = 1;
-
-	v = v_new ();
 	/*
 	 * Try to match the entered text against any
 	 * of the known number formating codes, if this
@@ -389,20 +475,13 @@ make_string_return (char const *string, gboolean const possible_number)
 	 */
 	if (possible_number && string[0] != '\0' &&
 	    format_match (string, &fv, &format)){
-		v->type = VALUE_FLOAT;
-		v->v.v_float = fv;
+		v = value_new_float (fv);
 		if (parser_desired_format && *parser_desired_format == NULL)
 			*parser_desired_format = format;
-	} else {
-		v->v.str = string_get (string);
-		v->type = VALUE_STRING;
-	}
-	
-	e->oper = OPER_CONSTANT;
-	e->u.constant = v;
-	
-	yylval.tree = e;
+	} else
+		v = value_new_string (string);
 
+	yylval.tree = register_expr_allocation (expr_tree_new_constant (v));
 	return STRING;
 }
 
@@ -411,54 +490,33 @@ return_symbol (Symbol *sym)
 {
 	ExprTree *e = NULL;
 	int type = STRING;
-	
-	symbol_ref (sym);
-	
+
 	switch (sym->type){
 	case SYMBOL_FUNCTION:
-		e = p_new (ExprTree);
-		e->ref_count = 1;
-		e->oper = OPER_FUNCALL;
+		symbol_ref (sym);
+		e = expr_tree_new_funcall (sym, NULL);
 		type = FUNCALL;
-		e->u.function.symbol = sym;
-		e->u.function.arg_list = NULL;
 		break;
-		
+
 	case SYMBOL_VALUE:
 	case SYMBOL_STRING: {
-		Value *v, *dv;
-		
-		/* Make a copy of the value */
-		dv = (Value *) sym->data;
-		v = v_new ();
-		value_copy_to (v, dv);
-		
-		e = p_new (ExprTree);
-		e->ref_count = 1;
-		e->oper = OPER_CONSTANT;
-		e->u.constant = v;
+		e = expr_tree_new_constant (value_duplicate (sym->data));
 		type = CONSTANT;
 		break;
 	}
-	
+
+	default:
+		g_assert_not_reached ();
 	} /* switch */
 
-	register_symbol (sym);
-	yylval.tree = e;
-
+	yylval.tree = register_expr_allocation (e);
 	return type;
 }
 
 static int
 return_name (ExprName *exprn)
 {
-	ExprTree *e = p_new (ExprTree);
-	e->ref_count = 1;
-
-	e->oper = OPER_NAME;
-	e->u.name = exprn;
-	yylval.tree = e;
-
+	yylval.tree = register_expr_allocation (expr_tree_new_name (exprn));
 	return CONSTANT;
 }
 
@@ -493,7 +551,7 @@ try_symbol (char *string, gboolean try_cellref_and_number)
 		if (sheet)
 			return return_sheetref (sheet);
 	}
-	
+
 	{ /* Name ? */
 		/*
 		 * FIXME: we need a good bit of work to get sheet
@@ -524,7 +582,7 @@ yylex (void)
 
 	if (c == parser_separator)
 		return SEPARATOR;
-	
+
 	/* Translate locale's decimal marker into a dot.  */
 	if (c == parser_decimal_point)
 		c = '.';
@@ -532,10 +590,8 @@ yylex (void)
 	switch (c){
         case '0': case '1': case '2': case '3': case '4': case '5':
 	case '6': case '7': case '8': case '9': case '.': {
-		ExprTree *e = p_new (ExprTree);
-		Value *v = v_new ();
+		Value *v;
 
-		e->ref_count = 1;
 		is_float = c == '.';
 		p = parser_expr-1;
 		tmp = parser_expr;
@@ -561,18 +617,17 @@ yylex (void)
 
 		/* Ok, we have skipped over a number, now load its value */
 		if (is_float) {
-			v->type = VALUE_FLOAT;
-			float_get_from_range (p, tmp, &v->v.v_float);
+			float_t f;
+			float_get_from_range (p, tmp, &f);
+			v = value_new_float (f);
 		} else {
-			v->type = VALUE_INTEGER;
-			int_get_from_range (p, tmp, &v->v.v_int);
+			int i;
+			int_get_from_range (p, tmp, &i);
+			v = value_new_int (i);
 		}
 
 		/* Return the value to the parser */
-		e->oper = OPER_CONSTANT;
-		e->u.constant = v;
-		yylval.tree = e;
-
+		yylval.tree = register_expr_allocation (expr_tree_new_constant (v));
 		parser_expr = tmp;
 		return NUMBER;
 	}
@@ -583,7 +638,7 @@ yylex (void)
 		/* we already took the leading '#' off */
 		Value *err = value_is_error (parser_expr-1, &offset);
 		if (err != NULL) {
-			yylval.tree = expr_tree_new_constant (err);
+			yylval.tree = register_expr_allocation (expr_tree_new_constant (err));
 			parser_expr += offset - 1;
 			return CONSTANT;
 		}
@@ -594,7 +649,7 @@ yylex (void)
 	case '"': {
 		char *string, *s;
 		char quotes_end = c;
-		
+
                 p = parser_expr;
                 while(*parser_expr && *parser_expr != quotes_end) {
                         if (*parser_expr == '\\' && parser_expr [1])
@@ -605,7 +660,7 @@ yylex (void)
                         parser_error = PARSE_ERR_NO_QUOTE;
                         return ERROR;
                 }
-		
+
 		s = string = (char *) alloca (1 + parser_expr - p);
 		while (p != parser_expr){
 			if (*p== '\\'){
@@ -613,21 +668,21 @@ yylex (void)
 				*s++ = *p++;
 			} else
 				*s++ = *p++;
-			
+
 		}
 		*s = 0;
 		parser_expr++;
 
-		return make_string_return (string, FALSE); 
+		return make_string_return (string, FALSE);
 	}
 
 	}
-	
+
 	if (isalpha ((unsigned char)c) || c == '_' || c == '$'){
 		const char *start = parser_expr - 1;
 		char *str;
 		int  len;
-		
+
 		while (isalnum ((unsigned char)*parser_expr) || *parser_expr == '_' ||
 		       *parser_expr == '$' || *parser_expr == '.')
 			parser_expr++;
@@ -653,7 +708,7 @@ yylex (void)
 		}
 		return c;
 	}
-	
+
 	if (c == '>'){
 		if (*parser_expr == '='){
 			parser_expr++;
@@ -661,7 +716,7 @@ yylex (void)
 		}
 		return c;
 	}
-	
+
 	return c;
 }
 
@@ -672,150 +727,6 @@ yyerror (char *s)
 	printf ("Error: %s\n", s);
 #endif
 	return 0;
-}
-
-static void
-alloc_register (AllocRec *a_info)
-{
-	alloc_list = g_list_prepend (alloc_list, a_info);
-}
-
-static void
-register_symbol (Symbol *sym)
-{
-	AllocRec *a_info = g_new (AllocRec, 1);
-
-	a_info->type = ALLOC_SYMBOL;
-	a_info->data = sym;
-	alloc_register (a_info);
-}
-
-void *
-alloc_buffer (int size)
-{
-	AllocRec *a_info = g_new (AllocRec, 1);
-	void *res = g_malloc (size);
-
-	a_info->type = ALLOC_BUFFER;
-	a_info->data = res;
-	alloc_register (a_info);
-
-	return res;
-}
-
-static Value *
-v_new (void)
-{
-	AllocRec *a_info = g_new (AllocRec, 1);
-	Value *res = g_new (Value, 1);
-
-	a_info->type = ALLOC_VALUE;
-	a_info->data = res;
-	alloc_register (a_info);
-
-	return res;
-}
-
-static void
-alloc_clean (void)
-{
-	GList *l = alloc_list;
-	
-	for (; l; l = l->next) {
-		AllocRec *rec = l->data;
-
-		switch (rec->type){
-		case ALLOC_BUFFER:
-			g_free (rec->data);
-			break;
-			
-		case ALLOC_SYMBOL:
-			symbol_unref ((Symbol *)rec->data);
-			break;
-
-		case ALLOC_VALUE:
-			value_release ((Value *)rec->data);
-			break;
-			
-		case ALLOC_LIST:
-			g_list_free ((GList *) rec->data);
-			break;
-		}
-		g_free (rec);
-	}
-
-	g_list_free (alloc_list);
-	alloc_list = NULL;
-}
-
-static void
-alloc_list_free (void)
-{
-	GList *l = alloc_list;
-	
-	for (; l; l = l->next)
-		g_free (l->data);
-
-	g_list_free (alloc_list);
-	alloc_list = NULL;
-}
-
-static void
-alloc_glist (GList *list)
-{
-	AllocRec *a_info = g_new (AllocRec, 1);
-
-	a_info->type = ALLOC_LIST;
-	a_info->data = list;
-	alloc_register (a_info);
-}
-
-static void
-forget (AllocType type, void *data)
-{
-	GList *l;
-
-	for (l = alloc_list; l; l = l->next) {
-		AllocRec *a_info = (AllocRec *) l->data;
-
-		if (a_info->type == type && a_info->data == data) {
-			alloc_list = g_list_remove_link (alloc_list, l);
-			g_list_free_1 (l);
-			g_free (a_info);
-			return;
-		}
-	}
-}
-
-static void
-forget_glist (GList *list)
-{
-	forget (ALLOC_LIST, list);
-}
-
-static void
-v_forget (Value *v)
-{
-	forget (ALLOC_VALUE, v);
-}
-
-static void
-forget_tree (ExprTree *tree)
-{
-	expr_tree_unref (tree);
-	forget (ALLOC_BUFFER, tree);
-}
-
-static void
-forget_array (GList *array)
-{
-	GList *l = array;
-
-	while (l) {
-		forget_glist (l->data);
-		l = g_list_next (l);
-	}
-	forget_glist (array);
 }
 
 ParseErr
@@ -857,10 +768,10 @@ gnumeric_expr_parser (const char *expr, const ParsePosition *pp,
 	yyparse ();
 
 	if (parser_error == PARSE_OK)
-		alloc_list_free ();
+		deallocate_assert_empty ();
 	else {
 		fprintf (stderr, "Unable to parse '%s'\n", expr);
-		alloc_clean ();
+		deallocate_all ();
 		*parser_result = NULL;
 	}
 

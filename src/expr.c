@@ -210,7 +210,8 @@ expr_parse_string (const char *expr, const ParsePosition *pp,
 	switch (gnumeric_expr_parser (expr, pp, desired_format, &tree)) {
 	case PARSE_OK:
 		*error_msg = NULL;
-		tree->ref_count = 1;
+		/* What kind of joke is this?  -- MW.  */
+		/* tree->ref_count = 1; */
 		return tree;
 
 	case PARSE_ERR_SYNTAX:
