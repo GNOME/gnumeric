@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.99\n"
-"POT-Creation-Date: 2001-12-26 00:56-0500\n"
-"PO-Revision-Date: 2001-12-25 11:02GMT\n"
+"POT-Creation-Date: 2001-12-27 19:48-0300\n"
+"PO-Revision-Date: 2001-12-27 21:40GMT\n"
 "Last-Translator: German Poo Caaman~o <gpoo@ubiobio.cl>\n"
 "Language-Team: español <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: plugins/applix/applix-read.c:79
 msgid "Parse error while reading Applix file."
-msgstr "Error al leer el archivo Applix."
+msgstr "Error al procesaro el archivo Applix."
 
 #: plugins/applix/plugin.xml.in.h:1
 msgid "Applix"
@@ -87,8 +87,7 @@ msgstr ""
 #: plugins/dif/dif.c:315
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
-msgstr ""
-"Fin de archivo inesperado mientras se procesaba el encabezado en la línea %d."
+msgstr "Fin de archivo inesperado mientras se procesaba el encabezado en la línea %d."
 
 #: plugins/dif/dif.c:319
 #, c-format
@@ -118,8 +117,7 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Módulo de formato de intercambio de datos (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid ""
-"Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr ""
 "Lee y escribe información almacenada en formato de intercambio de datos (*."
 "dif)"
@@ -1052,8 +1050,7 @@ msgstr "Efectuar una corrección ortográfica simple en forma automática"
 
 #: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:2858
 msgid "Automatically save the current document at regular intervals"
-msgstr ""
-"Guardar el documento en forma automática en intervalos de tiempo regulares"
+msgstr "Guardar el documento en forma automática en intervalos de tiempo regulares"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:16
 #: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:819
@@ -1144,8 +1141,7 @@ msgstr "Elimina los formatos de las celdas seleccionadas"
 
 #: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2520
 msgid "Clear the selected cells' formats, comments, and contents"
-msgstr ""
-"Limpia los formatos, comentarios y contenidos de las celdas seleccionadas"
+msgstr "Limpia los formatos, comentarios y contenidos de las celdas seleccionadas"
 
 #: src/GNOME_Gnumeric.xml.h:33
 msgid "Close the current file"
@@ -1322,8 +1318,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:2769
 msgid "Ensure rows are just tall enough to display content"
-msgstr ""
-"Asegura que las filas sean lo suficientemente altas para mostrar el contenido"
+msgstr "Asegura que las filas sean lo suficientemente altas para mostrar el contenido"
 
 #: src/GNOME_Gnumeric.xml.h:75
 msgid "Exit the program"
@@ -1496,8 +1491,7 @@ msgstr "Recalcular iterativamente hasta encontrar el valor objetivo"
 
 #: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2867
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr ""
-"Recalcular iterativamente con restricciones para encontrar el valor objetivo"
+msgstr "Recalcular iterativamente con restricciones para encontrar el valor objetivo"
 
 #: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2655
 msgid "Jump to a specified cell"
@@ -1895,8 +1889,7 @@ msgstr "Mostrar los ceros como blancos"
 
 #: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2909
 msgid "Toggle whether to display column outlines on the left or right"
-msgstr ""
-"Cambia la visualización de los esquemas de columna entre izquieda y derecha"
+msgstr "Cambia la visualización de los esquemas de columna entre izquieda y derecha"
 
 #: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2903
 msgid "Toggle whether to display row outlines on top or bottom"
@@ -2386,13 +2379,12 @@ msgstr ""
 
 #: src/analysis-tools.c:2365
 msgid "/df/SS/MS/F/Significance of F"
-msgstr ""
+msgstr "/df/Suma de los cuadrados/Media cuadrática/F/Significancia de F"
 
 #: src/analysis-tools.c:2372
 #, c-format
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
-msgstr ""
-"/Coeficientes/Error estándar/t Stat/Valor-P/Inferior %0.0f%%/Superior %0.0f%%"
+msgstr "/Coeficientes/Error estándar/t Stat/Valor-P/Inferior %0.0f%%/Superior %0.0f%%"
 
 #: src/analysis-tools.c:2541
 msgid "Moving Averages"
@@ -3854,28 +3846,28 @@ msgid "val != bound                  (not equal to)"
 msgstr "valor != límite                   (distinto de)"
 
 #: src/dialogs/cell-format.glade.h:130
-msgid "val <  bound                  (less than)"
-msgstr "valor <  límite                   (menor que)"
-
-#: src/dialogs/cell-format.glade.h:131
-msgid "val <= min || max <= val (not between)"
-msgstr "valor <= mín || máx <= valor (no entre)"
-
-#: src/dialogs/cell-format.glade.h:132
-msgid "val <=bound                  (less than or equal to)"
-msgstr "valor <= límite                  (menor o igual a)"
-
-#: src/dialogs/cell-format.glade.h:133
-msgid "val == bound                 (equal to)"
-msgstr "valor == límite                  (igual a)"
-
-#: src/dialogs/cell-format.glade.h:134
 msgid "val >  bound                  (greater than)"
 msgstr "valor > límite                    (mayor que)"
 
-#: src/dialogs/cell-format.glade.h:135
+#: src/dialogs/cell-format.glade.h:131
 msgid "val >=bound                  (greater than or equal to)"
 msgstr "valor >= límite                  (mayor o igual a)"
+
+#: src/dialogs/cell-format.glade.h:132
+msgid "val <  bound                  (less than)"
+msgstr "valor <  límite                   (menor que)"
+
+#: src/dialogs/cell-format.glade.h:133
+msgid "val <= min || max <= val (not between)"
+msgstr "valor <= mín || máx <= valor (no entre)"
+
+#: src/dialogs/cell-format.glade.h:134
+msgid "val <=bound                  (less than or equal to)"
+msgstr "valor <= límite                  (menor o igual a)"
+
+#: src/dialogs/cell-format.glade.h:135
+msgid "val == bound                 (equal to)"
+msgstr "valor == límite                  (igual a)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A header"
@@ -4332,13 +4324,11 @@ msgstr "No se puede crear el diálogo para la herramienta de covarianza."
 
 #: src/dialogs/dialog-analysis-tools.c:1485
 msgid "Could not create the Descriptive Statistics Tool dialog."
-msgstr ""
-"No se puede crear el diálogo para la herramienta de estadística descriptiva."
+msgstr "No se puede crear el diálogo para la herramienta de estadística descriptiva."
 
 #: src/dialogs/dialog-analysis-tools.c:1584
 msgid "Could not create the Rank and  Percentile Tools dialog."
-msgstr ""
-"No se puede crear el diálogo para las herramientas de rangos y percentiles."
+msgstr "No se puede crear el diálogo para las herramientas de rangos y percentiles."
 
 #: src/dialogs/dialog-analysis-tools.c:1677
 msgid ""
@@ -4492,8 +4482,7 @@ msgstr ""
 "nuevamente."
 
 #: src/dialogs/dialog-analysis-tools.c:3103
-msgid ""
-"There must be an equal number of entries for each variable in the regression."
+msgid "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 "Debe existir un número equivalente de registros por cada variable en la "
 "regresión."
@@ -4516,8 +4505,7 @@ msgstr "No se ha podido crear el diálogo de Suavizado exponencial."
 
 #: src/dialogs/dialog-analysis-tools.c:3637
 msgid "Could not create the Moving Average Tool dialog."
-msgstr ""
-"No se puede crear el diálogo para la herramienta de las medias móviles."
+msgstr "No se puede crear el diálogo para la herramienta de las medias móviles."
 
 #: src/dialogs/dialog-analysis-tools.c:3687
 msgid "Fourier analysis is not implemented yet.  Sorry."
@@ -4525,8 +4513,7 @@ msgstr "El análisis de Fourier aún no se ha implementado."
 
 #: src/dialogs/dialog-analysis-tools.c:3730
 msgid "Could not create the Fourier Analyis Tool dialog."
-msgstr ""
-"No se puede crear el diálogo para la herramienta de análisis de Fourier."
+msgstr "No se puede crear el diálogo para la herramienta de análisis de Fourier."
 
 #: src/dialogs/dialog-analysis-tools.c:3804
 msgid ""
@@ -4611,8 +4598,7 @@ msgstr "Prueba-z: Dos muestras para las medias"
 
 #: src/dialogs/dialog-autocorrect.c:287
 msgid "Could not create the AutoCorrect dialog."
-msgstr ""
-"No se puede crear el diálogo para la herramienta de Corrección automática."
+msgstr "No se puede crear el diálogo para la herramienta de Corrección automática."
 
 #: src/dialogs/dialog-autoformat.c:73
 msgid " "
@@ -5142,15 +5128,15 @@ msgstr "Debe seleccionar al menos un tipo de celda para realizar la búsqueda."
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "¿ Está seguro que quiere borrar la hoja llamada '%s' ?"
 
-#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:2
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:1
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
@@ -5193,21 +5179,21 @@ msgstr "Debe seleccionar el menos una hoja a exportar"
 msgid "Are you sure you want to cancel?"
 msgstr "¿Está seguro que quiere cancelar?"
 
-#: src/dialogs/dialog-stf-export.glade.h:1 src/dialogs/dialog-stf.glade.h:1
-msgid "\""
-msgstr "\""
-
-#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
-msgid "'"
-msgstr "'"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
+#: src/dialogs/dialog-stf-export.glade.h:1
 msgid "<- Remove"
 msgstr "<- Quitar"
 
-#: src/dialogs/dialog-stf-export.glade.h:4
+#: src/dialogs/dialog-stf-export.glade.h:2
 msgid "<- Remove all"
 msgstr "<- Quitar todo"
+
+#: src/dialogs/dialog-stf-export.glade.h:3 src/dialogs/dialog-stf.glade.h:1
+msgid "\""
+msgstr "\""
+
+#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+msgid "'"
+msgstr "'"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
 msgid "Add ->"
@@ -5371,8 +5357,7 @@ msgstr "Columna %d"
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr ""
-"El procesamiento comenzará en esta línea, las líneas previas serán ignoradas."
+msgstr "El procesamiento comenzará en esta línea, las líneas previas serán ignoradas."
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
@@ -5563,10 +5548,8 @@ msgid "See two successive separators as one."
 msgstr "Considerar separadores consecutivos como uno solo"
 
 #: src/dialogs/dialog-stf.glade.h:48
-msgid ""
-"See two successive text indicators as one that does not terminate the cell."
-msgstr ""
-"Ver dos indicadores de texto sucesivos como uno solo que no termina la celda."
+msgid "See two successive text indicators as one that does not terminate the cell."
+msgstr "Ver dos indicadores de texto sucesivos como uno solo que no termina la celda."
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -6844,16 +6827,14 @@ msgstr ""
 "antiguo de este tipo."
 
 #: src/file.c:497
-msgid ""
-"You can turn this safety feature off by editing appropriate plugin.xml file."
+msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Puede desactivar esta característica en forma segura, para la edición "
 "apropiada del archivo XML de la extensión."
 
 #: src/format-template.c:874
 #, c-format
-msgid ""
-"The target region is too small.  It should be at least %d rows by %d columns"
+msgid "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr ""
 "La región de destino es muy pequeña, debe tener al menos %d filas por %d "
 "columnas"
@@ -6861,14 +6842,12 @@ msgstr ""
 #: src/format-template.c:877
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
-msgstr ""
-"La región de destino es muy pequeña, debe tener al menos %d columnas de ancho"
+msgstr "La región de destino es muy pequeña, debe tener al menos %d columnas de ancho"
 
 #: src/format-template.c:880
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
-msgstr ""
-"La región de destino es muy pequeña, debe tener al menos %d filas de alto"
+msgstr "La región de destino es muy pequeña, debe tener al menos %d filas de alto"
 
 #: src/format.c:606
 msgid "black"
@@ -16385,8 +16364,7 @@ msgstr "Datos..."
 
 #: src/gui-clipboard.c:53
 msgid "Error while trying to pre-convert clipboard data"
-msgstr ""
-"Ha ocurrido un error al intentar pre-convertir los datos del portapapeles."
+msgstr "Ha ocurrido un error al intentar pre-convertir los datos del portapapeles."
 
 #: src/gui-clipboard.c:60
 #, c-format
@@ -16489,9 +16467,8 @@ msgid "Unable to open file '%s'"
 msgstr "Es imposible abrir el archivo '%s'"
 
 #: src/gui-validation.c:45
-#, fuzzy
 msgid "The value you entered :\n"
-msgstr "Valor a ingresar :\n"
+msgstr "Valor ingresado :\n"
 
 #: src/gui-validation.c:78
 #, c-format
@@ -16569,9 +16546,8 @@ msgid "Can be blank\n"
 msgstr "No puede estar en blanco\n"
 
 #: src/gui-validation.c:146
-#, fuzzy
 msgid "Re-Edit"
-msgstr "_Editar"
+msgstr "Re-editar"
 
 #: src/gui-validation.c:146 src/gui-validation.c:151
 msgid "Discard"
@@ -16805,8 +16781,7 @@ msgstr "Hoja '%s' desconocida"
 #: src/parser.y:650 src/parser.y:664
 #, c-format
 msgid "The character %c cannot be used to separate array elements"
-msgstr ""
-"El caracter %c no se puede emplear para separar los elementos de un arreglo."
+msgstr "El caracter %c no se puede emplear para separar los elementos de un arreglo."
 
 #: src/parser.y:825 src/parser.y:835 src/parser.y:868
 msgid "The number is out of range"
@@ -16822,13 +16797,11 @@ msgstr "En en este contexto no es soportado disponer de múltiples expresiones"
 
 #: src/parser.y:1084
 msgid "Could not find matching opening parenthesis"
-msgstr ""
-"No coinciden los paréntesis abiertos y cerrados (faltan paréntesis abiertos)"
+msgstr "No coinciden los paréntesis abiertos y cerrados (faltan paréntesis abiertos)"
 
 #: src/parser.y:1088
 msgid "Could not find matching closing parenthesis"
-msgstr ""
-"No coinciden los paréntesis abiertos y cerrados (faltan paréntesis cerrados)"
+msgstr "No coinciden los paréntesis abiertos y cerrados (faltan paréntesis cerrados)"
 
 #: src/parser.y:1092
 msgid "Invalid expression"
@@ -16866,8 +16839,7 @@ msgstr "El archivo tiene un número mágico erróneo."
 #: src/plugin-loader-module.c:143
 #, c-format
 msgid "Plugin version \"%s\" is different from application \"%s\"."
-msgstr ""
-"La versión de la extensión \"%s\" es diferente de la aplicación \"%s\"."
+msgstr "La versión de la extensión \"%s\" es diferente de la aplicación \"%s\"."
 
 #: src/plugin-loader-module.c:152
 msgid "Dynamic module loading is not supported in this system."
@@ -17051,8 +17023,7 @@ msgstr "No se puede leer el archivo de información de la extensión (\"%s\")."
 #: src/plugin.c:732
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
-msgstr ""
-"El archivo \"%s\" tiene un formato válido de información de extensiones."
+msgstr "El archivo \"%s\" tiene un formato válido de información de extensiones."
 
 #: src/plugin.c:815
 msgid "Plugin has no id."
@@ -17086,8 +17057,7 @@ msgstr ""
 #: src/plugin.c:847
 #, c-format
 msgid "No services defined for plugin with id=\"%s\"."
-msgstr ""
-"No hay servicios definidos para la extensión cuyo identificador es \"%s\"."
+msgstr "No hay servicios definidos para la extensión cuyo identificador es \"%s\"."
 
 #: src/plugin.c:997
 #, c-format
@@ -17686,8 +17656,7 @@ msgstr "Quitar bordes"
 #: src/workbook-cmd-format.c:132
 #, c-format
 msgid "You entered an invalid column width value.  It must be bigger than %d"
-msgstr ""
-"El ancho ingresado para la columa no es válido.  Debe ser superior a %d"
+msgstr "El ancho ingresado para la columa no es válido.  Debe ser superior a %d"
 
 #: src/workbook-cmd-format.c:195
 #, c-format
@@ -17841,8 +17810,7 @@ msgstr "Guardar con un nuevo nombre o formato"
 
 #: src/workbook-control-gui.c:2558
 msgid "Select all the cells that depend on the current edit cell."
-msgstr ""
-"Seleccionar todas las celdas que dependen de la celda actualmente en edición."
+msgstr "Seleccionar todas las celdas que dependen de la celda actualmente en edición."
 
 #: src/workbook-control-gui.c:2623
 msgid "P_aste special..."
@@ -17989,15 +17957,16 @@ msgid "Discard Expression"
 msgstr "Descartar expresión"
 
 #: src/workbook-edit.c:165
-#, fuzzy
 msgid "Gnumeric : Validation"
-msgstr "Fuente de variación"
+msgstr "Gnumeric : Validación"
 
 #: src/workbook-edit.c:167
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
 msgstr ""
+"Este valor no es válido.\n"
+"Las restricciones han sido puestas en el contenido de estas celdas."
 
 #: src/workbook-format-toolbar.c:86
 msgid "Set Horizontal Alignment"
@@ -18297,3 +18266,4 @@ msgstr "Formato de archivo XML de Gnumeric"
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "La planilla de cálculo de GNOME"
+
