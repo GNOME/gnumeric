@@ -157,7 +157,8 @@ general_linear_regression (float_t **xss, int xdim,
 	int i,j;
 	int err;
 
-	memset (extra_stat, 0, sizeof (regression_stat_t));
+	if (extra_stat)
+		memset (extra_stat, 0, sizeof (regression_stat_t));
 
 	if (xdim > n || n < 1)
 		return 1;  /* Too few points.  */
