@@ -226,6 +226,7 @@ src/sheet-object-container.c
 src/sheet-object-graphic.c
 src/sheet-object-widget.c
 src/sheet-object.c
+src/sheet-view.c
 src/sheet.c
 src/stf-export.c
 src/stf-parse.c
