@@ -33,9 +33,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.49\n"
+"Project-Id-Version: gnumeric 0.50\n"
 "POT-Creation-Date: 2000-03-27 00:13+0200\n"
-"PO-Revision-Date: 2000-03-27 00:12+02:00\n"
+"PO-Revision-Date: 2000-03-27 18:37+02:00\n"
 "Last-Translator: Matthias Warkus <mawa@iname.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -9889,7 +9889,7 @@ msgid ""
 "Unable to open plugin '%s'\n"
 "Plugin version '%s' is different from application '%s'."
 msgstr ""
-"Kann Plugin `%s' nichts öffnen.\n"
+"Kann Plugin `%s' nicht öffnen.\n"
 "Version des Plugins `%s' unterscheidet sich von der der Anwendung `%s'."
 
 #: src/plugin.c:123
@@ -9915,7 +9915,7 @@ msgid ""
 "The plugin did not check it's version.\n"
 "It is probably for a different version of Gnumeric than '%s'."
 msgstr ""
-"Kann Plugin `%s' nichts öffnen.\n"
+"Kann Plugin `%s' nicht öffnen.\n"
 "Das Plugin hat seine Version nicht geprüft.\n"
 "Wahrscheinlich ist es für eine andere Gnumeric-Version als `%s' gedacht."
 
@@ -10710,7 +10710,7 @@ msgstr "Neues Arbeitsblatt einfügen"
 
 #: src/workbook.c:1225
 msgid "_Rows"
-msgstr "Zeilen"
+msgstr "_Zeilen"
 
 #: src/workbook.c:1225
 msgid "Insert new rows"
@@ -10718,7 +10718,7 @@ msgstr "Neue Zeilen einfügen"
 
 #: src/workbook.c:1227
 msgid "_Columns"
-msgstr "Spalten"
+msgstr "S_palten"
 
 #: src/workbook.c:1227
 msgid "Insert new columns"
@@ -10774,7 +10774,7 @@ msgstr "_Höhe"
 
 #: src/workbook.c:1274
 msgid "_Standard Height"
-msgstr "Standardhöhe"
+msgstr "_Standardhöhe"
 
 #: src/workbook.c:1280
 msgid "_Change name"
@@ -10838,7 +10838,7 @@ msgstr "Gnumeric-Plugins"
 
 #: src/workbook.c:1319
 msgid "Auto _Correct..."
-msgstr "AutoKorrektur..."
+msgstr "Auto_Korrektur..."
 
 #: src/workbook.c:1321
 msgid "_Auto Save..."
@@ -10865,10 +10865,9 @@ msgstr "_Sortieren..."
 msgid "Sort the selected cells"
 msgstr "Ausgewählte Zellen sortieren"
 
-# Checkit. vs. "Clear"
 #: src/workbook.c:1335
 msgid "_Filter..."
-msgstr "Filter..."
+msgstr "_Filter..."
 
 #: src/workbook.c:1336
 msgid "Filter date with given criterias"
@@ -10884,11 +10883,11 @@ msgstr "F_ormate"
 
 #: src/workbook.c:1354
 msgid "_Tools"
-msgstr "Werkzeuge"
+msgstr "_Werkzeuge"
 
 #: src/workbook.c:1355
 msgid "_Data"
-msgstr "Daten"
+msgstr "_Daten"
 
 #: src/workbook.c:1366
 msgid "New"
