@@ -279,8 +279,23 @@ print_info_new (void)
 	load_margin ("margin_bottom", &pi->margins.bottom, s);
 	g_free (s);
 
-	pi->header = load_hf ("header", "", _("&[TAB]"), "");
-	pi->footer = load_hf ("footer", "", _("Page &[PAGE]"), "");
+	{
+		GSList *list;
+		list = (GSList *) gnm_app_prefs->printer_header;
+		pi->header = list ?
+			load_hf ("header", 
+				 (char *)g_slist_nth_data (list, 0),
+				 (char *)g_slist_nth_data (list, 1),
+				 (char *)g_slist_nth_data (list, 2)) :
+			load_hf ("header", "", _("&[TAB]"), "");
+		list = (GSList *) gnm_app_prefs->printer_footer;
+		pi->footer = list ?
+			load_hf ("footer", 
+				 (char *)g_slist_nth_data (list, 0),
+				 (char *)g_slist_nth_data (list, 1),
+				 (char *)g_slist_nth_data (list, 2)) :
+			load_hf ("footer", "", _("Page &[PAGE]"), "");
+	}
 
 	pi->center_horizontally       = gnome_config_get_bool ("center_horizontally=false");
 	pi->center_vertically         = gnome_config_get_bool ("center_vertically=false");
@@ -409,12 +424,18 @@ print_info_save (PrintInformation const *pi)
 	gnome_config_pop_prefix ();
 
 	save_formats ();
+	gnome_config_sync ();
 
 	gnm_gconf_set_printer_config
 		(gnome_print_config_to_string (pi->print_config,
 					       0));
+	gnm_gconf_set_printer_header (pi->header->left_format,
+				      pi->header->middle_format,
+				      pi->header->right_format);
+	gnm_gconf_set_printer_footer (pi->footer->left_format,
+				      pi->footer->middle_format,
+				      pi->footer->right_format);
 
-	gnome_config_sync ();
 }
 
 const GnomePrintUnit *

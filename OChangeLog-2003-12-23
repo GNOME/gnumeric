@@ -1,3 +1,19 @@
+2003-06-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-dialogs.schemas.in: add printsetup/header and
+	  printsetup/footer schemas
+	* src/gnumeric-gconf-priv.h: add more keys
+	* src/gnumeric-gconf.c (gnm_gconf_set_printer_footer): new
+	(gnm_gconf_set_printer_header): new
+	(gnm_gconf_set_printer_config): change name of key
+	(gnm_conf_init): initialize header and footer from gconf
+	* src/gnumeric-gconf.h (gnm_gconf_set_printer_footer): new
+	(gnm_gconf_set_printer_header): new
+	(GnmAppPrefs): add header and footer fields
+	* src/print-info.c (print_info_save): save footer and header to 
+	  gconf
+	(print_info_new): read footer and header to gconf
+
 2003-06-22  Jon K Hellan  <hellan@acm.org>
 
 	* src/file.c (gnm_file_saver_save): Don't check for overwrite if

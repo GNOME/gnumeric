@@ -147,11 +147,15 @@ gnm_conf_init (void)
 
 	prefs.print_all_sheets = gconf_client_get_bool (client,
 		PRINTSETUP_GCONF_ALL_SHEETS, NULL);
+	prefs.printer_config = gconf_client_get_string (client,
+		PRINTSETUP_GCONF_PRINTER_CONFIG, NULL);
+	prefs.printer_header = gconf_client_get_list (client,
+		PRINTSETUP_GCONF_HEADER, GCONF_VALUE_STRING, NULL);
+	prefs.printer_footer = gconf_client_get_list (client,
+		PRINTSETUP_GCONF_FOOTER, GCONF_VALUE_STRING, NULL);
+
 	prefs.unfocused_range_selection = gconf_client_get_bool (client,
 		DIALOGS_GCONF_UNFOCUSED_RS, NULL);
-	prefs.printer_config = gconf_client_get_string (client,
-		PRINTING_GCONF_PRINTER_CONFIG, NULL);
-
 	prefs.prefer_clipboard_selection = gconf_client_get_bool (client,
 		GNUMERIC_GCONF_CUTANDPASTE_PREFER_CLIPBOARD, NULL);
  
@@ -444,14 +448,6 @@ gnm_gconf_set_zoom  (gnm_float val)
 }
 
 void
-gnm_gconf_set_all_sheets (gboolean val)
-{
-	gconf_client_set_bool (application_get_gconf_client (),
-			       PRINTSETUP_GCONF_ALL_SHEETS,
-			       val, NULL);
-}
-
-void
 gnm_gconf_set_unfocused_range_selection (gboolean val)
 {
 	gconf_client_set_bool (application_get_gconf_client (),
@@ -468,16 +464,56 @@ gnm_gconf_set_prefer_clipboard_selection (gboolean val)
 }
 
 
+/*  PRINTSETUP  */
+void
+gnm_gconf_set_all_sheets (gboolean val)
+{
+	gconf_client_set_bool (application_get_gconf_client (),
+			       PRINTSETUP_GCONF_ALL_SHEETS,
+			       val, NULL);
+}
+
 void
 gnm_gconf_set_printer_config (gchar *str)
 {
 	gconf_client_set_string  (application_get_gconf_client (),
-				  PRINTING_GCONF_PRINTER_CONFIG,
+				  PRINTSETUP_GCONF_PRINTER_CONFIG,
 				  str, NULL);
 	g_free (prefs.printer_config);
 	prefs.printer_config = str;
 }
 
+void
+gnm_gconf_set_printer_header (gchar const *left, gchar const *middle, 
+			      gchar const *right)
+{
+	GSList *list = NULL;
+	list = g_slist_prepend (list, g_strdup (right));
+	list = g_slist_prepend (list, g_strdup (middle));
+	list = g_slist_prepend (list, g_strdup (left));
+	gconf_client_set_list (application_get_gconf_client (),
+			       PRINTSETUP_GCONF_HEADER,
+			       GCONF_VALUE_STRING, list, NULL);
+	g_slist_free_custom (prefs.printer_header, g_free);
+	prefs.printer_header = list;
+}
+
+void
+gnm_gconf_set_printer_footer (gchar const *left, gchar const *middle, 
+			      gchar const *right)
+{
+	GSList *list = NULL;
+	list = g_slist_prepend (list, g_strdup (right));
+	list = g_slist_prepend (list, g_strdup (middle));
+	list = g_slist_prepend (list, g_strdup (left));
+	gconf_client_set_list (application_get_gconf_client (),
+			       PRINTSETUP_GCONF_FOOTER,
+			       GCONF_VALUE_STRING, list, NULL);
+	g_slist_free_custom (prefs.printer_footer, g_free);
+	prefs.printer_footer = list;
+}
+
+/*  LATEX  */
 void
 gnm_gconf_set_latex_use_utf8 (gboolean val)
 {

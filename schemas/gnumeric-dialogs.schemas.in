@@ -188,14 +188,40 @@
         </locale>
       </schema>
       <schema>
-        <key>/schemas/apps/gnumeric/printing/printer_config</key>
-        <applyto>/apps/gnumeric/printing/printer-config</applyto>
+        <key>/schemas/apps/gnumeric/printsetup/printer-config</key>
+        <applyto>/apps/gnumeric/printsetup/printer-config</applyto>
         <owner>Gnumeric</owner>
         <type>string</type>
 	<default></default>
         <locale name="C">
         <short>Print Config</short>
         <long>The configuration of gnome-print. Do not edit this variable.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/header</key>
+        <applyto>/apps/gnumeric/printsetup/header</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+	<list_type>string</list_type>
+	<default>[,&amp;\[TAB\],]</default>
+        <locale name="C">
+        <short>Page Header</short>
+        <long>The default page header for new documents that can be modified using the 
+	page setup dialog.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/footer</key>
+        <applyto>/apps/gnumeric/printsetup/footer</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+	<list_type>string</list_type>
+	<default>[,Page &amp;\[PAGE\],]</default>
+        <locale name="C">
+        <short>Page Footer</short>
+        <long>The default page footer for new documents that can be modified using the 
+	page setup dialog.</long>
         </locale>
       </schema>
       <schema>

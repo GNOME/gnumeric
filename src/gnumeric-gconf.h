@@ -42,6 +42,8 @@ typedef struct {
 
 	gboolean	 print_all_sheets; /* vs print only selected */
 	gchar           *printer_config;
+	GSList const    *printer_header;
+	GSList const    *printer_footer;
 
 	float		 horizontal_dpi;
 	float		 vertical_dpi;
@@ -106,6 +108,10 @@ void     gnm_gconf_set_sort_max_initial_clauses (gint val);
 /* print-setup & printing */
 void     gnm_gconf_set_all_sheets (gboolean val);
 void     gnm_gconf_set_printer_config (gchar *str);
+void     gnm_gconf_set_printer_header (gchar const *left, gchar const *middle, 
+				       gchar const *right);
+void     gnm_gconf_set_printer_footer (gchar const *left, gchar const *middle, 
+				       gchar const *right);
 
 /* others */
 void     gnm_gconf_set_horizontal_dpi  (gnm_float val);
