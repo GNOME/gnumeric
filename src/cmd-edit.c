@@ -1,6 +1,4 @@
-/* vim: set sw=8:
- * $Id$
- */
+/* vim: set sw=8: */
 
 /*
  * cmd-edit.c: Various commands to be used by the edit menu.

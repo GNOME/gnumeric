@@ -4,8 +4,6 @@
  * Authors:
  *   Daniel Veillard <Daniel.Veillard@w3.org>
  *   Miguel de Icaza <miguel@gnu.org>
- *
- * $Id$
  */
 
 #include <config.h>
