@@ -2941,9 +2941,10 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 static void
 excel_read_XCT (BiffQuery *q, ExcelWorkbook *ewb)
 {
-	guint16 count, last_col, opcode;
+	guint16 last_col, opcode;
 	guint8  const *data;
 	unsigned len;
+	int count;
 	Sheet *sheet = NULL;
 	Cell  *cell;
 	Value *v;
@@ -2954,14 +2955,16 @@ excel_read_XCT (BiffQuery *q, ExcelWorkbook *ewb)
 
 		g_return_if_fail (q->length == 4);
 
-		count   = GSF_LE_GET_GUINT16 (q->data);
+		count   = GSF_LE_GET_GINT16 (q->data);
 		supbook = GSF_LE_GET_GUINT16 (q->data+2);
 	} else {
 		g_return_if_fail (q->length == 2);
 
-		count = GSF_LE_GET_GUINT16 (q->data);
+		count = GSF_LE_GET_GINT16 (q->data);
 
 	}
+	if (count < 0) /* WHAT THE HECK DOES NEGATIVE MEAN ?? */
+		count = -count;
 
 	if (sheet != NULL)
 		eval_pos_init_sheet (&ep, sheet);
@@ -2971,7 +2974,7 @@ excel_read_XCT (BiffQuery *q, ExcelWorkbook *ewb)
 			g_warning ("Expected a CRN record");
 			return;
 		} else if (opcode != BIFF_CRN) {
-			g_warning ("Expected a CRN record not a %hu", opcode);
+			g_warning ("Expected a CRN record not a %hx", opcode);
 			return;
 		}
 		ms_biff_query_next (q);
@@ -3798,8 +3801,10 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet)
 			expr2_len);
 	}
 
-	puts ("Header");
-	gsf_mem_dump (q->data+6, 6);
+	d (1, {
+		puts ("Header");
+		gsf_mem_dump (q->data+6, 6);
+	});
 
 	/* UNDOCUMENTED : the format of the conditional format
 	 * is unspecified.
@@ -3829,15 +3834,19 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet)
 	offset =  6  /* CF record header */ + 6; /* format header */
 
 	if (fmt_type & 0x04) { /* font */
-		puts ("Font");
-		gsf_mem_dump (q->data+offset, 118);
+		d (1, {
+			puts ("Font");
+			gsf_mem_dump (q->data+offset, 118);
+		});
 
 		offset += 118;
 	}
 
 	if (fmt_type & 0x10) { /* borders */
-		puts ("Border");
-		gsf_mem_dump (q->data+offset, 8);
+		d (1, {
+			puts ("Border");
+			gsf_mem_dump (q->data+offset, 8);
+		});
 
 		offset += 8;
 	}
@@ -3872,7 +3881,7 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet)
 
 
 	g_return_if_fail (q->length == offset + expr1_len + expr2_len);
-	gsf_mem_dump (q->data+6, 6);
+	d (1, gsf_mem_dump (q->data+6, 6););
 
 	if (expr1 != NULL) gnm_expr_unref (expr1);
 	if (expr2 != NULL) gnm_expr_unref (expr2);
