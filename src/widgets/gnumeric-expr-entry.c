@@ -268,7 +268,7 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 			gnm_expr_expr_find_range (gee);
 
 		/* no range found */
-		if (rs->text_start >= rs->text_end)
+		if (!rs->is_valid || rs->text_start >= rs->text_end)
 			return TRUE;
 
 		/* rows must be absolute */

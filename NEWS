@@ -24,6 +24,7 @@ Kasal:
 Morten:
 	* Make new windows inherit toolbar visibility from parent.
 	* Map [Enter] to next-match in search centre.
+	* Fix F4 ($-cycling) when used in bogus places.
 
 --------------------------------------------------------------------------
 
