@@ -1,3 +1,11 @@
+2002-03-03  Kevin Breit  <mrproper@ximian.com>
+
+	* doc/C/*sgml: Removed from this branch.
+
+	* doc/C/*xml: Added to this branch.  This is Gnome 2.0 docs.
+
+	* doc/C/new/*xml: Removed, as it belongs in doc/C/
+	
 2002-02-23  Kevin Breit  <mrproper@ximian.com>
 
 	* new/analysis-tools.xml: Updated the introduction.  This was some changes that were in the SGML version but not the XML version.
