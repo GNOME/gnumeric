@@ -30,6 +30,19 @@
 #include <widgets/widget-color-combo.h>
 #include <widgets/preview-file-selection.h>
 #include <glade/glade.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtkeventbox.h>
+#include <gtk/gtkradiobutton.h>
+#include <gtk/gtkalignment.h>
+#include <gtk/gtkstock.h>
+#include <gtk/gtkimage.h>
+#include <gtk/gtkframe.h>
+#include <gtk/gtkimagemenuitem.h>
+#include <gtk/gtkbbox.h>
+#include <atk/atkrelation.h>
+#include <atk/atkrelationset.h>
 
 #ifdef WITH_BONOBO
 #	include <bonobo.h>

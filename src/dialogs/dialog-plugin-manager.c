@@ -43,6 +43,14 @@
 #include <application.h>
 
 #include <glade/glade.h>
+#include <gtk/gtknotebook.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtktreestore.h>
+#include <gtk/gtktreeselection.h>
+#include <gtk/gtkcellrenderertoggle.h>
+#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkliststore.h>
+#include <gtk/gtkcheckbutton.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <string.h>

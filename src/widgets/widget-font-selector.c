@@ -9,7 +9,7 @@
  */
 
 #undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED"
+#warning "This file uses GTK_DISABLE_DEPRECATED for CList"
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <gtk/gtkhbox.h>
+#include <gtk/gtkclist.h>
 #include <glade/glade.h>
 
 struct _FontSelector {

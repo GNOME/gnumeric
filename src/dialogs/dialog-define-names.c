@@ -43,6 +43,13 @@
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <glade/glade.h>
+#include <gtk/gtktreeselection.h>
+#include <gtk/gtkliststore.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkcellrenderertext.h>
 #include <string.h>
 
 #define DEFINE_NAMES_KEY "define-names-dialog"

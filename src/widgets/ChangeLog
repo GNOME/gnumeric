@@ -1,3 +1,8 @@
+2003-10-04  Jody Goldberg <jody@gnome.org>
+
+	* Do not include gtk/gtk.h to avoid conflict with
+	  new official gtk combo box code.
+
 2003-09-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.0

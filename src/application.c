@@ -25,7 +25,9 @@
 
 #include <gnumeric-gconf.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtk.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtkiconfactory.h>
+#include <gtk/gtkselection.h>
 
 enum {
 	APPLICATION_PROP_0,
@@ -453,7 +455,10 @@ gboolean application_use_auto_complete	  (void) { return gnm_app_prefs->auto_com
 gboolean application_live_scrolling	  (void) { return gnm_app_prefs->live_scrolling; }
 int	 application_auto_expr_recalc_lag (void) { return gnm_app_prefs->recalc_lag; }
 gboolean application_use_transition_keys  (void) { return gnm_app_prefs->transition_keys; }
-void     application_set_transition_keys  (gboolean state) { gnm_app_prefs->transition_keys = state; }
+void     application_set_transition_keys  (gboolean state)
+{
+	((GnmAppPrefs *)gnm_app_prefs)->transition_keys = state;
+}
 
 GConfClient *
 application_get_gconf_client (void)

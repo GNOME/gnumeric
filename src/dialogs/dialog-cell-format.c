@@ -62,6 +62,19 @@
 #include <libart_lgpl/art_pixbuf.h>
 #include <libart_lgpl/art_rgb_pixbuf_affine.h>
 #include <glade/glade.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtknotebook.h>
+#include <gtk/gtkcheckbutton.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkframe.h>
+#include <gtk/gtkimage.h>
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtktextview.h>
+#include <gtk/gtkstock.h>
+#include <libgnomecanvas/gnome-canvas-util.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include <pango/pangoft2.h>
 #include <widgets/widget-color-combo.h>
 

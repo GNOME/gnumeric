@@ -39,6 +39,12 @@
 
 #include <workbook-edit.h>
 #include <libgnomeui/gnome-entry.h>
+#include <gtk/gtktreestore.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtktreeselection.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtkcellrenderertext.h>
 
 #define GOTO_KEY "goto-dialog"
 

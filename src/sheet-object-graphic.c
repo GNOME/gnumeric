@@ -22,6 +22,8 @@
 #include "dialogs/help.h"
 
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkspinbutton.h>
 #include <gsf/gsf-impl-utils.h>
 #include <widgets/widget-color-combo.h>
 #include <libfoocanvas/foo-canvas-line.h>

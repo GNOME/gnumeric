@@ -48,6 +48,9 @@
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtkimagemenuitem.h>
+#include <gtk/gtkstock.h>
+#include <gtk/gtkimage.h>
 #include <libfoocanvas/foo-canvas-line.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <libfoocanvas/foo-canvas-polygon.h>

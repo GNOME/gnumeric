@@ -29,6 +29,11 @@
 #include <src/gui-util.h>
 #include <glade/glade-xml.h>
 #include <gtk/gtkspinbutton.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkimage.h>
+#include <gtk/gtkrange.h>
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtknotebook.h>
 #include <widgets/widget-color-combo.h>
 #include <widgets/color-palette.h>
 #include <widgets/widget-pixmap-combo.h>

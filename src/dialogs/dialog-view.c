@@ -26,6 +26,7 @@
 #include <glade/glade.h>
 #include <gui-util.h>
 #include <workbook-control-gui.h>
+#include <gtk/gtkradiobutton.h>
 
 #define VIEW_DIALOG_KEY "view-dialog"
 

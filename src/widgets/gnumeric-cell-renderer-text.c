@@ -17,7 +17,6 @@
  */
 
 #include <gnumeric-config.h>
-#include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 #include "gnumeric-cell-renderer-text.h"
 

@@ -30,6 +30,8 @@
 #include <workbook.h>
 #include <workbook-edit.h>
 #include <workbook-priv.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtknotebook.h>
 
 #define WORKBOOK_ATTRIBUTE_KEY "workbook-attribute-dialog"
 

@@ -37,6 +37,9 @@
 #include <workbook-cmd-format.h>
 
 #include <glade/glade.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtklabel.h>
 
 #define COL_WIDTH_DIALOG_KEY "col-width-dialog"
 

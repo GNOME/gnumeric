@@ -2,7 +2,8 @@
 #include "gnumeric-lazy-list.h"
 #include <gnumeric-i18n.h>
 #include <gnm-marshalers.h>
-#include <gtk/gtk.h>
+
+#include <gtk/gtktreemodel.h>
 
 static GObjectClass *lazy_list_parent_class = NULL;
 

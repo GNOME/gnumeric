@@ -33,6 +33,7 @@
 #include <gtk/gtktable.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkhseparator.h>
+#include <gtk/gtknotebook.h>
 
 #include <string.h>
 

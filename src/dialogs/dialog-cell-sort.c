@@ -46,6 +46,13 @@
 #include <value.h>
 
 #include <glade/glade.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkstock.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtktreeselection.h>
+#include <gtk/gtkcellrenderer.h>
+#include <gtk/gtkcellrenderertext.h>
 #include <gsf/gsf-impl-utils.h>
 #include <stdio.h>
 

@@ -30,6 +30,12 @@
 #include <clipboard.h>
 #include <dependent.h>
 #include <cmd-edit.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkcheckbutton.h>
+#include <gtk/gtkradiobutton.h>
+#include <gtk/gtkstock.h>
+#include <gtk/gtkframe.h>
+#include <gtk/gtkvbox.h>
 
 #define BUTTON_PASTE_LINK 0
 

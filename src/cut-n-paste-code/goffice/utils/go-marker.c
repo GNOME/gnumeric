@@ -568,7 +568,7 @@ go_marker_selector (GOColor outline_color, GOColor fill_color)
 		{ NULL, NULL, GO_MARKER_HALF_BAR},
 		{ NULL, NULL, GO_MARKER_BUTTERFLY},
 		{ NULL, NULL, GO_MARKER_HOURGLASS},
-		{ NULL, NULL, NULL }
+		{ NULL, NULL, 0 }
 	};
 
 	guint i, length;

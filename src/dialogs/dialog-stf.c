@@ -31,6 +31,7 @@
 #include <sheet-style.h>
 #include <mstyle.h>
 #include <clipboard.h>
+#include <gtk/gtkmain.h>
 
 /**********************************************************************************************
  * DIALOG CONTROLLING CODE

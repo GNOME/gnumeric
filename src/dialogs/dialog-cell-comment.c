@@ -30,7 +30,6 @@
 #include <sheet-object-cell-comment.h>
 #include <workbook-edit.h>
 #include <ranges.h>
-#include <gtk/gtk.h>
 #include <commands.h>
 
 #define COMMENT_DIALOG_KEY "cell-comment-dialog"

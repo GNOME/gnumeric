@@ -27,7 +27,6 @@ G_BEGIN_DECLS
 
 #include <gui-gnumeric.h>
 #include <gtk/gtkhbox.h>
-#include <gtk/gtk.h>
 
 #define CHARMAP_SELECTOR_TYPE        (charmap_selector_get_type ())
 #define CHARMAP_SELECTOR(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), CHARMAP_SELECTOR_TYPE, CharmapSelector))

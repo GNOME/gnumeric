@@ -37,6 +37,13 @@
 #include <value.h>
 #include <workbook-edit.h>
 #include <gnumeric-i18n.h>
+
+#include <gtk/gtkimage.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtksizegroup.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkimagemenuitem.h>
+#include <gtk/gtkoptionmenu.h>
 #include <string.h>
 
 typedef struct {

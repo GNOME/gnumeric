@@ -27,30 +27,15 @@
 #ifndef _GTK_COMBO_STACK_H
 #define _GTK_COMBO_STACK_H
 
-#include <gtk/gtk.h>
 #include "gtk-combo-box.h"
 
 G_BEGIN_DECLS
 
-#define GTK_COMBO_STACK_TYPE         (gtk_combo_stack_get_type ())
-#define GTK_COMBO_STACK(obj)	     G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_combo_stack_get_type (), GtkComboStack)
-#define GTK_COMBO_STACK_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, gtk_combo_stack_get_type (), GtkComboTextClass)
-#define GTK_IS_COMBO_STACK(obj)      G_TYPE_CHECK_INSTANCE_TYPE (obj, gtk_combo_stack_get_type ())
+#define GTK_COMBO_STACK_TYPE    (gtk_combo_stack_get_type ())
+#define GTK_COMBO_STACK(obj)	G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_combo_stack_get_type (), GtkComboStack)
+#define GTK_IS_COMBO_STACK(obj) G_TYPE_CHECK_INSTANCE_TYPE (obj, gtk_combo_stack_get_type ())
 
 typedef struct _GtkComboStack	     GtkComboStack;
-typedef struct _GtkComboStackPrivate GtkComboStackPrivate;
-typedef struct _GtkComboStackClass   GtkComboStackClass;
-
-struct _GtkComboStack {
-	GtkComboBox parent;
-
-	GtkComboStackPrivate *priv;
-};
-
-struct _GtkComboStackClass {
-	GtkComboBoxClass parent_class;
-};
-
 
 GtkType    gtk_combo_stack_get_type  (void);
 GtkWidget *gtk_combo_stack_new       (const gchar *stock_name,

@@ -24,7 +24,6 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialog-stf-export-private.h"
-#include "gtk/gtk.h"
 /*
  * Index of "Custom" in the separator optionmenu
  */

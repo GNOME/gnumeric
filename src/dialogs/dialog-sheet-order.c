@@ -44,6 +44,9 @@
 
 #include <glade/glade.h>
 #include <widgets/widget-color-combo.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtktreeselection.h>
+#include <gtk/gtkstock.h>
 #include <string.h>
 #include <stdio.h>
 

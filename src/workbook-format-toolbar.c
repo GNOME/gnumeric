@@ -40,6 +40,7 @@
 #include <widgets/widget-pixmap-combo.h>
 #include <libgnomeui/gnome-app-helper.h>
 #include <libgnomeui/gnome-stock-icons.h>
+#include <gtk/gtktogglebutton.h>
 
 #include <string.h>
 

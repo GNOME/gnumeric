@@ -33,7 +33,11 @@
 #include "gui-util.h"
 #include "workbook-control-gui.h"
 #include "selection.h"
-#include <gtk/gtk.h>
+
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtknotebook.h>
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtktable.h>
 
 const char *output_group[] = {
 	"newsheet-button",

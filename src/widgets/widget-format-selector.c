@@ -18,23 +18,29 @@
  **/
 
 #include <gnumeric-config.h>
+#include "widget-format-selector.h"
+
 #include <gnumeric-i18n.h>
 
-#include <string.h>
 #include <format.h>
 #include <mstyle.h>
 #include <style-color.h>
 #include <sheet.h>
 #include <value.h>
-#include <workbook.h>
-#include <locale.h>
 #include <gnm-marshalers.h>
 
 #include <widgets/gnumeric-combo-text.h>
 
+#include <gtk/gtksizegroup.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtktreeselection.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkcellrenderertext.h>
 #include <gsf/gsf-impl-utils.h>
 
-#include "widget-format-selector.h"
+#include <string.h>
+#include <locale.h>
 
 /* The maximum number of chars in the formatting sample */
 #define FORMAT_PREVIEW_MAX 25

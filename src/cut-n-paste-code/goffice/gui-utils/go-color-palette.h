@@ -30,9 +30,11 @@
 #ifndef GNUMERIC_COLOR_PALETTE_H
 #define GNUMERIC_COLOR_PALETTE_H
 
-#include <gtk/gtk.h>
 #include <libgnomeui/gnome-color-picker.h>
 #include <widgets/color-group.h>
+#include <gtk/gtkvbox.h>
+#include <gtk/gtktooltips.h>
+#include <gtk/gtktable.h>
 
 G_BEGIN_DECLS
 

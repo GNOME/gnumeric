@@ -26,6 +26,7 @@
 #include <format.h>
 #include <workbook.h>
 #include <gui-util.h>
+#include <gtk/gtktable.h>
 
 /*************************************************************************************************
  * MISC UTILITY FUNCTIONS

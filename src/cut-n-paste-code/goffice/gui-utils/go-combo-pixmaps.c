@@ -22,12 +22,15 @@
  */
 
 #include <gnumeric-config.h>
-#include <gtk/gtk.h>
 #include <gnumeric-i18n.h>
 #include "gtk-combo-box.h"
 #include "widget-pixmap-combo.h"
 #include <gnm-marshalers.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gtk/gtkwindow.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtkbutton.h>
+#include <gtk/gtkimage.h>
 
 #define PIXMAP_PREVIEW_WIDTH 15
 #define PIXMAP_PREVIEW_HEIGHT 15

@@ -33,6 +33,9 @@
 
 #include <libgnomeui/gnome-entry.h>
 #include <glade/glade.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtkstock.h>
 #include <string.h>
 
 #define SEARCH_REPLACE_KEY "search-replace-dialog"

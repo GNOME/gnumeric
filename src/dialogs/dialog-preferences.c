@@ -43,7 +43,19 @@
 
 #include <gui-util.h>
 #include <glade/glade.h>
-#include <gtk/gtk.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtktreestore.h>
+#include <gtk/gtktreeselection.h>
+#include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtkcellrendererpixbuf.h>
+#include <gtk/gtknotebook.h>
+#include <gtk/gtkimage.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtkstock.h>
+#include <gtk/gtkcheckbutton.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtktogglebutton.h>
 #include <string.h>
 
 enum {

@@ -38,7 +38,10 @@
 #include <value.h>
 #include <dao.h>
 #include "scenarios.h"
+
 #include <glade/glade.h>
+#include <gtk/gtktreeselection.h>
+#include <gtk/gtkcellrenderertext.h>
 #include <string.h>
 
 typedef struct {

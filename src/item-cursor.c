@@ -31,6 +31,8 @@
 #include "parse-util.h"
 #include "gui-util.h"
 #include <gsf/gsf-impl-utils.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkstock.h>
 #define GNUMERIC_ITEM "CURSOR"
 #include "item-debug.h"
 

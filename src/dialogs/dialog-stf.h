@@ -8,6 +8,12 @@
 #include "widgets/widget-locale-selector.h"
 #include "widgets/widget-format-selector.h"
 
+#include <gtk/gtkradiobutton.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtknotebook.h>
+
 /* for the main_page */
 typedef struct {
 	/* Page members that are always present */
@@ -107,7 +113,7 @@ typedef struct {
 
 	const char            *source;       /* Where we are reading from (UTF-8) */
 
-	size_t                longest_line;  /* #characters in longest line.  */
+	int                    longest_line;  /* #characters in longest line.  */
 
 	MainInfo_t            main;
 	CsvInfo_t             csv;

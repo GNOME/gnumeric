@@ -38,6 +38,9 @@
 #include <src/mathfunc.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkcheckbutton.h>
+#include <gtk/gtknotebook.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkmisc.h>
 #include <glade/glade-xml.h>
 
 struct _GogAxis {

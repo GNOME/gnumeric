@@ -39,6 +39,11 @@
 #include <workbook-edit.h>
 #include <dao-gui-utils.h>
 #include <tools/dao.h>
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkcheckbutton.h>
+#include <gtk/gtktreeselection.h>
+#include <gtk/gtkcellrendererpixbuf.h>
 
 #include <string.h>
 

@@ -26,6 +26,7 @@
 
 #include <glade/glade-xml.h>
 #include <gtk/gtkspinbutton.h>
+#include <gtk/gtktogglebutton.h>
 
 GtkWidget *gog_pie_plot_pref   (GogPiePlot *plot, CommandContext *cc);
 

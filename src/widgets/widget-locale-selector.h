@@ -27,7 +27,6 @@ G_BEGIN_DECLS
 
 #include <gui-gnumeric.h>
 #include <gtk/gtkhbox.h>
-#include <gtk/gtk.h>
 
 #define LOCALE_SELECTOR_TYPE        (locale_selector_get_type ())
 #define LOCALE_SELECTOR(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), LOCALE_SELECTOR_TYPE, LocaleSelector))

@@ -47,6 +47,10 @@
 
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <glade/glade.h>
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkframe.h>
+#include <gtk/gtkvscrollbar.h>
+#include <gtk/gtkcheckmenuitem.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 

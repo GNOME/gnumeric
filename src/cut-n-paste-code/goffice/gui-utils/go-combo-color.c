@@ -30,7 +30,6 @@
 
 #include <gnumeric-config.h>
 
-#include <gtk/gtk.h>
 #include <libfoocanvas/foo-canvas.h>
 #include <libfoocanvas/foo-canvas-pixbuf.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
@@ -39,8 +38,7 @@
 #include <gui-util.h>
 #include <style-color.h>
 #include "widget-color-combo.h"
-#include <gnm-marshalers.h>
-#include <gsf/gsf-impl-utils.h>
+#include <gtk/gtkimage.h>
 
 enum {
 	CHANGED,

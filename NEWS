@@ -34,6 +34,7 @@ Jody:
 	* Fix import typo that broke xls import of local hyperlinks
 	* Draw marker and lines for legend elements that support them
 	* Memory error when adding a series to a bar/col/line/area plot
+	* Cleanup header inclusion to make things work even with gtk HEAD
 
 John Gill:
 	* Heuristics to improve finger feel of autofilter range selection

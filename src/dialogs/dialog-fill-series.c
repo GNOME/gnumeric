@@ -47,6 +47,8 @@
 #include <dao-gui-utils.h>
 
 #include <glade/glade.h>
+#include <gtk/gtkradiobutton.h>
+#include <gtk/gtktogglebutton.h>
 #include "fill-series.h"
 
 #define FILL_SERIES_KEY "fill-series-dialog"

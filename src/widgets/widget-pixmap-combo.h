@@ -25,6 +25,7 @@
 #define GNUMERIC_WIDGET_PIXMAP_COMBO_H
 
 #include <widgets/gtk-combo-box.h>
+#include <gtk/gtktooltips.h>
 
 G_BEGIN_DECLS
 

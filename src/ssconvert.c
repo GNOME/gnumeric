@@ -22,6 +22,7 @@
 #include <libgnome/gnome-program.h>
 #include <libgnome/gnome-init.h>
 #include <string.h>
+#include <stdlib.h>
 
 char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
 char const *gnumeric_data_dir = GNUMERIC_DATADIR;

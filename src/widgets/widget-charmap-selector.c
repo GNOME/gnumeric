@@ -27,10 +27,16 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include <gutils.h>
-#include <string.h>
 #include "widget-charmap-selector.h"
 #include "gnumeric-optionmenu.h"
 #include <gsf/gsf-impl-utils.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkmenu.h>
+#include <gtk/gtkmenuitem.h>
+#include <gtk/gtkcheckmenuitem.h>
+#include <gtk/gtkseparatormenuitem.h>
+
+#include <string.h>
 #include <stdlib.h>
 
 #define CS(x) CHARMAP_SELECTOR (x)

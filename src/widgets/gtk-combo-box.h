@@ -24,7 +24,7 @@
 #ifndef _GTK_COMBO_BOX_H_
 #define _GTK_COMBO_BOX_H_
 
-#include <gtk/gtk.h>
+#include <gtk/gtkhbox.h>
 
 G_BEGIN_DECLS
 

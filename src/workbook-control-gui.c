@@ -91,6 +91,12 @@
 #include <libgnomeui/gnome-stock-icons.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtkseparatormenuitem.h>
+#include <gtk/gtkcheckmenuitem.h>
+#include <gtk/gtkimage.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkframe.h>
+#include <gtk/gtkdnd.h>
 
 #include <string.h>
 #include <errno.h>

@@ -42,6 +42,10 @@
 #include <glade/glade.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtktreeselection.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtktogglebutton.h>
 #include <string.h>
 #include "help.h"
 

@@ -43,6 +43,12 @@
 #include <widgets/gnumeric-lazy-list.h>
 #include <libgnomeui/gnome-entry.h>
 #include <glade/glade.h>
+#include <gtk/gtknotebook.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtktable.h>
 #include <string.h>
 
 #define SEARCH_KEY "search-dialog"
@@ -158,12 +164,12 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 			g_value_set_string (value, cell_comment_text_get (item->comment));
 			return;
 		case SRL_value:
-			g_value_set_string_take_ownership
-				(value, value_get_as_string (cell->value));
+			g_value_set_string_take_ownership (value,
+				value_get_as_string (cell->value));
 			return;
 		case SRL_contents:
-			g_value_set_string_take_ownership
-				(value, cell_get_entered_text (cell));
+			g_value_set_string_take_ownership (value,
+				cell_get_entered_text (cell));
 			return;
 #ifndef DEBUG_SWITCH_ENUM
 	default:

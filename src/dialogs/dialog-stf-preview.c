@@ -30,7 +30,7 @@
 #include <number-match.h>
 #include <value.h>
 #include <style.h>
-
+#include <gtk/gtkcellrenderertext.h>
 
 /******************************************************************************************************************
  * ADVANCED DRAWING FUNCTIONS

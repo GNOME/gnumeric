@@ -52,6 +52,9 @@
 #include <glade/glade.h>
 #include <string.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtklabel.h>
 
 /**********************************************/
 /*  Generic guru items */

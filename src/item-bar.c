@@ -26,10 +26,12 @@
 #include "parse-util.h"
 #include "commands.h"
 
-#include <string.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gtk/gtklabel.h>
 #define GNUMERIC_ITEM "BAR"
 #include "item-debug.h"
+
+#include <string.h>
 
 struct _ItemBar {
 	FooCanvasItem  canvas_item;

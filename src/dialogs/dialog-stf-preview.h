@@ -19,7 +19,9 @@
 #include <gui-gnumeric.h>
 #include <stf.h>
 #include <widgets/gnumeric-lazy-list.h>
-#include <gtk/gtk.h>
+#include <gtk/gtkwidget.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtktooltips.h>
 
 #define LINE_DISPLAY_LIMIT 500
 #define RAW_LINE_DISPLAY_LIMIT 4096

@@ -37,6 +37,7 @@
 #include <command-context.h>
 
 #include <glade/glade.h>
+#include <gtk/gtkradiobutton.h>
 
 #define DELETE_CELL_DIALOG_KEY "delete-cells-dialog"
 

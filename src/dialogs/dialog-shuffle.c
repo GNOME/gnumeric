@@ -41,6 +41,8 @@
 #include <selection.h>
 
 #include <glade/glade.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtktogglebutton.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include "data-shuffling.h"
 

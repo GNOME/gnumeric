@@ -25,6 +25,7 @@
 #include "dialog-stf.h"
 #include <gui-util.h>
 #include <workbook.h>
+#include <gtk/gtkframe.h>
 
 /*************************************************************************************************
  * MISC UTILITY FUNCTIONS
@@ -78,7 +79,7 @@ main_page_update_preview (StfDialogData *pagedata)
 	pagedata->longest_line = 0;
 	for (ui = 0; ui < lines->len; ui++) {
 		GPtrArray *line = g_ptr_array_index (lines, ui);
-		size_t thislen = g_utf8_strlen (g_ptr_array_index (line, 1), -1);
+		int thislen = g_utf8_strlen (g_ptr_array_index (line, 1), -1);
 		pagedata->longest_line = MAX (pagedata->longest_line, thislen);
 	}
 

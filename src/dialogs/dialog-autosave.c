@@ -32,6 +32,7 @@
 #include <gui-util.h>
 
 #include <glade/glade.h>
+#include <gtk/gtktogglebutton.h>
 
 typedef struct {
 	GladeXML  *gui;

@@ -25,13 +25,19 @@
  */
 
 #include <gnumeric-config.h>
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include "gtk-combo-box.h"
 #include <gnm-marshalers.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtktearoffmenuitem.h>
+#include <gtk/gtkwindow.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtkarrow.h>
+#include <gtk/gtkeventbox.h>
+#include <gtk/gtkvbox.h>
+#include <gtk/gtkframe.h>
 
-#define PARENT_TYPE GTK_TYPE_HBOX
 static GObjectClass *gtk_combo_box_parent_class;
 
 static int gtk_combo_toggle_pressed (GtkToggleButton *tbutton,
@@ -474,7 +480,9 @@ gtk_combo_box_init (GtkComboBox *combo_box)
 			  G_CALLBACK (gtk_combo_box_key_press), combo_box);
 }
 
-GSF_CLASS(GtkComboBox,gtk_combo_box,gtk_combo_box_class_init,gtk_combo_box_init,PARENT_TYPE)
+GSF_CLASS (GtkComboBox, gtk_combo_box,
+	   gtk_combo_box_class_init, gtk_combo_box_init,
+	   GTK_TYPE_HBOX)
 
 /**
  * gtk_combo_box_set_display:

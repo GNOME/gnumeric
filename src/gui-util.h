@@ -5,7 +5,14 @@
 #include "error-info.h"
 #include "command-context.h"
 #include "gutils.h"
-#include <gtk/gtk.h>
+#include <gtk/gtkbutton.h>
+#include <gtk/gtkcombo.h>
+#include <gtk/gtkfilesel.h>
+#include <gtk/gtkmessagedialog.h>
+#include <gtk/gtkmenu.h>
+#include <gtk/gtktoolbar.h>
+#include <gtk/gtktextview.h>
+#include <gtk/gtkentry.h>
 #include <glade/glade-xml.h>
 
 gboolean   gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,

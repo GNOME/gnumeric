@@ -33,6 +33,9 @@
 #include <src/gnumeric-i18n.h>
 
 #include <gsf/gsf-impl-utils.h>
+#include <gtk/gtknotebook.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkbox.h>
 
 struct _GogLabel {
 	GogStyledObject	base;

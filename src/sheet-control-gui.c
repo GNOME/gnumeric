@@ -45,6 +45,15 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gtk/gtkframe.h>
+#include <gtk/gtkalignment.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkstock.h>
+#include <gtk/gtkrange.h>
+#include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtkhscrollbar.h>
+#include <gtk/gtkvscrollbar.h>
+#include <gtk/gtkvbox.h>
 
 #include <string.h>
 

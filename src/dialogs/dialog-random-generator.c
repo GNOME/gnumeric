@@ -50,6 +50,8 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <glade/glade.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtktable.h>
 #include <string.h>
 
 

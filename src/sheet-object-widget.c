@@ -51,6 +51,16 @@
 #include <libxml/globals.h>
 #include <libfoocanvas/foo-canvas-widget.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtkframe.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtkcheckbutton.h>
+#include <gtk/gtkradiobutton.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtkhscrollbar.h>
+#include <gtk/gtkvscrollbar.h>
+#include <gtk/gtkhscale.h>
+#include <gtk/gtkvscale.h>
 #include <math.h>
 
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-config-dialog"

@@ -1,7 +1,5 @@
 /* File import from gal to gnumeric by import-gal.  Do not edit.  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED"
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gtk-combo-stack.c - A combo box for displaying stacks (useful for Undo lists)
@@ -26,17 +24,25 @@
  * 02111-1307, USA.
  */
 
-#include <gtk/gtk.h>
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED for GtkList"
+
 #include "gtk-combo-stack.h"
 #include <gnm-marshalers.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gtk/gtkwindow.h>
+#include <gtk/gtkcontainer.h>
+#include <gtk/gtklist.h>
+#include <gtk/gtkwidget.h>
+#include <gtk/gtkbutton.h>
+#include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtkimage.h>
 
 #include <stdio.h>
 
-#define PARENT_TYPE GTK_COMBO_BOX_TYPE
-static GtkObjectClass *gtk_combo_stack_parent_class;
+struct _GtkComboStack {
+	GtkComboBox parent;
 
-struct _GtkComboStackPrivate {
 	GtkWidget *button;
 	GtkWidget *list;
 	GtkWidget *scrolled_window;
@@ -45,22 +51,17 @@ struct _GtkComboStackPrivate {
 	gint curr_item;
 };
 
+typedef struct {
+	GtkComboBoxClass parent_class;
+	void (*pop) (GtkComboStack *cbox, GtkWidget *);
+} GtkComboStackClass;
+
 enum {
 	POP,
 	LAST_SIGNAL
 };
+
 static guint gtk_combo_stack_signals [LAST_SIGNAL] = { 0, };
-
-static void
-gtk_combo_stack_destroy (GtkObject *object)
-{
-	GtkComboStack *combo = GTK_COMBO_STACK (object);
-
-	g_free (combo->priv);
-	combo->priv = NULL;
-
-	GTK_OBJECT_CLASS (gtk_combo_stack_parent_class)->destroy (object);
-}
 
 static void
 cb_screen_changed (GtkComboStack *cs, GdkScreen *previous_screen)
@@ -71,43 +72,40 @@ cb_screen_changed (GtkComboStack *cs, GdkScreen *previous_screen)
 		: NULL;
 
 	if (screen) {
-		GtkWidget *toplevel = gtk_widget_get_toplevel (cs->priv->scrolled_window ? cs->priv->scrolled_window : cs->priv->list);
+		GtkWidget *toplevel = gtk_widget_get_toplevel (cs->scrolled_window
+		    ? cs->scrolled_window : cs->list);
 		gtk_window_set_screen (GTK_WINDOW (toplevel), screen);
 	}
 }
 
 
 static void
-gtk_combo_stack_class_init (GtkObjectClass *object_class)
+gtk_combo_stack_class_init (GObjectClass *klass)
 {
-	object_class->destroy = gtk_combo_stack_destroy;
-
-	gtk_combo_stack_parent_class = g_type_class_ref (PARENT_TYPE);
-
-	gtk_combo_stack_signals [POP] = gtk_signal_new (
-		"pop",
-		GTK_RUN_LAST,
-		G_TYPE_FROM_CLASS (object_class),
-		GTK_SIGNAL_OFFSET (GtkComboBoxClass, pop_down_done),
-		gtk_marshal_NONE__INT,
-		GTK_TYPE_NONE, 1, GTK_TYPE_INT);
-
-
+	gtk_combo_stack_signals [POP] = g_signal_new ( "pop",
+		G_TYPE_FROM_CLASS (klass),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GtkComboStackClass, pop),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__INT,
+		G_TYPE_NONE,
+		1, G_TYPE_INT);
 }
 
 static void
 gtk_combo_stack_init (GtkComboStack *object)
 {
-	object->priv = g_new0 (GtkComboStackPrivate, 1);
-	object->priv->num_items = 0;
+	object->num_items = 0;
 }
 
-GSF_CLASS(GtkComboStack,gtk_combo_stack,gtk_combo_stack_class_init,gtk_combo_stack_init,PARENT_TYPE)
+GSF_CLASS (GtkComboStack, gtk_combo_stack,
+	   gtk_combo_stack_class_init, gtk_combo_stack_init,
+	   GTK_COMBO_BOX_TYPE)
 
 static void
 gtk_combo_stack_clear_selection (GtkComboStack *combo)
 {
-	GList *ptr, *items = gtk_container_children (GTK_CONTAINER (combo->priv->list));
+	GList *ptr, *items = gtk_container_get_children (GTK_CONTAINER (combo->list));
 	for (ptr = items; ptr; ptr = ptr->next)
 		gtk_widget_set_state (GTK_WIDGET (ptr->data), GTK_STATE_NORMAL);
 	g_list_free (items);
@@ -127,11 +125,11 @@ cb_button_release_event (GtkList *list, GdkEventButton *e, gpointer data)
 	gtk_combo_stack_clear_selection (combo);
 	gtk_combo_box_popup_hide (GTK_COMBO_BOX (combo));
 
-	if (combo->priv->curr_item > 0) {
+	if (combo->curr_item > 0) {
 		gint dummy, w, h;
 		gdk_window_get_geometry (e->window, &dummy, &dummy, &w, &h, &dummy);
 		if (0 <= e->x && e->x < w && 0 <= e->y && e->y < h)
-			gtk_combo_stack_pop (combo, combo->priv->curr_item);
+			gtk_combo_stack_pop (combo, combo->curr_item);
 	}
 	gtk_list_end_drag_selection (list);
 
@@ -142,7 +140,7 @@ static void
 list_select_cb (GtkList *list, GtkWidget *child, gpointer data)
 {
 	GtkComboStack *combo = GTK_COMBO_STACK (data);
-	GList *ptr, *items = gtk_container_children (GTK_CONTAINER (list));
+	GList *ptr, *items = gtk_container_get_children (GTK_CONTAINER (list));
 	guint i = 0;
 
 	gtk_combo_stack_clear_selection (combo);
@@ -154,7 +152,7 @@ list_select_cb (GtkList *list, GtkWidget *child, gpointer data)
 	}
 	g_list_free (items);
 
-	combo->priv->curr_item = i;
+	combo->curr_item = i;
 }
 
 static void
@@ -164,11 +162,11 @@ gtk_combo_stack_construct (GtkComboStack *combo,
 {
 	GtkWidget *button, *list, *scroll, *display_widget, *pixmap;
 
-	button = combo->priv->button = gtk_button_new ();
+	button = combo->button = gtk_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 
-	list = combo->priv->list = gtk_list_new ();
+	list = combo->list = gtk_list_new ();
 
 	/* Create the button */
 	pixmap = gtk_image_new_from_stock (
@@ -237,14 +235,14 @@ gtk_combo_stack_push_item (GtkComboStack *combo,
 
 	g_return_if_fail (item != NULL);
 
-	combo->priv->num_items++;
+	combo->num_items++;
 
 	listitem = gtk_list_item_new_with_label (item);
 	gtk_widget_show (listitem);
 
-	gtk_list_prepend_items (GTK_LIST (combo->priv->list),
+	gtk_list_prepend_items (GTK_LIST (combo->list),
 		g_list_prepend (NULL, listitem));
-/*	gtk_list_unselect_all (GTK_LIST (combo->priv->list)); */
+/*	gtk_list_unselect_all (GTK_LIST (combo->list)); */
 	gtk_combo_stack_clear_selection (combo);
 
 	/* Kluge: GtkList selects the focused item. ComboStack selects
@@ -266,14 +264,14 @@ gtk_combo_stack_remove_top (GtkComboStack *combo, gint num)
 {
 	gint i;
 	GList *child, *children;
-	GtkWidget *list = combo->priv->list;
+	GtkWidget *list = combo->list;
 
-	g_return_if_fail (combo->priv->num_items != 0);
+	g_return_if_fail (combo->num_items != 0);
 
-	if (num > combo->priv->num_items)
-		num = combo->priv->num_items;
+	if (num > combo->num_items)
+		num = combo->num_items;
 
-	children = child = gtk_container_children (GTK_CONTAINER (list));
+	children = child = gtk_container_get_children (GTK_CONTAINER (list));
 	for (i = 0; i < num; i++) {
 		gtk_container_remove (GTK_CONTAINER (list), child->data);
 		child = g_list_next (child);
@@ -282,17 +280,17 @@ gtk_combo_stack_remove_top (GtkComboStack *combo, gint num)
 
 	gtk_combo_stack_clear_selection (combo);
 
-	combo->priv->num_items -= num;
-	combo->priv->curr_item = -1;
-	if (!combo->priv->num_items)
+	combo->num_items -= num;
+	combo->curr_item = -1;
+	if (!combo->num_items)
 		gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
 }
 
 void
 gtk_combo_stack_clear (GtkComboStack *combo)
 {
-	combo->priv->num_items = 0;
-	gtk_list_clear_items (GTK_LIST (combo->priv->list), 0, -1);
+	combo->num_items = 0;
+	gtk_list_clear_items (GTK_LIST (combo->list), 0, -1);
 	gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
 }
 
@@ -304,10 +302,10 @@ gtk_combo_stack_clear (GtkComboStack *combo)
 void
 gtk_combo_stack_truncate (GtkComboStack *combo, int n)
 {
-	if (combo->priv->num_items > n) {
-		combo->priv->num_items = n;
+	if (combo->num_items > n) {
+		combo->num_items = n;
 
-		gtk_list_clear_items (GTK_LIST (combo->priv->list), n, -1);
+		gtk_list_clear_items (GTK_LIST (combo->list), n, -1);
 		if (n == 0)
 			gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
 	}

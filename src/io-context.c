@@ -21,6 +21,7 @@
 #include "gui-util.h"
 
 #include <gsf/gsf-impl-utils.h>
+#include <gtk/gtkmain.h>
 #include <limits.h>
 #include <sys/time.h>
 #include <sys/stat.h>

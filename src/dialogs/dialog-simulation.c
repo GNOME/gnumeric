@@ -39,6 +39,10 @@
 #include "simulation.h"
 
 #include <string.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtkcellrenderertext.h>
 
 #define SIMULATION_KEY         "simulation-dialog"
 

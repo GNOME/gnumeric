@@ -28,7 +28,6 @@
  */
 
 #include <gnumeric-config.h>
-#include <gtk/gtk.h>
 #include <libfoocanvas/foo-canvas.h>
 #include <gdk/gdkcolor.h>
 #include <gnumeric-i18n.h>
@@ -38,6 +37,7 @@
 #include "color-palette.h"
 #include <gui-util.h>
 #include <style-color.h>
+#include <gtk/gtklabel.h>
 
 #include <string.h>
 

@@ -45,6 +45,11 @@
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <glade/glade.h>
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkclist.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtktable.h>
 #include <string.h>
 #include <scenarios.h>
 
