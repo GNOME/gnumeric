@@ -27,20 +27,20 @@
 
 /* Make up for a few deficient headers.  */
 #ifndef M_LN2
-#define M_LN2 0.69314718055994530942
+#define M_LN2 0.6931471805599453094172321214581766
 #endif
 #ifndef M_LN10
-#define M_LN10 2.30258509299404568402
+#define M_LN10 2.3025850929940456840179914546843642
 #endif
 
 /* ------------------------------------------------------------------------- */
 
-double gnumeric_add_epsilon (double x);
-double gnumeric_sub_epsilon (double x);
-double gnumeric_fake_floor (double x);
-double gnumeric_fake_ceil (double x);
-double gnumeric_fake_round (double x);
-double gnumeric_fake_trunc (double x);
+gnum_float gnumeric_add_epsilon (gnum_float x);
+gnum_float gnumeric_sub_epsilon (gnum_float x);
+gnum_float gnumeric_fake_floor (gnum_float x);
+gnum_float gnumeric_fake_ceil (gnum_float x);
+gnum_float gnumeric_fake_round (gnum_float x);
+gnum_float gnumeric_fake_trunc (gnum_float x);
 
 /* ------------------------------------------------------------------------- */
 
@@ -119,6 +119,7 @@ void    mmult (gnum_float *A, gnum_float *B, int cols_a, int rows_a, int cols_b,
 
 /* Misc. */
 gnum_float     gpow10 (int n);
+gnum_float     gpow2  (int n);
 int            gcd    (int a, int b);
 gnum_float     combin (int n, int k);
 gnum_float     fact   (int n);

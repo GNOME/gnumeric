@@ -31,6 +31,22 @@ gnum_float modfgnum (gnum_float x, gnum_float *iptr);
 gnum_float gnumabs (gnum_float x);
 #endif
 
+#ifdef HAVE_LDEXPL
+#define ldexpgnum ldexpl
+#else
+#define NEED_FAKE_LDEXPGNUM
+/* Defined in gutils.c  */
+gnum_float ldexpgnum (gnum_float x, int exp);
+#endif
+
+#ifdef HAVE_FREXPL
+#define frexpgnum frexpl
+#else
+#define NEED_FAKE_FREXPGNUM
+/* Defined in gutils.c  */
+gnum_float frexpgnum (gnum_float x, int *exp);
+#endif
+
 #define GNUM_FORMAT_e "Le"
 #define GNUM_FORMAT_E "LE"
 #define GNUM_FORMAT_f "Lf"
@@ -39,6 +55,8 @@ gnum_float gnumabs (gnum_float x);
 #define GNUM_MANT_DIG LDBL_MANT_DIG
 #define GNUM_MAX_EXP LDBL_MAX_EXP
 #define GNUM_MAX LDBL_MAX
+#define GNUM_EPSILON LDBL_EPSILON
+#define GNUM_const(_c) _c ## L
 
 #else /* !WITH_LONG_DOUBLE */
 
@@ -46,6 +64,8 @@ typedef double gnum_float;
 #define strtognum strtod
 #define modfgnum modf
 #define gnumabs fabs
+#define ldexpgnum ldexp
+#define frexpgnum frexp
 
 #define GNUM_FORMAT_e "e"
 #define GNUM_FORMAT_E "E"
@@ -55,6 +75,8 @@ typedef double gnum_float;
 #define GNUM_MANT_DIG DBL_MANT_DIG
 #define GNUM_MAX_EXP DBL_MAX_EXP
 #define GNUM_MAX DBL_MAX
+#define GNUM_EPSILON DBL_EPSILON
+#define GNUM_const(_c) _c
 
 #endif
 

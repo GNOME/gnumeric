@@ -87,54 +87,54 @@ d1mach (int i)
  * absolutely).  This makes ROUND (etc.) behave a little closer to what
  * people want, even if it is a bit bogus.
  */
-double
-gnumeric_add_epsilon (double x)
+gnum_float
+gnumeric_add_epsilon (gnum_float x)
 {
   if (!FINITE (x) || x == 0)
     return x;
   else {
     int exp;
-    double mant = frexp (fabs (x), &exp);
-    double absres = ldexp (mant + DBL_EPSILON, exp);
+    gnum_float mant = frexpgnum (gnumabs (x), &exp);
+    gnum_float absres = ldexpgnum (mant + GNUM_EPSILON, exp);
     return (x < 0) ? -absres : absres;
   }
 }
 
-double
-gnumeric_sub_epsilon (double x)
+gnum_float
+gnumeric_sub_epsilon (gnum_float x)
 {
   if (!FINITE (x) || x == 0)
     return x;
   else {
     int exp;
-    double mant = frexp (fabs (x), &exp);
-    double absres = ldexp (mant - DBL_EPSILON, exp);
+    gnum_float mant = frexpgnum (gnumabs (x), &exp);
+    gnum_float absres = ldexpgnum (mant - GNUM_EPSILON, exp);
     return (x < 0) ? -absres : absres;
   }
 }
 
-double
-gnumeric_fake_floor (double x)
+gnum_float
+gnumeric_fake_floor (gnum_float x)
 {
   return floor (gnumeric_add_epsilon (x));
 }
 
-double
-gnumeric_fake_ceil (double x)
+gnum_float
+gnumeric_fake_ceil (gnum_float x)
 {
   return ceil (gnumeric_sub_epsilon (x));
 }
 
-double
-gnumeric_fake_round (double x)
+gnum_float
+gnumeric_fake_round (gnum_float x)
 {
   return (x >= 0)
     ? gnumeric_fake_floor (x + 0.5)
     : -gnumeric_fake_floor (-x + 0.5);
 }
 
-double
-gnumeric_fake_trunc (double x)
+gnum_float
+gnumeric_fake_trunc (gnum_float x)
 {
   return (x >= 0)
     ? gnumeric_fake_floor (x)
@@ -3712,6 +3712,28 @@ random_bernoulli (double p)
 
 	return (r <= p) ? 1.0 : 0.0;
 }
+
+/*
+ * Generate 2^n being careful not to overflow
+ */
+gnum_float
+gpow2 (int n)
+{
+	g_assert (FLT_RADIX == 2);
+
+	if (n >= DBL_MIN_EXP && n <= DBL_MAX_EXP)
+		return (gnum_float) ldexp (1.0, n);
+	else {
+		gnum_float tmp;
+
+		tmp = gpow2 (n / 2);
+		tmp *= tmp;
+		if (n & 1)
+			tmp *= 2;
+		return tmp;
+	}
+}
+
 
 /*
  * Generate 10^n being careful not to overflow

@@ -1,3 +1,14 @@
+2002-02-22  Morten Welinder  <terra@diku.dk>
+
+	* configure.in: Check for ldexpl and frexpl.
+
+	* src/mathfunc.c (gpow2): New function.
+	(gnumeric_add_epsilon, gnumeric_sub_epsilon, gnumeric_fake_floor,
+	gnumeric_fake_ceil, gnumeric_fake_round, gnumeric_fake_trunc):
+	Make these gnum_float typed.
+
+	* src/numbers.h (frexpgnum, ldexpgnum): New stuff.
+
 2002-02-21  Morten Welinder  <terra@diku.dk>
 
 	* src/numbers.h: Define prototypes for strtognum, modfgnum, and

@@ -12,6 +12,7 @@
 
 #include "sheet.h"
 #include "ranges.h"
+#include "mathfunc.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-config.h>
@@ -584,7 +585,6 @@ gnumabs (gnum_float x)
 /* ------------------------------------------------------------------------- */
 
 #ifdef NEED_FAKE_STRTOGNUM
-
 gnum_float
 strtognum (const char *str, char **end)
 {
@@ -630,6 +630,61 @@ strtognum (const char *str, char **end)
 	errno = ERANGE;
 	return 0.0;
 #endif
+}
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+#ifdef NEED_FAKE_LDEXPGNUM
+gnum_float
+ldexpgnum (gnum_float x, int exp)
+{
+	if (!FINITE (x) || x == 0)
+		return x;
+	else {
+		gnum_float res = x * gpow2 (exp);
+		if (FINITE (res))
+			return res;
+		else {
+			errno = ERANGE;
+			return (x > 0) ? HUGE_VAL : -HUGE_VAL;
+		}			
+	}	
+}
+#endif
+
+/* ------------------------------------------------------------------------- */
+
+#ifdef NEED_FAKE_FREXPGNUM
+gnum_float
+frexpgnum (gnum_float x, int *exp)
+{
+	static gboolean warned = FALSE;
+	double dbl_res;
+	gnum_float res;
+
+	if (!warned) {
+		warned = TRUE;
+		g_warning (_("This version of Gnumeric has been compiled with inadequate precision in frexpgnum."));
+	}
+
+	/* This might underflow or overflow in the cast.  */
+	dbl_res = frexp ((double)x, exp);
+	if (!FINITE (x) || x == 0)
+		return dbl_res;
+
+	/*
+	 * Now correct the result and adjust things that might have gotten
+	 * off-by-one due to rounding.  This part has all the precision it
+	 * needs.
+	 */
+	res = x / gpow2 (*exp);
+	if (gnumabs (res) >= 1.0)
+		res /= 2, (*exp)++;
+	else if (gnumabs (res) < 0.5)
+		res *= 2, (*exp)--;
+
+	return res;
 }
 #endif
 

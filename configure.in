@@ -72,7 +72,7 @@ AC_ARG_WITH(long_double,
 		if test "$ac_cv_c_long_double" != "yes"; then
 			AC_MSG_ERROR([Long double type is not available.])
 		fi
-		AC_CHECK_FUNCS(strtold modfl fabsl string_to_decimal decimal_to_quadruple)
+		AC_CHECK_FUNCS(strtold modfl fabsl frexpl ldexpl string_to_decimal decimal_to_quadruple)
 		AC_CHECK_HEADERS(floatingpoint.h)
 
 		if test "$ac_cv_func_strtold" = "yes"; then
