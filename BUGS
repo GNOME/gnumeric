@@ -6,7 +6,6 @@ Release Critical
 ----------------
 
 - Styles
-    - get_extent
     - uniform
     - test persistance
     - more tuning

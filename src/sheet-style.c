@@ -1331,10 +1331,40 @@ sheet_style_insert_colrow (ExprRelocateInfo const *rinfo)
 	}
 }
 
+static void
+cb_style_extent (MStyle *style,
+		 int corner_col, int corner_row, int width, int height,
+		 Range const *apply_to, gpointer user)
+{
+	if (mstyle_visible_in_blank (style)) {
+		Range *r = (Range *)user;
+		int tmp;
+
+		tmp = corner_col+width-1;
+		if (r->end.col < tmp)
+			r->end.col = tmp;
+		tmp = corner_row+height-1;
+		if (r->end.row < tmp)
+			r->end.row = tmp;
+	}
+}
+
+/**
+ * sheet_style_get_extent :
+ *
+ * @sheet :
+ * @r     :
+ *
+ * A simple implementation that find the max lower and right styles that are
+ * visible.
+ */
 void
 sheet_style_get_extent (Sheet const *sheet, Range *r)
-{
-#warning FIXME : trivial finish get_extent
+{ 
+	/* This could easily be optimized */
+	foreach_tile (sheet->style_data->styles,
+		      TILE_TOP_LEVEL, 0, 0, r,
+		      cb_style_extent, r);
 }
 
 /****************************************************************************/
