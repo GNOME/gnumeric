@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * dialog-zoom.c:  Sets the magnification factor
  *
@@ -5,9 +6,8 @@
  *        Jody Goldberg <jody@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * it under the terms version 2 of the GNU General Public License as published
+ * by the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -32,7 +32,6 @@
 
 #include <glade/glade.h>
 
-#define GLADE_FILE "dialog-zoom.glade"
 #define ZOOM_DIALOG_KEY "zoom-dialog"
 #define ZOOM_DIALOG_FACTOR_KEY "zoom-dialog-factor"
 
@@ -141,18 +140,21 @@ dialog_zoom (WorkbookControlGUI *wbcg, Sheet *sheet)
 	gboolean is_custom = TRUE;
 	GtkRadioButton *radio;
 	GtkWidget *focus_target;
+	GladeXML     *gui;
 
 	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (sheet != NULL);
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, ZOOM_DIALOG_KEY))
 		return;
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"dialog-zoom.glade", NULL, NULL);
+	if (state->gui == NULL)
+		return;
 
 	state = g_new (ZoomState, 1);
-	state->wbcg  = wbcg;
-	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
-	g_return_if_fail (state->gui != NULL);
-
+	state->wbcg   = wbcg;
+	state->gui    = gui;
 	state->dialog = glade_xml_get_widget (state->gui, "Zoom");
 	g_return_if_fail (state->dialog != NULL);
 

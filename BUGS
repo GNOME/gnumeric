@@ -21,6 +21,8 @@ Pending Patches
 
 1) graphs							{Jody}
     1.1) Split plot xml file engine, type, and family plugins	(DONE)
+    1.2) Use the registered engines to create plots		(DONE)
+    1.3) xml -> GValue parsing for type args
 
 2) stf								{Andreas}
     2.1) UTF-8 cleanliness
@@ -113,7 +115,12 @@ Pending Patches
 22) Add dirty flags to workbook too, adding a sheet should
     make workbook dirty not the new sheet.
 
-23) Check errors from gconf.
+23) gconf.
+    23.1) Check for errors
+    23.2) double check that we update on remote changes
+
+24) Plugins
+    24.1) enhance gobject service to do delayed load		(DONE)
 
 Functions
     ODDFPRICE	(test fails)

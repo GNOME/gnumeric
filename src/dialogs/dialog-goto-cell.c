@@ -39,8 +39,6 @@
 #include <workbook-edit.h>
 #include <libgnomeui/gnome-entry.h>
 
-#define GLADE_FILE "goto.glade"
-
 #define GOTO_KEY "goto-dialog"
 
 typedef struct {
@@ -49,7 +47,6 @@ typedef struct {
 
 	GladeXML  *gui;
 	GtkWidget *dialog;
-	GtkWidget *warning_dialog;
 	GtkWidget *close_button;
 	GtkWidget *go_button;
 	GnomeEntry *goto_text;
@@ -332,25 +329,21 @@ void
 dialog_goto_cell (WorkbookControlGUI *wbcg)
 {
 	GotoState* state;
+	GladeXML *gui;
 
 	g_return_if_fail (wbcg != NULL);
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, GOTO_KEY))
 		return;
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"goto.glade", NULL, NULL);
+        if (gui == NULL)
+                return;
 
 	state = g_new (GotoState, 1);
-	state->wbcg  = wbcg;
-	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->warning_dialog = NULL;
-
-	/* Get the dialog and check for errors */
-	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
-        if (state->gui == NULL) {
-		g_warning ("glade file missing or corrupted");
-		g_free (state);
-                return;
-	}
-
+	state->wbcg   = wbcg;
+	state->wb     = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->gui    = gui;
         state->dialog = glade_xml_get_widget (state->gui, "goto_dialog");
 
 	if (dialog_goto_init (state)) {

@@ -37,7 +37,6 @@
 
 #include <glade/glade.h>
 
-#define GLADE_FILE "row-height.glade"
 #define ROW_HEIGHT_DIALOG_KEY "row-height-dialog"
 
 typedef struct {
@@ -256,7 +255,8 @@ dialog_row_height (WorkbookControlGUI *wbcg, gboolean use_default)
 	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sv_sheet (state->sv);
 	state->adjusting = FALSE;
-	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
+	state->gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"row-height.glade", NULL, NULL);
 	g_return_if_fail (state->gui != NULL);
 
 	state->dialog = glade_xml_get_widget (state->gui, "dialog");

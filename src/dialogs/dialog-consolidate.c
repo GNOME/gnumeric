@@ -34,8 +34,6 @@
 #include <widgets/gnumeric-expr-entry.h>
 #include <workbook-edit.h>
 
-#define GLADE_FILE "consolidate.glade"
-
 typedef struct {
 	WorkbookControlGUI *wbcg;
 	SheetView	   *sv;
@@ -447,11 +445,10 @@ dialog_consolidate (WorkbookControlGUI *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
-	glade_gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
-        if (glade_gui == NULL) {
-		g_warning ("Error constructing consolidation dialog");
+	glade_gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"consolidate.glade", NULL, NULL);
+        if (glade_gui == NULL)
                 return;
-	}
 
 	/* Primary static initialization */
 	state = g_new0 (ConsolidateState, 1);
@@ -487,6 +484,7 @@ dialog_consolidate (WorkbookControlGUI *wbcg)
 	g_object_set_data_full (G_OBJECT (state->gui.dialog),
 		"state", state, (GDestroyNotify) cb_dialog_destroy);
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->gui.dialog));
-	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->gui.dialog));
+	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
+				   GTK_WINDOW (state->gui.dialog));
 	gtk_widget_show (GTK_WIDGET (state->gui.dialog));
 }

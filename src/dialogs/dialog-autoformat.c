@@ -556,8 +556,10 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	AutoFormatState *state;
 	int i;
 
-	gui = gnumeric_glade_xml_new (NULL, "autoformat.glade");
-	g_return_if_fail (gui != NULL);
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"autoformat.glade", NULL, NULL);
+	if (gui == NULL)
+		return;
 
 	state = g_new0 (AutoFormatState, 1);
 
@@ -691,7 +693,8 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	/* a candidate for merging into attach guru */
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_autoformat_destroy);
-	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
+	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
+				   GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 }

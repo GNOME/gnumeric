@@ -516,8 +516,8 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, TABULATE_KEY))
 		return;
-
-	gui = gnumeric_glade_xml_new (wbcg, "tabulate.glade");
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"tabulate.glade", NULL, NULL);
         if (gui == NULL)
                 return;
 
@@ -579,5 +579,3 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	non_model_dialog (wbcg, dialog, TABULATE_KEY);
 }
-
-/* ------------------------------------------------------------------------- */

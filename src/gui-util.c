@@ -168,7 +168,7 @@ gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel
 	gboolean result = FALSE;
 
 	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
-	gnumeric_set_transient (wbcg, GTK_WINDOW (fsel));
+	gnumeric_set_transient (wbcg_toplevel (wbcg), GTK_WINDOW (fsel));
 	g_signal_connect (G_OBJECT (fsel->ok_button),
 		"clicked",
 		G_CALLBACK (fsel_handle_ok), &result);
@@ -194,7 +194,7 @@ gnumeric_dialog_dir_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel)
 	gboolean result = FALSE;
 
 	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
-	gnumeric_set_transient (wbcg, GTK_WINDOW (fsel));
+	gnumeric_set_transient (wbcg_toplevel (wbcg), GTK_WINDOW (fsel));
 	g_signal_connect (G_OBJECT (fsel->ok_button),
 		"clicked",
 		G_CALLBACK (fsel_dir_handle_ok), &result);
@@ -378,22 +378,20 @@ cb_parent_mapped (GtkWidget *parent, GtkWindow *window)
  * a GnomeDialog.
  */
 void
-gnumeric_set_transient (WorkbookControlGUI *wbcg, GtkWindow *window)
+gnumeric_set_transient (GtkWindow *toplevel, GtkWindow *window)
 {
-	GtkWindow *toplevel;
 /* FIXME:                                                                     */
 /* 	GtkWindowPosition position = gnome_preferences_get_dialog_position(); */
 	GtkWindowPosition position = GTK_WIN_POS_CENTER_ON_PARENT;
 
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_return_if_fail (GTK_IS_WINDOW (toplevel));
 	g_return_if_fail (GTK_IS_WINDOW (window));
 
-	toplevel = wbcg_toplevel (wbcg);
 	gtk_window_set_transient_for (window, toplevel);
 
 	if (position == GTK_WIN_POS_NONE)
 		position = GTK_WIN_POS_CENTER_ON_PARENT;
-	gtk_window_set_position(window, position);
+	gtk_window_set_position (window, position);
 
 	if (!GTK_WIDGET_MAPPED (toplevel))
 		g_signal_connect_after (G_OBJECT (toplevel),
@@ -789,22 +787,36 @@ gnumeric_position_tooltip (GtkWidget *tip, int horizontal)
 	gtk_widget_set_uposition (gtk_widget_get_toplevel (tip), x, y);
 }
 
+/**
+ * gnm_glade_xml_new :
+ * @cc : #CommandContext
+ * @gladefile : 
+ * 
+ * Simple utility to open glade files 
+ **/
 GladeXML *
-gnumeric_glade_xml_new (WorkbookControlGUI *wbcg, char const * gladefile)
+gnm_glade_xml_new (CommandContext *cc, char const *gladefile,
+		   char const *root, char const *domain)
 {
 	GladeXML *gui;
-	char *d = gnumeric_sys_glade_dir ();
-	char *f = g_build_filename (d, gladefile, NULL);
-	gui = glade_xml_new (f, NULL, "gnumeric");
+	char *f;
 
-	/* Onlt report errors if the context is non-null */
-	if (gui == NULL && wbcg != NULL) {
+	g_return_val_if_fail (gladefile != NULL, NULL);
+
+	if (!g_path_is_absolute (gladefile)) {
+		char *d = gnumeric_sys_glade_dir ();
+		f = g_build_filename (d, gladefile, NULL);
+		g_free (d);
+	} else
+		f = g_strdup (gladefile);
+
+	gui = glade_xml_new (f, root, domain);
+	if (gui == NULL && cc != NULL) {
 		char *msg = g_strdup_printf (_("Unable to open file '%s'"), f);
-		gnumeric_error_system (COMMAND_CONTEXT (wbcg), msg);
+		gnumeric_error_system (cc, msg);
 		g_free (msg);
 	}
 	g_free (f);
-	g_free (d);
 
 	return gui;
 }
@@ -821,10 +833,9 @@ cb_non_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
 }
 
 void
-gnumeric_non_modal_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog)
+gnumeric_non_modal_dialog (GtkWindow *toplevel, GtkWindow *dialog)
 {
-	gnumeric_set_transient (wbcg, dialog);
-
+	gnumeric_set_transient (toplevel, dialog);
 	g_signal_connect (G_OBJECT (dialog),
 		"key-press-event",
 		G_CALLBACK (cb_non_modal_dialog_keypress), NULL);

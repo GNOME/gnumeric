@@ -468,7 +468,8 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	state->wb   = wb;
 	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sv_sheet (state->sv);
-	state->gui = gnumeric_glade_xml_new (state->wbcg, "names.glade");
+	state->gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"names.glade", NULL, NULL);
         if (state->gui == NULL)
                 return TRUE;
 
@@ -552,7 +553,8 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 			       DEFINE_NAMES_KEY);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_name_guru_destroy);
-	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
+	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
+				   GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 

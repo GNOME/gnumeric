@@ -219,7 +219,8 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	if (gnumeric_dialog_raise_if_exists (wbcg, SEARCH_REPLACE_KEY))
 		return;
 
-	gui = gnumeric_glade_xml_new (wbcg, "search-replace.glade");
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"search-replace.glade", NULL, NULL);
         if (gui == NULL)
                 return;
 
@@ -302,7 +303,8 @@ dialog_search_replace_query (WorkbookControlGUI *wbcg,
 
 	g_return_val_if_fail (wbcg != NULL, 0);
 
-	gui = gnumeric_glade_xml_new (wbcg, "search-replace.glade");
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"search-replace.glade", NULL, NULL);
         if (gui == NULL)
                 return 0;
 

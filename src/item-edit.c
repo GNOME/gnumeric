@@ -360,7 +360,7 @@ static void
 item_edit_unrealize (FooCanvasItem *item)
 {
 	ItemEdit *ie = ITEM_EDIT (item);
-	gdk_gc_unref (ie->fill_gc);	ie->fill_gc = NULL;
+	g_object_unref (G_OBJECT (ie->fill_gc));	ie->fill_gc = NULL;
 	if (FOO_CANVAS_ITEM_CLASS (item_edit_parent_class)->unrealize)
 		(*FOO_CANVAS_ITEM_CLASS (item_edit_parent_class)->unrealize)(item);
 }

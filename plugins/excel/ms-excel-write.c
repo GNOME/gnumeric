@@ -340,7 +340,7 @@ excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 }
 
 static void
-excel_write_externsheets_v7 (ExcelWriteState *ewb, ExcelWriteSheet *container)
+excel_write_externsheets_v7 (ExcelWriteState *ewb)
 {
 	/* 2 byte expression #REF! */
 	static guint8 const expr_ref []   = { 0x02, 0, 0x1c, 0x17 };
@@ -352,7 +352,7 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb, ExcelWriteSheet *container)
 	GnmFunc *func;
 
 	data = ms_biff_put_len_next (ewb->bp, BIFF_EXTERNCOUNT, 2);
-	GSF_LE_SET_GUINT16 (data, num_sheets + ((container == NULL) ? 2 : 1));
+	GSF_LE_SET_GUINT16 (data, num_sheets + 2);
 	ms_biff_put_commit (ewb->bp);
 
 	for (i = 0; i < num_sheets; i++) {
@@ -390,11 +390,9 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb, ExcelWriteSheet *container)
 		ms_biff_put_var_write (ewb->bp, expr_ref, sizeof (expr_ref));
 		ms_biff_put_commit (ewb->bp);
 	}
-	if (container == NULL) {
-		ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
-		ms_biff_put_var_write (ewb->bp, magic_self, sizeof magic_self);
-		ms_biff_put_commit (ewb->bp);
-	}
+	ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
+	ms_biff_put_var_write (ewb->bp, magic_self, sizeof magic_self);
+	ms_biff_put_commit (ewb->bp);
 }
 
 static void
@@ -3326,8 +3324,6 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 	excel_write_margin (bp, BIFF_BOTTOM_MARGIN, pi->margins.bottom.points);
 
 	excel_write_SETUP (bp, esheet);
-	if (bp->version < MS_BIFF_V8)
-		excel_write_externsheets_v7 (esheet->ewb, esheet);
 	excel_write_DEFCOLWIDTH (bp, esheet);
 	excel_write_colinfos (bp, esheet);
 	excel_write_AUTOFILTERINFO (bp, esheet);
@@ -3936,7 +3932,7 @@ write_workbook (ExcelWriteState *ewb)
 	if (bp->version < MS_BIFF_V8) {
 		/* write externsheets for every sheet in the workbook
 		 * to make our lives easier */
-		excel_write_externsheets_v7 (ewb, NULL);
+		excel_write_externsheets_v7 (ewb);
 
 		/* assign indicies to the names before we export */
 		ewb->tmp_counter = ewb->externnames->len;

@@ -414,7 +414,7 @@ style_border_unref (StyleBorder *border)
 	}
 
 	if (border->gc) {
-		gdk_gc_unref (border->gc);
+		g_object_unref (G_OBJECT (border->gc));
 		border->gc = NULL;
 	}
 

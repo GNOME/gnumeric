@@ -880,7 +880,8 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
-	gui = gnumeric_glade_xml_new (wbcg, "sheet-order.glade");
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"sheet-order.glade", NULL, NULL);
         if (gui == NULL)
                 return;
 
@@ -981,7 +982,8 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	/* a candidate for merging into attach guru */
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_sheet_order_destroy);
-	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
+	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
+				   GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 }

@@ -3,6 +3,7 @@
 
 #include "workbook-control-gui.h"
 #include "error-info.h"
+#include "command-context.h"
 #include "gutils.h"
 #include <gtk/gtk.h>
 #include <glade/glade-xml.h>
@@ -20,12 +21,12 @@ void       gnumeric_notice (WorkbookControlGUI *wbcg, GtkMessageType type, const
 void       gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref,
 				     GtkMessageType type, char const *str);
 
-void       gnumeric_non_modal_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog);
+void       gnumeric_non_modal_dialog (GtkWindow *toplevel, GtkWindow *dialog);
 gint       gnumeric_dialog_run  (WorkbookControlGUI *wbcg, GtkDialog *dialog);
 GtkWidget* gnumeric_error_info_dialog_new (ErrorInfo *error);
 void       gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg,
                                             ErrorInfo *error);
-void       gnumeric_set_transient (WorkbookControlGUI *context, GtkWindow *window);
+void       gnumeric_set_transient (GtkWindow *parent, GtkWindow *window);
 void       gnumeric_keyed_dialog (WorkbookControlGUI *wbcg,
 				  GtkWindow *dialog,
 				  const char *key);
@@ -67,7 +68,8 @@ void gnumeric_clist_moveto (GtkCList *clist, gint row);
 void        gnumeric_position_tooltip (GtkWidget *tip, int horizontal);
 GtkWidget  *gnumeric_create_tooltip (void);
 
-GladeXML   *gnumeric_glade_xml_new (WorkbookControlGUI *context, char const * gladefile);
+GladeXML   *gnm_glade_xml_new (CommandContext *cc, char const * gladefile,
+			       char const *root, char const *domain);
 
 void 	    gnumeric_inject_widget_into_bonoboui (WorkbookControlGUI *wbcg,
 						  GtkWidget *widget,

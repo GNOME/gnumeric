@@ -37,7 +37,6 @@
 
 #include <glade/glade.h>
 
-#define GLADE_FILE "col-width.glade"
 #define COL_WIDTH_DIALOG_KEY "col-width-dialog"
 
 typedef struct {
@@ -244,11 +243,16 @@ dialog_col_width_set_mode (gboolean set_default, ColWidthState *state)
 void
 dialog_col_width (WorkbookControlGUI *wbcg, gboolean use_default)
 {
+	GladeXML *gui;
 	ColWidthState *state;
 
 	g_return_if_fail (wbcg != NULL);
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, COL_WIDTH_DIALOG_KEY))
+		return;
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"col-width.glade", NULL, NULL);
+	if (gui == NULL)
 		return;
 
 	state = g_new (ColWidthState, 1);
@@ -256,9 +260,7 @@ dialog_col_width (WorkbookControlGUI *wbcg, gboolean use_default)
 	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sv_sheet (state->sv);
 	state->adjusting = FALSE;
-	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
-	g_return_if_fail (state->gui != NULL);
-
+	state->gui    = gui;
 	state->dialog = glade_xml_get_widget (state->gui, "dialog");
 
 	state->description = GTK_WIDGET (glade_xml_get_widget (state->gui, "description"));

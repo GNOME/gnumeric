@@ -10,8 +10,6 @@ AM_CONFIG_HEADER(gnumeric-config.h)
 
 AM_MAINTAINER_MODE
 
-GNOME_PLATFORM_GNOME_2(yes, force)
-
 # Make --disable-static the default
 AC_DISABLE_STATIC
 

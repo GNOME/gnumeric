@@ -405,11 +405,11 @@ dhl_init (HyperlinkState *state)
 	return FALSE;
 }
 
-#define GLADE_FILE "hyperlink.glade"
 #define DIALOG_KEY "hyperlink-dialog"
 void
 dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 {
+	GladeXML *gui;
 	HyperlinkState* state;
 	GnmHLink	*link = NULL;
 	Sheet		*sheet;
@@ -419,6 +419,11 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, DIALOG_KEY))
 		return;
+
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"hyperlink.glade", NULL, NULL);
+        if (state->gui == NULL)
+                return;
 
 	/* make sure that all hlink types are registered */
 	gnm_hlink_cur_wb_get_type ();
@@ -430,15 +435,7 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sc   = sc;
-
-	/* Get the dialog and check for errors */
-	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
-        if (state->gui == NULL) {
-		g_warning ("glade file missing or corrupted");
-		g_free (state);
-                return;
-	}
-
+	state->gui  = gui;
         state->dialog = glade_xml_get_widget (state->gui, "hyperlink-dialog");
 
 	sheet = sc_sheet (sc);
@@ -472,7 +469,8 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 			       DIALOG_KEY);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) dhl_free);
-	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
+	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
+				   GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show (state->dialog);
 }

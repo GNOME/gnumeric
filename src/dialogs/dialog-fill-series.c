@@ -43,7 +43,6 @@
 #include <glade/glade.h>
 #include "fill-series.h"
 
-#define GLADE_FILE "fill-series.glade"
 #define INSERT_CELL_DIALOG_KEY "insert-cells-dialog"
 
 typedef struct {
@@ -79,7 +78,6 @@ static void
 cb_insert_cell_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 			   FillSeriesState *state)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 	GtkWidget       *radio, *entry;
 	int             cols, rows;
 
@@ -94,14 +92,12 @@ cb_insert_cell_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	fs.series_in_rows = ! gtk_radio_group_get_selected
 	        (GTK_RADIO_BUTTON (radio)->group);
 
-
 	/* Read the `Type' radio buttons. */
 	radio = glade_xml_get_widget (state->gui, "type_linear");
 	g_return_if_fail (radio != NULL);
 
 	fs.type = gtk_radio_group_get_selected
 	        (GTK_RADIO_BUTTON (radio)->group);
-
 
 	/* Read the `Date unit' radio buttons. */
 	radio = glade_xml_get_widget (state->gui, "unit_day");
@@ -121,23 +117,16 @@ cb_insert_cell_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	g_return_if_fail (entry != NULL);
 	fs.is_step_set = ! entry_to_float (GTK_ENTRY (entry), &fs.step_value,
 					   TRUE);
-	if (! fs.is_step_set) {
-		if (cols == 1 && rows == 1)
-			goto out;  /* Cannot do series. */
-		
-	}
-
+	if (! fs.is_step_set && cols == 1 && rows == 1)
+		goto out;  /* Cannot do series. */
 
 	/* Read the `Stop' value. */
 	entry = glade_xml_get_widget (state->gui, "stop_entry");
 	g_return_if_fail (entry != NULL);
 	fs.is_stop_set = ! entry_to_float (GTK_ENTRY (entry), &fs.stop_value,
 					   TRUE);
-	if (! fs.is_stop_set) {
-		if (cols == 1 && rows == 1)
-			goto out;  /* Cannot do series. */
-		
-	}
+	if (! fs.is_stop_set && cols == 1 && rows == 1)
+		goto out;  /* Cannot do series. */
 
 	fill_series (WORKBOOK_CONTROL (state->wbcg), &dao, state->sheet, &fs);
  out:
@@ -149,7 +138,6 @@ cb_fill_series_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 			       FillSeriesState *state)
 {
 	gtk_widget_destroy (state->dialog);
-	return;
 }
 
 static void
@@ -180,26 +168,25 @@ dialog_fill_series (WorkbookControlGUI *wbcg)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView       *sv = wb_control_cur_sheet_view (wbc);
 	GtkWidget       *radio;
+	GladeXML	*gui;
 
 	Range const *sel;
-	int         cols, rows;
-
 
 	g_return_if_fail (wbcg != NULL);
 
 	if (!(sel = selection_first_range (sv, COMMAND_CONTEXT (wbc),
 					   _("FillSeries"))))
 		return;
-
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"fill-series.glade", NULL, NULL);
+	if (gui == NULL)
+		return;
 
 	state = g_new (FillSeriesState, 1);
 	state->wbcg  = wbcg;
 	state->sel   = sel;
 	state->sheet = sv_sheet (sv);
-
-	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
-	g_return_if_fail (state->gui != NULL);
-
+	state->gui   = gui;
 	state->dialog = glade_xml_get_widget (state->gui, "Fill_series");
 	if (state->dialog == NULL) {
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,

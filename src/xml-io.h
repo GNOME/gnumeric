@@ -46,6 +46,8 @@ CellRegion *xml_cellregion_read  (WorkbookControl *context, Sheet *sheet,
 /* Some utility routines for setting attributes or content */
 xmlChar   *xml_node_get_cstr	(xmlNodePtr node, char const *name);
 void	   xml_node_set_cstr	(xmlNodePtr node, char const *name, char const *val);
+gboolean   xml_node_get_bool	(xmlNodePtr node, char const *name, gboolean *val);
+void       xml_node_set_bool	(xmlNodePtr node, char const *name, gboolean val);
 gboolean   xml_node_get_int	(xmlNodePtr node, char const *name, int *val);
 void       xml_node_set_int	(xmlNodePtr node, char const *name, int val);
 gboolean   xml_node_get_double	(xmlNodePtr node, char const *name, double *val);

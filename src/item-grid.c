@@ -161,10 +161,10 @@ item_grid_unrealize (FooCanvasItem *item)
 {
 	ItemGrid *ig = ITEM_GRID (item);
 
-	gdk_gc_unref (ig->gc.fill);	ig->gc.fill = NULL;
-	gdk_gc_unref (ig->gc.cell);	ig->gc.cell = NULL;
-	gdk_gc_unref (ig->gc.empty);	ig->gc.empty = NULL;
-	gdk_gc_unref (ig->gc.bound);	ig->gc.bound = NULL;
+	g_object_unref (G_OBJECT (ig->gc.fill));	ig->gc.fill = NULL;
+	g_object_unref (G_OBJECT (ig->gc.cell));	ig->gc.cell = NULL;
+	g_object_unref (G_OBJECT (ig->gc.empty));	ig->gc.empty = NULL;
+	g_object_unref (G_OBJECT (ig->gc.bound));	ig->gc.bound = NULL;
 
 	if (FOO_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)
 		(*FOO_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)(item);

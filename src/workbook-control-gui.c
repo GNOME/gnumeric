@@ -184,7 +184,7 @@ WBCG_VIRTUAL (set_transient,
 static void
 wbcg_set_transient_for (WorkbookControlGUI *wbcg, GtkWindow *window)
 {
-	gnumeric_set_transient (wbcg, window);
+	gnumeric_set_transient (wbcg_toplevel (wbcg), window);
 }
 
 /*#warning merge these and clarfy whether we want the visible scg, or the logical (view) scg */
@@ -3109,10 +3109,15 @@ cb_sort_descending (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	sort_by_rows (wbcg, 1);
 }
 
+#ifdef NEW_GRAPHS
+#include <goffice-graph/go-graph-guru.h>
+#endif
 static void
 cb_launch_graph_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	dialog_graph_guru (wbcg, NULL, 0);
+#ifdef NEW_GRAPHS
+	go_graph_guru (NULL, wbcg, wbcg);
+#endif
 }
 
 #ifdef WITH_BONOBO
@@ -5288,9 +5293,50 @@ workbook_control_gui_ctor_class (GObjectClass *object_class)
 	}
 }
 
-GSF_CLASS (WorkbookControlGUI, workbook_control_gui,
-	   workbook_control_gui_ctor_class, NULL,
-	   WORKBOOK_CONTROL_TYPE);
+/***************************************************************************/
+#include <goffice-graph/go-plot-data-impl.h>
+
+static void
+wbcg_plot_data_allocator_allocate (GOPlotDataAllocator *dalloc, GOPlot *plot)
+{
+	SheetControlGUI *scg = wbcg_cur_scg (WORKBOOK_CONTROL_GUI (dalloc));
+	sv_selection_to_plot (sc_view (SHEET_CONTROL (scg)), plot);
+}
+
+static void
+wbcg_plot_data_allocator_edit_begin (GOPlotDataAllocator *dalloc, GtkWidget *guru)
+{
+	wbcg_edit_attach_guru (WORKBOOK_CONTROL_GUI (dalloc), guru);
+}
+
+static void
+wbcg_plot_data_allocator_edit_end (GOPlotDataAllocator *dalloc)
+{
+	wbcg_edit_detach_guru (WORKBOOK_CONTROL_GUI (dalloc));
+	wbcg_edit_finish (WORKBOOK_CONTROL_GUI (dalloc), FALSE);
+}
+
+static GtkWidget *
+wbcg_plot_data_allocator_editor (GOPlotDataAllocator *a, GOPlotDataVector *vec)
+{
+#warning TODO
+	return NULL;
+}
+
+static void
+wbcg_go_plot_data_allocator_init (GOPlotDataAllocatorClass *iface)
+{
+	iface->allocate   = wbcg_plot_data_allocator_allocate;
+	iface->edit_begin = wbcg_plot_data_allocator_edit_begin;
+	iface->edit_end	  = wbcg_plot_data_allocator_edit_end;
+	iface->editor	  = wbcg_plot_data_allocator_editor;
+}
+/***************************************************************************/
+
+GSF_CLASS_FULL (WorkbookControlGUI, workbook_control_gui,
+		workbook_control_gui_ctor_class, NULL,
+		WORKBOOK_CONTROL_TYPE, 0,
+		GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GO_PLOT_DATA_ALLOCATOR_TYPE))
 
 WorkbookControl *
 workbook_control_gui_new (WorkbookView *optional_view, Workbook *wb)

@@ -171,7 +171,7 @@ item_cursor_unrealize (FooCanvasItem *item)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
 
-	gdk_gc_unref (ic->gc);
+	g_object_unref (G_OBJECT (ic->gc));
 	ic->gc = 0;
 
 	if (ic->stipple) {

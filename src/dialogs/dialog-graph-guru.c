@@ -1561,10 +1561,6 @@ graph_guru_type_selector_new (void)
 static gboolean
 graph_guru_init (GraphGuruState *s)
 {
-	s->gui = gnumeric_glade_xml_new (s->wbcg, "graph-guru.glade");
-        if (s->gui == NULL)
-                return TRUE;
-
 	s->dialog = glade_xml_get_widget (s->gui, "GraphGuru");
 	s->steps  = GTK_NOTEBOOK (glade_xml_get_widget (s->gui, "notebook"));
 
@@ -1610,7 +1606,7 @@ graph_guru_init (GraphGuruState *s)
 		"set-focus",
 		G_CALLBACK (cb_graph_guru_focus), s);
 
-	gnumeric_set_transient (s->wbcg, GTK_WINDOW (s->dialog));
+	gnumeric_set_transient (wbcg_toplevel (s->wbcg), GTK_WINDOW (s->dialog));
 
 	return FALSE;
 }
@@ -1627,8 +1623,14 @@ void
 dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 {
 	GraphGuruState *state;
+	GladeXML *gui;
 
 	g_return_if_fail (wbcg != NULL);
+
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"graph-guru.glade", NULL, NULL);
+        if (gui == NULL)
+                return;
 
 	state = g_new0 (GraphGuruState, 1);
 	state->wbcg	= wbcg;
@@ -1638,7 +1640,7 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 	state->sheet	= wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	state->valid	= FALSE;
 	state->updating = FALSE;
-	state->gui	= NULL;
+	state->gui	= gui;
 	state->sample   = NULL;
 	state->shared   = g_ptr_array_new ();
 	state->unshared	= g_ptr_array_new ();

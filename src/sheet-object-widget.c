@@ -353,7 +353,8 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
   	state->sheet = sc_sheet	(sc);
   	state->old_focus = NULL;
   	state->old_label = g_strdup(swc->label);
-  	state->gui = gnumeric_glade_xml_new (wbcg, "so-frame.glade");
+  	state->gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"so-frame.glade", NULL, NULL);
   	state->dialog = glade_xml_get_widget (state->gui, "so_frame");
 
 	table = glade_xml_get_widget(state->gui, "table");
@@ -802,7 +803,8 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControl *sc)
 	state->wbcg = wbcg;
 	state->sheet = sc_sheet	(sc);
 	state->old_focus = NULL;
-	state->gui = gnumeric_glade_xml_new (wbcg, "so-scrollbar.glade");
+	state->gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"so-scrollbar.glade", NULL, NULL);
 	state->dialog = glade_xml_get_widget (state->gui, "SO-Scrollbar");
 
  	table = glade_xml_get_widget (state->gui, "table");
@@ -1259,7 +1261,8 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	state->sheet = sc_sheet	(sc);
 	state->old_focus = NULL;
 	state->old_label = g_strdup (swc->label);
-	state->gui = gnumeric_glade_xml_new (wbcg, "so-checkbox.glade");
+	state->gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"so-checkbox.glade", NULL, NULL);
 	state->dialog = glade_xml_get_widget (state->gui, "SO-Checkbox");
 
  	table = glade_xml_get_widget (state->gui, "table");

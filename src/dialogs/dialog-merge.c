@@ -319,8 +319,8 @@ dialog_merge (WorkbookControlGUI *wbcg)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, MERGE_KEY))
 		return;
-
-	gui = gnumeric_glade_xml_new (wbcg, "merge.glade");
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"merge.glade", NULL, NULL);
         if (gui == NULL)
                 return;
 
@@ -434,7 +434,8 @@ dialog_merge (WorkbookControlGUI *wbcg)
 	/* a candidate for merging into attach guru */
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_merge_destroy);
-	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
+	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
+				   GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 }

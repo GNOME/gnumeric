@@ -164,22 +164,23 @@ cb_autosave_ok (G_GNUC_UNUSED GtkWidget *button, autosave_t *state)
 void
 dialog_autosave (WorkbookControlGUI *wbcg)
 {
+	GladeXML *gui;
 	autosave_t *state;
 
 	g_return_if_fail (wbcg != NULL);
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, AUTOSAVE_KEY))
 		return;
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"autosave.glade", NULL, NULL);
+        if (gui == NULL)
+                return;
+
 
 	state = g_new (autosave_t, 1);
-	state->wbcg  = wbcg;
+	state->wbcg = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-
-	state->gui = gnumeric_glade_xml_new (wbcg, "autosave.glade");
-        if (state->gui == NULL) {
-		g_free (state);
-                return;
-	}
+	state->gui  = gui;
 
 	state->dialog = glade_xml_get_widget (state->gui, "AutoSave");
 	state->minutes_entry = glade_xml_get_widget (state->gui, "minutes");

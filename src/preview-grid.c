@@ -360,9 +360,9 @@ preview_grid_unrealize (FooCanvasItem *item)
 {
 	PreviewGrid *pg = PREVIEW_GRID (item);
 
-	gdk_gc_unref (pg->gc.fill);
-	gdk_gc_unref (pg->gc.cell);
-	gdk_gc_unref (pg->gc.empty);
+	g_object_unref (G_OBJECT (pg->gc.fill));
+	g_object_unref (G_OBJECT (pg->gc.cell));
+	g_object_unref (G_OBJECT (pg->gc.empty));
 	pg->gc.fill  = 0;
 	pg->gc.cell  = 0;
 	pg->gc.empty = 0;

@@ -1,3 +1,8 @@
+2003-04-02  Jody Goldberg <jody@gnome.org>
+
+	* src/plugin-loader-module.c : remove gobject loader capabilities and
+	  just sponge off of gobject directly.
+
 2003-04-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/workbook-control-gui.c, src/GNOME_Gnumeric.xml: Added a new
@@ -13,6 +18,9 @@
 	no longer there.
 
 2003-03-27  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.h : add missing decls for
+	  xml_node_get_bool, xml_node_set_bool.
 
 	* src/style.c (style_font_new_simple) : doh!  Thanks Morten.
 

@@ -29,8 +29,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <workbook.h>
 
-#define GLADE_FILE "dialog-stf-export.glade"
-
 /**
  * stf_export_dialog_druid_page_cancel
  * @page : Active druid page
@@ -355,24 +353,13 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 	GladeXML *gui;
 	StfE_Result_t *dialogresult;
 	StfE_DruidData_t druid_data;
-	char* message;
 
 	g_return_val_if_fail (wb != NULL, NULL);
 
-	gui = gnumeric_glade_xml_new (NULL, GLADE_FILE);
-	if (!gui) {
-
-		message = g_strdup_printf (_("Missing %s file"), GLADE_FILE);
-
-		if (wbcg)
-			gnumeric_error_read (COMMAND_CONTEXT (wbcg), message);
-		else
-			g_warning (message);
-
-		g_free (message);
-
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"dialog-stf-export.glade", NULL, NULL);
+	if (gui == NULL)
 		return NULL;
-	}
 
 	druid_data.wbcg             = wbcg;
 	druid_data.canceled         = FALSE;
@@ -384,7 +371,7 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 	stf_export_dialog_editables_enter (&druid_data);
 	gtk_widget_grab_default (druid_data.druid->next);
 
-	gnumeric_set_transient (wbcg, druid_data.window);
+	gnumeric_set_transient (wbcg_toplevel (wbcg), druid_data.window);
 	if (workbook_sheet_count (wb) == 1) {
 		stf_export_dialog_druid_page_next (druid_data.sheet_page,
 						   druid_data.druid,

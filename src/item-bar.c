@@ -222,10 +222,10 @@ item_bar_unrealize (FooCanvasItem *item)
 {
 	ItemBar *ib = ITEM_BAR (item);
 
-	gdk_gc_unref (ib->text_gc);
-	gdk_gc_unref (ib->filter_gc);
-	gdk_gc_unref (ib->lines);
-	gdk_gc_unref (ib->shade);
+	g_object_unref (G_OBJECT (ib->text_gc));
+	g_object_unref (G_OBJECT (ib->filter_gc));
+	g_object_unref (G_OBJECT (ib->lines));
+	g_object_unref (G_OBJECT (ib->shade));
 	gdk_cursor_destroy (ib->change_cursor);
 	gdk_cursor_destroy (ib->normal_cursor);
 
@@ -359,7 +359,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 				rect.width = pixels;
 				ib_draw_cell (ib, drawable, ib->text_gc,
 					       has_object ? COL_ROW_NO_SELECTION
-					       : sheet_col_selection_type (sv, col),
+					       : sv_selection_col_type (sv, col),
 					       col_name (col), &rect);
 
 				if (len > 0) {
@@ -517,7 +517,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 						      ? ib->filter_gc : ib->text_gc,
 					      has_object
 						      ? COL_ROW_NO_SELECTION
-						      : sheet_row_selection_type (sv, row),
+						      : sv_selection_row_type (sv, row),
 					      row_name (row), &rect);
 
 				if (len > 0) {

@@ -498,7 +498,8 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 	state->sheet = sc_sheet	(sc);
 
 	sog = SHEET_OBJECT_GRAPHIC (so);
-	state->gui = gnumeric_glade_xml_new (wbcg, "so-arrow.glade");
+	state->gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"so-arrow.glade", NULL, NULL);
 	state->dialog = glade_xml_get_widget (state->gui, "SO-Arrow");
 
  	table = glade_xml_get_widget (state->gui, "table");
@@ -934,7 +935,8 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 	state->wbcg = wbcg;
 	state->sheet = sc_sheet	(sc);
 
-	state->gui = gnumeric_glade_xml_new (wbcg, "so-fill.glade");
+	state->gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"so-fill.glade", NULL, NULL);
 	state->dialog = glade_xml_get_widget (state->gui, "SO-Fill");
 
  	table = glade_xml_get_widget (state->gui, "table");

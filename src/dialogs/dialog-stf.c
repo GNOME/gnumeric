@@ -28,8 +28,6 @@
 #include <gui-util.h>
 #include <gdk/gdkkeysyms.h>
 
-#define GLADE_FILE "dialog-stf.glade"
-
 /**********************************************************************************************
  * UTILITY FUNCTIONS
  **********************************************************************************************/
@@ -492,22 +490,11 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 	FixedInfo_t fixed_info;
 	FormatInfo_t format_info;
 	StfParseOptions_t *parseoptions;
-	char* message;
 
-	gui = gnumeric_glade_xml_new (NULL, GLADE_FILE);
-	if (!gui) {
-
-		message = g_strdup_printf (_("Missing %s file"), GLADE_FILE);
-
-		if (wbcg)
-			gnumeric_error_read (COMMAND_CONTEXT (wbcg), message);
-		else
-			g_warning (message);
-
-		g_free (message);
-
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"dialog-stf.glade", NULL, NULL);
+	if (gui == NULL)
 		return NULL;
-	}
 
 	pagedata.canceled = FALSE;
 
@@ -538,7 +525,7 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 	stf_dialog_set_initial_keyboard_focus (&pagedata);
 	gtk_widget_grab_default (pagedata.druid->next);
 
-	gnumeric_set_transient (wbcg, pagedata.window);
+	gnumeric_set_transient (wbcg_toplevel (wbcg), pagedata.window);
 	gtk_widget_show (GTK_WIDGET (pagedata.window));
 	gtk_main ();
 

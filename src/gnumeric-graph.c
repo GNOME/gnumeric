@@ -876,10 +876,12 @@ gnm_graph_finalize (GObject *obj)
 static void
 cb_graph_assign_data (GtkWidget *ignored, GObject *obj_view)
 {
+#if 0
 	SheetObject  *so = sheet_object_view_obj     (obj_view);
 	SheetControl *sc = sheet_object_view_control (obj_view);
 	dialog_graph_guru (scg_get_wbcg (SHEET_CONTROL_GUI (sc)),
 			   GNUMERIC_GRAPH (so), 1);
+#endif
 }
 
 static void
@@ -906,8 +908,10 @@ gnm_graph_populate_menu (SheetObject *so,
 static void
 gnm_graph_user_config (SheetObject *so, SheetControl *sc)
 {
+#if 0
 	dialog_graph_guru (scg_get_wbcg (SHEET_CONTROL_GUI (sc)),
 			   GNUMERIC_GRAPH (so), 2);
+#endif
 }
 
 static gboolean

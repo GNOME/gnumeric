@@ -52,7 +52,7 @@ typedef struct {
 } AutoCorrectExceptionState;
 
 typedef struct {
-	GladeXML  	   *glade;
+	GladeXML  	   *gui;
         GtkWidget          *dialog;
         Workbook           *wb;
         WorkbookControlGUI *wbcg;
@@ -123,9 +123,9 @@ autocorrect_init_exception_list (AutoCorrectState *state,
 
 	exception->changed = FALSE;
 	exception->exceptions = exceptions;
-	exception->entry = glade_xml_get_widget (state->glade, entry_name);
+	exception->entry = glade_xml_get_widget (state->gui, entry_name);
 	exception->model = gtk_list_store_new (1, G_TYPE_STRING);
-	exception->list = glade_xml_get_widget (state->glade, list_name);
+	exception->list = glade_xml_get_widget (state->gui, list_name);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (exception->list),
 				 GTK_TREE_MODEL (exception->model));
 	gtk_tree_view_append_column (GTK_TREE_VIEW (exception->list),
@@ -144,11 +144,11 @@ autocorrect_init_exception_list (AutoCorrectState *state,
 			-1);
 	}
 
-	w = glade_xml_get_widget (state->glade, add_name);
+	w = glade_xml_get_widget (state->gui, add_name);
 	g_signal_connect (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_add_clicked), exception);
-	w = glade_xml_get_widget (state->glade, remove_name);
+	w = glade_xml_get_widget (state->gui, remove_name);
 	g_signal_connect (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_remove_clicked), exception);
@@ -168,7 +168,7 @@ static void
 ac_dialog_toggle_init (AutoCorrectState *state, char const *name,
 		       AutoCorrectFeature f)
 {
-	GtkWidget *w = glade_xml_get_widget (state->glade, name);
+	GtkWidget *w = glade_xml_get_widget (state->gui, name);
 
 	g_return_if_fail (w != NULL);
 
@@ -192,9 +192,9 @@ cb_autocorrect_destroy (G_GNUC_UNUSED GtkObject *w,
 	g_slist_free (state->first_letter.exceptions);
 	state->first_letter.exceptions = NULL;
 
-	if (state->glade != NULL) {
-		g_object_unref (G_OBJECT (state->glade));
-		state->glade = NULL;
+	if (state->gui != NULL) {
+		g_object_unref (G_OBJECT (state->gui));
+		state->gui = NULL;
 	}
 
 	state->dialog = NULL;
@@ -240,10 +240,7 @@ dialog_init (AutoCorrectState *state)
 	GtkWidget *entry;
 	GtkWidget *button;
 
-	state->glade = gnumeric_glade_xml_new (state->wbcg, "autocorrect.glade");
-        if (state->glade == NULL)
-                return TRUE;
-	state->dialog = glade_xml_get_widget (state->glade, "AutoCorrect");
+	state->dialog = glade_xml_get_widget (state->gui, "AutoCorrect");
 	if (state->dialog == NULL) {
 		g_warning ("Corrupt file autocorrect.glade");
 		return TRUE;
@@ -255,28 +252,28 @@ dialog_init (AutoCorrectState *state)
 	ac_dialog_toggle_init (state, "names_of_days", AC_NAMES_OF_DAYS);
 	ac_dialog_toggle_init (state, "replace_text",  AC_REPLACE);
 
-        button = glade_xml_get_widget (state->glade, "help_button");
+        button = glade_xml_get_widget (state->gui, "help_button");
 	gnumeric_init_help_button (button, "autocorrect-tool.html");
 
-        button = glade_xml_get_widget (state->glade, "ok_button");
+        button = glade_xml_get_widget (state->gui, "ok_button");
         g_signal_connect (GTK_OBJECT (button),
 		"clicked",
 		G_CALLBACK (cb_ok_button_clicked), state);
-        button = glade_xml_get_widget (state->glade, "apply_button");
+        button = glade_xml_get_widget (state->gui, "apply_button");
         g_signal_connect (GTK_OBJECT (button),
 		"clicked",
 		G_CALLBACK (cb_apply_button_clicked), state);
-        button = glade_xml_get_widget (state->glade, "cancel_button");
+        button = glade_xml_get_widget (state->gui, "cancel_button");
         g_signal_connect (GTK_OBJECT (button),
 		"clicked",
 		G_CALLBACK (cb_cancel_button_clicked), state);
 
 	/* Make <Ret> in entry fields invoke default */
-	entry = glade_xml_get_widget (state->glade, "entry1");
+	entry = glade_xml_get_widget (state->gui, "entry1");
 	gtk_widget_set_sensitive (entry, FALSE);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 		GTK_WIDGET (entry));
-	entry = glade_xml_get_widget (state->glade, "entry2");
+	entry = glade_xml_get_widget (state->gui, "entry2");
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 		GTK_WIDGET (entry));
 	gtk_widget_set_sensitive (entry, FALSE);
@@ -303,15 +300,20 @@ void
 dialog_autocorrect (WorkbookControlGUI *wbcg)
 {
 	AutoCorrectState *state;
+	GladeXML *gui;
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, AUTO_CORRECT_KEY))
 		return;
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"autocorrect.glade", NULL, NULL);
+        if (gui == NULL)
+                return;
 
 	state = g_new (AutoCorrectState, 1);
 	state->wbcg = wbcg;
-	state->glade = NULL;
+	state->gui  = gui;
 	state->init_caps.exceptions = NULL;
 	state->first_letter.exceptions = NULL;
 

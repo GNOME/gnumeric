@@ -1053,7 +1053,8 @@ dialog_init (SolverState *state)
 			}
 	}
 
-	state->gui = gnumeric_glade_xml_new (state->wbcg, "solver.glade");
+	state->gui = gnm_glade_xml_new (COMMAND_CONTEXT (state->wbcg),
+		"solver.glade", NULL, NULL);
         if (state->gui == NULL)
                 return TRUE;
 

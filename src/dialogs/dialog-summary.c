@@ -202,6 +202,7 @@ dialog_summary_update (WorkbookControlGUI *wbcg, gboolean open_dialog)
 	SummaryState *state;
 	int i;
 	GtkWidget *dialog;
+	GladeXML  *gui;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -216,14 +217,17 @@ dialog_summary_update (WorkbookControlGUI *wbcg, gboolean open_dialog)
 	if (!open_dialog)
 		return;
 
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg), GLADE_FILE, NULL, NULL);
+	if (gui == NULL)
+		return;
+
+	dialog = glade_xml_get_widget (state->gui, "SummaryInformation");
+	g_return_if_fail (dialog != NULL);
+
 	state = g_new (SummaryState, 1);
 	state->wbcg  = wbcg;
-
-	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
-	g_return_if_fail (state->gui != NULL);
-
-	state->dialog = glade_xml_get_widget (state->gui, "SummaryInformation");
-	g_return_if_fail (state->dialog != NULL);
+	state->gui  = gui;
+	state->dialog  = dialog;
 
 	for (i = 0; dialog_summary_names[i]; i++) {
 		GtkWidget *entry;

@@ -1398,34 +1398,6 @@ GSF_CLASS (PluginServiceUI, plugin_service_ui,
 /**************************************************************************
  * PluginServiceGObjectLoader
  */
-static void
-plugin_service_gobject_loader_init (GObject *obj)
-{
-	PluginServiceGObjectLoader *wrap = GNM_PLUGIN_SERVICE_GOBJECT_LOADER (obj);
-	GNM_PLUGIN_SERVICE (obj)->cbs_ptr = &wrap->cbs;
-}
-
-static void
-plugin_service_gobject_loader_activate (PluginService *service, ErrorInfo **ret_error)
-{
-	ErrorInfo *error = NULL;
-
-	GNM_INIT_RET_ERROR_INFO (ret_error);
-	plugin_service_load (service, &error);
-	if (error != NULL) {
-		*ret_error = error_info_new_str_with_details (
-		             _("Error while loading plugin service."),
-		             error);
-		return;
-	}
-	service->is_active = TRUE;
-}
-
-static void
-plugin_service_gobject_loader_deactivate (PluginService *service, ErrorInfo **ret_error)
-{
-	service->is_active = FALSE;
-}
 
 static char *
 plugin_service_gobject_loader_get_description (PluginService *service)
@@ -1434,19 +1406,28 @@ plugin_service_gobject_loader_get_description (PluginService *service)
 }
 
 static void
-plugin_service_gobject_loader_class_init (GObjectClass *gobject_class)
+plugin_service_gobject_loader_read_xml (PluginService *service,
+					G_GNUC_UNUSED xmlNode *tree,
+					G_GNUC_UNUSED ErrorInfo **ret_error)
 {
-	PluginServiceClass *psc = GPS_CLASS (gobject_class);
+	PluginServiceGObjectLoaderClass *gobj_loader_class = GPS_GOBJECT_LOADER_GET_CLASS (service);
+	g_return_if_fail (gobj_loader_class->pending != NULL);
+	g_hash_table_replace (gobj_loader_class->pending, service->id, service);
+}
 
-	psc->activate		= plugin_service_gobject_loader_activate;
-	psc->deactivate		= plugin_service_gobject_loader_deactivate;
+static void
+plugin_service_gobject_loader_class_init (PluginServiceGObjectLoaderClass *gobj_loader_class)
+{
+	PluginServiceClass *psc = GPS_CLASS (gobj_loader_class);
+
 	psc->get_description	= plugin_service_gobject_loader_get_description;
+	psc->read_xml		= plugin_service_gobject_loader_read_xml;
+	gobj_loader_class->pending = NULL;
 }
 
 GSF_CLASS (PluginServiceGObjectLoader, plugin_service_gobject_loader,
-           plugin_service_gobject_loader_class_init,
-	   plugin_service_gobject_loader_init,
-           GNM_PLUGIN_SERVICE_TYPE)
+           plugin_service_gobject_loader_class_init, NULL,
+           GNM_PLUGIN_SERVICE_SIMPLE_TYPE)
 
 /**************************************************************************
  * PluginServiceSimple

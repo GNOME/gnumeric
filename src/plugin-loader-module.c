@@ -50,7 +50,6 @@ static void gnumeric_plugin_loader_module_load_service_file_opener (GnumericPlug
 static void gnumeric_plugin_loader_module_load_service_file_saver (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_module_load_service_function_group (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_module_load_service_plugin_loader (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
-static void gnumeric_plugin_loader_module_load_service_gobject_loader (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 #ifdef WITH_BONOBO
 static void gnumeric_plugin_loader_module_load_service_ui (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 #endif
@@ -193,7 +192,6 @@ gnumeric_plugin_loader_module_class_init (GObjectClass *gobject_class)
 	gnumeric_plugin_loader_class->load_service_file_saver = gnumeric_plugin_loader_module_load_service_file_saver;
 	gnumeric_plugin_loader_class->load_service_function_group = gnumeric_plugin_loader_module_load_service_function_group;
 	gnumeric_plugin_loader_class->load_service_plugin_loader = gnumeric_plugin_loader_module_load_service_plugin_loader;
-	gnumeric_plugin_loader_class->load_service_gobject_loader = gnumeric_plugin_loader_module_load_service_gobject_loader;
 #ifdef WITH_BONOBO
 	gnumeric_plugin_loader_class->load_service_ui = gnumeric_plugin_loader_module_load_service_ui;
 #else
@@ -573,32 +571,6 @@ gnumeric_plugin_loader_module_load_service_plugin_loader (GnumericPluginLoader *
 	g_free (func_name_get_loader_type);
 }
 
-static void
-gnumeric_plugin_loader_module_load_service_gobject_loader (GnumericPluginLoader *loader,
-                                                          PluginService *service,
-                                                          ErrorInfo **ret_error)
-{
-	GnumericPluginLoaderModule *loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
-	gchar *func_name_get_type;
-	gpointer module_func_get_type = NULL;
-
-	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_GOBJECT_LOADER (service));
-
-	GNM_INIT_RET_ERROR_INFO (ret_error);
-	func_name_get_type = g_strconcat (
-			plugin_service_get_id (service), "_get_type", NULL);
-	g_module_symbol (loader_module->handle, func_name_get_type,
-	                 &module_func_get_type);
-	if (module_func_get_type != NULL) {
-		PluginServiceGObjectLoaderCallbacks *cbs =
-			plugin_service_get_cbs (service);
-		cbs->get_type = module_func_get_type;
-	} else
-		*ret_error = error_info_new_printf (
-			     _("Module doesn't contain \"%s\" function."),
-			     func_name_get_type);
-	g_free (func_name_get_type);
-}
 #ifdef WITH_BONOBO
 /*
  * Service - ui

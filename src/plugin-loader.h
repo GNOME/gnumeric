@@ -42,8 +42,6 @@ struct _GnumericPluginLoaderClass {
 	void (*unload_service_plugin_loader) (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 	void (*load_service_ui) (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 	void (*unload_service_ui) (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
-	void (*load_service_gobject_loader)   (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
-	void (*unload_service_gobject_loader) (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 };
 
 GType gnumeric_plugin_loader_get_type (void);

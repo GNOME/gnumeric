@@ -329,7 +329,8 @@ dialog_workbook_attr (WorkbookControlGUI *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, WORKBOOK_ATTRIBUTE_KEY))
 		return;
 
-	gui = gnumeric_glade_xml_new (wbcg, "workbook-attr.glade");
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"workbook-attr.glade", NULL, NULL);
         if (gui == NULL)
                 return;
 

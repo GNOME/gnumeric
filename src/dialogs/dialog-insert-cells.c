@@ -37,7 +37,6 @@
 
 #include <glade/glade.h>
 
-#define GLADE_FILE "insert-cells.glade"
 #define INSERT_CELL_DIALOG_KEY "insert-cells-dialog"
 
 typedef struct {
@@ -123,6 +122,7 @@ cb_insert_cell_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 void
 dialog_insert_cells (WorkbookControlGUI *wbcg)
 {
+	GladeXML *gui;
 	InsertCellState *state;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView       *sv = wb_control_cur_sheet_view (wbc);
@@ -148,14 +148,16 @@ dialog_insert_cells (WorkbookControlGUI *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, INSERT_CELL_DIALOG_KEY))
 		return;
 
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"insert-cells.glade", NULL, NULL);
+	if (gui == NULL)
+		return;
+
 	state = g_new (InsertCellState, 1);
 	state->wbcg  = wbcg;
 	state->sel   = sel;
 	state->sheet = sv_sheet (sv);
-
-	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
-	g_return_if_fail (state->gui != NULL);
-
+	state->gui   = gui;
 	state->dialog = glade_xml_get_widget (state->gui, "Insert_cells");
 	if (state->dialog == NULL) {
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,

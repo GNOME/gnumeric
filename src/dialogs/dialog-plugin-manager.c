@@ -635,8 +635,10 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
-	gui = gnumeric_glade_xml_new (wbcg, "plugin-manager.glade");
-	g_return_if_fail (gui != NULL);
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"plugin-manager.glade", NULL, NULL);
+	if (gui == NULL)
+		return;
 
 	pm_gui = g_new (PluginManagerGUI, 1);
 	pm_gui->wbcg = wbcg;

@@ -207,6 +207,14 @@ push_guint16 (PolishData *pd, guint16 b)
 }
 
 static void
+push_gint16 (PolishData *pd, gint16 b)
+{
+	guint8 data[2];
+	GSF_LE_SET_GINT16 (data, b);
+	ms_biff_put_var_write (pd->ewb->bp, data, sizeof(data));
+}
+
+static void
 push_guint32 (PolishData *pd, guint32 b)
 {
 	guint8 data[4];
@@ -400,11 +408,10 @@ write_funcall (PolishData *pd, GnmExpr const *expr, gboolean shared)
 	if (ef->fd == NULL) {
 		push_guint8  (pd, FORMULA_PTG_NAME_X);
 		if (pd->ewb->bp->version <= MS_BIFF_V7) {
-			/* I write the Addin Magic entry after all the other sheets
-			 * in the workbook,  and this is a 1 based ordinal.
-			 * All of the externnames are written for each sheet
-			 * because I'm lazy */
-			push_guint16 (pd, pd->ewb->sheets->len + 1);
+			/* The Magic Addin entry is after the real sheets
+			 * at the workbook level.
+			 */
+			push_gint16  (pd, -(pd->ewb->sheets->len + 1));
 			push_guint32 (pd, 0); /* reserved */
 			push_guint32 (pd, 0); /* reserved */
 			push_guint16 (pd, ef->idx);

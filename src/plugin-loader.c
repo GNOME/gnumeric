@@ -249,8 +249,6 @@ gnumeric_plugin_loader_load_service (GnumericPluginLoader *loader, PluginService
 		load_service_method = gnumeric_plugin_loader_class->load_service_function_group;
 	} else if (GNM_IS_PLUGIN_SERVICE_PLUGIN_LOADER (service)) {
 		load_service_method = gnumeric_plugin_loader_class->load_service_plugin_loader;
-	} else if (GNM_IS_PLUGIN_SERVICE_GOBJECT_LOADER (service)) {
-		load_service_method = gnumeric_plugin_loader_class->load_service_gobject_loader;
 #ifdef WITH_BONOBO
 	} else if (GNM_IS_PLUGIN_SERVICE_UI (service)) {
 		load_service_method = gnumeric_plugin_loader_class->load_service_ui;
@@ -291,8 +289,6 @@ gnumeric_plugin_loader_unload_service (GnumericPluginLoader *loader, PluginServi
 		unload_service_method = gnumeric_plugin_loader_class->unload_service_function_group;
 	} else if (GNM_IS_PLUGIN_SERVICE_PLUGIN_LOADER (service)) {
 		unload_service_method = gnumeric_plugin_loader_class->unload_service_plugin_loader;
-	} else if (GNM_IS_PLUGIN_SERVICE_GOBJECT_LOADER (service)) {
-		unload_service_method = gnumeric_plugin_loader_class->unload_service_gobject_loader;
 #ifdef WITH_BONOBO
 	} else if (GNM_IS_PLUGIN_SERVICE_UI (service)) {
 		unload_service_method = gnumeric_plugin_loader_class->unload_service_ui;

@@ -41,7 +41,6 @@ typedef struct {
 	GtkWidget          *dialog;
 } PivotTableGuru;
 
-#define GLADE_FILE "pivottable.glade"
 #define DIALOG_KEY "pivottable-guru"
 
 static void
@@ -76,6 +75,7 @@ void
 dialog_pivottable (WorkbookControlGUI *wbcg)
 {
 	PivotTableGuru *state;
+	GladeXML *gui;
 	GtkWidget *w;
 
 	g_return_if_fail (wbcg != NULL);
@@ -83,12 +83,16 @@ dialog_pivottable (WorkbookControlGUI *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, DIALOG_KEY))
 		return;
 
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"pivottable.glade", NULL, NULL);
+	if (state->gui == NULL)
+		return;
+
 	state = g_new (PivotTableGuru, 1);
 	state->wbcg  = wbcg;
 	state->sv    = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sv_sheet (state->sv);
-	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
-	g_return_if_fail (state->gui != NULL);
+	state->gui   = gui;
 
 	state->dialog = glade_xml_get_widget (state->gui, "pivottable_guru");
 

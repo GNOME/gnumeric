@@ -121,9 +121,6 @@ typedef struct {
 
 GType plugin_service_gobject_loader_get_type (void);
 typedef struct _PluginServiceGObjectLoader PluginServiceGObjectLoader;
-typedef struct {
-	GType (*get_type) (void);
-} PluginServiceGObjectLoaderCallbacks;
 
 /****************************************************************************/
 #define GNM_PLUGIN_SERVICE_SIMPLE_TYPE  (plugin_service_simple_get_type ())

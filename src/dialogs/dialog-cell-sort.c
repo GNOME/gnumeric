@@ -48,8 +48,6 @@
 #include <gsf/gsf-impl-utils.h>
 #include <stdio.h>
 
-#define GLADE_FILE "cell-sort.glade"
-
 #define CELL_SORT_KEY "cell-sort-dialog"
 
 typedef struct {
@@ -842,11 +840,17 @@ void
 dialog_cell_sort (WorkbookControlGUI *wbcg)
 {
 	SortFlowState* state;
+	GladeXML *gui;
 
 	g_return_if_fail (wbcg != NULL);
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, CELL_SORT_KEY))
 		return;
+
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"cell-sort.glade", NULL, NULL);
+        if (gui == NULL)
+                return;
 
 	state = g_new (SortFlowState, 1);
 	state->wbcg  = wbcg;
@@ -856,14 +860,7 @@ dialog_cell_sort (WorkbookControlGUI *wbcg)
 	state->warning_dialog = NULL;
 	state->sel = NULL;
 	state->sort_items = 0;
-
-	/* Get the dialog and check for errors */
-	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
-        if (state->gui == NULL) {
-		g_free (state);
-                return;
-	}
-
+	state->gui    = gui;
         state->dialog = glade_xml_get_widget (state->gui, "CellSort");
 
 	state->image_ascending =  gtk_widget_render_icon (state->dialog,

@@ -500,10 +500,6 @@ dialog_init (GoalSeekState *state)
 {
 	GtkTable *table;
 
-	state->gui = gnumeric_glade_xml_new (state->wbcg, "goalseek.glade");
-        if (state->gui == NULL)
-                return TRUE;
-
 	state->dialog = glade_xml_get_widget (state->gui, "GoalSeek");
         if (state->dialog == NULL)
                 return TRUE;
@@ -597,20 +593,23 @@ void
 dialog_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
         GoalSeekState *state;
+	GladeXML *gui;
 
-	if (wbcg == NULL) {
-		return;
-	}
-
+	g_return_if_fail (wbcg != NULL);
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, GOALSEEK_KEY))
 		return;
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"goalseek.glade", NULL, NULL);
+        if (gui == NULL)
+                return;
 
 	state = g_new (GoalSeekState, 1);
 	state->wbcg  = wbcg;
-	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb    = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->gui   = gui;
 	state->warning_dialog = NULL;
 
 	if (dialog_init (state)) {

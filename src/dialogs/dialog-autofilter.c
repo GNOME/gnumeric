@@ -221,10 +221,16 @@ dialog_auto_filter (WorkbookControlGUI *wbcg,
 {
 	AutoFilterState *state;
 	GtkWidget *w;
+	GladeXML *gui;
 
 	g_return_if_fail (wbcg != NULL);
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, DIALOG_KEY))
+		return;
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+			(is_expr ? "autofilter-expression.glade" : "autofilter-top10.glade"),
+			NULL, NULL);
+	if (gui == NULL)
 		return;
 
 	state = g_new (AutoFilterState, 1);
@@ -232,9 +238,7 @@ dialog_auto_filter (WorkbookControlGUI *wbcg,
 	state->filter	= filter;
 	state->field	= field;
 	state->is_expr	= is_expr;
-
-	state->gui = gnumeric_glade_xml_new (wbcg,
-			is_expr ? "autofilter-expression.glade" : "autofilter-top10.glade");
+	state->gui	= gui;
 
 	g_return_if_fail (state->gui != NULL);
 

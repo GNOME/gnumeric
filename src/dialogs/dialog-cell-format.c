@@ -2996,7 +2996,8 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_fmt_dialog_dialog_destroy);
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
-	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
+	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
+				   GTK_WINDOW (state->dialog));
 	gtk_widget_show (GTK_WIDGET (state->dialog));
 }
 
@@ -3034,7 +3035,8 @@ dialog_cell_format (WorkbookControlGUI *wbcg, FormatDialogPosition_t pageno)
 
 	g_return_if_fail (wbcg != NULL);
 
-	gui = gnumeric_glade_xml_new (wbcg, "cell-format.glade");
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"cell-format.glade", NULL, NULL);
         if (gui == NULL)
                 return;
 
@@ -3074,7 +3076,8 @@ dialog_cell_number_fmt (WorkbookControlGUI *wbcg, Value *sample_val)
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
 
-	gui = gnumeric_glade_xml_new (wbcg, "cell-format.glade");
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"cell-format.glade", NULL, NULL);
         if (gui == NULL)
                 return NULL;
 

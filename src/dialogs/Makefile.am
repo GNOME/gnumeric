@@ -42,7 +42,6 @@ base_files =					\
 	dialog-formula-guru.c			\
 	dialog-goal-seek.c			\
 	dialog-goto-cell.c			\
-	dialog-graph-guru.c			\
 	dialog-hyperlink.c			\
 	dialog-insert-cells.c			\
 	dialog-define-names.c			\
@@ -111,7 +110,6 @@ glade_DATA = 				\
 	formula-guru.glade		\
 	fourier-analysis.glade		\
 	function-select.glade 		\
-	graph-guru.glade		\
 	goalseek.glade			\
 	goto.glade			\
 	hf-config.glade			\

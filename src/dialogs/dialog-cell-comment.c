@@ -32,7 +32,6 @@
 #include <gtk/gtk.h>
 #include <commands.h>
 
-#define GLADE_FILE "cell-comment.glade"
 #define COMMENT_DIALOG_KEY "cell-comment-dialog"
 
 typedef struct {
@@ -94,9 +93,10 @@ cb_cell_comment_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 void
 dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, CellPos const *pos)
 {
-	CommentState *state;
-	GtkWidget *textview;
-	CellComment   *comment;
+	CommentState	*state;
+	GtkWidget	*textview;
+	CellComment	*comment;
+	GladeXML	*gui;
 
 	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (sheet != NULL);
@@ -104,14 +104,16 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, CellPos const *pos)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, COMMENT_DIALOG_KEY))
 		return;
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"cell-comment.glade", NULL, NULL);
+	if (gui == NULL)
+		return;
 
 	state = g_new (CommentState, 1);
 	state->wbcg  = wbcg;
-	state->sheet  = sheet;
-	state->pos  = pos;
-
-	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
-	g_return_if_fail (state->gui != NULL);
+	state->sheet = sheet;
+	state->pos   = pos;
+	state->gui   = gui;
 
 	state->dialog = glade_xml_get_widget (state->gui, "comment_dialog");
 	g_return_if_fail (state->dialog != NULL);

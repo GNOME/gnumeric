@@ -184,14 +184,14 @@ sv_is_full_colrow_selected (SheetView const *sv, gboolean is_cols, int index)
 }
 
 /**
- * sheet_col_selection_type :
+ * sv_selection_col_type :
  * @sv :
  * @col :
  *
  * Returns How much of column @col is selected in @sv.
  **/
 ColRowSelectionType
-sheet_col_selection_type (SheetView const *sv, int col)
+sv_selection_col_type (SheetView const *sv, int col)
 {
 	GList *ptr;
 	Range const *sr;
@@ -219,14 +219,14 @@ sheet_col_selection_type (SheetView const *sv, int col)
 }
 
 /**
- * sheet_col_selection_type :
+ * sv_selection_row_type :
  * @sv :
  * @col :
  *
  * Returns How much of column @col is selected in @sv.
  **/
 ColRowSelectionType
-sheet_row_selection_type (SheetView const *sv, int row)
+sv_selection_row_type (SheetView const *sv, int row)
 {
 	GList *ptr;
 	Range const *sr;
@@ -1239,4 +1239,26 @@ sv_selection_walk_step (SheetView *sv,
 
 	sv_set_edit_pos (sv, &destination);
 	sv_make_cell_visible (sv, destination.col, destination.row, TRUE);
+}
+
+void
+sv_selection_to_plot (SheetView *sv, gpointer plot)
+{
+	GList *ptr = g_list_last (sv->selections);
+	Range const *r = ptr->data;
+	int num_cols = range_width (r);
+	int num_rows = range_height (r);
+
+	/* Excel docs claim that rows == cols uses rows */
+	gboolean default_to_cols = (num_cols < num_rows);
+
+	/* selections are in reverse order */
+	ptr = g_list_last (sv->selections);
+	for (; ptr != NULL; ptr = ptr->prev)
+		;
+#if 0
+		gnm_graph_range_to_vectors (state->graph, state->sheet,
+					    ptr->data, default_to_cols);
+	gnm_graph_arrange_vectors (state->graph);
+#endif
 }

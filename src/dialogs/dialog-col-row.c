@@ -32,7 +32,6 @@
 
 #include <glade/glade.h>
 
-#define GLADE_FILE "colrow.glade"
 #define COL_ROW_DIALOG_KEY "col-row-dialog"
 
 typedef struct {
@@ -93,19 +92,23 @@ dialog_col_row (WorkbookControlGUI *wbcg,  char const *operation,
 		ColRowCallback_t callback,
 		gpointer data)
 {
-	ColRowState *state;
+	GladeXML	*gui;
+	ColRowState	*state;
 
 	g_return_val_if_fail (wbcg != NULL, NULL);
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, COL_ROW_DIALOG_KEY))
+		return NULL;
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"colrow.glade", NULL, NULL);
+	if (gui == NULL)
 		return NULL;
 
 	state = g_new (ColRowState, 1);
 	state->wbcg  = wbcg;
 	state->callback = callback;
 	state->data = data;
-	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
-	g_return_val_if_fail (state->gui != NULL, NULL);
+	state->gui = gui;
 
 	state->dialog = glade_xml_get_widget (state->gui, "dialog");
 
@@ -134,8 +137,3 @@ dialog_col_row (WorkbookControlGUI *wbcg,  char const *operation,
 			       COL_ROW_DIALOG_KEY);
 	return state->dialog;
 }
-
-
-
-
-

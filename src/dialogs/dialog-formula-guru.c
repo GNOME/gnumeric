@@ -47,8 +47,6 @@
 #include <locale.h>
 #include <string.h>
 
-#define GLADE_FILE "formula-guru.glade"
-
 #define FORMULA_GURU_KEY "formula-guru-dialog"
 #define FORMULA_GURU_KEY_DIALOG "formula-guru-dialog"
 
@@ -901,6 +899,7 @@ void
 dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 {
 	SheetView *sv;
+	GladeXML  *gui;
 	Cell	  *cell;
 	GtkWidget *dialog;
 	FormulaGuruState *state;
@@ -937,9 +936,16 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 		return;
 	}
 
+	/* Get the dialog and check for errors */
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"formula-guru.glade", NULL, NULL);
+	if (gui == NULL)
+		return;
+
 	state = g_new (FormulaGuruState, 1);
 	state->wbcg  = wbcg;
-	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb    = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->gui   = gui;
 	state->active_path = NULL;
 	state->pos = NULL;
 
@@ -972,14 +978,6 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 		state->prefix = g_strndup (full_str, sub_str - full_str);
 		state->suffix = g_strdup (sub_str + strlen (func_str));
 		g_free (func_str);
-	}
-
-	/* Get the dialog and check for errors */
-	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
-	if (state->gui == NULL) {
-		g_warning ("glade file missing or corrupted");
-			g_free (state);
-			return;
 	}
 
 	state->dialog = glade_xml_get_widget (state->gui, "formula_guru");

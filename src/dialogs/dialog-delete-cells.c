@@ -37,7 +37,6 @@
 
 #include <glade/glade.h>
 
-#define GLADE_FILE "delete-cells.glade"
 #define DELETE_CELL_DIALOG_KEY "delete-cells-dialog"
 
 typedef struct {
@@ -127,6 +126,7 @@ dialog_delete_cells (WorkbookControlGUI *wbcg)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView	*sv  = wb_control_cur_sheet_view (wbc);
 	Range const *sel;
+	GladeXML    *gui;
 	int  cols, rows;
 
 	g_return_if_fail (wbcg != NULL);
@@ -147,14 +147,16 @@ dialog_delete_cells (WorkbookControlGUI *wbcg)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, DELETE_CELL_DIALOG_KEY))
 		return;
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"delete-cells.glade", NULL, NULL);
+	if (gui == NULL)
+		return;
 
 	state = g_new (DeleteCellState, 1);
 	state->wbcg  = wbcg;
 	state->sel   = sel;
+	state->gui   = gui;
 	state->sheet = sv_sheet (sv);
-
-	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
-	g_return_if_fail (state->gui != NULL);
 
 	state->dialog = glade_xml_get_widget (state->gui, "Delete_cells");
 	if (state->dialog == NULL) {

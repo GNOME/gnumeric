@@ -763,7 +763,8 @@ dialog_search (WorkbookControlGUI *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, SEARCH_KEY))
 		return;
 
-	gui = gnumeric_glade_xml_new (wbcg, "search.glade");
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"search.glade", NULL, NULL);
         if (gui == NULL)
                 return;
 

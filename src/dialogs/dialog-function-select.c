@@ -39,8 +39,6 @@
 #include <gsf/gsf-impl-utils.h>
 #include <glade/glade.h>
 
-#define GLADE_FILE "function-select.glade"
-
 #define FUNCTION_SELECT_KEY "function-selector-dialog"
 #define FUNCTION_SELECT_DIALOG_KEY "function-selector-dialog"
 
@@ -392,7 +390,7 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 	}
 }
 
-static gboolean
+static void
 dialog_function_select_init (FunctionSelectState *state)
 {
 	GtkWidget *scrolled;
@@ -468,43 +466,32 @@ dialog_function_select_init (FunctionSelectState *state)
 		"cell-sort.html");
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) dialog_function_select_destroy);
-
-	return FALSE;
 }
 
 void
 dialog_function_select (WorkbookControlGUI *wbcg, char const *key)
 {
 	FunctionSelectState* state;
+	GladeXML  *gui;
 
 	g_return_if_fail (wbcg != NULL);
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, FUNCTION_SELECT_KEY))
 		return;
+	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
+		"function-select.glade", NULL, NULL);
+        if (gui == NULL)
+		return;
 
 	state = g_new (FunctionSelectState, 1);
 	state->wbcg  = wbcg;
-	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->wb    = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+        state->gui   = gui;
+        state->dialog = glade_xml_get_widget (state->gui, "selection_dialog");
 	state->formula_guru_key = key;
         state->recent_funcs = NULL;
 
-	/* Get the dialog and check for errors */
-	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
-        if (state->gui == NULL) {
-		g_warning ("glade file missing or corrupted");
-		g_free (state);
-                return;
-	}
-
-        state->dialog = glade_xml_get_widget (state->gui, "selection_dialog");
-
-	if (dialog_function_select_init (state)) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the function selector dialog."));
-		g_free (state);
-		return;
-	}
-
+	dialog_function_select_init (state);
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       FUNCTION_SELECT_KEY);
 
