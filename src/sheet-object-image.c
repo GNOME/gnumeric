@@ -14,9 +14,11 @@
 #include "gnumeric-canvas.h"
 #include "gnumeric-pane.h"
 #include "application.h"
+#include "xml-io.h"
 
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
+#include <gsf/gsf-utils.h>
 #include <libfoocanvas/foo-canvas-pixbuf.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 
