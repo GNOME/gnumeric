@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.31\n"
+"Project-Id-Version: gnumeric 0.32\n"
 "POT-Creation-Date: 1999-08-22 16:06-0500\n"
 "PO-Revision-Date: 1998-11-25 18:01:18+0100\n"
 "Last-Translator: Pablo Saratxaga <srtxg@chanae.alphanet.ch>\n"
@@ -45,7 +45,7 @@ msgstr "Función desconocida"
 
 #: plugins/excel/ms-formula-read.c:690
 msgid "Broken function"
-msgstr ""
+msgstr "Función rota"
 
 #: plugins/excel/ms-formula-read.c:1385
 msgid " Unknown formula"
@@ -58,11 +58,11 @@ msgstr "Importado %s"
 
 #: plugins/ff-csv/csv-io.c:82
 msgid "Comma Separated Value (CSV) import"
-msgstr ""
+msgstr "Importar en CSV (valores separados por comas)"
 
 #: plugins/ff-csv/csv-io.c:85
 msgid "Comma Separated Value (CSV) module"
-msgstr ""
+msgstr "Módulo formato CSV (valores separados por comas)"
 
 #: plugins/guile/plugin.c:219
 msgid "Argument must be a Guile expression"
@@ -98,55 +98,55 @@ msgstr "Extensión Guile"
 
 #: plugins/html/boot.c:65
 msgid "HTML 3.2 file format (*.html)"
-msgstr ""
+msgstr "Formato archivo HTML 2.3 (*.html)"
 
 #: plugins/html/boot.c:67
 msgid "HTML 4.0 file format (*.html)"
-msgstr ""
+msgstr "Formato archivo HTML 4.0 (*.html)"
 
 #: plugins/html/boot.c:69
 msgid "HTML file made by gnumeric"
-msgstr ""
+msgstr "Archivo HTML hecho por gnumeric"
 
 #: plugins/html/boot.c:73
 msgid "LaTeX file format (*.tex)"
-msgstr ""
+msgstr "Formato archivo LaTeX (*.tex)"
 
 #: plugins/html/boot.c:75
 msgid "LaTeX2e file format (*.tex)"
-msgstr ""
+msgstr "Formato archivo LaTeX2e (*.tex)"
 
 #: plugins/html/boot.c:78
 msgid "PS file format (via groff)"
-msgstr ""
+msgstr "Formato archivo PostScript (con groff)"
 
 #: plugins/html/boot.c:80
 msgid "DVI TeX file format (via groff)"
-msgstr ""
+msgstr "Formato archivo TeX DVI (con groff)"
 
 #: plugins/html/boot.c:82
 msgid "TROFF file format (*.me)"
-msgstr "Formato archivor TROFF (*.me)"
+msgstr "Formato archivo TROFF (*.me)"
 
 #: plugins/html/boot.c:84
 msgid "PDF file format (via groff/gs)"
-msgstr ""
+msgstr "Formato archivo PDF (con groff/gs)"
 
 #: plugins/html/boot.c:87
 msgid "EPS file format (*.eps)"
-msgstr ""
+msgstr "Formato archivo EPS (*.eps)"
 
 #: plugins/html/boot.c:100
 msgid "HTML (simple html export/import plugin)"
-msgstr ""
+msgstr "HTML (simple plugin de exportación/importación en html)"
 
 #: plugins/lotus-123/boot.c:88
 msgid "Lotus (*.wk1) file format"
-msgstr ""
+msgstr "Formato archivo Lotus (*.wk1)"
 
 #: plugins/lotus-123/boot.c:94
 msgid "Lotus 123 file import/export plugin"
-msgstr ""
+msgstr "Plugin de exportación/importación Lotus 123"
 
 #: plugins/python/python.c:101
 msgid "Unable to lookup Python code object."
@@ -191,6 +191,8 @@ msgid ""
 "While opening %s\n"
 "%s"
 msgstr ""
+"Al abrir %s\n"
+"%s"
 
 #: plugins/text/text-io.c:337
 msgid "NoName"
@@ -202,7 +204,7 @@ msgstr "Formato texto simple"
 
 #: plugins/text/text-io.c:458
 msgid "TXT (simple text import/export plugin)"
-msgstr ""
+msgstr "TXT (simple plugin de exportación/importación texto)"
 
 #: plugins/xbase/boot.c:207
 msgid "Xbase (*.dbf) file format"
@@ -210,7 +212,7 @@ msgstr "Formato de archivo Xbase (*.bdf)"
 
 #: plugins/xbase/boot.c:214
 msgid "XBase file import/export plugin"
-msgstr ""
+msgstr "Plugin de exportación/importación XBase"
 
 #: src/about.c:24
 msgid "Miguel de Icaza, main programmer."
@@ -302,12 +304,12 @@ msgstr "Página de soporte de Gnumeric"
 
 #: src/cell.c:74
 msgid "ERROR"
-msgstr ""
+msgstr "ERROR"
 
 #. Until the value is recomputed, we put in this value.
 #: src/cell.c:125 src/cell.c:756
 msgid "Circular reference"
-msgstr ""
+msgstr "Referencia circular"
 
 #: src/corba-args.c:33
 msgid "Could not initialize the Gnumeric Workbook factory"
@@ -491,11 +493,11 @@ msgstr ""
 
 #: src/dialog-analysis-tools.c:153
 msgid "0.95"
-msgstr ""
+msgstr "O.95"
 
 #: src/dialog-analysis-tools.c:154
 msgid "Kth Largest:"
-msgstr ""
+msgstr "Kº superior:"
 
 #: src/dialog-analysis-tools.c:155 src/dialog-analysis-tools.c:157
 msgid "1"
@@ -503,7 +505,7 @@ msgstr "1"
 
 #: src/dialog-analysis-tools.c:156
 msgid "Kth Smallest:"
-msgstr ""
+msgstr "Kº inferior:"
 
 #: src/dialog-analysis-tools.c:162
 msgid "Labels in First Row"
@@ -817,17 +819,17 @@ msgstr ""
 #: src/dialog-goal-seek.c:195
 #, c-format
 msgid "Target value:   %12.2f"
-msgstr ""
+msgstr "Valor de meta:  %12.2f"
 
 #: src/dialog-goal-seek.c:198
 #, c-format
 msgid "Current value:  %12.2f"
-msgstr ""
+msgstr "Valor actual:   %12.2f"
 
 #: src/dialog-goal-seek.c:201
 #, c-format
 msgid "Solution:       %12.2f"
-msgstr ""
+msgstr "Solución:       %12.2f"
 
 #: src/dialog-goal-seek.c:204
 msgid "Goal Seek Report"
@@ -851,11 +853,11 @@ msgstr "Cambiando de celda:"
 
 #: src/dialog-goal-seek.c:283
 msgid "To a value of at least [optional]:"
-msgstr ""
+msgstr "A un valor de al menos [opcional]:"
 
 #: src/dialog-goal-seek.c:284
 msgid "But no bigger than [optional]:"
-msgstr ""
+msgstr "Pero que sea mayor que [opcional]:"
 
 #: src/dialog-goal-seek.c:343
 msgid "You should introduce a valid cell name in 'Set cell'"
@@ -1011,7 +1013,7 @@ msgstr "Tangente"
 
 #: src/dialog-solver.c:48
 msgid "Quadratic"
-msgstr ""
+msgstr "Cuadrática"
 
 #: src/dialog-solver.c:53
 msgid "Forward"
@@ -1027,15 +1029,15 @@ msgstr "Newton"
 
 #: src/dialog-solver.c:60
 msgid "Conjugate"
-msgstr ""
+msgstr "Conyugado"
 
 #: src/dialog-solver.c:65
 msgid "Assume Linear Model"
-msgstr ""
+msgstr "Asumir modelo linear"
 
 #: src/dialog-solver.c:66
 msgid "Assume Non-Negative"
-msgstr ""
+msgstr "Asumir no-negativo"
 
 #: src/dialog-solver.c:71
 msgid "Use Automatic Scaling"
@@ -1043,7 +1045,7 @@ msgstr ""
 
 #: src/dialog-solver.c:72
 msgid "Show Iteration Results"
-msgstr ""
+msgstr "Ver resultados de las iteraciones"
 
 #: src/dialog-solver.c:143
 msgid "Gnumeric Solver Options"
@@ -1106,7 +1108,7 @@ msgstr ""
 
 #: src/expr-name.c:131
 msgid "already defined"
-msgstr ""
+msgstr "ya definido"
 
 #: src/expr-name.c:134
 msgid "no workbook"
@@ -1118,11 +1120,11 @@ msgstr "referencia circular"
 
 #: src/expr-name.c:248
 msgid "Builtin"
-msgstr ""
+msgstr "Interno"
 
 #: src/expr-name.c:279
 msgid "Error: no sheet"
-msgstr ""
+msgstr "Error: ninguna hoja"
 
 #: src/expr.c:216
 msgid "Syntax error"
@@ -2552,17 +2554,12 @@ msgid ""
 msgstr ""
 
 #: src/fn-financial.c:695
-#, fuzzy
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
 "@DESCRIPTION=Calculates the present value of an investment.\n"
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
-"@FUNCTION=NPER\n"
-"@SYNTAX=NPER(tasa,pmt,pv,fv,tipo)\n"
-"@DESCRIPTION=Calcula la cantidad de períodos de una inversión.\n"
-"@SEEALSO=PPMT,PV,FV"
 
 #: src/fn-financial.c:725
 msgid ""
@@ -4569,6 +4566,14 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=MAX,ABS"
 msgstr ""
+"@FUNCTION=MIN\n"
+"@SYNTAX=MIN(b1, b2, ...)\n"
+"@DESCRIPTION=MIN devuelve el valor del elemento paado en argumento cuyo "
+"valor es inferior a todos los demás. Los valores negativos se consideran "
+"inferiores a los positivos.\n"
+"Aplicar esta fucnión a una cadena de texto o una celda vacía simplemente "
+"no hace nada.\n"
+"@SEEALSO=MAX,ABS"
 
 #: src/fn-stat.c:819
 msgid ""
@@ -4939,6 +4944,15 @@ msgid ""
 "error. If @mean <= 0 POISSON returns the #NUM! error.\n"
 "@SEEALSO=NORMDIST, WEIBULL"
 msgstr ""
+"@FUNCTION=POISSON\n"
+"@SYNTAX=POISSON(x,media,cumulativo)\n"
+"@DESCRIPTION=La función POISSON devuelve la distribución de Poisson, @x es "
+"la cantidad de eventos, @media es el valor númerico esperado, @cumulativo "
+"describe si se debe devolver la suma de la función de poissonn de 0 a @x.\n"
+"Si @x no es un entero será troncado. Si @x <= 0 POISSON devuelve el "
+"error #NUM! . "
+"Si @media <= 0 POISSON devuelve el error #NUM! .\n"
+"@SEEALSO=NORMDIST, WEIBULL"
 
 #: src/fn-stat.c:1922
 msgid ""
@@ -5185,6 +5199,16 @@ msgid ""
 "number of data points in @data_array. \n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=FREQUENCY\n"
+"@SYNTAX=FREQUENCY(vector_datos,vector_intervalos)\n"
+"@DESCRIPTION=La función FREQUENCY cuenta cuantas veces aparecen "
+"los valores dados en un rango de valores. \n" 
+"@vector_datos es el vector de los datos de los cuales quiere contar las "
+"frecuencias. "
+"@vector_intervalos es u nvector que contine los intervalos en los cuales "
+"quiere regrupar los valore de @vector_datos.  Si @vector_intervalos está "
+"vacío, FREQUENCY devuelve la cantidad de puntos en @vector_datos. \n"
+"@SEEALSO="
 
 #: src/fn-stat.c:3251
 msgid ""
@@ -5200,6 +5224,18 @@ msgid ""
 "returns #NUM! error. \n"
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
+"@FUNCTION=LINEST\n"
+"@SYNTAX=LINEST(y_conocidos[,X_conocidos])\n"
+"@DESCRIPTION=La función LINEST calcula la línea de los «menores cuadrados» "
+"que mejor se apega a sus datos en @y_conocidos.  @x_conocidos contiene los "
+"valores de x correspondientes, con y=mx+b. \n"
+"Si @x_conocidos se omite, un vector {1, 2, 3, ...} es usado. LINEST devuelve "
+"una matríz de dos columnas y un renglón. La inclinación (m) de la línea de "
+"regresión y=mx+b es dada en la primera columna, y la intercección del "
+"eje de las y (b) en la segunda. \n" 
+"Si  @y_conocidos y @x_conocidos no tienen la misma cantidad de elementos, "
+"LINEST devuelve el error #NUM! .\n"
+"@SEEALSO=LOGEST,TREND"
 
 #: src/fn-stat.c:3320
 msgid ""
@@ -5214,6 +5250,17 @@ msgid ""
 "@known_x's have unequal number of data points, TREND returns #NUM! error. \n"
 "@SEEALSO=LINEST"
 msgstr ""
+"@FUNCTION=TREND\n"
+"@SYNTAX=TREND(y_conocidos[,x_conocidos],x_nuevos])\n"
+"@DESCRIPTION=La función TREND estima futuros valores de un conjunto de datos "
+"dado usando la línea de los «menores cuadrados» que mejor se apega a sus "
+"datos. @y_conocidos son los valores de y donde y=mx+b y @x_conocidos los "
+"valores de x correspondientes.  @x_nuevos contiene los valores de x para los "
+"cuales desea estimar los valores de y. \n"
+"Si @x_conocidos se omite, un vector {1, 2, 3, ...} es usado. Si @y_conocidos "
+"y @x_conocidos no tienen la misma cantidad de elementos, TREND devuelve "
+"el error #NUM! .\n"
+"@SEEALSO=LINEST"
 
 #: src/fn-stat.c:3399
 msgid ""
@@ -5227,6 +5274,15 @@ msgid ""
 "zero, FORECAST returns #DIV/0 error. \n"
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
+"@FUNCTION=FORECAST\n"
+"@SYNTAX=FORECAST(x,y_conocidos,x_conocidos)\n"
+"@DESCRIPTION=La función FORECAST estimate un futuro valor, según los valores "
+"existentes usando una regresión linear simple.  El futuro valor estimado es "
+"el valor de y de un valor de x dado (@x). \n"
+"Si @x_conocidos o @y_conocidos no continene datos o contienen cantidades de "
+"datos differentes, INTERCEPT devuelve el error #N/D! . Si la variencia de "
+"@x_conocidos es cero, INTERCEP devuelve el error #DIV/0 .\n"
+"@SEEALSO=INTERCEPT,TREND"
 
 #: src/fn-stat.c:3460
 msgid ""
@@ -5239,6 +5295,14 @@ msgid ""
 "zero, INTERCEPT returns #DIV/0 error. \n"
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
+"@FUNCTION=INTERCEPT\n"
+"@SYNTAX=INTERCEPT(y_conocidos,x_conocidos)\n"
+"@DESCRIPTION=La función INTERCEPT calcula el punto en el cual la regresión "
+"linear corta el eje de las y.  \n"
+"Si @x_conocidos o @y_conocidos no continene datos o contienen cantidades de "
+"datos differentes, INTERCEPT devuelve el error #N/D! . Si la variencia de "
+"@x_conocidos es cero, INTERCEP devuelve el error #DIV/0 .\n"
+"@SEEALSO=FORECAST,TREND"
 
 #: src/fn-stat.c:3499
 msgid ""
@@ -5921,11 +5985,11 @@ msgstr "$#.##0,00_);[Red]($#.##0,00)"
 
 #: src/func.c:424
 msgid "Function does not exist"
-msgstr ""
+msgstr "La función no existe"
 
 #: src/func.c:426
 msgid "Calling non-function"
-msgstr ""
+msgstr "Llamando a una no-función"
 
 #: src/gnumeric-sheet.c:983
 msgid "Solid"
@@ -6254,13 +6318,12 @@ msgid "time"
 msgstr "hora"
 
 #: src/sheet-object-container.c:187 src/workbook.c:901
-#, fuzzy
 msgid "Select an object"
-msgstr "Crea una linea"
+msgstr "Seleccionar un objeto"
 
 #: src/sheet-object-container.c:290
 msgid "Object server"
-msgstr ""
+msgstr "Servidor de objetos"
 
 #: src/sheet-view.c:337 src/sheet-view.c:415
 #, c-format
@@ -6307,31 +6370,31 @@ msgstr "No se pudo ligar el objeto"
 
 #: src/value.c:583
 msgid "Terminate"
-msgstr ""
+msgstr "Terminar"
 
 #: src/value.c:874
 msgid "#NULL!"
-msgstr ""
+msgstr "#NULO!"
 
 #: src/value.c:876
 msgid "#VALUE!"
-msgstr ""
+msgstr "#VALOR!"
 
 #: src/value.c:877
 msgid "#REF!"
-msgstr ""
+msgstr "#REF!"
 
 #: src/value.c:878
 msgid "#NAME?"
-msgstr ""
+msgstr "#NOMBRE?"
 
 #: src/value.c:879
 msgid "#NUM!"
-msgstr ""
+msgstr "#NUM!"
 
 #: src/value.c:880
 msgid "#N/A"
-msgstr ""
+msgstr "#N/D"
 
 #: src/widget-font-selector.c:118 src/workbook.c:1145
 msgid "Bold"
@@ -6339,7 +6402,7 @@ msgstr "Negritas"
 
 #: src/widget-font-selector.c:119
 msgid "Bold italic"
-msgstr ""
+msgstr "Negritas cursivas"
 
 #: src/widget-font-selector.c:120 src/workbook.c:1148
 msgid "Italic"
@@ -6959,5 +7022,3 @@ msgstr "Personalizar encabezado"
 msgid "Customize footer"
 msgstr "Personalizar el pié de página"
 
-#~ msgid "#Unimplemented!"
-#~ msgstr "#No implementado!"
