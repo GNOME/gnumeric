@@ -195,8 +195,8 @@ gog_plot1_5d_axis_bounds (GogPlot *plot, GogAxisType axis,
 {
 	GogPlot1_5d *model = GOG_PLOT1_5D (plot);
 	if (axis == gog_axis_get_atype (gog_plot1_5d_get_value_axis (model))) {
-		*min = 1;
-		*max = model->num_elements;
+		*min = model->minimum;
+		*max = model->maximum;
 		if (model->type == GOG_1_5D_AS_PERCENTAGE) {
 			*logical_min = -1.;
 			*logical_max = 1.;

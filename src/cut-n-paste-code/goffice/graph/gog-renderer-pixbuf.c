@@ -270,22 +270,8 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint const *pos, GtkAnchor
 	ArtPoint real_pos = *pos;
 
 	pango_layout_get_pixel_extents (layout, &rect, NULL);
-	if (rect.width == 0 || rect.height == 0)
+	if (rect.width <= 0 || rect.height <= 0)
 		return;
-	ft_bitmap.rows         = rect.height;
-	ft_bitmap.width        = rect.width;
-	ft_bitmap.pitch        = (rect.width+3) & ~3;
-	ft_bitmap.buffer       = g_malloc0 (ft_bitmap.rows * ft_bitmap.pitch);
-	ft_bitmap.num_grays    = 256;
-	ft_bitmap.pixel_mode   = ft_pixel_mode_grays;
-	ft_bitmap.palette_mode = 0;
-	ft_bitmap.palette      = NULL;
-	pango_ft2_render_layout (&ft_bitmap, layout, -rect.x, -rect.y);
-
-	r = UINT_RGBA_R (style->font.color);
-	g = UINT_RGBA_G (style->font.color);
-	b = UINT_RGBA_B (style->font.color);
-	a = UINT_RGBA_A (style->font.color);
 
 	switch (anchor) {
 	case GTK_ANCHOR_CENTER : case GTK_ANCHOR_N : case GTK_ANCHOR_S :
@@ -306,6 +292,36 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint const *pos, GtkAnchor
 	default : break;
 	}
 
+	w = rect.width;
+	if (size != NULL && w > size->w && size->w >= 0)
+		w = size->w;
+	if ((real_pos.x + w) > prend->w)
+		w = prend->w - real_pos.x;
+
+	h = rect.height;
+	if (size != NULL && h > size->h && size->h >= 0)
+		h = size->h;
+	if ((real_pos.y + h) > prend->h)
+		h = prend->h - real_pos.y;
+
+	if (w <= 0 || h <= 0)
+		return;
+
+	ft_bitmap.rows         = rect.height;
+	ft_bitmap.width        = rect.width;
+	ft_bitmap.pitch        = (rect.width+3) & ~3;
+	ft_bitmap.buffer       = g_malloc0 (ft_bitmap.rows * ft_bitmap.pitch);
+	ft_bitmap.num_grays    = 256;
+	ft_bitmap.pixel_mode   = ft_pixel_mode_grays;
+	ft_bitmap.palette_mode = 0;
+	ft_bitmap.palette      = NULL;
+	pango_ft2_render_layout (&ft_bitmap, layout, -rect.x, -rect.y);
+
+	r = UINT_RGBA_R (style->font.color);
+	g = UINT_RGBA_G (style->font.color);
+	b = UINT_RGBA_B (style->font.color);
+	a = UINT_RGBA_A (style->font.color);
+
 	/* do the compositing manually, ArtRender as used in librsvg is dog
 	 * slow, and I do not feel like leaping through 20 different data
 	 * structures to composite 1 byte images, onto rgba */
@@ -314,13 +330,6 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint const *pos, GtkAnchor
 	dst += ((int)real_pos.x + rect.x)* 4;
 	src = ft_bitmap.buffer;
 
-	w = rect.width;
-	if (size != NULL && w > size->w && size->w >= 0)
-		w = size->w;
-
-	h = rect.height;
-	if (size != NULL && h > size->h && size->h >= 0)
-		h = size->h;
 	while (h--) {
 		for (i = w; i-- > 0 ; dst += 4, src++) {
 			/* FIXME: Do the libart thing instead of divide by 255 */
