@@ -1,5 +1,9 @@
 1998-10-03  Nuno Ferreira  <nmrf@rnl.ist.utl.pt>
 
+	* src/workbook.c: Added some more keys to navigate the menus.
+
+	* gnumeric.desktop: Added Portuguese translations. 
+
 	* autogen.sh: Modified hack that patches libtool to work with
 	srcdir != builddir
 

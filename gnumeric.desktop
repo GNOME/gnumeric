@@ -1,9 +1,11 @@
 [Desktop Entry]
 Name=Gnumeric spreadsheet
 Name[fr]=Tableur Gnumeric
+Name[pt]=Gnumeric
 Comment=Spreadsheet
 Comment[es]=Hoja de cálculo
 Comment[fr]=Tableur Gnumeric
+Comment[pt]=Folha de cálculo Gnumeric
 Exec=gnumeric
 Icon=
 Terminal=0
