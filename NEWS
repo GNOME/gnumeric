@@ -1,4 +1,7 @@
-Gnumeric 1.4.3
+Gnumeric 1.5.0
+
+Jody:
+	* RTL support.
 
 Morten:
 	* When using the new printing code, don't bother to generate

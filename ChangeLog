@@ -1,5 +1,116 @@
 2005-01-20  Jody Goldberg <jody@gnome.org>
 
+	* src/xml-io.c (xml_sheet_write) : store the rtl flag
+	(xml_sheet_read) : read the rtl flag
+
+	* src/workbook-control-gui.c (cb_notebook_switch_page) : set the
+	  direction on page change
+	(show_gui) : setting it here too.
+	(set_dir) : new.
+	(wbcg_set_direction) : new
+
+	* src/wbcg-actions.c (cb_direction) : A quick and simple direction
+	  setting action.  We need a better icon, and improved state.
+
+	* src/style-border.c (style_border_hmargins) : lots of finicky
+	  -1*offset style changes for rtl.
+
+	* src/sheet.c (gnm_sheet_class_init) : Add some as yet unused get/set
+	  property routines.
+	(gnm_sheet_init) : new to init the direction based on the locale.  Use
+	  a gtk routine for now.  There's a bug open to have that moved to
+	  glib.
+	(sheet_set_direction) : new.
+
+	* src/sheet-view.c (sv_init_sc) : init the direction.
+	(sv_direction_changed) : new.
+
+	* src/sheet-object-cell-comment.c (comment_view_set_bounds) : fold the
+	  old comment_get_points into here and invert things in RTL mode.
+
+	* src/sheet-control-gui.c (scg_redraw_headers) : col coordinates are
+	  negative for rtl mode.
+	(scg_resize) : rework for rtl
+	(scg_set_zoom_factor) : ditto.
+	(bar_set_left_col) : ditto.
+	(bar_set_top_row) : ditto.
+	(gnm_canvas_set_top_left) : ditto.
+	(calc_obj_place) : ditto.  Clarify which coordinate system we're in.
+	(scg_direction_changed) : new virtual.
+	(scg_scale_changed) :  renamed from scg_set_zoom_factor.
+
+	* src/print.c (print_sheet_objects) : handle rtl. (needs testing)
+	(print_page_cells) : simple rtl handling
+
+	* src/mstyle.c : Add a text_dir element that defaults to CONTEXT right
+	  now.  This is unused until it is better understood, but it is read
+	  and written from xls.  We need to add xml support.
+
+	* src/item-grid.c (item_grid_draw_merged_range) : handle rtl
+	(item_grid_draw) : ditto.
+	* src/print-cell.c (print_merged_range) : ditto
+	(print_cell_range) : ditto.
+
+	* src/item-edit.c (ie_layout) : swap directions in RTL mode.  We still
+	  need more work here to honour the alignment better while editing.
+
+	* src/item-cursor.c
+	(item_cursor_request_redraw) : delete, we can use foo_canvas_item_request_redraw
+	(item_cursor_update) : handle rtl
+	(item_cursor_draw) : ditto
+	(item_cursor_bound_set) : add some safety to avoid drawing before the
+	  position is set, or if it is set to something invalid
+
+	* src/item-bar.c (item_bar_draw) : major rework to handle RTL mode.
+	  - swap the the direction for the cells and the outlines
+	(is_pointer_on_division) : handle rtl and clarify which coordinate
+	  system the various inputs and results use.
+	(ib_set_cursor) : simplify
+	(outline_button_press) : RTL flips some coordinates.
+	(item_bar_event) : ditto
+
+	* src/gnumeric-simple-canvas.c (gnm_simple_canvas_x_w2c) : doh! handle
+	  zoom
+
+	* src/gnumeric-pane.c (gnumeric_pane_header_init) : handle rtl
+	(gnm_pane_init) : ditto.
+	(gnm_pane_colrow_resize_start) : ditto.
+	(gnm_pane_colrow_resize_move) : ditto.
+	(cb_slide_handler) : ditto.
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_sheet) : Swap the
+	  direction of arrow keys in rtl mode.
+	(gnm_canvas_key_mode_object) : ditto
+	(gnm_canvas_size_allocate) : always recompute visible range.  In RTL
+	  mode we want to have things aligned on the left edge whose coord
+	  moves.
+	(gnm_canvas_find_col) : handle the rtl negation of world coords
+	(gnm_canvas_redraw_range) : ditto
+	(gcanvas_sliding_callback) : ditto.
+	(gnm_canvas_handle_motion) : ditto.
+	  NOTE : work around a bug in gtk's use of X.  When dragging past the
+	  right edge of the sheet in rtl mode we are operating at the edge of
+	  a 32k wide window and the event coords get larger than can be held
+	  in a signed short.  As a result we get world coords of -65535 or so.
+	  KLUDGE KLUDGE KLUDGE
+	    with our current limit of 256 columns it is unlikely that we'll
+	    hit -65535 (at appropriate zoom) as a valid coord (it would
+	    require all cols to be 256 pixels wide.  it is not impossible, but
+	    at least unlikely.  So we put in a kludge here to catch the screw
+	    up and remap it.   This is not pretty,  at large zooms this is not
+	    far fetched.
+	(gnm_canvas_compute_visible_region) : things are more complicated for
+	  rtl mode.
+
+	* src/commands.c : Add undo for the rtl vs ltr mode
+
+	* src/cellspan.c (cell_calc_span) : in rtl mode swap the meaning of
+	  horizontal alignment.
+
+	* src/GNOME_Gnumeric-gtk.xml.in : Add the rtl toggle action
+
+2005-01-20  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : post branching bump
 
 2005-01-19  Morten Welinder  <terra@gnome.org>

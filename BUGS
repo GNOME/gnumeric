@@ -153,12 +153,12 @@ Architecture Changes
     8.14) editing while zoomed					(DONE)
 9) RTL
     9.1) Drawing
-	9.1.1) item-bar
+	9.1.1) item-bar						(DONE)
 	    9.1.1.1) col header					(DONE)
 		9.1.1.1.1) draw heading				(DONE)
 		9.1.1.1.2) button up/down			(DONE)
 		9.1.1.1.3) cursors				(DONE)
-		9.1.1.1.4) drag resize				(DONE)
+		9.1.1.1.4) drag resize {seems broken}		(DONE)
 		9.1.1.1.5) groups				(DONE)
 		    9.1.1.1.5.1) ticks				(DONE)
 		    9.1.1.1.5.2) lines with marks on left	(DONE)
@@ -224,12 +224,12 @@ Architecture Changes
 	9.3.11) Add entry to format dialog to set text dir
 	9.3.12) Undo/Redo					(DONE)
     9.4) Persistence
-	9.4.1) xml dom
-	    9.4.1.1) in
-	    9.4.1.2) out
-	9.4.2) xml sax
-	    9.4.2.1) in
-	    9.4.2.2) out
+	9.4.1) xml dom						(DONE)
+	    9.4.1.1) in						(DONE)
+	    9.4.1.2) out					(DONE)
+	9.4.2) xml sax						(DONE)
+	    9.4.2.1) in						(DONE)
+	    9.4.2.2) out					(DONE)
 	9.4.2) xls						(DONE)
 	    9.4.2.1) 97 in					(DONE)
 		9.4.2.1.1) sheet				(DONE)
@@ -250,12 +250,12 @@ Architecture Changes
 	9.5.5) merges						(DONE)
 	9.5.6) check right margin, we overwrite the edge
 	9.5.7) init preview scroll to right in rtl mode
-	9.5.8) Objects
+	9.5.8) Objects						(DONE)
     9.6) Add entry in manage sheet dialog			(DONE)
     9.7) Add entry to tab context menu (do we need ?)
     9.8) Set default value depending on LC_MESSAGE		(DONE)
     9.9) autofilters
-    9.10) cell comments
+    9.10) cell comments						(DONE)
     9.11) sheet objects
 	9.11.1) reposition views when direction changes		(DONE)
 	9.11.2) movement					(DONE)
@@ -264,6 +264,8 @@ Architecture Changes
 	9.11.5) selecting object sometimes jumps it to right	(DONE)
 	9.11.6) objects created in rtl disappear in ltr		(DONE)
 	9.11.7) set direction of views
+    9.12) preview grid ??
+	9.12.1) do we need/want the autoformat examples to swap dir ?
 
 -------------------------------------------------------------------------------
 Target Features
@@ -873,6 +875,7 @@ Misc stuff that should be fixed
     - `Add Scenario' Portion of Solver
     - Sheet object configuration changes. (Done for graphs, lines, and fills)
     - Workbook attr changes
+    - Adding autofilters
 
 - cols/rows
     : Make unhide smarter to find hidden regions on either side of
