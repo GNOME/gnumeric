@@ -439,7 +439,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 
 			cell = sheet_cell_get (sheet, col, row);
 
-			if (cell_is_blank (cell)){
+			/* If the cell does not exist paint it as an empty cell */
+			if (cell == NULL){
 				item_grid_paint_empty_cell (
 					drawable, item_grid, ci, ri,
 					col, row, x_paint, y_paint);
