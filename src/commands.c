@@ -4469,7 +4469,7 @@ cmd_merge_data_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 		colrow_set_states (new_sheet, TRUE, target_range.start.col, state_col);
 		colrow_set_states (new_sheet, FALSE, target_range.start.row, state_row); 	
-		sheet_object_clone_sheet_in_range (source_sheet, new_sheet, &target_range);
+		sheet_object_clone_sheet (source_sheet, new_sheet, &target_range);
 		clipboard_paste_region (me->wbc, paste_target_init (&pt, new_sheet, 
 								&target_range, PASTE_ALL_TYPES),
 					merge_content);
@@ -4494,12 +4494,20 @@ cmd_merge_data_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 			
 		target_sheet = me->sheet_list;
 		while (target_sheet) {
-			Cell *source_cell = sheet_cell_fetch (source_sheet, 
+			Cell *source_cell = sheet_cell_get (source_sheet, 
 							      col_source, row_source);
-			Cell *target_cell = sheet_cell_fetch ((Sheet *)target_sheet->data, 
-							      col_target, row_target);
-			cell_assign_value (target_cell, value_duplicate (source_cell->value));
-
+			if (source_cell == NULL) {
+				Cell *target_cell = sheet_cell_get ((Sheet *)target_sheet->data, 
+								      col_target, row_target);
+				if (target_cell != NULL)
+					cell_assign_value (target_cell,
+							   value_new_empty ());
+			} else {
+				Cell *target_cell = sheet_cell_fetch ((Sheet *)target_sheet->data, 
+								      col_target, row_target);
+				cell_assign_value (target_cell, 
+						   value_duplicate (source_cell->value));
+			}
 			target_sheet = target_sheet->next;
 			row_source++;
 		}

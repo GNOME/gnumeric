@@ -4392,7 +4392,7 @@ sheet_duplicate	(Sheet const *src)
 	sheet_clone_names          (src, dst);
 	sheet_clone_cells          (src, dst);
 
-	sheet_object_clone_sheet   (src, dst);
+	sheet_object_clone_sheet   (src, dst, NULL);
 
 	/* Copy the solver */
 	solver_param_destroy (dst->solver_parameters);

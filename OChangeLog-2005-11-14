@@ -1,5 +1,13 @@
 2002-03-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/commands.c (cmd_merge_data_redo) : don't create unnecessary cells
+	* src/sheet-object.[ch] (sheet_object_clone_sheet) : delete
+	* src/sheet-object.[ch] (sheet_object_clone_sheet_in_range) : rename
+	  sheet_object_clone_sheet
+	* src/sheet.c : change sheet_object_clone_sheet calls
+
+2002-03-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/commands.c : use cell_assign_value rather than copy/paste to 
 	  preserve merged target fields.
 	

@@ -876,45 +876,13 @@ sheet_object_clone (SheetObject const *so, Sheet *sheet)
  * sheet_object_clone_sheet:
  * @src: The source sheet to read the objects from
  * @dst: The destination sheet to attach the objects to
- *
- * Clones the objects of the src sheet and attaches them into the dst sheet
- **/
-void
-sheet_object_clone_sheet (Sheet const *src, Sheet *dst)
-{
-	SheetObject *so;
-	SheetObject *new_so;
-	GList *list;
-	GList *new_list = NULL;
-
-	g_return_if_fail (IS_SHEET (dst));
-	g_return_if_fail (dst->sheet_objects == NULL);
-
-	list = src->sheet_objects;
-	for (; list != NULL; list = list->next) {
-		so = (SheetObject *) list->data;
-		new_so = sheet_object_clone (so, dst);
-		if (new_so != NULL)
-			new_list = g_list_prepend (new_list, new_so);
-	}
-
-	dst->sheet_objects = g_list_reverse (new_list);
-}
-
-/**
- * sheet_object_clone_sheet_in_range:
- * @src: The source sheet to read the objects from
- * @dst: The destination sheet to attach the objects to
  * @range: Optional Range of interest
  *
  * Clones the objects of the src sheet and attaches them into the dst sheet
  *
- * FIXME: sheet_object_clone_sheet_in_range and sheet_object_clone_sheet should be 
- *        combined
- *
  **/
 void
-sheet_object_clone_sheet_in_range (const Sheet *src, Sheet *dst, Range *range)
+sheet_object_clone_sheet (const Sheet *src, Sheet *dst, Range *range)
 {
 	SheetObject *so;
 	SheetObject *new_so;

@@ -59,8 +59,7 @@ xmlNodePtr   sheet_object_write_xml	   (SheetObject const *so,
 void         sheet_object_print		   (SheetObject const *so,
 					    GnomePrintContext *ctx,
 					    double base_x, double base_y);
-void         sheet_object_clone_sheet	   (Sheet const *src, Sheet *dst);
-void         sheet_object_clone_sheet_in_range (Sheet const *src, Sheet *dst, Range *range);
+void         sheet_object_clone_sheet      (Sheet const *src, Sheet *dst, Range *range);
 void	     sheet_object_realize	   (SheetObject *co);
 void         sheet_object_update_bounds	   (SheetObject *so, CellPos const *p);
 void	     sheet_object_default_size	   (SheetObject *so,
