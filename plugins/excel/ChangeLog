@@ -1,3 +1,10 @@
+2001-07-25  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_window2) : Tidy up a bit.
+
+	* ms-excel-write.c (write_window2) : support frozen panes.
+	(write_pane) : Implement.
+
 2001-07-17  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.68

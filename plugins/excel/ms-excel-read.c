@@ -3608,16 +3608,16 @@ ms_excel_read_window2 (BiffQuery *q, ExcelSheet *sheet, WorkbookView *wb_view)
 		guint16 top_row    = MS_OLE_GET_GUINT16 (q->data + 2);
 		guint16 left_col   = MS_OLE_GET_GUINT16 (q->data + 4);
 
-		sheet->gnum_sheet->display_formulas	= (options & 0x0001);
-		sheet->gnum_sheet->hide_zero		= !(options & 0x0010);
-		sheet->gnum_sheet->hide_grid 		= !(options & 0x0002);
+		sheet->gnum_sheet->display_formulas	= (options & 0x0001) != 0;
+		sheet->gnum_sheet->hide_grid 		= (options & 0x0002) == 0;
 		sheet->gnum_sheet->hide_col_header =
-			sheet->gnum_sheet->hide_row_header	= !(options & 0x0004);
+		sheet->gnum_sheet->hide_row_header	= (options & 0x0004) == 0;
+		sheet->freeze_panes 			= (options & 0x0008) != 0;
+		sheet->gnum_sheet->hide_zero		= (options & 0x0010) == 0;
 
 		/* NOTE : This is top left of screen even if frozen, modify when
 		 *        we read PANE
 		 */
-		sheet->freeze_panes = ((options & 0x0008) != 0);
 		sheet_set_initial_top_left (sheet->gnum_sheet, left_col, top_row);
 
 #if 0

@@ -393,61 +393,81 @@ write_window1 (BiffPut *bp, MsBiffVersion ver, WorkbookView *wb_view)
 	ms_biff_put_commit (bp);
 }
 
-/* See: S59E18.HTM */
-static void
-write_window2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *sheet)
+/**
+ * write_window2 :
+ * returns TRUE if a PANE record is necessary.
+ *
+ * See: S59E18.HTM
+ **/
+static gboolean
+write_window2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
 {
 	/* 1	0x020 grids are the colour of the normal style */
 	/* 0	0x040 arabic */
 	/* 1	0x080 display outlines if they exist */
-	/* 0	0x100 things are not frozen */
 	/* 0	0x800 (biff8 only) no page break mode*/
 	guint16 options = 0x0A0;
 	guint8 *data;
+	CellPos top_left;
+	Sheet *sheet = esheet->gnum_sheet;
 
-	if (sheet->gnum_sheet->display_formulas)
+	if (sheet->display_formulas)
 		options |= 0x0001;
-	if (!sheet->gnum_sheet->hide_grid)
+	if (!sheet->hide_grid)
 		options |= 0x0002;
-	if (!sheet->gnum_sheet->hide_col_header || !sheet->gnum_sheet->hide_row_header)
+	if (!sheet->hide_col_header || !sheet->hide_row_header)
 		options |= 0x0004;
-	if (!sheet->gnum_sheet->hide_zero)
+	if (sheet_is_frozen (sheet)) {
+		options |= 0x0008;
+		top_left = sheet->frozen_top_left;
+	} else
+		top_left = sheet->initial_top_left;	/* belongs in sheetView */
+	if (!sheet->hide_zero)
 		options |= 0x0010;
-	if (sheet->gnum_sheet == wb_view_cur_sheet (sheet->wb->gnum_wb_view))
+	if (sheet == wb_view_cur_sheet (esheet->wb->gnum_wb_view))
 		options |= 0x600; /* assume selected if it is current */
 
 	if (ver <= MS_BIFF_V7) {
 		data = ms_biff_put_len_next (bp, 0x200|BIFF_WINDOW2, 10);
 
 		MS_OLE_SET_GUINT16 (data +  0, options);
-		MS_OLE_SET_GUINT16 (data +  2, 0x0);	/* top row */
-		MS_OLE_SET_GUINT16 (data +  4, 0x0);	/* left col */
+		MS_OLE_SET_GUINT16 (data +  2, top_left.row);
+		MS_OLE_SET_GUINT16 (data +  4, top_left.col);
 		MS_OLE_SET_GUINT32 (data +  6, 0x40);	/* grid color index (0x40 == auto) */
 	} else {
 		data = ms_biff_put_len_next (bp, 0x200|BIFF_WINDOW2, 18);
 
 		MS_OLE_SET_GUINT16 (data +  0, options);
-		MS_OLE_SET_GUINT16 (data +  2, 0x0);	/* top row */
-		MS_OLE_SET_GUINT16 (data +  4, 0x0);	/* left col */
+		MS_OLE_SET_GUINT16 (data +  2, top_left.row);
+		MS_OLE_SET_GUINT16 (data +  4, top_left.col);
 		MS_OLE_SET_GUINT32 (data +  6, 0x40);	/* grid color index (0x40 == auto) */
 		MS_OLE_SET_GUINT16 (data + 10, 0x1);	/* print preview 100% */
 		MS_OLE_SET_GUINT16 (data + 12, 0x0);	/* FIXME : why 0? */
 		MS_OLE_SET_GUINT32 (data + 14, 0x0);	/* reserved 0 */
 	}
 	ms_biff_put_commit (bp);
+
+	return (options & 0x0008);
 }
 
 /* See: S59DCA.HTM */
 static void
-write_pane (BiffPut *bp, MsBiffVersion ver, ExcelSheet *sheet)
+write_pane (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
 {
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_PANE, 10);
+	Sheet const *sheet = esheet->gnum_sheet;
+	int const frozen_height = sheet->unfrozen_top_left.row -
+		sheet->frozen_top_left.row;
+	int const frozen_width = sheet->unfrozen_top_left.col -
+		sheet->frozen_top_left.col;
 
-	MS_OLE_SET_GUINT16 (data + 0, 0);	/* x */
-	MS_OLE_SET_GUINT16 (data + 2, 0);	/* y */
-	MS_OLE_SET_GUINT16 (data + 4, 0);	/* top row */
-	MS_OLE_SET_GUINT32 (data + 6, 0);	/* left col */
-	MS_OLE_SET_GUINT32 (data + 8, 0);	/* active pane */
+	MS_OLE_SET_GUINT16 (data + 0, frozen_width);
+	MS_OLE_SET_GUINT16 (data + 2, frozen_height);
+	MS_OLE_SET_GUINT16 (data + 4, sheet->initial_top_left.row);
+	MS_OLE_SET_GUINT16 (data + 6, sheet->initial_top_left.col);
+	MS_OLE_SET_GUINT16 (data + 8, 0);	/* active pane */
+
+	ms_biff_put_commit (bp);
 }
 
 /*
@@ -3225,8 +3245,7 @@ write_sheet_tail (IOContext *context, BiffPut *bp, ExcelSheet *sheet)
 	MsBiffVersion ver = sheet->wb->ver;
 
 	write_window1 (bp, ver, sheet->wb->gnum_wb_view);
-	write_window2 (bp, ver, sheet);
-	if (sheet_is_frozen (sheet->gnum_sheet))
+	if (write_window2 (bp, ver, sheet))
 		write_pane (bp, ver, sheet);
 
 	if (ver >= MS_BIFF_V8) {
