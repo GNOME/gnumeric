@@ -675,7 +675,7 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 	g_return_if_fail (dep != NULL);
 
 	if (pos == NULL)
-		pos == &dummy;
+		pos = &dummy;
 
 	if (dep->sheet != NULL) {
 		g_return_if_fail (dep->expression != NULL);
