@@ -753,13 +753,8 @@ eval_range (FunctionEvalInfo *s, Value *v)
 		for (c = start_col; c <= end_col; ++c) {
 			if ((cell = sheet_cell_get (sheet, c, r)) == NULL)
 				continue;
-			if (cell->generation != gen) {
-				cell->generation = gen;
-				if (cell->parsed_node &&
-				    (cell->flags & CELL_QUEUED_FOR_RECALC))
-					cell_eval (cell);
-			}
-
+			if (cell->generation != gen)
+				cell_eval (cell);
 		}
 }
 
@@ -1060,11 +1055,8 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 		if (cell == NULL)
 			return NULL;
 
-		if (cell->generation != s->pos.sheet->workbook->generation){
-			cell->generation = s->pos.sheet->workbook->generation;
-			if (cell->parsed_node && (cell->flags & CELL_QUEUED_FOR_RECALC))
-				cell_eval (cell);
-		}
+		if (cell->generation != s->pos.sheet->workbook->generation)
+			cell_eval (cell);
 
 		return value_duplicate (cell->value);
 	}

@@ -39,12 +39,8 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row,
 	EvalPosition ep;
 	Value *res;
 
-	if (cell->generation != sheet->workbook->generation){
-		cell->generation = sheet->workbook->generation;
-
-		if (cell->parsed_node && (cell->flags & CELL_QUEUED_FOR_RECALC))
-			cell_eval (cell);
-	}
+	if (cell->generation != sheet->workbook->generation)
+		cell_eval (cell);
 
 	/* If we encounter an error for the strict case, short-circuit here.  */
 	if (data->strict && (NULL != (res = cell_is_error(cell))))

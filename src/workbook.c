@@ -971,7 +971,7 @@ static GnomeUIInfo workbook_menu_insert_special [] = {
 	{ GNOME_APP_UI_ITEM, N_("Current _time"),
 	  N_("Insert the current time into the selected cell(s)"),
 	  insert_current_time_cmd,
-	  NULL, NULL, 0, 0, ';', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
+	  NULL, NULL, 0, 0, ':', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 	GNOMEUIINFO_END
 };
 

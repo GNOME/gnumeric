@@ -13,15 +13,11 @@
 #include "ranges.h"
 #include "eval.h"
 
-#undef DEBUG_EVALUATION
-
-void
-cell_eval (Cell *cell)
+static void
+cell_eval_content (Cell *cell)
 {
 	Value *v;
 	FunctionEvalInfo s;
-
-	g_return_if_fail (cell != NULL);
 
 #ifdef DEBUG_EVALUATION
 	{
@@ -63,6 +59,33 @@ cell_eval (Cell *cell)
 	sheet_redraw_cell_region (cell->sheet,
 				  cell->col->pos, cell->row->pos,
 				  cell->col->pos, cell->row->pos);
+}
+
+void
+cell_eval (Cell *cell)
+{
+	g_return_if_fail (cell != NULL);
+
+	if (cell->generation == cell->sheet->workbook->generation)
+		return;
+	
+	cell->generation = cell->sheet->workbook->generation;
+
+	if (cell->parsed_node){
+		GList *deps, *l;
+
+		cell_eval_content (cell);
+		deps = cell_get_dependencies (cell);
+	
+		for (l = deps; l; l = l->next){
+			Cell *one_cell;
+			
+			one_cell = l->data;
+			if (one_cell->generation != cell->sheet->workbook->generation)
+				cell_queue_recalc (one_cell);
+		}
+		g_list_free (deps);
+	}
 }
 
 /*
@@ -403,19 +426,35 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 	Range *range = &(deprange->range);
 	get_cell_dep_closure_t *c = closure;
 	GList *l;
-
+	int draw;
+	
 	if (deprange->sheet != c->sheet)
 		return;
+
+	draw = FALSE;
+	if (c->col == 1 && c->row == 1){
+		draw = TRUE;
+	}
 	
 	/* No intersection is the common case */
-	if (!range_contains (range, c->col, c->row))
+	if (!range_contains (range, c->col, c->row)){
 		return;
+	}
 
 	for (l = deprange->cell_list; l; l = l->next) {
 		Cell *cell = l->data;
 
 		c->list = g_list_prepend (c->list, cell);
 	}
+#ifdef DEBUG_EVALUATION
+	printf ("Adding list: [\n");
+	for (l = deprange->cell_list; l; l = l->next) {
+		Cell *cell = l->data;
+
+		printf (" %s(%d), ", cell_name (cell->col->pos, cell->row->pos), cell->generation);
+	}
+	printf ("]\n");
+#endif
 }
 
 GList *
@@ -463,6 +502,9 @@ cell_queue_recalc (Cell *cell)
 	if (cell->flags & CELL_QUEUED_FOR_RECALC)
 		return;
 
+#ifdef DEBUG_EVALUATION
+	printf ("Queuing: %s\n", cell_name (cell->col->pos, cell->row->pos));
+#endif
 	wb = cell->sheet->workbook;
 	wb->eval_queue = g_list_prepend (wb->eval_queue, cell);
 	cell->flags |= CELL_QUEUED_FOR_RECALC;
@@ -511,6 +553,9 @@ cell_queue_recalc_list (GList *list, gboolean freelist)
 		if (cell->flags & CELL_QUEUED_FOR_RECALC)
 			continue;
 
+#ifdef DEBUG_EVALUATION
+		printf ("Queuing: %s\n", cell_name (cell->col->pos, cell->row->pos));
+#endif
 		wb->eval_queue = g_list_prepend (wb->eval_queue, cell);
 
 		cell->flags |= CELL_QUEUED_FOR_RECALC;
@@ -570,36 +615,10 @@ workbook_recalc (Workbook *wb)
 	generation = wb->generation;
 
 	while ((cell = pick_next_cell_from_queue (wb))){
-		GList *deps, *l;
-
 		if (cell->generation == generation)
 			continue;
 
-		cell->generation = generation;
 		cell_eval (cell);
-		deps = cell_get_dependencies (cell);
-
-#ifdef DEBUG_EVALUATION
-		printf ("\nDepends for %s:%s :\n",
-			cell->sheet->name,
-			cell_name (cell->col->pos, cell->row->pos));
-#endif
-
-		for (l = deps; l; l = l->next){
-			Cell *one_cell;
-
-			one_cell = l->data;
-			if (one_cell->generation != generation){
-				cell_queue_recalc (one_cell);
-#ifdef DEBUG_EVALUATION
-				printf ("\t%s:%s,\n",
-					one_cell->sheet->name,
-					cell_name(one_cell->col->pos,
-						  one_cell->row->pos));
-#endif
-			}
-		}
-		g_list_free (deps);
 	}
 }
 

@@ -1,3 +1,26 @@
+1999-11-03  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/expr.c (eval_range): Removed parsed node from here too. 
+	(eval_range): Removed computation logic from here.
+	(eval_expr_real): ditto.
+
+	* src/func.c (iterate_cellrange_callback): Ditto.
+
+	* src/cell.c (cell_eval, cell_eval_content): Redone the evaluation
+	logic to put all the actual details in a single spot.
+
+1999-11-03  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/expr.c (eval_expr_real): Removed cell->parsed_node &&
+	(cell->flags & CELL_QUEUED_FOR_RECALC)) from condition.
+	
+	* src/func.c (iterate_cellrange_callback): ditto.
+
+1999-11-02  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/workbook.c: change the binding.  Not clear to me yet if we
+	need to fix gnome-libs.
+
 1999-11-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-format-toolbar.c (back_color_changed) : Set the pattern
