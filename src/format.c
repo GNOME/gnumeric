@@ -1739,9 +1739,19 @@ number_format_init (void)
 	beyond_precision = gpow10 (GNUM_DIG + 1);
 }
 
+static void
+cb_format_leak (gpointer key, gpointer value, gpointer user_data)
+{
+	StyleFormat *format = value;
+
+	fprintf (stderr, "Leaking style-format at %p [%s].\n",
+		 format, format->format);
+}
+
 void
 number_format_shutdown (void)
 {
+	g_hash_table_foreach (style_format_hash, cb_format_leak, NULL);
 	g_hash_table_destroy (style_format_hash);
 	style_format_hash = NULL;
 }

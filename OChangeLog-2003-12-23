@@ -1,3 +1,7 @@
+2003-06-06  Morten Welinder  <terra@gnome.org>
+
+	* src/format.c (number_format_shutdown): Print leaks.
+
 2003-06-06  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : bump gsf req.

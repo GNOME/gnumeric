@@ -3,23 +3,8 @@
  *                        render sheet previews and offers
  *                        functions for making this preview more interactive.
  *
- * Copyright (C) Almer S. Tigelaar <almer@gnome.org>
- *
- * NOTES :
- * 1) This is rather sucky, it works, reasonably fast, but it's not ideal.
- * 2) There is a distinct difference between a formatted and non-formatted preview
- *    non-formatted previews are somewhat faster.
- *
- * MEMORY MANAGEMENT NOTES AND "HOW IT WORKS" :
- * In fact the preview does its work trough the stf_preview_render call
- * this takes a GSList as argument which on its turns also contains GSLists
- * which hold strings, so :
- *
- * GList (Main)
- *  |
- *  |--- GList (Sub) --> Contains strings as GList->Data
- *  |
- *  |--- GList (Sub) --> Contains strings as GList->Data
+ * Copyright 2001 Almer S. Tigelaar <almer@gnome.org>
+ * Copyright 2003 Morten Welinder <terra@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -115,7 +100,6 @@ render_get_value (gint row, gint column, gpointer _rd, GValue *value)
 /**
  * stf_preview_render
  * @renderdata : a renderdata struct
- * @lines : lines as from stf_parse_general.
  *
  * This will render a preview.
  *
