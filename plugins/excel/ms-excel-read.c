@@ -585,6 +585,7 @@ biff_format_data_destroy (gpointer key, BiffFormatData *d, gpointer userdata)
 typedef struct {
 	char const *name;
 	gboolean    sheet_scope;
+	gboolean    inserted;
 	enum { BNDStore, BNDName } type;
 	union {
 		ExprName *name;
@@ -597,7 +598,11 @@ typedef struct {
 
 static int externsheet = 0;
 
-static BiffNameData*
+/*
+ * We must not try and parse the data until we have
+ * read all the sheets in ( for inter-sheet references in names ).
+ */
+static void
 biff_name_data_new (ExcelWorkbook *wb, char const *name,
 		    guint16 const sheet_index,
 		    guint8 const *formula, guint16 const len,
@@ -628,7 +633,6 @@ biff_name_data_new (ExcelWorkbook *wb, char const *name,
 		dump (bnd->v.store.data, bnd->v.store.len);
 #endif
 	g_ptr_array_add (wb->name_data, bnd);
-	return bnd;
 }
 
 ExprTree *
@@ -649,6 +653,45 @@ biff_name_data_get_name (ExcelSheet *sheet, int idx)
 
 	}
 
+	if (bnd->type == BNDStore && bnd->v.store.data) {
+		char     *duff = "Some Error";
+		ExprTree *tree = ms_excel_parse_formula (sheet->wb, sheet,
+							 bnd->v.store.data,
+							 0, 0, FALSE,
+							 bnd->v.store.len,
+							 NULL);
+
+		if (!tree) { /* OK so it's a special 'AddIn' name */
+			bnd->type   = BNDName;
+			g_free (bnd->v.store.data);
+			bnd->v.name = NULL;
+		} else {
+			bnd->type = BNDName;
+			g_free (bnd->v.store.data);
+			if (bnd->sheet_scope)
+				bnd->v.name = expr_name_add (NULL, sheet->gnum_sheet,
+							     bnd->name,
+							     tree, &duff);
+			else
+				bnd->v.name = expr_name_add (sheet->wb->gnum_wb, NULL,
+							     bnd->name,
+							     tree, &duff);
+			if (!bnd->v.name)
+				printf ("Error: '%s' on name '%s'\n", duff,
+					bnd->name);
+#ifndef NO_DEBUG_EXCEL
+			else if (ms_excel_read_debug > 1) {
+				ParsePosition ep;
+				parse_pos_init (&ep, sheet->wb->gnum_wb, 0, 0);
+				printf ("Parsed name : '%s' = '%s'\n",
+					bnd->name, tree
+					? expr_decode_tree (tree, &ep)
+					: "error");
+			}
+#endif
+		}
+	}
+	bnd->inserted = TRUE;
 	if (bnd->type == BNDName && bnd->v.name)
 		return expr_tree_new_name (bnd->v.name);
 	else
@@ -2038,7 +2081,6 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 	guint8  status_txt_len = MS_OLE_GET_GUINT8  (q->data + 13);
 	char *name, *menu_txt, *descr_txt, *help_txt, *status_txt;
 	guint8 const *ptr;
-	BiffNameData *bnd;
 
 #if 0
 	dump_biff (q);
@@ -2122,48 +2164,9 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 	}
 #endif
 
-	bnd = biff_name_data_new (sheet->wb, name, sheet_idx,
-				  name_def_data, name_def_len,
-				  FALSE, (sheet_idx != 0));
-
-	if (bnd->type == BNDStore && bnd->v.store.data) {
-		char     *duff = "Some Error";
-		ExprTree *tree = ms_excel_parse_formula (sheet->wb, sheet,
-							 bnd->v.store.data,
-							 0, 0, FALSE,
-							 bnd->v.store.len,
-							 NULL);
-
-		if (!tree) { /* OK so it's a special 'AddIn' name */
-			bnd->type   = BNDName;
-			g_free (bnd->v.store.data);
-			bnd->v.name = NULL;
-		} else {
-			bnd->type = BNDName;
-			g_free (bnd->v.store.data);
-			if (bnd->sheet_scope)
-				bnd->v.name = expr_name_add (NULL, sheet->gnum_sheet,
-							     bnd->name,
-							     tree, &duff);
-			else
-				bnd->v.name = expr_name_add (sheet->wb->gnum_wb, NULL,
-							     bnd->name,
-							     tree, &duff);
-			if (!bnd->v.name)
-				printf ("Error: '%s' on name '%s'\n", duff,
-					bnd->name);
-#ifndef NO_DEBUG_EXCEL
-			else if (ms_excel_read_debug > 1) {
-				ParsePosition ep;
-				parse_pos_init (&ep, sheet->wb->gnum_wb, 0, 0);
-				printf ("Parsed name : '%s' = '%s'\n",
-					bnd->name, tree
-					? expr_decode_tree (tree, &ep)
-					: "error");
-			}
-#endif
-		}
-	}
+	biff_name_data_new (sheet->wb, name, sheet_idx,
+			    name_def_data, name_def_len,
+			    FALSE, (sheet_idx != 0));
 
 	if (menu_txt)
 		g_free (menu_txt);

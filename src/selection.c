@@ -635,6 +635,47 @@ sheet_selection_cut (Sheet *sheet)
 	return TRUE;
 }
 
+static void
+selection_move_range_cb (Sheet *sheet,
+			 Range const *range,
+			 gpointer user_data)
+{
+	struct expr_relocate_info *rinfo = user_data;
+	Range r = *range;
+
+	range_translate (&r, rinfo->col_offset, rinfo->row_offset);
+	sheet_selection_append_range (rinfo->target_sheet, r.start.col, r.start.row,
+				      r.start.col, r.start.row, r.end.col, r.end.row);
+}
+
+static void
+sheet_selection_move (struct expr_relocate_info *rinfo)
+{
+	Sheet *sheet = rinfo->origin_sheet;
+
+	if (rinfo->origin_sheet == rinfo->target_sheet) {
+		GList *l;
+		for (l = sheet->selections; l != NULL; l = l->next) {
+			SheetSelection *ss = l->data;
+			ss->base.col += rinfo->col_offset;
+			ss->base.row += rinfo->row_offset;
+			range_translate (&ss->user, rinfo->col_offset,
+					 rinfo->row_offset);
+			if (!l->prev)
+				sheet_cursor_set (sheet,
+						  ss->base.col, ss->base.row,
+						  ss->user.start.col, ss->user.start.row,
+						  ss->user.end.col,   ss->user.end.row);
+			sheet_redraw_selection (sheet, ss);
+		}
+	} else {
+		selection_foreach_range (sheet,
+					 selection_move_range_cb,
+					 rinfo);
+		sheet_selection_reset (sheet);
+	}
+}
+
 void
 sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
 		       int paste_flags, guint32 time)
@@ -665,8 +706,9 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
 		rinfo.origin_sheet = src_sheet;
 		rinfo.target_sheet = sheet;
 
-		sheet_move_range (&rinfo);
+		sheet_move_range      (&rinfo);
 		sheet_selection_unant (src_sheet);
+		sheet_selection_move  (&rinfo);
 	} else {
 		if (!selection_is_simple (sheet, _("paste")))
 			return;

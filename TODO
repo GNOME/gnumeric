@@ -245,3 +245,7 @@ Office 2000 and 'explorer' compatibility.
 * Drawing
   * Rework borders to agregate the lines and draw them after backgrounds
   * Scale the fonts in item-bar by zoom factor.
+
+* Excel Import
+  * Localise sheet/workbook Name import,
+  * Import names even if they arn't referenced.

@@ -869,9 +869,9 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 		{
 			CellRef *ref=0;
 			if (wb->ver >= eBiffV8) {
-				guint16 extn_idx = MS_OLE_GET_GUINT16(cur) ;
-				ref = getRefV8 (MS_OLE_GET_GUINT16(cur+2),
-						MS_OLE_GET_GUINT16(cur + 4),
+				guint16 extn_idx = MS_OLE_GET_GUINT16 (cur) ;
+				ref = getRefV8 (MS_OLE_GET_GUINT16 (cur + 2),
+						MS_OLE_GET_GUINT16 (cur + 4),
 						fn_col, fn_row, 0) ;
 				make_inter_sheet_ref (wb, extn_idx, ref, 0) ;
 				parse_list_push (&stack, expr_tree_new_var (ref));
@@ -879,11 +879,12 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			} else {
 				guint16 extn_idx, first_idx, second_idx;
 
-				ref = getRefV7 (MS_OLE_GET_GUINT8(cur+16), MS_OLE_GET_GUINT16(cur+14),
+				ref = getRefV7 (MS_OLE_GET_GUINT8  (cur + 16),
+						MS_OLE_GET_GUINT16 (cur + 14),
 						fn_col, fn_row, 0) ;
-				extn_idx   = MS_OLE_GET_GUINT16(cur);
-				first_idx  = MS_OLE_GET_GUINT16(cur + 10);
-				second_idx = MS_OLE_GET_GUINT16(cur + 12);
+				extn_idx   = MS_OLE_GET_GUINT16 (cur);
+				first_idx  = MS_OLE_GET_GUINT16 (cur + 10);
+				second_idx = MS_OLE_GET_GUINT16 (cur + 12);
 				make_inter_sheet_ref_v7 (wb, extn_idx, first_idx, second_idx, ref, 0) ;
 				parse_list_push (&stack, expr_tree_new_var (ref));
 				ptg_length = 17 ;

@@ -1,3 +1,12 @@
+1999-11-07  Michael Meeks  <mmeeks@gnu.org>
+
+	* boot.c (excel_save): Invert sense of return value to reflect success.
+
+	* ms-excel-read.c (biff_name_data_get_name): Move name parsing
+	back here; we have read all the sheets this time so inter-sheet
+	references in names work. Add 'inserted' flag (biff_name_data_new):
+	Kill returning the name + add comment. Add stuff to TODO.
+
 1999-11-07  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_set_xf) : Remove debug

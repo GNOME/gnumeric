@@ -1,5 +1,15 @@
 1999-11-07  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/ranges.c (range_translate): implemented.
+
+	* src/selection.c (sheet_selection_paste): Add sheet_selection_move.
+	(sheet_selection_move): implement.a
+
+	* src/sheet.c (sheet_new): clear dirty flag ( attaching the default
+	style was setting it ).
+
+1999-11-07  Michael Meeks  <mmeeks@gnu.org>
+
 	* s/border_/style_border/
 
 	* src/selection.c (sheet_selection_height_update): Kill; ill-concieved.

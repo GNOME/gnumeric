@@ -53,6 +53,7 @@ gboolean    range_adjacent      (Range const *a, Range const *b);
 Range       range_merge         (Range const *a, Range const *b);
 void        range_clip          (Range *clipped, Range const *master,
 				 Range const *slave);
+gboolean    range_translate     (Range *range, int col_offset, int row_offset);
 void        range_dump          (Range const *src);
 Range      *range_copy          (Range const *src);
 

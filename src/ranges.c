@@ -692,3 +692,38 @@ ranges_set_style (Sheet *sheet, GSList *ranges, MStyle *mstyle)
 				 range_style_apply_cb, mstyle);
 	mstyle_unref (mstyle);
 }
+
+/**
+ * range_translate:
+ * @range: 
+ * @col_offset: 
+ * @row_offset: 
+ * 
+ * Translate the range, returns TRUE if the range is
+ * still valid ( on the sheet ), otherwise FALSE.
+ * will clip the result range to the sheet dimensions hence
+ * does not preserve area.
+ * If we return FALSE the Range is undefined.
+ * 
+ * Return value: range still valid.
+ **/
+gboolean
+range_translate (Range *range, int col_offset,
+		 int row_offset)
+{
+	if (range->end.col   + col_offset < 0 ||
+	    range->start.col + col_offset >= SHEET_MAX_COLS)
+		return FALSE;
+
+	if (range->end.row   + row_offset < 0 ||
+	    range->start.row + row_offset >= SHEET_MAX_ROWS)
+		return FALSE;
+
+	range->start.col += MIN (col_offset, SHEET_MAX_COLS - 1);
+	range->end.col   += MIN (col_offset, SHEET_MAX_COLS - 1);
+	range->start.row += MIN (row_offset, SHEET_MAX_ROWS - 1);
+	range->end.row   += MIN (row_offset, SHEET_MAX_ROWS - 1);
+
+	return TRUE;
+}
+

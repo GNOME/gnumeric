@@ -78,7 +78,7 @@ excel_save (Workbook *wb, const char *filename, eBiff_version ver)
 	if ((stat (filename, &s) != -1)) {
 		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 				 _("Saving over old files disabled for safety"));
-		return 0;
+		return 1;
 	}
 	
 	result = ms_ole_create (&f, filename);
@@ -91,7 +91,7 @@ excel_save (Workbook *wb, const char *filename, eBiff_version ver)
 
 		ms_ole_destroy (&f);
 		g_free (str);
-		return 0;
+		return 1;
 	}
 
 	ans = ms_excel_write_workbook (f, wb, ver);
@@ -105,7 +105,7 @@ excel_save (Workbook *wb, const char *filename, eBiff_version ver)
 	else
 		printf ("Error whilst writing\n");
 
-	return ans;
+	return !ans;
 }
 
 static int
