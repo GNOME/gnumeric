@@ -13,6 +13,7 @@ Build-Depends: debhelper (>= 4.2.21), dh-buildinfo, gettext, bison, flex,
  libgnome2-dev (>= 2.4.0-2), libgnomeui-dev (>= 2.4.0-2),
  libbonobo2-dev (>= 2.6.2-4), libbonoboui2-dev (>= 2.6.1-1),
  libgsf-gnome-1-dev (>= 1.10.1),
+ libperl-dev,
  python2.3-dev, python-gtk2-dev,
  libgda2-dev (>= 1.0.4-1), libgnomedb2-dev (>= 1.0.4-7)
 Standards-Version: 3.6.1
