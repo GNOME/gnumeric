@@ -81,6 +81,9 @@ gnumeric_vscrollbar_button_press (GtkWidget *widget, GdkEventButton *event)
 			vs->live.now = !vs->live.def;
 		else
 			vs->live.now = vs->live.def;
+	} else if (event->window == range->step_forw) {
+		vs->live.now = TRUE;
+		gnumeric_vscrollbar_timer (GTK_RANGE (widget));
 	} else
 		vs->live.now = TRUE;
 	

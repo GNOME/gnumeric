@@ -79,6 +79,9 @@ gnumeric_hscrollbar_button_press (GtkWidget *widget, GdkEventButton *event)
 			hs->live.now = !hs->live.def;
 		else
 			hs->live.now = hs->live.def;
+	} else if (event->window == range->step_forw) {
+		hs->live.now = TRUE;
+		gnumeric_hscrollbar_timer (GTK_RANGE (widget));
 	} else
 		hs->live.now = TRUE;
 

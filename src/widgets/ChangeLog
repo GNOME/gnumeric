@@ -1,3 +1,10 @@
+2001-07-10  Almer S. Tigelaar  <almer@gnome.org>
+
+	* gnumeric-vscrollbar.c (gnumeric_vscrollbar_button_press): Also keep
+	scrolling on a single, short click.
+
+	* gnumeric-hscrollbar.c (gnumeric_hscrollbar_button_press): Idem.
+
 2001-07-07  Almer S. Tigelaar  <almer@gnome.org>
 
 	* widget-font-selector.c (cb_get_row_height): Adjust signature for
