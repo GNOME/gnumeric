@@ -277,7 +277,6 @@ cell_set_text_simple (Cell *cell, char *text)
 	} else {
 		Value *v = g_new (Value, 1);
 		int is_text, is_float, maybe_float, has_digits;
-		double d;
 		char *p;
 
 		is_text = is_float = maybe_float = has_digits = FALSE;
@@ -354,8 +353,6 @@ cell_content_changed (Cell *cell)
 void
 cell_set_text (Cell *cell, char *text)
 {
-	GList   *deps;
-
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 	

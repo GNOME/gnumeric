@@ -88,8 +88,6 @@ format_create_regexp (char *format, GByteArray **dest)
 	GString *regexp;
 	GByteArray *match_types;
 	char *str;
-	int top = 0;
-	int type;
 	int hour_seen = FALSE;
 	
 	g_return_val_if_fail (format != NULL, NULL);
@@ -697,7 +695,7 @@ format_match (char *s, double *v, char **format)
 
 	for (l = format_match_list; l; l = l->next){
 		format_parse_t *fp = l->data;
-		int i, b;
+		int b;
 		
 		if (regexec (&fp->regexp, s, NM, mp, 0) == REG_NOMATCH)
 			continue;

@@ -682,7 +682,6 @@ split_time (gdouble number)
 {
 	static struct tm tm;
 	double secs;
-	int diff;
 
 	tm.tm_year = 1900;
 	tm.tm_mon  = 1;

@@ -134,7 +134,6 @@ do_clipboard_paste_cell_region (CellRegion *region, Sheet *dest_sheet,
 		for (row = 0; row < paste_height; row += region->rows){
 			for (l = region->list; l; l = l->next){
 				CellCopy *c_copy = l->data;
-				Cell *new_cell;
 				int target_col, target_row;
 				
 				target_col = col + dest_col + c_copy->col_offset;
