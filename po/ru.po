@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.54+\n"
-"POT-Creation-Date: 2000-06-19 22:02-0400\n"
-"PO-Revision-Date: 2000-06-17 23:13+00:00\n"
+"POT-Creation-Date: 2000-06-24 14:07+0000\n"
+"PO-Revision-Date: 2000-06-24 14:09+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -110,24 +110,24 @@ msgstr "#НЕИЗВЕСТНОЕ!"
 msgid "Sheet%d"
 msgstr "Лист%d"
 
-#: plugins/excel/ms-excel-read.c:3671
+#: plugins/excel/ms-excel-read.c:3697
 msgid "No book or workbook streams found."
 msgstr "Не найден поток книги или рабочей книги."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:3975
+#: plugins/excel/ms-excel-read.c:4001
 msgid "Password protected workbooks are not supported yet."
 msgstr "Защищенные паролем книги пока не поддерживаются."
 
-#: plugins/excel/ms-excel-read.c:4147
+#: plugins/excel/ms-excel-read.c:4174
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Не удалось найти рабочую книгу MS Excel"
 
-#: plugins/excel/ms-excel-write.c:3383
+#: plugins/excel/ms-excel-write.c:3404
 msgid "Too many rows for this format"
 msgstr "Слишком много строк для этого формата"
 
-#: plugins/excel/ms-excel-write.c:3466
+#: plugins/excel/ms-excel-write.c:3487
 msgid "Can't open stream for writing\n"
 msgstr "Невозможно открыть поток для записи\n"
 
@@ -649,411 +649,406 @@ msgstr "Домашняя страница Gnumeric"
 msgid "Gnumeric Support page"
 msgstr "Страница поддержки Gnumeric"
 
-#: src/analysis-tools.c:356
+#: src/analysis-tools.c:398
 msgid "Correlations"
 msgstr "Корреляции"
 
-#: src/analysis-tools.c:379 src/analysis-tools.c:536 src/analysis-tools.c:695
-#: src/analysis-tools.c:811 src/analysis-tools.c:833 src/analysis-tools.c:859
-#: src/analysis-tools.c:2337 src/analysis-tools.c:2487
-#: src/analysis-tools.c:2670
+#: src/analysis-tools.c:419 src/analysis-tools.c:420 src/analysis-tools.c:571
+#: src/analysis-tools.c:572 src/analysis-tools.c:727 src/analysis-tools.c:828
+#: src/analysis-tools.c:846 src/analysis-tools.c:868 src/analysis-tools.c:2197
+#: src/analysis-tools.c:2335 src/analysis-tools.c:2497
 #, c-format
 msgid "Column %d"
 msgstr "Столбец %d"
 
-#: src/analysis-tools.c:408 src/analysis-tools.c:565 src/analysis-tools.c:2367
-#: src/analysis-tools.c:2513 src/analysis-tools.c:2692
+#: src/analysis-tools.c:445 src/analysis-tools.c:446 src/analysis-tools.c:597
+#: src/analysis-tools.c:598 src/analysis-tools.c:2223
+#: src/analysis-tools.c:2357 src/analysis-tools.c:2514
 #, c-format
 msgid "Row %d"
 msgstr "Строка %d"
 
-#: src/analysis-tools.c:431 src/analysis-tools.c:587 src/analysis-tools.c:763
-#: src/analysis-tools.c:771 src/analysis-tools.c:2133
-#: src/analysis-tools.c:2271 src/number-match.c:542
-msgid "#N/A"
-msgstr "#N/A"
-
-#: src/analysis-tools.c:510
+#: src/analysis-tools.c:547
 msgid "Covariances"
 msgstr "Ковариации"
 
-#: src/analysis-tools.c:691 src/dialogs/dialog-analysis-tools.c:308
+#: src/analysis-tools.c:723 src/dialogs/dialog-analysis-tools.c:308
 msgid "Summary Statistics"
 msgstr "Суммарная статистика"
 
-#: src/analysis-tools.c:699 src/analysis-tools.c:1097
-#: src/analysis-tools.c:1227 src/analysis-tools.c:1384
-#: src/analysis-tools.c:1520 src/analysis-tools.c:1657
+#: src/analysis-tools.c:729 src/analysis-tools.c:1092
+#: src/analysis-tools.c:1205 src/analysis-tools.c:1343
+#: src/analysis-tools.c:1460 src/analysis-tools.c:1579
 msgid "Mean"
 msgstr "Среднее"
 
-#: src/analysis-tools.c:700 src/analysis-tools.c:1999
-#: src/analysis-tools.c:2021
+#: src/analysis-tools.c:730 src/analysis-tools.c:1899
+#: src/analysis-tools.c:1919
 msgid "Standard Error"
 msgstr "Стандартная ошибка"
 
-#: src/analysis-tools.c:701
+#: src/analysis-tools.c:731
 msgid "Median"
 msgstr "Медиана"
 
-#: src/analysis-tools.c:702
+#: src/analysis-tools.c:732
 msgid "Mode"
 msgstr "Режим"
 
-#: src/analysis-tools.c:703
+#: src/analysis-tools.c:733
 msgid "Standard Deviation"
 msgstr "Стандартное отклонение"
 
-#: src/analysis-tools.c:704
+#: src/analysis-tools.c:734
 msgid "Sample Variance"
 msgstr "Дисперсия выборки"
 
-#: src/analysis-tools.c:705
+#: src/analysis-tools.c:735
 msgid "Kurtosis"
 msgstr "Эксцесс"
 
-#: src/analysis-tools.c:706
+#: src/analysis-tools.c:736
 msgid "Skewness"
 msgstr "Ассиметрия"
 
-#: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:404
+#: src/analysis-tools.c:737 src/dialogs/dialog-function-wizard.c:397
 msgid "Range"
 msgstr "Диапазон"
 
-#: src/analysis-tools.c:708
+#: src/analysis-tools.c:738
 msgid "Minimum"
 msgstr "Минимум"
 
-#: src/analysis-tools.c:709
+#: src/analysis-tools.c:739
 msgid "Maximum"
 msgstr "Максимум"
 
-#: src/analysis-tools.c:710 src/analysis-tools.c:2470
-#: src/analysis-tools.c:2660 src/workbook.c:1554 src/workbook.c:2026
+#: src/analysis-tools.c:740 src/analysis-tools.c:2321
+#: src/analysis-tools.c:2487 src/workbook.c:1554 src/workbook.c:2026
 msgid "Sum"
 msgstr "Сумма"
 
-#: src/analysis-tools.c:711 src/analysis-tools.c:2469
-#: src/analysis-tools.c:2659 src/workbook.c:2030
+#: src/analysis-tools.c:741 src/analysis-tools.c:2320
+#: src/analysis-tools.c:2486 src/workbook.c:2030
 msgid "Count"
 msgstr "Количество"
 
-#: src/analysis-tools.c:804
+#: src/analysis-tools.c:821
 msgid "Confidence Level"
 msgstr "Доверительный уровень"
 
-#: src/analysis-tools.c:818
+#: src/analysis-tools.c:833
 msgid "Confidence Level (%g%%)"
 msgstr "Доверительный уровень (%g%%)"
 
-#: src/analysis-tools.c:830
+#: src/analysis-tools.c:843
 msgid "Kth Largest"
 msgstr "К-ое наибольшее"
 
-#: src/analysis-tools.c:844
+#: src/analysis-tools.c:855
 #, c-format
 msgid "Largest (%d)"
 msgstr "Наибольшее (%d)"
 
-#: src/analysis-tools.c:856
+#: src/analysis-tools.c:865
 msgid "Kth Smallest"
 msgstr "К-ое наименьшее:"
 
-#: src/analysis-tools.c:870
+#: src/analysis-tools.c:877
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Наименьшее (%d)"
 
-#: src/analysis-tools.c:955 src/dialogs/cell-format.glade.h:19
+#: src/analysis-tools.c:960 src/dialogs/cell-format.glade.h:19
 #: src/dialogs/cell-format.glade.h:123
 msgid "Sample"
 msgstr "Выборка"
 
-#: src/analysis-tools.c:1066
+#: src/analysis-tools.c:1065
 msgid "z-Test"
 msgstr "z-Тест"
 
-#: src/analysis-tools.c:1093 src/analysis-tools.c:1223
-#: src/analysis-tools.c:1380 src/analysis-tools.c:1516
-#: src/analysis-tools.c:1650
+#: src/analysis-tools.c:1088 src/analysis-tools.c:1201
+#: src/analysis-tools.c:1339 src/analysis-tools.c:1456
+#: src/analysis-tools.c:1572
 msgid "Variable 1"
 msgstr "Переменная 1"
 
-#: src/analysis-tools.c:1094 src/analysis-tools.c:1224
-#: src/analysis-tools.c:1381 src/analysis-tools.c:1517
-#: src/analysis-tools.c:1651
+#: src/analysis-tools.c:1089 src/analysis-tools.c:1202
+#: src/analysis-tools.c:1340 src/analysis-tools.c:1457
+#: src/analysis-tools.c:1573
 msgid "Variable 2"
 msgstr "Переменная 2"
 
-#: src/analysis-tools.c:1098
+#: src/analysis-tools.c:1093
 msgid "Known Variance"
 msgstr "Известная дисперсия"
 
-#: src/analysis-tools.c:1099 src/analysis-tools.c:1229
-#: src/analysis-tools.c:1386 src/analysis-tools.c:1522
-#: src/analysis-tools.c:1659 src/analysis-tools.c:2000
+#: src/analysis-tools.c:1094 src/analysis-tools.c:1207
+#: src/analysis-tools.c:1345 src/analysis-tools.c:1462
+#: src/analysis-tools.c:1581 src/analysis-tools.c:1900
 msgid "Observations"
 msgstr "Наблюдения"
 
-#: src/analysis-tools.c:1100 src/analysis-tools.c:1231
-#: src/analysis-tools.c:1388 src/analysis-tools.c:1523
+#: src/analysis-tools.c:1095 src/analysis-tools.c:1209
+#: src/analysis-tools.c:1347 src/analysis-tools.c:1463
 msgid "Hypothesized Mean Difference"
 msgstr "Гипотетическая разность средних"
 
-#: src/analysis-tools.c:1101
+#: src/analysis-tools.c:1096
 msgid "z"
 msgstr "z"
 
-#: src/analysis-tools.c:1102
+#: src/analysis-tools.c:1097
 msgid "P (Z<=z) one-tail"
 msgstr "P (Z<=z) одностороннее"
 
-#: src/analysis-tools.c:1103
+#: src/analysis-tools.c:1098
 msgid "z Critical one-tail"
 msgstr "z-критическое одностороннее"
 
-#: src/analysis-tools.c:1104
+#: src/analysis-tools.c:1099
 msgid "P (Z<=z) two-tail"
 msgstr "P (Z<=z) двухстороннее"
 
-#: src/analysis-tools.c:1105
+#: src/analysis-tools.c:1100
 msgid "z Critical two-tail"
 msgstr "z-критическое двухстороннее"
 
-#: src/analysis-tools.c:1199 src/analysis-tools.c:1353
-#: src/analysis-tools.c:1489
+#: src/analysis-tools.c:1181 src/analysis-tools.c:1316
+#: src/analysis-tools.c:1433
 msgid "t-Test"
 msgstr "t-Тест"
 
-#: src/analysis-tools.c:1228 src/analysis-tools.c:1385
-#: src/analysis-tools.c:1521 src/analysis-tools.c:1658
-#: src/analysis-tools.c:2472 src/analysis-tools.c:2662
+#: src/analysis-tools.c:1206 src/analysis-tools.c:1344
+#: src/analysis-tools.c:1461 src/analysis-tools.c:1580
+#: src/analysis-tools.c:2323 src/analysis-tools.c:2489
 msgid "Variance"
 msgstr "Дисперсия"
 
-#: src/analysis-tools.c:1230
+#: src/analysis-tools.c:1208
 msgid "Pearson Correlation"
 msgstr "Корреляция Пирсона"
 
-#: src/analysis-tools.c:1232 src/analysis-tools.c:1389
-#: src/analysis-tools.c:1524 src/analysis-tools.c:1660
-#: src/analysis-tools.c:2014 src/analysis-tools.c:2554
-#: src/analysis-tools.c:2767
+#: src/analysis-tools.c:1210 src/analysis-tools.c:1348
+#: src/analysis-tools.c:1464 src/analysis-tools.c:1582
+#: src/analysis-tools.c:1912 src/analysis-tools.c:2393
+#: src/analysis-tools.c:2584
 msgid "df"
 msgstr "ст. свободы"
 
-#: src/analysis-tools.c:1233 src/analysis-tools.c:1390
-#: src/analysis-tools.c:1525 src/analysis-tools.c:2022
+#: src/analysis-tools.c:1211 src/analysis-tools.c:1349
+#: src/analysis-tools.c:1465 src/analysis-tools.c:1920
 msgid "t Stat"
 msgstr "t-Статистика"
 
-#: src/analysis-tools.c:1234 src/analysis-tools.c:1391
-#: src/analysis-tools.c:1526
+#: src/analysis-tools.c:1212 src/analysis-tools.c:1350
+#: src/analysis-tools.c:1466
 msgid "P (T<=t) one-tail"
 msgstr "P (T<=t) одностороннее"
 
-#: src/analysis-tools.c:1235 src/analysis-tools.c:1392
-#: src/analysis-tools.c:1527
+#: src/analysis-tools.c:1213 src/analysis-tools.c:1351
+#: src/analysis-tools.c:1467
 msgid "t Critical one-tail"
 msgstr "t-Критическое одностороннее"
 
-#: src/analysis-tools.c:1236 src/analysis-tools.c:1393
-#: src/analysis-tools.c:1528
+#: src/analysis-tools.c:1214 src/analysis-tools.c:1352
+#: src/analysis-tools.c:1468
 msgid "P (T<=t) two-tail"
 msgstr "P (T<=t) двухстороннее"
 
-#: src/analysis-tools.c:1237 src/analysis-tools.c:1394
-#: src/analysis-tools.c:1529
+#: src/analysis-tools.c:1215 src/analysis-tools.c:1353
+#: src/analysis-tools.c:1469
 msgid "t Critical two-tail"
 msgstr "t-Критическое двухстороннее"
 
-#: src/analysis-tools.c:1387
+#: src/analysis-tools.c:1346
 msgid "Pooled Variance"
 msgstr "Накопленная дисперсия"
 
-#: src/analysis-tools.c:1626
+#: src/analysis-tools.c:1552
 msgid "F-Test"
 msgstr "F-Тест"
 
-#: src/analysis-tools.c:1661 src/analysis-tools.c:2017
-#: src/analysis-tools.c:2556 src/analysis-tools.c:2769
+#: src/analysis-tools.c:1583 src/analysis-tools.c:1915
+#: src/analysis-tools.c:2395 src/analysis-tools.c:2586
 msgid "F"
 msgstr "F"
 
-#: src/analysis-tools.c:1662
+#: src/analysis-tools.c:1584
 msgid "P (F<=f) one-tail"
 msgstr "P (F<=f) одностороннее"
 
-#: src/analysis-tools.c:1663
+#: src/analysis-tools.c:1585
 msgid "F Critical one-tail"
 msgstr "F-критическое одностроннее"
 
-#: src/analysis-tools.c:1750 src/dialogs/dialog-analysis-tools.c:398
+#: src/analysis-tools.c:1660 src/dialogs/dialog-analysis-tools.c:398
 msgid "Random"
 msgstr "Случайное"
 
-#: src/analysis-tools.c:1895
+#: src/analysis-tools.c:1797
 msgid "Not implemented yet.\n"
 msgstr "Еще не реализовано.\n"
 
 #. TODO This would be better using the
 #. value in the checkbox instead of this
 #. global, but I don't know GTK very well
-#: src/analysis-tools.c:1991 src/analysis-tools.c:2003
+#: src/analysis-tools.c:1891 src/analysis-tools.c:1903
 #: src/dialogs/dialog-analysis-tools.c:94
 #: src/dialogs/dialog-analysis-tools.c:1978
 msgid "Regression"
 msgstr "Регрессия"
 
-#: src/analysis-tools.c:1993
+#: src/analysis-tools.c:1893
 msgid "SUMMARY OUTPUT"
 msgstr "ИТОГОВЫЙ ВЫВОД"
 
-#: src/analysis-tools.c:1995
+#: src/analysis-tools.c:1895
 msgid "Regression Statistics"
 msgstr "Регрессионные статистики"
 
-#: src/analysis-tools.c:1996
+#: src/analysis-tools.c:1896
 msgid "Multiple R"
 msgstr "Множественная регрессия"
 
-#: src/analysis-tools.c:1997
+#: src/analysis-tools.c:1897
 msgid "R Square"
 msgstr "Коэффициент детерминации"
 
-#: src/analysis-tools.c:1998
+#: src/analysis-tools.c:1898
 msgid "Adjusted R Square"
 msgstr "Подобранный коэффициент детерминации"
 
-#: src/analysis-tools.c:2002 src/analysis-tools.c:2551
-#: src/analysis-tools.c:2764
+#: src/analysis-tools.c:1902 src/analysis-tools.c:2390
+#: src/analysis-tools.c:2581
 msgid "ANOVA"
 msgstr "Дисперсионный анализ"
 
-#: src/analysis-tools.c:2004
+#: src/analysis-tools.c:1904
 msgid "Residual"
 msgstr "Остаток"
 
-#: src/analysis-tools.c:2005 src/analysis-tools.c:2561
-#: src/analysis-tools.c:2775
+#: src/analysis-tools.c:1905 src/analysis-tools.c:2400
+#: src/analysis-tools.c:2592
 msgid "Total"
 msgstr "Итого"
 
-#: src/analysis-tools.c:2007
+#: src/analysis-tools.c:1907
 msgid "Intercept"
 msgstr "Отрезок"
 
-#: src/analysis-tools.c:2010
+#: src/analysis-tools.c:1910
 #, c-format
 msgid "X Variable %d"
 msgstr "X переменная %d"
 
-#: src/analysis-tools.c:2015 src/analysis-tools.c:2553
-#: src/analysis-tools.c:2766
+#: src/analysis-tools.c:1913 src/analysis-tools.c:2392
+#: src/analysis-tools.c:2583
 msgid "SS"
 msgstr "Сумма квадратов"
 
-#: src/analysis-tools.c:2016 src/analysis-tools.c:2555
-#: src/analysis-tools.c:2768
+#: src/analysis-tools.c:1914 src/analysis-tools.c:2394
+#: src/analysis-tools.c:2585
 msgid "MS"
 msgstr "Квадрат среднего"
 
-#: src/analysis-tools.c:2018
+#: src/analysis-tools.c:1916
 msgid "Significance F"
 msgstr "Значение F"
 
-#: src/analysis-tools.c:2020
+#: src/analysis-tools.c:1918
 msgid "Coefficients"
 msgstr "Коэффициенты"
 
-#: src/analysis-tools.c:2023 src/analysis-tools.c:2557
-#: src/analysis-tools.c:2770
+#: src/analysis-tools.c:1921 src/analysis-tools.c:2396
+#: src/analysis-tools.c:2587
 msgid "P-value"
 msgstr "P-значения"
 
-#: src/analysis-tools.c:2025
+#: src/analysis-tools.c:1923
 #, c-format
 msgid "Lower 95%"
 msgstr "Ниже 95%"
 
-#: src/analysis-tools.c:2026
+#: src/analysis-tools.c:1924
 #, c-format
 msgid "Upper 95%"
 msgstr "Выше 95%"
 
-#: src/analysis-tools.c:2246
+#: src/analysis-tools.c:2112
 msgid "Moving Averages"
 msgstr "Скользящие средние"
 
-#: src/analysis-tools.c:2318
+#: src/analysis-tools.c:2181
 msgid "Ranks"
 msgstr "Ранги"
 
-#: src/analysis-tools.c:2326 src/analysis-tools.c:2355
+#: src/analysis-tools.c:2189 src/analysis-tools.c:2214
 msgid "Point"
 msgstr "Точки"
 
-#: src/analysis-tools.c:2340 src/analysis-tools.c:2370
+#: src/analysis-tools.c:2199 src/analysis-tools.c:2225
 msgid "Rank"
 msgstr "Ранг"
 
-#: src/analysis-tools.c:2341 src/analysis-tools.c:2371
+#: src/analysis-tools.c:2200 src/analysis-tools.c:2226
 #: src/workbook-format-toolbar.c:380
 msgid "Percent"
 msgstr "Процент"
 
-#: src/analysis-tools.c:2461 src/analysis-tools.c:2652
+#: src/analysis-tools.c:2312 src/analysis-tools.c:2479
 msgid "Anova"
 msgstr "Дисперсионный анализ"
 
-#: src/analysis-tools.c:2466 src/dialogs/analysis-tools.glade.h:52
+#: src/analysis-tools.c:2317 src/dialogs/analysis-tools.glade.h:52
 #: src/dialogs/dialog-analysis-tools.c:76
 msgid "Anova: Single Factor"
 msgstr "Дисперсионный анализ: однофакторный"
 
-#: src/analysis-tools.c:2467 src/analysis-tools.c:2658
+#: src/analysis-tools.c:2318 src/analysis-tools.c:2485
 msgid "SUMMARY"
 msgstr "ИТОГО"
 
-#: src/analysis-tools.c:2468
+#: src/analysis-tools.c:2319
 msgid "Groups"
 msgstr "Группы"
 
-#: src/analysis-tools.c:2471 src/analysis-tools.c:2661 src/workbook.c:2029
+#: src/analysis-tools.c:2322 src/analysis-tools.c:2488 src/workbook.c:2029
 msgid "Average"
 msgstr "Среднее"
 
-#: src/analysis-tools.c:2552 src/analysis-tools.c:2765
+#: src/analysis-tools.c:2391 src/analysis-tools.c:2582
 msgid "Source of Variation"
 msgstr "Источник дисперсии"
 
-#: src/analysis-tools.c:2558 src/analysis-tools.c:2771
+#: src/analysis-tools.c:2397 src/analysis-tools.c:2588
 msgid "F critical"
 msgstr "F-критическое"
 
-#: src/analysis-tools.c:2559
+#: src/analysis-tools.c:2398
 msgid "Between Groups"
 msgstr "Между группами"
 
-#: src/analysis-tools.c:2560
+#: src/analysis-tools.c:2399
 msgid "Within Groups"
 msgstr "В группах"
 
-#: src/analysis-tools.c:2657 src/dialogs/analysis-tools.glade.h:64
+#: src/analysis-tools.c:2484 src/dialogs/analysis-tools.glade.h:64
 #: src/dialogs/dialog-analysis-tools.c:78
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Дисперсионный анализ: двухфакторный без воспроизведения"
 
-#: src/analysis-tools.c:2772 src/dialogs/dialog-analysis-tools.c:392
+#: src/analysis-tools.c:2589 src/dialogs/dialog-analysis-tools.c:392
 msgid "Rows"
 msgstr "Строки"
 
-#: src/analysis-tools.c:2773 src/dialogs/dialog-analysis-tools.c:391
+#: src/analysis-tools.c:2590 src/dialogs/dialog-analysis-tools.c:391
 #: src/dialogs/dialog-stf.glade.h:50
 msgid "Columns"
 msgstr "Столбцы"
 
-#: src/analysis-tools.c:2774
+#: src/analysis-tools.c:2591
 msgid "Error"
 msgstr "Ошибка"
 
@@ -1101,7 +1096,7 @@ msgstr ""
 "Ошибка синтаксического анализа при попытке проанализировать данные в "
 "диапазоне ячеек"
 
-#: src/cmd-edit.c:313
+#: src/cmd-edit.c:311
 #, c-format
 msgid ""
 "destination has a different shape (%dRx%dC) than the original (%dRx%dC)\n"
@@ -1112,11 +1107,11 @@ msgstr ""
 "\n"
 "Попробуйте выделить одну ячейку или область такой же формы и размера."
 
-#: src/cmd-edit.c:318
+#: src/cmd-edit.c:316
 msgid "Unable to paste into selection"
 msgstr "Невозможно вставить в выделение"
 
-#: src/cmd-edit.c:355 src/workbook.c:1534
+#: src/cmd-edit.c:353 src/workbook.c:1534
 msgid "Paste"
 msgstr "Вставить"
 
@@ -1257,16 +1252,16 @@ msgid "Hide rows"
 msgstr "Скрыть строки"
 
 #. FIXME : improve on this
-#: src/commands.c:1838
+#: src/commands.c:1839
 msgid "Moving cells"
 msgstr "Перенос ячеек"
 
-#: src/commands.c:1976
+#: src/commands.c:1977
 #, c-format
 msgid "Pasting into %s"
 msgstr "Вставка в %s"
 
-#: src/commands.c:2099
+#: src/commands.c:2100
 msgid "Autofill"
 msgstr "Автозаполнение"
 
@@ -1886,7 +1881,7 @@ msgstr "Тип"
 msgid "Display the value exactly as it was entered"
 msgstr "Показывать значение точно так как оно было введено"
 
-#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:402
+#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:395
 msgid "Number"
 msgstr "Числовой"
 
@@ -2282,7 +2277,7 @@ msgstr "Расширенные параметры сортировки"
 msgid "Sort by"
 msgstr "Сортировать по"
 
-#: src/dialogs/cell-sort.glade.h:17 src/solver-lp.c:1059 src/solver-lp.c:1111
+#: src/dialogs/cell-sort.glade.h:17 src/solver-lp.c:1056 src/solver-lp.c:1106
 msgid "Value"
 msgstr "Значения"
 
@@ -2740,28 +2735,28 @@ msgstr "затем по"
 msgid "delete cells"
 msgstr "удалить ячейки"
 
-#: src/dialogs/dialog-function-wizard.c:394
+#: src/dialogs/dialog-function-wizard.c:387
 #, c-format
 msgid "Value%d"
 msgstr "Значение%d"
 
-#: src/dialogs/dialog-function-wizard.c:401 src/functions/fn-string.c:1337
+#: src/dialogs/dialog-function-wizard.c:394 src/functions/fn-string.c:1337
 msgid "String"
 msgstr "Строка"
 
-#: src/dialogs/dialog-function-wizard.c:403
+#: src/dialogs/dialog-function-wizard.c:396
 msgid "Boolean"
 msgstr "Булевый"
 
-#: src/dialogs/dialog-function-wizard.c:405
+#: src/dialogs/dialog-function-wizard.c:398
 msgid "Array"
 msgstr "Массив"
 
-#: src/dialogs/dialog-function-wizard.c:406
+#: src/dialogs/dialog-function-wizard.c:399
 msgid "Range/Array"
 msgstr "Диапазон/Массив"
 
-#: src/dialogs/dialog-function-wizard.c:408
+#: src/dialogs/dialog-function-wizard.c:401
 msgid "Any"
 msgstr "Любой"
 
@@ -2833,8 +2828,8 @@ msgstr "Ячейка названная в 'Изменяя ячейку' должна не содержать формул"
 msgid "Goal seek did not find a solution!"
 msgstr "Поиск цели не привел к решению!"
 
-#: src/dialogs/dialog-goto-cell.c:45 src/solver-lp.c:897 src/solver-lp.c:924
-#: src/solver-lp.c:959 src/solver-lp.c:1057 src/solver-lp.c:1109
+#: src/dialogs/dialog-goto-cell.c:45 src/solver-lp.c:896 src/solver-lp.c:922
+#: src/solver-lp.c:957 src/solver-lp.c:1054 src/solver-lp.c:1104
 msgid "Cell"
 msgstr "Ячейка"
 
@@ -5802,17 +5797,6 @@ msgstr ""
 "@DESCRIPTION=Функция DAVERAGE возвращает среднее значений из списка или базы "
 "данных удовлетворяющих указанным условиям. \n"
 
-#: src/functions/fn-database.c:499
-msgid ""
-"\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5824,16 +5808,6 @@ msgstr ""
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
 "@DESCRIPTION=Функция DCOUNT подсчитывает ячейки содержащие числа в базе "
 "данных удовлетворяющей указанному условию. \n"
-
-#: src/functions/fn-database.c:568
-msgid ""
-"\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
-msgstr ""
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -5847,16 +5821,6 @@ msgstr ""
 "@DESCRIPTION=Функция DCOUNTA подсчитывает ячейки  содержащие данные в базе "
 "данных удовлетворяющей указанному условию. \n"
 
-#: src/functions/fn-database.c:629
-msgid ""
-"\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5868,17 +5832,6 @@ msgstr ""
 "@SYNTAX=DGET(database,field,criteria)\n"
 "@DESCRIPTION=Функция DGET возвращает одно значение из столбца "
 "удовлетворяющего указанному условию. \n"
-
-#: src/functions/fn-database.c:687
-msgid ""
-"\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@SEEALSO=DCOUNT"
-msgstr ""
 
 #: src/functions/fn-database.c:747
 msgid ""
@@ -5892,16 +5845,6 @@ msgstr ""
 "@DESCRIPTION=Функция DMAX возвращает наибольшее значение в столбце "
 "удовлетворяющем указанному условию. \n"
 
-#: src/functions/fn-database.c:755
-msgid ""
-"\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
-
 #: src/functions/fn-database.c:818
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -5914,15 +5857,6 @@ msgstr ""
 "@DESCRIPTION=Функция DMIN возвращает наименьшее значение в столбце "
 "удовлетворяющем указанному условию. \n"
 
-#: src/functions/fn-database.c:826
-msgid ""
-"\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
-
 #: src/functions/fn-database.c:888
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -5934,14 +5868,6 @@ msgstr ""
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
 "@DESCRIPTION=Функция DPRODUCT возвращает произведение чисел в столбце "
 "удовлетворяющем указанному условию. \n"
-
-#: src/functions/fn-database.c:896
-msgid ""
-"\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
-msgstr ""
 
 #: src/functions/fn-database.c:955
 msgid ""
@@ -5957,15 +5883,6 @@ msgstr ""
 "генеральной совокупности основанное на выборке. Генеральная совокупность "
 "состоит из чисел удовлетворяющих указанному условию. \n"
 
-#: src/functions/fn-database.c:964
-msgid ""
-"\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
-msgstr ""
-
 #: src/functions/fn-database.c:1021
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -5980,15 +5897,6 @@ msgstr ""
 "совокупности на основе полной совокупности. Генеральная совокупность состоит "
 "из чисел удовлетворяющих указанным условиям. \n"
 
-#: src/functions/fn-database.c:1030
-msgid ""
-"\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
-msgstr ""
-
 #: src/functions/fn-database.c:1089
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -6000,15 +5908,6 @@ msgstr ""
 "@SYNTAX=DSUM(database,field,criteria)\n"
 "@DESCRIPTION=Функция DSUM возвращает сумму чисел в столбце удовлетворяющем "
 "указанному условию. \n"
-
-#: src/functions/fn-database.c:1097
-msgid ""
-"\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
-msgstr ""
 
 #: src/functions/fn-database.c:1156
 msgid ""
@@ -6024,15 +5923,6 @@ msgstr ""
 "совокупности на основе выборки. Генеральная совокупность содержит числа "
 "удовлетворяющие указанному условию. \n"
 
-#: src/functions/fn-database.c:1165
-msgid ""
-"\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
-
 #: src/functions/fn-database.c:1224
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -6046,15 +5936,6 @@ msgstr ""
 "@DESCRIPTION=Функция DVARP возвращает дисперсию генеральной совокупности на "
 "основе полной совокупности. Генеральная совокупность состоит из чисел "
 "удовлетворяющих указанным условиям. \n"
-
-#: src/functions/fn-database.c:1233
-msgid ""
-"\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
-msgstr ""
 
 #: src/functions/fn-database.c:1293
 msgid ""
@@ -14431,6 +14312,10 @@ msgstr "#NAME?"
 msgid "#NUM!"
 msgstr "#NUM!"
 
+#: src/number-match.c:542
+msgid "#N/A"
+msgstr "#N/A"
+
 #: src/number-match.c:543
 msgid "#RECALC!"
 msgstr "#RECALC!"
@@ -14654,121 +14539,121 @@ msgstr "Вставить строки"
 msgid "Delete Rows"
 msgstr "Удалить строки"
 
-#: src/solver-lp.c:889
+#: src/solver-lp.c:888
 msgid "Answer Report"
 msgstr "Итоговый отчет"
 
-#: src/solver-lp.c:890
+#: src/solver-lp.c:889
 msgid "Gnumeric Solver Answer Report"
 msgstr "Итоговый отчет Gnumeric Solver"
 
-#: src/solver-lp.c:894
+#: src/solver-lp.c:893
 msgid "Target Cell (Maximize)"
 msgstr "Целевая ячейка (Максимизировать)"
 
-#: src/solver-lp.c:896
+#: src/solver-lp.c:895
 msgid "Target Cell (Minimize)"
 msgstr "Целевая ячейка (Минимизировать)"
 
-#: src/solver-lp.c:898 src/solver-lp.c:925 src/solver-lp.c:960
-#: src/solver-lp.c:1058 src/solver-lp.c:1110
+#: src/solver-lp.c:897 src/solver-lp.c:923 src/solver-lp.c:958
+#: src/solver-lp.c:1055 src/solver-lp.c:1105
 msgid "Name"
 msgstr "Название"
 
-#: src/solver-lp.c:899 src/solver-lp.c:926
+#: src/solver-lp.c:898 src/solver-lp.c:924
 msgid "Original Value"
 msgstr "Исходное значение"
 
-#: src/solver-lp.c:900 src/solver-lp.c:927
+#: src/solver-lp.c:899 src/solver-lp.c:925
 msgid "Final Value"
 msgstr "Итоговое значение"
 
-#: src/solver-lp.c:923 src/solver-lp.c:1051
+#: src/solver-lp.c:921 src/solver-lp.c:1048
 msgid "Adjustable Cells"
 msgstr "Настраиваемые ячейки"
 
-#: src/solver-lp.c:958 src/solver-lp.c:1101
+#: src/solver-lp.c:956 src/solver-lp.c:1096
 msgid "Constraints"
 msgstr "Ограничения"
 
-#: src/solver-lp.c:961
+#: src/solver-lp.c:959
 msgid "Cell Value"
 msgstr "Значение ячейки"
 
-#: src/solver-lp.c:962
+#: src/solver-lp.c:960
 msgid "Formula"
 msgstr "Формула"
 
-#: src/solver-lp.c:963
+#: src/solver-lp.c:961
 msgid "Status"
 msgstr "Состояние"
 
-#: src/solver-lp.c:964
+#: src/solver-lp.c:962
 msgid "Slack"
 msgstr "Допуск"
 
-#: src/solver-lp.c:1012
+#: src/solver-lp.c:1010
 msgid "Binding"
 msgstr "Связывание"
 
-#: src/solver-lp.c:1014
+#: src/solver-lp.c:1012
 msgid "Not Binding"
 msgstr "Без связывания"
 
-#: src/solver-lp.c:1049
+#: src/solver-lp.c:1046
 msgid "Sensitivity Report"
 msgstr ""
 
-#: src/solver-lp.c:1050
+#: src/solver-lp.c:1047
 msgid "Gnumeric Solver Sensitivity Report"
 msgstr ""
 
-#: src/solver-lp.c:1052 src/solver-lp.c:1103
+#: src/solver-lp.c:1049 src/solver-lp.c:1098
 msgid "Final"
 msgstr "Финальный"
 
-#: src/solver-lp.c:1053
+#: src/solver-lp.c:1050
 msgid "Reduced"
 msgstr "Уменьшенный"
 
-#: src/solver-lp.c:1054
+#: src/solver-lp.c:1051
 msgid "Objective"
 msgstr "Целевой"
 
-#: src/solver-lp.c:1055 src/solver-lp.c:1056 src/solver-lp.c:1106
-#: src/solver-lp.c:1107
+#: src/solver-lp.c:1052 src/solver-lp.c:1053 src/solver-lp.c:1101
+#: src/solver-lp.c:1102
 msgid "Allowable"
 msgstr "Позволительный"
 
-#: src/solver-lp.c:1060
+#: src/solver-lp.c:1057
 msgid "Cost"
 msgstr "Стоимость"
 
-#: src/solver-lp.c:1061
+#: src/solver-lp.c:1058
 msgid "Coefficient"
 msgstr "Коэффициент"
 
-#: src/solver-lp.c:1062 src/solver-lp.c:1114
+#: src/solver-lp.c:1059 src/solver-lp.c:1109
 msgid "Increase"
 msgstr "Увеличить"
 
-#: src/solver-lp.c:1063 src/solver-lp.c:1115
+#: src/solver-lp.c:1060 src/solver-lp.c:1110
 msgid "Decrease"
 msgstr "Уменьшить"
 
-#: src/solver-lp.c:1104
+#: src/solver-lp.c:1099
 msgid "Shadow"
 msgstr "Тень"
 
-#: src/solver-lp.c:1105
+#: src/solver-lp.c:1100
 msgid "Constraint"
 msgstr "Ограничение"
 
-#: src/solver-lp.c:1112
+#: src/solver-lp.c:1107
 msgid "Price"
 msgstr "Цена"
 
-#: src/solver-lp.c:1113
+#: src/solver-lp.c:1108
 msgid "R.H. Side"
 msgstr "Правая сторона"
 
@@ -14805,48 +14690,18 @@ msgstr "Экспорт тестового файла (*.csv)"
 msgid "<Has not been set>"
 msgstr "<Не был установлен>"
 
-#: src/style.c:449
-#, fuzzy, c-format
-msgid ""
-"Gnumeric failed to find a suitable default font.\n"
-"Please verify your gnome-print installation\n"
-".Your fontmap file %s\n"
-"\n"
-"If you still have no luck, please file a proper bug report (see\n"
-"http://bugs.gnome.org) including the following extra items:\n"
-"\n"
-"1) The content of your fontmap file, if the file exists.\n"
-"\t (typically located in %s)\n"
-"2) The value of the LC_ALL environment variable\n"
-"\tLC_ALL=%s\n"
-"3) The value of the LANG environment variable\n"
-"\tLANG=%s\n"
-"4) What version of libxml gnumeric is running with.\n"
-"   You may be able to use the 'ldd' command to get that information.\n"
-"\n"
-"Thanks -- the Gnumeric Team\n"
-msgstr ""
-"Gnumeric не удалось найти шрифт используемый по умолчанию.\n"
-"Пожалуйста, проверьте вашу установку gnome-print.\n"
-"Если вы все еще несчастны, пожалуйста отправьте сообщение об ошибке (см.\n"
-"http://bugs.gnome.org) включающее следующие дополнительные сведения:\n"
-"\n"
-"1. Значение переменной окружения LC_ALL\n"
-"       LC_ALL=%s.\n"
-"2. Значение переменной окружения LANG\n"
-"       LANG=%s \n"
-"3. Ваш файл fontmap, если он существует.\n"
-"        (обычно находится в %s) %s\n"
-"4. Какую версию libxml использует gnumeric.\n"
-"   Для получения этой информации вы можете использовать команду \"ldd\"\n"
-" \n"
-"Спасибо -- Команда разработчиков Gnumeric\n"
+#. Translators: the first %s will be changed with string
+#. "does not have a valid entry for Helvetica" or
+#. "could not be found in the expected location"
+#: src/style.c:451
+msgid "Gnumeric failed to find a suitable default font.\n"
+msgstr "Gnumeric не удалось найти подходящий шрифт используемый по умолчанию.\n"
 
-#: src/style.c:466
+#: src/style.c:473
 msgid "does not have a valid entry for Helvetica"
 msgstr "нет подходящей записи для шрифта Helvetica"
 
-#: src/style.c:467
+#: src/style.c:474
 msgid "could not be found in the expected location"
 msgstr "невозможно найти в ожидаемом месте"
 
@@ -15785,19 +15640,19 @@ msgstr "Переименовать этот лист"
 msgid "Re-order sheets"
 msgstr "Переупорядочить листы"
 
-#: src/xml-io.c:3142
+#: src/xml-io.c:3112
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Неправильные XML данные в буфере обмена. Дерево пусто?"
 
-#: src/xml-io.c:3183
+#: src/xml-io.c:3153
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Испорченный XML-файл. Дерево пусто?"
 
-#: src/xml-io.c:3197
+#: src/xml-io.c:3167
 msgid "Is not an Workbook file"
 msgstr "Это не файл книги"
 
-#: src/xml-io.c:3262
+#: src/xml-io.c:3232
 msgid "Gnumeric XML file format"
 msgstr "Формат файла Gnumeric XML"
 
