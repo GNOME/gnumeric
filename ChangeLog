@@ -1,3 +1,14 @@
+2001-05-21  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui-priv.h (struct _WorkbookControlGUI):
+	Add toolbar_is_sensitive member.
+
+	* src/workbook-control-gui.c (workbook_control_gui_init):
+	Initialize wbcg->toolbar_is_sensitive.
+
+	* src/workbook-edit.c (workbook_edit_toolbars_set_sensitive): Use 
+	wbcg->toolbar_is_sensitive instead of static is_sensitive.
+	
 2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
 
 	Cleaned up file i/o interface.

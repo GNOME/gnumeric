@@ -59,11 +59,10 @@ workbook_edit_toolbars_set_sensitive (WorkbookControlGUI *wbcg, gboolean sensiti
 #ifdef ENABLE_BONOBO
 	CORBA_Environment ev;
 #endif
-	static gboolean is_sensitive = TRUE;
 
 	/* Don't disable/enable again (prevent toolbar flickering) */
-	if (is_sensitive != sensitive)
-		is_sensitive = sensitive;
+	if (wbcg->toolbar_is_sensitive != sensitive)
+		wbcg->toolbar_is_sensitive = sensitive;
 	else
 		return;
 

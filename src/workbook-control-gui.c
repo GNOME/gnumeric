@@ -3474,6 +3474,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	workbook_create_standard_toolbar (wbcg);
 	workbook_create_format_toolbar (wbcg);
 	workbook_create_object_toolbar (wbcg);
+	wbcg->toolbar_is_sensitive = TRUE;
 
 	wbcg_history_setup (wbcg);		/* Dynamic history menu items. */
 

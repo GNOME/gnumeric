@@ -82,6 +82,7 @@ struct _WorkbookControlGUI {
 
 	gboolean    updating_ui;
 	gint        toolbar_sensitivity_timer;
+	gboolean    toolbar_is_sensitive;
 
 	/* Auto completion */
 	void            *auto_complete;         /* GtkType is (Complete *) */
