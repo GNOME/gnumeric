@@ -1081,7 +1081,8 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 	me->contents = NULL;
 
 	/* We store the cut or/copied range if applicable */	
-	if (!application_clipboard_is_empty ()) {
+	if (!application_clipboard_is_empty () &&
+	    sheet == application_clipboard_sheet_get ()) {
 		me->cutcopied = range_dup (application_clipboard_area_get ());
 		me->is_cut    = application_clipboard_is_cut ();
 	} else

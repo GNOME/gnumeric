@@ -1,5 +1,8 @@
 2001-09-05  Jody Goldberg <jgoldberg@home.com>
 
+	* src/commands.c (cmd_ins_del_colrow) : don't store the clipboard if
+	  it on another sheet.
+
 	* src/GNOME_Gnumeric.xml : The magic incantation  that allows us to
 	  desensitize toolbars by setting a property on a command of the same
 	  namedoesnot work with a menubar, but supplying an 'id' property to
