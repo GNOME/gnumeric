@@ -269,13 +269,17 @@ ms_read_TXO (BiffQuery *q)
 /*	guint16 const num_formats = MS_OLE_GET_GUINT16 (q->data + 12);*/
 	int const halign = (options >> 1) & 0x7;
 	int const valign = (options >> 4) & 0x7;
-	char         *text = g_new (char, text_len + 1);
+	char         *text;
 	guint16       peek_op;
+
+	if (text_len == 0)
+		return NULL;
 
 	g_return_val_if_fail (orient <= 3, NULL);
 	g_return_val_if_fail (1 <= halign && halign <= 4, NULL);
 	g_return_val_if_fail (1 <= valign && valign <= 4, NULL);
 
+	text = g_new (char, text_len + 1);
 	text [0] = '\0';
 	if (ms_biff_query_peek_next (q, &peek_op) &&
 	    peek_op == BIFF_CONTINUE) {
@@ -302,7 +306,7 @@ ms_read_TXO (BiffQuery *q)
 		    peek_op == BIFF_CONTINUE)
 			ms_biff_query_next (q);
 		else
-			g_warning ("Unusual, TXO text with no formatting");
+			g_warning ("Unusual, TXO text with no formatting has 0x%x @ 0x%x", peek_op, q->streamPos);
 	} else if (text_len > 0)
 		g_warning ("TXO len of %d but no continue", text_len);
 

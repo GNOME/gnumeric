@@ -1,3 +1,18 @@
+2002-07-18  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_read_imdata) : only read the amount of
+	  data in the imrecord.  not all continues add infinitum.  Fixes
+	  guia.xls.
+
+	* ms-obj.c (ms_read_TXO) : don't expect continue records if there is
+	  no text.  Fixes guia2.xls.
+
+2002-07-16  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_read_sheet) : reorder 0x1xx entries to be
+	  in increasing order and support hlinks.
+	(ms_excel_read_hlink) : new.
+
 2002-07-14  Jody Goldberg <jody@gnome.org>
 
 	* ms-obj.c (ms_obj_read_pre_biff8_obj) : move the prob bag init from

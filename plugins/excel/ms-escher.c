@@ -165,7 +165,7 @@ ms_escher_get_data (MSEscherState * state,
 		    q->opcode != BIFF_MS_O_DRAWING_GROUP &&
 		    q->opcode != BIFF_MS_O_DRAWING_SELECTION &&
 		    q->opcode != BIFF_CONTINUE) {
-			g_warning ("Unexpected record type 0x%x len=0x%x\n", q->opcode, q->length);
+ 			g_warning ("Unexpected record type 0x%x len=0x%x @ 0x%x;", q->opcode, q->length, q->streamPos);
 			return NULL;
 		}
 
@@ -219,7 +219,7 @@ ms_escher_get_data (MSEscherState * state,
 			    q->opcode != BIFF_MS_O_DRAWING_GROUP &&
 			    q->opcode != BIFF_MS_O_DRAWING_SELECTION &&
 			    q->opcode != BIFF_CONTINUE) {
-				g_warning ("Unexpected record type 0x%x\n", q->opcode);
+				g_warning ("Unexpected record type 0x%x @ 0x%x;", q->opcode, q->streamPos);
 				return NULL;
 			}
 

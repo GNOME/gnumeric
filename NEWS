@@ -1,6 +1,8 @@
 Jody:
 	* Recompute spans after reading from applix.
 	* Fix the guia2 prop bag import warnings
+	* Fix 0 sized TXO import inside escher streams
+	* Fix import of IMDATA inside escher streams
 	* Improve lotus importer
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=86338
