@@ -424,6 +424,7 @@ gog_bubble_plot_get_property (GObject *obj, guint param_id,
 	}
 }
 
+static void
 gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 {
 	GogObjectClass *gog_klass = (GogObjectClass *) plot_klass;
@@ -543,7 +544,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	double x = 0., y = 0., z, x_min, x_max, x_off, x_scale, y_min, y_max, y_off, y_scale, zmax, rmax = 0.;
 	double prev_x = 0., prev_y = 0.; /* make compiler happy */
 	ArtVpath	path[3];
-	GogStyle *style;
+	GogStyle *style = NULL;
 	gboolean valid, prev_valid, show_marks, show_lines, show_negatives, in_3d, size_as_area = TRUE;
 
 	if (!gog_axis_get_bounds (model->base.axis[0], &x_min, &x_max))
@@ -581,7 +582,6 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (n > tmp)
 				n = tmp;
 		}
-#warning: "I swapped the following two lines -- they had equal indentation."
 		style = GOG_STYLED_OBJECT (series)->style;
 		if (model->base.desc.series.num_dim == 3) {
 			double zmin;

@@ -1,3 +1,7 @@
+2004-02-02  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* graph/plugins/plot_xy/gog-xy.c: fixed several warnings
+
 2004-02-02  Jody Goldberg <jody@gnome.org>
 
 	* gui-utils/go-combo-color.c (cb_preview_clicked) : return the real
