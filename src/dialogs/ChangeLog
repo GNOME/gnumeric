@@ -1,5 +1,8 @@
 2003-09-25  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* dialog-solver.c (cb_dialog_solve_clicked): Bug fix: create the
+	scenario only if an optimal value was found.
+
 	* dialog-solver.c (constraint_select_click): Fixed the usability
 	of constraint change button.
 

@@ -1057,7 +1057,8 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	if (res != NULL) {
 		state->cancelled = FALSE;
 		solver_reporting (state, res, errmsg);
-		if (param->options.add_scenario)
+		if (res->status == SolverOptimal && 
+		    param->options.add_scenario)
 			solver_add_scenario (state, res,
 					     param->options.scenario_name);
 

@@ -35,6 +35,7 @@ Jukka:
 	* Fixed solver's model maximization button.
 	* Fixed crash with Cancel in Scenarios->View.
 	* Usability fix for solver's constraint change button.
+	* Bug fix: don't create a scenario if solver didn't find a solution.
 
 Nick Lamb:
 	* Improve import of ancient xls.
