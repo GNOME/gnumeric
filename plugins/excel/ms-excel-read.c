@@ -2046,8 +2046,14 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 			printf ("FIXME: Hidden columns need implementing\n");
 			width=40.0;
 		}
+
+		/*
+		 * FIXME FIXME FIXME 
+		 * 36 seems to match the sheet I calibrated against, but where
+		 * can we read that number for real ??
+		 */
 		for (lp=firstcol;lp<=lastcol;lp++)
-			sheet_col_set_width (sheet->gnum_sheet, lp, width/25);
+			sheet_col_set_width (sheet->gnum_sheet, lp, width/36);
 		break;
 	}
 	case BIFF_RK: /* See: S59DDA.HTM */

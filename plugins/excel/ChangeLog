@@ -1,3 +1,10 @@
+1999-07-10  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-excel-read.c : BIFF_COLINFO adjust in charwidth magic number to
+	  produce column widths that match my screenshot.
+
+	* TODO: updated.
+
 1999-07-10  Michael Meeks  <michael@edenproject.org>
 
 	* ms-formula-read.c (formula_func_data): Fix REPT = 2 args,

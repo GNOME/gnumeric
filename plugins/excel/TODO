@@ -22,7 +22,12 @@ Michael
 	* Investigate VB streams, and their lengths.
 
 Jody
-	*
+	* BIFF_COLINFO : Assuming a width of 36 seems to give reasonable
+	  column widths,  but where should we get this number from in the
+	  real world ?
+	* Where do the anchor points for objects come from.
+	* HEADER, FOOTER import.
+	* Check the record lengths on the bigg records BEFORE use.
 
 * Excel importing
 
