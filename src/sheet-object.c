@@ -781,13 +781,6 @@ sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t)
 	}
 }
 
-#ifdef WITH_BONOBO
-/* Do NOT include the relevant header files,
- * they introduce automake depends in the non-bonobo build.
- */
-extern GType sheet_object_bonobo_get_type (void);
-#endif
-
 void
 sheet_object_register (void)
 {
@@ -799,11 +792,7 @@ sheet_object_register (void)
 	GNM_GO_DATA_SCALAR_TYPE;
 	GNM_GO_DATA_VECTOR_TYPE;
 	CELL_COMMENT_TYPE;
-#ifdef WITH_BONOBO
-#ifdef GNOME2_CONVERSION_COMPLETE
-	sheet_object_bonobo_get_type ();
-#endif
-#endif
+
 	sheet_object_widget_register ();
 }
 

@@ -57,7 +57,7 @@ struct _ItemEdit {
 	gboolean   cursor_visible;
 	int        blink_timer;
 
-	GnmFont *style_font;
+	GnmFont *gfont;
 	GnmStyle	  *style;
 	GdkGC     *fill_gc;	/* Default background fill gc */
 
@@ -213,7 +213,7 @@ ie_layout (FooCanvasItem *item)
 	GnmCanvas const  *gcanvas = GNM_CANVAS (item->canvas);
 	ColRowInfo const *cri;
 	Sheet	   const *sheet  = sc_sheet (SHEET_CONTROL (ie->scg));
-	GnmFont  const *style_font = ie->style_font;
+	GnmFont  const *gfont = ie->gfont;
 	GnmRange	   const *merged;
 	int end_col, end_row, tmp, width, height, col_size;
 	char const *text, *entered_text;
@@ -230,8 +230,7 @@ ie_layout (FooCanvasItem *item)
 	text = wbcg_edit_get_display_text (scg_get_wbcg (ie->scg));
 	pango_layout_set_text (ie->layout, text, -1);
 
-	pango_layout_set_font_description (ie->layout,
-		pango_context_get_font_description (style_font->pango.context));
+	pango_layout_set_font_description (ie->layout, gfont->pango.font_descr);
 	pango_layout_set_wrap (ie->layout, PANGO_WRAP_CHAR);
 	pango_layout_set_width (ie->layout, (int)(item->x2 - item->x1)*PANGO_SCALE);
 
@@ -352,7 +351,7 @@ item_edit_update (FooCanvasItem *item,  double i2w_dx, double i2w_dy, int flags)
 		(parent_class->update)(item, i2w_dx, i2w_dy, flags);
 
 	/* do not calculate spans until after row/col has been set */
-	if (ie->style_font != NULL) {
+	if (ie->gfont != NULL) {
 		/* Redraw before and after in case the span changes */
 		foo_canvas_item_request_redraw (item);
 		ie_layout (item);
@@ -441,7 +440,7 @@ item_edit_init (ItemEdit *ie)
 	ie->scg = NULL;
 	ie->pos.col = -1;
 	ie->pos.row = -1;
-	ie->style_font = NULL;
+	ie->gfont = NULL;
 	ie->style      = NULL;
 	ie->cursor_visible = TRUE;
 	ie->feedback_disabled = FALSE;
@@ -477,9 +476,9 @@ item_edit_finalize (GObject *gobject)
 
 	scg_set_display_cursor (ie->scg);
 
-	if (ie->style_font != NULL) {
-		style_font_unref (ie->style_font);
-		ie->style_font = NULL;
+	if (ie->gfont != NULL) {
+		style_font_unref (ie->gfont);
+		ie->gfont = NULL;
 	}
 	if (ie->style != NULL) {
 		mstyle_unref (ie->style);
@@ -536,10 +535,10 @@ item_edit_set_property (GObject *gobject, guint param_id,
 	ie_scan_for_range (ie);
 
 	/* set the font and the upper left corner if this is the first pass */
-	if (ie->style_font == NULL) {
+	if (ie->gfont == NULL) {
 		ie->style = mstyle_copy (sheet_style_get (sv->sheet,
 			ie->pos.col, ie->pos.row));
-		ie->style_font = scg_get_style_font
+		ie->gfont = scg_get_style_font
 			(sv->sheet->context, sv->sheet, ie->style);
 
 		if (mstyle_get_align_h (ie->style) == HALIGN_GENERAL)

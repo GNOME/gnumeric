@@ -8,6 +8,14 @@ Andreas
 	  Mark workbook as dirty on sheet deletion/addition
 	* Bug fixes: 128915
 
+Jody:
+	http://bugzilla.gnome.org/show_bug.cgi?id=128565
+	* Overzealous renaming.
+	http://bugzilla.gnome.org/show_bug.cgi?id=128169
+	* Use the right font when editing.
+	http://bugzilla.gnome.org/show_bug.cgi?id=127625
+	* kludge around mystery inconsistent autfilters in xls
+
 Jukka:
 	* GLPK upgrade to version 4.2
 
