@@ -604,7 +604,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-histogram.png" format="PNG">
+<imagedata fileref="figures/analysistools-histogram.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Screenshot of the histogram tool dialog</phrase>
@@ -659,7 +659,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-histogram-ex1.png" format="PNG">
+<imagedata fileref="figures/analysistools-histogram-ex1.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Some example data</phrase>
@@ -706,7 +706,7 @@ Common output options of the data analysis tools
     <screenshot>
 <mediaobject>
 <imageobject>
-<imagedata fileref="images/analysistools-histogram-ex2.png" format="PNG">
+<imagedata fileref="figures/analysistools-histogram-ex2.png" format="PNG">
 </imageobject>
 <textobject>
 <phrase>Screenshot of the results output</phrase>
