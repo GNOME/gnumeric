@@ -1,3 +1,15 @@
+1999-07-26  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-chart.c (BC_R(chartline)) : More state checking.
+	  (BC_R(legend)) : Implement.
+	  (BC_R(series)) : Store series in chart objects.
+	  (ms_excel_biff_dimensions) :
+
+	* ms-obj.c : Closer ties with ms-escher.c.
+
+	* ms-formula-read.c : Changes for VALUE_ERROR. COUNTBLANK
+	  takes 1 argument.
+
 1999-07-26  Michael Meeks  <michael@edenproject.org>
 
 	* ms-summary.c (ms_summary_read): Update to ms_ole_summary_close.

@@ -10,6 +10,7 @@
  **/
 
 #include "excel.h"
+#include "ms-biff.h"
 
 /* Pass this a BiffQuery * */
 #define EX_GETROW(p)      (MS_OLE_GET_GUINT16(p->data + 0))

@@ -269,7 +269,7 @@ sheet_compute_col_row_new_size (Sheet *sheet, ColRowInfo *ci, void *data)
 	ci->margin_b = ci->margin_b_pt * pix_per_unit;
 }
 
-static int
+static Value *
 zoom_cell_style (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	StyleFont *sf;
@@ -278,12 +278,12 @@ zoom_cell_style (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 	 * If the size is already set, skip
 	 */
 	if (cell->style->font->scale == sheet->last_zoom_factor_used)
-		return TRUE;
+		return NULL;
 	
 	sf = style_font_new_from (cell->style->font, sheet->last_zoom_factor_used);
 	cell_set_font_from_style (cell, sf);
 	
-	return TRUE;
+	return NULL;
 }
 
 void
@@ -832,9 +832,7 @@ sheet_update_auto_expr (Sheet *sheet)
 		g_free (s);
 		value_release (v);
 	} else
-		workbook_auto_expr_label_set (wb, error_message_txt(ei.error));
-
-	error_message_free (ei.error);
+		workbook_auto_expr_label_set (wb, _("Internal ERROR"));
 }
 
 static const char *
@@ -1884,13 +1882,13 @@ sheet_selection_walk_step (Sheet *sheet, int forward, int horizontal,
  *
  * The closure parameter should be a pointer to a GList.
  */
-static int
+static Value *
 assemble_cell_list (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	GList **l = (GList **) user_data;
 
 	*l = g_list_prepend (*l, cell);
-	return TRUE;
+	return NULL;
 }
 
 CellList *
@@ -2059,7 +2057,7 @@ gen_col_blanks (Sheet *sheet, int start_col, int end_col,
  * the cell does not exist
  */
 Cell *
-sheet_cell_get (Sheet *sheet, int col, int row)
+sheet_cell_get (Sheet const *sheet, int col, int row)
 {
 	Cell *cell;
 	CellPos cellpos;
@@ -2108,9 +2106,10 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
  * callbacks are only invoked for existing cells.
  *
  * Return value:
- *    FALSE if some invoked routine requested to stop (by returning FALSE).
+ *    non-NULL on error, or value_terminate() if some invoked routine requested
+ *    to stop (by returning FALSE).
  */
-int
+Value *
 sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 			  int start_col, int start_row,
 			  int end_col, int end_row,
@@ -2119,8 +2118,8 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 {
 	GList *col;
 	GList *row;
-	int   last_col_gen = -1, last_row_gen = -1;
-	int   cont;
+	int    last_col_gen = -1, last_row_gen = -1;
+	Value *cont;
 
 	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
@@ -2146,13 +2145,13 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 				if (!gen_col_blanks (sheet, last_col_gen, ci->pos,
 						     start_row, end_row, callback,
 						     closure))
-				    return FALSE;
+				    return value_terminate();
 
 			if (ci->pos > start_col)
 				if (!gen_col_blanks (sheet, start_col, ci->pos,
 						     start_row, end_row, callback,
 						     closure))
-					return FALSE;
+					return value_terminate();
 		}
 		last_col_gen = ci->pos;
 
@@ -2175,30 +2174,30 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 								     row_pos,
 								     callback,
 								     closure))
-							return FALSE;
+							return value_terminate();
 				}
 				if (row_pos > start_row){
 					if (!gen_row_blanks (sheet, ci->pos,
 							     row_pos, start_row,
 							     callback, closure))
-						return FALSE;
+						return value_terminate();
 				}
 			}
 			cont = (*callback)(sheet, ci->pos, row_pos, cell, closure);
-			if (cont == FALSE)
-				return FALSE;
+			if (cont != NULL)
+				return cont;
 		}
 	}
-	return TRUE;
+	return NULL;
 }
 
-static gboolean
+static Value *
 fail_if_not_selected (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
  	if (!sheet_selection_is_cell_selected (sheet, col, row))
-  		return FALSE;
+  		return value_terminate();
  	else
- 		return TRUE;
+ 		return NULL;
 }
 
 /**
@@ -2225,7 +2224,7 @@ sheet_is_region_empty_or_selected (Sheet *sheet, int start_col, int start_row, i
 
 	return sheet_cell_foreach_range (
 		sheet, TRUE, start_col, start_row, end_col, end_row,
-		fail_if_not_selected, NULL);
+		fail_if_not_selected, NULL) == NULL;
 
 }
 
@@ -2575,7 +2574,7 @@ struct sheet_clear_region_callback_data
  * The closure parameter should be a pointer to a
  * sheet_clear_region_callback_data.
  */
-static int
+static Value *
 assemble_clear_cell_list (Sheet *sheet, int col, int row, Cell *cell,
 			  void *user_data)
 {
@@ -2592,15 +2591,15 @@ assemble_clear_cell_list (Sheet *sheet, int col, int row, Cell *cell,
 	if (cell->parsed_node && cell->parsed_node->oper == OPER_ARRAY){
 		ArrayRef * ref = &cell->parsed_node->u.array;
 		if ((col - ref->x) < cb->start_col)
-			return FALSE;
+			return value_terminate();
 		if ((row - ref->y) < cb->start_row)
-			return FALSE;
+			return value_terminate();
 		if ((col - ref->x + ref->cols -1) > cb->end_col)
-			return FALSE;
+			return value_terminate();
 		if ((row - ref->y + ref->rows -1) > cb->end_row)
-			return FALSE;
+			return value_terminate();
 	}
-	return TRUE;
+	return NULL;
 }
 
 /**
@@ -2632,7 +2631,7 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 	cb.l = NULL;
 	if (sheet_cell_foreach_range ( sheet, TRUE,
 				       start_col, start_row, end_col, end_row,
-				       assemble_clear_cell_list, &cb)){
+				       assemble_clear_cell_list, &cb) == NULL){
 		for (l = cb.l; l; l = l->next){
 			Cell *cell = l->data;
 
@@ -2662,12 +2661,12 @@ sheet_selection_clear (Sheet *sheet)
 	}
 }
 
-static int
+static Value *
 clear_cell_content (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	cell_set_text (cell, "");
 
-	return TRUE;
+	return NULL;
 }
 
 /**
@@ -2723,11 +2722,11 @@ sheet_selection_clear_content (Sheet *sheet)
 	}
 }
 
-static int
+static Value *
 clear_cell_comments (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	cell_comment_destroy (cell);
-	return TRUE;
+	return NULL;
 }
 
 /**
@@ -2781,11 +2780,11 @@ sheet_selection_clear_comments (Sheet *sheet)
 	}
 }
 
-static int
+static Value *
 clear_cell_format (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	cell_set_format (cell, "General");
-	return TRUE;
+	return NULL;
 }
 
 void
@@ -2961,14 +2960,16 @@ sheet_move_column (Sheet *sheet, ColRowInfo *ci, int new_column)
  * Callback for sheet_cell_foreach_range to test whether a cell is in an
  * array-formula to the right of the leftmost column.
  */
-static int
+static Value *
 avoid_dividing_array_horizontal (Sheet *sheet, int col, int row, Cell *cell,
 				 void *user_data)
 {
-	return (cell == NULL ||
-		cell->parsed_node == NULL ||
-		cell->parsed_node->oper != OPER_ARRAY ||
-		cell->parsed_node->u.array.x <= 0);
+	if (cell == NULL ||
+	    cell->parsed_node == NULL ||
+	    cell->parsed_node->oper != OPER_ARRAY ||
+	    cell->parsed_node->u.array.x <= 0)
+		return NULL;
+	return value_terminate();
 }
 
 /**
@@ -2993,10 +2994,10 @@ sheet_insert_col (Sheet *sheet, int col, int count)
 
 	/* 0. Walk cells in displaced col and ensure arrays aren't divided. */
 	if (col > 0)	/* No need to test leftmost column */
-		if (!sheet_cell_foreach_range (sheet, TRUE, col, 0,
-					       col, SHEET_MAX_ROWS,
-					       &avoid_dividing_array_horizontal,
-					       NULL)){
+		if (sheet_cell_foreach_range (sheet, TRUE, col, 0,
+					      col, SHEET_MAX_ROWS,
+					      &avoid_dividing_array_horizontal,
+					      NULL) != NULL){
 			gnumeric_no_modify_array_notice (sheet->workbook);
 			return;
 		}
@@ -3249,14 +3250,16 @@ sheet_shift_rows (Sheet *sheet, int col, int start_row, int end_row, int count)
  * Callback for sheet_cell_foreach_range to test whether a cell is in an
  * array-formula below the top line.
  */
-static int
+static Value *
 avoid_dividing_array_vertical (Sheet *sheet, int col, int row, Cell *cell,
 			       void *user_data)
 {
-	return (cell == NULL ||
-		cell->parsed_node == NULL ||
-		cell->parsed_node->oper != OPER_ARRAY ||
-		cell->parsed_node->u.array.y <= 0);
+	if (cell == NULL ||
+	    cell->parsed_node == NULL ||
+	    cell->parsed_node->oper != OPER_ARRAY ||
+	    cell->parsed_node->u.array.y <= 0)
+		return NULL;
+	return value_terminate();
 }
 
 /**
@@ -3278,10 +3281,10 @@ sheet_insert_row (Sheet *sheet, int row, int count)
 
 	/* 0. Walk cells in displaced row and ensure arrays aren't divided. */
 	if (row > 0)	/* No need to test top row */
-		if (!sheet_cell_foreach_range (sheet, TRUE, 0, row,
-					       SHEET_MAX_COLS, row,
-					       &avoid_dividing_array_vertical,
-					       NULL)){
+		if (sheet_cell_foreach_range (sheet, TRUE, 0, row,
+					      SHEET_MAX_COLS, row,
+					      &avoid_dividing_array_vertical,
+					      NULL) != NULL){
 			gnumeric_no_modify_array_notice (sheet->workbook);
 			return;
 		}

@@ -216,7 +216,7 @@ func_scm_eval (FunctionEvalInfo *ei, Value *argv[])
 	SCM result;
 
 	if (argv[0]->type != VALUE_STRING)
-		return function_error (ei, _("Argument must be a Guile expression"));
+		return value_new_error (&ei->pos, _("Argument must be a Guile expression"));
 
 	result = scm_eval_0str(argv[0]->v.str->str);
 
@@ -234,19 +234,19 @@ func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 		result;
 
 	if (g_list_length(expr_node_list) < 1)
-		return function_error (ei, _("Invalid number of arguments"));
+		return value_new_error (&ei->pos, _("Invalid number of arguments"));
 
 	value = eval_expr(ei, (ExprTree*)expr_node_list->data);
 	if (value == NULL)
-		return function_error (ei, _("First argument to SCM must be a Guile expression"));
+		return value_new_error (&ei->pos, _("First argument to SCM must be a Guile expression"));
 
 	symbol = value_get_as_string (value);
 	if (symbol == NULL)
-		return function_error (ei, _("First argument to SCM must be a Guile expression"));
+		return value_new_error (&ei->pos, _("First argument to SCM must be a Guile expression"));
 
 	function = scm_eval_0str(symbol);
 	if (SCM_UNBNDP(function))
-		return function_error (ei, _("Undefined scheme function"));
+		return value_new_error (&ei->pos, _("Undefined scheme function"));
 
 	value_release(value);
 
@@ -262,7 +262,7 @@ func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 		
 		value = eval_expr(ei, (ExprTree*)g_list_nth(expr_node_list, i)->data);
 		if (value == NULL)
-			return function_error (ei, _("Could not evaluate argument"));
+			return value_new_error (&ei->pos, _("Could not evaluate argument"));
 
 		args = scm_cons(value_to_scm(value, eval_cell), args);
 		value_release(value);
@@ -372,7 +372,7 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 
 	l = g_list_find_custom(funclist, fndef, (GCompareFunc)fndef_compare);
 	if (l == NULL)
-		return function_error (ei, _("Unable to lookup Guile function."));
+		return value_new_error (&ei->pos, _("Unable to lookup Guile function."));
 
 	function = ((FuncData*)l->data)->function;
 

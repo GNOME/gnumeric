@@ -1059,6 +1059,12 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 		v = format_number (value->v.v_int, &entry);
 		break;
 
+	case VALUE_BOOLEAN:
+		return g_strdup (value->v.v_bool ? _("TRUE"):_("FALSE"));
+
+	case VALUE_ERROR:
+		return g_strdup (value->v.error.mesg->str);
+
 	case VALUE_STRING:
 		return g_strdup (value->v.str->str);
 

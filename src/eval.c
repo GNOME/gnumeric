@@ -56,17 +56,17 @@ cell_eval (Cell *cell)
 		cell->value = NULL;
 	}
 
+	cell->value = v;
 	if (v == NULL){
-		cell_set_rendered_text (cell, error_message_txt (s.error));
-		cell->value = NULL;
+		cell_set_rendered_text (cell, _("INTERNAL ERROR"));
 		cell->flags |= CELL_ERROR;
 	} else {
-		cell->value = v;
 		cell_render_value (cell);
-		cell->flags &= ~CELL_ERROR;
+		if (v->type == VALUE_ERROR)
+			cell->flags |= CELL_ERROR;
+		else
+			cell->flags &= ~CELL_ERROR;
 	}
-
-	error_message_free (s.error);
 
 	cell_calc_dimensions (cell);
 
@@ -183,6 +183,8 @@ add_value_deps (Cell *cell, const Value *value)
 	case VALUE_STRING:
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
+	case VALUE_BOOLEAN:
+	case VALUE_ERROR:
 		/* Constants are no dependencies */
 		break;
 

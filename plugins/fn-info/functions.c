@@ -41,6 +41,12 @@ get_value_class (FunctionEvalInfo *ei, ExprTree *expr)
 		case VALUE_STRING:
 			res = VALUE_CLASS_TEXT;
 			break;
+		case VALUE_BOOLEAN:
+			res = VALUE_CLASS_BOOL;
+			break;
+		case VALUE_ERROR:
+			res = VALUE_CLASS_ERROR;
+			break;
 		case VALUE_ARRAY:
 			res = VALUE_CLASS_ARRAY;
 			break;
@@ -72,24 +78,24 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 
 	if (!strcasecmp(info_type, "address")) {
 		/* Reference of the first cell in reference, as text. */
-		return function_error (ei, _("Unimplemented"));
+		return value_new_error (&ei->pos, _("Unimplemented"));
 	} else if (!strcasecmp (info_type, "col")) {
 		/* Column number of the cell in reference. */
-		return function_error (ei, _("Unimplemented"));
+		return value_new_error (&ei->pos, _("Unimplemented"));
 	} else if (!strcasecmp (info_type, "color")) {
 		/* 1 if the cell is formatted in color for negative values;
 		 * otherwise returns 0 (zero).
 		 */
-		return function_error (ei, _("Unimplemented"));
+		return value_new_error (&ei->pos, _("Unimplemented"));
 	} else if (!strcasecmp (info_type, "contents")) {
 		/* Contents of the upper-left cell in reference. */
-		return function_error (ei, _("Unimplemented"));
+		return value_new_error (&ei->pos, _("Unimplemented"));
 	} else if (!strcasecmp (info_type, "filename"))	{
 		/* Filename (including full path) of the file that contains
 		 * reference, as text. Returns empty text ("") if the worksheet
 		 * that contains reference has not yet been saved.
 		 */
-		return function_error (ei, _("Unimplemented"));
+		return value_new_error (&ei->pos, _("Unimplemented"));
 	} else if (!strcasecmp (info_type, "format")) {
 		/* Text value corresponding to the number format of the cell.
 		 * The text values for the various formats are shown in the
@@ -100,7 +106,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		 * 1 if the cell is formatted with parentheses for positive or
 		 * all values; otherwise returns 0.
 		 */
-		return function_error (ei, _("Unimplemented"));
+		return value_new_error (&ei->pos, _("Unimplemented"));
 	} else if (!strcasecmp (info_type, "prefix")) {
 		/* Text value corresponding to the "label prefix" of the cell.
 		 * Returns single quotation mark (') if the cell contains
@@ -110,29 +116,29 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		 * fill-aligned text, and empty text ("") if the cell contains
 		 * anything else.  
 		 */
-		return function_error (ei, _("Unimplemented"));
+		return value_new_error (&ei->pos, _("Unimplemented"));
 	} else if (!strcasecmp (info_type, "protect")) {
 		/* 0 if the cell is not locked, and 1 if the cell is locked. */
-		return function_error (ei, _("Unimplemented"));
+		return value_new_error (&ei->pos, _("Unimplemented"));
 	} else if (!strcasecmp (info_type, "row")) {
 		/* Row number of the cell in reference. */
-		return function_error (ei, _("Unimplemented"));
+		return value_new_error (&ei->pos, _("Unimplemented"));
 	} else if (!strcasecmp (info_type, "type")) {
 		/* Text value corresponding to the type of data in the cell.
 		 * Returns "b" for blank if the cell is empty, "l" for label if
 		 * the cell contains a text constant, and "v" for value if the
 		 * cell contains anything else.
 		 */
-		return function_error (ei, _("Unimplemented"));
+		return value_new_error (&ei->pos, _("Unimplemented"));
 	} else if (!strcasecmp (info_type, "width")) {
 		/* Column width of the cell rounded off to an integer. Each
 		 * unit of column width is equal to the width of one character
 		 * in the default font size.
 		 */
-		return function_error (ei, _("Unimplemented"));
+		return value_new_error (&ei->pos, _("Unimplemented"));
 	}
 
-	return function_error (ei, _("Unknown info_type"));
+	return value_new_error (&ei->pos, _("Unknown info_type"));
 }
 
 
@@ -164,12 +170,9 @@ gnumeric_countblank (FunctionEvalInfo *ei, Value **args)
 	count = 0;
 
 	for (i=col_a; i<=col_b; i++)
-	        for (j=row_a; j<=row_b; j++) {
-		        Cell *cell = sheet_cell_get(sheet, i, j);
-
-		        if (cell == NULL || cell->value == NULL)
-			        count++;
-		}
+	        for (j=row_a; j<=row_b; j++)
+			if (cell_is_blank(sheet_cell_get(sheet, i, j)))
+				++count;
 
 	return value_new_int (count);
 }
@@ -191,7 +194,7 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 	char const * const info_type = argv [0]->v.str->str;
 	if (!strcasecmp (info_type, "directory")) {
 		/* Path of the current directory or folder.  */
-		return function_error (ei, _("Unimplemented"));
+		return value_new_error (&ei->pos, _("Unimplemented"));
 	} else if (!strcasecmp (info_type, "memavail")) {
 		/* Amount of memory available, in bytes.  */
 		return value_new_int (15 << 20);  /* Good enough... */
@@ -207,13 +210,13 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 		 * reference of the top and leftmost cell visible in the window,
 		 * based on the current scrolling position.
 		 */
-		return function_error (ei, _("Unimplemented"));
+		return value_new_error (&ei->pos, _("Unimplemented"));
 	} else if (!strcasecmp (info_type, "osversion")) {
 		/* Current operating system version, as text.  */
 		struct utsname unamedata;
 
 		if (uname (&unamedata) == -1)
-			return function_error (ei, _("Unknown version"));
+			return value_new_error (&ei->pos, _("Unknown version"));
 		else {
 			char *tmp = g_strdup_printf (_("%s version %s"),
 						     unamedata.sysname,
@@ -233,7 +236,7 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 		struct utsname unamedata;
 
 		if (uname (&unamedata) == -1)
-			return function_error (ei, _("Unknown system"));
+			return value_new_error (&ei->pos, _("Unknown system"));
 		else
 			return value_new_string (unamedata.sysname);
 	} else if (!strcasecmp (info_type, "totmem")) {
@@ -243,7 +246,7 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 		return value_new_int (16 << 20);  /* Good enough... */
 	}
 
-	return function_error (ei, _("Unknown info_type"));
+	return value_new_error (&ei->pos, _("Unknown info_type"));
 }
 
 
@@ -258,12 +261,34 @@ static char *help_isblank = {
 };
 
 static Value *
-gnumeric_isblank (FunctionEvalInfo *ei, Value **argv)
+gnumeric_isblank (FunctionEvalInfo *ei, GList *expr_node_list)
 {
-	int result = 0;
-	/* TODO TODO TODO
-	 * Fill in the blank
-	 */
+	gboolean result = FALSE;
+	ExprTree *expr;
+	if (g_list_length (expr_node_list) != 1)
+		return value_new_error (&ei->pos, _("Invalid number of arguments"));
+
+	expr = expr_node_list->data;
+
+	/* How can this happen ? */
+	if (expr == NULL)
+		return value_new_bool (FALSE);
+
+	/* Handle pointless arrays */
+	if (expr->oper == OPER_ARRAY) {
+		if (expr->u.array.rows != 1 || expr->u.array.cols != 1)
+			return value_new_bool (FALSE);
+		expr = expr->u.array.corner.func.expr;
+	}
+
+	if (expr->oper == OPER_VAR) {
+		CellRef const *ref = &expr->u.ref;
+		Sheet const *sheet = eval_sheet (ref->sheet, ei->pos.sheet);
+		int row, col;
+		cell_get_abs_col_row(ref, ei->pos.eval_col, ei->pos.eval_row,
+				     &col, &row);
+		result = cell_is_blank(sheet_cell_get(sheet, col, row));
+	}
 	return value_new_bool (result);
 }
 
@@ -301,13 +326,10 @@ gnumeric_islogical (FunctionEvalInfo *ei, GList *expr_node_list)
 	enum Value_Class cl;
 
 	if (g_list_length (expr_node_list) != 1)
-		return function_error (ei, _("Invalid number of arguments"));
+		return value_new_error (&ei->pos, _("Invalid number of arguments"));
 
 	cl = get_value_class (ei, expr_node_list->data);
 
-	/* FIXME -- this is a hack needed until we have a proper bool type.  */
-	if (cl == VALUE_CLASS_NUMBER)
-		cl = VALUE_CLASS_BOOL;
 	return value_new_bool (cl == VALUE_CLASS_BOOL);
 }
 
@@ -326,7 +348,7 @@ static Value *
 gnumeric_isnontext (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	if (g_list_length (expr_node_list) != 1)
-		return function_error (ei, _("Invalid number of arguments"));
+		return value_new_error (&ei->pos, _("Invalid number of arguments"));
 
 	return value_new_bool (get_value_class (ei, expr_node_list->data)
 			       != VALUE_CLASS_TEXT);
@@ -347,7 +369,7 @@ static Value *
 gnumeric_isnumber (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	if (g_list_length (expr_node_list) != 1)
-		return function_error (ei, _("Invalid number of arguments"));
+		return value_new_error (&ei->pos, _("Invalid number of arguments"));
 
 	return value_new_bool (get_value_class (ei, expr_node_list->data)
 			       == VALUE_CLASS_NUMBER);
@@ -406,7 +428,7 @@ static Value *
 gnumeric_istext (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	if (g_list_length (expr_node_list) != 1)
-		return function_error (ei, _("Invalid number of arguments"));
+		return value_new_error (&ei->pos, _("Invalid number of arguments"));
 
 	return value_new_bool (get_value_class (ei, expr_node_list->data)
 			       == VALUE_CLASS_TEXT);
@@ -435,7 +457,7 @@ gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 		return value_duplicate (argv[0]);
 
 	if (argv[0]->type != VALUE_STRING)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	str = argv[0]->v.str->str;
 	if (format_match (str, &v, &format))
@@ -459,7 +481,7 @@ static Value *
 gnumeric_type (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	if (g_list_length (expr_node_list) != 1)
-		return function_error (ei, _("Invalid number of arguments"));
+		return value_new_error (&ei->pos, _("Invalid number of arguments"));
 
 	return value_new_int (get_value_class (ei, expr_node_list->data));
 }
@@ -469,31 +491,44 @@ void information_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Information"));
 
-	function_add_args  (cat, "cell", "sr", "info_type, cell",	&help_cell,
-			    gnumeric_cell);
-        function_add_args  (cat, "countblank", "r",  "range",		&help_countblank,
-			    gnumeric_countblank);
-	function_add_args  (cat, "info", "?", "info_type",		&help_info,
-			    gnumeric_info);
-	function_add_args  (cat, "isblank", "r", "value",		&help_isblank,
-			    gnumeric_isblank);
-	function_add_args  (cat, "iseven", "?", "value",		&help_iseven,
-			    gnumeric_iseven);
-	function_add_nodes (cat, "islogical", NULL, "value",		&help_islogical,
-			    gnumeric_islogical); /* Handles args manually */
-	function_add_nodes (cat, "isnontext", NULL, "value",		&help_isnontext,
-			    gnumeric_isnontext); /* Handles args manually */
-	function_add_nodes (cat, "isnumber", NULL, "value",		&help_isnumber,
-			    gnumeric_isnumber); /* Handles args manually */
-	function_add_args  (cat, "isodd", "?", "value",		&help_isodd,
-			    gnumeric_isodd);
-	function_add_args  (cat, "isref", "?", "value",		&help_isref,
-			    gnumeric_isref);
-	function_add_nodes (cat, "istext", NULL, "value",		&help_istext,
-			    gnumeric_istext); /* Handles args manually */
-	function_add_args  (cat, "n", "?", "value",			&help_n,
-			    gnumeric_n);
-	function_add_nodes (cat, "type",   NULL, "value",              &help_type,
-			    gnumeric_type); /* Handles args manually */
+	function_add_args  (cat, "cell", "sr", "info_type, cell",
+			    &help_cell, gnumeric_cell);
+        function_add_args  (cat, "countblank", "r",  "range",
+			    &help_countblank, gnumeric_countblank);
+	function_add_args  (cat, "info", "?", "info_type",
+			    &help_info, gnumeric_info);
+
+	/* Handles args manually */
+	function_add_nodes (cat, "isblank", "?", "value",
+			    &help_isblank, gnumeric_isblank);
+
+	function_add_args  (cat, "iseven", "?", "value",
+			    &help_iseven, gnumeric_iseven);
+
+	/* Handles args manually */
+	function_add_nodes (cat, "islogical", NULL, "value",
+			    &help_islogical, gnumeric_islogical);
+	/* Handles args manually */
+	function_add_nodes (cat, "isnontext", NULL, "value",
+			    &help_isnontext, gnumeric_isnontext);
+	/* Handles args manually */
+	function_add_nodes (cat, "isnumber", NULL, "value",
+			    &help_isnumber, gnumeric_isnumber);
+
+	function_add_args  (cat, "isodd", "?", "value",
+			    &help_isodd, gnumeric_isodd);
+	function_add_args  (cat, "isref", "?", "value",
+			    &help_isref, gnumeric_isref);
+
+	/* Handles args manually */
+	function_add_nodes (cat, "istext", NULL, "value",
+			    &help_istext, gnumeric_istext);
+
+	function_add_args  (cat, "n", "?", "value",
+			    &help_n, gnumeric_n);
+
+	/* Handles args manually */
+	function_add_nodes (cat, "type",   NULL, "value",
+			    &help_type, gnumeric_type);
 };
 

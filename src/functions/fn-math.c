@@ -58,7 +58,7 @@ typedef struct {
         int    num;
 } math_sums_t;
 
-static int
+static Value *
 callback_function_sumxy (Sheet *sheet, int col, int row,
 			 Cell *cell, void *user_data)
 {
@@ -67,9 +67,12 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 	gpointer    p;
 
 	if (cell == NULL || cell->value == NULL)
-	        return TRUE;
+	        return NULL;
 
         switch (cell->value->type) {
+	case VALUE_ERROR:
+		return value_terminate();
+
 	case VALUE_INTEGER:
 	        x = cell->value->v.v_int;
 		break;
@@ -77,7 +80,7 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 	        x = cell->value->v.v_float;
 		break;
 	default:
-	        return TRUE;
+	        return NULL;
 	}
 
 	p = g_new(float_t, 1);
@@ -85,7 +88,7 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 	mm->list = g_slist_append(mm->list, p);
 	mm->num++;
 
-	return TRUE;
+	return NULL;
 }
 
 typedef struct {
@@ -99,7 +102,7 @@ typedef struct {
         GSList              *current;
 } math_criteria_t;
 
-static int
+static Value *
 callback_function_criteria (Sheet *sheet, int col, int row,
 			    Cell *cell, void *user_data)
 {
@@ -109,7 +112,7 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 
 	mm->total_num++;
 	if (cell == NULL || cell->value == NULL)
-	        return TRUE;
+	        return NULL;
 
         switch (cell->value->type) {
 	case VALUE_INTEGER:
@@ -122,7 +125,7 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 	        v = value_new_string (cell->value->v.str->str);
 		break;
 	default:
-	        return TRUE;
+	        return NULL;
 	}
 
 	if (mm->fun(v, mm->test_value)) {
@@ -136,7 +139,7 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 	} else
 	        value_release(v);
 
-	return TRUE;
+	return NULL;
 }
 
 static char *help_gcd = {
@@ -177,7 +180,7 @@ gnumeric_gcd (FunctionEvalInfo *ei, GList *nodes)
 	return float_range_function (nodes, ei,
 				     range_gcd,
 				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
-				     gnumeric_err_NUM, ei->error);
+				     gnumeric_err_NUM);
 }
 
 static char *help_lcm = {
@@ -195,24 +198,23 @@ static char *help_lcm = {
 	   "@SEEALSO=GCD")
 };
 
-static int
-callback_function_lcm (const EvalPosition *ep, Value *value,
-		       ErrorMessage *error, void *closure)
+static Value *
+callback_function_lcm (const EvalPosition *ep, Value *value, void *closure)
 {
 	Value *result = closure;
 
 	switch (value->type){
 	case VALUE_INTEGER:
 	        if (value->v.v_int < 1)
-		        return FALSE;
+		        return value_terminate();
 	        result->v.v_int /= gcd(result->v.v_int, value->v.v_int);
 		result->v.v_int *= value->v.v_int;
 		break;
 	default:
-	        return FALSE;
+	        return value_terminate();
 	}
 
-	return TRUE;
+	return NULL;
 }
 
 static Value *
@@ -225,11 +227,8 @@ gnumeric_lcm (FunctionEvalInfo *ei, GList *nodes)
 	result->v.v_int = 1;
 
 	if (function_iterate_argument_values (&ei->pos, callback_function_lcm,
-					      result, nodes,
-					      ei->error, TRUE) == FALSE) {
-		if (error_message_is_set (ei->error))
-			return function_error (ei, gnumeric_err_NUM);
-	}
+					      result, nodes, TRUE) != NULL)
+	    return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	return result;
 }
@@ -276,7 +275,7 @@ gnumeric_acos (FunctionEvalInfo *ei, Value **args)
 
 	t = value_get_as_float (args [0]);
 	if ((t < -1.0) || (t > 1.0))
-		return function_error (ei, _("acos - domain error"));
+		return value_new_error (&ei->pos, _("acos - domain error"));
 
 	return value_new_float (acos (t));
 }
@@ -304,7 +303,7 @@ gnumeric_acosh (FunctionEvalInfo *ei, Value **args)
 
 	t = value_get_as_float (args [0]);
 	if (t < 1.0)
-		return function_error (ei, _("acosh - domain error"));
+		return value_new_error (&ei->pos, _("acosh - domain error"));
 
 	return value_new_float (acosh (t));
 }
@@ -331,7 +330,7 @@ gnumeric_asin (FunctionEvalInfo *ei, Value **args)
 
 	t = value_get_as_float (args [0]);
 	if ((t < -1.0) || (t > 1.0))
-		return function_error (ei, _("asin - domain error"));
+		return value_new_error (&ei->pos, _("asin - domain error"));
 
 	return value_new_float (asin (t));
 }
@@ -404,7 +403,7 @@ gnumeric_atanh (FunctionEvalInfo *ei, Value **args)
 
 	t = value_get_as_float (args [0]);
 	if ((t <= -1.0) || (t >= 1.0))
-		return function_error (ei, _("atanh: domain error"));
+		return value_new_error (&ei->pos, _("atanh: domain error"));
 
 	return value_new_float (atanh (value_get_as_float (args [0])));
 }
@@ -469,11 +468,11 @@ static Value *
 gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 {
         Value           *range = argv[0];
-	Value           *tmpvalue = NULL;
+	Value           *tmpval = NULL;
 	Sheet           *sheet;
 
-	math_criteria_t items;
-	int             ret;
+	math_criteria_t  items;
+	Value           *ret;
 	GSList          *list;
 
 	items.num  = 0;
@@ -482,7 +481,7 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 
 	if ((!VALUE_IS_NUMBER(argv[1]) && argv[1]->type != VALUE_STRING)
 	    || (range->type != VALUE_CELLRANGE))
-	        return function_error (ei, gnumeric_err_VALUE);
+	        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	if (VALUE_IS_NUMBER(argv[1])) {
 	        items.fun = (criteria_test_fun_t) criteria_test_equal;
@@ -490,7 +489,7 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 	} else {
 	        parse_criteria(argv[1]->v.str->str,
 			       &items.fun, &items.test_value);
-		tmpvalue = items.test_value;
+		tmpval = items.test_value;
 	}
 
 	sheet = eval_sheet (range->v.cell_range.cell_a.sheet, ei->pos.sheet);
@@ -503,11 +502,11 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 		callback_function_criteria,
 		&items);
 
-	if (tmpvalue)
-		value_release (tmpvalue);
+	if (tmpval)
+		value_release (tmpval);
 
-	if (ret == FALSE)
-	        return function_error (ei, gnumeric_err_VALUE);
+	if (ret != NULL)
+	        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
         list = items.list;
 
@@ -533,7 +532,7 @@ static char *help_sumif = {
 	   "@SEEALSO=COUNTIF,SUM")
 };
 
-static int
+static Value *
 callback_function_sumif (Sheet *sheet, int col, int row,
 			 Cell *cell, void *user_data)
 {
@@ -543,7 +542,7 @@ callback_function_sumif (Sheet *sheet, int col, int row,
 
 	mm->total_num++;
 	if (cell == NULL || cell->value == NULL)
-	        return TRUE;
+	        return NULL;
 
         switch (cell->value->type) {
 	case VALUE_INTEGER:
@@ -555,12 +554,20 @@ callback_function_sumif (Sheet *sheet, int col, int row,
 	case VALUE_STRING:
 	        v = 0;
 		break;
+
+	case VALUE_BOOLEAN:
+	        v = cell->value->v.v_bool ? 1 : 0;
+		break;
+
+	case VALUE_ERROR:
+		return value_terminate();
+
 	default:
-	        return TRUE;
+	        return NULL;
 	}
 
 	if (mm->current == NULL)
-	        return TRUE;
+	        return NULL;
 
 	num = *((int*) mm->current->data);
 
@@ -570,21 +577,21 @@ callback_function_sumif (Sheet *sheet, int col, int row,
 		mm->current=mm->current->next;
 	}
 
-	return TRUE;
+	return NULL;
 }
 
 
 static Value *
 gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 {
-        Value           *range = argv[0];
-	Value           *actual_range = argv[2];
-	Value           *tmpvalue = NULL;
+        Value          *range = argv[0];
+	Value          *actual_range = argv[2];
+	Value          *tmpval = NULL;
 
 	math_criteria_t items;
-	int             ret;
+	Value          *ret;
 	float_t         sum;
-	GSList          *list;
+	GSList         *list;
 
 	items.num  = 0;
 	items.total_num = 0;
@@ -592,7 +599,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 
 	if ((!VALUE_IS_NUMBER(argv[1]) && argv[1]->type != VALUE_STRING)
 	    || (range->type != VALUE_CELLRANGE))
-	        return function_error (ei, gnumeric_err_VALUE);
+	        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	if (VALUE_IS_NUMBER(argv[1])) {
 	        items.fun = (criteria_test_fun_t) criteria_test_equal;
@@ -600,7 +607,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	} else {
 	        parse_criteria(argv[1]->v.str->str,
 			       &items.fun, &items.test_value);
-		tmpvalue = items.test_value;
+		tmpval = items.test_value;
 	}
 
 	if (actual_range != NULL)
@@ -617,11 +624,11 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 		callback_function_criteria,
 		&items);
 
-	if (tmpvalue)
-		value_release (tmpvalue);
+	if (tmpval)
+		value_release (tmpval);
 
-	if (ret == FALSE)
-	        return function_error (ei, gnumeric_err_VALUE);
+	if (ret != NULL)
+	        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	if (actual_range == NULL) {
 	        list = items.list;
@@ -683,7 +690,7 @@ gnumeric_ceiling (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	if (s == 0 || number / s < 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (ceil (number / s) * s);
 }
@@ -797,11 +804,11 @@ gnumeric_fact (FunctionEvalInfo *ei, Value **argv)
 	gboolean x_is_integer;
 
 	if (!VALUE_IS_NUMBER (argv[0]))
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	x = value_get_as_float (argv[0]);
 	if (x < 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	x_is_integer = (x == floor (x));
 
@@ -855,7 +862,7 @@ gnumeric_combin (FunctionEvalInfo *ei, Value **argv)
 	if (k >= 0 && n >= k)
 		return value_new_float (combin (n ,k));
 
-	return function_error (ei, gnumeric_err_NUM);
+	return value_new_error (&ei->pos, gnumeric_err_NUM);
 }
 
 static char *help_floor = {
@@ -883,7 +890,7 @@ gnumeric_floor (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	if (s == 0 || number / s < 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (floor (number / s) * s);
 }
@@ -939,7 +946,7 @@ gnumeric_log (FunctionEvalInfo *ei, Value **argv)
 	        base = value_get_as_float (argv[1]);
 
 	if (t <= 0.0)
-		return function_error (ei, gnumeric_err_VALUE);
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (log (t) / log (base));
 }
@@ -962,7 +969,7 @@ gnumeric_ln (FunctionEvalInfo *ei, Value **argv)
 	t = value_get_as_float (argv [0]);
 
 	if (t <= 0.0)
-		return function_error (ei, gnumeric_err_VALUE);
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (log (t));
 }
@@ -991,7 +998,7 @@ gnumeric_power (FunctionEvalInfo *ei, Value **argv)
 		return value_new_float (pow (x, y));
 
 	/* FIXME: What is supposed to happen for x=y=0?  */
-	return function_error (ei, gnumeric_err_VALUE);
+	return value_new_error (&ei->pos, gnumeric_err_VALUE);
 }
 
 static char *help_log2 = {
@@ -1013,7 +1020,7 @@ gnumeric_log2 (FunctionEvalInfo *ei, Value **argv)
 
 	t = value_get_as_float (argv [0]);
 	if (t <= 0.0)
-		return function_error (ei, _("log2: domain error"));
+		return value_new_error (&ei->pos, _("log2: domain error"));
 
 	return value_new_float (log (t) / M_LN2);
 }
@@ -1038,7 +1045,7 @@ gnumeric_log10 (FunctionEvalInfo *ei, Value **argv)
 
 	t = value_get_as_float (argv [0]);
 	if (t <= 0.0)
-		return function_error (ei, _("log10: domain error"));
+		return value_new_error (&ei->pos, _("log10: domain error"));
 
 	return value_new_float (log10 (t));
 }
@@ -1064,7 +1071,7 @@ gnumeric_mod (FunctionEvalInfo *ei, Value **argv)
 	b = value_get_as_int (argv[1]);
 
 	if (b == 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	if (b < 0) {
 		a = -a;
@@ -1177,7 +1184,7 @@ gnumeric_sqrt (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t x = value_get_as_float (argv[0]);
 	if (x < 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (sqrt(x));
 }
@@ -1200,7 +1207,7 @@ gnumeric_sum (FunctionEvalInfo *ei, GList *nodes)
 	return float_range_function (nodes, ei,
 				     range_sum,
 				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
-				     gnumeric_err_VALUE, ei->error);
+				     gnumeric_err_VALUE);
 }
 
 static char *help_suma = {
@@ -1225,7 +1232,7 @@ gnumeric_suma (FunctionEvalInfo *ei, GList *nodes)
 	return float_range_function (nodes, ei,
 				     range_sum,
 				     COLLECT_ZERO_STRINGS | COLLECT_ZEROONE_BOOLS,
-				     gnumeric_err_VALUE, ei->error);
+				     gnumeric_err_VALUE);
 }
 
 static char *help_sumsq = {
@@ -1247,7 +1254,7 @@ gnumeric_sumsq (FunctionEvalInfo *ei, GList *nodes)
 	return float_range_function (nodes, ei,
 				     range_sumsq,
 				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
-				     gnumeric_err_VALUE, ei->error);
+				     gnumeric_err_VALUE);
 }
 
 static char *help_multinomial = {
@@ -1268,9 +1275,9 @@ typedef struct {
         int     product;
 } math_multinomial_t;
 
-static int
+static Value *
 callback_function_multinomial (const EvalPosition *ep, Value *value,
-			       ErrorMessage *error, void *closure)
+			       void *closure)
 {
 	math_multinomial_t *mm = closure;
 
@@ -1281,9 +1288,9 @@ callback_function_multinomial (const EvalPosition *ep, Value *value,
 		mm->num++;
 		break;
 	default:
-		return FALSE;
+		return value_terminate();
 	}
-	return TRUE;
+	return NULL;
 }
 
 static Value *
@@ -1298,8 +1305,8 @@ gnumeric_multinomial (FunctionEvalInfo *ei, GList *nodes)
 	if (function_iterate_argument_values (&ei->pos,
 					      callback_function_multinomial,
 					      &p, nodes,
-					      ei->error, TRUE) == FALSE)
-	        return function_error (ei, gnumeric_err_VALUE);
+					      TRUE) != NULL)
+	        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (fact(p.sum) / p.product);
 }
@@ -1322,7 +1329,7 @@ gnumeric_product (FunctionEvalInfo *ei, GList *nodes)
 	return float_range_function (nodes, ei,
 				     range_product,
 				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
-				     gnumeric_err_VALUE, ei->error);
+				     gnumeric_err_VALUE);
 }
 
 static char *help_tan = {
@@ -1502,7 +1509,7 @@ gnumeric_factdouble (FunctionEvalInfo *ei, Value **argv)
 
 	number = value_get_as_int (argv[0]);
 	if (number < 0)
-		return function_error (ei, gnumeric_err_NUM );
+		return value_new_error (&ei->pos, gnumeric_err_NUM );
 
 	for (n = number; n > 0; n-= 2)
 	        product *= n;
@@ -1573,7 +1580,7 @@ gnumeric_sqrtpi (FunctionEvalInfo *ei, Value **argv)
 
 	n = value_get_as_float (argv[0]);
 	if (n < 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (sqrt (M_PI * n));
 }
@@ -1598,7 +1605,7 @@ gnumeric_randbetween (FunctionEvalInfo *ei, Value **argv)
 	bottom = value_get_as_int (argv[0]);
 	top    = value_get_as_int (argv[1]);
 	if (bottom > top)
-		return function_error (ei, gnumeric_err_NUM );
+		return value_new_error (&ei->pos, gnumeric_err_NUM );
 
 	r = bottom + floor ((top + 1.0 - bottom) * random_01 ());
 	return value_new_int ((int)r);
@@ -1744,7 +1751,7 @@ gnumeric_mround (FunctionEvalInfo *ei, Value **argv)
 
 	if ((number > 0 && multiple < 0)
 	    || (number < 0 && multiple > 0))
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	if (number < 0) {
 	        sign = -1;
@@ -1795,16 +1802,16 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 	        form = value_get_as_int (argv[1]);
 
 	if (n < 0 || n > 3999)
-		return function_error (ei, gnumeric_err_VALUE );
+		return value_new_error (&ei->pos, gnumeric_err_VALUE );
 
 	if (n == 0)
 		return value_new_string ("");
 
 	if (form < 0 || form > 4)
-		return function_error (ei, gnumeric_err_NUM );
+		return value_new_error (&ei->pos, gnumeric_err_NUM );
 
 	if (form > 0)
-		return function_error (ei, _("#Unimplemented!") );
+		return value_new_error (&ei->pos, _("#Unimplemented!") );
 
 	for (i = j = 0; dec > 1; dec /= 10, j+=2){
 	        for (; n > 0; i++){
@@ -1856,12 +1863,12 @@ static char *help_sumx2my2 = {
 static Value *
 gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 {
-        Value       *values_x = argv[0];
-        Value       *values_y = argv[1];
+        Value      *values_x = argv[0];
+        Value      *values_y = argv[1];
 	math_sums_t items_x, items_y;
-	int         ret;
+	Value      *ret;
 	float_t     sum;
-	GSList      *list1, *list2;
+	GSList     *list1, *list2;
 
 	items_x.num  = 0;
 	items_x.list = NULL;
@@ -1879,10 +1886,10 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 			callback_function_sumxy,
 			&items_x);
 		
-		if (ret == FALSE)
-		        return function_error (ei, gnumeric_err_VALUE);
+		if (ret != NULL)
+		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	} else
-		return function_error (ei, _("Array version not implemented!"));
+		return value_new_error (&ei->pos, _("Array version not implemented!"));
 
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
@@ -1893,13 +1900,13 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 			values_y->v.cell_range.cell_b.row,
 			callback_function_sumxy,
 			&items_y);
-		if (ret == FALSE)
-		        return function_error (ei, gnumeric_err_VALUE);
+		if (ret != NULL)
+		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	} else
-		return function_error (ei, _("Array version not implemented!"));
+		return value_new_error (&ei->pos, _("Array version not implemented!"));
 
 	if (items_x.num != items_y.num)
-		return function_error (ei, gnumeric_err_NA);
+		return value_new_error (&ei->pos, gnumeric_err_NA);
 
 	list1 = items_x.list;
 	list2 = items_y.list;
@@ -1944,12 +1951,12 @@ static char *help_sumx2py2 = {
 static Value *
 gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 {
-        Value       *values_x = argv[0];
-        Value       *values_y = argv[1];
+        Value      *values_x = argv[0];
+        Value      *values_y = argv[1];
 	math_sums_t items_x, items_y;
-	int         ret;
+	Value      *ret;
 	float_t     sum;
-	GSList      *list1, *list2;
+	GSList     *list1, *list2;
 
 	items_x.num  = 0;
 	items_x.list = NULL;
@@ -1966,10 +1973,10 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 			values_x->v.cell_range.cell_b.row,
 			callback_function_sumxy,
 			&items_x);
-		if (ret == FALSE)
-		        return function_error (ei, gnumeric_err_VALUE);
+		if (ret != NULL)
+		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	} else
-		return function_error (ei, _("Array version not implemented!"));
+		return value_new_error (&ei->pos, _("Array version not implemented!"));
 
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
@@ -1980,13 +1987,13 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 			values_y->v.cell_range.cell_b.row,
 			callback_function_sumxy,
 			&items_y);
-		if (ret == FALSE)
-		        return function_error (ei, gnumeric_err_VALUE);
+		if (ret != NULL)
+		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	} else
-		return function_error (ei, _("Array version not implemented!"));
+		return value_new_error (&ei->pos, _("Array version not implemented!"));
 
 	if (items_x.num != items_y.num)
-		return function_error (ei, gnumeric_err_NA);
+		return value_new_error (&ei->pos, gnumeric_err_NA);
 
 	list1 = items_x.list;
 	list2 = items_y.list;
@@ -2031,12 +2038,12 @@ static char *help_sumxmy2 = {
 static Value *
 gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 {
-        Value       *values_x = argv[0];
-        Value       *values_y = argv[1];
+        Value      *values_x = argv[0];
+        Value      *values_y = argv[1];
 	math_sums_t items_x, items_y;
-	int         ret;
+	Value      *ret;
 	float_t     sum;
-	GSList      *list1, *list2;
+	GSList     *list1, *list2;
 
 	items_x.num  = 0;
 	items_x.list = NULL;
@@ -2052,10 +2059,10 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 			values_x->v.cell_range.cell_b.row,
 			callback_function_sumxy,
 			&items_x);
-		if (ret == FALSE)
-		        return function_error (ei, gnumeric_err_VALUE);
+		if (ret != NULL)
+		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	} else
-		return function_error (ei, _("Array version not implemented!"));
+		return value_new_error (&ei->pos, _("Array version not implemented!"));
 
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
@@ -2066,13 +2073,13 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 			values_y->v.cell_range.cell_b.row,
 			callback_function_sumxy,
 			&items_y);
-		if (ret == FALSE)
-		        return function_error (ei, gnumeric_err_VALUE);
+		if (ret != NULL)
+		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	} else
-		return function_error (ei, _("Array version not implemented!"));
+		return value_new_error (&ei->pos, _("Array version not implemented!"));
 
 	if (items_x.num != items_y.num)
-	        return function_error (ei, gnumeric_err_NA);
+	        return value_new_error (&ei->pos, gnumeric_err_NA);
 
 	list1 = items_x.list;
 	list2 = items_y.list;
@@ -2127,22 +2134,22 @@ gnumeric_subtotal (FunctionEvalInfo *ei, GList *expr_node_list)
 	int      fun_nbr;
 
 	if (expr_node_list == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	tree = (ExprTree *) expr_node_list->data;
 	if (tree == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	val = eval_expr (ei, tree);
 	if (!val) return NULL;
 	if (!VALUE_IS_NUMBER (val)) {
 		value_release (val);
-		return function_error (ei, gnumeric_err_VALUE);
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	}
 
 	fun_nbr = value_get_as_int(val);
 	if (fun_nbr < 1 || fun_nbr > 11)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	/* Skip the first node */
 	expr_node_list = expr_node_list->next;
@@ -2197,22 +2204,22 @@ typedef struct {
         float_t m;
 } math_seriessum_t;
 
-static int
+static Value *
 callback_function_seriessum (const EvalPosition *ep, Value *value,
-			     ErrorMessage *error, void *closure)
+			     void *closure)
 {
 	math_seriessum_t *mm = closure;
 	float_t coefficient;
 
 	if (!VALUE_IS_NUMBER (value))
-		return FALSE;
+		return value_terminate();
 
 	coefficient = value_get_as_float (value);
 
 	mm->sum += coefficient * pow(mm->x, mm->n);
 	mm->n += mm->m;
 
-	return TRUE;
+	return NULL;
 }
 
 static Value *
@@ -2224,18 +2231,18 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 	float_t          x, n, m;
 
 	if (nodes == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	/* Get x */
 	tree = (ExprTree *) nodes->data;
 	if (tree == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	val = eval_expr (ei, tree);
 	if (!val) return NULL;
 	if (! VALUE_IS_NUMBER(val)) {
 		value_release (val);
-		return function_error (ei, gnumeric_err_VALUE);
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	}
 
 	x = value_get_as_float (val);
@@ -2245,13 +2252,13 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 	/* Get n */
 	tree = (ExprTree *) nodes->data;
 	if (tree == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	val = eval_expr (ei, tree);
 	if (!val) return NULL;
 	if (! VALUE_IS_NUMBER(val)) {
 		value_release (val);
-		return function_error (ei, gnumeric_err_VALUE);
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	}
 
 	n = value_get_as_int(val);
@@ -2259,18 +2266,18 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 
 	nodes = nodes->next;
 	if (nodes == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	/* Get m */
 	tree = (ExprTree *) nodes->data;
 	if (tree == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	val = eval_expr (ei, tree);
 	if (!val) return NULL;
 	if (! VALUE_IS_NUMBER(val)) {
 		value_release (val);
-		return function_error (ei, gnumeric_err_VALUE);
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	}
 
 	m = value_get_as_float(val);
@@ -2284,8 +2291,8 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 	if (function_iterate_argument_values (&ei->pos,
 					      callback_function_seriessum,
 					      &p, nodes,
-					      ei->error, TRUE) == FALSE)
-		return function_error (ei, gnumeric_err_VALUE);
+					      TRUE) != NULL)
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (p.sum);
 }
@@ -2343,7 +2350,7 @@ static char *help_mmult = {
 };
 
 
-static int
+static Value *
 callback_function_mmult_validate(Sheet *sheet, int col, int row,
 				 Cell *cell, void *user_data)
 {
@@ -2351,17 +2358,17 @@ callback_function_mmult_validate(Sheet *sheet, int col, int row,
 
 	if (cell == NULL || cell->value == NULL ||
 	    !VALUE_IS_NUMBER(cell->value))
-	        return FALSE;
+	        return value_terminate();
 
 	++(*item_count);
-	return TRUE;
+	return NULL;
 }
 static int
 validate_range_numeric_matrix (const EvalPosition *ep, Value * matrix,
 			       int *rows, int *cols,
-			       char **error_string)
+			       char const **error_string)
 {
-	int res;
+	Value *res;
 	int cell_count = 0;
 
 	*cols = value_area_get_width (ep, matrix);
@@ -2386,7 +2393,7 @@ validate_range_numeric_matrix (const EvalPosition *ep, Value * matrix,
 		callback_function_mmult_validate,
 		&cell_count);
 
-	if (!res || cell_count != (*rows * *cols)) {
+	if (res != NULL || cell_count != (*rows * *cols)) {
 		/* As specified in the Excel Docs */
 		*error_string = gnumeric_err_VALUE;
 		return TRUE;
@@ -2404,18 +2411,18 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
         Value *res;
         Value *values_a = argv[0];
         Value *values_b = argv[1];
-	char *error_string = NULL;
+	char const *error_string = NULL;
 
 	if (validate_range_numeric_matrix (ep, values_a, &rows_a, &cols_a,
 					   &error_string) ||
 	    validate_range_numeric_matrix (ep, values_b, &rows_b, &cols_b,
 					   &error_string)){
-		return function_error (ei, error_string);
+		return value_new_error (&ei->pos, error_string);
 	}
 
 	/* Guarantee shape and non-zero size */
 	if (cols_a != rows_b || !rows_a || !rows_b || !cols_a || !cols_b)
-		return function_error (ei, gnumeric_err_VALUE);
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	res = g_new (Value, 1);
 	res->type = VALUE_ARRAY;
@@ -2464,9 +2471,9 @@ typedef struct {
         gboolean first;
 } math_sumproduct_t;
 
-static int
+static Value *
 callback_function_sumproduct (const EvalPosition *ep, Value *value,
-			      ErrorMessage *error, void *closure)
+			      void *closure)
 {
 	math_sumproduct_t *mm = closure;
 	float_t           x;
@@ -2483,12 +2490,12 @@ callback_function_sumproduct (const EvalPosition *ep, Value *value,
 		mm->components = g_slist_append(mm->components, p);
 	} else {
 	        if (mm->current == NULL)
-		        return FALSE;
+		        return value_terminate();
 		*((float_t *) mm->current->data) *= x;
 		mm->current = mm->current->next;
 	}
 
-	return TRUE;
+	return NULL;
 }
 
 static Value *
@@ -2497,15 +2504,15 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *expr_node_list)
         math_sumproduct_t p;
 	GSList            *current;
 	float_t           sum;
-	int               result=1;
+	Value            *result=NULL;
 
 	if (expr_node_list == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	p.components = NULL;
 	p.first      = TRUE;
 
-	for ( ; result && expr_node_list;
+	for ( ; result == NULL && expr_node_list;
 	      expr_node_list = expr_node_list->next) {
 		ExprTree *tree = (ExprTree *) expr_node_list->data;
 		Value    *val;
@@ -2516,7 +2523,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *expr_node_list)
 		        p.current = p.components;
 			result = function_iterate_do_value (
 				&ei->pos, callback_function_sumproduct, &p,
-				val, ei->error, TRUE);
+				val, TRUE);
 
 			value_release (val);
 		} else
@@ -2525,18 +2532,16 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *expr_node_list)
 	}
 
 	sum = 0;
-	current = p.components;
-	while (current != NULL) {
+	for (current = p.components; current != NULL ; current = current->next){
 	        gpointer p = current->data;
 	        sum += *((float_t *) p);
 		g_free(current->data);
-	        current = current->next;
 	}
 	
 	g_slist_free(p.components);
 
 	if (expr_node_list)
-		return function_error (ei, gnumeric_err_VALUE);
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (sum);
 }
@@ -2632,13 +2637,19 @@ void math_functions_init()
 	function_add_args  (cat, "trunc",   "f|f",  "number,digits",    &help_trunc,   gnumeric_trunc);
 	function_add_args  (cat, "pi",      "",     "",          &help_pi,      gnumeric_pi);
 	function_add_args  (cat, "mmult",   "AA",   "array1,array2",
+
 			    &help_mmult, gnumeric_mmult);
 	function_add_args  (cat, "transpose","A",   "array",
 			    &help_transpose, gnumeric_transpose);
 #if 0
-	function_add_args  (cat, "mdeterm","A",   "array",
+	function_add_args  (cat, "logmdeterm", "A|si",
+			    "array[,matrix_type[,bandsize]]",
+			    &help_logmdeterm, gnumeric_logmdeterm);
+	function_add_args  (cat, "mdeterm", "A|si",
+			    "array[,matrix_type[,bandsize]]",
 			    &help_mdeterm, gnumeric_mdeterm);
-	function_add_args  (cat, "minverse","A",   "array",
+	function_add_args  (cat, "minverse","A|si",
+			    "array[,matrix_type[,bandsize]]",
 			    &help_minverse, gnumeric_minverse);
 #endif
 }

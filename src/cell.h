@@ -206,4 +206,10 @@ void        cell_unregister_span         (Cell *cell);
 void        row_init_span                (ColRowInfo *ri);
 void        row_destroy_span             (ColRowInfo *ri);
 
+/* A utility routine to check if a cell is blank */
+gboolean    cell_is_blank		 (Cell *cell);
+
+/* If a cell has an error value return it */
+Value *     cell_is_error                 (Cell const *cell);
+
 #endif /* GNUMERIC_CELL_H */

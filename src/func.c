@@ -14,17 +14,6 @@
 #include "func.h"
 #include "eval.h"
 
-/*
- * Error constants used to display error messages.
- */
-char *gnumeric_err_NULL;
-char *gnumeric_err_DIV0;
-char *gnumeric_err_VALUE;
-char *gnumeric_err_REF;
-char *gnumeric_err_NAME;
-char *gnumeric_err_NUM;
-char *gnumeric_err_NA;
-
 /* The list of categories */
 static GList *categories = NULL;
 
@@ -33,7 +22,6 @@ static GList *categories = NULL;
 typedef struct {
 	FunctionIterateCallback  callback;
 	void                     *closure;
-	ErrorMessage             *error;
 	gboolean                 strict;
 } IterateCallbackClosure;
 
@@ -43,11 +31,13 @@ typedef struct {
  * Helper routine used by the function_iterate_do_value routine.
  * Invoked by the sheet cell range iterator.
  */
-static int
-iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+static Value *
+iterate_cellrange_callback (Sheet *sheet, int col, int row,
+			    Cell *cell, void *user_data)
 {
 	IterateCallbackClosure *data = user_data;
 	EvalPosition ep;
+	Value *res;
 
 	if (cell->generation != sheet->workbook->generation){
 		cell->generation = sheet->workbook->generation;
@@ -57,17 +47,12 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *us
 	}
 
 	/* If we encounter an error for the strict case, short-circuit here.  */
-	if (data->strict && !cell->value) {
-		if (cell->text)
-			error_message_set (data->error, cell->text->str);
-		else
-			error_message_set (data->error, _("Unknown error"));
-		return FALSE;
-	}
+	if (data->strict && (NULL != (res = cell_is_error(cell))))
+		return res;
 
 	/* All other cases -- including error -- just call the handler.  */
 	return (*data->callback)(eval_pos_init (&ep, sheet, col, row),
-				 cell->value, data->error, data->closure);
+				 cell->value, data->closure);
 }
 
 /*
@@ -75,23 +60,24 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *us
  *
  * Helper routine for function_iterate_argument_values.
  */
-int
+Value *
 function_iterate_do_value (const EvalPosition      *ep,
-			   FunctionIterateCallback callback,
+			   FunctionIterateCallback  callback,
 			   void                    *closure,
 			   Value                   *value,
-			   ErrorMessage            *error,
-			   gboolean                strict)
+			   gboolean                 strict)
 {
 	int eval_col = ep->eval_col;
 	int eval_row = ep->eval_row;
-	int ret = TRUE;
+	Value *res = NULL;
 
 	switch (value->type){
+	case VALUE_BOOLEAN:
+	case VALUE_ERROR:
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
 	case VALUE_STRING:
-		ret = (*callback)(ep, value, error, closure);
+		res = (*callback)(ep, value, closure);
 			break;
 
 	case VALUE_ARRAY:
@@ -100,12 +86,12 @@ function_iterate_do_value (const EvalPosition      *ep,
 		
 		for (x = 0; x < value->v.array.x; x++) {
 			for (y = 0; y < value->v.array.y; y++) {
-				ret = function_iterate_do_value (
+				res = function_iterate_do_value (
 					ep, callback, closure,
 					value->v.array.vals [x][y],
-					error, strict);
-				if (ret == FALSE)
-					return FALSE;
+					strict);
+				if (res != NULL)
+					return res;
 			}
 		}
 		break;
@@ -117,7 +103,6 @@ function_iterate_do_value (const EvalPosition      *ep,
 
 		data.callback = callback;
 		data.closure  = closure;
-		data.error    = error;
 		data.strict   = strict;
 
 		cell_get_abs_col_row (&value->v.cell_range.cell_a,
@@ -129,48 +114,49 @@ function_iterate_do_value (const EvalPosition      *ep,
 				      &end_col, &end_row);
 
 		sheet = eval_sheet (value->v.cell_range.cell_a.sheet, ep->sheet);
-		ret = sheet_cell_foreach_range (
+		res = sheet_cell_foreach_range (
 			sheet, TRUE,
 			start_col, start_row,
 			end_col, end_row,
 			iterate_cellrange_callback,
 			&data);
 	}
+	case VALUE_EMPTY: break;
 	}
-	return ret;
+	return res;
 }
 
-int
+Value *
 function_iterate_argument_values (const EvalPosition      *fp,
 				  FunctionIterateCallback callback,
 				  void                    *callback_closure,
 				  GList                   *expr_node_list,
-				  ErrorMessage            *error,
 				  gboolean                strict)
 {
-	int result = TRUE;
+	Value * result = NULL;
 	FunctionEvalInfo fs;
 
-	for (; result && expr_node_list; expr_node_list = expr_node_list->next){
-		ExprTree *tree = (ExprTree *) expr_node_list->data;
+	for (; result == NULL && expr_node_list;
+	     expr_node_list = expr_node_list->next){
+		ExprTree const * tree = (ExprTree const *) expr_node_list->data;
 		Value *val;
 
 		func_eval_info_pos (&fs, fp);
-		error_message_free (fs.error);
-		fs.error = error;
 		val = eval_expr (&fs, tree);
 
-		if (val) {
+		if (!VALUE_IS_PROBLEM(val)) {
 			result = function_iterate_do_value (
 				fp, callback, callback_closure,
-				val, error, strict);
+				val, strict);
 			value_release (val);
 		} else if (strict) {
 			/* A strict function -- just short circuit.  */
-			result = FALSE;
+			/* FIXME : Make the new position of the error here */
+			result = (val != NULL)
+			    ? value_duplicate(val) : value_terminate();
 		} else {
 			/* A non-strict function -- call the handler.  */
-			result = (*callback) (fp, val, error, callback_closure);
+			result = (*callback) (fp, val, callback_closure);
 		}
 	}
 	return result;
@@ -347,6 +333,83 @@ FunctionDefinition *function_add_args (FunctionCategory *parent,
 	return fd;
 }
 
+Value *
+function_def_call_with_values (const EvalPosition *ep,
+			       FunctionDefinition *fd,
+			       int                 argc,
+			       Value              *values [])
+{
+	Value *retval;
+	FunctionEvalInfo s;
+
+	func_eval_info_pos (&s, ep);
+
+	if (fd->fn_type == FUNCTION_NODES) {
+		/*
+		 * If function deals with ExprNodes, create some
+		 * temporary ExprNodes with constants.
+		 */
+		ExprTree *tree = NULL;
+		GList *l = NULL;
+		int i;
+
+		if (argc){
+			tree = g_new (ExprTree, argc);
+
+			for (i = 0; i < argc; i++){
+				tree [i].oper = OPER_CONSTANT;
+				tree [i].ref_count = 1;
+				tree [i].u.constant = values [i];
+
+				l = g_list_append (l, &(tree[i]));
+			}
+		}
+
+		retval = fd->fn.fn_nodes (&s, l);
+
+		if (tree){
+			g_free (tree);
+			g_list_free (l);
+		}
+
+	} else
+		retval = fd->fn.fn_args (&s, values);
+
+	return retval;
+}
+
+/*
+ * Use this to invoke a register function: the only drawback is that
+ * you have to compute/expand all of the values to use this
+ */
+Value *
+function_call_with_values (const EvalPosition *ep, const char *name,
+			   int argc, Value *values[])
+{
+	FunctionDefinition *fd;
+	Value *retval;
+	Symbol *sym;
+
+	g_return_val_if_fail (ep, NULL);
+	g_return_val_if_fail (ep->sheet != NULL, NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	sym = symbol_lookup (global_symbol_table, name);
+	if (sym == NULL)
+		return value_new_error (ep, _("Function does not exist"));
+	if (sym->type != SYMBOL_FUNCTION)
+		return value_new_error (ep, _("Calling non-function"));
+
+	fd = sym->data;
+
+	symbol_ref (sym);
+	retval = function_def_call_with_values (ep, fd, argc, values);
+	
+	symbol_unref (sym);
+
+	return retval;
+}
+
 void
 functions_init (void)
 {
@@ -367,13 +430,13 @@ functions_init (void)
 /* Initialize temporarily with statics.  The real versions from the locale
  * will be setup in constants_init
  */
-char *gnumeric_err_NULL  = "#NULL!";
-char *gnumeric_err_DIV0  = "#DIV/0!";
-char *gnumeric_err_VALUE = "#VALUE!";
-char *gnumeric_err_REF   = "#REF!";
-char *gnumeric_err_NAME  = "#NAME?";
-char *gnumeric_err_NUM   = "#NUM!";
-char *gnumeric_err_NA    = "#N/A";
+char const *gnumeric_err_NULL  = "#NULL!";
+char const *gnumeric_err_DIV0  = "#DIV/0!";
+char const *gnumeric_err_VALUE = "#VALUE!";
+char const *gnumeric_err_REF   = "#REF!";
+char const *gnumeric_err_NAME  = "#NAME?";
+char const *gnumeric_err_NUM   = "#NUM!";
+char const *gnumeric_err_NA    = "#N/A";
 
 void
 constants_init (void)

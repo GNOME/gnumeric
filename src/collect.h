@@ -10,21 +10,17 @@ typedef enum {
 
 	COLLECT_IGNORE_BOOLS = 0x10,
 	COLLECT_ZEROONE_BOOLS = 0x20,
+
+	COLLECT_IGNORE_ERRORS = 0x100,
+	COLLECT_ZERO_ERRORS = 0x200,
 } CollectFlags;
 
-
-float_t *collect_floats_1 (ExprTree *expr, const EvalPosition *cr,
-			   CollectFlags flags,
-			   int *n, ErrorMessage *error);
-float_t *collect_floats   (GList *exprlist, const EvalPosition *cr,
-			   CollectFlags flags,
-			   int *n, ErrorMessage *error);
 
 typedef int (*float_range_function_t) (const float_t *, int, float_t *);
 
 Value *float_range_function (GList *exprlist, FunctionEvalInfo *ei,
 			     float_range_function_t func,
 			     CollectFlags flags,
-			     char *func_error, ErrorMessage *error);
+			     char const *func_error);
 
 #endif

@@ -358,11 +358,11 @@ gnumeric_daverage (FunctionEvalInfo *ei, Value **argv)
 
 	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 
@@ -422,11 +422,11 @@ gnumeric_dcount (FunctionEvalInfo *ei, Value **argv)
 
 	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 
@@ -485,11 +485,11 @@ gnumeric_dcounta (FunctionEvalInfo *ei, Value **argv)
 
 	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 
@@ -552,12 +552,12 @@ gnumeric_dget (FunctionEvalInfo *ei, Value **argv)
 	field = find_column_of_field (&ei->pos, database, argv[1]);
 
 	if (field < 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	criterias = parse_database_criteria (&ei->pos, database, criteria);
 
 	if (criterias == NULL)
-		error_message_set (ei->error, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 
@@ -574,10 +574,10 @@ gnumeric_dget (FunctionEvalInfo *ei, Value **argv)
 	free_criterias(criterias);
 
 	if (count == 0)
-		return function_error (ei, gnumeric_err_VALUE);
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	if (count > 1)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
         return value_new_float (value_get_as_float (cell->value));
 }
@@ -621,15 +621,15 @@ gnumeric_dmax (FunctionEvalInfo *ei, Value **argv)
 
 	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 	if (cells == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	current = cells;
 	cell = current->data;
@@ -690,15 +690,15 @@ gnumeric_dmin (FunctionEvalInfo *ei, Value **argv)
 
 	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 	if (cells == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	current = cells;
 	cell = current->data;
@@ -759,17 +759,17 @@ gnumeric_dproduct (FunctionEvalInfo *ei, Value **argv)
 
 	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	criterias = parse_database_criteria (&ei->pos, database, criteria);
 
 	if (criterias == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 
 	if (cells == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	current = cells;
 	product = 1;
@@ -821,43 +821,40 @@ gnumeric_dstdev (FunctionEvalInfo *ei, Value **argv)
         Value          *database, *criteria;
 	GSList         *criterias;
 	GSList         *cells, *current;
-	Cell           *cell;
 	int            field;
 	stat_closure_t p;
-	ErrorMessage   *err;
 
 	database = argv[0];
 	criteria = argv[2];
 
 	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 	if (cells == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	current = cells;
 	setup_stat_closure (&p);
-	cell = current->data;
 
-	err = error_message_new ();
 	while (current != NULL) {
-	        cell = current->data;
-		callback_function_stat (NULL, cell->value, err, &p);
+	        Cell *cell = current->data;
+
+		/* FIXME : What about errors ? */
+		callback_function_stat (NULL, cell->value, &p);
 		current = g_slist_next(current);
 	}
-	error_message_free (err);
 
 	g_slist_free(cells);
 	free_criterias(criterias);
 
 	if (p.N - 1 == 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
         return value_new_float (sqrt(p.Q / (p.N - 1)));
 }
@@ -893,7 +890,6 @@ gnumeric_dstdevp (FunctionEvalInfo *ei, Value **argv)
         Value          *database, *criteria;
 	GSList         *criterias;
 	GSList         *cells, *current;
-	Cell           *cell;
 	int            field;
 	stat_closure_t p;
 
@@ -902,24 +898,24 @@ gnumeric_dstdevp (FunctionEvalInfo *ei, Value **argv)
 
 	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 	if (cells == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	current = cells;
 	setup_stat_closure (&p);
-	cell = current->data;
 
 	while (current != NULL) {
-		ErrorMessage *err = error_message_new ();
-	        cell = current->data;
-		callback_function_stat (NULL, cell->value, err, &p);
+	        Cell *cell = current->data;
+
+		/* FIXME : What about errors ? */
+		callback_function_stat (NULL, cell->value, &p);
 		current = g_slist_next(current);
 	}
 
@@ -927,7 +923,7 @@ gnumeric_dstdevp (FunctionEvalInfo *ei, Value **argv)
 	free_criterias(criterias);
 
 	if (p.N == 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
         return value_new_float (sqrt(p.Q / p.N));
 }
@@ -971,15 +967,15 @@ gnumeric_dsum (FunctionEvalInfo *ei, Value **argv)
 
 	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 	if (cells == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	current = cells;
 	sum = 0;
@@ -1031,43 +1027,40 @@ gnumeric_dvar (FunctionEvalInfo *ei, Value **argv)
         Value          *database, *criteria;
 	GSList         *criterias;
 	GSList         *cells, *current;
-	Cell           *cell;
 	int            field;
 	stat_closure_t p;
-	ErrorMessage *err;
 
 	database = argv[0];
 	criteria = argv[2];
 
 	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	criterias = parse_database_criteria (&ei->pos, database, criteria);
 	if (criterias == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 	if (cells == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	current = cells;
 	setup_stat_closure (&p);
-	cell = current->data;
 
-	err = error_message_new ();
 	while (current != NULL) {
-	        cell = current->data;
-		callback_function_stat (NULL, cell->value, err, &p);
+		Cell *cell = current->data;
+
+		/* FIXME : What about errors ? */
+		callback_function_stat (NULL, cell->value, &p);
 		current = g_slist_next(current);
 	}
-	error_message_free (err);
 
 	g_slist_free(cells);
 	free_criterias(criterias);
 
 	if (p.N - 1 == 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
         return value_new_float (p.Q / (p.N - 1));
 }
@@ -1103,45 +1096,42 @@ gnumeric_dvarp (FunctionEvalInfo *ei, Value **argv)
         Value          *database, *criteria;
 	GSList         *criterias;
 	GSList         *cells, *current;
-	Cell           *cell;
 	int            field;
 	stat_closure_t p;
-	ErrorMessage   *err;
 
 	database = argv[0];
 	criteria = argv[2];
 
 	field = find_column_of_field (&ei->pos, database, argv[1]);
 	if (field < 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	criterias = parse_database_criteria (&ei->pos, database, criteria);
 
 	if (criterias == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	cells = find_cells_that_match (&ei->pos, database, field, criterias);
 
 	if (cells == NULL)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	current = cells;
 	setup_stat_closure (&p);
-	cell = current->data;
 	
-	err = error_message_new ();
 	while (current != NULL) {
-	        cell = current->data;
-		callback_function_stat (NULL, cell->value, err, &p);
+	        Cell *cell = current->data;
+
+		/* FIXME : What about errors ? */
+		callback_function_stat (NULL, cell->value, &p);
 		current = g_slist_next(current);
 	}
-	error_message_free (err);
 
 	g_slist_free(cells);
 	free_criterias(criterias);
 
 	if (p.N == 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
         return  value_new_float (p.Q / p.N);
 }

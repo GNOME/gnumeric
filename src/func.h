@@ -17,8 +17,8 @@ extern void logical_functions_init     (void);
 extern void database_functions_init    (void);
 extern void information_functions_init (void);
 
-typedef int (*FunctionIterateCallback)(const EvalPosition *ep, Value *value,
-				       ErrorMessage *error, void *);
+typedef Value * (*FunctionIterateCallback)(const EvalPosition *ep, Value *value,
+					   void *);
 
 /*
  * function_iterate_argument_values
@@ -27,29 +27,27 @@ typedef int (*FunctionIterateCallback)(const EvalPosition *ep, Value *value,
  * callback:         The routine to be invoked for every value computed
  * callback_closure: Closure for the callback.
  * expr_node_list:   a GList of ExprTrees (what a Gnumeric function would get).
- * error:            a pointer to an ErrorMessage where an error description is stored.
  * strict:           If TRUE, the function is considered "strict".  This means
  *                   that if an error value occurs as an argument, the iteration
  *                   will stop and that error will be returned.  If FALSE, an
- *                   error will be passed on to the callback (as a NULL Value *
- *                   with error_string set).
+ *                   error will be passed on to the callback (as a Value *
+ *                   of type VALUE_ERROR).
  *
  * Return value:
- *    TRUE  if no errors were reported.
- *    FALSE if an error was found during strict evaluation, or if the callback
- *          requested termination of the iteration.
+ *    NULL            : if no errors were reported.
+ *    Value *         : if an error was found during strict evaluation
+ *    value_terminate : if the callback requested termination of the iteration.
  *
  * This routine provides a simple way for internal functions with variable
  * number of arguments to be written: this would iterate over a list of
  * expressions (expr_node_list) and will invoke the callback for every
  * Value found on the list (this means that ranges get properly expaned).
  */
-int
+Value *
 function_iterate_argument_values (const EvalPosition      *fp,
 				  FunctionIterateCallback callback,
 				  void                    *callback_closure,
 				  GList                   *expr_node_list,
-				  ErrorMessage            *error,
 				  gboolean                strict);
 				  
 /*
@@ -58,22 +56,18 @@ function_iterate_argument_values (const EvalPosition      *fp,
 Value      *function_call_with_values     (const EvalPosition *ep,
 					   const char         *name,
 					   int                 argc,
-					   Value              *values [],
-					   ErrorMessage       *error);
+					   Value              *values []);
 
 Value      *function_def_call_with_values (const EvalPosition *ep,
 					   FunctionDefinition *fd,
 					   int                 argc,
-					   Value              *values [],
-					   ErrorMessage       *error);
+					   Value              *values []);
 
-int
-function_iterate_do_value (const EvalPosition      *fp,
-			   FunctionIterateCallback callback,
-			   void                    *closure,
-			   Value                   *value,
-			   ErrorMessage            *error,
-			   gboolean                strict);
+Value      *function_iterate_do_value (const EvalPosition      *fp,
+				       FunctionIterateCallback callback,
+				       void                    *closure,
+				       Value                   *value,
+				       gboolean                strict);
 
 /*
  * Gnumeric function defintion API.
@@ -134,8 +128,8 @@ float_t        combin (int n, int k);
 float_t        fact   (int n);
 
 void setup_stat_closure     (stat_closure_t *cl);
-int  callback_function_stat (const EvalPosition *ep, Value *value, ErrorMessage *error,
-			     void *closure);
+Value *callback_function_stat (const EvalPosition *ep, Value *value,
+			       void *closure);
 
 Value *gnumeric_average     (FunctionEvalInfo *s, GList *nodes);
 Value *gnumeric_count       (FunctionEvalInfo *s, GList *nodes);

@@ -1,13 +1,39 @@
 #ifndef GNUMERIC_SHEET_H
 #define GNUMERIC_SHEET_H
 
-typedef struct _Workbook Workbook;
-typedef struct _Sheet Sheet;
+typedef struct _Workbook	Workbook;
+typedef struct _Sheet		Sheet;
+
+typedef struct {
+	int start_col, start_row;
+	int end_col, end_row;
+} Range;
+
+typedef struct {
+	Sheet *sheet;
+	int   col, row;
+
+	unsigned char col_relative;
+	unsigned char row_relative;
+} CellRef;
+
+typedef struct {
+	Sheet *sheet;
+	int    eval_col;
+	int    eval_row;
+} EvalPosition;
+
+typedef struct {
+	Workbook *wb;
+	int       col;
+	int       row;
+} ParsePosition;
 
 #ifdef ENABLE_BONOBO
 #    include <bonobo/gnome-container.h>
 #endif
 
+#include "value.h"
 #include "solver.h"
 #include "style.h"
 #include "expr.h"
@@ -20,11 +46,6 @@ typedef struct _Sheet Sheet;
 #define SHEET_MAX_COLS 256
 
 typedef GList ColStyleList;
-
-typedef struct {
-	int start_col, start_row;
-	int end_col, end_row;
-} Range;
 
 gboolean   range_contains (Range *range, int col, int row);
 
@@ -190,8 +211,8 @@ struct _Sheet {
 typedef  void (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *ci,
 					void *user_data);
 
-typedef  int (*sheet_cell_foreach_callback)(Sheet *sheet, int col, int row,
-					    Cell *cell, void *user_data);
+typedef  Value * (*sheet_cell_foreach_callback)(Sheet *sheet, int col, int row,
+						Cell *cell, void *user_data);
 
 Sheet      *sheet_new                  	 (Workbook *wb, const char *name);
 void        sheet_rename                 (Sheet *sheet, const char *new_name);
@@ -260,13 +281,13 @@ Cell       *sheet_cell_new                (Sheet *sheet, int col, int row);
 void        sheet_cell_add                (Sheet *sheet, Cell *cell,
 				           int col, int row);
 void        sheet_cell_remove             (Sheet *sheet, Cell *cell);
-int         sheet_cell_foreach_range      (Sheet *sheet, int only_existing,
+Value      *sheet_cell_foreach_range      (Sheet *sheet, int only_existing,
 				           int start_col, int start_row,
 				           int end_col, int end_row,
 				           sheet_cell_foreach_callback callback,
 				           void *closure);
  /* Returns NULL if doesn't exist */
-Cell       *sheet_cell_get                (Sheet *sheet, int col, int row);
+Cell       *sheet_cell_get                (Sheet const *sheet, int col, int row);
  /* Returns new Cell if doesn't exist */
 Cell       *sheet_cell_fetch              (Sheet *sheet, int col, int row);
 void        sheet_cell_comment_link       (Cell *cell);

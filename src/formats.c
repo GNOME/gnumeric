@@ -55,6 +55,10 @@ const char *cell_format_date [] = {
 	N_("mmm-yyyy"),
 	N_("m/d/yy h:mm"),
 	N_("m/d/yyyy h:mm"),
+	N_("yyyy/mm/d"),
+	N_("yyyy/mmm/d"),
+	N_("yyyy/mm/dd"),
+	N_("yyyy/mmm/dd"),
 	NULL
 };
 

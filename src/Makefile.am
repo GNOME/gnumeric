@@ -167,6 +167,8 @@ GNUMERIC_BASE_SOURCES =				\
 	symbol.c				\
 	utils.c					\
 	utils.h					\
+	value.c					\
+	value.h					\
 	widget-editable-label.c			\
 	widget-editable-label.h			\
 	widget-font-selector.c			\

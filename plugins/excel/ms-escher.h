@@ -7,8 +7,8 @@
  * Author:
  *    Michael Meeks (michael@imaginator.com)
  **/
-#include "ms-biff.h"
+#include "ms-excel-read.h"
 
-extern void ms_escher_hack_get_drawing (const BiffQuery *q);
+extern void ms_escher_hack_get_drawing (BiffQuery *q, ExcelWorkbook *wb);
 
 #endif /* GNUMERIC_MS_OFFICE_ESCHER_H */

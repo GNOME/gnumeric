@@ -30,20 +30,17 @@ static char *help_and = {
 	   "@SEEALSO=OR, NOT")
 };
 
-static int
-callback_function_and (const EvalPosition *ep, Value *value,
-		       ErrorMessage *error, void *closure)
+static Value *
+callback_function_and (const EvalPosition *ep, Value *value, void *closure)
 {
 	int *result = closure;
-	int err;
+	gboolean err;
 
 	*result = value_get_as_bool (value, &err) && *result;
-	if (err) {
-		error_message_set (error, gnumeric_err_VALUE);
-		return FALSE;
-	}
+	if (err)
+		return value_new_error (ep, gnumeric_err_VALUE);
 
-	return TRUE;
+	return NULL;
 }
 
 static Value *
@@ -52,19 +49,18 @@ gnumeric_and (FunctionEvalInfo *ei, GList *nodes)
 	int result = -1;
 
 	/* Yes, AND is actually strict.  */
-	function_iterate_argument_values (&ei->pos, callback_function_and,
-					  &result, nodes,
-					  ei->error, TRUE);
-	if (error_message_is_set (ei->error))
-		return NULL;
+	Value *v = function_iterate_argument_values (&ei->pos,
+						     callback_function_and,
+						     &result, nodes, TRUE);
+	if (v != NULL)
+		return v;
 
 	/* See if there was any value worth using */
 	if (result == -1)
-		return function_error (ei, gnumeric_err_VALUE);
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	return value_new_bool (result);
 }
-
 
 static char *help_not = {
 	N_("@FUNCTION=NOT\n"
@@ -80,8 +76,10 @@ static char *help_not = {
 static Value *
 gnumeric_not (FunctionEvalInfo *ei, Value **argv)
 {
-	/* FIXME: We should probably use value_get_as_bool.  */
-	return value_new_bool (!value_get_as_int (argv [0]));
+	gboolean err, val = value_get_as_bool (argv [0], &err);
+	if (err)
+		return value_new_error (&ei->pos, _("Type Mismatch"));
+	return value_new_bool (!val);
 }
 
 static char *help_or = {
@@ -96,25 +94,22 @@ static char *help_or = {
 	   "FALSE and anything else is TRUE.\n"
 	   "If the values contain strings or empty cells those values are "
 	   "ignored.  If no logical values are provided, then the error '#VALUE!'"
-	   "is returned.\n"
-
+	   "is returned."
+	   "\n"
 	   "@SEEALSO=AND, NOT")
 };
 
-static int
-callback_function_or (const EvalPosition *ep, Value *value,
-		      ErrorMessage *error, void *closure)
+static Value *
+callback_function_or (const EvalPosition *ep, Value *value, void *closure)
 {
 	int *result = closure;
-	int err;
+	gboolean err;
 
 	*result = value_get_as_bool (value, &err) || *result == 1;
-	if (err) {
-		error_message_set (error, gnumeric_err_VALUE);
-		return FALSE;
-	}
+	if (err)
+		return value_new_error (ep, gnumeric_err_VALUE);
 
-	return TRUE;
+	return NULL;
 }
 
 static Value *
@@ -123,16 +118,15 @@ gnumeric_or (FunctionEvalInfo *ei, GList *nodes)
 	int result = -1;
 
 	/* Yes, OR is actually strict.  */
-	function_iterate_argument_values (&ei->pos, callback_function_or,
-					  &result, nodes,
-					  ei->error, TRUE);
-
-	if (error_message_is_set (ei->error))
-		return NULL;
+	Value *v = function_iterate_argument_values (&ei->pos,
+						     callback_function_or,
+						     &result, nodes, TRUE);
+	if (v != NULL)
+		return v;
 
 	/* See if there was any value worth using */
 	if (result == -1)
-		return function_error (ei, gnumeric_err_VALUE);
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	return value_new_bool (result);
 }
@@ -156,12 +150,13 @@ gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	ExprTree *expr;
 	Value *value;
-	int err, ret, args;
+	int ret, args;
+	gboolean err;
 
 	/* Type checking */
 	args = g_list_length (expr_node_list);
 	if (args < 1 || args > 3)
-		return function_error (ei, _("Invalid number of arguments"));
+		return value_new_error (&ei->pos, _("Invalid number of arguments"));
 
 	/* Compute the if part */
 	value = eval_expr (ei, (ExprTree *) expr_node_list->data);
@@ -173,7 +168,7 @@ gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 	value_release (value);
 	if (err)
 		/* FIXME: please verify error code.  */
-		return function_error (ei, gnumeric_err_VALUE);
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	if (ret){
 		if (expr_node_list->next)

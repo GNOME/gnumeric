@@ -3,6 +3,8 @@
 #include "ms-formula-read.h"
 #include "ms-excel-read.h"
 #include "ms-escher.h"
+#include "utils.h"
+#include "gnumeric-chart.h"
 
 #include <stdio.h>
 
@@ -11,22 +13,24 @@ extern int ms_excel_chart_debug;
 
 typedef struct
 {
-	int		depth;
-	eBiff_version	ver;
-	guint32		prev_opcode;
-	ExcelWorkbook  *wb;
+	int		 depth;
+	eBiff_version	 ver;
+	guint32		 prev_opcode;
+	ExcelWorkbook	*wb;
+
+	GnumericChart	*chart;
 } ExcelChartState;
 
 typedef struct
 {
-	/* TODO TODO : fill in later */
-} GuppiChartState;
+	GnumericChart	*chart;
+} GnumericChartState;
 
 typedef struct biff_chart_handler ExcelChartHandler;
 typedef gboolean (*ExcelChartReader)(ExcelChartHandler const *handle,
 				     ExcelChartState *, BiffQuery *q);
 typedef gboolean (*ExcelChartWriter)(ExcelChartHandler const *handle,
-				     GuppiChartState *, BiffPut *os);
+				     GnumericChartState *, BiffPut *os);
 struct biff_chart_handler
 {
 	guint16 const opcode;
@@ -70,7 +74,7 @@ BC_R(3dbarshape)(ExcelChartHandler const *handle,
 }
 static gboolean
 BC_W(3dbarshape)(ExcelChartHandler const *handle,
-		 GuppiChartState *s, BiffPut *os)
+		 GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -117,7 +121,7 @@ BC_R(3d)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(3d)(ExcelChartHandler const *handle,
-	 GuppiChartState *s, BiffPut *os)
+	 GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -183,7 +187,7 @@ BC_R(ai)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(ai)(ExcelChartHandler const *handle,
-	 GuppiChartState *s, BiffPut *os)
+	 GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -218,7 +222,7 @@ BC_R(alruns)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(alruns)(ExcelChartHandler const *handle,
-	     GuppiChartState *s, BiffPut *os)
+	     GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -252,7 +256,7 @@ BC_R(area)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(area)(ExcelChartHandler const *handle,
-	   GuppiChartState *s, BiffPut *os)
+	   GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -287,7 +291,7 @@ BC_R(areaformat)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(areaformat)(ExcelChartHandler const *handle,
-		 GuppiChartState *s, BiffPut *os)
+		 GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -313,7 +317,7 @@ BC_R(attachedlabel)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(attachedlabel)(ExcelChartHandler const *handle,
-		    GuppiChartState *s, BiffPut *os)
+		    GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -332,7 +336,7 @@ BC_R(axesused)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(axesused)(ExcelChartHandler const *handle,
-	       GuppiChartState *s, BiffPut *os)
+	       GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -365,7 +369,7 @@ BC_R(axis)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(axis)(ExcelChartHandler const *handle,
-	   GuppiChartState *s, BiffPut *os)
+	   GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -380,7 +384,7 @@ BC_R(axcext)(ExcelChartHandler const *handle,
 }
 static gboolean
 BC_W(axcext)(ExcelChartHandler const *handle,
-	     GuppiChartState *s, BiffPut *os)
+	     GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -409,7 +413,7 @@ BC_R(axislineformat)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(axislineformat)(ExcelChartHandler const *handle,
-		     GuppiChartState *s, BiffPut *os)
+		     GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -424,17 +428,17 @@ BC_R(axisparent)(ExcelChartHandler const *handle,
 	/* Measured in 1/4000ths of the chart width */
 	guint32 const x = MS_OLE_GET_GUINT32 (q->data+2);
 	guint32 const y = MS_OLE_GET_GUINT32 (q->data+6);
-	guint32 const x_length = MS_OLE_GET_GUINT32 (q->data+10);
-	guint32 const y_length = MS_OLE_GET_GUINT32 (q->data+14);
+	guint32 const width = MS_OLE_GET_GUINT32 (q->data+10);
+	guint32 const height = MS_OLE_GET_GUINT32 (q->data+14);
 
 	printf ("Axis # %hu @ %f,%f, X=%f, Y=%f\n",
-		index, x/4000., y/4000., x_length/4000., y_length/4000.);
+		index, x/4000., y/4000., width/4000., height/4000.);
 	return FALSE;
 }
 
 static gboolean
 BC_W(axisparent)(ExcelChartHandler const *handle,
-		 GuppiChartState *s, BiffPut *os)
+		 GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -475,7 +479,7 @@ BC_R(bar)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(bar)(ExcelChartHandler const *handle,
-	  GuppiChartState *s, BiffPut *os)
+	  GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -493,7 +497,7 @@ BC_R(begin)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(begin)(ExcelChartHandler const *handle,
-	    GuppiChartState *s, BiffPut *os)
+	    GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -518,7 +522,7 @@ BC_R(boppop)(ExcelChartHandler const *handle,
 }
 static gboolean
 BC_W(boppop)(ExcelChartHandler const *handle,
-	     GuppiChartState *s, BiffPut *os)
+	     GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -538,7 +542,7 @@ BC_R(boppopcustom)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(boppopcustom)(ExcelChartHandler const *handle,
-		   GuppiChartState *s, BiffPut *os)
+		   GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -554,7 +558,7 @@ BC_R(catserrange)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(catserrange)(ExcelChartHandler const *handle,
-		  GuppiChartState *s, BiffPut *os)
+		  GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -571,6 +575,8 @@ BC_R(chart)(ExcelChartHandler const *handle,
 	guint32 const y_pos_fixed = MS_OLE_GET_GUINT32 (q->data + 4);
 	guint32 const x_size_fixed = MS_OLE_GET_GUINT32 (q->data + 8);
 	guint32 const y_size_fixed = MS_OLE_GET_GUINT32 (q->data + 12);
+
+	/* Measured in points (1/72 of an inch) */
 	double const x_pos = x_pos_fixed / (65535. * 72.);
 	double const y_pos = y_pos_fixed / (65535. * 72.);
 	double const x_size = x_size_fixed / (65535. * 72.);
@@ -582,7 +588,7 @@ BC_R(chart)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(chart)(ExcelChartHandler const *handle,
-	    GuppiChartState *s, BiffPut *os)
+	    GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -605,7 +611,7 @@ BC_R(chartformat)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(chartformat)(ExcelChartHandler const *handle,
-		  GuppiChartState *s, BiffPut *os)
+		  GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -622,7 +628,7 @@ BC_R(chartformatlink)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(chartformatlink)(ExcelChartHandler const *handle,
-		      GuppiChartState *s, BiffPut *os)
+		      GnumericChartState *s, BiffPut *os)
 {
 	/* ignored */
 	return FALSE;
@@ -634,12 +640,16 @@ static gboolean
 BC_R(chartline)(ExcelChartHandler const *handle,
 		ExcelChartState *s, BiffQuery *q)
 {
+	guint16 const type = MS_OLE_GET_GUINT16 (q->data);
+	g_return_val_if_fail (type <= 2, FALSE);
+	printf ("Use %s lines\n",
+		(type == 0) ? "drop" : ((type == 1) ? "hi-lo" : "series"));
 	return FALSE;
 }
 
 static gboolean
 BC_W(chartline)(ExcelChartHandler const *handle,
-		GuppiChartState *s, BiffPut *os)
+		GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -656,7 +666,7 @@ BC_R(clrtclient)(ExcelChartHandler const *handle,
 }
 static gboolean
 BC_W(clrtclient)(ExcelChartHandler const *handle,
-		 GuppiChartState *s, BiffPut *os)
+		 GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -676,7 +686,7 @@ BC_R(dat)(ExcelChartHandler const *handle,
 }
 static gboolean
 BC_W(dat)(ExcelChartHandler const *handle,
-	  GuppiChartState *s, BiffPut *os)
+	  GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -703,7 +713,7 @@ BC_R(dataformat)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(dataformat)(ExcelChartHandler const *handle,
-		 GuppiChartState *s, BiffPut *os)
+		 GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -729,7 +739,7 @@ BC_R(defaulttext)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(defaulttext)(ExcelChartHandler const *handle,
-		  GuppiChartState *s, BiffPut *os)
+		  GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -741,12 +751,13 @@ BC_R(dropbar)(ExcelChartHandler const *handle,
 	      ExcelChartState *s, BiffQuery *q)
 {
 	guint16 const width = MS_OLE_GET_GUINT16 (q->data);	/* 0-100 */
+	g_return_val_if_fail (width <= 100, FALSE);
 	return FALSE;
 }
 
 static gboolean
 BC_W(dropbar)(ExcelChartHandler const *handle,
-	      GuppiChartState *s, BiffPut *os)
+	      GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -773,7 +784,7 @@ BC_R(fbi)(ExcelChartHandler const *handle,
 }
 static gboolean
 BC_W(fbi)(ExcelChartHandler const *handle,
-	  GuppiChartState *s, BiffPut *os)
+	  GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -791,7 +802,7 @@ BC_R(fontx)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(fontx)(ExcelChartHandler const *handle,
-	    GuppiChartState *s, BiffPut *os)
+	    GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -819,7 +830,7 @@ BC_R(frame)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(frame)(ExcelChartHandler const *handle,
-	    GuppiChartState *s, BiffPut *os)
+	    GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -830,12 +841,12 @@ static gboolean
 BC_R(gelframe)(ExcelChartHandler const *handle,
 	       ExcelChartState *s, BiffQuery *q)
 {
-	ms_escher_hack_get_drawing (q);
+	ms_escher_hack_get_drawing (q, s->wb);
 	return FALSE;
 }
 static gboolean
 BC_W(gelframe)(ExcelChartHandler const *handle,
-	       GuppiChartState *s, BiffPut *os)
+	       GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -855,23 +866,63 @@ BC_R(ifmt)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(ifmt)(ExcelChartHandler const *handle,
-	   GuppiChartState *s, BiffPut *os)
+	   GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
 
 /****************************************************************************/
 
+typedef enum
+{
+	MS_LEGEND_LOCATION_BOTTOM	= 0,
+	MS_LEGEND_LOCATION_CORNER	= 1,
+	MS_LEGEND_LOCATION_TOP		= 2,
+	MS_LEGEND_LOCATION_LEFT		= 3,
+	MS_LEGEND_LOCATION_RIGHT	= 4,
+	MS_LEGEND_LOCATION_invalid1	= 5,
+	MS_LEGEND_LOCATION_invalid2	= 6,
+	MS_LEGEND_LOCATION_NOT_DOCKED	= 7,
+	MS_LEGEND_LOCATION_MAX		= 8
+} MS_LEGEND_LOCATION;
+static char const *const ms_legend_location[] =
+{
+	"bottom", "corner", "top", "left", "right",
+	"IMPOSSIBLE1", "IMPOSSIBLE2", "Not docked"
+};
+
 static gboolean
 BC_R(legend)(ExcelChartHandler const *handle,
 	     ExcelChartState *s, BiffQuery *q)
 {
+	/* Measured in 1/4000ths of the chart width */
+	guint32 const x_pos = MS_OLE_GET_GUINT32  (q->data);
+	guint32 const y_pos = MS_OLE_GET_GUINT32  (q->data+4);
+	guint32 const width = MS_OLE_GET_GUINT32  (q->data+8);
+	guint32 const height = MS_OLE_GET_GUINT32 (q->data+12);
+	guint8 const tmp = MS_OLE_GET_GUINT8     (q->data+16);
+	guint8 const spacing = MS_OLE_GET_GUINT8  (q->data+17);
+	guint16 const flags = MS_OLE_GET_GUINT16  (q->data+18);
+
+	MS_LEGEND_LOCATION location;
+	g_return_val_if_fail (tmp < MS_LEGEND_LOCATION_MAX &&
+			      tmp != MS_LEGEND_LOCATION_invalid1 &&
+			      tmp != MS_LEGEND_LOCATION_invalid2, TRUE);
+
+	/* TODO  : What is pupose of this flag ?? */
+	location = tmp;
+	printf ("Legend is @ %s.\n", ms_legend_location[location]);
+
+	printf ("Legend @ %f,%f, X=%f, Y=%f\n",
+		x_pos/4000., y_pos/4000., width/4000., height/4000.);
+
+	/* FIXME : Parse the flags too */
 	return FALSE;
 }
 
 static gboolean
 BC_W(legend)(ExcelChartHandler const *handle,
-	     GuppiChartState *s, BiffPut *os)
+	     GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -887,7 +938,7 @@ BC_R(legendxn)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(legendxn)(ExcelChartHandler const *handle,
-	       GuppiChartState *s, BiffPut *os)
+	       GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -903,7 +954,7 @@ BC_R(line)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(line)(ExcelChartHandler const *handle,
-	   GuppiChartState *s, BiffPut *os)
+	   GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -979,7 +1030,7 @@ BC_R(lineformat)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(lineformat)(ExcelChartHandler const *handle,
-		 GuppiChartState *s, BiffPut *os)
+		 GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1056,7 +1107,7 @@ BC_R(markerformat)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(markerformat)(ExcelChartHandler const *handle,
-		   GuppiChartState *s, BiffPut *os)
+		   GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1087,7 +1138,7 @@ BC_R(objectlink)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(objectlink)(ExcelChartHandler const *handle,
-		 GuppiChartState *s, BiffPut *os)
+		 GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1103,7 +1154,7 @@ BC_R(picf)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(picf)(ExcelChartHandler const *handle,
-	   GuppiChartState *s, BiffPut *os)
+	   GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1119,7 +1170,7 @@ BC_R(pie)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(pie)(ExcelChartHandler const *handle,
-	  GuppiChartState *s, BiffPut *os)
+	  GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1138,7 +1189,7 @@ BC_R(pieformat)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(pieformat)(ExcelChartHandler const *handle,
-		GuppiChartState *s, BiffPut *os)
+		GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1155,7 +1206,7 @@ BC_R(plotarea)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(plotarea)(ExcelChartHandler const *handle,
-	       GuppiChartState *s, BiffPut *os)
+	       GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1186,7 +1237,7 @@ BC_R(plotgrowth)(ExcelChartHandler const *handle,
 }
 static gboolean
 BC_W(plotgrowth)(ExcelChartHandler const *handle,
-		 GuppiChartState *s, BiffPut *os)
+		 GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1202,7 +1253,7 @@ BC_R(pos)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(pos)(ExcelChartHandler const *handle,
-	  GuppiChartState *s, BiffPut *os)
+	  GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1218,7 +1269,7 @@ BC_R(radar)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(radar)(ExcelChartHandler const *handle,
-	    GuppiChartState *s, BiffPut *os)
+	    GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1234,7 +1285,7 @@ BC_R(radararea)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(radararea)(ExcelChartHandler const *handle,
-		GuppiChartState *s, BiffPut *os)
+		GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1250,7 +1301,7 @@ BC_R(sbaseref)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(sbaseref)(ExcelChartHandler const *handle,
-	       GuppiChartState *s, BiffPut *os)
+	       GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1266,7 +1317,7 @@ BC_R(scatter)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(scatter)(ExcelChartHandler const *handle,
-	      GuppiChartState *s, BiffPut *os)
+	      GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1282,7 +1333,7 @@ BC_R(serauxerrbar)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(serauxerrbar)(ExcelChartHandler const *handle,
-		   GuppiChartState *s, BiffPut *os)
+		   GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1298,7 +1349,7 @@ BC_R(serfmt)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(serfmt)(ExcelChartHandler const *handle,
-	     GuppiChartState *s, BiffPut *os)
+	     GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1369,10 +1420,11 @@ BC_R(series_impl)(ExcelChartState *s, BiffQuery *q, ExcelChartSeries * ser)
 			ms_chart_series[ser->bubble.type]);
 	}
 
-	if (s->wb->chart.series == NULL)
-		s->wb->chart.series = g_ptr_array_new ();
-	g_ptr_array_add (s->wb->chart.series, ser);
-	printf ("SERIES = %d\n", s->wb->chart.series->len);
+	g_return_val_if_fail (s->chart != NULL, TRUE);
+	if (s->chart->series == NULL)
+		s->chart->series = g_ptr_array_new ();
+	g_ptr_array_add (s->chart->series, ser);
+	printf ("SERIES = %d\n", s->chart->series->len);
 	return FALSE;
 }
 
@@ -1395,7 +1447,7 @@ BC_R(series)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(series)(ExcelChartHandler const *handle,
-	     GuppiChartState *s, BiffPut *os)
+	     GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1411,7 +1463,7 @@ BC_R(serieslist)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(serieslist)(ExcelChartHandler const *handle,
-		 GuppiChartState *s, BiffPut *os)
+		 GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1433,7 +1485,7 @@ BC_R(seriestext)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(seriestext)(ExcelChartHandler const *handle,
-		 GuppiChartState *s, BiffPut *os)
+		 GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1449,7 +1501,7 @@ BC_R(serparent)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(serparent)(ExcelChartHandler const *handle,
-		GuppiChartState *s, BiffPut *os)
+		GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1467,7 +1519,7 @@ BC_R(sertocrt)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(sertocrt)(ExcelChartHandler const *handle,
-	       GuppiChartState *s, BiffPut *os)
+	       GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1522,7 +1574,7 @@ BC_R(shtprops)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(shtprops)(ExcelChartHandler const *handle,
-	       GuppiChartState *s, BiffPut *os)
+	       GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1542,7 +1594,7 @@ BC_R(siindex)(ExcelChartHandler const *handle,
 }
 static gboolean
 BC_W(siindex)(ExcelChartHandler const *handle,
-	      GuppiChartState *s, BiffPut *os)
+	      GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1558,7 +1610,7 @@ BC_R(surf)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(surf)(ExcelChartHandler const *handle,
-	   GuppiChartState *s, BiffPut *os)
+	   GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1583,7 +1635,6 @@ case BIFF_CHART_chart :
 case BIFF_CHART_legend :
 	puts ("Text follows legend");
 	break;
-	break;
 default :
 	printf ("BIFF ERROR : A Text record follows a %x\n",
 		s->prev_opcode);
@@ -1595,7 +1646,7 @@ return FALSE;
 
 static gboolean
 BC_W(text)(ExcelChartHandler const *handle,
-	   GuppiChartState *s, BiffPut *os)
+	   GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1611,7 +1662,7 @@ BC_R(tick)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(tick)(ExcelChartHandler const *handle,
-	   GuppiChartState *s, BiffPut *os)
+	   GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1630,7 +1681,7 @@ BC_R(units)(ExcelChartHandler const *handle,
 }
 static gboolean
 BC_W(units)(ExcelChartHandler const *handle,
-	    GuppiChartState *s, BiffPut *os)
+	    GnumericChartState *s, BiffPut *os)
 {
 	g_warning("Should not write BIFF_CHART_UNITS");
 	return FALSE;
@@ -1647,7 +1698,7 @@ BC_R(valuerange)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(valuerange)(ExcelChartHandler const *handle,
-		 GuppiChartState *s, BiffPut *os)
+		 GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1665,7 +1716,7 @@ BC_R(end)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(end)(ExcelChartHandler const *handle,
-	  GuppiChartState *s, BiffPut *os)
+	  GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1681,7 +1732,7 @@ BC_R(serauxtrend)(ExcelChartHandler const *handle,
 
 static gboolean
 BC_W(serauxtrend)(ExcelChartHandler const *handle,
-		  GuppiChartState *s, BiffPut *os)
+		  GnumericChartState *s, BiffPut *os)
 {
 	return FALSE;
 }
@@ -1800,6 +1851,31 @@ BC(register_handler)(ExcelChartHandler const *const handle)
 		chart_biff_handler[num] = handle;
 }
 
+void
+ms_excel_biff_dimensions (BiffQuery *q, ExcelWorkbook *wb)
+{
+	guint32 first_row;
+	guint32 last_row;
+	guint16 first_col;
+	guint16 last_col;
+	if (wb->ver >= eBiffV8)
+	{
+		first_row = MS_OLE_GET_GUINT32 (q->data);
+		last_row  = MS_OLE_GET_GUINT32 (q->data+4);
+		first_col = MS_OLE_GET_GUINT16 (q->data+8);
+		last_col  = MS_OLE_GET_GUINT16 (q->data+10);
+	} else
+	{
+		first_row = MS_OLE_GET_GUINT16 (q->data);
+		last_row  = MS_OLE_GET_GUINT16 (q->data+2);
+		first_col = MS_OLE_GET_GUINT16 (q->data+4);
+		last_col  = MS_OLE_GET_GUINT16 (q->data+6);
+	}
+
+	printf ("Dimension = %s%d:%s%d\n",
+		col_name(first_col), first_row+1,
+		col_name(last_col), last_row+1);
+}
 
 void
 ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, BIFF_BOF_DATA *bof)
@@ -1878,9 +1954,12 @@ ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, BIFF_BOF_DATA *bof)
 			break;
 
 			/* The ordering seems constant at the start
-			 *of a chart
+			 * of a chart
 			 */
 			case BIFF_DIMENSIONS :
+				ms_excel_biff_dimensions (q, wb);
+				break;
+
 			case BIFF_HEADER :	/* Skip for Now */
 			case BIFF_FOOTER :	/* Skip for Now */
 			case BIFF_HCENTER :	/* Skip for Now */
@@ -1891,6 +1970,15 @@ ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, BIFF_BOF_DATA *bof)
 					printf ("Handled biff %x in chart;\n",
 						q->opcode);
 				break;
+
+			case BIFF_PRINTSIZE:
+			{
+#if 0
+				/* Undocumented, seems like an enum ??? */
+				gint16 const v = MS_OLE_GET_GUINT16 (q->data);
+#endif
+			}
+			break;
 
 			default :
 				ms_excel_unexpected_biff (q, "Chart");
@@ -1911,4 +1999,10 @@ ms_excel_read_chart (BiffQuery *q, ExcelWorkbook *wb, int obj_id)
 	if (bof->version != eBiffVUnknown)
 		ms_excel_chart (q, wb, bof);
 	ms_biff_bof_data_destroy (bof);
+}
+
+
+void
+gnumeric_chart_destroy (GnumericChart * chart)
+{
 }

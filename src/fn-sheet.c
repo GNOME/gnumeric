@@ -32,11 +32,11 @@ gnumeric_selection  (FunctionEvalInfo *ei, GList *expr_node_list)
 	
 	/* Type checking */
 	if (expr_node_list != NULL)
-		return function_error (ei, _("Invalid number of arguments"));
+		return value_new_error (&ei->pos, _("Invalid number of arguments"));
 
 	sheet = ei->pos.sheet;
 	numrange = g_list_length (sheet->selections);
-	value = value_array_new (numrange, 1);
+	value = value_new_array (numrange, 1);
 	
 	i = 0;
 	for (l = sheet->selections; l; l = l->next){

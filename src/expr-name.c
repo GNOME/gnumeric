@@ -259,7 +259,7 @@ eval_expr_name (FunctionEvalInfo *ei, const ExprName *expr_name)
 	g_return_val_if_fail (ei, NULL);
 
 	if (!expr_name)
-		return function_error (ei, gnumeric_err_NAME);
+		return value_new_error (&ei->pos, gnumeric_err_NAME);
 
 	if (expr_name->builtin)
 		return expr_name->t.expr_func (ei, NULL);
@@ -273,7 +273,7 @@ static Value *
 name_sheet_title (FunctionEvalInfo *ei, Value **args)
 {
 	if (!ei || !ei->pos.sheet || !ei->pos.sheet->name)
-		return value_new_string (_("Error: no sheet"));
+		return value_new_error (&ei->pos, _("Error: no sheet"));
 	else
 		return value_new_string (ei->pos.sheet->name);
 }

@@ -96,10 +96,7 @@ typedef struct _ExcelWorkbook
 	int global_string_max;
 	eBiff_version ver;
 
-	struct
-	{
-		GPtrArray *series;
-	} chart;
+	GPtrArray  *charts;
 
 	/**
 	 * Gnumeric parallel workbook

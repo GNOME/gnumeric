@@ -141,7 +141,7 @@ gnumeric_effect (FunctionEvalInfo *ei, Value **argv)
 
 	/* Rate or number of periods cannot be negative */
 	if ( (rate < 0) || (nper <= 0) )
-		return function_error (ei, _("effect - domain error"));
+		return value_new_error (&ei->pos, _("effect - domain error"));
 
         return value_new_float ( pow( (1 + rate/nper) , nper) - 1 );
 
@@ -176,7 +176,7 @@ gnumeric_nominal (FunctionEvalInfo *ei, Value **argv)
 
 	/* Rate or number of periods cannot be negative */
 	if ( (rate < 0) || (nper <= 0) )
-		return function_error (ei, _("nominal - domain error"));
+		return value_new_error (&ei->pos, _("nominal - domain error"));
 
         return value_new_float ( nper * ( pow( 1 + rate, 1.0/nper ) - 1 ) );
 
@@ -215,7 +215,7 @@ gnumeric_sln (FunctionEvalInfo *ei, Value **argv)
 
 	/* Life of an asset cannot be negative */
 	if (life <= 0)
-		return function_error (ei, _("sln - domain error"));
+		return value_new_error (&ei->pos, _("sln - domain error"));
 
         return value_new_float ((cost - salvage_value) / life);
 }
@@ -252,7 +252,7 @@ gnumeric_syd (FunctionEvalInfo *ei, Value **argv)
 
 	/* Life of an asset cannot be negative */
 	if (life <= 0)
-		return function_error (ei, _("syd - domain error"));
+		return value_new_error (&ei->pos, _("syd - domain error"));
 
         return value_new_float (((cost - salvage_value) * (life - period + 1) * 2) / (life * (life + 1.0)));
 }
@@ -281,7 +281,7 @@ gnumeric_dollarde (FunctionEvalInfo *ei, Value **argv)
 	fraction = value_get_as_int (argv [1]);
 
 	if (fraction <= 0)
-                return function_error (ei, gnumeric_err_NUM);
+                return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	tmp = fraction;
 	/* Count digits in fraction */
@@ -319,7 +319,7 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 	fraction = value_get_as_int (argv [1]);
 
 	if (fraction <= 0)
-                return function_error (ei, gnumeric_err_NUM);
+                return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	tmp = fraction;
 	/* Count digits in fraction */
@@ -393,14 +393,14 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 	/* Ignore the guess in argv[5].  */
 
 	if (udata.nper <= 0)
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	if (udata.type != 0 && udata.type != 1)
-		return function_error (ei, gnumeric_err_VALUE);
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	if (udata.pmt == 0) {
 		if (udata.pv == 0 || udata.pv * udata.fv > 0)
-			return function_error (ei, gnumeric_err_NUM);
+			return value_new_error (&ei->pos, gnumeric_err_NUM);
 		else {
 			/* Exact case.  */
 			return value_new_float (pow (-udata.fv / udata.pv, -1.0 / udata.nper) - 1);
@@ -427,7 +427,7 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 #endif
 		return value_new_float (data.root);
 	} else
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
 }
 
 static char *help_pv = {
@@ -453,7 +453,7 @@ gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
 	type = value_get_as_int (argv [4]);
 
 	if (rate <= 0.0)
-		return function_error (ei, _("pv - domain error"));
+		return value_new_error (&ei->pos, _("pv - domain error"));
 
 	/* Calculate the PVIF and FVIFA */
 	pvif = calculate_pvif (rate, nper);
@@ -476,34 +476,35 @@ typedef struct {
         float_t sum;
 } financial_npv_t;
 
-static int
-callback_function_npv (const EvalPosition *ep, Value *value, ErrorMessage *error, void *closure)
+static Value *
+callback_function_npv (const EvalPosition *ep, Value *value, void *closure)
 {
         financial_npv_t *mm = closure;
 
 	if (!VALUE_IS_NUMBER (value))
-		return TRUE;
+		return NULL;
 
 	if (mm->num == 0) {
 		mm->rate = value_get_as_float (value);
 	} else
 		mm->sum += value_get_as_float (value) / pow (1 + mm->rate, mm->num);
 	mm->num++;
-        return TRUE;
+        return NULL;
 }
 
 static Value *
 gnumeric_npv (FunctionEvalInfo *ei, GList *nodes)
 {
+	Value *v;
         financial_npv_t p;
 
 	p.sum   = 0.0;
 	p.num   = 0;
 
-	function_iterate_argument_values (&ei->pos, callback_function_npv,
-                                          &p, nodes,
-					  ei->error, TRUE);
-	return value_new_float (p.sum);
+	v = function_iterate_argument_values (&ei->pos, callback_function_npv,
+					      &p, nodes, TRUE);
+
+	return (v != NULL) ? v : value_new_float (p.sum);
 }
 
 
@@ -668,11 +669,11 @@ gnumeric_nper (FunctionEvalInfo *ei, Value **argv)
 	type = value_get_as_int (argv [4]);
 
 	if (rate <= 0.0)
-		return function_error (ei, gnumeric_err_DIV0);
+		return value_new_error (&ei->pos, gnumeric_err_DIV0);
 
 	tmp = (pmt * (1.0 + rate * type) - fv * rate) / (pv * rate + pmt * (1.0 + rate * type));
 	if (tmp <= 0.0)
-		return function_error (ei, gnumeric_err_VALUE);
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
         return value_new_float (log (tmp) / log (1.0 + rate));
 }
@@ -698,11 +699,11 @@ gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
 	fv = value_get_as_float (argv [2]);
 
 	if (rate <= 0)
-		return function_error (ei, gnumeric_err_DIV0);
+		return value_new_error (&ei->pos, gnumeric_err_DIV0);
 	else if (fv == 0 || pv == 0)
-		return function_error (ei, gnumeric_err_DIV0);
+		return value_new_error (&ei->pos, gnumeric_err_DIV0);
 	else if (fv / pv < 0)
-		return function_error (ei, gnumeric_err_VALUE);
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
         return value_new_float (log (fv / pv) / log (1.0 + rate));
 

@@ -8,6 +8,8 @@
 
 #include "ms-obj.h"
 #include "ms-chart.h"
+#include "ms-escher.h"
+#include "utils.h"
 
 extern int ms_excel_read_debug;
 
@@ -134,20 +136,31 @@ ms_obj_read_text_impl (BiffQuery *q, ExcelWorkbook * wb)
 		printf ("}; /* TextObject */\n");
 	}
 }
-static void
+void
 ms_obj_read_text (BiffQuery *q, ExcelWorkbook * wb, int const id)
 {
-	/* next record must be a DRAWING followed by a TXO */
+	/* next record must be a DRAWING */
 	g_return_if_fail (ms_biff_query_next (q));
 	g_return_if_fail (q->opcode == BIFF_MS_O_DRAWING);
+	ms_escher_hack_get_drawing (q, wb);
 
 	if (ms_excel_read_debug > 0)
 		dump (q->data, q->length);
 
-	/* and finally a TXO */
+	/* then a TXO, CONTINUE, CONTINUE */
 	g_return_if_fail (ms_biff_query_next (q));
 	g_return_if_fail (q->opcode == BIFF_TXO);
 	ms_obj_read_text_impl (q, wb);
+
+#if 0
+	/* FIXME : Most but not all have a trailing Drawing */
+	/* finally another DRAWING */
+	g_return_if_fail (ms_biff_query_next (q));
+	if (q->opcode != BIFF_MS_O_DRAWING)
+		printf ("Expected MS_O_DRAWING found 0x%x\n", q->opcode);
+	else
+		ms_escher_hack_get_drawing (q);
+#endif
 }
 
 static void
@@ -194,72 +207,77 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb)
 			break;
 
 		case GR_MACRO :
-			ms_obj_dump (data+4, len, "MacroObject");
+			ms_obj_dump (data, len, "MacroObject");
 			break;
 
 		case GR_COMMAND_BUTTON :
-			ms_obj_dump (data+4, len, "CommandButton");
+			ms_obj_dump (data, len, "CommandButton");
 			break;
 
 		case GR_GROUP_BUTTON :
-			ms_obj_dump (data+4, len, "GroupButton");
+			ms_obj_dump (data, len, "GroupButton");
 			break;
 
 		case GR_CLIPBOARD_FORMAT:
-			ms_obj_dump (data+4, len, "ClipboardFmt");
+			ms_obj_dump (data, len, "ClipboardFmt");
 			break;
 
 		case GR_PICTURE_OPTIONS:
-			ms_obj_dump (data+4, len, "PictOpt");
+			ms_obj_dump (data, len, "PictOpt");
 			break;
 
 		case GR_PICTURE_FORMULA:
-			ms_obj_dump (data+4, len, "PictFormula");
+			ms_obj_dump (data, len, "PictFormula");
 			break;
 
 		case GR_CHECKBOX_LINK :
-			ms_obj_dump (data+4, len, "CheckboxLink");
+			ms_obj_dump (data, len, "CheckboxLink");
 			break;
 
 		case GR_RADIO_BUTTON :
-			ms_obj_dump (data+4, len, "RadioButton");
+			ms_obj_dump (data, len, "RadioButton");
 			break;
 
 		case GR_SCROLLBAR :
-			ms_obj_dump (data+4, len, "ScrollBar");
+			ms_obj_dump (data, len, "ScrollBar");
 			break;
 
 		case GR_NOTE_STRUCTURE :
-			ms_obj_dump (data+4, len, "Note");
+			ms_obj_dump (data, len, "Note");
 			break;
 
 		case GR_SCROLLBAR_FORMULA :
-			ms_obj_dump (data+4, len, "ScrollbarFmla");
+			ms_obj_dump (data, len, "ScrollbarFmla");
 			break;
 
 		case GR_GROUP_BOX_DATA :
-			ms_obj_dump (data+4, len, "GroupBoxData");
+			ms_obj_dump (data, len, "GroupBoxData");
 			break;
 
 		case GR_EDIT_CONTROL_DATA :
-			ms_obj_dump (data+4, len, "EditCtrlData");
+			ms_obj_dump (data, len, "EditCtrlData");
 			break;
 
 		case GR_RADIO_BUTTON_DATA :
-			ms_obj_dump (data+4, len, "RadioData");
+			ms_obj_dump (data, len, "RadioData");
 			break;
 
 		case GR_CHECKBOX_DATA :
-			ms_obj_dump (data+4, len, "CheckBoxData");
+			ms_obj_dump (data, len, "CheckBoxData");
 			break;
 
 		case GR_LISTBOX_DATA :
-			ms_obj_dump (data+4, len, "ListBoxData");
+			ms_obj_dump (data, len, "ListBoxData");
 			break;
 
 		case GR_CHECKBOX_FORMULA :
-			ms_obj_dump (data+4, len, "CheckBoxFmla");
+		{
+			guint16 const row = MS_OLE_GET_GUINT16(data+11);
+			guint16 const col = MS_OLE_GET_GUINT16(data+13) &0x3fff;
+			printf ("%s%d\n", col_name(col), row+1);
+			ms_obj_dump (data, len, "CheckBoxFmla");
 			break;
+		}
 
 		case GR_COMMON_OBJ_DATA:
 		{
@@ -311,8 +329,15 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb)
 	/* If this was a Chart then there should be a BOF next */
 	switch (obj_type)
 	{
-	case 0x05 : ms_excel_read_chart (q, wb, obj_id); break;
-	case 0x06 : ms_obj_read_text (q, wb, obj_id); break;
+	case 0x05 :
+		ms_excel_read_chart (q, wb, obj_id);
+		break;
+
+	case 0x06 : /* Text Box */
+	case 0x07 : /* Button */
+		ms_obj_read_text (q, wb, obj_id);
+		break;
+
 	default:
 		    break;
 	}

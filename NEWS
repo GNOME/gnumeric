@@ -9,6 +9,12 @@ Michael:
 	* Initial stab at Lotus 123: 'wk1', 'wks' import.
 	* Added GUI for Names.
 
+Jody:
+	* Enable Array formulas.
+	* Add VALUE_BOOLEAN, VALUE_ERROR.
+	* Work on functions : ROW, COLUMN, ISLOGICAL, ISERR, ISBLANK, DATEVALUE
+	* Support implict intersection 'feature' of XL.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.31

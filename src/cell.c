@@ -1575,3 +1575,26 @@ cell_get_comment (Cell *cell)
 
 	return str;
 }
+
+gboolean
+cell_is_blank(Cell *cell)
+{
+	if (cell == NULL || cell->value == NULL ||
+	    cell->value->type == VALUE_EMPTY)
+		return TRUE;
+
+	/* FIXME FIXME : this won't be necessary when we have a VALUE_EMPTY */
+	return (cell->value->type == VALUE_STRING &&
+		*(cell->value->v.str->str) == '\0');
+}
+
+Value *
+cell_is_error (Cell const *cell)
+{
+	g_return_val_if_fail (cell != NULL, NULL);
+	g_return_val_if_fail (cell->value != NULL, NULL);
+	if (cell->value->type == VALUE_ERROR)
+		return cell->value;
+
+	return NULL;
+}

@@ -2,32 +2,17 @@
 #define GNUMERIC_EXPR_H
 
 /* Forward references for structures.  */
-typedef struct _Value    Value;
-typedef struct _ExprTree ExprTree;
-typedef struct _CellRef  CellRef;
-typedef struct _ArrayRef ArrayRef;
-typedef struct _ExprName ExprName;
+typedef struct _ExprTree		ExprTree;
+typedef struct _ArrayRef		ArrayRef;
+typedef struct _ExprName		ExprName;
+typedef struct _FunctionEvalInfo	FunctionEvalInfo;
 
-typedef struct _EvalPosition            EvalPosition;
-typedef struct _ErrorMessage            ErrorMessage;
-typedef struct _ParsePosition           ParsePosition;
-typedef struct _FunctionEvalInfo        FunctionEvalInfo;
-
+#include "value.h"
 #include "sheet.h"
 #include "symbol.h"
 #include "numbers.h"
 #include "str.h"
 #include "expr-name.h"
-
-/* Some utility constants to make sure we all spell correctly */
-/* TODO : These should really be const, but can't until error_string changes */
-extern char *gnumeric_err_NULL;
-extern char *gnumeric_err_DIV0;
-extern char *gnumeric_err_VALUE;
-extern char *gnumeric_err_REF;
-extern char *gnumeric_err_NAME;
-extern char *gnumeric_err_NUM;
-extern char *gnumeric_err_NA;
 
 /* Warning: if you add something here, see do_expr_decode_tree ! */
 typedef enum {
@@ -62,22 +47,6 @@ typedef enum {
 	case OPER_EXP: case OPER_CONCAT
 #define OPER_ANY_UNARY OPER_NEG
 
-typedef enum {
-	VALUE_STRING,
-	VALUE_INTEGER,
-	VALUE_FLOAT,
-	VALUE_CELLRANGE,
-	VALUE_ARRAY,
-} ValueType;
-
-struct _CellRef {
-	Sheet *sheet;
-	int   col, row;
-
-	unsigned char col_relative;
-	unsigned char row_relative;
-};
-
 struct _ArrayRef {
 	int   x, y;
 	int   rows, cols;
@@ -92,28 +61,6 @@ struct _ArrayRef {
 		Cell *cell;
 	} corner;
 };
-
-struct _Value {
-	ValueType type;
-	union {
-		CellRef cell;
-		struct {
-			CellRef cell_a;
-			CellRef cell_b;
-		} cell_range;
-
-		struct {
-			int x, y ;
-			Value ***vals;  /* Array [x][y] */
-		} array ;
-		String *str;
-		float_t v_float;	/* floating point */
-		int_t   v_int;
-	} v;
-};
-
-#define VALUE_IS_NUMBER(x) (((x)->type == VALUE_INTEGER) || \
-			    ((x)->type == VALUE_FLOAT))
 
 struct _ExprTree {
 	Operation oper;
@@ -157,39 +104,14 @@ typedef enum {
 /* FIXME: Should be tastefuly concealed */
 typedef struct _FunctionDefinition FunctionDefinition;
 
-struct _EvalPosition {
-	Sheet *sheet;
-	int    eval_col;
-	int    eval_row;
-};
-
-struct _ParsePosition {
-	Workbook *wb;
-	int       col;
-	int       row;
-};
-
 enum _FuncType { FUNCTION_ARGS, FUNCTION_NODES };
 typedef enum _FuncType FuncType;
 
 typedef Value *(FunctionArgs)  (FunctionEvalInfo *ei, Value **args);
 typedef Value *(FunctionNodes) (FunctionEvalInfo *ei, GList *nodes);
 
-struct _ErrorMessage {
-	const char *message;
-	char       *alloc;
-	char        small [20];
-};
-
-ErrorMessage *error_message_new       (void);
-void          error_message_set       (ErrorMessage *em, const char *message);
-gboolean      error_message_is_set    (ErrorMessage *em);
-const char   *error_message_txt       (ErrorMessage *em);
-void          error_message_free      (ErrorMessage *em);
-
 struct _FunctionEvalInfo {
 	EvalPosition        pos;
-	ErrorMessage       *error;
 	FunctionDefinition *func_def;
 };
 
@@ -198,11 +120,6 @@ struct _FunctionEvalInfo {
  * Syntax is CellRef, valid Sheet *
  */
 #define eval_sheet(a,b)     (a?a:b)
-
-Value *function_error       (FunctionEvalInfo *fe,
-			     char *error_string);
-Value *function_error_alloc (FunctionEvalInfo *fe,
-			     char *error_string);
 
 /* Transition functions */
 EvalPosition     *eval_pos_init       (EvalPosition *, Sheet *s, int col, int row);
@@ -251,6 +168,11 @@ struct _ExprName {
 	} t;
 };
 
+int         cell_ref_get_abs_col   (CellRef const *cell_ref,
+				    EvalPosition const *src_fp);
+int         cell_ref_get_abs_row   (CellRef const *cell_ref,
+				    EvalPosition const *src_fp);
+
 void        cell_get_abs_col_row   (const CellRef *cell_ref,
 				    int eval_col, int eval_row,
 				    int *col, int *row);
@@ -295,49 +217,15 @@ void expr_dump_tree (ExprTree *tree);
 
 /*
  * Returns int(0) if the expression uses a non-existant cell for anything
- * other than an equality test, returns NULL on error (for now)
+ * other than an equality test.
  */
-Value       *eval_expr             (FunctionEvalInfo *s, ExprTree *tree);
+Value       *eval_expr              (FunctionEvalInfo *s, ExprTree const *tree);
 
-Value       *value_new_float       (float_t f);
-Value       *value_new_int         (int i);
-Value       *value_new_bool        (gboolean b);
-Value       *value_new_string      (const char *str);
-Value       *value_new_cellrange   (const CellRef *a, const CellRef *b);
-
-void         value_release         (Value *value);
-Value       *value_duplicate       (const Value *value);
-void         value_copy_to         (Value *dest, const Value *source);
-Value       *value_cast_to_float   (Value *v);
-
-int          value_get_as_bool     (const Value *v, int *err);
-float_t      value_get_as_float    (const Value *v);
-int          value_get_as_int      (const Value *v);
-char        *value_get_as_string   (const Value *value);
-char        *value_cellrange_get_as_string
-                                   (const Value *value,
-				    gboolean use_relative_syntax);
-
-void         value_dump            (const Value *value);
-
-/* Area functions ( works on VALUE_RANGE or VALUE_ARRAY */
-/* The EvalPosition provides a Sheet context; this allows
-   calculation of relative references. 'x','y' give the position */
-guint        value_area_get_width  (const EvalPosition *ep, Value const *v);
-guint        value_area_get_height (const EvalPosition *ep, Value const *v);
-
-/* Return Value(int 0) if non-existant */
-const Value *value_area_fetch_x_y  (const EvalPosition *ep, Value const * v,
-				    guint x, guint y);
-
-/* Return NULL if non-existant */
-const Value * value_area_get_x_y (const EvalPosition *ep, Value const * v,
-				  guint x, guint y);
-
-Value       *value_array_new       (guint width, guint height);
-void         value_array_set       (Value *array, guint col, guint row, Value *v);
-void         value_array_resize    (Value *v, guint width, guint height);
-void         value_array_copy_to   (Value *dest, const Value *src);
+/*
+ * Returns NULL if the expression uses a non-existant cell for anything
+ * other than an equality test.
+ */
+Value       *eval_expr_real         (FunctionEvalInfo *s, ExprTree const *tree);
 
 /* Setup of the symbol table */
 void         functions_init        (void);

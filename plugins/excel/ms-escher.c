@@ -12,6 +12,7 @@
 #include "escher-types.h"
 #include "biff-types.h"
 #include "ms-excel-read.h"
+#include "ms-obj.h"
 
 #include <stdio.h>
 
@@ -513,7 +514,7 @@ read_DgContainer (ESH_HEADER *h) /* See S59FE7.HTM */
  **/
 
 static void
-ms_escher_read (guint8 *data, gint32 length)
+ms_escher_read (guint8 *data, gint32 length, BiffQuery *q, ExcelWorkbook *wb)
 {
 	ESH_HEADER *h =	esh_header_new (data, length);
 	while (esh_header_next(h)) {
@@ -523,6 +524,17 @@ ms_escher_read (guint8 *data, gint32 length)
 		case SpContainer:	break;
 		case Selection:		break;
 		case OPT:		OPT_new (h); break;
+
+		case ClientTextbox:
+		{
+			if (h->length_left != 0)
+				 g_warning ("EXCEL : expected ClientTextBox to be last element (%d != 0)", h->length_left);
+			else
+				printf ("Expect a TXO\n");
+
+			/* The calling function will read the TXO */
+		}
+
 
 		default:
 			printf ("Unknown Dissstr Header: type 0x%x, inst 0x%x ver 0x%x len 0x%x\n",
@@ -534,7 +546,7 @@ ms_escher_read (guint8 *data, gint32 length)
 }
 
 void
-ms_escher_hack_get_drawing (const BiffQuery *q)
+ms_escher_hack_get_drawing (BiffQuery *q, ExcelWorkbook *wb)
 {
 	/* Convert the query to a sort of streeam */
 	guint8 *data;
@@ -547,7 +559,7 @@ ms_escher_hack_get_drawing (const BiffQuery *q)
 	biff_to_flat_data (q, &data, &len);
 
 	printf ("{ Escher\n");
-	ms_escher_read (data, len);
+	ms_escher_read (data, len, q, wb);
 	printf ("}; /* Escher */\n");
 
 	g_free (data);

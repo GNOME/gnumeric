@@ -88,7 +88,7 @@ gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 		year += 1900;
 
         if (!g_date_valid_dmy(1, month, year))
-		return function_error (ei, _("Invalid month or year"));
+		return value_new_error (&ei->pos, _("Invalid month or year"));
 
         g_date_clear(&date, 1);
 
@@ -100,7 +100,7 @@ gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 		g_date_subtract_days (&date, -day + 1);
 
         if (!g_date_valid(&date))
-		return function_error (ei, _("Invalid day"));
+		return value_new_error (&ei->pos, _("Invalid day"));
 
 	v = value_new_int (g_date_serial (&date));
 
@@ -155,7 +155,7 @@ gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
 	date = g_date_new_serial (serial);
 
 	if (!g_date_valid(date))
-                  return function_error (ei, gnumeric_err_VALUE);
+                  return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	if (months > 0)
 	        g_date_add_months (date, months);
@@ -163,7 +163,7 @@ gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
 	        g_date_subtract_months (date, -months);
 
 	if (!g_date_valid(date))
-                  return function_error (ei, gnumeric_err_NUM);
+                  return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	return value_new_int (g_date_serial (date));
 }
@@ -483,10 +483,10 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 	float_t serial1, serial2;
 
 	if (argv[2]) {
-		int err;
+		gboolean err;
 		method = value_get_as_bool (argv[2], &err) ? METHOD_EUROPE : METHOD_US;
 		if (err)
-			return function_error (ei, _("Unsupported method"));
+			return value_new_error (&ei->pos, _("Unsupported method"));
 	} else
 		method = METHOD_US;
 

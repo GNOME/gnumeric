@@ -317,7 +317,7 @@ sheet_object_container_new (Sheet *sheet,
 		printf ("11\n");
 		v = GNOME_Plot_VectorFactory_create_numeric_vector (vf, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION)
-			g_error ("Excption");
+			g_error ("Exception");
 		printf ("1\n");
 		ss = sheet->selections->data;
 		printf ("2\n");
@@ -325,7 +325,7 @@ sheet_object_container_new (Sheet *sheet,
 		rows = ss->end_row - ss->start_row;
 		values = g_new (double, rows);
 		printf ("3\n");
-		printf ("Roiws: %d\n", rows);
+		printf ("Rows: %d\n", rows);
 		for (i = 0; i < rows; i++){
 			Cell *cell;
 			

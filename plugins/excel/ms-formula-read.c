@@ -412,7 +412,7 @@ FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 344 */	{ "SUBTOTAL", -1 },
 /* 345 */	{ "SUMIF", -1 }, /* Actual range is optional */
 /* 346 */	{ "COUNTIF", 2 },
-/* 347 */	{ "COUNTBLANK", -1 },
+/* 347 */	{ "COUNTBLANK", 1 },
 /* 348 */	{ "SCENARIOGET", -2 },
 /* 349 */	{ "OPTIONSLISTSGET", -2 },
 /* 350 */	{ "ISPMT", 1 },
@@ -632,7 +632,7 @@ make_inter_sheet_ref_v7 (ExcelWorkbook *wb, guint16 extn_idx,
 static Value *
 unknownFunctionHandler (FunctionEvalInfo *ei, GList *expr_node_list)
 {
-	return function_error (ei, gnumeric_err_NAME);
+	return value_new_error (&ei->pos, gnumeric_err_NAME);
 }
 
 static Symbol *
@@ -947,7 +947,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			guint32 const cols=MS_OLE_GET_GUINT8(array_data)+1;
 			guint32 const rows=MS_OLE_GET_GUINT16(array_data+1)+1;
 			guint16 lpx,lpy;
-			Value *v = value_array_new (cols, rows);
+			Value *v = value_new_array (cols, rows);
 			ptg_length = 7;
 
 #ifndef NO_DEBUG_EXCEL

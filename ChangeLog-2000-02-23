@@ -1,3 +1,26 @@
+1999-07-25  Jody Goldberg  <jgoldberg@home.com>
+
+	* plugins/guile/plugin.c,
+	  plugins/python/python.c
+	  src/{Makefile.am, cell.[ch], collect.[ch], eval.c, expr-name.c,
+	       expr.[ch], fn-database.c, fn-date.c, fn-eng.c, fn-financial.c,
+	       fn-information.c, fn-logical.c, fn-lookup.c, fn-math.c,
+	       fn-misc.c, fn-sheet.c, fn-stat.c, fn-string.c, format.c,
+	       func.[ch], sheet-object-container.c, sheet.[ch]}
+	  : Add VALUE_ERROR, VALUE_BOOLEAN, Change many signatures to return
+	    Value for errors.
+
+	* icons/chart_*.png : Add Some images in preparation for re-enabling
+	  the graph wizard.
+
+	* src/expr.c (eval_funcall) : When a single row or column is passed to
+	  a function expecting a single value, take the intersection of the
+	  evaluation position and the range.
+	(cell_ref_get_abs_col, cell_ref_get_abs_row) : New functions.
+
+	* src/value.[ch] : New files with Value support routines split out from
+	  expr.[ch]
+
 1999-07-26  Michael Meeks  <michael@edenproject.org>
 
 	* src/corba-sheet.c (fill_corba_value): Remove redundant Sheet *

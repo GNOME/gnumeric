@@ -10,6 +10,7 @@
 #include "ms-excel-read.h"
 #include "ms-obj.h"
 #include "ms-chart.h"
+#include "gnumeric-chart.h"
 #include "ms-escher.h"
 
 #include "utils.h"	/* for cell_name */
@@ -187,10 +188,10 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 	return ans;
 }
 
-const char *
+char const *
 biff_get_error_text (const guint8 err)
 {
-	char *buf;
+	char const *buf;
 	switch (err)
 	{
 	case 0:  buf = gnumeric_err_NULL;  break;
@@ -1454,13 +1455,13 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 
 		case 2 : /* Error */
 			{
+				EvalPosition ep;
 				guint8 const v = MS_OLE_GET_GUINT8 (q->data+8);
 				char const *const err_str =
 				    biff_get_error_text (v);
 
-				/* FIXME FIXME FIXME : how to mark this as
-				 * an ERROR ? */
-				val = value_new_string (err_str);
+				/* FIXME FIXME FIXME : Init ep */
+				val = value_new_error (&ep, err_str);
 			}
 			break;
 
@@ -1689,7 +1690,7 @@ ms_excel_workbook_new (eBiff_version ver)
 	ans->excel_sheets     = g_ptr_array_new ();
 	ans->XF_cell_records  = g_ptr_array_new ();
 	ans->name_data        = g_ptr_array_new ();
-	ans->chart.series     = NULL; /* Init if/when its needed */
+	ans->charts	      = NULL; /* Init if/when its needed */
 	ans->format_data      = g_hash_table_new ((GHashFunc)biff_guint16_hash,
 						  (GCompareFunc)biff_guint16_equal);
 	ans->palette          = ms_excel_default_palette ();
@@ -1758,8 +1759,13 @@ ms_excel_workbook_destroy (ExcelWorkbook *wb)
 			biff_name_data_destroy (g_ptr_array_index (wb->name_data, lp));
 	g_ptr_array_free (wb->name_data, TRUE);
 
-	if (wb->chart.series != NULL)
-		g_ptr_array_free (wb->chart.series, TRUE);
+	if (wb->charts != NULL)
+	{
+		for (lp=0;lp<wb->charts->len;lp++)
+			gnumeric_chart_destroy (g_ptr_array_index(wb->charts, lp));
+		g_ptr_array_free (wb->charts, TRUE);
+		wb->charts = NULL;
+	}
 
 	g_hash_table_foreach_remove (wb->font_data,
 				     (GHRFunc)biff_font_data_destroy,
@@ -2293,7 +2299,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 		case BIFF_MS_O_DRAWING:
 		case BIFF_MS_O_DRAWING_GROUP:
 		case BIFF_MS_O_DRAWING_SELECTION:
-			ms_escher_hack_get_drawing (q);
+			ms_escher_hack_get_drawing (q, wb);
 			break;
 
 		case BIFF_NOTE: /* See: S59DAB.HTM */
@@ -2360,7 +2366,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 						       MS_OLE_GET_GUINT8(q->data),
 						       NULL);
 #ifndef NO_DEBUG_EXCEL
-				if (ms_excel_read_debug > 0) {
+				if (ms_excel_read_debug > 2) {
 					printf ("Header '%s'\n", str);
 				}
 #endif
@@ -2377,7 +2383,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 						       MS_OLE_GET_GUINT8(q->data),
 						       NULL);
 #ifndef NO_DEBUG_EXCEL
-				if (ms_excel_read_debug > 0) {
+				if (ms_excel_read_debug > 2) {
 					printf ("Footer '%s'\n", str);
 				}
 #endif
@@ -2682,9 +2688,20 @@ ms_excel_read_workbook (MsOle *file)
 				}
 			} else if (ver->type == eBiffTChart)
 				ms_excel_chart (q, wb, ver);
-			else if (ver->type == eBiffTVBModule)
-				printf ("VB Module.\n");
-			else
+			else if (ver->type == eBiffTVBModule ||
+				 ver->type == eBiffTMacrosheet) {
+				/* Skip contents of Module, or MacroSheet */
+				if (ver->type != eBiffTMacrosheet)
+					printf ("VB Module.\n");
+				else
+					printf ("XLM Macrosheet.\n");
+
+				while (ms_biff_query_next (q) &&
+				       q->opcode != BIFF_EOF)
+				    ;
+				if (q->opcode != BIFF_EOF)
+					g_warning ("EXCEL : file format error.  Missing BIFF_EOF");
+			} else
 				printf ("Unknown BOF (%x)\n",ver->type);
 		}
 		break;
@@ -2845,8 +2862,7 @@ ms_excel_read_workbook (MsOle *file)
 			/* This seems to appear within a workbook */
 			/* MW: And on Excel seems to drive the display
 			   of currency amounts.  */
-			guint16 codepage = MS_OLE_GET_GUINT16 (q->data);
-			
+			guint16 const codepage = MS_OLE_GET_GUINT16 (q->data);
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_read_debug > 0) {
 				switch(codepage)
@@ -2863,6 +2879,10 @@ ms_excel_read_workbook (MsOle *file)
 					break;
 				case 0x04e4 :
 					puts("CodePage = ANSI (Microsoft Windows)");
+					break;
+				case 0x04b0 :
+					/* FIXME FIXME : This is a guess */
+					puts("CodePage = Auto");
 					break;
 				default :
 					printf("CodePage = UNKNOWN(%hx)\n",
@@ -2954,7 +2974,7 @@ ms_excel_read_workbook (MsOle *file)
 		case BIFF_MS_O_DRAWING:
 		case BIFF_MS_O_DRAWING_GROUP:
 		case BIFF_MS_O_DRAWING_SELECTION:
-			ms_escher_hack_get_drawing (q);
+			ms_escher_hack_get_drawing (q, wb);
 			break;
 
 		default:
