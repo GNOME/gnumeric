@@ -78,7 +78,7 @@ workbook_history_update (GList *wl, gchar *filename)
 {
 	gchar *del_name;
 	gchar *canonical_name;
-	GList *hl;
+	GSList *hl;
 	gchar *cwd;
 	gboolean add_sep;
 

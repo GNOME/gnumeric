@@ -49,8 +49,8 @@
         <applyto>/apps/gnumeric/core/defaultfont/name</applyto>
         <owner>Gnumeric</owner>
         <type>string</type>
-	<default>Helvetica</default>
         <locale name="C">
+	<default>Helvetica</default>
         <short>Default font name</short>
         <long>The default font name for new workbooks.</long>
         </locale>
@@ -75,6 +75,38 @@
         <locale name="C">
         <short>The default font is italic.</short>
         <long>This value determines whether the default font for a new workbook italic is.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/workbook/n-sheet</key>
+        <applyto>/apps/gnumeric/core/workbook/n-sheet</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>1</default>
+        <locale name="C">
+        <short>Default Number of Sheets</short>
+        <long>The number of sheets initially created in a new workbook.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/file/history/n</key>
+        <applyto>/apps/gnumeric/core/file/history/n</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>5</default>
+        <locale name="C">
+        <short>Length of File History.</short>
+        <long>The number of files kept in the `recent' section of the file menu.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/file/history/files</key>
+        <applyto>/apps/gnumeric/file/history/files</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+        <locale name="C">
+        <short>List of recently used files.</short>
+        <long>The file menu shows a list of recently used functions. This is that list.</long>
         </locale>
       </schema>
     </schemalist>

@@ -1,0 +1,6 @@
+2002-04-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* functions.c (gnumeric_len) : port to utf8
+	(gnumeric_left) : ditto
+	(gnumeric_concatenate) : use string_range_function and 
+	  range_concatenate

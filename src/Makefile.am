@@ -161,6 +161,8 @@ GNUMERIC_BASE =					\
 	print-info.h				\
 	rangefunc.c				\
 	rangefunc.h				\
+	rangefunc-strings.c			\
+	rangefunc-strings.h			\
 	ranges.c				\
 	ranges.h				\
 	regression.c				\

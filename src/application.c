@@ -22,6 +22,8 @@
 
 #include <gtk/gtk.h>
 #include <libgnome/gnome-config.h>
+#include <gnumeric-gconf.h>
+#include <gal/util/e-util.h>
 
 typedef struct
 {
@@ -34,7 +36,7 @@ typedef struct
 	double           horizontal_dpi, vertical_dpi;
 
 	/* History for file menu */
-	GList           *history_list;
+	GSList           *history_list;
 
 	gboolean         edit_auto_complete;
 	gboolean         live_scrolling;
@@ -452,38 +454,30 @@ application_dpi_to_pixels (void)
  *
  * Return value: the list./
  **/
-GList*
+GSList*
 application_history_get_list (void)
 {
-        gchar *filename, *key;
-        gint max_entries, i;
-	gboolean do_set = FALSE;
+        gint max_entries;
+	GError *err = NULL;
+	GConfClient *client = application_get_gconf_client ();
 
 	/* If the list is already populated, return it. */
 	if (app.history_list)
 		return app.history_list;
 
-        gnome_config_push_prefix ("/Gnumeric/History/");
+	max_entries = gconf_client_get_int (client, GNUMERIC_GCONF_FILE_HISTORY_N, &err);
+	if (err || max_entries < 0)
+		max_entries = 4;
 
-        /* Get maximum number of history entries.  Write default value to
-	 * config file if no entry exists. */
-        max_entries = gnome_config_get_int_with_default ("MaxFiles=4", &do_set);
-	if (do_set)
-		gnome_config_set_int ("MaxFiles", 4);
+	app.history_list = gconf_client_get_list (client, GNUMERIC_GCONF_FILE_HISTORY_FILES,
+					      GCONF_VALUE_STRING, NULL);
 
-	/* Read the history filenames from the config file */
-        for (i = 0; i < max_entries; i++) {
-		key = g_strdup_printf ("File%d", i);
- 	        filename = gnome_config_get_string (key);
- 	        if (filename == NULL) {
-                       /* Ran out of filenames. */
-                       g_free (key);
-                       break;
-		}
-		app.history_list = g_list_append (app.history_list, filename);
-               	g_free (key);
-       	}
-       	gnome_config_pop_prefix ();
+	while (g_slist_length (app.history_list) > (guint)max_entries) {
+		GSList *last = g_slist_last (app.history_list);
+		g_free (last->data);
+		app.history_list = g_slist_delete_link (app.history_list,
+							last);
+	}
 
 	return app.history_list;
 }
@@ -502,41 +496,45 @@ gchar *
 application_history_update_list (const gchar *filename)
 {
 	gchar *name, *old_name = NULL;
-	GList *l = NULL;
-	GList *new_list = NULL;
-	gint max_entries, count = 0;
-	gboolean do_set = FALSE;
-	gboolean found = FALSE;
+	GSList *l = NULL;
+	gint max_entries;
+	GError *err = NULL;
+	GConfClient *client = application_get_gconf_client ();
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
 	/* Get maximum list length from config */
-	gnome_config_push_prefix ("Gnumeric/History/");
-	max_entries = gnome_config_get_int_with_default ("MaxFiles=4", &do_set);
-	if (do_set)
-		gnome_config_set_int ("MaxFiles", max_entries);
-	gnome_config_pop_prefix ();
+	max_entries = gconf_client_get_int (client, GNUMERIC_GCONF_FILE_HISTORY_N, &err);
+	if (err || max_entries < 0)
+		max_entries = 4;
+
+	/* Shorten the list in case max_entries has changed. */
+	while (g_slist_length (app.history_list) > (guint) max_entries) {
+		GSList *last = g_slist_last (app.history_list);
+		g_free (last->data);
+		app.history_list = g_slist_delete_link (app.history_list,
+							last);
+	}
 
 	/* Check if this filename already exists in the list */
-	for (l = app.history_list; l && (count < max_entries); l = l->next) {
-
-		if (!found && (!strcmp ((gchar *)l->data, filename) ||
-			       (count == max_entries - 1))) {
-			/* This is either the last item in the list, or a
-			 * duplicate of the requested entry. */
+	for (l = app.history_list; l ; l = l->next) {
+		if (!strcmp ((gchar *)l->data, filename)) {
 			old_name = (gchar *)l->data;
-			found = TRUE;
-		} else  /* Add this item to the new list */
-			new_list = g_list_append (new_list, l->data);
-
-		count++;
+			break;
+		} 
 	}
 
 	/* Insert the new filename to the new list and free up the old list */
 	name = g_strdup (filename);
-	new_list = g_list_prepend (new_list, name);
-	g_list_free (app.history_list);
-	app.history_list = new_list;
+	app.history_list  = g_slist_prepend (app.history_list, name);
+	if (l)
+		app.history_list = g_slist_delete_link (app.history_list, l);
+	if (g_slist_length (app.history_list) > (guint)max_entries) {
+		GSList *last = g_slist_last (app.history_list);
+		old_name = (gchar *)last->data;
+		app.history_list = g_slist_delete_link (app.history_list,
+							last);
+	}
 
 	return old_name;
 }
@@ -546,14 +544,14 @@ gchar *
 application_history_list_shrink (void)
 {
 	gchar *name;
-	GList *l;
+	GSList *l;
 
 	if (app.history_list == NULL)
 		return NULL;
 
-	l = g_list_last (app.history_list);
+	l = g_slist_last (app.history_list);
 	name = (gchar *)l->data;
-	app.history_list = g_list_remove (app.history_list, name);
+	app.history_list = g_slist_delete_link (app.history_list, l);
 
 	return name;
 }
@@ -562,27 +560,29 @@ application_history_list_shrink (void)
 void
 application_history_write_config (void)
 {
-	gchar *key;
-	GList *l;
-	gint max_entries, i = 0;
+	gint max_entries;
+	GError *err = NULL;
+	GConfClient *client = application_get_gconf_client ();
 
 	if (app.history_list == NULL) return;
 
-	max_entries = gnome_config_get_int ("Gnumeric/History/MaxFiles=4");
-	gnome_config_clean_section ("Gnumeric/History");
-	gnome_config_push_prefix("Gnumeric/History/");
-	gnome_config_set_int ("MaxFiles", max_entries);
+	max_entries = gconf_client_get_int (client, GNUMERIC_GCONF_FILE_HISTORY_N, &err);
+	if (err || max_entries < 0)
+		max_entries = 4;
 
-	for (l = app.history_list; l; l = l->next) {
-		key = g_strdup_printf ("File%d", i++);
-		gnome_config_set_string (key, (gchar *)l->data);
-		g_free (l->data);
-		g_free (key);
+	/* Shorten the list in case max_entries has changed. */
+	while (g_slist_length (app.history_list) > (guint) max_entries) {
+		GSList *last = g_slist_last (app.history_list);
+		g_free (last->data);
+		app.history_list = g_slist_delete_link (app.history_list,
+							last);
 	}
 
-	gnome_config_sync ();
-	gnome_config_pop_prefix ();
-	g_list_free (app.history_list);
+	gconf_client_set_list (client, GNUMERIC_GCONF_FILE_HISTORY_FILES, GCONF_VALUE_STRING,
+                                       app.history_list, NULL);
+	gconf_client_suggest_sync (client, NULL);
+
+	e_free_string_slist (app.history_list);
 	app.history_list = NULL;
 }
 

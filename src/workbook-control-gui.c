@@ -68,6 +68,7 @@
 #include "widgets/gnumeric-combo-text.h"
 #include "src/plugin-util.h"
 #include "sheet-object-image.h"
+#include "gnumeric-gconf.h"
 
 #ifdef WITH_BONOBO
 #include "sheet-object-container.h"
@@ -681,7 +682,7 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 static void
 wbcg_history_setup (WorkbookControlGUI *wbcg)
 {
-	GList *hl = application_history_get_list ();
+	GSList *hl = application_history_get_list ();
 	if (hl)
 		history_menu_setup (wbcg, hl);
 }
@@ -1350,10 +1351,14 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 static void
 cb_file_new (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	/* FIXME : we should have a user configurable setting
-	 * for how many sheets to create by default
-	 */
-	(void) workbook_control_gui_new (NULL, workbook_new_with_sheets (1));
+	GConfClient *client  = application_get_gconf_client ();
+	GError *err = NULL;
+	gint n_of_sheets;
+
+	n_of_sheets = gconf_client_get_int (client, GNUMERIC_GCONF_WORKBOOK_NSHEETS, &err);
+	if (err || n_of_sheets < 1)
+		n_of_sheets = 1;
+	(void) workbook_control_gui_new (NULL, workbook_new_with_sheets (n_of_sheets));
 }
 
 static void

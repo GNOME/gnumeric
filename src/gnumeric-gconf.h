@@ -4,6 +4,9 @@
 #define GNUMERIC_GCONF_UNDO_SIZE "/apps/gnumeric/undo/size"
 #define GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME "/apps/gnumeric/undo/show_sheet_name"
 #define GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH "/apps/gnumeric/undo/max_descriptor_width"
+#define GNUMERIC_GCONF_FILE_HISTORY_N "/apps/gnumeric/core/file/history/n"
+#define GNUMERIC_GCONF_FILE_HISTORY_FILES "/apps/gnumeric/core/file/history/files"
+#define GNUMERIC_GCONF_WORKBOOK_NSHEETS "/apps/gnumeric/core/workbook/n-sheet"
 
 #define FUNCTION_SELECT_GCONF_RECENT "/apps/gnumeric/functionselector/recentfunctions"
 #define FUNCTION_SELECT_GCONF_NUM_OF_RECENT "/apps/gnumeric/functionselector/num-of-recent"

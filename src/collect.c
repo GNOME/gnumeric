@@ -15,6 +15,7 @@
 #include "expr.h"
 #include "expr-impl.h"
 #include "datetime.h"
+#include <gal/util/e-util.h>
 
 /* ------------------------------------------------------------------------- */
 
@@ -412,3 +413,119 @@ float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 }
 
 /* ------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
+
+typedef struct {
+	GSList       *data;
+	CollectFlags  flags;
+} collect_strings_t;
+
+static Value *
+callback_function_collect_strings (EvalPos const *ep, Value *value, void *closure)
+{
+	char *text = NULL;
+	collect_strings_t *cl = (collect_strings_t *)closure;
+
+	if (value == NULL) {
+		if (cl->flags & COLLECT_IGNORE_BLANKS)
+			return NULL;
+		text = g_strdup ("");
+	} else switch (value->type) {
+	case VALUE_EMPTY:
+	case VALUE_BOOLEAN:
+	case VALUE_INTEGER:
+	case VALUE_FLOAT:
+	case VALUE_STRING:
+		text = value_get_as_string (value);
+		break;
+	case VALUE_CELLRANGE :
+	case VALUE_ARRAY :
+		text = value_get_as_string (value);
+		break;
+	case VALUE_ERROR:
+		if (cl->flags & COLLECT_IGNORE_ERRORS)
+			return NULL;
+		else if (cl->flags & COLLECT_ZERO_ERRORS)
+			text = g_strdup ("");
+		else
+			return value_new_error (ep, gnumeric_err_VALUE);
+		break;
+	default:
+		text = g_strdup_printf ("Trouble in callback_function_collect. (%d)",
+					value->type);
+		break;
+	}
+
+	cl->data = g_slist_prepend (cl->data, text);
+	return NULL;
+}
+
+/*
+ * collect_strings:
+ *
+ * exprlist:       List of expressions to evaluate.
+ * ep:             Current location (for resolving relative cells).
+ * flags:          0 or COLLECT_IGNORE_BLANKS
+ *
+ * Return value:
+ *   NULL in case of error, error will be set
+ *   Non-NULL in case of success.
+ *
+ * Evaluate a list of expressions and return the result as an array of
+ * gnum_float.
+ */
+
+static GSList *
+collect_strings (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags, Value **error)
+{
+	Value * err;
+	collect_strings_t cl;
+
+	cl.data = NULL;
+	cl.flags = flags;
+
+	err = function_iterate_argument_values (ep, &callback_function_collect_strings,
+		&cl, exprlist,
+		TRUE, flags & COLLECT_IGNORE_BLANKS);
+
+	if (err) {
+		g_assert (err->type == VALUE_ERROR);
+		e_free_string_slist (cl.data);
+		*error = err;
+		return NULL;
+	}
+
+	return g_slist_reverse (cl.data);
+}
+
+
+Value *
+string_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
+		      string_range_function_t func,
+		      CollectFlags flags,
+		      char const *func_error)
+{
+	Value *error = NULL;
+	GSList *vals;
+	char *res = NULL;
+	int n, err;
+	Value *v;
+
+	vals = collect_strings (exprlist, ei->pos, flags, &error);
+	if (!vals)
+		return (error != VALUE_TERMINATE) ? error : NULL;
+
+	err = func (vals, &res);
+	e_free_string_slist (vals);
+
+	if (err) {
+		if (res)
+			g_free (res);
+		return value_new_error (ei->pos, func_error);
+	} else {
+		v =  value_new_string (res);
+		g_free (res);
+		return v;
+	}
+}
+

@@ -39,6 +39,7 @@
 #include "value.h"
 #include "expr.h"
 #include "rendered-value.h"
+#include "gnumeric-gconf.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -300,8 +301,20 @@ main (int argc, char *argv [])
 	if (!initial_workbook_open_complete && !immediate_exit_flag) {
 		initial_workbook_open_complete = TRUE;
 		if (!opened_workbook) {
-			workbook_sheet_add (wb_control_workbook (wbc),
-					    NULL, FALSE);
+			GConfClient *client  = application_get_gconf_client ();
+			GError *err = NULL;
+			gint n_of_sheets;
+			Sheet *sheet = NULL;
+			
+			n_of_sheets = gconf_client_get_int (client, 
+							    GNUMERIC_GCONF_WORKBOOK_NSHEETS, 
+							    &err);
+			if (err || n_of_sheets < 1)
+				n_of_sheets = 1;
+			
+			while (n_of_sheets--)
+				sheet = workbook_sheet_add (wb_control_workbook (wbc),
+						    sheet, FALSE);
 			handle_paint_events ();
 		}
 

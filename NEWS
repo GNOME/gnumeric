@@ -23,6 +23,9 @@ Andreas:
 	* Add preference setting to include sheet name in undo/redo
 	  description
 	* Fix missing data handling of SUMPRODUCT and friends
+	* Fix CONCATENATE (#78610)
+	* Add number of sheets preference
+	* Start to UTF8 some of the string functions
 
 Jody:
 	* Add password dialog to support encrypted input.

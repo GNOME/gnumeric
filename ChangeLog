@@ -1,3 +1,23 @@
+2002-04-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-general.schemas : add history and n of sheets 
+	  preferences
+	* src/Makefile.am : add src/rangefunc-strings.[ch]
+	* src/application.c : change file history handling to gconf,
+	  change app.history_list to GSList from GList
+	* src/application.h : change app.history_list to GSList from GList
+	* src/collect.c : add string functions
+	* src/collect.h :add string functions
+	* src/gnumeric-gconf.h : add history and n of sheets preferences
+	* src/history.c : change history_list to GSList from GList
+	* src/history.h : change history_list to GSList from GList
+	* src/main.c : add user-specified number of sheets to first workbook
+	* src/workbook-control-gui.c : add user-specified number of sheets 
+	  to new workbooks
+	* src/workbook.c : change history_list to GSList from GList
+	* src/rangefunc-strings.h : new
+	* src/rangefunc-strings.c : new
+
 2002-04-14  Jon K Hellan  <hellan@acm.org>
 
 	* src/main.h (has_gnumeric_been_compiled_with_guile_support):

@@ -170,11 +170,11 @@ history_menu_insert_items (WorkbookControlGUI *wbcg, GList *name_list, MenuPos *
 }
 #else
 static void
-history_menu_insert_items (WorkbookControlGUI *wbcg, GList *name_list)
+history_menu_insert_items (WorkbookControlGUI *wbcg, GSList *name_list)
 {
 	CORBA_Environment ev;
 	gint  accel_number;
-	GList *l;
+	GSList *l;
 
 	g_return_if_fail (name_list != NULL);
 
@@ -217,7 +217,7 @@ history_menu_insert_items (WorkbookControlGUI *wbcg, GList *name_list)
  * specified.
  */
 static void
-history_menu_remove_items (WorkbookControlGUI *wbcg, GList *name_list)
+history_menu_remove_items (WorkbookControlGUI *wbcg, GSList *name_list)
 {
 	gint  accel_number = 1;
 
@@ -227,7 +227,7 @@ history_menu_remove_items (WorkbookControlGUI *wbcg, GList *name_list)
 		label = history_item_label ((gchar *)name_list->data, accel_number);
 		path = g_strconcat (_("File/"), label, NULL);
 		gnome_app_remove_menus (GNOME_APP (wbcg->toplevel), path,
-					g_list_length (name_list));
+					g_slist_length (name_list));
 		g_free (label);
 		g_free (path);
 	}
@@ -239,10 +239,10 @@ history_menu_remove_items (WorkbookControlGUI *wbcg, GList *name_list)
  * specified.
  */
 static void
-history_menu_remove_items (WorkbookControlGUI *wbcg, GList *name_list)
+history_menu_remove_items (WorkbookControlGUI *wbcg, GSList *name_list)
 {
 	gint  accel_number = 1;
-	GList *l;
+	GSList *l;
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
@@ -268,7 +268,7 @@ history_menu_remove_items (WorkbookControlGUI *wbcg, GList *name_list)
  * add a digit in front of the file name.
  */
 void
-history_menu_flush (GList *wl, GList *name_list)
+history_menu_flush (GList *wl, GSList *name_list)
 {
 	GList *l;
 
@@ -292,7 +292,7 @@ history_menu_flush (GList *wl, GList *name_list)
  * specified.
  */
 void
-history_menu_setup (WorkbookControlGUI *wbcg, GList *name_list)
+history_menu_setup (WorkbookControlGUI *wbcg, GSList *name_list)
 {
 	g_return_if_fail (name_list != NULL);
 
@@ -317,7 +317,7 @@ history_menu_setup (WorkbookControlGUI *wbcg, GList *name_list)
  * but the code is too messy to both with just now.
  */
 static void
-history_control_fill (WorkbookControl *control, GList *name_list, gboolean need_sep)
+history_control_fill (WorkbookControl *control, GSList *name_list, gboolean need_sep)
 {
 	if (IS_WORKBOOK_CONTROL_GUI (control)) {
 		WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (control);
@@ -344,7 +344,7 @@ history_control_fill (WorkbookControl *control, GList *name_list, gboolean need_
  * Precondition - the old entries have been removed with history_menu_flush.
  */
 void
-history_menu_fill (GList *wl, GList *name_list,  gboolean need_sep)
+history_menu_fill (GList *wl, GSList *name_list,  gboolean need_sep)
 {
 	GList *l;
 

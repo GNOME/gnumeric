@@ -34,6 +34,8 @@
 #include <expr.h>
 #include <number-match.h>
 #include <mathfunc.h>
+#include <rangefunc-strings.h>
+#include <collect.h>
 
 #include <ctype.h>
 #include <math.h>
@@ -139,7 +141,7 @@ static const char *help_len = {
 static Value *
 gnumeric_len (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_int (strlen (value_peek_string (argv[0])));
+	return value_new_int (g_utf8_strlen (value_peek_string (argv[0]), -1));
 }
 
 /***************************************************************************/
@@ -164,14 +166,13 @@ gnumeric_left (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
 	char *s;
-	int count, slen;
+	char const *peek;
+	int count;
 
 	count = argv[1] ? value_get_as_int (argv[1]) : 1;
-	s = value_get_as_string (argv[0]);
-
-	slen = strlen (s);
-	if (count < slen)
-		s[count] = 0;
+	peek = value_peek_string (argv[0]);
+	s = g_new (gchar, strlen (peek) + 1);
+	g_utf8_strncpy (s, peek, count);
 	v = value_new_string (s);
 	g_free (s);
 
@@ -338,31 +339,13 @@ static const char *help_concatenate = {
 };
 
 static Value *
-gnumeric_concatenate (FunctionEvalInfo *ei, GnmExprList *l)
+gnumeric_concatenate (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
-	Value *v;
-	GString *s;
+	return string_range_function (nodes, ei,
+				     range_concatenate,
+				     COLLECT_IGNORE_BLANKS,
+				     gnumeric_err_VALUE);
 
-	if (l == NULL)
-		return value_new_error (ei->pos,
-					_("Invalid number of arguments"));
-
-	s = g_string_new ("");
-	while (l != NULL &&
-	       (v = gnm_expr_eval (l->data, ei->pos,
-				   GNM_EXPR_EVAL_STRICT | GNM_EXPR_EVAL_PERMIT_EMPTY)) != NULL) {
-		if (v->type == VALUE_ERROR)
-			goto error;
-		g_string_append (s, value_peek_string (v));
-		value_release (v);
-		l = l->next;
-	}
-
-	v = value_new_string (s->str);
-
- error:
-	g_string_free (s, TRUE);
-	return v;
 }
 
 /***************************************************************************/
