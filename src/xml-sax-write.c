@@ -197,10 +197,8 @@ xml_sax_file_save (GnmFileSaver const *fs, IOContext *io_context,
 	GsfOutput *gzout = NULL;
 
 	/* If the suffix is .xml disable compression */
-	if (extension == NULL ||
-	    g_ascii_strcasecmp (extension, "xml") != 0) {
+	if (extension == NULL || g_ascii_strcasecmp (extension, "xml") != 0) {
 		gzout  = GSF_OUTPUT (gsf_output_gzip_new (output, NULL));
-		g_object_unref (output);
 		output = gzout;
 	}
 
@@ -238,6 +236,9 @@ xml_sax_file_save (GnmFileSaver const *fs, IOContext *io_context,
 
 	gnm_expr_conventions_free (state.exprconv);
 	g_object_unref (G_OBJECT (state.output));
-	if (gzout)
+
+	if (gzout) {
 		gsf_output_close (gzout);
+		g_object_unref (gzout);
+	}
 }
