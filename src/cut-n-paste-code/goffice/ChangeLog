@@ -1,3 +1,14 @@
+2005-02-11  Morten Welinder  <terra@gnome.org>
+
+	* gui-utils/go-combo-text.c (cb_list_changed): Plug leak.
+
+	* utils/go-font.c (go_fonts_init): Copy family names instead of
+	relying on pango leak.  Destroy fontmap only after we get the
+	names out.
+
+	* gui-utils/go-format-sel.c (generate_preview): Avoid crash in
+	g_warning.
+
 2005-02-09  Stepan Kasal  <kasal@ucw.cz>
 
 	* app/error-info.h: Change the guard to GO_ERROR_INFO_H.

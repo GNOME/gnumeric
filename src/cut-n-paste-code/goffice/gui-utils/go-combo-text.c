@@ -95,18 +95,20 @@ cb_list_changed (GtkTreeView *list, gpointer data)
 	gboolean accept_change;
 	GtkTreeModel *store;
 	GtkTreeIter iter;
-	char const *text;
+	char *text;
 
 	if (gtk_tree_selection_get_selected (selection, &store, &iter))
 		gtk_tree_model_get (store, &iter, 0, &text, -1);
 	else
-		text = "";
+		text = g_strdup ("");
 
 	accept_change = TRUE;
 	if (go_signal_emit (ct, SELECTION_CHANGED, selection, TRUE))
 		accept_change = go_signal_emit (ct, ENTRY_CHANGED, text, TRUE);
 	if (accept_change)
 		gtk_entry_set_text (entry, text);
+
+	g_free (text);
 
 	go_combo_box_popup_hide (GO_COMBO_BOX (ct));
 }

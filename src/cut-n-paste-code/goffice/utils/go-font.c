@@ -215,8 +215,6 @@ go_fonts_init (void)
 	fontmap = pango_ft2_font_map_new ();
 	pango_ft2_font_map_set_resolution (PANGO_FT2_FONT_MAP (fontmap), 96, 96);
 	context = pango_ft2_font_map_create_context (PANGO_FT2_FONT_MAP (fontmap));
-	g_object_unref (fontmap);
-
 	pango_context_list_families (context, &pango_families, &n_families);
 	qsort (pango_families, n_families, sizeof (*pango_families),
 	       compare_family_pointers_by_name);
@@ -224,7 +222,7 @@ go_fonts_init (void)
 	for (i = 0 ; i < n_families ; i++)
 		go_fonts_family_names = g_slist_prepend (
 			go_fonts_family_names,
-			(gpointer) pango_font_family_get_name (pango_families[i]));
+			g_strdup (pango_font_family_get_name (pango_families[i])));
 	go_fonts_family_names = g_slist_reverse (go_fonts_family_names);
 
 	go_fonts_size_name_storage = g_string_chunk_new (128);
@@ -235,7 +233,8 @@ go_fonts_init (void)
 			go_fonts_size_names,
 			g_string_chunk_insert (go_fonts_size_name_storage, buffer));
 	}
-	g_object_unref (G_OBJECT (context));
+	g_object_unref (fontmap);
+	g_object_unref (context);
 }
 
 void
@@ -243,6 +242,7 @@ go_fonts_shutdown (void)
 {
 	g_free (pango_families);
 	pango_families = NULL;
+	g_slist_foreach (go_fonts_family_names, (GFunc)g_free, NULL);
 	g_slist_free (go_fonts_family_names);
 	go_fonts_family_names = NULL;
 	g_slist_free (go_fonts_size_names);

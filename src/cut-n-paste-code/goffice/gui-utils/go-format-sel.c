@@ -205,7 +205,7 @@ generate_preview (GOFormatSel *gfs, GOColor *c)
 	g_signal_emit (G_OBJECT (gfs),
 		       go_format_sel_signals [GENERATE_PREVIEW], 0,
 		       &res, c);
-	g_warning ("TESTING TESTING 123 res = '%s'", res);
+	g_warning ("TESTING TESTING 123 res = '%s'", res ? res : "(null)");
 	return res;
 }
 
