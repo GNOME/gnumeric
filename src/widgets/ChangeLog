@@ -1,3 +1,10 @@
+2003-05-15  Morten Welinder  <terra@gnome.org>
+
+	* widget-charmap-selector.c (cs_class_init): Sort here and build a
+	name->encoding entry hash.  Handle aliases.
+	(cs_build_menu): Don't sort here.
+	(get_locale_encoding_name): Use encoding hash.
+
 2003-05-14  Jody Goldberg <jody@gnome.org>
 
 	* widget-charmap-selector.c : Include gnumeric-config.h

@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * A charmap selector widget.  
+ * A charmap selector widget.
  *
  *  Copyright (C) 2003 Andreas J. Guelzow
  *
@@ -26,6 +26,8 @@
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
+#include <gutils.h>
+#include <string.h>
 #include "widget-charmap-selector.h"
 #include "gnumeric-optionmenu.h"
 #include <gsf/gsf-impl-utils.h>
@@ -34,6 +36,8 @@
 #define CS(x) CHARMAP_SELECTOR(x)
 
 #define CHARMAP_NAME_KEY "Name of Character Encoding"
+
+/* ------------------------------------------------------------------------- */
 
 typedef enum {
 	LG_ARABIC,
@@ -44,7 +48,7 @@ typedef enum {
 	LG_GREEK,
 	LG_HEBREW,
 	LG_INDIAN,
-	LG_JAPANESE, 
+	LG_JAPANESE,
 	LG_KOREAN,
 	LG_TURKISH,
 	LG_UNICODE,
@@ -54,27 +58,12 @@ typedef enum {
 	LG_LAST
 } LanguageGroup;
 
-typedef enum {
-     CI_MINOR,
-     CI_MAJOR
-} CharsetImportance;
-
-
-
-typedef struct {
-     gchar const *charset_title;
-     gchar const *charset_name;
-     LanguageGroup const lgroup;
-     CharsetImportance const imp;
-} CharsetInfo;
-
 typedef struct
 {
         char const *group_name;
 	LanguageGroup const lgroup;
 }
 LGroupInfo;
-
 
 static LGroupInfo lgroups[] = {
 	{N_("Arabic"), LG_ARABIC},
@@ -104,7 +93,23 @@ lgroups_order (const void *_a, const void *_b)
 	return g_utf8_collate (_(a->group_name), _(b->group_name));
 }
 
-static CharsetInfo charset_trans_array[] = { 
+/* ------------------------------------------------------------------------- */
+
+typedef enum {
+     CI_MINOR,
+     CI_MAJOR
+} CharsetImportance;
+
+typedef struct {
+	gchar const *charset_title;
+	gchar const *aliases;
+	LanguageGroup const lgroup;
+	CharsetImportance const imp;
+	/* Generated stuff follows.  */
+	char *to_utf8_iconv_name, *from_utf8_iconv_name;
+} CharsetInfo;
+
+static CharsetInfo charset_trans_array[] = {
 	{N_("Arabic (IBM-864)"),                  "IBM864",                LG_ARABIC, CI_MINOR},
 	{N_("Arabic (IBM-864-I)"),                "IBM864i",               LG_ARABIC, CI_MINOR},
 	{N_("Arabic (ISO-8859-6)"),               "ISO-8859-6",            LG_ARABIC, CI_MINOR},
@@ -140,7 +145,7 @@ static CharsetInfo charset_trans_array[] = {
 	{N_("Russian (CP-866)"),                  "IBM866",                LG_CYRILLIC, CI_MINOR},
 	{N_("Ukrainian (KOI8-U)"),                "KOI8-U",                LG_CYRILLIC, CI_MINOR},
 	{N_("Ukrainian (MacUkrainian)"),          "x-mac-ukrainian",       LG_CYRILLIC, CI_MINOR},
-	{N_("English (ASCII)"),                   "ANSI_X3.4-1968",        LG_WESTERN, CI_MAJOR},
+	{N_("English (ASCII)"),                   "ANSI_X3.4-1968#ASCII",  LG_WESTERN, CI_MAJOR},
 	{N_("Farsi (MacFarsi)"),                  "x-mac-farsi",           LG_OTHER, CI_MINOR},
 	{N_("Georgian (GEOSTD8)"),                "geostd8",               LG_OTHER, CI_MINOR},
 	{N_("Greek (ISO-8859-7)"),                "ISO-8859-7",            LG_GREEK, CI_MINOR},
@@ -173,8 +178,6 @@ static CharsetInfo charset_trans_array[] = {
 	{N_("Turkish (Windows-1254)"),            "windows-1254",          LG_TURKISH, CI_MINOR},
 	{N_("Unicode (UTF-7)"),                   "UTF-7",                 LG_UNICODE, CI_MINOR},
 	{N_("Unicode (UTF-8)"),                   "UTF-8",                 LG_UNICODE, CI_MAJOR},
-	/* Test encoding that surely does not exist.  */
-	/* {"Unicode (UTF-9)",                    "UTF-9",                 LG_UNICODE}, */
 	{N_("Unicode (UTF-16BE)"),                "UTF-16BE",              LG_UNICODE, CI_MINOR},
 	{N_("Unicode (UTF-16LE)"),                "UTF-16LE",              LG_UNICODE, CI_MINOR},
 	{N_("Unicode (UTF-32BE)"),                "UTF-32BE",              LG_UNICODE, CI_MINOR},
@@ -190,7 +193,7 @@ static CharsetInfo charset_trans_array[] = {
 	{N_("Western (ISO-8859-15)"),             "ISO-8859-15",           LG_WESTERN, CI_MINOR},
 	{N_("Western (MacRoman)"),                "x-mac-roman",           LG_WESTERN, CI_MINOR},
 	{N_("Western (Windows-1252)"),            "windows-1252",          LG_WESTERN, CI_MINOR},
-	/* charsets whithout possibly translatable names */
+	/* charsets without possibly translatable names */
 	{"T61.8bit",                              "T61.8bit",              LG_OTHER, CI_MINOR},
 	{"x-imap4-modified-utf7",                 "x-imap4-modified-utf7", LG_UNICODE, CI_MINOR},
 	{"x-u-escaped",                           "x-u-escaped",           LG_OTHER, CI_MINOR},
@@ -211,6 +214,11 @@ charset_order (const void *_a, const void *_b)
 
 	return g_utf8_collate (_(a->charset_title), _(b->charset_title));
 }
+
+/* ------------------------------------------------------------------------- */
+
+/* name -> CharsetInfo* mapping */
+static GHashTable *encoding_hash;
 
 struct _CharmapSelector {
 	GtkHBox box;
@@ -255,21 +263,30 @@ static void cs_get_property      (GObject          *object,
 				  GValue           *value,
 				  GParamSpec       *pspec);
 
+static gboolean
+iconv_supported (const char *to, const char *from)
+{
+	GIConv ic = g_iconv_open (to, from);
+	if (ic == NULL || ic == (GIConv)-1)
+		return FALSE;
+
+	g_iconv_close (ic);
+	return TRUE;
+}
+
 
 static char const *
-get_locale_encoding_name (void) 
+get_locale_encoding_name (void)
 {
 	char const *locale_encoding;
-	CharsetInfo const *charset_trans = charset_trans_array;
+	CharsetInfo const *ci;
 
 	g_get_charset (&locale_encoding);
-	while (charset_trans->lgroup != LG_LAST) {
-		if (0 == g_ascii_strcasecmp
-		    (charset_trans->charset_name, locale_encoding))
-			return (_(charset_trans->charset_title));
-		charset_trans++;
-	}
-	return locale_encoding;
+	ci = g_hash_table_lookup (encoding_hash, locale_encoding);
+	if (ci)
+		return _(ci->charset_title);
+	else
+		return locale_encoding;
 }
 
 static void
@@ -279,17 +296,17 @@ encodings_changed_cb (GnumericOptionMenu *optionmenu, CharmapSelector *cs)
 	g_return_if_fail (optionmenu == cs->encodings);
 
 	gtk_signal_emit (GTK_OBJECT (cs),
-			 cs_signals[CHARMAP_CHANGED], 
+			 cs_signals[CHARMAP_CHANGED],
 			 charmap_selector_get_encoding (cs));
 }
 
-static void 
+static void
 set_menu_to_default (CharmapSelector *cs, gint item)
 {
 	GSList sel = { GINT_TO_POINTER (item - 1), NULL};
-	
+
 	g_return_if_fail (cs != NULL && IS_CHARMAP_SELECTOR(cs));
-	
+
 	gnumeric_option_menu_set_history (cs->encodings, &sel);
 }
 
@@ -305,7 +322,7 @@ static void
 cs_emphasize_label (GtkLabel *label)
 {
 	char *text = g_strconcat ("<b>", gtk_label_get_label (label), "</b>", NULL);
-	
+
 	gtk_label_set_use_underline (label, FALSE);
 	gtk_label_set_use_markup (label, TRUE);
 	gtk_label_set_label (label, text);
@@ -318,7 +335,7 @@ cs_init (CharmapSelector *cs)
 	cs->test = CHARMAP_SELECTOR_TO_UTF8;
 
 	cs->encodings = GNUMERIC_OPTION_MENU(gnumeric_option_menu_new());
-	
+
 	g_signal_connect (G_OBJECT (cs->encodings), "changed",
                           G_CALLBACK (encodings_changed_cb), cs);
         gtk_box_pack_start (GTK_BOX(cs), GTK_WIDGET(cs->encodings),
@@ -334,41 +351,36 @@ cs_build_menu (CharmapSelector *cs)
 	LGroupInfo const *lgroup = lgroups;
 	gint lg_cnt = 0;
 
-	qsort (lgroups, G_N_ELEMENTS (lgroups) - 2, sizeof (lgroups[0]),
-	       lgroups_order);
-	qsort (charset_trans_array, G_N_ELEMENTS (charset_trans_array) - 1,
-	       sizeof (charset_trans_array[0]), charset_order);
-
         menu = GTK_MENU (gtk_menu_new ());
 
 	while (lgroup->group_name) {
 		CharsetInfo const *charset_trans;
 		GtkMenu *submenu;
 		gint cnt = 0;
-		
+
 		item = gtk_menu_item_new_with_label (_(lgroup->group_name));
-		
+
 		submenu = GTK_MENU (gtk_menu_new ());
 		charset_trans = charset_trans_array;
-		
+
 		while (charset_trans->lgroup != LG_LAST) {
 			GtkWidget *subitem;
 			if (charset_trans->lgroup == lgroup->lgroup) {
-				/* Is it supported?  */
-				GIConv ic = (cs->test == CHARMAP_SELECTOR_TO_UTF8) ?
-					g_iconv_open (charset_trans->charset_name, "UTF-8") :
-					g_iconv_open ("UTF-8", charset_trans->charset_name);
-				if (ic != (GIConv)-1) {
-					g_iconv_close (ic);
-					subitem = gtk_check_menu_item_new_with_label 
+				const char *name = (cs->test == CHARMAP_SELECTOR_TO_UTF8)
+					? charset_trans->to_utf8_iconv_name
+					: charset_trans->from_utf8_iconv_name;
+				if (name) {
+					subitem = gtk_check_menu_item_new_with_label
 						(_(charset_trans->charset_title));
 					gtk_widget_show (subitem);
 					gtk_menu_append (submenu, subitem);
 					if (charset_trans->imp == CI_MAJOR)
 						cs_emphasize_label (GTK_LABEL(gtk_bin_get_child (GTK_BIN(subitem))));
 					g_object_set_data (G_OBJECT(subitem), CHARMAP_NAME_KEY,
-							   (gpointer)charset_trans->charset_name);
+							   (gpointer)name);
 					cnt++;
+				} else if (0) {
+					g_print ("Unsupported: %s\n", charset_trans->aliases);
 				}
 			}
 			charset_trans++;
@@ -387,10 +399,10 @@ cs_build_menu (CharmapSelector *cs)
 	gtk_widget_show (item);
 	gtk_menu_append (menu, item);
 	lg_cnt++;
-	
+
 	{
-		char *locale_encoding_menu_title = g_strconcat (_("Locale: "), 
-							      get_locale_encoding_name (), 
+		char *locale_encoding_menu_title = g_strconcat (_("Locale: "),
+							      get_locale_encoding_name (),
 							      NULL);
 		item = gtk_check_menu_item_new_with_label (locale_encoding_menu_title);
 		g_free (locale_encoding_menu_title);
@@ -399,7 +411,7 @@ cs_build_menu (CharmapSelector *cs)
 		lg_cnt++;
 		cs_emphasize_label (GTK_LABEL(gtk_bin_get_child (GTK_BIN(item))));
 	}
-	
+
 	gnumeric_option_menu_set_menu (cs->encodings, GTK_WIDGET (menu));
 	cs->encodings_menu = menu;
 	set_menu_to_default (cs, lg_cnt);
@@ -408,6 +420,8 @@ cs_build_menu (CharmapSelector *cs)
 static void
 cs_class_init (GtkWidgetClass *widget_klass)
 {
+	CharsetInfo *ci;
+
 	GObjectClass *gobject_class = G_OBJECT_CLASS (widget_klass);
 	widget_klass->mnemonic_activate = cs_mnemonic_activate;
 
@@ -419,7 +433,7 @@ cs_class_init (GtkWidgetClass *widget_klass)
 			"charmap_changed",
 			GTK_RUN_LAST,
 			GTK_CLASS_TYPE (widget_klass),
-			GTK_SIGNAL_OFFSET (CharmapSelectorClass, 
+			GTK_SIGNAL_OFFSET (CharmapSelectorClass,
 					   charmap_changed),
 			gtk_marshal_NONE__POINTER,
 			GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
@@ -433,6 +447,64 @@ cs_class_init (GtkWidgetClass *widget_klass)
 							    (guint)CHARMAP_SELECTOR_FROM_UTF8,
 							    (guint)CHARMAP_SELECTOR_TO_UTF8,
 							    G_PARAM_READWRITE));
+
+	qsort (lgroups, G_N_ELEMENTS (lgroups) - 2, sizeof (lgroups[0]),
+	       lgroups_order);
+	qsort (charset_trans_array, G_N_ELEMENTS (charset_trans_array) - 1,
+	       sizeof (charset_trans_array[0]), charset_order);
+
+	encoding_hash =
+		g_hash_table_new_full (gnumeric_ascii_strcase_hash,
+				       gnumeric_ascii_strcase_equal,
+				       (GDestroyNotify)g_free,
+				       NULL);
+
+	for (ci = charset_trans_array; ci->charset_title; ci++) {
+		const char *aliases = ci->aliases;
+		char *autoaliases = NULL;
+
+		if (strchr (aliases, '#') == 0) {
+			/* Sigh.  This sucks quite a lot.  */
+			if (strncmp (aliases, "ISO-", 4) == 0) {
+				autoaliases =
+					g_strconcat (aliases,
+						     "#ISO", aliases + 4,
+						     "#ISO_", aliases + 4,
+						     NULL);
+			}
+
+			if (autoaliases)
+				aliases = autoaliases;
+		}
+
+		ci->to_utf8_iconv_name = ci->from_utf8_iconv_name = NULL;
+		while (aliases) {
+			const char *sep = strchr (aliases, '#');
+			char *alias;
+
+			if (sep) {
+				alias = g_strndup (aliases, sep - aliases - 1);
+				aliases = sep + 1;
+			} else {
+				alias = g_strdup (aliases);
+				aliases = NULL;
+			}
+
+			if (ci->to_utf8_iconv_name == NULL &&
+			    iconv_supported ("UTF-8", alias)) {
+				ci->to_utf8_iconv_name = g_strdup (alias);
+			}
+
+			if (ci->from_utf8_iconv_name == NULL &&
+			    iconv_supported (alias, "UTF-8")) {
+				ci->from_utf8_iconv_name = g_strdup (alias);
+			}
+
+			g_hash_table_insert (encoding_hash, alias, ci);
+		}
+
+		g_free (autoaliases);
+	}
 }
 
 GSF_CLASS (CharmapSelector, charmap_selector,
@@ -450,22 +522,22 @@ charmap_selector_get_encoding (CharmapSelector *cs)
 	GtkMenuItem *selection;
 	char const *locale_encoding;
 	char const *encoding;
-	
+
 	g_get_charset (&locale_encoding);
 
  	g_return_val_if_fail (IS_CHARMAP_SELECTOR(cs), locale_encoding);
-	
+
  	selection = GTK_MENU_ITEM(gnumeric_option_menu_get_history (cs->encodings));
-	encoding = (char const *) g_object_get_data (G_OBJECT(selection), 
+	encoding = (char const *) g_object_get_data (G_OBJECT(selection),
 						     CHARMAP_NAME_KEY);
 	return encoding ? encoding : locale_encoding;
 }
 
-void 
+void
 charmap_selector_set_sensitive (CharmapSelector *cs, gboolean sensitive)
 {
 	g_return_if_fail (IS_CHARMAP_SELECTOR(cs));
-	
+
 	gtk_widget_set_sensitive (GTK_WIDGET(cs->encodings), sensitive);
 }
 
@@ -477,7 +549,7 @@ cs_set_property (GObject      *object,
 {
 	CharmapSelector *cs;
 	cs = CHARMAP_SELECTOR (object);
-  
+
 	switch (prop_id)
 	{
 	case PROP_TEST_DIRECTION:
@@ -491,16 +563,16 @@ cs_set_property (GObject      *object,
 }
 
 
-static void 
+static void
 cs_get_property (GObject     *object,
 		 guint        prop_id,
 		 GValue      *value,
 		 GParamSpec  *pspec)
 {
 	CharmapSelector *cs;
-  
+
 	cs = CHARMAP_SELECTOR (object);
-  
+
 	switch (prop_id)
 	{
 	case PROP_TEST_DIRECTION:
@@ -511,5 +583,3 @@ cs_get_property (GObject     *object,
 		break;
 	}
 }
-
-
