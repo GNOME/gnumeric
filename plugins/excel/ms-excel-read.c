@@ -126,7 +126,12 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 	*byte_length = 0;
 
 	if (!length)
+	{
+		/* FIXME FIXME FIXME : What about the 1 byte for the header ?
+		 *                     The length may be wrong in this case.
+		 */
 		return 0;
+	}
 
 	ans = (char *) g_new (char, length + 2);
 
@@ -2131,18 +2136,16 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 
 	case BIFF_LABELSST:
 	{
-		guint32 idx = BIFF_GET_GUINT32 (q->data + 6);
+		guint32 const idx = BIFF_GET_GUINT32 (q->data + 6);
 
 		if (!sheet->wb->global_strings || idx >= sheet->wb->global_string_max)
 			printf ("string index 0x%x out of range\n", idx);
 		else {
-			const char *str;
-			str = sheet->wb->global_strings[idx];
-			if (str)
-				ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
-							   value_new_string (str));
-			else
-				ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), "");
+			char const *str = sheet->wb->global_strings[idx];
+			if (str == NULL)
+				str = "";
+			ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
+						   value_new_string (str));
 		}
                 break;
 	}
@@ -2709,9 +2712,20 @@ ms_excel_read_workbook (MsOle *file)
 					length = BIFF_GET_GUINT16 (tmp);
 					wb->global_strings[k] = biff_get_text (tmp+2, length, &byte_len);
 					if (!wb->global_strings[k])
-						printf ("Blank string in table at : %d\n", k);
+					{
+#ifdef NO_DEBUG_EXCEL
+						if (ms_excel_read_debug > 3)
+							printf ("Blank string in table at : 0x%x with length %d\n",
+								k, byte_len);
+#endif
+						/* FIXME FIXME FIXME : This works for unicode strings.  What biff versions
+						 *                     default to non-unicode ?? */
+						/* FIXME FIXME FIXME : Will this problem happen anywhere else ?? */
+						byte_len = 1;
+					}
 					tmp += byte_len + 2;
 					tot_len += byte_len + 2;
+
 					if (tot_len > q->length) {
 						/*
 						   This means that somehow, the string table has been split
@@ -2719,7 +2733,7 @@ ms_excel_read_workbook (MsOle *file)
 						   perhaps excel is just cussid. Either way a big pain.
 						 */
 						wb->global_string_max = k;
-						printf ("FIXME: Serious SST overrun lost %d of %d strings!\n",
+						printf ("FIXME: Serious SST overrun lost %d of 0x%x strings!\n",
 							wb->global_string_max - k, wb->global_string_max);
 						printf ("Last string was '%s' 0x%x > 0x%x\n",
 							wb->global_strings[k-1] ? wb->global_strings[k-1] : "(null)",

@@ -1,3 +1,9 @@
+1999-07-13  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_workbook SST) : Zero sized strings use
+	  3 bytes (length + header) not 2.
+	(ms_excel_read_cell LABELSST) : Blank strings should have value wrappers.
+
 1999-07-12  Jody Goldberg  <jgoldberg@home.com>
 
 	* ms-excel-read.[ch] : Remove XF_style_records.  All XF records are
