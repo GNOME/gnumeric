@@ -23,8 +23,6 @@ Worries
     We init gnome_print at sheet creation time.  With cups this can cause
     hangs at startup if the server isn't answering.   --> delay init.
 
-    Someone broke ACCRINT.
-
 -------------------------------------------------------------------------------
 Pending Patches
 ---------------
@@ -37,8 +35,8 @@ Pending Patches
     - XIM menu, blocking on gtk changes
 
 -------------------------------------------------------------------------------
-1.3 Architecture Changes
-------------------------
+Architecture Changes
+--------------------
 
 - Use GtkStatusbar
 - Merge wbc_init_state and wbc_set_view
@@ -47,8 +45,8 @@ Pending Patches
   line
 
 1) Format and number match rewrite
-2) Font handling
-3) Rework plugin system down to libgoffice.
+2) Font handling (move to GOFont)
+3) Rework plugin system down to libgoffice.	{in progress not for 1.3)
 4) Function docs
     4.1) Use multiple tagged paragraphs
 5) GtkUIManager
@@ -283,7 +281,7 @@ Short Term Goals
 	1.14.9) Add a font selector to the editor		(DONE)
 	1.14.10) Value formating (at least percentage and date)	(DONE)
 	1.14.11) Support index type axis			(DONE)
-	1.14.12) Use a map function (log, invert, date) {emmanuel}
+	1.14.12) Use a map function (log, invert, date)		(DONE)
 	1.14.13) Allow a plot to select a different axis
 	1.14.14) Filter add plot in guru to matching types
 	1.14.15) Editor for min/max/major/minor			(DONE)

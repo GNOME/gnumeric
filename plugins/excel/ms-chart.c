@@ -3276,6 +3276,13 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	/* collect axis sets */
 	sets = NULL;
 	for (plots = gog_chart_get_plots (GOG_CHART (state.chart)) ; plots != NULL ; plots = plots->next) {
+		/* XL can not handle plots with no data */
+		if (gog_plot_get_series (plots->data) == NULL) {
+			g_warning ("MS Excel can not handle plots with no data, dropping %s",
+				gog_object_get_name (plots->data));
+			continue;
+		}
+
 		axis_set = g_new0 (XLAxisSet, 1);
 		for (i = GOG_AXIS_X; i < GOG_AXIS_TYPES; i++)
 			axis_set->axis[i] = gog_plot_get_axis (plots->data, i);

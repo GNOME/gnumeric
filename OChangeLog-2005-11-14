@@ -1,3 +1,11 @@
+2004-08-27  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-graphic.c :  convert markup to a property for
+	  SheetObjectText
+
+	* src/sheet-object-cell-comment.c : Add a property 'markup' to be used
+	  eventually.
+
 2004-08-27  Jon K Hellan  <hellan@acm.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=151152

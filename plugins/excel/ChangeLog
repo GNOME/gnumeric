@@ -1,3 +1,11 @@
+2004-08-27  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (ms_excel_chart_write) : MS Xl can not handle plots with
+	  no data.  Drop them with a warning.
+
+	* ms-excel-write.c (excel_write_workbook) : We only need a header if
+	  we're going to export an image.
+
 2004-08-26  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.c: Remove ENABLE_METAFILE ifdef

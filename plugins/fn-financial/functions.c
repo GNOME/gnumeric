@@ -346,37 +346,44 @@ static char const *help_accrint = {
 static GnmValue *
 gnumeric_accrint (FunctionEvalInfo *ei, GnmValue **argv)
 {
-        GDate      settlement, first_interest, maturity;
-	gnm_float rate, a, d, par, freq, coefficient, x;
+        GDate      issue, first_interest, settlement;
+	gnm_float rate, a, d, par, freq;
 	int        basis;
 	GnmDateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
+
+        if (!datetime_value_to_g (&issue, argv[0], date_conv) ||
+	    !datetime_value_to_g (&first_interest, argv[1], date_conv) ||
+	    !datetime_value_to_g (&settlement, argv[2], date_conv))
+		return value_new_error_VALUE (ei->pos);
 
 	rate           = value_get_as_float (argv[3]);
 	par            = value_get_as_float (argv[4]);
 	freq           = value_get_as_float (argv[5]);
 	basis          = argv[6] ? value_get_as_int (argv[6]) : 0;
 
-        if (!datetime_value_to_g (&maturity, argv[0], date_conv) ||
-	    !datetime_value_to_g (&first_interest, argv[1], date_conv) ||
-	    !datetime_value_to_g (&settlement, argv[2], date_conv))
-		return value_new_error_VALUE (ei->pos);
-
-        if (!is_valid_basis (basis)
-	    || !is_valid_freq (freq)
-	    || g_date_compare (&settlement, &first_interest) < 0
-	    || g_date_compare (&first_interest, &maturity) < 0)
+        if (rate <= 0.	||
+	    par <= 0.	||
+	    !is_valid_freq (freq)	||
+	    !is_valid_basis (basis)	||
+	    g_date_compare (&issue, &settlement) >= 0)
 		return value_new_error_NUM (ei->pos);
 
 	a = days_monthly_basis (argv[0], argv[2], basis, date_conv);
 	d = annual_year_basis (argv[0], basis, date_conv);
-	if (a < 0 || d <= 0 || par <= 0 || rate <= 0)
+	if (a < 0 || d <= 0)
 		return value_new_error_NUM (ei->pos);
 
-	coefficient = par * rate / freq;
-	x = a / d;
-
-	return value_new_float (coefficient * freq * x);
+	/* FIXME : According to XL docs
+	 *
+	 * NC = number of quasi-coupon periods that fit in odd period. If this
+	 * 	number contains a fraction, raise it to the next whole number. 
+	 * Ai = number of accrued days for the ith quasi-coupon period within odd period. 
+	 * NLi = normal length in days of the ith quasi-coupon period within odd period. 
+	 *
+	 * XL == par * (rate/freq) * Sum (1..NC of Ai / NLi
+	 */
+	return value_new_float (par * rate * a / d);
 }
 
 /***************************************************************************/

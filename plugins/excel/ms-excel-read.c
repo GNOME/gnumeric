@@ -425,18 +425,19 @@ unhandled text for type 0x2
 		switch (obj->excel_type) {
 
 #if 0
-unhandled markup for type 0x19
 unhandled markup for type 0x2
 unhandled markup for type 0x7
 unhandled markup for type 0xb
 unhandled markup for type 0xc
 #endif
-		case 0x0E: /* label or text box */
-		case 0x06: gnm_so_text_set_markup (so, markup);
-			   break;
+		case 0x06: /* TextBox */
+		case 0x0E: /* Label */
+		case 0x19: /* Comment */
+			g_object_set (so, "markup", markup, NULL);
+			break;
 		default:
-			   g_warning ("unhandled markup for type 0x%x", obj->excel_type);
-			   break;
+			g_warning ("unhandled markup for type 0x%x", obj->excel_type);
+			break;
 		}
 	}
 	switch (obj->excel_type) {
@@ -469,8 +470,8 @@ unhandled markup for type 0xc
 		/* NOTE : We should not need to do anything for charts */
 		break;
 
-	case 0x0E: /* Label */
 	case 0x06: /* TextBox */
+	case 0x0E: /* Label */
 		if (ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_UNFILLED))
 			gnm_so_graphic_set_fill_color (so, NULL);
 		else
@@ -5401,7 +5402,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 					value_set_fmt (v, esheet->container.ewb->sst[i].markup);
 				excel_sheet_insert_val (esheet, q, v);
 			} else
-				fprintf (stderr,"string index 0x%u >= 0x%x\n",
+				g_warning ("string index 0x%u >= 0x%x\n",
 					 i, esheet->container.ewb->sst_len);
 			break;
 

@@ -47,6 +47,8 @@ Jody:
 	* fix breakage in ins/del col/row caused by dsum changes
 	http://bugzilla.gnome.org/show_bug.cgi?id=150578
 	* Update the resize handles if the current object's size changes
+	http://bugzilla.gnome.org/show_bug.cgi?id=151144
+	* XL can not handle plots with no data, filter them
 
 Jon Kåre:
 	* Export images to Excel

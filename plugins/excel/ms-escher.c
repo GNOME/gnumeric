@@ -466,6 +466,20 @@ ms_escher_read_Blip (MSEscherState *state, MSEscherHeader *h)
 static gboolean
 ms_escher_read_RegroupItems (MSEscherState *state, MSEscherHeader *h)
 {
+	/* Each shape in a drawing has a regroup ID (separate from the shape
+	 * ID), so that the regroup command can find shapes that were once
+	 * grouped. In order to handle nested grouping and ungrouping 
+	 * there is a table logging changes to regroup IDs. Each entry has an
+	 * old ID and a new ID and records the change of all instances of the
+	 * old ID to the new ID.
+	 *
+	 * The instance of an msofbtRegroupItems record contains the number of
+	 * entries, and the record itself is just that many FRITs (File Regroup
+	 * Items).
+	 *
+	 * typedef struct { FRID fridNew; FRID fridOld; } FRIT;
+	 */
+
 	return FALSE;
 }
 
@@ -482,7 +496,7 @@ ms_escher_read_SpContainer (MSEscherState *state, MSEscherHeader *h)
 }
 
 static gboolean
-ms_escher_read_Spgr (MSEscherState *state, MSEscherHeader *h)
+ms_escher_read_Sp (MSEscherState *state, MSEscherHeader *h)
 {
 	static char const * const shape_names[] = {
 		/* 0 */ "Not a primitive",
@@ -621,50 +635,67 @@ ms_escher_read_Spgr (MSEscherState *state, MSEscherHeader *h)
 		/* 202 */ "TextBox"
 	};
 
+	gboolean needs_free;
+	guint32 spid, flags;
+	guint8 const *data;
+
 	g_return_val_if_fail (h->instance >= 0, TRUE);
 	g_return_val_if_fail (h->instance <= 202, TRUE);
 
 	d (0, printf ("%s (0x%x);\n", shape_names[h->instance],
 		      h->instance););
+
+	data = ms_escher_get_data (state,
+		h->offset + COMMON_HEADER_LEN, 8, &needs_free);
+	if (data == NULL)
+		return TRUE;
+
+	spid  = GSF_LE_GET_GUINT32 (data+0);
+	flags = GSF_LE_GET_GUINT32 (data+4);
+	d (0, printf ("SPID %d, Type %d,%s%s%s%s%s%s%s%s%s%s%s;\n",
+		      spid, h->instance,
+			(flags&0x01) ? " Group": "",
+			(flags&0x02) ? " Child": "",
+			(flags&0x04) ? " Patriarch": "",
+			(flags&0x08) ? " Deleted": "",
+			(flags&0x10) ? " OleShape": "",
+			(flags&0x20) ? " HaveMaster": "",
+			(flags&0x40) ? " FlipH": "",
+			(flags&0x80) ? " FlipV": "",
+			(flags&0x100) ? " Connector":"",
+			(flags&0x200) ? " HasAnchor": "",
+			(flags&0x400) ? " TypeProp": ""
+		       ););
+
+	if (flags & 0x40)
+		ms_escher_header_add_attr (h,
+			ms_obj_attr_new_flag (MS_OBJ_ATTR_FLIP_H));
+	if (flags & 0x80)
+		ms_escher_header_add_attr (h,
+			ms_obj_attr_new_flag (MS_OBJ_ATTR_FLIP_V));
+	if (needs_free)
+		g_free ((guint8*)data);
+
 	return FALSE;
 }
 
 static gboolean
-ms_escher_read_Sp (MSEscherState *state, MSEscherHeader *h)
+ms_escher_read_Spgr (MSEscherState *state, MSEscherHeader *h)
 {
 	gboolean needs_free;
+	int len = h->len - COMMON_HEADER_LEN;
 	guint8 const *data = ms_escher_get_data (state,
-		h->offset + COMMON_HEADER_LEN, 8, &needs_free);
+		h->offset + COMMON_HEADER_LEN, len, &needs_free);
 
-	if (data != NULL) {
-		guint32 const spid  = GSF_LE_GET_GUINT32 (data+0);
-		guint32 const flags = GSF_LE_GET_GUINT32 (data+4);
-		d (0, printf ("SPID %d, Type %d,%s%s%s%s%s%s%s%s%s%s%s;\n",
-			      spid, h->instance,
-				(flags&0x01) ? " Group": "",
-				(flags&0x02) ? " Child": "",
-				(flags&0x04) ? " Patriarch": "",
-				(flags&0x08) ? " Deleted": "",
-				(flags&0x10) ? " OleShape": "",
-				(flags&0x20) ? " HaveMaster": "",
-				(flags&0x40) ? " FlipH": "",
-				(flags&0x80) ? " FlipV": "",
-				(flags&0x100) ? " Connector":"",
-				(flags&0x200) ? " HasAnchor": "",
-				(flags&0x400) ? " TypeProp": ""
-			       ););
-		if (flags & 0x40)
-			ms_escher_header_add_attr (h,
-				ms_obj_attr_new_flag (MS_OBJ_ATTR_FLIP_H));
-		if (flags & 0x80)
-			ms_escher_header_add_attr (h,
-				ms_obj_attr_new_flag (MS_OBJ_ATTR_FLIP_V));
-	} else
-		return TRUE;
+	/* Stored as absolute pixels in fixed point for pre-grouped position
+	 * What we do not know is where the parent group stores the offset from 
+	 * original to current */
+	d (1, {
+		g_print ("SPGR\t");
+		gsf_mem_dump (data, len);});
 
 	if (needs_free)
-		g_free ((guint8*)data);
-
+		g_free ((guint8 *)data);
 	return FALSE;
 }
 
@@ -689,28 +720,12 @@ ms_escher_read_ChildAnchor (MSEscherState *state, MSEscherHeader *h)
 	guint8 const *data = ms_escher_get_data (state,
 		h->offset + COMMON_HEADER_LEN, len, &needs_free);
 
-#if 0
-	0 | 40  0  0  0 23  0  0  0	bd  0  0  0 44  0  0  0
-	0 | bd  0  0  0 44  0  0  0	3a  1  0  0 65  0  0  0
-	0 | 3a  1  0  0 66  0  0  0	b7  1  0  0 87  0  0  0
-
-	64	step 125
-	189	step 125
-	314	step 125
-	439
-
-	0 | 40  0  0  0 23  0  0  0	80  0  0  0 64  0  0  0
-	0 | 81  0  0  0 64  0  0  0	c1  0  0  0 a5  0  0  0
-	0 | c1  0  0  0 a6  0  0  0	 1  1  0  0 e7  0  0  0
-
-	64 in steps of 64
-
-	0 |  1  0  0  0 32  0  0  0 40  0  0  0 66  0  0  0 | ....2...@...f...
-	0 | 41  0  0  0 66  0  0  0 80  0  0  0 9a  0  0  0 | A...f...........
-	0 | 80  0  0  0 99  0  0  0 bf  0  0  0 cd  0  0  0 | ................
-
-	gsf_mem_dump (data, len);
-#endif
+	/* Stored as absolute pixels in fixed point for pre-grouped position
+	 * What we do not know is where the parent group stores the offset from 
+	 * original to current */
+	d (1, {
+		g_print ("ChildAnchor");
+		gsf_mem_dump (data, len);});
 
 	if (needs_free)
 		g_free ((guint8 *)data);

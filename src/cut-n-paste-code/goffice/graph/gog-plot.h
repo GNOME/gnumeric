@@ -49,7 +49,7 @@ void	  gog_plot_get_cardinality (GogPlot *plot,
 				    unsigned *full, unsigned *visible);
 void      gog_plot_foreach_elem    (GogPlot *plot, gboolean only_visible,
 				    GogEnumFunc handler, gpointer data);
-GSList   *gog_plot_get_series	   (GogPlot const *plot);
+GSList const *gog_plot_get_series  (GogPlot const *plot);
 GOData	 *gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
 				    GogPlotBoundInfo *bounds);
 

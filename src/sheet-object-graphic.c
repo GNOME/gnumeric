@@ -616,17 +616,15 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 }
 
 static void
-sheet_object_graphic_class_init (GObjectClass *object_class)
+sheet_object_graphic_class_init (GObjectClass *gobject_class)
 {
-	SheetObjectClass	*so_class  = SHEET_OBJECT_CLASS (object_class);
-	SheetObjectGraphicClass *sog_class = SHEET_OBJECT_GRAPHIC_CLASS (object_class);
+	SheetObjectClass	*so_class  = SHEET_OBJECT_CLASS (gobject_class);
+	SheetObjectGraphicClass *sog_class = SHEET_OBJECT_GRAPHIC_CLASS (gobject_class);
 
-	sheet_object_graphic_parent_class = g_type_class_peek_parent (object_class);
+	sheet_object_graphic_parent_class = g_type_class_peek_parent (gobject_class);
 
-	/* Object class method overrides */
-	object_class->finalize = sheet_object_graphic_finalize;
+	gobject_class->finalize = sheet_object_graphic_finalize;
 
-	/* SheetObject class method overrides */
 	so_class->new_view		= sheet_object_graphic_new_view;
 	so_class->read_xml_dom		= sheet_object_graphic_read_xml_dom;
 	so_class->write_xml_dom		= sheet_object_graphic_write_xml_dom;
@@ -1138,15 +1136,14 @@ sheet_object_filled_print (SheetObject const *so, GnomePrintContext *ctx,
 }
 
 static void
-sheet_object_filled_class_init (GObjectClass *object_class)
+sheet_object_filled_class_init (GObjectClass *gobject_class)
 {
-	SheetObjectClass *sheet_object_class;
+	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (gobject_class);
 
-	sheet_object_filled_parent_class = g_type_class_peek_parent (object_class);
+	sheet_object_filled_parent_class = g_type_class_peek_parent (gobject_class);
 
-	object_class->finalize		  = sheet_object_filled_finalize;
+	gobject_class->finalize		  = sheet_object_filled_finalize;
 
-	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 	sheet_object_class->new_view	  = sheet_object_filled_new_view;
 	sheet_object_class->read_xml_dom  = sheet_object_filled_read_xml_dom;
 	sheet_object_class->write_xml_dom = sheet_object_filled_write_xml_dom;
@@ -1310,17 +1307,14 @@ sheet_object_polygon_print (SheetObject const *so, GnomePrintContext *ctx,
 }
 
 static void
-sheet_object_polygon_class_init (GObjectClass *object_class)
+sheet_object_polygon_class_init (GObjectClass *gobject_class)
 {
 	SheetObjectClass *sheet_object_class;
 
-	sheet_object_polygon_parent_class = g_type_class_peek_parent (object_class);
+	sheet_object_polygon_parent_class = g_type_class_peek_parent (gobject_class);
 
-	/* Object class method overrides */
-	object_class->finalize = sheet_object_polygon_finalize;
+	gobject_class->finalize = sheet_object_polygon_finalize;
 
-	/* SheetObject class method overrides */
-	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 	sheet_object_class->new_view	  = sheet_object_polygon_new_view;
 	sheet_object_class->read_xml_dom  = sheet_object_polygon_read_xml_dom;
 	sheet_object_class->write_xml_dom = sheet_object_polygon_write_xml_dom;
@@ -1420,31 +1414,13 @@ typedef struct {
 		float top, bottom, left, right;
 	} margin_pts;
 } SheetObjectText;
-typedef struct {
-	SheetObjectFilledClass	parent;
-} SheetObjectTextClass;
+typedef SheetObjectFilledClass SheetObjectTextClass;
+enum {
+	SOT_PROP_0,
+	SOT_PROP_MARKUP
+};
+
 static SheetObjectFilledClass *sheet_object_text_parent_class;
-
-void
-gnm_so_text_set_text (SheetObject *so, char const *str)
-{
-	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
-
-	g_return_if_fail (sot != NULL);
-	g_return_if_fail (str != NULL);
-
-	if (sot->label != str) {
-		GList *l;
-		g_free (sot->label);
-		sot->label = g_strdup (str);
-		for (l = so->realized_list; l; l = l->next) {
-			FooCanvasGroup *group = FOO_CANVAS_GROUP (l->data);
-			foo_canvas_item_set (FOO_CANVAS_ITEM (group->item_list->next->data),
-				"text", sot->label,
-				NULL);
-		}
-	}
-}
 
 static void
 sheet_object_text_init_full (SheetObjectText *sot, char const *text)
@@ -1626,18 +1602,61 @@ sheet_object_text_print (SheetObject const *so, GnomePrintContext *ctx,
 }
 
 static void
-sheet_object_text_class_init (GObjectClass *object_class)
+sheet_object_text_set_property (GObject *obj, guint param_id,
+				GValue const *value, GParamSpec *pspec)
 {
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class);
-	SheetObjectGraphicClass *sog_class = SHEET_OBJECT_GRAPHIC_CLASS (object_class);
+	SheetObjectText *sot = SHEET_OBJECT_TEXT (obj);
+	GList *ptr;
 
-	sheet_object_text_parent_class = g_type_class_peek_parent (object_class);
+	switch (param_id) {
+	case SOT_PROP_MARKUP :
+		if (sot->markup != NULL)
+			pango_attr_list_unref (sot->markup);
+		sot->markup = g_value_peek_pointer (value);
+		if (sot->markup != NULL)
+			pango_attr_list_ref (sot->markup);
+		break;
 
-	/* Object class method overrides */
-	object_class->finalize = sheet_object_text_finalize;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		return;
+	}
 
-	/* SheetObject class method overrides */
-	so_class = SHEET_OBJECT_CLASS (object_class);
+	for (ptr = SHEET_OBJECT (sot)->realized_list; ptr != NULL; ptr = ptr->next)
+		foo_canvas_item_set (ptr->data, "attributes", sot->markup, NULL);
+}
+
+static void
+sheet_object_text_get_property (GObject *obj, guint param_id,
+				GValue  *value,  GParamSpec *pspec)
+{
+	SheetObjectText *sot = SHEET_OBJECT_TEXT (obj);
+	switch (param_id) {
+	case SOT_PROP_MARKUP :
+		g_value_set_boxed (value, sot->markup);
+		break;
+	default :
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		break;
+	}
+}
+
+static void
+sheet_object_text_class_init (GObjectClass *gobject_class)
+{
+	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (gobject_class);
+	SheetObjectGraphicClass *sog_class = SHEET_OBJECT_GRAPHIC_CLASS (gobject_class);
+
+	sheet_object_text_parent_class = g_type_class_peek_parent (gobject_class);
+
+	gobject_class->finalize		= sheet_object_text_finalize;
+	gobject_class->set_property	= sheet_object_text_set_property;
+	gobject_class->get_property	= sheet_object_text_get_property;
+        g_object_class_install_property (gobject_class, SOT_PROP_MARKUP,
+                 g_param_spec_boxed ("markup", NULL, NULL,
+				     PANGO_TYPE_ATTR_LIST,
+				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+
 	so_class->new_view		= sheet_object_text_new_view;
 	so_class->read_xml_dom		= sheet_object_text_read_xml_dom;
 	so_class->write_xml_dom		= sheet_object_text_write_xml_dom;
@@ -1655,19 +1674,23 @@ GSF_CLASS (SheetObjectText, sheet_object_text,
 	   SHEET_OBJECT_FILLED_TYPE);
 
 void
-gnm_so_text_set_markup (SheetObject *so, PangoAttrList *markup)
+gnm_so_text_set_text (SheetObject *so, char const *str)
 {
 	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
-	GList *l;
 
 	g_return_if_fail (sot != NULL);
+	g_return_if_fail (str != NULL);
 
-	if (markup != NULL)
-		pango_attr_list_ref (markup);
-	if (sot->markup != NULL)
-		pango_attr_list_unref (sot->markup);
-	sot->markup = markup;
-
-	for (l = so->realized_list; l; l = l->next)
-		foo_canvas_item_set (l->data, "attributes", markup, NULL);
+	if (sot->label != str) {
+		GList *l;
+		g_free (sot->label);
+		sot->label = g_strdup (str);
+		for (l = so->realized_list; l; l = l->next) {
+			FooCanvasGroup *group = FOO_CANVAS_GROUP (l->data);
+			foo_canvas_item_set (FOO_CANVAS_ITEM (group->item_list->next->data),
+				"text", sot->label,
+				NULL);
+		}
+	}
 }
+

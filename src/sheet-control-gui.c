@@ -1743,7 +1743,7 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 		}
 
 		g_signal_connect_object (so, "bounds-changed",
-			cb_scg_object_bounds_changed, scg, 0);
+			G_CALLBACK (cb_scg_object_bounds_changed), scg, 0);
 
 		scg->current_object = so;
 		g_object_ref (G_OBJECT (so));

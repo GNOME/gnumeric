@@ -900,14 +900,12 @@ sheet_object_rubber_band_directly (SheetObject const *so)
 	return SO_CLASS (so)->rubber_band_directly;
 }
 
-/*****************************************************************************/
-
 /**
  * sheet_object_anchor_init :
  *
  * A utility routine to initialize an anchor.  Useful in case we add
  * fields in the future and want to ensure that everything is initialized.
- */
+ **/
 void
 sheet_object_anchor_init (SheetObjectAnchor *anchor,
 			  GnmRange const *r, float const *offsets,
@@ -945,8 +943,10 @@ sheet_object_anchor_init (SheetObjectAnchor *anchor,
 	/* TODO : add sanity checking to handle offsets past edges of col/row */
 }
 
+/*****************************************************************************/
+
 gint
-sheet_object_raise (SheetObject *so, gint positions)
+sheet_object_adjust_stacking (SheetObject *so, gint positions)
 {
 	GList *l;
 	gint before = -1;
@@ -964,47 +964,5 @@ sheet_object_raise (SheetObject *so, gint positions)
 		link = g_list_find (parent->item_list, item);
 		after = g_list_position (parent->item_list, link);
 	}
-	return ((before == -1 || after == -1) ? positions :  (after - before));
-}
-
-gint
-sheet_object_raise_top (SheetObject *so)
-{
-	GList *l;
-	gint before = -1;
-	gint after = -1;
-
-	for (l = so->realized_list; l; l = l->next) {
-		FooCanvasItem *item = FOO_CANVAS_ITEM (l->data);
-		FooCanvasGroup *parent = FOO_CANVAS_GROUP (item->parent);
-		GList *link = g_list_find (parent->item_list, item);
-		before = g_list_position (parent->item_list, link);
-
-		foo_canvas_item_raise_to_top (item);
-
-		link = g_list_find (parent->item_list, item);
-		after = g_list_position (parent->item_list, link);
-	}
-	return ((before == -1 || after == -1) ? 0 :  (after - before));
-}
-
-gint
-sheet_object_lower_bottom (SheetObject *so)
-{
-	GList *l;
-	gint before = -1;
-	gint after = -1;
-
-	for (l = so->realized_list; l; l = l->next) {
-		FooCanvasItem *item = FOO_CANVAS_ITEM (l->data);
-		FooCanvasGroup *parent = FOO_CANVAS_GROUP (item->parent);
-		GList *link = g_list_find (parent->item_list, item);
-		before = g_list_position (parent->item_list, link);
-
-		foo_canvas_item_lower_to_bottom (item);
-
-		link = g_list_find (parent->item_list, item);
-		after = g_list_position (parent->item_list, link);
-	}
-	return ((before == -1 || after == -1) ? 0 :  (after - before));
+	return ((before == -1 || after == -1) ? positions : (after - before));
 }

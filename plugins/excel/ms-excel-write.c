@@ -4744,7 +4744,7 @@ excel_write_workbook (ExcelWriteState *ewb)
 			
 			GSF_LE_SET_GUINT32 (buf+ 4, 
 					    (0x4a + ewb->num_obj_groups * 8 + 
-					     bliplen + 8));
+					     ((bliplen > 0) ? (bliplen + 8) : 0)));
 			GSF_LE_SET_GUINT32 (buf+12, 
 					    (0x10 + ewb->num_obj_groups * 8));
 			ms_biff_put_var_write (bp, buf, sizeof header);

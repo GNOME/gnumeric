@@ -39,13 +39,16 @@
 #include <libfoocanvas/foo-canvas-polygon.h>
 
 struct _GnmComment {
-	SheetObject	s_object;
+	SheetObject	base;
 
 	char *author, *text;
+	PangoAttrList  *markup;
 };
-typedef struct {
-	SheetObjectClass s_object_class;
-} GnmCommentClass;
+typedef SheetObjectClass GnmCommentClass;
+enum {
+	CC_PROP_0,
+	CC_PROP_MARKUP
+};
 
 static GObjectClass *parent_klass;
 
@@ -56,22 +59,63 @@ cell_comment_finalize (GObject *object)
 
 	g_return_if_fail (cc != NULL);
 
-	if (cc->author != NULL) {
-		g_free (cc->author);
-		cc->author = NULL;
-	}
-	if (cc->text != NULL) {
-		g_free (cc->text);
-		cc->text = NULL;
-	}
-
 	/* If this comment is being displayed we shut down nicely */
-	if (cc->s_object.sheet != NULL) {
-		SHEET_FOREACH_CONTROL (cc->s_object.sheet, view, control,
+	if (cc->base.sheet != NULL) {
+		SHEET_FOREACH_CONTROL (cc->base.sheet, view, control,
 			scg_comment_unselect ((SheetControlGUI *) control, cc););
 	}
 
+	g_free (cc->author);
+	cc->author = NULL;
+	g_free (cc->text);
+	cc->text = NULL;
+
+	if (NULL != cc->markup) {
+		pango_attr_list_unref (cc->markup);
+		cc->markup = NULL;
+	}
+
 	parent_klass->finalize (object);
+}
+
+static void
+cell_comment_set_property (GObject *obj, guint param_id,
+			   GValue const *value, GParamSpec *pspec)
+{
+	GnmComment *cc = CELL_COMMENT (obj);
+	GList *ptr;
+
+	switch (param_id) {
+	case CC_PROP_MARKUP :
+		if (cc->markup != NULL)
+			pango_attr_list_unref (cc->markup);
+		cc->markup = g_value_peek_pointer (value);
+		if (cc->markup != NULL)
+			pango_attr_list_ref (cc->markup);
+		break;
+
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		return;
+	}
+
+	for (ptr = SHEET_OBJECT (cc)->realized_list; ptr != NULL; ptr = ptr->next)
+		foo_canvas_item_set (ptr->data, "attributes", cc->markup, NULL);
+}
+
+static void
+cell_comment_get_property (GObject *obj, guint param_id,
+			   GValue  *value,  GParamSpec *pspec)
+{
+	GnmComment *cc = CELL_COMMENT (obj);
+	switch (param_id) {
+	case CC_PROP_MARKUP :
+		g_value_set_boxed (value, cc->markup);
+		break;
+	default :
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		break;
+	}
 }
 
 #define TRIANGLE_WIDTH 6
@@ -155,7 +199,7 @@ cell_comment_event (FooCanvasItem *view, GdkEvent *event, SheetControlGUI *scg)
 
 	case GDK_2BUTTON_PRESS:
 		r = sheet_object_range_get (so);
-		dialog_cell_comment(scg->wbcg, so->sheet, &r->start);
+		dialog_cell_comment (scg->wbcg, so->sheet, &r->start);
  		break;
 
 	default:
@@ -277,14 +321,20 @@ cell_comment_clone (SheetObject const *so, Sheet *sheet)
 }
 
 static void
-cell_comment_class_init (GObjectClass *object_class)
+cell_comment_class_init (GObjectClass *gobject_class)
 {
-	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (object_class);
+	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (gobject_class);
 
-	parent_klass = g_type_class_peek_parent (object_class);
+	parent_klass = g_type_class_peek_parent (gobject_class);
 
 	/* Object class method overrides */
-	object_class->finalize = cell_comment_finalize;
+	gobject_class->finalize		= cell_comment_finalize;
+	gobject_class->set_property	= cell_comment_set_property;
+	gobject_class->get_property	= cell_comment_get_property;
+        g_object_class_install_property (gobject_class, CC_PROP_MARKUP,
+                 g_param_spec_boxed ("markup", NULL, NULL,
+				     PANGO_TYPE_ATTR_LIST,
+				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
 	/* SheetObject class method overrides */
 	sheet_object_class->new_view		= &cell_comment_new_view;
@@ -296,8 +346,14 @@ cell_comment_class_init (GObjectClass *object_class)
 	sheet_object_class->xml_export_name = "CellComment";
 }
 
+static void
+cell_comment_init (GnmComment *cc)
+{
+	cc->markup = NULL;
+}
+
 GSF_CLASS (GnmComment, cell_comment,
-	   cell_comment_class_init, NULL, SHEET_OBJECT_TYPE);
+	   cell_comment_class_init, cell_comment_init, SHEET_OBJECT_TYPE);
 
 char const  *
 cell_comment_author_get (GnmComment const *cc)

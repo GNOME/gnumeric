@@ -1,32 +1,36 @@
-The Gnumeric feature list for gnumeric 0.64
+The Gnumeric feature list for gnumeric 1.3.1
 
 * Core capabilities
 
   ** Functions
 
-     - 95% of builtin Excel functions.
-     - 100% of engineering functions.
+     - 100% of builtin Excel (North America) functions.
+     - 100% of Standard Addin functions.
+     - 60 functions not included in MS Excel.
 
   ** Computation
 
      - Inter sheet dependencies.
      - User defined Names (for ranges and functions).
      - Arrays and Array functions.
+     - Implict iteration
+     - Computed dependencies
      
   ** Misc
 
-     - Summary Information.
      - Cell comments.
      - Toolbar for common operations.
      - Cell Merging.
      - Multiple Views.
      - Zoom.
+     - Auto Filter
+     - Data Consolidate
+     - Rich text in cells
 
   ** Sheet Objects
 
      - Lines, Elipses, squares.
-     - Buttons.
-     - Bonobo Objects - images, minesweeper etc.
+     - Button, combo, list, checkbutton, scrollbar, slider
 
   ** Printing
 
@@ -97,6 +101,7 @@ The Gnumeric feature list for gnumeric 0.64
      Styles, selection.
      Embedded images.
      Printer setups.
+     Charts
 
    ** XML ( gnumeric native format )
 
@@ -117,6 +122,10 @@ The Gnumeric feature list for gnumeric 0.64
    ** Applix
 
    ** SC/XSpread
+
+   ** Quattro Pro
+
+   ** Open Office
    
 * Export filters
 

@@ -5851,16 +5851,16 @@ cmd_object_raise_redo (GnmCommand *cmd,
 	CmdObjectRaise *me = CMD_OBJECT_RAISE (cmd);
 	switch (me->dir) {
 	case cmd_object_raise_up:
-		me->changed_positions = sheet_object_raise (me->so, 1);
+		me->changed_positions = sheet_object_adjust_stacking (me->so, 1);
 		break;
 	case cmd_object_raise_down:
-		me->changed_positions = sheet_object_raise (me->so, -1);
+		me->changed_positions = sheet_object_adjust_stacking (me->so, -1);
 		break;
 	case cmd_object_raise_top:
-		me->changed_positions = sheet_object_raise_top (me->so);
+		me->changed_positions = sheet_object_adjust_stacking (me->so, G_MAXINT);
 		break;
 	case cmd_object_raise_bottom:
-		me->changed_positions = sheet_object_lower_bottom (me->so);
+		me->changed_positions = sheet_object_adjust_stacking (me->so, G_MININT);
 		break;
 	}
 	return FALSE;
@@ -5872,7 +5872,7 @@ cmd_object_raise_undo (GnmCommand *cmd,
 {
 	CmdObjectRaise *me = CMD_OBJECT_RAISE (cmd);
 	if (me->changed_positions != 0)
-		sheet_object_raise (me->so, - me->changed_positions);
+		sheet_object_adjust_stacking (me->so, - me->changed_positions);
 	return FALSE;
 }
 
