@@ -16,6 +16,8 @@ Morten:
 	  Snappiness, Part 5.)
 	* Shave off a few cycles here and there.
 	* Improve progress display when loading.
+	* Eliminate rendered_text from struct RenderedValue.  (Operation
+	  Snappiness, Part 6.)
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.16

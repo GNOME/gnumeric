@@ -1065,11 +1065,11 @@ format_add_decimal (StyleFormat const *fmt)
 
 /*********************************************************************/
 
-static gchar *
-format_number (gnm_float number, int col_width, StyleFormatEntry const *entry,
+static void
+format_number (GString *result,
+	       gnm_float number, int col_width, StyleFormatEntry const *entry,
 	       GnmDateConventions const *date_conv)
 {
-	GString *result = g_string_new (NULL);
 	guchar const *format = (guchar *)(entry->format);
 	format_info_t info;
 	gboolean can_render_number = FALSE;
@@ -1094,7 +1094,8 @@ format_number (gnm_float number, int col_width, StyleFormatEntry const *entry,
 	info.scale = 1;
 
 	while (*format) {
-		gunichar c = g_utf8_get_char (format);
+		/* This is just g_utf8_get_char, but we're in a hurry.  */
+		gunichar c = (*format & 0x80) ? g_utf8_get_char (format) : *format;
 
 		switch (c) {
 
@@ -1188,7 +1189,7 @@ format_number (gnm_float number, int col_width, StyleFormatEntry const *entry,
 				 prec, number);
 
 			g_string_append (result, buffer);
-			goto finish;
+			return;
 		}
 
 		case '\\':
@@ -1468,9 +1469,6 @@ format_number (gnm_float number, int col_width, StyleFormatEntry const *entry,
 		while (count-- > 0)
 			g_string_insert_unichar (result, fill_start, fill_char);
 	}
-
- finish:
-	return g_string_free (result, FALSE);
 }
 
 static gboolean
@@ -1519,14 +1517,16 @@ style_format_condition (StyleFormatEntry const *entry, Value const *value)
  * @val : the integer value being formated.
  * @col_width : the approximate width in characters.
  */
-static char *
-fmt_general_float (gnm_float val, double col_width)
+static void
+fmt_general_float (GString *result, gnm_float val, double col_width)
 {
 	gnm_float tmp;
 	int log_val, prec;
 
-	if (col_width < 0.)
-		return g_strdup_printf ("%.*" GNUM_FORMAT_g, GNUM_DIG, val);
+	if (col_width < 0.) {
+		g_string_append_printf (result, "%.*" GNUM_FORMAT_g, GNUM_DIG, val);
+		return;
+	}
 
 	if (val < 0.) {
 		/* leave space for minus sign */
@@ -1554,8 +1554,10 @@ fmt_general_float (gnm_float val, double col_width)
 
 		/* Display 0 for cols that are too narrow for scientific
 		 * notation with abs (value) < 1 */
-		if (col_width < 5. && -log_val >= prec)
-			return g_strdup ("0");
+		if (col_width < 5. && -log_val >= prec) {
+			g_string_append_c (result, '0');
+			return;
+		}
 
 		/* Include leading zeros eg 0.0x has 2 leading zero */
 		if (log_val >= -4)
@@ -1572,7 +1574,7 @@ fmt_general_float (gnm_float val, double col_width)
 		prec = GNUM_DIG;
 
 	/* FIXME : glib bug.  it does not handle G, use g (fixed in 1.2.9) */
-	return g_strdup_printf ("%.*" GNUM_FORMAT_g, prec, val);
+	g_string_append_printf (result, "%.*" GNUM_FORMAT_g, prec, val);
 }
 
 /**
@@ -1581,8 +1583,8 @@ fmt_general_float (gnm_float val, double col_width)
  * @val : the integer value being formated.
  * @col_width : the approximate width in characters.
  */
-static char *
-fmt_general_int (int val, int col_width)
+static void
+fmt_general_int (GString *result, int val, int col_width)
 {
 	if (col_width > 0) {
 		int log_val;
@@ -1595,22 +1597,26 @@ fmt_general_int (int val, int col_width)
 			log_val = (val > 0) ? ceil (log10 (val)) : 0;
 
 		/* Switch to scientific notation if things are too wide */
-		if (log_val > col_width)
+		if (log_val > col_width) {
 			/* FIXME : glib bug.  it does not handle G, use g */
 			/* Decrease available width by 5 to account for .+E00 */
-			return g_strdup_printf ("%.*g", col_width - 5, (double)val);
+			g_string_append_printf (result, "%.*g", col_width - 5, (double)val);
+			return;
+		}
 	}
-	return g_strdup_printf ("%d", val);
+
+	/* FIXME: we can do better than this.  */
+	g_string_append_printf (result, "%d", val);
 }
 
 /*
  * Returns NULL when the value should be formated as text
  */
-gchar *
-format_value (StyleFormat const *format, Value const *value, StyleColor **color,
-	      double col_width, GnmDateConventions const *date_conv)
+void
+format_value_gstring (GString *result, StyleFormat const *format,
+		      Value const *value, StyleColor **color,
+		      double col_width, GnmDateConventions const *date_conv)
 {
-	char *v = NULL;
 	StyleFormatEntry const *entry = NULL; /* default to General */
 	GSList *list;
 	gboolean need_abs = FALSE;
@@ -1618,7 +1624,7 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 	if (color)
 		*color = NULL;
 
-	g_return_val_if_fail (value != NULL, g_strdup ("<ERROR>"));
+	g_return_if_fail (value != NULL);
 
 	if (format == NULL)
 		format = VALUE_FMT (value);
@@ -1641,7 +1647,7 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 
 			/* Empty formats should be ignored */
 			if (entry->format[0] == '\0')
-				return g_strdup ("");
+				return;
 
 			if (color && entry->color != NULL)
 				*color = style_color_ref (entry->color);
@@ -1661,55 +1667,69 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 
 	switch (value->type) {
 	case VALUE_EMPTY:
-		return g_strdup ("");
+		return;
 	case VALUE_BOOLEAN:
-		return g_strdup (value->v_bool.val ? _("TRUE"):_("FALSE"));
+		g_string_append (result, value->v_bool.val ? _("TRUE"):_("FALSE"));
+		return;
 	case VALUE_INTEGER: {
 		int val = value->v_int.val;
 		if (need_abs)
 			val = ABS (val);
 
 		if (entry == NULL)
-			return fmt_general_int (val, col_width);
-		v = format_number (val, (int)col_width, entry, date_conv);
-		break;
+			fmt_general_int (result, val, col_width);
+		else
+			format_number (result, val, (int)col_width, entry, date_conv);
+		return;
 	}
 	case VALUE_FLOAT: {
 		gnm_float val = value->v_float.val;
 
-		if (!finitegnum (val))
-			return g_strdup (value_error_name (GNM_ERROR_VALUE, TRUE));
+		if (!finitegnum (val)) {
+			g_string_append (result, value_error_name (GNM_ERROR_VALUE, TRUE));
+			return;
+		}
 
 		if (need_abs)
 			val = gnumabs (val);
 
 		if (entry == NULL) {
 			if (INT_MAX >= val && val >= INT_MIN && val == floorgnum (val))
-				return fmt_general_int ((int)val, col_width);
-			return fmt_general_float (val, col_width);
-		}
-		v = format_number (val, (int)col_width, entry, date_conv);
-		break;
+				fmt_general_int (result, (int)val, col_width);
+			else
+				fmt_general_float (result, val, col_width);
+		} else
+			format_number (result, val, (int)col_width, entry, date_conv);
+		return;
 	}
 	case VALUE_ERROR:
-		return g_strdup (value->v_err.mesg->str);
+		g_string_append (result, value->v_err.mesg->str);
+		return;
 	case VALUE_STRING:
-		return g_strdup (value->v_str.val->str);
+		g_string_append (result, value->v_str.val->str);
+		return;
 	case VALUE_CELLRANGE:
-		return g_strdup (value_error_name (GNM_ERROR_VALUE, TRUE));
+		g_string_append (result, value_error_name (GNM_ERROR_VALUE, TRUE));
+		return;
 	case VALUE_ARRAY: /* Array of arrays ?? */
-		return g_strdup (_("ARRAY"));
+		g_string_append (result, _("ARRAY"));
+		return;
 
 	default:
-		return g_strdup ("Internal error");
+		g_assert_not_reached ();
+		return;
 	}
-
-	/* Format error, return a default value */
-	if (v == NULL)
-		return value_get_as_string (value);
-
-	return v;
 }
+
+gchar *
+format_value (StyleFormat const *format, Value const *value, StyleColor **color,
+	      double col_width, GnmDateConventions const *date_conv)
+{
+	GString *result = g_string_sized_new (20);
+	format_value_gstring (result, format, value, color, col_width, date_conv);
+	return g_string_free (result, FALSE);
+}
+
 
 void
 number_format_init (void)

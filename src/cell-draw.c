@@ -151,7 +151,10 @@ cell_draw (Cell const *cell, GdkGC *gc, GdkDrawable *drawable,
 			rv->hfilled = TRUE;
 			break;
 
+#ifndef DEBUG_SWITCH_ENUM
 		default:
+#endif
+		case HALIGN_GENERAL:
 			g_warning ("Unhandled horizontal alignment.");
 		case HALIGN_LEFT:
 			break;
@@ -159,10 +162,11 @@ cell_draw (Cell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	}
 
 	switch (rv->effective_valign) {
+#ifndef DEBUG_SWITCH_ENUM
 	default:
 		g_warning ("Unhandled vertical alignment.");
 		/* Fall through.  */
-
+#endif
 	case VALIGN_TOP:
 		text_base = rect.y;
 		break;

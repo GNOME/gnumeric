@@ -509,11 +509,9 @@ cell_format_simple_number (char const * const fmt, FormatCharacteristics *info)
 {
 	FormatFamily result = FMT_NUMBER;
 	int cur = -1;
+	regmatch_t match[7];
 
-#define MATCH_SIZE 7
-	regmatch_t match[MATCH_SIZE];
-
-	if (regexec (&re_simple_number, fmt, MATCH_SIZE, match, 0) == 0) {
+	if (regexec (&re_simple_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 
 		if (match[2].rm_eo == -1 && match[6].rm_eo == -1) {
 			result = FMT_NUMBER;
@@ -553,15 +551,13 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	FormatFamily result = FMT_NUMBER;
 	char const *ptr = fmt;
 	int cur = -1;
-
-#define MATCH_SIZE 9
-	regmatch_t match[MATCH_SIZE];
+	regmatch_t match[9];
 
 	/* FMT_CURRENCY or FMT_NUMBER ? */
 	if ((result = cell_format_simple_number (fmt, info)) != FMT_UNKNOWN)
 		return result;
 
-	if (regexec (&re_red_number, fmt, MATCH_SIZE, match, 0) == 0) {
+	if (regexec (&re_red_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 		char *tmp = g_strndup(fmt+match[1].rm_so,
 				      match[1].rm_eo-match[1].rm_so);
 		result = cell_format_simple_number (tmp, info);
@@ -570,7 +566,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 		return result;
 	}
 
-	if (regexec (&re_brackets_number, fmt, MATCH_SIZE, match, 0) == 0) {
+	if (regexec (&re_brackets_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 		char *tmp = g_strndup(fmt+match[1].rm_so,
 				      match[1].rm_eo-match[1].rm_so);
 		result = cell_format_simple_number (tmp, info);
@@ -583,7 +579,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	}
 
 	/* FMT_PERCENT or FMT_SCIENCE ? */
-	if (regexec (&re_percent_science, fmt, MATCH_SIZE, match, 0) == 0) {
+	if (regexec (&re_percent_science, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 
 		info->num_decimals = 0;
 		if (match[1].rm_eo != -1)
@@ -597,7 +593,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	}
 
 	/* FMT_ACCOUNT */
-	if (regexec (&re_account, fmt, MATCH_SIZE, match, 0) == 0) {
+	if (regexec (&re_account, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 
 		info->num_decimals = 0;
 		if (match[5].rm_eo != -1)

@@ -76,56 +76,27 @@ calc_indent (const MStyle *mstyle, Sheet *sheet)
 	return MIN (indent, 65535);
 }
 
-
-/**
- * rendered_value_new:
- * @cell:   The cell
- * @mstyle: The mstyle associated with the cell
- * @dynamic_width : Allow format to depend on column width.
- * @context: A pango context for layout.
- *
- * Formats the value of the cell according to the format style given in @mstyle
- *
- * Return value: a new RenderedValue
- **/
-RenderedValue *
-rendered_value_new (Cell *cell, MStyle const *mstyle,
-		    gboolean dynamic_width,
-		    PangoContext *context)
+void
+rendered_value_render (GString *str,
+		       Cell *cell, MStyle const *mstyle,
+		       gboolean *dynamic_width, gboolean *display_formula,
+		       StyleColor **color)
 {
-	RenderedValue	*res;
-	Sheet		*sheet;
-	StyleColor	*color;
-	char            *str;
-	PangoLayout     *layout;
-	PangoAttrList   *attrs;
-	const StyleColor *fore;
-	gboolean        display_formula;
+	Sheet *sheet = cell->base.sheet;
 
-#ifdef QUANTIFYING
-	static gboolean Q = FALSE;
-	if (!Q) {
-		quantify_clear_data ();
-		Q = TRUE;
-	}
-	quantify_start_recording_data ();
-#endif
+	*display_formula = cell_has_expr (cell) && sheet && sheet->display_formulas;
 
-	g_return_val_if_fail (cell != NULL, NULL);
-	g_return_val_if_fail (cell->value != NULL, NULL);
-	g_return_val_if_fail (context != NULL, NULL);
-
-	sheet = cell->base.sheet;
-	display_formula = cell_has_expr (cell) && sheet && sheet->display_formulas;
-
-	if (display_formula) {
-		str = cell_get_entered_text (cell);
-		color = NULL;
-		dynamic_width = FALSE;
+	if (*display_formula) {
+		ParsePos pp;
+		g_string_append_c (str, '=');
+		gnm_expr_as_gstring (str, cell->base.expression,
+				     parse_pos_init_cell (&pp, cell),
+				     gnm_expr_conventions_default);
+		*color = NULL;
+		*dynamic_width = FALSE;
 	} else if (sheet && sheet->hide_zero && cell_is_zero (cell)) {
-		str = g_strdup ("");
-		color = NULL;
-		dynamic_width = FALSE;
+		*color = NULL;
+		*dynamic_width = FALSE;
 	} else if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
 		double col_width = -1.;
 		/* entered text CAN be null if called by set_value */
@@ -133,7 +104,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 
 		/* For format general approximate the cell width in characters */
 		if (style_format_is_general (format)) {
-			if (dynamic_width &&
+			if (*dynamic_width &&
 			    (VALUE_FMT (cell->value) == NULL ||
 			     style_format_is_general (VALUE_FMT (cell->value)))) {
 				StyleFont *style_font =
@@ -165,21 +136,71 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 				style_font_unref (style_font);
 			} else {
 				format = VALUE_FMT (cell->value);
-				dynamic_width = FALSE;
+				*dynamic_width = FALSE;
 			}
 		} else
-			dynamic_width = FALSE;
-		str = format_value (format, cell->value, &color, col_width,
-				    sheet ? workbook_date_conv (sheet->workbook) : NULL);
+			*dynamic_width = FALSE;
+		format_value_gstring (str, format, cell->value, color,
+				      col_width,
+				      sheet ? workbook_date_conv (sheet->workbook) : NULL);
 	} else {
 		g_warning ("No format: serious error");
-		str = g_strdup ("Error");
 	}
+}
 
-	g_return_val_if_fail (str != NULL, NULL);
+
+
+/**
+ * rendered_value_new:
+ * @cell:   The cell
+ * @mstyle: The mstyle associated with the cell
+ * @dynamic_width : Allow format to depend on column width.
+ * @context: A pango context for layout.
+ *
+ * Formats the value of the cell according to the format style given in @mstyle
+ *
+ * Return value: a new RenderedValue
+ **/
+RenderedValue *
+rendered_value_new (Cell *cell, MStyle const *mstyle,
+		    gboolean dynamic_width,
+		    PangoContext *context)
+{
+	RenderedValue	*res;
+	Sheet		*sheet;
+	StyleColor	*color;
+	PangoLayout     *layout;
+	PangoAttrList   *attrs;
+	const StyleColor *fore;
+	gboolean        display_formula;
+
+	/* This screws thread safety (which we don't need).  */
+	static GString  *str = NULL;
+
+#ifdef QUANTIFYING
+	static gboolean Q = FALSE;
+	if (!Q) {
+		quantify_clear_data ();
+		Q = TRUE;
+	}
+	quantify_start_recording_data ();
+#endif
+
+	g_return_val_if_fail (cell != NULL, NULL);
+	g_return_val_if_fail (cell->value != NULL, NULL);
+	g_return_val_if_fail (context != NULL, NULL);
+
+	sheet = cell->base.sheet;
+
+	if (str)
+		g_string_truncate (str, 0);
+	else
+		str = g_string_sized_new (100);
+
+	rendered_value_render (str, cell, mstyle,
+			       &dynamic_width, &display_formula, &color);
 
 	res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
-	res->rendered_text = string_get_nocopy (str);
 	res->dynamic_width = dynamic_width;
 	res->indent_left = res->indent_right = 0;
 	res->numeric_overflow = FALSE;
@@ -191,8 +212,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 	res->display_formula = display_formula;
 
 	res->layout = layout = pango_layout_new (context);
-	str = res->rendered_text->str;
-	pango_layout_set_text (layout, str, -1);
+	pango_layout_set_text (layout, str->str, str->len);
 
 	attrs = mstyle_get_pango_attrs (mstyle);
 #if 0
@@ -271,11 +291,6 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 void
 rendered_value_destroy (RenderedValue *rv)
 {
-	if (rv->rendered_text) {
-		string_unref (rv->rendered_text);
-		rv->rendered_text = NULL;
-	}
-
 	if (rv->layout) {
 		g_object_unref (G_OBJECT (rv->layout));
 		rv->layout = NULL;
@@ -289,7 +304,7 @@ rendered_value_destroy (RenderedValue *rv)
 const char *
 rendered_value_get_text (RenderedValue const *rv)
 {
-	g_return_val_if_fail (rv != NULL && rv->rendered_text != NULL, g_strdup ("ERROR"));
+	g_return_val_if_fail (rv != NULL, g_strdup ("ERROR"));
 	return pango_layout_get_text (rv->layout);
 }
 
@@ -418,7 +433,7 @@ cb_rendered_value_pool_leak (gpointer data, gpointer user)
 {
 	RenderedValue *rendered_value = data;
 	fprintf (stderr, "Leaking rendered value at %p [%s].\n",
-		 rendered_value, rendered_value->rendered_text->str);
+		 rendered_value, pango_layout_get_text (rendered_value->layout));
 }
 #endif
 

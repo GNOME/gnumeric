@@ -9,9 +9,6 @@
  * RenderedValue:
  */
 struct _RenderedValue {
-	/* Text rendered and displayed */
-	String      *rendered_text;
-
 	PangoLayout *layout;
 	int layout_natural_width, layout_natural_height;
 	guint16 indent_left, indent_right;
@@ -28,6 +25,12 @@ struct _RenderedValue {
 	guint wrap_text : 1;
 	guint display_formula : 1;
 };
+
+void
+rendered_value_render (GString *str,
+		       Cell *cell, MStyle const *mstyle,
+		       gboolean *dynamic_width, gboolean *display_formula,
+		       StyleColor **color);
 
 RenderedValue *rendered_value_new           (Cell *cell, MStyle const *mstyle,
 					     gboolean dynamic_width,

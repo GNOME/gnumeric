@@ -222,15 +222,13 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	    (!sheet->display_formulas || !cell_has_expr (cell)))
 		return;
 
-	if (cell->rendered_value == NULL ||
-	    cell->rendered_value->rendered_text == NULL ||
-	    cell->rendered_value->rendered_text->str == NULL) {
+	if (cell->rendered_value == NULL) {
 		g_warning ("Serious cell error at '%s'", cell_name (cell));
 		/* This can occur when eg. a plugin function fires up a dialog */
 		return;
 	}
 
-	text = cell->rendered_value->rendered_text->str;
+	text = rendered_value_get_text (cell->rendered_value);
 	fore = cell_get_render_color (cell);
 	g_return_if_fail (fore != NULL); /* Be extra careful */
 

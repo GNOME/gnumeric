@@ -37,6 +37,9 @@ StyleFormat   *style_format_default_money	(void);
 void   format_destroy (StyleFormat *format);
 char  *format_value   (StyleFormat const *format, Value const *value, StyleColor **color,
 		       double col_width, GnmDateConventions const *date_conv);
+void   format_value_gstring (GString *result, StyleFormat const *format,
+			     Value const *value, StyleColor **color,
+			     double col_width, GnmDateConventions const *date_conv);
 
 void   format_color_init     (void);
 void   format_color_shutdown (void);

@@ -1,3 +1,30 @@
+2003-02-26  Morten Welinder  <terra@diku.dk>
+
+	* src/rendered-value.h: No more rendered_text member.
+
+	* src/rendered-value.c (rendered_value_destroy): Don't release
+	rendered_text.
+	(rendered_value_new): Don't set rendered_text.  Change to using
+	format_value_gstring.  Recycle the GString.
+	(rendered_value_get_text): Don't check rendered_text because we
+	don't use it.
+	(cb_rendered_value_pool_leak): Use the pango text.
+
+	* src/print-cell.c (print_cell): Use the pango text.
+
+	* src/print-info.c (render_value_with_format): Use
+	format_value_gstring.
+
+	* src/format.c (format_number): Change to take a GString *
+	argument.  All callers changed.
+	(fmt_general_float): Ditto.
+	(fmt_general_int): Ditto.
+	(format_value_gstring): New function copied from format_value.
+	(format_value): Changed to a simple wrapper around
+	format_value_gstring.
+
+	* src/formats.c (cell_format_is_number): Don't redefine macro.
+
 2003-02-24  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet-object-bonobo.c (sheet_object_bonobo_set_object_iid):
