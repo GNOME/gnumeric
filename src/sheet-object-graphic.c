@@ -188,19 +188,13 @@ sheet_object_filled_realize (SheetObject *so, SheetView *sheet_view)
 }
 
 static void
-sheet_object_filled_update (SheetObject *so)
+sheet_object_filled_update_bounds (SheetObject *so)
 {
 	GList *l;
 	double x1, y1, x2, y2;
-	double zoom = so->sheet->last_zoom_factor_used;
 
 	sheet_object_get_bounds (so, &x1, &y1, &x2, &y2);
 
-	x1 *= zoom;
-	y1 *= zoom;
-	x2 *= zoom;
-	y2 *= zoom;
-	
 	for (l = so->realized_list; l; l = l->next){
 		GnomeCanvasItem *item = l->data;
 
@@ -220,7 +214,7 @@ sheet_object_filled_class_init (GtkObjectClass *object_class)
 
 	object_class->destroy = sheet_object_filled_destroy;
 	sheet_object_class->realize = sheet_object_filled_realize;
-	sheet_object_class->update_bounds = sheet_object_filled_update;
+	sheet_object_class->update_bounds = sheet_object_filled_update_bounds;
 }
 
 /*

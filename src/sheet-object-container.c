@@ -348,14 +348,8 @@ sheet_object_container_update_bounds (SheetObject *so)
 {
 	GList *l;
 	double x1, y1, x2, y2;
-	double const zoom = so->sheet->last_zoom_factor_used;
 
 	sheet_object_get_bounds (so, &x1, &y1, &x2, &y2);
-
-	x1 *= zoom;
-	y1 *= zoom;
-	x2 *= zoom;
-	y2 *= zoom;
 
 	for (l = so->realized_list; l; l = l->next){
 		GnomeCanvasItem *item = l->data;
