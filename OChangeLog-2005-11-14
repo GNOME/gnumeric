@@ -1,3 +1,8 @@
+2003-05-30  Jody Goldberg <jody@gnome.org>
+
+	* src/GNOME_Gnumeric.xml : disable unimplemented import external.
+	* src/workbook-control-gui.c : ditto.
+
 2003-05-30  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-control.c (wb_control_parse_and_jump): Fix 114045.

@@ -3814,7 +3814,9 @@ static GnomeUIInfo workbook_menu_data [] = {
 		N_("Create a pivot table."),
 		cb_data_pivottable, "Gnumeric_PivotTable"),
 #endif
+#if 0 /* enable when it does something */
 	GNOMEUIINFO_SUBTREE(N_("Get _External Data"),   workbook_menu_data_external),
+#endif
 
 	GNOMEUIINFO_END
 };
