@@ -5,6 +5,6 @@
 	<Type _name="Contour" row="1" col="1"
 		engine="GogContourPlot" family="Surface"
 		_description="Contour plot."
-		sample_image_file="chart_area_1_3.png">
+		sample_image_file="chart_contour_1_1.png">
 	</Type>
 </Types>

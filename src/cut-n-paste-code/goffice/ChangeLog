@@ -1,3 +1,15 @@
+2005-01-05  Jean Brefort <jean.brefort@normalesup.org>
+
+	* pixmaps/Makefile.am: add chart_contour_1_1.png.
+	* pixmaps/chart_contour_1_1.png: new icon by Emmanuel Pacaud.
+	* pixmaps/chart_contour_1_1.svg: ditto.
+	* pixmaps/chart_contour_1_2.png: ditto.
+	* pixmaps/chart_contour_1_2.svg: ditto.
+	* pixmaps/chart_scatter_3_3.png: ditto.
+	* pixmaps/chart_scatter_3_3.png: ditto.
+	* graph/plugins/plot_surface/plot_types.xml.in: use chart_contour_1_1.png.
+
+
 2005-01-05  Morten Welinder  <terra@gnome.org>
 
 	* graph/gog-series.c (gog_series_get_element): Fix NULL/FALSE

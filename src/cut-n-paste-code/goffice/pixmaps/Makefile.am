@@ -28,6 +28,7 @@ icon_DATA = \
 	chart_scatter_2_1.png	chart_scatter_2_2.png \
 	chart_scatter_3_1.png	chart_scatter_3_2.png \
 	chart_bubble_1_1.png \
+	chart_contour_1_1.png \
 	\
 	area.xpm 	\
 	bar.xpm		\
