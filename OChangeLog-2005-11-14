@@ -1,5 +1,10 @@
 2004-11-26  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=159581 #1
+	* src/application.c (gnm_app_clipboard_cut_copy_obj) : patch leak
+
+2004-11-26  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=159577
 	* src/format.c (gnm_format_parse_markup) : return NULL on error
 
