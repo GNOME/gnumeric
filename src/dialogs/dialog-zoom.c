@@ -84,12 +84,14 @@ dialog_zoom (Workbook *wb, Sheet *sheet)
 
 	if (zoom < 0.25){
 		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+                                 /* xgettext:no-c-format */
 				 _("Zoom factor should be at least 25%"));
 		return;
 	}
 
 	if (zoom > 9000){
 		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+                                 /* xgettext:no-c-format */
 				 _("Zoom factor should be at most 900%"));
 		return;
 	}

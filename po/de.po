@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.32\n"
-"POT-Creation-Date: 1999-08-27 09:23+0200\n"
-"PO-Revision-Date: 1999-08-22 13:29+02:00\n"
+"POT-Creation-Date: 1999-08-28 17:24+0200\n"
+"PO-Revision-Date: 1999-08-28 17:31+02:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -307,7 +307,7 @@ msgstr "Gnumeric Heimatseite"
 
 #: src/about.c:65
 msgid "Gnumeric Support page"
-msgstr "Gnumeric Support Seite"
+msgstr "Gnumeric Support-Seite"
 
 #: src/cell.c:74
 msgid "ERROR"
@@ -316,7 +316,7 @@ msgstr "FEHLER"
 #. Until the value is recomputed, we put in this value.
 #: src/cell.c:125 src/cell.c:754
 msgid "Circular reference"
-msgstr ""
+msgstr "Zirkulärer Verweis"
 
 #: src/corba-args.c:33
 msgid "Could not initialize the Gnumeric Workbook factory"
@@ -873,7 +873,7 @@ msgstr "Aber nicht höher als [optional]:"
 
 #: src/dialogs/dialog-goal-seek.c:343
 msgid "You should introduce a valid cell name in 'Set cell'"
-msgstr "Sie sollten einen gültigen Zellennamen in 'Setze Zelle' angeben"
+msgstr "Einen gültigen Zellennamen in 'Setze Zelle' angeben"
 
 #: src/dialogs/dialog-goal-seek.c:351
 msgid "The cell named in 'Set cell' must contain a formula"
@@ -881,11 +881,11 @@ msgstr "Die in 'Setze Zelle' angegebene Zelle muß eine Formel enthalten"
 
 #: src/dialogs/dialog-goal-seek.c:364
 msgid "You should introduce a valid cell name in 'By changing cell'"
-msgstr ""
+msgstr "Einen gültigen Zellennamen 'By changing cell' angeben"
 
 #: src/dialogs/dialog-goal-seek.c:373
 msgid "The cell named in 'By changing cell' must not contain a formula"
-msgstr ""
+msgstr "Die in 'By changing cell' angegebene Zelle darf keine Formel enthalten"
 
 #: src/dialogs/dialog-goal-seek.c:420
 msgid "Goal seek did not find a solution!"
@@ -1074,11 +1074,11 @@ msgstr "Optionen..."
 
 #: src/dialogs/dialog-solver.c:496
 msgid "You should introduce a valid cell name for 'Target cell'"
-msgstr ""
+msgstr "Einen gültigen Zellennamen für 'Target cell' angeben"
 
 #: src/dialogs/dialog-solver.c:517
 msgid "You should introduce a valid cell names in 'By changing cells'"
-msgstr ""
+msgstr "Einen gültigen Zellennamen in 'By changing cells' einfügen"
 
 #: src/dialogs/dialog-zoom.c:47 src/dialogs/dialog-zoom.c:50
 msgid "Zoom"
@@ -1086,17 +1086,17 @@ msgstr "Vergrößern"
 
 #: src/dialogs/dialog-zoom.c:56
 msgid "Custom"
-msgstr ""
+msgstr "Benutzerdefiniert"
 
 # CHECK: This is no c-format string! Temporary marked as fuzzy!
-#: src/dialogs/dialog-zoom.c:87
-#, fuzzy, c-format
+# Fixed in the sources; fuzzy mark removed. -ke-
+#: src/dialogs/dialog-zoom.c:88
+#, no-c-format
 msgid "Zoom factor should be at least 25%"
 msgstr "Zoomfaktor sollte mindestens 25% sein"
 
-# CHECK: This is no c-format string! Temporary marked as fuzzy!
-#: src/dialogs/dialog-zoom.c:93
-#, fuzzy, c-format
+#: src/dialogs/dialog-zoom.c:95
+#, no-c-format
 msgid "Zoom factor should be at most 900%"
 msgstr "Vergrößerungsfaktor sollte höchstens 900% sein"
 
@@ -1132,7 +1132,7 @@ msgstr ""
 
 #: src/dialogs/font-sel.glade.h:8
 msgid "Font:"
-msgstr ""
+msgstr "Schriftart:"
 
 #: src/dialogs/font-sel.glade.h:9
 msgid "Font style:"
@@ -1169,7 +1169,7 @@ msgstr ""
 #.
 #: src/dialogs/import.glade.h:7
 msgid "Choose an import filter for loading the file:"
-msgstr ""
+msgstr "Einen Import-Filter wählen, um die Datei zu laden:"
 
 #: src/dialogs/import.glade.h:8
 msgid "label2"
@@ -1933,9 +1933,11 @@ msgstr ""
 "@FUNCTION=DAY360\n"
 "@SYNTAX=DAYS360(datum1,datum2,methode)\n"
 "360-Tages-Kalender, in dem alle Monate mit 30 Tagen angenommen werden.\n"
-"Wenn @methode wahr ist, wird die europäische Methode benutzt. In diesem Fall\n"
+"Wenn @methode wahr ist, wird die europäische Methode benutzt. In diesem "
+"Fall\n"
 "wird der Tag im Monat, falls 31, als 30 angenommen.\n"
-"Wenn @methode falsch ist oder weggelassen wird, wird die US-Methode benutzt,\n"
+"Wenn @methode falsch ist oder weggelassen wird, wird die US-Methode "
+"benutzt,\n"
 "eine ziemlich komplizierte, industrielle genormte Methode.\n"
 "Beachten Sie, daß Gnumeric die normale Zeichenkettenumwandlung in\n"
 "Seriennummern durchführt, so daß Sie ein Datum als Zeichenkette angeben\n"
@@ -5342,45 +5344,45 @@ msgstr ""
 msgid "[h]:mm:ss"
 msgstr ""
 
-#: src/formats.c:82
-#, c-format
+#: src/formats.c:83
+#, no-c-format
 msgid "0%"
 msgstr ""
 
-#: src/formats.c:83
-#, c-format
+#: src/formats.c:85
+#, no-c-format
 msgid "0.00%"
 msgstr ""
 
-#: src/formats.c:88
+#: src/formats.c:90
 msgid "# ?/?"
 msgstr ""
 
-#: src/formats.c:89
+#: src/formats.c:91
 msgid "# ??/??"
 msgstr ""
 
-#: src/formats.c:94
+#: src/formats.c:96
 msgid "0.00E+00"
 msgstr ""
 
-#: src/formats.c:95
+#: src/formats.c:97
 msgid "##0.0E+0"
 msgstr ""
 
-#: src/formats.c:105
+#: src/formats.c:107
 msgid "$#,##0_);($#,##0)"
 msgstr ""
 
-#: src/formats.c:106
+#: src/formats.c:108
 msgid "$#,##0_);[Red]($#,##0)"
 msgstr ""
 
-#: src/formats.c:107
+#: src/formats.c:109
 msgid "$#,##0.00_);($#,##0.00)"
 msgstr ""
 
-#: src/formats.c:108
+#: src/formats.c:110
 msgid "$#,##0.00_);[Red]($#,##0.00)"
 msgstr ""
 
@@ -5393,80 +5395,79 @@ msgid "Calling non-function"
 msgstr "Aufruf einer nicht-Funktion"
 
 #: src/gnumeric-sheet.c:984
-#, fuzzy
 msgid "Solid"
-msgstr "Lösen"
+msgstr "Einfarbig"
 
-#: src/gnumeric-sheet.c:987
-#, c-format
+#: src/gnumeric-sheet.c:988
+#, no-c-format
 msgid "75%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:990
-#, c-format
+#: src/gnumeric-sheet.c:992
+#, no-c-format
 msgid "50%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:993
-#, c-format
+#: src/gnumeric-sheet.c:996
+#, no-c-format
 msgid "25%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:996
-#, c-format
+#: src/gnumeric-sheet.c:1000
+#, no-c-format
 msgid "12.5%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:999
-#, c-format
+#: src/gnumeric-sheet.c:1004
+#, no-c-format
 msgid "6.25%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1002
+#: src/gnumeric-sheet.c:1007
 msgid "Horizontal Stripe"
 msgstr "Horizontale Streifen"
 
-#: src/gnumeric-sheet.c:1005
+#: src/gnumeric-sheet.c:1010
 msgid "Vertical Stripe"
 msgstr "Vertikale Streifen"
 
-#: src/gnumeric-sheet.c:1008
+#: src/gnumeric-sheet.c:1013
 msgid "Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1011
+#: src/gnumeric-sheet.c:1016
 msgid "Diagonal Stripe"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1014
+#: src/gnumeric-sheet.c:1019
 msgid "Diagonal Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1017
+#: src/gnumeric-sheet.c:1022
 msgid "Thick Diagonal Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1020
+#: src/gnumeric-sheet.c:1025
 msgid "Thin Horizontal Stripe"
 msgstr "Dünne horizontale Streifen"
 
-#: src/gnumeric-sheet.c:1023
+#: src/gnumeric-sheet.c:1028
 msgid "Thin Vertical Stripe"
 msgstr "Dünne vertikale Streifen"
 
-#: src/gnumeric-sheet.c:1026
+#: src/gnumeric-sheet.c:1031
 msgid "Thin Reverse Diagonal Stripe"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1029
+#: src/gnumeric-sheet.c:1034
 msgid "Thin Diagonal Stripe"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1032
+#: src/gnumeric-sheet.c:1037
 msgid "Thin Crosshatch"
 msgstr ""
 
-#: src/gnumeric-sheet.c:1035
+#: src/gnumeric-sheet.c:1040
 msgid "Thin Diagonal Crosshatch"
 msgstr ""
 
@@ -5597,7 +5598,7 @@ msgstr "Plugin muss die »init_plugin«-Funktion aufweisen."
 
 #: src/plugin.c:57
 msgid "init_plugin returned error"
-msgstr ""
+msgstr "»init_plugin« gibt Fehler zurück."
 
 #: src/plugin.c:77
 msgid "Plugin is still in use.\n"
@@ -5729,7 +5730,7 @@ msgstr "einfügen"
 #: src/sheet.c:4238
 #, c-format
 msgid "I was not able to activate object %s"
-msgstr ""
+msgstr "Ich konnte das Objekt %s nicht aktivieren"
 
 #: src/sheet.c:4250
 msgid "I was unable to the bind object"
@@ -5810,7 +5811,7 @@ msgstr "_Neu"
 
 #: src/workbook.c:902
 msgid "Create a new spreadsheet"
-msgstr ""
+msgstr "Neues Arbeitsblatt erzeugen"
 
 #: src/workbook.c:906
 msgid "_Import"
@@ -5830,7 +5831,7 @@ msgstr "Kurzinformation"
 
 #: src/workbook.c:917
 msgid "Plu_g-ins..."
-msgstr ""
+msgstr "Plu_gins..."
 
 #: src/workbook.c:917
 msgid "Gnumeric plugins"
@@ -5929,7 +5930,6 @@ msgid "Current _date"
 msgstr "Aktuelles _Datum"
 
 #: src/workbook.c:1000
-#, fuzzy
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Aktuelles Datum in die ausgewählte(n) Zelle(n) einfügen"
 
