@@ -75,12 +75,8 @@ sheet_object_image_new (char const   *type,
 	soi->bytes.len = data_len;
 	soi->crop_top = soi->crop_bottom = soi->crop_left = soi->crop_right
 		= 0.0;
-	if (copy_data) {
-		soi->bytes.data = g_malloc (data_len);
-		memcpy (soi->bytes.data, data, data_len);
-	} else
-		soi->bytes.data = data;
-
+	soi->bytes.data = copy_data ? g_memdup (data, data_len) : data;
+	
 	soi->sheet_object.anchor.direction = SO_DIR_DOWN_RIGHT;
 	return SHEET_OBJECT (soi);
 }
@@ -372,7 +368,7 @@ sheet_object_image_print (SheetObject const *so, GnomePrintContext *ctx,
 	GdkPixbuf *pixbuf = soi_get_pixbuf (soi, 1.);
 
 	if (pixbuf != NULL) {
-		char *raw_image = (char *)gdk_pixbuf_get_pixels (pixbuf);
+		const guchar *raw_image = gdk_pixbuf_get_pixels (pixbuf);
 		gint rowstride	= gdk_pixbuf_get_rowstride (pixbuf);
 		gint w	= gdk_pixbuf_get_width  (pixbuf);
 		gint h	= gdk_pixbuf_get_height (pixbuf);
@@ -450,6 +446,7 @@ sheet_object_image_class_init (GObjectClass *object_class)
 	sheet_object_class->default_size	= sheet_object_image_default_size;
 	sheet_object_class->rubber_band_directly = TRUE;
 
+	/* The property strings don't need translation */
 	g_object_class_install_property 
 		(object_class,
 		 PROP_IMAGE_TYPE,

@@ -20,4 +20,9 @@
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
+#ifndef CRYPT_MD4_H
+#define CRYPT_MD4_H
+
 void mdfour(unsigned char *out, const unsigned char *in, int n);
+
+#endif

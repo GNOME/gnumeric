@@ -22,6 +22,7 @@
 /* NOTE: This code makes no attempt to be fast! */
 #include <glib.h>
 #include <string.h>
+#include "crypt-md4.h"
 
 static guint32
 F(guint32 X, guint32 Y, guint32 Z)
@@ -135,7 +136,7 @@ mdfour64(guint32 * M, guint32 * A, guint32 *B, guint32 * C, guint32 *D)
 }
 
 static void
-copy64(guint32 * M, unsigned char *in)
+copy64(guint32 * M, unsigned const char *in)
 {
 	int i;
 
@@ -155,7 +156,7 @@ copy4(unsigned char *out, guint32 x)
 
 /* produce a md4 message digest from data of length n bytes */
 void
-mdfour(unsigned char *out, unsigned char *in, int n)
+mdfour(unsigned char *out, const unsigned char *in, int n)
 {
 	unsigned char buf[128];
 	guint32 M[16];

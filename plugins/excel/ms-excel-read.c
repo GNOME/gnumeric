@@ -2300,11 +2300,7 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 	 */
 	sf->key = cell->pos;
 	sf->is_array = is_array;
-	if (data_len > 0) {
-		sf->data = g_new (guint8, data_len);
-		memcpy (sf->data, data, data_len);
-	} else
-		sf->data = NULL;
+	sf->data = data_len > 0 ? g_memdup (data, data_len) : NULL;
 	sf->data_len = data_len;
 
 	d (1, fprintf (stderr,"Shared formula, extent %s\n", range_name (&r)););
@@ -3583,14 +3579,14 @@ GdkPixbuf *
 excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 {
 	static int count = 0;
-	FILE *f;
+	FILE *f = NULL;
 	guint16 op;
 	guint32 image_len = GSF_LE_GET_GUINT32 (q->data + 4);
 
 	GError *err = NULL;
 	GdkPixbufLoader *loader = NULL;
 	GdkPixbuf	*pixbuf = NULL;
-	gboolean ret;
+	gboolean ret = FALSE;
 
 	d (1,{
 		char *file_name;

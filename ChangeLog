@@ -1,3 +1,9 @@
+2004-08-11  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-object-image.c (sheet_object_image_new): Simplify
+	using g_memdup.
+	(sheet_object_image_print): fix up types to make gmorten happy.
+
 2004-08-09  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-object-image.c (sheet_object_image_new): strdup the
