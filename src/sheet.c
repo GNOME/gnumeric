@@ -262,6 +262,7 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->frozen_top_left.col = sheet->frozen_top_left.row =
 	sheet->unfrozen_top_left.col = sheet->unfrozen_top_left.row = -1;
 	sheet->initial_top_left.col = sheet->initial_top_left.row = 0;
+	sheet->tab_color = NULL;
 
 	/* Init menu states */
 	sheet->priv->enable_insert_rows = TRUE;
@@ -313,7 +314,7 @@ cb_recalc_span1 (Sheet *sheet, int col, int row, Cell *cell, gpointer flags)
  * sheet_range_calc_spans:
  * @sheet: The sheet,
  * @r:     the region to update.
- * @render_text: whether to re-render the text in cells
+ * @flags:
  *
  * This is used to re-calculate cell dimensions and re-render
  * a cell's text. eg. if a format has changed we need to re-render
@@ -2908,6 +2909,8 @@ sheet_destroy (Sheet *sheet)
 
 	g_hash_table_destroy (sheet->cell_hash);
 
+	if (sheet->tab_color != NULL)
+		style_color_unref (sheet->tab_color);
 	sheet->signature = 0;
 
 	(void) g_idle_remove_by_data (sheet);
@@ -4479,10 +4482,6 @@ sheet_freeze_panes (Sheet *sheet,
 	});
 }
 
-/**
- * sheet_is_frozen :
- * @sheet :
- */
 gboolean
 sheet_is_frozen	(Sheet const *sheet)
 {
@@ -4491,6 +4490,26 @@ sheet_is_frozen	(Sheet const *sheet)
 	/* be flexible, in the future we will support 2 way splits too */
 	return sheet->unfrozen_top_left.col >= 0 ||
 		sheet->unfrozen_top_left.row >= 0;
+}
+
+/**
+ * sheet_set_tab_color :
+ * @sheet :
+ * @color : 
+ *
+ * absorb the reference to the style color
+ */
+void
+sheet_set_tab_color (Sheet *sheet, StyleColor *color)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+
+	if (sheet->tab_color != NULL)
+		style_color_unref (sheet->tab_color);
+	sheet->tab_color = color;
+
+	WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
+		wb_control_sheet_rename	(control, sheet););
 }
 
 /**

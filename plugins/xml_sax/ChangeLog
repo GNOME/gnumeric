@@ -1,3 +1,17 @@
+2002-01-10  Jody Goldberg <jody@gnome.org>
+
+	* xml-sax-read.c (xml_sax_attr_bool) : fix return type
+	(xml_sax_attr_double) : ditto.
+	(xml_sax_attr_int) : ditto.
+	(xml_sax_color) : ditto.
+	(xml_sax_validation) : rework.
+	(xml_sax_style_condition) : delete.
+	(xml_sax_style_condition_chain) : delete.
+	(xml_sax_style_condition_expr) : delete.
+	(xml_sax_style_condition_constraint) : delete.
+	(xml_sax_style_condition_flags) : delete.
+	(xml_sax_start_element) : remove deleted elements.
+
 2002-01-06  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.1

@@ -28,6 +28,7 @@
 #include "application.h"
 #include "parse-util.h"
 #include "selection.h"
+#include "ranges.h"
 
 void
 colrow_compute_pixels_from_pts (ColRowInfo *cri,
@@ -739,10 +740,6 @@ colrow_set_visibility_list (Sheet *sheet, gboolean is_cols,
 {
 	ColRowVisList *ptr;
 
-	/* Trivial optimization */
-	if (list == NULL)
-		return;
-
 	for (ptr = list; ptr != NULL ; ptr = ptr->next) {
 		ColRowIndex *info = ptr->data;
 		colrow_set_visibility (sheet, is_cols, visible,
@@ -757,9 +754,17 @@ colrow_set_visibility_list (Sheet *sheet, gboolean is_cols,
 				info->first, 0,
 				info->last, SHEET_MAX_ROWS-1,
 				&min_col, &max_col);
+
+			if (visible) {
+				Range r;
+				range_init (&r, info->first, 0,
+					    info->last, SHEET_MAX_ROWS-1);
+				sheet_range_calc_spans (sheet, &r, SPANCALC_NO_DRAW);
+			}
 		}
 
-	sheet_redraw_all (sheet, TRUE);
+	if (list != NULL)
+		sheet_redraw_all (sheet, TRUE);
 }
 
 /**

@@ -12,6 +12,10 @@ Andreas:
 Jody:
 	* Generate spans after importing a lotus 123 file.
 	* Add Russian Ruble.
+	* Improve Data Validation, and add XL import.
+	* Add new builtin format to Applix importer.
+	* Fix AREA_3D expressions from Excel.
+	* Support coloured tabs from Excel XP.
 
 Morten:
 	* Make sure Linux ends up using IEEE_754 code in mathfunc.c.

@@ -1,3 +1,48 @@
+2002-01-12  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_write_style_condition_chain) : delete.
+	(xml_read_style_condition_chain) : delete.
+	(xml_write_style) : change validation support.
+	(xml_read_style) : ditto.
+
+2002-01-12  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_sheet_label_changed) : Use
+	  editable_label_get_text.
+	(wbcg_sheet_add) : init the tab colour.
+	(wbcg_sheet_rename) : ditto.
+	(wbcg_validation_msg) : new.
+	(workbook_control_gui_ctor_class) : register wbcg_validation_msg.
+
+	* src/workbook-control.c (wb_control_validation_msg) : new.
+
+	* src/workbook-edit.c (wbcg_edit_validate) : delete.
+	(wbcg_edit_finish) : improve validation.
+
+	* src/validation.c : rework.  In list is still missing.
+
+	* src/sheet.c (sheet_new) : init tab colour.
+	(sheet_destroy) : release the tab colour.
+	(sheet_set_tab_color) : new function.
+
+	* src/mstyle.c (mstyle_link_sheet) : disable linking of validations.
+	  They are no longer dependents.
+	(mstyle_unlink) : ditto.
+
+2002-01-11  Jody Goldberg <jody@gnome.org>
+
+	* src/colrow.c (colrow_set_visibility_list) : when making a region
+	  visible we need to restore spans for the new content.
+
+2002-01-09  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_error_splits_array) : accept NULL
+	  as an array specification.
+
+	* src/ranges.c (range_name) : add protection against NULL.
+
+	* src/expr.c (expr_implicit_intersection) : handle blank inputs.
+
 2002-01-11  Morten Welinder  <terra@diku.dk>
 
 	* src/plugin-util.c (MAP_FAILED): Compilation fix for sick

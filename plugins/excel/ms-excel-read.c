@@ -32,6 +32,7 @@
 #include <formats.h>
 #include <print-info.h>
 #include <selection.h>
+#include <validation.h>
 #include <parse-util.h>	/* for cell_name */
 #include <ranges.h>
 #include <expr-name.h>
@@ -2914,6 +2915,32 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *esheet)
 			(unsigned)(flags & 0x7), flags & 0x10);
 }
 
+static void
+ms_excel_read_tab_color (BiffQuery *q, ExcelSheet *esheet)
+{
+#if 0
+ 0 | 62  8  0  0  0  0  0  0  0  0  0  0 14  0  0  0 | b...............
+10 |     0  0  0 XX XX XX XX XX XX XX XX XX XX XX XX |  ...************
+#endif
+	guint8 color_index;
+	StyleColor *color;
+
+	g_return_if_fail (q->length == 20);
+
+	/* be conservative for now, we have not seen a pallete larger than 56
+	 * so this is largely moot, this is probably a uint32
+	 */
+	color_index = MS_OLE_GET_GUINT8 (q->data + 16);
+	color = ms_excel_palette_get (esheet->wb->palette, color_index);
+	sheet_set_tab_color (esheet->gnum_sheet, color);
+
+	if (color != NULL) {
+		d (-1, printf ("%s tab colour = %04hx:%04hx:%04hx\n",
+			      esheet->gnum_sheet->name_unquoted,
+			      color->red, color->green, color->blue););
+	}
+}
+
 /**
  * ms_excel_read_colinfo:
  * @q		A BIFF query
@@ -3415,10 +3442,10 @@ ms_excel_read_cf (BiffQuery *q, ExcelSheet *esheet)
 	guint16 const expr2_len	= MS_OLE_GET_GUINT8 (q->data + 4);
 	guint8 const fmt_type	= MS_OLE_GET_GUINT8 (q->data + 9);
 	unsigned offset;
-	StyleConditionOperator cond1 = SCO_UNDEFINED, cond2 = SCO_UNDEFINED;
 	ExprTree *expr1 = NULL, *expr2 = NULL;
 
-	d(-1, printf ("cond type = %d\n", (int)type););
+	d(-1, printf ("cond type = %d, op type = %d\n", (int)type, (int)op););
+#if 0
 	switch (type) {
 	case 1 :
 		switch( op ) {
@@ -3446,16 +3473,14 @@ ms_excel_read_cf (BiffQuery *q, ExcelSheet *esheet)
 			   (int)type, esheet->gnum_sheet->name_unquoted);
 		return;
 	};
-
+#endif
 
 	if (expr1_len > 0) {
-		g_return_if_fail (cond1 != -1);
 		expr1 = ms_sheet_parse_expr_internal (esheet,
 			q->data + q->length - expr1_len - expr2_len,
 			expr1_len);
 	}
 	if (expr2_len > 0) {
-		g_return_if_fail (cond2 != -1);
 		expr2 = ms_sheet_parse_expr_internal (esheet,
 			q->data + q->length - expr2_len,
 			expr2_len);
@@ -3594,9 +3619,11 @@ ms_excel_read_dv (BiffQuery *q, ExcelSheet *esheet)
 	guint8 const *data, *expr1_dat, *expr2_dat;
 	int i;
 	Range r;
-	StyleConditionConstraint type;
-	StyleConditionOperator op1 = SCO_UNDEFINED, op2 = SCO_UNDEFINED;
-	StyleConditionBool join = SCB_NONE;
+	ValidationStyle style;
+	ValidationType  type;
+	ValidationOp    op;
+	GSList *ptr, *ranges = NULL;
+	MStyle *mstyle;
 
 	g_return_if_fail (q->length >= 4);
 	options	= MS_OLE_GET_GUINT32 (q->data);
@@ -3639,53 +3666,77 @@ ms_excel_read_dv (BiffQuery *q, ExcelSheet *esheet)
 	len = MS_OLE_GET_GUINT16 (data);
 
 	i = MS_OLE_GET_GUINT16 (data);
-	for (data += 2; i-- > 0 ;)
+	for (data += 2; i-- > 0 ;) {
 		data = ms_excel_read_range (&r, data);
+		ranges = g_slist_prepend (ranges, range_dup (&r));
+	}
 
+	/* these enums align, but lets be explicit so that the filter
+	 * is easier to read.
+	 */
 	switch (options & 0x0f) {
-	/*case 0: type = SCC_IS_ANY;	break; */
-	case 1:	type = SCC_IS_INT;	break;
-	case 2:	type = SCC_IS_FLOAT;	break;
-	case 3:	type = SCC_IS_IN_LIST;	break;
-	case 4:	type = SCC_IS_DATE;	break;
-	case 5:	type = SCC_IS_TIME;	break;
-	case 6:	type = SCC_IS_TEXTLEN;	break;
-	case 7:	type = SCC_IS_CUSTOM;	break;
+	case 0 : type = VALIDATION_TYPE_ANY;		break;
+	case 1 : type = VALIDATION_TYPE_AS_INT;		break;
+	case 2 : type = VALIDATION_TYPE_AS_NUMBER;	break;
+	case 3 : type = VALIDATION_TYPE_IN_LIST;	break;
+	case 4 : type = VALIDATION_TYPE_AS_DATE;	break;
+	case 5 : type = VALIDATION_TYPE_AS_TIME;	break;
+	case 6 : type = VALIDATION_TYPE_TEXT_LENGTH;	break;
+	case 7 : type = VALIDATION_TYPE_CUSTOM;		break;
 	default :
 		g_warning ("EXCEL : Unknown contraint type %d", options & 0x0f);
 		return;
 	};
 
-	options >>= 20;
-	switch (options & 0x0f) {
-	case 0:	op1 = SCO_GREATER_EQUAL; op2 = SCO_LESS_EQUAL;	join = SCB_AND_PAIR;  break;
-	case 1:	op1 = SCO_LESS;		 op2 = SCO_GREATER;	join = SCB_OR_PAIR;  break;
-	case 2:	op1 = SCO_EQUAL;		break;
-	case 3:	op1 = SCO_NOT_EQUAL;		break;
-	case 4:	op1 = SCO_GREATER;		break;
-	case 5:	op1 = SCO_LESS;			break;
-	case 6:	op1 = SCO_GREATER_EQUAL;	break;
-	case 7:	op1 = SCO_LESS_EQUAL;		break;
-
+	switch ((options >> 4) & 0x07) {
+	case 0 : style = VALIDATION_STYLE_STOP; break;
+	case 1 : style = VALIDATION_STYLE_WARNING; break;
+	case 2 : style = VALIDATION_STYLE_INFO; break;
 	default :
-		g_warning ("EXCEL : Unknown contraint operator %d", options & 0x0f);
+		g_warning ("EXCEL : Unknown validation style %d",
+			   (options >> 4) & 0x07);
 		return;
 	};
 
-	if (expr1_len > 0) {
-		g_return_if_fail (op1 != SCO_UNDEFINED);
+	switch ((options >> 20) & 0x0f) {
+	case 0:	op = VALIDATION_OP_BETWEEN;	break;
+	case 1:	op = VALIDATION_OP_NOT_BETWEEN; break;
+	case 2:	op = VALIDATION_OP_EQUAL;	break;
+	case 3:	op = VALIDATION_OP_NOT_EQUAL;	break;
+	case 4:	op = VALIDATION_OP_GT;		break;
+	case 5:	op = VALIDATION_OP_LT;		break;
+	case 6:	op = VALIDATION_OP_GTE;		break;
+	case 7:	op = VALIDATION_OP_LTE;		break;
+
+	default :
+		g_warning ("EXCEL : Unknown contraint operator %d",
+			   (options >> 20) & 0x0f);
+		return;
+	};
+
+	if (expr1_len > 0)
 		expr1 = ms_sheet_parse_expr_internal (esheet,
 			expr1_dat, expr1_len);
-	}
-	if (expr2_len > 0) {
-		g_return_if_fail (op2 != SCO_UNDEFINED);
-		g_return_if_fail (join != SCB_NONE);
+	if (expr2_len > 0)
 		expr2 = ms_sheet_parse_expr_internal (esheet,
 			expr2_dat, expr2_len);
-	}
 
-	d (1, printf ("type = %d, op1 = %d, op2 = %d, join = %d\n", 
-		       type, op1, op2, join););
+	d (1, printf ("style = %d, type = %d, op = %d\n", 
+		       style, type, op););
+
+	mstyle = mstyle_new ();
+	mstyle_set_validation (mstyle,
+		validation_new (style, type, op, error_title, error_msg, 
+			expr1, expr2, options & 0x0100, options & 0x0200));
+
+	for (ptr = ranges; ptr != NULL ; ptr = ptr->next) {
+		Range *r = ptr->data;
+		mstyle_ref (mstyle);
+		sheet_style_apply_range (esheet->gnum_sheet, r, mstyle);
+		g_free (r);
+	}
+	g_slist_free (ranges);
+	mstyle_unref (mstyle);
 }
 
 static void
@@ -3989,6 +4040,10 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 			break;
 
 		case BIFF_SAVERECALC:
+			break;
+
+		case BIFF_TAB_COLOR:
+			ms_excel_read_tab_color (q, esheet);
 			break;
 
 		case BIFF_OBJPROTECT:

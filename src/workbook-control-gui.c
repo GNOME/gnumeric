@@ -51,6 +51,7 @@
 #include "parse-util.h"
 #include "ranges.h"
 #include "value.h"
+#include "validation.h"
 #include "history.h"
 #include "str.h"
 #include "cell.h"
@@ -372,7 +373,7 @@ cb_sheet_label_changed (EditableLabel *el,
 			const char *new_name, WorkbookControlGUI *wbcg)
 {
 	gboolean ans = !cmd_rename_sheet (WORKBOOK_CONTROL (wbcg),
-					  el->text, new_name);
+		editable_label_get_text (el), new_name);
 	wb_control_gui_focus_cur_sheet (wbcg);
 	return ans;
 }
@@ -585,7 +586,7 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	 * NB. this is so we can use editable_label_set_text since
 	 * gtk_notebook_set_tab_label kills our widget & replaces with a label.
 	 */
-	sheet_label = editable_label_new (sheet->name_unquoted);
+	sheet_label = editable_label_new (sheet->name_unquoted, sheet->tab_color);
 	gtk_signal_connect_after (
 		GTK_OBJECT (sheet_label), "text_changed",
 		GTK_SIGNAL_FUNC (cb_sheet_label_changed), wbcg);
@@ -648,6 +649,7 @@ wbcg_sheet_rename (WorkbookControl *wbc, Sheet *sheet)
 
 	label = gtk_notebook_get_tab_label (wbcg->notebook, GTK_WIDGET (scg->table));
 	editable_label_set_text (EDITABLE_LABEL (label), sheet->name_unquoted);
+	editable_label_set_color (EDITABLE_LABEL (label), sheet->tab_color);
 }
 
 static void
@@ -1182,7 +1184,10 @@ wbcg_error_splits_array (CommandContext *context,
 {
 	char *message;
 
-	message = g_strdup_printf (_("Would split array %s"), range_name (array));
+	if (array != NULL)
+		message = g_strdup_printf (_("Would split array %s"), range_name (array));
+	else
+		message = g_strdup (_("Would split an array"));
 	gnumeric_error_invalid (context, cmd, message);
 	g_free (message);
 }
@@ -4117,6 +4122,44 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	gtk_idle_add ((GtkFunction) x_clipboard_bind_workbook, wbcg);
 }
 
+static int
+wbcg_validation_msg (WorkbookControl *wbc, Validation const *v,
+		     char const *title, char const *msg)
+{
+	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	ValidationStatus res0, res1;
+	int button;
+	GtkWidget  *dialog;
+
+	switch (v->style) {
+	case VALIDATION_STYLE_STOP :
+		res0 = VALIDATION_STATUS_INVALID_EDIT;
+		res1 = VALIDATION_STATUS_INVALID_DISCARD;
+		dialog = gnome_message_box_new ( msg, GNOME_MESSAGE_BOX_ERROR,
+			_("Re-Edit"), _("Discard"), NULL);
+		break;
+	case VALIDATION_STYLE_WARNING :
+		res0 = VALIDATION_STATUS_VALID;
+		res1 = VALIDATION_STATUS_INVALID_DISCARD;
+		dialog = gnome_message_box_new (msg , GNOME_MESSAGE_BOX_WARNING,
+			_("Accept"), _("Discard"), NULL);
+		break;
+	case VALIDATION_STYLE_INFO :
+		res0 = res1 = VALIDATION_STATUS_VALID;
+		dialog = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_INFO,
+			_("Ok"), NULL);
+		break;
+	default : g_return_val_if_fail (FALSE, 1);
+	}
+
+	if (title)
+		gtk_window_set_title (GTK_WINDOW (dialog), title);
+	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
+	button = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
+
+	return (button != 1) ? res0 : res1;
+}
+
 static void
 workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 {
@@ -4161,12 +4204,13 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->undo_redo.push     = wbcg_undo_redo_push;
 	wbc_class->undo_redo.labels   = wbcg_undo_redo_labels;
 
-	wbc_class->paste_from_selection  = wbcg_paste_from_selection;
-	wbc_class->claim_selection	 = wbcg_claim_selection;
-
 	wbc_class->menu_state.update      = wbcg_menu_state_update;
 	wbc_class->menu_state.sheet_prefs = wbcg_menu_state_sheet_prefs;
 	wbc_class->menu_state.sensitivity = wbcg_menu_state_sensitivity;
+
+	wbc_class->claim_selection	 = wbcg_claim_selection;
+	wbc_class->paste_from_selection  = wbcg_paste_from_selection;
+	wbc_class->validation_msg	 = wbcg_validation_msg;
 }
 
 E_MAKE_TYPE(workbook_control_gui, "WorkbookControlGUI", WorkbookControlGUI,

@@ -590,7 +590,7 @@ make_inter_sheet_ref_v7 (ExcelWorkbook *wb, guint16 extn_idx,
 	g_return_if_fail (wb);
 	g_return_if_fail (a);
 
-	if ((gint16)extn_idx>0) {
+	if ((gint16)extn_idx > 0) {
 		printf ("FIXME: BIFF 7 ExternSheet 3D ref\n");
 		return;
 	}
@@ -775,13 +775,13 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 					  ? sheet->gnum_sheet->name_unquoted
 					  : ""),
 			cell_coord_name (fn_col,fn_row), (shared?" (shared)":""));
+		ms_ole_dump (mem, length);
 	}
 #endif
 
-	while (len_left > 0 && !error)
-	{
+	while (len_left > 0 && !error) {
 		int ptg_length = 0;
-		int ptg = MS_OLE_GET_GUINT8(cur-1);
+		int ptg = MS_OLE_GET_GUINT8 (cur-1);
 		int ptgbase = ((ptg & 0x40) ? (ptg | 0x20): ptg) & 0x3F;
 		if (ptg > FORMULA_PTG_MAX)
 			break;
@@ -794,8 +794,7 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 		}
 #endif
 
-		switch (ptgbase)
-		{
+		switch (ptgbase) {
 		case FORMULA_PTG_EXPR: {
 			ExprTree *expr;
 			BiffSharedFormula *sf;
@@ -1011,11 +1010,11 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 			ptg_length = 2;
 			break;
 		}
-		case FORMULA_PTG_BOOL: {
+		case FORMULA_PTG_BOOL:
 			parse_list_push_raw (&stack, value_new_bool (MS_OLE_GET_GUINT8(cur)));
 			ptg_length = 1;
 			break;
-		}
+
 		case FORMULA_PTG_NUM: {
 			double tmp = gnumeric_get_le_double (cur);
 			parse_list_push_raw (&stack, value_new_float (tmp));
@@ -1404,6 +1403,7 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 			}
 			if (first) g_free (first);
 			if (last)  g_free (last);
+			break;
 		}
 
 		case FORMULA_PTG_REF_ERR_3D :

@@ -546,152 +546,6 @@ xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, MStyle *mstyle)
 	}
 }
 
-static xmlNodePtr
-xml_write_style_condition_chain (XmlParseContext *ctxt, StyleCondition *sc)
-{
-	xmlNodePtr cur;
-	StyleCondition *sci;
-	
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar *)"StyleConditionChain", NULL);
-	for (sci = sc; sci != NULL; sci = sci->next) {
-		xmlNodePtr parent, ptr;
-
-		parent = xmlNewChild (cur, ctxt->ns, (xmlChar *)"StyleCondition", NULL);
-		xml_node_set_int (parent, "Type", sci->type);
-		xml_node_set_int (parent, "NextOperator", sci->next_op);
-		switch (sci->type) {
-		case SCT_EXPR :
-			ptr = xmlNewChild (parent, ctxt->ns, (xmlChar *)"Expr", NULL);
-			xml_node_set_int (ptr, "Operator", sci->u.expr.op);
-
-			if (sci->u.expr.dep.expression) {
-				Sheet *sheet = sci->u.expr.dep.sheet;
-				ParsePos pos;
-				char *val;
-				xmlChar	*tstr;
-			
-				val = expr_tree_as_string (sci->u.expr.dep.expression,
-					parse_pos_init (&pos, sheet->workbook, sheet, 0, 0));
-				
-				tstr = xmlEncodeEntitiesReentrant (ctxt->doc, (xmlChar *)val);
-				xml_node_set_cstr (ptr, "Expression", val);
-				if (tstr) xmlFree (tstr);
-				g_free (val);
-			}
-			break;
-		case SCT_CONSTRAINT :
-			ptr = xmlNewChild (parent, ctxt->ns, (xmlChar *)"Constraint", NULL);
-			xml_node_set_int (ptr, "Value", sci->u.constraint);
-			break;
-		case SCT_FLAGS :
-			ptr = xmlNewChild (parent, ctxt->ns, (xmlChar *)"Flags", NULL);
-			xml_node_set_int (ptr, "Value", sci->u.flags);
-			break;
-		default :
-			g_warning ("Unknown StyleCondition Type");
-		}
-	}
-	
-	return cur;
-}
-
-static StyleCondition *
-xml_read_style_condition_chain (XmlParseContext *ctxt, xmlNodePtr tree)
-{
-	StyleCondition *scf = NULL;
-	StyleCondition *scl = NULL;
-	xmlNodePtr parent;
-	
-	if (strcmp (tree->name, "StyleConditionChain")){
-		fprintf (stderr,
-			 "xml_read_style_condition: invalid element type %s, 'StyleConditionChain' expected`\n",
-			 tree->name);
-	}
-	
-	parent = tree->xmlChildrenNode;
-	while (parent) {
-		StyleConditionBool next_op = 0;
-		StyleConditionType type = 0;
-		StyleCondition *sc = NULL;
-		xmlNodePtr child = parent->xmlChildrenNode;
-		
-		if (!parent->name || strcmp (parent->name, "StyleCondition"))
-			fprintf (stderr,
-				 "xml_read_style_condition: invalid element type %s, 'StyleCondition' expected`\n",
-				 parent->name);
-
-		xml_node_get_int (parent, "Type", (int*) &type);
-		xml_node_get_int (parent, "NextOperator", (int*) &next_op);
-		
-		switch (type) {
-		case SCT_EXPR :
-			if (child && child->name && !strcmp (child->name, "Expr")) {
-				ExprTree *expr = NULL;
-				ParsePos pos, *pp;
-				xmlChar *s;
-				int op;
-			
-				xml_node_get_int (child, "Operator", &op);
-				s = xml_node_get_cstr (child, "Expression");
-
-				if (s) {
-					pp = parse_pos_init (&pos, ctxt->wb,
-							     ctxt->sheet, 0, 0);
-					if ((expr = expr_parse_str_simple ((char *)s, pp)) == NULL)
-						fprintf (stderr, "xml_read_style_condition: empty/invalid expression. condition damaged!\n");
-					xmlFree (s);
-				} else
-					g_warning ("StyleConditionExpression without Expression!");
-			
-				sc = style_condition_new_expr (op, expr);
-			} else
-				fprintf (stderr,
-					 "xml_read_style_condition: invalid element type %s, 'Expr' expected`\n",
-					 child->name);
-			break;
-		case SCT_CONSTRAINT :
-			if (child && child->name && !strcmp (child->name, "Constraint")) {
-				StyleConditionConstraint constraint;
-				
-				xml_node_get_int (child, "Value", (int *) &constraint);
-				sc = style_condition_new_constraint (constraint);
-			} else
-				fprintf (stderr,
-					 "xml_read_style_condition: invalid element type %s, 'Constraint' expected`\n",
-					 child->name);
-			break;
-		case SCT_FLAGS :
-			if (child && child->name && !strcmp (child->name, "Flags")) {
-				StyleConditionFlags flags;
-				
-				xml_node_get_int (child, "Value", (int *) &flags);
-				sc = style_condition_new_flags (flags);
-			} else
-				fprintf (stderr,
-					 "xml_read_style_condition: invalid element type %s, 'Flags' expected`\n",
-					 child->name);
-			break;
-		default :
-			g_warning ("Unknown StyleCondition type");
-		}
-
-		if (!sc) {
-			g_warning ("Broken StyleConditionChain!");
-			break;
-		}
-		
-		if (scl)
-			style_condition_chain (scl, next_op, sc);
-		else
-			scf = sc;
-		scl = sc;
-
-		parent = parent->next;
-	}
-	
-	return scf;
-}
-
 /*
  * Create an XML subtree of doc equivalent to the given Style.
  */
@@ -768,27 +622,53 @@ xml_write_style (XmlParseContext *ctxt,
 	}
 
 	if (mstyle_is_element_set (style, MSTYLE_VALIDATION)) {
-		Validation *v = mstyle_get_validation (style);
-		xmlNodePtr xsc;
-		
-		child = xmlNewChild (cur, ctxt->ns, (xmlChar *)"Validation", NULL);
-		xml_node_set_int (child, "Style", v->vs);
+		Validation const *v = mstyle_get_validation (style);
+		ParsePos    pp;
+		char	   *tmp;
 
-		if (v->title) {
+		child = xmlNewChild (cur, ctxt->ns, (xmlChar *)"Validation", NULL);
+		xml_node_set_int (child, "Style", v->style);
+		xml_node_set_int (child, "Type", v->type);
+		switch (v->type) {
+		case VALIDATION_TYPE_AS_INT :
+		case VALIDATION_TYPE_AS_NUMBER :
+		case VALIDATION_TYPE_AS_DATE :
+		case VALIDATION_TYPE_AS_TIME :
+		case VALIDATION_TYPE_TEXT_LENGTH :
+			xml_node_set_int (child, "Operator", v->op);
+			break;
+		default :
+			break;
+		}
+
+		e_xml_set_bool_prop_by_name (child, (xmlChar *)"AllowBlank",
+			v->allow_blank);
+		e_xml_set_bool_prop_by_name (child, (xmlChar *)"UseDropdown",
+			v->use_dropdown);
+
+		if (v->title != NULL && v->title->str[0] != '\0') {
 			tstr = xmlEncodeEntitiesReentrant (ctxt->doc, (xmlChar *)(v->title->str));
 			xml_node_set_cstr (child, "Title", (char *)tstr);
 			if (tstr) xmlFree (tstr);
 		}
 
-		if (v->msg) {
+		if (v->msg != NULL && v->msg->str[0] != '\0') {
 			tstr = xmlEncodeEntitiesReentrant (ctxt->doc, (xmlChar *)(v->msg->str));
 			xml_node_set_cstr (child, "Message", (char *)tstr);
 			if (tstr) xmlFree (tstr);
 		}
-		
-		xsc = xml_write_style_condition_chain (ctxt, v->sc);
-		if (xsc)
-			xmlAddChild (child, xsc);
+
+		parse_pos_init (&pp, ctxt->wb, ctxt->sheet, 0, 0);
+		if (v->expr[0] != NULL &&
+		    (tmp = expr_tree_as_string (v->expr[0], &pp)) != NULL) {
+			xmlNewChild (child, child->ns, (xmlChar *)"Expression0", tmp);
+			g_free (tmp);
+		}
+		if (v->expr[1] != NULL &&
+		    (tmp = expr_tree_as_string (v->expr[1], &pp)) != NULL) {
+			xmlNewChild (child, child->ns, (xmlChar *)"Expression1", tmp);
+			g_free (tmp);
+		}
 	}
 
 	child = xml_write_style_border (ctxt, style);
@@ -1570,39 +1450,53 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 		} else if (!strcmp (child->name, "StyleBorder")) {
 			xml_read_style_border (ctxt, child, mstyle);
 		} else if (!strcmp (child->name, "Validation")) {
-			StyleCondition *sc;
-			ValidationStyle vs;
-			Validation *v;
-			xmlNodePtr ptr;
-			xmlChar *title;
-			xmlChar *msg;
-			
-			xml_node_get_int (child, "Style", (int *) &vs);
+			int dummy;
+			ValidationStyle style;
+			ValidationType type;
+			ValidationOp op = VALIDATION_OP_NONE;
+			ParsePos     pp;
+			xmlNode *e_node;
+			xmlChar *title, *msg;
+			gboolean allow_blank, use_dropdown;
+			ExprTree *expr0 = NULL, *expr1 = NULL;
 
-			if (vs != VALIDATION_STYLE_NONE) {
-				title = xml_node_get_cstr (child, "Title");
-				if (strlen ((char *)title) < 1) {
-					xmlFree (title);
-					title = NULL;
+			xml_node_get_int (child, "Style", &dummy);
+			style = dummy;
+			xml_node_get_int (child, "Type", &dummy);
+			type = dummy;
+			if (xml_node_get_int (child, "Operator", &dummy))
+				op = dummy;
+
+			allow_blank = e_xml_get_bool_prop_by_name_with_default (child,
+				(xmlChar *)"AllowBlank", FALSE);
+			use_dropdown = e_xml_get_bool_prop_by_name_with_default (child,
+				(xmlChar *)"UseDropdown", FALSE);
+
+			title = xml_node_get_cstr (child, "Title");
+			msg = xml_node_get_cstr (child, "Message");
+
+			parse_pos_init (&pp, ctxt->wb, ctxt->sheet, 0, 0);
+			e_node = e_xml_get_child_by_name (child, (xmlChar *)"Expression0");
+			if (e_node != NULL) {
+				char *content = (char *)xmlNodeGetContent (e_node);
+				if (content != NULL) {
+					expr0 = expr_parse_str_simple (content, &pp);
+					xmlFree (content);
 				}
-				msg = xml_node_get_cstr (child, "Message");
-				if (strlen ((char *)msg) < 1) {
-					xmlFree (msg);
-					msg = NULL;
+			}
+			e_node = e_xml_get_child_by_name (child, (xmlChar *)"Expression1");
+			if (e_node != NULL) {
+				char *content = (char *)xmlNodeGetContent (e_node);
+				if (content != NULL) {
+					expr1 = expr_parse_str_simple (content, &pp);
+					xmlFree (content);
 				}
-			} else {
-				title = NULL;
-				msg = NULL;
 			}
 
-      			if ((ptr = e_xml_get_child_by_name (child, (xmlChar *)"StyleConditionChain")) != NULL)
-				sc = xml_read_style_condition_chain (ctxt, ptr);
-			else
-				sc = NULL;
+			mstyle_set_validation (mstyle,
+				validation_new (style, type, op, title, msg,
+					expr0, expr1, allow_blank, use_dropdown));
 
-			v = validation_new (vs, (char *)title, (char *)msg, sc);
-			mstyle_set_validation (mstyle, v);
-			
 			xmlFree (msg);
 			xmlFree (title);
 		} else {
@@ -2704,7 +2598,7 @@ cell_copy_new (void)
 {
 	Cell *cell;
 	CellCopy *cc;
-	
+
 	cell = g_new0 (Cell, 1);
 	cell->base.sheet   = NULL;
 	cell->base.flags = DEPENDENT_CELL;
@@ -2905,7 +2799,7 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar *buffer, int len
 			Range r;
 			if (content != NULL) {
 				if (parse_range (content, &r))
-					cr->merged = g_slist_prepend (cr->merged, 
+					cr->merged = g_slist_prepend (cr->merged,
 						range_dup (&r));
 				xmlFree (content);
 			}
@@ -3102,15 +2996,15 @@ xml_workbook_write (XmlParseContext *ctxt, WorkbookView *wb_view)
 		xmlNewChild (child, ctxt->ns, (xmlChar *)"SheetName",  tstr);
 		if (tstr)
 			xmlFree (tstr);
-			
+
 		sheets = g_list_next (sheets);
 	}
 	xmlAddChild (cur, child);
-	
+
 	child = xml_write_names (ctxt, wb->names);
 	if (child)
 		xmlAddChild (cur, child);
-	
+
 /*	child = xml_write_style (ctxt, &wb->style, -1);
 	if (child)
 	xmlAddChild (cur, child);*/
@@ -3179,7 +3073,7 @@ xml_get_n_children (xmlNodePtr tree)
 	return n;
 }
 
-static gint 
+static gint
 xml_read_sheet_n_elements (xmlNodePtr tree)
 {
 	gint n = 0;

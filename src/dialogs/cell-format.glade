@@ -477,7 +477,7 @@
 	      <class>GtkLabel</class>
 	      <child_name>CList:title</child_name>
 	      <name>label47</name>
-	      <label>Negat_ive number:</label>
+	      <label>Negative number:</label>
 	      <justify>GTK_JUSTIFY_LEFT</justify>
 	      <wrap>False</wrap>
 	      <xalign>0</xalign>
@@ -3284,75 +3284,15 @@ Double
 	  <class>GtkTable</class>
 	  <name>validation_criteria_table</name>
 	  <border_width>4</border_width>
-	  <rows>6</rows>
-	  <columns>2</columns>
+	  <rows>5</rows>
+	  <columns>3</columns>
 	  <homogeneous>False</homogeneous>
 	  <row_spacing>4</row_spacing>
 	  <column_spacing>4</column_spacing>
 
 	  <widget>
-	    <class>GtkOptionMenu</class>
-	    <name>validation_constraint_type</name>
-	    <can_focus>True</can_focus>
-	    <items>Any Value                     (no validation)
-Whole numbers
-Decimal
-List
-Date
-Time
-Text length
-Custom
-</items>
-	    <initial_choice>0</initial_choice>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>2</right_attach>
-	      <top_attach>0</top_attach>
-	      <bottom_attach>1</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkOptionMenu</class>
-	    <name>validation_operator</name>
-	    <can_focus>True</can_focus>
-	    <items>min &lt;= val &lt;= max         (between)
-val &lt;= min || max &lt;= val (not between)
-val == bound                 (equal to)
-val != bound                  (not equal to)
-val &gt;  bound                  (greater than)
-val &lt;  bound                  (less than)
-val &gt;=bound                  (greater than or equal to)
-val &lt;=bound                  (less than or equal to)
-</items>
-	    <initial_choice>2</initial_choice>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>2</right_attach>
-	      <top_attach>1</top_attach>
-	      <bottom_attach>2</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
 	    <class>GtkLabel</class>
-	    <name>label60</name>
+	    <name>validation_style_lable</name>
 	    <label>Allow :</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
@@ -3404,8 +3344,8 @@ val &lt;=bound                  (less than or equal to)
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>validation_bound1_name</name>
-	    <label>label62</label>
+	    <name>validation_expr0_name</name>
+	    <label></label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -3430,8 +3370,8 @@ val &lt;=bound                  (less than or equal to)
 
 	  <widget>
 	    <class>GtkLabel</class>
-	    <name>validation_bound2_name</name>
-	    <label>label63</label>
+	    <name>validation_expr1_name</name>
+	    <label></label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -3478,17 +3418,78 @@ val &lt;=bound                  (less than or equal to)
 	  </widget>
 
 	  <widget>
+	    <class>GtkOptionMenu</class>
+	    <name>validation_constraint_type</name>
+	    <can_focus>True</can_focus>
+	    <items>Any Value                     (no validation)
+Whole numbers
+Numbers
+In a list
+Date
+Time
+Text length
+Custom
+</items>
+	    <initial_choice>0</initial_choice>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>3</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkOptionMenu</class>
+	    <name>validation_operator</name>
+	    <can_focus>True</can_focus>
+	    <items>min &lt;= val &lt;= max         (between)
+val &lt;= min || max &lt;= val (not between)
+val == bound                 (equal to)
+val != bound                  (not equal to)
+val &gt;  bound                  (greater than)
+val &lt;  bound                  (less than)
+val &gt;=bound                  (greater than or equal to)
+val &lt;=bound                  (less than or equal to)
+</items>
+	    <initial_choice>2</initial_choice>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>3</right_attach>
+	      <top_attach>1</top_attach>
+	      <bottom_attach>2</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
 	    <class>GtkCheckButton</class>
 	    <name>validation_in_dropdown</name>
+	    <visible>False</visible>
 	    <can_focus>True</can_focus>
 	    <label>In-cell dropdown</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>2</right_attach>
-	      <top_attach>5</top_attach>
-	      <bottom_attach>6</bottom_attach>
+	      <left_attach>2</left_attach>
+	      <right_attach>3</right_attach>
+	      <top_attach>4</top_attach>
+	      <bottom_attach>5</bottom_attach>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
 	      <xexpand>False</xexpand>
@@ -3869,6 +3870,7 @@ Information  (allows invalid input)
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>input_msg_tab_label</name>
+      <visible>False</visible>
       <label>Input Message</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>

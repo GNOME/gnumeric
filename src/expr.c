@@ -396,19 +396,22 @@ expr_implicit_intersection (EvalPos const *pos, Value *v)
 	if (start_sheet == end_sheet) {
 		if (rng.start.row == rng.end.row) {
 			int const c = pos->eval.col;
-			if (rng.start.col <= c && c <= rng.end.col)
-				res = value_duplicate (
-					value_area_get_x_y (pos, v,
-							    c - rng.start.col,
-							    0));
+			if (rng.start.col <= c && c <= rng.end.col) {
+				Value const *tmp = value_area_get_x_y (pos, v,
+					c - rng.start.col, 0);
+				if (tmp != NULL)
+					res = value_duplicate (tmp);
+			}
 		}
 
 		if (rng.start.col == rng.end.col) {
 			int const r = pos->eval.row;
-			if (rng.start.row <= r && r <= rng.end.row)
-				res = value_duplicate (
-					value_area_get_x_y (pos, v, 0,
-							    r - rng.start.row));
+			if (rng.start.row <= r && r <= rng.end.row) {
+				Value const *tmp = value_area_get_x_y (pos, v,
+					0, r - rng.start.row);
+				if (tmp != NULL)
+					res = value_duplicate (tmp);
+			}
 		}
 	}
 	value_release (v);

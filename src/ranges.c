@@ -220,6 +220,8 @@ range_name (Range const *src)
 {
 	static char buffer[(2 + 4 * sizeof (long)) * 2 + 1];
 
+	g_return_val_if_fail (src != NULL, "");
+
 	if (src->start.col != src->end.col ||
 	    src->start.row != src->end.row) {
 		char *name_col = g_strdup (col_name (src->start.col));

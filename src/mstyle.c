@@ -701,8 +701,11 @@ mstyle_link_sheet (MStyle *style, Sheet *sheet)
 	style->linked_sheet = sheet;
 	style->link_count = 1;
 
+#if 0
+	/* Not needed for validation anymore, leave it as template for conditionals */
 	if (mstyle_is_element_set (style, MSTYLE_VALIDATION))
 		validation_link (style->elements[MSTYLE_VALIDATION].u.validation, sheet);
+#endif
 
 	d(("link sheet %p = 1\n", style));
 	return style;
@@ -733,8 +736,11 @@ mstyle_unlink (MStyle *style)
 
 	d(("unlink %p = %d\n", style, style->link_count-1));
 	if (style->link_count-- == 1) {
+#if 0
+		/* Not needed for validation anymore, leave it as template for conditionals */
 		if (mstyle_is_element_set (style, MSTYLE_VALIDATION))
 			validation_unlink (style->elements[MSTYLE_VALIDATION].u.validation);
+#endif
 		sheet_style_unlink (style->linked_sheet, style);
 		style->linked_sheet = NULL;
 		mstyle_unref (style);

@@ -22,10 +22,8 @@
 #include "sheet-control-gui.h"
 #include "sheet-style.h"
 #include "sheet.h"
-#include "style-condition.h"
 #include "cell.h"
 #include "expr.h"
-#include "gui-validation.h"
 #include "number-match.h"
 #include "parse-util.h"
 #include "validation.h"
@@ -125,57 +123,6 @@ wbcg_edit_error_dialog (WorkbookControlGUI *wbcg, char *str)
 	return (ret == 0);
 }
 
-/**
- * wbcg_edit_validate:
- *
- * Either pass @expr or @val.
- * The parameters will be validated against the
- * validation set in the MStyle if applicable.
- *
- * Return value:
- * 	 1 : things validate
- * 	 0 : things do not validate and should be discarded
- *	-1 : things do not validate and editing should continue
- **/
-static int
-wbcg_edit_validate (WorkbookControlGUI *wbcg, MStyle const *mstyle,
-		    ExprTree const *expr, Value *val)
-{
-	Validation *v = mstyle_get_validation (mstyle);
-	int result = 1;
-
-	g_return_val_if_fail (v != NULL, 1);
-
-	if (v->sc != NULL) {
-		Value *tmp;
-		Sheet *sheet = wbcg->editing_sheet;
-		Cell  *cell = sheet_cell_get (sheet,
-			sheet->edit_pos.col, sheet->edit_pos.row);
-
-		if (expr != NULL) {
-			EvalPos ep;
-			tmp = expr_eval (expr, eval_pos_init_cell (&ep, cell),
-					 EVAL_STRICT);
-		} else
-			tmp = val;
-
-		if (!style_condition_eval (v->sc, tmp, cell ? cell->format : NULL) &&
-		    v->vs != VALIDATION_STYLE_NONE) {
-			char const *title = (v->title && v->title->str[0]) ? v->title->str
-				: _("Gnumeric : Validation");
-			char const *msg   = (v->msg && v->msg->str[0]) ? v->msg->str
-				: _("That value is invalid.\n"
-				    "Restrictions have been placed on this cell's content.");
-			result = validation_get_accept (v, title, msg, wbcg);
-		}
-
-		if (tmp != val)
-			value_release (tmp);
-	}
-
-	return result;
-}
-
 gboolean
 wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 {
@@ -211,82 +158,84 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 
 	/* Save the results before changing focus */
 	if (accept) {
+		ValidationStatus valid;
 		char *free_txt = NULL;
 		char const *txt = wbcg_edit_get_display_text (wbcg);
 		MStyle *mstyle = sheet_style_get (sheet, sheet->edit_pos.col, sheet->edit_pos.row);
-		ExprTree *expr = NULL;
-		gboolean is_valid = TRUE;
+		char const *expr_txt = NULL;
 
 		/* BE CAREFUL the standard fmts must not NOT include '@' */
 		Value *value = format_match (txt, mstyle_get_format (mstyle), NULL);
-		if (value == NULL) {
-			char const *expr_txt = gnumeric_char_start_expr_p (txt);
-			if (expr_txt != NULL) {
-				ParsePos    pp;
-				ParseError  perr;
-				parse_pos_init (&pp, sheet->workbook, sheet,
-						sheet->edit_pos.col, sheet->edit_pos.row);
-
-				parse_error_init (&perr);
-				expr = expr_parse_str (expr_txt,
-					&pp, GNM_PARSER_DEFAULT, NULL, &perr);
-				/* Try adding a single extra closing paren to see if it helps */
-				if (expr == NULL && perr.id == PERR_MISSING_PAREN_CLOSE) {
-					ParseError tmp_err;
-					char *tmp = g_strconcat (txt, ")", NULL);
-					parse_error_init (&tmp_err);
-					expr = expr_parse_str (gnumeric_char_start_expr_p (tmp),
-						&pp, GNM_PARSER_DEFAULT, NULL, &tmp_err);
-					parse_error_free (&tmp_err);
-
-					if (expr != NULL)
-						txt = free_txt = tmp;
-					else
-						g_free (tmp);
-				}
-
-				if (expr == NULL &&
-				    wbcg_edit_error_dialog (wbcg, perr.message)) {
-					if (perr.begin_char == 0 && perr.end_char == 0)
-						gtk_editable_set_position (
-							GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
-					else
-						gtk_entry_select_region (
-							GTK_ENTRY (wbcg_get_entry (wbcg)),
-							perr.begin_char, perr.end_char);
-					gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
-							      GTK_WIDGET (wbcg_get_entry (wbcg)));
-
-					parse_error_free (&perr);
-					return FALSE;
-				}
-			}
-			if (expr == NULL)
-				value = value_new_string (txt);
-		}
-
-		if (mstyle_is_element_set (mstyle, MSTYLE_VALIDATION))
-			switch (wbcg_edit_validate (wbcg, mstyle, expr, value)) {
-			case 1 : is_valid = TRUE; break;
-			case 0 : is_valid = FALSE; break;
-			case -1 : gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
-							GTK_WIDGET (wbcg_get_entry (wbcg)));
-				  return FALSE;
-			};
-
 		if (value != NULL)
 			value_release (value);
-		if (expr != NULL)
-			expr_tree_unref (expr);
-		if (is_valid)
-			cmd_set_text (wbc, sheet, &sheet->edit_pos, txt);
 		else
-			accept = FALSE;
+			expr_txt = gnumeric_char_start_expr_p (txt);
+
+		if (expr_txt != NULL) {
+			ExprTree *expr = NULL;
+			ParsePos    pp;
+			ParseError  perr;
+
+			parse_pos_init (&pp, sheet->workbook, sheet,
+					sheet->edit_pos.col, sheet->edit_pos.row);
+
+			parse_error_init (&perr);
+			expr = expr_parse_str (expr_txt,
+				&pp, GNM_PARSER_DEFAULT, NULL, &perr);
+			/* Try adding a single extra closing paren to see if it helps */
+			if (expr == NULL && perr.id == PERR_MISSING_PAREN_CLOSE) {
+				ParseError tmp_err;
+				char *tmp = g_strconcat (txt, ")", NULL);
+				parse_error_init (&tmp_err);
+				expr = expr_parse_str (gnumeric_char_start_expr_p (tmp),
+					&pp, GNM_PARSER_DEFAULT, NULL, &tmp_err);
+				parse_error_free (&tmp_err);
+
+				if (expr != NULL)
+					txt = free_txt = tmp;
+				else
+					g_free (tmp);
+			}
+
+			if (expr == NULL &&
+			    wbcg_edit_error_dialog (wbcg, perr.message)) {
+				if (perr.begin_char == 0 && perr.end_char == 0)
+					gtk_editable_set_position (
+						GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
+				else
+					gtk_entry_select_region (
+						GTK_ENTRY (wbcg_get_entry (wbcg)),
+						perr.begin_char, perr.end_char);
+				gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
+						      GTK_WIDGET (wbcg_get_entry (wbcg)));
+
+				parse_error_free (&perr);
+				return FALSE;
+			}
+			if (expr != NULL)
+				expr_tree_unref (expr);
+		}
+
+		/* NOTE we assign the value BEFORE validating in case
+		 * a validation condition depends on the new value.
+		 */
+		cmd_set_text (wbc, sheet, &sheet->edit_pos, txt);
+		valid = validation_eval (wbc, mstyle, sheet, &sheet->edit_pos);
+
 		if (free_txt != NULL)
 			g_free (free_txt);
-	}
 
-	if (!accept) {
+		if (valid != VALIDATION_STATUS_VALID) {
+			accept = FALSE;
+			command_undo (wbc);
+			if (valid == VALIDATION_STATUS_INVALID_EDIT) {
+				gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
+						      GTK_WIDGET (wbcg_get_entry (wbcg)));
+				  return FALSE;
+			}
+		} else
+			accept = TRUE;
+	} else {
 		/* Redraw the cell contents in case there was a span */
 		int const c = sheet->edit_pos.col;
 		int const r = sheet->edit_pos.row;

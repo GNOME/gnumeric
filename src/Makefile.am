@@ -104,8 +104,6 @@ GNUMERIC_BASE =					\
 	gui-util.c				\
 	gui-util.h				\
 	gui-gnumeric.h				\
-	gui-validation.c			\
-	gui-validation.h			\
 	gutils.c				\
 	gutils.h				\
 	history.c				\
@@ -210,8 +208,6 @@ GNUMERIC_BASE =					\
 	style-border.h				\
 	style-color.c				\
 	style-color.h				\
-	style-condition.c			\
-	style-condition.h			\
 	summary.c				\
 	summary.h				\
 	symbol.h				\

@@ -79,6 +79,7 @@
 #define BIFF_UNCALCED                   0x5e	/* 0 */
 #define BIFF_SAVERECALC                 0x5f	/* 0 */
 #define BIFF_TEMPLATE                   0x60	/* 0, NOT 1,10 */
+#define BIFF_TAB_COLOR                  0x62	/* 8 */
 #define BIFF_OBJPROTECT                 0x63	/* 0, NOT 10 */
 #define BIFF_COLINFO                    0x7d	/* 0 */
 #define BIFF_RK                         0x7e	/* 0 */

@@ -41,6 +41,8 @@ void wb_control_undo_redo_push	     (WorkbookControl *wbc,
 				      char const *text, gboolean is_undo);
 void wb_control_undo_redo_labels     (WorkbookControl *wbc,
 				      char const *undo, char const *redo);
+int  wb_control_validation_msg	     (WorkbookControl *wbc, Validation const *v,
+				      char const *title, char const *msg);
 
 /* Menu state update flags, use them to specify which menu items to update */
 enum {

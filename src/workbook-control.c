@@ -107,7 +107,7 @@ WBC_VIRTUAL_FULL (menu_state_update, menu_state.update,
 WBC_VIRTUAL_FULL (menu_state_sensitivity, menu_state.sensitivity,
         (WorkbookControl *wbc, gboolean sensitive),
 	(wbc, sensitive))
-	
+
 WBC_VIRTUAL (paste_from_selection,
 	(WorkbookControl *wbc, PasteTarget const *pt, guint32 time),
 	(wbc, pt, time))
@@ -149,6 +149,26 @@ wb_control_claim_selection (WorkbookControl *wbc)
 	if (wbc_class != NULL && wbc_class->claim_selection != NULL)
 		return wbc_class->claim_selection (wbc);
 	return TRUE; /* no handler means we always get the selection */
+}
+
+/**
+ * wb_control_validation_msg :
+ * 	 1 : ignore invalid and accept result
+ * 	 0 : discard invalid and finish editing
+ *	-1 : continue editing
+ */
+int
+wb_control_validation_msg (WorkbookControl *wbc, Validation const *v,
+			   char const *title, char const *msg)
+{
+	WorkbookControlClass *wbc_class;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), 1);
+
+	wbc_class = WBC_CLASS (wbc);
+	if (wbc_class != NULL && wbc_class->validation_msg != NULL)
+		return wbc_class->validation_msg (wbc, v, title, msg);
+	return 1; /* no handler, always accept */
 }
 
 WorkbookView *

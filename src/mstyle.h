@@ -3,7 +3,6 @@
 
 #include "gnumeric.h"
 #include "style.h"
-#include "style-condition.h"
 
 /*
  * Keep element_size up to date.

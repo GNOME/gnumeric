@@ -1,3 +1,13 @@
+2002-01-12  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (validation_entry_from_expr) : new.
+	(validation_rebuild_validation) : rework.
+	(cb_validation_error_action_deactivate) : simplify.
+	(cb_validation_sensitivity) : rename from
+	cb_validation_operator_deactivate and improve alot.
+	(fmt_dialog_init_validation_expr_entry) : new.
+	(fmt_dialog_init_validation_page) : simplify.
+
 2002-01-10  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (fourier_tool_ok_clicked_cb) : call

@@ -10,9 +10,33 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "widget-editable-label.h"
+#include <style-color.h>
 
+#include <gtk/gtkentry.h>
+#include <libgnomeui/gnome-canvas.h>
 #include <libgnomeui/libgnomeui.h>
 #include <gdk/gdkkeysyms.h>
+
+#define EDITABLE_LABEL_CLASS(k) (GTK_CHECK_CLASS_CAST(k), EDITABLE_LABEL_TYPE)
+struct _EditableLabel {
+	GnomeCanvas     canvas;
+	GnomeCanvasItem *text_item;
+	StyleColor	*color;
+
+	char            *text;
+	GtkWidget       *toplevel;
+	GtkWidget       *entry;
+	GnomeCanvasItem *cursor;
+	GnomeCanvasItem *background;
+};
+
+typedef struct {
+	GnomeCanvasClass parent_class;
+
+	/* Signals emited by this widget */
+	gboolean (* text_changed)    (EditableLabel *el, char const *newtext);
+	void     (* editing_stopped) (void);
+} EditableLabelClass;
 
 #define MARGIN 1
 /*
@@ -38,7 +62,6 @@ static GnomeCanvasClass *el_parent_class;
 
 static void el_stop_editing (El *el);
 static void el_change_text (El *el, const char *text);
-static void el_realize (GtkWidget *widget);
 
 static void
 el_entry_activate (GtkWidget *entry, El *el)
@@ -143,11 +166,7 @@ el_start_editing (El *el, const char *text, gboolean select_text)
 	if (select_text)
 		gtk_editable_select_region (GTK_EDITABLE (el->entry), 0, -1);
 
-	/*
-	 * Syncronize the GtkEntry with the label
-	 */
 	el_edit_sync (el);
-
 }
 
 static void
@@ -198,9 +217,12 @@ el_destroy (GtkObject *object)
 	El *el = EL (object);
 
 	el_stop_editing (el);
-	if (el->text)
+	if (el->text != NULL) {
 		g_free (el->text);
+		el->text = NULL;
+	}
 
+	editable_label_set_color (el, NULL);
 	((GtkObjectClass *)el_parent_class)->destroy (object);
 }
 
@@ -290,12 +312,15 @@ el_key_press_event (GtkWidget *widget, GdkEventKey *event)
 static void
 el_realize(GtkWidget *widget)
 {
-	if (GTK_WIDGET_CLASS (el_parent_class)->realize)
-		(*GTK_WIDGET_CLASS (el_parent_class)->realize)(widget);
+	EditableLabel *el = EL (widget);
 
-	gnome_canvas_item_set(GNOME_CANVAS_ITEM (EL (widget)->text_item),
-			      "font_gdk",
-			      widget->style->font, NULL);
+	if (GTK_WIDGET_CLASS (el_parent_class)->realize)
+		(*GTK_WIDGET_CLASS (el_parent_class)->realize) (widget);
+
+	editable_label_set_color (el, el->color);
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (el->text_item),
+		"font_gdk", widget->style->font,
+		NULL);
 }
 
 static void
@@ -404,16 +429,48 @@ editable_label_set_text (EditableLabel *el, char const *text)
 	} else
 		el_change_text (el, text);
 }
+char const *
+editable_label_get_text  (EditableLabel const *el)
+{
+	g_return_val_if_fail (IS_EDITABLE_LABEL (el), "");
+	return el->text;
+}
+
+void
+editable_label_set_color (EditableLabel *el, StyleColor *color)
+{
+	g_return_if_fail (IS_EDITABLE_LABEL (el));
+
+	if (color != NULL)
+		style_color_ref (color);
+	if (el->color != NULL)
+		style_color_unref (el->color);
+
+	el->color = color;
+	if (el->color != NULL) {
+		int contrast = el->color->color.red + el->color->color.green + el->color->color.blue;
+		GtkStyle  *style = gtk_style_copy (GTK_WIDGET (el)->style);
+		style->bg [GTK_STATE_NORMAL] = el->color->color;
+		gtk_widget_set_style (GTK_WIDGET (el), style);
+		gtk_style_unref (style);
+
+		gnome_canvas_item_set (el->text_item,
+			"fill_color_gdk", (contrast >= 0x18000) ? &gs_black : &gs_white,
+			NULL);
+	}
+}
 
 GtkWidget *
-editable_label_new (char const *text)
+editable_label_new (char const *text, StyleColor *color)
 {
 	GtkWidget *el;
 
 	el = gtk_type_new (editable_label_get_type ());
 
-	if (text)
+	if (text != NULL)
 		editable_label_set_text (EDITABLE_LABEL (el), text);
+	if (color != NULL)
+		editable_label_set_color (EDITABLE_LABEL (el), color);
 
 	return el;
 }
