@@ -48,7 +48,7 @@ typedef struct _BIFF_QUERY
 	guint8  *data;
 	guint32 streamPos;
 	guint16 num_merges;
-	guint16 padding;
+	gint16  padding;
 	int     data_malloced; /* is *data a copy ? */
 	MS_OLE_STREAM *pos;
 } BIFF_QUERY;
@@ -59,8 +59,8 @@ extern BIFF_QUERY   *ms_biff_query_new        (MS_OLE_STREAM *);
 extern BIFF_QUERY   *ms_biff_query_copy       (const BIFF_QUERY *p);
 /* Updates the BIFF_QUERY structure with the next BIFF record
  * returns: 1 for succes, and 0 for EOS(tream) */
-extern int           ms_biff_query_next       (BIFF_QUERY *);
 extern int           ms_biff_query_next_merge (BIFF_QUERY *, gboolean do_merge);
+#define       ms_biff_query_next(q)    ms_biff_query_next_merge ((q), TRUE)
 /* Converts a merged query to the un-merged equivalent */
 extern void          ms_biff_query_unmerge    (BIFF_QUERY *);
 extern void          ms_biff_query_destroy    (BIFF_QUERY *);
@@ -77,20 +77,20 @@ typedef struct _BIFF_PUT
 	guint8  *data;
 	guint32 streamPos;
 	guint16 num_merges;
-	guint   padding;
-	int     data_malloced; /* is *data a copy ? */
+	gint16  padding;
+	int     len_fixed;
 	MS_OLE_STREAM *pos;
 } BIFF_PUT;
  
 /* Sets up a record on a stream */
 extern BIFF_PUT      *ms_biff_put_new        (MS_OLE_STREAM *);
-extern void           ms_biff_put_set_pad    (BIFF_PUT *, guint);
-/* For known length records */
-extern guint8        *ms_biff_put_next_len   (BIFF_PUT *, guint32 len);
-extern void           ms_biff_put_commit_len (BIFF_PUT *);
-/* For unknown length records */
-extern MS_OLE_STREAM *ms_biff_put_next_var   (BIFF_PUT *);
-extern void           ms_biff_put_commit_var (BIFF_PUT *, guint32 len);
 extern void           ms_biff_put_destroy    (BIFF_PUT *);
+/* For known length records shorter than 0x2000 bytes. */
+extern guint8        *ms_biff_put_len_next   (BIFF_PUT *, guint16 opcode, guint32 len);
+extern void           ms_biff_put_len_commit (BIFF_PUT *);
+/* For unknown length records */
+extern void           ms_biff_put_var_next   (BIFF_PUT *, guint16 opcode);
+extern void           ms_biff_put_var_write  (BIFF_PUT *, guint8 *, guint32 len);
+extern void           ms_biff_put_var_commit (BIFF_PUT *);
 
 #endif

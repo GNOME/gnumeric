@@ -1,3 +1,12 @@
+1999-05-13  Michael Meeks  <michael@imaginator.com>
+
+	* ms-biff.h (ms_biff_query_next): Macrofied.
+
+	* ms-biff.c (ms_bug_get_padding): Routine to overcome
+	nastiness in MS' flawed implementation of CONTINUE records.
+	(ms_biff_query_next_merge, ms_biff_merge_continues),
+	(ms_biff_query_unmerge): Add padding corrective.
+
 1999-05-12  Michael Meeks  <michael@imaginator.com>
 
 	* ms-biff.h: Major overhaul, added some fields to be implemented.

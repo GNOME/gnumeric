@@ -21,6 +21,15 @@
 
 #define BIFF_DEBUG 0
 
+/**
+ * The only complicated bits in this code are:
+ *  a) Speed optimisation of passing a raw pointer to the mapped stream back
+ *  b) Merging continues, if a record is too large for a single BIFF record
+ *     ie. 0xffff bytes ( or more usu. 0x2000 ) it is split into continues.
+ *  c) However continues do not always behave as specified requiring an arbitary
+ *     number of padding bytes occasionaly ( see ms_bug_get_padding ).
+ **/
+
 /*******************************************************************************/
 /*                             Helper Functions                                */
 /*******************************************************************************/
@@ -59,6 +68,30 @@ dump_biff (BIFF_QUERY *bq)
 /*	dump_stream (bq->pos); */
 }
 
+static guint16
+ms_bug_get_padding (guint16 opcode)
+{
+	guint8 ls_op = (opcode & 0x00ff);
+	guint ans=0;
+
+	switch (ls_op)
+	{
+	case BIFF_SST:
+		ans=1;
+		break;
+	case BIFF_MS_O_DRAWING_GROUP:
+	case BIFF_MS_O_DRAWING:
+		ans=0;
+		break;
+	default:
+		printf ("Unknown padding to fix bug on record 0x%x\n", opcode);
+		break;
+	}
+	printf ("ms_bug_get_padding 0x%x = %d\n",
+		opcode, ans);
+	return ans;
+}
+
 /*******************************************************************************/
 /*                                 Read Side                                   */
 /*******************************************************************************/
@@ -73,8 +106,9 @@ ms_biff_query_new (MS_OLE_STREAM *ptr)
 	bq->opcode        = 0;
 	bq->length        = 0;
 	bq->data_malloced = 0;
-	bq->pos = ptr;
+	bq->padding       = 0;
 	bq->num_merges    = 0;
+	bq->pos           = ptr;
 #if BIFF_DEBUG > 0
 	dump_biff(bq);
 #endif
@@ -95,6 +129,9 @@ ms_biff_query_copy (const BIFF_QUERY *p)
 	return bf;
 }
 
+/**
+ * I know this is ugly but its not so much my fault !
+ **/
 static int
 ms_biff_merge_continues (BIFF_QUERY *bq, guint32 len)
 {
@@ -121,6 +158,8 @@ ms_biff_merge_continues (BIFF_QUERY *bq, guint32 len)
 	total_len = chunk.length;
 	g_array_append_val (contin, chunk);
 
+	bq->padding = ms_bug_get_padding (bq->opcode);
+
 	/* Subsequent continue blocks */
 	chunk.length = len;
 	do {
@@ -134,8 +173,8 @@ ms_biff_merge_continues (BIFF_QUERY *bq, guint32 len)
 			chunk.data[chunk.length-1]);
 #endif
 		tmp[0] = 0; tmp[1] = 0; tmp[2] = 0; tmp[3] = 0;
-		bq->pos->read_copy (bq->pos, tmp, 4);			
-		total_len   += chunk.length;
+		bq->pos->read_copy (bq->pos, tmp, 4);	
+		total_len   += chunk.length - bq->padding;
 		g_array_append_val (contin, chunk);
 
 		chunk.length = BIFF_GETWORD (tmp+2);
@@ -156,8 +195,13 @@ ms_biff_merge_continues (BIFF_QUERY *bq, guint32 len)
 			chunk.data[0], chunk.data[chunk.length-1], chunk.length);
 		g_assert ((d-bq->data)+chunk.length<=total_len);
 #endif
-		memcpy (d, chunk.data, chunk.length);
-		d+=chunk.length;
+		if (lp) {
+			memcpy (d, chunk.data+bq->padding, chunk.length-bq->padding);
+			d+=chunk.length-bq->padding;
+		} else {
+			memcpy (d, chunk.data, chunk.length);
+			d+=chunk.length;
+		}
 		g_free (chunk.data);
 	}
 	g_array_free (contin, 1);
@@ -180,11 +224,14 @@ ms_biff_query_next_merge (BIFF_QUERY *bq, gboolean do_merge)
 
 	if (!bq || bq->pos->position >= bq->pos->size)
 		return 0;
-	if (bq->data_malloced) {
-		bq->num_merges = 0;
+	if (bq->data_malloced) { /* always true for merged records*/
 		g_free (bq->data);
+		bq->num_merges    = 0;
+		bq->padding       = 0;
 		bq->data_malloced = 0;
 	}
+	g_assert (bq->num_merges == 0);
+
 	bq->streamPos = bq->pos->position;
 	if (!bq->pos->read_copy (bq->pos, tmp, 4))
 		return 0;
@@ -229,18 +276,9 @@ ms_biff_query_unmerge (BIFF_QUERY *bq)
 {
 	if (!bq || !bq->num_merges)
 		return;
-	bq->pos->lseek (bq->pos, -(4*(bq->num_merges+1)
+	bq->pos->lseek (bq->pos, -(4*(bq->num_merges+1) - (bq->num_merges*bq->padding)
 				   + bq->length), MS_OLE_SEEK_CUR);
 	ms_biff_query_next_merge (bq, FALSE);
-}
-
-/**
- * Returns 0 if has hit end
- **/
-int
-ms_biff_query_next (BIFF_QUERY *bq)
-{
-	return ms_biff_query_next_merge (bq, TRUE);
 }
 
 void
@@ -258,37 +296,73 @@ ms_biff_query_destroy (BIFF_QUERY *bq)
 /*                                 Write Side                                  */
 /*******************************************************************************/
 
+#define MAX_LIKED_BIFF_LEN 0x2000
 
 /* Sets up a record on a stream */
 BIFF_PUT *
 ms_biff_put_new        (MS_OLE_STREAM *s)
 {
-	return 0;
-}
-void
-ms_biff_put_set_pad    (BIFF_PUT *bp, guint pad)
-{
-}
-guint8 *
-ms_biff_put_next_len   (BIFF_PUT *bp, guint32 len)
-{
-	return 0;
-}
-void
-ms_biff_put_commit_len (BIFF_PUT *bp)
-{
-}
-MS_OLE_STREAM *
-ms_biff_put_next_var   (BIFF_PUT *bp)
-{
-	return 0;
-}
-void
-ms_biff_put_commit_var (BIFF_PUT *bp, guint32 len)
-{
+	BIFF_PUT *bp = g_new (BIFF_PUT, 1);
+	
+	return bp;
 }
 void
 ms_biff_put_destroy    (BIFF_PUT *bp)
 {
+	g_return_if_fail (bp);
+	g_return_if_fail (bp->pos);
 }
 
+guint8 *
+ms_biff_put_len_next   (BIFF_PUT *bp, guint16 opcode, guint32 len)
+{
+	g_return_val_if_fail (bp, 0);
+	g_return_val_if_fail (bp->pos, 0);
+	g_return_val_if_fail (len < MAX_LIKED_BIFF_LEN, 0);
+
+	bp->len_fixed  = 1;
+	bp->ms_op      = (opcode >>   8);
+	bp->ls_op      = (opcode & 0xff);
+	bp->length     = len;
+	bp->padding    = 0;
+	bp->num_merges = 0;
+	bp->streamPos  = bp->pos->position;
+	return 0;
+}
+void
+ms_biff_put_len_commit (BIFF_PUT *bp)
+{
+	g_return_if_fail (bp);
+	g_return_if_fail (bp->pos);
+	g_return_if_fail (bp->len_fixed);
+}
+
+void
+ms_biff_put_var_next   (BIFF_PUT *bp, guint16 opcode)
+{
+	g_return_if_fail (bp);
+	g_return_if_fail (bp->pos);
+
+	bp->len_fixed  = 0;
+	bp->ms_op      = (opcode >>   8);
+	bp->ls_op      = (opcode & 0xff);
+	bp->padding    = ms_bug_get_padding (opcode);
+	bp->num_merges = 0;
+	bp->length     = 0;
+	bp->streamPos  = bp->pos->position;
+}
+void
+ms_biff_put_var_write  (BIFF_PUT *bp, guint8 *data, guint32 len)
+{
+	g_return_if_fail (bp);
+	g_return_if_fail (data);
+	g_return_if_fail (bp->pos);
+	g_return_if_fail (!bp->len_fixed);
+}
+void
+ms_biff_put_var_commit (BIFF_PUT *bp)
+{
+	g_return_if_fail (bp);
+	g_return_if_fail (bp->pos);
+	g_return_if_fail (!bp->len_fixed);
+}
