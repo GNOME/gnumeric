@@ -318,11 +318,9 @@ gog_radar_view_render_series(GogView *view, GogViewAllocation const *bbox)
 		closed_shape = (series->num_elements == model->num_elements);
 
 		if (closed_shape) {
-			path = g_alloca((series->num_elements + 2) 
-					 * sizeof(ArtVpath));
+			path = g_new (ArtVpath , series->num_elements + 2);
 		} else {
-			path = g_alloca((series->num_elements + 1) 
-					 * sizeof(ArtVpath));
+			path = g_new (ArtVpath , series->num_elements + 1); 
 		}
 
 		gog_renderer_push_style (view->renderer, style);

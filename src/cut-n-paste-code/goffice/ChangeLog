@@ -1,3 +1,9 @@
+2004-02-22  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/plugins/plot_radar/gog-radar.c 
+	(gog_plot_radar_render_series) : use g_new instead of g_alloca for
+	allocation of path.
+	
 2004-02-21  Jody Goldberg <jody@gnome.org>
 
 	* utils/go-locale.c : Some cut-n-paste for the without_gnome case
