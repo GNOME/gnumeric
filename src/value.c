@@ -12,6 +12,14 @@
 #include "utils.h"
 
 Value *
+value_new_empty (void)
+{
+	Value *v = g_new (Value, 1);
+	v->type = VALUE_EMPTY;
+	return v;
+}
+
+Value *
 value_new_bool (gboolean b)
 {
 	Value *v = g_new (Value, 1);
@@ -162,6 +170,10 @@ void
 value_dump (const Value *value)
 {
 	switch (value->type){
+	case VALUE_EMPTY:
+		printf ("EMPTY\n");
+		break;
+
 	case VALUE_ERROR:
 		printf ("ERROR: %s\n", value->v.error.mesg->str);
 		break;
@@ -246,6 +258,9 @@ value_copy_to (Value *dest, const Value *source)
 	dest->type = source->type;
 
 	switch (source->type){
+	case VALUE_EMPTY:
+		break;
+
 	case VALUE_BOOLEAN:
 		dest->v.v_bool = source->v.v_bool;
 		break;
@@ -314,13 +329,14 @@ value_get_as_bool (Value const *v, gboolean *err)
 	*err = FALSE;
 
 	switch (v->type) {
+	case VALUE_EMPTY:
+		return FALSE;
+
 	case VALUE_BOOLEAN:
 		return v->v.v_bool;
 
 	case VALUE_STRING:
-		/* FIXME FIXME FIXME */
-		/* Use locale to support TRUE, FALSE */
-		return atoi (v->v.str->str) != 0;
+		return v->v.str->str[0] != '\0';
 
 	case VALUE_INTEGER:
 		return v->v.v_int != 0;
@@ -331,7 +347,6 @@ value_get_as_bool (Value const *v, gboolean *err)
 	default:
 		g_warning ("Unhandled value in value_get_boolean");
 
-	case VALUE_EMPTY:
 	case VALUE_CELLRANGE:
 	case VALUE_ARRAY:
 	case VALUE_ERROR:
@@ -356,6 +371,9 @@ value_get_as_string (const Value *value)
 		separator = ";";
 
 	switch (value->type){
+	case VALUE_EMPTY:
+		return g_strdup ("");
+
 	case VALUE_ERROR: 
 		return g_strdup (value->v.error.mesg->str);
 
@@ -421,6 +439,9 @@ value_get_as_int (const Value *v)
 {
 	switch (v->type)
 	{
+	case VALUE_EMPTY:
+		return 0;
+
 	case VALUE_STRING:
 		return atoi (v->v.str->str);
 
@@ -447,7 +468,7 @@ value_get_as_int (const Value *v)
 		g_warning ("value_get_as_int unknown type\n");
 		return 0;
 	}
-	return 0.0;
+	return 0;
 }
 
 /*
@@ -458,6 +479,9 @@ value_get_as_float (const Value *v)
 {
 	switch (v->type)
 	{
+	case VALUE_EMPTY:
+		return 0.0;
+
 	case VALUE_STRING:
 		return atof (v->v.str->str);
 

@@ -713,12 +713,18 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_KP_Page_Up:
 	case GDK_Page_Up:
-	        (*movefn_vertical)(gsheet, -(gsheet->last_visible_row-gsheet->top_row));
+		if ((event->state & GDK_CONTROL_MASK) != 0)
+			gtk_notebook_prev_page (GTK_NOTEBOOK (wb->notebook));
+		else
+			(*movefn_vertical)(gsheet, -(gsheet->last_visible_row-gsheet->top_row));
 		break;
 
 	case GDK_KP_Page_Down:
 	case GDK_Page_Down:
-	        (*movefn_vertical)(gsheet, gsheet->last_visible_row-gsheet->top_row);
+		if ((event->state & GDK_CONTROL_MASK) != 0)
+			gtk_notebook_next_page (GTK_NOTEBOOK (wb->notebook));
+		else
+			(*movefn_vertical)(gsheet, gsheet->last_visible_row-gsheet->top_row);
 		break;
 
 	case GDK_KP_Home:

@@ -54,6 +54,7 @@ struct _Value {
 #define VALUE_IS_PROBLEM(x) ((x == NULL) || \
 			    ((x)->type == VALUE_ERROR))
 
+Value       *value_new_empty       (void);
 Value       *value_new_bool        (gboolean b);
 Value       *value_new_error       (EvalPosition const *pos, char const *mesg);
 Value       *value_new_string      (const char *str);

@@ -13,11 +13,16 @@ module GNOME {
 		const short VALUE_FLOAT     = 2;
 		const short VALUE_CELLRANGE = 3;
 		const short VALUE_ARRAY     = 4;
+		const short VALUE_BOOLEAN   = 5;
+		const short VALUE_ERROR     = 6;
+		const short VALUE_EMPTY     = 7;
 		
 		union Value switch(short) {
+		case VALUE_BOOLEAN: boolean v_bool;
 		case VALUE_FLOAT:   double v_float;
 		case VALUE_INTEGER: long v_int;
 		case VALUE_STRING:  string str;
+		case VALUE_ERROR:   string error;
 		case VALUE_ARRAY:   string array;
 		case VALUE_CELLRANGE: CellRange cell_range;
 		};

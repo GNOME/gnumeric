@@ -1,3 +1,27 @@
+1999-08-01  Jody Goldberg  <jgoldberg@home.com>
+
+	* src/fn-date.c (get_serial_date): Constify.  Improve handling of
+ 	date_serial 0.
+	(gnumeric_networkdays): Add partial implementation.  (MW: turned
+ 	off.)
+
+	* src/eval.c (add_value_deps): Handle empty value.
+
+	* src/collect.c (callback_function_collect): Ignore empty values.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Support
+	<C-PgUp> <C-PgDown> moving through the sheets.
+
+	* src/Gnumeric.idl : Add VALUE_ERROR, VALUE_BOOLEAN, VALUE_EMPTY
+	in a few more places.
+
+	* src/corba-sheet.c : Ditto.
+
+	* src/value.c (value_new_empty): New function.
+	(value_dump, value_copy_to, value_get_as_bool,
+ 	value_get_as_string, value_get_as_int, value_get_as_float): Handle
+ 	empty value.
+
 1999-08-01  Morten Welinder  <terra@diku.dk>
 
 	* src/expr-name.c (expr_name_add): Fix bogus check.

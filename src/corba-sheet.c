@@ -264,6 +264,18 @@ Sheet_cell_set_value (PortableServer_Servant servant,
 	cell = sheet_cell_fetch (sheet, col, row);
 
 	switch (value->_d){
+	case GNOME_Gnumeric_VALUE_EMPTY:
+		v = value_new_empty ();
+		break;
+
+	case GNOME_Gnumeric_VALUE_BOOLEAN:
+		v = value_new_bool (value->_u.v_bool);
+		break;
+
+	case GNOME_Gnumeric_VALUE_ERROR:
+		v = value_new_error (NULL, value->_u.error);
+		break;
+
 	case GNOME_Gnumeric_VALUE_STRING:
 		v = value_new_string (value->_u.str);
 		break;
@@ -315,6 +327,20 @@ fill_corba_value (GNOME_Gnumeric_Value *value, Sheet *sheet, CORBA_long col, COR
 	cell = sheet_cell_get (sheet, col, row);
 	if (cell && cell->value){
 		switch (cell->value->type){
+		case VALUE_EMPTY:
+			value->_d = GNOME_Gnumeric_VALUE_EMPTY;
+			break;
+
+		case VALUE_BOOLEAN:
+			value->_d = GNOME_Gnumeric_VALUE_BOOLEAN;
+			value->_u.v_bool = cell->value->v.v_bool;
+			break;
+			
+		case VALUE_ERROR:
+			value->_d = GNOME_Gnumeric_VALUE_ERROR;
+			value->_u.error = CORBA_string_dup (cell->value->v.error.msg.str->str);
+			break;
+			
 		case VALUE_STRING:
 			value->_d = GNOME_Gnumeric_VALUE_STRING;
 			value->_u.str = CORBA_string_dup (cell->value->v.str->str);

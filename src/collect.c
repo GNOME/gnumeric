@@ -24,6 +24,9 @@ callback_function_collect (const EvalPosition *ep, Value *value, void *closure)
 	collect_floats_t *cl = (collect_floats_t *)closure;
 
 	switch (value->type) {
+	case VALUE_EMPTY:
+		return NULL;
+
 	case VALUE_BOOLEAN:
 		if (cl->flags & COLLECT_IGNORE_BOOLS)
 			return NULL;

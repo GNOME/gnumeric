@@ -15,7 +15,7 @@
 #define DAY_SECONDS (3600*24)
 
 static float_t
-get_serial_date (Value *v)
+get_serial_date (const Value *v)
 {
 	float_t serial;
 
@@ -33,6 +33,12 @@ get_serial_date (Value *v)
 	return floor (serial);
 }
 
+static GDate *
+get_date (const Value *v)
+{
+	float_t serial = get_serial_date (v);
+	return (serial > 0.0) ? g_date_new_serial (serial) : NULL;
+}
 
 static float_t
 get_serial_time (Value *v)
@@ -372,10 +378,12 @@ static char *help_year = {
 static Value *
 gnumeric_year (FunctionEvalInfo *ei, Value **argv)
 {
-	int res;
-	GDate *date = g_date_new_serial (get_serial_date (argv[0]));
+	int res = 1900;
+	GDate *date = get_date (argv[0]);
+	if (date != NULL) {
 	res = g_date_year (date);
 	g_date_free (date);
+	}
 	return value_new_int (res);
 }
 
@@ -397,10 +405,12 @@ static char *help_month = {
 static Value *
 gnumeric_month (FunctionEvalInfo *ei, Value **argv)
 {
-	int res;
-	GDate *date = g_date_new_serial (get_serial_date (argv[0]));
+	int res = 1;
+	GDate *date = get_date (argv[0]);
+	if (date != NULL) {
 	res = g_date_month (date);
 	g_date_free (date);
+	}
 	return value_new_int (res);
 }
 
@@ -422,10 +432,12 @@ static char *help_day = {
 static Value *
 gnumeric_day (FunctionEvalInfo *ei, Value **argv)
 {
-	int res;
-	GDate *date = g_date_new_serial (get_serial_date (argv[0]));
+	int res = 1;
+	GDate *date = get_date (argv[0]);
+	if (date != NULL) {
 	res = g_date_day (date);
 	g_date_free (date);
+	}
 	return value_new_int (res);
 }
 
@@ -447,10 +459,12 @@ static char *help_weekday = {
 static Value *
 gnumeric_weekday (FunctionEvalInfo *ei, Value **argv)
 {
-	int res;
-	GDate *date = g_date_new_serial (get_serial_date (argv[0]));
+	int res = 1;
+	GDate *date = get_date (argv[0]);
+	if (date != NULL) {
 	res = (g_date_weekday (date) + 1) % 7;
 	g_date_free (date);
+	}
 	return value_new_int (res);
 }
 
@@ -568,9 +582,9 @@ gnumeric_eomonth (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *res;
 	int months = 0;
-	GDate *date = g_date_new_serial (get_serial_date (argv[0]));
+	GDate *date = get_date (argv[0]);
 
-	if (!g_date_valid(date))
+	if (date == NULL || !g_date_valid(date))
                   return value_new_error (&ei->pos, gnumeric_err_VALUE);
 
 	if (argv[1] != NULL)
@@ -612,9 +626,9 @@ gnumeric_workday (FunctionEvalInfo *ei, Value **argv)
 	Value *res;
 	int days;
 	GDateWeekday weekday;
-	GDate *date = g_date_new_serial (get_serial_date (argv[0]));
+	GDate *date = get_date (argv[0]);
 
-	if (!g_date_valid(date))
+	if (date == NULL || !g_date_valid(date))
                   return value_new_error (&ei->pos, gnumeric_err_VALUE);
 	weekday = g_date_weekday(date);
 
@@ -652,6 +666,66 @@ gnumeric_workday (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static char * help_networkdays = {
+	N_("@FUNCTION=NETWORKDAYS\n"
+	   "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
+
+	   "@DESCRIPTION="
+	   "Returns the number of non-weekend non-holidays between @start_date "
+	   "and @end_date.  Holidays optionaly supplied in @holidays."
+	   "\n"
+	   "Returns #NUM if start_date or end_date are invalid"
+	   "\n"
+	   ""
+	   "@SEEALSO=WORKDAY")
+};
+
+/* A utility routine to return the 1st weekend >= the serial if its valid */
+static int
+get_serial_weekday (Value const * v)
+{
+	GDate * date;
+	int serial = get_serial_date (v);
+	if (serial <= 0)
+		return serial;
+	date = g_date_new_serial (serial);
+        if (g_date_valid(date)) {
+		GDateWeekday weekday = g_date_weekday(date);
+		if (weekday == G_DATE_SATURDAY)
+			serial += 2;
+		else if (weekday == G_DATE_SUNDAY)
+			serial += 1;
+	}
+	g_date_free (date);
+	return serial;
+}
+
+static Value *
+gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
+{
+	int start_serial = get_serial_weekday (argv[0]);
+	int end_serial = get_serial_weekday (argv[1]);
+	int res, mult = 1;
+
+	if (start_serial < 0 || end_serial < 0)
+                  return value_new_error (&ei->pos, gnumeric_err_NUM);
+
+	return value_new_error (&ei->pos, "We're working on it");
+
+	res = end_serial - start_serial;
+	if (res < 0) {
+		res = -res;
+		mult = -1;
+	}
+
+	/* FIXME : Remove weekends */
+	res -= ((res/7)*2);
+
+	return value_new_int (res*mult);
+}
+
+/***************************************************************************/
+
 void
 date_functions_init(void)
 {
@@ -675,6 +749,8 @@ date_functions_init(void)
 			   gnumeric_minute );
 	function_add_args (cat,  "month",     "?",    "date",                  &help_month,
 			   gnumeric_month);
+	function_add_args (cat,  "networkdays",       "??|?",     "start_date,end_date,holidays",
+     			   &help_networkdays, &gnumeric_networkdays );
 	function_add_args (cat,  "now",       "",     "",                      &help_now,
 			   gnumeric_now );
 	function_add_args (cat,  "second",    "?",    "time",                  &help_second,
@@ -687,7 +763,7 @@ date_functions_init(void)
 			   gnumeric_today );
 	function_add_args (cat,  "weekday",   "?",    "date",                  &help_weekday,
 			   gnumeric_weekday);
-	function_add_args (cat,  "workday",   "?f|A",    "date,days,holidays",
+	function_add_args (cat,  "workday",   "?f|?",    "date,days,holidays",
 	 		   &help_workday, &gnumeric_workday);
 	function_add_args (cat,  "year",      "?",    "date",                  &help_year,
 			   gnumeric_year);

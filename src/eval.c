@@ -171,6 +171,7 @@ static void
 add_value_deps (Cell *cell, const Value *value)
 {
 	switch (value->type){
+	case VALUE_EMPTY:
 	case VALUE_STRING:
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
