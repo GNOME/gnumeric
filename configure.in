@@ -171,7 +171,50 @@ if $try_bonobo; then
 	fi
 fi
 AM_CONDITIONAL(BONOBO, $have_bonobo)
+
+dnl ******************************
+dnl Kludge for Libole2 virtual link.
+dnl ******************************
 AM_CONDITIONAL(LIBOLE2_PUBLIC_LIBRARY, false)
+
+dnl ******************************
+dnl Check for GB
+dnl ******************************
+try_gb=true
+gb=
+gb_msg=no
+have_gb=false
+AC_ARG_WITH(gb,
+	[--{with,without}-gb    Compile with Gb support or without it],
+	if test x$withval = xno; then
+		try_gb=false
+	fi
+)
+
+if $try_gb; then
+	AC_MSG_CHECKING(for Gb > 0.0)
+	if gnome-config --libs gb > /dev/null 2>&1; then
+		vers=`gnome-config --modversion gb`
+		case $vers
+		in
+		    gb-0.[[0]]) gb_ok=false ;;
+		    *) gb_ok=true ;;
+		esac
+	else
+		gb_ok=false
+	fi
+	
+	if $gb_ok; then
+		AC_MSG_RESULT(found)
+		AC_DEFINE(ENABLE_GB)
+		have_gb=true
+		gb=gb
+		gb_msg=yes
+	else
+		AC_MSG_RESULT(not found)
+	fi
+fi
+AM_CONDITIONAL(GB, $have_gb)
 
 dnl ******************************
 dnl GnomePrint checking
@@ -201,8 +244,8 @@ else
     AC_MSG_ERROR(Did not find libGlade installed)
 fi
 
-EXTRA_GNOME_LIBS=`gnome-config --libs gnomeui print libglade $bonobo`
-EXTRA_GNOME_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo`
+EXTRA_GNOME_LIBS=`gnome-config --libs gnomeui print libglade $bonobo $gb`
+EXTRA_GNOME_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo $gb`
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 
@@ -255,3 +298,4 @@ Configuration:
 	
 	Bonobo Support:		${bonobo_msg}
 "
+dnl	GB Support:		${gb_msg}

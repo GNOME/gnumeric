@@ -97,7 +97,7 @@ biff_put_text (BiffPut *bp, const char *txt, eBiff_version ver,
 	ms_biff_put_var_write (bp, data, off);
 
 /* You got it coming */
-	for (lp=0; lp<len;lp++) {
+	for (lp = 0; lp < len; lp++) {
 		MS_OLE_SET_GUINT16 (data, txt[lp]);
 		ms_biff_put_var_write (bp, data, unicode?2:1);
 	}
@@ -106,8 +106,8 @@ biff_put_text (BiffPut *bp, const char *txt, eBiff_version ver,
 	/* An attempt at efficiency */
 /*	chunks = len/BLK_LEN;
 	pos    = 0;
-	for (lpc=0;lpc<chunks;lpc++) {
-		for (lp=0;lp<BLK_LEN;lp++,pos++)
+	for (lpc = 0; lpc < chunks; lpc++) {
+		for (lp = 0; lp < BLK_LEN; lp++, pos++)
 			data[lp] = txt[pos];
 		data[BLK_LEN] = '\0';
 		printf ("Writing chunk '%s'\n", data); 
@@ -115,7 +115,7 @@ biff_put_text (BiffPut *bp, const char *txt, eBiff_version ver,
 	}
 	len = len-pos;
 	if (len > 0) {
-	        for (lp=0;lp<len;lp++,pos++)
+	        for (lp = 0; lp < len; lp++, pos++)
 			data[lp] = txt[pos];
 		data[lp] = '\0';
 		printf ("Writing chunk '%s'\n", data);
@@ -259,9 +259,6 @@ write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 		printf ("Need some cunning BiffV8 stuff ?\n");
 		return;
 	}
-
-	if (num_sheets == 1) /* Not enough sheets for extern records */
-		return;
 
 	if (ignore) /* Strangely needed */
 		num_sheets--;
@@ -417,7 +414,7 @@ int
 ms_excel_write_get_sheet_idx (ExcelWorkbook *wb, Sheet *gnum_sheet)
 {
 	guint lp;
-	for (lp=0;lp<wb->sheets->len;lp++) {
+	for (lp = 0; lp < wb->sheets->len; lp++) {
 		ExcelSheet *sheet = g_ptr_array_index (wb->sheets, lp);
 		g_return_val_if_fail (sheet, 0);
 		if (sheet->gnum_sheet == gnum_sheet)
@@ -513,7 +510,7 @@ write_palette (BiffPut *bp, ExcelWorkbook *wb)
 	MS_OLE_SET_GUINT16 (data, EXCEL_DEF_PAL_LEN); /* Entries */
 
 	ms_biff_put_var_write (bp, data, 2);
-	for (i=0;i<EXCEL_DEF_PAL_LEN;i++) {
+	for (i = 0; i < EXCEL_DEF_PAL_LEN; i++) {
 		r = excel_default_palette[i].r;
 		g = excel_default_palette[i].g;
 		b = excel_default_palette[i].b;
@@ -620,7 +617,7 @@ write_formats (BiffPut *bp, ExcelWorkbook *wb)
 	guint8 data[64];
 	int lp;
 	
-	for (lp=0;lp<8;lp++) { /* FIXME: Magic minimum formats */
+	for (lp = 0; lp < 8; lp++) { /* FIXME: Magic minimum formats */
 		guint fidx = magic_num[lp];
 		char *fmt;
 		formats->StyleFormat_to_idx = g_hash_table_new (g_direct_hash,
@@ -673,7 +670,7 @@ write_xf_record (BiffPut *bp, Style *style, eBiff_version ver, int hack)
 	guint8 data[256];
 	int lp;
 
-	for (lp=0;lp<250;lp++)
+	for (lp = 0; lp < 250; lp++)
 		data[lp] = 0;
 
 	if (ver >= eBiffV7)
@@ -767,6 +764,52 @@ xf_free (XF *xf)
 		/* Another leak */
 		g_hash_table_destroy (xf->Style_to_idx);
 		g_free (xf);
+	}
+}
+
+static void
+write_names (BiffPut *bp, ExcelWorkbook *wb)
+{
+	Workbook* gwb = wb->gnum_wb;
+	GList *names = gwb->names;
+	ExcelSheet *sheet;
+  
+	/* excel crashes if this isn't here and the names have Ref3Ds */
+	if (names)
+		write_externsheets (bp, wb, NULL);
+	sheet = g_ptr_array_index(wb->sheets,0);
+	
+	while (names) {
+		guint8 data[20];
+		guint32 len, name_len, i;
+		
+		ExprName    *expr_name = names->data;
+		char *text;
+		g_return_if_fail (expr_name != NULL);    
+	  
+		for (i = 0; i < 20; i++) data[i] = 0;
+		
+		text = expr_name->name->str;
+		ms_biff_put_var_next (bp, BIFF_NAME);
+		name_len = strlen(expr_name->name->str);
+		MS_OLE_SET_GUINT8  (data+3, name_len); /* name_len */
+		
+		/* This code will only work for eBiffV7. */
+		ms_biff_put_var_write (bp, data, 14);
+		biff_put_text (bp, text, wb->ver, FALSE, AS_PER_VER);
+		ms_biff_put_var_seekto (bp, 14+name_len);
+		len = ms_excel_write_formula (bp, sheet,
+					      expr_name->t.expr_tree,
+					      0, 0);
+		g_assert (len <= 0xffff);
+		ms_biff_put_var_seekto (bp, 4);
+		MS_OLE_SET_GUINT16 (data, len);
+		ms_biff_put_var_write (bp, data, 2);
+		ms_biff_put_commit (bp);
+		
+		g_ptr_array_add (wb->names, g_strdup(text));    
+		
+		names = g_list_next(names);
 	}
 }
 
@@ -1311,7 +1354,7 @@ write_sheet_tail (BiffPut *bp, ExcelSheet *sheet)
 	data = ms_biff_put_len_next (bp, BIFF_GCW, 34);
 	{
 		int lp;
-		for (lp=0;lp<34;lp++)
+		for (lp = 0; lp < 34; lp++)
 			MS_OLE_SET_GUINT8 (data+lp, 0xff);
 		MS_OLE_SET_GUINT32 (data, 0xfffd0020);
 	}
@@ -1432,13 +1475,13 @@ write_sheet (BiffPut *bp, ExcelSheet *sheet)
 	printf ("Saving sheet '%s' geom (%d, %d)\n", sheet->gnum_sheet->name,
 		maxx, maxy);
 #endif
-	for (y=0;y<maxy;y++) {
+	for (y = 0; y < maxy; y++) {
 		guint32 run_size = 0;
 		MsOlePos start;
 
 		start = write_rowinfo (bp, y, maxx);
 
-		for (x=0;x<maxx;x++) {
+		for (x = 0; x < maxx; x++) {
 			Cell *cell = sheet_cell_get (sheet->gnum_sheet, x, y);
 			if (!cell)
 				run_size++;
@@ -1461,7 +1504,7 @@ write_sheet (BiffPut *bp, ExcelSheet *sheet)
 	biff_eof_write (bp);
 }
 
-static void
+void
 new_sheet (ExcelWorkbook *wb, Sheet *value)
 {
 	ExcelSheet     *sheet = g_new (ExcelSheet, 1);
@@ -1537,6 +1580,7 @@ write_workbook (BiffPut *bp, Workbook *gwb, eBiff_version ver)
 	wb->ver      = ver;
 	wb->gnum_wb  = gwb;
 	wb->sheets   = g_ptr_array_new ();
+	wb->names    = g_ptr_array_new ();
 	
 	sheets = workbook_sheets (gwb);
 	while (sheets) {
@@ -1558,7 +1602,7 @@ write_workbook (BiffPut *bp, Workbook *gwb, eBiff_version ver)
 	write_xf (bp, wb);
 	wb->pal     = write_palette (bp, wb);
 
-	for (lp = 0;lp < wb->sheets->len; lp++) {
+	for (lp = 0; lp < wb->sheets->len; lp++) {
 		s = g_ptr_array_index (wb->sheets, lp);
 	        s->boundsheetPos = biff_boundsheet_write_first
 			(bp, eBiffTWorksheet,
@@ -1567,6 +1611,7 @@ write_workbook (BiffPut *bp, Workbook *gwb, eBiff_version ver)
 		ms_formula_write_pre_data (bp, s, EXCEL_NAME, wb->ver);
 	}
 
+	write_names(bp, wb);
 	biff_eof_write (bp);
 	/* End of Workbook */
 	

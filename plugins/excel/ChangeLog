@@ -1,3 +1,24 @@
+1999-10-30  Daniel Risacher  <magnus@alum.mit.edu>
+
+	* ms-excel-read.c (biff_get_text): tiny fix to debugging code
+	(biff_name_data_new): actually return the new data
+	(biff_name_data_get_name): Moved code that adds names to the 
+	workbook to ms_excel_read_name()
+	(ms_excel_read_name): Add name definitions to workbook when 
+	definition is read, rather than when used.
+	Formatting.
+
+	* ms-formula-write.c (write_ref): minor change to comply with 
+  	  spec for references.
+	(write_node): Handle OPER_NAME.
+	Formatting.
+	
+	* ms-excel-write.c (write_names): New function.  Writes name 
+	  definitions.  Called from write_workbook().
+	Formatting.
+	
+	* ms-excel-write.h: Added names to struct _ExcelWorkbook
+
 1999-10-30  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-excel-read.c (ms_excel_get_xf): kill const.

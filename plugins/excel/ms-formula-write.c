@@ -431,7 +431,7 @@ write_ref (PolishData *pd, const CellRef *ref)
 		if (pd->ver <= eBiffV7) {
 			guint16 extn_idx = ms_excel_write_get_sheet_idx (pd->sheet->wb,
 									 ref->sheet);
-			MS_OLE_SET_GUINT16 (data, 0); /* FIXME ? */
+			MS_OLE_SET_GUINT16 (data, 0xffff); /* FIXME ? */
 			MS_OLE_SET_GUINT32 (data +  2, 0x0);
 			MS_OLE_SET_GUINT32 (data +  6, 0x0);
 			MS_OLE_SET_GUINT16 (data + 10, extn_idx);
@@ -703,8 +703,26 @@ write_node (PolishData *pd, ExprTree *tree)
 		write_ref (pd, &tree->u.ref);
 		break;
 
-	case OPER_ARRAY:
 	case OPER_NAME:
+	  {
+	    guint8 data[14];
+	    guint16 idx;
+	    for (idx = 0; idx <14; idx++) data[idx] = 0;
+
+	    for (idx = 0; idx < pd->sheet->wb->names->len; idx++) {
+	      if (!strcmp(tree->u.name->name->str, 
+			  g_ptr_array_index (pd->sheet->wb->names, idx))) {
+
+		MS_OLE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
+		MS_OLE_SET_GUINT16 (data + 1, idx+1);
+		ms_biff_put_var_write (pd->bp, data, 15);
+		return;
+	      }
+	    }
+	    
+	  }
+
+	case OPER_ARRAY:
 	default:
 	{
 		gchar *err = g_strdup_printf ("Unknown Operator %d", tree->oper);
@@ -733,8 +751,8 @@ write_arrays (PolishData *pd)
 	array = pd->arrays->data;
 	g_return_if_fail (array->type == VALUE_ARRAY);
 
-	for (lpy=0; lpy < array->v.array.y; lpy++) {
-		for (lpx=0; lpx < array->v.array.x; lpx++) {
+	for (lpy = 0; lpy < array->v.array.y; lpy++) {
+		for (lpx = 0; lpx < array->v.array.x; lpx++) {
 			const Value *v = array->v.array.vals[lpx][lpy];
 			
 			if (VALUE_IS_NUMBER (v)) {

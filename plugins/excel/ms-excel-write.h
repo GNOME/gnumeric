@@ -54,6 +54,7 @@ struct _ExcelWorkbook {
 	Palette       *pal;
 	Fonts         *fonts;
 	Formats       *formats;
+	GPtrArray     *names;
 	MsOlePos   streamPos;
 };
 

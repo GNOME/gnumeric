@@ -153,7 +153,7 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
 		printf ("String :\n");
-		dump (pos, length);
+		dump (pos, length+1);
 	}
 #endif
 
@@ -598,7 +598,7 @@ typedef struct {
 
 static int externsheet = 0;
 
-static void
+static BiffNameData*
 biff_name_data_new (ExcelWorkbook *wb, char const *name,
 		    guint16 const sheet_index,
 		    guint8 const *formula, guint16 const len,
@@ -629,6 +629,7 @@ biff_name_data_new (ExcelWorkbook *wb, char const *name,
 		dump (bnd->v.store.data, bnd->v.store.len);
 #endif
 	g_ptr_array_add (wb->name_data, bnd);
+	return bnd;
 }
 
 ExprTree *
@@ -649,44 +650,6 @@ biff_name_data_get_name (ExcelSheet *sheet, int idx)
 
 	}
 
-	if (bnd->type == BNDStore && bnd->v.store.data) {
-		char     *duff = "Some Error";
-		ExprTree *tree = ms_excel_parse_formula (sheet->wb, sheet,
-							 bnd->v.store.data,
-							 0, 0, FALSE,
-							 bnd->v.store.len,
-							 NULL);
-
-		if (!tree) { /* OK so it's a special 'AddIn' name */
-			bnd->type   = BNDName;
-			g_free (bnd->v.store.data);
-			bnd->v.name = NULL;
-		} else {
-			bnd->type = BNDName;
-			g_free (bnd->v.store.data);
-			if (bnd->sheet_scope)
-				bnd->v.name = expr_name_add (NULL, sheet->gnum_sheet,
-							     bnd->name,
-							     tree, &duff);
-			else
-				bnd->v.name = expr_name_add (sheet->wb->gnum_wb, NULL,
-							     bnd->name,
-							     tree, &duff);
-			if (!bnd->v.name)
-				printf ("Error: '%s' on name '%s'\n", duff,
-					bnd->name);
-#ifndef NO_DEBUG_EXCEL
-			else if (ms_excel_read_debug > 1) {
-				ParsePosition ep;
-				parse_pos_init (&ep, sheet->wb->gnum_wb, 0, 0);
-				printf ("Parsed name : '%s' = '%s'\n",
-					bnd->name, tree
-					? expr_decode_tree (tree, &ep)
-					: "error");
-			}
-#endif
-		}
-	}
 	if (bnd->type == BNDName && bnd->v.name)
 		return expr_tree_new_name (bnd->v.name);
 	else
@@ -901,7 +864,7 @@ ms_excel_palette_destroy (ExcelPalette *pal)
 	g_free (pal->red);
 	g_free (pal->green);
 	g_free (pal->blue);
-	for (lp=0;lp<pal->length;lp++)
+	for (lp = 0; lp < pal->length; lp++)
 		if (pal->gnum_cols[lp])
 			style_color_unref (pal->gnum_cols[lp]);
 	g_free (pal->gnum_cols);
@@ -1847,7 +1810,7 @@ ms_excel_workbook_detach (ExcelWorkbook *wb, ExcelSheet *ans)
 		if (!workbook_detach_sheet (wb->gnum_wb, ans->gnum_sheet, FALSE))
 			return FALSE;
 	}
-	for (idx=0;idx<wb->excel_sheets->len;idx++)
+	for (idx = 0; idx < wb->excel_sheets->len; idx++)
 		if (g_ptr_array_index (wb->excel_sheets, idx) == ans) {
 			g_ptr_array_index (wb->excel_sheets, idx) = NULL;
 			return TRUE;
@@ -1876,21 +1839,21 @@ ms_excel_workbook_destroy (ExcelWorkbook *wb)
 	g_hash_table_destroy (wb->boundsheet_data_by_index);
 	g_hash_table_destroy (wb->boundsheet_data_by_stream);
 	if (wb->XF_cell_records)
-		for (lp=0;lp<wb->XF_cell_records->len;lp++)
+		for (lp = 0; lp < wb->XF_cell_records->len; lp++)
 			biff_xf_data_destroy (g_ptr_array_index (wb->XF_cell_records, lp));
 	g_ptr_array_free (wb->XF_cell_records, TRUE);
 
 	if (wb->name_data)
-		for (lp=0;lp<wb->name_data->len;lp++)
+		for (lp = 0; lp < wb->name_data->len; lp++)
 			biff_name_data_destroy (g_ptr_array_index (wb->name_data, lp));
 	g_ptr_array_free (wb->name_data, TRUE);
 
-	for (lp=0;lp<wb->blips->len;lp++)
+	for (lp = 0; lp < wb->blips->len; lp++)
 		ms_escher_blip_destroy (g_ptr_array_index(wb->blips, lp));
 	g_ptr_array_free (wb->blips, TRUE);
 	wb->blips = NULL;
 
-	for (lp=0;lp<wb->charts->len;lp++)
+	for (lp = 0; lp < wb->charts->len; lp++)
 		gnumeric_chart_destroy (g_ptr_array_index(wb->charts, lp));
 	g_ptr_array_free (wb->charts, TRUE);
 	wb->charts = NULL;
@@ -1944,7 +1907,7 @@ biff_get_rk (guint8 const *ptr)
 
 		/* Think carefully about big/little endian issues before
 		   changing this code.  */
-		for (lp=0;lp<4;lp++) {
+		for (lp = 0; lp < 4; lp++) {
 			tmp[lp+4]=(lp>0)?ptr[lp]:(ptr[lp]&0xfc);
 			tmp[lp]=0;
 		}
@@ -1982,6 +1945,7 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 	guint8  status_txt_len = MS_OLE_GET_GUINT8  (q->data + 13);
 	char *name, *menu_txt, *descr_txt, *help_txt, *status_txt;
 	guint8 const *ptr;
+	BiffNameData *bnd;
 
 #if 0
 	dump_biff (q);
@@ -2065,9 +2029,49 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 	}
 #endif
 
-	biff_name_data_new (sheet->wb, name, sheet_idx,
-			    name_def_data, name_def_len,
-			    FALSE, (sheet_idx != 0));
+	bnd = biff_name_data_new (sheet->wb, name, sheet_idx,
+				  name_def_data, name_def_len,
+				  FALSE, (sheet_idx != 0));
+
+	if (bnd->type == BNDStore && bnd->v.store.data) {
+		char     *duff = "Some Error";
+		ExprTree *tree = ms_excel_parse_formula (sheet->wb, sheet,
+							 bnd->v.store.data,
+							 0, 0, FALSE,
+							 bnd->v.store.len,
+							 NULL);
+
+		if (!tree) { /* OK so it's a special 'AddIn' name */
+			bnd->type   = BNDName;
+			g_free (bnd->v.store.data);
+			bnd->v.name = NULL;
+		} else {
+			bnd->type = BNDName;
+			g_free (bnd->v.store.data);
+			if (bnd->sheet_scope)
+				bnd->v.name = expr_name_add (NULL, sheet->gnum_sheet,
+							     bnd->name,
+							     tree, &duff);
+			else
+				bnd->v.name = expr_name_add (sheet->wb->gnum_wb, NULL,
+							     bnd->name,
+							     tree, &duff);
+			if (!bnd->v.name)
+				printf ("Error: '%s' on name '%s'\n", duff,
+					bnd->name);
+#ifndef NO_DEBUG_EXCEL
+			else if (ms_excel_read_debug > 1) {
+				ParsePosition ep;
+				parse_pos_init (&ep, sheet->wb->gnum_wb, 0, 0);
+				printf ("Parsed name : '%s' = '%s'\n",
+					bnd->name, tree
+					? expr_decode_tree (tree, &ep)
+					: "error");
+			}
+#endif
+		}
+	}
+
 	if (menu_txt)
 		g_free (menu_txt);
 	if (descr_txt)
@@ -2314,7 +2318,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		/* NOTE : seems like this is inclusive firstcol, inclusive lastcol */
 		if (lastcol >= SHEET_MAX_COLS)
 			lastcol = SHEET_MAX_COLS-1;
-		for (lp = firstcol ; lp <= lastcol ; ++lp)
+		for (lp = firstcol; lp <= lastcol; ++lp)
 			sheet_col_set_width (sheet->gnum_sheet, lp,
 					     width);
 		break;
@@ -2548,6 +2552,8 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_read_debug > 1)
 					printf ("Blank sheet\n");
+				if (ms_excel_read_debug > 5)
+					printf ("BIFF_EOF\n");
 #endif
 				if (ms_excel_workbook_detach (sheet->wb, sheet)) {
 					ms_excel_sheet_destroy (sheet);
@@ -3164,7 +3170,7 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 
 				wb->extern_sheets = g_new (BiffExternSheetData, numXTI+1);
 
-				for (cnt=0; cnt < numXTI; cnt++) {
+				for (cnt = 0; cnt < numXTI; cnt++) {
 					wb->extern_sheets[cnt].sup_idx   =  MS_OLE_GET_GUINT16(q->data + 2 + cnt*6 + 0);
 					wb->extern_sheets[cnt].first_tab =  MS_OLE_GET_GUINT16(q->data + 2 + cnt*6 + 2);
 					wb->extern_sheets[cnt].last_tab  =  MS_OLE_GET_GUINT16(q->data + 2 + cnt*6 + 4);

@@ -1,3 +1,11 @@
+1999-10-31  Michael Meeks  <mmeeks@gnu.org>
+
+	* NEWS (Daniel): credit.
+
+	* acconfig.h: add undef ENABLE_GB
+
+	* configure.in: Add preliminary 'gb' autoconf support. Add comments.
+
 1999-10-31  Jody Goldberg <jgoldberg@home.com>
 
 	* src/border.c (border_set_gc_dash, border_get_width) : New functions.
