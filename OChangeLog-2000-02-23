@@ -1,3 +1,7 @@
+1999-02-12  Frederic Devernay  <devernay@istar.fr>
+
+	* plugins/perl/perl.c: Handle the #define dirty in perl-thread.
+
 1999-02-12  Bruno Unna  <bruno@iac.com.mx>
 
 	* src/cell.c (cell_draw): Now the function draws the cell
@@ -3184,4 +3188,3 @@ Sat Jul  4 15:07:49 PDT 1998 Manish Singh <yosh@gimp.org>
 1998-07-03  Chris Lahey  <clahey@umich.edu>
 
 	* ChangeLog: Cleared the gnome-games entries from the ChangeLog.
-

@@ -5,11 +5,14 @@
 #include <EXTERN.h>
 #include <perl.h>
 #undef _
+#define _perl_dirty dirty
+#undef dirty
 #include <glib.h>
 #include <gnome.h>
 #include "../../src/gnumeric.h"
 #include "../../src/plugin.h"
-
+#define dirty _perl_dirty
+#undef _perl_dirty
 
 extern void xs_init(void);
 
