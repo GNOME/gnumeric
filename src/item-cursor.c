@@ -170,7 +170,8 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	int xd, yd, dx, dy;
 	int cursor_width, cursor_height, w, h;
 	GdkPoint points [40];
-	int draw_external, draw_internal, draw_handle, draw_center, draw_thick;
+	int draw_external, draw_internal, draw_handle;
+	int draw_stippled, draw_center, draw_thick;
 	int premove;
 	GdkColor *fore = NULL, *back = NULL;
 
@@ -198,13 +199,15 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	draw_internal = 0;
 	draw_handle   = 0;
 	draw_center   = 0;
-	draw_thick    = 0;
+	draw_thick    = 1;
+	draw_stippled = 0;
 	
 	switch (item_cursor->style){
 	case ITEM_CURSOR_AUTOFILL:
 	case ITEM_CURSOR_DRAG:
 		draw_center   = 1;
-		draw_thick    = 1;
+		draw_thick    = 3;
+		draw_stippled = 1;
 		fore          = &gs_black;
 		back          = &gs_white;
 		break;
@@ -220,6 +223,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 
 	case ITEM_CURSOR_ANTED:
 		draw_center   = 1;
+		draw_thick    = 2;
 		if (item_cursor->state){
 			fore = &gs_light_gray;
 			back = &gs_dark_gray;
@@ -287,13 +291,13 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 		gdk_gc_set_foreground (item_cursor->gc, fore);
 		gdk_gc_set_background (item_cursor->gc, back);
 
-		if (draw_thick){
+		if (draw_stippled){
 			gdk_gc_set_fill (item_cursor->gc, GDK_STIPPLED);
 			gdk_gc_set_stipple (item_cursor->gc, item_cursor->stipple);
-			gdk_gc_set_line_attributes (item_cursor->gc, 3,
+			gdk_gc_set_line_attributes (item_cursor->gc, draw_thick,
 						    GDK_LINE_SOLID, -1, -1);
 		} else {
-			gdk_gc_set_line_attributes (item_cursor->gc, 1,
+			gdk_gc_set_line_attributes (item_cursor->gc, draw_thick,
 						    GDK_LINE_DOUBLE_DASH, -1, -1);
 		}
 
