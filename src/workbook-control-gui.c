@@ -946,7 +946,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 				   NULL, label);
 #else
 		change_menu_label (wbcg, "/commands/ViewFreezeThawPanes",
-				   "/menu/Edit/Redo", NULL, label);
+		                   "/menu/View/ViewFreezeThawPanes", NULL, label);
 #endif
 	}
 #endif

@@ -1,3 +1,8 @@
+2001-07-11  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/workbook-control-gui.c (wbcg_menu_state_update): Fixed path for
+	"_Freeze Panes" menu item.
+
 2001-07-11  Almer S. Tigelaar  <almer@gnome.org>
 	
 	* src/parser.y : Add error ID's.
