@@ -3,6 +3,7 @@
  *
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
+ *   Michael Meeks (mmeeks@gnu.org)
  */
 #include <config.h>
 #include <gnome.h>

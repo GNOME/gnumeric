@@ -179,7 +179,6 @@ workbook_try_read (const char *filename)
 
 	wb = workbook_new ();
 	if (!workbook_load_from (wb, filename)) {
-		char *s;
 #ifdef ENABLE_BONOBO
 		gnome_object_destroy (GNOME_OBJECT (wb));
 #else
@@ -428,14 +427,14 @@ file_dialog_delete_event (GtkWidget *widget, GdkEventAny *event)
 	return TRUE;
 }
 
-static void
+static gint
 fs_key_event (GtkFileSelection *fsel, GdkEventKey *event)
 {
-	if (event->keyval == GDK_Escape){
-		gtk_button_clicked (fsel->cancel_button);
+	if (event->keyval == GDK_Escape) {
+		gtk_button_clicked (GTK_BUTTON (fsel->cancel_button));
 		return 1;
-	}
-	return 0;
+	} else
+		return 0;
 }
 
 void

@@ -1,3 +1,16 @@
+1999-09-10  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/corba-sheet.c: include selection.h
+
+	* src/sheet.c: Include ranges.h (sheet_insert_object): remove unused.
+
+	* src/file.c (workbook_try_read): Remove unused var.
+	(fs_key_event): Sort out return type & cast.
+
+	* src/selection.c: Add Jody as an author if he isn't going to :-)
+
+	* src/sheet-object.c: Cheekily do the same for me.
+
 1999-09-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/corba-sheet.c: Updated to the new sheet selection API
@@ -105,7 +118,7 @@
 			   sheet_selection_clear_content,
 			   sheet_selection_clear_formats) :
 	  Use selection_apply.
-	(selection_apply) : New function to abstracting selections enabling
+	(selection_apply) : New function abstracting selections enabling
 	  correct support for overlapping selection regions.
 	(sheet_selection_to_list) : Use selection_apply.
 

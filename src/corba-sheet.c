@@ -9,6 +9,7 @@
 #include <libgnorba/gnome-factory.h>
 #include <gnome.h>
 #include "sheet.h"
+#include "selection.h"
 #include "gnumeric.h"
 #include "Gnumeric.h"
 #include "corba.h"

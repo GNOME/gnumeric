@@ -3,6 +3,7 @@
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
+ *  Jody Goldberg (jgoldberg@home.com)
  *
  */
 #include "selection.h"

@@ -18,6 +18,7 @@
 #include "format.h"
 #include "clipboard.h"
 #include "selection.h"
+#include "ranges.h"
 #ifdef ENABLE_BONOBO
 #    include <libgnorba/gnorba.h>
 #endif
@@ -3097,7 +3098,7 @@ sheet_style_compute (Sheet *sheet, int col, int row, int *non_default)
 
 		flags = style->valid_flags;
 
-		if (range_contains (&sr->range, col, row)){
+		if (range_contains (&sr->range, col, row)) {
 			style_merge_to (style, sr->style);
 			if (style->valid_flags == STYLE_ALL){
 				if (non_default){
@@ -3555,7 +3556,6 @@ sheet_insert_object (Sheet *sheet, char *repoid)
 #ifdef ENABLE_BONOBO
 	GnomeClientSite *client_site;
 	GnomeObjectClient *object_server;
-	GList *l;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
