@@ -215,7 +215,10 @@ typedef struct {
 
 	/* flags */
 	gboolean use_excel_reference_conventions;
-	gboolean create_place_holder_for_unknown_func;
+	gboolean create_placeholder_for_unknown_func;
+	gboolean force_absolute_col_references;
+	gboolean force_absolute_row_references;
+	gboolean force_explicit_sheet_references;
 
 	/* The suggested format to use for this expression */
 	StyleFormat **desired_format;
@@ -345,6 +348,20 @@ gnumeric_parse_error (ParserState *state, ParseErrorID id, char *message, int en
 	return ERROR;
 }
 
+static gboolean
+force_explicit_sheet_references (ParserState *state, CellRef *ref)
+{
+	ref->sheet = state->pos->sheet;
+	if (ref->sheet != NULL)
+		return FALSE;
+
+	gnumeric_parse_error (
+		state, PERR_SHEET_IS_REQUIRED,
+		g_strdup (_("Sheet name is required")),
+		state->expr_text - state->expr_backup, 0);
+	return TRUE;
+}
+
 /* Make byacc happier */
 int yyparse (void);
 
@@ -420,7 +437,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 			state->pos->wb);
 
 		/* THINK TODO: Do we want to make this workbook-local??  */
-		if (f == NULL && state->create_place_holder_for_unknown_func)
+		if (f == NULL && state->create_placeholder_for_unknown_func)
 			f = function_add_placeholder (name, "");
 
 		unregister_allocation ($3);
@@ -542,6 +559,12 @@ opt_sheetref: sheetref
 	    ;
 
 cellref:  CELLREF {
+		if (state->force_explicit_sheet_references &&
+		    force_explicit_sheet_references (state, &$1->var.ref)) {
+			unregister_allocation ($1);
+			expr_tree_unref ($1);
+			return ERROR;
+		}
 	        $$ = $1;
 	}
 
@@ -553,6 +576,14 @@ cellref:  CELLREF {
 	| CELLREF RANGE_SEP CELLREF {
 		unregister_allocation ($3);
 		unregister_allocation ($1);
+
+		if (state->force_explicit_sheet_references &&
+		    force_explicit_sheet_references (state, &$1->var.ref)) {
+			expr_tree_unref ($3);
+			expr_tree_unref ($1);
+			return ERROR;
+		}
+
 		$$ = register_expr_allocation
 			(expr_tree_new_constant
 			 (value_new_cellrange (&($1->var.ref), &($3->var.ref),
@@ -674,6 +705,16 @@ parse_ref_or_string (char const *string)
 
 	res = cellref_get (&ref, string, &state->pos->eval);
 	if (res != NULL && *res == '\0') {
+		if (state->force_absolute_col_references &&
+		    ref.col_relative) {
+			ref.col += state->pos->eval.col;
+			ref.col_relative = FALSE;
+		}
+		if (state->force_absolute_row_references &&
+		    ref.row_relative) {
+			ref.row += state->pos->eval.row;
+			ref.row_relative = FALSE;
+		}
 		yylval.tree = register_expr_allocation (expr_tree_new_var (&ref));
 		return CELLREF;
 	}
@@ -932,8 +973,7 @@ yyerror (char *s)
 
 ExprTree *
 gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
-		      gboolean use_excel_range_conventions,
-		      gboolean create_place_holder_for_unknown_func,
+		      GnmExprParserFlags flags,
 		      StyleFormat **desired_format,
 		      ParseError *error)
 {
@@ -946,8 +986,11 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 	pstate.separator 	   = format_get_arg_sep ();
 	pstate.array_col_separator = format_get_col_sep ();
 
-	pstate.use_excel_reference_conventions	    = use_excel_range_conventions;
-	pstate.create_place_holder_for_unknown_func = create_place_holder_for_unknown_func;
+	pstate.use_excel_reference_conventions	   	= !(flags & GNM_PARSER_USE_APPLIX_REFERENCE_CONVENTIONS);
+	pstate.create_placeholder_for_unknown_func	= flags & GNM_PARSER_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC;
+	pstate.force_absolute_col_references		= flags & GNM_PARSER_FORCE_ABSOLUTE_COL_REFERENCES;
+	pstate.force_absolute_row_references		= flags & GNM_PARSER_FORCE_ABSOLUTE_ROW_REFERENCES;
+	pstate.force_explicit_sheet_references		= flags & GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES;
 
 	pstate.result = NULL;
 	pstate.desired_format = desired_format;

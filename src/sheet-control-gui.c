@@ -1528,7 +1528,7 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 		if (SO_CLASS (so)->set_active != NULL)
 			SO_CLASS (so)->set_active (so, view, TRUE);
 		scg_cursor_visible (scg, FALSE);
-		scg_object_update_bbox (scg, so, GNOME_CANVAS_ITEM(view), NULL);
+		scg_object_update_bbox (scg, so, NULL);
 		scg_set_display_cursor (scg);
 	}
 }
@@ -1568,7 +1568,7 @@ display_object_menu (SheetObject *so, GnomeCanvasItem *view, GdkEvent *event)
 
 static void
 scg_object_move (SheetControlGUI *scg, SheetObject *so,
-		 GnomeCanvasItem *so_view, GtkObject *ctrl_pt,
+		 GtkObject *ctrl_pt,
 		 gdouble new_x, gdouble new_y)
 {
 	int i, idx = GPOINTER_TO_INT (gtk_object_get_user_data (ctrl_pt));
@@ -1619,7 +1619,28 @@ scg_object_move (SheetControlGUI *scg, SheetObject *so,
 	sheet_object_direction_set (so, new_coords);
 	
 	/* Tell the object to update its co-ordinates */
-	scg_object_update_bbox (scg, so, so_view, new_coords);
+	scg_object_update_bbox (scg, so, new_coords);
+}
+
+void
+scg_object_nudge (SheetControlGUI *scg, int x_offset, int y_offset)
+{
+	int i;
+	double new_coords [4];
+
+	if (scg->current_object == NULL)
+		return;
+
+	for (i = 4; i-- > 0; )
+		new_coords [i] = scg->object_coords [i];
+
+	new_coords [0] += x_offset;
+	new_coords [1] += y_offset;
+	new_coords [2] += x_offset;
+	new_coords [3] += y_offset;
+
+	/* Tell the object to update its co-ordinates */
+	scg_object_update_bbox (scg, scg->current_object, new_coords);
 }
 
 static gboolean
@@ -1628,16 +1649,13 @@ cb_slide_handler (GnumericCanvas *gcanvas, int col, int row, gpointer user)
 	int x, y;
 	gdouble new_x, new_y;
 	SheetControlGUI *scg = gcanvas->scg;
-	GtkObject *view = sheet_object_get_view (scg->current_object,
-						 SHEET_CONTROL (scg));
 
 	x = scg_colrow_distance_get (scg, TRUE, gcanvas->first.col, col);
 	x += gcanvas->first_offset.col;
 	y = scg_colrow_distance_get (scg, FALSE, gcanvas->first.row, row);
 	y += gcanvas->first_offset.row;
 	gnome_canvas_c2w (GNOME_CANVAS (gcanvas), x, y, &new_x, &new_y);
-	scg_object_move (scg, scg->current_object, GNOME_CANVAS_ITEM (view),
-			 user, new_x, new_y);
+	scg_object_move (scg, scg->current_object, user, new_x, new_y);
 
 	return TRUE;
 }
@@ -1720,7 +1738,7 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 					      ctrl_pt->canvas, &event->motion,
 					      GNM_SLIDE_X | GNM_SLIDE_Y | GNM_SLIDE_EXTERIOR_ONLY,
 					      cb_slide_handler, ctrl_pt))
-			scg_object_move (scg, scg->current_object, GNOME_CANVAS_ITEM (so_view),
+			scg_object_move (scg, scg->current_object,
 					 GTK_OBJECT (ctrl_pt), event->motion.x, event->motion.y);
 		break;
 
@@ -1844,15 +1862,14 @@ set_acetate_coords (SheetControlGUI *scg, GtkObject *so_view,
  *
  * @scg : The Sheet control
  * @so : the optional sheet object
- * @so_view: A canvas item representing the view in this control
  * @new_coords : optionally jump the object to new coordinates
  *
  * Re-align the control points so that they appear at the correct verticies for
- * this view of the object.  If the object is not specified
+ * this view of the object.
  */
 void
 scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
-			GnomeCanvasItem *so_view, double const *new_coords)
+			double const *new_coords)
 {
 	double l, t, r ,b;
 	GtkObject *so_view_obj;
@@ -1865,9 +1882,7 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 		return;
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
-	so_view_obj = (so_view == NULL)
-		? sheet_object_get_view (so, SHEET_CONTROL (scg))
-		: GTK_OBJECT (so_view);
+	so_view_obj = sheet_object_get_view (so, SHEET_CONTROL (scg));
 
 	g_return_if_fail (so_view_obj != NULL);
 

@@ -1,3 +1,8 @@
+2001-11-07  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_read_cells) : changes to gnumeric_expr_parser
+	signature.
+
 2001-11-05  Jody Goldberg <jgoldberg@home,com>
 
 	* Release 0.75

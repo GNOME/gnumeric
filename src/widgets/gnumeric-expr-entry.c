@@ -217,8 +217,27 @@ gnumeric_expr_entry_rangesel_start (GnumericExprEntry *ee)
 	} else
 		rs->range.end = rs->range.start;
 
-	/* TODO : get this right */
+	/* default to avoid crash on error */
 	rs->sheet = ee->target_sheet;
+	if (start >= 2 && text[start-1] == '!') {
+		start -= 2;
+		if (text[start] == '\'') {
+			loop2:
+			if (start >= 1 && text[start-1] != '\'') {
+				start--;
+				goto loop2;
+			}
+			if (start >= 2 && text[start-2] == '\\') {
+				start -= 2;
+				goto loop2;
+			}
+		} else {
+			while (start > 0 &&
+			       isalnum (*((unsigned char *)(text + start -1))))
+				start--;
+		}
+		rs->text_start = start;
+	}
 }
 
 /**
@@ -649,19 +668,19 @@ gnumeric_expr_entry_set_absolute (GnumericExprEntry *expr_entry)
  * 2000-05-22 Jon Kåre Hellan <hellan@acm.org>
  **/
 gboolean
-gnumeric_expr_entry_rangesel_meaningful (GnumericExprEntry *entry)
+gnumeric_expr_entry_rangesel_meaningful (GnumericExprEntry *ee)
 {
 	int cursor_pos;
 
-	g_return_val_if_fail (entry != NULL, FALSE);
+	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (ee), FALSE);
 
-	cursor_pos = GTK_EDITABLE (entry)->current_pos;
+	cursor_pos = GTK_EDITABLE (ee)->current_pos;
 
-	if (NULL == gnumeric_char_start_expr_p (GTK_ENTRY (entry)->text_mb) ||
+	if (NULL == gnumeric_char_start_expr_p (GTK_ENTRY (ee)->text_mb) ||
 	    cursor_pos <= 0)
 		return FALSE;
 
-	switch (GTK_ENTRY (entry)->text [cursor_pos-1]){
+	switch (GTK_ENTRY (ee)->text [cursor_pos-1]){
 	case ',': case '=':
 	case '(': case '<': case '>':
 	case '+': case '-': case '*': case '/':
@@ -671,4 +690,63 @@ gnumeric_expr_entry_rangesel_meaningful (GnumericExprEntry *entry)
 	default :
 		return FALSE;
 	};
+}
+
+/**
+ * gnumeric_expr_entry_parse :
+ * @ee : the entry
+ * @pp : a parse position
+ *
+ * Attempts to parse the content of the entry line honouring
+ * the flags.
+ */
+ExprTree *
+gnumeric_expr_entry_parse (GnumericExprEntry *ee, ParsePos const *pp)
+{
+	char const *text;
+	char *str;
+	ExprTree *expr;
+	ParseError err;
+	StyleFormat *desired_format;
+	int flags;
+
+	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (ee), NULL);
+
+	text = gtk_entry_get_text (GTK_ENTRY (ee));
+
+	if (text == NULL || text[0] == '\0')
+		return NULL;
+
+	flags = GNM_PARSER_DEFAULT;
+	if (ee->flags & GNUM_EE_ABS_COL)
+		flags |= GNM_PARSER_FORCE_ABSOLUTE_COL_REFERENCES;
+	if (ee->flags & GNUM_EE_ABS_ROW)
+		flags |= GNM_PARSER_FORCE_ABSOLUTE_ROW_REFERENCES;
+	if (!(ee->flags & GNUM_EE_SHEET_OPTIONAL))
+		flags |= GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES;
+	expr = gnumeric_expr_parser (text, pp,
+		flags, &desired_format,
+		parse_error_init (&err));
+
+	/* FIXME : what to do with errors ? */
+	parse_error_free (&err);
+
+	if (expr == NULL)
+		return expr;
+
+	if (ee->flags & GNUM_EE_SINGLE_RANGE) {
+		Value *range = expr_tree_get_range (expr) ;
+		if (range == NULL) {
+			expr_tree_unref (expr);
+			return NULL;
+		}
+		value_release (range);
+	}
+
+	/* Reset the entry in case something changed */
+	str = expr_tree_as_string (expr, pp);
+	gtk_entry_set_text (GTK_ENTRY (ee), str);
+	g_free (str);
+
+	return expr;
 }

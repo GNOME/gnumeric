@@ -84,7 +84,7 @@ static char *help_exact = {
 	   "EXACT(\"key\",\"key\") equals TRUE.\n"
 	   "EXACT(\"key\",\"Key\") equals FALSE.\n"
 	   "\n"
-	   "@SEEALSO=LEN, SEARCH")  /* FIXME: DELTA */
+	   "@SEEALSO=LEN, SEARCH, DELTA")
 };
 
 static Value *

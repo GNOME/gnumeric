@@ -605,20 +605,27 @@ static void
 sheet_widget_checkbox_toggled (GtkToggleButton *button,
 			       SheetWidgetCheckbox *swc)
 {
+	Value *target;
+
 	if (swc->being_updated)
 		return;
 	swc->value = gtk_toggle_button_get_active (button);
 	sheet_widget_checkbox_set_active (swc);
 
-	if (swc->dep.expression && swc->dep.expression->any.oper == OPER_VAR) {
+	if (swc->dep.expression == NULL)
+		return;
+	
+	target = expr_tree_get_range (swc->dep.expression);
+	if (target != NULL) {
 		gboolean const new_val = gtk_toggle_button_get_active (button);
-		CellRef	const *ref = &swc->dep.expression->var.ref;
+		CellRef	const *ref = &target->v_range.cell.a;
 		Cell *cell = sheet_cell_fetch (ref->sheet, ref->col, ref->row);
 		sheet_cell_set_value (cell, value_new_bool (new_val), NULL);
 
 		sheet_set_dirty (ref->sheet, TRUE);
 		workbook_recalc (ref->sheet->workbook);
 		sheet_update (ref->sheet);
+		value_release (target);
 	}
 }
 
@@ -698,12 +705,41 @@ sheet_widget_checkbox_clone (SheetObject const *so, Sheet *new_sheet)
 
 typedef struct {
 	GtkWidget *dialog;
-	GtkWidget *expresion;
+	GtkWidget *expression;
 	GtkWidget *label;
 
-	WorkbookControlGUI *wbcg;
+	GtkWidget *old_focus;
+
+	WorkbookControlGUI  *wbcg;
 	SheetWidgetCheckbox *swc;
+	Sheet		    *sheet;
 } CheckboxConfigState;
+
+static void
+cb_checkbox_set_focus (GtkWidget *window, GtkWidget *focus_widget,
+		       CheckboxConfigState *state)
+{
+	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
+		GnumericExprEntry *ee = GNUMERIC_EXPR_ENTRY (focus_widget);
+		wbcg_set_entry (state->wbcg, ee);
+		gnumeric_expr_entry_set_absolute (ee);
+	} else
+		wbcg_set_entry (state->wbcg, NULL);
+
+	/* Force an update of the content in case it
+	 * needs tweaking (eg make it absolute)
+	 */
+	if (IS_GNUMERIC_EXPR_ENTRY (state->old_focus)) {
+		ParsePos  pp;
+		ExprTree *expr = gnumeric_expr_entry_parse (
+			GNUMERIC_EXPR_ENTRY (state->old_focus),
+			parse_pos_init (&pp, NULL, state->sheet, 0, 0));
+
+		if (expr != NULL)
+			expr_tree_unref (expr);
+	}
+	state->old_focus = focus_widget;
+}
 
 static gboolean
 cb_checkbox_config_destroy (GtkObject *w, CheckboxConfigState *state)
@@ -725,32 +761,18 @@ cb_checkbox_config_destroy (GtkObject *w, CheckboxConfigState *state)
 }
 
 static void
-cb_checkbox_config_focus (GtkWidget *w, GdkEventFocus *ev, CheckboxConfigState *state)
-{
-	GnumericExprEntry *expr_entry = GNUMERIC_EXPR_ENTRY (state->expresion);
-	wbcg_set_entry (state->wbcg, expr_entry);
-	gnumeric_expr_entry_set_absolute (expr_entry);
-}
-
-static void
 cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number,
 			    CheckboxConfigState *state)
 {
 	if (button_number == 0) {
 		SheetObject *so = SHEET_OBJECT (state->swc);
-		char *text = gtk_entry_get_text (GTK_ENTRY (state->expresion));
+		ExprTree    *expr;
+		ParsePos     pp;
 
-		if (text != NULL && *text) {
-			ParsePos pp;
-			ExprTree *expr = expr_parse_string (text,
-				parse_pos_init (&pp, NULL, so->sheet, 0, 0),
-				NULL, NULL);
-
-			/* FIXME : Should we be more verbose about errors */
-			if (expr != NULL && expr->any.oper == OPER_VAR)
-				dependent_set_expr (&state->swc->dep, expr);
-		} else
-			dependent_set_expr (&state->swc->dep, NULL);
+		expr = gnumeric_expr_entry_parse (GNUMERIC_EXPR_ENTRY (state->expression),
+				parse_pos_init (&pp, NULL, so->sheet, 0, 0));
+		if (expr != NULL)
+			dependent_set_expr (&state->swc->dep, expr);
 	}
 	wbcg_edit_finish (state->wbcg, FALSE);
 }
@@ -797,14 +819,16 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 	state = g_new (CheckboxConfigState, 1);
 	state->swc = swc;
 	state->wbcg = wbcg;
+	state->sheet = sc_sheet	(SHEET_CONTROL (scg));
+	state->old_focus = NULL;
 	state->dialog = gnome_dialog_new (_("Checkbox Configure"),
 					  GNOME_STOCK_BUTTON_OK,
 					  GNOME_STOCK_BUTTON_CANCEL,
 					  NULL);
-	state->expresion = gnumeric_expr_entry_new (wbcg);
-	gnumeric_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->expresion), scg);
+	state->expression = gnumeric_expr_entry_new (wbcg);
+	gnumeric_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->expression), scg);
 	gnumeric_expr_entry_set_rangesel_from_dep (
-		GNUMERIC_EXPR_ENTRY (state->expresion), &swc->dep);
+		GNUMERIC_EXPR_ENTRY (state->expression), &swc->dep);
 
  	state->label = gtk_entry_new ();
  	gtk_entry_set_text (GTK_ENTRY (state->label), swc->label);
@@ -817,7 +841,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
  	gtk_table_attach_defaults (GTK_TABLE(table), label,
  				   0, 1, 1, 2);
  
- 	gtk_table_attach_defaults (GTK_TABLE(table), state->expresion,
+ 	gtk_table_attach_defaults (GTK_TABLE(table), state->expression,
  				   1, 2, 0, 1);
  	gtk_table_attach_defaults (GTK_TABLE(table), state->label,
  				   1, 2, 1, 2);
@@ -828,14 +852,14 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 
  	gtk_signal_connect (GTK_OBJECT (state->label), "changed",
  			    GTK_SIGNAL_FUNC (cb_checkbox_label_changed), state);
- 	gtk_signal_connect (GTK_OBJECT (state->expresion), "focus-in-event",
-			    GTK_SIGNAL_FUNC (cb_checkbox_config_focus), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
+			    GTK_SIGNAL_FUNC (cb_checkbox_set_focus), state);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_checkbox_config_destroy), state);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "clicked",
 			    GTK_SIGNAL_FUNC (cb_checkbox_config_clicked), state);
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_EDITABLE(state->expresion));
+				  GTK_EDITABLE(state->expression));
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE(state->label));
 
@@ -845,7 +869,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_window_set_position (GTK_WINDOW (state->dialog), GTK_WIN_POS_MOUSE);
 	gtk_window_set_focus (GTK_WINDOW (state->dialog),
-			      GTK_WIDGET (state->expresion));
+			      GTK_WIDGET (state->expression));
 	gtk_widget_show_all (state->dialog);
 }
 

@@ -1007,9 +1007,10 @@ applix_read_cells (ApplixReadState *state)
 				}
 
 				expr = gnumeric_expr_parser (expr_string+1,
-							     parse_pos_init_cell (&pos, cell),
-							     FALSE, TRUE, NULL,
-							     parse_error_init (&perr));
+					parse_pos_init_cell (&pos, cell),
+					GNM_PARSER_USE_APPLIX_REFERENCE_CONVENTIONS |
+					GNM_PARSER_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
+					NULL, parse_error_init (&perr));
 				if (expr == NULL) {
 					(void) applix_parse_error (state, "Invalid expression");
 					parse_error_free (&perr);

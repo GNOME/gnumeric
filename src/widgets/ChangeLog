@@ -1,3 +1,10 @@
+2001-11-09  Jody Goldberg <jgoldberg@home.com>
+
+	* gnumeric-expr-entry.c (gnumeric_expr_entry_rangesel_start) : begin
+	parsing the sheet name.  Still need to support starting in the
+	sheetname, and to actually use the name.
+	(gnumeric_expr_entry_parse) : new utility.
+
 2001-11-05  Jody Goldberg <jgoldberg@home.com>
 
 	* gnumeric-expr-entry.c (make_rangesel_text) : don't use the flags,

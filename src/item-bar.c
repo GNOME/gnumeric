@@ -69,7 +69,7 @@ ib_compute_pixels_from_indent (Sheet const *sheet, gboolean const is_cols)
 		: sheet->rows.max_outline_level;
 	if (!sheet->display_outlines || indent <= 0)
 		return 0;
-	return (int)(5 + indent * 14 * scale + 0.5);
+	return (int)(5 + (indent + 1) * 14 * scale + 0.5);
 }
 
 static void
@@ -271,7 +271,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 
 	if (ib->is_col_header) {
 		int const inc = (sheet->cols.max_outline_level > 0)
-			? (ib->indent - 2) / sheet->cols.max_outline_level
+			? (ib->indent - 2) / (sheet->cols.max_outline_level + 1)
 			: 0;
 		int const base_pos = .2 * inc - y;
 		int const len = (inc > 4) ? 4 : inc;
@@ -384,7 +384,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 		} while (total < width);
 	} else {
 		int const inc = (sheet->rows.max_outline_level > 0)
-			? (ib->indent - 2) / sheet->rows.max_outline_level
+			? (ib->indent - 2) / (sheet->rows.max_outline_level + 1)
 			: 0;
 		int const base_pos = .2 * inc - x;
 		int const len = (inc > 4) ? 4 : inc;
@@ -659,9 +659,9 @@ outline_button_press (ItemBar const *ib, int element, int pixel)
 	if (ib->is_col_header) {
 		if (sheet->cols.max_outline_level <= 0)
 			return TRUE;
-		inc = (ib->indent - 2) / sheet->cols.max_outline_level;
+		inc = (ib->indent - 2) / (sheet->cols.max_outline_level + 1);
 	} else if (sheet->rows.max_outline_level > 0)
-		inc = (ib->indent - 2) / sheet->rows.max_outline_level;
+		inc = (ib->indent - 2) / (sheet->rows.max_outline_level + 1);
 	else
 		return TRUE;
 

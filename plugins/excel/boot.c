@@ -99,10 +99,12 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 
 	ole_error = ms_ole_open (&f, filename);
 	if (ole_error != MS_OLE_ERR_OK) {
+		char const *msg = (ole_error == MS_OLE_ERR_INVALID ||
+				   ole_error == MS_OLE_ERR_FORMAT)
+		    ? _("This file is not an 'OLE' file.  It may be too old for Gnumeric to read.\nSorry, the management.")
+		    : _("Unexpected error reading the file");
 		ms_ole_destroy (&f);
-		/* FIXME : We need a more detailed message from
-		 * ole_open */
-		gnumeric_io_error_read (context, "");
+		gnumeric_io_error_read (context, msg);
 		return;
 	}
 

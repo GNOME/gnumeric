@@ -1,3 +1,15 @@
+2001-11-09  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_guts) : adjust to different outline
+	  scoping semantics.  We count from 0.  XL counts from 1.
+
+	* boot.c (excel_file_open) : better error message when opening a
+	  non-ole file.
+
+2001-11-05  Jody Goldberg <jgoldberg@home.com>
+
+	* plugin.xml.in : enable overwriting files by default.
+
 2001-11-05  Jody Goldberg <jgoldberg@home,com>
 
 	* Release 0.75

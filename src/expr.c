@@ -186,8 +186,8 @@ expr_parse_string (char const *expr_text, ParsePos const *pp,
 
 	g_return_val_if_fail (expr_text != NULL, NULL);
 
-	expr = gnumeric_expr_parser (expr_text, pp, TRUE, FALSE, desired_format,
-				     parse_error_init (perr));
+	expr = gnumeric_expr_parser (expr_text, pp,
+		GNM_PARSER_DEFAULT, desired_format, parse_error_init (perr));
 
 	if (error == NULL)
 		parse_error_free (perr);
@@ -1828,4 +1828,3 @@ expr_tree_get_range (ExprTree const *expr)
 		return NULL;
 	}
 }
-

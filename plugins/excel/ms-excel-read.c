@@ -3112,12 +3112,19 @@ ms_excel_read_default_col_width (BiffQuery *q, ExcelSheet *esheet)
 static void
 ms_excel_read_guts (BiffQuery *q, ExcelSheet *esheet)
 {
+	int col_gut, row_gut;
+
 	g_return_if_fail (q->length == 8);
 
 	/* ignore the specification of how wide/tall the gutters are */
-	sheet_col_row_gutter (esheet->gnum_sheet,
-			      MS_OLE_GET_GUINT16 (q->data + 6),
-			      MS_OLE_GET_GUINT16 (q->data + 4));
+
+	row_gut = MS_OLE_GET_GUINT16 (q->data + 4);
+	if (row_gut >= 1)
+		row_gut--;
+	col_gut = MS_OLE_GET_GUINT16 (q->data + 6);
+	if (col_gut >= 1)
+		col_gut--;
+	sheet_col_row_gutter (esheet->gnum_sheet, col_gut, row_gut);
 }
 
 /* See: S59DE3.HTM */
@@ -3910,6 +3917,9 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 		    break;
 
 		case BIFF_GUTS:
+			/* we could get this implicitly from the cols/rows
+			 * but this is faster
+			 */
 			ms_excel_read_guts (q, esheet);
 			break;
 

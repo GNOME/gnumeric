@@ -663,7 +663,7 @@ get_data (Sheet *sheet, Range *range, old_data_set_t *data, gboolean ignore_blan
 	for (col = range->start.col; col <= range->end.col; col++)
 	        for (row = range->start.row; row <= range->end.row; row++) {
 		        v = sheet_cell_get_value (sheet, col, row);
-			if (v != NULL) {
+			if (v != NULL && v->type != VALUE_EMPTY) {
 				if (VALUE_IS_NUMBER (v))
 				        x = value_get_as_float (v);
 				else {

@@ -1,3 +1,51 @@
+2001-11-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object-widget.c (sheet_widget_checkbox_toggled) : Use
+	  expr_tree_get_range.
+	(cb_checkbox_set_focus) : rework to use dialog::set-focus.
+	(cb_checkbox_config_clicked) : use gnumeric_expr_entry_parse.
+	(sheet_widget_checkbox_user_config) : set up the new focus handler.
+
+	* src/sheet-control-gui.c (scg_object_nudge) : new.
+	(scg_object_update_bbox) : no need to pass the view.
+	(scg_object_move) : ditto.
+	(cb_slide_handler) : ditto.
+
+	* src/parser.y (force_explicit_sheet_references) : new.
+	(parse_ref_or_string) : Support forcing an absolute ref.
+	(gnumeric_expr_parser) : remove the individual flags and send in a bit
+	mask.
+
+	* src/item-grid.c (item_grid_draw_merged_range) : filted invisble
+	  ranges.
+	(item_grid_draw) : handle merges hidden by row, and support sliced
+	  merges in the future.
+
+	* src/sheet.c (sheet_col_row_fit_gutter) : New max_outline semantics
+	  remove need for special case.
+	(sheet_colrow_get) : new utility.
+
+	* src/item-bar.c (ib_compute_pixels_from_indent) : Adjust to new
+	  outline_level semantics.  We now implicitly add 1 when needed.
+	  rather than tweaking it at startup.
+	(item_bar_draw) : ditto.
+	(outline_button_press) : ditto.
+
+	* src/gnumeric-pane.c (gnm_pane_release) : Clean out cursors and
+	  such.
+
+	* src/gnumeric-graph.h : do not include idl header publicly.
+	  Damn automake.
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object) : support moving
+	  objects with the keyboard.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=64023
+	* src/colrow.c (colrow_visibility) : visible collapse marks at lower
+	  levels should also be collapsed.
+
+	* src/analysis-tools.c (get_data) : handle blanks better.
+
 2001-11-08  Morten Welinder  <welinder@rentec.com>
 
 	* src/number-match.c (format_match_init): Track failed regexp
@@ -25,6 +73,11 @@
 	(ftest_tool) : ditto
 	
 2001-11-07  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* src/workbook-view.c (wb_view_auto_expr) : changes to
+	  gnumeric_expr_parser signature.
+
+2001-11-09  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/analysis-tools.c (exp_smoothing_tool): Implemented.
 

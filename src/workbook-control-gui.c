@@ -333,7 +333,7 @@ zoom_changed (WorkbookControlGUI *wbcg, Sheet* sheet)
 	}
 
 	scg_object_update_bbox (wb_control_gui_cur_sheet (wbcg),
-				NULL, NULL, NULL);
+				NULL, NULL);
 }
 
 static void

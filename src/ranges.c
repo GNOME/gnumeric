@@ -1119,7 +1119,6 @@ global_range_list_foreach (GSList *gr_list, EvalPos const *ep,
  *
  * return true if a is containde in b
  * we do not handle 3d ranges
- *
  **/
 gboolean  
 global_range_contained (Value *a, Value *b)

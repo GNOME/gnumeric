@@ -50,6 +50,7 @@ typedef enum {
 	PERR_UNKNOWN_EXPRESSION,
 	PERR_UNEXPECTED_TOKEN,
 	PERR_OUT_OF_RANGE,
+	PERR_SHEET_IS_REQUIRED,
 } ParseErrorID;
 
 /* In parser.y  */
@@ -61,9 +62,16 @@ typedef struct {
 ParseError *parse_error_init (ParseError *pe);
 void        parse_error_free (ParseError *pe);
 
+typedef enum {
+	GNM_PARSER_DEFAULT = 0, /* default is Excel */
+	GNM_PARSER_USE_APPLIX_REFERENCE_CONVENTIONS	= 1 << 0,
+	GNM_PARSER_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC	= 1 << 1,
+	GNM_PARSER_FORCE_ABSOLUTE_COL_REFERENCES	= 1 << 2,
+	GNM_PARSER_FORCE_ABSOLUTE_ROW_REFERENCES	= 1 << 2,
+	GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES	= 1 << 3,
+} GnmExprParserFlags;
 ExprTree *gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
-				gboolean use_excel_range_conventions,
-				gboolean create_place_holder_for_unknown_func,
+				GnmExprParserFlags flags,
 				StyleFormat **desired_format,
 				ParseError *pe);
 

@@ -10,6 +10,8 @@ Andreas:
 
 Jody:
 	* More work on the expr entry.
+	* Fix nested grouping and xml import of grouping.
+	* Add keyboard support to sheet objects.
 
 Jukka:
 	* Improved function documentation.

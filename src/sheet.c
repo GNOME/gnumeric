@@ -1061,7 +1061,7 @@ sheet_col_row_fit_gutter (Sheet *sheet, int outline_level, gboolean is_cols, gbo
 	int gutter_size = is_cols
 		? sheet->cols.max_outline_level
 		: sheet->rows.max_outline_level;
-	int new_gutter_size = outline_level > 0 ? outline_level + 1 : outline_level;
+	int new_gutter_size = outline_level;
 	gboolean adjust = FALSE;
 
 	/* If the outline_level has been decreased we check all other
@@ -2315,6 +2315,14 @@ sheet_row_get (Sheet const *sheet, int pos)
 	if (segment != NULL)
 		return segment->info [COLROW_SUB_INDEX (pos)];
 	return NULL;
+}
+
+ColRowInfo *
+sheet_colrow_get (Sheet const *sheet, int colrow, gboolean is_cols)
+{
+	if (is_cols)
+		return sheet_col_get (sheet, colrow);
+	return sheet_row_get (sheet, colrow);
 }
 
 /**

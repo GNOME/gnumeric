@@ -102,6 +102,7 @@ void
 gnm_pane_release (GnumericPane *pane)
 {
 	g_return_if_fail (pane->gcanvas != NULL);
+
 	gtk_object_destroy (GTK_OBJECT (pane->gcanvas));
 	pane->gcanvas = NULL;
 
@@ -114,6 +115,20 @@ gnm_pane_release (GnumericPane *pane)
 		gtk_object_destroy (GTK_OBJECT (pane->row.canvas));
 		pane->row.canvas = NULL;
 	}
+	if (pane->anted_cursors != NULL) {
+		g_list_free (pane->anted_cursors);
+		pane->anted_cursors = NULL;
+	}
+
+	/* Be anal just in case we somehow manage to remove a pane
+	 * unexpectedly.
+	 */
+	pane->grid = NULL;
+	pane->editor = NULL;
+	pane->cursor.std = pane->cursor.rangesel = pane->cursor.special = NULL;
+	pane->colrow_resize.guide = NULL;
+	pane->colrow_resize.start = NULL;
+	pane->colrow_resize.points = NULL;
 }
 
 void

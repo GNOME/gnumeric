@@ -193,6 +193,9 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 		last = range->end.row;
 	b += scg_colrow_distance_get (ig->scg, FALSE, view->start.row, last+1);
 
+	if (l == r || t == b)
+		return;
+
 	/* Check for background THEN selection */
 	if (gnumeric_background_set_gc (style, gc,
 			ig->canvas_item.canvas, is_selected) ||
@@ -280,6 +283,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	int start_row = gnm_canvas_find_row (gcanvas, draw_y-2, &y);
 	int end_row = gnm_canvas_find_row (gcanvas, draw_y+height+2, NULL);
 	int const diff_y = y - draw_y;
+	int prev_row = -666; /* any impossible value will due */
 
 	StyleRow sr, next_sr;
 	MStyle const **styles;
@@ -288,7 +292,6 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		sheet->hide_grid ? NULL : style_border_none ();
 
 	Range     view;
-	gboolean  first_row;
 	GSList	 *merged_active, *merged_active_seen,
 		 *merged_used, *merged_unused, *ptr, **lag;
 
@@ -331,7 +334,6 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			    draw_x, draw_y, width, height);
 
 	/* Get ordered list of merged regions */
-	first_row = TRUE;
 	merged_active = merged_active_seen = merged_used = NULL;
 	merged_unused = sheet_merge_get_overlap (sheet,
 		range_init (&view, start_col, start_row, end_col, end_row));
@@ -394,8 +396,11 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		for (ptr = merged_unused; ptr != NULL; ) {
 			Range * const r = ptr->data;
 
+			/* If this is the top, or we potentially skipped part
+			 * use the merge
+			 */
 			if ((r->start.row == row) ||
-			    (first_row && r->start.row < row)) {
+			    ((prev_row+1) != row && r->start.row < row)) {
 				ColRowInfo const *ci =
 					sheet_col_get_info (sheet, r->start.col);
 				GSList *tmp = ptr;
@@ -413,7 +418,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				ptr = ptr->next;
 			}
 		}
-		first_row = FALSE;
+		prev_row = row;
 
 		for (col = start_col, x = diff_x; col <= end_col ; col++) {
 			MStyle const *style;
@@ -572,12 +577,12 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	    (gcanvas->pane->index == 1 || gcanvas->pane->index == 2))
 		gdk_draw_line (drawable, ig->gc.bound, x, 0, x, y);
 
-	if (merged_used)	/* ranges whose bottoms are in the view */
+	if (merged_used != NULL)	/* ranges whose bottoms are in the view */
 		g_slist_free (merged_used);
-	if (merged_active_seen) /* ranges whose bottoms are below the view */
+	if (merged_active_seen != NULL) /* ranges whose bottoms are below the view */
 		g_slist_free (merged_active_seen);
-
-	g_return_if_fail (merged_unused == NULL);
+	if (merged_unused != NULL);	/* merges in hidden rows */
+		g_slist_free (merged_unused);
 	g_return_if_fail (merged_active == NULL);
 }
 

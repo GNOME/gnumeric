@@ -8,15 +8,15 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+- Should cb_merge_cells free the ranges and not just the list?  (It leaks.)
+
 - Check strcpy()s in font_change_component_1: purify says one is overlapping
   and thus undefined.
 
-- 1. C5=22
-  2. Select C5:E7
-  3. Click Center-across-selection, then Merge.
-  4. Format->Row->Hide
-  ==> ** CRITICAL **: file item-grid.c: line 580 (item_grid_draw): assertion `merged_unused == NULL' failed.
-  (One per screen redraw)
+- 1. Select A1.
+  2. Format->Autoformat.
+  3. Click "ok".   [This correctly gives an error about the range being too small]
+  Undo information should not be saved for the error case, but it is.
 
 Pending Patches
 ---------------
@@ -27,18 +27,13 @@ Pending Patches
 Long term breakage
 ------------------
 
-- Should cb_merge_cells free the ranges and not just the list?  (It leaks.)
+- Outline mode 
+    : Ins/Del col/row breaks
 
 - Missing undo/redo for
     - Add/duplicate sheet.
     - Remove sheet.
     - Reorder sheets.
-
-- 1. Select A1.
-  2. Format->Autoformat.
-  3. Click "ok".   [This correctly gives an error about the range being too small]
-  Undo information should not be saved for the error case, but it is.
-
 
 - Misc.
     - Add an idle handler at start up to check for availablity of

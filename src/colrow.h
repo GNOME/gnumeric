@@ -18,7 +18,7 @@ struct _ColRowInfo {
 	unsigned  is_collapsed  : 1;	/* Does this terminate an outline ? */
 	unsigned  hard_size     : 1;	/* are dimensions explicitly set ? */
 	unsigned  visible       : 1;	/* visible */
-	unsigned  filtered      : 1;	/* hidden as a result of a filter (requies !visible) */
+	unsigned  filtered      : 1;	/* hidden as a result of a filter (requires !visible) */
 	unsigned  in_filter     : 1;	/* filtered */
 
 	/* TODO : Add per row/col min/max */

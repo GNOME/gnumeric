@@ -2097,8 +2097,8 @@ cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 	if (depth == d) {
 		if ((is_cols ? sheet->outline_symbols_right : sheet->outline_symbols_below)) {
 			if (index > 0) {
-				ColRowInfo const *prev = is_cols ? sheet_col_get (sheet, index-1)
-					: sheet_row_get (sheet, index-1);
+				ColRowInfo const *prev =
+					sheet_colrow_get (sheet, index-1, is_cols);
 
 				if (prev != NULL && prev->outline_level > d) {
 					visible = ((d+1) == prev->outline_level &&
@@ -2109,8 +2109,8 @@ cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 				}
 			}
 		} else if (index+1 < colrow_max (is_cols)) {
-			ColRowInfo const *next = is_cols ? sheet_col_get (sheet, index+1)
-				: sheet_row_get (sheet, index-1);
+			ColRowInfo const *next =
+				sheet_colrow_get (sheet, index+1, is_cols);
 
 			if (next != NULL && next->outline_level > d) {
 				visible = ((d+1) == next->outline_level &&

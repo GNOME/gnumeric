@@ -574,8 +574,10 @@ colrow_visibility (Sheet const *sheet, colrow_visiblity * const dat,
 					break;
 			} else if ((visible != 0) == (cri->visible != 0))
 				break;
-			else if (cri->is_collapsed)
+			else if (cri->is_collapsed) {
+				--j;
 				break;
+			}
 		}
 		res = g_new (ColRowIndex, 1);
 		res->first = (j >= first) ? j+1 : first;

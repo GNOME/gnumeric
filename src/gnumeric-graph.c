@@ -36,6 +36,7 @@
 #include "dialogs.h"
 #include "sheet-control-gui.h"
 
+#include <idl/GNOME_Gnumeric_Graph.h>
 #include <bonobo.h>
 #include <liboaf/liboaf.h>
 #include <gal/util/e-util.h>

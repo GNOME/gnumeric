@@ -46,11 +46,11 @@ void	 gnumeric_expr_entry_clear 		     (GnumericExprEntry *gee);
 void	 gnumeric_expr_entry_set_rangesel_from_dep   (GnumericExprEntry *gee,
 						      Dependent const *dep);
 
+/* Is a range selection meaningful here? */
+gboolean  gnumeric_expr_entry_rangesel_meaningful (GnumericExprEntry *expr_entry);
 
 /* Convenience functions */
 void gnumeric_expr_entry_set_absolute (GnumericExprEntry *expr_entry);
-
-/* Is a range selection meaningful here? */
-gboolean  gnumeric_expr_entry_rangesel_meaningful (GnumericExprEntry *expr_entry);
+ExprTree *gnumeric_expr_entry_parse (GnumericExprEntry *entry, ParsePos const *pp);
 
 #endif

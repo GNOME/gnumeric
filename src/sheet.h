@@ -155,6 +155,8 @@ ColRowInfo *sheet_colrow_get_info	  (Sheet const *sheet,
 /* Returns a pointer to a ColRowInfo: existed or NULL */
 ColRowInfo *sheet_col_get                 (Sheet const *sheet, int pos);
 ColRowInfo *sheet_row_get                 (Sheet const *sheet, int pos);
+ColRowInfo *sheet_colrow_get              (Sheet const *sheet,
+					   int colrow, gboolean is_cols);
 
 /* Returns a pointer to a ColRowInfo: existed or freshly created */
 ColRowInfo *sheet_col_fetch               (Sheet *sheet, int pos);

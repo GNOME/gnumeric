@@ -324,26 +324,44 @@ static gboolean
 gnm_canvas_key_mode_object (GnumericCanvas *gcanvas, GdkEventKey *event)
 {
 	SheetControlGUI *scg = gcanvas->scg;
+	int size = (event->state & GDK_CONTROL_MASK) ? 1 : 10;
 
 	switch (event->keyval) {
 	case GDK_Escape:
 		scg_mode_edit ((SheetControl *) scg);
 		application_clipboard_unant ();
-		break;
+		return TRUE;;
 
 	case GDK_BackSpace: /* Ick! */
 	case GDK_KP_Delete:
 	case GDK_Delete:
-		if (scg->new_object != NULL)
+		if (scg->new_object != NULL) {
 			gtk_object_destroy (GTK_OBJECT (scg->new_object));
-		else if (scg->current_object != NULL)
+			return TRUE;
+		}
+		if (scg->current_object != NULL) {
 			gtk_object_destroy (GTK_OBJECT (scg->current_object));
+			return TRUE;
+		}
 		break;
 
+	case GDK_KP_Left: case GDK_Left:
+		scg_object_nudge (gcanvas->scg, -size, 0);
+		return TRUE;
+	case GDK_KP_Right: case GDK_Right:
+		scg_object_nudge (gcanvas->scg,  size, 0);
+		return TRUE;
+	case GDK_KP_Up: case GDK_Up:
+		scg_object_nudge (gcanvas->scg, 0, -size);
+		return TRUE;
+	case GDK_KP_Down: case GDK_Down:
+		scg_object_nudge (gcanvas->scg, 0,  size);
+		return TRUE;
+
 	default:
-		return FALSE;
+		break;
 	}
-	return TRUE;
+	return FALSE;
 }
 
 static gint

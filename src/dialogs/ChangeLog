@@ -1,3 +1,8 @@
+2001-11-09  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-graph-guru.c (vector_state_apply_changes) : Use
+	  gnumeric_expr_entry_parse.
+
 2001-11-08  Morten Welinder  <terra@diku.dk>
 
 	* dialog-summary.c (summary_get): Fix it right.

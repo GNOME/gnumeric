@@ -32,6 +32,7 @@
 #include "sheet-object.h"
 #include "dialogs.h"
 #include "widgets/gnumeric-combo-text.h"
+#include <idl/GNOME_Gnumeric_Graph.h>
 
 #include <bonobo.h>
 #include <libgnome/gnome-defs.h>
@@ -329,9 +330,8 @@ vector_state_apply_changes (VectorState *vs)
 	/* If we are setting something */
 	if (*str != '\0') {
 		ParsePos pos;
-		expr = expr_parse_string (str,
-			parse_pos_init (&pos, NULL, vs->state->sheet, 0, 0),
-			NULL, NULL);
+		expr = gnumeric_expr_entry_parse (GNUMERIC_EXPR_ENTRY (vs->entry),
+			parse_pos_init (&pos, NULL, vs->state->sheet, 0, 0));
 		/* TODO : add some error dialogs split out
 		 * the code in workbok_edit.
 		 */
