@@ -1,4 +1,16 @@
-2000-12-7  Jody Goldberg <jgoldberg@home.com>
+2000-12-15  Morten Welinder  <terra@diku.dk>
+
+	* lotus-formula.c: avoid unaligned accesses.
+	(parse_list_pop): Flag errors as such, not as strings.
+
+	* lotus.c: avoid unaligned accesses.
+	(read_workbook): Validate first record.  Plug leak.
+	(append_zeros): Turbo version.
+
+	* boot.c (lotus_probe): Check for magic header.
+	(filename_ext): Skip extensions in directory names.
+
+2000-12-07  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.60
 
@@ -197,4 +209,3 @@
 	* boot.[ch]: Created
 
 	* Makefile.am: Created.
-

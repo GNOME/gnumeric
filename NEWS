@@ -9,6 +9,8 @@ Jody:
 
 Morten:
 	* Fix scripts generating documentation.
+	* Fixed lotus file format loader.  (Magic detection,
+	  avoid unaligned memory accesses, leaks.)
 
 Chema:
 	* Some work on the name dialog.

@@ -171,7 +171,7 @@ parse_list_pop (ParseList **list)
 	}
 
 	puts ("Incorrect number of parsed formula arguments");
-	return expr_tree_new_constant (value_new_string ("WrongArgs"));
+	return expr_tree_new_constant (value_new_error (NULL, "WrongArgs"));
 }
 
 /**
@@ -180,9 +180,9 @@ parse_list_pop (ParseList **list)
 static ParseList *
 parse_list_last_n (ParseList **list, gint n)
 {
-	ParseList *l=0;
-	while (n-->0)
-		l = g_list_prepend (l, parse_list_pop(list));
+	ParseList *l = NULL;
+	while (n-- > 0)
+		l = g_list_prepend (l, parse_list_pop (list));
 	return l;
 }
 
@@ -190,7 +190,7 @@ static void
 parse_list_free (ParseList **list)
 {
 	while (*list)
-		expr_tree_unref (parse_list_pop(list));
+		expr_tree_unref (parse_list_pop (list));
 }
 
 static gint16
@@ -208,22 +208,22 @@ get_cellref (CellRef *ref, guint8 *dataa, guint8 *datab,
 	guint16 i;
 
 	ref->sheet = NULL;
-	i = GINT16_FROM_LE (*(gint16 *)(dataa));
+	i = gnumeric_get_le_uint16 (dataa);
 	if (i & 0x8000) {
 		ref->col_relative = TRUE;
-		ref->col = sign_extend (i&0x3fff);
+		ref->col = sign_extend (i & 0x3fff);
 	} else {
 		ref->col_relative = FALSE;
-		ref->col = i&0x3fff;
+		ref->col = i & 0x3fff;
 	}
 
-	i = GINT16_FROM_LE (*(gint16 *)(datab));
+	i = gnumeric_get_le_uint16 (datab);
 	if (i & 0x8000) {
 		ref->row_relative = TRUE;
-		ref->row = sign_extend (i&0x3fff);
+		ref->row = sign_extend (i & 0x3fff);
 	} else {
 		ref->row_relative = FALSE;
-		ref->row = i&0x3fff;
+		ref->row = i & 0x3fff;
 	}
 
 #if FORMULA_DEBUG > 0
@@ -332,7 +332,7 @@ lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 			break;
 		case LOTUS_FORMULA_INTEGER:
 		{
-			gint16 num = GINT16_FROM_LE (*(gint16 *)(data + i + 1));
+			gint16 num = gnumeric_get_le_int16 (data + i + 1);
 			v = value_new_int (num);
 			parse_list_push_raw (&stack, v);
 			i += 3;
@@ -353,7 +353,7 @@ lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 			}
 			*p1++ = '"';
 			*p1 = '\0';
-			push(cstrdup(b));
+			push (cstrdup (b));
 			i++;
 			break;
 */

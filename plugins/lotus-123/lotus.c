@@ -4,7 +4,8 @@
  * Authors:
  *    See: README
  *    Michael Meeks (mmeeks@gnu.org)
- *    Stephen Wood  (saw@genhomepage.com)
+ *    Stephen Wood (saw@genhomepage.com)
+ *    Morten Welinder (terra@diku.dk)
  **/
 #include <config.h>
 #include "gnumeric.h"
@@ -12,22 +13,18 @@
 #include <stdio.h>
 #include <errno.h>
 #include <unistd.h>
-#include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
-#include <stdio.h>
-#include <ctype.h>
-#include <gnome.h>
 #include "workbook.h"
 #include "io-context.h"
 #include "gnumeric-util.h"
-#include "main.h"
 #include "sheet.h"
 #include "file.h"
 #include "parse-util.h"
 #include "value.h"
 #include "cell.h"
 #include "gutils.h"
+#include "expr.h"
 
 #include "lotus.h"
 #include "lotus-types.h"
@@ -35,8 +32,7 @@
 
 #define LOTUS_DEBUG 0
 
-
-char *lotus_special_formats [16] = {
+char *lotus_special_formats[16] = {
 	"",
 	"",
 	"d-mmm-yy",
@@ -59,9 +55,11 @@ static void
 append_zeros (char *s, int n) {
 
 	if (n > 0) {
-		strcat (s, ".");
+		s = s + strlen (s);
+		*s++ = '.';
 		while (n--)
-			strcat (s, "0");
+			*s++ = '0';
+		*s = 0;
 	}
 }
 
@@ -70,7 +68,7 @@ cell_set_format_from_lotus_format (Cell *cell, int fmt)
 {
 	int fmt_type  = (fmt >> 4) & 0x7;
 	int precision = fmt&0xf;
-	char fmt_string [100];
+	char fmt_string[100];
 
 	switch (fmt_type) {
 
@@ -101,15 +99,15 @@ cell_set_format_from_lotus_format (Cell *cell, int fmt)
 		break;
 
 	case 7:			/* Lotus special format */
-		strcpy (fmt_string,  lotus_special_formats [precision]);
+		strcpy (fmt_string,  lotus_special_formats[precision]);
 		break;
 
 	default:
-		strcpy ("fmt_string", "");
+		strcpy (fmt_string, "");
 		break;
 
 	}
-	if (fmt_string [0])
+	if (fmt_string[0])
 		cell_set_format (cell, fmt_string);
 #if LOTUS_DEBUG > 0
 	printf ("Format: %s\n", fmt_string);
@@ -144,8 +142,8 @@ record_next (record_t *r)
 	if (fread (hdata, 1, 4, r->f) != 4)
 		return FALSE;
 
-	r->type = GUINT16_FROM_LE (*(guint16 *)hdata);
-	r->len  = GUINT16_FROM_LE (*(guint16 *)(hdata + 2));
+	r->type = gnumeric_get_le_uint16 (hdata);
+	r->len  = gnumeric_get_le_uint16 (hdata + 2);
 
 #if LOTUS_DEBUG > 0
 	printf ("Record 0x%x length 0x%x\n", r->type, r->len);
@@ -205,8 +203,9 @@ attach_sheet (Workbook *wb, int idx)
 static int
 read_workbook (IOContext *context, Workbook *wb, FILE *f)
 {
-	int       sheetidx = 0;
-	Sheet    *sheet = NULL;
+	int result = 0;
+	int sheetidx = 0;
+	Sheet *sheet = NULL;
 	record_t *r;
 
 	sheet = attach_sheet (wb, sheetidx++);
@@ -215,9 +214,12 @@ read_workbook (IOContext *context, Workbook *wb, FILE *f)
 
 	while (record_next (r)) {
 		Cell    *cell;
-		Value   *v;
-		guint32  i, j;
 		guint16  fmt;	/* Format code of Lotus Cell */
+
+		if (sheetidx == 0 && r->type != 0) {
+			result = -1;
+			break;
+		}
 
 		switch (r->type) {
 		case LOTUS_BOF:
@@ -231,10 +233,9 @@ read_workbook (IOContext *context, Workbook *wb, FILE *f)
 
 		case LOTUS_INTEGER:
 		{
-			gint16 i = GINT16_FROM_LE (*(gint16 *)(r->data + 5));
-			v = value_new_int (i);
-			i = GUINT16_FROM_LE  (*(guint16 *)(r->data + 1));
-		        j = GUINT16_FROM_LE  (*(guint16 *)(r->data + 3));
+			Value *v = value_new_int (gnumeric_get_le_int16 (r->data + 5));
+			int i = gnumeric_get_le_uint16 (r->data + 1);
+			int j = gnumeric_get_le_uint16 (r->data + 3);
 			fmt = *(guint8 *)(r->data);
 
 			cell = insert_value (sheet, i, j, v);
@@ -244,10 +245,9 @@ read_workbook (IOContext *context, Workbook *wb, FILE *f)
 		}
 		case LOTUS_NUMBER:
 		{
-			float_t num = gnumeric_get_le_double (r->data + 5);
-			v = value_new_float (num);
-			i = GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
-		        j = GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
+			Value *v = value_new_float (gnumeric_get_le_double (r->data + 5));
+			int i = gnumeric_get_le_uint16 (r->data + 1);
+			int j = gnumeric_get_le_uint16 (r->data + 3);
 			fmt = *(guint8 *)(r->data);
 
 			cell = insert_value (sheet, i, j, v);
@@ -259,9 +259,9 @@ read_workbook (IOContext *context, Workbook *wb, FILE *f)
 		{
 			/* one of '\', '''', '"', '^' */
 /*			gchar format_prefix = *(r->data + 5);*/
-			v = value_new_string (r->data + 6); /* FIXME unsafe */
-			i = GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
-		        j = GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
+			Value *v = value_new_string (r->data + 6); /* FIXME unsafe */
+			int i = gnumeric_get_le_uint16 (r->data + 1);
+			int j = gnumeric_get_le_uint16 (r->data + 3);
 			fmt = *(guint8 *)(r->data);
 			cell = insert_value (sheet, i, j, v);
 			if (cell)
@@ -270,18 +270,20 @@ read_workbook (IOContext *context, Workbook *wb, FILE *f)
 		}
 		case LOTUS_FORMULA:
 		{
-			ExprTree *f;
-		/* 5-12 = value */
-		/* 13-14 = formula r->length */
-			i = GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
-                        j = GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
+			/* 5-12 = value */
+			/* 13-14 = formula r->length */
+			Value *v = value_new_float (gnumeric_get_le_double (r->data + 5));
+			int i = gnumeric_get_le_uint16 (r->data + 1);
+			int j = gnumeric_get_le_uint16 (r->data + 3);
 			fmt = *(guint8 *)(r->data);
-			f = lotus_parse_formula (sheet, i, j, r->data + 15, /* FIXME: unsafe */
-						 GINT16_FROM_LE (*(gint16 *)(r->data + 13)));
-			v = value_new_float (gnumeric_get_le_double (r->data + 5));
 			cell = insert_value (sheet, i, j, v);
 			if (cell) {
+				ExprTree *f =
+					lotus_parse_formula (sheet, i, j,
+							     r->data + 15, /* FIXME: unsafe */
+							     gnumeric_get_le_int16 (r->data + 13));
 				cell_set_expr (cell, f, NULL);
+				expr_tree_unref (f);
 				cell_set_format_from_lotus_format (cell, fmt);
 			}
 			break;
@@ -292,7 +294,7 @@ read_workbook (IOContext *context, Workbook *wb, FILE *f)
 	}
 	record_destroy (r);
 
-	return 0;
+	return result;
 }
 
 int
@@ -311,4 +313,3 @@ lotus_read (IOContext *context, Workbook *wb, const char *filename)
 
 	return res;
 }
-
