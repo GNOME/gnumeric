@@ -220,7 +220,7 @@ EXTRA_DIST = \
      graphs-types-bar.png \
      graphs-types-bubble.png \
      graphs-types-column.png \
-     graphs-types-line.pngy \
+     graphs-types-line.png \
      graphs-types-pie.png \
      graphs-types-radar.png \
      graphs-types-ring.png \
@@ -311,8 +311,8 @@ EXTRA_DIST = \
      textguru-import-panel2b-withTags.png \
      textguru-import-panel3-withTags.png \
      toolbar-format.510.png \
-     toolbar-object.510.png \
-     toolbar-standard.png \
+     toolbar-object.png \
+     toolbar-standard.510.png \
      toolbars.510.png \
      widget-label.png \
      widget-frame.png \

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-27 20:15+0200\n"
+"POT-Creation-Date: 2004-10-05 01:55-0400\n"
 "PO-Revision-Date: 2004-09-28 23:58+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -353,7 +353,8 @@ msgid ""
 "@DESCRIPTION=OPT_BS_RHO uses the Black-Scholes model to calculate the \"rho"
 "\" of a European option with call_put_flag, @call_put_flag struck at @strike "
 "on an asset with spot price @spot.\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put.\n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "\n"
 "(The rho of an option is the rate of change of its price with respect to the "
 "risk free interest rate.)\n"
@@ -392,7 +393,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:592
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_CARRYCOST\n"
 "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -400,7 +401,8 @@ msgid ""
 "@DESCRIPTION=OPT_BS_CARRYCOST uses the Black-Scholes model to calculate the "
 "\"elasticity\" of a European option struck at @strike on an asset with spot "
 "price @spot.\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "\n"
 "(The elasticity of an option is the rate of change of its price with respect "
 "to its cost of carry.)\n"
@@ -442,14 +444,15 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:662
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
 "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domestic_rate,"
 "foreign_rate,volatility[,cost_of_carry])\n"
 "@DESCRIPTION=OPT_GARMAN_KOHLHAGEN values the theoretical price of a European "
 "currency option struck at @strike on an asset with spot price @spot.\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
 "period through to the exercise date. \n"
 "@time the number of days to exercise \n"
@@ -543,7 +546,8 @@ msgid ""
 "gamma)\n"
 "@DESCRIPTION=OPT_JUMP_DIFF models the theoretical price of an option "
 "according to the Jump Diffusion process (Merton).\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset\n"
 "@strike is the strike price of the option\n"
 "@time is the time to maturity of the option expressed in years\n"
@@ -585,7 +589,8 @@ msgid ""
 "rho_se,rho_sf,rho_ef,kappa_e,kappa_f)\n"
 "@DESCRIPTION=OPT_MILTERSEN_SCHWARTZ models the theoretical price of options "
 "on commodities futures according to Miltersen & Schwartz. \n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@p_t is a zero coupon bond with expiry at option maturity \n"
 "@f_t is is the futures price \n"
 "@x is is the strike price \n"
@@ -615,7 +620,8 @@ msgid ""
 "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)\n"
 "@DESCRIPTION=OPT_RGW models the theoretical price of an american option "
 "according to the Roll-Geske-Whaley approximation where: \n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset\n"
 "@strike is the strike price at which the option is struck\n"
 "@t1 is the time to the dividend payout\n"
@@ -646,7 +652,8 @@ msgid ""
 "volatility)\n"
 "@DESCRIPTION=OPT_BAW_AMER models the theoretical price of an option "
 "according to the Barone Adesie & Whaley approximation. \n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset\n"
 "@strike is the strike price at which the option is struck\n"
 "@time is the number of days to maturity of the option\n"
@@ -688,7 +695,8 @@ msgid ""
 "cost_of_carry])\n"
 "@DESCRIPTION=OPT_BJERSTENS models the theoretical price of american options "
 "according to the Bjerksund & Stensland approximation technique.\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset\n"
 "@strike is the strike price at which the option is struck\n"
 "@time is the number of days to maturity of the option\n"
@@ -729,8 +737,8 @@ msgid ""
 "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
 "cost_of_carry,lambda)\n"
 "@DESCRIPTION=OPT_EXEC models the theoretical price of executive stock "
-"options @call_put_flag is c or p to indicate whether the option is a call or "
-"a put \n"
+"options @call_put_flag is 'c' or 'p' to indicate whether the option is a "
+"call or a put.\n"
 "One would expect this to always be a call option \n"
 "@spot is the spot price of the underlying asset \n"
 "@strike is the strike price at which the option is struck \n"
@@ -775,8 +783,8 @@ msgid ""
 "volatility,cost_of_carry)\n"
 "@DESCRIPTION=OPT_FORWARD_START models the theoretical price of forward start "
 "options\n"
-" @call_put_flag is c or p to indicate whether the option is a call or a "
-"put \n"
+" @call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset \n"
 "@alpha is a fraction that set the strike price the future date @time1\n"
 "@time1 is the number of days until the option starts \n"
@@ -806,7 +814,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1429
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_TIME_SWITCH\n"
 "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
@@ -815,7 +823,8 @@ msgid ""
 "options. (Pechtl 1995)\n"
 "The holder receives @a * @dt for each period dt that the asset price was "
 "greater than the strike price (for a call) or below it (for a put) \n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset \n"
 "@strike is the strike price at which the option is struck \n"
 "@a is the amount received for each time period as discussed above\n"
@@ -830,16 +839,37 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
+"@FUNCTION=OPT_BS\n"
+"@SYNTAX=OPT_BS(příznak_call_put,cena,realizační_cena,doba_do_realizace,úrok, "
+"míra_kolísání,náklady_držení)\n"
+"@DESCRIPTION=OPT_BS počítá hodnotu Evropské opce call nebo put (tedy opce "
+"nákupní nebo prodejní, kterou lze uplatnit pouze v pevně stanovený den "
+"realizace) podle příznaku @příznak_call_put, pomocí Black-Scholesova modelu "
+"při realizační ceně aktiva @realizační_cena, na aktivech s okamžitou (spot) "
+"cenou @cena.\n"
+"\n"
+"@míra_kolísání je míra kolísání ceny aktiva v procentech přepočtená na roční "
+"bázi. @doba_do_realizace znamená dobu zbývající do realizace ve dnech, a "
+"@úrok představuje bezrizikovou úrokovou míru v procentech.\n"
+"\n"
+"* Vrácená hodnota bude vyjádřena ve stejných jednotkách jako "
+"@realizační_cena a @cena.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=OPT_BS_PUT, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, "
+"OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1486
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
 "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,rate,"
 "cost_of_carry,volatility)\n"
 "@DESCRIPTION=OPT_SIMPLE_CHOOSER models the theoretical price of simple "
 "chooser options.\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset \n"
 "@strike is the strike price at which the option is struck \n"
 "@time1 is the time in years until the holder chooses a put or a call option\n"
@@ -851,6 +881,21 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
+"@FUNCTION=OPT_FRENCH\n"
+"@SYNTAX=OPT_FRENCH(příznak_call_put,cena,realizační_cena, doba_do_realizace,"
+"t2,úrok,míra_kolísání,náklady_držení)\n"
+"@DESCRIPTION=OPT_FRENCH počítá teoretickou hodnotu Evropské opce (tedy opce, "
+"kterou lze uplatnit pouze v pevně stanovený den realizace) upravenou na míru "
+"kolísání ve dni obchodování, při realizační ceně @realizační_cena na aktivu "
+"s okamžitou (spot) cenou @cena.\n"
+"\n"
+"@míra_kolísání je míra kolísání ceny aktiva v procentech přepočtená na roční "
+"bázi. @doba_do_realizace znamená dobu zbývající do realizace ve dnech.\n"
+"* Vrácená hodnota bude vyjádřena jako míra změny hodnoty opce pro 100% míru "
+"kolísání.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1547
 #, fuzzy, no-c-format
@@ -860,7 +905,8 @@ msgid ""
 "time_call,time_put,rate,cost_of_carry,volatility)\n"
 "@DESCRIPTION=OPT_COMPLEX_CHOOSER models the theoretical price of complex "
 "chooser options.\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset \n"
 "@strike_call is the strike price at which the option is struck \n"
 "@strike_put is the strike price at which the option is struck \n"
@@ -944,7 +990,8 @@ msgid ""
 "extendible writer options. These are options that can be exercised at an "
 "initial period, @time1, or their maturity extended to @time2 if the option "
 "is out of the money at @time1 \n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset.\n"
 "@strike1 is the strike price at which the option is struck.\n"
 "@strike2 is the strike price at which the option is re-struck if out of the "
@@ -993,7 +1040,8 @@ msgid ""
 "otherwise.\n"
 "The payoff for a put is max (@strike2 - @spot2, 0) if @spot1 < @strike1 or 0 "
 "otherwise.\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot1 & @spot2 are the spot prices of the underlying assets.\n"
 "@strike1 & @strike2 are the strike prices at which the option is struck.\n"
 "@time is the initial maturity of the option in years.\n"
@@ -1036,7 +1084,7 @@ msgid ""
 "cost_of_carry2,volatility1,volatility2,rho)\n"
 "@DESCRIPTION=OPT_EURO_EXCHANGE models the theoretical price of a European "
 "option to exchange one asset with quantity @qty2 and spot price @spot2 for "
-"another, with quantity @qty1 and spot price @spot1 \n"
+"another, with quantity @qty1 and spot price @spot1.\n"
 "@time is the initial maturity of the option in years.\n"
 "@rate is the risk annualised free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying "
@@ -1047,7 +1095,8 @@ msgid ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
+"@SEEALSO=OPT_AMER_EXCHANGE, OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, "
+"OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_FRENCH\n"
 "@SYNTAX=OPT_FRENCH(příznak_call_put,cena,realizační_cena, doba_do_realizace,"
@@ -1109,8 +1158,10 @@ msgid ""
 "@FUNCTION=OPT_SPREAD_APPROX\n"
 "@SYNTAX=OPT_SPREAD_APPROX(call_put_flag,fut_price1,fut_price2,strike,time, "
 "rate,volatility1,volatility2,rho)\n"
-"@DESCRIPTION=OPT_SPREAD_APPROX models the theoretical price of theoretical "
-"price of a European option on the spread between two futures contracts.\n"
+"@DESCRIPTION=OPT_SPREAD_APPROX models the theoretical price of a European "
+"option on the spread between two futures contracts.\n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@fut_price1 & @fut_price2 are the prices of the two futures contracts.\n"
 "@strike is the strike price at which the option is struck \n"
 "@time is the initial maturity of the option in years.\n"
@@ -1144,7 +1195,7 @@ msgstr ""
 "@SEEALSO=OPT_BS_PUT, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, "
 "OPT_BS_GAMMA"
 
-#: plugins/derivatives/options.c:2001
+#: plugins/derivatives/options.c:2002
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
@@ -1152,8 +1203,9 @@ msgid ""
 "cost_of_carry,volatility)\n"
 "@DESCRIPTION=OPT_FLOAT_STRK_LKBK models the theoretical price of an option "
 "where the holder of the option may exercise on expiry at the most favourable "
-"price observed during the options life of the underlying asset\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"price observed during the options life of the underlying asset.\n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset.\n"
 "@spot_min is the minimum spot price of the underlying asset so far "
 "observed.\n"
@@ -1190,7 +1242,7 @@ msgstr ""
 "@SEEALSO=OPT_BS_PUT, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, "
 "OPT_BS_GAMMA"
 
-#: plugins/derivatives/options.c:2066
+#: plugins/derivatives/options.c:2067
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
@@ -1199,7 +1251,8 @@ msgid ""
 "@DESCRIPTION=OPT_FIXED_STRK_LKBK models the theoretical price of where the "
 "holder of the option may exercise on expiry at the most favourable price "
 "observed during the options life of the underlying asset\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset.\n"
 "@spot_min is the minimum spot price of the underlying asset so far "
 "observed.\n"
@@ -1236,7 +1289,7 @@ msgstr ""
 "@SEEALSO=OPT_BS_PUT, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, "
 "OPT_BS_GAMMA"
 
-#: plugins/derivatives/options.c:2146
+#: plugins/derivatives/options.c:2147
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BINOMIAL\n"
@@ -1246,7 +1299,8 @@ msgid ""
 "European style option using a binomial tree \n"
 "@amer_euro_flag is either \"a\" or \"e\" to indicate weather the option "
 "being valued is an American or European style option respectively\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@num_time_steps is the number of time steps used in the valuation, a greater "
 "number of time steps yeilds greater accuracy however is slower to calculate\n"
 "@spot is the spot price of the underlying asset.\n"
@@ -1280,56 +1334,56 @@ msgstr ""
 "@SEEALSO=OPT_BS_PUT, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, "
 "OPT_BS_GAMMA"
 
-#: plugins/derivatives/options.c:2169 plugins/derivatives/options.c:2174
-#: plugins/derivatives/options.c:2179 plugins/derivatives/options.c:2184
-#: plugins/derivatives/options.c:2199
+#: plugins/derivatives/options.c:2170 plugins/derivatives/options.c:2175
+#: plugins/derivatives/options.c:2180 plugins/derivatives/options.c:2185
+#: plugins/derivatives/options.c:2200
 msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
 msgstr ""
 "příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
 "míra_kolísání, náklady_držení"
 
-#: plugins/derivatives/options.c:2189 plugins/derivatives/options.c:2194
+#: plugins/derivatives/options.c:2190 plugins/derivatives/options.c:2195
 msgid "spot, strike, time, rate, volatility, cost_of_carry"
 msgstr ""
 "cena, realizační_cena, doba_do_realizace, úrok, míra_kolísání, náklady_držení"
 
-#: plugins/derivatives/options.c:2204
+#: plugins/derivatives/options.c:2205
 msgid "a, b, rho"
 msgstr "a, b, rho"
 
-#: plugins/derivatives/options.c:2209
+#: plugins/derivatives/options.c:2210
 msgid ""
 "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 msgstr ""
 "příznak_call_put, cena, realizační_cena, doba_do_realizace, domácí_úrok, "
 "zahraniční_úrok, míra_kolísání"
 
-#: plugins/derivatives/options.c:2214
+#: plugins/derivatives/options.c:2215
 msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
 msgstr ""
 "příznak_call_put, cena, realizační_cena, doba_do_realizace, t2, úrok, "
 "míra_kolísání, náklady_držení"
 
-#: plugins/derivatives/options.c:2219
+#: plugins/derivatives/options.c:2220
 msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
 msgstr ""
 "příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
 "míra_kolísání, lambda, gama"
 
-#: plugins/derivatives/options.c:2224
+#: plugins/derivatives/options.c:2225
 msgid ""
 "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 msgstr ""
 "příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
 "míra_kolísání, náklady_držení, lambda"
 
-#: plugins/derivatives/options.c:2229 plugins/derivatives/options.c:2239
+#: plugins/derivatives/options.c:2230 plugins/derivatives/options.c:2240
 msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
 msgstr ""
 "příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
 "náklady_držení, míra_kolísání"
 
-#: plugins/derivatives/options.c:2234
+#: plugins/derivatives/options.c:2235
 msgid ""
 "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
 "kappa_e, kappa_f)"
@@ -1337,32 +1391,32 @@ msgstr ""
 "příznak_call_put, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, "
 "rho_ef, kappa_e, kappa_f)"
 
-#: plugins/derivatives/options.c:2244
+#: plugins/derivatives/options.c:2245
 msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
 msgstr ""
 "příznak_call_put, cena, realizační_cena, t1, t2, úrok, d, míra_kolísání"
 
-#: plugins/derivatives/options.c:2249
+#: plugins/derivatives/options.c:2250
 msgid ""
 "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 msgstr ""
 "příznak_call_put, cena, alfa, čas1, doba_do_realizace, úrok, míra_kolísání, "
 "náklady_držení"
 
-#: plugins/derivatives/options.c:2254
+#: plugins/derivatives/options.c:2255
 msgid ""
 "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
 "příznak_call_put, cena, realizační_cena, a, doba_do_realizace, m, dt, úrok, "
 "náklady_držení, míra_kolísání"
 
-#: plugins/derivatives/options.c:2259
+#: plugins/derivatives/options.c:2260
 msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
 msgstr ""
 "cena, realizační_cena, doba_do_realizace1, doba_do_realizace2, úrok, "
 "náklady_držení, míra_kolísání"
 
-#: plugins/derivatives/options.c:2264
+#: plugins/derivatives/options.c:2265
 msgid ""
 "spot, strike_call, strike_put, time, time_call, time_put, rate, "
 "cost_of_carry, volatility"
@@ -1371,7 +1425,7 @@ msgstr ""
 "doba_do_realizace_call, doba_do_realizace_put, úrok, náklady_držení, "
 "míra_kolísání"
 
-#: plugins/derivatives/options.c:2269 plugins/derivatives/options.c:2274
+#: plugins/derivatives/options.c:2270 plugins/derivatives/options.c:2275
 msgid ""
 "type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
 "volatility"
@@ -1379,7 +1433,7 @@ msgstr ""
 "příznak_typu, cena, realizační_cena1, realizační_cena2, doba_do_realizace1, "
 "doba_do_realizace2, úrok, náklady_držení, míra_kolísání"
 
-#: plugins/derivatives/options.c:2279
+#: plugins/derivatives/options.c:2280
 #, fuzzy
 msgid ""
 "type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
@@ -1388,7 +1442,7 @@ msgstr ""
 "příznak_typu, cena, realizační_cena1, realizační_cena2, doba_do_realizace1, "
 "doba_do_realizace2, úrok, náklady_držení, míra_kolísání"
 
-#: plugins/derivatives/options.c:2284 plugins/derivatives/options.c:2289
+#: plugins/derivatives/options.c:2285 plugins/derivatives/options.c:2290
 #, fuzzy
 msgid ""
 "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
@@ -1397,7 +1451,7 @@ msgstr ""
 "cena, realizační_cena, doba_do_realizace1, doba_do_realizace2, úrok, "
 "náklady_držení, míra_kolísání"
 
-#: plugins/derivatives/options.c:2294
+#: plugins/derivatives/options.c:2295
 #, fuzzy
 msgid ""
 "call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
@@ -1406,14 +1460,14 @@ msgstr ""
 "příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
 "náklady_držení, míra_kolísání"
 
-#: plugins/derivatives/options.c:2299
+#: plugins/derivatives/options.c:2300
 #, fuzzy
 msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
 msgstr ""
 "příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
 "náklady_držení, míra_kolísání"
 
-#: plugins/derivatives/options.c:2304
+#: plugins/derivatives/options.c:2305
 #, fuzzy
 msgid ""
 "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
@@ -1422,7 +1476,7 @@ msgstr ""
 "příznak_call_put, cena, realizační_cena, doba_do_realizace, úrok, "
 "náklady_držení, míra_kolísání"
 
-#: plugins/derivatives/options.c:2310
+#: plugins/derivatives/options.c:2311
 #, fuzzy
 msgid ""
 "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
@@ -1446,7 +1500,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funkce spojené s finančními deriváty"
 
 #: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5683
-#: plugins/mps/mps.c:547 src/xml-io.c:4198
+#: plugins/mps/mps.c:547 src/xml-io.c:4203
 msgid "Reading file..."
 msgstr "Načítá se soubor..."
 
@@ -8720,9 +8774,9 @@ msgstr "%s verze %s"
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1445
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:224
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:119
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:821
-#: src/dialogs/dialog-cell-format.c:2364 src/dialogs/dialog-cell-format.c:2369
-#: src/dialogs/dialog-cell-format.c:2379 src/wbc-gtk.c:535
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:822
+#: src/dialogs/dialog-cell-format.c:2370 src/dialogs/dialog-cell-format.c:2375
+#: src/dialogs/dialog-cell-format.c:2385 src/wbc-gtk.c:535
 msgid "Automatic"
 msgstr "Automatické"
 
@@ -17560,9 +17614,9 @@ msgstr "Objektivní funkce:"
 msgid "Constraints:"
 msgstr "Omezení:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6177
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1052
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:373
+#: plugins/mps/mps.c:245 src/commands.c:6167
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:376
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
 #: src/dialogs/dialog-function-select.c:445
 #: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:368
@@ -18235,7 +18289,7 @@ msgstr "Ukázkový externí zdroj dat"
 msgid "Sample DataSource"
 msgstr "Ukázkový zdroj dat"
 
-#: plugins/sample_datasource/sample_datasource.c:264
+#: plugins/sample_datasource/sample_datasource.c:266
 #, no-c-format
 msgid ""
 "@FUNCTION=atl_last\n"
@@ -18328,10 +18382,10 @@ msgstr "Toto je zpráva ze zásuvného modulu \"%s\"."
 msgid "Error while opening xbase file."
 msgstr "Chyba při otevírání souboru Xbase."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4968
+#: plugins/xbase/boot.c:175 src/commands.c:4961
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:353 src/dialogs/print.glade.h:21
-#: src/print-info.c:391 src/workbook.c:1065 src/xml-io.c:3788
+#: src/print-info.c:391 src/workbook.c:1065 src/xml-io.c:3793
 msgid "Sheet"
 msgstr "List"
 
@@ -18370,7 +18424,7 @@ msgstr "EXPERIMENTÁLNÍ Gnumeric založený na SAX (*.gnumeric)"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "EXPERIMENTÁLNÍ XML založené na SAX"
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4324
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4329
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
@@ -19179,16 +19233,16 @@ msgstr ""
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Používat UTF-8 v exportu do LaTeXu"
 
-#: src/clipboard.c:304 src/clipboard.c:316 src/clipboard.c:327
-#: src/clipboard.c:335
+#: src/clipboard.c:314 src/clipboard.c:326 src/clipboard.c:337
+#: src/clipboard.c:345
 msgid "Unable to paste"
 msgstr "Nelze vložit"
 
-#: src/clipboard.c:305
+#: src/clipboard.c:315
 msgid "Content can only be pasted by value or by link."
 msgstr "Obsah je možné vložit pouze jako hodnotu nebo jako odkaz."
 
-#: src/clipboard.c:313
+#: src/clipboard.c:323
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -19199,7 +19253,7 @@ msgstr ""
 "\n"
 "Zkuste vybrat jedinou buňku nebo oblast stejného tvaru a velikosti."
 
-#: src/clipboard.c:324
+#: src/clipboard.c:334
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -19210,7 +19264,7 @@ msgstr ""
 "\n"
 "Zkuste vybrat jedinou buňku nebo oblast stejného tvaru a velikosti."
 
-#: src/clipboard.c:336
+#: src/clipboard.c:346
 msgid "result passes the sheet boundary"
 msgstr "výsledek přesahuje okraje listu"
 
@@ -19276,454 +19330,467 @@ msgstr "%s je zamknutý. Zrušte ochranu listu pro umožnění změn."
 msgid "..."
 msgstr "..."
 
-#: src/commands.c:917 src/commands.c:1024 src/commands.c:1029
+#: src/commands.c:917 src/commands.c:1022 src/commands.c:1027
 msgid "Set Text"
 msgstr "Nastavení textu"
 
-#: src/commands.c:943
+#: src/commands.c:942
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Napsání \"%s%s\" v %s"
 
-#: src/commands.c:1148
+#: src/commands.c:1145
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Napsání \"%s%s\""
 
-#: src/commands.c:1186
+#: src/commands.c:1182
 msgid "Ins/Del Column/Row"
 msgstr "Vložit/odstranit sloupec/řádek"
 
-#: src/commands.c:1292 src/commands.c:1297 src/sheet.c:3243
+#: src/commands.c:1289 src/commands.c:1294 src/sheet.c:3247
 msgid "Delete Columns"
 msgstr "Odstranit sloupce"
 
-#: src/commands.c:1292 src/commands.c:1297 src/sheet.c:3361
+#: src/commands.c:1289 src/commands.c:1294 src/sheet.c:3365
 msgid "Delete Rows"
 msgstr "Odstranit řádky"
 
-#: src/commands.c:1447
+#: src/commands.c:1442
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Vložení %d sloupců před %s"
 
-#: src/commands.c:1448
+#: src/commands.c:1443
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Vložení %d sloupce před %s"
 
-#: src/commands.c:1463
+#: src/commands.c:1458
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Vložení %d řádků před %s"
 
-#: src/commands.c:1464
+#: src/commands.c:1459
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Vložení %d řádku před %s"
 
-#: src/commands.c:1475
+#: src/commands.c:1470
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Odstranění sloupců %s"
 
-#: src/commands.c:1476
+#: src/commands.c:1471
 #, c-format
 msgid "Deleting column %s"
 msgstr "Odstranění sloupce %s"
 
-#: src/commands.c:1486
+#: src/commands.c:1481
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Odstranění řádků %s"
 
-#: src/commands.c:1487
+#: src/commands.c:1482
 #, c-format
 msgid "Deleting row %s"
 msgstr "Odstranění řádku %s"
 
 #. Check for locked cells
-#: src/commands.c:1569 src/commands.c:1573 src/sheet.c:2857
+#: src/commands.c:1564 src/commands.c:1568 src/sheet.c:2861
 msgid "Clear"
 msgstr "Smazat"
 
-#: src/commands.c:1645
+#: src/commands.c:1639
 msgid "contents"
 msgstr "obsah"
 
-#: src/commands.c:1647
+#: src/commands.c:1641
 msgid "formats"
 msgstr "formáty"
 
-#: src/commands.c:1649
+#: src/commands.c:1643
 msgid "comments"
 msgstr "komentáře"
 
-#: src/commands.c:1665
+#: src/commands.c:1659
 msgid "all"
 msgstr "vše"
 
-#: src/commands.c:1672
+#: src/commands.c:1666
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Vyčištění %s v %s"
 
-#: src/commands.c:1756
+#: src/commands.c:1749
 msgid "Changing Format"
 msgstr "Změna formátu"
 
-#: src/commands.c:1881
+#: src/commands.c:1874
 #, c-format
 msgid "Changing format of %s"
 msgstr "Změna formátu %s"
 
-#: src/commands.c:1993
+#: src/commands.c:1984
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Automatická úprava velikosti sloupce %s"
 
-#: src/commands.c:1994
+#: src/commands.c:1985
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Automatická úprava velikosti řádku %s"
 
-#: src/commands.c:1997
+#: src/commands.c:1988
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Nastavení šířky sloupce %s na %d bodů"
 
-#: src/commands.c:1999
+#: src/commands.c:1990
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Nastavení výšky řádku %s na %d bodů"
 
-#: src/commands.c:2002
+#: src/commands.c:1993
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Nastavení šířky sloupce %s na výchozí"
 
-#: src/commands.c:2005
+#: src/commands.c:1996
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Nastavení výšky řádku %s na výchozí"
 
-#: src/commands.c:2009
+#: src/commands.c:2000
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Automaticky upravuji sloupce %s"
 
-#: src/commands.c:2010
+#: src/commands.c:2001
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Automaticky upravuji řádky %s"
 
-#: src/commands.c:2013
+#: src/commands.c:2004
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Nastavení šířky sloupců %s na %d bodů"
 
-#: src/commands.c:2015
+#: src/commands.c:2006
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Nastavení výšky řádků %s na %d bodů"
 
-#: src/commands.c:2019
+#: src/commands.c:2010
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Nastavení šířky sloupců %s na výchozí"
 
-#: src/commands.c:2021
+#: src/commands.c:2012
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Nastavení výšky řádků %s na výchozí"
 
-#: src/commands.c:2088 src/dialogs/dialog-preferences.c:816
+#: src/commands.c:2078 src/dialogs/dialog-preferences.c:816
 msgid "Sorting"
 msgstr "Třídění"
 
-#: src/commands.c:2108
+#: src/commands.c:2098
 #, c-format
 msgid "Sorting %s"
 msgstr "Třídění %s"
 
-#: src/commands.c:2252
+#: src/commands.c:2241
 msgid "Unhide columns"
 msgstr "Zobrazení skrytých sloupců"
 
-#: src/commands.c:2252
+#: src/commands.c:2241
 msgid "Hide columns"
 msgstr "Skrytí sloupců"
 
-#: src/commands.c:2253
+#: src/commands.c:2242
 msgid "Unhide rows"
 msgstr "Zobrazení skrytých řádků"
 
-#: src/commands.c:2253
+#: src/commands.c:2242
 msgid "Hide rows"
 msgstr "Skrytí řádků"
 
-#: src/commands.c:2336
+#: src/commands.c:2324
 msgid "Expand columns"
 msgstr "Rozbalení sloupců"
 
-#: src/commands.c:2336
+#: src/commands.c:2324
 msgid "Collapse columns"
 msgstr "Sbalení sloupců"
 
-#: src/commands.c:2337
+#: src/commands.c:2325
 msgid "Expand rows"
 msgstr "Rozbalení řádků"
 
-#: src/commands.c:2337
+#: src/commands.c:2325
 msgid "Collapse rows"
 msgstr "Sbalení řádků"
 
-#: src/commands.c:2364
+#: src/commands.c:2351
 #, c-format
 msgid "Show column outline %d"
 msgstr "Zobrazit přehled sloupců %d"
 
-#: src/commands.c:2364
+#: src/commands.c:2351
 #, c-format
 msgid "Show row outline %d"
 msgstr "Zobrazit přehled řádků %d"
 
-#: src/commands.c:2435
+#: src/commands.c:2421
 msgid "Those columns are already grouped"
 msgstr "Tyto sloupce už jsou seskupeny"
 
-#: src/commands.c:2436
+#: src/commands.c:2422
 msgid "Those rows are already grouped"
 msgstr "Tyto řádky už jsou seskupeny"
 
-#: src/commands.c:2459
+#: src/commands.c:2445
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Tyto sloupce nejsou ve skupině, takže je nemůžete rozeskupit"
 
-#: src/commands.c:2460
+#: src/commands.c:2446
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Tyto řádky nejsou ve skupině, takže je nemůžete rozeskupit"
 
-#: src/commands.c:2474
+#: src/commands.c:2460
 #, c-format
 msgid "Group columns %s"
 msgstr "Seskupit sloupce %s"
 
-#: src/commands.c:2474
+#: src/commands.c:2460
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Rozeskupit sloupce %s"
 
-#: src/commands.c:2476
+#: src/commands.c:2462
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Seskupit řádky %d:%d"
 
-#: src/commands.c:2476
+#: src/commands.c:2462
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Rozeskupit řádky %d:%d"
 
-#: src/commands.c:2714
+#: src/commands.c:2699
 #, c-format
 msgid "Moving %s"
 msgstr "Přesun %s"
 
-#: src/commands.c:2723 src/commands.c:2950
+#: src/commands.c:2708 src/commands.c:2935
 msgid "is beyond sheet boundaries"
 msgstr "je mimo okraje listu"
 
-#: src/commands.c:2788
+#: src/commands.c:2771
 msgid "Paste Copy"
 msgstr "Vložit kopii"
 
 #. FIXME?
-#: src/commands.c:2894
+#: src/commands.c:2876
 #, c-format
 msgid "Pasting into %s"
 msgstr "Vložení do %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2987 src/commands.c:3144 src/commands.c:3145
+#: src/commands.c:2972 src/commands.c:3129 src/commands.c:3130
 #: src/wbcg-actions.c:425
 msgid "Autofill"
 msgstr "Automatické vyplňování"
 
 #. Changed in initial redo.
-#: src/commands.c:3168
+#: src/commands.c:3152
 #, c-format
 msgid "Autofilling %s"
 msgstr "Automatické vyplňování %s"
 
-#: src/commands.c:3490
+#: src/commands.c:3470
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automatický formát %s"
 
-#: src/commands.c:3608
+#: src/commands.c:3587
 #, c-format
 msgid "Unmerging %s"
 msgstr "Rozdělení buněk %s"
 
-#: src/commands.c:3773
+#: src/commands.c:3751
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Spojit a vycentrovat %s"
 
-#: src/commands.c:3773
+#: src/commands.c:3751
 #, c-format
 msgid "Merging %s"
 msgstr "Spojení %s"
 
 #. Corrected below.
-#: src/commands.c:4155 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4132 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Hledat a nahradit"
 
-#: src/commands.c:4252
+#: src/commands.c:4227
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Nastavení výchozí šířky sloupců na %.2f bodů"
 
-#: src/commands.c:4253
+#: src/commands.c:4228
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Nastavení výchozí výšky řádků na %.2f bodů"
 
-#: src/commands.c:4370
+#: src/commands.c:4343
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zvětšení %s na %.0f%%"
 
-#: src/commands.c:4432
-msgid "Insert object"
+#: src/commands.c:4413
+#, fuzzy
+msgid "Insert Object"
 msgstr "Vložit objekt"
 
-#: src/commands.c:4491
-msgid "Delete object"
+#: src/commands.c:4473
+#, fuzzy
+msgid "Delete Object"
 msgstr "Odstranit objekt"
 
-#: src/commands.c:4572
-msgid "Resize object"
+#: src/commands.c:4563
+#, fuzzy
+msgid "Duplicate Object"
+msgstr "Duplikovat"
+
+#: src/commands.c:4564
+#, fuzzy
+msgid "Resize Object"
 msgstr "Změnit velikost objektu"
 
-#: src/commands.c:4572
-msgid "Move object"
+#: src/commands.c:4565
+#, fuzzy
+msgid "Move Object"
 msgstr "Přesunout objekt"
 
-#: src/commands.c:4643
+#: src/commands.c:4636
 msgid "Format Object"
 msgstr "Formátovat objekt"
 
-#: src/commands.c:5242
+#: src/commands.c:5235
 msgid "Reordering Sheets"
 msgstr "Změna pořadí listů"
 
-#: src/commands.c:5245
+#: src/commands.c:5238
 msgid "Renaming Sheets"
 msgstr "Přejmenování listů"
 
-#: src/commands.c:5248
+#: src/commands.c:5241
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Připojuji %i listů"
 
-#: src/commands.c:5252
+#: src/commands.c:5245
 msgid "Changing Tab Colors"
 msgstr "Změna barev záložky"
 
-#: src/commands.c:5255
+#: src/commands.c:5248
 msgid "Changing Sheet Protection"
 msgstr "Změna ochrany listu"
 
-#: src/commands.c:5258
+#: src/commands.c:5251
 msgid "Delete sheets"
 msgstr "Odstranit listy"
 
-#: src/commands.c:5261
+#: src/commands.c:5254
 msgid "Delete a sheet"
 msgstr "Odstranit list"
 
-#: src/commands.c:5264
+#: src/commands.c:5257
 msgid "Changing Sheet Visibility"
 msgstr "Měním viditelnost listu"
 
-#: src/commands.c:5267
+#: src/commands.c:5260
 msgid "Reorganizing Sheets"
 msgstr "Reorganizace listů"
 
-#: src/commands.c:5418
+#: src/commands.c:5411
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Smazání komentáře %s"
 
-#: src/commands.c:5419
+#: src/commands.c:5412
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Nastavení komentáře %s"
 
-#: src/commands.c:5799
+#: src/commands.c:5792
 #, c-format
 msgid "Merging data into %s"
 msgstr "Spojení dat do %s"
 
-#: src/commands.c:5901
+#: src/commands.c:5894
 msgid "Changing summary info"
 msgstr "Změna souhrnných informací"
 
-#: src/commands.c:5992
-msgid "Pull object to the front"
+#: src/commands.c:5983
+#, fuzzy
+msgid "Pull Object to the Front"
 msgstr "Vytáhnout objekt dopředu"
 
-#: src/commands.c:5995
-msgid "Pull object forward"
+#: src/commands.c:5986
+#, fuzzy
+msgid "Pull Object Forward"
 msgstr "Táhnout objekt vpřed"
 
-#: src/commands.c:5998
-msgid "Push object backward"
+#: src/commands.c:5989
+#, fuzzy
+msgid "Push Object Backward"
 msgstr "Tlačit objekt vzad"
 
-#: src/commands.c:6001
-msgid "Push object to the back"
+#: src/commands.c:5992
+#, fuzzy
+msgid "Push Object to the Back"
 msgstr "Zatlačit objekt dozadu"
 
-#: src/commands.c:6116
+#: src/commands.c:6107
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Nastavení stránky pro %s"
 
-#: src/commands.c:6118
+#: src/commands.c:6109
 msgid "Page Setup For All Sheets"
 msgstr "Nastavení stránky pro všechny listy"
 
-#: src/commands.c:6234
+#: src/commands.c:6224
 msgid "has a circular reference"
 msgstr "obsahuje cyklický odkaz"
 
-#: src/commands.c:6257
+#: src/commands.c:6247
 #, c-format
 msgid "Define Name %s"
 msgstr "Definovat název %s"
 
-#: src/commands.c:6260
+#: src/commands.c:6250
 #, c-format
 msgid "Update Name %s"
 msgstr "Aktualizovat název %s"
 
-#: src/commands.c:6324
+#: src/commands.c:6314
 msgid "Add scenario"
 msgstr "Přidat scénář"
 
-#: src/commands.c:6399
+#: src/commands.c:6389
 msgid "Scenario Show"
 msgstr "Zobrazení Scénáře"
 
-#: src/commands.c:6463
+#: src/commands.c:6453
 msgid "Shuffle Data"
 msgstr "Zamíchat data"
 
 #. FIXME?
-#: src/commands.c:6574
+#: src/commands.c:6563
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) do sloupců (%s)"
@@ -19733,28 +19800,28 @@ msgstr "Text (%s) do sloupců (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6721 src/dialogs/solver.glade.h:17
+#: src/commands.c:6707 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:904 src/tools/solver/reports-write.c:955
 msgid "Solver"
 msgstr "Řešitel"
 
-#: src/commands.c:6808
+#: src/commands.c:6791
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Hledání cíle (%s)"
 
-#: src/commands.c:6954
+#: src/commands.c:6936
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplikuji %s"
 
-#: src/commands.c:7034
+#: src/commands.c:7015
 msgid "Tabulating Dependencies"
 msgstr "Tabeluji závislosti"
 
-#: src/commands.c:7110
+#: src/commands.c:7090
 msgid "Reconfigure Graph"
 msgstr "Přenastavit graf"
 
@@ -19797,42 +19864,42 @@ msgstr "Logaritmické mapování"
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1452
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1455
 msgid "Categories between _ticks"
 msgstr "Kategorie mezi _značkami"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1453
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1456
 msgid "Categories between _labels"
 msgstr "Kategorie mezi _titulky"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1454
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1457
 #, fuzzy
 msgid "_Cross at category #"
 msgstr "_Kategorie"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1460
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1474
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1463
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1477
 msgid "Bounds"
 msgstr "Hranice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1463
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1466
 #: src/dialogs/solver.glade.h:7
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1464
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1467
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1465
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1468
 msgid "Ma_jor Ticks"
 msgstr "H_lavní značky"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1466
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1469
 msgid "Mi_nor Ticks"
 msgstr "Ve_dlejší značky"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1467
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1470
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
 msgid "_Cross"
 msgstr "_Napříč"
@@ -19841,22 +19908,22 @@ msgstr "_Napříč"
 #. * We need a way to toggle auto vs user formats
 #. * but the selector is too tall already
 #. * disable for now
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1489
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1496
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1492
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1499
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Format"
 msgstr "Formát"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1525 src/wbcg-actions.c:1909
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1528 src/wbcg-actions.c:1909
 msgid "Label"
 msgstr "Titulek"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1528
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1531
 msgid "MinorGrid"
 msgstr "VedlejšíMřížka"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1531
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1534
 msgid "MajorGrid"
 msgstr "HlavníMřížka"
 
@@ -19952,19 +20019,19 @@ msgstr "Radiální osa"
 msgid "Plot"
 msgstr "Graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:248
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:234
 msgid "H"
 msgstr "V"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:248
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:234
 msgid "Height"
 msgstr "Výška"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:251
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:237
 msgid "W"
 msgstr "Š"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:251
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:237
 msgid "Width"
 msgstr "Šířka"
 
@@ -20048,81 +20115,69 @@ msgstr "Graf"
 msgid "Chart"
 msgstr "Graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1078
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1083
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Krok 1 ze 2: Vyberte typ grafu"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1086
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1091
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Krok 2 ze 2: Upravte graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1091
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1096
 msgid "Customize Chart"
 msgstr "Upravit graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1203
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1210
 msgid "_Plot Type"
 msgstr "_Typ grafu"
-
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1274
-msgid ""
-"Show\n"
-"Sample"
-msgstr ""
-"Zobrazit\n"
-"ukázku"
-
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1283
-#: src/dialogs/dialog-plugin-manager.c:732
-#: src/dialogs/dialog-preferences.c:451 src/dialogs/function-select.glade.h:2
-msgid "Description"
-msgstr "Popis"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:1
 msgid "GNOME Office Graph"
 msgstr "Graf GNOME Office"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:2
+#, fuzzy
+msgid "Pull f_orward"
+msgstr "Táhnout v_před"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
+#, fuzzy
+msgid "Pull to _front"
+msgstr "_Vytáhnout _dopředu"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:4
+#, fuzzy
+msgid "Push b_ackward"
+msgstr "T_lačit vzad"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:5
+#, fuzzy
+msgid "Push to _back"
+msgstr "_Zatlačit dozadu"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/names.glade.h:7
 #: src/dialogs/solver.glade.h:18
 msgid "_Add"
 msgstr "_Přidat"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
-#: src/dialogs/autoformat.glade.h:20 src/dialogs/cell-format.glade.h:90
-msgid "_Bottom"
-msgstr "_Dole"
-
-#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:4
-msgid "_Decrease"
-msgstr "_Snížení"
-
-#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:5
+#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:7
 #: src/dialogs/names.glade.h:8 src/dialogs/solver.glade.h:23
 #: src/wbcg-actions.c:1433
 msgid "_Delete"
 msgstr "_Odstranit"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
-msgid "_Increase"
-msgstr "Z_výšení"
-
-#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:7
-#: src/sheet-object.c:113
+#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:8
+#: src/sheet-object.c:105
 msgid "_Order"
 msgstr "_Řád"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:8
-#: src/dialogs/autoformat.glade.h:25
-msgid "_Top"
-msgstr "Na_hoře"
-
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:106
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:109
 msgid "_Text:"
 msgstr "_Text:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:112
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:414
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:116
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:417
 #: src/dialogs/dialog-stf.glade.h:18
 msgid "Data"
 msgstr "Data"
@@ -20152,22 +20207,22 @@ msgstr "Index:"
 msgid "Settings"
 msgstr "Nastavení"
 
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:440
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:443
 #: src/tools/analysis-tools.c:3919
 msgid "Point"
 msgstr "Hodnota"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:158 src/gui-file.c:351
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:158 src/gui-file.c:354
 #, c-format
 msgid "%d x %d"
 msgstr "%d × %d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:835
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:836
 #: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:812
 msgid "Font"
 msgstr "Písmo"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:923
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:924
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Styl"
@@ -20304,14 +20359,14 @@ msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:326
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:231
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:235
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:225
 #: src/dialogs/consolidate.glade.h:7
 msgid "Labels"
 msgstr "Titulky"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:328
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:233
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:237
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:227
 msgid "Values"
 msgstr "Hodnoty"
 
@@ -20340,16 +20395,17 @@ msgid "How far the bars/cols overlap as a percentage of the width"
 msgstr "Jak moc se pruhy/sloupce překrývají jako procenta šířky"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:4
+#, fuzzy
+msgid "O_verlap:"
+msgstr "_Překrytí:"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:5
 msgid "Separation between groups as a percentage of bar/col width"
 msgstr "Oddělení mezi skupinami jako procenta šířky pruhu/sloupce"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:5
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:6
 msgid "_Gap:"
 msgstr "_Mezera:"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:6
-msgid "_Overlap:"
-msgstr "_Překrytí:"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
@@ -20603,7 +20659,7 @@ msgstr "KoláčovýGraf"
 msgid "PlotRing"
 msgstr "PlotRing"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:582
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:593
 #, c-format
 msgid ""
 "%s point %d\n"
@@ -20638,13 +20694,11 @@ msgstr "_Oddělení dílů:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:7
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:8
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:3
 msgid "_Vary colors by slice"
 msgstr "_Měnit barvy podle dílu"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:8
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:9
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:4
 #: src/dialogs/cell-format.glade.h:103
 msgid "degrees"
 msgstr "stupňů"
@@ -20770,21 +20824,9 @@ msgstr "RadarovýGraf"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotRadarArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:286
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:276
 msgid "PlotRadarArea"
 msgstr "OblastRadarovéhoGrafu"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:1
-msgid "Axes start _at:"
-msgstr "Osy začínají _na:"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:2
-msgid "Axes start at:"
-msgstr "Osy začínají na:"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:5
-msgid "rotation_spinner"
-msgstr "spinner_rotace"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:1
 msgid "Area Radar"
@@ -21868,6 +21910,10 @@ msgstr "Kategorie, do které tato šablona patří"
 msgid "The group/individual that made the template"
 msgstr "Skupina/autor šablony"
 
+#: src/dialogs/autoformat.glade.h:20 src/dialogs/cell-format.glade.h:90
+msgid "_Bottom"
+msgstr "_Dole"
+
 #: src/dialogs/autoformat.glade.h:21 src/dialogs/cell-format.glade.h:95
 msgid "_Left"
 msgstr "V_levo"
@@ -21883,6 +21929,10 @@ msgstr "_Nastavení"
 #: src/dialogs/autoformat.glade.h:24
 msgid "_Show Gridlines"
 msgstr "Zobrazit _mřížku"
+
+#: src/dialogs/autoformat.glade.h:25
+msgid "_Top"
+msgstr "Na_hoře"
 
 #: src/dialogs/autosave.glade.h:2
 msgid "Auto Save"
@@ -21981,12 +22031,12 @@ msgstr ""
 "Délka textu\n"
 "Vlastní"
 
-#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:2374
+#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:2380
 #: src/wbc-gtk.c:587 src/wbc-gtk.c:588 src/wbc-gtk.c:595
 msgid "Background"
 msgstr "Pozadí"
 
-#: src/dialogs/cell-format.glade.h:37 src/dialogs/dialog-cell-format.c:2364
+#: src/dialogs/cell-format.glade.h:37 src/dialogs/dialog-cell-format.c:2370
 msgid "Border"
 msgstr "Okraje"
 
@@ -22018,7 +22068,7 @@ msgstr "_Podmínka:"
 msgid "Diagonal"
 msgstr "Diagonálně"
 
-#: src/dialogs/cell-format.glade.h:50 src/dialogs/dialog-cell-format.c:2301
+#: src/dialogs/cell-format.glade.h:50 src/dialogs/dialog-cell-format.c:2307
 msgid "Format Cells"
 msgstr "Formát buněk"
 
@@ -22062,7 +22112,7 @@ msgstr "Vlevo"
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr "Zamykání buněk nebo skrývání vzorců má smysl pouze u chráněných listů."
 
-#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:89
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:91
 #: src/tools/solver/reports-write.c:718
 msgid "None"
 msgstr "Nic"
@@ -22975,76 +23025,76 @@ msgstr "Chcete uložit sešit %s?"
 msgid "Could not create the autosave dialog."
 msgstr "Nelze vytvořit dialog pro automatické ukládání."
 
-#: src/dialogs/dialog-cell-format.c:90
+#: src/dialogs/dialog-cell-format.c:92
 msgid "Single"
 msgstr "Jednoduché"
 
-#: src/dialogs/dialog-cell-format.c:91
+#: src/dialogs/dialog-cell-format.c:93
 msgid "Double"
 msgstr "Dvojité"
 
-#: src/dialogs/dialog-cell-format.c:468 src/dialogs/dialog-search.c:148
+#: src/dialogs/dialog-cell-format.c:470 src/dialogs/dialog-search.c:148
 #: src/func.c:671 src/wbcg-actions.c:1960
 #: src/widgets/widget-format-selector.c:76
 msgid "Number"
 msgstr "Číslo"
 
-#: src/dialogs/dialog-cell-format.c:674 src/dialogs/dialog-stf-main-page.c:382
+#: src/dialogs/dialog-cell-format.c:676 src/dialogs/dialog-stf-main-page.c:382
 #: src/widgets/widget-format-selector.c:84
 msgid "Text"
 msgstr "Text"
 
-#: src/dialogs/dialog-cell-format.c:1811
+#: src/dialogs/dialog-cell-format.c:1817
 msgid "Source"
 msgstr "Zdroj"
 
-#: src/dialogs/dialog-cell-format.c:1812
+#: src/dialogs/dialog-cell-format.c:1818
 msgid "Criteria"
 msgstr "Kritéria"
 
-#: src/dialogs/dialog-cell-format.c:1824 src/dialogs/dialog-cell-format.c:1831
+#: src/dialogs/dialog-cell-format.c:1830 src/dialogs/dialog-cell-format.c:1837
 msgid "Min :"
 msgstr "Min :"
 
-#: src/dialogs/dialog-cell-format.c:1825 src/dialogs/dialog-cell-format.c:1834
+#: src/dialogs/dialog-cell-format.c:1831 src/dialogs/dialog-cell-format.c:1840
 msgid "Max :"
 msgstr "Max :"
 
-#: src/dialogs/dialog-cell-format.c:1828
+#: src/dialogs/dialog-cell-format.c:1834
 msgid "Value :"
 msgstr "Hodnota:"
 
-#: src/dialogs/dialog-cell-format.c:1918
+#: src/dialogs/dialog-cell-format.c:1924
 msgid "None          (silently accept invalid input)"
 msgstr "Nic       (tiše přijímat neplatný vstup)"
 
-#: src/dialogs/dialog-cell-format.c:1926
+#: src/dialogs/dialog-cell-format.c:1932
 msgid "Stop            (never allow invalid input)"
 msgstr "Zastavit      (nikdy nepovolit neplatný vstup)"
 
-#: src/dialogs/dialog-cell-format.c:1934
+#: src/dialogs/dialog-cell-format.c:1940
 msgid "Warning     (accept/discard invalid input)"
 msgstr "Varování    (přijmout/zahodit neplatný vstup)"
 
-#: src/dialogs/dialog-cell-format.c:1942
+#: src/dialogs/dialog-cell-format.c:1948
 msgid "Information (allow invalid input)"
 msgstr "Informace (umožnit neplatný vstup)"
 
-#: src/dialogs/dialog-cell-format.c:2115
+#: src/dialogs/dialog-cell-format.c:2121
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "Validační kritérium je nepoužitelné. Vypnout ověření?"
 
-#: src/dialogs/dialog-cell-format.c:2369 src/wbc-gtk.c:178 src/wbc-gtk.c:311
+#: src/dialogs/dialog-cell-format.c:2375 src/wbc-gtk.c:178 src/wbc-gtk.c:311
 #: src/wbc-gtk.c:537 src/wbc-gtk.c:538 src/wbc-gtk.c:547 src/wbc-gtk.c:640
 #: src/wbc-gtk.c:691
 msgid "Foreground"
 msgstr "Popředí"
 
-#: src/dialogs/dialog-cell-format.c:2374 src/wbc-gtk.c:585
+#: src/dialogs/dialog-cell-format.c:2380 src/wbc-gtk.c:585
 msgid "Clear Background"
 msgstr "Vymazat pozadí"
 
-#: src/dialogs/dialog-cell-format.c:2379
+#: src/dialogs/dialog-cell-format.c:2385
 msgid "Pattern"
 msgstr "Vzorek"
 
@@ -23375,27 +23425,27 @@ msgstr "Vy_násobit"
 msgid "D_ivide"
 msgstr "Vy_dělit"
 
-#: src/dialogs/dialog-paste-special.c:185
+#: src/dialogs/dialog-paste-special.c:186
 msgid "Paste Special"
 msgstr "Vložit jinak"
 
-#: src/dialogs/dialog-paste-special.c:188
+#: src/dialogs/dialog-paste-special.c:189
 msgid "Paste _Link"
 msgstr "Vložit _odkaz"
 
-#: src/dialogs/dialog-paste-special.c:197
+#: src/dialogs/dialog-paste-special.c:198
 msgid "Paste type"
 msgstr "Typ vkládání"
 
-#: src/dialogs/dialog-paste-special.c:201
+#: src/dialogs/dialog-paste-special.c:202
 msgid "Operation"
 msgstr "Operace"
 
-#: src/dialogs/dialog-paste-special.c:233
+#: src/dialogs/dialog-paste-special.c:234
 msgid "_Transpose"
 msgstr "_Transponovat"
 
-#: src/dialogs/dialog-paste-special.c:239
+#: src/dialogs/dialog-paste-special.c:240
 msgid "Skip _Blanks"
 msgstr "Přeskočit _prázdné"
 
@@ -23463,6 +23513,11 @@ msgstr "Aktivní"
 #: src/dialogs/dialog-plugin-manager.c:713
 msgid "Plugin name"
 msgstr "Název zásuvného modulu"
+
+#: src/dialogs/dialog-plugin-manager.c:732
+#: src/dialogs/dialog-preferences.c:451 src/dialogs/function-select.glade.h:2
+msgid "Description"
+msgstr "Popis"
 
 #: src/dialogs/dialog-plugin-manager.c:736
 msgid "ID"
@@ -23922,16 +23977,16 @@ msgid "Variable"
 msgstr "Proměnná"
 
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:247
-#: src/workbook-control-gui.c:1823
+#: src/workbook-control-gui.c:1824
 msgid "Min"
 msgstr "Min"
 
-#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1825
+#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1826
 msgid "Average"
 msgstr "Průměr"
 
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:249
-#: src/workbook-control-gui.c:1824
+#: src/workbook-control-gui.c:1825
 msgid "Max"
 msgstr "Max"
 
@@ -27233,23 +27288,23 @@ msgstr "Automaticky rozpoznán"
 msgid "Load file"
 msgstr "Načíst soubor"
 
-#: src/gui-file.c:223 src/gui-file.c:656
+#: src/gui-file.c:223 src/gui-file.c:657
 msgid "Select a file"
 msgstr "Zvolte soubor"
 
-#: src/gui-file.c:237 src/gui-file.c:443 src/gui-file.c:670
+#: src/gui-file.c:237 src/gui-file.c:459 src/gui-file.c:671
 msgid "All Files"
 msgstr "Všechny soubory"
 
-#: src/gui-file.c:242 src/gui-file.c:675
+#: src/gui-file.c:242 src/gui-file.c:676
 msgid "Spreadsheets"
 msgstr "Tabulkové kalkulátory"
 
-#: src/gui-file.c:276 src/gui-file.c:510 src/gui-file.c:699
+#: src/gui-file.c:279 src/gui-file.c:526 src/gui-file.c:700
 msgid "File _type:"
 msgstr "_Typ souboru:"
 
-#: src/gui-file.c:389
+#: src/gui-file.c:391
 #, c-format
 msgid ""
 "%s\n"
@@ -27258,7 +27313,7 @@ msgstr ""
 "%s\n"
 "je název adresáře"
 
-#: src/gui-file.c:395
+#: src/gui-file.c:397
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -27267,24 +27322,25 @@ msgstr ""
 "Nemáte práva pro ukládaní do\n"
 "%s"
 
-#: src/gui-file.c:402
-#, c-format
+#: src/gui-file.c:406
+#, fuzzy, c-format
 msgid ""
-"%s already exists.\n"
+"A file called <i>%s</i> already exists in %s.\n"
+"\n"
 "Do you want to save over it?"
 msgstr ""
 "%s již existuje.\n"
 "Chcete jej přepsat?"
 
-#: src/gui-file.c:448
+#: src/gui-file.c:464
 msgid "Images"
 msgstr "Obrázky"
 
-#: src/gui-file.c:488
+#: src/gui-file.c:504
 msgid "Save as"
 msgstr "Uložit jako"
 
-#: src/gui-file.c:537 src/gui-file.c:612
+#: src/gui-file.c:553 src/gui-file.c:749
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -27292,11 +27348,11 @@ msgstr ""
 "Zadaná přípona souboru neodpovídá vybranému typu souboru. Chcete přesto "
 "použít tento název souboru?"
 
-#: src/gui-file.c:564
+#: src/gui-file.c:580
 msgid "Select an Image"
 msgstr "Zvolte obrázek"
 
-#: src/gui-file.c:583
+#: src/gui-file.c:599
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -27317,7 +27373,7 @@ msgstr "Vícenásobné chyby\n"
 msgid "Unable to open file '%s'"
 msgstr "Soubor '%s' nelze otevřít"
 
-#: src/gutils.c:546
+#: src/gutils.c:520
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "yngnum."
@@ -27974,31 +28030,31 @@ msgid "Error while opening file \"%s\" for reading."
 msgstr "Chyba při otevírání souboru \"%s\" pro čtení."
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:605
+#: src/print.c:606
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1150
+#: src/print.c:1151
 msgid "Print Region"
 msgstr "Oblast tisku"
 
-#: src/print.c:1283
+#: src/print.c:1284
 msgid "Print Sheets"
 msgstr "Tisknuté listy"
 
-#: src/print.c:1291
+#: src/print.c:1292
 msgid "Act_ive sheet"
 msgstr "_Aktivní list"
 
-#: src/print.c:1291
+#: src/print.c:1292
 msgid "S_heets"
 msgstr "_Listy"
 
-#: src/print.c:1379 src/wbcg-actions.c:1513
+#: src/print.c:1380 src/wbcg-actions.c:1513
 msgid "Print preview"
 msgstr "Náhled před tiskem"
 
-#: src/print.c:1392
+#: src/print.c:1393
 msgid "Printing failed"
 msgstr "Tisk selhal"
 
@@ -28106,23 +28162,23 @@ msgstr "Neukládat"
 msgid "Do not log out"
 msgstr "Neodhlašovat se"
 
-#: src/sheet.c:2012
+#: src/sheet.c:2013
 msgid "Target region contains merged cells"
 msgstr "Cílová oblast obsahuje spojené buňky"
 
-#: src/sheet.c:2073
+#: src/sheet.c:2074
 msgid "cannot operate on merged cells"
 msgstr "nelze vykonat na spojených buňkách"
 
-#: src/sheet.c:2083
+#: src/sheet.c:2084
 msgid "cannot operate on array formulae"
 msgstr "nelze vykonat na poli vzorců"
 
-#: src/sheet.c:3184
+#: src/sheet.c:3188
 msgid "Insert Columns"
 msgstr "Vložit sloupce"
 
-#: src/sheet.c:3302
+#: src/sheet.c:3306
 msgid "Insert Rows"
 msgstr "Vložit řádky"
 
@@ -28247,57 +28303,57 @@ msgstr ""
 "Již zde existuje spojená oblast, která se kříží\n"
 "%s!%s"
 
-#: src/sheet-object.c:114
+#: src/sheet-object.c:106
 msgid "Pul_l to Front"
 msgstr "_Vytáhnout _dopředu"
 
-#: src/sheet-object.c:115
+#: src/sheet-object.c:107
 msgid "Pull _Forward"
 msgstr "Táhnout v_před"
 
-#: src/sheet-object.c:116
+#: src/sheet-object.c:108
 msgid "Push _Backward"
 msgstr "T_lačit vzad"
 
-#: src/sheet-object.c:117
+#: src/sheet-object.c:109
 msgid "Pus_h to Back"
 msgstr "_Zatlačit dozadu"
 
-#: src/sheet-object-container.c:173
+#: src/sheet-object-container.c:171
 #, c-format
 msgid "can't create object for '%s'"
 msgstr "nelze vytvořit objekt pro '%s'"
 
-#: src/sheet-object-container.c:182
+#: src/sheet-object-container.c:180
 #, c-format
 msgid "Could not load file: %s"
 msgstr "Nelze načíst soubor: %s"
 
-#: src/sheet-object-graph.c:193 src/sheet-object-image.c:331
+#: src/sheet-object-graph.c:192 src/sheet-object-image.c:330
 msgid "SVG (vector graphics)"
 msgstr "SVG (vektorová grafika)"
 
-#: src/sheet-object-graph.c:194 src/sheet-object-image.c:327
+#: src/sheet-object-graph.c:193 src/sheet-object-image.c:326
 msgid "PNG (raster graphics)"
 msgstr "PNG (rastrová grafika)"
 
-#: src/sheet-object-graph.c:195 src/sheet-object-image.c:329
+#: src/sheet-object-graph.c:194 src/sheet-object-image.c:328
 msgid "JPEG (photograph)"
 msgstr "JPEG (fotografie)"
 
-#: src/sheet-object-graph.c:237 src/sheet-object-image.c:457
+#: src/sheet-object-graph.c:236 src/sheet-object-image.c:456
 msgid "Unknown failure while saving image"
 msgstr "Neznámá chyba při ukládání obrázku"
 
-#: src/sheet-object-graph.c:250 src/sheet-object-image.c:472
+#: src/sheet-object-graph.c:249 src/sheet-object-image.c:471
 msgid "_Save as image"
 msgstr "_Uložit jako obrázek"
 
-#: src/sheet-object-image.c:333
+#: src/sheet-object-image.c:332
 msgid "EMF (extended metafile)"
 msgstr "EMF (rozšířený metasoubor)"
 
-#: src/sheet-object-image.c:335
+#: src/sheet-object-image.c:334
 msgid "WMF (windows metafile)"
 msgstr "WMF (metasoubor windows)"
 
@@ -29026,7 +29082,7 @@ msgstr "Strmost"
 msgid "Range"
 msgstr "Interval"
 
-#: src/tools/simulation.c:257 src/workbook-control-gui.c:1826
+#: src/tools/simulation.c:257 src/workbook-control-gui.c:1827
 msgid "Count"
 msgstr "Počet"
 
@@ -30633,7 +30689,7 @@ msgid "Import the text from a file"
 msgstr "Importuje text ze souboru"
 
 #. Standard Toolbar
-#: src/wbcg-actions.c:1894 src/workbook-control-gui.c:1822
+#: src/wbcg-actions.c:1894 src/workbook-control-gui.c:1823
 #: src/workbook-view.c:544
 msgid "Sum"
 msgstr "Součet"
@@ -32376,15 +32432,15 @@ msgstr "Nekončit"
 msgid "Don't close"
 msgstr "Nezavírat"
 
-#: src/workbook-control-gui.c:2212 src/workbook-control-gui.c:2227
+#: src/workbook-control-gui.c:2213 src/workbook-control-gui.c:2228
 msgid "_Re-Edit"
 msgstr "Znovu _upravit"
 
-#: src/workbook-control-gui.c:2213 src/workbook-control-gui.c:2218
+#: src/workbook-control-gui.c:2214 src/workbook-control-gui.c:2219
 msgid "_Discard"
 msgstr "Za_hodit"
 
-#: src/workbook-control-gui.c:2217 src/workbook-control-gui.c:2228
+#: src/workbook-control-gui.c:2218 src/workbook-control-gui.c:2229
 msgid "_Accept"
 msgstr "_Přijmout"
 
@@ -32430,7 +32486,7 @@ msgstr "Nemohou otevřít '%s' pro zápis: %s"
 msgid "An unexplained error happened while saving %s"
 msgstr "Nastala nevysvětlená chyba při ukládání %s"
 
-#: src/workbook-view.c:679 src/workbook-view.c:856
+#: src/workbook-view.c:679 src/workbook-view.c:854
 msgid "Default file saver is not available."
 msgstr "Výchozí ukládání souboru není k dispozici."
 
@@ -32438,11 +32494,11 @@ msgstr "Výchozí ukládání souboru není k dispozici."
 msgid "Failed to create temporary file for sending."
 msgstr "Nemohu vytvořit dočasný soubor pro odeslání."
 
-#: src/workbook-view.c:944
+#: src/workbook-view.c:942
 msgid "Unsupported file format."
 msgstr "Nepodporovaný formát souboru."
 
-#: src/workbook-view.c:992
+#: src/workbook-view.c:990
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Nastala nevysvětlitelná chyba při otevírání %s"
@@ -32452,32 +32508,54 @@ msgstr "Nastala nevysvětlitelná chyba při otevírání %s"
 msgid "Unsupported object type '%s'"
 msgstr "Nepodporovaný typ objektu '%s'"
 
-#: src/xml-io.c:3474
+#: src/xml-io.c:3477
 msgid "Unparsable xml in clipboard"
 msgstr "Obsah schránky v XML není možné zpracovat"
 
-#: src/xml-io.c:3481
+#: src/xml-io.c:3484
 msgid "Clipboard is in unknown format"
 msgstr "Obsah schránky má neznámý formát."
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3919
+#: src/xml-io.c:3924
 msgid "Processing file..."
 msgstr "Zpracovává se soubor..."
 
-#: src/xml-io.c:4246
+#: src/xml-io.c:4251
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Toto není soubor se sešitem Gnumeric"
 
-#: src/xml-io.c:4283
+#: src/xml-io.c:4288
 msgid "Failure saving file"
 msgstr "Chyba při ukládání souboru."
 
-#: src/xml-io.c:4328
+#: src/xml-io.c:4333
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Gnumeric XML (*.gnumeric), původní pomalý exportér"
+
+#~ msgid ""
+#~ "Show\n"
+#~ "Sample"
+#~ msgstr ""
+#~ "Zobrazit\n"
+#~ "ukázku"
+
+#~ msgid "_Decrease"
+#~ msgstr "_Snížení"
+
+#~ msgid "_Increase"
+#~ msgstr "Z_výšení"
+
+#~ msgid "Axes start _at:"
+#~ msgstr "Osy začínají _na:"
+
+#~ msgid "Axes start at:"
+#~ msgstr "Osy začínají na:"
+
+#~ msgid "rotation_spinner"
+#~ msgstr "spinner_rotace"
 
 #~ msgid "Send _Email"
 #~ msgstr "Odeslat _email"

@@ -35,7 +35,6 @@ entities =  \
      data-selections.xml \
      data-types.xml \
      documenting.xml \
-     extending-code.xml \
      extending-functions.xml \
      extending-overview.xml \
      extending-plugins.xml \

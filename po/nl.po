@@ -124,7 +124,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-01 12:19+0200\n"
+"POT-Creation-Date: 2004-10-05 01:55-0400\n"
 "PO-Revision-Date: 2004-10-02 02:49+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
@@ -464,7 +464,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:528
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_RHO\n"
 "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -472,7 +472,8 @@ msgid ""
 "@DESCRIPTION=OPT_BS_RHO uses the Black-Scholes model to calculate the \"rho"
 "\" of a European option with call_put_flag, @call_put_flag struck at @strike "
 "on an asset with spot price @spot.\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put.\n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "\n"
 "(The rho of an option is the rate of change of its price with respect to the "
 "risk free interest rate.)\n"
@@ -514,7 +515,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:592
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_CARRYCOST\n"
 "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -522,7 +523,8 @@ msgid ""
 "@DESCRIPTION=OPT_BS_CARRYCOST uses the Black-Scholes model to calculate the "
 "\"elasticity\" of a European option struck at @strike on an asset with spot "
 "price @spot.\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "\n"
 "(The elasticity of an option is the rate of change of its price with respect "
 "to its cost of carry.)\n"
@@ -567,14 +569,15 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:662
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
 "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domestic_rate,"
 "foreign_rate,volatility[,cost_of_carry])\n"
 "@DESCRIPTION=OPT_GARMAN_KOHLHAGEN values the theoretical price of a European "
 "currency option struck at @strike on an asset with spot price @spot.\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
 "period through to the exercise date. \n"
 "@time the number of days to exercise \n"
@@ -679,7 +682,8 @@ msgid ""
 "gamma)\n"
 "@DESCRIPTION=OPT_JUMP_DIFF models the theoretical price of an option "
 "according to the Jump Diffusion process (Merton).\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset\n"
 "@strike is the strike price of the option\n"
 "@time is the time to maturity of the option expressed in years\n"
@@ -712,14 +716,15 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:887
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
 "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,x,t1,t2,v_s,v_e,v_f,"
 "rho_se,rho_sf,rho_ef,kappa_e,kappa_f)\n"
 "@DESCRIPTION=OPT_MILTERSEN_SCHWARTZ models the theoretical price of options "
 "on commodities futures according to Miltersen & Schwartz. \n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@p_t is a zero coupon bond with expiry at option maturity \n"
 "@f_t is is the futures price \n"
 "@x is is the strike price \n"
@@ -772,13 +777,14 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:997
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_RGW\n"
 "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)\n"
 "@DESCRIPTION=OPT_RGW models the theoretical price of an american option "
 "according to the Roll-Geske-Whaley approximation where: \n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset\n"
 "@strike is the strike price at which the option is struck\n"
 "@t1 is the time to the dividend payout\n"
@@ -818,7 +824,8 @@ msgid ""
 "volatility)\n"
 "@DESCRIPTION=OPT_BAW_AMER models the theoretical price of an option "
 "according to the Barone Adesie & Whaley approximation. \n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset\n"
 "@strike is the strike price at which the option is struck\n"
 "@time is the number of days to maturity of the option\n"
@@ -859,7 +866,8 @@ msgid ""
 "cost_of_carry])\n"
 "@DESCRIPTION=OPT_BJERSTENS models the theoretical price of american options "
 "according to the Bjerksund & Stensland approximation technique.\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset\n"
 "@strike is the strike price at which the option is struck\n"
 "@time is the number of days to maturity of the option\n"
@@ -898,8 +906,8 @@ msgid ""
 "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
 "cost_of_carry,lambda)\n"
 "@DESCRIPTION=OPT_EXEC models the theoretical price of executive stock "
-"options @call_put_flag is c or p to indicate whether the option is a call or "
-"a put \n"
+"options @call_put_flag is 'c' or 'p' to indicate whether the option is a "
+"call or a put.\n"
 "One would expect this to always be a call option \n"
 "@spot is the spot price of the underlying asset \n"
 "@strike is the strike price at which the option is struck \n"
@@ -944,8 +952,8 @@ msgid ""
 "volatility,cost_of_carry)\n"
 "@DESCRIPTION=OPT_FORWARD_START models the theoretical price of forward start "
 "options\n"
-" @call_put_flag is c or p to indicate whether the option is a call or a "
-"put \n"
+" @call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset \n"
 "@alpha is a fraction that set the strike price the future date @time1\n"
 "@time1 is the number of days until the option starts \n"
@@ -980,7 +988,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1429
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_TIME_SWITCH\n"
 "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
@@ -989,7 +997,8 @@ msgid ""
 "options. (Pechtl 1995)\n"
 "The holder receives @a * @dt for each period dt that the asset price was "
 "greater than the strike price (for a call) or below it (for a put) \n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset \n"
 "@strike is the strike price at which the option is struck \n"
 "@a is the amount received for each time period as discussed above\n"
@@ -1030,14 +1039,15 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1486
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
 "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,rate,"
 "cost_of_carry,volatility)\n"
 "@DESCRIPTION=OPT_SIMPLE_CHOOSER models the theoretical price of simple "
 "chooser options.\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset \n"
 "@strike is the strike price at which the option is struck \n"
 "@time1 is the time in years until the holder chooses a put or a call option\n"
@@ -1074,7 +1084,8 @@ msgid ""
 "time_call,time_put,rate,cost_of_carry,volatility)\n"
 "@DESCRIPTION=OPT_COMPLEX_CHOOSER models the theoretical price of complex "
 "chooser options.\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset \n"
 "@strike_call is the strike price at which the option is struck \n"
 "@strike_put is the strike price at which the option is struck \n"
@@ -1173,7 +1184,8 @@ msgid ""
 "extendible writer options. These are options that can be exercised at an "
 "initial period, @time1, or their maturity extended to @time2 if the option "
 "is out of the money at @time1 \n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset.\n"
 "@strike1 is the strike price at which the option is struck.\n"
 "@strike2 is the strike price at which the option is re-struck if out of the "
@@ -1226,7 +1238,8 @@ msgid ""
 "otherwise.\n"
 "The payoff for a put is max (@strike2 - @spot2, 0) if @spot1 < @strike1 or 0 "
 "otherwise.\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot1 & @spot2 are the spot prices of the underlying assets.\n"
 "@strike1 & @strike2 are the strike prices at which the option is struck.\n"
 "@time is the initial maturity of the option in years.\n"
@@ -1267,7 +1280,7 @@ msgid ""
 "cost_of_carry2,volatility1,volatility2,rho)\n"
 "@DESCRIPTION=OPT_EURO_EXCHANGE models the theoretical price of a European "
 "option to exchange one asset with quantity @qty2 and spot price @spot2 for "
-"another, with quantity @qty1 and spot price @spot1 \n"
+"another, with quantity @qty1 and spot price @spot1.\n"
 "@time is the initial maturity of the option in years.\n"
 "@rate is the risk annualised free rate of interest.\n"
 "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying "
@@ -1278,7 +1291,8 @@ msgid ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
+"@SEEALSO=OPT_AMER_EXCHANGE, OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, "
+"OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_BAW_AMER\n"
 "@SYNTAX=OPT_BAW_AMER(call_put_keuze;prijs;koers;resterende_looptijd;rente;"
@@ -1347,8 +1361,10 @@ msgid ""
 "@FUNCTION=OPT_SPREAD_APPROX\n"
 "@SYNTAX=OPT_SPREAD_APPROX(call_put_flag,fut_price1,fut_price2,strike,time, "
 "rate,volatility1,volatility2,rho)\n"
-"@DESCRIPTION=OPT_SPREAD_APPROX models the theoretical price of theoretical "
-"price of a European option on the spread between two futures contracts.\n"
+"@DESCRIPTION=OPT_SPREAD_APPROX models the theoretical price of a European "
+"option on the spread between two futures contracts.\n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@fut_price1 & @fut_price2 are the prices of the two futures contracts.\n"
 "@strike is the strike price at which the option is struck \n"
 "@time is the initial maturity of the option in years.\n"
@@ -1380,7 +1396,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: plugins/derivatives/options.c:2001
+#: plugins/derivatives/options.c:2002
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
@@ -1388,8 +1404,9 @@ msgid ""
 "cost_of_carry,volatility)\n"
 "@DESCRIPTION=OPT_FLOAT_STRK_LKBK models the theoretical price of an option "
 "where the holder of the option may exercise on expiry at the most favourable "
-"price observed during the options life of the underlying asset\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"price observed during the options life of the underlying asset.\n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset.\n"
 "@spot_min is the minimum spot price of the underlying asset so far "
 "observed.\n"
@@ -1424,7 +1441,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: plugins/derivatives/options.c:2066
+#: plugins/derivatives/options.c:2067
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
@@ -1433,7 +1450,8 @@ msgid ""
 "@DESCRIPTION=OPT_FIXED_STRK_LKBK models the theoretical price of where the "
 "holder of the option may exercise on expiry at the most favourable price "
 "observed during the options life of the underlying asset\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@spot is the spot price of the underlying asset.\n"
 "@spot_min is the minimum spot price of the underlying asset so far "
 "observed.\n"
@@ -1469,7 +1487,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 # onderliggende waarde of onderliggende?
-#: plugins/derivatives/options.c:2146
+#: plugins/derivatives/options.c:2147
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BINOMIAL\n"
@@ -1479,7 +1497,8 @@ msgid ""
 "European style option using a binomial tree \n"
 "@amer_euro_flag is either \"a\" or \"e\" to indicate weather the option "
 "being valued is an American or European style option respectively\n"
-"@call_put_flag is c or p to indicate whether the option is a call or a put \n"
+"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
+"put.\n"
 "@num_time_steps is the number of time steps used in the valuation, a greater "
 "number of time steps yeilds greater accuracy however is slower to calculate\n"
 "@spot is the spot price of the underlying asset.\n"
@@ -1511,55 +1530,55 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: plugins/derivatives/options.c:2169 plugins/derivatives/options.c:2174
-#: plugins/derivatives/options.c:2179 plugins/derivatives/options.c:2184
-#: plugins/derivatives/options.c:2199
+#: plugins/derivatives/options.c:2170 plugins/derivatives/options.c:2175
+#: plugins/derivatives/options.c:2180 plugins/derivatives/options.c:2185
+#: plugins/derivatives/options.c:2200
 msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
 msgstr ""
 "call_put_keuze; prijs; koers; resterende_looptijd; rente; volatiliteit; "
 "cost_of_carry"
 
-#: plugins/derivatives/options.c:2189 plugins/derivatives/options.c:2194
+#: plugins/derivatives/options.c:2190 plugins/derivatives/options.c:2195
 msgid "spot, strike, time, rate, volatility, cost_of_carry"
 msgstr "prijs; koers; tijd; rente; volatiliteit; cost_of_carry"
 
-#: plugins/derivatives/options.c:2204
+#: plugins/derivatives/options.c:2205
 msgid "a, b, rho"
 msgstr "a; b; rho"
 
-#: plugins/derivatives/options.c:2209
+#: plugins/derivatives/options.c:2210
 msgid ""
 "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 msgstr ""
 "call_put_keuze; prijs; koers; tijd; binnenlandse_rente; buitenlands_rente; "
 "volatiliteit"
 
-#: plugins/derivatives/options.c:2214
+#: plugins/derivatives/options.c:2215
 msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
 msgstr ""
 "call_put_keuze; prijs; koers; resterende_looptijd; t2; rente; volatiliteit; "
 "cost_of_carry"
 
-#: plugins/derivatives/options.c:2219
+#: plugins/derivatives/options.c:2220
 msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
 msgstr ""
 "call_put_keuze; prijs; koers; resterende_looptijd; rente; volatiliteit; "
 "lambda; gamma"
 
-#: plugins/derivatives/options.c:2224
+#: plugins/derivatives/options.c:2225
 msgid ""
 "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 msgstr ""
 "call_put_keuze; prijs; koers; resterende_looptijd; rente; volatiliteit; "
 "cost_of_carry; lambda"
 
-#: plugins/derivatives/options.c:2229 plugins/derivatives/options.c:2239
+#: plugins/derivatives/options.c:2230 plugins/derivatives/options.c:2240
 msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
 msgstr ""
 "call_put_keuze; prijs; koers; resterende_looptijd; rente; cost_of_carry; "
 "volatiliteit"
 
-#: plugins/derivatives/options.c:2234
+#: plugins/derivatives/options.c:2235
 msgid ""
 "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
 "kappa_e, kappa_f)"
@@ -1567,29 +1586,29 @@ msgstr ""
 "call_put_keuze; p_t; f_t; x; t1; t2; v_s; v_e; v_f; rho_se; rho_sf; rho_ef; "
 "kappa_e; kappa_f)"
 
-#: plugins/derivatives/options.c:2244
+#: plugins/derivatives/options.c:2245
 msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
 msgstr "call_put_keuze; prijs; koers; t1; t2; rente; d; volatiliteit"
 
-#: plugins/derivatives/options.c:2249
+#: plugins/derivatives/options.c:2250
 msgid ""
 "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 msgstr ""
 "call_put_keuze; prijs; alpha; tijd1; resterende_looptijd; rente; "
 "volatiliteit; cost_of_carry"
 
-#: plugins/derivatives/options.c:2254
+#: plugins/derivatives/options.c:2255
 msgid ""
 "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
 "call_put_keuze; prijs; koers; a; resterende_looptijd; m; dt; rente; "
 "cost_of_carry; volatiliteit"
 
-#: plugins/derivatives/options.c:2259
+#: plugins/derivatives/options.c:2260
 msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
 msgstr "prijs; koers; tijd1; tijd2; rente; cost_of_carry; volatiliteit"
 
-#: plugins/derivatives/options.c:2264
+#: plugins/derivatives/options.c:2265
 msgid ""
 "spot, strike_call, strike_put, time, time_call, time_put, rate, "
 "cost_of_carry, volatility"
@@ -1597,7 +1616,7 @@ msgstr ""
 "prijs; koers_call; koers_put; resterende_looptijd; tijd_call; tijd_put; "
 "rente; cost_of_carry; volatiliteit"
 
-#: plugins/derivatives/options.c:2269 plugins/derivatives/options.c:2274
+#: plugins/derivatives/options.c:2270 plugins/derivatives/options.c:2275
 msgid ""
 "type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
 "volatility"
@@ -1605,7 +1624,7 @@ msgstr ""
 "type_keuze; prijs; koers1; koers2; tijd1; tijd2; rente; cost_of_carry; "
 "volatiliteit"
 
-#: plugins/derivatives/options.c:2279
+#: plugins/derivatives/options.c:2280
 #, fuzzy
 msgid ""
 "type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
@@ -1614,14 +1633,14 @@ msgstr ""
 "type_keuze; prijs; koers1; koers2; tijd1; tijd2; rente; cost_of_carry; "
 "volatiliteit"
 
-#: plugins/derivatives/options.c:2284 plugins/derivatives/options.c:2289
+#: plugins/derivatives/options.c:2285 plugins/derivatives/options.c:2290
 #, fuzzy
 msgid ""
 "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
 "volatility2,rho"
 msgstr "prijs; koers; tijd1; tijd2; rente; cost_of_carry; volatiliteit"
 
-#: plugins/derivatives/options.c:2294
+#: plugins/derivatives/options.c:2295
 #, fuzzy
 msgid ""
 "call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
@@ -1630,14 +1649,14 @@ msgstr ""
 "call_put_keuze; prijs; koers; resterende_looptijd; rente; cost_of_carry; "
 "volatiliteit"
 
-#: plugins/derivatives/options.c:2299
+#: plugins/derivatives/options.c:2300
 #, fuzzy
 msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
 msgstr ""
 "call_put_keuze; prijs; koers; resterende_looptijd; rente; cost_of_carry; "
 "volatiliteit"
 
-#: plugins/derivatives/options.c:2304
+#: plugins/derivatives/options.c:2305
 #, fuzzy
 msgid ""
 "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
@@ -1646,7 +1665,7 @@ msgstr ""
 "call_put_keuze; prijs; koers; resterende_looptijd; rente; cost_of_carry; "
 "volatiliteit"
 
-#: plugins/derivatives/options.c:2310
+#: plugins/derivatives/options.c:2311
 #, fuzzy
 msgid ""
 "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
@@ -9076,7 +9095,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL(type;verw)\n"
-"@DESCRIPTION=CELL geeft informatie over de opmaak, lokatie, of inhoud van een cel.\n"
+"@DESCRIPTION=CELL geeft informatie over de opmaak, lokatie, of inhoud van "
+"een cel.\n"
 "\n"
 "@type specifieert het soort informatie dat u wilt verkrijgen:\n"
 "\n"
@@ -10303,9 +10323,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(verw_tekst[;formaat])\n"
-"@DESCRIPTION=INDIRECT geeft de inhoud van de cel waarnaar verwezen wordt door de tekenreeks: @vew_tekst. De tekenreeks geeft een enkele celverwijzing in de A1-stijl of R1K1-stijl. De stijl wordt bepaald door de formaat-boolese welke als standaard de A1-stijl geeft.\n"
+"@DESCRIPTION=INDIRECT geeft de inhoud van de cel waarnaar verwezen wordt "
+"door de tekenreeks: @vew_tekst. De tekenreeks geeft een enkele celverwijzing "
+"in de A1-stijl of R1K1-stijl. De stijl wordt bepaald door de formaat-boolese "
+"welke als standaard de A1-stijl geeft.\n"
 "\n"
-"* Als @verw_tekst geen geldige verwijzing is geeft de functie een #VERW! foutmelding.\n"
+"* Als @verw_tekst geen geldige verwijzing is geeft de functie een #VERW! "
+"foutmelding.\n"
 "\n"
 "@EXAMPLES=\n"
 "Als A1 3,14 bevat en A2 bevat A1, dan geldt:\n"
@@ -18893,7 +18917,7 @@ msgid "Sample DataSource"
 msgstr "Steekproef databron"
 
 # BUG hoofdletters voor de functienaam
-#: plugins/sample_datasource/sample_datasource.c:264
+#: plugins/sample_datasource/sample_datasource.c:266
 #, no-c-format
 msgid ""
 "@FUNCTION=atl_last\n"
@@ -19225,7 +19249,8 @@ msgstr "Paginakop"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:41
 msgid "Please use the Print Setup dialog to edit this value."
-msgstr "Gebruik het dialoogvenster Afdrukinstellingen om deze waarde te wijzigen."
+msgstr ""
+"Gebruik het dialoogvenster Afdrukinstellingen om deze waarde te wijzigen."
 
 # printerconfiguratie?
 #: schemas/gnumeric-dialogs.schemas.in.h:42
@@ -20613,20 +20638,20 @@ msgstr "Radiale as"
 msgid "Plot"
 msgstr "Tekenen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:248
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:234
 msgid "H"
 msgstr "H"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:248
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:234
 msgid "Height"
 msgstr "Hoogte"
 
 # Width-Breedte
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:251
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:237
 msgid "W"
 msgstr "W"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:251
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:237
 msgid "Width"
 msgstr "Breedte"
 
@@ -20766,12 +20791,12 @@ msgstr "_Verwijderen"
 msgid "_Order"
 msgstr "Volg_orde"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:106
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:109
 msgid "_Text:"
 msgstr "_Tekst:"
 
 # Data
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:112
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:116
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:417
 #: src/dialogs/dialog-stf.glade.h:18
 msgid "Data"
@@ -20808,7 +20833,7 @@ msgstr "Instellingen"
 msgid "Point"
 msgstr "Punt"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:158 src/gui-file.c:351
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:158 src/gui-file.c:354
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
@@ -23135,7 +23160,9 @@ msgstr "Overzicht Statistieken"
 msgid ""
 "Use the ssmedian function with interval width 1 rather than the traditional "
 "median function.  "
-msgstr "De functie ssmedian gebruiken met intervalbreedte 1 in plaats van de traditionele mediaan-functie"
+msgstr ""
+"De functie ssmedian gebruiken met intervalbreedte 1 in plaats van de "
+"traditionele mediaan-functie"
 
 #: src/dialogs/descriptive-stats.glade.h:17
 msgid "_K:"
@@ -28051,7 +28078,7 @@ msgstr "Bestand laden"
 msgid "Select a file"
 msgstr "Een bestand selecteren"
 
-#: src/gui-file.c:237 src/gui-file.c:456 src/gui-file.c:671
+#: src/gui-file.c:237 src/gui-file.c:459 src/gui-file.c:671
 msgid "All Files"
 msgstr "Alle bestanden"
 
@@ -28060,11 +28087,11 @@ msgid "Spreadsheets"
 msgstr "Spreadsheets"
 
 # bestandtype?
-#: src/gui-file.c:276 src/gui-file.c:523 src/gui-file.c:700
+#: src/gui-file.c:279 src/gui-file.c:526 src/gui-file.c:700
 msgid "File _type:"
 msgstr "Bestands_type:"
 
-#: src/gui-file.c:388
+#: src/gui-file.c:391
 #, c-format
 msgid ""
 "%s\n"
@@ -28073,7 +28100,7 @@ msgstr ""
 "%s\n"
 "is een padnaam"
 
-#: src/gui-file.c:394
+#: src/gui-file.c:397
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -28082,7 +28109,7 @@ msgstr ""
 "U heeft geen toestemming om op te slaan naar\n"
 "%s"
 
-#: src/gui-file.c:403
+#: src/gui-file.c:406
 #, fuzzy, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -28092,17 +28119,17 @@ msgstr ""
 "Werkmap %s bestaat al.\n"
 "Wilt U er overheen opslaan?"
 
-#: src/gui-file.c:461
+#: src/gui-file.c:464
 #, fuzzy
 msgid "Images"
 msgstr "Afbeelding"
 
-#: src/gui-file.c:501
+#: src/gui-file.c:504
 #, fuzzy
 msgid "Save as"
 msgstr "Alles opslaan"
 
-#: src/gui-file.c:550 src/gui-file.c:749
+#: src/gui-file.c:553 src/gui-file.c:749
 #, fuzzy
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
@@ -28111,12 +28138,12 @@ msgstr ""
 "De opgegeven bestandsextentie komt niet overeen met het gekozen "
 "bestandstype. Wilt u evengoed deze naam gebruiken?"
 
-#: src/gui-file.c:577
+#: src/gui-file.c:580
 #, fuzzy
 msgid "Select an Image"
 msgstr "Een afbeelding selecteren"
 
-#: src/gui-file.c:596
+#: src/gui-file.c:599
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -31300,7 +31327,9 @@ msgstr "_Bekende varianties: Z-Test..."
 msgid ""
 "Comparing two population means from populations with known variances: z-"
 "test..."
-msgstr "Twee populatiegemiddelden vergelijken van populaties met bekende varianties: z-test..."
+msgstr ""
+"Twee populatiegemiddelden vergelijken van populaties met bekende varianties: "
+"z-test..."
 
 #. Tools -> Analysis
 #: src/wbcg-actions.c:1813
@@ -32048,7 +32077,8 @@ msgstr "Niets"
 #: src/wbc-gtk.c:986
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
-msgstr "In het menu `%s' wordt de toets `%s' zowel gebruikt voor `%s' als voor `%s'."
+msgstr ""
+"In het menu `%s' wordt de toets `%s' zowel gebruikt voor `%s' als voor `%s'."
 
 #: src/wbc-gtk.c:1104
 #, c-format

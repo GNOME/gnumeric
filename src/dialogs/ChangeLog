@@ -1,3 +1,7 @@
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
 2004-09-28  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (set_rot_from_point): Use atan2, not atan.

@@ -12,8 +12,7 @@ AC_INIT([gnumeric], [gnumeric_full_version],
 	[http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric])
 
 AC_CONFIG_SRCDIR(src/sheet.h)
-
-AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
+AM_INIT_AUTOMAKE([dist-bzip2])
 AM_CONFIG_HEADER(gnumeric-config.h)
 
 AM_MAINTAINER_MODE
