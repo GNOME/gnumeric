@@ -15,8 +15,6 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-#define PLUGIN (plugins_get_plugin_by_id ("Gnumeric_UIHello"))
-
 static void
 hello_message (WorkbookControlGUI *wbcg)
 {

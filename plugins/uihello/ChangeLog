@@ -1,3 +1,10 @@
+2002-08-07  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* Makefile.am (INCLUDES): Define PLUGIN_ID
+
+	* uihello.c:
+	Use the PLUGIN macro from module-plugin-defs.h
+
 2002-08-05  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.xml.in, uihello.c, Makefile.am, ChangeLog, hello.xml:
