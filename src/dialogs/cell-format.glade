@@ -1321,24 +1321,14 @@
 				  <property name="yscale">1</property>
 
 				  <child>
-				    <widget class="GtkFrame" id="frame9">
+				    <widget class="GtkFrame" id="border_sample_container">
 				      <property name="visible">True</property>
 				      <property name="label_xalign">0</property>
 				      <property name="label_yalign">0.5</property>
 				      <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
 
 				      <child>
-					<widget class="GnomeCanvas" id="border_sample">
-					  <property name="width_request">150</property>
-					  <property name="height_request">100</property>
-					  <property name="visible">True</property>
-					  <property name="anti_aliased">False</property>
-					  <property name="scroll_x1">0</property>
-					  <property name="scroll_y1">0</property>
-					  <property name="scroll_x2">150</property>
-					  <property name="scroll_y2">100</property>
-					  <property name="pixels_per_unit">1</property>
-					</widget>
+					<placeholder/>
 				      </child>
 				    </widget>
 				  </child>

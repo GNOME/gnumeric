@@ -338,6 +338,10 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 		}
 		return TRUE;
 	}
+
+	case GDK_Delete:
+		g_print ("%s delete hit.\n", __FUNCTION__);
+
 	default:
 		break;
 	}

@@ -2,7 +2,7 @@
 #define GNUMERIC_DASHED_CANVAS_LINE_H
 
 /* dashed Line item for the canvas */
-#include <libgnomecanvas/gnome-canvas-line.h>
+#include <libfoocanvas/foo-canvas-line.h>
 #include "style-border.h"
 
 #define GNUMERIC_TYPE_DASHED_CANVAS_LINE\
@@ -21,16 +21,17 @@ typedef struct _GnumericDashedCanvasLine GnumericDashedCanvasLine;
 typedef struct _GnumericDashedCanvasLineClass GnumericDashedCanvasLineClass;
 
 struct _GnumericDashedCanvasLine {
-	GnomeCanvasLine line;
+	FooCanvasLine line;
 
 	/* Public : */
 	StyleBorderType dash_style_index;
 };
 
 struct _GnumericDashedCanvasLineClass {
-	GnomeCanvasLineClass parent_class;
-	void (*real_draw)(GnomeCanvasItem *item, GdkDrawable *drawable,
-			  int x, int y, int width, int height);
+	FooCanvasLineClass parent_class;
+	void (*real_draw)(FooCanvasItem *item,
+			  GdkDrawable *drawable,
+			  GdkEventExpose *event);
 };
 
 void    gnumeric_dashed_canvas_line_set_dash_index (GnumericDashedCanvasLine *line,

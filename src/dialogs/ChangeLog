@@ -2,6 +2,7 @@
 
 	* dialog-cell-format.c: Use FooCanvas for drawing rotated text.
 	Do not include <pango/pangoft2.h> anymore.
+	Switch border stuff to FooCanvas.
 
 2005-03-01  Morten Welinder  <terra@gnome.org>
 

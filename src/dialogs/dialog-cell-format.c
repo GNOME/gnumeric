@@ -79,9 +79,6 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkbox.h>
-#include <libgnomecanvas/gnome-canvas-util.h>
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
-#include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include <libfoocanvas/foo-canvas.h>
 #include <libfoocanvas/foo-canvas-util.h>
 #include <libfoocanvas/foo-canvas-line.h>
@@ -185,10 +182,10 @@ typedef struct _FormatState
 		ColorPicker      color;
 	} font;
 	struct {
-		GnomeCanvas	*canvas;
+		FooCanvas	*canvas;
 		GtkButton 	*preset[BORDER_PRESET_MAX];
-		GnomeCanvasItem	*back;
-		GnomeCanvasItem *lines[20];
+		FooCanvasItem	*back;
+		FooCanvasItem *lines[20];
 
 		BorderPicker	 edge[STYLE_BORDER_EDGE_MAX];
 		ColorPicker      color;
@@ -1240,8 +1237,8 @@ border_format_has_changed (FormatState *state, BorderPicker *edge)
 		for (i = 0; line_info[i].states != 0 ; ++i ) {
 			if (line_info[i].location == edge->index &&
 			    state->border.lines[i] != NULL)
-				gnome_canvas_item_set (
-					GNOME_CANVAS_ITEM (state->border.lines[i]),
+				foo_canvas_item_set (
+					FOO_CANVAS_ITEM (state->border.lines[i]),
 					"fill_color_rgba", edge->rgba,
 					NULL);
 		}
@@ -1386,19 +1383,23 @@ draw_border_preview (FormatState *state)
 
 	/* The first time through lets initialize */
 	if (state->border.canvas == NULL) {
-		GnomeCanvasGroup  *group;
-		GnomeCanvasPoints *points;
+		FooCanvasGroup  *group;
+		FooCanvasPoints *points;
 
-		state->border.canvas =
-			GNOME_CANVAS (glade_xml_get_widget (state->gui, "border_sample"));
-		group = GNOME_CANVAS_GROUP (gnome_canvas_root (state->border.canvas));
+		state->border.canvas = FOO_CANVAS (foo_canvas_new ());
+		gtk_widget_show (GTK_WIDGET (state->border.canvas));
+		gtk_widget_set_size_request (GTK_WIDGET (state->border.canvas),
+					     150, 100);
+		gtk_container_add (GTK_CONTAINER (glade_xml_get_widget (state->gui, "border_sample_container")),
+				   GTK_WIDGET (state->border.canvas));
+		group = FOO_CANVAS_GROUP (foo_canvas_root (state->border.canvas));
 
 		g_signal_connect (G_OBJECT (state->border.canvas),
 			"button-press-event",
 			G_CALLBACK (border_event), state);
 
-		state->border.back = gnome_canvas_item_new (group,
-			GNOME_TYPE_CANVAS_RECT,
+		state->border.back = foo_canvas_item_new (group,
+			FOO_TYPE_CANVAS_RECT,
 			"x1", L-10.,	"y1", T-10.,
 			"x2", R+10.,	"y2", B+10.,
 			"width_pixels", (int) 0,
@@ -1406,7 +1407,7 @@ draw_border_preview (FormatState *state)
 			NULL);
 
 		/* Draw the corners */
-		points = gnome_canvas_points_new (3);
+		points = foo_canvas_points_new (3);
 
 		for (i = 0; i < 12 ; ++i) {
 			if (i >= 8) {
@@ -1420,16 +1421,16 @@ draw_border_preview (FormatState *state)
 			for (j = 6 ; --j >= 0 ;)
 				points->coords[j] = corners[i][j];
 
-			gnome_canvas_item_new (group,
-					       gnome_canvas_line_get_type (),
+			foo_canvas_item_new (group,
+					       foo_canvas_line_get_type (),
 					       "width_pixels",	(int) 0,
 					       "fill_color",	"gray63",
 					       "points",	points,
 					       NULL);
 		}
-		gnome_canvas_points_free (points);
+		foo_canvas_points_free (points);
 
-		points = gnome_canvas_points_new (2);
+		points = foo_canvas_points_new (2);
 		for (i = 0; line_info[i].states != 0 ; ++i ) {
 			for (j = 4; --j >= 0 ; )
 				points->coords[j] = line_info[i].points[j];
@@ -1438,7 +1439,7 @@ draw_border_preview (FormatState *state)
 				BorderPicker const *p =
 				    & state->border.edge[line_info[i].location];
 				state->border.lines[i] =
-					gnome_canvas_item_new (group,
+					foo_canvas_item_new (group,
 							       gnumeric_dashed_canvas_line_get_type (),
 							       "fill_color_rgba", p->rgba,
 							       "points",	  points,
@@ -1449,13 +1450,13 @@ draw_border_preview (FormatState *state)
 			} else
 				state->border.lines[i] = NULL;
 		}
-		gnome_canvas_points_free (points);
+		foo_canvas_points_free (points);
 	}
 
 	for (i = 0; i < STYLE_BORDER_EDGE_MAX; ++i) {
 		BorderPicker *border = &state->border.edge[i];
-		void (*func)(GnomeCanvasItem *item) = border->is_selected
-			? &gnome_canvas_item_show : &gnome_canvas_item_hide;
+		void (*func)(FooCanvasItem *item) = border->is_selected
+			? &foo_canvas_item_show : &foo_canvas_item_hide;
 
 		for (j = 0; line_info[j].states != 0 ; ++j) {
 			if ((int)line_info[j].location == i &&
@@ -1572,7 +1573,7 @@ init_border_button (FormatState *state, StyleBorderLocation const i,
 		state->border.edge[i].is_selected = TRUE;
 	} else {
 		GnmColor const *c = border->color;
-		state->border.edge[i].rgba = GNOME_CANVAS_COLOR (
+		state->border.edge[i].rgba = FOO_CANVAS_COLOR (
 			c->gdk_color.red >> 8,
 			c->gdk_color.green >> 8,
 			c->gdk_color.blue >> 8);
@@ -2313,7 +2314,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	state->border.pattern.draw_preview = NULL;
 	state->border.pattern.current_pattern = NULL;
 	state->border.pattern.state = state;
-	state->border.rgba = GNOME_CANVAS_COLOR (
+	state->border.rgba = FOO_CANVAS_COLOR (
 		default_border_color->red   >> 8,
 		default_border_color->green >> 8,
 		default_border_color->blue  >> 8);

@@ -1,3 +1,7 @@
+2005-03-02  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (gnumeric_gtk_reqs): Get rid of GnomeCanvas.
+
 2005-03-01  Jody Goldberg <jody@gnome.org>
 
 	* (all plugins) :

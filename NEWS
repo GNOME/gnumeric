@@ -37,6 +37,7 @@ Morten:
 	* Improve format selection dialog for text import.
 	* Constification.
 	* Use FooCanvas for rotation part of cell format dialog.
+	* Get rid of the last direct GnomeCanvas use.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

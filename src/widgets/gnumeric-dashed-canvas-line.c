@@ -13,8 +13,11 @@
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
-static void gnumeric_dashed_canvas_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
-					      int x, int y, int width, int height);
+// 				  int x, int y, int width, int height)
+
+static void gnumeric_dashed_canvas_line_draw (FooCanvasItem *item,
+					      GdkDrawable *drawable,
+					      GdkEventExpose *event);
 
 static GnumericDashedCanvasLineClass *gnumeric_dashed_canvas_line_class;
 
@@ -72,8 +75,8 @@ hypothenuse (double xlength, double ylength)
  * (x0,y0) - B is the y offset from y0 of the start of this line.
  */
 static void
-double_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
-		  int x, int y, int width, int height)
+double_line_draw (FooCanvasItem *item, GdkDrawable *drawable,
+		  GdkEventExpose *event)
 {
 	double *coords;
 	double length, xdiff, ydiff, xoffs, yoffs;
@@ -81,19 +84,18 @@ double_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	GnumericDashedCanvasLine *line = GNUMERIC_DASHED_CANVAS_LINE (item);
 
-	if (GNOME_CANVAS_LINE (line)->num_points != 2) {
+	if (FOO_CANVAS_LINE (line)->num_points != 2) {
 		g_warning ("file %s: line %d: \n%s", __FILE__, __LINE__,
 			   "GnumericDashedCanvasLine only supports a "
 			   "single line segment.");
 
 		line->dash_style_index = STYLE_BORDER_MEDIUM;
 		gnumeric_dashed_canvas_line_draw
-			(GNOME_CANVAS_ITEM (line), drawable,
-			 x, y, width, height);
+			(FOO_CANVAS_ITEM (line), drawable, event);
 		return;
 	}
 
-	coords = GNOME_CANVAS_LINE (line)->coords;
+	coords = FOO_CANVAS_LINE (line)->coords;
 	xdiff = coords[2] - coords[0];
 	ydiff = coords[3] - coords[1];
 
@@ -101,50 +103,51 @@ double_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	yoffs = xdiff/length;
 	xoffs = -ydiff/length;
 
-	style_border_set_gc_dash (GNOME_CANVAS_LINE (item)->gc,
+	style_border_set_gc_dash (FOO_CANVAS_LINE (item)->gc,
 				  STYLE_BORDER_THIN);
 	offsetcoords[0] = coords[0] + xoffs;
 	offsetcoords[1] = coords[1] + yoffs;
 	offsetcoords[2] = coords[2] + xoffs;
 	offsetcoords[3] = coords[3] + yoffs;
-	GNOME_CANVAS_LINE (line)->coords = offsetcoords;
+	FOO_CANVAS_LINE (line)->coords = offsetcoords;
 	gnumeric_dashed_canvas_line_class->
-		real_draw (item, drawable, x, y, width, height);
+		real_draw (item, drawable, event);
 
 	offsetcoords[0] = coords[0] - xoffs;
 	offsetcoords[1] = coords[1] - yoffs;
 	offsetcoords[2] = coords[2] - xoffs;
 	offsetcoords[3] = coords[3] - yoffs;
 	gnumeric_dashed_canvas_line_class->
-		real_draw (item, drawable, x, y, width, height);
+		real_draw (item, drawable, event);
 
-	GNOME_CANVAS_LINE (line)->coords = coords;
+	FOO_CANVAS_LINE (line)->coords = coords;
 }
 
 static void
-gnumeric_dashed_canvas_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
-				  int x, int y, int width, int height)
+gnumeric_dashed_canvas_line_draw (FooCanvasItem *item,
+				  GdkDrawable *drawable,
+				  GdkEventExpose *event)
 {
 	GnumericDashedCanvasLine *line = GNUMERIC_DASHED_CANVAS_LINE (item);
 
 	if (line->dash_style_index == STYLE_BORDER_DOUBLE)
-		double_line_draw (item, drawable, x, y, width, height);
+		double_line_draw (item, drawable, event);
 	else {
- 		style_border_set_gc_dash (GNOME_CANVAS_LINE (item)->gc,
+ 		style_border_set_gc_dash (FOO_CANVAS_LINE (item)->gc,
 					  line->dash_style_index);
 		gnumeric_dashed_canvas_line_class->
-			real_draw (item, drawable, x, y, width, height);
+			real_draw (item, drawable, event);
 	}
 }
 
 static void
 gnumeric_dashed_canvas_line_class_init (GnumericDashedCanvasLineClass *klass)
 {
-	GnomeCanvasItemClass *item_class;
+	FooCanvasItemClass *item_class;
 
 	gnumeric_dashed_canvas_line_class = klass;
 
-	item_class = (GnomeCanvasItemClass *) klass;
+	item_class = (FooCanvasItemClass *) klass;
 
 	klass->real_draw = item_class->draw;
 	item_class->draw = &gnumeric_dashed_canvas_line_draw;
@@ -158,7 +161,7 @@ gnumeric_dashed_canvas_line_init (GnumericDashedCanvasLine *line)
 
 GSF_CLASS (GnumericDashedCanvasLine, gnumeric_dashed_canvas_line,
 	   gnumeric_dashed_canvas_line_class_init,
-	   gnumeric_dashed_canvas_line_init, GNOME_TYPE_CANVAS_LINE)
+	   gnumeric_dashed_canvas_line_init, FOO_TYPE_CANVAS_LINE)
 
 void
 gnumeric_dashed_canvas_line_set_dash_index (GnumericDashedCanvasLine *line,
@@ -166,9 +169,9 @@ gnumeric_dashed_canvas_line_set_dash_index (GnumericDashedCanvasLine *line,
 {
 	gint const width = style_border_get_width (indx);
 	line->dash_style_index = indx;
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (line),
+	foo_canvas_item_set (FOO_CANVAS_ITEM (line),
 			       "width_pixels", width,
 			       NULL);
 
-	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (line));
+	foo_canvas_item_request_update (FOO_CANVAS_ITEM (line));
 }
