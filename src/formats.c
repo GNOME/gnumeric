@@ -110,10 +110,10 @@ cell_format_time [] = {
 	"h:mm",
 	"h:mm:ss",
 	"m/d/yy h:mm",
+	"[h]:mm",		/* keep this before mm:ss so that 24:00 will */
+	"[h]:mm:ss",		/* match an hour based format (bug #86338)   */
 	"mm:ss",
 	"mm:ss.0",
-	"[h]:mm:ss",
-	"[h]:mm",
 	"[mm]:ss",
 	"[ss]",
 	NULL

@@ -730,6 +730,7 @@ applix_get_sheet (ApplixReadState *state, char **buffer,
 		sheet = sheet_new (state->wb, *buffer);
 		workbook_sheet_attach (state->wb, sheet, NULL);
 		sheet_set_zoom_factor (sheet, (double )(state->zoom) / 100., FALSE, FALSE);
+		sheet_flag_recompute_spans (sheet);
 	}
 
 	*buffer = tmp+1;

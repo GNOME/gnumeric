@@ -94,6 +94,9 @@ typedef enum {
 	MATCH_PERCENT		= 14,
 	MATCH_SKIP		= 15,
 	MATCH_STRING_CONSTANT	= 16,
+	MATCH_CUMMULATIVE_HOURS	= 17,
+	MATCH_CUMMULATIVE_MINUTES= 18,
+	MATCH_CUMMULATIVE_SECONDS= 19
 } MatchType;
 
 static void
@@ -130,6 +133,9 @@ format_create_regexp (char const *format, GByteArray **dest)
 	char_to_re (re_thousands_sep, format_get_thousand ());
 	char_to_re (re_decimal, format_get_decimal ());
 
+#ifdef DEBUG_NUMBER_MATCH
+	printf ("'%s' = ", format);
+#endif
 	regexp = g_string_new ("");
 	match_types = g_byte_array_new ();
 
@@ -166,6 +172,22 @@ format_create_regexp (char const *format, GByteArray **dest)
 					g_string_append_c (regexp, *format);
 				if (*format == ']')
 					++format;
+				break;
+			} else if (format[1] == 'h' && format[2] == ']') {
+				g_string_append (regexp, "([-+]?[0-9]+)");
+				append_type (MATCH_CUMMULATIVE_HOURS);
+				hour_seen = TRUE;
+				format += 2;
+				break;
+			} else if (format[1] == 'm' && format[2] == ']') {
+				g_string_append (regexp, "([-+]?[0-9]+)");
+				append_type (hour_seen ? MATCH_MINUTE : MATCH_CUMMULATIVE_MINUTES);
+				format += 2;
+				break;
+			} else if (format[1] == 's' && format[2] == ']') {
+				g_string_append (regexp, "([-+]?[0-9]+)");
+				append_type (MATCH_CUMMULATIVE_SECONDS);
+				format += 2;
 				break;
 			}
 
@@ -436,7 +458,11 @@ format_create_regexp (char const *format, GByteArray **dest)
 	g_string_free (regexp, TRUE);
 	*dest = match_types;
 
+#ifdef DEBUG_NUMBER_MATCH
+	printf ("'%s'\n",str);
+#endif
 	return str;
+
  error:
 	g_string_free (regexp, TRUE);
 	g_byte_array_free (match_types, TRUE);
@@ -763,6 +789,12 @@ compute_value (char const *s, const regmatch_t *mp,
 	gboolean is_pm      = FALSE;
 	gboolean is_explicit_am = FALSE;
 	gboolean is_neg = FALSE;
+	gboolean hours_are_cummulative   = FALSE;
+	gboolean minutes_are_cummulative = FALSE;
+	gboolean seconds_are_cummulative = FALSE;
+	gboolean hours_set   = FALSE;
+	gboolean minutes_set = FALSE;
+	gboolean seconds_set = FALSE;
 	int i;
 	int month, day, year, year_short;
 	int hours, minutes;
@@ -891,15 +923,24 @@ compute_value (char const *s, const regmatch_t *mp,
 			break;
 		}
 
+		case MATCH_CUMMULATIVE_HOURS:
+			hours_are_cummulative = TRUE;
 		case MATCH_HOUR:
+			hours_set = TRUE;
 			hours = atoi (str);
 			break;
 
+		case MATCH_CUMMULATIVE_MINUTES:
+			minutes_are_cummulative = TRUE;
 		case MATCH_MINUTE:
+			minutes_set = TRUE;
 			minutes = atoi (str);
 			break;
 
+		case MATCH_CUMMULATIVE_SECONDS :
+			seconds_are_cummulative = TRUE;
 		case MATCH_SECOND:
+			seconds_set = TRUE;
 			seconds = atoi (str);
 			break;
 
@@ -1019,31 +1060,33 @@ compute_value (char const *s, const regmatch_t *mp,
 		g_date_free (date);
 	}
 
-	if (seconds == -1 && minutes == -1 && hours == -1)
+	if (!seconds_set && !minutes_set && !hours_set)
 		return value_new_int (number);
 
-	if (seconds == -1)
+	if (!seconds_set)
 		seconds = 0;
 
-	if (minutes == -1)
+	if (!minutes_set)
 		minutes = 0;
 
-	if (hours == -1)
+	if (!hours_set)
 		hours = 0;
 
+	if (!hours_are_cummulative) {
 	if (is_pm) {
 		if (hours < 12)
 			hours += 12;
 	} else if (is_explicit_am && hours == 12)
 		hours = 0;
+	}
 
-	if (hours < 0 || hours > 23)
+	if ((hours < 0 || hours > 23) && !hours_are_cummulative)
 		return NULL;
 
-	if (minutes < 0 || minutes > 59)
+	if ((minutes < 0 || minutes > 59) && !minutes_are_cummulative)
 		return NULL;
 
-	if (seconds < 0 || seconds > 59)
+	if ((seconds < 0 || seconds > 59) && !seconds_are_cummulative)
 		return NULL;
 
 	if (hours == 0 && minutes == 0 && seconds == 0)
