@@ -141,7 +141,9 @@ function_iterate_argument_values (const EvalPosition      *ep,
 		ExprTree const * tree = (ExprTree const *) expr_node_list->data;
 		Value *val;
 
-		val = eval_expr_empty (ep, tree);
+		/* Permit empties and non scalars. We don't know what form the
+		 * function wants its arguments */
+		val = eval_expr_empty (ep, tree, FALSE);
 
 		if (val == NULL)
 			continue;
@@ -343,7 +345,12 @@ function_marshal_arg (FunctionEvalInfo *ei,
 	     arg_type == 'r'))
 		v = value_new_cellrange (&t->u.ref, &t->u.ref);
 	else
-		v = eval_expr (ei->pos, t);
+		/* force scalars whenever we are certain */
+		v = eval_expr_nonempty (ei->pos, t,
+					(arg_type != 'r' &&
+					 arg_type != 'a' &&
+					 arg_type != 'A' &&
+					 arg_type != '?'));
 		
 	switch (arg_type) {
 

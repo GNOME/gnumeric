@@ -183,7 +183,11 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 	g_return_val_if_fail (fd != NULL, NULL);
 
 	for (l = nodes; l; l = l->next) {
-		Value *v = eval_expr (ei->pos, l->data);
+		/* TODO : When the translation mechanism is more complete
+		 * this can be relaxed.  We do not need to require
+		 * non emptiness, or scalarness.
+		 */
+		Value *v = eval_expr_nonempty (ei->pos, l->data, TRUE);
 
 		args = g_slist_prepend (args, value_to_gb (ei, v));
 		

@@ -618,7 +618,8 @@ eval_range (EvalPosition const * const pos, Value *v)
 }
 
 static Value *
-eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree)
+eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
+		gboolean const as_scalar)
 {
 	Value *res = NULL, *a = NULL, *b = NULL;
 	
@@ -634,7 +635,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree)
 	case OPER_LTE: {
 		int comp;
 
-		a = eval_expr_real (pos, tree->u.binary.value_a);
+		a = eval_expr_real (pos, tree->u.binary.value_a, as_scalar);
 		if (a != NULL) {
 			if (a->type == VALUE_CELLRANGE) {
 				a = expr_implicit_intersection (pos, a);
@@ -644,7 +645,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree)
 				return a;
 		}
 
-		b = eval_expr_real (pos, tree->u.binary.value_b);
+		b = eval_expr_real (pos, tree->u.binary.value_b, as_scalar);
 		if (b != NULL) {
 			Value *res = NULL;
 			if (b->type == VALUE_CELLRANGE) {
@@ -729,7 +730,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree)
 		 */
 
 	        /* Garantees that a != NULL */
-		a = eval_expr (pos, tree->u.binary.value_a);
+		a = eval_expr_nonempty (pos, tree->u.binary.value_a, as_scalar);
 
 		/* Handle implicit intersection */
 		if (a->type == VALUE_CELLRANGE) {
@@ -749,7 +750,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree)
 		}
 
 	        /* Garantees that b != NULL */
-		b = eval_expr (pos, tree->u.binary.value_b);
+		b = eval_expr_nonempty (pos, tree->u.binary.value_b, as_scalar);
 
 		/* Handle implicit intersection */
 		if (b->type == VALUE_CELLRANGE) {
@@ -868,7 +869,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree)
 	case OPER_UNARY_NEG:
 	case OPER_UNARY_PLUS:
 	        /* Garantees that a != NULL */
-		a = eval_expr (pos, tree->u.value);
+		a = eval_expr_nonempty (pos, tree->u.value, as_scalar);
 
 		/* Handle implicit intersection */
 		if (a->type == VALUE_CELLRANGE) {
@@ -902,10 +903,10 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree)
 	case OPER_CONCAT: {
 		char *sa, *sb, *tmp;
 
-		a = eval_expr_real (pos, tree->u.binary.value_a);
+		a = eval_expr_real (pos, tree->u.binary.value_a, as_scalar);
 		if (a != NULL && a->type == VALUE_ERROR)
 			return a;
-		b = eval_expr_real (pos, tree->u.binary.value_b);
+		b = eval_expr_real (pos, tree->u.binary.value_b, as_scalar);
 		if (b != NULL && b->type == VALUE_ERROR) {
 			if (a != NULL)
 				value_release (a);
@@ -932,7 +933,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree)
 		return eval_funcall (pos, tree);
 
 	case OPER_NAME:
-		return eval_expr_name (pos, tree->u.name);
+		return eval_expr_name (pos, tree->u.name, as_scalar);
 
 	case OPER_VAR: {
 		Sheet *cell_sheet;
@@ -961,9 +962,54 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree)
 
 	case OPER_CONSTANT:
 		res = tree->u.constant;
-		if (res->type == VALUE_CELLRANGE)
+		if (res->type != VALUE_CELLRANGE)
+			return value_duplicate (res);
+		if (!as_scalar) {
 			eval_range (pos, res);
-		return value_duplicate (res);
+			return value_duplicate (res);
+		} else {
+			/*
+			 * Handle the implicit union of a single row or
+			 * column with the eval position.
+			 * NOTE : We do not need to know if this is expression is
+			 * being evaluated as an array or not because we can differentiate
+			 * based on the required type for the argument.
+			 */
+			CellRef const * const a = & res->v.cell_range.cell_a;
+			CellRef const * const b = & res->v.cell_range.cell_b;
+			gboolean found = FALSE;
+
+			if (a->sheet == b->sheet) {
+				int a_col, a_row, b_col, b_row;
+				int c = pos->eval.col;
+				int r = pos->eval.row;
+
+				cell_get_abs_col_row (a, &pos->eval, &a_col, &a_row);
+				cell_get_abs_col_row (b, &pos->eval, &b_col, &b_row);
+				if (a_row == b_row) {
+					if (a_col <= c && c <= b_col) {
+						r = a_row;
+						found = TRUE;
+					}
+				} else if (a_col == b_col) {
+					if (a_row <= r && r <= b_row) {
+						c = a_col;
+						found = TRUE;
+					}
+				}
+				if (found) {
+					Cell * cell = sheet_cell_get (pos->sheet, c, r);
+					if (cell == NULL)
+						return NULL;
+
+					if (cell->generation != pos->sheet->workbook->generation)
+						cell_eval (cell);
+
+					return value_duplicate (cell->value);
+				}
+			}
+			return value_new_error (pos, gnumeric_err_VALUE);
+		}
 
 	case OPER_ARRAY:
 	{
@@ -992,7 +1038,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree)
 			 * is an array return the result, else build an array and
 			 * iterate over the elements, but that theory needs validation.
 			 */
-			a = eval_expr_real (pos, tree->u.array.corner.func.expr);
+			a = eval_expr_real (pos, tree->u.array.corner.func.expr, FALSE);
 			*((Value **)&(tree->u.array.corner.func.value)) = a;
 		} else {
 			ExprTree const * const array =
@@ -1034,9 +1080,10 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree)
 }
 
 Value *
-eval_expr (EvalPosition const * const pos, ExprTree const *tree)
+eval_expr_nonempty (EvalPosition const * const pos, ExprTree const *tree,
+		    gboolean const as_scalar)
 {
-	Value * res = eval_expr_real (pos, tree);
+	Value * res = eval_expr_real (pos, tree, as_scalar);
 	if (res == NULL)
 		return value_new_int (0);
 
@@ -1048,9 +1095,16 @@ eval_expr (EvalPosition const * const pos, ExprTree const *tree)
 }
 
 Value *
-eval_expr_empty (EvalPosition const * const pos, ExprTree const * const tree)
+eval_expr (EvalPosition const * const pos, ExprTree const *tree)
 {
-	Value * res = eval_expr_real (pos, tree);
+	return eval_expr_nonempty (pos, tree, TRUE);
+}
+
+Value *
+eval_expr_empty (EvalPosition const * const pos, ExprTree const * const tree,
+		 gboolean const as_scalar)
+{
+	Value * res = eval_expr_real (pos, tree, as_scalar);
 
 	if (res && res->type == VALUE_EMPTY) {
 		value_release (res);

@@ -284,12 +284,14 @@ func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 	if (g_list_length(expr_node_list) < 1)
 		return value_new_error (ei->pos, _("Invalid number of arguments"));
 
-	value = eval_expr(ei->pos, (ExprTree*)expr_node_list->data);
+	/* Retrieve the function name,  This can be empty, but not a non scalar */
+	value = eval_expr_empty(ei->pos, (ExprTree*)expr_node_list->data, TRUE);
 	if (value == NULL)
 		return value_new_error (ei->pos, _("First argument to SCM must be a Guile expression"));
 
 	symbol = value_get_as_string (value);
 	if (symbol == NULL)
+		/* FIXME : This looks like a leak (JEG 4/4/00) */
 		return value_new_error (ei->pos, _("First argument to SCM must be a Guile expression"));
 
 	function = scm_eval_0str(symbol);
@@ -308,7 +310,8 @@ func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 		eval_cell.row_relative = 0;
 		eval_cell.sheet = NULL;
 
-		value = eval_expr (ei->pos, (ExprTree*)g_list_nth(expr_node_list, i)->data);
+		/* Evaluate each argument,  non scalar is ok, but empty is not */
+		value = eval_expr_nonempty (ei->pos, (ExprTree*)g_list_nth(expr_node_list, i)->data, FALSE);
 		if (value == NULL)
 			return value_new_error (ei->pos, _("Could not evaluate argument"));
 

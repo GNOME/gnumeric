@@ -3348,7 +3348,8 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *expr_node_list)
 		ExprTree *tree = (ExprTree *) expr_node_list->data;
 		Value    *val;
 
-		val = eval_expr (ei->pos, tree);
+		/* The result need not be a scalar */
+		val = eval_expr_nonempty (ei->pos, tree, FALSE);
 
 		if (val) {
 		        p.current = p.components;

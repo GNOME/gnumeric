@@ -190,9 +190,15 @@ void expr_dump_tree (const ExprTree *tree);
 Value       *eval_expr (EvalPosition const * const pos,
 			ExprTree const * const tree);
 
+/* Identical to eval_expr but permits being called as an array */
+Value       *eval_expr_nonempty (EvalPosition const * const pos,
+				 ExprTree const *tree,
+				 gboolean const as_scalar);
+
 /* Same as eval_expr, except that this return NULL for empty values.  */
 Value       *eval_expr_empty (EvalPosition const * const pos,
-			      ExprTree const * const tree);
+			      ExprTree const * const tree,
+			      gboolean const as_scalar);
 
 Value       *expr_implicit_intersection (EvalPosition const * const pos,
 					 Value * const v);

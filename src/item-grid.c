@@ -793,6 +793,7 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 		sheet_selection_add (sheet, col, row);
 		sheet_make_cell_visible (sheet, col, row);
 	}
+	sheet_update (sheet);
 
 	gnome_canvas_item_grab (item,
 				GDK_POINTER_MOTION_MASK |

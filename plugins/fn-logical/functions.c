@@ -218,8 +218,8 @@ gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 			return value_new_bool (FALSE);
 	}
 
-	/* Return the result */
-	return eval_expr (ei->pos, expr);
+	/* Return the result (not necessarily a scalar) */
+	return eval_expr_nonempty (ei->pos, expr, FALSE);
 }
 
 /***************************************************************************/

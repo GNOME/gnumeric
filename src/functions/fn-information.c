@@ -32,7 +32,7 @@ get_value_class (FunctionEvalInfo *ei, ExprTree *expr)
 	Value *value;
 	enum Value_Class res;
 
-	value = eval_expr (ei->pos, expr);
+	value = eval_expr_empty (ei->pos, expr, FALSE);
 	if (value) {
 		switch (value->type) {
 		case VALUE_INTEGER:

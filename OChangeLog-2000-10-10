@@ -1,3 +1,44 @@
+2000-04-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/functions/fn-logical.c (gnumeric_if) : Use eval_expr_nonempty
+	  and permit non-scalars.
+	* src/functions/fn-lookup.c (gnumeric_choose) : Ditto.
+	* src/functions/fn-math.c (gnumeric_sumproduct) : Ditto.
+
+	* src/functions/fn-information.c (get_value_class) : Use
+	  eval_expr_empty, and permit non-scalars.
+
+	* src/func.c (function_iterate_argument_values) : Permit non-scalar
+	  values.
+	(function_marshal_arg) : Be more specific about what types of argument
+	  must be scalar.
+
+2000-04-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/functions/fn-math.c (gnumeric_sumproduct) : eval_expr_nonempty
+	  and permit non-scalars.
+	* src/functions/fn-lookup.c (gnumeric_choose) : Ditto.
+
+	* src/expr-name.c (eval_expr_name) : Accept 'as_scalar' as an
+	  argument use eval_expr_empty.
+
+	* src/expr.c (eval_expr_real) : Push the common cases for implicit
+	  intersection further down for a big speed improvement.
+	(eval_expr_nonempty) : New routine.
+	(eval_expr_empty) : Accept as_scalar.
+
+2000-04-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_button_1) : sheet_update after button
+	  press that changes selection.
+
+2000-04-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print.c (print_hf) : Add precautions in an attempt to address
+	  http://bugs.gnome.org/db/82/8200.html
+	  I can not replicate it, but it can't hurt to be more careful just in
+	  case.
+
 2000-04-04  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/item-cursor.c (item_cursor_autofill_event): Flush the canvas updates

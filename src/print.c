@@ -170,20 +170,30 @@ typedef enum {
 static void
 print_hf (PrintJobInfo *pj, const char *format, HFSide side, double y)
 {
-	PrintMargins *pm = &pj->pi->margins;
+	PrintMargins *pm;
 	char *text;
 	double x;
 	double len;
 	
+	/* Be really really anal in case Bug
+	 * http://bugs.gnome.org/db/82/8200.html exists
+	 */
+	g_return_if_fail (pj != NULL);
+	g_return_if_fail (pj->decoration_font != NULL);
+	g_return_if_fail (pj->render_info != NULL);
+
 	text = hf_format_render (format, pj->render_info, HF_RENDER_PRINT);
 
-	if (text [0] == 0){
+	g_return_if_fail (text != NULL);
+
+	if (text [0] == 0) {
 		g_free (text);
 		return;
 	}
 	
 	len = gnome_font_get_width_string (pj->decoration_font, text);
 	
+	pm = &pj->pi->margins;
 	switch (side){
 	case LEFT_HEADER:
 		x = pm->left.points;

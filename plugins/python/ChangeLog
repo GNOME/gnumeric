@@ -1,3 +1,8 @@
+2000-04-05  Jody Goldberg <jgoldberg@home.com>
+
+	* python.c (marshal_func_nodes) : Use eval_expr_nonempty, but permit
+	  non-scalars.
+
 2000-03-24  Jon K Hellan  <hellan@acm.org>
 
 	* python.c (apply): Fix leak.
