@@ -17,6 +17,8 @@ Morten:
 	  is within DBL_EPSILON of a rounding threshold, well, then you
 	  lose.  With a binary representation, we cannot all win.)
 	* Leak plugging as usual.
+	* Created and/or stole a number of tools to make life easier for
+	  developers.
 
 Zbigniew Chyla:
 	* Internationalization support for autoformat.
