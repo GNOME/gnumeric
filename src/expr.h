@@ -56,7 +56,7 @@ struct _ArrayRef {
 };
 
 struct _ExprTree {
-	Operation oper;
+	Operation const oper;
 
 	int       ref_count;
 	union {
@@ -81,14 +81,6 @@ struct _ExprTree {
 		ArrayRef array;
 	} u;
 };
-
-typedef enum {
-	PARSE_OK,
-	PARSE_ERR_NO_QUOTE,
-	PARSE_ERR_SYNTAX,
-	PARSE_ERR_UNKNOWN
-} ParseErr;
-
 
 /*
  * Function parameter structures
@@ -147,12 +139,6 @@ void        cell_get_abs_col_row   (CellRef const * const cell_ref,
 
 ExprTree   *expr_parse_string      (const char *expr, const ParsePosition *pp,
 				    char **desired_format, char **error_msg);
-/* In parser.y  */
-ParseErr    gnumeric_expr_parser   (const char *expr,
-				    const ParsePosition *pp,
-				    char **desired_format,
-				    ExprTree **result);
-
 ExprTree   *expr_tree_duplicate    (ExprTree *expr);
 char       *expr_decode_tree       (ExprTree *tree, const ParsePosition *fp);
 

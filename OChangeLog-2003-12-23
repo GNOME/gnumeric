@@ -1,3 +1,38 @@
+2000-04-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/command-context.c (gnumeric_error_sys_err) : New function.
+	* src/command-context-gui.c (ccg_error_sys_err) : Support it.
+
+	* src/gnumeric-util.c (gnumeric_glade_xml_new) : Use gnumeric_error_sys_err.
+
+	* src/gutils.c (gnumeric_sys_{data,lib,glade,plugin)_dir) : New functions.
+	(gnumeric_usr_dir, gnumeric_usr_plugin_dir) : New functions.
+
+	* src/plugin.c (load_all_plugins) : Use
+	  gnumeric_usr_plugin_dir, and  gnumeric_sys_plugin_dir.
+
+	* src/item-edit.c (point_is_inside_range) : Handle non-singleton
+	  expr start characters.
+
+2000-04-25  Jody Goldberg <jgoldberg@home.com>
+
+	* *.c : glade_new_xml -> gnumeric_glade_new_xml
+	  Localize GNUMERIC_GLADEDIR so that plugins can use it too.
+
+	* src/gnumeric-util.c (gnumeric_glade_xml_new) : New function.
+
+	* */Makefile.am : Set 'DATADIR' rather than GLADEDIR.  And version
+	  the glade file the same way the plugins are set.  This should
+	  probably expand to include architecture akin to gcc.
+
+	* src/widgets/widget-editable-label.c (el_button_press_event) :
+	  Clicking in another window accepts the changes.  Once we have
+	  reliquished our grab push the button event back on the queue
+	  so that it can be forwarded on to the appropriate recipient (9007).
+
+	* src/parse-util.c (parse_text_value_or_expr) : Watch for 1 character
+	  strings which could start an expression.
+
 2000-04-25  Miguel de Icaza  <miguel@helixcode.com>
 
 	* src/item-edit.c (entry_changed): Call complete_start here;  Pass

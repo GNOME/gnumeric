@@ -11,6 +11,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
+#include "workbook.h"
 
 #define SUMMARY_DEBUG 0
 
@@ -79,25 +80,25 @@ summary_put (GladeXML *gui, SummaryInfo *sin)
 void
 dialog_summary_update (Workbook *wb, SummaryInfo *sin)
 {
-	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/summary.glade", NULL);
+	GladeXML  *gui;
 	GtkWidget *dia, *comments;
 	int i;
-	static char *names[] 
+	static char *names[]
 	  = {
 	     "glade_title",
 	     "glade_author",
-	     "glade_category", 
+	     "glade_category",
 	     "glade_keywords",
 	     "glade_manager",
 	     "glade_company"
 	    };
 	gint v;
 
-	if (!gui) {
-		printf ("Could not find summary.glade\n");
-		return;
-	}
-	
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				"summary.glade");
+        if (gui == NULL)
+                return;
+
 	dia = glade_xml_get_widget (gui, "SummaryInformation");
 	if (!dia) {
 		printf ("Corrupt file summary.glade\n");
@@ -107,13 +108,13 @@ dialog_summary_update (Workbook *wb, SummaryInfo *sin)
 	for (i = 0; i < sizeof(names)/sizeof(char *); i++) {
 		GtkWidget *entry;
 		entry = glade_xml_get_widget (gui, names[i]);
-		gnome_dialog_editable_enters(GNOME_DIALOG(dia), 
+		gnome_dialog_editable_enters(GNOME_DIALOG(dia),
 					     GTK_EDITABLE(entry));
 	}
 	comments = glade_xml_get_widget (gui, "glade_comments");
 	gtk_text_set_word_wrap (GTK_TEXT (comments), TRUE);
 
-	
+
 	summary_put (gui, sin);
 
 	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));

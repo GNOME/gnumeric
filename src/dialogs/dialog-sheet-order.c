@@ -93,7 +93,7 @@ row_cb (GtkWidget *w, gint row, gint col,
 	GtkCList *clist = GTK_CLIST (w);
 	gint numrows = clist->rows;
 	gboolean can_go = FALSE;
-	
+
 	if (numrows) {
 		sm->current_row = row;
 
@@ -224,7 +224,7 @@ dialog_sheet_order_impl (Workbook *wb, GladeXML *gui)
 	sm.down_btn   = glade_xml_get_widget (gui, "down_btn");
 	sm.delete_btn = glade_xml_get_widget (gui, "delete_btn");
 	sm.close_btn  = glade_xml_get_widget (gui, "close_btn");
-	
+
 	sm.current_row = -1;
 
 	gtk_clist_column_titles_passive (GTK_CLIST (sm.clist));
@@ -234,7 +234,7 @@ dialog_sheet_order_impl (Workbook *wb, GladeXML *gui)
 
 	gtk_signal_connect (GTK_OBJECT (sm.clist), "select_row",
 			    GTK_SIGNAL_FUNC (row_cb), &sm);
-	
+
 	gtk_signal_connect (GTK_OBJECT (sm.clist), "unselect_row",
 			    GTK_SIGNAL_FUNC (row_cb), &sm);
 
@@ -269,7 +269,7 @@ dialog_sheet_order_impl (Workbook *wb, GladeXML *gui)
 	gtk_widget_show_all (GNOME_DIALOG (sm.dialog)->vbox);
 
 	bval = gnumeric_dialog_run (sm.wb, GNOME_DIALOG (sm.dialog));
-  
+
   	/* If the user canceled we have already returned */
 	if (bval != -1)
 		gnome_dialog_close (GNOME_DIALOG (sm.dialog));
@@ -285,11 +285,10 @@ dialog_sheet_order (Workbook *wb)
 
 	g_return_if_fail (wb != NULL);
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE , NULL);
-	if (!gui) {
-		g_warning ("Could not find " GLADE_FILE "\n");
-		return;
-	}
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				GLADE_FILE);
+        if (gui == NULL)
+                return;
 
 	dialog_sheet_order_impl (wb, gui);
 	gtk_object_unref (GTK_OBJECT (gui));

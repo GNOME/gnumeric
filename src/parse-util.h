@@ -38,4 +38,16 @@ char const *parse_text_value_or_expr (EvalPosition const * pos,
 /* Is this string potentially the start of an expression */
 char const * gnumeric_char_start_expr_p (char const * c);
 
+/* In parser.y  */
+typedef enum {
+	PARSE_OK,
+	PARSE_ERR_NO_QUOTE,
+	PARSE_ERR_SYNTAX,
+	PARSE_ERR_UNKNOWN
+} ParseErr;
+ParseErr    gnumeric_expr_parser   (const char *expr,
+				    const ParsePosition *pp,
+				    char **desired_format,
+				    ExprTree **result);
+
 #endif /* GNUMERIC_PARSE_UTIL_H */

@@ -1,4 +1,11 @@
-gladedir   = $(datadir)/gnumeric/glade
+if BONOBO
+gnumeric_version="$(VERSION)-bonobo"
+else
+gnumeric_version="$(VERSION)"
+endif
+
+gnumeric_datadir = $(datadir)/gnumeric/$(gnumeric_version)
+gladedir   = $(gnumeric_datadir)/glade
 
 INCLUDES = 						\
 	-I$(srcdir)/..					\

@@ -19,6 +19,7 @@
 #include "symbol.h"
 #include "plugin.h"
 #include "expr.h"
+#include "gutils.h"
 #include "func.h"
 #include "cell.h"
 #include "value.h"
@@ -470,7 +471,7 @@ PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
 	FunctionCategory *cat;
-	char *init_file_name;
+	char *name, *dir;
 
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
@@ -494,13 +495,16 @@ init_plugin (CommandContext *context, PluginData *pd)
 	scm_make_gsubr ("gnumeric-funcall", 2, 0, 0, scm_gnumeric_funcall);
 	scm_make_gsubr ("register-function", 5, 0, 0, scm_register_function);
 
-	init_file_name = gnome_unconditional_datadir_file ("gnumeric/guile/gnumeric_startup.scm");
+	dir = gnumeric_sys_data_dir ("guile");
+	name = g_strconcat (dir, "gnumeric_startup.scm", NULL);
 	scm_apply (scm_eval_0str ("(lambda (filename)"
 				  "  (if (access? filename R_OK)"
 				  "    (load filename)"
 				  "    (display (string-append \"could not read Guile plug-in init file\" filename \"\n\"))))"),
-		  scm_cons (scm_makfrom0str (init_file_name), SCM_EOL),
+		  scm_cons (scm_makfrom0str (name), SCM_EOL),
 		  SCM_EOL);
+	g_free (name);
+	g_free (dir);
 
 	if (!plugin_data_init (pd, no_unloading_for_me, no_cleanup_for_me,
 			      GUILE_TITLE, GUILE_DESCR))

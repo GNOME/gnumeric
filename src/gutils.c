@@ -11,12 +11,12 @@
 #include <glib.h>
 #include <string.h>
 #include <ctype.h>
+#include <unistd.h>
 #include "numbers.h"
 #include "gutils.h"
 #include "gnumeric.h"
 #include "sheet.h"
 #include "ranges.h"
-
 
 #define SMALL_BUF_SIZE 40
 static char small_buffer [SMALL_BUF_SIZE];
@@ -96,3 +96,34 @@ gnumeric_strcase_hash (gconstpointer v)
 	return h /* % M */;
 }
 
+char *
+gnumeric_sys_data_dir (const char *subdir)
+{
+	extern char *gnumeric_data_dir;
+	return g_strconcat (gnumeric_data_dir, subdir, "/", NULL);
+}
+
+char *
+gnumeric_sys_lib_dir (const char *subdir)
+{
+	extern char *gnumeric_lib_dir;
+	return g_strconcat (gnumeric_lib_dir, subdir, "/", NULL);
+}
+
+#define GLADE_SUFFIX	"glade"
+#define PLUGIN_SUFFIX	"plugin"
+
+char * gnumeric_sys_glade_dir ()  { return gnumeric_sys_data_dir (GLADE_SUFFIX); }
+char * gnumeric_sys_plugin_dir () { return gnumeric_sys_lib_dir (PLUGIN_SUFFIX); }
+
+char *
+gnumeric_usr_dir (const char *subdir)
+{
+	char const * const home_dir = getenv ("HOME");
+	if (home_dir != NULL)
+		return g_strconcat (home_dir, "/.gnumeric/" GNUMERIC_VERSION "/",
+				    subdir, "/", NULL);
+	return NULL;
+}
+
+char * gnumeric_usr_plugin_dir () { return gnumeric_usr_dir (PLUGIN_SUFFIX); }

@@ -1,10 +1,10 @@
 /*
- * dialog-solver.c: 
+ * dialog-solver.c:
  *
  * Author:
  *  Jukka-Pekka Iivonen <iivonen@iki.fi>
  *
- * (C) Copyright 2000 by Jukka-Pekka Iivonen <iivonen@iki.fi> 
+ * (C) Copyright 2000 by Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
 
 #include <config.h>
@@ -46,14 +46,14 @@ typedef struct {
 static void
 linearmodel_toggled(GtkWidget *widget, Sheet *sheet)
 {
-        sheet->solver_parameters.options.assume_linear_model = 
+        sheet->solver_parameters.options.assume_linear_model =
 	        GTK_TOGGLE_BUTTON (widget)->active;
 }
 
 static void
 nonnegative_toggled(GtkWidget *widget, Sheet *sheet)
 {
-        sheet->solver_parameters.options.assume_non_negative = 
+        sheet->solver_parameters.options.assume_non_negative =
 	        GTK_TOGGLE_BUTTON (widget)->active;
 }
 
@@ -61,22 +61,20 @@ static void
 dialog_solver_options (Workbook *wb, Sheet *sheet)
 
 {
-	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR 
-					"/solver-options.glade",
-					NULL);
+	GladeXML  *gui;
 	GtkWidget *dia;
 	GtkWidget *linearmodel;
 	GtkWidget *nonnegative;
 	gint      v, old_lm, old_nn;
 
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				"solver-options.glade");
+        if (gui == NULL)
+                return;
+
 	old_lm = sheet->solver_parameters.options.assume_linear_model;
 	old_nn = sheet->solver_parameters.options.assume_non_negative;
 
-	if (!gui) {
-		printf ("Could not find solver-options.glade\n");
-		return;
-	}
-	
 	dia = glade_xml_get_widget (gui, "SolverOptions");
 	if (!dia) {
 		printf ("Corrupt file solver-options.glade\n");
@@ -140,10 +138,10 @@ add_constraint(constraint_dialog_t *constraint_dialog,
 	strcpy (constraint->type, type_str);
 	constraint->str = g_malloc (strlen (constraint_buf)+1);
 	strcpy (constraint->str, constraint_buf);
-	constraint_dialog->constraints = 
+	constraint_dialog->constraints =
 	        g_slist_append(constraint_dialog->constraints,
 			       (gpointer) constraint);
-	gtk_clist_set_row_data (constraint_dialog->clist, row, 
+	gtk_clist_set_row_data (constraint_dialog->clist, row,
 				(gpointer) constraint);
 
 	return 0;
@@ -153,8 +151,7 @@ add_constraint(constraint_dialog_t *constraint_dialog,
 static void
 constr_add_click (GtkWidget *widget, constraint_dialog_t *constraint_dialog)
 {
-	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/solver.glade",
-					NULL);
+	GladeXML     *gui;
 	GtkWidget    *dialog;
 	GtkWidget    *lhs_entry;
 	GtkWidget    *rhs_entry;
@@ -170,11 +167,11 @@ constr_add_click (GtkWidget *widget, constraint_dialog_t *constraint_dialog)
 	int          rhs_cols, rhs_rows;
 	char         *type_str;
 
-	if (!gui) {
-		printf ("Could not find solver.glade\n");
-		return;
-	}
-	
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (constraint_dialog->wb),
+				"solver.glade");
+        if (gui == NULL)
+                return;
+
 	constraint_type_strs = add_strings_to_glist (constraint_strs);
 
 	dialog = glade_xml_get_widget (gui, "SolverAddConstraint");
@@ -195,7 +192,7 @@ constr_add_click (GtkWidget *widget, constraint_dialog_t *constraint_dialog)
 				      GTK_EDITABLE (combo_entry));
 	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
 				      GTK_EDITABLE (rhs_entry));
-	
+
 	gtk_widget_set_sensitive (combo_entry, FALSE);
 
 	gtk_combo_set_popdown_strings (GTK_COMBO (type_entry),
@@ -219,13 +216,13 @@ add_dialog:
 		gtk_widget_show (constraint_dialog->dialog);
 		return;
 	}
-	
+
 	lhs_text = gtk_entry_get_text (GTK_ENTRY (lhs_entry));
 	if (!parse_cell_name_or_range (lhs_text, &lhs_col, &lhs_row,
 				       &lhs_cols, &lhs_rows, TRUE)) {
 		gtk_widget_grab_focus (lhs_entry);
 		gtk_entry_set_position(GTK_ENTRY (lhs_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (lhs_entry), 0, 
+		gtk_entry_select_region(GTK_ENTRY (lhs_entry), 0,
 					GTK_ENTRY(lhs_entry)->text_length);
 		goto add_dialog;
 	}
@@ -239,7 +236,7 @@ add_dialog:
 				       &rhs_cols, &rhs_rows, TRUE)) {
 		gtk_widget_grab_focus (rhs_entry);
 		gtk_entry_set_position(GTK_ENTRY (rhs_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (rhs_entry), 0, 
+		gtk_entry_select_region(GTK_ENTRY (rhs_entry), 0,
 					GTK_ENTRY(rhs_entry)->text_length);
 		goto add_dialog;
 	}
@@ -293,8 +290,7 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 {
 	SolverConstraint *constraint;
 
-	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/solver.glade",
-					NULL);
+	GladeXML  *gui;
 	GtkWidget *dia;
 	GtkWidget *lhs_entry;
 	GtkWidget *rhs_entry;
@@ -308,14 +304,14 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 	int       lhs_cols, lhs_rows;
 	int       rhs_cols, rhs_rows;
 
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (data->wb),
+				"solver.glade");
+        if (gui == NULL)
+                return;
+
 	if (selected_row < 0)
 	        return;
 
-	if (!gui) {
-		printf ("Could not find solver.glade\n");
-		return;
-	}
-	
 	constraint_type_strs = add_strings_to_glist (constraint_strs);
 
 	dia = glade_xml_get_widget (gui, "SolverChangeConstraint");
@@ -335,7 +331,7 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 				      GTK_EDITABLE (combo_entry));
 	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
 				      GTK_EDITABLE (rhs_entry));
-	
+
 	gtk_widget_set_sensitive (combo_entry, FALSE);
 
 	gtk_combo_set_popdown_strings (GTK_COMBO (type_combo),
@@ -345,7 +341,7 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 	        gtk_clist_get_row_data (data->clist, selected_row);
 
 	if (constraint->cols == 1 && constraint->rows == 1)
-	        gtk_entry_set_text (GTK_ENTRY (lhs_entry), 
+	        gtk_entry_set_text (GTK_ENTRY (lhs_entry),
 				    cell_pos_name (&constraint->lhs));
 	else {
 	        sprintf(buf, "%s:", cell_pos_name (&constraint->lhs));
@@ -359,7 +355,7 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 	if (strcmp (constraint->type, "Int") != 0 &&
 	    strcmp (constraint->type, "Bool") != 0) {
 	        if (constraint->cols == 1 && constraint->rows == 1)
-		        gtk_entry_set_text (GTK_ENTRY (rhs_entry), 
+		        gtk_entry_set_text (GTK_ENTRY (rhs_entry),
 					    cell_pos_name (&constraint->rhs));
 		else {
 		        sprintf(buf, "%s:", cell_pos_name (&constraint->rhs));
@@ -374,7 +370,7 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 	gtk_entry_set_text (GTK_ENTRY (combo_entry), constraint->type);
 	gtk_widget_hide (data->dialog);
 	gtk_entry_set_position(GTK_ENTRY (lhs_entry), 0);
-	gtk_entry_select_region(GTK_ENTRY (lhs_entry), 0, 
+	gtk_entry_select_region(GTK_ENTRY (lhs_entry), 0,
 				GTK_ENTRY(lhs_entry)->text_length);
 
 	/* Run the dialog */
@@ -395,7 +391,7 @@ loop:
 				gtk_entry_set_position(GTK_ENTRY (lhs_entry),
 						       0);
 				gtk_entry_select_region(GTK_ENTRY (lhs_entry),
-							0, 
+							0,
 							GTK_ENTRY(lhs_entry)->
 							  text_length);
 				goto loop;
@@ -415,13 +411,13 @@ loop:
 		entry = gtk_entry_get_text (GTK_ENTRY (rhs_entry));
 		txt = (gchar *) cell_pos_name (&constraint->rhs);
 		if (strcmp (entry, txt) != 0) {
-		        if (!parse_cell_name_or_range (entry, &col, &row, 
+		        if (!parse_cell_name_or_range (entry, &col, &row,
 						       &rhs_cols, &rhs_rows, TRUE)) {
 			        gtk_widget_grab_focus (rhs_entry);
 				gtk_entry_set_position(GTK_ENTRY (rhs_entry),
 						       0);
 				gtk_entry_select_region(GTK_ENTRY (rhs_entry),
-							0, 
+							0,
 							GTK_ENTRY(rhs_entry)->
 							  text_length);
 				goto loop;
@@ -462,7 +458,7 @@ loop:
 		strcpy (constraint->str, buf);
 	        gtk_clist_remove (data->clist, selected_row);
 	        gtk_clist_insert (data->clist, selected_row, constraint_str);
-		gtk_clist_set_row_data (data->clist, selected_row, 
+		gtk_clist_set_row_data (data->clist, selected_row,
 					(gpointer) constraint);
 	}
 
@@ -484,7 +480,7 @@ constr_delete_click (GtkWidget *widget, gpointer data)
 	if (selected_row >= 0) {
 	        p = gtk_clist_get_row_data (constraint_dialog->clist,
 					    selected_row);
-		constraint_dialog->constraints = 
+		constraint_dialog->constraints =
 		        g_slist_remove (constraint_dialog->constraints, p);
 
 	        gtk_clist_remove (constraint_dialog->clist, selected_row);
@@ -546,8 +542,7 @@ static gboolean
 dialog_results (Workbook *wb, int res, gboolean ilp,
 		gboolean *answer, gboolean *sensitivity, gboolean *limits)
 {
-	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/solver.glade",
-					NULL);
+	GladeXML  *gui;
 	GtkWidget *dialog;
 	GtkWidget *label;
 	GtkWidget *checkbutton1;
@@ -559,6 +554,11 @@ dialog_results (Workbook *wb, int res, gboolean ilp,
         gboolean  answer_s, sensitivity_s, limits_s;
 	gboolean  keep_solver_solution;
 	int       selection;
+
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				"solver.glade");
+        if (gui == NULL)
+                return FALSE;
 
 	answer_s = sensitivity_s = limits_s = FALSE;
 
@@ -579,10 +579,6 @@ dialog_results (Workbook *wb, int res, gboolean ilp,
 	        break;
 	}
 
-	if (!gui) {
-		printf ("Could not find solver.glade\n");
-		return FALSE;
-	}
 	dialog = glade_xml_get_widget (gui, "SolverResults");
 	label = glade_xml_get_widget (gui, "result-label");
 	checkbutton1 = glade_xml_get_widget (gui, "checkbutton1");
@@ -601,10 +597,10 @@ dialog_results (Workbook *wb, int res, gboolean ilp,
 			    GTK_SIGNAL_FUNC (report_button_toggled), limits);
 
 	gtk_signal_connect (GTK_OBJECT (radiobutton3), "toggled",
-			    GTK_SIGNAL_FUNC (solver_values_toggled), 
+			    GTK_SIGNAL_FUNC (solver_values_toggled),
 			    &keep_solver_solution);
 	gtk_signal_connect (GTK_OBJECT (radiobutton4), "toggled",
-			    GTK_SIGNAL_FUNC (original_values_toggled), 
+			    GTK_SIGNAL_FUNC (original_values_toggled),
 			    &keep_solver_solution);
 
 	gtk_label_set_text (GTK_LABEL (label), label_txt);
@@ -685,8 +681,7 @@ check_int_constraints (CellList *input_cells, GSList *constraints, char **s)
 void
 dialog_solver (Workbook *wb, Sheet *sheet)
 {
-	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/solver.glade",
-					NULL);
+	GladeXML  *gui;
 	GtkWidget *dialog;
 	GtkWidget *target_entry, *input_entry;
 	GtkWidget *radiobutton;
@@ -710,10 +705,11 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 	int        error_flag, row;
 	gboolean   answer, sensitivity, limits;
 
-	if (!gui) {
-		printf ("Could not find solver.glade\n");
-		return;
-	}
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				"solver.glade");
+        if (gui == NULL)
+                return;
+
 	param = &sheet->solver_parameters;
 
 	constraint_dialog = g_new (constraint_dialog_t, 1);
@@ -725,7 +721,7 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 	else
 	        target_entry_str =
 		  (gchar *) cell_name (param->target_cell);
-		  
+
 	dialog = glade_xml_get_widget (gui, "Solver");
 	target_entry = glade_xml_get_widget (gui, "target-cell");
 	input_entry = glade_xml_get_widget (gui, "input-cells");
@@ -803,14 +799,14 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 				      c->rhs.row, c->type, c->cols, c->rows);
 
 	        gtk_clist_append (GTK_CLIST (constraint_list), tmp);
-		gtk_clist_set_row_data (GTK_CLIST (constraint_list), row++, 
+		gtk_clist_set_row_data (GTK_CLIST (constraint_list), row++,
 					(gpointer) c);
 	}
 
 	gtk_widget_grab_focus (target_entry);
 
 main_dialog:
-	
+
 	/* Run the dialog */
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 
@@ -840,7 +836,7 @@ main_dialog:
 	        dialog_solver_options (wb, sheet);
 		goto main_dialog;
 
-		
+
 	default:
 	        break;
 	}
@@ -853,7 +849,7 @@ main_dialog:
 				   "for 'Target cell'"));
 		gtk_widget_grab_focus (target_entry);
 		gtk_entry_set_position(GTK_ENTRY (target_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (target_entry), 0, 
+		gtk_entry_select_region(GTK_ENTRY (target_entry), 0,
 					GTK_ENTRY(target_entry)->text_length);
 		goto main_dialog;
 	}
@@ -876,7 +872,7 @@ main_dialog:
 				   "in 'By changing cells'"));
 		gtk_widget_grab_focus (input_entry);
 		gtk_entry_set_position(GTK_ENTRY (input_entry), 0);
-		gtk_entry_select_region(GTK_ENTRY (input_entry), 0, 
+		gtk_entry_select_region(GTK_ENTRY (input_entry), 0,
 					GTK_ENTRY(input_entry)->text_length);
 		goto main_dialog;
 	}
@@ -889,7 +885,7 @@ main_dialog:
 		gboolean ilp;
 		char     *s;
 
-		if (check_int_constraints (input_cells, 
+		if (check_int_constraints (input_cells,
 					   constraint_dialog->constraints,
 					   &s)) {
 		        static char buf[1024];

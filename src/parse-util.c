@@ -502,20 +502,23 @@ parse_text_value_or_expr (EvalPosition const * pos, char const * const text,
 	char const * const expr_start = gnumeric_char_start_expr_p (text);
 
 	if (NULL != expr_start) {
-		char *error_msg = _("ERROR");
-		ParsePosition pp;
+		if (*expr_start) {
+			char *error_msg = _("ERROR");
+			ParsePosition pp;
 
-		/* Parse in the supplied eval context */
-		*expr = expr_parse_string (expr_start,
-					   parse_pos_evalpos (&pp, pos),
-					   &desired_format,
-					   &error_msg);
+			/* Parse in the supplied eval context */
+			*expr = expr_parse_string (expr_start,
+						   parse_pos_evalpos (&pp, pos),
+						   &desired_format,
+						   &error_msg);
 
-		/* If the parse fails set the value to be the syntax error */
-		if (*expr == NULL)
-			*val = value_new_error (pos, error_msg);
-		else
-			*val = NULL;
+			/* If the parse fails set the value to be the syntax error */
+			if (*expr == NULL)
+				*val = value_new_error (pos, error_msg);
+			else
+				*val = NULL;
+		} else
+			*val = value_new_string (text);
 	} else {
 		/* Does it match any formats */
 		*val = format_match (text, &desired_format);
@@ -528,4 +531,3 @@ parse_text_value_or_expr (EvalPosition const * pos, char const * const text,
 
 	return desired_format;
 }
-

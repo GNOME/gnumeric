@@ -2726,7 +2726,6 @@ static void
 sheet_label_editing_stopped_signal (EditableLabel *el, Workbook *wb)
 {
 	workbook_focus_current_sheet (wb);
-	
 }
 
 /*

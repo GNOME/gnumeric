@@ -300,11 +300,9 @@ workbook_import (CommandContext *context, Workbook *parent,
 	int ret, row;
 	GList *l;
 	
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/import.glade", NULL);
-	if (!gui){
-		g_warning ("Missing import.glade file");
+	gui = gnumeric_glade_xml_new (context, "import.glade");
+	if (gui == NULL)
 		return NULL;
-	}
 
 	/* Hack to get round libglade's bad handling of gnome-dialogs */
 	contents = glade_xml_get_widget (gui, "contents");

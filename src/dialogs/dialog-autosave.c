@@ -25,7 +25,7 @@ static void
 autosave_on_off_toggled(GtkWidget *widget, gboolean *flag)
 {
 	autosave_t *p = gtk_object_get_user_data (GTK_OBJECT (widget));
-	
+
         *flag = GTK_TOGGLE_BUTTON (widget)->active;
 	gtk_widget_set_sensitive (p->minutes_entry, *flag);
 	gtk_widget_set_sensitive (p->prompt_cb, *flag);
@@ -44,19 +44,22 @@ dialog_autosave_prompt (Workbook *wb)
 	GladeXML *gui;
 	gint v;
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/autosave-prompt.glade",
-			     NULL);	
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				"autosave-prompt.glade");
+        if (gui == NULL)
+                return 0;
+
 	dia = glade_xml_get_widget (gui, "AutoSavePrompt");
 	if (!dia) {
 		printf("Corrupt file autosave-prompt.glade\n");
 		return 0;
 	}
-	
+
 	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
 	if (v != -1)
 		gtk_object_destroy (GTK_OBJECT (dia));
 	gtk_object_unref (GTK_OBJECT (gui));
-	
+
 	if (v == 0)
 		return TRUE;
 	else
@@ -66,10 +69,9 @@ dialog_autosave_prompt (Workbook *wb)
 void
 dialog_autosave (Workbook *wb)
 {
-	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/autosave.glade",
-					NULL);
+	GladeXML  *gui;
 	GtkWidget  *dia;
-	GtkWidget  *autosave_on_off; 
+	GtkWidget  *autosave_on_off;
 	gchar      buf[20];
 	gint       v;
 	gboolean   autosave_flag, prompt_flag;
@@ -78,11 +80,11 @@ dialog_autosave (Workbook *wb)
 	if (wb->autosave_timer != 0)
 		gtk_timeout_remove (wb->autosave_timer);
 
-	if (!gui) {
-		printf ("Could not find autosave.glade\n");
-		return;
-	}
-	
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				"autosave.glade");
+        if (gui == NULL)
+                return;
+
 	dia = glade_xml_get_widget (gui, "AutoSave");
 	p.minutes_entry = glade_xml_get_widget (gui, "minutes");
 	p.prompt_cb = glade_xml_get_widget (gui, "prompt_on_off");
@@ -103,7 +105,7 @@ dialog_autosave (Workbook *wb)
 			    GTK_SIGNAL_FUNC (autosave_on_off_toggled),
 			    &autosave_flag);
 	gtk_object_set_user_data (GTK_OBJECT (autosave_on_off), &p);
-	
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autosave_on_off),
 				      wb->autosave);
 
@@ -111,7 +113,7 @@ dialog_autosave (Workbook *wb)
 		gtk_widget_set_sensitive (p.minutes_entry, FALSE);
 		gtk_widget_set_sensitive (p.prompt_cb, FALSE);
 	}
-	
+
 	if (wb->autosave_prompt)
 	        gtk_toggle_button_set_active ((GtkToggleButton *)
 					      p.prompt_cb,
@@ -120,7 +122,7 @@ dialog_autosave (Workbook *wb)
 			    GTK_SIGNAL_FUNC (prompt_on_off_toggled),
 			    &prompt_flag);
 
-loop:	
+loop:
 	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
 
 	if (v == 0) {

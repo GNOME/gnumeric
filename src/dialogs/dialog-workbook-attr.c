@@ -91,7 +91,7 @@ cb_attr_dialog_dialog_apply (GtkObject *w, int page, AttrState *state)
 	state->wb->show_horizontal_scrollbar = gtk_toggle_button_get_active (state->view.show_hsb);
 	state->wb->show_vertical_scrollbar = gtk_toggle_button_get_active (state->view.show_vsb);
 	state->wb->show_notebook_tabs = gtk_toggle_button_get_active (state->view.show_tabs);
-	
+
 	workbook_view_pref_visibility (state->wb);
 }
 
@@ -133,7 +133,7 @@ attr_dialog_init_view_page (AttrState *state)
 	gtk_toggle_button_set_active (state->view.show_hsb, state->wb->show_horizontal_scrollbar);
 	gtk_toggle_button_set_active (state->view.show_vsb, state->wb->show_vertical_scrollbar);
 	gtk_toggle_button_set_active (state->view.show_tabs, state->wb->show_notebook_tabs);
-	
+
 	/* Setup special handlers for : Numbers */
 	gtk_signal_connect (GTK_OBJECT (state->view.show_hsb),
 			    "toggled",
@@ -144,7 +144,7 @@ attr_dialog_init_view_page (AttrState *state)
 			    "toggled",
 			    GTK_SIGNAL_FUNC (cb_show_vsb_toggled),
 			    state);
-	
+
 	gtk_signal_connect (GTK_OBJECT (state->view.show_tabs),
 			    "toggled",
 			    GTK_SIGNAL_FUNC (cb_show_tabs_toggled),
@@ -158,7 +158,7 @@ static void
 attr_dialog_impl (AttrState *state)
 {
 	static GnomeHelpMenuEntry help_ref = { "gnumeric", "" };
-	
+
 	GtkWidget *dialog = glade_xml_get_widget (state->gui, "WorkbookAttr");
 	g_return_if_fail (dialog != NULL);
 
@@ -168,7 +168,7 @@ attr_dialog_impl (AttrState *state)
 	state->enable_edit		= FALSE;  /* Enable below */
 
 	attr_dialog_init_view_page (state);
-	
+
 	/* Select the same page the last invocation used */
 	gtk_notebook_set_page (
 		GTK_NOTEBOOK (GNOME_PROPERTY_BOX (dialog)->notebook),
@@ -201,7 +201,7 @@ attr_dialog_impl (AttrState *state)
 
 	/* Make it modal */
 	gtk_window_set_modal (GTK_WINDOW(dialog), TRUE);
-	
+
 	/* Bring up the dialog */
 	gnumeric_dialog_show (state->wb->toplevel,
 			      GNOME_DIALOG (dialog), FALSE, TRUE);
@@ -215,11 +215,10 @@ dialog_workbook_attr (Workbook *wb)
 
 	g_return_if_fail (wb != NULL);
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE , NULL);
-	if (!gui) {
-		g_warning ("Could not find " GLADE_FILE "\n");
-		return;
-	}
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				GLADE_FILE);
+        if (gui == NULL)
+                return;
 
 	/* Initialize */
 	state->gui		= gui;
@@ -227,9 +226,4 @@ dialog_workbook_attr (Workbook *wb)
 
 	attr_dialog_impl (state);
 }
-
-
-
-
-
 

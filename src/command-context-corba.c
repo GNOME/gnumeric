@@ -44,6 +44,12 @@ ccc_error_splits_array (CommandContext *context)
 }
 
 static void
+ccc_error_sys_err (CommandContext *context, char const * const message)
+{
+	/* FIXME set exception */
+}
+
+static void
 ccc_init_class (GtkObjectClass *object_class)
 {
 	CommandContextClass *cc_class = (CommandContextClass *) object_class;
@@ -52,6 +58,7 @@ ccc_init_class (GtkObjectClass *object_class)
 	cc_class->error_read           = ccc_error_read;
 	cc_class->error_save           = ccc_error_save;
 	cc_class->error_splits_array   = ccc_error_splits_array;
+	cc_class->error_sys_err        = ccc_error_sys_err;
 }
 
 GNUMERIC_MAKE_TYPE(command_context_corba, "CommandContextCorba", CommandContextCorba, ccc_init_class, NULL, PARENT_TYPE)

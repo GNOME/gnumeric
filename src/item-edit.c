@@ -23,7 +23,7 @@
 #include "complete-sheet.h"
 
 /* Gnumeric Setting: auto complete during cell editing */
-int edit_auto_complete = 1;
+static gboolean edit_auto_complete = FALSE;
 
 static GnomeCanvasItem *item_edit_parent_class;
 
@@ -77,12 +77,10 @@ point_is_inside_range (ItemEdit *item_edit, const char *text, Range *range)
 	Value *v;
 	int text_len, cursor_pos, scan;
 	GtkEntry *entry = GTK_ENTRY(workbook_get_entry (item_edit->sheet->workbook));
-	char *text = gtk_entry_get_text (entry);
 
-	if (gnumeric_char_start_expr_p (text) == NULL)
+	if ((text = gnumeric_char_start_expr_p (text)) == NULL)
 		return FALSE;
 
-	text++;
 	text_len = strlen (text);
 	cursor_pos = GTK_EDITABLE (entry)->current_pos;
 	if (cursor_pos == 0)
@@ -185,7 +183,11 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	ColRowInfo const * const ci =
 		sheet_col_get_info (item_edit->sheet, item_edit->col);
 	int const left_pos = ((int)item->x1) + ci->margin_a - x;
-	int top_pos = ((int)item->y1) - y + 1;
+
+	/* NOTE : This does not handle vertical alignment yet so there may be some
+	 * vertical jumping when edit.
+	 */
+	int top_pos = ((int)item->y1) - y + 1; /* grid line */
 	int text_offset = 0;
 	GtkEntry *entry = GTK_ENTRY(workbook_get_entry (item_edit->sheet->workbook));
 	int cursor_pos = item_edit->cursor_visible
@@ -412,11 +414,11 @@ entry_changed (GtkEntry *entry, void *data)
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (data);
 	ItemEdit *item_edit = ITEM_EDIT (item);
 	char *text;
-
-	text = gtk_entry_get_text (GTK_ENTRY (item_edit->entry));
+	
+	text = gtk_entry_get_text (GTK_ENTRY (entry));
 	if (gnumeric_char_start_expr_p (text))
 		scan_for_range (item_edit, text);
-	else
+	else if (edit_auto_complete)
 		complete_start (item_edit->auto_complete, text);
 	
 	gnome_canvas_item_request_update (item);
@@ -499,6 +501,8 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		item_edit->auto_complete = complete_sheet_new (
 			sheet, item_edit->col, item_edit->row,
 			item_edit_complete_notify, item_edit);
+	else
+		item_edit->auto_complete = NULL;
 	
 	/* set the font and the upper left corner if this is the first pass */
 	if (item_edit->font == NULL) {

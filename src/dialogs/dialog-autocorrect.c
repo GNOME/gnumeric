@@ -15,7 +15,7 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "commands.h"
-
+#include "workbook.h"
 
 
 typedef struct {
@@ -191,7 +191,7 @@ add_fl_clicked (GtkWidget *widget, exceptions_t *p)
 		strcpy(str, txt);
 		row = gtk_clist_append(GTK_CLIST (p->list), s);
 		gtk_clist_set_row_data (GTK_CLIST (p->list), row, str);
-		autocorrect_fl_exceptions = 
+		autocorrect_fl_exceptions =
 		  g_list_prepend (autocorrect_fl_exceptions, (gpointer) str);
 	}
 	gtk_entry_set_text (GTK_ENTRY (p->entry), "");
@@ -224,7 +224,7 @@ add_in_clicked (GtkWidget *widget, exceptions_t *p)
 		strcpy(str, txt);
 		row = gtk_clist_append(GTK_CLIST (p->list), s);
 		gtk_clist_set_row_data (GTK_CLIST (p->list), row, str);
-		autocorrect_in_exceptions = 
+		autocorrect_in_exceptions =
 		  g_list_prepend (autocorrect_in_exceptions, (gpointer) str);
 	}
 	gtk_entry_set_text (GTK_ENTRY (p->entry), "");
@@ -237,7 +237,7 @@ remove_fl_clicked (GtkWidget *widget, exceptions_t *p)
 	        gpointer x = gtk_clist_get_row_data (GTK_CLIST (p->list),
 						     fl_row);
 	        gtk_clist_remove (GTK_CLIST (p->list), fl_row);
-		autocorrect_fl_exceptions = 
+		autocorrect_fl_exceptions =
 		  g_list_remove (autocorrect_fl_exceptions, x);
 	}
 }
@@ -249,7 +249,7 @@ remove_in_clicked (GtkWidget *widget, exceptions_t *p)
 	        gpointer x = gtk_clist_get_row_data (GTK_CLIST (p->list),
 						     in_row);
 	        gtk_clist_remove (GTK_CLIST (p->list), in_row);
-		autocorrect_in_exceptions = 
+		autocorrect_in_exceptions =
 		  g_list_remove (autocorrect_in_exceptions, x);
 	}
 }
@@ -271,14 +271,18 @@ in_select_row (GtkWidget *widget, gint row, gint col, GdkEventButton *event,
 static void
 exceptions_callback (GtkWidget *widget, autocorrect_t *p)
 {
-        GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR
-					"/autocorrect-exceptions.glade", NULL);
 	GtkWidget *dia;
 	GtkWidget *add;
 	GtkWidget *remove;
 	GList     *cur;
 	gint      v;
 	exceptions_t e1, e2;
+        GladeXML  *gui;
+
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (p->wb),
+				"autocorrect-exceptions.glade");
+        if (gui == NULL)
+                return;
 
 	dia = glade_xml_get_widget (gui, "AutoCorrectExceptions");
 
@@ -355,13 +359,12 @@ exceptions_callback (GtkWidget *widget, autocorrect_t *p)
  *  Widgets for "replace text when typed" have been set insensitive in
  *  autocorrect.glade until the feature is implemented. The widgets are:
  *  checkbutton5, label1, label2, entry1, entry2.
- *	
+ *
  */
 void
 dialog_autocorrect (Workbook *wb)
 {
-	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/autocorrect.glade",
-					NULL);
+	GladeXML  *gui;
 	GtkWidget *dia;
 	GtkWidget *exceptions;
 	GtkWidget *init_caps;
@@ -382,11 +385,11 @@ dialog_autocorrect (Workbook *wb)
 	old_caps_lock = autocorrect_caps_lock;
 	old_replace = autocorrect_replace;
 
-	if (!gui) {
-		printf ("Could not find autocorrect.glade\n");
-		return;
-	}
-	
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				      "autocorrect.glade");
+        if (gui == NULL)
+                return;
+
 	dia = glade_xml_get_widget (gui, "AutoCorrect");
 	if (!dia) {
 		printf ("Corrupt file autocorrect.glade\n");
@@ -435,7 +438,7 @@ dialog_autocorrect (Workbook *wb)
 
 	replace = glade_xml_get_widget (gui, "checkbutton5");
 	gtk_widget_set_sensitive (replace, FALSE);
-	
+
 	if (autocorrect_replace)
 	        gtk_toggle_button_set_active ((GtkToggleButton *)
 					      replace,

@@ -53,10 +53,20 @@ extern gboolean libole2_debug;
 static char *dump_file_name = NULL;
 static char *startup_glade_file = NULL;
 static const char **startup_files = NULL;
+static int gnumeric_show_version = FALSE;
+char *gnumeric_lib_dir = GNUMERIC_LIBDIR;
+char *gnumeric_data_dir = GNUMERIC_DATADIR;
 
 poptContext ctx;
 
 const struct poptOption gnumeric_popt_options [] = {
+	{ "version", 'v', POPT_ARG_NONE, &gnumeric_show_version, 0,
+	  N_("Display Gnumeric's version"), NULL  },
+	{ "lib-dir", 'L', POPT_ARG_STRING, &gnumeric_lib_dir, 0,
+	  N_("Set the root library directory"), NULL  },
+	{ "data-dir", 'D', POPT_ARG_STRING, &gnumeric_data_dir, 0,
+	  N_("Adjust the root data directory"), NULL  },
+
 	{ "dump-func-defs", '\0', POPT_ARG_STRING, &dump_file_name, 0,
 	  N_("Dumps the function definitions"),   N_("FILE") },
 
@@ -121,6 +131,12 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	textdomain (PACKAGE);
 
 	gnumeric_arg_parse (argc, argv);
+
+	if (gnumeric_show_version) {
+		printf (_("gnumeric version %s\ndatadir := %s\nlibdir := %s\n"),
+			GNUMERIC_VERSION, GNUMERIC_DATADIR, GNUMERIC_LIBDIR);
+		return;
+	}
 
 	/* For reporting errors before we have an application window */
 	context = workbook_command_context_gui (NULL);

@@ -44,6 +44,7 @@ typedef struct {
 	gboolean cs;
 	gboolean val;
 	GtkWidget *adv_button;
+	Workbook  *wb;
 } OrderBox;
 
 typedef struct {
@@ -170,11 +171,10 @@ dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
 	gint btn;
 
 	/* Get the dialog and check for errors */
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE, NULL);
-	if (!gui) {
-		g_warning ("Could not find " GLADE_FILE "\n");
-		return;
-	}
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (orderbox->wb),
+				GLADE_FILE);
+        if (gui == NULL)
+                return;
 
 	dialog = glade_xml_get_widget (gui, "CellSortAdvanced");
 	check  = glade_xml_get_widget (gui, "cell_sort_adv_case");
@@ -195,7 +195,7 @@ dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
 				      !(orderbox->val));
 
 	/* Run the dialog and save the state if necessary */
-	btn = gnome_dialog_run (GNOME_DIALOG (dialog));
+	btn = gnumeric_dialog_run (orderbox->wb, GNOME_DIALOG (dialog));
 	if (btn == 0) {
 		orderbox->cs  = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
 		orderbox->val = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb1));	
@@ -209,7 +209,7 @@ dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
 /* Order boxes */
 static OrderBox *
 order_box_new (GtkWidget * parent, const gchar *frame_text,
-	       GList *names, gboolean empty)
+	       GList *names, gboolean empty, Workbook *wb)
 {
 	OrderBox *orderbox;
 	GtkWidget *hbox = gtk_hbox_new (FALSE, 2);
@@ -217,6 +217,7 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 	orderbox  = g_new (OrderBox, 1);
 	orderbox->parent = parent;
 	orderbox->main_frame = gtk_frame_new (frame_text);
+	orderbox->wb = wb;
 
 	/* Set up the column names combo boxes */
 	orderbox->rangetext = gtk_combo_new ();
@@ -379,7 +380,7 @@ dialog_cell_sort_del_clause (SortFlow *sf)
 }
 
 static void
-dialog_cell_sort_add_clause(SortFlow *sf)
+dialog_cell_sort_add_clause(SortFlow *sf, Workbook *wb)
 {
 	if ((sf->num_clause >= sf->max_col_clause && sf->columns)
 	    || (sf->num_clause >= sf->max_row_clause && !(sf->columns)))
@@ -391,10 +392,10 @@ dialog_cell_sort_add_clause(SortFlow *sf)
 	else {
 		if (sf->header)
 			sf->clauses [sf->num_clause] = order_box_new (sf->clause_box, "then by",
-								      sf->colnames_header, TRUE);
+								      sf->colnames_header, TRUE, wb);
 		else
 			sf->clauses [sf->num_clause] = order_box_new (sf->clause_box, "then by",
-								      sf->colnames_plain, TRUE);
+								      sf->colnames_plain, TRUE, wb);
 		
 		gtk_widget_show_all (sf->dialog);
 		sf->num_clause++;
@@ -543,11 +544,10 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 						   TRUE);
 
 	/* Get the dialog and check for errors */
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE, NULL);
-	if (!gui) {
-		g_warning ("Could not find " GLADE_FILE "\n");
-		return;
-	}
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (inwb),
+				GLADE_FILE);
+        if (gui == NULL)
+                return;
 
 	sort_flow.dialog = glade_xml_get_widget (gui, "CellSort");
 	table = glade_xml_get_widget (gui, "cell_sort_table");
@@ -582,7 +582,7 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 							? _("then by") 
 							: _("Sort by"),
 							sort_flow.colnames_plain,
-							lp ? TRUE : FALSE);
+							lp ? TRUE : FALSE, inwb);
 	}
 	order_box_set_default (sort_flow.clauses [0]);
 	
@@ -606,7 +606,7 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 		if (btn == BUTTON_OK)
 			cont = dialog_cell_sort_ok (&sort_flow);
 		else if (btn == BUTTON_ADD)
-			dialog_cell_sort_add_clause (&sort_flow);
+			dialog_cell_sort_add_clause (&sort_flow, inwb);
 		else if (btn == BUTTON_REMOVE)
 			dialog_cell_sort_del_clause (&sort_flow);
 		else

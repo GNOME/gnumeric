@@ -98,11 +98,10 @@ dialog_delete_cells (Workbook *wb, Sheet *sheet)
 		return;
 	}
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE , NULL);
-	if (!gui) {
-		printf ("Could not find " GLADE_FILE "\n");
-		return;
-	}
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				GLADE_FILE);
+        if (gui == NULL)
+                return;
 
 	/* Wrapper to ensure the libglade object gets removed on error */
 	dialog_delete_cells_impl (wb, sheet, gui);

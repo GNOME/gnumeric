@@ -2,7 +2,8 @@
 #define GNUMERIC_GNUMERIC_UTIL_H
 
 #include <gnome.h>
-#include "sheet.h"
+#include <glade/glade-xml.h>
+#include "gnumeric.h"
 
 void       gnumeric_notice (Workbook *wb, const char *type, const char *str);
 void       gnumeric_no_modify_array_notice (Workbook *wb);
@@ -36,9 +37,11 @@ void      gnumeric_popup_menu                   (GtkMenu *menu, GdkEventButton *
  * Pseudo-tool-tip support code.
  */
 void        gnumeric_position_tooltip (GtkWidget *tip, int horizontal);
-GtkWidget * gnumeric_create_tooltip (void);
+GtkWidget  *gnumeric_create_tooltip (void);
 
 /* Is this GtkEntry editing at a subexpression boundary */
 gboolean    gnumeric_entry_at_subexpr_boundary_p (GtkWidget const * const w);
+
+GladeXML   *gnumeric_glade_xml_new (CommandContext *context, char const * gladefile);
 
 #endif /* GNUMERIC_GNUMERIC_UTIL_H */

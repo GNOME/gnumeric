@@ -14,6 +14,7 @@
 #include "print-info.h"
 #include "print.h"
 #include "ranges.h"
+#include "workbook.h"
 #include "utils-dialog.h"
 
 #define PREVIEW_X 170
@@ -36,7 +37,7 @@ typedef struct {
 
 	/* Objects in the Preview Canvas */
 	GnomeCanvasItem  *group;
-	
+
 	/* Values for the scaling of the nice preview */
 	int offset_x, offset_y;	/* For centering the small page preview */
 	double scale;
@@ -63,7 +64,7 @@ typedef struct {
 	GtkWidget *icon_dr;
 
 	/*
-	 * The header/footers formats 
+	 * The header/footers formats
 	 */
 	PrintHF *header;
 	PrintHF *footer;
@@ -153,7 +154,7 @@ preview_page_create (dialog_print_info_t *dpi)
 		"x", 0.0,
 		"y", 0.0,
 		NULL);
-	
+
 	gnome_canvas_item_new (
 		GNOME_CANVAS_GROUP (pi->group),
 		gnome_canvas_rect_get_type (),
@@ -165,7 +166,7 @@ preview_page_create (dialog_print_info_t *dpi)
 		"outline_color", "black",
 		"width_pixels",   1,
 		NULL);
-		
+
 	gnome_canvas_item_new (
 		GNOME_CANVAS_GROUP (pi->group),
 		gnome_canvas_rect_get_type (),
@@ -251,7 +252,7 @@ static GtkWidget *
 unit_editor_new (UnitInfo *target, PrintUnit init)
 {
 	GtkWidget *box, *om, *menu;
-	
+
 	/*
 	 * FIXME: Hardcoded for now
 	 */
@@ -277,23 +278,23 @@ unit_editor_new (UnitInfo *target, PrintUnit init)
 		return GTK_WIDGET (target->spin);
 	} else {
 		box = gtk_hbox_new (0, 0);
-		
+
 		gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (target->spin), TRUE, TRUE, 0);
 		om = gtk_option_menu_new ();
 		gtk_box_pack_start (GTK_BOX (box), om, FALSE, FALSE, 0);
 		gtk_widget_show_all (box);
-		
+
 		menu = gtk_menu_new ();
-		
+
 		add_unit (menu, UNIT_POINTS, convert_to_pt, target);
 		add_unit (menu, UNIT_MILLIMETER, convert_to_mm, target);
 		add_unit (menu, UNIT_CENTIMETER, convert_to_cm, target);
 		add_unit (menu, UNIT_INCH, convert_to_in, target);
-		
+
 		gtk_menu_set_active (GTK_MENU (menu), target->unit);
 		gtk_option_menu_set_menu (GTK_OPTION_MENU (om), menu);
 		gtk_option_menu_set_history (GTK_OPTION_MENU (om), init.desired_display);
-		
+
 		return box;
 	}
 }
@@ -302,7 +303,7 @@ static void
 tattach (GtkTable *table, int x, int y, PrintUnit init, UnitInfo *target)
 {
 	GtkWidget *w;
-	
+
 	w = unit_editor_new (target, init);
 	gtk_table_attach (
 		table, w, x, x+1, y, y+1,
@@ -321,7 +322,7 @@ do_setup_margin (dialog_print_info_t *dpi)
 		0.0, 0.0, PREVIEW_X, PREVIEW_Y);
 	gtk_widget_set_usize (dpi->preview.canvas, PREVIEW_X, PREVIEW_Y);
 	gtk_widget_show (dpi->preview.canvas);
-	
+
 	table = GTK_TABLE (glade_xml_get_widget (dpi->gui, "margin-table"));
 
 	tattach (table, 1, 1, pm->top,    &dpi->margins.top);
@@ -333,7 +334,7 @@ do_setup_margin (dialog_print_info_t *dpi)
 
 	gtk_table_attach (table, dpi->preview.canvas,
 			  1, 2, 3, 6, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
-	
+
 	if (dpi->pi->center_vertically)
 		gtk_toggle_button_set_active (
 			GTK_TOGGLE_BUTTON (
@@ -376,7 +377,7 @@ fill_hf (dialog_print_info_t *dpi, GtkOptionMenu *om, GtkSignalFunc callback, Pr
 	HFRenderInfo *hfi;
 	GtkWidget *menu;
 	int i, idx = 0;
-	
+
 	hfi = hf_render_info_new ();
 	hfi->page = 1;
 	hfi->pages = 1;
@@ -391,7 +392,7 @@ fill_hf (dialog_print_info_t *dpi, GtkOptionMenu *om, GtkSignalFunc callback, Pr
 
 		if (print_hf_same (format, select))
 			idx = i;
-		
+
 		left   = hf_format_render (format->left_format, hfi, HF_RENDER_PRINT);
 		middle = hf_format_render (format->middle_format, hfi, HF_RENDER_PRINT);
 		right  = hf_format_render (format->right_format, hfi, HF_RENDER_PRINT);
@@ -401,13 +402,13 @@ fill_hf (dialog_print_info_t *dpi, GtkOptionMenu *om, GtkSignalFunc callback, Pr
 			left, *left ? "," : "",
 			right, *right ? "," : "",
 			middle);
-			
+
 		li = gtk_menu_item_new_with_label (res);
 		gtk_widget_show (li);
 		gtk_container_add (GTK_CONTAINER (menu), li);
 		gtk_object_set_user_data (GTK_OBJECT (li), format);
 		gtk_signal_connect (GTK_OBJECT (li), "activate", callback, dpi);
-		
+
 		g_free (res);
 		g_free (left);
 		g_free (middle);
@@ -415,7 +416,7 @@ fill_hf (dialog_print_info_t *dpi, GtkOptionMenu *om, GtkSignalFunc callback, Pr
 	}
 	gtk_option_menu_set_menu (om, menu);
 	gtk_option_menu_set_history (om, idx);
-	
+
 	hf_render_info_destroy (hfi);
 }
 
@@ -424,7 +425,7 @@ text_insert (GtkText *text_widget, const char *text)
 {
 	int len = strlen (text);
 	gint pos = 0;
-	
+
 	gtk_editable_insert_text (GTK_EDITABLE (text_widget), text, len, &pos);
 }
 
@@ -437,21 +438,22 @@ text_get (GtkText *text_widget)
 static PrintHF *
 do_hf_config (const char *title, PrintHF **config, Workbook *wb)
 {
-	GladeXML *gui = glade_xml_new (GNUMERIC_GLADEDIR "/hf-config.glade", NULL);
+	GladeXML *gui;
 	GtkText *left, *middle, *right;
 	GtkWidget *dialog;
 	PrintHF *ret = NULL;
 	int v;
-	
-	if (!gui){
-		g_warning ("Could not find hf-config.glade");
-		return NULL;
-	}
+
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				"hf-config.glade");
+        if (gui == NULL)
+                return NULL;
+
 	left   = GTK_TEXT (glade_xml_get_widget (gui, "left-format"));
 	middle = GTK_TEXT (glade_xml_get_widget (gui, "center-format"));
 	right  = GTK_TEXT (glade_xml_get_widget (gui, "right-format"));
 	dialog = glade_xml_get_widget (gui, "hf-config");
-	
+
 	text_insert (left, (*config)->left_format);
 	text_insert (middle, (*config)->middle_format);
 	text_insert (right, (*config)->right_format);
@@ -477,12 +479,12 @@ do_hf_config (const char *title, PrintHF **config, Workbook *wb)
 
 	if (v != -1)
 		gtk_object_destroy (GTK_OBJECT (dialog));
-	
+
 	gtk_object_unref (GTK_OBJECT (gui));
 
 	return ret;
 }
-	      
+
 static void
 do_setup_hf_menus (dialog_print_info_t *dpi, PrintHF *header_sel, PrintHF *footer_sel)
 {
@@ -499,7 +501,7 @@ static void
 do_header_config (GtkWidget *button, dialog_print_info_t *dpi)
 {
 	PrintHF *hf;
-	
+
 	hf = do_hf_config (_("Custom header configuration"),
 			   &dpi->header, dpi->sheet->workbook);
 
@@ -511,7 +513,7 @@ static void
 do_footer_config (GtkWidget *button, dialog_print_info_t *dpi)
 {
 	PrintHF *hf;
-	
+
 	hf = do_hf_config (_("Custom footer configuration"),
 			   &dpi->footer, dpi->sheet->workbook);
 
@@ -528,7 +530,7 @@ do_setup_hf (dialog_print_info_t *dpi)
 				     hf_formats->data);
 
 	do_setup_hf_menus (dpi, dpi->header, dpi->footer);
-	
+
 	gtk_signal_connect (
 		GTK_OBJECT (glade_xml_get_widget (dpi->gui, "configure-header")),
 		"clicked", GTK_SIGNAL_FUNC (do_header_config), dpi);
@@ -542,7 +544,7 @@ static void
 display_order_icon (GtkToggleButton *toggle, dialog_print_info_t *dpi)
 {
 	GtkWidget *show, *hide;
-	
+
 	if (toggle->active){
 		show = dpi->icon_rd;
 		hide = dpi->icon_dr;
@@ -581,7 +583,7 @@ do_setup_page_info (dialog_print_info_t *dpi)
 		1, 2, 0, 2, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
 
 	gtk_signal_connect (GTK_OBJECT (order_rd), "toggled", GTK_SIGNAL_FUNC (display_order_icon), dpi);
-	
+
 	if (dpi->pi->print_line_divisions)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (divisions), TRUE);
 
@@ -622,7 +624,7 @@ static void
 paper_size_changed (GtkEntry *entry, dialog_print_info_t *dpi)
 {
 	char *text;
-	
+
 	text = gtk_entry_get_text (entry);
 
 	dpi->paper = gnome_paper_with_name (text);
@@ -641,7 +643,7 @@ do_setup_page (dialog_print_info_t *dpi)
 
 	gui = dpi->gui;
 	table = GTK_TABLE (glade_xml_get_widget (gui, "table-orient"));
-	
+
 	image = gnumeric_load_image ("orient-vertical.png");
 	gtk_widget_show (image);
 	gtk_table_attach_defaults (table, image, 0, 1, 0, 1);
@@ -695,7 +697,7 @@ do_setup_page (dialog_print_info_t *dpi)
 	if (dpi->pi->paper == NULL)
 		dpi->pi->paper = gnome_paper_with_name (gnome_paper_name_default ());
 	dpi->paper = dpi->pi->paper;
-	
+
 	gtk_entry_set_text (GTK_ENTRY (combo->entry), gnome_paper_name (dpi->pi->paper));
 }
 
@@ -722,7 +724,7 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 	g_return_if_fail (dpi != NULL);
 	g_return_if_fail (dpi->sheet != NULL);
 	g_return_if_fail (dpi->sheet->workbook != NULL);
-	
+
 	/*
 	 * Moves the whole thing into a GnomeDialog, needed until
 	 * we get GnomeDialog support in Glade.
@@ -738,12 +740,12 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 	old_parent = gtk_widget_get_toplevel (notebook->parent);
 	gtk_widget_reparent (notebook, GNOME_DIALOG (dpi->dialog)->vbox);
 	gtk_widget_destroy (old_parent);
-	
+
 	gtk_widget_queue_resize (notebook);
 
 	focus_target = glade_xml_get_widget (dpi->gui, "vertical-radio");
 	gtk_widget_grab_focus (focus_target);
-	
+
 	for (i = 1; i < 5; i++) {
 		GtkWidget *w;
 		char *print = g_strdup_printf ("print-%d", i);
@@ -778,12 +780,11 @@ dialog_print_info_new (Sheet *sheet)
 {
 	dialog_print_info_t *dpi;
 	GladeXML *gui;
-	
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/print.glade", NULL);
-	if (!gui){
-		g_error ("Could not load print.glade");
-		return NULL;
-	}
+
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (sheet->workbook),
+				"print.glade");
+        if (gui == NULL)
+                return NULL;
 
 	dpi = g_new0 (dialog_print_info_t, 1);
 	dpi->sheet = sheet;
@@ -795,7 +796,7 @@ dialog_print_info_new (Sheet *sheet)
 	do_setup_hf (dpi);
 	do_setup_page_info (dpi);
 	do_setup_page (dpi);
-	
+
 	return dpi;
 }
 
@@ -805,7 +806,7 @@ do_fetch_page (dialog_print_info_t *dpi)
 	GtkWidget *w;
 	GladeXML *gui = dpi->gui;
 	char *t;
-	
+
 	w = glade_xml_get_widget (gui, "vertical-radio");
 	if (GTK_TOGGLE_BUTTON (w)->active)
 		dpi->pi->orientation = PRINT_ORIENT_VERTICAL;
@@ -829,7 +830,7 @@ do_fetch_page (dialog_print_info_t *dpi)
 
 	w = glade_xml_get_widget (gui, "paper-size-combo");
 	t = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (w)->entry));
-	
+
 	if (gnome_paper_with_name (t) != NULL)
 		dpi->pi->paper = gnome_paper_with_name (t);
 }
@@ -850,7 +851,7 @@ do_fetch_margins (dialog_print_info_t *dpi)
 {
 	PrintMargins *m = &dpi->pi->margins;
 	GtkToggleButton *t;
-	
+
 	m->top    = unit_info_to_print_unit (&dpi->margins.top);
 	m->bottom = unit_info_to_print_unit (&dpi->margins.bottom);
 	m->left   = unit_info_to_print_unit (&dpi->margins.left);
@@ -881,7 +882,7 @@ do_fetch_page_info (dialog_print_info_t *dpi)
 	GtkToggleButton *t;
 	Value *top_range, *left_range;
 	GtkEntry *entry_top, *entry_left;
-	
+
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (dpi->gui, "check-print-divisions"));
 	dpi->pi->print_line_divisions = t->active;
 
@@ -943,7 +944,7 @@ dialog_printer_setup (Workbook *wb, Sheet *sheet)
 		return;
 
 	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dpi->dialog));
-	
+
 	if (v == 0) {
 		fetch_settings (dpi);
 		print_info_save (dpi->pi);
@@ -951,6 +952,6 @@ dialog_printer_setup (Workbook *wb, Sheet *sheet)
 
 	if (v != -1)
 		gnome_dialog_close (GNOME_DIALOG (dpi->dialog));
-	
+
 	dialog_print_info_destroy (dpi);
 }

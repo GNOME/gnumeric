@@ -1435,10 +1435,6 @@ Double
 		<tooltip>Reverse Diagonal</tooltip>
 		<can_focus>True</can_focus>
 		<active>False</active>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 	    </widget>
 
@@ -1464,10 +1460,6 @@ Double
 		<tooltip>Left</tooltip>
 		<can_focus>True</can_focus>
 		<active>False</active>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 	    </widget>
 	  </widget>
@@ -1505,10 +1497,6 @@ Double
 		<tooltip>Top</tooltip>
 		<can_focus>True</can_focus>
 		<active>False</active>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 	    </widget>
 
@@ -1570,10 +1558,6 @@ Double
 		<tooltip>Bottom</tooltip>
 		<can_focus>True</can_focus>
 		<active>False</active>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 	    </widget>
 	  </widget>
@@ -1611,10 +1595,6 @@ Double
 		<tooltip>Diagonal</tooltip>
 		<can_focus>True</can_focus>
 		<active>False</active>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 	    </widget>
 
@@ -1640,10 +1620,6 @@ Double
 		<tooltip>Right</tooltip>
 		<can_focus>True</can_focus>
 		<active>False</active>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 	    </widget>
 	  </widget>
@@ -1681,10 +1657,6 @@ Double
 	      <height>45</height>
 	      <tooltip>None</tooltip>
 	      <can_focus>True</can_focus>
-
-	      <widget>
-		<class>Placeholder</class>
-	      </widget>
 	    </widget>
 	  </widget>
 
@@ -1709,10 +1681,6 @@ Double
 	      <height>45</height>
 	      <tooltip>Outline</tooltip>
 	      <can_focus>True</can_focus>
-
-	      <widget>
-		<class>Placeholder</class>
-	      </widget>
 	    </widget>
 	  </widget>
 
@@ -1738,10 +1706,6 @@ Double
 	      <tooltip>Inside Vertical</tooltip>
 	      <can_focus>True</can_focus>
 	      <active>False</active>
-
-	      <widget>
-		<class>Placeholder</class>
-	      </widget>
 	    </widget>
 	  </widget>
 
@@ -1766,10 +1730,6 @@ Double
 	      <height>45</height>
 	      <tooltip>Inside</tooltip>
 	      <can_focus>True</can_focus>
-
-	      <widget>
-		<class>Placeholder</class>
-	      </widget>
 	    </widget>
 	  </widget>
 
@@ -1795,10 +1755,6 @@ Double
 	      <tooltip>Inside Horizontal</tooltip>
 	      <can_focus>True</can_focus>
 	      <active>False</active>
-
-	      <widget>
-		<class>Placeholder</class>
-	      </widget>
 	    </widget>
 	  </widget>
 	</widget>
@@ -1889,10 +1845,6 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
-
-		  <widget>
-		    <class>Placeholder</class>
-		  </widget>
 		</widget>
 
 		<widget>
@@ -1914,10 +1866,6 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
-
-		  <widget>
-		    <class>Placeholder</class>
-		  </widget>
 		</widget>
 
 		<widget>
@@ -1939,10 +1887,6 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
-
-		  <widget>
-		    <class>Placeholder</class>
-		  </widget>
 		</widget>
 
 		<widget>
@@ -1964,10 +1908,6 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
-
-		  <widget>
-		    <class>Placeholder</class>
-		  </widget>
 		</widget>
 
 		<widget>
@@ -1989,10 +1929,6 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
-
-		  <widget>
-		    <class>Placeholder</class>
-		  </widget>
 		</widget>
 
 		<widget>
@@ -2014,10 +1950,6 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
-
-		  <widget>
-		    <class>Placeholder</class>
-		  </widget>
 		</widget>
 
 		<widget>
@@ -2039,10 +1971,6 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
-
-		  <widget>
-		    <class>Placeholder</class>
-		  </widget>
 		</widget>
 
 		<widget>
@@ -2064,10 +1992,6 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
-
-		  <widget>
-		    <class>Placeholder</class>
-		  </widget>
 		</widget>
 
 		<widget>
@@ -2089,10 +2013,6 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
-
-		  <widget>
-		    <class>Placeholder</class>
-		  </widget>
 		</widget>
 
 		<widget>
@@ -2114,10 +2034,6 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
-
-		  <widget>
-		    <class>Placeholder</class>
-		  </widget>
 		</widget>
 
 		<widget>
@@ -2139,10 +2055,6 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
-
-		  <widget>
-		    <class>Placeholder</class>
-		  </widget>
 		</widget>
 
 		<widget>
@@ -2164,10 +2076,6 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
-
-		  <widget>
-		    <class>Placeholder</class>
-		  </widget>
 		</widget>
 
 		<widget>
@@ -2189,10 +2097,6 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
-
-		  <widget>
-		    <class>Placeholder</class>
-		  </widget>
 		</widget>
 
 		<widget>
@@ -2540,10 +2444,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -2569,10 +2469,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -2598,10 +2494,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -2627,10 +2519,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -2656,10 +2544,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -2685,10 +2569,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -2714,10 +2594,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -2743,10 +2619,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -2772,10 +2644,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -2801,10 +2669,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -2830,10 +2694,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -2859,10 +2719,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -2888,10 +2744,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -2917,10 +2769,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -2946,10 +2794,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -2975,10 +2819,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -3004,10 +2844,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -3033,15 +2869,11 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
 		<class>GtkToggleButton</class>
-		<name>gp_brick</name>
+		<name>gp_bricks</name>
 		<border_width>3</border_width>
 		<width>30</width>
 		<height>29</height>
@@ -3062,10 +2894,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -3091,10 +2919,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -3120,10 +2944,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -3149,10 +2969,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -3178,10 +2994,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 
 	      <widget>
@@ -3207,10 +3019,6 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
 	      </widget>
 	    </widget>
 	  </widget>

@@ -3,11 +3,17 @@
 #
 iconsdir = $(datadir)/pixmaps/gnumeric
 
+if BONOBO
+gnumeric_version="$(VERSION)-bonobo"
+else
+gnumeric_version="$(VERSION)"
+endif
+gnumeric_libdir = $(datadir)/gnumeric/$(gnumeric_version)
+
 INCLUDES = 						\
 	-I$(srcdir)/..					\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
-        -DGNUMERIC_GLADEDIR=\""$(gladedir)"\"           \
 	-DGNUMERIC_ICONDIR=\""$(iconsdir)"\"		\
 	-I$(includedir)				 	\
 	$(EXTRA_GNOME_CFLAGS)				\
@@ -55,7 +61,7 @@ libdialogs_a_SOURCES =				\
 	utils-dialog.h				\
 	utils-dialog.c
 
-gladedir   = $(datadir)/gnumeric/glade
+gladedir   = $(gnumeric_libdir)/glade
 glade_DATA = 				\
 	advanced-filter.glade		\
 	analysis-tools.glade		\

@@ -115,5 +115,14 @@ gnumeric_error_splits_array (CommandContext *context)
 	CC_CLASS (context)->error_splits_array (context);
 }
 
+void
+gnumeric_error_sys_err (CommandContext *context, char const *message)
+{
+	g_return_if_fail (context);
+	g_return_if_fail (IS_COMMAND_CONTEXT (context));
+
+	CC_CLASS (context)->error_sys_err (context, message);
+}
+
 GNUMERIC_MAKE_TYPE(command_context, "CommandContext", CommandContext, NULL, NULL, PARENT_TYPE);
 

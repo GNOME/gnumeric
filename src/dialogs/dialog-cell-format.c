@@ -27,8 +27,6 @@
 #include "commands.h"
 #include "rendered-value.h"
 
-#define GLADE_FILE "cell-format.glade"
-
 /* The order corresponds to border_preset_buttons */
 typedef enum
 {
@@ -42,10 +40,10 @@ typedef enum
 /* The available format widgets */
 typedef enum
 {
-    F_GENERAL,		F_DECIMAL_BOX,	F_SEPARATOR, 
+    F_GENERAL,		F_DECIMAL_BOX,	F_SEPARATOR,
     F_SYMBOL_LABEL,	F_SYMBOL,	F_DELETE,
     F_ENTRY,		F_LIST_SCROLL,	F_LIST,
-    F_TEXT,		F_DECIMAL_SPIN,	F_NEGATIVE_SCROLL, 
+    F_TEXT,		F_DECIMAL_SPIN,	F_NEGATIVE_SCROLL,
     F_NEGATIVE,         F_MAX_WIDGET
 } FormatWidget;
 
@@ -224,7 +222,7 @@ setup_pattern_button (GladeXML  *gui,
 		gtk_signal_connect (GTK_OBJECT (button), "toggled",
 				    GTK_SIGNAL_FUNC (cb_toggle_changed),
 				    picker);
-		gtk_object_set_data (GTK_OBJECT (button), "index", 
+		gtk_object_set_data (GTK_OBJECT (button), "index",
 				     GINT_TO_POINTER (index));
 
 		/* Set the state AFTER the signal to get things redrawn correctly */
@@ -473,7 +471,7 @@ draw_format_preview (FormatState *state)
 	if (new_format->len > 0)
 		gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]),
 				    new_format->str);
-				    
+
 	g_string_free (new_format, TRUE);
 
 	/* Nothing to sample. */
@@ -576,7 +574,7 @@ cb_decimals_changed (GtkEditable *editable, FormatState *state)
 static void
 cb_separator_toggle (GtkObject *obj, FormatState *state)
 {
-	state->format.use_separator = 
+	state->format.use_separator =
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj));
 	fillin_negative_samples (state, 1);
 
@@ -612,10 +610,10 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 		/* General */
 		{ F_GENERAL, F_MAX_WIDGET },
 		/* Number */
-		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_SEPARATOR, 
+		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_SEPARATOR,
 		  F_NEGATIVE_SCROLL, F_NEGATIVE, F_MAX_WIDGET },
 		/* Currency */
-		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_SYMBOL_LABEL, F_SYMBOL, 
+		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_SYMBOL_LABEL, F_SYMBOL,
 		  F_NEGATIVE_SCROLL, F_NEGATIVE, F_MAX_WIDGET },
 		/* Accounting */
 		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_SYMBOL_LABEL, F_SYMBOL, F_MAX_WIDGET },
@@ -923,7 +921,7 @@ fmt_dialog_init_format_page (FormatState *state)
 			    "select-row",
 			    GTK_SIGNAL_FUNC (cb_format_list_select),
 			    state);
-      
+
 	gtk_signal_connect (GTK_OBJECT (state->format.widget[F_LIST]),
 			    "size-allocate",
 			    GTK_SIGNAL_FUNC (cb_format_list_size_allocate),
@@ -944,7 +942,7 @@ fmt_dialog_init_format_page (FormatState *state)
 
 		gtk_combo_set_popdown_strings (combo, l);
 		g_list_free (l);
-		gtk_entry_set_text (GTK_ENTRY (combo->entry), 
+		gtk_entry_set_text (GTK_ENTRY (combo->entry),
 				    _(currency_symbols [state->format.currency_index].description));
 
 		gtk_signal_connect (GTK_OBJECT (combo->entry),
@@ -958,14 +956,14 @@ fmt_dialog_init_format_page (FormatState *state)
 			    state);
 	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
 				      GTK_EDITABLE (state->format.widget[F_ENTRY]));
-	
+
 	/* Setup format buttons to toggle between the format pages */
 	for (i = 0; (name = format_buttons[i]) != NULL; ++i) {
 		tmp = glade_xml_get_widget (state->gui, name);
 		if (tmp == NULL)
 			continue;
 
-		gtk_object_set_data (GTK_OBJECT (tmp), "index", 
+		gtk_object_set_data (GTK_OBJECT (tmp), "index",
 				     GINT_TO_POINTER (i));
 		gtk_signal_connect (GTK_OBJECT (tmp), "toggled",
 				    GTK_SIGNAL_FUNC (cb_format_changed),
@@ -1034,7 +1032,7 @@ fmt_dialog_init_align_radio (char const * const name,
 	if (tmp != NULL) {
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp),
 					      val == target);
-		gtk_object_set_data (GTK_OBJECT (tmp), "align", 
+		gtk_object_set_data (GTK_OBJECT (tmp), "align",
 				     GINT_TO_POINTER (val));
 		gtk_signal_connect (GTK_OBJECT (tmp),
 				    "toggled", handler,
@@ -1453,7 +1451,7 @@ static struct
 {
 	/*
 	state 1 = single cell;
-	state 2 = multi vert, single horiz (A1:A2); 
+	state 2 = multi vert, single horiz (A1:A2);
 	state 3 = single vert, multi horiz (A1:B1);
 	state 4 = multi vertical & multi horizontal
 	*/
@@ -1504,7 +1502,7 @@ border_get_mstyle (FormatState const *state, StyleBorderLocation const loc)
 	int const b = (edge->rgba >>  8) & 0xff;
 	StyleColor *color =
 	    style_color_new ((r << 8)|r, (g << 8)|g, (b << 8)|b);
-		
+
 	/* Don't set borders that have not been changed */
 	if (!edge->is_set)
 		return NULL;
@@ -1819,7 +1817,7 @@ cb_border_toggle (GtkToggleButton *button, BorderPicker *picker)
 	if (border_format_has_changed (picker->state, picker) &&
 	    !picker->is_selected)
 		gtk_toggle_button_set_active (button, TRUE);
-	else 
+	else
 		/* Update the preview lines and enable/disable them */
 		draw_border_preview (picker->state);
 }
@@ -1932,8 +1930,8 @@ static void set_initial_focus (FormatState *state)
 {
 	GtkWidget *focus_widget = NULL, *pagew;
 	gchar *name;
-	
-	pagew = gtk_notebook_get_nth_page 
+
+	pagew = gtk_notebook_get_nth_page
 		(GTK_NOTEBOOK (state->dialog->notebook), fmt_dialog_page);
 	name = gtk_widget_get_name (pagew);
 
@@ -1944,7 +1942,7 @@ static void set_initial_focus (FormatState *state)
 		focus_widget
 			= glade_xml_get_widget (state->gui, "halign_left");
 	} else if (strcmp (name, "font_box") == 0) {
-		focus_widget 
+		focus_widget
 			= GTK_WIDGET (state->font.selector->font_size_entry);
 	} else if (strcmp (name, "border_box") == 0) {
 		focus_widget
@@ -1953,14 +1951,14 @@ static void set_initial_focus (FormatState *state)
 		focus_widget
 			= glade_xml_get_widget (state->gui, "back_color_auto");
 	} else if (strcmp (name, "protection_box") == 0) {
-		focus_widget = glade_xml_get_widget (state->gui, 
+		focus_widget = glade_xml_get_widget (state->gui,
 						     "protected_button");
 	} else {
 		focus_widget = NULL;
 	}
 
-	if (focus_widget 
-	    && GTK_WIDGET_CAN_FOCUS (focus_widget) 
+	if (focus_widget
+	    && GTK_WIDGET_CAN_FOCUS (focus_widget)
 	    && GTK_WIDGET_IS_SENSITIVE (focus_widget))
 		gtk_widget_grab_focus (focus_widget);
 }
@@ -2017,12 +2015,12 @@ fmt_dialog_impl (FormatState *state, MStyleBorder **borders)
 	    "gp_thin_horiz_cross",
 	    "gp_thin_diag_cross",
 
-	    "gp_foreground_solid",
 	    "gp_small_circle",
 	    "gp_semi_circle",
 	    "gp_thatch",
 	    "gp_large_circles",
 	    "gp_bricks",
+	    "gp_foreground_solid",
 
 	    NULL
 	};
@@ -2171,7 +2169,7 @@ fmt_dialog_impl (FormatState *state, MStyleBorder **borders)
 			gtk_signal_connect (GTK_OBJECT (tmp), "clicked",
 					    GTK_SIGNAL_FUNC (cb_border_preset_clicked),
 					    state);
-			if (i == BORDER_PRESET_INSIDE && state->selection_mask != 0x8) 
+			if (i == BORDER_PRESET_INSIDE && state->selection_mask != 0x8)
 				gtk_widget_hide (tmp);
 		}
 	}
@@ -2202,18 +2200,18 @@ fmt_dialog_impl (FormatState *state, MStyleBorder **borders)
 	 * then track the selection: styles should be applied to the current
 	 * selection.
 	 * There are some UI issues to discuss before we do this, though. Most
-	 * important: 
+	 * important:
 	 * - will users be confused?
 	 * And on a different level:
 	 * - should the preselected style in the dialog change when another
 	 *   cell is selected? May be, but then we can't first make a style,
 	 *   then move around and apply it to different cells.
 	 */
-	
+
 	/* Make it modal */
 	gtk_window_set_modal (GTK_WINDOW(dialog), TRUE);
 
-	
+
 	/* Bring up the dialog */
 	gnumeric_dialog_show (state->sheet->workbook->toplevel,
 			      GNOME_DIALOG (dialog), FALSE, TRUE);
@@ -2240,17 +2238,16 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	Value	     *sample_val;
 	Cell	     *edit_cell;
 	MStyleBorder *borders[STYLE_BORDER_EDGE_MAX];
-	FormatState  *state = g_new (FormatState, 1);
+	FormatState  *state;
 
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE , NULL);
-	if (!gui) {
-		g_warning ("Could not find " GLADE_FILE "\n");
-		return;
-	}
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				"cell-format.glade");
+        if (gui == NULL)
+                return;
 
 	edit_cell = sheet_cell_get (sheet,
 				    sheet->cursor.edit_pos.col,
@@ -2260,6 +2257,7 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	mstyle = sheet_selection_get_unique_style (sheet, borders);
 
 	/* Initialize */
+	state = g_new (FormatState, 1);
 	state->gui		= gui;
 	state->sheet		= sheet;
 	state->value		= sample_val;
@@ -2279,7 +2277,7 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 }
 
 /*
- * TODO 
+ * TODO
  *
  * Borders
  * 	- Double lines for borders

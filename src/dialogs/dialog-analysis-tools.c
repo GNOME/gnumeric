@@ -591,12 +591,9 @@ dialog_correlation_tool (Workbook *wb, Sheet *sheet)
 	int      group, selection, x1, x2, y1, y2;
 	Range    range;
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
-
-        if (!gui) {
-                printf ("Could not find analysis-tools.glade\n");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+        if (gui == NULL)
                 return 0;
-        }
 
 	dao.type = NewSheetOutput;
 	group    = 0;
@@ -695,12 +692,9 @@ dialog_covariance_tool (Workbook *wb, Sheet *sheet)
 	int      group, selection, x1, x2, y1, y2;
 	Range    range;
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
-
-        if (!gui) {
-                printf ("Could not find analysis-tools.glade\n");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+        if (gui == NULL)
                 return 0;
-        }
 
 	dao.type = NewSheetOutput;
 	group    = 0;
@@ -1130,12 +1124,9 @@ dialog_ttest_paired_tool (Workbook *wb, Sheet *sheet)
 	int      selection, x1, x2, y1, y2;
 	Range    range_input1, range_input2;
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
-
-        if (!gui) {
-                printf ("Could not find analysis-tools.glade\n");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+        if (gui == NULL)
                 return 0;
-        }
 
 	dao.type = NewSheetOutput;
 
@@ -1266,12 +1257,9 @@ dialog_ttest_eq_tool (Workbook *wb, Sheet *sheet)
 	int      selection, x1, x2, y1, y2;
 	Range    range_input1, range_input2;
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
-
-        if (!gui) {
-                printf ("Could not find analysis-tools.glade\n");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+        if (gui == NULL)
                 return 0;
-        }
 
 	dao.type = NewSheetOutput;
 
@@ -1402,12 +1390,9 @@ dialog_ttest_neq_tool (Workbook *wb, Sheet *sheet)
 	int      selection, x1, x2, y1, y2;
 	Range    range_input1, range_input2;
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
-
-        if (!gui) {
-                printf ("Could not find analysis-tools.glade\n");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+        if (gui == NULL)
                 return 0;
-        }
 
 	dao.type = NewSheetOutput;
 
@@ -1538,12 +1523,9 @@ dialog_ftest_tool (Workbook *wb, Sheet *sheet)
 	int      selection, x1, x2, y1, y2;
 	Range    range_input1, range_input2;
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
-
-        if (!gui) {
-                printf ("Could not find analysis-tools.glade\n");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+        if (gui == NULL)
                 return 0;
-        }
 
 	dao.type = NewSheetOutput;
 
@@ -1804,12 +1786,9 @@ dialog_random_tool (Workbook *wb, Sheet *sheet)
 	int   selection, x1, x2, y1, y2;
 	int   i, dist_str_no;
 	
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
-
-        if (!gui) {
-                printf ("Could not find analysis-tools.glade\n");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+        if (gui == NULL)
                 return 0;
-        }
 
 	dao.type = NewSheetOutput;
 
@@ -2131,12 +2110,9 @@ dialog_average_tool (Workbook *wb, Sheet *sheet)
 	int      selection, x1, x2, y1, y2;
 	Range    range;
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
-
-        if (!gui) {
-                printf ("Could not find analysis-tools.glade\n");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+        if (gui == NULL)
                 return 0;
-        }
 
 	dao.type = NewSheetOutput;
 
@@ -2247,12 +2223,9 @@ dialog_ranking_tool (Workbook *wb, Sheet *sheet)
 	int      group, selection, x1, x2, y1, y2;
 	Range    range;
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
-
-        if (!gui) {
-                printf ("Could not find analysis-tools.glade\n");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+        if (gui == NULL)
                 return 0;
-        }
 
 	dao.type = NewSheetOutput;
 	group    = 0;
@@ -2354,12 +2327,9 @@ dialog_anova_single_factor_tool (Workbook *wb, Sheet *sheet)
 	int      group, selection, x1, x2, y1, y2;
 	Range    range;
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
-
-        if (!gui) {
-                printf ("Could not find analysis-tools.glade\n");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+        if (gui == NULL)
                 return 0;
-        }
 
 	dao.type = NewSheetOutput;
 	group    = 0;
@@ -2469,12 +2439,9 @@ dialog_anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet)
 	int      selection, x1, x2, y1, y2;
 	Range    range;
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
-
-        if (!gui) {
-                printf ("Could not find analysis-tools.glade\n");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+        if (gui == NULL)
                 return 0;
-        }
 
 	dao.type = NewSheetOutput;
 
@@ -2581,12 +2548,9 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
 	int       i, selection;
 
  dialog_loop:
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
-
-        if (!gui) {
-                printf ("Could not find analysis-tools.glade\n");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "analysis-tools.glade");
+        if (gui == NULL)
                 return;
-        }
 
 	dialog = glade_xml_get_widget (gui, "AnalysisTools");
         if (!dialog) {

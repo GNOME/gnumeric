@@ -159,9 +159,10 @@ graphics_wizard (Workbook *wb)
 	
 	boot_wizard (wb);
 	
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/graphics.glade", NULL);
-	if (!gui)
-		g_error ("Failed to load the interface");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				"graphics.glade");
+        if (gui == NULL)
+                return;
 
 	toplevel = glade_xml_get_widget (gui, "graphics-wizard-dialog");
 

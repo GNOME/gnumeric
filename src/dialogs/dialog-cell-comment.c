@@ -10,6 +10,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
+#include "sheet.h"
 #include "cell-comment.h"
 
 void

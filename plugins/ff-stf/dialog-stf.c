@@ -332,7 +332,7 @@ dialog_stf (CommandContext *context, FileSource_t *src)
 
 	glade_gnome_init();
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE, NULL);
+	gui = gnumeric_glade_xml_new (NULL, GLADE_FILE);
 	if (!gui) {
 		message = g_strdup_printf (_("Missing %s file"), GLADE_FILE);
 		gnumeric_error_read (context, message);

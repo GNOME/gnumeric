@@ -49,6 +49,14 @@ ccg_error_splits_array (CommandContext *context)
 }
 
 static void
+ccg_error_sys_err (CommandContext *context, char const * const message)
+{
+	CommandContextGui *ccg = COMMAND_CONTEXT_GUI (context);
+
+	gnumeric_notice (ccg->wb, GNOME_MESSAGE_BOX_ERROR, message);
+}
+
+static void
 ccg_init_class (GtkObjectClass *object_class)
 {
 	CommandContextClass *cc_class = (CommandContextClass *) object_class;
@@ -57,6 +65,7 @@ ccg_init_class (GtkObjectClass *object_class)
 	cc_class->error_read           = ccg_error_read;
 	cc_class->error_save           = ccg_error_save;
 	cc_class->error_splits_array   = ccg_error_splits_array;
+	cc_class->error_sys_err        = ccg_error_sys_err;
 }
 
 GNUMERIC_MAKE_TYPE(command_context_gui, "CommandContextGui", CommandContextGui, ccg_init_class, NULL, PARENT_TYPE)

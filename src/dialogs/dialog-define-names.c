@@ -37,7 +37,7 @@ update_edit (state_t *state)
 	Sheet        *sheet;
 	EvalPosition  ep;
 	char         *txt;
-	
+
 	sheet = state->wb->current_sheet;
 	g_return_if_fail (sheet != NULL);
 
@@ -48,7 +48,7 @@ update_edit (state_t *state)
 		gtk_entry_set_text (state->name, expr_name->name->str);
 	else
 		gtk_entry_set_text (state->name, "");
-	
+
 	txt = expr_name_value (expr_name);
 	gtk_entry_set_text (state->value, txt);
 	g_free (txt);
@@ -93,7 +93,7 @@ fill_list (state_t *state)
 
 	/* FIXME: scoping issues here */
 	state->expr_names = names = expr_name_list (state->wb, NULL, FALSE);
-	
+
 	while (names) {
 		ExprName *expr_name = names->data;
 		GtkWidget *li = gtk_list_item_new_with_label (expr_name->name->str);
@@ -168,7 +168,7 @@ grab_text_ok (state_t *state, gboolean update_list)
 
 	if (!name || (name[0] == '\0'))
 		return TRUE;
-	
+
 	/* FIXME: we need to be able to select names scope ideally */
 	expr_name = expr_name_lookup (state->wb, NULL, name);
 	if (expr_name)
@@ -235,12 +235,11 @@ dialog_define_names (Workbook *wb)
 	g_return_if_fail (wb != NULL);
 
 	state.wb  = wb;
-	state.gui = glade_xml_new (GNUMERIC_GLADEDIR "/names.glade", NULL);
-	if (!state.gui) {
-		printf ("Could not find names.glade\n");
-		return;
-	}
-	
+	state.gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				      "names.glade");
+        if (state.gui == NULL)
+                return;
+
 	state.name  = GTK_ENTRY (glade_xml_get_widget (state.gui, "name"));
 	state.value = GTK_ENTRY (glade_xml_get_widget (state.gui, "value"));
 	state.list  = GTK_LIST  (glade_xml_get_widget (state.gui, "name_list"));
@@ -258,19 +257,19 @@ dialog_define_names (Workbook *wb)
 	w = glade_xml_get_widget (state.gui, "add");
 	gtk_signal_connect (GTK_OBJECT (w), "clicked",
 			    GTK_SIGNAL_FUNC (add_name), &state);
-	
+
 	w = glade_xml_get_widget (state.gui, "delete");
 	gtk_signal_connect (GTK_OBJECT (w), "clicked",
 			    GTK_SIGNAL_FUNC (remove_name), &state);
-	
+
 	state.dia = glade_xml_get_widget (state.gui, "NamesDialog");
 	if (!state.dia) {
 		printf ("Corrupt file names.glade\n");
 		return;
 	}
- 	gnome_dialog_editable_enters(GNOME_DIALOG(state.dia), 
+ 	gnome_dialog_editable_enters(GNOME_DIALOG(state.dia),
 				     GTK_EDITABLE(state.name));
- 	gnome_dialog_editable_enters(GNOME_DIALOG(state.dia), 
+ 	gnome_dialog_editable_enters(GNOME_DIALOG(state.dia),
 				     GTK_EDITABLE(state.value));
 
 	fill_list (&state);
@@ -279,7 +278,7 @@ dialog_define_names (Workbook *wb)
 			    GTK_SIGNAL_FUNC (select_name), &state);
 
 	v = gnumeric_dialog_run (wb, GNOME_DIALOG (state.dia));
-	
+
 	if (v == -1)
 		destroy_state (&state);
 	else

@@ -103,7 +103,7 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 
 	if (is_custom) {
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (custom), TRUE);
-		gtk_spin_button_set_value (zoom, 
+		gtk_spin_button_set_value (zoom,
 					   (int)(cur_sheet->last_zoom_factor_used * 100. + .5));
 	}
 
@@ -161,13 +161,12 @@ dialog_zoom (Workbook *wb, Sheet *sheet)
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (sheet != NULL);
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE , NULL);
-	if (!gui) {
-		printf ("Could not find " GLADE_FILE "\n");
-		return;
-	}
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				GLADE_FILE);
+        if (gui == NULL)
+                return;
 
 	dialog_zoom_impl (wb, sheet, gui);
-	
+
 	gtk_object_unref (GTK_OBJECT (gui));
 }

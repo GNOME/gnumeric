@@ -11,12 +11,12 @@
 #include "widget-editable-label.h"
 
 #define MARGIN 1
-/* 
+/*
  * Inside this file we define a number of aliases for the
  * EditableClass object, a short hand for it is EL.
  *
  * I do want to avoid typing.
- */ 
+ */
 #define EL(x) EDITABLE_LABEL(x)
 typedef EditableLabel El;
 typedef EditableLabelClass ElClass;
@@ -41,14 +41,14 @@ el_entry_activate (GtkWidget *entry, El *el)
 {
 	gboolean accept = TRUE;
 	char *text = gtk_entry_get_text (GTK_ENTRY (el->entry));
-	
+
 	gtk_signal_emit (GTK_OBJECT (el), el_signals [TEXT_CHANGED], text, &accept);
 
 	if (accept)
 		editable_label_set_text (el, text);
 	else
 		editable_label_set_text (el, el->text);
-	
+
 	el_stop_editing (el);
 }
 
@@ -65,17 +65,17 @@ el_edit_sync (El *el)
 
 	text = gtk_entry_get_text (entry);
 	font = widget->style->font;
-	
+
 	el_change_text (el, text);
 
 	cursor_pos = GTK_EDITABLE (entry)->current_pos;
-	
+
 	points = gnome_canvas_points_new (2);
 	points->coords [0] = gdk_text_width (font, text, cursor_pos) + MARGIN;
 	points->coords [1] = 1 + MARGIN;
 	points->coords [2] = points->coords [0];
 	points->coords [3] = font->ascent + font->descent - 1 - MARGIN;
-	
+
 	/* Draw the cursor */
 	if (!el->cursor)
 		el->cursor = gnome_canvas_item_new (
@@ -90,7 +90,7 @@ el_edit_sync (El *el)
 			NULL);
 
 	gnome_canvas_points_free (points);
-	
+
 	if (!el->background) {
 		el->background = gnome_canvas_item_new (
 			root_group, gnome_canvas_rect_get_type (),
@@ -113,7 +113,7 @@ el_edit_sync (El *el)
 			"y2",             (double) font->ascent + font->descent + MARGIN * 2,
 			"fill_color_gdk", &widget->style->base [GTK_STATE_NORMAL],
 			NULL);
-	
+
 }
 
 static void
@@ -134,12 +134,12 @@ el_start_editing (El *el, const char *text)
 	gtk_widget_show_all (el->toplevel);
 
 	gtk_grab_add (GTK_WIDGET (el));
-	
+
 	/*
 	 * Syncronize the GtkEntry with the label
 	 */
 	el_edit_sync (el);
-	
+
 }
 
 static void
@@ -168,9 +168,9 @@ static void
 el_change_text (El *el, const char *text)
 {
 	char *item_text;
-	
+
 	item_text = GNOME_CANVAS_TEXT (el->text_item)->text;
-		
+
 	if (strcmp (text, item_text) == 0)
 		return;
 
@@ -205,7 +205,7 @@ el_size_request (GtkWidget *widget, GtkRequisition *requisition)
 	El *el = EL (widget);
 	GdkFont *font;
 	char *text;
-	
+
 	if (!el->text_item || !GTK_WIDGET_REALIZED (widget)){
 		requisition->width = 1;
 		requisition->height = 1;
@@ -226,27 +226,27 @@ static gint
 el_button_press_event (GtkWidget *widget, GdkEventButton *button)
 {
 	El *el = EL (widget);
-	
+
 	if (!el->text)
 		return FALSE;
 
 	if (el->entry && button->window != widget->window){
-		el_stop_editing (el);
-		gtk_signal_emit (GTK_OBJECT (el), el_signals [EDITING_STOPPED]);
-		
-		return FALSE;
+		/* Accept the name change */
+		el_entry_activate (el->entry, el);
+
+		gdk_event_put ((GdkEvent *)button);
+		return TRUE;
 	}
-	
+
 	if (button->type == GDK_2BUTTON_PRESS){
 		char *text = GNOME_CANVAS_TEXT (el->text_item)->text;
 
 		el_start_editing (el, text);
-					    
+
 		return FALSE;
 	}
 
-	gtk_widget_event (GTK_WIDGET (el)->parent, (GdkEvent *) button);
-	return FALSE;
+	return gtk_widget_event (GTK_WIDGET (el)->parent, (GdkEvent *) button);
 }
 
 /*
@@ -266,10 +266,10 @@ el_key_press_event (GtkWidget *widget, GdkEventKey *event)
 		el_stop_editing (el);
 		el_change_text (el, el->text);
 		gtk_signal_emit (GTK_OBJECT (el), el_signals [EDITING_STOPPED]);
-		
+
 		return TRUE;
 	}
-	
+
 	gtk_widget_event (GTK_WIDGET (el->entry), (GdkEvent *) event);
 
 	/* The previous call could have killed the edition */
@@ -282,12 +282,12 @@ el_key_press_event (GtkWidget *widget, GdkEventKey *event)
 static void
 el_realize(GtkWidget *widget)
 {
-  if (GTK_WIDGET_CLASS (el_parent_class)->realize)
-	  (*GTK_WIDGET_CLASS (el_parent_class)->realize)(widget);
+	if (GTK_WIDGET_CLASS (el_parent_class)->realize)
+		(*GTK_WIDGET_CLASS (el_parent_class)->realize)(widget);
 
-  gnome_canvas_item_set(GNOME_CANVAS_ITEM (EL (widget)->text_item),
-                        "font_gdk",
-                        widget->style->font, NULL);
+	gnome_canvas_item_set(GNOME_CANVAS_ITEM (EL (widget)->text_item),
+			      "font_gdk",
+			      widget->style->font, NULL);
 }
 
 static void
@@ -326,7 +326,7 @@ el_class_init (ElClass *Class)
 			GTK_SIGNAL_OFFSET (EditableLabelClass, editing_stopped),
 			gtk_marshal_NONE__NONE,
 			GTK_TYPE_NONE, 0);
-	
+
 	gtk_object_class_add_signals (object_class, el_signals, LAST_SIGNAL);
 }
 
@@ -378,7 +378,7 @@ editable_label_set_text (EditableLabel *el, const char *text)
 		GnomeCanvasGroup *root_group;
 
 		root_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (el)->root);
-		
+
 		el->text_item = gnome_canvas_item_new (
 			root_group, gnome_canvas_text_get_type (),
 			"anchor",   GTK_ANCHOR_NORTH_WEST,
@@ -399,7 +399,7 @@ editable_label_new (const char *text)
 
 	if (text)
 		editable_label_set_text (EDITABLE_LABEL (el), text);
-	
+
 	return el;
 }
 

@@ -242,8 +242,9 @@ fs_init (FontSelector *fs)
 	fs->gui = glade_xml_new (GNUMERIC_GLADEDIR "/font-sel.glade", NULL);
 	if (!fs->gui) {
 		g_warning ("Could not load font-sel.glade");
-		return;
+                return;
 	}
+
 	toplevel = glade_xml_get_widget (fs->gui, "toplevel-table");
 	old_parent = gtk_widget_get_toplevel (toplevel);
 	gtk_widget_reparent (toplevel, GTK_WIDGET (fs));

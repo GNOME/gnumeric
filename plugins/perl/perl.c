@@ -43,10 +43,10 @@ init_plugin (CommandContext *context, PluginData *pd)
 		return PLUGIN_QUIET_ERROR;
 
 	/* Initialize the Perl interpreter. */
-	arg = gnome_unconditional_datadir_file("gnumeric/perl/lib");
+	arg = gnumeric_sys_data_dir ("perl");
 	argv[1] = g_strconcat("-I", arg, NULL);
+	argv[2] = g_strconcat (arg, "startup.pl", NULL);
 	g_free(arg);
-	argv[2] = gnome_unconditional_datadir_file("gnumeric/perl/startup.pl");
 	gnumeric_perl_interp = perl_alloc();
 	perl_construct(gnumeric_perl_interp);
 	perl_parse(gnumeric_perl_interp, xs_init, 3, argv, NULL);

@@ -4,12 +4,13 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- Row height auto resize has been disabled temporarily.
 - If there are no problems with the new array formula xml format then
   we should convert expressions to use the same scheme.
 
 Long term breakage
 ------------------
+- The max row/col scroll size is still hard coded.
+- Auto resize needs to handle empty cells.
 - Clearing a cell that stopped a span does not regenerate the span.
 - changing col/row sizes does not have undo support.
 - The implication of mixed mode references ($B$2:C3)

@@ -12,6 +12,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
+#include "workbook.h"
 
 gboolean
 dialog_get_number (Workbook *wb, const char *glade_file, double *init_and_return)
@@ -19,14 +20,12 @@ dialog_get_number (Workbook *wb, const char *glade_file, double *init_and_return
 	GladeXML *gui;
 	GnomeDialog *dialog;
 	GtkWidget *entry;
-	char *f;
 	gboolean res = FALSE;
 
-	f = g_concat_dir_and_file (GNUMERIC_GLADEDIR, glade_file);
-	gui = glade_xml_new (f, NULL);
-	g_free (f);
-	if (!gui)
-		return FALSE;
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				glade_file);
+        if (gui == NULL)
+                return FALSE;
 
 	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "dialog1"));
 	if (dialog == NULL){
@@ -38,9 +37,9 @@ dialog_get_number (Workbook *wb, const char *glade_file, double *init_and_return
 	entry = glade_xml_get_widget (gui, "entry1");
 	if (*init_and_return != 0.0){
 		char buffer [80];
-		
+
 		sprintf (buffer, "%g", *init_and_return);
-		
+
 		gtk_entry_set_text (GTK_ENTRY (entry), buffer);
 	}
 	gnome_dialog_editable_enters (dialog, GTK_EDITABLE (entry));
@@ -57,7 +56,7 @@ dialog_get_number (Workbook *wb, const char *glade_file, double *init_and_return
 		res = TRUE;
 		*init_and_return = atof (gtk_entry_get_text (GTK_ENTRY (entry)));
 	}
-	
+
 	gnome_dialog_close (dialog);
 	gtk_object_destroy (GTK_OBJECT (gui));
 
@@ -71,10 +70,11 @@ dialog_get_sheet_name (Workbook *wb, const char *current)
 	GnomeDialog *dialog;
 	GtkWidget *entry;
 	char *str = NULL;
-	
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/sheet-rename.glade", NULL);
-	if (!gui)
-		return NULL;
+
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				"sheet-rename.glade");
+        if (gui == NULL)
+                return NULL;
 
 	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "dialog"));
 	if (dialog == NULL){
@@ -87,7 +87,7 @@ dialog_get_sheet_name (Workbook *wb, const char *current)
 	gtk_entry_set_text (GTK_ENTRY (entry), current);
 	gtk_editable_select_region(GTK_EDITABLE (entry), 0, -1);
 
-	gnome_dialog_editable_enters (dialog, GTK_EDITABLE (entry));	
+	gnome_dialog_editable_enters (dialog, GTK_EDITABLE (entry));
 
 	switch (gnumeric_dialog_run (wb, dialog)){
 	case 1:			/* cancel */
@@ -99,7 +99,7 @@ dialog_get_sheet_name (Workbook *wb, const char *current)
 	default:
 		str = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 	}
-	
+
 	gnome_dialog_close (dialog);
 	gtk_object_destroy (GTK_OBJECT (gui));
 

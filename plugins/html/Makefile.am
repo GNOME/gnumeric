@@ -1,26 +1,28 @@
-#
-# Makefile for the html Gnumeric plugin.
-#
-# Where can we find the Gnumeric include files.
-#
-GNUMERIC_SRC_DIR = $(top_srcdir)/src
-
-#
 # Where to install the plugin
 #
-plugindir = $(libdir)/gnumeric/plugins/$(VERSION)
+if BONOBO
+gnumeric_version="$(VERSION)-bonobo"
+else
+gnumeric_version="$(VERSION)"
+endif
+gnumeric_libdir  = $(libdir)/gnumeric/$(gnumeric_version)
+gnumeric_datadir = $(datadir)/gnumeric/$(gnumeric_version)
+plugindir = $(gnumeric_libdir)/plugins
+gladedir  = $(gnumeric_datadir)/glade
+
+INCLUDES = 						\
+	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+	-DGNUMERIC_VERSION=\""$(VERSION)"\"             \
+	-I$(includedir)					\
+	-I$(top_srcdir)/src				\
+	$(GNOME_INCLUDEDIR)
 
 plugin_LTLIBRARIES = libgnum_html.la
 
 libgnum_html_la_SOURCES = boot.h boot.c html.h html.c latex.h latex.c \
-				roff.h roff.c font.h font.c 
-#epsf.h epsf.c ps.h ps.c
+			roff.h roff.c font.h font.c 
 
-INCLUDES = 						\
-	-I$(GNUMERIC_SRC_DIR)				\
-	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-	-DGNUMERIC_VERSION=\""$(VERSION)"\"             \
-	-I$(includedir)					\
-	$(GNOME_INCLUDEDIR)
+#No longer used now that printing is available.
+#epsf.h epsf.c ps.h ps.c
 
 EXTRA_DIST = README ChangeLog

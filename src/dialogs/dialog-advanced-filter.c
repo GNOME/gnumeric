@@ -89,7 +89,7 @@ advanced_filter (Workbook *wb,
 					 criteria_row_b, criteria_col_e,
 					 criteria_row_e, NULL);
 
-	rows = find_rows_that_match (sheet, input_col_b, 
+	rows = find_rows_that_match (sheet, input_col_b,
 				     input_row_b, input_col_e, input_row_e,
 				     criteria, unique_only_flag);
 
@@ -156,7 +156,7 @@ dialog_advanced_filter (Workbook *wb)
 
 	GladeXML  *gui;
 	GtkWidget *dia;
-	GtkWidget *list_range; 
+	GtkWidget *list_range;
 	GtkWidget *criteria_range;
 	GtkWidget *copy_to;
 	GtkWidget *unique_only;
@@ -169,12 +169,10 @@ dialog_advanced_filter (Workbook *wb)
 
 	f.type = InPlace;
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/advanced-filter.glade", NULL);
-	if (!gui) {
-		printf ("Could not find advanced-filter.glade\n");
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "advanced-filter.glade");
+	if (gui == NULL )
 		return;
-	}
-	
+
 	dia = glade_xml_get_widget (gui, "AdvancedFilter");
 	if (!dia) {
 		printf ("Corrupt file advanced-filter.glade\n");
@@ -189,19 +187,19 @@ dialog_advanced_filter (Workbook *wb)
 	radiobutton = glade_xml_get_widget (gui, "radiobutton2");
 	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
 			    GTK_SIGNAL_FUNC (in_place_toggled),
-			    &f);	
+			    &f);
 	radiobutton = glade_xml_get_widget (gui, "radiobutton3");
 	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
 			    GTK_SIGNAL_FUNC (copy_to_toggled),
-			    &f);	
+			    &f);
 	radiobutton = glade_xml_get_widget (gui, "radiobutton4");
 	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
 			    GTK_SIGNAL_FUNC (new_sheet_toggled),
-			    &f);	
+			    &f);
 	radiobutton = glade_xml_get_widget (gui, "radiobutton5");
 	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
 			    GTK_SIGNAL_FUNC (new_workbook_toggled),
-			    &f);	
+			    &f);
 
         if (unique_only_flag)
 	        gtk_toggle_button_set_active ((GtkToggleButton *)
@@ -218,7 +216,7 @@ dialog_advanced_filter (Workbook *wb)
 				      GTK_EDITABLE (copy_to));
 	gtk_widget_grab_focus (list_range);
 	gtk_widget_set_sensitive (copy_to, FALSE);
-loop:	
+loop:
 	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
 
 	sheet = wb->current_sheet;
@@ -232,7 +230,7 @@ loop:
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (list_range));
-	error_flag = parse_range (text, &list_col_b, &list_row_b, 
+	error_flag = parse_range (text, &list_col_b, &list_row_b,
 				  &list_col_e, &list_row_e);
 	if (! error_flag) {
  	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
@@ -240,13 +238,13 @@ loop:
 				   "in 'List Range:'"));
 		gtk_widget_grab_focus (list_range);
 		gtk_entry_set_position(GTK_ENTRY (list_range), 0);
-		gtk_entry_select_region(GTK_ENTRY (list_range), 0, 
+		gtk_entry_select_region(GTK_ENTRY (list_range), 0,
 					GTK_ENTRY(list_range)->text_length);
 		goto loop;
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (criteria_range));
-	error_flag = parse_range (text, &crit_col_b, &crit_row_b, 
+	error_flag = parse_range (text, &crit_col_b, &crit_row_b,
 				  &crit_col_e, &crit_row_e);
 	if (! error_flag) {
  	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
@@ -254,7 +252,7 @@ loop:
 				   "in 'Criteria Range:'"));
 		gtk_widget_grab_focus (criteria_range);
 		gtk_entry_set_position(GTK_ENTRY (criteria_range), 0);
-		gtk_entry_select_region(GTK_ENTRY (criteria_range), 0, 
+		gtk_entry_select_region(GTK_ENTRY (criteria_range), 0,
 				       GTK_ENTRY(criteria_range)->text_length);
 		goto loop;
 	}
@@ -273,7 +271,7 @@ loop:
 					   "cell range in 'Copy To:'"));
 			gtk_widget_grab_focus (copy_to);
 			gtk_entry_set_position(GTK_ENTRY (copy_to), 0);
-			gtk_entry_select_region(GTK_ENTRY (copy_to), 0, 
+			gtk_entry_select_region(GTK_ENTRY (copy_to), 0,
 					      GTK_ENTRY(copy_to)->text_length);
 			goto loop;
 		}
@@ -319,7 +317,7 @@ loop:
 				   "`Criteria Range:'"));
 		gtk_widget_grab_focus (list_range);
 		gtk_entry_set_position(GTK_ENTRY (list_range), 0);
-		gtk_entry_select_region(GTK_ENTRY (list_range), 0, 
+		gtk_entry_select_region(GTK_ENTRY (list_range), 0,
 				       GTK_ENTRY(list_range)->text_length);
 		goto loop;
 	}

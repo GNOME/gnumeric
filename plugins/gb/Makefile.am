@@ -1,22 +1,25 @@
-#
-# Makefile for the Gnome Basic Gnumeric plugin.
-#
-# Where can we find the Gnumeric include files.
-#
-GNUMERIC_SRC_DIR = $(srcdir)/../../src
-
-#
 # Where to install the plugin
 #
-plugindir = $(libdir)/gnumeric/plugins/$(VERSION)
-plugin_LTLIBRARIES = libgnum_gb.la
-
-libgnum_gb_la_SOURCES = plugin.c
-libgnum_gb_la_LIBADD = $(GB_LIBS) $(EXTRA_GNOME_LIBS) -lm @GLIB_LIBS@ -lgb -lgbrun
+if BONOBO
+gnumeric_version="$(VERSION)-bonobo"
+else
+gnumeric_version="$(VERSION)"
+endif
+gnumeric_libdir  = $(libdir)/gnumeric/$(gnumeric_version)
+gnumeric_datadir = $(datadir)/gnumeric/$(gnumeric_version)
+plugindir = $(gnumeric_libdir)/plugins
+gladedir  = $(gnumeric_datadir)/glade
 
 INCLUDES = 						\
-	-I$(GNUMERIC_SRC_DIR)				\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-DGNUMERIC_VERSION=\""$(VERSION)"\"             \
 	-I$(includedir)					\
-	$(GNOME_INCLUDEDIR) $(GB_CFLAGS)
+	-I$(top_srcdir)/src				\
+	$(GNOME_INCLUDEDIR) 				\
+	$(GB_CFLAGS)
+
+plugin_LTLIBRARIES = libgnum_gb.la
+
+libgnum_gb_la_SOURCES = plugin.c
+
+libgnum_gb_la_LIBADD = $(GB_LIBS) $(EXTRA_GNOME_LIBS) -lm @GLIB_LIBS@ -lgb -lgbrun

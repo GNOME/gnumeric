@@ -1,0 +1,87 @@
+#!/bin/sh
+
+version="@VERSION@"
+BONOBO="@BONOBO@"
+prefix="@prefix@"
+exec_prefix="@exec_prefix@"
+datadir="@datadir@"
+libdir="@libdir@"
+
+usage()
+{
+	cat <<EOF
+Usage: gnumeric-config [OPTIONS]
+Options:
+	[--datadir]
+	[--libdir]
+	[--with-bonobo]
+	[--exec-prefix]
+	[--prefix]
+	[--version]
+EOF
+	exit $1
+}
+
+if test $# -eq 0; then
+	usage 1 1>&2
+fi
+
+while test $# -gt 0; do
+  case "$1" in
+  -*=*) optarg=`echo "$1" | sed 's/[-_a-zA-Z0-9]*=//'` ;;
+  *) optarg= ;;
+  esac
+
+  case $1 in
+    --prefix)
+      echo_prefix=yes
+      ;;
+    --exec-prefix)
+      echo_exec_prefix=yes
+      ;;
+    --version)
+      echo_version=yes
+      ;;
+    --datadir)
+      echo_datadir=yes
+      ;;
+    --libdir)
+      echo_libdir=yes
+      ;;
+    --with-bonobo)
+      echo_with_bonobo=yes
+      ;;
+    *)
+      usage 1 1>&2
+      ;;
+  esac
+  shift
+done
+
+if test "$echo_with_bonobo" = "yes"; then
+	if test "${BONOBO}x" = "x"; then
+	    echo no
+	else
+	    echo yes
+	fi
+fi
+
+if test "$echo_version" = "yes"; then
+	echo $version
+fi
+
+if test "$echo_prefix" = "yes"; then
+	echo $prefix
+fi
+
+if test "$echo_exec_prefix" = "yes"; then
+	echo $exec_prefix
+fi
+
+if test "$echo_datadir" = "yes"; then
+	echo $datadir
+fi
+
+if test "$echo_libdir" = "yes"; then
+	echo $libdir
+fi

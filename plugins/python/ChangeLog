@@ -1,3 +1,7 @@
+2000-04-26  Jody Goldberg <jgoldberg@home.com>
+
+	* python.c (init_plugin) : Use gnumeric_sys_data_dir.
+
 2000-04-06  Jody Goldberg <jgoldberg@home.com>
 
 	* python.c (range_from_python) : Take an EvalPos for use in

@@ -15,6 +15,7 @@
 #include "func.h"
 #include "symbol.h"
 #include "plugin.h"
+#include "gutils.h"
 #include "value.h"
 #include "command-context.h"
 
@@ -45,10 +46,10 @@ string_from_exception ()
 	char *retval = header;
 	char buf [256];
 	int pos = 0;
-	
+
 	PyObject *ptype = NULL, *pvalue = NULL, *ptraceback = NULL;
 	PyObject *stype = NULL, *svalue = NULL;
-	
+
 	PyErr_Fetch (&ptype, &pvalue, &ptraceback);
 	if (!ptype)
 		goto cleanup;
@@ -68,7 +69,7 @@ string_from_exception ()
 		pos = snprintf (buf, sizeof buf, "%s: %s",
 				header, PyString_AsString (stype));
 		retval = buf;
-	
+
 		if (!svalue)
 			goto cleanup;
 		if (pos + 3 < sizeof buf)
@@ -190,12 +191,12 @@ row_to_python (Value *v, int j)
 {
 	PyObject * list = NULL, *o = NULL;
 	int cols, i;
-	
+
 	cols = v->v.array.x;
 	list = PyList_New (cols);
 	if (list == NULL)
 		return NULL;
-	
+
 	for (i = 0; i < cols; i++) {
 		o = value_to_python (v->v.array.vals[i][j]);
 		if (o == NULL) {
@@ -204,7 +205,7 @@ row_to_python (Value *v, int j)
 		}
 		PyList_SetItem (list, i, o);
 	}
-	
+
 	return list;
 }
 
@@ -229,7 +230,7 @@ array_to_python (Value *v)
 	list = PyList_New (rows);
 	if (list == NULL)
 		return NULL;
-	
+
 	for (j = 0; j < rows; j++) {
 		row = row_to_python (v, j);
 		if (row == NULL) {
@@ -238,7 +239,7 @@ array_to_python (Value *v)
 		}
 		PyList_SetItem (list, j, row);
 	}
-	
+
 	return list;
 }
 
@@ -303,10 +304,10 @@ boolean_check (PyObject *o)
 {
 	PyObject *klass;
 	gchar *s;
-	
+
 	if (!PyObject_HasAttrString (o, "__class__"))
 		return FALSE;
-	
+
 	klass = PyObject_GetAttrString  (o, "__class__");
 	s = PyString_AsString (PyObject_Str(klass));
 	Py_XDECREF (klass);
@@ -326,7 +327,7 @@ boolean_from_python (PyObject *o)
 {
 	PyObject *ret;
 	Value *v;
-	
+
 	if (!(ret = PyObject_CallMethod (o, "__nonzero__", NULL)))
 		return NULL;
 
@@ -341,7 +342,7 @@ boolean_from_python (PyObject *o)
  * @o    Python object
  *
  * Returns TRUE if object is an instance of gnumeric_defs.CellRange and FALSE
- * otherwise. 
+ * otherwise.
  * I don't believe this is 100% kosher, but should work in practice. A 100 %
  * solution seems to require that the cell range and cell ref classes are
  * defined in C.
@@ -351,10 +352,10 @@ range_check (PyObject *o)
 {
 	PyObject *klass;
 	gchar *s;
-	
+
 	if (!PyObject_HasAttrString (o, "__class__"))
 		return FALSE;
-	
+
 	klass = PyObject_GetAttrString  (o, "__class__");
 	s = PyString_AsString (PyObject_Str(klass));
 	Py_XDECREF (klass);
@@ -404,14 +405,14 @@ cell_ref_from_python (PyObject *o, CellRef *c)
 	c->row_relative = (unsigned char) PyInt_AsLong (row_relative);
 	c->sheet = NULL; /* = string_get (PyString_AsString (sheet)); */
 	ret = TRUE;
-	
+
 cleanup:
 	Py_XDECREF (column);
 	Py_XDECREF (row);
 	Py_XDECREF (col_relative);
 	Py_XDECREF (row_relative);
 	/* Py_XDECREF (sheet); */
-	
+
 	return ret;
 }
 
@@ -437,7 +438,7 @@ range_from_python (PyObject *o, EvalPosition const * const pos)
 			       cell_ref_from_python, &b))
 		goto cleanup;
 	ret = value_new_cellrange (&a, &b, pos->eval.col, pos->eval.row);
-	
+
 cleanup:
 	Py_DECREF (range);
 
@@ -454,7 +455,7 @@ static int
 array_check (PyObject *o)
 {
 	PyObject *item;
-	
+
 	if (!PyList_Check (o))
 		return FALSE;
 	else if (PyList_Size == 0)
@@ -484,7 +485,7 @@ row_from_python (PyObject *o, int rowno, Value *array,
 	PyObject *item;
 	int i;
 	int cols = array->v.array.x;
-	
+
 	for (i = 0; i < cols; i++) {
 		if ((item = PyList_GetItem (o, i)) == NULL)
 			return -1;
@@ -509,7 +510,7 @@ array_from_python (PyObject *o, EvalPosition const *pos)
 	Value *v = NULL, *array = NULL;
 	PyObject *row = NULL;
 	int rows, cols, j;
-       
+
 	rows = PyList_Size (o);
 
 	for (j = 0; j < rows; j++) {
@@ -527,7 +528,7 @@ array_from_python (PyObject *o, EvalPosition const *pos)
 					 "Rectangular array expected");
 			goto cleanup;
 		}
-		if ((row_from_python (row, j, array, pos)) != 0) 
+		if ((row_from_python (row, j, array, pos)) != 0)
 			goto cleanup;
 	}
 	v = array;
@@ -598,7 +599,7 @@ call_function (FunctionEvalInfo *ei, PyObject *args)
 	FunctionDefinition const * const fndef = ei->func_def;
 	Value *v = NULL;
 	GList *l;
-	
+
 	/* Find the Python code object for this FunctionDefinition. */
 	l = g_list_find_custom (funclist, (gpointer)fndef,
 				(GCompareFunc) fndef_compare);
@@ -635,17 +636,17 @@ marshal_func_args (FunctionEvalInfo *ei, Value *argv [])
 	FunctionDefinition const * const fndef = ei->func_def;
 	Value *v = NULL;
 	int i, min, max, argc;
-	
+
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_def != NULL, NULL);
 
 	function_def_count_args (fndef, &min, &max);
-	
+
 	/* Count actual arguments */
 	for (argc = min; argc < max; argc++)
 		if (!argv [argc])
 			break;
-	
+
 	/* Build the argument list which is a Python tuple. */
 	args = PyTuple_New (argc + 1);
 
@@ -678,13 +679,13 @@ marshal_func_nodes (FunctionEvalInfo *ei, GList *nodes)
 	Value *v = NULL, *ev;
 	GList *l;
 	int i, argc;
-	
+
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_def != NULL, NULL);
 
 	/* Count actual arguments */
 	argc = g_list_length (nodes);
-	
+
 	/* Build the argument list which is a Python tuple. */
 	args = PyTuple_New (argc + 1);
 
@@ -698,7 +699,7 @@ marshal_func_nodes (FunctionEvalInfo *ei, GList *nodes)
 		PyTuple_SetItem (args, i + 1, value_to_python (ev));
 		value_release (ev);
 	}
-	
+
 	v = call_function (ei, args);
 
 	Py_DECREF (args);
@@ -714,7 +715,7 @@ marshal_func_nodes (FunctionEvalInfo *ei, GList *nodes)
  * owned reference to a Python object.
  *
  * Signature when called from Python:
- *      gnumeric.apply (cobject context, string function_name, 
+ *      gnumeric.apply (cobject context, string function_name,
  *                      sequence arguments)
  */
 static PyObject *
@@ -727,13 +728,13 @@ apply (PyObject *m, PyObject *py_args)
 	Value **values = NULL;
 	Value *v = NULL;
 
-	
+
 	if (!PyArg_ParseTuple (py_args, "OsO", &context, &funcname, &seq))
 		return NULL;
 
 	if ((ei = (FunctionEvalInfo *) PyCObject_AsVoidPtr (context)) == NULL)
 		return NULL;
-	
+
 	/* Third arg should be a sequence */
 	if (!PySequence_Check (seq)) {
 		PyErr_SetString (PyExc_TypeError,
@@ -758,11 +759,11 @@ apply (PyObject *m, PyObject *py_args)
 	v = function_call_with_values (ei->pos, funcname, num_args, values);
 	if (v->type == VALUE_ERROR) {
 		/* Raise an exception */
-		retval = NULL;	
+		retval = NULL;
 		PyErr_SetString (GnumericError, v->v.error.mesg->str);
-	} else 
+	} else
 		retval = value_to_python (v);
-	
+
 cleanup:
 	if (v)
 		value_release (v);
@@ -771,7 +772,7 @@ cleanup:
 		if (values[i])
 			value_release (values[i]);
 	g_free (values);
-	
+
 	/* We do not own a reference to seq, so don't decrement it. */
 	return retval;
 }
@@ -781,7 +782,7 @@ cleanup:
  * @m        Dummy
  * @py_args  Argument tuple
  *
- * Make a Python function known to Gnumeric. Returns the Python object None. 
+ * Make a Python function known to Gnumeric. Returns the Python object None.
  *
  * hmm. How to distinguish between varargs and no args?.
  *      - Don't distinguish at all?
@@ -857,7 +858,7 @@ static void
 initgnumeric(void)
 {
 	PyObject *m, *d;
-	
+
 	PyImport_AddModule ("gnumeric");
 	m = Py_InitModule ("gnumeric", gnumeric_funcs);
 
@@ -923,9 +924,9 @@ init_plugin (CommandContext *context, PluginData * pd)
 
 		/* Add gnumeric python directory to sys.path, so that we can
 		 * import modules  from there */
-		dir = gnome_unconditional_datadir_file ("gnumeric/python");
-		name = g_strjoin ("/", dir, "gnumeric_startup.py", NULL);
-			
+		dir = gnumeric_sys_data_dir ("python");
+		name = g_strconcat (dir, "gnumeric_startup.py", NULL);
+
 		ret = PyRun_SimpleString ("import sys");
 		if (ret == 0) {
 			g_snprintf (buf, sizeof buf,

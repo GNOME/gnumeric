@@ -7,7 +7,6 @@
  */
 
 #include <config.h>
-#include <unistd.h>
 #include <dirent.h>
 #include <glib.h>
 #include <gmodule.h>
@@ -16,6 +15,7 @@
 #include <sys/stat.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
+#include "gutils.h"
 #include "plugin.h"
 #include "workbook-view.h"
 #include "command-context.h"
@@ -218,19 +218,21 @@ static void
 load_all_plugins (CommandContext *context)
 {
 	char *plugin_dir;
-	char const * const home_dir = getenv ("HOME");
 	
 	/* Load the user plugins */
-	if (home_dir != NULL) {
-		plugin_dir = g_strconcat (home_dir, "/.gnumeric/plugins/" GNUMERIC_VERSION "/", NULL);
+	plugin_dir = gnumeric_usr_plugin_dir ();
+	if (plugin_dir != NULL) {
 		plugin_load_plugins_in_dir (context, plugin_dir);
 		g_free (plugin_dir);
 	}
 
 	/* Load the system plugins */
-	plugin_dir = gnome_unconditional_libdir_file ("gnumeric/plugins/" GNUMERIC_VERSION "/");
-	plugin_load_plugins_in_dir (context, plugin_dir);
-	g_free (plugin_dir);
+	plugin_dir = gnumeric_sys_plugin_dir ();
+	if (plugin_dir != NULL) {
+		plugin_load_plugins_in_dir (context, plugin_dir);
+		g_free (plugin_dir);
+	} else
+		g_warning ("Missing plugin directory.");
 }
 
 void

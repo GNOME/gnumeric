@@ -519,7 +519,7 @@ stf_dialog (CommandContext *context, const char *filename, const char *data)
 	StfParseOptions_t *parseoptions;
 	char* message;
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE, NULL);
+	gui = gnumeric_glade_xml_new (NULL, GLADE_FILE);
 	if (!gui) {
 	
 		message = g_strdup_printf (_("Missing %s file"), GLADE_FILE);

@@ -10,6 +10,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "func.h"
+#include "workbook.h"
 
 typedef struct {
 	GtkCList  *functions;
@@ -170,11 +171,10 @@ dialog_function_select (Workbook *wb)
 
 	g_return_val_if_fail (wb != NULL, NULL);
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE , NULL);
-	if (!gui) {
-		printf ("Could not find " GLADE_FILE "\n");
-		return NULL;
-	}
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				GLADE_FILE);
+        if (gui == NULL)
+                return NULL;
 
 	fd = dialog_function_select_impl (wb, gui);
 	

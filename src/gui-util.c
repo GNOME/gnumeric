@@ -10,6 +10,7 @@
 #include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
+#include "gutils.h"
 #include "parse-util.h"
 #include "command-context-gui.h"
 #include "style.h"
@@ -503,3 +504,20 @@ gnumeric_entry_at_subexpr_boundary_p (GtkWidget const * const w)
 	};
 }
 
+GladeXML *
+gnumeric_glade_xml_new (CommandContext *context, char const * gladefile)
+{
+	GladeXML *gui;
+	char *f = gnumeric_sys_glade_dir ();
+	gui = glade_xml_new (f, NULL);
+
+	/* Onlt report errors if the context is non-null */
+	if (gui == NULL && context != NULL) {
+		char *msg = g_strdup_printf (_("Unable to open file '%s'"), f);
+		gnumeric_error_sys_err (context, msg);
+		g_free (msg);
+	}
+	g_free (f);
+
+	return gui;
+}
