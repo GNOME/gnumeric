@@ -1,9 +1,7 @@
-2002-01-08  Morten Welinder  <welinder@rentec.com>
+2002-01-08  Morten Welinder  <terra@diku.dk>
 
 	* dialog-search.c (dialog_search): Connect to cursor_change signal
 	instead, now that it seems to work.
-
-2002-01-08  Morten Welinder  <terra@diku.dk>
 
 	* dialog-cell-format.c (fmt_dialog_enable_widgets): Kill comma
 	before closing brace.
