@@ -1928,7 +1928,7 @@ gnumeric_xirr (FunctionEvalInfo *ei, Value **argv)
 
 static const char *help_fv = {
 	N_("@FUNCTION=FV\n"
-	   "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
+	   "@SYNTAX=FV(rate,nper,pmt[,pv,type])\n"
 	   "@DESCRIPTION="
 	   "FV computes the future value of an investment. This is based "
 	   "on periodic, constant payments and a constant interest rate. "
@@ -2134,7 +2134,7 @@ gnumeric_nper (FunctionEvalInfo *ei, Value **argv)
 	gnum_float rate = value_get_as_float (argv[0]);
 	gnum_float pmt  = value_get_as_float (argv[1]);
 	gnum_float pv   = value_get_as_float (argv[2]);
-	gnum_float fv   = value_get_as_float (argv[3]);
+	gnum_float fv   = argv[3] ? value_get_as_float (argv[3]) : 0;
 	int type = argv[4] ? !!value_get_as_int (argv[4]) : 0;
 
 	if (rate == 0 && pmt != 0)
@@ -3785,7 +3785,7 @@ const GnmFuncDescriptor financial_functions[] = {
 	  &help_nominal,  gnumeric_nominal, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_PERCENT,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "nper", "fffff", "rate,pmt,pv,fv,type",
+	{ "nper", "fff|ff", "rate,pmt,pv,fv,type",
 	  &help_nper,	  gnumeric_nper, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "npv",	  0, "",
