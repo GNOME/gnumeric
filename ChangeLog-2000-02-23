@@ -1,3 +1,12 @@
+1999-09-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (range_is_homogeneous) : Ignore results from
+	  sheet_cell_foreach_range it will always be NULL or
+	  value_terminate.  Neither need to be freed.
+
+	* src/value.c (value_release) : Re-enable test to avoid releasing
+	  value_terminate.
+
 1999-09-17  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/sheet.c (sheet_row_size_fit): fetch row information, not

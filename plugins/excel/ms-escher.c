@@ -135,29 +135,23 @@ ms_escher_get_data (MSEscherState * state,
 
 	/* find the 1st containing record */
 	while (offset >= state->end_offset) {
-		int len;
 		char const * action;
 		if (!ms_biff_query_next (q)) {
 			printf ("EXCEL : unexpected end of stream;\n");
 			return NULL;
 		}
 
-		/* for some reason only these types seem to be counted */
-		if (q->opcode == BIFF_MS_O_DRAWING ||
-		    q->opcode == BIFF_MS_O_DRAWING_GROUP ||
-		    q->opcode == BIFF_MS_O_DRAWING_SELECTION) {
-			action = "Adding";
-			len = q->length;
-		} else {
-			action = "Skipping";
-			len = 0;
-		}
+		g_return_val_if_fail (q->opcode == BIFF_MS_O_DRAWING ||
+				      q->opcode == BIFF_MS_O_DRAWING_GROUP ||
+				      q->opcode == BIFF_MS_O_DRAWING_SELECTION,
+				      TRUE);
 
 		state->start_offset = state->end_offset;
-		state->end_offset += len;
-		state->segment_len = len;
+		state->end_offset += q->length;
+		state->segment_len = q->length;
 
-		printf ("Target is 0x%x bytes at 0x%x, current = 0x%x..0x%x, %s a 0x%x of length 0x%x;\n",
+		printf ("Target is 0x%x bytes at 0x%x, current = 0x%x..0x%x;\n"
+			"Adding biff-0x%x of length 0x%x;\n",
 			num_bytes, offset,
 			state->start_offset,
 			state->end_offset,
@@ -666,16 +660,30 @@ ms_escher_read_Sp (MSEscherState * state, MSEscherHeader const * h)
 	guint8 const *data =
 		ms_escher_get_data (state, h->offset, 8,
 				    common_header_len, &needs_free);
-	guint32 const spid  = MS_OLE_GET_GUINT32 (data+0);
-	guint32 const flags = MS_OLE_GET_GUINT32 (data+4);
-	printf ("SPID %d, Type %d,%s%s%s%s%s%s%s%s%s%s%s;\n", spid, h->instance,
-		(flags&0x01) ? " Group": "",	(flags&0x02) ? " Child": "",
-		(flags&0x04) ? " Patriarch": "",(flags&0x08) ? " Deleted": "",
-		(flags&0x10) ? " OleShape": "",	(flags&0x20) ? " HaveMaster": "",
-		(flags&0x40) ? " FlipH": "",	(flags&0x80) ? " FlipV": "",
-		(flags&0x100) ? " Connector":"",(flags&0x200) ? " HasAnchor": "",
-		(flags&0x400) ? " TypeProp": ""
-	       );
+
+	if (data != NULL) {
+	    guint32 const spid  = MS_OLE_GET_GUINT32 (data+0);
+	    guint32 const flags = MS_OLE_GET_GUINT32 (data+4);
+	    printf ("SPID %d, Type %d,%s%s%s%s%s%s%s%s%s%s%s;\n",
+		    spid, h->instance,
+		    (flags&0x01) ? " Group": "",
+		    (flags&0x02) ? " Child": "",
+		    (flags&0x04) ? " Patriarch": "",
+		    (flags&0x08) ? " Deleted": "",
+		    (flags&0x10) ? " OleShape": "",
+		    (flags&0x20) ? " HaveMaster": "",
+		    (flags&0x40) ? " FlipH": "",
+		    (flags&0x80) ? " FlipV": "",
+		    (flags&0x100) ? " Connector":"",
+		    (flags&0x200) ? " HasAnchor": "",
+		    (flags&0x400) ? " TypeProp": ""
+		   );
+	} else
+		return TRUE;
+
+	if (needs_free)
+		g_free (data);
+
 	return FALSE;
 }
 
@@ -745,19 +753,21 @@ ms_escher_read_ClientAnchor (MSEscherState * state, MSEscherHeader const * h)
 	printf ("In pixels left = %d, top = %d, right = %d, bottom =d %d;\n",
 		(int)margin[0], (int)margin[1], (int)margin[2], (int)margin[3]);
 
+	if (needs_free)
+		g_free (data);
+
 #ifdef ENABLE_BONOBO
 	{ /* In the anals of ugly hacks, this is well up there :-) */
 		GList        *l = state->wb->eschers;
 		EscherRecord *er;
 		SheetObject  *so;
 
-		/* ignore this for now */
-		g_return_val_if_fail (l != NULL, FALSE);
+		if (l == NULL)
+			return FALSE;
 
 		/* FIXME : GACK!  Find the blip identifier. dont just pick the 1st object. */
 		er = l->data;
-		if (er == NULL)
-			return FALSE;
+		g_return_val_if_fail (er != NULL, FALSE);
 		g_return_val_if_fail (state->sheet != NULL, TRUE);
 		g_return_val_if_fail (er->type == ESCHER_BLIP, TRUE);
 		g_return_val_if_fail (er->v.blip.stream != NULL, TRUE);
@@ -906,6 +916,8 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader const * h)
 		/* container is sorted by pid. Use this as sanity test */
 		if (prev_pid >= pid) {
 			printf ("Pids not monotonic %d >= %d;\n", prev_pid, pid);
+			if (needs_free)
+				g_free (data);
 			return TRUE;
 		}
 		prev_pid = pid;
@@ -1001,6 +1013,9 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader const * h)
 			g_return_val_if_fail (extra - data + common_header_len <= h->len, TRUE);
 		}
 	}
+	if (needs_free)
+		g_free (data);
+
 	return FALSE;
 }
 
@@ -1082,21 +1097,11 @@ ms_escher_read_container (MSEscherState * state, MSEscherHeader const * containe
 
 		tmp	= MS_OLE_GET_GUINT16(data+0);
 		h.fbt	= MS_OLE_GET_GUINT16(data+2);
-		h.len	= MS_OLE_GET_GUINT32(data+4);
+
+		/* Include the length of this header in the record size */
+		h.len	= MS_OLE_GET_GUINT32(data+4) + common_header_len;
 		h.ver      = tmp & 0x0f;
 		h.instance = (tmp>>4) & 0xfff;
-
-		/*
-		 * If this is a container (ver == 0xf) the length already includes the header
-		 * However, the docs are incomplete and these 3 fbt types also need adjustment
-		 * FIXME FIXME FIXME : It seems like only the 1st SpContainer at depth > 1
-		 * includes the common header in its length.  Is this cruft really necessary ?
-		 */
-		if (h.ver != 0xf ||
-		    h.fbt == DggContainer ||
-		    h.fbt == BStoreContainer ||
-		    (h.fbt == SpContainer && ++SpContainer_count == 1 && state->depth > 1))
-			h.len += common_header_len;
 
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 0) {
@@ -1175,7 +1180,7 @@ ms_escher_read_container (MSEscherState * state, MSEscherHeader const * containe
 			printf ("WARNING EXCEL : Invalid fbt = %x\n", h.fbt);
 
 		h.offset += h.len;
-	} while ((h.offset - container->offset) < container->len);
+	} while (h.offset < (container->offset + container->len));
 	return FALSE;
 }
 
@@ -1207,10 +1212,6 @@ ms_escher_parse (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 		g_warning ("EXCEL : unexpected biff type %x\n", q->opcode);
 		return;
 	}
-
-	/* Only support during debugging for now */
-	if (ms_excel_read_debug < 1)
-		return;
 
 	state.wb    = wb;
 	state.sheet = sheet;

@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_PIXMAPS_H
 #define GNUMERIC_PIXMAPS_H
 
-#undef GNUMERIC_TEST_ACTIVE_OBJECT
+#define GNUMERIC_TEST_ACTIVE_OBJECT
 
 #include "pixmaps/rect.xpm"
 #include "pixmaps/line.xpm"

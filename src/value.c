@@ -130,10 +130,8 @@ value_release (Value *value)
 {
 	g_return_if_fail (value != NULL);
 
-#if 0
-	/* FIXME FIXME FIXME : Catch if this happens */
+	/* Should never release value_terminate it is a magic number */
 	g_return_if_fail (value != value_terminate());
-#endif
 
 	switch (value->type) {
 	case VALUE_EMPTY:

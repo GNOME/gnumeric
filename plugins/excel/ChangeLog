@@ -10,6 +10,8 @@
 	  merging.  This seems to solve the last of the problems of which
 	  records to merge and which not.  Everything seems to add up.
 
+	* ms-escher.c (ms_escher_parse) : Enable by default.
+
 1999-09-17  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_workbook_get_sheet) : Make extern.

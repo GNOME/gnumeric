@@ -1256,11 +1256,9 @@ range_is_homogeneous(Sheet *sheet,
 	 * FIXME : Only check existing cells for now.  In when styles are
 	 * redone this will need rethinking.
 	 */
-	Value * res = sheet_cell_foreach_range (sheet, TRUE,
-						start_col, start_row, end_col, end_row,
-						&cell_is_homogeneous, closure);
-	if (res && res != value_terminate ())
-		value_release (res);
+	sheet_cell_foreach_range (sheet, TRUE,
+				  start_col, start_row, end_col, end_row,
+				  &cell_is_homogeneous, closure);
 }
 
 /**
