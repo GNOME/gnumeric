@@ -1,7 +1,7 @@
 Gnumeric Structured Text Format (STF) Parser
 ============================================
 
-Almer. S. Tigelaar.
+by Almer S. Tigelaar
 
 1. Creation/destruction
 2. Row separators
@@ -11,8 +11,7 @@ Almer. S. Tigelaar.
 	5.1 General
 	5.2 What is the string indicator?
 	5.3 How are adjacent string indicators handled?
-	5.4 What is the custom separator?
-	5.5 What does "duplicates" mean?
+	5.4 What does "duplicates" mean?
 6. Fixed width parsing
 7. Cached parsing
 
@@ -110,7 +109,7 @@ Almer. S. Tigelaar.
 	The general way to parse CSV data is :
 
 		stf_parse_options_set_type                (parseoptions, PARSE_TYPE_CSV);
-		stf_parse_options_csv_set_separators      (parseoptions, TRUE, TRUE, FALSE, FALSE, FALSE);
+		stf_parse_options_csv_set_separators      (parseoptions, ";", NULL);
 		stf_parse_options_csv_set_stringindicator (parseoptions, '\"');
 		stf_parse_options_csv_set_duplicates      (parseoptions, FALSE);
 
@@ -165,21 +164,7 @@ Almer. S. Tigelaar.
 
 		stf_parse_options_csv_set_indicator_2x_is_single  (parseoptions, FALSE);
 
-5.4 CSV Parsing -> What is the custom separator?
-================================================
-
-	Even though there are some default separators (namely tab, colon, comma and space)
-	it can also be necessary in some cases to provide your own separator you can do this
-	with the custom field separator :
-
-		stf_parse_options_set_separators               (parseoptions, TRUE, TRUE, FALSE, FALSE, TRUE);
-		stf_parse_options_csv_set_customfieldseparator (parseoptions, 'x');
-
-	Note the last TRUE in the set_separators line, this tells the parse functions that a custom separator
-	is also set in addition to the tab and colon. In this example the custom field separator is set to
-	the "x" character.
-
-5.5 CSV Parsing -> What does duplicates mean?
+5.4 CSV Parsing -> What does duplicates mean?
 =============================================
 
 	This means that several column separators are seen as one.
@@ -243,41 +228,3 @@ Almer. S. Tigelaar.
 		GSList *mylist;
 
 		mylist = stf_parse_general (parseoptions);
-
-7. Cached parsing	
-=================
-
-	If you don't want to parse ALL the data you have in one swoop, you 
-	may be good off using the cached parse functions. In fact this is quite
-	simple, simply set the StfParseOptions_t as usual, but in addition to 
-	that also create a StfCacheOptions_t struct, like :
-
-		StfCacheOptions_t *cacheoptions;
-
-		cacheoptions = stf_cache_options_new ();
-
-	After that you set your data : 
-
-		stf_cache_options_set_data (cacheoptions, parseoptions, data);
-
-	Each time you want to parse you will have to set the range to parse (lines), like :
-	(This will parse line 5 up to including 10)
-
-		stf_cache_options_set_range (cacheoptions, 5, 10);
-	
-	And parse :
-
-		stf_parse_general_cached (parseoptions, cacheoptions);
-
-	BEWARE, everytime you change something in the parseoptions you will _have_ to
-	invalidate the cache by calling :
-
-		stf_cache_options_invalidate (cacheoptions);
-	
-	If you are done with the cache options struct you free it :
-
-		stf_cache_options_free (cacheoptions);
-
-	Remember that cached parsing is only useful in places where you have a large
-	amount of data and you don't want to parse the whole thing at once, but rather
-	in small pieces. 

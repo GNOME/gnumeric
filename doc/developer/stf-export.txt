@@ -1,7 +1,7 @@
 Gnumeric Structured Text Format (STF) Parser
 ============================================
 
-Almer. S. Tigelaar.
+by Almer S. Tigelaar
 
 1. Creation/Destruction
 2. Customizing the export
