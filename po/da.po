@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
 "POT-Creation-Date: 2000-05-09 21:12-0400\n"
-"PO-Revision-Date: 2000-05-07 18:30+01:00\n"
+"PO-Revision-Date: 2000-05-12 18:30+01:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Dansk/Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -159,15 +159,15 @@ msgstr "rækker"
 msgid "columns"
 msgstr "kolonner"
 
-#: plugins/ff-csv/csv-io.c:317
+#: plugins/ff-csv/csv-io.c:313
 msgid "Comma Separated Value (CSV) import"
 msgstr "Kommasepareret værdi (CSV) import"
 
-#: plugins/ff-csv/csv-io.c:321
+#: plugins/ff-csv/csv-io.c:317
 msgid "Comma Separated Value format (*.csv)"
 msgstr "Kommasepareret værdiformat (*.csv)"
 
-#: plugins/ff-csv/csv-io.c:325
+#: plugins/ff-csv/csv-io.c:321
 msgid "Comma Separated Value (CSV) module"
 msgstr "Kommasepareret værdi (CSV) modul"
 
@@ -242,7 +242,7 @@ msgid "EPS file format (*.eps)"
 msgstr "EPS-filformat (*.eps)"
 
 #: plugins/html/html.c:409 plugins/lotus-123/lotus.c:224
-#: plugins/oleo/oleo.c:44 src/workbook.c:3203
+#: plugins/oleo/oleo.c:44 src/workbook.c:3165
 #, c-format
 msgid "Sheet%d"
 msgstr "Ark%d"
@@ -663,7 +663,7 @@ msgid "Smallest (%d)"
 msgstr "Mindste (%d)"
 
 #: src/analysis-tools.c:956 src/dialogs/cell-format.glade.h:19
-#: src/dialogs/cell-format.glade.h:123
+#: src/dialogs/cell-format.glade.h:118
 msgid "Sample"
 msgstr "Stikprøve"
 
@@ -1045,58 +1045,58 @@ msgstr "Omdøb ark '%s' '%s'"
 #. * translators should be aware that the leading character of the
 #. * result will be ignored.
 #.
-#: src/commands.c:1291
+#: src/commands.c:1287
 msgid ">mm/dd/yyyy"
 msgstr ">mm/dd/yyyy"
 
 #. FIXME : See comment above
-#: src/commands.c:1296
+#: src/commands.c:1292
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/commands.c:1357
+#: src/commands.c:1349
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Indsætter nuværende dato i %s"
 
-#: src/commands.c:1358
+#: src/commands.c:1350
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Indsætter nuværende tidspunkt i %s"
 
-#: src/commands.c:1441
+#: src/commands.c:1433
 #, c-format
 msgid "Setting width of column %s"
 msgstr "Angiver bredde på kolonne %s"
 
-#: src/commands.c:1442
+#: src/commands.c:1434
 #, c-format
 msgid "Setting height of row %d"
 msgstr "Angiver højde på række %d"
 
-#: src/commands.c:1565
+#: src/commands.c:1549
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorter %s"
 
-#: src/commands.c:1646
+#: src/commands.c:1630
 msgid "Unhide columns"
 msgstr "Vis kolonner"
 
-#: src/commands.c:1646
+#: src/commands.c:1630
 msgid "Hide columns"
 msgstr "Skjul kolonner"
 
-#: src/commands.c:1647
+#: src/commands.c:1631
 msgid "Unhide rows"
 msgstr "Vis rækker"
 
-#: src/commands.c:1647
+#: src/commands.c:1631
 msgid "Hide rows"
 msgstr "Skjul rækker"
 
 #. FIXME : improve on this
-#: src/commands.c:1755
+#: src/commands.c:1739
 msgid "Moving cells"
 msgstr "Flytter celler"
 
@@ -1943,130 +1943,130 @@ msgstr "Mønster"
 msgid "Pick a Pattern color"
 msgstr "Vælg et mønsterfarve"
 
-#: src/dialogs/cell-format.glade.h:95
-#, no-c-format
+#: src/dialogs/cell-format.glade.h:94
+#, c-format
 msgid "75% grey"
 msgstr "75% grå"
 
-#: src/dialogs/cell-format.glade.h:97
-#, no-c-format
+#: src/dialogs/cell-format.glade.h:95
+#, c-format
 msgid "50% Grey"
 msgstr "50% grå"
 
-#: src/dialogs/cell-format.glade.h:99
-#, no-c-format
+#: src/dialogs/cell-format.glade.h:96
+#, c-format
 msgid "25% Grey"
 msgstr "25% grå"
 
-#: src/dialogs/cell-format.glade.h:101
-#, no-c-format
+#: src/dialogs/cell-format.glade.h:97
+#, c-format
 msgid "12.5% Grey"
 msgstr "12.5% grå"
 
-#: src/dialogs/cell-format.glade.h:103
-#, no-c-format
+#: src/dialogs/cell-format.glade.h:98
+#, c-format
 msgid "6.25% Grey"
 msgstr "6.25% grå"
 
-#: src/dialogs/cell-format.glade.h:104
+#: src/dialogs/cell-format.glade.h:99
 msgid "Horizontal Stripe"
 msgstr "Vandret stribe"
 
-#: src/dialogs/cell-format.glade.h:105
+#: src/dialogs/cell-format.glade.h:100
 msgid "Thin Horizontal Stripe"
 msgstr "Tynd vandret stribe"
 
-#: src/dialogs/cell-format.glade.h:106
+#: src/dialogs/cell-format.glade.h:101
 msgid "Vertical Stripe"
 msgstr "Lodret stribe"
 
-#: src/dialogs/cell-format.glade.h:107
+#: src/dialogs/cell-format.glade.h:102
 msgid "Thin Vertical Stripe"
 msgstr "Tynd lodret stribe"
 
-#: src/dialogs/cell-format.glade.h:108
+#: src/dialogs/cell-format.glade.h:103
 msgid "Reverse Diagonal Stripe"
 msgstr "Omvendt diagonal stribe"
 
-#: src/dialogs/cell-format.glade.h:109
+#: src/dialogs/cell-format.glade.h:104
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Tynd omvendt diagonal stribe"
 
-#: src/dialogs/cell-format.glade.h:110
+#: src/dialogs/cell-format.glade.h:105
 msgid "Diagonal Stripe"
 msgstr "Diagonal stribe"
 
-#: src/dialogs/cell-format.glade.h:111
+#: src/dialogs/cell-format.glade.h:106
 msgid "Thin Diagonal Stripe"
 msgstr "Tynd diagonal stribe"
 
-#: src/dialogs/cell-format.glade.h:112
+#: src/dialogs/cell-format.glade.h:107
 msgid "Diagonal Crosshatch"
 msgstr "Diagonal krydsskravering"
 
-#: src/dialogs/cell-format.glade.h:113
+#: src/dialogs/cell-format.glade.h:108
 msgid "Thick Diagonal Crosshatch"
 msgstr "Tyk diagonal krydsskravering"
 
-#: src/dialogs/cell-format.glade.h:114
+#: src/dialogs/cell-format.glade.h:109
 msgid "Thin Horizontal Crosshatch"
 msgstr "Tynd vandret krydsskravering"
 
-#: src/dialogs/cell-format.glade.h:115
+#: src/dialogs/cell-format.glade.h:110
 msgid "Thin Diagonal Crosshatch"
 msgstr "Tynd diagonal krydsskravering"
 
-#: src/dialogs/cell-format.glade.h:116
+#: src/dialogs/cell-format.glade.h:111
 msgid "Solid"
 msgstr "Fast"
 
-#: src/dialogs/cell-format.glade.h:117
+#: src/dialogs/cell-format.glade.h:112
 msgid "Bricks"
 msgstr "Mursten"
 
-#: src/dialogs/cell-format.glade.h:118
+#: src/dialogs/cell-format.glade.h:113
 msgid "Large Circles"
 msgstr "Store cirkler"
 
-#: src/dialogs/cell-format.glade.h:119
+#: src/dialogs/cell-format.glade.h:114
 msgid "Thatch"
 msgstr "Stråtag"
 
-#: src/dialogs/cell-format.glade.h:120
+#: src/dialogs/cell-format.glade.h:115
 msgid "Semi Circles"
 msgstr "Halvcirkler"
 
-#: src/dialogs/cell-format.glade.h:121
+#: src/dialogs/cell-format.glade.h:116
 msgid "Small Circles"
 msgstr "Små cirkler"
 
-#: src/dialogs/cell-format.glade.h:122
+#: src/dialogs/cell-format.glade.h:117
 msgid "Foreground Solid"
 msgstr "Fast forgrund"
 
-#: src/dialogs/cell-format.glade.h:124 src/workbook-format-toolbar.c:636
+#: src/dialogs/cell-format.glade.h:119 src/workbook-format-toolbar.c:636
 #: src/workbook-format-toolbar.c:639
 msgid "Background"
 msgstr "Baggrund"
 
-#: src/dialogs/cell-format.glade.h:125
+#: src/dialogs/cell-format.glade.h:120
 msgid "_Locked"
 msgstr "_Låst"
 
-#: src/dialogs/cell-format.glade.h:126
+#: src/dialogs/cell-format.glade.h:121
 msgid "_Hidden"
 msgstr "_Skjult"
 
-#: src/dialogs/cell-format.glade.h:127
+#: src/dialogs/cell-format.glade.h:122
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr ""
 "Låsning af celler eller skjulning af formularer påvirker kun beskyttede ark."
 
-#: src/dialogs/cell-format.glade.h:128
+#: src/dialogs/cell-format.glade.h:123
 msgid "Worksheet _protected"
 msgstr "Arbejdsark _beskyttet"
 
-#: src/dialogs/cell-format.glade.h:129
+#: src/dialogs/cell-format.glade.h:124
 msgid "Protection"
 msgstr "Beskyttelse"
 
@@ -2752,7 +2752,23 @@ msgstr "Konfiguration af personlig sidefod"
 msgid "Print setup"
 msgstr "Printeropsætning"
 
-#: src/dialogs/dialog-sheet-order.c:142 src/workbook.c:2833
+#: src/dialogs/dialog-printer.c:69
+msgid "active sheet"
+msgstr "Aktiv ark"
+
+#: src/dialogs/dialog-printer.c:81
+msgid "all sheets"
+msgstr "alle ark"
+
+#: src/dialogs/dialog-printer.c:93
+msgid "selection"
+msgstr "valg"
+
+#: src/dialogs/dialog-printer.c:128
+msgid "Select Printer"
+msgstr "Vælg printer"
+
+#: src/dialogs/dialog-sheet-order.c:142 src/workbook.c:2827
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Er du sikker på at du ønsker af fjerne følgende ark '%s'?"
@@ -2793,31 +2809,31 @@ msgstr "Du skal opgive et gyldig cellenavn for 'Målcelle'"
 msgid "You should introduce a valid cell names in 'By changing cells'"
 msgstr "Du skal opgive et gyldige cellenavn i 'Ved at ændre celler'"
 
-#: src/dialogs/dialog-stf-export-sheet-page.c:356
+#: src/dialogs/dialog-stf-export-sheet-page.c:355
 msgid "You need to select at least one sheet to export"
 msgstr "Du skal vælge mindst ét ark til eksport"
 
-#: src/dialogs/dialog-stf-export.c:49 src/dialogs/dialog-stf.c:102
+#: src/dialogs/dialog-stf-export.c:48 src/dialogs/dialog-stf.c:102
 msgid "Are you sure you want to cancel?"
 msgstr "Er du sikker på at du ønsker af fortryde?"
 
-#: src/dialogs/dialog-stf-export.c:382 src/dialogs/dialog-stf.c:525
+#: src/dialogs/dialog-stf-export.c:381 src/dialogs/dialog-stf.c:525
 #, c-format
 msgid "Missing %s file"
 msgstr "Manglende %s fil"
 
-#: src/dialogs/dialog-stf-format-page.c:167
-#: src/dialogs/dialog-stf-format-page.c:359
+#: src/dialogs/dialog-stf-format-page.c:166
+#: src/dialogs/dialog-stf-format-page.c:358
 msgid "Custom"
 msgstr "Tilpasset"
 
-#: src/dialogs/dialog-stf-main-page.c:85
-#: src/dialogs/dialog-stf-main-page.c:196
+#: src/dialogs/dialog-stf-main-page.c:84
+#: src/dialogs/dialog-stf-main-page.c:195
 #, c-format
 msgid "%d lines to import"
 msgstr "%d linier at eksportere"
 
-#: src/dialogs/dialog-stf-main-page.c:200
+#: src/dialogs/dialog-stf-main-page.c:199
 #, c-format
 msgid "Data (from %s)"
 msgstr "Data (fra %s)"
@@ -2827,7 +2843,7 @@ msgstr "Data (fra %s)"
 #. * Add this file to your project's POTFILES.in.
 #. * DO NOT compile it as part of your application.
 #.
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook.c:2453 src/workbook.c:2471
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook.c:2447 src/workbook.c:2465
 msgid "Zoom"
 msgstr "Zoom"
 
@@ -2870,7 +2886,7 @@ msgstr "_Tilpas markering %"
 msgid "%"
 msgstr "%"
 
-#: src/dialogs/dialog-zoom.glade.h:24
+#: src/dialogs/dialog-zoom.glade.h:24 src/print.c:908
 msgid "Sheets"
 msgstr "Ark"
 
@@ -3493,7 +3509,7 @@ msgstr ""
 "Kan ikke læse filen %s\n"
 "%%s"
 
-#: src/file.c:361
+#: src/file.c:357
 msgid ""
 "Could not import file %s\n"
 "%%s"
@@ -3501,11 +3517,11 @@ msgstr ""
 "Kunne ikke importere filen %s\n"
 "%%s"
 
-#: src/file.c:462
+#: src/file.c:463
 msgid "File format:"
 msgstr "Filformat:"
 
-#: src/file.c:538
+#: src/file.c:539
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -3514,7 +3530,7 @@ msgstr ""
 "Arbejdsbog %s eksisterer allerede\n"
 "Vil du gemme oven i den?"
 
-#: src/file.c:579
+#: src/file.c:580
 #, c-format
 msgid ""
 "%s\n"
@@ -3523,7 +3539,7 @@ msgstr ""
 "%s\n"
 "er navnet på en mappe"
 
-#: src/file.c:588
+#: src/file.c:589
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -3532,7 +3548,7 @@ msgstr ""
 "Du har ikke lov til at gemme i\n"
 "%s"
 
-#: src/file.c:612
+#: src/file.c:613
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -3540,13 +3556,13 @@ msgstr ""
 "Venligst indtast et filnavn,\n"
 "ikke et katalog"
 
-#: src/file.c:619
+#: src/file.c:620
 msgid ""
 "Sorry, there are no file savers loaded,\n"
 "I cannot save"
 msgstr "Beklager, gemning er umulig da ingen filgemmere er indlæst"
 
-#: src/file.c:635 src/file.c:718
+#: src/file.c:636 src/file.c:719
 msgid ""
 "Could not save to file %s\n"
 "%%s"
@@ -3554,11 +3570,11 @@ msgstr ""
 "Kunne ikke gemme som filen %s\n"
 "%%s"
 
-#: src/file.c:663
+#: src/file.c:664
 msgid "Save workbook as"
 msgstr "Gem arbejdsbog som"
 
-#: src/file.c:741
+#: src/file.c:742
 msgid "Load file"
 msgstr "Åbn fil"
 
@@ -5212,17 +5228,6 @@ msgstr ""
 "@DESCRIPTION=DAVERAGE-funktionen returnerer gennemsnittet af værdierne i en "
 "liste eller en database som passer til de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:499
-msgid ""
-"\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5234,16 +5239,6 @@ msgstr ""
 "@SYNTAX=DCOUNT(database,felt,kriterie)\n"
 "@DESCRIPTION=DCOUNT-funktionen tæller cellerne som indeholder tal i en "
 "database som passer til de opgivne betingelser. \n"
-
-#: src/functions/fn-database.c:568
-msgid ""
-"\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
-msgstr ""
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -5257,16 +5252,6 @@ msgstr ""
 "@DESCRIPTION=DCOUNTA-funktionen tæller cellerne som indeholder data i en "
 "database som passer til de opgivne betingelser. \n"
 
-#: src/functions/fn-database.c:629
-msgid ""
-"\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5278,17 +5263,6 @@ msgstr ""
 "@SYNTAX=DGET(database,felt,kriterie)\n"
 "@DESCRIPTION=DGET-funktionen returnerer en enkelt værdi fra en kolonne som "
 "tilfredstiller de specificerede betingelser. \n"
-
-#: src/functions/fn-database.c:687
-msgid ""
-"\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@SEEALSO=DCOUNT"
-msgstr ""
 
 #: src/functions/fn-database.c:747
 msgid ""
@@ -5302,16 +5276,6 @@ msgstr ""
 "@DESCRIPTION=DMAX-funktionen returnerer det største tal i en kolonne som "
 "tilfredstiller de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:755
-msgid ""
-"\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
-
 #: src/functions/fn-database.c:818
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -5324,15 +5288,6 @@ msgstr ""
 "@DESCRIPTION=DMIN-funktionen returnerer det mindste tal i en kolonne som "
 "tilfredstiller de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:826
-msgid ""
-"\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
-
 #: src/functions/fn-database.c:888
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -5344,14 +5299,6 @@ msgstr ""
 "@SYNTAX=DPRODUCT(database,felt,kriterie)\n"
 "@DESCRIPTION=DPRODUCT-funktionen returnerer produktet af tallene i en "
 "kolonne som tilfredstiller de specificerede betingelser. \n"
-
-#: src/functions/fn-database.c:896
-msgid ""
-"\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
-msgstr ""
 
 #: src/functions/fn-database.c:955
 msgid ""
@@ -5367,15 +5314,6 @@ msgstr ""
 "for en population baseret på et udvalg. Populationen består af tal som til- "
 "fredstiller de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:964
-msgid ""
-"\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
-msgstr ""
-
 #: src/functions/fn-database.c:1021
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -5390,15 +5328,6 @@ msgstr ""
 "population baseret på hele populationen. Populationen består af tal som til- "
 "fredstiller de specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:1030
-msgid ""
-"\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
-msgstr ""
-
 #: src/functions/fn-database.c:1089
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -5410,15 +5339,6 @@ msgstr ""
 "@SYNTAX=DSUM(database,felt,kriterie)\n"
 "@DESCRIPTION=DSUM-funktionen returnerer summen af tallene i en kolonne som "
 "tilfredsstiller de specificerede betingelser. \n"
-
-#: src/functions/fn-database.c:1097
-msgid ""
-"\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
-msgstr ""
 
 #: src/functions/fn-database.c:1156
 msgid ""
@@ -5434,15 +5354,6 @@ msgstr ""
 "baseret på et udvalg. Populationerne består af tal som tilfredsstiller de "
 "specificerede betingelser. \n"
 
-#: src/functions/fn-database.c:1165
-msgid ""
-"\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
-
 #: src/functions/fn-database.c:1224
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -5456,15 +5367,6 @@ msgstr ""
 "@DESCRIPTION=DVARP-funktionen returnerer variansen til en population baseret "
 "på alle populationerne. Populationerne består af tal som tilfredsstiller de "
 "specificerede betingelser. \n"
-
-#: src/functions/fn-database.c:1233
-msgid ""
-"\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
-msgstr ""
 
 #: src/functions/fn-database.c:1293
 msgid ""
@@ -7034,19 +6936,19 @@ msgid ""
 "\n"
 "If @basis is omitted, US 30/360 is applied. If issue date or settlement date "
 "is not valid, ACCRINT returns NUM! error. If @rate or @par is zero or "
-"negative, ACCRINT returns #NUM! error. If @basis < 0 or @basis > 4, ACCRINT "
-"returns #NUM! error. If issue date is after maturity date or they are the "
-"same, ACCRINT returns #NUM! error. \n"
+"negative, ACCRINT returns NUM! error. If @basis < 0 or @basis > 4, ACCRINT "
+"returns NUM! error. If issue date is after maturity date or they are the "
+"same, ACCRINT returns NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ACCRINTM"
 msgstr ""
 "@FUNCTION=ACCRINT\n"
-"@SYNTAX=ACCRINT(udstedelse,første_rente,anbringelse,rente,pari,frekvens[,basi"
-"s])\n"
+"@SYNTAX=ACCRINT(udstedelse,første_rente,anbringelse,rente,pari,"
+"frekvens[,basis])\n"
 "@DESCRIPTION=ACCRINT beregner den påløbne rente for et værdipapir som "
 "udbetaler periodisk rente. @rente er værdipapirets pålydende årlige rente og "
-"pari er værdipapirets pålydende værdi. @basis er den type på "
+"@pari er værdipapirets pålydende værdi. @basis er den type på "
 "rentedagsberegning som du vil bruge:\n"
 "\n"
 "0  USA 30/360\n"
@@ -7057,10 +6959,10 @@ msgstr ""
 "\n"
 "Hvis @basis udelades, anvendes USA 30/360. Hvis dato for udstedelse eller "
 "anbringelse ikke er gyldig, returnerer ACCRINT en NUM!-fejl. Hvis @rente "
-"eller @pari er nul eller negativ returnerer ACCRINT en #NUM!-fejl.  Hvis "
-"@basis < 0 eller @basis > 4, returnerer ACCRINT en #NUM!-fejl. Hvis dato for "
+"eller @pari er nul eller negativ returnerer ACCRINT en NUM!-fejl.  Hvis "
+"@basis < 0 eller @basis > 4, returnerer ACCRINT en NUM!-fejl. Hvis dato for "
 "udstedelse er efter dato for forfald eller er de den samme, returnerer "
-"ACCRINT en #NUM!-fejl. \n"
+"ACCRINT en NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ACCRINTM"
@@ -7083,9 +6985,9 @@ msgid ""
 "\n"
 "If @basis is omitted, US 30/360 is applied. If issue date or maturity date "
 "is not valid, ACCRINTM returns NUM! error. If @rate or @par is zero or "
-"negative, ACCRINTM returns #NUM! error. If @basis < 0 or @basis > 4, "
-"ACCRINTM returns #NUM! error. If issue date is after maturity date or they "
-"are the same, ACCRINTM returns #NUM! error. \n"
+"negative, ACCRINTM returns NUM! error. If @basis < 0 or @basis > 4, ACCRINTM "
+"returns NUM! error. If issue date is after maturity date or they are the "
+"same, ACCRINTM returns NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ACCRINT"
@@ -7094,7 +6996,8 @@ msgstr ""
 "@SYNTAX=ACCRINTM(udstedelse,forfald,rente,[pari,basis])\n"
 "@DESCRIPTION=ACCRINTM beregner og returnerer den påløbne rente for et "
 "værdipapir fra @udstedelse til @forfald. @rente er værdipapirets pålydende "
-"årlige rente og pari er værdipapirets pålydende værdi. @basis er den type på "
+"årlige rente og pari er værdipapirets pålydende værdi. Hvis du udelader "
+"@pari, bruger ACCRINTM et beløb på 1000. @basis er den type på "
 "rentedagsberegning som du vil bruge:\n"
 "\n"
 "0  USA 30/360\n"
@@ -7104,11 +7007,11 @@ msgstr ""
 "4  europæisk 30/360\n"
 "\n"
 "Hvis @basis udelades, anvendes USA 30/360. Hvis dato for udstedelse eller "
-"forfald ikke er gyldig, returnerer ACCRINT en NUM!-fejl. Hvis @rente eller "
-"@pari er nul eller negativ returnerer ACCRINTM en #NUM!-fejl.  Hvis @basis < "
-"0 eller @basis > 4, returnerer ACCRINTM en #NUM!-fejl. Hvis dato for "
+"forfald ikke er gyldig, returnerer ACCRINTM en NUM!-fejl. Hvis @rente eller "
+"@pari er nul eller negativ returnerer ACCRINTM en NUM!-fejl.  Hvis @basis < "
+"0 eller @basis > 4, returnerer ACCRINTM en NUM!-fejl. Hvis dato for "
 "udstedelse er efter dato for forfald eller er de den samme, returnerer "
-"ACCRINTM en #NUM!-fejl. \n"
+"ACCRINTM en NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ACCRINT"
@@ -7130,8 +7033,8 @@ msgid ""
 "\n"
 "If @basis is omitted, US 30/360 is applied. If settlement date or maturity "
 "date is not valid, INTRATE returns NUM! error. If @basis < 0 or @basis > 4, "
-"INTRATE returns #NUM! error. If settlement date is after maturity date or "
-"they are the same, INTRATE returns #NUM! error. \n"
+"INTRATE returns NUM! error. If settlement date is after maturity date or "
+"they are the same, INTRATE returns NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "If you had a bond with a settlement date of April 15, 2000, maturity date "
@@ -7144,7 +7047,7 @@ msgstr ""
 "@SYNTAX=INTRATE(anbringelse,forfald,investering,indfrielse[,basis])\n"
 "@DESCRIPTION=INTRATE beregner og returnerer renten for et fuldtud sikkert "
 "værdipapir. @investering er prisen på værdipapiret betalt på "
-"anbringelsesdatoen, og @indfrielse er beløbet der modtages på @forfald "
+"@anbringelse datoen, og @indfrielse er beløbet der modtages på @forfald "
 "datoen. @basis er den type på rentedagsberegning som du vil bruge:\n"
 "\n"
 "0  USA 30/360\n"
@@ -7155,9 +7058,9 @@ msgstr ""
 "\n"
 "Hvis @basis udelades, anvendes USA 30/360. Hvis dato for anbringelse eller "
 "forfald ikke er gyldig, returnerer INTRATE en NUM!-fejl. Hvis @basis < 0 "
-"eller @basis > 4, returnerer INTRATE en #NUM!-fejl. Hvis dato for "
+"eller @basis > 4, returnerer INTRATE en NUM!-fejl. Hvis dato for "
 "anbringelse er efter dato for forfald eller er de den samme, returnerer "
-"INTRATE en #NUM!-fejl. \n"
+"INTRATE en NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "Hvis du havde en obligation med en anbringelsesdato 15. april 2000, "
@@ -7181,15 +7084,16 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @basis is omitted, US 30/360 is applied. If settlement date or maturity "
-"date is not valid, RECEIVED returns #NUM! error. If @basis < 0 or @basis > "
-"4, RECEIVED returns #NUM! error. If settlement date is after maturity date "
-"or they are the same, RECEIVED returns #NUM! error. \n"
+"date is not valid, RECEIVED returns NUM! error. If @basis < 0 or @basis > 4, "
+"RECEIVED returns NUM! error. If settlement date is after maturity date or "
+"they are the same, RECEIVED returns NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=INTRATE"
 msgstr ""
 "@FUNCTION=RECEIVED\n"
-"@SYNTAX=RECEIVED((anbringelse,forfald,diskonto,rate[,basis])\n"
+"@SYNTAX=RECEIVED((anbringelse,forfald,investering,diskonto,"
+"rate[,basis])\n"
 "@DESCRIPTION=RECEIVED beregner og returnerer beløbet der udbetales ved "
 "forfaldsdatoen for en obligation. @basis er den type på rentedagsberegning "
 "som du vil bruge:\n"
@@ -7201,10 +7105,10 @@ msgstr ""
 "4  europæisk 30/360\n"
 "\n"
 "Hvis @basis udelades, anvendes USA 30/360. Hvis anbringelsesdato eller "
-"forfaldsdato ikke er gyldig, returnerer RECEIVED en #NUM!-fejl. Hvis @basis "
-"< 0 eller @basis > 4, returnerer RECEIVED en #NUM!-fejl. Hvis "
+"forfaldsdato ikke er gyldig, returnerer RECEIVED en NUM!-fejl. Hvis @basis "
+"< 0 eller @basis > 4, returnerer RECEIVED en NUM!-fejl. Hvis "
 "anbringelsesdato er efter forfaldsdato eller er de den samme, returnerer "
-"RECEIVED en #NUM!-fejl. \n"
+"RECEIVED en NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=INTRATE"
@@ -7226,9 +7130,9 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @basis is omitted, US 30/360 is applied. If settlement date or maturity "
-"date is not valid, PRICEDISC returns #NUM! error. If @basis < 0 or @basis > "
-"4, PRICEDISC returns #NUM! error. If settlement date is after maturity date "
-"or they are the same, PRICEDISC returns #NUM! error. \n"
+"date is not valid, PRICEDISC returns NUM! error. If @basis < 0 or @basis > "
+"4, PRICEDISC returns NUM! error. If settlement date is after maturity date "
+"or they are the same, PRICEDISC returns NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PRICEMAT"
@@ -7248,10 +7152,10 @@ msgstr ""
 "4  europæisk 30/360\n"
 "\n"
 "Hvis @basis udelades, anvendes USA 30/360. Hvis dato for anbringelse eller "
-"forfald ikke er gyldig, returnerer PRICEDISC en #NUM!-fejl. Hvis @basis < 0 "
-"eller @basis > 4, returnerer PRICEDISC en #NUM!-fejl. Hvis anbringelsesdato "
+"forfald ikke er gyldig, returnerer PRICEDISC en NUM!-fejl. Hvis @basis < 0 "
+"eller @basis > 4, returnerer PRICEDISC en NUM!-fejl. Hvis anbringelsesdato "
 "er efter forfaldsdato eller er de den samme, returnerer PRICEDISC en "
-"#NUM!-fejl. \n"
+"NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PRICEMAT"
@@ -7271,9 +7175,9 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @basis is omitted, US 30/360 is applied. If settlement date or maturity "
-"date is not valid, PRICEMAT returns #NUM! error. If @basis < 0 or @basis > "
-"4, PRICEMAT returns #NUM! error. If settlement date is after maturity date "
-"or they are the same, PRICEMAT returns #NUM! error. \n"
+"date is not valid, PRICEMAT returns NUM! error. If @basis < 0 or @basis > 4, "
+"PRICEMAT returns NUM! error. If settlement date is after maturity date or "
+"they are the same, PRICEMAT returns NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PRICEDISC"
@@ -7291,10 +7195,10 @@ msgstr ""
 "4  europæisk 30/360\n"
 "\n"
 "Hvis @basis udelades, anvendes USA 30/360. Hvis dato for anbringelse eller "
-"forfald ikke er gyldig, returnerer PRICEMAT en #NUM!-fejl. Hvis @basis < 0 "
-"eller @basis > 4, returnerer PRICEMAT en #NUM!-fejl. Hvis dato for "
+"forfald ikke er gyldig, returnerer PRICEMAT en NUM!-fejl. Hvis @basis < 0 "
+"eller @basis > 4, returnerer PRICEMAT en NUM!-fejl. Hvis dato for "
 "anbringelse er efter dato for forfald eller er de den samme, returnerer "
-"PRICEMAT en #NUM!-fejl. \n"
+"PRICEMAT en NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PRICEDISC"
@@ -7313,9 +7217,9 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @basis is omitted, US 30/360 is applied. If settlement date or maturity "
-"date is not valid, DISC returns #NUM! error. If @basis < 0 or @basis > 4, "
-"DISC returns #NUM! error. If settlement date is after maturity date or they "
-"are the same, DISC returns #NUM! error. \n"
+"date is not valid, DISC returns NUM! error. If @basis < 0 or @basis > 4, "
+"DISC returns NUM! error. If settlement date is after maturity date or they "
+"are the same, DISC returns NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -7332,9 +7236,9 @@ msgstr ""
 "4  europæisk 30/360\n"
 "\n"
 "Hvis @basis udelades, anvendes USA 30/360. Hvis dato for anbringelse eller "
-"forfald ikke er gyldig, returnerer DISC en #NUM!-fejl. Hvis @basis < 0 eller "
-"@basis > 4, returnerer DISC en #NUM!-fejl. Hvis dato for anbringelse er "
-"efter dato for forfald eller er de den samme, returnerer DISC en #NUM!-fejl. "
+"forfald ikke er gyldig, returnerer DISC en NUM!-fejl. Hvis @basis < 0 eller "
+"@basis > 4, returnerer DISC en NUM!-fejl. Hvis dato for anbringelse er "
+"efter dato for forfald eller er de den samme, returnerer DISC en NUM!-fejl. "
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -7430,7 +7334,7 @@ msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
 "@DESCRIPTION=ISPMT function returns the interest paid on a given period. \n"
-"If @per < 1 or @per > @nper, ISPMT returns #NUM! error. \n"
+"If @per < 1 or @per > @nper, ISPMT returns NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PV"
@@ -7438,7 +7342,7 @@ msgstr ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rente,per,nper,nv)\n"
 "@DESCRIPTION=ISPMT returnerer renten som er betalt i en given periode.  \n"
-"Hvis @per < 1 eller @per > @nper,  returnerer ISPMT en #NUM! fejl. \n"
+"Hvis @per < 1 eller @per > @nper,  returnerer ISPMT en NUM! fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PV"
@@ -7612,7 +7516,7 @@ msgstr ""
 "@DESCRIPTION=DOLLARDE konverterer en dollarpris udtrykt som en brøk til en "
 "dollarpris udtrykt som et decimaltal. \n"
 "Hvis @brøk ikke er et heltal, bliver det afkortet. Hvis @brøk<=0 returnerer "
-"DOLLARDE en #NUM! fejl. \n"
+"DOLLARDE en NUM! fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DOLLARFR"
@@ -7666,7 +7570,7 @@ msgid ""
 "* DSM) where DSM is the days between @settlement and @maturity. \n"
 "If @settlement is after @maturity or the @maturity is set to over one year "
 "later than the @settlement, TBILLEQ returns NUM! error. If @discount is "
-"negative, TBILLEQ returns #NUM! error. \n"
+"negative, TBILLEQ returns NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
@@ -7678,7 +7582,7 @@ msgstr ""
 "rente * DSM) hvor DSM er dagene mellem @anbringelse og @forfald. \n"
 "Hvis @anbringelse er efter @forfald eller @forfald er sat til over et år "
 "senere end @anbringelse, returnerer TBILLEQ en NUM! fejl. Hvis @rente er "
-"negativ, returnerer TBILLEQ en #NUM!-fejl. \n"
+"negativ, returnerer TBILLEQ en NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
@@ -7693,7 +7597,7 @@ msgid ""
 "\n"
 "If @settlement is after @maturity or the @maturity is set to over one year "
 "later than the @settlement, TBILLPRICE returns NUM! error. If @discount is "
-"negative, TBILLPRICE returns #NUM! error. \n"
+"negative, TBILLPRICE returns NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
@@ -7705,7 +7609,7 @@ msgstr ""
 "forfaldsdatoen. @rente er skatkammerbevisets pålydende rente. \n"
 "Hvis @anbringelse er efter @forfald eller @forfald er sat til over et år "
 "senere end @anbringelse, returnerer TBILLPRICE en NUM! fejl. Hvis @rente er "
-"negativ, returnerer TBILLPRICE en #NUM!-fejl. \n"
+"negativ, returnerer TBILLPRICE en NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
@@ -7719,7 +7623,7 @@ msgid ""
 "bill.  @discount is the treasury bill's discount rate. \n"
 "If @settlement is after @maturity or the @maturity is set to over one year "
 "later than the @settlement, TBILLYIELD returns NUM! error. If @pr is "
-"negative, TBILLYIELD returns #NUM! error. \n"
+"negative, TBILLYIELD returns NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLEQ,TBILLPRICE"
@@ -7730,7 +7634,7 @@ msgstr ""
 "forfaldsdatoen for beviset. @rente er skatkammerbevisets pålydende rente. \n"
 "Hvis @anbringelse er efter @forfald eller @forfald er sat til over et år "
 "senere end @anbringelse, returnerer TBILLYIELD en NUM!-fejl. Hvis @pris er "
-"negativ, returnerer TBILLYIELD en #NUM!-fejl. \n"
+"negativ, returnerer TBILLYIELD en NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLEQ,TBILLPRICE"
@@ -7851,7 +7755,7 @@ msgstr ""
 "begyndelsen på betalingsplanen. @rente er renten og @værdier er "
 "betalingerne. \n"
 "Hvis @værdier og @datoer indeholder forskelligt antal værdier, returnerer "
-"XNPV en #NUM fejl, \n"
+"XNPV en NUM fejl, \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=NPV,PV"
@@ -8098,7 +8002,7 @@ msgid ""
 "    NLG     (Netherlands)\n"
 "    PTE     (Portugal)\n"
 "\n"
-"If the given currency is other than one of the above, EURO returns #NUM! "
+"If the given currency is other than one of the above, EURO returns NUM! "
 "error. \n"
 "@EXAMPLES=\n"
 "EURO(\"DEM\") returns 1.95583.\n"
@@ -8107,8 +8011,7 @@ msgstr ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(møntenhed)\n"
 "@DESCRIPTION=EURO konverterer en Euro til en given national møntenhed "
-"indenfor Euroland (ØMU-medlemslandene).  I øjeblikket kan følgende "
-"benyttes:\n"
+"indenfor Euroland (ØMU-medlemslandene). Møntenhed er en af de følgende:\n"
 "    ATS     (Østrig)\n"
 "    BEF     (Belgien)\n"
 "    DEM     (Tyskland)\n"
@@ -8121,8 +8024,8 @@ msgstr ""
 "    NLG     (Holland)\n"
 "    PTE     (Portugal)\n"
 "\n"
-"Hvis en given møntenhed er andre end de overstående, vil EURO returnere en "
-"#NUM!-fejl. \n"
+"Hvis en given møntenhed er andet end de overstående, vil EURO returnere en "
+"NUM!-fejl. \n"
 "@EXAMPLES=\n"
 "EURO(\"DEM\") returnerer 1.95583.\n"
 "@SEEALSO="
@@ -8885,7 +8788,7 @@ msgid ""
 "an integer or floating point value is provided zero is considered FALSE and "
 "anything else is TRUE.\n"
 "If the values contain strings or empty cells those values are ignored. If no "
-"logical values are provided, then the error #VALUE! is returned. This "
+"logical values are provided, then the error '#VALUE!' is returned. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "AND(TRUE,TRUE) equals TRUE.\n"
@@ -8954,7 +8857,7 @@ msgid ""
 "integer or floating point value is provided zero is considered FALSE and "
 "anything else is TRUE.\n"
 "If the values contain strings or empty cells those values are ignored.  If "
-"no logical values are provided, then the error #VALUE! is returned. This "
+"no logical values are provided, then the error '#VALUE!' is returned. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "OR(TRUE,FALSE) equals TRUE.\n"
@@ -9037,7 +8940,7 @@ msgstr ""
 "Hvis @absnum er 2, returnerer ADDRESS en absolut række og relativ kolonne. "
 "Hvis @absnum er 3, returnerer ADDRESS en relativ række og absolut kolonne. "
 "Hvis @absnum er 4, returnerer ADDRESS en relativ reference. Hvis @absnum er "
-"større end 4 returnerer ADDRESS en #NUM! fejl. \n"
+"større end 4 returnerer ADDRESS en NUM! fejl. \n"
 "@a1 er en logisk værdi som angiver reference-stilen.  Hvis @a1 er SAND eller "
 "udeladt, returnerer ADDRESS en A1-stils-reference, fx $D$4.  Ellers "
 "returnerer ADDRESS en R1C1-stils-reference, fx R4C4. \n"
@@ -9096,7 +8999,7 @@ msgstr ""
 "stigende rækkefølge for at det fungerer korrekt; i dette tilfælde finder den "
 "rækken med værdien mindre end @værdi. Den returnerer værdien i rækken fundet "
 "ved 1 mere i @kolonne kolonner inde i @område.\n"
-"Returnerer #NUM! hvis @kolonne < 0. Returnerer #REF! hvis @kolonne falder "
+"Returnerer NUM! hvis @kolonne < 0. Returnerer #REF! hvis @kolonne falder "
 "udenfor @område.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -9408,7 +9311,7 @@ msgstr ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(tal1,tal2,...)\n"
 "@DESCRIPTION=GCD returnerer den største fælles divisor af givne tal. \n"
-"Hvis nogen af argumenterne er mindre en nul, returnerer GCD en #NUM! fejl. \n"
+"Hvis nogen af argumenterne er mindre en nul, returnerer GCD en NUM! fejl. \n"
 "Hvis nogen af argumenterne ikke er heltal, bliver de afrundet. Denne "
 "funktion er Excel kompatibel. \n"
 "@EXAMPLES=\n"
@@ -9512,7 +9415,7 @@ msgstr ""
 "@SYNTAX=ACOSH(x)\n"
 "@DESCRIPTION=ACOSH-funktionen beregner det inverse hyperbolske kosinus af "
 "@x; det vil sige værdien hvis hyperbolske kosinus er @x. Hvis @x er mindre "
-"end 1.0, returnerer ACOSH() en #NUM!-fejl. Denne funktion er Excel "
+"end 1.0, returnerer ACOSH() en NUM!-fejl. Denne funktion er Excel "
 "kompatibel. \n"
 "@EXAMPLES=\n"
 "ACOSH(2) er lig 1.31696.\n"
@@ -9757,7 +9660,7 @@ msgstr ""
 "signifikans. \n"
 "Hvis @x eller @signifikans er ikke-numerisk, returnerer CEILING en #VÆRDI! "
 "fejl. Hvis @x eller @signifikans har forskelige fortegn, returnerer CEILING "
-"#NUM!-fejl. Denne funktion er Excel kompatibel. \n"
+"NUM!-fejl. Denne funktion er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "CEILING(2.43,1) er lig 3.\n"
 "CEILING(123.123,3) er lig 126.\n"
@@ -14209,17 +14112,17 @@ msgstr "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgid "ERROR"
 msgstr "FEJL"
 
-#: src/plugin-util.c:114
+#: src/plugin-util.c:113
 #, c-format
 msgid "Unable to unmap the file, error : %s"
 msgstr "kan ikke afmappe fil, fejl : %s"
 
-#: src/plugin-util.c:123
+#: src/plugin-util.c:122
 #, c-format
 msgid "Error while closing file, error : %s"
 msgstr "Fejl under forsøg på at lukke fil : %s"
 
-#: src/plugin-util.c:178
+#: src/plugin-util.c:177
 #, c-format
 msgid "Unable to mmap the file, error : %s"
 msgstr "kan ikke mmappe fil, fejl : %s"
@@ -14339,27 +14242,23 @@ msgid "time"
 msgstr "tid"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:366
+#: src/print.c:365
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:793 src/workbook.c:1852
+#: src/print.c:792 src/workbook.c:1852
 msgid "Selection must be a single range"
 msgstr "Markering skal være et enkelt omfang"
 
-#: src/print.c:902
+#: src/print.c:901
 msgid "Print Sheets"
 msgstr "Udskriv ark"
 
-#: src/print.c:909
-msgid "Act_ive sheet"
-msgstr "Akt_iv ark"
+#: src/print.c:908
+msgid "Active sheet"
+msgstr "Akt_ivt ark"
 
-#: src/print.c:909
-msgid "S_heets"
-msgstr "Ark"
-
-#: src/print.c:987 src/workbook.c:1136 src/workbook.c:1457
+#: src/print.c:983 src/workbook.c:1136 src/workbook.c:1457
 msgid "Print preview"
 msgstr "Vis udskrift"
 
@@ -14369,19 +14268,19 @@ msgid "The command `%s' cannot be performed with multiple selections"
 msgstr "Kommandoen '%s' kan ikke udføres med flere markeringer"
 
 #. FIXME FIXME : disable copying part of an array
-#: src/selection.c:628
+#: src/selection.c:617
 msgid "copy"
 msgstr "kopiér"
 
-#: src/selection.c:659
+#: src/selection.c:648
 msgid "cut"
 msgstr "klip"
 
-#: src/selection.c:686
+#: src/selection.c:675
 msgid "paste"
 msgstr "indsæt"
 
-#: src/selection.c:708
+#: src/selection.c:697
 #, c-format
 msgid ""
 "The area can not be pasted into the selection because it\n"
@@ -14413,16 +14312,16 @@ msgstr "Række: %d"
 msgid "Column: %s"
 msgstr "Kolonne: %s"
 
-#: src/sheet.c:1094
+#: src/sheet.c:1067
 msgid "Internal ERROR"
 msgstr "Intern FEJL"
 
-#: src/sheet.c:2642
+#: src/sheet.c:2563
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Jeg kunne ikke aktivere objekt %s"
 
-#: src/sheet.c:2654
+#: src/sheet.c:2575
 msgid "I was unable to the bind object"
 msgstr "Jeg kunne ikke binde objekt"
 
@@ -15492,52 +15391,52 @@ msgstr "Min"
 msgid "Max"
 msgstr "Maks"
 
-#: src/workbook.c:2541
+#: src/workbook.c:2535
 #, c-format
 msgid "Book%d.gnumeric"
 msgstr "Bog%d.gnumeric"
 
-#: src/workbook.c:2734
+#: src/workbook.c:2728
 msgid "Sheet name"
 msgstr "Arknavn"
 
-#: src/workbook.c:2735
+#: src/workbook.c:2729
 msgid "must have at least 1 letter"
 msgstr "skal have mindst 1 bogstav"
 
-#: src/workbook.c:2742
+#: src/workbook.c:2736
 msgid "Duplicate Sheet name"
 msgstr "Duplikeret arknavn"
 
-#: src/workbook.c:2893
+#: src/workbook.c:2887
 msgid "Add another sheet"
 msgstr "Tilføj et andet ark"
 
-#: src/workbook.c:2894
+#: src/workbook.c:2888
 msgid "Remove this sheet"
 msgstr "Fjern dette ark"
 
-#: src/workbook.c:2895
+#: src/workbook.c:2889
 msgid "Rename this sheet"
 msgstr "Omdøb dette ark"
 
-#: src/workbook.c:2896
+#: src/workbook.c:2890
 msgid "Re-order sheets"
 msgstr "Omordn ark"
 
-#: src/xml-io.c:3134
+#: src/xml-io.c:3129
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Ugyldigt xml klipbordsdata. Er træet tomt?"
 
-#: src/xml-io.c:3175
+#: src/xml-io.c:3170
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ugyldig xml fil. Er træet tomt?"
 
-#: src/xml-io.c:3189
+#: src/xml-io.c:3182
 msgid "Is not an Workbook file"
 msgstr "Er ikke en arbejdsbogsfil"
 
-#: src/xml-io.c:3254
+#: src/xml-io.c:3247
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
@@ -15661,14 +15560,173 @@ msgstr "Trin 3 af 3: Tilpas grafik"
 msgid "Unable to launch the graphics service"
 msgstr "Kan ikke opstarte grafiktjenesten"
 
-#~ msgid "active sheet"
-#~ msgstr "aktiv ark"
+#~ msgid ""
+#~ "\n"
+#~ "DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
+#~ "DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
+#~ "DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
+#~ "DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
+#~ "\n"
+#~ "@SEEALSO=DCOUNT"
+#~ msgstr ""
+#~ "\n"
+#~ "DAVERAGE(A1:C7, \"Løn\", A9:A11) er lig 42296.3333.\n"
+#~ "DAVERAGE(A1:C7, \"Alder\", A9:A11) er lig 39.\n"
+#~ "DAVERAGE(A1:C7, \"Løn\", A9:B11) er lig 40782.5.\n"
+#~ "DAVERAGE(A1:C7, \"Alder\", A9:B11) er lig 36.\n"
+#~ "\n"
+#~ "@SEEALSO=DCOUNT"
 
-#~ msgid "all sheets"
-#~ msgstr "alle ark"
+#~ msgid ""
+#~ "\n"
+#~ "DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+#~ "DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+#~ "DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
+#~ "\n"
+#~ "@SEEALSO=DAVERAGE"
+#~ msgstr ""
+#~ "\n"
+#~ "DCOUNT(A1:C7, \"Løn\", A9:A11) er lig 3.\n"
+#~ "DCOUNT(A1:C7, \"Løn\", A9:B11) er lig 2.\n"
+#~ "DCOUNT(A1:C7, \"Navn\", A9:B11) er lig 0.\n"
+#~ "\n"
+#~ "@SEEALSO=DAVERAGE"
 
-#~ msgid "selection"
-#~ msgstr "markering"
+#~ msgid ""
+#~ "\n"
+#~ "DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+#~ "DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+#~ "DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
+#~ "\n"
+#~ "@SEEALSO=DCOUNT"
+#~ msgstr ""
+#~ "\n"
+#~ "DCOUNTA(A1:C7, \"Løn\", A9:A11) er lig 3.\n"
+#~ "DCOUNTA(A1:C7, \"Løn\", A9:B11) er lig 2.\n"
+#~ "DCOUNTA(A1:C7, \"Navn\", A9:B11) er lig 2.\n"
+#~ "\n"
+#~ "@SEEALSO=DCOUNT"
 
-#~ msgid "Select Printer"
-#~ msgstr "Vælg printer"
+#~ msgid ""
+#~ "\n"
+#~ "DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
+#~ "DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
+#~ "\n"
+#~ "If none of the items match the conditions, DGET returns #VALUE! error. If "
+#~ "more than one items match the conditions, DGET returns #NUM! error. \n"
+#~ "@SEEALSO=DCOUNT"
+#~ msgstr ""
+#~ "\n"
+#~ "DGET(A1:C7, \"Løn\", A9:A10) er lig 34323.\n"
+#~ "DGET(A1:C7, \"Navn\", A9:A10) er lig \"Clark\".\n"
+#~ "\n"
+#~ "If none of the items match the conditions, DGET returns #VALUE! error. If "
+#~ "more than one items match the conditions, DGET returns #NUM! error. \n"
+#~ "@SEEALSO=DCOUNT"
+
+#~ msgid ""
+#~ "\n"
+#~ "DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
+#~ "DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
+#~ "DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
+#~ "\n"
+#~ "@SEEALSO=DMIN"
+#~ msgstr ""
+#~ "\n"
+#~ "DMAX(A1:C7, \"Løn\", A9:A11) er lig 47242.\n"
+#~ "DMAX(A1:C7, \"Alder\", A9:A11) er lig 45.\n"
+#~ "DMAX(A1:C7, \"Alder\", A9:B11) er lig 43.\n"
+#~ "\n"
+#~ "@SEEALSO=DMIN"
+
+#~ msgid ""
+#~ "\n"
+#~ "DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
+#~ "DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
+#~ "\n"
+#~ "@SEEALSO=DMAX"
+#~ msgstr ""
+#~ "\n"
+#~ "DMIN(A1:C7, \"Løn\", A9:B11) er lig 34323.\n"
+#~ "DMIN(A1:C7, \"Alder\", A9:B11) er lig 29.\n"
+#~ "\n"
+#~ "@SEEALSO=DMAX"
+
+#~ msgid ""
+#~ "\n"
+#~ "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
+#~ "\n"
+#~ "@SEEALSO=DSUM"
+#~ msgstr ""
+#~ "\n"
+#~ "DPRODUCT(A1:C7, \"Alder\", A9:B11) er lig 1247.\n"
+#~ "\n"
+#~ "@SEEALSO=DSUM"
+
+#~ msgid ""
+#~ "\n"
+#~ "DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
+#~ "DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
+#~ "\n"
+#~ "@SEEALSO=DSTDEVP"
+#~ msgstr ""
+#~ "\n"
+#~ "DSTDEV(A1:C7, \"Alder\", A9:B11) er lig 9.89949.\n"
+#~ "DSTDEV(A1:C7, \"Løn\", A9:B11) er lig 9135.112506.\n"
+#~ "\n"
+#~ "@SEEALSO=DSTDEVP"
+
+#~ msgid ""
+#~ "\n"
+#~ "DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
+#~ "DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
+#~ "\n"
+#~ "@SEEALSO=DSTDEV"
+#~ msgstr ""
+#~ "\n"
+#~ "DSTDEVP(A1:C7, \"Alder\", A9:B11) er lig 7.\n"
+#~ "DSTDEVP(A1:C7, \"Løn\", A9:B11) er lig 6459.5.\n"
+#~ "\n"
+#~ "@SEEALSO=DSTDEV"
+
+#~ msgid ""
+#~ "\n"
+#~ "DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
+#~ "DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
+#~ "\n"
+#~ "@SEEALSO=DPRODUCT"
+#~ msgstr ""
+#~ "\n"
+#~ "DSUM(A1:C7, \"Alder\", A9:B11) er lig 72.\n"
+#~ "DSUM(A1:C7, \"Løn\", A9:B11) er lig 81565.\n"
+#~ "\n"
+#~ "@SEEALSO=DPRODUCT"
+
+#~ msgid ""
+#~ "\n"
+#~ "DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
+#~ "DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
+#~ "\n"
+#~ "@SEEALSO=DVARP"
+#~ msgstr ""
+#~ "\n"
+#~ "DVAR(A1:C7, \"Alder\", A9:B11) er lig 98.\n"
+#~ "DVAR(A1:C7, \"Løn\", A9:B11) er lig 83450280.5.\n"
+#~ "\n"
+#~ "@SEEALSO=DVARP"
+
+#~ msgid ""
+#~ "\n"
+#~ "DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
+#~ "DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
+#~ "\n"
+#~ "@SEEALSO=DVAR"
+#~ msgstr ""
+#~ "\n"
+#~ "DVARP(A1:C7, \"Alder\", A9:B11) er lig 49.\n"
+#~ "DVARP(A1:C7, \"Løn\", A9:B11) er lig 41725140.25.\n"
+#~ "\n"
+#~ "@SEEALSO=DVAR"
+
+#~ msgid "S_heets"
+#~ msgstr "Ark"
