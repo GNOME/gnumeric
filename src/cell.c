@@ -695,6 +695,8 @@ cell_get_format (const Cell *cell)
  *
  * Changes the format for CELL to be FORMAT.  FORMAT should be
  * a number display format as specified on the manual
+ *
+ * Does not render, redraw, or respan.
  */
 void
 cell_set_format (Cell *cell, const char *format)
@@ -705,11 +707,7 @@ cell_set_format (Cell *cell, const char *format)
 
 	mstyle_set_format (mstyle, format);
 	cell_set_mstyle (cell, mstyle);
-
-	/* re-render the cell text */
-	cell_render_value (cell);
 	cell_dirty (cell);
-	sheet_redraw_cell (cell);
 }
 
 /*

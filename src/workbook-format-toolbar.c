@@ -245,10 +245,17 @@ modify_cell_region (Sheet *sheet,
 		    int end_col,   int end_row,
 		    void *closure)
 {
+	Range r;
+	r.start.col = start_col;
+	r.start.row = start_row;
+	r.end.col = end_col;
+	r.end.row = end_row;
+
 	sheet_cell_foreach_range (
 		sheet, TRUE,
 		start_col, start_row, end_col, end_row,
 		modify_cell_format, closure);
+	sheet_range_calc_spans (sheet, r, SPANCALC_RE_RENDER|SPANCALC_RESIZE);
 }
 
 /*

@@ -1,3 +1,11 @@
+2000-04-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-format-toolbar.c (modify_cell_region) : Do redraws
+	  respans, and redimensions here.
+
+	* src/cell.c (cell_set_format) : Do not attempt to render or redraw
+	  the value.
+
 2000-04-27  Jon K Hellan  <hellan@acm.org>
 
 	* src/rendered-value.c (cell_rendered_height): 

@@ -7,9 +7,17 @@
 # the WIZARD_PLUGIN variable
 #
 
-wizarddir = $(libdir)/gnumeric/wizards/$(VERSION)
+if BONOBO
+gnumeric_version="$(VERSION)-bonobo"
+else
+gnumeric_version="$(VERSION)"
+endif
+gnumeric_libdir  = $(libdir)/gnumeric/$(gnumeric_version)
+gnumeric_datadir = $(datadir)/gnumeric/$(gnumeric_version)
+wizarddir = $(gnumeric_libdir)/wizard
+gladedir  = $(gnumeric_datadir)/glade
+
 iconsdir  = $(datadir)/pixmaps/gnumeric
-gladedir   = $(datadir)/gnumeric/glade
 
 glade_DATA = graphics.glade
 
@@ -31,7 +39,6 @@ libwizard_graphics_a_SOURCES =		\
 INCLUDES = 						\
 	-I$(top_srcdir)/libglade			\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-        -DGNUMERIC_GLADEDIR=\""$(gladedir)"\"           \
         -DGNUMERIC_ICONSDIR=\""$(iconsdir)"\"           \
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/src				\
