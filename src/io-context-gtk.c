@@ -180,8 +180,13 @@ icg_init_gui (IOContextGtk *icg)
 	g_signal_connect (G_OBJECT (icg->window), "destroy",
 			  G_CALLBACK (cb_icg_window_destroyed), icg);
 
+#ifdef HAVE_GDK_SCREEN_GET_WIDTH
 	sx = gdk_screen_get_width (icg->window->screen);
 	sy = gdk_screen_get_height (icg->window->screen);
+#else
+	sx = gdk_screen_width  ();
+	sy = gdk_screen_height ();
+#endif
 	geom.min_width = geom.max_width = geom.base_width = sx / 3;
 	geom.min_height = geom.max_height = geom.base_height = sy / 3;
 

@@ -8,6 +8,8 @@
 
 2002-11-18  Morten Welinder  <terra@diku.dk>
 
+	* configure.in (LIBS): Check for gdk_screen_get_width.
+
 	* src/workbook-control-gui.c (wbcg_menu_state_update): Change
 	tooltip also.
 	(change_menu_label): Handle tooltip changing too.

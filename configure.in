@@ -498,6 +498,12 @@ AC_ARG_WITH(long_double,
 	fi]
 )
 
+dnl Check for gtk-2.1 things
+SAVE_LIBS=$LIBS
+LIBS="$LIBS $GNUMERIC_LIBS"
+AC_CHECK_FUNCS(gdk_screen_get_width)
+LIBS=$SAVE_LIBS
+
 dnl **************************************************
 dnl * Check for Perl
 dnl **************************************************
