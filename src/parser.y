@@ -889,7 +889,8 @@ int
 yylex (void)
 {
 	gunichar c;
-	char const *start;
+	char const *start, *end;
+	RangeRef ref;
 	gboolean is_number = FALSE;
 
         while (g_unichar_isspace (g_utf8_get_char (state->expr_text)))
@@ -933,6 +934,17 @@ yylex (void)
 
 	if (c == state->separator)
 		return SEPARATOR;
+
+	if (start != (end = rangeref_parse (&ref, start, state->pos))) {
+		state->expr_text = end;
+		if (ref.a.sheet == NULL && cellref_equal (&ref.a, &ref.b)) {
+			yylval.expr = register_expr_allocation (gnm_expr_new_cellref (&ref.a));
+			return CELLREF;
+		}
+		yylval.expr = register_expr_allocation (gnm_expr_new_constant (
+			 value_new_cellrange_unsafe (&ref.a, &ref.b)));
+		return RANGEREF;
+	}
 
 	if (c == state->decimal_point) {
 		/* Could be a number or a stand alone  */
@@ -989,30 +1001,6 @@ yylex (void)
 			if (start == end) {
 				g_warning ("%s is not an integer, but was expected to be one", start);
 			} else if (errno != ERANGE) {
-				/* Check for a Row range ref (3:4 == A3:IV4) */
-				if (end[0] == ':' && end[1] != '\0' && l < SHEET_MAX_ROWS) {
-					char *begin, *end2;
-					long r;
-					gboolean const b_row_relative = (end[1] != '$');
-
-					begin = end + ((b_row_relative) ? 1 : 2);
-					r = strtol (begin, &end2, 10);
-					if (begin != end2 && errno != ERANGE && r < SHEET_MAX_ROWS) {
-						CellRef a, b;
-						a.sheet = b.sheet = NULL;
-						a.col_relative = a.row_relative = b.col_relative = TRUE;
-						b.row_relative = TRUE;
-						a.col = 0;	b.col = SHEET_MAX_COLS - 1;
-						a.row = l;	b.row = r;
-						yylval.expr = register_expr_allocation (
-							gnm_expr_new_constant (
-								value_new_cellrange (&a, &b,
-									state->pos->eval.col,
-									state->pos->eval.row)));
-						state->expr_text = end2;
-						return RANGEREF;
-					}
-				}
 				v = value_new_int (l);
 				state->expr_text = end;
 			} else if (l == LONG_MIN || l == LONG_MAX) {

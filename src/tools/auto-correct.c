@@ -118,17 +118,15 @@ void
 autocorrect_store_config (void)
 {
 	GConfChangeSet *cs = gconf_change_set_new ();
-	GSList *init_caps = autocorrect_get_exceptions (AC_INIT_CAPS);
-	GSList *first_letter = autocorrect_get_exceptions (AC_FIRST_LETTER);
 
 	gconf_change_set_set_bool (cs, AUTOCORRECT_INIT_CAPS,
 		autocorrect.init_caps);
 	gconf_change_set_set_list (cs, AUTOCORRECT_INIT_CAPS_LIST,
-		GCONF_VALUE_STRING, init_caps);
+		GCONF_VALUE_STRING, autocorrect.exceptions.init_caps);
 	gconf_change_set_set_bool (cs, AUTOCORRECT_FIRST_LETTER,
 		autocorrect.first_letter);
 	gconf_change_set_set_list (cs, AUTOCORRECT_FIRST_LETTER_LIST,
-	       GCONF_VALUE_STRING, first_letter);
+	       GCONF_VALUE_STRING, autocorrect.exceptions.first_letter);
 	gconf_change_set_set_bool (cs, AUTOCORRECT_NAMES_OF_DAYS,
 		autocorrect.names_of_days);
 	gconf_change_set_set_bool (cs, AUTOCORRECT_REPLACE,
@@ -138,12 +136,6 @@ autocorrect_store_config (void)
 					cs, FALSE, NULL);
 	gconf_client_suggest_sync (application_get_gconf_client (), NULL);
 	gconf_change_set_unref (cs);
-
-	g_slist_foreach (init_caps, (GFunc)g_free, NULL);
-	g_slist_free (init_caps);
-	g_slist_foreach (first_letter, (GFunc)g_free, NULL);
-	g_slist_free (first_letter);
-
 }
 
 gboolean

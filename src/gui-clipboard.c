@@ -343,16 +343,23 @@ x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt)
 gboolean
 x_claim_clipboard (WorkbookControlGUI *wbcg)
 {
-	static const GtkTargetEntry targets[] = {
+	static GtkTargetEntry const targets[] = {
 		{ (char *) GNUMERIC_ATOM_NAME,  GTK_TARGET_SAME_WIDGET, GNUMERIC_ATOM_INFO },
 		/* { (char *)"text/html", 0, 0 }, */
 		{ (char *)"UTF8_STRING", 0, 0 },
 		{ (char *)"COMPOUND_TEXT", 0, 0 },
 		{ (char *)"STRING", 0, 0 },
 	};
-	GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
-	return gtk_clipboard_set_with_owner (clipboard,
+	return
+	gtk_clipboard_set_with_owner (
+		gtk_clipboard_get (GDK_SELECTION_CLIPBOARD),
+		targets, G_N_ELEMENTS (targets),
+		(GtkClipboardGetFunc) x_clipboard_get_cb,
+		(GtkClipboardClearFunc) x_clipboard_clear_cb,
+		G_OBJECT (wbcg)) &&
+	gtk_clipboard_set_with_owner (
+		gtk_clipboard_get (GDK_SELECTION_PRIMARY),
 		targets, G_N_ELEMENTS (targets),
 		(GtkClipboardGetFunc) x_clipboard_get_cb,
 		(GtkClipboardClearFunc) x_clipboard_clear_cb,
