@@ -9,7 +9,6 @@ Release Critical
 
 - We need to somehow add --export-dynamic to the gnumeric link line, or else
   plugins won't load on Solaris/gcc.  (This might just be my bastard libtool.)
-- Why doesn't float_range_function2 use its "flags" argument?
 - 3D reference fixes on sheet deletion
 - iconv utf8 password -> usc4 before hashing
 

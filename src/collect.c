@@ -19,10 +19,11 @@
 /* ------------------------------------------------------------------------- */
 
 typedef struct {
-	int alloc_count;
-	gnum_float *data;
-	int count;
-	CollectFlags flags;
+	guint           alloc_count;
+	gnum_float   *data;
+	guint         count;
+	CollectFlags  flags;
+	GSList       *info;
 } collect_floats_t;
 
 static Value *
@@ -33,18 +34,18 @@ callback_function_collect (EvalPos const *ep, Value *value, void *closure)
 
 	if (value == NULL) {
 		if (cl->flags & COLLECT_IGNORE_BLANKS)
-			return NULL;
+			goto callback_function_collect_store_info;
 		x = 0.;
 	} else switch (value->type) {
 	case VALUE_EMPTY:
 		if (cl->flags & COLLECT_IGNORE_BLANKS)
-			return NULL;
+			goto callback_function_collect_store_info;
 		x = 0.;
 		break;
 
 	case VALUE_BOOLEAN:
 		if (cl->flags & COLLECT_IGNORE_BOOLS)
-			return NULL;
+			goto callback_function_collect_store_info;
 		else if (cl->flags & COLLECT_ZEROONE_BOOLS)
 			x = (value->v_bool.val) ? 1. : 0.;
 		else
@@ -57,7 +58,7 @@ callback_function_collect (EvalPos const *ep, Value *value, void *closure)
 
 	case VALUE_ERROR:
 		if (cl->flags & COLLECT_IGNORE_ERRORS)
-			return NULL;
+			goto callback_function_collect_store_info;
 		else if (cl->flags & COLLECT_ZERO_ERRORS)
 			x = 0.;
 		else
@@ -75,7 +76,7 @@ callback_function_collect (EvalPos const *ep, Value *value, void *closure)
 			if (x == 0)
 			        return value_new_error (ep, gnumeric_err_VALUE);
 		} else if (cl->flags & COLLECT_IGNORE_STRINGS)
-			return NULL;
+			goto callback_function_collect_store_info;
 		else if (cl->flags & COLLECT_ZERO_STRINGS)
 			x = 0;
 		else
@@ -85,7 +86,7 @@ callback_function_collect (EvalPos const *ep, Value *value, void *closure)
 	default:
 		g_warning ("Trouble in callback_function_collect. (%d)",
 			   value->type);
-		return NULL;
+		goto callback_function_collect_store_info;
 	}
 
 	if (cl->count == cl->alloc_count) {
@@ -94,6 +95,20 @@ callback_function_collect (EvalPos const *ep, Value *value, void *closure)
 	}
 
 	cl->data[cl->count++] = x;
+	return NULL;
+
+ callback_function_collect_store_info:
+
+	if (!(cl->flags & COLLECT_INFO))
+		return NULL;
+	
+	if (cl->count == cl->alloc_count) {
+		cl->alloc_count *= 2;
+		cl->data = g_realloc (cl->data, cl->alloc_count * sizeof (gnum_float));
+	}
+	
+	cl->info = g_slist_prepend (cl->info, GUINT_TO_POINTER (cl->count));
+	cl->data[cl->count++] = 0;
 	return NULL;
 }
 
@@ -121,15 +136,22 @@ callback_function_collect (EvalPos const *ep, Value *value, void *closure)
  */
 static gnum_float *
 collect_floats (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags,
-		int *n, Value **error)
+		int *n, Value **error, GSList **info)
 {
 	Value * err;
 	collect_floats_t cl;
+
+	if (info) {
+		flags = flags | COLLECT_INFO;
+		*info = NULL;
+	} else
+		flags = flags & COLLECT_NO_INFO_MASK;
 
 	cl.alloc_count = 20;
 	cl.data = g_new (gnum_float, cl.alloc_count);
 	cl.count = 0;
 	cl.flags = flags;
+	cl.info = NULL;
 
 	err = function_iterate_argument_values (ep, &callback_function_collect,
 		&cl, exprlist,
@@ -138,10 +160,13 @@ collect_floats (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags,
 	if (err) {
 		g_assert (err->type == VALUE_ERROR);
 		g_free (cl.data);
+		g_slist_free (cl.info);
 		*error = err;
 		return NULL;
 	}
 
+	if (info)
+		*info = cl.info;
 	*n = cl.count;
 	return cl.data;
 }
@@ -160,8 +185,31 @@ collect_floats_value (Value const *val, EvalPos const *ep,
 
 	gnm_expr_constant_init (&expr_val, val);
 	exprlist = gnm_expr_list_prepend (NULL, &expr_val);
-	res = collect_floats (exprlist, ep, flags, n, error);
+	res = collect_floats (exprlist, ep, flags, n, error, NULL);
 	gnm_expr_list_free (exprlist);
+
+	return res;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Like collect_floats_value, but keeps info on missing values */
+
+static gnum_float *
+collect_floats_value_with_info (Value const *val, EvalPos const *ep,
+				CollectFlags flags, int *n, GSList **info, 
+				Value **error)
+{
+	GnmExprList *exprlist;
+	GnmExprConstant expr_val;
+	gnum_float *res;
+
+	gnm_expr_constant_init (&expr_val, val);
+	exprlist = gnm_expr_list_prepend (NULL, &expr_val);
+	res = collect_floats (exprlist, ep, flags, n, error, info);
+	gnm_expr_list_free (exprlist);
+
+	if (info)
+		*info = g_slist_reverse (*info);
 
 	return res;
 }
@@ -179,7 +227,7 @@ float_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
 	gnum_float *vals, res;
 	int n, err;
 
-	vals = collect_floats (exprlist, ei->pos, flags, &n, &error);
+	vals = collect_floats (exprlist, ei->pos, flags, &n, &error, NULL);
 	if (!vals)
 		return (error != VALUE_TERMINATE) ? error : NULL;
 
@@ -194,6 +242,106 @@ float_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
 
 /* ------------------------------------------------------------------------- */
 
+/*
+ *  cb_insert_diff_elements :
+ *  @data:
+ *  @user_data: really a GSList **
+ *
+ */
+static void
+cb_insert_diff_elements (gpointer data, gpointer user_data)
+{
+	GSList **the_list = (GSList **) (user_data);
+
+	if (g_slist_find (*the_list, data) == NULL) {
+		*the_list = g_slist_prepend (*the_list, data);
+	}
+	return;
+}
+
+/*
+ *  cb_int_descending:
+ *  @a:
+ *  @b:
+ *
+ */
+static gint
+cb_int_descending (gconstpointer a, gconstpointer b)
+{
+	guint a_int = GPOINTER_TO_UINT (a);
+	guint b_int = GPOINTER_TO_UINT (b);
+
+	if (b_int > a_int) return 1;
+	if (b_int < a_int) return -1;
+	return 0;
+}
+
+/*
+ *  union_of_int_sets:
+ *  @list_1:
+ *  @list_2:
+ *
+ */
+static GSList*
+union_of_int_sets (GSList * list_1, GSList * list_2)
+{
+	GSList *list_res = NULL;
+
+	if ((list_1 == NULL) || (g_slist_length (list_1) == 0))
+		return ((list_2 == NULL) ? NULL :
+			g_slist_copy (list_2));
+	if ((list_2 == NULL) || (g_slist_length (list_2) == 0))
+		return g_slist_copy (list_1);
+
+	list_res = g_slist_copy (list_1);
+	g_slist_foreach (list_2, cb_insert_diff_elements, &list_res);
+
+	return list_res;
+}
+
+/*
+ *  cb_remove_missing_el :
+ *  @data:
+ *  @user_data: really a GArray **
+ *
+ */
+static void
+cb_remove_missing_el (gpointer data, gpointer user_data)
+{
+	GArray **the_data = (GArray **) (user_data);
+	guint the_item = GPOINTER_TO_UINT (data);
+
+	*the_data = g_array_remove_index (*the_data, the_item);
+	return;
+}
+
+
+
+/*
+ *  strip_missing:
+ *  @data:
+ *  @missing:
+ *
+ * Note this implementation returns the same array as passed in!
+ * The order of the elements in the list may be changed.
+ */
+static GArray*
+strip_missing (GArray * data, GSList **missing)
+{
+	GArray *new_data = data;
+
+	g_return_val_if_fail (missing != NULL, data);
+
+	if ((*missing == NULL) || (g_slist_length (*missing) == 0))
+		return data;
+
+	*missing = g_slist_sort (*missing, cb_int_descending);;
+	g_slist_foreach (*missing, cb_remove_missing_el, &new_data);
+
+	return new_data;
+}
+
+
 Value *
 float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 		       float_range_function2_t func,
@@ -204,17 +352,21 @@ float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 	int n0, n1;
 	Value *error = NULL;
 	Value *res;
+	GSList *missing0 = NULL;
+	GSList *missing1 = NULL;
 
-	vals0 = collect_floats_value (val0, ei->pos,
-				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS | COLLECT_IGNORE_BLANKS,
-				      &n0, &error);
-	if (error)
-		return error;
-
-	vals1 = collect_floats_value (val1, ei->pos,
-				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS | COLLECT_IGNORE_BLANKS,
-				      &n1, &error);
+	vals0 = collect_floats_value_with_info (val0, ei->pos, flags,
+				      &n0, &missing0, &error);
 	if (error) {
+		g_slist_free (missing0);
+		return error;
+	}
+
+	vals1 = collect_floats_value_with_info (val1, ei->pos, flags,
+				      &n1, &missing1, &error);
+	if (error) {
+		g_slist_free (missing0);
+		g_slist_free (missing1);
 		g_free (vals0);
 		return error;
 	}
@@ -223,6 +375,30 @@ float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 		res = value_new_error (ei->pos, func_error);
 	else {
 		gnum_float fres;
+		
+		if (missing0 || missing1) {
+			GSList *missing = union_of_int_sets (missing0, missing1);
+			GArray *gval;
+
+			gval = g_array_new (FALSE, FALSE, sizeof (gnum_float));
+			gval = g_array_append_vals (gval, vals0, n0);
+			g_free (vals0);
+			gval = strip_missing (gval, &missing);
+			vals0 = (gnum_float *)gval->data;
+			g_array_free (gval, FALSE);
+
+			gval = g_array_new (FALSE, FALSE, sizeof (gnum_float));
+			gval = g_array_append_vals (gval, vals1, n1);
+			g_free (vals1);
+			gval = strip_missing (gval, &missing);
+			vals1 = (gnum_float *)gval->data;
+			g_array_free (gval, FALSE);
+			
+			g_slist_free (missing0);
+			g_slist_free (missing1);
+			g_slist_free (missing);
+		}
+
 
 		if (func (vals0, vals1, n0, &fres))
 			res = value_new_error (ei->pos, func_error);

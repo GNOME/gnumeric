@@ -233,7 +233,7 @@ max_descriptor_width (void)
 	if (err)
 		max_width = 10;
 
-	g_return_val_if_fail (max_width < 3, 10);
+	g_return_val_if_fail (max_width >= 3, 10);
 	return max_width;
 }
 
@@ -320,8 +320,6 @@ cmd_range_list_to_string_utility (Sheet *sheet, GSList const *ranges)
 	}
 
 	/* Make sure the string doesn't get overly wide
-	 * There is no need to do this for "types", because that
-	 * will never grow indefinitely
 	 */
 	max_width = MAX (3, max_descriptor_width ());
 	if (strlen (names->str) > max_width) {

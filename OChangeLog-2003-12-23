@@ -1,3 +1,17 @@
+2002-04-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/collect.c (callback_function_collect) : keep missing data info
+	(collect_floats) : afdd missing data info handling
+	(collect_floats_value_with_info) : new
+	(cb_insert_diff_elements) : new
+	(cb_int_descending) : new
+	(union_of_int_sets) : new
+	(cb_remove_missing_el) : new
+	(strip_missing) : new
+	(float_range_function2) : use flags
+	* src/collect.h (CollectFlags) : 2 new flags
+	* src/commands.c (max_descriptor_width) : fix sense of test.
+
 2002-04-13  Jody Goldberg <jody@gnome.org>
 
 	* src/commands.c (max_descriptor_width) : add some protection.

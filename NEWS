@@ -22,6 +22,7 @@ Andreas:
 	* Fix workbook attribute dialog.
 	* Add preference setting to include sheet name in undo/redo
 	  description
+	* Fix missing data handling of SUMPRODUCT and friends
 
 Jody:
 	* Add password dialog to support encrypted input.
