@@ -75,7 +75,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 	base_x = 0;
 	base_y = 0;
 
-	print_height = sheet_row_get_unit_distance (sheet, start_row, end_row);
+	print_height = sheet_row_get_unit_distance (sheet, start_row, end_row+1);
 
 	if (pj->pi->center_vertically){
 		if (pj->pi->print_titles)
@@ -83,7 +83,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 		base_y = (pj->y_points - print_height)/2;
 	}
 
-	print_width = sheet_col_get_unit_distance (sheet, start_col, end_col);
+	print_width = sheet_col_get_unit_distance (sheet, start_col, end_col+1);
 	if (pj->pi->center_horizontally){
 		if (pj->pi->print_titles)
 			print_width += sheet->default_col_style.units;
@@ -180,7 +180,7 @@ print_sheet_range (Sheet *sheet, int start_col, int start_row, int end_col, int 
 	cols = compute_groups (sheet, start_col, end_col, usable_x, sheet_col_get_info);
 	rows = compute_groups (sheet, start_row, end_row, usable_y, sheet_row_get_info);
 
-	if (pj->pi->print_order == 0){
+	if (pj->pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT){
 		int col = start_col;
 		
 		for (l = cols; l; l = l->next){
@@ -190,7 +190,7 @@ print_sheet_range (Sheet *sheet, int start_col, int start_row, int end_col, int 
 			for (m = rows; m; m = m->next){
 				int row_count = GPOINTER_TO_INT (m->data);
 				
-				print_page (sheet, col, row, col + col_count, row + row_count, pj);
+				print_page (sheet, col, row, col + col_count - 1, row + row_count - 1, pj);
 
 				row += row_count;
 			}
@@ -206,7 +206,7 @@ print_sheet_range (Sheet *sheet, int start_col, int start_row, int end_col, int 
 			for (m = cols; m; m = m->next){
 				int col_count = GPOINTER_TO_INT (m->data);
 
-				print_page (sheet, col, row, col + col_count, row + row_count, pj);
+				print_page (sheet, col, row, col + col_count - 1, row + row_count - 1, pj);
 
 				col += col_count;
 			}

@@ -10,6 +10,7 @@
 #include <gnome.h>
 #include <stdio.h>
 #include "gnumeric.h"
+#include "ranges.h"
 #include "print-info.h"
 
 PrintHF *
@@ -97,6 +98,37 @@ load_hf (const char *type, const char *a, const char *b, const char *c)
 	return format;
 }
 
+static void
+init_invalid_range (Value *v)
+{
+	v->type = VALUE_CELLRANGE;
+	v->v.cell_range.cell_a.sheet = NULL;
+	v->v.cell_range.cell_b.sheet = NULL;
+	v->v.cell_range.cell_a.col = -1;
+	v->v.cell_range.cell_a.row = -1;
+	v->v.cell_range.cell_b.col = -1;
+	v->v.cell_range.cell_b.row = -1;
+}
+
+static const Value *
+load_range (const char *name)
+{
+	static Value v;
+	char *str;
+       
+	str = gnome_config_get_string (name);
+	if (!str){
+		init_invalid_range (&v);
+		return &v;
+	}
+		
+	if (!range_parse (NULL, str, &v))
+		init_invalid_range (&v);
+	g_free (str);
+	
+	return &v;
+}
+
 #define CENTIMETER_IN_POINTS      "28.346457"
 #define HALF_CENTIMETER_IN_POINTS "14.1732285"
 
@@ -149,13 +181,20 @@ print_info_new (void)
 		pi->paper = gnome_paper_with_name (gnome_paper_name_default ());
 	g_free (s);
 
-	pi->center_horizontally   = gnome_config_get_bool ("center_horizontally");
-	pi->center_vertically     = gnome_config_get_bool ("center_vertically");
-	pi->print_line_divisions  = gnome_config_get_bool ("print_divisions");
-	pi->print_black_and_white = gnome_config_get_bool ("print_black_and_white");
-	pi->print_titles          = gnome_config_get_bool ("print_titles");
-	pi->print_order           = gnome_config_get_bool ("order_right");
+	pi->center_horizontally   = gnome_config_get_bool ("center_horizontally=false");
+	pi->center_vertically     = gnome_config_get_bool ("center_vertically=false");
+	pi->print_line_divisions  = gnome_config_get_bool ("print_divisions=false");
+	pi->print_black_and_white = gnome_config_get_bool ("print_black_and_white=false");
+	pi->print_titles          = gnome_config_get_bool ("print_titles=false");
 
+	if (gnome_config_get_bool ("order_right=true"))
+		pi->print_order = PRINT_ORDER_RIGHT_THEN_DOWN;
+	else
+		pi->print_order = PRINT_ORDER_DOWN_THEN_RIGHT;
+
+	pi->repeat_top_range =  *load_range ("repeat_top_range=");
+	pi->repeat_left_range = *load_range ("repeat_bottom_range=");
+		
 	gnome_config_pop_prefix ();
 	gnome_config_sync ();
 
@@ -170,6 +209,20 @@ save_margin (const char *prefix, PrintUnit *p)
 	gnome_config_set_float (prefix, p->points);
 	gnome_config_set_string (x, unit_name_get_name (p->desired_display));
 	g_free (x);
+}
+
+static void
+save_range (const char *section, Value *v)
+{
+	if (v->v.cell_range.cell_a.col == -1)
+		gnome_config_set_string (section, "");
+	else {
+		char *s;
+
+		s = value_cellrange_get_as_string (v, FALSE);
+		gnome_config_set_string (section, s);
+		g_free (s);
+	}
 }
 
 void
@@ -198,6 +251,9 @@ print_info_save (PrintInformation *pi)
 	gnome_config_set_bool ("print_black_and_white", pi->print_black_and_white);
 	gnome_config_set_bool ("print_titles", pi->print_titles);
 	gnome_config_set_bool ("order_right", pi->print_order);
+
+	save_range ("repeat_top_range", &pi->repeat_top_range);
+	save_range ("repeat_left_range", &pi->repeat_left_range);
 	
 	gnome_config_pop_prefix ();
 	gnome_config_sync ();

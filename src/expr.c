@@ -395,6 +395,57 @@ expr_tree_unref (ExprTree *tree)
 	do_expr_tree_unref (tree);
 }
 
+static void
+encode_cellref (GString *dest, const CellRef *ref, gboolean use_relative_syntax)
+{
+	if (ref->sheet){
+		g_string_append_c (dest, '\'');
+		g_string_append (dest, ref->sheet->name);
+		g_string_append (dest, "'!");
+	}
+	if (use_relative_syntax && !ref->col_relative)
+		g_string_append_c (dest, '$');
+	g_string_append (dest, col_name (ref->col));
+
+	if (use_relative_syntax && !ref->row_relative)
+		g_string_append_c (dest, '$');
+	g_string_sprintfa (dest, "%d", ref->row+1);
+}
+
+/*
+ * value_cellrange_get_as_string:
+ * @value: a value containing a VALUE_CELLRANGE
+ * @use_relative_syntax: true if you want the result to contain relative indicators
+ *
+ * Returns: a string reprensenting the Value, for example:
+ * use_relative_syntax == TRUE: $a4:$b$1
+ * use_relative_syntax == FALSE: a4:b1
+ */
+char *
+value_cellrange_get_as_string (const Value *value, gboolean use_relative_syntax)
+{
+	GString *str;
+	char *ans;
+
+	g_return_val_if_fail (value != NULL, NULL);
+	g_return_val_if_fail (value->type == VALUE_CELLRANGE, NULL);
+
+	str = g_string_new ("");
+	encode_cellref (str, &value->v.cell_range.cell_a, use_relative_syntax);
+
+	if ((value->v.cell_range.cell_a.col != value->v.cell_range.cell_b.col) ||
+	    (value->v.cell_range.cell_a.row != value->v.cell_range.cell_b.row) ||
+	    (value->v.cell_range.cell_a.col_relative != value->v.cell_range.cell_b.col_relative) ||
+	    (value->v.cell_range.cell_a.sheet != value->v.cell_range.cell_b.sheet)){
+		g_string_append_c (str, ':');
+		
+		encode_cellref (str, &value->v.cell_range.cell_b, use_relative_syntax);
+	}
+	ans = str->str;
+	g_string_free (str, FALSE);
+	return ans;
+}
+
 /*
  * simplistic value rendering
  */
@@ -442,8 +493,9 @@ value_get_as_string (const Value *value)
 		return ans;
 	}
 
-	case VALUE_CELLRANGE:
-		break;
+	case VALUE_CELLRANGE: 
+		return value_cellrange_get_as_string (value, TRUE);
+	
 	default:
 		g_warning ("value_string problem\n");
 		break;

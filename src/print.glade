@@ -1367,7 +1367,7 @@
 
 	    <widget>
 	      <class>GtkEntry</class>
-	      <name>entry5</name>
+	      <name>repeat-rows-entry</name>
 	      <child>
 		<left_attach>1</left_attach>
 		<right_attach>2</right_attach>
@@ -1391,7 +1391,7 @@
 
 	    <widget>
 	      <class>GtkEntry</class>
-	      <name>entry6</name>
+	      <name>repeat-cols-entry</name>
 	      <child>
 		<left_attach>1</left_attach>
 		<right_attach>2</right_attach>

@@ -327,6 +327,12 @@ display_order_icon (GtkToggleButton *toggle, dialog_print_info_t *dpi)
 	gtk_widget_hide (hide);
 }
 
+static gboolean
+is_range_empty (const Value *v)
+{
+	return (v->v.cell_range.cell_a.col == -1);
+}
+
 static void
 do_setup_page_info (dialog_print_info_t *dpi)
 {
@@ -335,6 +341,7 @@ do_setup_page_info (dialog_print_info_t *dpi)
 	GtkWidget *titles    = glade_xml_get_widget (dpi->gui, "check-print-titles");
 	GtkWidget *order     = glade_xml_get_widget (dpi->gui, "radio-order-right");
 	GtkWidget *table     = glade_xml_get_widget (dpi->gui, "page-order-table");
+	GtkEntry *entry_top, *entry_left;
 
 	dpi->icon_rd = load_image ("right-down.png");
 	dpi->icon_dr = load_image ("down-right.png");
@@ -349,7 +356,7 @@ do_setup_page_info (dialog_print_info_t *dpi)
 		GTK_TABLE (table), dpi->icon_dr,
 		1, 2, 0, 2, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
 
-	gtk_signal_connect (GTK_OBJECT (order), "toggle", GTK_SIGNAL_FUNC(display_order_icon), dpi);
+	gtk_signal_connect (GTK_OBJECT (order), "toggled", GTK_SIGNAL_FUNC(display_order_icon), dpi);
 	
 	if (dpi->pi->print_line_divisions)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (divisions), TRUE);
@@ -360,8 +367,26 @@ do_setup_page_info (dialog_print_info_t *dpi)
 	if (dpi->pi->print_titles)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (titles), TRUE);
 
-	if (dpi->pi->print_order)
+	if (dpi->pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (order), TRUE);
+
+	if (!is_range_empty (&dpi->pi->repeat_top_range)){
+		char *s;
+		entry_top  = GTK_ENTRY (glade_xml_get_widget (dpi->gui, "repeat-rows-entry"));
+
+		s = value_cellrange_get_as_string (&dpi->pi->repeat_top_range, FALSE);
+		gtk_entry_set_text (entry_top, s);
+		g_free (s);
+	}
+
+	if (!is_range_empty (&dpi->pi->repeat_left_range)){
+		char *s;
+		entry_left = GTK_ENTRY (glade_xml_get_widget (dpi->gui, "repeat-cols-entry"));
+
+		s = value_cellrange_get_as_string (&dpi->pi->repeat_left_range, FALSE);
+		gtk_entry_set_text (entry_left, s);
+		g_free (s);
+	}
 }
 
 static void
@@ -516,7 +541,7 @@ dialog_print_info_new (Workbook *wb)
 		return NULL;
 	}
 
-	dpi = g_new (dialog_print_info_t, 1);
+	dpi = g_new0 (dialog_print_info_t, 1);
 	dpi->workbook = wb;
 	dpi->gui = gui;
 	dpi->pi = wb->print_info;
@@ -605,9 +630,11 @@ do_fetch_hf (dialog_print_info_t *dpi)
 
 static void
 do_fetch_page_info (dialog_print_info_t *dpi)
- {
+{
 	GtkToggleButton *t;
-
+	Value top_range, left_range;
+	GtkEntry *entry_top, *entry_left;
+	
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (dpi->gui, "check-print-divisions"));
 	dpi->pi->print_line_divisions = t->active;
 
@@ -618,7 +645,16 @@ do_fetch_page_info (dialog_print_info_t *dpi)
 	dpi->pi->print_titles = t->active;
 
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (dpi->gui, "radio-order-right"));
-	dpi->pi->print_order = t->active;
+	dpi->pi->print_order = t->active ? PRINT_ORDER_RIGHT_THEN_DOWN : PRINT_ORDER_DOWN_THEN_RIGHT;
+
+	entry_top  = GTK_ENTRY (glade_xml_get_widget (dpi->gui, "repeat-rows-entry"));
+	entry_left = GTK_ENTRY (glade_xml_get_widget (dpi->gui, "repeat-cols-entry"));
+
+	if (range_parse (NULL, gtk_entry_get_text (entry_top), &top_range))
+		dpi->pi->repeat_top_range = top_range;
+
+	if (range_parse (NULL, gtk_entry_get_text (entry_left), &left_range))
+		dpi->pi->repeat_left_range = left_range;
 }
 
 static void

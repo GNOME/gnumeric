@@ -261,6 +261,9 @@ int          value_get_as_bool     (const Value *v, int *err);
 float_t      value_get_as_float    (const Value *v);
 int          value_get_as_int      (const Value *v);
 char        *value_get_as_string   (const Value *value);
+char        *value_cellrange_get_as_string
+                                   (const Value *value,
+				    gboolean use_relative_syntax);
 
 void         value_dump            (const Value *value);
 

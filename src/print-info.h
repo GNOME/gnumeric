@@ -73,16 +73,18 @@ struct _PrintInformation {
 	unsigned int     print_as_draft:1;
 	unsigned int     print_titles:1;
 
-	/*
-	 * 0: Down, then right
-	 * 1: Right, then down
-	 */
-	unsigned int     print_order:1;
+	enum {
+		PRINT_ORDER_DOWN_THEN_RIGHT,
+		PRINT_ORDER_RIGHT_THEN_DOWN
+	}                print_order;
 	
 	PrintHF          *header;
 	PrintHF          *footer;
 
 	const GnomePaper *paper;
+
+	Value repeat_top_range;
+	Value repeat_left_range;
 };
 
 PrintInformation *print_info_new  (void);

@@ -434,8 +434,10 @@ print_cell_grid (GnomePrintContext *context,
 	g_return_if_fail (start_col < end_col);
 	g_return_if_fail (start_row < end_row);
 
-	printf ("Range: %d %d - %d %d\n", start_col, start_row, end_col, end_row);
 	gnome_print_setlinewidth (context, 0.5);
+
+	end_col++;
+	end_row++;
 	
 	x = base_x;
 	for (col = start_col; col <= end_col; col++){
