@@ -2,6 +2,18 @@
 
 GNOME Spread Sheet task list
 
+* Autofill
+
+  Finish implementation
+
+* Sheet
+
+** Cursors
+
+   The cursors for the GnumericSheet should be similar to Excel ones
+(so that user can have visual feed back on when it is ok to drag an
+object).
+
 * EDITION
 
 ** Paste special 
@@ -43,13 +55,6 @@ GNOME Spread Sheet task list
 
   Add a format registration input point.
 
-* Pluing
-
-  Add support for loading plugins.
-
-* Scrolling
-
-** Scrollbar scrolling
 
 * CORBA exporting
 
@@ -75,106 +80,4 @@ GNOME Spread Sheet task list
 * Cell selection
 
    It does not shrink.
-
-* Format engine
-
-   The format engine needs to support the following format styles:
-
-   0.0;(0.0);"Zero";@
- 
-   That format has four regions separated by ";", they are:
-
-	0.0    -- format for positive numbers
-	(0.0)  -- format for negative numbers
-	"Zero" -- format for the zero number
-	@      -- format for anything else
-
-   This default ordering can be modified if condition specifiers are
-included, like this:
-
-   [>10]0.0;[>0]"Bigger than zero"0;"None"
-
-   If the *first* field includes the condition ([>10]), then the
-default 4 components assumed is dropped, and then an arbitrary number
-of conditional formats can be specified.  The last format is always
-the default used in case none of the conditions match.
-
-   In the above example:
-
-   numbers bigger than 10 would get the format:
-      0.0
-
-   numbers bigger than 0 (but less than 10 as they would have matched
-   the previous rule) get this format:
-
-      "Bigger than zero"0 
-
-   And the rest gets:
-
-      "None"
-
-Text can be included in a format with quotation marks:
-
-     "X="0.0  would render 5.4 like this:   "X=5.4"
-
-The use of the backslash should escape the next character (just like
-quoting the next character).
-
-** Color specification:
-
-   After the condition specifier or at the beginning of the section if
-no condition specifier exists, a color can be specified, like this:
-
-   "[Blue]0.0"
-
-   Or:
-
-   "[>10000000][Blue]0.0;[<0][Red](0.0)"
-
-** Special keywords:
-
-   The "General" special keyword should just use the output of
-sprintf "%g".  
-
-** Day/Minute rules
-
-"m"	      Shows the month as a number without any leading zeros (ie,
-	      1..12).  If "m" is used inmediately after "h" or "hh" this should
-	      render minutes instead of months.
-   
-"mm"	      Shows the month as a number with a leading zero if
-	      required (01..12).  If "mm" is used inmediately after
-	      "h" or "hh" this should render the minutes instead of a
-	      month. 
-
-"mmm"	      Shows the month as an abbreviation (Jan-Dic)
-
-"mmmm"	      Shows the name as a full name (Jannuary-December)
-
-"d"	      Shows the day number wihtout leading zeros (1..31)
-
-"dd"	      Shows the day number with a leading zero (01..31)
-
-"ddd"	      Shows the day name as an abbreviation (Sat..Sun)
-
-"dddd"	      Shows the full day name (Saturday..Sunday)
-
-"yy", "yyyy"  Shows the years as a number with two digits (00-99) or
-	      as four digits (1900-2078).
-
-"h" or "hh"   Shoes the hour with or without leading zeros.  if "AM"
-	      or "PM" is present on the format the 12-hour clock is
-	      used, otherwise the 24-hour clock is used.
-
-"m" or "mm"   same for minutes 
-
-"s" or "ss"   same for seconds.
-
-AM/am/A/a     Shows the hour using th 12-hour clock.  Gnumerc should show
-PM/pm/p/p     "AM", "am", "M" or "a" for the hours between midnight
-	      and noon and "PM", "pm", "P" or "p" for the hours
-	      between noon and midnight.
-
-	      If no indicator is used, the hour should be displayed in
-	      the 24-hour format.
 
