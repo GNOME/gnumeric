@@ -1,4 +1,4 @@
-1999-10-5  Arturo Tena <arturo@directmail.org>
+1999-10-05  Arturo Tena <arturo@directmail.org>
 
 	* ms-ole.c: Add a comment regarding check_stream performance issue
 	  and fixed English typo.
