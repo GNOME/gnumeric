@@ -183,6 +183,74 @@
     `Int'.</para>
 
   </sect2>
+
+  <sect2>
+    <title>Reporting</title>
+
+    <para>Solver can produce various kinds of reports that can be very
+    useful in practise.  Currently there are five types of reports
+    that Solver can create for LP problems being solved.</para>
+
+    <sect3>
+      <title>Answer report</title>
+
+      Answer report reports the optimal solution found.  It will give
+      you the original values of the input variables with the optimal
+      values.  In addition, it reports all the model constraints,
+      their final values, right hand side values, binding status, and
+      slack.
+
+    </sect3>
+
+    <sect3>
+      <title>Sensitivity report</title>
+    </sect3>
+
+    <sect3>
+      <title>Limits report</title>
+
+      Limits report reports the attchieved optimal value all the input
+      variables of the model with the optimal values and with upper
+      and lower bound for the optimal value in with the particular
+      variable could vary without changing the optimal solution.
+
+      If an optimal value for a variable x is 4, for example, and the
+      lower bound is 2.4 and upper bound 5.9, then x could take any
+      value between 2.4 and 5.9, and still all the same constraints
+      were binding as with the optimal value 4.  In limits report, you
+      can also find the value of the target cell for both upper
+      and lower bound values for the variable.  For example, if the
+      optimal value where x is 4 leads to a profit of $5,000, limits
+      report specifies that if x is set to 2.4 the profit drops to
+      $3,640.
+
+    </sect3>
+
+    <sect3>
+      <title>Performance report</title>
+
+      In a performance report you will have various statistical
+      information about the problem, required computing time for
+      solving the problem, and various other information.
+
+    </sect3>
+
+    <sect3>
+      <title>Program report</title>
+
+      In a program report you will have the optimization problem
+      defined for the solver in a mathematical form.  The output is
+      nicely formatted especially if you have placed proper labels for
+      each variable and constraint in the model.
+
+      A program report can be very useful, for example, if you want to
+      check that you have defined the problem correctly for the tool.
+      It is easy to make a mistake or two if you have large programs
+      to be solved.
+
+    </sect3>
+
+  </sect2>
 </sect1>
 
 <sect1 id="goal-seek">
