@@ -273,6 +273,7 @@
 	<widget>
 	  <class>GtkFrame</class>
 	  <name>frame3</name>
+	  <width>331</width>
 	  <height>60</height>
 	  <label>Sample</label>
 	  <label_xalign>0</label_xalign>

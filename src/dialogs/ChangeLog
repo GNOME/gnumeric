@@ -1,3 +1,7 @@
+2001-07-28  Almer S. Tigelaar  <almer@gnome.org>
+
+	* cell-format.glade, font-sel.glade: Slight tweaks.
+
 2001-07-25  Almer S. Tigelaar  <almer@gnome.org>
 
 	* *.glade: Equalize spacing and borders.
