@@ -1,3 +1,8 @@
+2003-04-22  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf.glade: Improve dialog when resized.  (Bug 111273,
+	Emmanuel Pacaud.)
+
 2003-04-21  Jody Goldberg <jody@gnome.org>
 
 	* dialog-hyperlink.c (dialog_hyperlink) : doh.
