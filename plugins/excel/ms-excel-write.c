@@ -59,6 +59,7 @@
 #include "ms-excel-xf.h"
 #include "ms-formula-write.h"
 
+static excel_iconv_t current_workbook_iconv = NULL;
 /**
  *  This function writes simple strings...
  *  FIXME: see S59D47.HTM for full description
@@ -114,13 +115,32 @@ biff_put_text (BiffPut *bp, const char *txt, MsBiffVersion ver,
 	}
 	ms_biff_put_var_write (bp, data, off);
 
-/* You got it coming */
-	for (lp = 0; lp < len; lp++) {
-		MS_OLE_SET_GUINT16 (data, txt[lp]);
-		ms_biff_put_var_write (bp, data, unicode?2:1);
-	}
-	return off + len*(unicode?2:1);
+	if (unicode) {
+		wchar_t* wcbuf = g_new(wchar_t,len);
+		len = mbstowcs(wcbuf,txt,len);
+		for (lp = 0; lp < len; lp++) {
+			MS_OLE_SET_GUINT16 (data, wcbuf[lp]);
+			ms_biff_put_var_write (bp, data, 2);
+		}		
+		g_free(wcbuf);
+		lp *= 2;
+	} else {
+		size_t inbufleft = len, outbufleft = len*8;
+		char* mbbuf = g_new(char, outbufleft);
+		char *outbufptr = mbbuf;
+		char const * inbufptr = txt;
+		int retlen;
 
+		excel_iconv (current_workbook_iconv, &inbufptr, &inbufleft, 
+			     &outbufptr, &outbufleft);
+		retlen = outbufptr - mbbuf;
+		for (lp = 0; lp < retlen; lp++) {
+			MS_OLE_SET_GUINT8 (data, mbbuf[lp]);
+			ms_biff_put_var_write (bp, data, 1);			
+		}
+		g_free(mbbuf);
+	};
+	return off + lp;
 	/* An attempt at efficiency */
 /*	chunks = len/BLK_LEN;
 	pos    = 0;
@@ -352,6 +372,50 @@ write_window1 (BiffPut *bp, MsBiffVersion ver, WorkbookView *wb_view)
 	ms_biff_put_commit (bp);
 }
 
+/* See: S59E18.HTM */
+static void
+write_window2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *sheet)
+{
+	/* 0	0x020 grids are the colour of the normal style */
+	/* 0	0x040 arabic */
+	/* 1	0x080 display outlines if they exist */
+	/* 0	0x100 things are not frozen */
+	/* 0	0x800 (biff8 only) no page break mode*/
+	guint16 options = 0x080;
+	guint8 *data;
+
+	if (sheet->gnum_sheet->display_formulas)
+		options |= 0x0001;
+	if (!sheet->gnum_sheet->hide_grid)
+		options |= 0x0002;
+	if (!sheet->gnum_sheet->hide_col_header || !sheet->gnum_sheet->hide_row_header)
+		options |= 0x0004;
+	if (!sheet->gnum_sheet->hide_zero)
+		options |= 0x0010;
+	if (sheet->gnum_sheet == wb_view_cur_sheet (sheet->wb->gnum_wb_view))
+		options |= 0x600; /* assume selected if it is current */
+
+	if (ver <= MS_BIFF_V7) {
+		data = ms_biff_put_len_next (bp, BIFF_WINDOW2, 10);
+
+		MS_OLE_SET_GUINT16 (data +  0, options);
+		MS_OLE_SET_GUINT16 (data +  2, 0x0);	/* top row */
+		MS_OLE_SET_GUINT16 (data +  4, 0x0);	/* left col */
+		MS_OLE_SET_GUINT32 (data +  8, 0x0);	/* grid color index */
+	} else {
+		data = ms_biff_put_len_next (bp, BIFF_WINDOW2, 18);
+
+		MS_OLE_SET_GUINT16 (data +  0, options);
+		MS_OLE_SET_GUINT16 (data +  2, 0x0);	/* top row */
+		MS_OLE_SET_GUINT16 (data +  4, 0x0);	/* left col */
+		MS_OLE_SET_GUINT32 (data +  8, 0x0);	/* grid color index */
+		MS_OLE_SET_GUINT16 (data + 10, 0x1);	/* print preview 100% */
+		MS_OLE_SET_GUINT16 (data + 12, 0x0);	/* FIXME : why 0? */
+		MS_OLE_SET_GUINT32 (data + 16, 0x0);	/* reserved 0 */
+	}
+	ms_biff_put_commit (bp);
+}
+
 static void
 write_bits (BiffPut *bp, ExcelWorkbook *wb, MsBiffVersion ver)
 {
@@ -369,7 +433,7 @@ write_bits (BiffPut *bp, ExcelWorkbook *wb, MsBiffVersion ver)
 
 	/* See: S59D66.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_CODEPAGE, 2);
-	MS_OLE_SET_GUINT16 (data, 0x04e4); /* ANSI */
+	MS_OLE_SET_GUINT16 (data, excel_iconv_win_codepage());
 	ms_biff_put_commit (bp);
 
 	if (ver >= MS_BIFF_V8) { /* See S59D78.HTM */
@@ -2976,7 +3040,7 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 	MS_OLE_SET_GUINT32 (data + 20, 0x3fe00000);
 	MS_OLE_SET_GUINT32 (data + 24, 0x00000000);
 	MS_OLE_SET_GUINT32 (data + 28, 0x3fe00000);
-	MS_OLE_SET_GUINT16 (data + 32, 0x04e4);
+	MS_OLE_SET_GUINT16 (data + 32, excel_iconv_win_codepage());
 	ms_biff_put_commit (bp);
 
 	write_externsheets (bp, sheet->wb, sheet);
@@ -3011,64 +3075,16 @@ write_sheet_tail (IOContext *context, BiffPut *bp, ExcelSheet *sheet)
 {
 	guint8 *data;
 	MsBiffVersion ver = sheet->wb->ver;
-	guint16 options = 0x2b6; /* Arabic ? */
-
-	if (sheet->gnum_sheet == wb_view_cur_sheet (sheet->wb->gnum_wb_view))
-		options |= 0x400;
 
 	write_window1 (bp, ver, sheet->wb->gnum_wb_view);
-
-	/* See: S59E18.HTM */
-	if (ver <= MS_BIFF_V7) {
-		data = ms_biff_put_len_next (bp, BIFF_WINDOW2, 10);
-
-		MS_OLE_SET_GUINT16 (data +  0, options);
-		MS_OLE_SET_GUINT16 (data +  2, 0x0);
-		MS_OLE_SET_GUINT32 (data +  4, 0x0);
-		MS_OLE_SET_GUINT16 (data +  8, 0x0);
-		ms_biff_put_commit (bp);
-	} else {
-		data = ms_biff_put_len_next (bp, BIFF_WINDOW2, 18);
-
-		MS_OLE_SET_GUINT16 (data +  0, options);
-		MS_OLE_SET_GUINT16 (data +  2, 0x0);
-		MS_OLE_SET_GUINT32 (data +  4, 0x0);
-		MS_OLE_SET_GUINT16 (data +  8, 0x0);
-		MS_OLE_SET_GUINT16 (data + 10, 0x1);
-		MS_OLE_SET_GUINT32 (data + 12, 0x0);
-		MS_OLE_SET_GUINT16 (data + 16, 0x0);
-		ms_biff_put_commit (bp);
-	}
+	write_window2 (bp, ver, sheet);
 
 	if (ver >= MS_BIFF_V8) {
-		double zoom = sheet->gnum_sheet->last_zoom_factor_used;
-		int    a = 1, b = 2, lp;
-
-		for (lp = 0; lp < 10; lp++) {
-			double d1, d2, d3;
-			d1 = fabs ((a + 1.0 / b) - zoom);
-			d2 = fabs ((a / b + 1.0) - zoom);
-			d3 = fabs ((a + 1.0 / b + 1.0) - zoom);
-
-			if ((fabs ((double)a/b) - zoom) < 0.005)
-				break;
-
-			if (d1 < d2 &&
-			    d1 < d3) {
-				a++;
-			} else if (d2 < d1 &&
-				   d2 < d3) {
-				b++;
-			} else {
-				a++;
-				b++;
-			}
-		}
-		g_warning ("Untested: Zoom %f is %d/%d ( = %f)", zoom, a, b, (double)a/b);
-
+		/* Dont over think this just force the fraction into a/1000 */
+		int const zoom = sheet->gnum_sheet->last_zoom_factor_used * 1000 + .5;
 		data = ms_biff_put_len_next (bp, BIFF_SCL, 4);
-		MS_OLE_SET_GUINT16 (data + 0, a);
-		MS_OLE_SET_GUINT16 (data + 2, b);
+		MS_OLE_SET_GUINT16 (data + 0, (guint16)zoom);
+		MS_OLE_SET_GUINT16 (data + 2, 1000);
 		ms_biff_put_commit (bp);
 	}
 
@@ -3437,6 +3453,7 @@ write_workbook (IOContext *context, BiffPut *bp, ExcelWorkbook *wb, MsBiffVersio
 	ExcelSheet *s  = 0;
 	int        lp;
 
+	current_workbook_iconv = excel_iconv_open_for_export();
 	/* Workbook */
 	wb->streamPos = biff_bof_write (bp, ver, MS_BIFF_TYPE_Workbook);
 
@@ -3474,6 +3491,8 @@ write_workbook (IOContext *context, BiffPut *bp, ExcelWorkbook *wb, MsBiffVersio
 					    s->streamPos);
 	}
 	/* End Finalised workbook */
+	excel_iconv_close (current_workbook_iconv);
+	current_workbook_iconv = NULL;
 }
 
 /*

@@ -5,6 +5,7 @@
  *    Jon K Hellan (hellan@acm.org)
  *
  * (C) 1999, 2000 Jon K Hellan
+ * excel_iconv* family of functions (C) 2001 by Vlad Harchev <hvv@hippo.ru>
  **/
 
 #include "config.h"
@@ -15,6 +16,17 @@
 #include "ms-excel-util.h"
 
 #include <stdio.h>
+#include <string.h>
+#include <locale.h>
+
+#ifdef HAVE_LANGINFO_H
+#include <langinfo.h>
+#endif
+
+#ifdef HAVE_ICONV_H
+#define HAVE_ICONV
+#include <iconv.h>
+#endif
 
 /*
  * TwoWayTable
@@ -349,4 +361,160 @@ lookup_font_base_char_width_new (char const * const name, double size_pts,
 
 	/* Use a rough heuristic for unknown fonts. */
 	return .5625 * size_pts;
+}
+
+
+
+#ifdef HAVE_ICONV
+static char*
+get_locale_charset_name (void)
+{
+#ifndef HAVE_ICONV
+	return "";
+#else
+	static char* charset = NULL;
+
+	if (charset)
+		return charset;
+
+#ifdef _NL_CTYPE_CODESET_NAME
+	charset = nl_langinfo (_NL_CTYPE_CODESET_NAME);
+#elif defined(CODESET)
+	charset = nl_langinfo (CODESET);
+#elif
+	{
+		char* locale = setlocale(LC_CTYPE,NULL);
+		char* tmp = strchr(locale,'.');
+		if (tmp)
+			charset = tmp+1;
+	}
+#endif
+	if (!charset)
+		charset = "ISO-8859-1";
+	charset = g_strdup(charset);
+	return charset;
+#endif
+}
+#endif
+
+typedef struct
+{
+	char const * const * keys;/*NULL-terminated list*/
+	int value;
+} s_hash_entry;
+
+/* here is a list of languages for which cp1251 is used on Windows*/
+static char const * const cyr_locales[] =
+{
+	"russian", "ru", "be", "uk", "ukrainian", NULL
+};
+
+static s_hash_entry const win_codepages[]=
+{
+	{ cyr_locales , 1251 },
+	{ NULL } /*terminator*/
+};
+
+guint
+excel_iconv_win_codepage (void)
+{
+	static guint codepage = 0;
+
+	if (codepage == 0) {
+		char *lang;
+
+		if ((lang = getenv("WINDOWS_LANGUAGE")) == NULL) {
+			char const *locale = setlocale (LC_CTYPE, NULL);
+			char const *lang_sep = strchr (locale, '_');
+			if (lang_sep)
+				lang = g_strndup (locale, lang_sep - locale);
+			else
+				lang = g_strdup (locale); /* simplifies exit */
+		}
+
+		if (lang != NULL) {
+			s_hash_entry const * entry;
+
+			for (entry = win_codepages; entry->keys; ++entry) {
+				char const* const * key;
+				for (key = entry->keys; *key; ++key)
+					if (!g_strcasecmp (*key, lang)) {
+						g_free (lang);
+						return (codepage = entry->value);
+					}
+			}
+			g_free (lang);
+		}
+		codepage = 1252; /* default */
+	}
+	return codepage;
+}
+
+/*these two will figure out which charset names to use*/
+excel_iconv_t
+excel_iconv_open_for_import (guint codepage)
+{
+#ifndef HAVE_ICONV
+	return (excel_iconv_t)(-1);
+#else
+	char* src_charset;
+	iconv_t iconv_handle;
+
+	src_charset = g_strdup_printf ("CP%d",codepage);
+	iconv_handle = iconv_open (get_locale_charset_name (), src_charset);
+	g_free(src_charset);
+	return iconv_handle;
+#endif
+}
+
+excel_iconv_t
+excel_iconv_open_for_export (void)
+{
+#ifndef HAVE_ICONV
+	return (excel_iconv_t)(-1);
+#else
+	static char* dest_charset = NULL;
+	iconv_t iconv_handle;
+
+	if (!dest_charset)
+		dest_charset = g_strdup_printf ("CP%d", excel_iconv_win_codepage());
+	iconv_handle = iconv_open (dest_charset, get_locale_charset_name ());
+	return iconv_handle;
+#endif
+};
+
+void
+excel_iconv_close (excel_iconv_t handle)
+{
+#ifdef HAVE_ICONV
+	if (handle && handle != (excel_iconv_t)(-1))
+		iconv_close (handle);
+#endif
+}
+
+size_t
+excel_iconv (excel_iconv_t handle,
+	     char const * *inbuf, size_t *inbytesleft,
+	     char **outbuf, size_t *outbytesleft)
+{
+#ifndef HAVE_ICONV
+	guint tocopy = *inbytesleft <= *outbytesleft ? *inbytesleft : *outbytesleft;
+	memcpy(*outbuf,*inbuf,tocopy);
+	*outbuf += tocopy;
+	*inbuf += tocopy;
+	*outbytesleft -= tocopy;
+	*inbytesleft -= tocopy;
+#else
+	while (*inbytesleft){
+		if (handle && handle != (iconv_t)(-1))
+			iconv ((iconv_t)handle, (char **)inbuf, inbytesleft,
+			       outbuf, outbytesleft);
+		if (!*inbytesleft || !*outbytesleft)
+			return 0;
+		/*got invalid seq - so replace it with original character*/
+		**outbuf = **inbuf; (*outbuf)++; (*outbytesleft)--;
+		(*inbuf)++; (*inbytesleft)--;
+	};
+#endif
+	return 0;
 }

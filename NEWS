@@ -1,17 +1,21 @@
 Gnumeric 0.65
 
 Jody:
-	* Import and draw col/row outlines from XL.
+	* Outline mode
 	* Restore horizontal FILL alignment.
 	* Fix array intercept checking.
 	* Some XL import improvement when parsing objects.
 	* Some fine tuning to improve start and exit times.
+	* Merge cell & hidden column interactions
 
 Jon Kåre:
 	* New architecture for selecting cell ranges into dialogs.
 
 Morten:
 	* Make search-and-destroy work better on comments.
+
+Vlad Harchev
+	* Improve i18n support for XL import/export
 
 --------------------------------------------------------------------------
 Gnumeric 0.64

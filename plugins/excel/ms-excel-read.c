@@ -6,9 +6,11 @@
  *    Jody Goldberg (jgoldberg@home.com)
  *
  * (C) 1998, 1999, 2000 Michael Meeks, Jody Goldberg
+ * unicode and national language support (C) 2001 by Vlad Harchev <hvv@hippo.ru>
  **/
 
 #include <config.h>
+#include <locale.h>
 
 #include "boot.h"
 #include "ms-formula-read.h"
@@ -44,6 +46,8 @@
 #endif
 
 /* #define NO_DEBUG_EXCEL */
+
+static excel_iconv_t current_workbook_iconv = NULL;
 
 /* Forward references */
 static ExcelSheet *ms_excel_sheet_new       (ExcelWorkbook *wb,
@@ -159,6 +163,54 @@ get_xtn_lens (guint32 *pre_len, guint32 *end_len, const guint8 *ptr, gboolean ex
 	}
 }
 
+static char *
+get_chars (const char *ptr, guint length, gboolean high_byte)
+{
+	char* ans;
+	guint32 lp;	
+
+	if (high_byte) {
+		wchar_t* wc = g_new (wchar_t, length + 2);
+		int retlength;
+		ans = g_new (char, (length+2)*8);
+		
+		for (lp = 0; lp < length; lp++) {
+			guint16 c = MS_OLE_GET_GUINT16 (ptr);
+			ptr+=2;
+			wc[lp] = c;
+		}
+		
+		retlength = wcstombs(ans, wc, length);				
+		g_free(wc);
+		if (retlength == (size_t)-1)
+			retlength = 0;
+		else
+			ans[retlength] = 0;
+		ans = g_realloc(ans, retlength + 2);
+	} else { 
+		size_t inbytes = length,
+			outbytes = (length+2)*8,
+			retlength;
+		char* inbuf = g_new(char, length), *outbufptr;
+		char const * inbufptr = inbuf;
+		
+		ans = g_new (char, outbytes + 1);
+		outbufptr = ans;
+		for (lp = 0; lp < length; lp++) {
+			inbuf[lp] = MS_OLE_GET_GUINT8 (ptr);
+			ptr+=1;			
+		};
+		excel_iconv (current_workbook_iconv,
+			     &inbufptr, &inbytes, &outbufptr, &outbytes);
+		
+		retlength = outbufptr-ans;
+		ans[retlength] = 0;
+		ans = g_realloc(ans,retlength+1);
+		g_free(inbuf);
+	};
+	return ans;
+}
+
 /**
  *  This function takes a length argument as Biff V7 has a byte length
  * ( seemingly ).
@@ -169,13 +221,11 @@ get_xtn_lens (guint32 *pre_len, guint32 *end_len, const guint8 *ptr, gboolean ex
 char *
 biff_get_text (const guint8 *pos, guint32 length, guint32 *byte_length)
 {
-	guint32 lp;
 	char *ans;
 	const guint8 *ptr;
 	guint32 byte_len;
 	gboolean header;
 	gboolean high_byte;
-	static gboolean high_byte_warned = FALSE;
 	gboolean ext_str;
 	gboolean rich_str;
 
@@ -197,8 +247,6 @@ biff_get_text (const guint8 *pos, guint32 length, guint32 *byte_length)
 	}
 #endif
 
-	ans = (char *) g_new (char, length + 2);
-
 	header = biff_string_get_flags (pos,
 					&high_byte,
 					&ext_str,
@@ -208,12 +256,6 @@ biff_get_text (const guint8 *pos, guint32 length, guint32 *byte_length)
 		(*byte_length)++;
 	} else
 		ptr = pos;
-
-	/* A few friendly warnings */
-	if (high_byte && !high_byte_warned) {
-		printf ("FIXME: unicode support unimplemented: truncating\n");
-		high_byte_warned = TRUE;
-	}
 
 	{
 		guint32 pre_len, end_len;
@@ -232,51 +274,16 @@ biff_get_text (const guint8 *pos, guint32 length, guint32 *byte_length)
 	}
 #endif
 
-	for (lp = 0; lp < length; lp++) {
-		guint16 c;
-
-		if (high_byte) {
-			c = MS_OLE_GET_GUINT16 (ptr);
-			ptr+=2;
-			ans[lp] = (char)c;
-			(*byte_length) += 2;
-		} else {
-			c = MS_OLE_GET_GUINT8 (ptr);
-			ptr+=1;
-			ans[lp] = (char)c;
-			(*byte_length) += 1;
-		}
-	}
-	if (lp > 0)
-		ans[lp] = 0;
-	else
+	if (!length) {
+		ans = g_new (char, 2);
 		g_warning ("Warning unterminated string floating");
+	} else {	
+		(*byte_length) += (high_byte ? 2 : 1)*length;
+		ans = get_chars(ptr, length, high_byte);
+	};
 	return ans;
 }
 
-static char *
-get_utf8_chars (const char *ptr, guint len, gboolean high_byte)
-{
-	int    i;
-	char *ans = g_new (char, len + 1);
-
-	for (i = 0; i < len; i++) {
-		guint16 c;
-
-		if (high_byte) {
-			c = MS_OLE_GET_GUINT16 (ptr);
-			ptr+=2;
-			ans [i] = (char)c;
-		} else {
-			c = MS_OLE_GET_GUINT8 (ptr);
-			ptr+=1;
-			ans [i] = (char)c;
-		}
-	}
-	ans [i] = '\0';
-
-	return ans;
-}
 
 static guint32
 sst_bound_check (BiffQuery *q, guint32 offset)
@@ -356,7 +363,7 @@ get_string (char **output, BiffQuery *q, guint32 offset, MsBiffVersion ver)
 		g_assert (get_len >= 0);
 
 		/* FIXME: split this simple bit out of here, it makes more sense damnit */
-		str = get_utf8_chars (q->data + new_offset + pre_len, get_len, high_byte);
+		str = get_chars (q->data + new_offset + pre_len, get_len, high_byte);
 		new_offset += pre_len + get_len * (high_byte?2:1);
 
 		if (!(*output))
@@ -561,7 +568,7 @@ biff_boundsheet_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 		printf ("Unknown sheet hiddenness %d\n", (MS_OLE_GET_GUINT8 (q->data + 4)) & 0x3);
 		ans->hidden = MS_BIFF_H_VISIBLE;
 	}
-	if (ver == MS_BIFF_V8) {
+	if (ver >= MS_BIFF_V8) {
 		int slen = MS_OLE_GET_GUINT16 (q->data + 6);
 		ans->name = biff_get_text (q->data + 8, slen, NULL);
 	} else {
@@ -1544,7 +1551,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 	/*
 	 * FIXME: ignored bit 0x0080
 	 */
-	if (ver == MS_BIFF_V8)
+	if (ver >= MS_BIFF_V8)
 		xf->rotation = (data >> 8);
 	else {
 		subdata = (data & 0x0300) >> 8;
@@ -1572,7 +1579,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 		}
 	}
 
-	if (ver == MS_BIFF_V8) {
+	if (ver >= MS_BIFF_V8) {
 		/* FIXME : This code seems irrelevant for merging.
 		 * The undocumented record MERGECELLS appears to be the correct source.
 		 * Nothing seems to set the merge flags.
@@ -1610,9 +1617,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 	} else
 		xf->indent = 0;
 
-	if (ver == MS_BIFF_V8) {/*
-				 * Very different
-				 */
+	if (ver >= MS_BIFF_V8) { /* Very different */
 		int has_diagonals, diagonal_style;
 		data = MS_OLE_GET_GUINT16 (q->data + 10);
 		subdata = data;
@@ -3886,7 +3891,7 @@ ms_excel_externsheet (BiffQuery const *q, ExcelWorkbook *wb, MsBiffBofData *ver)
 	 */
 	++externsheet;
 
-	if (ver->version == MS_BIFF_V8) {
+	if (ver->version >= MS_BIFF_V8) {
 		guint16 numXTI = MS_OLE_GET_GUINT16 (q->data);
 		guint16 cnt;
 
@@ -4139,7 +4144,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			if (ver->version == MS_BIFF_V7) { /* Totaly guessed */
 				d->idx = MS_OLE_GET_GUINT16 (q->data);
 				d->name = biff_get_text (q->data+3, MS_OLE_GET_GUINT8 (q->data+2), NULL);
-			} else if (ver->version == MS_BIFF_V8) {
+			} else if (ver->version >= MS_BIFF_V8) {
 				d->idx = MS_OLE_GET_GUINT16 (q->data);
 				d->name = biff_get_text (q->data+4, MS_OLE_GET_GUINT16 (q->data+2), NULL);
 			} else { /* FIXME: mythical old papyrus spec. */
@@ -4171,6 +4176,8 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			/* MW: And on Excel seems to drive the display
 			   of currency amounts.  */
 			const guint16 codepage = MS_OLE_GET_GUINT16 (q->data);
+			excel_iconv_close (current_workbook_iconv);
+			current_workbook_iconv = excel_iconv_open_for_import (codepage);
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_read_debug > 0) {
 				switch (codepage) {
@@ -4319,7 +4326,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		fflush (stdout);
 	}
 #endif
-
+	excel_iconv_close (current_workbook_iconv);
 	if (wb) {
 		/* Cleanup */
 		ms_excel_workbook_destroy (wb);

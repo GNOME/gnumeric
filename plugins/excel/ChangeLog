@@ -1,3 +1,28 @@
+2001-04-18  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-util.c (excel_iconv_win_codepage) : cleanup and remove
+	  warnings in the C locale case.
+
+	* ms-excel-write.c (write_sheet_tail) : split WINDOW2 code out of here
+	(write_window2) : and move it here.  Then comment it up and extend the
+	  logic.
+
+2001-04-17  Jody Goldberg <jgoldberg@home.com>
+
+	* plugin.xml : Disable the excel97 save method until it potentially
+	  does more than screw up.
+
+2001-04-15  Vlad Harchev <hvv@hippo.ru>
+
+        * ms-excel-util.h ms-excel-util.c :
+        added framework for doing portable recoding between charsets,
+        and also functions for finding appropriate Windows codepage
+        for current locale.
+
+        * ms-excel-read.c ms-excel-write.c :
+        Properly perform charset conversion for all textual data when doing
+        export or import of .xls files.
+
 2001-04-12  Chema Celorio  <chema@celorio.com>
 
 	* boot.c (excel_save): add an env variable so that we can

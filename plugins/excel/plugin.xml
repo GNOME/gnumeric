@@ -16,9 +16,11 @@
 		<service type="file_saver" id="excel95" file_extension="xls" format_level="manual_remember">
 			<information description="Excel(R) 95 file format"/>
 		</service>
+	    <!-- Disable this until it has a hope in hell of working
 		<service type="file_saver" id="excel97" file_extension="xls" format_level="manual_remember">
 			<information description="Excel(R) 97 file format"/>
 		</service>
+	     -->
 	</services>
 </plugin>
 </gnumeric_plugin_group>
