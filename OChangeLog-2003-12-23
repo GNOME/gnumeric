@@ -1,3 +1,9 @@
+2003-07-05  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/GNOME_Gnumeric.xml: adding ellipses to the stat analysis 
+	  menu items
+	* src/workbook-control-gui.c: ditto
+
 2003-07-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/GNOME_Gnumeric.xml: fix tooltip inconsistence and 
