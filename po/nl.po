@@ -15,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 2002-05-27 15:24+0200\n"
-"PO-Revision-Date: 2002-05-28 04:07+02:00\n"
+"POT-Creation-Date: 2002-05-28 18:10+0200\n"
+"PO-Revision-Date: 2002-05-28 20:04+02:00\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -11762,17 +11762,17 @@ msgstr "Voorwaarden:"
 #: src/dialogs/dialog-plugin-manager.c:709
 #: src/dialogs/plugin-manager.glade.h:8 src/format-template.c:404
 #: src/tools/solver/reports-write.c:163 src/tools/solver/reports-write.c:185
-#: src/tools/solver/reports-write.c:212 src/tools/solver/reports-write.c:310
-#: src/tools/solver/reports-write.c:356 src/tools/solver/reports-write.c:468
-#: src/tools/solver/reports-write.c:475 src/tools/solver/reports-write.c:707
+#: src/tools/solver/reports-write.c:212 src/tools/solver/reports-write.c:319
+#: src/tools/solver/reports-write.c:365 src/tools/solver/reports-write.c:477
+#: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:716
 #: src/workbook-control.c:238
 msgid "Name"
 msgstr "Naam"
 
 #: plugins/mps/mps.c:267 src/dialogs/dialog-plugin-manager.c:714
-#: src/dialogs/dialog-preferences.c:510 src/tools/solver/reports-write.c:311
-#: src/tools/solver/reports-write.c:357 src/tools/solver/reports-write.c:469
-#: src/tools/solver/reports-write.c:476
+#: src/dialogs/dialog-preferences.c:510 src/tools/solver/reports-write.c:320
+#: src/tools/solver/reports-write.c:366 src/tools/solver/reports-write.c:478
+#: src/tools/solver/reports-write.c:485
 msgid "Value"
 msgstr "Waarde"
 
@@ -13581,7 +13581,7 @@ msgstr "_Groeperen en Outlines"
 
 #: src/GNOME_Gnumeric.xml.h:285
 msgid "_Help"
-msgstr "_Help"
+msgstr "_Hulp"
 
 #: src/GNOME_Gnumeric.xml.h:286 src/sheet-control-gui.c:1448
 #: src/sheet-control-gui.c:1456 src/workbook-control-gui.c:3111
@@ -14483,7 +14483,7 @@ msgstr "Nieuw _Blad"
 #: src/dialogs/regression.glade.h:17 src/dialogs/sampling.glade.h:20
 #: src/dialogs/variance-tests.glade.h:16
 msgid "_Output Range:"
-msgstr "_Uitvoer bereik:"
+msgstr "_Uitvoerbereik:"
 
 #: src/dialogs/advanced-filter.glade.h:11
 msgid "_Unique Records Only"
@@ -14496,7 +14496,7 @@ msgstr "0.05"
 
 #: src/dialogs/anova-one.glade.h:2
 msgid "ANOVA - Single Factor"
-msgstr "Anova - Enkel Factor"
+msgstr "ANOVA - Enkel Factor"
 
 #: src/dialogs/anova-one.glade.h:4 src/dialogs/anova-two.glade.h:5
 #: src/dialogs/correlation.glade.h:2 src/dialogs/covariance.glade.h:2
@@ -14631,7 +14631,7 @@ msgstr "Vervang:"
 
 #: src/dialogs/autocorrect.glade.h:7 src/dialogs/consolidate.glade.h:26
 #: src/dialogs/dialog-stf.glade.h:61 src/dialogs/names.glade.h:3
-#: src/dialogs/solver.glade.h:22
+#: src/dialogs/solver.glade.h:24
 msgid "_Add"
 msgstr "Toevoegen"
 
@@ -14725,7 +14725,7 @@ msgstr "De groep/individu die het sjabloon heeft gemaakt"
 
 #: src/dialogs/autoformat.glade.h:17 src/dialogs/cell-format.glade.h:101
 msgid "_Bottom"
-msgstr "Onder"
+msgstr "_Onder"
 
 #: src/dialogs/autoformat.glade.h:18
 msgid "_Category"
@@ -14733,7 +14733,7 @@ msgstr "_Categorie"
 
 #: src/dialogs/autoformat.glade.h:19
 msgid "_Edit..."
-msgstr "Filt_er..."
+msgstr "_Bewerken..."
 
 #: src/dialogs/autoformat.glade.h:20 src/dialogs/cell-format.glade.h:114
 msgid "_Left"
@@ -14745,7 +14745,7 @@ msgstr "_Nieuw..."
 
 #: src/dialogs/autoformat.glade.h:22
 msgid "_Preview"
-msgstr "Voorbeeld"
+msgstr "_Voorbeeld"
 
 #: src/dialogs/autoformat.glade.h:23
 msgid "_Remove Current"
@@ -14765,7 +14765,7 @@ msgstr "Bes_tands Details"
 
 #: src/dialogs/autoformat.glade.h:27 src/dialogs/cell-format.glade.h:124
 msgid "_Top"
-msgstr "Boven"
+msgstr "_Boven"
 
 #: src/dialogs/autosave.glade.h:1
 msgid "Auto Save"
@@ -15289,7 +15289,7 @@ msgid "A _header"
 msgstr "Een _kop"
 
 #: src/dialogs/cell-sort.glade.h:2 src/dialogs/print.glade.h:10
-#: src/tools/solver/reports-write.c:771
+#: src/tools/solver/reports-write.c:801
 msgid "Options"
 msgstr "Opties"
 
@@ -15751,7 +15751,7 @@ msgstr "Kon het Rang en Percentiel dialoogvenster niet maken."
 
 #: src/dialogs/dialog-analysis-tools.c:903
 msgid "Could not create the Fourier Analyis Tool dialog."
-msgstr "Kon het Fourier Analyse dialoogvenster niet maken."
+msgstr "Kon het Fourieranalyse dialoogvenster niet maken."
 
 #: src/dialogs/dialog-analysis-tools.c:1133
 msgid "Could not create the Descriptive Statistics Tool dialog."
@@ -16131,7 +16131,7 @@ msgstr "Functie/Argument"
 
 #: src/dialogs/dialog-formula-guru.c:987
 msgid "Could not create the formula guru."
-msgstr "Kon de formulenaam Goeroe niet oproepen."
+msgstr "Kon de formule-goeroe niet oproepen."
 
 #: src/dialogs/dialog-function-select.c:217
 msgid "Recently Used"
@@ -16143,15 +16143,15 @@ msgstr "Kon het functieselectie dialoogvenster niet maken."
 
 #: src/dialogs/dialog-goal-seek.c:346
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
-msgstr "U moet een geldige cel naam bij 'Cel instellen:' invoeren!"
+msgstr "U moet een geldige celnaam bij 'Cel instellen:' invoeren!"
 
 #: src/dialogs/dialog-goal-seek.c:358
 msgid "The cell named in 'Set Cell:' must contain a formula!"
-msgstr "De cel met de naam in 'Cel instellen:' moet een formule bevatten!"
+msgstr "De cel genoemd in 'Cel instellen:' moet een formule bevatten!"
 
 #: src/dialogs/dialog-goal-seek.c:371
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
-msgstr "U moet een geldige cel naam bij 'Door wijzigen van cel:' invoeren!"
+msgstr "U moet een geldige celnaam bij 'Door wijzigen van cel:' invoeren!"
 
 #: src/dialogs/dialog-goal-seek.c:384
 msgid "The cell named in 'By changing cell' must not contain a formula."
@@ -16190,9 +16190,9 @@ msgstr "Blad"
 #.
 #: src/dialogs/dialog-goto-cell.c:291 src/dialogs/tabulate.glade.h:1
 #: src/tools/solver/reports-write.c:162 src/tools/solver/reports-write.c:184
-#: src/tools/solver/reports-write.c:211 src/tools/solver/reports-write.c:309
-#: src/tools/solver/reports-write.c:355 src/tools/solver/reports-write.c:467
-#: src/tools/solver/reports-write.c:474
+#: src/tools/solver/reports-write.c:211 src/tools/solver/reports-write.c:318
+#: src/tools/solver/reports-write.c:364 src/tools/solver/reports-write.c:476
+#: src/tools/solver/reports-write.c:483
 msgid "Cell"
 msgstr "Cel"
 
@@ -16234,7 +16234,7 @@ msgstr "Invoegen"
 
 #: src/dialogs/dialog-insert-cells.c:158
 msgid "Could not create the Insert Cell dialog."
-msgstr "Kon het Voeg Cel In dialoogvenster niet maken."
+msgstr "Kon het Cel Invoegen dialoogvenster niet maken."
 
 #: src/dialogs/dialog-merge.c:251
 msgid "One field is not part of the merge zone!"
@@ -16256,7 +16256,7 @@ msgstr ""
 
 #: src/dialogs/dialog-merge.c:371
 msgid "Input Data"
-msgstr "Invoer Gegevens"
+msgstr "Invoergegevens"
 
 #: src/dialogs/dialog-merge.c:378
 msgid "Merge Field"
@@ -16461,6 +16461,7 @@ msgid "Custom footer configuration"
 msgstr "Aangepaste voet configuratie"
 
 #: src/dialogs/dialog-random-generator.c:101
+#: src/tools/solver/reports-write.c:766
 msgid "Discrete"
 msgstr "Discreet"
 
@@ -16938,7 +16939,7 @@ msgstr "Klik om een kolom te selecteren"
 
 #: src/dialogs/dialog-stf.glade.h:13
 msgid "Co_lumn end: "
-msgstr "Ko_lom einde: "
+msgstr "Ko_lomeinde: "
 
 #: src/dialogs/dialog-stf.glade.h:14
 msgid "Co_mma (,)"
@@ -16950,7 +16951,7 @@ msgstr "Kolom"
 
 #: src/dialogs/dialog-stf.glade.h:16
 msgid "Column formatting"
-msgstr "Kolom formaat"
+msgstr "Kolom formateren"
 
 #: src/dialogs/dialog-stf.glade.h:17
 msgid "Columns"
@@ -17203,7 +17204,7 @@ msgstr "U moet een geldig getal als maximum instellen"
 
 #: src/dialogs/dialog-tabulate.c:435
 msgid "The maximum value should be bigger than the minimum"
-msgstr "De maximum waarde moet groter zijn dan het minimum."
+msgstr "De maximumwaarde moet groter zijn dan het minimum."
 
 #: src/dialogs/dialog-tabulate.c:443
 msgid "You should introduce a valid number as step size"
@@ -17575,7 +17576,7 @@ msgstr "Definieer Namen"
 msgid "Workbook"
 msgstr "Werkmap"
 
-#: src/dialogs/names.glade.h:4 src/dialogs/solver.glade.h:25
+#: src/dialogs/names.glade.h:4 src/dialogs/solver.glade.h:27
 msgid "_Delete"
 msgstr "_Verwijderen"
 
@@ -18193,9 +18194,9 @@ msgstr "Automatisch _Schalen"
 msgid "B_y Changing Cells: "
 msgstr "Door Cellen te _Veranderen:"
 
-#: src/dialogs/solver.glade.h:9 src/tools/solver/reports-write.c:272
-#: src/tools/solver/reports-write.c:433 src/tools/solver/reports-write.c:589
-#: src/tools/solver/reports-write.c:618 src/tools/solver/reports-write.c:620
+#: src/dialogs/solver.glade.h:9 src/tools/solver/reports-write.c:281
+#: src/tools/solver/reports-write.c:442 src/tools/solver/reports-write.c:598
+#: src/tools/solver/reports-write.c:627 src/tools/solver/reports-write.c:629
 msgid "Constraints"
 msgstr "Voorwaarden"
 
@@ -18215,79 +18216,88 @@ msgstr "Max _Iteraties"
 msgid "Max _Time (sec.)"
 msgstr "Max _Tijd (sec.)"
 
-#: src/dialogs/solver.glade.h:15
+#. Set the `Assumptions'.
+#: src/dialogs/solver.glade.h:15 src/tools/solver/reports-write.c:762
+msgid "Model Assumptions:"
+msgstr "Modelaannames:"
+
+#: src/dialogs/solver.glade.h:16
+msgid "Options:"
+msgstr "Opties:"
+
+#: src/dialogs/solver.glade.h:17
 msgid "P_rogram"
 msgstr "P_rogramma"
 
-#: src/dialogs/solver.glade.h:16
+#: src/dialogs/solver.glade.h:18
 msgid "Parameters"
 msgstr "Parameters"
 
-#: src/dialogs/solver.glade.h:17
+#: src/dialogs/solver.glade.h:19
 msgid "Reports"
 msgstr "Rapportages"
 
-#: src/dialogs/solver.glade.h:18
+#: src/dialogs/solver.glade.h:20
 msgid "Show Iteration _Results"
 msgstr "Toon Iteratie _Resultaat"
 
-#: src/dialogs/solver.glade.h:19
+#: src/dialogs/solver.glade.h:21
 msgid "Solve"
 msgstr "Oplossen"
 
-#: src/dialogs/solver.glade.h:20
+#: src/dialogs/solver.glade.h:22
 msgid "Solver"
 msgstr "Oplosser"
 
-#: src/dialogs/solver.glade.h:21
+#: src/dialogs/solver.glade.h:23
 msgid "Subject to the Constraints:"
 msgstr "Onderhevig aan de Voorwaarden:"
 
-#: src/dialogs/solver.glade.h:23
+#: src/dialogs/solver.glade.h:25
 msgid "_Answer"
 msgstr "_Antwoord"
 
-#: src/dialogs/solver.glade.h:24
+#: src/dialogs/solver.glade.h:26
 msgid "_Change"
 msgstr "_Veranderen"
 
-#: src/dialogs/solver.glade.h:26
+#: src/dialogs/solver.glade.h:28
 msgid "_Left Hand Side:"
 msgstr "_Linkerkant:"
 
-#: src/dialogs/solver.glade.h:27
+#: src/dialogs/solver.glade.h:29
 msgid "_Limits"
 msgstr "_Limieten"
 
-#: src/dialogs/solver.glade.h:28
+#: src/dialogs/solver.glade.h:30
 msgid "_Linear Model (LP/MILP)"
 msgstr "_Linear Model (LP/MILP)"
 
-#: src/dialogs/solver.glade.h:29
+#: src/dialogs/solver.glade.h:31
 msgid "_Max"
 msgstr "_Max"
 
-#: src/dialogs/solver.glade.h:30
+#: src/dialogs/solver.glade.h:32
 msgid "_Performance"
 msgstr "_Prestatie"
 
-#: src/dialogs/solver.glade.h:31
+#: src/dialogs/solver.glade.h:33
 msgid "_Quadratic Model (QP/MIQP)"
 msgstr "_Kwadratisch Model (QP/MIQP)"
 
-#: src/dialogs/solver.glade.h:32
+#: src/dialogs/solver.glade.h:34
 msgid "_Right Hand Side:"
 msgstr "_Rechterkant:"
 
-#: src/dialogs/solver.glade.h:33
+#: src/dialogs/solver.glade.h:35
 msgid "_Sensitivity"
 msgstr "_Gevoeligheid"
 
-#: src/dialogs/solver.glade.h:34
+#: src/dialogs/solver.glade.h:36
 msgid "_Set Target Cell:       "
 msgstr "_Doelcel Instellen:"
 
-#: src/dialogs/solver.glade.h:35
+#: src/dialogs/solver.glade.h:37
 msgid "_Type:"
 msgstr "_Type:"
 
@@ -20063,7 +20073,7 @@ msgstr "Gegevens..."
 
 #: src/gui-clipboard.c:55
 msgid "Error while trying to pre-convert clipboard data"
-msgstr "Fout tijdens omzetten van gegevens van het klembord"
+msgstr "Fout bij omzetten van gegevens op het klembord"
 
 #: src/gui-clipboard.c:62
 #, c-format
@@ -20618,7 +20628,7 @@ msgstr "Fout bij voorbereiden lader \"%s\"."
 #: src/plugin.c:530
 #, c-format
 msgid "Unsupported loader type \"%s\"."
-msgstr "Niet ondersteund lader type \"%s\"."
+msgstr "Niet ondersteund ladertype \"%s\"."
 
 #: src/plugin.c:623
 #, c-format
@@ -20627,7 +20637,7 @@ msgstr "Fout bij lezen #%d service informatie."
 
 #: src/plugin.c:675
 msgid "Unspecified loader type."
-msgstr "Niet gespecifieerd lader type."
+msgstr "Niet gespecifieerd ladertype."
 
 #: src/plugin.c:724
 #, c-format
@@ -20637,7 +20647,7 @@ msgstr "Kan het info bestand (\"%s\") voor plugin niet lezen."
 #: src/plugin.c:728
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
-msgstr "Bestand \"%s\" is geen geldig plugin info bestand."
+msgstr "Bestand \"%s\" is geen geldig plugin infobestand."
 
 #: src/plugin.c:811
 msgid "Plugin has no id."
@@ -20645,7 +20655,7 @@ msgstr "Plugin heeft geen id."
 
 #: src/plugin.c:820
 msgid "Unknown plugin name."
-msgstr "Onbekende plugin naam."
+msgstr "Onbekende pluginnaam."
 
 #: src/plugin.c:825
 #, c-format
@@ -20670,7 +20680,7 @@ msgstr "Geen services gedefinieerd voor plugin met id=\"%s\"."
 #: src/plugin.c:993
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
-msgstr "Fout bij initialiseren plugin lader (\"%s\")."
+msgstr "Fout bij initialiseren pluginlader (\"%s\")."
 
 #: src/plugin.c:1034
 #, c-format
@@ -20697,7 +20707,7 @@ msgstr "Fout bij deactiveren plugin service #%d."
 
 #: src/plugin.c:1165 src/plugin.c:1215
 msgid "Cannot load plugin loader."
-msgstr "Kan plugin lader niet laden"
+msgstr "Kan pluginlader niet laden"
 
 #: src/plugin.c:1222
 #, c-format
@@ -20708,7 +20718,7 @@ msgstr ""
 #: src/plugin.c:1305
 #, c-format
 msgid "Errors occurred while reading plugin informations from file \"%s\"."
-msgstr "Fouten bij lezen van plugin informatie van bestand \"%s\"."
+msgstr "Fouten bij lezen van plugininformatie van bestand \"%s\"."
 
 #: src/plugin.c:1461
 #, c-format
@@ -20730,7 +20740,7 @@ msgstr "Fouten bij activeren plugins."
 
 #: src/plugin.c:1807
 msgid "Errors while initializing plugin system."
-msgstr "Fouten bij initialiseren plugin systeem."
+msgstr "Fouten bij initialiseren pluginsysteem."
 
 #: src/print-info.c:187 src/print-info.c:190 src/print-info.c:191
 #: src/print-info.c:282
@@ -21446,7 +21456,7 @@ msgstr "Cumulatief %"
 msgid "Histogram (%s)"
 msgstr "Histogram (%s)"
 
-#: src/tools/analysis-tools.c:4122 src/tools/solver/reports-write.c:683
+#: src/tools/analysis-tools.c:4122 src/tools/solver/reports-write.c:692
 msgid "Real"
 msgstr "Reëel"
 
@@ -21513,7 +21523,7 @@ msgid "Report Created: "
 msgstr "Rapport Opgemaakt: "
 
 #. Fill in the header titles.
-#: src/tools/solver/reports-write.c:149 src/tools/solver/reports-write.c:268
+#: src/tools/solver/reports-write.c:149 src/tools/solver/reports-write.c:277
 msgid "Answer Report"
 msgstr "Verslag Beantwoorden"
 
@@ -21543,16 +21553,20 @@ msgstr "Binding"
 msgid "Not Binding"
 msgstr "Geen Binding"
 
-#: src/tools/solver/reports-write.c:263
+#: src/tools/solver/reports-write.c:262 src/tools/solver/reports-write.c:930
+msgid "Assume that all variables are integer."
+msgstr "Aannemen dat alle variabelen gehele getallen zijn."
+
+#: src/tools/solver/reports-write.c:272
 msgid "Target Cell (Maximize)"
 msgstr "Doel Cel (Maximaliseren)"
 
-#: src/tools/solver/reports-write.c:265
+#: src/tools/solver/reports-write.c:274
 msgid "Target Cell (Minimize)"
 msgstr "Doel Cel (Minimaliseren)"
 
 #. Fill in other titles.
-#: src/tools/solver/reports-write.c:271 src/tools/solver/reports-write.c:432
+#: src/tools/solver/reports-write.c:280 src/tools/solver/reports-write.c:441
 msgid "Adjustable Cells"
 msgstr "Aanpasbare Cellen"
 
@@ -21560,63 +21574,63 @@ msgstr "Aanpasbare Cellen"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports-write.c:289 src/tools/solver/reports-write.c:429
+#: src/tools/solver/reports-write.c:298 src/tools/solver/reports-write.c:438
 msgid "Sensitivity Report"
 msgstr "Gevoeligheids Verslag"
 
 #.
 #. * Fill in the labels of `Adjustable Cells' section.
 #.
-#: src/tools/solver/reports-write.c:303 src/tools/solver/reports-write.c:349
+#: src/tools/solver/reports-write.c:312 src/tools/solver/reports-write.c:358
 msgid "Final"
 msgstr "Laatste"
 
-#: src/tools/solver/reports-write.c:304
+#: src/tools/solver/reports-write.c:313
 msgid "Reduced"
 msgstr "Gereduceerd"
 
-#: src/tools/solver/reports-write.c:305
+#: src/tools/solver/reports-write.c:314
 msgid "Objective"
 msgstr "Objectief"
 
-#: src/tools/solver/reports-write.c:306 src/tools/solver/reports-write.c:307
-#: src/tools/solver/reports-write.c:352 src/tools/solver/reports-write.c:353
+#: src/tools/solver/reports-write.c:315 src/tools/solver/reports-write.c:316
+#: src/tools/solver/reports-write.c:361 src/tools/solver/reports-write.c:362
 msgid "Allowable"
 msgstr "Toelaatbaar"
 
-#: src/tools/solver/reports-write.c:312
+#: src/tools/solver/reports-write.c:321
 msgid "Cost"
 msgstr "Kosten"
 
-#: src/tools/solver/reports-write.c:313
+#: src/tools/solver/reports-write.c:322
 msgid "Coefficient"
 msgstr "Coefficient"
 
-#: src/tools/solver/reports-write.c:314 src/tools/solver/reports-write.c:360
+#: src/tools/solver/reports-write.c:323 src/tools/solver/reports-write.c:369
 msgid "Increase"
 msgstr "Ophogen"
 
-#: src/tools/solver/reports-write.c:315 src/tools/solver/reports-write.c:361
+#: src/tools/solver/reports-write.c:324 src/tools/solver/reports-write.c:370
 msgid "Decrease"
 msgstr "Verlagen"
 
-#: src/tools/solver/reports-write.c:350
+#: src/tools/solver/reports-write.c:359
 msgid "Shadow"
 msgstr "Shaduw"
 
-#: src/tools/solver/reports-write.c:351
+#: src/tools/solver/reports-write.c:360
 msgid "Constraint"
 msgstr "Voorwaarde"
 
-#: src/tools/solver/reports-write.c:358
+#: src/tools/solver/reports-write.c:367
 msgid "Price"
 msgstr "Prijs"
 
-#: src/tools/solver/reports-write.c:359
+#: src/tools/solver/reports-write.c:368
 msgid "R.H. Side"
 msgstr "Rechterkant"
 
-#: src/tools/solver/reports-write.c:396 src/tools/solver/reports-write.c:404
+#: src/tools/solver/reports-write.c:405 src/tools/solver/reports-write.c:413
 msgid "Infinity"
 msgstr "Oneindig"
 
@@ -21624,35 +21638,35 @@ msgstr "Oneindig"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports-write.c:450 src/tools/solver/reports-write.c:555
+#: src/tools/solver/reports-write.c:459 src/tools/solver/reports-write.c:564
 msgid "Limits Report"
 msgstr "Limieten Verslag"
 
 #.
 #. * Fill in the labels.
 #.
-#: src/tools/solver/reports-write.c:466 src/tools/solver/reports-write.c:479
-#: src/tools/solver/reports-write.c:484
+#: src/tools/solver/reports-write.c:475 src/tools/solver/reports-write.c:488
+#: src/tools/solver/reports-write.c:493
 msgid "Target"
 msgstr "Doel"
 
-#: src/tools/solver/reports-write.c:473
+#: src/tools/solver/reports-write.c:482
 msgid "Adjustable"
 msgstr "Instelbaar"
 
-#: src/tools/solver/reports-write.c:478
+#: src/tools/solver/reports-write.c:487
 msgid "Lower"
 msgstr "Lagere"
 
-#: src/tools/solver/reports-write.c:480 src/tools/solver/reports-write.c:485
+#: src/tools/solver/reports-write.c:489 src/tools/solver/reports-write.c:494
 msgid "Limit"
 msgstr "Limiet"
 
-#: src/tools/solver/reports-write.c:481 src/tools/solver/reports-write.c:486
+#: src/tools/solver/reports-write.c:490 src/tools/solver/reports-write.c:495
 msgid "Result"
 msgstr "Resultaat"
 
-#: src/tools/solver/reports-write.c:483
+#: src/tools/solver/reports-write.c:492
 msgid "Upper"
 msgstr "Hogere"
 
@@ -21660,145 +21674,162 @@ msgstr "Hogere"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports-write.c:575 src/tools/solver/reports-write.c:764
+#: src/tools/solver/reports-write.c:584 src/tools/solver/reports-write.c:794
 msgid "Performance Report"
 msgstr "Prestatierappirt"
 
 #.
 #. * Fill in the labels of `General Statistics' section.
 #.
-#: src/tools/solver/reports-write.c:588
+#: src/tools/solver/reports-write.c:597
 msgid "Variables"
 msgstr "Variabelen"
 
-#: src/tools/solver/reports-write.c:590
+#: src/tools/solver/reports-write.c:599
 msgid "Int Constraints"
 msgstr "Int Voorwaarden"
 
-#: src/tools/solver/reports-write.c:591
+#: src/tools/solver/reports-write.c:600
 msgid "Bool Constraints"
 msgstr "Bool Voorwaarden"
 
-#: src/tools/solver/reports-write.c:592 src/tools/solver/reports-write.c:625
+#: src/tools/solver/reports-write.c:601 src/tools/solver/reports-write.c:634
 msgid "Number of"
 msgstr "Aantal"
 
 #.
 #. * Fill in the labels of `Data Sparsity' section.
 #.
-#: src/tools/solver/reports-write.c:615
+#: src/tools/solver/reports-write.c:624
 msgid "Matrix"
 msgstr "Matrix"
 
-#: src/tools/solver/reports-write.c:616
+#: src/tools/solver/reports-write.c:625
 msgid "Elements"
 msgstr "Elementen"
 
-#: src/tools/solver/reports-write.c:617 src/tools/solver/reports-write.c:621
+#: src/tools/solver/reports-write.c:626 src/tools/solver/reports-write.c:630
 msgid "Non-zeros in"
 msgstr "Niet-nul in"
 
-#: src/tools/solver/reports-write.c:619 src/tools/solver/reports-write.c:623
+#: src/tools/solver/reports-write.c:628 src/tools/solver/reports-write.c:632
 msgid "Zeros in"
 msgstr "Nullen in "
 
-#: src/tools/solver/reports-write.c:622 src/tools/solver/reports-write.c:624
+#: src/tools/solver/reports-write.c:631 src/tools/solver/reports-write.c:633
 msgid "Obj. fn"
 msgstr "Obj. fn"
 
-#: src/tools/solver/reports-write.c:626
+#: src/tools/solver/reports-write.c:635
 msgid "Ratio"
 msgstr "Ratio"
 
 #.
 #. * Fill in the labels of `Computing Time' section.
 #.
-#: src/tools/solver/reports-write.c:681
+#: src/tools/solver/reports-write.c:690
 msgid "User"
 msgstr "Gebruiker"
 
-#: src/tools/solver/reports-write.c:682
+#: src/tools/solver/reports-write.c:691
 msgid "System"
 msgstr "Systeem"
 
-#: src/tools/solver/reports-write.c:684
+#: src/tools/solver/reports-write.c:693
 msgid "Time (sec.)"
 msgstr "Tijd (sec.)"
 
 #.
 #. * Fill in the labels of `System Information' section.
 #.
-#: src/tools/solver/reports-write.c:704
+#: src/tools/solver/reports-write.c:713
 msgid "CPU Model"
 msgstr "CPU Model"
 
-#: src/tools/solver/reports-write.c:705
+#: src/tools/solver/reports-write.c:714
 msgid "CPU MHz"
 msgstr "CPU MHz"
 
-#: src/tools/solver/reports-write.c:706
+#: src/tools/solver/reports-write.c:715
 msgid "OS"
 msgstr "OS"
 
 #. Set the `CPU Model'.
-#: src/tools/solver/reports-write.c:719 src/tools/solver/reports-write.c:722
-#: src/tools/solver/reports-write.c:727
+#: src/tools/solver/reports-write.c:728 src/tools/solver/reports-write.c:731
+#: src/tools/solver/reports-write.c:736
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: src/tools/solver/reports-write.c:732
+#: src/tools/solver/reports-write.c:741
 #, c-format
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#.
-#. * Fill in the labels of `Options' section.
-#.
-#. Set the labels.
-#: src/tools/solver/reports-write.c:745
+#: src/tools/solver/reports-write.c:755
 msgid "Algorithm:"
 msgstr "Algoritme:"
 
 #. Set the `Algorithm'.
-#: src/tools/solver/reports-write.c:749
+#: src/tools/solver/reports-write.c:758
 msgid "LP Solve 3.2"
 msgstr "LP Solve 3.2"
 
+#: src/tools/solver/reports-write.c:770
+msgid "Non-Negative"
+msgstr "Niet-Negatief"
+
+#. Set `Autoscaling'.
+#: src/tools/solver/reports-write.c:774
+msgid "Autoscaling:"
+msgstr "Automatisch Schalen:"
+
+#: src/tools/solver/reports-write.c:776
+msgid "Yes"
+msgstr "Ja"
+
+#: src/tools/solver/reports-write.c:778
+msgid "No"
+msgstr "Nee"
+
 #. Fill in other titles.
-#: src/tools/solver/reports-write.c:767
+#: src/tools/solver/reports-write.c:797
 msgid "General Statistics"
 msgstr "Algemene Statistieken"
 
-#: src/tools/solver/reports-write.c:768
+#: src/tools/solver/reports-write.c:798
 msgid "Data Sparsity"
 msgstr "Gegevens Schaarsheid"
 
-#: src/tools/solver/reports-write.c:769
+#: src/tools/solver/reports-write.c:799
 msgid "Computing Time"
 msgstr "Berekeningstijd"
 
-#: src/tools/solver/reports-write.c:770
+#: src/tools/solver/reports-write.c:800
 msgid "System Information"
 msgstr "Systeem Informatie"
 
-#: src/tools/solver/reports-write.c:786 src/tools/solver/reports-write.c:900
+#: src/tools/solver/reports-write.c:816 src/tools/solver/reports-write.c:950
 msgid "Program Report"
 msgstr "Programmarapport"
 
-#: src/tools/solver/reports-write.c:905
+#: src/tools/solver/reports-write.c:939
+msgid "Assume that all variables take only positive values."
+msgstr "Aannemen dat alle variabelen alleen positief zijn."
+
+#: src/tools/solver/reports-write.c:955
 msgid "Minimize"
 msgstr "Minimaliseren"
 
-#: src/tools/solver/reports-write.c:908
+#: src/tools/solver/reports-write.c:958
 msgid "Maximize"
 msgstr "Maximaliseren"
 
-#: src/tools/solver/reports-write.c:911
+#: src/tools/solver/reports-write.c:961
 msgid "Equal to"
 msgstr "Gelijk aan"
 
 #. Print `Subject to' title.
-#: src/tools/solver/reports-write.c:917
+#: src/tools/solver/reports-write.c:967
 msgid "Subject to"
 msgstr "Onder voorwaarde"
 
@@ -21806,7 +21837,7 @@ msgstr "Onder voorwaarde"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports-write.c:932 src/tools/solver/reports-write.c:945
+#: src/tools/solver/reports-write.c:982 src/tools/solver/reports-write.c:995
 msgid "Dual Program Report"
 msgstr "Tweeledig Programmarapport"
 
@@ -22103,7 +22134,7 @@ msgstr "Beheer de beschikbare plugin modules."
 
 #: src/workbook-control-gui.c:3338
 msgid "_Group..."
-msgstr "_Groepeer..."
+msgstr "_Groeperen..."
 
 #: src/workbook-control-gui.c:3341
 msgid "_Ungroup..."
@@ -22151,7 +22182,7 @@ msgstr "Herhaal de ingreep"
 
 #: src/workbook-control-gui.c:3464
 msgid "Sum into the current cell."
-msgstr "Sommeer in huidige cel."
+msgstr "Sommeren in huidige cel."
 
 #: src/workbook-control-gui.c:3467
 msgid "Function"
@@ -22393,23 +22424,23 @@ msgstr "Combo"
 
 #: src/workbook-object-toolbar.c:157
 msgid "Creates a combo box"
-msgstr "Maakt een combo box"
+msgstr "Maakt een combo-box"
 
 #: src/workbook-object-toolbar.c:160
 msgid "Creates a line object"
-msgstr "Maakt een lijn object"
+msgstr "Maakt een lijn-object"
 
 #: src/workbook-object-toolbar.c:163
 msgid "Creates an arrow object"
-msgstr "Maakt een pijl object"
+msgstr "Maakt een pijl-object"
 
 #: src/workbook-object-toolbar.c:166
 msgid "Creates a rectangle object"
-msgstr "Maakt een rechthoek object"
+msgstr "Maakt een rechthoek-object"
 
 #: src/workbook-object-toolbar.c:169
 msgid "Creates an ellipse object"
-msgstr "Maakt een ellips object"
+msgstr "Maakt een ellips-object"
 
 #: src/workbook-view.c:228
 #, c-format
@@ -22466,11 +22497,11 @@ msgstr "Bezig met verwerken bestand..."
 
 #: src/xml-io.c:3357
 msgid "Not enough memory to create zlib decompression state."
-msgstr "Onvoldoende geheugen om zlib decompressie toestand te maken."
+msgstr "Onvoldoende geheugen om zlib decompressietoestand te maken."
 
 #: src/xml-io.c:3392
 msgid "Is not an Gnumeric Workbook file"
-msgstr "Is geen Gnumeric Werkmap bestand"
+msgstr "Is geen Gnumeric Werkmapbestand"
 
 #: src/xml-io.c:3450
 msgid "Gnumeric XML file format"
