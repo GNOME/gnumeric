@@ -2273,7 +2273,7 @@ sheet_foreach_cell_in_range (Sheet *sheet, CellIterFlags flags,
 				cell = sheet_cell_get (sheet, j, i);
 			}
 
-			if (cell == NULL && only_existing) {
+			if (only_existing && (cell == NULL || cell->value->type == VALUE_EMPTY)) {
 				/* skip segments with no cells */
 				if (j == COLROW_SEGMENT_START (j)) {
 					ColRowSegment const *segment =

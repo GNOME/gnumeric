@@ -1,3 +1,9 @@
+2004-07-09  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=146511
+	* functions.c (database_find_values) : handle COLLECT_IGNORE_BLANKS
+	  and add some sanity checking for unsupported flags.
+
 2004-04-17  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (find_cells_that_match) : old cut-n-paste-o force reval

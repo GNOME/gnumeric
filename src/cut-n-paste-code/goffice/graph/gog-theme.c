@@ -50,13 +50,15 @@ struct _GogTheme {
 	GHashTable	*elem_hash_by_role_id;
 	GHashTable	*elem_hash_by_class;
 	GHashTable	*elem_hash_by_class_name;
+	GHashTable	*class_aliases;
 	GogStyle	*default_style;
 };
 typedef GObjectClass GogThemeClass;
 
 static GObjectClass *parent_klass;
-static GSList *themes;
-static GogTheme *default_theme = NULL;
+static GSList	    *themes;
+static GogTheme	    *default_theme = NULL;
+static GHashTable   *global_class_aliases = NULL;
 
 static void
 gog_theme_element_free (GogThemeElement *elem)
@@ -96,6 +98,8 @@ gog_theme_finalize (GObject *obj)
 		g_hash_table_destroy (theme->elem_hash_by_class);
 	if (theme->elem_hash_by_class_name)
 		g_hash_table_destroy (theme->elem_hash_by_class_name);
+	if (theme->class_aliases)
+		g_hash_table_destroy (theme->class_aliases);
 
 	(parent_klass->finalize) (obj);
 }
@@ -123,6 +127,8 @@ gog_theme_init (GogTheme *theme)
 	theme->elem_hash_by_class_name = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		NULL, (GDestroyNotify) gog_theme_element_free);
+	theme->class_aliases = g_hash_table_new (
+		g_str_hash, g_str_equal);
 }
 
 GSF_CLASS (GogTheme, gog_theme,
@@ -134,6 +140,7 @@ gog_theme_find_element (GogTheme *theme, GogObject *obj)
 {
 	GogThemeElement *elem = NULL;
 	GObjectClass *klass;
+	char const *name;
 
 	if (theme == NULL)
 		theme = default_theme;
@@ -174,16 +181,33 @@ gog_theme_find_element (GogTheme *theme, GogObject *obj)
 				(gpointer) obj->role, elem);
 	}
 
-	/* 4) Still not found ?  search by object type */
+	/* 4) Still not found ? search by object type */
 	if (elem == NULL) {
 		do {
-			elem = g_hash_table_lookup (theme->elem_hash_by_class_name,
-				G_OBJECT_CLASS_NAME (klass));
+			name = G_OBJECT_CLASS_NAME (klass);
+			elem = g_hash_table_lookup (	/* 4.1) is the type known */
+				theme->elem_hash_by_class_name, name);
+			if (elem == NULL) {		/* 4.2) is this a local alias */
+				name = g_hash_table_lookup (
+					theme->class_aliases, name);
+				if (name != NULL)
+					elem = g_hash_table_lookup (
+						theme->elem_hash_by_class_name, name);
+			}
+			if (elem == NULL &&
+			    global_class_aliases != NULL) { /* 4.3) is this a global alias */
+				name = g_hash_table_lookup (
+					global_class_aliases, G_OBJECT_CLASS_NAME (klass));
+				if (name != NULL)
+					elem = g_hash_table_lookup (
+						theme->elem_hash_by_class_name, name);
+			}
 		} while (elem == NULL &&
 			 (klass = g_type_class_peek_parent (klass)) != NULL);
 		if (elem != NULL)	/* if found lets cache the result */
 			g_hash_table_insert (theme->elem_hash_by_class, klass, elem);
 	}
+
 	return elem;
 }
 
@@ -246,6 +270,14 @@ gog_theme_register_file (char const *name, char const *file)
 	GogTheme *theme = gog_theme_new (name);
 	theme->load_from_file = g_strdup (file);
 }
+
+#if 0
+static void
+gog_theme_add_alias (GogTheme *theme, char const *from, char const *to)
+{
+	g_hash_table_insert (theme->class_aliases, (gpointer)from, (gpointer)to);
+}
+#endif
 
 static void
 gog_theme_add_element (GogTheme *theme, GogStyle *style,
@@ -414,9 +446,16 @@ gog_themes_init	(void)
 	GogTheme *theme;
 	GogStyle *style;
 
+	if (NULL == global_class_aliases) {
+		global_class_aliases = g_hash_table_new (
+			g_str_hash, g_str_equal);
+		g_hash_table_insert (global_class_aliases,
+			(gpointer)"GogSeriesElement", (gpointer)"GogSeries");
+	}
+
 /* TODO : have a look at apple's themes */
 /* An MS Excel-ish theme */
-	theme = gog_theme_new (_("Default"));
+	theme = gog_theme_new (N_("Default"));
 	gog_theme_register (theme, TRUE);
 
 	/* graph */
@@ -459,6 +498,7 @@ gog_themes_init	(void)
 
 	/* series */
 	style = gog_style_new ();
+	style->outline.width = 0; /* hairline */
 	style->outline.color = RGBA_BLACK;
 	/* FIXME : not really true, will want to split area from line */
 	gog_theme_add_element (theme, style,
@@ -471,7 +511,7 @@ gog_themes_init	(void)
 	gog_theme_add_element (theme, style, NULL, "GogLabel", NULL);
 
 /* Guppi */
-	theme = gog_theme_new (_("Guppi"));
+	theme = gog_theme_new (N_("Guppi"));
 	gog_theme_register (theme, FALSE);
 
 	/* graph */

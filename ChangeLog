@@ -1,3 +1,10 @@
+2004-07-09  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=146511
+	* src/func.c (function_call_with_list) : Use value_get rather than
+	  value_fetch
+	* src/sheet.c (sheet_foreach_cell_in_range) : check for empty values too
+
 2004-07-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gnumeric-gconf.c (go_conf_get_short_desc): Check for NULL 

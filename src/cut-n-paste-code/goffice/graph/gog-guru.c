@@ -962,7 +962,9 @@ cb_canvas_select_item (FooCanvas *canvas, GdkEventButton *event,
 	g_object_get (G_OBJECT (s->sample_graph_item), "renderer", &rend, NULL);
 	g_object_get (G_OBJECT (rend), "view", &view, NULL);
 	foo_canvas_window_to_world (canvas, event->x, event->y, &x, &y);
-	s->search_target = gog_view_point (view, x, y);
+	s->search_target = gog_view_point (view,
+		x * canvas->pixels_per_unit,
+		y * canvas->pixels_per_unit);
 	if (s->search_target == NULL)
 		return FALSE;
 

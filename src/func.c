@@ -929,10 +929,12 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 				/* marshal the args */
 				err = NULL;
 				for (i = 0 ; i < iter_count; i++) {
-					elem = value_area_fetch_x_y (iter_vals[i], x, y, ei->pos);
+					elem = value_area_get_x_y (iter_vals[i], x, y, ei->pos);
 					arg_type = fn_def->fn.args.arg_types[iter_item[i]];
 					if  (arg_type == 'b' || arg_type == 'f') {
-						if (elem->type == VALUE_STRING) {
+						if (VALUE_IS_EMPTY (elem))
+							elem = value_zero;
+						else if (elem->type == VALUE_STRING) {
 							tmp = format_match_number (value_peek_string (elem), NULL,
 								workbook_date_conv (ei->pos->sheet->workbook));
 							if (tmp != NULL) {
@@ -948,11 +950,17 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 							   elem->type != VALUE_BOOLEAN)
 							break;
 					} else if (arg_type == 's') {
-						if (elem->type == VALUE_ERROR) {
+						if (VALUE_IS_EMPTY (elem)) {
+							args [iter_item[i]] = iter_args [i] = value_new_string ("");
+							continue;
+						} else if (elem->type == VALUE_ERROR) {
 							err = elem;
 							break;
 						} else if (tmp->type != VALUE_STRING)
 							break;
+					} else if (elem == NULL) {
+						args [iter_item[i]] = iter_args [i] = value_new_empty ();
+						continue;
 					}
 					args [iter_item[i]] = iter_args [i] = value_dup (elem);
 				}

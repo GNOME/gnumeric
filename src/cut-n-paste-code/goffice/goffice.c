@@ -50,6 +50,7 @@ libgoffice_init (void)
 	(void) GOG_CHART_TYPE;
 	(void) GOG_PLOT_TYPE;
 	(void) GOG_SERIES_TYPE;
+	(void) GOG_SERIES_ELEMENT_TYPE;
 	(void) GOG_LEGEND_TYPE;
 	(void) GOG_AXIS_TYPE;
 	(void) GOG_LABEL_TYPE;

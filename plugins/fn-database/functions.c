@@ -116,6 +116,10 @@ database_find_values (Sheet *sheet, GnmValue *database,
 	GnmValue **res2 = NULL;
 	void *res;
 
+	if (flags & ~(COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS | COLLECT_IGNORE_BLANKS)) {
+		g_warning ("unsupported flags in database_find_values %x", flags);
+	}
+
 	/* FIXME: expand and sanitise this call later.  */
 	cells = find_cells_that_match (sheet, database, col, criterias);
 
@@ -132,6 +136,8 @@ database_find_values (Sheet *sheet, GnmValue *database,
 		if ((flags & COLLECT_IGNORE_STRINGS) && value->type == VALUE_STRING)
 			continue;
 		if ((flags & COLLECT_IGNORE_BOOLS) && value->type == VALUE_BOOLEAN)
+			continue;
+		if ((flags & COLLECT_IGNORE_BLANKS) && value->type == VALUE_EMPTY)
 			continue;
 		if (floats)
 			res1[count++] = value_get_as_float (value);

@@ -1,3 +1,17 @@
+2004-07-08  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-guru.c (cb_canvas_select_item) : handle the zoom
+
+	* graph/gog-theme.c (gog_themes_init) : Add a global alias for
+	  GogSeriesElement -> GogSeries
+	(gog_theme_find_element) : Look up theme local and global aliases for
+	  classes.
+	(gog_theme_add_alias) : new.
+
+2004-07-08  Jody Goldberg <jody@gnome.org>
+
+	* goffice.c (libgoffice_init) : Add SeriesElement to be pedantic
+
 2004-07-06  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-graph.c (gog_graph_init) : apply theme style for graphs
