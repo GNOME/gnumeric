@@ -1,3 +1,7 @@
+2002-07-16  Yanko Kaneti <yaneti@declera.com>
+
+	* configure.in: (ALL_LINGUAS) Added Bulgarian (bg).
+
 2002-07-16  Morten Welinder  <terra@diku.dk>
 
 	* configure.in (long double): Move to later when LIBS is in better
