@@ -1,3 +1,7 @@
+2003-08-12  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* graph/gog-style-prefs.glade: add some missed label names
+
 2003-08-10  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-style.c : re-enable image handling and cache the pixbuf.
