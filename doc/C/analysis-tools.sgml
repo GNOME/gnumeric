@@ -454,7 +454,50 @@
 
   <sect1 id="fourier-analysis-tool">
      <title>Fourier Analysis Tool</title>
-     <para>This tool is not yet implemented.</para>
+
+  <figure id="fourier-tool-dialog">
+    <title>Fourier Analysis Tool Dialog</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-fourier.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+
+     <para>The Fourier Analysis tool normally performs a Fast Fourier Transform to obtain the 
+     discrete fourier transform <parameter>F<subscript>s</subscript></parameter> of the given 
+     sequence <parameter>f<subscript>t</subscript></parameter> of real numbers according to 
+     the formula given in <xref linkend="fourier-tool-formula">.</para>
+     <para>Select the <quote><guilabel>Inverse</guilabel></quote> option to calculate the
+     inverse discrete fourier transform <parameter>f<subscript>t</subscript></parameter>
+     of the given sequence <parameter>F<subscript>s</subscript></parameter> of real 
+     numbers</para>
+     <note><para>If the given sequences does not contain a number of terms that is a power 
+     of 2 (i.e.
+     2, 4, 8, 16, 32, 64, 128, etc.), this tool will append zeros to reach such a power of 
+     2!</para></note>
+     
+     <para>Specify the cells containing the datasets in the <quote><guilabel>Input
+     Range</guilabel></quote> entry. The entered range or ranges are grouped into 
+     sequences either by rows or by columns.</para> 
+
+     <para>If you have labels
+     in the first cell of each data set, select the
+     <quote><guilabel>Labels</guilabel></quote> option.</para>
+
+  <figure id="fourier-tool-formula">
+    <title>Fourier Analysis Formulae</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-fourier-formula.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+
+     <note><para>Before using the numbers obtained by this tool, ensure that these are in fact the 
+     correct formulae for your discipline. In the physical sciences this fourier transform tends 
+     to be called the inverse fourier transform and vice versa. Moreover, frequently the scaling 
+     factor varies.</para>
+     <para>For example <application>Mathematica</application> uses the terms fourier 
+     transform and inverse fourier transform with the reversed meaning than 
+     <application>Gnumeric</application> and it uses a scaling factor of 
+     <parameter>1/SQRT(N)</parameter> rather than <parameter>1/N</parameter>.</para></note>
   </sect1>
 
   <sect1 id="ftest-two-sample-for-variances-tool">

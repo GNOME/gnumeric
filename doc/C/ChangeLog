@@ -1,5 +1,10 @@
 2002-01-11 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* analysis-tools.sgml : document Fourier Analysis Tool.
+	* doc/C/figures/analysistools-fourier-formula.png : new
+
+2002-01-11 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* analysis-tools.sgml : update histogram documentation
 	* figures/analysistools-histogram-ex3.png : new
 	* figures/analysistools-fourier.png : new
