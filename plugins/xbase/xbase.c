@@ -1,11 +1,13 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #include <gnumeric-config.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "xbase.h"
 
 #include <format.h>
 #include <gutils.h>
 #include <io-context.h>
+#include <error-info.h>
 
 #include <string.h>
 #include <stdio.h>
@@ -97,8 +99,8 @@ record_get_field (XBrecord const *record, guint num)
 	return (gchar *)record->data + record->file->format [num]->pos;
 }
 
-static gboolean
-xbase_read_header (XBfile *x)
+static void
+xbase_read_header (XBfile *x, ErrorInfo **ret_error)
 {
 	static struct {
 		guint8 const id;
@@ -137,8 +139,8 @@ xbase_read_header (XBfile *x)
 	guint8 hdr[32];
 
 	if (gsf_input_read (x->input, 32, hdr) == NULL) {
-		g_warning ("Header short");
-		return TRUE;
+		*ret_error = error_info_new_str (_("Failed to read DBF header."));
+		return;
 	}
 	switch (hdr[0]) { /* FIXME: assuming dBASE III+, not IV */
 	case 0x02: fprintf (stderr, "FoxBASE\n"); break;
@@ -183,8 +185,6 @@ xbase_read_header (XBfile *x)
 		}
 	if (codepages[i].id != 0)
 		fprintf (stderr, "unknown 0x%hhx\n!\n", hdr[29]);
-
-	return FALSE;
 }
 
 static XBfield *
@@ -249,8 +249,12 @@ xbase_open (GsfInput *input, ErrorInfo **ret_error)
 	ans = g_new (XBfile, 1);
 	ans->input = input;
 
-	xbase_read_header (ans); /* FIXME: Clean up xbase_read_header
-				  * and handle errors */
+	xbase_read_header (ans, ret_error);
+	if (*ret_error) {
+		g_free (ans);
+		return NULL;
+	}
+
 	ans->fields = 0;
 	ans->format = NULL;
 	while ((field = xbase_field_new (ans)) != NULL) {
