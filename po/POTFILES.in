@@ -5,6 +5,8 @@ src/dialog-goto-cell.c
 src/dialog-insert-cells.c
 src/dialog-paste-special.c
 src/dialog-zoom.c
+src/formats.c
+src/dates.c
 src/expr.c
 src/file.c
 src/fn-date.c
