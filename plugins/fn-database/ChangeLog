@@ -1,3 +1,7 @@
+2002-08-17  Jon K Hellan  <hellan@acm.org>
+
+	* functions.c (database_float_range_function): Fix typo.
+
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.7

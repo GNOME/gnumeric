@@ -161,7 +161,7 @@ database_float_range_function (FunctionEvalInfo *ei,
 	Value *res;
 
 	fieldno = find_column_of_field (ei->pos, database, field);
-	if (field < 0)
+	if (fieldno < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	criterias = parse_database_criteria (ei->pos, database, criteria);
@@ -219,7 +219,7 @@ database_value_range_function (FunctionEvalInfo *ei,
 	Value *res;
 
 	fieldno = find_column_of_field (ei->pos, database, field);
-	if (field < 0)
+	if (fieldno < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	criterias = parse_database_criteria (ei->pos, database, criteria);
