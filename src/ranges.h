@@ -102,6 +102,11 @@ void         global_range_free    (GlobalRange *gr);
 gboolean     global_range_overlap (GlobalRange const *a, GlobalRange const *b);
 GlobalRange *global_range_dup     (GlobalRange const *src);
 Value       *global_range_parse   (Sheet *sheet, char const *range);
-GSList      *global_range_list_parse(Sheet *sheet, char const *cell_name_str);
+
+GSList      *global_range_list_parse   (Sheet *sheet, char const *str);
+Value	    *global_range_list_foreach (GSList *gr_list, EvalPos const *ep,
+					gboolean	only_existing,
+					ForeachCellCB	handler,
+					gpointer	closure);
 
 #endif /* GNUMERIC_RANGES_H */

@@ -1120,5 +1120,22 @@ global_range_list_parse (Sheet *sheet, char const *range_spec)
 
 	g_free (copy);
 
-	return ranges;
+	return g_slist_reverse (ranges);
+}
+
+Value *
+global_range_list_foreach (GSList *gr_list, EvalPos const *ep,
+			   gboolean	 only_existing,
+			   ForeachCellCB handler,
+			   gpointer	 closure)
+{
+	Value *v;
+	for (; gr_list != NULL; gr_list = gr_list->next) {
+		v = workbook_foreach_cell_in_range (ep, gr_list->data,
+			only_existing, handler, closure);
+		if (v != NULL)
+			return v;
+	}
+
+	return NULL;
 }

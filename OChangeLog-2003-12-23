@@ -1,5 +1,18 @@
 2001-10-25  Jody Goldberg <jgoldberg@home.com>
 
+	* src/ranges.c (global_range_list_parse) : put things in the right
+	  order.
+	(global_range_list_foreach) : new routine designed to replace old
+	  range_list_foreach_full.
+
+	* src/number-match.c (compute_value) : fix old typo, make dates
+	  integers when possible.
+
+2001-10-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/number-match.c (compute_value) : fix return values and test that
+	  year is within bounds.
+
 	* src/ranges.c (range_trim) : decrease lobotomization factor.
 
 2001-10-23  Jody Goldberg <jgoldberg@home.com>

@@ -422,7 +422,7 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 	case FILL_NUMBER: {
 		double a, b;
 
-		if (!list_last->prev) {
+		if (list_last->prev == NULL) {
 			if ((fi->delta_is_float = (fi->v.value->type == VALUE_FLOAT)))
 				fi->delta.d_float = 0;
 			return;

@@ -726,7 +726,7 @@ static Value *
 compute_value (char const *s, const regmatch_t *mp,
 	       GByteArray *array)
 {
-	const int len = array->len;
+	int const len = array->len;
 	gnum_float number = 0.0;
 	gchar *data = array->data;
 	gboolean percentify = FALSE;
@@ -758,7 +758,7 @@ compute_value (char const *s, const regmatch_t *mp,
 		case MATCH_MONTH_FULL:
 			month = table_lookup (str, month_long);
 			if (month == -1)
-				return FALSE;
+				return NULL;
 			month++;
 			break;
 
@@ -769,7 +769,7 @@ compute_value (char const *s, const regmatch_t *mp,
 		case MATCH_MONTH_SHORT:
 			month = table_lookup (str, month_short);
 			if (month == -1)
-				return FALSE;
+				return NULL;
 			month++;
 			break;
 
@@ -790,14 +790,14 @@ compute_value (char const *s, const regmatch_t *mp,
 				do {
 					int thisnumber;
 					if (fabs (number) > DBL_MAX/1000.)
-						return FALSE;
+						return NULL;
 
 					number *= 1000.;
 
 					errno = 0; /* strtol sets errno, but does not clear it.  */
 					thisnumber = strtol (ptr, &ptr, 10);
 					if (errno == ERANGE)
-						return FALSE;
+						return NULL;
 					if (number >= 0)
 						number += thisnumber;
 					else
@@ -911,7 +911,7 @@ compute_value (char const *s, const regmatch_t *mp,
 
 				g_return_val_if_fail (year_short >= 0 &&
 						      year_short <= 99,
-						      FALSE);
+						      NULL);
 				year = earliest_cc * 100 + year_short;
 				/*
 				 * Our first guess at year has the same
@@ -963,8 +963,8 @@ compute_value (char const *s, const regmatch_t *mp,
 		if (day == -1)
 			day = tm->tm_mday;
 
-		if (!g_date_valid_dmy (day, month, year))
-			return FALSE;
+		if (year < 1900 || !g_date_valid_dmy (day, month, year))
+			return NULL;
 
 		date = g_date_new_dmy (day, month, year);
 		number = datetime_g_to_serial (date);
@@ -972,7 +972,7 @@ compute_value (char const *s, const regmatch_t *mp,
 	}
 
 	if (seconds == -1 && minutes == -1 && hours == -1)
-		return value_new_float (number);
+		return value_new_int (number);
 
 	if (seconds == -1)
 		seconds = 0;
@@ -990,16 +990,18 @@ compute_value (char const *s, const regmatch_t *mp,
 		hours = 0;
 
 	if (hours < 0 || hours > 23)
-		return FALSE;
+		return NULL;
 
 	if (minutes < 0 || minutes > 59)
-		return FALSE;
+		return NULL;
 
-	if (seconds < 0 || minutes > 60)
-		return FALSE;
+	if (seconds < 0 || seconds > 59)
+		return NULL;
+
+	if (hours == 0 && minutes == 0 && seconds == 0)
+		return value_new_int (number);
 
 	number += (hours * 3600 + minutes * 60 + seconds) / (3600*24.0);
-
 	return value_new_float (number);
 }
 
