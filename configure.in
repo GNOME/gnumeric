@@ -715,6 +715,7 @@ plugins/applix/Makefile
 plugins/plan-perfect/Makefile
 plugins/gda/Makefile
 plugins/psiconv/Makefile
+plugins/mps/Makefile
 intl/Makefile
 po/Makefile.in
 templates/Makefile

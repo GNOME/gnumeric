@@ -1,3 +1,14 @@
+2001-08-26  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* plugins/mps/mps.c, plugins/mps/plugin.xml,
+	plugins/mps/Makefile.am: Introduced.
+
+	* configure.in, plugins/Makefile.am: Added the compilation of the
+	MPS plugin.
+
+	* samples/solver/afiro.mps: Added a sample file for the MPS plugin.
+	It is from the Netlib collection which is in public domain.
+
 2001-08-26  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/file-priv.h (struct _GnumFileSaver):

@@ -6,6 +6,11 @@ Jody:
 	* bump the gnome-print req to 0.29 in an effort to decrease
 	  the number of problems with gnome-print installs.
 
+Jukka:
+	* MPS importer plugin implemented.  Reads a linear program in MPS
+	  format and creates a spreadsheet model of it.  Currently, the
+	  bounds and ranges are not implemented yet.
+
 Morten:
 	* Speed up font handling a bit.
 
