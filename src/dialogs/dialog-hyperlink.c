@@ -177,6 +177,7 @@ dialog_hyperlink_init (HyperlinkState *state)
 	gtk_box_pack_end (GTK_BOX (w), GTK_WIDGET (expr_entry), TRUE, TRUE, 0);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 		GTK_WIDGET (expr_entry));
+	gnm_expr_entry_set_scg (expr_entry, wbcg_cur_scg (state->wbcg));
 
 	for (i = 0 ; i < G_N_ELEMENTS (entry); i++)
 		gnumeric_editable_enters (GTK_WINDOW (state->dialog),

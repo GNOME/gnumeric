@@ -1,5 +1,12 @@
 2002-10-27  Jody Goldberg <jody@gnome.org>
 
+	* gnumeric-expr-entry.c (cb_gee_key_press_event) : do another
+	  sheet_update after moving the cursor.  The cmd associated with
+	  editing the edit did an update, but the cursor had not moved yet
+	  so the editline could get out of sync.
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
 	* gnumeric-expr-entry.c (gnm_expr_entry_rangesel_start) : rangerefs
 	  can only start at the transition between alphanumerics and symbols.
 	  Hence ABCDE3 can not have a valid ref of DE3

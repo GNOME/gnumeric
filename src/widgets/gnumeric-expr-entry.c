@@ -24,6 +24,7 @@
 #include <expr.h>
 #include <dependent.h>
 #include <sheet.h>
+#include <sheet-view.h>
 #include <selection.h>
 #include <commands.h>
 #include <gnm-marshalers.h>
@@ -673,6 +674,7 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 			/* move the edit pos */
 			gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
 			sv_selection_walk_step (sv, direction, FALSE);
+			sv_update (sv);
 		}
 		return TRUE;
 	}

@@ -481,7 +481,7 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelSheet *esheet)
 		options &= ~0x0020;
 	}
 	if (sheet == wb_view_cur_sheet (esheet->ewb->gnum_wb_view))
-		options |= 0x600; /* assume selected if it is current */
+		options |= 0x400; /* assume selected if it is current */
 
 	if (bp->version <= MS_BIFF_V7) {
 		data = ms_biff_put_len_next (bp, 0x200|BIFF_WINDOW2, 10);
