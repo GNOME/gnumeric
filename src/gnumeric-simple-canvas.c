@@ -57,6 +57,12 @@ gnm_simple_canvas_ungrab (GnomeCanvasItem *item, guint32 etime)
 
 	gcanvas->scg->grab_stack--;
 	gnome_canvas_item_ungrab (item, etime);
+
+	/* We flush after the ungrab, to have the ungrab take effect
+	 * immediately operations might take a while, and we
+	 * do not want the mouse to be grabbed the entire time.
+	 */
+	gdk_flush ();
 }
 
 int
@@ -64,9 +70,13 @@ gnm_simple_canvas_grab (GnomeCanvasItem *item, unsigned int event_mask,
 			GdkCursor *cursor, guint32 etime)
 {
 	GnmSimpleCanvas *gcanvas = GNM_SIMPLE_CANVAS(item->canvas);
+	int res;
 
 	g_return_val_if_fail (gcanvas != NULL, TRUE);
 
 	gcanvas->scg->grab_stack++;
-	return gnome_canvas_item_grab (item, event_mask, cursor, etime);
+	res = gnome_canvas_item_grab (item, event_mask, cursor, etime);
+
+	/* Be extra paranoid.  Ensure that the grab is registered */
+	gdk_flush ();
 }

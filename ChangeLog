@@ -1,5 +1,14 @@
 2002-04-29  Jody Goldberg <jody@gnome.org>
 
+	* src/item-cursor.c : remove the flushes in here.
+
+	* src/gnumeric-simple-canvas.c (gnm_simple_canvas_ungrab) : add a
+	  flush here.
+	(gnm_simple_canvas_grab) : and here so that long running events change
+	  grab state immediately.
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=80134
 	* src/sheet.c (sheet_duplicate) : clone freeze status too.
 	(sheet_clone_colrow_info_item) : simplify and use colrow_copy.

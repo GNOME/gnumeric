@@ -4,6 +4,10 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=80134
 	* clone grouping and frozen status too.
 
+	* gdk_flush after all grab/ungrab events so that long running
+	  operations that do not update the display are certain to ungrab
+	  without delay (thanks rconover)
+
 J.H.M. Dassen (Ray):
 	* Some gda plugin warnings.
 	* correct the help references in a few languages
