@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.4\n"
-"POT-Creation-Date: 1999-02-17 17:31-0600\n"
+"POT-Creation-Date: 1998-12-21 11:43+0100\n"
 "PO-Revision-Date: 1998-12-21 16:48 +1\n"
-"Last-Translator: Matthias Warkus <mawa@iname.com>\n"
+"Last-Translator: Ralf Baechle <ralf@gnu.org>\n"
 "Language-Team:\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -66,11 +66,11 @@ msgstr "Statistik Modul"
 msgid "variance - division by 0"
 msgstr "Varianz - Divison durch 0"
 
-#: src/about.c:38
+#: src/about.c:33
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/about.c:41
+#: src/about.c:36
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric"
@@ -285,7 +285,7 @@ msgstr "Beispiel:"
 msgid "Format codes"
 msgstr "Formatkodes"
 
-#: src/dialog-cell-format.c:353 src/formats.c:16 src/number-match.c:450
+#: src/dialog-cell-format.c:353 src/formats.c:16 src/number-match.c:448
 msgid "General"
 msgstr "Allgemeines"
 
@@ -337,7 +337,7 @@ msgid "Text color"
 msgstr "Textfarbe"
 
 #. The radio buttons
-#: src/dialog-cell-format.c:601 src/dialog-cell-format.c:634
+#: src/dialog-cell-format.c:601 src/dialog-cell-format.c:631
 #: src/dialog-paste-special.c:28
 msgid "None"
 msgstr "Nichts"
@@ -346,37 +346,29 @@ msgstr "Nichts"
 msgid "Use this color"
 msgstr "Diese Farbe benutzen"
 
-#: src/dialog-cell-format.c:605
-msgid "No change"
-msgstr "Keine Änderung"
-
-#: src/dialog-cell-format.c:628
+#: src/dialog-cell-format.c:625
 msgid "Background configuration"
 msgstr "Hintergrundkonfiguration"
 
-#: src/dialog-cell-format.c:636
+#: src/dialog-cell-format.c:633
 msgid "Use solid color"
 msgstr "Eine Farbe benutzen"
 
-#: src/dialog-cell-format.c:638
+#: src/dialog-cell-format.c:635
 msgid "Use a pattern"
 msgstr "Muster benutzen"
 
-#: src/dialog-cell-format.c:891
+#: src/dialog-cell-format.c:724
 msgid "Number"
 msgstr "Anzahl"
 
-#: src/dialog-cell-format.c:892
+#: src/dialog-cell-format.c:725
 msgid "Alignment"
 msgstr "Ausrichtung"
 
-#: src/dialog-cell-format.c:893
+#: src/dialog-cell-format.c:726
 msgid "Font"
 msgstr "Zeichensatz"
-
-#: src/dialog-cell-format.c:894
-msgid "Coloring"
-msgstr "Färbung"
 
 #: src/dialog-define-names.c:23
 msgid "Define names"
@@ -406,7 +398,7 @@ msgstr "Zellen löschen"
 msgid "Delete cells"
 msgstr "Zellen löschen"
 
-#: src/dialog-delete-cells.c:32 src/item-grid.c:532
+#: src/dialog-delete-cells.c:32 src/item-grid.c:527
 msgid "Delete"
 msgstr "Löschen"
 
@@ -438,31 +430,31 @@ msgstr "Gehe nach ..."
 msgid "Special..."
 msgstr "Spezial ..."
 
-#: src/dialog-insert-cells.c:26
+#: src/dialog-insert-cells.c:25
 msgid "insert cells"
 msgstr "Zellen einfügen"
 
-#: src/dialog-insert-cells.c:30
+#: src/dialog-insert-cells.c:29
 msgid "Insert cells"
 msgstr "Zellen einfügen"
 
-#: src/dialog-insert-cells.c:33 src/item-grid.c:531
+#: src/dialog-insert-cells.c:32 src/item-grid.c:526
 msgid "Insert"
 msgstr "Einfügen"
 
-#: src/dialog-insert-cells.c:34
+#: src/dialog-insert-cells.c:33
 msgid "Shift cells right"
 msgstr "Zellen nach rechts verschieben"
 
-#: src/dialog-insert-cells.c:35
+#: src/dialog-insert-cells.c:34
 msgid "Shift cells down"
 msgstr "Zellen nach unten verschieben"
 
-#: src/dialog-insert-cells.c:36
+#: src/dialog-insert-cells.c:35
 msgid "Insert row(s)"
 msgstr "Zeile(n) einfügen"
 
-#: src/dialog-insert-cells.c:37
+#: src/dialog-insert-cells.c:36
 msgid "Insert column(s)"
 msgstr "Spalte(n) einfügen"
 
@@ -494,7 +486,7 @@ msgstr "Multiplizieren"
 msgid "Divide"
 msgstr "Dividieren"
 
-#: src/dialog-paste-special.c:56 src/item-grid.c:529
+#: src/dialog-paste-special.c:56 src/item-grid.c:524
 msgid "Paste special"
 msgstr "Einfügen spezial"
 
@@ -514,12 +506,12 @@ msgstr "Vergrößern"
 msgid "Custom"
 msgstr "Faktor"
 
-#: src/dialog-zoom.c:84
+#: src/dialog-zoom.c:83
 #, c-format
 msgid "Zoom factor should be at least 50%"
 msgstr "Zoomfaktor sollte höchstens 50% sein"
 
-#: src/dialog-zoom.c:90
+#: src/dialog-zoom.c:88
 #, c-format
 msgid "Zoom factor should be at most 900%"
 msgstr "Vergrößerungsfaktor sollte höchstens 900% sein"
@@ -532,39 +524,31 @@ msgstr "Syntaxfehler"
 msgid "Missing quote"
 msgstr "Fehlendes Anführungszeichen"
 
-#: src/expr.c:479 src/fn-math.c:1134 src/fn-sheet.c:38 src/fn-sheet.c:83
+#: src/expr.c:467 src/fn-sheet.c:25 src/fn-sheet.c:59
 msgid "Invalid number of arguments"
 msgstr "Ungültige Anzahl von Argumenten"
 
-#: src/expr.c:707
+#: src/expr.c:695
 msgid "Type error"
 msgstr "Typenfehler"
 
-#: src/expr.c:765 src/expr.c:927 src/fn-misc.c:34
+#: src/expr.c:753 src/expr.c:911 src/fn-misc.c:40 src/fn-misc.c:67
 msgid "Type mismatch"
 msgstr "Unpassende Typen"
 
-#: src/expr.c:791 src/expr.c:827
+#: src/expr.c:779 src/expr.c:815
 msgid "Division by zero"
 msgstr "Division durch Null"
 
-#: src/expr.c:942
+#: src/expr.c:926
 msgid "Unknown evaluation error"
 msgstr "Unbekannter Auswertungsfehler"
 
-#: src/file.c:217
-msgid "File format:"
-msgstr "Dateiformat:"
-
-#: src/file.c:256
+#: src/file.c:28
 msgid "Save workbook as"
 msgstr "Arbeitsbuch speichern als"
 
-#: src/file.c:288
-msgid "Sorry, there are no file savers loaded, I can not save"
-msgstr "Leider sind keine Dateispeichermodule geladen, ich kann nicht speichern"
-
-#: src/file.c:316
+#: src/file.c:76
 msgid "Load file"
 msgstr "Datei laden"
 
@@ -586,15 +570,7 @@ msgstr ""
 "Vormonat.  Das Jahr sollte mindestens 1900 sein\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/fn-date.c:46
-msgid "Invalid month or year"
-msgstr "Ungültiger Monat oder ungültiges Jahr"
-
-#: src/fn-date.c:61
-msgid "Invalid day"
-msgstr "Ungültiger Tag"
-
-#: src/fn-date.c:71
+#: src/fn-date.c:59
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
@@ -608,7 +584,7 @@ msgstr ""
 "die seit dem ersten Januar 1900 vergangen sind, zurück\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/fn-date.c:100
+#: src/fn-date.c:87
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -631,7 +607,7 @@ msgstr ""
 "gebrochene Anteil repräsentiert den Bruchteil des Tages bestehend aud den "
 "Stunden, Minuten und Sekunden Anteilen.@SEEALSO=TODAY, NOW"
 
-#: src/fn-date.c:140
+#: src/fn-date.c:127
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -643,111 +619,105 @@ msgstr ""
 "@DESCRIPTION=Gibt eine die Stunde repräsentierenden Fraktion zurück\n"
 "@SEEALSO=HOUR"
 
-#: src/fn-date.c:167
+#: src/fn-date.c:154
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
 "@DESCRIPTION=Converts a serial number to an hour.  The hour is returned as "
 "an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.)\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string\n"
-"@SEEALSO=MINUTE, NOW, TIME, SECOND"
+"for you, so you can enter a date as a string@SEEALSO=MINUTE, NOW, TIME, "
+"SECOND"
 msgstr ""
 "@FUNCTION=HOUR\n"
-"@SYNTAX=HOUR (seriennummer)\n"
-"@DESCRIPTION=Konvertierung einer Seriennummber in eine Stunde.  Die\n"
+"@SYNTAX=HOUR (Seriennummer)\n"
+"@DESCRIPTION=Konvertierung einer Seriennummer in eine Stunde.  Die\n"
 "Stunde wird als eine ganze Zahl im Bereich 0 - 23 zurückgegeben.\n"
-"Man beachte, daß Gnumeric eine reguläre Umwandlung einer Zeichenkette\n"
-"nach Seriennummber durchführt, so daß das Datum als Zeichenkette\n"
-"eingegeben werden kann.\n"
-"@SEEALSO=MINUTE, NOW, TIME, SECOND"
+"Man beachte, daß Gnumeric automatisch eine Zeichenkette in eine\n"
+"Seriennummer umwandelt, so daß das Datum als Zeichenkette eingegeben\n"
+"werden kann.@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
-#: src/fn-date.c:182
+#: src/fn-date.c:169
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
 "@DESCRIPTION=Converts a serial number to a minute.  The minute is returned "
 "as an integer in the range 0 to 59\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string\n"
-"@SEEALSO=HOUR, NOW, TIME, SECOND"
+"for you, so you can enter a date as a string@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
 "@FUNCTION=MINUTE\n"
-"@SYNTAX=MINUTE (seriennummer)\n"
-"@DESCRIPTION=Konvertierung einer Seriennummber in eine Minute.  Die\n"
+"@SYNTAX=MINUTE (Seriennummer)\n"
+"@DESCRIPTION=Konvertierung einer Seriennummer in eine Minute.  Die\n"
 "Minute wird als ganze Zahl im Bereich 0 - 59 zurückgegeben.\n"
-"Man beachte, daß Gnumeric eine reguläre Umwandlung einer Zeichenkette\n"
-"nach nach Seriennummer durchführt, so daß das Datum als Zeichenkette\n"
+"Man beachte, daß Gnumeric eine automatisch eine Zeichenkette\n"
+"nach nach einer Seriennummer umwandelt, so daß das Datum als Zeichenkette\n"
 "eingegeben werden kann.\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
-#: src/fn-date.c:197
+#: src/fn-date.c:184
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
 "@DESCRIPTION=Converts a serial number to a second.  The second is returned "
 "as an integer in the range 0 to 59\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string\n"
-"@SEEALSO=HOUR, MINUTE, NOW, TIME"
+"for you, so you can enter a date as a string@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
 "@FUNCTION=SECOND\n"
-"@SYNTAX=SECOND (seriennummer)\n"
-"@DESCRIPTION=Konvertierung einer Seriennummber in eine Sekunde.  Die\n"
+"@SYNTAX=SECOND (Seriennummer)\n"
+"@DESCRIPTION=Konvertierung einer Seriennummer in eine Sekunde.  Die\n"
 "Sekunde wird als ganze Zahl im Bereich 0 - 59 zurückgegeben.\n"
-"Man beachte, daß Gnumeric eine reguläre Umwandlung einer Zeichenkette\n"
-"nach nach Seriennummer durchführt, so daß das Datum als Zeichenkette\n"
-"eingegeben werden kann.\n"
+"Man beachte, daß Gnumeric eine Zeichenkette automatisch in eine\n"
+"Seriennummer umwandelt, so daß das Datum als Zeichenkette eingegeben\n"
+"werden kann.\n"
 "@SEEALSO=MINUTE, NOW, TIME, HOUR"
 
-#: src/fn-date.c:235
+#: src/fn-date.c:222
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
 "@DESCRIPTION=Converts a serial number to a year.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string\n"
-"@SEEALSO=DAY, MONTH, TIME, NOW"
+"for you, so you can enter a date as a string@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
 "@FUNCTION=YEAR\n"
-"@SYNTAX=YEAR (seriennummer)\n"
+"@SYNTAX=YEAR (Seriennummer)\n"
 "@DESCRIPTION=Konvertierung einer Seriennummer in ein Jahr.\n"
-"Man beachte, daß Gnumeric eine reguläre Umwandlung einer Zeichenkette\n"
-"nach nach Seriennummer durchführt, so daß das Datum als Zeichenkette\n"
-"eingegeben werden kann.\n"
+"Man beachte, daß Gnumeric eine Zeichenkette automatisch in eine\n"
+"Seriennummer umwandelt, so daß das Datum als Zeichenkette eingegeben\n"
+"werden kann.\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 
-#: src/fn-date.c:249
+#: src/fn-date.c:236
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
 "@DESCRIPTION=Converts a serial number to a month.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string\n"
-"@SEEALSO=DAY, TIME, NOW, YEAR"
+"for you, so you can enter a date as a string@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=MONTH\n"
-"@SYNTAX=MONTH (seriennummer)\n"
+"@SYNTAX=MONTH (Seriennummer)\n"
 "@DESCRIPTION=Konvertierung einer Seriennummer in einen Monat.\n"
-"Man beachte, daß Gnumeric eine reguläre Umwandlung einer Zeichenkette\n"
-"nach nach Seriennummer durchführt, so daß das Datum als Zeichenkette\n"
+"Man beachte, daß Gnumeric eine eine Zeichenkette automatisch nach nach\n"
+"Seriennummer umwandelt, so daß das Datum als Zeichenkette\n"
 "eingegeben werden kann.\n"
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 
-#: src/fn-date.c:263
+#: src/fn-date.c:250
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
 "@DESCRIPTION=Converts a serial number to a day.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string\n"
-"@SEEALSO=MONTH, TIME, NOW, YEAR"
+"for you, so you can enter a date as a string@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=DAY\n"
-"@SYNTAX=DAY (seriennummer)\n"
+"@SYNTAX=DAY (Seriennummer)\n"
 "@DESCRIPTION=Konvertierung einer Seriennummer in einen Tag.\n"
-"Man beachte, daß Gnumeric eine reguläre Umwandlung einer Zeichenkette\n"
-"nach nach Seriennummer durchführt, so daß das Datum als Zeichenkette\n"
+"Man beachte, daß Gnumeric eine Zeichenkette automatisch in eine\n"
+"Seriennummer umwandelt, so daß das Datum als Zeichenkette\n"
 "eingegeben werden kann.\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
@@ -840,7 +810,7 @@ msgid ""
 "@SYNTAX=AND(b1, b2, ...)\n"
 "@DESCRIPTION=Implements the logical AND function: the result is TRUE if all "
 "of the expression evaluates to TRUE, otherwise it returns FALSE.\n"
-"b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an "
+"b1, trough bN are expressions that should evaluate to TRUE or FALSE.If an "
 "integer or floating point value is provided zero is considered FALSE and "
 "anything else is TRUE.\n"
 "If the values contain strings or empty cells those values are ignored.  If "
@@ -852,10 +822,10 @@ msgstr ""
 "@DESCRIPTION=Die AND Funktion berechnet die logische UND Funktion: das\n"
 "Ergebniss ist TRUE wenn alle Argument als TRUE evaluiert werden,\n"
 "ansonsten FALSE.\n"
-"b1 ... bN sind Ausdrücke, die als TRUE oder FALSE evaliert werden\n"
-"sollten.  Falls ganzzahlige Argument oder Fließkommaargument als\n"
-"Argumente übergeben werden dann wird Null als FALSE und jeder andere\n"
-"Wert als TRUE betrachtet.\n"
+"b1 ... bN sind Ausdrücke, die als TRUE oder FALSE evalieren sollten.\n"
+"Falls ganzzahlige Argumente oder Fließkommaargument als Argumente\n"
+"übergeben werden dann wird Null als FALSE und jeder andere Wert als\n"
+"TRUE betrachtet.\n"
 "Als Argumente übergebene Zeichenketten oder leere Zellen werden\n"
 "ignoriert.  Werden keine logischen Werte übergeben, dann wird der\n"
 "Fehler '#WERT!' zurückgegeben.\n"
@@ -1124,13 +1094,13 @@ msgstr ""
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x)\n"
-"@DESCRIPTION=The FLOOR function rounds x down to the next nearest integer.\n"
+"@DESCRIPTION=The FLOOR function rounds x down to the next nearestinteger.\n"
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x)\n"
-"@DESCRIPTION=Die FLOOR Funktion rundet x zur nächsten ganzen Zahl am.\n"
+"@DESCRIPTION=Die Funktion FLOOR rundet x zur nächsten ganzen Zahl ab.\n"
 "Die Anwendung dieser Funktion auf eine Zeichenkette oder leere Zelle\n"
 "bewirkt nichts.\n"
 "@SEEALSO=CEIL, ABS, INT"
@@ -1174,8 +1144,7 @@ msgstr "log: Wertebereichsfehler"
 
 #: src/fn-math.c:689
 msgid ""
-"@FUNCTION=LOG2\n"
-"@SYNTAX=LOG2(x)\n"
+"@FUNCTION=LOG2@SYNTAX=LOG2(x)\n"
 "@DESCRIPTION=Computes the base-2 logarithm  of x. \n"
 "Performing this function on a string or empty cell returns an error. \n"
 "@SEEALSO=EXP, LOG10, LOG"
@@ -1193,8 +1162,7 @@ msgstr "log2: Wertebereichsfehler"
 
 #: src/fn-math.c:714
 msgid ""
-"@FUNCTION=LOG10\n"
-"@SYNTAX=LOG10(x)\n"
+"@FUNCTION=LOG10@SYNTAX=LOG10(x)\n"
 "@DESCRIPTION=Computes the base-10 logarithm  of x. \n"
 "Performing this function on a string or empty cell returns an error. \n"
 "@SEEALSO=EXP, LOG2, LOG"
@@ -1202,6 +1170,8 @@ msgstr ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
 "@DESCRIPTION=Berechnet den dekadischen Logarithmus von x.\n"
+"Die Anwendung dieser Funktion auf eine Zeichenkette oder eine leere Zelle\n"
+"gibt einen Fehler zurück.\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
 #: src/fn-math.c:733
@@ -1247,11 +1217,10 @@ msgstr ""
 #: src/fn-math.c:858
 msgid ""
 "@FUNCTION=OR\n"
-"@SYNTAX=OR(b1, b2, ...)\n"
-"@DESCRIPTION=Implements the logical OR function: the result is TRUE if any "
-"of the values evaluated to TRUE.\n"
-"b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an "
-"integer or floating point value is provided zero is considered FALSE and "
+"@SYNTAX=OR(b1, b2, ...)@DESCRIPTION=Implements the logical OR function: the "
+"result is TRUE if any of thevalues evaluated to TRUE.\n"
+"b1, trough bN are expressions that should evaluate to TRUE or FALSE.If an "
+"integer or floating point value is provided zero is consideredFALSE and "
 "anything else is TRUE.\n"
 "If the values contain strings or empty cells those values are ignored.  If "
 "no logical values are provided, then the error '#VALUE!'is returned.\n"
@@ -1260,7 +1229,7 @@ msgstr ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
 "@DESCRIPTION=Die OR Funktion berechnet die logische ODER Funktion: das\n"
-"Ergebniss ist TRUE wenn mindestens ein Argument als TRUE evaluiert\n"
+"Ergebnis ist TRUE wenn mindestens ein Argument als TRUE evaluiert\n"
 "wird, ansonsten FALSE.\n"
 "b1 ... bN sind Ausdrücke, die als TRUE oder FALSE evaliert werden\n"
 "sollten.  Falls ganzzahlige Argument oder Fließkommaargument als\n"
@@ -1337,7 +1306,7 @@ msgstr ""
 "referenziert sind, auf.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1055
+#: src/fn-math.c:1052
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1355,7 +1324,7 @@ msgstr ""
 "nichts.  Diese Funktion hat nur ein Argument.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1075
+#: src/fn-math.c:1072
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1373,137 +1342,24 @@ msgstr ""
 "nichts.  Diese Funktion hat nur ein Argument.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1095
+#: src/fn-math.c:1092
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
 "@DESCRIPTION=The PI functions returns the value of Pi as defined by M_PI.\n"
-"This function is called with no arguments.\n"
+"Performing this function on a string or empty cellreturns an error. This "
+"function is called with no arguments.\n"
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
-"@DESCRIPTION=Die PI Funktion gibt den Wert von Pi wie durch M_PI\n"
+"@DESCRIPTION=Die Funktion PI gibt den Wert von Pi, wie durch M_PI\n"
 "definiert zurück.\n"
 "Die Anwendung dieser Funktion auf eine Zeichenkette oder leere Zelle\n"
-"gibt einen Fehler zurück.  Diese Funktion hat keinen Parameter.\n"
+"gibt einen Fehler zurück.  Diese Funktion hat keine Argumente.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1114
-msgid ""
-"@FUNCTION=TRUNC\n"
-"@SYNTAX=TRUNC(number[,digits])\n"
-"@DESCRIPTION=The TRUNC function returns the value of number truncated to the "
-"number of digits specified.  If digits is omited then digits defaults to "
-"zero.\n"
-"\n"
-"@SEEALSO="
-msgstr ""
-"@FUNCTION=TRUNC\n"
-"@SYNTAX=TRUNC(zahl[,stellen])\n"
-"@DESCRIPTION=Die Funktion TRUNC gibt den Wert von zahl zurück,\n"
-"verkürzt auf stellen Ziffern. Wird stellen nicht angegeben, wird\n"
-"stellen auf Null gesetzt.\n"
-"@SEEALSO="
-
-#: src/fn-misc.c:18
-msgid ""
-"@FUNCTION=CLEAN\n"
-"@SYNTAX=CLEAN(string)\n"
-"@DESCRIPTION=Cleans the string from any non-printable characters.\n"
-"@SEEALSO="
-msgstr ""
-"@FUNCTION=CLEAN\n"
-"@SYNTAX=CLEAN(zkette)\n"
-"@DESCRIPTION=Reinigt die Zeichenkette zkette von allen nichtdruckbaren\n"
-"Zeichen.\n"
-"@SEEALSO="
-
-#: src/fn-sheet.c:17
-msgid ""
-"@FUNCTION=IF\n"
-"@SYNTAX=IF(condition,if-true,if-false)\n"
-"@DESCRIPTION=Use the IF statement to evaluate conditionally other "
-"expressions IF evaluates @condition.  If @condition returns a non-zero value "
-"the result of the IF expression is the @if-true expression, otherwise IF "
-"evaluates to the value of @if-false\n"
-"@SEEALSO="
-msgstr ""
-"@FUNCTION=IF\n"
-"@SYNTAX=IF(bedingung,wenn-wahr,wenn-falsch)\n"
-"@DESCRIPTION=Benutzen Sie die IF-Funktion, um andere Ausdrücke bedingt\n"
-"auszuwerten. IF wertet @bedingung aus. Wenn @bedingung einen Wert\n"
-"ungleich Null zurückgibt, ist das Ergebnis von IF der Ausdruck\n"
-"@wenn-wahr, andernfalls gibt der IF-Ausdruck @if-false zurück.\n"
-"@SEEALSO="
-
-#: src/fn-sheet.c:64
-msgid ""
-"@FUNCTION=SELECTION\n"
-"@SYNTAX=SELECTION(x)\n"
-"@DESCRIPTION=The SELECTION function returns a list with the values in the "
-"current mouse cursor. This is usually used to implement on-the-flight "
-"computation of values\n"
-"@SEEALSO="
-msgstr ""
-"@FUNCTION=SELECTION\n"
-"@SYNTAX=SELECTION(x)\n"
-"@DESCRIPTION=Die Funktion SELECTION gibt eine Liste mit den Werten in\n"
-"der momentanten Mausauswahl zurück. Dies wird normalerweise genutzt,\n"
-"um spontan Werte zu berechnen.\n"
-"@SEEALSO="
-
-#: src/fn-string.c:17
-msgid ""
-"@FUNCTION=CHAR\n"
-"@SYNTAX=CHAR(x)\n"
-"@DESCRIPTION=Returns the ascii character represented by the number x.\n"
-"@SEEALSO=CODE"
-msgstr ""
-"@FUNCTION=CHAR\n"
-"@SYNTAX=CHAR(x)\n"
-"@DESCRIPTION=Gibt das ASCII-Zeichen Nr. x zurück.\n"
-"@SEEALSO=CODE"
-
-#: src/fn-string.c:39
-msgid ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(char)\n"
-"@DESCRIPTION=Returns the ASCII number for the character char.\n"
-"@SEEALSO=CHAR"
-msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(zeichen)\n"
-"@DESCRIPTION=Gibt die Nummer des ASCII-Zeichens zeichen zurück.\n"
-"@SEEALSO=CHAR"
-
-#: src/fn-string.c:61
-msgid ""
-"@FUNCTION=EXACT\n"
-"@SYNTAX=EXACT(string1, string2)\n"
-"@DESCRIPTION=Returns true if string1 is exactly equal to string2 (this "
-"routine is case sensitive).\n"
-"@SEEALSO="
-msgstr ""
-"@FUNCTION=EXACT\n"
-"@SYNTAX=EXACT(zkette1, zkette2)\n"
-"@DESCRIPTION=Gibt wahr zurück, wenn zkette1 exakt gleich zkette2 ist\n"
-"(diese Routine beachtet Groß- und Kleinschreibung).\n"
-"@SEEALSO="
-
-#: src/fn-string.c:83
-msgid ""
-"@FUNCTION=LEN\n"
-"@SYNTAX=LEN(string)\n"
-"@DESCRIPTION=Returns the length in characters of the string @string.\n"
-"@SEEALSO=CHAR, CODE"
-msgstr ""
-"@FUNCTION=LEN\n"
-"@SYNTAX=LEN(zkette)\n"
-"@DESCRIPTION=Gibt die Länge der Zeichenkette @zkette zurück.\n"
-"@SEEALSO=CHAR, CODE"
-
-#: src/fn-string.c:140
+#: src/fn-string.c:101
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -1517,33 +1373,7 @@ msgstr ""
 "nicht definiert ist.\n"
 "@SEEALSO=MID, RIGHT"
 
-#: src/fn-string.c:176
-msgid ""
-"@FUNCTION=LOWER\n"
-"@SYNTAX=LOWER(text)\n"
-"@DESCRIPTION=Returns a lower-case version of the string in @text\n"
-"@SEEALSO=UPPER"
-msgstr ""
-"@FUNCTION=LOWER\n"
-"@SYNTAX=LOWER(text)\n"
-"@DESCRIPTION=Gibt die Zeichenkette @text in Kleinbuchstaben zurück.\n"
-"@SEEALSO=UPPER"
-
-#: src/fn-string.c:209
-msgid ""
-"@FUNCTION=MID\n"
-"@SYNTAX=MID(string, position, length)\n"
-"@DESCRIPTION=Returns a substring from @string starting at @position for "
-"@lenght characters.\n"
-"@SEEALSO=LEFT, RIGHT"
-msgstr ""
-"@FUNCTION=MID\n"
-"@SYNTAX=MID(zkette, position, länge)\n"
-"@DESCRIPTION=Gibt eine Teilzeichenkette von @zkette aus, die von\n"
-"@position an @länge Zeichen umfaßt.\n"
-"@SEEALSO=LEFT, RIGHT"
-
-#: src/fn-string.c:257
+#: src/fn-string.c:160
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -1557,47 +1387,35 @@ msgstr ""
 "nicht definiert ist zurück.\n"
 "@SEEALSO=MID, LEFT"
 
-#: src/fn-string.c:297
-msgid ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=Returns a upper-case version of the string in @text\n"
-"@SEEALSO=LOWER"
-msgstr ""
-"@FUNCTION=UPPER\n"
-"@SYNTAX=UPPER(text)\n"
-"@DESCRIPTION=Gibt die Zeichenkette @text in Großbuchstaben zurück.\n"
-"@SEEALSO=LOWER"
-
-#: src/format.c:403
+#: src/format.c:402
 msgid "black"
 msgstr "schwarz"
 
-#: src/format.c:404
+#: src/format.c:403
 msgid "blue"
 msgstr "blau"
 
-#: src/format.c:405
+#: src/format.c:404
 msgid "cyan"
 msgstr "Cyan"
 
-#: src/format.c:406
+#: src/format.c:405
 msgid "green"
 msgstr "Grün"
 
-#: src/format.c:407
+#: src/format.c:406
 msgid "magenta"
 msgstr "Magenta"
 
-#: src/format.c:408
+#: src/format.c:407
 msgid "red"
 msgstr "Rot"
 
-#: src/format.c:409
+#: src/format.c:408
 msgid "white"
 msgstr "Weiß"
 
-#: src/format.c:410
+#: src/format.c:409
 msgid "yellow"
 msgstr "Gelb"
 
@@ -1803,127 +1621,113 @@ msgstr "$#.##0,00_);($#.##0,00)"
 msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr "$#.##0,00_);[red]($#.##0,00)"
 
-#: src/gnumeric-sheet.c:887
+#: src/gnumeric-sheet.c:877
 #, c-format
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:890
+#: src/gnumeric-sheet.c:880
 #, c-format
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:893
+#: src/gnumeric-sheet.c:883
 #, c-format
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:896
+#: src/gnumeric-sheet.c:886
 #, c-format
 msgid "12%"
 msgstr "12%"
 
-#: src/gnumeric-sheet.c:899
+#: src/gnumeric-sheet.c:889
 #, c-format
 msgid "6%"
 msgstr "6%"
 
-#: src/gnumeric-sheet.c:902
+#: src/gnumeric-sheet.c:892
 msgid "Horizontal lines"
 msgstr "Horizontale Linien"
 
-#: src/gnumeric-sheet.c:905
+#: src/gnumeric-sheet.c:895
 msgid "Vertical lines"
 msgstr "Vertikale Linien"
 
-#: src/gnumeric-sheet.c:908 src/gnumeric-sheet.c:911 src/gnumeric-sheet.c:914
-#: src/gnumeric-sheet.c:917
+#: src/gnumeric-sheet.c:898 src/gnumeric-sheet.c:901 src/gnumeric-sheet.c:904
+#: src/gnumeric-sheet.c:907
 msgid "Diagonal lines"
 msgstr "Diagonale Linien"
 
-#: src/gnumeric-sheet.c:920
+#: src/gnumeric-sheet.c:910
 msgid "Crossed diagonals"
 msgstr "Gekreuzte Diagonalen"
 
-#: src/gnumeric-sheet.c:923
+#: src/gnumeric-sheet.c:913
 msgid "Bricks"
 msgstr "Backsteine"
 
-#: src/item-cursor.c:498
-msgid ""
-"The cells dragged will overwrite the contents of the\n"
-"existing cells in that range.  Do you want me to replace\n"
-"the contents in this region?"
-msgstr ""
-"Die verschobenen Zellen werden den Inhalt der bestehenden Zellen in\n"
-"diesem Bereich überschreiben. Wollen Sie, daß ich den Inhalt in dieser\n"
-"Region ersetze?"
+#: src/gnumeric-util.c:22
+msgid "Notice"
+msgstr "Bemerkung"
 
-#: src/item-cursor.c:579 src/item-grid.c:527 src/workbook.c:839
+#: src/item-cursor.c:554 src/item-grid.c:522 src/workbook.c:839
 msgid "Copy"
 msgstr "Kopieren"
 
-#: src/item-cursor.c:580
+#: src/item-cursor.c:555
 msgid "Move"
 msgstr "Verschieben"
 
-#: src/item-cursor.c:581
+#: src/item-cursor.c:556
 msgid "Copy formats"
 msgstr "Formate kopieren"
 
-#: src/item-cursor.c:582
+#: src/item-cursor.c:557
 msgid "Copy values"
 msgstr "Werte kopieren"
 
-#: src/item-cursor.c:583
+#: src/item-cursor.c:558
 msgid "Shift cells down and copy"
 msgstr "Zellen nach unten schieben und kopieren"
 
-#: src/item-cursor.c:584
+#: src/item-cursor.c:559
 msgid "Shift cells right and copy"
 msgstr "Zellen rechtsschieben und kopieren"
 
-#: src/item-cursor.c:585
+#: src/item-cursor.c:560
 msgid "Shift cells down and move"
 msgstr "Zellen nach unten schieben und bewegen"
 
-#: src/item-cursor.c:586
+#: src/item-cursor.c:561
 msgid "Shift cells right and move"
 msgstr "Zellen rechsverschieben und bewegen"
 
-#: src/item-grid.c:526 src/workbook.c:836
+#: src/item-grid.c:521 src/workbook.c:836
 msgid "Cut"
 msgstr "Ausschneiden"
 
-#: src/item-grid.c:528 src/sheet.c:2490 src/workbook.c:842
+#: src/item-grid.c:523 src/sheet.c:2396 src/workbook.c:842
 msgid "Paste"
 msgstr "Einfügen"
 
-#: src/item-grid.c:533
+#: src/item-grid.c:528
 msgid "Erase content"
 msgstr "Inhalt löschen"
 
-#: src/item-grid.c:535
+#: src/item-grid.c:530
 msgid "Cell format"
 msgstr "Zellenformat"
 
-#: src/main.c:36
+#: src/main.c:22
 msgid "Dumps the function definitions"
 msgstr "Funktionsdefinitionen auswerfen"
 
-#: src/main.c:36
+#: src/main.c:22
 msgid "FILE"
 msgstr "DATEI"
 
-#: src/main.c:38
-msgid "Enables some debugging functions"
-msgstr "Schaltet einige Fehlerdiagnosefunktionen ein"
-
-#: src/main.c:38
-msgid "LEVEL"
-msgstr "EBENE"
-
-#: src/number-match.c:150
+#: src/number-match.c:148
 msgid "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr "(([-+]?[0-9\\\\.])?(,?[0-9]*)?([Ee][-+][0-9]+)?)"
 
@@ -1947,15 +1751,15 @@ msgstr "Zufügen ..."
 msgid "unable to open module file: "
 msgstr "kann Moduldatei nicht öffnen: "
 
-#: src/plugin.c:45
+#: src/plugin.c:44
 msgid "Plugin must contain init_plugin function."
 msgstr "Module muß eine init_plugin Funktion enthalten."
 
-#: src/plugin.c:51
+#: src/plugin.c:49
 msgid "init_plugin returned error"
 msgstr "init_plugin hat einen Fehler gemeldet"
 
-#: src/plugin.c:71
+#: src/plugin.c:68
 msgid "Plugin is still in use.\n"
 msgstr "Modul wird noch benutzt.\n"
 
@@ -1969,216 +1773,185 @@ msgstr "Zeile: %d"
 msgid "Column: %s"
 msgstr "Spalte: %s"
 
-#: src/workbook.c:284
+#: src/workbook.c:301
 msgid "Warning"
 msgstr "Warnung"
 
-#: src/workbook.c:292
-#, c-format
-msgid "Workbook %s has unsaved changes, save them?"
-msgstr "Arbeitsbuch %s hat ungespeicherte Änderungen, speichern?"
+#: src/workbook.c:312
+msgid "Workbook "
+msgstr "Arbeitsbuch "
 
-#: src/workbook.c:295
-msgid "Workbook has unsaved changes, save them?"
-msgstr "Arbeitsbuch hat ungespeicherte Änderungen, speichern?"
+#: src/workbook.c:313
+msgid " has unsaved changes, save them?"
+msgstr " hat ungespeicherte Änderungen, speichern?"
 
-#: src/workbook.c:484 src/workbook.c:500
+#: src/workbook.c:502 src/workbook.c:518
 msgid "Insert rows"
 msgstr "Zeilen einfügen"
 
-#: src/workbook.c:587
+#: src/workbook.c:605
 msgid ">mm/dd/yyyy"
 msgstr ">dd. mm. yyyy"
 
-#: src/workbook.c:606
+#: src/workbook.c:624
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/workbook.c:662
+#: src/workbook.c:680
 msgid "_New"
 msgstr "_Neu"
 
-#: src/workbook.c:662
-msgid "Create a new spreadsheet"
-msgstr "Neues Arbeitsblatt erzeugen"
+#: src/workbook.c:682
+msgid "_Open..."
+msgstr "Öffnen ..."
 
-#: src/workbook.c:673
+#: src/workbook.c:684
+msgid "_Save"
+msgstr "_Speichern"
+
+#: src/workbook.c:686
+msgid "Save _as..."
+msgstr "Speichern als ..."
+
+#: src/workbook.c:691
 msgid "Plu_g-ins..."
 msgstr "Module ..."
 
-#: src/workbook.c:673
-msgid "Gnumeric plugins"
-msgstr "Gnumeric-Plugins"
+#: src/workbook.c:695
+msgid "_Close"
+msgstr "Schliessen"
 
-#: src/workbook.c:687
+#: src/workbook.c:697
+msgid "E_xit"
+msgstr "B_enden"
+
+#: src/workbook.c:705
 msgid "_All"
 msgstr "_Alles"
 
-#: src/workbook.c:688
-msgid "Clear the selected cells' formats, comments, and contents"
-msgstr ""
-"Löscht das Format, die Kommentare und die Inhalte der ausgewählten\n"
-"Zellen"
-
-#: src/workbook.c:690
+#: src/workbook.c:706
 msgid "_Formats"
 msgstr "_Formate"
 
-#: src/workbook.c:691
-msgid "Clear the selected cells' formats"
-msgstr "Löscht das Format der ausgewählten Zellen"
-
-#: src/workbook.c:692
+#: src/workbook.c:707
 msgid "_Comments"
 msgstr "_Kommentar"
 
-#: src/workbook.c:693
-msgid "Clear the selected cells' comments"
-msgstr "Kommentare der ausgewählten Zellen löschen"
-
-#: src/workbook.c:694
+#: src/workbook.c:708
 msgid "_Content"
 msgstr "_Inhalt"
 
-#: src/workbook.c:695
-msgid "Clear the selected cells' contents"
-msgstr "Inhalt der ausgewählten Zellen löschen"
+#: src/workbook.c:713
+msgid "Cu_t"
+msgstr "Ausschneiden"
 
-#: src/workbook.c:703
+#: src/workbook.c:715
+msgid "_Copy"
+msgstr "_Kopieren"
+
+#: src/workbook.c:717
+msgid "_Paste"
+msgstr "Ein_fügen"
+
+#: src/workbook.c:719
 msgid "P_aste special..."
 msgstr "Einfügen spezial ..."
 
-#: src/workbook.c:704
+#: src/workbook.c:720
 msgid "C_lear"
 msgstr "_Löschen"
 
-#: src/workbook.c:705
-msgid "Clear the selected cell(s)"
-msgstr "Löscht die ausgewählte(n) Zelle(n)"
-
-#: src/workbook.c:709
+#: src/workbook.c:724
 msgid "_Select All"
 msgstr "_Alles auswählen"
 
-#: src/workbook.c:710
-msgid "Select all cells in the spreadsheet"
-msgstr "Alle Zellen im Arbeitsblatt auswählen"
-
-#: src/workbook.c:712
+#: src/workbook.c:726
 msgid "_Goto cell.."
 msgstr "_Gehe zu Zelle ..."
 
-#: src/workbook.c:713
-msgid "Jump to a specified cell"
-msgstr "Zu einer gegebenen Zelle springen"
-
-#: src/workbook.c:719
+#: src/workbook.c:732
 msgid "_Define cell names"
 msgstr "_Zellennamen festlegen"
 
-#: src/workbook.c:723
+#: src/workbook.c:736
 msgid "_Recalculate"
 msgstr "_Neuberechnung"
 
-#: src/workbook.c:724
-msgid "Recalculate the spreadsheet"
-msgstr "Das Arbeitsblatt neu berechnen"
-
-#: src/workbook.c:732
+#: src/workbook.c:744
 msgid "_Zoom..."
 msgstr "_Vergrößern"
 
-#: src/workbook.c:733
-msgid "Zoom the spreadsheet in or out"
-msgstr "In das Arbeitsblatt ein- oder von ihm wegzoomen"
-
-#: src/workbook.c:740
+#: src/workbook.c:751
 msgid "Current _date"
 msgstr "Aktuelles _Datum"
 
-#: src/workbook.c:741
-msgid "Insert the current data into the selected cell(s)"
-msgstr "Das aktuelle Datum in die ausgewählte(n) Zelle(n) einfügen"
-
-#: src/workbook.c:744
+#: src/workbook.c:753
 msgid "Current _time"
 msgstr "Aktuelle _Zeit"
 
-#: src/workbook.c:745
-msgid "Insert the current time into the selected cell(s)"
-msgstr "Die aktuelle Zeit in die ausgewählte(n) Zelle(n) einfügen"
-
-#: src/workbook.c:752 src/workbook.c:798
+#: src/workbook.c:759 src/workbook.c:799
 msgid "_Sheet"
 msgstr "_Blatt"
 
-#: src/workbook.c:752
-msgid "Insert a new spreadsheet"
-msgstr "Ein neues Arbeitsblatt einfügen"
-
-#: src/workbook.c:754 src/workbook.c:792
+#: src/workbook.c:760 src/workbook.c:794
 msgid "_Cells..."
 msgstr "_Zellen ..."
 
-#: src/workbook.c:754
-msgid "Insert new cells"
-msgstr "Neue Zellen einfügen"
-
-#: src/workbook.c:756
+#: src/workbook.c:761
 msgid "_Rows"
 msgstr "_Reihen"
 
-#: src/workbook.c:756
-msgid "Insert new rows"
-msgstr "Neue Zeilen einfügen"
-
-#: src/workbook.c:758
+#: src/workbook.c:762
 msgid "C_olumns"
 msgstr "S_palten"
 
-#: src/workbook.c:758
-msgid "Insert new columns"
-msgstr "Neue Spalten einfügen"
-
-#: src/workbook.c:763
+#: src/workbook.c:766
 msgid "_Add/Modify comment"
 msgstr "_Kommentar zufügen/ändern"
 
-#: src/workbook.c:764
-msgid "Edit the selected cell's comment"
-msgstr "Kommentar der ausgewählten Zelle bearbeiten"
-
-#: src/workbook.c:765
+#: src/workbook.c:767
 msgid "_Special"
 msgstr "_Spezial"
 
-#: src/workbook.c:774 src/workbook.c:780
+#: src/workbook.c:776 src/workbook.c:782
 msgid "_Autoadjust"
 msgstr "_Automatisch ausrichten"
 
-#: src/workbook.c:775
+#: src/workbook.c:777
 msgid "_Width"
 msgstr "_Breite"
 
-#: src/workbook.c:781
+#: src/workbook.c:783
 msgid "_Height"
 msgstr "_Höhe"
 
-#: src/workbook.c:786
+#: src/workbook.c:788
 msgid "_Change name"
 msgstr "_Namen ändern"
 
-#: src/workbook.c:793
-msgid "Modify the formatting of the selected cells"
-msgstr "Formatierung der ausgewählten Zellen ändern"
-
-#: src/workbook.c:796
+#: src/workbook.c:797
 msgid "C_olumn"
 msgstr "_Spalte"
 
-#: src/workbook.c:797
+#: src/workbook.c:798
 msgid "_Row"
 msgstr "_Reihe"
+
+#: src/workbook.c:805
+msgid "_About Gnumeric..."
+msgstr "Über Gnumeric"
+
+#: src/workbook.c:811
+msgid "_File"
+msgstr "_Datei"
+
+#: src/workbook.c:812
+msgid "_Edit"
+msgstr "_Editieren"
+
+#: src/workbook.c:813
+msgid "_View"
+msgstr "Ansicht"
 
 #: src/workbook.c:814
 msgid "_Insert"
@@ -2187,6 +1960,10 @@ msgstr "_Einfügen"
 #: src/workbook.c:815
 msgid "F_ormat"
 msgstr "F_ormat"
+
+#: src/workbook.c:816
+msgid "_Help"
+msgstr "_Hilfe"
 
 #: src/workbook.c:824
 msgid "New"
@@ -2292,79 +2069,55 @@ msgstr "Ellipse"
 msgid "Creates an ellipse object"
 msgstr "Erzeugt ein Ellipsenobjekt"
 
-#: src/workbook.c:957
+#: src/workbook.c:956
 msgid "You should introduce a valid cell name"
 msgstr "Geben sie der Zelle einen gültigen Namen"
 
-#: src/workbook.c:964
+#: src/workbook.c:962
 msgid "Column out of range"
 msgstr "Unzulässige Spaltennummer"
 
-#: src/workbook.c:970
+#: src/workbook.c:967
 msgid "Row number out of range"
 msgstr "Unzulässige Zeilennummer"
 
-#: src/workbook.c:1076
+#: src/workbook.c:1073
 msgid "Sum"
 msgstr "Sum"
 
-#: src/workbook.c:1077
+#: src/workbook.c:1074
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook.c:1078
+#: src/workbook.c:1075
 msgid "Max"
 msgstr "Max"
 
-#: src/workbook.c:1079
+#: src/workbook.c:1076
 msgid "Average"
 msgstr "Durchschnitt"
 
-#: src/workbook.c:1080
+#: src/workbook.c:1077
 msgid "Count"
 msgstr "Anzahl"
 
-#: src/workbook.c:1272
+#: src/workbook.c:1233
 msgid "Untitled.gnumeric"
 msgstr "Namenlos.gnumeric"
 
-#: src/workbook.c:1359
+#: src/workbook.c:1313
 msgid "Zoom out"
 msgstr "Verkleinern"
 
-#: src/workbook.c:1366
+#: src/workbook.c:1320
 msgid "Zoom in"
 msgstr "Vergrößern"
 
-#: src/workbook.c:1451
-#, c-format
-msgid "Are you sure you want to remove the sheet called `%s' "
-msgstr "Sind Sie sicher, daß Sie das Blatt `%s' entfernen wollen "
-
-#: src/workbook.c:1470
-msgid "Other sheets depend on the values on this sheet, I can not remove it"
-msgstr ""
-"Andere Blätter hängen von den Werten auf diesem Blatt ab, ich kann es\n"
-"nicht entfernen"
-
-#: src/workbook.c:1490
-msgid "Add another sheet"
-msgstr "Noch ein Blatt hinzufügen"
-
-#: src/workbook.c:1491
-msgid "Remove this sheet"
-msgstr "Dieses Blatte entfernen"
-
-#: src/workbook.c:1752 src/workbook.c:1780
+#: src/workbook.c:1369 src/workbook.c:1390
 #, c-format
 msgid "Sheet %d"
 msgstr "Blatt %d"
 
-#: src/xml-io.c:1408
+#: src/xml-io.c:1415
 msgid "NoName"
 msgstr "Namenlos"
-
-#: src/xml-io.c:1598
-msgid "Gnumeric XML file format"
-msgstr "Gnumeric XML-Dateiformat"
-
