@@ -19,7 +19,7 @@ typedef struct {
 	GtkObject  parent_object;
 	Sheet     *sheet;
 	GList     *realized_list;
-	int        dragging;
+	gboolean   dragging;
 
 	/* Bounding box */
 	GnomeCanvasPoints *bbox_points;

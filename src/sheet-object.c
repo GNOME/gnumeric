@@ -100,12 +100,13 @@ sheet_object_update_coords (SheetObject *so,
 			    gdouble x2d, gdouble y2d)
 {
 	double *coords = so->bbox_points->coords;
+	double const zoom = so->sheet->last_zoom_factor_used;
 	
 	sheet_object_unrealize (so);
-	coords [0] += x1d;
-	coords [1] += y1d;
-	coords [2] += x2d;
-	coords [3] += y2d;
+	coords [0] += x1d*zoom;
+	coords [1] += y1d*zoom;
+	coords [2] += x2d*zoom;
+	coords [3] += y2d*zoom;
 	sheet_object_realize (so);
 }
 
@@ -643,12 +644,12 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject 
 		if (!object->dragging)
 			return FALSE;
 		
-		object->dragging = 0;
+		object->dragging = FALSE;
 		gnome_canvas_item_ungrab (item, event->button.time);
 		break;
 
 	case GDK_BUTTON_PRESS:
-		object->dragging = 1;
+		object->dragging = TRUE;
 		gnome_canvas_item_grab (item,
 					GDK_POINTER_MOTION_MASK |
 					GDK_BUTTON_RELEASE_MASK,
@@ -782,7 +783,7 @@ object_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *object)
 			object->sheet->current_object = NULL;
 		}
 		
-		object->dragging = 1;
+		object->dragging = TRUE;
 		gnome_canvas_item_grab (item,
 					GDK_POINTER_MOTION_MASK |
 					GDK_BUTTON_RELEASE_MASK,
@@ -797,7 +798,7 @@ object_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *object)
 		if (!object->dragging)
 			return FALSE;
 		
-		object->dragging = 0;
+		object->dragging = FALSE;
 		
 		gnome_canvas_item_ungrab (item, event->button.time);
 

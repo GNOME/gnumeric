@@ -96,12 +96,13 @@ sheet_object_widget_update_coords (SheetObject *so,
 {
 	double *c = so->bbox_points->coords;
 	gdouble x1, y1, x2, y2;
+	double const zoom = so->sheet->last_zoom_factor_used;
 	
 	/* Update coordinates */
-	c [0] += x1d;
-	c [1] += y1d;
-	c [2] += x2d;
-	c [3] += y2d;
+	c [0] += x1d*zoom;
+	c [1] += y1d*zoom;
+	c [2] += x2d*zoom;
+	c [3] += y2d*zoom;
 
 	/* Normalize it */
 	x1 = MIN (c [0], c [2]);
