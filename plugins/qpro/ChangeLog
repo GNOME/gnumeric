@@ -1,5 +1,7 @@
 2002-11-14  Jon K Hellan  <hellan@acm.org>
 
+	* plugin.xml.in: Remove "open" and "import" attributes.
+
 	* qpro-read.c (qpro_read_workbook): Don't seek back to 0. Wrapper
 	which called probe does that.
 

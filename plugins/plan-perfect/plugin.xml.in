@@ -8,8 +8,7 @@
 		<attribute name="module_file" value="plan_perfect.la"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="pln" priority="1" probe="TRUE"
-		         open="TRUE" import="TRUE">
+		<service type="file_opener" id="pln" priority="1" probe="TRUE">
 			<information>
 				<_description>Plan Perfect Format (PLN) import</_description>
 			</information>

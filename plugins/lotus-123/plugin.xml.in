@@ -8,7 +8,7 @@
 		<attribute name="module_file" value="lotus.la"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="lotus" priority="50" probe="TRUE" open="TRUE" import="TRUE">
+		<service type="file_opener" id="lotus" priority="50" probe="TRUE">
 			<information>
 				<_description>Lotus 123 (*.wk1)</_description>
 			</information>

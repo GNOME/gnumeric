@@ -8,8 +8,7 @@
 		<attribute name="module_file" value="qpro.la"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="qpro" priority="100" probe="TRUE"
-			open="TRUE" import="TRUE">
+		<service type="file_opener" id="qpro" priority="100" probe="TRUE">
 			<information>
 				<_description>Quatro Pro</_description>
 			</information>

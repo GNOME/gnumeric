@@ -1,5 +1,7 @@
 2002-11-14  Jon K Hellan  <hellan@acm.org>
 
+	* plugin.xml.in: Remove "open" and "import" attributes.
+
 	* boot.c (lotus_file_probe): Don't seek back to 0, calling wrapper
 	does that.
 

@@ -8,8 +8,7 @@
 		<attribute name="module_file" value="mps.la"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="mps" priority="1" probe="FALSE"
-		         open="TRUE" import="TRUE">
+		<service type="file_opener" id="mps" priority="1" probe="FALSE">
 			<information>
 				<_description>Linear and integer program (*.mps) file format</_description>
 			</information>

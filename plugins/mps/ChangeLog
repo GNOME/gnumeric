@@ -1,3 +1,7 @@
+2002-11-14  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Remove "open" and "import" attributes.
+
 2002-11-12  Morten Welinder  <welinder@rentec.com>
 
 	* mps.c (BINDING_LIMIT): Delete.

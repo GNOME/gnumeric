@@ -1,5 +1,35 @@
 2002-11-14  Jon K Hellan  <hellan@acm.org>
 
+	* src/gui-file.c (gui_file_open): Use get_file_openers instead of
+	get_file_importers.
+
+	* src/plugin-service.c (struct _PluginServiceFileOpener):
+	can_open, can_import, default_importer_priority: Remove.
+	(plugin_service_file_opener_read_xml)
+	(plugin_service_file_opener_read_xml): Ignore "open" and "import"
+	properties.
+	(plugin_service_file_opener_activate): Don't use
+	register_file_opener_as_importer or
+	register_file_opener_as_importer_as_default. 
+
+	(plugin_service_file_opener_deactivate): Don't use
+	unregister_file_opener_as_importer.
+
+	* src/file.[ch] (get_default_file_importer,
+	register_file_opener_as_importer,
+	register_file_opener_as_importer_as_default,
+	unregister_file_opener_as_importer, get_default_file_importer,
+	get_file_importers): Remove
+	
+	* src/file.c (default_file_importer_list, file_importer_list,
+	default_file_importer_cmp_priority,): Remove.
+
+	* src/stf.c (stf_init):
+	s/register_file_opener_as_importer_as_default/
+	register_file_opener/
+
+2002-11-14  Jon K Hellan  <hellan@acm.org>
+
 	* src/file.c (gnum_file_opener_probe_real): Seek back
 	to start of file after probing.
 

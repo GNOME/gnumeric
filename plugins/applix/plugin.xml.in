@@ -8,8 +8,7 @@
 		<attribute name="module_file" value="applix.la"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="applix" priority="100" probe="TRUE"
-			open="TRUE" import="TRUE">
+		<service type="file_opener" id="applix" priority="100" probe="TRUE">
 			<information>
 				<_description>Applix (*.as)</_description>
 			</information>

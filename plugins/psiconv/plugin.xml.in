@@ -8,7 +8,7 @@
 		<attribute name="module_file" value="psiconv.la"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="psiconv" priority="100" probe="TRUE" open="FALSE" import="TRUE">
+		<service type="file_opener" id="psiconv" priority="100" probe="TRUE">
 			<information>
 				<_description>Psion (*.psisheet)</_description>
 			</information>

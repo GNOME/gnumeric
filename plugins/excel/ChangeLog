@@ -1,3 +1,7 @@
+2002-11-14  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Remove "open" and "import" attributes.
+
 2002-11-13  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_comments_biff7) : fix. #$^! libxml had

@@ -1,3 +1,7 @@
+2002-11-14  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Remove "open" and "import" attributes.
+
 2002-11-02  Jody Goldberg <jody@gnome.org>
 
 	* charset.c (pln_get_str) : this is not static.

@@ -8,7 +8,7 @@
 		<attribute name="module_file" value="html.la"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="html" priority="100" probe="FALSE" open="TRUE" import="TRUE">
+		<service type="file_opener" id="html" priority="100" probe="FALSE">
 			<information>
 				<_description>HTML</_description>
 			</information>

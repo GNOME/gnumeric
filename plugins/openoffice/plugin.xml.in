@@ -8,8 +8,7 @@
 		<attribute name="module_file" value="openoffice.la"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="openoffice" priority="1" probe="FALSE"
-		         open="TRUE" import="TRUE">
+		<service type="file_opener" id="openoffice" priority="1" probe="FALSE">
 			<information>
 				<_description>Open/Star Calc (*.sxc)</_description>
 			</information>

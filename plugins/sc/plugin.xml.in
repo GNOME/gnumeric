@@ -8,8 +8,7 @@
 		<attribute name="module_file" value="sc.la"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="sc" priority="51" probe="TRUE"
-		         open="TRUE" import="TRUE">
+		<service type="file_opener" id="sc" priority="51" probe="TRUE">
 			<information>
 				<_description>SC/xspread</_description>
 			</information>

@@ -8,8 +8,7 @@
 		<attribute name="module_file" value="dif.la"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="dif" priority="1" probe="FALSE"
-		         open="TRUE" import="TRUE">
+		<service type="file_opener" id="dif" priority="1" probe="FALSE">
 			<information>
 				<_description>Data Interchange Format (*.dif)</_description>
 			</information>
