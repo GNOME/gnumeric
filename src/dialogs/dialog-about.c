@@ -79,7 +79,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 		return;
 
         about = gnome_about_new (_("Gnumeric"), VERSION,
-				 _("(C) 1998-2001 Miguel de Icaza"),
+				 _("(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"),
 				 authors,
 				 NULL,
 				 "gnome-gnumeric.png");

@@ -1,3 +1,18 @@
+2002-09-11  Jody Goldberg <jody@gnome.org>
+
+	Patch from Jiri Jirat <Jiri.Jirat@systinet.com>
+	* gnumeric.xsd  : fix schema errors
+
+2002-09-11  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-graph.c (gnm_graph_setup) : add a warning dialog if
+	  guppi is not installed.
+
+2002-09-10  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-clipboard.c (x_clipboard_bind_workbook) : support requests
+	  for content from CLIPBOARD too to enable communication with 1.1.x
+
 2002-08-15  Jody Goldberg <jody@gnome.org>
 
 	* src/eval.c (cb_name_invalidate) : don't bother rewriting what we're
@@ -6,6 +21,11 @@
 	  to fix names properly in 1.0.
 	* src/expr-name.c (expr_name_link_deps) : ditto.
 	(expr_name_set_expr) : ditto.
+
+2002-08-06  Jody Goldberg <jody@gnome.org>
+
+	* src/GNOME_Gnumeric.xml : fix the print accelerator to match the
+	  gnome_ui version.
 
 2002-07-18  Jody Goldberg <jody@gnome.org>
 

@@ -381,6 +381,8 @@ x_clipboard_bind_workbook (WorkbookControlGUI *wbcg)
 
 	gtk_selection_add_target (toplevel,
 		GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 0);
+	gtk_selection_add_target (toplevel,
+		GDK_SELECTION_CLIPBOARD, GDK_SELECTION_TYPE_STRING, 0);
 
 	/*
 	 * Our specific Gnumeric XML clipboard interchange type
@@ -392,7 +394,9 @@ x_clipboard_bind_workbook (WorkbookControlGUI *wbcg)
 	targets.info   = GNUMERIC_ATOM_INFO;
 
 	gtk_selection_add_targets (toplevel,
-				   GDK_SELECTION_PRIMARY, &targets, 1);
+		GDK_SELECTION_PRIMARY, &targets, 1);
+	gtk_selection_add_targets (toplevel,
+		GDK_SELECTION_CLIPBOARD, &targets, 1);
 
 	return FALSE;
 }

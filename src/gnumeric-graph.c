@@ -756,6 +756,19 @@ gnm_graph_setup (GnmGraph *graph, Workbook *wb)
 					  NULL, 0, NULL, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION || o == CORBA_OBJECT_NIL) {
+		static gboolean need_warn = TRUE;
+
+		/* its not clean or correct, but doing it right is not feasible in 1.0.x
+		 * I need to change IOContext to inherit from command context
+		 */
+		if (need_warn) {
+			GtkWidget *dialog = gnome_message_box_new (
+				_("Unable to run graphing component.  Do you have Guppi installed ?"),
+				GNOME_MESSAGE_BOX_ERROR, GNOME_STOCK_BUTTON_CLOSE, NULL);
+			gtk_widget_grab_focus ((GtkWidget *) GNOME_DIALOG (dialog)->buttons->data);
+			gnome_dialog_run (dialog);
+		}
+
 		g_warning ("'%s' : while attempting to activate a graphing component.\n"
 			   "oaf-run-query \"repo_ids.has('" MANAGER_OAF "')\"\nshould return a value.",
 			   oaf_exception_id (&ev));
