@@ -6,28 +6,29 @@
 	   Copyright Ariel Rios 2000
 */
 #include <libguile.h>
+#include <glib.h>
 #include <gtk/gtk.h>
 #include <guile/gh.h>
 
 #include "value.h"
+#include "smob-value.h"
 
 static long value_tag;
 
 typedef struct _SCM_Value
 {
-	SCM name;
-	SCM scm;
 	Value *v;
 	SCM update_func;
 } SCM_Value;
 
-SCM
-make_value (SCM name, SCM scm)
+static SCM
+make_value (SCM scm)
 {
 	Value *v;
-	SCM val_smob;
-	SCM_Value value;
+	SCM_Value *value;
 
+	v = g_new (Value, 1);
+	
 	/*
 	  FIXME:
 	  Add support for array, null values, etc
@@ -42,9 +43,7 @@ make_value (SCM name, SCM scm)
 	if (gh_boolean_p (scm)) 
 		v = value_new_bool ((gboolean) gh_scm2bool (scm));
 
-	value->name = name;
-	value->scm = scm;
-	value = (SCM_value *) scm_must_malloc (sizeof (SCM_VALUE), "value");
+	value = (SCM_Value *) scm_must_malloc (sizeof (SCM_Value), "value");
 	value->v = v;
 	value->update_func = SCM_BOOL_F;
 	
@@ -55,19 +54,16 @@ static SCM
 mark_value (SCM value_smob)
 {
 	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
-
-	scm_gc_mark (v->name);
-	scm_gc_mark (v->scm);
 	
 	return v->update_func;
 }
 
-static scm_size_t
+static scm_sizet
 free_value (SCM value_smob)
 {
 	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
 	scm_sizet size  = sizeof (SCM_Value);
-	value_release (v);
+	value_release (v->v);
 
 	return size;
 }
@@ -75,11 +71,9 @@ free_value (SCM value_smob)
 static int
 print_value (SCM value_smob, SCM port, scm_print_state *pstate)
 {
-	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
+	//SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
 
-	scm_puts ("#<Value ", port);
-	scm_display (v->scm, port);
-	scm_puts (">", port);
+	scm_puts ("#<Value>", port);
 
 	return 1;
 }
@@ -91,7 +85,7 @@ equalp_value (SCM value_smob_1, SCM value_smob_2)
 	SCM_Value *v2 = (SCM_Value *) SCM_CDR (value_smob_2);
 	SCM flag;
 	
-	flag = (value_compare (v1, v2, TRUE))? SCM_BOOL_T : SCM_BOOL_F;
+	flag = (value_compare (v1->v, v2->v, TRUE))? SCM_BOOL_T : SCM_BOOL_F;
 
 	return flag;
 }
@@ -104,8 +98,8 @@ init_value_type ()
 	scm_set_smob_mark (value_tag, mark_value);
 	scm_set_smob_free (value_tag, free_value);
 	scm_set_smob_print (value_tag, print_value);
-	scm_set_smob_print (value_tag, equalp_value);
+	scm_set_smob_equalp (value_tag, equalp_value);
 	
-  scm_make_gsubr ("make-value", 3, 0, 0, make_value);
+	scm_make_gsubr ("make-value", 1, 0, 0, make_value);
 }
 

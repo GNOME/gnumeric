@@ -1,5 +1,11 @@
 2000-11-06  Ariel Rios  <ariel@arcavia.com>
 
+	* smob-value.c (_SCM_Value): Remove scm and name values.
+	(make_value): Ditto. Also removed unused variables.
+	* Makefile.am: Compile smob-value.c
+	
+2000-11-06  Ariel Rios  <ariel@arcavia.com>
+
 	* smob-value.h: New header file.
 	(init_value_type): New prototype.
 	* smob-value.c (SCM_Value): Smob structure.

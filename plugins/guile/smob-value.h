@@ -5,7 +5,8 @@
 	   
 	   Copyright Ariel Rios 2000
 */
-void init_value_type (void);
+
+void init_value_type ();
 
 
 
