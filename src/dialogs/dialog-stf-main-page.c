@@ -51,7 +51,7 @@ main_page_set_encoding (StfDialogData *pagedata, const char *enc)
 		return FALSE;
 	}
 
-	if (!charmap_selector_set_encoding (pagedata->main.charmap_selector, enc)) {
+	if (!go_charmap_sel_set_encoding (pagedata->main.charmap_selector, enc)) {
 		g_free (utf8_data);
 		return FALSE;
 	}
@@ -159,14 +159,14 @@ main_page_import_range_changed (StfDialogData *data)
  *************************************************************************************************/
 
 static void
-encodings_changed_cb (CharmapSelector *cs, char const *new_charmap,
+encodings_changed_cb (GOCharmapSel *cs, char const *new_charmap,
 		      StfDialogData *pagedata)
 {
 	if (main_page_set_encoding (pagedata, new_charmap)) {
 		main_page_import_range_changed (pagedata);
 		main_page_update_preview (pagedata);
 	} else {
-		const char *name = charmap_selector_get_encoding_name (cs, new_charmap);
+		const char *name = go_charmap_sel_get_encoding_name (cs, new_charmap);
 		char *msg = g_strdup_printf
 			(_("The data is not valid in encoding %s; "
 			   "please select another encoding."),
@@ -175,7 +175,7 @@ encodings_changed_cb (CharmapSelector *cs, char const *new_charmap,
 				 GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 
-		charmap_selector_set_encoding (pagedata->main.charmap_selector,
+		go_charmap_sel_set_encoding (pagedata->main.charmap_selector,
 					       pagedata->encoding);
 	}
 }
@@ -269,7 +269,7 @@ main_page_parseoptions_to_gui (StfDialogData *pagedata)
 	StfParseOptions_t *po = pagedata->parseoptions;
 
 #if 0
-	charmap_selector_set_encoding (pagedata->main.charmap_selector, pagedata->encoding);
+	go_charmap_sel_set_encoding (pagedata->main.charmap_selector, pagedata->encoding);
 #endif
 
 	switch (po->parsetype) {
@@ -340,7 +340,7 @@ stf_dialog_main_page_init (GladeXML *gui, StfDialogData *pagedata)
 	pagedata->main.line_break_windows = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "line_break_windows"));
 	pagedata->main.line_break_mac     = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "line_break_mac"));
 
-	pagedata->main.charmap_selector = CHARMAP_SELECTOR (charmap_selector_new (CHARMAP_SELECTOR_TO_UTF8));
+	pagedata->main.charmap_selector = GO_CHARMAP_SEL (go_charmap_sel_new (GO_CHARMAP_SEL_TO_UTF8));
 	if (!main_page_set_encoding (pagedata, pagedata->encoding) &&
 	    !main_page_set_encoding (pagedata, locale_encoding) &&
 	    !main_page_set_encoding (pagedata, "ASCII") &&

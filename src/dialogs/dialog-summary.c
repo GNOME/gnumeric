@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * dialog-summary.c:  Implements the summary info stuff
  *
@@ -40,15 +41,13 @@
 typedef struct {
 	GladeXML           *gui;
 	WorkbookControlGUI *wbcg;
+	Workbook	   *wb;
 	GtkWidget          *dialog;
-	GtkWidget          *ok_button;
-	GtkWidget          *cancel_button;
-	GtkWidget          *apply_button;
 	gulong              signal_handler_filename_changed;
 	gulong              signal_handler_summary_changed;
 } SummaryState;
 
-static const char * const dialog_summary_names[] = {
+static char const * const dialog_summary_names[] = {
 	"title",
 	"author",
 	"category",
@@ -62,7 +61,7 @@ static gboolean
 dialog_summary_get (SummaryState *state)
 {
 	int lp;
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
+	Workbook *wb = state->wb;
 	GSList * changes = NULL;
 	GtkWidget *w;
 	gchar *old_content;
@@ -113,7 +112,7 @@ dialog_summary_get (SummaryState *state)
 static void
 dialog_summary_put (SummaryState *state)
 {
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
+	Workbook *wb = state->wb;
 	SummaryInfo *sin = wb->summary_info;
 	GtkWidget   *w ;
 	int i;
@@ -145,31 +144,16 @@ cb_info_changed (G_GNUC_UNUSED Workbook *wb, SummaryState *state)
 	return;
 }
 
-
-
 static void
-cb_dialog_summary_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
-				  SummaryState *state)
+cb_dialog_summary_cancel_clicked (SummaryState *state)
 {
 	gtk_widget_destroy (state->dialog);
-	return;
 }
-
 static void
-cb_dialog_summary_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
-				 SummaryState *state)
-{
-	dialog_summary_get (state);
-	return;
-}
-
-static void
-cb_dialog_summary_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
-			      SummaryState *state)
+cb_dialog_summary_ok_clicked (SummaryState *state)
 {
 	if (!dialog_summary_get (state))
 		gtk_widget_destroy (state->dialog);
-	return;
 }
 
 static gboolean
@@ -179,10 +163,10 @@ cb_dialog_summary_destroy (GtkObject *w, SummaryState *state)
 	g_return_val_if_fail (state != NULL, FALSE);
 
 	g_signal_handler_disconnect (
-		G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg))),
+		G_OBJECT (state->wb),
 		state->signal_handler_filename_changed);
 	g_signal_handler_disconnect (
-		G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg))),
+		G_OBJECT (state->wb),
 		state->signal_handler_summary_changed);
 
 	if (state->gui != NULL) {
@@ -196,13 +180,12 @@ cb_dialog_summary_destroy (GtkObject *w, SummaryState *state)
 	return FALSE;
 }
 
-
 void
 dialog_summary_update (WorkbookControlGUI *wbcg, gboolean open_dialog)
 {
 	SummaryState *state;
 	int i;
-	GtkWidget *dialog;
+	GtkWidget *dialog, *w;
 	GladeXML  *gui;
 
 	g_return_if_fail (wbcg != NULL);
@@ -226,32 +209,29 @@ dialog_summary_update (WorkbookControlGUI *wbcg, gboolean open_dialog)
 	g_return_if_fail (dialog != NULL);
 
 	state = g_new (SummaryState, 1);
-	state->wbcg  = wbcg;
-	state->gui  = gui;
-	state->dialog  = dialog;
+	state->wbcg	= wbcg;
+	state->wb	= wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->gui	= gui;
+	state->dialog	= dialog;
 
 	for (i = 0; dialog_summary_names[i]; i++) {
-		GtkWidget *entry;
-		entry = glade_xml_get_widget (state->gui, dialog_summary_names[i]);
+		GtkWidget *entry = glade_xml_get_widget (state->gui,
+			dialog_summary_names[i]);
 		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-					      GTK_WIDGET (entry));
+					  GTK_WIDGET (entry));
 	}
 
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
 		G_CALLBACK (cb_dialog_summary_destroy), state);
-	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
-	g_signal_connect (G_OBJECT (state->ok_button),
-		"clicked",
+	w = glade_xml_get_widget (state->gui, "ok_button");
+	g_signal_connect_swapped (G_OBJECT (w), "clicked",
 		G_CALLBACK (cb_dialog_summary_ok_clicked), state);
-	state->apply_button = glade_xml_get_widget (state->gui, "apply_button");
-	g_signal_connect (G_OBJECT (state->apply_button),
-		"clicked",
-		G_CALLBACK (cb_dialog_summary_apply_clicked), state);
-
-	state->cancel_button = glade_xml_get_widget (state->gui, "cancel_button");
-	g_signal_connect (G_OBJECT (state->cancel_button),
-		"clicked",
+	w = glade_xml_get_widget (state->gui, "apply_button");
+	g_signal_connect_swapped (G_OBJECT (w), "clicked",
+		G_CALLBACK (dialog_summary_get), state);
+	w = glade_xml_get_widget (state->gui, "cancel_button");
+	g_signal_connect_swapped (G_OBJECT (w), "clicked",
 		G_CALLBACK (cb_dialog_summary_cancel_clicked), state);
 
 	/* FIXME: that's not the proper help location */
@@ -264,17 +244,15 @@ dialog_summary_update (WorkbookControlGUI *wbcg, gboolean open_dialog)
 	g_object_set_data (G_OBJECT (state->dialog), SUMMARY_DIALOG_KEY_DIALOG,
 			   state);
 
-	state->signal_handler_filename_changed = g_signal_connect (
-		G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg))),
-		"filename_changed", G_CALLBACK (cb_info_changed), state) ;
-	state->signal_handler_summary_changed = g_signal_connect (
-		G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg))),
-		"summary_changed", G_CALLBACK (cb_info_changed), state) ;
+	state->signal_handler_filename_changed =
+		g_signal_connect (G_OBJECT (state->wb), "filename_changed",
+				  G_CALLBACK (cb_info_changed), state) ;
+	state->signal_handler_summary_changed =
+		g_signal_connect (G_OBJECT (state->wb), "summary_changed",
+				  G_CALLBACK (cb_info_changed), state) ;
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SUMMARY_DIALOG_KEY);
 
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 }
-
-

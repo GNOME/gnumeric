@@ -301,13 +301,8 @@ endif
 gnumeric_app_libs =				\
 	dialogs/libdialogs.a			\
 	tools/libtools.a			\
-	cut-n-paste-code/goffice/libgoffice.la	\
-	cut-n-paste-code/goffice/cut-n-paste/pcre/libpcre.a	\
 	cut-n-paste-code/foocanvas/libfoocanvas/libfoocanvas.a	\
 	widgets/libwidgets.a
-if WITH_GNOME
-gnumeric_app_libs += cut-n-paste-code/goffice/cut-n-paste/egg-recent-files/libeggrecent.a
-endif
 
 if ENABLE_SOLVER
 gnumeric_app_libs +=				\

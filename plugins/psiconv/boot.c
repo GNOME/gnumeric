@@ -35,7 +35,7 @@
 #include <stdio.h>
 #include <string.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 gboolean psiconv_file_probe (GnmFileOpener const *fo, GsfInput *input,
                             FileProbeLevel pl);

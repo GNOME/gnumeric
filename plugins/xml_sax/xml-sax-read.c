@@ -65,7 +65,7 @@
 #include <string.h>
 #include <locale.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 gboolean xml_sax_file_probe (GnmFileOpener const *fo, GsfInput *input,
                              FileProbeLevel pl);

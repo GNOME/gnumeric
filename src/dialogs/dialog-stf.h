@@ -4,9 +4,9 @@
 #include "dialog-stf-preview.h"
 #include "gui-util.h"
 #include <stf-parse.h>
-#include "widgets/widget-charmap-selector.h"
-#include "widgets/widget-locale-selector.h"
-#include <goffice/gui-utils/go-format-sel.h>
+#include <goffice/gtk/go-charmap-sel.h>
+#include <goffice/gtk/go-locale-sel.h>
+#include <goffice/gtk/go-format-sel.h>
 
 #include <gtk/gtkradiobutton.h>
 #include <gtk/gtkspinbutton.h>
@@ -28,7 +28,7 @@ typedef struct {
 	GtkCheckButton  *line_break_mac;
      
 	/* Page members that are created at run-time */
-	CharmapSelector *charmap_selector;
+	GOCharmapSel	*charmap_selector;
 	RenderData_t    *renderdata;
 } MainInfo_t;
 
@@ -67,7 +67,7 @@ typedef struct {
 	GtkWidget         *column_selection_label;
      
 	/* Page members that are created at run-time */
-	LocaleSelector    *locale_selector;
+	GOLocaleSel	  *locale_selector;
 	RenderData_t      *renderdata;
 	GPtrArray         *formats; /* Contains GnmFormat* */
 	int                index;

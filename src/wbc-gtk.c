@@ -35,10 +35,10 @@
 #include "style-color.h"
 #include "workbook-edit.h"
 
-#include <goffice/gui-utils/go-action-combo-stack.h>
-#include <goffice/gui-utils/go-action-combo-color.h>
-#include <goffice/gui-utils/go-action-combo-text.h>
-#include <goffice/gui-utils/go-action-combo-pixmaps.h>
+#include <goffice/gtk/go-action-combo-stack.h>
+#include <goffice/gtk/go-action-combo-color.h>
+#include <goffice/gtk/go-action-combo-text.h>
+#include <goffice/gtk/go-action-combo-pixmaps.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-file.h>
@@ -193,7 +193,7 @@ wbc_gtk_set_zoom_label (WorkbookControlGUI const *wbcg, char const *label)
 
 /****************************************************************************/
 
-#include <goffice/gui-utils/go-combo-pixmaps.h>
+#include <goffice/gtk/go-combo-pixmaps.h>
 #include "pixmaps/gnumeric-stock-pixbufs.h"
 #include "style-border.h"
 

@@ -41,10 +41,8 @@
 #include <application.h>
 #include <widgets/gnumeric-cell-renderer-text.h>
 #include <widgets/gnumeric-cell-renderer-toggle.h>
-#include <goffice/gui-utils/go-combo-box.h>
-#include <goffice/gui-utils/go-combo-color.h>
-#include <goffice/gui-utils/go-gui-utils.h>
-
+#include <goffice/gtk/go-combo-box.h>
+#include <goffice/gtk/go-combo-color.h>
 
 #include <glade/glade.h>
 #include <gtk/gtktreeview.h>

@@ -1,3 +1,19 @@
+2005-03-01  Jody Goldberg <jody@gnome.org>
+
+	* (all plugins) :
+	    s/GNUMERIC_MODULE_PLUGIN_INFO_DECL/
+	    GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION)/
+
+	* configure.in : Add the libgoffice depend and remove the
+	  src/cut-n-paste/goffice dirs
+	remove test for gnome_print_pango_create_layout.
+	    pango_layout_set_ellipsize,
+	    pango_context_set_matrix,
+	    pango_context_get_font_map
+
+	* src/Makefile.am : drop the built in libgoffice and pcre libraries
+	  we pull them externally now.
+
 2005-03-01  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gnumeric_glade_group_value): Constify.

@@ -2,11 +2,12 @@
 #define GNUMERIC_GUI_UTIL_H
 
 #include "workbook-control-gui.h"
-#include <goffice/app/error-info.h>
 #include "command-context.h"
-#include <goffice/utils/numbers.h>
-#include <goffice/gui-utils/go-gui-utils.h>
 #include "gutils.h"
+
+#include <goffice/app/error-info.h>
+#include <goffice/utils/numbers.h>
+#include <goffice/gtk/goffice-gtk.h>
 #include <gtk/gtkbutton.h>
 #include <gtk/gtkcombo.h>
 #include <gtk/gtkfilesel.h>

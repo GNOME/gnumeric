@@ -46,7 +46,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 
 static gboolean

@@ -31,7 +31,6 @@
 #include <clipboard.h>
 #include <dependent.h>
 #include <cmd-edit.h>
-#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkcheckbutton.h>

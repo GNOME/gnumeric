@@ -46,7 +46,7 @@
 
 #include "sc-fin.h"
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 #define is_valid_basis(B) (B >= 0 && B <= 5)
 #define is_valid_freq(F) (F == 1 || F == 2 || F == 4)

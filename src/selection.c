@@ -1247,7 +1247,7 @@ sv_selection_walk_step (SheetView *sv,
 
 #include <goffice/graph/gog-series.h>
 #include <goffice/graph/gog-plot-impl.h>
-#include <goffice/graph/go-data.h>
+#include <goffice/data/go-data.h>
 #include <expr.h>
 #include <graph.h>
 

@@ -29,7 +29,7 @@
 #include <goffice/app/module-plugin-defs.h>
 #include <limits.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 #ifndef WORD_BIT
 #define WORD_BIT ((int)(sizeof (int) * CHAR_BIT))

@@ -45,7 +45,7 @@
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 gboolean qpro_file_probe (GnmFileOpener const *fo, GsfInput *input,
 			  FileProbeLevel pl);

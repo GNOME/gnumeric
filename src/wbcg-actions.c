@@ -52,23 +52,22 @@
 #include "workbook-control-gui-priv.h"
 #include "workbook-control.h"
 #include "workbook-cmd-format.h"
-#include <goffice/app/io-context.h>
 #include "dialogs/dialogs.h"
 #include "sheet-object-image.h"
 #include "sheet-object-widget.h"
 #include "gnm-so-filled.h"
 #include "gnm-so-line.h"
 #include "sheet-object-graph.h"
-
 #include "gui-util.h"
 #include "gui-file.h"
 #include "gnumeric-gconf.h"
+
+#include <goffice/app/io-context.h>
 #include <goffice/graph/gog-guru.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/utils/go-glib-extras.h>
-#include <goffice/gui-utils/go-gui-utils.h>
 
 #include "widgets/widget-editable-label.h"
 #include <gtk/gtkactiongroup.h>

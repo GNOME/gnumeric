@@ -46,8 +46,8 @@
 #include "dialogs.h"
 #include "dialogs/help.h"
 #include "xml-io.h"
-#include <goffice/gui-utils/go-gui-utils.h>
-#include <goffice/gui-utils/go-combo-text.h>
+
+#include <goffice/gtk/go-combo-text.h>
 #include <goffice/utils/go-libxml-extras.h>
 
 #include <gsf/gsf-impl-utils.h>

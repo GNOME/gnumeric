@@ -36,7 +36,6 @@
 #include <workbook-edit.h>
 #include <style.h>
 #include <gnumeric-gconf.h>
-#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprint/gnome-print-unit.h>

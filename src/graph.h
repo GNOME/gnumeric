@@ -4,6 +4,7 @@
 
 #include "gnumeric.h"
 #include <goffice/graph/goffice-graph.h>
+#include <goffice/data/goffice-data.h>
 #include <glib-object.h>
 
 void	 gnm_go_data_set_sheet (GOData *dat, Sheet *sheet);

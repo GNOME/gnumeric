@@ -17,7 +17,6 @@
 #include "parse-util.h"
 #include "style.h"
 #include "style-color.h"
-#include <goffice/app/error-info.h>
 #include "value.h"
 #include "number-match.h"
 #include "gnm-format.h"
@@ -25,8 +24,8 @@
 #include "workbook.h"
 #include "libgnumeric.h"
 
-#include <goffice/gui-utils/go-combo-color.h>
-#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/error-info.h>
+#include <goffice/gtk/go-combo-color.h>
 #include <glade/glade.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkfilechooser.h>

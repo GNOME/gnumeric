@@ -14,7 +14,7 @@
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/module-plugin-defs.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 void oleo_file_open (GnmFileOpener const *fo, IOContext *io_context,
                      WorkbookView *wb_view, GsfInput *input);

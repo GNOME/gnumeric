@@ -17,7 +17,7 @@
 #define dirty _perl_dirty
 #undef _perl_dirty
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 extern void xs_init(void);
 

@@ -103,6 +103,7 @@ gnumeric_reqs="
 	gobject-2.0		>= 2.6.0
 	gmodule-2.0		>= 2.6.0
 	libgsf-1		>= 1.11.1
+	libgoffice-1		>= 0.0.1
 	libxml-2.0		>= 2.4.12
 	pango			>= 1.8.0
 	pangoft2		>= 1.8.0
@@ -179,7 +180,6 @@ dnl shot so that we can have a nice neat compile/link line
 dnl ****************************
 
 PKG_CHECK_MODULES(GNUMERIC, $gnumeric_reqs)
-GNUMERIC_CFLAGS="$GNUMERIC_CFLAGS -I\$(top_srcdir)/src/cut-n-paste-code"
 AC_SUBST(GNUMERIC_LIBS)
 AC_SUBST(GNUMERIC_CFLAGS)
 
@@ -566,17 +566,9 @@ AC_OUTPUT_COMMANDS([case "$CONFIG_FILES" in *po-functions/Makefile.in*)
         sed -e "/POTFILES =/r po-functions/POTFILES" po-functions/Makefile.in > po-functions/Makefile
       esac])
 
-dnl We do not want to force libgnomeprint 2.8 just yet.
 SAVE_LIBS="$LIBS"
 LIBS="$LIBS $GNUMERIC_LIBS"
-AC_CHECK_FUNCS(gnome_print_pango_create_layout mkfifo)
-LIBS="$SAVE_LIBS"
-unset SAVE_LIBS
-
-dnl We do not want to force pango 1.6 just yet.
-SAVE_LIBS="$LIBS"
-LIBS="$LIBS $GNUMERIC_LIBS"
-AC_CHECK_FUNCS(pango_layout_set_ellipsize pango_context_set_matrix pango_context_get_font_map)
+AC_CHECK_FUNCS(mkfifo)
 LIBS="$SAVE_LIBS"
 unset SAVE_LIBS
 
@@ -968,26 +960,6 @@ src/tools/solver/lp_solve/Makefile
 src/cut-n-paste-code/Makefile
 src/cut-n-paste-code/foocanvas/Makefile
 src/cut-n-paste-code/foocanvas/libfoocanvas/Makefile
-src/cut-n-paste-code/goffice/Makefile
-src/cut-n-paste-code/goffice/app/Makefile
-src/cut-n-paste-code/goffice/pixmaps/Makefile
-src/cut-n-paste-code/goffice/utils/Makefile
-src/cut-n-paste-code/goffice/gui-utils/Makefile
-src/cut-n-paste-code/goffice/graph/Makefile
-src/cut-n-paste-code/goffice/graph/plugins/Makefile
-src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/Makefile
-src/cut-n-paste-code/goffice/graph/plugins/plot_pie/Makefile
-src/cut-n-paste-code/goffice/graph/plugins/plot_radar/Makefile
-src/cut-n-paste-code/goffice/graph/plugins/plot_xy/Makefile
-src/cut-n-paste-code/goffice/graph/plugins/plot_surface/Makefile
-src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/Makefile
-src/cut-n-paste-code/goffice/drawing/Makefile
-src/cut-n-paste-code/goffice/ms-compat/Makefile
-src/cut-n-paste-code/goffice/libpresent/Makefile
-src/cut-n-paste-code/goffice/test/Makefile
-src/cut-n-paste-code/goffice/cut-n-paste/Makefile
-src/cut-n-paste-code/goffice/cut-n-paste/pcre/Makefile
-src/cut-n-paste-code/goffice/cut-n-paste/egg-recent-files/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/C/figures/Makefile

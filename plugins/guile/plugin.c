@@ -46,7 +46,7 @@
 #include "guile-support.h"
 #include "smob-value.h"
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 /* This is damn ugly.
  * However, it will get things working again (I hope)

@@ -53,7 +53,7 @@
 #include <string.h>
 #include <locale.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 typedef enum {
 	OO_STYLE_UNKNOWN,

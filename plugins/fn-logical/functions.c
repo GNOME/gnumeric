@@ -35,7 +35,7 @@
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/module-plugin-defs.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 /***************************************************************************/
 

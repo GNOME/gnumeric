@@ -43,7 +43,7 @@
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "gnumeric:atl"
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 static int    atl_fd = -1;
 static char * atl_filename = NULL;

@@ -30,7 +30,6 @@
 #include <sheet-style.h>
 #include <mstyle.h>
 #include <clipboard.h>
-#include <goffice/gui-utils/go-gui-utils.h>
 #include <gtk/gtkmain.h>
 #include <gdk/gdkkeysyms.h>
 

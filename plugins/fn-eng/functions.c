@@ -42,7 +42,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 /**
  * FIXME: In the long term this needs optimising.

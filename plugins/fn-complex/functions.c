@@ -41,7 +41,7 @@
 #include "gsl-complex.h"
 
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 
 /* Converts a complex number string into its coefficients.  Returns 0 if ok,

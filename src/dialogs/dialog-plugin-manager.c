@@ -42,7 +42,6 @@
 
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-service.h>
-#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <glade/glade.h>
 #include <gtk/gtknotebook.h>

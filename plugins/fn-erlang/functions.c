@@ -113,7 +113,7 @@ calculate_gos (gnm_float traffic, gnm_float circuits, gboolean comp)
 	return gos;
 }
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 /***************************************************************************/
 static GnmFuncHelp const help_probblock[] = {

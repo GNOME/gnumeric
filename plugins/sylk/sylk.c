@@ -41,7 +41,7 @@
 #include <gsf/gsf-input-textline.h>
 #include <gsf/gsf-utils.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 gboolean sylk_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
 void     sylk_file_open (GnmFileOpener const *fo, IOContext *io_context,

@@ -28,7 +28,7 @@
 #include <workbook.h>
 #include <sheet.h>
 #include <gui-util.h>
-#include <widgets/widget-charmap-selector.h>
+#include <goffice/gtk/go-charmap-sel.h>
 
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkcombobox.h>
@@ -119,7 +119,7 @@ stf_export_dialog_format_page_init (TextExportState *state)
 	gtk_combo_box_set_active (state->format.quote, 0);
 	state->format.quotechar   = GTK_COMBO_BOX_ENTRY      (glade_xml_get_widget (state->gui, "format_quotechar"));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (state->format.quotechar), 0);
-	state->format.charset	  = charmap_selector_new (CHARMAP_SELECTOR_FROM_UTF8);
+	state->format.charset	  = go_charmap_sel_new (GO_CHARMAP_SEL_FROM_UTF8);
 	state->format.transliterate = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format_transliterate"));
 	gnumeric_editable_enters (state->window, state->format.custom);
 	gnumeric_editable_enters (state->window,
@@ -234,7 +234,7 @@ stf_export_dialog_finish (TextExportState *state)
 	stf_export_options_set_cell_separator (state->result, separator);
 
 	stf_export_options_set_charset (state->result,
-		charmap_selector_get_encoding (CHARMAP_SELECTOR (state->format.charset)));
+		go_charmap_sel_get_encoding (GO_CHARMAP_SEL (state->format.charset)));
 
 	gtk_dialog_response (GTK_DIALOG (state->window), GTK_RESPONSE_OK);
 }

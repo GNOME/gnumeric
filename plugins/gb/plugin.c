@@ -43,7 +43,7 @@
 #include "excel-gb-context.h"
 #include "../excel/excel.h"
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 #ifndef MAP_FAILED
 /* Someone needs their head examining - BSD ? */

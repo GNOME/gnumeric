@@ -36,7 +36,7 @@
 #include <goffice/graph/gog-series.h>
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-control-foocanvas.h>
-#include <goffice/graph/go-data-simple.h>
+#include <goffice/data/go-data-simple.h>
 #include <goffice/utils/go-color.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkstock.h>

@@ -22,7 +22,7 @@
 #define GNM_FORMAT_SEL_H
 
 #include "gnumeric.h"
-#include <goffice/gui-utils/go-format-sel.h>
+#include <goffice/gtk/go-format-sel.h>
 
 G_BEGIN_DECLS
 

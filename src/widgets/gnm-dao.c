@@ -21,13 +21,12 @@
 
 #include <gnumeric-config.h>
 #include "gnm-dao.h"
-
 #include "gnumeric-expr-entry.h"
-#include "tools/dao.h"
-#include "value.h"
-#include "workbook-control.h"
-#include <goffice/gui-utils/go-gui-utils.h>
+#include <tools/dao.h>
+#include <value.h>
+#include <workbook-control.h>
 
+#include <goffice/gtk/goffice-gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtktable.h>

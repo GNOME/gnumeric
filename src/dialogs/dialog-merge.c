@@ -40,7 +40,6 @@
 #include <commands.h>
 #include <selection.h>
 #include <widgets/gnumeric-expr-entry.h>
-#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <glade/glade.h>
 #include <gtk/gtktreeview.h>

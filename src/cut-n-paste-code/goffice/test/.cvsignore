@@ -1,9 +1,0 @@
-Makefile.in
-Makefile
-.deps
-*.gladep
-*.lo
-*.loT
-test-ppt
-test-view-ppt
-dump-ppt-records

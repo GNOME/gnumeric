@@ -35,7 +35,7 @@
 #include "auto-format.h"
 #include "ranges.h"
 #include "parse-util.h"
-#include <goffice/graph/go-data-impl.h>
+#include <goffice/data/go-data-impl.h>
 #include <goffice/utils/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -864,7 +864,7 @@ gnm_go_data_matrix_load_values (GODataMatrix *dat)
 	GnmEvalPos ep;
 	GnmRange r;
 	Sheet *start_sheet, *end_sheet;
-	GOMatrixSize size = go_data_matrix_get_size (dat); /* force calculation */
+	GODataMatrixSize size = go_data_matrix_get_size (dat); /* force calculation */
 	double *vals, minimum, maximum;
 	GnmValue *v;
 	int row, col, cur;

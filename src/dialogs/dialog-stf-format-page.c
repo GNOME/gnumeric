@@ -28,6 +28,7 @@
 #include <gui-util.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkcombobox.h>
+#include <gtk/gtkhbox.h>
 #include <gtk/gtkvbox.h>
 
 /*************************************************************************************************
@@ -507,8 +508,8 @@ format_page_update_preview (StfDialogData *pagedata)
  *************************************************************************************************/
 
 static void
-locale_changed_cb (LocaleSelector *ls, char const *new_locale,
-		      StfDialogData *pagedata)
+locale_changed_cb (GOLocaleSel *ls, char const *new_locale,
+		   StfDialogData *pagedata)
 {
 	g_free (pagedata->locale);
 	pagedata->locale = g_strdup (new_locale);
@@ -636,7 +637,7 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 	gtk_widget_show (GTK_WIDGET (pagedata->format.format_selector));
 
 	pagedata->format.locale_selector =
-		LOCALE_SELECTOR (locale_selector_new ());
+		GO_LOCALE_SEL (go_locale_sel_new ());
 	gtk_table_attach (
 		GTK_TABLE (glade_xml_get_widget (gui, "locale_table")),
 		GTK_WIDGET (pagedata->format.locale_selector),

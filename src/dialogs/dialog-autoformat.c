@@ -44,7 +44,6 @@
 #include <commands.h>
 #include <selection.h>
 #include <ranges.h>
-#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <glade/glade.h>

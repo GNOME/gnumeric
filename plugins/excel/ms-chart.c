@@ -40,7 +40,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-plot-engine.h>
 #include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/go-data-simple.h>
+#include <goffice/data/go-data-simple.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-pattern.h>
 #include <goffice/utils/go-marker.h>

@@ -60,18 +60,18 @@
 #include "gnm-format.h"
 #include "gui-file.h"
 #include "search.h"
-#include <goffice/app/error-info.h>
 #include "gui-util.h"
 #include "widgets/widget-editable-label.h"
 #include "sheet-object-image.h"
 #include "gnumeric-gconf.h"
 #include "filter.h"
-#include <goffice/app/io-context.h>
 #include "stf.h"
 #include "rendered-value.h"
 #include "sort.h"
+
+#include <goffice/app/error-info.h>
+#include <goffice/app/io-context.h>
 #include <goffice/graph/gog-data-set.h>
-#include <goffice/gui-utils/go-gui-utils.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/app/go-cmd-context-impl.h>
 
@@ -2337,7 +2337,7 @@ wbcg_set_direction (WorkbookControlGUI *wbcg)
 /***************************************************************************/
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-series.h>
-#include <goffice/graph/go-data.h>
+#include <goffice/data/go-data.h>
 #include "graph.h"
 
 static void

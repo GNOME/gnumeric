@@ -11,7 +11,7 @@
 
 #include "perl-loader.h"
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 GType perl_get_loader_type (ErrorInfo **ret_error);
 

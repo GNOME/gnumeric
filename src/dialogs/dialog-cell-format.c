@@ -56,10 +56,9 @@
 #include <widgets/widget-font-selector.h>
 #include <widgets/gnumeric-dashed-canvas-line.h>
 #include <widgets/gnm-format-sel.h>
-#include <goffice/gui-utils/go-gui-utils.h>
-#include <goffice/gui-utils/go-combo-color.h>
-#include <goffice/gui-utils/go-combo-box.h>
-#include <goffice/gui-utils/go-combo-text.h>
+#include <goffice/gtk/go-combo-color.h>
+#include <goffice/gtk/go-combo-box.h>
+#include <goffice/gtk/go-combo-text.h>
 #include <goffice/utils/go-font.h>
 #include <libart_lgpl/art_alphagamma.h>
 #include <libart_lgpl/art_pixbuf.h>

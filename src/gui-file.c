@@ -16,15 +16,15 @@
 #include "dialogs.h"
 #include "sheet.h"
 #include "application.h"
-#include <goffice/app/io-context.h>
 #include "command-context.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
 #include "workbook-priv.h"
 #include "gnumeric-gconf.h"
-#include "widgets/widget-charmap-selector.h"
+
+#include <goffice/gtk/go-charmap-sel.h>
+#include <goffice/app/io-context.h>
 #include <goffice/utils/go-file.h>
-#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtklabel.h>
@@ -32,6 +32,7 @@
 #include <gtk/gtkcombo.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtkimage.h>
+#include <gtk/gtkhbox.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkfilechooserdialog.h>
 #include <glade/glade.h>
@@ -41,7 +42,7 @@
 #include <sys/stat.h>
 
 typedef struct {
-	CharmapSelector *charmap_selector;
+	GOCharmapSel *go_charmap_sel;
 	GtkWidget	*charmap_label;
 	GList *openers;
 } file_format_changed_cb_data;
@@ -147,7 +148,7 @@ file_format_changed_cb (GtkComboBox *format_combo,
 		gtk_combo_box_get_active (format_combo));
 	gboolean is_sensitive = fo != NULL && gnm_file_opener_is_encoding_dependent (fo);
 
-	gtk_widget_set_sensitive (GTK_WIDGET (data->charmap_selector), is_sensitive);
+	gtk_widget_set_sensitive (GTK_WIDGET (data->go_charmap_sel), is_sensitive);
 	gtk_widget_set_sensitive (data->charmap_label, is_sensitive);
 }
 
@@ -180,7 +181,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	GList *openers;
 	GtkFileChooser *fsel;
 	GtkComboBox *format_combo;
-	GtkWidget *charmap_selector;
+	GtkWidget *go_charmap_sel;
 	file_format_changed_cb_data data;
 	gint opener_default;
 	char const *title;
@@ -201,8 +202,8 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	data.openers = openers;
 
 	/* Make charmap chooser */
-	charmap_selector = charmap_selector_new (CHARMAP_SELECTOR_TO_UTF8);
-	data.charmap_selector = CHARMAP_SELECTOR(charmap_selector);
+	go_charmap_sel = go_charmap_sel_new (GO_CHARMAP_SEL_TO_UTF8);
+	data.go_charmap_sel = GO_CHARMAP_SEL(go_charmap_sel);
 	data.charmap_label = gtk_label_new_with_mnemonic (_("Character _encoding:"));
 
 	/* Make format chooser */
@@ -280,12 +281,12 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 		gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (format_combo));
 
 		gtk_table_attach (GTK_TABLE (box),
-				  charmap_selector,
+				  go_charmap_sel,
 				  1, 2, 1, 2, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 5, 2);
 		gtk_table_attach (GTK_TABLE (box), data.charmap_label,
 				  0, 1, 1, 2, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
 		gtk_label_set_mnemonic_widget (GTK_LABEL (data.charmap_label),
-					       charmap_selector);
+					       go_charmap_sel);
 
 		gtk_file_chooser_set_extra_widget (fsel, box);
 	}
@@ -295,7 +296,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 		goto out;
 
 	uri = gtk_file_chooser_get_uri (fsel);
-	encoding = charmap_selector_get_encoding (CHARMAP_SELECTOR (charmap_selector));
+	encoding = go_charmap_sel_get_encoding (GO_CHARMAP_SEL (go_charmap_sel));
 	fo = g_list_nth_data (openers, gtk_combo_box_get_active (format_combo));
 
  out:

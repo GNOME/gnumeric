@@ -25,7 +25,7 @@
 #include <glib/gi18n.h>
 #include <stdlib.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 void xbase_file_open (GnmFileOpener const *fo, IOContext *io_context,
                       WorkbookView *wb_view, GsfInput *input);

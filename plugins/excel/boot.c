@@ -37,7 +37,7 @@
 #include <gsf/gsf-outfile-msole.h>
 #include <gsf/gsf-structured-blob.h>
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
 
 /* Used to toggle debug messages on & off */
 /*
