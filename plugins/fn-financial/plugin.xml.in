@@ -31,6 +31,7 @@
 				<function name="duration"/>
 				<function name="effect"/>
 				<function name="euro"/>
+				<function name="euroconvert"/>
 				<function name="fv"/>
 				<function name="fvschedule"/>
 				<function name="intrate"/>

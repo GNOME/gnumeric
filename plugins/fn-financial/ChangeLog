@@ -1,5 +1,10 @@
 2002-08-10  Jukka Pekka <jiivonen@hutcs.cs.hut.fi>
 
+	* functions.c: Implemented EUROCONVERT(). Rounding is not yet
+	XL2002 compatible.
+
+2002-08-10  Jukka Pekka <jiivonen@hutcs.cs.hut.fi>
+
 	* sc-fin.c (get_vdb): Fixed, hopefully.
 
 2002-08-07  Morten Welinder  <terra@diku.dk>

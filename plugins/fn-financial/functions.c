@@ -2351,6 +2351,7 @@ static const char *help_euro = {
 	   "    BEF\t(Belgium)\n"
 	   "    DEM\t(Germany)\n"
 	   "    ESP\t(Spain)\n"
+	   "    EUR\t(Euro)\n"
 	   "    FIM\t(Finland)\n"
 	   "    FRF\t(France)\n"
 	   "    GRD\t(Greek)\n"
@@ -2369,61 +2370,126 @@ static const char *help_euro = {
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
+/*
+ * Returns one euro as a given national currency. On error, negative
+ * value is returned.
+ */
+static gnum_float
+one_euro (const char *str)
 {
-        const char *str = value_peek_string (argv[0]);
-
 	switch (*str) {
 	case 'A':
 	        if (strncmp ("ATS", str, 3) == 0)
-		        return value_new_float (GNUM_const (13.7603));
+		        return GNUM_const (13.7603);
 		break;
 	case 'B':
 	        if (strncmp ("BEF", str, 3) == 0)
-		        return value_new_float (GNUM_const (40.3399));
+		        return GNUM_const (40.3399);
 		break;
 	case 'D':
 	        if (strncmp ("DEM", str, 3) == 0)
-		        return value_new_float (GNUM_const (1.95583));
+		        return GNUM_const (1.95583);
 		break;
 	case 'E':
 	        if (strncmp ("ESP", str, 3) == 0)
-		        return value_new_float (GNUM_const (166.386));
+		        return GNUM_const (166.386);
+	        else if (strncmp ("EUR", str, 3) == 0)
+		        return GNUM_const (1.0);
 		break;
 	case 'F':
 	        if (strncmp ("FIM", str, 3) == 0)
-		        return value_new_float (GNUM_const (5.94573));
+		        return GNUM_const (5.94573);
 		else if (strncmp ("FRF", str, 3) == 0)
-		        return value_new_float (GNUM_const (6.55957));
+		        return GNUM_const (6.55957);
 		break;
 	case 'I':
 	        if (strncmp ("IEP", str, 3) == 0)
-		        return value_new_float (GNUM_const (0.787564));
+		        return GNUM_const (0.787564);
 		else if (strncmp ("ITL", str, 3) == 0)
-		        return value_new_float (GNUM_const (1936.27));
+		        return GNUM_const (1936.27);
 		break;
 	case 'G':
 	        if (strncmp ("GRD", str, 3) == 0)
-		        return value_new_float (GNUM_const (340.75));
+		        return GNUM_const (340.75);
 		break;
 	case 'L':
 	        if (strncmp ("LUX", str, 3) == 0)
-		        return value_new_float (GNUM_const (40.3399));
+		        return GNUM_const (40.3399);
 		break;
 	case 'N':
 	        if (strncmp ("NLG", str, 3) == 0)
-		        return value_new_float (GNUM_const (2.20371));
+		        return GNUM_const (2.20371);
 		break;
 	case 'P':
 	        if (strncmp ("PTE", str, 3) == 0)
-		        return value_new_float (GNUM_const (200.482));
+		        return GNUM_const (200.482);
 		break;
 	default:
 	        break;
 	}
 
-	return value_new_error (ei->pos, gnumeric_err_NUM);
+	return -1;
+}
+
+static Value *
+gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
+{
+        const char *str = value_peek_string (argv[0]);
+	gnum_float v    = one_euro (str);
+
+	if (v >= 0)
+		return value_new_float (v);
+	else
+		return value_new_error (ei->pos, gnumeric_err_NUM);	
+}
+
+/***************************************************************************/
+
+static const char *help_euroconvert = {
+	N_("@FUNCTION=EUROCONVERT\n"
+	   "@SYNTAX=EUROCONVERT(n,source,target)\n"
+	   "@DESCRIPTION="
+	   "EUROCONVERT converts the currency value @n of @source currency "
+	   "to a target currency @target. Both currencies are given as "
+	   "three-letter strings using the ISO code system names.  The "
+	   "following currencies are available:\n"
+	   "\n"
+	   "    ATS\t(Austria)\n"
+	   "    BEF\t(Belgium)\n"
+	   "    DEM\t(Germany)\n"
+	   "    ESP\t(Spain)\n"
+	   "    EUR\t(Euro)\n"
+	   "    FIM\t(Finland)\n"
+	   "    FRF\t(France)\n"
+	   "    GRD\t(Greek)\n"
+	   "    IEP\t(Ireland)\n"
+	   "    ITL\t(Italy)\n"
+	   "    LUF\t(Luxemburg)\n"
+	   "    NLG\t(Netherlands)\n"
+	   "    PTE\t(Portugal)\n"
+	   "\n"
+	   "* If the given @source or @target is other than one of the "
+	   "above, EUROCONVERT returns #VALUE! error.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "EUROCONVERT(2.1,\"DEM\",\"EUR\") returns 1.07."
+	   "\n"
+	   "@SEEALSO=EURO")
+};
+
+static Value *
+gnumeric_euroconvert (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float n     = value_get_as_float (argv[0]);
+        const char *str1 = value_peek_string (argv[1]);
+        const char *str2 = value_peek_string (argv[2]);
+	gnum_float c1    = one_euro (str1);
+	gnum_float c2    = one_euro (str2);
+
+	if (c1 >= 0 && c2 >= 0)
+		return value_new_float (n * c2 / c1);
+	else
+		return value_new_error (ei->pos, gnumeric_err_VALUE);	
 }
 
 /***************************************************************************/
@@ -3681,6 +3747,8 @@ const ModulePluginFunctionInfo financial_functions[] = {
 	  &help_effect,	  gnumeric_effect, NULL, NULL, NULL },
 	{ "euro", "s", "currency",
 	  &help_euro,	  gnumeric_euro, NULL, NULL, NULL },
+	{ "euroconvert", "fss", "n,source,target",
+	  &help_euroconvert, gnumeric_euroconvert, NULL, NULL, NULL },
 	{ "fv", "fff|ff", "rate,nper,pmt,pv,type",
 	  &help_fv,	  gnumeric_fv, NULL, NULL, NULL },
 	{ "fvschedule", "fA", "pv,schedule",

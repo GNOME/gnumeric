@@ -47,6 +47,7 @@ Jukka:
 	  XL, you have to pay more to get it as an extra add-in.
 	* Implemented SIMTABLE() function related to the risk simulation
 	  tool.
+	* Initial EUROCONVERT() function.
 
 Morten:
 	* Fix random number generator to really use /dev/urandom.
