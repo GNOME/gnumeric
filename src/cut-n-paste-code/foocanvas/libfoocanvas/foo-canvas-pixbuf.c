@@ -136,8 +136,9 @@ foo_canvas_pixbuf_get_type (void)
 	static GtkType canvas_pixbuf_type = 0;
 
 	if (!canvas_pixbuf_type) {
+		/* FIXME: Convert to gobject style.  */
 		static const GtkTypeInfo canvas_pixbuf_info = {
-			"FooCanvasPixbuf",
+			(char *)"FooCanvasPixbuf",
 			sizeof (FooCanvasPixbuf),
 			sizeof (FooCanvasPixbufClass),
 			(GtkClassInitFunc) foo_canvas_pixbuf_class_init,

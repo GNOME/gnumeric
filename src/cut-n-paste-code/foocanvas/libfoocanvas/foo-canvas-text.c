@@ -172,8 +172,9 @@ foo_canvas_text_get_type (void)
 	static GtkType text_type = 0;
 
 	if (!text_type) {
-		GtkTypeInfo text_info = {
-			"FooCanvasText",
+		/* FIXME: Convert to gobject style.  */
+		static const GtkTypeInfo text_info = {
+			(char *)"FooCanvasText",
 			sizeof (FooCanvasText),
 			sizeof (FooCanvasTextClass),
 			(GtkClassInitFunc) foo_canvas_text_class_init,

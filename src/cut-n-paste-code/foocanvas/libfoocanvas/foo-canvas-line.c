@@ -121,8 +121,9 @@ foo_canvas_line_get_type (void)
 	static GtkType line_type = 0;
 
 	if (!line_type) {
-		GtkTypeInfo line_info = {
-			"FooCanvasLine",
+		/* FIXME: Convert to gobject style.  */
+		static const GtkTypeInfo line_info = {
+			(char *)"FooCanvasLine",
 			sizeof (FooCanvasLine),
 			sizeof (FooCanvasLineClass),
 			(GtkClassInitFunc) foo_canvas_line_class_init,

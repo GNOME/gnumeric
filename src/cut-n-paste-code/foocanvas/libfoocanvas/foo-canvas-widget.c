@@ -85,8 +85,9 @@ foo_canvas_widget_get_type (void)
 	static GtkType witem_type = 0;
 
 	if (!witem_type) {
-		GtkTypeInfo witem_info = {
-			"FooCanvasWidget",
+		/* FIXME: Convert to gobject style.  */
+		static const GtkTypeInfo witem_info = {
+			(char *)"FooCanvasWidget",
 			sizeof (FooCanvasWidget),
 			sizeof (FooCanvasWidgetClass),
 			(GtkClassInitFunc) foo_canvas_widget_class_init,
@@ -367,7 +368,7 @@ foo_canvas_widget_set_property (GObject            *object,
 		break;
 
 	case PROP_ANCHOR:
-	        if (witem->anchor != g_value_get_enum (value))
+	        if (witem->anchor != (GtkAnchorType)g_value_get_enum (value))
 		{
 		        witem->anchor = g_value_get_enum (value);
 			update = TRUE;

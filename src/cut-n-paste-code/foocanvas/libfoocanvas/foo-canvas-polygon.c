@@ -110,8 +110,9 @@ foo_canvas_polygon_get_type (void)
 	static GtkType polygon_type = 0;
 
 	if (!polygon_type) {
-		GtkTypeInfo polygon_info = {
-			"FooCanvasPolygon",
+		/* FIXME: Convert to gobject style.  */
+		static const GtkTypeInfo polygon_info = {
+			(char *)"FooCanvasPolygon",
 			sizeof (FooCanvasPolygon),
 			sizeof (FooCanvasPolygonClass),
 			(GtkClassInitFunc) foo_canvas_polygon_class_init,
