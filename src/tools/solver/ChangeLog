@@ -1,5 +1,12 @@
 2002-03-07  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* solver.c (lp_solver_init): Made to use API calls instead of
+	using direct calls to LP Solve.
+
+	* reports.c (solver_program_report): Added non-zeros statistics for the
+	objective fn as well.
+	(fill_header_titles): Added filename to be printed as well.
+
 	* reports.c (solver_limits_report): Implemented the initial limits
 	reporting.
 	(solver_program_report): Implemented the program statistics

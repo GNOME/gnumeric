@@ -436,6 +436,10 @@ gnum_float lp_solve_get_value_of_obj_fn (lprec *lp);
 gnum_float lp_solve_get_dual (lprec *lp, int row);
 /* returns the value of a dual. */
 
+void lp_solve_set_constr_mat (lprec *lp, int col, int row, gnum_float value);
+void lp_solve_set_constr_rhs (lprec *lp, int row, int value);
+void lp_solve_set_constr_type (lprec *lp, int row, SolverConstraintType type);
+
 
 /* functions used internaly by the lp toolkit */
 void       inc_mat_space (lprec *lp, int max_extra);

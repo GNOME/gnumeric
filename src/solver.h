@@ -36,9 +36,12 @@ typedef SolverProgram (solver_lp_init_fn) (int n_vars, int n_constraints);
 typedef void (solver_lp_remove_fn) (SolverProgram handle);
 typedef void (solver_lp_set_obj_fn) (SolverProgram handle, int col, 
 				     gnum_float v);
-typedef void (solver_lp_add_constraint_fn) (SolverProgram handle,
-					      SolverConstraintType type,
-					      gnum_float *row, gnum_float rhs);
+typedef void (solver_lp_set_constr_mat_fn)  (SolverProgram handle, int col,
+					     int row, gnum_float v);
+typedef void (solver_lp_set_constr_type_fn) (SolverProgram handle, int row,
+					     SolverConstraintType type);
+typedef void (solver_lp_set_constr_rhs_fn)  (SolverProgram handle, int row,
+					     gnum_float rhs);
 typedef void (solver_lp_set_maxim_fn) (SolverProgram handle);
 typedef void (solver_lp_set_minim_fn) (SolverProgram handle);
 typedef void (solver_lp_set_int_fn) (SolverProgram handle, int col,
@@ -53,7 +56,9 @@ typedef struct {
         solver_lp_init_fn             *init_fn;
         solver_lp_remove_fn           *remove_fn;
         solver_lp_set_obj_fn          *set_obj_fn;
-        solver_lp_add_constraint_fn   *add_constraint_fn;
+        solver_lp_set_constr_mat_fn   *set_constr_mat_fn;
+        solver_lp_set_constr_type_fn  *set_constr_type_fn;
+        solver_lp_set_constr_rhs_fn   *set_constr_rhs_fn;
         solver_lp_set_maxim_fn        *maxim_fn;
         solver_lp_set_minim_fn        *minim_fn;
         solver_lp_set_int_fn          *set_int_fn;
@@ -104,6 +109,7 @@ typedef struct {
         int              n_variables;
         int              n_constraints;
         int              n_nonzeros_in_mat;
+        int              n_nonzeros_in_obj;
         gnum_float       time_user;
         gnum_float       time_system;
         gnum_float       time_real;

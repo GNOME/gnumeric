@@ -364,12 +364,6 @@ set_mat (lprec *lp, int Row, int Column, gnum_float Value)
 	}
 }
 
-void
-lp_solve_set_obj_fn (lprec *lp, int col, gnum_float value)
-{
-        set_mat (lp, 0, col, value);
-}
-
 #if 0
 void
 str_set_obj_fn (lprec *lp, char *row)
@@ -501,6 +495,7 @@ lp_solve_add_constraint (lprec *lp, gnum_float *row,
 	lp->eta_valid = FALSE;
 }
 
+#if 0
 void
 str_add_constraint (lprec *lp,
 		    char *row_string,
@@ -582,6 +577,7 @@ del_constraint (lprec *lp, int del_row)
 	lp->eta_valid     = FALSE;
 	lp->basis_valid   = FALSE; 
 }
+#endif
 
 void
 add_lag_con (lprec *lp, gnum_float *row, SolverConstraintType con_type,
@@ -650,7 +646,6 @@ str_add_lag_con (lprec *lp, char *row, SolverConstraintType con_type,
 	g_free (a_row);
 }
 
-
 void
 add_column (lprec *lp, gnum_float *column)
 {
@@ -693,6 +688,7 @@ add_column (lprec *lp, gnum_float *column)
 	lp->row_end_valid = FALSE;
 }
 
+#if 0
 void
 str_add_column (lprec *lp, char *col_string)
 {
@@ -760,6 +756,7 @@ del_column (lprec *lp, int column)
 	lp->sum--;
 	lp->columns--;
 }
+#endif
 
 void
 set_upbo (lprec *lp, int column, gnum_float value)
@@ -868,7 +865,7 @@ str_set_rh_vec (lprec *lp, char *rh_string)
 
 
 void
-lp_solve_set_maxim (lprec *lp)
+lpkit_set_maxim (lprec *lp)
 {
         int i;
 	if (lp->maximise == FALSE) {
@@ -883,7 +880,7 @@ lp_solve_set_maxim (lprec *lp)
 }
 
 void
-lp_solve_set_minim (lprec *lp)
+lpkit_set_minim (lprec *lp)
 {
         int i;
 	if (lp->maximise == TRUE) {
@@ -895,12 +892,6 @@ lp_solve_set_minim (lprec *lp)
 	} 
 	lp->maximise = FALSE;
 	lp->ch_sign[0] = FALSE;
-}
-
-lprec *
-lp_solve_init (int n_vars, int n_constraints)
-{
-        return lp_solve_make_lp (0, n_vars);
 }
 
 void
@@ -1434,18 +1425,6 @@ reset_basis (lprec *lp)
 }
 
 gnum_float
-lp_solve_get_solution (lprec *lp, int column)
-{
-        return lp->best_solution[lp->rows + column];
-}
-
-gnum_float
-lp_solve_get_value_of_obj_fn (lprec *lp)
-{
-        return lp->best_solution[0];
-}
-
-gnum_float
 get_constraint_value (lprec *lp, int row)
 {
         return lp->best_solution[row + 1];
@@ -1508,6 +1487,7 @@ print_solution (lprec *lp)
 	fflush (stream);
 }
 
+#if 0
 void
 write_LP (lprec *lp, FILE *output)
 {
@@ -1865,3 +1845,4 @@ print_scales (lprec *lp)
 				 (double)lp->scale[lp->rows + i]);
 	}
 }
+#endif

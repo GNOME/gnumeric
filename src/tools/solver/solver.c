@@ -43,7 +43,9 @@ static SolverLPAlgorithm lp_algorithm[] = {
 		(solver_lp_init_fn*)             lp_solve_init,
 		(solver_lp_remove_fn*)           lp_solve_delete_lp,
 		(solver_lp_set_obj_fn*)          lp_solve_set_obj_fn,
-		(solver_lp_add_constraint_fn*)   lp_solve_add_constraint,
+		(solver_lp_set_constr_mat_fn*)   lp_solve_set_constr_mat,
+		(solver_lp_set_constr_type_fn*)  lp_solve_set_constr_type,
+		(solver_lp_set_constr_rhs_fn*)   lp_solve_set_constr_rhs,
 		(solver_lp_set_maxim_fn*)        lp_solve_set_maxim,
 		(solver_lp_set_minim_fn*)        lp_solve_set_minim,
 		(solver_lp_set_int_fn*)          lp_solve_set_int,
@@ -92,6 +94,7 @@ solver_results_init (const SolverParameters *sp)
 					 sp->n_int_bool_constraints);
 	res->n_variables       = sp->n_variables;
 	res->n_constraints     = sp->n_constraints;
+	res->n_nonzeros_in_obj = 0;
 	res->n_nonzeros_in_mat = 0;
 	res->time_user         = 0;
 	res->time_system       = 0;
@@ -255,6 +258,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res)
 		if (x != 0) {
 		        lp_algorithm[param->options.algorithm].
 			        set_obj_fn (program, i+1, x);
+			res->n_nonzeros_in_obj += 1;
 		}
 	}
 			 
@@ -265,20 +269,26 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res)
 		target = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
 
 		if (c->type == SolverINT) {
+		        lp_algorithm[param->options.algorithm].
+			        set_int_fn (program, i+1, TRUE);
 		        continue;
 		}
 		for (n = 0; n < param->n_variables; n++) {
-		        row[n + 1] = get_lp_coeff (target,
-						   get_solver_input_var (sheet,
-									 n));
-			if (row[n + 1] != 0)
+		        x = get_lp_coeff (target,
+					  get_solver_input_var (sheet, n));
+			if (x != 0) {
 			        res->n_nonzeros_in_mat += 1;
+				lp_algorithm[param->options.algorithm].
+				        set_constr_mat_fn (program, n, i, x);
+				//set_mat (program, i + 1, n + 1, x);
+			}
 		}
 		target = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
 		x = value_get_as_float (target->value);
-		lp_solve_add_constraint (program, row, c->type, x); /* FIXME:
-								     * use API fn
-								     */
+		lp_algorithm[param->options.algorithm].
+		        set_constr_rhs_fn (program, i, x);
+		lp_algorithm[param->options.algorithm].
+		        set_constr_type_fn (program, i, c->type);
 	}
 
 	/* Set up the problem type. */

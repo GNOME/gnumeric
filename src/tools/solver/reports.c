@@ -96,7 +96,10 @@ fill_header_titles (data_analysis_output_t *dao, gchar *title, Sheet *sheet)
 	g_string_free (buf, FALSE);
 
 	buf = g_string_new ("");
-	g_string_sprintfa (buf, "%s %s", _("Worksheet:"), sheet->name_quoted);
+	g_string_sprintfa (buf, "%s [%s]%s",
+			   _("Worksheet:"),
+			   workbook_get_filename (sheet->workbook),
+			   sheet->name_quoted);
 	set_cell (dao, 0, 1, buf->str);
 	g_string_free (buf, FALSE);
 
@@ -545,35 +548,56 @@ solver_program_report (WorkbookControl *wbc,
 	 */
 
 	set_cell (&dao, 2, 11, _("Matrix Elements"));
-	set_cell (&dao, 3, 11, _("Non-zeros"));
-	set_cell (&dao, 4, 11, _("Zeros"));
+	set_cell (&dao, 3, 11, _("Non-zeros (constr.)"));
+	set_cell (&dao, 4, 11, _("Zeros (constr.)"));
+	set_cell (&dao, 5, 11, _("Non-zeros (obj. fn)"));
+	set_cell (&dao, 6, 11, _("Zeros (obj. fn)"));
 	set_cell (&dao, 1, 12, _("Number of"));
 	set_cell (&dao, 1, 13, _("Ratio"));
-	set_bold (dao.sheet, 0, 11, 4, 11);
+	set_bold (dao.sheet, 0, 11, 6, 11);
 	set_bold (dao.sheet, 1, 12, 1, 13);
 
 	/* Set the `Nbr of Matrix Elements'. */
 	mat_size = res->param->n_variables * res->param->n_constraints;
 	set_cell_value (&dao, 2, 12, value_new_float (mat_size));
 
-	/* Set the `Nbr of Non-zeros'. */
-	set_cell_value (&dao, 3, 12, value_new_float (res->n_nonzeros_in_mat));
-
-	/* Set the `Nbr of Zeros'. */
-	zeros = mat_size - res->n_nonzeros_in_mat;
-	set_cell_value (&dao, 4, 12, value_new_float (zeros));
-
 	/* Set the `Ratio of Matrix Elements'. */
 	set_cell_value (&dao, 2, 13, value_new_float (1));
 
-	/* Set the `Ratio of Non-zeros'. */
+
+	/* Set the `Nbr of Non-zeros (constr.)'. */
+	set_cell_value (&dao, 3, 12, value_new_float (res->n_nonzeros_in_mat));
+
+	/* Set the `Nbr of Zeros (constr.)'. */
+	zeros = mat_size - res->n_nonzeros_in_mat;
+	set_cell_value (&dao, 4, 12, value_new_float (zeros));
+
+	/* Set the `Ratio of Non-zeros (constr.)'. */
 	set_cell_value (&dao, 3, 13, 
 			value_new_float ((gnum_float) res->n_nonzeros_in_mat /
 					 mat_size));
 
-	/* Set the `Ratio of Zeros'. */
+	/* Set the `Ratio of Zeros (constr.)'. */
 	set_cell_value (&dao, 4, 13, 
 			value_new_float ((gnum_float) zeros / mat_size));
+
+
+	/* Set the `Nbr of Non-zeros (obj. fn)'. */
+	set_cell_value (&dao, 5, 12, value_new_float (res->n_nonzeros_in_obj));
+
+	/* Set the `Nbr of Zeros (obj. fn)'. */
+	zeros = res->param->n_variables - res->n_nonzeros_in_obj;
+	set_cell_value (&dao, 6, 12, value_new_float (zeros));
+
+	/* Set the `Ratio of Non-zeros (obj. fn)'. */
+	set_cell_value (&dao, 5, 13, 
+			value_new_float ((gnum_float) res->n_nonzeros_in_obj /
+					 res->param->n_variables));
+
+	/* Set the `Ratio of Zeros (obj. fn)'. */
+	set_cell_value (&dao, 6, 13, 
+			value_new_float ((gnum_float) zeros / 
+					 res->param->n_variables));
 
 
 	/*
@@ -630,7 +654,7 @@ solver_program_report (WorkbookControl *wbc,
 	 * Autofit columns to make the sheet more readable.
 	 */
 
-	for (i = 0; i <= 4; i++)
+	for (i = 0; i <= 6; i++)
 	        autofit_column (&dao, i);
 
 
