@@ -38,36 +38,6 @@ gnumeric_notice (WorkbookControlGUI *wbcg, const char *type, const char *str)
 }
 
 /**
- * gnumeric_wb_dialog_run : A utility routine to handle the
- * application being closed by the window manager while a modal dialog
- * is being displayed.
- */
-static gint
-gnumeric_wb_dialog_run (WorkbookControlGUI *wbcg, GnomeDialog *dialog)
-{
-	GtkWindow *toplevel = wb_control_gui_toplevel (wbcg);
-	gint res;
-
-	if (GTK_WINDOW (dialog)->transient_parent != toplevel)
-		gnome_dialog_set_parent (GNOME_DIALOG (dialog), toplevel);
-
-	gtk_object_ref (GTK_OBJECT (toplevel));
-	res = gnome_dialog_run (dialog);
-
-	/* If the application was closed close the dialog too */
-	if (res < 0 && GTK_OBJECT_DESTROYED (GTK_OBJECT (toplevel)))
-		gnome_dialog_close (dialog);
-
-	/* TODO :
-	 * 2) Handle destruction of the dialog
-	 * 3) Handle the more interesting case of exiting of the
-	 *    main window.
-	 */
-	gtk_object_unref (GTK_OBJECT (toplevel));
-	return res;
-}
-
-/**
  * gnumeric_dialog_run
  *
  * Pop up a dialog as child of a workbook.
@@ -75,10 +45,18 @@ gnumeric_wb_dialog_run (WorkbookControlGUI *wbcg, GnomeDialog *dialog)
 gint
 gnumeric_dialog_run (WorkbookControlGUI *wbcg, GnomeDialog *dialog)
 {
-	if (wbcg)
-		return gnumeric_wb_dialog_run (wbcg, dialog);
-	else
-		return gnome_dialog_run (dialog);
+	GtkWindow *toplevel;
+
+	g_return_if_fail (GNOME_IS_DIALOG (dialog));
+
+	if (wbcg) {
+		g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+
+		toplevel = wb_control_gui_toplevel (wbcg);
+		if (GTK_WINDOW (dialog)->transient_parent != toplevel)
+			gnome_dialog_set_parent (GNOME_DIALOG (dialog), toplevel);
+	}
+	return gnome_dialog_run (dialog);
 }
 
 /**
@@ -265,11 +243,45 @@ gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
  * @window      : the transient window
  *
  * Make the window a child of the workbook in the command context, if there is
- * one. */
+ * one.
+ */
 void
 gnumeric_set_transient (WorkbookControlGUI *wbcg, GtkWindow *window)
 {
-	gtk_window_set_transient_for (window, wb_control_gui_toplevel (wbcg));
+	GtkWindow *toplevel;
+	
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_return_if_fail (GTK_IS_WINDOW (window));
+
+	toplevel = wb_control_gui_toplevel (wbcg);
+	gtk_window_set_transient_for (window, toplevel);
+
+	gtk_window_set_position(window, 
+				gnome_preferences_get_dialog_position());
+	if (gnome_preferences_get_dialog_centered()) {
+		
+		/* User wants us to center over toplevel */
+		
+		gint x, y, w, h, dialog_x, dialog_y;
+		
+		if ( ! GTK_WIDGET_VISIBLE(toplevel)) return; /* Can't get its
+								size/pos */
+
+		/* Throw out other positioning */
+		gtk_window_set_position(toplevel, GTK_WIN_POS_NONE);
+		
+		gdk_window_get_origin (GTK_WIDGET(toplevel)->window, &x, &y);
+		gdk_window_get_size   (GTK_WIDGET(toplevel)->window, &w, &h);
+		
+		/* The problem here is we don't know how big the dialog is.
+		   So "centered" isn't really true. We'll go with 
+		   "kind of more or less on top" */
+		
+		dialog_x = x + w/4;
+		dialog_y = y + h/4;
+		
+		gtk_widget_set_uposition(GTK_WIDGET(window), dialog_x, dialog_y); 
+	}
 }
 
 /**
@@ -731,7 +743,8 @@ cb_non_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
 void
 gnumeric_non_modal_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog)
 {
-	gtk_window_set_transient_for (dialog, wb_control_gui_toplevel (wbcg));
+	gnumeric_set_transient (wbcg, dialog);
+
 	gtk_signal_connect (GTK_OBJECT (dialog), "key-press-event",
 			    (GtkSignalFunc) cb_non_modal_dialog_keypress, NULL);
 }

@@ -429,8 +429,6 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	gtk_signal_connect (GTK_OBJECT (fsel), "key_press_event",
 			    GTK_SIGNAL_FUNC (fs_key_event), NULL);
 
-	gtk_window_set_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
-
 	/*
 	 * Make sure that we quit the main loop if the window is destroyed
 	 */
@@ -470,7 +468,6 @@ dialog_query_load_file (WorkbookControlGUI *wbcg)
 		g_free (dirname);
 	}
 	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
-
 	gnumeric_set_transient (wbcg, GTK_WINDOW (fsel));
 
 	/* Connect the signals for Ok and Cancel */
@@ -480,7 +477,6 @@ dialog_query_load_file (WorkbookControlGUI *wbcg)
 			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
 	gtk_signal_connect (GTK_OBJECT (fsel), "key_press_event",
 			    GTK_SIGNAL_FUNC (fs_key_event), NULL);
-	gtk_window_set_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
 
 	/*
 	 * Make sure that we quit the main loop if the window is destroyed

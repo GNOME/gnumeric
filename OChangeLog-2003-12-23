@@ -1,3 +1,19 @@
+2001-04-26  Jon K Hellan  <hellan@acm.org>
+
+	* src/gnumeric-util.c (gnumeric_wb_dialog_run): Eliminate attempt
+	to handle parent being closed underneath dialog running a
+	recursive mainloop. That can't happen since GTK 1.2.7. Move what
+	remains of the function into gnumeric_dialog_run.
+	(gnumeric_dialog_run): See above.
+	(gnumeric_set_transient): Place dialog according to user's
+	placement policy.
+	(gnumeric_non_modal_dialog): Use gnumeric_set_transient to get
+	placement right.
+
+	* src/gui-file.c (gui_file_save_as, dialog_query_load_file):
+	No longer place at mouse, since gnumeric_set_transient now
+	honours user's dialog placement policy.
+
 2001-04-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-style.c (sheet_style_get_list) : Add a horizontal merge
