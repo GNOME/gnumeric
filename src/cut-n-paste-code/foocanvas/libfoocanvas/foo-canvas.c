@@ -3800,13 +3800,12 @@ foo_canvas_item_accessible_ref_state_set (AtkObject *accessible)
   				atk_state_set_add_state (state_set, ATK_STATE_SHOWING);
        			}
 		}
+        	if (GTK_WIDGET_CAN_FOCUS (GTK_WIDGET (item->canvas))) {
+			atk_state_set_add_state (state_set, ATK_STATE_FOCUSABLE);
 
-	}
-        if (GTK_WIDGET_CAN_FOCUS (GTK_WIDGET (item->canvas))) {
-		atk_state_set_add_state (state_set, ATK_STATE_FOCUSABLE);
-
-		if (item->canvas->focused_item == item) {
-			atk_state_set_add_state (state_set, ATK_STATE_FOCUSED);
+			if (item->canvas->focused_item == item) {
+				atk_state_set_add_state (state_set, ATK_STATE_FOCUSED);
+			}
 		}
 	}
 

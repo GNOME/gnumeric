@@ -39,16 +39,19 @@
  */
 
 
-/* needed for M_PI_2 under 'gcc -ansi -predantic' on GNU/Linux */
-#ifndef _BSD_SOURCE
-#  define _BSD_SOURCE 1
-#endif
 #include <sys/types.h>
-
 #include <glib.h>
 #include <math.h>
 #include "foo-canvas.h"
 #include "foo-canvas-util.h"
+
+/*
+ * Ok, so some systems require magic incantations for M_PI to be defined.
+ * It's not important enough to worry about.
+ */
+#ifndef M_PI
+#define M_PI 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117
+#endif
 
 /**
  * foo_canvas_points_new:
@@ -135,8 +138,8 @@ foo_canvas_points_free (FooCanvasPoints *points)
  **/
 int
 foo_canvas_get_miter_points (double x1, double y1, double x2, double y2, double x3, double y3,
-			       double width,
-			       double *mx1, double *my1, double *mx2, double *my2)
+			     double width,
+			     double *mx1, double *my1, double *mx2, double *my2)
 {
 	double theta1;		/* angle of segment p2-p1 */
 	double theta2;		/* angle of segment p2-p3 */
@@ -145,38 +148,29 @@ foo_canvas_get_miter_points (double x1, double y1, double x2, double y2, double 
 	double dist;		/* distance of miter points from p2 */
 	double dx, dy;		/* x and y offsets corresponding to dist */
 
-#define ELEVEN_DEGREES (11.0 * M_PI / 180.0)
+	double ELEVEN_DEGREES = 11.0 * M_PI / 180.0;
 
-	if (y2 == y1)
-		theta1 = (x2 < x1) ? 0.0 : M_PI;
-	else if (x2 == x1)
-		theta1 = (y2 < y1) ? M_PI_2 : -M_PI_2;
-	else
-		theta1 = atan2 (y1 - y2, x1 - x2);
-
-	if (y3 == y2)
-		theta2 = (x3 > x2) ? 0 : M_PI;
-	else if (x3 == x2)
-		theta2 = (y3 > y2) ? M_PI_2 : -M_PI_2;
-	else
-		theta2 = atan2 (y3 - y2, x3 - x2);
-
-	theta = theta1 - theta2;
-
-	if (theta > M_PI)
-		theta -= 2.0 * M_PI;
-	else if (theta < -M_PI)
-		theta += 2.0 * M_PI;
-
-	if ((theta < ELEVEN_DEGREES) && (theta > -ELEVEN_DEGREES))
+	/* Degenerate cases.  */
+	if ((x1 == x2 && y1 == y2) || (x2 == x3 && y2 == y3))
 		return FALSE;
 
-	dist = 0.5 * width / sin (0.5 * theta);
-	if (dist < 0.0)
-		dist = -dist;
+	theta1 = atan2 (y1 - y2, x1 - x2);
+	theta2 = atan2 (y3 - y2, x3 - x2);
+	theta = theta1 - theta2;
+
+	/* Normalize to (-pi; pi].  */
+	if (theta > M_PI)
+		theta -= 2.0 * M_PI;
+	else if (theta <= -M_PI)
+		theta += 2.0 * M_PI;
+
+	if (fabs (theta) < ELEVEN_DEGREES)
+		return FALSE;
+
+	dist = fabs (0.5 * width / sin (0.5 * theta));
 
 	theta3 = (theta1 + theta2) / 2.0;
-	if (sin (theta3 - (theta1 + M_PI)) < 0.0)
+	if (sin (theta3 - theta1) > 0.0)
 		theta3 += M_PI;
 
 	dx = dist * cos (theta3);
