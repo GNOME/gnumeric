@@ -75,32 +75,33 @@ gnum_float erfcgnum (gnum_float x);
 gnum_float yngnum (int n, gnum_float x);
 #endif
 
-#define sqrtgnum sqrtl
-#define gnumabs fabsl
-#define floorgnum floorl
+#define acosgnum acosl
+#define acoshgnum acoshl
+#define asingnum asinl
+#define asinhgnum asinhl
+#define atan2gnum atan2l
+#define atangnum atanl
+#define atanhgnum atanhl
 #define ceilgnum ceill
-#define powgnum powl
-#define hypotgnum hypotl
+#define cosgnum cosl
+#define coshgnum coshl
 #define expgnum expl
 #define expm1gnum expm1l
-#define loggnum logl
+#define finitegnum finitel
+#define floorgnum floorl
+#define fmodgnum fmodl
+#define gnumabs fabsl
+#define hypotgnum hypotl
+#define isnangnum isnanl
 #define log10gnum log10l
 #define log1pgnum log1pl
+#define loggnum logl
+#define powgnum powl
 #define singnum sinl
-#define cosgnum cosl
-#define tangnum tanl
-#define asingnum asinl
-#define acosgnum acosl
-#define atangnum atanl
-#define atan2gnum atan2l
-#define isnangnum isnanl
-#define finitegnum finitel
 #define sinhgnum sinhl
-#define coshgnum coshl
+#define sqrtgnum sqrtl
+#define tangnum tanl
 #define tanhgnum tanhl
-#define asinhgnum asinhl
-#define acoshgnum acoshl
-#define atanhgnum atanhl
 
 #define GNUM_FORMAT_e "Le"
 #define GNUM_FORMAT_E "LE"
@@ -118,38 +119,40 @@ gnum_float yngnum (int n, gnum_float x);
 #else /* !WITH_LONG_DOUBLE */
 
 typedef double gnum_float;
-#define strtognum strtod
-#define modfgnum modf
-#define gnumabs fabs
-#define ldexpgnum ldexp
-#define frexpgnum frexp
-#define sqrtgnum sqrt
-#define floorgnum floor
+
+#define acosgnum acos
+#define acoshgnum acosh
+#define asingnum asin
+#define asinhgnum asinh
+#define atan2gnum atan2
+#define atangnum atan
+#define atanhgnum atanh
 #define ceilgnum ceil
-#define powgnum pow
-#define hypotgnum hypot
+#define cosgnum cos
+#define coshgnum cosh
+#define erfcgnum erfc
+#define erfgnum erf
 #define expgnum exp
 #define expm1gnum expm1
-#define loggnum log
+#define floorgnum floor
+#define fmodgnum fmod
+#define frexpgnum frexp
+#define gnumabs fabs
+#define hypotgnum hypot
+#define isnangnum isnan
+#define ldexpgnum ldexp
 #define log10gnum log10
 #define log1pgnum log1p
+#define loggnum log
+#define modfgnum modf
+#define powgnum pow
 #define singnum sin
-#define cosgnum cos
-#define tangnum tan
-#define asingnum asin
-#define acosgnum acos
-#define atangnum atan
-#define atan2gnum atan2
-#define erfgnum erf
-#define erfcgnum erfc
-#define yngnum yn
-#define isnangnum isnan
 #define sinhgnum sinh
-#define coshgnum cosh
+#define sqrtgnum sqrt
+#define strtognum strtod
+#define tangnum tan
 #define tanhgnum tanh
-#define asinhgnum asinh
-#define acoshgnum acosh
-#define atanhgnum atanh
+#define yngnum yn
 
 /* What a circus!  */
 #ifdef HAVE_FINITE

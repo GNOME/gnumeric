@@ -44,6 +44,7 @@ Morten:
 	* Start handling invalid (== non-utf8) file names.
 	* Fix minor leak in excel loader.
 	* Improve precision of GEOMEAN and PRODUCT.
+	* Fix MOD for non-integer (or just huge) args.
 
 dorami@bu.iij4u.or.jp:
 	* Add InputMethod support for better international key support

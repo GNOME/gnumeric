@@ -1,5 +1,7 @@
 2002-10-11  Morten Welinder  <terra@diku.dk>
 
+	* configure.in (have_ld): Check for fmodl.
+	* src/numbers.h: Supply fmodgnum.
 	* src/gutils.c (g_strsplit_to_list): Delete.
 
 2002-10-11  Jon K Hellan  <hellan@acm.org>

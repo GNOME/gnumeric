@@ -1192,33 +1192,36 @@ static const char *help_mod = {
 	   "@SEEALSO=INT,FLOOR,CEIL")
 };
 
+/*
+ * MOD(-1,-3) = -1
+ * MOD(2,-3) = -2
+ * MOD(10.6,2) = 0.6
+ * MOD(-10.6,2) = 1.4
+ * MOD(10.6,-2) = -0.6
+ * MOD(-10.6,-2) = -1.4
+ */
+
 static Value *
 gnumeric_mod (FunctionEvalInfo *ei, Value **argv)
 {
-	int a, b;
+	gnum_float a, b, babs, r;
 
-	a = value_get_as_int (argv[0]);
-	b = value_get_as_int (argv[1]);
+	a = value_get_as_float (argv[0]);
+	b = value_get_as_float (argv[1]);
 
 	if (b == 0)
 		return value_new_error (ei->pos, gnumeric_err_DIV0);
-	else if (b > 0) {
-		if (a >= 0)
-			return value_new_int (a % b);
-		else {
-			int c = (-a) % b;
-			return value_new_int (c ? b - c : 0);
-		}
-	} else {
-		b = -b;
-		a = -a;
-		if (a >= 0)
-			return value_new_int (-(a % b));
-		else {
-			int c = (-a) % b;
-			return value_new_int (c ? c - b : 0);
-		}
+
+	babs = gnumabs (b);
+	r = fmodgnum (gnumabs (a), babs);
+	if (r > 0) {
+		if ((a < 0) != (b < 0))
+			r = babs - r;
+		if (b < 0)
+			r = -r;
 	}
+
+	return value_new_float (r);
 }
 
 /***************************************************************************/
