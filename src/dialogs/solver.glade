@@ -2,7 +2,6 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
-<requires lib="gnome"/>
 
 <widget class="GtkDialog" id="Solver">
   <property name="title" translatable="yes">Solver</property>
@@ -158,7 +157,7 @@
 		      <property name="active">False</property>
 		      <property name="inconsistent">False</property>
 		      <property name="draw_indicator">True</property>
-  		      <property name="group">max_button</property>
+		      <property name="group">max_button</property>
 		    </widget>
 		    <packing>
 		      <property name="padding">5</property>
@@ -632,25 +631,25 @@
 			  <property name="visible">True</property>
 
 			  <child>
-			    <widget class="GtkMenuItem" id="&amp;amp;amp;amp;amp;lt;=">
+			    <widget class="GtkMenuItem" id="leq">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">&lt;=</property>
+			      <property name="label" translatable="yes">≤</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_le_activate" last_modification_time="Sat, 17 Aug 2002 06:19:10 GMT"/>
 			    </widget>
 			  </child>
 
 			  <child>
-			    <widget class="GtkMenuItem" id="&amp;amp;amp;amp;amp;gt;=">
+			    <widget class="GtkMenuItem" id="geq">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">&gt;=</property>
+			      <property name="label" translatable="yes">≥</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_ge_activate" last_modification_time="Sat, 17 Aug 2002 06:19:10 GMT"/>
 			    </widget>
 			  </child>
 
 			  <child>
-			    <widget class="GtkMenuItem" id="=">
+			    <widget class="GtkMenuItem" id="eq">
 			      <property name="visible">True</property>
 			      <property name="label" translatable="yes">=</property>
 			      <property name="use_underline">True</property>
