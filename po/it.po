@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.34\n"
 "POT-Creation-Date: 2000-06-19 22:02-0400\n"
-"PO-Revision-Date: 2000-08-17 01:48+02:00\n"
+"PO-Revision-Date: 2000-08-22 11:38+02:00\n"
 "Last-Translator: Leandro Noferini <lnoferin@cybervalley.org>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -195,7 +195,6 @@ msgid "Enables Gnome Basic support"
 msgstr "Abilita il supporto di Gnome Basic"
 
 #: plugins/gda/plugin-gda.c:259
-#, fuzzy
 msgid "Database Access"
 msgstr "Database Access"
 
@@ -279,7 +278,7 @@ msgstr "HTML"
 
 #: plugins/html/boot.c:126
 msgid "Import/Export of HTML, TeX, DVI, roff and pdf"
-msgstr ""
+msgstr "Importa ed esporta file HTML, TeX, DVI, roff e pdf"
 
 #: plugins/lotus-123/boot.c:87
 msgid "Lotus file format (*.wk1)"
@@ -1077,8 +1076,7 @@ msgstr ""
 "L'area non può essere incollata nella selezione perché\n"
 "ha una forma differente (%dRx%dC vs %dRx%dC)\n"
 "\n"
-"Prova a selezionare una singola cella o un'area della setssa forma o "
-"dimensione."
+"Prova a selezionare una singola cella o un'area della stessa forma o dimensione."
 
 #: src/clipboard.c:149
 msgid "result passes the sheet boundary"
@@ -2156,11 +2154,11 @@ msgstr "Bande verticali fini"
 
 #: src/dialogs/cell-format.glade.h:108
 msgid "Reverse Diagonal Stripe"
-msgstr ""
+msgstr "Bande diagonali inverse"
 
 #: src/dialogs/cell-format.glade.h:109
 msgid "Thin Reverse Diagonal Stripe"
-msgstr ""
+msgstr "Bande diagonali inverse fini"
 
 #: src/dialogs/cell-format.glade.h:110
 msgid "Diagonal Stripe"
@@ -3008,17 +3006,17 @@ msgstr "Manca il file %s"
 #.
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Gnumeric : Exporting structured text"
-msgstr ""
+msgstr "Gnumeric : esporto testo strutturato"
 
 #: src/dialogs/dialog-stf-export.glade.h:8
 msgid "Choose sheets to export"
-msgstr ""
+msgstr "Indicate un foglio da esportare"
 
 #: src/dialogs/dialog-stf-export.glade.h:9
 msgid ""
 "Please select which sheets you want to export from the current workbook. "
 "They will be exported in the same order as in the export list."
-msgstr ""
+msgstr "Indicate quali fogli dell'attuale cartella di lavoro desiderate esportare. Verranno esportati nell'ordine della lista."
 
 #: src/dialogs/dialog-stf-export.glade.h:10
 msgid "Available sheets"
@@ -3046,14 +3044,15 @@ msgstr "<- Elimina tutti"
 
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid "Choose export formatting"
-msgstr ""
+msgstr "Indicate la formattazione da usare per l'esportazione"
 
 #: src/dialogs/dialog-stf-export.glade.h:17
+#, fuzzy
 msgid ""
 "Customize the export format. The line terminator is the character sequence "
 "used for terminating a line in the text file. Wether the quote character is "
 "placed around cells depends on the value choosen for quoting."
-msgstr ""
+msgstr "Personalizzazione del formato dell'esportazione. Il fine riga è la sequenza di caratteri da usare per terminare una linea in un file di testo. Le virgolette separeranno le celle a seconda del valore scelto per le virgolette."
 
 #: src/dialogs/dialog-stf-export.glade.h:18
 msgid "Line termination :"
@@ -3090,15 +3089,17 @@ msgid ""
 "Always\n"
 "Never\n"
 msgstr ""
+"Automatico (mette le virgolette quando necessario)\n"
+"Sempre\n"
+"Mai\n"
 
 #: src/dialogs/dialog-stf-export.glade.h:33
-#, fuzzy
 msgid "Quoting :"
-msgstr "Stringa"
+msgstr "Virgolette :"
 
 #: src/dialogs/dialog-stf-export.glade.h:34
 msgid "Quote character :"
-msgstr ""
+msgstr "Tipo di virgolette :"
 
 #: src/dialogs/dialog-stf-export.glade.h:35
 msgid ""
@@ -3113,6 +3114,16 @@ msgid ""
 "Slash (/)\n"
 "Custom\n"
 msgstr ""
+"Spazio\n"
+"Tab\n"
+"Punto esclamativo (!)\n"
+"Due punti (:)\n"
+"Virgola (,)\n"
+"Meno (-)\n"
+"Pipe (|)\n"
+"Punto e virgola (;)\n"
+"Slash (/)\n"
+"A scelta\n"
 
 #: src/dialogs/dialog-stf-format-page.c:169
 #: src/dialogs/dialog-stf-format-page.c:359
@@ -3136,11 +3147,11 @@ msgstr "Dati (da %s)"
 #.
 #: src/dialogs/dialog-stf.glade.h:7
 msgid "Gnumeric : Importing structured text"
-msgstr ""
+msgstr "Gnumeric : sto importando testo strutturato"
 
 #: src/dialogs/dialog-stf.glade.h:8
 msgid "Data type and number of lines"
-msgstr ""
+msgstr "Tipo di dati e numero di linee"
 
 #: src/dialogs/dialog-stf.glade.h:9
 msgid ""
@@ -3151,20 +3162,19 @@ msgid ""
 "and how, if you are not sure just leave this at the default setting. You "
 "should also select what part of the data you want to import by adjusting the "
 "from and to line."
-msgstr ""
+msgstr "Selezionate il tipo di struttura del testo che più assomiglia ai dati da importare. Separato significa che ogni colonna è divisa da un carattere di 'separazione' e dimensione fissa significa che vi è possibile indicare la larghezza di ogni colonna. È possibile inoltre specificare se volete eliminare degli spazi e come, ma se non ne siete sicuri lasciate l'impostazione di default. È anche possibile selezionare quale parte dei dati volete importare variando i valori 'da' 'alla' linea."
 
 #: src/dialogs/dialog-stf.glade.h:10
-#, fuzzy
 msgid "Formatting options"
-msgstr "_Opzioni"
+msgstr "Opzioni di formattazione"
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "Trim :"
-msgstr ""
+msgstr "Elimina :"
 
 #: src/dialogs/dialog-stf.glade.h:12
 msgid "Original data type :"
-msgstr ""
+msgstr "Tipo originale dei dati :"
 
 #: src/dialogs/dialog-stf.glade.h:13
 msgid ""
@@ -3173,43 +3183,43 @@ msgid ""
 "On left side only\n"
 "On right side only\n"
 msgstr ""
+"Sempre (Su tutti e due i lati)\n"
+"Mai\n"
+"Solo sul lato destro\n"
+"Solo sul lato sinistro\n"
 
 #: src/dialogs/dialog-stf.glade.h:18
 msgid "_Separated"
-msgstr ""
+msgstr "_Separato"
 
 #: src/dialogs/dialog-stf.glade.h:19
 msgid "Fixed wi_dth"
-msgstr ""
+msgstr "Larghe_zza fissa"
 
 #: src/dialogs/dialog-stf.glade.h:20
-#, fuzzy
 msgid "Lines to import"
-msgstr "%d linee da importare"
+msgstr "Linee da importare"
 
 #: src/dialogs/dialog-stf.glade.h:21
 msgid "Fr_om line :"
-msgstr ""
+msgstr "_Dalla linea :"
 
 #: src/dialogs/dialog-stf.glade.h:22
-#, fuzzy
 msgid "_To line : "
-msgstr "Al valore:"
+msgstr "_Alla linea : "
 
 #: src/dialogs/dialog-stf.glade.h:23
-#, fuzzy
 msgid "Number of lines to import"
-msgstr "%d linee da importare"
+msgstr "Numero di linee da importare"
 
 #: src/dialogs/dialog-stf.glade.h:24 src/dialogs/dialog-stf.glade.h:47
 #: src/dialogs/dialog-stf.glade.h:56 src/dialogs/dialog-stf.glade.h:63
-#, fuzzy
 msgid "Example"
 msgstr "Esempio"
 
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Separation customization"
-msgstr ""
+msgstr "Personalizzazione dei separatori"
 
 #: src/dialogs/dialog-stf.glade.h:26
 msgid ""
@@ -3217,62 +3227,59 @@ msgid ""
 "separators if desired and also enter a custom one). You may choose the "
 "string indicator and wether you want to see two successive separators as one "
 "aswell. Changes will reflect in the example below."
-msgstr ""
+msgstr "Selezionate i separatori che appaiono nel testo (è possibile indicare più separatori e anche indicarne uno personalizzato). Dovreste indicare la stringa dei separatori e se volete vedere i due separatori come uno unico. I cambiamenti veranno mostrati nell'esempio sotto."
 
 #: src/dialogs/dialog-stf.glade.h:27
 msgid "Separators"
-msgstr ""
+msgstr "Separatori"
 
 #: src/dialogs/dialog-stf.glade.h:28
-#, fuzzy
 msgid "C_ustom"
-msgstr "Personalizzato"
+msgstr "Personali_zzato"
 
 #: src/dialogs/dialog-stf.glade.h:29
 msgid "H_yphen (-)"
-msgstr ""
+msgstr "M_eno (-)"
 
 #: src/dialogs/dialog-stf.glade.h:30
-#, fuzzy
 msgid "S_pace"
-msgstr "Sos_tituire:"
+msgstr "S_pazio"
 
 #: src/dialogs/dialog-stf.glade.h:31
-#, fuzzy
 msgid "Ta_b"
-msgstr "Etichette"
+msgstr "Ta_b"
 
 #: src/dialogs/dialog-stf.glade.h:32
 msgid "Ban_g (!)"
-msgstr ""
+msgstr "Punto esclamati_vo (!)"
 
 #: src/dialogs/dialog-stf.glade.h:33
 msgid "_Colon (:)"
-msgstr ""
+msgstr "_Due punti (:)"
 
 #: src/dialogs/dialog-stf.glade.h:34
 msgid "Co_mma (,)"
-msgstr ""
+msgstr "_Virgola (,)"
 
 #: src/dialogs/dialog-stf.glade.h:35
 msgid "P_ipe (|)"
-msgstr ""
+msgstr "P_ipe (|)"
 
 #: src/dialogs/dialog-stf.glade.h:36
 msgid "Semicolo_n (;)"
-msgstr ""
+msgstr "Pu_nto e virgola (;)"
 
 #: src/dialogs/dialog-stf.glade.h:37
 msgid "Slas_h (/)"
-msgstr ""
+msgstr "Slas_h (/)"
 
 #: src/dialogs/dialog-stf.glade.h:38
 msgid "Misc"
-msgstr ""
+msgstr "Vari"
 
 #: src/dialogs/dialog-stf.glade.h:39
 msgid "S_ee two separators as one"
-msgstr ""
+msgstr "V_edi due separatori come uno solo"
 
 #: src/dialogs/dialog-stf.glade.h:40
 msgid "_Adjacent quotes escaped"
@@ -3280,11 +3287,11 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:41
 msgid "Te_xt indicator : "
-msgstr ""
+msgstr "Indicatore te_sto : "
 
 #: src/dialogs/dialog-stf.glade.h:48
 msgid "Fixed width customization"
-msgstr ""
+msgstr "Personalizzazione della larghezza fissa"
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -3292,53 +3299,47 @@ msgid ""
 "to create a new column, right click on a colum border to delete an existing "
 "column and hold the left mouse button on a column border and drag to resize "
 "a column."
-msgstr ""
+msgstr "Personalizzate le colonne con il bottone aggiungi/rimuovi o con il mouse: cliccate con il tasto sinistro per creare una nuova colonna, con il tasto destro sul bordo di una colonna per eliminarne una esistente e tenete il tasto sinistro premuto su un bordo e trascinate per modificare la dimensione."
 
 #: src/dialogs/dialog-stf.glade.h:51 src/dialogs/dialog-stf.glade.h:60
 #: wizards/graphics/graphic-type.c:289
-#, fuzzy
 msgid "Column"
-msgstr "Colonne"
+msgstr "Colonna"
 
 #: src/dialogs/dialog-stf.glade.h:52
 msgid "End"
-msgstr ""
+msgstr "Fine"
 
 #: src/dialogs/dialog-stf.glade.h:53
-#, fuzzy
 msgid "Co_lumn end : "
-msgstr "Colonna: %s"
+msgstr "Fine della Co_lonna : "
 
 #: src/dialogs/dialog-stf.glade.h:57
-#, fuzzy
 msgid "Column formatting"
-msgstr "Colonna fuori dall'intervallo"
+msgstr "Formattazione a colonna"
 
 #: src/dialogs/dialog-stf.glade.h:58
 msgid ""
 "Select the format for each column. You can click in the column list on the "
 "left to select a column, or you can click in the preview. You can then enter "
 "a custom format or select one from the list on the right."
-msgstr ""
+msgstr "Selezionate il formato per ogni colonna. Potete cliccare nella lista delle colonne sulla sinistra per selezionarne una oppure nell'anteprima. Immettete poi il formato personalizzato o selezionatene uno dalla lista sulla destra."
 
 #: src/dialogs/dialog-stf.glade.h:59
-#, fuzzy
 msgid "Per column formatting"
-msgstr "Correlazione di Pearson"
+msgstr "Formattazione per colonna"
 
 #: src/dialogs/dialog-stf.glade.h:61
-#, fuzzy
 msgid "Format"
-msgstr "Formati"
+msgstr "Formato"
 
 #: src/dialogs/dialog-stf.glade.h:62
-#, fuzzy
 msgid "_Format :"
-msgstr "_Formato"
+msgstr "_Formato :"
 
 #: src/dialogs/dialog-workbook-attr.c:165
 msgid "Workbook Attributes"
-msgstr ""
+msgstr "Attributi della cartella di lavoro"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3364,19 +3365,19 @@ msgid "_100 %"
 msgstr "_100 %"
 
 #: src/dialogs/dialog-zoom.glade.h:14
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "_75 %"
 msgstr "_75 %"
 
 #: src/dialogs/dialog-zoom.glade.h:16
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "_50 %"
 msgstr "_50 %"
 
 #: src/dialogs/dialog-zoom.glade.h:18
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "_25 %"
-msgstr "_25%"
+msgstr "_25 %"
 
 #: src/dialogs/dialog-zoom.glade.h:20
 #, fuzzy, no-c-format
@@ -3399,7 +3400,7 @@ msgstr "Fogli"
 #.
 #: src/dialogs/font-sel.glade.h:7
 msgid "window1"
-msgstr "window1"
+msgstr "finestra1"
 
 #: src/dialogs/font-sel.glade.h:8
 msgid "Font:"
@@ -3414,9 +3415,8 @@ msgid "Preview"
 msgstr "Anteprima"
 
 #: src/dialogs/font-sel.glade.h:12
-#, fuzzy
 msgid "AaBbCcDdEe12345"
-msgstr "AaBbCcDdEeJj12345"
+msgstr "AaBbCcDdEe12345"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3424,9 +3424,8 @@ msgstr "AaBbCcDdEeJj12345"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/formula-guru.glade.h:7
-#, fuzzy
 msgid "Formula Guru"
-msgstr "Formule"
+msgstr "Guru delle formule"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3434,14 +3433,12 @@ msgstr "Formule"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/function-select.glade.h:7
-#, fuzzy
 msgid "Function Selector"
-msgstr "Selettore font"
+msgstr "Selettore delle funzioni"
 
 #: src/dialogs/function-select.glade.h:8
-#, fuzzy
 msgid "Function _Categories"
-msgstr "La funzione non esiste"
+msgstr "_Categorie delle funzioni"
 
 #: src/dialogs/function-select.glade.h:9
 msgid "Function _Names"
@@ -3479,9 +3476,8 @@ msgstr "Immetti le stringhe di formattazione per ogni sezione:"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/import.glade.h:7
-#, fuzzy
 msgid "Import"
-msgstr "_Importa"
+msgstr "Importa"
 
 #: src/dialogs/import.glade.h:8
 msgid "Choose an import filter for loading the file:"
@@ -3493,34 +3489,28 @@ msgstr "Seleziona un filtro di import per caricare il file:"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/insert-cells.glade.h:7
-#, fuzzy
 msgid "Insert cells"
 msgstr "inserisci celle"
 
 #: src/dialogs/insert-cells.glade.h:8
-#, fuzzy
 msgid "Insert"
-msgstr "_Inserisci"
+msgstr "Inserisci"
 
 #: src/dialogs/insert-cells.glade.h:9
-#, fuzzy
 msgid "_Shift cells right"
-msgstr "Sposta celle a destra e copia"
+msgstr "_Sposta celle a destra"
 
 #: src/dialogs/insert-cells.glade.h:10
-#, fuzzy
 msgid "Shift cells _down"
-msgstr "Sposta celle in giù e copia"
+msgstr "Sposta celle in _giù"
 
 #: src/dialogs/insert-cells.glade.h:11
-#, fuzzy
 msgid "Insert _row(s)"
-msgstr "Inserisci righe"
+msgstr "Inserisci _righe"
 
 #: src/dialogs/insert-cells.glade.h:12
-#, fuzzy
 msgid "Insert _column(s)"
-msgstr "Inserisci nuove colonne"
+msgstr "Inserisci _colonne"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3545,28 +3535,24 @@ msgstr "Si riferisce a:"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/plugin-manager.glade.h:7
-#, fuzzy
 msgid "Gnumeric Plugin Manager"
-msgstr "Plugin di Gnumeric"
+msgstr "Manager dei Plugin di Gnumeric"
 
 #: src/dialogs/plugin-manager.glade.h:10
-#, fuzzy
 msgid "Installed Plugins"
-msgstr "Plugin per il Campionamento"
+msgstr "Plugin installati"
 
 #: src/dialogs/plugin-manager.glade.h:11
-#, fuzzy
 msgid "_Description"
-msgstr "Sezione di sinistra:"
+msgstr "_Descrizione"
 
 #: src/dialogs/plugin-manager.glade.h:12
-#, fuzzy
 msgid "Path:"
-msgstr "Incolla"
+msgstr "Percorso:"
 
 #: src/dialogs/plugin-manager.glade.h:15
 msgid "_File Details"
-msgstr ""
+msgstr "Dettagli del _file"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3635,14 +3621,12 @@ msgid "_Left:"
 msgstr "_Sinistra:"
 
 #: src/dialogs/print.glade.h:24
-#, fuzzy
 msgid "_Right:"
-msgstr "_Destra"
+msgstr "_Destra:"
 
 #: src/dialogs/print.glade.h:25
-#, fuzzy
 msgid "_Units:"
-msgstr "_Larghezza:"
+msgstr "_Unità:"
 
 #: src/dialogs/print.glade.h:26
 msgid ""
@@ -3651,25 +3635,27 @@ msgid ""
 "cm\n"
 "In\n"
 msgstr ""
+"punti\n"
+"mm\n"
+"cm\n"
+"Pollici\n"
 
 # Sono Qui
 #: src/dialogs/print.glade.h:31
-#, fuzzy
 msgid "_Top:"
-msgstr "Al_to"
+msgstr "Al_to:"
 
 #: src/dialogs/print.glade.h:32
 msgid "He_ader:"
 msgstr "_Intestazione"
 
 #: src/dialogs/print.glade.h:33
-#, fuzzy
 msgid "_Footer:"
-msgstr "_Pie` pagina"
+msgstr "_Pie` pagina:"
 
 #: src/dialogs/print.glade.h:34
 msgid "_Bottom:"
-msgstr "_Basso"
+msgstr "_Basso:"
 
 #: src/dialogs/print.glade.h:35
 msgid "Paper _size:"
@@ -3746,17 +3732,16 @@ msgstr "Ordine delle pagine"
 
 #: src/dialogs/print.glade.h:54
 msgid "_Down, then right"
-msgstr "_Giu`, e poi a destra"
+msgstr "_Giù, e poi a destra"
 
 #: src/dialogs/print.glade.h:55
 msgid "R_ight, then down"
-msgstr "A _Destra, e poi giu`"
+msgstr "A _Destra, e poi giù"
 
 #: src/dialogs/print.glade.h:56 src/functions/fn-sheet.c:105
 #: src/workbook.c:768
-#, fuzzy
 msgid "Sheet"
-msgstr "Foglio %d"
+msgstr "Foglio"
 
 #: src/dialogs/print.glade.h:58 src/print.c:987 src/workbook.c:1176
 #: src/workbook.c:1522
@@ -3764,9 +3749,8 @@ msgid "Print preview"
 msgstr "Antepima di stampa"
 
 #: src/dialogs/print.glade.h:59
-#, fuzzy
 msgid "Options"
-msgstr "_Opzioni"
+msgstr "Opzioni"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3774,9 +3758,8 @@ msgstr "_Opzioni"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/row-height.glade.h:7
-#, fuzzy
 msgid "Row height"
-msgstr "Dimensione della _Riga:"
+msgstr "Dimensione della riga"
 
 #: src/dialogs/row-height.glade.h:8
 msgid "_Row height:"
@@ -3788,30 +3771,28 @@ msgstr "Dimensione della _Riga:"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/sheet-order.glade.h:7
-#, fuzzy
 msgid "Order Sheets"
-msgstr "Ca_cella il foglio"
+msgstr "Ordina i fogli"
 
 #: src/dialogs/sheet-order.glade.h:8
-#, fuzzy
 msgid "Sheet Name"
-msgstr "Foglio 1"
+msgstr "Nome del foglio"
 
 #: src/dialogs/sheet-order.glade.h:9
 msgid "Move the currently selected sheet up one position"
-msgstr ""
+msgstr "Muovi il foglio selezionato su di una posizione"
 
 #: src/dialogs/sheet-order.glade.h:10
 msgid "Move the currently selected sheet down one position"
-msgstr ""
+msgstr "Muovi il foglio selezionato giù di una posizione"
 
 #: src/dialogs/sheet-order.glade.h:11
 msgid "Delete the currently selected sheet"
-msgstr ""
+msgstr "Cancella il foglio selezionato"
 
 #: src/dialogs/sheet-order.glade.h:13
 msgid "Close this dialog"
-msgstr ""
+msgstr "Chiudi questa finestra di dialogo"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3819,13 +3800,12 @@ msgstr ""
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/sheet-rename.glade.h:7
-#, fuzzy
 msgid "Rename sheet"
-msgstr "Rinomina questo foglio"
+msgstr "Rinomina il foglio"
 
 #: src/dialogs/sheet-rename.glade.h:8
 msgid "Enter new _sheet name:"
-msgstr "Immetti il nuovo nome del foglio:"
+msgstr "Immetti il nuovo nome del _foglio:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3833,19 +3813,16 @@ msgstr "Immetti il nuovo nome del foglio:"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/solver-options.glade.h:7
-#, fuzzy
 msgid "Solver Options"
-msgstr "Opzioni del Solver di Gnumeric"
+msgstr "Opzioni del Solver"
 
 #: src/dialogs/solver-options.glade.h:8
-#, fuzzy
 msgid "Assume _Linear Model"
-msgstr "Assumi Modello lineare"
+msgstr "Assumi Modello _Lineare"
 
 #: src/dialogs/solver-options.glade.h:9
-#, fuzzy
 msgid "Assume _Non-Negative"
-msgstr "Assumi non-Negativo"
+msgstr "Assumi _Non-Negativo"
 
 # Che significa Constraint?
 #.
@@ -3875,7 +3852,7 @@ msgstr "Aggiungi  "
 
 #: src/dialogs/solver.glade.h:12
 msgid "Change Constraint"
-msgstr "_Cambia vincolo"
+msgstr "Cambia vincolo"
 
 #: src/dialogs/solver.glade.h:16
 msgid "Gnumeric Solver Parameters"
@@ -3923,7 +3900,7 @@ msgstr "Risolvi"
 
 #: src/dialogs/solver.glade.h:29
 msgid "Options..."
-msgstr "Opzione"
+msgstr "Opzioni..."
 
 #: src/dialogs/solver.glade.h:30
 msgid "Reports:"
@@ -4000,24 +3977,20 @@ msgid "Scrollbars"
 msgstr "Barre di scorrimento"
 
 #: src/dialogs/workbook-attr.glade.h:8
-#, fuzzy
 msgid "_Horizontal Scrollbar"
-msgstr "Barre di scorrimento orizzontali"
+msgstr "Barre di scorrimento _orizzontali"
 
 #: src/dialogs/workbook-attr.glade.h:9
-#, fuzzy
 msgid "_Vertical Scrollbar"
-msgstr "Barre di scorrimento verticali"
+msgstr "Barre di scorrimento _verticali"
 
 #: src/dialogs/workbook-attr.glade.h:10
-#, fuzzy
 msgid "Notebook"
-msgstr "Nuova Cartella di lavoro"
+msgstr "Appunti"
 
 #: src/dialogs/workbook-attr.glade.h:11
-#, fuzzy
 msgid "_Tabs"
-msgstr "Etichette"
+msgstr "_Etichette"
 
 #: src/dialogs/workbook-attr.glade.h:12
 msgid "View"
@@ -4060,9 +4033,8 @@ msgid "Internal error"
 msgstr "Errore interno"
 
 #: src/expr.c:533
-#, fuzzy
 msgid "Internal type error"
-msgstr "Errore di tipo"
+msgstr "Errore di tipo interno"
 
 #: src/expr.c:688
 msgid "Unknown operator"
@@ -4073,18 +4045,20 @@ msgid "Unknown evaluation error"
 msgstr "Errore di valutazione sconosciuto"
 
 #: src/file.c:275
-#, fuzzy
 msgid ""
 "Could not read file %s\n"
 "%%s"
-msgstr "Non riesco a leggere il file %s"
+msgstr ""
+"Non riesco a leggere il file %s\n"
+"%%s"
 
 #: src/file.c:363
-#, fuzzy
 msgid ""
 "Could not import file %s\n"
 "%%s"
-msgstr "Non riescoad importare il file %s"
+msgstr ""
+"Non riesco ad importare il file %s\n"
+"%%s"
 
 #: src/file.c:460
 msgid "File format:"
@@ -4235,11 +4209,11 @@ msgstr ""
 
 #: src/formats.c:30
 msgid "#,##0.00_);(#,##0.00)"
-msgstr ""
+msgstr "#,##0.00_);(#,##0.00)"
 
 #: src/formats.c:31
 msgid "#,##0.00_);[Red](#,##0.00)"
-msgstr ""
+msgstr "#,##0.00_);[Red](#,##0.00)"
 
 #: src/formats.c:32
 msgid "0.0"
@@ -4247,35 +4221,35 @@ msgstr "0,0"
 
 #: src/formats.c:38
 msgid "$#,##0_);($#,##0)"
-msgstr ""
+msgstr "$#,##0_);($#,##0)"
 
 #: src/formats.c:39
 msgid "$#,##0_);[Red]($#,##0)"
-msgstr ""
+msgstr "$#,##0_);[Rosso]($#,##0)"
 
 #: src/formats.c:40
 msgid "$#,##0.00_);($#,##0.00)"
-msgstr ""
+msgstr "$#,##0.00_);($#,##0.00)"
 
 #: src/formats.c:41
 msgid "$#,##0.00_);[Red]($#,##0.00)"
-msgstr ""
+msgstr "$#,##0.00_);[Rosso]($#,##0.00)"
 
 #: src/formats.c:48
 msgid "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
-msgstr ""
+msgstr "_($*#,##0_);_($*(#,##0);_($*\\\"-\\\"_);_(@_)"
 
 #: src/formats.c:49
 msgid "_(*#,##0_);_(*(#,##0);_(*\"-\"_);_(@_)"
-msgstr ""
+msgstr "_(*#,##0_);_(*(#,##0);_(*\\\"-\\\"_);_(@_)"
 
 #: src/formats.c:50
 msgid "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
-msgstr ""
+msgstr "_($*#,##0.00_);_($*(#,##0.00);_($*\\\"-\\\"??_);_(@_)"
 
 #: src/formats.c:51
 msgid "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
-msgstr ""
+msgstr "_(*#,##0.00_);_(*(#,##0.00);_(*\\\"-\\\"??_);_(@_)"
 
 #: src/formats.c:57
 msgid "m/d/yy"
@@ -4350,14 +4324,12 @@ msgid "mmm-yyyy"
 msgstr "mmm/aaaa"
 
 #: src/formats.c:75
-#, fuzzy
 msgid "mmmm-yy"
-msgstr "mmm/aa"
+msgstr "mmmm-aa"
 
 #: src/formats.c:76
-#, fuzzy
 msgid "mmmm-yyyy"
-msgstr "mmm/aaaa"
+msgstr "mmmm-aaaa"
 
 #: src/formats.c:77 src/formats.c:98
 msgid "m/d/yy h:mm"
@@ -4401,12 +4373,11 @@ msgstr "aaaa-mmm-gg"
 
 #: src/formats.c:87
 msgid "yy"
-msgstr ""
+msgstr "aa"
 
 #: src/formats.c:88
-#, fuzzy
 msgid "yyyy"
-msgstr "m/g/aaaa"
+msgstr "aaaa"
 
 #: src/formats.c:94
 msgid "h:mm AM/PM"
@@ -5025,131 +4996,131 @@ msgstr "Shekel israeliano"
 
 #: src/formats.c:234
 msgid "[$INR]"
-msgstr ""
+msgstr "[$INR]"
 
 #: src/formats.c:234
 msgid "Indian rupee"
-msgstr ""
+msgstr "Rupia indiana"
 
 #: src/formats.c:235
 msgid "[$IQD]"
-msgstr ""
+msgstr "[$IQD]"
 
 #: src/formats.c:235
 msgid "Iraqi dinar"
-msgstr ""
+msgstr "Dinaro iracheno"
 
 #: src/formats.c:236
 msgid "[$IRR]"
-msgstr ""
+msgstr "[$IRR]"
 
 #: src/formats.c:236
 msgid "Iranian rial"
-msgstr ""
+msgstr "Rial iraniano"
 
 #: src/formats.c:237
 msgid "[$ISK]"
-msgstr ""
+msgstr "[$ISK]"
 
 #: src/formats.c:237
 msgid "Iceland krona"
-msgstr ""
+msgstr "Corona islandese"
 
 #: src/formats.c:238
 msgid "[$ITL]"
-msgstr ""
+msgstr "[$ITL]"
 
 #: src/formats.c:238
 msgid "Italian lira"
-msgstr ""
+msgstr "Lira italiana"
 
 #: src/formats.c:239
 msgid "[$JMD]"
-msgstr ""
+msgstr "[$JMD]"
 
 #: src/formats.c:239
 msgid "Jamaican dollar"
-msgstr ""
+msgstr "Dollaro giamaicano"
 
 #: src/formats.c:240
 msgid "[$JOD]"
-msgstr ""
+msgstr "[$JOD]"
 
 #: src/formats.c:240
 msgid "Jordanian dinar"
-msgstr ""
+msgstr "Dinaro giordano"
 
 #: src/formats.c:241
 msgid "[$JPY]"
-msgstr ""
+msgstr "[$JPY]"
 
 #: src/formats.c:241
 msgid "Japanese yen"
-msgstr ""
+msgstr "Yen giapponese"
 
 #: src/formats.c:242
 msgid "[$KES]"
-msgstr ""
+msgstr "[$KES]"
 
 #: src/formats.c:242
 msgid "Kenyan shilling"
-msgstr ""
+msgstr "Scellino keniota"
 
 #: src/formats.c:243
 msgid "[$KHR]"
-msgstr ""
+msgstr "[$KHR]"
 
 #: src/formats.c:243
 msgid "Kampuchean riel"
-msgstr ""
+msgstr "Riel della Campuchea<"
 
 #: src/formats.c:244
 msgid "[$KMF]"
-msgstr ""
+msgstr "[$KMF]"
 
 #: src/formats.c:244
 msgid "Comoros franc"
-msgstr ""
+msgstr "Franco delle Isole Comore"
 
 #: src/formats.c:245
 msgid "[$KPW]"
-msgstr ""
+msgstr "[$KPW]"
 
 #: src/formats.c:245
 msgid "North Korean won"
-msgstr ""
+msgstr "Won della Corea del Nord"
 
 #: src/formats.c:246
 msgid "[$KRW]"
-msgstr ""
+msgstr "[$KRW]"
 
 #: src/formats.c:246
 msgid "Republic of Korea won"
-msgstr ""
+msgstr "Won della Repubblica della Corea"
 
 #: src/formats.c:247
 msgid "[$KWD]"
-msgstr ""
+msgstr "[$KWD]"
 
 #: src/formats.c:247
 msgid "Kuwaiti dinar"
-msgstr ""
+msgstr "Dinaro del Kuwait"
 
 #: src/formats.c:248
 msgid "[$KYD]"
-msgstr ""
+msgstr "[$KYD]"
 
 #: src/formats.c:248
 msgid "Cayman Islands dollar"
-msgstr ""
+msgstr "Dollaro delle isole Cayman"
 
 #: src/formats.c:249
 msgid "[$LAK]"
-msgstr ""
+msgstr "[$LAK]"
 
 #: src/formats.c:249
 msgid "Lao kip"
-msgstr ""
+msgstr "Kip del Laos"
 
 #: src/formats.c:250
 msgid "[$LBP]"
