@@ -4367,6 +4367,13 @@ L420:
 
 
 /* --- BEGIN IANDJMSMITH SOURCE MARKER --- */
+
+#define SQR(x) ((x)*(x))
+/* Scale factor for continued fractions.  ==2^256.  */
+static const gnm_float scalefactor = SQR(SQR(SQR(GNM_const(4294967296.0))));
+#undef SQR
+
+
 /* Continued fraction for calculation of
  *    1/i + x/(i+d) + x*x/(i+2*d) + x*x*x/(i+3*d) + ...
  */
@@ -4381,7 +4388,6 @@ logcf (gnm_float x, gnm_float i, gnm_float d)
 	gnm_float b2 = d * d * x;
 	gnm_float a2 = c4 * c2 - b2;
 	const gnm_float cfVSmall = 1.0e-14;
-	const gnm_float scalefactor = powgnum (2, 256);
 
 #if 0
 	assert (i > 0);
@@ -4424,8 +4430,8 @@ logcf (gnm_float x, gnm_float i, gnm_float d)
 gnm_float
 log1pmx (gnm_float x)
 {
-	const gnm_float minLog1Value = -0.79149064;
-	const gnm_float two = 2;
+	static const gnm_float minLog1Value = -0.79149064;
+	static const gnm_float two = 2;
 
 	if (gnumabs (x) < 1.0e-2) {
 		gnm_float term = x / (2 + x);
@@ -4697,7 +4703,7 @@ lfbaccdif (gnm_float a, gnm_float b)
 gnm_float
 lgamma1p (gnm_float a)
 {
-	const gnm_float eulers_const = GNM_const (0.5772156649015328606065120900824024);
+	static const gnm_float eulers_const = GNM_const (0.5772156649015328606065120900824024);
 
 	/* coeffs[i] holds (zeta(i+2)-1)/(i+2)  */
 	static const gnm_float coeffs[40] = {
@@ -4748,7 +4754,7 @@ lgamma1p (gnm_float a)
 	gnm_float lgam;
 	int i;
 
-	if (a >= 0.5)
+	if (gnumabs (a) >= 0.5)
 		return lgammagnum (a + 1);
 
 	/* Abramowitz & Stegun 6.1.33 */
@@ -4835,7 +4841,6 @@ tdistexp (gnm_float p, gnm_float q, gnm_float logqk2, gnm_float k,
 {
 	const gnm_float sumAcc = 5E-16;
 	const gnm_float cfVSmall = 1.0e-14;
-	const gnm_float scalefactor = powgnum (2, 256);
 	const gnm_float lstpi = loggnum (2 * M_PIgnum) / 2;
 
 	if (floorgnum (k / 2) * 2 == k)
@@ -5019,7 +5024,6 @@ static gnm_float
 binomialcf (gnm_float ii, gnm_float jj, gnm_float pp, gnm_float qq,
 	    gnm_float diffFromMean, gboolean lower_tail, gboolean log_p)
 {
-	const gnm_float scalefactor = powgnum (2, 256);
 	const gnm_float sumAlways = 0;
 	const gnm_float sumFactor = 6;
 	const gnm_float cfSmall = 1.0e-12;
