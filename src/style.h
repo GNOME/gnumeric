@@ -56,7 +56,8 @@ struct _StyleFont {
 		PangoFont	  	*font;
 	} pango;
 
-	GdkFont	*gdk_font;
+	GdkFont	  *gdk_font;
+	GnomeFont *gnome_print_font;
 
 	unsigned int is_bold:1;
 	unsigned int is_italic:1;

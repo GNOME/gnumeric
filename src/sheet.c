@@ -3512,8 +3512,8 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 	reloc_info.origin.end.col = SHEET_MAX_COLS-1;
 	reloc_info.col_offset = -count;
 	reloc_info.row_offset = 0;
-	*reloc_storage = g_slist_concat (*reloc_storage,
-		dependents_relocate (&reloc_info));
+	*reloc_storage = g_slist_concat (dependents_relocate (&reloc_info),
+		*reloc_storage);
 
 	/* 4. Move the columns to their new location (from left to right) */
 	for (i = col + count ; i <= sheet->cols.max_used; ++i)
@@ -3622,8 +3622,8 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 	reloc_info.origin.end.row = SHEET_MAX_ROWS-1;
 	reloc_info.col_offset = 0;
 	reloc_info.row_offset = -count;
-	*reloc_storage = g_slist_concat (*reloc_storage,
-		dependents_relocate (&reloc_info));
+	*reloc_storage = g_slist_concat (dependents_relocate (&reloc_info),
+		*reloc_storage);
 
 	/* 4. Move the rows to their new location (from top to bottom) */
 	for (i = row + count ; i <= sheet->rows.max_used; ++i)
@@ -3700,8 +3700,9 @@ sheet_move_range (WorkbookControl *wbc,
 				invalid = g_slist_remove (invalid, r);
 				if (!range_overlap (r, &rinfo->origin)) {
 					reloc_info.origin = *r;
-					*reloc_storage = g_slist_concat (*reloc_storage,
-						dependents_relocate (&reloc_info));
+					*reloc_storage = g_slist_concat (
+						dependents_relocate (&reloc_info),
+						*reloc_storage);
 				}
 				g_free (r);
 			}
@@ -3713,8 +3714,9 @@ sheet_move_range (WorkbookControl *wbc,
 		}
 
 		/* 2. Fix references to and from the cells which are moving */
-		*reloc_storage = g_slist_concat (*reloc_storage,
-			dependents_relocate (rinfo));
+		*reloc_storage = g_slist_concat (
+			dependents_relocate (rinfo),
+			*reloc_storage);
 	}
 
 	/* 3. Collect the cells */

@@ -169,6 +169,9 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 		} else
 			gdk_font_ref (font->gdk_font);
 
+		font->gnome_print_font = gnome_font_find_closest_from_weight_slant (font_name, 
+			bold ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR, italic, size_pts);
+
 		font->approx_width.pixels.digit = calc_font_width (font, "0123456789");
 		font->approx_width.pixels.decimal = calc_font_width (font, ".,");
 		font->approx_width.pixels.sign = calc_font_width (font, "-+");
@@ -295,7 +298,10 @@ style_font_unref (StyleFont *sf)
 		gdk_font_unref (sf->gdk_font);
 		sf->gdk_font = NULL;
 	}
-
+	if (sf->gnome_print_font != NULL) {
+		gnome_font_unref (sf->gnome_print_font);
+		sf->gnome_print_font = NULL;
+	}
 	g_hash_table_remove (style_font_hash, sf);
 	g_free (sf->font_name);
 	g_free (sf);

@@ -414,7 +414,7 @@ print_footers (PrintJobInfo const *pj)
 	double top, bottom, y;
 
 	y = pm->footer.points
-		+ gnome_font_get_descender (pj->decoration_font);
+		- gnome_font_get_descender (pj->decoration_font);
 	top    =  1 + MAX (pm->footer.points, pm->bottom.points);
 	bottom = -1 + MIN (pm->footer.points, pm->bottom.points);
 
@@ -1069,8 +1069,7 @@ static void
 print_job_info_destroy (PrintJobInfo *pj)
 {
 	hf_render_info_destroy (pj->render_info);
-	gtk_object_unref (GTK_OBJECT (pj->decoration_font));
-
+	g_object_unref (G_OBJECT (pj->decoration_font));
 	g_free (pj);
 }
 

@@ -304,8 +304,7 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	    double x1, double y1, double width, double height, double h_center)
 {
 	StyleFont *style_font = mstyle_get_font (mstyle, 1.0);
-#warning FIXME
-	GnomeFont *print_font = NULL; /* style_font->font; */
+	GnomeFont *print_font = style_font->gnome_print_font;
 	double const font_descent = gnome_font_get_descender (print_font);
 	double const font_ascent = gnome_font_get_ascender (print_font);
 	double rect_x, rect_width, rect_y, rect_height;
@@ -384,9 +383,10 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 		/*
 		 * rect.y == first pixel past margin
 		 * add height == first pixel in lower margin
-		 * subtract font descent
+		 * subtract font descent (sign of descent seems reversed for
+		 *	 gnome-print-2.0)
 		 */
-		text_base = rect_y - height + font_descent;
+		text_base = rect_y - height - font_descent;
 		break;
 	}
 

@@ -1,3 +1,31 @@
+2002-03-28  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object.c (sheet_object_set_sheet) : ref the object when we
+	  add it to the sheet.
+	(sheet_object_clear_sheet) : unref here.
+	(sheet_object_set_sheet) : move the content of new_view here.
+
+	* src/print-cell.c (print_cell) : seems like the sign of the descenty
+	  is reversed.
+	* src/print.c (print_footers) : ditto.
+
+	* src/sheet.c (sheet_move_range) : long list onto short list not
+	  vice versa.
+	(sheet_delete_cols) : ditto.
+	(sheet_delete_rows) : ditto.
+	* src/dependent.c (micro_hash_resize) : ditto.
+
+	* src/style.c (style_font_new_simple) : init the print_font.
+	(style_font_unref) : unref the print_font.
+
+	* src/print-cell.c (print_cell) : use the print_font.
+
+	* src/print.c (print_job_info_destroy) : GnomeFont is a GObject.
+
+2002-03-27  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.desktop.in (Exec) : Add %F
+
 2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_analysis_tool_redo) : add dao_autofit_columns

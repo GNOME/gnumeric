@@ -340,7 +340,7 @@ micro_hash_resize (MicroHash *hash_table)
 	} else {
 		GSList *singleton = NULL;
 		while (old_num_buckets-- > 0)
-			singleton = g_slist_concat (singleton, hash_table->u.buckets [old_num_buckets]);
+			singleton = g_slist_concat (hash_table->u.buckets [old_num_buckets], singleton);
 		g_free (hash_table->u.buckets);
 		hash_table->u.singleton = singleton;
 	}

@@ -316,8 +316,10 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 		return TRUE;
 	}
 
+	g_object_ref (G_OBJECT (so));
 	sheet->sheet_objects = g_list_prepend (sheet->sheet_objects, so);
-	sheet_object_realize (so);
+	SHEET_FOREACH_CONTROL (so->sheet, control,
+		sheet_object_new_view (so, (SheetControlGUI *) control););
 	sheet_object_update_bounds (so, NULL);
 
 	/* FIXME : add a flag to sheet to have sheet_update do this */
@@ -358,13 +360,13 @@ sheet_object_clear_sheet (SheetObject *so)
 
 	if (SO_CLASS (so)->remove_from_sheet &&
 	    SO_CLASS (so)->remove_from_sheet (so)) {
-		so->sheet = NULL;
 		return TRUE;
 	}
 	sheet_object_unrealize (so);
 	so->sheet->sheet_objects = g_list_remove_link (so->sheet->sheet_objects, ptr);
 	so->sheet = NULL;
 	g_list_free (ptr);
+	g_object_unref (G_OBJECT (so));
 
 	return FALSE;
 }
@@ -408,22 +410,6 @@ sheet_object_new_view (SheetObject *so, SheetControlGUI *scg)
 	so->realized_list = g_list_prepend (so->realized_list, view);
 
 	SO_CLASS (so)->update_bounds (so, view, scg);
-}
-
-/**
- * sheet_object_realize:
- *
- * Creates a view of an object for every control associated with the object's
- * sheet.
- */
-void
-sheet_object_realize (SheetObject *so)
-{
-	g_return_if_fail (IS_SHEET_OBJECT (so));
-	g_return_if_fail (IS_SHEET (so->sheet));
-
-	SHEET_FOREACH_CONTROL (so->sheet, control,
-		sheet_object_new_view (so, (SheetControlGUI *) control););
 }
 
 void

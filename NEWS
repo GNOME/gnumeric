@@ -6,7 +6,10 @@ Andreas:
 	* Make 2-factor ANOVA undoable
 
 Jody:
+	* Add password dialog to support encrypted input.
 	* Make expr parser utf8 clean.
+	* Fix printing.
+	* Fix object import from XL.
 
 Jukka:
 	* More solver improvements.
