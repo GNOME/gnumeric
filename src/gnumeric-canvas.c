@@ -623,6 +623,39 @@ gnm_canvas_preedit_changed_cb (GtkIMContext *context, GnmCanvas *gcanvas)
 	g_free (preedit_string);
 }
 
+static gboolean
+gnm_canvas_retrieve_surrounding_cb (GtkIMContext *context, GnmCanvas *gcanvas)
+{
+	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
+	GtkEditable *editable = GTK_EDITABLE (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg)));
+	gchar *surrounding = gtk_editable_get_chars (editable, 0, -1);
+	gint  cur_pos = gtk_editable_get_position (editable);
+
+	gtk_im_context_set_surrounding (context,
+	                                surrounding, strlen (surrounding),
+	                                g_utf8_offset_to_pointer (surrounding, cur_pos) - surrounding);
+
+	g_free(surrounding);
+	return TRUE;
+}
+
+static gboolean
+gnm_canvas_delete_surrounding_cb (GtkIMContext *context,
+                                  gint         offset,
+                                  gint         n_chars,
+                                  GnmCanvas    *gcanvas)
+{
+	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
+	GtkEditable *editable = GTK_EDITABLE (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg)));
+	gint cur_pos = gtk_editable_get_position (editable);
+
+	gtk_editable_delete_text (editable,
+	                          cur_pos + offset,
+	                          cur_pos + offset + n_chars);
+
+	return TRUE;
+}
+
 static void
 gnm_canvas_init (GnmCanvas *gcanvas)
 {
@@ -648,6 +681,10 @@ gnm_canvas_init (GnmCanvas *gcanvas)
 		G_CALLBACK (gnm_canvas_commit_cb), gcanvas);
 	g_signal_connect (G_OBJECT (gcanvas->im_context), "preedit_changed",
 		G_CALLBACK (gnm_canvas_preedit_changed_cb), gcanvas);
+	g_signal_connect (G_OBJECT (gcanvas->im_context), "retrieve_surrounding",
+		G_CALLBACK (gnm_canvas_retrieve_surrounding_cb), gcanvas);
+	g_signal_connect (G_OBJECT (gcanvas->im_context), "delete_surrounding",
+		G_CALLBACK (gnm_canvas_delete_surrounding_cb), gcanvas);
 
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_DEFAULT);

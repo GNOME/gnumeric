@@ -18,6 +18,9 @@ Morten:
 	* Add function renaming support for file formats that use function
 	  names different from our.
 
+Theppitak Karoonboonyanan:
+	* Improve XIM support.
+
 --------------------------------------------------------------------------
 Gnumeric 1.1.15
 

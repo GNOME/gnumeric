@@ -1,3 +1,11 @@
+2003-01-08  Jody Goldberg <jody@gnome.org>
+
+	Patch from Theppitak Karoonboonyanan for
+	http://bugzilla.gnome.org/show_bug.cgi?id=84062
+	* src/gnumeric-canvas.c (gnm_canvas_retrieve_surrounding_cb) : new.
+	(gnm_canvas_delete_surrounding_cb) : new.
+	(gnm_canvas_init) : connect them up.
+
 2003-01-07  Morten Welinder  <terra@diku.dk>
 
 	* src/parse-util.h (GnmParseFunctionHandler): don't take a user
