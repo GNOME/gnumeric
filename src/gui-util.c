@@ -1307,7 +1307,8 @@ add_atk_relation (GtkWidget *w0, GtkWidget *w1, AtkRelationType type)
 	AtkRelationSet *relation_set = atk_object_ref_relation_set (atk0);
 	AtkRelation *relation = atk_relation_new (&atk1, 1, type);
 	atk_relation_set_add (relation_set, relation);
-	g_object_unref (G_OBJECT (relation));
+	g_object_unref (relation_set);
+	g_object_unref (relation);
 }
 
 /**
