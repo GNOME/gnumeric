@@ -1,3 +1,9 @@
+2005-02-23  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (cb_sheet_label_drag_data_received, 
+	cb_sheet_label_drag_leave, cb_sheet_label_drag_motion): Don't
+	crash or complain if drag source is in a different process.
+
 2005-02-22  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in: Fix creation of po-functions/POTFILES.

@@ -661,6 +661,11 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	g_return_if_fail (GTK_IS_WIDGET (widget));
 
 	w_source = gtk_drag_get_source_widget (context);
+	if (!w_source) {
+		g_warning ("Not yet implemented!"); /* Different process */
+		return;
+	}
+	
 	n_source = gtk_notebook_page_num_by_label (wbcg->notebook, w_source);
 
 	/*
@@ -691,6 +696,7 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 
 		g_return_if_fail (IS_SHEET_CONTROL_GUI (data->data));
 
+		/* Different workbook, same process */
 		g_warning ("Not yet implemented!");
 	}
 }
@@ -743,8 +749,10 @@ cb_sheet_label_drag_leave (GtkWidget *widget, GdkDragContext *context,
 
 	/* Hide the arrow. */
 	w_source = gtk_drag_get_source_widget (context);
-	arrow = g_object_get_data (G_OBJECT (w_source), "arrow");
-	gtk_widget_hide (arrow);
+	if (w_source) {
+		arrow = g_object_get_data (G_OBJECT (w_source), "arrow");
+		gtk_widget_hide (arrow);
+	}
 }
 
 static gboolean
@@ -759,7 +767,12 @@ cb_sheet_label_drag_motion (GtkWidget *widget, GdkDragContext *context,
 
 	/* Make sure we are really hovering over another label. */
 	w_source = gtk_drag_get_source_widget (context);
-	n_source = gtk_notebook_page_num_by_label (wbcg->notebook, w_source);
+	n_source = -1;
+	if (w_source)
+		n_source = gtk_notebook_page_num_by_label (wbcg->notebook, 
+							   w_source);
+	else
+		return FALSE;
 	n_dest   = gtk_notebook_page_num_by_label (wbcg->notebook, widget);
 	arrow = g_object_get_data (G_OBJECT (w_source), "arrow");
 	if (n_source == n_dest) {
