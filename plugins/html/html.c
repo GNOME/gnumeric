@@ -90,6 +90,8 @@ html_write_cell32 (FILE *fp, Cell *cell)
 	} else {
 		mstyle = cell_get_mstyle (cell);
 		g_return_if_fail (mstyle != NULL);
+
+		fprintf (fp, "\t<TD");
 		
 		switch (cell_get_horizontal_align (cell,
 						   mstyle_get_align_h (mstyle))) {
@@ -140,6 +142,8 @@ html_write_cell40 (FILE *fp, Cell *cell)
 	} else {
 		mstyle = cell_get_mstyle (cell);
 		g_return_if_fail (mstyle != NULL);
+
+		fprintf (fp, "\t<TD");
 
 		switch (cell_get_horizontal_align (cell,
 						   mstyle_get_align_h (mstyle))) {

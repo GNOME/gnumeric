@@ -1,3 +1,7 @@
+1999-12-18  Jarl van Katwijk <jarl@casema.net>
+
+	* html.c (html_write_cell32, html_write_cell40): fix stupid bug.
+
 1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
  
         * html.c (html_cleanup_plugin): free pd->title

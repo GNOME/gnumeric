@@ -18,6 +18,7 @@
 #include "selection.h"
 #include "utils.h"
 #include "utils-dialog.h"
+#include "ranges.h"
 
 #define MAX_CLAUSE 6
 
@@ -577,53 +578,31 @@ string_list_free (GList *list)
  * Main entry point for the Cell Sort dialog box
  */
 void
-dialog_cell_sort (Workbook * inwb, Sheet * sheet)
+dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 {
 	GladeXML  *gui;
 	GtkWidget *table, *check, *rb1, *rb2;
 	int btn, lp, i;
-	int start_col, start_row, end_col, end_row;
-	Range const *sel;
-	Range target;
+	Range sel, extent;
 	SortFlow sort_flow;
 
-	g_return_if_fail(inwb);
-	g_return_if_fail(sheet);
-	g_return_if_fail(IS_SHEET(sheet));
+	g_return_if_fail (inwb != NULL);
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
-	/* Find out what we are sorting and if we can sort it */
-	if ((sel = selection_first_range (sheet, FALSE)) == NULL) {
-		gnumeric_notice (inwb, GNOME_MESSAGE_BOX_ERROR,
-				 _("Selection must be a single range"));
-		return;
-	}
+	if (!sheet_selection_is_simple (sheet, _("sort")))
+		return;	
 
-	target = *sel;
-	if (target.end.row >= SHEET_MAX_ROWS - 2 ||
-	    target.end.col >= SHEET_MAX_COLS - 2) {
-		Range range = sheet_get_extent (sheet);
-		if (target.end.col >= SHEET_MAX_COLS - 2) {
-			target.start.col = range.start.col;
-			target.end.col = range.end.col;
-		}
-		if (target.end.row >= SHEET_MAX_ROWS - 2) {
-			target.start.row = range.start.row;
-			target.end.row = range.end.row;
-		}
-	}
-
-	start_row = sel->start.row;
-	start_col = sel->start.col;
-	end_row   = sel->end.row;
-	end_col   = sel->end.col;
+	extent = sheet_get_extent (sheet);
+	sel    = range_intersection (&extent,
+				     selection_first_range (sheet, FALSE));
 
 	/* Init clauses */
-	sort_flow.max_col_clause = end_col - start_col + 1;
-	sort_flow.max_row_clause = end_row - start_row + 1;
+	sort_flow.max_col_clause = sel.end.col - sel.start.col + 1;
+	sort_flow.max_row_clause = sel.end.row - sel.start.row + 1;
 	sort_flow.num_clause = sort_flow.max_col_clause > 1 ? 2 : 1;
 	for (lp = 0; lp < MAX_CLAUSE; lp++)
 		sort_flow.clauses[lp] = NULL;
-
 
 	/* Get the dialog and check for errors */
 	gui = glade_xml_new (GNUMERIC_GLADEDIR "/cell-sort.glade", NULL);
@@ -647,10 +626,14 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 	sort_flow.wb = inwb;
 	sort_flow.header = FALSE;
 	sort_flow.columns = TRUE;
-	sort_flow.colnames_plain  = cell_sort_col_name_list (sheet, start_col, end_col, start_row, FALSE);
-	sort_flow.colnames_header = cell_sort_col_name_list (sheet, start_col, end_col, start_row, TRUE);
-	sort_flow.rownames_plain  = cell_sort_row_name_list (sheet, start_row, end_row, start_col, FALSE);
-	sort_flow.rownames_header = cell_sort_row_name_list (sheet, start_row, end_row, start_col, TRUE);
+	sort_flow.colnames_plain  = cell_sort_col_name_list (sheet, sel.start.col, sel.end.col,
+							     sel.start.row, FALSE);
+	sort_flow.colnames_header = cell_sort_col_name_list (sheet, sel.start.col, sel.end.col,
+							     sel.start.row, TRUE);
+	sort_flow.rownames_plain  = cell_sort_row_name_list (sheet, sel.start.row, sel.end.row,
+							     sel.start.col, FALSE);
+	sort_flow.rownames_header = cell_sort_row_name_list (sheet, sel.start.row, sel.end.row,
+							     sel.start.col, TRUE);
 	gtk_signal_connect (GTK_OBJECT (check), "toggled",
 			    GTK_SIGNAL_FUNC (dialog_cell_sort_header_toggled), &sort_flow);
 	gtk_signal_connect (GTK_OBJECT (rb1),   "toggled",
@@ -689,37 +672,37 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 					division = -1;
 					if (sort_flow.columns) {
 						if (sort_flow.header) {
-							for (i = 0; i < end_col - start_col + 1; i++) {
+							for (i = 0; i < sel.end.col - sel.start.col + 1; i++) {
 								if (!strcmp (txt, g_list_nth_data (sort_flow.colnames_header, i))) {
-									division = start_col + i;
+									division = sel.start.col + i;
 									break;
 								}
 							}
 						} else
 							division = col_from_name(txt);
-						if (division < start_col || division > end_col) {
+						if (division < sel.start.col || division > sel.end.col) {
 							gnumeric_notice (sort_flow.wb, GNOME_MESSAGE_BOX_ERROR,
 									 _("Column must be within range"));
 							sort_flow.retry = 1;
 						}
-						array [lp].offset = division - start_col;
+						array [lp].offset = division - sel.start.col;
 					} else {
 						if (sort_flow.header) {
-							for (i = 0; i < end_row - start_row + 1; i++) {
+							for (i = 0; i < sel.end.row - sel.start.row + 1; i++) {
 								if (!strcmp (txt, g_list_nth_data (sort_flow.rownames_header, i))) {
-									division = start_row + i;
+									division = sel.start.row + i;
 									break;
 								}
 							}
 						} else {
 							division = atoi(txt) - 1;
 						}
-						if (division < start_row || division > end_row) {
+						if (division < sel.start.row || division > sel.end.row) {
 							gnumeric_notice (sort_flow.wb, GNOME_MESSAGE_BOX_ERROR,
 									 _("Row must be within range"));
 							sort_flow.retry = 1;
 						}
-						array [lp].offset = division - start_row;
+						array [lp].offset = division - sel.start.row;
 					}
 				} else if (lp <= 0) {
 					gnumeric_notice (sort_flow.wb, GNOME_MESSAGE_BOX_ERROR,
@@ -731,14 +714,14 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 			if (!sort_flow.retry) {
 				if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)))
 					if (sort_flow.columns)
-						sort_cell_range (sheet, array, sort_flow.num_clause, start_col, start_row+1,
-								 end_col, end_row, sort_flow.columns);
+						sort_cell_range (sheet, array, sort_flow.num_clause, sel.start.col, sel.start.row + 1,
+								 sel.end.col, sel.end.row, sort_flow.columns);
 					else
-						sort_cell_range (sheet, array, sort_flow.num_clause, start_col+1, start_row,
-								 end_col, end_row, sort_flow.columns);
+						sort_cell_range (sheet, array, sort_flow.num_clause, sel.start.col + 1, sel.start.row,
+								 sel.end.col, sel.end.row, sort_flow.columns);
 				else
-					sort_cell_range (sheet, array, sort_flow.num_clause, start_col, start_row,
-							 end_col, end_row, sort_flow.columns);
+					sort_cell_range (sheet, array, sort_flow.num_clause, sel.start.col, sel.start.row,
+							 sel.end.col, sel.end.row, sort_flow.columns);
 			}
 			g_free (array);
 		} else if (btn == 1) {
