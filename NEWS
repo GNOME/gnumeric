@@ -29,6 +29,7 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=121560
 	* Fix dynamic depend leak.
 	* Improve performance when deleting multiple sheets at once.
+	* Only export a charting style field if it is interesting.
 
 Jon Kåre:
 	* Add 'Save As' entry for graph objects.  Support png for now.

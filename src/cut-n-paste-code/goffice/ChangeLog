@@ -1,5 +1,24 @@
 2003-09-07  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-styled-object.c (gog_styled_object_set_property) : set the
+	  interesting field for a style.
+	(gog_styled_object_init) : ditto.
+	(gog_styled_object_interesting_fields) : default to outline & fill.
+
+	* graph/gog-style.c (gog_style_persist_dom_save) : only save
+	  interesting fields.
+
+	* graph/gog-series.c (gog_series_interesting_fields) : new.
+	(gog_series_class_init) : hook it up.
+	* graph/gog-legend.c (gog_legend_interesting_fields) : new.
+	(gog_legend_class_init) : hook it up.
+	* graph/gog-label.c (gog_label_interesting_fields) : new.
+	(gog_label_class_init) : hook it up.
+	* graph/gog-axis.c (gog_axis_interesting_fields) : new.
+	(gog_axis_class_init) : hook it up.
+
+2003-09-07  Jody Goldberg <jody@gnome.org>
+
 	* graph/gog-style.c (gog_style_line_load) : support auto_color flags.
 	(gog_style_line_save) : ditto.
 	(gog_style_fill_load) : handle is_auto.

@@ -935,6 +935,7 @@ gog_style_class_init (GogStyleClass *klass)
 static void
 gog_style_init (GogStyle *style)
 {
+	style->interesting_fields = GOG_STYLE_ALL;
 	style->marker = go_marker_new ();
 	style->outline.auto_color =
 	style->line.auto_color =
@@ -1311,13 +1312,18 @@ gog_style_persist_dom_save (GogPersistDOM *gpd, xmlNode *parent)
 	GogStyle *style = GOG_STYLE (gpd);
 
 	xmlSetProp (parent, (xmlChar const *) "type", 
-		    g_type_name (GOG_STYLE_TYPE));
+		G_OBJECT_TYPE_NAME (style));
 
-	gog_style_line_save (parent, "outline", &style->outline);
-	gog_style_line_save (parent, "line", &style->line);
-	gog_style_fill_save (parent, style);
-	gog_style_marker_save (parent, style);
-	gog_style_font_save (parent, style);
+	if (style->interesting_fields & GOG_STYLE_OUTLINE)
+		gog_style_line_save (parent, "outline", &style->outline);
+	if (style->interesting_fields & GOG_STYLE_LINE)
+		gog_style_line_save (parent, "line", &style->line);
+	if (style->interesting_fields & GOG_STYLE_FILL)
+		gog_style_fill_save (parent, style);
+	if (style->interesting_fields & GOG_STYLE_MARKER)
+		gog_style_marker_save (parent, style);
+	if (style->interesting_fields & GOG_STYLE_FONT)
+		gog_style_font_save (parent, style);
 }
 
 static void

@@ -230,6 +230,12 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 	gtk_widget_show (GTK_WIDGET (notebook));
 	return notebook;
 }
+static unsigned
+gog_axis_interesting_fields (GogStyledObject *obj)
+{
+	return GOG_STYLE_LINE | GOG_STYLE_FONT;
+}
+
 static void
 gog_axis_class_init (GObjectClass *gobject_klass)
 {
@@ -239,6 +245,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 		  NULL, NULL, NULL, NULL, NULL, NULL },
 	};
 	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;
+	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) gog_klass;
 
 	parent_klass = g_type_class_peek_parent (gobject_klass);
 	gobject_klass->set_property = gog_axis_set_property;
@@ -263,6 +270,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 	gog_klass->update	= gog_axis_update;
 	gog_klass->editor	= gog_axis_editor;
 	gog_klass->view_type	= gog_axis_view_get_type ();
+	style_klass->interesting_fields = gog_axis_interesting_fields;
 }
 
 static void

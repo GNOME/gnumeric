@@ -45,7 +45,7 @@ struct _GogSeriesDimDesc {
 };
 
 struct _GogSeriesDesc {
-	guint32	 style_fields;
+	unsigned style_fields;
 	unsigned num_dim;
 	GogSeriesDimDesc const *dim;
 };
@@ -66,7 +66,7 @@ struct _GogSeries {
 };
 
 typedef struct {
-	GogObjectClass base;
+	GogStyledObjectClass base;
 
 	/* Virtuals */
 	void (*dim_changed) (GogSeries *series, int dim_i);

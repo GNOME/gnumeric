@@ -47,6 +47,7 @@ gog_styled_object_set_property (GObject *obj, guint param_id,
 	GogStyledObject *gso = GOG_STYLED_OBJECT (obj);
 	GogStyle *style;
 	gboolean resize = FALSE;
+	GogStyledObjectClass *klass = GOG_STYLED_OBJECT_GET_CLASS (obj);
 
 	switch (param_id) {
 
@@ -54,6 +55,11 @@ gog_styled_object_set_property (GObject *obj, guint param_id,
 		style = g_value_get_object (value);
 		if (gso->style == style)
 			return;
+
+		/* which fields are we interested in for this object */
+		style->interesting_fields =
+			(klass->interesting_fields) (GOG_STYLED_OBJECT (obj));
+
 		g_signal_emit (G_OBJECT (obj),
 			gog_styled_object_signals [STYLE_CHANGED], 0, style);
 		resize = gog_style_is_different_size (gso->style, style);
@@ -116,10 +122,17 @@ gog_styled_object_parent_changed (GogObject *obj, gboolean was_set)
 	gog_object_klass->parent_changed (obj, was_set);
 }
 
+static unsigned
+gog_styled_object_interesting_fields (GogStyledObject *obj)
+{
+	return GOG_STYLE_OUTLINE | GOG_STYLE_FILL; /* default */
+}
+
 static void
 gog_styled_object_class_init (GogObjectClass *gog_klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *) gog_klass;
+	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) gog_klass;
 
 	gog_styled_object_signals [STYLE_CHANGED] = g_signal_new ("style-changed",
 		G_TYPE_FROM_CLASS (gog_klass),
@@ -135,6 +148,7 @@ gog_styled_object_class_init (GogObjectClass *gog_klass)
 	gobject_klass->get_property = gog_styled_object_get_property;
 	gobject_klass->finalize	    = gog_styled_object_finalize;
 	gog_klass->parent_changed   = gog_styled_object_parent_changed;
+	style_klass->interesting_fields = gog_styled_object_interesting_fields;
 
 	g_object_class_install_property (gobject_klass, STYLED_OBJECT_PROP_STYLE,
 		g_param_spec_object ("style", "style",
@@ -145,7 +159,9 @@ gog_styled_object_class_init (GogObjectClass *gog_klass)
 static void
 gog_styled_object_init (GogStyledObject *gso)
 {
+	GogStyledObjectClass *klass = GOG_STYLED_OBJECT_GET_CLASS (gso);
 	gso->style = gog_style_new (); /* use the defaults */
+	gso->style->interesting_fields = (klass->interesting_fields) (gso);
 }
 
 GSF_CLASS (GogStyledObject, gog_styled_object,

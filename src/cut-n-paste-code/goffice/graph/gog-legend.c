@@ -43,9 +43,7 @@ struct _GogLegend {
 	gboolean names_changed;
 };
 
-typedef struct {
-	GogStyledObjectClass	base;
-} GogLegendClass;
+typedef GogStyledObjectClass GogLegendClass;
 
 enum {
 	LEGEND_PROP_0,
@@ -158,6 +156,12 @@ gog_legend_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc
 	return gog_style_editor	(gobj, cc, NULL, GOG_STYLE_OUTLINE | GOG_STYLE_FILL);
 }
 
+static unsigned
+gog_legend_interesting_fields (GogStyledObject *obj)
+{
+	return GOG_STYLE_OUTLINE | GOG_STYLE_FILL | GOG_STYLE_FONT;
+}
+
 static void
 gog_legend_class_init (GogLegendClass *klass)
 {
@@ -169,6 +173,7 @@ gog_legend_class_init (GogLegendClass *klass)
 
 	GObjectClass *gobject_klass   = (GObjectClass *) klass;
 	GogObjectClass *gog_klass = (GogObjectClass *) klass;
+	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) klass;
 
 	parent_klass = g_type_class_peek_parent (klass);
 	gobject_klass->set_property = gog_legend_set_property;
@@ -178,6 +183,7 @@ gog_legend_class_init (GogLegendClass *klass)
 	gog_klass->update	  = gog_legend_update;
 	gog_klass->editor	  = gog_legend_editor;
 	gog_klass->view_type	  = gog_legend_view_get_type ();
+	style_klass->interesting_fields = gog_legend_interesting_fields;
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 
 	g_object_class_install_property (gobject_klass, LEGEND_SWATCH_SIZE_PTS,

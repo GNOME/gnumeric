@@ -111,11 +111,18 @@ gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 	return notebook;
 }
 
+static unsigned
+gog_label_interesting_fields (GogStyledObject *obj)
+{
+	return GOG_STYLE_OUTLINE | GOG_STYLE_FILL | GOG_STYLE_FONT;
+}
+
 static void
 gog_label_class_init (GogLabelClass *klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *) klass;
 	GogObjectClass *gog_klass = (GogObjectClass *) klass;
+	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) klass;
 
 	label_parent_klass = g_type_class_peek_parent (klass);
 	gobject_klass->set_property = gog_label_set_property;
@@ -128,6 +135,7 @@ gog_label_class_init (GogLabelClass *klass)
 
 	gog_klass->editor	= gog_label_editor;
 	gog_klass->view_type	= gog_label_view_get_type ();
+	style_klass->interesting_fields = gog_label_interesting_fields;
 }
 
 static void

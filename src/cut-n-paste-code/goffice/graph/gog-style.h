@@ -42,7 +42,8 @@ typedef enum {
 	GOG_STYLE_FILL		= 1 << 1,
 	GOG_STYLE_LINE		= 1 << 2,
 	GOG_STYLE_MARKER	= 1 << 3,
-	GOG_STYLE_FONT		= 1 << 4
+	GOG_STYLE_FONT		= 1 << 4,
+	GOG_STYLE_ALL		= 0x1F
 } GogStyleFlag;
 typedef enum {
 	GOG_FILL_STYLE_NONE	= 0,
@@ -68,6 +69,7 @@ typedef struct {
 
 struct _GogStyle {
 	GObject	base;
+	GogStyleFlag	interesting_fields;
 
 	GogStyleLine	outline, line;
 	struct {
