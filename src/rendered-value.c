@@ -42,6 +42,7 @@
 #include "workbook.h"
 
 #include <math.h>
+#include <string.h>
 
 #undef QUANTIFYING
 
