@@ -237,7 +237,7 @@ static void
 compile_terminators (StfParseOptions_t *parseoptions)
 {
 	GSList *l;
-	GNM_SLIST_SORT (parseoptions->terminator, (GCompareFunc)long_string_first);
+	GO_SLIST_SORT (parseoptions->terminator, (GCompareFunc)long_string_first);
 
 	parseoptions->compiled_terminator.min = 255;
 	parseoptions->compiled_terminator.max = 0;
@@ -263,7 +263,7 @@ stf_parse_options_add_line_terminator (StfParseOptions_t *parseoptions, char con
 	g_return_if_fail (parseoptions != NULL);
 	g_return_if_fail (terminator != NULL && *terminator != 0);
 
-	GNM_SLIST_PREPEND (parseoptions->terminator, g_strdup (terminator));
+	GO_SLIST_PREPEND (parseoptions->terminator, g_strdup (terminator));
 	compile_terminators (parseoptions);
 }
 
@@ -281,11 +281,11 @@ stf_parse_options_remove_line_terminator (StfParseOptions_t *parseoptions, char 
 
 	g_return_if_fail (parseoptions != NULL);
 
-	in_list = g_slist_find_custom (parseoptions->terminator, terminator, gnm_str_compare);
+	in_list = g_slist_find_custom (parseoptions->terminator, terminator, go_str_compare);
 
 	if (in_list) {
 		char *s = in_list->data;
-		GNM_SLIST_REMOVE (parseoptions->terminator, in_list->data);
+		GO_SLIST_REMOVE (parseoptions->terminator, in_list->data);
 		g_free (s);
 		compile_terminators (parseoptions);
 	}
@@ -303,7 +303,7 @@ stf_parse_options_clear_line_terminator (StfParseOptions_t *parseoptions)
 {
 	g_return_if_fail (parseoptions != NULL);
 
-	gnm_slist_free_custom (parseoptions->terminator, g_free);
+	go_slist_free_custom (parseoptions->terminator, g_free);
 	parseoptions->terminator = NULL;
 	compile_terminators (parseoptions);
 }
@@ -336,8 +336,8 @@ stf_parse_options_csv_set_separators (StfParseOptions_t *parseoptions, char cons
 	g_free (parseoptions->sep.chr);
 	parseoptions->sep.chr = g_strdup (character);
 
-	gnm_slist_free_custom (parseoptions->sep.str, g_free);
-	parseoptions->sep.str = gnm_slist_map (string, (GnmMapFunc)g_strdup);
+	go_slist_free_custom (parseoptions->sep.str, g_free);
+	parseoptions->sep.str = go_slist_map (string, (GOMapFunc)g_strdup);
 }
 
 void

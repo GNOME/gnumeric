@@ -227,7 +227,7 @@ main (int argc, char const *argv [])
 	} else if (ssindex_list_mime_types) {
 		GList  *o;
 		for (o = get_file_openers (); o != NULL ; o = o->next) {
-			GSList const *mime = gnm_file_opener_get_mimes (o->data);
+			GSList const *mime = go_file_opener_get_mimes (o->data);
 			for (; mime != NULL ; mime = mime->next)
 				printf ("%s\n", (char const *)mime->data);
 		}

@@ -219,8 +219,8 @@ SummaryInfo *
 summary_info_new (void)
 {
 	SummaryInfo *sin = g_new (SummaryInfo, 1);
-	sin->names = g_hash_table_new (&gnm_ascii_strcase_hash,
-				       &gnm_ascii_strcase_equal);
+	sin->names = g_hash_table_new (&go_ascii_strcase_hash,
+				       &go_ascii_strcase_equal);
 	sin->modified = FALSE;
 	return sin;
 }
@@ -275,7 +275,7 @@ summary_info_default (SummaryInfo *sin)
 	g_return_if_fail (sin != NULL);
 
 	sit = summary_item_new_string (summary_item_name [SUMMARY_I_AUTHOR],
-				       gnm_get_real_name (), TRUE);
+				       go_get_real_name (), TRUE);
 	summary_info_add (sin, sit);
 
 	sit = summary_item_new_string (summary_item_name [SUMMARY_I_APP],

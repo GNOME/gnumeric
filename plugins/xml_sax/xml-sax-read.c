@@ -67,9 +67,9 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-gboolean xml_sax_file_probe (GnmFileOpener const *fo, GsfInput *input,
+gboolean xml_sax_file_probe (GOFileOpener const *fo, GsfInput *input,
                              FileProbeLevel pl);
-void     xml_sax_file_open (GnmFileOpener const *fo, IOContext *io_context,
+void     xml_sax_file_open (GOFileOpener const *fo, IOContext *io_context,
 			    WorkbookView *wb_view, GsfInput *input);
 
 /*****************************************************************************/
@@ -1724,7 +1724,7 @@ maybe_convert (GsfInput *input, gboolean quiet)
 }
 
 void
-xml_sax_file_open (GnmFileOpener const *fo, IOContext *io_context,
+xml_sax_file_open (GOFileOpener const *fo, IOContext *io_context,
 		   WorkbookView *wb_view, GsfInput *input)
 {
 	XMLSaxParseState state;

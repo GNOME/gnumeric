@@ -301,13 +301,13 @@ save_formats (void)
 		if (base-- > 0)
 			continue;
 
-		GNM_SLIST_PREPEND (left, g_strdup(hf->left_format));
-		GNM_SLIST_PREPEND (middle, g_strdup(hf->middle_format));
-		GNM_SLIST_PREPEND (right, g_strdup(hf->right_format));
+		GO_SLIST_PREPEND (left, g_strdup(hf->left_format));
+		GO_SLIST_PREPEND (middle, g_strdup(hf->middle_format));
+		GO_SLIST_PREPEND (right, g_strdup(hf->right_format));
 	}
-	GNM_SLIST_REVERSE(left);
-	GNM_SLIST_REVERSE(middle);
-	GNM_SLIST_REVERSE(right);
+	GO_SLIST_REVERSE(left);
+	GO_SLIST_REVERSE(middle);
+	GO_SLIST_REVERSE(right);
 
 	gnm_gconf_set_print_header_formats (left, middle, right);
 }

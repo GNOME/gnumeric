@@ -20,9 +20,9 @@ struct _Workbook {
 	gboolean modified;
 	gboolean is_placeholder;
 
-	gchar          *uri, *basename;
-	FileFormatLevel file_format_level;
-	GnmFileSaver  *file_saver;
+	gchar		*uri, *basename;
+	FileFormatLevel  file_format_level;
+	GOFileSaver	*file_saver;
 
 	/* Undo support */
 	GSList	   *undo_commands;

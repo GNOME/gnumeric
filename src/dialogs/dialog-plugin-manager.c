@@ -28,32 +28,30 @@
 
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
-#include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
 
-#include <gutils.h>
-#include <gui-util.h>
-#include <command-context.h>
-#include <workbook-control.h>
-#include <workbook.h>
-#include <gnumeric-gconf.h>
-#include <application.h>
-
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-service.h>
+#include <goffice/app/go-cmd-context.h>
+#include <goffice/app/error-info.h>
+#include <goffice/utils/go-glib-extras.h>
+#include <goffice/gtk/goffice-gtk.h>
 
 #include <glade/glade.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreestore.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrenderertoggle.h>
 #include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkliststore.h>
+#include <gtk/gtkcellrenderertoggle.h>
 #include <gtk/gtkcheckbutton.h>
+#include <gtk/gtkentry.h>
 #include <gtk/gtkfilechooserdialog.h>
+#include <gtk/gtkliststore.h>
+#include <gtk/gtknotebook.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtktextbuffer.h>
+#include <gtk/gtktextview.h>
+#include <gtk/gtktreeselection.h>
+#include <gtk/gtktreestore.h>
+#include <gtk/gtktreeview.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <string.h>
@@ -61,7 +59,8 @@
 #define PLUGIN_MANAGER_DIALOG_KEY "zoom-dialog"
 
 typedef struct {
-	WorkbookControlGUI *wbcg;
+	GOCmdContext	*cc;
+	GtkWindow	*parent_window;
 	GladeXML *gui;
 	GtkDialog *dialog_pm;
 	GtkNotebook *gnotebook;
@@ -107,8 +106,8 @@ plugin_compare_name (gconstpointer a, gconstpointer b)
 {
 	GOPlugin *plugin_a = (GOPlugin *) a, *plugin_b = (GOPlugin *) b;
 
-	return g_utf8_collate (gnm_plugin_get_name (plugin_a),
-			       gnm_plugin_get_name (plugin_b));
+	return g_utf8_collate (go_plugin_get_name (plugin_a),
+			       go_plugin_get_name (plugin_b));
 }
 
 static gboolean
@@ -137,8 +136,8 @@ cb_plugin_changed (GOPlugin *plugin, PluginManagerGUI *pm_gui)
 	if (model_get_plugin_iter (GTK_TREE_MODEL (pm_gui->model_plugins), plugin, &iter)) {
 		gtk_list_store_set (
 			pm_gui->model_plugins, &iter,
-			PLUGIN_ACTIVE, gnm_plugin_is_active (plugin),
-			PLUGIN_SWITCHABLE, !gnm_plugin_is_active (plugin) || gnm_plugin_can_deactivate (plugin),
+			PLUGIN_ACTIVE, go_plugin_is_active (plugin),
+			PLUGIN_SWITCHABLE, !go_plugin_is_active (plugin) || go_plugin_can_deactivate (plugin),
 			-1);
 	}
 }
@@ -158,9 +157,9 @@ set_plugin_model_row (PluginManagerGUI *pm_gui, GtkTreeIter *iter, GOPlugin *plu
 {
 	gtk_list_store_set (
 		pm_gui->model_plugins, iter,
-		PLUGIN_NAME,  _(gnm_plugin_get_name (plugin)),
-		PLUGIN_ACTIVE, gnm_plugin_is_active (plugin),
-		PLUGIN_SWITCHABLE, !gnm_plugin_is_active (plugin) || gnm_plugin_can_deactivate (plugin),
+		PLUGIN_NAME,  _(go_plugin_get_name (plugin)),
+		PLUGIN_ACTIVE, go_plugin_is_active (plugin),
+		PLUGIN_SWITCHABLE, !go_plugin_is_active (plugin) || go_plugin_can_deactivate (plugin),
 		PLUGIN_POINTER, plugin,
 		-1);
 	g_signal_connect (
@@ -182,12 +181,12 @@ cb_pm_button_rescan_directories_clicked (PluginManagerGUI *pm_gui)
 	GtkTreeIter iter, new_iter;
 	gboolean has_iter;
 
-	plugins_rescan (&error, &new_plugins);
+	go_plugins_rescan (&error, &new_plugins);
 	if (error != NULL) {
-		go_cmd_context_error_info (GO_CMD_CONTEXT (pm_gui->wbcg), error);
+		go_cmd_context_error_info (pm_gui->cc, error);
 		error_info_free (error);
 	}
-	GNM_SLIST_SORT (new_plugins, plugin_compare_name);
+	GO_SLIST_SORT (new_plugins, plugin_compare_name);
 	for (has_iter = gtk_tree_model_get_iter_first (model, &iter), l = new_plugins;
 	     has_iter && l != NULL;
 	     has_iter = gtk_tree_model_iter_next (model, &iter)) {
@@ -204,7 +203,7 @@ cb_pm_button_rescan_directories_clicked (PluginManagerGUI *pm_gui)
 	}
 	while (l != NULL) {
 		gtk_list_store_append (pm_gui->model_plugins, &new_iter);
-		set_plugin_model_row (pm_gui, &new_iter, GNM_PLUGIN (l->data));
+		set_plugin_model_row (pm_gui, &new_iter, GO_PLUGIN (l->data));
 		l = l->next;
 	}
 	g_slist_free (new_plugins);
@@ -258,7 +257,7 @@ pm_gui_load_directory_page (PluginManagerGUI *pm_gui)
 
 	plugin_path_env = g_getenv ("GNUMERIC_PLUGIN_PATH");
 	if (plugin_path_env != NULL) {
-		plugin_dirs = gnm_strsplit_to_slist (plugin_path_env, G_SEARCHPATH_SEPARATOR);
+		plugin_dirs = go_strsplit_to_slist (plugin_path_env, G_SEARCHPATH_SEPARATOR);
 		pm_gui_load_directories (pm_gui, plugin_dirs, FALSE);
 		g_slist_foreach (plugin_dirs, (GFunc)g_free, NULL);
 		g_slist_free (plugin_dirs);
@@ -267,8 +266,7 @@ pm_gui_load_directory_page (PluginManagerGUI *pm_gui)
 }
 
 static void
-cb_pm_button_directory_add_clicked (G_GNUC_UNUSED GtkButton *button,
-				    PluginManagerGUI *pm_gui)
+cb_pm_button_directory_add_clicked (PluginManagerGUI *pm_gui)
 {
 	GtkFileChooser *fsel;
 
@@ -286,7 +284,7 @@ cb_pm_button_directory_add_clicked (G_GNUC_UNUSED GtkButton *button,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
 
-	if (go_gtk_file_sel_dialog (wbcg_toplevel (pm_gui->wbcg), GTK_WIDGET (fsel))) {
+	if (go_gtk_file_sel_dialog (pm_gui->parent_window, GTK_WIDGET (fsel))) {
 		char *path = gtk_file_chooser_get_filename (fsel);
 
 		if (!g_file_test (path, G_FILE_TEST_IS_DIR)) {
@@ -296,11 +294,11 @@ cb_pm_button_directory_add_clicked (G_GNUC_UNUSED GtkButton *button,
 		}
 
 		if (g_slist_find_custom ((GSList *)gnm_app_prefs->plugin_extra_dirs,
-					 path, gnm_str_compare) == NULL) {
-			GSList *extra_dirs = gnm_string_slist_copy (
+					 path, go_str_compare) == NULL) {
+			GSList *extra_dirs = go_string_slist_copy (
 				gnm_app_prefs->plugin_extra_dirs);
-			GNM_SLIST_PREPEND (extra_dirs, path);
-			GNM_SLIST_SORT (extra_dirs, gnm_str_compare);
+			GO_SLIST_PREPEND (extra_dirs, path);
+			GO_SLIST_SORT (extra_dirs, go_str_compare);
 
 			gnm_gconf_set_plugin_extra_dirs (extra_dirs);
 			pm_gui_load_directory_page (pm_gui);
@@ -313,8 +311,7 @@ cb_pm_button_directory_add_clicked (G_GNUC_UNUSED GtkButton *button,
 }
 
 static void
-cb_pm_button_directory_delete_clicked (G_GNUC_UNUSED GtkButton *button,
-				       PluginManagerGUI *pm_gui)
+cb_pm_button_directory_delete_clicked (PluginManagerGUI *pm_gui)
 {
 	GtkTreeIter iter;
 	char     *dir_name = NULL;
@@ -330,10 +327,10 @@ cb_pm_button_directory_delete_clicked (G_GNUC_UNUSED GtkButton *button,
 
 	if (!is_system
 	    && g_slist_find_custom ((GSList *)gnm_app_prefs->plugin_extra_dirs,
-				    dir_name, gnm_str_compare) != NULL) {
+				    dir_name, go_str_compare) != NULL) {
 
-		GSList *extra_dirs = gnm_string_slist_copy (gnm_app_prefs->plugin_extra_dirs);
-		GSList *res = g_slist_find_custom (extra_dirs, dir_name, gnm_str_compare);
+		GSList *extra_dirs = go_string_slist_copy (gnm_app_prefs->plugin_extra_dirs);
+		GSList *res = g_slist_find_custom (extra_dirs, dir_name, go_str_compare);
 
 		g_free (res->data);
 		extra_dirs = g_slist_remove (extra_dirs, res->data);
@@ -348,7 +345,7 @@ cb_pm_button_directory_delete_clicked (G_GNUC_UNUSED GtkButton *button,
 static void
 cb_checkbutton_mark_for_deactivation_toggled (GtkCheckButton *cbtn, GOPlugin *plugin)
 {
-	plugin_db_mark_plugin_for_deactivation (
+	go_plugin_db_mark_plugin_for_deactivation (
 		plugin, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbtn)));
 }
 
@@ -377,22 +374,22 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 
 		gtk_tree_model_get (GTK_TREE_MODEL (pm_gui->model_plugins),
 		                    &iter, PLUGIN_POINTER, &pinfo, -1);
-		plugin_desc = _(gnm_plugin_get_description (pinfo));
+		plugin_desc = _(go_plugin_get_description (pinfo));
 		if (plugin_desc == NULL) {
 			plugin_desc = "";
 		}
 		gtk_text_buffer_set_text (
 			pm_gui->text_description, plugin_desc, strlen (plugin_desc));
-		gtk_entry_set_text (pm_gui->entry_directory, gnm_plugin_get_dir_name (pinfo));
+		gtk_entry_set_text (pm_gui->entry_directory, go_plugin_get_dir_name (pinfo));
 
 		gtk_tree_store_clear (pm_gui->model_details);
 		gtk_tree_store_append (pm_gui->model_details, &iter, NULL);
 		gtk_tree_store_set (
 			pm_gui->model_details, &iter,
-			DETAILS_DESC, gnm_plugin_get_name (pinfo),
-			DETAILS_ID, gnm_plugin_get_id (pinfo),
+			DETAILS_DESC, go_plugin_get_name (pinfo),
+			DETAILS_ID, go_plugin_get_id (pinfo),
 			-1);
-		dep_ids = gnm_plugin_get_dependencies_ids (pinfo);
+		dep_ids = go_plugin_get_dependencies_ids (pinfo);
 		if (dep_ids != NULL) {
 			gtk_tree_store_append (pm_gui->model_details, &iter2, &iter);
 			gtk_tree_store_set (
@@ -400,12 +397,12 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 				DETAILS_DESC, _("Plugin dependencies"),
 				DETAILS_ID, "",
 				-1);
-			GNM_SLIST_FOREACH (dep_ids, char, dep_id,
+			GO_SLIST_FOREACH (dep_ids, char, dep_id,
 				GOPlugin *dep_plugin;
 				const char *name;
 
-				dep_plugin = plugins_get_plugin_by_id (dep_id);
-				name =  dep_plugin != NULL ? (char *) gnm_plugin_get_name (dep_plugin) : _("Unknown plugin");
+				dep_plugin = go_plugins_get_plugin_by_id (dep_id);
+				name =  dep_plugin != NULL ? (char *) go_plugin_get_name (dep_plugin) : _("Unknown plugin");
 				gtk_tree_store_append (pm_gui->model_details, &iter3, &iter2);
 				gtk_tree_store_set (
 					pm_gui->model_details, &iter3,
@@ -414,7 +411,7 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 					-1);
 			);
 		}
-		gnm_slist_free_custom (dep_ids, g_free);
+		go_slist_free_custom (dep_ids, g_free);
 
 		gtk_tree_store_append (pm_gui->model_details, &iter2, &iter);
 		gtk_tree_store_set (
@@ -422,8 +419,8 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 			DETAILS_DESC, _("Plugin services"),
 			DETAILS_ID, "",
 			-1);
-		services = gnm_plugin_get_services (pinfo);
-		GNM_SLIST_FOREACH (services, GOPluginService, service,
+		services = go_plugin_get_services (pinfo);
+		GO_SLIST_FOREACH (services, GOPluginService, service,
 			gtk_tree_store_append (pm_gui->model_details, &iter3, &iter2);
 			gtk_tree_store_set (
 				pm_gui->model_details, &iter3,
@@ -433,10 +430,10 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 		);
 		gtk_tree_view_expand_all (pm_gui->view_details);
 
-		if (gnm_plugin_is_active (pinfo) && !gnm_plugin_can_deactivate (pinfo)) {
+		if (go_plugin_is_active (pinfo) && !go_plugin_can_deactivate (pinfo)) {
 			gtk_toggle_button_set_active (
 				GTK_TOGGLE_BUTTON (pm_gui->checkbutton_mark_for_deactivation),
-				plugin_db_is_plugin_marked_for_deactivation (pinfo));
+				go_plugin_db_is_plugin_marked_for_deactivation (pinfo));
 			g_signal_connect (
 				pm_gui->checkbutton_mark_for_deactivation, "toggled",
 				G_CALLBACK (cb_checkbutton_mark_for_deactivation_toggled),
@@ -484,8 +481,8 @@ cb_pm_button_activate_all_clicked (G_GNUC_UNUSED GtkButton *button,
 {
 	ErrorInfo *activation_error, *error;
 
-	plugin_db_activate_plugin_list (
-		plugins_get_available_plugins (), &activation_error);
+	go_plugin_db_activate_plugin_list (
+		go_plugins_get_available_plugins (), &activation_error);
 	if (activation_error != NULL) {
 		error = error_info_new_str_with_details (
 			_("Errors while activating plugins"), activation_error);
@@ -501,8 +498,8 @@ cb_pm_button_deactivate_all_clicked (G_GNUC_UNUSED GtkButton *button,
 {
 	ErrorInfo *deactivation_error, *error;
 
-	plugin_db_deactivate_plugin_list (
-		plugins_get_available_plugins (), &deactivation_error);
+	go_plugin_db_deactivate_plugin_list (
+		go_plugins_get_available_plugins (), &deactivation_error);
 	if (deactivation_error != NULL) {
 		error = error_info_new_str_with_details (
 			_("Errors while deactivating plugins"), deactivation_error);
@@ -527,10 +524,10 @@ pm_dialog_init (PluginManagerGUI *pm_gui)
 	g_signal_connect_swapped (G_OBJECT (pm_gui->button_rescan_directories),
 		"clicked",
 		G_CALLBACK (cb_pm_button_rescan_directories_clicked), pm_gui);
-	g_signal_connect (G_OBJECT (pm_gui->button_directory_add),
+	g_signal_connect_swapped (G_OBJECT (pm_gui->button_directory_add),
 		"clicked",
 		G_CALLBACK (cb_pm_button_directory_add_clicked), pm_gui);
-	g_signal_connect (G_OBJECT (pm_gui->button_directory_delete),
+	g_signal_connect_swapped (G_OBJECT (pm_gui->button_directory_delete),
 		"clicked",
 		G_CALLBACK (cb_pm_button_directory_delete_clicked), pm_gui);
 	g_signal_connect (G_OBJECT (pm_gui->checkbutton_install_new),
@@ -546,9 +543,9 @@ pm_dialog_init (PluginManagerGUI *pm_gui)
 	/* initialize plugin list */
 	gtk_list_store_clear (pm_gui->model_plugins);
 	sorted_plugin_list = g_slist_sort (
-		g_slist_copy (plugins_get_available_plugins ()),
+		g_slist_copy (go_plugins_get_available_plugins ()),
 		&plugin_compare_name);
-	GNM_SLIST_FOREACH (sorted_plugin_list, GOPlugin, plugin,
+	GO_SLIST_FOREACH (sorted_plugin_list, GOPlugin, plugin,
 		gtk_list_store_append (pm_gui->model_plugins, &iter);
 		set_plugin_model_row (pm_gui, &iter, plugin);
 	);
@@ -558,8 +555,7 @@ pm_dialog_init (PluginManagerGUI *pm_gui)
 }
 
 static void
-cb_pm_dir_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
-			     PluginManagerGUI *pm_gui)
+cb_pm_dir_selection_changed (PluginManagerGUI *pm_gui)
 {
 	GtkTreeIter  iter;
 	gboolean is_system;
@@ -591,26 +587,26 @@ cb_active_toggled (G_GNUC_UNUSED GtkCellRendererToggle *celltoggle,
 	gtk_tree_model_get_iter_from_string (model, &iter, path);
 	gtk_tree_model_get (model, &iter, PLUGIN_POINTER, &plugin, -1);
 	g_assert (plugin != NULL);
-	if (gnm_plugin_is_active (plugin)) {
-		gnm_plugin_deactivate (plugin, &error);
+	if (go_plugin_is_active (plugin)) {
+		go_plugin_deactivate (plugin, &error);
 	} else {
 		GSList *dep_ids;
 		int n_inactive_deps = 0;
 		gboolean want_activate = TRUE;
 
-		dep_ids = gnm_plugin_get_dependencies_ids (plugin);
+		dep_ids = go_plugin_get_dependencies_ids (plugin);
 		if (dep_ids != NULL) {
 			GString *s;
 
 			s = g_string_new (_("The following extra plugins must be activated in order to activate this one:\n\n"));
-			GNM_SLIST_FOREACH (dep_ids, char, plugin_id,
+			GO_SLIST_FOREACH (dep_ids, char, plugin_id,
 				GOPlugin *plugin;
 
-				plugin = plugins_get_plugin_by_id (plugin_id);
+				plugin = go_plugins_get_plugin_by_id (plugin_id);
 				if (plugin == NULL) {
 					g_string_append_printf (s, _("Unknown plugin with id=\"%s\"\n"), plugin_id);
-				} else if (!gnm_plugin_is_active (plugin)) {
-					g_string_append (s, gnm_plugin_get_name (plugin));
+				} else if (!go_plugin_is_active (plugin)) {
+					g_string_append (s, go_plugin_get_name (plugin));
 					g_string_append_c (s, '\n');
 					n_inactive_deps++;
 				}
@@ -623,10 +619,10 @@ cb_active_toggled (G_GNUC_UNUSED GtkCellRendererToggle *celltoggle,
 			}
 			g_string_free (s, TRUE);
 		}
-		gnm_slist_free_custom (dep_ids, g_free);
+		go_slist_free_custom (dep_ids, g_free);
 
 		if (want_activate) {
-			gnm_plugin_activate (plugin, &error);
+			go_plugin_activate (plugin, &error);
 		} else {
 			error = NULL;
 		}
@@ -634,26 +630,24 @@ cb_active_toggled (G_GNUC_UNUSED GtkCellRendererToggle *celltoggle,
 	if (error != NULL) {
 		ErrorInfo *new_error;
 
-		if (gnm_plugin_is_active (plugin)) {
+		if (go_plugin_is_active (plugin)) {
 			new_error = error_info_new_printf (
 				_("Error while deactivating plugin \"%s\"."),
-				gnm_plugin_get_name (plugin));
+				go_plugin_get_name (plugin));
 		} else {
 			new_error = error_info_new_printf (
 				_("Error while activating plugin \"%s\"."),
-				gnm_plugin_get_name (plugin));
+				go_plugin_get_name (plugin));
 		}
 		error_info_add_details (new_error, error);
-		go_cmd_context_error_info (GO_CMD_CONTEXT (pm_gui->wbcg), new_error);
+		go_cmd_context_error_info (pm_gui->cc, new_error);
 	}
 }
 
 static void
-cb_pm_close_clicked (G_GNUC_UNUSED GtkWidget *button,
-			PluginManagerGUI *pm_gui)
+cb_pm_close_clicked (PluginManagerGUI *pm_gui)
 {
-	gtk_widget_destroy (GTK_WIDGET(pm_gui->dialog_pm));
-	return;
+	gtk_widget_destroy (GTK_WIDGET (pm_gui->dialog_pm));
 }
 
 void
@@ -673,8 +667,7 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, PLUGIN_MANAGER_DIALOG_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
-		"plugin-manager.glade", NULL, NULL);
+	gui = gnm_glade_xml_new (cc, "plugin-manager.glade", NULL, NULL);
 	if (gui == NULL)
 		return;
 
@@ -773,15 +766,14 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 						  (gui, "button_directory_delete"));
 	gtk_button_set_alignment (GTK_BUTTON (pm_gui->button_directory_delete), 0., .5);
 
-	cb_pm_dir_selection_changed (NULL, pm_gui);
-	g_signal_connect (pm_gui->selection_directory,
+	cb_pm_dir_selection_changed (pm_gui);
+	g_signal_connect_swapped (pm_gui->selection_directory,
 		"changed",
 		G_CALLBACK (cb_pm_dir_selection_changed), pm_gui);
 
 	/* Done setting up pages */
 
 	pm_gui->gnotebook = GTK_NOTEBOOK (glade_xml_get_widget (gui, "notebook1"));
-
 	gtk_widget_show_all (GTK_WIDGET (pm_gui->gnotebook));
 
 	pm_gui_load_directory_page (pm_gui);
@@ -790,7 +782,7 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_PLUGIN_MANAGER);
-	g_signal_connect (glade_xml_get_widget (gui, "button_close_manager"),
+	g_signal_connect_swapped (glade_xml_get_widget (gui, "button_close_manager"),
 		"clicked",
 		G_CALLBACK (cb_pm_close_clicked), pm_gui);
 

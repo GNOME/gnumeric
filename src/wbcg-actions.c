@@ -262,7 +262,7 @@ static GNM_ACTION_DEF (cb_edit_cut)
 		SheetView *sv = wb_control_cur_sheet_view (wbc);
 		if (scg != NULL && scg->selected_objects != NULL)
 			gnm_app_clipboard_cut_copy_obj (wbc, TRUE, sv,
-				gnm_hash_keys (scg->selected_objects));
+				go_hash_keys (scg->selected_objects));
 		else
 			sv_selection_cut (sv, wbc);
 	} else
@@ -277,7 +277,7 @@ static GNM_ACTION_DEF (cb_edit_copy)
 		SheetView *sv = wb_control_cur_sheet_view (wbc);
 		if (scg != NULL && scg->selected_objects != NULL)
 			gnm_app_clipboard_cut_copy_obj (wbc, FALSE, sv,
-				gnm_hash_keys (scg->selected_objects));
+				go_hash_keys (scg->selected_objects));
 		else
 			sv_selection_copy (sv, wbc);
 	} else

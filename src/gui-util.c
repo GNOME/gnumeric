@@ -79,6 +79,7 @@ insert_error_info (GtkTextBuffer* text, ErrorInfo *error, gint level)
 /**
  * gnumeric_error_info_dialog_new
  *
+ * SHOULD BE IN GOFFICE
  */
 GtkWidget *
 gnumeric_error_info_dialog_new (ErrorInfo *error)
@@ -100,7 +101,7 @@ gnumeric_error_info_dialog_new (ErrorInfo *error)
 		bf_lim++;
 
 	mtype = GTK_MESSAGE_ERROR;
-	if (error_info_peek_severity (error) < GNM_ERROR)
+	if (error_info_peek_severity (error) < GO_ERROR)
 		mtype = GTK_MESSAGE_WARNING;
 	dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
 					 mtype, GTK_BUTTONS_CLOSE, " ");

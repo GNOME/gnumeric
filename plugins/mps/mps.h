@@ -159,7 +159,7 @@ static const int CONSTRAINT_ROW      = 10;
  */
 
 /* Reads the MPS file in and creates a spreadsheet model of it. */
-void     mps_file_open  (GnmFileOpener const *fo, IOContext *io_context,
+void     mps_file_open  (GOFileOpener const *fo, IOContext *io_context,
 			 WorkbookView *wbv, GsfInput *input);
 
 void     mps_parse_file (MpsInputContext *ctxt);

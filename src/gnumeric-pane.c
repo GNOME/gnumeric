@@ -748,7 +748,7 @@ gnm_pane_object_start_resize (GnmPane *pane, GdkEventButton *event,
 
 	if (make_dup) {
 		SheetControlGUI *scg = pane->gcanvas->simple.scg;
-		GSList *ptr, *objs = gnm_hash_keys (scg->selected_objects);
+		GSList *ptr, *objs = go_hash_keys (scg->selected_objects);
 
 		for (ptr = objs ; ptr != NULL ; ptr = ptr->next) {
 			SheetObject *dup_obj = sheet_object_dup (ptr->data);

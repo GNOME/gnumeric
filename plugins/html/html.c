@@ -480,7 +480,7 @@ write_sheet (GsfOutput *output, Sheet *sheet,
  * write the html file (version of html according to version argument)
  */
 static void
-html_file_save (GnmFileSaver const *fs, IOContext *io_context,
+html_file_save (GOFileSaver const *fs, IOContext *io_context,
 		WorkbookView const *wb_view, GsfOutput *output, html_version_t version)
 {
 	GList *sheets, *ptr;
@@ -566,7 +566,7 @@ html_file_save (GnmFileSaver const *fs, IOContext *io_context,
 	}
 
 	sheets = workbook_sheets (wb);
-	save_scope = gnm_file_saver_get_save_scope (fs);
+	save_scope = go_file_saver_get_save_scope (fs);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		write_sheet (output, (Sheet *) ptr->data, version, save_scope);
 	}
@@ -576,35 +576,35 @@ html_file_save (GnmFileSaver const *fs, IOContext *io_context,
 }
 
 void
-html40_file_save (GnmFileSaver const *fs, IOContext *io_context,
+html40_file_save (GOFileSaver const *fs, IOContext *io_context,
                   WorkbookView const *wb_view, GsfOutput *output)
 {
 	html_file_save (fs, io_context, wb_view, output, HTML40);
 }
 
 void
-html32_file_save (GnmFileSaver const *fs, IOContext *io_context,
+html32_file_save (GOFileSaver const *fs, IOContext *io_context,
                   WorkbookView const *wb_view, GsfOutput *output)
 {
 	html_file_save (fs, io_context, wb_view, output, HTML32);
 }
 
 void
-html40frag_file_save (GnmFileSaver const *fs, IOContext *io_context,
+html40frag_file_save (GOFileSaver const *fs, IOContext *io_context,
 		      WorkbookView const *wb_view, GsfOutput *output)
 {
 	html_file_save (fs, io_context, wb_view, output, HTML40F);
 }
 
 void
-xhtml_file_save (GnmFileSaver const *fs, IOContext *io_context,
+xhtml_file_save (GOFileSaver const *fs, IOContext *io_context,
 		 WorkbookView const *wb_view, GsfOutput *output)
 {
 	html_file_save (fs, io_context, wb_view, output, XHTML);
 }
 
 void
-xhtml_range_file_save (GnmFileSaver const *fs, IOContext *io_context,
+xhtml_range_file_save (GOFileSaver const *fs, IOContext *io_context,
 		      WorkbookView const *wb_view, GsfOutput *output)
 {
 	/* Identical, but fs->save_scope is different */

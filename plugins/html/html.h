@@ -25,18 +25,18 @@
 #include "gnumeric.h"
 #include <goffice/app/file.h>
 
-void html32_file_save	  (GnmFileSaver const *fs, IOContext *io_context, 
+void html32_file_save	  (GOFileSaver const *fs, IOContext *io_context, 
 			   WorkbookView const  *wb_view, GsfOutput *output);
-void html40_file_save	  (GnmFileSaver const *fs, IOContext *io_context, 
+void html40_file_save	  (GOFileSaver const *fs, IOContext *io_context, 
 			   WorkbookView const  *wb_view, GsfOutput *output);
-void html40frag_file_save (GnmFileSaver const *fs, IOContext *io_context, 
+void html40frag_file_save (GOFileSaver const *fs, IOContext *io_context, 
 			   WorkbookView const  *wb_view, GsfOutput *output);
-void xhtml_file_save	  (GnmFileSaver const *fs, IOContext *io_context,
+void xhtml_file_save	  (GOFileSaver const *fs, IOContext *io_context,
 			   WorkbookView const  *wb_view, GsfOutput *output);
-void xhtml_range_file_save (GnmFileSaver const *fs, IOContext *io_context,
+void xhtml_range_file_save (GOFileSaver const *fs, IOContext *io_context,
 			    WorkbookView const  *wb_view, GsfOutput *output);
 
-void html_file_open (GnmFileOpener const *fo, IOContext *io_context, 
+void html_file_open (GOFileOpener const *fo, IOContext *io_context, 
 		     WorkbookView *wb_view, GsfInput *input);
 
 #define G_PLUGIN_FOR_HTML "GPFH/0.5"

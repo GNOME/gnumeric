@@ -557,7 +557,7 @@ workbook_view_new (Workbook *wb)
 }
 
 static void
-wbv_save_to_uri (WorkbookView *wbv, GnmFileSaver const *fs,
+wbv_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
 		 char const *uri, IOContext *io_context)
 {
 	char *msg = NULL;
@@ -577,7 +577,7 @@ wbv_save_to_uri (WorkbookView *wbv, GnmFileSaver const *fs,
 		GError const *save_err;
 
 		g_print ("Writing %s\n", uri);
-		gnm_file_saver_save (fs, io_context, wbv, GSF_OUTPUT (output));
+		go_file_saver_save (fs, io_context, wbv, GSF_OUTPUT (output));
 		save_err = gsf_output_error (GSF_OUTPUT (output));
 		if (save_err) {
 			msg = g_strdup (save_err->message);
@@ -599,7 +599,7 @@ wbv_save_to_uri (WorkbookView *wbv, GnmFileSaver const *fs,
 /**
  * wb_view_save_as:
  * @wbv         : Workbook View
- * @fs          : GnmFileSaver object
+ * @fs          : GOFileSaver object
  * @uri         : URI to save as.
  * @context     :
  *
@@ -610,7 +610,7 @@ wbv_save_to_uri (WorkbookView *wbv, GnmFileSaver const *fs,
  * Return value: TRUE if file was successfully saved and FALSE otherwise.
  */
 gboolean
-wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *uri,
+wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 		 GOCmdContext *context)
 {
 	IOContext *io_context;
@@ -618,7 +618,7 @@ wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *uri,
 	gboolean has_error, has_warning;
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
-	g_return_val_if_fail (IS_GNM_FILE_SAVER (fs), FALSE);
+	g_return_val_if_fail (IS_GO_FILE_SAVER (fs), FALSE);
 	g_return_val_if_fail (uri != NULL, FALSE);
 	g_return_val_if_fail (IS_GO_CMD_CONTEXT (context), FALSE);
 
@@ -633,7 +633,7 @@ wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *uri,
 	has_warning = gnumeric_io_warning_occurred (io_context);
 	if (!has_error) {
 		if (workbook_set_saveinfo (wb,
-			gnm_file_saver_get_format_level (fs), fs) &&
+			go_file_saver_get_format_level (fs), fs) &&
 		    workbook_set_uri (wb, uri))
 			workbook_set_dirty (wb, FALSE);
 	}
@@ -660,7 +660,7 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 {
 	IOContext	*io_context;
 	Workbook	*wb;
-	GnmFileSaver	*fs;
+	GOFileSaver	*fs;
 	gboolean has_error, has_warning;
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
@@ -669,7 +669,7 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 	wb = wb_view_workbook (wbv);
 	fs = workbook_get_file_saver (wb);
 	if (fs == NULL)
-		fs = gnm_file_saver_get_default ();
+		fs = go_file_saver_get_default ();
 
 	io_context = gnumeric_io_context_new (context);
 	if (fs == NULL)
@@ -751,7 +751,7 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 	gboolean problem;
 	IOContext	*io_context;
 	Workbook	*wb;
-	GnmFileSaver	*fs;
+	GOFileSaver	*fs;
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
 	g_return_val_if_fail (IS_GO_CMD_CONTEXT (context), FALSE);
@@ -759,7 +759,7 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 	wb = wb_view_workbook (wbv);
 	fs = workbook_get_file_saver (wb);
 	if (fs == NULL)
-		fs = gnm_file_saver_get_default ();
+		fs = go_file_saver_get_default ();
 
 	io_context = gnumeric_io_context_new (context);
 	if (fs != NULL) {
@@ -864,7 +864,7 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 
 WorkbookView *
 wb_view_new_from_input  (GsfInput *input,
-			 GnmFileOpener const *optional_fmt,
+			 GOFileOpener const *optional_fmt,
 			 IOContext *io_context,
 			 char const *optional_enc)
 {
@@ -872,7 +872,7 @@ wb_view_new_from_input  (GsfInput *input,
 
 	g_return_val_if_fail (GSF_IS_INPUT(input), NULL);
 	g_return_val_if_fail (optional_fmt == NULL ||
-			      IS_GNM_FILE_OPENER (optional_fmt), NULL);
+			      IS_GO_FILE_OPENER (optional_fmt), NULL);
 
 	/* NOTE : we could support gzipped anything here if we wanted to
 	 * by adding a wrapper, but there is no framework for remembering that
@@ -887,19 +887,19 @@ wb_view_new_from_input  (GsfInput *input,
 
 		for (pl = FILE_PROBE_FILE_NAME; pl < FILE_PROBE_LAST && optional_fmt == NULL; pl++) {
 			for (l = get_file_openers (); l != NULL; l = l->next) {
-				GnmFileOpener const *tmp_fo = GNM_FILE_OPENER (l->data);
+				GOFileOpener const *tmp_fo = GO_FILE_OPENER (l->data);
 				int new_input_refs;
 				/* A name match needs to be a content match too */
-				if (gnm_file_opener_probe (tmp_fo, input, pl) &&
+				if (go_file_opener_probe (tmp_fo, input, pl) &&
 				    (pl == FILE_PROBE_CONTENT ||
-				     !gnm_file_opener_can_probe	(tmp_fo, FILE_PROBE_CONTENT) ||
-				     gnm_file_opener_probe (tmp_fo, input, FILE_PROBE_CONTENT)))
+				     !go_file_opener_can_probe	(tmp_fo, FILE_PROBE_CONTENT) ||
+				     go_file_opener_probe (tmp_fo, input, FILE_PROBE_CONTENT)))
 					optional_fmt = tmp_fo;
 
 				new_input_refs = G_OBJECT (input)->ref_count;
 				if (new_input_refs != input_refs) {
 					g_warning ("Format %s's probe changed input ref_count from %d to %d.",
-						   gnm_file_opener_get_id (tmp_fo),
+						   go_file_opener_get_id (tmp_fo),
 						   input_refs,
 						   new_input_refs);
 					input_refs = new_input_refs;
@@ -926,7 +926,7 @@ wb_view_new_from_input  (GsfInput *input,
 
 		/* disable recursive dirtying while loading */
 		old = workbook_enable_recursive_dirty (new_wb, FALSE);
-		gnm_file_opener_open (optional_fmt, optional_enc, io_context, new_wbv, input);
+		go_file_opener_open (optional_fmt, optional_enc, io_context, new_wbv, input);
 		workbook_enable_recursive_dirty (new_wb, old);
 
 		if (gnumeric_io_error_occurred (io_context)) {
@@ -951,9 +951,9 @@ wb_view_new_from_input  (GsfInput *input,
 /**
  * wb_view_new_from_uri :
  * @uri          : URI for file
- * @optional_fmt : Optional GnmFileOpener
+ * @optional_fmt : Optional GOFileOpener
  * @io_context   : Optional context to display errors.
- * @optional_enc : Optional encoding for GnmFileOpener that understand it
+ * @optional_enc : Optional encoding for GOFileOpener that understand it
  *
  * Reads @uri file using given file opener @optional_fmt, or probes for a valid
  * possibility if @optional_fmt is NULL.  Reports problems to @io_context.
@@ -962,7 +962,7 @@ wb_view_new_from_input  (GsfInput *input,
  */
 WorkbookView *
 wb_view_new_from_uri (char const *uri,
-		      GnmFileOpener const *optional_fmt,
+		      GOFileOpener const *optional_fmt,
 		      IOContext *io_context,
 		      char const *optional_enc)
 {

@@ -32,9 +32,8 @@ msgid "Gnumeric Spreadsheet"
 msgstr "Gnumeric 스프레드시트"
 
 #: gnumeric.desktop.in.h:2
-#, fuzzy
 msgid "Spreadsheet"
-msgstr "Gnumeric 스프레드시트"
+msgstr "스프레드시트"
 
 #: gnumeric.desktop.in.h:3
 msgid "The GNOME Spreadsheet"
@@ -423,12 +422,10 @@ msgid "MS Excel (tm) 97/2000/XP"
 msgstr "MS 엑셀 (tm) 97/2000/XP"
 
 #: plugins/excel/plugin.xml.in.h:6
-#, fuzzy
 msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 msgstr "MS 엑셀 (tm) 97/2000/XP 및 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:7
-#, fuzzy
 msgid "MS Excel (tm) SpreadsheetML"
 msgstr "MS 엑셀 (tm) XML"
 
@@ -454,9 +451,8 @@ msgstr ""
 #: plugins/fn-complex/functions.c:1712 plugins/fn-complex/functions.c:1715
 #: plugins/fn-complex/functions.c:1718 plugins/fn-complex/functions.c:1721
 #: plugins/fn-complex/functions.c:1724 plugins/fn-complex/functions.c:1727
-#, fuzzy
 msgid "inumber"
-msgstr "숫자"
+msgstr ""
 
 #: plugins/fn-complex/functions.c:1621 plugins/fn-complex/functions.c:1636
 #: plugins/fn-complex/functions.c:1648 plugins/fn-complex/functions.c:1651
@@ -518,9 +514,8 @@ msgid "year,month,day"
 msgstr ""
 
 #: plugins/fn-date/functions.c:1295
-#, fuzzy
 msgid "date_str"
-msgstr "날짜"
+msgstr ""
 
 #: plugins/fn-date/functions.c:1299
 msgid "date1,date2,interval"
@@ -560,23 +555,20 @@ msgid "hours,minutes,seconds"
 msgstr ""
 
 #: plugins/fn-date/functions.c:1347
-#, fuzzy
 msgid "timetext"
-msgstr "시간"
+msgstr ""
 
 #: plugins/fn-date/functions.c:1363
 msgid "date,days,holidays"
 msgstr ""
 
 #: plugins/fn-date/functions.c:1376
-#, fuzzy
 msgid "unixtime"
-msgstr "시간"
+msgstr ""
 
 #: plugins/fn-date/functions.c:1380
-#, fuzzy
 msgid "serial"
-msgstr "보통"
+msgstr ""
 
 #: plugins/fn-date/plugin.xml.in.h:1
 msgid "Date and Time Functions"
@@ -619,14 +611,12 @@ msgid "circuits,gos"
 msgstr ""
 
 #: plugins/fn-erlang/plugin.xml.in.h:1
-#, fuzzy
 msgid "Erlang"
-msgstr "범위"
+msgstr "Erlang"
 
 #: plugins/fn-erlang/plugin.xml.in.h:2
-#, fuzzy
 msgid "Erlang Functions"
-msgstr "문자열 함수"
+msgstr "Erlang 함수"
 
 #: plugins/fn-erlang/plugin.xml.in.h:3
 msgid "Functions to help Erlang Analysis"
@@ -808,9 +798,8 @@ msgid "ref"
 msgstr ""
 
 #: plugins/fn-lookup/functions.c:1278
-#, fuzzy
 msgid "colname"
-msgstr "어떤 이름"
+msgstr ""
 
 #: plugins/fn-lookup/functions.c:1284 plugins/fn-lookup/functions.c:1314
 msgid "val,range,col_idx,approx,as_index"
@@ -1035,9 +1024,8 @@ msgstr "무작위 숫자 함수"
 
 #: plugins/fn-random/plugin.xml.in.h:3 src/dialogs/random-generation.glade.h:6
 #: src/tools/random-generator.c:674 src/tools/random-generator.c:677
-#, fuzzy
 msgid "Random Numbers"
-msgstr "무작위 숫자 생성"
+msgstr "무작위 숫자"
 
 #: plugins/fn-stat/functions.c:5936 plugins/fn-stat/functions.c:6198
 msgid "k,p"
@@ -1116,9 +1104,8 @@ msgid "known_y's,known_x's,new_x's,const"
 msgstr ""
 
 #: plugins/fn-stat/functions.c:6028
-#, fuzzy
 msgid "x,n,M,N,cumulative"
-msgstr "누적 %"
+msgstr ""
 
 #: plugins/fn-stat/functions.c:6041 plugins/fn-stat/functions.c:6044
 #: plugins/fn-stat/functions.c:6056
@@ -1319,9 +1306,8 @@ msgid "Too much data returned"
 msgstr "너무 많은 데이터가 되돌아 옴"
 
 #: plugins/gda/plugin-gda.c:99
-#, fuzzy
 msgid "Database Connection"
-msgstr "데이터베이스 함수"
+msgstr "데이터베이스 연결"
 
 #: plugins/gda/plugin-gda.c:172
 msgid "Format: execSQL(dsn,user,password,sql)"
@@ -1337,9 +1323,8 @@ msgid "Error: no recordsets were returned"
 msgstr ""
 
 #: plugins/gda/plugin-gda.c:242
-#, fuzzy
 msgid "Format: readDBTable(dsn,user,password,table)"
-msgstr "형식 : execSQL(dsn,user,password,sql)"
+msgstr ""
 
 #: plugins/gda/plugin.xml.in.h:2
 msgid "Database functions for retrieval of data from a database."
@@ -1402,7 +1387,6 @@ msgid "Unable to parse the html."
 msgstr "html을 분석할 수 없습니다."
 
 #: plugins/html/plugin.xml.in.h:1
-#, fuzzy
 msgid "HTML &amp; TeX"
 msgstr "HTML과 TeX"
 
@@ -1411,9 +1395,8 @@ msgid "HTML (*.html) fragment"
 msgstr "HTML (*.html) 조각"
 
 #: plugins/html/plugin.xml.in.h:3
-#, fuzzy
 msgid "HTML (*.html, *.htm)"
-msgstr "HTML 3.2 (*.html)"
+msgstr "HTML (*.html, *.htm)"
 
 #: plugins/html/plugin.xml.in.h:4
 msgid "HTML 3.2 (*.html)"
@@ -1436,9 +1419,8 @@ msgid "TROFF (*.me)"
 msgstr "TROFF (*.me)"
 
 #: plugins/html/plugin.xml.in.h:9
-#, fuzzy
 msgid "XHTML (*.html)"
-msgstr "HTML 3.2 (*.html)"
+msgstr "XHTML (*.html)"
 
 #: plugins/html/plugin.xml.in.h:10
 msgid "XHTML range - for export to clipboard"
@@ -1457,9 +1439,8 @@ msgid "Lotus 123"
 msgstr "로터스 123"
 
 #: plugins/lotus-123/plugin.xml.in.h:3
-#, fuzzy
 msgid "Lotus 123 (*.wk1, *.wks, *.123)"
-msgstr "로터스 123 (*.wk1)"
+msgstr "로터스 123 (*.wk1, *.wks, *.123)"
 
 #: plugins/mps/mps.c:181
 msgid "Program Name"
@@ -1607,15 +1588,15 @@ msgid "Invalid array expression does not specify number of rows."
 msgstr ""
 
 #: plugins/openoffice/openoffice-read.c:1147
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
-msgstr "파일 '%s'를 열 수 없습니다"
+msgstr ""
 
 #: plugins/openoffice/openoffice-read.c:1160
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
-msgstr "파일 '%s'를 열 수 없습니다"
+msgstr ""
 
 #: plugins/openoffice/openoffice-read.c:1439
 msgid "No stream named content.xml found."
@@ -1644,12 +1625,10 @@ msgid "Open/Star Calc (*.sxc)"
 msgstr ""
 
 #: plugins/openoffice/plugin.xml.in.h:2
-#, fuzzy
 msgid "Open/Star Office spreadsheet"
-msgstr "Open/Star Office 스프레드시트<"
+msgstr "Open/Star Office 스프레드시트"
 
 #: plugins/openoffice/plugin.xml.in.h:3
-#, fuzzy
 msgid "OpenCalc/StarCalc"
 msgstr "OpenCalc/StarCalc"
 
@@ -1658,14 +1637,12 @@ msgid "OpenOffice OASIS _UNFINISHED_"
 msgstr ""
 
 #: plugins/paradox/paradox.c:72 plugins/paradox/paradox.c:121
-#, fuzzy
 msgid "Error while opening paradox file."
-msgstr "xbase 파일을 여는 중 오류."
+msgstr "paradox 파일을 여는 중 오류."
 
 #: plugins/paradox/paradox.c:119
-#, fuzzy
 msgid "Could not allocate memory for record."
-msgstr "인자 값을 구할 수 없습니다"
+msgstr ""
 
 #: plugins/paradox/paradox.c:219
 #, c-format
@@ -1673,66 +1650,57 @@ msgid "Field type %d is not supported."
 msgstr ""
 
 #: plugins/paradox/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports Paradox files"
-msgstr "SC/XSpread 파일 읽어들이기"
+msgstr "Paradox 파일 가져오기"
 
 #: plugins/paradox/plugin.xml.in.h:2
-#, fuzzy
 msgid "Paradox"
-msgstr "K번째 큼"
+msgstr "Paradox"
 
 #: plugins/paradox/plugin.xml.in.h:3
 msgid "Paradox database or primary index file"
 msgstr ""
 
 #: plugins/perl/ext/Gnumeric.xs:144
-#, fuzzy
 msgid "Perl plugin"
-msgstr "Guile 플러그인"
+msgstr "펄 플러그인"
 
 #: plugins/perl-func/plugin.xml.in.h:1 plugins/perl/plugin.xml.in.h:2
 msgid "Perl"
 msgstr "펄"
 
 #: plugins/perl-func/plugin.xml.in.h:2
-#, fuzzy
 msgid "Perl functions"
-msgstr "Vladimir Vuksan, 금융 함수."
+msgstr "펄 함수"
 
 #: plugins/perl-func/plugin.xml.in.h:3
 msgid "Sample Perl plugin providing some (useless) functions."
 msgstr ""
 
 #: plugins/perl-loader/perl-loader.c:108
-#, fuzzy
 msgid "Module name not given."
-msgstr "파일 이름:"
+msgstr ""
 
 #: plugins/perl-loader/perl-loader.c:134
-#, fuzzy
 msgid "perl_func.pl doesn't exist."
-msgstr "모듈 \"%s\"이(가) 없습니다."
+msgstr "perl_func.pl이(가) 없습니다."
 
 #: plugins/perl-loader/perl-loader.c:178 plugins/perl-loader/perl-loader.c:197
 #, c-format
 msgid "Perl error: %s\n"
-msgstr ""
+msgstr "펄 오류: %s\n"
 
 #: plugins/perl-loader/perl-loader.c:256
-#, fuzzy
 msgid "Perl error: "
-msgstr "Guile 오류"
+msgstr "펄 오류: "
 
 #: plugins/perl-loader/plugin.xml.in.h:1
-#, fuzzy
 msgid "Perl plugin loader"
-msgstr "모르는 계산 에러"
+msgstr ""
 
 #: plugins/perl-loader/plugin.xml.in.h:2
-#, fuzzy
 msgid "This plugin provides support for Perl plugins"
-msgstr "이 플러그인은 파이썬 플러그인을 지원합니다"
+msgstr "이 플러그인은 펄 플러그인을 지원합니다"
 
 #: plugins/perl/plugin.xml.in.h:1
 msgid "Enables the creation of functions in Perl"
@@ -1781,14 +1749,12 @@ msgid "Error while reading psiconv file."
 msgstr "psiconv 파일을 읽는 중 오류."
 
 #: plugins/psiconv/psiconv-read.c:618
-#, fuzzy
 msgid "Error while parsing Psion file."
-msgstr "psiconv 파일을 분석하는 중 오류."
+msgstr "Psion 파일을 분석하는 중 오류."
 
 #: plugins/psiconv/psiconv-read.c:626
-#, fuzzy
 msgid "This Psion file is not a Sheet file."
-msgstr "Psion 5 series 시트 파일 가져오기"
+msgstr ""
 
 #: plugins/py-func/plugin.xml.in.h:1
 msgid "Python"
@@ -1808,18 +1774,14 @@ msgstr "기본 해석기"
 
 #: plugins/python-loader/gnm-python.c:130
 #: plugins/python-loader/gnm-python.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Could not import %s."
 msgstr ""
-"파일 %s를 읽을 수 없습니다\n"
-"%%s"
 
 #: plugins/python-loader/gnm-python.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find %s."
 msgstr ""
-"파일 %s를 읽을 수 없습니다\n"
-"%%s"
 
 #: plugins/python-loader/gnm-python.c:145
 #, c-format
@@ -1827,11 +1789,9 @@ msgid "Could not initialize Python bindings for Gtk+, etc: %s"
 msgstr ""
 
 #: plugins/python-loader/gnm-python.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find %s"
 msgstr ""
-"파일 %s를 읽을 수 없습니다\n"
-"%%s"
 
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -1886,14 +1846,14 @@ msgid "Python module name not given."
 msgstr "파이썬 모듈 이름이 주어지지 않았습니다."
 
 #: plugins/python-loader/python-loader.c:88
-#, fuzzy, c-format
+#, c-format
 msgid "Error while opening file \"%s\" for writing."
-msgstr "파일 닫기 에러, 에러: %s"
+msgstr ""
 
 #: plugins/python-loader/python-loader.c:92
-#, fuzzy, c-format
+#, c-format
 msgid "Error while opening file \"%s\" for reading."
-msgstr "파일 닫기 에러, 에러: %s"
+msgstr ""
 
 #: plugins/python-loader/python-loader.c:123
 msgid "Cannot create new Python interpreter."
@@ -1942,9 +1902,9 @@ msgid "Object \"%s\" is not a dictionary."
 msgstr "\"%s\"은(는) 디렉토리가 아닙니다."
 
 #: plugins/python-loader/python-loader.c:707 src/gnm-plugin.c:557
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown action: %s"
-msgstr "모르는 함수"
+msgstr ""
 
 #: plugins/python-loader/python-loader.c:712
 #, c-format
@@ -1956,12 +1916,10 @@ msgid "Imports Quattro Pro (tm) files"
 msgstr "쿼트로 프로 (tm) 파일을 가져옵니다"
 
 #: plugins/qpro/plugin.xml.in.h:2
-#, fuzzy
 msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
-msgstr "로터스 123 (*.wk1)"
+msgstr "쿼트로 프로 (*.wb1, *.wb2, *.wb3)"
 
 #: plugins/qpro/plugin.xml.in.h:3
-#, fuzzy
 msgid "Quattro Pro(tm)"
 msgstr "쿼트로 프로(tm)"
 
@@ -1991,9 +1949,8 @@ msgid "A proof of concept external data source"
 msgstr ""
 
 #: plugins/sample_datasource/plugin.xml.in.h:3
-#, fuzzy
 msgid "Sample DataSource"
-msgstr "날짜..."
+msgstr ""
 
 #: plugins/sc/plugin.xml.in.h:1
 msgid "Imports SC/XSpread files"
@@ -2049,7 +2006,7 @@ msgid "UI Hello"
 msgstr ""
 
 #: plugins/uihello/uihello.c:23
-#, fuzzy, c-format
+#, c-format
 msgid "This is message from the \"%s\" plugin."
 msgstr "\"%s\" 플러그인의 메세지 입니다."
 
@@ -2097,9 +2054,8 @@ msgid "EXPERIMENTAL SAX based XML"
 msgstr "SAX 바탕의 실험적인 XML"
 
 #: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4114
-#, fuzzy
 msgid "Gnumeric XML (*.gnumeric)"
-msgstr "SAX 바탕의 실험적인 Gnumeric 형식 (*.gnumeric)"
+msgstr "Gnumeric XML (*.gnumeric)"
 
 #: plugins/xml_sax/plugin.xml.in.h:4
 msgid "The next generation sax based xml I/O subsystem"
@@ -2115,9 +2071,9 @@ msgid "File has inconsistent SheetNameIndex element."
 msgstr ""
 
 #: plugins/xml_sax/xml-sax-read.c:1322 src/xml-io.c:2552
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported object type '%s'"
-msgstr "지원되지 않는 파이썬 형식: %s"
+msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 msgid ""
@@ -2133,9 +2089,8 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:3
-#, fuzzy
 msgid "Activate New Plugins"
-msgstr "Guile 플러그인"
+msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:4
 #: src/dialogs/dialog-preferences.c:708
@@ -2143,9 +2098,8 @@ msgid "Allow Unfocused Range Selections"
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:5
-#, fuzzy
 msgid "Apply print-setup to all sheets"
-msgstr "새 시트로 복사"
+msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:6
 msgid "Autocorrect first letter"
@@ -2156,46 +2110,40 @@ msgid "Autocorrect initial caps"
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:8
-#, fuzzy
 msgid "Autocorrect names of days"
-msgstr "날짜의 이름을 대문자로 바꾸기(_n)"
+msgstr "날짜의 이름을 대문자로 바꾸기"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:9
-#, fuzzy
 msgid "Autocorrect replace"
-msgstr "자동(_A)"
+msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:10
 msgid "Default Black and White Printing"
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:11
-#, fuzzy
 msgid "Default Bottom Margin"
-msgstr "이름 정의"
+msgstr "기본 아래 여백"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:12
 msgid "Default Grid Line Printing"
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:13
-#, fuzzy
 msgid "Default Header/Footer Font Size"
-msgstr "글꼴 크기 설정"
+msgstr "기본 머리말/꼬리말 글꼴 크기"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:14
-#, fuzzy
 msgid "Default Horizontal Centering"
-msgstr "수직 정렬"
+msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:15
 msgid "Default Print Cells with Only Styles"
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:16
-#, fuzzy
 msgid "Default Print Direction"
-msgstr "기본 해석기"
+msgstr "기본 인쇄 방향"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:17
 msgid "Default Repeated Left Region"
@@ -2206,14 +2154,12 @@ msgid "Default Repeated Top Region"
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:19
-#, fuzzy
 msgid "Default Scale Percentage"
-msgstr "퍼센트(_P)"
+msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:20
-#, fuzzy
 msgid "Default Scale Type"
-msgstr "기본 해석기"
+msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:21
 msgid "Default Scaling Height"
@@ -2224,24 +2170,20 @@ msgid "Default Scaling Width"
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:23
-#, fuzzy
 msgid "Default Title Printing"
-msgstr "기본 해석기"
+msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:24
-#, fuzzy
 msgid "Default Top Margin"
-msgstr "이름 정의"
+msgstr "기본 위 여백"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:25
-#, fuzzy
 msgid "Default Vertical Centering"
-msgstr "기본 해석기"
+msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:26
-#, fuzzy
 msgid "Default header/footer font name"
-msgstr "이름 정의"
+msgstr "기본 머리말/꼬리말 글꼴 이름"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:27
 msgid "Header/Footer Format (Left Portion)"
@@ -2293,29 +2235,25 @@ msgid "Maximum Length of Recently Used Functions List"
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:39
-#, fuzzy
 msgid "Page Footer"
-msgstr "페이지 순서"
+msgstr "페이지 꼬리말"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:40
-#, fuzzy
 msgid "Page Header"
-msgstr "페이지 순서"
+msgstr "페이지 머리말"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:41
 msgid "Please use the Print Setup dialog to edit this value."
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:42
-#, fuzzy
 msgid "Print Config"
-msgstr "인쇄 미리보기"
+msgstr "인쇄 설정"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:43
 #: schemas/gnumeric-general.schemas.in.h:22
-#, fuzzy
 msgid "Sans"
-msgstr "등급"
+msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:44
 msgid ""
@@ -2346,22 +2284,19 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:49
 msgid "The default font name for headers and footers."
-msgstr ""
+msgstr "머리말/꼬리말을 위한 기본 글꼴 이름"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:50
-#, fuzzy
 msgid "The default font size for headers and footers."
-msgstr "글꼴을 기울입니다"
+msgstr "머리말/꼬리말을 위한 기본 글꼴 크기"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:51
-#, fuzzy
 msgid "The default header/footer font is bold."
-msgstr "글꼴을 기울입니다"
+msgstr "머리말/꼬리말에 글꼴을 굵게 합니다"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:52
-#, fuzzy
 msgid "The default header/footer font is italic."
-msgstr "글꼴을 기울입니다"
+msgstr "머리말/꼬리말에 글꼴을 기울입니다"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:53
 msgid ""
@@ -2409,9 +2344,8 @@ msgid "This list contains all known plugins."
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:62
-#, fuzzy
 msgid "This list contains all plugin file states."
-msgstr "플러그인은 반드시 init_plugin 함수를 포함해야 합니다."
+msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:63
 msgid ""
@@ -2538,9 +2472,8 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:2
 #: src/dialogs/dialog-preferences.c:704
-#, fuzzy
 msgid "Autocomplete"
-msgstr "자동(_A)"
+msgstr "자동완성"
 
 #: schemas/gnumeric-general.schemas.in.h:3
 msgid ""
@@ -2555,21 +2488,18 @@ msgid "Default Compression Level For Gnumeric Files"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:5
-#, fuzzy
 msgid "Default Font Size"
-msgstr "글꼴 크기 설정"
+msgstr "기본 글꼴 크기"
 
 #: schemas/gnumeric-general.schemas.in.h:6
 #: src/dialogs/dialog-preferences.c:564
-#, fuzzy
 msgid "Default Horizontal Window Size"
-msgstr "수직 정렬"
+msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:7
 #: src/dialogs/dialog-preferences.c:572
-#, fuzzy
 msgid "Default Number of Sheets"
-msgstr "샘플 갯수:"
+msgstr "기본 시트 개수"
 
 #: schemas/gnumeric-general.schemas.in.h:8
 #: src/dialogs/dialog-preferences.c:621
@@ -2587,15 +2517,13 @@ msgid "Default Zoom Factor"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:11
-#, fuzzy
 msgid "Default font name"
-msgstr "이름 정의"
+msgstr "기본 글꼴 이름"
 
 #: schemas/gnumeric-general.schemas.in.h:12
 #: src/dialogs/dialog-preferences.c:662
-#, fuzzy
 msgid "Horizontal DPI"
-msgstr "수평"
+msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:13
 msgid ""
@@ -2628,21 +2556,18 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:18
 #: src/dialogs/dialog-preferences.c:474
-#, fuzzy
 msgid "Maximal Undo Size"
-msgstr "최대"
+msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:19
 #: src/dialogs/dialog-preferences.c:515
-#, fuzzy
 msgid "Number of Automatic Clauses"
-msgstr "실패 횟수(_u)"
+msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:20
 #: src/dialogs/dialog-preferences.c:478
-#, fuzzy
 msgid "Number of Undo Items"
-msgstr "숫자"
+msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:21
 #: src/dialogs/dialog-preferences.c:741
@@ -2689,22 +2614,19 @@ msgid "Sort Ascending"
 msgstr "오름차순으로 정렬"
 
 #: schemas/gnumeric-general.schemas.in.h:30
-#, fuzzy
 msgid "Sort is Case-Sensitive"
 msgstr "대소문자 구분"
 
 #: schemas/gnumeric-general.schemas.in.h:31
 #: src/dialogs/dialog-preferences.c:519
-#, fuzzy
 msgid "Sorting Preserves Formats"
-msgstr "증가"
+msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:32
 msgid "The default font is bold."
-msgstr ""
+msgstr "글꼴을 굵게 합니다"
 
 #: schemas/gnumeric-general.schemas.in.h:33
-#, fuzzy
 msgid "The default font is italic."
 msgstr "글꼴을 기울입니다"
 
@@ -2822,9 +2744,8 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:56
 #: src/dialogs/dialog-preferences.c:666
-#, fuzzy
 msgid "Vertical DPI"
-msgstr "수직으로(_V)"
+msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:57
 #: src/dialogs/dialog-preferences.c:625
@@ -2862,9 +2783,8 @@ msgid "Not a valid UTF-8 filename."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/file.c:523
-#, fuzzy
 msgid "Saving over old files of this type is disabled for safety."
-msgstr "안전을 위해 이전 파일에 덮어쓰기가 허용않됨."
+msgstr "안전을 위해 이전 파일에 덮어쓸 수 없습니다"
 
 #: src/cut-n-paste-code/goffice/app/file.c:525
 msgid ""
@@ -2890,9 +2810,9 @@ msgid "Unsupported loader type \"%s\"."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin.c:559
-#, fuzzy, c-format
+#, c-format
 msgid "Error while preparing loader \"%s\"."
-msgstr "파일 닫기 에러, 에러: %s"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin.c:636
 #, c-format
@@ -2939,9 +2859,8 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin.c:902
 #: src/cut-n-paste-code/goffice/app/go-plugin.c:1059
-#, fuzzy
 msgid "Detected cyclic plugin dependencies."
-msgstr "파일 닫기 에러, 에러: %s"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin.c:926
 #, c-format
@@ -2955,9 +2874,8 @@ msgid "Couldn't find plugin with id=\"%s\"."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin.c:939
-#, fuzzy
 msgid "Error while activating plugin dependencies."
-msgstr "파일 닫기 에러, 에러: %s"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin.c:953
 #, c-format
@@ -2971,19 +2889,17 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin.c:1071
 #: src/cut-n-paste-code/goffice/app/go-plugin.c:1092
-#, fuzzy
 msgid "Cannot load plugin loader."
-msgstr "모르는 계산 에러"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin.c:1099
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't load plugin with id=\"%s\"."
-msgstr "모르는 계산 에러"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin.c:1112
-#, fuzzy
 msgid "Error while loading plugin dependencies."
-msgstr "파일 닫기 에러, 에러: %s"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin.c:1288
 #, c-format
@@ -3006,9 +2922,8 @@ msgid "Errors while reading info about available plugins."
 msgstr "사용가능한 플러그인의 정보를 읽은중 에러"
 
 #: src/cut-n-paste-code/goffice/app/go-plugin.c:1590
-#, fuzzy
 msgid "Errors while deactivating plugins that are no longer on disk."
-msgstr "파일 닫기 에러, 에러: %s"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin.c:1611
 #, c-format
@@ -3041,14 +2956,13 @@ msgid "Service '%s' not supported by l."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader-module.c:44
-#, fuzzy
 msgid "Module file name not given."
-msgstr "파일 이름:"
+msgstr "모듈 파일 이름이 주어지지 않았습니다"
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader-module.c:80
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open module file \"%s\"."
-msgstr "모듈 파일 열 수 없음: "
+msgstr "모듈 파일 열 수 없음: \"%s\""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader-module.c:85
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader-module.c:241
@@ -3059,9 +2973,8 @@ msgid "Module file \"%s\" has invalid format."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader-module.c:89
-#, fuzzy
 msgid "File doesn't contain (\"plugin_file_struct\" symbol)."
-msgstr "플러그인은 반드시 init_plugin 함수를 포함해야 합니다."
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader-module.c:92
 msgid "File has a bad magic number."
@@ -3077,30 +2990,27 @@ msgid "Dynamic module loading is not supported in this system."
 msgstr "이 시스템은 동적 모듈로딩이 지원되지 않습니다."
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader-module.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to close module file \"%s\"."
-msgstr "모듈 파일 열 수 없음: "
+msgstr "모듈 파일 닫을 수 없음: \"%s\""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader-module.c:371
-#, fuzzy, c-format
+#, c-format
 msgid "Module doesn't contain \"%s\" function."
-msgstr "플러그인은 반드시 init_plugin 함수를 포함해야 합니다."
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-service.c:155
 #: src/cut-n-paste-code/goffice/app/go-plugin-service.c:849
-#, fuzzy
 msgid "Error while loading plugin service."
-msgstr "파일 닫기 에러, 에러: %s"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-service.c:163
-#, fuzzy
 msgid "Initializing function inside plugin returned error."
-msgstr "init_plugin이 에러 되돌림"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-service.c:181
-#, fuzzy
 msgid "Cleanup function inside plugin returned error."
-msgstr "init_plugin이 에러 되돌림"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-service.c:191
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.c:74
@@ -3113,24 +3023,21 @@ msgid "General"
 msgstr "일반"
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-service.c:342
-#, fuzzy
 msgid "File opener has no description"
-msgstr "플러그인이 아직 사용중입니다."
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-service.c:374
-#, fuzzy, c-format
+#, c-format
 msgid "File opener - %s"
-msgstr "플러그인이 아직 사용중입니다."
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-service.c:494
-#, fuzzy
 msgid "Error while reading file."
-msgstr "파일 닫기 에러, 에러: %s"
+msgstr "파일을 읽는 중 오류"
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-service.c:660
-#, fuzzy
 msgid "File saver has no description"
-msgstr "플러그인이 아직 사용중입니다."
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-service.c:706
 #, c-format
@@ -3138,33 +3045,29 @@ msgid "File saver - %s"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-service.c:769
-#, fuzzy
 msgid "Error while saving file."
-msgstr "파일 닫기 에러, 에러: %s"
+msgstr "파일을 저장하는 중 오류"
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-service.c:884
-#, fuzzy
 msgid "Plugin loader"
-msgstr "모르는 계산 에러"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-service.c:908
-#, fuzzy
 msgid "GObject loader"
-msgstr "객체(_O)..."
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-service.c:1015
 msgid "No \"type\" attribute on \"service\" element."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-service.c:1021
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown service type: %s."
-msgstr "모르는 시스템"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-service.c:1037
-#, fuzzy
 msgid "Error reading service information."
-msgstr "현재 날짜(_d)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-service.c:1099
 msgid ""
@@ -3179,33 +3082,28 @@ msgid "Discrete"
 msgstr "불연속"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:611
-#, fuzzy
 msgid "Discrete mapping"
-msgstr "불연속"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:620
-#, fuzzy
 msgid "Linear"
-msgstr "선"
+msgstr "선형"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:620
 msgid "Linear mapping"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:626
-#, fuzzy
 msgid "Log"
-msgstr "논리"
+msgstr "로그"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:626
-#, fuzzy
 msgid "Logarithm mapping"
-msgstr "로그 함수"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1410
-#, fuzzy
 msgid "Details"
-msgstr "파일 상세설명(_F)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1464
 msgid "Categories between _ticks"
@@ -3216,15 +3114,13 @@ msgid "Categories between _labels"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1466
-#, fuzzy
 msgid "_Cross at category #"
-msgstr "범주(_C):"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1472
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1486
-#, fuzzy
 msgid "Bounds"
-msgstr "바탕색"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1475
 #: src/dialogs/solver.glade.h:7
@@ -3232,9 +3128,8 @@ msgid "M_in"
 msgstr "최소(_I)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1476
-#, fuzzy
 msgid "M_ax"
-msgstr "최대값"
+msgstr "최대(_A)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1477
 msgid "Ma_jor Ticks"
@@ -3246,9 +3141,8 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1479
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
-#, fuzzy
 msgid "_Cross"
-msgstr "닫기(_C)"
+msgstr ""
 
 #. TOO CHEESY to go into production
 #. * We need a way to toggle auto vs user formats
@@ -3266,74 +3160,60 @@ msgid "Label"
 msgstr "꼬리표"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1539
-#, fuzzy
 msgid "MinorGrid"
-msgstr "금요일"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1542
-#, fuzzy
 msgid "MajorGrid"
-msgstr "금요일"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
-#, fuzzy
 msgid "<b>Major ticks</b>"
-msgstr "<b>무늬</b>"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
-#, fuzzy
 msgid "<b>Mapping</b>"
-msgstr "미리보기"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
-#, fuzzy
 msgid "<b>Minor ticks</b>"
-msgstr "<b>무늬</b>"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
-#, fuzzy
 msgid "<b>Position</b>"
-msgstr "미리보기"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#, fuzzy
 msgid "I_nside"
-msgstr "삽입"
+msgstr "내부(_N)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:6
-#, fuzzy
 msgid "O_utside"
-msgstr "외곽선"
+msgstr "외부(_U)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:8
-#, fuzzy
 msgid "_High"
-msgstr "높이"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:9
-#, fuzzy
 msgid "_Inside"
-msgstr "삽입"
+msgstr "내부(_I)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:10
-#, fuzzy
 msgid "_Invert axis"
-msgstr "넣기(_I)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:11
-#, fuzzy
 msgid "_Low"
-msgstr "행(_R)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:12
-#, fuzzy
 msgid "_Outside"
-msgstr "외곽선"
+msgstr "외부(_O)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:13
-#, fuzzy
 msgid "_Show Labels"
-msgstr "꼬리표(_L)"
+msgstr "꼬리표(_S)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:14
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
@@ -3342,9 +3222,8 @@ msgid "_Type:"
 msgstr "형식(_T):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:197
-#, fuzzy
 msgid "Legend"
-msgstr "보냄"
+msgstr "범례"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:200
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:157
@@ -3353,9 +3232,8 @@ msgid "Title"
 msgstr "제목"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:203
-#, fuzzy
 msgid "Grid"
-msgstr "금요일"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:206
 msgid "X-Axis"
@@ -3378,9 +3256,8 @@ msgid "Radial-Axis"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:226
-#, fuzzy
 msgid "Plot"
-msgstr "플롯 모드"
+msgstr "플롯"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:233
 msgid "H"
@@ -3426,25 +3303,21 @@ msgid "(-)"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:3
-#, fuzzy
 msgid "<b>Error category</b>"
-msgstr "<b>오류 알림</b>"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:4
 #: src/dialogs/cell-format.glade.h:21
-#, fuzzy
 msgid "<b>Style</b>"
-msgstr "미리보기"
+msgstr "<b>모양</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:5
-#, fuzzy
 msgid "<b>Values</b>"
-msgstr "<b>샘플</b>"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:6
-#, fuzzy
 msgid "Colo_r:"
-msgstr "색:"
+msgstr "색(_R):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:7
 msgid "Dis_play:"
@@ -3459,14 +3332,12 @@ msgid ""
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:12
-#, fuzzy
 msgid "_Line width:"
-msgstr "열 너비"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:13
-#, fuzzy
 msgid "_Width:"
-msgstr "무엇으로(_W):"
+msgstr ""
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
@@ -3481,19 +3352,16 @@ msgid "Chart"
 msgstr "도표"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1091
-#, fuzzy
 msgid "Step 1 of 2: Select Chart Type"
-msgstr "3단계중 1단계: 그래프 형식 선택"
+msgstr "2단계중 1단계: 그래프 형식 선택"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1099
-#, fuzzy
 msgid "Step 2 of 2: Customize Chart"
-msgstr "3단계중 3단계: 그래프 고침"
+msgstr "2단계중 2단계: 그래프 고침"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1104
-#, fuzzy
 msgid "Customize Chart"
-msgstr "머릿글 고침"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1180
 #: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1435
@@ -3502,9 +3370,8 @@ msgid "_Insert"
 msgstr "넣기(_I)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1238
-#, fuzzy
 msgid "_Plot Type"
-msgstr "플롯 모드"
+msgstr "플롯 모드(_P)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:1
 msgid "GNOME Office Graph"
@@ -3528,9 +3395,8 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
 #: src/sheet-object.c:111
-#, fuzzy
 msgid "_Order"
-msgstr "가장자리"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:108
 msgid "_Text:"
@@ -3544,33 +3410,28 @@ msgstr "데이터"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot.c:182
 #: src/dialogs/fill-series.glade.h:8
-#, fuzzy
 msgid "Series"
 msgstr "문자열"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:54
-#, fuzzy
 msgid "Plot Engine"
-msgstr "플롯 모드"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:246
-#, fuzzy
 msgid "Plot Type"
-msgstr "플롯 모드"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:328
 msgid "Chart Theme"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:145
-#, fuzzy
 msgid "Index:"
-msgstr "내어쓰기(_I):"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:162
-#, fuzzy
 msgid "Settings"
-msgstr "문자열(_S)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:452
 #: src/tools/analysis-tools.c:3919
@@ -3579,9 +3440,9 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:159
 #: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "%d x %d"
-msgstr "%d행 x %d열"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:878
 #: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:763
@@ -3600,30 +3461,25 @@ msgid ""
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:3
-#, fuzzy
 msgid "<b>Fill</b>"
-msgstr "미리보기"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:4
 #: src/dialogs/cell-format.glade.h:17
-#, fuzzy
 msgid "<b>Line</b>"
-msgstr "미리보기"
+msgstr "<b>선</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:5
-#, fuzzy
 msgid "<b>Marker</b>"
-msgstr "<b>무늬</b>"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
-#, fuzzy
 msgid "<b>Outline</b>"
-msgstr "미리보기"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
-#, fuzzy
 msgid "Co_lor:"
-msgstr "색:"
+msgstr "색(_L):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid ""
@@ -3634,102 +3490,83 @@ msgid ""
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
-#, fuzzy
 msgid "O_utline color:"
-msgstr "색(_C):"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
-#, fuzzy
 msgid "Sha_pe:"
-msgstr "범위(_S):"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
-#, fuzzy
 msgid "Si_ze:"
-msgstr "크기:"
+msgstr "크기(_Z):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
-#, fuzzy
 msgid "St_yle:"
-msgstr "모양(_S):"
+msgstr "모양(_Y):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
 #: src/dialogs/hyperlink.glade.h:5
-#, fuzzy
 msgid "T_ype:"
-msgstr "형식:"
+msgstr "형식(_Y):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
-#, fuzzy
 msgid "_Background:"
-msgstr "바탕색"
+msgstr "바탕색(_B):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
-#, fuzzy
 msgid "_Direction:"
-msgstr "디렉토리"
+msgstr "방향(_D):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
-#, fuzzy
 msgid "_End:"
-msgstr "더하기(_A)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
-#, fuzzy
 msgid "_Fill color:"
-msgstr "색(_C):"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
-#, fuzzy
 msgid "_Fit:"
-msgstr "최소"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
-#, fuzzy
 msgid "_Foreground:"
-msgstr "글자색"
+msgstr "글자색(_F):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
-#, fuzzy
 msgid "_Pattern:"
-msgstr "무늬"
+msgstr "무늬(_P):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
-#, fuzzy
 msgid "_Select..."
-msgstr "선택(_S)"
+msgstr "선택(_S)..."
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
-#, fuzzy
 msgid "_Size:"
-msgstr "크기:"
+msgstr "크기(_S):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
-#, fuzzy
 msgid "_Start:"
-msgstr "상태"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
-#, fuzzy
 msgid "_brighter"
-msgstr "오른쪽(_R)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
-#, fuzzy
 msgid "_darker"
-msgstr "배열"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
-#, fuzzy
 msgid "pts"
-msgstr "읽어들이기"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
-#, fuzzy
 msgid ""
 "stretched\n"
 "wallpaper"
-msgstr "벽지"
+msgstr ""
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
@@ -3740,9 +3577,8 @@ msgstr "기본값"
 
 #. Guppi
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:534
-#, fuzzy
 msgid "Guppi"
-msgstr "묶음"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:335
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:231
@@ -3759,9 +3595,8 @@ msgid "Values"
 msgstr "값"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:464
-#, fuzzy
 msgid "Error bars"
-msgstr "줄 분석 오류"
+msgstr ""
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
@@ -3795,27 +3630,24 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:6
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot-prefs.glade.h:4
-#, fuzzy
 msgid "_Gap:"
-msgstr "그래프(_G)..."
+msgstr ""
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:92
-#, fuzzy
 msgid "PlotLine"
-msgstr "플롯 모드"
+msgstr ""
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:211
-#, fuzzy
 msgid "PlotArea"
-msgstr "플롯 모드"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -3826,33 +3658,28 @@ msgid "3D Adjacent Columns"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:3
-#, fuzzy
 msgid "3D Percentage Bars"
-msgstr "퍼센트(_C)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:4
-#, fuzzy
 msgid "3D Percentage Columns"
-msgstr "열 지움"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:5
 msgid "3D Stacked Bars"
 msgstr "3차원 누적 막대형"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:6
-#, fuzzy
 msgid "3D Stacked Columns"
-msgstr "열 지움"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:7
-#, fuzzy
 msgid "Adjacent Bars"
-msgstr "열 지움"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:8
-#, fuzzy
 msgid "Adjacent Columns"
-msgstr "열 지움"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:9
 msgid "Adjacent horizontal 3D bars grouped by major and minor categories."
@@ -3872,18 +3699,16 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
 #: src/func.c:749
-#, fuzzy
 msgid "Area"
-msgstr "더하기"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
 msgid "Area plot."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
-#, fuzzy
 msgid "Areas"
-msgstr "더하기"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
 msgid "Bar"
@@ -3899,12 +3724,10 @@ msgid "Line"
 msgstr "선"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
-#, fuzzy
 msgid "Line plot."
-msgstr "인쇄할 제목"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
-#, fuzzy
 msgid "Lines"
 msgstr "선"
 
@@ -3951,78 +3774,64 @@ msgid "Minor categories stacked in vertical columns grouped by major category."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:29
-#, fuzzy
 msgid "Percentage Areas"
-msgstr "퍼센트(_C)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:30
-#, fuzzy
 msgid "Percentage Bars"
-msgstr "퍼센트(_C)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:31
-#, fuzzy
 msgid "Percentage Columns"
-msgstr "열 지움"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:32
-#, fuzzy
 msgid "Percentage Lines"
-msgstr "퍼센트(_P)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:33
-#, fuzzy
 msgid "Percentage area plot."
-msgstr "퍼센트(_C)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:34
-#, fuzzy
 msgid "Percentage line plot."
-msgstr "열 지움"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:35
-#, fuzzy
 msgid "Stacked Areas"
-msgstr "누적 막대형"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:36
 msgid "Stacked Bars"
-msgstr "누적 막대형"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:37
-#, fuzzy
 msgid "Stacked Columns"
-msgstr "열 지움"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:38
-#, fuzzy
 msgid "Stacked Lines"
-msgstr "누적 막대형"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:39
-#, fuzzy
 msgid "Stacked area plot."
-msgstr "누적 막대형"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:40
-#, fuzzy
 msgid "Stacked line plot."
-msgstr "열 지움"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:41
-#, fuzzy
 msgid "Unmarked Lines"
-msgstr "누적 막대형"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:42
-#, fuzzy
 msgid "Unmarked Percentage Lines"
-msgstr "퍼센트(_P)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:43
-#, fuzzy
 msgid "Unmarked Stacked Lines"
-msgstr "누적 막대형"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:1
 msgid "Area plotting engine"
@@ -4037,9 +3846,8 @@ msgid "Charting : Bar/Col/Line/Area"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:4
-#, fuzzy
 msgid "Default 1.5d plot types"
-msgstr "기본 해석기"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:5
 msgid "Line plotting engine"
@@ -4053,14 +3861,12 @@ msgstr ""
 #. * eg The 2nd box-plot in a chart will be called
 #. * 	BoxPlot2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:103
-#, fuzzy
 msgid "Box-Plot"
-msgstr "플롯 모드"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:340
-#, fuzzy
 msgid "Invalid data."
-msgstr "열쇠글이 틀렸습니다"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:1
 msgid ""
@@ -4070,45 +3876,37 @@ msgid ""
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:2
-#, fuzzy
 msgid "BoxPlot"
-msgstr "플롯 모드"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:3
-#, fuzzy
 msgid "BoxPlots"
-msgstr "플롯 모드"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:1
-#, fuzzy
 msgid "Box-Plots"
-msgstr "플롯 모드"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:2
-#, fuzzy
 msgid "Box-plot plotting engine"
-msgstr "줄 분석 오류"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:3
-#, fuzzy
 msgid "Charting : Box-Plots"
-msgstr "%s 파일을 생성할 수 없습니다\n"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:4
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:2
-#, fuzzy
 msgid "Default surface plot types"
-msgstr "기본 해석기"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:180
-#, fuzzy
 msgid "PlotPie"
-msgstr "플롯 모드"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:303
-#, fuzzy
 msgid "PlotRing"
-msgstr "없음"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:593
 #, c-format
@@ -4136,9 +3934,8 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:6
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:7
-#, fuzzy
 msgid "_Slice Separation:"
-msgstr "구분자:"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:7
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:8
@@ -4148,9 +3945,8 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:8
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:9
 #: src/dialogs/cell-format.glade.h:103
-#, fuzzy
 msgid "degrees"
-msgstr "지움(_D)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:3
 msgid ""
@@ -4159,14 +3955,12 @@ msgid ""
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:4
-#, fuzzy
 msgid "_Separation:"
-msgstr "구분자:"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
-#, fuzzy
 msgid "Cen_ter size:"
-msgstr "범주"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:1
 msgid "3D Pie"
@@ -4188,25 +3982,22 @@ msgid ""
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:5
-#, fuzzy
 msgid "Multi-Pie"
-msgstr "곱하기"
+msgstr "다중 원형"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:6
 msgid "Multi-pie-bars"
 msgstr "다중 원통형"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:7
-#, fuzzy
 msgid ""
 "Percentage of each contributor displayed in ring for each serie with wedges "
 "of the last ring split apart."
-msgstr "쪼개진 원형 각각의 비율"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:8
-#, fuzzy
 msgid "Percentage of each contributor displayed in ring for each serie."
-msgstr "3차원 원형 각각의 비율"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:9
 msgid "Percentage of each contributor in 3D pie."
@@ -4225,33 +4016,28 @@ msgid "Percentage of each contributor."
 msgstr "각각의 비율"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:13
-#, fuzzy
 msgid "Pie"
-msgstr "파이"
+msgstr "원형"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:14
-#, fuzzy
 msgid "Ring"
-msgstr "범위"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:15
-#, fuzzy
 msgid "Split Pie"
-msgstr "나누기"
+msgstr "쪼개진 원형"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:16
-#, fuzzy
 msgid "Split Ring"
-msgstr "나누기"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:1
 msgid "Charting : Pie/Ring"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:2
-#, fuzzy
 msgid "Default pie types"
-msgstr "기본 해석기"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:3
 msgid "Pie and Ring plots"
@@ -4269,72 +4055,64 @@ msgstr ""
 #. * eg The 2nd radar plot in a chart will be called
 #. * 	PlotRadar2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:113
-#, fuzzy
 msgid "PlotRadar"
-msgstr "플롯 모드"
+msgstr ""
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotRadarArea2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:276
-#, fuzzy
 msgid "PlotRadarArea"
-msgstr "플롯 모드"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:1
 msgid "Area Radar"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:2
-#, fuzzy
 msgid "Area radar plot."
-msgstr "퍼센트(_C)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:3
 msgid "Dotted Radar"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:4
-#, fuzzy
 msgid "Radar"
-msgstr "표준 에러"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:5
 msgid "Radar plot with dots."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:6
-#, fuzzy
 msgid "Radar plot."
-msgstr "누적 막대형"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in.h:1
 msgid "Charting : Radial plots"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in.h:2
-#, fuzzy
 msgid "Default radar plot types"
-msgstr "기본 해석기"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in.h:3
 msgid "Radar Area plotting engine"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in.h:4
-#, fuzzy
 msgid "Radar plotting engine"
-msgstr "줄 분석 오류"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in.h:5
 msgid "Radial/Radar plots"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-contour-prefs.glade.h:1
-#, fuzzy
 msgid "_Slices number:"
-msgstr "모든 숫자"
+msgstr ""
 
 #. xgettext : the base for how to name contour plot objects
 #.
@@ -4359,34 +4137,28 @@ msgid "Z"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plot-types.xml.in.h:1
-#, fuzzy
 msgid "Contour"
-msgstr "개수"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plot-types.xml.in.h:2
-#, fuzzy
 msgid "Contour plot."
-msgstr "인쇄할 제목"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plot-types.xml.in.h:3
-#, fuzzy
 msgid "Surface"
-msgstr "정렬"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:1
-#, fuzzy
 msgid "Contour plotting engine"
-msgstr "줄 분석 오류"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:3
-#, fuzzy
 msgid "Surface Charts"
-msgstr "정렬"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:4
-#, fuzzy
 msgid "Surface charts"
-msgstr "정렬"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:2
 #, no-c-format
@@ -4398,18 +4170,16 @@ msgid "3_d"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:4
-#, fuzzy
 msgid "Dia_meter"
-msgstr "매개변수"
+msgstr "지름(_M)"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:5
 msgid "Show _negative values"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:6
-#, fuzzy
 msgid "Sur_face"
-msgstr "정렬"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:7
 msgid "_Bubbles scaled to"
@@ -4427,30 +4197,25 @@ msgstr ""
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:279
-#, fuzzy
 msgid "PlotXY"
-msgstr "플롯 모드"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:391
-#, fuzzy
 msgid "PlotBubble"
-msgstr "청색"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:505
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
-#, fuzzy
 msgid "Bubble"
-msgstr "청색"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1040
-#, fuzzy
 msgid "Y Error bars"
-msgstr "줄 분석 오류"
+msgstr "Y축 오차 막대"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1042
-#, fuzzy
 msgid "X Error bars"
-msgstr "줄 분석 오류"
+msgstr "X축 오차 막대"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:2
 msgid "Interpolate between multi-dimensional points with Bezier splines."
@@ -4467,9 +4232,8 @@ msgid "Linearly interpolate between multi-dimensional points."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
-#, fuzzy
 msgid "Markers at each point."
-msgstr "누적 막대형"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
 msgid "Multi-dimensional points with circle at each point."
@@ -4485,18 +4249,16 @@ msgid "XY"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
-#, fuzzy
 msgid "XY Lines"
-msgstr "선"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:11
 msgid "XY Points"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:12
-#, fuzzy
 msgid "XY Splines"
-msgstr "선"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
 msgid "2D plots"
@@ -4519,219 +4281,197 @@ msgid "Stock Scatter plot types"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:95
-#, fuzzy
 msgid "black"
 msgstr "검정색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:96
 msgid "light brown"
-msgstr ""
+msgstr "연한 갈색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:97
 msgid "brown gold"
-msgstr ""
+msgstr "황금색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:98
 msgid "dark green #2"
-msgstr ""
+msgstr "어두운 녹색 #2"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:99
-#, fuzzy
 msgid "navy"
-msgstr "월요일"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:100
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:152
 msgid "dark blue"
-msgstr ""
+msgstr "어두운 청색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:101
 msgid "purple #2"
-msgstr ""
+msgstr "보라색 #2"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:102
 msgid "very dark gray"
-msgstr ""
+msgstr "아주 어두운 회색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:104
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:157
 msgid "dark red"
-msgstr ""
+msgstr "어두운 적색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:105
-#, fuzzy
 msgid "red-orange"
-msgstr "범위"
+msgstr "주홍색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:106
-#, fuzzy
 msgid "gold"
-msgstr "강조"
+msgstr "금색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:107
 msgid "dark green"
-msgstr ""
+msgstr "어두운 녹색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:108
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:158
-#, fuzzy
 msgid "dull blue"
-msgstr "셀 값"
+msgstr "흐린 청색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:109
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:159
-#, fuzzy
 msgid "blue"
 msgstr "청색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:110
 msgid "dull purple"
-msgstr ""
+msgstr "흐린 보라색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:111
-#, fuzzy
 msgid "dark gray"
-msgstr "배열"
+msgstr "어두운 회색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:113
 msgid "red"
 msgstr "적색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:114
-#, fuzzy
 msgid "orange"
-msgstr "범위"
+msgstr "주황색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:115
-#, fuzzy
 msgid "lime"
-msgstr "시간"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:116
 msgid "dull green"
-msgstr ""
+msgstr "흐린 녹색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:117
 msgid "dull blue #2"
-msgstr ""
+msgstr "흐린 청색 #2"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:118
 msgid "sky blue #2"
-msgstr ""
+msgstr "하늘색 #2"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:119
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:156
 msgid "purple"
-msgstr ""
+msgstr "보라색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:120
-#, fuzzy
 msgid "gray"
-msgstr "배열"
+msgstr "회색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:122
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:153
-#, fuzzy
 msgid "magenta"
 msgstr "진홍색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:123
 msgid "bright orange"
-msgstr ""
+msgstr "밝은 주황색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:124
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:154
-#, fuzzy
 msgid "yellow"
 msgstr "황색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:125
-#, fuzzy
 msgid "green"
 msgstr "녹색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:126
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:155
-#, fuzzy
 msgid "cyan"
 msgstr "청록색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:127
 msgid "bright blue"
-msgstr ""
+msgstr "밝은 청색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:128
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:144
 msgid "red purple"
-msgstr ""
+msgstr "자주색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:129
 msgid "light gray"
-msgstr ""
+msgstr "연한 회색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:131
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:148
-#, fuzzy
 msgid "pink"
-msgstr "하이퍼링크(_H)"
+msgstr "분홍색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:132
-#, fuzzy
 msgid "light orange"
-msgstr "오른쪽 정렬"
+msgstr "연한 주황색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:133
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:145
 msgid "light yellow"
-msgstr ""
+msgstr "연한 황색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:134
-#, fuzzy
 msgid "light green"
-msgstr "오른쪽 정렬"
+msgstr "연한 녹색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:135
-#, fuzzy
 msgid "light cyan"
-msgstr "오른쪽 정렬"
+msgstr "연한 청록색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:136
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:146
 msgid "light blue"
-msgstr ""
+msgstr "연한 청색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:137
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:150
 msgid "light purple"
-msgstr ""
+msgstr "연한 보라색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:138
-#, fuzzy
 msgid "white"
 msgstr "흰색"
 
 #. Disable these for now, they are mostly repeats
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:143
 msgid "purplish blue"
-msgstr ""
+msgstr "청보라색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:147
 msgid "dark purple"
-msgstr ""
+msgstr "어두운 보라색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:149
-#, fuzzy
 msgid "sky blue"
-msgstr "값"
+msgstr "하늘색"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:472
-#, fuzzy
 msgid "custom"
-msgstr "사용자"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:479
 #: src/cut-n-paste-code/goffice/gui-utils/go-color-palette.c:708
-#, fuzzy
 msgid "Custom Color..."
 msgstr "꼬리글 고침"
 
@@ -4742,9 +4482,8 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:246
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:247
-#, fuzzy
 msgid "Orientation"
-msgstr "<b>방향</b>"
+msgstr "방향"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:257
 #: src/cut-n-paste-code/goffice/gui-utils/go-dock-item.c:258
@@ -4777,9 +4516,8 @@ msgstr "통화"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.c:77
 #: src/wbcg-actions.c:1964
-#, fuzzy
 msgid "Accounting"
-msgstr "화폐(_A)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.c:78
 #: src/wbcg-actions.c:1973
@@ -4797,45 +4535,38 @@ msgid "Percentage"
 msgstr "퍼센트"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.c:81
-#, fuzzy
 msgid "Fraction"
-msgstr "분수(_F)"
+msgstr "분수"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.c:82
 #: src/wbcg-actions.c:1970
-#, fuzzy
 msgid "Scientific"
-msgstr "과학(_S)"
+msgstr "과학"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.c:83
 #: src/dialogs/dialog-cell-format.c:678 src/dialogs/dialog-stf-main-page.c:382
-#, fuzzy
 msgid "Text"
-msgstr "텍스트(_x)"
+msgstr "텍스트"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.c:84
-#, fuzzy
 msgid "Special"
-msgstr "특별한 기능(_P)"
+msgstr "특별한 기능"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.c:85
 msgid "Custom"
 msgstr "사용자"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.c:956
-#, fuzzy
 msgid "Negative Number Format"
-msgstr "음수(_i):"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.c:978
-#, fuzzy
 msgid "Number Formats"
-msgstr "형식 복사"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.glade.h:1
-#, fuzzy
 msgid "Ca_tegories:"
-msgstr "범주"
+msgstr "범주(_T):"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.glade.h:2
 msgid "Deci_mal places:"
@@ -4862,9 +4593,8 @@ msgid "Display numeric values with a fixed number of decimals."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.glade.h:8
-#, fuzzy
 msgid "Display times of day."
-msgstr "테두리 보이기(_O)"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.glade.h:9
 msgid "Display values as closest fractional approximation."
@@ -4879,19 +4609,16 @@ msgid "Display values with power-of-ten scaling."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.glade.h:12
-#, fuzzy
 msgid "Format c_ode:"
-msgstr "형식(_F):"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.glade.h:13
-#, fuzzy
 msgid "Negative number _format:"
-msgstr "음수(_i):"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.glade.h:14
-#, fuzzy
 msgid "Preview:"
-msgstr "미리보기"
+msgstr "미리보기:"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.glade.h:15
 msgid "S_ymbol:"
@@ -4993,19 +4720,16 @@ msgstr "파일 '%s'을(를) 열 수 없습니다"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:402
 #: src/gui-file.c:246 src/gui-file.c:542
-#, fuzzy
 msgid "All Files"
-msgstr "파일"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:407
-#, fuzzy
 msgid "Images"
 msgstr "그림"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:445
-#, fuzzy
 msgid "Select an Image"
-msgstr "전체 열 선택"
+msgstr "그림 선택"
 
 #: src/cut-n-paste-code/goffice/utils/format.c:86
 msgid "*Sun"
@@ -5169,44 +4893,36 @@ msgstr "거짓"
 
 #: src/cut-n-paste-code/goffice/utils/format.c:757
 #: templates/autoformat/autoformat.Colourful.black.xml.in.h:1
-#, fuzzy
 msgid "Black"
 msgstr "검정색"
 
 #: src/cut-n-paste-code/goffice/utils/format.c:758
 #: templates/autoformat/autoformat.Colourful.blue.xml.in.h:2
-#, fuzzy
 msgid "Blue"
 msgstr "청색"
 
 #: src/cut-n-paste-code/goffice/utils/format.c:759
-#, fuzzy
 msgid "Cyan"
 msgstr "청록색"
 
 #: src/cut-n-paste-code/goffice/utils/format.c:760
 #: templates/autoformat/autoformat.List.green.xml.in.h:3
-#, fuzzy
 msgid "Green"
 msgstr "녹색"
 
 #: src/cut-n-paste-code/goffice/utils/format.c:761
-#, fuzzy
 msgid "Magenta"
 msgstr "진홍색"
 
 #: src/cut-n-paste-code/goffice/utils/format.c:762
-#, fuzzy
 msgid "Red"
-msgstr "취소 복구"
+msgstr "적색"
 
 #: src/cut-n-paste-code/goffice/utils/format.c:763
-#, fuzzy
 msgid "White"
 msgstr "흰색"
 
 #: src/cut-n-paste-code/goffice/utils/format.c:764
-#, fuzzy
 msgid "Yellow"
 msgstr "황색"
 
@@ -5947,12 +5663,11 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/utils/go-line.c:306
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:603
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:242
-#, fuzzy, c-format
+#, c-format
 msgid "Automatic (%s)"
-msgstr "자동"
+msgstr "자동 (%s)"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:220
-#, fuzzy
 msgid "none"
 msgstr "없음"
 
@@ -5961,18 +5676,16 @@ msgid "square"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:222
-#, fuzzy
 msgid "diamond"
-msgstr "최소값"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:223
 msgid "triangle down"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:224
-#, fuzzy
 msgid "triangle up"
-msgstr "범위"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:225
 msgid "triangle right"
@@ -5983,24 +5696,20 @@ msgid "triangle left"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:227
-#, fuzzy
 msgid "circle"
-msgstr "파일/"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:229
-#, fuzzy
 msgid "cross"
-msgstr "첨도"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:230
-#, fuzzy
 msgid "asterisk"
-msgstr "링크 붙여 넣기"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:231
-#, fuzzy
 msgid "bar"
-msgstr "3월"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:232
 msgid "half bar"
@@ -6106,9 +5815,8 @@ msgstr "가는 역대각 직교평행선"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:113
 #: src/dialogs/cell-format.glade.h:49
-#, fuzzy
 msgid "Foreground Solid"
-msgstr "배경 색"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:114
 #: src/dialogs/cell-format.glade.h:71
@@ -6160,19 +5868,16 @@ msgid "Output"
 msgstr "출력"
 
 #: src/dialogs/advanced-filter.glade.h:4
-#, fuzzy
 msgid "_Criteria range:"
-msgstr "기준 범위(_R):"
+msgstr ""
 
 #: src/dialogs/advanced-filter.glade.h:5
-#, fuzzy
 msgid "_List range:"
-msgstr "날짜 범위(_D):"
+msgstr ""
 
 #: src/dialogs/advanced-filter.glade.h:6
-#, fuzzy
 msgid "_Unique records only"
-msgstr "고유한 등록값만(_U)"
+msgstr ""
 
 #: src/dialogs/anova-one.glade.h:1
 msgid "ANOVA - Single Factor"
@@ -6184,9 +5889,8 @@ msgstr ""
 #: src/dialogs/histogram.glade.h:5 src/dialogs/moving-averages.glade.h:4
 #: src/dialogs/rank.glade.h:1 src/dialogs/regression.glade.h:4
 #: src/dialogs/sampling.glade.h:3
-#, fuzzy
 msgid "Grouped by:"
-msgstr "그룹"
+msgstr ""
 
 #: src/dialogs/anova-one.glade.h:4 src/dialogs/anova-two.glade.h:6
 #: src/dialogs/exp-smoothing.glade.h:6 src/dialogs/fill-series.glade.h:5
@@ -6200,7 +5904,6 @@ msgstr "옵션"
 
 #: src/dialogs/anova-one.glade.h:6 src/dialogs/mean-tests.glade.h:13
 #: src/dialogs/variance-tests.glade.h:9
-#, fuzzy
 msgid "_Alpha:"
 msgstr "알파(_A):"
 
@@ -6208,9 +5911,8 @@ msgstr "알파(_A):"
 #: src/dialogs/covariance.glade.h:5 src/dialogs/descriptive-stats.glade.h:14
 #: src/dialogs/histogram.glade.h:12 src/dialogs/rank.glade.h:7
 #: src/dialogs/regression.glade.h:7 src/dialogs/sampling.glade.h:10
-#, fuzzy
 msgid "_Areas"
-msgstr "더하기"
+msgstr ""
 
 #: src/dialogs/anova-one.glade.h:8 src/dialogs/colrow.glade.h:2
 #: src/dialogs/correlation.glade.h:6 src/dialogs/covariance.glade.h:6
@@ -6227,7 +5929,6 @@ msgstr "열(_C)"
 #: src/dialogs/covariance.glade.h:7 src/dialogs/descriptive-stats.glade.h:16
 #: src/dialogs/exp-smoothing.glade.h:10 src/dialogs/fourier-analysis.glade.h:7
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:10
-#, fuzzy
 msgid "_Input range:"
 msgstr "입력 범위(_I):"
 
@@ -6261,29 +5962,24 @@ msgid "1"
 msgstr "1"
 
 #: src/dialogs/anova-two.glade.h:3
-#, fuzzy
 msgid "ANOVA - Two-Factor"
-msgstr "Anova: Single Factor"
+msgstr ""
 
 #: src/dialogs/anova-two.glade.h:5 src/dialogs/histogram.glade.h:7
-#, fuzzy
 msgid "Input _range:"
 msgstr "입력 범위(_R):"
 
 #: src/dialogs/anova-two.glade.h:8
-#, fuzzy
 msgid "Rows per _sample:"
-msgstr "샘플 갯수:"
+msgstr "샘플 갯수(_S):"
 
 #: src/dialogs/anova-two.glade.h:9
-#, fuzzy
 msgid "_Alpha: "
-msgstr "알파(_A):"
+msgstr "알파(_A): "
 
 #: src/dialogs/autocorrect.glade.h:2
-#, fuzzy
 msgid "Auto Correct"
-msgstr "자동(_A)"
+msgstr ""
 
 #: src/dialogs/autocorrect.glade.h:3
 msgid "Capitalize _first letter of sentence"
@@ -6298,9 +5994,8 @@ msgid "Correct _TWo INitial CApitals                           "
 msgstr ""
 
 #: src/dialogs/autocorrect.glade.h:6
-#, fuzzy
 msgid "Do _not capitalize after:"
-msgstr "이 다음부터 대문자로 시작하지 않음(_D):"
+msgstr "이 다음부터 대문자로 시작하지 않음(_N):"
 
 #: src/dialogs/autocorrect.glade.h:7
 msgid "Do _not correct:"
@@ -6355,79 +6050,70 @@ msgstr ""
 
 #: src/dialogs/autofilter-expression.glade.h:15
 #: src/dialogs/autofilter-top10.glade.h:1
-#, fuzzy
 msgid "Gnumeric : AutoFilter"
-msgstr "Gnumeric XML 파일 형식"
+msgstr ""
 
 #: src/dialogs/autofilter-expression.glade.h:16
-#, fuzzy
 msgid "Show rows where:"
-msgstr "화살표"
+msgstr ""
 
 #: src/dialogs/autofilter-expression.glade.h:17
-#, fuzzy
 msgid "_And"
-msgstr "더하기(_A)"
+msgstr ""
 
 #: src/dialogs/autofilter-expression.glade.h:18
 msgid "_Or"
 msgstr ""
 
 #: src/dialogs/autofilter-top10.glade.h:2
-#, fuzzy
 msgid ""
 "Items\n"
 "Percentage"
-msgstr "퍼센트"
+msgstr ""
 
 #: src/dialogs/autofilter-top10.glade.h:4
 msgid "Show:"
 msgstr ""
 
 #: src/dialogs/autofilter-top10.glade.h:5
-#, fuzzy
 msgid ""
 "Top\n"
 "Bottom"
-msgstr "위-아래(_T)"
+msgstr ""
+"위\n"
+"아래"
 
 #: src/dialogs/autoformat.glade.h:2
 msgid "A short description of the template"
 msgstr ""
 
 #: src/dialogs/autoformat.glade.h:3
-#, fuzzy
 msgid "Apply _Alignment"
-msgstr "정렬"
+msgstr "정렬 적용(_A)"
 
 #: src/dialogs/autoformat.glade.h:4
-#, fuzzy
 msgid "Apply _Borders"
-msgstr "모든 보더"
+msgstr "가장자리 적용(_B)"
 
 #: src/dialogs/autoformat.glade.h:5
-#, fuzzy
 msgid "Apply _Fonts"
-msgstr "모든 보더"
+msgstr "글꼴 적용(_F)"
 
 #: src/dialogs/autoformat.glade.h:6
-#, fuzzy
 msgid "Apply _Number Formats"
-msgstr "형식 복사"
+msgstr ""
 
 #: src/dialogs/autoformat.glade.h:7
-#, fuzzy
 msgid "Apply _Patterns"
-msgstr "패턴"
+msgstr "패턴 적용(_P)"
 
 #: src/dialogs/autoformat.glade.h:8
 msgid "Author:"
 msgstr "만든이:"
 
 #: src/dialogs/autoformat.glade.h:9
-#, fuzzy
 msgid "Autoformat"
-msgstr "자동(_A)"
+msgstr "자동서식"
 
 #: src/dialogs/autoformat.glade.h:10
 msgid "C_ategory:"
@@ -6442,23 +6128,20 @@ msgid "Description:"
 msgstr "설명:"
 
 #: src/dialogs/autoformat.glade.h:13
-#, fuzzy
 msgid "Edges"
-msgstr "페이지"
+msgstr ""
 
 #: src/dialogs/autoformat.glade.h:14
-#, fuzzy
 msgid "Name of template"
-msgstr "샘플 갯수:"
+msgstr ""
 
 #: src/dialogs/autoformat.glade.h:15
 msgid "Name:"
 msgstr "이름:"
 
 #: src/dialogs/autoformat.glade.h:17
-#, fuzzy
 msgid "Template Details"
-msgstr "템플릿 자세히 보기(_T)"
+msgstr "템플릿 자세히 보기"
 
 #: src/dialogs/autoformat.glade.h:18
 msgid "The category this template belongs to"
@@ -6481,9 +6164,8 @@ msgid "_Right"
 msgstr "오른쪽(_R)"
 
 #: src/dialogs/autoformat.glade.h:23
-#, fuzzy
 msgid "_Settings"
-msgstr "문자열(_S)"
+msgstr "설정(_S)"
 
 #: src/dialogs/autoformat.glade.h:24
 msgid "_Show Gridlines"
@@ -6498,21 +6180,18 @@ msgid "Auto Save"
 msgstr "자동 저장"
 
 #: src/dialogs/autosave.glade.h:3
-#, fuzzy
 msgid "_Automatically save every"
-msgstr "자동(_A)"
+msgstr ""
 
 #: src/dialogs/autosave.glade.h:4
 msgid "_Prompt Before Saving"
-msgstr "저정하기전에 알려주기(_P)"
+msgstr "저장하기 전에 알려줌(_P)"
 
 #: src/dialogs/autosave.glade.h:5
-#, fuzzy
 msgid "_minutes"
-msgstr "최소"
+msgstr ""
 
 #: src/dialogs/cell-comment.glade.h:1
-#, fuzzy
 msgid "Cell Comment"
 msgstr "셀 설명"
 
@@ -6534,9 +6213,8 @@ msgid "<b>Error alerts</b>"
 msgstr "<b>오류 알림</b>"
 
 #: src/dialogs/cell-format.glade.h:16
-#, fuzzy
 msgid "<b>Horizontal alignment</b>"
-msgstr "<b>수직 정렬</b>"
+msgstr "<b>가로 정렬</b>"
 
 #: src/dialogs/cell-format.glade.h:18
 msgid "<b>Orientation</b>"
@@ -6551,23 +6229,20 @@ msgid "<b>Sample</b>"
 msgstr "<b>샘플</b>"
 
 #: src/dialogs/cell-format.glade.h:22
-#, fuzzy
 msgid "<b>Vertical alignment</b>"
-msgstr "위아래 정렬"
+msgstr "<b>세로 정렬</b>"
 
 #: src/dialogs/cell-format.glade.h:23
 msgid "<span weight=\"bold\">Criteria</span>"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:24
-#, fuzzy
 msgid "A_ngle:"
-msgstr "관리자(_M):"
+msgstr ""
 
 #: src/dialogs/cell-format.glade.h:25
-#, fuzzy
 msgid "Ac_tion:"
-msgstr "실행(_C)"
+msgstr "실행(_C):"
 
 #: src/dialogs/cell-format.glade.h:26
 msgid "Alignment"
@@ -6603,9 +6278,8 @@ msgid "Bottom"
 msgstr "밑바닥"
 
 #: src/dialogs/cell-format.glade.h:40
-#, fuzzy
 msgid "C_olor:"
-msgstr "색:"
+msgstr "색(_O):"
 
 #: src/dialogs/cell-format.glade.h:41
 msgid "Ce_nter"
@@ -6616,14 +6290,12 @@ msgid "Cen_ter"
 msgstr "가운데(_T)"
 
 #: src/dialogs/cell-format.glade.h:43
-#, fuzzy
 msgid "Center across _selection"
-msgstr "중앙 섹션:"
+msgstr ""
 
 #: src/dialogs/cell-format.glade.h:44
-#, fuzzy
 msgid "Con_dition:"
-msgstr "내용(_C)"
+msgstr ""
 
 #: src/dialogs/cell-format.glade.h:45
 msgid "Diagonal"
@@ -6642,28 +6314,24 @@ msgid "I_n-cell dropdown"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:54
-#, fuzzy
 msgid "Ignore _blank cells"
-msgstr "빈 셀 무시(_I)"
+msgstr "빈 셀 무시(_B)"
 
 #: src/dialogs/cell-format.glade.h:55
 msgid "Input Message"
 msgstr "입력 메세지:"
 
 #: src/dialogs/cell-format.glade.h:56
-#, fuzzy
 msgid "Inside"
-msgstr "삽입"
+msgstr "내부"
 
 #: src/dialogs/cell-format.glade.h:57
-#, fuzzy
 msgid "Inside Horizontal"
-msgstr "수평"
+msgstr ""
 
 #: src/dialogs/cell-format.glade.h:58
-#, fuzzy
 msgid "Inside Vertical"
-msgstr "수직으로(_V)"
+msgstr ""
 
 #: src/dialogs/cell-format.glade.h:59
 msgid "J_ustify"
@@ -6702,9 +6370,8 @@ msgid "Stri_kethrough"
 msgstr "취소선(_K)"
 
 #: src/dialogs/cell-format.glade.h:74
-#, fuzzy
 msgid "Style:"
-msgstr "모양(_S):"
+msgstr "모양:"
 
 #: src/dialogs/cell-format.glade.h:75
 msgid "Su_bscript"
@@ -6751,28 +6418,24 @@ msgid "_Lock"
 msgstr "잠금(_L)"
 
 #: src/dialogs/cell-format.glade.h:97
-#, fuzzy
 msgid "_Message:"
-msgstr "평균"
+msgstr ""
 
 #: src/dialogs/cell-format.glade.h:98
-#, fuzzy
 msgid "_Protect worksheet"
-msgstr "현재 시트(_C)"
+msgstr ""
 
 #: src/dialogs/cell-format.glade.h:100
 msgid "_Show input message when cell is selected"
 msgstr "셀이 선텍되었을때 입력메세지를 보여줌(_S)"
 
 #: src/dialogs/cell-format.glade.h:101
-#, fuzzy
 msgid "_Underline:"
-msgstr "밑줄:"
+msgstr "밑줄(_U):"
 
 #: src/dialogs/cell-format.glade.h:102
-#, fuzzy
 msgid "_Wrap text"
-msgstr "Plan Perfect"
+msgstr ""
 
 #: src/dialogs/cell-format.glade.h:104
 msgid ""
@@ -6805,9 +6468,8 @@ msgid "Clear all fields from the sort specification"
 msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:5
-#, fuzzy
 msgid "Direction:"
-msgstr "디렉토리"
+msgstr "방향:"
 
 #: src/dialogs/cell-sort.glade.h:6
 msgid "Move selected field up in the sort order"
@@ -6834,41 +6496,36 @@ msgid "Sort range has a _header"
 msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:12
-#, fuzzy
 msgid "Sort rows by the specified columns"
-msgstr "선택된 열을 숨기기"
+msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:13
 msgid "Sort..."
 msgstr "정렬..."
 
 #: src/dialogs/cell-sort.glade.h:14
-#, fuzzy
 msgid "Sorting _preserves formats"
-msgstr "증가"
+msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:15
-#, fuzzy
 msgid "_Left-Right"
-msgstr "오른쪽(_R)"
+msgstr "왼쪽-오른쪽(_L)"
 
 #: src/dialogs/cell-sort.glade.h:16
 msgid "_Top-Bottom"
 msgstr "위-아래(_T)"
 
 #: src/dialogs/colrow.glade.h:1
-#, fuzzy
 msgid "Group/Ungroup"
-msgstr "그룹"
+msgstr ""
 
 #: src/dialogs/col-width.glade.h:1
 msgid "Column Width"
 msgstr "열 너비"
 
 #: src/dialogs/col-width.glade.h:2
-#, fuzzy
 msgid "_Column width (pt.):"
-msgstr "열 너비(_C) (pts):"
+msgstr "열 너비(_C) (pt.):"
 
 #: src/dialogs/col-width.glade.h:3 src/dialogs/row-height.glade.h:3
 msgid "_Use Default"
@@ -6879,18 +6536,16 @@ msgid "C_opy labels"
 msgstr "꼬리표 복사(_O)"
 
 #: src/dialogs/consolidate.glade.h:2
-#, fuzzy
 msgid "Clear the list of source areas"
-msgstr "열의 너비 설정"
+msgstr ""
 
 #: src/dialogs/consolidate.glade.h:3
 msgid "Data consolidation"
 msgstr "데이터 정리"
 
 #: src/dialogs/consolidate.glade.h:4
-#, fuzzy
 msgid "Delete the currently selected source area"
-msgstr "선택한 내용을 클립보드로 잘라보내기"
+msgstr ""
 
 #: src/dialogs/consolidate.glade.h:5
 msgid "In _left column"
@@ -6931,9 +6586,8 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/consolidate.glade.h:21
-#, fuzzy
 msgid "_Function:"
-msgstr "분수(_F)"
+msgstr "함수(_F):"
 
 #: src/dialogs/consolidate.glade.h:22 src/dialogs/histogram.glade.h:17
 #: src/dialogs/mean-tests.glade.h:14 src/dialogs/regression.glade.h:10
@@ -6948,14 +6602,13 @@ msgid "_Output"
 msgstr "출력(_O)"
 
 #: src/dialogs/consolidate.glade.h:24
-#, fuzzy
 msgid "_Source areas:"
-msgstr "정렬"
+msgstr ""
 
 #: src/dialogs/correlation.glade.h:1 src/tools/analysis-tools.c:954
 #: src/tools/analysis-tools.c:957
 msgid "Correlation"
-msgstr "상호관계"
+msgstr "상관관계"
 
 #: src/dialogs/covariance.glade.h:1 src/tools/analysis-tools.c:1008
 #: src/tools/analysis-tools.c:1011 src/wbcg-actions.c:1815
@@ -6988,34 +6641,28 @@ msgid "Filter _in-place"
 msgstr "채움(_F)"
 
 #: src/dialogs/dao.glade.h:6
-#, fuzzy
 msgid "New _sheet"
-msgstr "새 시트"
+msgstr "새 시트(_S)"
 
 #: src/dialogs/dao.glade.h:7
-#, fuzzy
 msgid "New _workbook"
-msgstr "새 워크북"
+msgstr "새 워크북(_W)"
 
 #: src/dialogs/dao.glade.h:8
-#, fuzzy
 msgid "Output _range:"
-msgstr "출력 범위(_O):"
+msgstr "출력 범위(_R):"
 
 #: src/dialogs/dao.glade.h:9
-#, fuzzy
 msgid "Retain output range _formatting"
-msgstr "출력 범위(_O): "
+msgstr ""
 
 #: src/dialogs/dao.glade.h:10
-#, fuzzy
 msgid "Retain output range co_mments"
-msgstr "출력 범위(_O): "
+msgstr ""
 
 #: src/dialogs/dao.glade.h:11
-#, fuzzy
 msgid "_Enter into cells:"
-msgstr "셀 넣기"
+msgstr ""
 
 #: src/dialogs/delete-cells.glade.h:1
 msgid "<span weight=\"bold\">Delete Method</span>"
@@ -7042,7 +6689,6 @@ msgid "Shift cells _up"
 msgstr "셀을 위로 옮김(_U)"
 
 #: src/dialogs/descriptive-stats.glade.h:1
-#, fuzzy
 msgid "(1 - _alpha):"
 msgstr "(1 - 알파) = "
 
@@ -7053,24 +6699,20 @@ msgstr "평균의 신용 수준"
 
 #: src/dialogs/descriptive-stats.glade.h:5 src/tools/analysis-tools.c:1399
 #: src/tools/analysis-tools.c:1402
-#, fuzzy
 msgid "Descriptive Statistics"
-msgstr "회귀 통계"
+msgstr ""
 
 #: src/dialogs/descriptive-stats.glade.h:8
-#, fuzzy
 msgid "Kth _Largest"
-msgstr "K번째 큼"
+msgstr "K번째 큼(_L)"
 
 #: src/dialogs/descriptive-stats.glade.h:9
-#, fuzzy
 msgid "Kth _Smallest"
-msgstr "K번째 작음"
+msgstr "K번째 작음(_S)"
 
 #: src/dialogs/descriptive-stats.glade.h:11
-#, fuzzy
 msgid "S_ummary Statistics"
-msgstr "요약 통계"
+msgstr "요약 통계(_U)"
 
 #: src/dialogs/descriptive-stats.glade.h:13
 msgid ""
@@ -7079,58 +6721,52 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/descriptive-stats.glade.h:17
-#, fuzzy
 msgid "_K:"
-msgstr "_N"
+msgstr ""
 
 #: src/dialogs/descriptive-stats.glade.h:20
 msgid "_Use ssmedian"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:63
-#, fuzzy
 msgid "Core"
-msgstr "양식"
+msgstr ""
 
 #: src/dialogs/dialog-about.c:64
 msgid "Features"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:65
-#, fuzzy
 msgid "Analytics"
-msgstr "기울임"
+msgstr ""
 
 #: src/dialogs/dialog-about.c:66
 msgid "Import Export"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:67
-#, fuzzy
 msgid "Scripting"
-msgstr "정렬중"
+msgstr ""
 
 #: src/dialogs/dialog-about.c:68
 msgid "UI"
-msgstr ""
+msgstr "UI"
 
 #: src/dialogs/dialog-about.c:69
 msgid "Usability"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:70
-#, fuzzy
 msgid "Documentation"
-msgstr "상호관계"
+msgstr "문서"
 
 #: src/dialogs/dialog-about.c:71
-#, fuzzy
 msgid "Translation"
-msgstr "넓이(_W)"
+msgstr "번역"
 
 #: src/dialogs/dialog-about.c:72
 msgid "QA"
-msgstr ""
+msgstr "QA"
 
 #: src/dialogs/dialog-about.c:73
 msgid "Art"
@@ -7145,18 +6781,16 @@ msgid "Harald Ashburner"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:83
-#, fuzzy
 msgid "Options pricers"
-msgstr "옵션"
+msgstr ""
 
 #: src/dialogs/dialog-about.c:84
 msgid "Sean Atkinson"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:85
-#, fuzzy
 msgid "Functions and X-Base importing."
-msgstr "Sean Atkinson, 함수와 X-Base importing."
+msgstr ""
 
 #: src/dialogs/dialog-about.c:86
 msgid "Michel Berkelaar"
@@ -7171,9 +6805,8 @@ msgid "Jean Brefort"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:89
-#, fuzzy
 msgid "Core charting engine."
-msgstr "줄 분석 오류"
+msgstr ""
 
 #: src/dialogs/dialog-about.c:90
 msgid "Grandma Chema Celorio"
@@ -7184,24 +6817,20 @@ msgid "Quality Assurance and sheet copy."
 msgstr ""
 
 #: src/dialogs/dialog-about.c:92
-#, fuzzy
 msgid "Frank Chiulli"
-msgstr "Frank Chiulli, OLE 지원."
+msgstr "Frank Chiulli"
 
 #: src/dialogs/dialog-about.c:93
-#, fuzzy
 msgid "OLE2 support."
-msgstr "Arturo Tena, OLE 지원."
+msgstr "OLE2 지원."
 
 #: src/dialogs/dialog-about.c:94
-#, fuzzy
 msgid "Kenneth Christiansen"
-msgstr "Kenneth Christiansen, 국제화, 기타 작업."
+msgstr "Kenneth Christiansen"
 
 #: src/dialogs/dialog-about.c:95
-#, fuzzy
 msgid "Localization."
-msgstr "상호관계"
+msgstr "지역화"
 
 #: src/dialogs/dialog-about.c:96
 msgid "Zbigniew Chyla"
@@ -7213,17 +6842,15 @@ msgstr ""
 
 #: src/dialogs/dialog-about.c:98
 msgid "J.H.M. Dassen (Ray)"
-msgstr ""
+msgstr "J.H.M. Dassen (Ray)"
 
 #: src/dialogs/dialog-about.c:99
-#, fuzzy
 msgid "Debian packaging."
-msgstr "J.H.M. Dassen (Ray), 데비안 꾸러미작업."
+msgstr "데비안 꾸러미."
 
 #: src/dialogs/dialog-about.c:100
-#, fuzzy
 msgid "Jeroen Dirks"
-msgstr "요르단, 디나르"
+msgstr ""
 
 #: src/dialogs/dialog-about.c:102
 msgid "Tom Dyas"
@@ -7234,37 +6861,32 @@ msgid "Original plugin engine."
 msgstr ""
 
 #: src/dialogs/dialog-about.c:104
-#, fuzzy
 msgid "Gergo Erdi"
-msgstr "그루지아, 라리"
+msgstr ""
 
 #: src/dialogs/dialog-about.c:105
-#, fuzzy
 msgid "Custom UI tools"
-msgstr "꼬리글 고침"
+msgstr ""
 
 #: src/dialogs/dialog-about.c:106
 msgid "John Gotts"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:107
-#, fuzzy
 msgid "RPM packaging"
-msgstr "범위"
+msgstr "RPM 꾸러미"
 
 #: src/dialogs/dialog-about.c:108
-#, fuzzy
 msgid "Andreas J. Gülzow"
-msgstr "Andreas J. Gülzow, Gnumeric 해커."
+msgstr "Andreas J. Gülzow"
 
 #: src/dialogs/dialog-about.c:109
 msgid "Statistics and GUI master"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:110
-#, fuzzy
 msgid "Jon Kåre Hellan"
-msgstr "Jon Kåre Hellan, Gnumeric 해커."
+msgstr "Jon Kåre Hellan"
 
 #: src/dialogs/dialog-about.c:111
 msgid "UI Polish and all round bug fixer"
@@ -7275,9 +6897,8 @@ msgid "Ross Ihaka"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:113
-#, fuzzy
 msgid "Special functions"
-msgstr "Vladimir Vuksan, 금융 함수."
+msgstr ""
 
 #: src/dialogs/dialog-about.c:114
 msgid "Jukka-Pekka Iivonen"
@@ -7292,9 +6913,8 @@ msgid "Jakub Jelinek"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:117
-#, fuzzy
 msgid "One of the original core contributors"
-msgstr "각각의 비율"
+msgstr ""
 
 #: src/dialogs/dialog-about.c:118
 msgid "Jakub Steiner"
@@ -7303,25 +6923,23 @@ msgstr ""
 #: src/dialogs/dialog-about.c:119
 #, fuzzy
 msgid "Icons and Images"
-msgstr "그림을 넣습니다"
+msgstr ""
 
 #: src/dialogs/dialog-about.c:120
 msgid "Chris Lahey"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:121
-#, fuzzy
 msgid "The original value format engine and libgoffice work"
-msgstr "Chris Lahey, 숫자 형식 엔진."
+msgstr ""
 
 #: src/dialogs/dialog-about.c:122
 msgid "Takashi Matsuda"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:123
-#, fuzzy
 msgid "The original text plugin"
-msgstr "Takashi Matsuda, 최초의 텍스트 플러그인."
+msgstr ""
 
 #: src/dialogs/dialog-about.c:124
 msgid "Michael Meeks"
@@ -7336,9 +6954,8 @@ msgid "Lutz Muller"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:127
-#, fuzzy
 msgid "SheetObject improvement"
-msgstr "Lutz Muller, SheetObject 기능 향상"
+msgstr "SheetObject 기능 향상"
 
 #: src/dialogs/dialog-about.c:128
 msgid "Yukihiro Nakai"
@@ -7357,41 +6974,36 @@ msgid "Many plot types for charting engine."
 msgstr ""
 
 #: src/dialogs/dialog-about.c:132
-#, fuzzy
 msgid "Federico M. Quintero"
-msgstr "Federico M. Quintero, 캔버스 지원."
+msgstr "Federico M. Quintero"
 
 #: src/dialogs/dialog-about.c:133
 msgid "canvas support"
-msgstr ""
+msgstr "캔버스 지원"
 
 #: src/dialogs/dialog-about.c:134
 msgid "Mark Probst"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:135 src/dialogs/dialog-about.c:141
-#, fuzzy
 msgid "Guile support"
-msgstr "Ariel Rios, Guile 지원."
+msgstr "Guile 지원"
 
 #: src/dialogs/dialog-about.c:136
-#, fuzzy
 msgid "Rasca"
-msgstr "등급"
+msgstr ""
 
 #: src/dialogs/dialog-about.c:137
-#, fuzzy
 msgid "HTML, troff, LaTeX exporters"
-msgstr "Rasca, HTML, troff, LaTeX exporters."
+msgstr "HTML, troff, LaTeX exporters"
 
 #: src/dialogs/dialog-about.c:138
 msgid "Vincent Renardias"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:139
-#, fuzzy
 msgid "original CSV support, French localization"
-msgstr "Vincent Renardias, 최초의 CSV 지원, 프랑스 지역화."
+msgstr "최초의 CSV 지원, 프랑스 지역화"
 
 #: src/dialogs/dialog-about.c:140
 msgid "Ariel Rios"
@@ -7402,9 +7014,8 @@ msgid "Uwe Steinmann"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:143
-#, fuzzy
 msgid "Paradox Importer"
-msgstr "매개변수"
+msgstr ""
 
 #: src/dialogs/dialog-about.c:144
 msgid "Arturo Tena"
@@ -7415,23 +7026,20 @@ msgid "Initial work on OLE2 for libgsf"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:146
-#, fuzzy
 msgid "Almer S. Tigelaar"
-msgstr "Almer S. Tigelaar, Gnumeric 해커."
+msgstr "Almer S. Tigelaar"
 
 #: src/dialogs/dialog-about.c:147
 msgid "Consolidation and Structured Text importer"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:148
-#, fuzzy
 msgid "Bruno Unna"
-msgstr "Bruno Unna, 엑셀 bits."
+msgstr "Bruno Unna"
 
 #: src/dialogs/dialog-about.c:149
-#, fuzzy
 msgid "Pieces of MS Excel import"
-msgstr "인쇄할 제목"
+msgstr ""
 
 #: src/dialogs/dialog-about.c:150
 msgid "Arief Mulya Utama"
@@ -7447,23 +7055,20 @@ msgid "Daniel Veillard"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:153
-#, fuzzy
 msgid "Initial XML support"
-msgstr "Daniel Veillard, XML 지원."
+msgstr "XML 지원."
 
 #: src/dialogs/dialog-about.c:154
 msgid "Vladimir Vuksan"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:155
-#, fuzzy
 msgid "Some financial functions"
-msgstr "Vladimir Vuksan, 금융 함수."
+msgstr "금융 함수."
 
 #: src/dialogs/dialog-about.c:156
-#, fuzzy
 msgid "Morten Welinder"
-msgstr "Morten Welinder, Gnumeric 해커."
+msgstr "Morten Welinder"
 
 #: src/dialogs/dialog-about.c:157
 msgid "All round powerhouse"
@@ -7494,9 +7099,8 @@ msgid "Alexander Kirillov"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:265
-#, fuzzy
 msgid "About Gnumeric"
-msgstr "Gnumeric 정보(_A)"
+msgstr "Gnumeric 정보"
 
 #: src/dialogs/dialog-advanced-filter.c:71
 msgid "The list range is invalid."
@@ -7736,9 +7340,8 @@ msgid "Total"
 msgstr "총"
 
 #: src/dialogs/dialog-autoformat.c:79
-#, fuzzy
 msgid "North"
-msgstr "정렬"
+msgstr "북쪽"
 
 #: src/dialogs/dialog-autoformat.c:79
 msgid "6"
@@ -7817,14 +7420,13 @@ msgid "An error occurred while reading the category list"
 msgstr ""
 
 #: src/dialogs/dialog-autosave.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to save the workbook %s ?"
-msgstr "워크북을 저장할까요?"
+msgstr "%s 워크북을 저장할까요?"
 
 #: src/dialogs/dialog-autosave.c:183
-#, fuzzy
 msgid "Could not create the autosave dialog."
-msgstr "인자 값을 구할 수 없습니다"
+msgstr ""
 
 #: src/dialogs/dialog-cell-format.c:93
 msgid "Single"
@@ -7835,9 +7437,8 @@ msgid "Double"
 msgstr ""
 
 #: src/dialogs/dialog-cell-format.c:1824
-#, fuzzy
 msgid "Source"
-msgstr "정렬"
+msgstr ""
 
 #: src/dialogs/dialog-cell-format.c:1825
 msgid "Criteria"
@@ -7905,24 +7506,21 @@ msgid "%s (%s)"
 msgstr "%s (%s)"
 
 #: src/dialogs/dialog-cell-sort.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "%s to %s"
-msgstr "%s (%s)"
+msgstr ""
 
 #: src/dialogs/dialog-cell-sort.c:787
-#, fuzzy
 msgid "no available row"
-msgstr "< 사용할 수 없음 >"
+msgstr ""
 
 #: src/dialogs/dialog-cell-sort.c:787
-#, fuzzy
 msgid "no available column"
-msgstr "< 사용할 수 없음 >"
+msgstr ""
 
 #: src/dialogs/dialog-cell-sort.c:1030
-#, fuzzy
 msgid "Header"
-msgstr "머리말(_a):"
+msgstr "머리말"
 
 #: src/dialogs/dialog-cell-sort.c:1035
 msgid "Row/Column"
@@ -7933,14 +7531,12 @@ msgid "Case Sensitive"
 msgstr "대소문자 구분"
 
 #: src/dialogs/dialog-cell-sort.c:1075
-#, fuzzy
 msgid "By Value"
-msgstr "값"
+msgstr ""
 
 #: src/dialogs/dialog-cell-sort.c:1205
-#, fuzzy
 msgid "Could not create the Cell-Sort dialog."
-msgstr "인자 값을 구할 수 없습니다"
+msgstr ""
 
 #: src/dialogs/dialog-col-width.c:232
 msgid "Set standard/default column width"
@@ -7967,18 +7563,16 @@ msgid "The output range overlaps with the input ranges."
 msgstr ""
 
 #: src/dialogs/dialog-consolidate.c:555
-#, fuzzy
 msgid "Could not create the Consolidate dialog."
-msgstr "인자 값을 구할 수 없습니다"
+msgstr ""
 
 #: src/dialogs/dialog-define-names.c:362
 msgid "Why would you want to define a name to be #NAME?"
 msgstr ""
 
 #: src/dialogs/dialog-define-names.c:583
-#, fuzzy
 msgid "Could not create the Name Guru."
-msgstr "인자 값을 구할 수 없습니다"
+msgstr ""
 
 #: src/dialogs/dialog-delete-cells.c:136
 #: src/dialogs/scenario-manager.glade.h:8 src/wbcg-actions.c:207
@@ -7987,82 +7581,71 @@ msgid "Delete"
 msgstr "지우기"
 
 #: src/dialogs/dialog-delete-cells.c:166
-#, fuzzy
 msgid "Could not create the Delete Cell dialog."
-msgstr "인자 값을 구할 수 없습니다"
+msgstr ""
 
 #: src/dialogs/dialog-fill-series.c:256
-#, fuzzy
 msgid "Could not create the Fill Series dialog."
-msgstr "인자 값을 구할 수 없습니다"
+msgstr ""
 
 #: src/dialogs/dialog-formula-guru.c:301
-#, fuzzy, c-format
+#, c-format
 msgid "[%s]"
-msgstr "[ss]"
+msgstr ""
 
 #: src/dialogs/dialog-formula-guru.c:812
-#, fuzzy
 msgid "Function/Argument"
-msgstr "분수(_F)"
+msgstr "함수/인자"
 
 #: src/dialogs/dialog-formula-guru.c:976
-#, fuzzy
 msgid "Could not create the formula guru."
-msgstr "인자 값을 구할 수 없습니다"
+msgstr ""
 
 #: src/dialogs/dialog-function-select.c:210
 msgid "Recently Used"
 msgstr "최근에 사용된 함수"
 
 #: src/dialogs/dialog-function-select.c:215
-#, fuzzy
 msgid "All Functions (long list)"
-msgstr "함수가 없습니다"
+msgstr ""
 
 #: src/dialogs/dialog-goal-seek.c:362
-#, fuzzy
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr "유효한 셀 이름을 '셀 설정'에 입력하셔야 합니다"
 
 #: src/dialogs/dialog-goal-seek.c:374
-#, fuzzy
 msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr "'셀 설정'의 셀 이름은 공식을 포함해야만 합니다"
 
 #: src/dialogs/dialog-goal-seek.c:387
-#, fuzzy
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
 msgstr "유효한 셀이름을 'By changing cell'에 입력하셔야 합니다"
 
 #: src/dialogs/dialog-goal-seek.c:400
-#, fuzzy
 msgid "The cell named in 'By changing cell' must not contain a formula."
-msgstr "'By changing cell'의 셀 이름은 공식을 포함하면 않됩니다"
+msgstr "'By changing cell'의 셀 이름은 공식을 포함하면 안됩니다"
 
 #: src/dialogs/dialog-goal-seek.c:413
 msgid "The value given in 'To Value:' is not valid."
 msgstr ""
 
 #: src/dialogs/dialog-goal-seek.c:457
-#, fuzzy, c-format
+#, c-format
 msgid "Goal seeking with cell %s found a solution."
-msgstr "목표 찾기가 답을 찾지 못했습니다!"
+msgstr "%s 셀 목표 찾기가 답을 찾았습니다"
 
 #: src/dialogs/dialog-goal-seek.c:478
-#, fuzzy, c-format
+#, c-format
 msgid "Goal seeking with cell %s did not find a solution."
-msgstr "목표 찾기가 답을 찾지 못했습니다!"
+msgstr "%s 셀 목표 찾기가 답을 찾지 못했습니다"
 
 #: src/dialogs/dialog-goal-seek.c:655
-#, fuzzy
 msgid "Could not create the Goal-Seek dialog."
-msgstr "인자 값을 구할 수 없습니다"
+msgstr ""
 
 #: src/dialogs/dialog-goto-cell.c:188
-#, fuzzy
 msgid "Workbook Level"
-msgstr "워크북"
+msgstr ""
 
 #.
 #. * Fill in the labels of `Target Cell' section.
@@ -8225,34 +7808,28 @@ msgid "_None"
 msgstr "없음"
 
 #: src/dialogs/dialog-paste-special.c:78
-#, fuzzy
 msgid "A_dd"
-msgstr "더하기"
+msgstr "더하기(_D)"
 
 #: src/dialogs/dialog-paste-special.c:79
-#, fuzzy
 msgid "_Subtract"
-msgstr "빼기"
+msgstr "빼기(_S)"
 
 #: src/dialogs/dialog-paste-special.c:80
-#, fuzzy
 msgid "M_ultiply"
-msgstr "곱하기"
+msgstr "곱하기(_U)"
 
 #: src/dialogs/dialog-paste-special.c:81
-#, fuzzy
 msgid "D_ivide"
-msgstr "나누기"
+msgstr "나누기(_I)"
 
 #: src/dialogs/dialog-paste-special.c:188
-#, fuzzy
 msgid "Paste Special"
-msgstr "특별한 붙여 넣기(_S)"
+msgstr "특별한 붙여 넣기"
 
 #: src/dialogs/dialog-paste-special.c:191
-#, fuzzy
 msgid "Paste _Link"
-msgstr "링크 붙여 넣기"
+msgstr "링크 붙여 넣기(_L)"
 
 #: src/dialogs/dialog-paste-special.c:200
 msgid "Paste type"
@@ -8398,9 +7975,8 @@ msgid "Files"
 msgstr "파일"
 
 #: src/dialogs/dialog-preferences.c:766
-#, fuzzy
 msgid "Tools"
-msgstr "도구(_T)"
+msgstr "도구"
 
 #: src/dialogs/dialog-preferences.c:767 src/wbc-gtk.c:472
 msgid "Undo"
@@ -8408,12 +7984,11 @@ msgstr "실행 취소"
 
 #: src/dialogs/dialog-preferences.c:768
 msgid "Windows"
-msgstr ""
+msgstr "창"
 
 #: src/dialogs/dialog-preferences.c:769
-#, fuzzy
 msgid "Header/Footer"
-msgstr "머리말과 꼬리말"
+msgstr "머리말/꼬리말"
 
 #: src/dialogs/dialog-preferences.c:770 src/commands.c:2120
 msgid "Sorting"
@@ -10156,14 +9731,12 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/plugin-manager.glade.h:10
-#, fuzzy
 msgid "_Activate All"
-msgstr "모두 쓰기(_A)"
+msgstr ""
 
 #: src/dialogs/plugin-manager.glade.h:11
-#, fuzzy
 msgid "_Deactivate All"
-msgstr "Guile 플러그인"
+msgstr ""
 
 #: src/dialogs/preferences.glade.h:1
 msgid "Gnumeric Preferences"
@@ -11262,19 +10835,16 @@ msgid "_Share cursor position"
 msgstr ""
 
 #: src/dialogs/workbook-attr.glade.h:2
-#, fuzzy
 msgid "A_uto Complete Text in Cells"
-msgstr "셀안에서 문저열 자동완성(_A)"
+msgstr "셀안에서 문저열 자동완성(_U)"
 
 #: src/dialogs/workbook-attr.glade.h:3
-#, fuzzy
 msgid "A_utomatic"
-msgstr "자동"
+msgstr "자동(_U)"
 
 #: src/dialogs/workbook-attr.glade.h:4
-#, fuzzy
 msgid "Calculation"
-msgstr "넓이(_W)"
+msgstr ""
 
 #: src/dialogs/workbook-attr.glade.h:5
 #, fuzzy
@@ -11363,12 +10933,12 @@ msgstr "변수 %i"
 
 #: src/tools/analysis-tools.c:927
 msgid "Correlations"
-msgstr "상호관계"
+msgstr "상관관계"
 
 #: src/tools/analysis-tools.c:938
-#, fuzzy, c-format
+#, c-format
 msgid "Correlation (%s)"
-msgstr "상호관계"
+msgstr "상관관계 (%s)"
 
 #: src/tools/analysis-tools.c:981
 msgid "Covariances"
@@ -15392,9 +14962,8 @@ msgid "_Select"
 msgstr "선택(_S)"
 
 #: src/wbcg-actions.c:1431
-#, fuzzy
 msgid "F_ill"
-msgstr "채움(_F)"
+msgstr "채움(_I)"
 
 #: src/wbcg-actions.c:1432
 msgid "_View"
@@ -15406,12 +14975,10 @@ msgid "_Windows"
 msgstr "윈도우즈 (CR+LF)"
 
 #: src/wbcg-actions.c:1434
-#, fuzzy
 msgid "_Toolbars"
-msgstr "도구 모음(_T)..."
+msgstr "도구 모음(_T)"
 
 #: src/wbcg-actions.c:1436
-#, fuzzy
 msgid "_Names"
 msgstr "이름(_N)"
 
@@ -15437,9 +15004,8 @@ msgid "_Tools"
 msgstr "도구(_T)"
 
 #: src/wbcg-actions.c:1443
-#, fuzzy
 msgid "Sce_narios"
-msgstr "구분자"
+msgstr "시나리오(_N)"
 
 #: src/wbcg-actions.c:1444
 msgid "Statistical Anal_ysis"
@@ -15553,17 +15119,14 @@ msgid "Save the current workbook"
 msgstr "현재 워크북을 저장합니다"
 
 #: src/wbcg-actions.c:1499
-#, fuzzy
 msgid "Save the current workbook with a different name"
-msgstr "현재 파일을 다른 이름으로 저장합니다"
+msgstr "현재 워크북을 다른 이름으로 저장합니다"
 
 #: src/wbcg-actions.c:1501
-#, fuzzy
 msgid "Sen_d To..."
-msgstr "...로 가기"
+msgstr ""
 
 #: src/wbcg-actions.c:1502
-#, fuzzy
 msgid "Send the current file via email"
 msgstr "현재 파일을 메일로 보냅니다"
 
@@ -15588,9 +15151,8 @@ msgid "Edit descriptive information"
 msgstr ""
 
 #: src/wbcg-actions.c:1516
-#, fuzzy
 msgid "Pre_ferences..."
-msgstr "기본 설정(_C)..."
+msgstr "기본 설정(_F)..."
 
 #: src/wbcg-actions.c:1517
 msgid "Change Gnumeric Preferences"
@@ -15985,7 +15547,7 @@ msgstr "Gnumeric의 기본 설정을 고칩니다"
 
 #: src/wbcg-actions.c:1710
 msgid "_Autoformat..."
-msgstr ""
+msgstr "자동서식(_A)..."
 
 #: src/wbcg-actions.c:1711
 msgid "Format a region of cells according to a pre-defined template"
@@ -16095,9 +15657,8 @@ msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 
 #: src/wbcg-actions.c:1764
-#, fuzzy
 msgid "Si_mulation..."
-msgstr "해결사 옵션"
+msgstr ""
 
 #: src/wbcg-actions.c:1765
 msgid ""
@@ -16107,9 +15668,8 @@ msgstr ""
 
 #. Tools -> Scenarios
 #: src/wbcg-actions.c:1770
-#, fuzzy
 msgid "_View..."
-msgstr "새 시트(_N)"
+msgstr ""
 
 #: src/wbcg-actions.c:1771
 msgid "View, delete and report different scenarios"
@@ -16205,16 +15765,15 @@ msgstr ""
 #. Tools -> Analysis
 #: src/wbcg-actions.c:1811
 msgid "_Correlation..."
-msgstr "상호관계(_C)..."
+msgstr "상관관계(_C)..."
 
 #: src/wbcg-actions.c:1812
 msgid "Pearson Correlation"
 msgstr ""
 
 #: src/wbcg-actions.c:1814
-#, fuzzy
 msgid "Co_variance..."
-msgstr "공분산(_v)"
+msgstr "공분산(_V)..."
 
 #: src/wbcg-actions.c:1817
 #, fuzzy
@@ -16777,14 +16336,13 @@ msgid "Toggle visibility of statusbar"
 msgstr ""
 
 #: src/wbcg-actions.c:2099
-#, fuzzy
 msgid "F_ull Screen..."
-msgstr "목표 찾기(_G)..."
+msgstr "전체 화면(_U)..."
 
 #: src/wbcg-actions.c:2100
 #, fuzzy
 msgid "in or out"
-msgstr "고치지 않음(_N):"
+msgstr ""
 
 #: src/wbcg-actions.c:2105
 #, fuzzy
@@ -16799,7 +16357,7 @@ msgstr "기울임"
 #: src/wbcg-actions.c:2111
 #, fuzzy
 msgid "_Underline"
-msgstr "밑줄"
+msgstr "밑줄(_U)"
 
 #. ALSO "<control>4"
 #: src/wbcg-actions.c:2112
@@ -16926,19 +16484,19 @@ msgid "Set Background Color"
 msgstr "바탕색 설정"
 
 #: src/wbc-gtk.c:616
-#, fuzzy, c-format
+#, c-format
 msgid "Font Name %s"
-msgstr "이름 정하기"
+msgstr "글꼴 이름 %s"
 
 #: src/wbc-gtk.c:665
-#, fuzzy, c-format
+#, c-format
 msgid "Font Size %f"
-msgstr "글꼴의 크기를 고릅니다"
+msgstr "글꼴 크기 %f"
 
 #: src/wbc-gtk.c:729
-#, fuzzy, c-format
+#, c-format
 msgid "Open %s"
-msgstr "열기"
+msgstr "%s 열기"
 
 #: src/wbc-gtk.c:794
 msgid "Nothing"
@@ -17275,9 +16833,8 @@ msgid "A colourful template with mainly blue and teal colours"
 msgstr ""
 
 #: templates/autoformat/autoformat.Colourful.orange.xml.in.h:2
-#, fuzzy
 msgid "Orange"
-msgstr "범위"
+msgstr "주황색"
 
 #: templates/autoformat/autoformat.Colourful.orange.xml.in.h:3
 #, fuzzy
@@ -17329,9 +16886,8 @@ msgid "Financial template with purple borders"
 msgstr ""
 
 #: templates/autoformat/autoformat.Financial.purple.xml.in.h:3
-#, fuzzy
 msgid "Purple"
-msgstr "펄"
+msgstr "보라색"
 
 #: templates/autoformat/autoformat.General.advanced.xml.in.h:2
 msgid "An advanced colorless template"
@@ -17356,9 +16912,8 @@ msgid "Empty"
 msgstr ""
 
 #: templates/autoformat/autoformat.General.table.xml.in.h:2
-#, fuzzy
 msgid "Table"
-msgstr "탭"
+msgstr "표"
 
 #: templates/autoformat/autoformat.General.table.xml.in.h:3
 msgid "Very simple table template with the same border everywhere "
@@ -17379,84 +16934,18 @@ msgid "Lila"
 msgstr "선"
 
 #: templates/autoformat/autoformat.List.lila.xml.in.h:3
-#, fuzzy
 msgid "Lila list template"
-msgstr "샘플 갯수:"
+msgstr ""
 
 #: templates/autoformat/autoformat.List.simple.xml.in.h:1
-#, fuzzy
 msgid "A simple list template"
-msgstr "샘플 갯수:"
-
-#, fuzzy
-#~ msgid "File doesn't contain \"plugin_init_general\" function."
-#~ msgstr "플러그인은 반드시 init_plugin 함수를 포함해야 합니다."
-
-#, fuzzy
-#~ msgid "File doesn't contain \"plugin_cleanup_general\" function."
-#~ msgstr "플러그인은 반드시 init_plugin 함수를 포함해야 합니다."
-
-#, fuzzy
-#~ msgid "Various"
-#~ msgstr "변수"
-
-#, fuzzy
-#~ msgid "Data Sources..."
-#~ msgstr "날짜..."
-
-#, fuzzy
-#~ msgid "Unknown verb: %s"
-#~ msgstr "모르는 버젼"
+msgstr ""
 
 #~ msgid "Open the Python console"
 #~ msgstr "파이썬 콘솔 열기"
 
 #~ msgid "Python console"
 #~ msgstr "파이썬 콘솔"
-
-#, fuzzy
-#~ msgid "Hello World"
-#~ msgstr "Hello World"
-
-#~ msgid "Internal"
-#~ msgstr "내부"
-
-#, fuzzy
-#~ msgid "How to handle unknown characters"
-#~ msgstr "모르는 연산자"
-
-#, fuzzy
-#~ msgid "_Split"
-#~ msgstr "나누기"
-
-#, fuzzy
-#~ msgid "_Widen"
-#~ msgstr "숨기기(_H)"
-
-#, fuzzy
-#~ msgid "_Narrow"
-#~ msgstr "화살표"
-
-#~ msgid "_Insert..."
-#~ msgstr "넣기(_I)..."
-
-#~ msgid "_Delete..."
-#~ msgstr "지움(_D)..."
-
-#, fuzzy
-#~ msgid "Raise object"
-#~ msgstr "선 그림"
-
-#, fuzzy
-#~ msgid "Raise object to top"
-#~ msgstr "선 그림"
-
-#~ msgid ""
-#~ "Show\n"
-#~ "Sample"
-#~ msgstr ""
-#~ "샘플\n"
-#~ "보기"
 
 #~ msgid "_Decrease"
 #~ msgstr "감소(_D)"
@@ -17479,20 +16968,8 @@ msgstr "샘플 갯수:"
 #~ msgid "Print setup"
 #~ msgstr "인쇄 설정"
 
-#, fuzzy
-#~ msgid "Arrow Tip:"
-#~ msgstr "화살표"
-
 #~ msgid "Border _Width:"
 #~ msgstr "가장자리 너비(_W):"
-
-#, fuzzy
-#~ msgid "F_ill Color:"
-#~ msgstr "색(_C):"
-
-#, fuzzy
-#~ msgid "O_utline Color:"
-#~ msgstr "색(_C):"
 
 #~ msgid "Open..."
 #~ msgstr "열기..."
@@ -17512,10 +16989,6 @@ msgstr "샘플 갯수:"
 #~ msgid "Quattro Pro"
 #~ msgstr "쿼트로 프로"
 
-#, fuzzy
-#~ msgid "_Map:"
-#~ msgstr "그래프(_G)..."
-
 #~ msgid "Left align"
 #~ msgstr "왼쪽 정렬"
 
@@ -17525,111 +16998,20 @@ msgstr "샘플 갯수:"
 #~ msgid "Right align"
 #~ msgstr "오른쪽 정렬"
 
-#, fuzzy
-#~ msgid "Center across the selected cells"
-#~ msgstr "선택된 셀들을 정렬"
-
 #~ msgid "Gnumeric XML file format"
 #~ msgstr "Gnumeric XML 파일 형식"
-
-#, fuzzy
-#~ msgid "Format as alternative Number"
-#~ msgstr "퍼센트(_P)"
-
-#, fuzzy
-#~ msgid "(Filename in invalid encoding)"
-#~ msgstr "찾을 범위가 적절하지 않습니다."
-
-#, fuzzy
-#~ msgid "Format as Money"
-#~ msgstr "형식"
-
-#, fuzzy
-#~ msgid "Launch the Chart Guru"
-#~ msgstr "그래프 전문가 시작"
-
-#~ msgid "Money"
-#~ msgstr "돈"
-
-#, fuzzy
-#~ msgid "Set the format of the selected cells to monetary"
-#~ msgstr "선택된 셀의 형식 수정"
 
 #~ msgid "Percent"
 #~ msgstr "퍼센트"
 
-#, fuzzy
-#~ msgid "Set the format of the selected cells to percentage"
-#~ msgstr "선택된 셀의 형식 수정"
-
-#, fuzzy
-#~ msgid "2 Color"
-#~ msgstr "색:"
-
-#, fuzzy
-#~ msgid "Gradient"
-#~ msgstr "인쇄"
-
 #~ msgid "Image"
 #~ msgstr "그림"
-
-#, fuzzy
-#~ msgid "1.5d Charts"
-#~ msgstr "도표"
-
-#, fuzzy
-#~ msgid "XY Charts"
-#~ msgstr "도표"
-
-#, fuzzy
-#~ msgid "contains"
-#~ msgstr "내용(_C)"
-
-#, fuzzy
-#~ msgid "does not end with"
-#~ msgstr "함수가 없습니다"
-
-#, fuzzy
-#~ msgid "ends with"
-#~ msgstr "선 모드"
-
-#, fuzzy
-#~ msgid "equals"
-#~ msgstr "다름(_U)"
-
-#, fuzzy
-#~ msgid "Any Value     (no validation)"
-#~ msgstr "아무 값                      (확인 안함)"
 
 #~ msgid "Numbers"
 #~ msgstr "숫자"
 
 #~ msgid "Text length"
 #~ msgstr "텍스트 길이"
-
-#~ msgid "min <= val <= max         (between)"
-#~ msgstr "최소값 <= 변수 <= 최대값  (사이에 있음)"
-
-#~ msgid "val  <  bound                  (less than)"
-#~ msgstr "변수  <  경계값                (보다 작음)"
-
-#~ msgid "val  >  bound                  (greater than)"
-#~ msgstr "변수  <  경계값                (보다 큼)"
-
-#~ msgid "val <= bound                  (less than or equal)"
-#~ msgstr "변수 <= 경계값                (작거나 같음)"
-
-#~ msgid "val <= min || max <= val (not between)"
-#~ msgstr "변수 <= 최소값 || 최대값 <= 변수 (사이에 없음)"
-
-#~ msgid "val <> bound                  (not equal to)"
-#~ msgstr "변수 != 경계값                (같지 않음)"
-
-#~ msgid "val == bound                  (equal to)"
-#~ msgstr "변수 == 경계값                (같음)"
-
-#~ msgid "val >= bound                  (greater than or equal)"
-#~ msgstr "변수 >= 경계값                (크거나 같음)"
 
 #~ msgid "Formulas"
 #~ msgstr "식"
@@ -17646,10 +17028,6 @@ msgstr "샘플 갯수:"
 #~ msgid "Comma (,)"
 #~ msgstr "쉼표 (,)"
 
-#, fuzzy
-#~ msgid "Escape"
-#~ msgstr "예제"
-
 #~ msgid "Hyphen (-)"
 #~ msgstr "하이픈 (-)"
 
@@ -17665,64 +17043,8 @@ msgstr "샘플 갯수:"
 #~ msgid "Unix (linefeed)"
 #~ msgstr "유닉스 (LF)"
 
-#, fuzzy
-#~ msgid "Always (Both Sides)"
-#~ msgstr "항상 (양쪽 다)"
-
-#, fuzzy
-#~ msgid "_Series"
-#~ msgstr "문자열"
-
-#, fuzzy
-#~ msgid "Define names"
-#~ msgstr "이름 정의"
-
-#, fuzzy
-#~ msgid "Definition"
-#~ msgstr "설명(_D)"
-
-#, fuzzy
-#~ msgid "Size of _sample:"
-#~ msgstr "샘플 갯수:"
-
-#, fuzzy
-#~ msgid "_Random Numbers"
-#~ msgstr "무작위 숫자 생성"
-
-#~ msgid "="
-#~ msgstr "="
-
-#~ msgid "Int"
-#~ msgstr "Int"
-
-#~ msgid ""
-#~ "Please enter a file name,\n"
-#~ "not a directory"
-#~ msgstr ""
-#~ "디렉토리가 아닌,\n"
-#~ "파일이름을 입력하세요"
-
-#, fuzzy
-#~ msgid "Formatting"
-#~ msgstr "형식"
-
 #~ msgid "File \"%s\" has unknown format."
 #~ msgstr "\"%s\" 파일은 모르는 형식입니다."
-
-#, fuzzy
-#~ msgid "The filename given is not valid in the current encoding."
-#~ msgstr "찾을 범위가 적절하지 않습니다."
-
-#~ msgid "Type mismatch"
-#~ msgstr "유형이 서로 틀림"
-
-#, fuzzy
-#~ msgid "Add a scenario"
-#~ msgstr "고급 거르개"
-
-#, fuzzy
-#~ msgid "Chart Guru"
-#~ msgstr "차트 출력"
 
 #~ msgid "Copy the selection to the clipboard"
 #~ msgstr "선택한 내용을 클립보드로 복사합니다"
@@ -17732,10 +17054,6 @@ msgstr "샘플 갯수:"
 
 #~ msgid "Font selector"
 #~ msgstr "글꼴을 고릅니다"
-
-#, fuzzy
-#~ msgid "Hyperlink"
-#~ msgstr "하이퍼링크(_H)"
 
 #~ msgid "Insert a function into the selected cell"
 #~ msgstr "선택된 셀에 함수 넣기"
@@ -17770,19 +17088,11 @@ msgstr "샘플 갯수:"
 #~ msgid "Radio Button"
 #~ msgstr "라디오 단추"
 
-#, fuzzy
-#~ msgid "Ranks and _Percentiles..."
-#~ msgstr "등급과 백분위수"
-
 #~ msgid "Save"
 #~ msgstr "저장"
 
 #~ msgid "Save _As..."
 #~ msgstr "다른 이름으로 저장(_A)..."
-
-#, fuzzy
-#~ msgid "Spin Button"
-#~ msgstr "단추"
 
 #~ msgid "_Close"
 #~ msgstr "닫기(_C)"
@@ -17831,10 +17141,6 @@ msgstr "샘플 갯수:"
 
 #~ msgid "_Paste Cells"
 #~ msgstr "셀 붙여 넣기(_P)"
-
-#, fuzzy
-#~ msgid "A_utofit Columns"
-#~ msgstr "열 %s 삭제"
 
 #~ msgid "List _Range:"
 #~ msgstr "목록 범위(_R):"
@@ -17893,10 +17199,6 @@ msgstr "샘플 갯수:"
 #~ msgid "Mark Probst, Guile support."
 #~ msgstr "Mark Probst, Guile 지원."
 
-#, fuzzy
-#~ msgid "A production ready spreadsheet"
-#~ msgstr "새 스프레드시트 생성"
-
 #~ msgid "This is an untranslated version of Gnumeric."
 #~ msgstr ""
 #~ "남성현 <namsh@lgic.co.kr>, 1998-2000\n"
@@ -17934,42 +17236,14 @@ msgstr "샘플 갯수:"
 #~ msgid "Add all ->"
 #~ msgstr "모두 더함 ->"
 
-#, fuzzy
-#~ msgid "Available sheets"
-#~ msgstr "시트 활성화(_i)"
-
 #~ msgid "Exporting structured text"
 #~ msgstr "구조화된 문서로 보내기"
 
 #~ msgid "Sheets to export"
 #~ msgstr "내보낼 시트"
 
-#, fuzzy
-#~ msgid "a _Column"
-#~ msgstr "열(_C)"
-
-#, fuzzy
-#~ msgid "a _Row"
-#~ msgstr "행(_R)"
-
 #~ msgid "Input _Labels"
 #~ msgstr "입력 꼬리표(_L)"
-
-#, fuzzy
-#~ msgid "Retain Output Range _Comments"
-#~ msgstr "출력 범위(_O): "
-
-#, fuzzy
-#~ msgid "_Autofit Columns"
-#~ msgstr "열 %s 삭제"
-
-#, fuzzy
-#~ msgid "_Clear Output Range"
-#~ msgstr "출력 범위(_O):"
-
-#, fuzzy
-#~ msgid "_Alpha ="
-#~ msgstr "알파:"
 
 #~ msgid "Page order"
 #~ msgstr "페이지 순서"
@@ -17977,38 +17251,24 @@ msgstr "샘플 갯수:"
 #~ msgid "Scale"
 #~ msgstr "척도"
 
-#, fuzzy
 #~ msgid "Inputs:"
-#~ msgstr "입력(_I):"
+#~ msgstr "입력:"
 
-#, fuzzy
 #~ msgid "Outputs:"
-#~ msgstr "출력"
+#~ msgstr "출력:"
 
 #~ msgid "_Options"
 #~ msgstr "옵션(_O)"
 
 #, fuzzy
 #~ msgid "_Variables"
-#~ msgstr "변수"
+#~ msgstr "변수(_V)"
 
 #~ msgid "<="
 #~ msgstr "<="
 
 #~ msgid ">="
 #~ msgstr ">="
-
-#, fuzzy
-#~ msgid "Sharing"
-#~ msgstr "문자열"
-
-#, fuzzy
-#~ msgid "_Shared"
-#~ msgstr "붙이기(_P)"
-
-#, fuzzy
-#~ msgid "_Unshared"
-#~ msgstr "붙이기(_P)"
 
 #~ msgid "Save workbook as"
 #~ msgstr "워크북을 다른 이름으로 저장"
@@ -18022,23 +17282,11 @@ msgstr "샘플 갯수:"
 #~ msgid "Unable to mmap the file, error : %s"
 #~ msgstr "파일을 mmap할 수 없음, 에러 : %s"
 
-#, fuzzy
-#~ msgid "Choose Custom Color"
-#~ msgstr "내보낼 시트를 선택"
-
-#, fuzzy
-#~ msgid "_File/Preferen_ces..."
-#~ msgstr "기본 설정(_C)..."
-
 #~ msgid "File/"
 #~ msgstr "파일/"
 
 #~ msgid "Select an object to add"
 #~ msgstr "더할 객체 선택"
-
-#, fuzzy
-#~ msgid "Unable to create object of type '%s'"
-#~ msgstr "%s 파일을 생성할 수 없습니다\n"
 
 #~ msgid "Undo the operation"
 #~ msgstr "동작 취소"
@@ -18055,72 +17303,36 @@ msgstr "샘플 갯수:"
 #~ msgid "Set Font Size"
 #~ msgstr "글꼴 크기 설정"
 
-#, fuzzy
-#~ msgid "Failure parsing AutoFilter."
-#~ msgstr "파일 닫기 에러, 에러: %s"
-
 #~ msgid "Imported %s"
 #~ msgstr "%s 가져오기"
 
 #~ msgid "TODO : Unfinished"
 #~ msgstr "할 일 : 끝나지 않음"
 
-#, fuzzy
-#~ msgid "Interpolated points"
-#~ msgstr "동작"
-
-#, fuzzy
-#~ msgid "Results:"
-#~ msgstr "셀 삭제"
-
-#, fuzzy
-#~ msgid "Changing cells:"
-#~ msgstr "%s 파일을 생성할 수 없습니다\n"
-
-#, fuzzy
-#~ msgid "Scenarios:"
-#~ msgstr "구분자"
-
-#, fuzzy
 #~ msgid "Inputs: "
-#~ msgstr "입력(_I)"
+#~ msgstr "입력: "
 
-#, fuzzy
-#~ msgid "Max Time:       "
-#~ msgstr "최대"
-
-#, fuzzy
 #~ msgid "Output: "
-#~ msgstr "출력"
+#~ msgstr "출력: "
 
-#, fuzzy
-#~ msgid "Reporting: "
-#~ msgstr "읽어들이기"
-
-#, fuzzy
 #~ msgid "Summary: "
-#~ msgstr "요약"
+#~ msgstr "요약: "
 
-#, fuzzy
 #~ msgid "Variables: "
-#~ msgstr "변수"
+#~ msgstr "변수: "
 
-#, fuzzy
 #~ msgid "_Output Range: "
 #~ msgstr "출력 범위(_O):"
 
-#, fuzzy
 #~ msgid "_Summary"
-#~ msgstr "요약"
+#~ msgstr "요약(_S)"
 
 #~ msgid "Sheet 1"
 #~ msgstr "시트 1"
 
-#, fuzzy
 #~ msgid "S_ize:"
-#~ msgstr "크기:"
+#~ msgstr "크기(_I):"
 
-#, fuzzy
 #~ msgid "_Style:"
 #~ msgstr "모양(_S):"
 
@@ -18136,29 +17348,8 @@ msgstr "샘플 갯수:"
 #~ msgid "Not available..."
 #~ msgstr "사용할 수 없음..."
 
-#, fuzzy
-#~ msgid "S_tart Color:"
-#~ msgstr "색(_C):"
-
-#, fuzzy
-#~ msgid "Top to bottom"
-#~ msgstr "위-아래"
-
-#, fuzzy
-#~ msgid "_End Color:"
-#~ msgstr "색(_C):"
-
-#, fuzzy
-#~ msgid "_Fill type:"
-#~ msgstr "파일(_F)"
-
-#, fuzzy
-#~ msgid "_Destination:"
-#~ msgstr "설명(_D)"
-
 #~ msgid "Are you sure you want to remove the sheet called `%s'?"
 #~ msgstr "정말로 `%s' 시트를 지우기를 원하십니까?"
 
-#, fuzzy
 #~ msgid "Options:"
 #~ msgstr "옵션:"

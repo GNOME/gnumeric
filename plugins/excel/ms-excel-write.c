@@ -4294,7 +4294,7 @@ static void
 excel_sheet_free (ExcelWriteSheet *esheet)
 {
 	g_slist_free (esheet->textboxes);
-	gnm_slist_free_custom (esheet->blips, (GFreeFunc) blipinf_free);
+	go_slist_free_custom (esheet->blips, (GFreeFunc) blipinf_free);
 	g_free (esheet);
 }
 
@@ -4463,7 +4463,7 @@ excel_write_WRITEACCESS (BiffPut *bp)
 {
 	guint8   pad [112];
 	unsigned len;
-	char const *utf8_name = gnm_get_real_name ();
+	char const *utf8_name = go_get_real_name ();
 
 	if (utf8_name == NULL)
 		utf8_name = "";

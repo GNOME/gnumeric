@@ -78,7 +78,7 @@ static void
 cb_so_delete (SheetObject *so, SheetControl *sc)
 {
 	cmd_objects_delete (sc_wbc (sc), 
-		gnm_slist_create (so, NULL), NULL);
+		go_slist_create (so, NULL), NULL);
 }
 void
 sheet_object_get_editor (SheetObject *so, SheetControl *sc)
@@ -93,13 +93,13 @@ static void
 cb_so_cut (SheetObject *so, SheetControl *sc)
 {
 	gnm_app_clipboard_cut_copy_obj (sc_wbc (sc), TRUE, sc_view (sc),
-		gnm_slist_create (so, NULL));
+		go_slist_create (so, NULL));
 }
 static void
 cb_so_copy (SheetObject *so, SheetControl *sc)
 {
 	gnm_app_clipboard_cut_copy_obj (sc_wbc (sc), FALSE, sc_view (sc),
-		gnm_slist_create (so, NULL));
+		go_slist_create (so, NULL));
 }
 
 static void

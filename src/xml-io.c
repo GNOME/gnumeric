@@ -3870,7 +3870,7 @@ xml_dom_read_warning (gpointer state, char const *fmt, ...)
 	va_start (args, fmt);
 	if (gnumeric_io_warning_occurred (io_context))
 		gnumeric_io_error_push (io_context,
-			error_info_new_vprintf (GNM_ERROR, fmt, args));
+			error_info_new_vprintf (GO_ERROR, fmt, args));
 	else
 		gnm_io_warning_varargs (io_context, fmt, args);
 	va_end (args);
@@ -3882,7 +3882,7 @@ xml_dom_read_error (gpointer state, char const *fmt, ...)
 	ErrorInfo *ei;
 	va_list args;
 	va_start (args, fmt);
-	ei = error_info_new_vprintf (GNM_ERROR, fmt, args);
+	ei = error_info_new_vprintf (GO_ERROR, fmt, args);
 	va_end (args);
 
 	if (gnumeric_io_error_occurred (io_context))
@@ -3894,7 +3894,7 @@ xml_dom_read_error (gpointer state, char const *fmt, ...)
 
 static xmlSAXHandler xml_sax_prober;
 static gboolean
-xml_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+xml_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	xmlParserCtxt *parse_context;
 	GnmXMLProbeState is_gnumeric_xml = XML_PROBE_STATE_PROBING;
@@ -3957,7 +3957,7 @@ unref_input:
  * the actual in-memory structure.
  */
 static void
-gnumeric_xml_read_workbook (GnmFileOpener const *fo,
+gnumeric_xml_read_workbook (GOFileOpener const *fo,
                             IOContext *context,
                             gpointer wb_view,
                             GsfInput *input)
@@ -4033,7 +4033,7 @@ gnumeric_xml_read_workbook (GnmFileOpener const *fo,
 	ctxt->version = version;
 	xml_workbook_read (context, ctxt, res->xmlRootNode);
 	workbook_set_saveinfo (wb_view_workbook (ctxt->wb_view),
-		FILE_FL_AUTO, gnm_file_saver_for_id ("Gnumeric_xml_sax:xml_sax"));
+		FILE_FL_AUTO, go_file_saver_for_id ("Gnumeric_xml_sax:xml_sax"));
 
 	xml_parse_ctx_destroy (ctxt);
 	xmlFreeDoc (res);
@@ -4044,7 +4044,7 @@ gnumeric_xml_read_workbook (GnmFileOpener const *fo,
  * One build an in-memory XML tree and save it to a file.
  */
 static void
-gnumeric_xml_write_workbook (GnmFileSaver const *fs,
+gnumeric_xml_write_workbook (GOFileSaver const *fs,
                              IOContext *context,
                              gconstpointer wb_view,
                              GsfOutput *output)
@@ -4095,19 +4095,19 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 void
 xml_init (void)
 {
-	GSList *suffixes = gnm_slist_create (g_strdup ("gnumeric"), g_strdup ("xml"), NULL);
-	GSList *mimes = gnm_slist_create (g_strdup ("application/x-gnumeric"), NULL);
+	GSList *suffixes = go_slist_create (g_strdup ("gnumeric"), g_strdup ("xml"), NULL);
+	GSList *mimes = go_slist_create (g_strdup ("application/x-gnumeric"), NULL);
 	xml_sax_prober.comment    = NULL;
 	xml_sax_prober.warning    = NULL;
 	xml_sax_prober.error      = (errorSAXFunc) xml_probe_problem;
 	xml_sax_prober.fatalError = (fatalErrorSAXFunc) xml_probe_problem;
 	xml_sax_prober.startElement = (startElementSAXFunc) xml_probe_start_element;
-	gnm_file_opener_register (gnm_file_opener_new (
+	go_file_opener_register (go_file_opener_new (
 		"Gnumeric_XmlIO:gnum_xml",
 		_("Gnumeric XML (*.gnumeric)"),
 		suffixes, mimes,
 		xml_probe, gnumeric_xml_read_workbook), 50);
-	gnm_file_saver_register_as_default (gnm_file_saver_new (
+	go_file_saver_register_as_default (go_file_saver_new (
 		"Gnumeric_XmlIO:gnum_xml", "gnumeric",
 		_("Gnumeric XML (*.gnumeric) original slow exporter"),
 		FILE_FL_AUTO, gnumeric_xml_write_workbook), 30);

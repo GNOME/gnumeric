@@ -70,7 +70,7 @@ typedef struct {
 	GsfXMLOut *output;
 } GnmOutputXML;
 
-void	xml_sax_file_save (GnmFileSaver const *fs, IOContext *io_context,
+void	xml_sax_file_save (GOFileSaver const *fs, IOContext *io_context,
 			   WorkbookView const *wb_view, GsfOutput *output);
 
 #define GMR "gmr:"
@@ -1136,7 +1136,7 @@ xml_io_conventions (void)
 }
 
 void
-xml_sax_file_save (GnmFileSaver const *fs, IOContext *io_context,
+xml_sax_file_save (GOFileSaver const *fs, IOContext *io_context,
 		   WorkbookView const *wb_view, GsfOutput *output)
 {
 	GnmOutputXML state;

@@ -3979,7 +3979,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 				case SRE_error: {
 					/* FIXME: should go via expression.  */
 					GString *s = g_string_new ("=ERROR(");
-					gnm_strescape (s, cell_res.new_text);
+					go_strescape (s, cell_res.new_text);
 					g_string_append_c (s, ')');
 					g_free (cell_res.new_text);
 					cell_res.new_text = g_string_free (s, FALSE);
@@ -3988,7 +3988,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 				}
 				case SRE_string: {
 					GString *s = g_string_new (NULL);
-					gnm_strescape (s, cell_res.new_text);
+					go_strescape (s, cell_res.new_text);
 					cell_res.new_text = g_string_free (s, FALSE);
 					err = FALSE;
 					break;

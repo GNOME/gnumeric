@@ -244,7 +244,7 @@ format_template_new (void)
 	ft = g_new0 (FormatTemplate, 1);
 
 	ft->filename    = g_strdup ("");
-	ft->author      = g_strdup (gnm_get_real_name ());
+	ft->author      = g_strdup (go_get_real_name ());
 	ft->name        = g_strdup (N_("Name"));
 	ft->description = g_strdup ("");
 

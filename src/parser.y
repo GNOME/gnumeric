@@ -825,7 +825,7 @@ find_matching_close (char const *str, char const **res)
 			return str;
 		else if (*str == '\'' || *str == '\"') {
 			GString *dummy = g_string_new (NULL);
-			char const *end = gnm_strunescape (dummy, str);
+			char const *end = go_strunescape (dummy, str);
 			g_string_free (dummy, TRUE);
 			if (end == NULL)
 				return str + strlen (str);
@@ -1217,7 +1217,7 @@ yylex (void)
 	case '\'':
 	case '"': {
 		GString *s = g_string_new (NULL);
-		char const *end = gnm_strunescape (s, start);
+		char const *end = go_strunescape (s, start);
 
 		if (end == NULL) {
 			size_t len = strlen (start);

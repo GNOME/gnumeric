@@ -61,7 +61,7 @@ gnm_python_finalize (GObject *obj)
 	GnmPython *gpy = GNM_PYTHON (obj);
 
 	if (gpy->default_interpreter != NULL) {
-		GNM_SLIST_FOREACH (gpy->interpreters, GnmPyInterpreter, interpreter,
+		GO_SLIST_FOREACH (gpy->interpreters, GnmPyInterpreter, interpreter,
 			if (interpreter != gpy->default_interpreter) {
 				gnm_py_interpreter_destroy (interpreter, gpy->default_interpreter);
 			}
@@ -122,7 +122,7 @@ gnm_init_pygobject (ErrorInfo **err)
 {
 	PyObject *pygtk, *mdict, *require, *ret, *gobject, *cobject;
 	
-	GNM_INIT_RET_ERROR_INFO (err);
+	GO_INIT_RET_ERROR_INFO (err);
 	_PyGObject_API = NULL;
 	pygtk = PyImport_ImportModule((char *) "pygtk");
 	if (pygtk == NULL) {
@@ -167,7 +167,7 @@ gnm_init_pygobject (ErrorInfo **err)
 GnmPython *
 gnm_python_object_get (ErrorInfo **err)
 {
-	GNM_INIT_RET_ERROR_INFO (err);
+	GO_INIT_RET_ERROR_INFO (err);
 	if (!Py_IsInitialized ()) {
 		Py_Initialize ();
 #ifdef WITH_THREAD
@@ -209,7 +209,7 @@ gnm_python_new_interpreter (GnmPython *gpy, GOPlugin *plugin)
 	g_return_val_if_fail (IS_GNM_PLUGIN (plugin), NULL);
 
 	interpreter = gnm_py_interpreter_new (plugin);
-	GNM_SLIST_PREPEND (gpy->interpreters, interpreter);
+	GO_SLIST_PREPEND (gpy->interpreters, interpreter);
 	gpy->current_interpreter = interpreter;
 	g_signal_connect (
 		interpreter, "set_current", G_CALLBACK (cb_interpreter_switched), gpy);
@@ -226,7 +226,7 @@ gnm_python_destroy_interpreter (GnmPython *gpy, GnmPyInterpreter *interpreter)
 	g_return_if_fail (IS_GNM_PY_INTERPRETER (interpreter));
 	g_return_if_fail (interpreter != gpy->default_interpreter);
 
-	GNM_SLIST_REMOVE (gpy->interpreters, interpreter);
+	GO_SLIST_REMOVE (gpy->interpreters, interpreter);
 	gnm_py_interpreter_destroy (interpreter, gpy->default_interpreter);
 	g_object_unref (gpy);
 }

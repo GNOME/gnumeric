@@ -462,7 +462,7 @@ html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc,
 }
 
 void
-html_file_open (GnmFileOpener const *fo, IOContext *io_context,
+html_file_open (GOFileOpener const *fo, IOContext *io_context,
 		WorkbookView *wb_view, GsfInput *input)
 {
 	guint8 const *buf;

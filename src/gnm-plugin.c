@@ -44,10 +44,10 @@ plugin_service_function_group_finalize (GObject *obj)
 	service_function_group->category_name = NULL;
 	g_free (service_function_group->translated_category_name);
 	service_function_group->translated_category_name = NULL;
-	gnm_slist_free_custom (service_function_group->function_name_list, g_free);
+	go_slist_free_custom (service_function_group->function_name_list, g_free);
 	service_function_group->function_name_list = NULL;
 
-	parent_class = g_type_class_peek (GNM_PLUGIN_SERVICE_TYPE);
+	parent_class = g_type_class_peek (GO_PLUGIN_SERVICE_TYPE);
 	parent_class->finalize (obj);
 }
 
@@ -58,7 +58,7 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 	gchar *category_name, *translated_category_name;
 	GSList *function_name_list = NULL;
 
-	GNM_INIT_RET_ERROR_INFO (ret_error);
+	GO_INIT_RET_ERROR_INFO (ret_error);
 	category_node = e_xml_get_child_by_name_no_lang (tree, "category");
 	if (category_node != NULL) {
 		xmlChar *val;
@@ -98,9 +98,9 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 			    (func_name = xml_node_get_cstr (node, "name")) == NULL) {
 				continue;
 			}
-			GNM_SLIST_PREPEND (function_name_list, func_name);
+			GO_SLIST_PREPEND (function_name_list, func_name);
 		}
-		GNM_SLIST_REVERSE (function_name_list);
+		GO_SLIST_REVERSE (function_name_list);
 	}
 	if (category_name != NULL && function_name_list != NULL) {
 		PluginServiceFunctionGroup *service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
@@ -112,19 +112,19 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 		GSList *error_list = NULL;
 
 		if (category_name == NULL) {
-			GNM_SLIST_PREPEND (error_list, error_info_new_str (
+			GO_SLIST_PREPEND (error_list, error_info_new_str (
 				_("Missing function category name.")));
 		}
 		if (function_name_list == NULL) {
-			GNM_SLIST_PREPEND (error_list, error_info_new_str (
+			GO_SLIST_PREPEND (error_list, error_info_new_str (
 				_("Function group is empty.")));
 		}
-		GNM_SLIST_REVERSE (error_list);
+		GO_SLIST_REVERSE (error_list);
 		*ret_error = error_info_new_from_error_list (error_list);
 
 		g_free (category_name);
 		g_free (translated_category_name);
-		gnm_slist_free_custom (function_name_list, g_free);
+		go_slist_free_custom (function_name_list, g_free);
 	}
 }
 
@@ -162,9 +162,9 @@ plugin_service_function_group_func_ref_notify  (GnmFunc *fn_def, int refcount)
 	service = gnm_func_get_user_data (fn_def);
 	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 	if (refcount == 0) {
-		gnm_plugin_use_unref (service->plugin);
+		go_plugin_use_unref (service->plugin);
 	} else {
-		gnm_plugin_use_ref (service->plugin);
+		go_plugin_use_ref (service->plugin);
 	}
 }
 
@@ -173,11 +173,11 @@ plugin_service_function_group_activate (GOPluginService *service, ErrorInfo **re
 {
 	PluginServiceFunctionGroup *service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 
-	GNM_INIT_RET_ERROR_INFO (ret_error);
+	GO_INIT_RET_ERROR_INFO (ret_error);
 	service_function_group->func_group = gnm_func_group_fetch_with_translation (
 		service_function_group->category_name,
 		service_function_group->translated_category_name);
-	GNM_SLIST_FOREACH (service_function_group->function_name_list, char, fname,
+	GO_SLIST_FOREACH (service_function_group->function_name_list, char, fname,
 		GnmFunc *fn_def;
 
 		fn_def = gnm_func_add_stub (
@@ -194,8 +194,8 @@ plugin_service_function_group_deactivate (GOPluginService *service, ErrorInfo **
 {
 	PluginServiceFunctionGroup *service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 
-	GNM_INIT_RET_ERROR_INFO (ret_error);
-	GNM_SLIST_FOREACH (service_function_group->function_name_list, char, fname,
+	GO_INIT_RET_ERROR_INFO (ret_error);
+	GO_SLIST_FOREACH (service_function_group->function_name_list, char, fname,
 		gnm_func_free (gnm_func_lookup (fname, NULL));
 	);
 	service->is_active = FALSE;
@@ -223,7 +223,7 @@ plugin_service_function_group_get_description (GOPluginService *service)
 static void
 plugin_service_function_group_init (PluginServiceFunctionGroup *s)
 {
-	GNM_PLUGIN_SERVICE (s)->cbs_ptr = &s->cbs;
+	GO_PLUGIN_SERVICE (s)->cbs_ptr = &s->cbs;
 	s->category_name = NULL;
 	s->translated_category_name = NULL;
 	s->function_name_list = NULL;
@@ -243,7 +243,7 @@ plugin_service_function_group_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (PluginServiceFunctionGroup, plugin_service_function_group,
            plugin_service_function_group_class_init, plugin_service_function_group_init,
-           GNM_PLUGIN_SERVICE_SIMPLE_TYPE)
+           GO_PLUGIN_SERVICE_SIMPLE_TYPE)
 
 /****************************************************************************/
 
@@ -264,7 +264,7 @@ struct _PluginServiceUI {
 static void
 plugin_service_ui_init (PluginServiceUI *s)
 {
-	GNM_PLUGIN_SERVICE (s)->cbs_ptr = &s->cbs;
+	GO_PLUGIN_SERVICE (s)->cbs_ptr = &s->cbs;
 	s->file_name = NULL;
 	s->actions = NULL;
 	s->layout_id = NULL;
@@ -279,10 +279,10 @@ plugin_service_ui_finalize (GObject *obj)
 
 	g_free (service_ui->file_name);
 	service_ui->file_name = NULL;
-	gnm_slist_free_custom (service_ui->actions, (GFreeFunc)gnm_action_free);
+	go_slist_free_custom (service_ui->actions, (GFreeFunc)gnm_action_free);
 	service_ui->actions = NULL;
 
-	parent_class = g_type_class_peek (GNM_PLUGIN_SERVICE_TYPE);
+	parent_class = g_type_class_peek (GO_PLUGIN_SERVICE_TYPE);
 	parent_class->finalize (obj);
 }
 
@@ -317,7 +317,7 @@ plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo *
 	xmlNode *verbs_node;
 	GSList *actions = NULL;
 
-	GNM_INIT_RET_ERROR_INFO (ret_error);
+	GO_INIT_RET_ERROR_INFO (ret_error);
 	file_name = xml_node_get_cstr (tree, "file");
 	if (file_name == NULL) {
 		*ret_error = error_info_new_str (
@@ -346,10 +346,10 @@ plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, ErrorInfo *
 			if (NULL != name) xmlFree (label);
 			if (NULL != name) xmlFree (icon);
 			if (NULL != action)
-				GNM_SLIST_PREPEND (actions, action);
+				GO_SLIST_PREPEND (actions, action);
 		}
 	}
-	GNM_SLIST_REVERSE (actions);
+	GO_SLIST_REVERSE (actions);
 
 	service_ui->file_name = file_name;
 	service_ui->actions = actions;
@@ -364,9 +364,9 @@ plugin_service_ui_activate (GOPluginService *service, ErrorInfo **ret_error)
 	char *xml_ui;
 	char const *textdomain;
 
-	GNM_INIT_RET_ERROR_INFO (ret_error);
+	GO_INIT_RET_ERROR_INFO (ret_error);
 	full_file_name = g_build_filename (
-		gnm_plugin_get_dir_name (service->plugin),
+		go_plugin_get_dir_name (service->plugin),
 		service_ui->file_name, NULL);
 	if (!g_file_get_contents (full_file_name, &xml_ui, NULL, &err)) {
 		*ret_error = error_info_new_printf (
@@ -377,7 +377,7 @@ plugin_service_ui_activate (GOPluginService *service, ErrorInfo **ret_error)
 	}
 	g_free (full_file_name);
 
-	textdomain = gnm_plugin_get_textdomain (service->plugin);
+	textdomain = go_plugin_get_textdomain (service->plugin);
 	service_ui->layout_id = gnm_app_add_extra_ui (
 		service_ui->actions,
 		xml_ui, textdomain, service);
@@ -389,7 +389,7 @@ plugin_service_ui_deactivate (GOPluginService *service, ErrorInfo **ret_error)
 {
 	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
 
-	GNM_INIT_RET_ERROR_INFO (ret_error);
+	GO_INIT_RET_ERROR_INFO (ret_error);
 	gnm_app_remove_extra_ui (service_ui->layout_id);
 	service_ui->layout_id = NULL;
 	service->is_active = FALSE;
@@ -424,7 +424,7 @@ plugin_service_ui_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (PluginServiceUI, plugin_service_ui,
            plugin_service_ui_class_init, plugin_service_ui_init,
-           GNM_PLUGIN_SERVICE_TYPE)
+           GO_PLUGIN_SERVICE_TYPE)
 
 /****************************************************************************/
 
@@ -486,7 +486,7 @@ gnm_plugin_loader_module_load_service_function_group (GOPluginLoader  *loader,
 
 	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 
-	GNM_INIT_RET_ERROR_INFO (ret_error);
+	GO_INIT_RET_ERROR_INFO (ret_error);
 	fn_info_array_name = g_strconcat (
 		plugin_service_get_id (service), "_functions", NULL);
 	g_module_symbol (loader_module->handle, fn_info_array_name, (gpointer) &module_fn_info_array);
@@ -550,7 +550,7 @@ gnm_plugin_loader_module_func_exec_action (GOPluginService *service,
 
 	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_UI (service));
 
-	GNM_INIT_RET_ERROR_INFO (ret_error);
+	GO_INIT_RET_ERROR_INFO (ret_error);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	if (!g_hash_table_lookup_extended (loader_data->ui_actions_hash, action->id,
 	                                   NULL, &action_index_ptr)) {
@@ -575,7 +575,7 @@ gnm_plugin_loader_module_load_service_ui (GOPluginLoader *loader,
 
 	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_UI (service));
 
-	GNM_INIT_RET_ERROR_INFO (ret_error);
+	GO_INIT_RET_ERROR_INFO (ret_error);
 	ui_actions_array_name = g_strconcat (
 		plugin_service_get_id (service), "_ui_actions", NULL);
 	g_module_symbol (loader_module->handle, ui_actions_array_name, (gpointer) &module_ui_actions_array);
@@ -648,15 +648,15 @@ void
 gnm_plugins_init (GOCmdContext *context)
 {
 	char const *env_var;
-	GSList *dir_list = gnm_slist_create (
+	GSList *dir_list = go_slist_create (
 		gnm_sys_plugin_dir (), gnm_usr_plugin_dir (),
 		NULL);
 	dir_list = g_slist_concat (dir_list,
-		gnm_string_slist_copy (gnm_app_prefs->plugin_extra_dirs));
+		go_string_slist_copy (gnm_app_prefs->plugin_extra_dirs));
 
 	env_var = g_getenv ("GNUMERIC_PLUGIN_PATH");
 	if (env_var != NULL)
-		GNM_SLIST_CONCAT (dir_list, gnm_strsplit_to_slist (env_var, G_SEARCHPATH_SEPARATOR));
+		GO_SLIST_CONCAT (dir_list, go_strsplit_to_slist (env_var, G_SEARCHPATH_SEPARATOR));
 
 	go_plugins_init (GO_CMD_CONTEXT (context),
 		gnm_app_prefs->plugin_file_states,

@@ -1407,10 +1407,10 @@ oo_conventions (void)
 static GsfXMLInDoc *content_doc, *settings_doc, *styles_doc;
 
 void
-openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
+openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input);
 void
-openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
+openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input)
 {
 	char *old_num_locale, *old_monetary_locale;

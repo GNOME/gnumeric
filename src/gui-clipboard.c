@@ -150,7 +150,7 @@ table_cellregion_read (WorkbookControl *wbc, const char *reader_id,
 	Workbook *wb = NULL;
 	GList *l = NULL;
 	GnmCellRegion *ret = NULL;
-	const GnmFileOpener *reader = gnm_file_opener_for_id (reader_id);
+	const GOFileOpener *reader = go_file_opener_for_id (reader_id);
 	IOContext *ioc;
 	GsfInput *input;
 
@@ -356,7 +356,7 @@ table_cellregion_write (WorkbookControl *wbc, GnmCellRegion *cr,
 			char * saver_id, int *size)
 {
 	guchar *ret = NULL;
-	const GnmFileSaver *saver = gnm_file_saver_for_id (saver_id);
+	const GOFileSaver *saver = go_file_saver_for_id (saver_id);
 	GsfOutput *output;
 	IOContext *ioc;
 	Workbook *wb;
@@ -381,7 +381,7 @@ table_cellregion_write (WorkbookControl *wbc, GnmCellRegion *cr,
 	
 	paste_target_init (&pt, sheet, &r, PASTE_ALL_TYPES);
 	if (clipboard_paste_region (cr, &pt, GO_CMD_CONTEXT (wbc)) == FALSE) {
-		gnm_file_saver_save (saver, ioc, wb_view, output);
+		go_file_saver_save (saver, ioc, wb_view, output);
 		if (!gnumeric_io_error_occurred (ioc)) {
 			GsfOutputMemory *omem = GSF_OUTPUT_MEMORY (output);
 			gsf_off_t osize = gsf_output_size (output);

@@ -53,9 +53,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-gboolean excel_xml_file_probe (GnmFileOpener const *fo, GsfInput *input,
+gboolean excel_xml_file_probe (GOFileOpener const *fo, GsfInput *input,
 			       FileProbeLevel pl);
-void     excel_xml_file_open (GnmFileOpener const *fo, IOContext *io_context,
+void     excel_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 			      WorkbookView *wb_view, GsfInput *input);
 
 /*****************************************************************************/
@@ -180,7 +180,7 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", FALSE, FALSE, TRUE,
 static GsfXMLInDoc *doc;
 
 void
-excel_xml_file_open (GnmFileOpener const *fo, IOContext *io_context,
+excel_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 		     WorkbookView *wb_view, GsfInput *input)
 {
 	ExcelXMLReadState state;

@@ -68,7 +68,7 @@ struct _WorkbookControlGUI {
 
 	PangoFontDescription *font_desc;
 
-	GnmFileSaver *current_saver;
+	GOFileSaver *current_saver;
 };
 
 typedef struct {

@@ -743,7 +743,7 @@ sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb,
 	*sheet = NULL;
 	if (*start == '\'' || *start == '"') {
 		sheet_name = g_string_new (NULL);
-		end = gnm_strunescape (sheet_name, start);
+		end = go_strunescape (sheet_name, start);
 		if (end == NULL) {
 			g_string_free (sheet_name, TRUE);
 			return start;

@@ -20,7 +20,7 @@ GType python_get_loader_type (ErrorInfo **ret_error);
 G_MODULE_EXPORT GType
 python_get_loader_type (ErrorInfo **ret_error)
 {
-	GNM_INIT_RET_ERROR_INFO (ret_error);
+	GO_INIT_RET_ERROR_INFO (ret_error);
 	return TYPE_GNM_PYTHON_PLUGIN_LOADER;
 }
 

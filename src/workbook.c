@@ -64,9 +64,9 @@ enum {
 static guint signals [LAST_SIGNAL] = { 0 };
 
 static void
-cb_saver_finalize (Workbook *wb, GnmFileSaver *saver)
+cb_saver_finalize (Workbook *wb, GOFileSaver *saver)
 {
-	g_return_if_fail (IS_GNM_FILE_SAVER (saver));
+	g_return_if_fail (IS_GO_FILE_SAVER (saver));
 	g_return_if_fail (IS_WORKBOOK (wb));
 	g_return_if_fail (wb->file_saver == saver);
 	wb->file_saver = NULL;
@@ -411,11 +411,11 @@ workbook_new (void)
 	static int count = 0;
 	gboolean is_unique;
 	Workbook  *wb;
-	GnmFileSaver *def_save = gnm_file_saver_get_default ();
+	GOFileSaver *def_save = go_file_saver_get_default ();
 	char const *extension = NULL;
 
 	if (def_save != NULL)
-		extension = gnm_file_saver_get_extension (def_save);
+		extension = go_file_saver_get_extension (def_save);
 	if (extension == NULL)
 		extension = "gnumeric";
 
@@ -575,7 +575,7 @@ workbook_metadata (Workbook const *wb)
  * FIXME : Add a check to ensure the name is unique.
  */
 gboolean
-workbook_set_saveinfo (Workbook *wb, FileFormatLevel level, GnmFileSaver *fs)
+workbook_set_saveinfo (Workbook *wb, FileFormatLevel level, GOFileSaver *fs)
 {
 	g_return_val_if_fail (wb != NULL, FALSE);
 	g_return_val_if_fail (level > FILE_FL_NONE && level <= FILE_FL_AUTO,
@@ -597,7 +597,7 @@ workbook_set_saveinfo (Workbook *wb, FileFormatLevel level, GnmFileSaver *fs)
 	return TRUE;
 }
 
-GnmFileSaver *
+GOFileSaver *
 workbook_get_file_saver (Workbook *wb)
 {
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
@@ -948,7 +948,7 @@ workbook_sheet_attach (Workbook *wb, Sheet *new_sheet,
 	pre_sheet_index_change (wb);
 	if (insert_after != NULL) {
 		int pos = insert_after->index_in_wb;
-		gnm_ptr_array_insert (wb->sheets, (gpointer)new_sheet, ++pos);
+		go_ptr_array_insert (wb->sheets, (gpointer)new_sheet, ++pos);
 		workbook_sheet_index_update (wb, pos);
 	} else {
 		g_ptr_array_add (wb->sheets, new_sheet);
@@ -1182,7 +1182,7 @@ workbook_sheet_move (Sheet *sheet, int direction)
 		int max_pos = MAX (old_pos, new_pos);
 
 		g_ptr_array_remove_index (wb->sheets, old_pos);
-		gnm_ptr_array_insert (wb->sheets, sheet, new_pos);
+		go_ptr_array_insert (wb->sheets, sheet, new_pos);
 
 		for (; max_pos >= min_pos ; max_pos--) {
 			Sheet *sheet = g_ptr_array_index (wb->sheets, max_pos);
@@ -1343,7 +1343,7 @@ workbook_sheet_rename_check (Workbook *wb,
 				if (new_name->next != NULL &&
 				    g_slist_find_custom (new_name->next, 
 							 the_new_name, 
-							 gnm_str_compare) != NULL) {
+							 go_str_compare) != NULL) {
 					go_cmd_context_error_invalid (cc,
 						_("You may not use this name twice"),
 						the_new_name);
@@ -1574,7 +1574,7 @@ workbook_sheet_reorder (Workbook *wb, GSList *new_order)
 				int min_pos = MIN (old_pos, new_pos);
 
 				g_ptr_array_remove_index (wb->sheets, old_pos);
-				gnm_ptr_array_insert (wb->sheets, sheet, new_pos);
+				go_ptr_array_insert (wb->sheets, sheet, new_pos);
 				for (; max_pos >= min_pos ; max_pos--) {
 					Sheet *sheet = g_ptr_array_index (wb->sheets, max_pos);
 					sheet->index_in_wb = max_pos;

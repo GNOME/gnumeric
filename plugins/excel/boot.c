@@ -59,11 +59,11 @@ gint ms_excel_write_debug = 0;
 /* Enables debugging mesgs while reading excel objects */
 gint ms_excel_object_debug = 0;
 
-gboolean excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
-void excel_file_open (GnmFileOpener const *fo, IOContext *context, WorkbookView *wbv, GsfInput *input);
-void excel_biff7_file_save (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
-void excel_biff8_file_save (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
-void excel_dsf_file_save   (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
+gboolean excel_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
+void excel_file_open (GOFileOpener const *fo, IOContext *context, WorkbookView *wbv, GsfInput *input);
+void excel_biff7_file_save (GOFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
+void excel_biff8_file_save (GOFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
+void excel_dsf_file_save   (GOFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
 
 static GsfInput *
 find_content_stream (GsfInfile *ole, gboolean *is_97)
@@ -88,7 +88,7 @@ find_content_stream (GsfInfile *ole, gboolean *is_97)
 }
 
 gboolean
-excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+excel_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	GsfInfile *ole;
 	GsfInput  *stream;
@@ -144,7 +144,7 @@ excel_read_metadata (Workbook  *wb, GsfInfile *ole, char const *name,
  * Load en excel workbook.
  */
 void
-excel_file_open (GnmFileOpener const *fo, IOContext *context,
+excel_file_open (GOFileOpener const *fo, IOContext *context,
                  WorkbookView *wbv, GsfInput *input)
 {
 	GsfInput  *stream = NULL;
@@ -208,13 +208,13 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 	/* simple guess of format based on stream names */
 	if (is_double_stream_file)
 		workbook_set_saveinfo (wb, FILE_FL_AUTO,
-			gnm_file_saver_for_id ("Gnumeric_Excel:excel_dsf"));
+			go_file_saver_for_id ("Gnumeric_Excel:excel_dsf"));
 	else if (is_97)
 		workbook_set_saveinfo (wb, FILE_FL_AUTO,
-			gnm_file_saver_for_id ("Gnumeric_Excel:excel_biff8"));
+			go_file_saver_for_id ("Gnumeric_Excel:excel_biff8"));
 	else
 		workbook_set_saveinfo (wb, FILE_FL_AUTO,
-			gnm_file_saver_for_id ("Gnumeric_Excel:excel_biff7"));
+			go_file_saver_for_id ("Gnumeric_Excel:excel_biff7"));
 }
 
 static void
@@ -281,20 +281,20 @@ excel_save (IOContext *context, WorkbookView const *wbv, GsfOutput *output,
 }
 
 void
-excel_dsf_file_save (GnmFileSaver const *fs, IOContext *context,
+excel_dsf_file_save (GOFileSaver const *fs, IOContext *context,
 		       WorkbookView const *wbv, GsfOutput *output)
 {
 	excel_save (context, wbv, output, TRUE, TRUE);
 }
 void
-excel_biff8_file_save (GnmFileSaver const *fs, IOContext *context,
+excel_biff8_file_save (GOFileSaver const *fs, IOContext *context,
 		       WorkbookView const *wbv, GsfOutput *output)
 {
 	excel_save (context, wbv, output, FALSE, TRUE);
 }
 
 void
-excel_biff7_file_save (GnmFileSaver const *fs, IOContext *context,
+excel_biff7_file_save (GOFileSaver const *fs, IOContext *context,
 		       WorkbookView const *wbv, GsfOutput *output)
 {
 	excel_save (context, wbv, output, TRUE, FALSE);

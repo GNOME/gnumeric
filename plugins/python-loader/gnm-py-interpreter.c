@@ -253,7 +253,7 @@ gnm_py_interpreter_get_name (GnmPyInterpreter *interpreter)
 	g_return_val_if_fail (IS_GNM_PY_INTERPRETER (interpreter), NULL);
 
 	if (interpreter->plugin != NULL) {
-		return gnm_plugin_get_name (interpreter->plugin);
+		return go_plugin_get_name (interpreter->plugin);
 	} else {
 		return _("Default interpreter");
 	}
@@ -279,7 +279,7 @@ gnm_py_interpreter_compare (gconstpointer a, gconstpointer b)
 	} else if (int_b->plugin == NULL) {
 		return 1;
 	} else {
-		return g_utf8_collate (gnm_plugin_get_name (int_a->plugin),
-				       gnm_plugin_get_name (int_b->plugin));
+		return g_utf8_collate (go_plugin_get_name (int_a->plugin),
+				       go_plugin_get_name (int_b->plugin));
 	}
 }

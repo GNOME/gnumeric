@@ -59,7 +59,7 @@
 #include <errno.h>
 #include <string.h>
 
-#undef CHECK_MENU_UNDERLINES
+#define CHECK_MENU_UNDERLINES
 
 struct _WBCgtk {
 	WorkbookControlGUI base;

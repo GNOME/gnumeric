@@ -100,7 +100,7 @@ menu_add_item_with_interpreter (GnmPyInterpreterSelector *sel,
 	}
 	gtk_list_store_set (store, &iter, 0, gnm_py_interpreter_get_name (interpreter),
 				1, interpreter, -1);
-	GNM_SLIST_PREPEND (sel->added_interpreters, interpreter);
+	GO_SLIST_PREPEND (sel->added_interpreters, interpreter);
 	g_object_weak_ref (
 		G_OBJECT (interpreter), (GWeakNotify) cb_destroyed_interpreter, sel);
 }
@@ -136,7 +136,7 @@ cb_destroyed_interpreter (GnmPyInterpreterSelector *sel,
 	GtkTreePath *path = find_item_with_interpreter (sel, ex_interpreter);
 	g_return_if_fail (path != NULL);
 
-	GNM_SLIST_REMOVE (sel->added_interpreters, ex_interpreter);
+	GO_SLIST_REMOVE (sel->added_interpreters, ex_interpreter);
 	gtk_tree_model_get_iter (model, &iter, path);
 	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 	gtk_tree_path_free (path);
@@ -180,7 +180,7 @@ gnm_py_interpreter_selector_finalize (GObject *obj)
 		g_signal_handlers_disconnect_by_func (
 			sel->py_object, G_CALLBACK (cb_created_interpreter), 
 			sel);
-	GNM_SLIST_FOREACH (sel->added_interpreters, GnmPyInterpreter, interpreter,
+	GO_SLIST_FOREACH (sel->added_interpreters, GnmPyInterpreter, interpreter,
 		g_object_weak_unref (
 			G_OBJECT (interpreter), (GWeakNotify) cb_destroyed_interpreter, sel);
 	);
@@ -229,7 +229,7 @@ gnm_py_interpreter_selector_new (ErrorInfo **err)
 	GObject *obj = g_object_new (GNM_PY_INTERPRETER_SELECTOR_TYPE, NULL);
 	GnmPyInterpreterSelector *sel = GNM_PY_INTERPRETER_SELECTOR (obj);
 	
-	GNM_INIT_RET_ERROR_INFO (err);
+	GO_INIT_RET_ERROR_INFO (err);
 	sel->py_object = gnm_python_object_get (err);
 	if (sel->py_object == NULL) {
 		gtk_object_sink (GTK_OBJECT (obj));
@@ -242,9 +242,9 @@ gnm_py_interpreter_selector_new (ErrorInfo **err)
 	sel->cur_interpreter = gnm_python_get_default_interpreter (sel->py_object);
 
 	interpreters = g_slist_copy (gnm_python_get_interpreters (sel->py_object));
-	GNM_SLIST_SORT (interpreters, gnm_py_interpreter_compare);
+	GO_SLIST_SORT (interpreters, gnm_py_interpreter_compare);
 	g_assert (interpreters != NULL);
-	GNM_SLIST_FOREACH (interpreters, GnmPyInterpreter, interpreter,
+	GO_SLIST_FOREACH (interpreters, GnmPyInterpreter, interpreter,
 		menu_add_item_with_interpreter (sel, interpreter, -1);
 	);
 	path = find_item_with_interpreter (sel, sel->cur_interpreter);

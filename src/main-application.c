@@ -259,7 +259,7 @@ gnumeric_arg_parse (int argc, char const *argv [])
 static void
 store_plugin_state (void)
 {
-	GSList *active_plugins = plugins_get_active_plugins ();
+	GSList *active_plugins = go_plugins_get_active_plugins ();
 	gnm_gconf_set_active_plugins (active_plugins);
 	g_slist_free (active_plugins);
 }

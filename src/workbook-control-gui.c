@@ -2072,7 +2072,7 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 		}
 		g_object_unref (ioc);
 
-		gnm_slist_free_custom (urls, (GFreeFunc)g_free);
+		go_slist_free_custom (urls, (GFreeFunc)g_free);
 	} else if (!strcmp (target_type, "GNUMERIC_SHEET")) {
 		/* The user wants to reorder the sheets but hasn't dropped
 		 * the sheet onto a label. Never mind. We figure out

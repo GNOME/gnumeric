@@ -52,19 +52,19 @@ typedef struct {
 static gint
 file_opener_description_cmp (gconstpointer a, gconstpointer b)
 {
-	GnmFileOpener const *fo_a = a, *fo_b = b;
+	GOFileOpener const *fo_a = a, *fo_b = b;
 
-	return g_utf8_collate (gnm_file_opener_get_description (fo_a),
-			       gnm_file_opener_get_description (fo_b));
+	return g_utf8_collate (go_file_opener_get_description (fo_a),
+			       go_file_opener_get_description (fo_b));
 }
 
 static gint
 file_saver_description_cmp (gconstpointer a, gconstpointer b)
 {
-	GnmFileSaver const *fs_a = a, *fs_b = b;
+	GOFileSaver const *fs_a = a, *fs_b = b;
 
-	return g_utf8_collate (gnm_file_saver_get_description (fs_a),
-			       gnm_file_saver_get_description (fs_b));
+	return g_utf8_collate (go_file_saver_get_description (fs_a),
+			       go_file_saver_get_description (fs_b));
 }
 
 static void
@@ -78,12 +78,12 @@ make_format_chooser (GList *list, GtkComboBox *combo)
 
 		if (!l->data)
 			descr = _("Automatically detected");
-		else if (IS_GNM_FILE_OPENER (l->data))
-			descr = gnm_file_opener_get_description (
-						GNM_FILE_OPENER (l->data));
+		else if (IS_GO_FILE_OPENER (l->data))
+			descr = go_file_opener_get_description (
+						GO_FILE_OPENER (l->data));
 		else
-			descr = gnm_file_saver_get_description (
-				                GNM_FILE_SAVER (l->data));
+			descr = go_file_saver_get_description (
+				                GO_FILE_SAVER (l->data));
 
 		gtk_combo_box_append_text (combo, descr);
 	}
@@ -116,7 +116,7 @@ gui_wb_view_show (WorkbookControlGUI *wbcg, WorkbookView *wbv)
 
 gboolean
 gui_file_read (WorkbookControlGUI *wbcg, char const *uri,
-	       GnmFileOpener const *optional_format, gchar const *optional_encoding)
+	       GOFileOpener const *optional_format, gchar const *optional_encoding)
 {
 	IOContext *io_context;
 	WorkbookView *wbv;
@@ -144,9 +144,9 @@ static void
 file_format_changed_cb (GtkComboBox *format_combo,
 			file_format_changed_cb_data *data)
 {
-	GnmFileOpener *fo = g_list_nth_data (data->openers,
+	GOFileOpener *fo = g_list_nth_data (data->openers,
 		gtk_combo_box_get_active (format_combo));
-	gboolean is_sensitive = fo != NULL && gnm_file_opener_is_encoding_dependent (fo);
+	gboolean is_sensitive = fo != NULL && go_file_opener_is_encoding_dependent (fo);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (data->go_charmap_sel), is_sensitive);
 	gtk_widget_set_sensitive (data->charmap_label, is_sensitive);
@@ -163,8 +163,8 @@ file_opener_find_by_id (GList *openers, char const *id)
 		return 0;
 	
 	for (l = openers; l != NULL; l = l->next, i++) {
-		if (IS_GNM_FILE_OPENER (l->data) &&
-		    strcmp (id, gnm_file_opener_get_id(l->data)) == 0)
+		if (IS_GO_FILE_OPENER (l->data) &&
+		    strcmp (id, go_file_opener_get_id(l->data)) == 0)
 			return i;
 	}
 
@@ -187,7 +187,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	char const *title;
 	char *uri = NULL;
 	const char *encoding = NULL;
-	GnmFileOpener *fo = NULL;
+	GOFileOpener *fo = NULL;
 	Workbook *workbook = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 
 	openers = g_list_sort (g_list_copy (get_file_openers ()),
@@ -197,7 +197,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	opener_default = file_opener_find_by_id (openers, default_format);
 	title = (opener_default == 0)
 		? _("Load file") 
-		: (gnm_file_opener_get_description 
+		: (go_file_opener_get_description 
 		   (g_list_nth_data (openers, opener_default)));
 	data.openers = openers;
 
@@ -251,14 +251,14 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 		filter = gtk_file_filter_new ();
 		gtk_file_filter_set_name (filter, _("Spreadsheets"));
 		for (l = openers->next; l; l = l->next) {
-			GnmFileOpener const *o = l->data;
+			GOFileOpener const *o = l->data;
 			GSList const *ptr;
-			for (ptr = gnm_file_opener_get_suffixes	(o); ptr != NULL ; ptr = ptr->next) {
+			for (ptr = go_file_opener_get_suffixes	(o); ptr != NULL ; ptr = ptr->next) {
 				char *pattern = g_strconcat ("*.", ptr->data, NULL);
 				gtk_file_filter_add_pattern (filter, pattern);
 				g_free (pattern);
 			}
-			for (ptr = gnm_file_opener_get_mimes	(o); ptr != NULL ; ptr = ptr->next)
+			for (ptr = go_file_opener_get_mimes	(o); ptr != NULL ; ptr = ptr->next)
 				gtk_file_filter_add_mime_type (filter, ptr->data);
 
 		}
@@ -313,13 +313,13 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 }
 
 static gboolean
-check_multiple_sheet_support_if_needed (GnmFileSaver *fs,
+check_multiple_sheet_support_if_needed (GOFileSaver *fs,
 					GtkWindow *parent,
 					WorkbookView *wb_view)
 {
 	gboolean ret_val = TRUE;
 
-	if (gnm_file_saver_get_save_scope (fs) != FILE_SAVE_WORKBOOK &&
+	if (go_file_saver_get_save_scope (fs) != FILE_SAVE_WORKBOOK &&
 	    gnm_app_prefs->file_ask_single_sheet_save) {
 		GList *sheets;
 		gchar *msg = _("Selected file format doesn't support "
@@ -343,7 +343,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	GList *savers = NULL, *l;
 	GtkFileChooser *fsel;
 	GtkComboBox *format_combo;
-	GnmFileSaver *fs;
+	GOFileSaver *fs;
 	gboolean success  = FALSE;
 	gchar const *wb_uri;
 	char *uri;
@@ -352,7 +352,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 
 	for (l = get_file_savers (); l; l = l->next) {
 		if ((l->data == NULL) || 
-		    (gnm_file_saver_get_save_scope (GNM_FILE_SAVER (l->data)) 
+		    (go_file_saver_get_save_scope (GO_FILE_SAVER (l->data)) 
 		     != FILE_SAVE_RANGE))
 			savers = g_list_prepend (savers, l->data);
 	}
@@ -382,9 +382,9 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		filter = gtk_file_filter_new ();
 		gtk_file_filter_set_name (filter, _("Spreadsheets"));
 		for (l = savers->next; l; l = l->next) {
-			GnmFileSaver *fs = l->data;
-			const char *ext = gnm_file_saver_get_extension (fs);
-			const char *mime = gnm_file_saver_get_mime_type (fs);
+			GOFileSaver *fs = l->data;
+			const char *ext = go_file_saver_get_extension (fs);
+			const char *mime = go_file_saver_get_mime_type (fs);
 
 			if (mime)
 				gtk_file_filter_add_mime_type (filter, mime);
@@ -420,7 +420,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	if (fs == NULL)
 		fs = workbook_get_file_saver (wb_view_workbook (wb_view));
 	if (fs == NULL || g_list_find (savers, fs) == NULL)
-		fs = gnm_file_saver_get_default ();
+		fs = go_file_saver_get_default ();
 
 	gtk_combo_box_set_active (format_combo, g_list_index (savers, fs));
 
@@ -451,7 +451,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 			goto out;
 		uri = gtk_file_chooser_get_uri (fsel);
 		if (!go_url_check_extension (uri,
-					     gnm_file_saver_get_extension (fs), 
+					     go_file_saver_get_extension (fs), 
 					     &uri2) &&
 		    !go_gtk_query_yes_no (GTK_WINDOW (fsel),
 					  TRUE,

@@ -265,7 +265,7 @@ sheet_object_graph_populate_menu (SheetObject *so, GPtrArray *actions)
 	static SheetObjectAction const sog_action =
 		{ GTK_STOCK_SAVE_AS, N_("_Save as image"), NULL, 0, sog_cb_save_as };
 	SHEET_OBJECT_CLASS (parent_klass)->populate_menu (so, actions);
-	gnm_ptr_array_insert (actions, (gpointer) &sog_action, 1);
+	go_ptr_array_insert (actions, (gpointer) &sog_action, 1);
 }
 
 static gboolean

@@ -68,8 +68,8 @@ char const    *workbook_get_uri		(Workbook const *wb);
 char const    *workbook_get_basename	(Workbook const *wb);
 
 gboolean       workbook_set_saveinfo	(Workbook *wb,
-					 FileFormatLevel, GnmFileSaver *);
-GnmFileSaver *workbook_get_file_saver	(Workbook *wb);
+					 FileFormatLevel, GOFileSaver *);
+GOFileSaver *workbook_get_file_saver	(Workbook *wb);
 
 gboolean    workbook_is_pristine	(Workbook const *wb);
 void        workbook_set_dirty		(Workbook *wb, gboolean is_dirty);

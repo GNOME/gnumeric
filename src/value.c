@@ -816,7 +816,7 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 		GnmStdError e = value_error_classify (v);
 		if (e == GNM_ERROR_UNKNOWN) {
 			g_string_append_c (target, '#');
-			gnm_strescape (target, v->v_err.mesg->str);
+			go_strescape (target, v->v_err.mesg->str);
 		} else
 			g_string_append (target, value_error_name (e, conv->output_translated));
 		return;
@@ -878,7 +878,7 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 
 				/* quote strings */
 				if (val->type == VALUE_STRING)
-					gnm_strescape (target, val->v_str.val->str);
+					go_strescape (target, val->v_str.val->str);
 				else
 					value_get_as_gstring (val, target, conv);
 			}

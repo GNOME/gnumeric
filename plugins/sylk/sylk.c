@@ -43,8 +43,8 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-gboolean sylk_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
-void     sylk_file_open (GnmFileOpener const *fo, IOContext *io_context,
+gboolean sylk_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
+void     sylk_file_open (GOFileOpener const *fo, IOContext *io_context,
                          WorkbookView *wb_view, GsfInput *input);
 
 typedef struct {
@@ -479,7 +479,7 @@ sylk_parse_sheet (SylkReadState *state, ErrorInfo **ret_error)
 }
 
 void
-sylk_file_open (GnmFileOpener const *fo,
+sylk_file_open (GOFileOpener const *fo,
 		IOContext	*io_context,
                 WorkbookView	*wb_view,
 		GsfInput	*input)
@@ -537,7 +537,7 @@ sylk_file_open (GnmFileOpener const *fo,
 }
 
 gboolean
-sylk_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+sylk_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	char const *header = NULL;
 	if (!gsf_input_seek (input, 0, G_SEEK_SET))

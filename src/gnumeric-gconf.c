@@ -850,7 +850,7 @@ gnm_gconf_set_printer_header (gchar const *left, gchar const *middle,
 	list = g_slist_prepend (list, g_strdup (middle));
 	list = g_slist_prepend (list, g_strdup (left));
 	go_conf_set_str_list (PRINTSETUP_GCONF_HEADER, list);
-	gnm_slist_free_custom ((GSList *)prefs.printer_header, g_free);
+	go_slist_free_custom ((GSList *)prefs.printer_header, g_free);
 	prefs.printer_header = list;
 }
 
@@ -863,7 +863,7 @@ gnm_gconf_set_printer_footer (gchar const *left, gchar const *middle,
 	list = g_slist_prepend (list, g_strdup (middle));
 	list = g_slist_prepend (list, g_strdup (left));
 	go_conf_set_str_list (PRINTSETUP_GCONF_FOOTER, list);
-	gnm_slist_free_custom ((GSList *)prefs.printer_footer, g_free);
+	go_slist_free_custom ((GSList *)prefs.printer_footer, g_free);
 	prefs.printer_footer = list;
 }
 
@@ -935,11 +935,11 @@ gnm_gconf_set_print_header_formats (GSList *left, GSList *middle,
 				    GSList *right)
 {
 	go_conf_set_str_list (PRINTSETUP_GCONF_HEADER_FORMAT_LEFT, left);
-	gnm_slist_free_custom (left, g_free);
+	go_slist_free_custom (left, g_free);
 	go_conf_set_str_list (PRINTSETUP_GCONF_HEADER_FORMAT_MIDDLE, middle);
-	gnm_slist_free_custom (middle, g_free);
+	go_slist_free_custom (middle, g_free);
 	go_conf_set_str_list (PRINTSETUP_GCONF_HEADER_FORMAT_RIGHT, right);
-	gnm_slist_free_custom (right, g_free);
+	go_slist_free_custom (right, g_free);
 }
 
 void     

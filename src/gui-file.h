@@ -9,7 +9,7 @@ void     gui_file_open      (WorkbookControlGUI *wbcg,
 			     char const *default_format);
 void     gui_wb_view_show   (WorkbookControlGUI *wbcg, WorkbookView *wbv);
 gboolean gui_file_read	    (WorkbookControlGUI *wbcg, char const *file_name,
-			     GnmFileOpener const *optional_format,
+			     GOFileOpener const *optional_format,
 			     gchar const *optional_encoding);
 
 #endif /* GNUMERIC_GUI_FILE_H */

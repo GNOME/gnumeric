@@ -27,11 +27,11 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-void paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
+void paradox_file_open (GOFileOpener const *fo, IOContext *io_context,
                         WorkbookView *wb_view, GsfInput *input);
 
 gboolean
-paradox_file_probe (GnmFileOpener const *fo, GsfInput *input,
+paradox_file_probe (GOFileOpener const *fo, GsfInput *input,
                     FileProbeLevel pl);
 
 static void *gn_malloc(pxdoc_t *p, size_t len, const char *caller) {
@@ -52,7 +52,7 @@ static void gn_errorhandler(pxdoc_t *p, int error, const char *str, void *data) 
 }
 
 void
-paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
+paradox_file_open (GOFileOpener const *fo, IOContext *io_context,
                    WorkbookView *wb_view, GsfInput *input)
 {
 	Workbook  *wb;
@@ -260,7 +260,7 @@ paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
 }
 
 gboolean
-paradox_file_probe (GnmFileOpener const *fo, GsfInput *input,
+paradox_file_probe (GOFileOpener const *fo, GsfInput *input,
                     FileProbeLevel pl)
 {
 	pxdoc_t	  *pxdoc;

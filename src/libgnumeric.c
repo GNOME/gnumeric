@@ -50,6 +50,7 @@
 
 #include <locale.h>
 #include <glade/glade.h>
+#include <gnumeric-config.h>
 
 /* The debugging level */
 int gnumeric_debugging = 0;

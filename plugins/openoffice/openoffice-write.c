@@ -72,7 +72,7 @@ typedef struct {
 	Workbook const	   *wb;
 } GnmOOExport;
 
-void	openoffice_file_save (GnmFileSaver const *fs, IOContext *ioc,
+void	openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 			      WorkbookView const *wbv, GsfOutput *output);
 
 static void
@@ -271,7 +271,7 @@ oo_write_manifest (GnmOOExport *state, GsfOutput *child)
 /**********************************************************************************/
 
 void
-openoffice_file_save (GnmFileSaver const *fs, IOContext *ioc,
+openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 		      WorkbookView const *wbv, GsfOutput *output)
 {
 	static struct {

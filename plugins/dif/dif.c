@@ -30,9 +30,9 @@ GNM_PLUGIN_MODULE_HEADER;
 
 #define N_INPUT_LINES_BETWEEN_UPDATES   50
 
-void dif_file_open (GnmFileOpener const *fo, IOContext *io_context,
+void dif_file_open (GOFileOpener const *fo, IOContext *io_context,
                     WorkbookView *wbv, GsfInput *input);
-void dif_file_save (GnmFileSaver const *fs, IOContext *io_context,
+void dif_file_save (GOFileSaver const *fs, IOContext *io_context,
                     WorkbookView const *wbv, GsfOutput *output);
 
 typedef struct {
@@ -251,14 +251,14 @@ dif_parse_sheet (DifInputContext *ctxt)
 }
 
 void
-dif_file_open (GnmFileOpener const *fo, IOContext *io_context,
+dif_file_open (GOFileOpener const *fo, IOContext *io_context,
                WorkbookView *wbv, GsfInput *input)
 {
 	Workbook *wb = wb_view_workbook (wbv);
 	DifInputContext *ctxt = dif_input_context_new (io_context, wb, input);
 
 	workbook_set_saveinfo (wb, FILE_FL_MANUAL_REMEMBER,
-		gnm_file_saver_for_id ("Gnumeric_dif:dif"));
+		go_file_saver_for_id ("Gnumeric_dif:dif"));
 	if (ctxt != NULL) {
 		dif_parse_sheet (ctxt);
 		if (gnumeric_io_error_occurred (io_context))
@@ -273,7 +273,7 @@ dif_file_open (GnmFileOpener const *fo, IOContext *io_context,
  * Write _current_ sheet of the workbook to a DIF format file
  */
 void
-dif_file_save (GnmFileSaver const *fs, IOContext *io_context,
+dif_file_save (GOFileSaver const *fs, IOContext *io_context,
                WorkbookView const *wbv, GsfOutput *output)
 {
 	Sheet *sheet;

@@ -99,7 +99,7 @@ gplp_set_attributes (GnmPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret
 
 	gchar *module_name = NULL;
 
-	GNM_INIT_RET_ERROR_INFO (ret_error);
+	GO_INIT_RET_ERROR_INFO (ret_error);
 	module_name = g_hash_table_lookup (attrs, "module_name");
 	if (module_name) {
 		loader_perl->module_name = g_strdup (module_name);
@@ -147,7 +147,7 @@ gplp_load_service_function_group (GnmPluginLoader *loader,
 
 	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 
-	GNM_INIT_RET_ERROR_INFO (ret_error);
+	GO_INIT_RET_ERROR_INFO (ret_error);
 
 	cbs = plugin_service_get_cbs (service);
 	cbs->func_desc_load = &gplp_func_desc_load;

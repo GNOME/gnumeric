@@ -5172,7 +5172,7 @@ excel_read_FILEPASS (BiffQuery *q, ExcelWorkbook *ewb)
 		if (ms_biff_query_set_decrypt (q, ewb->container.ver, passwd))
 			return NULL;
 
-		gnm_destroy_password (passwd);
+		go_destroy_password (passwd);
 		g_free (passwd);
 	}
 }

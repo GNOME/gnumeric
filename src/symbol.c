@@ -100,7 +100,8 @@ symbol_table_new (void)
 {
 	SymbolTable *st = g_new (SymbolTable, 1);
 
-	st->hash = g_hash_table_new (gnm_ascii_strcase_hash, gnm_ascii_strcase_equal);
+	st->hash = g_hash_table_new (go_ascii_strcase_hash,
+				     go_ascii_strcase_equal);
 
 	return st;
 }

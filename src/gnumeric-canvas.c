@@ -357,7 +357,7 @@ gnm_canvas_key_mode_object (GnmCanvas *gcanvas, GdkEventKey *ev)
 	case GDK_Delete:
 		if (scg->selected_objects != NULL) {
 			cmd_objects_delete (sc->wbc,
-				gnm_hash_keys (scg->selected_objects), NULL);
+				go_hash_keys (scg->selected_objects), NULL);
 			return TRUE;
 		}
 		sc_mode_edit (sc);

@@ -163,7 +163,7 @@ category_group_list_get (void)
 	GList *categories, *l;
 	FormatTemplateCategoryGroup *current_group;
 
-	dir_list = gnm_slist_create (gnm_app_prefs->autoformat.sys_dir,
+	dir_list = go_slist_create (gnm_app_prefs->autoformat.sys_dir,
 				     gnm_app_prefs->autoformat.usr_dir,
 				     NULL);
 	dir_list = g_slist_concat (dir_list,

@@ -100,19 +100,19 @@ static int
 convert (char const **args, GOCmdContext *cc)
 {
 	int res = 0;
-	GnmFileSaver *fs = NULL;
-	GnmFileOpener *fo = NULL;
+	GOFileSaver *fs = NULL;
+	GOFileOpener *fo = NULL;
 	char *outfile = go_shell_arg_to_uri (args[1]);
 
 	if (ssconvert_export_id != NULL) {
-		fs = gnm_file_saver_for_id (ssconvert_export_id);
+		fs = go_file_saver_for_id (ssconvert_export_id);
 		if (fs == NULL) {
 			res = 1;
 			fprintf (stderr, _("Unknown exporter '%s'.\n"
 				 "Try --list-exporters to see a list of possibilities.\n"),
 				 ssconvert_export_id);
 		} else if (outfile == NULL &&
-			   gnm_file_saver_get_extension	(fs) != NULL) {
+			   go_file_saver_get_extension	(fs) != NULL) {
 			char *basename = g_path_get_basename (args[0]);
 			if (basename != NULL) {
 				char *t = strrchr (basename, '.');
@@ -121,7 +121,7 @@ convert (char const **args, GOCmdContext *cc)
 					t = strrchr (args[0], '.');
 					g_string_append_len (res, args[0], t - args[0] + 1);
 					g_string_append (res, 
-						gnm_file_saver_get_extension (fs));
+						go_file_saver_get_extension (fs));
 					outfile = g_string_free (res, FALSE);
 				}
 				g_free (basename);
@@ -129,7 +129,7 @@ convert (char const **args, GOCmdContext *cc)
 		}
 	} else {
 		if (outfile != NULL) {
-			fs = gnm_file_saver_for_file_name (outfile);
+			fs = go_file_saver_for_file_name (outfile);
 			if (fs == NULL) {
 				res = 2;
 				fprintf (stderr, _("Unable to guess exporter to use for '%s'.\n"
@@ -143,7 +143,7 @@ convert (char const **args, GOCmdContext *cc)
 			 "Try --list-exporters to see a list of possibilities.\n"));
 	
 	if (ssconvert_import_id != NULL) {
-		fo = gnm_file_opener_for_id (ssconvert_import_id);
+		fo = go_file_opener_for_id (ssconvert_import_id);
 		if (fo == NULL) {
 			res = 1;
 			fprintf (stderr, _("Unknown importer '%s'.\n"
@@ -158,14 +158,14 @@ convert (char const **args, GOCmdContext *cc)
 		WorkbookView *wbv = wb_view_new_from_uri (uri, fo,
 			io_context, ssconvert_import_encoding);
 		g_free (uri);
-		if (gnm_file_saver_get_save_scope (fs) !=
+		if (go_file_saver_get_save_scope (fs) !=
 		    FILE_SAVE_WORKBOOK) {
 			if (ssconvert_one_file_per_sheet) {
 				g_warning ("TODO");
 			} else
 				fprintf (stderr, _("Selected exporter (%s) does not support saving multiple sheets in one file.\n"
 						   "Only the current sheet will be saved."),
-					 gnm_file_saver_get_id (fs));
+					 go_file_saver_get_id (fs));
 		}
 		res = !wb_view_save_as (wbv, fs, outfile, cc);
 		g_object_unref (wb_view_workbook (wbv));
@@ -209,12 +209,12 @@ main (int argc, char const *argv [])
 
 	if (ssconvert_list_exporters)
 		list_them (&get_file_savers,
-			(get_desc_f) &gnm_file_saver_get_id,
-			(get_desc_f) &gnm_file_saver_get_description);
+			(get_desc_f) &go_file_saver_get_id,
+			(get_desc_f) &go_file_saver_get_description);
 	else if (ssconvert_list_importers)
 		list_them (&get_file_openers,
-			(get_desc_f) &gnm_file_opener_get_id,
-			(get_desc_f) &gnm_file_opener_get_description);
+			(get_desc_f) &go_file_opener_get_id,
+			(get_desc_f) &go_file_opener_get_description);
 	else {
 		char const **args = poptGetArgs (ctx);
 		if (args && args[0])

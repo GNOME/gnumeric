@@ -171,7 +171,7 @@ stf_store_results (DialogStfResult_t *dialogresult,
  * Main routine, handles importing a file including all dialog mumbo-jumbo
  **/
 static void
-stf_read_workbook (GnmFileOpener const *fo,  gchar const *enc,
+stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
 		   IOContext *context, gpointer wbv, GsfInput *input)
 {
 	DialogStfResult_t *dialogresult = NULL;
@@ -337,7 +337,7 @@ stf_text_to_columns (WorkbookControl *wbc, GOCmdContext *cc)
  * Attempt to auto-detect CSV or tab-delimited file
  **/
 static void
-stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
+stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 			       IOContext *context,
 			       gpointer wbv, GsfInput *input)
 {
@@ -356,7 +356,7 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	if (!data)
 		return;
 
-	enc = gnm_guess_encoding (data, data_len, enc, &utf8data);
+	enc = go_guess_encoding (data, data_len, enc, &utf8data);
 	g_free (data);
 
 	if (!enc) {
@@ -406,7 +406,7 @@ stf_write_func (char const *string, GsfOutput *output)
 }
 
 static void
-stf_write_workbook (GnmFileSaver const *fs, IOContext *context,
+stf_write_workbook (GOFileSaver const *fs, IOContext *context,
 		    gconstpointer wbv, GsfOutput *output)
 {
 	StfExportOptions_t *result = NULL;
@@ -429,7 +429,7 @@ stf_write_workbook (GnmFileSaver const *fs, IOContext *context,
 }
 
 static void
-stf_write_csv (GnmFileSaver const *fs, IOContext *context,
+stf_write_csv (GOFileSaver const *fs, IOContext *context,
 	       gconstpointer wbv, GsfOutput *output)
 {
 	StfExportOptions_t *config = stf_export_options_new ();
@@ -449,7 +449,7 @@ stf_write_csv (GnmFileSaver const *fs, IOContext *context,
 }
 
 static gboolean
-csv_tsv_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	if (pl == FILE_PROBE_CONTENT) {
 		/* Rough and ready heuristic.  If the first 80 bytes have no
@@ -483,12 +483,12 @@ csv_tsv_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 void
 stf_init (void)
 {
-	GSList *suffixes = gnm_slist_create (
+	GSList *suffixes = go_slist_create (
 		g_strdup ("csv"),
 		g_strdup ("tsv"),
 		g_strdup ("txt"),
 		NULL);
-	GSList *mimes = gnm_slist_create (
+	GSList *mimes = go_slist_create (
 		g_strdup ("application/csv"),
 		g_strdup ("application/tab-separated-values"),
 		g_strdup ("text/comma-separated-values"),
@@ -497,27 +497,27 @@ stf_init (void)
 		g_strdup ("text/tab-separated-values"),
 		g_strdup ("text/x-comma-separated-values"),
 		NULL);
-	GnmFileSaver *saver;
-	gnm_file_opener_register (gnm_file_opener_new_with_enc (
+	GOFileSaver *saver;
+	go_file_opener_register (go_file_opener_new_with_enc (
 		"Gnumeric_stf:stf_csvtab",
 		_("Comma or tab separated values (CSV/TSV)"),
 		suffixes, mimes,
 		csv_tsv_probe, stf_read_workbook_auto_csvtab), 0);
-	gnm_file_opener_register (gnm_file_opener_new_with_enc (
+	go_file_opener_register (go_file_opener_new_with_enc (
 		"Gnumeric_stf:stf_assistant",
 		_("Text import (configurable)"),
 		NULL, NULL,
 		NULL, stf_read_workbook), 0);
 
-	gnm_file_saver_register (gnm_file_saver_new (
+	go_file_saver_register (go_file_saver_new (
 		"Gnumeric_stf:stf_assistant", "txt",
 		_("Text export (configurable)"),
 		FILE_FL_WRITE_ONLY, stf_write_workbook));
-	saver = gnm_file_saver_new (
+	saver = go_file_saver_new (
 		"Gnumeric_stf:stf_csv", "csv",
 		_("Comma separated values (CSV)"),
 		FILE_FL_WRITE_ONLY, stf_write_csv);
-	gnm_file_saver_set_save_scope (saver, FILE_SAVE_SHEET);
-	gnm_file_saver_register (saver);
+	go_file_saver_set_save_scope (saver, FILE_SAVE_SHEET);
+	go_file_saver_register (saver);
 
 }

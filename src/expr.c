@@ -1487,7 +1487,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 		size_t prelen = target->len;
 
 		if (v->type == VALUE_STRING) {
-			gnm_strescape (target, v->v_str.val->str);
+			go_strescape (target, v->v_str.val->str);
 			return;
 		}
 
