@@ -10,10 +10,12 @@ Morten:
 	* Make it possible to hide toolbars.
 	* Make it possible to hide the statusbar.
 	* A few multihead fixes.
+	* Fix pgeom.  (Fixes GEOMDIST.)
 	* Upgrade to R's development version.
 	* Replace R's pbeta function.
+	* Replace R's pcauchy function.  (Fixes CAUCHY.)
 	* Fix precision of our versions of various long-double functions
-	  that Solaris lacks.
+	  that Solaris lacks.  (Fixes, for example, ERF.)
 
 --------------------------------------------------------------------------
 
