@@ -114,6 +114,9 @@ Bonobo component
     Install it in libexec
     Investigate warnings
 
+Autocolors
+    Export/import them to/from gnumeric format.
+
 Possibly Post 1.2 Targets
 -------------------------
 - insert cut
