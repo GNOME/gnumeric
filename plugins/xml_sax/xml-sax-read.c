@@ -1232,6 +1232,8 @@ xml_sax_cell_content (XMLSaxParseState *state)
 				g_warning ("XML-IO : Duplicate shared expression");
 		}
 	} else if (expr_id > 0) {
+		gpointer expr = g_hash_table_lookup (state->expr_map,
+			GINT_TO_POINTER (expr_id));
 		if (expr != NULL)
 			cell_set_expr (cell, expr, NULL);
 		else
