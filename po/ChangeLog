@@ -1,3 +1,7 @@
+2004-09-27  Jan Morén  <jan.moren@lucs.lu.se>
+
+	* POTFILES.in: Removed so-arrow.glade and so-fill.glade.
+
 2004-09-24  Jody Goldberg <jody@gnome.org>
 
 	* POTFILES.in : Adjust to the file changes and sort the file names
