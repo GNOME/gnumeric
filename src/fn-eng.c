@@ -3,6 +3,7 @@
  *
  * Author:
  *  Michael Meeks <michael@imaginator.com>
+ *  Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
 #include <config.h>
 #include <gnome.h>
@@ -434,6 +435,191 @@ gnumeric_bessely (struct FunctionDefinition *i, Value *argv [], char **error_str
 	return value_float (yn (y, value_get_as_double (argv [0])));
 }
 
+static char *help_complex = {
+	N_("@FUNCTION=COMPLEX\n"
+	   "@SYNTAX=COMPLEX(real,im[,suffix])\n"
+
+	   "@DESCRIPTION="
+	   "COMPLEX returns a complex number of the form x + yi. "
+	   "@real is the real and @im is the imaginary coefficient of "
+	   "the complex number.  @suffix is the suffix for the imaginary "
+	   "coefficient.  If it is omitted, COMPLEX uses 'i' by default. "
+	   "\n"
+	   "If @suffix is neither 'i' nor 'j', COMPLEX returns #VALUE! "
+	   "error. "
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_complex (struct FunctionDefinition *fd, 
+		  Value *argv [], char **error_string)
+{
+        float_t     r, i;
+	char        *suffix;
+	static char buf[256];
+
+	r = value_get_as_double (argv[0]);
+	i = value_get_as_double (argv[1]);
+
+	if (argv[2] == NULL)
+	        suffix = "i";
+	else
+	        suffix = argv[2]->v.str->str;
+
+	if (strcmp(suffix, "i") != 0 &&
+	    strcmp(suffix, "j") != 0) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	}
+
+	if (i == 0)
+	        return value_float (r);
+
+	if (i == 1)
+	        if (r == 0)
+		        sprintf(buf, "%s", suffix);
+		else
+		        sprintf(buf, "%g+%s", r, suffix);
+	else if (i == -1)
+	        if (r == 0)
+		        sprintf(buf, "-%s", suffix);
+		else
+		        sprintf(buf, "%g-%s", r, suffix);
+	else if (r == 0)
+	        sprintf(buf, "%g%s", i, suffix);
+	else  
+	        sprintf(buf, "%g%+g%s", r, i, suffix);
+
+	return value_str (buf);
+}
+
+
+static char *help_imaginary = {
+	N_("@FUNCTION=IMAGINARY\n"
+	   "@SYNTAX=IMAGINARY(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMAGINARY returns the imaginary coefficient of a complex "
+	   "number. "
+	   "\n"
+	   "@SEEALSO=IMREAL")
+};
+
+static int
+get_real_and_imaginary(char *inumber, float_t *real, float_t *im)
+{
+        /* FIXME: exponents */
+        char *p;
+	char buf[256];
+	int  i=0;
+
+	*im = 0;
+	for (p=inumber; *p; p++)
+	        if (isdigit(*p) || *p=='.')
+		        buf[i++] = *p;
+		else
+		        break;
+	buf[i] = '\0';
+	*real = atof(buf);
+	for (i=0; *p; p++)
+	        if (isdigit(*p) || *p=='+' || *p=='-' || *p=='.')
+		        buf[i++] = *p;
+		else
+		        break;
+	buf[i] = '\0';
+	if (i > 0)
+	        *im = atof(buf);
+
+        return 0;
+}
+
+static Value *
+gnumeric_imaginary (struct FunctionDefinition *fd, 
+		    Value *argv [], char **error_string)
+{
+        float_t real, im;
+
+	if (VALUE_IS_NUMBER(argv[0]))
+	        return value_int (0);
+
+	if (argv[0]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	}
+
+	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	
+	return value_float (im);
+}
+
+static char *help_imreal = {
+	N_("@FUNCTION=IMAGINARY\n"
+	   "@SYNTAX=IMREAL(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMREAL returns the real coefficient of a complex number. "
+	   "\n"
+	   "@SEEALSO=IMAGINARY")
+};
+
+
+static Value *
+gnumeric_imreal (struct FunctionDefinition *fd, 
+		 Value *argv [], char **error_string)
+{
+        float_t real, im;
+
+	if (VALUE_IS_NUMBER(argv[0]))
+	        return value_float (value_get_as_double (argv[0]));
+
+	if (argv[0]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	}
+
+	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	
+	return value_float (real);
+}
+
+static char *help_imabs = {
+	N_("@FUNCTION=IMABS\n"
+	   "@SYNTAX=IMABS(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMABS returns the absolute value of a complex number. "
+	   "\n"
+	   "@SEEALSO=IMAGINARY,IMREAL")
+};
+
+
+static Value *
+gnumeric_imabs (struct FunctionDefinition *fd, 
+		Value *argv [], char **error_string)
+{
+        float_t real, im;
+
+	if (VALUE_IS_NUMBER(argv[0])) {
+	        real = value_get_as_double (argv[0]);
+	        return value_float (sqrt(real * real));
+	}
+
+	if (argv[0]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	}
+
+	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	
+	return value_float (sqrt(real*real + im*im));
+}
+
 static char *help_erf = {
 	N_("@FUNCTION=ERF\n"
 	   "@SYNTAX=ERF(lower limit[,upper_limit])\n"
@@ -639,31 +825,51 @@ gnumeric_gestep (struct FunctionDefinition *i, Value *argv [], char **error_stri
 }
 
 FunctionDefinition eng_functions [] = {
-	{ "bessely",   "ff",   "xnum,ynum",   &help_bessely, NULL, gnumeric_bessely },
-	{ "besselj",   "ff",   "xnum,ynum",   &help_besselj, NULL, gnumeric_besselj },
-	{ "bin2dec",   "?",    "number",      &help_bin2dec, NULL, gnumeric_bin2dec },
-	{ "bin2hex",   "?|f",  "xnum,ynum",   &help_bin2hex, NULL, gnumeric_bin2hex },
-	{ "bin2oct",   "?|f",  "xnum,ynum",   &help_bin2oct, NULL, gnumeric_bin2oct },
-	{ "dec2bin",   "?|f",  "xnum,ynum",   &help_dec2bin, NULL, gnumeric_dec2bin },
-	{ "dec2oct",   "?|f",  "xnum,ynum",   &help_dec2oct, NULL, gnumeric_dec2oct },
-	{ "dec2hex",   "?|f",  "xnum,ynum",   &help_dec2hex, NULL, gnumeric_dec2hex },
-	{ "delta",     "f|f",  "xnum,ynum",   &help_delta,   NULL, gnumeric_delta },
-	{ "erf",       "f|f",  "lower,upper", &help_erf,     NULL, gnumeric_erf  },
-	{ "erfc",      "f",    "number",      &help_erfc,    NULL, gnumeric_erfc },
-	{ "gestep",    "f|f",  "xnum,ynum",   &help_gestep,  NULL, gnumeric_gestep },
-	{ "hex2bin",   "?|f",  "xnum,ynum",   &help_hex2bin, NULL, gnumeric_hex2bin },
-	{ "hex2dec",   "?",    "number",      &help_hex2dec, NULL, gnumeric_hex2dec },
-	{ "hex2oct",   "?|f",  "xnum,ynum",   &help_hex2oct, NULL, gnumeric_hex2oct },
-	{ "oct2bin",   "?|f",  "xnum,ynum",   &help_oct2bin, NULL, gnumeric_oct2bin },
-	{ "oct2dec",   "?",    "number",      &help_oct2dec, NULL, gnumeric_oct2dec },
-	{ "oct2hex",   "?|f",  "xnum,ynum",   &help_oct2hex, NULL, gnumeric_oct2hex },
+	{ "bessely",   "ff",   "xnum,ynum",   &help_bessely,
+	  NULL, gnumeric_bessely },
+	{ "besselj",   "ff",   "xnum,ynum",   &help_besselj,
+	  NULL, gnumeric_besselj },
+	{ "bin2dec",   "?",    "number",      &help_bin2dec,
+	  NULL, gnumeric_bin2dec },
+	{ "bin2hex",   "?|f",  "xnum,ynum",   &help_bin2hex,
+	  NULL, gnumeric_bin2hex },
+	{ "bin2oct",   "?|f",  "xnum,ynum",   &help_bin2oct,
+	  NULL, gnumeric_bin2oct },
+	{ "complex",   "ff|s", "real,im[,suffix]", &help_complex,
+	  NULL, gnumeric_complex },
+	{ "dec2bin",   "?|f",  "xnum,ynum",   &help_dec2bin,
+	  NULL, gnumeric_dec2bin },
+	{ "dec2oct",   "?|f",  "xnum,ynum",   &help_dec2oct,
+	  NULL, gnumeric_dec2oct },
+	{ "dec2hex",   "?|f",  "xnum,ynum",   &help_dec2hex,
+	  NULL, gnumeric_dec2hex },
+	{ "delta",     "f|f",  "xnum,ynum",   &help_delta,
+	  NULL, gnumeric_delta },
+	{ "erf",       "f|f",  "lower,upper", &help_erf,
+	  NULL, gnumeric_erf  },
+	{ "erfc",      "f",    "number",      &help_erfc,
+	  NULL, gnumeric_erfc },
+	{ "gestep",    "f|f",  "xnum,ynum",   &help_gestep,
+	  NULL, gnumeric_gestep },
+	{ "hex2bin",   "?|f",  "xnum,ynum",   &help_hex2bin,
+	  NULL, gnumeric_hex2bin },
+	{ "hex2dec",   "?",    "number",      &help_hex2dec,
+	  NULL, gnumeric_hex2dec },
+	{ "hex2oct",   "?|f",  "xnum,ynum",   &help_hex2oct,
+	  NULL, gnumeric_hex2oct },
+	{ "imabs",     "?",  "inumber",       &help_imabs,
+	  NULL, gnumeric_imabs },
+	{ "imaginary", "?",  "inumber",       &help_imaginary,
+	  NULL, gnumeric_imaginary },
+	{ "imreal",    "?",  "inumber",       &help_imreal,
+	  NULL, gnumeric_imreal },
+	{ "oct2bin",   "?|f",  "xnum,ynum",   &help_oct2bin,
+	  NULL, gnumeric_oct2bin },
+	{ "oct2dec",   "?",    "number",      &help_oct2dec,
+	  NULL, gnumeric_oct2dec },
+	{ "oct2hex",   "?|f",  "xnum,ynum",   &help_oct2hex,
+	  NULL, gnumeric_oct2hex },
 	/* besseli */
 	/* besselk */
 	{ NULL, NULL },
 };
-
-
-/*
- * Mode, Median: Use large hash table :-)
- *
- */

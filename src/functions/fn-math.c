@@ -1533,6 +1533,134 @@ gnumeric_roundup (struct FunctionDefinition *i,
 	}
 }
 
+static char *help_mround = {
+	N_("@FUNCTION=MROUND\n"
+	   "@SYNTAX=MROUND(number,multiple)\n"
+
+	   "@DESCRIPTION="
+	   "MROUND function rounds a given number to the desired multiple. "
+	   "@number is the number you want rounded and @multiple is the "
+	   "the multiple to which you wnat to round the number. "
+	   "For example, MROUND(1.7, 0.2) equals 1.8. "
+	   "\n"
+	   "If the number and the multiple have different sign, MROUND "
+	   "returns #NUM! error. "
+	   "\n"
+	   "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP")
+};
+
+static Value *
+gnumeric_mround (struct FunctionDefinition *i,
+		 Value *argv [], char **error_string)
+{
+        const float_t accuracy_limit = 0.0000003;
+        float_t number, multiple;
+	float_t div, mod;
+	int     sign = 1;
+
+	number = value_get_as_double (argv[0]);
+	multiple = value_get_as_double (argv[1]);
+
+	if ((number > 0 && multiple < 0) 
+	    || (number < 0 && multiple > 0)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	if (number < 0) {
+	        sign = -1;
+		number = -number;
+		multiple = -multiple;
+	}
+
+	mod = fmod(number, multiple);
+	div = number-mod;
+
+        return value_float(sign * (
+	  div + ((mod + accuracy_limit >= multiple/2) ? multiple : 0)));
+}
+
+static char *help_roman = {
+	N_("@FUNCTION=ROMAN\n"
+	   "@SYNTAX=ROMAN(number[,type])\n"
+
+	   "@DESCRIPTION="
+	   "ROMAN function returns an arabic number in the roman numeral "
+	   "style, as text. @number is the number you want to convert and "
+	   "@type is the type of roman numeral you want. "
+	   "\n"
+	   "If @type is 0 or it is omitted, ROMAN returns classic roman "
+	   "numbers. "
+	   "Types 1,2,3, and 4 are not implemented yet. "
+	   "If @number is negative or greater than 3999, ROMAN returns "
+	   "#VALUE! error. "
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_roman (struct FunctionDefinition *fd,
+		Value *argv [], char **error_string)
+{
+	const char letter[] = { 'M', 'D', 'C', 'L', 'X', 'V', 'I' };
+	const int  largest = 1000;
+
+	static char buf[256];
+	int n, form;
+	int i, j, dec;
+
+	dec = largest;
+	n = value_get_as_int (argv[0]);
+	if (argv[1] == NULL)
+	        form = 0;
+	else
+	        form = value_get_as_int (argv[1]);
+
+	if (n < 0 || n > 3999) {
+		*error_string = _("#VALUE!") ;
+		return NULL ;
+	}
+
+	if (n == 0)
+	        return value_str ("");
+
+	if (form < 0 || form > 4) {
+		*error_string = _("#NUM!") ;
+		return NULL ;
+	}
+
+	if (form > 0) {
+		*error_string = _("#Unimplemented!") ;
+		return NULL ;
+	}
+
+	for (i=j=0; dec > 1; dec/=10, j+=2) {
+	        for ( ; n>0; i++) {
+		        if (n >= dec) {
+			        buf[i] = letter[j];
+				n -= dec;
+			} else if (n >= dec - dec/10) {
+			        buf[i++] = letter[j+2];
+				buf[i] = letter[j];
+				n -= dec - dec/10;
+			} else if (n >= dec/2) {
+			        buf[i] = letter[j+1];
+				n -= dec/2;
+			} else if (n >= dec/2 - dec/10) {
+			        buf[i++] = letter[j+2];
+				buf[i] = letter[j+1];
+				n -= dec/2 - dec/10;
+			} else if (dec == 10) {
+			        buf[i] = letter[j+2];
+				n--;
+			} else
+			        break;
+		}
+	}
+	buf[i] = '\0';
+
+	return value_str (buf);
+}
+
 typedef struct {
         GSList *list;
         int    num;
@@ -1868,47 +1996,72 @@ FunctionDefinition math_functions [] = {
 	{ "atan",    "f",    "number",    &help_atan,  NULL, gnumeric_atan },
 	{ "atanh",   "f",    "number",    &help_atanh, NULL, gnumeric_atanh },
 	{ "atan2",   "ff",   "xnum,ynum", &help_atan2, NULL, gnumeric_atan2 },
-	/* avedev */
 	{ "cos",     "f",    "number",    &help_cos,     NULL, gnumeric_cos },
 	{ "cosh",    "f",    "number",    &help_cosh,    NULL, gnumeric_cosh },
 	{ "ceil",    "f",    "number",    &help_ceil,    NULL, gnumeric_ceil },
-	{ "ceiling", "ff",   "number,significance",    &help_ceiling, NULL, gnumeric_ceiling },
-	{ "degrees", "f",    "number",    &help_degrees, NULL, gnumeric_degrees },
+	{ "ceiling", "ff",   "number,significance",    &help_ceiling,
+	  NULL, gnumeric_ceiling },
+	{ "degrees", "f",    "number",    &help_degrees,
+	  NULL, gnumeric_degrees },
 	{ "even",    "f",    "number",    &help_even,    NULL, gnumeric_even },
 	{ "exp",     "f",    "number",    &help_exp,     NULL, gnumeric_exp },
 	{ "fact",    "f",    "number",    &help_fact,    NULL, gnumeric_fact },
-	{ "factdouble", "f", "number",    &help_factdouble,    NULL, gnumeric_factdouble },
-	{ "combin",  "ff",   "n,k",       &help_combin,  NULL, gnumeric_combin },
-	{ "floor",   "f",    "number",    &help_floor,   NULL, gnumeric_floor },
+	{ "factdouble", "f", "number",    &help_factdouble,    
+	  NULL, gnumeric_factdouble },
+	{ "combin",  "ff",   "n,k",       &help_combin,
+	  NULL, gnumeric_combin },
+	{ "floor",   "f",    "number",    &help_floor,
+	  NULL, gnumeric_floor },
 	{ "int",     "f",    "number",    &help_int,     NULL, gnumeric_int },
 	{ "log",     "f",    "number",    &help_log,     NULL, gnumeric_log },
 	{ "log2",    "f",    "number",    &help_log2,    NULL, gnumeric_log2 },
-	{ "log10",   "f",    "number",    &help_log10,   NULL, gnumeric_log10 },
-	{ "mod",     "ff",   "num,denom", &help_mod,     NULL, gnumeric_mod },
-	{ "multinomial", 0,  "",          &help_multinomial, gnumeric_multinomial, NULL },
+	{ "log10",   "f",    "number",    &help_log10,
+	  NULL, gnumeric_log10 },
+	{ "mod",     "ff",   "num,denom", &help_mod,
+	  NULL, gnumeric_mod },
+	{ "mround",  "ff", "number,multiple", &help_mround,
+	  NULL, gnumeric_mround },
+	{ "multinomial", 0,  "",          &help_multinomial,
+	  gnumeric_multinomial, NULL },
 	{ "odd" ,    "f",    "number",    &help_odd,     NULL, gnumeric_odd },
-	{ "power",   "ff",   "x,y",       &help_power,   NULL, gnumeric_power },
-	{ "product", 0,      "number",    &help_product, gnumeric_product, NULL },
-	{ "quotient" , "ff",  "num,den",  &help_quotient, NULL, gnumeric_quotient},
-	{ "radians", "f",    "number",    &help_radians, NULL, gnumeric_radians },
+	{ "power",   "ff",   "x,y",       &help_power,
+	  NULL, gnumeric_power },
+	{ "product", 0,      "number",    &help_product,
+	  gnumeric_product, NULL },
+	{ "quotient" , "ff",  "num,den",  &help_quotient,
+	  NULL, gnumeric_quotient},
+	{ "radians", "f",    "number",    &help_radians,
+	  NULL, gnumeric_radians },
 	{ "rand",    "",     "",          &help_rand,    NULL, gnumeric_rand },
-	{ "randbetween", "ff", "bottom,top", &help_randbetween, NULL, gnumeric_randbetween },
-	{ "round",      "f|f", "number[,digits]", &help_round, NULL, gnumeric_round },
-	{ "rounddown",  "f|f", "number,digits", &help_rounddown, NULL, gnumeric_rounddown },
-	{ "roundup",    "f|f", "number,digits", &help_roundup, NULL, gnumeric_roundup },
+	{ "randbetween", "ff", "bottom,top", &help_randbetween,
+	  NULL, gnumeric_randbetween },
+	{ "roman",      "f|f", "number[,type]", &help_roman,
+	  NULL, gnumeric_roman },
+	{ "round",      "f|f", "number[,digits]", &help_round,
+	  NULL, gnumeric_round },
+	{ "rounddown",  "f|f", "number,digits", &help_rounddown,
+	  NULL, gnumeric_rounddown },
+	{ "roundup",    "f|f", "number,digits", &help_roundup,
+	  NULL, gnumeric_roundup },
 	{ "sign",    "f",    "number",    &help_sign,    NULL, gnumeric_sign },
 	{ "sin",     "f",    "number",    &help_sin,     NULL, gnumeric_sin },
 	{ "sinh",    "f",    "number",    &help_sinh,    NULL, gnumeric_sinh },
 	{ "sqrt",    "f",    "number",    &help_sqrt,    NULL, gnumeric_sqrt },
-	{ "sqrtpi",  "f",    "number",    &help_sqrtpi,  NULL, gnumeric_sqrtpi},
+	{ "sqrtpi",  "f",    "number",    &help_sqrtpi,
+	  NULL, gnumeric_sqrtpi},
 	{ "sum",     0,      "number",    &help_sum,     gnumeric_sum, NULL },
-	{ "sumsq",   0,      "number",    &help_sumsq,   gnumeric_sumsq, NULL },
-	{ "sumx2my2", "AA", "array1,array2", &help_sumx2my2, NULL, gnumeric_sumx2my2 },
-	{ "sumx2py2", "AA", "array1,array2", &help_sumx2py2, NULL, gnumeric_sumx2py2 },
-	{ "sumxmy2",  "AA", "array1,array2", &help_sumxmy2, NULL, gnumeric_sumxmy2 },
+	{ "sumsq",   0,      "number",    &help_sumsq,
+	  gnumeric_sumsq, NULL },
+	{ "sumx2my2", "AA", "array1,array2", &help_sumx2my2,
+	  NULL, gnumeric_sumx2my2 },
+	{ "sumx2py2", "AA", "array1,array2", &help_sumx2py2,
+	  NULL, gnumeric_sumx2py2 },
+	{ "sumxmy2",  "AA", "array1,array2", &help_sumxmy2,
+	  NULL, gnumeric_sumxmy2 },
 	{ "tan",     "f",    "number",    &help_tan,     NULL, gnumeric_tan },
 	{ "tanh",    "f",    "number",    &help_tanh,    NULL, gnumeric_tanh },
-	{ "trunc",   "f",    "number",    &help_trunc,   gnumeric_trunc, NULL },
+	{ "trunc",   "f",    "number",    &help_trunc,
+	  gnumeric_trunc, NULL },
 	{ "pi",      "",     "",          &help_pi,      NULL, gnumeric_pi },
 	{ NULL, NULL },
 };

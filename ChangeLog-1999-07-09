@@ -1,3 +1,12 @@
+1999-05-07  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-eng.c: Added COMPLEX(), IMABS(), IMAGINARY(), IMREAL().
+  	Also added an internal function get_real_and_imaginary() which
+ 	still needs to be improved.
+	
+	* src/fn-math.c: Added MROUND() and ROMAN().  ROMAN() currently
+ 	supports only type 0 (classic).
+
 1999-05-07  Heath Martin  <martinh@pegasus.cc.ucf.edu>
 
 	* src/expr.c (expr_tree_invalidate_references): Add extra argument
