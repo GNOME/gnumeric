@@ -1,6 +1,10 @@
+2002-10-25  Morten Welinder  <terra@diku.dk>
+
+	* src/position.c (cellref_make_abs): Fix col/row confusion.
+
 2002-10-24  Morten Welinder  <terra@diku.dk>
 
-	* src/print-info.c (render_opcode): Unconstify opcode args since
+	* src/print-info.c (render_opcode): Unconstify opcode arg since
 	it is being changed.
 	(hf_format_render): Simplify.
 

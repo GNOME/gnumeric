@@ -259,7 +259,7 @@ cellref_make_abs (CellRef *dest, CellRef const *src, EvalPos const *ep)
 	if (src->row_relative) {
 		dest->row = (dest->row + ep->eval.row) % SHEET_MAX_ROWS;
 		if (dest->row < 0)
-			dest->col += SHEET_MAX_ROWS;
+			dest->row += SHEET_MAX_ROWS;
 	}
 
 	dest->row_relative = dest->col_relative = FALSE;

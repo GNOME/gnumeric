@@ -75,6 +75,7 @@ Morten:
           regular expression matching an empty string.
 	* Fix GAMMAINV.
 	* Improve precision for qgamma (and thus GAMMAINV).
+	* Fix a few cases of col/row confusion.
 
 Nicolas Peninguy:
 	* Use regexps to classify currency and accounting formats
