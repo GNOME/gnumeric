@@ -295,35 +295,6 @@ update_rangesel_text (GnumericExprEntry *expr_entry, char *text, int pos)
 }
 
 /**
- * widget_is_focus:
- * @widget: a #GtkWidget
- * 
- * Determines if the widget is the focus widget within its
- * toplevel. (This does not mean that the HAS_FOCUS flag is
- * necessarily set; HAS_FOCUS will only be set if the
- * toplevel widget additionally has the global input focus.)
- * 
- * Return value: %TRUE if the widget is the focus widget.
- *
- * GTK 2.0 Transition note:
- * This is a copy of the GTK 2.0 function gtk_widget_is_focus.
- **/
-static gboolean
-widget_is_focus (GtkWidget *widget)
-{
-  GtkWidget *toplevel;
-
-  g_return_val_if_fail (GTK_IS_WIDGET (widget), FALSE);
-
-  toplevel = gtk_widget_get_toplevel (widget);
-  
-  if (GTK_IS_WINDOW (toplevel))
-    return widget == GTK_WINDOW (toplevel)->focus_widget;
-  else
-    return FALSE;
-}
-
-/**
  * gnumeric_expr_entry_set_rangesel_from_range
  * @expr_entry: a #GnumericExprEntry
  * @r:          a #Range
