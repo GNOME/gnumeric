@@ -568,13 +568,15 @@ biff_boundsheet_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 		printf ("Unknown sheet hiddenness %d\n", (MS_OLE_GET_GUINT8 (q->data + 4)) & 0x3);
 		ans->hidden = MS_BIFF_H_VISIBLE;
 	}
-	if (ver >= MS_BIFF_V8) {
-		int slen = MS_OLE_GET_GUINT16 (q->data + 6);
-		ans->name = biff_get_text (q->data + 8, slen, NULL);
-	} else {
-		int slen = MS_OLE_GET_GUINT8 (q->data + 6);
-		ans->name = biff_get_text (q->data + 7, slen, NULL);
-	}
+
+	/* TODO : find some documentation on this.
+	 * Sample data and OpenCalc imply that the docs are incorrect.  It
+	 * seems like the name lenght is 1 byte.  Loading sample sheets in
+	 * other locales universally seem to treat the first byte as a length
+	 * and the second as the unicode flag header.
+	 */
+	ans->name = biff_get_text (q->data + 7, 
+				   MS_OLE_GET_GUINT8 (q->data + 6), NULL);
 
 	/* TODO : find some documentation on this.
 	 * It appears that if the name is null it defaults to Sheet%d ?
@@ -2620,6 +2622,26 @@ biff_get_rk (const guint8 *ptr)
 static void
 ms_excel_read_name (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 {
+#if defined(excel95)
+Opcode 0x 18 :            NAME, length 0x24 (=36)
+       0 |  0  0  0  4 12  0  1  0  1  0  0  0  0  0 62 6f | ..............bo
+      10 | 62 6f 3a ff ff  0  0  0  0  0  0  1  0  0  0  0 | bo:.............
+      20 |  0  1  0  1 XX XX XX XX XX XX XX XX XX XX XX XX | ....************
+       0 |  0  0  0  4 12  0  2  0  1  0  0  0  0  0 62 6f | ..............bo
+      10 | 62 6f 3a fe ff  0  0  0  0  0  0  1  0  1  0  1 | bo:.............
+      20 |  0  1  0  1 XX XX XX XX XX XX XX XX XX XX XX XX | ....************
+       0 |  0  0  0  4 12  0  3  0  1  0  0  0  0  0 62 6f | ..............bo
+      10 | 62 6f 3a fd ff  0  0  0  0  0  0  1  0  2  0  2 | bo:.............
+      20 |  0  1  0  1 XX XX XX XX XX XX XX XX XX XX XX XX | ....************
+#elif defined(excel2k)
+Opcode 0x 18 :            NAME, length 0x1a (=26)
+       0 |  0  0  0  4  7  0  0  0  1  0  0  0  0  0  0 62 | ...............b
+      10 | 6f 62 6f 3a  0  0  1  0  1  0 XX XX XX XX XX XX | obo:......******
+       0 |  0  0  0  4  7  0  0  0  2  0  0  0  0  0  0 62 | ...............b
+      10 | 6f 62 6f 3a  1  0  1  0  1  0 XX XX XX XX XX XX | obo:......******
+       0 |  0  0  0  4  7  0  0  0  3  0  0  0  0  0  0 62 | ...............b
+      10 | 6f 62 6f 3a  2  0  1  0  1  0 XX XX XX XX XX XX | obo:......******
+#endif
 	guint16 fn_grp_idx;
 	guint16 flags          = MS_OLE_GET_GUINT16 (q->data);
 #if 0
