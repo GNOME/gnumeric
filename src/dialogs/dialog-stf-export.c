@@ -507,7 +507,8 @@ stf_export_dialog_sheet_page_init (TextExportState *state)
 	g_signal_connect (selection,
 			  "changed",
 			  G_CALLBACK (cb_selection_changed), state);
-	
+
+	gtk_tree_view_set_reorderable (state->sheets.view, TRUE);	
 }
 
 static void

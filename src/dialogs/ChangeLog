@@ -1,5 +1,11 @@
 2004-10-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-stf-export.glade: mark sheet list reorderable
+	* dialog-stf-export.c 
+	(stf_export_dialog_sheet_page_init): mark sheet list reorderable
+	
+2004-10-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-stf-export.glade: fix spelling
 	* dialog-stf-export.c (cb_selection_changed): new
 	(move_element): call cb_selection_changed
