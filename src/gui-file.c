@@ -215,13 +215,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
 
-#warning "FIXME: this is a gross way to set size."
-	{
-		GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (fsel));
-		gtk_window_set_default_size (GTK_WINDOW (fsel),
-					     gdk_screen_get_width (screen) / 3,
-					     gdk_screen_get_width (screen) / 3);
-	}
+	gnm_fixup_filechooser_size (GTK_WIDGET (fsel), NULL);
 
 	/* Filters */
 	{	
@@ -444,13 +438,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
 
-#warning "FIXME: this is a gross way to set size."
-	{
-		GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (fsel));
-		gtk_window_set_default_size (GTK_WINDOW (fsel),
-					     gdk_screen_get_width (screen) / 3,
-					     gdk_screen_get_width (screen) / 3);
-	}
+	gnm_fixup_filechooser_size (GTK_WIDGET (fsel), NULL);
 
 	/* Filters */
 	{	

@@ -112,16 +112,6 @@ fsel_dialog_finish (GtkWidget *widget)
 }
 
 static void
-fsel_dir_handle_ok (GtkWidget *widget, gboolean *result)
-{
-	GtkFileSelection *fsel;
-
-	fsel = GTK_FILE_SELECTION (gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION));
-	fsel_dialog_finish (GTK_WIDGET (fsel));
-	*result = TRUE;
-}
-
-static void
 fsel_handle_ok (GtkWidget *widget, gboolean *result)
 {
 	GtkFileSelection *fsel;
@@ -197,8 +187,8 @@ fsel_response_cb (GtkFileChooser *dialog,
 
 static gint
 gu_delete_handler (GtkDialog *dialog,
-                    GdkEventAny *event,
-                    gpointer data)
+		   GdkEventAny *event,
+		   gpointer data)
 {
 	gtk_dialog_response(dialog, GTK_RESPONSE_CANCEL);
 	return TRUE; /* Do not destroy */
@@ -249,31 +239,6 @@ gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkWidget *w)
 	return result;
 }
 
-gboolean
-gnumeric_dialog_dir_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel)
-{
-	gboolean result = FALSE;
-
-	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
-	gnumeric_set_transient (wbcg_toplevel (wbcg), GTK_WINDOW (fsel));
-	g_signal_connect (G_OBJECT (fsel->ok_button),
-		"clicked",
-		G_CALLBACK (fsel_dir_handle_ok), &result);
-	g_signal_connect (G_OBJECT (fsel->cancel_button),
-		"clicked",
-		G_CALLBACK (fsel_handle_cancel), NULL);
-	g_signal_connect (G_OBJECT (fsel),
-		"key_press_event",
-		G_CALLBACK (fsel_key_event), NULL);
-	g_signal_connect (G_OBJECT (fsel),
-		"delete_event",
-		G_CALLBACK (fsel_delete_event), NULL);
-	gtk_widget_show_all (GTK_WIDGET (fsel));
-	gtk_grab_add (GTK_WIDGET (fsel));
-	gtk_main ();
-
-	return result;
-}
 
 static gint
 cb_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
@@ -1526,3 +1491,14 @@ gnm_widget_disable_focus (GtkWidget *w)
 	GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
 }
 
+void
+gnm_fixup_filechooser_size (GtkWidget *fsel, GdkScreen *screen)
+{
+	if (!screen)
+		screen = gtk_widget_get_screen (fsel);
+
+#warning "FIXME: this is a gross way to set size."
+	gtk_window_set_default_size (GTK_WINDOW (fsel),
+				     gdk_screen_get_width (screen) / 3,
+				     gdk_screen_get_width (screen) / 3);
+}

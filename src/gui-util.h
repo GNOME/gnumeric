@@ -23,8 +23,6 @@ gboolean   gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
                                             gboolean default_answer);
 gboolean   gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, 
 					   GtkWidget *w);
-gboolean   gnumeric_dialog_dir_selection (WorkbookControlGUI *wbcg, 
-					  GtkFileSelection *fsel);
 void       gnumeric_notice (WorkbookControlGUI *wbcg, GtkMessageType type, 
 			    char const *str);
 void       gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref,
@@ -132,5 +130,7 @@ GtkWidget * gnumeric_message_dialog_new (GtkWindow * parent,
 GdkPixbuf* gnm_pixbuf_intelligent_scale (GdkPixbuf *pixbuf, 
 					 guint width, guint height);
 void	   gnm_widget_disable_focus (GtkWidget *w);
+
+void       gnm_fixup_filechooser_size (GtkWidget *fsel, GdkScreen *screen);
 
 #endif /* GNUMERIC_GUI_UTIL_H */

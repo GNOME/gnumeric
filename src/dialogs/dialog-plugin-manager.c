@@ -51,6 +51,8 @@
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkliststore.h>
 #include <gtk/gtkcheckbutton.h>
+#include <gtk/gtkfilechooserdialog.h>
+#include <gtk/gtkstock.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <string.h>
@@ -267,30 +269,55 @@ static void
 cb_pm_button_directory_add_clicked (G_GNUC_UNUSED GtkButton *button,
 				    PluginManagerGUI *pm_gui)
 {
-	GtkFileSelection *fs = GTK_FILE_SELECTION (gtk_file_selection_new ("Select directory"));
-	if (gnumeric_dialog_dir_selection (pm_gui->wbcg, fs)) {
-		char const *path = gtk_file_selection_get_filename (fs);
-		char *dir_name;
+	GtkFileChooser *fsel;
 
-		if (g_file_test (path, G_FILE_TEST_IS_DIR))
-			dir_name = g_strdup (path);
-		else
-			dir_name = g_path_get_dirname (path);
+	fsel = GTK_FILE_CHOOSER
+		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
+			       "action", GTK_FILE_CHOOSER_ACTION_OPEN,
+			       "title", _("Select Directory"),
+			       /* We need to force local-only as plugins
+				  won't work over the network.  */
+			       "local-only", TRUE,
+			       NULL));
+	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_ADD, GTK_RESPONSE_OK,
+				NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
+
+	/* We'll pass on this one for now -- it looks utterly different. */
+	/* gtk_file_chooser_set_folder_mode (fsel, TRUE); */
+
+	gnm_fixup_filechooser_size (GTK_WIDGET (fsel),
+				    gtk_window_get_screen (wbcg_toplevel (pm_gui->wbcg)));
+
+	/* Show no files.  */
+	gtk_file_chooser_set_filter (fsel, gtk_file_filter_new ());
+
+	if (gnumeric_dialog_file_selection (pm_gui->wbcg, GTK_WIDGET (fsel))) {
+		char *path = gtk_file_chooser_get_filename (fsel);
+
+		if (!g_file_test (path, G_FILE_TEST_IS_DIR)) {
+			char *dir_name = g_path_get_dirname (path);
+			g_free (path);
+			path = dir_name;
+		}
 
 		if (g_slist_find_custom ((GSList *)gnm_app_prefs->plugin_extra_dirs,
-					 dir_name, g_str_compare) == NULL) {
+					 path, g_str_compare) == NULL) {
 			GSList *extra_dirs = g_string_slist_copy (
 				gnm_app_prefs->plugin_extra_dirs);
-			GNM_SLIST_PREPEND (extra_dirs, dir_name);
+			GNM_SLIST_PREPEND (extra_dirs, path);
 			GNM_SLIST_SORT (extra_dirs, g_str_compare);
 
 			gnm_gconf_set_plugin_extra_dirs (extra_dirs);
 			pm_gui_load_directory_page (pm_gui);
 			cb_pm_button_rescan_directories_clicked (pm_gui);
 		} else
-			g_free (dir_name);
+			g_free (path);
 	}
-	gtk_widget_destroy (GTK_WIDGET (fs));
+
+	gtk_widget_destroy (GTK_WIDGET (fsel));
 }
 
 static void

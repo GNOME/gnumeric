@@ -1,3 +1,8 @@
+2004-02-13  Morten Welinder  <terra@gnome.org>
+
+	* dialog-plugin-manager.c (cb_pm_button_directory_add_clicked):
+	Switch to file chooser.
+
 2004-02-09  Morten Welinder  <terra@gnome.org>
 
 	* dialog-search-replace.c: Use GtkEntry (some we don't rely on

@@ -1,3 +1,11 @@
+2004-02-13  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnm_fixup_filechooser_size): New function.
+	(gnumeric_dialog_dir_selection): Delete.
+
+	* src/gui-file.c (gui_file_save_as, gui_file_open): Use
+	gnm_fixup_filechooser_size.
+
 2004-02-11  Morten Welinder  <terra@gnome.org>
 
 	* src/print.c (compute_scale_fit_to): Guard against pages <= 0.
