@@ -1,3 +1,8 @@
+2000-12-20  Jon K Hellan  <hellan@acm.org>
+
+	* src/file.c (dialog_query_load_file): Select directory of
+	workbook file if there is one.
+
 2000-12-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/selection.c (selection_is_simple) : Handle merged cells and

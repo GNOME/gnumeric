@@ -834,8 +834,26 @@ dialog_query_load_file (WorkbookControlGUI *wbcg)
 	GtkFileSelection *fsel;
 	gboolean accepted = FALSE;
 	char *result;
-
+	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Load file")));
+	if (wb && wb->filename) {
+		/* Select current directory if we have one */
+		gchar *dirname = g_dirname (wb->filename);
+		int dnlen = strlen (dirname);
+
+		/* We need a '/' at the end so that the file sel will move
+		 * into the directory. But first, check for overflow. */
+		if (strcmp (dirname, ".") != 0 && dnlen + 2 < MAXPATHLEN) {
+			char buf[MAXPATHLEN];
+			
+			memcpy (buf, dirname, dnlen);
+			buf[dnlen] = '/';
+			buf[dnlen + 1] = '\0';
+			gtk_file_selection_set_filename (fsel, buf);
+		}
+		g_free (dirname);
+	}
 	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
 
 	gnumeric_set_transient (wbcg, GTK_WINDOW (fsel));
