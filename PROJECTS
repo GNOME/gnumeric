@@ -29,6 +29,9 @@ Description                                             Difficulty  Integration
 - Save/Restore the values of the last selected colours	Low	    Low.
   from the toolbar for background or font.
 
+- Intelligently handle setting the size of ALL		Low	    Medium.
+  rows/cols.  We should change the default,
+  not set the size of every ColInfo.
 
 Difficulty: an estimate of how hard the task would be for the average hacker.
   (This is not an estimate of project size; a project can be very big, but
