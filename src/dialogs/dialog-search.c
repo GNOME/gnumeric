@@ -39,6 +39,7 @@
 #include <selection.h>
 
 #include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnumeric-lazy-list.h>
 #include <libgnomeui/gnome-entry.h>
 #include <glade/glade.h>
 #include <string.h>
@@ -90,343 +91,6 @@ static const char *direction_group[] = {
 
 /* ------------------------------------------------------------------------- */
 
-typedef void (*LazyListValueGetFunc) (gint, gint, gpointer, GValue *);
-
-typedef struct _LazyList
-{
-	GObject parent;
-
-	/*< private >*/
-	gint stamp;
-	int rows;
-	int cols;
-	GType *column_headers;
-
-	LazyListValueGetFunc get_value;
-	gpointer user_data;
-} LazyList;
-
-typedef struct _LazyListClass
-{
-  GObjectClass parent_class;
-} LazyListClass;
-
-GtkType lazy_list_get_type (void);
-#define TYPE_LAZY_LIST	          (lazy_list_get_type ())
-#define LAZY_LIST(obj)            (GTK_CHECK_CAST ((obj), TYPE_LAZY_LIST, LazyList))
-#define LAZY_LIST_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_LAZY_LIST, LazyListClass))
-#define IS_LAZY_LIST(obj)         (GTK_CHECK_TYPE ((obj), TYPE_LAZY_LIST))
-#define IS_LAZY_LIST_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), TYPE_LAZY_LIST))
-#define LAZY_LIST_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), TYPE_LAZY_LIST, LazyListClass))
-
-static GObjectClass *lazy_list_parent_class = NULL;
-
-static void
-lazy_list_finalize (GObject *object)
-{
-	LazyList *ll = LAZY_LIST (object);
-
-	g_free (ll->column_headers);
-
-	/* must chain up */
-	lazy_list_parent_class->finalize (object);
-}
-
-static void
-lazy_list_init (LazyList *ll)
-{
-	ll->stamp = 42;
-	ll->rows = 0;
-	ll->cols = 0;
-	ll->get_value = NULL;
-	ll->column_headers = NULL;
-	ll->user_data = NULL;
-}
-
-static void
-lazy_list_class_init (LazyListClass *class)
-{
-	GObjectClass *object_class;
-
-	lazy_list_parent_class = g_type_class_peek_parent (class);
-	object_class = (GObjectClass*) class;
-
-	object_class->finalize = lazy_list_finalize;
-}
-
-
-/* Fulfill the GtkTreeModel requirements */
-static guint
-lazy_list_get_flags (GtkTreeModel *tree_model)
-{
-	g_return_val_if_fail (IS_LAZY_LIST (tree_model), 0);
-
-	return GTK_TREE_MODEL_ITERS_PERSIST | GTK_TREE_MODEL_LIST_ONLY;
-}
-
-static gint
-lazy_list_get_n_columns (GtkTreeModel *tree_model)
-{
-	LazyList *ll = (LazyList *) tree_model;
-
-	g_return_val_if_fail (IS_LAZY_LIST (tree_model), 0);
-
-	return ll->cols;
-}
-
-static GType
-lazy_list_get_column_type (GtkTreeModel *tree_model,
-			   gint          index)
-{
-	LazyList *ll = (LazyList *) tree_model;
-
-	g_return_val_if_fail (IS_LAZY_LIST (tree_model), G_TYPE_INVALID);
-	g_return_val_if_fail (index >= 0 && index < ll->cols, G_TYPE_INVALID);
-
-	return ll->column_headers[index];
-}
-
-static gboolean
-lazy_list_get_iter (GtkTreeModel *tree_model,
-		    GtkTreeIter  *iter,
-		    GtkTreePath  *path)
-{
-	LazyList *ll = (LazyList *) tree_model;
-	gint i;
-
-	g_return_val_if_fail (IS_LAZY_LIST (tree_model), FALSE);
-	g_return_val_if_fail (gtk_tree_path_get_depth (path) > 0, FALSE);
-
-	i = gtk_tree_path_get_indices (path)[0];
-	if (i < 0 || i >= ll->rows)
-		return FALSE;
-
-	iter->stamp = ll->stamp;
-	iter->user_data = GINT_TO_POINTER (i);
-
-	return TRUE;
-}
-
-static GtkTreePath *
-lazy_list_get_path (G_GNUC_UNUSED GtkTreeModel *tree_model,
-		    GtkTreeIter  *iter)
-{
-	GtkTreePath *retval = gtk_tree_path_new ();
-	gtk_tree_path_append_index (retval, GPOINTER_TO_INT (iter->user_data));
-	return retval;
-}
-
-static void
-lazy_list_get_value (GtkTreeModel *tree_model,
-		     GtkTreeIter  *iter,
-		     gint          column,
-		     GValue       *value)
-{
-	gint row;
-	LazyList *ll = (LazyList *) tree_model;
-
-	g_return_if_fail (IS_LAZY_LIST (tree_model));
-	row = GPOINTER_TO_INT (iter->user_data);
-
-	if (ll->get_value)
-		ll->get_value (row, column, ll->user_data, value);
-	else
-		g_value_init (value, ll->column_headers[column]);
-}
-
-static gboolean
-lazy_list_iter_next (GtkTreeModel  *tree_model,
-		     GtkTreeIter   *iter)
-{
-	gint row;
-	LazyList *ll = (LazyList *) tree_model;
-
-	g_return_val_if_fail (IS_LAZY_LIST (tree_model), FALSE);
-	row = GPOINTER_TO_INT (iter->user_data);
-	row++;
-	iter->user_data = GINT_TO_POINTER (row);
-
-	return (row < ll->rows);
-}
-
-static gboolean
-lazy_list_iter_children (GtkTreeModel *tree_model,
-			 GtkTreeIter  *iter,
-			 GtkTreeIter  *parent)
-{
-	LazyList *ll = (LazyList *) tree_model;
-
-	/* this is a list, nodes have no children */
-	if (parent)
-		return FALSE;
-
-	/* but if parent == NULL we return the list itself as children of the
-	 * "root"
-	 */
-
-	iter->stamp = ll->stamp;
-	iter->user_data = 0;
-	return ll->rows > 0;
-}
-
-static gboolean
-lazy_list_iter_has_child (G_GNUC_UNUSED GtkTreeModel *tree_model,
-			  G_GNUC_UNUSED GtkTreeIter  *iter)
-{
-	return FALSE;
-}
-
-static gint
-lazy_list_iter_n_children (GtkTreeModel *tree_model,
-			   GtkTreeIter  *iter)
-{
-	g_return_val_if_fail (IS_LAZY_LIST (tree_model), -1);
-	if (iter == NULL)
-		return LAZY_LIST (tree_model)->rows;
-
-	return 0;
-}
-
-static gboolean
-lazy_list_iter_nth_child (GtkTreeModel *tree_model,
-			  GtkTreeIter  *iter,
-			  GtkTreeIter  *parent,
-			  gint          n)
-{
-	LazyList *ll = (LazyList *) tree_model;
-
-	g_return_val_if_fail (IS_LAZY_LIST (tree_model), FALSE);
-
-	if (parent)
-		return FALSE;
-
-	iter->stamp = ll->stamp;
-	iter->user_data = GINT_TO_POINTER (n);
-
-	return (n >= 0 && n < ll->rows);
-}
-
-static gboolean
-lazy_list_iter_parent (G_GNUC_UNUSED GtkTreeModel *tree_model,
-		       G_GNUC_UNUSED GtkTreeIter  *iter,
-		       G_GNUC_UNUSED GtkTreeIter  *child)
-{
-	return FALSE;
-}
-
-static void
-lazy_list_tree_model_init (GtkTreeModelIface *iface)
-{
-	iface->get_flags = lazy_list_get_flags;
-	iface->get_n_columns = lazy_list_get_n_columns;
-	iface->get_column_type = lazy_list_get_column_type;
-	iface->get_iter = lazy_list_get_iter;
-	iface->get_path = lazy_list_get_path;
-	iface->get_value = lazy_list_get_value;
-	iface->iter_next = lazy_list_iter_next;
-	iface->iter_children = lazy_list_iter_children;
-	iface->iter_has_child = lazy_list_iter_has_child;
-	iface->iter_n_children = lazy_list_iter_n_children;
-	iface->iter_nth_child = lazy_list_iter_nth_child;
-	iface->iter_parent = lazy_list_iter_parent;
-}
-
-GtkType
-lazy_list_get_type (void)
-{
-	static GType lazy_list_type = 0;
-
-	if (!lazy_list_type) {
-		static const GTypeInfo lazy_list_info =
-			{
-				sizeof (LazyListClass),
-				NULL,		/* base_init */
-				NULL,		/* base_finalize */
-				(GClassInitFunc) lazy_list_class_init,
-				NULL,		/* class_finalize */
-				NULL,		/* class_data */
-				sizeof (LazyList),
-				0,
-				(GInstanceInitFunc) lazy_list_init,
-			};
-
-		static const GInterfaceInfo tree_model_info =
-			{
-				(GInterfaceInitFunc) lazy_list_tree_model_init,
-				NULL,
-				NULL
-			};
-
-		lazy_list_type = g_type_register_static (G_TYPE_OBJECT, "LazyList", &lazy_list_info, 0);
-		g_type_add_interface_static (lazy_list_type,
-					     GTK_TYPE_TREE_MODEL,
-					     &tree_model_info);
-	}
-
-	return lazy_list_type;
-}
-
-static LazyList *
-lazy_list_new (LazyListValueGetFunc get_value,
-	       gpointer user_data,
-	       gint n_columns,
-	       ...)
-{
-	LazyList *retval;
-	va_list args;
-	gint i;
-
-	g_return_val_if_fail (n_columns > 0, NULL);
-
-	retval = LAZY_LIST (g_object_new (lazy_list_get_type (), NULL));
-	retval->get_value = get_value;
-	retval->user_data = user_data;
-	retval->cols = n_columns;
-	retval->column_headers = g_new (GType, n_columns);
-
-	va_start (args, n_columns);
-	for (i = 0; i < n_columns; i++)
-		retval->column_headers[i] = va_arg (args, GType);
-	va_end (args);
-
-	return retval;
-}
-
-static void
-lazy_list_set_rows (LazyList *ll, gint rows)
-{
-	g_return_if_fail (IS_LAZY_LIST (ll));
-
-	while (ll->rows > rows) {
-		GtkTreeIter iter;
-		GtkTreePath *path;
-
-		iter.stamp = ll->stamp;
-		iter.user_data = GINT_TO_POINTER (ll->rows - 1);
-
-		path = lazy_list_get_path (GTK_TREE_MODEL (ll), &iter);
-		gtk_tree_model_row_deleted (GTK_TREE_MODEL (ll), path);
-		gtk_tree_path_free (path);
-
-		/* Chances are we should tell our data source...  */
-		ll->rows--;
-	}
-
-	while (ll->rows < rows) {
-		GtkTreeIter iter;
-		GtkTreePath *path;
-
-		iter.stamp = ll->stamp;
-		iter.user_data = GINT_TO_POINTER (ll->rows);
-
-		path = lazy_list_get_path (GTK_TREE_MODEL (ll), &iter);
-		gtk_tree_model_row_inserted (GTK_TREE_MODEL (ll), path, &iter);
-		gtk_tree_path_free (path);
-
-		/* Chances are we should tell our data source...  */
-		ll->rows++;
-	}
-}
 
 /* ------------------------------------------------------------------------- */
 
@@ -434,7 +98,7 @@ static void
 search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 {
 	DialogState *dd = (DialogState *)_dd;
-	LazyList *ll = LAZY_LIST (dd->matches_model);
+	GnumericLazyList *ll = GNUMERIC_LAZY_LIST (dd->matches_model);
 	SearchFilterResult *item = g_ptr_array_index (dd->matches, row);
 	Cell *cell = item->cell;
 
@@ -588,6 +252,7 @@ cursor_change (GtkTreeView *tree_view, DialogState *dd)
 		sv = wb_view_cur_sheet_view (wbv);
 		sv_set_edit_pos (sv, &item->ep.eval);
 		sv_selection_set (sv, &item->ep.eval, col, row, col, row);
+		sv_make_cell_visible (sv, col, row, FALSE);
 		sv_update (sv);
 	}
 }
@@ -662,16 +327,16 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	}
 
 	{
-		LazyList *ll = LAZY_LIST (dd->matches_model);
+		GnumericLazyList *ll = GNUMERIC_LAZY_LIST (dd->matches_model);
 		GPtrArray *cells = search_collect_cells (sr, wb_control_cur_sheet (wbc));
 
-		lazy_list_set_rows (ll, 0);
+		gnumeric_lazy_list_set_rows (ll, 0);
 
 		search_filter_matching_free (dd->matches);
 		dd->matches = search_filter_matching (sr, cells);
 		search_collect_cells_free (cells);
 
-		lazy_list_set_rows (ll, dd->matches->len);
+		gnumeric_lazy_list_set_rows (ll, dd->matches->len);
 
 		/* Set sensitivity of buttons.  */
 		cursor_change (dd->matches_table, dd);
@@ -814,13 +479,13 @@ dialog_search (WorkbookControlGUI *wbcg)
 		(GTK_WINDOW (dialog), gnome_entry_gtk_entry (dd->gentry));
 
 	dd->matches_model = GTK_TREE_MODEL
-		(lazy_list_new (search_get_value,
-				dd,
-				4,
-				G_TYPE_STRING,
-				G_TYPE_STRING,
-				G_TYPE_STRING,
-				G_TYPE_STRING));
+		(gnumeric_lazy_list_new (search_get_value,
+					 dd,
+					 4,
+					 G_TYPE_STRING,
+					 G_TYPE_STRING,
+					 G_TYPE_STRING,
+					 G_TYPE_STRING));
 	dd->matches_table = make_matches_table (dd->matches_model);
 
 	{

@@ -27,5 +27,7 @@ libwidgets_a_SOURCES =				\
 	gnumeric-expr-entry.h			\
 	gnumeric-combo-text.c			\
 	gnumeric-combo-text.h			\
+	gnumeric-lazy-list.c			\
+	gnumeric-lazy-list.h			\
 	gnumeric-optionmenu.c			\
 	gnumeric-optionmenu.h
