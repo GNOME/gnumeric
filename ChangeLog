@@ -1,3 +1,48 @@
+2004-10-29  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-gconf.c (gnm_conf_init_extras) : typos in the broken
+	  gconf case
+
+2004-10-29  Jody Goldberg <jody@gnome.org>
+
+	* src/format.c (append_hour) : be XL compat
+
+2004-10-29  Jody Goldberg <jody@gnome.org>
+
+	* src/file-autoft.c : clean up the handling of translations
+	* src/format-template.c (format_template_new) : Name should be
+	  translatable, not translated.
+
+2004-10-29  Jody Goldberg <jody@gnome.org>
+
+	* src/application.c (gnm_action_new) : new
+	(gnm_action_free) : ditto
+	(gnm_app_add_extra_ui) : ditto
+	(gnm_app_remove_extra_ui) : ditto
+	(gnm_app_foreach_extra_ui) : ditto
+
+	* configure.in : enable the sample ui plugin
+	* plugins/Makefile.am : ditto
+	* plugins/python-loader/boot.c : ditto
+	* plugins/python-loader/py-console.c : ditto
+	* plugins/python-loader/python-loader.c : ditto
+
+2004-10-27  Jody Goldberg <jody@gnome.org>
+
+	* src/plugin-service.c : enable the ui service.
+	* plugins/gnome-db/plugin-gnomedb.c : Use the new interface for the ui
+	  plugin
+
+	* src/sheet-object-graph.c (sheet_object_graph_default_size) : be
+	  cheesy.  We're setting the bounds in so many places before this is
+	  called that it's not safe to use the defaults from GogRenderer.  Not
+	  a huge loss, those were pretty arbitrary.
+
+2004-10-26  Jody Goldberg <jody@gnome.org>
+
+	* src/libgnumeric.c (gnm_pre_parse_init) : Set the default
+	  datadir/libdir based on the packge for WIN32
+
 2004-10-28  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* plugins/excel/ms-chart.c (BC_R): handle dash_type property.

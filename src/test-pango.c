@@ -21,8 +21,6 @@
 #include <gtk/gtkmain.h>
 
 int gnumeric_no_splash = TRUE;
-char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
-char const *gnumeric_data_dir = GNUMERIC_DATADIR;
 
 const struct poptOption
 gnumeric_popt_options[] = {
@@ -76,7 +74,7 @@ main (int argc, char *argv [])
 	IOContext *ioc;
 	poptContext ctx;
 
-	init_init (argv[0]);
+	gnm_pre_parse_init (argv[0]);
 
 	ctx = gnumeric_arg_parse (argc, argv);
 

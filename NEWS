@@ -34,6 +34,10 @@ Jody:
 	* Basic handling for XL 'Forms' Objects
 	* Fix handling of empty arguments in nested expressions
 	* Delay gnome-print init to decrease startup time
+	* Improve OOo import for styles
+	* Some support for newer Lotus-123 formats
+	* Translate autoformat categories and descriptions
+	* Re-enable the ui plugin service
 
 Morten:
 	* Implement Edit->Select->Input. [#154735]

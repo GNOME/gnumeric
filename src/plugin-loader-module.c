@@ -50,9 +50,7 @@ static void gnm_plugin_loader_module_load_service_file_opener (GnmPluginLoader *
 static void gnm_plugin_loader_module_load_service_file_saver (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
 static void gnm_plugin_loader_module_load_service_function_group (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
 static void gnm_plugin_loader_module_load_service_plugin_loader (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
-#ifdef WITH_BONOBO
 static void gnm_plugin_loader_module_load_service_ui (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
-#endif
 
 static void
 gnm_plugin_loader_module_set_attributes (GnmPluginLoader *loader,
@@ -192,11 +190,7 @@ gnm_plugin_loader_module_class_init (GObjectClass *gobject_class)
 	gnm_plugin_loader_class->load_service_file_saver = gnm_plugin_loader_module_load_service_file_saver;
 	gnm_plugin_loader_class->load_service_function_group = gnm_plugin_loader_module_load_service_function_group;
 	gnm_plugin_loader_class->load_service_plugin_loader = gnm_plugin_loader_module_load_service_plugin_loader;
-#ifdef WITH_BONOBO
 	gnm_plugin_loader_class->load_service_ui = gnm_plugin_loader_module_load_service_ui;
-#else
-	gnm_plugin_loader_class->load_service_ui = NULL;
-#endif
 }
 
 GSF_CLASS (GnmPluginLoaderModule, gnm_plugin_loader_module,
@@ -571,14 +565,13 @@ gnm_plugin_loader_module_load_service_plugin_loader (GnmPluginLoader *loader,
 	g_free (func_name_get_loader_type);
 }
 
-#ifdef WITH_BONOBO
 /*
  * Service - ui
  */
 
 typedef struct {
-	ModulePluginUIVerbInfo *module_ui_verbs_array;
-	GHashTable *ui_verbs_hash;
+	ModulePluginUIActions *module_ui_actions_array;
+	GHashTable *ui_actions_hash;
 } ServiceLoaderDataUI;
 
 static void
@@ -586,42 +579,41 @@ ui_loader_data_free (gpointer data)
 {
 	ServiceLoaderDataUI *ld = data;
 
-	g_hash_table_destroy (ld->ui_verbs_hash);
+	g_hash_table_destroy (ld->ui_actions_hash);
 	g_free (ld);
 }
 
 static void
-gnm_plugin_loader_module_func_exec_verb (GnmPluginService *service,
-                                              WorkbookControlGUI *wbcg,
-                                              BonoboUIComponent *uic,
-                                              const gchar *cname,
-                                              ErrorInfo **ret_error)
+gnm_plugin_loader_module_func_exec_action (GnmPluginService *service,
+					   GnmAction const *action,
+					   WorkbookControl *wbc,
+					   ErrorInfo **ret_error)
 {
 	ServiceLoaderDataUI *loader_data;
-	gpointer verb_index_ptr;
-	int verb_index;
+	gpointer action_index_ptr;
+	int action_index;
 
 	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_UI (service));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
-	if (!g_hash_table_lookup_extended (loader_data->ui_verbs_hash, cname,
-	                                   NULL, &verb_index_ptr)) {
-		*ret_error = error_info_new_printf (_("Unknown verb: %s"), cname);
+	if (!g_hash_table_lookup_extended (loader_data->ui_actions_hash, action->id,
+	                                   NULL, &action_index_ptr)) {
+		*ret_error = error_info_new_printf (_("Unknown action: %s"), action->id);
 		return;
 	}
-	verb_index = GPOINTER_TO_INT (verb_index_ptr);
-	loader_data->module_ui_verbs_array[verb_index].verb_func (wbcg);
+	action_index = GPOINTER_TO_INT (action_index_ptr);
+	loader_data->module_ui_actions_array [action_index].handler (action, wbc);
 }
 
 static void
 gnm_plugin_loader_module_load_service_ui (GnmPluginLoader *loader,
-                                               GnmPluginService *service,
-                                               ErrorInfo **ret_error)
+					  GnmPluginService *service,
+					  ErrorInfo **ret_error)
 {
 	GnmPluginLoaderModule *loader_module = GNM_PLUGIN_LOADER_MODULE (loader);
-	char *ui_verbs_array_name;
-	ModulePluginUIVerbInfo *module_ui_verbs_array = NULL;
+	char *ui_actions_array_name;
+	ModulePluginUIActions *module_ui_actions_array = NULL;
 	PluginServiceUICallbacks *cbs;
 	ServiceLoaderDataUI *loader_data;
 	gint i;
@@ -629,33 +621,30 @@ gnm_plugin_loader_module_load_service_ui (GnmPluginLoader *loader,
 	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_UI (service));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	ui_verbs_array_name = g_strconcat (
-		plugin_service_get_id (service), "_ui_verbs", NULL);
-	g_module_symbol (loader_module->handle, ui_verbs_array_name, (gpointer) &module_ui_verbs_array);
-	if (module_ui_verbs_array == NULL) {
+	ui_actions_array_name = g_strconcat (
+		plugin_service_get_id (service), "_ui_actions", NULL);
+	g_module_symbol (loader_module->handle, ui_actions_array_name, (gpointer) &module_ui_actions_array);
+	if (module_ui_actions_array == NULL) {
 		*ret_error = error_info_new_printf (
 			_("Module file \"%s\" has invalid format."),
 			loader_module->module_file_name);
 		error_info_add_details (*ret_error, error_info_new_printf (
-			_("File doesn't contain \"%s\" array."), ui_verbs_array_name));
-		g_free (ui_verbs_array_name);
+			_("File doesn't contain \"%s\" array."), ui_actions_array_name));
+		g_free (ui_actions_array_name);
 		return;
 	}
-	g_free (ui_verbs_array_name);
+	g_free (ui_actions_array_name);
 
 	cbs = plugin_service_get_cbs (service);
-	cbs->plugin_func_exec_verb = gnm_plugin_loader_module_func_exec_verb;
+	cbs->plugin_func_exec_action = gnm_plugin_loader_module_func_exec_action;
 
 	loader_data = g_new (ServiceLoaderDataUI, 1);
-	loader_data->module_ui_verbs_array = module_ui_verbs_array;
-	loader_data->ui_verbs_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	for (i = 0; module_ui_verbs_array[i].verb_name != NULL; i++) {
-		g_hash_table_insert (
-			loader_data->ui_verbs_hash,
-			(gpointer) module_ui_verbs_array[i].verb_name,
+	loader_data->module_ui_actions_array = module_ui_actions_array;
+	loader_data->ui_actions_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	for (i = 0; module_ui_actions_array[i].name != NULL; i++)
+		g_hash_table_insert (loader_data->ui_actions_hash,
+			(gpointer) module_ui_actions_array[i].name,
 			GINT_TO_POINTER (i));
-	}
-	g_object_set_data_full (
-		G_OBJECT (service), "loader_data", loader_data, ui_loader_data_free);
+	g_object_set_data_full (G_OBJECT (service),
+		"loader_data", loader_data, ui_loader_data_free);
 }
-#endif /* WITH_BONOBO */

@@ -94,11 +94,12 @@ ib_fonts_unref (ItemBar *ib)
 
 /**
  * item_bar_calc_size :
+ * @ib : #ItemBar
  *
  * Scale fonts and sizes by the pixels_per_unit of the associated sheet.
  *
- * returns : the size of the fixed dimension.
- */
+ * Returns : the size of the fixed dimension.
+ **/
 int
 item_bar_calc_size (ItemBar *ib)
 {

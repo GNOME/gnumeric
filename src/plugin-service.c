@@ -17,9 +17,6 @@
 #include "io-context.h"
 #include "error-info.h"
 #include "file.h"
-#ifdef WITH_BONOBO
-#include <bonobo/bonobo-stream.h>
-#endif
 #include "file-priv.h"
 #include "plugin.h"
 #include "xml-io.h"
@@ -670,9 +667,9 @@ plugin_service_file_saver_read_xml (GnmPluginService *service, xmlNode *tree, Er
 	gchar *format_level_str, *save_scope_str;
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	file_extension = xmlGetProp (tree, (xmlChar *)"file_extension");
-	format_level_str = xmlGetProp (tree, (xmlChar *)"format_level");
-	save_scope_str = xmlGetProp (tree, (xmlChar *)"save_scope");
+	file_extension = xml_node_get_cstr (tree, "file_extension");
+	format_level_str = xml_node_get_cstr (tree, "format_level");
+	save_scope_str = xml_node_get_cstr (tree, "save_scope");
 	information_node = e_xml_get_child_by_name (tree, (xmlChar *)"information");
 	if (information_node != NULL) {
 		xmlNode *node;
@@ -935,7 +932,7 @@ plugin_service_function_group_read_xml (GnmPluginService *service, xmlNode *tree
 	if (translated_category_node != NULL) {
 		gchar *lang;
 
-		lang = xmlGetProp (translated_category_node, (xmlChar *)"xml:lang");
+		lang = xml_node_get_cstr (translated_category_node, "xml:lang");
 		if (lang != NULL) {
 			xmlChar *val;
 
@@ -957,7 +954,7 @@ plugin_service_function_group_read_xml (GnmPluginService *service, xmlNode *tree
 			gchar *func_name;
 
 			if (strcmp (node->name, "function") != 0 ||
-			    (func_name = xmlGetProp (node, (xmlChar *)"name")) == NULL) {
+			    (func_name = xml_node_get_cstr (node, "name")) == NULL) {
 				continue;
 			}
 			GNM_SLIST_PREPEND (function_name_list, func_name);
@@ -1194,12 +1191,9 @@ GSF_CLASS (PluginServicePluginLoader, plugin_service_plugin_loader,
            GNM_PLUGIN_SERVICE_TYPE)
 
 
-#ifdef WITH_BONOBO
 /*
  * PluginServiceUI
  */
-#include <workbook-control-gui.h>
-
 typedef struct{
 	GnmPluginServiceClass plugin_service_class;
 } PluginServiceUIClass;
@@ -1208,9 +1202,9 @@ struct _PluginServiceUI {
 	GnmPluginService plugin_service;
 
 	char *file_name;
-	GSList *verbs;
+	GSList *actions;
 
-	CustomXmlUI *ui;
+	gpointer layout_id;
 	PluginServiceUICallbacks cbs;
 };
 
@@ -1221,9 +1215,9 @@ plugin_service_ui_init (GObject *obj)
 
 	GNM_PLUGIN_SERVICE (obj)->cbs_ptr = &service_ui->cbs;
 	service_ui->file_name = NULL;
-	service_ui->verbs = NULL;
-	service_ui->ui = NULL;
-	service_ui->cbs.plugin_func_exec_verb = NULL;
+	service_ui->actions = NULL;
+	service_ui->layout_id = NULL;
+	service_ui->cbs.plugin_func_exec_action = NULL;
 }
 
 static void
@@ -1234,65 +1228,26 @@ plugin_service_ui_finalize (GObject *obj)
 
 	g_free (service_ui->file_name);
 	service_ui->file_name = NULL;
-	gnm_slist_free_custom (service_ui->verbs, g_free);
-	service_ui->verbs = NULL;
+	gnm_slist_free_custom (service_ui->actions, g_free);
+	service_ui->actions = NULL;
 
 	parent_class = g_type_class_peek (GNM_PLUGIN_SERVICE_TYPE);
 	parent_class->finalize (obj);
 }
 
 static void
-plugin_service_ui_read_xml (GnmPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+cb_ui_service_activate (GnmAction const *action, WorkbookControl *wbc, GnmPluginService *service)
 {
-	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
-	char *file_name;
-	xmlNode *verbs_node;
-	GSList *verbs = NULL;
-
-	GNM_INIT_RET_ERROR_INFO (ret_error);
-	file_name = xmlGetProp (tree, "file");
-	if (file_name == NULL) {
-		*ret_error = error_info_new_str (
-		             _("Missing file name."));
-		return;
-	}
-	verbs_node = e_xml_get_child_by_name (tree, "verbs");
-	if (verbs_node != NULL) {
-		xmlNode *node;
-
-		for (node = verbs_node->xmlChildrenNode; node != NULL; node = node->next) {
-			char *name;
-
-			if (strcmp (node->name, "verb") == 0 &&
-			    (name = xmlGetProp (node, "name")) != NULL) {
-				GNM_SLIST_PREPEND (verbs, name);
-			}
-		}
-	}
-	GNM_SLIST_REVERSE (verbs);
-
-	service_ui->file_name = file_name;
-	service_ui->verbs = verbs;
-}
-
-static void
-ui_verb_fn (BonoboUIComponent *uic, gpointer user_data, gchar const *cname)
-{
-	GnmPluginService *service = GNM_PLUGIN_SERVICE (user_data);
 	ErrorInfo *load_error = NULL;
 
 	plugin_service_load (service, &load_error);
 	if (load_error == NULL) {
 		PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
-		WorkbookControlGUI *wbcg;
 		ErrorInfo *ignored_error = NULL;
 
-		g_return_if_fail (service_ui->cbs.plugin_func_exec_verb != NULL);
-		wbcg = g_object_get_data (
-			G_OBJECT (uic), "gnumeric-workbook-control-gui");
-		g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
-		service_ui->cbs.plugin_func_exec_verb (
-			service, wbcg, uic, cname, &ignored_error);
+		g_return_if_fail (service_ui->cbs.plugin_func_exec_action != NULL);
+		service_ui->cbs.plugin_func_exec_action (
+			service, action, wbc, &ignored_error);
 		if (ignored_error != NULL) {
 			error_info_print (ignored_error);
 			error_info_free (ignored_error);
@@ -1304,11 +1259,57 @@ ui_verb_fn (BonoboUIComponent *uic, gpointer user_data, gchar const *cname)
 }
 
 static void
+plugin_service_ui_read_xml (GnmPluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+{
+	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
+	char *file_name;
+	xmlNode *verbs_node;
+	GSList *actions = NULL;
+
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	file_name = xml_node_get_cstr (tree, "file");
+	if (file_name == NULL) {
+		*ret_error = error_info_new_str (
+		             _("Missing file name."));
+		return;
+	}
+	verbs_node = e_xml_get_child_by_name (tree, "actions");
+	if (verbs_node != NULL) {
+		xmlNode *ptr;
+		xmlChar *name, *label, *icon;
+		gboolean always_available;
+		GnmAction *action;
+
+		for (ptr = verbs_node->xmlChildrenNode; ptr != NULL; ptr = ptr->next) {
+			if (xmlIsBlankNode (ptr) || ptr->name == NULL ||
+			    strcmp (ptr->name, "action"))
+				continue;
+			name  = xml_node_get_cstr (ptr, "name");
+			label = xml_node_get_cstr (ptr, "label");
+			icon  = xml_node_get_cstr (ptr, "icon");
+			if (!xml_node_get_bool (ptr, "always_available", &always_available))
+				always_available = FALSE;
+			action = gnm_action_new (name, label, icon, always_available,
+				(GnmActionHandler) cb_ui_service_activate);
+			if (NULL != name) xmlFree (name);
+			if (NULL != name) xmlFree (label);
+			if (NULL != name) xmlFree (icon);
+			if (NULL != action)
+				GNM_SLIST_PREPEND (actions, action);
+		}
+	}
+	GNM_SLIST_REVERSE (actions);
+
+	service_ui->file_name = file_name;
+	service_ui->actions = actions;
+}
+
+static void
 plugin_service_ui_activate (GnmPluginService *service, ErrorInfo **ret_error)
 {
 	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
+	GError *err = NULL;
 	char *full_file_name;
-	BonoboUINode *uinode;
 	char *xml_ui;
 	char const *textdomain;
 
@@ -1316,8 +1317,7 @@ plugin_service_ui_activate (GnmPluginService *service, ErrorInfo **ret_error)
 	full_file_name = g_build_filename (
 		gnm_plugin_get_dir_name (service->plugin),
 		service_ui->file_name, NULL);
-	uinode = bonobo_ui_node_from_file (full_file_name);
-	if (uinode == NULL) {
+	if (!g_file_get_contents (full_file_name, &xml_ui, NULL, &err)) {
 		*ret_error = error_info_new_printf (
 		             _("Cannot read UI description from XML file %s."),
 		             full_file_name);
@@ -1326,15 +1326,11 @@ plugin_service_ui_activate (GnmPluginService *service, ErrorInfo **ret_error)
 	}
 	g_free (full_file_name);
 
-	xml_ui = bonobo_ui_node_to_string (uinode, TRUE);
-	bonobo_ui_node_free (uinode);
-
 	textdomain = gnm_plugin_get_textdomain (service->plugin);
-	service_ui->ui = register_xml_ui (
-		xml_ui, textdomain, service_ui->verbs,
-		G_CALLBACK (ui_verb_fn), service);
+	service_ui->layout_id = gnm_app_add_extra_ui (
+		service_ui->actions,
+		xml_ui, textdomain, service);
 	service->is_active = TRUE;
-	g_free (xml_ui);
 }
 
 static void
@@ -1343,7 +1339,8 @@ plugin_service_ui_deactivate (GnmPluginService *service, ErrorInfo **ret_error)
 	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	unregister_xml_ui (service_ui->ui);
+	gnm_app_remove_extra_ui (service_ui->layout_id);
+	service_ui->layout_id = NULL;
 	service->is_active = FALSE;
 }
 
@@ -1351,15 +1348,15 @@ static char *
 plugin_service_ui_get_description (GnmPluginService *service)
 {
 	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
-	int n_verbs;
+	int n_actions;
 
-	n_verbs = g_slist_length (service_ui->verbs);
+	n_actions = g_slist_length (service_ui->actions);
 	return g_strdup_printf (
 		ngettext (
 			N_("User interface with %d action"),
 			N_("User interface with %d actions"),
-			n_verbs),
-		n_verbs);
+			n_actions),
+		n_actions);
 }
 
 static void
@@ -1377,8 +1374,6 @@ plugin_service_ui_class_init (GObjectClass *gobject_class)
 GSF_CLASS (PluginServiceUI, plugin_service_ui,
            plugin_service_ui_class_init, plugin_service_ui_init,
            GNM_PLUGIN_SERVICE_TYPE)
-
-#endif
 
 /**************************************************************************
  * PluginServiceGObjectLoader
@@ -1492,7 +1487,7 @@ plugin_service_new (GnmPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error)
 	g_return_val_if_fail (strcmp (tree->name, "service") == 0, NULL);
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	type_str = xmlGetProp (tree, (xmlChar *) "type");
+	type_str = xml_node_get_cstr (tree, "type");
 	if (type_str == NULL) {
 		*ret_error = error_info_new_str (_("No \"type\" attribute on \"service\" element."));
 		return NULL;
@@ -1508,7 +1503,7 @@ plugin_service_new (GnmPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error)
 
 	service = g_object_new (ctor(), NULL);
 	service->plugin = plugin;
-	service->id = xmlGetProp (tree, (xmlChar *) "id");
+	service->id = xml_node_get_cstr (tree, "id");
 	if (service->id == NULL)
 		service->id = g_strdup ("default");
 
@@ -1622,9 +1617,7 @@ plugin_services_init (void)
 		{ "file_saver",		plugin_service_file_saver_get_type},
 		{ "function_group",	plugin_service_function_group_get_type},
 		{ "plugin_loader",	plugin_service_plugin_loader_get_type}
-#ifdef WITH_BONOBO
 		,{"ui",			plugin_service_ui_get_type}
-#endif
 /* base classes, not really for direct external use,
  * put here for expositional purposes
  */

@@ -5,6 +5,7 @@
 #include <gmodule.h>
 #include <libxml/tree.h>
 #include "gnumeric.h"
+#include "application.h"
 #include "file.h"
 #include "func.h"
 #include "error-info.h"
@@ -96,10 +97,6 @@ typedef struct {
 GType plugin_service_plugin_loader_generate_type (GnmPluginService *service,
                                                   ErrorInfo **ret_error);
 
-#ifdef WITH_BONOBO
-#include <bonobo.h>
-#include <gui-gnumeric.h>
-
 #define GNM_PLUGIN_SERVICE_UI_TYPE  (plugin_service_ui_get_type ())
 #define GNM_PLUGIN_SERVICE_UI(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_UI_TYPE, PluginServiceUI))
 #define IS_GNM_PLUGIN_SERVICE_UI(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_UI_TYPE))
@@ -107,12 +104,10 @@ GType plugin_service_plugin_loader_generate_type (GnmPluginService *service,
 GType plugin_service_ui_get_type (void);
 typedef struct _PluginServiceUI PluginServiceUI;
 typedef struct {
-	void (*plugin_func_exec_verb) (
-		GnmPluginService *service, WorkbookControlGUI *wbcg,
-		BonoboUIComponent *uic, char const *cname, ErrorInfo **ret_error);
+	void (*plugin_func_exec_action) (
+		GnmPluginService *service, WorkbookControl *wbc,
+		GnmAction const *action, ErrorInfo **ret_error);
 } PluginServiceUICallbacks;
-
-#endif
 
 /****************************************************************************/
 

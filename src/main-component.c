@@ -27,9 +27,6 @@
 #define d(code)
 #endif
 
-char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
-char const *gnumeric_data_dir = GNUMERIC_DATADIR;
-
 static float preferred_zoom_levels[] = {
 	1.0 / 4.0, 1.0 / 2.0, 3.0 / 4.0, 1.0, 1.5, 2.0, 3.0, 5.0
 };
@@ -248,7 +245,7 @@ gnm_component_factory (BonoboGenericFactory *this,
 int
 main (int argc, char *argv [])
 {
-	init_init (argv[0]);
+	gnm_pre_parse_init (argv[0]);
 
 	BONOBO_FACTORY_INIT ("gnumeric-component", VERSION, &argc, argv);
         bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");

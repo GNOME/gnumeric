@@ -81,7 +81,7 @@ wb_control_title_set (WorkbookControl *wbc, char const * title)
 
 	if (wbc_class != NULL && wbc_class->title_set != NULL)
 		wbc_class->title_set (wbc, title);
-	gnm_app_flag_windows_changed ();
+	_gnm_app_flag_windows_changed ();
 }
 
 WBC_VIRTUAL (prefs_update,

@@ -1,4 +1,3 @@
-
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <glib.h>
@@ -11,7 +10,7 @@
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 static void
-view_data_sources (WorkbookControlGUI *wbcg)
+view_data_sources (GnmAction const *action, WorkbookControl *wbc)
 {
 	char *argv[2];
 
@@ -21,12 +20,12 @@ view_data_sources (WorkbookControlGUI *wbcg)
 
 	if (!g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
 			    NULL, NULL, NULL, NULL))
-		gnumeric_notice (wbcg_toplevel (wbcg),
+		gnumeric_notice (wbcg_toplevel (WORKBOOK_CONTROL_GUI (wbcg)),
 				 GTK_MESSAGE_INFO, 
 				 _("Could not run GNOME database configuration tool"));
 }
 
-const ModulePluginUIVerbInfo gnome_db_ui_verbs[] = {
+ModulePluginUIActions const gnome_db_ui_actions[] = {
 	{"ViewDataSources", view_data_sources},
 	{NULL}
 };

@@ -49,8 +49,6 @@ static char *func_def_file = NULL;
 static char *func_state_file = NULL;
 
 int gnumeric_no_splash = FALSE;
-char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
-char const *gnumeric_data_dir = GNUMERIC_DATADIR;
 
 /* Even given popt.h, compiler won't be able to resolve the popt macros
    as const expressions in the initializer without this decl on win32 */
@@ -162,8 +160,8 @@ gnumeric_arg_parse (int argc, char const *argv [])
 		argc, (char **)argv,
 		GNOME_PARAM_APP_PREFIX,		GNUMERIC_PREFIX,
 		GNOME_PARAM_APP_SYSCONFDIR,	GNUMERIC_SYSCONFDIR,
-		GNOME_PARAM_APP_DATADIR,	GNUMERIC_DATADIR,
-		GNOME_PARAM_APP_LIBDIR,		GNUMERIC_LIBDIR,
+		GNOME_PARAM_APP_DATADIR,	gnumeric_data_dir,
+		GNOME_PARAM_APP_LIBDIR,		gnumeric_lib_dir,
 		GNOME_PARAM_POPT_TABLE,		gnumeric_popt_options,
 		NULL);
 
@@ -249,14 +247,14 @@ main (int argc, char const *argv [])
 
 	poptContext ctx;
 
-	init_init (argv[0]);
+	gnm_pre_parse_init (argv[0]);
 
 	ctx = gnumeric_arg_parse (argc, argv);
         bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
 	if (gnumeric_show_version) {
 		g_print (_("gnumeric version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
-			 GNUMERIC_VERSION, GNUMERIC_DATADIR, GNUMERIC_LIBDIR);
+			 GNUMERIC_VERSION, gnumeric_data_dir, gnumeric_lib_dir);
 		return 0;
 	}
 

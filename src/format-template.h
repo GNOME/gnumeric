@@ -53,17 +53,22 @@ typedef enum {
 	FREQ_DIRECTION_VERTICAL
 } FreqDirection;
 
+/* A collection of categories of the same name from different paths */
 typedef struct {
 	GList *categories;
-	gchar *orig_name, *name;
-	gchar *description;
+
+	/* translatable via gettext in the std message domain */
+	char *name;
+	char *description;
 } FormatTemplateCategoryGroup;
 
 typedef struct {
 	char *directory;
-	char *orig_name, *name;
-	char *description;
 	gboolean is_writable;
+
+	/* translatable via gettext in the std message domain */
+	char *name;
+	char *description;
 } FormatTemplateCategory;
 
 struct _FormatTemplate {
@@ -71,6 +76,7 @@ struct _FormatTemplate {
 	GSList *members;	/* the actual TemplateMembers */
 	char *filename;
 	char *author;
+	/* translatable via gettext in the std message domain */
 	char *name;
 	char *description;
 

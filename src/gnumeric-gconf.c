@@ -633,12 +633,12 @@ gnm_conf_init_extras (void)
 	prefs.autoformat.extra_dirs = go_conf_load_str_list (AUTOFORMAT_GCONF_EXTRA_DIRS);
 	tmp = go_conf_load_string (AUTOFORMAT_GCONF_SYS_DIR);
 	if (tmp == NULL)
-		tmp = g_strdup ("autoformat-template");
+		tmp = g_strdup ("autoformat-templates");
 	prefs.autoformat.sys_dir = gnm_sys_data_dir (tmp);
 	g_free (tmp);
 	tmp = go_conf_load_string (AUTOFORMAT_GCONF_USR_DIR);
 	if (tmp == NULL)
-		tmp = g_strdup ("autoformat-template");
+		tmp = g_strdup ("autoformat-templates");
 	prefs.autoformat.usr_dir = gnm_usr_dir (tmp);
 	g_free (tmp);
 

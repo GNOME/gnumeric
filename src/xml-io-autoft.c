@@ -51,7 +51,7 @@ gnumeric_xml_read_format_template_category (char const *dir_name)
 {
 	gchar *file_name;
 	xmlDocPtr doc;
-	xmlNodePtr orig_info_node, translated_info_node;
+	xmlNodePtr node;
 	FormatTemplateCategory *category = NULL;
 
 	g_return_val_if_fail (dir_name != NULL, NULL);
@@ -61,30 +61,19 @@ gnumeric_xml_read_format_template_category (char const *dir_name)
 	if (doc != NULL && doc->xmlRootNode != NULL
 	    && xmlSearchNsByHref (doc, doc->xmlRootNode, (xmlChar *)"http://www.gnome.org/gnumeric/format-template-category/v1") != NULL
 	    && strcmp (doc->xmlRootNode->name, "FormatTemplateCategory") == 0
-	    && (translated_info_node = e_xml_get_child_by_name_by_lang (doc->xmlRootNode, "Information")) != NULL) {
-		xmlChar *orig_name, *name, *description, *lang;
-
-		orig_info_node = e_xml_get_child_by_name_no_lang (doc->xmlRootNode, "Information");
-		if (orig_info_node == NULL) {
-			orig_info_node = translated_info_node;
-		}
-
-		orig_name = xmlGetProp (orig_info_node, (xmlChar *)"name");
-		name = xmlGetProp (translated_info_node, (xmlChar *)"name");
-		description = xmlGetProp (translated_info_node, (xmlChar *)"description");
-		lang = xmlGetProp (translated_info_node, (xmlChar *)"xml:lang");
-		if (orig_name != NULL) {
+	    && (node = e_xml_get_child_by_name (doc->xmlRootNode, "Information")) != NULL) {
+		xmlChar *name = xmlGetProp (node, (xmlChar *)"name");
+		if (name != NULL) {
+			xmlChar *description = xmlGetProp (node, (xmlChar *)"description");
 			category = g_new (FormatTemplateCategory, 1);
 			category->directory = g_strdup (dir_name);
-			category->orig_name = g_strdup ((gchar *)orig_name);
 			category->name = g_strdup ((gchar *)name);
 			category->description = g_strdup ((gchar *)description);
 			category->is_writable = (access (dir_name, W_OK) == 0);
+			if (description != NULL)
+				xmlFree (description);
+			xmlFree (name);
 		}
-		xmlFree (orig_name);
-		xmlFree (name);
-		xmlFree (description);
-		xmlFree (lang);
 	}
 	xmlFreeDoc (doc);
 	g_free (file_name);

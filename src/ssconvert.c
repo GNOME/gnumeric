@@ -27,8 +27,6 @@
 #include <libgnome/gnome-init.h>
 #endif
 
-char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
-char const *gnumeric_data_dir = GNUMERIC_DATADIR;
 static gboolean ssconvert_show_version = FALSE;
 static gboolean ssconvert_list_exporters = FALSE;
 static gboolean ssconvert_list_importers = FALSE;
@@ -69,13 +67,13 @@ main (int argc, char *argv [])
 	int		 res = 0;
 	poptContext ctx;
 
-	init_init (argv[0]);
+	gnm_pre_parse_init (argv[0]);
 	program = gnome_program_init (PACKAGE, VERSION,
 		LIBGNOME_MODULE, argc, argv,
 		GNOME_PARAM_APP_PREFIX,		GNUMERIC_PREFIX,
 		GNOME_PARAM_APP_SYSCONFDIR,	GNUMERIC_SYSCONFDIR,
-		GNOME_PARAM_APP_DATADIR,	GNUMERIC_DATADIR,
-		GNOME_PARAM_APP_LIBDIR,		GNUMERIC_LIBDIR,
+		GNOME_PARAM_APP_DATADIR,	gnumeric_data_dir,
+		GNOME_PARAM_APP_LIBDIR,		gnumeric_lib_dir,
 		GNOME_PARAM_POPT_TABLE,		gnumeric_popt_options,
 		NULL);
 
@@ -85,7 +83,7 @@ main (int argc, char *argv [])
 
 	if (ssconvert_show_version) {
 		printf (_("ssconvert version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
-			GNUMERIC_VERSION, GNUMERIC_DATADIR, GNUMERIC_LIBDIR);
+			GNUMERIC_VERSION, gnumeric_data_dir, gnumeric_lib_dir);
 		return 0;
 	}
 

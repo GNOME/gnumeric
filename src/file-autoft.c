@@ -44,12 +44,12 @@
 #define TEMPLATE_FILE_EXT    ".xml"
 
 static gint
-category_compare_orig_name_and_dir (const void *a, const void *b)
+category_compare_name_and_dir (const void *a, const void *b)
 {
 	const FormatTemplateCategory *cat_a = a, *cat_b = b;
 	int res;
 
-	res = strcmp (cat_a->orig_name, cat_b->orig_name);
+	res = strcmp (cat_a->name, cat_b->name);
 	return res != 0 ? res : strcmp (cat_a->directory, cat_b->directory);
 }
 
@@ -57,7 +57,6 @@ static void
 category_free (FormatTemplateCategory *category)
 {
 	g_free (category->directory);
-	g_free (category->orig_name);
 	g_free (category->name);
 	g_free (category->description);
 	g_free (category);
@@ -174,20 +173,19 @@ category_group_list_get (void)
 		g_slist_copy ((GSList *)gnm_app_prefs->autoformat.extra_dirs));
 	categories = category_list_get_from_dir_list (dir_list);
 
-	categories = g_list_sort (categories, category_compare_orig_name_and_dir);
+	categories = g_list_sort (categories, category_compare_name_and_dir);
 
 	current_group = NULL;
 	for (l = categories; l != NULL; l = l->next) {
 		FormatTemplateCategory *category;
 
 		category = (FormatTemplateCategory *) l->data;
-		if (current_group == NULL || strcmp (current_group->orig_name, category->orig_name) != 0) {
+		if (current_group == NULL || strcmp (current_group->name, category->name) != 0) {
 			if (current_group != NULL) {
 				category_groups = g_list_prepend (category_groups, current_group);
 			}
 			current_group = g_new (FormatTemplateCategoryGroup, 1);
 			current_group->categories = g_list_append (NULL, category);
-			current_group->orig_name = g_strdup (category->orig_name);
 			current_group->name = g_strdup (category->name);
 			current_group->description = g_strdup (category->description);
 		} else {
@@ -211,7 +209,6 @@ category_group_list_free (GList *groups)
 
 	for (ptr = groups; ptr != NULL; ptr = ptr->next) {
 		FormatTemplateCategoryGroup *group = ptr->data;
-		g_free (group->orig_name);
 		g_free (group->name);
 		g_free (group->description);
 		category_list_free (group->categories);

@@ -873,6 +873,7 @@ gnumeric_version="${VERSION}"
 gnumeric_prefix='${prefix}'
 gnumeric_exec_prefix='${exec_prefix}'
 gnumeric_sysconfdir='${sysconfdir}'
+dnl These are changed in libgnumeric.c for WIN32 packages
 gnumeric_datadir='${datadir}/gnumeric/${gnumeric_version}'
 gnumeric_libdir='${libdir}/gnumeric/${gnumeric_version}'
 gnumeric_plugindir='${gnumeric_libdir}/plugins'
@@ -1008,6 +1009,7 @@ plugins/psiconv/Makefile
 plugins/mps/Makefile
 plugins/sample_datasource/Makefile
 plugins/paradox/Makefile
+plugins/uihello/Makefile
 po/Makefile.in
 schemas/Makefile
 templates/Makefile

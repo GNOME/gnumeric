@@ -113,11 +113,10 @@ gnm_plugin_loader_unload_service_plugin_loader_real (GnmPluginLoader *loader,
 	cbs->plugin_func_get_loader_type = NULL;
 }
 
-#ifdef WITH_BONOBO
 static void
 gnm_plugin_loader_unload_service_ui_real (GnmPluginLoader *loader,
-                                               GnmPluginService *service,
-                                               ErrorInfo **ret_error)
+					  GnmPluginService *service,
+					  ErrorInfo **ret_error)
 {
 	PluginServiceUICallbacks *cbs;
 
@@ -126,9 +125,8 @@ gnm_plugin_loader_unload_service_ui_real (GnmPluginLoader *loader,
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	cbs = plugin_service_get_cbs (service);
-	cbs->plugin_func_exec_verb = NULL;
+	cbs->plugin_func_exec_action = NULL;
 }
-#endif
 
 static void
 gnm_plugin_loader_class_init (GObjectClass *gobject_class)
@@ -153,11 +151,7 @@ gnm_plugin_loader_class_init (GObjectClass *gobject_class)
 	plugin_loader_class->load_service_plugin_loader = NULL;
 	plugin_loader_class->unload_service_plugin_loader = gnm_plugin_loader_unload_service_plugin_loader_real;
 	plugin_loader_class->load_service_ui = NULL;
-#ifdef WITH_BONOBO
 	plugin_loader_class->unload_service_ui = gnm_plugin_loader_unload_service_ui_real;
-#else
-	plugin_loader_class->unload_service_ui = NULL;
-#endif
 }
 
 GSF_CLASS (GnmPluginLoader, gnm_plugin_loader,
@@ -256,10 +250,8 @@ gnm_plugin_loader_load_service (GnmPluginLoader *loader, GnmPluginService *servi
 		load_service_method = gnm_plugin_loader_class->load_service_function_group;
 	} else if (IS_GNM_PLUGIN_SERVICE_PLUGIN_LOADER (service)) {
 		load_service_method = gnm_plugin_loader_class->load_service_plugin_loader;
-#ifdef WITH_BONOBO
 	} else if (IS_GNM_PLUGIN_SERVICE_UI (service)) {
 		load_service_method = gnm_plugin_loader_class->load_service_ui;
-#endif
 	} else if (IS_GNM_PLUGIN_SERVICE_SIMPLE (service)) {
 		load_service_method = NULL;
 	} else {
@@ -296,10 +288,8 @@ gnm_plugin_loader_unload_service (GnmPluginLoader *loader, GnmPluginService *ser
 		unload_service_method = gnm_plugin_loader_class->unload_service_function_group;
 	} else if (IS_GNM_PLUGIN_SERVICE_PLUGIN_LOADER (service)) {
 		unload_service_method = gnm_plugin_loader_class->unload_service_plugin_loader;
-#ifdef WITH_BONOBO
 	} else if (IS_GNM_PLUGIN_SERVICE_UI (service)) {
 		unload_service_method = gnm_plugin_loader_class->unload_service_ui;
-#endif
 	} else if (IS_GNM_PLUGIN_SERVICE_SIMPLE (service)) {
 		unload_service_method = NULL;
 	} else

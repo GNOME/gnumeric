@@ -15,6 +15,7 @@
 #include "sheet.h"
 #include "ranges.h"
 #include "mathfunc.h"
+#include "libgnumeric.h"
 
 #include <stdlib.h>
 #include <math.h>
@@ -255,7 +256,6 @@ gnm_ascii_strcase_hash (gconstpointer v)
 	return h /* % M */;
 }
 
-extern char *gnumeric_data_dir;
 char *
 gnm_sys_data_dir (char const *subdir)
 {
@@ -264,7 +264,6 @@ gnm_sys_data_dir (char const *subdir)
 	return g_build_filename (gnumeric_data_dir, subdir, NULL);
 }
 
-extern char *gnumeric_lib_dir;
 char *
 gnm_sys_lib_dir (char const *subdir)
 {

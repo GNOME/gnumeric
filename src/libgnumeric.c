@@ -55,13 +55,18 @@ int expression_sharing_debugging = 0;
 int immediate_exit_flag = 0;
 int print_debugging = 0;
 gboolean initial_workbook_open_complete = FALSE;
+char	   *x_geometry;
+char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
+char const *gnumeric_data_dir = GNUMERIC_DATADIR;
 
-char *x_geometry;
-
-/* Actions common to application and component init
-   - to do before arg parsing */
+/**
+ * gnm_pre_parse_init :
+ * @gnumeric_binary : argv[0]
+ *
+ * Initialization to be done before cmd line arguments are handled.
+ **/
 void
-init_init (char const* gnumeric_binary)
+gnm_pre_parse_init (char const* gnumeric_binary)
 {
 	g_set_prgname (gnumeric_binary);
 
@@ -75,6 +80,20 @@ init_init (char const* gnumeric_binary)
 	 * Unless we do this they will default to C
 	 */
 	setlocale (LC_ALL, "");
+
+#ifdef G_OS_WIN32
+{
+	char *dir;
+	dir = g_win32_get_package_installation_subdirectory (
+		NULL, NULL, "share");
+	gnumeric_data_dir = g_build_filename (d,
+		"gnumeric", GNUMERIC_VERSION, NULL);
+	dir = g_win32_get_package_installation_subdirectory (
+		NULL, NULL, "lib");
+	gnumeric_lib_dir = g_build_filename (d,
+		"gnumeric", GNUMERIC_VERSION, NULL);
+}
+#endif
 }
 
 #if 0
@@ -92,7 +111,6 @@ gnumeric_check_for_components (void)
 #endif
 
 extern void libgoffice_init (void);
-extern char *gnumeric_data_dir;
 /*
  * FIXME: We hardcode the GUI command context. Change once we are able
  * to tell whether we are in GUI or not.

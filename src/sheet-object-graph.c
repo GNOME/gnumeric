@@ -46,6 +46,7 @@
 #include <goffice/graph/gog-renderer-svg.h>
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <goffice/utils/go-file.h>
+#include <goffice/utils/go-units.h>
 #include <graph.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -377,10 +378,8 @@ sheet_object_graph_remove_from_sheet (SheetObject *so)
 static void
 sheet_object_graph_default_size (SheetObject const *so, double *w, double *h)
 {
-	g_object_get (SHEET_OBJECT_GRAPH (so)->renderer,
-		"logical_width_pts",  w,
-		"logical_height_pts", h,
-		NULL);
+	*w = GO_CM_TO_PT ((double)12);
+	*h = GO_CM_TO_PT ((double)8);
 }
 
 static void

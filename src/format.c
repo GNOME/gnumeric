@@ -391,8 +391,8 @@ append_hour (GString *string, int n, struct tm const *time_split,
 {
 	int hour = time_split->tm_hour;
 
-	g_string_append_printf (string, "%0*d", n,
-				want_am_pm
+	g_string_append_printf (string, "%0*d", MIN (n, 2),
+				(want_am_pm || (n > 2))
 				? ((hour + 11) % 12) + 1
 				: hour);
 }
@@ -1787,14 +1787,13 @@ format_number (GString *result,
 				/* h == hour optionally in 24 hour mode
 				 * h followed by am/pm puts it in 12 hour mode
 				 *
-				 * multiple h eg 'hh' force 12 hour mode.
+				 * more than 2 h eg 'hh' force 12 hour mode.
 				 * NOTE : This is a non-XL extension
 				 */
 				if (need_time_split)
 					need_time_split = split_time (&tm, signed_number, date_conv);
 
-				append_hour (result, n, &tm,
-					     entry->want_am_pm || (n > 1));
+				append_hour (result, n, &tm, entry->want_am_pm);
 			}
 			hour_seen = TRUE;
 			break;

@@ -77,8 +77,7 @@ SUBDIRS_LOADERS = $(PYTHON_LOADER_DIR) $(CORBA_DIR)
 
 SUBDIRS_DATA_SOURCES = sample_datasource
 
-SUBDIRS_EXAMPLES = $(GNOME_GLOSSARY_DIR) $(PYFUNC_DIR)
-# SUBDIRS_EXAMPLES += uiplugins
+SUBDIRS_EXAMPLES = $(GNOME_GLOSSARY_DIR) $(PYFUNC_DIR) uihello
 ## Don't put comment on an assignment line!  It can trigger an automake bug.
 
 if PLUGIN_LIST_GIVEN

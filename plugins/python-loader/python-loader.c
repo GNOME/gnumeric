@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * python-loader.c: Support for Python plugins.
  *
@@ -211,9 +212,7 @@ gplp_class_init (GObjectClass *gobject_class)
 	loader_class->load_service_file_saver = gplp_load_service_file_saver;
 	loader_class->load_service_function_group = gplp_load_service_function_group;
 	loader_class->unload_service_function_group = gplp_unload_service_function_group;
-#ifdef WITH_BONOBO
 	loader_class->load_service_ui = gplp_load_service_ui;
-#endif
 }
 
 PLUGIN_CLASS (GnmPluginLoaderPython, gnm_plugin_loader_python,
@@ -705,48 +704,43 @@ gplp_unload_service_function_group (GnmPluginLoader *loader,
 	Py_DECREF (loader_data->python_fn_info_dict);
 }
 
-#ifdef WITH_BONOBO
 typedef struct {
-	PyObject *ui_verbs;
+	PyObject *ui_actions;
 } ServiceLoaderDataUI;
 
 static void
 gplp_loader_data_ui_free (ServiceLoaderDataUI *loader_data)
 {
-	Py_DECREF (loader_data->ui_verbs);
+	Py_DECREF (loader_data->ui_actions);
 	g_free (loader_data);
 }
 
 static void
-gplp_func_exec_verb (GnmPluginService *service,
-		     WorkbookControlGUI *wbcg,
-		     BonoboUIComponent *uic,
-		     const gchar *cname,
-		     ErrorInfo **ret_error)
+gplp_func_exec_action (GnmPluginService *service,
+		       WorkbookControl *wbc,
+		       GnmAction const *action,
+		       ErrorInfo **ret_error)
 {
 	ServiceLoaderDataUI *loader_data;
 	PyObject *fn, *ret;
 
-	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_UI (service));
-	g_return_if_fail (cname != NULL);
-	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (_PyGObject_API != NULL);
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
-	fn = PyDict_GetItemString (loader_data->ui_verbs, (char *) cname);
+	fn = PyDict_GetItemString (loader_data->ui_actions, action->id);
 	if (fn == NULL) {
-		*ret_error = error_info_new_printf (_("Unknown verb: %s"),
-						    cname);
+		*ret_error = error_info_new_printf (_("Unknown action: %s"),
+						    action->id);
 		return;
 	} else if (!PyFunction_Check (fn)) {
-		*ret_error = error_info_new_printf 
-			(_("Not a valid function for verb: %s"), cname);
+		*ret_error = error_info_new_printf (
+			_("Not a valid function for action: %s"), action->id);
 		return;
 	}
 	ret = PyObject_CallFunction (fn, (char *) "N",
-				     py_new_Gui_object (wbcg));
+				     py_new_Gui_object (WORKBOOK_CONTROL_GUI (wbc)));
 	if (ret == NULL) {
 		*ret_error = error_info_new_str (py_exc_to_string ());
 		PyErr_Clear ();
@@ -762,28 +756,28 @@ gplp_load_service_ui (GnmPluginLoader *loader,
 {
 
 	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (loader);
-	gchar *ui_verb_names;
-	PyObject *ui_verbs;
+	gchar *ui_action_names;
+	PyObject *ui_actions;
 
 	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_UI (service));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	gnm_py_interpreter_switch_to (loader_python->py_interpreter_info);
-	ui_verb_names = g_strconcat (plugin_service_get_id (service), 
+	ui_action_names = g_strconcat (plugin_service_get_id (service), 
 				     "_ui_verbs", NULL);
-	ui_verbs = PyDict_GetItemString (loader_python->main_module_dict,
-					    ui_verb_names);
+	ui_actions = PyDict_GetItemString (loader_python->main_module_dict,
+					   ui_action_names);
 	gnm_python_clear_error_if_needed (loader_python->py_object);
-	if (ui_verbs != NULL && PyDict_Check (ui_verbs)) {
+	if (ui_actions != NULL && PyDict_Check (ui_actions)) {
 		PluginServiceUICallbacks *cbs;
 		ServiceLoaderDataUI *loader_data;
 
 		cbs = plugin_service_get_cbs (service);
-		cbs->plugin_func_exec_verb = gplp_func_exec_verb;
+		cbs->plugin_func_exec_action = gplp_func_exec_action;
 
 		loader_data = g_new (ServiceLoaderDataUI, 1);
-		loader_data->ui_verbs = ui_verbs;
-		Py_INCREF (loader_data->ui_verbs);
+		loader_data->ui_actions = ui_actions;
+		Py_INCREF (loader_data->ui_actions);
 		g_object_set_data_full
 			(G_OBJECT (service), "loader_data", loader_data,
 			 (GDestroyNotify) gplp_loader_data_ui_free);
@@ -791,18 +785,17 @@ gplp_load_service_ui (GnmPluginLoader *loader,
 		*ret_error = error_info_new_printf (
 		             _("Python file \"%s\" has invalid format."),
 		             loader_python->module_name);
-		if (ui_verbs == NULL) {
+		if (ui_actions == NULL) {
 			error_info_add_details (*ret_error,
 			                        error_info_new_printf (
 			                        _("File doesn't contain \"%s\" dictionary."),
-			                        ui_verb_names));
-		} else if (!PyDict_Check (ui_verbs)) {
+			                        ui_action_names));
+		} else if (!PyDict_Check (ui_actions)) {
 			error_info_add_details (*ret_error,
 			                        error_info_new_printf (
 			                        _("Object \"%s\" is not a dictionary."),
-			                        ui_verb_names));
+			                        ui_action_names));
 		}
 	}
-	g_free (ui_verb_names);
+	g_free (ui_action_names);
 }
-#endif

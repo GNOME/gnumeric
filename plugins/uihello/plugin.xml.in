@@ -10,9 +10,9 @@
 	</loader>
 	<services>
 		<service type="ui" id="hello" file="hello.xml">
-			<verbs>
-				<verb name="HelloWorld"/>
-			</verbs>
+			<actions>
+				<action name="HelloWorld" label="Testing Testing 123" icon="gtk-add" />
+			</actions>
 		</service>
 	</services>
 </plugin>

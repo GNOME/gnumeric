@@ -4,6 +4,7 @@
 #include <gui-gnumeric.h>	/* for wbcg typedef */
 #include <plugin.h>
 #include <func.h>
+#include <application.h>
 
 /*
  * Every plugin should put somewhere a line with:
@@ -13,12 +14,12 @@
 
 /* This type is intended for use with "ui" service.
  * Plugins should define arrays of structs of the form:
- * ModulePluginUIVerbInfo <service-id>_ui_verbs[] = { ... };
+ * ModulePluginUIActions <service-id>_actions[] = { ... };
  */
 typedef struct {
-	char const *verb_name;
-	void (*verb_func) (WorkbookControlGUI *wbcg);
-} ModulePluginUIVerbInfo;
+	char const *name;
+	void (*handler) (GnmAction const *action, WorkbookControl *wbc);
+} ModulePluginUIActions;
 
 /* function executed to activate "general" service */
 void     plugin_init_general (ErrorInfo **ret_error);

@@ -14,6 +14,10 @@
 
 	* fr.po : Adjust some menu mnemonics to avoid conflict
 
+2004-10-22  Jody Goldberg <jody@gnome.org>
+
+	* POTFILES.in : Add the category files
+
 2004-10-24  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
 	* es.po: Updated Spanih translation.

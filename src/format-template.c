@@ -244,7 +244,7 @@ format_template_new (void)
 
 	ft->filename    = g_strdup ("");
 	ft->author      = g_strdup (gnm_get_real_name ());
-	ft->name        = g_strdup (_("Name"));
+	ft->name        = g_strdup (N_("Name"));
 	ft->description = g_strdup ("");
 
 	ft->category = NULL;
@@ -621,7 +621,7 @@ format_template_compare_name (gconstpointer a, gconstpointer b)
 	FormatTemplate const *ft_a = (FormatTemplate const *) a;
 	FormatTemplate const *ft_b = (FormatTemplate const *) b;
 
-	return g_utf8_collate (ft_a->name, ft_b->name);
+	return g_utf8_collate (_(ft_a->name), _(ft_b->name));
 }
 
 /******************************************************************************

@@ -14,6 +14,6 @@ typedef struct {
 } LotusWk1Read;
 
 GnmValue *lotus_new_string (LotusWk1Read *state, gchar const *data);
-gboolean  lotus_wk1_read   (LotusWk1Read *state);
+gboolean  lotus_read   (LotusWk1Read *state);
 
 #endif
