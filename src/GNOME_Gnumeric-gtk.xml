@@ -36,7 +36,11 @@
         <menuitem action="EditClearComments"/>
         <menuitem action="EditClearContent"/>
       </menu>
-      <menuitem action="EditDelete"/>
+      <menu name="Delete" action="MenuEditDelete">
+	<menuitem action="EditDeleteRows"/>
+	<menuitem action="EditDeleteColumns"/>
+	<menuitem action="EditDeleteCells"/>
+      </menu>
       <menuitem action="InsertComment"/>
       <separator name="edit-sep3"/>
       <menu name="EditSheet" action="MenuEditSheet">

@@ -1,5 +1,9 @@
 Gnumeric 1.3.1
 
+Christian Neumair:
+	* Put delete actions from edit main menu into their own submenu.
+	* HIGify some dialogs when it comes to spacing.
+
 Morten:
 	* Fix crash related to database functions.  [backported]
 

@@ -225,6 +225,40 @@ static GNM_ACTION_DEF (cb_edit_clear_comments)
 static GNM_ACTION_DEF (cb_edit_clear_content)
 	{ cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_VALUES); }
 
+static GNM_ACTION_DEF (cb_edit_delete_rows)
+{
+	WorkbookControl *wbc   = WORKBOOK_CONTROL (wbcg);
+	SheetView       *sv    = wb_control_cur_sheet_view (wbc);
+	Sheet           *sheet = wb_control_cur_sheet (wbc);
+	GnmRange const *sel;
+	int rows;
+
+	if (!(sel = selection_first_range (sv, GNM_CMD_CONTEXT (wbc), _("Delete"))))
+		return;
+	rows = range_height (sel);
+
+	cmd_delete_rows (wbc, sheet, sel->start.row, rows);
+}
+static GNM_ACTION_DEF (cb_edit_delete_columns)
+{
+	WorkbookControl *wbc   = WORKBOOK_CONTROL (wbcg);
+	SheetView       *sv    = wb_control_cur_sheet_view (wbc);
+	Sheet           *sheet = wb_control_cur_sheet (wbc);
+	GnmRange const *sel;
+	int cols;
+
+	if (!(sel = selection_first_range (sv, GNM_CMD_CONTEXT (wbc), _("Delete"))))
+		return;
+	cols = range_width (sel);
+
+	cmd_delete_cols (wbc, sheet, sel->start.col, cols);
+}
+
+static GNM_ACTION_DEF (cb_edit_delete_cells)
+{
+	dialog_delete_cells (wbcg);
+}
+
 static GNM_ACTION_DEF (cb_edit_select_all)
 {
 	if (!wbcg_edit_finish (wbcg, TRUE, NULL))
@@ -282,11 +316,6 @@ static GNM_ACTION_DEF (cb_edit_paste)
 static GNM_ACTION_DEF (cb_edit_paste_special)
 {
 	dialog_paste_special (wbcg);
-}
-
-static GNM_ACTION_DEF (cb_edit_delete)
-{
-	dialog_delete_cells (wbcg);
 }
 
 static GNM_ACTION_DEF (cb_sheet_remove)
@@ -1450,7 +1479,8 @@ static GNM_ACTION_DEF (cb_copyright)
 static GtkActionEntry permanent_actions[] = {
 	{ "MenuFile",		NULL, N_("_File") },
 	{ "MenuEdit",		NULL, N_("_Edit") },
-		{ "MenuEditClear",	NULL, N_("C_lear") },
+		{ "MenuEditClear",	GTK_STOCK_CLEAR, N_("C_lear") },
+		{ "MenuEditDelete",	GTK_STOCK_DELETE, N_("_Delete") },
 		{ "MenuEditSheet",	NULL, N_("S_heet") },
 	        { "MenuEditSelect",	NULL, N_("_Select") },
 	        { "MenuEditFill",	NULL, N_("_Fill") },
@@ -1545,6 +1575,18 @@ static GtkActionEntry actions[] = {
 		NULL, N_("Clear the selected cells' contents"),
 		G_CALLBACK (cb_edit_clear_content) },
 
+/* Edit -> Delete */
+	{ "EditDeleteRows", "Gnumeric_RowDelete", N_("_Rows"),
+		NULL, N_("Delete the row(s) containing the selected cells"),
+		G_CALLBACK (cb_edit_delete_rows) },
+	{ "EditDeleteColumns", "Gnumeric_ColumnDelete", N_("_Columns"),
+		NULL, N_("Delete the column(s) containing the selected cells"),
+		G_CALLBACK (cb_edit_delete_columns) },
+	{ "EditDeleteCells", NULL, N_("C_ells..."),
+		  NULL, N_("Delete the selected cells, shifting others into their place"),
+		  G_CALLBACK (cb_edit_delete_cells) },
+
+
 /* Edit -> Select */
 	{ "EditSelectAll", NULL, N_("Select _All"),
 		"<control>a", N_("Select all cells in the spreadsheet"),
@@ -1619,10 +1661,6 @@ static GtkActionEntry actions[] = {
 	{ "EditPasteSpecial", NULL, N_("P_aste special..."),
 		"<shift><control>V", N_("Paste with optional filters and transformations"),
 		G_CALLBACK (cb_edit_paste_special) },
-
-	{ "EditDelete", GTK_STOCK_DELETE, N_("_Delete..."),
-		  NULL, N_("Remove selected cells, shifting others into their place"),
-		  G_CALLBACK (cb_edit_delete) },
 
 	{ "InsertComment", "Gnumeric_CommentEdit", N_("Co_mment..."),
 		NULL, N_("Edit the selected cell's comment"),

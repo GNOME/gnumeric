@@ -1514,7 +1514,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		{ N_("_Delete Row(s)"), "Gnumeric_RowDelete",
 		    CONTEXT_DISPLAY_FOR_ROWS, CONTEXT_DISABLE_FOR_ROWS, CONTEXT_DELETE },
 
-		{ N_("Clear Co_ntents"),NULL,
+		{ N_("Clear Co_ntents"), GTK_STOCK_CLEAR,
 		    0, 0, CONTEXT_CLEAR_CONTENT },
 		{ N_("Edit Co_mment..."),"Gnumeric_CommentEdit",
 		    0, 0, CONTEXT_COMMENT_EDIT },
