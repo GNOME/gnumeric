@@ -30,7 +30,6 @@ typedef struct {
 typedef struct {
 	GladeXML  	   *glade;
         GtkWidget          *dialog;
-	GtkWidget	   *cancel_button;
         Workbook           *wb;
         WorkbookControlGUI *wbcg;
 
@@ -155,12 +154,10 @@ static gboolean
 cb_autocorrect_destroy (GtkObject *w, AutoCorrectState *state)
 {
 	if (state->glade != NULL) {
-		gtk_object_unref (GTK_OBJECT (state->glade));
+		g_object_unref (G_OBJECT (state->glade));
 		state->glade = NULL;
 	}
 
-	if (state->wbcg != NULL)
-		wbcg_edit_detach_guru (state->wbcg);
 	state->dialog = NULL;
 	g_free (state);
 
@@ -185,21 +182,32 @@ cb_dialog_help (GtkWidget *button, gchar *link)
 }
 
 static void
-cb_button_clicked (GtkWidget *button, AutoCorrectState *state)
+cb_cancel_button_clicked (GtkWidget *button, AutoCorrectState *state)
 {
-	if (state->cancel_button != button) {
-		int i;
-		if (state->init_caps.changed)
-			autocorrect_set_exceptions (AC_INIT_CAPS,
-				state->init_caps.exceptions);
-		if (state->first_letter.changed)
-			autocorrect_set_exceptions (AC_FIRST_LETTER,
-				state->first_letter.exceptions);
-		for (i = 0 ; i < AC_MAX_FEATURE ; i++)
-			autocorrect_set_feature (i, state->features [i]);
-		autocorrect_store_config ();
-	}
 	gtk_object_destroy (GTK_OBJECT (state->dialog));
+}
+
+static void
+cb_apply_button_clicked (GtkWidget *button, AutoCorrectState *state)
+{
+	int i;
+	if (state->init_caps.changed)
+		autocorrect_set_exceptions (AC_INIT_CAPS,
+					    state->init_caps.exceptions);
+	if (state->first_letter.changed)
+		autocorrect_set_exceptions (AC_FIRST_LETTER,
+					    state->first_letter.exceptions);
+	for (i = 0 ; i < AC_MAX_FEATURE ; i++)
+		autocorrect_set_feature (i, state->features [i]);
+	autocorrect_store_config ();
+}
+
+static void
+cb_ok_button_clicked (GtkWidget *button, AutoCorrectState *state)
+{
+	cb_apply_button_clicked (button, state);
+	gtk_object_destroy (GTK_OBJECT (state->dialog));
+
 }
 
 static gboolean
@@ -228,11 +236,13 @@ dialog_init (AutoCorrectState *state)
 		GTK_SIGNAL_FUNC (cb_dialog_help), "autocorrect-tool.html");
         button = glade_xml_get_widget (state->glade, "ok_button");
         gtk_signal_connect (GTK_OBJECT (button), "clicked",
-		GTK_SIGNAL_FUNC (cb_button_clicked), state);
+		GTK_SIGNAL_FUNC (cb_ok_button_clicked), state);
+        button = glade_xml_get_widget (state->glade, "apply_button");
+        gtk_signal_connect (GTK_OBJECT (button), "clicked",
+		GTK_SIGNAL_FUNC (cb_apply_button_clicked), state);
         button = glade_xml_get_widget (state->glade, "cancel_button");
         gtk_signal_connect (GTK_OBJECT (button), "clicked",
-		GTK_SIGNAL_FUNC (cb_button_clicked), state);
-	state->cancel_button = button;
+		GTK_SIGNAL_FUNC (cb_cancel_button_clicked), state);
 
 	/* Make <Ret> in entry fields invoke default */
 	entry = glade_xml_get_widget (state->glade, "entry1");
@@ -259,7 +269,6 @@ dialog_init (AutoCorrectState *state)
 	gtk_signal_connect (GTK_OBJECT (state->dialog),
 		"key_press_event",
 		GTK_SIGNAL_FUNC (cb_autocorrect_key_press), state);
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 
 	return FALSE;
 }

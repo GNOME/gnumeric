@@ -1,5 +1,17 @@
 2002-01-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* autocorrect.glade : make gnome2 compatible and add apply button
+	* dialog-autocorrect.c (cb_autocorrect_destroy) : state->glade
+	  is not a gtk object
+	(cb_cancel_button_clicked) : new
+	(cb_button_clicked) : renamed to cb_apply_button_clicked, do not
+	  destroy dialog
+	(cb_ok_button_clicked) : new
+	(dialog_init) : set-up apply button, this dialog need not be a
+	  guru but can be non-modal, transient on worksheet
+	
+2002-01-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* autosave-prompt.glade : removed
 	* dialog-analysis-tools.c synchronize tool_states better, change 
 	  arguments for all calls of error_in_entry

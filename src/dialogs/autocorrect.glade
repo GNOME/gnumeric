@@ -24,12 +24,6 @@
             <property name="spacing">5</property>
             <property name="visible">yes</property>
 
-            <child>
-              <widget class="GtkHButtonBox" id="hbuttonbox1">
-                <property name="layout_style">GTK_BUTTONBOX_DEFAULT_STYLE</property>
-                <property name="spacing">30</property>
-                <property name="visible">yes</property>
-
                 <child>
                   <widget class="GtkButton" id="ok_button">
                     <property name="can_default">yes</property>
@@ -44,6 +38,18 @@
                 </child>
 
                 <child>
+                  <widget class="GtkButton" id="apply_button">
+                    <property name="can_default">yes</property>
+                    <property name="can_focus">yes</property>
+                    <property name="relief">GTK_RELIEF_NORMAL</property>
+                    <property name="visible">yes</property>
+                    <property name="label" translatable="yes">gtk-apply</property>
+                    <property name="use_stock">yes</property>
+                    <property name="use_underline">yes</property>
+                  </widget>
+                </child>
+
+                 <child>
                   <widget class="GtkButton" id="cancel_button">
                     <property name="can_default">yes</property>
                     <property name="can_focus">yes</property>
@@ -66,13 +72,6 @@
                     <property name="use_underline">yes</property>
                   </widget>
                 </child>
-              </widget>
-              <packing>
-                <property name="padding">0</property>
-                <property name="expand">yes</property>
-                <property name="fill">yes</property>
-              </packing>
-            </child>
           </widget>
           <packing>
             <property name="padding">0</property>
@@ -258,24 +257,12 @@
                                 <child>
                                   <widget class="GtkCList" id="clist1">
                                     <property name="can_focus">yes</property>
-                                    <property name="columns">2</property>
+                                    <property name="n-columns">2</property>
                                     <property name="column_widths">80,80</property>
                                     <property name="selection_mode">GTK_SELECTION_SINGLE</property>
                                     <property name="show_titles">no</property>
                                     <property name="shadow_type">GTK_SHADOW_IN</property>
                                     <property name="visible">yes</property>
-
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
-
-                                    <child>
-                                      <widget class="Placeholder" id="None">
-                                        <property name="visible">yes</property>
-                                      </widget>
-                                    </child>
                                   </widget>
                                 </child>
 
@@ -426,18 +413,12 @@
                             <child>
                               <widget class="GtkCList" id="init_caps_list">
                                 <property name="can_focus">yes</property>
-                                <property name="columns">1</property>
+                                <property name="n-columns">1</property>
                                 <property name="column_widths">80</property>
                                 <property name="selection_mode">GTK_SELECTION_SINGLE</property>
                                 <property name="show_titles">no</property>
                                 <property name="shadow_type">GTK_SHADOW_IN</property>
                                 <property name="visible">yes</property>
-
-                                <child>
-                                  <widget class="Placeholder" id="None">
-                                    <property name="visible">yes</property>
-                                  </widget>
-                                </child>
                               </widget>
                             </child>
 
@@ -634,18 +615,12 @@
                             <child>
                               <widget class="GtkCList" id="first_letter_list">
                                 <property name="can_focus">yes</property>
-                                <property name="columns">1</property>
+                                <property name="n-columns">1</property>
                                 <property name="column_widths">80</property>
                                 <property name="selection_mode">GTK_SELECTION_SINGLE</property>
                                 <property name="show_titles">no</property>
                                 <property name="shadow_type">GTK_SHADOW_IN</property>
                                 <property name="visible">yes</property>
-
-                                <child>
-                                  <widget class="Placeholder" id="None">
-                                    <property name="visible">yes</property>
-                                  </widget>
-                                </child>
                               </widget>
                             </child>
 
