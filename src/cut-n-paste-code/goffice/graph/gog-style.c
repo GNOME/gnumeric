@@ -250,6 +250,75 @@ init_gradient_page (GogObject *gobj, GladeXML *gui, GogStyle *style)
 	gtk_widget_show_all (table);
 }
 
+static gboolean
+cb_image_filename_changed (GtkWidget *cc,
+				GdkEventFocus *ev,
+		       GogObject *gobj)
+{
+	GogStyle *style = NULL;
+	char const *filename;
+
+	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
+	style = gog_style_dup (style);
+
+	g_return_val_if_fail (style != NULL, FALSE);
+	
+	filename = gtk_entry_get_text (GTK_ENTRY (cc));
+	
+	style->fill.u.image.image_file = (filename)? g_strdup (filename): NULL;
+	g_object_set (G_OBJECT (gobj), "style", style, NULL);
+	return FALSE;
+}
+
+static void
+cb_image_file_select (GtkWidget *cc, GogObject *gobj)
+{
+	GogStyle *style = NULL;
+	GtkWidget *fs, *w;
+	gint result;
+	const gchar* filename;
+	GladeXML *gui;
+
+	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
+	style = gog_style_dup (style);
+
+	g_return_if_fail (style != NULL);
+
+	fs = gtk_file_selection_new (_("Select an image file"));
+	gtk_window_set_modal (GTK_WINDOW (fs), TRUE);
+	if (style->fill.u.image.image_file)
+		gtk_file_selection_set_filename (GTK_FILE_SELECTION (fs), style->fill.u.image.image_file);
+	result = gtk_dialog_run (GTK_DIALOG (fs));
+	if (result == GTK_RESPONSE_OK) {
+		filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs));
+		if (filename && !*filename) filename = NULL;
+		if (style->fill.u.image.image_file)
+				g_free (style->fill.u.image.image_file);
+		style->fill.u.image.image_file = (filename)? g_strdup (filename): NULL;
+		gui = (GladeXML*) g_object_get_data (G_OBJECT (cc), "state");
+		w = glade_xml_get_widget (gui, "image_filename");
+		gtk_entry_set_text (GTK_ENTRY (w), (filename)? filename: "");
+		g_object_set (G_OBJECT (gobj), "style", style, NULL);
+	}
+	gtk_widget_destroy (fs);
+	g_return_if_fail (style != NULL);
+}
+
+static void
+cb_image_style_changed (GtkWidget *cc,
+		       GogObject *gobj)
+{
+	GogStyle *style = NULL;
+	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
+	style = gog_style_dup (style);
+
+	g_return_if_fail (style != NULL);
+	
+	style->fill.u.image.type = gtk_option_menu_get_history (GTK_OPTION_MENU (cc));
+	
+	g_object_set (G_OBJECT (gobj), "style", style, NULL);
+}
+
 static void
 cb_type_changed (GtkWidget *cc,
 		       GogObject *gobj)
@@ -259,10 +328,17 @@ cb_type_changed (GtkWidget *cc,
 	GladeXML *gui;
 	GtkWidget *w, *table;
 	GogStyle *style = NULL;
+	const gchar* filename;
 	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
 	style = gog_style_dup (style);
 
 	g_return_if_fail (style != NULL);
+	
+	if ((style->flags & GOG_STYLE_FILL) &&
+	    GOG_FILL_STYLE_IMAGE == style->fill.type &&
+		style->fill.u.image.image_file) {
+			g_free (style->fill.u.image.image_file);
+	}
 
 	gui = (GladeXML*) g_object_get_data (G_OBJECT (cc), "state");
 	notebook = GTK_NOTEBOOK (glade_xml_get_widget (gui, "notebook"));
@@ -302,6 +378,11 @@ cb_type_changed (GtkWidget *cc,
 		break;
 	case 4:
 		style->fill.type = GOG_FILL_STYLE_IMAGE;
+		w = glade_xml_get_widget (gui, "image_filename");
+		filename = gtk_entry_get_text (GTK_ENTRY (w));
+		style->fill.u.image.image_file = (filename && *filename)? g_strdup (filename): NULL;
+		w = glade_xml_get_widget (gui, "image_option");
+		style->fill.u.image.type = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
 		break;
 	}
 	gtk_notebook_set_current_page (notebook, page);
@@ -388,6 +469,21 @@ gog_style_editor (GogObject *gobj, CommandContext *cc, guint32 enable)
 		"color_changed",
 		G_CALLBACK (cb_outline_color_changed), gobj);
 
+	/* initialization of the image related widgets */
+	w = glade_xml_get_widget (gui, "image_filename");
+	g_signal_connect (G_OBJECT (w),
+		"focus_out_event",
+		G_CALLBACK (cb_image_filename_changed), gobj);
+	w = glade_xml_get_widget (gui, "image_button");
+	g_signal_connect (G_OBJECT (w),
+		"clicked",
+		G_CALLBACK (cb_image_file_select), gobj);
+	g_object_set_data (G_OBJECT (w), "state", gui);
+	w = glade_xml_get_widget (gui, "image_option");
+	g_signal_connect (G_OBJECT (w),
+		"changed",
+		G_CALLBACK (cb_image_style_changed), gobj);
+
 	if (enable & GOG_STYLE_FILL) {
 		switch (style->fill.type) {
 		case GOG_FILL_STYLE_NONE:
@@ -405,7 +501,15 @@ gog_style_editor (GogObject *gobj, CommandContext *cc, guint32 enable)
 			gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 2);
 			break;
 		case GOG_FILL_STYLE_PATTERN:
+			break;
 		case GOG_FILL_STYLE_IMAGE:
+			gtk_option_menu_set_history (GTK_OPTION_MENU (menu), 4);
+			gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 4);
+			w = glade_xml_get_widget (gui, "image_filename");
+			gtk_entry_set_text (GTK_ENTRY (w), style->fill.u.image.image_file);
+			w = glade_xml_get_widget (gui, "image_style");
+			gtk_option_menu_set_history (GTK_OPTION_MENU (w), style->fill.u.image.type);
+			break;
 		default :
 			break;
 		}
@@ -424,7 +528,9 @@ gog_style_finalize (GObject *obj)
 	GogStyle *style = GOG_STYLE (obj);
 
 	if ((style->flags & GOG_STYLE_FILL) &&
-	    GOG_FILL_STYLE_IMAGE == style->fill.type) {
+	    GOG_FILL_STYLE_IMAGE == style->fill.type &&
+		style->fill.u.image.image_file) {
+			g_free (style->fill.u.image.image_file);
 	}
 
 	(parent_klass->finalize) (obj);
@@ -509,7 +615,7 @@ gog_series_element_style_list_free (GogSeriesElementStyleList *list)
 GogSeriesElementStyleList *
 gog_series_element_style_list_copy (GogSeriesElementStyleList *list)
 {
-	GogSeriesElementStyle *pt;
+	GogSeriesElementStyle *pt = NULL;
 	GSList *ptr, *res = NULL;
 
 	for (ptr = list; ptr != NULL ; ptr = ptr->next) {

@@ -52,6 +52,10 @@ typedef enum {
 	GOG_GRADIENT_NW_TO_SE,
 	GOG_GRADIENT_NE_TO_SW	
 } GogGradientType;
+typedef enum {
+	GOG_IMAGE_STRETCHED,
+	GOG_IMAGE_WALLPAPER,
+} GogImageType;
 
 typedef guint32	GOColor;
 
@@ -86,6 +90,7 @@ struct _GogStyle {
 			} gradient;
 			struct {
 				char *image_file;
+				GogImageType type;
 				/* ? */
 			} image;
 		} u;

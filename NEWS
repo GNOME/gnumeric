@@ -1,3 +1,13 @@
+Gnumeric 1.1.20
+
+Jean Brefort:
+	* Support image files in chart areas (background, bar/col or pie)
+
+Jody:
+	* Fix the generated files.
+
+--------------------------------------------------------------------------
+
 Gnumeric 1.1.18
 
 Andreas:

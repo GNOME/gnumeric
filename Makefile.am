@@ -22,7 +22,7 @@ Mime_DATA = gnumeric.keys gnumeric.mime
 serverdir = $(libdir)/bonobo/servers/
 server_in_files = GNOME_Gnumeric.server.in
 server_DATA	= GNOME_Gnumeric.server
-GNOME_Gnumeric.server.in : GNOME_Gnumeric.server.in.in
+GNOME_Gnumeric.server.in : GNOME_Gnumeric.server.in.in Makefile
 	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
@@ -45,6 +45,7 @@ gnumeric.keys: gnumeric.keys.in Makefile
 	&& mv gnumeric.keys.tmp gnumeric.keys 
 
 dist-hook: gnumeric.spec
+	-cd $(distdir) ; rm -f $(server_in_files) $(server_DATA)
 	mkdir $(distdir)/samples
 	cp $(srcdir)/samples/*gnumeric $(distdir)/samples	
 	cp gnumeric.spec $(distdir)

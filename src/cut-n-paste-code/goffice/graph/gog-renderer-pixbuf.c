@@ -133,6 +133,9 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 		{ 0., { 0, 0, 0, 0 }},
 		{ 1., { 0, 0, 0, 0 }}
 	};
+	GdkPixbuf *image;
+	GError *err = NULL;
+	gint i, j, imax, jmax, w, h, x, y;
 
 	if (!narrow && style->outline.width >= 0.)
 		outline = art_svp_vpath_stroke (path,
@@ -190,15 +193,12 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 			gradient.n_stops = G_N_ELEMENTS (stops);
 			gradient.stops = stops;
 
-			if (style->fill.u.gradient.type == GOG_GRADIENT_NE_TO_SW)
-			{
+			if (style->fill.u.gradient.type == GOG_GRADIENT_NE_TO_SW) {
 				go_color_to_artpix (stops[0].color,
 				style->fill.u.gradient.end);
 				go_color_to_artpix (stops[1].color,
 					style->fill.u.gradient.start);
-			}
-			else
-			{
+			} else {
 				go_color_to_artpix (stops[0].color,
 				style->fill.u.gradient.start);
 				go_color_to_artpix (stops[1].color,
@@ -210,7 +210,47 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 			break;
 
 		case GOG_FILL_STYLE_IMAGE:
-			g_warning ("unimplemented");
+			if (!style->fill.u.image.image_file)
+				break;
+			image = gdk_pixbuf_new_from_file (style->fill.u.image.image_file, &err);
+			if (err != NULL)
+				break;
+			switch (style->fill.u.image.type) {
+			case GOG_IMAGE_STRETCHED:
+				gdk_pixbuf_scale(image, prend->buffer,
+					0, 0, prend->w, prend->h, 0, 0,
+					(double)prend->w / gdk_pixbuf_get_width (image),
+					(double)prend->h / gdk_pixbuf_get_height (image),
+					GDK_INTERP_HYPER);
+			case GOG_IMAGE_WALLPAPER:
+				imax = prend->w / (w = gdk_pixbuf_get_width (image));
+				jmax = prend->h / (h = gdk_pixbuf_get_height (image));
+				x = 0;
+				for (i = 0; i < imax; i++) {
+					y = 0;
+					for (j = 0; j < jmax; j++) {
+						gdk_pixbuf_copy_area (image, 0, 0, w, h,
+								      prend->buffer, x, y);
+						y+= h;
+					}
+					gdk_pixbuf_copy_area (image, 0, 0, w,
+							      prend->h % h, prend->buffer, x, y);
+					x += w;
+				}
+				y = 0;
+				for (j = 0; j < jmax; j++) {
+					gdk_pixbuf_copy_area (image, 0, 0, prend->w % w, h,
+							      prend->buffer, x, y);
+					y+= h;
+				}
+				gdk_pixbuf_copy_area (image, 0, 0, prend->w % w, prend->h % h,
+						      prend->buffer, x, y);
+				break;
+			}
+
+			g_object_unref (image);
+
+			break;
 
 		case GOG_FILL_STYLE_NONE:
 			break; /* impossible */

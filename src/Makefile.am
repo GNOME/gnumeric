@@ -358,15 +358,24 @@ gnm-marshalers.c : gnm-marshalers.list $(GLIB_GENMARSHAL)
 	cat $@.tmp >>$@
 	rm -f $@.tmp
 
-gnumeric-paths.h: gnumeric-paths.h.in Makefile
-	sed								\
+.PHONY: all-local
+all-local :
+
+# be really really anal about generating the paths
+gnumeric-paths.h : $(srcdir)/gnumeric-paths.h.in all-local
+	@sed								\
 	  -e 's!@''gnumeric_prefix''@!$(gnumeric_prefix)!'		\
 	  -e 's!@''gnumeric_sysconfdir''@!$(gnumeric_sysconfdir)!'	\
 	  -e 's!@''gnumeric_datadir''@!$(gnumeric_datadir)!'		\
 	  -e 's!@''gnumeric_libdir''@!$(gnumeric_libdir)!'		\
 	  -e 's!@''gnumeric_icondir''@!$(gnumeric_icondir)!'		\
 	  -e 's!@''gnumeric_localedir''@!$(gnumeric_localedir)!'	\
-	<$< >$@
+		< $< > $@.tmp ;					\
+	if cmp -s $@.tmp $@; then rm $@.tmp; else mv $@.tmp $@ ; fi
+
+# do not include the paths in the tarball
+dist-hook :
+	-rm -f $(distdir)/gnumeric-paths.h
 
 # include conditional files to ensure everything gets distributed no matter
 # what the build

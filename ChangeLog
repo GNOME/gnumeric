@@ -1,3 +1,11 @@
+2003-06-08  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : do not include the .server or .server.in files in the
+	  distribution.
+	* src/Makefile.am (ui_DATA) : be absolutely anal about
+	  gnumeric-paths.h, generate it early, and do not include it in the
+	  distribution.
+
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : bump again
