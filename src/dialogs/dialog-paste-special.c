@@ -13,9 +13,9 @@
 #include "eval.h"
 #include "dialogs.h"
 
-#define BUTTON_OK         0
-#define BUTTON_CANCEL     BUTTON_OK + 1
-#define BUTTON_PASTE_LINK BUTTON_CANCEL + 1
+#define BUTTON_OK         1
+#define BUTTON_CANCEL     2
+#define BUTTON_PASTE_LINK 0
 
 static struct {
 	char *name;
@@ -101,9 +101,9 @@ dialog_paste_special (Workbook *wb)
 	
 	state->dialog =
 	  GNOME_DIALOG (gnome_dialog_new (_("Paste special"),
+					  _("Paste Link"),
 					  GNOME_STOCK_BUTTON_OK,
 					  GNOME_STOCK_BUTTON_CANCEL,
-					  _("Paste Link"),
 					  NULL));
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (dialog_destroy), state);
