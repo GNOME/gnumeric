@@ -1,5 +1,7 @@
 2004-09-29  Morten Welinder  <terra@gnome.org>
 
+	* src/Makefile.am: Link in egg-recent.
+
 	* src/clipboard.c (clipboard_copy_range): Fix
 	gboolean/CellIterFlags confusion.
 	* src/workbook-control-gui.c (cb_workbook_debug_info): Ditto.
