@@ -1,3 +1,8 @@
+1999-12-10  Andrew Chatham  <andrew.chatham@duke.edu>
+
+	* src/regression.c (general_linear_regression): Handle the 3+
+ 	dimensional case.
+
 1999-12-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/functions/fn-lookup.c (gnumeric_indirect) : This solution is

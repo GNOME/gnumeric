@@ -21,13 +21,18 @@
  */
 
 typedef struct {
-        float_t *se;
+        float_t *se; /*SE for each parameter estimator*/
+        float_t *t;  /*t values for each parameter estimator*/
         float_t sqr_r;
+	float_t adj_sqr_r;
         float_t se_y;
         float_t F;
         int     df;
         float_t ss_reg;
         float_t ss_resid;
+	float_t ybar;
+	float_t *xbar;
+	float_t var;
 } regression_stat_t;
 
 int linear_regression (float_t **xss, int dim,

@@ -3,6 +3,7 @@
  *
  * Authors:
  *   Morten Welinder <terra@diku.dk>
+ *   Andrew Chatham  <andrew.chatham@duke.edu>
  */
 
 #include <config.h>
@@ -10,12 +11,85 @@
 #include <glib.h>
 #include <math.h>
 
+
 /* ------------------------------------------------------------------------- */
+
+/* Returns in res the solution to the equation L * U * res = b.  */
+static int
+backsolve (float_t **L, float_t **U, float_t *b, int n, float_t *res)
+{
+	int i, j;
+	float_t subtotal;
+	float_t *y = g_new (float_t, n);
+
+	for (i = 0; i < n; i++) {
+		subtotal = 0;
+		for (j = 0; j < i; j++)
+			subtotal +=L [j][i] * y[j];
+		y[i] = b[i] - subtotal;
+	}
+
+	for (i = n - 1; i >= 0; i--) {
+		subtotal = 0;
+		for (j = i + 1; j < n; j++)
+			subtotal += U[j][i] * res[j];
+		res[i] = (y[i] - subtotal) / U[i][i];
+	}
+
+	g_free(y);
+	return 0;
+}
+
+/* Performs an LU Decomposition; L and U must already be allocated.
+   A is not destroyed.  */
+static int
+LUDecomp (float_t **A, float_t **L, float_t **U, int n)
+{
+	int i,j,k,err;
+	float_t **B;
+	err=0;
+
+	B = g_new (float_t *, n);
+	for (i = 0; i < n; i++)
+		B[i] = g_new (float_t, n);
+	for (i = 0; i < n; i++)
+		for (j = 0; j < n; j++)
+			B[i][j] = A[i][j];
+
+	for (k = 0; k < n; k++) {
+		U[k][k] = B[k][k];
+
+		/* FIXME: this isn't right.  The matrix is only singular if
+		   all rows below also have zero in this column.  */
+		if (U[k][k] == 0) {
+			err=2; /* singular; should be SDF Matrix */
+			break;
+		}
+		for (i = k; i < n; i++) {
+			L[k][i] = B[k][i] / U[k][k];
+			U[i][k] = B[i][k];
+		}
+		L[k][k] = 1;
+		for (i = k + 1; i < n; i++){
+			for (j = k + 1; j < n; j++){
+				B[j][i] = B[j][i] - L[k][i] * U[j][k];
+			}
+		}
+	}
+	for (i = 0; i < n; i++)
+		g_free (B[i]);
+	g_free (B);
+	return err;
+}
 
 static int
 linear_solve (float_t **A, float_t *b, int n,
 	      float_t *res)
 {
+	int i,err;
+	float_t **L, **U;
+
+	err=0;
 	if (n < 1)
 		return 1;  /* Too few points.  */
 
@@ -42,7 +116,27 @@ linear_solve (float_t **A, float_t *b, int n,
 		return 0;
 	}
 
-	return 3;  /* Unimplemented.  */
+	/* Otherwise, use LU-decomposition to find res such that
+	   xTx * res = b. */
+
+	L = g_new (float_t *, n);
+	U = g_new (float_t *, n);
+	for (i = 0; i < n; i++) {
+		L[i] = g_new (float_t, n);
+		U[i] = g_new (float_t, n);
+	}
+
+	err = LUDecomp (A, L, U, n);
+	if (err == 0)
+		backsolve (L, U, b, n, res);
+
+	for (i = 0; i < n; i++) {
+		g_free (L[i]);
+		g_free (U[i]);
+	}
+	g_free (L);
+	g_free (U);
+	return err;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -54,7 +148,7 @@ general_linear_regression (float_t **xss, int xdim,
 			   regression_stat_t *extra_stat)
 {
 	float_t *xTy, **xTx;
-	int i;
+	int i,j;
 	int err;
 
 	if (xdim > n || n < 1)
@@ -65,7 +159,6 @@ general_linear_regression (float_t **xss, int xdim,
 		const float_t *xs = xss[i];
 		register float_t res = 0;
 		int j;
-
 		if (xs == NULL)
 			/* NULL represents a 1-vector.  */
 			for (j = 0; j < n; j++)
@@ -106,24 +199,94 @@ general_linear_regression (float_t **xss, int xdim,
 
 	err = linear_solve (xTx, xTy, xdim, res);
 
+	if (extra_stat) {
+	        int err2;
+	        float_t *residuals = g_new (float_t, n);
+		float_t **L,**U;
+		float_t *e, *inv;
+
+		extra_stat->ybar=0;
+		for (i=0; i<n; i++) extra_stat->ybar+=ys[i];
+		extra_stat->ybar/=n;
+		extra_stat->se_y=0;
+		for (i=0; i<n; i++) extra_stat->se_y+=(ys[i]-extra_stat->ybar)
+				      *(ys[i]-extra_stat->ybar); /* Not actually SE till later to
+								    avoid rounding error when finding
+								    R^2 */
+
+		extra_stat->xbar = g_new (float_t, n);
+
+		for (i=0; i<xdim; i++){
+		  extra_stat->xbar[i]=0;
+		  if (xss[i])
+		    for (j=0; j<n; j++)
+		      extra_stat->xbar[i]+=xss[i][j];
+		  else extra_stat->xbar[i]=n; /* so mean is 1 */
+		  extra_stat->xbar[i]/=n;
+		}
+
+		for (i=0; i<n; i++){
+		  residuals[i]=0;
+		  for (j=0; j<xdim; j++){
+		    if (xss[j])
+		      residuals[i]+=xss[j][i]*res[j];
+		    else residuals[i]+=res[j]; /* If NULL, constant factor */
+		      }
+		  residuals[i]=ys[i]-residuals[i];
+		}
+		extra_stat->ss_resid=0;
+		for (i=0; i<n; i++) extra_stat->ss_resid+=residuals[i]*residuals[i];
+
+		extra_stat->sqr_r = 1 - (extra_stat->ss_resid / extra_stat->se_y);
+		extra_stat->adj_sqr_r = 1- (extra_stat->ss_resid / (n-xdim) / (extra_stat->se_y / (n-1))); /* Affine? */
+		extra_stat->var = (extra_stat->ss_resid / (n-xdim)); /* Affine? */
+	        L = g_new (float_t *, xdim);
+		U = g_new (float_t *, xdim);
+		for (i=0; i<xdim; i++){
+		  L[i] = g_new (float_t, xdim);
+		  U[i] = g_new (float_t, xdim);
+		}
+
+		err2 = LUDecomp(xTx,L,U,xdim);
+		if (err2==0){
+		  extra_stat->se = g_new(float_t,xdim);
+		  e = g_new (float_t, xdim); /* Elmentary vector */
+		  inv = g_new (float_t, xdim);
+		  for (i=0; i<xdim; i++)
+		    e[i]=0;
+		  for (i=0; i<xdim; i++){
+		    e[i]=1;
+		    backsolve(L,U,e,xdim,inv);
+		    extra_stat->se[i] = sqrt(extra_stat->var * inv[i]);
+		    e[i]=0;
+		  }
+		  g_free(e);
+		  g_free(inv);
+		}
+		for (i=0; i<xdim; i++){
+		  g_free(L[i]);
+		  g_free(U[i]);
+		}
+		g_free(L);
+		g_free(U);
+
+		extra_stat->t  = g_new (float_t, xdim);
+
+		for (i = 0; i < xdim; i++)
+			extra_stat->t  [i] = res[i] / extra_stat->se [i];
+
+		extra_stat->F = (extra_stat->sqr_r/(xdim-1)) /
+		  ((1-extra_stat->sqr_r)/(n-xdim)); /* non-affine? */
+
+		extra_stat->df = n-xdim; /* is this true with non-affine? */
+		extra_stat->ss_reg = 0;
+		extra_stat->se_y=sqrt(extra_stat->se_y / n); /* Now it is SE */
+		g_free(residuals);
+	}
 	for (i = 0; i < xdim; i++)
 		g_free (xTx[i]);
 	g_free (xTx);
 	g_free (xTy);
-
-	if (extra_stat) {
-		extra_stat->se = g_new (float_t, xdim);
-
-	        for (i = 0; i < xdim; i++)
-		        extra_stat->se [i] = 0;
-
-		extra_stat->sqr_r = 0;
-		extra_stat->se_y = 0;
-		extra_stat->F = 0;
-		extra_stat->df = 0;
-		extra_stat->ss_reg = 0;
-		extra_stat->ss_resid = 0;
-	}
 
 	return err;
 }
@@ -146,12 +309,12 @@ linear_regression (float_t **xss, int dim,
 		xss2[0] = NULL;  /* Substitute for 1-vector.  */
 		memcpy (xss2 + 1, xss, dim * sizeof (float_t *));
 
-		result = general_linear_regression (xss2, dim + 1, ys, n, 
+		result = general_linear_regression (xss2, dim + 1, ys, n,
 						    res, extra_stat);
 		g_free (xss2);
 	} else {
 		res[0] = 0;
-		result = general_linear_regression (xss, dim, ys, n, 
+		result = general_linear_regression (xss, dim, ys, n,
 						    res + 1, extra_stat);
 	}
 
