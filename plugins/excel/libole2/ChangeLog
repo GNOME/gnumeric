@@ -4,6 +4,7 @@
 	all chaining is stored in a tree in memory and the read /
 	write side is cleanly separate. All functions touched.
 	Breaks directory writing.
+	(read_bb): Fixed another unthinkable bug.
 
 1999-05-24  Michael Meeks  <michael@imaginator.com>
 

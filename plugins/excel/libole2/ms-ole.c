@@ -64,7 +64,7 @@ my_array_hack (GArray *a, guint s, guint32 idx)
 
 #define BB_THRESHOLD   0x1000
 
-#define PPS_ROOT_BLOCK    0
+#define PPS_ROOT_INDEX    0
 #define PPS_BLOCK_SIZE 0x80
 #define PPS_END_OF_CHAIN 0xffffffff
 
@@ -77,6 +77,7 @@ struct _PPS {
 	guint32  size;
 	BLP      start;
 	PPS_TYPE type;
+	PPS_IDX  idx; /* Only used on write */
 };
 
 #if OLE_MMAP
@@ -291,12 +292,11 @@ read_bb (MS_OLE *f)
 {
 	guint32 numbbd;
 	BLP     lp;
-	GArray *ans;
 
 	g_return_val_if_fail (f, 0);
 	g_return_val_if_fail (f->mem, 0);
 
-	ans     = g_array_new (FALSE, FALSE, sizeof(BLP));
+	f->bb   = g_array_new (FALSE, FALSE, sizeof(BLP));
 	numbbd  = GET_NUM_BBD_BLOCKS  (f);
 
         /* Sanity checks */
@@ -306,28 +306,27 @@ read_bb (MS_OLE *f)
 		return 0;
 	}
 	
-	for (lp=0;lp<(f->length+BB_BLOCK_SIZE-1)/BB_BLOCK_SIZE;lp++) {
+	for (lp=0;lp<(f->length/BB_BLOCK_SIZE)-1;lp++) {
 		BLP tmp = get_next_block (f, lp);
-		g_array_append_val (ans, tmp);
+		g_array_append_val (f->bb, tmp);
 	}
 
 	/* Free up those blocks for a bit. */
 	for (lp=0;lp<numbbd;lp++)
-		g_array_index (ans, BLP, GET_BBD_LIST(f,lp)) = UNUSED_BLOCK;
+		g_array_index (f->bb, BLP, GET_BBD_LIST(f,lp)) = UNUSED_BLOCK;
 
-	g_assert ((f->length+BB_BLOCK_SIZE-1)/BB_BLOCK_SIZE <= ans->len);
+	g_assert (f->bb->len < f->length/BB_BLOCK_SIZE);
 
 	/* More sanity checks */
 /*	for (lp=0;lp<numbbd;lp++) {
 		BLP bbdblk = GET_BBD_LIST(f, lp);
-		if (g_array_index(ans, BLP, bbdblk) != SPECIAL_BLOCK) {
+		if (g_array_index(f->bb, BLP, bbdblk) != SPECIAL_BLOCK) {
 			printf ("Error - BBD blocks not marked correctly\n");
-			g_array_free (ans, TRUE);
+			g_array_free (f->bb, TRUE);
 			return 0;
 		}
 		}*/
 
-	f->bb = ans;
 #if OLE_DEBUG > 1
 	dump_header (f);
 #endif
@@ -387,6 +386,7 @@ next_free_bb (MS_OLE *f)
 	g_assert (f);
 
 	blk = 0;
+	g_assert (f->bb->len < f->length/BB_BLOCK_SIZE);
 	while (blk < f->bb->len)
 		if (g_array_index (f->bb, BLP, blk) == UNUSED_BLOCK)
 			return blk;
@@ -400,6 +400,7 @@ next_free_bb (MS_OLE *f)
 #       error Need to extend bbptr as well.
 #endif
 	g_assert ((g_array_index (f->bb, BLP, blk) == UNUSED_BLOCK));
+	g_assert (f->bb->len < f->length/BB_BLOCK_SIZE);
 	return blk;
 }
 
@@ -482,6 +483,7 @@ get_pps_ptr (MS_OLE *f, PPS_IDX i)
 {
 	int lp;
 	BLP blk = GET_ROOT_STARTBLOCK (f);
+
 	lp = i/(BB_BLOCK_SIZE/PPS_BLOCK_SIZE);
 	while (lp && blk != END_OF_CHAIN) {
 		if (blk == SPECIAL_BLOCK ||
@@ -507,7 +509,7 @@ pps_compare_func (PPS *a, PPS *b)
 	g_return_val_if_fail (a->name, 0);
 	g_return_val_if_fail (b->name, 0);
 	
-	return (g_strcasecmp (a->name, b->name) == 0);
+	return g_strcasecmp (b->name, a->name);
 }
 
 static void
@@ -527,6 +529,7 @@ pps_decode_tree (MS_OLE *f, PPS_IDX p, PPS *parent)
 	pps->size     = PPS_GET_SIZE  (mem);
 	pps->children = NULL;
 	pps->parent   = parent;
+	pps->idx      = 0;
 	if (!pps->name) { /* Make safe */
 		printf ("how odd: blank named file in directory\n");
 		g_free (pps);
@@ -575,7 +578,7 @@ read_pps (MS_OLE *f)
 	g_return_val_if_fail (f, 0);
 
 	f->num_pps = 0;
-	pps_decode_tree (f, PPS_ROOT_BLOCK, NULL);
+	pps_decode_tree (f, PPS_ROOT_INDEX, NULL);
 
 	if (g_list_length (f->pps) < 1 ||
 	    g_list_length (f->pps) > 1) {
@@ -603,8 +606,11 @@ read_pps (MS_OLE *f)
 	return 1;
 }
 
+/**
+ * Write the blocks main data recursively.
+ **/
 static void
-pps_encode_tree (MS_OLE *f, GList *list, PPS_IDX *p, PPS_IDX next, PPS_IDX prev)
+pps_encode_tree_initial (MS_OLE *f, GList *list, PPS_IDX *p)
 {
 	int lp, max;
 	guint8 *mem;
@@ -614,11 +620,10 @@ pps_encode_tree (MS_OLE *f, GList *list, PPS_IDX *p, PPS_IDX next, PPS_IDX prev)
 	g_return_if_fail (list->data);
 	
 	pps = list->data;
-	mem = get_pps_ptr (f, *p);
+	pps->idx = *p;
 	(*p)++;
+	mem = get_pps_ptr (f, pps->idx);
 
-	printf ("pre pre alpha code...\n");
-	
 	/* Blank stuff I don't understand */
 	for (lp=0;lp<PPS_BLOCK_SIZE;lp++)
 		SET_GUINT8(mem+lp, 0);
@@ -637,22 +642,121 @@ pps_encode_tree (MS_OLE *f, GList *list, PPS_IDX *p, PPS_IDX next, PPS_IDX prev)
 	/* Magic numbers */
 	SET_GUINT8   (mem + 0x43, 0x01); /* Or zero ? */
 	SET_GUINT32  (mem + 0x50, 0x00020900);
-	SET_GUINT32  (mem + 0x58, 0x000000c0);
-	SET_GUINT32  (mem + 0x5c, 0x46000000);
+	if (pps->idx == PPS_ROOT_INDEX) { /* Only Root */
+		SET_GUINT32  (mem + 0x58, 0x000000c0);
+		SET_GUINT32  (mem + 0x5c, 0x46000000);
+	}
 
 	PPS_SET_TYPE (mem, pps->type);
 	PPS_SET_SIZE (mem, pps->size);
         PPS_SET_STARTBLOCK(mem, pps->start);
-	PPS_SET_NEXT (mem, next);
-	PPS_SET_PREV (mem, prev);
+	PPS_SET_NEXT (mem, PPS_END_OF_CHAIN);
+	PPS_SET_PREV (mem, PPS_END_OF_CHAIN);
+	PPS_SET_DIR  (mem, PPS_END_OF_CHAIN);
 
-/*	if (pps->dir) {
-		PPS_SET_DIR  (mem, pps->dir);
-		}*/
+#if OLE_DEBUG > 0
+	printf ("encoding '%s' as %d\n", pps->name, pps->idx);
+#endif
 
-	g_free      (pps->name);
-	g_free      (pps);
-/*	g_list_free (pps); */
+	if (pps->children)
+		pps_encode_tree_initial (f, pps->children, p);
+	if (g_list_next (list))
+		pps_encode_tree_initial (f, g_list_next(list), p);
+}
+
+/**
+ * Chain the blocks together afterwards
+ * FIXME: Leaks like a sieve
+ **/
+static void
+pps_encode_tree_chain (MS_OLE *f, GList *list)
+{
+	PPS     *pps, *p;
+	GList   *l;
+	int      lp, len;
+	PPS     *next, *prev;
+	guint8  *mem, *parmem;
+
+	g_return_if_fail (list);
+	g_return_if_fail (list->data);
+	
+	pps      = list->data;
+	parmem   = get_pps_ptr (f, pps->idx);
+	g_return_if_fail (pps->children);
+	len      = g_list_length (pps->children);
+	l        = pps->children;
+
+	if (len==0) {
+#if OLE_DEBUG > 0
+		printf ("Empty directory '%s'\n", pps->name);
+		return;
+#endif		
+	} else if (len==1) {
+		p = l->data;
+		PPS_SET_DIR  (parmem, p->idx);
+		return;
+	}
+
+	g_assert (l);
+	next = prev = p = l->data;
+
+#if OLE_DEBUG > 0
+	printf ("No. of entries is %d\n", len);
+#endif
+	if (len/2==1)
+		l = g_list_next (l);
+
+	for (lp=1;lp<len/2;lp++) {
+		p    = l->data;
+		prev = g_list_previous(l)->data;
+
+#if OLE_DEBUG > 0
+		printf ("Chaining previous for '%s'\n", p->name);
+#endif
+		if (p->type == MS_OLE_PPS_STORAGE)
+			pps_encode_tree_chain (f, l);
+
+		mem  = get_pps_ptr (f, p->idx);
+		PPS_SET_NEXT (mem, PPS_END_OF_CHAIN);
+		PPS_SET_PREV (mem, prev->idx);
+		l    = g_list_next (l);
+	}
+
+	g_assert (l);
+	prev   = p;
+	p      = l->data;
+
+	/* The base node of the directory */
+	PPS_SET_DIR  (parmem, p->idx);
+
+#if OLE_DEBUG > 0
+	printf ("Base node is '%s'\n", p->name);
+#endif
+
+	/* Points potentialy both ways */
+	mem    = get_pps_ptr (f, p->idx);
+	PPS_SET_PREV (mem, prev->idx);
+	l      = g_list_next (l);
+	if (l)
+		PPS_SET_NEXT (mem, ((PPS *)l->data)->idx);
+	else
+		PPS_SET_NEXT (mem, PPS_END_OF_CHAIN);
+
+	while (l && g_list_next(l)) {
+	        p    = l->data;
+		next = g_list_next (l)->data;
+
+#if OLE_DEBUG > 0
+		printf ("Chaining next for '%s'\n", p->name);
+#endif
+		if (p->type == MS_OLE_PPS_STORAGE)
+			pps_encode_tree_chain (f, l);
+
+		mem  = get_pps_ptr (f, p->idx);
+		PPS_SET_NEXT (mem, next->idx);
+		PPS_SET_PREV (mem, PPS_END_OF_CHAIN);
+		l = g_list_next (l);
+	}
 }
 
 static int
@@ -662,6 +766,7 @@ write_pps (MS_OLE *f)
 	PPS_IDX idx;
 	BLP blk  = END_OF_CHAIN;
 	BLP last = END_OF_CHAIN;
+	guint8 *mem;
 
 	/* Build the root chain */
 	for (lp=0;lp<(f->num_pps+(BB_BLOCK_SIZE/PPS_BLOCK_SIZE)-1)/(BB_BLOCK_SIZE/PPS_BLOCK_SIZE);lp++) {
@@ -679,9 +784,14 @@ write_pps (MS_OLE *f)
 		g_array_index (f->bb, BLP, blk) = END_OF_CHAIN;
 	}
 
-	idx    = 0;
-	pps_encode_tree (f, f->pps, &idx, PPS_END_OF_CHAIN, PPS_END_OF_CHAIN);
+	g_assert (GET_ROOT_STARTBLOCK(f) != END_OF_CHAIN);
+
+	idx    = PPS_ROOT_INDEX;
+	pps_encode_tree_initial (f, f->pps, &idx);
+	pps_encode_tree_chain   (f, f->pps);
+
 	f->pps = 0;
+	f->num_pps = 0;
 	return 1;
 }
 
@@ -938,6 +1048,8 @@ ms_ole_open (const char *name)
 		return 0;
 	}
 
+	g_assert (f->bb->len < f->length/BB_BLOCK_SIZE);
+
 #if OLE_DEBUG > 0
 	printf ("New OLE file '%s'\n", name);
 #endif
@@ -1021,7 +1133,9 @@ ms_ole_create (const char *name)
 		p->size     = 0;
 		p->children = 0;
 		f->pps = g_list_append (0, p);
+		f->num_pps = 1;
 	}
+	g_assert (f->bb->len < f->length/BB_BLOCK_SIZE);
 	return f;
 }
 
@@ -1443,7 +1557,7 @@ ms_ole_append_block (MS_OLE_STREAM *s)
 
 		if (lastblk != END_OF_CHAIN) { /* Link onwards */
 			g_array_index (s->file->bb, BLP, lastblk) = block;
-#if OLE_DEBUG > 0
+#if OLE_DEBUG > 1
 			printf ("Chained Big block %d to block %d\n", block, lastblk);
 #endif
 		} else { /* First block in a file */
@@ -1485,7 +1599,7 @@ ms_ole_write_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		
 		dest = BBPTR(s->file, block) + offset;
 
-#if OLE_DEBUG > 0
+#if OLE_DEBUG > 1
 		printf ("Copy %d bytes to block %d\n", cpylen, block);
 #endif
 		memcpy (dest, ptr, cpylen);
@@ -1557,7 +1671,7 @@ ms_ole_write_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 
 			free_allocation (s->file, p->start, 0);
 			p->start    = END_OF_CHAIN;
-#if OLE_DEBUG > 0
+#if OLE_DEBUG > 1
 			printf ("\n\n--- Converting ---\n\n\n");
 #endif
 			s->read_copy = ms_ole_read_copy_bb;
@@ -1580,7 +1694,7 @@ ms_ole_write_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 			/* Continue the interrupted write */
 			ms_ole_write_bb(s, ptr, bytes);
 			bytes = 0;
-#if OLE_DEBUG > 0
+#if OLE_DEBUG > 1
 			printf ("\n\n--- Done ---\n\n\n");
 #endif
 			g_free (buffer);
