@@ -1512,21 +1512,23 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		case 0:
 			xf->rotation = 0;
 			break;
-		case 1:
-			xf->rotation = 255;	/*
-						 * vertical letters no rotation
-						 */
+		case 1: /* vertical letters no rotation */
+			xf->rotation = 255;
 			break;
-		case 2:
-			xf->rotation = 90;	/*
-						 * 90deg anti-clock
-						 */
+		case 2: /* 90deg anti-clock */
+			xf->rotation = 90;
 			break;
-		case 3:
-			xf->rotation = 180;	/*
-						 * 90deg clock
-						 */
+		case 3: /* 90deg clock */
+			xf->rotation = 180;
 			break;
+		}
+	}
+
+	if (xf->rotation != 0) {
+		static gboolean needs_warning = TRUE;
+		if (needs_warning) {
+			needs_warning = FALSE;
+			g_warning ("EXCEL : rotated text is not supported yet.");
 		}
 	}
 
