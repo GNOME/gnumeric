@@ -1268,9 +1268,9 @@ cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
 
 		err = g_strdup_printf
 			(_("In cell %s, the current contents\n"
-			   "\t%s\n"
+			   "        %s\n"
 			   "would have been replaced by\n"
-			   "\t%s\n"
+			   "        %s\n"
 			   "which is invalid.\n\n"
 			   "The replace has been aborted "
 			   "and nothing has been changed."),

@@ -1,3 +1,8 @@
+2001-02-14  Karl Eichwalder  <ke@suse.de>
+
+	* src/workbook-control-gui.c (cb_edit_search_replace_query):
+	Untabify message.
+
 2001-02-13  Jody Goldberg <jgoldberg@home.com>
 
 	* some header cleanup.  Remove unused copies of
@@ -18,10 +23,10 @@
 
 	Changes to make gnumeric distcheck properly (mildly xml-i18n-tools
 	related).
-	
+
 	* po/Makefile.in.in: Remove; this should not be in cvs, autogen
 	will create it with gettextize and patch it with xml-i18n-tools.
-	
+
 	* src/dialogs/Makefile.am: Remove define of glade_msgs and remove
 	it from EXTRA_DIST; these files are not in cvs any more, rather
 	they are generated on demand by the xml-i18n-tools extraction
