@@ -1,3 +1,4 @@
+#include <gnumeric-config.h>
 #include "lpkit.h"
 #include "lpglob.h"
 #include <stdarg.h>

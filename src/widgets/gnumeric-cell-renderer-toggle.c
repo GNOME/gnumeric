@@ -20,6 +20,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <gnumeric-config.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 #include "gnumeric-cell-renderer-toggle.h"

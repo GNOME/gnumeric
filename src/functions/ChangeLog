@@ -1,3 +1,7 @@
+2002-04-15  Morten Welinder  <terra@diku.dk>
+
+	* fn-math.c (gnumeric_subtotal): Fix error handling, I hope.
+
 2002-04-04  Jody Goldberg <jody@gnome.org>
 
 	* fn-date.c (gnumeric_date2unix) : unix serials are integers.

@@ -2818,28 +2818,22 @@ static const char *help_subtotal = {
 static Value *
 gnumeric_subtotal (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
-        GnmExpr *tree;
-	Value    *val;
-	int      fun_nbr;
+        const GnmExpr *tree;
+	Value *val;
+	int   fun_nbr;
 
 	if (expr_node_list == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	tree = (GnmExpr *) expr_node_list->data;
+	tree = expr_node_list->data;
 	if (tree == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_STRICT);
-	if (!val) return NULL;
-	if (!VALUE_IS_NUMBER (val)) {
-		value_release (val);
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
-	}
-
+	if (val->type == VALUE_ERROR)
+		return val;
 	fun_nbr = value_get_as_int (val);
 	value_release (val);
-	if (fun_nbr < 1 || fun_nbr > 11)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	/* Skip the first node */
 	expr_node_list = expr_node_list->next;
@@ -2856,9 +2850,8 @@ gnumeric_subtotal (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 	case 9:  return gnumeric_sum (ei, expr_node_list);
 	case 10: return gnumeric_var (ei, expr_node_list);
 	case 11: return gnumeric_varp (ei, expr_node_list);
+	default: return value_new_error (ei->pos, gnumeric_err_NUM);
 	}
-
-	return NULL;
 }
 
 /***************************************************************************/

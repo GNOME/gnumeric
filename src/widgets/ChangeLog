@@ -1,3 +1,7 @@
+2002-04-15  Morten Welinder  <terra@diku.dk>
+
+	* *.c: Include <gnumeric-config.h> as needed.
+
 2002-04-12  Morten Welinder  <terra@diku.dk>
 
 	* gnumeric-cell-renderer-text.c

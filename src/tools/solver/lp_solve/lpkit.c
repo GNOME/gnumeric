@@ -21,6 +21,7 @@
  * 02111-1307, USA.
  */
 
+#include <gnumeric-config.h>
 #include <glib.h>
 #include "lpkit.h"
 #include "lpglob.h"
