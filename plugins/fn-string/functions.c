@@ -35,10 +35,10 @@ static char *help_char = {
 static Value *
 gnumeric_char (FunctionEvalInfo *ei, Value **argv)
 {
-	char result [2];
+	char result[2];
 
-	result [0] = value_get_as_int (argv [0]);
-	result [1] = 0;
+	result[0] = value_get_as_int (argv[0]);
+	result[1] = 0;
 
 	return value_new_string (result);
 }
@@ -63,10 +63,10 @@ gnumeric_code (FunctionEvalInfo *ei, Value **argv)
 {
 	unsigned char c;
 
-	if (argv [0]->type != VALUE_STRING)
+	if (argv[0]->type != VALUE_STRING)
 		return value_new_error (ei->pos, _("Type mismatch"));
 
-	c = argv [0]->v_str.val->str [0];
+	c = argv[0]->v_str.val->str[0];
 	return value_new_int (c);
 }
 
@@ -90,11 +90,11 @@ static char *help_exact = {
 static Value *
 gnumeric_exact (FunctionEvalInfo *ei, Value **argv)
 {
-	if (argv [0]->type != VALUE_STRING || argv [1]->type != VALUE_STRING)
+	if (argv[0]->type != VALUE_STRING || argv[1]->type != VALUE_STRING)
 		return value_new_error (ei->pos, _("Type mismatch"));
 
-	return value_new_bool (strcmp (argv [0]->v_str.val->str,
-				       argv [1]->v_str.val->str) == 0);
+	return value_new_bool (strcmp (argv[0]->v_str.val->str,
+				       argv[1]->v_str.val->str) == 0);
 }
 
 /***************************************************************************/
@@ -115,10 +115,10 @@ static char *help_len = {
 static Value *
 gnumeric_len (FunctionEvalInfo *ei, Value **argv)
 {
-	if (argv [0]->type != VALUE_STRING)
+	if (argv[0]->type != VALUE_STRING)
 		return value_new_error (ei->pos, _("Type mismatch"));
 
-	return value_new_int (strlen (argv [0]->v_str.val->str));
+	return value_new_int (strlen (argv[0]->v_str.val->str));
 }
 
 /***************************************************************************/
@@ -141,18 +141,15 @@ static Value *
 gnumeric_left (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
-	int count;
 	char *s;
+	int count, slen;
 
-	if (argv[1])
-		count = value_get_as_int(argv[1]);
-	else
-		count = 1;
+	count = argv[1] ? value_get_as_int (argv[1]) : 1;
+	s = value_get_as_string (argv[0]);
 
-	s = g_malloc (count + 1);
-	strncpy (s, argv[0]->v_str.val->str, count);
-	s [count] = 0;
-
+	slen = strlen (s);
+	if (count < slen)
+		s[count] = 0;
 	v = value_new_string (s);
 	g_free (s);
 
@@ -180,13 +177,9 @@ gnumeric_lower (FunctionEvalInfo *ei, Value **argv)
 	Value *v;
 	unsigned char *s, *p;
 
-	if (argv [0]->type != VALUE_STRING)
-		return value_new_error (ei->pos, _("Type mismatch"));
-
-	p = s = g_strdup (argv [0]->v_str.val->str);
-	for (; *p; p++){
+	s = value_get_as_string (argv[0]);
+	for (p = s; *p; p++)
 		*p = tolower (*p);
-	}
 	v = value_new_string (s);
 	g_free (s);
 
@@ -216,20 +209,20 @@ gnumeric_mid  (FunctionEvalInfo *ei, Value **argv)
 	int pos, len;
 	char *s, *source;
 
-	if (argv [0]->type != VALUE_STRING ||
-	    !VALUE_IS_NUMBER (argv [1]) ||
-	    !VALUE_IS_NUMBER (argv [2]))
+	if (argv[0]->type != VALUE_STRING ||
+	    !VALUE_IS_NUMBER (argv[1]) ||
+	    !VALUE_IS_NUMBER (argv[2]))
 		return value_new_error (ei->pos, _("Type mismatch"));
 
-	pos = value_get_as_int (argv [1]);
-	len = value_get_as_int (argv [2]);
+	pos = value_get_as_int (argv[1]);
+	len = value_get_as_int (argv[2]);
 
 	if (len < 0 || pos <= 0)
 		return value_new_error (ei->pos, _("Invalid arguments"));
 
 	pos--;  /* Make pos zero-based.  */
 
-	source = argv [0]->v_str.val->str;
+	source = argv[0]->v_str.val->str;
 	len = MIN (len, (int)strlen (source) - pos);
 
 	s = g_new (gchar, len + 1);
@@ -262,22 +255,17 @@ static Value *
 gnumeric_right (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
-	int count, len;
+	int count, slen;
 	char *s;
 
-	if (argv[1])
-		count = value_get_as_int(argv[1]);
-	else
-		count = 1;
+	count = argv[1] ? value_get_as_int (argv[1]) : 1;
+	s = value_get_as_string (argv[0]);
 
-	len = strlen (argv[0]->v_str.val->str);
-	if (count > len)
-		count = len;
-
-	s = g_malloc (count + 1);
-	strncpy (s, argv[0]->v_str.val->str+len-count, count);
-	s [count] = 0;
-
+	slen = strlen (s);
+	if (count < slen) {
+		memmove (s, s + (slen - count), count);
+		s[count] = 0;
+	}
 	v = value_new_string (s);
 	g_free (s);
 
@@ -305,14 +293,9 @@ gnumeric_upper (FunctionEvalInfo *ei, Value **argv)
 	Value *v;
 	unsigned char *s, *p;
 
-	if (argv [0]->type != VALUE_STRING)
-		return value_new_error (ei->pos, _("Type mismatch"));
-
-	p = s = g_strdup (argv [0]->v_str.val->str);
-
-	for (;*p; p++){
+	s = value_get_as_string (argv[0]);
+	for (p = s; *p; p++)
 		*p = toupper (*p);
-	}
 	v = value_new_string (s);
 	g_free (s);
 
@@ -343,10 +326,10 @@ gnumeric_concatenate (FunctionEvalInfo *ei, GList *l)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
-	s = g_new(gchar, 1);
+	s = g_new (gchar, 1);
 	*s = '\0';
 	while ( l != NULL &&
-		(v = eval_expr(ei->pos, l->data, EVAL_STRICT)) != NULL) {
+		(v = eval_expr (ei->pos, l->data, EVAL_STRICT)) != NULL) {
 /*
 		if (v->type != VALUE_STRING) {
 			return value_new_error (ei->pos,
@@ -393,9 +376,9 @@ gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 	gint num;
 	guint len;
 
-	if (argv [0]->type != VALUE_STRING)
+	if (argv[0]->type != VALUE_STRING)
 		return value_new_error (ei->pos, _("Type mismatch"));
-	else if ( (num=value_get_as_int(argv[1])) < 0)
+	else if ( (num=value_get_as_int (argv[1])) < 0)
 		return value_new_error (ei->pos, _("Invalid argument"));
 
 	len = strlen (argv[0]->v_str.val->str);
@@ -429,23 +412,15 @@ static Value *
 gnumeric_clean  (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *res;
-	unsigned char *copy, *p, *q;
+	unsigned char *s, *p, *q;
 
-	if (argv [0]->type != VALUE_STRING)
-		return value_new_error (ei->pos, _("Type mismatch"));
-
-	p = argv [0]->v_str.val->str;
-	copy = q = g_malloc (strlen (p) + 1);
-
-	while (*p){
+	s = value_get_as_string (argv[0]);
+	for (p = q = s; *p; p++)
 		if (isprint (*p))
 			*q++ = *p;
-		p++;
-	}
 	*q = 0;
-
-	res = value_new_string (copy);
-	g_free (copy);
+	res = value_new_string (s);
+	g_free (s);
 
 	return res;
 }
@@ -522,10 +497,7 @@ gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 	gnum_float num;
 
 	num = value_get_as_float (argv[0]);
-	if (argv[1])
-		dec = value_get_as_int (argv[1]);
-	else
-		dec = 2;
+	dec = argv[1] ? value_get_as_int (argv[1]) : 2;
 
 	if (argv[2]) {
 		gboolean err;
@@ -545,14 +517,14 @@ gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 		*/
 	} else if (dec <= 0) { /* no decimal point : just round and pad 0's */
 		dec *= -1;
-		num /= pow(10, dec);
+		num /= pow (10, dec);
 		if (num < 1 && num > -1) {
-			s = g_strdup("0");
+			s = g_strdup ("0");
 			commas = 0;
 		} else {
-			f = g_strdup("%00?s%.0f%.00?u"); /* commas, no point, 0's */
+			f = g_strdup ("%00?s%.0f%.00?u"); /* commas, no point, 0's */
 			tmp = dec;
-			dec += log10(fabs(num));
+			dec += log10 (fabs (num));
 			if (commas)
 				commas = dec / 3;
 			p = &f[13]; /* last 0 in trailing 0's count */
@@ -568,9 +540,9 @@ gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 			g_free (f);
 		}
 	} else { /* decimal point format */
-		f = g_strdup("%00?s%.00?f");
+		f = g_strdup ("%00?s%.00?f");
 		tmp = dec;
-		dec = log10(fabs(num));
+		dec = log10 (fabs (num));
 		if (commas)
 			commas = dec / 3;
 		p = &f[9];
@@ -631,25 +603,21 @@ gnumeric_proper (FunctionEvalInfo *ei, Value **argv)
 	unsigned char *s, *p;
 	gboolean inword = FALSE;
 
-	if (argv [0]->type != VALUE_STRING)
-		return value_new_error (ei->pos, _("Type mismatch"));
-
-	s = p = g_strdup (argv[0]->v_str.val->str);
-	while (*s) {
-		if (isalpha(*s)) {
+	s = value_get_as_string (argv[0]);
+	for (p = s; *p; p++) {
+		if (isalpha (*p)) {
 			if (inword) {
-				*s = tolower(*s);
+				*p = tolower (*p);
 			} else {
-				*s = toupper(*s);
+				*p = toupper (*p);
 				inword = TRUE;
 			}
 		} else
 			inword = FALSE;
-		s++;
 	}
 
-	v = value_new_string (p);
-	g_free (p);
+	v = value_new_string (s);
+	g_free (s);
 	return v;
 }
 
@@ -684,14 +652,14 @@ gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 
 	start = value_get_as_int (argv[1]);
 	num = value_get_as_int (argv[2]);
-	oldlen = strlen(argv[0]->v_str.val->str);
+	oldlen = strlen (argv[0]->v_str.val->str);
 
 	if (start <= 0 || num <= 0)
 		return value_new_error (ei->pos, _("Invalid arguments"));
 
 	if (--start + num > oldlen)
 		num = oldlen - start;
-	newlen = strlen (argv [3]->v_str.val->str);
+	newlen = strlen (argv[3]->v_str.val->str);
 
 	s = g_new (gchar, 1 + newlen + oldlen - num);
 	strncpy (s, argv[0]->v_str.val->str, start);
@@ -699,11 +667,11 @@ gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 	strncpy (&s[start+newlen], &argv[0]->v_str.val->str[start+num],
 		 oldlen - num - start );
 
-	s [newlen+oldlen-num] = '\0';
+	s[newlen + oldlen - num] = '\0';
 
 	v = value_new_string (s);
 
-	g_free(s);
+	g_free (s);
 
 	return v;
 }
@@ -857,11 +825,11 @@ gnumeric_trim (FunctionEvalInfo *ei, Value **argv)
 	if (argv[0]->type != VALUE_STRING)
 		return value_new_error (ei->pos, _("Type mismatch"));
 
-	dest = new = g_new (gchar, strlen(argv[0]->v_str.val->str) + 1);
-	src = argv [0]->v_str.val->str;
+	dest = new = g_new (gchar, strlen (argv[0]->v_str.val->str) + 1);
+	src = argv[0]->v_str.val->str;
 
-	while (*src){
-		if (*src == ' '){
+	while (*src) {
+		if (*src == ' ') {
 			if (!space) {
 				*dest++ = *src;
 				space = TRUE;
@@ -878,7 +846,7 @@ gnumeric_trim (FunctionEvalInfo *ei, Value **argv)
 	*dest = '\0';
 
 	v = value_new_string (new);
-	g_free(new);
+	g_free (new);
 
 	return v;
 }
@@ -969,10 +937,10 @@ subs_string_append_n (struct subs_string *s, gchar *src, guint n)
 	while (s->len + n >= s->mem)
 		s->str = g_realloc (s->str, s->mem += chunk);
 
-	strncpy (&s->str [s->len], src, n);
+	strncpy (&s->str[s->len], src, n);
 
 	s->len += n;
-	s->str [s->len] = '\0';
+	s->str[s->len] = '\0';
 }
 
 static void
@@ -1059,7 +1027,7 @@ static char *help_dollar = {
 static Value *
 gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *v, *ag [3];
+	Value *v, *ag[3];
 	guint len, neg;
 	gchar *s;
 	static int barfed = 0;
@@ -1075,13 +1043,13 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 	if (argv[1] != NULL) {
 	        x = 0.5;
 		n = value_get_as_int (argv[1]);
-		for (i=0; i<n; i++)
+		for (i = 0; i < n; i++)
 		        x /= 10;
-		ag[0] = value_new_float (value_get_as_float(argv[0]) + x);
+		ag[0] = value_new_float (value_get_as_float (argv[0]) + x);
 	} else
 	        ag[0] = value_duplicate (argv[0]);
 
-	ag[1] = argv [1];
+	ag[1] = argv[1];
 	ag[2] = NULL;
 
 	v = gnumeric_fixed (ei, ag);
@@ -1091,21 +1059,21 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 	g_assert (v->type == VALUE_STRING);
 
 	len = strlen (v->v_str.val->str);
-	neg = (v->v_str.val->str [0] == '-') ? 1 : 0;
+	neg = (v->v_str.val->str[0] == '-') ? 1 : 0;
 
 	s = g_new (gchar, len + 2 + neg);
-	strncpy (&s [1], v->v_str.val->str, len);
+	strncpy (&s[1], v->v_str.val->str, len);
 
 	string_unref (v->v_str.val);
 	if (neg) {
-		s [0] = '(';
-		s [len+1] = ')';
+		s[0] = '(';
+		s[len + 1] = ')';
 	}
 	/* FIXME: should use *lc->currency_symbol */
 	s[neg] = '$';
 	s[len + 1 + neg] = '\0';
 	v->v_str.val = string_get_nocopy (s);
-	value_release(ag[0]);
+	value_release (ag[0]);
 
 	return v;
 }
@@ -1147,12 +1115,12 @@ typedef struct {
 } string_search_t;
 
 static int
-wildcards_and_question_marks(gchar *find_str, int *qmarks, int *wildcard)
+wildcards_and_question_marks (const gchar *find_str, int *qmarks, int *wildcard)
 {
-        int pos, skip=0;
+        int pos, skip = 0;
 
 	*wildcard = 0;
-	for (pos=0; find_str[pos]; pos++)
+	for (pos = 0; find_str[pos]; pos++)
 	        if (find_str[pos] == '?')
 		        ++skip;
 	        else if (find_str[pos] == '*')
@@ -1168,7 +1136,7 @@ wildcards_and_question_marks(gchar *find_str, int *qmarks, int *wildcard)
 /* Breaks the regular expression into a list of string and skip pairs.
  */
 static GSList *
-parse_search_string(gchar *find_str)
+parse_search_string (const gchar *find_str)
 {
         string_search_t *search_cond;
         GSList          *conditions = NULL;
@@ -1176,11 +1144,11 @@ parse_search_string(gchar *find_str)
 	gboolean        wildcard;
         gchar           *buf, *p;
 
-	buf = g_new(gchar, strlen(find_str) + 1);
+	buf = g_new (gchar, strlen (find_str) + 1);
 	p = buf;
 	i = 0;
 
-	pos = wildcards_and_question_marks(find_str, &qmarks, &wildcard);
+	pos = wildcards_and_question_marks (find_str, &qmarks, &wildcard);
 	wildcard = 1;
 	find_str += pos;
 
@@ -1190,26 +1158,26 @@ parse_search_string(gchar *find_str)
 			find_str++;
 		} else if (*find_str == '?' || *find_str == '*') {
 		        buf[i] = '\0';
-			search_cond = g_new(string_search_t, 1);
+			search_cond = g_new (string_search_t, 1);
 			search_cond->str = g_strdup (buf);
 			search_cond->min_skip = qmarks;
 			search_cond->wildcard_prefix = wildcard;
-			conditions = g_slist_append(conditions, search_cond);
+			conditions = g_slist_append (conditions, search_cond);
 			i = 0;
-			pos = wildcards_and_question_marks(find_str, &qmarks,
-							   &wildcard);
+			pos = wildcards_and_question_marks (find_str, &qmarks,
+							    &wildcard);
 			find_str += pos;
 		} else
 		        buf[i++] = *find_str++;
 	}
 	buf[i] = '\0';
-	search_cond = g_new(string_search_t, 1);
+	search_cond = g_new (string_search_t, 1);
 	search_cond->str = g_strdup (buf);
 	search_cond->min_skip = qmarks;
 	search_cond->wildcard_prefix = wildcard;
-	conditions = g_slist_append(conditions, search_cond);
+	conditions = g_slist_append (conditions, search_cond);
 
-	g_free(buf);
+	g_free (buf);
 
 	return conditions;
 }
@@ -1219,8 +1187,8 @@ parse_search_string(gchar *find_str)
  * end of the token.
  */
 static int
-match_string(gchar *str, string_search_t *cond, gchar **match_start,
-	     gchar **match_end)
+match_string (const gchar *str, string_search_t *cond, gchar **match_start,
+	      gchar **match_end)
 {
         gchar *p;
 
@@ -1228,11 +1196,11 @@ match_string(gchar *str, string_search_t *cond, gchar **match_start,
 		return 0;
 
 	if (*cond->str == '\0') {
-	         *match_start = str;
-		 *match_end = str + 1;
+	         *match_start = (char *)str;
+		 *match_end = (char *)str + 1;
 		 return 1;
 	}
-        p = strstr(str + cond->min_skip, cond->str);
+        p = strstr (str + cond->min_skip, cond->str);
 
 	/* Check no match case */
 	if (p == NULL)
@@ -1244,13 +1212,13 @@ match_string(gchar *str, string_search_t *cond, gchar **match_start,
 
 	/* Matches correctly */
 	*match_start = p - cond->min_skip;
-	*match_end = p + strlen(cond->str);
+	*match_end = p + strlen (cond->str);
 
 	return 1;
 }
 
 static void
-free_all_after_search(GSList *conditions, gchar *text, gchar *within)
+free_all_after_search (GSList *conditions, gchar *text, gchar *within)
 {
         GSList          *current;
 	string_search_t *current_cond;
@@ -1258,13 +1226,13 @@ free_all_after_search(GSList *conditions, gchar *text, gchar *within)
 	current = conditions;
 	while (current != NULL) {
 	        current_cond = current->data;
-	        g_free(current_cond->str);
-		g_free(current_cond);
+	        g_free (current_cond->str);
+		g_free (current_cond);
 		current = current->next;
 	}
-	g_slist_free(conditions);
-	g_free(text);
-	g_free(within);
+	g_slist_free (conditions);
+	g_free (text);
+	g_free (within);
 }
 
 static Value *
@@ -1279,25 +1247,25 @@ gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 	if (argv[2] == NULL)
 	        start_num = 0;
 	else
-	        start_num = value_get_as_int(argv[2]) - 1;
+	        start_num = value_get_as_int (argv[2]) - 1;
 
 	text = value_get_as_string (argv[0]);
 	within = value_get_as_string (argv[1]);
-	g_strdown(text);
-	g_strdown(within);
+	g_strdown (text);
+	g_strdown (within);
 
-	within_len = strlen(within);
+	within_len = strlen (within);
 
 	if (within_len <= start_num) {
-	        g_free(text);
-		g_free(within);
+	        g_free (text);
+		g_free (within);
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}
 
-	conditions = parse_search_string(text);
+	conditions = parse_search_string (text);
 	if (conditions == NULL) {
-	        g_free(text);
-		g_free(within);
+	        g_free (text);
+		g_free (within);
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}
 
@@ -1306,21 +1274,21 @@ gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 match_again:
 	current = conditions;
 	current_cond = current->data;
-	ret = match_string(match_str, current_cond, &p_start, &p_end);
+	ret = match_string (match_str, current_cond, &p_start, &p_end);
 	if (ret) {
 	        current = current->next;
 		if (current == NULL) {
-			free_all_after_search(conditions, text, within);
+			free_all_after_search (conditions, text, within);
 			return value_new_int (p_start - within + 1);
 		}
 		current_cond = current->data;
 		match_str = p_start;
 		match_str_next = p_end;
-		while (match_string(p_end, current_cond, &p_start, &p_end)) {
+		while (match_string (p_end, current_cond, &p_start, &p_end)) {
 		        current = current->next;
 			if (current == NULL) {
-				free_all_after_search(conditions,
-						      text, within);
+				free_all_after_search (conditions,
+						       text, within);
 				return value_new_int (match_str - within + 1);
 			}
 			current_cond = current->data;
@@ -1329,7 +1297,7 @@ match_again:
 		goto match_again;
 	}
 
-	free_all_after_search(conditions, text, within);
+	free_all_after_search (conditions, text, within);
 
 	return value_new_error (ei->pos, gnumeric_err_VALUE);
 }

@@ -1,3 +1,9 @@
+2001-05-01  Morten Welinder  <terra@diku.dk>
+
+	* fn-string.c (gnumeric_left, gnumeric_right, gnumeric_lower,
+ 	gnumeric_upper, gnumeric_clean, gnumeric_proper): Un-suckify.
+	(wildcards_and_question_marks, parse_search_string): Constify.
+
 2001-04-26  Morten Welinder  <terra@diku.dk>
 
 	* fn-string.c (gnumeric_mid): Un-suckify.
