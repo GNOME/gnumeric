@@ -1,5 +1,6 @@
 2004-08-28  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=143724
 	* xbase.c (xbase_open) : stop importing when we hit SHEET_MAX_COLS
 	* boot.c (xbase_file_open) : and when we hit SHEET_MAX_ROWS
 

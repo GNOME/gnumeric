@@ -31,7 +31,7 @@ typedef FILE * OutputStream;
 #include <str.h>
 
 static SV *
-value2perl(Value *v)
+value2perl(GnmValue *v)
 {
     SV *sv;
 
@@ -59,15 +59,15 @@ value2perl(Value *v)
     return sv;
 }
 
-static Value *
+static GnmValue *
 perl2value(SV *sv)
 {
-    Value *v = NULL;
+    GnmValue *v = NULL;
 
     if (SvIOK(sv))
 	v = value_new_int (SvIV(sv));
     else if (SvNOK(sv))
-	v = value_new_float ((gnum_float) SvNV(sv));
+	v = value_new_float ((gnm_float) SvNV(sv));
     else if (SvPOK(sv)) {
 	STRLEN size;
 	gchar *s,*tmp;
@@ -84,8 +84,8 @@ perl2value(SV *sv)
     return v;
 }
 
-static Value *
-marshal_func (FunctionEvalInfo *ei, Value *argv[])
+static GnmValue *
+marshal_func (FunctionEvalInfo *ei, GnmValue *argv[])
 {
     dSP;
     GnmFunc const *func =
@@ -94,7 +94,7 @@ marshal_func (FunctionEvalInfo *ei, Value *argv[])
     I32 r;
     int i, min, max;
     SV * result;
-    Value *v;
+    GnmValue *v;
 
     /* Read the perlcall man page for more information. */
     ENTER;
@@ -127,10 +127,10 @@ MODULE = Gnumeric  PACKAGE = Gnumeric
 PROTOTYPES: ENABLE
 
 void
-register_function(name, args, named_args, help, subref)
+register_function(name, arg_spec, arg_names, help, subref)
     char *name
-    char *args
-    char *named_args
+    char *arg_spec
+    char *arg_names
     char *help
     SV *subref
 
@@ -141,16 +141,16 @@ register_function(name, args, named_args, help, subref)
 
  CODE:
     fncat = gnm_func_group_fetch ("Perl plugin");
-    desc.fn_name     = name;
-    desc.args	     = args;;
-    desc.arg_names   = named_args;
+    desc.name     = name;
+    desc.arg_spec     = arg_spec;
+    desc.arg_names   = arg_names;
     desc.help	     = (char const **)&help;
     desc.fn_args     = &marshal_func;
     desc.fn_nodes    = NULL;
     desc.linker	     = NULL;
     desc.unlinker    = NULL;
     desc.flags	     = 0;
-    desc.impl_status = GNM_FUNC_IMPL_STATUS_NOT_IN_EXCEL;
+    desc.impl_status = GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC;
     desc.test_status = GNM_FUNC_TEST_STATUS_UNKNOWN;
 
     func = gnm_func_add (fncat, &desc);

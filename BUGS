@@ -16,8 +16,12 @@ Release Critical
     http://bugzilla.gnome.org/show_bug.cgi?id=144112
     : fraction matching
 
+    http://bugzilla.gnome.org/show_bug.cgi?id=143135
+    : We should list csv/tsv files
+    http://bugzilla.gnome.org/show_bug.cgi?id=143188
+    : We should remember the last directory the user opened a file
+
     : F4 is not working
-    : Store last dir saved in or opened from
     : Make 'save or discard' dialog a proper transient 
 
 Worries

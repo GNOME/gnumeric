@@ -49,6 +49,10 @@ Jody:
 	* Update the resize handles if the current object's size changes
 	http://bugzilla.gnome.org/show_bug.cgi?id=151144
 	* XL can not handle plots with no data, filter them
+	http://bugzilla.gnome.org/show_bug.cgi?id=151150
+	* center ticks for bar/col plots too
+	http://bugzilla.gnome.org/show_bug.cgi?id=143724
+	* Clip large dbf files to compile time file limits
 
 Jon Kåre:
 	* Export images to Excel
@@ -72,14 +76,17 @@ Morten:
 	* Fix crash on exit.  [backported]
 	* Fix ssconvert output.
 	* Fix potential lexer crash.
-	* Fix graph guru crash in the absense of graph plugins.  [#150821]
+	http://bugzilla.gnome.org/show_bug.cgi?id=150821
+	* Fix graph guru crash in the absense of graph plugins.
+
+Uwe Steinmann:
+	* Paradox DB import.
 
 Yukihiro Nakai:
 	* Export links when saving as html.
 	* Add actions for www and bug reporting.
-
-Uwe Steinmann:
-	* Paradox DB import.
+	http://bugzilla.gnome.org/show_bug.cgi?id=151273
+	* Fix perl plugin
 
 --------------------------------------------------------------------------
 

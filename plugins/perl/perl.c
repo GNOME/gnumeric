@@ -14,6 +14,7 @@
 #include "plugin.h"
 #include "error-info.h"
 #include "module-plugin-defs.h"
+#include "gutils.h"
 #define dirty _perl_dirty
 #undef _perl_dirty
 

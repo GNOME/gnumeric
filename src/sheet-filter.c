@@ -435,7 +435,9 @@ collect_unique_elements (GnmFilterField *field,
 static void
 cb_focus_changed (GtkWindow *toplevel)
 {
+#if 0
 	g_warning (gtk_window_has_toplevel_focus (toplevel) ? "focus" : "no focus");
+#endif
 }
 
 static void
