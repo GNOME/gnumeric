@@ -365,6 +365,15 @@ wbcg_edit_selection_descr_set (WorkbookControl *wbc, char const *text)
 	gtk_entry_set_text (GTK_ENTRY (wbcg->selection_descriptor), text);
 }
 
+static void
+wbcg_set_sensitive (WorkbookControl *wbc, gboolean sensitive)
+{
+	GtkWindow *toplevel = WORKBOOK_CONTROL_GUI (wbc)->toplevel;
+
+	if (toplevel != NULL)
+		gtk_widget_set_sensitive (GTK_WIDGET (toplevel), sensitive);
+}
+
 /*
  * Signal handler for EditableLabel's text_changed signal.
  */
@@ -4429,6 +4438,7 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->zoom_feedback	= wbcg_zoom_feedback;
 	wbc_class->edit_line_set	= wbcg_edit_line_set;
 	wbc_class->selection_descr_set	= wbcg_edit_selection_descr_set;
+	wbc_class->set_sensitive	= wbcg_set_sensitive;
 	wbc_class->auto_expr_value	= wbcg_auto_expr_value;
 
 	wbc_class->sheet.add        = wbcg_sheet_add;

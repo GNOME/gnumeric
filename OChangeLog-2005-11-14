@@ -1,5 +1,15 @@
 2002-06-01  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-format-toolbar.c (cb_format_with_thousands) :
+	  Apply the accounting format rather than the numeric version for
+	  Keelyn.
+
+	* src/workbook-control : Add set_sensitive.
+
+	* src/workbook-control-gui.c (wbcg_set_sensitive) : new.
+
+	* src/workbook-view.c (wb_view_open_custom) : Use wb_control_set_sensitive.
+
  	http://bugzilla.gnome.org/show_bug.cgi?id=83794
 	* src/stf.c (stf_read_workbook_auto_csvtab) : simple autodetection of
 	  tab delimited vs csv

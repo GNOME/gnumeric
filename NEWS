@@ -39,6 +39,9 @@ Jody:
 	  operations that do not update the display are certain to ungrab
 	  without delay (thanks rconover)
 
+	* Apply the accounting format rather than the numeric version for
+	  Keelyn.
+
 J.H.M. Dassen (Ray):
 	http://bugzilla.gnome.org/show_bug.cgi?id=81456
 	* Fix the omf file.

@@ -716,7 +716,7 @@ wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
 
 	if (g_file_test (file_name, G_FILE_TEST_ISFILE)) {
 		IOContext *io_context = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
-		wb_control_menu_state_sensitivity (wbc, FALSE);
+		wb_control_set_sensitive (wbc, FALSE);
 
 		/* Search for an applicable opener */
 		if (fo == NULL) {
@@ -763,7 +763,7 @@ wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
 			gnumeric_io_error_display (io_context);
 		}
 
-		wb_control_menu_state_sensitivity (wbc, TRUE);
+		wb_control_set_sensitive (wbc, TRUE);
 		gtk_object_unref (GTK_OBJECT (io_context));
 	} else {
 		new_wb = workbook_new_with_sheets (1);

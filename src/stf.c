@@ -239,6 +239,8 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 		gnumeric_io_error_unknown (context);
 }
 
+#define STF_PROBE_SIZE 16384
+
 /**
  * stf_read_workbook_auto_csvtab
  * @fo       : file opener
@@ -259,13 +261,14 @@ stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
 
 	char *pos;
 	unsigned int comma = 0, tab = 0, lines = 0;
+	int i;
 
 	book = wb_view_workbook (wbv);
 	data = stf_preparse (context, filename);
 	if (!data)
 		return;
 
-	for( pos = data ; *pos ; ++pos )
+	for (i = STF_PROBE_SIZE, pos = data ; *pos && i-- > 0 ; ++pos )
 		if (*pos == ',')
 			++comma;
 		else if (*pos == '\t')
@@ -317,8 +320,6 @@ stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
 	 */
 	free (data);
 }
-
-#define STF_PROBE_SIZE 16384
 
 static gboolean
 stf_read_default_probe (GnumFileOpener const *fo, const gchar *file_name, FileProbeLevel pl)
