@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.31\n"
-"POT-Creation-Date: 1999-08-22 09:30+0200\n"
+"POT-Creation-Date: 1999-08-22 16:06-0500\n"
 "PO-Revision-Date: 1999-08-22 15:00+0200\n"
 "Last-Translator: Richard Hult <rhult@hem2.passagen.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -2193,6 +2193,7 @@ msgstr ""
 "@SEEALSO=IMSUB"
 
 #: src/fn-eng.c:1058
+#, fuzzy
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -2288,6 +2289,7 @@ msgid ""
 "'a'  atto   1E-18\n"
 "\n"
 "If @from_unit and @to_unit are different types, CONVERT returns #NUM! error. "
+"\n"
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=CONVERT\n"
@@ -2386,7 +2388,7 @@ msgstr ""
 "Om @från_enhet och @till_enhet har olika typ, returnerar CONVERT felvärdet "
 "#NUM!. @SEEALSO="
 
-#: src/fn-eng.c:1444
+#: src/fn-eng.c:1445
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF(lower limit[,upper_limit])\n"
@@ -2399,7 +2401,7 @@ msgid ""
 "@SEEALSO=ERFC"
 msgstr ""
 
-#: src/fn-eng.c:1481
+#: src/fn-eng.c:1482
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -2410,7 +2412,7 @@ msgid ""
 "@SEEALSO=ERF"
 msgstr ""
 
-#: src/fn-eng.c:1507
+#: src/fn-eng.c:1508
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -2420,11 +2422,11 @@ msgid ""
 "@SEEALSO=EXACT,GESTEP"
 msgstr ""
 
-#: src/fn-eng.c:1550 src/fn-eng.c:1601
+#: src/fn-eng.c:1551 src/fn-eng.c:1602
 msgid "Impossible"
 msgstr "Omöjligt"
 
-#: src/fn-eng.c:1559
+#: src/fn-eng.c:1560
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -2434,7 +2436,7 @@ msgid ""
 "@SEEALSO=DELTA"
 msgstr ""
 
-#: src/fn-eng.c:1611
+#: src/fn-eng.c:1612
 msgid "Engineering"
 msgstr ""
 
@@ -3047,9 +3049,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text, [format])\n"
-"@DESCRIPTION=Funktionen INDIRECT returnerar innehållet i cellen som refereras i strängen "
-"ref_text. Strängen anger en cellreferens av typen A1 eller R1C1. Typen kan valfritt anges "
-"i @format, annars används A1 som standard.\n"
+"@DESCRIPTION=Funktionen INDIRECT returnerar innehållet i cellen som "
+"refereras i strängen ref_text. Strängen anger en cellreferens av typen A1 "
+"eller R1C1. Typen kan valfritt anges i @format, annars används A1 som "
+"standard.\n"
 "Om @ref_text inte är en giltig referens returneras #REF!.\n"
 "@SEEALSO="
 
@@ -3065,10 +3068,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([referens])\n"
-"@DESCRIPTION=COLUMN returnerar ett fält med kolumnnummer. Om @referens inte anges, "
-"används den cell som formeln finns i.\n"
-"Om @referens inte är ett fält, en referens eller ett område, returneras felvärdet"
-"#VALUE!.\n"
+"@DESCRIPTION=COLUMN returnerar ett fält med kolumnnummer. Om @referens inte "
+"anges, används den cell som formeln finns i.\n"
+"Om @referens inte är ett fält, en referens eller ett område, returneras "
+"felvärdet#VALUE!.\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
 #: src/fn-lookup.c:603
@@ -3085,8 +3088,8 @@ msgstr ""
 "@SYNTAX=COLUMNS(referens)\n"
 "@DESCRIPTION=COLUMNS returnerar antalet kolumner som finns inom det område "
 "eller den fältreferens som anges.\n"
-"Om @referens inte är ett fält, en referens eller ett område, returneras felvärdet "
-"#VALUE!.\n"
+"Om @referens inte är ett fält, en referens eller ett område, returneras "
+"felvärdet #VALUE!.\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
 #: src/fn-lookup.c:624
@@ -5421,11 +5424,11 @@ msgid ""
 "x-values.  @new_x's contains the x-values for which you want to estimate the "
 "y-values. \n"
 "If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @known_y's and "
-"@known_x's have unequal number of data points, TREND returns #NUM! error. "
+"@known_x's have unequal number of data points, TREND returns #NUM! error. \n"
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: src/fn-stat.c:3398
+#: src/fn-stat.c:3399
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -5438,7 +5441,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: src/fn-stat.c:3459
+#: src/fn-stat.c:3460
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -5450,7 +5453,7 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: src/fn-stat.c:3498
+#: src/fn-stat.c:3499
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -5459,10 +5462,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(kända_y,kända_x)\n"
-"@DESCRIPTION=SLOPE returnerar lutningen på linjen som bildas av linjär regression av punkterna.\n"
+"@DESCRIPTION=SLOPE returnerar lutningen på linjen som bildas av linjär "
+"regression av punkterna.\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: src/fn-stat.c:3533
+#: src/fn-stat.c:3534
 msgid "Statistics"
 msgstr "Statistik"
 
@@ -7159,5 +7163,3 @@ msgstr "Anpassa sidhuvud"
 #: src/print.glade.h:61
 msgid "Customize footer"
 msgstr "Anpassa sidfot"
-
-

@@ -6,11 +6,13 @@ INCLUDES = 						\
 	$(GNOME_INCLUDEDIR)
 
 if BONOBO
-noinst_LIBRARIES = libole2.a libstorage_ole.a
+other = libstorage_ole.a
+
 else
-noinst_LIBRARIES = libole2.a
+other = 
 endif
 
+noinst_LIBRARIES = libole2.a $(other)
 libole2_a_SOURCES =		\
 	ms-ole.c		\
 	ms-ole.h		\

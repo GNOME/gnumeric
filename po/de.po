@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.4\n"
-"POT-Creation-Date: 1999-08-17 17:21-0500\n"
+"POT-Creation-Date: 1999-08-22 16:06-0500\n"
 "PO-Revision-Date: 1999-08-22 13:29+02:00\n"
 "Last-Translator: Karsten Weiss <karsten@addx.au.s.shuttle.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -304,7 +304,7 @@ msgid "ERROR"
 msgstr "FEHLER"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:125 src/cell.c:755
+#: src/cell.c:125 src/cell.c:756
 msgid "Circular reference"
 msgstr ""
 
@@ -608,7 +608,7 @@ msgid "Left"
 msgstr "Links"
 
 #: src/dialog-cell-format.c:362 src/dialog-cell-format.c:371
-#: src/workbook.c:1128
+#: src/workbook.c:1137
 msgid "Center"
 msgstr "Mitte"
 
@@ -716,7 +716,7 @@ msgstr "zu viele Klauseln"
 msgid "Need at least one clause"
 msgstr "Benötige mindestens eine Klausel"
 
-#: src/dialog-cell-sort.c:314 src/workbook.c:1484
+#: src/dialog-cell-sort.c:314 src/workbook.c:1493
 msgid "Selection must be a single range"
 msgstr "Auswahl muß ein einzelner Bereich sein"
 
@@ -996,11 +996,11 @@ msgstr ""
 msgid "bool"
 msgstr ""
 
-#: src/dialog-solver.c:41 src/workbook.c:1594
+#: src/dialog-solver.c:41 src/workbook.c:1603
 msgid "Max"
 msgstr "Max"
 
-#: src/dialog-solver.c:42 src/workbook.c:1593
+#: src/dialog-solver.c:42 src/workbook.c:1602
 msgid "Min"
 msgstr "Min"
 
@@ -1086,7 +1086,7 @@ msgstr ""
 
 # CHECK: This is no c-format string! Temporary marked as fuzzy!
 #: src/dialog-zoom.c:87
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Zoom factor should be at least 25%"
 msgstr "Zoomfaktor sollte mindestens 25% sein"
 
@@ -1176,7 +1176,8 @@ msgstr "Arbeitsbuch speichern als"
 
 #: src/file.c:436
 msgid "Sorry, there are no file savers loaded, I cannot save"
-msgstr "Tut mir leid, es sind keine Dateispeicherer geladen, ich kann nicht speichern"
+msgstr ""
+"Tut mir leid, es sind keine Dateispeicherer geladen, ich kann nicht speichern"
 
 #: src/file.c:474
 msgid "Load file"
@@ -1477,9 +1478,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(datum,monate)\n"
-"@DESCRIPTION=EDATE gibt die Seriennummer des Datums zurück, das die angegebene\n"
-"Anzahl von Monaten vor oder nach einem gegebenen Datum liegt. @datum ist das\n"
-"ist die Seriennummer des Anfangsdatums und @monate ist die Anzahl von Monaten\n"
+"@DESCRIPTION=EDATE gibt die Seriennummer des Datums zurück, das die "
+"angegebene\n"
+"Anzahl von Monaten vor oder nach einem gegebenen Datum liegt. @datum ist "
+"das\n"
+"ist die Seriennummer des Anfangsdatums und @monate ist die Anzahl von "
+"Monaten\n"
 "vor (negative Zahl) oder nach (positive Zahl) dem Anfangsdatum.\n"
 "Wenn @monate keine Ganzzahl ist, werden Nachkommastellen abgeschnitten.\n"
 "@SEEALSO=DATE"
@@ -1514,8 +1518,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
-"@DESCRIPTION=Gibt die Datumsseriennummer für den Zeitpunkt an diese Funktion ausgewertet wird, zurück.\n"
-"Datumsseriennummern in Gnumeric sind wie folgt aufgebaut:  The ganzzahline Anteil repräsentiert die Anzahl der Tage seit dem 1. Januar 1900.  Der gebrochene Anteil repräsentiert den Bruchteil des Tages bestehend aud den Stunden, Minuten und Sekunden Anteilen.\n"
+"@DESCRIPTION=Gibt die Datumsseriennummer für den Zeitpunkt an diese Funktion "
+"ausgewertet wird, zurück.\n"
+"Datumsseriennummern in Gnumeric sind wie folgt aufgebaut:  The ganzzahline "
+"Anteil repräsentiert die Anzahl der Tage seit dem 1. Januar 1900.  Der "
+"gebrochene Anteil repräsentiert den Bruchteil des Tages bestehend aud den "
+"Stunden, Minuten und Sekunden Anteilen.\n"
 "Zum Beuspiel: .0 repräsentiert den Tagesbeginn und 0.5 den Mittag.\n"
 "@SEEALSO=TODAY, NOW"
 
@@ -1681,9 +1689,11 @@ msgstr ""
 "@FUNCTION=DAY360\n"
 "@SYNTAX=DAYS360(datum1,datum2,methode)\n"
 "360-Tages-Kalender, in dem alle Monate mit 30 Tagen angenommen werden.\n"
-"Wenn @methode wahr ist, wird die europäische Methode benutzt. In diesem Fall\n"
+"Wenn @methode wahr ist, wird die europäische Methode benutzt. In diesem "
+"Fall\n"
 "wird der Tag im Monat, falls 31, als 30 angenommen.\n"
-"Wenn @methode falsch ist oder weggelassen wird, wird die US-Methode benutzt,\n"
+"Wenn @methode falsch ist oder weggelassen wird, wird die US-Methode "
+"benutzt,\n"
 "eine ziemlich komplizierte, industrielle genormte Methode.\n"
 "Beachten Sie, daß Gnumeric die normale Zeichenkettenumwandlung in\n"
 "Seriennummern durchführt, so daß Sie ein Datum als Zeichenkette angeben\n"
@@ -2190,10 +2200,11 @@ msgid ""
 "'a'  atto   1E-18\n"
 "\n"
 "If @from_unit and @to_unit are different types, CONVERT returns #NUM! error. "
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-eng.c:1444
+#: src/fn-eng.c:1445
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF(lower limit[,upper_limit])\n"
@@ -2206,7 +2217,7 @@ msgid ""
 "@SEEALSO=ERFC"
 msgstr ""
 
-#: src/fn-eng.c:1481
+#: src/fn-eng.c:1482
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -2217,7 +2228,7 @@ msgid ""
 "@SEEALSO=ERF"
 msgstr ""
 
-#: src/fn-eng.c:1507
+#: src/fn-eng.c:1508
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -2227,11 +2238,11 @@ msgid ""
 "@SEEALSO=EXACT,GESTEP"
 msgstr ""
 
-#: src/fn-eng.c:1550 src/fn-eng.c:1601
+#: src/fn-eng.c:1551 src/fn-eng.c:1602
 msgid "Impossible"
 msgstr "Unmöglich"
 
-#: src/fn-eng.c:1559
+#: src/fn-eng.c:1560
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -2241,11 +2252,11 @@ msgid ""
 "@SEEALSO=DELTA"
 msgstr ""
 
-#: src/fn-eng.c:1611
+#: src/fn-eng.c:1612
 msgid "Engineering"
 msgstr ""
 
-#: src/fn-financial.c:104
+#: src/fn-financial.c:105
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -2268,11 +2279,11 @@ msgid ""
 "@SEEALSO=NOMINAL"
 msgstr ""
 
-#: src/fn-financial.c:144
+#: src/fn-financial.c:145
 msgid "effect - domain error"
 msgstr "effect - Definitionsbereich-Fehler"
 
-#: src/fn-financial.c:152
+#: src/fn-financial.c:153
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -2288,11 +2299,38 @@ msgid ""
 "@SEEALSO=EFFECT"
 msgstr ""
 
-#: src/fn-financial.c:179
+#: src/fn-financial.c:180
 msgid "nominal - domain error"
 msgstr "nominal - Definitionsbereich-Fehler"
 
-#: src/fn-financial.c:189
+#: src/fn-financial.c:187
+msgid ""
+"@FUNCTION=DB\n"
+"@SYNTAX=DB(cost,salvage,life,period[,month])\n"
+"@DESCRIPTION=DB returns the depreciation of an asset for a given period "
+"using the fixed-declining balance method.  @cost is the initial value of the "
+"asset.  @salvage after the depreciation. @life is the number of periods "
+"overall.  @period is the period for which you want the depreciation to be "
+"calculated.  @month is the number of months in the first year of "
+"depreciation. If @month is omitted, it is assumed to be 12. \n"
+"@SEEALSO=DDB,SLN,SYD,VDB"
+msgstr ""
+
+#: src/fn-financial.c:237
+msgid ""
+"@FUNCTION=DDB\n"
+"@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
+"@DESCRIPTION=DDB returns the depreciation of an asset for a given period "
+"using the double-declining balance method or some other similar method you "
+"specify.  @cost is the initial value of the asset, @salvage is the value "
+"after the last period, @life is the number of periods, @period is the period "
+"for which you want the depreciation to be calculated, and @factor is the "
+"factor at which the balance declines.  If @factor is omitted, it is assumed "
+"to be two (double-declining balance method). \n"
+"@SEEALSO=SLN,SYD,VDB"
+msgstr ""
+
+#: src/fn-financial.c:281
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -2306,11 +2344,11 @@ msgid ""
 "@SEEALSO=SYD"
 msgstr ""
 
-#: src/fn-financial.c:218
+#: src/fn-financial.c:310
 msgid "sln - domain error"
 msgstr "sln - Definitionsbereich-Fehler"
 
-#: src/fn-financial.c:224
+#: src/fn-financial.c:316
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -2318,18 +2356,18 @@ msgid ""
 "based on its cost, salvage value, anticipated life and a particular period.\n"
 "Formula for sum-of-years digits depriciation is:\n"
 "Depriciation expense = ( cost - salvage_value ) * (life - period + 1) * 2 / "
-"life * (life + 1)\n"
+"life * (life + 1).\n"
 "\t@cost = cost of an asset when acquired (market value)\t@salvage_value = "
 "amount you get when asset sold at the end of life\t@life = anticipated life "
 "of an asset\t@period = period for which we need the expense\n"
 "@SEEALSO=SLN"
 msgstr ""
 
-#: src/fn-financial.c:255
+#: src/fn-financial.c:349
 msgid "syd - domain error"
 msgstr "syd - Definitionsbereich-Fehler"
 
-#: src/fn-financial.c:261
+#: src/fn-financial.c:355
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -2340,7 +2378,7 @@ msgid ""
 "@SEEALSO=DOLLARFR"
 msgstr ""
 
-#: src/fn-financial.c:299
+#: src/fn-financial.c:393
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -2351,7 +2389,7 @@ msgid ""
 "@SEEALSO=DOLLARDE"
 msgstr ""
 
-#: src/fn-financial.c:338
+#: src/fn-financial.c:432
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -2359,7 +2397,7 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:434
+#: src/fn-financial.c:530
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
@@ -2367,19 +2405,35 @@ msgid ""
 "@SEEALSO=FV"
 msgstr ""
 
-#: src/fn-financial.c:456
+#: src/fn-financial.c:552
 msgid "pv - domain error"
 msgstr "pv - Definitionsbereich-Fehler"
 
-#: src/fn-financial.c:466
+#: src/fn-financial.c:563
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
-"@DESCRIPTION=Calculates the net present value of an investment.\n"
-"@SEEALSO=PV"
+"@DESCRIPTION=NPV calculates the net present value of an investment "
+"generating peridic payments.  @rate is the periodic interest rate and @v1, "
+"@v2, ... are the periodic payments. If the schedule of the cash flows are "
+"not periodic use the XNPV function. \n"
+"@SEEALSO=PV,XNPV"
 msgstr ""
 
-#: src/fn-financial.c:512
+#: src/fn-financial.c:612
+msgid ""
+"@FUNCTION=XNPV\n"
+"@SYNTAX=XNPV(rate,values,dates)\n"
+"@DESCRIPTION=XNPV calculates the net present value of an investment.  The "
+"schedule of the cash flows is given in @dates array.  The first date "
+"indicates the beginning of the payment schedule.  @rate is the interest rate "
+"and @values are the payments. \n"
+"If @values and @dates contain unequal number of values, XNPV returns the "
+"#NUM error. \n"
+"@SEEALSO=NPV,PV"
+msgstr ""
+
+#: src/fn-financial.c:665
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt,pv,type)\n"
@@ -2387,15 +2441,15 @@ msgid ""
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
 
-#: src/fn-financial.c:542
+#: src/fn-financial.c:695
 msgid ""
 "@FUNCTION=PMT\n"
-"@SYNTAX=PMT(rate,nper,pv,fv,type)\n"
+"@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
 "@DESCRIPTION=Calculates the present value of an investment.\n"
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:566
+#: src/fn-financial.c:725
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -2410,10 +2464,10 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:607
+#: src/fn-financial.c:766
 msgid ""
 "@FUNCTION=PPMT\n"
-"@SYNTAX=PPMT(rate,per,nper,pv,fv,type)\n"
+"@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
 "@DESCRIPTION=Calculates the amount of a payment of an annuity going towards "
 "principal.\n"
 "Formula for it is:\n"
@@ -2424,7 +2478,7 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:652
+#: src/fn-financial.c:817
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -2432,7 +2486,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:682
+#: src/fn-financial.c:847
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -2443,7 +2497,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:714
+#: src/fn-financial.c:879
 msgid "Financial"
 msgstr ""
 
@@ -2725,4 +2779,3550 @@ msgid ""
 "boolean, which defaults to the former.\n"
 "If ref_text is not a valid reference returns #REF! \n"
 "@SEEALSO="
+msgstr ""
+
+#: src/fn-lookup.c:554
+msgid ""
+"@FUNCTION=COLUMN\n"
+"@SYNTAX=COLUMN([reference])\n"
+"@DESCRIPTION=The COLUMN function returns an array of the column numbers "
+"taking a default argument of the containing cell position.\n"
+"If @reference is neither an array nor a reference nor a range returns "
+"#VALUE!.\n"
+"@SEEALSO=COLUMNS,ROW,ROWS"
+msgstr ""
+
+#: src/fn-lookup.c:603
+msgid ""
+"@FUNCTION=COLUMNS\n"
+"@SYNTAX=COLUMNS(reference)\n"
+"@DESCRIPTION=The COLUMNS function returns the number of columns in area or "
+"array reference.\n"
+"If @reference is neither an array nor a reference nor a range returns "
+"#VALUE!.\n"
+"@SEEALSO=COLUMN,ROW,ROWS"
+msgstr ""
+
+#: src/fn-lookup.c:624
+msgid ""
+"@FUNCTION=OFFSET\n"
+"@SYNTAX=OFFSET(range,row,col,height,width)\n"
+"@DESCRIPTION=The OFFSET function returns a cell range. The cell range starts "
+"at offset (@col,@row) from @range, and is of height @height and width "
+"@width.\n"
+"If range is neither a reference nor a range returns #VALUE!.  If either "
+"height or width is omitted the height or width of the reference is used.\n"
+"@SEEALSO=COLUMN,COLUMNS,ROWS"
+msgstr ""
+
+#: src/fn-lookup.c:683
+msgid ""
+"@FUNCTION=ROW\n"
+"@SYNTAX=ROW([reference])\n"
+"@DESCRIPTION=The ROW function returns an array of the row numbers taking a "
+"default argument of the containing cell position.\n"
+"If @reference is neither an array nor a reference nor a range returns "
+"#VALUE!.\n"
+"@SEEALSO=COLUMN,COLUMNS,ROWS"
+msgstr ""
+
+#: src/fn-lookup.c:732
+msgid ""
+"@FUNCTION=ROWS\n"
+"@SYNTAX=ROWS(reference)\n"
+"@DESCRIPTION=The ROWS function returns the number of rows in area or array "
+"reference.\n"
+"If @reference is neither an array nor a reference nor a range returns "
+"#VALUE!.\n"
+"@SEEALSO=COLUMN,ROW,ROWS"
+msgstr ""
+
+#: src/fn-lookup.c:755
+msgid ""
+"@FUNCTION=HYPERLINK\n"
+"@SYNTAX=HYPERLINK(reference)\n"
+"@DESCRIPTION=The HYPERLINK function currently returns its 2nd argument, or "
+"if that is omitted the 1st argument.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-lookup.c:779
+msgid "Data / Lookup"
+msgstr ""
+
+#: src/fn-math.c:156
+msgid ""
+"@FUNCTION=GCD\n"
+"@SYNTAX=GCD(number1,number2,...)\n"
+"@DESCRIPTION=GCD returns the greatest common divisor of given numbers. \n"
+"If any of the arguments is less than zero, GCD returns #NUM! error. \n"
+"@SEEALSO=LCM"
+msgstr ""
+
+#: src/fn-math.c:197
+msgid ""
+"@FUNCTION=LCM\n"
+"@SYNTAX=LCM(number1,number2,...)\n"
+"@DESCRIPTION=LCM returns the least common multiple of integers.  The least "
+"common multiple is the smallest positive number that is a multiple of all "
+"integer arguments given. \n"
+"If any of the arguments is less than one, LCM returns #NUM! error. \n"
+"@SEEALSO=GCD"
+msgstr ""
+
+#: src/fn-math.c:248
+msgid ""
+"@FUNCTION=ABS\n"
+"@SYNTAX=ABS(b1)\n"
+"@DESCRIPTION=Implements the Absolute Value function:  the result is to drop "
+"the negative sign (if present).  This can be done for integers and floating "
+"point numbers.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=CEIL, FLOOR"
+msgstr ""
+
+#: src/fn-math.c:267
+msgid ""
+"@FUNCTION=ACOS\n"
+"@SYNTAX=ACOS(x)\n"
+"@DESCRIPTION=The ACOS function calculates the arc cosine of @x; that  is the "
+"value whose cosine is @x.  If @x  falls  outside  the  range -1 to 1, ACOS "
+"fails and returns the error 'acos - domain error'.  The value it returns is "
+"in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=COS, SIN, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:289
+#, fuzzy
+msgid "acos - domain error"
+msgstr "sln - Definitionsbereich-Fehler"
+
+#: src/fn-math.c:295
+msgid ""
+"@FUNCTION=ACOSH\n"
+"@SYNTAX=ACOSH(x)\n"
+"@DESCRIPTION=The ACOSH  function  calculates  the inverse hyperbolic cosine "
+"of @x; that is the value whose hyperbolic cosine is @x. If @x is less than "
+"1.0, acosh() returns the error  'acosh - domain error'\n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=ACOS, ASINH, DEGREES, RADIANS "
+msgstr ""
+
+#: src/fn-math.c:317
+#, fuzzy
+msgid "acosh - domain error"
+msgstr "sln - Definitionsbereich-Fehler"
+
+#: src/fn-math.c:323
+msgid ""
+"@FUNCTION=ASIN\n"
+"@SYNTAX=ASIN(x)\n"
+"@DESCRIPTION=The ASIN function calculates the arc sine of @x; that is the "
+"value whose sine is @x. If @x falls outside  the  range -1 to 1, ASIN fails "
+"and returns the error 'asin - domain error'. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:344
+#, fuzzy
+msgid "asin - domain error"
+msgstr "sln - Definitionsbereich-Fehler"
+
+#: src/fn-math.c:350
+msgid ""
+"@FUNCTION=ASINH\n"
+"@SYNTAX=ASINH(x)\n"
+"@DESCRIPTION=The ASINH  function  calculates  the inverse hyperbolic  sine "
+"of @x; that is the value whose hyperbolic sine is @x. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:371
+msgid ""
+"@FUNCTION=ATAN\n"
+"@SYNTAX=ATAN(x)\n"
+"@DESCRIPTION=The ATAN function calculates the arc tangent of @x; that  is "
+"the value whose tangent is @x.Return value is in radians.\n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:394
+msgid ""
+"@FUNCTION=ATANH\n"
+"@SYNTAX=ATANH(x)\n"
+"@DESCRIPTION=The  ATANH  function  calculates  the inverse hyperbolic "
+"tangent of @x; that is the value whose  hyperbolic  tangent is  @x.   If  "
+"the  absolute value of @x is greater than 1.0,  ATANH returns an error of "
+"'atanh: domain error'      \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:417
+#, fuzzy
+msgid "atanh: domain error"
+msgstr "sln - Definitionsbereich-Fehler"
+
+#: src/fn-math.c:423
+msgid ""
+"@FUNCTION=ATAN2\n"
+"@SYNTAX=ATAN2(b1,b2)\n"
+"@DESCRIPTION=The ATAN2 function calculates the arc tangent of the two "
+"variables @b1 and @b2.  It is similar to calculating  the  arc tangent  of "
+"@b2 / @b1, except that the signs of both arguments are used to determine the "
+"quadrant of the result. The result is in radians.\n"
+"Performing this function on a string or empty cell simply does nothing. \n"
+"@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:447
+msgid ""
+"@FUNCTION=CEIL\n"
+"@SYNTAX=CEIL(x)\n"
+"@DESCRIPTION=The CEIL function rounds @x up to the next nearest integer.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=ABS, FLOOR, INT"
+msgstr ""
+
+#: src/fn-math.c:466
+msgid ""
+"@FUNCTION=COUNTIF\n"
+"@SYNTAX=COUNTIF(range,criteria)\n"
+"@DESCRIPTION=COUNTIF function counts the number of cells in the given @range "
+"that meet the given @criteria. \n"
+"@SEEALSO=COUNT,SUMIF"
+msgstr ""
+
+#: src/fn-math.c:535
+msgid ""
+"@FUNCTION=SUMIF\n"
+"@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
+"@DESCRIPTION=SUMIF function sums the values in the given @range that meet "
+"the given @criteria.  If @actual_range is given, SUMIF sums the values in "
+"the @actual_range whose corresponding components in @range meet the given "
+"@criteria. \n"
+"@SEEALSO=COUNTIF, SUM"
+msgstr ""
+
+#: src/fn-math.c:679
+msgid ""
+"@FUNCTION=CEILING\n"
+"@SYNTAX=CEILING(x,significance)\n"
+"@DESCRIPTION=The CEILING function rounds @x up to the nearest multiple of "
+"significance. \n"
+"If @x or @significance is non-numeric CEILING returns #VALUE! error. If @x "
+"and @significance have different signs CEILING returns #NUM! error. \n"
+"@SEEALSO=CEIL"
+msgstr ""
+
+#: src/fn-math.c:712
+msgid ""
+"@FUNCTION=COS\n"
+"@SYNTAX=COS(x)\n"
+"@DESCRIPTION=The  COS  function  returns  the cosine of @x, where @x is "
+"given in radians.  \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
+msgstr ""
+
+#: src/fn-math.c:732
+msgid ""
+"@FUNCTION=COSH\n"
+"@SYNTAX=COSH(x)\n"
+"@DESCRIPTION=The COSH  function  returns the hyperbolic cosine of @x,  which "
+"is defined mathematically as (exp(@x) + exp(-@x)) / 2.    @x is in radians. "
+"\n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
+msgstr ""
+
+#: src/fn-math.c:753
+msgid ""
+"@FUNCTION=DEGREES\n"
+"@SYNTAX=DEGREES(x)\n"
+"@DESCRIPTION=Computes the number of degrees equivalent to @x radians.\n"
+"Performing this function on a string or empty cell simply does nothing. \n"
+"@SEEALSO=RADIANS, PI"
+msgstr ""
+
+#: src/fn-math.c:774
+msgid ""
+"@FUNCTION=EXP\n"
+"@SYNTAX=EXP(x)\n"
+"@DESCRIPTION=Computes the value of e (the base of natural logarithmns) "
+"raised to the power of @x. \n"
+"Performing this function on a string or empty cell returns an error.\n"
+"@SEEALSO=LOG, LOG2, LOG10"
+msgstr ""
+
+#: src/fn-math.c:801
+msgid ""
+"@FUNCTION=FACT\n"
+"@SYNTAX=FACT(x)\n"
+"@DESCRIPTION=Computes the factorial of @x. ie, @x!\n"
+"Performing this function on a string or empty cell returns an error.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:838
+msgid ""
+"@FUNCTION=COMBIN\n"
+"@SYNTAX=COMBIN(n,k)\n"
+"@DESCRIPTION=Computes the number of combinations.\n"
+"Performing this function on a non-integer or a negative number returns an "
+"error. Also if @n is less than @k returns an error.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:882
+msgid ""
+"@FUNCTION=FLOOR\n"
+"@SYNTAX=FLOOR(x,significance)\n"
+"@DESCRIPTION=The FLOOR function rounds @x down to the next nearest multiple "
+"of @significance.  @significance defaults to 1.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=CEIL, ABS, INT"
+msgstr ""
+
+#: src/fn-math.c:912
+msgid ""
+"@FUNCTION=INT\n"
+"@SYNTAX=INT(b1, b2, ...)\n"
+"@DESCRIPTION=The INT function round @b1 now to the nearest int. Where "
+"'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for @b1 >= "
+"0, and CEIL(b1) for @b1 < 0. \n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=FLOOR, CEIL, ABS"
+msgstr ""
+
+#: src/fn-math.c:939
+msgid ""
+"@FUNCTION=LOG\n"
+"@SYNTAX=LOG(x[,base])\n"
+"@DESCRIPTION=Computes the logarithm of @x in the given base @base.  If no "
+"@base is given LOG returns the logarithm in base 10. \n"
+"@SEEALSO=LN, LOG2, LOG10"
+msgstr ""
+
+#: src/fn-math.c:968
+msgid ""
+"@FUNCTION=LN\n"
+"@SYNTAX=LN(x)\n"
+"@DESCRIPTION=LN returns the natural logarithm of @x. \n"
+"@SEEALSO=EXP, LOG2, LOG10"
+msgstr ""
+
+#: src/fn-math.c:991
+msgid ""
+"@FUNCTION=POWER\n"
+"@SYNTAX=POWER(x,y)\n"
+"@DESCRIPTION=Returns the value of @x raised to the power @y.\n"
+"Performing this function on a string or empty cell returns an error.\n"
+"@SEEALSO=EXP"
+msgstr ""
+
+#: src/fn-math.c:1018
+msgid ""
+"@FUNCTION=LOG2\n"
+"@SYNTAX=LOG2(x)\n"
+"@DESCRIPTION=Computes the base-2 logarithm  of @x. \n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP, LOG10, LOG"
+msgstr ""
+
+#: src/fn-math.c:1036
+#, fuzzy
+msgid "log2: domain error"
+msgstr "sln - Definitionsbereich-Fehler"
+
+#: src/fn-math.c:1042
+msgid ""
+"@FUNCTION=LOG10\n"
+"@SYNTAX=LOG10(x)\n"
+"@DESCRIPTION=Computes the base-10 logarithm  of @x. \n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP, LOG2, LOG"
+msgstr ""
+
+#: src/fn-math.c:1061
+#, fuzzy
+msgid "log10: domain error"
+msgstr "sln - Definitionsbereich-Fehler"
+
+#: src/fn-math.c:1067
+msgid ""
+"@FUNCTION=MOD\n"
+"@SYNTAX=MOD(number,divisor)\n"
+"@DESCRIPTION=Implements modulo arithmetic. Returns the remainder when "
+"@divisor is divided into @number.\n"
+"Returns #DIV/0! if divisor is zero.\n"
+"@SEEALSO=INT,FLOOR,CEIL"
+msgstr ""
+
+#: src/fn-math.c:1104
+msgid ""
+"@FUNCTION=RADIANS\n"
+"@SYNTAX=RADIANS(x)\n"
+"@DESCRIPTION=Computes the number of radians equivalent to  @x degrees. \n"
+"Performing this function on a string or empty cell simply does nothing. \n"
+"@SEEALSO=PI,DEGREES"
+msgstr ""
+
+#: src/fn-math.c:1125
+#, fuzzy
+msgid ""
+"@FUNCTION=RAND\n"
+"@SYNTAX=RAND()\n"
+"@DESCRIPTION=Returns a random number greater than or equal to 0 and less "
+"than 1.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=Gibt die heutige Datumsseriennummer, d.h. die Anzahl der Tage "
+"die seit dem ersten Januar 1900 vergangen sind, zurück\n"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-math.c:1143
+msgid ""
+"@FUNCTION=SIN\n"
+"@SYNTAX=SIN(x)\n"
+"@DESCRIPTION=The SIN function returns the sine of @x, where @x is given in "
+"radians.\n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
+msgstr ""
+
+#: src/fn-math.c:1163
+msgid ""
+"@FUNCTION=SINH\n"
+"@SYNTAX=SINH(x)\n"
+"@DESCRIPTION=The SINH function returns the hyperbolic sine of @x, which is "
+"defined mathematically as (exp(@x) - exp(-@x)) / 2.\n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
+msgstr ""
+
+#: src/fn-math.c:1183
+msgid ""
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=The SQRT function returns the square root of @x.\n"
+"If @x is negative returns #NUM!. This function only takes one argument.\n"
+"@SEEALSO=POW"
+msgstr ""
+
+#: src/fn-math.c:1206
+msgid ""
+"@FUNCTION=SUM\n"
+"@SYNTAX=SUM(value1, value2, ...)\n"
+"@DESCRIPTION=Computes the sum of all the values and cells referenced in the "
+"argument list. \n"
+"@SEEALSO=AVERAGE, COUNT"
+msgstr ""
+
+#: src/fn-math.c:1227
+msgid ""
+"@FUNCTION=SUMA\n"
+"@SYNTAX=SUMA(value1, value2, ...)\n"
+"@DESCRIPTION=Computes the sum of all the values and cells referenced in the "
+"argument list.  Numbers, text and logical values are included in the "
+"calculation too.  If the cell contains text or the argument evaluates to "
+"FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, "
+"it is counted as one (1). Note that empty cells are not counted.\n"
+"@SEEALSO=AVERAGE, SUM, COUNT"
+msgstr ""
+
+#: src/fn-math.c:1252
+msgid ""
+"@FUNCTION=SUMSQ\n"
+"@SYNTAX=SUMSQ(value1, value2, ...)\n"
+"@DESCRIPTION=SUMSQ returns the sum of the squares of all the values and "
+"cells referenced in the argument list. \n"
+"@SEEALSO=SUM, COUNT"
+msgstr ""
+
+#: src/fn-math.c:1274
+msgid ""
+"@FUNCTION=MULTINOMIAL\n"
+"@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
+"@DESCRIPTION=MULTINOMIAL returns the ratio of the factorial of a sum of "
+"values to the product of factorials. \n"
+"@SEEALSO=SUM"
+msgstr ""
+
+#: src/fn-math.c:1329
+msgid ""
+"@FUNCTION=PRODUCT\n"
+"@SYNTAX=PRODUCT(value1, value2, ...)\n"
+"@DESCRIPTION=PRODUCT returns the product of all the values and cells "
+"referenced in the argument list. \n"
+"@SEEALSO=SUM, COUNT"
+msgstr ""
+
+#: src/fn-math.c:1350
+msgid ""
+"@FUNCTION=TAN\n"
+"@SYNTAX=TAN(x)\n"
+"@DESCRIPTION=The TAN function  returns the tangent of @x, where @x is given "
+"in radians.\n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:1370
+msgid ""
+"@FUNCTION=TANH\n"
+"@SYNTAX=TANH(x)\n"
+"@DESCRIPTION= The TANH function returns the hyperbolic tangent of @x,  which "
+"is defined mathematically as sinh(@x) / cosh(@x). \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
+"@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:1390
+msgid ""
+"@FUNCTION=PI\n"
+"@SYNTAX=PI()\n"
+"@DESCRIPTION=The PI functions returns the value of Pi as defined by M_PI.\n"
+"This function is called with no arguments.\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:1409
+msgid ""
+"@FUNCTION=TRUNC\n"
+"@SYNTAX=TRUNC(number[,digits])\n"
+"@DESCRIPTION=The TRUNC function returns the value of @number truncated to "
+"the number of digits specified.  If @digits is omitted then @digits defaults "
+"to zero.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:1442
+msgid ""
+"@FUNCTION=EVEN\n"
+"@SYNTAX=EVEN(number)\n"
+"@DESCRIPTION=EVEN function returns the number rounded up to the nearest even "
+"integer. \n"
+"@SEEALSO=ODD"
+msgstr ""
+
+#: src/fn-math.c:1473
+#, fuzzy
+msgid ""
+"@FUNCTION=ODD\n"
+"@SYNTAX=ODD(number)\n"
+"@DESCRIPTION=ODD function returns the @number rounded up to the nearest odd "
+"integer. \n"
+"@SEEALSO=EVEN"
+msgstr ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=Gibt die heutige Datumsseriennummer, d.h. die Anzahl der Tage "
+"die seit dem ersten Januar 1900 vergangen sind, zurück\n"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-math.c:1504
+msgid ""
+"@FUNCTION=FACTDOUBLE\n"
+"@SYNTAX=FACTDOUBLE(number)\n"
+"@DESCRIPTION=FACTDOUBLE function returns the double factorial of a @number. "
+"\n"
+"If @number is not an integer, it is truncated. If @number is negative "
+"FACTDOUBLE returns #NUM! error. \n"
+"@SEEALSO=FACT"
+msgstr ""
+
+#: src/fn-math.c:1535
+msgid ""
+"@FUNCTION=QUOTIENT\n"
+"@SYNTAX=QUOTIENT(num,den)\n"
+"@DESCRIPTION=QUOTIENT function returns the integer portion of a division. "
+"@num is the divided and @den is the divisor. \n"
+"@SEEALSO=MOD"
+msgstr ""
+
+#: src/fn-math.c:1556
+msgid ""
+"@FUNCTION=SIGN\n"
+"@SYNTAX=SIGN(number)\n"
+"@DESCRIPTION=SIGN function returns 1 if the @number is positive, zero if the "
+"@number is 0, and -1 if the @number is negative. \n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:1581
+msgid ""
+"@FUNCTION=SQRTPI\n"
+"@SYNTAX=SQRTPI(number)\n"
+"@DESCRIPTION=SQRTPI function returns the square root of a @number multiplied "
+"by pi. \n"
+"@SEEALSO=PI"
+msgstr ""
+
+#: src/fn-math.c:1603
+msgid ""
+"@FUNCTION=RANDBETWEEN\n"
+"@SYNTAX=RANDBETWEEN(bottom,top)\n"
+"@DESCRIPTION=RANDBETWEEN function returns a random integer number between "
+"@bottom and @top.\n"
+"If @bottom or @top is non-integer, they are truncated. If @bottom > @top, "
+"RANDBETWEEN returns #NUM! error.\n"
+"@SEEALSO=RAND"
+msgstr ""
+
+#: src/fn-math.c:1629
+msgid ""
+"@FUNCTION=ROUNDDOWN\n"
+"@SYNTAX=ROUNDDOWN(number[,digits])\n"
+"@DESCRIPTION=ROUNDDOWN function rounds a given @number down, towards zero. "
+"@number is the number you want rounded down and @digits is the number of "
+"digits to which you want to round that number. \n"
+"If @digits is greater than zero, @number is rounded down to the given number "
+"of digits. If @digits is zero or omitted, @number is rounded down to the "
+"nearest integer. If @digits is less than zero, @number is rounded down to "
+"the left of the decimal point. \n"
+"@SEEALSO=ROUNDUP"
+msgstr ""
+
+#: src/fn-math.c:1667
+msgid ""
+"@FUNCTION=ROUND\n"
+"@SYNTAX=ROUND(number[,digits])\n"
+"@DESCRIPTION=ROUND function rounds a given number. @number is the number you "
+"want rounded and @digits is the number of digits to which you want to round "
+"that number. \n"
+"If @digits is greater than zero, @number is rounded to the given number of "
+"digits. If @digits is zero or omitted, @number is rounded to the nearest "
+"integer. If @digits is less than zero, @number is rounded to the left of the "
+"decimal point. \n"
+"@SEEALSO=ROUNDDOWN,ROUNDUP"
+msgstr ""
+
+#: src/fn-math.c:1702
+msgid ""
+"@FUNCTION=ROUNDUP\n"
+"@SYNTAX=ROUNDUP(number[,digits])\n"
+"@DESCRIPTION=ROUNDUP function rounds a given number up, away from zero. "
+"@number is the number you want rounded up and @digits is the number of "
+"digits to which you want to round that number. \n"
+"If @digits is greater than zero, @number is rounded up to the given number "
+"of digits. If @digits is zero or omitted, @number is rounded up to the "
+"nearest integer. If @digits is less than zero, @number is rounded up to the "
+"left of the decimal point. \n"
+"@SEEALSO=ROUNDDOWN"
+msgstr ""
+
+#: src/fn-math.c:1740
+msgid ""
+"@FUNCTION=MROUND\n"
+"@SYNTAX=MROUND(number,multiple)\n"
+"@DESCRIPTION=MROUND function rounds a given number to the desired multiple. "
+"@number is the number you want rounded and @multiple is the the multiple to "
+"which you want to round the number. For example, MROUND(1.7, 0.2) equals "
+"1.8. \n"
+"If @number and @multiple have different sign, MROUND returns #NUM! error. \n"
+"@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
+msgstr ""
+
+#: src/fn-math.c:1784
+msgid ""
+"@FUNCTION=ROMAN\n"
+"@SYNTAX=ROMAN(number[,type])\n"
+"@DESCRIPTION=ROMAN function returns an arabic number in the roman numeral "
+"style, as text. @number is the number you want to convert and @type is the "
+"type of roman numeral you want. \n"
+"If @type is 0 or it is omitted, ROMAN returns classic roman numbers. Type 1 "
+"is more concise than classic type, type 2 is more concise than type 1, and "
+"type 3 is more concise than type 2.  Type 4 is simplified type. \n"
+"If @number is negative or greater than 3999, ROMAN returns #VALUE! error. \n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:2043
+msgid ""
+"@FUNCTION=SUMX2MY2\n"
+"@SYNTAX=SUMX2MY2(array1,array2)\n"
+"@DESCRIPTION=SUMX2MY2 function returns the sum of the difference of squares "
+"of corresponding values in two arrays. @array1 is the first array or range "
+"of data points and @array2 is the second array or range of data points. The "
+"equation of SUMX2MY2 is SUM (x^2-y^2). \n"
+"Strings and empty cells are simply ignored.\n"
+"If @array1 and @array2 have different number of data points, SUMX2MY2 "
+"returns #N/A! error. \n"
+"@SEEALSO=SUMSQ"
+msgstr ""
+
+#: src/fn-math.c:2090 src/fn-math.c:2104 src/fn-math.c:2177 src/fn-math.c:2191
+#: src/fn-math.c:2263 src/fn-math.c:2277 src/fn-stat.c:2303 src/fn-stat.c:2333
+msgid "Array version not implemented!"
+msgstr ""
+
+#: src/fn-math.c:2131
+msgid ""
+"@FUNCTION=SUMX2PY2\n"
+"@SYNTAX=SUMX2PY2(array1,array2)\n"
+"@DESCRIPTION=SUMX2PY2 function returns the sum of the sum of squares of "
+"corresponding values in two arrays. @array1 is the first array or range of "
+"data points and @array2 is the second array or range of data points. The "
+"equation of SUMX2PY2 is SUM (x^2+y^2). \n"
+"Strings and empty cells are simply ignored.\n"
+"If @array1 and @array2 have different number of data points, SUMX2PY2 "
+"returns #N/A! error. \n"
+"@SEEALSO=SUMSQ"
+msgstr ""
+
+#: src/fn-math.c:2218
+msgid ""
+"@FUNCTION=SUMXMY2\n"
+"@SYNTAX=SUMXMY2(array1,array2)\n"
+"@DESCRIPTION=SUMXMY2 function returns the sum of squares of differences of "
+"corresponding values in two arrays. @array1 is the first array or range of "
+"data points and @array2 is the second array or range of data points. The "
+"equation of SUMXMY2 is SUM (x-y)^2. \n"
+"Strings and empty cells are simply ignored.\n"
+"If @array1 and @array2 have different number of data points, SUMXMY2 returns "
+"#N/A! error. \n"
+"@SEEALSO=SUMSQ"
+msgstr ""
+
+#: src/fn-math.c:2304
+msgid ""
+"@FUNCTION=SUBTOTAL\n"
+"@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
+"@DESCRIPTION=SUBTOTAL function returns a subtotal of given list of "
+"arguments. @function_nbr is the number that specifies which function to use "
+"in calculating the subtotal. The following functions are available:\n"
+"1   AVERAGE\n"
+"2   COUNT\n"
+"3   COUNTA\n"
+"4   MAX\n"
+"5   MIN\n"
+"6   PRODUCT\n"
+"7   STDEV\n"
+"8   STDEVP\n"
+"9   SUM\n"
+"10   VAR\n"
+"11   VARP\n"
+"\n"
+"@SEEALSO=COUNT,SUM"
+msgstr ""
+
+#: src/fn-math.c:2385
+msgid ""
+"@FUNCTION=SERIESSUM\n"
+"@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
+"@DESCRIPTION=SERIESSUM function returns the sum of a power series.  @x is "
+"the base of the power serie, @n is the initial power to raise @x, @m is the "
+"increment to the power for each term in the series, and @coefficients is the "
+"coefficents by which each successive power of @x is multiplied. \n"
+"@SEEALSO=COUNT,SUM"
+msgstr ""
+
+#: src/fn-math.c:2502
+msgid ""
+"@FUNCTION=TRANSPOSE\n"
+"@SYNTAX=TRANSPOSE(matrix)\n"
+"@DESCRIPTION=TRANSPOSE function returns the transpose of the input @matrix.\n"
+"@SEEALSO=MMULT"
+msgstr ""
+
+#: src/fn-math.c:2545
+msgid ""
+"@FUNCTION=MINVERSE\n"
+"@SYNTAX=MINVERSE(array)\n"
+"@DESCRIPTION=MINVERSE function returns the inverse matrix of a given matrix. "
+"\n"
+"If the matrix cannot be inverted, MINVERSE returns #NUM! error. If the "
+"matrix does not contain equal number of columns and rows, MINVERSE returns "
+"#VALUE! error.\n"
+"@SEEALSO=MMULT, MDETERM"
+msgstr ""
+
+#: src/fn-math.c:2590
+msgid "#3D MULT?"
+msgstr ""
+
+#: src/fn-math.c:2726
+msgid ""
+"@FUNCTION=MMULT\n"
+"@SYNTAX=MMULT(array1,array2)\n"
+"@DESCRIPTION=MMULT function returns the matrix product of two arrays. The "
+"result is an array with the same number of rows as @array1 and the same "
+"number of columns as @array2.\n"
+"@SEEALSO=TRANSPOSE,MINVERSE"
+msgstr ""
+
+#: src/fn-math.c:2788
+msgid ""
+"@FUNCTION=MDETERM\n"
+"@SYNTAX=MDETERM(array)\n"
+"@DESCRIPTION=MDETERM function returns the determinant of a given matrix. \n"
+"If the matrix does not contain equal number of columns and rows, MDETERM "
+"returns #VALUE! error.\n"
+"@SEEALSO=MMULT, MINVERSE"
+msgstr ""
+
+#: src/fn-math.c:2905
+msgid ""
+"@FUNCTION=SUMPRODUCT\n"
+"@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
+"@DESCRIPTION=SUMPRODUCT function multiplies corresponding data entries in "
+"the given arrays or ranges, and then returns the sum of those products.  If "
+"an array entry is not numeric, the value zero is used instead. \n"
+"If array or range arguments do not have the same dimentions, SUMPRODUCT "
+"returns #VALUE! error. \n"
+"@SEEALSO=SUM,PRODUCT"
+msgstr ""
+
+#: src/fn-math.c:3002
+msgid "Maths / Trig."
+msgstr ""
+
+#: src/fn-misc.c:23
+#, fuzzy
+msgid "Argument mismatch"
+msgstr "Unpassende Typen"
+
+#: src/fn-misc.c:38
+#, fuzzy
+msgid ""
+"@FUNCTION=ISERROR\n"
+"@SYNTAX=ISERROR(exp)\n"
+"@DESCRIPTION=Returns a TRUE value if the expression has an error\n"
+"\n"
+"@SEEALSO=ERROR"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (hours,minutes,seconds)\n"
+"@DESCRIPTION=Gibt einen Bruch zurück, der die Tageszeit repräsentiert.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-misc.c:65
+msgid ""
+"@FUNCTION=ISNA\n"
+"@SYNTAX=ISNA()\n"
+"@DESCRIPTION=ISNA returns TRUE if the value is the #N/A error value. \n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-misc.c:95
+msgid ""
+"@FUNCTION=ISERR\n"
+"@SYNTAX=ISERR()\n"
+"@DESCRIPTION=ISERR returns TRUE if the value is any error value except #N/A. "
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-misc.c:121
+#, fuzzy
+msgid ""
+"@FUNCTION=ERROR.TYPE\n"
+"@SYNTAX=ERROR(exp)\n"
+"@DESCRIPTION=FIXME\n"
+"@SEEALSO=ISERROR"
+msgstr ""
+"@FUNCTION=NAME\n"
+"@SYNTAX=(b1, b2, ...)\n"
+"@DESCRIPTION\n"
+"\n"
+"@SEEALSO="
+
+#: src/fn-misc.c:169
+#, fuzzy
+msgid ""
+"@FUNCTION=NA\n"
+"@SYNTAX=NA()\n"
+"@DESCRIPTION=NA returns the error value #N/A. \n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=NAME\n"
+"@SYNTAX=(b1, b2, ...)\n"
+"@DESCRIPTION\n"
+"\n"
+"@SEEALSO="
+
+#: src/fn-misc.c:185
+#, fuzzy
+msgid ""
+"@FUNCTION=ERROR\n"
+"@SYNTAX=ERROR(text)\n"
+"@DESCRIPTION=Return the specified error\n"
+"\n"
+"@SEEALSO=ISERROR"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (hours,minutes,seconds)\n"
+"@DESCRIPTION=Gibt einen Bruch zurück, der die Tageszeit repräsentiert.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-misc.c:199 src/fn-string.c:57 src/fn-string.c:79 src/fn-string.c:100
+#: src/fn-string.c:155 src/fn-string.c:189 src/fn-string.c:264
+#: src/fn-string.c:340 src/fn-string.c:375 src/fn-string.c:552
+#: src/fn-string.c:594 src/fn-string.c:686 src/fn-string.c:714
+#, fuzzy
+msgid "Type mismatch"
+msgstr "Unpassende Typen"
+
+#: src/fn-misc.c:206
+msgid "Miscellaneous"
+msgstr ""
+
+#: src/fn-sheet.c:15
+msgid ""
+"@FUNCTION=SELECTION\n"
+"@SYNTAX=SELECTION(x)\n"
+"@DESCRIPTION=The SELECTION function returns a list with the values in the "
+"current mouse cursor. This is usually used to implement on-the-flight "
+"computation of values.\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-sheet.c:75
+msgid "Sheet"
+msgstr ""
+
+#: src/fn-stat.c:107
+msgid ""
+"@FUNCTION=VARP\n"
+"@SYNTAX=VARP(b1, b2, ...)\n"
+"@DESCRIPTION=VARP calculates the variance of a set of numbers where each "
+"number is a member of a population and the set is the entire population.\n"
+"(VARP is also known as the N-variance.)\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=STDEV,VAR,MEAN"
+msgstr ""
+
+#: src/fn-stat.c:134
+msgid ""
+"@FUNCTION=VAR\n"
+"@SYNTAX=VAR(b1, b2, ...)\n"
+"@DESCRIPTION=VAR estimates the variance of a sample of a population. To get "
+"the true variance of a complete population use @VARP\n"
+"(VAR is also known as the N-1-variance.  Under reasonable conditions, it is "
+"the maximum-likelihood estimator for the true variance.)\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=VARP,STDEV"
+msgstr ""
+
+#: src/fn-stat.c:162
+msgid ""
+"@FUNCTION=STDEV\n"
+"@SYNTAX=STDEV(b1, b2, ...)\n"
+"@DESCRIPTION=STDEV returns standard deviation of a set of numbers treating "
+"these numbers as members of a population\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=VAR,MEAN"
+msgstr ""
+
+#: src/fn-stat.c:185
+msgid ""
+"@FUNCTION=STDEVP\n"
+"@SYNTAX=STDEVP(b1, b2, ...)\n"
+"@DESCRIPTION=STDEVP returns standard deviation of a set of numbers treating "
+"these numbers as members of a complete population\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=STDEV,VAR,MEAN"
+msgstr ""
+
+#: src/fn-stat.c:210
+msgid ""
+"@FUNCTION=RANK\n"
+"@SYNTAX=RANK(x,ref[,order])\n"
+"@DESCRIPTION=RANK returns the rank of a number in a list of numbers.  @x is "
+"the number whose rank you want to find, @ref is the list of numbers, and "
+"@order specifies how to rank numbers.  If @order is 0, numbers are ranked in "
+"descending order, otherwise numbers are ranked in ascending order.\n"
+"@SEEALSO=PERCENTRANK"
+msgstr ""
+
+#: src/fn-stat.c:294
+msgid ""
+"@FUNCTION=TRIMMEAN\n"
+"@SYNTAX=TRIMMEAN(ref,percent)\n"
+"@DESCRIPTION=TRIMMEAN returns the mean of the interior of a data set. @ref "
+"is the list of numbers whose mean you want to calculate and @percent is the "
+"percentage of number excluded from the mean. For example, if @percent=0.2 "
+"and the data set contains 40 numbers, 8 numbers are trimmed from the data "
+"set (40 x 0.2), 4 from the top and 4 from the bottom of the set.\n"
+"@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
+msgstr ""
+
+#: src/fn-stat.c:347
+msgid ""
+"@FUNCTION=COVAR\n"
+"@SYNTAX=COVAR(array1,array2)\n"
+"@DESCRIPTION=COVAR returns the covariance of two data sets.\n"
+"Strings and empty cells are simply ignored.\n"
+"@SEEALSO=CORREL,FISHER,FISHERINV"
+msgstr ""
+
+#: src/fn-stat.c:370
+msgid ""
+"@FUNCTION=CORREL\n"
+"@SYNTAX=CORREL(array1,array2)\n"
+"@DESCRIPTION=CORREL returns the correllation coefficient of two data sets.\n"
+"Strings and empty cells are simply ignored.\n"
+"@SEEALSO=COVAR,FISHER,FISHERINV"
+msgstr ""
+
+#: src/fn-stat.c:393
+msgid ""
+"@FUNCTION=NEGBINOMDIST\n"
+"@SYNTAX=NEGBINOMDIST(f,t,p)\n"
+"@DESCRIPTION=The NEGBINOMDIST function returns the negative binomial "
+"distribution. @f is the number of failures, @t is the threshold number of "
+"successes, and @p is the probability of a success.\n"
+"If @f or @t is a non-integer it is truncated. If (@f + @t -1) <= 0 "
+"NEGBINOMDIST returns #NUM! error. If @p < 0 or @p > 1 NEGBINOMDIST returns "
+"#NUM! error.\n"
+"@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
+msgstr ""
+
+#: src/fn-stat.c:426
+msgid ""
+"@FUNCTION=NORMSDIST\n"
+"@SYNTAX=NORMSDIST(x)\n"
+"@DESCRIPTION=The NORMSDIST function returns the standard normal cumulative "
+"distribution. @x is the value for which you want the distribution.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=NOMRDIST"
+msgstr ""
+
+#: src/fn-stat.c:450
+msgid ""
+"@FUNCTION=NORMSINV\n"
+"@SYNTAX=NORMSINV(p)\n"
+"@DESCRIPTION=The NORMSINV function returns the inverse of the standard "
+"normal cumulative distribution. @p is the given probability corresponding to "
+"the normal distribution.\n"
+"If @p < 0 or @p > 1 NORMSINV returns #NUM! error. \n"
+"@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
+msgstr ""
+
+#: src/fn-stat.c:477
+msgid ""
+"@FUNCTION=LOGNORMDIST\n"
+"@SYNTAX=LOGNORMDIST(x,mean,stdev)\n"
+"@DESCRIPTION=The LOGNORMDIST function returns the lognormal distribution. @x "
+"is the value for which you want the distribution, @mean is the mean of the "
+"distribution, and @stdev is the standard deviation of the distribution. \n"
+"Performing this function on a string or empty cell simply does nothing. If "
+"@stdev = 0 LOGNORMDIST returns #DIV/0! error. If @x <= 0, @mean < 0 or "
+"@stdev < 0 LOGNORMDIST returns #NUM! error. \n"
+"@SEEALSO=NORMDIST"
+msgstr ""
+
+#: src/fn-stat.c:514
+msgid ""
+"@FUNCTION=LOGINV\n"
+"@SYNTAX=LOGINV(p,mean,stdev)\n"
+"@DESCRIPTION=The LOGINV function returns the inverse of the lognormal "
+"cumulative distribution. @p is the given probability corresponding to the "
+"normal distribution, @mean is the arithmetic mean of the distribution, and "
+"@stdev is the standard deviation of the distribution.\n"
+"If @p < 0 or @p > 1 or @stdev <= 0 LOGINV returns #NUM! error. \n"
+"@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST"
+msgstr ""
+
+#: src/fn-stat.c:545
+msgid ""
+"@FUNCTION=FISHERINV\n"
+"@SYNTAX=FISHERINV(x)\n"
+"@DESCRIPTION=The FISHERINV function returns the inverse of the Fisher "
+"transformation at @x. \n"
+"If @x is non-number FISHERINV returns #VALUE! error.\n"
+"@SEEALSO=FISHER"
+msgstr ""
+
+#: src/fn-stat.c:567
+msgid ""
+"@FUNCTION=MODE\n"
+"@SYNTAX=MODE(n1, n2, ...)\n"
+"@DESCRIPTION=MODE returns the most common number of the data set. If the "
+"data set has many most common numbers MODE returns the first one of them. \n"
+"Strings and empty cells are simply ignored.If the data set does not contain "
+"any duplicates MODE returns #N/A! error.\n"
+"@SEEALSO=AVERAGE,MEDIAN"
+msgstr ""
+
+#: src/fn-stat.c:653
+msgid ""
+"@FUNCTION=HARMEAN\n"
+"@SYNTAX=HARMEAN(b1, b2, ...)\n"
+"@DESCRIPTION=HARMEAN returns the harmonic mean of the N data points.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE"
+msgstr ""
+
+#: src/fn-stat.c:677
+msgid ""
+"@FUNCTION=GEOMEAN\n"
+"@SYNTAX=GEOMEAN(b1, b2, ...)\n"
+"@DESCRIPTION=GEOMEAN returns the geometric mean of the given arguments. This "
+"is equal to the Nth root of the product of the terms.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=HARMEAN,MEDIAN,MEAN,MODE"
+msgstr ""
+
+#: src/fn-stat.c:702
+msgid ""
+"@FUNCTION=COUNT\n"
+"@SYNTAX=COUNT(b1, b2, ...)\n"
+"@DESCRIPTION=Returns the total number of integer or floating point arguments "
+"passed.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=AVERAGE"
+msgstr ""
+
+#: src/fn-stat.c:738
+msgid ""
+"@FUNCTION=COUNTA\n"
+"@SYNTAX=COUNTA(b1, b2, ...)\n"
+"@DESCRIPTION=Returns the number of arguments passed not including empty "
+"cells.\n"
+"@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
+msgstr ""
+
+#: src/fn-stat.c:770
+msgid ""
+"@FUNCTION=AVERAGE\n"
+"@SYNTAX=AVERAGE(value1, value2,...)\n"
+"@DESCRIPTION=Computes the average of all the values and cells referenced in "
+"the argument list.  This is equivalent to the sum of the arguments divided "
+"by the count of the arguments.\n"
+"@SEEALSO=SUM, COUNT"
+msgstr ""
+
+#: src/fn-stat.c:793
+msgid ""
+"@FUNCTION=MIN\n"
+"@SYNTAX=MIN(b1, b2, ...)\n"
+"@DESCRIPTION=MIN returns the value of the element of the values passed that "
+"has the smallest value. With negative numbers considered smaller than "
+"positive numbers.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=MAX,ABS"
+msgstr ""
+
+#: src/fn-stat.c:819
+msgid ""
+"@FUNCTION=MAX\n"
+"@SYNTAX=MAX(b1, b2, ...)\n"
+"@DESCRIPTION=MAX returns the value of the element of the values passed that "
+"has the largest value. With negative numbers considered smaller than "
+"positive numbers.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=MIN,ABS"
+msgstr ""
+
+#: src/fn-stat.c:845
+msgid ""
+"@FUNCTION=SKEW\n"
+"@SYNTAX=SKEW(n1, n2, ...)\n"
+"@DESCRIPTION=SKEW returns an unbiased estimate for skewness of a "
+"distribution.\n"
+"Note, that this is only meaningful is the underlying distribution really has "
+"a third moment.  The skewness of a symmetric (e.g., normal) distribution is "
+"zero.\n"
+"Strings and empty cells are simply ignored.\n"
+"If less than three numbers are given, SKEW returns #DIV/0! error.\n"
+"@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
+msgstr ""
+
+#: src/fn-stat.c:874
+msgid ""
+"@FUNCTION=SKEWP\n"
+"@SYNTAX=SKEWP(n1, n2, ...)\n"
+"@DESCRIPTION=SKEW returns the population skewness of a data set.\n"
+"Strings and empty cells are simply ignored.\n"
+"If less than two numbers are given, SKEWP returns #DIV/0! error.\n"
+"@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
+msgstr ""
+
+#: src/fn-stat.c:899
+msgid ""
+"@FUNCTION=EXPONDIST\n"
+"@SYNTAX=EXPONDIST(x,y,cumulative)\n"
+"@DESCRIPTION=The EXPONDIST function returns the exponential distribution. If "
+"the @cumulative boolean is false it will return: @y * exp (-@y*@x), "
+"otherwise it will return 1 - exp (-@y*@x).\n"
+"If @x < 0 or @y <= 0 this will return an error.  Performing this function on "
+"a string or empty cell simply does nothing.\n"
+"@SEEALSO=POISSON"
+msgstr ""
+
+#: src/fn-stat.c:938
+msgid ""
+"@FUNCTION=GAMMALN\n"
+"@SYNTAX=GAMMALN(x)\n"
+"@DESCRIPTION=The GAMMALN function returns the natural logarithm of the gamma "
+"function.\n"
+"If @x is non-number then GAMMALN returns #VALUE! error. If @x <= 0 then "
+"GAMMALN returns #NUM! error.\n"
+"@SEEALSO=POISSON"
+msgstr ""
+
+#: src/fn-stat.c:969
+msgid ""
+"@FUNCTION=GAMMADIST\n"
+"@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
+"@DESCRIPTION=GAMMADIST function returns the gamma distribution. If @cum is "
+"TRUE GAMMADIST returns the incomplete gamma function, otherwise it returns "
+"the probability mass function.\n"
+"If @x < 0 GAMMADIST returns #NUM! error. If @alpha <= 0 or @beta <= 0, "
+"GAMMADIST returns #NUM! error.\n"
+"@SEEALSO=GAMMAINV"
+msgstr ""
+
+#: src/fn-stat.c:1004
+msgid ""
+"@FUNCTION=GAMMAINV\n"
+"@SYNTAX=GAMMAINV(p,alpha,beta)\n"
+"@DESCRIPTION=The GAMMAINV function returns the inverse of the cumulative "
+"gamma distribution.\n"
+"If @p < 0 or @p > 1 GAMMAINV returns #NUM! error. If @alpha <= 0 or @beta <= "
+"0 GAMMAINV returns #NUM! error. \n"
+"@SEEALSO=GAMMADIST"
+msgstr ""
+
+#: src/fn-stat.c:1034
+msgid ""
+"@FUNCTION=CHIDIST\n"
+"@SYNTAX=CHIDIST(x,dof)\n"
+"@DESCRIPTION=CHIDIST function returns the one-tailed probability of the "
+"chi-squared distribution. @dof is the number of degrees of freedom.\n"
+"If @dof is non-integer it is truncated. If @dof < 1 CHIDIST returns #NUM! "
+"error.\n"
+"@SEEALSO=CHIINV,CHITEST"
+msgstr ""
+
+#: src/fn-stat.c:1064
+msgid ""
+"@FUNCTION=CHIINV\n"
+"@SYNTAX=CHIINV(p,dof)\n"
+"@DESCRIPTION=The CHIINV function returns the inverse of the one-tailed "
+"probability of the chi-squared distribution.\n"
+"If @p < 0 or @p > 1 or @dof < 1 CHIINV returns #NUM! error. \n"
+"@SEEALSO=CHIDIST,CHITEST"
+msgstr ""
+
+#: src/fn-stat.c:1092
+msgid ""
+"@FUNCTION=CHITEST\n"
+"@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
+"@DESCRIPTION=The CHITEST function returns the test for independence of "
+"chi-squared distribution.\n"
+"@actual_range is a range that contains the observed data points. "
+"@theoretical_range is a range that contains the expected values of the data "
+"points. \n"
+"@SEEALSO=CHIDIST,CHIINV"
+msgstr ""
+
+#: src/fn-stat.c:1231
+msgid ""
+"@FUNCTION=BETADIST\n"
+"@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
+"@DESCRIPTION=BETADIST function returns the cumulative beta distribution. @a "
+"is the optional lower bound of @x and @b is the optional upper bound of @x.  "
+"If @a is not given, BETADIST uses 0.  If @b is not given, BETADIST uses 1.\n"
+"If @x < @a or @x > @b BETADIST returns #NUM! error. If @alpha <= 0 or @beta "
+"<= 0, BETADIST returns #NUM! error. If @a >= @b BETADIST returns #NUM! "
+"error.\n"
+"@SEEALSO=BETAINV"
+msgstr ""
+
+#: src/fn-stat.c:1271
+msgid ""
+"@FUNCTION=BETAINV\n"
+"@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
+"@DESCRIPTION=BETAINV function returns the inverse of cumulative beta "
+"distribution.  @a is the optional lower bound of @x and @b is the optinal "
+"upper bound of @x.  If @a is not given, BETAINV uses 0.  If @b is not given, "
+"BETAINV uses 1.\n"
+"If @p < 0 or @p > 1 BETAINV returns #NUM! error. If @alpha <= 0 or @beta <= "
+"0, BETAINV returns #NUM! error. If @a >= @b BETAINV returns #NUM! error.\n"
+"@SEEALSO=BETADIST"
+msgstr ""
+
+#: src/fn-stat.c:1311
+msgid ""
+"@FUNCTION=TDIST\n"
+"@SYNTAX=TDIST(x,dof,tails)\n"
+"@DESCRIPTION=TDIST function returns the Student's t-distribution. @dof is "
+"the degree of freedom and @tails is 1 or 2 depending on whether you want "
+"one-tailed or two-tailed distribution.\n"
+"If @dof < 1 TDIST returns #NUM! error. If @tails is neither 1 or 2 TDIST "
+"returns #NUM! error.\n"
+"@SEEALSO=TINV,TTEST"
+msgstr ""
+
+#: src/fn-stat.c:1345
+msgid ""
+"@FUNCTION=TINV\n"
+"@SYNTAX=TINV(p,dof)\n"
+"@DESCRIPTION=The TINV function returns the inverse of the two-tailed "
+"Student's t-distribution.\n"
+"If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error. \n"
+"@SEEALSO=TDIST,TTEST"
+msgstr ""
+
+#: src/fn-stat.c:1373
+msgid ""
+"@FUNCTION=FDIST\n"
+"@SYNTAX=FDIST(x,dof1,dof2)\n"
+"@DESCRIPTION=FDIST function returns the F probability distribution. @dof1 is "
+"the numerator degrees of freedom and @dof2 is the denominator degrees of "
+"freedom.\n"
+"If @x < 0 FDIST returns #NUM! error. If @dof1 < 1 or @dof2 < 1, FDIST "
+"returns #NUM! error.\n"
+"@SEEALSO=FINV"
+msgstr ""
+
+#: src/fn-stat.c:1404
+msgid ""
+"@FUNCTION=FINV\n"
+"@SYNTAX=TINV(p,dof)\n"
+"@DESCRIPTION=The FINV function returns the inverse of the F probability "
+"distribution.\n"
+"If @p < 0 or @p > 1 FINV returns #NUM! error. If @dof1 < 1 or @dof2 < 1 FINV "
+"returns #NUM! error.\n"
+"@SEEALSO=FDIST"
+msgstr ""
+
+#: src/fn-stat.c:1434
+msgid ""
+"@FUNCTION=BINOMDIST\n"
+"@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
+"@DESCRIPTION=The BINOMDIST function returns the binomial distribution. @n is "
+"the number of successes, @trials is the total number of independent trials, "
+"@p is the probability of success in trials, and @cumulative describes "
+"whether to return the sum of thebinomial function from 0 to @n.\n"
+"Performing this function on a string or empty cell returns an error.If @n or "
+"@trials are non-integer they are truncated. If @n < 0 or @trials < 0 "
+"BINOMDIST returns #NUM! error. If @n > trials BINOMDIST returns #NUM! error. "
+"If @p < 0 or @p > 1 BINOMDIST returns #NUM! error.\n"
+"@SEEALSO=POISSON"
+msgstr ""
+
+#: src/fn-stat.c:1476
+msgid ""
+"@FUNCTION=CRITBINOM\n"
+"@SYNTAX=CRITBINOM(trials,p,alpha)\n"
+"@DESCRIPTION=The CRITBINOM function returns the smallest value for which "
+"thecumulative is creater than or equal to a given value. @n is the number of "
+"trials, @p is the probability of success in trials, and @alpha is the "
+"criterion value. \n"
+"If @trials is a non-integer it is truncated. If @trials < 0 CRITBINOM "
+"returns #NUM! error. If @p < 0 or @p > 1 CRITBINOM returns #NUM! error. If "
+"@alpha < 0 or @alpha > 1 CRITBINOM returns #NUM! error. \n"
+"@SEEALSO=BINOMDIST"
+msgstr ""
+
+#: src/fn-stat.c:1510
+msgid ""
+"@FUNCTION=PERMUT\n"
+"@SYNTAX=PERMUT(n,k)\n"
+"@DESCRIPTION=The PERMUT function returns the number of permutations. @n is "
+"the number of objects, @k is the number of objects in each permutation.\n"
+"If @n = 0 PERMUT returns #NUM! error. If @n < @k PERMUT returns #NUM! "
+"error.\n"
+"@SEEALSO=COMBIN"
+msgstr ""
+
+#: src/fn-stat.c:1539
+msgid ""
+"@FUNCTION=HYPGEOMDIST\n"
+"@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
+"@DESCRIPTION=The HYPGEOMDIST function returns the hypergeometric "
+"distribution @x is the number of successes in the sample, @n is the number "
+"of trials, @M is the number of successes overall, and @N is thepopulation "
+"size.\n"
+"If @x,@n,@M or @N is a non-integer it is truncated. If @x,@n,@M or @N < 0 "
+"HYPGEOMDIST returns #NUM! error. If @x > @M or @n > @N HYPGEOMDIST returns "
+"#NUM! error.\n"
+"@SEEALSO=BINOMDIST,POISSON"
+msgstr ""
+
+#: src/fn-stat.c:1573
+msgid ""
+"@FUNCTION=CONFIDENCE\n"
+"@SYNTAX=CONFIDENCE(x,stddev,size)\n"
+"@DESCRIPTION=The CONFIDENCE function returns the confidence interval for a "
+"mean. @x is the significance level, @stddev is the standard deviation, and "
+"@size is the size of the sample.\n"
+"If @size is non-integer it is truncated. If @size < 0 CONFIDENCE returns "
+"#NUM! error. If @size is 0 CONFIDENCE returns #DIV/0! error.\n"
+"@SEEALSO=AVERAGE"
+msgstr ""
+
+#: src/fn-stat.c:1599 src/value.c:875
+msgid "#DIV/0!"
+msgstr ""
+
+#: src/fn-stat.c:1608
+msgid ""
+"@FUNCTION=STANDARDIZE\n"
+"@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
+"@DESCRIPTION=The STANDARDIZE function returns a normalized value. @x is the "
+"number to be normalized, @mean is the mean of the distribution, @stdev is "
+"the standard deviation of the distribution.\n"
+"If stddev is 0 STANDARDIZE returns #DIV/0! error.\n"
+"@SEEALSO=AVERAGE"
+msgstr ""
+
+#: src/fn-stat.c:1639
+msgid ""
+"@FUNCTION=WEIBULL\n"
+"@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
+"@DESCRIPTION=The WEIBULL function returns the Weibull distribution. If the "
+"@cumulative boolean is true it will return: 1 - exp (-(@x/@beta)^@alpha), "
+"otherwise it will return (@alpha/@beta^@alpha) * @x^(@alpha-1) * "
+"exp(-(@x/@beta^@alpha)). \n"
+"If @x < 0 WEIBULL returns #NUM! error. If @alpha <= 0 or @beta <= 0 WEIBULL "
+"returns #NUM! error. \n"
+"@SEEALSO=POISSON"
+msgstr ""
+
+#: src/fn-stat.c:1679
+msgid ""
+"@FUNCTION=NORMDIST\n"
+"@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
+"@DESCRIPTION=The NORMDIST function returns the normal cumulative "
+"distribution. @x is the value for which you want the distribution, @mean is "
+"the mean of the distribution, @stdev is the standard deviation. \n"
+"If @stdev is 0 NORMDIST returns #DIV/0! error. \n"
+"@SEEALSO=POISSON"
+msgstr ""
+
+#: src/fn-stat.c:1718
+msgid ""
+"@FUNCTION=NORMINV\n"
+"@SYNTAX=NORMINV(p,mean,stdev)\n"
+"@DESCRIPTION=The NORMINV function returns the inverse of the normal "
+"cumulative distribution. @p is the given probability corresponding to the "
+"normal distribution, @mean is the arithmetic mean of the distribution, and "
+"@stdev is the standard deviation of the distribution.\n"
+"If @p < 0 or @p > 1 or @stdev <= 0 NORMINV returns #NUM! error. \n"
+"@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
+msgstr ""
+
+#: src/fn-stat.c:1750
+msgid ""
+"@FUNCTION=KURT\n"
+"@SYNTAX=KURT(n1, n2, ...)\n"
+"@DESCRIPTION=KURT returns an unbiased estimate of the kurtosis of a data "
+"set.\n"
+"Note, that this is only meaningful is the underlying distribution really has "
+"a fourth moment.  The kurtosis is offset by three such that a normal "
+"distribution will have zero kurtosis.\n"
+"Strings and empty cells are simply ignored.\n"
+"If fewer than four numbers are given or all of them are equal KURT returns "
+"#DIV/0! error.\n"
+"@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
+msgstr ""
+
+#: src/fn-stat.c:1781
+msgid ""
+"@FUNCTION=KURTP\n"
+"@SYNTAX=KURTP(n1, n2, ...)\n"
+"@DESCRIPTION=KURT returns the population kurtosis of a data set.\n"
+"Strings and empty cells are simply ignored.\n"
+"If fewer than two numbers are given or all of them are equal KURTP returns "
+"#DIV/0! error.\n"
+"@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
+msgstr ""
+
+#: src/fn-stat.c:1807
+msgid ""
+"@FUNCTION=AVEDEV\n"
+"@SYNTAX=AVEDEV(n1, n2, ...)\n"
+"@DESCRIPTION=AVEDEV returns the average of the absolute deviations of a data "
+"set from their mean. \n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=STDEV"
+msgstr ""
+
+#: src/fn-stat.c:1832
+msgid ""
+"@FUNCTION=DEVSQ\n"
+"@SYNTAX=DEVSQ(n1, n2, ...)\n"
+"@DESCRIPTION=DEVSQ returns the sum of squares of deviations of a data set "
+"from the sample mean.\n"
+"Strings and empty cells are simply ignored.\n"
+"@SEEALSO=STDEV"
+msgstr ""
+
+#: src/fn-stat.c:1856
+msgid ""
+"@FUNCTION=FISHER\n"
+"@SYNTAX=FISHER(x)\n"
+"@DESCRIPTION=The FISHER function returns the Fisher transformation at @x.\n"
+"If @x is not-number FISHER returns #VALUE! error.If @x <= -1 or @x >= 1 "
+"FISHER returns #NUM! error\n"
+"@SEEALSO=SKEW"
+msgstr ""
+
+#: src/fn-stat.c:1885
+msgid ""
+"@FUNCTION=POISSON\n"
+"@SYNTAX=POISSON(x,mean,cumulative)\n"
+"@DESCRIPTION=The POISSON function returns the Poisson distribution @x is the "
+"number of events, @mean is the expected numeric value @cumulative describes "
+"whether to return the sum of the poisson function from 0 to @x.\n"
+"If @x is a non-integer it is truncated. If @x <= 0 POISSON returns #NUM! "
+"error. If @mean <= 0 POISSON returns the #NUM! error.\n"
+"@SEEALSO=NORMDIST, WEIBULL"
+msgstr ""
+
+#: src/fn-stat.c:1922
+msgid ""
+"@FUNCTION=PEARSON\n"
+"@SYNTAX=PEARSON(array1,array2)\n"
+"@DESCRIPTION=PEARSON returns the Pearson correllation coefficient of two "
+"data sets.\n"
+"Strings and empty cells are simply ignored.\n"
+"@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
+msgstr ""
+
+#: src/fn-stat.c:1942
+msgid ""
+"@FUNCTION=RSQ\n"
+"@SYNTAX=RSQ(array1,array2)\n"
+"@DESCRIPTION=RSQ returns the square of the Pearson correllation coefficient "
+"of two data sets.\n"
+"Strings and empty cells are simply ignored.\n"
+"@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
+msgstr ""
+
+#: src/fn-stat.c:1968
+msgid ""
+"@FUNCTION=MEDIAN\n"
+"@SYNTAX=MEDIAN(n1, n2, ...)\n"
+"@DESCRIPTION=MEDIAN returns the median of the given data set.\n"
+"Strings and empty cells are simply ignored. If even numbers are given MEDIAN "
+"returns the average of the two numbers in the middle.\n"
+"@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
+msgstr ""
+
+#: src/fn-stat.c:2010
+msgid ""
+"@FUNCTION=LARGE\n"
+"@SYNTAX=LARGE(n1, n2, ..., k)\n"
+"@DESCRIPTION=LARGE returns the k-th largest value in a data set.\n"
+"If data set is empty LARGE returns #NUM! error. If @k <= 0 or @k is greater "
+"than the number of data items given LARGE returns #NUM! error.\n"
+"@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
+msgstr ""
+
+#: src/fn-stat.c:2053
+msgid ""
+"@FUNCTION=SMALL\n"
+"@SYNTAX=SMALL(n1, n2, ..., k)\n"
+"@DESCRIPTION=SMALL returns the k-th smallest value in a data set.\n"
+"If data set is empty SMALL returns #NUM! error. If @k <= 0 or @k is greater "
+"than the number of data items given SMALL returns #NUM! error.\n"
+"@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
+msgstr ""
+
+#: src/fn-stat.c:2120
+msgid ""
+"@FUNCTION=PROB\n"
+"@SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])\n"
+"@DESCRIPTION=PROB function returns the probability that values in a range or "
+"an array are between two limits. If @upper_limit is not given, PROB returns "
+"the probability that values in @x_range are equal to @lower_limit.\n"
+"If the sum of the probabilities in @prob_range is not equal to 1 PROB "
+"returns #NUM! error. If any value in @prob_range is <=0 or > 1, PROB returns "
+"#NUM! error. If @x_range and @prob_range contain a different number of data "
+"entries, PROB returns #N/A! error.\n"
+"@SEEALSO=BINOMDIST,CRITBINOM"
+msgstr ""
+
+#: src/fn-stat.c:2246
+msgid ""
+"@FUNCTION=STEYX\n"
+"@SYNTAX=STEYX(known_y's,known_x's)\n"
+"@DESCRIPTION=STEYX function returns the standard error of the predicted "
+"y-value for each x in the regression.\n"
+"If @known_y's and @known_x's are empty or have a different number of "
+"arguments then STEYX returns #N/A! error.\n"
+"@SEEALSO=PEARSON,RSQ,SLOPE"
+msgstr ""
+
+#: src/fn-stat.c:2392
+msgid ""
+"@FUNCTION=ZTEST\n"
+"@SYNTAX=ZTEST(ref,x)\n"
+"@DESCRIPTION=ZTEST returns the two-tailed probability of a z-test.\n"
+"@ref is the data set and @x is the value to be tested.\n"
+"If @ref contains less than two data items ZTEST returns #DIV/0! error.\n"
+"@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
+msgstr ""
+
+#: src/fn-stat.c:2465
+msgid ""
+"@FUNCTION=AVERAGEA\n"
+"@SYNTAX=AVERAGEA(number1,number2,...)\n"
+"@DESCRIPTION=AVERAGEA returns the average of the given arguments.  Numbers, "
+"text and logical values are included in the calculation too. If the cell "
+"contains text or the argument evaluates to FALSE, it is counted as value "
+"zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  "
+"Note that empty cells are not counted.\n"
+"@SEEALSO=AVERAGE"
+msgstr ""
+
+#: src/fn-stat.c:2491
+msgid ""
+"@FUNCTION=MAXA\n"
+"@SYNTAX=MAXA(number1,number2,...)\n"
+"@DESCRIPTION=MAXA returns the largest value of the given arguments.  "
+"Numbers, text and logical values are included in the calculation too. If the "
+"cell contains text or the argument evaluates to FALSE, it is counted as "
+"value zero (0).  If the argument evaluates to TRUE, it is counted as one "
+"(1).  Note that empty cells are not counted.\n"
+"@SEEALSO=MAX,MINA"
+msgstr ""
+
+#: src/fn-stat.c:2517
+msgid ""
+"@FUNCTION=MINA\n"
+"@SYNTAX=MINA(number1,number2,...)\n"
+"@DESCRIPTION=MINA returns the smallest value of the given arguments.  "
+"Numbers, text and logical values are included in the calculation too. If the "
+"cell contains text or the argument evaluates to FALSE, it is counted as "
+"value zero (0).  If the argument evaluates to TRUE, it is counted as one "
+"(1).  Note that empty cells are not counted.\n"
+"@SEEALSO=MIN,MAXA"
+msgstr ""
+
+#: src/fn-stat.c:2543
+msgid ""
+"@FUNCTION=VARA\n"
+"@SYNTAX=VARA(number1,number2,...)\n"
+"@DESCRIPTION=VARA returns the variance based on a sample.  Numbers, text and "
+"logical values are included in the calculation too. If the cell contains "
+"text or the argument evaluates to FALSE, it is counted as value zero (0).  "
+"If the argument evaluates to TRUE, it is counted as one (1).  Note that "
+"empty cells are not counted.\n"
+"@SEEALSO=VAR,VARPA"
+msgstr ""
+
+#: src/fn-stat.c:2569
+msgid ""
+"@FUNCTION=VARPA\n"
+"@SYNTAX=VARPA(number1,number2,...)\n"
+"@DESCRIPTION=VARPA returns the variance based on the entire population.  "
+"Numbers, text and logical values are included in the calculation too.  If "
+"the cell contains text or the argument evaluates to FALSE, it is counted as "
+"value zero (0).  If the argument evaluates to TRUE, it is counted as one "
+"(1).  Note that empty cells are not counted.\n"
+"@SEEALSO=VARP,VARP"
+msgstr ""
+
+#: src/fn-stat.c:2595
+msgid ""
+"@FUNCTION=STDEVA\n"
+"@SYNTAX=STDEVA(number1,number2,...)\n"
+"@DESCRIPTION=STDEVA returns the standard deviation based on a sample. "
+"Numbers, text and logical values are included in the calculation too.  If "
+"the cell contains text or the argument evaluates to FALSE, it is counted as "
+"value zero (0).  If the argument evaluates to TRUE, it is counted as one "
+"(1).  Note that empty cells are not counted.\n"
+"@SEEALSO=STDEV,STDEVPA"
+msgstr ""
+
+#: src/fn-stat.c:2621
+msgid ""
+"@FUNCTION=STDEVPA\n"
+"@SYNTAX=STDEVPA(number1,number2,...)\n"
+"@DESCRIPTION=STDEVPA returns the standard deviation based on the entire "
+"population.  Numbers, text and logical values are included in the "
+"calculation too.  If the cell contains text or the argument evaluates to "
+"FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, "
+"it is counted as one (1).  Note that empty cells are not counted.\n"
+"@SEEALSO=STDEVA,STDEVP"
+msgstr ""
+
+#: src/fn-stat.c:2647
+msgid ""
+"@FUNCTION=PERCENTRANK\n"
+"@SYNTAX=PERCENTRANK(array,x[,significance])\n"
+"@DESCRIPTION=PERCENTRANK function returns the rank of a data point in a data "
+"set.  @array is the range of numeric values, @x is the data point which you "
+"want to rank, and the optional @significance indentifies the number of "
+"significant digits for the returned value.  If @significance is omitted, "
+"PERCENTRANK uses three digits.\n"
+"If @array contains not data points, PERCENTRANK returns #NUM! error. If "
+"@significance is less than one, PERCENTRANK returns #NUM! error. If @x does "
+"not match any of the values in @array or @x matches more than once, "
+"PERCENTRANK interpolates the returned value.\n"
+"@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
+msgstr ""
+
+#: src/fn-stat.c:2755
+msgid ""
+"@FUNCTION=QUARTILE\n"
+"@SYNTAX=QUARTILE(array,quart)\n"
+"@DESCRIPTION=QUARTILE function returns the quartile of the given data "
+"points.  \n"
+"If quart is equal to:  QUARTILE returns:\n"
+"0                      the smallest value of @array.\n"
+"1                      the first quartile\n"
+"2                      the second quartile\n"
+"3                      the third quartile\n"
+"4                      the largest value of @array.\n"
+"\n"
+"If @array is empty, QUARTILE returns #NUM! error. If @quart < 0 or @quart > "
+"4, QUARTILE returns #NUM! error. If @quart is not an integer, it is "
+"truncated. \n"
+"@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
+msgstr ""
+
+#: src/fn-stat.c:2810
+msgid ""
+"@FUNCTION=FTEST\n"
+"@SYNTAX=FTEST(array1,array2)\n"
+"@DESCRIPTION=FTEST function returns the one-tailed probability that the "
+"variances in the given two data sets are not significantly different. \n"
+"@SEEALSO=FDIST,FINV"
+msgstr ""
+
+#: src/fn-stat.c:2897
+msgid ""
+"@FUNCTION=TTEST\n"
+"@SYNTAX=TTEST(array1,array2,tails,type)\n"
+"@DESCRIPTION=TTEST function returns the probability of a Student's t-Test. \n"
+"@array1 is the first data set and @array2 is the second data set.  If @tails "
+"is one, TTEST uses the one-tailed distribution and if @tails is two, TTEST "
+"uses the two-tailed distribution.  @type determines the kind of the test:\n"
+"1  Paired test\n"
+"2  Two-sample equal variance\n"
+"3  Two-sample unequal variance\n"
+"\n"
+"If the data sets contain a different number of data points and the test is "
+"paired (@type one), TTEST returns the #N/A error. @tails and @type are "
+"truncated to integers. If @tails is not one or two, TTEST returns #NUM! "
+"error. If @type is any other than one, two, or three, TTEST returns #NUM! "
+"error. \n"
+"@SEEALSO=FDIST,FINV"
+msgstr ""
+
+#: src/fn-stat.c:3141
+msgid ""
+"@FUNCTION=FREQUENCY\n"
+"@SYNTAX=FREQUENCY(data_array,bins_array)\n"
+"@DESCRIPTION=FREQUENCY function counts how often given values occur within a "
+"range of values.  The results are given as an array. \n"
+"@data_array is a data array for which you want to count the frequencies.  "
+"@bin_array is an array containing the intervals into which you want to group "
+"the values in data_array.  If the @bin_array is empty, FREQUENCY returns the "
+"number of data points in @data_array. \n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-stat.c:3251
+msgid ""
+"@FUNCTION=LINEST\n"
+"@SYNTAX=LINEST(known_y's[,known_x's])\n"
+"@DESCRIPTION=LINEST function calculates the ``least squares'' line that best "
+"fit to your data in @known_y's.  @known_x's contains the corresponding x's "
+"where y=mx+b. \n"
+"If @known_x's is omitted, an array {1, 2, 3, ...} is used. LINEST returns an "
+"array having two columns and one row.  The slope (m) of the regression line "
+"y=mx+b is given in the first column and the y-intercept (b) in the second. \n"
+"If @known_y's and @known_x's have unequal number of data points, LINEST "
+"returns #NUM! error. \n"
+"@SEEALSO=LOGEST,TREND"
+msgstr ""
+
+#: src/fn-stat.c:3320
+msgid ""
+"@FUNCTION=TREND\n"
+"@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
+"@DESCRIPTION=TREND function estimates future values of a given data set "
+"using the ``least squares'' line that best fit to your data. @known_y's is "
+"the y-values where y=mx+b and @known_x's contains the corresponding "
+"x-values.  @new_x's contains the x-values for which you want to estimate the "
+"y-values. \n"
+"If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @known_y's and "
+"@known_x's have unequal number of data points, TREND returns #NUM! error. \n"
+"@SEEALSO=LINEST"
+msgstr ""
+
+#: src/fn-stat.c:3399
+msgid ""
+"@FUNCTION=FORECAST\n"
+"@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
+"@DESCRIPTION=FORECAST function estimates a future value according to "
+"existing values using simple linear regression.  The estimated future value "
+"is a y-value for a given x-value (@x). \n"
+"If @known_x or @known_y contains no data entries or different number of data "
+"entries, FORECAST returns #N/A! error. If the variance of the @known_x is "
+"zero, FORECAST returns #DIV/0 error. \n"
+"@SEEALSO=INTERCEPT,TREND"
+msgstr ""
+
+#: src/fn-stat.c:3460
+msgid ""
+"@FUNCTION=INTERCEPT\n"
+"@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
+"@DESCRIPTION=INTERCEPT function calculates the point where the linear "
+"regression line intersects the y-axis.  \n"
+"If @known_x or @known_y contains no data entries or different number of data "
+"entries, INTERCEPT returns #N/A! error. If the variance of the @known_x is "
+"zero, INTERCEPT returns #DIV/0 error. \n"
+"@SEEALSO=FORECAST,TREND"
+msgstr ""
+
+#: src/fn-stat.c:3499
+msgid ""
+"@FUNCTION=SLOPE\n"
+"@SYNTAX=SLOPE(known_y's,known_x's)\n"
+"@DESCRIPTION=SLOPE returns the slope of the linear regression line.\n"
+"@SEEALSO=STDEV,STDEVPA"
+msgstr ""
+
+#: src/fn-stat.c:3534
+msgid "Statistics"
+msgstr ""
+
+#: src/fn-string.c:19
+#, fuzzy
+msgid ""
+"@FUNCTION=CHAR\n"
+"@SYNTAX=CHAR(x)\n"
+"@DESCRIPTION=Returns the ASCII character represented by the number @x.\n"
+"@SEEALSO=CODE"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (hours,minutes,seconds)\n"
+"@DESCRIPTION=Gibt einen Bruch zurück, der die Tageszeit repräsentiert.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-string.c:41
+#, fuzzy
+msgid ""
+"@FUNCTION=CODE\n"
+"@SYNTAX=CODE(char)\n"
+"@DESCRIPTION=Returns the ASCII number for the character @char.\n"
+"@SEEALSO=CHAR"
+msgstr ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=Gibt die heutige Datumsseriennummer, d.h. die Anzahl der Tage "
+"die seit dem ersten Januar 1900 vergangen sind, zurück\n"
+"@SEEALSO=TODAY, NOW"
+
+#: src/fn-string.c:64
+msgid ""
+"@FUNCTION=EXACT\n"
+"@SYNTAX=EXACT(string1, string2)\n"
+"@DESCRIPTION=Returns true if @string1 is exactly equal to @string2 (this "
+"routine is case sensitive).\n"
+"@SEEALSO=LEN"
+msgstr ""
+
+#: src/fn-string.c:86
+#, fuzzy
+msgid ""
+"@FUNCTION=LEN\n"
+"@SYNTAX=LEN(string)\n"
+"@DESCRIPTION=Returns the length in characters of the string @string.\n"
+"@SEEALSO=CHAR, CODE"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (hours,minutes,seconds)\n"
+"@DESCRIPTION=Gibt einen Bruch zurück, der die Tageszeit repräsentiert.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-string.c:106
+msgid ""
+"@FUNCTION=LEFT\n"
+"@SYNTAX=LEFT(text[,num_chars])\n"
+"@DESCRIPTION=Returns the leftmost @num_chars characters or the left "
+"character if @num_chars is not specified.\n"
+"@SEEALSO=MID, RIGHT"
+msgstr ""
+
+#: src/fn-string.c:139
+#, fuzzy
+msgid ""
+"@FUNCTION=LOWER\n"
+"@SYNTAX=LOWER(text)\n"
+"@DESCRIPTION=Returns a lower-case version of the string in @text\n"
+"@SEEALSO=UPPER"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (hours,minutes,seconds)\n"
+"@DESCRIPTION=Gibt einen Bruch zurück, der die Tageszeit repräsentiert.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-string.c:168
+msgid ""
+"@FUNCTION=MID\n"
+"@SYNTAX=MID(string, position, length)\n"
+"@DESCRIPTION=Returns a substring from @string starting at @position for "
+"@length characters.\n"
+"@SEEALSO=LEFT, RIGHT"
+msgstr ""
+
+#: src/fn-string.c:195 src/fn-string.c:601
+#, fuzzy
+msgid "Invalid arguments"
+msgstr "Ungültige Argumentenanzahl"
+
+#: src/fn-string.c:211
+msgid ""
+"@FUNCTION=RIGHT\n"
+"@SYNTAX=RIGHT(text[,num_chars])\n"
+"@DESCRIPTION=Returns the rightmost @num_chars characters or the right "
+"character if @num_chars is not specified.\n"
+"@SEEALSO=MID, LEFT"
+msgstr ""
+
+#: src/fn-string.c:248
+#, fuzzy
+msgid ""
+"@FUNCTION=UPPER\n"
+"@SYNTAX=UPPER(text)\n"
+"@DESCRIPTION=Returns a upper-case version of the string in @text.\n"
+"@SEEALSO=LOWER"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (hours,minutes,seconds)\n"
+"@DESCRIPTION=Gibt einen Bruch zurück, der die Tageszeit repräsentiert.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-string.c:278
+msgid ""
+"@FUNCTION=CONCATENATE\n"
+"@SYNTAX=CONCATENATE(string1[,string2...])\n"
+"@DESCRIPTION=Returns up appended strings.\n"
+"@SEEALSO=LEFT, MID, RIGHT"
+msgstr ""
+
+#: src/fn-string.c:323
+#, fuzzy
+msgid ""
+"@FUNCTION=REPT\n"
+"@SYNTAX=REPT(string,num)\n"
+"@DESCRIPTION=Returns @num repetitions of @string.\n"
+"@SEEALSO=CONCATENATE"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (hours,minutes,seconds)\n"
+"@DESCRIPTION=Gibt einen Bruch zurück, der die Tageszeit repräsentiert.\n"
+"@SEEALSO=HOUR"
+
+#. start position too high or low
+#: src/fn-string.c:342 src/fn-string.c:417 src/fn-string.c:422
+#: src/fn-string.c:462
+#, fuzzy
+msgid "Invalid argument"
+msgstr "Ungültige Argumentenanzahl"
+
+#: src/fn-string.c:358
+msgid ""
+"@FUNCTION=CLEAN\n"
+"@SYNTAX=CLEAN(string)\n"
+"@DESCRIPTION=Cleans the string from any non-printable characters.\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-string.c:394
+msgid ""
+"@FUNCTION=FIND\n"
+"@SYNTAX=FIND(string1,string2[,start])\n"
+"@DESCRIPTION=Returns position of @string1 in @string2 (case-sesitive), "
+"searching only from character @start onwards (assumed 1 if omitted).\n"
+"@SEEALSO=EXACT, LEN, MID, SEARCH"
+msgstr ""
+
+#: src/fn-string.c:428
+msgid ""
+"@FUNCTION=FIXED\n"
+"@SYNTAX=FIXED(num, [decimals, no_commas])\n"
+"@DESCRIPTION=Returns @num as a formatted string with @decimals numbers after "
+"the decimal point, omitting commas if requested by @no_commas.\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-string.c:535
+#, fuzzy
+msgid ""
+"@FUNCTION=PROPER\n"
+"@SYNTAX=PROPER(string)\n"
+"@DESCRIPTION=Returns @string with initial of each word capitalised.\n"
+"@SEEALSO=LOWER, UPPER"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (hours,minutes,seconds)\n"
+"@DESCRIPTION=Gibt einen Bruch zurück, der die Tageszeit repräsentiert.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-string.c:574
+msgid ""
+"@FUNCTION=REPLACE\n"
+"@SYNTAX=REPLACE(old,start,num,new)\n"
+"@DESCRIPTION=Returns @old with @new replacing @num characters from @start.\n"
+"@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
+msgstr ""
+
+#: src/fn-string.c:625
+#, fuzzy
+msgid ""
+"@FUNCTION=T\n"
+"@SYNTAX=T(value)\n"
+"@DESCRIPTION=Returns @value if and only if it is text, otherwise a blank "
+"string.\n"
+"@SEEALSO=CELL, N, VALUE"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (hours,minutes,seconds)\n"
+"@DESCRIPTION=Gibt einen Bruch zurück, der die Tageszeit repräsentiert.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-string.c:645
+#, fuzzy
+msgid ""
+"@FUNCTION=TEXT\n"
+"@SYNTAX=TEXT(value,format_text)\n"
+"@DESCRIPTION=Returns @value as a string with the specified format.\n"
+"@SEEALSO=DOLLAR"
+msgstr ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (hours,minutes,seconds)\n"
+"@DESCRIPTION=Gibt einen Bruch zurück, der die Tageszeit repräsentiert.\n"
+"@SEEALSO=HOUR"
+
+#: src/fn-string.c:698
+msgid ""
+"@FUNCTION=TRIM\n"
+"@SYNTAX=TRIM(text)\n"
+"@DESCRIPTION=Returns @text with only single spaces between words.\n"
+"@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
+msgstr ""
+
+#: src/fn-string.c:743
+msgid ""
+"@FUNCTION=VALUE\n"
+"@SYNTAX=VALUE(text)\n"
+"@DESCRIPTION=Returns numeric value of @text.\n"
+"@SEEALSO=DOLLAR, FIXED, TEXT"
+msgstr ""
+
+#: src/fn-string.c:824
+msgid ""
+"@FUNCTION=SUBSTITUTE\n"
+"@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
+"@DESCRIPTION=Replaces @old with @new in @text.  Substitutions are only "
+"applied to instance @num of @old in @text, otherwise every one is changed.\n"
+"@SEEALSO=REPLACE, TRIM"
+msgstr ""
+
+#: src/fn-string.c:895
+msgid ""
+"@FUNCTION=DOLLAR\n"
+"@SYNTAX=DOLLAR(num,[decimals])\n"
+"@DESCRIPTION=Returns @num formatted as currency.\n"
+"@SEEALSO=FIXED, TEXT, VALUE"
+msgstr ""
+
+#: src/fn-string.c:960
+msgid ""
+"@FUNCTION=SEARCH\n"
+"@SYNTAX=SEARCH(text,within[,start_num])\n"
+"@DESCRIPTION=Returns the location of a character or text string within "
+"another string.  @text is the string or character to be searched. @within is "
+"the string in which you want to search.  @start_num is the start position of "
+"the search in @within.  If @start_num is omitted, it is assumed to be one.  "
+"The search is not case sensitive. \n"
+"@text can contain wildcard characters (*) and question marks (?) to control "
+"the search.  A question mark matches with any character and wildcard matches "
+"with any string including empty string.  If you want the actual wildcard or "
+"question mark to be searched, use tilde (~) before the character. \n"
+"If @text is not found, SEARCH returns #VALUE! error. If @start_num is less "
+"than one or it is greater than the length of @within, SEARCH returns #VALUE! "
+"error. \n"
+"@SEEALSO=FIND"
+msgstr ""
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/font-sel.glade.h:7
+msgid "window1"
+msgstr ""
+
+#: src/font-sel.glade.h:8
+#, fuzzy
+msgid "Font:"
+msgstr "Schriftart"
+
+#: src/font-sel.glade.h:9
+msgid "Font style:"
+msgstr ""
+
+#: src/font-sel.glade.h:10
+msgid "Size:"
+msgstr ""
+
+#: src/font-sel.glade.h:11
+msgid "Preview:"
+msgstr ""
+
+#: src/font-sel.glade.h:12
+msgid "AaBbCcDdEe12345"
+msgstr ""
+
+#: src/font-sel.glade.h:13
+#, fuzzy
+msgid "label7"
+msgstr "Beschriftungen"
+
+#: src/font-sel.glade.h:14
+#, fuzzy
+msgid "label8"
+msgstr "Beschriftungen"
+
+#: src/font-sel.glade.h:15
+#, fuzzy
+msgid "label9"
+msgstr "Beschriftungen"
+
+#: src/format.c:397
+msgid "black"
+msgstr ""
+
+#: src/format.c:398
+#, fuzzy
+msgid "blue"
+msgstr "Werte"
+
+#: src/format.c:399
+msgid "cyan"
+msgstr ""
+
+#: src/format.c:400
+msgid "green"
+msgstr ""
+
+#: src/format.c:401
+msgid "magenta"
+msgstr ""
+
+#: src/format.c:402
+msgid "red"
+msgstr ""
+
+#: src/format.c:403
+msgid "white"
+msgstr ""
+
+#: src/format.c:404
+#, fuzzy
+msgid "yellow"
+msgstr "Zelle"
+
+#: src/format.c:1063
+msgid "0.0########"
+msgstr ""
+
+#: src/format.c:1077 src/value.c:184 src/value.c:367
+msgid "TRUE"
+msgstr ""
+
+#: src/format.c:1077 src/value.c:184 src/value.c:367
+msgid "FALSE"
+msgstr ""
+
+#: src/format.c:1086
+msgid "CELLRANGE"
+msgstr ""
+
+#. Array of arrays ??
+#: src/format.c:1090
+msgid "ARRAY"
+msgstr ""
+
+#: src/formats.c:17
+msgid "0"
+msgstr ""
+
+#: src/formats.c:18
+msgid "0.00"
+msgstr ""
+
+#: src/formats.c:19
+msgid "#,##0"
+msgstr ""
+
+#: src/formats.c:20
+msgid "#,##0.00"
+msgstr ""
+
+#: src/formats.c:21
+msgid "#,##0_);(#,##0)"
+msgstr ""
+
+#: src/formats.c:22
+msgid "#,##0_);[Red](#,##0)"
+msgstr ""
+
+#: src/formats.c:23
+msgid "#,##0.00_);(#,##0.00)"
+msgstr ""
+
+#: src/formats.c:24
+msgid "#,##0.00_);[Red](#,##0.00)"
+msgstr ""
+
+#: src/formats.c:25
+msgid "0.0"
+msgstr ""
+
+#: src/formats.c:30
+msgid "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
+msgstr ""
+
+#: src/formats.c:31
+msgid "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
+msgstr ""
+
+#: src/formats.c:32
+msgid "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
+msgstr ""
+
+#: src/formats.c:33
+msgid "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
+msgstr ""
+
+#: src/formats.c:38
+msgid "m/d/yy"
+msgstr ""
+
+#: src/formats.c:39
+msgid "m/d/yyyy"
+msgstr ""
+
+#: src/formats.c:40
+msgid "d-mmm-yy"
+msgstr ""
+
+#: src/formats.c:41
+msgid "d-mmm-yyyy"
+msgstr ""
+
+#: src/formats.c:42
+msgid "d-mmm"
+msgstr ""
+
+#: src/formats.c:43
+msgid "d-mm"
+msgstr ""
+
+#: src/formats.c:44
+msgid "mmm/d"
+msgstr ""
+
+#: src/formats.c:45
+msgid "mm/d"
+msgstr ""
+
+#: src/formats.c:46
+msgid "mm/dd/yy"
+msgstr ""
+
+#: src/formats.c:47
+msgid "mm/dd/yyyy"
+msgstr ""
+
+#: src/formats.c:48
+msgid "mmm/dd/yy"
+msgstr ""
+
+#: src/formats.c:49
+msgid "mmm/dd/yyyy"
+msgstr ""
+
+#: src/formats.c:50
+msgid "mmm/ddd/yy"
+msgstr ""
+
+#: src/formats.c:51
+msgid "mmm/ddd/yyyy"
+msgstr ""
+
+#: src/formats.c:52
+msgid "mm/ddd/yy"
+msgstr ""
+
+#: src/formats.c:53
+msgid "mm/ddd/yyyy"
+msgstr ""
+
+#: src/formats.c:54
+msgid "mmm-yy"
+msgstr ""
+
+#: src/formats.c:55
+msgid "mmm-yyyy"
+msgstr ""
+
+#: src/formats.c:56 src/formats.c:74
+msgid "m/d/yy h:mm"
+msgstr ""
+
+#: src/formats.c:57
+msgid "m/d/yyyy h:mm"
+msgstr ""
+
+#: src/formats.c:58
+msgid "yyyy/mm/d"
+msgstr ""
+
+#: src/formats.c:59
+msgid "yyyy/mmm/d"
+msgstr ""
+
+#: src/formats.c:60
+msgid "yyyy/mm/dd"
+msgstr ""
+
+#: src/formats.c:61
+msgid "yyyy/mmm/dd"
+msgstr ""
+
+#: src/formats.c:62
+msgid "yyyy-mm-d"
+msgstr ""
+
+#: src/formats.c:63
+msgid "yyyy-mmm-d"
+msgstr ""
+
+#: src/formats.c:64
+msgid "yyyy-mm-dd"
+msgstr ""
+
+#: src/formats.c:65
+msgid "yyyy-mmm-dd"
+msgstr ""
+
+#: src/formats.c:70
+msgid "h:mm AM/PM"
+msgstr ""
+
+#: src/formats.c:71
+msgid "h:mm:ss AM/PM"
+msgstr ""
+
+#: src/formats.c:72
+msgid "h:mm"
+msgstr ""
+
+#: src/formats.c:73
+msgid "h:mm:ss"
+msgstr ""
+
+#: src/formats.c:75
+msgid "mm:ss"
+msgstr ""
+
+#: src/formats.c:76
+msgid "mm:ss.0"
+msgstr ""
+
+#: src/formats.c:77
+msgid "[h]:mm:ss"
+msgstr ""
+
+#: src/formats.c:82
+#, c-format
+msgid "0%"
+msgstr ""
+
+#: src/formats.c:83
+#, c-format
+msgid "0.00%"
+msgstr ""
+
+#: src/formats.c:88
+msgid "# ?/?"
+msgstr ""
+
+#: src/formats.c:89
+msgid "# ??/??"
+msgstr ""
+
+#: src/formats.c:94
+msgid "0.00E+00"
+msgstr ""
+
+#: src/formats.c:95
+msgid "##0.0E+0"
+msgstr ""
+
+#: src/formats.c:105
+msgid "$#,##0_);($#,##0)"
+msgstr ""
+
+#: src/formats.c:106
+msgid "$#,##0_);[Red]($#,##0)"
+msgstr ""
+
+#: src/formats.c:107
+msgid "$#,##0.00_);($#,##0.00)"
+msgstr ""
+
+#: src/formats.c:108
+msgid "$#,##0.00_);[Red]($#,##0.00)"
+msgstr ""
+
+#: src/func.c:424
+msgid "Function does not exist"
+msgstr ""
+
+#: src/func.c:426
+#, fuzzy
+msgid "Calling non-function"
+msgstr "Unbekannte Funktion"
+
+#: src/gnumeric-sheet.c:983
+#, fuzzy
+msgid "Solid"
+msgstr "Lösen"
+
+#: src/gnumeric-sheet.c:986
+#, c-format
+msgid "75%"
+msgstr ""
+
+#: src/gnumeric-sheet.c:989
+#, c-format
+msgid "50%"
+msgstr ""
+
+#: src/gnumeric-sheet.c:992
+#, c-format
+msgid "25%"
+msgstr ""
+
+#: src/gnumeric-sheet.c:995
+#, c-format
+msgid "12.5%"
+msgstr ""
+
+#: src/gnumeric-sheet.c:998
+#, c-format
+msgid "6.25%"
+msgstr ""
+
+#: src/gnumeric-sheet.c:1001
+#, fuzzy
+msgid "Horizontal Stripe"
+msgstr "Horizontal"
+
+#: src/gnumeric-sheet.c:1004
+#, fuzzy
+msgid "Vertical Stripe"
+msgstr "Vertikal"
+
+#: src/gnumeric-sheet.c:1007
+msgid "Reverse Diagonal Stripe"
+msgstr ""
+
+#: src/gnumeric-sheet.c:1010
+msgid "Diagonal Stripe"
+msgstr ""
+
+#: src/gnumeric-sheet.c:1013
+msgid "Diagonal Crosshatch"
+msgstr ""
+
+#: src/gnumeric-sheet.c:1016
+msgid "Thick Diagonal Crosshatch"
+msgstr ""
+
+#: src/gnumeric-sheet.c:1019
+#, fuzzy
+msgid "Thin Horizontal Stripe"
+msgstr "Horizontal"
+
+#: src/gnumeric-sheet.c:1022
+msgid "Thin Vertical Stripe"
+msgstr ""
+
+#: src/gnumeric-sheet.c:1025
+msgid "Thin Reverse Diagonal Stripe"
+msgstr ""
+
+#: src/gnumeric-sheet.c:1028
+msgid "Thin Diagonal Stripe"
+msgstr ""
+
+#: src/gnumeric-sheet.c:1031
+msgid "Thin Crosshatch"
+msgstr ""
+
+#: src/gnumeric-sheet.c:1034
+msgid "Thin Diagonal Crosshatch"
+msgstr ""
+
+#: src/gnumeric-util.c:19
+msgid "You cannot change part of an array."
+msgstr ""
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/hf-config.glade.h:7
+msgid "Left section:"
+msgstr ""
+
+#: src/hf-config.glade.h:8
+msgid "Center section:"
+msgstr ""
+
+#: src/hf-config.glade.h:9
+msgid "Right section:"
+msgstr ""
+
+#: src/hf-config.glade.h:10
+msgid "Enter the format strings for each section:"
+msgstr ""
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/import.glade.h:7
+msgid "Choose an import filter for loading the file:"
+msgstr ""
+
+#: src/import.glade.h:8
+#, fuzzy
+msgid "label2"
+msgstr "Beschriftungen"
+
+#: src/item-cursor.c:499
+msgid ""
+"The cells dragged will overwrite the contents of the\n"
+"existing cells in that range.  Do you want me to replace\n"
+"the contents in this region?"
+msgstr ""
+
+#: src/item-cursor.c:580 src/item-grid.c:600 src/workbook.c:1125
+msgid "Copy"
+msgstr ""
+
+#: src/item-cursor.c:581
+#, fuzzy
+msgid "Move"
+msgstr "Monetär"
+
+#: src/item-cursor.c:582
+#, fuzzy
+msgid "Copy formats"
+msgstr "Formate"
+
+#: src/item-cursor.c:583
+#, fuzzy
+msgid "Copy values"
+msgstr "Auf Wert:"
+
+#: src/item-cursor.c:584
+#, fuzzy
+msgid "Shift cells down and copy"
+msgstr "Zellen nach unten verschieben"
+
+#: src/item-cursor.c:585
+#, fuzzy
+msgid "Shift cells right and copy"
+msgstr "Zellen nach rechts verschieben"
+
+#: src/item-cursor.c:586
+#, fuzzy
+msgid "Shift cells down and move"
+msgstr "Zellen nach unten verschieben"
+
+#: src/item-cursor.c:587
+#, fuzzy
+msgid "Shift cells right and move"
+msgstr "Zellen nach rechts verschieben"
+
+#: src/item-grid.c:599 src/workbook.c:1122
+msgid "Cut"
+msgstr ""
+
+#: src/item-grid.c:601 src/workbook.c:1128
+#, fuzzy
+msgid "Paste"
+msgstr "Datum"
+
+#: src/item-grid.c:606
+msgid "Erase content"
+msgstr ""
+
+#: src/item-grid.c:608
+#, fuzzy
+msgid "Cell format"
+msgstr "Zellenkommentar"
+
+#: src/main.c:43
+msgid "Dumps the function definitions"
+msgstr ""
+
+#: src/main.c:43
+msgid "FILE"
+msgstr ""
+
+#: src/main.c:45
+msgid "Enables some debugging functions"
+msgstr ""
+
+#: src/main.c:45 src/main.c:50 src/main.c:54 src/main.c:58 src/main.c:62
+msgid "LEVEL"
+msgstr ""
+
+#: src/main.c:49
+msgid "Enables debugging mesgs while reading excel workbooks"
+msgstr ""
+
+#: src/main.c:53
+msgid "Enables debugging mesgs while reading excel functions"
+msgstr ""
+
+#: src/main.c:57
+msgid "Enables debugging mesgs while reading excel colours & patterns"
+msgstr ""
+
+#: src/main.c:61
+msgid "Enables debugging mesgs while reading excel charts"
+msgstr ""
+
+#: src/number-match.c:150
+msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
+msgstr ""
+
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
+#, fuzzy
+msgid "Name"
+msgstr "Unbenannt"
+
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
+#, fuzzy
+msgid "File"
+msgstr "Füllen"
+
+#: src/plugin-manager.c:126
+#, fuzzy
+msgid "Close"
+msgstr "Kode:"
+
+#: src/plugin-manager.c:129
+#, fuzzy
+msgid "Add..."
+msgstr "Hinzufügen"
+
+#: src/plugin-manager.c:132
+msgid "Remove"
+msgstr ""
+
+#: src/plugin.c:40
+#, fuzzy
+msgid "unable to open module file: "
+msgstr "Kann Guile-Funktion nicht finden."
+
+#: src/plugin.c:51
+msgid "Plugin must contain init_plugin function."
+msgstr ""
+
+#: src/plugin.c:57
+msgid "init_plugin returned error"
+msgstr ""
+
+#: src/plugin.c:77
+msgid "Plugin is still in use.\n"
+msgstr ""
+
+#: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
+msgid "Page &[PAGE]"
+msgstr ""
+
+#: src/print-info.c:21 src/print-info.c:26
+msgid "Page &[PAGE] of &[PAGES]"
+msgstr ""
+
+#: src/print-info.c:22 src/print-info.c:23 src/print-info.c:24
+#: src/print-info.c:26
+msgid "&[TAB]"
+msgstr ""
+
+#: src/print-info.c:24 src/print-info.c:25 src/print-info.c:26
+msgid "&[DATE]"
+msgstr ""
+
+#: src/print-info.c:267
+msgid "Sheet &[NUM]"
+msgstr ""
+
+#: src/print-info.c:268
+msgid "Page &[NUM]"
+msgstr ""
+
+#: src/print-info.c:418
+msgid "pts"
+msgstr ""
+
+#: src/print-info.c:418
+#, fuzzy
+msgid "points"
+msgstr "Schriftart"
+
+#: src/print-info.c:419
+msgid "mm"
+msgstr ""
+
+#: src/print-info.c:419
+msgid "millimeter"
+msgstr ""
+
+#: src/print-info.c:420
+msgid "cm"
+msgstr ""
+
+#: src/print-info.c:420
+#, fuzzy
+msgid "centimeter"
+msgstr "Mitte"
+
+#: src/print-info.c:421
+msgid "In"
+msgstr ""
+
+#: src/print-info.c:421
+msgid "inch"
+msgstr ""
+
+#: src/print-info.c:481
+msgid "Sheet 1"
+msgstr ""
+
+#: src/print-info.c:539
+msgid "tab"
+msgstr ""
+
+#: src/print-info.c:540
+#, fuzzy
+msgid "page"
+msgstr "Wertebereich"
+
+#: src/print-info.c:541
+#, fuzzy
+msgid "pages"
+msgstr "Wertebereich"
+
+#: src/print-info.c:542
+#, fuzzy
+msgid "date"
+msgstr "Datum"
+
+#: src/print-info.c:543
+#, fuzzy
+msgid "time"
+msgstr "Zeit"
+
+#: src/sheet-object-container.c:187 src/workbook.c:901
+msgid "Select an object"
+msgstr ""
+
+#: src/sheet-object-container.c:290
+msgid "Object server"
+msgstr ""
+
+#: src/sheet-view.c:337 src/sheet-view.c:415
+#, c-format
+msgid "Row: %d"
+msgstr ""
+
+#: src/sheet-view.c:344 src/sheet-view.c:383
+#, fuzzy, c-format
+msgid "Column: %s"
+msgstr "Spalten"
+
+#: src/sheet.c:828
+#, fuzzy
+msgid "Internal ERROR"
+msgstr "Interner Fehler"
+
+#: src/sheet.c:2968
+msgid "The command `"
+msgstr ""
+
+#: src/sheet.c:2970
+msgid "' cannot be performed with multiple selections"
+msgstr ""
+
+#: src/sheet.c:2985
+msgid "copy"
+msgstr ""
+
+#: src/sheet.c:3010
+msgid "cut"
+msgstr ""
+
+#: src/sheet.c:3066
+#, fuzzy
+msgid "paste"
+msgstr "Datum"
+
+#: src/sheet.c:4233
+#, c-format
+msgid "I was not able to activate object %s"
+msgstr ""
+
+#: src/sheet.c:4245
+msgid "I was unable to the bind object"
+msgstr ""
+
+#: src/value.c:583
+msgid "Terminate"
+msgstr ""
+
+#: src/value.c:874
+msgid "#NULL!"
+msgstr ""
+
+#: src/value.c:876
+msgid "#VALUE!"
+msgstr ""
+
+#: src/value.c:877
+msgid "#REF!"
+msgstr ""
+
+#: src/value.c:878
+msgid "#NAME?"
+msgstr ""
+
+#: src/value.c:879
+msgid "#NUM!"
+msgstr ""
+
+#: src/value.c:880
+msgid "#N/A"
+msgstr ""
+
+#: src/widget-font-selector.c:118 src/workbook.c:1145
+msgid "Bold"
+msgstr ""
+
+#: src/widget-font-selector.c:119
+msgid "Bold italic"
+msgstr ""
+
+#: src/widget-font-selector.c:120 src/workbook.c:1148
+msgid "Italic"
+msgstr ""
+
+#: src/workbook.c:457
+#, fuzzy
+msgid "Warning"
+msgstr "Zeichenkette"
+
+#: src/workbook.c:466
+#, c-format
+msgid "Workbook %s has unsaved changes, save them?"
+msgstr ""
+
+#: src/workbook.c:469
+msgid "Workbook has unsaved changes, save them?"
+msgstr ""
+
+#: src/workbook.c:668
+#, fuzzy
+msgid "Insert cols"
+msgstr "Zellen einfügen"
+
+#: src/workbook.c:687
+#, fuzzy
+msgid "Insert rows"
+msgstr "Zeile(n) einfügen"
+
+#: src/workbook.c:783
+msgid ">mm/dd/yyyy"
+msgstr ""
+
+#: src/workbook.c:802
+msgid ">hh:mm"
+msgstr ""
+
+#: src/workbook.c:910
+msgid "_New"
+msgstr ""
+
+#: src/workbook.c:910
+msgid "Create a new spreadsheet"
+msgstr ""
+
+#: src/workbook.c:914
+#, fuzzy
+msgid "_Import"
+msgstr "%s importiert"
+
+#: src/workbook.c:914
+#, fuzzy
+msgid "Imports a file"
+msgstr "Unmöglich"
+
+#: src/workbook.c:920
+msgid "Su_mmary..."
+msgstr ""
+
+#: src/workbook.c:920
+#, fuzzy
+msgid "Summary information"
+msgstr "Informationen"
+
+#: src/workbook.c:925
+msgid "Plu_g-ins..."
+msgstr ""
+
+#: src/workbook.c:925
+#, fuzzy
+msgid "Gnumeric plugins"
+msgstr "Gnumeric"
+
+#: src/workbook.c:946
+#, fuzzy
+msgid "_All"
+msgstr "Alles"
+
+#: src/workbook.c:947
+msgid "Clear the selected cells' formats, comments, and contents"
+msgstr ""
+
+#: src/workbook.c:949
+#, fuzzy
+msgid "_Formats"
+msgstr "Formate"
+
+#: src/workbook.c:950
+msgid "Clear the selected cells' formats"
+msgstr ""
+
+#: src/workbook.c:951
+#, fuzzy
+msgid "_Comments"
+msgstr "Zellenkommentar"
+
+#: src/workbook.c:952
+msgid "Clear the selected cells' comments"
+msgstr ""
+
+#: src/workbook.c:953
+msgid "_Content"
+msgstr ""
+
+#: src/workbook.c:954
+msgid "Clear the selected cells' contents"
+msgstr ""
+
+#: src/workbook.c:962
+#, fuzzy
+msgid "P_aste special..."
+msgstr "Einfügen spezial"
+
+#: src/workbook.c:963
+msgid "C_lear"
+msgstr ""
+
+#: src/workbook.c:964
+#, fuzzy
+msgid "Clear the selected cell(s)"
+msgstr "#Referenz auf gelöschte Zelle!"
+
+#: src/workbook.c:968
+#, fuzzy
+msgid "_Select All"
+msgstr "Zellen löschen"
+
+#: src/workbook.c:969
+msgid "Select all cells in the spreadsheet"
+msgstr ""
+
+#: src/workbook.c:971
+#, fuzzy
+msgid "_Goto cell..."
+msgstr "Gehe zu..."
+
+#: src/workbook.c:972
+msgid "Jump to a specified cell"
+msgstr ""
+
+#: src/workbook.c:978
+msgid "Insert object..."
+msgstr ""
+
+#: src/workbook.c:979
+msgid "Inserts a Bonobo object"
+msgstr ""
+
+#: src/workbook.c:986
+#, fuzzy
+msgid "_Define cell names"
+msgstr "Zellen löschen"
+
+#: src/workbook.c:990
+msgid "_Recalculate"
+msgstr ""
+
+#: src/workbook.c:991
+msgid "Recalculate the spreadsheet"
+msgstr ""
+
+#: src/workbook.c:999
+#, fuzzy
+msgid "_Zoom..."
+msgstr "Vergrößern"
+
+#: src/workbook.c:1000
+msgid "Zoom the spreadsheet in or out"
+msgstr ""
+
+#: src/workbook.c:1007
+msgid "Current _date"
+msgstr ""
+
+#: src/workbook.c:1008
+msgid "Insert the current data into the selected cell(s)"
+msgstr ""
+
+#: src/workbook.c:1011
+msgid "Current _time"
+msgstr ""
+
+#: src/workbook.c:1012
+msgid "Insert the current time into the selected cell(s)"
+msgstr ""
+
+#: src/workbook.c:1019 src/workbook.c:1065
+msgid "_Sheet"
+msgstr ""
+
+#: src/workbook.c:1019
+msgid "Insert a new spreadsheet"
+msgstr ""
+
+#: src/workbook.c:1021 src/workbook.c:1059
+#, fuzzy
+msgid "_Cells..."
+msgstr "Zelle"
+
+#: src/workbook.c:1021
+#, fuzzy
+msgid "Insert new cells"
+msgstr "Zellen einfügen"
+
+#: src/workbook.c:1023
+#, fuzzy
+msgid "_Rows"
+msgstr "Reihen"
+
+#: src/workbook.c:1023
+#, fuzzy
+msgid "Insert new rows"
+msgstr "Zeile(n) einfügen"
+
+#: src/workbook.c:1025
+#, fuzzy
+msgid "C_olumns"
+msgstr "Spalten"
+
+#: src/workbook.c:1025
+#, fuzzy
+msgid "Insert new columns"
+msgstr "Spalte(n) einfügen"
+
+#: src/workbook.c:1030
+msgid "_Add/modify comment..."
+msgstr ""
+
+#: src/workbook.c:1031
+msgid "Edit the selected cell's comment"
+msgstr ""
+
+#: src/workbook.c:1032
+#, fuzzy
+msgid "_Special"
+msgstr "Spezial..."
+
+#: src/workbook.c:1041 src/workbook.c:1047
+#, fuzzy
+msgid "_Autoadjust"
+msgstr "Automatisch"
+
+#: src/workbook.c:1042
+msgid "_Width"
+msgstr ""
+
+#: src/workbook.c:1048
+#, fuzzy
+msgid "_Height"
+msgstr "Rechts"
+
+#: src/workbook.c:1053
+msgid "_Change name"
+msgstr ""
+
+#: src/workbook.c:1060
+msgid "Modify the formatting of the selected cells"
+msgstr ""
+
+#: src/workbook.c:1063
+#, fuzzy
+msgid "C_olumn"
+msgstr "Spalten"
+
+#: src/workbook.c:1064
+#, fuzzy
+msgid "_Row"
+msgstr "Reihen"
+
+#: src/workbook.c:1072
+#, fuzzy
+msgid "_Sort..."
+msgstr "Gehe zu..."
+
+#: src/workbook.c:1073
+#, fuzzy
+msgid "Sort the selected cells"
+msgstr "Zellen löschen"
+
+#: src/workbook.c:1074
+#, fuzzy
+msgid "_Goal Seek..."
+msgstr "Zielsuche..."
+
+#: src/workbook.c:1076
+#, fuzzy
+msgid "_Solver..."
+msgstr "Lösen"
+
+#: src/workbook.c:1078
+#, fuzzy
+msgid "_Data Analysis..."
+msgstr "Datenanalyse"
+
+#: src/workbook.c:1092
+#, fuzzy
+msgid "_Insert"
+msgstr "Einfügen"
+
+#: src/workbook.c:1093
+#, fuzzy
+msgid "F_ormat"
+msgstr "Formate"
+
+#: src/workbook.c:1094
+msgid "_Tools"
+msgstr ""
+
+#: src/workbook.c:1107
+msgid "New"
+msgstr ""
+
+#: src/workbook.c:1107
+msgid "Creates a new sheet"
+msgstr ""
+
+#: src/workbook.c:1110
+#, fuzzy
+msgid "Open"
+msgstr "Operation"
+
+#: src/workbook.c:1110
+msgid "Opens an existing workbook"
+msgstr ""
+
+#: src/workbook.c:1113
+#, fuzzy
+msgid "Save"
+msgstr "Lösen"
+
+#: src/workbook.c:1113
+#, fuzzy
+msgid "Saves the workbook"
+msgstr "Arbeitsbuch speichern als"
+
+#: src/print.glade.h:19 src/print.glade.h:32 src/print.glade.h:40
+#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1116
+#, fuzzy
+msgid "Print"
+msgstr "Prozent"
+
+#: src/workbook.c:1116
+msgid "Prints the workbook"
+msgstr ""
+
+#: src/workbook.c:1122
+msgid "Cuts the selection to the clipboard"
+msgstr ""
+
+#: src/workbook.c:1125
+msgid "Copies the selection to the clipboard"
+msgstr ""
+
+#: src/workbook.c:1128
+#, fuzzy
+msgid "Pastes the clipboard"
+msgstr "Einfügen spezial"
+
+#: src/workbook.c:1134
+msgid "Left align"
+msgstr ""
+
+#: src/workbook.c:1134
+msgid "Left justifies the cell contents"
+msgstr ""
+
+#: src/workbook.c:1137
+msgid "Centers the cell contents"
+msgstr ""
+
+#: src/workbook.c:1140
+#, fuzzy
+msgid "Right align"
+msgstr "Rechts"
+
+#: src/workbook.c:1140
+msgid "Right justifies the cell contents"
+msgstr ""
+
+#: src/workbook.c:1145
+msgid "Sets the bold font"
+msgstr ""
+
+#: src/workbook.c:1148
+msgid "Makes the font italic"
+msgstr ""
+
+#: src/workbook.c:1155
+msgid "Graphic"
+msgstr ""
+
+#: src/workbook.c:1155
+msgid "Creates a graphic in the spreadsheet"
+msgstr ""
+
+#: src/workbook.c:1159
+msgid "Line"
+msgstr ""
+
+#: src/workbook.c:1159
+msgid "Creates a line object"
+msgstr ""
+
+#: src/workbook.c:1162
+#, fuzzy
+msgid "Arrow"
+msgstr "Feld"
+
+#: src/workbook.c:1162
+msgid "Creates an arrow object"
+msgstr ""
+
+#: src/workbook.c:1165
+#, fuzzy
+msgid "Rectangle"
+msgstr "Wertebereich"
+
+#: src/workbook.c:1165
+msgid "Creates a rectangle object"
+msgstr ""
+
+#: src/workbook.c:1168
+msgid "Ellipse"
+msgstr ""
+
+#: src/workbook.c:1168
+msgid "Creates an ellipse object"
+msgstr ""
+
+#: src/workbook.c:1386
+#, fuzzy
+msgid "You should introduce a valid cell name"
+msgstr "Sie sollten einen gültigen Zellennamen in 'Setze Zelle' angeben"
+
+#: src/workbook.c:1395
+#, fuzzy
+msgid "Column out of range"
+msgstr "Spalte muß im Wertebereich liegen"
+
+#: src/workbook.c:1401
+msgid "Row number out of range"
+msgstr ""
+
+#: src/workbook.c:1601
+msgid "Sum"
+msgstr ""
+
+#: src/workbook.c:1604
+msgid "Average"
+msgstr ""
+
+#: src/workbook.c:1605
+#, fuzzy
+msgid "Count"
+msgstr "Spalten"
+
+#: src/workbook.c:2018
+msgid "Untitled.gnumeric"
+msgstr ""
+
+#: src/workbook.c:2119
+#, fuzzy
+msgid "Zoom out"
+msgstr "Vergrößern"
+
+#: src/workbook.c:2126
+#, fuzzy
+msgid "Zoom in"
+msgstr "Vergrößern"
+
+#: src/workbook.c:2221
+#, c-format
+msgid "Are you sure you want to remove the sheet called `%s' "
+msgstr ""
+
+#: src/workbook.c:2240
+msgid "Other sheets depend on the values on this sheet; I cannot remove it"
+msgstr ""
+
+#: src/workbook.c:2260
+msgid "Add another sheet"
+msgstr ""
+
+#: src/workbook.c:2261
+msgid "Remove this sheet"
+msgstr ""
+
+#: src/workbook.c:2527 src/workbook.c:2562
+#, c-format
+msgid "Sheet%d"
+msgstr ""
+
+#: src/workbook.c:2636
+#, fuzzy
+msgid "Gnumeric: "
+msgstr "Gnumeric"
+
+#: src/xml-io.c:2033
+msgid "Old Gnumeric XML file format"
+msgstr ""
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/print.glade.h:7
+msgid "window2"
+msgstr ""
+
+#: src/print.glade.h:8
+#, fuzzy
+msgid "Orientation"
+msgstr "Operation"
+
+#: src/print.glade.h:11
+#, fuzzy
+msgid "Scale"
+msgstr "Beispiel:"
+
+#: src/print.glade.h:12 src/print.glade.h:13
+msgid "Adjust to"
+msgstr ""
+
+#: src/print.glade.h:14
+#, c-format
+msgid "% of the original size"
+msgstr ""
+
+#: src/print.glade.h:15
+msgid "pages wider by "
+msgstr ""
+
+#: src/print.glade.h:16
+msgid "pages of height"
+msgstr ""
+
+#: src/print.glade.h:17
+msgid "Paper size:"
+msgstr ""
+
+#: src/print.glade.h:18
+msgid "First page number:"
+msgstr ""
+
+#: src/print.glade.h:20 src/print.glade.h:33 src/print.glade.h:41
+#: src/print.glade.h:57
+msgid "Print preview"
+msgstr ""
+
+#: src/print.glade.h:21 src/print.glade.h:34 src/print.glade.h:42
+#: src/print.glade.h:58
+#, fuzzy
+msgid "Options"
+msgstr "Optionen..."
+
+#: src/print.glade.h:22 src/print.glade.h:59
+#, fuzzy
+msgid "Page"
+msgstr "Wertebereich"
+
+#: src/print.glade.h:23
+msgid "Superior:"
+msgstr ""
+
+#: src/print.glade.h:24
+msgid "Header:"
+msgstr ""
+
+#: src/print.glade.h:25
+msgid "Lower:"
+msgstr ""
+
+#: src/print.glade.h:26
+#, fuzzy
+msgid "Footer"
+msgstr "Schriftart"
+
+#: src/print.glade.h:27
+#, fuzzy
+msgid "Center on page"
+msgstr "Mitte"
+
+#: src/print.glade.h:28
+#, fuzzy
+msgid "Horizontally"
+msgstr "Horizontal"
+
+#: src/print.glade.h:29
+#, fuzzy
+msgid "Vertically"
+msgstr "Vertikal"
+
+#: src/print.glade.h:30
+#, fuzzy
+msgid "Left:"
+msgstr "Links"
+
+#: src/print.glade.h:31
+#, fuzzy
+msgid "Right:"
+msgstr "Rechts"
+
+#: src/print.glade.h:35
+#, fuzzy
+msgid "Margins"
+msgstr "Min"
+
+#: src/print.glade.h:36 src/print.glade.h:39
+msgid "sample goes here"
+msgstr ""
+
+#: src/print.glade.h:37
+msgid "Header"
+msgstr ""
+
+#: src/print.glade.h:38
+msgid "Footer:"
+msgstr ""
+
+#: src/print.glade.h:43
+msgid "Headers and footers"
+msgstr ""
+
+#: src/print.glade.h:44
+msgid "Print region:"
+msgstr ""
+
+#: src/print.glade.h:45
+msgid "Titles to print"
+msgstr ""
+
+#: src/print.glade.h:46
+msgid "Rows to repeat on the left side:"
+msgstr ""
+
+#: src/print.glade.h:47
+msgid "Rows to repeat on the upper region:"
+msgstr ""
+
+#: src/print.glade.h:49
+msgid "Division lines"
+msgstr ""
+
+#: src/print.glade.h:50
+msgid "Black and white"
+msgstr ""
+
+#: src/print.glade.h:51
+msgid "Titles of rows and columns."
+msgstr ""
+
+#: src/print.glade.h:52
+#, fuzzy
+msgid "Comments"
+msgstr "Zellenkommentar"
+
+#: src/print.glade.h:53
+msgid "Page order"
+msgstr ""
+
+#: src/print.glade.h:54
+msgid "Down, then right"
+msgstr ""
+
+#: src/print.glade.h:55
+msgid "Right, then down"
+msgstr ""
+
+#: src/print.glade.h:60
+msgid "Customize header"
+msgstr ""
+
+#: src/print.glade.h:61
+msgid "Customize footer"
 msgstr ""

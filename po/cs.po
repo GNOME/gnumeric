@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 1999-08-22 15:15-0500\n"
+"POT-Creation-Date: 1999-08-22 16:06-0500\n"
 "Content-Type: text/plain; charset=iso8859-2\n"
 "Date: 1998-09-30 00:38:13-0500\n"
 "From: Petr Vyyhnalek <petr.vyhnalek@email.cz>\n"

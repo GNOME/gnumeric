@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.31\n"
-"POT-Creation-Date: 1999-08-20 20:08-0500\n"
+"POT-Creation-Date: 1999-08-22 16:06-0500\n"
 "PO-Revision-Date: 1998-11-25 18:01:18+0100\n"
 "Last-Translator: Pablo Saratxaga <srtxg@chanae.alphanet.ch>\n"
 "Language-Team: \n"
@@ -2087,9 +2087,9 @@ msgstr ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(complejo)\n"
 "@DESCRIPTION=IMLN devuelve el algoritmo natural de un número complejo. (El "
-"resultado tendrá una parte imaginaria entre -pi y +pi.  El logaritmo "
-"natural no es definido de manera única con números complejos; puede "
-"que necesite añadir o sustraer un múltiple par de pi a la parte imaginaria.)\n"
+"resultado tendrá una parte imaginaria entre -pi y +pi.  El logaritmo natural "
+"no es definido de manera única con números complejos; puede que necesite "
+"añadir o sustraer un múltiple par de pi a la parte imaginaria.)\n"
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 
 #: src/fn-eng.c:791
@@ -2113,7 +2113,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(complejo)\n"
-"@DESCRIPTION=IMLOG10 devuelve el logaritmo en base 10 de un número complejo.\n"
+"@DESCRIPTION=IMLOG10 devuelve el logaritmo en base 10 de un número "
+"complejo.\n"
 "@SEEALSO=IMLN,IMLOG2"
 
 #: src/fn-eng.c:839
@@ -2183,8 +2184,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(complejo1[,complejo2,...])\n"
-"@DESCRIPTION=IMPRODUCT devuelve el producto de los números complejos "
-"pasados como argumento.\n"
+"@DESCRIPTION=IMPRODUCT devuelve el producto de los números complejos pasados "
+"como argumento.\n"
 "@SEEALSO=IMDIV"
 
 #: src/fn-eng.c:1030
@@ -2295,10 +2296,11 @@ msgid ""
 "'a'  atto   1E-18\n"
 "\n"
 "If @from_unit and @to_unit are different types, CONVERT returns #NUM! error. "
+"\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-eng.c:1444
+#: src/fn-eng.c:1445
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF(lower limit[,upper_limit])\n"
@@ -2311,7 +2313,7 @@ msgid ""
 "@SEEALSO=ERFC"
 msgstr ""
 
-#: src/fn-eng.c:1481
+#: src/fn-eng.c:1482
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -2322,7 +2324,7 @@ msgid ""
 "@SEEALSO=ERF"
 msgstr ""
 
-#: src/fn-eng.c:1507
+#: src/fn-eng.c:1508
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -2332,11 +2334,11 @@ msgid ""
 "@SEEALSO=EXACT,GESTEP"
 msgstr ""
 
-#: src/fn-eng.c:1550 src/fn-eng.c:1601
+#: src/fn-eng.c:1551 src/fn-eng.c:1602
 msgid "Impossible"
 msgstr "Imposible"
 
-#: src/fn-eng.c:1559
+#: src/fn-eng.c:1560
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -2346,11 +2348,11 @@ msgid ""
 "@SEEALSO=DELTA"
 msgstr ""
 
-#: src/fn-eng.c:1611
+#: src/fn-eng.c:1612
 msgid "Engineering"
 msgstr ""
 
-#: src/fn-financial.c:104
+#: src/fn-financial.c:105
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -2373,11 +2375,11 @@ msgid ""
 "@SEEALSO=NOMINAL"
 msgstr ""
 
-#: src/fn-financial.c:144
+#: src/fn-financial.c:145
 msgid "effect - domain error"
 msgstr "effect - error de dominio"
 
-#: src/fn-financial.c:152
+#: src/fn-financial.c:153
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -2393,11 +2395,38 @@ msgid ""
 "@SEEALSO=EFFECT"
 msgstr ""
 
-#: src/fn-financial.c:179
+#: src/fn-financial.c:180
 msgid "nominal - domain error"
 msgstr "nominal - error de dominio"
 
-#: src/fn-financial.c:189
+#: src/fn-financial.c:187
+msgid ""
+"@FUNCTION=DB\n"
+"@SYNTAX=DB(cost,salvage,life,period[,month])\n"
+"@DESCRIPTION=DB returns the depreciation of an asset for a given period "
+"using the fixed-declining balance method.  @cost is the initial value of the "
+"asset.  @salvage after the depreciation. @life is the number of periods "
+"overall.  @period is the period for which you want the depreciation to be "
+"calculated.  @month is the number of months in the first year of "
+"depreciation. If @month is omitted, it is assumed to be 12. \n"
+"@SEEALSO=DDB,SLN,SYD,VDB"
+msgstr ""
+
+#: src/fn-financial.c:237
+msgid ""
+"@FUNCTION=DDB\n"
+"@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
+"@DESCRIPTION=DDB returns the depreciation of an asset for a given period "
+"using the double-declining balance method or some other similar method you "
+"specify.  @cost is the initial value of the asset, @salvage is the value "
+"after the last period, @life is the number of periods, @period is the period "
+"for which you want the depreciation to be calculated, and @factor is the "
+"factor at which the balance declines.  If @factor is omitted, it is assumed "
+"to be two (double-declining balance method). \n"
+"@SEEALSO=SLN,SYD,VDB"
+msgstr ""
+
+#: src/fn-financial.c:281
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -2411,11 +2440,11 @@ msgid ""
 "@SEEALSO=SYD"
 msgstr ""
 
-#: src/fn-financial.c:218
+#: src/fn-financial.c:310
 msgid "sln - domain error"
 msgstr "sln - error de dominio"
 
-#: src/fn-financial.c:224
+#: src/fn-financial.c:316
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -2423,18 +2452,18 @@ msgid ""
 "based on its cost, salvage value, anticipated life and a particular period.\n"
 "Formula for sum-of-years digits depriciation is:\n"
 "Depriciation expense = ( cost - salvage_value ) * (life - period + 1) * 2 / "
-"life * (life + 1)\n"
+"life * (life + 1).\n"
 "\t@cost = cost of an asset when acquired (market value)\t@salvage_value = "
 "amount you get when asset sold at the end of life\t@life = anticipated life "
 "of an asset\t@period = period for which we need the expense\n"
 "@SEEALSO=SLN"
 msgstr ""
 
-#: src/fn-financial.c:255
+#: src/fn-financial.c:349
 msgid "syd - domain error"
 msgstr "syd - error de dominio"
 
-#: src/fn-financial.c:261
+#: src/fn-financial.c:355
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -2452,7 +2481,7 @@ msgstr ""
 "devuelve el error #NUM! .\n"
 "@SEEALSO=DOLLARFR"
 
-#: src/fn-financial.c:299
+#: src/fn-financial.c:393
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -2464,13 +2493,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dólar,fracción)\n"
-"@DESCRIPTION=DOLLARFR convierte un precio en dólares expresado en decimales,"
-" a un precio en dólares iexpresado como una fracción.\n"
+"@DESCRIPTION=DOLLARFR convierte un precio en dólares expresado en decimales, "
+"a un precio en dólares iexpresado como una fracción.\n"
 "Si @fracción no es un entero, será troncado. Si @fracción<=0 DOLLARDE "
 "devuelve el error #NUM! .\n"
 "@SEEALSO=DOLLARDE"
 
-#: src/fn-financial.c:338
+#: src/fn-financial.c:432
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -2478,7 +2507,7 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:434
+#: src/fn-financial.c:530
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
@@ -2486,19 +2515,35 @@ msgid ""
 "@SEEALSO=FV"
 msgstr ""
 
-#: src/fn-financial.c:456
+#: src/fn-financial.c:552
 msgid "pv - domain error"
 msgstr "pv - error de dominio"
 
-#: src/fn-financial.c:466
+#: src/fn-financial.c:563
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
-"@DESCRIPTION=Calculates the net present value of an investment.\n"
-"@SEEALSO=PV"
+"@DESCRIPTION=NPV calculates the net present value of an investment "
+"generating peridic payments.  @rate is the periodic interest rate and @v1, "
+"@v2, ... are the periodic payments. If the schedule of the cash flows are "
+"not periodic use the XNPV function. \n"
+"@SEEALSO=PV,XNPV"
 msgstr ""
 
-#: src/fn-financial.c:512
+#: src/fn-financial.c:612
+msgid ""
+"@FUNCTION=XNPV\n"
+"@SYNTAX=XNPV(rate,values,dates)\n"
+"@DESCRIPTION=XNPV calculates the net present value of an investment.  The "
+"schedule of the cash flows is given in @dates array.  The first date "
+"indicates the beginning of the payment schedule.  @rate is the interest rate "
+"and @values are the payments. \n"
+"If @values and @dates contain unequal number of values, XNPV returns the "
+"#NUM error. \n"
+"@SEEALSO=NPV,PV"
+msgstr ""
+
+#: src/fn-financial.c:665
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt,pv,type)\n"
@@ -2506,15 +2551,20 @@ msgid ""
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
 
-#: src/fn-financial.c:542
+#: src/fn-financial.c:695
+#, fuzzy
 msgid ""
 "@FUNCTION=PMT\n"
-"@SYNTAX=PMT(rate,nper,pv,fv,type)\n"
+"@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
 "@DESCRIPTION=Calculates the present value of an investment.\n"
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
+"@FUNCTION=NPER\n"
+"@SYNTAX=NPER(tasa,pmt,pv,fv,tipo)\n"
+"@DESCRIPTION=Calcula la cantidad de períodos de una inversión.\n"
+"@SEEALSO=PPMT,PV,FV"
 
-#: src/fn-financial.c:566
+#: src/fn-financial.c:725
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -2529,10 +2579,10 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:607
+#: src/fn-financial.c:766
 msgid ""
 "@FUNCTION=PPMT\n"
-"@SYNTAX=PPMT(rate,per,nper,pv,fv,type)\n"
+"@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
 "@DESCRIPTION=Calculates the amount of a payment of an annuity going towards "
 "principal.\n"
 "Formula for it is:\n"
@@ -2543,7 +2593,7 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:652
+#: src/fn-financial.c:817
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -2555,7 +2605,7 @@ msgstr ""
 "@DESCRIPTION=Calcula la cantidad de períodos de una inversión.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/fn-financial.c:682
+#: src/fn-financial.c:847
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -2566,7 +2616,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:714
+#: src/fn-financial.c:879
 msgid "Financial"
 msgstr "Financiero"
 
@@ -2676,7 +2726,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT()\n"
-"@DESCRIPTION=ISNONTEXT devuelve VERDAD si el valor no es una cadena de texto.\n"
+"@DESCRIPTION=ISNONTEXT devuelve VERDAD si el valor no es una cadena de "
+"texto.\n"
 "@SEEALSO=ISTEXT"
 
 #: src/fn-information.c:424
@@ -2737,8 +2788,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=N\n"
 "@SYNTAX=N()\n"
-"@DESCRIPTION=N devuelve un valor convertido a un número. Las cadenas "
-"que contienen texto son convertidas al valor cero. \n"
+"@DESCRIPTION=N devuelve un valor convertido a un número. Las cadenas que "
+"contienen texto son convertidas al valor cero. \n"
 "@SEEALSO="
 
 #: src/fn-information.c:544
@@ -2750,7 +2801,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE()\n"
-"@DESCRIPTION=TYPE devuelve un número que indica el tipo de datos del valor. \n"
+"@DESCRIPTION=TYPE devuelve un número que indica el tipo de datos del valor. "
+"\n"
 "@SEEALSO="
 
 #: src/fn-information.c:565
@@ -2933,8 +2985,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(referencia)\n"
-"@DESCRIPTION=La función COLUMNS devuelve la cantidad de columnas en el "
-"area o vector de referencia.\n"
+"@DESCRIPTION=La función COLUMNS devuelve la cantidad de columnas en el area "
+"o vector de referencia.\n"
 "si @referencia no es ni un vector, ni una referencia, ni un rango; la "
 "función devuelve el error #VALUE!.\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
@@ -3059,8 +3111,9 @@ msgstr ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
 "@DESCRIPTION=La función ACOS calcula el arco coseno de @x; o sea el valor "
-"cuyo coseno es @x. Si @x cae fuera del rango de -1 a 1, ACOS devuelve el error "
-"'acos - error de dominio'. El valor devuelto se expresan en radianes. \n"
+"cuyo coseno es @x. Si @x cae fuera del rango de -1 a 1, ACOS devuelve el "
+"error 'acos - error de dominio'. El valor devuelto se expresan en radianes. "
+"\n"
 "Aplicar este función sobre una cadena de texto o una celda vacia no hace "
 "nada. La función admite un solo argumento.\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
@@ -3107,8 +3160,8 @@ msgstr ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
 "@DESCRIPTION=La función ASIN calcula el arco seno de @x; o sea el valor cuyo "
-"seno es @x. Si @x cae fuera del rango de -1 a 1, ASIN devuelve el error 'asin "
-"- error de dominio'. El valor devuelto se expresan en radianes. \n"
+"seno es @x. Si @x cae fuera del rango de -1 a 1, ASIN devuelve el error "
+"'asin - error de dominio'. El valor devuelto se expresan en radianes. \n"
 "Aplicar este función sobre una cadena de texto o una celda vacia no hace "
 "nada. La función admite un solo argumento.\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
@@ -3168,8 +3221,8 @@ msgstr ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
 "@DESCRIPTION=La función ATANH calcula la tangente hiperbólica inversa de @x; "
-"o sea el valor cuya tangente hiperbólica es @x. Si el valor absoluto de @x es "
-"superior a 1,0 ATANH devuelve el error 'atanh - error de dominio'.\n"
+"o sea el valor cuya tangente hiperbólica es @x. Si el valor absoluto de @x "
+"es superior a 1,0 ATANH devuelve el error 'atanh - error de dominio'.\n"
 "Aplicar este función sobre una cadena de texto o una celda vacia no hace "
 "nada. La función admite un solo argumento.\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
@@ -3224,8 +3277,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(rango,criterio)\n"
-"@DESCRIPTION=La función COUNTIF cuenta la cantidad de celdas en un @rango que "
-"corresponde al @criterio pasado en argumento.\n"
+"@DESCRIPTION=La función COUNTIF cuenta la cantidad de celdas en un @rango "
+"que corresponde al @criterio pasado en argumento.\n"
 "@SEEALSO=COUNT,SUMIF"
 
 #: src/fn-math.c:535
@@ -3240,9 +3293,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(rango,criterio[,rango_real])\n"
-"@DESCRIPTION=La función SUMIF suma los valores de las celdas en el @rango que "
-"corresponde al @criterio pasado en argumento. Si @rango_real es usado, SUMIF "
-"sumará los valores en el rango @rango_real cuyos componentes en @rango "
+"@DESCRIPTION=La función SUMIF suma los valores de las celdas en el @rango "
+"que corresponde al @criterio pasado en argumento. Si @rango_real es usado, "
+"SUMIF sumará los valores en el rango @rango_real cuyos componentes en @rango "
 "corresponden al criterio pasado en argumento @criterio .\n"
 "@SEEALSO=COUNTIF,SUM"
 
@@ -3296,8 +3349,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
-"@DESCRIPTION=La función COSH devuelve el coseno hiperbólico de @x, el cual es "
-"definido matemáticamente como (exp(@x) + exp(-@x)) / 2.    @x en radianes. \n"
+"@DESCRIPTION=La función COSH devuelve el coseno hiperbólico de @x, el cual "
+"es definido matemáticamente como (exp(@x) + exp(-@x)) / 2.    @x en "
+"radianes. \n"
 "Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
 "simplemente no hace nada. Esta función accepta un solo argumento.\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
@@ -3795,8 +3849,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(número)\n"
-"@DESCRIPTION=La función SIGN devuelve 1 si el @número es positivo, cero si se "
-"trata de 0, y -1 si el @número es negativo.\n"
+"@DESCRIPTION=La función SIGN devuelve 1 si el @número es positivo, cero si "
+"se trata de 0, y -1 si el @número es negativo.\n"
 "@SEEALSO="
 
 #: src/fn-math.c:1581
@@ -3974,7 +4028,7 @@ msgstr ""
 "@SEEALSO=SUMSQ"
 
 #: src/fn-math.c:2090 src/fn-math.c:2104 src/fn-math.c:2177 src/fn-math.c:2191
-#: src/fn-math.c:2263 src/fn-math.c:2277 src/fn-stat.c:2264 src/fn-stat.c:2292
+#: src/fn-math.c:2263 src/fn-math.c:2277 src/fn-stat.c:2303 src/fn-stat.c:2333
 msgid "Array version not implemented!"
 msgstr "¡La versión de vectores aún no está impelmentada!"
 
@@ -4140,7 +4194,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matríz)\n"
-"@DESCRIPTION=La función MDETERM devuelvel el determinante de la @matríz dada.\n"
+"@DESCRIPTION=La función MDETERM devuelvel el determinante de la @matríz "
+"dada.\n"
 "Si la @matríz no tiene la misma cantidad de líneas que de columnas MDETERM "
 "devuelve el error #VALOR! .\n"
 "@SEEALSO=MMULT, MINVERSE"
@@ -4299,11 +4354,11 @@ msgstr ""
 "@DESCRIPTION=VARP calcula la variencia de un conjunto de números, cada "
 "número es el miembro de una población y el conjunto es la población entera.\n"
 "(VARP también se conoce como N-variencia.)\n"
-"Aplicar esta función a una cadena de texto o una celda vacía simplemente no"
-" hace nada.\n"
+"Aplicar esta función a una cadena de texto o una celda vacía simplemente no "
+"hace nada.\n"
 "@SEEALSO=STDEV,VAR,MEAN"
 
-#: src/fn-stat.c:132
+#: src/fn-stat.c:134
 msgid ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
@@ -4315,7 +4370,7 @@ msgid ""
 "@SEEALSO=VARP,STDEV"
 msgstr ""
 
-#: src/fn-stat.c:158
+#: src/fn-stat.c:162
 msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1, b2, ...)\n"
@@ -4325,7 +4380,7 @@ msgid ""
 "@SEEALSO=VAR,MEAN"
 msgstr ""
 
-#: src/fn-stat.c:180
+#: src/fn-stat.c:185
 msgid ""
 "@FUNCTION=STDEVP\n"
 "@SYNTAX=STDEVP(b1, b2, ...)\n"
@@ -4335,7 +4390,7 @@ msgid ""
 "@SEEALSO=STDEV,VAR,MEAN"
 msgstr ""
 
-#: src/fn-stat.c:203
+#: src/fn-stat.c:210
 msgid ""
 "@FUNCTION=RANK\n"
 "@SYNTAX=RANK(x,ref[,order])\n"
@@ -4346,7 +4401,7 @@ msgid ""
 "@SEEALSO=PERCENTRANK"
 msgstr ""
 
-#: src/fn-stat.c:286
+#: src/fn-stat.c:294
 msgid ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=TRIMMEAN(ref,percent)\n"
@@ -4358,7 +4413,7 @@ msgid ""
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
 msgstr ""
 
-#: src/fn-stat.c:338
+#: src/fn-stat.c:347
 msgid ""
 "@FUNCTION=COVAR\n"
 "@SYNTAX=COVAR(array1,array2)\n"
@@ -4367,7 +4422,7 @@ msgid ""
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 msgstr ""
 
-#: src/fn-stat.c:360
+#: src/fn-stat.c:370
 msgid ""
 "@FUNCTION=CORREL\n"
 "@SYNTAX=CORREL(array1,array2)\n"
@@ -4376,7 +4431,7 @@ msgid ""
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 msgstr ""
 
-#: src/fn-stat.c:382
+#: src/fn-stat.c:393
 msgid ""
 "@FUNCTION=NEGBINOMDIST\n"
 "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
@@ -4389,7 +4444,7 @@ msgid ""
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 msgstr ""
 
-#: src/fn-stat.c:414
+#: src/fn-stat.c:426
 msgid ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
@@ -4399,7 +4454,7 @@ msgid ""
 "@SEEALSO=NOMRDIST"
 msgstr ""
 
-#: src/fn-stat.c:437
+#: src/fn-stat.c:450
 msgid ""
 "@FUNCTION=NORMSINV\n"
 "@SYNTAX=NORMSINV(p)\n"
@@ -4410,7 +4465,7 @@ msgid ""
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 msgstr ""
 
-#: src/fn-stat.c:464
+#: src/fn-stat.c:477
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=LOGNORMDIST(x,mean,stdev)\n"
@@ -4423,7 +4478,7 @@ msgid ""
 "@SEEALSO=NORMDIST"
 msgstr ""
 
-#: src/fn-stat.c:499
+#: src/fn-stat.c:514
 msgid ""
 "@FUNCTION=LOGINV\n"
 "@SYNTAX=LOGINV(p,mean,stdev)\n"
@@ -4435,7 +4490,7 @@ msgid ""
 "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST"
 msgstr ""
 
-#: src/fn-stat.c:530
+#: src/fn-stat.c:545
 msgid ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
@@ -4445,7 +4500,7 @@ msgid ""
 "@SEEALSO=FISHER"
 msgstr ""
 
-#: src/fn-stat.c:552
+#: src/fn-stat.c:567
 msgid ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
@@ -4456,7 +4511,7 @@ msgid ""
 "@SEEALSO=AVERAGE,MEDIAN"
 msgstr ""
 
-#: src/fn-stat.c:637
+#: src/fn-stat.c:653
 msgid ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
@@ -4465,7 +4520,7 @@ msgid ""
 "@SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE"
 msgstr ""
 
-#: src/fn-stat.c:659
+#: src/fn-stat.c:677
 msgid ""
 "@FUNCTION=GEOMEAN\n"
 "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
@@ -4475,7 +4530,7 @@ msgid ""
 "@SEEALSO=HARMEAN,MEDIAN,MEAN,MODE"
 msgstr ""
 
-#: src/fn-stat.c:683
+#: src/fn-stat.c:702
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -4485,7 +4540,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/fn-stat.c:719
+#: src/fn-stat.c:738
 msgid ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=COUNTA(b1, b2, ...)\n"
@@ -4494,7 +4549,7 @@ msgid ""
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 msgstr ""
 
-#: src/fn-stat.c:751
+#: src/fn-stat.c:770
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -4504,7 +4559,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/fn-stat.c:773
+#: src/fn-stat.c:793
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -4515,7 +4570,7 @@ msgid ""
 "@SEEALSO=MAX,ABS"
 msgstr ""
 
-#: src/fn-stat.c:798
+#: src/fn-stat.c:819
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -4526,7 +4581,7 @@ msgid ""
 "@SEEALSO=MIN,ABS"
 msgstr ""
 
-#: src/fn-stat.c:823
+#: src/fn-stat.c:845
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -4540,7 +4595,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 msgstr ""
 
-#: src/fn-stat.c:851
+#: src/fn-stat.c:874
 msgid ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(n1, n2, ...)\n"
@@ -4550,7 +4605,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 msgstr ""
 
-#: src/fn-stat.c:875
+#: src/fn-stat.c:899
 msgid ""
 "@FUNCTION=EXPONDIST\n"
 "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
@@ -4562,7 +4617,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/fn-stat.c:914
+#: src/fn-stat.c:938
 msgid ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
@@ -4573,7 +4628,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/fn-stat.c:945
+#: src/fn-stat.c:969
 msgid ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
@@ -4585,7 +4640,7 @@ msgid ""
 "@SEEALSO=GAMMAINV"
 msgstr ""
 
-#: src/fn-stat.c:980
+#: src/fn-stat.c:1004
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -4596,7 +4651,7 @@ msgid ""
 "@SEEALSO=GAMMADIST"
 msgstr ""
 
-#: src/fn-stat.c:1010
+#: src/fn-stat.c:1034
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -4607,7 +4662,7 @@ msgid ""
 "@SEEALSO=CHIINV,CHITEST"
 msgstr ""
 
-#: src/fn-stat.c:1040
+#: src/fn-stat.c:1064
 msgid ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
@@ -4617,7 +4672,7 @@ msgid ""
 "@SEEALSO=CHIDIST,CHITEST"
 msgstr ""
 
-#: src/fn-stat.c:1068
+#: src/fn-stat.c:1092
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
@@ -4629,7 +4684,7 @@ msgid ""
 "@SEEALSO=CHIDIST,CHIINV"
 msgstr ""
 
-#: src/fn-stat.c:1207
+#: src/fn-stat.c:1231
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -4642,7 +4697,7 @@ msgid ""
 "@SEEALSO=BETAINV"
 msgstr ""
 
-#: src/fn-stat.c:1247
+#: src/fn-stat.c:1271
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -4655,7 +4710,7 @@ msgid ""
 "@SEEALSO=BETADIST"
 msgstr ""
 
-#: src/fn-stat.c:1287
+#: src/fn-stat.c:1311
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -4667,7 +4722,7 @@ msgid ""
 "@SEEALSO=TINV,TTEST"
 msgstr ""
 
-#: src/fn-stat.c:1321
+#: src/fn-stat.c:1345
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -4677,7 +4732,7 @@ msgid ""
 "@SEEALSO=TDIST,TTEST"
 msgstr ""
 
-#: src/fn-stat.c:1349
+#: src/fn-stat.c:1373
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -4689,7 +4744,7 @@ msgid ""
 "@SEEALSO=FINV"
 msgstr ""
 
-#: src/fn-stat.c:1380
+#: src/fn-stat.c:1404
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -4700,7 +4755,7 @@ msgid ""
 "@SEEALSO=FDIST"
 msgstr ""
 
-#: src/fn-stat.c:1410
+#: src/fn-stat.c:1434
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -4715,7 +4770,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/fn-stat.c:1451
+#: src/fn-stat.c:1476
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -4729,7 +4784,7 @@ msgid ""
 "@SEEALSO=BINOMDIST"
 msgstr ""
 
-#: src/fn-stat.c:1485
+#: src/fn-stat.c:1510
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -4740,7 +4795,7 @@ msgid ""
 "@SEEALSO=COMBIN"
 msgstr ""
 
-#: src/fn-stat.c:1514
+#: src/fn-stat.c:1539
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
@@ -4754,7 +4809,7 @@ msgid ""
 "@SEEALSO=BINOMDIST,POISSON"
 msgstr ""
 
-#: src/fn-stat.c:1547
+#: src/fn-stat.c:1573
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -4766,11 +4821,11 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/fn-stat.c:1573 src/value.c:875
+#: src/fn-stat.c:1599 src/value.c:875
 msgid "#DIV/0!"
 msgstr ""
 
-#: src/fn-stat.c:1582
+#: src/fn-stat.c:1608
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
@@ -4781,7 +4836,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/fn-stat.c:1613
+#: src/fn-stat.c:1639
 msgid ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -4794,7 +4849,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/fn-stat.c:1653
+#: src/fn-stat.c:1679
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
@@ -4805,7 +4860,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/fn-stat.c:1692
+#: src/fn-stat.c:1718
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stdev)\n"
@@ -4817,7 +4872,7 @@ msgid ""
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 msgstr ""
 
-#: src/fn-stat.c:1724
+#: src/fn-stat.c:1750
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -4832,7 +4887,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 msgstr ""
 
-#: src/fn-stat.c:1753
+#: src/fn-stat.c:1781
 msgid ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -4843,7 +4898,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 msgstr ""
 
-#: src/fn-stat.c:1778
+#: src/fn-stat.c:1807
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -4853,7 +4908,7 @@ msgid ""
 "@SEEALSO=STDEV"
 msgstr ""
 
-#: src/fn-stat.c:1801
+#: src/fn-stat.c:1832
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -4863,7 +4918,7 @@ msgid ""
 "@SEEALSO=STDEV"
 msgstr ""
 
-#: src/fn-stat.c:1824
+#: src/fn-stat.c:1856
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -4873,7 +4928,7 @@ msgid ""
 "@SEEALSO=SKEW"
 msgstr ""
 
-#: src/fn-stat.c:1853
+#: src/fn-stat.c:1885
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -4885,7 +4940,7 @@ msgid ""
 "@SEEALSO=NORMDIST, WEIBULL"
 msgstr ""
 
-#: src/fn-stat.c:1890
+#: src/fn-stat.c:1922
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
@@ -4895,7 +4950,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 msgstr ""
 
-#: src/fn-stat.c:1910
+#: src/fn-stat.c:1942
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
@@ -4905,7 +4960,7 @@ msgid ""
 "@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 msgstr ""
 
-#: src/fn-stat.c:1935
+#: src/fn-stat.c:1968
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -4915,7 +4970,7 @@ msgid ""
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 msgstr ""
 
-#: src/fn-stat.c:1975
+#: src/fn-stat.c:2010
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -4925,7 +4980,7 @@ msgid ""
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 msgstr ""
 
-#: src/fn-stat.c:2017
+#: src/fn-stat.c:2053
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -4935,7 +4990,7 @@ msgid ""
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 msgstr ""
 
-#: src/fn-stat.c:2083
+#: src/fn-stat.c:2120
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])\n"
@@ -4949,7 +5004,7 @@ msgid ""
 "@SEEALSO=BINOMDIST,CRITBINOM"
 msgstr ""
 
-#: src/fn-stat.c:2209
+#: src/fn-stat.c:2246
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -4960,7 +5015,7 @@ msgid ""
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 msgstr ""
 
-#: src/fn-stat.c:2351
+#: src/fn-stat.c:2392
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
@@ -4970,7 +5025,7 @@ msgid ""
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 msgstr ""
 
-#: src/fn-stat.c:2423
+#: src/fn-stat.c:2465
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -4982,7 +5037,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/fn-stat.c:2448
+#: src/fn-stat.c:2491
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -4994,7 +5049,7 @@ msgid ""
 "@SEEALSO=MAX,MINA"
 msgstr ""
 
-#: src/fn-stat.c:2473
+#: src/fn-stat.c:2517
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -5006,7 +5061,7 @@ msgid ""
 "@SEEALSO=MIN,MAXA"
 msgstr ""
 
-#: src/fn-stat.c:2498
+#: src/fn-stat.c:2543
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -5018,7 +5073,7 @@ msgid ""
 "@SEEALSO=VAR,VARPA"
 msgstr ""
 
-#: src/fn-stat.c:2523
+#: src/fn-stat.c:2569
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -5030,7 +5085,7 @@ msgid ""
 "@SEEALSO=VARP,VARP"
 msgstr ""
 
-#: src/fn-stat.c:2548
+#: src/fn-stat.c:2595
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -5042,7 +5097,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: src/fn-stat.c:2573
+#: src/fn-stat.c:2621
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -5054,7 +5109,7 @@ msgid ""
 "@SEEALSO=STDEVA,STDEVP"
 msgstr ""
 
-#: src/fn-stat.c:2598
+#: src/fn-stat.c:2647
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -5070,7 +5125,26 @@ msgid ""
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 msgstr ""
 
-#: src/fn-stat.c:2706
+#: src/fn-stat.c:2755
+msgid ""
+"@FUNCTION=QUARTILE\n"
+"@SYNTAX=QUARTILE(array,quart)\n"
+"@DESCRIPTION=QUARTILE function returns the quartile of the given data "
+"points.  \n"
+"If quart is equal to:  QUARTILE returns:\n"
+"0                      the smallest value of @array.\n"
+"1                      the first quartile\n"
+"2                      the second quartile\n"
+"3                      the third quartile\n"
+"4                      the largest value of @array.\n"
+"\n"
+"If @array is empty, QUARTILE returns #NUM! error. If @quart < 0 or @quart > "
+"4, QUARTILE returns #NUM! error. If @quart is not an integer, it is "
+"truncated. \n"
+"@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
+msgstr ""
+
+#: src/fn-stat.c:2810
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -5079,7 +5153,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
-#: src/fn-stat.c:2789
+#: src/fn-stat.c:2897
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -5099,7 +5173,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
-#: src/fn-stat.c:3021
+#: src/fn-stat.c:3141
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -5112,7 +5186,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-stat.c:3131
+#: src/fn-stat.c:3251
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's])\n"
@@ -5127,7 +5201,7 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: src/fn-stat.c:3200
+#: src/fn-stat.c:3320
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -5137,11 +5211,11 @@ msgid ""
 "x-values.  @new_x's contains the x-values for which you want to estimate the "
 "y-values. \n"
 "If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @known_y's and "
-"@known_x's have unequal number of data points, TREND returns #NUM! error. "
+"@known_x's have unequal number of data points, TREND returns #NUM! error. \n"
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: src/fn-stat.c:3278
+#: src/fn-stat.c:3399
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -5154,7 +5228,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: src/fn-stat.c:3337
+#: src/fn-stat.c:3460
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -5166,7 +5240,7 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: src/fn-stat.c:3375
+#: src/fn-stat.c:3499
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -5178,7 +5252,7 @@ msgstr ""
 "@DESCRIPTION=Devuelve la inclinación de la línea de regresión linear.\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: src/fn-stat.c:3409
+#: src/fn-stat.c:3534
 msgid "Statistics"
 msgstr "Estadísticas"
 
@@ -5853,80 +5927,80 @@ msgstr ""
 msgid "Calling non-function"
 msgstr ""
 
-#: src/gnumeric-sheet.c:981
+#: src/gnumeric-sheet.c:983
 msgid "Solid"
 msgstr "Sólido"
 
-#: src/gnumeric-sheet.c:984
+#: src/gnumeric-sheet.c:986
 #, c-format
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:987
+#: src/gnumeric-sheet.c:989
 #, c-format
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:990
+#: src/gnumeric-sheet.c:992
 #, c-format
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:993
+#: src/gnumeric-sheet.c:995
 #, c-format
 msgid "12.5%"
 msgstr "12.5%"
 
-#: src/gnumeric-sheet.c:996
+#: src/gnumeric-sheet.c:998
 #, c-format
 msgid "6.25%"
 msgstr "6.25%"
 
-#: src/gnumeric-sheet.c:999
+#: src/gnumeric-sheet.c:1001
 msgid "Horizontal Stripe"
 msgstr "Línea horizontal"
 
-#: src/gnumeric-sheet.c:1002
+#: src/gnumeric-sheet.c:1004
 msgid "Vertical Stripe"
 msgstr "Línea vertical"
 
-#: src/gnumeric-sheet.c:1005
+#: src/gnumeric-sheet.c:1007
 msgid "Reverse Diagonal Stripe"
 msgstr "Línea diagonal inversa"
 
-#: src/gnumeric-sheet.c:1008
+#: src/gnumeric-sheet.c:1010
 msgid "Diagonal Stripe"
 msgstr "Linea diagonal"
 
-#: src/gnumeric-sheet.c:1011
+#: src/gnumeric-sheet.c:1013
 msgid "Diagonal Crosshatch"
 msgstr "Linea sombreada diagonal"
 
-#: src/gnumeric-sheet.c:1014
+#: src/gnumeric-sheet.c:1016
 msgid "Thick Diagonal Crosshatch"
 msgstr "Linea sombreada diagonal gruesa"
 
-#: src/gnumeric-sheet.c:1017
+#: src/gnumeric-sheet.c:1019
 msgid "Thin Horizontal Stripe"
 msgstr "Línea horizontal fina"
 
-#: src/gnumeric-sheet.c:1020
+#: src/gnumeric-sheet.c:1022
 msgid "Thin Vertical Stripe"
 msgstr "Línea vertical fina"
 
-#: src/gnumeric-sheet.c:1023
+#: src/gnumeric-sheet.c:1025
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Línea diagonal inversa fina"
 
-#: src/gnumeric-sheet.c:1026
+#: src/gnumeric-sheet.c:1028
 msgid "Thin Diagonal Stripe"
 msgstr "Linea diagonal fina"
 
-#: src/gnumeric-sheet.c:1029
+#: src/gnumeric-sheet.c:1031
 msgid "Thin Crosshatch"
 msgstr "Línea sombreada fina"
 
-#: src/gnumeric-sheet.c:1032
+#: src/gnumeric-sheet.c:1034
 msgid "Thin Diagonal Crosshatch"
 msgstr "Línea diagonal sombreada fina"
 
@@ -6222,12 +6296,12 @@ msgstr "cortar"
 msgid "paste"
 msgstr "pegar"
 
-#: src/sheet.c:4232
+#: src/sheet.c:4233
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "No se pudo activar el objeto %s"
 
-#: src/sheet.c:4244
+#: src/sheet.c:4245
 msgid "I was unable to the bind object"
 msgstr "No se pudo ligar el objeto"
 
@@ -6713,7 +6787,7 @@ msgstr "Borrar esta hoja"
 msgid "Sheet%d"
 msgstr "Hoja%d"
 
-#: src/workbook.c:2635
+#: src/workbook.c:2636
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 

@@ -293,6 +293,19 @@ grid_view_destroy (GridView *grid_view)
 	eg->views = g_list_remove (eg->views, grid_view);
 }
 
+/*
+ * Invoked by the "view_activate" method.
+ */
+static void
+grid_view_activate (GridView *grid_view)
+{
+	/* FIXME: Do we need to do any more work here? */
+	gtk_signal_emit_by_name(GTK_OBJECT(grid_view->view.plug), "set_focus",
+				grid_view->sheet_view->sheet_view);
+			
+	gnome_view_activate_notify(GNOME_VIEW(grid_view), TRUE);
+}
+
 GnomeView *
 grid_view_new (EmbeddableGrid *eg)
 {
@@ -317,6 +330,8 @@ grid_view_new (EmbeddableGrid *eg)
 
 	gtk_signal_connect (GTK_OBJECT (grid_view), "destroy",
 			    GTK_SIGNAL_FUNC (grid_view_destroy), NULL);
+	gtk_signal_connect (GTK_OBJECT (grid_view), "view_activate",
+			    GTK_SIGNAL_FUNC (grid_view_activate), NULL);
 	
 	return GNOME_VIEW (grid_view);
 }
