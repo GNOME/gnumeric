@@ -939,15 +939,13 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 	res = solver (WORKBOOK_CONTROL (state->wbcg), state->sheet, &errmsg);
 	workbook_recalc (state->sheet->workbook);
 
-	if (res == NULL)
-		gnumeric_notice_nonmodal
-			((GtkWindow *) state->dialog,
-			 &(state->warning_dialog),
-			 GTK_MESSAGE_WARNING, errmsg);
-	else {
+	if (res != NULL) {
 		solver_reporting (state, res, errmsg);
 		solver_results_free (res);
-	}
+	} else
+		gnumeric_notice_nonmodal (GTK_WINDOW (state->dialog),
+			 &(state->warning_dialog),
+			 GTK_MESSAGE_WARNING, errmsg);
 out:
 	if (target_range != NULL)
 		value_release (target_range);
