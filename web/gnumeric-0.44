@@ -1,0 +1,29 @@
+Hello guys,
+
+  So just when your machine had finished compiling Gnumeric you
+noticed this post.  I am sorry.
+
+  Gnumeric 0.44 is out there.  
+
+  This version fixes a few problems in the code:
+
+	1. We do range checking while doing cut/paste of parsed
+	   functions (this had just an annoying effect when pasting cells).
+
+	   This bug has been forever.
+
+	2. The 0.42 and 0.43 versions of gnumeric had a problem in
+	   which the last style applied was not saved, just the last
+	   one and this could cause confusion.
+
+	   This has now been fixed
+
+* Availability
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+If someone can provide RPM, and DEB versions of this, many users would
+appreciate it.
+
+Best wishes,
+Miguel.

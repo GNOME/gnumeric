@@ -1,0 +1,78 @@
+Hello,
+
+   Gnumeric 0.45 has been released.  
+
+* Availability
+
+	ftp://ftp.gnome.org/pub/GNOME/stable/sources/gnumeric
+
+* New features
+
+	* Sort dialog box now includes case sensitivity and value of
+	  text comparissions options (JP Rosevar)
+
+	* Bonobo support has been updated to work with the latest from
+	  CVS (a new Bonobo release in tarball format will be made
+	  soon) (Nat)
+
+	* Graying of paste options when nothing sensible can be pasted
+	  (Jody).
+
+	* Clipboard GUI fixes and improvements (Jody)
+
+	* SC and xspread import filters (Jeff)
+
+	* Plan Perfect import filter (Kevin Handy).
+
+	* DIF export/import filter (Kevin Handy)
+
+	* Support the hackish auto-named ranges on Excel import (Jody)
+
+	* Supports range intersection (Jody).
+
+* Improvements
+
+	* Hash tables for styles (Jon Hellan)
+
+	* Reduced MStyle memory usage (Michael)
+
+	* Constifcation of source code (Michael).
+
+	* Guile plugin works again (Jody)
+
+	* Auto fill handle is displayed correctly when we select entire
+	  columns/rows (Jody)
+
+* Bug fixes
+
+	* Various smaller internal bug fixes.
+
+	* 2110 (Michael).
+
+	* Sort bug fixes for extreme conditions (JP)
+
+	* Import/export mismatch on sizes problem (Jody)
+
+	* Printing fit bug (miguel)
+
+	* Styles are written in proper order (fixes: "last style
+	  change is not applied bug") (miguel)
+
+	* Handle properly scientific formatting (bug about the number
+	  sign) (jody)
+
+	* Various edge condition fixes (Jody, me)
+
+	* Multi-line cells were hardcoded to black, fixed now (Jody)
+
+	* Color Combobox support "None" setting.
+
+	* All books now have filenames, and we test for first saving,
+	  fixes bug introduced recently (Jody)
+
+	* Bug in format engine (mm, m as minutes if followed by
+	  seconds) (Jody)
+
+	* Summaries are currently not exported to Excel code, as they
+	  were generating incorrect Excel files (Michael)
+
