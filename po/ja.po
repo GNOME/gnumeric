@@ -6,11 +6,12 @@
 # Yukihiro Nakai <nakai@gnome.gr.jp>, 2000-2001.
 # Takeshi Aihana <aihana@gnome.gr.jp>, 2000-2002.
 # 
+#, no-wrap
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.0.3\n"
-"POT-Creation-Date: 2002-01-30 22:58-0500\n"
-"PO-Revision-Date: 2002-01-22 00:50+0900\n"
+"Project-Id-Version: gnumeric 1.0.4\n"
+"POT-Creation-Date: 2002-02-03 01:05+0900\n"
+"PO-Revision-Date: 2002-02-03 01:04+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -629,7 +630,7 @@ msgstr "制約条件:"
 #: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:10
 #: src/format-template.c:510 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
-#: src/workbook-control.c:233
+#: src/workbook-control.c:234
 msgid "Name"
 msgstr "名前"
 
@@ -709,7 +710,6 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:233
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -1390,7 +1390,6 @@ msgstr ""
 "意味します: t-検定"
 
 #: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3014
-#, fuzzy
 msgid ""
 "Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
@@ -20269,7 +20268,7 @@ msgstr "OK"
 msgid "Define Name"
 msgstr "定義名"
 
-#: src/workbook-control.c:240
+#: src/workbook-control.c:241
 msgid "Address"
 msgstr "アドレス"
 
