@@ -33,6 +33,8 @@ Jody
 
 Jon Kåre:
         * Merged File/Open and File/Import
+	* Remove code which supported the File/Open File/Import
+	  distinction.
 
 Morten:
 	* Spelling fixes all over.
