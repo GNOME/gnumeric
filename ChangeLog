@@ -1,5 +1,9 @@
 2001-12-19  Jody Goldberg <jody@gnome.org>
 
+	* src/commands.c (cmd_paste_cut_redo) : be more specific about what
+	  content needs to be stored.  We only need to store things
+	  outside the origin.
+
 	* src/gnumeric-simple-canvas.c : new simple base to help keep
 	  multiple canvases register grab states with the scg.
 

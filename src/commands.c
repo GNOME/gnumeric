@@ -2315,42 +2315,42 @@ static gboolean
 cmd_paste_cut_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdPasteCut *me = CMD_PASTE_CUT (cmd);
-	Range  tmp, valid_range;
-	GSList *frag;
+	Range  tmp;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->paste_content == NULL, TRUE);
 	g_return_val_if_fail (me->reloc_storage == NULL, TRUE);
 
 	tmp = me->info.origin;
+	range_translate (&tmp, me->info.col_offset, me->info.row_offset);
 	range_normalize (&tmp);
-	tmp.start.col += me->info.col_offset;
-	tmp.end.col   += me->info.col_offset;
-	tmp.start.row += me->info.row_offset;
-	tmp.end.row   += me->info.row_offset;
-	(void) range_init (&valid_range, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 
-	/* need to store any portions of src content that are moving off the
-	 * sheet.
-	 */
-	frag = range_split_ranges (&valid_range, &tmp);
-	while (frag) {
+	g_return_val_if_fail (range_is_sane (&tmp), TRUE);
+
+	if (me->info.origin_sheet != me->info.target_sheet ||
+	    !range_overlap (&me->info.origin, &tmp)) {
 		PasteContent *pc = g_new (PasteContent, 1);
-		Range *r = frag->data;
-		frag = g_slist_remove (frag, r);
-
-		if (!range_overlap (&valid_range, r))
-			(void) range_translate (r, -me->info.col_offset,
-						-me->info.row_offset);
-
-		/* Store the original contents */
-		paste_target_init (&pc->pt, me->info.target_sheet, r, PASTE_ALL_TYPES);
-		pc->contents = clipboard_copy_range (me->info.target_sheet,  r);
+		paste_target_init (&pc->pt, me->info.target_sheet, &tmp, PASTE_ALL_TYPES);
+		pc->contents = clipboard_copy_range (me->info.target_sheet, &tmp);
 		me->paste_content = g_slist_prepend (me->paste_content, pc);
-		g_free (r);
-	}
+	} else {
+		/* need to store any portions of the paste target
+		 * that do not overlap with the source.
+		 */
+		GSList *ptr, *frag = range_split_ranges (&me->info.origin, &tmp);
+		for (ptr = frag ; ptr != NULL ; ptr = ptr->next) {
+			Range *r = ptr->data;
 
-	range_ensure_sanity (&tmp);
+			if (!range_overlap (&me->info.origin, r)) {
+				PasteContent *pc = g_new (PasteContent, 1);
+				paste_target_init (&pc->pt, me->info.target_sheet, r, PASTE_ALL_TYPES);
+				pc->contents = clipboard_copy_range (me->info.target_sheet,  r);
+				me->paste_content = g_slist_prepend (me->paste_content, pc);
+			}
+			g_free (r);
+		}
+		g_slist_free (frag);
+	}
 
 	sheet_move_range (wbc, &me->info, &me->reloc_storage);
 
