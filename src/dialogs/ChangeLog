@@ -1,3 +1,20 @@
+2001-10-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* Makefile.am : new files correlation.glade, covariance.glade and
+	  rank.glade
+	* dialog-analysis-tools.c : rewrite dialog_correlation_tool,
+	  dialog_covariance_tool and dialog_ranking_tool to expr-entry widget,
+	  affecting a whole bunch of functions, 
+	  (tool_destroy) : new, replaces desc_stat_tool_destroy
+	  (cb_tool_cancel_clicked) : new, replaces cb_desc_stat_tool_cancel_clicked
+	  (tool_set_focus) : new, replaces desc_stat_tool_set_focus
+	  (tool_set_focus_output_range) : new, replaces desc_stat_tool_set_focus_output_range
+	  (dialog_tool_init) : new, replaces dialog_desc_stat_tool_init
+	  (tool_update_sensitivity) : new
+	  (corr_tool_ok_clicked_cb) : new
+	  (cov_tool_ok_clicked_cb) : new
+	  (rank_tool_ok_clicked_cb) : new
+
 2001-10-01  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-graph-guru.c (cb_graph_guru_focus) : removing an already

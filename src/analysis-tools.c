@@ -185,8 +185,7 @@ static int
 get_data (Sheet *sheet, Range *range, data_set_t *data)
 {
         gpointer p;
-	Cell     *cell;
-	Value    *v;
+	Value const   *v;
 	gnum_float  x;
 	int      row, col, status = 0;
 
@@ -198,9 +197,8 @@ get_data (Sheet *sheet, Range *range, data_set_t *data)
 
 	for (col = range->start.col; col <= range->end.col; col++)
 	        for (row = range->start.row; row <= range->end.row; row++) {
-		        cell = sheet_cell_get (sheet, col, row);
-			if (cell != NULL && cell->value != NULL) {
-			        v = cell->value;
+		        v = sheet_cell_get_value (sheet, col, row);
+			if (v != NULL) {
 				if (VALUE_IS_NUMBER (v))
 				        x = value_get_as_float (v);
 				else {
@@ -757,7 +755,7 @@ covariance_tool (WorkbookControl *wbc, Sheet *sheet,
 		return 1;
 	}
 
-	prepare_output (wbc, dao, _("Correlations"));
+	prepare_output (wbc, dao, _("Covariances"));
 
 	set_labels_in_row (labels, 0, 1, dao);
 	set_labels_in_col (labels, 0, 1, dao);

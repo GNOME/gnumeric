@@ -30,8 +30,6 @@
 #include "value.h"
 #include "widgets/gnumeric-expr-entry.h"
 
-#define DESCRIPTIVE_STATS_KEY "descriptive-stats-dialog"
-
 static int dialog_correlation_tool         (WorkbookControlGUI *wbcg, Sheet *sheet);
 static int dialog_covariance_tool          (WorkbookControlGUI *wbcg, Sheet *sheet);
 static int dialog_descriptive_stat_tool    (WorkbookControlGUI *wbcg, Sheet *sheet);
@@ -531,226 +529,809 @@ add_output_frame (GtkWidget *box, GSList **output_ops)
 }
 
 
-/*************************************************************************
- *
- * Dialogs for the tools.
- */
+/**********************************************/
+/*  Generic guru items */
+/**********************************************/
 
+static const char *output_group[] = {
+	"newsheet-button",
+	"newworkbook-button",
+	"outputrange-button",
+	0
+};
+
+static const char *grouped_by_group[] = {
+	"grouped_by_row",
+	"grouped_by_col",
+	0
+};
+
+
+typedef enum {
+	TOOL_CORRELATION = 1,       /* use GenericToolState */
+	TOOL_COVARIANCE = 2,        /* use GenericToolState */
+	TOOL_RANK_PERCENTILE = 3,   /* use GenericToolState */
+	TOOL_GENERIC = 10,          /* all smaller types are generic */
+	TOOL_DESC_STATS = 11
+} ToolType;
+
+
+#define CORRELATION_KEY       "analysistools-correlation-dialog"
+#define COVARIANCE_KEY       "analysistools-covariance-dialog"
+#define DESCRIPTIVE_STATS_KEY "analysistools-descriptive-stats-dialog"
+#define RANK_PERCENTILE_KEY "analysistools-rank-percentile-dialog"
+
+
+
+typedef struct {
+	ToolType  const type;
+	GladeXML  *gui;
+	GtkWidget *dialog;
+	GnumericExprEntry *input_entry;
+	GnumericExprEntry *output_entry;
+	GtkWidget *ok_button;
+	GtkWidget *cancel_button;
+	GtkWidget *new_sheet;
+	GtkWidget *new_workbook;
+	GtkWidget *output_range;
+	Sheet	  *sheet;
+	Workbook  *wb;
+	WorkbookControlGUI  *wbcg;
+} GenericToolState;
+
+typedef struct {
+	ToolType  const type;
+	GladeXML  *gui;
+	GtkWidget *dialog;
+	GnumericExprEntry *input_entry;
+	GnumericExprEntry *output_entry;
+	GtkWidget *ok_button;
+	GtkWidget *cancel_button;
+	GtkWidget *new_sheet;
+	GtkWidget *new_workbook;
+	GtkWidget *output_range;
+	Sheet	  *sheet;
+	Workbook  *wb;
+	WorkbookControlGUI  *wbcg;
+
+	GtkWidget *summary_stats_button;
+	GtkWidget *mean_stats_button;
+	GtkWidget *kth_largest_button;
+	GtkWidget *kth_smallest_button;
+} DescriptiveStatState;
+
+typedef union {
+	ToolType  const type;
+	GenericToolState tt_generic;
+	DescriptiveStatState tt_desc_stat;
+} ToolState;
+
+/**********************************************/
+/*  Generic functions for the analysis tools. */
+/*  Functions in this section are being used  */
+/*  by virtually all tools.                   */
+/**********************************************/
+
+/**
+ * tool_destroy:
+ * @window:
+ * @focus_widget:
+ * @state:
+ *
+ * Destroy the dialog and associated data structures.
+ *
+ **/
+static gboolean
+tool_destroy (GtkObject *w, GenericToolState  *state)
+{
+	g_return_val_if_fail (w != NULL, FALSE);
+	g_return_val_if_fail (state != NULL, FALSE);
+
+	wbcg_edit_detach_guru (state->wbcg);
+
+	if (state->gui != NULL) {
+		gtk_object_unref (GTK_OBJECT (state->gui));
+		state->gui = NULL;
+	}
+
+	wbcg_edit_finish (state->wbcg, FALSE);
+
+	state->dialog = NULL;
+
+	g_free (state);
+
+	return FALSE;
+}
+
+/**
+ * cb_tool_cancel_clicked:
+ * @button:
+ * @state:
+ *
+ * Close (destroy) the dialog
+ **/
+static void
+cb_tool_cancel_clicked(GtkWidget *button, GenericToolState *state)
+{
+	gtk_widget_destroy (state->dialog);
+	return;
+}
+
+/**
+ * tool_set_focus:
+ * @window:
+ * @focus_widget:
+ * @state:
+ *
+ **/
+static void
+tool_set_focus (GtkWidget *window, GtkWidget *focus_widget,
+			GenericToolState *state)
+{
+	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
+		wbcg_set_entry (state->wbcg,
+				    GNUMERIC_EXPR_ENTRY (focus_widget));
+		gnumeric_expr_entry_set_absolute (GNUMERIC_EXPR_ENTRY (focus_widget));
+	} else
+		wbcg_set_entry (state->wbcg, NULL);
+}
+
+/**
+ * tool_set_focus_output_range:
+ * @widget:
+ * @focus_widget:
+ * @state:
+ *
+ * Output range entry was focused. Switch to output range.
+ * 
+ **/
+static void
+tool_set_focus_output_range (GtkWidget *widget, GdkEventFocus *event,
+			GenericToolState *state)
+{
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(state->output_range),TRUE);
+}
+
+/**
+ * dialog_tool_init:
+ * @state:
+ * @gui_name:
+ * @dialog_name:
+ * @ok_function:
+ * @sensitivity_cb:
+ *
+ * Create the dialog (guru).
+ *
+ **/
+static gboolean
+dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name, 
+                       GtkSignalFunc ok_function, GtkSignalFunc sensitivity_cb)
+{
+	GtkTable *table;
+
+	state->gui = gnumeric_glade_xml_new (state->wbcg, gui_name);
+        if (state->gui == NULL)
+                return TRUE;
+
+	state->dialog = glade_xml_get_widget (state->gui, dialog_name);
+        if (state->dialog == NULL)
+                return TRUE;
+
+	state->ok_button     = glade_xml_get_widget(state->gui, "okbutton");
+	gtk_signal_connect (GTK_OBJECT (state->ok_button), "clicked",
+			    ok_function,
+			    state);
+
+	state->cancel_button  = glade_xml_get_widget(state->gui, "cancelbutton");
+	gtk_signal_connect (GTK_OBJECT (state->cancel_button), "clicked",
+			    GTK_SIGNAL_FUNC (cb_tool_cancel_clicked),
+			    state);
+
+	state->new_sheet  = glade_xml_get_widget(state->gui, "newsheet-button");
+	state->new_workbook  = glade_xml_get_widget(state->gui, "newworkbook-button");
+	state->output_range  = glade_xml_get_widget(state->gui, "outputrange-button");
+
+	table = GTK_TABLE (glade_xml_get_widget (state->gui, "input-table"));
+	state->input_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
+	gnumeric_expr_entry_set_flags(state->input_entry,
+                                      GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL, 
+                                      GNUM_EE_MASK);
+        gnumeric_expr_entry_set_scg(state->input_entry, wb_control_gui_cur_sheet (state->wbcg));
+	gtk_table_attach (table, GTK_WIDGET (state->input_entry),
+			  1, 2, 0, 1,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+	gtk_widget_show (GTK_WIDGET (state->input_entry));
+
+	table = GTK_TABLE (glade_xml_get_widget (state->gui, "output-table"));
+	state->output_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
+	gnumeric_expr_entry_set_flags(state->output_entry,
+                                      GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL, 
+                                      GNUM_EE_MASK);
+        gnumeric_expr_entry_set_scg(state->output_entry, wb_control_gui_cur_sheet (state->wbcg));
+	gtk_table_attach (table, GTK_WIDGET (state->output_entry),
+			  1, 2, 2, 3,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+	gtk_widget_show (GTK_WIDGET (state->output_entry));
+
+
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
+			    GTK_SIGNAL_FUNC (tool_set_focus), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
+			    GTK_SIGNAL_FUNC (tool_destroy), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->input_entry), "changed",
+			    GTK_SIGNAL_FUNC (sensitivity_cb), state);
+	gtk_signal_connect (GTK_OBJECT (state->output_entry), "focus-in-event",
+			    GTK_SIGNAL_FUNC (tool_set_focus_output_range), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->output_entry), "changed",
+			    GTK_SIGNAL_FUNC (sensitivity_cb), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->output_range), "toggled",
+			    GTK_SIGNAL_FUNC (sensitivity_cb), state);
+ 
+ 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_EDITABLE (state->input_entry));
+ 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_EDITABLE (state->output_entry));
+
+	return FALSE;
+}
+
+/**********************************************/
+/*  Generic functions for the analysis tools  */
+/*  Functions in this section are being used  */
+/*  some tools                                */
+/**********************************************/
+
+/**
+ * tool_update_sensitivity:
+ * @dummy:
+ * @state:
+ *
+ * Update the dialog widgets sensitivity if the only items of interest
+ * are the standard input (one range) and output items.
+ **/
+static void
+tool_update_sensitivity_cb (GtkWidget *dummy, GenericToolState *state)
+{
+	gboolean ready  = FALSE;
+	char const *output_text;
+	char const *input_text;
+	int i;
+        Value *output_range;
+        Value *input_range;
+
+	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
+	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+        output_range = range_parse(state->sheet,output_text,TRUE);
+        input_range = range_parse(state->sheet,input_text,TRUE);
+	i = gnumeric_glade_group_value (state->gui, output_group);
+
+	ready = ((input_range != NULL) && 
+                 ((i != 2) || (output_range != NULL)));
+
+        if (input_range != NULL) value_release(input_range);
+        if (output_range != NULL) value_release(output_range);
+
+	gtk_widget_set_sensitive (state->ok_button, ready);
+}
+
+
+/**********************************************/
+/*  Begin of correlation tool code */
+/**********************************************/
+
+
+/**
+ * corr_tool_ok_clicked_cb:
+ * @button:
+ * @state:
+ *
+ * Retrieve the information from the dialog and call the correlation_tool.
+ * Note that we assume that the ok_button is only active if the entry fields 
+ * contain sensible data.
+ **/
+static void
+corr_tool_ok_clicked_cb(GtkWidget *button, GenericToolState *state)
+{
+	data_analysis_output_t  dao;
+	static Range range;
+        char   *text;
+	GtkWidget *w;
+
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+	parse_range (text, &range.start.col,
+			             &range.start.row,
+			             &range.end.col,
+				     &range.end.row);
+
+        parse_output (state->wbcg, state->sheet, 
+                      gnumeric_glade_group_value (state->gui, output_group),
+	              GTK_WIDGET(state->output_entry), 
+                      &dao);
+
+
+	w = glade_xml_get_widget (state->gui, "labels_button");
+        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	switch (correlation_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+				  &range, 
+				  gnumeric_glade_group_value (state->gui, grouped_by_group), 
+				  &dao)) {
+	case 0: gtk_widget_destroy (state->dialog);
+		break;
+	case 1: error_in_entry (state->wbcg, GTK_WIDGET(state->input_entry),
+				_("Please do not include any non-numeric (or empty)"
+				  " data."));
+	break;
+	default: break;
+	}
+	return;
+}
+
+
+
+/**
+ * dialog_correlation_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Show the dialog (guru).
+ *
+ **/
 static int
 dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
-        GladeXML  *gui;
-	GtkWidget *range_entry;
-	GtkWidget *dialog;
-	GtkWidget *checkbutton;
-	GtkWidget *output_range_entry;
+        GenericToolState *state;
 
-	data_analysis_output_t dao;
-
-	gboolean labels = FALSE;
-	char     *text;
-	int      group, selection, x1, x2, y1, y2;
-	Range    range;
-
-	gui = gnumeric_glade_xml_new (wbcg, "analysis-tools.glade");
-        if (gui == NULL)
-                return 0;
-
-	dao.type = NewSheetOutput;
-	group    = 0;
-
-	dialog = glade_xml_get_widget (gui, "Correlation");
-        range_entry = glade_xml_get_widget (gui, "corr_entry1");
-	checkbutton = glade_xml_get_widget (gui, "corr_checkbutton");
-	output_range_entry = glade_xml_get_widget (gui,
-						   "corr_output_range_entry");
-
-        if (!dialog || !range_entry || !output_range_entry || !checkbutton) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 0;
-        }
-
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (output_range_entry));
-
-	if (set_group_option_signals (gui, &group, "corr") ||
-	    set_output_option_signals (gui, &dao, "corr"))
-	        return 0;
-
-	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
-
-        gtk_widget_grab_focus (range_entry);
-
-correlation_dialog_loop:
-
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-	if (selection == -1) {
-	        gtk_object_unref (GTK_OBJECT (gui));
+	if (wbcg == NULL) {
 		return 1;
 	}
 
-	if (selection != 0) {
-		gtk_object_destroy (GTK_OBJECT (dialog));
-		return 1;
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, CORRELATION_KEY))
+		return 0;
+
+	state = g_new (GenericToolState, 1);
+	(*(ToolType *)state) = TOOL_CORRELATION;
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sheet;
+
+	if (dialog_tool_init (state, "correlation.glade", "Correlation", 
+                       GTK_SIGNAL_FUNC (corr_tool_ok_clicked_cb), 
+                       GTK_SIGNAL_FUNC (tool_update_sensitivity_cb))) {
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 _("Could not create the Correlation Tool dialog."));
+		g_free (state);
+		return 0;
 	}
 
-	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
-	if (!parse_range (text, &range.start.col,
-			  &range.start.row,
-			  &range.end.col,
-			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Input Range:'"));
-		goto correlation_dialog_loop;
-	}
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       CORRELATION_KEY);
 
-	dao.labels_flag = labels;
+	tool_update_sensitivity_cb (NULL,state);	
+	gtk_widget_show (state->dialog);
 
-	if (dao.type == RangeOutput) {
-	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
-	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry,
-					_("You should introduce a valid cell "
-					  "range in 'Output Range:'"));
-			goto correlation_dialog_loop;
-		} else {
-		        dao.start_col = x1;
-		        dao.start_row = y1;
-			dao.cols = x2-x1+1;
-			dao.rows = y2-y1+1;
-			dao.sheet = sheet;
-		}
-	}
-
-	switch (correlation_tool (WORKBOOK_CONTROL (wbcg), sheet,
-				  &range, !group, &dao)) {
-	case 0: break;
-	case 1: error_in_entry (wbcg, range_entry,
-				_("Please do not include any non-numeric (or empty)"
-				  " data."));
-	goto correlation_dialog_loop;
-	default: goto correlation_dialog_loop;
-	}
-
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
-
-	gtk_object_destroy (GTK_OBJECT (dialog));
-	gtk_object_unref (GTK_OBJECT (gui));
-
-	return 0;
+        return 0;
 }
 
+/**********************************************/
+/*  End of correlation tool code */
+/**********************************************/
+
+/**********************************************/
+/*  Begin of covariance tool code */
+/**********************************************/
+
+
+/**
+ * cov_tool_ok_clicked_cb:
+ * @button:
+ * @state:
+ *
+ * Retrieve the information from the dialog and call the covariance_tool.
+ * Note that we assume that the ok_button is only active if the entry fields 
+ * contain sensible data.
+ **/
+static void
+cov_tool_ok_clicked_cb(GtkWidget *button, GenericToolState *state)
+{
+	data_analysis_output_t  dao;
+	static Range range;
+        char   *text;
+	GtkWidget *w;
+
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+	parse_range (text, &range.start.col,
+			             &range.start.row,
+			             &range.end.col,
+				     &range.end.row);
+
+        parse_output (state->wbcg, state->sheet, 
+                      gnumeric_glade_group_value (state->gui, output_group),
+	              GTK_WIDGET(state->output_entry), 
+                      &dao);
+
+
+	w = glade_xml_get_widget (state->gui, "labels_button");
+        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	switch (covariance_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+				  &range, 
+				  gnumeric_glade_group_value (state->gui, grouped_by_group), 
+				  &dao)) {
+	case 0: gtk_widget_destroy (state->dialog);
+		break;
+	case 1: error_in_entry (state->wbcg, GTK_WIDGET(state->input_entry),
+				_("Please do not include any non-numeric (or empty)"
+				  " data."));
+	break;
+	default: break;
+	}
+	return;
+}
+
+
+
+/**
+ * dialog_covariance_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Show the dialog (guru).
+ *
+ **/
 static int
 dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
-        GladeXML  *gui;
-	GtkWidget *range_entry;
-	GtkWidget *dialog;
-	GtkWidget *checkbutton;
-	GtkWidget *output_range_entry;
+        GenericToolState *state;
 
-	data_analysis_output_t dao;
-
-	gboolean labels = FALSE;
-	char     *text;
-	int      group, selection, x1, x2, y1, y2;
-	Range    range;
-
-	gui = gnumeric_glade_xml_new (wbcg,  "analysis-tools.glade");
-        if (gui == NULL)
-                return 0;
-
-	dao.type = NewSheetOutput;
-	group    = 0;
-
-	dialog = glade_xml_get_widget (gui, "Covariance");
-        range_entry = glade_xml_get_widget (gui, "cov_entry1");
-	checkbutton = glade_xml_get_widget (gui, "cov_checkbutton");
-	output_range_entry
-		= glade_xml_get_widget (gui, "cov_output_range_entry");
-
-        if (!dialog || !range_entry || !output_range_entry || !checkbutton) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 0;
-        }
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (output_range_entry));
-
-	if (set_group_option_signals (gui, &group, "cov") ||
-	    set_output_option_signals (gui, &dao, "cov"))
-	        return 0;
-
-	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
-
-        gtk_widget_grab_focus (range_entry);
-
-dialog_loop:
-
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-	if (selection == -1) {
-	        gtk_object_unref (GTK_OBJECT (gui));
+	if (wbcg == NULL) {
 		return 1;
 	}
 
-	if (selection != 0) {
-		gtk_object_destroy (GTK_OBJECT (dialog));
-		return 1;
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, COVARIANCE_KEY))
+		return 0;
+
+	state = g_new (GenericToolState, 1);
+	(*(ToolType *)state) = TOOL_COVARIANCE;
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sheet;
+
+	if (dialog_tool_init (state, "covariance.glade", "Covariance", 
+                       GTK_SIGNAL_FUNC (cov_tool_ok_clicked_cb), 
+                       GTK_SIGNAL_FUNC (tool_update_sensitivity_cb))) {
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 _("Could not create the Covariance Tool dialog."));
+		g_free (state);
+		return 0;
 	}
 
-	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
-	if (!parse_range (text, &range.start.col,
-			  &range.start.row,
-			  &range.end.col,
-			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Range:'"));
-		goto dialog_loop;
-	}
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       COVARIANCE_KEY);
 
-	dao.labels_flag = labels;
+	tool_update_sensitivity_cb (NULL,state);	
+	gtk_widget_show (state->dialog);
 
-	if (dao.type == RangeOutput) {
-	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
-	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry,
-					_("You should introduce a valid cell "
-					  "range in 'Output Range:'"));
-			goto dialog_loop;
-		} else {
-		        dao.start_col = x1;
-		        dao.start_row = y1;
-			dao.cols = x2-x1+1;
-			dao.rows = y2-y1+1;
-			dao.sheet = sheet;
-		}
-	}
-
-	switch (covariance_tool (WORKBOOK_CONTROL (wbcg), sheet,
-				  &range, !group, &dao)) {
-	case 0: break;
-	case 1: error_in_entry (wbcg, range_entry,
-				_("Please do not include any non-numeric (or empty)"
-				  " data."));
-	goto dialog_loop;
-	default: goto dialog_loop;
-	}
-
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
-
-	gtk_object_destroy (GTK_OBJECT (dialog));
-	gtk_object_unref (GTK_OBJECT (gui));
-
-	return 0;
+        return 0;
 }
 
+/**********************************************/
+/*  End of covariance tool code */
+/**********************************************/
+
+/**********************************************/
+/*  Begin of descriptive statistics tool code */
+/**********************************************/
+
+static const char *stats_group[] = {
+	"summary_stats_button",
+	"mean_stats_button",
+	"kth_largest_button",
+	"kth_smallest_button",
+	0
+};
+
+/**
+ * cb_desc_stat_tool_ok_clicked:
+ * @button:
+ * @state:
+ *
+ * Retrieve the information from the dialog and call the descriptive_stat_tool.
+ * Note that we assume that the ok_button is only active if the entry fields 
+ * contain sensible data.
+ **/
+static void
+cb_desc_stat_tool_ok_clicked(GtkWidget *button, DescriptiveStatState *state)
+{
+	data_analysis_output_t  dao;
+	descriptive_stat_tool_t dst;
+	static Range range;
+        char   *text;
+	GtkWidget *w;
+
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+	parse_range (text, &range.start.col,
+			             &range.start.row,
+			             &range.end.col,
+				     &range.end.row);
+
+	w = glade_xml_get_widget (state->gui, "summary_stats_button");
+	dst.summary_statistics = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	w = glade_xml_get_widget (state->gui, "mean_stats_button");
+	dst.confidence_level = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	w = glade_xml_get_widget (state->gui, "kth_largest_button");
+	dst.kth_largest = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	w = glade_xml_get_widget (state->gui, "kth_smallest_button");
+	dst.kth_smallest = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+
+	w = glade_xml_get_widget (state->gui, "c_entry");
+	text = gtk_entry_get_text (GTK_ENTRY (w));
+	dst.c_level = atof(text);
+	w = glade_xml_get_widget (state->gui, "l_entry");
+	text = gtk_entry_get_text (GTK_ENTRY (w));
+	dst.k_largest = atoi(text);
+	w = glade_xml_get_widget (state->gui, "s_entry");
+	text = gtk_entry_get_text (GTK_ENTRY (w));
+	dst.k_smallest = atoi(text);
+
+	
+        parse_output (state->wbcg, state->sheet, 
+                      gnumeric_glade_group_value (state->gui, output_group),
+	              GTK_WIDGET(state->output_entry), 
+                      &dao);
+
+
+	w = glade_xml_get_widget (state->gui, "labels_button");
+        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	if (descriptive_stat_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+				   &range, 
+				   gnumeric_glade_group_value (state->gui, grouped_by_group), 
+				   &dst, &dao))
+	        return;
+
+	gtk_widget_destroy (state->dialog);
+
+	return;
+}
+
+/**
+ * desc_stat_tool_update_sensitivity_cb:
+ * @state:
+ *
+ * Update the dialog widgets sensitivity.
+ * We cannot use tool_update_sensitivity_cb
+ * since we are also considering whether in fact 
+ * a statistic is selected.
+ **/
+static void
+desc_stat_tool_update_sensitivity_cb (GtkWidget *dummy, DescriptiveStatState *state)
+{
+	gboolean ready  = FALSE;
+	char const *output_text;
+	char const *input_text;
+	int i, j;
+        Value *output_range;
+        Value *input_range;
+
+	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
+	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+        output_range = range_parse(state->sheet,output_text,TRUE);
+        input_range = range_parse(state->sheet,input_text,TRUE);
+	i = gnumeric_glade_group_value (state->gui, output_group);
+	j = gnumeric_glade_group_value (state->gui, stats_group);
+
+	ready = ((input_range != NULL) && 
+                 (j > -1) && 
+                 ((i != 2) || (output_range != NULL)));
+
+        if (input_range != NULL) value_release(input_range);
+        if (output_range != NULL) value_release(output_range);
+
+	gtk_widget_set_sensitive (state->ok_button, ready);
+}
+
+
+/**
+ * dialog_desc_stat_tool_init:
+ * @state:
+ *
+ * Create the dialog (guru).
+ *
+ **/
+static gboolean
+dialog_desc_stat_tool_init (DescriptiveStatState *state)
+{
+	if (dialog_tool_init ((GenericToolState *)state, "descriptive-stats.glade", "DescStats", 
+                       GTK_SIGNAL_FUNC (cb_desc_stat_tool_ok_clicked), 
+                       GTK_SIGNAL_FUNC (desc_stat_tool_update_sensitivity_cb))) {
+		return TRUE;
+	}
+
+	state->summary_stats_button  = glade_xml_get_widget(state->gui, "summary_stats_button");
+	state->mean_stats_button  = glade_xml_get_widget(state->gui, "mean_stats_button");
+	state->kth_largest_button  = glade_xml_get_widget(state->gui, "kth_largest_button");
+	state->kth_smallest_button  = glade_xml_get_widget(state->gui, "kth_smallest_button");
+
+	gtk_signal_connect_after (GTK_OBJECT (state->summary_stats_button), "toggled",
+			    GTK_SIGNAL_FUNC (desc_stat_tool_update_sensitivity_cb), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->mean_stats_button), "toggled",
+			    GTK_SIGNAL_FUNC (desc_stat_tool_update_sensitivity_cb), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->kth_largest_button), "toggled",
+			    GTK_SIGNAL_FUNC (desc_stat_tool_update_sensitivity_cb), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->kth_smallest_button), "toggled",
+			    GTK_SIGNAL_FUNC (desc_stat_tool_update_sensitivity_cb), state);
+ 
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       DESCRIPTIVE_STATS_KEY);
+
+	desc_stat_tool_update_sensitivity_cb (NULL,state);	
+
+	return FALSE;
+}
+
+/**
+ * dialog_descriptive_stat_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Show the dialog (guru).
+ *
+ **/
+static int
+dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+{
+        DescriptiveStatState *state;
+
+	if (wbcg == NULL) {
+		return 1;
+	}
+
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, DESCRIPTIVE_STATS_KEY))
+		return 0;
+
+	state = g_new (DescriptiveStatState, 1);
+	(*(ToolType *)state) = TOOL_DESC_STATS;
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sheet;
+
+	if (dialog_desc_stat_tool_init (state)) {
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 _("Could not create the Descriptive Statistics Tool dialog."));
+		g_free (state);
+		return 0;
+	}
+
+	gtk_widget_show (state->dialog);
+
+        return 0;
+}
+
+
+/**********************************************/
+/*  End of descriptive statistics tool code */
+/**********************************************/
+
+/**********************************************/
+/*  Begin of rank and percentile tool code */
+/**********************************************/
+
+
+/**
+ * rank_tool_ok_clicked_cb:
+ * @button:
+ * @state:
+ *
+ * Retrieve the information from the dialog and call the ranking_tool.
+ * Note that we assume that the ok_button is only active if the entry fields 
+ * contain sensible data.
+ **/
+static void
+rank_tool_ok_clicked_cb(GtkWidget *button, GenericToolState *state)
+{
+	data_analysis_output_t  dao;
+	static Range range;
+        char   *text;
+	GtkWidget *w;
+
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+	parse_range (text, &range.start.col,
+			             &range.start.row,
+			             &range.end.col,
+				     &range.end.row);
+
+        parse_output (state->wbcg, state->sheet, 
+                      gnumeric_glade_group_value (state->gui, output_group),
+	              GTK_WIDGET(state->output_entry), 
+                      &dao);
+
+
+	w = glade_xml_get_widget (state->gui, "labels_button");
+        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	switch (ranking_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+				  &range, 
+				  gnumeric_glade_group_value (state->gui, grouped_by_group), 
+				  &dao)) {
+	case 0: gtk_widget_destroy (state->dialog);
+		break;
+	default: break;
+	}
+	return;
+}
+
+
+
+/**
+ * dialog_ranking_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Show the dialog (guru).
+ *
+ **/
+static int
+dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+{
+        GenericToolState *state;
+
+	if (wbcg == NULL) {
+		return 1;
+	}
+
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, RANK_PERCENTILE_KEY))
+		return 0;
+
+	state = g_new (GenericToolState, 1);
+	(*(ToolType *)state) = TOOL_RANK_PERCENTILE;
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sheet;
+
+	if (dialog_tool_init (state, "rank.glade", "RankPercentile", 
+                       GTK_SIGNAL_FUNC (rank_tool_ok_clicked_cb), 
+                       GTK_SIGNAL_FUNC (tool_update_sensitivity_cb))) {
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 _("Could not create the Rank and  Percentile Tools dialog."));
+		g_free (state);
+		return 0;
+	}
+
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       RANK_PERCENTILE_KEY);
+
+	tool_update_sensitivity_cb (NULL,state);	
+	gtk_widget_show (state->dialog);
+
+        return 0;
+}
+
+/**********************************************/
+/*  End of rank and percentile tool code */
+/**********************************************/
+
+
+
+
+/*************************************************************************
+ *
+ * Modal dialogs for the tools, without using expression entry widgets.
+ * 
+ * These dialogs are supposed to be changed to use the expresion entry 
+ * widgets as above.
+ */
 
 static int
 dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
@@ -862,386 +1443,6 @@ sampling_dialog_loop:
 
 	return 0;
 }
-
-/**********************************************/
-/*  Begin of descriptive statistics tool code */
-/**********************************************/
-
-static const char *stats_group[] = {
-	"summary_stats_button",
-	"mean_stats_button",
-	"kth_largest_button",
-	"kth_smallest_button",
-	0
-};
-
-static const char *output_group[] = {
-	"newsheet-button",
-	"newworkbook-button",
-	"outputrange-button",
-	0
-};
-
-static const char *grouped_by_group[] = {
-	"grouped_by_row",
-	"grouped_by_col",
-	0
-};
-
-typedef struct {
-	GladeXML  *gui;
-	GtkWidget *dialog;
-	GnumericExprEntry *input_entry;
-	GnumericExprEntry *output_entry;
-	GtkWidget *ok_button;
-	GtkWidget *cancel_button;
-	GtkWidget *new_sheet;
-	GtkWidget *new_workbook;
-	GtkWidget *output_range;
-	GtkWidget *summary_stats_button;
-	GtkWidget *mean_stats_button;
-	GtkWidget *kth_largest_button;
-	GtkWidget *kth_smallest_button;
-
-	Sheet	  *sheet;
-	Workbook  *wb;
-	WorkbookControlGUI  *wbcg;
-} DescriptiveStatState;
-
-/**
- * desc_stat_tool_destroy:
- * @window:
- * @focus_widget:
- * @state:
- *
- * Destroy the dialog and associated data structures.
- *
- **/
-static gboolean
-desc_stat_tool_destroy (GtkObject *w, DescriptiveStatState *state)
-{
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
-	wbcg_edit_detach_guru (state->wbcg);
-
-	if (state->gui != NULL) {
-		gtk_object_unref (GTK_OBJECT (state->gui));
-		state->gui = NULL;
-	}
-
-	wbcg_edit_finish (state->wbcg, FALSE);
-
-	state->dialog = NULL;
-
-	g_free (state);
-
-	return FALSE;
-}
-
-/**
- * desc_stat_tool_set_focus:
- * @window:
- * @focus_widget:
- * @state:
- *
- **/
-static void
-desc_stat_tool_set_focus (GtkWidget *window, GtkWidget *focus_widget,
-			DescriptiveStatState *state)
-{
-	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
-		wbcg_set_entry (state->wbcg,
-				    GNUMERIC_EXPR_ENTRY (focus_widget));
-		gnumeric_expr_entry_set_absolute (GNUMERIC_EXPR_ENTRY (focus_widget));
-	} else
-		wbcg_set_entry (state->wbcg, NULL);
-}
-
-/**
- * desc_stat_tool_set_focus_output_range:
- * @widget:
- * @focus_widget:
- * @state:
- *
- * Output range entry was focused. Switch to output range.
- * 
- **/
-static void
-desc_stat_tool_set_focus_output_range (GtkWidget *widget, GdkEventFocus *event,
-			DescriptiveStatState *state)
-{
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(state->output_range),TRUE);
-}
-
-/**
- * cb_desc_stat_tool_ok_clicked:
- * @button:
- * @state:
- *
- * Retrieve the information from the dialog and call the descriptive_stat_tool.
- * Note that we assume that the ok_button is only active if the entry fields 
- * contain sensible data.
- **/
-static void
-cb_desc_stat_tool_ok_clicked(GtkWidget *button, DescriptiveStatState *state)
-{
-	data_analysis_output_t  dao;
-	descriptive_stat_tool_t dst;
-	static Range range;
-        char   *text;
-	GtkWidget *w;
-
-	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-	parse_range (text, &range.start.col,
-			             &range.start.row,
-			             &range.end.col,
-				     &range.end.row);
-
-	w = glade_xml_get_widget (state->gui, "summary_stats_button");
-	dst.summary_statistics = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-	w = glade_xml_get_widget (state->gui, "mean_stats_button");
-	dst.confidence_level = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-	w = glade_xml_get_widget (state->gui, "kth_largest_button");
-	dst.kth_largest = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-	w = glade_xml_get_widget (state->gui, "kth_smallest_button");
-	dst.kth_smallest = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-
-
-	w = glade_xml_get_widget (state->gui, "c_entry");
-	text = gtk_entry_get_text (GTK_ENTRY (w));
-	dst.c_level = atof(text);
-	w = glade_xml_get_widget (state->gui, "l_entry");
-	text = gtk_entry_get_text (GTK_ENTRY (w));
-	dst.k_largest = atoi(text);
-	w = glade_xml_get_widget (state->gui, "s_entry");
-	text = gtk_entry_get_text (GTK_ENTRY (w));
-	dst.k_smallest = atoi(text);
-
-	
-        parse_output (state->wbcg, state->sheet, 
-                      gnumeric_glade_group_value (state->gui, output_group),
-	              GTK_WIDGET(state->output_entry), 
-                      &dao);
-
-
-	w = glade_xml_get_widget (state->gui, "labels_button");
-        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-
-	if (descriptive_stat_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
-				   &range, 
-				   gnumeric_glade_group_value (state->gui, grouped_by_group), 
-				   &dst, &dao))
-	        return;
-
-	gtk_widget_destroy (state->dialog);
-
-	return;
-}
-
-/**
- * cb_desc_stat_tool_cancel_clicked:
- * @button:
- * @state:
- *
- * Close (destroy) the dialog
- **/
-static void
-cb_desc_stat_tool_cancel_clicked(GtkWidget *button, DescriptiveStatState *state)
-{
-	gtk_widget_destroy (state->dialog);
-	return;
-}
-
-/**
- * desc_stat_tool_update_sensitivity:
- * @state:
- *
- * Update the dialog widgets sensitivity
- **/
-static void
-desc_stat_tool_update_sensitivity (DescriptiveStatState *state)
-{
-	gboolean ready  = FALSE;
-	char const *output_text;
-	char const *input_text;
-	int i, j;
-        Value *output_range;
-        Value *input_range;
-
-	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
-	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-        output_range = range_parse(state->sheet,output_text,TRUE);
-        input_range = range_parse(state->sheet,input_text,TRUE);
-	i = gnumeric_glade_group_value (state->gui, output_group);
-	j = gnumeric_glade_group_value (state->gui, stats_group);
-
-	ready = ((input_range != NULL) && 
-                 (j > -1) && 
-                 ((i != 2) || (output_range != NULL)));
-
-        if (input_range != NULL) value_release(input_range);
-        if (output_range != NULL) value_release(output_range);
-
-	gtk_widget_set_sensitive (state->ok_button, ready);
-}
-
-/**
- * desc_stat_tool_update_sensitivity_cb:
- * @dummy:
- * @state:
- *
- **/
-static void
-desc_stat_tool_update_sensitivity_cb (GtkWidget *dummy, DescriptiveStatState *state)
-{
-	desc_stat_tool_update_sensitivity (state);
-}
-
-
-/**
- * dialog_desc_stat_tool_init:
- * @state:
- * @wbcg:
- * @sheet:
- *
- * Create the dialog (guru).
- *
- **/
-static gboolean
-dialog_desc_stat_tool_init (DescriptiveStatState *state, WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-	GtkTable *table;
-
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-
-	state->wbcg  = wbcg;
-	state->wb   = wb;
-	state->sheet = sheet;
-
-	state->gui = gnumeric_glade_xml_new (state->wbcg, "descriptive-stats.glade");
-        if (state->gui == NULL)
-                return TRUE;
-
-	state->dialog = glade_xml_get_widget (state->gui, "DescStats");
-        if (state->dialog == NULL)
-                return TRUE;
-
-	state->ok_button     = glade_xml_get_widget(state->gui, "okbutton");
-	gtk_signal_connect (GTK_OBJECT (state->ok_button), "clicked",
-			    GTK_SIGNAL_FUNC (cb_desc_stat_tool_ok_clicked),
-			    state);
-
-	state->cancel_button  = glade_xml_get_widget(state->gui, "cancelbutton");
-	gtk_signal_connect (GTK_OBJECT (state->cancel_button), "clicked",
-			    GTK_SIGNAL_FUNC (cb_desc_stat_tool_cancel_clicked),
-			    state);
-
-	state->new_sheet  = glade_xml_get_widget(state->gui, "newsheet-button");
-	state->new_workbook  = glade_xml_get_widget(state->gui, "newworkbook-button");
-	state->output_range  = glade_xml_get_widget(state->gui, "outputrange-button");
-	state->summary_stats_button  = glade_xml_get_widget(state->gui, "summary_stats_button");
-	state->mean_stats_button  = glade_xml_get_widget(state->gui, "mean_stats_button");
-	state->kth_largest_button  = glade_xml_get_widget(state->gui, "kth_largest_button");
-	state->kth_smallest_button  = glade_xml_get_widget(state->gui, "kth_smallest_button");
-
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "input-table"));
-	state->input_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
-	gnumeric_expr_entry_set_flags(state->input_entry,
-                                      GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL, 
-                                      GNUM_EE_MASK);
-        gnumeric_expr_entry_set_scg(state->input_entry, wb_control_gui_cur_sheet (wbcg));
-	gtk_table_attach (table, GTK_WIDGET (state->input_entry),
-			  1, 2, 0, 1,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
-	gtk_widget_show (GTK_WIDGET (state->input_entry));
-
-	table = GTK_TABLE (glade_xml_get_widget (state->gui, "output-table"));
-	state->output_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
-	gnumeric_expr_entry_set_flags(state->output_entry,
-                                      GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL, 
-                                      GNUM_EE_MASK);
-        gnumeric_expr_entry_set_scg(state->output_entry, wb_control_gui_cur_sheet (wbcg));
-	gtk_table_attach (table, GTK_WIDGET (state->output_entry),
-			  1, 2, 2, 3,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
-	gtk_widget_show (GTK_WIDGET (state->output_entry));
-
-
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
-			    GTK_SIGNAL_FUNC (desc_stat_tool_set_focus), state);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (desc_stat_tool_destroy), state);
-	gtk_signal_connect_after (GTK_OBJECT (state->input_entry), "changed",
-			    GTK_SIGNAL_FUNC (desc_stat_tool_update_sensitivity_cb), state);
-	gtk_signal_connect (GTK_OBJECT (state->output_entry), "focus-in-event",
-			    GTK_SIGNAL_FUNC (desc_stat_tool_set_focus_output_range), state);
-	gtk_signal_connect_after (GTK_OBJECT (state->output_entry), "changed",
-			    GTK_SIGNAL_FUNC (desc_stat_tool_update_sensitivity_cb), state);
-	gtk_signal_connect_after (GTK_OBJECT (state->output_range), "toggled",
-			    GTK_SIGNAL_FUNC (desc_stat_tool_update_sensitivity_cb), state);
-	gtk_signal_connect_after (GTK_OBJECT (state->summary_stats_button), "toggled",
-			    GTK_SIGNAL_FUNC (desc_stat_tool_update_sensitivity_cb), state);
-	gtk_signal_connect_after (GTK_OBJECT (state->mean_stats_button), "toggled",
-			    GTK_SIGNAL_FUNC (desc_stat_tool_update_sensitivity_cb), state);
-	gtk_signal_connect_after (GTK_OBJECT (state->kth_largest_button), "toggled",
-			    GTK_SIGNAL_FUNC (desc_stat_tool_update_sensitivity_cb), state);
-	gtk_signal_connect_after (GTK_OBJECT (state->kth_smallest_button), "toggled",
-			    GTK_SIGNAL_FUNC (desc_stat_tool_update_sensitivity_cb), state);
- 
-	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
-			       DESCRIPTIVE_STATS_KEY);
-
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_EDITABLE (state->input_entry));
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_EDITABLE (state->output_entry));
-
-	desc_stat_tool_update_sensitivity (state);	
-
-	return FALSE;
-}
-
-/**
- * dialog_descriptive_stat_tool:
- * @wbcg:
- * @sheet:
- *
- * Show the dialog (guru).
- *
- **/
-static int
-dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-        DescriptiveStatState *state;
-
-	if (wbcg == NULL) {
-		return 1;
-	}
-
-
-	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (wbcg, DESCRIPTIVE_STATS_KEY))
-		return 0;
-
-	state = g_new (DescriptiveStatState, 1);
-	if (dialog_desc_stat_tool_init (state, wbcg, sheet)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
-				 _("Could not create the Descriptive Statistics Tool dialog."));
-		g_free (state);
-		return 0;
-	}
-
-	gtk_widget_show (state->dialog);
-
-        return 0;
-}
-
-/**********************************************/
-/*  End of descriptive statistics tool code */
-/**********************************************/
 
 static int
 dialog_ztest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
@@ -2713,108 +2914,6 @@ dialog_loop:
 				_("Given bin range contains non-numeric data."));
 	        goto dialog_loop;
 	}
-
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
-
-	gtk_object_destroy (GTK_OBJECT (dialog));
-	gtk_object_unref (GTK_OBJECT (gui));
-
-	return 0;
-}
-
-static int
-dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-        GladeXML  *gui;
-	GtkWidget *range_entry;
-	GtkWidget *dialog;
-	GtkWidget *checkbutton;
-	GtkWidget *output_range_entry;
-
-	data_analysis_output_t dao;
-
-	gboolean labels = FALSE;
-	char     *text;
-	int      group, selection, x1, x2, y1, y2;
-	Range    range;
-
-	gui = gnumeric_glade_xml_new (wbcg, "analysis-tools.glade");
-        if (gui == NULL)
-                return 0;
-
-	dao.type = NewSheetOutput;
-	group    = 0;
-
-	dialog = glade_xml_get_widget (gui, "RankAndPercentile");
-        range_entry = glade_xml_get_widget (gui, "rank_entry1");
-	checkbutton = glade_xml_get_widget (gui, "rank_checkbutton");
-	output_range_entry
-		= glade_xml_get_widget (gui, "rank_output_range_entry");
-
-        if (!dialog || !range_entry || !output_range_entry || !checkbutton) {
-                printf ("Corrupt file `analysis-tools.glade'\n");
-                return 0;
-        }
-
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (output_range_entry));
-
-	if (set_group_option_signals (gui, &group,  "rank") ||
-	    set_output_option_signals (gui, &dao, "rank"))
-	        return 0;
-
-	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
-
-        gtk_widget_grab_focus (range_entry);
-
-dialog_loop:
-
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-	if (selection == -1) {
-	        gtk_object_unref (GTK_OBJECT (gui));
-		return 1;
-	}
-
-	if (selection != 0) {
-		gtk_object_destroy (GTK_OBJECT (dialog));
-		return 1;
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
-	if (!parse_range (text, &range.start.col,
-			  &range.start.row,
-			  &range.end.col,
-			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Range:'"));
-		goto dialog_loop;
-	}
-
-	dao.labels_flag = labels;
-
-	if (dao.type == RangeOutput) {
-	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
-	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry,
-					_("You should introduce a valid cell "
-					  "range in 'Output Range:'"));
-			goto dialog_loop;
-		} else {
-		        dao.start_col = x1;
-		        dao.start_row = y1;
-			dao.cols = x2-x1+1;
-			dao.rows = y2-y1+1;
-			dao.sheet = sheet;
-		}
-	}
-
-	if (ranking_tool (WORKBOOK_CONTROL (wbcg), sheet,
-			  &range, !group, &dao))
-	        goto dialog_loop;
 
 	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
 

@@ -5,8 +5,8 @@ Almer:
 	* Core support for validation and conditional formats.
 
 Andreas:
-	* Rewrite descriptive statistics analysis tool dialog to use a 
-          glade template and the gnumeric-expr-entry widget.
+	* Rewrite descriptive statistics, correlation, covariance,
+          and rank analysis tool dialogs to use the gnumeric-expr-entry widget.
 
 Christopher Keith Fairbairn:
 	* Add a 'Fill' menu connection to autofill.

@@ -1151,7 +1151,8 @@ workbook_sheet_get_free_name (Workbook *wb,
 {
 	const char *name_format;
 	char *name, *base_name;
-	int  i = 0;
+	int i = 0;
+	int limit;
 
 	g_return_val_if_fail (wb != NULL, NULL);
 
@@ -1165,14 +1166,18 @@ workbook_sheet_get_free_name (Workbook *wb,
 	} else
 		name_format = "%s%d";
 
+	limit = i + workbook_sheet_count (wb) + 2;
 	name = g_malloc (strlen (base_name) + strlen (name_format) + 10);
-	for ( ; ++i < 1000 ; ){
+	for ( ; ++i < limit ; ){
 		sprintf (name, name_format, base_name, i);
 		if (workbook_sheet_by_name (wb, name) == NULL) {
 			g_free (base_name);
 			return name;
 		}
 	}
+
+	/* We should not get here.  */
+	g_warning ("There is trouble at the mill.");
 
 	g_free (name);
 	g_free (base_name);

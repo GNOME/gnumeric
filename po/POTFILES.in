@@ -61,6 +61,8 @@ src/dialogs/cell-format.glade
 src/dialogs/cell-sort.glade
 src/dialogs/col-width.glade
 src/dialogs/consolidate.glade
+src/dialogs/correlation.glade
+src/dialogs/covariance.glade
 src/dialogs/delete-cells.glade
 src/dialogs/descriptive-stats.glade
 src/dialogs/dialog-about.c
@@ -110,6 +112,7 @@ src/dialogs/insert-cells.glade
 src/dialogs/names.glade
 src/dialogs/plugin-manager.glade
 src/dialogs/print.glade
+src/dialogs/rank.glade
 src/dialogs/row-height.glade
 src/dialogs/search-replace.glade
 src/dialogs/sheet-order.glade

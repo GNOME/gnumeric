@@ -88,6 +88,8 @@ glade_DATA = 				\
 	col-width.glade			\
 	colrow.glade			\
 	consolidate.glade		\
+	correlation.glade		\
+	covariance.glade		\
 	delete-cells.glade		\
 	descriptive-stats.glade		\
 	dialog-stf-export.glade		\
@@ -102,6 +104,7 @@ glade_DATA = 				\
 	names.glade			\
 	plugin-manager.glade		\
 	print.glade 			\
+	rank.glade			\
 	row-height.glade		\
 	search-replace.glade		\
 	sheet-order.glade		\
