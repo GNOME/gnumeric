@@ -436,13 +436,6 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 					      fi->reference->col->pos,
 					      fi->reference->row->pos);
 
-	printf ("!!!! %s%d -> ",
-		col_name(fi->reference->col->pos),
-		fi->reference->row->pos+1);
-	printf ("%s%d\n",
-		col_name(cell->col->pos),
-		cell->row->pos+1);
-
 	sheet_style_attach_single (cell->sheet,
 				   cell->col->pos,
 				   cell->row->pos, mstyle);
