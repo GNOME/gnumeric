@@ -633,7 +633,7 @@ msgstr "Falta una comilla"
 
 #: src/expr.c:42
 msgid "Impossible!"
-msgstr ""
+msgstr "¡Imposible!"
 
 #: src/expr.c:776 src/expr.c:1056 src/expr.c:1251 src/fn-misc.c:63
 #: src/fn-string.c:54 src/fn-string.c:76 src/fn-string.c:98
@@ -645,11 +645,11 @@ msgstr "Tipo erroneo"
 
 #: src/expr.c:853
 msgid "Function does not exist"
-msgstr ""
+msgstr "La función no existe"
 
 #: src/expr.c:857
 msgid "Calling non-function"
-msgstr ""
+msgstr "Llamada de una no-función"
 
 #: src/expr.c:997
 msgid "Type error"
@@ -721,6 +721,12 @@ msgid ""
 "equals to 36160. \n"
 "@SEEALSO=DATE"
 msgstr ""
+"@FUNCTION=DATEVALUE\n"
+"@SYNTAX=DATEVALUE(texto)\n"
+"@DESCRIPTION=DATEVALUE devuelve el númeor de serie de la fecha dada por "
+"el parámetro @texto . Por ejemplo DATEVALUE(\"1/1/1999\") es "
+"igual a 36160. \n"
+"@SEEALSO=DATE"
 
 #. -0
 #: src/fn-date.c:94 src/fn-date.c:147 src/fn-math.c:168 src/fn-math.c:225
@@ -749,6 +755,14 @@ msgid ""
 "If @months is not an integer, it is truncated. \n"
 "@SEEALSO=DATE"
 msgstr ""
+"@FUNCTION=EDATE\n"
+"@SYNTAX=EDATE(número_de_serie,meses)\n"
+"@DESCRIPTION=EDATE devuelve el número de serie de la fecha correspondiente "
+"la fecha dada por @número_serie más (o menos) la cantidad de meses "
+"especificada con @meses (que puede ser un número negativo o positivo, "
+"según se quiera añadir o sustraer meses a la fecha inicial).\n"
+"Si @meses no es un entero será troncado. \n"
+"@SEEALSO=DATE"
 
 #: src/fn-date.c:155
 msgid ""
@@ -924,6 +938,12 @@ msgid ""
 "If any of the arguments is less than zero, GCD returns #NUM! error. \n"
 "@SEEALSO=LCM"
 msgstr ""
+"@FUNCTION=GCD\n"
+"@SYNTAX=GCD(a,b)\n"
+"@DESCRIPTION=GCD devuelve el máximo común divisor entre dos números. \n"
+"Si uno de los argumentos es inferior a cero, GCD devuelve el error #NUM! . \n"
+"@SEEALSO=LCM"
+
 
 #: src/fn-math.c:176
 msgid ""
@@ -935,6 +955,13 @@ msgid ""
 "If any of the arguments is less than one, LCM returns #NUM! error. \n"
 "@SEEALSO=GCD"
 msgstr ""
+"@FUNCTION=LCM\n"
+"@SYNTAX=LCM(número1,número2,...)\n"
+"@DESCRIPTION=LCM devuelve el mínimo común multiplicador de los números "
+"pasados en argumento. El mínimo común multiplicador es el número positivo "
+"más pequeño que es múltiple de todos ellos.\n"
+"Si uno de los argumentos es inferior a uno, LCM devuelve el error #NUM! .\n"
+"@SEEALSO=GCD"
 
 #: src/fn-math.c:233
 msgid ""
@@ -1398,10 +1425,17 @@ msgid ""
 "is divided into abs(number).\n"
 "Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL"
 msgstr ""
+"@FUNCTION=MOD\n"
+"@SYNTAX=MOD(número,divisor)\n"
+"@DESCRIPTION=Implementa el modulo aritmético. Devuelve el resto de la "
+"división de abs( @número ) por @divisor .\n "
+"Si el divisor es cero devuelve el error #DIV/0! .\n"
+"@SEEALSO=INT,FLOOR,CEIL"
+
 
 #: src/fn-math.c:1050
 msgid "#DIV/0!"
-msgstr ""
+msgstr "#DIV/0!"
 
 #: src/fn-math.c:1058
 msgid ""
@@ -1643,6 +1677,12 @@ msgid ""
 "FACTDOUBLE returns #NUM! error. \n"
 "@SEEALSO=FACT"
 msgstr ""
+"@FUNCTION=FACTDOUBLE\n"
+"@SYNTAX=FACTDOUBLE(número)\n"
+"@DESCRIPTION=La función FACTDOUBLE devuelve la factorial doble de un número.\n"
+"Si @número no es un entero, será troncado. Si @número es negativo "
+"FACTDOUBLE devuelve el error #NUM! .\n"
+"@SEEALSO=FACT"
 
 #: src/fn-math.c:1640
 msgid ""
@@ -1696,6 +1736,13 @@ msgid ""
 "RANDBETWEEN returns #NUM! error. \n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDBETWEEN\n"
+"@SYNTAX=RANDBETWEEN(inferior,superior)\n"
+"@DESCRIPTION=La función RANDBETWEEN devuelve un entero aleatorio entre "
+"@inferior y @superior.\n"
+"Si @inferior o @superior no son enteros, serán troncados. "
+"Si @inferior > @ superior RANDBETWEEN devuelve el error #NUM! .\n"
+"@SEEALSO=RAND"
 
 #: src/fn-math.c:1739 src/fn-math.c:2091 src/fn-math.c:2188 src/fn-math.c:2285
 msgid "#N/A!"
@@ -1714,6 +1761,17 @@ msgid ""
 "left of the decimal point. \n"
 "@SEEALSO=ROUNDUP"
 msgstr ""
+"@FUNCTION=ROUNDDOWN\n"
+"@SYNTAX=ROUNDDOWN(número[,cifras])\n"
+"@DESCRIPTION=La función ROUNDDOWN redondea inferiormente el número dado, "
+"@número es el número que desea redondear y @cifras es la cantidad de "
+"cifras significativas a la cual quiere redondearlo.\n"
+"Si @cifras es superio a cero, @número es redondeado inferiormente "
+"hasta una cantidad de cifras decimales significativas de @cifras. "
+"Si @cifras es cero o se omite, el número es redondeado al entero inferior."
+"Si @cifras es negativo, indica las cifras a la izquierda del punto "
+"decimal, que se desa redondear inferiormente.\n"
+"@SEEALSO=ROUNDUP"
 
 #: src/fn-math.c:1794
 msgid ""
@@ -1728,6 +1786,17 @@ msgid ""
 "decimal point. \n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
+"@FUNCTION=ROUND\n"
+"@SYNTAX=ROUND(número[,cifras])\n"
+"@DESCRIPTION=La función ROUND redondea el número dado, "
+"@número es el número que desea redondear y @cifras es la cantidad de "
+"cifras significativas a la cual quiere redondearlo.\n"
+"Si @cifras es superio a cero, @número es redondeado "
+"hasta una cantidad de cifras decimales significativas de @cifras. Si"
+" @cifras es cero o se omite, el número es redondeado al entero más próximo."
+"Si @cifras es negativo, indica las cifras a la izquierda del punto "
+"decimal, que se desa redondear.\n"
+"@SEEALSO=ROUNDDOWN,ROUNDUP"
 
 #: src/fn-math.c:1841
 msgid ""
@@ -1742,6 +1811,17 @@ msgid ""
 "the decimal point. \n"
 "@SEEALSO=ROUNDDOWN"
 msgstr ""
+"@FUNCTION=ROUNDUP\n"
+"@SYNTAX=ROUNDUP(número[,cifras])\n"
+"@DESCRIPTION=La función ROUNDUP redondea superiormente el número dado, "
+"@número es el número que desea redondear y @cifras es la cantidad de "
+"cifras significativas a la cual quiere redondearlo.\n"
+"Si @cifras es superio a cero, @número es redondeado superiormente "
+"hasta una cantidad de cifras decimales significativas de @cifras. "
+"Si @cifras es cero o se omite, el número es redondeado al entero sueprior."
+"Si @cifras es negativo, indica las cifras a la izquierda del punto "
+"decimal, que se desa redondear superiormente.\n"
+"@SEEALSO=ROUNDDOWN"
 
 #: src/fn-math.c:1892
 msgid ""
@@ -1755,6 +1835,14 @@ msgid ""
 "error. \n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
+"@FUNCTION=MROUND\n"
+"@SYNTAX=MROUND(número,múltiple)\n"
+"@DESCRIPTION=La función MROUND redondea el número dado @número "
+"al múltiple de @múltiple más cercano. "
+"Por ejemplo MROUND(1.7, 0.2) devuelve 1.8 \n"
+"Si @número y @múltiple son de signos contrarios, "
+"MROUND devuelve el error #NUM! .\n"
+"@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
 #: src/fn-math.c:1938
 msgid ""
@@ -1768,10 +1856,22 @@ msgid ""
 "3999, ROMAN returns #VALUE! error. \n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=ROMAN\n"
+"@SYNTAX=ROMAN(número[,tipo])\n"
+"@DESCRIPTION=La función ROMAN devuelve un número en números árabes pasado "
+"en argumento, en su representación en números romanos, bajo la forma de"
+" una cadena de texto. "
+"@número es el número que desea convertir y @tipe es el tipo de números "
+"romanos que desea usar. \n"
+"Si @tipe es 0 o se omite, ROMAN devuelve números romanos clásicos. Los tipos"
+" 1,2,3, y 4 aún no están implementados. Si @número es negativo o superior a "
+"3999, ROMAN devuelve el error #VALUE! .\n"
+"@SEEALSO="
+
 
 #: src/fn-math.c:1987
 msgid "#Unimplemented!"
-msgstr ""
+msgstr "#No implementado!"
 
 #: src/fn-math.c:2020
 msgid ""
@@ -1786,12 +1886,23 @@ msgid ""
 "returns #N/A! error. \n"
 "@SEEALSO=SUMSQ"
 msgstr ""
+"@FUNCTION=SUMX2MY2\n"
+"@SYNTAX=SUMX2MY2(vector1,vector2)\n"
+"@DESCRIPTION=La función SUMX2MY2 devuelve la suma de la diferencia de los "
+"cuadrados de los valores correspondientes de los dos vectores. @vector1 es "
+"el primer vector o rango de datos y @array2 es el segundo vector o @rango "
+"de datos. La equación de SUMX2MY2 es SUM(x^2 - y^2). \n"
+"Las cadenas de texto y las celdas vacías son simplemente ignoradas.\n"
+"Si @vector1 y @vector2 tienen una cantidad diferente de elementos, SUMX2MY2 "
+"devuelve el error #N/D! .\n"
+"@SEEALSO=SUMSQ"
 
 #: src/fn-math.c:2068 src/fn-math.c:2086 src/fn-math.c:2165 src/fn-math.c:2183
 #: src/fn-math.c:2262 src/fn-math.c:2280
 msgid "Array version not implemented!"
-msgstr ""
+msgstr "¡La versión de vectores aún no está impelmentada!"
 
+# fuzzy
 #: src/fn-math.c:2117
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
@@ -1806,6 +1917,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
+# fuzzy
 #: src/fn-math.c:2214
 msgid ""
 "@FUNCTION=SUMXMY2\n"
@@ -2187,11 +2299,11 @@ msgstr "amarillo"
 
 #: src/format.c:1026
 msgid "CELLRANGE"
-msgstr ""
+msgstr "RANGOCELDAS"
 
 #: src/format.c:1029
 msgid "ARRAY"
-msgstr ""
+msgstr "VECTOR"
 
 #: src/formats.c:17
 msgid "0"
@@ -2567,11 +2679,11 @@ msgstr "ERROR"
 
 #: src/sheet.c:2548
 msgid "The command `"
-msgstr ""
+msgstr "El comando '"
 
 #: src/sheet.c:2550
 msgid "' can not be performed with multiple selections"
-msgstr ""
+msgstr "' no puede ser ejecutado con selecciones múltiples"
 
 #: src/sheet.c:2565
 msgid "copy"
@@ -2588,11 +2700,11 @@ msgstr "pegar"
 #: src/sheet.c:3532
 #, c-format
 msgid "I was not able to activate object %s"
-msgstr ""
+msgstr "No se pudo activar el objeto %s"
 
 #: src/sheet.c:3544
 msgid "I was unable to the bind object"
-msgstr ""
+msgstr "No se pudo ligar el objeto"
 
 #: src/workbook.c:367
 msgid "Warning"
@@ -2825,6 +2937,7 @@ msgstr "_Ordenar"
 msgid "Sort the selected cells"
 msgstr "Ordena las celdas seleccionadas"
 
+# fuzzy
 #: src/workbook.c:934
 msgid "_Goal Seek..."
 msgstr ""
@@ -2919,7 +3032,7 @@ msgstr "Pone el atributo de cursivas de la fuente"
 
 #: src/workbook.c:1008
 msgid "Graphic"
-msgstr ""
+msgstr "Gráfico"
 
 #: src/workbook.c:1008
 msgid "Creates a graphic in the spreadsheet"
@@ -2971,7 +3084,7 @@ msgstr "Renglón fuera de rango"
 
 #: src/workbook.c:1237
 msgid "Selection must be a single range"
-msgstr ""
+msgstr "La selección tiene que ser un rango simple"
 
 #: src/workbook.c:1349
 msgid "Sum"
