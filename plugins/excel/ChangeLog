@@ -1,3 +1,17 @@
+1999-06-29  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-write.c (biff_boundsheet_write_last): Use
+	correct type.
+
+	* ms-excel-read.c (biff_nasty_font_check_function):
+	removed, wonderful !
+	(biff_font_data_get_style_font): Updated & cleaned.
+
+1999-06-28  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-write.c (write_formats): Write some magic
+	standard number formats.
+
 1999-06-27  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-read.c: excel_builtin_formats: Populated with

@@ -1,3 +1,9 @@
+1999-06-28  Michael Meeks  <michael@edenproject.org>
+
+	* src/main.c (gnumeric_main): removed xbase_init.
+
+	* src/Makefile.am: Removed xbase static link.
+
 1999-06-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/dialog-printer-setup.c (load_image): Use a constant relative

@@ -424,41 +424,10 @@ biff_boundsheet_data_destroy (gpointer key, BIFF_BOUNDSHEET_DATA *d, gpointer us
 	return 1 ;
 }
 
-#if 0
-/**
- * Ug! FIXME
- **/
-static char *
-biff_nasty_font_check_function (char *name1, char *name2, int ptsize)
-{
-	StyleFont *font;
-
-	font = style_font_new_simple (name1, ptsize);
-	if (font)
-	{
-		style_font_unref (font);
-		if (name2)
-			g_free(name2) ;
-		return name1 ;
-	}
-	else
-	{
-		if (name1)
-			g_free(name1) ;
-		return name2 ;
-	}
-}
-#endif
-
 static StyleFont*
 biff_font_data_get_style_font (BIFF_FONT_DATA *fd)
 {
-	int i;
-	char *fname1, *fname2 ;
 	StyleFont *ans ;
-	int ptsize;
-
-	ptsize = MAX (4, fd->height / 20);
 
 	if (!fd->fontname) {
 #if EXCEL_DEBUG > 0
@@ -468,48 +437,8 @@ biff_font_data_get_style_font (BIFF_FONT_DATA *fd)
 		return gnumeric_default_font;
 	}
 
-#if 0
-	/*
-	 * FIXME: instead of just copying the windows font into the cell, we 
-	 * should implement a font name mapping mechanism.
-	 * In our first attempt to make it work, let's try to guess the 
-	 * X font name from the windows name, by letting the first word 
-	 * of the name be inserted in 0'th position of the X font name.  
-	 */
-	for (i = 0; fd->fontname[i] != '\0' && fd->fontname[i] != ' '; ++i)
-		fd->fontname[i] = tolower (fd->fontname[i]);
-	fd->fontname[i] = '\x0';
-	
-	fname1 = g_strdup (gnumeric_default_font->font_name);
-	fname2 = font_change_component (gnumeric_default_font->font_name, 1, fd->fontname);
-	fname1 = biff_nasty_font_check_function (fname2, fname1, ptsize);
-
-/*	printf ("FoNt [-]: %s\n", fname1) ; */
-	if (fd->italic) {
-		fname2 = font_get_italic_name (fname1, ptsize);
-/*			printf ("FoNt [i]: %s\n", fname2) ;  */
-	}
-	else
-		fname2 = g_strdup (fname1) ;
-	fname1 = biff_nasty_font_check_function (fname2, fname1, ptsize) ;
-	
-	if (fd->boldness >= 0x2bc) {
-		fname2 = font_get_bold_name (fname1, ptsize) ;
-/*			printf ("FoNt [b]: %s\n", fname1) ; */
-	}
-	else
-		fname2 = g_strdup (fname1) ;
-	fname1 = biff_nasty_font_check_function (fname2, fname1, ptsize) ;
-	/* What about underlining? */
-#else
-	g_error ("Review the font loading code here, I have changed it, so\n"
-		 "you should update those X hacks to not use X11 font names, but\n"
-		 "gnome-print font-names.");
-#endif
-        g_warning ("Review this font size, I used a pretty much rough guess");
-	ans = style_font_new (fname1, fd->height / 2, 1.0, fd->boldness >= 0x2bc, fd->italic);
-
-	g_free (fname1) ;
+	ans = style_font_new (fd->fontname, fd->height / 20.0, 1.0,
+			      fd->boldness >= 0x2bc, fd->italic);
 	
 	return ans ;
 }

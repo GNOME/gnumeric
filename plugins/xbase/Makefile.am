@@ -1,3 +1,5 @@
+GNUMERIC_SRC_DIR = $(top_srcdir)/src
+
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
@@ -5,9 +7,11 @@ INCLUDES = 						\
 	-I$(top_srcdir)/src				\
 	$(GNOME_INCLUDEDIR)
 
-noinst_LIBRARIES = libxbase.a
+plugindir = $(libdir)/gnumeric/plugins
 
-libxbase_a_SOURCES =		\
+plugin_LTLIBRARIES = libxbase.la
+
+libxbase_la_SOURCES =		\
 	boot.c			\
 	boot.h			\
 	xbase.c			\

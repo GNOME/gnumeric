@@ -1,4 +1,12 @@
-1999-06-23    <michael@edenproject.org>
+1999-06-28  Michael Meeks  <michael@edenproject.org>
+
+	* boot.c (xbase_can_unload, xbase_cleaup_plugin):
+	implemented.
+	(xbase_init): renamed to init_plugin and updated.
+
+	* Makefile.am: converted to plugin.
+
+1999-06-23  Michael Meeks  <michael@edenproject.org>
 
 	* boot.c (xbase_probe): Fix for filenames with no
 	extension.

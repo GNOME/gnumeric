@@ -23,6 +23,7 @@
 
 #include "xbase.h"
 #include "boot.h"
+#include "plugin.h"
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
 #     define XB_GETDOUBLE(p)   (*((double*)(p)))
@@ -187,11 +188,29 @@ xbase_load (const char *filename)
 	return wb;
 }
 
-void
-xbase_init (void)
+static int
+xbase_can_unload (PluginData *pd)
+{
+	return TRUE;
+}
+
+static void
+xbase_cleanup_plugin (PluginData *pd)
+{
+	file_format_unregister_open (xbase_probe, xbase_load);
+}
+
+int
+init_plugin (PluginData *pd)
 {
 	char *descr  = _("Xbase (*.dbf) file format");
 
 	/* We register XBase format with a precendence of 100 */
 	file_format_register_open (100, descr, xbase_probe, xbase_load);
+
+	pd->can_unload = xbase_can_unload;
+	pd->cleanup_plugin = xbase_cleanup_plugin;
+	pd->title = g_strdup (_("XBase file import/export plugin"));
+
+	return 0;
 }

@@ -66,7 +66,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	/* The statically linked in file formats */
 	xml_init ();
 	excel_init ();
-	xbase_init ();
 
 	/* Glade */
 	glade_gnome_init ();

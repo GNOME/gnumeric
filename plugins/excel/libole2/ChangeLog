@@ -1,3 +1,11 @@
+1999-06-28  Michael Meeks  <michael@edenproject.org>
+
+	* ms-ole.c (pps_encode_tree_initial): Added different
+	magic numbers for small block files.
+	(extend_file): Culled unused variables.
+	(read_pps): Add clobber of duff root node name, is this
+	a bug in pps_get_text ?
+
 1999-06-18  Michael Meeks  <michael@edenproject.org>
 
 	* ms-ole.c (ms_ole_read_ptr_bb): Stupid bug detecting

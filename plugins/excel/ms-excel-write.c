@@ -43,6 +43,7 @@ typedef struct _WORKBOOK WORKBOOK;
 struct _SHEET {
 	WORKBOOK *wb;
 	Sheet    *gnum_sheet;
+	GArray   *dbcells;
 	guint32   streamPos;
 	guint32   boundsheetPos;
 	guint32   maxx;
@@ -417,10 +418,10 @@ biff_boundsheet_write_first (BIFF_PUT *bp, eBiff_filetype type,
  **/
 static void
 biff_boundsheet_write_last (MS_OLE_STREAM *s, guint32 pos,
-			    guint32 streamPos)
+			    ms_ole_pos_t streamPos)
 {
 	guint8  data[4];
-	guint32 oldpos;
+	ms_ole_pos_t oldpos;
 	g_return_if_fail (s);
 	
 	oldpos = s->position;/* FIXME: tell function ? */
@@ -552,19 +553,29 @@ static FORMATS *
 write_formats (BIFF_PUT *bp, WORKBOOK *wb)
 {
 	FORMATS *formats = g_new (FORMATS, 1);
+	guint  magic[] = { 5, 6, 7, 8, 0x2a, 0x29, 0x2c, 0x2b };
 	guint8 data[64];
 	int lp;
 	
 	for (lp=0;lp<8;lp++) { /* FIXME: Magic minimum formats */
+		guint fidx = magic[lp];
+		char *fmt;
 		formats->StyleFormat_to_idx = g_hash_table_new (g_direct_hash,
 								g_direct_equal);
 		/* Kludge for now ... */
 		ms_biff_put_var_next (bp, BIFF_FORMAT);
 		
-		BIFF_SET_GUINT16 (data, 0);
+		g_assert (fidx < EXCEL_BUILTIN_FORMAT_LEN);
+		g_assert (fidx >= 0);
+		fmt = excel_builtin_formats[fidx];
+
+		BIFF_SET_GUINT16 (data, fidx);
 		ms_biff_put_var_write (bp, data, 2);
 
-		biff_put_text (bp, "0", eBiffV7, TRUE);
+		if (fmt)
+			biff_put_text (bp, fmt, eBiffV7, TRUE);
+		else
+			biff_put_text (bp, "", eBiffV7, TRUE);
 		
 		ms_biff_put_commit (bp);
 	}
@@ -614,7 +625,7 @@ write_xf_record (BIFF_PUT *bp, Style *style, eBiff_version ver)
 		BIFF_SET_GUINT16(data+2, formats_get_index (0, 0));
 		BIFF_SET_GUINT16(data+4, 0xfff5); /* FIXME: Magic */
 		BIFF_SET_GUINT16(data+6, 0xf420);
-		BIFF_SET_GUINT16(data+8, 0xc020); /* Color ! */
+		BIFF_SET_GUINT16(data+8, 0x20c0); /* Color ! */
 		ms_biff_put_var_write (bp, data, 16);
 	}
 	ms_biff_put_commit (bp);
@@ -797,7 +808,7 @@ static void
 write_sheet_bools (BIFF_PUT *bp, SHEET *sheet)
 {
 	guint8 *data;
-	eBiff_version ver = sheet->wb->ver;
+/*	eBiff_version ver = sheet->wb->ver; */
 
 	/* See: S59D63.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_CALCMODE, 2);
@@ -962,6 +973,31 @@ write_sheet_tail (BIFF_PUT *bp, SHEET *sheet)
 	ms_biff_put_commit (bp);
 }
 
+static void
+write_index (MS_OLE_STREAM *s, SHEET *sheet, ms_ole_pos_t pos)
+{
+	guint8  data[4];
+	ms_ole_pos_t oldpos;
+	int lp;
+	
+	g_return_if_fail (s);
+	g_return_if_fail (sheet);
+	
+	oldpos = s->position;/* FIXME: tell function ? */
+	if (sheet->wb->ver >= eBiffV8)
+		s->lseek (s, pos+4+16, MS_OLE_SEEK_SET);
+	else
+		s->lseek (s, pos+4+12, MS_OLE_SEEK_SET);
+
+	for (lp=0;lp<sheet->dbcells->len;lp++) {
+		BIFF_SET_GUINT32 (data, g_array_index (sheet->dbcells, ms_ole_pos_t, lp));
+		s->write (s, data, 4);
+	}
+
+	s->lseek (s, oldpos, MS_OLE_SEEK_SET);
+
+}
+
 /* See: S59DDB.HTM */
 static ms_ole_pos_t
 write_rowinfo (BIFF_PUT *bp, guint32 row, guint32 width)
@@ -984,27 +1020,49 @@ write_rowinfo (BIFF_PUT *bp, guint32 row, guint32 width)
 }
 
 static void
-write_db_cell (BIFF_PUT *bp, ms_ole_pos_t start)
+write_db_cell (BIFF_PUT *bp, SHEET *sheet, ms_ole_pos_t start)
 {
 	/* See: 'Finding records in BIFF files': S59E28.HTM */
 	/* See: 'DBCELL': S59D6D.HTM */
 	
 	ms_ole_pos_t pos = bp->streamPos;
+
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_DBCELL, 6);
 
 	BIFF_SET_GUINT32 (data    , pos - start);
 	BIFF_SET_GUINT16 (data + 4, 0); /* Only 1 row starts at the beggining */
 
 	ms_biff_put_commit (bp);
+
+	g_array_append_val (sheet->dbcells, pos);
 }
 
 static void
 write_sheet (BIFF_PUT *bp, SHEET *sheet)
 {
 	guint32 x, y, maxx, maxy;
+	ms_ole_pos_t index_off;
 
 	sheet->streamPos = bp->streamPos;
 	biff_bof_write (bp, sheet->wb->ver, eBiffTWorksheet);
+	
+	index_off = bp->streamPos;
+	if (sheet->wb->ver >= eBiffV8) {
+		guint8 *data = ms_biff_put_len_next (bp, BIFF_INDEX,
+						     sheet->maxy*4 + 16);
+		BIFF_SET_GUINT32 (data, 0);
+		BIFF_SET_GUINT32 (data +  4, 0);
+		BIFF_SET_GUINT32 (data +  8, maxy);
+		BIFF_SET_GUINT32 (data + 12, 0);
+	} else {
+		guint8 *data = ms_biff_put_len_next (bp, BIFF_INDEX,
+						     sheet->maxy*4 + 12);
+		BIFF_SET_GUINT32 (data, 0);
+		BIFF_SET_GUINT16 (data + 4, 0);
+		BIFF_SET_GUINT16 (data + 6, maxy);
+		BIFF_SET_GUINT32 (data + 8, 0);
+	}
+	ms_biff_put_commit (bp);
 
 	write_sheet_bools (bp, sheet);
 
@@ -1035,8 +1093,10 @@ write_sheet (BIFF_PUT *bp, SHEET *sheet)
 		if (run_size)
 			write_mulblank (bp, sheet, x, y, run_size);
 
-		write_db_cell (bp, start);
+		write_db_cell (bp, sheet, start);
 	}
+
+	write_index (bp->pos, sheet, index_off);
 	write_sheet_tail (bp, sheet);
 
 	biff_eof_write (bp);
@@ -1055,6 +1115,7 @@ new_sheet (WORKBOOK *wb, Sheet *value)
 	sheet->wb         = wb;
 	sheet->maxx       = sheet->gnum_sheet->max_col_used+1;
 	sheet->maxy       = sheet->gnum_sheet->max_row_used+1;
+	sheet->dbcells    = g_array_new (FALSE, FALSE, sizeof (ms_ole_pos_t));
 
 	printf ("Workbook  %d %p\n", wb->ver, wb->gnum_wb);
 	g_ptr_array_add (wb->sheets, sheet);
