@@ -1,3 +1,7 @@
+2001-05-30  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/stf.c (stf_init): Register as importer.
+
 2001-05-29  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/file.h
