@@ -1,5 +1,8 @@
 2002-01-24  Kevin Breit  <mrproper@ximian.com>
 
+	* new/gui-elements.xml: Added file, not yet XMLized
+	This is now XML
+
 	* new/preface.xml: XMLized and added this file
 
 	* new/printing.xml: XMLized this document
