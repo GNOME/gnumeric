@@ -91,6 +91,7 @@ Morten:
 	* Fix YEARFRAC.
 	* Speed up loading.
 	* Use pool allocation for cell style tiles.
+	* Fix rounding and error problems with GCD and LCM.
 
 --------------------------------------------------------------------------
 

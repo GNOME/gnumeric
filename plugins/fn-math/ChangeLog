@@ -1,3 +1,8 @@
+2003-07-07  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (range_gcd): Fix rounding issues.
+	(range_lcm): Ditto.
+
 2003-07-05  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (callback_function_criteria) : new eval semantics do not

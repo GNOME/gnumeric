@@ -164,11 +164,11 @@ range_gcd (const gnm_float *xs, int n, gnm_float *res)
 		int gcd_so_far = 0;
 
 		for (i = 0; i < n; i++) {
-			if (xs[i] <= 0)
+			gnm_float thisx = gnumeric_fake_floor (xs[i]);
+			if (thisx <= 0 || thisx > INT_MAX)
 				return 1;
 			else
-				gcd_so_far = gcd ((int)(floorgnum (xs[i])),
-						  gcd_so_far);
+				gcd_so_far = gcd ((int)thisx, gcd_so_far);
 		}
 		*res = gcd_so_far;
 		return 0;
@@ -217,11 +217,11 @@ range_lcm (const gnm_float *xs, int n, gnm_float *res)
 		int lcm_so_far = 1;
 
 		for (i = 0; i < n; i++) {
-			gnm_float x = xs[i];
-			if (x <= 0)
+			gnm_float x = gnumeric_fake_floor (xs[i]);
+			if (x <= 0 || x > INT_MAX)
 				return 1;
 			else {
-				int xi = (int) floorgnum (x);
+				int xi = (int) x;
 				lcm_so_far /= gcd (lcm_so_far, xi);
 				lcm_so_far *= xi;
 			}
