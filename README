@@ -1,26 +1,18 @@
 Gnumeric -- The GNOME spreadsheet program
-Miguel de Icaza <miguel@kernel.org>
-
+Miguel de Icaza <miguel@helixcode.com>
 
 This is the Gnumeric, the GNOME spreadsheet program.  
 
    Gnumeric is licensed under the terms of the GNU GPL included in the
 file COPYING.
 
-   The goal of this spreadsheet is to become as powerful as other
-spreadsheets on the market and do this cleanly and smartly.  We have to
-do this while being as compatible as possible with Excel.
-
-   If you are familiar with Excel, you should be ready to use Gnumeric.
-We have tried to clone all of the good features and stay as compatible
-as possible with Excel in terms of usability.
+   The project aims to become a viable replacement for standard commercial
+spreadsheets.  Providing enough of a compatible feature set that Gnumeric
+can be used as a drop in replacement.
 
    Gnumeric is still a young program and it is advancing steadily.  If
-you are interested in contributing to the development of Gnumeric, you
-probably will want to read the doc/Design file.  I have scribbled my
-ideas on how Gnumeric should be developed in the future in the file
-doc/Future-Roadmap.
-
+you are interested in contributing to it's development please send us some
+email, there are lots of projects available.
 
 Requirements
 ------------
@@ -29,17 +21,17 @@ You need:
 
 	libole2	    == 0.1.6
 	NOTE : libole2 is also known as libgnomeole2
-	gnome-print == 0.21
-	libglade    == 0.13
+	gnome-print == 0.23
+	libglade    == 0.14
 	gnome-libs  >= 1.0.57	(gnome-libs 2.0 is not supported)
 	glib	    >= 1.2.7	(glib-libs 1.3 is not supported)
 	gtk+	    >= 1.2.7	(gnome-libs 1.3 is not supported)
-	gnome-xml   == 1.8.7    (gnome-xml 2.x not supported yet)
+	gnome-xml   >= 1.8.7    (gnome-xml 2.x not supported yet)
 	NOTE : gnome-xml is also known as libxml
 	gal	    >= 0.0.1
 
 Optionally:
-	bonobo == 0.17
+	bonobo == 0.19
 
 Notes regarding plugins
 -----------------------

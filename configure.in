@@ -126,8 +126,8 @@ if $perl_val; then
     perl_val=false
   fi
 fi
-#
-# Disable perl for now
+
+dnl Disable perl until we have an active maintainer
 AM_CONDITIONAL(WITH_PERL, false)
 
 dnl **************************************************
@@ -308,14 +308,14 @@ AC_SUBST(GB_LIBS)
 dnl ******************************
 dnl GnomePrint checking
 dnl ******************************
-AC_MSG_CHECKING(for GnomePrint libraries >= 0.21pre)
+AC_MSG_CHECKING(for GnomePrint libraries >= 0.23)
 if gnome-config --libs print > /dev/null 2>&1; then 
     vers=`gnome-config --modversion print | sed -e "s/gnome-print-//" -e 's/cvs$//' -e 's/pre$//' | \
         awk 'BEGIN { FS = "."; } { print $1 * 1000 + $2;}'`
-    if test "$vers" -ge 21; then
+    if test "$vers" -ge 23; then
         AC_MSG_RESULT(found)
     else
-        AC_MSG_ERROR(You need at least GNOME print 0.21pre for this version of Gnumeric)
+        AC_MSG_ERROR(You need at least GNOME print 0.23 for this version of Gnumeric)
     fi
 else
     AC_MSG_ERROR(Did not find GnomePrint installed)
@@ -324,13 +324,13 @@ fi
 dnl ******************************
 dnl LibGlade checking
 dnl ******************************
-AC_MSG_CHECKING(for Glade libraries >= 0.13)
+AC_MSG_CHECKING(for Glade libraries >= 0.14)
 if gnome-config --libs libglade > /dev/null 2>&1; then 
     vers=`gnome-config --modversion libglade | awk 'BEGIN { FS = "."; } { print $1 * 1000 + $2;}'`
-    if test "$vers" -ge 13; then
+    if test "$vers" -ge 14; then
         AC_MSG_RESULT(found)
     else
-        AC_MSG_ERROR(You need at least libglade 0.13 for this version of Gnumeric)
+        AC_MSG_ERROR(You need at least libglade 0.14 for this version of Gnumeric)
     fi
 else
     AC_MSG_ERROR(Did not find libGlade installed)
@@ -372,41 +372,41 @@ fi
 dnl ****************
 dnl Check for pspell
 dnl ****************
-
-try_pspell=true
-have_pspell=false
-pspell_msg=no
-PSPELL_LIBS=""
-
-AC_ARG_WITH(pspell,
-	[--{with,without}-pspell    Compile with Pspell support or without it],
-	if test x$withval = xno; then
-		try_pspell=false
-	fi
-	if test x$withval = xyes; then
-		try_pspell=true
-	fi
-)
-
-if $try_pspell; then
-	AC_PATH_PROG(PSPELL_CONFIG,pspell-config,no)
-	AC_MSG_CHECKING([for pspell])
-	if test "$PSPELL_CONFIG" = "no"; then
-		AC_MSG_RESULT(not found)
-	else
-		pspell_ver=`$PSPELL_CONFIG version 2>/dev/null`
-		AC_MSG_RESULT([found ($pspell_ver)])
-
-		AC_CHECK_LIB(pspell, new_pspell_config, have_pspell=true)
-		if test x$have_pspell = xtrue; then
-			AC_DEFINE(HAVE_PSPELL)
-			PSPELL_LIBS="-lpspell"
-			pspell_msg=yes
-		fi
-	fi
-fi
-AC_SUBST(PSPELL_LIBS)
-AM_CONDITIONAL(HAVE_PSPELL, $have_pspell)
+dnl
+dnl try_pspell=true
+dnl have_pspell=false
+dnl pspell_msg=no
+dnl PSPELL_LIBS=""
+dnl 
+dnl AC_ARG_WITH(pspell,
+dnl 	[--{with,without}-pspell    Compile with Pspell support or without it],
+dnl 	if test x$withval = xno; then
+dnl 		try_pspell=false
+dnl 	fi
+dnl 	if test x$withval = xyes; then
+dnl 		try_pspell=true
+dnl 	fi
+dnl )
+dnl 
+dnl if $try_pspell; then
+dnl 	AC_PATH_PROG(PSPELL_CONFIG,pspell-config,no)
+dnl 	AC_MSG_CHECKING([for pspell])
+dnl 	if test "$PSPELL_CONFIG" = "no"; then
+dnl 		AC_MSG_RESULT(not found)
+dnl 	else
+dnl 		pspell_ver=`$PSPELL_CONFIG version 2>/dev/null`
+dnl 		AC_MSG_RESULT([found ($pspell_ver)])
+dnl 
+dnl 		AC_CHECK_LIB(pspell, new_pspell_config, have_pspell=true)
+dnl 		if test x$have_pspell = xtrue; then
+dnl 			AC_DEFINE(HAVE_PSPELL)
+dnl 			PSPELL_LIBS="-lpspell"
+dnl 			pspell_msg=yes
+dnl 		fi
+dnl 	fi
+dnl fi
+dnl AC_SUBST(PSPELL_LIBS)
+dnl AM_CONDITIONAL(HAVE_PSPELL, $have_pspell)
 
 dnl ******************************
 dnl Check for Applix SHELF
@@ -507,7 +507,6 @@ Configuration:
 	
 	GB Support:		${gb_msg}
 	Bonobo Support:		${bonobo_msg}
-	Spell Checking:		${pspell_msg}
 "
 if $have_bonobo; then
 	echo "

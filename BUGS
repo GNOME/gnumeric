@@ -4,9 +4,8 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- Saving xml should not rely on changing the textdomain to disable translation
-  of TRUE/FALSE in expressions.
 
+- Fix relocation undo to handle Dependents rather than Cell.
 - Evaluate (i.e., eliminate) all instances of "foo == TRUE" in the code.
   They're too error prone for comfort.
 
@@ -18,6 +17,11 @@ Post 0.57 Changes
 
 Long term breakage
 ------------------
+- locale : Saving xml should not rely on changing the textdomain to
+           disable translation of TRUE/FALSE in expressions.
+	 : Support parsing and displaying locale specific function
+	   names.
+
 - We should put the sensitization/desensitization of the toolbars
   on a timer/idle hander so that it will not trigger until a second
   or so after the edit starts/ends.  This will decrease the irritating
