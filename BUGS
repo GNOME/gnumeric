@@ -4,6 +4,9 @@ and longer term bugs.
 
 Release Critical
 ----------------
+- Changing a name that is in use causes a crash.
+- pasting a copy uses the size of the current selection
+  to decide what to fill.  This breaks undo.
 
 Long term breakage
 ------------------
