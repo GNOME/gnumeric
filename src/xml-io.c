@@ -3000,7 +3000,7 @@ xml_workbook_write (XmlParseContext *ctxt, WorkbookView *wb_view)
 	if (cur == NULL)
 		return NULL;
 	if (ctxt->ns == NULL) {
-		gmr = xmlNewNs (cur, "http://www.gnome.org/gnumeric/v4", "gmr");
+		gmr = xmlNewNs (cur, "http://www.gnome.org/gnumeric/v5", "gmr");
 		xmlSetNs(cur, gmr);
 		ctxt->ns = gmr;
 	}
