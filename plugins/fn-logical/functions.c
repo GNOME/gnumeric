@@ -350,13 +350,13 @@ gnumeric_false (FunctionEvalInfo *ei, Value **args)
 /***************************************************************************/
 
 const ModulePluginFunctionInfo logical_functions[] = {
-	{ "and", 0, "", &help_and, NULL, gnumeric_and, NULL, NULL },
-	{ "or", 0, "", &help_or, NULL, gnumeric_or, NULL, NULL },
-	{ "xor", 0, "", &help_xor, NULL, gnumeric_xor, NULL, NULL },
-	{ "not", "f", "number", &help_not, gnumeric_not, NULL, NULL, NULL },
-	{ "if", 0, "", &help_if, NULL, gnumeric_if, NULL, NULL },
-	{ "true", "f", "number", &help_true, gnumeric_true, NULL, NULL, NULL },
-	{ "false", "f", "number", &help_false, gnumeric_false, NULL, NULL, NULL },
+	{ "and", 0, N_("number,number,"), &help_and, NULL, gnumeric_and, NULL, NULL },
+	{ "or", 0, N_("number,number,"), &help_or, NULL, gnumeric_or, NULL, NULL },
+	{ "xor", 0, N_("number,number,"), &help_xor, NULL, gnumeric_xor, NULL, NULL },
+	{ "not", "f", N_("number"), &help_not, gnumeric_not, NULL, NULL, NULL },
+	{ "if", 0, N_("condition,if true,if false"), &help_if, NULL, gnumeric_if, NULL, NULL },
+	{ "true", "f", N_("number"), &help_true, gnumeric_true, NULL, NULL, NULL },
+	{ "false", "f", N_("number"), &help_false, gnumeric_false, NULL, NULL, NULL },
         {NULL}
 };
 

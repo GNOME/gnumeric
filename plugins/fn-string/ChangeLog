@@ -1,3 +1,8 @@
+2002-05-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* functions.c : mark argument names for translation and adjust 
+	  them for use by the formula guru.
+
 2002-04-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.3
