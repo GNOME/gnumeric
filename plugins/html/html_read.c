@@ -47,6 +47,11 @@
 #include <libxml/HTMLparser.h>
 #include <libxml/HTMLtree.h>
 
+typedef struct {
+	Sheet *sheet;
+	int   row;
+} GnmHtmlTableCtxt;
+
 static Sheet *
 html_get_sheet (char const *name, Workbook *wb) 
 {
@@ -109,7 +114,7 @@ html_read_content (htmlNodePtr cur, xmlBufferPtr buf, MStyle *mstyle, xmlBufferP
 }
 
 static void
-html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
+html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 {
 	htmlNodePtr ptr;
 	int col = -1;
@@ -124,9 +129,9 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 			MStyle *mstyle;
 
 			/* Check whetehr we need to skip merges from above */
-			pos.row = row;
+			pos.row = tc->row;
 			pos.col = col + 1;
-			while (sheet_merge_contains_pos (sheet, &pos)) {
+			while (sheet_merge_contains_pos (tc->sheet, &pos)) {
 				col++;
 				pos.col++;
 			}
@@ -160,8 +165,8 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 				Cell *cell;
 
 				name = g_strndup ((gchar *)buf->content, buf->use);
-				cell = sheet_cell_fetch	(sheet, col + 1, row);
-				sheet_style_set_pos (sheet, col + 1, row, mstyle);
+				cell = sheet_cell_fetch	(tc->sheet, col + 1, tc->row);
+				sheet_style_set_pos (tc->sheet, col + 1, tc->row, mstyle);
 				cell_set_text (cell, name);
 				g_free (name);
 			}
@@ -169,7 +174,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 				char *name;
 
 				name = g_strndup ((gchar *)a_buf->content, a_buf->use);
-				cell_set_comment (sheet, &pos, NULL, name);
+				cell_set_comment (tc->sheet, &pos, NULL, name);
 				g_free (name);
 			}
 			xmlBufferFree (buf);
@@ -180,8 +185,8 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 				Range range;
 				Range *r = &range;
 
-				range_init (r, col + 1, row, col + colspan, row + rowspan - 1);
-				sheet_merge_add (sheet, r, FALSE, NULL);
+				range_init (r, col + 1, tc->row, col + colspan, tc->row + rowspan - 1);
+				sheet_merge_add (tc->sheet, r, FALSE, NULL);
 			}
 
 			col += colspan;
@@ -190,16 +195,35 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 }
 
 static void
+html_read_rows (htmlNodePtr cur, htmlDocPtr doc, Workbook *wb,
+		GnmHtmlTableCtxt *tc)
+{
+	htmlNodePtr ptr;
+
+	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
+		if (ptr->type != XML_ELEMENT_NODE)
+			continue;
+		if (xmlStrEqual (ptr->name, (xmlChar *)"tr")) {
+			tc->row++;
+			if (tc->sheet == NULL)
+				tc->sheet = html_get_sheet (NULL, wb);
+			html_read_row (ptr, doc, tc);
+		}
+	}
+}
+
+static void
 html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view)
 {
-	Sheet *sheet = NULL;
+	GnmHtmlTableCtxt tc;
 	Workbook *wb;
 	htmlNodePtr ptr, ptr2;
-	int row = -1;
 
 	g_return_if_fail (cur != NULL);
 	g_return_if_fail (wb_view != NULL);
 
+	tc.sheet = NULL;
+	tc.row   = -1;
 	wb = wb_view_workbook (wb_view);
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
 		if (ptr->type != XML_ELEMENT_NODE)
@@ -213,20 +237,19 @@ html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view)
 			if (buf->use > 0) {
 				char *name;
 				name = g_strndup ((gchar *)buf->content, buf->use);
-				sheet = html_get_sheet (name, wb);
+				tc.sheet = html_get_sheet (name, wb);
 				g_free (name);
 			}
 			xmlBufferFree (buf);
-		}
-		if (xmlStrEqual (ptr->name, (xmlChar *)"tr")) {
-			row++;
-			if (sheet == NULL)
-				sheet = html_get_sheet (NULL, wb);
-			html_read_row (ptr, doc, sheet, row);
+		} else if (xmlStrEqual (ptr->name, (xmlChar *)"thead") ||
+			   xmlStrEqual (ptr->name, (xmlChar *)"tfoot") ||
+			   xmlStrEqual (ptr->name, (xmlChar *)"tbody")) {
+			html_read_rows (ptr, doc, wb, &tc);
+		} else if (xmlStrEqual (ptr->name, (xmlChar *)"tr")) {
+			html_read_rows (cur, doc, wb, &tc);
 		}
 	}
 }
-
 
 static void
 html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view)

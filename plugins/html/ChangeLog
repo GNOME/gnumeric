@@ -1,3 +1,14 @@
+2003-01-16  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (struct GnmHtmlTableCtxt): Add. Keep state while
+	traversing thead, tfoot, tbody parts.
+	(html_read_row): Replace row and sheet parameters with a
+	GnmHtmlTableCtxt.
+	(html_read_rows): Add. Read rows in a row group (thead, tfoot,
+	tbody or plain table).
+	(html_read_table): Replace row and sheet with a
+	GnmHtmlTableCtxt. Call html_read_rows to read rows groupwise.
+
 2003-01-14  Morten Welinder  <terra@diku.dk>
 
 	* html.c (html_get_color): Adapt to cell_get_render_color changes.
