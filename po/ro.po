@@ -275,7 +275,7 @@ msgstr "Valoare date \"%s\" necunoscutã la linia %d. Ignor."
 #: plugins/dif/dif.c:290
 #, c-format
 msgid "Unknown value type %d at line %d. Ignoring."
-msgstr "Valoare tip \"%s\" necunoscutã la linia %d. Ignor."
+msgstr "Valoare tip \"%d\" necunoscutã la linia %d. Ignor."
 
 #: plugins/dif/dif.c:299
 #, c-format
@@ -2807,7 +2807,7 @@ msgstr "Ianuarie"
 #: src/bonobo-io.c:448
 #, c-format
 msgid "Error '%s' opening workbook stream"
-msgstr "Eroare '%' la deschiderea fluxului de registru"
+msgstr "Eroare '%s' la deschiderea fluxului de registru"
 
 #: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3409
 msgid "Invalid xml file. Tree is empty ?"
@@ -2921,7 +2921,7 @@ msgstr "tastarea \"%s%s\""
 #: src/commands.c:1102
 #, c-format
 msgid "Inserting %d columns before %s"
-msgstr "inserarea a %d coloane înainte de %d"
+msgstr "inserarea a %d coloane înainte de %s"
 
 #: src/commands.c:1103
 #, c-format
@@ -5102,7 +5102,7 @@ msgstr "Goleºte fundal"
 #: src/dialogs/dialog-cell-sort.c:86 src/dialogs/dialog-cell-sort.c:91
 #, c-format
 msgid "Row %s"
-msgstr "Rândul %d"
+msgstr "Rândul %s"
 
 #: src/dialogs/dialog-cell-sort.c:204
 msgid "Ascending"
@@ -15163,7 +15163,7 @@ msgstr "Lipseºte id-ul încãrcãtorului."
 #: src/plugin-service.c:1199
 #, c-format
 msgid "Error while reading service of type \"%s\"."
-msgstr "Eroare la citirea serviciului de tip \"%\"s."
+msgstr "Eroare la citirea serviciului de tip \"%s\"."
 
 #: src/plugin-util.c:128
 #, c-format
