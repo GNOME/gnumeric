@@ -4,22 +4,22 @@ Christian Neumair:
 	* Made most dialogs HIG compliant.
 
 Jody:
-	* start enabling the graph guru.
-	* Begin to re-enable xls document metadata
-	* Fix translations in the bonobo build
-	* Enable translation of function category names
-	* Parser support for both sytaxes of 3d reference
+	* Start enabling the graph guru.
+	* Begin to re-enable xls document metadata.
+	* Fix translations in the bonobo build.
+	* Enable translation of function category names.
+	* Parser support for both syntaxes of 3d reference.
 	* Parser support for row or col only references (A:C or 1:5)
-	* Fix some drawing issues related to the pango conversion
-	* remove some deprecated functions
+	* Fix some drawing issues related to the pango conversion.
+	* Remove usage of some deprecated functions.
 	* Fix handling of files named .xml.gz
 	* Improvements for ExprEntry
-	* Make autocorrect unicode safe, and port dialog to treeview
-	* Fix 'address' so that we pass all of the tests
+	* Make autocorrect unicode-safe, and port dialog to treeview.
+	* Fix 'address' so that we pass all of the tests.
 	* Fix handling of optional scalar arguments.
-	* Covert many of the IS* info functions to nodal:scalar
-	* Support implicit iteration for array expressions
-	* Fix sheet object ref counting error that Morten found
+	* Convert many of the IS* info functions to nodal:scalar.
+	* Support implicit iteration for array expressions.
+	* Fix sheet object ref counting error that Morten found.
 	* Fix crash when destroying unshared view.
 
 Morten:
