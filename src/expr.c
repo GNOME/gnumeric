@@ -1214,9 +1214,8 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 	}
 
 	case GNM_EXPR_OP_CONSTANT: {
-		const char *res;
 		Value const *v = expr->constant.value;
-		gboolean need_par;
+		size_t prelen = target->len;
 
 		if (v->type == VALUE_STRING) {
 			gnm_strescape (target, v->v_str.val->str);
@@ -1230,19 +1229,22 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 			return;
 		}
 
-		res = value_peek_string (v);
+		value_get_as_gstring (target, v, conv);
 
 		/* If the number has a sign, pretend that it is the result of
 		 * OPER_UNARY_{NEG,PLUS}.  It is not clear how we would
 		 * currently get negative numbers here, but some loader might
 		 * do it.
 		 */
-		need_par = (res[0] == '-' || res[0] == '+') &&
-			operations[GNM_EXPR_OP_UNARY_NEG].prec <= paren_level;
-
-		if (need_par) g_string_append_c (target, '(');
-		g_string_append (target, res);
-		if (need_par) g_string_append_c (target, ')');
+		if ((target->str[prelen] == '-' || target->str[prelen] == '+') &&
+		    operations[GNM_EXPR_OP_UNARY_NEG].prec <= paren_level) {
+			/* Add ")" and make room for "(".  */
+			g_string_append (target, ")X");
+			g_memmove (target->str + prelen,
+				   target->str + prelen + 1,
+				   target->len - prelen - 1);
+			target->str[prelen] = '(';
+		}
 		return;
 	}
 
@@ -1292,6 +1294,17 @@ gnm_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 	do_expr_as_string (res, expr, pp, 0, fmt);
 	return g_string_free (res, FALSE);
 }
+
+void
+gnm_expr_as_gstring (GString *target,
+		     GnmExpr const *expr, ParsePos const *pp,
+		     const GnmExprConventions *fmt)
+{
+	g_return_if_fail (expr != NULL);
+	g_return_if_fail (pp != NULL);
+	do_expr_as_string (target, expr, pp, 0, fmt);
+}
+
 
 typedef enum {
 	CELLREF_NO_RELOCATE,

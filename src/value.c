@@ -625,6 +625,105 @@ value_get_as_checked_bool (Value const *v)
 	return result;
 }
 
+void
+value_get_as_gstring (GString *target, Value const *v,
+		      const GnmExprConventions *conv)
+{
+	if (v == NULL)
+		return;
+
+	switch (v->type){
+	case VALUE_EMPTY:
+		return;
+
+	case VALUE_ERROR:
+		/* FIXME: conv  */
+		g_string_append (target, v->v_err.mesg->str);
+		return;
+
+	case VALUE_BOOLEAN: {
+		const char *cval = v->v_bool.val ? "TRUE" : "FALSE";
+		g_string_append (target, conv->output_translated ? _(cval) : cval);
+		return;
+	}
+
+	case VALUE_STRING:
+		g_string_append (target, v->v_str.val->str);
+		return;
+
+	case VALUE_INTEGER:
+		g_string_append_printf (target, "%d", v->v_int.val);
+		return;
+
+	case VALUE_FLOAT:
+		g_string_append_printf (target, "%.*" GNUM_FORMAT_g, GNUM_DIG,
+					v->v_float.val);
+		return;
+
+	case VALUE_ARRAY: {
+		const char *row_sep, *col_sep;
+		char locale_arg_sep[2], locale_col_sep[2];
+		int x, y;
+
+		if (conv->output_argument_sep)
+			row_sep = conv->output_argument_sep;
+		else {
+			locale_arg_sep[0] = format_get_arg_sep ();
+			locale_arg_sep[1] = 0;
+			row_sep = locale_arg_sep;
+		}
+
+		if (conv->output_array_col_sep)
+			col_sep = conv->output_array_col_sep;
+		else {
+			locale_col_sep[0] = format_get_col_sep ();
+			locale_col_sep[1] = 0;
+			col_sep = locale_col_sep;
+		}
+
+		g_string_append_c (target, '{');
+		for (y = 0; y < v->v_array.y; y++){
+			if (y)
+				g_string_append (target, col_sep);
+
+			for (x = 0; x < v->v_array.x; x++){
+				Value const *val = v->v_array.vals[x][y];
+
+				if (x)
+					g_string_append (target, row_sep);
+
+				/* quote strings */
+				if (val->type == VALUE_STRING)
+					gnm_strescape (target, val->v_str.val->str);
+				else
+					value_get_as_gstring (target, val, conv);
+			}
+		}
+		g_string_append_c (target, '}');
+		return;
+	}
+
+	case VALUE_CELLRANGE: {
+		char *tmp;
+		/* Note: this makes only sense for absolute references or
+		 *       references relative to A1
+		 */
+		Range range;
+		range_init_value (&range, v);
+		tmp = global_range_name (v->v_range.cell.a.sheet, &range);;
+		g_string_append (target, tmp);
+		g_free (tmp);
+		return;
+	}
+
+	default:
+		break;
+	}
+
+	g_assert_not_reached ();
+}
+
+
 /**
  * value_get_as_string :
  * @v :
@@ -636,72 +735,9 @@ value_get_as_checked_bool (Value const *v)
 char *
 value_get_as_string (Value const *v)
 {
-	if (v == NULL)
-		return g_strdup ("");
-
-	switch (v->type){
-	case VALUE_EMPTY:
-		return g_strdup ("");
-
-	case VALUE_ERROR:
-		return g_strdup (v->v_err.mesg->str);
-
-	case VALUE_BOOLEAN:
-		return g_strdup (v->v_bool.val ? _("TRUE") : _("FALSE"));
-
-	case VALUE_STRING:
-		return g_strdup (v->v_str.val->str);
-
-	case VALUE_INTEGER:
-		return g_strdup_printf ("%d", v->v_int.val);
-
-	case VALUE_FLOAT:
-		return g_strdup_printf ("%.*" GNUM_FORMAT_g, GNUM_DIG, v->v_float.val);
-
-	case VALUE_ARRAY: {
-		char const row_sep = format_get_arg_sep ();
-		char const col_sep = format_get_col_sep ();
-		GString *str = g_string_new ("{");
-		int x, y;
-		char *ans;
-
-		for (y = 0; y < v->v_array.y; y++){
-			for (x = 0; x < v->v_array.x; x++){
-				Value const *val = v->v_array.vals[x][y];
-
-				if (x)
-					g_string_append_c (str, row_sep);
-
-				/* quote strings */
-				if (val->type == VALUE_STRING)
-					gnm_strescape (str, val->v_str.val->str);
-				else
-					g_string_append (str, value_peek_string (val));
-			}
-			if (y < v->v_array.y-1)
-				g_string_append_c (str, col_sep);
-		}
-		g_string_append_printf (str, "}");
-		ans = str->str;
-		g_string_free (str, FALSE);
-		return ans;
-	}
-
-	case VALUE_CELLRANGE: {
-		/* Note: this makes only sense for absolute references or
-		 *       references relative to A1
-		 */
-		Range range;
-		range_init_value (&range, v);
-		return global_range_name (v->v_range.cell.a.sheet, &range);;
-	}
-
-	default:
-		g_warning ("value_get_as_string problem.");
-		break;
-	}
-
-	return g_strdup ("Internal problem.");
+	GString *res = g_string_sized_new (10);
+	value_get_as_gstring (res, v, gnm_expr_conventions_default);
+	return g_string_free (res, FALSE);
 }
 
 /*

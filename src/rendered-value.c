@@ -83,11 +83,12 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 
 	if (cell_has_expr (cell) && sheet != NULL && sheet->display_formulas) {
 		ParsePos pp;
-		char *tmpstr = gnm_expr_as_string (cell->base.expression,
-				    parse_pos_init_cell (&pp, cell),
-				    gnm_expr_conventions_default);
-		str = g_strconcat ("=", tmpstr, NULL);
-		g_free (tmpstr);
+		GString *gstr = g_string_new ("=");
+
+		gnm_expr_as_gstring (gstr, cell->base.expression,
+				     parse_pos_init_cell (&pp, cell),
+				     gnm_expr_conventions_default);
+		str = g_string_free (gstr, FALSE);
 		color = NULL;
 		dynamic_width = FALSE;
 	} else if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
@@ -141,11 +142,10 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 	g_return_val_if_fail (str != NULL, NULL);
 
 	res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
-	res->rendered_text = string_get (str);
+	res->rendered_text = string_get_nocopy (str);
 	res->render_color = color;
 	res->width_pixel = res->height_pixel = res->offset_pixel = 0;
 	res->dynamic_width = dynamic_width;
-	g_free (str);
 
 	return res;
 }
@@ -363,16 +363,13 @@ cell_get_entered_text (Cell const *cell)
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	if (cell_has_expr (cell)) {
-		char *func, *ret;
 		ParsePos pp;
+		GString *res = g_string_new ("=");
 
-		func = gnm_expr_as_string (cell->base.expression,
-			parse_pos_init_cell (&pp, cell),
-			gnm_expr_conventions_default);
-		ret = g_strconcat ("=", func, NULL);
-		g_free (func);
-
-		return ret;
+		gnm_expr_as_gstring (res, cell->base.expression,
+				     parse_pos_init_cell (&pp, cell),
+				     gnm_expr_conventions_default);
+		return g_string_free (res, FALSE);
 	}
 
 	if (cell->value != NULL) {

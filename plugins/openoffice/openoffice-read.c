@@ -826,7 +826,11 @@ oo_conventions (void)
 	GnmExprConventions *res = gnm_expr_conventions_new ();
 
 	res->decode_ampersands = TRUE;
-	res->use_locale_C = TRUE;
+	res->decimal_sep_dot = TRUE;
+	res->argument_sep_semicolon = TRUE;
+	res->array_col_sep_comma = TRUE;
+	res->output_argument_sep = ";";
+	res->output_array_col_sep = ",";
 	res->unknown_function_handler = gnm_func_placeholder_factory;
 	res->ref_parser = oo_rangeref_parse;
 

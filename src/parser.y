@@ -1238,15 +1238,15 @@ gnm_expr_parse_str (char const *expr_text, ParsePos const *pos,
 	pstate.unknown_names_are_strings		= flags & GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS;
 	pstate.convs                                    = convs;
 
-	if (convs->use_locale_C) {
-		pstate.decimal_point	   = '.';
-		pstate.separator 	   = ';';
-		pstate.array_col_separator = ',';
-	} else {
-		pstate.decimal_point	   = format_get_decimal ();
-		pstate.separator 	   = format_get_arg_sep ();
-		pstate.array_col_separator = format_get_col_sep ();
-	}
+	pstate.decimal_point = convs->decimal_sep_dot
+		? '.'
+		: format_get_decimal ();
+	pstate.separator = convs->argument_sep_semicolon
+		? ';'
+		: format_get_arg_sep ();
+	pstate.array_col_separator = convs->array_col_sep_comma
+		? ','
+		: format_get_col_sep ();
 
 	pstate.result = NULL;
 	pstate.error = error;

@@ -978,6 +978,7 @@ def_expr_name_handler (GString *target,
 	const GnmNamedExpr *thename = name->name;
 
 	if (!thename->active) {
+		/* FIXME!  Always saved translated. */
 		g_string_append (target, gnumeric_err_REF);
 		return;
 	}
@@ -997,7 +998,7 @@ def_expr_name_handler (GString *target,
 		g_string_append (target, thename->pos.sheet->name_quoted);
 		g_string_append (target, conv->output_sheet_name_sep);
 	}
-	
+
 	g_string_append (target, thename->name->str);
 }
 
@@ -1010,6 +1011,7 @@ gnm_expr_conventions_new (void)
 
 	res->expr_name_handler = def_expr_name_handler;
 	res->output_sheet_name_sep = "!";
+	res->output_translated = TRUE;
 	return res;
 }
 

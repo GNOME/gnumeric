@@ -126,6 +126,8 @@ guint        value_hash		   (Value const *v);
 
 gboolean    value_get_as_bool         (Value const *v, gboolean *err);
 gboolean    value_get_as_checked_bool (Value const *v);
+void        value_get_as_gstring (GString *target, Value const *v,
+				  const GnmExprConventions *conv);
 char       *value_get_as_string       (Value const *v);
 char const *value_peek_string         (Value const *v);
 int         value_get_as_int          (Value const *v);

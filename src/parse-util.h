@@ -120,8 +120,14 @@ struct _GnmExprConventions {
 	/* Formerly part of USE_OPENCALC_CONVENTIONS.  */
 	gboolean decode_ampersands;
 
-	/* Formerly part of USE_OPENCALC_CONVENTIONS.  */
-	gboolean use_locale_C;
+	/* Is the decimal separator "." (as opposed to locale's)?  */
+	gboolean decimal_sep_dot;
+
+	/* Is the argument separator ";" (as opposed to locale's)?  */
+	gboolean argument_sep_semicolon;
+
+	/* Is the array column separator "," (as opposed to locale's)?  */
+	gboolean array_col_sep_comma;
 
 	/* Accept prefix #NOT# and infixs #AND# and #OR#.  */
 	gboolean accept_hash_logicals;
@@ -149,6 +155,11 @@ struct _GnmExprConventions {
 
 	/* If non-null, used to separate elements in lists.  */
 	const char *output_argument_sep;
+
+	/* If non-null, used to separate array columns.  */
+	const char *output_array_col_sep;
+
+	gboolean output_translated;
 };
 
 GnmExprConventions *gnm_expr_conventions_new (void);

@@ -1,3 +1,13 @@
+2002-12-15  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (gnm_expr_as_gstring): New function.
+
+	* src/rendered-value.c (rendered_value_new): Use
+	gnm_expr_as_gstring to avoid extra copy of result.  Use
+	string_get_nocopy to avoid yet another copy.
+	(cell_get_entered_text): Use gnm_expr_as_gstring to avoid extra
+	copy of result.
+
 2002-12-14  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (cb_auto_filter) : It makes no sense to
@@ -27,12 +37,19 @@
 
 2002-12-13  Morten Welinder  <terra@diku.dk>
 
+	* src/value.c (value_get_as_gstring): New function.
+	(value_get_as_string): Use that.
+
+	* src/expr.c (do_expr_as_string): Use value_get_as_gstring.
+
 	* src/xml-io.c (gnumeric_xml_read_workbook): Grammar fix.
 
 	* src/parse-util.h (struct _GnmExprConventions): New members
-	expr_name_handler, output_sheet_name_sep, and output_argument_sep.
+ 	expr_name_handler, output_sheet_name_sep, output_argument_sep,
+ 	output_array_col_sep, and output_translated.  Eliminate
+ 	use_locale_C.
 
-	* src/expr.c (do_expr_as_string): Use new expr_name_handler is
+	* src/expr.c (do_expr_as_string): Use new expr_name_handler in
 	conventions.
 
 	* src/parse-util.c (def_expr_name_handler): New function, mostly

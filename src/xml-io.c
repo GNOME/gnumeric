@@ -1635,11 +1635,10 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell const *cell, ParsePos c
 
 	if (write_contents) {
 		if (cell_has_expr (cell)) {
-			char *tmp;
-
-			tmp = gnm_expr_as_string (cell->base.expression, pp, gnm_expr_conventions_default_1_0);
-			text = C2XML (g_strconcat ("=", tmp, NULL));
-			g_free (tmp);
+			GString *str = g_string_sized_new (1000);
+			g_string_append_c (str, '=');
+			gnm_expr_as_gstring (str, cell->base.expression, pp, gnm_expr_conventions_default_1_0);
+			text = C2XML (g_string_free (str, FALSE));
 		} else
 			text = C2XML (value_get_as_string (cell->value));
 
