@@ -187,7 +187,7 @@ style_font_new_simple (PangoContext *context,
 		font->pango.metrics = pango_font_get_metrics (font->pango.font,
 							      gtk_get_default_language ());
 
-		font->gnome_print_font = gnome_font_find_closest_from_weight_slant (font_name,
+		font->gnome_print_font = gnm_font_find_closest_from_weight_slant (font_name,
 			bold ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR, italic, size_pts);
 
 		font->approx_width.pixels.digit = calc_font_width (font, "0123456789");
@@ -384,7 +384,7 @@ font_init (void)
 			gnumeric_default_font_name, gnumeric_default_font_size,
 			1., FALSE, FALSE);
 	if (gnumeric_default_font == NULL) {
-		g_warning ("Configured default font '%s %d' not available, trying fallback...",
+		g_warning ("Configured default font '%s %f' not available, trying fallback...",
 			   gnumeric_default_font_name, gnumeric_default_font_size);
 		gnumeric_default_font = style_font_new_simple (context,
 			DEFAULT_FONT, DEFAULT_SIZE, 1., FALSE, FALSE);
@@ -393,7 +393,7 @@ font_init (void)
 			gnumeric_default_font_name = g_strdup (DEFAULT_FONT);
 			gnumeric_default_font_size = DEFAULT_SIZE;
 		} else {
-			g_warning ("Fallback font '%s %d' not available, trying 'fixed'...",
+			g_warning ("Fallback font '%s %f' not available, trying 'fixed'...",
 				   DEFAULT_FONT, DEFAULT_SIZE);
 			gnumeric_default_font = style_font_new_simple (context,
 				"fixed", 10, 1., FALSE, FALSE);
@@ -545,4 +545,25 @@ style_default_halign (MStyle const *mstyle, Cell const *c)
 	}
 
 	return align;
+}
+
+GnomeFont *
+gnm_font_find_closest_from_weight_slant (const guchar *family, 
+					 GnomeFontWeight weight, 
+					 gboolean italic, gdouble size)
+{
+	GnomeFont *font;
+	const guchar   *fam;
+
+	font = gnome_font_find_closest_from_weight_slant 
+		(family, weight, italic, size);
+	fam = gnome_font_get_family_name  (font);
+	if (strcasecmp(family, fam) != 0) {
+		guchar   *name = gnome_font_get_full_name (font);
+		g_warning ("GnomePrint: Requested %s but using %s (%s)", 
+			   family, fam, name);
+		g_free (name);
+	}
+
+	return font;
 }

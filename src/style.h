@@ -78,6 +78,11 @@ StyleHAlignFlags style_default_halign (MStyle const *mstyle, Cell const *c);
 
 extern double gnumeric_default_font_width;
 
+GnomeFont *gnm_font_find_closest_from_weight_slant (const guchar *family, 
+						    GnomeFontWeight weight, 
+						    gboolean italic, 
+						    gdouble size);
+
 #include "mstyle.h"
 
 #endif /* GNUMERIC_STYLE_H */

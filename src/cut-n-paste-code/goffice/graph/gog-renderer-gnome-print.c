@@ -20,6 +20,8 @@
  */
 
 #include <gnumeric-config.h>
+/* <style.h> is only needed for gnm_font_find_closest_from_weight_slant */
+#include <style.h>  
 #include <goffice/graph/gog-renderer-gnome-print.h>
 #include <goffice/graph/gog-renderer-impl.h>
 #include <goffice/graph/gog-style.h>
@@ -95,7 +97,7 @@ get_font (GogRendererGnomePrint *prend, GOFont const *gf)
 
 	if (res == NULL) {
 		PangoFontDescription *desc = gf->desc;
-		res = gnome_font_find_closest_from_weight_slant (
+		res = gnm_font_find_closest_from_weight_slant (
 			pango_font_description_get_family (desc),
 			pango_font_description_get_weight (desc) >= PANGO_WEIGHT_BOLD ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR,
 			pango_font_description_get_style (desc) != PANGO_STYLE_NORMAL,

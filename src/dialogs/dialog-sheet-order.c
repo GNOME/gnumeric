@@ -106,23 +106,22 @@ cb_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 static gint
 location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
 {
-	Sheet *sheet, *this_sheet;
-	GtkTreeIter this_iter;
-	gint n = 0;
+	/* Note: in gtk 2.2 we could just do: */
+/* 	gchar* path = gtk_tree_model_get_string_from_iter */
+/* 		(GTK_TREE_MODEL (model), iter); */
 
-	gtk_tree_model_get (GTK_TREE_MODEL (model), iter, SHEET_POINTER, &sheet, -1);
+	/* in gtk 2.0 we need: */
+	GtkTreePath *treepath = gtk_tree_model_get_path 
+		(GTK_TREE_MODEL (model), iter);
+	gchar* path = gtk_tree_path_to_string (treepath);
+	gtk_tree_path_free (treepath);
+	/* end of gtk 2.0 code */
 
-	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (model),
-					       &this_iter, NULL, n)) {
-		gtk_tree_model_get (GTK_TREE_MODEL (model), &this_iter, SHEET_POINTER,
-				    &this_sheet, -1);
-		if (this_sheet == sheet)
-			return n;
-		n++;
-	}
+	gint loc = atoi(path);
+	
+	g_free (path);
 
-	g_assert_not_reached ();
-	return -1;
+	return loc;
 }
 
 static void

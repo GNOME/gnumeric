@@ -1,3 +1,9 @@
+2003-09-14  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* graph/gog-renderer-gnome-print.c: replace calls of
+	  gnome_font_find_closest_from_weight_slant with
+	  gnm_font_find_closest_from_weight_slant
+
 2003-09-14  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-axis.c (axis_get_entry) : new utility.

@@ -1,3 +1,7 @@
+2003-09-14  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* dialog-sheet-order.c (location_of_iter): rewrite
+
 2003-09-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-printer-setup.c (display_hf_preview): initialize 

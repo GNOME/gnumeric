@@ -1,3 +1,9 @@
+2003-09-14  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/style.c: fix format warnings
+	(gnm_font_find_closest_from_weight_slant): new
+	* src/style.h (gnm_font_find_closest_from_weight_slant): new
+
 2003-09-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/print-info.c (render_path): &[PATH] should not include 
