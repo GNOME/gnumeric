@@ -192,7 +192,7 @@ new_canvas_bar (Sheet *sheet, GtkOrientation o, GnomeCanvasItem **itemp)
 }
 
 static void
-sheet_col_selection_changed (ItemBar *item_bar, int column, Sheet *sheet)
+sheet_col_selection_changed (ItemBar *item_bar, int column, int reset, Sheet *sheet)
 {
 	ColRowInfo *ci;
 
@@ -201,7 +201,8 @@ sheet_col_selection_changed (ItemBar *item_bar, int column, Sheet *sheet)
 		return;
 	
 	gnumeric_sheet_cursor_set (GNUMERIC_SHEET (sheet->sheet_view), column, 0);
-	sheet_selection_clear_only (sheet);
+	if (reset)
+		sheet_selection_clear_only (sheet);
 	sheet_col_set_selection (sheet, ci, 1);
 	sheet_selection_append_range (sheet,
 				      column, 0,
@@ -217,7 +218,7 @@ sheet_col_size_changed (ItemBar *item_bar, int col, int width, Sheet *sheet)
 }
 
 static void
-sheet_row_selection_changed (ItemBar *item_bar, int row, Sheet *sheet)
+sheet_row_selection_changed (ItemBar *item_bar, int row, int reset, Sheet *sheet)
 {
 	ColRowInfo *ri;
 
@@ -226,7 +227,8 @@ sheet_row_selection_changed (ItemBar *item_bar, int row, Sheet *sheet)
 		return;
 
 	gnumeric_sheet_cursor_set (GNUMERIC_SHEET (sheet->sheet_view), 0, row);
-	sheet_selection_clear_only (sheet);
+	if (reset)
+		sheet_selection_clear_only (sheet);
 	sheet_row_set_selection (sheet, ri, 1);
 	sheet_selection_append_range (sheet,
 				      0, row,

@@ -15,16 +15,11 @@
 #include "item-debug.h"
 
 /* Marshal forward declarations */
-static void   item_bar_size_marshal      (GtkObject *,
-					  GtkSignalFunc,
-					  gpointer,
-					  GtkArg *);
-
-static void   item_bar_selection_marshal (GtkObject *,
-					  GtkSignalFunc,
-					  gpointer,
-					  GtkArg *);
-
+static void   item_bar_marshal      (GtkObject *,
+				     GtkSignalFunc,
+				     gpointer,
+				     GtkArg *);
+ 
 /* The signal signatures */
 typedef void (*ItemBarSignal1) (GtkObject *, gint arg1, gpointer data);
 typedef void (*ItemBarSignal2) (GtkObject *, gint arg1, gint arg2, gpointer data);
@@ -275,6 +270,7 @@ item_bar_start_resize (ItemBar *item_bar, int pos)
 	GnomeCanvas *canvas = GNOME_CANVAS (item_bar->sheet->sheet_view);
 	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
 	GnomeCanvasItem *item;
+	GnomeCanvasPoints *points;
 	
 	double x1, x2, y1, y2;
 	
@@ -290,19 +286,42 @@ item_bar_start_resize (ItemBar *item_bar, int pos)
 	y1 = 0.0;
 	y2 = 1000.0;
 
-	printf ("THIS SHOULD BE ADDING THE LINE!\n");
 	/* Add a guideline to the sheet canvas */
+	points = gnome_canvas_points_new (2);
+	points->coords[0] = x1;
+	points->coords[1] = y1;
+	points->coords[2] = x2;
+	points->coords[3] = y2;
 	item = gnome_canvas_item_new (group,
-				      gnome_canvas_rect_get_type (),
-				      "GnomeCanvasRE::x1", x1,
-				      "GnomeCanvasRE::y1", y1,
-				      "GnomeCanvasRE::x2", x2,
-				      "GnomeCanvasRE::y2", y2,
-				      "GnomeCanvasRE::outline_color", "black",
-				      "GnomeCanvasRE::width_pixels", 4,
+				      gnome_canvas_line_get_type (),
+				      "points", points,
+				      "fill_color", "black",
+				      "width_pixels", 4,
 				      NULL);
+	gnome_canvas_points_free (points);
 
 	item_bar->resize_guide = GTK_OBJECT (item);
+}
+
+static int
+get_col_from_pos (ItemBar *item_bar, int pos)
+{
+	ColRowInfo *cri;
+	int i, total;
+	
+	total = 0;
+	
+	for (i = item_bar->first_element; total < pos; i++){
+		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
+			cri = sheet_row_get_info (item_bar->sheet, i);
+		else
+			cri = sheet_col_get_info (item_bar->sheet, i);
+
+		total += cri->pixels;
+		if (total > pos)
+			return i;
+	}
+	return i;
 }
 
 #define convert(c,sx,sy,x,y) gnome_canvas_w2c (c,sx,sy,x,y)
@@ -346,9 +365,17 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 					GNOME_CANVAS_ITEM(item_bar)->canvas,
 					0, 0, INT_MAX, INT_MAX);
 			}
-		} else {
+		} else if (item_bar->emitting_selection){
+			ele = get_col_from_pos (item_bar, pos);
+
+			if (cri && !cri->selected){
+				gtk_signal_emit (GTK_OBJECT (item),
+						 item_bar_signals [SELECTION_CHANGED],
+						 ele, FALSE);
+			}
 			set_cursor (item_bar, pos);
-		}
+		} else
+			set_cursor (item_bar, pos);
 		break;
 
 	case GDK_BUTTON_PRESS:
@@ -371,9 +398,10 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 						item_bar->change_cursor,
 						e->button.time);
 		} else {
+			item_bar->emitting_selection = ele;
 			gtk_signal_emit (GTK_OBJECT (item),
 					 item_bar_signals [SELECTION_CHANGED],
-					 ele);
+					 ele, TRUE);
 		}
 		break;
 
@@ -386,7 +414,10 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			item_bar->resize_pos = -1;
 			gtk_object_destroy (item_bar->resize_guide);
 			gnome_canvas_item_ungrab (item, e->button.time);
-		} 
+		}
+		item_bar->emitting_selection = -1;
+		break;
+		
 	default:
 		return FALSE;
 	}
@@ -409,6 +440,7 @@ item_bar_init (ItemBar *item_bar)
 	item_bar->first_element = 0;
 	item_bar->orientation = GTK_ORIENTATION_VERTICAL;
 	item_bar->resize_pos = -1;
+	item_bar->start_selection = -1;
 }
 
 static void
@@ -466,16 +498,16 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ItemBarClass, selection_changed),
-				item_bar_selection_marshal,
+				item_bar_marshal,
 				GTK_TYPE_NONE,
-				1,
-				GTK_TYPE_INT);
+				2,
+				GTK_TYPE_INT, GTK_TYPE_INT);
 	item_bar_signals [SIZE_CHANGED] =
 		gtk_signal_new ("size_changed",
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ItemBarClass, size_changed),
-				item_bar_size_marshal,
+				item_bar_marshal,
 				GTK_TYPE_NONE,
 				2,
 				GTK_TYPE_INT,
@@ -527,22 +559,10 @@ item_bar_get_type (void)
  * Marshaling routines for our signals
  */
 static void
-item_bar_selection_marshal (GtkObject     *object,
-			    GtkSignalFunc func,
-			    gpointer      func_data,
-			    GtkArg        *args)
-{
-	ItemBarSignal1 rfunc;
-	
-	rfunc = (ItemBarSignal1) func;
-	(*rfunc) (object, GTK_VALUE_INT (args [0]), func_data);
-}
-
-static void
-item_bar_size_marshal (GtkObject     *object,
-		       GtkSignalFunc func,
-		       gpointer      func_data,
-		       GtkArg        *args)
+item_bar_marshal (GtkObject     *object,
+		  GtkSignalFunc func,
+		  gpointer      func_data,
+		  GtkArg        *args)
 {
 	ItemBarSignal2 rfunc;
 	

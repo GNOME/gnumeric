@@ -644,6 +644,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 {
 	GnomeCanvas *canvas;
 	Sheet *sheet;
+	int   old_original_top;
 	
 	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
