@@ -703,6 +703,7 @@ render_number (GString *result,
 	int left_spaces = info->left_spaces;
 	int right_spaces = info->right_spaces;
 	int right_allowed = info->right_allowed + info->right_optional;
+	int sigdig = 0;
 
 	if (right_allowed >= 0 && !info->has_fraction) {
 		/* Change "rounding" into "truncating".   */
@@ -722,6 +723,7 @@ render_number (GString *result,
 				*(--num) = thousands_sep[i];
 		}
 		*(--num) = '0';
+		sigdig++;
 	}
 
 	for (; int_part >= 1. ; int_part /= 10., digit_count++) {
@@ -735,6 +737,7 @@ render_number (GString *result,
 				*(--num) = thousands_sep[i];
 		}
 		*(--num) = digit + '0';
+		sigdig++;
 	}
 
 	/* TODO : What ifthe only visible digits are zeros ? -0.00 looks bad */
@@ -769,6 +772,7 @@ render_number (GString *result,
 		frac_part *= 10.0;
 		digit = (gint)frac_part;
 		frac_part -= digit;
+		if (sigdig++ > GNUM_DIG) digit = 0;
 		g_string_append_c (result, digit + '0');
 	}
 
@@ -786,6 +790,7 @@ render_number (GString *result,
 		} else
 			zero_count ++;
 
+		if (sigdig++ > GNUM_DIG) digit = 0;
 		g_string_append_c (result, digit + '0');
 	}
 
@@ -2053,7 +2058,6 @@ void
 number_format_init (void)
 {
 	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	/* FIXME: should be related to gnm_float, not double:  */
 	beyond_precision = gpow10 (GNUM_DIG + 1);
 }
 

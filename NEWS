@@ -52,6 +52,8 @@ Morten:
 	* Speed up number match of batches of partial dates (like "Jun-21").
 	* Speed up number match by speeding up regexp matching for regexps
           with lots of ()s.
+	* Improve number rendering when showing more decimals than backed
+	  by precision.
 
 Thomas Miesbauer:
 	* Redo screenshots
