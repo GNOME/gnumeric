@@ -54,8 +54,13 @@ Range       range_merge         (Range const *a, Range const *b);
 void        range_clip          (Range *clipped, Range const *master,
 				 Range const *slave);
 void        range_dump          (Range const *src);
-Range      *range_duplicate     (Range const *src);
-GList      *range_fragment      (const GList *ranges);
+Range      *range_copy          (Range const *src);
+
+typedef     Range *(*RangeCopyFn) (const Range *r);
+GList      *range_split_ranges  (const Range *hard, const Range *soft,
+				 RangeCopyFn copy_fn);
+GList      *range_fragment      (const Range *a, const Range *b);
+GList      *range_fragment_list (const GList *ranges);
 void        range_fragment_free (GList *fragments);
 
 #endif /* GNUMERIC_RANGES_H */

@@ -3435,7 +3435,10 @@ sheet_move_range (struct expr_relocate_info const * rinfo)
 		cell_relocate (cell);
 	}
 
-	/* 4. Recompute dependencies */
+	/* 4. Slide styles */
+	sheet_style_relocate (rinfo);
+
+	/* 5. Recompute dependencies */
 	/* TODO : What region needs this ? the source or the target ? */
 	deps = region_get_dependencies (rinfo->target_sheet,
 					0, 0,

@@ -21,8 +21,8 @@ typedef struct {
 } MStyle;
 
 typedef struct {
+	Range    range; /* must be 1st */
 	guint32  stamp;
-	Range    range;
 	MStyle  *style;
 } StyleRegion;
 
@@ -286,6 +286,7 @@ void        sheet_row_set_selection       (Sheet *sheet,
 void        sheet_set_selection           (Sheet *sheet, SheetSelection const *ss);
 				       
 /* sheet-style.c */
+struct expr_relocate_info;
 MStyle        *sheet_style_compute              (Sheet const *sheet,
 						 int col, int row);
 void           sheet_style_attach               (Sheet  *sheet, Range   range,
@@ -297,6 +298,7 @@ void           sheet_style_insert_colrow        (Sheet *sheet, int pos, int coun
 						 gboolean is_col);
 void           sheet_style_delete_colrow        (Sheet *sheet, int pos, int count,
 						 gboolean is_col);
+void           sheet_style_relocate             (const struct expr_relocate_info *rinfo);
 void           sheet_selection_apply_style      (Sheet *sheet, MStyle *style);
 MStyle        *sheet_selection_get_unique_style (Sheet *sheet);
 void           sheet_selection_height_update    (Sheet *sheet, double height);
@@ -333,7 +335,6 @@ void        sheet_resume_auto_expr        (Workbook *wb,
 void        sheet_mark_clean              (Sheet *sheet);
 void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);
 /* Sheet information manipulation */
-struct expr_relocate_info;
 void        sheet_move_range              (struct expr_relocate_info const * rinfo);
 void        sheet_insert_col              (Sheet *sheet,  int col, int count);
 void        sheet_delete_col              (Sheet *sheet,  int col, int count);

@@ -349,14 +349,6 @@ range_dump (Range const *src)
 			src->end.row + 1);
 }
 
-Range*
-range_duplicate (Range const * src)
-{
-	Range * res = g_new (Range, 1);
-	*res = *src;
-	return res;
-}
-
 /*
  * This is totaly commutative of course; hence the symmetry.
  */
@@ -407,8 +399,9 @@ range_contained (Range const *a, Range const *b)
 
 /**
  * range_split_ranges:
- * @hard: 
- * @soft: 
+ * @hard: The region that is split against
+ * @soft: The region that is split
+ * @copy_fn: the function used to create the copies or NULL.
  * 
  * Splits soft into several chunks, and returns the still
  * overlapping remainder of soft as the first list item
@@ -416,8 +409,9 @@ range_contained (Range const *a, Range const *b)
  * 
  * Return value: 
  **/
-static GList *
-range_split_ranges (const Range *hard, const Range *soft)
+inline GList *
+range_split_ranges (const Range *hard, const Range *soft,
+		    RangeCopyFn copy_fn)
 {
 	/*
 	 * There are lots of cases so think carefully.
@@ -431,10 +425,15 @@ range_split_ranges (const Range *hard, const Range *soft)
 	 *     of long rows.
 	 */
 	GList *split  = NULL;
-	Range *middle = g_new (Range, 1), *sp;
+	Range *middle, *sp;
 	gboolean tl, tr, bl, br; /* Top, Bottom, Left, Right */
 
-	*middle = *soft;
+	if (copy_fn)
+		middle = copy_fn (soft);
+	else {
+		middle = g_new (Range, 1);
+		*middle = *soft;
+	}
 
 	tl = range_contains (soft, hard->start.col, hard->start.row);
 	tr = range_contains (soft, hard->end.col,   hard->start.row);
@@ -445,7 +444,10 @@ range_split_ranges (const Range *hard, const Range *soft)
 	if (tl || bl) {
 		/* Split off left entirely */
 		if (hard->start.col > soft->start.col) {
-			sp = g_new (Range, 1);
+			if (copy_fn)
+				sp = copy_fn (middle);
+			else
+				sp = g_new (Range, 1);
 			sp->start.col = soft->start.col;
 			sp->start.row = soft->start.row;
 			sp->end.col   = hard->start.col - 1;
@@ -459,7 +461,10 @@ range_split_ranges (const Range *hard, const Range *soft)
 	if (tr || br) {
 		/* Split off right entirely */
 		if (hard->end.col < soft->end.col) {
-			sp = g_new (Range, 1);
+			if (copy_fn)
+				sp = copy_fn (middle);
+			else
+				sp = g_new (Range, 1);
 			sp->start.col = hard->end.col + 1;
 			sp->start.row = soft->start.row;
 			sp->end.col   = soft->end.col;
@@ -475,7 +480,10 @@ range_split_ranges (const Range *hard, const Range *soft)
 	if (tl && tr) {
 		if (hard->start.row > soft->start.row) {
 			/* The top middle bit */
-			sp = g_new (Range, 1);
+			if (copy_fn)
+				sp = copy_fn (middle);
+			else
+				sp = g_new (Range, 1);
 			sp->start.col = hard->start.col;
 			sp->start.row = soft->start.row;
 			sp->end.col   = hard->end.col;
@@ -485,7 +493,10 @@ range_split_ranges (const Range *hard, const Range *soft)
 	} else if (tl) {
 		if (hard->start.row > soft->start.row) {
 			/* The top middle + right bits */
-			sp = g_new (Range, 1);
+			if (copy_fn)
+				sp = copy_fn (middle);
+			else
+				sp = g_new (Range, 1);
 			sp->start.col = hard->start.col;
 			sp->start.row = soft->start.row;
 			sp->end.col   = soft->end.col;
@@ -495,7 +506,10 @@ range_split_ranges (const Range *hard, const Range *soft)
 	} else if (tr) {
 		if (hard->start.row > soft->start.row) {
 			/* The top middle + left bits */
-			sp = g_new (Range, 1);
+			if (copy_fn)
+				sp = copy_fn (middle);
+			else
+				sp = g_new (Range, 1);
 			sp->start.col = soft->start.col;
 			sp->start.row = soft->start.row;
 			sp->end.col   = hard->end.col;
@@ -510,7 +524,10 @@ range_split_ranges (const Range *hard, const Range *soft)
 	if (bl && br) {
 		if (hard->end.row < soft->end.row) {
 			/* The bottom middle bit */
-			sp = g_new (Range, 1);
+			if (copy_fn)
+				sp = copy_fn (middle);
+			else
+				sp = g_new (Range, 1);
 			sp->start.col = hard->start.col;
 			sp->start.row = hard->end.row + 1;
 			sp->end.col   = hard->end.col;
@@ -520,7 +537,10 @@ range_split_ranges (const Range *hard, const Range *soft)
 	} else if (bl) {
 		if (hard->start.row > soft->start.row) {
 			/* The bottom middle + right bits */
-			sp = g_new (Range, 1);
+			if (copy_fn)
+				sp = copy_fn (middle);
+			else
+				sp = g_new (Range, 1);
 			sp->start.col = hard->start.col;
 			sp->start.row = hard->end.row + 1;
 			sp->end.col   = soft->end.col;
@@ -530,7 +550,10 @@ range_split_ranges (const Range *hard, const Range *soft)
 	} else if (br) {
 		if (hard->start.row > soft->start.row) {
 			/* The bottom middle + left bits */
-			sp = g_new (Range, 1);
+			if (copy_fn)
+				sp = copy_fn (middle);
+			else
+				sp = g_new (Range, 1);
 			sp->start.col = soft->start.col;
 			sp->start.row = hard->end.row + 1;
 			sp->end.col   = hard->end.col;
@@ -542,7 +565,7 @@ range_split_ranges (const Range *hard, const Range *soft)
 	return g_list_prepend (split, middle);
 }
 
-static Range *
+Range *
 range_copy (const Range *a)
 {
 	Range *r = g_new (Range, 1);
@@ -552,24 +575,55 @@ range_copy (const Range *a)
 
 /**
  * range_fragment:
- * @ranges: A list of possibly overlapping ranges.
+ * @a: Range a
+ * @b: Range b
+ * @copy_fn: Optional copy fn.
+ * 
+ * Fragments the ranges into totaly overlapping regions,
+ * optional copy_fn ( NULL ) for default, copies the ranges.
+ * NB. commutative.
+ * 
+ * Return value: A list of fragmented ranges or at minimum
+ * simply a and b.
+ **/
+GList *
+range_fragment (const Range *a, const Range *b)
+{
+	GList *split, *ans = NULL;
+	
+	split  = range_split_ranges (a, b, NULL);
+	ans = g_list_concat (ans, split);
+	
+	split  = range_split_ranges (b, a, NULL);
+	if (split) {
+		g_free (split->data);
+		split  = g_list_remove (split, split->data);
+	}
+	ans = g_list_concat (ans, split);
+
+	return ans;
+}
+
+/**
+ * range_fragment_list:
+ * @ra: A list of possibly overlapping ranges.
  * 
  *  Converts the ranges into non-overlapping sub-ranges.
  * 
  * Return value: new list of fully overlapping ranges.
  **/
 GList *
-range_fragment (const GList *ra)
+range_fragment_list (const GList *ra)
 {
 	GList *ranges = NULL;
 	GList *a; /* Order n*n: ugly */
 
-	if (!g_list_next (ra)) /* Only 1 element */
-		return g_list_append (NULL, range_copy (ra->data));
-
 	for (a = (GList *)ra; a; a = g_list_next (a)) {
 		GList *b;
+		gboolean done_split = FALSE;
+
 		b = g_list_next (a);
+
 		while (b) {
 			GList *next = g_list_next (b);
 
@@ -581,16 +635,15 @@ range_fragment (const GList *ra)
 			    & range_overlap (a->data, b->data)) {
 				GList *split;
 
-				split  = range_split_ranges (a->data, b->data);
-				ranges = g_list_concat (ranges, split);
-
-				split  = range_split_ranges (b->data, a->data);
+				split = range_fragment (a->data, b->data);
 				if (split)
-					split  = g_list_remove (split, split->data);
-				ranges = g_list_concat (ranges, split);
+					ranges = g_list_append (ranges, split);
+				done_split = TRUE;
 			}
 			b = next;
 		}
+		if (!done_split)
+			ranges = g_list_append (ranges, range_copy (a->data));
 	}
 
 	return ranges;

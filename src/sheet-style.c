@@ -578,7 +578,7 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 	}
 
 	/* Fragment ranges into fully overlapping ones */
-	simple = range_fragment (overlap_list);
+	simple = range_fragment_list (overlap_list);
 	for (l = simple; l; l = g_list_next (l)) {
 		Range  *r = l->data;
 		GList  *b, *style_list = NULL;
@@ -910,4 +910,64 @@ sheet_style_insert_colrow (Sheet *sheet, int pos, int count,
 	}
 
 	sheet_style_cache_flush (sheet);
+}
+
+void
+sheet_style_relocate (const struct expr_relocate_info *rinfo)
+{
+	GList *stored_regions = NULL;
+	GList *l, *next;
+
+	g_return_if_fail (rinfo != NULL);
+	g_return_if_fail (rinfo->origin_sheet != NULL);
+	g_return_if_fail (rinfo->target_sheet != NULL);
+	g_return_if_fail (IS_SHEET (rinfo->origin_sheet));
+	g_return_if_fail (IS_SHEET (rinfo->target_sheet));
+
+/* 1. Fragment each StyleRegion against the original range */
+	for (l = STYLE_LIST (rinfo->origin_sheet); l && l->next; l = next) {
+		StyleRegion *sr = (StyleRegion *)l->data;
+		GList       *fragments;
+
+		next = l->next;
+
+		if (!range_overlap (&sr->range, &rinfo->origin))
+			continue;
+
+		fragments = range_split_ranges (&rinfo->origin, (Range *)sr,
+						(RangeCopyFn)style_region_copy);
+		stored_regions = g_list_concat (fragments, stored_regions);
+		sheet_style_region_unlink (rinfo->origin_sheet, sr);
+	}
+
+/* 2 Either fold back or queue Regions */
+	for (l = stored_regions; l; l = l->next) {
+		StyleRegion *sr = (StyleRegion *)l->data;
+
+/*		printf ("Stored region ");
+		range_dump (&sr->range);
+		printf ("\n");*/
+
+		if (!range_overlap (&sr->range, &rinfo->origin)) {
+/* 2.1 Add back the fragments */
+			sheet_style_region_link (rinfo->origin_sheet, sr);
+		} else {
+/* 2.2 Translate queued regions + re-stamp */
+			sr->range.start.col   = MIN (sr->range.start.col + rinfo->col_offset,
+						     SHEET_MAX_COLS - 1);
+			sr->range.end.col     = MIN (sr->range.end.col   + rinfo->col_offset,
+						     SHEET_MAX_COLS - 1);
+			sr->range.start.row   = MIN (sr->range.start.row + rinfo->row_offset,
+						     SHEET_MAX_ROWS - 1);
+			sr->range.end.row     = MIN (sr->range.end.row   + rinfo->row_offset,
+						     SHEET_MAX_ROWS - 1);
+			sr->stamp = stamp++;
+			sheet_style_region_link (rinfo->target_sheet, sr);
+		}
+	}
+	g_list_free (stored_regions);
+
+	sheet_style_cache_flush (rinfo->target_sheet);
+	if (rinfo->origin_sheet != rinfo->target_sheet)
+		sheet_style_cache_flush (rinfo->origin_sheet);
 }

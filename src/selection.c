@@ -771,7 +771,7 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 		/* The set of regions that do not interset with b or
 		 * its predecessors */
 		GSList *clear = NULL;
-		Range *tmp, *b = range_duplicate (&ss->user);
+		Range *tmp, *b = range_copy (&ss->user);
 
 		/* run through the proposed regions and handle any that
 		 * overlap with the current selection region
@@ -822,7 +822,7 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 				case 2 : /* b contains a */
 					/* Split existing range */
 					if (b->start.col > 0) {
-						tmp = range_duplicate (a);
+						tmp = range_copy (a);
 						tmp->end.col = b->start.col - 1;
 						clear = g_slist_prepend (clear,
 									 tmp);
@@ -849,7 +849,7 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 				case 3 : /* overlap top */
 					/* Split region */
 					if (b->start.row > 0) {
-						tmp = range_duplicate (a);
+						tmp = range_copy (a);
 						tmp->start.col = b->start.col;
 						tmp->end.row = b->start.row - 1;
 						clear = g_slist_prepend (clear,
@@ -865,7 +865,7 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 				case 1 : /* overlap bottom */
 					/* Split region */
 					if (b->end.row < (SHEET_MAX_ROWS-1)) {
-						tmp = range_duplicate (a);
+						tmp = range_copy (a);
 						tmp->start.col = b->start.col;
 						tmp->start.row = b->end.row + 1;
 						clear = g_slist_prepend (clear,
@@ -889,7 +889,7 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 				switch (row_intersect) {
 				case 4 : /* a contains b */
 					/* Split region */
-					tmp = range_duplicate (a);
+					tmp = range_copy (a);
 					tmp->start.row = b->end.row + 1;
 					clear = g_slist_prepend (clear, tmp);
 					/* fall through */
@@ -923,7 +923,7 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 
 				case 3 : /* overlap top */
 					/* Split region */
-					tmp = range_duplicate (a);
+					tmp = range_copy (a);
 					tmp->end.col = b->end.col;
 					tmp->end.row = b->start.row - 1;
 					/* fall through */
@@ -935,7 +935,7 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 
 				case 1 : /* overlap bottom */
 					/* Split region */
-					tmp = range_duplicate (a);
+					tmp = range_copy (a);
 					tmp->end.col = b->end.col;
 					tmp->start.row = b->end.row + 1;
 

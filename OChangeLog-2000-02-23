@@ -1,3 +1,18 @@
+1999-11-04  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/corba-workbook.c (Workbook_save_to): Update so it compiles!
+	(Workbook_sheet_current): Use standard 'wb' var. name.
+
+	* src/sheet.c (sheet_move_range): add style slide.
+
+	* src/sheet-style.c (sheet_unique_cb): Use range_fragment_list instead.
+	(sheet_style_relocate): Implement.
+
+	* src/ranges.c (range_fragment_list): Fix cretinous logic bug.
+	(range_fragment): Split out (range_fragment_list): use it.
+	(range_split_ranges): Update to use copy_fn + globalise.
+	(range_fragment): fix leak.
+
 1999-11-03  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/expr.c (eval_range): Removed parsed node from here too. 
