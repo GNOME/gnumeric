@@ -659,7 +659,6 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
 		       int paste_flags, guint32 time)
 {
 	CellRegion  *content;
-	Sheet       *src_sheet = application_clipboard_sheet_get ();
 	Range const *area;
 
 	g_return_if_fail (sheet != NULL);

@@ -105,8 +105,10 @@ void           style_font_ref         (StyleFont *sf);
 void           style_font_unref       (StyleFont *sf);
 
 StyleColor    *style_color_new        (gushort red, gushort green, gushort blue);
-void           style_color_ref        (StyleColor *sc);
+StyleColor    *style_color_ref        (StyleColor *sc);
 void           style_color_unref      (StyleColor *sc);
+StyleColor    *style_color_black      (void);
+StyleColor    *style_color_white      (void);
 
 /*
  * For hashing Styles

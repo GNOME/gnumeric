@@ -1,5 +1,22 @@
 1999-11-12  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/dialogs/dialog-cell-format.c (fmt_dialog_impl): unref the
+	border when we've finished with it.
+
+	* src/corba-sheet.c (fill_corba_value): Fixup killer bug.
+	(Sheet_cell_get_pattern): fixup out of bounds return type.
+
+	* src/selection.c (sheet_selection_paste): kill unused src_sheet
+	var.
+
+	* src/style.c (style_color_ref): Add return type.
+	(style_color_black, style_color_white): create
+
+	* src/sheet-style.c (sheet_unique_cb): Fixup for sheet invalid
+	outer border ranges.
+
+1999-11-12  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/sheet-style.c (border_invalidate): implement.
 
 1999-11-12  Michael Meeks  <mmeeks@gnu.org>

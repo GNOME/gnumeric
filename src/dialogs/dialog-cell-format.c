@@ -1951,10 +1951,12 @@ fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, MStyleBorder **borders,
 	/* Setup the border images */
 	for (i = 0; (name = border_buttons[i]) != NULL; ++i) {
 		GtkWidget * tmp = init_button_image (gui, name);
-		if (tmp != NULL)
+		if (tmp != NULL) {
 			init_border_button (&state, i, tmp,
 					    i >= STYLE_BORDER_HORIZ,
 					    borders [i]);
+			style_border_unref (borders [i]);
+		}
 	}
 
 	/* Get the current background

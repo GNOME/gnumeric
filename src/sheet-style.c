@@ -1357,12 +1357,18 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 				      range, &all, i);
 	}
 
+	/* 6. Setup defaults for selector */
 	if (!middle_valid) {
 		MStyleBorder *border = style_border_none ();
 		style_border_ref (border);
 		style_border_ref (border);
 		cl->borders [STYLE_BORDER_HORIZ] = border;
 		cl->borders [STYLE_BORDER_VERT]  = border;
+	}
+	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; i++) {
+		if (!edge_valid [i])
+			cl->borders [i] = style_border_ref (
+				style_border_none ());
 	}
 
 	/* Free up resources */

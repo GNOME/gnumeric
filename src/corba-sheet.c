@@ -322,15 +322,15 @@ static void
 fill_corba_value (GNOME_Gnumeric_Value *value, Sheet *sheet, CORBA_long col, CORBA_long row)
 {
 	Cell *cell;
-	ParsePosition *pp;
+	ParsePosition pp;
 
 	g_assert (value != NULL);
 	g_assert (sheet != NULL);
 
-	(void) parse_pos_init (&pp, sheet->workbook, col, row);
+	parse_pos_init (&pp, sheet->workbook, col, row);
 	cell = sheet_cell_get (sheet, col, row);
-	if (cell && cell->value){
-		switch (cell->value->type){
+	if (cell && cell->value) {
+		switch (cell->value->type) {
 		case VALUE_EMPTY:
 			value->_d = GNOME_Gnumeric_VALUE_EMPTY;
 			break;
@@ -363,8 +363,8 @@ fill_corba_value (GNOME_Gnumeric_Value *value, Sheet *sheet, CORBA_long col, COR
 		case VALUE_CELLRANGE: {
 			char *a, *b;
 			
-			a = cellref_name (&cell->value->v.cell_range.cell_a, pp);
-			b = cellref_name (&cell->value->v.cell_range.cell_b, pp);
+			a = cellref_name (&cell->value->v.cell_range.cell_a, &pp);
+			b = cellref_name (&cell->value->v.cell_range.cell_b, &pp);
 
 			value->_d = GNOME_Gnumeric_VALUE_CELLRANGE;
 			value->_u.cell_range.cell_a = CORBA_string_dup (a);
@@ -376,6 +376,7 @@ fill_corba_value (GNOME_Gnumeric_Value *value, Sheet *sheet, CORBA_long col, COR
 				
 		case VALUE_ARRAY:
 			g_error ("FIXME: Implement me");
+			break;
 		}
 	} else {
 		value->_d = GNOME_Gnumeric_VALUE_INTEGER;
@@ -637,8 +638,8 @@ Sheet_cell_get_pattern (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 	MStyle *mstyle;
 
-	verify_col_val (col, NULL);
-	verify_row_val (row, NULL);
+	verify_col_val (col, 0);
+	verify_row_val (row, 0);
 
 	mstyle = sheet_style_compute (sheet, col, row);
 	ans = mstyle_get_pattern (mstyle);

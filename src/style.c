@@ -274,7 +274,7 @@ style_color_new (gushort red, gushort green, gushort blue)
 	key.blue  = blue;
 
 	sc = g_hash_table_lookup (style_color_hash, &key);
-	if (!sc){
+	if (!sc) {
 		sc = g_new (StyleColor, 1);
 
 		key.color.red = red;
@@ -296,12 +296,34 @@ style_color_new (gushort red, gushort green, gushort blue)
 	return sc;
 }
 
-void
+StyleColor *
+style_color_black (void)
+{
+	static StyleColor *color = NULL;
+
+	if (!color)
+		color = style_color_new (0, 0, 0);
+	return style_color_ref (color);
+}
+
+StyleColor *
+style_color_white (void)
+{
+	static StyleColor *color = NULL;
+
+	if (!color)
+		color = style_color_new (0xffff, 0xffff, 0xffff);
+	return style_color_ref (color);
+}
+
+StyleColor *
 style_color_ref (StyleColor *sc)
 {
 	g_return_if_fail (sc != NULL);
 
 	sc->ref_count++;
+
+	return sc;
 }
 
 void
