@@ -358,7 +358,7 @@ Sheet      *sheet_lookup_by_name          (Sheet *base, const char *name);
 /*
  * Sheet visual editing
  */
-void        sheet_start_editing_at_cursor (Sheet *sheet);
+void        sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp);
 void        sheet_set_current_value       (Sheet *sheet);
 void        sheet_accept_pending_input    (Sheet *sheet);
 void        sheet_cancel_pending_input    (Sheet *sheet);

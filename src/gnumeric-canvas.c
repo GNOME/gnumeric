@@ -789,7 +789,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_F2:
 		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), wb->ea_input);
-		sheet->editing = TRUE;
+		sheet_start_editing_at_cursor (sheet, FALSE, FALSE);
 		/* fall down */
 
 	default:
@@ -799,7 +799,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 			if ((event->keyval >= 0x20 && event->keyval <= 0xff) ||
 			    (event->keyval >= GDK_KP_Add && event->keyval <= GDK_KP_9))
-				sheet_start_editing_at_cursor (sheet);
+				sheet_start_editing_at_cursor (sheet, TRUE, TRUE);
 		}
 		gnumeric_sheet_stop_cell_selection (gsheet);
 

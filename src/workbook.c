@@ -1122,6 +1122,20 @@ wb_input_finished (GtkEntry *entry, Workbook *wb)
 	workbook_focus_current_sheet (wb);
 }
 
+static int
+wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
+{
+	switch (event->keyval) {
+	case GDK_Escape:
+		sheet_cancel_pending_input (workbook_get_current_sheet (wb));
+		workbook_focus_current_sheet (wb);
+		return TRUE;
+	default:
+		return FALSE;
+	}
+}
+
+
 int
 workbook_parse_and_jump (Workbook *wb, const char *text)
 {
@@ -1328,11 +1342,9 @@ workbook_setup_edit_area (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (wb->ea_input), "activate",
 			    GTK_SIGNAL_FUNC(wb_input_finished),
 			    wb);
-#if 0
 	gtk_signal_connect (GTK_OBJECT (wb->ea_input), "key_press_event",
 			    GTK_SIGNAL_FUNC(wb_edit_key_pressed),
 			    wb);
-#endif
 
 	/* Do signal setup for the status input line */
 	gtk_signal_connect (GTK_OBJECT (wb->ea_status), "activate",

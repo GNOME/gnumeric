@@ -829,17 +829,18 @@ sheet_cancel_pending_input (Sheet *sheet)
 	if (!sheet->editing)
 		return;
 
-	if (sheet->editing_cell){
-		cell_set_text (sheet->editing_cell, sheet->editing_saved_text->str);
-		sheet_stop_editing (sheet);
+	if (sheet->editing_cell) {
+		const char *oldtext = sheet->editing_saved_text->str;
+		gtk_entry_set_text (GTK_ENTRY (sheet->workbook->ea_input), oldtext);
+		cell_set_text (sheet->editing_cell, oldtext);
 	}
+	sheet_stop_editing (sheet);
 
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
 
 		gnumeric_sheet_destroy_editing_cursor (gsheet);
 	}
-	sheet->editing = FALSE;
 }
 
 void
@@ -865,7 +866,7 @@ sheet_load_cell_val (Sheet *sheet)
 }
 
 void
-sheet_start_editing_at_cursor (Sheet *sheet)
+sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 {
 	GList *l;
 	Cell  *cell;
@@ -873,13 +874,14 @@ sheet_start_editing_at_cursor (Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	gtk_entry_set_text (GTK_ENTRY (sheet->workbook->ea_input), "");
+	if (blankp)
+		gtk_entry_set_text (GTK_ENTRY (sheet->workbook->ea_input), "");
 
-	for (l = sheet->sheet_views; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
-
-		gnumeric_sheet_create_editing_cursor (gsheet);
-	}
+	if (cursorp)
+		for (l = sheet->sheet_views; l; l = l->next){
+			GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
+			gnumeric_sheet_create_editing_cursor (gsheet);
+		}
 
 	sheet->editing = TRUE;
 	cell = sheet_cell_get (sheet, sheet->cursor_col, sheet->cursor_row);
@@ -891,7 +893,8 @@ sheet_start_editing_at_cursor (Sheet *sheet)
 		g_free (text);
 
 		sheet->editing_cell = cell;
-		cell_set_text (cell, "");
+		if (blankp)
+			cell_set_text (cell, "");
 	}
 }
 

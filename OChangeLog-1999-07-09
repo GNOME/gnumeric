@@ -1,5 +1,17 @@
 1999-06-20  Morten Welinder  <terra@diku.dk>
 
+	* src/workbook.c (wb_edit_key_pressed): New function to handle
+ 	Escape.
+	(workbook_setup_edit_area): Activate wb_edit_key_pressed.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Call
+ 	sheet_start_editing_at_cursor for F2.
+
+	* src/sheet.c (sheet_cancel_pending_input): Fix last change.  Also
+ 	update entry box.
+	(sheet_start_editing_at_cursor): New args blankp and cursorp.  All
+ 	callers changed.
+
 	* src/fn-math.c (gnumeric_mod): Another try.
 	(gnumeric_int): Fix for negative numbers.
 
