@@ -1,5 +1,12 @@
 2001-05-08  Almer S. Tigelaar  <almer@gnome.org>
 
+	* src/colrow.c (colrow_restore_sizes_group): Restore
+	default from list of savedsizes.
+	(colrow_set_sizes): When changing default save as
+	list of savedsizes.
+
+2001-05-08  Almer S. Tigelaar  <almer@gnome.org>
+
 	* src/workbook-control-gui.c (wbcg_menu_state_update): New, combine
 	all the enabling/disabling of menu items here including the newly
 	added show/hide menu items.

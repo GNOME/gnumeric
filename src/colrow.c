@@ -354,15 +354,17 @@ colrow_set_sizes (Sheet *sheet, gboolean const is_cols,
 		if (new_size >= 0 && index->first == 0 &&
 		    index->last == ((is_cols ?SHEET_MAX_COLS:SHEET_MAX_ROWS)-1)) {
 			struct resize_closure closure;
-			double *def = g_new(double, 1);
+			SavedSize *ss = g_new0 (SavedSize, 1);
 
-			res = g_slist_prepend (res, def);
+			ss->length = -1; /* Not relevant/not used */
+
+			res = g_slist_prepend (res, g_slist_append (NULL, ss));
 
 			if (is_cols) {
-				*def = sheet_col_get_default_size_pts (sheet);
+				ss->size = sheet_col_get_default_size_pts (sheet);
 				sheet_col_set_default_size_pixels (sheet, new_size);
 			} else {
-				*def = sheet_row_get_default_size_pts (sheet);
+				ss->size = sheet_row_get_default_size_pts (sheet);
 				sheet_row_set_default_size_pixels (sheet, new_size);
 			}
 			closure.sheet = sheet;
@@ -466,15 +468,16 @@ colrow_restore_sizes_group (Sheet *sheet, gboolean const is_cols,
 
 		if (old_size >= 0 && index->first == 0 &&
 		    index->last == ((is_cols ?SHEET_MAX_COLS:SHEET_MAX_ROWS)-1)) {
-			double *old_def = ptr->data;
+			ColRowRLESizeList *list = ptr->data;
+			SavedSize const *ss = list->data;
 
 			if (is_cols)
-				sheet_col_set_default_size_pts (sheet, *old_def);
+				sheet_col_set_default_size_pts (sheet, ss->size);
 			else
-				sheet_row_set_default_size_pts (sheet, *old_def);
+				sheet_row_set_default_size_pts (sheet, ss->size);
 
 			ptr = ptr->next;
-			g_free (old_def);
+			colrow_rle_size_list_destroy (list);
 		}
 
 		colrow_restore_sizes (sheet, is_cols,
