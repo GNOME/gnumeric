@@ -427,7 +427,7 @@ ms_biff_put_new (GsfOutput *output, MsBiffVersion version, int codepage)
 		bp->codepage = 1200;
 	} else {
 		bp->codepage = (codepage > 0)
-			? codepage : gsf_msole_iconv_win_codepage ();
+			? (unsigned)codepage : gsf_msole_iconv_win_codepage ();
 		bp->convert = gsf_msole_iconv_open_codepage_for_export (bp->codepage);
 	}
 

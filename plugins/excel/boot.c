@@ -77,9 +77,9 @@ excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	if (input == NULL)
 		return FALSE;
 	ole = gsf_infile_msole_new (input, NULL);
-	if (ole == NULL) {
-		/* FIXME Perhaps this is a pure BIFF file */
-		return FALSE;
+	if (ole == NULL) {	/* Test for non-OLE BIFF file */
+		guint8 const *data = gsf_input_read (input, 2, NULL);
+		return data[0] == 0x09 && (data[1] & 0xf1) == 0;
 	}
 
 	stream = gsf_infile_child_by_name (GSF_INFILE (ole), "Workbook");
@@ -92,7 +92,7 @@ excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	}
 	g_object_unref (G_OBJECT (ole));
 
-	return FALSE;
+	return res;
 }
 
 static void
@@ -141,7 +141,7 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 
 		/* Test for non-OLE BIFF file */
 		gsf_input_seek (input, 0, G_SEEK_SET);
-		data= gsf_input_read (input, 2, NULL);
+		data = gsf_input_read (input, 2, NULL);
 		if (data[0] == 0x09 && (data[1] & 0xf1) == 0) {
 			gsf_input_seek (input, -2, G_SEEK_CUR);
 			excel_read_workbook (context, wbv, input,

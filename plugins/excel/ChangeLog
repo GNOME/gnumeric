@@ -1,3 +1,8 @@
+2003-02-04  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (excel_file_probe) : actually return the flag, and support
+	  non-ole formats.
+
 2003-01-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.16

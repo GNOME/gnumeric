@@ -3696,6 +3696,8 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 		esheet->freeze_panes		= (options & 0x0008) != 0;
 		esheet->sheet->hide_zero	= (options & 0x0010) == 0;
 
+		g_warning ("WIN2 %s = %hx", esheet->sheet->name_unquoted, options);
+
 		/* NOTE : This is top left of screen even if frozen, modify when
 		 *        we read PANE
 		 */
