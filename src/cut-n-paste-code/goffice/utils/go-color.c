@@ -351,17 +351,30 @@ go_color_as_str (GOColor color)
 	return g_strdup_printf ("%X:%X:%X:%X", r, g, b, a);
 }
 
+PangoAttribute *
+go_color_to_pango (GOColor color)
+{
+	guint16 r, g, b;
+	r  = UINT_RGBA_R (color);
+	r |= (r << 8);
+	g  = UINT_RGBA_G (color);
+	g |= (g << 8);
+	b  = UINT_RGBA_B (color);
+	b |= (b << 8);
+	return pango_attr_foreground_new (r, g, b);
+}
+
 #ifdef WITH_GTK
 #include <gdk/gdkcolor.h>
 
 GdkColor *
-go_color_to_gdk	(GOColor c, GdkColor *res)
+go_color_to_gdk	(GOColor color, GdkColor *res)
 {
-	res->red    = UINT_RGBA_R (c);
+	res->red    = UINT_RGBA_R (color);
 	res->red   |= (res->red << 8);
-	res->green  = UINT_RGBA_G (c);
+	res->green  = UINT_RGBA_G (color);
 	res->green |= (res->green << 8);
-	res->blue   = UINT_RGBA_B (c);
+	res->blue   = UINT_RGBA_B (color);
 	res->blue  |= (res->blue << 8);
 
 	return res;
