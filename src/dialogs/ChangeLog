@@ -1,5 +1,8 @@
 2001-10-05  Morten Welinder  <terra@diku.dk>
 
+	* dialog-search-replace.c (dialog_search_replace_query): Make sure
+ 	cancel actually does.
+
 	* Makefile.am: add search dialog.
 
 2001-10-04  Jody Goldberg <jgoldberg@home.com>

@@ -379,5 +379,8 @@ dialog_search_replace_query (WorkbookControlGUI *wbcg,
 	if (res != -1)
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 
+	if (res == 2)
+		res = -1;
+
 	return res;
 }
