@@ -340,10 +340,10 @@
 
 		<submenu name="Help" _label="_Help">
 	
+			<placeholder name="BuiltMenuItems"/>
+
 			<menuitem name="HelpAbout" verb="" _label="_About..." _descr="About this application"
 			pixtype="stock" pixname="Menu_About"/>
-
-			<placeholder name="BuiltMenuItems"/>
 
 		</submenu>
 

@@ -1,3 +1,32 @@
+2000-10-03  Michael Meeks  <michael@helixcode.com>
+
+	* src/cell-draw.c (cell_draw): render the cell value if we have
+	display_formulas even if we arn't supposed to render '0' values
+	and the value is 0.
+
+	* src/print-cell.c (print_cell): ditto.
+
+	* src/gnumeric.xml: move built menu items up.
+
+	* src/workbook.c: add HelpAbout verb.
+	(workbook_new): update to use nicer helper, adding help support.
+
+2000-09-30  Michael Meeks  <michael@helixcode.com>
+
+	* src/gnumeric-util.c (gnumeric_inject_widget_into_bonoboui): add a
+	freeze / thaw to force GUI re-build.
+
+	* src/workbook.c: add debug verb. (verb_debug_dump_xml): impl.
+
+2000-09-24  Michael Meeks  <michael@helixcode.com>
+
+	* src/workbook-private.h: update to item container.
+
+2000-09-21  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-object.c (sheet_object_destroy): fix uninitialized sheet
+	pointer.
+
 2000-10-02  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/file-autoft.c:

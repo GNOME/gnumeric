@@ -231,6 +231,15 @@ verb_insert_shaped_component (GtkWidget *widget, Workbook *wb)
 	select_component_id (wb->current_sheet,
 			     "IDL:Bonobo/Canvas/Item:1.0");
 }
+
+#ifdef ENABLE_BONOBO
+static void
+verb_debug_dump_xml (GtkWidget *widget, Workbook *wb)
+{
+	bonobo_win_dump (BONOBO_WIN (wb->toplevel), "on demand");
+}
+#endif
+
 static void
 create_bonobo_object (GtkWidget *widget, Workbook *wb)
 {
@@ -1227,6 +1236,10 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("GraphGuru", launch_graph_guru),
 	BONOBO_UI_VERB ("InsertComponent", verb_insert_component),
 	BONOBO_UI_VERB ("InsertShapedComponent", verb_insert_shaped_component),
+
+	BONOBO_UI_VERB ("HelpAbout", about_cmd),
+
+	BONOBO_UI_VERB ("DebugDumpXml", verb_debug_dump_xml),
 
 	BONOBO_UI_VERB_END
 };
@@ -2770,8 +2783,6 @@ workbook_new (void)
 	bonobo_ui_handler_set_app (wb->priv->uih, BONOBO_WIN (wb->toplevel));
 
 	{
-		char *fname;
-		BonoboUINode *ui;
 		BonoboUIComponent *component =
 			bonobo_ui_compat_get_component (wb->priv->uih);
 		Bonobo_UIContainer container = 
@@ -2780,16 +2791,9 @@ workbook_new (void)
 		bonobo_ui_component_add_verb_list_with_data (
 			component, verbs, wb);
 		
-		fname = bonobo_ui_util_get_ui_fname (
-			GNOME_DATADIR, "gnumeric.xml");
-
-		ui = bonobo_ui_util_new_ui (component, fname, "gnumeric");
-		
-		bonobo_ui_component_set_tree (
-			component, container, "/", ui, NULL);
-
-		g_free (fname);
-		bonobo_ui_node_free (ui);
+		bonobo_ui_util_set_ui (
+			component, container, GNOME_DATADIR,
+			"gnumeric.xml", "gnumeric");
 	}
 #endif
 	/* Create before registering verbs so that we can merge some extra. */

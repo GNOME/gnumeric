@@ -750,12 +750,13 @@ void
 gnumeric_inject_widget_into_bonoboui (Workbook *wb, GtkWidget *widget, char const *path)
 {
 	BonoboControl *control;
+	Bonobo_UIContainer container = bonobo_ui_compat_get_container (wb->priv->uih);
 
 	gtk_widget_show_all (widget);
 	control = bonobo_control_new (widget);
-	bonobo_ui_container_object_set (bonobo_ui_compat_get_container (wb->priv->uih),
-					path,
-					bonobo_object_corba_objref (BONOBO_OBJECT (control)),
-					NULL);
+	bonobo_ui_container_object_set (
+		container, path,
+		bonobo_object_corba_objref (BONOBO_OBJECT (control)),
+		NULL);
 }
 #endif

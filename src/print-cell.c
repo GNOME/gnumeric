@@ -311,7 +311,9 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 
 	/* Don't print zeros if they should be ignored. */
 	if (/* No need to check for the edit cell */
-	    !sheet->display_zero && cell_is_zero (cell))
+	    !sheet->display_formulas &&
+	    !sheet->display_zero &&
+	    cell_is_zero (cell))
 		return;
 
 	g_return_if_fail (cell->rendered_value);
