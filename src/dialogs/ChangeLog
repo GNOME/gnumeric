@@ -1,3 +1,7 @@
+2001-02-13  Jody Goldberg <jgoldberg@home.com>
+
+	* summary.glade : remove a newline in the glade file
+
 2001-02-11  Karl Eichwalder  <ke@suse.de>
 
 	* search-replace.glade: s/behaviour/behavior/ .

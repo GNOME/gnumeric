@@ -341,8 +341,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>title</name>
-	<label>Document Summary Information
-</label>
+	<label>Document Summary Information</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
