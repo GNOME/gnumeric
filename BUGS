@@ -4,6 +4,8 @@ and longer term bugs.
 
 Release Critical
 ----------------
+	wbcg_menu_state_sheet_prefs : complete for bonobo.
+	toggle_menu_item : complete for bonobo.
 
 Long term breakage
 ------------------

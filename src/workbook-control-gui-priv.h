@@ -30,6 +30,12 @@ struct _WorkbookControlGUI {
 	GtkWidget  *menu_item_insert_cols;
 	GtkWidget  *menu_item_insert_cells;
 	
+	GtkWidget  *menu_item_sheet_display_formulas;
+	GtkWidget  *menu_item_sheet_hide_zero;
+	GtkWidget  *menu_item_sheet_hide_grid;
+	GtkWidget  *menu_item_sheet_hide_col_header;
+	GtkWidget  *menu_item_sheet_hide_row_header;
+
 	/* Toolbars */
 	GtkWidget *standard_toolbar;
 	GtkWidget *format_toolbar;

@@ -95,14 +95,16 @@ WBC_VIRTUAL_FULL (undo_redo_labels, undo_redo.labels,
 	(WorkbookControl *wbc, char const *undo, char const *redo),
 	(wbc, undo, redo))
 
-WBC_VIRTUAL_FULL (insert_cols_rows_enable, insert_cols_rows_enable,
-        (WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
-WBC_VIRTUAL_FULL (insert_cells_enable, insert_cells_enable,
-        (WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
-WBC_VIRTUAL_FULL (paste_special_enable, paste.special_enable,
-	(WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
+WBC_VIRTUAL_FULL (menu_state_paste_special, menu_state.paste_special,
+	(WorkbookControl *wbc, Sheet const *sheet), (wbc, sheet))
+WBC_VIRTUAL_FULL (menu_state_sheet_prefs, menu_state.sheet_prefs,
+	(WorkbookControl *wbc, Sheet const *sheet), (wbc, sheet))
+WBC_VIRTUAL_FULL (menu_state_enable_insert, menu_state.enable_insert,
+        (WorkbookControl *wbc, Sheet const *sheet,
+	 gboolean col, gboolean row, gboolean cell),
+	(wbc, sheet, col, row, cell))
 	
-WBC_VIRTUAL_FULL (paste_from_selection, paste.from_selection,
+WBC_VIRTUAL (paste_from_selection,
 	(WorkbookControl *wbc, PasteTarget const *pt, guint32 time),
 	(wbc, pt, time))
 
@@ -126,6 +128,9 @@ wb_control_sheet_add (WorkbookControl *wbc, Sheet *new_sheet)
 			wb_view_edit_line_set (wbv, wbc);
 			wb_control_auto_expr_value (wbc);
 			wb_control_format_feedback (wbc);
+			wb_control_menu_state_paste_special (wbc, new_sheet);
+			wb_control_menu_state_sheet_prefs (wbc, new_sheet);
+			wb_control_menu_state_enable_insert (wbc, new_sheet, TRUE, TRUE, TRUE);
 		}
 	}
 }

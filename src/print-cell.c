@@ -313,10 +313,8 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	double cell_width_pts;
 
 	/* Don't print zeros if they should be ignored. */
-	if (/* No need to check for the edit cell */
-	    !sheet->display_formulas &&
-	    !sheet->display_zero &&
-	    cell_is_zero (cell))
+	if (sheet && sheet->hide_zero && cell_is_zero (cell) &&
+	    (!sheet->display_formulas || !cell_has_expr (cell)))
 		return;
 
 	g_return_if_fail (cell->rendered_value);
@@ -427,6 +425,9 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	}
 
 	halign = cell_default_halign (cell, mstyle);
+	if (halign == HALIGN_CENTER_ACROSS_SELECTION || h_center <= 0.)
+		h_center = width / 2.;
+
 	if (halign != HALIGN_JUSTIFY && valign != VALIGN_JUSTIFY &&
 	    !mstyle_get_wrap_text (mstyle)) {
 		double x, total, len = cell_width_pts;
@@ -596,7 +597,7 @@ print_merged_range (GnomePrintContext *context, Sheet const *sheet,
 		    double start_x, double start_y,
 		    Range const *view, Range const *range)
 {
-	float l, r, t, b, w;
+	float l, r, t, b;
 	int last;
 	Cell  const *cell    = sheet_cell_get (sheet, range->start.col, range->start.row);
 
@@ -641,10 +642,10 @@ print_merged_range (GnomePrintContext *context, Sheet const *sheet,
 				view->end.row+1, range->end.row+1);
 
 		/* FIXME : get the margins from the far col/row too */
-		w = r - l - ci->margin_b - ci->margin_a;
 		print_cell (cell, mstyle, context,
-			    l, t, w,
-			    b - t - ri->margin_b - ri->margin_a, w/2.);
+			    l, t,
+			    r - l - ci->margin_b - ci->margin_a,
+			    b - t - ri->margin_b - ri->margin_a, -1.);
 	}
 }
 
@@ -660,7 +661,7 @@ print_cell_range (GnomePrintContext *context,
 		  int start_col, int start_row,
 		  int end_col, int end_row,
 		  double base_x, double base_y,
-		  gboolean show_grid)
+		  gboolean hide_grid)
 {
 	int n, col, row;
 	double x, y;
@@ -670,7 +671,7 @@ print_cell_range (GnomePrintContext *context,
 	MStyle const **styles;
 	StyleBorder const **borders, **prev_vert;
 	StyleBorder const *none =
-		sheet->show_grid ? style_border_none () : NULL;
+		sheet->hide_grid ? NULL : style_border_none ();
 
 	Range     view;
 	gboolean  first_row;
@@ -717,7 +718,7 @@ print_cell_range (GnomePrintContext *context,
 	next_sr.styles	 = sr.styles + n;
 	sr.start_col	 = next_sr.start_col	 = start_col;
 	sr.end_col	 = next_sr.end_col	 = end_col;
-	sr.show_grid = next_sr.show_grid = sheet->show_grid;
+	sr.hide_grid = next_sr.hide_grid = sheet->hide_grid;
 
 	/* Init the areas that sheet_style_get_row will not */
 	for (col = start_col-1 ; col <= end_col+1; ++col)
@@ -859,8 +860,7 @@ print_cell_range (GnomePrintContext *context,
 				Cell const *cell = sheet_cell_get (sheet, col, row);
 				if (!cell_is_blank (cell))
 					print_cell (cell, style, context,
-						    x, y, -1, -1,
-						    cell->col_info->size_pts/2.);
+						    x, y, -1., -1., -1.);
 
 			/* Only draw spaning cells after all the backgrounds
 			 * that we are goign to draw have been drawn.  No need

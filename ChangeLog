@@ -1,3 +1,75 @@
+2001-02-18  Jody Goldberg <jgoldberg@home.com>
+
+	s/display_zero/hide_zero/		+ necessary logic inversions
+	s/show_grid/hide_grid/			+ necessary logic inversions
+	s/show_col_header/hide_col_header/	+ necessary logic inversions
+	s/show_row_header/hide_row_header/	+ necessary logic inversions
+	s/wb_control_paste_special_enable/wb_control_menu_state_paste_special/
+	s/wbcg_paste_special_enable/wbcg_menu_state_paste_special/
+
+	* src/workbook-format-toolbar.c (workbook_format_toolbutton_update) :
+	  Simplfy and use wbcg::updating_ui.
+	(workbook_format_halign_feedback_set) : use simplified interface.
+	(workbook_feedback_set) : Ditto.
+	(set_selection_halign) : If the current alignment is already set to
+	  the target type revert to general.
+
+	* src/preview-grid.c (preview_grid_draw) : cell_draw::h_center 
+	  will default to width / 2.
+	* src/item-grid.c (item_grid_draw_merged_range) : Ditto.
+	(item_grid_draw) : Ditto.
+
+	* src/print-cell.c (print_cell) : print_cell::h_center
+	  will default to width / 2.
+	(print_merged_range) : Ditto.
+	(print_cell_range) : Ditto.
+
+	* src/sheet.c (sheet_adjust_preferences) : Update the menus to reflect
+	  changes in prefs.  Take a flag to control redraw requests.
+	(sheet_menu_state_enable_insert) : new function.
+
+	* src/workbook-control-gui.c (wbcg_menu_state_enable_insert) : Merge
+	  all the insert col/row/cell menu updates into here.
+	(wbcg_menu_state_sheet_prefs) : new function.
+	(cb_sheet_pref_display_formulas) : reentrancy protection and use
+	  sheet_adjust_preferences.
+	(cb_sheet_pref_hide_zeros) : ditto.
+	(cb_sheet_pref_hide_grid_lines) : ditto.
+	(cb_sheet_pref_hide_col_header) : ditto.
+	(cb_sheet_pref_hide_row_header) : ditto.
+	(workbook_control_gui_init) : add the new menu items.
+	(workbook_control_gui_ctor_class) : reorg a bit.
+
+	src/workbook-control.c : reorg a bit.
+
+2001-02-18  Jody Goldberg <jgoldberg@home.com>
+
+	* configure.in : Make python plugin optional.
+
+2001-02-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control.c (wb_control_sheet_add) : update menus here.
+
+	* src/print-cell.c (print_cell) : fix the display zero logic.
+	* src/cell-draw.c (cell_draw) : ditto.  And fix the comment.
+
+2001-02-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_default_halign) : Handle alignment of numbers
+	  correctly when displaying formulas.
+
+	* src/embeddable-grid.c (set_header_visibility) : start using our
+	  native MVC.
+	(Grid_set_header_visibility) : ditto.
+	(embeddable_grid_set_header_visibility) : delete.
+
+	* src/sheet-control-gui.c (scg_set_header_visibility) : delete.
+	(scg_adjust_preferences) : Make this contingent on having a wbcg.
+
+	* src/selection.c (sheet_selection_set_internal) : Use
+	  sheet_menu_state_enable_insert.
+	(sheet_selection_reset) : ditto.
+
 2001-02-18  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/sheet-private.h : Add flag for insert cells.

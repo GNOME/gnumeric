@@ -617,10 +617,10 @@ cell_default_halign (Cell const *c, MStyle const *mstyle)
 	if (align == HALIGN_GENERAL) {
 		g_return_val_if_fail (c != NULL, HALIGN_RIGHT);
 
-		if (cell_is_number (c) &&
-		    c->base.sheet && !c->base.sheet->display_formulas)
-			return HALIGN_RIGHT;
-		return HALIGN_LEFT;
+		if (c->base.sheet && c->base.sheet->display_formulas &&
+		    cell_has_expr (c))
+			return HALIGN_LEFT;
+		return cell_is_number (c) ? HALIGN_RIGHT : HALIGN_LEFT;
 	}
 
 	return align;

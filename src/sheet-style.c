@@ -900,7 +900,7 @@ style_row (MStyle *style, int start_col, int end_col, StyleRow *sr)
 	right = mstyle_get_border (style, MSTYLE_BORDER_RIGHT);
 
 	/* Cancel grids if there is a background */
-	if (!sr->show_grid || mstyle_get_pattern (style) > 0) {
+	if (sr->hide_grid || mstyle_get_pattern (style) > 0) {
 		if (top == none)
 			top = NULL;
 		if (bottom == none)
@@ -1015,10 +1015,10 @@ sheet_style_get_row (Sheet const *sheet, StyleRow *sr)
 void
 style_row_init (StyleBorder const * * *prev_vert,
 		StyleRow *sr, StyleRow *next_sr,
-		int start_col, int end_col, gpointer mem, gboolean show_grid)
+		int start_col, int end_col, gpointer mem, gboolean hide_grid)
 {
 	int n, col;
-	StyleBorder const *none = show_grid ? style_border_none () : NULL;
+	StyleBorder const *none = hide_grid ? NULL : style_border_none ();
 
 	/* alias the arrays for easy access so that array [col] is valid
 	 * for all elements start_col-1 .. end_col+1 inclusive.
@@ -1037,7 +1037,7 @@ style_row_init (StyleBorder const * * *prev_vert,
 	next_sr->styles	 = sr->styles + n;
 	sr->start_col	 = next_sr->start_col = start_col;
 	sr->end_col	 = next_sr->end_col   = end_col;
-	sr->show_grid    = next_sr->show_grid = show_grid;
+	sr->hide_grid    = next_sr->hide_grid = hide_grid;
 
 	/* Init the areas that sheet_style_get_row will not */
 	for (col = start_col-1 ; col <= end_col+1; ++col)
@@ -1372,7 +1372,7 @@ sheet_style_get_uniform	(Sheet const *sheet, Range const *r,
 	sr.vertical  -= start_col; sr.top     -= start_col;
 	sr.bottom    -= start_col; sr.styles  -= start_col;
 	sr.start_col  = start_col; sr.end_col  = end_col;
-	sr.show_grid  = sheet->show_grid;
+	sr.hide_grid  = sheet->hide_grid;
 
 	/* pretend the previous bottom had no borders */
 	for (col = start_col ; col <= end_col; ++col)

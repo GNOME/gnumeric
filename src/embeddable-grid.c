@@ -46,25 +46,7 @@ set_header_visibility (BonoboView *view, void *data)
 	g_return_if_fail (grid_view != NULL);
 	g_return_if_fail (grid_view->scg != NULL);
 
-	scg_set_header_visibility (
-		grid_view->scg,
-		eg->show_col_title,
-		eg->show_row_title);
-}
-
-void
-embeddable_grid_set_header_visibility (EmbeddableGrid *eg,
-				       gboolean col_headers_visible,
-				       gboolean row_headers_visible)
-{
-	g_return_if_fail (eg != NULL);
-	g_return_if_fail (IS_EMBEDDABLE_GRID (eg));
-
-	eg->show_col_title = col_headers_visible;
-	eg->show_row_title = row_headers_visible;
-
-	bonobo_embeddable_foreach_view (BONOBO_EMBEDDABLE (eg),
-					set_header_visibility, eg);
+	scg_adjust_preferences (grid_view->scg);
 }
 
 static void
@@ -75,8 +57,12 @@ Grid_set_header_visibility (PortableServer_Servant servant,
 {
 	EmbeddableGrid *eg = embeddable_grid_from_servant (servant);
 
-	embeddable_grid_set_header_visibility (
-		eg, col_headers_visible, row_headers_visible);
+	g_return_if_fail (IS_EMBEDDABLE_GRID (eg));
+
+	eg->sheet->hide_col_header = !col_headers_visible;
+	eg->sheet->hide_row_header = !row_headers_visible;
+
+	sheet_adjust_preferences (eg->sheet, TRUE);
 }
 
 static void
@@ -87,8 +73,8 @@ Grid_get_header_visibility (PortableServer_Servant servant,
 {
 	EmbeddableGrid *eg = embeddable_grid_from_servant (servant);
 
-	*col_headers_visible = eg->show_col_title;
-	*row_headers_visible = eg->show_row_title;
+	*col_headers_visible = !eg->sheet->hide_col_header;
+	*row_headers_visible = !eg->sheet->hide_row_header;
 }
 
 static BonoboView *

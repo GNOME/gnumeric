@@ -26,9 +26,6 @@ struct _EmbeddableGrid {
 
 	/* The sheet, only one */
 	Sheet    *sheet;
-
-	gboolean show_col_title;
-	gboolean show_row_title;
 };
 
 typedef struct {
@@ -44,10 +41,6 @@ gboolean        EmbeddableGridFactory_init   (void);
 void            embeddable_grid_set_range    (EmbeddableGrid *eg,
 					      int start_col, int start_row,
 					      int end_col, int end_row);
-
-void            embeddable_grid_set_header_visibility (EmbeddableGrid *eg,
-						       gboolean col_headers_visible,
-						       gboolean row_headers_visible);
 
 /*
  * The BonoboView object

@@ -3719,10 +3719,10 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
 				guint16 left_col   = MS_OLE_GET_GUINT16 (q->data + 4);
 
 				sheet->gnum_sheet->display_formulas	= (options & 0x0001);
-				sheet->gnum_sheet->display_zero		= (options & 0x0010);
-				sheet->gnum_sheet->show_grid 		= (options & 0x0002);
-				sheet->gnum_sheet->show_col_header =
-				    sheet->gnum_sheet->show_row_header	= (options & 0x0004);
+				sheet->gnum_sheet->hide_zero		= !(options & 0x0010);
+				sheet->gnum_sheet->hide_grid 		= !(options & 0x0002);
+				sheet->gnum_sheet->hide_col_header =
+				    sheet->gnum_sheet->hide_row_header	= !(options & 0x0004);
 
 				/* The docs are unclear whether or not the counters
 				 * are 0 or 1 based.  I'll assume 1 based but make the

@@ -168,7 +168,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 			     int start_x, int start_y,
 			     Range const *view, Range const *range)
 {
-	int l, r, t, b, last, w;
+	int l, r, t, b, last;
 	GdkGC *gc = grid->empty_gc;
 	Sheet const *sheet   = grid->scg->sheet;
 	Cell  const *cell    = sheet_cell_get (sheet, range->start.col, range->start.row);
@@ -218,10 +218,10 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 				view->end.row+1, range->end.row+1);
 
 		/* FIXME : get the margins from the far col/row too */
-		w = r - l - ci->margin_b - ci->margin_a;
 		cell_draw (cell, mstyle, grid->cell_gc, drawable,
-			   l, t, w,
-			   b - t - ri->margin_b - ri->margin_a, w/2);
+			   l, t,
+			   r - l - ci->margin_b - ci->margin_a,
+			   b - t - ri->margin_b - ri->margin_a, -1);
 	}
 }
 
@@ -282,7 +282,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	MStyle const **styles;
 	StyleBorder const **borders, **prev_vert;
 	StyleBorder const *none =
-		sheet->show_grid ? style_border_none () : NULL;
+		sheet->hide_grid ? NULL : style_border_none ();
 
 	Range     view;
 	gboolean  first_row;
@@ -315,7 +315,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	 */
 	n = end_col - start_col + 3; /* 1 before, 1 after, 1 fencepost */
 	style_row_init (&prev_vert, &sr, &next_sr, start_col, end_col,
-			g_alloca (n * 8 * sizeof (gpointer)), sheet->show_grid);
+			g_alloca (n * 8 * sizeof (gpointer)), sheet->hide_grid);
 
 	/* load up the styles for the first row */
 	next_sr.row = sr.row = row = start_row;
@@ -454,12 +454,17 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			 */
 			if (ri->pos == -1 || NULL == (span = row_span_get (ri, col))) {
 
-				/* no need to draw the edit cell, or blanks */
+				/*
+				 * If it is being edited pretend it is empty to
+				 * avoid problems with the a long cells
+				 * contents extending past the edge of the edit
+				 * box.  Ignore blanks too.
+				 */
 				Cell const *cell = sheet_cell_get (sheet, col, row);
 				if (!cell_is_blank (cell) && cell != edit_cell)
 					cell_draw (cell, style,
 						   item_grid->cell_gc, drawable,
-						   x, y, -1, -1, colwidths [col]/2);
+						   x, y, -1, -1, -1);
 
 			/* Only draw spaning cells after all the backgrounds
 			 * that we are goign to draw have been drawn.  No need

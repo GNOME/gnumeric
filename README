@@ -1,4 +1,5 @@
 Gnumeric -- The GNOME spreadsheet program
+Jody Goldberg <jgoldberg@home.com>
 Miguel de Icaza <miguel@helixcode.com>
 
 This is the Gnumeric, the GNOME spreadsheet program.  
@@ -7,7 +8,7 @@ This is the Gnumeric, the GNOME spreadsheet program.
 file COPYING.
 
    The project aims to become a viable replacement for standard commercial
-spreadsheets.  Providing enough of a compatible feature set that Gnumeric
+spreadsheets.  It will provide enough of a compatible feature set that Gnumeric
 can be used as a drop in replacement.
 
    Gnumeric is still a young program and it is advancing steadily.  If
@@ -20,7 +21,7 @@ Requirements
 You need:
 
 	glib	    >= 1.2.7	(glib-libs 1.3 is not supported)
-	gtk+	    >= 1.2.7	(gnome-libs 1.3 is not supported)
+	gtk+	    >= 1.2.7	(gtk+ 1.3 is not supported)
 	gnome-libs  >= 1.0.57	(gnome-libs 2.0 is not supported)
 	libglade    >= 0.16
 	gal	    >= 0.5
@@ -105,7 +106,7 @@ documentation for these:
 		  the text in a selection and press control-enter.
 
 	- Number formatting
-		- The formatting of numbers is very powerful, we do
+		- The formatting of numbers is very powerful, we
 		  emulate the Excel number formatting specification.
 
 		- Format rules: you can use rules to specify which
@@ -121,6 +122,14 @@ documentation for these:
 		- To make changes to various columns/rows
 		  simultaneously, select the columns and then change
 		  the dimension of one of them.  
+
+	- Content
+		- Merged Cells
+		- Array formulas
+
+	- Filters
+		- MS Excel (tm) Import/Export
+		- Applix 	Import
 
 	- To edit the contents of a cell that already has a value,
 	  press F2 key.

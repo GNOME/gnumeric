@@ -9,7 +9,7 @@ struct _StyleRegion {
 };
 
 struct _StyleRow {
-	gboolean show_grid;
+	gboolean hide_grid;
 	int row, start_col, end_col;
 	MStyle      const **styles;
 	StyleBorder const **top;
@@ -38,7 +38,7 @@ gboolean sheet_style_has_visible_content(Sheet const *sheet, Range *src);
 void     style_row_init			(StyleBorder const * * *prev_vert,
 					 StyleRow *sr, StyleRow *next_sr,
 					 int start_col, int end_col,
-					 gpointer mem, gboolean show_grid);
+					 gpointer mem, gboolean hide_grid);
 
 void sheet_style_init     (Sheet *sheet);
 void sheet_style_shutdown (Sheet *sheet);

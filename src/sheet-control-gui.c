@@ -651,30 +651,6 @@ scg_construct (SheetControlGUI *scg)
 	scg_set_zoom_factor (scg, 1.);
 }
 
-void
-scg_set_header_visibility (SheetControlGUI *scg,
-				  gboolean col_headers_visible,
-				  gboolean row_headers_visible)
-{
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
-
-	if (col_headers_visible){
-		if (!GTK_WIDGET_VISIBLE (GTK_WIDGET (scg->col_canvas)))
-			gtk_widget_show (GTK_WIDGET (scg->col_canvas));
-	} else {
-		if (GTK_WIDGET_VISIBLE (GTK_WIDGET (scg->col_canvas)))
-			gtk_widget_hide (GTK_WIDGET (scg->col_canvas));
-	}
-
-	if (row_headers_visible){
-		if (!GTK_WIDGET_VISIBLE (GTK_WIDGET (scg->row_canvas)))
-			gtk_widget_show (GTK_WIDGET (scg->row_canvas));
-	} else {
-		if (GTK_WIDGET_VISIBLE (GTK_WIDGET (scg->row_canvas)))
-			gtk_widget_hide (GTK_WIDGET (scg->row_canvas));
-	}
-}
-
 GtkWidget *
 sheet_control_gui_new (Sheet *sheet)
 {
@@ -783,33 +759,35 @@ scg_selection_ant (SheetControlGUI *scg)
 void
 scg_adjust_preferences (SheetControlGUI *scg)
 {
-	Sheet *sheet = scg->sheet;
-	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (scg->wbcg));
+	Sheet const *sheet = scg->sheet;
 
-	if (sheet->show_col_header)
-		gtk_widget_show (GTK_WIDGET (scg->col_canvas));
-	else
+	if (sheet->hide_col_header)
 		gtk_widget_hide (GTK_WIDGET (scg->col_canvas));
-
-	if (sheet->show_row_header)
-		gtk_widget_show (GTK_WIDGET (scg->row_canvas));
 	else
+		gtk_widget_show (GTK_WIDGET (scg->col_canvas));
+
+	if (sheet->hide_row_header)
 		gtk_widget_hide (GTK_WIDGET (scg->row_canvas));
-
-	if (sheet->show_col_header && sheet->show_row_header)
-		gtk_widget_show (scg->select_all_btn);
 	else
+		gtk_widget_show (GTK_WIDGET (scg->row_canvas));
+
+	if (sheet->hide_col_header || sheet->hide_row_header)
 		gtk_widget_hide (scg->select_all_btn);
-
-	if (wbv->show_horizontal_scrollbar)
-		gtk_widget_show (scg->hs);
 	else
-		gtk_widget_hide (scg->hs);
+		gtk_widget_show (scg->select_all_btn);
 
-	if (wbv->show_vertical_scrollbar)
-		gtk_widget_show (scg->vs);
-	else
-		gtk_widget_hide (scg->vs);
+	if (scg->wbcg != NULL) {
+		WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (scg->wbcg));
+		if (wbv->show_horizontal_scrollbar)
+			gtk_widget_show (scg->hs);
+		else
+			gtk_widget_hide (scg->hs);
+
+		if (wbv->show_vertical_scrollbar)
+			gtk_widget_show (scg->vs);
+		else
+			gtk_widget_hide (scg->vs);
+	}
 }
 
 StyleFont *

@@ -53,11 +53,12 @@ workbook_format_halign_feedback_set (WorkbookControlGUI *wbcg,
 				     StyleHAlignFlags h_align);
 
 static void
-set_selection_halign (WorkbookControlGUI *wbcg, StyleHAlignFlags align)
+set_selection_halign (WorkbookControlGUI *wbcg, StyleHAlignFlags halign)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookView	*wb_view;
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	MStyle *mstyle;
+	MStyle *style;
 
 	/* If the user did not initiate this action ignore it.
 	 * This happens whenever the ui updates and the current cell makes a
@@ -68,11 +69,19 @@ set_selection_halign (WorkbookControlGUI *wbcg, StyleHAlignFlags align)
 
 	application_clipboard_unant ();
 
-	mstyle = mstyle_new ();
-	mstyle_set_align_h (mstyle, align);
-	workbook_format_halign_feedback_set (wbcg, align);
+	/* This is a toggle button.  If we are already enabled
+	 * then revert to general
+	 */
+	wb_view = wb_control_view (wbc);
+	style = wb_view->current_format;
+	if (mstyle_get_align_h (style) == halign)
+		halign = HALIGN_GENERAL;
 
-	cmd_format (wbc, sheet, mstyle, NULL);
+	style = mstyle_new ();
+	mstyle_set_align_h (style, halign);
+	workbook_format_halign_feedback_set (wbcg, halign);
+
+	cmd_format (wbc, sheet, style, NULL);
 }
 
 static void
@@ -850,7 +859,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 #ifdef ENABLE_BONOBO
 static void
 workbook_format_toolbutton_update (WorkbookControlGUI *wbcg,
-				   char const * const path, gboolean state)
+				   char const *path, gboolean state)
 {
 	const gchar *new_val = state ? "1" : "0";
 
@@ -886,15 +895,14 @@ static void
 workbook_format_toolbutton_update (WorkbookControlGUI *wbcg,
 				   GnumericToolbar *toolbar,
 				   int const button_index,
-				   GtkSignalFunc func,
-				   gboolean const flag)
+				   gboolean const state)
 {
 	GtkWidget *w = gnumeric_toolbar_get_widget (toolbar, button_index);
 	GtkToggleButton *tb = GTK_TOGGLE_BUTTON (w);
 
-	gtk_signal_handler_block_by_func (GTK_OBJECT (tb), func, wbcg);
-	gtk_toggle_button_set_active (tb, flag);
-	gtk_signal_handler_unblock_by_func (GTK_OBJECT (tb), func, wbcg);
+	wbcg->updating_ui = TRUE;
+	gtk_toggle_button_set_active (tb, state);
+	wbcg->updating_ui = FALSE;
 }
 
 static void
@@ -905,19 +913,15 @@ workbook_format_halign_feedback_set (WorkbookControlGUI *wbcg,
 
 	workbook_format_toolbutton_update (wbcg, toolbar,
 					   TOOLBAR_ALIGN_LEFT_BUTTON_INDEX,
-					   (GtkSignalFunc)&left_align_cmd,
 					   h_align == HALIGN_LEFT);
 	workbook_format_toolbutton_update (wbcg, toolbar,
 					   TOOLBAR_ALIGN_CENTER_BUTTON_INDEX,
-					   (GtkSignalFunc)&center_cmd,
 					   h_align == HALIGN_CENTER);
 	workbook_format_toolbutton_update (wbcg, toolbar,
 					   TOOLBAR_ALIGN_RIGHT_BUTTON_INDEX,
-					   (GtkSignalFunc)&right_align_cmd,
 					   h_align == HALIGN_RIGHT);
 	workbook_format_toolbutton_update (wbcg, toolbar,
 					   TOOLBAR_CENTER_ACROSS_SELECTION_INDEX,
-					   (GtkSignalFunc)&center_across_selection_cmd,
 					   h_align == HALIGN_CENTER_ACROSS_SELECTION);
 }
 #endif
@@ -937,7 +941,7 @@ workbook_feedback_set (WorkbookControlGUI *wbcg)
 	GtkComboText    *fontsize;
 	char             size_str [40];
 
-	g_return_if_fail (wbcg != NULL);
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
 	wb_view = wb_control_view (WORKBOOK_CONTROL (wbcg));
 	g_return_if_fail (wb_view != NULL);
@@ -958,7 +962,6 @@ workbook_feedback_set (WorkbookControlGUI *wbcg)
 #ifndef ENABLE_BONOBO
 	workbook_format_toolbutton_update (wbcg, toolbar,
 					   TOOLBAR_BOLD_BUTTON_INDEX,
-					   (GtkSignalFunc)&bold_cmd,
 					   mstyle_get_font_bold (style));
 #else
 	workbook_format_toolbutton_update (wbcg, "/commands/FontBold",
@@ -970,7 +973,6 @@ workbook_feedback_set (WorkbookControlGUI *wbcg)
 #ifndef ENABLE_BONOBO
 	workbook_format_toolbutton_update (wbcg, toolbar,
 					   TOOLBAR_ITALIC_BUTTON_INDEX,
-					   (GtkSignalFunc)&italic_cmd,
 					   mstyle_get_font_italic (style));
 #else
 	workbook_format_toolbutton_update (wbcg, "/commands/FontItalic",
@@ -982,7 +984,6 @@ workbook_feedback_set (WorkbookControlGUI *wbcg)
 #ifndef ENABLE_BONOBO
 	workbook_format_toolbutton_update (wbcg, toolbar,
 					   TOOLBAR_UNDERLINE_BUTTON_INDEX,
-					   (GtkSignalFunc)&underline_cmd,
 					   mstyle_get_font_uline (style) == UNDERLINE_SINGLE);
 #else
 	workbook_format_toolbutton_update (wbcg, "/commands/FontUnderline",

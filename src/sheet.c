@@ -44,13 +44,6 @@ static void sheet_redraw_partial_row (Sheet const *sheet, int const row,
 				      int const start_col, int const end_col);
 
 void
-sheet_adjust_preferences (Sheet const *sheet)
-{
-	SHEET_FOREACH_CONTROL (sheet, control,
-		scg_adjust_preferences (control););
-}
-
-void
 sheet_redraw_all (Sheet const *sheet)
 {
 	SHEET_FOREACH_CONTROL (sheet, control,
@@ -183,10 +176,10 @@ sheet_new (Workbook *wb, const char *name)
 
 	/* Init preferences */
 	sheet->display_formulas = FALSE;
-	sheet->display_zero = TRUE;
-	sheet->show_grid = TRUE;
-	sheet->show_col_header = TRUE;
-	sheet->show_row_header = TRUE;
+	sheet->hide_zero = FALSE;
+	sheet->hide_grid = FALSE;
+	sheet->hide_col_header = FALSE;
+	sheet->hide_row_header = FALSE;
 
 	sheet->names = NULL;
 
@@ -3560,6 +3553,7 @@ void
 sheet_create_editor (Sheet *sheet)
 {
 	g_return_if_fail (IS_SHEET (sheet));
+
 	SHEET_FOREACH_CONTROL (sheet, control,
 		scg_create_editor (control););
 }
@@ -3568,6 +3562,7 @@ void
 sheet_stop_editing (Sheet *sheet)
 {
 	g_return_if_fail (IS_SHEET (sheet));
+
 	SHEET_FOREACH_CONTROL (sheet, control,
 		scg_stop_editing (control););
 }
@@ -3576,6 +3571,7 @@ void
 sheet_stop_cell_selection (Sheet *sheet, gboolean clear_string)
 {
 	g_return_if_fail (IS_SHEET (sheet));
+
 	SHEET_FOREACH_CONTROL (sheet, control,
 		scg_stop_cell_selection (control, clear_string););
 }
@@ -3583,10 +3579,61 @@ sheet_stop_cell_selection (Sheet *sheet, gboolean clear_string)
 void
 sheet_scrollbar_config (Sheet const *sheet)
 {
+	g_return_if_fail (IS_SHEET (sheet));
+
 	SHEET_FOREACH_CONTROL (sheet, control,
-			       scg_scrollbar_config (control););
+		scg_scrollbar_config (control););
 }
 
+void
+sheet_adjust_preferences (Sheet const *sheet, gboolean redraw)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+
+	WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
+		if (sheet == wb_view_cur_sheet (view)) {
+			WORKBOOK_VIEW_FOREACH_CONTROL(view, control,
+				  wb_control_menu_state_sheet_prefs (control, sheet););
+		}
+	});
+	SHEET_FOREACH_CONTROL (sheet, control, {
+		scg_adjust_preferences (control);
+		if (redraw)
+			scg_redraw_all (control);
+	});
+}
+
+void
+sheet_menu_state_enable_insert (Sheet *sheet, gboolean col, gboolean row)
+{
+	gboolean col_change, row_change, cell_change;
+
+	g_return_if_fail (IS_SHEET (sheet));
+
+	if ((col_change = (sheet->priv->enable_insert_cols != col)))
+		sheet->priv->enable_insert_cols = col;
+	if ((row_change = (sheet->priv->enable_insert_rows != row)))
+		sheet->priv->enable_insert_rows = row;
+	if ((cell_change = (sheet->priv->enable_insert_cells != (col|row))))
+		sheet->priv->enable_insert_cells = (col|row);
+	    
+	if (!col_change && !row_change && !cell_change)
+		return;
+
+	sheet->priv->enable_insert_cols = col;
+	sheet->priv->enable_insert_rows = row;
+	sheet->priv->enable_insert_cells = (col|row);
+
+	WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
+		if (sheet == wb_view_cur_sheet (view)) {
+			WORKBOOK_VIEW_FOREACH_CONTROL(view, wbc,
+				wb_control_menu_state_enable_insert (wbc, sheet,
+					col_change, row_change, cell_change););
+		}
+	});
+}
+
+/*****************************************************************************/
 typedef struct
 {
 	gboolean is_column;

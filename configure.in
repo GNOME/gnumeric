@@ -158,32 +158,42 @@ AM_CONDITIONAL(WITH_PERL, false)
 dnl **************************************************
 dnl * Check for Python
 dnl **************************************************
-AC_CHECK_PROG(python_val, python, true, false)
-if $python_val; then
-	  PY_PREFIX=`python -c 'import sys ; print sys.prefix'`
-	  PY_EXEC_PREFIX=`python -c 'import sys ; print sys.exec_prefix'`
-	  changequote(<<, >>)dnl
-	  PY_VERSION=`python -c 'import sys ; print sys.version[0:3]'`
-	  changequote([, ])dnl
-	  if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
-		  PY_LIBS="python$PY_VERSION"
-		  PY_LIB_LOC="-L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
-		  PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
-		  PY_MAKEFILE="$PY_EXEC_PREFIX/lib/python$PY_VERSION/config/Makefile"
-		  PY_LOCALMODLIBS=`sed -n -e 's/^LOCALMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
-		  PY_BASEMODLIBS=`sed -n -e 's/^BASEMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
-		  PY_OTHER_LIBS=`sed -n -e 's/^LIBS=\(.*\)/\1/p' $PY_MAKEFILE`
-		  PY_EXTRA_LIBS="$PY_LOCALMODLIBS $PY_BASEMODLIBS $PY_OTHER_LIBS"
-		  AC_SUBST(PY_LIBS)
-		  AC_SUBST(PY_LIB_LOC)
-		  AC_SUBST(PY_CFLAGS)
-		  AC_SUBST(PY_EXTRA_LIBS)
-	  else
-		  python_val=false
-	  fi
+try_python=true
+python_val=false
+AC_ARG_WITH(python,
+	[--{with,without}-python   Compile the Python plugin],
+	if test x$withval = xno; then
+		try_python=false
+	fi
+)
+
+if $try_python; then
+	AC_CHECK_PROG(python_val, python, true, false)
+	if $python_val; then
+		  PY_PREFIX=`python -c 'import sys ; print sys.prefix'`
+		  PY_EXEC_PREFIX=`python -c 'import sys ; print sys.exec_prefix'`
+		  changequote(<<, >>)dnl
+		  PY_VERSION=`python -c 'import sys ; print sys.version[0:3]'`
+		  changequote([, ])dnl
+		  if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
+			  PY_LIBS="python$PY_VERSION"
+			  PY_LIB_LOC="-L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
+			  PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
+			  PY_MAKEFILE="$PY_EXEC_PREFIX/lib/python$PY_VERSION/config/Makefile"
+			  PY_LOCALMODLIBS=`sed -n -e 's/^LOCALMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
+			  PY_BASEMODLIBS=`sed -n -e 's/^BASEMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
+			  PY_OTHER_LIBS=`sed -n -e 's/^LIBS=\(.*\)/\1/p' $PY_MAKEFILE`
+			  PY_EXTRA_LIBS="$PY_LOCALMODLIBS $PY_BASEMODLIBS $PY_OTHER_LIBS"
+			  AC_SUBST(PY_LIBS)
+			  AC_SUBST(PY_LIB_LOC)
+			  AC_SUBST(PY_CFLAGS)
+			  AC_SUBST(PY_EXTRA_LIBS)
+		  else
+			  python_val=false
+		  fi
+	fi
 fi
 AM_CONDITIONAL(WITH_PYTHON, $python_val)
-
 
 dnl Check for libole2
 AC_MSG_CHECKING(for libole2 >= 0.1.7						)

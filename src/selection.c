@@ -492,24 +492,7 @@ set_menu_flags:
 		if (do_cols && r->start.col == 0 && r->end.col == SHEET_MAX_COLS - 1)
 			do_cols = FALSE;
 	}
-
-	if (do_rows != sheet->priv->enable_insert_rows ||
-	    do_cols != sheet->priv->enable_insert_cols) {
-	    
-		sheet->priv->enable_insert_rows = do_rows;
-		sheet->priv->enable_insert_cols = do_cols;
-		
-		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-					  wb_control_insert_cols_rows_enable (control, sheet););
-	}
-
-	if ((do_rows | do_cols) != sheet->priv->enable_insert_cells) {
-
-		sheet->priv->enable_insert_cells = do_rows | do_cols;
-
-		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-					  wb_control_insert_cells_enable (control, sheet););
-	}
+	sheet_menu_state_enable_insert (sheet, do_cols, do_rows);
 }
 
 void
@@ -609,15 +592,8 @@ sheet_selection_reset (Sheet *sheet)
 
 	g_list_free (list);
 
-	sheet->priv->enable_insert_cols  = TRUE;
-	sheet->priv->enable_insert_rows  = TRUE;
-	sheet->priv->enable_insert_cells = TRUE;
-	
-	/* Make sure we re-enable the insert col/rows and cells menu items */
-	WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-				  wb_control_insert_cols_rows_enable (control, sheet););
-	WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-				  wb_control_insert_cells_enable (control, sheet););
+	/* Make sure we re-enable the insert col/row and cell menu items */
+	sheet_menu_state_enable_insert (sheet, TRUE, TRUE);
 }
 
 static void

@@ -42,9 +42,10 @@ void wb_control_undo_redo_push	     (WorkbookControl *wbc,
 void wb_control_undo_redo_labels     (WorkbookControl *wbc,
 				      char const *undo, char const *redo);
 
-void wb_control_insert_cols_rows_enable (WorkbookControl *wbc, Sheet *sheet);
-void wb_control_insert_cells_enable     (WorkbookControl *wbc, Sheet *sheet);
-void wb_control_paste_special_enable    (WorkbookControl *wbc, Sheet *sheet);
+void wb_control_menu_state_paste_special (WorkbookControl *wbc, Sheet const *s);
+void wb_control_menu_state_sheet_prefs	 (WorkbookControl *wbc, Sheet const *s);
+void wb_control_menu_state_enable_insert (WorkbookControl *wbc, Sheet const *s,
+					  gboolean col, gboolean row, gboolean cell);
 
 void wb_control_paste_from_selection (WorkbookControl *wbc,
 				      PasteTarget const *pt, guint32 time);

@@ -138,6 +138,9 @@ cell_split_text (GdkFont *font, char const *text, int const width)
  *       of the gridlines (marked a).
  * @y1 : The pixel coord within the drawable of the upper left corner
  *       of the gridlines (marked a).
+ * @h_center : The number of pixels from x1 marking the logical center
+ *             of the cell.  NOTE This can be asymetric.  Passing
+ *             <= 0 will use width / 2
  */
 void
 cell_draw (Cell const *cell, MStyle const *mstyle,
@@ -161,15 +164,9 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	StyleColor   *fore;
 	int cell_width_pixel;
 
-	/*
-	 * If it is being edited pretend it is empty to avoid problems with the
-	 * a long cells contents extending past the edge of the edit box.
-	 * Don't print zeros if they should be ignored.
-	 */
-	if (sheet &&
-	    (!sheet->display_formulas &&
-	     !sheet->display_zero &&
-	     cell_is_zero (cell)))
+	/* Don't print zeros if they should be ignored. */
+	if (sheet && sheet->hide_zero && cell_is_zero (cell) &&
+	    (!sheet->display_formulas || !cell_has_expr (cell)))
 		return;
 
 	g_return_if_fail (cell->rendered_value);
@@ -270,6 +267,9 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	}
 
 	halign = cell_default_halign (cell, mstyle);
+	if (halign == HALIGN_CENTER_ACROSS_SELECTION || h_center <= 0)
+		h_center = width / 2;
+
 	if (halign != HALIGN_JUSTIFY && valign != VALIGN_JUSTIFY &&
 	    !mstyle_get_wrap_text (mstyle)) {
 		int x, len = cell_width_pixel;

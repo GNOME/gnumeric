@@ -214,7 +214,7 @@ static void
 cb_prefs_update (gpointer key, gpointer value, gpointer user_data)
 {
 	Sheet *sheet = value;
-	sheet_adjust_preferences (sheet);
+	sheet_adjust_preferences (sheet, FALSE);
 }
 
 static void
@@ -512,6 +512,7 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	/* create views for the sheet objects */
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next)
 		sheet_object_new_view (ptr->data, scg);
+	scg_adjust_preferences (scg);
 }
 
 static void
@@ -664,6 +665,32 @@ wbcg_undo_redo_push (WorkbookControl *wbc, char const *text, gboolean is_undo)
 }
 
 static void
+toggle_menu_item (
+#ifndef ENABLE_BONOBO
+		   GtkWidget *menu_item,
+#else
+		   WorkbookControlGUI const *wbcg,
+		   char const *verb_path,
+		   char const *menu_path, /* FIXME we need verb level labels. */
+#endif
+		   gboolean state)
+{
+#ifndef ENABLE_BONOBO
+	g_return_if_fail (menu_item != NULL);
+
+	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), state);
+#else
+	CORBA_Environment  ev;
+
+	g_return_if_fail (wbcg != NULL);
+
+	CORBA_exception_init (&ev);
+	bonobo_ui_component_set_prop (wbcg->uic, verb_path,
+				      "sensitive", sensitive ? "1" : "0", &ev);
+	CORBA_exception_free (&ev);	
+#endif
+}
+static void
 change_menu_sensitivity (
 #ifndef ENABLE_BONOBO
 		   GtkWidget *menu_item,
@@ -691,32 +718,27 @@ change_menu_sensitivity (
 }
 
 static void
-wbcg_insert_cols_rows_enable (WorkbookControl *wbc, Sheet *sheet)
+wbcg_menu_state_enable_insert (WorkbookControl *wbc, Sheet const *sheet,
+			       gboolean col, gboolean row, gboolean cell)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	
 	g_return_if_fail (wbcg != NULL);
 
 #ifndef ENABLE_BONOBO
-	change_menu_sensitivity (wbcg->menu_item_insert_cols, sheet->priv->enable_insert_cols);
-	change_menu_sensitivity (wbcg->menu_item_insert_rows, sheet->priv->enable_insert_rows);
+	if (col)
+		change_menu_sensitivity (wbcg->menu_item_insert_cols, sheet->priv->enable_insert_cols);
+	if (row)
+		change_menu_sensitivity (wbcg->menu_item_insert_rows, sheet->priv->enable_insert_rows);
+	if (cell)
+		change_menu_sensitivity (wbcg->menu_item_insert_cells, sheet->priv->enable_insert_cells);
 #else
-	change_menu_sensitivity (wbcg, "/commands/InsertColumns", "/menu/Insert/Columns", sheet->priv->enable_insert_cols);
-	change_menu_sensitivity (wbcg, "/commands/InsertRows", "/menu/Insert/Rows", sheet->priv->enable_insert_rows);
-#endif
-}
-
-static void
-wbcg_insert_cells_enable (WorkbookControl *wbc, Sheet *sheet)
-{
-	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	
-	g_return_if_fail (wbcg != NULL);
-
-#ifndef ENABLE_BONOBO
-	change_menu_sensitivity (wbcg->menu_item_insert_cells, sheet->priv->enable_insert_cells);
-#else
-	change_menu_sensitivity (wbcg, "/commands/InsertCells", "/menu/Insert/Cells", sheet->priv->enable_insert_cells);
+	if (col)
+		change_menu_sensitivity (wbcg, "/commands/InsertColumns", "/menu/Insert/Columns", sheet->priv->enable_insert_cols);
+	if (row)
+		change_menu_sensitivity (wbcg, "/commands/InsertRows", "/menu/Insert/Rows", sheet->priv->enable_insert_rows);
+	if (cell)
+		change_menu_sensitivity (wbcg, "/commands/InsertCells", "/menu/Insert/Cells", sheet->priv->enable_insert_cells);
 #endif
 }
 
@@ -785,7 +807,7 @@ wbcg_undo_redo_labels (WorkbookControl *wbc, char const *undo, char const *redo)
 }
 
 static void
-wbcg_paste_special_enable (WorkbookControl *wbc, Sheet *sheet)
+wbcg_menu_state_paste_special (WorkbookControl *wbc, Sheet const *sheet)
 {
  	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	
@@ -794,6 +816,37 @@ wbcg_paste_special_enable (WorkbookControl *wbc, Sheet *sheet)
 #else
 	change_menu_sensitivity (wbcg, "/commands/EditPasteSpecial", "/menu/Edit/PasteSpecial", sheet->priv->enable_paste_special);
 #endif
+}
+
+static void
+wbcg_menu_state_sheet_prefs (WorkbookControl *wbc, Sheet const *sheet)
+{
+ 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	
+	g_return_if_fail (!wbcg->updating_ui);
+
+	wbcg->updating_ui = TRUE;
+#ifndef ENABLE_BONOBO
+	toggle_menu_item (wbcg->menu_item_sheet_display_formulas,
+		sheet->display_formulas);
+	toggle_menu_item (wbcg->menu_item_sheet_hide_zero,
+		sheet->hide_zero);
+	toggle_menu_item (wbcg->menu_item_sheet_hide_grid,
+		sheet->hide_grid);
+	toggle_menu_item (wbcg->menu_item_sheet_hide_col_header,
+		sheet->hide_col_header);
+	toggle_menu_item (wbcg->menu_item_sheet_hide_row_header,
+		sheet->hide_row_header);
+#else
+	toggle_menu_item (wbcg,
+		"/commands/SheetDisplayFormulas", "/menu/Format/Sheet/SheetDisplayFormulas",
+		sheet->display_formulas);
+	toggle_menu_item (wbcg,
+		"/commands/SheetDisplayFormulas", "/menu/Format/Sheet/SheetDisplayFormulas",
+		sheet->display_formulas);
+#endif
+	wbcg->updating_ui = FALSE;
+
 }
 
 static void
@@ -1522,40 +1575,50 @@ cb_cell_rerender (gpointer element, gpointer userdata)
 static void
 cb_sheet_pref_display_formulas (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	if (!wbcg->updating_ui) {
+		Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 
-	sheet->display_formulas = !sheet->display_formulas;
-	g_list_foreach (wb->dependents, &cb_cell_rerender, NULL);
-	sheet_redraw_all (sheet);
+		sheet->display_formulas = !sheet->display_formulas;
+		g_list_foreach (wb->dependents, &cb_cell_rerender, NULL);
+		sheet_adjust_preferences (sheet, TRUE);
+	}
 }
 static void
 cb_sheet_pref_hide_zeros (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	sheet->display_zero = ! sheet->display_zero;
-	sheet_redraw_all (sheet);
+	if (!wbcg->updating_ui) {
+		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+		sheet->hide_zero = ! sheet->hide_zero;
+		sheet_adjust_preferences (sheet, TRUE);
+	}
 }
 static void
 cb_sheet_pref_hide_grid_lines (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	sheet->show_grid = !sheet->show_grid;
-	sheet_redraw_all (sheet);
+	if (!wbcg->updating_ui) {
+		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+		sheet->hide_grid = !sheet->hide_grid;
+		sheet_adjust_preferences (sheet, TRUE);
+	}
 }
 static void
 cb_sheet_pref_hide_col_header (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	sheet->show_col_header = ! sheet->show_col_header;
-	sheet_adjust_preferences (sheet);
+	if (!wbcg->updating_ui) {
+		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+		sheet->hide_col_header = ! sheet->hide_col_header;
+		sheet_adjust_preferences (sheet, FALSE);
+	}
 }
 static void
 cb_sheet_pref_hide_row_header (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	sheet->show_row_header = ! sheet->show_row_header;
-	sheet_adjust_preferences (sheet);
+	if (!wbcg->updating_ui) {
+		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+		sheet->hide_row_header = ! sheet->hide_row_header;
+		sheet_adjust_preferences (sheet, FALSE);
+	}
 }
 
 /****************************************************************************/
@@ -3099,7 +3162,7 @@ show_gui (WorkbookControlGUI *wbcg)
 		gtk_window_set_default_size (wbcg->toplevel, sx, sy);
 	}
 
-	gtk_widget_show_all (GTK_WIDGET (wbcg->toplevel));
+	gtk_widget_show (GTK_WIDGET (wbcg->toplevel));
 
 	return FALSE;
 }
@@ -3143,6 +3206,16 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	wbcg->menu_item_insert_rows   = workbook_menu_insert[1].widget;
 	wbcg->menu_item_insert_cols   = workbook_menu_insert[2].widget;
 	wbcg->menu_item_insert_cells  = workbook_menu_insert[3].widget;
+	wbcg->menu_item_sheet_display_formulas =
+		workbook_menu_format_sheet [2].widget;
+	wbcg->menu_item_sheet_hide_zero =
+		workbook_menu_format_sheet [3].widget;
+	wbcg->menu_item_sheet_hide_grid =
+		workbook_menu_format_sheet [4].widget;
+	wbcg->menu_item_sheet_hide_col_header =
+		workbook_menu_format_sheet [5].widget;
+	wbcg->menu_item_sheet_hide_row_header =
+		workbook_menu_format_sheet [6].widget;
 #else
 	bonobo_window_set_contents (BONOBO_WINDOW (wbcg->toplevel), wbcg->table);
 
@@ -3263,12 +3336,12 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->undo_redo.push     = wbcg_undo_redo_push;
 	wbc_class->undo_redo.labels   = wbcg_undo_redo_labels;
 
-	wbc_class->paste.special_enable = wbcg_paste_special_enable;
-	wbc_class->paste.from_selection = wbcg_paste_from_selection;
+	wbc_class->paste_from_selection  = wbcg_paste_from_selection;
+	wbc_class->claim_selection	 = wbcg_claim_selection;
 
-	wbc_class->insert_cols_rows_enable = wbcg_insert_cols_rows_enable;
-	wbc_class->insert_cells_enable     = wbcg_insert_cells_enable;
-	wbc_class->claim_selection	   = wbcg_claim_selection;
+	wbc_class->menu_state.paste_special = wbcg_menu_state_paste_special;
+	wbc_class->menu_state.sheet_prefs   = wbcg_menu_state_sheet_prefs;
+	wbc_class->menu_state.enable_insert = wbcg_menu_state_enable_insert;
 }
 
 GNUMERIC_MAKE_TYPE(workbook_control_gui,

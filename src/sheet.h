@@ -52,10 +52,10 @@ struct _Sheet {
 
 	/* Sheet level preferences */
 	gboolean    display_formulas;
-	gboolean    display_zero;
-	gboolean    show_grid;
-	gboolean    show_col_header;
-	gboolean    show_row_header;
+	gboolean    hide_zero;
+	gboolean    hide_grid;
+	gboolean    hide_col_header;
+	gboolean    hide_row_header;
 
         /* Solver parameters */
         SolverParameters solver_parameters;
@@ -192,13 +192,16 @@ void	    sheet_redraw_headers          (Sheet const *sheet,
 					   gboolean col, gboolean row,
 					   Range const* r /* optional == NULL */);
 
-void	    sheet_flag_status_update_cell (Cell const *cell);
-void	    sheet_flag_status_update_range(Sheet const *sheet, Range const *range);
-void        sheet_flag_format_update_range(Sheet const *sheet, Range const *range);
-void        sheet_flag_selection_change   (Sheet const *sheet);
-void	    sheet_update_only_grid	  (Sheet const *sheet);
-void        sheet_update                  (Sheet const *sheet);
-void	    sheet_scrollbar_config	  (Sheet const *sheet);
+void	    sheet_flag_status_update_cell  (Cell const *c);
+void	    sheet_flag_status_update_range (Sheet const *s, Range const *r);
+void        sheet_flag_format_update_range (Sheet const *s, Range const *r);
+void        sheet_flag_selection_change    (Sheet const *s);
+void	    sheet_update_only_grid	   (Sheet const *s);
+void        sheet_update                   (Sheet const *s);
+void	    sheet_scrollbar_config	   (Sheet const *s);
+void        sheet_adjust_preferences   	   (Sheet const *s, gboolean redraw);
+void        sheet_menu_state_enable_insert (Sheet *s,
+					    gboolean col, gboolean row);
 
 void        sheet_mark_clean              (Sheet *sheet);
 void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);
@@ -249,8 +252,6 @@ gboolean  sheet_insert_rows (WorkbookControl *context, Sheet *sheet,
 			     int row, int count, GSList **reloc_storage);
 gboolean  sheet_delete_rows (WorkbookControl *context, Sheet *sheet,
 			     int row, int count, GSList **reloc_storage);
-
-void sheet_adjust_preferences (Sheet const *sheet);
 
 typedef enum
 {

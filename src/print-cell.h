@@ -6,7 +6,7 @@ void print_cell_range (GnomePrintContext *context,
 		       int start_col, int start_row,
 		       int end_col, int end_row,
 		       double base_x, double base_y,
-		       gboolean show_grid);
+		       gboolean hide_grid);
 
 /* This function got introduced when gnome-print switched to UTF-8, and will
  * disappear again once Gnumeric makes the switch */

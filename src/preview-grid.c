@@ -223,7 +223,7 @@ pg_style_get_row (PreviewGrid const *pg, StyleRow *sr, MStyle const *def_style)
 		right = mstyle_get_border (style, MSTYLE_BORDER_RIGHT);
 
 		/* Cancel grids if there is a background */
-		if (!sr->show_grid || mstyle_get_pattern (style) > 0) {
+		if (sr->hide_grid || mstyle_get_pattern (style) > 0) {
 			if (top == none)
 				top = NULL;
 			if (bottom == none)
@@ -323,7 +323,7 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
  
 			if (!cell_is_blank (cell))
 				cell_draw (cell, style, pg->gc, drawable,
-					   x, y, -1, -1, colwidths [col] / 2);
+					   x, y, -1, -1, -1);
 
  			x += colwidths [col];
  		}
