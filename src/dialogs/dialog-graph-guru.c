@@ -622,11 +622,10 @@ cb_graph_guru_focus (GtkWindow *window, GtkWidget *focus, GraphGuruState *state)
 		state->current_vector = NULL;
 		vs->changed = FALSE;
 
-		printf ("parse (%s): %s\n", vs->element, str);
-
-		/* Are we adding a dimension that was not there previously ? */
 		if (*str) {
 			if (vs->vector != NULL) {
+				printf ("parse (%s): %s\n", vs->element, str);
+
 				puts ("changing an existing");
 			} else {
 				puts ("Adding a new dimension");

@@ -1,3 +1,17 @@
+2001-10-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/number-match.c (format_match) : compute_value returns a Value
+	  now.
+	(compute_value) : return a Value.
+
+2001-10-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-graph.c (gnm_graph_series_set_dimension) : new.
+	(gnm_graph_series_delete) : new.
+
+	* idl/GNOME_Gnumeric_Graph.idl : Add seriesSetDimension, and
+	  seriesDelete.  Bump the idl version.
+
 2001-10-05  Morten Welinder  <terra@diku.dk>
 
 	* src/commands.c (cmd_search_replace_do): Leg work for search.

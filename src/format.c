@@ -1399,6 +1399,9 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 			break;
 
 		default:
+			/* TODO : After release check this.
+			 * shouldn't we tack on the explicit characters here ?
+			 */
 			break;
 		}
 		format++;

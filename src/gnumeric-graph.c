@@ -49,10 +49,10 @@
 #define d(code)	
 #endif
 
-#define	MANAGER		  GNOME_Gnumeric_Graph_Manager_v2
-#define	MANAGER1(suffix)  GNOME_Gnumeric_Graph_Manager_v2_ ## suffix
-#define	CMANAGER1(suffix) CORBA_sequence_GNOME_Gnumeric_Graph_Manager_v2_ ## suffix
-#define	MANAGER_OAF	 "IDL:GNOME/Gnumeric/Graph/Manager_v2:1.0"
+#define	MANAGER		  GNOME_Gnumeric_Graph_Manager_v3
+#define	MANAGER1(suffix)  GNOME_Gnumeric_Graph_Manager_v3_ ## suffix
+#define	CMANAGER1(suffix) CORBA_sequence_GNOME_Gnumeric_Graph_Manager_v3_ ## suffix
+#define	MANAGER_OAF	 "IDL:GNOME/Gnumeric/Graph/Manager_v3:1.0"
 
 struct _GnmGraph {
 	SheetObjectContainer	parent;
@@ -1289,4 +1289,16 @@ gnm_graph_series_add_dimension (xmlNode *series, char const *element)
 	xmlNode *res = xmlNewChild (series, series->ns, "Dimension", NULL);
 	xmlSetProp (res, "element", element);
 	return res;
+}
+
+void
+gnm_graph_series_delete	(GnmGraph *graph, xmlNode *series)
+{
+}
+
+void
+gnm_graph_series_set_dimension (GnmGraph *graph,
+				xmlNode *series, xmlChar const *element,
+				char const *expr)
+{
 }

@@ -33,7 +33,7 @@
 #include "format.h"
 #include "value.h"
 
-#undef DEBUG_NUMBER_MATCH
+#define DEBUG_NUMBER_MATCH
 
 /*
  * Takes a list of strings (optionally include an * at the beginning
@@ -385,7 +385,8 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 		}
 
 		case '@':
-			g_string_append (regexp, ".*");
+			g_string_append (regexp, "(.*)");
+			append_type (MATCH_STRING_CONSTANT);
 			break;
 
 		case '_':
@@ -720,9 +721,9 @@ extract_text (char const *str, const regmatch_t *mp)
  * Currently the code cannot mix a MATCH_NUMBER with any
  * of the date/time matching.
  */
-static gboolean
+static Value *
 compute_value (char const *s, const regmatch_t *mp,
-	       GByteArray *array, gnum_float *v)
+	       GByteArray *array)
 {
 	const int len = array->len;
 	gnum_float number = 0.0;
@@ -853,6 +854,8 @@ compute_value (char const *s, const regmatch_t *mp,
 			break;
 
 		case MATCH_STRING_CONSTANT:
+			return value_new_string (str);
+
 		default :
 			g_warning ("compute_value: This should not happen\n");
 			break;
@@ -864,8 +867,7 @@ compute_value (char const *s, const regmatch_t *mp,
 	if (is_number) {
 		if (percentify)
 			number *= 0.01;
-		*v = number;
-		return TRUE;
+		return value_new_float (number);
 	}
 
 	if (!(year == -1 && month == -1 && day == -1)) {
@@ -945,10 +947,8 @@ compute_value (char const *s, const regmatch_t *mp,
 		g_date_free (date);
 	}
 
-	*v = number;
-
 	if (seconds == -1 && minutes == -1 && hours == -1)
-		return TRUE;
+		return value_new_float (number);
 
 	if (seconds == -1)
 		seconds = 0;
@@ -976,9 +976,7 @@ compute_value (char const *s, const regmatch_t *mp,
 
 	number += (hours * 3600 + minutes * 60 + seconds) / (3600*24.0);
 
-	*v = number;
-
-	return TRUE;
+	return value_new_float (number);
 }
 
 /**
@@ -1072,12 +1070,11 @@ format_match (char const *text, StyleFormat *cur_fmt,
 		return value_new_string (text + 1);
 
 	if (cur_fmt) {
-		gnum_float result;
 		if (style_format_is_text (cur_fmt))
 			return value_new_string (text);
 		if (cur_fmt->regexp_str != NULL &&
 		    regexec (&cur_fmt->regexp, text, NM, mp, 0) != REG_NOMATCH &&
-		    compute_value (text, mp, cur_fmt->match_tags, &result)) {
+		    NULL != (v = compute_value (text, mp, cur_fmt->match_tags))) {
 #ifdef DEBUG_NUMBER_MATCH
 		{
 			int i;
@@ -1096,7 +1093,7 @@ format_match (char const *text, StyleFormat *cur_fmt,
 
 			if (matching_format)
 				*matching_format = cur_fmt;
-			return value_new_float (result);
+			return v;
 		}
 	}
 
@@ -1107,8 +1104,6 @@ format_match (char const *text, StyleFormat *cur_fmt,
 
 	/* Fall back to checking the set of canned formats */
 	for (l = format_match_list; l; l = l->next) {
-		gnum_float result;
-		gboolean b;
 		StyleFormat *fmt = l->data;
 #ifdef DEBUG_NUMBER_MATCH
 		printf ("test: %s \'%s\'\n", fmt->format, fmt->regexp_str);
@@ -1132,18 +1127,19 @@ format_match (char const *text, StyleFormat *cur_fmt,
 		}
 #endif
 
-		b = compute_value (text, mp, fmt->match_tags, &result);
+		v = compute_value (text, mp, fmt->match_tags);
 
 #ifdef DEBUG_NUMBER_MATCH
-		if (b)
-			printf ("value = %f\n", result);
-		else
+		if (v) {
+			printf ("value = ");
+			value_dump (v);
+		} else
 			printf ("unable to compute value\n");
 #endif
-		if (b) {
+		if (v != NULL) {
 			if (matching_format)
 				*matching_format = fmt;
-			return value_new_float (result);
+			return v;
 		}
 	}
 

@@ -43,8 +43,12 @@ Dependent const *gnm_graph_vector_get_dependent (GnmGraphVector const *v);
 void	         gnm_graph_vector_from_string   (GnmGraphVector const *v,
 						 char const *str);
 
-/* Some xml utilities */
+/* Series utilities */
 xmlNode *gnm_graph_series_get_dimension (xmlNode *series, xmlChar const *element);
 xmlNode *gnm_graph_series_add_dimension (xmlNode *series, char const *element);
+void	 gnm_graph_series_delete	(GnmGraph *graph, xmlNode *series);
+void	 gnm_graph_series_set_dimension (GnmGraph *graph,
+					 xmlNode *series, xmlChar const *element,
+					 char const *expr);
 
 #endif /* GNUMERIC_GRAPH_H */
