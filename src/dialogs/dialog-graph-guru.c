@@ -394,10 +394,16 @@ vector_state_init (VectorState *vs, xmlNode *descriptor)
 }
 
 static void
-cb_graph_guru_entry_changed (GtkEditable *editable, VectorState *vs)
+cb_entry_changed (GtkEditable *editable, VectorState *vs)
 {
 	if (!vs->state->updating)
 		vs->changed = TRUE;
+}
+
+static void
+cb_entry_rangesel_drag_finished (GnumericExprEntry *gee, VectorState *vs)
+{
+	vector_state_apply_changes (vs);
 }
 
 static VectorState *
@@ -432,11 +438,15 @@ vector_state_new (GraphGuruState *state, gboolean shared, int dim_indx)
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 		GTK_EDITABLE (vs->entry));
 
+	gtk_object_set_data (GTK_OBJECT (vs->entry), "VectorState", vs);
+
 	/* flag when things change so we'll know if we need to update the vector */
 	gtk_signal_connect (GTK_OBJECT (vs->entry),
 		"changed",
-		GTK_SIGNAL_FUNC (cb_graph_guru_entry_changed), vs);
-	gtk_object_set_data (GTK_OBJECT (vs->entry), "VectorState", vs);
+		GTK_SIGNAL_FUNC (cb_entry_changed), vs);
+	gtk_signal_connect (GTK_OBJECT (vs->entry),
+		"rangesel_drag_finished",
+		GTK_SIGNAL_FUNC (cb_entry_rangesel_drag_finished), vs);
 
 	return vs;
 }

@@ -1,3 +1,11 @@
+2002-01-19  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-graph.c (gnm_graph_vector_seq_scalar) : handle blanks
+	  better.
+
+	* src/item-grid.c (item_grid_event) : call
+	  gnumeric_expr_entry_end_of_drag when a rangesel drag finishes.
+
 2002-01-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/datetime.c (adjust_dates_basis) : removed

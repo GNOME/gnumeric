@@ -39,6 +39,7 @@ void gnumeric_expr_entry_get_rangesel	(GnumericExprEntry *expr_entry,
 void gnumeric_expr_entry_rangesel_start (GnumericExprEntry *expr_entry);
 void gnumeric_expr_entry_rangesel_stop  (GnumericExprEntry *expr_entry,
 					 gboolean clear_string);
+void gnumeric_expr_entry_end_of_drag	(GnumericExprEntry *gee);
 gboolean gnumeric_expr_entry_set_range	(GnumericExprEntry *expr_entry,
 					 Sheet *sheet, Range const *r);
 

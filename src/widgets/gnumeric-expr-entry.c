@@ -53,7 +53,16 @@ struct _GnumericExprEntry {
 
 typedef struct _GnumericExprEntryClass {
 	GtkEntryClass parent_class;
+	void (* rangesel_drag_finished) (GnumericExprEntry *gee);
 } GnumericExprEntryClass;
+
+/* Signals */
+enum {
+	RANGESEL_DRAG_FINISHED,
+	LAST_SIGNAL
+};
+
+static guint signals [LAST_SIGNAL] = { 0 };
 
 static void
 reset_rangesel (GnumericExprEntry *ee)
@@ -302,6 +311,20 @@ gnumeric_expr_entry_rangesel_stop (GnumericExprEntry *expr_entry,
 		reset_rangesel (expr_entry);
 }
 
+/**
+ * gnumeric_expr_entry_end_of_drag:
+ * @gee :
+ *
+ * Signal the expression entry clients that a drag selection has just finished.
+ * This is useful for knowing when to attempt to parse and update things that
+ * depend on the modified expression without doing it in real time.
+ **/
+void
+gnumeric_expr_entry_end_of_drag	(GnumericExprEntry *gee)
+{
+	gtk_signal_emit (GTK_OBJECT (gee), signals [RANGESEL_DRAG_FINISHED]);
+}
+
 /***************************************************************************/
 
 static void
@@ -450,6 +473,17 @@ gnumeric_expr_entry_class_init (GtkObjectClass *object_class)
  */
 
 	widget_class->button_press_event= gnumeric_expr_entry_button_press_event;
+
+	signals [RANGESEL_DRAG_FINISHED] =
+		gtk_signal_new (
+			"rangesel_drag_finished",
+			GTK_RUN_LAST,
+			object_class->type,
+			GTK_SIGNAL_OFFSET (GnumericExprEntryClass, rangesel_drag_finished),
+			gtk_marshal_NONE__NONE,
+			GTK_TYPE_NONE, 0);
+
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 E_MAKE_TYPE (gnumeric_expr_entry, "GnumericExprEntry", GnumericExprEntry,

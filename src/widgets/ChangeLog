@@ -1,3 +1,9 @@
+2002-01-19  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (gnumeric_expr_entry_class_init) : add 
+	  "rangesel_drag_finished" signal.
+	(gnumeric_expr_entry_end_of_drag) : emit it here.
+
 2002-01-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.2

@@ -135,14 +135,21 @@ gnm_graph_vector_seq_scalar (GnmGraphVector *vector)
 	Value *v = vector->value;
 
 	eval_pos_init_dep (&pos, &vector->dep);
-	len = vector->is_column
-		? value_area_get_height (&pos, v)
-		: value_area_get_width (&pos, v);
+	len = (v == NULL) ? 1 :
+		(vector->is_column
+			? value_area_get_height (&pos, v)
+			: value_area_get_width (&pos, v));
 
 	values = GNOME_Gnumeric_Scalar_Seq__alloc ();
 	values->_length = values->_maximum = len;
 	values->_buffer = CORBA_sequence_CORBA_double_allocbuf (len);
 	values->_release = CORBA_TRUE;
+
+	/* TODO : handle blanks */
+	if (v == NULL) {
+		values->_buffer[0] = 0.;
+		return values;
+	}
 
 	/* FIXME : This is dog slow */
 	for (i = 0; i < len ; ++i) {
@@ -150,7 +157,7 @@ gnm_graph_vector_seq_scalar (GnmGraphVector *vector)
 			? value_area_get_x_y (&pos, v, 0, i)
 			: value_area_get_x_y (&pos, v, i, 0);
 
-		/* TODO : do we want to handle ignoring blanks at this level ? */
+		/* TODO : handle blanks */
 		values->_buffer [i] = elem ? value_get_as_float (elem) : 0.;
 	}
 
@@ -175,17 +182,18 @@ gnm_graph_vector_seq_string (GnmGraphVector *vector)
 	values->_buffer = CORBA_sequence_CORBA_string_allocbuf (len);
 	values->_release = CORBA_TRUE;
 
-	/* FIXME : This is dog slow */
+	/* TODO : handle blanks */
 	if (v == NULL) {
 		values->_buffer[0] = CORBA_string_dup ("");
 		return values;
 	}
 
+	/* FIXME : This is dog slow */
 	for (i = 0; i < len ; ++i) {
 		Value const *elem = vector->is_column
 			? value_area_get_x_y (&pos, v, 0, i)
 			: value_area_get_x_y (&pos, v, i, 0);
-		/* TODO : do we want to handle ignoring blanks at this level ? */
+		/* TODO : handle blanks */
 		char const *tmp = elem ? value_peek_string (elem) : "";
 		values->_buffer[i] = CORBA_string_dup (tmp);
 	}

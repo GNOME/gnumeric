@@ -951,7 +951,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		scg_set_display_cursor (scg);
 		return TRUE;
 
-	case GDK_BUTTON_RELEASE:
+	case GDK_BUTTON_RELEASE: {
+		gboolean send_finished_signal = FALSE;
 		if (event->button.button != 1)
 			return FALSE;
 
@@ -961,6 +962,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		case ITEM_GRID_NO_SELECTION: return TRUE;
 
 		case ITEM_GRID_SELECTING_FORMULA_RANGE :
+			send_finished_signal = TRUE;
 			sheet_make_cell_visible (sheet,
 				sheet->edit_pos.col, sheet->edit_pos.row, FALSE);
 			/* Fall through */
@@ -978,7 +980,11 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		ig->selecting = ITEM_GRID_NO_SELECTION;
 		gnm_simple_canvas_ungrab (item, event->button.time);
+
+		if (send_finished_signal)
+			gnumeric_expr_entry_end_of_drag (wbcg_get_entry_logical (scg->wbcg));
 		return TRUE;
+	}
 
 	case GDK_MOTION_NOTIFY: {
 		GnumericCanvasSlideHandler slide_handler = NULL;

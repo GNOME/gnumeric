@@ -1,3 +1,10 @@
+2002-01-19  Jody Goldberg <jody@gnome.org>
+
+	* dialog-graph-guru.c (cb_entry_rangesel_drag_finished) : update the
+	  vector.
+	(vector_state_new) : link to the new rangesel_drag_finished signal
+	  so that we push the update when a user finishes dragging.
+
 2002-01-18  Jody Goldberg <jody@gnome.org>
 
 	* dialog-graph-guru.c (graph_guru_plot_name) : fix the stupid name
