@@ -1,14 +1,18 @@
+2003-07-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* functions.c : ssmedian is GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC
+	
 2003-06-28  Jody Goldberg <jody@gnome.org>
 
 	* functions.c : fix status of SUBTOTAL
 
 2003-06-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-        * functions.c : add missing @const to the documentation of TREND
+	* functions.c : add missing @const to the documentation of TREND
 
 2003-06-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-        * functions.c : small corrections in function descriptions
+	* functions.c : small corrections in function descriptions
 
 2003-06-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
