@@ -36,6 +36,7 @@ Jon Kåre:
 	* Fix keynav for various kinds of combos.
 	* Make splash screen display code clairvoyant.
 	* Import OpenOffice.org 1.1 from clipboard.
+	* Export XHTML to clipboard.
 
 Morten:
 	* Hopefully fix NAN issues on Alphas.
