@@ -29,6 +29,7 @@ typedef struct {
 
         GtkWidget *scenarios_treeview;
 	GSList    *new_report_sheets;
+	GList     *old_values;
 } scenario_state_t;
 
 typedef struct {

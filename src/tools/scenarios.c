@@ -47,7 +47,7 @@
 /* Generic stuff **********************************************************/
 
 static scenario_t *
-scenario_by_name (GList *scenarios, gchar *name, gboolean *all_deleted)
+scenario_by_name (GList *scenarios, const gchar *name, gboolean *all_deleted)
 {
 	scenario_t *s, *res = NULL;
  
@@ -68,43 +68,34 @@ scenario_by_name (GList *scenarios, gchar *name, gboolean *all_deleted)
 	return res;
 }
 
-/* Scenario: Show **********************************************************/
+typedef Value * (*ScenarioValueCB) (int col, int row, Value *v, gpointer data);
 
-void
-scenario_show (WorkbookControl        *wbc,
-	       gchar                  *name,
-	       data_analysis_output_t *dao)
+static void
+scenario_for_each_value (scenario_t *s, ScenarioValueCB fn, gpointer data)
 {
-	scenario_t *s;
-	int        i, j, cols;
-
-	s = scenario_by_name (dao->sheet->scenarios, name, NULL);
-	if (s == NULL)
-		return;
+	int        i, j, cols, pos;
 
 	cols = s->range.end.col - s->range.start.col + 1;
 	for (i = s->range.start.row; i <= s->range.end.row; i++)
 		for (j = s->range.start.col; j <= s->range.end.col; j++) {
-			dao_set_cell_value
-				(dao, j, i, value_duplicate
-				 (s->changing_cells [j-s->range.start.col +
-						     (i-s->range.start.row) *
-						     cols]));
+			pos = j - s->range.start.col +
+				(i - s->range.start.row) * cols;
+			s->changing_cells [pos] = fn (j, i,
+						      s->changing_cells [pos],
+						      data);
 		}
-
-	workbook_recalc (wb_control_workbook (wbc));
-	sheet_redraw_all (dao->sheet, TRUE);
 }
-
 
 /* Scenario: Add ***********************************************************/
 
 static scenario_t *
-scenario_new (GList *scenarios, gchar *name, gchar *comment)
+scenario_new (Sheet *sheet, const gchar *name, const gchar *comment)
 {
 	scenario_t *s;
+	GList      *scenarios = sheet->scenarios;
 
 	s = g_new (scenario_t, 1);
+	s->sheet = sheet;
 
 	/* Check if a scenario having the same name already exists. */
 	if (scenario_by_name (scenarios, name, NULL)) {
@@ -147,6 +138,22 @@ scenario_new (GList *scenarios, gchar *name, gchar *comment)
 	return s;
 }
 
+
+typedef struct {
+	gboolean expr_flag;
+	Sheet    *sheet;
+} collect_cb_t;
+
+static Value *
+collect_cb (int col, int row, Value *v, collect_cb_t *p)
+{
+	Cell *cell = sheet_cell_fetch (p->sheet, col, row);
+
+	p->expr_flag |= cell_has_expr (cell);
+
+	return value_duplicate (cell->value);
+}
+
 /*
  * Collects cell values of a scenario. If any of the cells contain an
  * expression return TRUE so that the user can be warned about it.
@@ -154,11 +161,11 @@ scenario_new (GList *scenarios, gchar *name, gchar *comment)
 static gboolean
 collect_values (Sheet *sheet, scenario_t *s, ValueRange *range)
 {
-	int      i, j;
-	int      cols, rows;
-	Cell     *cell;
-	CellRef  *a, *b;
-	gboolean flag = FALSE;
+	int          i, j;
+	int          cols, rows;
+	Cell         *cell;
+	CellRef      *a, *b;
+	collect_cb_t cb;
 
 	range_init_value (&s->range, (Value *) range);
 
@@ -166,16 +173,11 @@ collect_values (Sheet *sheet, scenario_t *s, ValueRange *range)
 	cols = s->range.end.col - s->range.start.col + 1;
 	s->changing_cells = g_new (Value *, rows * cols);
 
-	for (i = s->range.start.row; i <= s->range.end.row; i++)
-		for (j = s->range.start.col; j <= s->range.end.col; j++) {
-			cell = sheet_cell_fetch (sheet, j, i);
-			flag |= cell_has_expr (cell);
-			s->changing_cells [j-s->range.start.col + 
-					   (i-s->range.start.row) * cols] = 
-				value_duplicate (cell->value);
-		}
+	cb.expr_flag = FALSE;
+	cb.sheet     = sheet;
+	scenario_for_each_value (s, (ScenarioValueCB) collect_cb, &cb);
 
-	return flag;
+	return cb.expr_flag;
 }
 
 gboolean
@@ -190,7 +192,7 @@ scenario_add_new (gchar *name,
 	int        cols, rows;
 	gboolean   res;
 
-	scenario = scenario_new (sheet->scenarios, name, comment);
+	scenario = scenario_new (sheet, name, comment);
 
 	res = collect_values (sheet, scenario, (ValueRange *) changing_cells);
 
@@ -205,12 +207,30 @@ scenario_add_new (gchar *name,
 
 /* Scenario: Duplicate sheet ***********************************************/
 
+typedef struct {
+	int        rows;
+	int        cols;
+	int        col_offset;
+	int        row_offset;
+	scenario_t *dest;
+} copy_cb_t;
+
+static Value *
+copy_cb (int col, int row, Value *v, copy_cb_t *p)
+{
+	p->dest->changing_cells [col - p->col_offset +
+				 (row - p->row_offset) * p->cols] = 
+		value_duplicate (v);
+
+	return v;
+}
+
 static scenario_t *
 scenario_copy (scenario_t *s, Sheet *new_sheet)
 {
 	scenario_t *p;
-	int        i, j, cols, rows;
-	
+	copy_cb_t  cb;
+
 	p = g_new (scenario_t, 1);
 	
 	p->name         = g_strdup (s->name);
@@ -220,18 +240,14 @@ scenario_copy (scenario_t *s, Sheet *new_sheet)
 	range_init (&p->range, s->range.start.col, s->range.start.row,
 		    s->range.end.col, s->range.end.row);
 
-	rows = s->range.end.row - s->range.start.row + 1;
-	cols = s->range.end.col - s->range.start.col + 1;
+	cb.rows       = s->range.end.row - s->range.start.row + 1;
+	cb.cols       = s->range.end.col - s->range.start.col + 1;
+	cb.col_offset = s->range.start.col;
+	cb.row_offset = s->range.start.row;
+	cb.dest       = p;
 
-	p->changing_cells = g_new (Value *, rows * cols);
-	for (i = s->range.start.row; i <= s->range.end.row; i++)
-		for (j = s->range.start.col; j <= s->range.end.col; j++)
-			p->changing_cells [j-s->range.start.col +
-					   (i-s->range.start.row) * cols] = 
-				value_duplicate (s->changing_cells
-						 [j-s->range.start.col +
-						  (i-s->range.start.row) *
-						  cols]);
+	p->changing_cells = g_new (Value *, cb.rows * cb.cols);
+	scenario_for_each_value (s, (ScenarioValueCB) copy_cb, &cb);
 
 	return p;
 }
@@ -251,22 +267,22 @@ scenario_copy_all (GList *list, Sheet *ns)
 
 /* Scenario: Remove sheet *************************************************/
 
+static Value *
+cb_value_free (int col, int row, Value *v, gpointer data)
+{
+	value_release (v);
+
+	return NULL;
+}
+
 static void
 scenario_free (scenario_t *s)
 {
-	int i, j, cols;
-
 	g_free (s->name);
 	g_free (s->comment);
 	g_free (s->cell_sel_str);
 
-	cols = s->range.end.col - s->range.start.col + 1;
-	for (i = s->range.start.row; i <= s->range.end.row; i++)
-		for (j = s->range.start.col; j <= s->range.end.col; j++)
-			value_release
-				(s->changing_cells [j-s->range.start.col
-						    + (i-s->range.start.row) *
-						    cols]);
+	scenario_for_each_value (s, cb_value_free, NULL);
 
 	g_free (s->changing_cells);
 	g_free (s);
@@ -299,6 +315,57 @@ scenario_mark_deleted (GList *scenarios, gchar *name)
 
 	return all_deleted;
 }
+
+/* Scenario: Show **********************************************************/
+
+static Value *
+show_cb (int col, int row, Value *v, data_analysis_output_t *dao)
+{
+	dao_set_cell_value (dao, col, row, value_duplicate (v));
+	return v;
+}
+
+scenario_t *
+scenario_show (WorkbookControl        *wbc,
+	       const gchar            *name,
+	       scenario_t             *old_values,
+	       data_analysis_output_t *dao)
+{
+	scenario_t   *s;
+	scenario_t   *stored_values;
+	int           rows, cols;
+	collect_cb_t  cb;
+
+	/* Recover values of the previous show call. */
+	if (old_values) {
+		scenario_for_each_value (old_values, (ScenarioValueCB) show_cb,
+					 dao);
+		scenario_free (old_values);
+	}
+
+	s = scenario_by_name (dao->sheet->scenarios, name, NULL);
+	if (s == NULL)
+		return;
+
+	/* Store values for recovery. */
+	stored_values = scenario_new (dao->sheet, name, "");
+	stored_values->range = s->range;
+	rows = s->range.end.row - s->range.start.row + 1;
+	cols = s->range.end.col - s->range.start.col + 1;
+	stored_values->changing_cells = g_new (Value *, rows * cols);
+
+	cb.sheet = dao->sheet;
+	scenario_for_each_value (stored_values, (ScenarioValueCB) collect_cb,
+				 &cb);
+
+	/* Show scenario and recalculate. */
+	scenario_for_each_value (s, (ScenarioValueCB) show_cb, dao);
+	workbook_recalc (wb_control_workbook (wbc));
+	sheet_redraw_all (dao->sheet, TRUE);
+
+	return stored_values;
+}
+
 
 /* Scenario: Insert columns(s)/row(s) *************************************/
 
@@ -396,7 +463,7 @@ scenario_delete_rows (GList *list, int row, int count)
 
 /* Ok button pressed. */
 void
-scenario_manager_ok (Sheet *sheet)
+scenario_manager_ok (Sheet *sheet, scenario_t *old_values)
 {
 	GList *cur, *scenarios = sheet->scenarios;
 	GList *list = NULL;
@@ -413,6 +480,8 @@ scenario_manager_ok (Sheet *sheet)
 	g_list_free (scenarios);
 	sheet->scenarios = list;
 
+	if (old_values)
+		scenario_free (old_values);
 	sheet_redraw_all (sheet, TRUE);
 }
 
@@ -436,101 +505,108 @@ rm_fun_cb (gpointer key, gpointer value, gpointer user_data)
 	g_free (value);
 }
 
+typedef struct {
+	data_analysis_output_t dao;
+
+	Sheet      *sheet;
+	GHashTable *names;  /* A hash table for cell names->row. */
+	int        col;
+	int        row;
+	Value      *results;
+} summary_cb_t;
+
+static Value *
+summary_cb (int col, int row, Value *v, summary_cb_t *p)
+{
+	char  *tmp = dao_find_name (p->sheet, col, row);
+	int   *index;
+
+	/* Check if some of the previous scenarios already included that
+	 * cell. If so, it's row will be put into *index. */
+	index = g_hash_table_lookup (p->names, tmp);
+	if (index != NULL)
+		dao_set_cell_value (&p->dao, 2 + p->col, 3 + *index, 
+				    value_duplicate (v));
+	else {
+		/* New cell. */
+		Cell *cell;
+		int  *r;
+		
+		/* Changing cell name. */
+		dao_set_cell (&p->dao, 0, 3 + p->row, tmp);
+		
+		/* Value of the cell in this scenario. */
+		dao_set_cell_value (&p->dao, 2 + p->col, 3 + p->row, 
+				    value_duplicate (v));
+		
+		/* Current value of the cell. */
+		cell = sheet_cell_fetch (p->sheet, col, row);
+		dao_set_cell_value (&p->dao, 1, 3 + p->row,
+				    value_duplicate (cell->value));
+		
+		/* Insert row number into the hash table. */
+		r  = g_new (int, 1);
+		*r = row;
+		g_hash_table_insert (p->names, tmp, r);
+		
+		/* Increment the nbr of rows. */
+		p->row++;
+	}
+
+	return v;
+}
 
 void
-scenario_summary (WorkbookControl        *wbc,
-		  Sheet                  *sheet,
-		  Sheet                  **new_sheet)
+scenario_summary (WorkbookControl *wbc,
+		  Sheet           *sheet,
+		  Value           *results,
+		  Sheet           **new_sheet)
 {
-	data_analysis_output_t dao;
-	GList                  *cur;
-	GList                  *scenarios = sheet->scenarios;
-	GHashTable             *names;  /* A hash table for cell names->row. */
-	int                    i, j, col, row, cols;
+	summary_cb_t cb;
+	GList        *cur;
+	GList        *scenarios = sheet->scenarios;
 
 	/* Initialize: Currently only new sheet output supported. */
-	dao_init (&dao, NewSheetOutput);
-	dao_prepare_output (wbc, &dao, _("Scenario Summary"));
+	dao_init (&cb.dao, NewSheetOutput);
+	dao_prepare_output (wbc, &cb.dao, _("Scenario Summary"));
 
 	/* Titles. */
-	dao_set_cell (&dao, 1, 1, _("Current Values"));
-	dao_set_cell (&dao, 0, 2, _("Changing Cells"));
+	dao_set_cell (&cb.dao, 1, 1, _("Current Values"));
+	dao_set_cell (&cb.dao, 0, 2, _("Changing Cells:"));
 
 	/* Go through all scenarios. */
-	row   = 0;
-	names = g_hash_table_new (g_str_hash, g_str_equal);
-	for (col = 0, cur = scenarios; cur != NULL; col++, cur = cur->next) {
+	cb.row     = 0;
+	cb.names   = g_hash_table_new (g_str_hash, g_str_equal);
+	cb.sheet   = sheet;
+	cb.results = results;
+	for (cb.col = 0, cur = scenarios; cur != NULL; cb.col++,
+		     cur = cur->next) {
 		scenario_t *s = (scenario_t *) cur->data;
 
 		/* Scenario name. */
-		dao_set_cell (&dao, 2 + col, 1, s->name);
+		dao_set_cell (&cb.dao, 2 + cb.col, 1, s->name);
 
-		/* Go through the changing cells. */
-		cols = s->range.end.col - s->range.start.col + 1;
-		for (i = s->range.start.row; i <= s->range.end.row; i++)
-			for (j = s->range.start.col; j <= s->range.end.col;
-			     j++) {
-				char  *tmp = dao_find_name (sheet, j, i);
-				Value *v;
-				int   *index;
-
-				v = value_duplicate (s->changing_cells
-						     [j-s->range.start.col +
-						      (i-s->range.start.row) *
-						      cols]);
-
-				/* Check if some of the previous scenarios
-				 * already included that cell. If so, it's
-				 * row will be put into *index. */
-				index = g_hash_table_lookup (names, tmp);
-				if (index != NULL)
-					dao_set_cell_value (&dao, 2 + col,
-							    3 + *index, v);
-				else {
-					/* New cell. */
-					Cell *cell;
-					int  *r;
-
-					/* Changing cell name. */
-					dao_set_cell (&dao, 0, 3 + row, tmp);
-
-					/* Value of the cell in this
-					 * scenario. */
-					dao_set_cell_value (&dao, 2 + col,
-							    3 + row, v);
-
-					/* Current value of the cell. */
-					cell = sheet_cell_fetch (sheet, j, i);
-					v    = value_duplicate (cell->value);
-					dao_set_cell_value (&dao, 1, 3 + row,
-							    v);
-
-					/* Insert row number into the hash 
-					 * table. */
-					r  = g_new (int, 1);
-					*r = row;
-					g_hash_table_insert (names, tmp, r);
-
-					/* Increment the nbr of rows. */
-					row++;
-				}
-			}
+		scenario_for_each_value (s, (ScenarioValueCB) summary_cb, &cb);
 	}
 
+	/* Result cells. */
+	dao_set_cell (&cb.dao, 0, 3 + cb.row, _("Result Cells:"));
+	cb.row += 1;
+
 	/* Destroy the hash table. */
-	g_hash_table_foreach (names, (GHFunc) rm_fun_cb, NULL);
-	g_hash_table_destroy (names);
+	g_hash_table_foreach (cb.names, (GHFunc) rm_fun_cb, NULL);
+	g_hash_table_destroy (cb.names);
 
 	/* Clean up the report output. */
-	dao_set_bold (&dao, 0, 0, 0, 2 + row);
-	dao_autofit_columns (&dao);
-	dao_set_cell (&dao, 0, 0, _("Scenario Summary"));
+	dao_set_bold (&cb.dao, 0, 0, 0, 2 + cb.row);
+	dao_autofit_columns (&cb.dao);
+	dao_set_cell (&cb.dao, 0, 0, _("Scenario Summary"));
 
-	dao_set_colors (&dao, 0, 0, cols + 3, 1,
+	dao_set_colors (&cb.dao, 0, 0, cb.col + 1, 1,
 			style_color_new (gs_white.red, gs_white.green, 
 					 gs_white.blue),
 			style_color_new (gs_dark_gray.red, gs_dark_gray.green,
 					 gs_dark_gray.blue));
 
-	*new_sheet = dao.sheet;
+	*new_sheet = cb.dao.sheet;
 }

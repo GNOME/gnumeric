@@ -373,11 +373,29 @@ scenarios_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	dao_init (&dao, NewSheetOutput);
 	dao.sheet = state->sheet;
 
-	scenario_manager_ok (state->sheet);
+	scenario_manager_ok (state->sheet, 
+			     (scenario_t *) state->scenario_state->old_values);
 	gtk_widget_destroy (state->dialog);
 	scenario_manager_free (state);
 
 	return;
+}
+
+static void
+restore_old_values (ScenariosState *state)
+{
+	data_analysis_output_t  dao;
+	WorkbookControl *wbc;
+
+	if (state->scenario_state->old_values == NULL)
+		return;
+	wbc = WORKBOOK_CONTROL (state->wbcg);
+	dao_init (&dao, NewSheetOutput);
+	dao.sheet = state->sheet;
+	scenario_show (wbc, "",
+		       (scenario_t *) state->scenario_state->old_values,
+		       &dao);
+	state->scenario_state->old_values = NULL;
 }
 
 /**
@@ -393,6 +411,8 @@ scenarios_cancel_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 {
 	GSList *cur;
 	WorkbookControl *wbc;
+
+	restore_old_values (state);
 
 	gtk_widget_destroy (state->dialog);
 	wbc = WORKBOOK_CONTROL (state->wbcg);
@@ -439,7 +459,10 @@ scenarios_show_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,  0, &value, -1);
 	
 	wbc = WORKBOOK_CONTROL (state->wbcg);
-	scenario_show (wbc, value, &dao);
+	state->scenario_state->old_values = (GList *)
+		scenario_show (wbc, value,
+			       (scenario_t *) state->scenario_state->old_values,
+			       &dao);
 }
 
 static void
@@ -452,6 +475,8 @@ scenarios_delete_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkTreeModel            *model;
 	gchar                   *value;
 	gboolean                all_deleted;
+
+	restore_old_values (state);
 
 	selection = gtk_tree_view_get_selection
 	        (GTK_TREE_VIEW (state->scenario_state->scenarios_treeview));
@@ -478,13 +503,19 @@ scenarios_summary_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			      ScenariosState *state)
 {
 	Sheet *new_sheet;
+	Value *results;
+
+	results = gnm_expr_entry_parse_as_value (
+		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 
 	scenario_summary (WORKBOOK_CONTROL (state->wbcg), state->sheet,
-			  &new_sheet);
+			  results, &new_sheet);
 	
 	state->scenario_state->new_report_sheets =
 		g_slist_prepend (state->scenario_state->new_report_sheets,
 				 new_sheet);
+	if (results)
+		value_release (results);
 }
 
 static void
@@ -547,12 +578,13 @@ dialog_scenarios (WorkbookControlGUI *wbcg)
 	state = g_new (ScenariosState, 1);
 	state->scenario_state = g_new (scenario_state_t, 1);
 	state->scenario_state->new_report_sheets = NULL;
+	state->scenario_state->old_values = NULL;
 	state->wb = wb_control_workbook (wbc);
 
 	if (dialog_tool_init (state, wbcg, sheet,
 			      "scenarios.html",
 			      "scenario-manager.glade", "Scenarios",
-			      NULL, NULL, error_str, "Scenarios",
+			      _("Results:"), NULL, error_str, "Scenarios",
 			      G_CALLBACK (scenarios_ok_clicked_cb),
 			      G_CALLBACK (scenarios_cancel_clicked_cb),
 			      G_CALLBACK (scenarios_update_sensitivity_cb),
