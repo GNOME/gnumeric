@@ -3,8 +3,9 @@ Gnumeric 0.66
 Almer:
 	* Some work on the SAX importer.
 	* Finish Group/Ungroup.
-	* Clean-up the STF.
+	* Clean-up the STF importer.
 	* Clean-up row naming.
+	* Fix the STF exporter (it works again).
 
 Jody:
 	* Fix ctrl-enter filling.

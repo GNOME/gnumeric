@@ -1,3 +1,8 @@
+2001-06-03  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/stf.c (stf_write_workbook): Exporting wouldn't work
+	because of wrong changes to the code. Fixed.
+	
 2001-06-03  Morten Welinder  <terra@diku.dk>
 
 	* src/func.c (function_add_args): Do arg type checking here.

@@ -297,15 +297,13 @@ stf_write_workbook (GnumFileSaver const *fs, IOContext *context, WorkbookView *w
 	if (result != NULL) {
 		FILE *f = stf_open_for_write (context, filename);
 
-		if (f != NULL) {
+		if (f == NULL) {
 			gnumeric_io_error_unknown (context);
 			return;
 		}
 
 		stf_export_options_set_write_callback (result->export_options,
 						       (StfEWriteFunc) stf_write_func, (gpointer) f);
-		fclose (f);
-
 		if (stf_export (result->export_options) == FALSE) {
 			gnumeric_io_error_read (context,
 			_("Error while trying to write csv file"));
@@ -313,6 +311,7 @@ stf_write_workbook (GnumFileSaver const *fs, IOContext *context, WorkbookView *w
 			return;
 		}
 
+		fclose (f);
 		stf_export_dialog_result_free (result);
 	} else {
 		gnumeric_io_error_unknown (context);
