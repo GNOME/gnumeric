@@ -74,7 +74,7 @@ install-data-am: omf
 	done
 	# libbonoboui and libgnomeui want help in different places add a sym
 	# link to get an install that works for both (It may already exist)
-	-ln -s share/gnome $(gnumeric_datadir)/gnome
+	-ln -s share/gnome $(DESTDIR)$(gnumeric_datadir)/gnome
 	-if [ -e $(srcdir)/topic.dat ]; then \
 		$(INSTALL_DATA) $(srcdir)/topic.dat $(DESTDIR)$(docdir); \
 	 fi

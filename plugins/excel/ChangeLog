@@ -1,3 +1,8 @@
+2004-04-15  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (ms_excel_read_chart_BOF) : ignore the version in the BOF
+	  it lies.  Use the container's version.
+
 2004-04-11  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.10

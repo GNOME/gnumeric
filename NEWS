@@ -1,3 +1,14 @@
+Gnumeric 1.2.11
+
+Jody:
+	* Suppress warnings when loading XL95 files with charts that were saved
+	  by newer version of MS Excel.
+
+Miloslav Trmac:
+	http://bugzilla.gnome.org/show_bug.cgi?id=140029
+	* honor DESTDIR in doc build when packaging
+
+--------------------------------------------------------------------------
 Gnumeric 1.2.10
 
 Jody:

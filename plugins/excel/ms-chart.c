@@ -2161,8 +2161,12 @@ ms_excel_read_chart_BOF (BiffQuery *q, MSContainer *container, SheetObject *sog)
 	g_return_val_if_fail (bof != NULL, TRUE);
 	g_return_val_if_fail (bof->type == MS_BIFF_TYPE_Chart, TRUE);
 
-	if (bof->version != MS_BIFF_V_UNKNOWN)
-		res = ms_excel_read_chart (q, container, bof->version, sog);
+	/* NOTE : _Ignore_ the verison in the BOF, it lies!
+	 * XP saving as 95 will mark the book as biff7
+	 * but sheets and charts are marked as biff8, even though they are not
+	 * using unicode */
+	res = ms_excel_read_chart (q, container, container->ver, sog);
+
 	ms_biff_bof_data_destroy (bof);
 	return res;
 }

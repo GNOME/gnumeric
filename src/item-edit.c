@@ -540,6 +540,10 @@ entry_event (GtkEntry *entry, GdkEvent *event, FooCanvasItem *item)
 static int
 entry_cursor_event (GtkEntry *entry, GParamSpec *pspec, FooCanvasItem *item)
 {
+	/* ensure we draw a cursor when moving quickly no matter what the
+	 * current state is */
+	ITEM_EDIT (item)->cursor_visible = TRUE;
+
 	entry_changed (NULL, item);
 	return TRUE;
 }
