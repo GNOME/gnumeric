@@ -68,6 +68,7 @@ Function Breakage
 - Index  : does not support 0,0 or reference syntax.
 - Sumif  : mis-handles blanks.
 - ftest : Needs auditing.  All calls to eval_pos_init_cellref are questionable.
+- sumproduct : bug 12042
 
 Printing
 --------
