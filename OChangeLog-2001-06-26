@@ -1,3 +1,9 @@
+2000-06-23  Jon K Hellan  <hellan@acm.org>
+
+	(sheet_object_container_new_bonobo): As suggested by Michael:
+	use the accessor function bonobo_client_site_get_embeddable to
+	get the bound embeddable.
+
 2000-06-23  Karl Eichwalder  <ke@suse.de>
 
 	* src/style.c (font_init): Add missing dot.

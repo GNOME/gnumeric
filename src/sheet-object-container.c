@@ -222,7 +222,8 @@ sheet_object_container_new_bonobo (Sheet *sheet,
 	sheet_object_construct (SHEET_OBJECT (c), sheet);
 	sheet_object_set_bounds (SHEET_OBJECT (c), x1, y1, x2, y2);
 
-	SHEET_OBJECT_BONOBO (c)->object_server = client_site->bound_embeddable;
+	SHEET_OBJECT_BONOBO (c)->object_server =
+		bonobo_client_site_get_embeddable (client_site);
 	SHEET_OBJECT_BONOBO (c)->client_site = client_site;
 
 	return SHEET_OBJECT (c);
