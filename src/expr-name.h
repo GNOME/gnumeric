@@ -19,6 +19,7 @@ struct _NamedExpression {
 	} t;
 };
 
+NamedExpression *expr_name_new	  (char const *name, gboolean builtin);
 NamedExpression *expr_name_lookup (ParsePos const *pos, char const *name);
 NamedExpression *expr_name_add    (ParsePos const *pp, char const *name,
 				   ExprTree *expr, char const **error_msg);

@@ -4,6 +4,10 @@ Andreas:
 	* Make Single-Factor ANOVA undoable.
 	* Port search dialog
 
+Jody:
+	* Fix XL import of external function names.
+	* plug item-bar leak.
+
 Jukka:
 	* More solver improvements
 

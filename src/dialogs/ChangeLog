@@ -8,8 +8,8 @@
 2002-03-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/dialogs/search.glade : port to gnome2
-	* src/dialogs/dialog-search.c : port to gnome2
-	  (some problems remain to be fixed)
+	* src/dialogs/dialog-search.c : port to gnome2,
+	  some problems remain to be fixed.
 	
 2002-03-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 

@@ -145,8 +145,13 @@ expr_name_lookup (ParsePos const *pos, char const *name)
 	return res;
 }
 
-static NamedExpression *
-named_expr_new (char const *name, gboolean builtin)
+/**
+ * expr_name_new :
+ * 
+ * Creates a new name without linking it into any container.
+ */
+NamedExpression *
+expr_name_new (char const *name, gboolean builtin)
 {
 	NamedExpression *nexpr;
 
@@ -158,8 +163,8 @@ named_expr_new (char const *name, gboolean builtin)
 	nexpr->builtin = builtin;
 	nexpr->active  = TRUE;
 	nexpr->name    = string_get (name);
-	nexpr->dependents =
-		g_hash_table_new (g_direct_hash, g_direct_equal);
+	nexpr->t.expr_tree = NULL;
+	nexpr->dependents  = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	g_return_val_if_fail (nexpr->name != NULL, NULL);
 
@@ -258,7 +263,7 @@ expr_name_add (ParsePos const *pp, char const *name,
 	if (error_msg)
 		*error_msg = NULL;
 
-	nexpr = named_expr_new (name, FALSE);
+	nexpr = expr_name_new (name, FALSE);
 	parse_pos_init (&nexpr->pos,
 			pp->wb, pp->sheet, pp->eval.col, pp->eval.row);
 	expr_name_set_expr (nexpr, expr);
@@ -561,7 +566,7 @@ expr_name_init (void)
 	/* Not in global function table though ! */
 	for (; builtins[lp].name ; lp++) {
 		NamedExpression *nexpr;
-		nexpr = named_expr_new (builtins[lp].name, TRUE);
+		nexpr = expr_name_new (builtins[lp].name, TRUE);
 		nexpr->t.expr_func = builtins[lp].fn;
 		global_names = g_list_append (global_names, nexpr);
 	}

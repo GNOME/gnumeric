@@ -7,6 +7,7 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+- changes to gal colour combo to differentiate auto
 - http://bugzilla.gnome.org/show_bug.cgi?id=71551
 - We need to somehow add --export-dynamic to the gnumeric link line, or else
   plugins won't load on Solaris/gcc.
@@ -15,7 +16,8 @@ Release Critical
 - Printing dialogs are shot.
 - Text-import dialog crashes.
 - Summary dialog is non-functional.
-- Go-to cell dialog is shot.
+- Function selection dialog is broken, and it sucks.
+- Go-to cell dialog is shot, make it a guru.
 - rewrite editable-lable to be utf8 clean
 
 1.2 Targets
@@ -33,22 +35,6 @@ Pending Patches
 
 Long term breakage
 ------------------
-
-- MLK: 176 bytes leaked in 2 blocks
-    * This memory was allocated from:
-	  malloc + 1068 [pc=0x51a74]
-	  calloc + 48 [pc=0x52bb0]
-	  g_malloc0 [gmem.c:154 pc=0xfa25056c]
-	  g_mem_chunk_alloc0 [gmem.c:1187 pc=0xfa251f2c]
-	  g_type_create_instance [gtype.c:1313 pc=0xfa34d530]
-	  g_object_constructor [gobject.c:797 pc=0xfa3185d8]
-	  gtk_button_constructor [gtkbutton.c:334 pc=0xfa86bd7c]
-	  g_object_newv [gobject.c:695 pc=0xfa3173c4]
-	  g_object_new_valist [gobject.c:734 pc=0xfa3180a4]
-	  g_object_new [gobject.c:588 pc=0xfa316c08]
-	  gtk_type_new [gtktypeutils.c:99 pc=0xfab47f68]
-	  gtk_button_new [gtkbutton.c:420 pc=0xfa86c238]
-	  item_bar_realize [item-bar.c:191 pc=0xe2114]
 
 - Auto-format (the "style on a range" kind) assumes a certain data layout,
   such as a final "Total" row.  I would like an extension that would allow
