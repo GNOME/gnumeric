@@ -1,3 +1,7 @@
+2001-08-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr.c (expr_tree_equal) : new function.
+
 2001-08-24  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : bump bonobo req for real and remove unused

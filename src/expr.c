@@ -163,28 +163,6 @@ expr_tree_new_array (int x, int y, int rows, int cols)
 	return (ExprTree *)ans;
 }
 
-int
-expr_tree_get_const_int (ExprTree const *expr)
-{
-	g_return_val_if_fail (expr != NULL, 0);
-	g_return_val_if_fail (expr->any.oper == OPER_CONSTANT, 0);
-	g_return_val_if_fail (expr->constant.value, 0);
-	g_return_val_if_fail (expr->constant.value->type == VALUE_INTEGER, 0);
-
-	return expr->constant.value->v_int.val;
-}
-
-char const *
-expr_tree_get_const_str (ExprTree const *expr)
-{
-	g_return_val_if_fail (expr != NULL, NULL);
-	g_return_val_if_fail (expr->any.oper == OPER_CONSTANT, NULL);
-	g_return_val_if_fail (expr->constant.value, NULL);
-	g_return_val_if_fail (expr->constant.value->type == VALUE_STRING, NULL);
-
-	return expr->constant.value->v_str.val->str;
-}
-
 /**
  * expr_parse_string:
  *
@@ -310,15 +288,98 @@ expr_tree_unref (ExprTree *expr)
 }
 
 /**
- * expr_tree_shared : Returns TRUE if the reference count
+ * expr_tree_is_shared : Returns TRUE if the reference count
  *   for the supplied expression is > 1
  */
 gboolean
-expr_tree_shared (ExprTree const *expr)
+expr_tree_is_shared (ExprTree const *expr)
 {
 	g_return_val_if_fail (expr != NULL, FALSE);
 
 	return (expr->any.ref_count > 1);
+}
+
+static gboolean
+cellref_equal (CellRef const *a, CellRef const *b)
+{
+	return	(a->col_relative == b->col_relative) &&
+		(a->row_relative == b->row_relative) &&
+		(a->col == b->col) &&
+		(a->row == b->row) &&
+		(a->sheet == b->sheet);
+}
+
+/**
+ * expr_tree_equal : Returns TRUE if the supplied expressions are exactly the
+ *   same.  No eval position is used to see if they are effectively the same.
+ *   Named expressions must refer the the same name, having equivalent names is
+ *   insufficeient.
+ */
+gboolean
+expr_tree_equal (ExprTree const *a, ExprTree const *b)
+{
+	if (a == b)
+		return TRUE;
+
+	g_return_val_if_fail (a != NULL, FALSE);
+	g_return_val_if_fail (b != NULL, FALSE);
+
+	if (a->any.oper != b->any.oper)
+		return FALSE;
+
+	switch (a->any.oper) {
+	case OPER_ANY_BINARY:
+		return	expr_tree_equal (a->binary.value_a, b->binary.value_a) &&
+			expr_tree_equal (a->binary.value_b, b->binary.value_b);
+
+	case OPER_ANY_UNARY:
+		return expr_tree_equal (a->unary.value, b->unary.value);
+
+	case OPER_FUNCALL: {
+		GList *la = a->func.arg_list;
+		GList *lb = b->func.arg_list;
+		for (; la != NULL && lb != NULL; la = la->next, lb =lb->next)
+			if (!expr_tree_equal (la->data, lb->data))
+				return FALSE;
+		return (la == NULL) && (lb == NULL);
+	}
+
+	case OPER_NAME:
+		return a->name.name == b->name.name;
+
+	case OPER_VAR:
+		return cellref_equal (&a->var.ref, &b->var.ref);
+
+	case OPER_CONSTANT: {
+		Value const *va = a->constant.value;
+		Value const *vb = b->constant.value;
+
+		if (va->type != vb->type)
+			return FALSE;
+
+		if (va->type == VALUE_CELLRANGE)
+			return	cellref_equal (&va->v_range.cell.a, &vb->v_range.cell.a) &&
+				cellref_equal (&va->v_range.cell.b, &vb->v_range.cell.b);
+
+		return value_compare (va, vb, TRUE) == IS_EQUAL;
+	}
+
+	case OPER_ARRAY: {
+		ExprArray const *aa = &a->array;
+		ExprArray const *ab = &b->array;
+
+		return	aa->cols == ab->cols &&
+			aa->rows == ab->rows &&
+			aa->x == ab->x &&
+			aa->y == ab->y &&
+			expr_tree_equal (aa->corner.expr, ab->corner.expr);
+	}
+
+	default :
+		g_assert_not_reached ();
+	}
+
+	return FALSE;
 }
 
 static Value *
