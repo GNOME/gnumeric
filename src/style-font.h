@@ -22,8 +22,6 @@ struct _GnmFont {
 		PangoFontDescription  	*font_descr;
 	} pango;
 
-	GnomeFont *gnome_print_font;
-
 	unsigned int is_bold:1;
 	unsigned int is_italic:1;
 };
