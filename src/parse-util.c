@@ -885,7 +885,10 @@ rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 		res->a.row -= pp->eval.row;
 
 	/* prepare as if its a singleton, in case we want to fall back */
-	res->b = res->a;
+	res->b.col = res->a.col;
+	res->b.row = res->a.row;
+	res->b.col_relative = res->a.col_relative;
+	res->b.row_relative = res->a.row_relative;
 	if (*tmp2 != ':')
 		return tmp2;
 

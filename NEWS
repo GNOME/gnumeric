@@ -3,6 +3,16 @@ Gnumeric 1.1.13
 Andreas:
 	* Fix some stf bugs
 
+Jody:
+	* Make the behavor of save and save-as more comfortable.
+	* Fix parsing 3d references
+	* More work on exporting names to xls
+
+Jon Kåre:
+        * Separate GUI for showing progress and messages before first 
+	  spreadsheet window is displayed.
+	* Fix 98661.
+
 Morten:
 	* Improve qpro importer.
 	* Fix 98664 for bonobo.
@@ -11,11 +21,6 @@ Morten:
 	* Attempt a fix for psiconv importer to do ISO-8859-1 -> UTF-8
 	  conversion.
 	* Make autofill UTF-8 safe and fix a bug with negative numbers.
-
-Jon Kåre:
-        * Separate GUI for showing progress and messages before first 
-	  spreadsheet window is displayed.
-	* Fix 98661.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.12
@@ -32,7 +37,7 @@ J.H.M. Dassen (Ray):
 	* Updates to the build system.
 	* Some code janitor work.
 
-Jody
+Jody:
 	* POISSON is defined for x == 0
 	* Start work on rotated text
 	* Enable Excel97 basic export

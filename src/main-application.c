@@ -126,7 +126,6 @@ main (int argc, char *argv [])
 	gboolean with_gui;
 	IOContext *ioc;
 	WorkbookView *wbv;
-	WorkbookControl *wbc;
 
 	poptContext ctx;
 

@@ -1,3 +1,23 @@
+2002-11-20  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_setup_group_buttons) : The outline
+	  buttons can not take focus.
+
+	* src/parse-util.c (rangeref_parse) : fix parsing 3d refs.  When
+	  initializing in case the cell is singleton do not over write the sheet
+	  in case it was already parsed as 3d.
+
+	* src/gui-util.c (gnumeric_dialog_file_selection) : remove magic
+	  directory selector, gtk handles it now and We are already assigning
+	  the path earlier.
+
+	* src/workbook-view.c (wb_view_save_as) : only change the filename if
+	  the format is changed.
+	* src/workbook.c (workbook_set_saveinfo) : remove limitation on file
+
+	* src/bonobo-io.c (gnumeric_bonobo_read_from_stream) : Use
+	  wb_view_new_from_input.
+
 2002-11-20  Morten Welinder  <terra@diku.dk>
 
 	* src/gutils.c (gnumeric_ascii_strcase_hash): Use g_ascii_tolower,

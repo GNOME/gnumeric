@@ -163,7 +163,7 @@ icg_init_gui (IOContextGtk *icg)
 	
 	box = GTK_BOX (gtk_vbox_new (FALSE, 0));
 	gtk_box_pack_start (box,
-			    gnumeric_load_image ("gnome-gnumeric.png"),
+			    gnumeric_load_image ("gnumeric_splash.jpg"),
 			    TRUE, FALSE, 0);
 
 	label = gtk_label_new ("");

@@ -652,7 +652,6 @@ excel_write_NAME_v7 (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 	ms_biff_put_var_next (ewb->bp, BIFF_NAME);
 	memset (data, 0, sizeof data);
 
-
 	name = nexpr->name->str;
 	if (nexpr->pos.sheet != NULL) /* sheet local */
 		GSF_LE_SET_GUINT16 (data + 6, nexpr->pos.sheet->index_in_wb +1);

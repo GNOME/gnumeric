@@ -1,3 +1,15 @@
+2002-11-20  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-write.c (excel_formula_write_NAME_v7) : support qualified
+	  names.
+
+	* ms-excel-read.c (excel_read_EXTERNSHEET_v7) : fix handling of the
+	  sheet local names.
+
+	* boot.c (excel_file_open) : Try the output even more and assign the
+	  savers as level AUTO.
+	* plugin.xml.in : ditto.
+
 2002-11-17  Jody Goldberg <jody@gnome.org>
 
 	* biff-types.h : s/SXVX/SXVS/ ancient typo

@@ -2,6 +2,7 @@
 # define GNUMERIC_RENDERED_VALUE_H
 
 #include "gnumeric.h"
+#include <pango/pango.h>
 
 /**
  * RenderedValue:
@@ -15,30 +16,25 @@ struct _RenderedValue {
 
 	/* Colour supplied by the formater eg [Red]0.00 */
 	StyleColor  *render_color;
+	PangoLayout *layout;
 
-	/*
-	 * TODO :  DO NOT USE THESE.
-	 * Storing these values as pixels is the last hurdle to supporting
-	 * multiple views with different zoom.  Use the accessors.
-	 *
-	 * Computed sizes of rendered text.
+	/* Computed sizes of rendered text.
 	 * In pixels EXCLUSIVE of margins and grid lines
 	 */
-	gboolean	dynamic_width;
+ 	gboolean	dynamic_width;
 	int		width_pixel;
 	short		height_pixel, offset_pixel;
 };
 
-RenderedValue * rendered_value_new           (Cell *cell, MStyle const *mstyle,
-					      gboolean dynamic_width);
-void            rendered_value_destroy       (RenderedValue *rv);
-void            rendered_value_calc_size     (Cell const *cell);
-void            rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle);
+RenderedValue *rendered_value_new           (Cell *cell, MStyle const *mstyle,
+					     gboolean dynamic_width);
+void           rendered_value_destroy       (RenderedValue *rv);
+void           rendered_value_calc_size     (Cell const *cell);
+void           rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle);
 
 /* Return the value as a single string without format infomation.
- * Caller is responsible for freeing the result
- */
-char * rendered_value_get_text (RenderedValue const * rv);
+ * Caller is responsible for freeing the result */
+char *rendered_value_get_text (RenderedValue const * rv);
 
 void rendered_value_init (void);
 void rendered_value_shutdown (void);

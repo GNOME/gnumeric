@@ -4319,15 +4319,14 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 	   fprintf (stderr,"extern v7 %p\n", container);
 	   gsf_mem_dump (q->data, q->length); });
 
-	/* Type 3 is undocumented magic.  It is used to forward declare sheet
-	 * names in the current workbook
-	 */
 	switch (type) {
 	case 2: sheet = ms_container_sheet (container);
 		if (sheet == NULL)
 			g_warning ("What does this mean ?");
 		break;
 
+	/* Type 3 is undocumented magic.  It is used to forward declare sheet
+	 * names in the current workbook */
 	case 3: {
 		guint8 len = GSF_LE_GET_GUINT8 (q->data);
 		char *name;
@@ -4348,9 +4347,8 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 		}
 		break;
 	}
-
 	case 4: /* undocumented.  Seems to be used as a placeholder for names */
-		sheet = NULL;
+		sheet = (Sheet *)1;
 		break;
 
 	case 0x3a : /* undocumented magic.  seems to indicate the sheet for an

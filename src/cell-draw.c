@@ -288,7 +288,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 
 	/* if a number overflows, do special drawing */
 	if ((cell_width_pixel + indent) > width && cell_is_number (cell) &&
-	    sheet && !sheet->display_formulas) {
+	    (!cell_has_expr (cell) || (sheet != NULL && !sheet->display_formulas))) {
 		draw_overflow (drawable, gc, style_font, rect.x,
 			       text_base, width, attrs);
 		style_font_unref (style_font);

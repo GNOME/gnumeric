@@ -535,7 +535,8 @@ workbook_view_new (Workbook *wb)
  * @context     :
  *
  * Saves @wbv and workbook it's attached to into @file_name file using
- * @fs file saver.
+ * @fs file saver.  If the format sufficiently advanced make it the saver
+ * and update the filename.
  *
  * Return value: TRUE if file was successfully saved and FALSE otherwise.
  */
@@ -562,9 +563,9 @@ wb_view_save_as (WorkbookView *wbv, GnumFileSaver *fs, gchar const *file_name,
 	has_error   = gnumeric_io_error_occurred (io_context);
 	has_warning = gnumeric_io_warning_occurred (io_context);
 	if (!has_error) {
-		if (workbook_set_filename (wb, file_name) &&
-		    workbook_set_saveinfo (wb,
-			gnum_file_saver_get_format_level (fs), fs))
+		if (workbook_set_saveinfo (wb,
+			gnum_file_saver_get_format_level (fs), fs) &&
+		    workbook_set_filename (wb, file_name))
 			workbook_set_dirty (wb, FALSE);
 	}
 	if (has_error || has_warning)

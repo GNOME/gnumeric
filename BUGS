@@ -6,6 +6,9 @@ release, and longer term bugs.
 
 Release Critical
 ----------------
+    - referencing freed sheet if a sheet in a 3d ref is deleted
+    - XL crashes importing our xls95 exports with names
+    - referencing freed named expr from undo clipboard
 
 Pending Patches
 ---------------
@@ -44,10 +47,22 @@ Pending Patches
     6.5) Intersection, union and set export
     6.6) fix name export now that we sorta understand it
     6.7) non-ole import (Nick Lamb is working on this)		(DONE)
+
+7) Expr Parser
+    7.1) Move the host of flags into an GnmExprConventions
+    7.2) Use the new convetions type to generate strings too
+
+8) Reinstate auto-format
+    8.1) Add characterization (units) to StyleFormat
+    8.2) Move type information to function flags.              (DONE)
+    8.3) Change commands to infer types.
+
 9) Manual recalc						(DONE)
     9.1) finish calculation ui in workbook attr dialog		(DONE)
 10) fix highlighting of completion code				(DONE)
+
 11) look into using the default gtk font rather than our own
+
 12) audit all of the import plugins to do UTF-8 conversions     (DONE)
     12.1)  excel						(DONE)
     12.2)  applix						(DONE)
@@ -62,19 +77,18 @@ Pending Patches
     12.11) dif                                                  (DONE)
     12.12) psion                                                (DONE)
 
-13) Reinstate auto-format
-    13.1) Add characterization (units) to StyleFormat
-    13.2) Move type information to function flags.              (DONE)
-    13.3) Change commands to infer types.
-14) merge open and import dialogs                               (DONE)
-15) Notice mismatch between suffix and saver			(DONE)
-16) Decide whether to turn on the poor man's UTF-8 regexps.     (DONE)
-17) Outline mode
-    17.1) markers above/left instead of below/right
-    17.2) smarter handling for groups at the edge of selection
-    17.3) implement 'clicked' for numbers callbacks
-18) 3D reference fixes on sheet deletion
-19) 'discard' for invalid expressions enters text as string	(DONE)
+14) Polish up Open and Save
+    14.1) merge open and import dialogs				(DONE)
+    14.2) Notice mismatch between suffix and saver		(DONE)
+    14.3) sort the file types by precedence and recently used
+    14.4) do we want to persist recently used ?
+15) Decide whether to turn on the poor man's UTF-8 regexps.     (DONE)
+16) Outline mode
+    16.1) markers above/left instead of below/right
+    16.2) smarter handling for groups at the edge of selection
+    16.3) implement 'clicked' for numbers callbacks
+17) 3D reference fixes on sheet deletion
+18) 'discard' for invalid expressions enters text as string	(DONE)
 
 UTF-8:
     - Window titles.
@@ -85,13 +99,14 @@ Probably Post 1.2 Targets
 - eggmenu (would be nice to slide in to support merging from non-bonobo build)
 - finish corba plugin
 - conditional formats : could be done if someone wanted to work on the dialog
-- pivots and scripting
-- drawing rotated borders
+- pivot tables
+- scripting
 - undo/redo transaction file
 - load/save of external references
 - input message				(Stored)
 - validation from list
 - clipboard handlers in plugins
+- drawing rotated borders
 - Put a pango layout in rendered value
 
 Excel i/o
@@ -103,7 +118,7 @@ Misc stuff that should be fixed
 - Oleo formulae contains spaces and now break.  (Try demo.oleo.)
 
 - Missing undo/redo for
-    - Freeze panes.
+    - Freeze panes (tricky this is a view attribute)
     - Duplicate sheet.
     - Remove sheet. This raises some serious design issues.
     - Goal seek.

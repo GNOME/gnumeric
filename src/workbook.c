@@ -573,8 +573,7 @@ workbook_metadata (Workbook *wb)
  * @name: the file name for this worksheet.
  * @level: the file format level
  *
- * Provided level is at least as high as current level,
- * calls workbook_set_filename, and sets level and saver.
+ * If level is sufficiently advanced assign the info.
  *
  * Returns : TRUE if save info was set succesfully.
  *
@@ -587,7 +586,7 @@ workbook_set_saveinfo (Workbook *wb, FileFormatLevel level, GnumFileSaver *fs)
 	g_return_val_if_fail (level > FILE_FL_NONE && level <= FILE_FL_AUTO,
 			      FALSE);
 
-	if (level < wb->file_format_level)
+	if (level <= FILE_FL_WRITE_ONLY)
 		return FALSE;
 
 	wb->file_format_level = level;

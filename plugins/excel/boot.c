@@ -185,13 +185,13 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 
 	/* simple guess of format based on stream names */
 	if (is_double_stream_file)
-		workbook_set_saveinfo (wb, FILE_FL_MANUAL_REMEMBER,
+		workbook_set_saveinfo (wb, FILE_FL_AUTO,
 			get_file_saver_by_id ("Gnumeric_Excel:excel_dsf"));
 	else if (i < 3)
-		workbook_set_saveinfo (wb, FILE_FL_MANUAL_REMEMBER,
+		workbook_set_saveinfo (wb, FILE_FL_AUTO,
 			get_file_saver_by_id ("Gnumeric_Excel:excel_biff8"));
 	else
-		workbook_set_saveinfo (wb, FILE_FL_MANUAL_REMEMBER,
+		workbook_set_saveinfo (wb, FILE_FL_AUTO,
 			get_file_saver_by_id ("Gnumeric_Excel:excel_biff7"));
 }
 

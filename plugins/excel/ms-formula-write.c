@@ -385,7 +385,8 @@ write_funcall (PolishData *pd, GnmExpr const *expr)
 		if (pd->ewb->bp->version <= MS_BIFF_V7) {
 			/* I write the Addin Magic entry after all the other sheets
 			 * in the workbook,  and this is a 1 based ordinal.
-			 */
+			 * All of the externnames are written for each sheet
+			 * because I'm lazy */
 			push_guint16 (pd, pd->ewb->sheets->len + 1);
 			push_guint32 (pd, 0); /* reserved */
 			push_guint32 (pd, 0); /* reserved */
@@ -447,7 +448,7 @@ write_funcall (PolishData *pd, GnmExpr const *expr)
 static void
 excel_formula_write_NAME_v7 (PolishData *pd, GnmExpr const *expr)
 {
-	guint8 data [15];
+	guint8 data [25];
 	gpointer tmp;
 	unsigned name_idx;
 
@@ -458,9 +459,19 @@ excel_formula_write_NAME_v7 (PolishData *pd, GnmExpr const *expr)
 	g_return_if_fail (tmp != NULL);
 
 	name_idx = GPOINTER_TO_UINT (tmp);
-	GSF_LE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
-	GSF_LE_SET_GUINT16 (data + 1, name_idx);
-	ms_biff_put_var_write (pd->ewb->bp, data, 15);
+	if (expr->name.optional_scope == NULL) {
+		GSF_LE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
+		GSF_LE_SET_GUINT16 (data + 1, name_idx);
+		ms_biff_put_var_write (pd->ewb->bp, data, 15);
+	} else {
+		GSF_LE_SET_GUINT8  (data +  0, FORMULA_PTG_NAME_X);
+		GSF_LE_SET_GUINT16 (data +  1, -(expr->name.optional_scope->index_in_wb + 1));
+		GSF_LE_SET_GUINT16 (data + 11, name_idx);
+		GSF_LE_SET_GUINT16 (data +  9,   1); /* undocumented marked 'reserved' */
+		GSF_LE_SET_GUINT16 (data + 19, 0xf); /* undocumented marked 'reserved' */
+		GSF_LE_SET_GUINT32 (data + 21, (guint32)expr); /* undocumented marked 'reserved' */
+		ms_biff_put_var_write (pd->ewb->bp, data, 25);
+	}
 }
 
 static void

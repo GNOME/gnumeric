@@ -73,6 +73,7 @@
 #include "filter.h"
 #include "io-context.h"
 #include "stf.h"
+#include "rendered-value.h"
 
 #ifdef WITH_BONOBO
 #include "sheet-object-container.h"
@@ -2523,10 +2524,20 @@ cb_sheet_pref_ ## flag (GtkWidget *ignored, WorkbookControlGUI *wbcg)	\
 
 TOGGLE_HANDLER (display_formulas,{
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	Cell *cell;
 	WORKBOOK_FOREACH_DEPENDENT
 		(wb, dep, {
-			if (dependent_is_cell (dep))
-				sheet_cell_calc_span (DEP_TO_CELL (dep), SPANCALC_RE_RENDER);
+			if (dependent_is_cell (dep)) {
+				cell = DEP_TO_CELL (dep);
+				if (cell_has_expr(cell)) {
+					if (cell->rendered_value != NULL) {
+						rendered_value_destroy (cell->rendered_value);
+						cell->rendered_value = NULL;
+					}
+					if (cell->row_info != NULL)
+						cell->row_info->needs_respan = TRUE;
+				}
+			}
 		});
 	sheet_adjust_preferences (sheet, TRUE, FALSE);
 })

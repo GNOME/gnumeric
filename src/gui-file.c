@@ -304,12 +304,11 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 
 	/* Set default file saver */
 	fs = wbcg->current_saver;
-	if (fs == NULL) {
-		fs = (GnumFileSaver *) workbook_get_file_saver (wb_view_workbook (wb_view));
-	}
-	if (fs == NULL || g_list_find (savers, fs) == NULL) {
+	if (fs == NULL)
+		fs = workbook_get_file_saver (wb_view_workbook (wb_view));
+	if (fs == NULL || g_list_find (savers, fs) == NULL)
 		fs = get_default_file_saver ();
-	}
+
 	gtk_option_menu_set_history (omenu, g_list_index (savers, fs));
 
 	/* Set default file name */

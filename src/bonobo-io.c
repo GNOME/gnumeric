@@ -52,41 +52,12 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 
 	g_return_if_fail (data != NULL);
 	g_return_if_fail (IS_WORKBOOK_CONTROL_COMPONENT (data));	
-	wbc = WORKBOOK_CONTROL (data);
 
+	wbc = WORKBOOK_CONTROL (data);
 	ioc = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
 	input = gsf_input_bonobo_new (stream, NULL);
-	/* Search for an applicable opener */
-	/* Fixme: We should be able to choose opener by mime type */
-	for (pl = FILE_PROBE_FILE_NAME; pl <
-		     FILE_PROBE_LAST && fo == NULL; pl++) {
-		for (l = get_file_openers (); l != NULL; l = l->next) {
-			GnumFileOpener const *tmp_fo
-				= GNUM_FILE_OPENER (l->data);
-			if (gnum_file_opener_probe (tmp_fo, input, pl)) {
-				fo = tmp_fo;
-				break;
-			}
-		}
-	}
+	wb_view = wb_view_new_from_input  (input, NULL, ioc);
 
-	if (fo != NULL) {
-		wb_view = workbook_view_new (NULL);
-		wb      = wb_view_workbook (wb_view);
-		
-		/* disable recursive dirtying while loading */
-		old = workbook_enable_recursive_dirty (wb, FALSE);
-		gnum_file_opener_open (fo, ioc, wb_view, input);
-		workbook_enable_recursive_dirty (wb, old);
-		if (gnumeric_io_error_occurred (ioc))
-			workbook_unref (wb);		
-	} else {
-#warning "These two are doubtful."
-		wb_view = NULL;
-		wb = NULL;
-		gnumeric_error_read (COMMAND_CONTEXT (ioc),
-			_("Unsupported file format."));
-	}
 	if (gnumeric_io_error_occurred (ioc)) {
 		gnumeric_io_error_display (ioc);
 		/* This may be a bad exception to throw, but they're all bad */
@@ -116,8 +87,6 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 	workbook_recalc (wb);
 	g_return_if_fail (!workbook_is_dirty (wb));
 	sheet_update (wb_view_cur_sheet (wb_view));
-	return;
-
 }
 
 #if 0

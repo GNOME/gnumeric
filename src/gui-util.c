@@ -167,19 +167,6 @@ gboolean
 gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel)
 {
 	gboolean result = FALSE;
-	Workbook *wb;
-	const gchar *wb_file_name;
-
-	/* Select current directory if we have one */
-	wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	wb_file_name = (wb != NULL) ? workbook_get_filename (wb) : NULL;
-	if (wb_file_name != NULL && strchr (wb_file_name, G_DIR_SEPARATOR) != NULL) {
-		gchar *tmp	= g_path_get_dirname (wb_file_name);
-		gchar *dir_name = g_strconcat (tmp, G_DIR_SEPARATOR_S, NULL);
-		gtk_file_selection_set_filename (fsel, dir_name);
-		g_free (dir_name);
-		g_free (tmp);
-	}
 
 	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
 	gnumeric_set_transient (wbcg, GTK_WINDOW (fsel));
@@ -405,18 +392,19 @@ typedef struct {
 	WorkbookControlGUI *wbcg;
 	GtkWidget	   *dialog;
 	char const *key;
+	gboolean freed;
 } KeyedDialogContext;
 
 static void
-cb_remove_object_data (KeyedDialogContext *ctxt)
+cb_free_keyed_dialog_context (KeyedDialogContext *ctxt)
 {
-	if (ctxt->wbcg != NULL) {
-		g_return_if_fail (g_object_get_data (G_OBJECT (ctxt->wbcg), ctxt->key));
+	if (ctxt->freed)
+		return;
+	ctxt->freed = TRUE;
 
-		g_object_set_data (G_OBJECT (ctxt->wbcg), ctxt->key, NULL);
-		g_object_remove_weak_pointer (G_OBJECT (ctxt->wbcg),
-					      (gpointer *)&ctxt->wbcg);
-	}
+	g_return_if_fail (g_object_get_data (G_OBJECT (ctxt->wbcg), ctxt->key));
+	g_object_set_data (G_OBJECT (ctxt->wbcg), ctxt->key, NULL);
+	g_object_set_data (G_OBJECT (ctxt->wbcg), "KeyedDialog", NULL);
 	g_free (ctxt);
 }
 
@@ -447,9 +435,11 @@ gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, const char *
 	ctxt->wbcg   = wbcg;
 	ctxt->dialog = GTK_WIDGET (dialog);
 	ctxt->key  = key;
+	ctxt->freed = FALSE;
 	g_object_set_data_full (G_OBJECT (wbcg),
-		key, ctxt, (GDestroyNotify) cb_remove_object_data);
-	g_object_add_weak_pointer (G_OBJECT (wbcg), (gpointer *)&ctxt->wbcg);
+		key, ctxt, (GDestroyNotify) cb_free_keyed_dialog_context);
+	g_object_set_data_full (G_OBJECT (dialog),
+		"KeyedDialog", ctxt, (GDestroyNotify) cb_free_keyed_dialog_context);
 }
 
 /**
@@ -888,7 +878,7 @@ popup_item_activate (GtkWidget *item, gpointer *user_data)
 		gtk_widget_destroy (gtk_widget_get_toplevel (item));
 }
 
-void
+static void
 gnumeric_create_popup_menu_list (GSList *elements,
 				 GnumericPopupMenuHandler handler,
 				 gpointer user_data,
