@@ -155,7 +155,6 @@ Pending Patches
 - scripting
 - undo/redo transaction file
 - drawing rotated borders
-- repeat (http://bugzilla.gnome.org/show_bug.cgi?id=143244)
 - ssconvert for non-gnome
 
 Excel i/o
