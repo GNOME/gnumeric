@@ -162,6 +162,24 @@ add_cell_range_dep (Cell *cell, DependencyRange const * const range)
 	g_hash_table_insert (cell->sheet->dependency_hash, result, result);
 }
 
+static inline void
+dependency_range_ctor (DependencyRange * const range, Cell const * const cell,
+		       CellRef const * const a, CellRef const * const b)
+{
+	int col = cell->col->pos;
+	int row = cell->row->pos;
+
+	/* Convert to absolute cordinates */
+	cell_get_abs_col_row (a, col, row, &range->range.start.col, &range->range.start.row);
+	cell_get_abs_col_row (b, col, row, &range->range.end.col,   &range->range.end.row);
+
+	range->ref_count = 0;
+	if (b->sheet && a->sheet != b->sheet)
+		g_warning ("FIXME: 3D references need work");
+
+	range->sheet = eval_sheet (a->sheet, cell->sheet);
+}
+
 /*
  * We add the dependency of Cell a in the ranges
  * enclose by CellRef a and CellRef b
@@ -172,18 +190,7 @@ static void
 add_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b)
 {
 	DependencyRange range;
-	int col = cell->col->pos;
-	int row = cell->row->pos;
-
-	/* Convert to absolute cordinates */
-	cell_get_abs_col_row (a, col, row, &range.range.start.col, &range.range.start.row);
-	cell_get_abs_col_row (b, col, row, &range.range.end.col,   &range.range.end.row);
-
-	range.ref_count = 0;
-	if (b->sheet && a->sheet != b->sheet)
-		g_warning ("FIXME: 3D references need work");
-
-	range.sheet = eval_sheet (a->sheet, cell->sheet);
+	dependency_range_ctor (&range, cell, a, b);
 	add_cell_range_dep (cell, &range);
 }
 
@@ -312,11 +319,36 @@ cell_add_dependencies (Cell *cell)
 	add_tree_deps (cell, cell->parsed_node);
 }
 
-/* Explicitly add a dependency */
+/*
+ * Add a dependency on a CellRef iff the cell is not already dependent on the
+ * cellref.
+ *
+ * @cell : The cell which will depend on.
+ * @ref  : The row/col of the cell in the same sheet as cell to depend on.
+ */
 void
-cell_add_explicit_dependency (Cell *cell, CellRef const *a)
+cell_add_explicit_dependency (Cell *cell, CellRef const *ref)
 {
-	add_cell_range_deps (cell, a, a);
+	DependencyRange range, *result;
+
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (cell->sheet != NULL);
+	g_return_if_fail (cell->parsed_node != NULL);
+
+	if (!cell->sheet->dependency_hash)
+		dependency_hash_init (cell->sheet);
+
+	dependency_range_ctor (&range, cell, ref, ref);
+
+	/* Look it up */
+	result = g_hash_table_lookup (cell->sheet->dependency_hash, &range);
+	if (result) {
+		/* Is the cell already listed? */
+		GList const * const cl = g_list_find (result->cell_list, cell);
+		if (cl)
+			return;
+	}
+	add_cell_range_dep (cell, &range);
 }
 
 /*

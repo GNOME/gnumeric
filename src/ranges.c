@@ -340,15 +340,17 @@ range_dump (Range const *src)
 	 * keep these as 2 print statements, because
 	 * col_name uses a static buffer
 	 */
-	printf ("%s%d",
+	fprintf (stderr, "%s%d",
 		col_name (src->start.col),
 		src->start.row + 1);
 
 	if (src->start.col != src->end.col ||
 	    src->start.row != src->end.row)
-		printf (":%s%d\n",
+		fprintf (stderr, ":%s%d\n",
 			col_name (src->end.col),
 			src->end.row + 1);
+	else
+		fputc ('\n', stderr);
 }
 
 /*

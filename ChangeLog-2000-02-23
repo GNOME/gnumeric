@@ -1,3 +1,13 @@
+1999-12-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/functions/fn-lookup.c (gnumeric_indirect) : This solution is
+	  more paletable.  Always attempt to add the dependency, but only
+	  actually do so if the calling cell does not already depend on the
+	  indirected cell.
+
+	* src/eval.c (cell_add_explicit_dependency) : Expand this function to
+	  test to see if a dependency already exists.
+
 1999-12-10  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-financial.c: Added EURO function for
