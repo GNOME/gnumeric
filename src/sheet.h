@@ -3,9 +3,6 @@
 
 #include <glib.h>
 #include "gnumeric.h"
-#ifdef ENABLE_BONOBO
-#    include <bonobo/bonobo-item-container.h>
-#endif
 #include "colrow.h"
 #include "solver.h"
 

@@ -607,7 +607,7 @@ x_selection_to_cell_region (CommandContext *context, const char *src,
 	if ((c = stf_parse_is_valid_data (data)) != NULL) {
 		char *message;
 		
-		message = g_strdup_printf (_("The data on the clipboard does not seem to be valid text.\nThe character '%s' (ASCII decimal %d) was encountered"),
+		message = g_strdup_printf (_("The data on the clipboard does not seem to be valid text.\nThe character '%c' (ASCII decimal %d) was encountered"),
 					   *c, (int) *c);
 		g_warning (message);
 		g_free (message);

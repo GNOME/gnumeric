@@ -65,4 +65,8 @@ gboolean    gnumeric_entry_at_subexpr_boundary_p (GtkEntry *entry);
 
 GladeXML   *gnumeric_glade_xml_new (CommandContext *context, char const * gladefile);
 
+void 	    gnumeric_inject_widget_into_bonoboui (Workbook *wb,
+						  GtkWidget *widget,
+						  char const *path);
+
 #endif /* GNUMERIC_GNUMERIC_UTIL_H */

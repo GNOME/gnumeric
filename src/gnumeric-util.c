@@ -16,8 +16,10 @@
 #include "style.h"
 #include "workbook.h"
 #include <gal/widgets/e-colors.h>
+
 #ifdef ENABLE_BONOBO
 #	include <bonobo.h>
+#	include "workbook-private.h"
 #endif
 
 void
@@ -735,3 +737,23 @@ gnumeric_non_modal_dialog (Workbook *wb, GtkWindow *dialog)
 	gtk_signal_connect (GTK_OBJECT (dialog), "key-press-event",
 			    (GtkSignalFunc) cb_non_modal_dialog_keypress, NULL);
 }
+
+#ifdef ENABLE_BONOBO
+/*
+ * gnumeric_inject_widget_into_bonoboui :
+ *
+ * A quick utility routine to inject a widget into a menu/toolbar.
+ */
+void
+gnumeric_inject_widget_into_bonoboui (Workbook *wb, GtkWidget *widget, char const *path)
+{
+	BonoboControl *control;
+
+	gtk_widget_show_all (widget);
+	control = bonobo_control_new (widget);
+	bonobo_ui_container_object_set (bonobo_ui_compat_get_container (wb->priv->uih),
+					path,
+					bonobo_object_corba_objref (BONOBO_OBJECT (control)),
+					NULL);
+}
+#endif

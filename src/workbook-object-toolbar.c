@@ -124,6 +124,7 @@ cmd_create_ellipse (GtkWidget *widget, Workbook *wb)
 }
 
 
+#ifndef ENABLE_BONOBO
 static GnomeUIInfo workbook_object_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Label"), N_("Creates a label"),
@@ -162,7 +163,7 @@ static GnomeUIInfo workbook_object_toolbar [] = {
 	GNOMEUIINFO_END
 };
 
-#ifdef ENABLE_BONOBO
+#else
 
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("CreateLabel", cmd_create_label),

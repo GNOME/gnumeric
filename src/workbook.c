@@ -2644,6 +2644,9 @@ workbook_create_standard_toobar (Workbook *wb)
 			    (GtkSignalFunc) redo_combo_cmd, wb);
 	
 #ifdef ENABLE_BONOBO
+	gnumeric_inject_widget_into_bonoboui (wb, undo, "/StandardToolbar/EditUndo");
+	gnumeric_inject_widget_into_bonoboui (wb, redo, "/StandardToolbar/EditRedo");
+	gnumeric_inject_widget_into_bonoboui (wb, zoom, "/StandardToolbar/SheetZoom");
 #else
 	app = GNOME_APP (wb->toplevel);
 
@@ -2766,8 +2769,6 @@ workbook_new (void)
 	wb->priv->menu_item_undo	  = workbook_menu_edit[0].widget;
 	wb->priv->menu_item_redo	  = workbook_menu_edit[1].widget;
 	wb->priv->menu_item_paste_special = workbook_menu_edit[6].widget;
-
- 	workbook_create_toolbars (wb);
 #else
 	wb->priv->main_vbox = gtk_vbox_new (FALSE, 0);
 	gtk_widget_show (wb->priv->main_vbox);
@@ -2780,11 +2781,9 @@ workbook_new (void)
 	wb->priv->uih = bonobo_ui_handler_new ();
 	bonobo_ui_handler_set_app (wb->priv->uih, BONOBO_WIN (wb->toplevel));
 
-	/* Create before registering verbs so that we can merge some extra. */
- 	workbook_create_toolbars (wb);
 	{
 		char *fname;
-		xmlNode *ui;
+		BonoboUINode *ui;
 		BonoboUIComponent *component =
 			bonobo_ui_compat_get_component (wb->priv->uih);
 		Bonobo_UIContainer container = 
@@ -2802,9 +2801,12 @@ workbook_new (void)
 			component, container, "/", ui, NULL);
 
 		g_free (fname);
-		xmlFreeNode (ui);
+		bonobo_ui_node_free (ui);
 	}
 #endif
+	/* Create before registering verbs so that we can merge some extra. */
+ 	workbook_create_toolbars (wb);
+
 	/* Create dynamic history menu items. */
 	workbook_view_history_setup (wb);
 

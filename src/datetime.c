@@ -172,3 +172,43 @@ datetime_timet_to_seconds (time_t t)
 }
 
 /* ------------------------------------------------------------------------- */
+
+int
+datetime_g_days_between (GDate* date1, GDate *date2)
+{
+	g_assert (g_date_valid (date1));
+	g_assert (g_date_valid (date2));
+
+	return (int) (g_date_julian (date2) - g_date_julian (date1));
+}
+
+/* ------------------------------------------------------------------------- */
+
+int
+datetime_g_months_between (GDate *date1, GDate *date2)
+{
+	g_assert (g_date_valid (date1));
+	g_assert (g_date_valid (date2));
+
+	/* find the difference according to the month and year ordinals,
+	   but discount the last month if there are not enough days. */
+	return 12 * (g_date_year (date2) - g_date_year (date1))
+		+ g_date_month (date2) - g_date_month (date1)
+		- (g_date_day (date2) >= g_date_day (date1) ? 0 : 1);
+}
+
+/* ------------------------------------------------------------------------- */
+
+int
+datetime_g_years_between (GDate *date1, GDate *date2)
+{
+	int months;
+
+	g_assert (g_date_valid (date1));
+	g_assert (g_date_valid (date2));
+
+	months = datetime_g_months_between (date1, date2);
+	return months > 0 ? months / 12 : -(-months / 12);
+}
+
+/* ------------------------------------------------------------------------- */

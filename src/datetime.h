@@ -32,4 +32,18 @@ int datetime_value_to_seconds (const Value *v);
 int datetime_timet_to_seconds (time_t t);
 int datetime_serial_raw_to_seconds (float_t raw);
 
+int datetime_g_days_between (GDate *date1, GDate *date2);
+
+/* Number of full months between date1 and date2. */
+/* largest value s.t. g_date_add_months (date1, result) <= date2 */
+/* except that if the day is decreased in g_date_add_monts, treat
+   that as > the date it is decreased to. */
+/* ( datetime_g_months_between ( March 31, April 30 ) == 0
+     even though g_date_add_months ( Mar 31, 1 ) <= Apr 30.... */
+int datetime_g_months_between (GDate *date1, GDate *date2);
+/* Number of full years between date1 and date2. */
+/* (g_date_add_years (date1, result) <= date2; largest such value. */
+/*  treat add_years (29-feb, x) > 28-feb ) */
+int datetime_g_years_between (GDate *date1, GDate *date2);
+
 #endif

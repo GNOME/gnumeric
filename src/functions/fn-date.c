@@ -97,6 +97,161 @@ gnumeric_datevalue (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static char *help_datedif = {
+	N_("@FUNCTION=DATEDIF\n"
+	   "@SYNTAX=DATEDIF(date1,date2,interval)\n"
+
+	   "@DESCRIPTION="
+	   "DATEDIF returns the difference between two dates.  @interval is "
+	   "one of six possible values:  \"y\", \"m\", \"d\", \"ym\", "
+	   "\"md\", and \"yd\".\n"
+	   "The first three options will return the "
+	   "number of complete years, months, or days, respectively, between "
+	   "the two dates specified.\n"
+	   "\"ym\" will return the number of full months between the two "
+	   "dates, not including the difference in years.\n"
+	   "\"md\" will return the number of full days between the two "
+	   "dates, not including the difference in months.\n"
+	   "\"yd\" will return the number of full days between the two "
+	   "dates, not including the difference in years.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=DATE")
+};
+
+int
+datedif_opt_ym (GDate *gdate1, GDate *gdate2)
+{
+	g_assert (g_date_valid (gdate1));
+	g_assert (g_date_valid (gdate2));
+
+	return datetime_g_months_between (gdate1, gdate2) % 12;
+}
+
+int
+datedif_opt_yd (GDate *gdate1, GDate *gdate2, int excel_compat)
+{
+	int day;
+
+	g_assert (g_date_valid (gdate1));
+	g_assert (g_date_valid (gdate2));
+
+	day = g_date_day (gdate1);
+
+	g_date_add_years (gdate1,
+	                       datetime_g_years_between (gdate1, gdate2));
+	/* according to glib.h, feb 29 turns to feb 28 if necessary */
+
+	if (excel_compat) {
+		int new_year1, new_year2;
+
+		/* treat all years divisible by four as leap years: */
+		/* this is clearly wrong, but it's what Excel does. */
+		/* ( i use 2004 here since it is clearly a leap year.) */
+		new_year1 = 2004 + (g_date_year (gdate1) & 0x3);
+		new_year2 = new_year1 + (g_date_year (gdate2) - g_date_year (gdate1));
+		g_date_set_year (gdate1, new_year1);
+		g_date_set_year (gdate2, new_year2);
+
+		g_warning("datedif is known to differ from Excel for some values.");
+	}
+
+	return datetime_g_days_between (gdate1, gdate2);
+}
+
+int
+datedif_opt_md (GDate *gdate1, GDate *gdate2, int excel_compat)
+{
+	int day;
+
+	g_assert (g_date_valid (gdate1));
+	g_assert (g_date_valid (gdate2));
+
+	day = g_date_day (gdate1);
+
+	g_date_add_months (gdate1,
+	                   datetime_g_months_between (gdate1, gdate2));
+	/* according to glib.h, days>28 decrease if necessary */
+
+	if (excel_compat) {
+		int new_year1, new_year2;
+
+		/* treat all years divisible by four as leap years: */
+		/* this is clearly wrong, but it's what Excel does. */
+		/* ( i use 2004 here since it is clearly a leap year.) */
+		new_year1 = 2004 + (g_date_year (gdate1) & 0x3);
+		new_year2 = new_year1 + (g_date_year (gdate2) - g_date_year (gdate1));
+		g_date_set_year (gdate1, new_year1);
+		g_date_set_year (gdate2, new_year2);
+
+		/* add back the days if they were decreased by
+		   g_date_add_months */
+		/* ( i feel this is inferior because it reports e.g.:
+		     datedif(1/31/95,3/1/95,"d") == -2 ) */
+		g_date_add_days (gdate1,
+		                 day - g_date_day (gdate1));
+	}
+
+	return datetime_g_days_between (gdate1, gdate2);
+}
+
+static Value *
+gnumeric_datedif (FunctionEvalInfo *ei, Value **argv)
+{
+	int date1, date2;
+	char *opt;
+
+	GDate *gdate1, *gdate2;
+	Value *result;
+
+	date1 = floor (value_get_as_float (argv [0]));
+	date2 = floor (value_get_as_float (argv [1]));
+	opt = argv [2]->v_str.val->str;
+
+	if (date1 > date2) {
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+	}
+
+	if (!strcmp (opt, "d")) {
+		return value_new_int (date2 - date1);
+	}
+
+	gdate1 = datetime_serial_to_g (date1);
+	gdate2 = datetime_serial_to_g (date2);
+
+	if (!g_date_valid (gdate1) || !g_date_valid (gdate2)) {
+		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+	} else {
+		if (!strcmp (opt, "m")) {
+			result = value_new_int (
+				datetime_g_months_between (gdate1, gdate2));
+		} else if (!strcmp (opt, "y")) {
+			result = value_new_int (
+				datetime_g_years_between (gdate1, gdate2));
+		} else if (!strcmp (opt, "ym")) {
+			result = value_new_int (
+				datedif_opt_ym (gdate1, gdate2));
+		} else if (!strcmp (opt, "yd")) {
+			result = value_new_int (
+				datedif_opt_yd (gdate1, gdate2, 1));
+		} else if (!strcmp (opt, "md")) {
+			result = value_new_int (
+				datedif_opt_md (gdate1, gdate2, 1));
+		} else {
+			result = value_new_error (
+				ei->pos, gnumeric_err_VALUE);
+		}
+	}
+
+	g_date_free (gdate1);
+	g_date_free (gdate2);
+
+	return result;
+}
+
+/***************************************************************************/
+
 static char *help_edate = {
 	N_("@FUNCTION=EDATE\n"
 	   "@SYNTAX=EDATE(date,months)\n"
@@ -127,16 +282,20 @@ gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
 
 	date = datetime_serial_to_g (serial);
 
-	if (!g_date_valid (date))
+	if (!g_date_valid (date)) {
+                  g_date_free (date);
                   return value_new_error (ei->pos, gnumeric_err_VALUE);
+	}
 
 	if (months > 0)
 	        g_date_add_months (date, months);
 	else
 	        g_date_subtract_months (date, -months);
 
-	if (!g_date_valid (date))
+	if (!g_date_valid (date)) {
+                  g_date_free (date);
                   return value_new_error (ei->pos, gnumeric_err_NUM);
+	}
 
 	res = value_new_int (datetime_g_to_serial (date));
 	g_date_free (date);
@@ -823,6 +982,10 @@ date_functions_init(void)
 	def = function_add_args (cat,  "datevalue",      "S",
 				 "date_str",
 				 &help_datevalue,   gnumeric_datevalue);
+
+	def = function_add_args (cat,  "datedif",        "SSs",
+				 "date1,date2,Interval",
+				 &help_datedif,     gnumeric_datedif);
 
 	def = function_add_args (cat,  "day",            "S",
 				 "date",
