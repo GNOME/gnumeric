@@ -613,7 +613,8 @@ item_edit_class_init (GObjectClass *gobject_class)
 	g_object_class_install_property (gobject_class, ARG_SHEET_CONTROL_GUI,
 		g_param_spec_object ("SheetControlGUI", "SheetControlGUI",
 			"the sheet control gui controlling the item",
-			SHEET_CONTROL_GUI_TYPE, G_PARAM_WRITABLE));
+			SHEET_CONTROL_GUI_TYPE,
+			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 
 	/* FooCanvasItem method overrides */
 	item_class->update      = item_edit_update;

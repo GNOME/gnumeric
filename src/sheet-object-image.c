@@ -675,20 +675,20 @@ sheet_object_image_class_init (GObjectClass *object_class)
 		 g_param_spec_string ("image-type", "Image type",
 				      "Type of image",
 				      NULL,
-				      G_PARAM_READABLE));
+				      GSF_PARAM_STATIC | G_PARAM_READABLE));
 	g_object_class_install_property 
 		(object_class,
 		 PROP_IMAGE_DATA,
 		 g_param_spec_pointer ("image-data", "Image data",
 				       "Image data",
-				       G_PARAM_READABLE));
+				       GSF_PARAM_STATIC | G_PARAM_READABLE));
 	g_object_class_install_property 
 		(object_class,
 		 PROP_PIXBUF,
 		 g_param_spec_object ("pixbuf", "Pixbuf",
 				       "Pixbuf",
 				       GDK_TYPE_PIXBUF,
-				       G_PARAM_READABLE));
+				       GSF_PARAM_STATIC | G_PARAM_READABLE));
 }
 
 static void

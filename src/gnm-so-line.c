@@ -445,16 +445,16 @@ gnm_so_line_class_init (GObjectClass *gobject_class)
 
         g_object_class_install_property (gobject_class, SOL_PROP_STYLE,
                  g_param_spec_object ("style", NULL, NULL, GOG_STYLE_TYPE,
-			(G_PARAM_READABLE | G_PARAM_WRITABLE)));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, SOL_PROP_START_ARROW,
                  g_param_spec_pointer ("start-arrow", NULL, NULL,
-			(G_PARAM_READABLE | G_PARAM_WRITABLE)));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, SOL_PROP_END_ARROW,
                  g_param_spec_pointer ("end-arrow", NULL, NULL,
-			(G_PARAM_READABLE | G_PARAM_WRITABLE)));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, SOL_PROP_IS_ARROW,
                  g_param_spec_boolean ("is-arrow", NULL, NULL, FALSE,
-			(G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY)));
+			GSF_PARAM_STATIC | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void

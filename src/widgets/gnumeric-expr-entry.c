@@ -448,31 +448,31 @@ gee_class_init (GObjectClass *gobject_class)
 		g_param_spec_enum ("update-policy", "Update policy",
 			"How frequently changes to the entry should be applied",
 			GTK_TYPE_UPDATE_TYPE, GTK_UPDATE_CONTINUOUS,
-			G_PARAM_READWRITE));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class,
 		PROP_WITH_ICON,
 		g_param_spec_boolean ("with-icon", "With icon",
 			"Should there be an icon to the right of the entry",
 			TRUE,
-			G_PARAM_READWRITE));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class,
 		PROP_TEXT,
 		g_param_spec_string ("text", "Text",
 			"The contents of the entry",
 			"",
-			G_PARAM_READABLE | G_PARAM_WRITABLE));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class,
 		PROP_SCG,
 		g_param_spec_object ("scg", "SheetControlGUI",
 			"The GUI container associated with the entry.",
 			SHEET_CONTROL_GUI_TYPE,
-			G_PARAM_READWRITE));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class,
 		PROP_WBCG,
 		g_param_spec_object ("wbcg", "WorkbookControlGUI",
 			"The toplevel GUI container associated with the entry.",
 			WORKBOOK_CONTROL_GUI_TYPE,
-			G_PARAM_READWRITE));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 static void

@@ -1345,19 +1345,23 @@ item_cursor_class_init (GObjectClass *gobject_klass)
 	g_object_class_install_property (gobject_klass, ITEM_CURSOR_PROP_SHEET_CONTROL_GUI,
 		g_param_spec_object ("SheetControlGUI", "SheetControlGUI",
 			"the sheet control gui controlling the item",
-			SHEET_CONTROL_GUI_TYPE, G_PARAM_WRITABLE));
+			SHEET_CONTROL_GUI_TYPE,
+			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, ITEM_CURSOR_PROP_STYLE,
 		g_param_spec_int ("style", "Style",
 			"What type of cursor",
-			0, G_MAXINT, 0, G_PARAM_WRITABLE));
+			0, G_MAXINT, 0,
+			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, ITEM_CURSOR_PROP_BUTTON,
 		g_param_spec_int ("button", "Button",
 			"what button initiated the drag",
-			0, G_MAXINT, 0, G_PARAM_WRITABLE));
+			0, G_MAXINT, 0,
+                        GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, ITEM_CURSOR_PROP_COLOR,
 		g_param_spec_string ("color", "Color",
 			"name of the cursor's color",
-			"black", G_PARAM_WRITABLE));
+			"black",
+                        GSF_PARAM_STATIC |  G_PARAM_WRITABLE));
 
 	item_klass->update      = item_cursor_update;
 	item_klass->realize     = item_cursor_realize;

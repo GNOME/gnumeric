@@ -1115,11 +1115,12 @@ item_grid_class_init (GObjectClass *gobject_klass)
 	g_object_class_install_property (gobject_klass, ITEM_GRID_PROP_SHEET_CONTROL_GUI,
 		g_param_spec_object ("SheetControlGUI", "SheetControlGUI",
 			"the sheet control gui controlling the item",
-			SHEET_CONTROL_GUI_TYPE, G_PARAM_WRITABLE));
+			SHEET_CONTROL_GUI_TYPE,
+                        GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, ITEM_GRID_PROP_BOUND,
 		g_param_spec_pointer ("bound", "Bound",
 			"The display bounds",
-			G_PARAM_WRITABLE));
+			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 
 	item_klass->update      = item_grid_update;
 	item_klass->realize     = item_grid_realize;

@@ -120,7 +120,7 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
         g_object_class_install_property (gobject_class, GNM_SHEET_PROP_LTR,
 		g_param_spec_boolean ("text-is-ltr", "text-is-ltr",
 			"Text goes from right to left",
-			TRUE, G_PARAM_READWRITE ));
+			TRUE, GSF_PARAM_STATIC | G_PARAM_READWRITE ));
 #endif
 	signals[DETACHED_FROM_WORKBOOK] = g_signal_new
 		("detached_from_workbook",

@@ -1111,12 +1111,13 @@ item_bar_class_init (GObjectClass  *gobject_klass)
 	g_object_class_install_property (gobject_klass, ITEM_BAR_PROP_GNUMERIC_CANVAS,
 		g_param_spec_object ("GnumericCanvas", "GnumericCanvas",
 			"the canvas of the associated grid",
-			GNM_CANVAS_TYPE, G_PARAM_WRITABLE));
+			GNM_CANVAS_TYPE,
+			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 	g_object_class_install_property (gobject_klass, ITEM_BAR_PROP_IS_COL_HEADER,
 		g_param_spec_boolean ("IsColHeader", "IsColHeader",
 			"Is the item-bar a header for columns or rows",
 			FALSE,
-			G_PARAM_WRITABLE));
+			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 
 	item_klass->update      = item_bar_update;
 	item_klass->realize     = item_bar_realize;

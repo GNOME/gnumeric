@@ -545,16 +545,16 @@ gnm_so_filled_class_init (GObjectClass *gobject_class)
 
         g_object_class_install_property (gobject_class, SOF_PROP_STYLE,
                  g_param_spec_object ("style", NULL, NULL, GOG_STYLE_TYPE,
-			(G_PARAM_READABLE | G_PARAM_WRITABLE)));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, SOF_PROP_IS_OVAL,
                  g_param_spec_boolean ("is-oval", NULL, NULL, FALSE,
-			(G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY)));
+			GSF_PARAM_STATIC | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
         g_object_class_install_property (gobject_class, SOF_PROP_MARKUP,
                  g_param_spec_boxed ("markup", NULL, NULL, PANGO_TYPE_ATTR_LIST,
-			(G_PARAM_READABLE | G_PARAM_WRITABLE)));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, SOF_PROP_TEXT,
                  g_param_spec_string ("text", NULL, NULL, NULL,
-			(G_PARAM_READABLE | G_PARAM_WRITABLE)));
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 static void

@@ -326,11 +326,11 @@ cell_comment_class_init (GObjectClass *gobject_class)
 	gobject_class->get_property	= cell_comment_get_property;
         g_object_class_install_property (gobject_class, CC_PROP_TEXT,
                  g_param_spec_string ("text", NULL, NULL, NULL,
-			(G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, CC_PROP_MARKUP,
                  g_param_spec_boxed ("markup", NULL, NULL,
 				     PANGO_TYPE_ATTR_LIST,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				     GSF_PARAM_STATIC | G_PARAM_READWRITE));
 
 	/* SheetObject class method overrides */
 	sheet_object_class->new_view		= &cell_comment_new_view;

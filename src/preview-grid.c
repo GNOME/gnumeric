@@ -544,21 +544,21 @@ preview_grid_class_init (GObjectClass *gobject_klass)
 	g_object_class_install_property (gobject_klass, PREVIEW_GRID_PROP_RENDER_GRIDLINES,
 		g_param_spec_boolean ("render-gridlines", NULL, NULL,
 			FALSE,
-			G_PARAM_WRITABLE));
+			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
         g_object_class_install_property (gobject_klass, PREVIEW_GRID_PROP_DEFAULT_COL_WIDTH,
                  g_param_spec_uint ("default-col-width", NULL, NULL,
 			0, G_MAXUINT, 0,
-			G_PARAM_WRITABLE));
+			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
         g_object_class_install_property (gobject_klass, PREVIEW_GRID_PROP_DEFAULT_ROW_HEIGHT,
                  g_param_spec_uint ("default-row-height", NULL, NULL,
 			0, G_MAXUINT, 0,
-			G_PARAM_WRITABLE));
+			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
         g_object_class_install_property (gobject_klass, PREVIEW_GRID_PROP_DEFAULT_STYLE,
                  g_param_spec_pointer ("default-style", NULL, NULL,
-			G_PARAM_WRITABLE));
+			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
         g_object_class_install_property (gobject_klass, PREVIEW_GRID_PROP_DEFAULT_VALUE,
                  g_param_spec_pointer ("default-value", NULL, NULL,
-			G_PARAM_WRITABLE));
+			GSF_PARAM_STATIC | G_PARAM_WRITABLE));
 
 	item_klass->update      = preview_grid_update;
 	item_klass->realize     = preview_grid_realize;
