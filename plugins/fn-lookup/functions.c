@@ -376,12 +376,14 @@ static Value *
 gnumeric_address (FunctionEvalInfo *ei, Value **args)
 {
         int   row, col, abs_num, a1;
-	gchar *text, *buf;
+	gchar *sheet_name, *buf;
+	char const *sheet_quote;
 
 	row = value_get_as_int (args[0]);
 	col = value_get_as_int (args[1]);
 
-	if (row < 1 || col < 1)
+	if (row < 1 || SHEET_MAX_ROWS <= row ||
+	    col < 1 || SHEET_MAX_COLS <= col)
 	        return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	abs_num = args[2] ? value_get_as_int (args[2]) : 1;
@@ -395,53 +397,44 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 		        return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}
 
-	if (args[4] == NULL) {
-	        text = g_new (gchar, 1);
-	        text[0] = '\0';
-	} else {
-		const char *s = value_peek_string (args[4]);
-		gboolean space = (strchr (s, ' ') != 0);
+	sheet_name = (args[4] != NULL)
+		? sheet_name_quote (value_peek_string (args[4]))
+		: g_strdup ("");
+	sheet_quote = *sheet_name ? "!" : "";
 
-		text = g_strconcat (space ? "'" : "",
-				    s,
-				    space ? "'!" : "!",
-				    NULL);
-	}
-
-	buf = g_new (gchar, strlen (text) + 50);
-
+	buf = g_new (gchar, strlen (sheet_name) + 1 + 50);
 	switch (abs_num) {
 	case 1: case 5:
 	        if (a1)
-		        sprintf (buf, "%s$%s$%d", text, col_name (col - 1),
+		        sprintf (buf, "%s%s$%s$%d", sheet_name, sheet_quote, col_name (col - 1),
 				 row);
 		else
-		        sprintf (buf, "%sR%dC%d", text, row, col);
+		        sprintf (buf, "%s%sR%dC%d", sheet_name, sheet_quote, row, col);
 		break;
 	case 2: case 6:
 	        if (a1)
-		        sprintf (buf, "%s%s$%d", text, col_name (col - 1), row);
+		        sprintf (buf, "%s%s%s$%d", sheet_name, sheet_quote, col_name (col - 1), row);
 		else
-		        sprintf (buf, "%sR%dC[%d]", text, row, col);
+		        sprintf (buf, "%s%sR%dC[%d]", sheet_name, sheet_quote, row, col);
 		break;
 	case 3: case 7:
 	        if (a1)
-		        sprintf (buf, "%s$%s%d", text, col_name (col - 1), row);
+		        sprintf (buf, "%s%s$%s%d", sheet_name, sheet_quote, col_name (col - 1), row);
 		else
-		        sprintf (buf, "%sR[%d]C%d", text, row, col);
+		        sprintf (buf, "%s%sR[%d]C%d", sheet_name, sheet_quote, row, col);
 		break;
 	case 4: case 8:
 	        if (a1)
-		        sprintf (buf, "%s%s%d", text, col_name (col - 1), row);
+		        sprintf (buf, "%s%s%s%d", sheet_name, sheet_quote, col_name (col - 1), row);
 		else
-		        sprintf (buf, "%sR[%d]C[%d]", text, row, col);
+		        sprintf (buf, "%s%sR[%d]C[%d]", sheet_name, sheet_quote, row, col);
 		break;
 	default:
-	        g_free (text);
+	        g_free (sheet_name);
 	        g_free (buf);
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}
-	g_free (text);
+	g_free (sheet_name);
 
 	return value_new_string_nocopy (buf);
 }
