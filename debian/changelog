@@ -1,3 +1,12 @@
+gnumeric (1.2.8-2) unstable; urgency=medium
+
+  * [debian/control] Traded in gnumeric-doc Conflicts: gnumeric (<<
+    ${Upstream-Version}) for gnumeric-doc Suggests: gnumeric (>=
+    ${Upstream-Version}) to break a dependency loop that forced the removal
+    when upgrading. (Closes: #238637).
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 18 Mar 2004 18:10:03 +0100
+
 gnumeric (1.2.8-1) unstable; urgency=low
 
   * New upstream bugfix release.

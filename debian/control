@@ -65,7 +65,8 @@ Package: gnumeric-doc
 Architecture: all
 Section: doc
 Recommends: yelp, gnome-desktop-data
-Conflicts: gnumeric1.0-doc, gnumeric (<< ${Upstream-Version})
+Suggests: gnumeric (>= ${Upstream-Version})
+Conflicts: gnumeric1.0-doc
 Replaces: gnumeric (<< 1.1.17-2), gnumeric1.0-doc
 Description: Documentation for Gnumeric, the GNOME spreadsheet application
  The `Gnumeric's User Manual' in Gnome Help (DocBook XML) format.
