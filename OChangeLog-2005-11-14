@@ -1,3 +1,17 @@
+2000-02-24  Dom Lachowicz <dominicl@seas.upenn.edu>
+ 
+ 	* src/functions/fn-eng.c (convert): catch DIV0
+ 
+ 	* src/functions/fn-financial.c (gnumeric_accrint), (gnumeric_accrintm),
+ 	(gnumeric_intrate), (gnumeric_disc), (gnumeric_db),
+ 	(gnumeric_ddb), (gnumeric_mirr), (gnumeric_pv): More errors.
+ 
+ 	* src/function/fn-math.c (gnumeric_quotient): ditto.
+ 
+ 	* src/function/fn-stat.c (callback_function_stat),
+	(callback_function_chitest_theoretical, gnumeric_betadist),
+	(gnumeric_confidence, gnumeric_ftest): ditto.
+ 	
 2000-02-27  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/solver-lp.c, src/dialogs/dialog-solver.c: Constraints can

@@ -255,6 +255,10 @@ gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
 	if (a < 0 || d < 0 || par <= 0 || rate <= 0 || basis < 0 || basis > 4)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
+
+	if ( (freq == 0) || (d == 0) )
+	        return value_new_error (ei->pos, gnumeric_err_NUM);
+
 	coefficient = par * rate / freq;
 	x = a / d;
 
@@ -305,7 +309,7 @@ gnumeric_accrintm (FunctionEvalInfo *ei, Value **argv)
 	a = days_monthly_basis (argv[0], argv[1], basis);
 	d = annual_year_basis (argv[0], basis);
 
-	if (a < 0 || d < 0 || par <= 0 || rate <= 0 || basis < 0 || basis > 4)
+	if (a < 0 || d <= 0 || par <= 0 || rate <= 0 || basis < 0 || basis > 4)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (par * rate * a/d);
@@ -364,7 +368,7 @@ gnumeric_intrate (FunctionEvalInfo *ei, Value **argv)
 	a = days_monthly_basis (argv[0], argv[1], basis);
 	d = annual_year_basis (argv[0], basis);
 
-	if (basis < 0 || basis > 4 || a <= 0 || d <= 0)
+	if (basis < 0 || basis > 4 || a <= 0 || d <= 0 || investment == 0)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float ((redemption - investment) / investment *
@@ -561,7 +565,7 @@ gnumeric_disc (FunctionEvalInfo *ei, Value **argv)
 	b = annual_year_basis (argv[0], basis);
 	dsm = days_monthly_basis (argv[0], argv[1], basis);
 
-	if (dsm <= 0 || b <= 0 || dsm <= 0 || basis < 0 || basis > 4)
+	if (dsm <= 0 || b <= 0 || dsm <= 0 || basis < 0 || basis > 4 || redemption == 0)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float ((redemption - par) / redemption * (b / dsm));
@@ -611,11 +615,10 @@ gnumeric_effect (FunctionEvalInfo *ei, Value **argv)
 	nper = value_get_as_int (argv[1]);
 
 	/* Rate or number of periods cannot be negative */
-	if ( (rate < 0) || (nper <= 0) )
+	if ((rate < 0) || (nper <= 0))
 		return value_new_error (ei->pos, _("effect - domain error"));
 
         return value_new_float ( pow ( (1 + rate/nper) , nper) - 1 );
-
 }
 
 /***************************************************************************/
@@ -724,6 +727,9 @@ gnumeric_db (FunctionEvalInfo *ei, Value **argv)
 	period = value_get_as_float (argv[3]);
 	month = argv[4] ? value_get_as_float (argv[4]) : 12;
 
+	if((cost == 0) || (life <= 0))
+	        return value_new_error (ei->pos, gnumeric_err_NUM);
+
 	rate = 1 - pow ((salvage / cost), (1 / life));
 	rate *= 1000;
 	rate = floor(rate+0.5) / 1000;
@@ -774,6 +780,9 @@ gnumeric_ddb (FunctionEvalInfo *ei, Value **argv)
 	life = value_get_as_float (argv[2]);
 	period = value_get_as_float (argv[3]);
 	factor = argv[4] ? value_get_as_float (argv[4]) : 2;
+
+	if (life <= 0)
+	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	total = 0;
 	for (i = 0; i < life - 1; i++) {
@@ -1022,6 +1031,11 @@ gnumeric_mirr (FunctionEvalInfo *ei, Value **argv)
 
 	npv_pos = calculate_npv(rrate, pos_values, n_pos);
 	npv_neg = calculate_npv(frate, neg_values, n_neg);
+
+	/* div by zero */
+	if ( (n - 1) == 0 || npv_neg == 0 || (1+frate) == 0)
+	        return value_new_error (ei->pos, gnumeric_err_NUM);
+
 	res = pow ((-npv_pos * pow (1 + rrate, n_pos)) / (npv_neg * (1 + frate)),
 		  (1.0 / (n - 1))) - 1.0;
 
@@ -1377,6 +1391,9 @@ gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
 	/* Calculate the PVIF and FVIFA */
 	pvif = calculate_pvif (rate, nper);
 	fvifa = calculate_fvifa (rate, nper);
+
+	if ( pvif == 0 )
+	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
         return value_new_float ( ( -fv - pmt *
 				   ( 1.0 + rate * type ) * fvifa ) / pvif );

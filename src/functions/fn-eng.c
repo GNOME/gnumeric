@@ -1385,9 +1385,9 @@ get_constant_of_unit(eng_convert_unit_t units[],
 				break;
 			}
 	
-	for (i=0; units[i].str != NULL; i++)
-	        if (strcmp(unit_name, units[i].str) == 0) {
-		        *c = units[i].c;
+	for (i = 0; units [i].str != NULL; i++)
+	        if (strcmp (unit_name, units [i].str) == 0) {
+		        *c = units [i].c;
 			return 1;
 		}
 
@@ -1395,18 +1395,23 @@ get_constant_of_unit(eng_convert_unit_t units[],
 }
 
 static Value *
-convert(eng_convert_unit_t units[],
-	eng_convert_unit_t prefixes[],
-	char *from_unit, char *to_unit,
-	float_t n, Value **v, EvalPosition const *ep)
+convert (eng_convert_unit_t units[],
+	 eng_convert_unit_t prefixes[],
+	 char *from_unit, char *to_unit,
+	 float_t n, Value **v, const EvalPosition *ep)
 {
         float_t from_c, from_prefix, to_c, to_prefix;
 
-	if (get_constant_of_unit(units, prefixes, from_unit, &from_c,
-				 &from_prefix)) {
-	        if (!get_constant_of_unit(units, prefixes,
-					 to_unit, &to_c, &to_prefix))
+	if (get_constant_of_unit (units, prefixes, from_unit, &from_c,
+				  &from_prefix)) {
+	  
+	        if (!get_constant_of_unit (units, prefixes,
+					   to_unit, &to_c, &to_prefix))
 			return value_new_error (ep, gnumeric_err_NUM);
+
+	        if ( (from_c == 0) || (to_prefix == 0) )
+	                return value_new_error (ep, gnumeric_err_NUM);
+
 		*v = value_new_float (((n*from_prefix) / from_c) * 
 				 to_c / to_prefix);
 		return *v;

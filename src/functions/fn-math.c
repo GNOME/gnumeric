@@ -1789,6 +1789,7 @@ gnumeric_trunc (FunctionEvalInfo *ei, Value **argv)
 	        digits = value_get_as_int (argv[1]);
 
 	p10 = gpow10 (digits);
+
 	if (number < 0)
 		return value_new_float (-floor (-number * p10) / p10);
 	else
@@ -1934,7 +1935,10 @@ gnumeric_quotient (FunctionEvalInfo *ei, Value **argv)
 	num = value_get_as_float (argv[0]);
 	den = value_get_as_float (argv[1]);
 
-	return value_new_int ((int) (num / den));
+	if (den == 0)
+	        return value_new_error (ei->pos, gnumeric_err_DIV0);
+	else
+	        return value_new_int ((int) (num / den));
 }
 
 /***************************************************************************/

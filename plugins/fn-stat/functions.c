@@ -67,6 +67,10 @@ callback_function_stat (const EvalPosition *ep, Value *value, void *closure)
 		        return NULL;
 	}
 
+	/* i'm paranoid - if mm->N == -1, mm->N + 1 is 0 and the next line blows out */
+	if (mm->N == - 1)
+	        return value_new_error (ep, gnumeric_err_NUM);
+
 	dx = x - mm->M;
 	dm = dx / (mm->N + 1);
 	mm->M += dm;
@@ -1371,6 +1375,9 @@ callback_function_chitest_theoretical (const EvalPosition *ep, Value *value,
 	p = mm->current_cell->data;
 	a = *p;
 
+	if (e == 0)
+	        return value_new_error (ep, gnumeric_err_NUM);
+
 	mm->sum += ((a-e) * (a-e)) / e;
 	g_free (p);
 	mm->current_cell = mm->current_cell->next;
@@ -1476,6 +1483,9 @@ gnumeric_betadist (FunctionEvalInfo *ei, Value **argv)
 
 	if (x < a || x > b || a >= b || alpha <= 0 || beta <= 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+	if ((b - a) == 0)
+	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (pbeta((x-a) / (b-a), alpha, beta));
 }
@@ -1867,7 +1877,7 @@ gnumeric_confidence (FunctionEvalInfo *ei, Value **argv)
 	size = value_get_as_int (argv[2]);
 
 	if (size == 0)
-		return value_new_error (ei->pos, _("#DIV/0!"));
+		return value_new_error (ei->pos, gnumeric_err_DIV0);
 
 	if (size < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -3427,6 +3437,9 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
 
 	var2 = cl.Q / (cl.N - 1);
 	dof2 = cl.N - 1;
+
+	if (var2 == 0)
+	        return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	p = (1.0 - pf (var1 / var2, dof1, dof2)) * 2;
 
