@@ -1,3 +1,15 @@
+1999-04-11 Michael Meeks  <michael@imaginator.com>
+
+	* src/dialog-function-select.c (function_select_row):
+	Check event is valid before using it, remove redundant
+	total redraw.
+	(category_select_row): Fix.
+	(function_select_create): Removed redundant call to
+	duplicated (create_description): Removed.
+	
+	* src/fn-lookup.c: Actualy change the lookup function
+	tokens to the correct values.
+	
 1998-04-09 Zbigniew Chyla <cyba@t19.ds.pwr.wroc.pl>
 
 	* src/workbook.c: Creating auto_expr menu every time it is popped

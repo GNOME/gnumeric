@@ -30,56 +30,6 @@ typedef struct {
 static void function_select_create (SelectorState *state);
 
 static void
-category_select_row (GtkCList *clist, gint row, gint col,
-		     GdkEvent *event, SelectorState *state)
-{
-	state->selected_cat = row;
-/*	printf ("Row %d selected\n", row); */
-	gtk_container_remove (GTK_CONTAINER(state->dialog_box), 
-			      state->widget);
-	state->selected_func = 0;
-	function_select_create (state);
-/*	gtk_clist_select_row (state->cl_cats, row, 0); */
-	gtk_widget_show_all (GTK_WIDGET(state->dialog_box));
-}
-
-static GtkWidget *
-create_description (FunctionDefinition *fd)
-{
-	GtkBox  *vbox;
-	TokenizedHelp *tok;
-
-	tok = tokenized_help_new (fd);
-
-	vbox = GTK_BOX (gtk_vbox_new (0, 0));
-	
-	/* Syntax label */
-	{ 
-		GtkLabel *label =
-			GTK_LABEL(gtk_label_new (tokenized_help_find (tok, "SYNTAX")));
-		gtk_box_pack_start (vbox, GTK_WIDGET(label),
-				    TRUE, TRUE, 0);
-	}
-
-	/* Description */
-	{ 
-		GtkText *text;
-		char *txt = tokenized_help_find (tok, "DESCRIPTION");
-
-		text = GTK_TEXT (gtk_text_new (NULL, NULL));
-		gtk_text_set_word_wrap (text, TRUE);
-		gtk_text_set_editable (text, FALSE);
-		gtk_text_insert (text, NULL, NULL, NULL,
-				 txt, strlen(txt));
-		gtk_box_pack_start (vbox, GTK_WIDGET(text),
-				    TRUE, TRUE, 0);
-	}
-
-	tokenized_help_destroy (tok);
-	return GTK_WIDGET (vbox);
-}
-
-static void
 function_categories_fill (SelectorState *selector_state)
 {
 	GtkCList *cl = selector_state->cl_cats;
@@ -134,16 +84,23 @@ static void
 function_select_row (GtkCList *clist, gint row, gint col,
 		     GdkEvent *event, SelectorState *selector_state)
 {
-	if (event->type == GDK_2BUTTON_PRESS){
+	if (event && event->type == GDK_2BUTTON_PRESS){
 		gtk_signal_emit_by_name (GTK_OBJECT (selector_state->dlg),
 					 "clicked", 0);
 	}
-
 	selector_state->selected_func = row;
 	gtk_widget_show_all (GTK_WIDGET (selector_state->dialog_box));
-	function_definition_update (selector_state);;
 }
 
+static void
+category_select_row (GtkCList *clist, gint row, gint col,
+		     GdkEvent *event, SelectorState *state)
+{
+	state->selected_cat = row;
+	state->selected_func = 0;
+	function_definition_update (state);
+	gtk_widget_show_all (GTK_WIDGET(state->dialog_box));
+}
 
 #define USIZE_WIDTH  100
 #define USIZE_HEIGHT 150
@@ -200,38 +157,12 @@ function_select_create (SelectorState *selector_state)
 	}
 
 	gtk_box_pack_start (GTK_BOX(vbox), box, TRUE, TRUE, 0);
-
-#if 0
-	{
-		GtkWidget *description;
-
-		if (fd && fd->help){
-			description = create_description (fd);
-			gtk_box_pack_start (GTK_BOX(vbox), description,
-					    TRUE, TRUE, 0);
-		}
-		
-	}
-#endif
 	
 	selector_state->widget = vbox;
 	gtk_box_pack_start (selector_state->dialog_box, vbox,
 			    FALSE, FALSE, 0);
 
 	gtk_widget_show_all (GTK_WIDGET(selector_state->dialog_box));
-
-/*      FIXME: Something to keep currently selected function in scope
-	needs to be done.
-	hadj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (scroll));
-	gtk_adjustment_set_value (hadj, ((float)SelectorState->selected_func));
-	gtk_scrolled_window_set_hadjustment (GTK_SCROLLED_WINDOW (scroll),
-					     hadj);
-	max=SelectorState->cats->len;
-	hadj = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (scroll));
-	gtk_adjustment_set_value (hadj, ((float)SelectorState->selected_cat));
-	gtk_scrolled_window_set_hadjustment (GTK_SCROLLED_WINDOW (scroll),
-	hadj); */
-
 }
 
 /**
