@@ -1,5 +1,9 @@
 2003-08-12  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* graph/gog-style-prefs.glade: improve spacing, add scoll window
+
+2003-08-12  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* graph/gog-style-prefs.glade: add some missed label names
 
 2003-08-10  Jody Goldberg <jody@gnome.org>
