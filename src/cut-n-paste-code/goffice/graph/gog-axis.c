@@ -53,7 +53,7 @@ struct _GogAxis {
 
 	GogAxisType	 type;
 	GogAxisPosition	 pos;
-	GSList		*i_cross, *crosses_me, *contributors;
+	GSList		*contributors;
 
 	GogDatasetElement source [AXIS_ELEM_MAX_ENTRY];
 	double		  auto_bound [AXIS_ELEM_MAX_ENTRY];
@@ -274,8 +274,6 @@ gog_axis_finalize (GObject *obj)
 
 	gog_axis_clear_contributors (axis);
 
-	g_slist_free (axis->i_cross);	 	axis->i_cross = NULL;
-	g_slist_free (axis->crosses_me); 	axis->crosses_me = NULL;
 	g_slist_free (axis->contributors);	axis->contributors = NULL;
 
 	gog_dataset_finalize (GOG_DATASET (axis));
@@ -577,7 +575,7 @@ gog_axis_init (GogAxis *axis)
 {
 	axis->type	 = GOG_AXIS_UNKNOWN;
 	axis->pos	 = GOG_AXIS_AT_LOW;
-	axis->i_cross =	axis->crosses_me = axis->contributors = NULL;
+	axis->contributors = NULL;
 	axis->minor.tick_in = axis->minor.tick_out = axis->major.tick_in = FALSE;
 	axis->major.tick_out = TRUE;
 	axis->major_tick_labeled = TRUE;

@@ -958,14 +958,6 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	style->line.auto_color = (flags & 0x01) ? TRUE : FALSE;
 	style->line.pattern    = GSF_LE_GET_GUINT16 (q->data+4);
 
-#if 0
-	DAMN not working
-	if (s->axis != NULL)
-		g_object_set (G_OBJECT (s->axis),
-			"major-tick-labeled",	((flags & 0x04) ? TRUE : FALSE),
-			NULL);
-#endif
-
 	d (0, fprintf (stderr, "Lines are %f pts wide.\n", s->style->line.width););
 	d (0, fprintf (stderr, "Lines have a %s pattern.\n",
 		       ms_line_pattern [s->style->line.pattern ]););
@@ -1467,31 +1459,40 @@ static gboolean
 BC_R(tick)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
 {
-	d (1, {
-	guint16 const major_type = GSF_LE_GET_GUINT8 (q->data);
-	guint16 const minor_type = GSF_LE_GET_GUINT8 (q->data+1);
-	guint16 const position   = GSF_LE_GET_GUINT8 (q->data+2);
+	guint16 const major = GSF_LE_GET_GUINT8 (q->data);
+	guint16 const minor = GSF_LE_GET_GUINT8 (q->data+1);
+	guint16 const label = GSF_LE_GET_GUINT8 (q->data+2);
 
+	if (s->axis != NULL)
+		g_object_set (G_OBJECT (s->axis),
+			/* cheat until we support different label pos */
+			"major-tick-labeled",	(label != 0),
+			"major-tick-in",	((major & 1) ? TRUE : FALSE),
+			"major-tick-out",	((major >= 2) ? TRUE : FALSE),
+			"minor-tick-in",	((minor & 1) ? TRUE : FALSE),
+			"minor-tick-out",	((minor >= 2) ? TRUE : FALSE),
+			NULL);
+	d (1, {
 	guint16 const flags = GSF_LE_GET_GUINT8 (q->data+24);
 
-	switch (major_type) {
+	switch (major) {
 	case 0: fputs ("no major tick;", stderr); break;
 	case 1: fputs ("major tick inside axis;", stderr); break;
 	case 2: fputs ("major tick outside axis;", stderr); break;
 	case 3: fputs ("major tick across axis;", stderr); break;
 	default : fputs ("unknown major tick type", stderr);
 	}
-	switch (minor_type) {
+	switch (minor) {
 	case 0: fputs ("no minor tick;", stderr); break;
 	case 1: fputs ("minor tick inside axis;", stderr); break;
 	case 2: fputs ("minor tick outside axis;", stderr); break;
 	case 3: fputs ("minor tick across axis;", stderr); break;
 	default : fputs ("unknown minor tick type", stderr);
 	}
-	switch (position) {
+	switch (label) {
 	case 0: fputs ("no tick label;", stderr); break;
-	case 1: fputs ("tick label at low end;", stderr); break;
-	case 2: fputs ("tick label at high end;", stderr); break;
+	case 1: fputs ("tick label at low end (NOTE mapped to near axis);", stderr); break;
+	case 2: fputs ("tick label at high end (NOTE mapped to near axis);", stderr); break;
 	case 3: fputs ("tick label near axis;", stderr); break;
 	default : fputs ("unknown tick label position", stderr);
 	}

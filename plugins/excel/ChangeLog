@@ -1,5 +1,10 @@
 2003-09-13  Jody Goldberg <jody@gnome.org>
 
+	* ms-chart.c (BC_R(tick)) : enable.  Looks like axis label enabling
+	  should be here.  Wonder what that flag in lineformat is for ??
+
+2003-09-13  Jody Goldberg <jody@gnome.org>
+
 	* ms-chart.c (BC_R(lineformat)) : disable axis label setting for now
 	  it seems over zealous.
 

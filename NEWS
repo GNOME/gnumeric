@@ -25,6 +25,7 @@ Jody:
 	* Support index/implicit axis for scatter plots
 	* Fix horizontal data sets
 	* Auto pad between chart child with compass layouts
+	* XLS import for axis marker/line formats, and axis ticks
 
 Jon Kåre:
         * Ensure that scrollbars always show up in font combo when
