@@ -1085,7 +1085,7 @@ global_range_parse (Sheet *sheet, char const *str)
 		&rangeref_parse, NULL);
 
 	if (expr != NULL)  {
-		Value * value = gnm_expr_get_range (expr);
+		Value *value = gnm_expr_get_range (expr);
 		gnm_expr_unref (expr);
 		return value;
 	}

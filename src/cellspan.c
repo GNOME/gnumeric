@@ -210,7 +210,6 @@ cell_calc_span (Cell const *cell, int *col1, int *col2)
 
         /*
 	 * Report only one column is used if
-	 *	- Cell has an expression
 	 *	- Cell is in a hidden col
 	 * 	- Cell is a number
 	 * 	- Cell is the top left of a merged cell
@@ -231,8 +230,7 @@ cell_calc_span (Cell const *cell, int *col1, int *col2)
 	if (align == HALIGN_LEFT || align == HALIGN_RIGHT)
 		indented_w += cell_rendered_offset (cell);
 
-	if (cell_has_expr (cell) ||
-	    cell_is_blank (cell) ||
+	if (cell_is_blank (cell) ||
 	    !cell->col_info->visible ||
 	    (align != HALIGN_CENTER_ACROSS_SELECTION &&
 		 (mstyle_get_wrap_text (mstyle) ||
@@ -386,4 +384,39 @@ cell_calc_span (Cell const *cell, int *col1, int *col2)
 	default:
 		g_warning ("Unknown horizontal alignment type %d.", align);
 	} /* switch */
+}
+
+void
+row_calc_spans (ColRowInfo *rinfo, Sheet const *sheet)
+{
+	int left, right, col, row = rinfo->pos;
+	Range const *merged;
+	Cell *cell;
+
+	row_destroy_span (rinfo);
+	for (col = 0 ; col < SHEET_MAX_COLS ; ) {
+		cell = sheet_cell_get (sheet, col, row);
+		if (cell == NULL) {
+			col++;
+			continue;
+		}
+
+		if (cell_is_merged (cell)) {
+			merged = sheet_merge_is_corner (sheet, &cell->pos);
+			if (NULL != merged) {
+				col = merged->end.col + 1;
+				continue;
+			}
+		}
+
+		cell_render_value ((Cell *)cell, TRUE);
+		cell_calc_span (cell, &left, &right);
+		if (left != right) {
+			cell_register_span (cell, left, right);
+			col = right + 1;
+		} else
+			col++;
+	}
+
+	rinfo->needs_respan = FALSE;
 }

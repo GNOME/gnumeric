@@ -688,6 +688,12 @@ print_cell_range (GnomePrintContext *context,
 			}
 		}
 
+		/* its safe to const_cast because only the a non-default row
+		 * will ever get flagged.
+		 */
+		if (ri->needs_respan)
+			row_calc_spans ((ColRowInfo *)ri, sheet);
+
 		for (col = start_col, x = base_x; col <= end_col ; col++) {
 			MStyle const *style;
 			CellSpanInfo const *span;

@@ -29,6 +29,9 @@
 #include "parse-util.h"
 #include "selection.h"
 #include "ranges.h"
+#include "sheet-merge.h"
+#include "cell.h"
+#include "cellspan.h"
 
 void
 colrow_compute_pixels_from_pts (ColRowInfo *cri,

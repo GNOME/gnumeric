@@ -1,3 +1,8 @@
+2002-10-08  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_named_expr) : support named expressions.
+	(oo_cell_start) : support merged ranges.
+
 2002-10-07  Jody Goldberg <jody@gnome.org>
 
 	* openoffice-read.c (oo_table_start) : fix accidental offset of 1,1.

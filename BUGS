@@ -135,9 +135,6 @@ Misc stuff that should be fixed
 
 - The max row/col canvas scroll size is still hard coded.
 
-- calculated cells do not span.
-    : this is by design, we'll fix it when we move to just in time rendering.
-
 - Formats
     : support negative durations with [h]
     : Why does the number matching bother comparing against formats that are

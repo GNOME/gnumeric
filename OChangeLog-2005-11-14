@@ -1,4 +1,29 @@
-2002-10-07  Jody Goldberg <jody@gnome.org>
+2002-10-08  Jody Goldberg <jody@gnome.org>
+
+	* src/parser.y (parser_lookup_name) : default the placeholder to be at
+	  workbook scope.
+
+	* src/cellspan.c (row_calc_spans) : new.
+
+	* src/dependent.c (cell_eval_content) : flag the row as needing
+	  respan.  I'll probably want to distinguish between span and render
+	  somehow.
+
+	* src/sheet.c (sheet_update_only_grid) : test a new idea for doing
+	  just in time spanning.  It does not support a true model view split
+	  of the rendering.  However, it does delay the render & span until
+	  the row is visible, and as a result it is feasible to support
+	  spanning expressions.  The key is to flag the row as needing
+	  respanning then doing the entire row in the redraw loop.
+	* src/item-grid.c (item_grid_draw) : do a span recalc if necessary
+	* src/print-cell.c (print_cell_range) : ditto.
+
+	* src/workbook.c (workbook_init) : fix warning.
+
+	* src/parser.y (parser_lookup_name) : remove implicit conversion of
+	  unquoted strings that are not names into string values.  Replace it
+	  with the creation of a placeholder name.  This is useful for parsing
+	  expressions before a name has been declared.
 
 	* src/cell.c (cell_set_value) : fix docs.
 

@@ -484,6 +484,7 @@ sheet_row_new (Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	*ri = sheet->rows.default_style;
+	ri->needs_respan = TRUE;
 
 	return ri;
 }
@@ -641,6 +642,13 @@ sheet_colrow_fit_gutter (Sheet const *sheet, gboolean is_cols)
 	return outline_level;
 }
 
+static gboolean
+cb_recalc_spans (ColRowInfo *ri, gpointer user)
+{
+	ri->needs_respan = TRUE;
+	return FALSE;
+}
+
 /**
  * sheet_update_only_grid :
  *
@@ -695,9 +703,13 @@ sheet_update_only_grid (Sheet const *sheet)
 		 * col flag.  Then add a flag clearing loop after the
 		 * sheet_calc_span.
 		 */
+#if 0
 		sheet_calc_spans (sheet, SPANCALC_RESIZE|SPANCALC_RE_RENDER |
 				  (p->recompute_visibility ?
 				   SPANCALC_NO_DRAW : SPANCALC_SIMPLE));
+#endif
+		colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
+				&cb_recalc_spans, NULL);
 	}
 
 	if (p->reposition_objects.row < SHEET_MAX_ROWS ||

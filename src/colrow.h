@@ -21,6 +21,7 @@ struct _ColRowInfo {
 	unsigned  visible       : 1;	/* visible */
 	unsigned  filtered      : 1;	/* hidden as a result of a filter (requires !visible) */
 	unsigned  in_filter     : 1;	/* filtered */
+	unsigned  needs_respan  : 1;	/* mark a row as needing span generation */
 
 	/* TODO : Add per row/col min/max */
 
@@ -116,5 +117,4 @@ int              colrow_find_adjacent_visible   (Sheet *sheet, gboolean is_col,
 
 void             rows_height_update		(Sheet *sheet, Range const *range,
 						 gboolean shrink);
-
 #endif /* GNUMERIC_COLROW_H */

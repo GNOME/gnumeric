@@ -1102,6 +1102,7 @@ iterate :
 	printf ("} (%d)\n", iterating == NULL);
 #endif
 	cell->base.flags &= ~DEPENDENT_BEING_CALCULATED;
+	cell->row_info->needs_respan = TRUE;
 	return iterating == NULL;
 }
 

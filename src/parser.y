@@ -388,25 +388,28 @@ parse_string_as_value (GnmExpr *str)
 }
 
 /**
- * parse_string_as_value_or_name :
+ * parser_lookup_name :
  * @str : An expression with oper constant, whose value is a string.
  *
  * Check to see if a string is a name
- * if it is not check to see if it can be parsed as a value
+ * if it is not create a placeholder for it.
  */
 static GnmExpr *
-parse_string_as_value_or_name (GnmExpr *str)
+parser_lookup_name (GnmExpr *str)
 {
-	GnmNamedExpr *expr_name;
+	char const *name = str->constant.value->v_str.val->str;
+	GnmNamedExpr *nexpr;
 
-	expr_name = expr_name_lookup (state->pos, str->constant.value->v_str.val->str);
-	if (expr_name != NULL) {
-		unregister_allocation (str);
-		gnm_expr_unref (str);
-		return register_expr_allocation (gnm_expr_new_name (expr_name, NULL, NULL));
+	nexpr = expr_name_lookup (state->pos, name);
+	if (nexpr == NULL) {
+		ParsePos pp = *state->pos;
+		pp.sheet = NULL;
+		nexpr = expr_name_add (&pp, name, NULL, NULL);
 	}
 
-	return parse_string_as_value (str);
+	unregister_allocation (str);
+	gnm_expr_unref (str);
+	return register_expr_allocation (gnm_expr_new_name (nexpr, NULL, NULL));
 }
 
 static Sheet *
@@ -490,7 +493,7 @@ opt_exp : opt_exp exp  SEPARATOR {
 
 exp:	  CONSTANT 	{ $$ = $1; }
 	| QUOTED_STRING { $$ = $1; }
-	| STRING        { $$ = parse_string_as_value_or_name ($1); }
+	| STRING        { $$ = parser_lookup_name ($1); }
         | cellref       { $$ = $1; }
 	| exp '+' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_ADD,	$3); }
 	| exp '-' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_SUB,	$3); }
@@ -540,8 +543,8 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	}
 
 	| function
-	| sheetref string_opt_quote {
-		GnmNamedExpr *expr_name = NULL;
+	| sheetref STRING {
+		GnmNamedExpr *nexpr = NULL;
 		char const *name = $2->constant.value->v_str.val->str;
 		ParsePos pos = *state->pos;
 
@@ -554,22 +557,22 @@ exp:	  CONSTANT 	{ $$ = $1; }
 						name),
 				state->expr_text - state->expr_backup + 1, strlen (name));
 		else {
-			expr_name = expr_name_lookup (&pos, name);
-			if (expr_name == NULL)
+			nexpr = expr_name_lookup (&pos, name);
+			if (nexpr == NULL)
 				gnumeric_parse_error (state, PERR_UNKNOWN_NAME,
 					g_strdup_printf (_("Name '%s' does not exist in sheet '%s'"),
 							name, pos.sheet->name_quoted),
 					state->expr_text - state->expr_backup + 1, strlen (name));
 		}
 
-		if (expr_name == NULL) {
+		if (nexpr == NULL) {
 			YYERROR;
 		}
 		unregister_allocation ($2); gnm_expr_unref ($2);
-	        $$ = register_expr_allocation (gnm_expr_new_name (expr_name, $1.first, NULL));
+	        $$ = register_expr_allocation (gnm_expr_new_name (nexpr, $1.first, NULL));
 	}
-	| '[' string_opt_quote ']' string_opt_quote {
-		GnmNamedExpr *expr_name;
+	| '[' string_opt_quote ']' STRING {
+		GnmNamedExpr *nexpr;
 		char *name = $4->constant.value->v_str.val->str;
 		char *wb_name = $2->constant.value->v_str.val->str;
 		ParsePos pos = *state->pos;
@@ -584,8 +587,8 @@ exp:	  CONSTANT 	{ $$ = $1; }
 			YYERROR;
 		}
 
-		expr_name = expr_name_lookup (&pos, name);
-		if (expr_name == NULL) {
+		nexpr = expr_name_lookup (&pos, name);
+		if (nexpr == NULL) {
 			gnumeric_parse_error (state, PERR_UNKNOWN_NAME,
 				g_strdup_printf (_("Name '%s' does not exist in workbook '%s'"),
 						name, wb_name),
@@ -595,7 +598,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 			unregister_allocation ($4); gnm_expr_unref ($4);
 			unregister_allocation ($2); gnm_expr_unref ($2);
 		}
-	        $$ = register_expr_allocation (gnm_expr_new_name (expr_name, NULL, pos.wb));
+	        $$ = register_expr_allocation (gnm_expr_new_name (nexpr, NULL, pos.wb));
 	}
 	;
 

@@ -27,9 +27,13 @@
 #include <workbook-view.h>
 #include <workbook.h>
 #include <sheet.h>
+#include <sheet-merge.h>
+#include <ranges.h>
 #include <cell.h>
 #include <value.h>
 #include <expr.h>
+#include <expr-impl.h>
+#include <expr-name.h>
 #include <parse-util.h>
 #include <datetime.h>
 #include <style-color.h>
@@ -206,6 +210,12 @@ oo_attr_enum (OOParseState *state, xmlChar const * const *attrs,
 	return FALSE;
 }
 
+#define oo_expr_parse_str(str, pp, flags, err)				\
+	gnm_expr_parse_str (str, pp,					\
+		GNM_EXPR_PARSE_USE_OPENCALC_CONVENTIONS |		\
+		GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC |	\
+		flags, &oo_rangeref_parse, err)
+
 /****************************************************************************/
 
 static void
@@ -290,8 +300,7 @@ oo_cellref_parse (CellRef *ref, char const *start, ParsePos const *pp)
 
 		/* OpenCalc does not pre-declare its sheets, but it does have a
 		 * nice unambiguous format.  So if we find a name that has not
-		 * been added yet add it.
-		 * TODO : worry about order
+		 * been added yet add it.  Reorder below.
 		 */
 		ref->sheet = workbook_sheet_by_name (pp->wb, name);
 		if (ref->sheet == NULL) {
@@ -347,6 +356,7 @@ oo_cell_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 	gboolean	 bool_val;
 	gnum_float	 float_val;
 	int array_cols = -1, array_rows = -1;
+	int merge_cols = -1, merge_rows = -1;
 	MStyle *style = NULL;
 
 	state->col_inc = 1;
@@ -373,11 +383,8 @@ oo_cell_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 			else {
 				ParseError  perr;
 				parse_error_init (&perr);
-				expr = gnm_expr_parse_str (expr_string, &state->pos,
-					GNM_EXPR_PARSE_USE_OPENCALC_CONVENTIONS |
-					GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-					&oo_rangeref_parse,
-					&perr);
+				expr = oo_expr_parse_str (expr_string,
+					&state->pos, 0, &perr);
 				if (expr == NULL) {
 					oo_warning (state, _("Unable to parse '%s' because '%s'"),
 						    attrs[1], perr.message);
@@ -402,6 +409,10 @@ oo_cell_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 		else if (oo_attr_int (state, attrs, "table:number-matrix-columns-spanned", &array_cols))
 			;
 		else if (oo_attr_int (state, attrs, "table:number-matrix-rows-spanned", &array_rows))
+			;
+		else if (oo_attr_int (state, attrs, "table:number-columns-spanned", &merge_cols))
+			;
+		else if (oo_attr_int (state, attrs, "table:number-rows-spanned", &merge_rows))
 			;
 		else if (!strcmp (attrs[0], "table:style-name")) {
 			style = g_hash_table_lookup (state->styles, attrs[1]);
@@ -455,6 +466,15 @@ oo_cell_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 	} else if (!state->error_content)
 		/* store the content as a string */
 		state->simple_content = TRUE;
+
+	if (merge_cols > 0 && merge_rows > 0) {
+		Range r;
+		range_init (&r,
+			state->pos.eval.col, state->pos.eval.row,
+			state->pos.eval.col + merge_cols - 1,
+			state->pos.eval.row + merge_rows - 1);
+		sheet_merge_add (NULL, state->pos.sheet, &r, FALSE);
+	}
 }
 
 static void
@@ -467,7 +487,6 @@ oo_cell_end (GsfXmlSAXState *gsf_state)
 static void
 oo_cell_content_end (GsfXmlSAXState *gsf_state)
 {
-	/* <text:p>EQUAL</text:p> */
 	OOParseState *state = (OOParseState *)gsf_state;
 
 	if (state->simple_content || state->error_content) {
@@ -570,6 +589,65 @@ oo_style_prop (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 	mstyle_set_align_h (style, h_align_is_valid ? h_align : HALIGN_GENERAL);
 }
 		       
+static void
+oo_named_expr (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)gsf_state;
+	xmlChar const *name     = NULL;
+	xmlChar const *base_str  = NULL;
+	xmlChar const *expr_str = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (!strcmp (attrs[0], "table:name"))
+			name = attrs[1];
+		else if (!strcmp (attrs[0], "table:base-cell-address"))
+			base_str = attrs[1];
+		else if (!strcmp (attrs[0], "table:expression"))
+			expr_str = attrs[1];
+
+	if (name != NULL && base_str != NULL && expr_str != NULL) {
+		ParseError perr;
+		ParsePos   pp;
+		GnmExpr const *expr;
+		char *tmp = g_strconcat ("[", base_str, "]", NULL);
+
+		parse_error_init (&perr);
+		parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
+
+		expr = oo_expr_parse_str (tmp, &pp,
+			GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
+			&perr);
+		g_free (tmp);
+
+		if (expr == NULL || expr->any.oper != GNM_EXPR_OP_CELLREF) {
+			oo_warning (state, _("Unable to parse position for expression '%s' @ '%s' because '%s'"),
+				    name, base_str, perr.message);
+			parse_error_free (&perr);
+			if (expr != NULL)
+				gnm_expr_unref (expr);
+		} else {
+			CellRef const *ref = &expr->cellref.ref;
+			parse_pos_init (&pp, state->pos.wb, ref->sheet,
+					ref->col, ref->row);
+
+			gnm_expr_unref (expr);
+			expr = oo_expr_parse_str (expr_str, &pp, 0, &perr);
+			if (expr == NULL) {
+				oo_warning (state, _("Unable to parse position for expression '%s' with value '%s' because '%s'"),
+					    name, expr_str, perr.message);
+				parse_error_free (&perr);
+			} else {
+				GnmNamedExpr *nexpr = expr_name_lookup (&pp, name);
+				pp.sheet = NULL;
+				if (nexpr == NULL)
+					expr_name_add (&pp, name, expr, NULL);
+				else
+					expr_name_set_expr (nexpr, expr, NULL);
+			}
+		}
+	}
+}
+
 static GsfXmlSAXNode opencalc_dtd[] = {
 GSF_XML_SAX_NODE (START, START, NULL, FALSE, NULL, NULL, 0),
 GSF_XML_SAX_NODE (START, OFFICE, "office:document-content", FALSE, NULL, NULL, 0),
@@ -630,7 +708,7 @@ GSF_XML_SAX_NODE (START, OFFICE, "office:document-content", FALSE, NULL, NULL, 0
         GSF_XML_SAX_NODE (TABLE_ROW_GROUP, TABLE_ROW_GROUP, "table:table-row-group", FALSE, NULL, NULL, 0),
         GSF_XML_SAX_NODE (TABLE_ROW_GROUP, TABLE_ROW,	    "table:table-row", FALSE, NULL, NULL, 0), /* 2nd def */
     GSF_XML_SAX_NODE (OFFICE_BODY, NAMED_EXPRS, "table:named-expressions", FALSE, NULL, NULL, 0),
-      GSF_XML_SAX_NODE (NAMED_EXPRS, NAMED_EXPR, "table:named-expression", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (NAMED_EXPRS, NAMED_EXPR, "table:named-expression", FALSE, &oo_named_expr, NULL, 0),
   { NULL }
 };
 
