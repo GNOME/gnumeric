@@ -1772,7 +1772,7 @@ gnumeric_irr (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_pv = {
 	N_("@FUNCTION=PV\n"
-	   "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
+	   "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
 	   "@DESCRIPTION="
 	   "PV calculates the present value of an investment. "
 	   "@rate is the periodic interest rate, @nper is the "
@@ -1780,7 +1780,7 @@ static char *help_pv = {
 	   "@pmt is the payment made each period, "
 	   "@fv is the future value and @type is when the payment is made. "
 	   "If @type = 1 then the payment is made at the begining of the "
-	   "period. If @type = 0 it is made at the end of each period."
+	   "period. If @type = 0 (or omitted) it is made at the end of each period."
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=FV")
@@ -1796,8 +1796,8 @@ gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
 	rate = value_get_as_float (argv[0]);
 	nper = value_get_as_float (argv[1]);
 	pmt  = value_get_as_float (argv[2]);
-	fv   = value_get_as_float (argv[3]);
-	type = !!value_get_as_int (argv[4]);
+	fv   = argv[3] ? value_get_as_float (argv[3]) : 0;
+	type = argv[4] ? !!value_get_as_int (argv[4]) : 0;
 
 	if (rate <= 0.0)
 		return value_new_error (ei->pos, _("pv - domain error"));
@@ -3090,7 +3090,7 @@ finance_functions_init (void)
 				  "settlement,maturity,issue,rate,yield[,basis]",
 				  &help_pricemat,  gnumeric_pricemat);
 
-	def = function_add_args	 (cat, "pv", "fffff", "rate,nper,pmt,fv,type",
+	def = function_add_args	 (cat, "pv", "fff|ff", "rate,nper,pmt[,fv,type]",
 				  &help_pv,	  gnumeric_pv);
 	auto_format_function_result (def, AF_MONETARY);
 
