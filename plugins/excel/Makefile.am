@@ -12,6 +12,8 @@ libexcel_a_SOURCES =	\
 	boot.h		\
 	ms-excel-biff.h	\
 	ms-biff.h	\
+	biff-types.h	\
+	escher-types.h	\
 	ms-escher.c	\
 	ms-escher.h	\
 	ms-excel.c	\
