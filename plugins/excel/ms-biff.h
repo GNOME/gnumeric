@@ -79,7 +79,7 @@ void          ms_biff_put_destroy    (BiffPut *);
 guint8        *ms_biff_put_len_next   (BiffPut *, guint16 opcode, guint32 len);
 /* For unknown length records */
 void           ms_biff_put_var_next   (BiffPut *, guint16 opcode);
-void           ms_biff_put_var_write  (BiffPut *, guint8 *, guint32 len);
+void           ms_biff_put_var_write  (BiffPut *, guint8 const *, guint32 len);
 /* Seeks to pos bytes after the beggining of the record */
 void           ms_biff_put_var_seekto (BiffPut *, int pos);
 /* Must commit after each record */

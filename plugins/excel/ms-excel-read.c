@@ -858,7 +858,7 @@ get_string (char **output, BiffQuery *q, guint32 offset, MsBiffVersion ver)
 }
 
 static void
-read_sst (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
+ms_excel_read_SST (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 {
 	guint32 offset;
 	unsigned k;
@@ -4938,7 +4938,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			break;
 
 		case BIFF_SST: /* see S59DE7.HTM */
-			read_sst (q, wb, ver->version);
+			ms_excel_read_SST (q, wb, ver->version);
 			break;
 
 		case BIFF_EXTSST: /* See: S59D84 */

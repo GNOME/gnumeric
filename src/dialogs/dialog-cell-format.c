@@ -239,6 +239,8 @@ fmt_dialog_changed (FormatState *state)
  * invocations */
 static FormatDialogPosition_t fmt_dialog_page = FD_NUMBER;
 
+/* The last currency selected */
+static int fmt_dialog_currency = 0;
 
 /*
  * Callback routine to help remember which format tab was selected
@@ -2602,12 +2604,10 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	state->back.style             = mstyle_new_default ();
 	state->back.pattern.cur_index = 0;
 
-	/* Use same page as last invocation used unless pageno >= 0 and
-	 * sensible */
-	if (pageno >= 0 && pageno <= FD_LAST)
-		fmt_dialog_page = pageno;
+	if (pageno == FD_CURRENT)
+		pageno = fmt_dialog_page;
+	gtk_notebook_set_page (state->notebook, pageno);
 
-	/* Select the wanted page the last invocation used */
 	page_signal = g_signal_connect (
 		GTK_OBJECT (state->notebook),
 		"switch_page", G_CALLBACK (cb_page_select),
@@ -2616,7 +2616,6 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 		GTK_OBJECT (state->notebook),
 		"destroy", G_CALLBACK (cb_notebook_destroy),
 		GINT_TO_POINTER (page_signal));
-	gtk_notebook_set_page (state->notebook, fmt_dialog_page);
 
 	fmt_dialog_init_format_page (state);
 	fmt_dialog_init_align_page (state);

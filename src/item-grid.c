@@ -95,6 +95,8 @@ struct _ItemGrid {
 	GnmHLink *cur_link; /* do not derference, just a pointer */
 	GtkWidget *tip;
 	guint tip_timer;
+
+	guint32 last_click_time;
 };
 
 static void
@@ -943,12 +945,24 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	}
 
       	switch (event->button) {
-	case 1: ig->selecting = ITEM_GRID_SELECTING_CELL_RANGE;
+	case 1: {
+		guint32 double_click_time;
+		g_object_get (gtk_widget_get_settings (GTK_WIDGET (canvas)),
+			"gtk-double-click-time", &double_click_time,
+			NULL);
+
+		if ((ig->last_click_time + double_click_time) > event->time &&
+		    wbcg_edit_start (scg->wbcg, FALSE, FALSE))
+			break;
+
+		ig->last_click_time = event->time;
+		ig->selecting = ITEM_GRID_SELECTING_CELL_RANGE;
 		gnm_canvas_slide_init (gcanvas);
 		gnm_simple_canvas_grab (item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
 			NULL, event->time);
 		break;
+	}
 
       	/* This is here just for demo purposes */
       	case 2: drag_start (GTK_WIDGET (item->canvas), event, sheet);
@@ -1022,7 +1036,6 @@ cb_cursor_come_to_rest (ItemGrid *ig)
 			ig->tip = gnumeric_create_tooltip ();
 			gtk_label_set_text (GTK_LABEL (ig->tip),
 				gnm_hlink_get_tip (link));
-			puts (gnm_hlink_get_tip (link));
 			gnumeric_position_tooltip (ig->tip, TRUE);
 			gtk_widget_show_all (gtk_widget_get_toplevel (ig->tip));
 		}

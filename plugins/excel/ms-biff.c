@@ -466,7 +466,7 @@ ms_biff_put_var_next (BiffPut *bp, guint16 opcode)
 }
 
 void
-ms_biff_put_var_write  (BiffPut *bp, guint8 *data, guint32 len)
+ms_biff_put_var_write  (BiffPut *bp, guint8 const *data, guint32 len)
 {
 	g_return_if_fail (bp != NULL);
 	g_return_if_fail (data != NULL);

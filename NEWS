@@ -15,6 +15,8 @@ Jody:
 	* Don't leak clipboard on exit.
 	* Have Enter move the edit_pos while in the editline the same way it
 	  does in the cell.
+	* Support Double click in cell to start editing.
+	* Change the cursor when the mouse is in the edit item.
 
 Jukka:
 	* New random distribution functions (mostly integrated from the 

@@ -1,3 +1,15 @@
+2002-08-06  Jody Goldberg <jody@gnome.org>
+
+	* src/GNOME_Gnumeric.xml (</) : make control-p the print accelerator.
+
+	* src/item-edit.c (item_edit_destroy) : reset the cursor here.
+	(item_edit_event) : set the cursor to something clearer on entry.
+
+	* src/item-grid.c (item_grid_button_press) : Its crufty but given that
+	  we do a grab on button down we need to recognize the double click
+	  ourselves.
+	(cb_cursor_come_to_rest) : remove some debugging cruft.
+
 2002-08-06  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/plugin.h: Put information about PLUGIN_ALWAYS_LOAD in the comment.

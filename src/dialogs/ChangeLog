@@ -1,3 +1,8 @@
+2002-08-04  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (fmt_dialog_impl) : Don't store the targhet
+	  page if the calling function explicitly requested it.
+
 2002-08-04  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* simulation.glade, dialog-simulation.c: Implemented `Summary'

@@ -33,6 +33,7 @@
 #define GNUMERIC_ITEM "EDIT"
 
 #include <gsf/gsf-impl-utils.h>
+#include <gal/widgets/e-cursors.h>
 #include <ctype.h>
 #include <string.h>
 
@@ -224,8 +225,15 @@ item_edit_point (GnomeCanvasItem *item, double c_x, double c_y, int cx, int cy,
 static int
 item_edit_event (GnomeCanvasItem *item, GdkEvent *event)
 {
-	/* FIXME : Should we handle mouse events here ? */
-	return 0;
+	/* FIXME : Handle mouse events here */
+	switch (event->type){
+	case GDK_ENTER_NOTIFY:
+		e_cursor_set_widget (item->canvas, E_CURSOR_XTERM);
+		return TRUE;
+	default :
+		break;
+	}
+	return FALSE;
 }
 
 static void
@@ -454,6 +462,7 @@ item_edit_destroy (GtkObject *o)
 		g_signal_handler_disconnect (GTK_OBJECT (entry), item_edit->signal_button_press);
 		item_edit->signal_changed = 0;
 	}
+	scg_set_display_cursor (item_edit->scg);
 
 	if (GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)(o);

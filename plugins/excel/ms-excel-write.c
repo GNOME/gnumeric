@@ -118,9 +118,7 @@ int
 biff_put_text (BiffPut *bp, const char *txt, int len, MsBiffVersion ver,
 	       gboolean write_len, PutType how)
 {
-#define BLK_LEN 16
-
-	guint8 data[BLK_LEN];
+	guint8 data[4];
 	guint32 ans;
 	int lp;
 
@@ -134,7 +132,6 @@ biff_put_text (BiffPut *bp, const char *txt, int len, MsBiffVersion ver,
 		g_warning ("writing NULL string as \"\"");
 		txt = "";
 	}
-	g_return_val_if_fail (txt, 0);
 
 	ans = 0;
 /*	printf ("Write '%s' len = %d\n", txt, len); */
@@ -185,33 +182,9 @@ biff_put_text (BiffPut *bp, const char *txt, int len, MsBiffVersion ver,
 			ms_biff_put_var_write (bp, data, off);
 		}
 
-		for (lp = 0; lp < len; lp++) {
-			GSF_LE_SET_GUINT8 (data, txt[lp]);
-			ms_biff_put_var_write (bp, data, 1);
-		}
-	};
+		ms_biff_put_var_write (bp, txt, len);
+	}
 	return off + len;
-	/* An attempt at efficiency */
-/*	chunks = len/BLK_LEN;
-	pos    = 0;
-	for (lpc = 0; lpc < chunks; lpc++) {
-		for (lp = 0; lp < BLK_LEN; lp++, pos++)
-			data[lp] = txt[pos];
-		data[BLK_LEN] = '\0';
-		printf ("Writing chunk '%s'\n", data);
-		ms_biff_put_var_write (bp, data, BLK_LEN);
-	}
-	len = len-pos;
-	if (len > 0) {
-	        for (lp = 0; lp < len; lp++, pos++)
-			data[lp] = txt[pos];
-		data[lp] = '\0';
-		printf ("Writing chunk '%s'\n", data);
-		ms_biff_put_var_write (bp, data, lp);
-	}
- ans is the length but do we need it ?
-	return ans;*/
-#undef BLK_LEN
 }
 
 /**
@@ -324,13 +297,17 @@ write_magic_interface (BiffPut *bp, MsBiffVersion ver)
 	if (ver >= MS_BIFF_V7) {
 		ms_biff_put_len_next (bp, BIFF_INTERFACEHDR, 0);
 		ms_biff_put_commit (bp);
+
 		data = ms_biff_put_len_next (bp, BIFF_MMS, 2);
 		GSF_LE_SET_GUINT16(data, 0);
 		ms_biff_put_commit (bp);
-		ms_biff_put_len_next (bp, 0xbf, 0);
+
+		ms_biff_put_len_next (bp, BIFF_TOOLBARHDR, 0);
 		ms_biff_put_commit (bp);
-		ms_biff_put_len_next (bp, 0xc0, 0);
+
+		ms_biff_put_len_next (bp, BIFF_TOOLBAREND, 0);
 		ms_biff_put_commit (bp);
+
 		ms_biff_put_len_next (bp, BIFF_INTERFACEEND, 0);
 		ms_biff_put_commit (bp);
 	}
@@ -2359,29 +2336,35 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 		}
 		break;
 	}
-	case VALUE_STRING: {
-		guint8 data[16];
-		gint len;
-		char *buf;
-
+	case VALUE_STRING:
 		g_return_if_fail (v->v_str.val->str);
 
-		g_return_if_fail (ver < MS_BIFF_V8); /* Use SST stuff in fulness of time */
+		/* Use LABEL */
+		if (ver < MS_BIFF_V8) {
+			guint8 data[16];
+			gint len;
+			char *buf;
 
-		/* See: S59DDC.HTM ( for RSTRING ) */
-		/* See: S59D9D.HTM ( for LABEL ) */
-		len = biff_convert_text(&buf, v->v_str.val->str, MS_BIFF_V7);
-		ms_biff_put_var_next   (bp, (0x200 | BIFF_LABEL));
-		EX_SETXF (data, xf);
-		EX_SETCOL(data, col);
-		EX_SETROW(data, row);
-		EX_SETSTRLEN (data, len);
-		ms_biff_put_var_write  (bp, data, 8);
-		biff_put_text (bp, buf, len, MS_BIFF_V7, FALSE, AS_PER_VER);
-		g_free(buf);
-		ms_biff_put_commit (bp);
+			len = biff_convert_text(&buf, v->v_str.val->str, MS_BIFF_V7);
+
+#warning TODO fix warning capabilities of io_context to support 1 time type specific warnings
+			if (len > 0xff)
+				len = 0xff;
+			ms_biff_put_var_next   (bp, (0x200 | BIFF_LABEL));
+
+			EX_SETXF (data, xf);
+			EX_SETCOL(data, col);
+			EX_SETROW(data, row);
+			EX_SETSTRLEN (data, len);
+			ms_biff_put_var_write  (bp, data, 8);
+			biff_put_text (bp, buf, len, MS_BIFF_V7, FALSE, AS_PER_VER);
+			g_free (buf);
+			ms_biff_put_commit (bp);
+		} else {
+			/* Use SST */
+		}
 		break;
-	}
+
 	default:
 		printf ("Unhandled value type %d\n", v->type);
 		break;
