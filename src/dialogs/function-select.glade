@@ -139,7 +139,7 @@
 		  <property name="left_margin">0</property>
 		  <property name="right_margin">0</property>
 		  <property name="indent">0</property>
-		  <property name="text" translatable="no">Nice looking pango descriptions go here</property>
+		  <property name="text" translatable="no"></property>
 		</widget>
 	      </child>
 	    </widget>

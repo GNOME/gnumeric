@@ -170,9 +170,7 @@ Dialogs
 - Function selector
     : 'Most recently used'
 - Formula Guru
-    : As we auto add new entries for varargs we should make them visible.
     : Fix varargs handling
-    : Switching between multiple function at the same level.
     : Don't ask to fill arguments for functions without arguments.
 - Import Dialog
     : Rewrite main page preview (see Bug #66393)

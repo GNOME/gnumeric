@@ -1,3 +1,9 @@
+2002-03-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-formula-guru.c : implement cursor handling
+	* dialog-search.c : remove warning
+	* function-select.glade : remove unnecessary text
+
 2002-03-22  Almer S. Tigelaar  <almer@gnome.org>
 
 	* autoformat.glade: Add new edge related check items.

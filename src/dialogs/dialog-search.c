@@ -30,7 +30,6 @@
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 
-#warning FIXME
 /*#include <gal/util/e-unicode-i18n.h>*/
 #define U_(x)	_(x)
 
