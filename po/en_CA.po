@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-09 15:01-0400\n"
-"PO-Revision-Date: 2004-09-09 11:36-0400\n"
+"POT-Creation-Date: 2004-09-12 02:34-0400\n"
+"PO-Revision-Date: 2004-09-12 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -8784,7 +8784,7 @@ msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1324
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1428
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1429
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:117
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:819
 #: src/dialogs/dialog-cell-format.c:2364 src/dialogs/dialog-cell-format.c:2369
@@ -17666,9 +17666,9 @@ msgstr "Objective function:"
 msgid "Constraints:"
 msgstr "Constraints:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6109
+#: plugins/mps/mps.c:245 src/commands.c:6115
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1052
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:364
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:373
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
 #: src/dialogs/dialog-function-select.c:445
 #: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:368
@@ -18414,10 +18414,10 @@ msgstr "This is message from the \"%s\" plugin."
 msgid "Error while opening xbase file."
 msgstr "Error while opening xbase file."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4900
+#: plugins/xbase/boot.c:175 src/commands.c:4906
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:353 src/dialogs/print.glade.h:21
-#: src/print-info.c:391 src/workbook.c:1051 src/xml-io.c:3724
+#: src/print-info.c:391 src/workbook.c:1053 src/xml-io.c:3724
 msgid "Sheet"
 msgstr "Sheet"
 
@@ -19530,280 +19530,280 @@ msgstr "Sorting"
 msgid "Sorting %s"
 msgstr "Sorting %s"
 
-#: src/commands.c:2246
+#: src/commands.c:2252
 msgid "Unhide columns"
 msgstr "Unhide columns"
 
-#: src/commands.c:2246
+#: src/commands.c:2252
 msgid "Hide columns"
 msgstr "Hide columns"
 
-#: src/commands.c:2247
+#: src/commands.c:2253
 msgid "Unhide rows"
 msgstr "Unhide rows"
 
-#: src/commands.c:2247
+#: src/commands.c:2253
 msgid "Hide rows"
 msgstr "Hide rows"
 
-#: src/commands.c:2330
+#: src/commands.c:2336
 msgid "Expand columns"
 msgstr "Expand columns"
 
-#: src/commands.c:2330
+#: src/commands.c:2336
 msgid "Collapse columns"
 msgstr "Collapse columns"
 
-#: src/commands.c:2331
+#: src/commands.c:2337
 msgid "Expand rows"
 msgstr "Expand rows"
 
-#: src/commands.c:2331
+#: src/commands.c:2337
 msgid "Collapse rows"
 msgstr "Collapse rows"
 
-#: src/commands.c:2358
+#: src/commands.c:2364
 #, c-format
 msgid "Show column outline %d"
 msgstr "Show column outline %d"
 
-#: src/commands.c:2358
+#: src/commands.c:2364
 #, c-format
 msgid "Show row outline %d"
 msgstr "Show row outline %d"
 
-#: src/commands.c:2429
+#: src/commands.c:2435
 msgid "Those columns are already grouped"
 msgstr "Those columns are already grouped"
 
-#: src/commands.c:2430
+#: src/commands.c:2436
 msgid "Those rows are already grouped"
 msgstr "Those rows are already grouped"
 
-#: src/commands.c:2453
+#: src/commands.c:2459
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Those columns are not grouped, you can't ungroup them"
 
-#: src/commands.c:2454
+#: src/commands.c:2460
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Those rows are not grouped, you can't ungroup them"
 
-#: src/commands.c:2468
+#: src/commands.c:2474
 #, c-format
 msgid "Group columns %s"
 msgstr "Group columns %s"
 
-#: src/commands.c:2468
+#: src/commands.c:2474
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Ungroup columns %s"
 
-#: src/commands.c:2470
+#: src/commands.c:2476
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Group rows %d:%d"
 
-#: src/commands.c:2470
+#: src/commands.c:2476
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Ungroup rows %d:%d"
 
-#: src/commands.c:2708
+#: src/commands.c:2714
 #, c-format
 msgid "Moving %s"
 msgstr "Moving %s"
 
-#: src/commands.c:2717 src/commands.c:2944
+#: src/commands.c:2723 src/commands.c:2950
 msgid "is beyond sheet boundaries"
 msgstr "is beyond sheet boundaries"
 
-#: src/commands.c:2782
+#: src/commands.c:2788
 msgid "Paste Copy"
 msgstr "Paste Copy"
 
 #. FIXME?
-#: src/commands.c:2888
+#: src/commands.c:2894
 #, c-format
 msgid "Pasting into %s"
 msgstr "Pasting into %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2981 src/commands.c:3138 src/commands.c:3139
+#: src/commands.c:2987 src/commands.c:3144 src/commands.c:3145
 #: src/wbcg-actions.c:416
 msgid "Autofill"
 msgstr "Autofill"
 
 #. Changed in initial redo.
-#: src/commands.c:3162
+#: src/commands.c:3168
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autofilling %s"
 
-#: src/commands.c:3484
+#: src/commands.c:3490
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Autoformatting %s"
 
-#: src/commands.c:3602
+#: src/commands.c:3608
 #, c-format
 msgid "Unmerging %s"
 msgstr "Unmerging %s"
 
-#: src/commands.c:3767
+#: src/commands.c:3773
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Merge and Centre %s"
 
-#: src/commands.c:3767
+#: src/commands.c:3773
 #, c-format
 msgid "Merging %s"
 msgstr "Merging %s"
 
 #. Corrected below.
-#: src/commands.c:4149 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4155 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Search and Replace"
 
-#: src/commands.c:4246
+#: src/commands.c:4252
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Setting default width of columns to %.2fpts"
 
-#: src/commands.c:4247
+#: src/commands.c:4253
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Setting default height of rows to %.2fpts"
 
-#: src/commands.c:4364
+#: src/commands.c:4370
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s to %.0f%%"
 
-#: src/commands.c:4434
+#: src/commands.c:4440
 msgid "Insert object"
 msgstr "Insert object"
 
-#: src/commands.c:4493
+#: src/commands.c:4499
 msgid "Delete object"
 msgstr "Delete object"
 
-#: src/commands.c:4574
+#: src/commands.c:4580
 msgid "Resize object"
 msgstr "Resize object"
 
-#: src/commands.c:4574
+#: src/commands.c:4580
 msgid "Move object"
 msgstr "Move object"
 
-#: src/commands.c:5174
+#: src/commands.c:5180
 msgid "Reordering Sheets"
 msgstr "Reordering Sheets"
 
-#: src/commands.c:5177
+#: src/commands.c:5183
 msgid "Renaming Sheets"
 msgstr "Renaming Sheets"
 
-#: src/commands.c:5180
+#: src/commands.c:5186
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Appending %i Sheets"
 
-#: src/commands.c:5184
+#: src/commands.c:5190
 msgid "Changing Tab Colors"
 msgstr "Changing Tab Colours"
 
-#: src/commands.c:5187
+#: src/commands.c:5193
 msgid "Changing Sheet Protection"
 msgstr "Changing Sheet Protection"
 
-#: src/commands.c:5190
+#: src/commands.c:5196
 msgid "Delete sheets"
 msgstr "Delete sheets"
 
-#: src/commands.c:5193
+#: src/commands.c:5199
 msgid "Delete a sheet"
 msgstr "Delete a sheet"
 
-#: src/commands.c:5196
+#: src/commands.c:5202
 msgid "Changing Sheet Visibility"
 msgstr "Changing Sheet Visibility"
 
-#: src/commands.c:5199
+#: src/commands.c:5205
 msgid "Reorganizing Sheets"
 msgstr "Reorganizing Sheets"
 
-#: src/commands.c:5350
+#: src/commands.c:5356
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Clearing comment of %s"
 
-#: src/commands.c:5351
+#: src/commands.c:5357
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Setting comment of %s"
 
-#: src/commands.c:5731
+#: src/commands.c:5737
 #, c-format
 msgid "Merging data into %s"
 msgstr "Merging data into %s"
 
-#: src/commands.c:5833
+#: src/commands.c:5839
 msgid "Changing summary info"
 msgstr "Changing summary info"
 
-#: src/commands.c:5924
+#: src/commands.c:5930
 msgid "Raise object"
 msgstr "Raise object"
 
-#: src/commands.c:5927
+#: src/commands.c:5933
 msgid "Lower object"
 msgstr "Lower object"
 
-#: src/commands.c:5930
+#: src/commands.c:5936
 msgid "Raise object to top"
 msgstr "Raise object to top"
 
-#: src/commands.c:5933
+#: src/commands.c:5939
 msgid "Lower object to bottom"
 msgstr "Lower object to bottom"
 
-#: src/commands.c:6048
+#: src/commands.c:6054
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Page Setup For %s"
 
-#: src/commands.c:6050
+#: src/commands.c:6056
 msgid "Page Setup For All Sheets"
 msgstr "Page Setup For All Sheets"
 
-#: src/commands.c:6166
+#: src/commands.c:6172
 msgid "has a circular reference"
 msgstr "has a circular reference"
 
-#: src/commands.c:6189
+#: src/commands.c:6195
 #, c-format
 msgid "Define Name %s"
 msgstr "Define Name %s"
 
-#: src/commands.c:6192
+#: src/commands.c:6198
 #, c-format
 msgid "Update Name %s"
 msgstr "Update Name %s"
 
-#: src/commands.c:6256
+#: src/commands.c:6262
 msgid "Add scenario"
 msgstr "Add scenario"
 
-#: src/commands.c:6331
+#: src/commands.c:6337
 msgid "Scenario Show"
 msgstr "Scenario Show"
 
-#: src/commands.c:6395
+#: src/commands.c:6401
 msgid "Shuffle Data"
 msgstr "Shuffle Data"
 
 #. FIXME?
-#: src/commands.c:6506
+#: src/commands.c:6512
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) to Columns (%s)"
@@ -19813,28 +19813,28 @@ msgstr "Text (%s) to Columns (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6653 src/dialogs/solver.glade.h:17
+#: src/commands.c:6659 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:904 src/tools/solver/reports-write.c:955
 msgid "Solver"
 msgstr "Solver"
 
-#: src/commands.c:6740
+#: src/commands.c:6746
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Goal Seek (%s)"
 
-#: src/commands.c:6886
+#: src/commands.c:6892
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplicating %s"
 
-#: src/commands.c:6966
+#: src/commands.c:6972
 msgid "Tabulating Dependencies"
 msgstr "Tabulating Dependencies"
 
-#: src/commands.c:7042
+#: src/commands.c:7048
 msgid "Reconfigure Graph"
 msgstr "Reconfigure Graph"
 
@@ -19872,7 +19872,7 @@ msgid "O_utside"
 msgstr "O_utside"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1450
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1451
 msgid "_Cross"
 msgstr "_Cross"
 
@@ -19906,67 +19906,67 @@ msgstr "_Show Labels"
 msgid "_Type:"
 msgstr "_Type:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:630
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:631
 #: src/dialogs/dialog-random-generator.c:118
 #: src/tools/solver/reports-write.c:712
 msgid "Discrete"
 msgstr "Discrete"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:630
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:631
 msgid "Discrete mapping"
 msgstr "Discrete mapping"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:639
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:640
 msgid "Linear"
 msgstr "Linear"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:639
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:640
 msgid "Linear mapping"
 msgstr "Linear mapping"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:645
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:646
 msgid "Log"
 msgstr "Log"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:645
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:646
 msgid "Logarithm mapping"
 msgstr "Logarithm mapping"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1391
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1392
 msgid "Details"
 msgstr "Details"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1435
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1436
 msgid "Categories between _ticks"
 msgstr "Categories between _ticks"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1436
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1437
 msgid "Categories between _labels"
 msgstr "Categories between _labels"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1437
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1438
 msgid "_Cross at category #"
 msgstr "_Cross at category #"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1443
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1457
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1444
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1458
 msgid "Bounds"
 msgstr "Bounds"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1446
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1447
 #: src/dialogs/solver.glade.h:7
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1447
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1448
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1448
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1449
 msgid "Ma_jor Ticks"
 msgstr "Ma_jor Ticks"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1449
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1450
 msgid "Mi_nor Ticks"
 msgstr "Mi_nor Ticks"
 
@@ -19974,14 +19974,14 @@ msgstr "Mi_nor Ticks"
 #. * We need a way to toggle auto vs user formats
 #. * but the selector is too tall already
 #. * disable for now
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1472
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1479
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1473
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1480
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Format"
 msgstr "Format"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1508
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1509
 #: src/sheet-object-graphic.c:1443 src/wbcg-actions.c:1881
 msgid "Label"
 msgstr "Label"
@@ -20125,7 +20125,7 @@ msgid "_Text:"
 msgstr "_Text:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:112
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:405
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:414
 #: src/dialogs/dialog-stf.glade.h:18
 msgid "Data"
 msgstr "Data"
@@ -20147,16 +20147,16 @@ msgstr "Chart Theme"
 msgid "Series"
 msgstr "Series"
 
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:137
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:145
 msgid "Index:"
 msgstr "Index:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:154
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:162
 msgid "Settings"
 msgstr "Settings"
 
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:431
-#: src/tools/analysis-tools.c:3613
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:440
+#: src/tools/analysis-tools.c:3919
 msgid "Point"
 msgstr "Point"
 
@@ -20324,7 +20324,7 @@ msgstr "Error bars"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:2
-#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:5024
+#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:5330
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -22704,8 +22704,8 @@ msgstr "Could not create the FTest Tool dialog."
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Could not create the Sampling Tool dialog."
 
-#: src/dialogs/dialog-analysis-tools.c:1997 src/tools/analysis-tools.c:3020
-#: src/tools/analysis-tools.c:3099
+#: src/dialogs/dialog-analysis-tools.c:1997 src/tools/analysis-tools.c:3326
+#: src/tools/analysis-tools.c:3405
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
@@ -22809,8 +22809,8 @@ msgid "Mar"
 msgstr "Mar"
 
 #: src/dialogs/dialog-autoformat.c:77 src/dialogs/dialog-autoformat.c:81
-#: src/tools/analysis-tools.c:4408 src/tools/analysis-tools.c:4418
-#: src/tools/analysis-tools.c:4426
+#: src/tools/analysis-tools.c:4714 src/tools/analysis-tools.c:4724
+#: src/tools/analysis-tools.c:4732
 msgid "Total"
 msgstr "Total"
 
@@ -24576,8 +24576,8 @@ msgstr "_Fit Selection %"
 msgid "0.2"
 msgstr "0.2"
 
-#: src/dialogs/exp-smoothing.glade.h:3 src/tools/analysis-tools.c:3558
-#: src/tools/analysis-tools.c:3561
+#: src/dialogs/exp-smoothing.glade.h:3 src/tools/analysis-tools.c:3864
+#: src/tools/analysis-tools.c:3867
 msgid "Exponential Smoothing"
 msgstr "Exponential Smoothing"
 
@@ -24852,8 +24852,8 @@ msgstr "Bin _range:"
 msgid "C_umulative percentages"
 msgstr "C_umulative percentages"
 
-#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:5125
-#: src/tools/analysis-tools.c:5128
+#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:5431
+#: src/tools/analysis-tools.c:5434
 msgid "Histogram"
 msgstr "Histogram"
 
@@ -25046,8 +25046,8 @@ msgstr "3"
 msgid "C_olumns"
 msgstr "C_olumns"
 
-#: src/dialogs/moving-averages.glade.h:6 src/tools/analysis-tools.c:3425
-#: src/tools/analysis-tools.c:3428
+#: src/dialogs/moving-averages.glade.h:6 src/tools/analysis-tools.c:3731
+#: src/tools/analysis-tools.c:3734
 msgid "Moving Average"
 msgstr "Moving Average"
 
@@ -25350,8 +25350,8 @@ msgstr "0.95"
 msgid "Confidence level:"
 msgstr "Confidence level:"
 
-#: src/dialogs/regression.glade.h:6 src/tools/analysis-tools.c:3303
-#: src/tools/analysis-tools.c:3306
+#: src/dialogs/regression.glade.h:6 src/tools/analysis-tools.c:3609
+#: src/tools/analysis-tools.c:3612
 msgid "Regression"
 msgstr "Regression"
 
@@ -28423,13 +28423,13 @@ msgid "Comma separated values (CSV)"
 msgstr "Comma separated values (CSV)"
 
 #: src/tools/analysis-tools.c:220 src/tools/analysis-tools.c:409
-#: src/tools/analysis-tools.c:4352
+#: src/tools/analysis-tools.c:4658
 #, c-format
 msgid "Row %i"
 msgstr "Row %i"
 
 #: src/tools/analysis-tools.c:223 src/tools/analysis-tools.c:412
-#: src/tools/analysis-tools.c:4344
+#: src/tools/analysis-tools.c:4650
 #, c-format
 msgid "Column %i"
 msgstr "Column %i"
@@ -28444,9 +28444,7 @@ msgstr "Bin %i"
 msgid "Area %i"
 msgstr "Area %i"
 
-#: src/tools/analysis-tools.c:459 src/tools/analysis-tools.c:1553
-#: src/tools/analysis-tools.c:1555 src/tools/analysis-tools.c:1688
-#: src/tools/analysis-tools.c:1690
+#: src/tools/analysis-tools.c:459
 #, c-format
 msgid "Variable %i"
 msgstr "Variable %i"
@@ -28510,7 +28508,7 @@ msgstr "Sampling (%s)"
 msgid "Sample"
 msgstr "Sample"
 
-#: src/tools/analysis-tools.c:1558
+#: src/tools/analysis-tools.c:1561
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -28520,41 +28518,37 @@ msgstr ""
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 
-#: src/tools/analysis-tools.c:1635
+#: src/tools/analysis-tools.c:1812
 #, c-format
 msgid "z-Test (%s)"
 msgstr "z-Test (%s)"
 
-#: src/tools/analysis-tools.c:1645 src/tools/analysis-tools.c:1648
+#: src/tools/analysis-tools.c:1822 src/tools/analysis-tools.c:1825
 msgid "z-Test"
 msgstr "z-Test"
 
-#: src/tools/analysis-tools.c:1696
-msgid "The 2 input ranges must have the same size."
-msgstr "The 2 input ranges must have the same size."
-
-#: src/tools/analysis-tools.c:1705
+#: src/tools/analysis-tools.c:1870
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
-"df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
-"two-tail"
+"Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
+"tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
-"df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
-"two-tail"
+"Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
+"tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 
-#: src/tools/analysis-tools.c:1825
+#: src/tools/analysis-tools.c:2131
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr "t-Test, paired (%s)"
 
-#: src/tools/analysis-tools.c:1835 src/tools/analysis-tools.c:1838
-#: src/tools/analysis-tools.c:2224 src/tools/analysis-tools.c:2227
-#: src/tools/analysis-tools.c:2610 src/tools/analysis-tools.c:2613
+#: src/tools/analysis-tools.c:2141 src/tools/analysis-tools.c:2144
+#: src/tools/analysis-tools.c:2530 src/tools/analysis-tools.c:2533
+#: src/tools/analysis-tools.c:2916 src/tools/analysis-tools.c:2919
 msgid "t-Test"
 msgstr "t-Test"
 
-#: src/tools/analysis-tools.c:1872
+#: src/tools/analysis-tools.c:2178
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -28564,12 +28558,12 @@ msgstr ""
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 
-#: src/tools/analysis-tools.c:2214 src/tools/analysis-tools.c:2600
+#: src/tools/analysis-tools.c:2520 src/tools/analysis-tools.c:2906
 #, c-format
 msgid "t-Test (%s)"
 msgstr "t-Test (%s)"
 
-#: src/tools/analysis-tools.c:2258
+#: src/tools/analysis-tools.c:2564
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -28579,12 +28573,12 @@ msgstr ""
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 
-#: src/tools/analysis-tools.c:2650 src/tools/analysis-tools.c:2937
-#: src/tools/analysis-tools.c:2940
+#: src/tools/analysis-tools.c:2956 src/tools/analysis-tools.c:3243
+#: src/tools/analysis-tools.c:3246
 msgid "F-Test"
 msgstr "F-Test"
 
-#: src/tools/analysis-tools.c:2652
+#: src/tools/analysis-tools.c:2958
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -28592,16 +28586,16 @@ msgstr ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 
-#: src/tools/analysis-tools.c:2927
+#: src/tools/analysis-tools.c:3233
 #, c-format
 msgid "F-Test (%s)"
 msgstr "F-Test (%s)"
 
-#: src/tools/analysis-tools.c:3014
+#: src/tools/analysis-tools.c:3320
 msgid "Y Variable"
 msgstr "Y Variable"
 
-#: src/tools/analysis-tools.c:3073
+#: src/tools/analysis-tools.c:3379
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -28609,7 +28603,7 @@ msgstr ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
 
-#: src/tools/analysis-tools.c:3081
+#: src/tools/analysis-tools.c:3387
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  All numerical precision was lost in the computation."
@@ -28617,7 +28611,7 @@ msgstr ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  All numerical precision was lost in the computation."
 
-#: src/tools/analysis-tools.c:3089
+#: src/tools/analysis-tools.c:3395
 msgid ""
 "Two or more of the independent variables are linearly\n"
 "dependent, and the regression cannot be calculated.\n"
@@ -28631,7 +28625,7 @@ msgstr ""
 "Remove one of these\n"
 "variables and try the regression again."
 
-#: src/tools/analysis-tools.c:3116
+#: src/tools/analysis-tools.c:3422
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -28639,11 +28633,11 @@ msgstr ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 
-#: src/tools/analysis-tools.c:3139
+#: src/tools/analysis-tools.c:3445
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/Significance of F"
 
-#: src/tools/analysis-tools.c:3146
+#: src/tools/analysis-tools.c:3452
 #, c-format
 msgid ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
@@ -28652,7 +28646,7 @@ msgstr ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
 "%%"
 
-#: src/tools/analysis-tools.c:3163
+#: src/tools/analysis-tools.c:3469
 msgid ""
 "Probability of an observation's absolute value being larger than the t-"
 "value's"
@@ -28660,7 +28654,7 @@ msgstr ""
 "Probability of an observation's absolute value being larger than the t-"
 "value's"
 
-#: src/tools/analysis-tools.c:3271
+#: src/tools/analysis-tools.c:3577
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  Treat the regression result with great care!"
@@ -28668,178 +28662,178 @@ msgstr ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  Treat the regression result with great care!"
 
-#: src/tools/analysis-tools.c:3286
+#: src/tools/analysis-tools.c:3592
 #, c-format
 msgid "Regression (%s)"
 msgstr "Regression (%s)"
 
-#: src/tools/analysis-tools.c:3350
+#: src/tools/analysis-tools.c:3656
 msgid "Standard Error"
 msgstr "Standard Error"
 
-#: src/tools/analysis-tools.c:3412
+#: src/tools/analysis-tools.c:3718
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Moving Average (%s)"
 
-#: src/tools/analysis-tools.c:3545
+#: src/tools/analysis-tools.c:3851
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "Exponential Smoothing (%s)"
 
-#: src/tools/analysis-tools.c:3615
+#: src/tools/analysis-tools.c:3921
 msgid "Rank"
 msgstr "Rank"
 
-#: src/tools/analysis-tools.c:3616
+#: src/tools/analysis-tools.c:3922
 msgid "Percentile"
 msgstr "Percentile"
 
-#: src/tools/analysis-tools.c:3676
+#: src/tools/analysis-tools.c:3982
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Ranks (%s)"
 
-#: src/tools/analysis-tools.c:3688 src/tools/analysis-tools.c:3691
+#: src/tools/analysis-tools.c:3994 src/tools/analysis-tools.c:3997
 msgid "Ranks"
 msgstr "Ranks"
 
-#: src/tools/analysis-tools.c:3722
+#: src/tools/analysis-tools.c:4028
 msgid "Anova: Single Factor"
 msgstr "Anova: Single Factor"
 
-#: src/tools/analysis-tools.c:3723 src/tools/analysis-tools.c:4404
+#: src/tools/analysis-tools.c:4029 src/tools/analysis-tools.c:4710
 #: src/tools/simulation.c:343
 msgid "SUMMARY"
 msgstr "SUMMARY"
 
-#: src/tools/analysis-tools.c:3726
+#: src/tools/analysis-tools.c:4032
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Groups/Count/Sum/Average/Variance"
 
-#: src/tools/analysis-tools.c:3797
+#: src/tools/analysis-tools.c:4103
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 
-#: src/tools/analysis-tools.c:3803 src/tools/analysis-tools.c:4254
-#: src/tools/analysis-tools.c:4428
+#: src/tools/analysis-tools.c:4109 src/tools/analysis-tools.c:4560
+#: src/tools/analysis-tools.c:4734
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-value/F critical"
 
-#: src/tools/analysis-tools.c:4055
+#: src/tools/analysis-tools.c:4361
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "Single Factor ANOVA (%s)"
 
-#: src/tools/analysis-tools.c:4066 src/tools/analysis-tools.c:4735
+#: src/tools/analysis-tools.c:4372 src/tools/analysis-tools.c:5041
 msgid "Anova"
 msgstr "Anova"
 
-#: src/tools/analysis-tools.c:4069
+#: src/tools/analysis-tools.c:4375
 msgid "Single Factor ANOVA"
 msgstr "Single Factor ANOVA"
 
-#: src/tools/analysis-tools.c:4176
+#: src/tools/analysis-tools.c:4482
 msgid "The input range contains non-numeric data."
 msgstr "The input range contains non-numeric data."
 
-#: src/tools/analysis-tools.c:4184
+#: src/tools/analysis-tools.c:4490
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Two-Factor Without Replication"
 
-#: src/tools/analysis-tools.c:4185
+#: src/tools/analysis-tools.c:4491
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/SUMMARY/Count/Sum/Average/Variance"
 
-#: src/tools/analysis-tools.c:4248
+#: src/tools/analysis-tools.c:4554
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 
-#: src/tools/analysis-tools.c:4394
+#: src/tools/analysis-tools.c:4700
 msgid "One of the factor combinations does not contain any observations!"
 msgstr "One of the factor combinations does not contain any observations!"
 
 #. We are ready to create the summary table
-#: src/tools/analysis-tools.c:4403
+#: src/tools/analysis-tools.c:4709
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Two-Factor With Replication"
 
-#: src/tools/analysis-tools.c:4410
+#: src/tools/analysis-tools.c:4716
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Count/Sum/Average/Variance"
 
-#: src/tools/analysis-tools.c:4420
+#: src/tools/analysis-tools.c:4726
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 
-#: src/tools/analysis-tools.c:4719
+#: src/tools/analysis-tools.c:5025
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr "Two Factor ANOVA (%s), no replication"
 
-#: src/tools/analysis-tools.c:4720
+#: src/tools/analysis-tools.c:5026
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "Two Factor ANOVA (%s),  with replication"
 
-#: src/tools/analysis-tools.c:4738
+#: src/tools/analysis-tools.c:5044
 msgid "Two Factor ANOVA"
 msgstr "Two Factor ANOVA"
 
-#: src/tools/analysis-tools.c:4919
+#: src/tools/analysis-tools.c:5225
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/tools/analysis-tools.c:4923
+#: src/tools/analysis-tools.c:5229
 msgid "Too Small"
 msgstr "Too Small"
 
-#: src/tools/analysis-tools.c:4940
+#: src/tools/analysis-tools.c:5246
 msgid "More"
 msgstr "More"
 
-#: src/tools/analysis-tools.c:4949
+#: src/tools/analysis-tools.c:5255
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/tools/analysis-tools.c:4953
+#: src/tools/analysis-tools.c:5259
 msgid "Too Large"
 msgstr "Too Large"
 
-#: src/tools/analysis-tools.c:4997
+#: src/tools/analysis-tools.c:5303
 msgid "Bin"
 msgstr "Bin"
 
-#: src/tools/analysis-tools.c:5022
+#: src/tools/analysis-tools.c:5328
 msgid "Frequency"
 msgstr "Frequency"
 
-#: src/tools/analysis-tools.c:5027
+#: src/tools/analysis-tools.c:5333
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Cumulative %"
 
-#: src/tools/analysis-tools.c:5106
+#: src/tools/analysis-tools.c:5412
 #, c-format
 msgid "Histogram (%s)"
 msgstr "Histogram (%s)"
 
-#: src/tools/analysis-tools.c:5213 src/tools/solver/reports-write.c:644
+#: src/tools/analysis-tools.c:5519 src/tools/solver/reports-write.c:644
 msgid "Real"
 msgstr "Real"
 
-#: src/tools/analysis-tools.c:5214
+#: src/tools/analysis-tools.c:5520
 msgid "Imaginary"
 msgstr "Imaginary"
 
-#: src/tools/analysis-tools.c:5274
+#: src/tools/analysis-tools.c:5580
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Fourier Series (%s)"
 
-#: src/tools/analysis-tools.c:5286 src/tools/analysis-tools.c:5289
+#: src/tools/analysis-tools.c:5592 src/tools/analysis-tools.c:5595
 msgid "Fourier Series"
 msgstr "Fourier Series"
 
@@ -32367,23 +32361,23 @@ msgstr "An unexplained error happened while opening %s"
 msgid "Book%d.%s"
 msgstr "Book%d.%s"
 
-#: src/workbook.c:1258
+#: src/workbook.c:1260
 msgid "Sheet name is NULL"
 msgstr "Sheet name is NULL"
 
-#: src/workbook.c:1269
+#: src/workbook.c:1271
 msgid "Sheet name is not valid utf-8"
 msgstr "Sheet name is not valid utf-8"
 
-#: src/workbook.c:1278
+#: src/workbook.c:1280
 msgid "Sheet name must have at least 1 letter"
 msgstr "Sheet name must have at least 1 letter"
 
-#: src/workbook.c:1302
+#: src/workbook.c:1304
 msgid "There is already a sheet named"
 msgstr "There is already a sheet named"
 
-#: src/workbook.c:1316
+#: src/workbook.c:1318
 msgid "You may not use this name twice"
 msgstr "You may not use this name twice"
 
