@@ -602,7 +602,7 @@ cb_table_destroy (GtkObject *table, SheetControlGUI *scg)
 	}
 
 	scg->table = NULL;
-	SCG_FOREACH_PANE (scg, pane, pane->gcanvas = NULL;);
+	SCG_FOREACH_PANE (scg, pane, gnm_pane_release (pane););
 
 	g_object_unref (G_OBJECT (scg));
 }

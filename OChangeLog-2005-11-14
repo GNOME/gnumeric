@@ -1,3 +1,8 @@
+2003-07-01  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-control-gui.c (cb_table_destroy): Properly release
+	panes.
+
 2003-06-30  Morten Welinder  <terra@gnome.org>
 
 	* src/libgnumeric.c (gnm_common_init, gnm_shutdown): Style depends
