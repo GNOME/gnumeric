@@ -1,5 +1,11 @@
 2000-12-04  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-object.c (sheet_relocate_objects) : Remember to move the
+	  object to the new sheet, not just the views.
+	(sheet_object_position) : Off by one.  Use < not <=
+
+2000-12-04  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet.c (sheet_{insert,delete}_{cols,rows}) : Call
 	  sheet_relocate_objects.
 	(sheet_move_range) : Ditto.

@@ -189,8 +189,8 @@ sheet_object_position (SheetObject *so, CellPos const *pos)
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
 	if (pos != NULL &&
-	    so->cell_bound.end.col <= pos->col &&
-	    so->cell_bound.end.row <= pos->row)
+	    so->cell_bound.end.col < pos->col &&
+	    so->cell_bound.end.row < pos->row)
 		return;
 
 	for (l = so->realized_list; l; l = l->next) {
@@ -497,7 +497,9 @@ sheet_relocate_objects (ExprRelocateInfo const *rinfo)
 
 		if (change_sheets) {
 			sheet_object_unrealize (so);
+			so->sheet->sheet_objects = g_list_remove (so->sheet->sheet_objects, so);
 			so->sheet = rinfo->target_sheet;
+			so->sheet->sheet_objects = g_list_prepend (so->sheet->sheet_objects, so);
 			sheet_object_realize (so);
 		}
 		sheet_object_position (so, NULL);
