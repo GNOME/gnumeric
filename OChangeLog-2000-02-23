@@ -1,3 +1,8 @@
+2000-01-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (item_cursor_animation_callback) : Return TRUE
+	  so that the timer will remaing.
+
 2000-01-19  JP Rosevear  <jpr@arcavia.com>
 
 	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort): Modularize a

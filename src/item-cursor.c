@@ -39,11 +39,12 @@ enum {
 	ARG_STYLE,              /* The style type */
 };
 
-static void
+static int
 item_cursor_animation_callback (ItemCursor *item_cursor)
 {
 	item_cursor->state = !item_cursor->state;
 	item_cursor_request_redraw (item_cursor);
+	return TRUE;
 }
 
 static void
