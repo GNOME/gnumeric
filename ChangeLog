@@ -1,3 +1,24 @@
+2003-05-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/stf-parse.c (compare_terminator) : return the byte 
+	  length of the used terminator
+	(stf_parse_paresoptions_new): initialize the string indicator
+	  to our default
+	(stf_parse_next_token): pass all parse options, check also for 
+	  separators and terminators
+	(stf_parse_options_csv_set_stringindicator): the string 
+	  indicator could be a non-ascii character
+	(stf_parse_csv_cell): use the type information returned by 
+	  stf_parse_next_token
+	(stf_parse_eat_separators): Don't eat null bytes.
+	(stf_parse_get_rowcount): use stf_parse_next_token to avoid
+	  counting in-string newlines
+	* src/stf-parse.h (stf_parse_next_token): pass all parse
+	  options
+	(stf_parse_options_csv_set_stringindicator): the string
+	  indicator could be a non-ascii character
+	* src/stf.c
+
 2003-05-12  Jody Goldberg <jody@gnome.org>
 
 	* omf-install/Makefile.am : add missing ;

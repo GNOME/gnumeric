@@ -48,6 +48,7 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 	GString *sepc = g_string_new (NULL);
 	char *textfieldtext;
 	int i;
+	gunichar str_ind;
 
 	sepstr = NULL;
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_custom))) {
@@ -90,7 +91,10 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 	}
 
 	textfieldtext = gtk_editable_get_chars (GTK_EDITABLE (info->csv_textfield), 0, -1);
-	stf_parse_options_csv_set_stringindicator (parseoptions, textfieldtext[0]);
+	str_ind = g_utf8_get_char (textfieldtext);
+	if (str_ind != '\0')
+	     stf_parse_options_csv_set_stringindicator (parseoptions, 
+							str_ind);
 	g_free (textfieldtext);
 
 	stf_parse_options_csv_set_indicator_2x_is_single  (parseoptions,

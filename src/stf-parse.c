@@ -8,6 +8,9 @@
  * Copyright (C) Almer. S. Tigelaar.
  * EMail: almer1@dds.nl or almer-t@bigfoot.com
  *
+ * Copyright (C) 2003 Andreas J. Guelzow <aguelzow@taliesin.ca>
+ *
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -85,17 +88,16 @@ comp_term (gchar const *s, gchar const *term)
 		if (*term != *si)
 			return FALSE;
 	return TRUE;
-/* 	return !strncmp (s, term, strlen (term)); */
 }
 			
-static inline gboolean
+static inline gint
 compare_terminator (char const *s, StfParseOptions_t *parseoptions)
 {
 	GSList *term;
 	for (term = parseoptions->terminator; term; term = term->next) 
 		if (comp_term (s, (gchar const*)(term->data)))
-			return TRUE;
-	return FALSE;
+			return strlen ((gchar const*)(term->data));
+	return 0;
 }
 
 
@@ -126,6 +128,7 @@ stf_parse_options_new (void)
 
 	parseoptions->splitpositions    = g_array_new (FALSE, FALSE, sizeof (int));
 
+	parseoptions->stringindicator        = '"';
 	parseoptions->indicator_2x_is_single = TRUE;
 	parseoptions->duplicates             = FALSE;
 
@@ -301,7 +304,7 @@ stf_parse_options_csv_set_separators (StfParseOptions_t *parseoptions, char cons
 }
 
 void
-stf_parse_options_csv_set_stringindicator (StfParseOptions_t *parseoptions, char const stringindicator)
+stf_parse_options_csv_set_stringindicator (StfParseOptions_t *parseoptions, gunichar const stringindicator)
 {
 	g_return_if_fail (parseoptions != NULL);
 	g_return_if_fail (stringindicator != '\0');
@@ -483,35 +486,37 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 	
 	res = g_string_sized_new (30);
 	
-	while (cur && *cur && !compare_terminator (cur, parseoptions))
-		if ((next = stf_parse_csv_is_separator (cur, parseoptions->sep.chr, parseoptions->sep.str)))
+	while (cur && *cur) {
+		char const *here, *there;
+		
+		next = stf_parse_next_token (cur, parseoptions, &ttype);
+		here = cur;
+		there = next;
+		switch (ttype) {
+		case STF_TOKEN_STRING:
+			there = g_utf8_find_prev_char (here, there);
+			/* break */   /* fall through */
+		case STF_TOKEN_STRING_INC:
+			here = g_utf8_find_next_char (here, there);
+			/* break */   /* fall through */
+		case STF_TOKEN_CHAR:
+			if (here && there)
+				res = g_string_append_len (res, here, there - here);
 			break;
-		else {
-			char const *here, *there;
-			
-			next = stf_parse_next_token (cur, parseoptions->stringindicator, 
-						     parseoptions->indicator_2x_is_single, &ttype);
-			here = cur;
-			there = next;
-			switch (ttype) {
-			case STF_TOKEN_STRING:
-				there = g_utf8_find_prev_char (here, there);
-				/* break */   /* fall through */
-			case STF_TOKEN_STRING_INC:
-				here = g_utf8_find_next_char (here, there);
-				/* break */   /* fall through */
-			case STF_TOKEN_CHAR:
-				if (here && there)
-					res = g_string_append_len (res, here, there - here);
-				break;
-			case STF_TOKEN_UNDEF:
-				g_warning ("Undefined stf token type encountered!");
-				break;
-			}
+		case STF_TOKEN_SEPARATOR:
 			cur = next;
+			goto cellfinished;
+		case STF_TOKEN_TERMINATOR:
+			goto cellfinished;
+		case STF_TOKEN_UNDEF:
+			g_warning ("Undefined stf token type encountered!");
+			break;
 		}
+		cur = next;
+	}
 	
-	src->position = next;
+ cellfinished:
+	src->position = cur;
 	
 	if (parseoptions->indicator_2x_is_single) {
 		gboolean second = TRUE;
@@ -529,6 +534,7 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 		}
 	}
 	
+	printf ("stf_parse_csv_cell: >%s<\n", res->str);
 	
 	return g_string_free (res, FALSE);
 }
@@ -550,7 +556,7 @@ stf_parse_eat_separators (Source_t *src, StfParseOptions_t *parseoptions)
 
 	cur = src->position;
 
-	if (compare_terminator (cur, parseoptions))
+	if (*cur == '\0' || compare_terminator (cur, parseoptions))
 		return;
 	while ((next = stf_parse_csv_is_separator (cur, parseoptions->sep.chr, parseoptions->sep.str)))
 		cur = next;
@@ -751,12 +757,14 @@ stf_parse_get_rowcount (StfParseOptions_t *parseoptions, char const *data)
 	char const *s;
 	int rowcount = 0;
 	gboolean last_row_empty = TRUE;
+	StfTokenType_t ttype;
 
 	g_return_val_if_fail (parseoptions != NULL, 0);
 	g_return_val_if_fail (data != NULL, 0);
 
-	for (s = data; *s != '\0'; s++) {
-		if (compare_terminator (s, parseoptions)) {
+	for (s = data; s && *s != '\0'; 
+	     s = stf_parse_next_token(s, parseoptions, &ttype)) {
+		if (ttype == STF_TOKEN_TERMINATOR) {
 			rowcount++;
 			last_row_empty = TRUE;
 		} else
@@ -1403,19 +1411,25 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data)
  * returns the next token or NULL if there are no more tokens 
  */
 
-char *
-stf_parse_next_token (char const *data, gunichar quote, 
-		      gboolean adj_escaped, StfTokenType_t *tokentype)
+char const*
+stf_parse_next_token (char const *data, StfParseOptions_t *parseoptions, StfTokenType_t *tokentype)
 {
-	char *character;
+	char const *character;
 	StfTokenType_t ttype;
-	
+	gunichar quote;
+
 	g_return_val_if_fail (data != NULL, NULL);
+	g_return_val_if_fail (parseoptions != NULL, NULL);
+	g_return_val_if_fail (*data != '\0', NULL);
 	g_return_val_if_fail (g_utf8_validate (data, -1, NULL), NULL);
+	
+	quote= parseoptions->stringindicator;
 	
 	ttype = STF_TOKEN_CHAR;
 	character = g_utf8_find_next_char (data, NULL);
 	if (g_utf8_get_char (data) == quote) {
+		gboolean adj_escaped = parseoptions->indicator_2x_is_single;
+
 		ttype = STF_TOKEN_STRING_INC;
 		while (character && *character) {
 			if (g_utf8_get_char (character) == quote) {
@@ -1425,11 +1439,24 @@ stf_parse_next_token (char const *data, gunichar quote,
 					ttype = STF_TOKEN_STRING;
 					break;
 				}
-				
 			}
 			character = g_utf8_find_next_char (character, NULL);
 		}
+	} else {
+		gint term_length = compare_terminator (data, parseoptions);
+		if (term_length) {
+			ttype = STF_TOKEN_TERMINATOR;
+			character = data + term_length;
+		} else {
+			char const *after_sep = stf_parse_csv_is_separator 
+				(data, parseoptions->sep.chr, parseoptions->sep.str);
+			if (after_sep) {
+				character = after_sep;
+				ttype = STF_TOKEN_SEPARATOR;
+			}
+		}
 	}
+	
 	if (tokentype)
 		*tokentype = ttype;
 	return character;

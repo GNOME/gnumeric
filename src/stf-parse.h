@@ -12,7 +12,9 @@ typedef enum {
 	STF_TOKEN_UNDEF = 0,
 	STF_TOKEN_CHAR,
 	STF_TOKEN_STRING,
-	STF_TOKEN_STRING_INC
+	STF_TOKEN_STRING_INC,
+	STF_TOKEN_TERMINATOR,
+	STF_TOKEN_SEPARATOR
 } StfTokenType_t;
 
 typedef enum {
@@ -38,7 +40,7 @@ typedef struct {
 	  GSList *str;
 	  char   *chr;
      } sep;
-     char                 stringindicator;       /* String indicator */
+     gunichar                 stringindicator;       /* String indicator */
      gboolean             indicator_2x_is_single;/* 2 quote chars are a single non-terminating quote */
      gboolean             duplicates;            /* See two text separator's as one? */
      
@@ -70,7 +72,7 @@ void stf_parse_options_set_trim_spaces                 (StfParseOptions_t *parse
 void stf_parse_options_csv_set_separators              (StfParseOptions_t *parseoptions,
 								       char const *character, GSList const *string);
 void stf_parse_options_csv_set_stringindicator         (StfParseOptions_t *parseoptions,
-								       char const stringindicator);
+							gunichar const stringindicator);
 void stf_parse_options_csv_set_indicator_2x_is_single  (StfParseOptions_t *parseoptions,
 								       gboolean const indic_2x);
 void stf_parse_options_csv_set_duplicates              (StfParseOptions_t *parseoptions,
@@ -101,8 +103,9 @@ char const         *stf_parse_is_valid_data                           (char cons
 void                stf_parse_options_fixed_autodiscover              (StfParseOptions_t *parseoptions,
 								       int const data_lines, char const *data);
 
-char               *stf_parse_next_token                              (char const *data, gunichar quote, 
-								       gboolean adj_escaped, StfTokenType_t *tokentype);
+char const         *stf_parse_next_token                              (char const *data, 
+								       StfParseOptions_t *parseoptions,
+								       StfTokenType_t *tokentype);
 
 /* Higher level functions, can be used for directly parsing into an application specific data container */
 gboolean	    stf_parse_sheet                                   (StfParseOptions_t *parseoptions,

@@ -395,7 +395,7 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	char *name;
 	char *data;
 	StfParseOptions_t *po;
-	char *pos;
+	char const *pos;
 	unsigned int sep = 0, tab = 0, lines = 0;
 	int i;
 	gboolean last_was_newline = FALSE;
@@ -403,7 +403,6 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
         gunichar guni_tab = '\t';
 	gunichar guni_newline = '\n';
 	gunichar guni_carriage = '\r';
-	gunichar guni_quote = '\"';
 	gunichar guni_sep = format_get_arg_sep ();
 	
 	book = wb_view_workbook (wbv);
@@ -411,8 +410,17 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	if (!data)
 		return;
 
+        po = stf_parse_options_new ();
+
+	stf_parse_options_set_type (po, PARSE_TYPE_CSV);
+	stf_parse_options_set_trim_spaces (po, TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
+        stf_parse_options_set_lines_to_parse (po, -1);
+	stf_parse_options_csv_set_stringindicator (po, '"');
+	stf_parse_options_csv_set_indicator_2x_is_single (po, TRUE);
+	stf_parse_options_csv_set_duplicates (po, FALSE);
+
         for (i = STF_PROBE_SIZE, pos = data ; pos && *pos && i-- > 0; 
-	     pos = stf_parse_next_token (pos, guni_quote, TRUE, NULL)) {
+	     pos = stf_parse_next_token (pos, po, NULL)) {
 		gunichar this_char;
 		
 		this_char = g_utf8_get_char (pos);
@@ -433,16 +441,6 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	sheet = sheet_new (book, name);
 
 	workbook_sheet_attach (book, sheet, NULL);
-
-	po = stf_parse_options_new ();
-
-	stf_parse_options_set_type (po, PARSE_TYPE_CSV);
-	stf_parse_options_set_trim_spaces (po, TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
-	stf_parse_options_set_lines_to_parse (po, -1);
-
-	stf_parse_options_csv_set_stringindicator (po, '"');
-	stf_parse_options_csv_set_indicator_2x_is_single (po, TRUE);
-	stf_parse_options_csv_set_duplicates (po, FALSE);
 
 	/* Guess */
 	stf_parse_options_csv_set_separators (po, (guni_sep == ',') ? ",":";", NULL);

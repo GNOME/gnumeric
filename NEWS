@@ -1,5 +1,8 @@
 Gnumeric 1.1.18
 
+Andreas:
+	* Some more utf-8 cleaning in the stf parsers.
+ 
 Morten:
 	* New function COLUMNNUMBER.
 

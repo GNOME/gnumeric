@@ -1,3 +1,10 @@
+2003-05-12   Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-csv-page.c (csv_page_global_change): the string 
+	  indicator could be multibyte
+	* alog-stf-export.glade: replace Charset label to be consistent
+	  with import dialog
+
 2003-05-11  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.17
