@@ -134,7 +134,7 @@ init_shuffling_tool (data_shuffling_t *st, Sheet *sheet, Value *range,
 	st->dao   = dao;
 	st->sheet = sheet;
 
-	/* Initialize an array for bookeeping of the value pointers. */
+	/* Initialize an array for bookkeeping of the value pointers. */
 	st->values = g_new (Value **, st->rows);
 	for (i = 0; i < st->rows; i++)
 		st->values [i] = g_new0 (Value *, st->cols);
@@ -166,7 +166,7 @@ close_shuffling_tool (data_shuffling_t *st)
 		}
 	}
 
-	/* Free the bookeeping array. Since the Values are written into
+	/* Free the bookkeeping array. Since the Values are written into
 	 * a sheet using dao_set_cell_value, they don't have to be free'ed,
 	 * right?? */
 	for (i = 0; i < st->rows; i++)
