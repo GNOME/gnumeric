@@ -40,9 +40,10 @@ Joshua R. Odom:
 	* Reorganize the custom pixmaps.
 
 Morten:
-	Fix DATE2UNIX.  (Bug 70814.)
-	Fix compiler warnings.  (Well, fix the bugs they pointed out.)
-	Partially clean up regression code.
+	* Fix DATE2UNIX.  (Bug 70814.)
+	* Fix compiler warnings.  (Well, fix the bugs they pointed out.)
+	* Partially clean up regression code.
+	* Fix regression's singularity test.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.3

@@ -1,5 +1,9 @@
 2002-02-15  Morten Welinder  <terra@diku.dk>
 
+	* src/regression.c (LUPDecomp): Use fabs, not abs.
+
+2002-02-15  Morten Welinder  <terra@diku.dk>
+
 	* src/regression.c (general_linear_regression): Cleanup using
 	range functions.
 
