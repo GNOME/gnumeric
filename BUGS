@@ -12,9 +12,9 @@ Release Critical
     * improve uniform_get to handle full sheet more quickly.
 
 - Fix Borders
-    - diagonals
-    - intersections with grid lines
     - potentially batch the drawing by row to fix the bottom right corner
+    * diagonals
+    * cleanup new border code and use for previews and printing.
 
 Long term breakage
 ------------------
@@ -108,7 +108,6 @@ STF - pasting a single line should not invoke the importer
     : Add data member to Class to indicate 'simple' object
       types that can be rubber banded directly.
     : Add acetate_create virtual to handle shaped objects.
-    : finish auto slide
     : config dialog for arrows and graphic objects (set colour and arrow dir)
     : Other anchor types for sheet objects
 

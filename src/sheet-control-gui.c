@@ -39,7 +39,7 @@
 #include <string.h>
 #include <gal/widgets/e-cursors.h>
 
-static GtkTableClass *sheet_view_parent_class;
+static GtkTableClass *scg_parent_class;
 
 #if 0
 #ifndef __GNUC__
@@ -108,8 +108,8 @@ sheet_view_redraw_cell_region (SheetControlGUI *scg,
 	w = scg_colrow_distance_get (scg, TRUE, start_col, end_col+1);
 	h = scg_colrow_distance_get (scg, FALSE, start_row, end_row+1);
 
-	x += canvas->layout.xoffset - canvas->zoom_xofs;
-	y += canvas->layout.yoffset - canvas->zoom_yofs;
+	x += gsheet->col_offset.first;
+	y += gsheet->row_offset.first;
 
 #if 0
 	fprintf (stderr, "%s%d:", col_name(min_col), first_row+1);
@@ -709,8 +709,8 @@ sheet_view_destroy (GtkObject *object)
 	 * 1) clear the control points
 	 * 2) remove ourselves from the sheets list of views ?
 	 */
-	if (GTK_OBJECT_CLASS (sheet_view_parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (sheet_view_parent_class)->destroy)(object);
+	if (GTK_OBJECT_CLASS (scg_parent_class)->destroy)
+		(*GTK_OBJECT_CLASS (scg_parent_class)->destroy)(object);
 }
 
 static void
@@ -720,7 +720,7 @@ scg_class_init (SheetControlGUIClass *Class)
 
 	object_class = (GtkObjectClass *) Class;
 
-	sheet_view_parent_class = gtk_type_class (gtk_table_get_type ());
+	scg_parent_class = gtk_type_class (gtk_table_get_type ());
 
 	object_class->destroy = sheet_view_destroy;
 }
@@ -1331,9 +1331,73 @@ display_object_menu (SheetObject *so, GnomeCanvasItem *view, GdkEvent *event)
 	gnumeric_popup_menu (menu, &event->button);
 }
 
-static gboolean
-cb_slide_handler (SheetControlGUI *scg, int col, int row, gpointer ignored)
+static void
+scg_object_move (SheetControlGUI *scg, SheetObject *so,
+		 GnomeCanvasItem *so_view, GtkObject *ctrl_pt,
+		 gdouble new_x, gdouble new_y)
 {
+	int i, idx = GPOINTER_TO_INT (gtk_object_get_user_data (ctrl_pt));
+	double new_coords [4], dx, dy;
+
+	dx = new_x - scg->last_x;
+	dy = new_y - scg->last_y;
+	scg->last_x = new_x;
+	scg->last_y = new_y;
+
+	for (i = 4; i-- > 0; )
+		new_coords [i] = scg->object_coords [i];
+
+	switch (idx) {
+	case 0: new_coords [0] += dx;
+		new_coords [1] += dy;
+		break;
+	case 1: new_coords [1] += dy;
+		break;
+	case 2: new_coords [1] += dy;
+		new_coords [2] += dx;
+		break;
+	case 3: new_coords [0] += dx;
+		break;
+	case 4: new_coords [2] += dx;
+		break;
+	case 5: new_coords [0] += dx;
+		new_coords [3] += dy;
+		break;
+	case 6: new_coords [3] += dy;
+		break;
+	case 7: new_coords [2] += dx;
+		new_coords [3] += dy;
+		break;
+	case 8: new_coords [0] += dx;
+		new_coords [1] += dy;
+		new_coords [2] += dx;
+		new_coords [3] += dy;
+		break;
+
+	default:
+		g_warning ("Should not happen %d", idx);
+	}
+
+	/* Tell the object to update its co-ordinates */
+	scg_object_update_bbox (scg, so, so_view, new_coords);
+}
+
+static gboolean
+cb_slide_handler (SheetControlGUI *scg, int col, int row, gpointer user)
+{
+	int x, y;
+	gdouble new_x, new_y;
+	GnumericSheet   *gsheet  = GNUMERIC_SHEET (scg->canvas);
+	GtkObject *view = sheet_object_get_view (scg->current_object, scg);
+
+	x = scg_colrow_distance_get (scg, TRUE, gsheet->col.first, col);
+	x += gsheet->col_offset.first;
+	y = scg_colrow_distance_get (scg, FALSE, gsheet->row.first, row);
+	y += gsheet->row_offset.first;
+	gnome_canvas_c2w (GNOME_CANVAS (scg->canvas), x, y, &new_x, &new_y);
+	scg_object_move (scg, scg->current_object, GNOME_CANVAS_ITEM (view),
+			 user, new_x, new_y);
+
 	return TRUE;
 }
 
@@ -1349,7 +1413,6 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 {
 	SheetObject *so = sheet_object_view_obj (GTK_OBJECT (so_view));
 	SheetControlGUI *scg = sheet_object_view_control (GTK_OBJECT (so_view));
-	int idx;
 
 	switch (event->type) {
 	case GDK_ENTER_NOTIFY:
@@ -1394,8 +1457,7 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 	case GDK_MOTION_NOTIFY: {
 		GnomeCanvas *canvas = GNOME_CANVAS (scg->canvas);
 		GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-		double new_coords [4], dx, dy;
-		int i, col, row, x, y, left, top, width, height;
+		int col, row, x, y, left, top, width, height;
 
 		if (scg->drag_object != so)
 			return FALSE;
@@ -1424,55 +1486,13 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 
 
 			if (sheet_view_start_sliding (scg, cb_slide_handler,
-						      NULL, col, row, dx, dy))
+						      ctrl_pt, col, row, dx, dy))
 
 				return TRUE;
 		}
 		sheet_view_stop_sliding (scg);
-
-		idx = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (ctrl_pt)));
-
-		dx = event->motion.x - scg->last_x;
-		dy = event->motion.y - scg->last_y;
-		scg->last_x = event->motion.x;
-		scg->last_y = event->motion.y;
-
-		for (i = 4; i-- > 0; )
-			new_coords [i] = scg->object_coords [i];
-
-		switch (idx) {
-		case 0: new_coords [0] += dx;
-			new_coords [1] += dy;
-			break;
-		case 1: new_coords [1] += dy;
-			break;
-		case 2: new_coords [1] += dy;
-			new_coords [2] += dx;
-			break;
-		case 3: new_coords [0] += dx;
-			break;
-		case 4: new_coords [2] += dx;
-			break;
-		case 5: new_coords [0] += dx;
-			new_coords [3] += dy;
-			break;
-		case 6: new_coords [3] += dy;
-			break;
-		case 7: new_coords [2] += dx;
-			new_coords [3] += dy;
-			break;
-		case 8: new_coords [0] += dx;
-			new_coords [1] += dy;
-			new_coords [2] += dx;
-			new_coords [3] += dy;
-			break;
-
-		default:
-			g_warning ("Should not happen %d", idx);
-		}
-
-		/* Tell the object to update its co-ordinates */
-		scg_object_update_bbox (scg, so, so_view, new_coords);
+		scg_object_move (scg, so, so_view, GTK_OBJECT (ctrl_pt),
+				 event->motion.x, event->motion.y);
 		break;
 	}
 
@@ -1975,7 +1995,7 @@ scg_comment_unselect (SheetControlGUI *scg, CellComment *cc)
 
 int
 scg_colrow_distance_get (SheetControlGUI const *scg, gboolean is_cols,
-		  int from, int to)
+			 int from, int to)
 {
 	ColRowCollection const *collection;
 	int default_size;
