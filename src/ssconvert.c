@@ -111,7 +111,7 @@ main (int argc, char *argv [])
 				fprintf (stderr, " | %s\n",
 					gnm_file_saver_get_description (ptr->data));
 			}
-		} else if (args[0] && args[1]) {
+		} else if (args && args[0] && args[1]) {
 			IOContext    *io_context = gnumeric_io_context_new (cc);
 			WorkbookView *wbv = wb_view_new_from_file (args[0], NULL,
 				io_context, ssconvert_import_encoding);
@@ -140,6 +140,9 @@ main (int argc, char *argv [])
 			}
 			g_object_unref (wb_view_workbook (wbv));
 			g_object_unref (io_context);
+		} else {
+			poptPrintUsage(ctx, stderr, 0);
+			exit (1);
 		}
 	}
 	g_object_unref (cc);
