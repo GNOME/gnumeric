@@ -1,3 +1,8 @@
+2000-06-19  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-function-wizard.c (cb_formula_guru_entry_focus_in): Make
+	"OK" button default.
+
 2000-06-19  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* print-glade.h: Add comment to please xgettext.
