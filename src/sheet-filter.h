@@ -51,13 +51,13 @@ GnmFilterCondition *gnm_filter_condition_new_bucket (gboolean top,
 						     unsigned n);
 void		    gnm_filter_condition_unref 	    (GnmFilterCondition *cond);
 
-GnmFilter *gnm_filter_new		(Sheet *sheet, Range const *r);
-void	   gnm_filter_free		(GnmFilter *filter);
-void	   gnm_filter_remove		(GnmFilter *filter);
-void	   gnm_filter_set_condition	(GnmFilter *filter, unsigned i,
-					 GnmFilterCondition *cond,
-					 gboolean apply);
-
-gboolean   gnm_filter_contains_row (GnmFilter const *filter, int row);
+GnmFilter 		 *gnm_filter_new	    (Sheet *sheet, Range const *r);
+void	   		  gnm_filter_free	    (GnmFilter *filter);
+void	   		  gnm_filter_remove	    (GnmFilter *filter);
+GnmFilterCondition const *gnm_filter_get_condition  (GnmFilter *filter, unsigned i);
+void	   		  gnm_filter_set_condition  (GnmFilter *filter, unsigned i,
+						     GnmFilterCondition *cond,
+						     gboolean apply);
+gboolean		  gnm_filter_contains_row   (GnmFilter const *filter, int row);
 
 #endif /* GNUMERIC_FILTER_H */

@@ -29,6 +29,7 @@
 #include "dialogs.h"
 
 #include <sheet.h>
+#include <sheet-filter.h>
 #include <cell.h>
 #include <ranges.h>
 #include <gui-util.h>
@@ -155,15 +156,26 @@ advanced_filter (WorkbookControl        *wbc,
 
 static
 gboolean 
-cb_show_all (ColRowInfo *info, Sheet *sheet)
+cb_show_all (ColRowInfo *ri, Sheet *sheet)
 {
-	colrow_set_visibility (sheet, FALSE, TRUE, info->pos, info->pos);
+	if (ri->in_filter && !ri->visible)
+		colrow_set_visibility (sheet, FALSE, TRUE, ri->pos, ri->pos);
 	return FALSE;
 }
 
 void
 filter_show_all (Sheet *sheet)
 {
+	GSList *ptr = sheet->filters;
+	GnmFilter *filter;
+	unsigned i;
+
+	for (; ptr != NULL ; ptr = ptr->next) {
+		filter = ptr->data;
+		for (i = filter->fields->len; i-- > 0 ;)
+			gnm_filter_set_condition (filter, i, NULL, FALSE);
+	}
+
 	/* FIXME: This is slow. We should probably have a linked list
 	 * containing the filtered rows in the sheet structure. */
 	colrow_foreach (&(sheet->rows), 0, SHEET_MAX_ROWS,

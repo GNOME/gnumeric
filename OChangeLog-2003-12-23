@@ -1,3 +1,19 @@
+2002-12-05  Jody Goldberg <jody@gnome.org>
+
+	* src/style-color.c (gnumeric_color_init) : swap green to yellow
+
+	* src/gui-util.c (gnumeric_create_tooltip) : use gs_yellow.
+
+	* src/tools/filter.c (filter_show_all) : clear filters.
+
+	* src/sheet-filter.c (filter_field_apply) : #$^@# fix inversion of
+	  'top' and 'bottom'
+	(collect_unique_elements) : Store the value
+	(gnm_filter_get_condition) : new.
+	(cb_filter_find_percentage) : new.
+	(cb_hide_unwanted_percentage) : new.
+	(filter_field_apply) : implement top/bottom percentage filters.
+
 2002-12-05  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook-control-gui.c: Attempt to reinstate pixmap for

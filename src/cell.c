@@ -236,11 +236,12 @@ cell_set_text (Cell *cell, char const *text)
  *    is for use by routines that wish to store values directly such
  *    as expression calculation or import for array formulas.
  *
- * The value is rendered but spans are not calculated.
- *
- * WARNING : This is an internal routine that does not queue redraws,
- *           does not auto-resize, does not calculate spans, does
- *           not mark anything as dirty.
+ * WARNING : This is an internal routine that does not
+ * 	- queue redraws,
+ *	- auto-resize
+ *	- calculate spans
+ *	- does not render.
+ *	- mark anything as dirty.
  *
  * NOTE : This DOES NOT check for array partitioning.
  */
@@ -259,9 +260,11 @@ cell_assign_value (Cell *cell, Value *v)
  * cell_set_value : Stores (WITHOUT COPYING) the supplied value.  It marks the
  *          sheet as dirty.
  *
- * WARNING : This is an internal routine that does not queue redraws,
- *           does not auto-resize, does not calculate spans, and it does it
- *           does not render.
+ * WARNING : This is an internal routine that does not
+ * 	- queue redraws,
+ *	- auto-resize
+ *	- calculate spans
+ *	- does not render.
  *
  * NOTE : This DOES check for array partitioning.
  **/

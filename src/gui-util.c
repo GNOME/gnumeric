@@ -721,7 +721,7 @@ gnumeric_create_tooltip (void)
 
 		for (i = 5; --i >= 0 ; ) {
 			rc_style->color_flags[i] = GTK_RC_BG;
-			e_color_alloc_name (NULL, "LightYellow",  &rc_style->bg[i]);
+			rc_style->bg[i] = gs_yellow;
 		}
 	}
 

@@ -247,7 +247,7 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 
 		if (set_condition) {
 			gnm_filter_set_condition (field->filter, field->i,
-					 cond, TRUE);
+						  cond, TRUE);
 			sheet_update (field->filter->dep.sheet);
 		}
 	}
@@ -356,7 +356,7 @@ collect_unique_elements (GnmFilterField *field,
 		gtk_list_store_append (model, &iter);
 		gtk_list_store_set (model, &iter,
 			0, value_peek_string (v),
-			1, NULL,
+			1, v,
 			2, 0,
 			-1);
 		if (i == 10)
@@ -545,12 +545,16 @@ filter_field_class_init (GObjectClass *object_class)
 GSF_CLASS (GnmFilterField, filter_field,
 	   filter_field_class_init, NULL, SHEET_OBJECT_TYPE);
 
+/*****************************************************************************/
+
 static Value *
 cb_filter_expr (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
 {
 #warning TODO
 	return NULL;
 }
+
+/*****************************************************************************/
 
 static Value *
 cb_filter_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
@@ -570,20 +574,23 @@ cb_filter_non_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
 	return NULL;
 }
 
+/*****************************************************************************/
+
 typedef struct {
 	unsigned count;
 	unsigned elements;
 	gboolean find_max;
 	Value const **vals;
-} FilterMinMax;
+} FilterItems;
 
 static Value *
-cb_filter_find_minmax (Sheet *sheet, int col, int row, Cell *cell, FilterMinMax *data)
+cb_filter_find_items (Sheet *sheet, int col, int row, Cell *cell,
+		       FilterItems *data)
 {
 	Value const *v = cell->value;
 	if (data->elements >= data->count) {
 		unsigned j, i = data->elements;
-		ValueCompare const cond = data->find_max ? IS_LESS : IS_GREATER;
+		ValueCompare const cond = data->find_max ? IS_GREATER : IS_LESS;
 		while (i-- > 0)
 			if (value_compare (v, data->vals[i], TRUE) == cond) {
 				for (j = 0; j < i ; j++)
@@ -596,15 +603,15 @@ cb_filter_find_minmax (Sheet *sheet, int col, int row, Cell *cell, FilterMinMax 
 		if (data->elements == data->count) {
 			qsort (data->vals, data->elements,
 			       sizeof (Value *),
-			       data->find_max ? value_cmp_reverse : value_cmp);
+			       data->find_max ? value_cmp : value_cmp_reverse);
 		}
 	}
 	return NULL;
 }
 
 static Value *
-cb_hide_the_rest (Sheet *sheet, int col, int row, Cell *cell,
-		  FilterMinMax const *data)
+cb_hide_unwanted_items (Sheet *sheet, int col, int row, Cell *cell,
+			FilterItems const *data)
 {
 	int i = data->elements;
 	Value const *v = cell->value;
@@ -615,6 +622,52 @@ cb_hide_the_rest (Sheet *sheet, int col, int row, Cell *cell,
 	colrow_set_visibility (sheet, FALSE, FALSE, row, row);
 	return NULL;
 }
+
+/*****************************************************************************/
+
+typedef struct {
+	gboolean	initialized, find_max;
+	gnum_float	low, high;
+} FilterPercentage;
+
+static Value *
+cb_filter_find_percentage (Sheet *sheet, int col, int row, Cell *cell,
+			   FilterPercentage *data)
+{
+	if (VALUE_IS_NUMBER (cell->value)) {
+		gnum_float const v = value_get_as_float (cell->value);
+
+		if (data->initialized) {
+			if (data->low > v)
+				data->low = v;
+			else if (data->high < v)
+				data->high = v;
+		} else {
+			data->initialized = TRUE;
+			data->low = data->high = v;
+		}
+	}
+	return NULL;
+}
+
+static Value *
+cb_hide_unwanted_percentage (Sheet *sheet, int col, int row, Cell *cell,
+			     FilterPercentage const *data)
+{
+	if (VALUE_IS_NUMBER (cell->value)) {
+		gnum_float const v = value_get_as_float (cell->value);
+		if (data->find_max) {
+			if (v >= data->high)
+				return NULL;
+		} else {
+			if (v <= data->low)
+				return NULL;
+		}
+	}
+	colrow_set_visibility (sheet, FALSE, FALSE, row, row);
+	return NULL;
+}
+/*****************************************************************************/
 
 static void
 filter_field_apply (GnmFilterField *field)
@@ -644,9 +697,24 @@ filter_field_apply (GnmFilterField *field)
 			cb_filter_non_blanks, NULL);
 	else if (0x30 == (field->cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
 		if (field->cond->op[0] & 0x2) { /* relative */
-#warning TODO
+			FilterPercentage data;
+			gnum_float	 offset;
+
+			data.find_max = (field->cond->op[0] & 0x1) ? FALSE : TRUE;
+			data.initialized = FALSE;
+			sheet_foreach_cell_in_range (filter->dep.sheet,
+				CELL_ITER_IGNORE_HIDDEN,
+				col, start_row, col, end_row,
+				(CellIterFunc) cb_filter_find_percentage, &data);
+			offset = (data.high - data.low) * field->cond->count / 100.;
+			data.high -= offset;
+			data.low  += offset;
+			sheet_foreach_cell_in_range (filter->dep.sheet,
+				CELL_ITER_IGNORE_HIDDEN,
+				col, start_row, col, end_row,
+				(CellIterFunc) cb_hide_unwanted_percentage, &data);
 		} else { /* absolute */
-			FilterMinMax data;
+			FilterItems data;
 			data.find_max = (field->cond->op[0] & 0x1) ? FALSE : TRUE;
 			data.elements    = 0;
 			data.count  = field->cond->count;
@@ -654,11 +722,11 @@ filter_field_apply (GnmFilterField *field)
 			sheet_foreach_cell_in_range (filter->dep.sheet,
 				CELL_ITER_IGNORE_HIDDEN,
 				col, start_row, col, end_row,
-				(CellIterFunc) cb_filter_find_minmax, &data);
+				(CellIterFunc) cb_filter_find_items, &data);
 			sheet_foreach_cell_in_range (filter->dep.sheet,
 				CELL_ITER_IGNORE_HIDDEN,
 				col, start_row, col, end_row,
-				(CellIterFunc) cb_hide_the_rest, &data);
+				(CellIterFunc) cb_hide_unwanted_items, &data);
 		}
 	} else
 		g_warning ("Invalid operator %d", field->cond->op[0]);
@@ -793,12 +861,38 @@ gnm_filter_remove (GnmFilter *filter)
 	}
 }
 
+/**
+ * gnm_filter_get_condition :
+ * @filter :
+ * @i :
+ *
+ **/
+GnmFilterCondition const *
+gnm_filter_get_condition (GnmFilter *filter, unsigned i)
+{
+	GnmFilterField *field;
+
+	g_return_val_if_fail (filter != NULL, NULL);
+	g_return_val_if_fail (i < filter->fields->len, NULL);
+
+	field = g_ptr_array_index (filter->fields, i);
+	return field->cond;
+}
+
+/**
+ * gnm_filter_set_condition :
+ * @filter :
+ * @i :
+ * @cond :
+ * @apply :
+ *
+ **/
 void
 gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 			  GnmFilterCondition *cond,
 			  gboolean apply)
 {
-	GnmFilterField	*field;
+	GnmFilterField *field;
 	gboolean set_infilter = FALSE;
 	gboolean existing_cond;
 	int r;

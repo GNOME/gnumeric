@@ -76,35 +76,35 @@ Pending Patches
     21.1)  clip size for long lists				(DONE)
     21.2)  fix mouse events for scrolled combos
     21.3)  race condition on start				(DONE)
-    21.4)  expression filters
+    21.4)  top 10 dialog					(DONE)
     21.5)  top 10 item filters					(DONE)
-    21.6)  top 10 percentage filters
+    21.6)  top 10 percentage filters				(DONE)
     21.7)  blank filters					(DONE)
     21.8)  visual cue that row in part of a filter		(DONE)
     21.9)  visual cue that a field is active			(DONE)
     21.10) select the current condition in the combos		(DONE)
-    21.11) top 10 dialog					(DONE)
+    21.11) expression filters
     21.12) expression dialog
     21.13) Handle range changes (cut-n-paste or ins/del col/row)
-    21.14) xml import/export
-    21.15) Handle the relationship between groups and filters	(DONE)
+    21.14) Handle the relationship between groups and filters	(DONE)
+    21.15) xml import/export
     21.16) sax import/export
     21.17) Fix cursor redraw after filter			(DONE)
     21.18) Link filters to Show All menu			(DONE)
-    21.19) Have the show all action clear filter conditions
+    21.19) Have the show all action clear filter conditions	(DONE)
 
 22) Add dirty flags to workbook too, adding a sheet should
     make workbook dirty not the new sheet.
 
 Functions
-    ODDFPRICE
-    ODDFYEILD
-    YIELDDISC
+    ODDFPRICE	(test fails)
+    ODDFYEILD	(unimplementeD)
+    YIELDDISC	(test fails by alot)
     openoffice/scaddins/source/analysis/analysishelper.cxx
     has copies of these.  Although the code looks simplistic
     Need to read the docs
-	ODDLPRICE
-	ODDLYEILD
+	ODDLPRICE	(test fails, so does OO)
+	ODDLYEILD	(test fails, so does OO)
 
 UTF-8:
     - Window titles.

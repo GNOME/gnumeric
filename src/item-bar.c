@@ -201,7 +201,7 @@ item_bar_realize (FooCanvasItem *item)
 	ib->text_gc = gdk_gc_new (window);
 	gdk_gc_set_foreground (ib->text_gc, &style->text[GTK_STATE_NORMAL]);
 	ib->filter_gc = gdk_gc_new (window);
-	gdk_gc_set_foreground (ib->filter_gc, &gs_green);
+	gdk_gc_set_foreground (ib->filter_gc, &gs_yellow);
 	ib->shade = gdk_gc_new (window);
 	gdk_gc_set_foreground (ib->shade, &style->dark[GTK_STATE_NORMAL]);
 	ib->lines = gdk_gc_new (window);
