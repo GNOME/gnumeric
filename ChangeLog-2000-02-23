@@ -23,6 +23,7 @@
 	* src/workbook.c (sheet_action_delete_sheet) : Use a
 	  workbook_expr_relocate to invalidate references to the contents of
 	  the deleted sheet.
+	(cb_sheet_erase) : Renamed to cb_sheet_destroy_contents.
 
 	* src/sheet.c (sheet_destroy_contents) : Renamed from
 	  sheet_destroy_columns_and_rows.  Delete the cells directly

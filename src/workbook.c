@@ -199,7 +199,7 @@ create_ellipse_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-cb_sheet_do_erase (gpointer key, gpointer value, gpointer user_data)
+cb_sheet_destroy_contents (gpointer key, gpointer value, gpointer user_data)
 {
 	Sheet *sheet = value;
 	sheet_destroy_contents (sheet);
@@ -239,8 +239,11 @@ workbook_do_destroy (Workbook *wb)
 	summary_info_free (wb->summary_info);
 	wb->summary_info = NULL;
 
-	/* Erase all cells.  This does NOT remove links between sheets */
-	g_hash_table_foreach (wb->sheets, cb_sheet_do_erase, NULL);
+	/* Erase all cells.  This does NOT remove links between sheets
+	 * but we don't care beacuse the other sheets are going to be
+	 * deleted too.
+	 */
+	g_hash_table_foreach (wb->sheets, &cb_sheet_destroy_contents, NULL);
 
 	if (wb->auto_expr_desc)
 		string_unref (wb->auto_expr_desc);
