@@ -41,7 +41,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint fs_signals [LAST_SIGNAL] = { 0 };
+static guint fs_signals[LAST_SIGNAL] = { 0 };
 
 static void
 reload_preview (FontSelector *fs, MStyle *style)
@@ -49,13 +49,13 @@ reload_preview (FontSelector *fs, MStyle *style)
 	if (style != NULL) {
 		MStyle *old = fs->mstyle;
 		gtk_signal_emit (GTK_OBJECT (fs),
-			fs_signals [FONT_CHANGED], style);
+			fs_signals[FONT_CHANGED], style);
 		fs->mstyle = mstyle_copy_merge (old, style);
 		mstyle_unref (old);
 	}
 
 	gnome_canvas_request_redraw (fs->font_preview_canvas, INT_MIN, INT_MIN,
-				     INT_MAX/2, INT_MAX/2);
+				     INT_MAX / 2, INT_MAX / 2);
 }
 
 /*
@@ -94,9 +94,9 @@ fs_fill_font_name_list (FontSelector *fs)
 
 	 for (l = gnumeric_font_family_list; l; l = l->next) {
 		 char *name = l->data;
-		 char *array [1];
+		 char *array[1];
 
-		 array [0] = name;
+		 array[0] = name;
 
 		 gtk_clist_append (GTK_CLIST (fs->font_name_list), array);
 	 }
@@ -109,7 +109,7 @@ fs_fill_font_name_list (FontSelector *fs)
 		 GTK_SIGNAL_FUNC (list_mapped), NULL);
 }
 
-static char *styles [] = {
+static char *styles[] = {
 	 N_("Normal"),
 	 N_("Bold"),
 	 N_("Bold italic"),
@@ -143,7 +143,7 @@ style_selected (GtkCList *style_list, int col, int row, GdkEvent *event, FontSel
 		 break;
 	 }
 
-	 gtk_entry_set_text (GTK_ENTRY (fs->font_style_entry), _(styles [row]));
+	 gtk_entry_set_text (GTK_ENTRY (fs->font_style_entry), _(styles[row]));
 	 reload_preview (fs, change);
 	 mstyle_unref (change);
 }
@@ -154,29 +154,32 @@ fs_fill_font_style_list (FontSelector *fs)
 	 GtkCList *style_list = GTK_CLIST (fs->font_style_list);
 	 int i;
 
-	 for (i = 0; styles [i] != NULL; i++) {
-		 char *array [1];
-		 array [0] = _(styles [i]);
+	 for (i = 0; styles[i] != NULL; i++) {
+		 char *array[1];
+		 array[0] = _(styles[i]);
 
 		 gtk_clist_append (style_list, array);
 	 }
 	 gtk_signal_connect (
 		 GTK_OBJECT (fs->font_style_list), "select_row",
-		 GTK_SIGNAL_FUNC(style_selected), fs);
+		 GTK_SIGNAL_FUNC (style_selected), fs);
 	 gtk_signal_connect (
 		 GTK_OBJECT (fs->font_style_list), "map",
-		 GTK_SIGNAL_FUNC(list_mapped), NULL);
+		 GTK_SIGNAL_FUNC (list_mapped), NULL);
 }
 
 static void
 size_selected (GtkCList *size_list, int col, int row, GdkEvent *event, FontSelector *fs)
 {
+	 MStyle *change = mstyle_new ();
 	 gchar *text;
 
 	 row = GPOINTER_TO_INT (size_list->selection->data);
 	 gtk_clist_get_text (size_list, row, 0, &text);
 	 gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), text);
-	 mstyle_set_font_size (fs->mstyle, atof (text));
+	 mstyle_set_font_size (change, atof (text));
+	 reload_preview (fs, change);
+	 mstyle_unref (change);
 }
 
 static void
@@ -200,17 +203,17 @@ fs_fill_font_size_list (FontSelector *fs)
 {
 	int i;
 
-	for (i = 0; gnumeric_point_sizes [i] != 0; i++) {
-		char buffer [4 * sizeof (int)];
-		char *array [1];
+	for (i = 0; gnumeric_point_sizes[i] != 0; i++) {
+		char buffer[4 * sizeof (int)];
+		char *array[1];
 
-		sprintf (buffer, "%d", gnumeric_point_sizes [i]);
-		array [0] = buffer;
+		sprintf (buffer, "%d", gnumeric_point_sizes[i]);
+		array[0] = buffer;
 		gtk_clist_append (GTK_CLIST (fs->font_size_list), array);
 	}
 	gtk_signal_connect (
 		GTK_OBJECT (fs->font_size_list), "select_row",
-		GTK_SIGNAL_FUNC(size_selected), fs);
+		GTK_SIGNAL_FUNC (size_selected), fs);
 	gtk_signal_connect (
 		GTK_OBJECT (fs->font_size_list), "map",
 		GTK_SIGNAL_FUNC (list_mapped), NULL);
@@ -335,6 +338,11 @@ fs_destroy (GtkObject *object)
 		fs->mstyle = NULL;
 	}
 
+	if (fs->gui) {
+		gtk_object_unref (GTK_OBJECT (fs->gui));
+		fs->gui = NULL;
+	}
+
 	((GtkObjectClass *)fs_parent_class)->destroy (object);
 }
 
@@ -345,7 +353,7 @@ fs_class_init (GtkObjectClass *Class)
 
 	fs_parent_class = gtk_type_class (gtk_hbox_get_type ());
 
-	fs_signals [FONT_CHANGED] =
+	fs_signals[FONT_CHANGED] =
 		gtk_signal_new (
 			"font_changed",
 			GTK_RUN_LAST,
@@ -512,14 +520,14 @@ font_selector_set_points (FontSelector *fs,
 	g_return_if_fail (fs != NULL);
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 
-	for (i = 0; gnumeric_point_sizes [i] != 0; i++) {
-		if (gnumeric_point_sizes [i] == point_size) {
+	for (i = 0; gnumeric_point_sizes[i] != 0; i++) {
+		if (gnumeric_point_sizes[i] == point_size) {
 			select_row (fs->font_size_list, i);
 			break;
 		}
 	}
 
-	if (gnumeric_point_sizes [i] == 0) {
+	if (gnumeric_point_sizes[i] == 0) {
 		char *buffer;
 		buffer = g_strdup_printf ("%g", point_size);
 		gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), buffer);

@@ -27,6 +27,9 @@ Pending Patches
 Long term breakage
 ------------------
 
+- In the format-cells dialog, font tab, selecting (say) "Bold" and hitting apply
+  leaks an mstyle consistently.
+
 - Outline mode 
     : Ins/Del col/row breaks
 

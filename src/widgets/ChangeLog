@@ -1,3 +1,8 @@
+2000-11-09  Morten Welinder  <terra@diku.dk>
+
+	* widget-font-selector.c (size_selected): Use reload_preview.
+	(fs_destroy): Plug leak.
+
 2001-11-09  Jody Goldberg <jgoldberg@home.com>
 
 	* gnumeric-expr-entry.c (gnumeric_expr_entry_rangesel_start) : begin
