@@ -1,3 +1,8 @@
+2003-04-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* dialog-fill-series.c, fill-series.glade, dialogs.h: UI for a new
+	filling tool just like in XL.
+
 2003-04-02  Jukka Pekka  <jiivonen.hutcs.cs.hut.fi>
 
 	* dialog-shuffle.c, shuffle.glade: UI for data shuffling tool.

@@ -37,6 +37,7 @@ base_files =					\
 	dialog-col-width.c			\
 	dialog-col-row.c			\
 	dialog-consolidate.c			\
+	dialog-fill-series.c			\
 	dialog-function-select.c		\
 	dialog-formula-guru.c			\
 	dialog-goal-seek.c			\
@@ -105,6 +106,7 @@ glade_DATA = 				\
 	dialog-stf.glade		\
 	dialog-zoom.glade		\
 	exp-smoothing.glade		\
+	fill-series.glade		\
 	font-sel.glade			\
 	formula-guru.glade		\
 	fourier-analysis.glade		\

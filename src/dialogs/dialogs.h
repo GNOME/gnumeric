@@ -52,6 +52,7 @@ void     dialog_consolidate	(WorkbookControlGUI *wbcg);
 void     dialog_pivottable	(WorkbookControlGUI *wbcg);
 void     dialog_sheet_order	(WorkbookControlGUI *wbcg);
 void     dialog_row_height	(WorkbookControlGUI *wbcg, gboolean set_default);
+void	 dialog_fill_series     (WorkbookControlGUI *wbcg);
 void     dialog_col_width	(WorkbookControlGUI *wbcg, gboolean set_default);
 void     dialog_hyperlink	(WorkbookControlGUI *wbcg, SheetControl *sc);
 
