@@ -79,6 +79,31 @@ tool_set_focus_output_range (G_GNUC_UNUSED GtkWidget *widget,
 		    (GTK_TOGGLE_BUTTON (state->output_range), TRUE);
 }
 
+/**
+ * dialog__tool_preset_to_range:
+ * @state:
+ *
+ * Load selection into range and switch to output range
+ *
+ **/
+
+void 
+dialog_tool_preset_to_range (GenericToolState *state)
+{
+	Range const *sel;
+	GtkWidget *w = glade_xml_get_widget (state->gui,
+						  "notebook1");
+
+	sel = selection_first_range (state->sv, NULL, NULL);
+	if (sel)
+		gnm_expr_entry_load_from_range (state->output_entry,
+						state->sheet, sel);
+	tool_set_focus_output_range (NULL, NULL, state);
+
+	if (w && GTK_IS_NOTEBOOK (w))
+		gtk_notebook_set_current_page (GTK_NOTEBOOK(w), 0); 
+}
+
 
 /**
  * dialog_tool_init_outputs:

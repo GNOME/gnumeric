@@ -813,8 +813,7 @@ dialog_random_tool_init (RandomToolState *state)
 
 	first = selection_first_range (state->base.sv, NULL, NULL);
 	if (first != NULL) {
-		gnm_expr_entry_load_from_range (state->base.output_entry,
-						state->base.sheet, first);
+		dialog_tool_preset_to_range (&state->base);
 		int_to_entry (GTK_ENTRY (state->count_entry),
 			      first->end.row - first->start.row + 1);
 		int_to_entry (GTK_ENTRY (state->vars_entry),

@@ -50,6 +50,7 @@ typedef struct {
 	GtkWidget *warning_dialog;
 	GtkWidget *warning;
 
+#warning  FIXME: The following 2 items do not belong into the GenericToolState
         scenario_state_t *scenario_state;
         GtkWidget *name_entry;
 } GenericToolState;

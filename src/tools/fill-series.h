@@ -20,17 +20,14 @@ typedef struct {
         gboolean                series_in_rows;
         gnm_float               step_value;
         gnm_float               stop_value;
+        gnm_float               start_value;
         gboolean                is_step_set;
         gboolean                is_stop_set;
 
-	Range const             *sel;
-        gnm_float               v0;
+	gint                    n;
 } fill_series_t;
 
-
-void fill_series (WorkbookControl        *wbc,
-		  data_analysis_output_t *dao,
-		  Sheet                  *sheet,
-		  fill_series_t          *fs);
+gboolean fill_series_engine (data_analysis_output_t *dao, gpointer specs, 
+			     analysis_tool_engine_t selector, gpointer result);
 
 #endif

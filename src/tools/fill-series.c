@@ -2,10 +2,12 @@
 /*
  * fill-series.c: Fill according to a linear or exponential serie.
  *
- * Author:
+ * Authors:
  *        Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
+ *        Andreas J. Guelzow  <aguelzow@taliesin.ca>
  *
  * (C) Copyright 2003 by Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
+ * (C) Copyright 2003 by Andreas J. Guelzow  <aguelzow@taliesin.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,6 +40,8 @@
 #include <workbook-edit.h>
 #include <format.h>
 #include <workbook.h>
+#include "tools.h"
+#include "numbers.h"
 
 #include <glade/glade.h>
 #include <widgets/gnumeric-expr-entry.h>
@@ -48,123 +52,415 @@
 
 
 static void
-iterate (fill_series_t *fs, Cell *cell, gnm_float *v, Sheet *sheet,
-	 StyleFormat *style_format)
+do_row_filling_wday (data_analysis_output_t *dao, fill_series_t *info)
 {
-	Value *value;
+	int i;
+	gnm_float start = info->start_value;
+	GDate        date;
+	GnmDateConventions const *conv =
+		workbook_date_conv (dao->sheet->workbook);
 
-	value = value_new_float (*v);
-	sheet_cell_set_value (cell, value);
-
-	if (fs->type == FillSeriesTypeLinear)
-		*v += fs->step_value;
-	else if (fs->type == FillSeriesTypeGrowth)
-		*v *= fs->step_value;
-	else {
-		GDate        date;
+	
+	for (i = 0; i < info->n; i++) {
+		int steps = (i * info->step_value) + 0.5;
+		int days = (steps / 5) * 7 + steps % 5;
 		GDateWeekday wd;
-		int          step = fs->step_value;
 
-		GnmDateConventions const *conv =
-			workbook_date_conv (sheet->workbook);
-
-
-		value_set_fmt (value, style_format);
+		datetime_serial_to_g (&date, start, conv);
+		wd = g_date_get_weekday (&date);
+		if (wd + (steps % 5) > G_DATE_FRIDAY)
+				days += 2;
+		if (days > 0)
+			g_date_add_days (&date, days);
+		else
+			g_date_subtract_days (&date, - days);
 		
-		datetime_serial_to_g (&date, value_get_as_int (value), conv);
+		dao_set_cell_float (dao, i, 0, 
+				    datetime_g_to_serial (&date, conv));
+	}
 
-		switch (fs->date_unit) {
-		case FillSeriesUnitDay :
-			*v += fs->step_value; break;
-		case FillSeriesUnitWeekday :
-			wd = g_date_get_weekday (&date);
-			v += (step / 5) * 7;
-			*v += step % 5;
-			if (wd + (step % 5) > G_DATE_FRIDAY)
-				*v += 2;
+}
+
+static void
+do_column_filling_wday (data_analysis_output_t *dao, fill_series_t *info)
+{
+	int i;
+	gnm_float start = info->start_value;
+	GDate        date;
+	GnmDateConventions const *conv =
+		workbook_date_conv (dao->sheet->workbook);
+
+	
+	for (i = 0; i < info->n; i++) {
+		int steps = (i * info->step_value) + 0.5;
+		int days = (steps / 5) * 7 + steps % 5;
+		GDateWeekday wd;
+
+		datetime_serial_to_g (&date, start, conv);
+		wd = g_date_get_weekday (&date);
+		if (wd + (steps % 5) > G_DATE_FRIDAY)
+				days += 2;
+		if (days > 0)
+			g_date_add_days (&date, days);
+		else
+			g_date_subtract_days (&date, - days);
+		
+		dao_set_cell_float (dao, 0,i, 
+				    datetime_g_to_serial (&date, conv));
+	}
+
+
+}
+
+static void
+do_row_filling_month (data_analysis_output_t *dao, fill_series_t *info)
+{
+	int i;
+	gnm_float start = info->start_value;
+	GDate        date;
+	GnmDateConventions const *conv =
+		workbook_date_conv (dao->sheet->workbook);
+
+	
+	for (i = 0; i < info->n; i++) {
+		datetime_serial_to_g (&date, start, conv);
+		if (info->step_value > 0)
+			g_date_add_months (&date, i * info->step_value);
+		else
+			g_date_subtract_months (&date,- i * info->step_value);
+		
+		dao_set_cell_float (dao, i, 0, 
+				    datetime_g_to_serial (&date, conv));
+	}
+}
+
+static void
+do_column_filling_month (data_analysis_output_t *dao, fill_series_t *info)
+{
+	int i;
+	gnm_float start = info->start_value;
+	GDate        date;
+	GnmDateConventions const *conv =
+		workbook_date_conv (dao->sheet->workbook);
+
+	
+	for (i = 0; i < info->n; i++) {
+		datetime_serial_to_g (&date, start, conv);
+		if (info->step_value > 0)
+			g_date_add_months (&date, i * info->step_value);
+		else
+			g_date_subtract_months (&date,- i * info->step_value);
+		
+		dao_set_cell_float (dao, 0, i, 
+				    datetime_g_to_serial (&date, conv));
+	}
+}
+
+static void
+do_row_filling_year (data_analysis_output_t *dao, fill_series_t *info)
+{
+	int i;
+	gnm_float start = info->start_value;
+	GDate        date;
+	GnmDateConventions const *conv =
+		workbook_date_conv (dao->sheet->workbook);
+
+	
+	for (i = 0; i < info->n; i++) {
+		datetime_serial_to_g (&date, start, conv);
+		if (info->step_value > 0)
+			g_date_add_years (&date, i * info->step_value);
+		else
+			g_date_subtract_years (&date,- i * info->step_value);
+		
+		dao_set_cell_float (dao, i, 0, 
+				    datetime_g_to_serial (&date, conv));
+	}
+}
+
+static void
+do_column_filling_year (data_analysis_output_t *dao, fill_series_t *info)
+{
+	int i;
+	gnm_float start = info->start_value;
+	GDate        date;
+	GnmDateConventions const *conv =
+		workbook_date_conv (dao->sheet->workbook);
+
+	
+	for (i = 0; i < info->n; i++) {
+		datetime_serial_to_g (&date, start, conv);
+		if (info->step_value > 0)
+			g_date_add_years (&date, i * info->step_value);
+		else
+			g_date_subtract_years (&date,- i * info->step_value);
+		
+		dao_set_cell_float (dao, 0, i, 
+				    datetime_g_to_serial (&date, conv));
+	}
+}
+
+static void
+do_row_filling_linear (data_analysis_output_t *dao, fill_series_t *info)
+{
+	int i;
+	gnm_float start = info->start_value;
+	gnm_float step = info->step_value;
+
+	for (i = 0; i < info->n; i++) {
+		dao_set_cell_float (dao, i, 0, start);
+		start += step;
+	}
+}
+
+static void
+do_column_filling_linear (data_analysis_output_t *dao, fill_series_t *info)
+{
+	int i;
+	gnm_float start = info->start_value;
+	gnm_float step = info->step_value;
+
+	for (i = 0; i < info->n; i++) {
+		dao_set_cell_float (dao, 0, i, start);
+		start += step;
+	}
+}
+
+static void
+do_row_filling_growth (data_analysis_output_t *dao, fill_series_t *info)
+{
+	int i;
+	gnm_float start = info->start_value;
+	gnm_float step = info->step_value;
+
+	for (i = 0; i < info->n; i++) {
+		dao_set_cell_float (dao, i, 0, start);
+		start *= step;
+	}
+}
+
+static void
+do_column_filling_growth (data_analysis_output_t *dao, fill_series_t *info)
+{
+	int i;
+	gnm_float start = info->start_value;
+	gnm_float step = info->step_value;
+
+	for (i = 0; i < info->n; i++) {
+		dao_set_cell_float (dao, 0, i, start);
+		start *= step;
+	}
+}
+
+static void
+fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
+{
+	int length_of_series = -1;
+	int length_of_space = info->series_in_rows 
+		? dao->cols : dao->rows;
+	
+	if (info->type == FillSeriesTypeDate && 
+	    info->date_unit != FillSeriesUnitDay) {
+		if (info->is_step_set)
+			info->step_value = floorgnum (info->step_value + 0.5);
+		else    /* FIXME */
+			info->step_value = 1;
+		if (info->is_stop_set) {
+			GDate        from_date, to_date;
+			GnmDateConventions const *conv =
+				workbook_date_conv (dao->sheet->workbook);
+
+			if (info->step_value < 0) {
+				datetime_serial_to_g (&from_date, 
+						      info->stop_value, conv);
+				datetime_serial_to_g (&to_date, 
+						      info->start_value, conv);
+			} else {
+				datetime_serial_to_g (&from_date, 
+						      info->start_value, conv);
+				datetime_serial_to_g (&to_date, 
+						      info->stop_value, conv);
+			}
+			switch (info->date_unit) {
+			case FillSeriesUnitDay:
+				/* This should not happen*/
+				break;
+			case FillSeriesUnitWeekday:
+			{
+				int days;
+				days = g_date_days_between 
+					(&from_date, &to_date);
+				length_of_series = (days / 7) * 5 + 1 
+					+ (days % 7);
+				if (length_of_series < 1)
+					length_of_series = 1;
+			}
 			break;
-		case FillSeriesUnitMonth :
-			g_date_add_months (&date, fs->step_value);
-			*v = datetime_g_to_serial (&date, conv);
+			case FillSeriesUnitMonth: 
+			{
+				GDateYear    from_year, to_year;
+				GDateMonth    from_month, to_month;
+				gint months;
+
+				from_year = g_date_get_year(&from_date);
+				to_year = g_date_get_year(&to_date);
+				from_month = g_date_get_month(&from_date);
+				to_month = g_date_get_month(&to_date);
+				g_date_set_year (&to_date, from_year);
+				
+				if (g_date_compare (&from_date, &to_date) > 0)
+					months = (to_year - from_year) * 12 +
+						(to_month - from_month);
+				else
+					months = (to_year - from_year) * 12 +
+						(to_month - from_month) + 1;
+				length_of_series = months 
+					/ (int)(info->step_value + 0.5);
+				if (length_of_series < 1)
+					length_of_series = 1;
+			}
 			break;
-		case FillSeriesUnitYear :
-			g_date_add_years (&date, fs->step_value);
-			*v = datetime_g_to_serial (&date, conv);
+			case FillSeriesUnitYear:
+			{
+				GDateYear    from_year, to_year;
+				gint years;
+
+				from_year = g_date_get_year(&from_date);
+				to_year = g_date_get_year(&to_date);
+				g_date_set_year (&to_date, from_year);
+				if (g_date_compare (&from_date, &to_date) > 0)
+					years = to_year - from_year;
+				else
+					years = to_year - from_year + 1;
+				length_of_series = years 
+					/ (int)(info->step_value + 0.5);
+				if (length_of_series < 1)
+					length_of_series = 1;
+			}
 			break;
-		default:
-			/* We should not get here. */
-			break;
+			}
+			
+		}
+	} else {
+		if (!info->is_step_set) {
+			switch (info->type) {
+			case FillSeriesTypeDate:
+			case FillSeriesTypeLinear:
+				info->step_value = 
+					(info->stop_value - info->start_value)/
+					(length_of_space - 1);
+				break;
+			case FillSeriesTypeGrowth:
+				info->step_value = 
+					(loggnum(info->stop_value) - 
+					 loggnum(info->start_value))/
+					(length_of_space - 1);
+				break;
+			}
+			info->is_step_set = TRUE;
+		} else if (info->is_stop_set) {
+			switch (info->type) {
+			case FillSeriesTypeDate:
+			case FillSeriesTypeLinear:
+				length_of_series 
+					= floorgnum(GNUM_EPSILON + 1.5 +
+						    (info->stop_value 
+						     - info->start_value)/
+						    info->step_value);
+				if (length_of_series < 0)
+					length_of_series = 1;
+				break;
+			case FillSeriesTypeGrowth:
+				length_of_series 
+					= floorgnum(GNUM_EPSILON + 1.5 +
+						    (loggnum(info->stop_value) 
+						     - loggnum(info->start_value))/
+						    info->step_value);
+				if (length_of_series < 0)
+					length_of_series = 1;
+				break;
+			}
 		}
 	}
-}
-
-static void
-do_row_filling (Sheet *sheet, fill_series_t *fs)
-{
-	int         col;
-	gnm_float   v;
-	Cell        *cell;
-
-	static StyleFormat *style_format = NULL;
-
-	if (style_format == NULL)
-		style_format = style_format_default_date ();
-
-	col = fs->sel->start.col;
- 
-	for (v = fs->v0; ; col++) {
-		if ((fs->is_stop_set && v > fs->stop_value) ||
-		    (!fs->is_stop_set && col > fs->sel->end.col) ||
-		    col >= SHEET_MAX_COLS-1)
-			break;
-
-		cell = sheet_cell_fetch (sheet, col, fs->sel->start.row);
-		iterate (fs, cell, &v, sheet, style_format);
+	if (info->series_in_rows) {
+		dao_adjust (dao, length_of_series, 1);
+		info->n = dao->cols;
+	} else {
+		dao_adjust (dao, 1, length_of_series);
+		info->n = dao->rows;
 	}
+	if (length_of_series > 0)
+		info->n = length_of_series;
 }
 
-static void
-do_column_filling (Sheet *sheet, fill_series_t *fs)
+gboolean fill_series_engine (data_analysis_output_t *dao, gpointer specs, 
+			     analysis_tool_engine_t selector, gpointer result)
 {
-	int       row;
-	gnm_float v;
-	Cell      *cell;
+	fill_series_t *info = specs;
 
-	static StyleFormat *style_format = NULL;
-
-	if (style_format == NULL)
-		style_format = style_format_default_date ();
-
-	row = fs->sel->start.row;
- 
-	for (v = fs->v0; ; row++ ) {
-		if ((fs->is_stop_set && v > fs->stop_value) ||
-		    (!fs->is_stop_set && row > fs->sel->end.row) ||
-		    row >= SHEET_MAX_ROWS-1)
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("Fill Series (%s)"),
+						result) == NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+		fill_series_adjust_variables (dao, info);
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		return FALSE;
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return FALSE;
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("Fill Series"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("Fill Series"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		switch (info->type) {
+		case FillSeriesTypeLinear:
+			if (info->series_in_rows)
+				do_row_filling_linear (dao, info);
+			else
+				do_column_filling_linear (dao, info);
 			break;
-
-		cell = sheet_cell_fetch (sheet, fs->sel->start.col, row);
-		iterate (fs, cell, &v, sheet, style_format);
+		case FillSeriesTypeGrowth:
+			if (info->series_in_rows)
+				do_row_filling_growth (dao, info);
+			else
+				do_column_filling_growth (dao, info);
+			break;
+		case FillSeriesTypeDate:
+			switch (info->date_unit) {
+			case FillSeriesUnitDay:
+				if (info->series_in_rows)
+					do_row_filling_linear (dao, info);
+				else
+					do_column_filling_linear (dao, info);
+				break;
+			case FillSeriesUnitWeekday:
+				if (info->series_in_rows)
+					do_row_filling_wday (dao, info);
+				else
+					do_column_filling_wday (dao, info);
+				break;
+			case FillSeriesUnitMonth: 
+				if (info->series_in_rows)
+					do_row_filling_month (dao, info);
+				else
+					do_column_filling_month (dao, info);
+				break;
+			case FillSeriesUnitYear:
+				if (info->series_in_rows)
+					do_row_filling_year (dao, info);
+				else
+					do_column_filling_year (dao, info);
+				break;
+			}
+			dao_set_date (dao, 0, 0, 
+				      dao->cols - 1, dao->rows -1);
+			break;
+		}
+		return FALSE;
 	}
-}
-
-void
-fill_series (WorkbookControl        *wbc,
-	     data_analysis_output_t *dao,
-	     Sheet                  *sheet,
-	     fill_series_t          *fs)
-{
-	Cell *cell;
-
-	cell = sheet_cell_get (sheet, fs->sel->start.col, fs->sel->start.row);
-	if (cell == NULL || ! VALUE_IS_NUMBER (cell->value))
-		return;
-	fs->v0 = value_get_as_float (cell->value);
-
-	if (fs->series_in_rows)
-		do_row_filling (sheet, fs);
-	else
-		do_column_filling (sheet, fs);
-
-	sheet_redraw_all (sheet, TRUE);
+	return TRUE;  /* We shouldn't get here */
 }

@@ -1,3 +1,14 @@
+2003-07-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.c: in all calls to dao_set_style, pass the raw
+	coordinates, since we otehrwise translate twice
+	(dao_set_date): new
+	(dao_set_percentage): do not hardcode the format
+	(dao_adjust): use -1 to mean no change
+	(dao_set_style): if we don't use the mstyle, release it
+	* dao.h (dao_set_date): new
+	* fill-series.[ch]: essentially rewrite to make undoable
+
 2003-06-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* analysis-tools.c: spelling fix

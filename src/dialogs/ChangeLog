@@ -1,3 +1,15 @@
+2003-07-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao-gui-utils.h (dialog_tool_preset_to_range): new
+	* dao-gui-utils.c (dialog_tool_preset_to_range): new
+	* dialog-fill-series.c: rewrite for the redesign dialog and
+	make undoable
+	* dialog-random-generator.c (dialog_random_tool_init): use
+	dialog_tool_preset_to_range rather than direct 
+	gnm_expr_entry_load_from_range
+	* fill-series.glade: redesign
+	* tool-dialogs.h: add fixme warning
+
 2003-07-09  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-main-page.c (main_page_set_spin_button_adjustment):

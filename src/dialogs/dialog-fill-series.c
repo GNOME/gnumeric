@@ -26,6 +26,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "tool-dialogs.h"
 
 #include <gui-util.h>
 #include <selection.h>
@@ -37,127 +38,207 @@
 #include <cmd-edit.h>
 #include <workbook-edit.h>
 #include <command-context.h>
+#include <value.h>
+#include <selection.h>
+#include <rendered-value.h>
+#include <cell.h>
 
 #include <dao-gui-utils.h>
 
 #include <glade/glade.h>
 #include "fill-series.h"
 
-#define INSERT_CELL_DIALOG_KEY "insert-cells-dialog"
+#define FILL_SERIES_KEY "fill-series-dialog"
 
 typedef struct {
-	WorkbookControlGUI *wbcg;
-	GtkWidget          *dialog;
-	GtkWidget          *ok_button;
-	GtkWidget          *cancel_button;
-	Range const        *sel;
-	Sheet              *sheet;
-	GladeXML           *gui;
+	GenericToolState base;
+	GtkWidget          *start_entry;
+	GtkWidget          *stop_entry;
+	GtkWidget          *step_entry;
+	GtkWidget          *date_steps_type;
 } FillSeriesState;
 
-static gboolean
-fill_series_destroy (GtkObject *w, FillSeriesState *state)
+static void
+cb_fill_series_update_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
+				   FillSeriesState *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
+	gboolean   ready  = FALSE;
+	gboolean   step, stop;
+	gint       i;
+        Value      *output_range;
+	gnm_float      a_float;
 
-	wbcg_edit_detach_guru (state->wbcg);
+        output_range = gnm_expr_entry_parse_as_value
+		(GNM_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
+	i = gnumeric_glade_group_value (state->base.gui, output_group);
 
-	if (state->gui != NULL) {
-		g_object_unref (G_OBJECT (state->gui));
-		state->gui = NULL;
-	}
+	ready = ((i != 2) ||
+		  (output_range != NULL));
+        if (output_range != NULL) value_release (output_range);
 
-	state->dialog = NULL;
-	g_free (state);
+	step = !entry_to_float (GTK_ENTRY (state->step_entry),
+				&a_float, FALSE);
+	stop = !entry_to_float (GTK_ENTRY (state->stop_entry),
+				&a_float,FALSE);
 
-	return FALSE;
+	ready = ready && !entry_to_float (GTK_ENTRY (state->start_entry),
+					 &a_float,
+					 FALSE)
+		&& ((i == 2 && (step || stop)) || (step && stop));
+	
+	gtk_widget_set_sensitive (state->base.clear_outputrange_button, (i == 2));
+	gtk_widget_set_sensitive (state->base.retain_format_button, (i == 2));
+	gtk_widget_set_sensitive (state->base.retain_comments_button, (i == 2));
+
+	gtk_widget_set_sensitive (state->base.ok_button, ready);
 }
 
 static void
-cb_insert_cell_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
+cb_fill_series_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 			   FillSeriesState *state)
 {
-	GtkWidget       *radio, *entry;
-	int             cols, rows;
+	GtkWidget       *radio;
+	fill_series_t           *fs;
+	data_analysis_output_t  *dao;
 
-	fill_series_t           fs;
-	data_analysis_output_t  dao;
-
+	fs = g_new0 (fill_series_t, 1);
+	dao  = parse_output ((GenericToolState *)state, NULL);
 
 	/* Read the `Series in' radio buttons. */
-	radio = glade_xml_get_widget (state->gui, "series_in_rows");
-	g_return_if_fail (radio != NULL);
-
-	fs.series_in_rows = ! gtk_radio_group_get_selected
+	radio = glade_xml_get_widget (state->base.gui, "series_in_rows");
+	fs->series_in_rows = ! gtk_radio_group_get_selected
 	        (GTK_RADIO_BUTTON (radio)->group);
 
 	/* Read the `Type' radio buttons. */
-	radio = glade_xml_get_widget (state->gui, "type_linear");
-	g_return_if_fail (radio != NULL);
-
-	fs.type = gtk_radio_group_get_selected
+	radio = glade_xml_get_widget (state->base.gui, "type_linear");
+	fs->type = gtk_radio_group_get_selected
 	        (GTK_RADIO_BUTTON (radio)->group);
 
 	/* Read the `Date unit' radio buttons. */
-	radio = glade_xml_get_widget (state->gui, "unit_day");
-	g_return_if_fail (radio != NULL);
-
-	fs.date_unit = gtk_radio_group_get_selected
+	radio = glade_xml_get_widget (state->base.gui, "unit_day");
+	fs->date_unit = gtk_radio_group_get_selected
 	        (GTK_RADIO_BUTTON (radio)->group);
 
-
-	cols   = range_width (state->sel);
-	rows   = range_height (state->sel);
-	fs.sel = state->sel;
-
-	/* Read the `Step' value. */
-	entry = glade_xml_get_widget (state->gui, "step_entry");
-	g_return_if_fail (entry != NULL);
-	fs.is_step_set = ! entry_to_float (GTK_ENTRY (entry), &fs.step_value,
-					   TRUE);
-	if (! fs.is_step_set && cols == 1 && rows == 1)
-		goto out;  /* Cannot do series. */
-
-	/* Read the `Stop' value. */
-	entry = glade_xml_get_widget (state->gui, "stop_entry");
-	g_return_if_fail (entry != NULL);
-	fs.is_stop_set = ! entry_to_float (GTK_ENTRY (entry), &fs.stop_value,
-					   TRUE);
-	if (! fs.is_stop_set && cols == 1 && rows == 1)
-		goto out;  /* Cannot do series. */
-
-	fill_series (WORKBOOK_CONTROL (state->wbcg), &dao, state->sheet, &fs);
- out:
-	gtk_widget_destroy (state->dialog);
-}
-
-static void
-cb_fill_series_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
-			       FillSeriesState *state)
-{
-	gtk_widget_destroy (state->dialog);
+	fs->is_step_set = ! entry_to_float (GTK_ENTRY (state->step_entry), 
+					    &fs->step_value, TRUE);
+	fs->is_stop_set = ! entry_to_float (GTK_ENTRY (state->stop_entry), 
+					    &fs->stop_value, TRUE);
+	entry_to_float (GTK_ENTRY (state->start_entry), 
+			&fs->start_value, TRUE);
+	
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
+				state->base.sheet,
+				dao, fs, fill_series_engine))
+		gtk_widget_destroy (state->base.dialog);
 }
 
 static void
 cb_type_button_clicked (G_GNUC_UNUSED GtkWidget *button,
 			FillSeriesState *state)
 {
-	GtkWidget          *frame, *radio;
+	GtkWidget          *radio;
 	fill_series_type_t type;
 
 
 	/* Read the `Type' radio buttons. */
-	radio = glade_xml_get_widget (state->gui, "type_linear");
-	g_return_if_fail (radio != NULL);
-
+	radio = glade_xml_get_widget (state->base.gui, "type_linear");
 	type = gtk_radio_group_get_selected (GTK_RADIO_BUTTON (radio)->group);
 
-	frame = glade_xml_get_widget (state->gui, "frame_date_unit");
 	if (type == FillSeriesTypeDate)
-		gtk_widget_set_sensitive (frame, TRUE);
+		gtk_widget_set_sensitive (state->date_steps_type, TRUE);
 	else
-		gtk_widget_set_sensitive (frame, FALSE);
+		gtk_widget_set_sensitive (state->date_steps_type, FALSE);
+}
+
+/**
+ * dialog_fill_series_tool_init:
+ * @state:
+ *
+ * Create the dialog (guru).
+ *
+ **/
+static void
+dialog_fill_series_tool_init (FillSeriesState *state)
+{
+	GtkWidget   *radio;
+	char const  *button;
+	Range const *sel;
+	gboolean prefer_rows = FALSE;
+
+	sel = selection_first_range (state->base.sv, NULL, NULL);
+
+	/* Set the sensitivity of Unit day. */
+	radio = glade_xml_get_widget (state->base.gui, 
+				      "type_date");
+	g_signal_connect (G_OBJECT (radio), "clicked",
+			  G_CALLBACK (cb_type_button_clicked), state);
+	
+	state->stop_entry = glade_xml_get_widget (state->base.gui, "stop_entry");
+	g_signal_connect_after (G_OBJECT (state->stop_entry),
+		"changed",
+		G_CALLBACK (cb_fill_series_update_sensitivity), state);
+	state->step_entry = glade_xml_get_widget (state->base.gui, "step_entry");
+	g_signal_connect_after (G_OBJECT (state->step_entry),
+		"changed",
+		G_CALLBACK (cb_fill_series_update_sensitivity), state);
+	state->start_entry = glade_xml_get_widget (state->base.gui, "start_entry");
+	g_signal_connect_after (G_OBJECT (state->start_entry),
+		"changed",
+		G_CALLBACK (cb_fill_series_update_sensitivity), state);
+
+
+	state->date_steps_type  = glade_xml_get_widget (state->base.gui, 
+							"table_date_unit");
+	gtk_widget_set_sensitive (state->date_steps_type, FALSE);
+
+	button = (sel == NULL ||
+		  (prefer_rows = 
+		   (range_width (sel) >= range_height (sel))))
+		? "series_in_rows"
+		: "series_in_cols";
+	radio = glade_xml_get_widget (state->base.gui, button);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio), TRUE);
+
+	if (sel != NULL) {
+		Cell *cell_start;
+		Cell *cell_end;
+
+		dialog_tool_preset_to_range (&state->base);
+
+		cell_start = sheet_cell_get (state->base.sheet, 
+				       sel->start.col, sel->start.row);
+		if (cell_start) {
+			char *content = cell_get_rendered_text (cell_start);
+			if (content) {
+				gtk_entry_set_text (GTK_ENTRY (state->start_entry),
+						    content);
+				g_free (content);
+			}
+		}
+		cell_end = prefer_rows ?
+			sheet_cell_get (state->base.sheet, 
+					sel->end.col, sel->start.row) :
+			sheet_cell_get (state->base.sheet, 
+					sel->start.col, sel->end.row);
+		if (cell_end) {
+			char *content = cell_get_rendered_text (cell_end);
+			if (content) {
+				gtk_entry_set_text (GTK_ENTRY (state->stop_entry),
+						    content);
+				g_free (content);
+			}
+		}
+		if (cell_start && cell_end) {
+			float_to_entry (GTK_ENTRY(state->step_entry), 
+					(value_get_as_float(cell_end->value) -
+					 value_get_as_float(cell_start->value))
+					/ (prefer_rows ? 
+					   (sel->end.col-sel->start.col) :
+					   (sel->end.row-sel->start.row)));
+		}
+	}
+
+	cb_fill_series_update_sensitivity (NULL, state);
 }
 
 void
@@ -166,76 +247,30 @@ dialog_fill_series (WorkbookControlGUI *wbcg)
 	FillSeriesState *state;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView       *sv = wb_control_cur_sheet_view (wbc);
-	GtkWidget       *radio;
-	GladeXML	*gui;
-	char const *button;
-
-	Range const *sel;
 
 	g_return_if_fail (wbcg != NULL);
 
-	if (!(sel = selection_first_range (sv, COMMAND_CONTEXT (wbc),
-					   _("FillSeries"))))
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, FILL_SERIES_KEY)) {
 		return;
-	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
-		"fill-series.glade", NULL, NULL);
-	if (gui == NULL)
-		return;
-
-	state = g_new (FillSeriesState, 1);
-	state->wbcg  = wbcg;
-	state->sel   = sel;
-	state->sheet = sv_sheet (sv);
-	state->gui   = gui;
-	state->dialog = glade_xml_get_widget (state->gui, "Fill_series");
-	if (state->dialog == NULL) {
-		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-				 _("Could not create the Fill Series "
-				   "dialog."));
-		g_free (state);
-		return ;
 	}
 
-	state->ok_button = glade_xml_get_widget (state->gui, "okbutton");
-	g_signal_connect (G_OBJECT (state->ok_button),
-		"clicked",
-		G_CALLBACK (cb_insert_cell_ok_clicked), state);
+	state = g_new (FillSeriesState, 1);
 
-	state->cancel_button = glade_xml_get_widget (state->gui,
-						     "cancelbutton");
-	g_signal_connect (G_OBJECT (state->cancel_button),
-		"clicked",
-		G_CALLBACK (cb_fill_series_cancel_clicked), state);
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sv_sheet (sv),
+			      "fill-series-tool.html",
+			      "fill-series.glade", "Fill_series",
+			      NULL, NULL,
+			      _("Could not create the Fill Series dialog."),
+			      FILL_SERIES_KEY,
+			      G_CALLBACK (cb_fill_series_ok_clicked), NULL,
+			      G_CALLBACK (cb_fill_series_update_sensitivity),
+			      0))
+		return;
+	
+	dialog_fill_series_tool_init (state);
 
-	gnumeric_init_help_button
-		(glade_xml_get_widget (state->gui, "helpbutton"),
-		 "fill-series.html");
+	gtk_widget_show (state->base.dialog);
 
-	g_signal_connect (G_OBJECT (state->dialog),
-			  "destroy",
-			  G_CALLBACK (fill_series_destroy), state);
-
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
-			       INSERT_CELL_DIALOG_KEY);
-
-	/* Set the sensitivity of Unit day. */
-	radio = glade_xml_get_widget (state->gui, "type_date");
-	g_return_if_fail (radio != NULL);
-	g_signal_connect (G_OBJECT (radio), "clicked",
-			  G_CALLBACK (cb_type_button_clicked), state);
-
-	radio = glade_xml_get_widget (state->gui, "frame_date_unit");
-	g_return_if_fail (radio != NULL);
-	gtk_widget_set_sensitive (radio, FALSE);
-
-	button = (state->sel == NULL ||
-		  range_width (state->sel) >= range_height (state->sel))
-		? "series_in_rows"
-		: "series_in_cols";
-	radio = glade_xml_get_widget (state->gui, button);
-	g_return_if_fail (radio != NULL);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio), TRUE);
-
-	gtk_widget_show (state->dialog);
+	return;
 }

@@ -155,11 +155,15 @@ void
 dao_adjust (data_analysis_output_t *dao, gint cols, gint rows)
 {
 	if (dao->cols == 1 && dao->rows == 1) {
-		dao->cols = cols;
-		dao->rows = rows;
+		if (cols != -1)
+			dao->cols = cols;
+		if (rows != -1)
+			dao->rows = rows;
 	} else {
-		dao->cols = MIN (cols, dao->cols);
-		dao->rows = MIN (rows, dao->rows);
+		if (cols != -1)
+			dao->cols = MIN (cols, dao->cols);
+		if (rows != -1)
+			dao->rows = MIN (rows, dao->rows);
 	}
 }
 
@@ -545,10 +549,14 @@ dao_set_style (data_analysis_output_t *dao, int col1, int row1,
 	if (range.end.row > dao->start_row + dao->rows)
 		range.end.row = dao->start_row + dao->rows;
 
-	if (range.end.col < range.start.col)
+	if (range.end.col < range.start.col) {
+		mstyle_unref (mstyle);
 		return;
-	if (range.end.row < range.start.row)
+	}
+	if (range.end.row < range.start.row) {
+		mstyle_unref (mstyle);
 		return;
+	}
 
 	sheet_style_apply_range (dao->sheet, &range, mstyle);
 }
@@ -628,8 +636,7 @@ dao_set_italic (data_analysis_output_t *dao, int col1, int row1,
 	MStyle *mstyle = mstyle_new ();
 
 	mstyle_set_font_italic (mstyle, TRUE);
-	dao_set_style (dao, col1 + dao->start_col, row1 + dao->start_row,
-		       col2 + dao->start_col, row2 + dao->start_row, mstyle);
+	dao_set_style (dao, col1, row1, col2, row2, mstyle);
 }
 
 /**
@@ -649,10 +656,38 @@ dao_set_percent (data_analysis_output_t *dao, int col1, int row1,
 		 int col2, int row2)
 {
 	MStyle *mstyle = mstyle_new ();
+	StyleFormat *style_format = NULL;
 
-	mstyle_set_format_text (mstyle, "0.00%");
-	dao_set_style (dao, col1 + dao->start_col, row1 + dao->start_row,
-		       col2 + dao->start_col, row2 + dao->start_row, mstyle);
+	style_format = style_format_default_percentage ();
+	mstyle_set_format (mstyle, style_format);
+
+	dao_set_style (dao, col1, row1, col2, row2, mstyle);
+}
+
+/**
+ * dao_set_date:
+ * @dao:
+ * @col1:
+ * @row1:
+ * @col2:
+ * @row2:
+ *
+ * set the given cell range to date format
+ * 
+ *
+ **/
+void
+dao_set_date (data_analysis_output_t *dao, int col1, int row1,
+		 int col2, int row2)
+{
+	MStyle *mstyle = mstyle_new ();
+	StyleFormat *style_format = NULL;
+
+	style_format = style_format_default_date ();
+	mstyle_set_format (mstyle, style_format);
+
+	dao_set_style (dao, col1, row1,
+		       col2, row2, mstyle);
 }
 
 /**
@@ -678,8 +713,8 @@ dao_set_colors (data_analysis_output_t *dao, int col1, int row1,
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, fore);
 	mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, back);
 	mstyle_set_pattern (mstyle, 1);
-	dao_set_style (dao, col1 + dao->start_col, row1 + dao->start_row,
-		       col2 + dao->start_col, row2 + dao->start_row, mstyle);
+	dao_set_style (dao, col1, row1,
+		       col2, row2, mstyle);
 }
 
 /**
@@ -704,8 +739,7 @@ dao_set_align (data_analysis_output_t *dao, int col1, int row1,
 	mstyle = mstyle_new ();
 	mstyle_set_align_h (mstyle, align_h);
 	mstyle_set_align_v (mstyle, align_v);
-	dao_set_style (dao, col1 + dao->start_col, row1 + dao->start_row,
-		       col2 + dao->start_col, row2 + dao->start_row, mstyle);
+	dao_set_style (dao, col1, row1, col2, row2, mstyle);
 }
 
 

@@ -429,7 +429,6 @@ Misc stuff that should be fixed
     - Sheet object configuration changes.
     - Sheet object creation                (Isn't this already done ?)
     - Workbook attr changes
-    - Fill->series
     - Data->Text to columns
 
 - cols/rows
