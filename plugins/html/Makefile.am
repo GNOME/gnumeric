@@ -9,7 +9,7 @@ gnumeric_plugin_html_LTLIBRARIES = html.la
 html_la_LDFLAGS = -module -avoid-version
 html_la_SOURCES = \
     boot.h boot.c \
-    html.h html.c \
+    html.h html.c html_read.c \
     latex.h latex.c \
     roff.h roff.c \
     font.h font.c 

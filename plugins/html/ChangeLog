@@ -1,3 +1,8 @@
+2002-04-16  Jody Goldberg <jody@gnome.org>
+
+	* html_read.c : split the read functionality into a seprate file to
+	  start work on a parser for buffers.
+
 2002-04-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* html.c (html_write_border_style_40) : new
