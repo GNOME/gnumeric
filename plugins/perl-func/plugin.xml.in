@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_PerlFunc">
+	<information>
+		<_name>Perl functions</_name>
+		<_description>Sample Perl plugin providing some (useless) functions.</_description>
+		<require_explicit_enabling/>
+	</information>
+	<loader type="Gnumeric_PerlLoader:perl">
+		<attribute name="module_name" value="perl_func"/>
+	</loader>
+	<services>
+		<service type="function_group" id="test">
+			<_category>Perl</_category>
+			<functions>
+				<function name="perl_adder"/>
+				<function name="perl_date"/>
+			</functions>
+		</service>
+	</services>
+</plugin>
