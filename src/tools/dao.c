@@ -625,17 +625,3 @@ dao_set_percent (data_analysis_output_t *dao, int col1, int row1,
 	mstyle_set_format_text (mstyle, "0.00%");
 	sheet_style_apply_range (dao->sheet, &range, mstyle);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,5 +1,8 @@
 2002-03-12  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* Makefile.am, api.c: New file.  Contains the API wrappings for
+	the optimization algorithms.
+
 	* solver.c (solver): Bug fix: added a type coersion.
 
 	* reports.c : moved set_bold and set_underlined into

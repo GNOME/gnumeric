@@ -12,5 +12,6 @@ INCLUDES = 						\
 noinst_LIBRARIES = libsolver.a
 
 libsolver_a_SOURCES =				\
+	api.c					\
 	solver.c				\
 	reports.c				

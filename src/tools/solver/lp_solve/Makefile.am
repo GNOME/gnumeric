@@ -10,7 +10,6 @@ INCLUDES = 						\
 noinst_LIBRARIES = liblp_solve.a
 
 liblp_solve_a_SOURCES =				\
-	solver-lp-api-wrapper.c			\
 	lp-solve-debug.c			\
 	lp-solve-debug.h 			\
 	lpglob.h 				\

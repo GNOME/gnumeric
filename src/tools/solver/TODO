@@ -58,7 +58,6 @@ Misc:
     - unbounded
     - ILP
   * update the user documentation
-  * document the LP solving API
   * fix XL import and export of the solver parameters
   * lpkit: the column numbering should start from 0
   * lpkit: remove/#if0 obsolete code

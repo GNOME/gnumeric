@@ -27,36 +27,10 @@
 #include <stdlib.h>
 #include <libgnome/gnome-i18n.h>
 
-#include "lp_solve/lpkit.h"
-
 /* ------------------------------------------------------------------------- */
 
 
-/* This array contains the linear programming algorithms available.
- * Each algorithm should implement the API defined by the
- * SolverLPAlgorithm data structure.  The algorithms should be able to
- * do MILP as well.  Feel free to add new algorithms.
- */
-static SolverLPAlgorithm lp_algorithm[] = {
-        {
-	        NULL,
-		(solver_lp_init_fn*)             lp_solve_init,
-		(solver_lp_remove_fn*)           lp_solve_delete_lp,
-		(solver_lp_set_obj_fn*)          lp_solve_set_obj_fn,
-		(solver_lp_set_constr_mat_fn*)   lp_solve_set_constr_mat,
-		(solver_lp_set_constr_type_fn*)  lp_solve_set_constr_type,
-		(solver_lp_set_constr_rhs_fn*)   lp_solve_set_constr_rhs,
-		(solver_lp_set_maxim_fn*)        lp_solve_set_maxim,
-		(solver_lp_set_minim_fn*)        lp_solve_set_minim,
-		(solver_lp_set_int_fn*)          lp_solve_set_int,
-		(solver_lp_solve_fn*)            lp_solve_solve,
-		(solver_lp_get_obj_fn_value_fn*) lp_solve_get_value_of_obj_fn,
-		(solver_lp_get_obj_fn_var_fn*)   lp_solve_get_solution,
-		(solver_lp_get_shadow_prize_fn*) lp_solve_get_dual
-	},
-	{ NULL }
-};
-
+extern SolverLPAlgorithm lp_algorithm[];
 
 SolverParameters *
 solver_param_new (void)
@@ -291,7 +265,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res)
 	        x = get_lp_coeff (target, get_solver_input_var (res, i));
 		if (x != 0) {
 		        lp_algorithm[param->options.algorithm].
-			        set_obj_fn (program, i+1, x);
+			        set_obj_fn (program, i, x);
 			res->n_nonzeros_in_obj += 1;
 			res->obj_coeff[i] = x;
 		}

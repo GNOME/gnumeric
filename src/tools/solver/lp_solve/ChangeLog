@@ -1,3 +1,8 @@
+2002-03-12  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* Makefile.am, solver-lp-api-wrapper.c: Removed.  These things are
+	now in src/tools/solver/api.c.
+
 2002-03-11  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* lpkit.c (set_rh_vec): Removed.

@@ -36,25 +36,36 @@ typedef gpointer SolverProgram;
 /*
  * Solver's API for LP solving algorithms
  */
-typedef SolverProgram (solver_lp_init_fn)             (int n_vars,
-						       int n_constraints);
-typedef void          (solver_lp_remove_fn)           (SolverProgram p);
-typedef void          (solver_lp_set_obj_fn)          (SolverProgram p,
-						       int col, gnum_float v);
-typedef void          (solver_lp_set_constr_mat_fn)   (SolverProgram p, int col,
-						       int row, gnum_float v);
-typedef void          (solver_lp_set_constr_type_fn)  (SolverProgram p, int row,
-						       SolverConstraintType t);
-typedef void          (solver_lp_set_constr_rhs_fn)   (SolverProgram p,
-						       int row, gnum_float rhs);
-typedef void          (solver_lp_set_maxim_fn)        (SolverProgram p);
-typedef void          (solver_lp_set_minim_fn)        (SolverProgram p);
-typedef void          (solver_lp_set_int_fn)          (SolverProgram p, int col,
-						       gboolean must_be_int);
-typedef int           (solver_lp_solve_fn)            (SolverProgram p);
-typedef gnum_float    (solver_lp_get_obj_fn_value_fn) (SolverProgram p);
-typedef gnum_float    (solver_lp_get_obj_fn_var_fn)   (SolverProgram p, int col);
-typedef gnum_float    (solver_lp_get_shadow_prize_fn) (SolverProgram p, int row);
+typedef SolverProgram
+        (solver_lp_init_fn)             (int n_vars, int n_constraints);
+typedef void
+        (solver_lp_remove_fn)           (SolverProgram p);
+typedef void
+        (solver_lp_set_obj_fn)          (SolverProgram p, int col, gnum_float v);
+typedef void
+        (solver_lp_set_constr_mat_fn)   (SolverProgram p, int col, int row,
+					 gnum_float v);
+typedef void
+        (solver_lp_set_constr_type_fn)  (SolverProgram p, int row,
+					 SolverConstraintType t);
+typedef void
+        (solver_lp_set_constr_rhs_fn)   (SolverProgram p, int row,
+					 gnum_float rhs);
+typedef void
+        (solver_lp_set_maxim_fn)        (SolverProgram p);
+typedef void
+        (solver_lp_set_minim_fn)        (SolverProgram p);
+typedef void
+        (solver_lp_set_int_fn)          (SolverProgram p, int col,
+					 gboolean must_be_int);
+typedef int
+        (solver_lp_solve_fn)            (SolverProgram p);
+typedef gnum_float
+        (solver_lp_get_obj_fn_value_fn) (SolverProgram p);
+typedef gnum_float
+        (solver_lp_get_obj_fn_var_fn)   (SolverProgram p, int col);
+typedef gnum_float
+        (solver_lp_get_shadow_prize_fn) (SolverProgram p, int row);
 
 
 typedef struct {
