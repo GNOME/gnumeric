@@ -1902,6 +1902,13 @@ cmd_paste_copy (CommandContext *context,
 			me->dst.range.end.col = me->dst.range.start.col + content->cols -1;
 			me->dst.range.end.row = me->dst.range.start.row + content->rows -1;
 		}
+	} else if (pt->paste_flags & PASTE_TRANSPOSE) {
+		/* when transposed single rows or cols get replicated as needed */
+		if (content->cols == 1 && me->dst.range.start.col == me->dst.range.end.col) {
+			me->dst.range.end.col = me->dst.range.start.col + content->rows -1;
+		} else if (content->rows == 1 && me->dst.range.start.row == me->dst.range.end.row) {
+			me->dst.range.end.row = me->dst.range.start.row + content->cols -1;
+		}
 	}
 
 	me->parent.cmd_descriptor = g_strdup_printf (_("Pasting into %s"), range_name(&pt->range));

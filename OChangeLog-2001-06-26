@@ -2,6 +2,8 @@
 
 	* src/commands.c (cmd_paste_copy_undo) : handle paste errors.
 	(cmd_paste_copy_destroy) : do not release unless we are permitted to.
+	(cmd_paste_copy) : When pasting a transpose we are more lenient about
+	  resizing things.  I am not sure I agree with this behavior.
 
 	* src/clipboard.c (clipboard_paste_region) : Return a boolean
 	  indicating success or failure.
