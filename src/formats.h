@@ -34,9 +34,10 @@ typedef struct
 } FormatCharacteristics;
 
 FormatFamily           cell_format_classify (char const * const fmt, FormatCharacteristics *info);
-CurrencySymbol const * cell_format_currency_symbols (void);
 
 /* Indexed by FormatCharacteristics */
-static char const * const * const cell_formats [];
+extern char const * const * const cell_formats [];
+
+extern CurrencySymbol const currency_symbols [];
 
 #endif

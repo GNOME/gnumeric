@@ -50,7 +50,7 @@
 
     <widget>
       <class>GtkHBox</class>
-      <name>hbox7</name>
+      <name>number_box</name>
       <homogeneous>False</homogeneous>
       <spacing>0</spacing>
 
@@ -237,7 +237,7 @@
 	    <name>format_special</name>
 	    <height>22</height>
 	    <can_focus>True</can_focus>
-	    <label>S_pecial</label>
+	    <label>Sp_ecial</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <group>number</group>
@@ -253,7 +253,7 @@
 	    <name>format_custom</name>
 	    <height>22</height>
 	    <can_focus>True</can_focus>
-	    <label>C_ustom</label>
+	    <label>Cust_om</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <group>number</group>
@@ -295,13 +295,19 @@
 	    <class>GtkLabel</class>
 	    <name>format_sample</name>
 	    <height>60</height>
+	    <label></label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
 	  </widget>
 	</widget>
 
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>format_general_label</name>
-	  <width>200</width>
 	  <label>General format cells attempt to select an appropriate format depending on the value of the cell.</label>
 	  <justify>GTK_JUSTIFY_LEFT</justify>
 	  <wrap>True</wrap>
@@ -336,15 +342,16 @@
 	    <spacing>0</spacing>
 
 	    <widget>
-	      <class>GtkAccelLabel</class>
-	      <name>accellabel13</name>
-	      <label>_Decimal places:</label>
+	      <class>GtkLabel</class>
+	      <name>label13</name>
+	      <label>Deci_mal places:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>1</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
+	      <focus_target>format_number_decimals</focus_target>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -389,11 +396,11 @@
 
 	<widget>
 	  <class>GtkCheckButton</class>
-	  <name>format_seperator</name>
+	  <name>format_separator</name>
 	  <width>130</width>
 	  <height>38</height>
 	  <can_focus>True</can_focus>
-	  <label>_Use Seperator for 1000's</label>
+	  <label>_Use Separator for 1000's</label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
 	  <child>
@@ -404,9 +411,9 @@
 	</widget>
 
 	<widget>
-	  <class>GtkAccelLabel</class>
+	  <class>GtkLabel</class>
 	  <name>format_symbol_label</name>
-	  <label>_Symbol:</label>
+	  <label>S_ymbol:</label>
 	  <justify>GTK_JUSTIFY_LEFT</justify>
 	  <wrap>False</wrap>
 	  <xalign>0</xalign>
@@ -428,8 +435,7 @@
 	  <case_sensitive>False</case_sensitive>
 	  <use_arrows>True</use_arrows>
 	  <use_arrows_always>False</use_arrows_always>
-	  <items>$
-None
+	  <items>
 </items>
 	  <child>
 	    <padding>0</padding>
@@ -453,7 +459,7 @@ None
 	  <class>GtkScrolledWindow</class>
 	  <name>format_negative_scroll</name>
 	  <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
-	  <vscrollbar_policy>GTK_POLICY_NEVER</vscrollbar_policy>
+	  <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
 	  <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
 	  <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
 	  <child>
@@ -477,7 +483,7 @@ None
 	      <class>GtkLabel</class>
 	      <child_name>CList:title</child_name>
 	      <name>label47</name>
-	      <label>_Negative number:</label>
+	      <label>Negat_ive number:</label>
 	      <justify>GTK_JUSTIFY_LEFT</justify>
 	      <wrap>False</wrap>
 	      <xalign>0</xalign>
@@ -508,7 +514,7 @@ None
 	    <border_width>4</border_width>
 	    <sensitive>False</sensitive>
 	    <can_focus>True</can_focus>
-	    <label>_Delete format</label>
+	    <label>De_lete format</label>
 	  </widget>
 	</widget>
 
@@ -530,7 +536,7 @@ None
 	<widget>
 	  <class>GtkScrolledWindow</class>
 	  <name>format_list_scroll</name>
-	  <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	  <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
 	  <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
 	  <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
 	  <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
@@ -599,7 +605,7 @@ None
 
     <widget>
       <class>GtkHBox</class>
-      <name>hbox8</name>
+      <name>alignment_box</name>
       <homogeneous>False</homogeneous>
       <spacing>0</spacing>
 
@@ -1074,8 +1080,8 @@ None
 	      </child>
 
 	      <widget>
-		<class>GtkAccelLabel</class>
-		<name>accellabel4</name>
+		<class>GtkLabel</class>
+		<name>label4</name>
 		<width>50</width>
 		<sensitive>False</sensitive>
 		<label>_Underline:</label>
@@ -1237,7 +1243,7 @@ Double
 
     <widget>
       <class>GtkHBox</class>
-      <name>hbox1</name>
+      <name>border_box</name>
       <width>370</width>
       <homogeneous>False</homogeneous>
       <spacing>0</spacing>
@@ -1641,8 +1647,8 @@ Double
 	  <spacing>0</spacing>
 
 	  <widget>
-	    <class>GtkAccelLabel</class>
-	    <name>accellabel9</name>
+	    <class>GtkLabel</class>
+	    <name>label9</name>
 	    <label>_Style</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>False</wrap>
@@ -2071,7 +2077,7 @@ Double
 
     <widget>
       <class>GtkHBox</class>
-      <name>hbox18</name>
+      <name>background_box</name>
       <homogeneous>False</homogeneous>
       <spacing>0</spacing>
 
@@ -2802,7 +2808,7 @@ Double
 
     <widget>
       <class>GtkVBox</class>
-      <name>vbox23</name>
+      <name>protection_box</name>
       <homogeneous>False</homogeneous>
       <spacing>0</spacing>
 
@@ -2855,10 +2861,10 @@ Double
 
       <widget>
 	<class>GtkCheckButton</class>
-	<name>checkbutton7</name>
+	<name>protected_button</name>
 	<sensitive>False</sensitive>
 	<can_focus>True</can_focus>
-	<label>Worksheet protected</label>
+	<label>Worksheet _protected</label>
 	<active>False</active>
 	<draw_indicator>True</draw_indicator>
 	<child>

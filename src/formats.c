@@ -134,7 +134,10 @@ char const * const * const cell_formats [] = {
 
 CurrencySymbol const currency_symbols[] =
 {
-	{ "$", "Dollar" },
+	{ "", "None" },	/* These fist three elements */
+	{ "$", "$" },	/* Must stay in this order */
+	{ "£", "£" },
+
 	{ "[$ADP]", "Andorran peseta" },
 	{ "[$AED]", "UAE dirham" },
 	{ "[$AFA]", "Afghanistan afghani" },
@@ -330,8 +333,8 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 		return FMT_UNKNOWN;
 
 	/* Check for prepended currency */
-	if (ptr[0] == '$') {
-		info->currency_symbol_index = 1;
+	if (ptr[0] == '$' || ptr[1] == "£") {
+		info->currency_symbol_index = (ptr[0] == '$') ? 1 : 2;
 		result = FMT_CURRENCY;
 		++ptr;
 	} else if (ptr[0] == '[' && ptr[1] == '$') {
@@ -455,7 +458,7 @@ cell_format_classify (char const * const fmt, FormatCharacteristics *info)
 	info->thousands_sep = FALSE;
 	info->num_decimals = 2;
 	info->negative_fmt = 0;
-	info->currency_symbol_index = 0; /* None */
+	info->currency_symbol_index = 1; /* '$' */
 
 	/* Is it in the lists */
 	for (i = 0; cell_formats[i] != NULL ; ++i) {

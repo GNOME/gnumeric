@@ -1,3 +1,37 @@
+1999-11-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-cell-format.c (fillin_negative_samples) :
+	  Add configurable currency symbols.
+	(cb_format_currency_select) : New function.
+	(fmt_dialog_init_format_page) : Init the list of currencies.
+
+	* src/formats.c (CurrencySymbol) : Add 'None' and Pound
+	  ans set default to '$'.
+
+	From Jon K Hellan  <hellan@acm.org>
+	* src/dialogs/cell-format.glade: 
+	  Use descriptive names for notebook pages.
+	  Change accelerators, should remove conflicts within pages.
+	  Remove explicit width for format_general_label.
+	  Use GtkLabel instead of GtkAccelLabel.
+	  Change spelling from "seperator" to "separator".
+	  Make decimals spinbutton focus target for "decimal places" label.
+	  format_negative_scroll: Set vscrollbar_policy to GTK_POLICY_AUTOMATIC.
+	  format_list_scroll: Set hscrollbar_policy to GTK_POLICY_NEVER.
+	
+	* src/dialogs/dialog-cell-format.c:  
+	  Change spelling from "seperator" to "separator".
+	(fmt_dialog_init_format_page):
+	(fmt_dialog_enable_widgets): Also hide and show F_NEGATIVE_SCROLL.
+	(cb_format_list_size_allocate): 
+	  Make the selected line visible when we know our geometry.
+	(fmt_dialog_init_format_page): Set negative clist title passive.
+	(fmt_dialog_init_format_page): 
+	  Call cb_format_changed to update display if "general" is displayed.
+	(set_initial_focus): Set initial focus
+	(fmt_dialog_impl): Set dialog title, set initial focus
+
+
 1999-11-12  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/workbook.c (workbook_attach_sheet): Add comment explaining life.
