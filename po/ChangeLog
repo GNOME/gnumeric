@@ -1,3 +1,7 @@
+2001-09-14  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* no.po: Updated Norwegian (bokmål) translation.
+
 2001-09-03  Christian Rose  <menthos@menthos.com>
 
 	* POTFILES.in: Removed non-existant src/gnumeric-util.c.
