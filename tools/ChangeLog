@@ -1,3 +1,8 @@
+2002-07-25  Morten Welinder  <terra@diku.dk>
+
+	* import-R: Import also dgeom and pgeom.
+	(import_file): Optimise "log(1-x)".  (Filed as R bug.)
+
 2002-07-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.6

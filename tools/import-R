@@ -38,6 +38,8 @@ my @files =
      "dhyper.c",
      "dexp.c",
      "pexp.c",
+     "dgeom.c",
+     "pgeom.c",
      "bessel.h",
      "bessel_i.c",
      "bessel_k.c",
@@ -95,6 +97,9 @@ sub import_file {
 	} else {
 	    s/\bdouble\b/gnum_float/g;
 	    s/\bRboolean\b/gboolean/g;
+
+	    # Improve precision of "log(1-x)".
+	    s/\blog\s*\(1\s*-\s*([a-zA-Z0-9_]+)\s*\)/log1p (-$1)/g;
 
 	    s/\bISNAN\b/isnangnum/g;
 	    s/\bR_FINITE\b/finitegnum/g;
