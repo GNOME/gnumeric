@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_EVAL_H
-#define GNUMERIC_EVAL_H
+#ifndef GNUMERIC_DEPENDENT_H
+#define GNUMERIC_DEPENDENT_H
 
 #include "gnumeric.h"
 #include <stdio.h>
@@ -134,4 +134,4 @@ t ## _get_dep_type (void)					\
 
 void dependent_debug_name (GnmDependent const *dep, FILE *out);
 
-#endif /* GNUMERIC_EVAL_H */
+#endif /* GNUMERIC_DEPENDENT_H */
