@@ -1,3 +1,11 @@
+2001-10-20  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-formula-guru.c (formula_guru_set_expr) : use the prefix &
+	  suffix strings.  Watch sign extension.
+	(formula_guru_free) : split from the destroy handler.
+	(dialog_formula_guru) : use formula_guru_free. and init the
+	  prefix/suffix.
+
 2001-10-19  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-graph-guru.c (dialog_graph_guru) : be quieter about a

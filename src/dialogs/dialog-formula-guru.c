@@ -76,6 +76,7 @@ struct _FormulaGuruState
 	GtkWidget *arg_view;
 	GtkRequisition arg_requisition;
 
+	char		  *prefix, *suffix;
 	gboolean	    valid;
 	gboolean	    is_rolled;
 	gboolean	    var_args;
@@ -91,6 +92,53 @@ static void formula_guru_arg_delete (FormulaGuruState *state, int i);
 static void formula_guru_arg_new    (char * const name, char const type,
 				     gboolean const is_optional,
 				     FormulaGuruState *state);
+
+static void
+formula_guru_free (FormulaGuruState *state)
+{
+	if (state->prefix!= NULL) {
+		g_free (state->prefix);
+		state->prefix = NULL;
+	}
+	if (state->suffix != NULL) {
+		g_free (state->suffix);
+		state->suffix = NULL;
+	}
+
+	if (state->wbcg != NULL)
+		wbcg_edit_detach_guru (state->wbcg);
+
+	if (state->args != NULL) {
+		int i;
+
+		for (i = state->args->len; i-- > 0 ;)
+			formula_guru_arg_delete (state, i);
+		g_ptr_array_free (state->args, TRUE);
+		state->args = NULL;
+	}
+
+	if (state->help_tokens != NULL) {
+		tokenized_help_destroy (state->help_tokens);
+		state->help_tokens = NULL;
+	}
+
+	if (state->gui != NULL) {
+		gtk_object_unref (GTK_OBJECT (state->gui));
+		state->gui = NULL;
+	}
+
+	/* Handle window manger closing the dialog.
+	 * This will be ignored if we are being destroyed differently.
+	 */
+	if (state->wbcg != NULL) {
+		wbcg_edit_finish (state->wbcg, FALSE);
+		state->wbcg = NULL;
+	}
+
+	state->dialog = NULL;
+
+	g_free (state);
+}
 
 static void
 formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
@@ -109,7 +157,7 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 	if (!state->valid)
 		return;
 
-	str = g_string_new ("="); /* FIXME use prefix string */
+	str = g_string_new ((state->prefix != NULL) ?  state->prefix : "=");
 	g_string_append (str, function_def_get_name (state->fd));
 	g_string_append_c (str, '(');
 
@@ -117,7 +165,7 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 		ArgumentState *as = g_ptr_array_index (state->args, i);
 		gchar *val = gtk_entry_get_text (GTK_ENTRY (as->entry));
 
-		if (!as->is_optional || i <= (guint) state->max_arg || i <= (guint) index || strlen (val)) {
+		if (!as->is_optional || (int)i <= state->max_arg || (int)i <= index || strlen (val)) {
 			if (i > 0)
 				g_string_append_c (str, sep);
 			if (i == (guint) index)
@@ -127,7 +175,9 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 			g_string_append (str, val);
 		}
 	}
-	g_string_append_c (str, ')'); /* FIXME use suffix string */
+	g_string_append_c (str, ')');
+	if (state->suffix != NULL)
+		g_string_append (str, state->suffix);
 
 	entry = wbcg_get_entry (state->wbcg);
 	if (set_text)
@@ -310,42 +360,12 @@ cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, Ar
 	return FALSE;
 }
 
-static gboolean
+static void
 cb_formula_guru_destroy (GtkObject *w, FormulaGuruState *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
+	g_return_if_fail (state != NULL);
 
-	wbcg_edit_detach_guru (state->wbcg);
-
-	if (state->args != NULL) {
-		int i;
-
-		for (i = state->args->len; i-- > 0 ;)
-			formula_guru_arg_delete (state, i);
-		g_ptr_array_free (state->args, TRUE);
-		state->args = NULL;
-	}
-
-	if (state->help_tokens != NULL) {
-		tokenized_help_destroy (state->help_tokens);
-		state->help_tokens = NULL;
-	}
-
-	if (state->gui != NULL) {
-		gtk_object_unref (GTK_OBJECT (state->gui));
-		state->gui = NULL;
-	}
-
-	/* Handle window manger closing the dialog.
-	 * This will be ignored if we are being destroyed differently.
-	 */
-	wbcg_edit_finish (state->wbcg, FALSE);
-
-	state->dialog = NULL;
-
-	g_free (state);
-	return FALSE;
+	formula_guru_free (state);
 }
 
 static  gint
@@ -693,6 +713,7 @@ dialog_formula_guru (WorkbookControlGUI *wbcg)
 	ExprTree const *expr = NULL;
 	Sheet	 *sheet;
 	Cell	 *cell;
+	char *prefix = NULL, *suffix = NULL;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -701,8 +722,9 @@ dialog_formula_guru (WorkbookControlGUI *wbcg)
 			       sheet->edit_pos.col,
 			       sheet->edit_pos.row);
 
-	if (cell != NULL && cell_has_expr (cell))
+	if (cell != NULL && cell_has_expr (cell)) {
 		expr = expr_tree_first_func (cell->base.expression);
+	}
 
 	/* If the current cell has no function calls,  clear cell, and start an
 	 * expression
@@ -718,16 +740,36 @@ dialog_formula_guru (WorkbookControlGUI *wbcg)
 			return;
 		}
 	} else {
+		ParsePos pos;
+		char *sub_str;
+		char *full_str = gtk_entry_get_text (
+			GTK_ENTRY (wbcg_get_entry (wbcg)));
+		char *func_str = expr_tree_as_string (expr,
+			parse_pos_init_cell (&pos, cell));
+
 		wbcg_edit_start (wbcg, FALSE, TRUE);
 		fd = expr_tree_get_func_def (expr);
+
+		sub_str = strstr (full_str, func_str);
+
+		g_return_if_fail (sub_str != NULL);
+
+		prefix = g_strndup (full_str, sub_str - full_str);
+		suffix = g_strdup (sub_str + strlen (func_str));
+		g_free (func_str);
+
+		puts (prefix);
+		puts (suffix);
 	}
 
-	state = g_new(FormulaGuruState, 1);
+	state = g_new0 (FormulaGuruState, 1);
 	state->wbcg	= wbcg;
 	state->fd	= fd;
 	state->valid	= FALSE;
+	state->prefix	= prefix;
+	state->suffix	= suffix;
 	if (formula_guru_init (state, expr, cell)) {
-		g_free (state);
+		formula_guru_free (state);
 		return;
 	}
 
