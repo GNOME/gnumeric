@@ -462,63 +462,107 @@ gnumeric_bessely (struct FunctionDefinition *i,
 	return value_float (yn (y, value_get_as_double (argv [0])));
 }
 
-/* FIXME: Exponents do not work (for example 2e-10+1e-10i) */
+
+static char *i_suffix = "i";
+static char *j_suffix = "j";
+
+
+/* Returns 1 if 'i' or '+i', -1 if '-i', and 0 otherwise.
+ */
+static int
+is_unit_imaginary(char *inumber, char **suffix)
+{
+        int im = 0;
+
+	/* Check if only 'i' or '-i' */
+	if (strcmp(inumber, "i") == 0 || strcmp(inumber, "+i") == 0) {
+	        im = 1;
+		*suffix = i_suffix;
+	}
+	if (strcmp(inumber, "-i") == 0) {
+	        im = -1;
+		*suffix = i_suffix;
+	}
+	if (strcmp(inumber, "j") == 0 || strcmp(inumber, "+j") == 0) {
+	        im = 1;
+		*suffix = j_suffix;
+	}
+	if (strcmp(inumber, "-j") == 0) {
+	        im = -1;
+		*suffix = j_suffix;
+	}        
+
+	return im;
+}
+
+/* Converts a complex number string into its coefficients.  Returns 0 if ok,
+ * 1 if an error occured.
+ */
 static int
 get_real_and_imaginary(char *inumber, float_t *real, float_t *im, 
 		       char **suffix)
 {
-        static char *i_suffix = "i";
-	static char *j_suffix = "j";
         char *p;
 	char buf[256];
 	int  i=0;
 
-	*suffix = NULL;
-	*im = 0;
-	p = inumber;
+	*real = 0;
 
-	if (*p == '+' || *p == '-')
-	        buf[i++] = *p++;
-	for ( ; *p; p++)
-	        if (isdigit(*p) || *p=='.')
-		        buf[i++] = *p;
-		else
-		        break;
-	buf[i] = '\0';
-	*real = atof(buf);
+	*im = is_unit_imaginary(inumber, suffix);
+	if (*im)
+	        return 0;
 
-	i = 0;
-	if (*p == '+' || *p == '-')
-	        buf[i++] = *p++;
-	for ( ; *p; p++)
-	        if (isdigit(*p) || *p=='.')
-		        buf[i++] = *p;
-		else
-		        break;
-	buf[i] = '\0';
+	/* Get the real coefficient */
+	*real = strtod(inumber, &p);
+	if (inumber == p)
+	        return 1;
 
-	if (i > 0 && isdigit(*(p-1)))
-	        *im = atof(buf);
-
-	if (*im != 0) {
-	        if (*p == 'i')
-		        *suffix = i_suffix;
-		else if (*p == 'j')
-		        *suffix = j_suffix;
-		else
+	/* Check if only imaginary coefficient */
+	if (*p == 'i') {
+	        if (*(p+1) == '\0') {
+		        *im = *real;
+			*real = 0;
+			*suffix = i_suffix;
+			return 0;
+		} else
 		        return 1;
-	} else if (*p == 'i' || *p == 'j') {
-	        if (*buf == '-')
-		        *im = -1;
-		else
-		        *im = 1;
-		if (*p == 'i')
-		        *suffix = i_suffix;
-		else
-		        *suffix = j_suffix;
+	}
+	if (*p == 'j') {
+	        if (*(p+1) == '\0') {
+		        *im = *real;
+			*real = 0;
+			*suffix = j_suffix;
+			return 0;
+		} else
+		        return 1;
 	}
 
-        return 0;
+	/* Get the imaginary coefficient */
+	*im = is_unit_imaginary(p, suffix);
+	if (*im)
+	        return 0;
+
+	inumber = p;
+	*im = strtod(inumber, &p);
+	if (inumber == p)
+	        return 1;
+
+	if (*p == 'i') {
+	        if (*(p+1) == '\0') {
+			*suffix = i_suffix;
+			return 0;
+		} else
+		        return 1;
+	}
+	if (*p == 'j') {
+	        if (*(p+1) == '\0') {
+			*suffix = j_suffix;
+			return 0;
+		} else
+		        return 1;
+	}
+
+        return 1;
 }
 
 static Value*
@@ -1157,6 +1201,397 @@ gnumeric_imsum (struct FunctionDefinition *fd,
 	return create_inumber (a+c, b+d, suffix);
 }
 
+static char *help_convert = {
+	N_("@FUNCTION=CONVERT\n"
+	   "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
+	   "@DESCRIPTION="
+	   "CONVERT returns a conversion from one measurement system to "
+	   "another.  For example, you can convert a weight in pounds "
+	   "to a weight in grams.  @number is the value you want to "
+	   "convert, @from_unit specifies the unit of the number, and "
+	   "@to_unit is the unit for the result. "
+	   "\n"
+	   "@from_unit and @to_unit can be any of the following:\n\n"
+	   "Weight and mass:\n"
+	   "'g'    Gram\n"
+           "'sg'   Slug\n"
+	   "'lbm'  Pound\n"
+	   "'u'    U (atomic mass)\n"
+	   "'ozm'  Ounce\n\n"
+	   "Distance:\n"
+	   "'m'    Meter\n"
+	   "'mi'   Statute mile\n"
+	   "'Nmi'  Nautical mile\n"
+	   "'in'   Inch\n"
+	   "'ft'   Foot\n"
+	   "'yd'   Yard\n"
+	   "'ang'  Angstrom\n"
+	   "'Pica' Pica\n\n"
+	   "Time:\n"
+	   "'yr'   Year\n"
+	   "'day'  Day\n"
+	   "'hr'   Hour\n"
+	   "'mn'   Minute\n"
+	   "'sec'  Second\n\n"
+	   "Pressure:\n"
+	   "'Pa'   Pascal\n"
+	   "'atm'  Atmosphere\n"
+	   "'mmHg' mm of Mercury\n\n"
+	   "Force:\n"
+	   "'N'    Newton\n"
+	   "'dyn'  Dyne\n"
+	   "'lbf'  Pound force\n\n"
+	   "Energy:\n"
+	   "'J'    Joule\n"
+	   "'e'    Erg\n"
+	   "'c'    Thermodynamic calorie\n"
+	   "'cal'  IT calorie\n"
+	   "'eV'   Electron volt\n"
+	   "'HPh'  Horsepower-hour\n"
+	   "'Wh'   Watt-hour\n"
+	   "'flb'  Foot-pound\n"
+	   "'BTU'  BTU\n\n"
+	   "Power:\n"
+	   "'HP'   Horsepower\n"
+	   "'W'    Watt\n"
+	   "Magnetism:\n"
+	   "'T'    Tesla\n"
+	   "'ga'   Gauss\n\n"
+	   "Temperature:\n"
+	   "'C'    Degree Celsius\n"
+	   "'F'    Degree Fahrenheit\n"
+	   "'K'    Degree Kelvin\n\n"
+	   "Liquid measure:\n"
+	   "'tsp'  Teaspoon\n"
+	   "'tbs'  Tablespoon\n"
+	   "'oz'   Fluid ounce\n"
+	   "'cup'  Cup\n"
+	   "'pt'   Pint\n"
+	   "'qt'   Quart\n"
+	   "'gal'  Gallon\n"
+	   "'l'    Liter\n\n"
+	   "For metric units any of the following prefixes can be used:\n"
+	   "'E'  exa    1E+18\n"
+	   "'P'  peta   1E+15\n"
+	   "'T'  tera   1E+12\n"
+	   "'G'  giga   1E+09\n"
+	   "'M'  mega   1E+06\n"
+	   "'k'  kilo   1E+03\n"
+	   "'h'  hecto  1E+02\n"
+	   "'e'  dekao  1E+01\n"
+	   "'d'  deci   1E-01\n"
+	   "'c'  centi  1E-02\n"
+	   "'m'  milli  1E-03\n"
+	   "'u'  micro  1E-06\n"
+	   "'n'  nano   1E-09\n"
+	   "'p'  pico   1E-12\n"
+	   "'f'  femto  1E-15\n"
+	   "'a'  atto   1E-18\n"
+	   "\n"
+	   "If @from_unit and @to_unit are different types, CONVERT returns "
+	   "#NUM! error. "
+	   "@SEEALSO=")
+};
+
+typedef struct {
+        char          *str;
+         float_t c;
+} eng_convert_unit_t;
+
+
+static float_t
+get_constant_of_unit(eng_convert_unit_t units[], 
+		     eng_convert_unit_t prefixes[],
+		     char *unit_name, float_t *c, float_t *prefix)
+{
+        int     i;
+
+	*prefix = 1;
+	for (i=0; units[i].str != NULL; i++)
+	        if (strcmp(unit_name, units[i].str) == 0) {
+		        *c = units[i].c;
+			return 1;
+		}
+
+	if (prefixes != NULL)
+	        for (i=0; prefixes[i].str != NULL; i++)
+		        if (strncmp(unit_name, prefixes[i].str, 1) == 0) {
+			        *prefix = prefixes[i].c;
+				unit_name++;
+				break;
+			}
+	
+	for (i=0; units[i].str != NULL; i++)
+	        if (strcmp(unit_name, units[i].str) == 0) {
+		        *c = units[i].c;
+			return 1;
+		}
+
+	return 0;
+}
+
+static int
+convert(eng_convert_unit_t units[],
+	eng_convert_unit_t prefixes[],
+	char *from_unit, char *to_unit,
+	float_t n, Value **v, char **error_string)
+{
+        float_t from_c, from_prefix, to_c, to_prefix;
+
+	if (get_constant_of_unit(units, prefixes, from_unit, &from_c,
+				 &from_prefix)) {
+	        if (!get_constant_of_unit(units, prefixes,
+					 to_unit, &to_c, &to_prefix)) {
+		        *error_string = _("#NUM!");
+			*v = NULL;
+			return 1;
+		}
+		*v = value_float(((n*from_prefix) / from_c) * 
+				 to_c / to_prefix);
+		return 1;
+	}
+
+	return 0;
+}	
+
+static Value *
+gnumeric_convert (struct FunctionDefinition *fd, 
+		  Value *argv [], char **error_string)
+{
+        /* Weight and mass constants */
+        #define one_g_to_sg     0.00006852205001
+	#define one_g_to_lbm    0.002204622915
+	#define one_g_to_u      6.02217e+23
+        #define one_g_to_ozm    0.035273972
+
+	/* Distance constants */
+	#define one_m_to_mi     0.0006213711922
+	#define one_m_to_Nmi    0.0005399568035
+	#define one_m_to_in     39.37007874
+	#define one_m_to_ft     3.280839895
+	#define one_m_to_yd     1.093613298
+	#define one_m_to_ang    10000000000.0
+	#define one_m_to_Pica   2834.645669
+
+	/* Time constants */
+	#define one_yr_to_day   365.25
+	#define one_yr_to_hr    8766
+	#define one_yr_to_mn    525960
+	#define one_yr_to_sec   31557600
+
+	/* Pressure constants */
+	#define one_Pa_to_atm   0.9869233e-5
+	#define one_Pa_to_mmHg  0.00750061708
+
+	/* Force constants */
+	#define one_N_to_dyn    100000
+	#define one_N_to_lbf    0.224808924
+
+	/* Energy constants */
+	#define one_J_to_e      9999995.193
+	#define one_J_to_c      0.239006249
+	#define one_J_to_cal    0.238846191
+	#define one_J_to_eV     6.2146e+18
+	#define one_J_to_HPh    3.72506e-7
+	#define one_J_to_Wh     0.000277778
+	#define one_J_to_flb    23.73042222
+	#define one_J_to_BTU    0.000947815
+
+	/* Power constants */
+	#define one_HP_to_W     745.701
+
+	/* Magnetism constants */
+	#define one_T_to_ga     10000
+
+	/* Temperature constants */
+	#define one_C_to_K      274.15
+
+	/* Liquid measure constants */
+	#define one_tsp_to_tbs  0.33333333333
+	#define one_tsp_to_oz   0.166666667
+	#define one_tsp_to_cup  0.020833333
+	#define one_tsp_to_pt   0.010416667
+	#define one_tsp_to_qt   0.005208333
+	#define one_tsp_to_gal  0.001302083
+	#define one_tsp_to_l    0.004929994
+
+	/* Prefixes */
+	#define exa    1e+18
+	#define peta   1e+15
+	#define tera   1e+12
+	#define giga   1e+09
+	#define mega   1e+06
+	#define kilo   1e+03
+	#define hecto  1e+02
+	#define dekao  1e+01
+	#define deci   1e-01
+	#define centi  1e-02
+	#define milli  1e-03
+	#define micro  1e-06
+	#define nano   1e-09
+	#define pico   1e-12
+	#define femto  1e-15
+	#define atto   1e-18
+
+	static eng_convert_unit_t weight_units[] = {
+	        { "g",    1.0 },
+		{ "sg",   one_g_to_sg, },
+		{ "lbm",  one_g_to_lbm },
+		{ "u",    one_g_to_u },
+		{ "ozm",  one_g_to_ozm },
+		{ NULL,   0.0 }
+	};
+
+	static eng_convert_unit_t distance_units[] = {
+	        { "m",    1.0 },
+		{ "mi",   one_m_to_mi },
+		{ "Nmi",  one_m_to_Nmi },
+		{ "in",   one_m_to_in },
+		{ "ft",   one_m_to_ft },
+		{ "yd",   one_m_to_yd },
+		{ "ang",  one_m_to_ang },
+		{ "Pica", one_m_to_Pica },
+		{ NULL,   0.0 }
+	};
+
+	static eng_convert_unit_t time_units[] = {
+	        { "yr",   1.0 },
+		{ "day",  one_yr_to_day },
+		{ "hr",   one_yr_to_hr },
+		{ "mn",   one_yr_to_mn },
+		{ "sec",  one_yr_to_sec },
+		{ NULL,   0.0 }
+	};
+
+	static eng_convert_unit_t pressure_units[] = {
+	        { "Pa",   1.0 },
+		{ "atm",  one_Pa_to_atm },
+		{ "mmHg", one_Pa_to_mmHg },
+		{ NULL,   0.0 }
+	};
+
+	static eng_convert_unit_t force_units[] = {
+	        { "N",    1.0 },
+		{ "dyn",  one_N_to_dyn },
+		{ "lbf",  one_N_to_lbf },
+		{ NULL,   0.0 }
+	};
+
+	static eng_convert_unit_t energy_units[] = {
+	        { "J",    1.0 },
+		{ "e",    one_J_to_e },
+		{ "c",    one_J_to_c },
+		{ "cal",  one_J_to_cal },
+		{ "eV",   one_J_to_eV },
+		{ "HPh",  one_J_to_HPh },
+		{ "Wh",   one_J_to_Wh },
+		{ "flb",  one_J_to_flb },
+		{ "BTU",  one_J_to_BTU },
+		{ NULL,   0.0 }
+	};
+
+	static eng_convert_unit_t power_units[] = {
+	        { "HP",   1.0 },
+		{ "W",    one_HP_to_W },
+		{ NULL,   0.0 }
+	};
+	
+	static eng_convert_unit_t magnetism_units[] = {
+	        { "T",    1.0 },
+		{ "ga",   one_T_to_ga },
+		{ NULL,   0.0 }
+	};
+
+	static eng_convert_unit_t liquid_units[] = {
+	        { "tsp",  1.0 },
+		{ "tbs",  one_tsp_to_tbs },
+		{ "oz",   one_tsp_to_oz },
+		{ "cup",  one_tsp_to_cup },
+		{ "pt",   one_tsp_to_pt },
+		{ "qt",   one_tsp_to_qt },
+		{ "gal",  one_tsp_to_gal },
+		{ "l",    one_tsp_to_l },
+		{ NULL,   0.0 }
+	};
+
+	static eng_convert_unit_t prefixes[] = {
+	        { "E", exa },
+	        { "P", peta },
+	        { "T", tera },
+	        { "G", giga },
+	        { "M", mega },
+	        { "k", kilo },
+	        { "h", hecto },
+	        { "e", dekao },
+	        { "d", deci },
+	        { "c", centi },
+	        { "m", milli },
+	        { "u", micro },
+	        { "n", nano },
+	        { "p", pico },
+	        { "f", femto },
+	        { "a", atto },
+		{ NULL,0.0 }
+	};
+
+	float_t n;
+	char    *from_unit, *to_unit;
+	Value   *v;
+
+	n = value_get_as_double(argv[0]);
+	from_unit = argv[1]->v.str->str;
+	to_unit = argv[2]->v.str->str;
+
+	if (strcmp(from_unit, "C") == 0 && strcmp(to_unit, "F") == 0)
+	        return value_float (1.8*n+32);
+	else if (strcmp(from_unit, "F") == 0 && strcmp(to_unit, "C") == 0)
+	        return value_float ((n-32)/1.8);
+	else if (strcmp(from_unit, "F") == 0 && strcmp(to_unit, "F") == 0)
+	        return value_float (n);
+	else if (strcmp(from_unit, "F") == 0 && strcmp(to_unit, "K") == 0)
+	        return value_float ((n-32)/1.8 + one_C_to_K-1);
+	else if (strcmp(from_unit, "K") == 0 && strcmp(to_unit, "F") == 0)
+	        return value_float (1.8*(n-one_C_to_K+1)+32);
+	else if (strcmp(from_unit, "C") == 0 && strcmp(to_unit, "K") == 0)
+	        return value_float (n + one_C_to_K-1);
+	else if (strcmp(from_unit, "K") == 0 && strcmp(to_unit, "C") == 0)
+	        return value_float (n - one_C_to_K+1);
+
+	if (convert(weight_units, prefixes, from_unit, to_unit, n, &v,
+		    error_string))
+	        return v;
+	if (convert(distance_units, prefixes, from_unit, to_unit, n, &v,
+		    error_string))
+	        return v;
+	if (convert(time_units, NULL, from_unit, to_unit, n, &v,
+		    error_string))
+	        return v;
+	if (convert(pressure_units, prefixes, from_unit, to_unit, n, &v,
+		    error_string))
+	        return v;
+	if (convert(force_units, prefixes, from_unit, to_unit, n, &v,
+		    error_string))
+	        return v;
+	if (convert(energy_units, prefixes, from_unit, to_unit, n, &v,
+		    error_string))
+	        return v;
+	if (convert(power_units, prefixes, from_unit, to_unit, n, &v,
+		    error_string))
+	        return v;
+	if (convert(magnetism_units, prefixes, from_unit, to_unit, n, &v,
+		    error_string))
+	        return v;
+	if (convert(liquid_units, prefixes, from_unit, to_unit, n, &v,
+		    error_string))
+	        return v;
+	if (convert(magnetism_units, prefixes, from_unit, to_unit, n, &v,
+		    error_string))
+	        return v;
+
+	*error_string = _("#NUM!");
+	return NULL;
+}
+
 static char *help_erf = {
 	N_("@FUNCTION=ERF\n"
 	   "@SYNTAX=ERF(lower limit[,upper_limit])\n"
@@ -1369,73 +1804,75 @@ gnumeric_gestep (struct FunctionDefinition *i,
 }
 
 FunctionDefinition eng_functions [] = {
-	{ "bessely",     "ff",   "xnum,ynum",        &help_bessely,
+	{ "bessely",     "ff",   "xnum,ynum",                &help_bessely,
 	  NULL, gnumeric_bessely },
-	{ "besselj",     "ff",   "xnum,ynum",        &help_besselj,
+	{ "besselj",     "ff",   "xnum,ynum",                &help_besselj,
 	  NULL, gnumeric_besselj },
-	{ "bin2dec",     "?",    "number",           &help_bin2dec,
+	{ "bin2dec",     "?",    "number",                   &help_bin2dec,
 	  NULL, gnumeric_bin2dec },
-	{ "bin2hex",     "?|f",  "xnum,ynum",        &help_bin2hex,
+	{ "bin2hex",     "?|f",  "xnum,ynum",                &help_bin2hex,
 	  NULL, gnumeric_bin2hex },
-	{ "bin2oct",     "?|f",  "xnum,ynum",        &help_bin2oct,
+	{ "bin2oct",     "?|f",  "xnum,ynum",                &help_bin2oct,
 	  NULL, gnumeric_bin2oct },
-	{ "complex",     "ff|s", "real,im[,suffix]", &help_complex,
+	{ "complex",     "ff|s", "real,im[,suffix]",         &help_complex,
 	  NULL, gnumeric_complex },
-	{ "dec2bin",     "?|f",  "xnum,ynum",        &help_dec2bin,
+	{ "convert",     "fss",  "number,from_unit,to_unit", &help_convert,
+	  NULL, gnumeric_convert },
+	{ "dec2bin",     "?|f",  "xnum,ynum",                &help_dec2bin,
 	  NULL, gnumeric_dec2bin },
-	{ "dec2oct",     "?|f",  "xnum,ynum",        &help_dec2oct,
+	{ "dec2oct",     "?|f",  "xnum,ynum",                &help_dec2oct,
 	  NULL, gnumeric_dec2oct },
-	{ "dec2hex",     "?|f",  "xnum,ynum",        &help_dec2hex,
+	{ "dec2hex",     "?|f",  "xnum,ynum",                &help_dec2hex,
 	  NULL, gnumeric_dec2hex },
-	{ "delta",       "f|f",  "xnum,ynum",        &help_delta,
+	{ "delta",       "f|f",  "xnum,ynum",                &help_delta,
 	  NULL, gnumeric_delta },
-	{ "erf",         "f|f",  "lower,upper",      &help_erf,
+	{ "erf",         "f|f",  "lower,upper",              &help_erf,
 	  NULL, gnumeric_erf  },
-	{ "erfc",        "f",    "number",           &help_erfc,
+	{ "erfc",        "f",    "number",                   &help_erfc,
 	  NULL, gnumeric_erfc },
-	{ "gestep",      "f|f",  "xnum,ynum",        &help_gestep,
+	{ "gestep",      "f|f",  "xnum,ynum",                &help_gestep,
 	  NULL, gnumeric_gestep },
-	{ "hex2bin",     "?|f",  "xnum,ynum",        &help_hex2bin,
+	{ "hex2bin",     "?|f",  "xnum,ynum",                &help_hex2bin,
 	  NULL, gnumeric_hex2bin },
-	{ "hex2dec",     "?",    "number",           &help_hex2dec,
+	{ "hex2dec",     "?",    "number",                   &help_hex2dec,
 	  NULL, gnumeric_hex2dec },
-	{ "hex2oct",     "?|f",  "xnum,ynum",        &help_hex2oct,
+	{ "hex2oct",     "?|f",  "xnum,ynum",                &help_hex2oct,
 	  NULL, gnumeric_hex2oct },
-	{ "imabs",       "?",  "inumber",            &help_imabs,
+	{ "imabs",       "?",  "inumber",                    &help_imabs,
 	  NULL, gnumeric_imabs },
-	{ "imaginary",   "?",  "inumber",            &help_imaginary,
+	{ "imaginary",   "?",  "inumber",                    &help_imaginary,
 	  NULL, gnumeric_imaginary },
-	{ "imargument",  "?",  "inumber",            &help_imargument,
+	{ "imargument",  "?",  "inumber",                    &help_imargument,
 	  NULL, gnumeric_imargument },
-	{ "imconjugate", "?",  "inumber",            &help_imconjugate,
+	{ "imconjugate", "?",  "inumber",                    &help_imconjugate,
 	  NULL, gnumeric_imconjugate },
-	{ "imcos",       "?",  "inumber",            &help_imcos,
+	{ "imcos",       "?",  "inumber",                    &help_imcos,
 	  NULL, gnumeric_imcos },
-	{ "imdiv",       "??", "inumber,inumber",    &help_imdiv,
+	{ "imdiv",       "??", "inumber,inumber",            &help_imdiv,
 	  NULL, gnumeric_imdiv },
-	{ "imexp",       "?",  "inumber",            &help_imexp,
+	{ "imexp",       "?",  "inumber",                    &help_imexp,
 	  NULL, gnumeric_imexp },
-	{ "imln",        "?",  "inumber",            &help_imln,
+	{ "imln",        "?",  "inumber",                    &help_imln,
 	  NULL, gnumeric_imln },
-	{ "impower",     "?f", "inumber,number",     &help_impower,
+	{ "impower",     "?f", "inumber,number",             &help_impower,
 	  NULL, gnumeric_impower },
-	{ "improduct",   "??", "inumber,inumber",    &help_improduct,
+	{ "improduct",   "??", "inumber,inumber",            &help_improduct,
 	  NULL, gnumeric_improduct },
-	{ "imreal",      "?",  "inumber",            &help_imreal,
+	{ "imreal",      "?",  "inumber",                    &help_imreal,
 	  NULL, gnumeric_imreal },
-	{ "imsin",       "?",  "inumber",            &help_imsin,
+	{ "imsin",       "?",  "inumber",                    &help_imsin,
 	  NULL, gnumeric_imsin },
-	{ "imsqrt",      "?",  "inumber",            &help_imsqrt,
+	{ "imsqrt",      "?",  "inumber",                    &help_imsqrt,
 	  NULL, gnumeric_imsqrt },
-	{ "imsub",       "??", "inumber,inumber",    &help_imsub,
+	{ "imsub",       "??", "inumber,inumber",            &help_imsub,
 	  NULL, gnumeric_imsub },
-	{ "imsum",       "??", "inumber,inumber",    &help_imsum,
+	{ "imsum",       "??", "inumber,inumber",            &help_imsum,
 	  NULL, gnumeric_imsum },
-	{ "oct2bin",     "?|f",  "xnum,ynum",        &help_oct2bin,
+	{ "oct2bin",     "?|f",  "xnum,ynum",                &help_oct2bin,
 	  NULL, gnumeric_oct2bin },
-	{ "oct2dec",     "?",    "number",           &help_oct2dec,
+	{ "oct2dec",     "?",    "number",                   &help_oct2dec,
 	  NULL, gnumeric_oct2dec },
-	{ "oct2hex",     "?|f",  "xnum,ynum",        &help_oct2hex,
+	{ "oct2hex",     "?|f",  "xnum,ynum",                &help_oct2hex,
 	  NULL, gnumeric_oct2hex },
 	/* besseli */
 	/* besselk */

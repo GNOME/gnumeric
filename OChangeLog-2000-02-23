@@ -1,3 +1,9 @@
+1999-05-11  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-eng.c: Added CONVERT().  All translations should work.
+  	Also get_real_and_imaginary() fixed (complex numbers should now
+ 	work completely).
+
 1999-05-10  Michael Meeks  <michael@imaginator.com>
 
 	* src/sheet.h: Added workbook_focus_sheet.
