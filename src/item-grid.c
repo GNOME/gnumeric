@@ -199,24 +199,22 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 		/* Remember X excludes the far pixels */
 		gdk_draw_rectangle (drawable, gc, TRUE, l, t, r-l+1, b-t+1);
 
-	if (range->start.col < view->start.col)
-		l -= scg_colrow_distance_get (grid->scg, TRUE,
-			range->start.col, view->start.col);
-
-	if (view->end.col < range->end.col)
-		r += scg_colrow_distance_get (grid->scg, TRUE,
-			view->end.col+1, range->end.col+1);
-	if (range->start.row < view->start.row)
-		t -= scg_colrow_distance_get (grid->scg, FALSE,
-			range->start.row, view->start.row);
-
-	if (view->end.row < range->end.row)
-		b += scg_colrow_distance_get (grid->scg, FALSE,
-			view->end.row+1, range->end.row+1);
-
 	if (cell != NULL) {
 		ColRowInfo const * const ri = cell->row_info;
 		ColRowInfo const * const ci = cell->col_info;
+
+		if (range->start.col < view->start.col)
+			l -= scg_colrow_distance_get (grid->scg, TRUE,
+				range->start.col, view->start.col);
+		if (view->end.col < range->end.col)
+			r += scg_colrow_distance_get (grid->scg, TRUE,
+				view->end.col+1, range->end.col+1);
+		if (range->start.row < view->start.row)
+			t -= scg_colrow_distance_get (grid->scg, FALSE,
+				range->start.row, view->start.row);
+		if (view->end.row < range->end.row)
+			b += scg_colrow_distance_get (grid->scg, FALSE,
+				view->end.row+1, range->end.row+1);
 
 		/* FIXME : get the margins from the far col/row too */
 		cell_draw (cell, mstyle, grid->cell_gc, drawable,
@@ -415,7 +413,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 
 					x += scg_colrow_distance_get (
 						gsheet->scg, TRUE, col, last+1);
-					col = r->end.col - 1;
+					col = last;
 
 					if (first < start_col) {
 						first = start_col;

@@ -1,5 +1,12 @@
 2001-02-05  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-grid.c (item_grid_draw) : Off by one.
+	(item_grid_draw_merged_range) : some simple optimization.  No need to
+	  calc the coords for the entire cell unless we are painting the
+	  content too.
+
+2001-02-05  Jody Goldberg <jgoldberg@home.com>
+
 	* src/style-border.c (style_borders_row_draw) : check for NULL even on
 	  the last border.
 
