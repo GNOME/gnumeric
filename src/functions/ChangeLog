@@ -1,3 +1,15 @@
+2002-01-19  Jon K Hellan  <hellan@acm.org>
+
+	* 
+
+	* fn-financial.c (days_monthly_basis, func_coup)
+	(gnumeric_accrint, gnumeric_price, gnumeric_yield)
+	(gnumeric_oddfprice): Use datetime_g_free instead of g_date_free.
+
+	* fn-date.c (gnumeric_datedif, gnumeric_edate, gnumeric_edate) 
+	(gnumeric_edate, gnumeric_days360, get_serial_weekday) 
+	(networkdays_holiday_callback): Ditto.
+
 2002-01-18  Neil Booth  <neil@daikokuya.demon.co.uk>
 
 	* functions/fn-financial.c (is_valid_basis, is_valid_freq): New.

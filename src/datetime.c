@@ -70,6 +70,18 @@ datetime_serial_to_g (int serial)
 
 /* ------------------------------------------------------------------------- */
 
+/** 
+ * Free GDate. Can be called with NULL without complaining.
+ */
+void
+datetime_g_free (GDate *d)
+{
+	if (d != NULL)
+		g_date_free (d);
+}
+
+/* ------------------------------------------------------------------------- */
+
 gnum_float
 datetime_value_to_serial_raw (const Value *v)
 {
@@ -498,8 +510,8 @@ coupdays (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean 
 		next = coup_cd (settlement, maturity, freq, eom, TRUE);
 		prev = coup_cd (settlement, maturity, freq, eom, FALSE);
 		days = days_between_basis (prev, next, BASIS_ACT_ACT);
-		g_date_free (prev);
-		g_date_free (next);
+		datetime_g_free (prev);
+		datetime_g_free (next);
 		return days;
         }
 }
@@ -519,7 +531,7 @@ coupdaybs (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean
 
 	prev_coupon = coup_cd (settlement, maturity, freq, eom, FALSE);
 	days = days_between_basis (prev_coupon, settlement, basis);
-	g_date_free (prev_coupon);
+	datetime_g_free (prev_coupon);
 	return days;
 }
 
@@ -539,7 +551,7 @@ coupdaysnc (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolea
 
 	next_coupon = coup_cd (settlement, maturity, freq, eom, TRUE);
 	days = days_between_basis (settlement, next_coupon, basis);
-	g_date_free (next_coupon);
+	datetime_g_free (next_coupon);
 	return days;
 }
 

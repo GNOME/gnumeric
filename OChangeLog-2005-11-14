@@ -1,3 +1,12 @@
+2002-01-19  Jon K Hellan  <hellan@acm.org>
+
+	* src/datetime.c (datetime_g_free): New function to free
+	GDate. Can be called with NULL without complaining.
+	(coupdays, coupdaybs, coupdaysnc): 
+
+	* src/sheet-autofill.c (autofill_compute_delta, autofill_cell):
+	Use datetime_g_free instead of g_date_free.
+
 2002-01-19  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-graph.c (gnm_graph_vector_seq_scalar) : handle blanks

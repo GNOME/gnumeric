@@ -22,6 +22,9 @@
 #define WEEKNUM_METHOD_MONDAY 2
 #define WEEKNUM_METHOD_ISO    150
 
+/* Free GDate. Can be called with NULL without complaining. */
+void datetime_g_free (GDate *d);
+
 /* These do not round and produces fractional values, i.e., includes time.  */
 gnum_float datetime_value_to_serial_raw (const Value *v);
 gnum_float datetime_timet_to_serial_raw (time_t t);
@@ -66,6 +69,8 @@ typedef enum { /* see doc/fn-financial-basis.txt for details */
 	BASIS_30Ep_360    = 5,
 	BASIS_LAST        = 6
 } basis_t;
+
+void adjust_dates_basis (GDate *from, GDate *to, int basis);
 
 gint32 days_between_basis (GDate *from, GDate *to, int basis);
 

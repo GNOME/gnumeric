@@ -414,8 +414,8 @@ autofill_compute_delta (GList *list_last, gboolean singleton_increment)
 
 			fi->delta.d_int = b - a;
 		}
-		g_date_free (prev);
-		g_date_free (cur);
+		datetime_g_free (prev);
+		datetime_g_free (cur);
 		if (fi->type == FILL_DAYS)
 			fi->type = FILL_NUMBER;
 		else if (fi->type != FILL_NUMBER)
@@ -667,7 +667,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 				g_date_subtract_years (date, -d);
 		}
 		d = datetime_g_to_serial (date);
-		g_date_free (date);
+		datetime_g_free (date);
 
 		res -= gnumeric_fake_floor (res);
 		v = (res < 1e-6) ? value_new_int (d)

@@ -200,11 +200,11 @@ days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 		months = years * 12 + months;
 		leap_year = g_date_is_leap_year (issue_year);
 
-		g_date_free (date_i);
-		g_date_free (date_m);
+		datetime_g_free (date_i);
+		datetime_g_free (date_m);
 	} else {
-	        if (date_i) g_date_free (date_i);
-	        if (date_m) g_date_free (date_m);
+	        datetime_g_free (date_i);
+	        datetime_g_free (date_m);
 	        return -1;
 	}
 
@@ -326,10 +326,8 @@ func_coup (FunctionEvalInfo *ei, Value **argv,
 	result = value_new_float (coup_fn (settlement, maturity, freq, basis, eom));
 
  out:
-	if (settlement != NULL)
-		g_date_free (settlement);
-	if (maturity != NULL)
-		g_date_free (maturity);
+	datetime_g_free (settlement);
+	datetime_g_free (maturity);
 
 	return result;
 }
@@ -424,9 +422,9 @@ gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
 	result = value_new_float (coefficient * freq * x);
 
  out:
-	g_date_free (settlement);
-	g_date_free (first_interest);
-	g_date_free (maturity);
+	datetime_g_free (settlement);
+	datetime_g_free (first_interest);
+	datetime_g_free (maturity);
 
 	return result;
 }
@@ -2332,8 +2330,8 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 	result = value_new_float (first_term + sum - last_term);
 
  out:
-	g_date_free (settlement);
-	g_date_free (maturity);
+	datetime_g_free (settlement);
+	datetime_g_free (maturity);
 
 	return result;
 }
@@ -2422,8 +2420,8 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 	}
 
  out:
-	g_date_free (settlement);
-	g_date_free (maturity);
+	datetime_g_free (settlement);
+	datetime_g_free (maturity);
 
 	return result;
 }
@@ -2596,10 +2594,10 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
 	result = value_new_float (term1 + term2 + sum - last_term);
 
  out:
-	g_date_free (settlement);
-	g_date_free (maturity);
-	g_date_free (issue);
-	g_date_free (first_coupon);
+	datetime_g_free (settlement);
+	datetime_g_free (maturity);
+	datetime_g_free (issue);
+	datetime_g_free (first_coupon);
 
 	return result;
 }

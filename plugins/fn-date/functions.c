@@ -338,8 +338,8 @@ gnumeric_datedif (FunctionEvalInfo *ei, Value **argv)
 		}
 	}
 
-	g_date_free (gdate1);
-	g_date_free (gdate2);
+	datetime_g_free (gdate1);
+	datetime_g_free (gdate2);
 
 	return result;
 }
@@ -379,7 +379,7 @@ gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
 	date = datetime_serial_to_g (serial);
 
 	if (!g_date_valid (date)) {
-                  g_date_free (date);
+                  datetime_g_free (date);
                   return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}
 
@@ -389,12 +389,12 @@ gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
 	        g_date_subtract_months (date, -months);
 
 	if (!g_date_valid (date)) {
-                  g_date_free (date);
+                  datetime_g_free (date);
                   return value_new_error (ei->pos, gnumeric_err_NUM);
 	}
 
 	res = value_new_int (datetime_g_to_serial (date));
-	g_date_free (date);
+	datetime_g_free (date);
 	return res;
 }
 
@@ -860,8 +860,8 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 	result = ((year2 - year1) * 12 + (month2 - month1)) * 30 +
 		(day2 - day1);
 
-	g_date_free (date1);
-	g_date_free (date2);
+	datetime_g_free (date1);
+	datetime_g_free (date2);
 
 	return value_new_int (flipped ? -result : result);
 }
@@ -1025,7 +1025,7 @@ get_serial_weekday (int serial, int * offset)
 			*offset = 4;
 	} else
 		serial = -1;
-	g_date_free (date);
+	datetime_g_free (date);
 	return serial;
 }
 
@@ -1061,7 +1061,7 @@ networkdays_holiday_callback(EvalPos const *ep,
 	} else
 		res = value_new_error (ep, gnumeric_err_NUM);
 
-	g_date_free (date);
+	datetime_g_free (date);
 	return res;
 }
 
