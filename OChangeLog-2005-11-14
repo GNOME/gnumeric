@@ -1,3 +1,16 @@
+2004-10-16  Jody Goldberg <jody@gnome.org>
+
+	* src/func.c (function_call_with_list) : Everything can now return an
+	  empty during evaluation.
+
+2004-10-16  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-cell-comment.c (cell_comment_new_view) : add
+	  bounds-changed handler.
+	(cell_comment_event) : This now takes a GnmPane, not an scg.
+
+	* src/sheet-object-cell-comment.c : Add a text property.
+
 2004-10-14  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (gnm_usr_dir): Use g_build_filename.  Note, that

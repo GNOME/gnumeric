@@ -4,6 +4,7 @@ Jody:
 	* Enable selecting and moving multiple drawing objects
 	* Swap X & Y axis content when importing xls bar plots. [#154734]
 	* Basic handling for XL 'Forms' Objects
+	* Fix handling of empty arguments in nested expressions
 
 Morten:
 	* Implement Edit->Select->Input. [#154735]
