@@ -16,6 +16,7 @@
 
 #include <gnome.h>
 #include <string.h>
+#include <ctype.h>
 #include "gnumeric.h"
 #include "sheet-autofill.h"
 
@@ -141,7 +142,28 @@ matches_list (String *str, int *n, int *is_i18n)
 static int
 string_has_number (String *str, int *num, int *pos)
 {
-	return FALSE;
+	char *s = str->str, *p;
+	int l = strlen (s);
+	
+	if (isdigit (*s)){
+		*num = atoi (s);
+		*pos = 0;
+		return TRUE;
+	}
+	if (l <= 1)
+		return FALSE;
+	
+	for (p = s + l - 1; p > str->str && isdigit (*p); p--)
+		;
+
+	if (p == str->str)
+		return FALSE;
+
+	p++;
+	*num = atoi (p);
+	*pos = p - str->str;
+
+	return TRUE;
 }
 
 static void
@@ -265,7 +287,7 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 		if (list_last->prev){
 			lfi = list_last->prev->data;
 				
-			fi->delta.d_int = lfi->v.numstr.num - fi->v.numstr.num;
+			fi->delta.d_int = fi->v.numstr.num - lfi->v.numstr.num;
 		}
 		return;
 		
@@ -398,8 +420,32 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		cell_set_text (cell, fi->v.str->str);
 		return;
 
-	case FILL_STRING_WITH_NUMBER:
+	case FILL_STRING_WITH_NUMBER: {
+		FillItem *last = fi->group_last;
+		char buffer [50], *v;
+		int i;
+		
+		i = last->v.numstr.num + idx * last->delta.d_int;
+		snprintf (buffer, sizeof (buffer)-1, "%d", i);
+		
+		if (last->v.numstr.pos == 0){
+			char *p = last->v.numstr.str->str;
+
+			while (*p && isdigit (*p))
+			       p++;
+			
+			v = g_copy_strings (buffer, p, NULL);
+		} else {
+			char *n = g_strdup (last->v.numstr.str->str);
+			n [last->v.numstr.pos] = 0;
+
+			v = g_copy_strings (n, buffer, NULL);
+			g_free (n);
+		}
+		cell_set_text (cell, v);
+		g_free (v);
 		return;
+	}
 
 	case FILL_NUMBER: {
 		FillItem *last = fi->group_last;
@@ -430,18 +476,12 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 
 		n %= last->v.list.list->count;
 
-		printf ("base=%d idx=%d delta=%d\n", last->v.list.num, idx, last->delta.d_int);
-		printf ("count=%d, n=%d\n", last->v.list.list->count, n);
-		
 		if (n < 0)
 			n = (last->v.list.list->count + n);
 
 		text = last->v.list.list->items [n];
 		if (last->v.list.was_i18n)
 			text = _(text);
-
-		if (!text)
-			text = "X";
 
 		cell_set_text (cell, text);
 			       

@@ -10,7 +10,7 @@
 
 #define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);
 
-static void sheet_finish_object_creation (Sheet *sheet);
+static void sheet_finish_object_creation (Sheet *sheet, SheetObject *object);
 static void sheet_object_unrealize       (Sheet *sheet, SheetObject *object);
 static void sheet_object_realize         (Sheet *sheet, SheetObject *object);
 static void sheet_object_start_editing   (SheetObject *object);
@@ -98,6 +98,7 @@ sheet_object_create_filled (Sheet *sheet, int type,
 	if (fill_color)
 		sfo->fill_color = string_get (fill_color);
 
+	sheet->objects = g_list_prepend (sheet->objects, sfo);
 	
 	return (SheetObject *) sfo;
 }
@@ -121,6 +122,8 @@ sheet_object_create_line (Sheet *sheet, int is_arrow, double x1, double y1, doub
 	so->color = string_get (color);
 	so->width = w;
 	
+	sheet->objects = g_list_prepend (sheet->objects, sfo);
+
 	return so;
 }
 
@@ -154,6 +157,8 @@ sheet_object_destroy (SheetObject *object)
 		gtk_object_destroy (GTK_OBJECT (item));
 	}
 	g_list_free (l);
+
+	sheet->objects = g_list_remove (sheet->objects, object);
 	
 	g_free (object);
 }
@@ -260,11 +265,16 @@ sheet_view_object_unrealize (SheetView *sheet_view, SheetObject *object)
 	}
 }
 
-static void
+void
 sheet_object_realize (Sheet *sheet, SheetObject *object)
 {
 	GList *l;
 
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (IS_SHEET_OBJECT (object));
+	
 	for (l = sheet->sheet_views; l; l = l->next){
 		SheetView *sheet_view = l->data;
 		GnomeCanvasItem *item;
@@ -274,10 +284,15 @@ sheet_object_realize (Sheet *sheet, SheetObject *object)
 	}
 }
 
-static void
+void
 sheet_object_unrealize (Sheet *sheet, SheetObject *object)
 {
 	GList *l;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (IS_SHEET_OBJECT (object));
 
 	for (l = sheet->sheet_views; l; l = l->next){
 		SheetView *sheet_view = l->data;
@@ -369,7 +384,7 @@ sheet_button_release (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet
 
 	sheet_object_make_current (sheet, o);
 	
-	sheet_finish_object_creation (sheet);
+	sheet_finish_object_creation (sheet, o);
 
 	return 1;
 }
@@ -399,7 +414,7 @@ sheet_button_press (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet)
 }
 
 static void
-sheet_finish_object_creation (Sheet *sheet)
+sheet_finish_object_creation (Sheet *sheet, SheetObject *o)
 {
 	GList *l;
 

@@ -1,3 +1,17 @@
+1998-09-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet-object.c (sheet_object_destroy): Keep track of the
+	sheet->objects structure.
+	(sheet_object_create_line, sheet_object_create_filled): Keep track
+	of the sheet->objects structure.
+	(sheet_object_realize, sheet_object_unrealize): Export these
+	functions. 
+	(sheet_object_destroy): Keep track of the sheet->objects structure
+
+	* src/sheet-autofill.c (autofill_cell): Implemented autofill on
+	strings that contains numbers.  This allows autofill to handle
+	stuff like "Product1" -> "Product2", ...
+
 Wed Sep 16 23:56:59 EDT 1998 Daniel Veillard <Daniel.Veillard@w3.org>
 
 	* src/xml-io.c: started working on object saving/loading.

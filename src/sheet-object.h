@@ -46,12 +46,17 @@ void             sheet_object_destroy        (SheetObject *object);
 /*
  * This routine creates the SheetObject in the SheetViews's Canvases.
  */
-GnomeCanvasItem *sheet_view_object_realize   (SheetView *sheet_view,
+void             sheet_object_realize        (SheetView *sheet_view,
 					      SheetObject *object);
-void             sheet_view_object_unrealize (SheetView *sheet_view,
+
+void             sheet_object_unrealize      (SheetView *sheet_view,
 					      SheetObject *object);
 
 void             sheet_object_make_current   (Sheet *sheet,
+					      SheetObject *object);
+
+/* Registers the object in the Sheet, otherwise we cant keep track of it */
+void             sheet_object_register       (Sheet *sheet,
 					      SheetObject *object);
 
 #endif
