@@ -864,13 +864,14 @@ stf_parse_convert_to_unix (char *data)
 char const *
 stf_parse_is_valid_data (char const *data, int buf_len)
 {
-	char const *s;
-	wchar_t wstr;
+	char const *s, *end;
 #ifdef HAVE_WCTYPE_H
+	wchar_t wstr;
 	int len;
 #endif
 
-	for (s = data; buf_len-- > 0;) {
+	end = data + buf_len;
+	for (s = data; s < end;) {
 #ifdef HAVE_WCTYPE_H
 		len = mblen(s, MB_CUR_MAX);
 		if (len == -1)

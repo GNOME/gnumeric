@@ -1,3 +1,9 @@
+2002-11-16   Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* stf-parse.c (stf_parse_is_valid_data) : declare wstr only if
+	HAVE_WCTYPE_H, don't read past the buffer end even if we encountered
+	wide characters.
+
 2002-11-16  Jon K Hellan  <hellan@acm.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=98661
