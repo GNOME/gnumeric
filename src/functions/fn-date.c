@@ -149,7 +149,7 @@ gnumeric_date2unix (FunctionEvalInfo *ei, Value **argv)
 	if (fabs (fserial - serial) >= 1.0 || utime == (time_t)-1)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	return value_new_float (utime + (fserial - serial));
+	return value_new_float (utime + DAY_SECONDS * (fserial - serial));
 }
 
 /***************************************************************************/
