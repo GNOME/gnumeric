@@ -1,5 +1,7 @@
 2002-03-17  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* reports.c, solver.c, api.c: Implemented support for bool constraints.
+
 	* solver.c, api.c : Implemented the support for non-negativity
 	assumption button.  Should be now fully working with both LP Solve
 	and GLPK Simplex.

@@ -78,12 +78,11 @@ solver_results_init (const SolverParameters *sp)
 {
         SolverResults *res     = g_new (SolverResults, 1);
 
-	res->optimal_values    = g_new (gnum_float, sp->n_variables);
-	res->original_values   = g_new (gnum_float, sp->n_variables);
-	res->variable_names    = g_new0 (gchar *, sp->n_variables);
-	res->constraint_names  = g_new0 (gchar *, sp->n_constraints);
-	res->shadow_prizes     = g_new0 (gnum_float, sp->n_constraints +
-					 sp->n_int_bool_constraints);
+	res->optimal_values    = g_new (gnum_float,  sp->n_variables);
+	res->original_values   = g_new (gnum_float,  sp->n_variables);
+	res->variable_names    = g_new0 (gchar *,    sp->n_variables);
+	res->constraint_names  = g_new0 (gchar *,    sp->n_constraints);
+	res->shadow_prizes     = g_new0 (gnum_float, sp->n_total_constraints);
 	res->n_variables       = sp->n_variables;
 	res->n_constraints     = sp->n_constraints;
 	res->n_nonzeros_in_obj = 0;
@@ -201,7 +200,7 @@ get_target_cell_value (SolverResults *res, Cell *target_cell,
 {
         Cell *var_cell;
 
-	var_cell = get_solver_input_var (res, col);
+	var_cell   = get_solver_input_var (res, col);
 	*old_value = value_get_as_float (var_cell->value);
 	sheet_cell_set_value (var_cell, value_new_float (x));
 	cell_eval (target_cell);
@@ -315,8 +314,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
  target_cell_formula_ok:
 
 	/* Add constraints. */
-	for (i = ind = 0; i < param->n_constraints + param->n_int_bool_constraints;
-	     i++) {
+	for (i = ind = 0; i < param->n_total_constraints; i++) {
 	        SolverConstraint *c = get_solver_constraint (res, i);
 		target = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
 
@@ -334,7 +332,15 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 		        n = get_col_nbr (res, &c->lhs);
 			if (n == -1)
 			        return NULL;
-		        alg->set_int_fn (program, n, TRUE);
+		        alg->set_int_fn (program, n);
+			res->ilp_flag = TRUE;
+		        continue;
+		}
+		if (c->type == SolverBOOL) {
+		        n = get_col_nbr (res, &c->lhs);
+			if (n == -1)
+			        return NULL;
+		        alg->set_bool_fn (program, n);
 			res->ilp_flag = TRUE;
 		        continue;
 		}
@@ -351,7 +357,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 
 		/* Check that RHS is a number type. */
 		if (! (target->value == NULL || VALUE_IS_EMPTY (target->value)
-		              || VALUE_IS_NUMBER (target->value))) {
+		       || VALUE_IS_NUMBER (target->value))) {
 		          *errmsg = _("The RHS cells should contain proper "
 				      "numerical values only.  Specify valid "
 				      "RHS entries.");
@@ -481,21 +487,26 @@ check_program_definition_failures (Sheet            *sheet,
  	for (inputs = param->input_cells; inputs ; inputs = inputs->next)
 	        input_cells_array[i++] = (Cell *) inputs->data;
 
-	param->n_constraints = 0;
-	param->n_int_bool_constraints = 0;
+	param->n_constraints      = 0;
+	param->n_int_constraints  = 0;
+	param->n_bool_constraints = 0;
 	i = 0;
  	for (c = param->constraints; c ; c = c->next) {
 	        SolverConstraint *sc = (SolverConstraint *) c->data;
 
-		if (sc->type == SolverINT || sc->type == SolverBOOL)
-		        param->n_int_bool_constraints +=
+		if (sc->type == SolverINT)
+		        param->n_int_constraints +=
+			        MAX (sc->rows, sc->cols);
+		else if (sc->type == SolverBOOL)
+		        param->n_bool_constraints +=
 			        MAX (sc->rows, sc->cols);
 		else
 		        param->n_constraints += MAX (sc->rows, sc->cols);
 	}
+	param->n_total_constraints = param->n_constraints +
+	        param->n_int_constraints + param->n_bool_constraints;
 	constraints_array = g_new (SolverConstraint *,
-				   param->n_constraints +
-				   param->n_int_bool_constraints);
+				   param->n_total_constraints);
 	i = 0;
  	for (c = param->constraints; c ; c = c->next) {
 	        SolverConstraint *sc = (SolverConstraint *) c->data;
@@ -527,10 +538,8 @@ check_program_definition_failures (Sheet            *sheet,
 	(*res)->constraints_array = constraints_array;
 	(*res)->obj_coeff = g_new0 (gnum_float, param->n_variables);
 
-	(*res)->constr_coeff = g_new0 (gnum_float *, param->n_constraints
-				       + param->n_int_bool_constraints);
-	for (i = 0; i < param->n_constraints
-	       + param->n_int_bool_constraints; i++)
+	(*res)->constr_coeff = g_new0 (gnum_float *, param->n_total_constraints);
+	for (i = 0; i < param->n_total_constraints; i++)
 	        (*res)->constr_coeff[i] = g_new0 (gnum_float,
 						  param->n_variables);
 	(*res)->limits = g_new (SolverLimits, param->n_variables);
@@ -547,8 +556,7 @@ is_still_feasible (Sheet *sheet, SolverResults *res, int col, gnum_float value)
 	gboolean   status = FALSE;
 
 	res->optimal_values[col] = value;
-	for (i = 0; i < res->param->n_constraints
-	       + res->param->n_int_bool_constraints; i++) {
+	for (i = 0; i < res->param->n_total_constraints; i++) {
 	        SolverConstraint *c = get_solver_constraint (res, i);
 
 		c_value = 0;
@@ -591,8 +599,7 @@ calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
 {
         int i, n;
 
-	for (i = 0; i < param->n_constraints
-	       + param->n_int_bool_constraints; i++) {
+	for (i = 0; i < param->n_total_constraints; i++) {
 	        gnum_float       slack, lhs, rhs, x, y, old_val;
 		SolverConstraint *c = res->constraints_array[i];
 		Cell             *cell;
@@ -688,8 +695,7 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 			        value_get_as_float (cell->value);
 		}
 
-		for (i = 0; i < param->n_constraints
-		       + param->n_int_bool_constraints; i++) {
+		for (i = 0; i < param->n_total_constraints; i++) {
 		        res->shadow_prizes[i] =
 			        lp_algorithm[param->options.algorithm]
 			                .get_shadow_prize_fn (program, i);

@@ -215,8 +215,7 @@ solver_answer_report (WorkbookControl *wbc,
 	dao_set_cell (&dao, 6, 15 + vars, _("Slack"));
 	dao_set_bold (&dao, 0, 15 + vars, 6, 15 + vars);
 
-	for (i = 0; i < res->param->n_constraints +
-	       res->param->n_int_bool_constraints; i++) {
+	for (i = 0; i < res->param->n_total_constraints; i++) {
 	        SolverConstraint *c = res->constraints_array[i];
 		gnum_float       lhs, rhs;
 
@@ -368,8 +367,7 @@ solver_sensitivity_report (WorkbookControl *wbc,
 	dao_set_cell (&dao, 7, 11 + vars, _("Decrease"));
 	dao_set_bold (&dao, 0, 10 + vars, 7, 11 + vars);
 
-	for (i = 0; i < res->param->n_constraints +
-	       res->param->n_int_bool_constraints; i++) {
+	for (i = 0; i < res->param->n_total_constraints; i++) {
 	        SolverConstraint *c = res->constraints_array[i];
 
 		/* Set `Cell' column */
@@ -627,11 +625,12 @@ solver_performance_report (WorkbookControl *wbc,
 	dao_set_cell_value (&dao, 3, 7, value_new_float (res->param->n_constraints));
 
 	/* Set the `Nbr of Int Constraints'. */
-	dao_set_cell_value (&dao, 4, 7, /* FIXME: Bools */
-			value_new_float (res->param->n_int_bool_constraints));
+	dao_set_cell_value (&dao, 4, 7, 
+			    value_new_float (res->param->n_int_constraints));
 
 	/* Set the `Nbr of Bool Constraints'. */
-	dao_set_cell_value (&dao, 5, 7, value_new_float (0)); /* FIXME: Bools */
+	dao_set_cell_value (&dao, 5, 7,
+			    value_new_float (res->param->n_bool_constraints));
 
 
 	/*
@@ -849,8 +848,7 @@ solver_program_report (WorkbookControl *wbc,
 
 	/* Print the constraints. */
 	row = 10;
-	for (i = 0; i < res->param->n_constraints +
-	       res->param->n_int_bool_constraints; i++) {
+	for (i = 0; i < res->param->n_total_constraints; i++) {
 	        SolverConstraint *c = res->constraints_array[i];
 
 		/* Print the constraint function. */

@@ -54,8 +54,9 @@ typedef void
 typedef void
         (solver_lp_set_minim_fn)        (SolverProgram p);
 typedef void
-        (solver_lp_set_int_fn)          (SolverProgram p, int col,
-					 gboolean must_be_int);
+        (solver_lp_set_int_fn)          (SolverProgram p, int col);
+typedef void
+        (solver_lp_set_bool_fn)         (SolverProgram p, int col);
 typedef SolverStatus
         (solver_lp_solve_fn)            (SolverProgram p);
 typedef gnum_float
@@ -83,6 +84,7 @@ typedef struct {
         solver_lp_set_maxim_fn        *maxim_fn;
         solver_lp_set_minim_fn        *minim_fn;
         solver_lp_set_int_fn          *set_int_fn;
+        solver_lp_set_bool_fn         *set_bool_fn;
         solver_lp_solve_fn            *solve_fn;
         solver_lp_get_obj_fn_value_fn *get_obj_fn_value_fn;
         solver_lp_get_obj_fn_var_fn   *get_obj_fn_var_fn;
@@ -124,7 +126,9 @@ struct _SolverParameters {
         char               *input_entry_str;
         int                n_constraints;
         int                n_variables;
-        int                n_int_bool_constraints;
+        int                n_int_constraints;
+        int                n_bool_constraints;
+        int                n_total_constraints;
         SolverOptions      options;
 };
 

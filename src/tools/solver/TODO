@@ -3,6 +3,7 @@ Regarding LP & ILP:
 
 Critical bugs:
   * fix bug: solver parameters when the sheet is duplicated
+  * fix bug: INT & BOOL constraints with GLPK Simplex
 
 Usability fixes:
   * add `keep original values dialog'
@@ -16,7 +17,6 @@ Usability fixes:
   * fix constraint change button
 
 Feature enhancements:
-  * implement bool constraints
   * add options:
     - algorithm selection
     - max iterations

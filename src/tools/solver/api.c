@@ -86,9 +86,13 @@
  *   Sets the program type to be a minimization program.
  *
  * typedef void          (solver_lp_set_int_fn)          (SolverProgram p,
- *                                                        int col,
- *						          gboolean must_be_int);
- *   Sets or resets an integer constraint for a variable.  The column numbering
+ *                                                        int col);
+ *   Sets an integer constraint for a variable.  The column numbering
+ *   begins from zero.
+ *
+ * typedef void          (solver_lp_set_bool_fn)         (SolverProgram p,
+ *                                                        int col);
+ *   Sets an boolean constraint for a variable.  The column numbering
  *   begins from zero.
  *
  * typedef SolverStatus  (solver_lp_solve_fn)            (SolverProgram p);
@@ -221,15 +225,35 @@ w_lp_solve_set_constr (SolverProgram program, int row,
 }
 
 void
-w_lp_solve_set_int (SolverProgram program, int col, gboolean must_be_int)
+w_lp_solve_set_int (SolverProgram program, int col)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
 
 	if (lp->assume_non_negative) 
-	        lp_solve_set_int (lp->p, col + 1, must_be_int);
+	        lp_solve_set_int (lp->p, col + 1, TRUE);
 	else {
-	        lp_solve_set_int (lp->p, 2 * col + 1, must_be_int);
-	        lp_solve_set_int (lp->p, 2 * col + 2, must_be_int);
+	        lp_solve_set_int (lp->p, 2 * col + 1, TRUE);
+	        lp_solve_set_int (lp->p, 2 * col + 2, TRUE);
+	}
+}
+
+void
+w_lp_solve_set_bool (SolverProgram program, int col)
+{
+	lp_solve_t *lp = (lp_solve_t *) program;
+
+	if (lp->assume_non_negative) {
+	        lp_solve_set_int   (lp->p, col + 1, TRUE);
+		lp_solve_set_upbo  (lp->p, col + 1, 1);
+		lp_solve_set_lowbo (lp->p, col + 1, 0);
+	} else {
+	        lp_solve_set_int   (lp->p, 2 * col + 1, TRUE);
+		lp_solve_set_upbo  (lp->p, 2 * col + 1, 1);
+		lp_solve_set_lowbo (lp->p, 2 * col + 1, 0);
+
+	        lp_solve_set_int   (lp->p, 2 * col + 2, TRUE);
+		lp_solve_set_upbo  (lp->p, 2 * col + 2, 1);
+		lp_solve_set_lowbo (lp->p, 2 * col + 2, 0);
 	}
 }
 
@@ -439,17 +463,31 @@ w_glpk_set_constr (SolverProgram program, int row, SolverConstraintType type,
 }
 
 void
-w_glpk_set_int (SolverProgram program, int col, gboolean must_be_int)
+w_glpk_set_int (SolverProgram program, int col)
 {
         glpk_simplex2_t *lp = (glpk_simplex2_t *) program;
 
-        if (must_be_int) {
-	        if (lp->assume_non_negative)
-		        glp_set_col_kind (lp->p, col + 1, 'I');
-		else {
-		        glp_set_col_kind (lp->p, 2 * col + 1, 'I');
-		        glp_set_col_kind (lp->p, 2 * col + 2, 'I');
-		}
+	if (lp->assume_non_negative)
+	        glp_set_col_kind (lp->p, col + 1, 'I');
+	else {
+	        glp_set_col_kind (lp->p, 2 * col + 1, 'I');
+		glp_set_col_kind (lp->p, 2 * col + 2, 'I');
+	}
+}
+
+void
+w_glpk_set_bool (SolverProgram program, int col)
+{
+        glpk_simplex2_t *lp = (glpk_simplex2_t *) program;
+
+	if (lp->assume_non_negative) {
+	        glp_set_col_kind (lp->p, col + 1, 'I');
+		glp_set_col_bnds (lp->p, col + 1, 'D', 0, 1);
+	} else {
+	        glp_set_col_kind (lp->p, 2 * col + 1, 'I');
+		glp_set_col_bnds (lp->p, 2 * col + 1, 'D', 0, 1);
+		glp_set_col_kind (lp->p, 2 * col + 2, 'I');
+		glp_set_col_bnds (lp->p, 2 * col + 2, 'D', 0, 1);
 	}
 }
 
@@ -558,6 +596,7 @@ SolverLPAlgorithm lp_algorithm [] = {
 		(solver_lp_set_maxim_fn*)        w_lp_solve_set_maxim,
 		(solver_lp_set_minim_fn*)        w_lp_solve_set_minim,
 		(solver_lp_set_int_fn*)          w_lp_solve_set_int,
+		(solver_lp_set_bool_fn*)         w_lp_solve_set_bool,
 		(solver_lp_solve_fn*)            w_lp_solve_solve,
 		(solver_lp_get_obj_fn_value_fn*) w_lp_solve_get_value_of_obj_fn,
 		(solver_lp_get_obj_fn_var_fn*)   w_lp_solve_get_solution,
@@ -577,6 +616,7 @@ SolverLPAlgorithm lp_algorithm [] = {
 		(solver_lp_set_maxim_fn*)        w_glpk_set_maxim,
 		(solver_lp_set_minim_fn*)        w_glpk_set_minim,
 		(solver_lp_set_int_fn*)          w_glpk_set_int,
+		(solver_lp_set_bool_fn*)         w_glpk_set_bool,
 		(solver_lp_solve_fn*)            w_glpk_simplex2_solve,
 		(solver_lp_get_obj_fn_value_fn*) w_glpk_get_value_of_obj_fn,
 		(solver_lp_get_obj_fn_var_fn*)   w_glpk_get_solution,
