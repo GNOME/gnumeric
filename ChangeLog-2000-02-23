@@ -1,3 +1,7 @@
+1999-11-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/Makefile.am : Remove non-existant sheet-style.h.
+
 1999-11-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-cell-format.c (fmt_dialog_impl) : Dont close the
