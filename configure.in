@@ -90,6 +90,7 @@ src/Makefile
 plugins/Makefile
 plugins/sample/Makefile
 plugins/python/Makefile
+plugins/perl/Makefile
 intl/Makefile
 po/Makefile.in
 macros/Makefile
