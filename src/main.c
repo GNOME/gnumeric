@@ -176,6 +176,11 @@ gnumeric_main (void *closure, int argc, char *argv [])
 
 	global_gnome_font_init ();
 
+	/* Ignore Shift for accelerators to avoid problems with different keyboard layouts
+	 * that change the shift state of various keys.
+	 */
+	gtk_accelerator_set_default_mod_mask (gtk_accelerator_get_default_mod_mask() & ~GDK_SHIFT_MASK);
+
 	/* Glade */
 	glade_gnome_init ();
 	if (startup_glade_file)

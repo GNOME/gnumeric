@@ -1,5 +1,13 @@
 2000-08-07  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook.c (workbook_menu_insert_special) : No need to specify
+	  the shift state anymore.
+
+	* src/main.c (gnumeric_main) : Bug 15791.  Disregard the state of the
+	  shift modifier for accelerators.
+
+2000-08-07  Jody Goldberg <jgoldberg@home.com>
+
 	* src/functions/fn-stat.c (callback_function_stat) : Handle blanks as 0.
 	(callback_function_make_list) : Ditto.
 	(callback_function_ttest) : Ditto.
