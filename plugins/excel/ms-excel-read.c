@@ -1642,7 +1642,7 @@ ms_excel_sheet_insert (ExcelSheet *sheet, int xfidx,
 	if (text)
 		cell_set_text_simple (cell, text);
 	else
-		cell_set_text_simple (cell, "");
+		cell_set_value (cell, value_new_empty ());
 }
 
 /* Shared formula support functions */
@@ -1986,7 +1986,7 @@ ms_excel_sheet_set_comment (ExcelSheet *sheet, int col, int row, char *text)
 		Cell *cell = sheet_cell_get (sheet->gnum_sheet, col, row);
 		if (!cell) {
 			cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
-			cell_set_text_simple (cell, "");
+			cell_set_value (cell, value_new_empty ());
 		}
 		cell_set_comment (cell, text);
 	}

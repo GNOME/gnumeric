@@ -114,10 +114,10 @@ sheet_get_style_font (const Sheet *sheet, MStyle *mstyle)
  * Returns the number of columns used for the draw
  */
 int 
-cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc,
+cell_draw (Cell *cell, MStyle *mstyle,
+	   SheetView *sheet_view, GdkGC *gc,
 	   GdkDrawable *drawable, int x1, int y1)
 {
-	MStyle       *mstyle = cell_get_mstyle (cell);
 	GdkFont      *font;
 	StyleFont    *style_font;
 	GdkColor     *col;
@@ -158,7 +158,6 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc,
 			       y1, text_base,
 			       width, height);
 		style_font_unref (style_font);
-		mstyle_unref (mstyle);
 		return 1;
 	}
 
@@ -343,7 +342,6 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc,
 	}
 
 	style_font_unref (style_font);
-	mstyle_unref (mstyle);
 
 	return end_col - start_col + 1;
 }

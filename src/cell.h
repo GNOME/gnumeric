@@ -157,7 +157,8 @@ int         cell_get_horizontal_align    (const Cell *cell, int align);
 gboolean    cell_is_number  		 (const Cell *cell);
 gboolean    cell_is_zero		 (const Cell *cell);
 
-int         cell_draw                    (Cell *cell, SheetView *sheet_view,
+int         cell_draw                    (Cell *cell, MStyle *mstyle,
+					  SheetView *sheet_view,
 					  GdkGC *gc, GdkDrawable *drawable,
 					  int x, int y);
 

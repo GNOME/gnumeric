@@ -473,6 +473,8 @@ cell_set_value (Cell *cell, Value *v)
  *
  *    - It does not queue any recomputations.  You have to queue the recompute
  *      yourself.
+ *
+ *    - It stores the rendered value of the text as if that is what was entered.
  */
 void
 cell_set_text_simple (Cell *cell, const char *text)
@@ -515,7 +517,9 @@ cell_set_text_simple (Cell *cell, const char *text)
 		}
 
 		cell_render_value (cell);
-		cell->entered_text = string_get (text);
+		cell->entered_text = (cell->text != NULL)
+		    ? string_ref (cell->text)
+		    : string_get (text);
 	}
 }
 
@@ -542,7 +546,8 @@ cell_content_changed (Cell *cell)
 /*
  * cell_set_text
  *
- * Changes the content of a cell
+ * Changes the content of a cell and stores
+ * the actual entered text.
  */
 void
 cell_set_text (Cell *cell, const char *text)
@@ -568,6 +573,12 @@ cell_set_text (Cell *cell, const char *text)
 	cell_queue_redraw (cell);
 
 	cell_set_text_simple (cell, text);
+
+	/* Store the real entered text */
+	if (cell->text != NULL) {
+		string_unref (cell->text);
+		cell->entered_text = string_get (text);
+	}
 	cell_content_changed (cell);
 
 	cell_queue_redraw (cell);

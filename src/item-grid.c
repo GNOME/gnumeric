@@ -311,7 +311,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 
 	/* Draw cell contents BEFORE border */
 	if (cell->sheet->display_zero || !cell_is_zero (cell))
-		count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
+		count = cell_draw (cell, mstyle, item_grid->sheet_view, gc, drawable, x1, y1);
 
 	item_grid_draw_border (drawable, mstyle, x1, y1, w, h, count > 1, FALSE);
 

@@ -1,3 +1,15 @@
+2000-01-24  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell-draw.c (cell_draw) : Take the style as an argument, no need
+	  to recompute something that is already available.
+
+	* src/xml-io.c (xml_sheet_read) : Move the {freeze,thaw}_redraws here.
+	(xml_read_cell) : Remove the sillyness about removing newlines and
+	  trailing spaces.  Remove the {freeze,thaw}_redraws.
+
+	* src/cell.c (cell_set_text_simple) : Store the rendered value.
+	(cell_set_text) : Store the entered value.
+
 2000-01-24 Jon K Hellan  <hellan@acm.org>
 
 	* src/dialogs/autocorrect.glade: Really commit the changes I

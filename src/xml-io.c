@@ -1558,18 +1558,11 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	xml_get_value_int (tree, "Col", &col);
 	xml_get_value_int (tree, "Row", &row);
 
-	cell_deep_freeze_redraws ();
-/*	cell_deep_freeze_dependencies (); */
-
 	ret = sheet_cell_get (ctxt->sheet, col, row);
 	if (ret == NULL)
 		ret = sheet_cell_new (ctxt->sheet, col, row);
-	if (ret == NULL) {
-		cell_deep_thaw_redraws ();
-/*		cell_deep_thaw_dependencies (); */
+	if (ret == NULL)
 		return NULL;
-	}
-
 
 	/*
 	 * This style code is a gross anachronism that slugs performance
@@ -1622,15 +1615,6 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	if (content == NULL)
 		content = xmlNodeGetContent (tree);
 	if (content != NULL) {
-		char *p = content + strlen (content);
-
-		while (p > content) {
-			p--;
-			if (*p != ' ' && *p != '\n')
-				break;
-			*p = 0;
-		}
-
 		/*
 		 * Handle special case of a non corner element of an array
 		 * that has already been created.
@@ -1639,12 +1623,8 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		    OPER_ARRAY != ret->parsed_node->oper)
 			cell_set_text_simple (ret, content);
 		xmlFree (content);
-	} else {
+	} else
 		cell_set_value (ret, value_new_empty ());
-	}
-
-	cell_deep_thaw_redraws ();
-/*	cell_deep_thaw_dependencies (); */
 
 	return ret;
 }
@@ -1960,6 +1940,9 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 			objects = objects->next;
 		}
 	}
+
+	cell_deep_freeze_redraws ();
+
 	child = xml_search_child (tree, "Cells");
 	if (child != NULL){
 		cells = child->childs;
@@ -1968,6 +1951,9 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 			cells = cells->next;
 		}
 	}
+
+	cell_deep_thaw_redraws ();
+
 	xml_dispose_read_cell_styles (ctxt);
 
 	/* Initialize the ColRowInfo's ->pixels data */
