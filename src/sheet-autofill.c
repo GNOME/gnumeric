@@ -512,8 +512,8 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 {
 	MStyle *mstyle = cell_get_mstyle (fi->reference);
 	sheet_style_attach_single (cell->sheet,
-				   cell->col_info->pos,
-				   cell->row_info->pos, mstyle);
+				   cell->pos.col,
+				   cell->pos.row, mstyle);
 
 	switch (fi->type) {
 	case FILL_EMPTY:
@@ -631,8 +631,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		rwinfo.type = EXPR_REWRITE_RELOCATE;
 		rinfo->target_sheet = rinfo->origin_sheet = 0;
 		rinfo->col_offset = rinfo->row_offset = 0;
-		rinfo->origin.start.col = rinfo->origin.end.col = cell->col_info->pos;
-		rinfo->origin.start.row = rinfo->origin.end.row = cell->row_info->pos;
+		rinfo->origin.start = rinfo->origin.end = cell->pos;
 		eval_pos_init_cell (&rinfo->pos, cell);
 
 		/* FIXME : I presume this is needed to invalidate

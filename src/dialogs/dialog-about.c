@@ -12,6 +12,8 @@
 #include "workbook.h"
 #include "gnumeric-util.h"
 
+#define ABOUT_KEY          "about-dialog"
+
 /* Object data is to make sure we don't pop up more than one copy. When
    closing, we remove the data */
 static void

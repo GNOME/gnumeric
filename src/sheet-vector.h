@@ -51,7 +51,6 @@ SheetVector *sheet_vector_new           (Sheet       *sheet);
 void         sheet_vector_reset         (SheetVector *sheet_vector);
 void         sheet_vector_append_range  (SheetVector *sheet_vector, Range *range);
 
-void         sheet_vectors_cell_changed (Cell *cell);
 void         sheet_vector_attach        (SheetVector *sheet_vector, Sheet *sheet);
 void         sheet_vector_detach        (SheetVector *sheet_vector);
 

@@ -10,11 +10,7 @@
 
 #include <config.h>
 #include <gnome.h>
-#if USING_OAF
-#	include <liboaf/liboaf.h>
-#else
-#	include <libgnorba/gnorba.h>
-#endif
+#include <liboaf/liboaf.h>
 #include <bonobo.h>
 #include <bonobo/bonobo-object-directory.h>
 
@@ -141,11 +137,7 @@ _WorkbookFactory_init (CORBA_Environment *ev)
 	CORBA_ORB orb;
 	int       v;
 
-#if USING_OAF
 	orb = oaf_orb_get ();
-#else
-	orb = gnome_CORBA_ORB ();
-#endif
 
 	/*
 	 * Get the POA and create the server
@@ -174,21 +166,9 @@ _WorkbookFactory_init (CORBA_Environment *ev)
 
 	/*
 	 * Register the server and see if it was already there
-	 *
-	 * The former is kept just for compatibilty reasons for some demo code
-	 * that is floating around.
 	 */
-
-#if USING_OAF
 	v = od_server_register (gnumeric_workbook_factory,
 				"OAFIID:GOADID:GNOME:Gnumeric:WorkbookFactory:1.0:7cf6fb4d-c5a1-4ace-aa6a-4ece790138c9");
-#else
-	v = od_server_register (gnumeric_workbook_factory,
-				"IDL:GNOME:Gnumeric:WorkbookFactory:1.0");
-
-	v = od_server_register (gnumeric_workbook_factory,
-				"GOADID:GNOME:Gnumeric:WorkbookFactory:1.0");
-#endif
 	if (v == 0)
 		return TRUE;
 

@@ -39,7 +39,6 @@
 #include "commands.h"
 #include "widgets/gtk-combo-text.h"
 #include "widgets/gtk-combo-stack.h"
-#include "wizard.h"
 #include "gutils.h"
 #include "rendered-value.h"
 #include "cmd-edit.h"
@@ -211,7 +210,7 @@ create_embedded_item_cmd (GtkWidget *widget, Workbook *wb)
 static void
 launch_graph_guru (GtkWidget *widget, Workbook *wb)
 {
-	gnumeric_graph_guru (wb);
+	dialog_graph_guru (wb);
 }
 #endif
 
@@ -1137,13 +1136,8 @@ insert_object_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet = wb->current_sheet;
 	char  *obj_id;
 
-#if USING_OAF
 	obj_id = gnome_bonobo_select_oaf_id (
 		_("Select an object to add"), NULL);
-#else
-	obj_id = gnome_bonobo_select_goad_id (
-		_("Select an object to add"), NULL);
-#endif
 
 	if (obj_id != NULL)
 		sheet_object_insert (sheet, obj_id);

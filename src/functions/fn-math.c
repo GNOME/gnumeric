@@ -160,7 +160,8 @@ gnumeric_gcd (FunctionEvalInfo *ei, GList *nodes)
 	return float_range_function (nodes, ei,
 				     range_gcd,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_NUM);
 }
 
@@ -1465,7 +1466,8 @@ gnumeric_sum (FunctionEvalInfo *ei, GList *nodes)
 	return float_range_function (nodes, ei,
 				     range_sum,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_VALUE);
 }
 
@@ -1496,7 +1498,8 @@ gnumeric_suma (FunctionEvalInfo *ei, GList *nodes)
 	return float_range_function (nodes, ei,
 				     range_sum,
 				     COLLECT_ZERO_STRINGS |
-				     COLLECT_ZEROONE_BOOLS,
+				     COLLECT_ZEROONE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_VALUE);
 }
 
@@ -1526,7 +1529,8 @@ gnumeric_sumsq (FunctionEvalInfo *ei, GList *nodes)
 	return float_range_function (nodes, ei,
 				     range_sumsq,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_VALUE);
 }
 
@@ -1624,7 +1628,8 @@ gnumeric_product (FunctionEvalInfo *ei, GList *nodes)
 	return float_range_function (nodes, ei,
 				     range_bogusproduct,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_VALUE);
 }
 
@@ -1650,7 +1655,8 @@ gnumeric_g_product (FunctionEvalInfo *ei, GList *nodes)
 	return float_range_function (nodes, ei,
 				     range_product,
 				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
 				     gnumeric_err_VALUE);
 }
 

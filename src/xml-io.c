@@ -1932,7 +1932,7 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell *cell, int col, int row
 static xmlNodePtr
 xml_write_cell (XmlParseContext *ctxt, Cell *cell)
 {
-	return xml_write_cell_and_position (ctxt, cell, cell->col_info->pos, cell->row_info->pos);
+	return xml_write_cell_and_position (ctxt, cell, cell->pos.col, cell->pos.row);
 }
 
 /**
@@ -1958,10 +1958,10 @@ xml_cell_set_array_expr (Cell *cell, char const *text,
 
 	g_return_if_fail (expr != NULL);
 	cell_set_array_formula (cell->sheet,
-				cell->row_info->pos,
-				cell->col_info->pos,
-				cell->row_info->pos + rows-1,
-				cell->col_info->pos + cols-1,
+				cell->pos.row,
+				cell->pos.col,
+				cell->pos.row + rows-1,
+				cell->pos.col + cols-1,
 				expr, TRUE);
 }
 
@@ -2325,9 +2325,9 @@ xml_write_solver (XmlParseContext *ctxt, SolverParameters *param)
 
 	if (param->target_cell != NULL) {
 	        xml_set_value_int (cur, "TargetCol",
-				   param->target_cell->col_info->pos);
+				   param->target_cell->pos.col);
 	        xml_set_value_int (cur, "TargetRow",
-				   param->target_cell->row_info->pos);
+				   param->target_cell->pos.row);
 	} else {
 	        xml_set_value_int (cur, "TargetCol", -1);
 	        xml_set_value_int (cur, "TargetRow", -1);

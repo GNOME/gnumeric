@@ -480,7 +480,7 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 	case SHEET_MODE_OBJECT_SELECTED:
 		g_assert_not_reached ();
 
-	case SHEET_MODE_CREATE_GRAPHIC:
+	case SHEET_MODE_CREATE_GRAPH:
 #ifdef ENABLE_BONOBO
 		g_warning ("Ugly API name follows, fix it");
 		o = sheet_object_container_new_bonobo (
@@ -784,7 +784,7 @@ sheet_set_mode_type_full (Sheet *sheet, SheetModeType mode, void *mode_data)
 	}
 
 	switch (sheet->mode) {
-	case SHEET_MODE_CREATE_GRAPHIC:
+	case SHEET_MODE_CREATE_GRAPH:
 #ifdef ENABLE_BONOBO
 		g_assert (BONOBO_IS_CLIENT_SITE (mode_data));
 		sheet_object_bind_button_events (sheet);
@@ -796,11 +796,7 @@ sheet_set_mode_type_full (Sheet *sheet, SheetModeType mode, void *mode_data)
 	case SHEET_MODE_CREATE_CANVAS_ITEM:
 #ifdef ENABLE_BONOBO
 	{
-#if USING_OAF
 		char const *required_interfaces [2];
-#else
-		char *required_interfaces [2];
-#endif
 		char *obj_id;
 
 		if (sheet->mode == SHEET_MODE_CREATE_CANVAS_ITEM)
@@ -809,13 +805,8 @@ sheet_set_mode_type_full (Sheet *sheet, SheetModeType mode, void *mode_data)
 			required_interfaces [0] = "IDL:Bonobo/Embeddable:1.0";
 		required_interfaces [1] = NULL;
 
-#if USING_OAF
 		obj_id = gnome_bonobo_select_oaf_id (
 			_("Select an object to add"), required_interfaces);
-#else
-		obj_id = gnome_bonobo_select_goad_id (
-			_("Select an object to add"), required_interfaces);
-#endif
 		if (obj_id == NULL) {
 			sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
 			return;

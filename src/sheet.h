@@ -46,7 +46,7 @@ typedef enum {
 	SHEET_MODE_CREATE_ARROW,
 
 	/* Selection for the region for a Graphics object */
-	SHEET_MODE_CREATE_GRAPHIC,
+	SHEET_MODE_CREATE_GRAPH,
 	SHEET_MODE_CREATE_CANVAS_ITEM,
 	SHEET_MODE_CREATE_COMPONENT,
 
@@ -174,7 +174,6 @@ void        sheet_recompute_spans_for_col      (Sheet *sheet, int col);
 
 void        sheet_cell_expr_link	  (Cell *cell);
 void        sheet_cell_expr_unlink	  (Cell *cell);
-void        sheet_cell_changed		  (Cell *cell);
 
 gboolean    sheet_is_region_empty_or_selected (Sheet *sheet, int start_col, int start_row,
 					       int end_col, int end_row);

@@ -281,15 +281,9 @@ embeddable_grid_get_type (void)
 void
 EmbeddableGridFactory_init (void)
 {
-#if USING_OAF
 	bonobo_embeddable_grid_factory = bonobo_embeddable_factory_new (
 		"OAFIID:GOADID:GNOME:Gnumeric:GridFactory:1.0:a1c2ad1c-33bd-4c42-b5d1-9a454f862873",
 		embeddable_grid_factory, NULL);
-#else
-	bonobo_embeddable_grid_factory = bonobo_embeddable_factory_new (
-		"GOADID:GNOME:Gnumeric:GridFactory:1.0",
-		embeddable_grid_factory, NULL);
-#endif
 }
 
 /*

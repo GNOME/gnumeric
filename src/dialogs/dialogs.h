@@ -5,8 +5,9 @@
 #include "cell.h"
 #include "summary.h"
 
-#define ABOUT_KEY          "about-dialog"
-
+#ifdef ENABLE_BONOBO
+void     dialog_graph_guru	(Workbook *wb);
+#endif
 void     dialog_formula_guru	(Workbook *wb);
 void     dialog_plugin_manager  (Workbook *wb);
 void   	 dialog_goto_cell       (Workbook *wb);

@@ -681,8 +681,8 @@ check_int_constraints (CellList *input_cells, GSList *constraints, char **s)
 		    strcmp (c->type, "Bool") == 0) {
 		        for (cells = input_cells; cells; cells = cells->next) {
 			  cell = (Cell *) cells->data;
-			  if (cell->col_info->pos == c->lhs.col &&
-			      cell->row_info->pos == c->lhs.row)
+			  if (cell->pos.col == c->lhs.col &&
+			      cell->pos.row == c->lhs.row)
 			          goto ok;
 			}
 			*s = c->str;

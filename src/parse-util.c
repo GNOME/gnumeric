@@ -273,10 +273,8 @@ const char *
 cell_name (Cell const *cell)
 {
 	g_return_val_if_fail (cell != NULL, "ERROR");
-	g_return_val_if_fail (cell->col_info != NULL, "ERROR");
-	g_return_val_if_fail (cell->row_info != NULL, "ERROR");
 
-	return cell_coord_name (cell->col_info->pos, cell->row_info->pos);
+	return cell_coord_name (cell->pos.col, cell->pos.row);
 }
 
 const char *

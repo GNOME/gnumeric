@@ -123,7 +123,7 @@ cell_comment_realize (Cell *cell)
 
 		o = sheet_view_comment_create_marker (
 			sheet_view,
-			cell->col_info->pos, cell->row_info->pos);
+			cell->pos.col, cell->pos.row);
 		gtk_object_ref (GTK_OBJECT (o));
 
 		cell->comment->realized_list = g_list_prepend (
@@ -210,7 +210,7 @@ cell_comment_reposition (Cell *cell)
 		GnomeCanvasItem *o = l->data;
 		SheetView *sheet_view = GNUMERIC_SHEET (o->canvas)->sheet_view;
 
-		sheet_view_comment_relocate (sheet_view, cell->col_info->pos, cell->row_info->pos, o);
+		sheet_view_comment_relocate (sheet_view, cell->pos.col, cell->pos.row, o);
 	}
 }
 

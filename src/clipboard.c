@@ -141,10 +141,10 @@ paste_cell_with_operation (Sheet *dest_sheet,
 	    (!cell_has_expr_or_number_or_blank (c_copy->u.cell)))
 		return;
 	
-	new_cell           = cell_copy (c_copy->u.cell);
-	new_cell->sheet    = dest_sheet;
-	new_cell->col_info = sheet_col_fetch (dest_sheet, target_col);
-	new_cell->row_info = sheet_row_fetch (dest_sheet, target_row);
+	new_cell          = cell_copy (c_copy->u.cell);
+	new_cell->sheet   = dest_sheet;
+	new_cell->pos.col = target_col;
+	new_cell->pos.row = target_row;
 	
 	/* FIXME : This does not handle arrays, linked cells, ranges, etc. */
 	
@@ -170,12 +170,9 @@ paste_cell_with_operation (Sheet *dest_sheet,
 	/* The code below was copied from paste_cell */
 
 	if (cell_has_expr (new_cell)) {
-		if (paste_flags & PASTE_FORMULAS) {
+		if (paste_flags & PASTE_FORMULAS)
 			cell_relocate (new_cell, rwinfo);
-
-			/* FIXME : do this at a range level too */
-			sheet_cell_changed (new_cell);
-		} else
+		else
 			cell_make_value (new_cell);
 	} else {
 		g_return_if_fail (new_cell->value != NULL);
@@ -238,12 +235,9 @@ paste_cell (Sheet *dest_sheet,
 			new_cell->row_info = sheet_row_fetch (dest_sheet, target_row);
 
 			if (cell_has_expr (new_cell)) {
-				if (paste_flags & PASTE_FORMULAS) {
+				if (paste_flags & PASTE_FORMULAS)
 					cell_relocate (new_cell, rwinfo);
-
-					/* FIXME : do this at a range level too */
-					sheet_cell_changed (new_cell);
-				} else
+				else
 					cell_make_value (new_cell);
 			} else {
 				g_return_if_fail (new_cell->value != NULL);

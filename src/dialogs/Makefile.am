@@ -5,8 +5,10 @@ iconsdir = $(datadir)/pixmaps/gnumeric
 
 if BONOBO
 gnumeric_version="$(VERSION)-bonobo"
+libdialogs_a_SOURCES =	$(std_SOURCES) dialog-graph-guru.c
 else
 gnumeric_version="$(VERSION)"
+libdialogs_a_SOURCES =	$(std_SOURCES)
 endif
 gnumeric_libdir = $(datadir)/gnumeric/$(gnumeric_version)
 
@@ -20,7 +22,7 @@ INCLUDES = 						\
 
 noinst_LIBRARIES = libdialogs.a
 
-libdialogs_a_SOURCES =				\
+std_SOURCES =					\
 	dialog-advanced-filter.c		\
 	dialog-analysis-tools.c			\
 	dialog-autocorrect.c			\
@@ -94,7 +96,8 @@ glade_DATA = 				\
 	plugin-manager.glade		\
 	function-select.glade 		\
 	formula-guru.glade		\
-	workbook-attr.glade
+	workbook-attr.glade		\
+	graph-guru.glade
 
 glade_msgs = 				\
 	advanced-filter.glade.h		\
@@ -126,9 +129,7 @@ glade_msgs = 				\
 	plugin-manager.glade.h		\
 	function-select.glade.h		\
 	formula-guru.glade.h		\
-	workbook-attr.glade.h
+	workbook-attr.glade.h		\
+	graph-guru.glade.h
 
 EXTRA_DIST = $(glade_DATA) $(glade_msgs)
-
-
-

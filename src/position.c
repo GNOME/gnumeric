@@ -46,8 +46,7 @@ eval_pos_init_cell (EvalPos *eval_pos, Cell const *cell)
 	CellPos pos;
 	g_return_val_if_fail (cell != NULL, NULL);
 
-	pos.col = cell->col_info->pos;
-	pos.row = cell->row_info->pos;
+	pos = cell->pos;
 	return eval_pos_init (eval_pos, cell->sheet, &pos);
 }
 

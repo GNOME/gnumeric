@@ -178,8 +178,6 @@ cell_content_changed (Cell *cell)
 	deps = cell_get_dependencies (cell);
 	if (deps)
 		eval_queue_list (deps, TRUE);
-
-	sheet_cell_changed (cell);
 }
 
 /*
@@ -221,8 +219,8 @@ cell_relocate (Cell *cell, ExprRewriteInfo *rwinfo)
 			if (x != 0 || y != 0)
 				expr->array.corner.cell =
 					sheet_cell_get (cell->sheet,
-							cell->col_info->pos - x,
-							cell->row_info->pos - y);
+							cell->pos.col - x,
+							cell->pos.row - y);
 		}
 
 		/* bounds check, and adjust local references from the cell */
@@ -683,8 +681,8 @@ MStyle *
 cell_get_mstyle (Cell const *cell)
 {
 	return sheet_style_compute (cell->sheet,
-				    cell->col_info->pos,
-				    cell->row_info->pos);
+				    cell->pos.col,
+				    cell->pos.row);
 }
 
 void
@@ -692,9 +690,8 @@ cell_set_mstyle (Cell const *cell, MStyle *mstyle)
 {
 	Range         range;
 
-	range.start.col = cell->col_info->pos;
-	range.start.row = cell->row_info->pos;
-	range.end       = range.start;
+	range.start = cell->pos;
+	range.end   = range.start;
 
 	sheet_style_attach (cell->sheet, range, mstyle);
 }

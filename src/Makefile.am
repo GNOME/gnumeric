@@ -200,7 +200,6 @@ GNUMERIC_BASE_SOURCES =				\
 	value.c					\
 	value.h					\
 	value-sheet.c				\
-	wizard.h				\
 	workbook.c				\
 	workbook.h				\
 	workbook-cmd-format.c			\
@@ -261,10 +260,8 @@ gnumeric_LDADD = 					\
 
 gnumeric_bonobo_LDADD =					\
 	$(gnumeric_libs)				\
-	../wizards/graphics/libwizard_graphics.a	\
 	-lbonobo-print					\
 	../idl/libGnumeric.a				\
-	../idl/libGraph.a				\
 	$(EXTRA_GNOME_LIBS)				\
 	$(GNOME_XML_LIB) 				\
 	$(GUILE_LIBS)					\

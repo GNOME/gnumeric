@@ -177,7 +177,7 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 		start_col = spaninfo->left;
 		end_col = spaninfo->right;
 	} else
-		start_col = end_col = cell->col_info->pos;
+		start_col = end_col = cell->pos.col;
 
 	/* Get the sizes exclusive of margins and grids */
 	width  = COL_INTERNAL_WIDTH (cell->col_info);
@@ -235,17 +235,17 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	 * columns to the left (if it is set to right justify or center justify)
 	 * compute the pixel difference 
 	 */
-	if (start_col != cell->col_info->pos) {
+	if (start_col != cell->pos.col) {
 		int const offset =
 		    sheet_col_get_distance_pixels (sheet,
-						   start_col, cell->col_info->pos);
+						   start_col, cell->pos.col);
 		rect.x     -= offset;
 		rect.width += offset;
 	}
-	if (end_col != cell->col_info->pos) {
+	if (end_col != cell->pos.col) {
 		int const offset =
 		    sheet_col_get_distance_pixels (sheet,
-						   cell->col_info->pos+1, end_col+1);
+						   cell->pos.col+1, end_col+1);
 		rect.width += offset;
 	}
 

@@ -139,10 +139,10 @@ cb_compare_deps (gconstpointer a, gconstpointer b)
 	Cell const *cell_b = b;
 	int tmp;
 
-	tmp = cell_a->row_info->pos - cell_b->row_info->pos;
+	tmp = cell_a->pos.row - cell_b->pos.row;
 	if (tmp != 0)
 		return tmp;
-	return cell_a->col_info->pos - cell_b->col_info->pos;
+	return cell_a->pos.col - cell_b->pos.col;
 }
 
 /**
@@ -175,7 +175,7 @@ cmd_select_cur_depends (Sheet *sheet)
 	/* Short circuit */
 	if (g_list_length (deps) == 1) {
 		Cell *cell = deps->data;
-		sheet_selection_add (sheet, cell->col_info->pos, cell->row_info->pos);
+		sheet_selection_add (sheet, cell->pos.col, cell->pos.row);
 	} else {
 		Range *cur = NULL;
 		ptr = NULL;
@@ -185,15 +185,15 @@ cmd_select_cur_depends (Sheet *sheet)
 			Cell *cell = deps->data;
 
 			if (cur == NULL ||
-			    cur->end.row != cell->row_info->pos ||
-			    cur->end.col+1 != cell->col_info->pos) {
+			    cur->end.row != cell->pos.row ||
+			    cur->end.col+1 != cell->pos.col) {
 				if (cur)
 					ptr = g_list_prepend (ptr, cur);
 				cur = g_new (Range, 1);
-				cur->start.row = cur->end.row = cell->row_info->pos;
-				cur->start.col = cur->end.col = cell->col_info->pos;
+				cur->start.row = cur->end.row = cell->pos.row;
+				cur->start.col = cur->end.col = cell->pos.col;
 			} else
-				cur->end.col = cell->col_info->pos;
+				cur->end.col = cell->pos.col;
 
 			deps = g_list_remove (deps, cell);
 		}

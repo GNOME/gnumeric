@@ -285,8 +285,8 @@ solver_simplex (Workbook *wb, Sheet *sheet, float_t **init_tbl,
 	status = SIMPLEX_OK;
 
 	table = simplex_step_one(sheet,
-				 param->target_cell->col_info->pos,
-				 param->target_cell->row_info->pos,
+				 param->target_cell->pos.col,
+				 param->target_cell->pos.row,
 				 cell_list, constraints,
 				 &tbl_cols, &tbl_rows, max_flag);
 
@@ -323,12 +323,12 @@ solver_simplex (Workbook *wb, Sheet *sheet, float_t **init_tbl,
 			        goto skip;
 		        c = (Cell *) cell_list->data;
 		}
-		cell = sheet_cell_fetch (sheet, c->col_info->pos, c->row_info->pos);
+		cell = sheet_cell_fetch (sheet, c->pos.col, c->pos.row);
 		sheet_cell_set_value (cell, value_new_float (table[1 + i * tbl_cols]), NULL);
 	skip:
 	}
-	cell = sheet_cell_fetch (sheet, param->target_cell->col_info->pos,
-				param->target_cell->row_info->pos);
+	cell = sheet_cell_fetch (sheet, param->target_cell->pos.col,
+				param->target_cell->pos.row);
 	cell_eval_content (cell);
 
 	/* FIXME: Do not do the following loop.  Instead recalculate
@@ -449,8 +449,8 @@ make_solver_arrays (Sheet *sheet, SolverParameters *param, int n_variables,
 
 	inputs = param->input_cells;
 	var = 0;
-	target = sheet_cell_get (sheet, param->target_cell->col_info->pos,
-				 param->target_cell->row_info->pos);
+	target = sheet_cell_get (sheet, param->target_cell->pos.col,
+				 param->target_cell->pos.row);
 	if (target == NULL)
 	        return SOLVER_LP_INVALID_RHS; /* FIXME */
 
@@ -617,8 +617,8 @@ solver_affine_scaling (Workbook *wb, Sheet *sheet,
 		constraints = constraints->next;
 	}
 
-	cell = sheet_cell_get (sheet, param->target_cell->col_info->pos,
-			       param->target_cell->row_info->pos);
+	cell = sheet_cell_get (sheet, param->target_cell->pos.col,
+			       param->target_cell->pos.row);
 	cell_eval_content (cell);
 
 	g_free (A);
@@ -683,17 +683,17 @@ make_int_array (SolverParameters *param, CellList *inputs, gboolean int_r[],
 				     list = list->next) {
 				        Cell *cell = list->data;
 					if (c->cols > 1) {
-					        if (cell->col_info->pos ==
+					        if (cell->pos.col ==
 						    c->lhs.col + n &&
-						    cell->row_info->pos ==
+						    cell->pos.row ==
 						    c->lhs.row) {
 						        int_r[i] = TRUE;
 							break;
 						}
 					} else {
-					        if (cell->col_info->pos ==
+					        if (cell->pos.col ==
 						    c->lhs.col &&
-						    cell->row_info->pos ==
+						    cell->pos.row ==
 						    c->lhs.row + n) {
 						        int_r[i] = TRUE;
 							break;
@@ -800,8 +800,8 @@ solver_branch_and_bound (Workbook *wb, Sheet *sheet, float_t **opt_x)
 		constraints = constraints->next;
 	}
 
-	cell = sheet_cell_get (sheet, param->target_cell->col_info->pos,
-			       param->target_cell->row_info->pos);
+	cell = sheet_cell_get (sheet, param->target_cell->pos.col,
+			       param->target_cell->pos.row);
 	cell_eval_content (cell);
 
 	g_free (A);
@@ -913,15 +913,15 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 	set_cell (&dao, 0, 3, cell_name (param->target_cell));
 
 	/* Set `Name' field */
-	set_cell (&dao, 1, 3, find_name (sheet, param->target_cell->col_info->pos,
-					 param->target_cell->row_info->pos));
+	set_cell (&dao, 1, 3, find_name (sheet, param->target_cell->pos.col,
+					 param->target_cell->pos.row));
 
 	/* Set `Original Value' field */
 	set_cell_float (&dao, 2, 3, ov_target);
 
 	/* Set `Final Value' field */
-	cell = sheet_cell_fetch (sheet, param->target_cell->col_info->pos,
-				 param->target_cell->row_info->pos);
+	cell = sheet_cell_fetch (sheet, param->target_cell->pos.col,
+				 param->target_cell->pos.row);
 	str = value_get_as_string (cell->value);
 	set_cell (&dao, 3, 3, str);
 	g_free (str);
@@ -943,15 +943,15 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 		set_cell (&dao, 0, row, cell_name (cell));
 
 		/* Set `Name' column */
-		set_cell (&dao, 1, row, find_name (sheet, cell->col_info->pos,
-						   cell->row_info->pos));
+		set_cell (&dao, 1, row, find_name (sheet, cell->pos.col,
+						   cell->pos.row));
 
 		/* Set `Original Value' column */
 		set_cell (&dao, 2, row, str);
 
 		/* Set `Final Value' column */
-		cell = sheet_cell_fetch (sheet, cell->col_info->pos,
-					 cell->row_info->pos);
+		cell = sheet_cell_fetch (sheet, cell->pos.col,
+					 cell->pos.row);
 		str = value_get_as_string (cell->value);
 		set_cell (&dao, 3, row, str);
 		g_free (str);
@@ -1076,12 +1076,11 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *x,
 		set_cell (&dao, 0, row, cell_name (cell));
 
 		/* Set `Name' column */
-		set_cell (&dao, 1, row, find_name (sheet, cell->col_info->pos,
-						   cell->row_info->pos));
+		set_cell (&dao, 1, row, find_name (sheet, cell->pos.col,
+						   cell->pos.row));
 
 		/* Set `Final Value' column */
-		cell = sheet_cell_fetch (sheet, cell->col_info->pos,
-					 cell->row_info->pos);
+		cell = sheet_cell_fetch (sheet, cell->pos.col, cell->pos.row);
 		str = value_get_as_string (cell->value);
 		set_cell (&dao, 2, row, str);
 		g_free (str);

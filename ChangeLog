@@ -1,5 +1,76 @@
 2000-08-11  Jody Goldberg <jgoldberg@home.com>
 
+	* src/dialogs/Makefile.am : Add graph-guru for bonobo enabled builds.
+
+	* src/dialogs/formula-guru.glade (rolled_label) : Don't fill.
+
+2000-08-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/functions/fn-math.c (gnumeric_g_product) : Ignore blanks.
+	(gnumeric_product) : Ditto.
+	(gnumeric_sumsq) : Ditto.
+	(gnumeric_suma) : Ditto.
+	(gnumeric_sum) : Ditto.
+	(gnumeric_gcd) : Ditto.
+
+2000-08-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/corba-args.c : Remove support for Gnorba. Die Pig Die !
+	* src/corba-workbook-factory.c : Ditto.
+	* src/embeddable-grid.c : Ditto.
+	* src/sheet-object.c : Ditto.
+	* src/workbook.c : Ditto.
+
+	* src/cell-comment.c (cell_comment_realize) : Use Cell::pos rather
+	  than Cell::{row,col}_info->pos.
+	(cell_comment_reposition) : Ditto.
+	* src/cell-draw.c (cell_draw) : Ditto.
+	* src/cellspan.c (cell_register_span) : Ditto.
+	(cell_calc_span) : Ditto.
+	* src/clipboard.c (paste_cell_with_operation) : Ditto.
+	(paste_cell) : Ditto.
+	* src/cmd-edit.c (cb_compare_deps) : Ditto.
+	(cmd_select_cur_depends) : Ditto.
+	* src/eval.c (dependency_range_ctor) : Ditto.
+	(handle_cell_single_dep) : Ditto.
+	(handle_cell_range_deps) : Ditto.
+	(cell_get_range_dependencies) : Ditto.
+	(cell_get_dependencies) : Ditto.
+	* src/item-grid.c (item_grid_draw) : Ditto.
+	* src/parse-util.c (cell_name) : Ditto.
+	* src/position.c (eval_pos_init_cell) : Ditto.
+	* src/print-cell.c (print_cell) : Ditto.
+	(print_cell_range) : Ditto.
+	* src/sheet-autofill.c (autofill_cell) : Ditto.
+	* src/sheet-vector.c (sheet_vectors_cell_changed) : Ditto.
+	* src/sheet.c (sheet_cell_calc_span) : Ditto.
+	(sheet_reposition_comments) : Ditto.
+	(sheet_get_extent_cb) : Ditto.
+	(sheet_redraw_cell) : Ditto.
+	(sheet_cell_add_to_hash) : Ditto.
+	(sheet_cell_insert) : Ditto.
+	(sheet_cell_new) : Ditto.
+	(sheet_cell_remove_from_hash) : Ditto.
+	(sheet_move_range) : Ditto.
+	* src/solver-lp.c (solver_simplex) : Ditto.
+	(make_solver_arrays) : Ditto.
+	(solver_affine_scaling) : Ditto.
+	(make_int_array) : Ditto.
+	(solver_branch_and_bound) : Ditto.
+	(solver_answer_report) : Ditto.
+	(solver_sensitivity_report) : Ditto.
+	* src/xml-io.c (xml_write_cell) : Ditto.
+	(xml_cell_set_array_expr) : Ditto.
+	(xml_write_solver) : Ditto.
+	* src/dialogs/dialog-solver.c (check_int_constraints) : Ditto.
+
+	* src/about.c : Move the ABOUT_KEY here from.
+	* src/dialogs/dialogs.h : here.  Also, add dialog_graph_guru.
+
+	* src/Makefile.am : Remove wizard.h and the seperate wizard library.
+
+2000-08-11  Jody Goldberg <jgoldberg@home.com>
+
 	* src/expr.c (do_expr_tree_to_string) : Do not hard code the argument
 	  seperator, it needs to change depending on the locale.
 	* src/dialogs/dialog-function-wizard.c (formula_guru_set_expr) :

@@ -302,7 +302,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 				++col;
 			} else {
 				Cell const *cell = span->cell;
-				int const real_col = cell->col_info->pos;
+				int const real_col = cell->pos.col;
 				int const start_span_col = span->left;
 				int const end_span_col = span->right;
 				int real_x = -1;
@@ -335,7 +335,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 					real_style = sheet_style_compute (sheet, real_col, ri->pos);
 					real_x = x_paint +
 					    sheet_col_get_distance_pixels (cell->sheet,
-									   col, cell->col_info->pos);
+									   col, cell->pos.col);
 				}
 
 				if (is_visible)

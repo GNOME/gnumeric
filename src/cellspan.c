@@ -70,7 +70,7 @@ cell_register_span (Cell const * const cell, int left, int right)
 	g_return_if_fail (left <= right);
 
 	ri = cell->row_info;
-	col = cell->col_info->pos;
+	col = cell->pos.col;
 
 	if (ri->spans == NULL)
 		ri->spans = g_hash_table_new (col_hash, col_compare);
@@ -171,14 +171,14 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	 */
 
 	if (cell_is_number (cell)) {
-		*col1 = *col2 = cell->col_info->pos;
+		*col1 = *col2 = cell->pos.col;
 		return;
 	}
 
 	sheet = cell->sheet;
 	mstyle = cell_get_mstyle (cell);
 	align = value_get_default_halign (cell->value, mstyle);
-	row   = cell->row_info->pos;
+	row   = cell->pos.row;
 
 	if ((cell_contents_fit_inside_column (cell) &&
 	     align != HALIGN_CENTER_ACROSS_SELECTION) ||
@@ -186,7 +186,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	    align == HALIGN_FILL ||
 	    mstyle_get_fit_in_cell (mstyle) ||
 	    mstyle_get_align_v (mstyle) == VALIGN_JUSTIFY) {
-		*col1 = *col2 = cell->col_info->pos;
+		*col1 = *col2 = cell->pos.col;
 		mstyle_unref (mstyle);
 		return;
 	}
@@ -196,8 +196,8 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 
 	switch (align) {
 	case HALIGN_LEFT:
-		*col1 = *col2 = cell->col_info->pos;
-		pos = cell->col_info->pos + 1;
+		*col1 = *col2 = cell->pos.col;
+		pos = cell->pos.col + 1;
 		left = cell_width_pixel - COL_INTERNAL_WIDTH (cell->col_info);
 		margin = cell->col_info->margin_b;
 
@@ -224,8 +224,8 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		return;
 
 	case HALIGN_RIGHT:
-		*col1 = *col2 = cell->col_info->pos;
-		pos = cell->col_info->pos - 1;
+		*col1 = *col2 = cell->pos.col;
+		pos = cell->pos.col - 1;
 		left = cell_width_pixel - COL_INTERNAL_WIDTH (cell->col_info);
 		margin = cell->col_info->margin_a;
 
@@ -255,7 +255,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		int left_left, left_right;
 		int margin_a, margin_b;
 
-		*col1 = *col2 = cell->col_info->pos;
+		*col1 = *col2 = cell->pos.col;
 		left = cell_width_pixel -  COL_INTERNAL_WIDTH (cell->col_info);
 
 		left_left  = left / 2 + (left % 2);
@@ -307,7 +307,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	{
 		ColRowInfo const *ri = cell->row_info;
 		int const row = ri->pos;
-		int left = cell->col_info->pos, right = left;
+		int left = cell->pos.col, right = left;
 		int tmp;
 
 		left_loop :
@@ -350,6 +350,6 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 
 	default:
 		g_warning ("Unknown horizontal alignment type %d\n", align);
-		*col1 = *col2 = cell->col_info->pos;
+		*col1 = *col2 = cell->pos.col;
 	} /* switch */
 }

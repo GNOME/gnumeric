@@ -366,7 +366,7 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 				cell_unregister_span (cell);
 				cell_register_span (cell, left, right);
 			}
-			sheet_redraw_partial_row (cell->sheet, cell->row_info->pos,
+			sheet_redraw_partial_row (cell->sheet, cell->pos.row,
 						  left, right);
 			return;
 		}
@@ -393,7 +393,7 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 	if (left != right)
 		cell_register_span (cell, left, right);
 
-	sheet_redraw_partial_row (cell->sheet, cell->row_info->pos,
+	sheet_redraw_partial_row (cell->sheet, cell->pos.row,
 				  min_col, max_col);
 }
 
@@ -572,8 +572,8 @@ sheet_reposition_comments (Sheet const * const sheet,
 	for (l = sheet->comment_list; l; l = l->next){
 		Cell *cell = l->data;
 
-		if (cell->col_info->pos >= start_col ||
-		    cell->row_info->pos >= start_row)
+		if (cell->pos.col >= start_col ||
+		    cell->pos.row >= start_row)
 			cell_comment_reposition (cell);
 	}
 }
@@ -831,11 +831,11 @@ sheet_get_extent_cb (gpointer key, gpointer value, gpointer data)
 		CellSpanInfo const *span = NULL;
 		int tmp;
 
-		if (cell->row_info->pos < range->start.row)
-			range->start.row = cell->row_info->pos;
+		if (cell->pos.row < range->start.row)
+			range->start.row = cell->pos.row;
 
-		if (cell->row_info->pos > range->end.row)
-			range->end.row = cell->row_info->pos;
+		if (cell->pos.row > range->end.row)
+			range->end.row = cell->pos.row;
 
 		span = row_span_get (cell->row_info, cell->pos.col);
 		tmp = (span != NULL) ? span->left : cell->pos.col;
@@ -1398,7 +1398,7 @@ sheet_redraw_cell (Cell const *cell)
 
 	g_return_if_fail (cell != NULL);
 
-	start_col = end_col = cell->col_info->pos;
+	start_col = end_col = cell->pos.col;
 	span = row_span_get (cell->row_info, start_col);
 
 	if (span) {
@@ -1406,7 +1406,7 @@ sheet_redraw_cell (Cell const *cell)
 		end_col = span->right;
 	}
 
-	sheet_redraw_partial_row (cell->sheet, cell->row_info->pos,
+	sheet_redraw_partial_row (cell->sheet, cell->pos.row,
 				  start_col, end_col);
 }
 
@@ -1901,15 +1901,13 @@ sheet_is_region_empty_or_selected (Sheet *sheet, int start_col, int start_row, i
 static void
 sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 {
-	g_return_if_fail (cell->col_info != NULL);
-	g_return_if_fail (cell->col_info->pos < SHEET_MAX_COLS);
-	g_return_if_fail (cell->row_info != NULL);
-	g_return_if_fail (cell->row_info->pos < SHEET_MAX_ROWS);
+	g_return_if_fail (cell->pos.col < SHEET_MAX_COLS);
+	g_return_if_fail (cell->pos.row < SHEET_MAX_ROWS);
 	g_return_if_fail (!cell_is_linked (cell));
 
 	cell->cell_flags |= CELL_IN_SHEET_LIST;
-	cell->pos.col = cell->col_info->pos;
-	cell->pos.row = cell->row_info->pos;
+	cell->col_info   = sheet_col_fetch (sheet, cell->pos.col);
+	cell->row_info   = sheet_row_fetch (sheet, cell->pos.row);
 
 	g_hash_table_insert (sheet->cell_hash, cell, cell);
 }
@@ -1918,8 +1916,8 @@ void
 sheet_cell_insert (Sheet *sheet, Cell *cell, int col, int row)
 {
 	cell->sheet = sheet;
-	cell->col_info   = sheet_col_fetch (sheet, col);
-	cell->row_info   = sheet_row_fetch (sheet, row);
+	cell->pos.col = col;
+	cell->pos.row = row;
 
 	sheet_cell_add_to_hash (sheet, cell);
 	cell_add_dependencies (cell);
@@ -1939,10 +1937,10 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 
 	cell = g_new0 (Cell, 1);
 
-	cell->sheet = sheet;
-	cell->col_info   = sheet_col_fetch (sheet, col);
-	cell->row_info   = sheet_row_fetch (sheet, row);
-	cell->value      = value_new_empty ();
+	cell->sheet   = sheet;
+	cell->pos.col = col;
+	cell->pos.row = row;
+	cell->value   = value_new_empty ();
 
 	sheet_cell_add_to_hash (sheet, cell);
 	return cell;
@@ -1951,17 +1949,12 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 static void
 sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 {
-	Cell  cellpos;
-
 	g_return_if_fail (cell_is_linked (cell));
-
-	cellpos.pos.col = cell->col_info->pos;
-	cellpos.pos.row = cell->row_info->pos;
 
 	cell_unregister_span   (cell);
 	cell_drop_dependencies (cell);
 
-	g_hash_table_remove (sheet->cell_hash, &cellpos);
+	g_hash_table_remove (sheet->cell_hash, cell);
 	cell->cell_flags &= ~CELL_IN_SHEET_LIST;
 }
 
@@ -3239,8 +3232,8 @@ sheet_move_range (CommandContext *context,
 		cell = cells->data;
 
 		/* check for out of bounds and delete if necessary */
-		if ((cell->col_info->pos + rinfo->col_offset) >= SHEET_MAX_COLS ||
-		    (cell->row_info->pos + rinfo->row_offset) >= SHEET_MAX_ROWS) {
+		if ((cell->pos.col + rinfo->col_offset) >= SHEET_MAX_COLS ||
+		    (cell->pos.row + rinfo->row_offset) >= SHEET_MAX_ROWS) {
 			if (cell_has_expr (cell))
 				sheet_cell_expr_unlink (cell);
 			cell_unrealize (cell);
@@ -3256,8 +3249,8 @@ sheet_move_range (CommandContext *context,
 
 		/* Update the location */
 		sheet_cell_insert (rinfo->target_sheet, cell,
-				   cell->col_info->pos + rinfo->col_offset,
-				   cell->row_info->pos + rinfo->row_offset);
+				   cell->pos.col + rinfo->col_offset,
+				   cell->pos.row + rinfo->row_offset);
 
 		if (inter_sheet_expr)
 			sheet_cell_expr_link (cell);
@@ -3668,14 +3661,6 @@ sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels,
 	int const a = thick_a ? 2 : 1;
 	int const b = thick_b ? 1 : 0;
 	sheet_col_row_default_init (sheet, height_pixels, a, b, FALSE, FALSE);
-}
-
-void
-sheet_cell_changed (Cell *cell)
-{
-#ifdef ENABLE_BONOBO
-	sheet_vectors_cell_changed (cell);
-#endif
 }
 
 void

@@ -482,8 +482,8 @@ dependency_range_ctor (DependencyRange *range, const Cell *cell,
 {
 	CellPos pos;
 
-	pos.col = cell->col_info->pos;
-	pos.row = cell->row_info->pos;
+	pos.col = cell->pos.col;
+	pos.row = cell->pos.row;
 
 	cell_get_abs_col_row (a, &pos,
 			      &range->range.start.col,
@@ -515,8 +515,8 @@ handle_cell_single_dep (Cell *cell, const CellRef *a,
 	if (!deps)
 		return;
 
-	pos.col = cell->col_info->pos;
-	pos.row = cell->row_info->pos;
+	pos = cell->pos;
+
 	/* Convert to absolute cordinates */
 	cell_get_abs_col_row (a, &pos, &lookup.pos.col, &lookup.pos.row);
 
@@ -558,7 +558,7 @@ handle_cell_single_dep (Cell *cell, const CellRef *a,
  * We add the dependency of Cell a in the ranges
  * enclose by CellRef a and CellRef b
  *
- * We compute the location from cell->row_info->pos and cell->col_info->pos
+ * We compute the location from cell->pos.row and cell->pos.col
  */
 static void
 handle_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b,
@@ -690,8 +690,8 @@ handle_tree_deps (Cell *cell, ExprTree *tree, DepOperation operation)
 
 			a.col_relative = a.row_relative = 0;
 			a.sheet = cell->sheet;
-			a.col   = cell->col_info->pos - tree->array.x;
-			a.row   = cell->row_info->pos - tree->array.y;
+			a.col   = cell->pos.col - tree->array.x;
+			a.row   = cell->pos.row - tree->array.y;
 
 			handle_cell_range_deps (cell, &a, &a, operation);
 		} else
@@ -805,8 +805,8 @@ cell_get_range_dependencies (const Cell *cell)
 	if (!cell->sheet->deps)
 		return NULL;
 
-	closure.col   = cell->col_info->pos;
-	closure.row   = cell->row_info->pos;
+	closure.col   = cell->pos.col;
+	closure.row   = cell->pos.row;
 	closure.sheet = cell->sheet;
 	closure.list  = NULL;
 
@@ -860,8 +860,8 @@ cell_get_dependencies (const Cell *cell)
 
 	deps = g_list_concat (cell_get_range_dependencies (cell),
 			      get_single_dependencies (cell->sheet,
-						       cell->col_info->pos,
-						       cell->row_info->pos));
+						       cell->pos.col,
+						       cell->pos.row));
 #ifdef DEBUG_EVALUATION
 	if (dependency_debugging > 1) {
 		printf ("There are %d dependencies for %s!%s\n",

@@ -195,7 +195,7 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 		start_col = spaninfo->left;
 		end_col = spaninfo->right;
 	} else
-		start_col = end_col = cell->col_info->pos;
+		start_col = end_col = cell->pos.col;
 
 	/* Get the sizes exclusive of margins and grids */
 	width  = cell->col_info->size_pts - cell->col_info->margin_a - cell->col_info->margin_b - 1;
@@ -254,15 +254,15 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 	 * columns to the left (if it is set to right justify or center justify)
 	 * compute the difference in pts.
 	 */
-	if (start_col != cell->col_info->pos) {
+	if (start_col != cell->pos.col) {
 		int const offset =
-		    sheet_col_get_distance_pts (sheet, start_col, cell->col_info->pos);
+		    sheet_col_get_distance_pts (sheet, start_col, cell->pos.col);
 		clip_x     -= offset;
 		clip_width += offset;
 	}
-	if (end_col != cell->col_info->pos) {
+	if (end_col != cell->pos.col) {
 		int const offset =
-		    sheet_col_get_distance_pts (sheet, cell->col_info->pos+1, end_col+1);
+		    sheet_col_get_distance_pts (sheet, cell->pos.col+1, end_col+1);
 		clip_width += offset;
 	}
 
@@ -629,7 +629,7 @@ print_cell_range (GnomePrintContext *context,
 				++col;
 			} else {
 				Cell const *cell = span->cell;
-				int const real_col = cell->col_info->pos;
+				int const real_col = cell->pos.col;
 				int const start_span_col = span->left;
 				int const end_span_col = span->right;
 				int real_x = -1;
@@ -666,7 +666,7 @@ print_cell_range (GnomePrintContext *context,
 				if (real_style == NULL) {
 					real_style = sheet_style_compute (sheet, real_col, ri->pos);
 					real_x = x + sheet_col_get_distance_pts (cell->sheet,
-										 col, cell->col_info->pos);
+										 col, cell->pos.col);
 				}
 
 				if (is_visible && output)
