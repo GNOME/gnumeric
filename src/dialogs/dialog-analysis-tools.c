@@ -59,6 +59,7 @@ typedef struct {
         GtkWidget *dialog;
         GtkWidget *frame;
         GtkWidget *discrete_box, *uniform_box, *normal_box, *poisson_box;
+        GtkWidget *bernoulli_box;
         GtkWidget *combo;
 } random_tool_callback_t;
 
@@ -98,6 +99,7 @@ tool_list_t tools[] = {
 static const char *distribution_strs[] = {
         N_("Discrete"),
         N_("Normal"),
+        N_("Bernoulli"),
         N_("Uniform"),
         NULL
 };
@@ -1303,6 +1305,9 @@ distribution_callback(GtkWidget *widget, random_tool_callback_t *p)
 	case UniformDistribution:
 	        gtk_widget_hide (p->uniform_box);
 		break;
+	case BernoulliDistribution:
+	        gtk_widget_hide (p->bernoulli_box);
+		break;
 	case NormalDistribution:
 	        gtk_widget_hide (p->normal_box);
 		break;
@@ -1318,6 +1323,9 @@ distribution_callback(GtkWidget *widget, random_tool_callback_t *p)
 	if (strcmp(text, "Uniform") == 0) {
 	        distribution = UniformDistribution;
 		gtk_widget_show (p->uniform_box);
+	} else if (strcmp(text, "Bernoulli") == 0) {
+	        distribution = BernoulliDistribution;
+		gtk_widget_show (p->bernoulli_box);
 	} else if (strcmp(text, "Normal") == 0) {
 	        distribution = NormalDistribution;
 		gtk_widget_show (p->normal_box);
@@ -1336,6 +1344,7 @@ dialog_random_tool(Workbook *wb, Sheet *sheet)
 	static GtkWidget *uniform_upper_entry, *uniform_lower_entry;
 	static GtkWidget *normal_mean_entry, *normal_stdev_entry;
 	static GtkWidget *poisson_lambda_entry;
+	static GtkWidget *bernoulli_p_entry;
 
 	static GSList    *output_ops;
 	static GList     *distribution_type_strs;
@@ -1410,6 +1419,10 @@ dialog_random_tool(Workbook *wb, Sheet *sheet)
 		poisson_lambda_entry = pack_label_and_entry
 		  ("Lambda", "0", 20, callback_data.poisson_box);
 
+		callback_data.bernoulli_box = gtk_vbox_new (FALSE, 0);
+		bernoulli_p_entry = pack_label_and_entry
+		  ("p Value", "0", 20, callback_data.bernoulli_box);
+
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 						      (dialog)->vbox), box);
@@ -1420,6 +1433,9 @@ dialog_random_tool(Workbook *wb, Sheet *sheet)
 				  callback_data.discrete_box);
 
 		gtk_container_add(GTK_CONTAINER(param_box),
+				  callback_data.bernoulli_box);
+
+		gtk_container_add(GTK_CONTAINER(param_box),
 				  callback_data.uniform_box);
 		gtk_container_add(GTK_CONTAINER(param_box),
 				  callback_data.normal_box);
@@ -1427,20 +1443,29 @@ dialog_random_tool(Workbook *wb, Sheet *sheet)
 		gtk_widget_show_all (dialog);
 		gtk_widget_hide (callback_data.uniform_box);
 		gtk_widget_hide (callback_data.normal_box);
+		gtk_widget_hide (callback_data.bernoulli_box);
 	} else {
 		gtk_widget_show_all (dialog);
 		switch (distribution) {
 		case DiscreteDistribution:
 		        gtk_widget_hide (callback_data.uniform_box);
 			gtk_widget_hide (callback_data.normal_box);
+			gtk_widget_hide (callback_data.bernoulli_box);
 			break;
 		case NormalDistribution:
 		        gtk_widget_hide (callback_data.discrete_box);
 			gtk_widget_hide (callback_data.uniform_box);
+			gtk_widget_hide (callback_data.bernoulli_box);
+			break;
+		case BernoulliDistribution:
+		        gtk_widget_hide (callback_data.discrete_box);
+			gtk_widget_hide (callback_data.uniform_box);
+			gtk_widget_hide (callback_data.normal_box);
 			break;
 		case UniformDistribution:
 		        gtk_widget_hide (callback_data.discrete_box);
 			gtk_widget_hide (callback_data.normal_box);
+			gtk_widget_hide (callback_data.bernoulli_box);
 			break;
 		default:
 		        break;
@@ -1479,6 +1504,10 @@ random_dialog_loop:
 		param.normal.mean = atof(text);
 		text = gtk_entry_get_text (GTK_ENTRY (normal_stdev_entry));
 		param.normal.stdev = atof(text);
+	} else if (strcmp(text, "Bernoulli") == 0) {
+	        distribution = BernoulliDistribution;
+		text = gtk_entry_get_text (GTK_ENTRY (bernoulli_p_entry));
+		param.bernoulli.p = atof(text);
 	} else if (strcmp(text, "Discrete") == 0) {
 	        distribution = DiscreteDistribution;
 		text = gtk_entry_get_text (GTK_ENTRY (discrete_range_entry));
@@ -1726,7 +1755,7 @@ dialog_ranking_tool(Workbook *wb, Sheet *sheet)
 
 		group_ops = add_groupped_by(box);
 
-		add_check_buttons(box, first_row_label_button);
+		add_check_buttons(box, label_button);
 
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
@@ -1766,8 +1795,7 @@ dialog_loop:
 	        goto dialog_loop;
 
 	labels = label_row_flag;
-	if (labels)
-	        range.start_row++;
+	dao.labels_flag = labels;
 
 	if (ranking_tool (wb, sheet, &range, !i, &dao))
 	        goto dialog_loop;

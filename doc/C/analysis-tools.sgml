@@ -9,11 +9,11 @@
   button.  The tools are described bellow.</para>
 
   <para>All the tools have the same output options.  The results can
-  be printed out into a new sheet or to the same sheet into a given
-  output range.  To select the output method just select one of the
-  radio buttons bellow the ``Output options:'' label.  Note that if
-  the output is printed into a range that is too small, some or all of
-  the results will not be printed.</para>
+  be printed out into a new sheet, into a new workbook, or into the
+  same sheet within a given output range.  To select the output method
+  just select one of the radio buttons bellow the ``Output options:''
+  label.  Note that if the output is printed into a range that is too
+  small, some or all of the results will not be printed.</para>
 
 
   <sect2>
@@ -36,19 +36,20 @@
 
      <para>If you have labels, for example the names of the variables,
      in the first row of the given range, you should check the
-     ``Labels in First Row'' button on.  This leaves the first row of
-     the input range out of the analysis.  In addition, the names of
-     the variables are printed nicely into the output table.</para>
+     ``Labels'' button on.  This leaves the first row (or the first
+     column if the data is groupped by rows) of the input range out of
+     the analysis.  In addition, the names of the variables are
+     printed nicely into the output table.</para>
 
      <para>The results are printed into a table where each column and
      row is labeled according to the names of the variables.  If the
-     names are not given in the first row of the input range, the
-     column or row numbers are used instead.  The calculated
-     correlations are given in the table.  For example, the
-     correlation of the previous example, i.e, correlation between a
-     variable in a column A and B, can be read in the second column
-     and third row of the results table (bellow the column labeled
-     ``Column 1'' and in the row labeled ``Column 2'').</para>
+     names are not given in the input range, Gnumeric generates them
+     for you.  The calculated correlations are given in the table.
+     For example, the correlation of the previous example, i.e,
+     correlation between a variable in a column A and B, can be read
+     in the second column and third row of the results table (bellow
+     the column labeled ``Column 1'' and in the row labeled ``Column
+     2'').</para>
   </sect2>
 
 
@@ -71,19 +72,19 @@
 
      <para>If you have labels, for example the names of the variables,
      in the first row of the given range, you should check the
-     ``Labels in First Row'' button on.  This leaves the first row of
-     the input range out of the analysis.  In addition, the names of
-     the variables are printed nicely into the output table.</para>
+     ``Labels'' button on.  This leaves the first row (or the first
+     column if the data is groupped by rows) of the input range out of
+     the analysis.  In addition, the names of the variables are
+     printed nicely into the output table.</para>
 
      <para>The results are printed into a table where each column and
      row is labeled according to the names of the variables.  If the
-     names are not given in the first row of the input range, the
-     column or row numbers are used instead.  The calculated
-     covariances are given in the table.  For example, the covariance
-     of the previous example, i.e, covariance between a variable in a
-     column A and B, can be read in the second column and third row of
-     the results table (bellow the column labeled ``Column 1'' and in
-     the row labeled ``Column 2'').</para>
+     names are not given in the input range, Gnumeric generates them
+     for you.  The calculated covariances are given in the table.  For
+     example, the covariance of the previous example, i.e, covariance
+     between a variable in a column A and B, can be read in the second
+     column and third row of the results table (bellow the column
+     labeled ``Column 1'' and in the row labeled ``Column 2'').</para>
   </sect2>
 
 
@@ -164,29 +165,40 @@
      of rows of random values to be produced.  Thirdly specify the
      random distribution by selecting one of the list items from the
      random distribution list.  The following random distributions are
-     supported: discrete, normal, and uniform.  Then specify the
-     parameters of the distribution.</para>
+     supported: Discrete, Normal, Bernoulli, and Uniform.  Then
+     specify the parameters of the distribution.</para>
 
-     <para>For discrete random distribution, specify the value and
-     probability input range in the ``Value and Probability Input
-     Range:'' entry box.  That is a table consisting of two columns
-     and any number of rows.  The first column specifies the discrete
-     random values and the second column the probabilities of them.
-     The discrete random values do not have to be numbers, for
-     example, strings will do as well.  The sum of the probabilities
-     in the second column should be one.  For example, if you have the
-     values A, B, C, and D in A1:A4 and values 0.1, 0.4, 0.2, and 0.3
-     in B1:B4, you could specify value and probability input range to
-     be A1:B4.</para>
+     <sect3>
+        <title>Random Distributions</title>
 
-    <para>For normal random distribution, specify the mean and the
-    standard deviation.  The default values for them are 0 for mean
-    and 1 for standard deviation.</para>
+        <para>For Discrete random distribution, specify the value and
+	probability input range in the ``Value and Probability Input
+	Range:'' entry box.  That is a table consisting of two columns
+	and any number of rows.  The first column specifies the
+	discrete random values and the second column the probabilities
+	for them.  The discrete random values do not have to be
+	numbers, for example, strings will do as well.  The sum of the
+	probabilities in the second column should be one.  For
+	example, if you have the values A, B, C, and D in A1:A4 and
+	values 0.1, 0.4, 0.2, and 0.3 in B1:B4, you could specify
+	value and probability input range to be A1:B4.</para>
 
-    <para>For uniform random distribution, specify the range of the
-    random variables by filling the ``Between:'' and ``And:'' entries.
-    The default values for them are 0 and 1 that gives random numbers
-    between zero and one.</para>
+        <para>For Normal random distribution, specify the mean and the
+	standard deviation.  The default values for them are 0 for
+	mean and 1 for standard deviation.</para>
+
+        <para>For Bernoulli random distribution, specify the ``p
+        Value''.  This is a probability value between 0 and 1.
+        Bernoulli distribution has two random values 0 and 1, and the
+        ``p Value'' specifies the probability of value 1.  The mean of
+        a random variable that has a Bernoulli distribution is E(X) =
+        1(p) + 0(1-p) = p, and the variance is var(X) = p(1-p).</para>
+
+        <para>For Uniform random distribution, specify the range of
+        the random variables by filling the ``Between:'' and ``And:''
+        entries.  The default values for them are 0 and 1 that gives
+        random numbers between zero and one.</para>
+     </sect3>
   </sect2>
 
 
@@ -210,6 +222,34 @@
      the original data set is taken at most once to the sample.</para>
   </sect2>
 
+
+  <sect2>
+     <title>z-Test:Two Samples for Means Tool</title>
+
+     <para>Use the z-Test tool to analyze wheater the means of two
+     variables are significantly different or not.  The values of the
+     first variable are specified in the ``Variable 1 Range:'' entry.
+     Correspondingly, the values of the second variable are given in
+     the ``Variable 2 Range:'' entry.  You should also specify the
+     variances of both variables in the ``Variable 1 Variance
+     (known):'' and ``Variable 2 Variance (known):'' entries.</para>
+
+     <para>If you want to test wheater the difference of the means is
+     larger than a given value, specify also the ``Hypothesized Mean
+     Difference:'' entry.  ``Alpha:'' entry specifies the level of
+     significance which is by default 95%.</para>
+
+     <para>If the output is printed into a range, it should have at
+     least three columns and ten rows.</para>
+
+     <para>The results are given in a table.  The tool calculates and
+     prints the mean, known variance, and count of observations of
+     both variables.  It also calculates the z-value, the one-tailed
+     and two-tailed probability for the z-value, and the z Critical
+     value for one-tailed and two-tailed tests.  The one-tailed
+     probability for the z-value (``P(Z<=z) one-tail'' row) describes
+     the risk of making a Type I error of one-tailed test.</para>
+  </sect2>
 
 </sect1>
 

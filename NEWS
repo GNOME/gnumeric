@@ -1,7 +1,10 @@
 Gnumeric 0.30
 
 Jukka:
-	* Lots of bug fixes to data analysis tools
+	* Bernoulli distribution added to Random Number Generation tool
+	* Finished the Rank and Percentile tool
+	* Lots of bug fixes and documentation updates to the data
+	  analysis tools
 
 --------------------------------------------------------------------------
 

@@ -1,5 +1,17 @@
 1999-07-12  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* doc/C/analysis-tools.sgml: Small fixes and additions.
+	
+	* src/dialog-analysis-tools.c, src/analysis-tools.c: Added
+ 	Bernoulli distribution to the Random Number Generation tool.
+
+	* src/analysis-tools.c: Finished Rank and Percentile tool.
+	
+	* src/analysis-tools.c: Fixed ``F/z/t Critical'' values of the
+ 	F-Test, t-Test, and z-Test Tools.
+	
+1999-07-12  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
 	* src/dialog-analysis-tools.c, src/analysis-tools.c: Made ``Labels
  	in the first row'' option to actually work.  Killed some warnings
  	and bugs related to outputs too.

@@ -304,10 +304,10 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 	int        vars, cols, rows, col, row, i;
 	int        error;
 
-	prepare_output(wb, dao, "Correlations");
-
 	cols = input_range->end_col - input_range->start_col + 1;
 	rows = input_range->end_row - input_range->start_row + 1;
+
+	prepare_output(wb, dao, "Correlations");
 
 	set_cell (dao, 0, 0, "");
 
@@ -382,7 +382,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 							  &data_sets[row],
 							  &error));
 				if (error)
-				        set_cell (dao, col+1, row+1, "--");
+				        set_cell (dao, col+1, row+1, "#N/A");
 				else
 				        set_cell (dao, col+1, row+1, buf);
 			}
@@ -528,7 +528,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 							 &data_sets[row],
 							  &error));
 				if (error)
-				        set_cell (dao, col+1, row+1, "--");
+				        set_cell (dao, col+1, row+1, "#N/A");
 				else
 				        set_cell (dao, col+1, row+1, buf);
 			}
@@ -835,12 +835,21 @@ descriptive_stat_tool (Workbook *wb, Sheet *current_sheet,
 						  &data_sets[i]);
 	}
 
-        if (ds->summary_statistics)
+        if (ds->summary_statistics) {
                 summary_statistics(wb, data_sets, vars, dao);
-        if (ds->confidence_level)
+		if (dao->type == RangeOutput)
+		        dao->start_row += 15;
+	}
+        if (ds->confidence_level) {
                 confidence_level(wb, data_sets, vars, ds->c_level, dao);
-        if (ds->kth_largest)
+		if (dao->type == RangeOutput)
+		        dao->start_row += 4;
+	}
+        if (ds->kth_largest) {
                 kth_largest(wb, data_sets, vars, ds->k_largest, dao);
+		if (dao->type == RangeOutput)
+		        dao->start_row += 4;
+	}
         if (ds->kth_smallest)
                 kth_smallest(wb, data_sets, vars, ds->k_smallest, dao);
 
@@ -1067,7 +1076,7 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	set_cell(dao, 1, 6, buf);
 
 	/* z Critical one-tail */
-	sprintf(buf, "%f", 0.0);    /* TODO */
+	sprintf(buf, "%f", qnorm(alpha, 0, 1));
 	set_cell(dao, 1, 7, buf);
 
 	/* P(Z<=z) two-tail */
@@ -1075,7 +1084,7 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	set_cell(dao, 1, 8, buf);
 
 	/* z Critical two-tail */
-	sprintf(buf, "%f", 0.0);    /* TODO */
+	sprintf(buf, "%f", qnorm(1.0-(1.0-alpha)/2, 0, 1));
 	set_cell(dao, 1, 9, buf);
 
 	free_data_set (&set_one);
@@ -1235,7 +1244,7 @@ ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	set_cell(dao, 1, 8, buf);
 
 	/* t Critical one-tail */
-	sprintf(buf, "%f", 0.0);     /* TODO */
+	sprintf(buf, "%f", qt(alpha, df));
 	set_cell(dao, 1, 9, buf);
 
 	/* P(T<=t) two-tail */
@@ -1243,7 +1252,7 @@ ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	set_cell(dao, 1, 10, buf);
 
 	/* t Critical two-tail */
-	sprintf(buf, "%f", 0.0);     /* TODO */
+	sprintf(buf, "%f", qt(1.0-(1.0-alpha)/2, df));
 	set_cell(dao, 1, 11, buf);
 
         free_data_set(&set_one);
@@ -1361,7 +1370,7 @@ ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	set_cell(dao, 1, 8, buf);
 
 	/* t Critical one-tail */
-	sprintf(buf, "%f", 0.0);     /* TODO */
+	sprintf(buf, "%f", qt(alpha, df));
 	set_cell(dao, 1, 9, buf);
 
 	/* P(T<=t) two-tail */
@@ -1369,7 +1378,7 @@ ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	set_cell(dao, 1, 10, buf);
 
 	/* t Critical two-tail */
-	sprintf(buf, "%f", 0.0);     /* TODO */
+	sprintf(buf, "%f", qt(1.0-(1.0-alpha)/2, df));
 	set_cell(dao, 1, 11, buf);
 
         free_data_set(&set_one);
@@ -1480,7 +1489,7 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	set_cell(dao, 1, 7, buf);
 
 	/* t Critical one-tail */
-	sprintf(buf, "%f", 0.0);     /* TODO */
+	sprintf(buf, "%f", qt(alpha, df));
 	set_cell(dao, 1, 8, buf);
 
 	/* P(T<=t) two-tail */
@@ -1488,7 +1497,7 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	set_cell(dao, 1, 9, buf);
 
 	/* t Critical two-tail */
-	sprintf(buf, "%f", 0.0);     /* TODO */
+	sprintf(buf, "%f", qt(1.0-(1.0-alpha)/2, df));
 	set_cell(dao, 1, 10, buf);
 
         free_data_set(&set_one);
@@ -1601,8 +1610,8 @@ ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	sprintf(buf, "%f", p);
 	set_cell(dao, 1, 6, buf);
 
-	/* t Critical one-tail */
-	sprintf(buf, "%f", 0.0);     /* TODO */
+	/* F Critical one-tail */
+	sprintf(buf, "%f", qf(alpha, df1, df2));
 	set_cell(dao, 1, 7, buf);
 
         free_data_set(&set_one);
@@ -1713,6 +1722,16 @@ int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
 					qnorm(random_01(),
 					      param->normal.mean,
 					      param->normal.stdev));
+				set_cell(dao, i, n, buf);
+			}
+		}
+	        break;
+	case BernoulliDistribution:
+	        for (i=0; i<vars; i++) {
+		        for (n=0; n<count; n++) {
+			        sprintf(buf, "%d", 
+					(random_01() <= param->bernoulli.p) ?
+					1 : 0);
 				set_cell(dao, i, n, buf);
 			}
 		}
@@ -1918,12 +1937,29 @@ int average_tool (Workbook *wb, Sheet *sheet, Range *range, int interval,
  *
  **/
 
+typedef struct {
+        int     rank;
+        int     same_rank_count;
+        int     point;
+        float_t x;
+} rank_t;
+
+static gint
+rank_compare (const rank_t *a, const rank_t *b)
+{
+        if (a->x < b->x)
+                return 1;
+        else if (a->x == b->x)
+                return 0;
+        else
+                return -1;
+}
 
 int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 		  int columns_flag, data_analysis_output_t *dao)
 {
         data_set_t *data_sets;
-	GSList     *current;
+	GSList     *current, *inner;
 	char       buf[256];
 	int        vars, cols, rows, col, i, n;
 
@@ -1936,12 +1972,26 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 	        vars = cols;
 		for (col=0; col<vars; col++) {
 		        set_cell (dao, col*4, 0, "Point");
-		        sprintf(buf, "Column %d", col+1);
-			set_cell (dao, col*4+1, 0, buf);
+			if (dao->labels_flag) {
+			        char *s;
+			        Cell *cell = sheet_cell_get
+				  (sheet, input_range->start_col+col, 
+				   input_range->start_row);
+				if (cell != NULL && cell->value != NULL) {
+				        s = value_get_as_string(cell->value);
+				        set_cell (dao, col*4+1, 0, s);
+				}
+			} else {
+			        sprintf(buf, "Column %d", col+1);
+				set_cell (dao, col*4+1, 0, buf);
+			}
 			set_cell (dao, col*4+2, 0, "Rank");
 			set_cell (dao, col*4+3, 0, "Percent");
 		}
 		data_sets = g_new(data_set_t, vars);
+
+		if (dao->labels_flag)
+		        input_range->start_row++;
 
 		for (i=0; i<vars; i++)
 		        get_data_groupped_by_columns(sheet,
@@ -1951,12 +2001,27 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 	        vars = rows;
 		for (col=0; col<vars; col++) {
 		        set_cell (dao, col*4, 0, "Point");
-		        sprintf(buf, "Row %d", col+1);
-			set_cell (dao, col*4+1, 0, buf);
+
+			if (dao->labels_flag) {
+			        char *s;
+			        Cell *cell = sheet_cell_get
+				  (sheet, input_range->start_col, 
+				   input_range->start_row+col);
+				if (cell != NULL && cell->value != NULL) {
+				        s = value_get_as_string(cell->value);
+				        set_cell (dao, col*4+1, 0, s);
+				}
+			} else {
+		                sprintf(buf, "Row %d", col+1);
+				set_cell (dao, col*4+1, 0, buf);
+			}
 			set_cell (dao, col*4+2, 0, "Rank");
 			set_cell (dao, col*4+3, 0, "Percent");
 		}
 		data_sets = g_new(data_set_t, vars);
+
+		if (dao->labels_flag)
+		        input_range->start_col++;
 
 		for (i=0; i<vars; i++)
 		        get_data_groupped_by_rows(sheet,
@@ -1964,26 +2029,55 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 						  &data_sets[i]);
 	}
 
-	for (i=0; i<vars; i++)
-	        data_sets[i].array = g_slist_sort(data_sets[i].array, 
-			     (GCompareFunc) float_compare_desc);
-	       
 	for (i=0; i<vars; i++) {
+	        rank_t *rank;
 	        n = 0;
 	        current = data_sets[i].array;
+		rank = g_new(rank_t, data_sets[i].n);
+
 		while (current != NULL) {
 		        float_t x = *((float_t *) current->data);
 
-			sprintf(buf, "%f", x);
-			set_cell (dao, i*4+1, n+1, buf);
-			sprintf(buf, "%d", n+1);
-			set_cell (dao, i*4+2, n+1, buf);
-			sprintf(buf, "%.2f%%", 
-				100.0-(100.0 * n / (data_sets[i].n-1)));
-			set_cell (dao, i*4+3, n+1, buf);
-			++n;
+			rank[n].point = n+1;
+			rank[n].x = x;
+			rank[n].rank = 1;
+			rank[n].same_rank_count = -1;
+
+			inner = data_sets[i].array;
+			while (inner != NULL) {
+			        float_t y = *((float_t *) inner->data);
+				if (y > x)
+				        rank[n].rank++;
+				else if (y == x)
+				        rank[n].same_rank_count++;
+				inner = inner->next;
+			}
+			n++;
 			current = current->next;
 		}
+		qsort ((rank_t *) rank, data_sets[i].n,
+		       sizeof (rank_t), (void *) &rank_compare);
+
+		for (n=0; n<data_sets[i].n; n++) {
+			/* Point number */
+			sprintf(buf, "%d", rank[n].point);
+			set_cell (dao, i*4+0, n+1, buf);
+
+			/* Value */
+			sprintf(buf, "%f", rank[n].x);
+			set_cell (dao, i*4+1, n+1, buf);
+
+			/* Rank */
+			sprintf(buf, "%d", rank[n].rank);
+			set_cell (dao, i*4+2, n+1, buf);
+
+			/* Percent */
+			sprintf(buf, "%.2f%%", 
+				100.0-(100.0 * (rank[n].rank-1)/
+				       (data_sets[i].n-1)));
+			set_cell (dao, i*4+3, n+1, buf);
+		}
+		g_free(rank);
 	}
 
 	for (i=0; i<vars; i++)
