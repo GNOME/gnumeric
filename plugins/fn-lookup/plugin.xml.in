@@ -15,6 +15,7 @@
 				<function name="areas"/>
 				<function name="choose"/>
 				<function name="column"/>
+				<function name="columnnumber"/>
 				<function name="columns"/>
 				<function name="hlookup"/>
 				<function name="hyperlink"/>

@@ -355,7 +355,7 @@ static char const *help_address = {
 	   "ADDRESS(5,4,4) equals \"D5\".\n"
 	   "ADDRESS(5,4,3,FALSE) equals \"R[5]C4\".\n"
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=COLUMNNUMBER")
 };
 
 static Value *
@@ -952,6 +952,38 @@ gnumeric_column (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
+static char const *help_columnnumber = {
+	N_("@FUNCTION=COLUMNNUMBER\n"
+	   "@SYNTAX=COLUMNNUMBER(name)\n"
+
+	   "@DESCRIPTION="
+	   "COLUMNNUMBER function returns an integer corresponding to the column "
+	   "name supplied as a string.\n"
+	   "\n"
+	   "* If @name is invalid, COLUMNNUMBER returns the #VALUE! error.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "COLUMNNUMBER(\"E\") equals 5.\n"
+	   "\n"
+	   "@SEEALSO=ADDRESS")
+};
+
+static Value *
+gnumeric_columnnumber (FunctionEvalInfo *ei, Value **args)
+{
+	const char *name = value_peek_string (args[0]);
+	int colno;
+	unsigned char relative;
+	const char *after = col_parse (name, &colno, &relative);
+
+	if (after == NULL || *after)
+		return value_new_error_VALUE (ei->pos);
+
+	return value_new_int (colno + 1);
+}
+
+/***************************************************************************/
+
 static char const *help_columns = {
 	N_("@FUNCTION=COLUMNS\n"
 	   "@SYNTAX=COLUMNS(reference)\n"
@@ -1194,6 +1226,9 @@ const GnmFuncDescriptor lookup_functions[] = {
 	{ "column",     "|A",    N_("ref"),
 	  &help_column,   gnumeric_column, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "columnnumber", "s",    N_("colname"),
+	  &help_columnnumber, gnumeric_columnnumber, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "columns",   "A",    N_("ref"),
 	  &help_columns, gnumeric_columns, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
