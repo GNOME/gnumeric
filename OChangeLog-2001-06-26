@@ -1,3 +1,13 @@
+2000-03-01  Dom Lachowicz <dominicl@seas.upenn.edu>
+
+	* src/functions/fn-eng.c (val_to_base): Catch Div0 && invalid log()
+	domain.
+
+	* src/functions/fn-financial (gnumeric_accrint, gnumeric_recieved),
+	(gnumeric_pricemat): Same
+
+	* src/functions/fn-stat.c (gnumeric_ttest): Ditto
+	
 2000-03-02  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet-vector.c (sheet_vector_corba_object_create): made static.

@@ -3610,6 +3610,9 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		}
 		g_slist_free(t_cl.entries);
 
+		if (N - 1 == 0 || N == 0)
+		        return value_new_error (&ep, gnumeric_err_NUM);
+
 		s = sqrt (Q / (N - 1));
 		mean1 = sum / N;
 		x = mean1 / (s / sqrt (N));

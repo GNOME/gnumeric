@@ -103,6 +103,8 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 
 	if (dest_base == 10)
 		return value_new_int (v);
+	else if (dest_base <= 1) /* log(1) == 0 and log (number < 1) == invalid domain */
+	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	if (v < 0) {
 		max = 10;

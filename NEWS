@@ -40,10 +40,15 @@ ERDI Gergo :
 
 Michael:
 	* Style undo/redo
+	* Gnome Basic integration
+
+Miguel:
+	* Charting work
 
 Dom Lachowicz :
 	* libgladify the plugin manager.
 	* Improve color combo.
+	* Lots of DIV0 cases in functions caught elegantly.
 
 Mike Kestner:
 	* Add file menu file history.

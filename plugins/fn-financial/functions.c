@@ -252,12 +252,9 @@ gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
 	a = days_monthly_basis (argv[0], argv[2], basis);
 	d = annual_year_basis (argv[0], basis);
 
-	if (a < 0 || d < 0 || par <= 0 || rate <= 0 || basis < 0 || basis > 4)
+	if (a < 0 || d <= 0 || par <= 0 || rate <= 0 || basis < 0 || basis > 4
+	    || freq == 0)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
-
-
-	if ( (freq == 0) || (d == 0) )
-	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	coefficient = par * rate / freq;
 	x = a / d;
@@ -407,7 +404,7 @@ static char *help_received = {
 static Value *
 gnumeric_received (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t investment, discount, a, d;
+	float_t investment, discount, a, d, n;
 	int     basis;
 
 	investment = value_get_as_float (argv[2]);
@@ -420,7 +417,11 @@ gnumeric_received (FunctionEvalInfo *ei, Value **argv)
 	if (a <= 0 || d <= 0 || basis < 0 || basis > 4)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (investment / (1.0 - (discount * a/d)));
+	n = 1.0 - (discount * a/d);
+	if (n == 0)
+	        return value_new_error (ei->pos, gnumeric_err_NUM);
+
+	return value_new_float (investment / n);
 }
 
 /***************************************************************************/
@@ -504,7 +505,7 @@ static char *help_pricemat = {
 static Value *
 gnumeric_pricemat (FunctionEvalInfo *ei, Value **argv)
 {
-	float_t discount, yield, a, b, dsm, dim;
+	float_t discount, yield, a, b, dsm, dim, n;
 	int     basis;
 
 	discount = value_get_as_float (argv[3]);
@@ -520,9 +521,12 @@ gnumeric_pricemat (FunctionEvalInfo *ei, Value **argv)
 	    basis > 4)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
+	n = 1 + (dsm/b * yield);
+	if (n == 0)
+	        return value_new_error (ei->pos, gnumeric_err_NUM);
+
 	return value_new_float (((100 + (dim/b * discount * 100)) /
-				 (1 + (dsm/b * yield))) -
-				(a/b * discount * 100));
+				 (n)) - (a/b * discount * 100));
 }
 
 /***************************************************************************/
