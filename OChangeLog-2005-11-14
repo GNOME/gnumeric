@@ -1,3 +1,8 @@
+2001-06-04  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/xml-io.c:
+	Reverted my last patch to save users' swap-space :-)
+
 2001-06-03  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cellspan.c (cell_calc_span) : do not span expressions

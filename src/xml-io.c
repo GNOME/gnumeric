@@ -42,7 +42,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <errno.h>
 #include <zlib.h>
 #include <gal/util/e-xml-utils.h>
 #include <gnome.h>
@@ -54,10 +53,8 @@
 #define POINT_SIZE_PRECISION 3
 
 /* FIXME - tune the values below */
-#define XML_INPUT_BUFFER_SIZE             0x1000
-#define XML_OUTPUT_BUFFER_SIZE            0x4000
-#define N_INPUT_ELEMENTS_BETWEEN_UPDATES  20
-#define N_OUTPUT_ELEMENTS_BETWEEN_UPDATES 40
+#define XML_INPUT_BUFFER_SIZE      4096
+#define N_ELEMENTS_BETWEEN_UPDATES 20
 
 static GnumFileOpener *xml_opener = NULL;
 static GnumFileSaver  *xml_saver = NULL;
@@ -1706,9 +1703,6 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell *cell, int col, int row
 	    (cell_has_expr (cell) && expr_tree_shared (cell->base.expression));
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Cell", NULL);
-	if (++ctxt->element_counter % N_OUTPUT_ELEMENTS_BETWEEN_UPDATES == 0) {
-		count_io_progress_update (ctxt->io_context, ctxt->element_counter);
-	}
 	xml_set_value_int (cur, "Col", col);
 	xml_set_value_int (cur, "Row", row);
 
@@ -2117,9 +2111,6 @@ xml_write_styles (XmlParseContext *ctxt, StyleList *styles)
 		StyleRegion *sr = ptr->data;
 
 		xmlAddChild (cur, xml_write_style_region (ctxt, sr));
-		if (++ctxt->element_counter % N_OUTPUT_ELEMENTS_BETWEEN_UPDATES == 0) {
-			count_io_progress_update (ctxt->io_context, ctxt->element_counter);
-		}
 	}
 	style_list_free (styles);
 
@@ -2546,7 +2537,7 @@ xml_read_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	for (regions = child->xmlChildrenNode; regions != NULL; regions = regions->next) {
 		xml_read_style_region (ctxt, regions);
-		if (++ctxt->element_counter % N_INPUT_ELEMENTS_BETWEEN_UPDATES == 0) {
+		if (++ctxt->element_counter % N_ELEMENTS_BETWEEN_UPDATES == 0) {
 			count_io_progress_update (ctxt->io_context, ctxt->element_counter);
 		}
 	}
@@ -2781,7 +2772,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 
 		for (cell = child->xmlChildrenNode; cell != NULL ; cell = cell->next) {
 			xml_read_cell (ctxt, cell);
-			if (++ctxt->element_counter % N_INPUT_ELEMENTS_BETWEEN_UPDATES == 0) {
+			if (++ctxt->element_counter % N_ELEMENTS_BETWEEN_UPDATES == 0) {
 				count_io_progress_update (ctxt->io_context, ctxt->element_counter);
 			}
 		}
@@ -3356,13 +3347,6 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 	}
 	file_size = lseek (fd, 0, SEEK_END);
 	if (file_size < 0 || lseek (fd, 0, SEEK_SET) < 0) {
-		close (fd);
-		gnumeric_io_error_info_set (context, error_info_new_str (
-		_("Cannot get file size.")));
-		return;
-	}
-	f = gzdopen (fd, "rb");
-	if (f == NULL) {
 		if (errno == 0) {
 			gnumeric_io_error_info_set (context, error_info_new_str (
 			_("Not enough memory to create zlib decompression state.")));
@@ -3370,6 +3354,13 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 			gnumeric_io_error_info_set (context, error_info_new_from_errno ());
 		}
 		close (fd);
+		return;
+	}
+	f = gzdopen (fd, "r");
+	if (f == NULL) {
+		close (fd);
+		gnumeric_io_error_info_set (context, error_info_new_str (
+		_("Not enough memory to create zlib decompression state.")));
 		return;
 	}
 	io_progress_message (context, _("Parsing XML file..."));
@@ -3416,28 +3407,10 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 	xmlFreeDoc (res);
 }
 
-static gint
-workbook_get_n_elements (Workbook *wb)
-{
-	gint n = 0;
-	GList *sheets, *l;
-
-	sheets = workbook_sheets (wb);
-	for (l = sheets; l != NULL; l = l->next) {
-		Sheet *sheet = l->data;
-
-		n += g_hash_table_size (sheet->cell_hash);
-		n += g_list_length (sheet_style_get_list (sheet, NULL));
-	}
-	g_list_free (sheets);
-
-	return n;
-}
-
-
 /*
  * Save a Workbook in an XML file
  * One build an in-memory XML tree and save it to a file.
+ * returns 0 in case of success, -1 otherwise.
  */
 void
 gnumeric_xml_write_workbook (GnumFileSaver const *fs,
@@ -3447,9 +3420,7 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 {
 	xmlDocPtr xml;
 	XmlParseContext *ctxt;
-	xmlChar *xml_mem;
-	gint xml_size, xml_offset;
-	gzFile *f;
+	int ret;
 
 	g_return_if_fail (wb_view != NULL);
 	g_return_if_fail (filename != NULL);
@@ -3457,62 +3428,24 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 	/*
 	 * Create the tree
 	 */
-	io_progress_message (context, _("Building XML tree..."));
-	count_io_progress_set (context, workbook_get_n_elements (wb_view_workbook (wb_view)),
-	                       0.0, 0.5);
 	xml = xmlNewDoc ("1.0");
 	if (xml == NULL) {
 		gnumeric_io_error_save (context, "");
 		return;
 	}
 	ctxt = xml_parse_ctx_new (xml, NULL);
-	ctxt->io_context = context;
 	xml->xmlRootNode = xml_workbook_write (ctxt, wb_view);
 	xml_parse_ctx_destroy (ctxt);
-	io_progress_unset (context);
 
 	/*
 	 * Dump it.
 	 */
-	io_progress_message (context, _("Processing XML data..."));
-	io_progress_update (context, 0.5);
-	/* FIXME - we need progressive saving inside libxml */
-	xmlDocDumpMemory (xml, &xml_mem, &xml_size);
+	xmlSetDocCompressMode (xml, 9);
+	ret = xmlSaveFile (filename, xml);
 	xmlFreeDoc (xml);
-	if (xml_mem == NULL) {
-		gnumeric_io_error_info_set (context, error_info_new_str (
-		_("Error while dumping XML document to memory buffer.")));
-		return;
+	if (ret < 0) {
+		gnumeric_io_error_save (context, "");
 	}
-
-	f = gzopen (filename, "wb9");
-	if (f == NULL) {
-		if (errno == 0) {
-			gnumeric_io_error_info_set (context, error_info_new_str (
-			_("Not enough memory to create zlib compression state.")));
-		} else {
-			gnumeric_io_error_info_set (context, error_info_new_from_errno ());
-		}
-		return;
-	}
-	io_progress_message (context, _("Saving XML file..."));
-	count_io_progress_set (context, xml_size, 0.5, 1.0);
-	for (xml_offset = 0; xml_offset < xml_size;) {
-		gint chunk_size, written;
-
-		chunk_size = MIN (xml_size - xml_offset, XML_OUTPUT_BUFFER_SIZE);
-		written = gzwrite (f, xml_mem + xml_offset, chunk_size);
-		if (written <= 0) {
-			gnumeric_io_error_info_set (context, error_info_new_str (
-			_("Error while saving XML file.")));
-			break;
-		}
-		xml_offset += written;
-		count_io_progress_update (context, xml_offset);
-	}
-	gzclose (f);
-	io_progress_unset (context);
-	xmlFree (xml_mem);
 }
 
 void

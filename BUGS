@@ -8,8 +8,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - Revert recent xml-io DOM saving progress patch.
-
 Pending Patches
 ---------------
 
