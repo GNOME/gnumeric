@@ -40,7 +40,8 @@ file_history_cmd (BonoboUIComponent *uic, WorkbookControlGUI *wbcg, const char *
 						       "tip", NULL);
 
 	g_free (fullpath);
-	(void) workbook_read (WORKBOOK_CONTROL (wbcg), filename);
+	(void) wb_view_open (wb_control_view (WORKBOOK_CONTROL (wbcg)),
+	                     WORKBOOK_CONTROL (wbcg), filename);
 	g_free (filename);
 }
 #endif
