@@ -1,5 +1,37 @@
 1999-09-20  Michael Meeks  <michael@nuclecu.unam.mx>
 
+	* ms-formula-write.c (formula_cache_new_std): Split.
+	(get_formula_index): cleaned. (write_funcall): Split from
+	(write_node): in preparation for more lovely complexity.
+	(formula_cache_new_ename): create. (write_string): constify
+	(write_node): Improve integer writing efficiency.
+
+	* ms-excel-write.c (write_sheet_bools): Added write.
+	(biff_put_text): constify. (new_sheet): clean debug.
+
+	* ms-formula-write.c (ms_formula_build_pre_data, ms_formula_write_pre_data): 
+	stub.
+
+	* ms-excel-write.c (write_workbook): Fix _loads_ of leaks.
+	(free_sheet): create. (pre_pass): pre-pass of the workbook's sheets.
+	(pre_cell): Scan cells for interesting things.
+
+	* excel.h: remove cache stuff.
+
+	* ms-formula-write.h: move it here.
+
+	* ms-formula-write.c (get_formula_index, cache_init/shutdown): work
+	on a per sheet basis.
+
+	* boot.c (excel_shutdown, excel_init): remove formula cache.
+
+	* ms-excel-write.h: Add formula cache.
+
+	* ms-escher.c (ms_escher_read_Blip): Add support for image-generic
+	for jpeg, move DIB to a safe place.
+
+1999-09-20  Michael Meeks  <michael@nuclecu.unam.mx>
+
 	* ole.c: massive, huge, big clean to new API; ahh that feels good,
 	add 'help' command. Break escher debug for now.
 

@@ -38,10 +38,11 @@ struct _ExcelSheet {
 	ExcelWorkbook *wb;
 	Sheet         *gnum_sheet;
 	GArray        *dbcells;
-	MsOlePos   streamPos;
+	MsOlePos       streamPos;
 	guint32        boundsheetPos;
 	guint32        maxx;
 	guint32        maxy;
+	GHashTable    *formula_cache;
 };
 
 struct _ExcelWorkbook {
@@ -68,7 +69,7 @@ typedef enum {
 } PutType;
 
 extern int
-biff_put_text (BiffPut *bp, char *txt, eBiff_version ver,
+biff_put_text (BiffPut *bp, const char *txt, eBiff_version ver,
 	       gboolean write_len, PutType how);
 
 extern int

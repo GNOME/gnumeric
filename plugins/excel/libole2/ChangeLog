@@ -1,5 +1,11 @@
 1999-09-20  Michael Meeks  <michael@nuclecu.unam.mx>
 
+	* ms-ole.c (ms_ole_open): fixed leak, updated.
+	Re-written to allow a fallback from mmap.
+	(ms_ole_read_ptr_bb, ms_ole_read_ptr_sb): fix logic.
+
+1999-09-20  Michael Meeks  <michael@nuclecu.unam.mx>
+
 	* ms-ole.c (path_to_pps): add degenerate no file case.
 	(ms_ole_unlink): stub (ms_ole_directory): implemented.
 	(ms_ole_stat): implemented.

@@ -123,8 +123,6 @@ excel_init (void)
 	char *descr2 = _("Excel(R) 97 file format");
 	char *descr3 = _("Excel(R) 95 file format");
 
-	ms_formula_cache_init ();
-
 	/* We register Excel format with a precendence of 100 */
 	file_format_register_open (100, descr, excel_probe, excel_load);
 	if (gnumeric_debugging > 0)
@@ -135,5 +133,4 @@ excel_init (void)
 void
 excel_shutdown (void)
 {
-	ms_formula_cache_shutdown ();
 }

@@ -50,14 +50,14 @@ typedef struct _MSEscherHeader
 #define common_header_len 8
 
 static void
-ms_escher_blip_new (guint8 const *data, guint32 len, char const *reproid,
+ms_escher_blip_new (guint8 const *data, guint32 len, char const *repoid,
 		    ExcelWorkbook * wb)
 {
 	EscherBlip *blip = g_new (EscherBlip, 1);
-	guint8 * mem     = g_malloc (len);
+	guint8 *mem      = g_malloc (len);
 	memcpy (mem, data, len);
 
-	blip->reproid  = reproid;
+	blip->reproid  = repoid;
 #ifdef ENABLE_BONOBO
 	blip->stream   = gnome_stream_mem_create (mem, len, TRUE);
 #else
@@ -379,22 +379,30 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 		break;
 	case 0x542 : /* compressed PICT, with Metafile header */
 		break;
-	case 0x6e0 : /* PNG  data, with 1 byte header */
+
 	case 0x46a : /* JPEG data, with 1 byte header */
-	case 0x7a8 : /* DIB  data, with 1 byte header */
+	case 0x6e0 : /* PNG  data, with 1 byte header */
 	{
 		int const header = 17 + primary_uid_size + common_header_len;
 		gboolean needs_free;
 		guint8 const * data =
 			ms_escher_get_data (state, h->offset, h->len,
 					    header, &needs_free);
-		char const * reproid = NULL;
-		if (blip_instance ==  0x6e0)
-			reproid = "bonobo-object:image-x-png";
-		ms_escher_blip_new (data, h->len - header, reproid, state->wb);
+		const char *repoid = NULL;
+		
+		if (blip_instance == 0x6e0)
+			repoid = "bonobo-object:image-x-png";
+		else
+			repoid = "embeddable:image-jpeg";
+			
+		ms_escher_blip_new (data, h->len - header,
+				    repoid, state->wb);
 		write_file ("unknown", data, h->len - header, h->fbt - Blip_START);
+		break;
 	}
-	break;
+
+	case 0x7a8 : /* DIB  data, with 1 byte header */
+		break;
 
 	default:
 		g_warning ("Don't know what to do with this image %x\n", h->instance);

@@ -18,6 +18,11 @@ Miguel:
 	* More commands to format/row/col/sheet
 	* Bumped row limit to 64k
 
+Michael:
+	* Support IO on non-mmap-able excel files.
+	* Totaly re-write libole2's API - its usable now.
+	* Excel export 'Add-in' functions.
+
 Frank:
 	* Excel summary info export.
 

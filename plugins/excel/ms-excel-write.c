@@ -45,7 +45,7 @@
  *  it returns the length of the string.
  **/
 int
-biff_put_text (BiffPut *bp, char *txt, eBiff_version ver,
+biff_put_text (BiffPut *bp, const char *txt, eBiff_version ver,
 	       gboolean write_len, PutType how)
 {
 #define BLK_LEN 16
@@ -270,7 +270,7 @@ write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 	MS_OLE_SET_GUINT16(data, num_sheets);
 	ms_biff_put_commit (bp);
 
-	for (lp=0;lp<num_sheets;lp++) {
+	for (lp = 0; lp < num_sheets; lp++) {
 		ExcelSheet *sheet = g_ptr_array_index (wb->sheets, lp);
 		gint len = strlen (sheet->gnum_sheet->name);
 		guint8 data[8];
@@ -279,7 +279,7 @@ write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 		
 		ms_biff_put_var_next (bp, BIFF_EXTERNSHEET);
 		MS_OLE_SET_GUINT8(data, len);
-		MS_OLE_SET_GUINT8(data+1, 3); /* Magic */
+		MS_OLE_SET_GUINT8(data + 1, 3); /* Magic */
 		ms_biff_put_var_write (bp, data, 2);
 		biff_put_text (bp, sheet->gnum_sheet->name, wb->ver, FALSE, AS_PER_VER);
 		ms_biff_put_commit (bp);
@@ -1181,6 +1181,8 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 
 	write_externsheets (bp, sheet->wb, sheet);
 
+	ms_formula_write_pre_data (bp, sheet, EXCEL_EXTERNNAME, ver);
+
 	/* See: S59D73.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_DEFCOLWIDTH, 2);
 	MS_OLE_SET_GUINT16 (data, 0x0008);
@@ -1303,7 +1305,7 @@ write_index (MsOleStream *s, ExcelSheet *sheet, MsOlePos pos)
 		s->lseek (s, pos+4+12, MsOleSeekSet);
 
 	g_assert (sheet->maxy >= sheet->dbcells->len);
-	for (lp=0;lp<sheet->dbcells->len;lp++) {
+	for (lp = 0; lp < sheet->dbcells->len; lp++) {
 		MsOlePos pos = g_array_index (sheet->dbcells, MsOlePos, lp);
 		MS_OLE_SET_GUINT32 (data, pos - sheet->wb->streamPos);
 #if EXCEL_DEBUG > 1
@@ -1439,12 +1441,58 @@ new_sheet (ExcelWorkbook *wb, Sheet *value)
 	sheet->gnum_sheet = value;
 	sheet->streamPos  = 0x0deadbee;
 	sheet->wb         = wb;
-	sheet->maxx       = sheet->gnum_sheet->max_col_used+1;
-	sheet->maxy       = sheet->gnum_sheet->max_row_used+1;
+	sheet->maxx       = sheet->gnum_sheet->max_col_used + 1;
+	sheet->maxy       = sheet->gnum_sheet->max_row_used + 1;
 	sheet->dbcells    = g_array_new (FALSE, FALSE, sizeof (MsOlePos));
 
-	printf ("Workbook  %d %p\n", wb->ver, wb->gnum_wb);
 	g_ptr_array_add (wb->sheets, sheet);
+
+	ms_formula_cache_init (sheet);
+}
+
+static void
+free_sheet (ExcelSheet *sheet)
+{
+	if (sheet) {
+		g_array_free (sheet->dbcells, TRUE);
+		ms_formula_cache_shutdown (sheet);
+		g_free (sheet);
+	}
+}
+
+static void
+pre_cell (gpointer key, Cell *cell, ExcelSheet *sheet)
+{
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (sheet != NULL);
+
+	if (cell->parsed_node)
+		ms_formula_build_pre_data (sheet, cell->parsed_node);
+	/*
+	 *  Need to do start comparing styles here if we can't do
+	 * anything about the crackpot innards of gnumeric styles :-)
+	 */
+}
+
+/**
+ * pre_pass:
+ * @wb: the workbook to scan
+ * @ver: the target version.
+ * 
+ *   Scans all the sheet items and resolves any referencing
+ * problems before they occur, hence the records can be written in a
+ * linear order.
+ *
+ **/
+static void
+pre_pass (ExcelWorkbook *wb, eBiff_version ver)
+{
+	int i;
+	for (i = 0; i < wb->sheets->len; i++) {
+		ExcelSheet *s = g_ptr_array_index (wb->sheets, i);
+		g_hash_table_foreach (s->gnum_sheet->cell_hash,
+				      (GHFunc)pre_cell, s);
+	}
 }
 
 static void
@@ -1465,6 +1513,8 @@ write_workbook (BiffPut *bp, Workbook *gwb, eBiff_version ver)
 		sheets = g_list_next (sheets);
 	}
 
+	pre_pass (wb, ver);
+
 	/* Workbook */
 	wb->streamPos = biff_bof_write (bp, ver, eBiffTWorkbook);
 
@@ -1477,32 +1527,42 @@ write_workbook (BiffPut *bp, Workbook *gwb, eBiff_version ver)
 	write_xf (bp, wb);
 	wb->pal     = write_palette (bp, wb);
 
-	for (lp=0;lp<wb->sheets->len;lp++) {
+	for (lp = 0;lp < wb->sheets->len; lp++) {
 		s = g_ptr_array_index (wb->sheets, lp);
-	        s->boundsheetPos = biff_boundsheet_write_first (bp, eBiffTWorksheet,
-								s->gnum_sheet->name, wb->ver);
+	        s->boundsheetPos = biff_boundsheet_write_first
+			(bp, eBiffTWorksheet,
+			 s->gnum_sheet->name, wb->ver);
+
+		ms_formula_write_pre_data (bp, s, EXCEL_NAME, wb->ver);
 	}
 
 	biff_eof_write (bp);
 	/* End of Workbook */
 	
 	/* Sheets */
-	for (lp=0;lp<wb->sheets->len;lp++)
+	for (lp = 0; lp < wb->sheets->len; lp++)
 		write_sheet (bp, g_ptr_array_index (wb->sheets, lp));
 	/* End of Sheets */
 
 	/* Finalise Workbook stuff */
-	for (lp=0;lp<wb->sheets->len;lp++) {
+	for (lp = 0; lp < wb->sheets->len; lp++) {
 		ExcelSheet *s = g_ptr_array_index (wb->sheets, lp);
 		biff_boundsheet_write_last (bp->pos, s->boundsheetPos,
 					    s->streamPos);
 	}
 	/* End Finalised workbook */
 
-	fonts_free (wb->fonts);
+	/* Free various bits */
+	fonts_free   (wb->fonts);
+	formats_free (wb->formats);
 	palette_free (wb->pal);
-
+	for (lp = 0; lp < wb->sheets->len; lp++) {
+		ExcelSheet *s = g_ptr_array_index (wb->sheets, lp);
+		free_sheet (s);
+	}
 	g_list_free (sheets);
+	
+	g_free (wb);
 }
 
 int
@@ -1551,7 +1611,3 @@ ms_excel_write_workbook (MsOle *file, Workbook *wb,
 
 	return 1;
 }
-
-
-
-

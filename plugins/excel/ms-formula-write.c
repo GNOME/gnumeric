@@ -22,25 +22,42 @@
 #include "formula-types.h"
 
 #define FORMULA_DEBUG 0
+extern int ms_excel_formula_debug;
+/*#define DO_IT (ms_excel_formula_debug > 0)*/
+#define DO_IT (1)
 
 #define OP_REF(o)   (o + FORMULA_CLASS_REF)
 #define OP_VALUE(o) (o + FORMULA_CLASS_VALUE)
 #define OP_ARRAY(o) (o + FORMULA_CLASS_ARRAY)
 
+typedef struct _PolishData PolishData;
+typedef struct _FormulaCacheEntry FormulaCacheEntry;
+
+static void write_node (PolishData *pd, ExprTree *tree);
+
 /* FIXME: Leaks like a leaky bucket */
 
-typedef struct {
-	const FormulaFuncData *fd;
-	guint16 idx;
-} FormulaCacheEntry;
-
-/* Lookup Name -> integer */
-static GHashTable *formula_cache = NULL;
+struct _FormulaCacheEntry {
+	enum { CACHE_STD, CACHE_ENAME_V8, CACHE_ENAME_V7 } type;
+	union {
+		struct {
+			const char *name;
+		} ename_v8;
+		struct {
+			const char *name;
+			guint16 idx;
+		} ename_v7;
+		struct {
+			const FormulaFuncData *fd;
+			guint16 idx;
+		} std;
+	} u;
+};
 
 void
-ms_formula_cache_init (void)
+ms_formula_cache_init (ExcelSheet *sheet)
 {
-	formula_cache = g_hash_table_new (g_str_hash, g_str_equal);
+	sheet->formula_cache = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 static gboolean
@@ -51,58 +68,198 @@ cache_remove (gchar *name, FormulaCacheEntry *fce, void *dummy)
 }
 
 void
-ms_formula_cache_shutdown (void)
+ms_formula_cache_shutdown (ExcelSheet *sheet)
 {
-	g_hash_table_foreach_remove (formula_cache, (GHRFunc)cache_remove,
-				     NULL);
-	g_hash_table_destroy (formula_cache);
+	g_hash_table_foreach_remove (sheet->formula_cache,
+				     (GHRFunc)cache_remove, NULL);
+	g_hash_table_destroy (sheet->formula_cache);
 }
 
 static FormulaCacheEntry *
-get_formula_index (const gchar *name)
+formula_cache_new_std (ExcelSheet *sheet, int i)
+{
+	FormulaCacheEntry *fce = g_new (FormulaCacheEntry, 1);
+
+	fce->type       = CACHE_STD;
+	fce->u.std.fd   = &formula_func_data[i];
+	fce->u.std.idx  = i;
+	g_hash_table_insert (sheet->formula_cache,
+			     formula_func_data[i].prefix, fce);
+
+	return fce;
+}
+
+static FormulaCacheEntry *
+formula_cache_new_ename (ExcelSheet *sheet, const char *name)
+{
+	FormulaCacheEntry *fce = g_new (FormulaCacheEntry, 1);
+
+	if (sheet->wb->ver >= eBiffV8) {
+		fce->type            = CACHE_ENAME_V8;
+		fce->u.ename_v8.name = name;
+	} else {
+		fce->type            = CACHE_ENAME_V7;
+		fce->u.ename_v7.idx  = -1;
+		fce->u.ename_v7.name = name;
+	}
+
+	g_hash_table_insert (sheet->formula_cache, (char *)name, fce);
+
+	return fce;
+}
+
+static FormulaCacheEntry *
+get_formula_index (ExcelSheet *sheet, const gchar *name)
 {
 	int i;
 	FormulaCacheEntry *fce;
 
-	g_return_val_if_fail (name, NULL);
-	g_return_val_if_fail (formula_cache, NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+	g_return_val_if_fail (sheet->formula_cache != NULL, NULL);
 
-	if ((fce = g_hash_table_lookup (formula_cache, name))) {
+	if ((fce = g_hash_table_lookup (sheet->formula_cache, name))) {
 #if FORMULA_DEBUG > 0
 		printf ("Found '%s' in fn cache\n", name);
 #endif
 		return fce;
-	} else {
-		for (i=0;i<FORMULA_FUNC_DATA_LEN;i++) {
-			if (!g_strcasecmp (formula_func_data[i].prefix,
-					   name)) {
-				FormulaCacheEntry *fce = g_new (FormulaCacheEntry, 1);
-				fce->fd  = &formula_func_data[i];
-				fce->idx = i;
-				g_hash_table_insert (formula_cache, fce->fd->prefix, fce);
+	}
+
+	for (i = 0; i < FORMULA_FUNC_DATA_LEN; i++) {
+		if (!g_strcasecmp (formula_func_data[i].prefix,
+				   name)) {
+			fce = formula_cache_new_std (sheet, i);
 #if FORMULA_DEBUG > 0
-				printf ("Caching and returning '%s' as %d\n", name, i);
+			printf ("Caching and returning '%s' as %d\n", name, i);
 #endif
-				return fce;
+			return fce;
+		}
+	}
+
+	return NULL;
+}
+
+/**
+ * ms_formula_build_pre_data:
+ * @sheet: The sheet to do it on
+ * @tree: a expression tree in the sheet.
+ * 
+ *  Searches for interesting formula / names
+ * and builds a database of things to write out later.
+ **/
+void
+ms_formula_build_pre_data (ExcelSheet *sheet, ExprTree *tree)
+{
+	g_return_if_fail (tree != NULL);
+	g_return_if_fail (sheet != NULL);
+
+	switch (tree->oper) {
+
+	case OPER_ANY_BINARY:
+		ms_formula_build_pre_data (sheet, tree->u.binary.value_a);
+		ms_formula_build_pre_data (sheet, tree->u.binary.value_b);
+		break;
+
+	case OPER_ANY_UNARY:
+		ms_formula_build_pre_data (sheet, tree->u.value);
+		break;
+
+	case OPER_FUNCALL:
+	{
+		GList  *l;
+		FormulaCacheEntry *fce;
+		const gchar *name = tree->u.function.symbol->str;
+
+		for (l = tree->u.function.arg_list; l;
+		     l = g_list_next (l))
+			ms_formula_build_pre_data (sheet, l->data);
+
+		fce = get_formula_index (sheet, name);
+
+		if (!fce)
+			formula_cache_new_ename (sheet, name);
+
+		break;
+	}
+	default:
+		break;
+	}
+}
+
+static int
+queue_compare_fn (const FormulaCacheEntry *fcea,
+		  const FormulaCacheEntry *fceb)
+{
+	return strcmp (fcea->u.ename_v7.name,
+		       fceb->u.ename_v7.name);
+}
+
+/* See: S59D7E.HTM / ms_excel_externname */
+static void
+queue_externname (const char *key, FormulaCacheEntry *fce,
+		  GList **l)
+{
+	g_return_if_fail (l != NULL);
+	g_return_if_fail (key != NULL);
+	g_return_if_fail (fce != NULL);
+
+	if (fce->type == CACHE_ENAME_V7)
+		*l = g_list_insert_sorted (*l, fce,
+					   (GCompareFunc)queue_compare_fn);
+}
+
+void
+ms_formula_write_pre_data (BiffPut *bp, ExcelSheet *sheet,
+			   formula_write_t which,
+			   eBiff_version ver)
+{
+	if (which == EXCEL_EXTERNNAME) {
+		if (sheet->wb->ver <= eBiffV7) {
+			GList *l = NULL;
+			int idx = 1;
+
+			g_hash_table_foreach (sheet->formula_cache,
+					      (GHFunc)queue_externname,
+					      &l);
+
+			while (l) {
+				FormulaCacheEntry *fce = l->data;
+				guint8  data[8];
+				char   *txt;
+
+				if (DO_IT) {
+				ms_biff_put_var_next (bp, BIFF_EXTERNNAME);
+				MS_OLE_SET_GUINT32 (data + 0, 0x0);
+				MS_OLE_SET_GUINT16 (data + 4, 0x0);
+				ms_biff_put_var_write (bp, data, 6);
+				txt = g_strdup (fce->u.ename_v7.name);
+				g_strup (txt); /* scraping the barrel here */
+				biff_put_text (bp, txt,
+					       eBiffV7,
+					       TRUE, AS_PER_VER);
+				g_free (txt);
+				MS_OLE_SET_GUINT32 (data, 0x171c0002); /* Magic hey :-) */
+				ms_biff_put_var_write (bp, data, 4);
+				ms_biff_put_commit (bp);
+				}
+				
+				fce->u.ename_v7.idx = idx++;
+				l = g_list_next (l);
 			}
 		}
-		/* Note: many functions are provided by addins: we need a table
-		   of these, and to pre-scan and create the dummy names that go with
-		   them, then reference them here. */
-		g_warning ("Serious error, unknown function");
-		return NULL;
+	} else {
+/*		g_warning ("Unimplemented pre-write");*/
 	}
 }
 
 /* Parse it into memory, unlikely to be too big */
-typedef struct {
+struct _PolishData {
 	BiffPut     *bp;
 	GList        *arrays; /* A list of Value *'s ? */
 	ExcelSheet   *sheet;
 	int           col;
 	int           row;
 	eBiff_version ver;
-} PolishData;
+};
 
 static void
 push_guint8 (PolishData *pd, guint8 b)
@@ -175,7 +332,7 @@ write_cellref_v8 (PolishData *pd, const CellRef *ref,
 }
 
 static void
-write_string (PolishData *pd, gchar *txt)
+write_string (PolishData *pd, const gchar *txt)
 {
 	if (!txt || txt[0] == '\0')
 		push_guint8 (pd, FORMULA_PTG_MISSARG);
@@ -290,6 +447,58 @@ write_ref (PolishData *pd, const CellRef *ref)
 	}
 }
 
+static void
+write_funcall (PolishData *pd, FormulaCacheEntry *fce, ExprTree *tree)
+{
+	GList   *args     = tree->u.function.arg_list;
+	gint     num_args = 0;
+	gboolean prompt   = 0;
+	gboolean cmdequiv = 0;
+
+	/* Add in function */
+	if (fce->type == CACHE_ENAME_V8 && pd->ver >= eBiffV8)
+		write_string (pd, fce->u.ename_v8.name);
+	else if (DO_IT) {
+		if (fce->type == CACHE_ENAME_V7 && pd->ver <= eBiffV7) {
+		push_guint8  (pd, FORMULA_PTG_NAME_X);
+		push_guint16 (pd, 1);
+		push_guint32 (pd, 0); /* reserved */
+		push_guint32 (pd, 0); /* reserved */
+		push_guint16 (pd, fce->u.ename_v7.idx);
+		push_guint32 (pd, 0); /* reserved */
+		push_guint32 (pd, 0); /* reserved */
+		push_guint32 (pd, 0); /* reserved */
+		}
+	}
+	
+	while (args) {
+		write_node (pd, args->data);
+		args = g_list_next (args);
+		num_args++;
+	}
+	
+#if FORMULA_DEBUG > 1
+	printf ("Writing function '%s' as idx %d, args %d\n",
+		name, fce->u.std.idx, fce->u.std.fd->num_args);
+#endif
+	
+	g_assert (num_args < 128);
+	if (fce->type == CACHE_STD) {
+		if (fce->u.std.fd->num_args < 0) {
+			push_guint8  (pd, FORMULA_PTG_FUNC_VAR);
+			push_guint8  (pd, num_args | (prompt&0x80));
+			push_guint16 (pd, fce->u.std.idx | (cmdequiv&0x8000));
+		} else {
+			push_guint8  (pd, FORMULA_PTG_FUNC);
+			push_guint16 (pd, fce->u.std.idx);
+		}
+	} else if (DO_IT) { /* Undocumented :-) */
+		push_guint8  (pd, FORMULA_PTG_FUNC_VAR + 0x20);
+		push_guint8  (pd, (num_args + 1) | (prompt&0x80));
+		push_guint16 (pd, 0xff | (cmdequiv&0x8000));
+	}
+}
+
 /**
  * Recursion is just so fun.
  **/
@@ -363,35 +572,13 @@ write_node (PolishData *pd, ExprTree *tree)
 	case OPER_FUNCALL:
 	{
 		FormulaCacheEntry *fce;
-		gchar *name = tree->u.function.symbol->str;
-		
-		if ((fce = get_formula_index (tree->u.function.symbol->str))) {
-			GList   *args     = tree->u.function.arg_list;
-			gint     num_args = 0;
-			gboolean prompt   = 0;
-			gboolean cmdequiv = 0;
 
-			while (args) {
-				write_node (pd, args->data);
-				args = g_list_next (args);
-				num_args++;
-			}
-
-#if FORMULA_DEBUG > 1
-			printf ("Writing function '%s' as idx %d, args %d\n",
-				name, fce->idx, fce->fd->num_args);
-#endif
-
-			g_assert (num_args < 128);
-			if (fce->fd->num_args < 0) {
-				push_guint8  (pd, FORMULA_PTG_FUNC_VAR);
-				push_guint8  (pd, num_args | (prompt&0x80));
-				push_guint16 (pd, fce->idx | (cmdequiv&0x8000));
-			} else {
-				push_guint8  (pd, FORMULA_PTG_FUNC);
-				push_guint16 (pd, fce->idx);
-			}
-		} else {
+		fce = get_formula_index (pd->sheet, 
+					 tree->u.function.symbol->str);
+		if (fce)
+			write_funcall (pd, fce, tree);
+		else {
+			gchar *name = tree->u.function.symbol->str;
 			gchar *err = g_strdup_printf ("Untranslatable '%s'", name);
 #if FORMULA_DEBUG > 0
 			printf ("Untranslatable function '%s'\n", name);
@@ -405,7 +592,22 @@ write_node (PolishData *pd, ExprTree *tree)
 	{
 		Value *v = tree->u.constant;
 		switch (v->type) {
+
 		case VALUE_INTEGER:
+		{
+			guint8 data[10];
+			int i = value_get_as_int (v);
+			if (i >= 0 && i < 1<<16) {
+				MS_OLE_SET_GUINT8  (data, FORMULA_PTG_INT);
+				MS_OLE_SET_GUINT16 (data + 1, i);
+				ms_biff_put_var_write (pd->bp, data, 3);
+			} else {
+				MS_OLE_SET_GUINT8 (data, FORMULA_PTG_NUM);
+				BIFF_SETDOUBLE (data + 1, value_get_as_float (v));
+				ms_biff_put_var_write (pd->bp, data, 9);
+			}
+			break;
+		}
 		case VALUE_FLOAT:
 		{
 			guint8 data[10];
@@ -442,12 +644,14 @@ write_node (PolishData *pd, ExprTree *tree)
 		case VALUE_STRING:
 			write_string (pd, v->v.str->str);
 			break;
+
 		case VALUE_CELLRANGE:
 		{ /* FIXME: Could be 3D ! */
 			write_area (pd, &v->v.cell_range.cell_a,
 				    &v->v.cell_range.cell_b);
 			break;
 		}
+
                 /* See S59E2B.HTM for some really duff docs */
 		case VALUE_ARRAY: /* Guestimation */
 		{
@@ -467,6 +671,7 @@ write_node (PolishData *pd, ExprTree *tree)
 			pd->arrays = g_list_append (pd->arrays, v);
 			break;
 		}
+
 		default:
 		{
 			gchar *err = g_strdup_printf ("Uknown type %d\n", v->type);
@@ -484,15 +689,17 @@ write_node (PolishData *pd, ExprTree *tree)
 		write_node  (pd, tree->u.value);
 		push_guint8 (pd, FORMULA_PTG_U_MINUS);
 		break;
+
 	case OPER_PERCENT:
 		write_node  (pd, tree->u.value);
 		push_guint8 (pd, FORMULA_PTG_PERCENT);
 		break;
+
 	case OPER_VAR:
 		write_ref (pd, &tree->u.ref);
 		break;
-	case OPER_ARRAY:
 
+	case OPER_ARRAY:
 	case OPER_NAME:
 	default:
 	{

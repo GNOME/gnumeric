@@ -1,3 +1,4 @@
+Optimise non mmaped block storage to allow contiguous ptr passing.
 Run time determine whether we can mmap or not.
 Ref count ms_ole_stream & ms_ole 
 Add Bonobo::Storage interface.

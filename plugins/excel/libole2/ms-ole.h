@@ -32,9 +32,6 @@
 				 (*((guint8 *)(p)+2)=((n)>>16)&0xff), \
 				 (*((guint8 *)(p)+3)=((n)>>24)&0xff))
 
-/* Whether to use memory mapped IO */
-#define OLE_MMAP  1
-
 typedef enum { MS_OLE_ERR_OK,
 	       MS_OLE_ERR_EXIST,
 	       MS_OLE_ERR_INVALID,
