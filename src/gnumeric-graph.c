@@ -875,6 +875,9 @@ gnm_graph_arrange_vectors (GnmGraph *graph)
 
 	g_return_if_fail (IS_GNUMERIC_GRAPH (graph));
 
+	if (graph->manager == CORBA_OBJECT_NIL)
+		return;
+
 	for (i = 0; i < graph->vectors->len ; i++) {
 		GnmGraphVector *vector = g_ptr_array_index (graph->vectors, i);
 		if (!vector->is_header)
@@ -900,9 +903,6 @@ gnm_graph_arrange_vectors (GnmGraph *graph)
 			len++;
 		}
 	}
-
-	if (graph->manager == CORBA_OBJECT_NIL)
-		return;
 
 	CORBA_exception_init (&ev);
 	MANAGER1 (arrangeVectors) (graph->manager, data, headers, &ev);

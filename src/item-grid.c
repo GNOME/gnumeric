@@ -651,7 +651,7 @@ ig_obj_create_motion (ItemGrid *ig, gdouble new_x, gdouble new_y)
 }
 
 /**
- * cb_obj_create_button_release :
+ * ig_obj_create_finish :
  *
  * Invoked as the last step in object creation.
  */
