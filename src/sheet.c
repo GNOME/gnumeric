@@ -1224,7 +1224,6 @@ sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 	}
 }
 
-/****************************************************************************/
 /**
  * sheet_update_controls:
  *
@@ -2975,9 +2974,8 @@ sheet_set_selection (Sheet *sheet, SheetSelection const *ss)
 	}
 }
 
-/****************************************************************************/
-
-/* FIXME FIXME FIXME : 1999/Sept/29 when the style changes are done we need
+/*
+ * FIXME FIXME FIXME : 1999/Sept/29 when the style changes are done we need
  *  to figure out how row/col/cell movement will apply to that.
  */
 
@@ -3214,7 +3212,6 @@ sheet_delete_col (Sheet *sheet, int col, int count)
 	sheet_redraw_all (sheet);
 }
 
-///////////////////////////////////////
 /**
  * sheet_insert_row:
  * @sheet   The sheet

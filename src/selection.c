@@ -744,8 +744,6 @@ sheet_selection_clear_formats (Sheet *sheet)
 	selection_apply (sheet, &sheet_clear_region_formats, TRUE, NULL);
 }
 
-/****************************************************************************/
-
 /**
  * selection_apply:
  * @sheet: the sheet.
@@ -992,8 +990,6 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 	}
 }
 
-/*****************************************************************************/
-
 typedef struct
 {
 	GString *str;
@@ -1038,8 +1034,6 @@ selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 	return output;
 }
 
-/*****************************************************************************/
-
 /*
  * sheet_selection_to_list :
  * @sheet : The whose selection we are interested in.
@@ -1056,8 +1050,6 @@ selection_to_list (Sheet *sheet, gboolean allow_intersection)
 			 allow_intersection, &list);
 	return list;
 }
-
-/*****************************************************************************/
 
 /*
  * selection_contains_colrow :
