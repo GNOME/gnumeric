@@ -3588,7 +3588,7 @@ ms_excel_read_pane (BiffQuery *q, ExcelSheet *sheet, WorkbookView *wb_view)
 		guint16 rwTop = MS_OLE_GET_GUINT16 (q->data + 4);
 		guint16 colLeft = MS_OLE_GET_GUINT16 (q->data + 6);
 		Sheet *gsheet = sheet->gnum_sheet;
-		CellPos frozen, unfrozen, initial;
+		CellPos frozen, unfrozen;
 
 		frozen = unfrozen = gsheet->initial_top_left;
 		unfrozen.col += x; unfrozen.row += y;

@@ -34,8 +34,8 @@ void gnm_pane_bound_set	(GnumericPane *pane,
 			 int start_col, int start_row,
 			 int end_col, int end_row);
 
-void gnm_pane_edit_start		(GnumericCanvas *gsheet);
-void gnm_pane_edit_stop			(GnumericCanvas *gsheet);
+void gnm_pane_edit_start		(GnumericPane *gsheet);
+void gnm_pane_edit_stop			(GnumericPane *gsheet);
 
 void gnm_pane_colrow_resize_stop	(GnumericPane *pane);
 void gnm_pane_colrow_resize_start	(GnumericPane *pane,

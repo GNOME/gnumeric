@@ -190,7 +190,7 @@ gnm_pane_colrow_resize_start (GnumericPane *pane,
 }
 
 void
-gnm_pane_colrow_resize_end (GnumericPane *pane)
+gnm_pane_colrow_resize_stop (GnumericPane *pane)
 {
 	g_return_if_fail (pane != NULL);
 
