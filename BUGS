@@ -8,6 +8,21 @@ Release Critical
 ----------------
 
     - Cell text does not scale on zoom
+    - Edit crash:
+	1. Start gnumeric
+	2. Enter 1, 2, 3 in A1, B1, C1.
+	3. Insert new sheet.
+	4. Select A1:C1 on first sheet.
+	5. Ctrl-X.
+	6. Select second sheet.
+	7. Paste into A1:C1.
+	8. Select second sheet's A1:C1.
+	9. Ctrl-C.
+	10. Select first sheet.
+	11. Paste into A1:C1.
+	12. Select second sheet.
+	13. Escape.
+
 
 Pending Patches
 ---------------
