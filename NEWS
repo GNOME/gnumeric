@@ -119,6 +119,7 @@ Morten:
 	* Improve auto-scrolling when dragging the cursor outside the
 	  window.
 	* Improve pgeom (and thus GEODIST) accuracy.
+	* Make filename history UTF-8 safe.
 
 --------------------------------------------------------------------------
 

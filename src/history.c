@@ -16,25 +16,28 @@
  * with any .gnumeric extension stripped off.
  */
 gchar *
-history_item_label (gchar const *name, int accel_number)
+history_item_label (gchar const *filename, int accel_number)
 {
-	int   i;
-	char *label, *menuname, *tmp;
+	char *label, *menuname, *basename, *tmp;
+
+	basename = g_path_get_basename (filename);
+
+	/* Remove .gnumeric, if present.  */
+	tmp = strstr (basename, ".gnumeric");
+	if (tmp[9] == 0)
+		tmp[0] = 0;
+
+	menuname = g_filename_to_utf8 (basename, -1, NULL, NULL, NULL);
+	if (!menuname)
+		menuname = g_strdup (_("(Filename in invalid encoding)"));
+	g_free (basename);
 
 	/* Translate '_' to '-' so menu will not show underline.  */
-	menuname = g_path_get_basename (name);
-	for (tmp = menuname; *tmp; tmp++)
-		if (*tmp == '_')
-			*tmp = '-';
+	for (tmp = menuname; (tmp = strchr (tmp, '_')); )
+		*tmp = '-';
+
 	label = g_strdup_printf ("_%d %s", accel_number, menuname);
 	g_free (menuname);
-
-	for (i = strlen (label) - 1; i >= 0; i--)
-		if (label [i] == '.') {
-			if (strcmp (label + i, ".gnumeric") == 0)
-				label [i] = '\0';
-			break;
-		}
 
 	return label;
 }

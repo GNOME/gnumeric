@@ -1,3 +1,10 @@
+2004-03-26  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbc_gtk_reload_recent_file_menu): Make UTF-8 safe
+	and stop using tooltips for storing filenames.
+
+	* src/history.c (history_item_label): Make this UTF-8 safe.
+
 2004-03-25  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=137818

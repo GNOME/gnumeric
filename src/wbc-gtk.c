@@ -585,19 +585,15 @@ wbc_gtk_init_font_size (WBCgtk *gtk)
 static void
 cb_file_history_activate (GObject *action, WorkbookControlGUI *wbcg)
 {
-	char *url = NULL;
-	g_object_get (action, "tooltip", &url, NULL);
-	gui_file_read (wbcg, url , NULL, NULL);
-	g_free (url);
+	const char *filename = g_object_get_data (action, "filename");
+	gui_file_read (wbcg, filename, NULL, NULL);
 }
 
 static void
 wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 {
 	WBCgtk *gtk = (WBCgtk *)wbcg;
-	GtkActionEntry entry;
 	GSList const *ptr = gnm_app_history_get_list (FALSE);
-	char *name;
 	unsigned i;
 
 	if (gtk->file_history.merge_id != 0)
@@ -611,23 +607,42 @@ wbc_gtk_reload_recent_file_menu (WorkbookControlGUI const *wbcg)
 	/* create the actions */
 	ptr = gnm_app_history_get_list (FALSE);
 	for (i = 1; ptr != NULL ; ptr = ptr->next, i++) {
-		entry.name = g_strdup_printf ("FileHistoryEntry%d", i);
+		GtkActionEntry entry;
+		GtkAction *action;
+		const char *filename = ptr->data;
+		char *name = g_strdup_printf ("FileHistoryEntry%d", i);
+		char *label = history_item_label (filename, i);
+		char *filename_utf8 = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
+		char *tooltip = filename_utf8
+			? g_strdup_printf (_("Open %s"), filename_utf8)
+			: NULL;
+
+		entry.name = name;
 		entry.stock_id = NULL;
-		entry.label = history_item_label (ptr->data, i);
+		entry.label = label;
 		entry.accelerator = NULL;
-		entry.tooltip = ptr->data;
+		entry.tooltip = tooltip;
 		entry.callback = G_CALLBACK (cb_file_history_activate);
 		gtk_action_group_add_actions (gtk->file_history.actions,
 			&entry, 1, (WorkbookControlGUI *)wbcg);
-		g_free ((gpointer)entry.name);
-		g_free ((gpointer)entry.label);
+		action = gtk_action_group_get_action (gtk->file_history.actions,
+						      name);
+		/* We just put it in there -- I had better come back out.  */
+		g_assert (action != NULL);
+		g_object_set_data_full (G_OBJECT (action), "filename",
+					g_strdup (filename), (GDestroyNotify)g_free);
+
+		g_free (name);
+		g_free (label);
+		g_free (filename_utf8);
+		g_free (tooltip);		
 	}
 
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->file_history.actions, 0);
 
 	/* merge them in */
 	while (i-- > 1) {
-		name = g_strdup_printf ("FileHistoryEntry%d", i);
+		char *name = g_strdup_printf ("FileHistoryEntry%d", i);
 		gtk_ui_manager_add_ui (gtk->ui, gtk->file_history.merge_id,
 			"/menubar/File/FileHistory", 
 			name, name, GTK_UI_MANAGER_AUTO, TRUE);
