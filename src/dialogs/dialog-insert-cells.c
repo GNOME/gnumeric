@@ -1,6 +1,5 @@
 /*
  * dialog-insert-cells.c: Insert a number of cells. 
- * (C) 1998 The Free Software Foundation
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)

@@ -1,6 +1,41 @@
-1998-08-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+1998-08-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
-	* src/sheet.c 
+	* src/sheet.c (sheet_row_selection_changed,
+	sheet_col_selection_changed): Use sheet_selection_clear_only to
+	avoid getting two selections.
+	(sheet_col_add): Keep track of the last used columns/rows.
+	(set_tip_label): New routine to set the tooltip to the value of
+	the current scroll section
+	(vertical_scroll_change, horizontal_scroll_change): Update the
+	tooltip to reflect the current value.
+	(vertical_scroll_event, horizontal_scroll_event): Create and
+	destroy the tooltips
+	(sheet_col_add, sheet_row_add): Keep track of the maximum sheet size
+
+	(sheet_delete_col): New public routine. 
+	(sheet_delete_row): New public routine.
+	(sheet_move_column): New helper routine, it was part of
+	sheet_insert_col before. 
+	(sheet_insert_row): Manipulate the structures carefully.  I was
+	changing a list that I was using. 
+
+	* src/dialog-delete-cells.c (dialog_delete_cells): Use
+	sheet_delete_col, sheet_delete_row.  This completes this dialog
+	box. 
+
+1998-08-24  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_shift_row): Bug fix:  We can not be making
+	changes to the column/row lists when we are walking them.  
+
+	* src/cell.c (cell_formula_relocate): Re-parse the expression
+	after relocating the formula: the resulting expression might have
+	invalid cell references.
+
+	* src/sheet.c (sheet_shift_col): Implement the column shift
+	operation. 
+
+1998-08-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/dialog-cell-format.c (apply_align_format): Actually store
 	the style selection on the computed style.

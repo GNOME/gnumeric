@@ -286,6 +286,8 @@ cell_formula_relocate (Cell *cell, int target_col, int target_row)
 	formula = g_copy_strings ("=", text, NULL);
 	cell->entered_text = string_get (formula);
 
+	cell_set_formula (cell, formula);
+	
 	g_free (formula);
 	g_free (text);
 	

@@ -85,6 +85,8 @@ typedef struct {
 	/* Scrolling information */
 	GtkWidget  *vs, *hs;	/* The scrollbars */
 	GtkObject  *va, *ha;    /* The adjustments */
+
+	GtkWidget  *tip;
 	
 	int        max_col_used;
 	int        max_row_used;
@@ -220,7 +222,9 @@ void        sheet_update_auto_expr    (Sheet *sheet);
 
 /* Sheet information manipulation */
 void        sheet_insert_col          (Sheet *sheet,  int col, int count);
+void        sheet_delete_col          (Sheet *sheet,  int col, int count);
 void        sheet_insert_row          (Sheet *sheet,  int row, int count);
+void        sheet_delete_row          (Sheet *sheet,  int row, int count);
 void        sheet_shift_row           (Sheet *sheet,  int col, int row, int count);
 void        sheet_shift_rows          (Sheet *sheet,  int col,
 				       int start_row, int end_row, int count);

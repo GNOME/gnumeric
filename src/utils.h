@@ -9,5 +9,6 @@ char      *cell_name           (int col, int row);
 char      *cellref_name        (CellRef *cell_ref, int eval_col, int eval_row);
 
 int       parse_cell_name      (char *cell_str, int *col, int *row);
+char      *col_name            (int col);
 
 #endif

@@ -118,6 +118,26 @@ cellref_name (CellRef *cell_ref, int eval_col, int eval_row)
 	return buffer;
 }
 
+char *
+col_name (int col)
+{
+	static char buffer [20];
+	char *p = buffer;
+	
+	if (col < 'Z'-'A'){
+		*p++ = col + 'A';
+	} else {
+		int a = col / ('Z'-'A');
+		int b = col % ('Z'-'A');
+
+		*p++ = a + 'A';
+		*p++ = b + 'A';
+	}
+	*p = 0;
+
+	return buffer;
+}
+
 /*
  * parse_cell_name
  * @cell_name:   a string representation of a cell name.

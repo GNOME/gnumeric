@@ -113,26 +113,8 @@ PM/pm/p/p     "AM", "am", "M" or "a" for the hours between midnight
   - When formulas are pasted with an operation,
     the new ExprTree should be created with the operation.
 
-** Context menus:
-
-  We need the context menus for the spreadsheet to do:
-     - Insert
-       Move cells to the right
-       Move cells to the bottom
-       Insert a complete row
-       Insert a complete col
-     - Delete
-       Move cells to the left
-       MOve cells to the top
-       Delete a row
-       Delete a col
-
 ** Style
 
-  The cell style dialog box needs to not use the GnomeProperty box,
-  since it does not allow per-page apply functions.
-
-  
   Alignment:
     Horizontal:
       General/Left/Right/Center/Justify/
@@ -181,11 +163,6 @@ PM/pm/p/p     "AM", "am", "M" or "a" for the hours between midnight
    which should be shared between item-grid and item-edit, to
    get life feedback on the result.
 
-* Style manager
- 
-   Implement style regions.
-   Implement style resolution at cell creation time.
-
 * Selection
 
    Make the selection work by drawing with the invert or the xor
@@ -199,3 +176,7 @@ PM/pm/p/p     "AM", "am", "M" or "a" for the hours between midnight
    Right clicking gets:
      insert
      
+
+* Cell selection
+
+   It does not shrink.
