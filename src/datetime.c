@@ -136,8 +136,7 @@ datetime_timet_to_serial (time_t t)
 GDate *
 datetime_value_to_g (const Value *v)
 {
-	int serial;
-	serial = datetime_value_to_serial (v);
+	int serial = datetime_value_to_serial (v);
 	return serial ? datetime_serial_to_g (serial) : NULL;
 }
 

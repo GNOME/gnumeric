@@ -8,7 +8,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    autofill
     http://bugzilla.gnome.org/show_bug.cgi?id=62284	freeze vs delete col/row
 
     - Add an idle handler at start up to check for availablity of
