@@ -127,6 +127,7 @@ style_border_new (StyleBorderType left, StyleBorderType right,
 		border = g_new0 (StyleBorder, 1);
 		*border = key;
 		g_hash_table_insert (style_border_hash, border, border);
+		border->ref_count = 0;
 	}
 	border->ref_count++;
 

@@ -1,3 +1,11 @@
+/*
+ * The Cursor Canvas Item: Implements a rectangular cursor
+ *
+ * (C) 1998 The Free Software Foundation
+ *
+ * Author:
+ *     Miguel de Icaza (miguel@kernel.org)
+ */
 #include <config.h>
 
 #include <gnome.h>
@@ -65,6 +73,9 @@ item_cursor_reconfigure (GnomeCanvasItem *item)
 {
 }
 
+/*
+ * Returns the bounding box cordinates for box delimited by the cursor
+ */
 static void
 item_cursor_get_pixel_coords (ItemCursor *item_cursor, int *x, int *y, int *w, int *h)
 {

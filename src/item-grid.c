@@ -1,3 +1,12 @@
+/*
+ * The Grid Gnome Canvas Item: Implements the grid and
+ * spreadsheet information display.
+ *
+ * (C) 1998 The Free Software Foundation
+ *
+ * Author:
+ *     Miguel de Icaza (miguel@kernel.org)
+ */
 #include <config.h>
 
 #include <gnome.h>

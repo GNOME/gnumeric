@@ -1,3 +1,11 @@
+/*
+ * The Gnumeric Sheet widget.
+ *
+ * (C) 1998 The Free Software Foundation
+ *
+ * Author:
+ *     Miguel de Icaza (miguel@kernel.org)
+ */
 #include <config.h>
 
 #include <gnome.h>
@@ -8,10 +16,10 @@
 
 /* Signals emited by the Gnumeric Sheet widget */
 enum {
-	GNUMERIC_SHEET_LAST_SIGNAL
+	LAST_SIGNAL
 };
 
-static guint sheet_signals [GNUMERIC_SHEET_LAST_SIGNAL] = { 0 };
+static guint sheet_signals [LAST_SIGNAL] = { 0 };
 
 static GnomeCanvasClass *sheet_parent_class;
 
@@ -28,7 +36,7 @@ gnumeric_sheet_destroy (GtkObject *object)
 }
 
 static GnumericSheet *
-gnumeric_sheet_create (Sheet *sheet)
+gnumeric_sheet_create (Sheet *sheet, GtkWidget *entry)
 {
 	GnumericSheet *gsheet;
 	GnomeCanvas   *canvas;
@@ -44,6 +52,7 @@ gnumeric_sheet_create (Sheet *sheet)
 	gsheet->sheet   = sheet;
 	gsheet->top_col = 0;
 	gsheet->top_row = 0;
+	gsheet->entry   = entry;
 	
 	return gsheet;
 }
@@ -93,6 +102,24 @@ gnumeric_sheet_move_cursor_vertical (GnumericSheet *sheet, int count)
 				new_top, item_cursor->end_row + count);
 }
 
+static void
+start_editing_at_cursor (GnumericSheet *sheet, GtkWidget *entry)
+{
+	GnomeCanvasItem *item;
+	GnomeCanvas *canvas = GNOME_CANVAS (sheet);
+
+	item = gnome_canvas_item_new (canvas, canvas->root,
+				      item_edit_get_type (),
+				      "ItemEdit::Sheet",    sheet->sheet,
+				      "ItemEdit::Grid",     sheet->item_grid,
+				      "ItemEdit::Col",      2,
+				      "ItemEdit::Row",      2,
+				      "ItemEdit::GtkEntry", entry,
+				      NULL);
+
+	sheet->item_editor = ITEM_EDIT (item);
+}
+
 static gint
 gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 {
@@ -116,7 +143,13 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 		break;
 
 	default:
-		return 0;
+		if (!sheet->item_editor){
+			Workbook *wb = sheet->sheet->parent_workbook;
+			
+			gtk_window_set_focus (wb->toplevel, wb->ea_input);
+			start_editing_at_cursor (sheet, wb->ea_input);
+			gtk_widget_event (sheet->entry, event);
+		}
 	}
 	return 1;
 }
@@ -129,8 +162,9 @@ gnumeric_sheet_new (Sheet *sheet)
 	GnomeCanvas   *gsheet_canvas;
 	GnomeCanvasGroup *gsheet_group;
 	GtkWidget *widget;
+	GtkWidget *entry = sheet->parent_workbook->ea_input;
 	
-	gsheet = gnumeric_sheet_create (sheet);
+	gsheet = gnumeric_sheet_create (sheet, entry);
 	gnome_canvas_set_size (GNOME_CANVAS (gsheet), 300, 100);
 
 	/* handy shortcuts */

@@ -1,3 +1,12 @@
+/*
+ * Implements the resizable guides for columns and rows
+ * in the Gnumeric Spreadsheet.
+ *
+ * (C) 1998 The Free Software Foundation
+ *
+ * Author:
+ *     Miguel de Icaza (miguel@kernel.org)
+ */
 #include <config.h>
 
 #include <gnome.h>

@@ -8,6 +8,12 @@ struct Workbook;
 typedef struct {
 	GtkWidget  *toplevel;
 	GtkWidget  *notebook;
+	GtkWidget  *table;
+
+	/* Edit area */
+	GtkWidget  *ea_status;
+	GtkWidget  *ea_button_box;
+	GtkWidget  *ea_input;
 	
 	Style      style;
 	GHashTable *sheets;	/* keeps a list of the Sheets on this workbook */

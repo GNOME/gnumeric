@@ -4,6 +4,7 @@
 #include "item-grid.h"
 #include "item-cursor.h"
 #include "item-bar.h"
+#include "item-edit.h"
 
 #define GNUMERIC_TYPE_SHEET     (gnumeric_sheet_get_type ())
 #define GNUMERIC_SHEET(obj)     (GTK_CHECK_CAST((obj), GNUMERIC_TYPE_SHEET, GnumericSheet))
@@ -13,6 +14,7 @@
 typedef struct {
 	GnomeCanvas canvas;
 
+	GtkWidget   *entry;
 	Sheet       *sheet;
 	
 	ColType     top_col;
@@ -21,6 +23,7 @@ typedef struct {
 	ItemGrid    *item_grid;
 	ItemCursor  *item_cursor;
 	ItemBar     *item_bar_col;
+	ItemEdit    *item_editor;
 } GnumericSheet;
 
 GtkType gnumeric_sheet_get_type (void);

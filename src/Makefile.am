@@ -20,6 +20,8 @@ gnumeric_SOURCES =		\
 	item-cursor.h		\
 	item-debug.c		\
 	item-debug.h		\
+	item-edit.c		\
+	item-edit.h		\
 	item-grid.c		\
 	item-grid.h		\
 	main.c			\
