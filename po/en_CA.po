@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-22 16:47-0500\n"
-"PO-Revision-Date: 2004-10-21 11:36-0400\n"
+"POT-Creation-Date: 2004-11-27 14:42-0500\n"
+"PO-Revision-Date: 2004-11-27 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -89,7 +89,6 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Provides a CORBA scripting interface"
 
 #: plugins/derivatives/options.c:159
-#, no-c-format
 msgid ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
@@ -288,7 +287,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:458
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_VEGA\n"
 "@SYNTAX=OPT_BS_VEGA(spot,strike,time,rate,volatility[,cost_of_carry])\n"
@@ -333,7 +331,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:528
-#, no-c-format
+#, c-format
 msgid ""
 "@FUNCTION=OPT_BS_RHO\n"
 "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -380,7 +378,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:592
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_CARRYCOST\n"
 "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -435,7 +432,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:662
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
 "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domestic_rate,"
@@ -484,7 +480,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:731
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FRENCH\n"
 "@SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,volatility[,"
@@ -533,7 +528,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:793
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_JUMP_DIFF\n"
 "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,lambda,"
@@ -574,7 +568,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:887
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
 "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,x,t1,t2,v_s,v_e,v_f,"
@@ -633,7 +626,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:997
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_RGW\n"
 "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)\n"
@@ -672,7 +664,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1051
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BAW_AMER\n"
 "@SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,cost_of_carry,"
@@ -713,7 +704,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1234
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BJERSTENS\n"
 "@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -754,7 +744,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1318
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXEC\n"
 "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
@@ -799,7 +788,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1366
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FORWARD_START\n"
 "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,"
@@ -840,7 +828,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1429
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_TIME_SWITCH\n"
 "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
@@ -889,7 +876,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1486
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
 "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,rate,"
@@ -930,7 +916,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1547
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
 "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,strike_put,time,"
@@ -983,7 +968,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1662
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_ON_OPTIONS\n"
 "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,"
@@ -1032,7 +1016,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1747
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
 "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,"
@@ -1083,7 +1066,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1809
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_2_ASSET_CORRELATION\n"
 "@SYNTAX=OPT_2_ASSSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
@@ -1134,7 +1116,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1862
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EURO_EXCHANGE\n"
 "@SYNTAX=OPT_EURO_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,"
@@ -1175,7 +1156,6 @@ msgstr ""
 "OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1905
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_AMER_EXCHANGE\n"
 "@SYNTAX=OPT_AMER_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,"
@@ -1216,7 +1196,6 @@ msgstr ""
 "OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1949
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_SPREAD_APPROX\n"
 "@SYNTAX=OPT_SPREAD_APPROX(call_put_flag,fut_price1,fut_price2,strike,time, "
@@ -1257,7 +1236,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:2002
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
 "@SYNTAX=OPT_FLOAT_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,time,rate,"
@@ -1306,7 +1284,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:2067
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
 "@SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,strike,time,"
@@ -1357,7 +1334,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:2148
-#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BINOMIAL\n"
 "@SYNTAX=OPT_BINOMIAL(amer_euro_flag,call_put_flag,num_time_steps, spot, "
@@ -6070,7 +6046,6 @@ msgid "Functions for complex numbers, base conversions, and more"
 msgstr "Functions for complex numbers, base conversions, and more"
 
 #: plugins/fn-erlang/functions.c:122
-#, fuzzy
 msgid ""
 "@FUNCTION=PROBBLOCK\n"
 "@SYNTAX=PROBBLOCK(traffic,circuits)\n"
@@ -6092,12 +6067,11 @@ msgstr ""
 "* @traffic cannot exceed @circuits\n"
 "\n"
 "@EXAMPLES=\n"
-"PROBBLOCK(24, 30) returns 0.4012.\n"
+"PROBBLOCK(24,30) returns 0.4012.\n"
 "\n"
 "@SEEALSO=OFFTRAF, DIMCIRC, OFFCAP"
 
 #: plugins/fn-erlang/functions.c:151
-#, fuzzy
 msgid ""
 "@FUNCTION=OFFTRAF\n"
 "@SYNTAX=OFFTRAF(traffic,circuits)\n"
@@ -6121,12 +6095,11 @@ msgstr ""
 "* @traffic cannot exceed @circuits\n"
 "\n"
 "@EXAMPLES=\n"
-"OFFTRAF(24, 30) returns 25.526.\n"
+"OFFTRAF(24,30) returns 25.527.\n"
 "\n"
 "@SEEALSO=PROBBLOCK, DIMCIRC, OFFCAP"
 
 #: plugins/fn-erlang/functions.c:217
-#, fuzzy
 msgid ""
 "@FUNCTION=DIMCIRC\n"
 "@SYNTAX=DIMCIRC(traffic,gos)\n"
@@ -6144,12 +6117,11 @@ msgstr ""
 "@traffic loads with @gos grade of service.\n"
 "\n"
 "@EXAMPLES=\n"
-"DIMCIRC(24, 1%) returns 35.\n"
+"DIMCIRC(24,1%) returns 35.\n"
 "\n"
 "@SEEALSO=OFFCAP, OFFTRAF, PROBBLOCK"
 
 #: plugins/fn-erlang/functions.c:259
-#, fuzzy
 msgid ""
 "@FUNCTION=OFFCAP\n"
 "@SYNTAX=OFFCAP(circuits,gos)\n"
@@ -6167,7 +6139,7 @@ msgstr ""
 "of @circuits with @gos grade of service.\n"
 "\n"
 "@EXAMPLES=\n"
-"OFFCAP(30, 1%) returns 20.337.\n"
+"OFFCAP(30,1%) returns 20.337.\n"
 "\n"
 "@SEEALSO=DIMCIRC, OFFTRAF, PROBBLOCK"
 
@@ -13447,7 +13419,6 @@ msgid "Random Numbers"
 msgstr "Random Numbers"
 
 #: plugins/fn-stat/functions.c:139
-#, fuzzy
 msgid ""
 "@FUNCTION=VARP\n"
 "@SYNTAX=VARP(b1, b2, ...)\n"
@@ -13463,10 +13434,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARP\n"
 "@SYNTAX=VARP(b1, b2, ...)\n"
-"@DESCRIPTION=VARP calculates the variance of a set of numbers where each "
-"number is a member of a population and the set is the entire population.\n"
-"\n"
-"* VARP is also known as the N-variance.\n"
+"@DESCRIPTION=VARP calculates the variance of an entire population.\n"
+"VARP is also known as the N-variance.\n"
 "\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
@@ -13476,7 +13445,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR"
 
 #: plugins/fn-stat/functions.c:168
-#, fuzzy
 msgid ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
@@ -13496,11 +13464,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
-"@DESCRIPTION=VAR estimates the variance of a sample of a population. To get "
-"the true variance of a complete population use VARP.\n"
-"\n"
-"* VAR is also known as the N-1-variance. Under reasonable conditions, it is "
+"@DESCRIPTION=VAR calculates sample variance of the given sample. To get the "
+"true variance of a complete population use VARP.\n"
+"VAR is also known as the N-1-variance. Under reasonable conditions, it is "
 "the maximum-likelihood estimator for the true variance.\n"
+"\n"
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -13511,7 +13479,6 @@ msgstr ""
 "@SEEALSO=VARP,STDEV"
 
 #: plugins/fn-stat/functions.c:202
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1, b2, ...)\n"
@@ -13532,24 +13499,26 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
 msgstr ""
-"@FUNCTION=VAR\n"
-"@SYNTAX=VAR(b1, b2, ...)\n"
-"@DESCRIPTION=VAR estimates the variance of a sample of a population. To get "
-"the true variance of a complete population use VARP.\n"
+"@FUNCTION=STDEV\n"
+"@SYNTAX=STDEV(b1, b2, ...)\n"
+"@DESCRIPTION=STDEV returns the sample standard deviation of the given "
+"sample.\n"
+"To obtain the population standard deviation of a whole population use "
+"STDEVP.\n"
+"STDEV is also known as the N-1-standard deviation.\n"
+"Under reasonable conditions, it is the maximum-likelihood estimator for the "
+"true population standard deviation.\n"
 "\n"
-"* VAR is also known as the N-1-variance. Under reasonable conditions, it is "
-"the maximum-likelihood estimator for the true variance.\n"
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1.  Then\n"
-"VAR(A1:A5) equals 117.64.\n"
+"STDEV(A1:A5) equals 10.84619749.\n"
 "\n"
-"@SEEALSO=VARP,STDEV"
+"@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
 
 #: plugins/fn-stat/functions.c:238
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVP\n"
 "@SYNTAX=STDEVP(b1, b2, ...)\n"
@@ -13568,8 +13537,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=STDEVP\n"
 "@SYNTAX=STDEVP(b1, b2, ...)\n"
-"@DESCRIPTION=STDEVP returns standard deviation of a set of numbers treating "
-"these numbers as members of a complete population.\n"
+"@DESCRIPTION=STDEVP returns the population standard deviation of the given "
+"population. \n"
+"This is also known as the N-standard deviation\n"
 "\n"
 "* This function is Excel compatible.\n"
 "\n"
@@ -15643,7 +15613,6 @@ msgstr ""
 "@SEEALSO=MIN,MAXA"
 
 #: plugins/fn-stat/functions.c:3187
-#, fuzzy
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -15668,11 +15637,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
-"@DESCRIPTION=VARA returns the variance based on a sample.  Numbers, text and "
-"logical values are included in the calculation too. If the cell contains "
-"text or the argument evaluates to FALSE, it is counted as value zero (0).  "
-"If the argument evaluates to TRUE, it is counted as one (1).  Note that "
-"empty cells are not counted.\n"
+"@DESCRIPTION=VARA calculates sample variance of the given sample.\n"
+"To get the true variance of a complete population use VARPA.\n"
+"VARA is also known as the N-1-variance.\n"
+"Under reasonable conditions, it is the maximum-likelihood estimator for the "
+"true variance.\n"
+"Numbers, text and logical values are included in the calculation too. If the "
+"cell contains text or the argument evaluates to FALSE, it is counted as "
+"value zero (0).  If the argument evaluates to TRUE, it is counted as one "
+"(1).  Note that empty cells are not counted.\n"
 "\n"
 "* This function is Excel compatible.\n"
 "\n"
@@ -15684,7 +15657,6 @@ msgstr ""
 "@SEEALSO=VAR,VARPA"
 
 #: plugins/fn-stat/functions.c:3229
-#, fuzzy
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -15706,7 +15678,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
-"@DESCRIPTION=VARPA returns the variance based on the entire population.  "
+"@DESCRIPTION=VARPA calculates the variance of an entire population.\n"
+"VARPA is also known as the N-variance.\n"
 "Numbers, text and logical values are included in the calculation too.  If "
 "the cell contains text or the argument evaluates to FALSE, it is counted as "
 "value zero (0).  If the argument evaluates to TRUE, it is counted as one "
@@ -15722,7 +15695,6 @@ msgstr ""
 "@SEEALSO=VARA,VARP"
 
 #: plugins/fn-stat/functions.c:3266
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -15749,7 +15721,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
-"@DESCRIPTION=STDEVA returns the standard deviation based on a sample. "
+"@DESCRIPTION=STDEVA returns the sample standard deviation of the given "
+"sample.\n"
+"To obtain the population standard deviation of a whole population use "
+"STDEVPA.\n"
+"STDEVA is also known as the N-1-standard deviation.\n"
+"Under reasonable conditions, it is the maximum-likelihood estimator for the "
+"true population standard deviation.\n"
 "Numbers, text and logical values are included in the calculation too.  If "
 "the cell contains text or the argument evaluates to FALSE, it is counted as "
 "value zero (0).  If the argument evaluates to TRUE, it is counted as one "
@@ -15765,7 +15743,6 @@ msgstr ""
 "@SEEALSO=STDEV,STDEVPA"
 
 #: plugins/fn-stat/functions.c:3309
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -15788,11 +15765,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
-"@DESCRIPTION=STDEVPA returns the standard deviation based on the entire "
-"population.  Numbers, text and logical values are included in the "
-"calculation too.  If the cell contains text or the argument evaluates to "
-"FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, "
-"it is counted as one (1).  Note that empty cells are not counted.\n"
+"@DESCRIPTION=STDEVPA returns the population standard deviation of an entire "
+"population.\n"
+"This is also known as the N-standard deviation\n"
+"Numbers, text and logical values are included in the calculation too.  If "
+"the cell contains text or the argument evaluates to FALSE, it is counted as "
+"value zero (0).  If the argument evaluates to TRUE, it is counted as one "
+"(1).  Note that empty cells are not counted.\n"
 "\n"
 "* This function is Excel compatible.\n"
 "\n"
@@ -17887,9 +17866,8 @@ msgid "Lotus 123"
 msgstr "Lotus 123"
 
 #: plugins/lotus-123/plugin.xml.in.h:3
-#, fuzzy
 msgid "Lotus 123 (*.wk1, *.wks, *.123)"
-msgstr "Lotus 123 (*.wk1, *.wks)"
+msgstr "Lotus 123 (*.wk1, *.wks, *.123)"
 
 #: plugins/mps/mps.c:181
 msgid "Program Name"
@@ -17912,7 +17890,7 @@ msgstr "Objective function:"
 msgid "Constraints:"
 msgstr "Constraints:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6144
+#: plugins/mps/mps.c:245 src/commands.c:6168
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
@@ -18007,7 +17985,6 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
-#. xgettext: you can translate the funny character as an 'o' if unicode is not available.
 #: plugins/numtheory/numtheory.c:247
 msgid ""
 "@FUNCTION=NT_MU\n"
@@ -18341,9 +18318,9 @@ msgid "Could not allocate memory for record."
 msgstr "Could not allocate memory for record."
 
 #: plugins/paradox/paradox.c:196
-#, fuzzy, c-format
+#, c-format
 msgid "Field type %d is not supported."
-msgstr "Field type %d is not unsupported."
+msgstr "Field type %d is not supported."
 
 #: plugins/paradox/plugin.xml.in.h:1
 msgid "Imports Paradox files"
@@ -18370,44 +18347,37 @@ msgid "Perl"
 msgstr "Perl"
 
 #: plugins/perl-func/plugin.xml.in.h:2
-#, fuzzy
 msgid "Perl functions"
-msgstr "Special functions"
+msgstr "Perl functions"
 
 #: plugins/perl-func/plugin.xml.in.h:3
-#, fuzzy
 msgid "Sample Perl plugin providing some (useless) functions."
-msgstr "Sample Python plugin providing some (useless) functions."
+msgstr "Sample Perl plugin providing some (useless) functions."
 
 #: plugins/perl-loader/perl-loader.c:109
-#, fuzzy
 msgid "Module name not given."
-msgstr "Module file name not given."
+msgstr "Module name not given."
 
 #: plugins/perl-loader/perl-loader.c:135
-#, fuzzy
 msgid "perl_func.pl doesn't exit."
-msgstr "Module \"%s\" doesn't exist."
+msgstr "perl_func.pl doesn't exit."
 
 #: plugins/perl-loader/perl-loader.c:179 plugins/perl-loader/perl-loader.c:198
 #, c-format
 msgid "Perl error: %s\n"
-msgstr ""
+msgstr "Perl error: %s\n"
 
 #: plugins/perl-loader/perl-loader.c:257
-#, fuzzy
 msgid "Perl error: "
-msgstr "Guile error"
+msgstr "Perl error: "
 
 #: plugins/perl-loader/plugin.xml.in.h:1
-#, fuzzy
 msgid "Perl plugin loader"
-msgstr "Plugin loader"
+msgstr "Perl plugin loader"
 
 #: plugins/perl-loader/plugin.xml.in.h:2
-#, fuzzy
 msgid "This plugin provides support for Perl plugins"
-msgstr "This plugin provides support for Python plugins"
+msgstr "This plugin provides support for Perl plugins"
 
 #: plugins/plan-perfect/pln.c:504
 msgid "PLN : Spreadsheet is password encrypted"
@@ -18594,14 +18564,14 @@ msgid "Object \"%s\" is not a dictionary."
 msgstr "Object \"%s\" is not a dictionary."
 
 #: plugins/python-loader/python-loader.c:734 src/plugin-loader-module.c:602
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown action: %s"
-msgstr "Unknown Function"
+msgstr "Unknown action: %s"
 
 #: plugins/python-loader/python-loader.c:739
-#, fuzzy, c-format
+#, c-format
 msgid "Not a valid function for action: %s"
-msgstr "Not a valid function for verb: %s"
+msgstr "Not a valid function for action: %s"
 
 #: plugins/qpro/plugin.xml.in.h:1
 msgid "Imports Quatro Pro (tm) files"
@@ -18647,7 +18617,6 @@ msgid "Sample DataSource"
 msgstr "Sample DataSource"
 
 #: plugins/sample_datasource/sample_datasource.c:272
-#, no-c-format
 msgid ""
 "@FUNCTION=atl_last\n"
 "@SYNTAX=ATL_LAST (tag)\n"
@@ -18735,7 +18704,7 @@ msgstr "This is message from the \"%s\" plugin."
 msgid "Error while opening xbase file."
 msgstr "Error while opening xbase file."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4938
+#: plugins/xbase/boot.c:175 src/commands.c:4962
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
@@ -19008,12 +18977,11 @@ msgstr ""
 "list."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:47
-#, fuzzy
 msgid ""
 "The autocorrect engine does not correct the initial caps for words in this "
 "list."
 msgstr ""
-"The autocorrect engine does not correct the inital caps for words in this "
+"The autocorrect engine does not correct the initial caps for words in this "
 "list."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:48
@@ -19179,15 +19147,14 @@ msgstr ""
 "dialogue to edit this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:72
-#, fuzzy
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to print row and column headers. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
-"This value determines the default setting in the Print Setup dialogue "
-"whether to print row and column headers. Please use the Print Setup dialogue "
-"to edit this value."
+"This value determines the default setting in the Print Setup dialogue whether "
+"to print row and column headers. Please use the Print Setup dialogue to edit "
+"this value."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:73
 msgid ""
@@ -19620,10 +19587,9 @@ msgstr ""
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Use UTF-8 in LaTeX Export"
 
-#: src/application.c:306
-#, fuzzy
+#: src/application.c:307
 msgid "Cut Object"
-msgstr "Insert Object"
+msgstr "Cut Object"
 
 #: src/clipboard.c:314 src/clipboard.c:326 src/clipboard.c:337
 #: src/clipboard.c:345
@@ -19722,442 +19688,442 @@ msgstr "%s is locked. Unprotect the sheet to enable editing."
 msgid "..."
 msgstr "..."
 
-#: src/commands.c:928 src/commands.c:1033 src/commands.c:1038
+#: src/commands.c:960 src/commands.c:1065 src/commands.c:1070
 msgid "Set Text"
 msgstr "Set Text"
 
-#: src/commands.c:953
+#: src/commands.c:985
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Typing \"%s%s\" in %s"
 
-#: src/commands.c:1156
+#: src/commands.c:1188
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Typing \"%s%s\""
 
-#: src/commands.c:1193
+#: src/commands.c:1225
 msgid "Ins/Del Column/Row"
 msgstr "Ins/Del Column/Row"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3251
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3258
 msgid "Delete Columns"
 msgstr "Delete Columns"
 
-#: src/commands.c:1300 src/commands.c:1305 src/sheet.c:3371
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3380
 msgid "Delete Rows"
 msgstr "Delete Rows"
 
-#: src/commands.c:1453
+#: src/commands.c:1480
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Inserting %d columns before %s"
 
-#: src/commands.c:1454
+#: src/commands.c:1481
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Inserting %d column before %s"
 
-#: src/commands.c:1469
+#: src/commands.c:1496
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Inserting %d rows before %s"
 
-#: src/commands.c:1470
+#: src/commands.c:1497
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Inserting %d row before %s"
 
-#: src/commands.c:1481
+#: src/commands.c:1508
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Deleting columns %s"
 
-#: src/commands.c:1482
+#: src/commands.c:1509
 #, c-format
 msgid "Deleting column %s"
 msgstr "Deleting column %s"
 
-#: src/commands.c:1492
+#: src/commands.c:1519
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Deleting rows %s"
 
-#: src/commands.c:1493
+#: src/commands.c:1520
 #, c-format
 msgid "Deleting row %s"
 msgstr "Deleting row %s"
 
 #. Check for locked cells
-#: src/commands.c:1575 src/commands.c:1579 src/sheet.c:2861
+#: src/commands.c:1602 src/commands.c:1606 src/sheet.c:2861
 msgid "Clear"
 msgstr "Clear"
 
-#: src/commands.c:1650
+#: src/commands.c:1677
 msgid "contents"
 msgstr "contents"
 
-#: src/commands.c:1652
+#: src/commands.c:1679
 msgid "formats"
 msgstr "formats"
 
-#: src/commands.c:1654
+#: src/commands.c:1681
 msgid "comments"
 msgstr "comments"
 
-#: src/commands.c:1670
+#: src/commands.c:1697
 msgid "all"
 msgstr "all"
 
-#: src/commands.c:1677
+#: src/commands.c:1704
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Clearing %s in %s"
 
-#: src/commands.c:1760
+#: src/commands.c:1787
 msgid "Changing Format"
 msgstr "Changing Format"
 
-#: src/commands.c:1885
+#: src/commands.c:1912
 #, c-format
 msgid "Changing format of %s"
 msgstr "Changing format of %s"
 
-#: src/commands.c:1995
+#: src/commands.c:2022
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Autofitting column %s"
 
-#: src/commands.c:1996
+#: src/commands.c:2023
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Autofitting row %s"
 
-#: src/commands.c:1999
+#: src/commands.c:2026
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Setting width of column %s to %d pixels"
 
-#: src/commands.c:2001
+#: src/commands.c:2028
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Setting height of row %s to %d pixels"
 
-#: src/commands.c:2004
+#: src/commands.c:2031
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Setting width of column %s to default"
 
-#: src/commands.c:2007
+#: src/commands.c:2034
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Setting height of row %s to default"
 
-#: src/commands.c:2011
+#: src/commands.c:2038
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Autofitting columns %s"
 
-#: src/commands.c:2012
+#: src/commands.c:2039
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Autofitting rows %s"
 
-#: src/commands.c:2015
+#: src/commands.c:2042
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Setting width of columns %s to %d pixels"
 
-#: src/commands.c:2017
+#: src/commands.c:2044
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Setting height of rows %s to %d pixels"
 
-#: src/commands.c:2021
+#: src/commands.c:2048
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Setting width of columns %s to default"
 
-#: src/commands.c:2023
+#: src/commands.c:2050
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Setting height of rows %s to default"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:770
+#: src/commands.c:2116 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Sorting"
 
-#: src/commands.c:2109
+#: src/commands.c:2136
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorting %s"
 
-#: src/commands.c:2252
+#: src/commands.c:2279
 msgid "Unhide columns"
 msgstr "Unhide columns"
 
-#: src/commands.c:2252
+#: src/commands.c:2279
 msgid "Hide columns"
 msgstr "Hide columns"
 
-#: src/commands.c:2253
+#: src/commands.c:2280
 msgid "Unhide rows"
 msgstr "Unhide rows"
 
-#: src/commands.c:2253
+#: src/commands.c:2280
 msgid "Hide rows"
 msgstr "Hide rows"
 
-#: src/commands.c:2335
+#: src/commands.c:2362
 msgid "Expand columns"
 msgstr "Expand columns"
 
-#: src/commands.c:2335
+#: src/commands.c:2362
 msgid "Collapse columns"
 msgstr "Collapse columns"
 
-#: src/commands.c:2336
+#: src/commands.c:2363
 msgid "Expand rows"
 msgstr "Expand rows"
 
-#: src/commands.c:2336
+#: src/commands.c:2363
 msgid "Collapse rows"
 msgstr "Collapse rows"
 
-#: src/commands.c:2362
+#: src/commands.c:2389
 #, c-format
 msgid "Show column outline %d"
 msgstr "Show column outline %d"
 
-#: src/commands.c:2362
+#: src/commands.c:2389
 #, c-format
 msgid "Show row outline %d"
 msgstr "Show row outline %d"
 
-#: src/commands.c:2432
+#: src/commands.c:2459
 msgid "Those columns are already grouped"
 msgstr "Those columns are already grouped"
 
-#: src/commands.c:2433
+#: src/commands.c:2460
 msgid "Those rows are already grouped"
 msgstr "Those rows are already grouped"
 
-#: src/commands.c:2456
+#: src/commands.c:2483
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Those columns are not grouped, you can't ungroup them"
 
-#: src/commands.c:2457
+#: src/commands.c:2484
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Those rows are not grouped, you can't ungroup them"
 
-#: src/commands.c:2471
+#: src/commands.c:2498
 #, c-format
 msgid "Group columns %s"
 msgstr "Group columns %s"
 
-#: src/commands.c:2471
+#: src/commands.c:2498
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Ungroup columns %s"
 
-#: src/commands.c:2473
+#: src/commands.c:2500
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Group rows %d:%d"
 
-#: src/commands.c:2473
+#: src/commands.c:2500
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Ungroup rows %d:%d"
 
-#: src/commands.c:2710
+#: src/commands.c:2733
 #, c-format
 msgid "Moving %s"
 msgstr "Moving %s"
 
-#: src/commands.c:2719 src/commands.c:2946
+#: src/commands.c:2742 src/commands.c:2970
 msgid "is beyond sheet boundaries"
 msgstr "is beyond sheet boundaries"
 
-#: src/commands.c:2782
+#: src/commands.c:2806
 msgid "Paste Copy"
 msgstr "Paste Copy"
 
 #. FIXME?
-#: src/commands.c:2887
+#: src/commands.c:2911
 #, c-format
 msgid "Pasting into %s"
 msgstr "Pasting into %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2983 src/commands.c:3140 src/commands.c:3141
+#: src/commands.c:3007 src/commands.c:3164 src/commands.c:3165
 #: src/wbcg-actions.c:427
 msgid "Autofill"
 msgstr "Autofill"
 
 #. Changed in initial redo.
-#: src/commands.c:3163
+#: src/commands.c:3187
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autofilling %s"
 
-#: src/commands.c:3481
+#: src/commands.c:3505
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Autoformatting %s"
 
-#: src/commands.c:3598
+#: src/commands.c:3622
 #, c-format
 msgid "Unmerging %s"
 msgstr "Unmerging %s"
 
-#: src/commands.c:3762
+#: src/commands.c:3786
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Merge and Centre %s"
 
-#: src/commands.c:3762
+#: src/commands.c:3786
 #, c-format
 msgid "Merging %s"
 msgstr "Merging %s"
 
 #. Corrected below.
-#: src/commands.c:4143 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4167 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Search and Replace"
 
-#: src/commands.c:4238
+#: src/commands.c:4262
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Setting default width of columns to %.2fpts"
 
-#: src/commands.c:4239
+#: src/commands.c:4263
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Setting default height of rows to %.2fpts"
 
-#: src/commands.c:4354
+#: src/commands.c:4378
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s to %.0f%%"
 
-#: src/commands.c:4452
+#: src/commands.c:4476
 msgid "Delete Object"
 msgstr "Delete Object"
 
-#: src/commands.c:4613
+#: src/commands.c:4637
 msgid "Format Object"
 msgstr "Format Object"
 
-#: src/commands.c:5212
+#: src/commands.c:5236
 msgid "Reordering Sheets"
 msgstr "Reordering Sheets"
 
-#: src/commands.c:5215
+#: src/commands.c:5239
 msgid "Renaming Sheets"
 msgstr "Renaming Sheets"
 
-#: src/commands.c:5218
+#: src/commands.c:5242
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Appending %i Sheets"
 
-#: src/commands.c:5222
+#: src/commands.c:5246
 msgid "Changing Tab Colors"
 msgstr "Changing Tab Colours"
 
-#: src/commands.c:5225
+#: src/commands.c:5249
 msgid "Changing Sheet Protection"
 msgstr "Changing Sheet Protection"
 
-#: src/commands.c:5228
+#: src/commands.c:5252
 msgid "Delete sheets"
 msgstr "Delete sheets"
 
-#: src/commands.c:5231
+#: src/commands.c:5255
 msgid "Delete a sheet"
 msgstr "Delete a sheet"
 
-#: src/commands.c:5234
+#: src/commands.c:5258
 msgid "Changing Sheet Visibility"
 msgstr "Changing Sheet Visibility"
 
-#: src/commands.c:5237
+#: src/commands.c:5261
 msgid "Reorganizing Sheets"
 msgstr "Reorganizing Sheets"
 
-#: src/commands.c:5388
+#: src/commands.c:5412
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Clearing comment of %s"
 
-#: src/commands.c:5389
+#: src/commands.c:5413
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Setting comment of %s"
 
-#: src/commands.c:5769
+#: src/commands.c:5793
 #, c-format
 msgid "Merging data into %s"
 msgstr "Merging data into %s"
 
-#: src/commands.c:5871
+#: src/commands.c:5895
 msgid "Changing summary info"
 msgstr "Changing summary info"
 
-#: src/commands.c:5960
+#: src/commands.c:5984
 msgid "Pull Object to the Front"
 msgstr "Pull Object to the Front"
 
-#: src/commands.c:5963
+#: src/commands.c:5987
 msgid "Pull Object Forward"
 msgstr "Pull Object Forward"
 
-#: src/commands.c:5966
+#: src/commands.c:5990
 msgid "Push Object Backward"
 msgstr "Push Object Backward"
 
-#: src/commands.c:5969
+#: src/commands.c:5993
 msgid "Push Object to the Back"
 msgstr "Push Object to the Back"
 
-#: src/commands.c:6084
+#: src/commands.c:6108
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Page Setup For %s"
 
-#: src/commands.c:6086
+#: src/commands.c:6110
 msgid "Page Setup For All Sheets"
 msgstr "Page Setup For All Sheets"
 
-#: src/commands.c:6201
+#: src/commands.c:6225
 msgid "has a circular reference"
 msgstr "has a circular reference"
 
-#: src/commands.c:6224
+#: src/commands.c:6248
 #, c-format
 msgid "Define Name %s"
 msgstr "Define Name %s"
 
-#: src/commands.c:6227
+#: src/commands.c:6251
 #, c-format
 msgid "Update Name %s"
 msgstr "Update Name %s"
 
-#: src/commands.c:6291
+#: src/commands.c:6315
 msgid "Add scenario"
 msgstr "Add scenario"
 
-#: src/commands.c:6366
+#: src/commands.c:6390
 msgid "Scenario Show"
 msgstr "Scenario Show"
 
-#: src/commands.c:6430
+#: src/commands.c:6454
 msgid "Shuffle Data"
 msgstr "Shuffle Data"
 
 #. FIXME?
-#: src/commands.c:6540
+#: src/commands.c:6564
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) to Columns (%s)"
@@ -20167,28 +20133,28 @@ msgstr "Text (%s) to Columns (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6684 src/dialogs/solver.glade.h:17
+#: src/commands.c:6708 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Solver"
 
-#: src/commands.c:6768
+#: src/commands.c:6792
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Goal Seek (%s)"
 
-#: src/commands.c:6913
+#: src/commands.c:6937
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplicating %s"
 
-#: src/commands.c:6992
+#: src/commands.c:7016
 msgid "Tabulating Dependencies"
 msgstr "Tabulating Dependencies"
 
-#: src/commands.c:7067
+#: src/commands.c:7091
 msgid "Reconfigure Graph"
 msgstr "Reconfigure Graph"
 
@@ -20568,7 +20534,7 @@ msgstr "Settings"
 msgid "Point"
 msgstr "Point"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:348
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:355
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
@@ -20637,9 +20603,8 @@ msgid "Si_ze:"
 msgstr "Si_ze:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
-#, fuzzy
 msgid "St_yle:"
-msgstr "Style:"
+msgstr "St_yle:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
 #: src/dialogs/hyperlink.glade.h:5
@@ -21628,19 +21593,19 @@ msgstr "Solid"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:53
 msgid "Dash"
-msgstr ""
+msgstr "Dash"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:54
 msgid "Dot"
-msgstr ""
+msgstr "Dot"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:55
 msgid "Dash dot"
-msgstr ""
+msgstr "Dash dot"
 
 #: src/cut-n-paste-code/goffice/utils/go-line.c:56
 msgid "Dash dot dot"
-msgstr ""
+msgstr "Dash dot dot"
 
 #. xgettext : this will appear as 'Automatic (patternname)'
 #. xgettext : this will appear as 'Automatic (shapename)'
@@ -22162,8 +22127,8 @@ msgstr "Do _not correct:"
 msgid "First Letter"
 msgstr "First Letter"
 
-#: src/dialogs/autocorrect.glade.h:9 src/format.c:2232 src/format.c:2520
-#: src/format.c:2526 src/format.c:2599 src/plugin-service.c:195
+#: src/dialogs/autocorrect.glade.h:9 src/format.c:2232 src/format.c:2521
+#: src/format.c:2527 src/format.c:2600 src/plugin-service.c:195
 #: src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "General"
@@ -24140,9 +24105,8 @@ msgstr ""
 "The items on this page customize the behaviour of the undo/redo system."
 
 #: src/dialogs/dialog-preferences.c:470
-#, fuzzy
 msgid "Length of Undo Descriptors"
-msgstr "Length of the Undo Descriptors"
+msgstr "Length of Undo Descriptors"
 
 #: src/dialogs/dialog-preferences.c:498
 msgid ""
@@ -24153,9 +24117,8 @@ msgstr ""
 "and the behaviour of the sort toolbar buttons."
 
 #: src/dialogs/dialog-preferences.c:523
-#, fuzzy
 msgid "Sorting is Case-Sensitive"
-msgstr "Sort is Case-Sensitive"
+msgstr "Sorting is Case-Sensitive"
 
 #: src/dialogs/dialog-preferences.c:544
 msgid "The items on this page customize the new default workbook."
@@ -24166,34 +24129,32 @@ msgid "The items on this page are related to the saving and opening of files."
 msgstr "The items on this page are related to the saving and opening of files."
 
 #: src/dialogs/dialog-preferences.c:646
-#, fuzzy
 msgid "The items on this page are related to the screen layout and resolution."
-msgstr "The items on this page are related to the saving and opening of files."
+msgstr "The items on this page are related to the screen layout and resolution."
 
 #: src/dialogs/dialog-preferences.c:682
-#, fuzzy
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
 "tools."
-msgstr "The items on this page are related to the saving and opening of files."
+msgstr ""
+"The items on this page and its subpages are related to various gnumeric "
+"tools."
 
 #: src/dialogs/dialog-preferences.c:724
-#, fuzzy
 msgid "The items on this page are related to copy. cut and paste."
-msgstr "The items on this page are related to the saving and opening of files."
+msgstr "The items on this page are related to copy, cut and paste."
 
 #: src/dialogs/dialog-preferences.c:764
 msgid "Copy and Paste"
-msgstr ""
+msgstr "Copy and Paste"
 
 #: src/dialogs/dialog-preferences.c:765
 msgid "Files"
 msgstr "Files"
 
 #: src/dialogs/dialog-preferences.c:766
-#, fuzzy
 msgid "Tools"
-msgstr "_Tools"
+msgstr "Tools"
 
 #: src/dialogs/dialog-preferences.c:767 src/wbc-gtk.c:472
 msgid "Undo"
@@ -24208,9 +24169,8 @@ msgid "Header/Footer"
 msgstr "Header/Footer"
 
 #: src/dialogs/dialog-preferences.c:771
-#, fuzzy
 msgid "Screen"
-msgstr "Screen %d"
+msgstr "Screen"
 
 #: src/dialogs/dialog-printer-setup.c:873
 msgid "Customize header"
@@ -24766,7 +24726,7 @@ msgstr "_Finish"
 
 #: src/dialogs/dialog-stf-export.c:573
 msgid "This workbook does not contain any exportable content."
-msgstr ""
+msgstr "This workbook does not contain any exportable content."
 
 #: src/dialogs/dialog-stf-export.glade.h:1
 msgid ""
@@ -24798,12 +24758,11 @@ msgstr "Choose export formatting:"
 
 #: src/dialogs/dialog-stf-export.glade.h:11
 msgid "Choose sheets to export and determine export ordering of the sheets:"
-msgstr ""
+msgstr "Choose sheets to export and determine export ordering of the sheets:"
 
 #: src/dialogs/dialog-stf-export.glade.h:12
-#, fuzzy
 msgid "Deselect all sheets for export."
-msgstr "Choose sheets to export:"
+msgstr "Deselect all sheets for export."
 
 #: src/dialogs/dialog-stf-export.glade.h:13
 msgid "Export as Text"
@@ -24814,18 +24773,24 @@ msgid ""
 "Lower the selected sheet in the list of to be exported sheets to be exported "
 "later."
 msgstr ""
+"Lower the selected sheet in the list of to-be-exported sheets to be exported "
+"later."
 
 #: src/dialogs/dialog-stf-export.glade.h:15
 msgid ""
 "Move the selected sheet to the end of the list of to be exported exported "
 "sheets to be exported last."
 msgstr ""
+"Move the selected sheet to the end of the list of to-be-exported "
+"sheets to be exported last."
 
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid ""
 "Move the selected sheet to the top of the list of to be exported sheets to "
 "be exported first."
 msgstr ""
+"Move the selected sheet to the top of the list of to-be-exported sheets to "
+"be exported first."
 
 #: src/dialogs/dialog-stf-export.glade.h:17
 msgid "Qu_oting:"
@@ -24840,6 +24805,8 @@ msgid ""
 "Raise the selected sheet in the list of to be exported sheets to be exported "
 "earlier."
 msgstr ""
+"Raise the selected sheet in the list of to-be-exported sheets to be exported "
+"earlier."
 
 #: src/dialogs/dialog-stf-export.glade.h:20
 msgid "Select N_one"
@@ -24852,7 +24819,7 @@ msgstr "Select _All"
 
 #: src/dialogs/dialog-stf-export.glade.h:22
 msgid "Select all non-empty sheets for export."
-msgstr ""
+msgstr "Select all non-empty sheets for export."
 
 #: src/dialogs/dialog-stf-export.glade.h:23
 msgid ""
@@ -24917,29 +24884,24 @@ msgid "Autodiscovery did not find any columns in the text. Try manually"
 msgstr "Autodiscovery did not find any columns in the text. Try manually"
 
 #: src/dialogs/dialog-stf-fixed-page.c:69
-#, fuzzy
 msgid "Merge with column on _left"
-msgstr "Ignore all columns on left"
+msgstr "Merge with column on _left"
 
 #: src/dialogs/dialog-stf-fixed-page.c:71
-#, fuzzy
 msgid "Merge with column on _right"
-msgstr "Ignore all columns on right"
+msgstr "Merge with column on _right"
 
 #: src/dialogs/dialog-stf-fixed-page.c:74
-#, fuzzy
 msgid "_Split this column"
-msgstr "Select an entire column"
+msgstr "_Split this column"
 
 #: src/dialogs/dialog-stf-fixed-page.c:77
-#, fuzzy
 msgid "_Widen this column"
-msgstr "Hide columns"
+msgstr "_Widen this column"
 
 #: src/dialogs/dialog-stf-fixed-page.c:79
-#, fuzzy
 msgid "_Narrow this column"
-msgstr "Clear list of columns"
+msgstr "_Narrow this column"
 
 #: src/dialogs/dialog-stf-format-page.c:45
 #, c-format
@@ -24977,13 +24939,13 @@ msgstr "Import all columns on left"
 msgid "Copy format to right"
 msgstr "Copy format to right"
 
-#: src/dialogs/dialog-stf-format-page.c:444
+#: src/dialogs/dialog-stf-format-page.c:443
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 
-#: src/dialogs/dialog-stf-format-page.c:601
+#: src/dialogs/dialog-stf-format-page.c:600
 #: src/dialogs/dialog-stf-preview.h:27
 #, c-format
 msgid "Column %d"
@@ -27961,23 +27923,23 @@ msgstr "Automatically detected"
 msgid "Load file"
 msgstr "Load file"
 
-#: src/gui-file.c:224 src/gui-file.c:655
+#: src/gui-file.c:224 src/gui-file.c:662
 msgid "Select a file"
 msgstr "Select a file"
 
-#: src/gui-file.c:242 src/gui-file.c:457 src/gui-file.c:669
+#: src/gui-file.c:249 src/gui-file.c:464 src/gui-file.c:676
 msgid "All Files"
 msgstr "All Files"
 
-#: src/gui-file.c:247 src/gui-file.c:674
+#: src/gui-file.c:254 src/gui-file.c:681
 msgid "Spreadsheets"
 msgstr "Spreadsheets"
 
-#: src/gui-file.c:273 src/gui-file.c:524 src/gui-file.c:698
+#: src/gui-file.c:280 src/gui-file.c:531 src/gui-file.c:705
 msgid "File _type:"
 msgstr "File _type:"
 
-#: src/gui-file.c:389
+#: src/gui-file.c:396
 #, c-format
 msgid ""
 "%s\n"
@@ -27986,7 +27948,7 @@ msgstr ""
 "%s\n"
 "is a directory name"
 
-#: src/gui-file.c:395
+#: src/gui-file.c:402
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -27995,7 +27957,7 @@ msgstr ""
 "You do not have permission to save to\n"
 "%s"
 
-#: src/gui-file.c:404
+#: src/gui-file.c:411
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -28006,15 +27968,15 @@ msgstr ""
 "\n"
 "Do you want to overwrite it?"
 
-#: src/gui-file.c:462
+#: src/gui-file.c:469
 msgid "Images"
 msgstr "Images"
 
-#: src/gui-file.c:502
+#: src/gui-file.c:509
 msgid "Save as"
 msgstr "Save as"
 
-#: src/gui-file.c:551 src/gui-file.c:747
+#: src/gui-file.c:558 src/gui-file.c:754
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -28022,11 +27984,11 @@ msgstr ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
 
-#: src/gui-file.c:578
+#: src/gui-file.c:585
 msgid "Select an Image"
 msgstr "Select an Image"
 
-#: src/gui-file.c:597
+#: src/gui-file.c:604
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -28526,9 +28488,8 @@ msgid "Loader has no set_attributes method.\n"
 msgstr "Loader has no set_attributes method.\n"
 
 #: src/plugin-loader.c:199
-#, fuzzy
 msgid "Loader has no load_base method.\n"
-msgstr "Loader has no set_attributes method.\n"
+msgstr "Loader has no load_base method.\n"
 
 #: src/plugin-loader.c:258 src/plugin-loader.c:296
 #, c-format
@@ -28643,7 +28604,7 @@ msgstr "Function group is empty."
 
 #: src/plugin-service.c:1034
 msgid "No func_desc_load method.\n"
-msgstr ""
+msgstr "No func_desc_load method.\n"
 
 #: src/plugin-service.c:1104
 #, c-format
@@ -28858,11 +28819,11 @@ msgstr "cannot operate on merged cells"
 msgid "cannot operate on array formulae"
 msgstr "cannot operate on array formulae"
 
-#: src/sheet.c:3191
+#: src/sheet.c:3197
 msgid "Insert Columns"
 msgstr "Insert Columns"
 
-#: src/sheet.c:3311
+#: src/sheet.c:3319
 msgid "Insert Rows"
 msgstr "Insert Rows"
 
@@ -29076,7 +29037,6 @@ msgstr "CheckBox %d"
 msgid "RadioButton"
 msgstr "RadioButton"
 
-#. Oh, yeah?
 #: src/sheet-style.c:494
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
@@ -29291,13 +29251,6 @@ msgstr "Covariances"
 msgid "Covariance (%s)"
 msgstr "Covariance (%s)"
 
-#.
-#. * Note to translators: in the following string and others like it,
-#. * the "/" is a separator character that can be changed to anything
-#. * if the translation needs the slash; just use, say, "|" instead.
-#. *
-#. * The items are bundled like this to increase translation context.
-#.
 #: src/tools/analysis-tools.c:1090
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
@@ -29456,10 +29409,6 @@ msgstr ""
 "Remove one of these\n"
 "variables and try the regression again."
 
-#. FIXME: virtually all the code above needs to be moved from here into
-#. analysis_tool_regression_engine_last_check
-#. we have to figure out which data we have to trnasfer from
-#. to here
 #: src/tools/analysis-tools.c:3422
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
@@ -30186,27 +30135,31 @@ msgstr ""
 
 #: src/tools/solver/solver.c:465
 msgid "EqualTo models are not supported yet.  Please use Min or Max"
-msgstr ""
+msgstr "EqualTo models are not supported yet.  Please use Min or Max"
 
 #: src/tools/solver/solver.c:478
 msgid ""
 "Failure setting automatic scaling with this solver, try a different "
 "algorithm."
 msgstr ""
+"Failure setting automatic scaling with this solver. Try a different "
+"algorithm."
 
 #: src/tools/solver/solver.c:484
-#, fuzzy
 msgid ""
 "Failure setting the maximum number of iterations with this solver, try a "
 "different algorithm."
 msgstr ""
-"This value determines the maximum number of items in the undo/redo list."
+"Failure setting the maximum number of iterations with this solver. Try a "
+"different algorithm."
 
 #: src/tools/solver/solver.c:490
 msgid ""
 "Failure setting setting the maximum solving time with this solver, try a "
 "different algorithm."
 msgstr ""
+"Failure setting setting the maximum solving time with this solver. Try a "
+"different algorithm."
 
 #: src/tools/solver/solver.c:536
 msgid ""
@@ -33438,100 +33391,3 @@ msgstr "Lila list template"
 #: templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "A simple list template"
-
-#~ msgid ""
-#~ "\n"
-#~ "equals\n"
-#~ "does not equal\n"
-#~ "is greater than\n"
-#~ "is greater than or equal to\n"
-#~ "is_less_than\n"
-#~ "is less than or equal to\n"
-#~ "begins with\n"
-#~ "does not begin with\n"
-#~ "ends with\n"
-#~ "does not end with\n"
-#~ "contains\n"
-#~ "does not contain"
-#~ msgstr ""
-#~ "\n"
-#~ "equals\n"
-#~ "does not equal\n"
-#~ "is greater than\n"
-#~ "is greater than or equal to\n"
-#~ "is_less_than\n"
-#~ "is less than or equal to\n"
-#~ "begins with\n"
-#~ "does not begin with\n"
-#~ "ends with\n"
-#~ "does not end with\n"
-#~ "contains\n"
-#~ "does not contain"
-
-#~ msgid "Various"
-#~ msgstr "Various"
-
-#~ msgid ""
-#~ "@FUNCTION=STDEV\n"
-#~ "@SYNTAX=STDEV(b1, b2, ...)\n"
-#~ "@DESCRIPTION=STDEV returns standard deviation of a set of numbers "
-#~ "treating these numbers as members of a population.\n"
-#~ "\n"
-#~ "* This function is Excel compatible.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
-#~ "21.3, 25.9, and 40.1.  Then\n"
-#~ "STDEV(A1:A5) equals 10.84619749.\n"
-#~ "\n"
-#~ "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
-#~ msgstr ""
-#~ "@FUNCTION=STDEV\n"
-#~ "@SYNTAX=STDEV(b1, b2, ...)\n"
-#~ "@DESCRIPTION=STDEV returns standard deviation of a set of numbers "
-#~ "treating these numbers as members of a population.\n"
-#~ "\n"
-#~ "* This function is Excel compatible.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
-#~ "21.3, 25.9, and 40.1.  Then\n"
-#~ "STDEV(A1:A5) equals 10.84619749.\n"
-#~ "\n"
-#~ "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
-
-#~ msgid "Data Sources..."
-#~ msgstr "Data Sources..."
-
-#~ msgid "View and manage data sources"
-#~ msgstr "View and manage data sources"
-
-#~ msgid "Unknown verb: %s"
-#~ msgstr "Unknown verb: %s"
-
-#~ msgid "Open the Python console"
-#~ msgstr "Open the Python console"
-
-#~ msgid "Python console"
-#~ msgstr "Python console"
-
-#~ msgid "Hello World"
-#~ msgstr "Hello World"
-
-#~ msgid "Delete and Merge _Left"
-#~ msgstr "Delete and Merge _Left"
-
-#~ msgid "Delete and Merge _Right"
-#~ msgstr "Delete and Merge _Right"
-
-#~ msgid "_Split"
-#~ msgstr "_Split"
-
-#~ msgid "_Widen"
-#~ msgstr "_Widen"
-
-#~ msgid "_Narrow"
-#~ msgstr "_Narrow"
-
-#~ msgid "At most 256 columns can be imported at one time."
-#~ msgstr "At most 256 columns can be imported at one time."
