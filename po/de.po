@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.62cvs\n"
 "POT-Creation-Date: 2001-02-13 20:26+0100\n"
-"PO-Revision-Date: 2001-02-13 21:01+01:00\n"
+"PO-Revision-Date: 2001-02-14 07:06+01:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -11665,7 +11665,7 @@ msgstr ""
 
 #: src/gui-file.c:407
 msgid "Save workbook as"
-msgstr "Arbeitsbuch speichern als"
+msgstr "Arbeitsbuch speichern unter"
 
 #: src/gui-file.c:457
 msgid "Load file"
@@ -12806,11 +12806,17 @@ msgstr "Würde ein Array splitten."
 #: src/workbook-control-gui.c:886
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
-msgstr "Arbeitsbuch %s hat nicht gespeicherte Änderungen; speichern?"
+msgstr ""
+"Im Arbeitsbuch %s gibt es nicht gespeicherte Änderungen.\n"
+"\n"
+"Wollen Sie diese Änderungen jetzt speichern?"
 
 #: src/workbook-control-gui.c:889
 msgid "Workbook has unsaved changes, save them?"
-msgstr "Arbeitsbuch hat nicht gespeicherte Änderungen; speichern?"
+msgstr ""
+"Im Arbeitsbuch gibt es nicht gespeicherte Änderungen.\n"
+"\n"
+"Wollen Sie diese Änderungen jetzt speichern?"
 
 #: src/workbook-control-gui.c:1271
 #, c-format
