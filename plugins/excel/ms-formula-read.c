@@ -94,7 +94,7 @@ FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 26 */	{ "SIGN", 1 },
 /* 27 */	{ "ROUND", 2 },
 /* 28 */	{ "LOOKUP", -1 },
-/* 29 */	{ "INDEX", },
+/* 29 */	{ "INDEX", -1 }, /* array form has only 3 */
 /* 30 */	{ "REPT", 2 },
 /* 31 */	{ "MID", 3 },
 /* 32 */	{ "LEN", 1 },
@@ -140,7 +140,7 @@ FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 72 */	{ "MINUTE", 1 },
 /* 73 */	{ "SECOND", 1 },
 /* 74 */	{ "NOW", 0 },
-/* 75 */	{ "AREAS", -1 },
+/* 75 */	{ "AREAS", 1 },
 /* 76 */	{ "ROWS", 1 },
 /* 77 */	{ "COLUMNS", 1 },
 /* 78 */	{ "OFFSET", -1 },
@@ -527,7 +527,6 @@ getRefV8 (guint16 row, guint16 gbitcl, int curcol, int currow,
 	return cr ;
 }
 
-typedef ExprTree PARSE_DATA;
 typedef GList    ParseList;
 
 static void
@@ -540,7 +539,7 @@ parse_list_push (ParseList **list, ExprTree *pd)
 #endif
 	if (!pd)
 		printf ("FIXME: Pushing nothing onto excel function stack\n");
-	*list = g_list_append (*list, pd) ;
+	*list = g_list_prepend (*list, pd) ;
 }
 static void
 parse_list_push_raw (ParseList **list, Value *v)
@@ -551,32 +550,31 @@ parse_list_push_raw (ParseList **list, Value *v)
 static ExprTree *
 parse_list_pop (ParseList **list)
 {
-	GList *tmp ;
-	PARSE_DATA *ans ;
-	tmp = g_list_last (*list) ;
-	if (tmp == 0)
+	/* Get the head */
+	ParseList *tmp = g_list_nth (*list, 0);
+	if (tmp != NULL)
 	{
-		puts ("Incorrect number of parsed formula arguments");
-		return expr_tree_string ("WrongArgs");
-	}
-	*list = g_list_remove_link (*list, tmp) ;
-	ans  = tmp->data ;
+		ExprTree *ans = tmp->data ;
+		*list = g_list_remove (*list, ans) ;
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_formula_debug > 5) {
-			printf ("Pop 0x%x\n", (int)ans);
+		    printf ("Pop 0x%x\n", (int)ans);
 		}
 #endif
-	g_list_free (tmp) ;
-	return ans ;
+		return ans ;
+	}
+
+	puts ("Incorrect number of parsed formula arguments");
+	return expr_tree_string ("WrongArgs");
 }
 
 /**
  * Returns a new list composed of the last n items pop'd off the list.
  **/
-static GList *
+static ParseList *
 parse_list_last_n (ParseList **list, gint n)
 {
-	GList *l=0;
+	ParseList *l=0;
 	while (n-->0)
 		l=g_list_prepend (l, parse_list_pop(list));
 	return l;
@@ -678,7 +676,8 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 		 * function 0xff seems to indicate an external function whose
 		 * name should be on top of the stack.
 		 */
-		GList *args = parse_list_last_n (stack, numargs-1);
+		/* FIXME FIXME FIXME : How to handle missing trailing args ?? */
+		ParseList *args = parse_list_last_n (stack, numargs-1);
 		ExprTree *tmp = parse_list_pop (stack) ;
 		char const *f_name;
 		if (!tmp ||
@@ -703,7 +702,7 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 		return TRUE ;
 	} else if (fn_idx >= 0 && fn_idx < FORMULA_FUNC_DATA_LEN) {
 		const FormulaFuncData *fd = &formula_func_data[fn_idx] ;
-		GList *args;
+		ParseList *args;
 
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_formula_debug > 0) {
@@ -712,9 +711,14 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 		}
 #endif
 		/* Right args for multi-arg funcs. */
-		if (fd->num_args >= 0)
-			numargs = fd->num_args ;
-		else if (fd->num_args == -2)
+		if (fd->num_args >= 0) {
+			int const available_args =
+			    (*stack != NULL) ? g_list_length(*stack) : 0;
+			numargs = fd->num_args;
+			/* handle missing trailing arguments */
+			if (numargs > available_args)
+				numargs = available_args;
+		} else if (fd->num_args == -2)
 			g_warning("This sheet uses an Excel function "
 				  "('%s') for which we do \n"
 				  "not have adequate documentation.  "

@@ -3,6 +3,12 @@
 	* ms-excel-read.c (ms_excel_read_workbook SST) : Zero sized strings use
 	  3 bytes (length + header) not 2.
 	(ms_excel_read_cell LABELSST) : Blank strings should have value wrappers.
+	(ms_excel_parse_formula) : Support missing trailing args for
+	  builtin functions.
+
+	* ms-formula-read.c : Keep stack by prepending and popping, rather
+	  than appending.
+	(INDEX) : correct missing number of args.
 
 1999-07-12  Jody Goldberg  <jgoldberg@home.com>
 
