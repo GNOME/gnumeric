@@ -7,8 +7,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-- research reports graph data guru crash
-
 Pending Patches
 ---------------
 
@@ -19,7 +17,7 @@ Long term breakage
 ------------------
 
 - Add dirty flags to workbook too, adding a sheet should make workbook dirty
-  no the new sheet.
+  not the new sheet.
 
 - Names
     : Fix XL named expr import for sheet local names
