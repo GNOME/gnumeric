@@ -593,7 +593,7 @@ gog_error_bar_dup		(GogErrorBar const *bar)
 }
 
 /**
- * gog_error_bar_get_bounds :
+ * gog_error_bar_render :
  * @bar : A GogErrorBar
  * @rend : A GogRenderer 
  * @x_map :  A GogAxisMap for the x axis
