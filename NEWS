@@ -35,6 +35,7 @@ Jon Kåre:
 	* Improve color combo.
 	* Fix keynav for various kinds of combos.
 	* Make splash screen display code clairvoyant.
+	* Import OpenOffice.org 1.1 from clipboard.
 
 Morten:
 	* Hopefully fix NAN issues on Alphas.

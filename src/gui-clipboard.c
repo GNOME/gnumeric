@@ -41,7 +41,7 @@
 
 #define HTML_ATOM_NAME "text/html"
 #define OOO_ATOM_NAME "application/x-openoffice;windows_formatname=\"Star Embed Source (XML)\""
-
+#define OOO11_ATOM_NAME "application/x-openoffice-embed-source-xml;windows_formatname=\"Star Embed Source (XML)\""
 #define UTF8_ATOM_NAME "UTF8_STRING"
 #define CTEXT_ATOM_NAME "COMPOUND_TEXT"
 #define STRING_ATOM_NAME "STRING"
@@ -228,7 +228,8 @@ complex_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		g_get_charset (&locale_encoding);
 
 		content = text_to_cell_region (wbcg, sel->data, sel->length, locale_encoding, FALSE);
-	} else if (sel->target == gdk_atom_intern (OOO_ATOM_NAME, FALSE)) {
+	} else if ((sel->target == gdk_atom_intern (OOO_ATOM_NAME, FALSE)) ||
+		   (sel->target == gdk_atom_intern (OOO11_ATOM_NAME, FALSE))) {
 		content = table_cellregion_read (wbc, "Gnumeric_OpenCalc:openoffice",
 						 pt, sel->data,
 						 sel->length);
@@ -273,6 +274,7 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		static char const *formats [] = {
 			GNUMERIC_ATOM_NAME,
 			OOO_ATOM_NAME,
+			OOO11_ATOM_NAME,
 			HTML_ATOM_NAME,
 			UTF8_ATOM_NAME,
 			STRING_ATOM_NAME,
