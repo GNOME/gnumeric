@@ -629,7 +629,7 @@ print_info_dup (PrintInformation const *src_pi)
 	PrintInformation *dst_pi;
 
 	dst_pi = print_info_new ();
-	
+
 	gnome_print_config_unref (dst_pi->print_config);
 	dst_pi->print_config       = gnome_print_config_dup (src_pi->print_config);
 

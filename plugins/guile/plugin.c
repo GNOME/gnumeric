@@ -121,7 +121,7 @@ gnm_guile_catcher (void *data, SCM tag, SCM throw_args)
 		if (scm_string_p (res))
 			guilestr = gh_scm2newstr (res, NULL);
 	}
-	
+
 	if (guilestr != NULL) {
 		snprintf (buf, sizeof buf, "%s: %s", header, guilestr);
 		free (guilestr);

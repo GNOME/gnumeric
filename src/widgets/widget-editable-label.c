@@ -64,7 +64,7 @@ static void
 el_set_color_gdk (EditableLabel *el, GdkColor *base, GdkColor *text)
 {
 	GtkStyle *s = gtk_style_copy (gtk_widget_get_style (GTK_WIDGET (el)));
-	
+
 	GdkColor tmp = s->base [GTK_STATE_NORMAL];
 	s->base [GTK_STATE_NORMAL] = *base;
 	*base = tmp;
@@ -320,7 +320,7 @@ editable_label_new (char const *text, GdkColor *base_color,
 		"has_frame",		FALSE,
 		"editable",		FALSE,
 		NULL);
-	
+
 	GtkStyle *s = gtk_widget_get_default_style ();
 	el->base = s->bg [GTK_STATE_NORMAL];
 	el->text = s->fg [GTK_STATE_NORMAL];

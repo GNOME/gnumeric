@@ -205,7 +205,7 @@ dialog_goto_load_names (GotoState *state)
 			g_hash_table_foreach (sheet->names->names,
 				(GHFunc) cb_load_names, &closure);
 	} 
-	
+
 }
 
 static void
@@ -224,7 +224,7 @@ cb_dialog_goto_selection_changed (GtkTreeSelection *the_selection, GotoState *st
 		if (name) {
 			ParsePos pp;
 			char *where_to;
-			
+
 			if (NULL == sheet)
 				sheet = wb_control_cur_sheet ( WORKBOOK_CONTROL (state->wbcg));
 
@@ -257,7 +257,7 @@ dialog_goto_init (GotoState *state)
 	GtkTable *table;
 	GtkWidget *scrolled;
 	GtkTreeViewColumn *column;
-	
+
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "names"));
 	state->goto_text =  GNOME_ENTRY (gnome_entry_new ("goto_entry"));
 	gtk_table_attach (table, GTK_WIDGET (state->goto_text),

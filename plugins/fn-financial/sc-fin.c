@@ -107,7 +107,7 @@ GetDiffParam (GDate *nStartDate, GDate *nEndDate, gint nMode, gint *rYears,
 		break;
 	case 1:                 /* 1=exact/exact */
 		nYears      = nYear2 - nYear1;
-		
+
 		nDaysInYear = g_date_is_leap_year ( nYear1 )? 366 : 365;
 
 		if ( nYears && ( nMonth1 > nMonth2 ||
@@ -121,10 +121,10 @@ GetDiffParam (GDate *nStartDate, GDate *nEndDate, gint nMode, gint *rYears,
 			g_free (tmp);
 		} else
 			nDayDiff = g_date_days_between (nStartDate, nEndDate);
-		
+
 		if ( nDayDiff < 0 )
 			nDayDiff += nDaysInYear;
-		
+
 		break;
 	case 2:                 /* 2=exact/360 */
 		nDaysInYear = 360;
@@ -582,7 +582,7 @@ get_vdb (gnm_float cost, gnm_float salvage, gnm_float life,
 					life1       += 1;
 				}
 			}
-		
+
 		cost -= ScInterVDB (cost, salvage, life, life1, start_period,
 				    factor);
 		fVdb = ScInterVDB (cost, salvage, life, life - start_period,

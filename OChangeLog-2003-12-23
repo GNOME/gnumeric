@@ -121,7 +121,7 @@
 	has changed.
 	(wbcg_get_gtk_settings): New. Gets GtkSettings - by screen if
 	possible.
-	
+
 	(workbook_control_gui_init): Init font_desc to NULL.
 
 	* src/workbook-control-gui-priv.h (struct _WorkbookControlGUI):
@@ -263,7 +263,7 @@
 	(stf_write_func): Use gsf_output_puts.
 	(stf_write_workbook): Replace file_name with GsfOutput *output.
 	Don't open and close file. Higher layer does that.
-	
+
 	* src/xml-io.c (gnumeric_xml_write_workbook): Replace file_name
 	with GsfOutput *output.  Don't open and close file. Higher layer
 	does that.
@@ -565,7 +565,7 @@
 
 	* src/io-context-gtk.[ch]: Add. IO Context with GUI for showing
 	progress and messages before first wbcg is shown.
-	
+
 	* src/io-context.[ch] (gnumeric_io_warning_occurred): Add.
 
 	* src/io-context.c (io_context_init): Initialize warning_occurred,
@@ -578,7 +578,7 @@
 	(gnumeric_io_error_clear): Clear warning_occurred, error_info
 	renamed to info.
 	(gnm_io_warning): Implement.
-	
+
 	* src/io-context-priv.h (struct _IOContext): Rename error_info to
 	info, add warning_occurred field.
 
@@ -647,7 +647,7 @@
 	register_file_opener_as_importer_as_default,
 	unregister_file_opener_as_importer, get_default_file_importer,
 	get_file_importers): Remove
-	
+
 	* src/file.c (default_file_importer_list, file_importer_list,
 	default_file_importer_cmp_priority,): Remove.
 
@@ -661,7 +661,7 @@
 	to start of file after probing.
 
 	* src/plugin-service.c (gnum_plugin_file_opener_probe): Ditto.
-	
+
 2002-11-14  Jody Goldberg <jody@gnome.org>
 
 	* src/gui-util.c (gnumeric_keyed_dialog) : add a weakpointer to the
@@ -810,9 +810,9 @@
 2002-11-06   Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/stf.c (stf_init) : text export is lossy too. (78356)
-	
+
 2002-11-06   Andreas J. Guelzow  <aguelzow@taliesin.ca>
-	
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=78356
 	* src/workbook-view.c (wb_view_save_as) : don't mark the
 	  workbook clean unless we saved under the new name.
@@ -825,10 +825,10 @@
 
 	* src/workbook-edit.c (wbcg_set_entry) : stop editing before 
 	  changing the entry.
-	
+
 2002-11-05   Andreas J. Guelzow  <aguelzow@taliesin.ca> for:
 	Olaf Till <i7tiol@t-online.de>
-	
+
 	* src/regression.[ch] (logarithmic_regression,
 	  logarithmic_fit): New functions.
 
@@ -1842,7 +1842,7 @@
 
 	* src/workbook.c (workbook_sheet_reorganize): add missing call 
 	  to post_sheet_index_change
-	
+
 2002-09-25  Jody Goldberg <jody@gnome.org>
 
 	* src/expr.c (gnm_expr_is_rangeref) : new.
@@ -3199,7 +3199,7 @@
 2002-08-02  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* samples/simulation.gnumeric: Sample file of simulation.
-	
+
 	* src/workbook-control-gui.c: Added `Risk simulation' tool.
 
 	* src/sheet.h: Added a round variable for risk simulation tool.
@@ -3266,7 +3266,7 @@
 2002-07-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/mathfunc.[ch] (random_gaussian_tail): Added.
-	
+
 2002-07-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/mathfunc.[ch] (random_landau): Added.
@@ -3922,7 +3922,7 @@
 
 	* src/workbook-control-gui.c (workbook_close_if_user_permits) :
 	show "All" buttons only if multiple workbooks are open.
-	
+
 2002-06-13  Jody Goldberg <jody@gnome.org>
 
  	http://bugzilla.gnome.org/show_bug.cgi?id=85181

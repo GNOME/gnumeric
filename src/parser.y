@@ -439,10 +439,10 @@ parser_sheet_by_name (Workbook *wb, GnmExpr *name_expr)
 {
 	char const *name = name_expr->constant.value->v_str.val->str;
 	Sheet *sheet = NULL;
-	
+
 	if (wb == NULL)
 		return NULL;
-	
+
 	sheet = workbook_sheet_by_name (wb, name);
 
 	/* Applix has absolute and relative sheet references */
@@ -1250,7 +1250,7 @@ gnm_expr_parse_str (char const *expr_text, ParsePos const *pos,
 
 	pstate.result = NULL;
 	pstate.error = error;
-	
+
 	if (deallocate_stack == NULL)
 		deallocate_init ();
 

@@ -168,7 +168,7 @@ void
 gnumeric_io_error_display (IOContext *context)
 {
 	CommandContext *cc;
-	
+
 	g_return_if_fail (context != NULL);
 
 	if (context->info != NULL) {
@@ -241,7 +241,7 @@ void
 io_progress_message (IOContext *io_context, const gchar *msg)
 {
 	CommandContext *cc;
-	
+
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 
 	if (io_context->impl)

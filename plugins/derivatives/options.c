@@ -147,7 +147,7 @@ cum_biv_norm_dist(FunctionEvalInfo *ei, Value *argv[])
 static const char *help_cum_biv_norm_dist = {
 	/* xgettext:no-c-format */
 	N_("@FUNCTION=CUM_BIV_NORM_DIST\n"
-	
+
 	   "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
 	   "@DESCRIPTION="
 	   "CUM_BIV_NORM_DIST calculates the cumulative bivariate"
@@ -236,7 +236,7 @@ opt_bs_delta1 (char const* call_put_flag,
 	if (!strcmp(call_put_flag , "c"))
 	{
 		gfresult = (expgnum ((b - r) * t) * calc_N (d1));
-	}	
+	}
 	else if (!strcmp(call_put_flag , "p"))
 		gfresult = (expgnum ((b - r) * t) * (calc_N (d1) - 1));
 	else  gfresult = -123; /*should never get to*/
@@ -732,7 +732,7 @@ opt_french(FunctionEvalInfo *ei, Value *argv[])
 	gnm_float t1 = value_get_as_float(argv[4]);
 	gnm_float r = value_get_as_float(argv[5]);
 	gnm_float v = value_get_as_float(argv[6]);
-	gnm_float b = value_get_as_float(argv[7]);				
+	gnm_float b = value_get_as_float(argv[7]);
 	gnm_float gfresult;
 
 	gfresult = opt_french1(call_put_flag, s, x, t, t1, r, b, v);
@@ -880,7 +880,7 @@ opt_miltersen_schwartz(FunctionEvalInfo *ei, Value *argv[])
 	gnm_float v_e = value_get_as_float(argv[7]);
 	gnm_float v_f = value_get_as_float(argv[8]);
 	gnm_float rho_se = value_get_as_float(argv[9]);
-	gnm_float rho_sf = value_get_as_float(argv[10]);		
+	gnm_float rho_sf = value_get_as_float(argv[10]);
 	gnm_float rho_ef = value_get_as_float(argv[11]);
 	gnm_float kappa_e = value_get_as_float(argv[12]);
 	gnm_float kappa_f = value_get_as_float(argv[13]);

@@ -3493,7 +3493,7 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 				     "Error saving XML");
 	if (gzout)
 		gsf_output_close (gzout);
-	
+
 	xmlFreeDoc (xml);
 }
 

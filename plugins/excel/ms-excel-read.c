@@ -1087,7 +1087,7 @@ excel_read_BOUNDSHEET (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 		if (ver > MS_BIFF_V8)
 			fprintf (stderr,"Unknown BIFF Boundsheet spec. Assuming same as Biff7 FIXME\n");
 		ans->streamStartPos = GSF_LE_GET_GUINT32 (q->non_decrypted_data);
-	
+
 		switch (GSF_LE_GET_GUINT8 (q->data + 4)) {
 		case 0: ans->type = MS_BIFF_TYPE_Worksheet;
 			default_name = _("Sheet%d");
@@ -1226,7 +1226,7 @@ excel_read_FONT (BiffQuery *q, ExcelWorkbook *ewb)
 			fprintf (stderr,"Unknown script %d\n", data);
 			break;
 		}
-	
+
 		data1 = GSF_LE_GET_GUINT8 (q->data + 10);
 		switch (data1) {
 		case 0:
@@ -4454,7 +4454,7 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 	case 3: {
 		guint8 len = GSF_LE_GET_GUINT8 (q->data);
 		char *name;
-		
+
 		/* opencalc screws up its export, overstating
 		 * the length by 1 */
 		if ((unsigned)(len+2) > q->length)
@@ -5144,7 +5144,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		case BIFF_XF:		excel_read_XF (q, ewb, ver->version);		break;
 
 		case BIFF_EXTERNCOUNT:	/* ignore */ break;
-		case BIFF_EXTERNSHEET:	
+		case BIFF_EXTERNSHEET:
 			if (ver->version >= MS_BIFF_V8)
 				excel_read_EXTERNSHEET_v8 (q, ewb);
 			else

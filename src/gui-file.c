@@ -156,7 +156,7 @@ gui_file_open (WorkbookControlGUI *wbcg)
 
 	fo = g_list_nth_data (openers,
 			      gtk_option_menu_get_history (omenu));
-	
+
 	file_name = gtk_file_selection_get_filename (fsel);
 	gui_file_read (wbcg, file_name, fo);
 

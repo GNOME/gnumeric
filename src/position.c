@@ -287,9 +287,9 @@ value_to_rangeref (Value *v, gboolean release)
 
 	if (release)
 		value_release (v);
-	
+
 	return gr;
-	
+
 }
 
 

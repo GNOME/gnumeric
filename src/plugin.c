@@ -565,7 +565,7 @@ get_loader_type_by_id (const gchar *id_str, ErrorInfo **ret_error)
 	if (strcmp (id_str, BUILTIN_LOADER_MODULE_ID) == 0) {
 		return TYPE_GNUMERIC_PLUGIN_LOADER_MODULE;
 	}
-	loader_service = g_hash_table_lookup (loader_services, id_str);	
+	loader_service = g_hash_table_lookup (loader_services, id_str);
 	if (loader_service == NULL) {
 		*ret_error = error_info_new_printf (
 		             _("Unsupported loader type \"%s\"."),
@@ -1423,7 +1423,7 @@ gnumeric_extra_plugin_dirs (void)
 {
 	GSList *extra_dirs;
 	gchar const *plugin_path_env;
-	
+
 	extra_dirs = gnm_app_prefs->plugin_extra_dirs;
 	plugin_path_env = g_getenv ("GNUMERIC_PLUGIN_PATH");
 	if (plugin_path_env != NULL) {

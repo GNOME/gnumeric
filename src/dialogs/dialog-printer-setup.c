@@ -239,7 +239,7 @@ get_printable_height (PrinterSetupState *state)
 	double top = 0, bottom = 0, left = 0, right = 0, height;
 	double header = state->margins.header.value;
 	double footer = state->margins.footer.value;
-	
+
 	print_info_get_margins   (state->pi, &top, &bottom, &left, &right);
 	gnome_print_convert_distance (&header, state->margins.header.unit, GNOME_PRINT_PS_UNIT);
 	gnome_print_convert_distance (&footer, state->margins.footer.unit, GNOME_PRINT_PS_UNIT);
@@ -370,13 +370,13 @@ draw_margin (UnitInfo *uinfo, PrinterSetupState *state)
 		break;
 	case MARGIN_HEADER:
 		value = uinfo->value;
-		gnome_print_convert_distance (&value, gp_unit, GNOME_PRINT_PS_UNIT);		
+		gnome_print_convert_distance (&value, gp_unit, GNOME_PRINT_PS_UNIT);
 		y1 += (uinfo->pi->scale * top + uinfo->pi->scale * value);
 		y2 = y1;
 		break;
 	case MARGIN_FOOTER:
 		value = uinfo->value;
-		gnome_print_convert_distance (&value, gp_unit, GNOME_PRINT_PS_UNIT);		
+		gnome_print_convert_distance (&value, gp_unit, GNOME_PRINT_PS_UNIT);
 		y2 -= (uinfo->pi->scale * bottom + uinfo->pi->scale * value);
 		y1 = y2;
 		break;
@@ -637,7 +637,7 @@ static void
 cb_unit_selector_changed (GnomePrintUnitSelector *sel, PrinterSetupState *state)
 {
 	const GnomePrintUnit *unit;
-	
+
 	g_return_if_fail (state != NULL);
 
 	unit = gnome_print_unit_selector_get_unit (sel);
@@ -1019,7 +1019,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "cancel_button")), "clicked",
 			  G_CALLBACK (hf_customize_cancel), dialog);
 	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "apply_button"), FALSE);
-	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "ok_button"), FALSE);	
+	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "ok_button"), FALSE);
 
 	if (header)
 		g_signal_connect (G_OBJECT (dialog), "destroy", 
@@ -1406,7 +1406,7 @@ print_setup_get_sheet (PrinterSetupState *state)
 	gboolean apply_all_sheets = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	gnm_gconf_set_all_sheets (apply_all_sheets);
-	
+
 	if (apply_all_sheets)
 		return NULL;
 	return workbook_sheet_by_index (state->sheet->workbook, 
@@ -1632,7 +1632,7 @@ do_fetch_page (PrinterSetupState *state)
 							  &width, &height) &&
 	    height > width) {
 		state->pi->orientation = PRINT_ORIENT_VERTICAL;
-	} else 	
+	} else 
 		state->pi->orientation = PRINT_ORIENT_HORIZONTAL;
 
 	w = glade_xml_get_widget (gui, "scale-percent-radio");

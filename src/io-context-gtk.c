@@ -81,7 +81,7 @@ icg_show_gui (IOContextGtk *icg)
 #ifdef HAVE_GDK_SCREEN_GET_MONITOR_GEOMETRY
 	GdkRectangle rect;
 #endif
-	
+
 	box = GTK_BOX (gtk_vbox_new (FALSE, 0));
 	gtk_box_pack_start (box,
 		gnumeric_load_image ("gnumeric_splash.jpg"),
@@ -163,7 +163,7 @@ icg_progress_set (CommandContext *cc, gfloat val)
 
 	if (gnumeric_no_splash)
 		return;
-	
+
 	if (icg->window == NULL) {
 		if (!icg_user_is_impatient (icg)) {
 			icg->progress = val;
@@ -181,7 +181,7 @@ icg_progress_message_set (CommandContext *cc, gchar const *msg)
 
 	if (gnumeric_no_splash)
 		return;
-	
+
 	if (icg->window == NULL) {
 		if (!icg_user_is_impatient (icg)) {
 			g_free (icg->progress_msg);

@@ -563,7 +563,7 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 		(GNUMERIC_EXPR_ENTRY (state->add_entry), state->sheet);
 
 	g_return_if_fail (range_add != NULL && state->sel != NULL);
-	
+
 	value_to_global_range (state->sel, &grange_sort);
 	value_to_global_range (range_add, &grange_add);
 
@@ -580,9 +580,9 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 			end  = intersection.end.row;
 			index = intersection.start.col;
 		}
-		
+
 		for (i = start; i <= end; i++) {
-			
+
 			int item = 0;
 			GtkTreeIter iter;
 			gboolean found = FALSE;
@@ -599,12 +599,12 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 					break;
 				}
 			}
-			
+
 			if (!found) {
 				append_data (state, i, index);
 				break;
 			}
-		}		
+		}
 	}
 
 	if (state->sort_items == 1)

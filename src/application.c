@@ -61,7 +61,7 @@ typedef struct
 	void (*workbook_added)     (GnumericApplication *gnm_app, Workbook *wb);
 	void (*workbook_removed)   (GnumericApplication *gnm_app, Workbook *wb);
 	void (*clipboard_modified) (GnumericApplication *gnm_app);
-	
+
 } GnumericApplicationClass;
 
 static GObjectClass *gnumeric_application_parent_class;
@@ -613,7 +613,7 @@ gnumeric_application_setup_icons (void)
 		add_icon (factory, entry[i].scalable_data,
 			  entry[i].sized_data, entry[i].stock_id);
 	gtk_icon_factory_add_default (factory);
-	g_object_unref (G_OBJECT (factory));	
+	g_object_unref (G_OBJECT (factory));
 }
 
 static void

@@ -298,7 +298,7 @@ simulation_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 				   "equal than the number of the last round.");
 		goto out;
 	}
-		
+
 	current_sim = &sim;
 
 	g_get_current_time (&sim.start);

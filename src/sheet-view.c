@@ -590,7 +590,7 @@ sv_edit_pos_in_filter (SheetView const *sv)
 {
 	GSList *ptr;
 	int row;
-	
+
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
 
 	row = sv->edit_pos.row;

@@ -83,7 +83,7 @@ cb_insert_cell_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	i = gtk_radio_group_get_selected
 		(GTK_RADIO_BUTTON (radio_0)->group);
-	
+
 	cols = state->sel->end.col - state->sel->start.col + 1;
 	rows = state->sel->end.row - state->sel->start.row + 1;
 

@@ -96,7 +96,7 @@ make_bracket (gnumeric_regex_t *preg, GString *dst, char **pp, int mpflags)
 			}
 			if (!ISASCII (c) || !ISASCII (c2)) {
 				res = REG_ERANGE;
-				break;				
+				break;
 			}
 			g_string_append_c (ascii_part, c);
 			g_string_append_c (ascii_part, '-');
@@ -304,7 +304,7 @@ gnumeric_regcomp (gnumeric_regex_t *preg, const char *pattern, int cflags)
 				fprintf (stderr, "  paridx[%d] = %d\n",
 					 (int)i, (int)preg->parens[i]);
 	}
-	
+
 #endif
 
 	res = regcomp (&preg->theregexp, utf8pat->str, cflags);

@@ -501,7 +501,7 @@ wbcg_edit_set_sensitive (WorkbookControl *wbc,
 			 gboolean ok_cancel_flag, gboolean func_guru_flag)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (wbc);
-	
+
 	/* These are only sensitive while editing */
 	gtk_widget_set_sensitive (wbcg->ok_button, ok_cancel_flag);
 	gtk_widget_set_sensitive (wbcg->cancel_button, ok_cancel_flag);
@@ -748,7 +748,7 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 			sheet = workbook_sheet_by_index (wb, i);
 			old_order = g_slist_append (old_order, sheet);
 		}
-	
+
 		/* Make a list of the new order. */
 		new_order = g_slist_copy (old_order);
 		sheet = g_slist_nth_data (new_order, n_source);
@@ -1580,7 +1580,7 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 	if (in_can_close)
 		return FALSE;
 	in_can_close = TRUE;
-	
+
 	if (!ask_user) {
 		done = gui_file_save (wbcg, wb_view);
 		if (done) {
@@ -1591,9 +1591,9 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 	while (workbook_is_dirty (wb) && !done) {
 		GtkWidget *d;
 		char *msg;
-		
+
 		iteration++;
-		
+
 		if (wb->filename) {
 			char *base = g_path_get_basename (wb->filename);
 			msg = g_strdup_printf (
@@ -1602,7 +1602,7 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 			g_free (base);
 		} else
 			msg = g_strdup (_("Workbook has unsaved changes :"));
-		
+
 		d = gtk_message_dialog_new (wbcg_toplevel (wbcg),
 					    GTK_DIALOG_DESTROY_WITH_PARENT,
 					    GTK_MESSAGE_WARNING,
@@ -1623,37 +1623,37 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 							_("Don't Quit"),  GTK_RESPONSE_CANCEL,
 							_("Discard"),	  GTK_RESPONSE_NO,
 							GTK_STOCK_SAVE,   GTK_RESPONSE_YES,
-							NULL);				
+							NULL);
 		} else
 			gtk_dialog_add_buttons (GTK_DIALOG (d), 
 						_("Don't Close"),  GTK_RESPONSE_CANCEL,
 						_("Discard"),	  GTK_RESPONSE_NO,
 						GTK_STOCK_SAVE,   GTK_RESPONSE_YES,
 						NULL);
-		
+
 		gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_YES);
 		button = gnumeric_dialog_run (wbcg, GTK_DIALOG (d));
 		g_free (msg);
-		
+
 		switch (button) {
 		case GTK_RESPONSE_YES: 
 			done = gui_file_save (wbcg, wb_view);
 			break;
-			
+
 		case (- GTK_RESPONSE_YES): 
 			done = gui_file_save (wbcg, wb_view);
 			break;
-			
+
 		case GTK_RESPONSE_NO: 
 			done      = TRUE;
 			workbook_set_dirty (wb, FALSE);
 			break;
-			
+
 		case (- GTK_RESPONSE_NO): 
 			done      = TRUE;
 			workbook_set_dirty (wb, FALSE);
 			break;
-			
+
 		default:  /* CANCEL */
 			can_close = FALSE;
 			done      = TRUE;
@@ -1919,7 +1919,7 @@ cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 		if (wb_control_workbook (wbc) == wb)
 			continue;
 		if (discard_all) {
-			
+
 		} else {
 			wb_view = g_ptr_array_index (wb->wb_views, 0);
 			switch (workbook_close_if_user_permits (wbcg, wb_view, FALSE, 
@@ -2863,7 +2863,7 @@ hide_show_detail_real (WorkbookControlGUI *wbcg, gboolean is_cols, gboolean show
 	char const *operation = show ? _("Show Detail") : _("Hide Detail");
 	Range const *r = selection_first_range (sv, COMMAND_CONTEXT (wbc),
 						operation);
-	
+
 	/* This operation can only be performed on a whole existing group */
 	if (sheet_colrow_can_group (sv_sheet (sv), r, is_cols)) {
 		gnumeric_error_invalid (COMMAND_CONTEXT (wbc), operation,
@@ -2899,7 +2899,7 @@ hide_show_detail (WorkbookControlGUI *wbcg, gboolean show)
 		return;
 	}
 
-	hide_show_detail_real (wbcg, is_cols, show);	
+	hide_show_detail_real (wbcg, is_cols, show);
 }
 
 static void
@@ -4547,7 +4547,7 @@ PangoFontDescription *
 wbcg_get_font_desc (WorkbookControlGUI *wbcg)
 {
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
-	
+
 	if (!wbcg->font_desc) {
 		GtkSettings *settings = wbcg_get_gtk_settings (wbcg);
 		wbcg->font_desc = settings_get_font_desc (settings);
@@ -4711,7 +4711,7 @@ show_gui (WorkbookControlGUI *wbcg)
 #else
 	sx = MAX (gdk_screen_width  (), 600);
 	sy = MAX (gdk_screen_height (), 200);
-#endif	
+#endif
 
 	fx = gnm_app_prefs->horizontal_window_fraction;
 	fy = gnm_app_prefs->vertical_window_fraction;
@@ -4914,7 +4914,7 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 		label = wbcg_get_label_for_position (wbcg, source_widget, x);
 		cb_sheet_label_drag_data_received (label, context, x, y,
 				selection_data, info, time, wbcg);
-		
+
 	} else
 		g_warning ("Unknown target type '%s'!", target_type);
 	g_free (target_type);
@@ -4956,7 +4956,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		{ (char *) "text/uri-list", 0, TARGET_URI_LIST },
 		{ (char *) "GNUMERIC_SHEET", 0, TARGET_SHEET }
 	};
-	
+
 #ifdef WITH_BONOBO
 	BonoboUIContainer *ui_container;
 #endif
@@ -5038,7 +5038,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		workbook_menu_data_filter [0].widget;
 	wbcg->menu_item_filter_show_all =
 		workbook_menu_data_filter [1].widget;
-	
+
 	wbcg->menu_item_sheet_remove =
 		workbook_menu_edit_sheet [3].widget;
 	wbcg->menu_item_sheets_edit_reorder =
@@ -5139,7 +5139,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 
 	wbcg->current_saver = NULL;
 	wbcg->font_desc     = NULL;
-	
+
 #ifdef WITH_BONOBO
 	wbcg->custom_ui_components =
 		g_hash_table_new_full (NULL, NULL, NULL, custom_uic_destroy);

@@ -77,7 +77,7 @@ sheet_object_image_set_crop (SheetObjectImage *soi,
 			     double crop_right, double crop_bottom)
 {
 	g_return_if_fail (IS_SHEET_OBJECT_IMAGE (soi));
-	
+
 	soi->crop_left   = crop_left;
 	soi->crop_top    = crop_top;
 	soi->crop_right  = crop_right;

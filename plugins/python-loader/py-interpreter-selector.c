@@ -52,7 +52,7 @@ static void
 cb_selector_item_activated (GObject *item, GnmPyInterpreterSelector *sel)
 {
 	GnmPyInterpreter *interpreter;
-	
+
 	interpreter = g_object_get_data (item, "py-interpreter");
 	if (interpreter != sel->cur_interpreter) {
 		sel->cur_interpreter = interpreter;

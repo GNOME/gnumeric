@@ -91,12 +91,12 @@ app_cline_entered (GnmPyCommandLine *cline)
 	if (stdout_str != NULL && stdout_str[0] != '\0') {
 		app_text_print (stdout_str, FORMAT_STDOUT,
 		                stdout_str[strlen (stdout_str) - 1] != '\n');
-		g_free (stdout_str);	
+		g_free (stdout_str);
 	}
 	if (stderr_str != NULL && stderr_str[0] != '\0') {
 		app_text_print (stderr_str, FORMAT_STDERR,
 		                stderr_str[strlen (stderr_str) - 1] != '\n');
-		g_free (stderr_str);	
+		g_free (stderr_str);
 	}
 }
 

@@ -1149,7 +1149,7 @@ analysis_tool_descriptive_engine_run (data_analysis_output_t *dao,
         if (info->kth_smallest)
                 kth_smallest (data, info->k_smallest, dao);
 
-	
+
  finish_descriptive_tool:
 
 	destroy_data_set_list (data);
@@ -1956,7 +1956,7 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 	dao_set_cell (dao, 0, 0, "");
 	dao_set_cell (dao, 1, 0, variable_1->label);
 	dao_set_cell (dao, 2, 0, variable_2->label);
-	
+
 	set_cell_text_col (dao, 0, 1, _("/Mean"
 					"/Variance"
 					"/Observations"
@@ -1968,12 +1968,12 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 					"/F Critical left-tail"
 					"/P two-tail"
 					"/F Critical two-tail"));
-	
+
 	mean_error_1 = range_average ((const gnm_float *) variable_1->data->data,
 				      variable_1->data->len, &mean_1);
 	mean_error_2 = range_average ((const gnm_float *) variable_2->data->data,
 				      variable_2->data->len, &mean_2);
-	
+
 	if (mean_error_1 == 0)
 		var_error_1 = range_var_est (
 			(const gnm_float *)variable_1->data->data,
@@ -1982,15 +1982,15 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 		var_error_2 = range_var_est (
 			(const gnm_float *) variable_2->data->data,
 			variable_2->data->len , &var_2);
-	
+
 	df_1 = variable_1->data->len - 1;
 	df_2 = variable_2->data->len - 1;
-	
-	
-	
+
+
+
 	calc_error = !((mean_error_1 == 0) && (mean_error_2 == 0) &&
 		       (var_error_1 == 0) && (var_error_2 == 0) && (var_2 != 0));
-	
+
 	if (!calc_error) {
 		f = var_1/var_2;
 		p_right_tail = pf (f, df_1, df_2, FALSE, FALSE);
@@ -2001,52 +2001,52 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			p_2_tail =  2 * p_right_tail;
 		else
 			p_2_tail =  2 * p_left_tail;
-		
+
 		q_2_tail_left =  qf (info->base.alpha / 2.0, df_1, df_2, TRUE, FALSE);
 		q_2_tail_right  =  qf (info->base.alpha / 2.0, df_1, df_2, FALSE, FALSE);
 	}
-	
+
 	/* Mean */
 	dao_set_cell_float_na (dao, 1, 1, mean_1, mean_error_1 == 0);
 	dao_set_cell_float_na (dao, 2, 1, mean_2, mean_error_2 == 0);
-	
+
 	/* Variance */
 	dao_set_cell_float_na (dao, 1, 2, var_1, (mean_error_1 == 0) && (var_error_1 == 0));
 	dao_set_cell_float_na (dao, 2, 2, var_2, (mean_error_2 == 0) && (var_error_2 == 0));
-	
+
 	/* Observations */
 	dao_set_cell_int (dao, 1, 3, variable_1->data->len);
 	dao_set_cell_int (dao, 2, 3, variable_2->data->len);
-	
+
 	/* df */
 	dao_set_cell_int (dao, 1, 4, df_1);
 	dao_set_cell_int (dao, 2, 4, df_2);
-	
+
 	/* F */
 	dao_set_cell_float_na (dao, 1, 5, f, !calc_error);
-	
+
 	/* P (F<=f) right-tail */
 	dao_set_cell_float_na (dao, 1, 6, p_right_tail, !calc_error);
-	
+
 	/* F Critical right-tail */
 	dao_set_cell_float_na (dao, 1, 7, q_right_tail, !calc_error);
-	
+
 	/* P (F<=f) left-tail */
 	dao_set_cell_float_na (dao, 1, 8, p_left_tail, !calc_error);
-	
+
 	/* F Critical left-tail */
 	dao_set_cell_float_na (dao, 1, 9, q_left_tail, !calc_error);
-	
+
 	/* P (F<=f) two-tail */
 	dao_set_cell_float_na (dao, 1, 10, p_2_tail, !calc_error);
-	
+
 	/* F Critical two-tail */
 	dao_set_cell_float_na (dao, 1, 11, q_2_tail_left, !calc_error);
 	dao_set_cell_float_na (dao, 2, 11, q_2_tail_right, !calc_error);
-	
+
 	dao_set_italic (dao, 0, 0, 0, 11);
 	dao_set_italic (dao, 0, 0, 2, 0);
-	
+
 	destroy_data_set (variable_1);
 	destroy_data_set (variable_2);
 
@@ -2210,14 +2210,14 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 					   "regression.\nThere must be at least as many "
 					   "data points as free variables."));
 			break;
-			
+
 		case REG_near_singular_bad:
 			gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
 					 _("Two or more of the independent variables "
 					   "are nearly linear\ndependent.  All numerical "
 					   "precision was lost in the computation."));
                 break;
-		
+
 		case REG_singular:
 			gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
 					 _("Two or more of the independent variables "
@@ -2225,7 +2225,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 					   "cannot be calculated.\n\nRemove one of these\n"
 					   "variables and try the regression again."));
 			break;
-			
+
 		case REG_invalid_data:
 		case REG_invalid_dimensions:
 			gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
@@ -2395,13 +2395,13 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	destroy_data_set_list (x_data);
 	g_free (xss);
 	g_free (res);
-	
+
 	if (regerr == REG_near_singular_good) 
 		gnumeric_error_calc (COMMAND_CONTEXT (info->base.wbc),
 			_("Two or more of the independent variables "
 			  "are nearly linear\ndependent.  Treat the "
 			  "regression result with great care!"));
-		
+
 	return FALSE;
 }
 
@@ -3069,7 +3069,7 @@ analysis_tool_anova_two_factor_prepare_input_range (
 			info->err = analysis_tools_replication_invalid;
 			return TRUE;
 		}
-		
+
 		/* Check that at least two columns of data are given */
 		if (info->n_c < 2) {
 			info->err = analysis_tools_too_few_cols;
@@ -3080,12 +3080,12 @@ analysis_tool_anova_two_factor_prepare_input_range (
 			info->err = analysis_tools_too_few_rows;
 			return TRUE;
 		}
-		
+
 		if (info->labels) {
 			info->input->v_range.cell.a.row += 1;
 			info->input->v_range.cell.a.col += 1;
 		}
-		
+
 	}
 	return FALSE;
 }

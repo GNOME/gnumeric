@@ -5234,7 +5234,7 @@ function_marshal_arg (FunctionEvalInfo *ei,
 		*type_mismatch = value_new_error (ei->pos,
 						  gnumeric_err_VALUE);
 	}
-	
+
 	if (v->type == VALUE_CELLRANGE) {
 		cellref_make_abs (&v->v_range.cell.a,
 				  &v->v_range.cell.a,
@@ -5243,7 +5243,7 @@ function_marshal_arg (FunctionEvalInfo *ei,
 				  &v->v_range.cell.b,
 				  ei->pos);
 	}
-	
+
 	return v;
 }
 
@@ -5281,7 +5281,7 @@ gnumeric_cronbach (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 	for (i = 0; list; list = list->next, ++i) {
 		Value *type_mismatch;
-		
+
 		values[i] = function_marshal_arg (ei, list->data, &type_mismatch);
 		if (type_mismatch || values[i] == NULL) {
 			free_values (values, i + 1);
@@ -5313,7 +5313,7 @@ gnumeric_cronbach (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 	free_values (values, k);
 	return  value_new_float 
-		(k * (1 - sum_variance / (sum_variance + 2 * sum_covariance)) / (k - 1));	
+		(k * (1 - sum_variance / (sum_variance + 2 * sum_covariance)) / (k - 1));
 }
 
 /***************************************************************************/

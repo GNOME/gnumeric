@@ -257,10 +257,10 @@ typedef struct {
   	GladeXML           *gui;
   	GtkWidget          *dialog;
   	GtkWidget          *label;
-	
+
   	char               *old_label;
   	GtkWidget          *old_focus;
-	
+
   	WorkbookControlGUI *wbcg;
   	SheetWidgetFrame   *swc;
   	Sheet		   *sheet;
@@ -271,19 +271,19 @@ cb_frame_config_destroy (GtkObject *w, FrameConfigState *state)
 {
  	g_return_val_if_fail (w != NULL, FALSE);
  	g_return_val_if_fail (state != NULL, FALSE);
-	
+
  	wbcg_edit_detach_guru (state->wbcg);
-	
+
  	if (state->gui != NULL) {
  		g_object_unref (G_OBJECT (state->gui));
  		state->gui = NULL;
  	}
-	
+
  	g_free (state->old_label);
  	state->old_label = NULL;
  	state->dialog = NULL;
  	g_free (state); 
-	
+
  	return FALSE;
 }
 
@@ -308,7 +308,7 @@ cb_frame_config_cancel_clicked (GtkWidget *button, FrameConfigState *state)
 			(GTK_FRAME(FOO_CANVAS_WIDGET(list->data)->widget), 
 			 state->old_label);
   	}
-  	
+  
   	gtk_widget_destroy (state->dialog);
 }
 
@@ -318,12 +318,12 @@ cb_frame_label_changed(GtkWidget *entry, FrameConfigState *state)
   	GList *list;
   	SheetWidgetFrame *swc;
   	gchar const *text;
-	
+
   	text = gtk_entry_get_text(GTK_ENTRY(entry));
   	swc = state->swc;
   	if (swc->label)
   		g_free(swc->label);
-  	
+  
 	swc->label = g_strdup(text);
   	for (list = swc->sow.parent_object.realized_list; list != NULL; 
 	     list = list->next){
@@ -340,13 +340,13 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
   	WorkbookControlGUI   *wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
   	FrameConfigState *state;
   	GtkWidget *table;
-	
+
   	g_return_if_fail (swc != NULL);
-	
+
   	/* Only pop up one copy per workbook */
   	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
   		return;
-	
+
   	state = g_new (FrameConfigState, 1);
   	state->swc = swc;
   	state->wbcg = wbcg;
@@ -355,22 +355,22 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
   	state->old_label = g_strdup(swc->label);
   	state->gui = gnumeric_glade_xml_new (wbcg, "so-frame.glade");
   	state->dialog = glade_xml_get_widget (state->gui, "so_frame");
-	
+
 	table = glade_xml_get_widget(state->gui, "table");
-	
+
   	state->label = glade_xml_get_widget (state->gui, "entry");
-	
+
   	gtk_entry_set_text (GTK_ENTRY(state->label),swc->label);
 	gtk_editable_select_region (GTK_EDITABLE(state->label),0,-1);
-	
+
   	g_signal_connect (G_OBJECT(state->label),
 			  "changed",
 			  G_CALLBACK (cb_frame_label_changed), state);
-	
+
   	g_signal_connect (G_OBJECT (state->dialog),
 			  "destroy",
 			  G_CALLBACK (cb_frame_config_destroy), state);
-	
+
   	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, 
 							  "ok_button")),
 			  "clicked",
@@ -382,13 +382,13 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
   	gnumeric_init_help_button (
   		glade_xml_get_widget (state->gui, "help_button"),
   		"so-frame.html");
-  	
-	
+  
+
   	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
   			       SHEET_OBJECT_CONFIG_KEY);
-	
+
   	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	
+
   	gtk_widget_show (state->dialog);
 }
 
@@ -842,7 +842,7 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControl *sc)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		"so-scrollbar.html");
-	
+
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
@@ -1155,7 +1155,7 @@ typedef struct {
 	GtkWidget *dialog;
 	GnumericExprEntry *expression;
 	GtkWidget *label;
-	
+
 	char *old_label;
 	GtkWidget *old_focus;
 

@@ -399,7 +399,7 @@ gnumeric_imsec (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_cos (&res, &c);
-	gsl_complex_inverse (&res, &res);	
+	gsl_complex_inverse (&res, &res);
 	return value_new_complex (&res, imunit);
 }
 
@@ -432,7 +432,7 @@ gnumeric_imcsc (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_sin (&res, &c);
-	gsl_complex_inverse (&res, &res);	
+	gsl_complex_inverse (&res, &res);
 	return value_new_complex (&res, imunit);
 }
 
@@ -465,7 +465,7 @@ gnumeric_imcot (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_tan (&res, &c);
-	gsl_complex_inverse (&res, &res);	
+	gsl_complex_inverse (&res, &res);
 	return value_new_complex (&res, imunit);
 }
 

@@ -428,7 +428,7 @@ cb_dialog_graphic_config_cancel_clicked (GtkWidget *button, DialogGraphicData *s
 	sheet_object_graphic_width_set (state->sog, state->width);
 	sheet_object_graphic_fill_color_set (so,
 					     state->fill_color);
-	
+
 	if (state->sog->type == SHEET_OBJECT_ARROW)
 		sheet_object_graphic_abc_set (state->sog,
 					      state->a, state->b, state->c);
@@ -474,7 +474,7 @@ cb_fill_color_changed (ColorCombo *color_combo, GdkColor *color,
 	SheetObject *so = SHEET_OBJECT (state->sog);
 	sheet_object_graphic_fill_color_set (so, color_combo_get_style_color (
 						     state->fill_color_combo));
-	
+
 	foo_canvas_item_set (state->arrow, "fill_color_gdk", color, NULL);
 }
 
@@ -603,7 +603,7 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		(sog->type != SHEET_OBJECT_ARROW) ? "so-line.html" : "so-arrow.html");
-	
+
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
 
@@ -911,7 +911,7 @@ cb_dialog_filled_config_cancel_clicked (GtkWidget *button, DialogFilledData *sta
 					     state->fill_color);
 	sheet_object_filled_outline_color_set (so,
 					       state->outline_color);
-	
+
 	gtk_widget_destroy (state->dialog);
 }
 
@@ -994,7 +994,7 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 			  G_CALLBACK (cb_dialog_filled_config_cancel_clicked), state);
 	gnumeric_init_help_button (glade_xml_get_widget (state->gui, "help_button"),
 				   "so-filled.html");
-	
+
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
 

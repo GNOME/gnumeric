@@ -51,7 +51,7 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 	Workbook        *old_wb;
 
 	g_return_if_fail (data != NULL);
-	g_return_if_fail (IS_WORKBOOK_CONTROL_COMPONENT (data));	
+	g_return_if_fail (IS_WORKBOOK_CONTROL_COMPONENT (data));
 
 	wbc = WORKBOOK_CONTROL (data);
 	wb = wb_control_workbook (wbc);
@@ -66,14 +66,14 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 				     ex_Bonobo_Persist_WrongDataType, NULL);
 	}
 	g_object_unref (G_OBJECT (ioc));
-	if (BONOBO_EX (ev)) {	
+	if (BONOBO_EX (ev)) {
 		return;
 	}
 
 	workbook_set_dirty (wb, FALSE);
-	
+
 	old_wb = wb_control_workbook (wbc);
-	
+
 	if (workbook_is_dirty (old_wb)) {
 		/* No way to interact properly with user */
 		g_warning ("Old workbook has unsaved changes.");
@@ -82,7 +82,7 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 		/* goto exit_error; */
 	}
 	g_object_ref (G_OBJECT (wbc));
-	workbook_unref (old_wb);		
+	workbook_unref (old_wb);
 	workbook_control_set_view (wbc, wb_view, NULL);
 	workbook_control_init_state (wbc);
 	workbook_recalc (wb);

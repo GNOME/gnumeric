@@ -99,7 +99,7 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 		gnm_float thisprob;
 		Cell *cell = sheet_cell_get (range->v_range.cell.a.sheet,
 					     range->v_range.cell.a.col + 1, i);
-		
+
 		if (cell == NULL ||
 		    (v = cell->value) == NULL ||
 		    !VALUE_IS_NUMBER (v)) {
@@ -118,23 +118,23 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 					   "non-negative!"));
 			goto random_tool_discrete_out;
 		}
-		
+
 		cumprob += thisprob;
 		data->cumul_p[j] = cumprob;
-		
+
 		cell = sheet_cell_get (range->v_range.cell.a.sheet,
 				       range->v_range.cell.a.col, i);
-		
+
 		if (cell == NULL || cell->value == NULL) {
 			gnumeric_error_calc (COMMAND_CONTEXT (info->wbc),
 					 _("None of the values in the value "
 					   "range may be empty!"));
 			goto random_tool_discrete_out;
 		}
-		
+
 		data->values[j] = value_duplicate (cell->value);
 	}
-	
+
 	if (cumprob != 0) {
 		/* Rescale... */
 		for (i = 0; i < data->n; i++) {
@@ -164,10 +164,10 @@ tool_random_engine_run_discrete (data_analysis_output_t *dao,
 		for (k = 0; k < info->count; k++) {
 			int j;
 			gnm_float x = random_01 ();
-			
+
 			for (j = 0; data->cumul_p[j] < x; j++)
 				;
-			
+
 			dao_set_cell_value (dao, i, k,
 					    value_duplicate (data->values[j]));
 		}
@@ -190,7 +190,7 @@ tool_random_engine_run_uniform (data_analysis_output_t *dao,
 			dao_set_cell_float (dao, i, n, v);
 		}
 	}
-	
+
 	return FALSE;
 }
 
@@ -210,7 +210,7 @@ tool_random_engine_run_uniform_int (data_analysis_output_t *dao,
 			dao_set_cell_float (dao, i, n, v);
 		}
 	}
-	
+
 	return FALSE;
 }
 
@@ -273,7 +273,7 @@ tool_random_engine_run_binomial (data_analysis_output_t *dao,
 					     param->trials);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -322,7 +322,7 @@ tool_random_engine_run_exponential (data_analysis_output_t *dao,
 			v = random_exponential (param->b);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -338,7 +338,7 @@ tool_random_engine_run_exppow (data_analysis_output_t *dao,
 			v = random_exppow (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -354,7 +354,7 @@ tool_random_engine_run_cauchy (data_analysis_output_t *dao,
 			v = random_cauchy (param->a);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -370,7 +370,7 @@ tool_random_engine_run_chisq (data_analysis_output_t *dao,
 			v = random_chisq (param->nu);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -386,7 +386,7 @@ tool_random_engine_run_pareto (data_analysis_output_t *dao,
 			v = random_pareto (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -402,7 +402,7 @@ tool_random_engine_run_rayleigh (data_analysis_output_t *dao,
 			v = random_rayleigh (param->sigma);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -418,7 +418,7 @@ tool_random_engine_run_rayleigh_tail (data_analysis_output_t *dao,
 			v = random_rayleigh_tail (param->a, param->sigma);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -434,7 +434,7 @@ tool_random_engine_run_levy (data_analysis_output_t *dao,
 			v = random_levy (param->c, param->alpha);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -450,7 +450,7 @@ tool_random_engine_run_fdist (data_analysis_output_t *dao,
 			v = random_fdist (param->nu1, param->nu2);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -466,7 +466,7 @@ tool_random_engine_run_lognormal (data_analysis_output_t *dao,
 			v = random_lognormal (param->zeta, param->sigma);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -482,7 +482,7 @@ tool_random_engine_run_logarithmic (data_analysis_output_t *dao,
 			v = random_logarithmic (param->p);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -498,7 +498,7 @@ tool_random_engine_run_logistic (data_analysis_output_t *dao,
 			v = random_logistic (param->a);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -514,7 +514,7 @@ tool_random_engine_run_tdist (data_analysis_output_t *dao,
 			v = random_tdist (param->nu);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -530,7 +530,7 @@ tool_random_engine_run_gamma (data_analysis_output_t *dao,
 			v = random_gamma (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -546,7 +546,7 @@ tool_random_engine_run_geometric (data_analysis_output_t *dao,
 			v = random_geometric (param->p);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -562,7 +562,7 @@ tool_random_engine_run_weibull (data_analysis_output_t *dao,
 			v = random_weibull (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -578,7 +578,7 @@ tool_random_engine_run_laplace (data_analysis_output_t *dao,
 			v = random_laplace (param->a);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -594,7 +594,7 @@ tool_random_engine_run_gaussian_tail (data_analysis_output_t *dao,
 			v = random_gaussian_tail (param->a, param->sigma);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -609,7 +609,7 @@ tool_random_engine_run_landau (data_analysis_output_t *dao,
 			v = random_landau ();
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -625,7 +625,7 @@ tool_random_engine_run_gumbel1 (data_analysis_output_t *dao,
 			v = random_gumbel1 (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -641,7 +641,7 @@ tool_random_engine_run_gumbel2 (data_analysis_output_t *dao,
 			v = random_gumbel2 (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 		}
-	}	
+	}
 	return FALSE;
 }
 
@@ -765,7 +765,7 @@ tool_random_engine (data_analysis_output_t *dao, gpointer specs,
 		case BinomialDistribution:
 			return tool_random_engine_run_binomial
 			        (dao, specs, &info->param.binomial);
-		case NegativeBinomialDistribution:	
+		case NegativeBinomialDistribution:
 			return tool_random_engine_run_negbinom
 			        (dao, specs, &info->param.negbinom);
 		}

@@ -171,7 +171,7 @@ pln_get_func_table2 (unsigned i)
 	g_return_val_if_fail (0 < i && i < G_N_ELEMENTS (formula2), "ERROR");
 	return formula2 [i];
 }
-		
+
 gboolean
 pln_file_probe (GnumFileOpener const *fo, GsfInput *input,
 		FileProbeLevel pl)

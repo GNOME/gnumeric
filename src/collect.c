@@ -101,12 +101,12 @@ callback_function_collect (EvalPos const *ep, Value *value, void *closure)
 
 	if (!(cl->flags & COLLECT_INFO))
 		return NULL;
-	
+
 	if (cl->count == cl->alloc_count) {
 		cl->alloc_count *= 2;
 		cl->data = g_realloc (cl->data, cl->alloc_count * sizeof (gnm_float));
 	}
-	
+
 	cl->info = g_slist_prepend (cl->info, GUINT_TO_POINTER (cl->count));
 	cl->data[cl->count++] = 0;
 	return NULL;
@@ -381,7 +381,7 @@ float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 		res = value_new_error (ei->pos, func_error);
 	else {
 		gnm_float fres;
-		
+
 		if (missing0 || missing1) {
 			GSList *missing = union_of_int_sets (missing0, missing1);
 			GArray *gval;
@@ -399,7 +399,7 @@ float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 			gval = strip_missing (gval, &missing);
 			vals1 = (gnm_float *)gval->data;
 			g_array_free (gval, FALSE);
-			
+
 			g_slist_free (missing0);
 			g_slist_free (missing1);
 			g_slist_free (missing);

@@ -398,7 +398,7 @@ dialog_tool_init (GenericToolState *state,
 		gnm_expr_entry_set_scg (state->input_entry_2,
 					wbcg_cur_scg (state->wbcg));
 		table = GTK_TABLE (gtk_widget_get_parent (widget));
-		
+
 		this_label_widget = g_list_find_custom
 		  (table->children, widget, (GCompareFunc) dialog_tool_cmp);
 		tchild =  (GtkTableChild *)(this_label_widget->data);
@@ -2000,7 +2000,7 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			value_release (data->y_input);
 		g_free (dao);
 		g_free (data);
-		
+
 	} else
 		gtk_widget_destroy (state->base.dialog);
 

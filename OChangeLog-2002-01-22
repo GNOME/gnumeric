@@ -66,7 +66,7 @@
 	  BONOBO_UI_UNSAFE_VERBs for all analysis tools
 	(cb_tools_data_analysis) : deleted
 	* src/GNOME_Gnumeric.xml : add analysis tools menu items
-	
+
 2002-01-19  Jon K Hellan  <hellan@acm.org>
 
 	* src/datetime.c (datetime_g_free): New function to free
@@ -197,7 +197,7 @@
 	(days_between_dep_basis) : ditto
 	(adjust_dates_basis) : ditto
 	(coupncd) : ditto
-	(couppcd) : ditto	
+	(couppcd) : ditto
 
 2002-01-14  Jody Goldberg <jody@gnome.org>
 
@@ -337,7 +337,7 @@
 	* analysis-tools.h : add autofit_flag to data_analysis_output_t
 	* analysis-tools.c : insert lots of calls to autofit_columns
 	(autofit_columns) : new procedure
-	
+
 2002-01-07  Morten Welinder  <welinder@rentec.com>
 
 	* configure.in: check for ieee754.h
@@ -716,7 +716,7 @@
 	(cb_autofill_scroll) : ditto.
 
 2001-12-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
-	
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=67298
 	* src/commands.c (cmd_paste_copy) : let single merged target behave
 	  like single cell
@@ -944,7 +944,7 @@
 	docs easier/workable.
 
 2001-12-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
-	
+
 	* src/cellspan.c (cellspan_is_empty) : handle empty but defined
 	  cells (#66658)
 	(cell_calc_span) : don't span empty cells (#66658)

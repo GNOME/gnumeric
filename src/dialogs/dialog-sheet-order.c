@@ -62,7 +62,7 @@ typedef struct {
 	GtkWidget *ccombo_fore;
 
 	GdkPixbuf *image_padlock;
-	GdkPixbuf *image_padlock_no;	
+	GdkPixbuf *image_padlock_no;
 
 	gboolean initial_colors_set;
 	GSList *old_order;
@@ -93,10 +93,10 @@ cb_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 	GtkTreePath *path;
 
 	path = gtk_tree_path_new_from_string (path_string);
-	
+
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), &iter, path);
 	gtk_list_store_set (state->model, &iter, SHEET_NEW_NAME, new_text, -1);
-	
+
 	gtk_tree_path_free (path);
 }
 
@@ -106,7 +106,7 @@ location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
 	Sheet *sheet, *this_sheet;
 	GtkTreeIter this_iter;
 	gint n = 0;
-	
+
 	gtk_tree_model_get (GTK_TREE_MODEL (model), iter, SHEET_POINTER, &sheet, -1);
 
 	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (model),
@@ -259,7 +259,7 @@ populate_sheet_list (SheetManager *state)
 	state->model = gtk_list_store_new (NUM_COLMNS, 
 					   G_TYPE_BOOLEAN,
 					   GDK_TYPE_PIXBUF,
-					   G_TYPE_STRING, 	
+					   G_TYPE_STRING, 
 					   G_TYPE_STRING, 
 					   G_TYPE_POINTER, 
 					   G_TYPE_BOOLEAN, 
@@ -275,7 +275,7 @@ populate_sheet_list (SheetManager *state)
 			wb_control_workbook (WORKBOOK_CONTROL (state->wbcg)), i);
 		GdkColor *color = NULL;
 		GdkColor *text_color = NULL;
-		
+
 		if (sheet->tab_color)
 			color = &sheet->tab_color->color;
 		if (sheet->tab_text_color)
@@ -568,7 +568,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 				    -1);
 		if (!is_deleted) {
 			new_order = g_slist_prepend (new_order, this_sheet);
-			
+
 			if (this_sheet == NULL || 
 			    (strlen (new_name) > 0 && strcmp (old_name, new_name))) {
 				changed_names = g_slist_prepend (changed_names, this_sheet);
@@ -607,7 +607,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 							     GINT_TO_POINTER (is_locked));
 			}
 		} else
-			deleted_sheets = g_slist_prepend (deleted_sheets, this_sheet);	
+			deleted_sheets = g_slist_prepend (deleted_sheets, this_sheet);
 		n++;
 	}
 
@@ -622,7 +622,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	new_names = g_slist_reverse (new_names);
 	changed_names = g_slist_reverse (changed_names);
 	old_order = g_slist_copy (state->old_order);
-	
+
 	if ((new_order == NULL) || (deleted_sheets && 
 	    !gnumeric_dialog_question_yes_no (state->wbcg,
 					      _("Deletion of sheets is not undoable. "
@@ -630,7 +630,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 		if (new_order == NULL)
 			gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, 
 					 _("You may not delete all sheets in a workbook!"));
-		
+
 		/* clean-up */
 		g_slist_free (deleted_sheets);
 		deleted_sheets = NULL;
@@ -699,7 +699,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 		g_signal_handler_unblock (G_OBJECT (wb),
 					  state->sheet_order_changed_listener);
 	}
-	
+
 	if (deleted_sheets) {
 		g_slist_foreach (deleted_sheets, cb_delete_sheets, NULL);
 		g_slist_free (deleted_sheets);

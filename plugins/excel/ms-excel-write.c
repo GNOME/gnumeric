@@ -1640,7 +1640,7 @@ style_color_to_pal_index (StyleColor *color, ExcelWriteState *ewb,
 			  StyleColor *auto_back, StyleColor *auto_font)
 {
 	guint16 idx;
-	
+
 	if (color->is_auto) {
 		if (color == auto_back)
 			idx = PALETTE_AUTO_BACK;

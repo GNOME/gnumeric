@@ -74,7 +74,7 @@
 	(setup_scale): Idem.
 	(print_page): Idem.
 	(compute_group): Idem.
-	
+
 2001-06-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/number-match.c (compute_value) : parse 12:xx am correctly.
@@ -105,7 +105,7 @@
  	* src/item-cursor.c (item_cursor_tip_setstatus): New function.
  	(cb_move_cursor): Call item_cursor_tip_setstatus.
  	(item_cursor_do_drop): Clear the status text.
-	
+
 2001-06-19  Morten Welinder  <terra@diku.dk>
 
 	* configure.in: Add derivatives plugin.
@@ -300,7 +300,7 @@
 
 	* src/workbook-control-gui-priv.h: Add consolidation
 	menu item.
-	
+
 	* src/workbook-control-gui.c (wbcg_menu_state_update): Add
 	consolidation menu item.
 	(workbook_control_gui_init): Initialize consolidation
@@ -320,12 +320,12 @@
 	(global_range_dup): Idem.
 
 	* src/sheet.[ch] (sheet_cell_get_value): New function.
-	
+
 	* src/workbook-control-gui.c (cb_data_consolidate) :
 	Entry point for the data consolidation dialog.
-	
+
 	* src/GNOME_Gnumeric.xml : Add consolidate menu item.
-	
+
 	* src/commands.c (cmd_consolidate) : Undo/redo for consolidate.
 	(cmd_consolidate_destroy) : Idem.
 	(cmd_consolidate_redo) : Idem.
@@ -414,7 +414,7 @@
 
 	* src/gui-clipboard.c (x_selection_to_cell_region):
 	Constify return variable from stf_parse_is_valid_data.
-	
+
 2001-06-04  Zbigniew Chyla  <cyba@gnome.pl>
 
 	Displaying a question dialog if the user wants to export workbook
@@ -507,7 +507,7 @@
 	(stf_parse_csv_cell): Idem.
 	(stf_parse_get_colcount): Idem.
 	(stf_parse_get_colwidth): Idem.
-	
+
 2001-06-03  Morten Welinder  <terra@diku.dk>
 
 	* src/func.c (function_add_args): Do arg type checking here.
@@ -630,7 +630,7 @@
  	(sheet_col_row_set_outline_level): Deprecated, remove.
  
  	* src/colrow.[ch] (colrow_set_outline): Set outline on a col/row.
- 	
+ 
   	* src/GNOME_Gnumeric.xml: DataOutlineUnGroup change to
   	DataOutlineUngroup.
 
@@ -787,7 +787,7 @@
 
 	* src/selection.c: Use sc_redraw_cell_region, sc_redraw_headers
 	instead of scg methods.
-	
+
 	* src/sheet.c (sheet_unant): Use sc_unant instead o scg_unant.
 	(sheet_ant): Use sc_ant instead of scg_ant.
 	(sheet_redraw_all): Use sc_redraw_all instead of scg_redraw_all.
@@ -822,7 +822,7 @@
 
 	* src/workbook.c (workbook_sheet_detach): Use sc_mode_edit instead
 	of scg_mode_edit.
-	
+
 	* src/embeddable-grid.h: Include sheet-control-gui-priv.h instead
 	of sheet-control-gui.h.
 
@@ -835,11 +835,11 @@
         - sheet now lives in SheetControl.
 
 	* src/item-bar.c: Ditto.
-	
+
 	* src/item-cursor.c: Ditto.
-	
+
 	* src/item-edit.c: Ditto.
-	
+
 	* src/item-grid.c: Ditto.
 
 	* src/sheet-object-cell-comment.c: Ditto.
@@ -1276,7 +1276,7 @@
 
 	* src/workbook-edit.c (workbook_edit_toolbars_set_sensitive): Use 
 	wbcg->toolbar_is_sensitive instead of static is_sensitive.
-	
+
 2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
 
 	Cleaned up file i/o interface.
@@ -1371,7 +1371,7 @@
 	s/FileOpener/GnumFileOpener/
 	(struct _PluginServiceFileSaver):
 	s/FileSaver/GnumFileSaver/
-	
+
 	* src/plugin-loader-module.c
 	(struct ServiceLoaderDataFileOpener, struct ServiceLoaderDataFileSaver),
 	gnumeric_plugin_loader_module_func_file_probe,
@@ -1619,7 +1619,7 @@
 2001-05-14  Almer S. Tigelaar  <almer@gnome.org>
 
 	* configure.in: Bump GAL version requirement to 0.7.99.5
-	
+
   	* src/workbook-format-toolbar.c (cb_back_color_changed): Add
   	by_user flag handling and sync the combo's on all other views
  	if the color changes.
@@ -1658,7 +1658,7 @@
 
 	* src/commands.c (cmd_resize_colrow): Correct descriptor
 	for autofitting.
-	
+
 2001-05-13  Jody Goldberg <jgoldberg@home.com>
 
 	* src/clipboard.c (clipboard_paste_region) : Use the new CLEAR_NORESPAN
@@ -1867,24 +1867,24 @@
 
 	* src/workbook-control-gui-priv.h: Add show/hide detail menu items
 	and tidy structure lay-out.
-	
+
 	* src/workbook-control-priv.h: Remove menu_state_enable_insert
 	and menu_state_paste_special callbacks and add menu_state_update
 	callback.
-	
+
 	* src/workbook-control.[ch]: Add wb_menu_state_update and
 	remove wb_menu_state_paste_special and wb_menu_state_enable_insert.
 	(wb_control_sheet_add): call wb_menu_state_update, Remove
 	call to menu_state_paste_special.
 
 	* src/sheet-private.h: Add enable_showhide_detail.
-	
+
 	* src/sheet.c (sheet_new): Initialize menu state booleans.
 	(sheet_menu_state_enable_insert): Use wb_control_menu_state_update.
-	
+
 	* src/workbook-view.c (wb_view_menus_update): Idem and
 	remove call to wb_control_menu_state_paste_special.
-	
+
 	* src/application.c (application_clipboard_clear): Idem.
 	(application_clipboard_copy): Idem.
 	(application_clipboard_cut): Idem.
@@ -2383,7 +2383,7 @@
 
  	* src/sheet-object-widget.c (sheet_widget_checkbox_user_config):
 	Ditto.
-	
+
 2001-05-02  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/workbook-edit.c (cb_thaw_ui_toolbar): Callback timer

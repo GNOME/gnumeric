@@ -791,7 +791,7 @@ dialog_random_tool_init (RandomToolState *state)
 
 	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (state->distribution_combo)->entry),
 			   _(distribution_strs[dist_str_no].name));
-	
+
 	ds = distribution_strs_find (UniformDistribution);
 	(void) gtk_label_parse_uline (GTK_LABEL (state->par1_label), _(ds->label1));
 

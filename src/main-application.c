@@ -195,7 +195,7 @@ main (int argc, char *argv [])
 			if (wbv != NULL) {
 				workbook_control_gui_new (wbv, NULL);
   				opened_workbook = TRUE;
-			}			
+			}
 			/* cheesy attempt to keep the ui from freezing during
 			   load */
 			handle_paint_events ();
@@ -203,7 +203,7 @@ main (int argc, char *argv [])
 	}
 	/* FIXME: May be we should quit here if we were asked to open
 	   files and failed to do so. */
-	
+
 	/* If we were intentionally short circuited exit now */
 	if (!initial_workbook_open_complete && !immediate_exit_flag) {
 		initial_workbook_open_complete = TRUE;
@@ -215,7 +215,7 @@ main (int argc, char *argv [])
 			/* cheesy attempt to keep the ui from freezing during load */
 			handle_paint_events ();
 		}
-		
+
 		warn_about_ancient_gnumerics (g_get_prgname(), ioc);
 		g_object_unref (ioc);
 		gtk_main ();

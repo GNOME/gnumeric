@@ -28,7 +28,7 @@
 	* src/pixmaps/object.xpm: More Modern Art work from Miguel, this
 	image represents an object.  The object has suffered a lot and is
 	in pain as you can see by the colors chosen by the artist.
-	
+
 2000-02-24  Michael Meeks  <michael@helixcode.com>
 
 	* src/plugin.c (plugin_close): expand.
@@ -38,7 +38,7 @@
 	* src/widgets/widget-color-combo.[ch]:
 	In function color_table_construct() - moved tool_tip in order to
 	plug memory leak(called gtk_tooltips_new() too many times)
-	
+
 	* src/functions/fn-database.c (gnumeric_daverage): add error for
 	-'ive count
 
@@ -59,7 +59,7 @@
 	   plugin_data_get_descr()
 	   plugin_data_set_private_data()
 	   plugin_data_get_private_data()
-	
+
 	* plugins/dif/dif.c
 	* plugins/ff-csv/csv-io.c
 	* plugins/ff-stf/stf.c
@@ -77,7 +77,7 @@
 	They all call plugin_data_init() now
 	Changed the respective cleanup functions to not g_free() the title or
 	descriptions
-	
+
 	* plugins/gb/plugin.c: in addition to the above statement, I changed
 	cleanup() and init_plugin() to use plugin_data_[get|set]_private_data
 
@@ -126,7 +126,7 @@
 	* src/dialog-autocorrect.c: Make array static
 
 2000-02-23  Michael Meeks  <michael@helixcode.com>
-	
+
 	* configure.in (GB_LIBS): bump gb ver. check.
 
 2000-02-21  Michael Meeks  <michael@helixcode.com>
@@ -144,7 +144,7 @@
 	(constr_change_click): Make <Ret> in entry fields invoke default.
 
 	* src/dialogs/solver.glade: Make more room for constraint list title.
-	
+
 	* src/dialogs/solver.glade,
 	src/dialogs/solver.glade.h: Accelerators.
 
@@ -231,7 +231,7 @@
 	* src/stf-parse.c
 	(stf_parse_get_colcount) : last line wasn't counted
 	(stf_parse_get_colwidth) : idem
-	
+
 	* src/stf.h :
 	Removed obsoleted FileSource_t struct type definition.
 
@@ -277,7 +277,7 @@
 	requested by miguel 
 
 	(hello fellow finn below btw :)
-	
+
 2000-02-20  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/mathfunc.c: Implemented Affine Scaling algorithm for the
@@ -287,7 +287,7 @@
 	instead of the simplex.  Beautified the generated reports.
 
 	* src/solver.h: Renamed some of the Solver constants.
-	
+
 	* src/analysis-tools.h: New file.  Moved stuff from
 	src/dialog/dialogs.h.
 
@@ -339,13 +339,13 @@
 
 	* src/dialogs/dialog-analysis-tools.c: Made the cancel operation
 	of a tool to return the tool selection.
-	
+
 2000-02-19  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialogs/analysis-tools.glade,
 	src/dialogs/dialog-analysis-tools.c: Implemented Glade dialogs for
 	Anova two-single factor and Moving average tools.
-	
+
 2000-02-18  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* /src/dialogs/dialog-stf.glade :
@@ -360,16 +360,16 @@
 	* src/dialogs/analysis-tools.glade,
 	src/dialogs/dialog-analysis-tools.c: Implemented Glade dialog for
 	Anova single factor tool.
-	
+
 2000-02-18  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	What follows is the Changelog entry for the new STF that miguel
 	commited.
-	
+
 	The original STF Plug-in has been removed and is now merged
 	with the Gnumeric main sources.
 	Numerous bug fixes have been made, the major ones :
-	
+
 	* stf-util.c, stf-util.h :
 	Obsoleted, merged with dialog_stf.[ch]
 
@@ -387,7 +387,7 @@
 	* dialog-stf-main-page.c
 	Now allows you to select both the line to start _and_ the line to stop
 	importing.
-	
+
 	* dialog-stf-fixed-page.c :
 	Apart from some minor bug fixes you can now also use the mouse
 	to interactively create, delete and resize columns.
@@ -398,10 +398,10 @@
 
 	* dialog-stf-preview.c, dialog-stf-preview.h :
 	Completely revised preview rendering, lots of changes.
-	
+
 	* dialog-stf.glade :
 	More descriptive hints on each page
-	
+
 	Now some integration changes :
 
 	* main.c
@@ -414,7 +414,7 @@
 	modified (x_selection_to_cell_region) to use the STF stuff instead
 	of the previous 'based-on-assumptions' approach.
 	->by request from Jody Goldberg
-	
+
 2000-02-18  Jody Goldberg <jgoldberg@home.com>
 
 	* src/widgets/widget-color-combo.c (color_combo_construct) : typo.
@@ -426,7 +426,7 @@
 	* src/widgets/widget-color-combo.[ch]
 	Changed the code some to enable tooltips
 	Minor api changes
-	
+
 2000-02-18  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-view.c : Add history.h.
@@ -650,7 +650,7 @@
 2000-02-14  Jon K Hellan  <hellan@acm.org>
 
         * src/dialogs/import.glade: Add scrolled window
-	
+
 	* src/file.c (workbook_read, workbook_import, workbook_save_as,
 	workbook_save): Use error message template.
 
@@ -660,7 +660,7 @@
 	"message".
 	(command_context_push_template, command_context_pop_template):
 	Declare. 
-	
+
 	* src/command-context.c (command_context_push_template): New
 	function. Push a printf template for error messages to stack.
 	(command_context_pop_template): New function. Pop current template
@@ -673,7 +673,7 @@
 	* src/command-context-corba.c (ccc_error_plugin_problem,
 	ccc_error_read, ccc_error_save): Call message parameter
 	"message". 
-	
+
 	* src/command-context-gui.c (ccg_error_plugin_problem,
 	ccg_error_read, ccg_error_save): Ditto.
 
@@ -691,7 +691,7 @@
 	* src/dialogs/analysis-tools.glade, src/analysis-tools.c,
  	src/dialogs/dialog-analysis-tools.c: Implemented Glade dialogs for
  	Correlation, Covariance, and F-Test tools.
-	
+
 2000-02-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-bar.c (item_bar_event) : Handle rename from
@@ -756,7 +756,7 @@
 	* src/widgets/widget-color-combo.c (color_combo_construct):
 	Acknowledge the GNOME user settings for the combo box button.
 	Same for the button we create.
-	
+
 	* src/workbook.c (workbook_create_standard_toobar): ditto.
 
 2000-02-13  Jody Goldberg <jgoldberg@home.com>
@@ -1088,7 +1088,7 @@
 2000-02-05  JP Rosevear  <jpr@arcavia.com>
 
 	* src/commands.h : Fix typo
-	
+
 2000-02-05  JP Rosevear  <jpr@arcavia.com>
 
 	* doc/pref-attributes.txt : Start sorting excel attributes into
@@ -1161,7 +1161,7 @@
 
 	* src/solver-lp.c: Implemented `Sensitivity Report' for Solver
  	tool.  Not complete though.
-	
+
 2000-02-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell.c (cell_set_text) : Fix thinko.  We are assigning to the
@@ -1187,7 +1187,7 @@
 
 	* src/solver-lp.c, src/solver.h: Implemented `Answer' report
  	generation for Solver.
-	
+
 2000-02-02  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialogs/dialog-autocorrect.c: Killed bug #5719.
@@ -1270,7 +1270,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* configure.in: AM_GNU_GETTEXT changed to AM_GNOME_GETTEXT - that
 	makes proper substitution for INTLLIBS variable.
-	
+
 2000-01-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-sheet.h (gnumeric_sheet_stop_cell_selection) : Remove
@@ -1338,7 +1338,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/file.h (FileFormatOpen, FileFormatSave, workbook_load_from,
 	workbook_import): Add CommandContext
 	(FileFormatOpen, workbook_load_from): Return int instead of char*.
-	
+
 	* src/file.c (workbook_load_from, workbook_try_read,
 	workbook_read, workbook_import, workbook_save_as, workbook_save)
 	(file_error_message): Remove function
@@ -1416,7 +1416,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* plugins/Makefile.am: add gb.
 
 	* configure.in: ditto.
-	
+
 2000-01-28  Jon K Hellan  <hellan@acm.org>
 
 	* src/gnumeric-util.c (gnumeric_dialog_run): Handle wb = NULL
@@ -1456,7 +1456,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/dialog-advanced-filter.c, src/func.h, src/workbook.c:
 	Implemented `Advanced Filter'.
-	
+
 	* src/mathfuns.[ch], src/analysis-tools.c, src/dialogs/dialogs.h,
  	src/dialogs/dialog-analysis-tools.c: Added the following
  	distributions for the random number generation tool:
@@ -1504,7 +1504,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	drawable.  Avoid guint16 overflow during line drawing. Do the
 	right thing when autofill handle is at top of viewport.
 	Use explicit lower right coordinate for cursor.
-	
+
 2000-01-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-view.c (sheet_view_set_zoom_factor) : Keep the cursor in
@@ -1537,12 +1537,12 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/dialogs/advanced-filter.glade,
  	src/dialogs/dialog-advanced-filter.c: New files added.  Not done
  	yet.
-	
+
 2000-01-25  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialogs/dialog-autocorrect.c (dialog_autocorrect): Made the
  	unimplemented replace option unsensitive.
-	
+
 2000-01-25  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/workbook.[ch]: Made workbook_is_dirty() public.
@@ -1569,7 +1569,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* ChangeLog: I jumbled the order and attributions of some entries
 	yesterday. Fix.
-	
+
 2000-01-24  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialogs/analysis-tools.glade, src/dialogs/Makefile.am: New
@@ -1587,17 +1587,17 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/sheet.c (sheet_new): Added setting some default parameter
  	values for the Solver tool.
-	
+
 2000-01-23  Miguel de Icaza   <miguel@gnu.org>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Handle
 	GDK_ISO_Left_Tab and GDK_KP_Tab as well, per Chris' suggestion. 
 
 2000-01-23  Jon K Hellan  <hellan@acm.org>
-	
+
 	* src/dialogs/autosave-prompt.glade: Give "Yes"
 	button initial keyboard focus.
-	
+
 	* src/dialogs/autosave.glade: Set initial focus to
 	first check button. Make OK the default.
 
@@ -1811,7 +1811,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/dialogs/dialog-printer-setup.c (do_setup_main_dialog): 
 	Set Initial focus for print setup dialog.
-	
+
 	* src/workbook.c (workbook_can_close): Yes/No dialog: Give cancel
 	button initial keyboard focus.
 
@@ -1849,7 +1849,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	Takes the quicksort function to call as an argument.
 
 	* src/sort.h : New header file
-	
+
 	* src/ranges.h: Prototype range_name.
 
 	* src/ranges.c (range_name): New function that returns a 
@@ -1973,7 +1973,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/dialogs/autocorrect-exceptions.glade: Changed a list to a
  	columned list.
-	
+
 2000-01-18  Jody Goldberg <jgoldberg@home.com>
 
 	* src/clipboard.c (x_selection_handler) : Add some preconditions to
@@ -2131,7 +2131,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 2000-01-16  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* samples/*.xls: Moved to samples/excel.
-	
+
 	* samples/statfuns.xls: Updated the LINEST test.
 
 	* samples/excel: Created a new directory for XL samples.
@@ -2242,7 +2242,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* workbook.c: Created `Data' menu and moved `Sort' into it.
   	Added `AutoCorrect' tool.
-	
+
 2000-01-14  Daniel Veillard <Daniel.Veillard@w3.org>
 
 	* src/xml-io.c (xml_probe) made the routine silent
@@ -2274,7 +2274,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 2000-01-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/workbook.c, src/dialogs/dialog-autosave.c: Killed warnings.
-	
+
 2000-01-13  Jody Goldberg <jgoldberg@home.com>
 
 	* *.[ch] : eval_expr now takes an EvalPosition rather than a FunctionEvalInfo.
@@ -2301,7 +2301,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/dialogs/autosave-prompt.glade: New file.
 
 	* src/workbook.c: Added Autosave tool.
-	
+
 	* src/workbook.h: Added autosave paramters to the Workbook struct.
 
 	* src/dialog-solver: Fixed a constraint delete bug.
@@ -2756,19 +2756,19 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	(workbook_new): initialize the display formulas option
 
 	* src/cell.c (cell_render_value): implemented displaying formulas
-	
+
 2000-01-02  Martin Sheppard <martin.sheppard@iname.com>
 
 	* src/parser.{c,y} (yylex) : fixed so that while parsing a formula,
 	a quoted function is convered to a string token rather than a 
 	function call token. i.e. so that things like "sin" work properly in 
 	formulas.
-	
+
 2000-01-03  Martin Sheppard <martin.sheppard@iname.com>
 
 	* src/expr.c (strescape) : new function to escape strings
 	(do_expr_decode_tree) : fixed so strings are escaped properly
-	
+
 2000-01-03  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/gnumeric-sheet.c (move_cursor): Fixed the annoying flashing
@@ -2865,7 +2865,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Use
 	application_clipboar_unant here. 
 	(gnumeric_sheet_key_mode_object): ditto.
-	
+
 	* src/sheet.c (sheet_start_editing_at_cursor): ditto.
 
 	* src/workbook-format-toolbar.c (change_selection_font): ditto
@@ -2932,7 +2932,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/utils.c (parse_cell_name_list): Bug fix.  The last item on
  	the list was not included on the list.
-	
+
 1999-12-30  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/gnumeric-type-util.h (GNUMERIC_MAKE_TYPE): New macro, copied
@@ -3037,7 +3037,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	      libgnum_<name>.so
 	  to avoid problems like the python plugin 'libpython.so'
 	  depending on the python libraries with the same name.
-	
+
 	* src/cell.c (cell_get_formatted_val) : Make public.
 
 1999-12-23  JP Rosevear  <jpr@arcavia.com>
@@ -3197,7 +3197,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/dialogs/print.glade.h: Added xgettext:no-c-format in
 	comment to please msgfmt.
-	
+
 1999-12-18  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-financial.c (gnumeric_tbilleq,
@@ -3291,7 +3291,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/file.c: privatized fileopener filesaver.
 
 	* src/file.h:  ditto
-	
+
 1999-12-15  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/workbook.c (workbook_bonobo_setup): kill goadid.
@@ -3490,7 +3490,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-12-08  Yuri Syrota  <rasta@renome.rovno.ua>
 
 	* configure.in (ALL_LINGUAS): Added "uk".
-	
+
 1999-12-08  Jon K Hellan <hellan@acm.org>
 
 	* src/workbook.c (workbook_is_pristine): fix boneheaded
@@ -3554,7 +3554,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	(cell_ref_make_absolute): make args more convenient.
 
 	* Makefile.am: Kill dump.[ch]
-	
+
 	* src/dump.[ch]: kill + move to
 
 	* src/func.c: (function_dump_defs).
@@ -3588,7 +3588,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-12-05  Ariel Rios <jarios@usa.net>
 
 	* plugins/guile/Makefile.am: Modified to include functions.scm
-	
+
 	* plugins/guile/gnumeric_startup.scm: We now load the scheme
           functions from the new file functions.scm
 
@@ -3844,7 +3844,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	not cols->default_style.
 
 1999-11-18  Michael Meeks  <mmeeks@gnu.org>
-	
+
 	* src/dialogs/Makefile.am (glade_msgs): Add cell-sort.glade.h
 
 1999-11-18  Miguel de Icaza  <miguel@gnu.org>
@@ -3895,7 +3895,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/mstyle.c: Define mstyle properly;  Kill MSTYLE_ELEMENTS
 	macro.  
 	Kill PrivateStyle.
-	(mstyle_copy): Use sensible names;	
+	(mstyle_copy): Use sensible names;
 	(mstyle_set_format): Implement.
 	Renamed all variables called "st" to "style".
 
@@ -3947,7 +3947,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/functions/fn-financial.c: Implemented IRR and XIRR
  	functions.
-	
+
 1999-11-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-cell-format.c (draw_format_preview) :
@@ -3974,7 +3974,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/xml-io.c (xml_write_styles): Ignore last 'full sheet' style
 	region on save.
-	
+
 1999-11-14  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/cell.c (cell_set_formula): Fixup for premature array formulae.
@@ -4100,7 +4100,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	  Make decimals spinbutton focus target for "decimal places" label.
 	  format_negative_scroll: Set vscrollbar_policy to GTK_POLICY_AUTOMATIC.
 	  format_list_scroll: Set hscrollbar_policy to GTK_POLICY_NEVER.
-	
+
 	* src/dialogs/dialog-cell-format.c:  
 	  Change spelling from "seperator" to "separator".
 	(fmt_dialog_init_format_page):
@@ -4141,7 +4141,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	unant.
 
 1999-11-11  Michael Meeks  <mmeeks@gnu.org>
-	
+
 	* src/mstyle.c (mstyle_new_default): Revert removal of
 	default_mstyle patch.
 
@@ -4319,14 +4319,14 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/mstyle.c (mstyle_element_dump): fixup for NULL borders.
 
 1999-11-08  Frank Chiulli <fchiulli@home.com>
-	
+
 	* src/summary.c : Added new strings to summary_item_name to reflect all
 	  the fields/items in SummaryInformation and DocumentSummaryInformation.
 
 	* src/summary.c (summary_item_new_boolean) : New function.
-	
+
 	* src/summary.c (summary_item_new_short) : New function.
-	
+
 	* src/summary.c (summary_item_as_text) : Now processes the new summary 
 	  types (SUMMARY_BOOLEAN, SUMMARY_SHORT, SUMMARY_TIME).
 
@@ -4561,7 +4561,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/expr.c (eval_expr_real): Removed cell->parsed_node &&
 	(cell->flags & CELL_QUEUED_FOR_RECALC)) from condition.
-	
+
 	* src/func.c (iterate_cellrange_callback): ditto.
 
 1999-11-02  Miguel de Icaza  <miguel@gnu.org>
@@ -4844,7 +4844,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/dialogs/dialog-cell-format.c (create_background_radio): Make
 	pattern selector global.
-	
+
 1999-10-27  Morten Welinder  <terra@diku.dk>
 
 	* src/xml-io.c (xml_probe): Improve message when probing fails.
@@ -4886,7 +4886,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/regression.[ch], src/functions/fn-stat.c: Started adding the
  	extra statistical output for LINEST and LOGEST.
-	
+
 	* src/functions/fn-database.c: Started the implementation of
  	GETPIVOTDATA.
 
@@ -4960,7 +4960,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
  	and each row in criteria matches in boolean OR relation with the
  	given database.  Fixed the non-numeric return values of DGET.
   	Documentation improvements.
-	
+
 	* src/func.h (func_criteria_t): Added column field.
 
 1999-10-24  Miguel de Icaza  <miguel@gnu.org>
@@ -5698,7 +5698,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	moved.
 
 	* src/dialogs/dialog-solver.c (add_strings_to_glist): moved.
-	
+
 	* src/dialogs/utils-dialog.[ch]: Added.
 
 	* src/dialogs/Makefile.am: ditto.
@@ -5829,7 +5829,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/xml-io.c (xml_workbook_write, xml_workbook_read): ditto.
 
 	* src/sheet.h: move range dependant Style bits here + include glib.h
-	
+
 	* src/style.h: Split typedefs from enum's & structs 
 
 1999-09-27  Michael Meeks  <michael@nuclecu.unam.mx>
@@ -6029,7 +6029,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	definition here. 
 
 	* src/Gnumeric.idl: Add new interface for data access.
-	
+
 	* src/value-sheet.c: New file.  Moved here the value code that
 	uses a Sheet directly.
 	(value_dump): moved here.
@@ -6218,7 +6218,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-10-11  Michael Meeks  <mmeeks@gnu.org>
 
 	* gnumeric.desktop: remove, its auto-generated.
-	
+
 1999-10-11  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/Gnumeric.idl: Add a variable name for datanotify so it compiles!
@@ -6448,7 +6448,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	definition here. 
 
 	* src/Gnumeric.idl: Add new interface for data access.
-	
+
 	* src/value-sheet.c: New file.  Moved here the value code that
 	uses a Sheet directly.
 	(value_dump): moved here.
@@ -6612,7 +6612,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	from being included if we dont have Bonobo.  
 
 	* src/Makefile.am: reverted changes from the libole2 code.
-	
+
 1999-09-26  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/Makefile.am (gnumeric_libs): Fix so gnumeric compiles.
@@ -6644,7 +6644,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/sheet-object-item.c: New sheet-object type.  This one is
 	used for embedding Bonobo-based CanvasItems. 
-	
+
 1999-09-25  Lauris Kaplinski <lauris@ariman.ee>
 
 	* configure.in: add et to ALL_LINGUAS
@@ -6824,7 +6824,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/widgets/color-combo.[ch]: New files, they implement the
 	ColorCombo box. 
-	
+
 1999-09-21  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/sheet-object-container.c (make_container_item): Add widget_handle.
@@ -6868,7 +6868,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-09-21  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* samples/statfuns.xls: Updated the second PERCENTRANK test.
-	
+
 	* src/functions/fn-stat.c: Added stubs for LOGEST and GROWTH.
 
 1999-09-20  Morten Welinder  <terra@diku.dk>
@@ -7050,7 +7050,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/workbook-cmd.c: New file.  Moved a bunch of commands here,
 	and move to be moved.
 	Implemented the set money format;   Implemented the percent formt.
-	
+
 1999-09-16  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/sheet.c (sheet_update_controls, cell_is_homogeneous):
@@ -7069,7 +7069,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	(change_font_in_selection_cmd): New routine.  Applies a font to a
 	selection in the workbook.
 	(workbook_feedback_set): Upgraded feedback interface
-	
+
 	* src/sheet-view.c (sheet_view_row_size_changed): There is no need
 	to call gnumeric_compute_visible_ranges, the sheet_row_set_height
 	code does this.
@@ -7111,7 +7111,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/functions/Makefile.am: remove fn-misc.c
 
 	* src/func.h: ditto.
-	
+
 	* src/sheet-object-container.c (sheet_object_container_load): Implement
 	cleaner & simpler load method
 
@@ -7126,7 +7126,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/dialogs/dialog-printer.[ch]: New thin wrapper of GnomePrinterDialog
 	to handle sheet selection.
-	
+
 	* src/sheet-object-container.c (sheet_object_container_land): Add
 	comments about what needs doing.
 
@@ -7280,7 +7280,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/functions/fn-math.c, src/function/fn-lookup.c: Moved TRANSPOSE
 	to lookup functions file.
-	
+
 	* src/functions/fn-stat.c: Added more examples.
 
 	* src/dialogs/dialog-analysis-tools.c: Bug fix.  Pressing ESC key
@@ -7454,7 +7454,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	handling, and state passing. Generic object 'bounds' is now stored in
 	sheet-object, and accessed via access procedures. Homegenized naming,
 	Drasticaly simplified re-sizing modes.
-	
+
 	* src/sheet-view.c: Include selection.h to kill warnings.
 
 	* src/sheet-object.c (sheet_object_get_bounds): Created.
@@ -7525,7 +7525,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/sheet-view.c (filenames_dropped, sheet_view_construct): Move
 	D&D activation to here, so we get sensible handling of positions.
-	
+
 	* src/sheet-object-container.c (user_activation_request_cb): typo.
 	(sheet_object_drop_file): Emit the correct signal to realize, take
 	a SheetView argument, clean 'msg's up.
@@ -7702,7 +7702,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-09-05  Richard Hestilow  <hestgray@ionet.net>
 
 	* configure.in: Minor s/For/for library check message fix.
-	
+
 1999-09-03  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/dialogs/dialog-printer-setup.c (draw_margins): Added margin
@@ -7793,7 +7793,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	control window.
 
 	* src/functions/fn-financial.c: Add brace to remove ambiguity
-	
+
 1999-08-31  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-financial.c: Implemented ACCRINT() and DISC().
@@ -7851,23 +7851,23 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-08-26  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-financial.c: Implemented ISPMT().
-	
+
 1999-08-25  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* samples/finfuns.xls: Fixed the test of MIRR.
 
 	* src/functions/fn-financial.c: Implemented FVSCHEDULE().
-	
+
 1999-08-24  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-financial.c: Implemented TBILLEQ() and started
 	MIRR().
-	
+
 1999-08-23  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-financial.c: Implemented TBILLPRICE() and
  	TBILLYIELD().
-	
+
 1999-08-22  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialogs/dialogs-solver.c: Fixed a lot of things, memory
@@ -7880,7 +7880,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/collect.[ch], src/functions/fn-financial.c: Removed
  	collect_dates.  Added a flag COLLECT_DATES to
  	callback_function_collect instead.
-	
+
 1999-08-22  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/main.c (gnumeric_main): New Bonobos need to issue the
@@ -7895,18 +7895,18 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* samples/finfuns.xls: Made all the dates to use DATE() function
 	instead of using strings in scandinavian style.
-	
+
 1999-08-20  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-financial.c: Made the last two arguments of PMT and PPMT
  	optional.
-	
+
 1999-08-20  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-financial.c: DDB() implemented.
 
 	* src/fn-stat.c: QUARTILE() implemented.
-	
+
 1999-08-20  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* po/de.po: Removed the last bogus msgid to make it compile again.
@@ -7924,7 +7924,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/fn-date.c, src/func.h: get_serial_date made public.
 
 	* TODO: Killed the four functions above from the todo list.
-	
+
 1999-08-19  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/workbook.c (workbook_container_get_object): Finish
@@ -7935,7 +7935,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	window. 
 
 	* src/workbook.h (Workbook): Include a GnomeUIHandler.
-	
+
 	* src/sheet.c (sheet_insert_object): Enable this function again
 	and update it to match the latest Bonobo developments.
 
@@ -7992,10 +7992,10 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/cell.c (cell_content_changed): Calls workbook_cell_changed.
 	This is for Paolo and his speech system for GNOME.
-	
+
 	* configure.in: New bonobo detection code and support for not
 	compiling Bonobo support even if it is present on the system
-	
+
 1999-08-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* samples/statfuns.xls: Updated the tests of LINEST and TREND to
@@ -8097,12 +8097,12 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-08-12  Kjartan Maraas  <kmaraas@online.no>
 
 	* src/fn-math.c: Typo fixes.
-	
+
 1999-08-12  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-stat.c: Implemented the simplest case of LINEST()
  	function.
-	
+
 1999-08-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/fn-date.c (gnumeric_date) : Fix typo that was moving us 1900
@@ -8134,7 +8134,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/fn-financial.c: Some minor cleaning.
 
 	* src/func.h: Added prototypes for callback_function_make_list.
-	
+
 	* src/fn-stat.c: Fixed PROB() function.
 
 1999-08-11  Michael Meeks  <michael@imaginator.com>
@@ -8189,7 +8189,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* samples/dbfuns.xls: Added a test for GETPIVOTDATA function.
 	Also added a very simple pivot table.
-	
+
 1999-08-10  Michael Meeks  <michael@imaginator.com>
 
 	* TODO, DEPENDS, doc/Future-Roadmap, doc/Design: Updated,
@@ -8301,7 +8301,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-08-03  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/corba-sheet.c (fill_corba_value): Corrected the argument here.
-	
+
 1999-08-03  Jody Goldberg <jgoldberg@home.com>
 
 	* src/plugin.h (struct) : 'private' is a C++ keyword.
@@ -8533,7 +8533,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-07-31  Robert Meeks   <robert@imaginator.com>
 
 	* src/fn-information.c (translate_table): Populated.
-	
+
 1999-07-31  Michael Meeks  <michael@edenproject.org>
 
 	* src/fn-information.c (gnumeric_cell): Implemented col, row,
@@ -8761,14 +8761,14 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/dialog-define-names.c (fill_list): Append instead of inserting
 	items. use "select" signal, hand the correct pointer on.
 	Implemented guts, fixed lots of bugs.
-	
+
 1999-07-25  Karsten Weiss  <karsten@addx.au.s.shuttle.de>
 
 	* src/print.glade.h: Fixed three typos.
 	* src/hf-config.glade.h: Fixed a typo.
 	Is this the right place to fix the typos or are they auto-generated
 	from some other source?
-	
+
 1999-07-21  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/dialog-printer-setup.c (preview_page_destroy): Clear the
@@ -8782,7 +8782,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/dialog-define-names.c (dialog_define_names): Removed all the
 	dead code.
 	Lots of new code ... not there yet though.
-	
+
 	* src/workbook.c: Enabled names menu item.
 
 	* src/dialog-summary.c: add file header.
@@ -8791,7 +8791,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	seems I didn't do this earlier: odd.
 
 	* names.glade: Created.
-	
+
 1999-07-22  Michael Meeks  <michael@edenproject.org>
 
 	* src/expr-name.c: Stylistic precondition fixes,
@@ -8805,7 +8805,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/func.h: Added comments moved from expr.h
 
 1999-07-21  Richard Hestilow  <hestgray@ionet.net>
-	
+
 	* gnumeric.gnorba: Fix "Embeddable" typo 
 	(was IDL:/GNOME/Embeddable, should have been IDL:GNOME/Embeddable)
 
@@ -8927,12 +8927,12 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* dialogs.h: Added summary_update.
 
-	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Add dialog-summary.c	
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Add dialog-summary.c
 
 	* dialog-summary.c: Created.
 
 	* summary.glade: Created.
-	
+
 1999-07-13  Jody Goldberg  <jgoldberg@home.com>
 
 	* src/fn-lookup.c (gnumeric_lookup) : Support default args for
@@ -8980,7 +8980,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 
 	* src/dialog-analysis-tools.c, src/analysis-tools.c: Implemented
  	Anova, two-factor without replication tool.
-	
+
 1999-07-12  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/print-info.c (save_hf, print_hf_register): Save the headers
@@ -9006,15 +9006,15 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-07-12  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* doc/C/analysis-tools.sgml: Small fixes and additions.
-	
+
 	* src/dialog-analysis-tools.c, src/analysis-tools.c: Added
  	Bernoulli distribution to the Random Number Generation tool.
 
 	* src/analysis-tools.c: Finished Rank and Percentile tool.
-	
+
 	* src/analysis-tools.c: Fixed ``F/z/t Critical'' values of the
  	F-Test, t-Test, and z-Test Tools.
-	
+
 1999-07-12  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialog-analysis-tools.c, src/analysis-tools.c: Made ``Labels
@@ -9114,7 +9114,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	select macro.
 	(gnumeric_sumif, gnumeric_sumx2my2, gnumeric_sumxmy2),
 	(validate_range_numeric_matrix): Added new sheet support.
-	
+
 	* src/fn-information.c (gnumeric_countblank): Added correct
 	sheet support.
 

@@ -486,7 +486,7 @@ char const *
 cellref_parse (CellRef *out, char const *in, CellPos const *pos)
 {
 	char const *res;
-	
+
 	g_return_val_if_fail (in != NULL, NULL);
 	g_return_val_if_fail (out != NULL, NULL);
 
@@ -992,14 +992,14 @@ parse_util_init (void)
 	gnm_expr_conventions_default = gnm_expr_conventions_new ();
 	gnm_expr_conventions_default->ref_parser = rangeref_parse;
 	gnm_expr_conventions_default->range_sep_colon = TRUE;
-	gnm_expr_conventions_default->sheet_sep_exclamation = TRUE;	
-	gnm_expr_conventions_default->dots_in_names = TRUE;	
+	gnm_expr_conventions_default->sheet_sep_exclamation = TRUE;
+	gnm_expr_conventions_default->dots_in_names = TRUE;
 
 	gnm_expr_conventions_default_1_0 = gnm_expr_conventions_new ();
 	gnm_expr_conventions_default_1_0->ref_parser = gnm_1_0_rangeref_parse;
 	gnm_expr_conventions_default_1_0->range_sep_colon = TRUE;
-	gnm_expr_conventions_default_1_0->sheet_sep_exclamation = TRUE;	
-	gnm_expr_conventions_default_1_0->dots_in_names = TRUE;	
+	gnm_expr_conventions_default_1_0->sheet_sep_exclamation = TRUE;
+	gnm_expr_conventions_default_1_0->dots_in_names = TRUE;
 }
 
 void

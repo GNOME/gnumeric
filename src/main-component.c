@@ -92,13 +92,13 @@ zoom_in_cb (BonoboZoomable *zoomable, WorkbookControlComponent *wbcc)
  	float zoom_level;
 	float new_zoom_level;
 	int index, i;
-	
+
 	g_return_if_fail (IS_WORKBOOK_CONTROL_COMPONENT (wbcc));
 
 	zoom_level = wbcc_get_zoom_factor (wbcc);
 
 	index = -1;
-	
+
 	/* find next greater zoom level index */
 	for (i = 0; i < n_zoom_levels; i++) {
 		if (preferred_zoom_levels [i] > zoom_level) {
@@ -128,7 +128,7 @@ zoom_out_cb (BonoboZoomable *zoomable, WorkbookControlComponent *wbcc)
 	zoom_level = wbcc_get_zoom_factor (wbcc);
 
 	index = -1;
-	
+
 	/* find next lower zoom level index */
 	for (i = n_zoom_levels - 1; i >= 0; i--) {
 		if (preferred_zoom_levels [i] < zoom_level) {
@@ -166,7 +166,7 @@ add_interfaces (BonoboObject *control, WorkbookControl *wbc)
 	BonoboPersistStream *stream;
 	BonoboZoomable      *zoomable;
 	WorkbookControlComponent *wbcc = WORKBOOK_CONTROL_COMPONENT (wbc);
-	
+
 	g_return_val_if_fail (BONOBO_IS_OBJECT (control), NULL);
 
 	/* Interface Bonobo::PersistStream */
@@ -269,8 +269,8 @@ int
 main (int argc, char *argv [])
 {
 	init_init (argv[0]);
-	
-	BONOBO_FACTORY_INIT ("gnumeric-component", VERSION, &argc, argv);		
+
+	BONOBO_FACTORY_INIT ("gnumeric-component", VERSION, &argc, argv);
 	gnm_common_init ();
 
 	return bonobo_generic_factory_main ("OAFIID:GNOME_Gnumeric_Factory",

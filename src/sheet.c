@@ -3946,7 +3946,7 @@ void
 sheet_set_tab_color (Sheet *sheet, StyleColor *tab_color, StyleColor *text_color)
 {
 	g_return_if_fail (IS_SHEET (sheet));
-	
+
 	if (sheet->tab_color != NULL)
 		style_color_unref (sheet->tab_color);
 	if (sheet->tab_text_color != NULL)

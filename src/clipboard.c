@@ -468,7 +468,7 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_d
 	GnmExprArray const *a;
 	CellCopy *copy;
 	CellComment   *comment;
-	
+
 	copy = g_new (CellCopy, 1);
 	copy->type       = CELL_COPY_TYPE_CELL;
 	copy->u.cell     = cell_copy (cell);

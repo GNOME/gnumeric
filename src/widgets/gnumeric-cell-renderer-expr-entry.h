@@ -38,7 +38,7 @@ typedef struct _GnumericCellRendererExprEntryClass GnumericCellRendererExprEntry
 struct _GnumericCellRendererExprEntry
 {
 	GnumericCellRendererText parent;
-	
+
 	WorkbookControlGUI *wbcg;
 	GnumericExprEntry  *entry;
 };

@@ -49,7 +49,7 @@ range_init_rangeref (Range *range, RangeRef const *rr)
 	range->start.row = rr->a.row;
 	range->end.col   = rr->b.col;
 	range->end.row   = rr->b.row;
-	return range;	
+	return range;
 }
 
 
@@ -1017,7 +1017,7 @@ value_to_global_range (Value const *v, GlobalRange *res)
 
 	res->sheet = v->v_range.cell.a.sheet;
 	range_init_value (&res->range, v);
-	
+
 	return TRUE;
 }
 

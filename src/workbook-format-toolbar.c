@@ -516,9 +516,9 @@ cb_fore_color_changed (ColorCombo *combo, GdkColor *c,
 		return;
 
 	g_return_if_fail (c != NULL);
-	
+
 	mstyle = mstyle_new ();
-	
+
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE,
 			  is_default
 			  ? style_color_auto_font ()
@@ -856,7 +856,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 				  });
 
 	style_color_unref (sc_auto_font);
-	
+
 #ifdef WITH_BONOBO
 	gnumeric_inject_widget_into_bonoboui (wbcg, fontsel, "/FormatToolbar/FontName");
 	gnumeric_inject_widget_into_bonoboui (wbcg, fontsize, "/FormatToolbar/FontSize");

@@ -262,7 +262,7 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 	for (ptr = sc_view (sc)->selections; ptr != NULL; ptr = ptr->next)
 		if (NULL != (link = sheet_style_region_contains_link (sheet, ptr->data)))
 			break;
-	
+
 	state->link = NULL;
 	if (link != NULL)
 		last_link_type = G_OBJECT_TYPE (link);

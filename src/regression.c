@@ -571,7 +571,7 @@ log_fitting (gnm_float *xs, const gnm_float *ys, int n,
 	        result = REG_invalid_data; 
 		goto out;
 	}
-	
+
 	/* Start of fitted c-range. Rounded to final accuracy of c. */
 	c_offset = (res[0] == 1) ? point_cloud->min_x : point_cloud->max_x;
 	c_offset = c_accuracy * ((res[0] == 1) ?
@@ -748,7 +748,7 @@ logarithmic_regression (gnm_float **xss, int dim,
 			        result = REG_invalid_data;
 				goto out;
 			}
-	
+
 
 	if (affine) {
 		gnm_float **log_xss2;

@@ -119,7 +119,7 @@ merge_store_info_in_list (GtkTreeIter *iter, MergeState *state)
 
 	data_text = gnm_expr_entry_global_range_name (state->data, state->sheet);
 	field_text = gnm_expr_entry_global_range_name (state->field,  state->sheet);
-	
+
 	gtk_list_store_set (state->model, iter,
 			    DATA_RANGE, data_text,
 			    FIELD_LOCATION, field_text,
@@ -146,7 +146,7 @@ cb_merge_add_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	else
 		gtk_list_store_insert_before (state->model, &iter, &sel_iter);
 
-	merge_store_info_in_list (&iter, state);	
+	merge_store_info_in_list (&iter, state);
 }
 
 static void
@@ -157,7 +157,7 @@ cb_merge_change_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->list);
 
 	if (gtk_tree_selection_get_selected (selection, NULL, &iter))
-		merge_store_info_in_list (&iter, state);	
+		merge_store_info_in_list (&iter, state);
 }
 
 static void
@@ -185,7 +185,7 @@ cb_merge_find_shortest_column (gpointer data, gpointer lp)
 	Value *range = data;
 	int *length = lp;
 	int r_length = range->v_range.cell.b.row - range->v_range.cell.a.row + 1;
-	
+
 	if (r_length < *length)
 		*length = r_length;
 }
@@ -196,7 +196,7 @@ cb_merge_find_longest_column (gpointer data, gpointer lp)
 	Value *range = data;
 	int *length = lp;
 	int r_length = range->v_range.cell.b.row - range->v_range.cell.a.row + 1;
-	
+
 	if (r_length > *length)
 		*length = r_length;
 }
@@ -207,7 +207,7 @@ cb_merge_trim_data (gpointer data, gpointer lp)
 	Value *range = data;
 	int *length = lp;
 	int r_length = range->v_range.cell.b.row - range->v_range.cell.a.row + 1;
-	
+
 	if (r_length > *length)
 		range->v_range.cell.b.row = range->v_range.cell.a.row + *length - 1;
 	range->v_range.cell.b.col = range->v_range.cell.a.col;
@@ -268,7 +268,7 @@ cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 		range_list_destroy (field_list);
 		return;
 	}
-	
+
 	g_slist_foreach (data_list, cb_merge_find_shortest_column, &min_length);
 	g_slist_foreach (data_list, cb_merge_find_longest_column, &max_length);
 
@@ -277,7 +277,7 @@ cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 						"%i to %i. Shall we trim the lengths to "
 						"%i and proceed?"), min_length, max_length,
 					      min_length);
-		
+
 		if (gnumeric_dialog_question_yes_no (state->wbcg, text, TRUE)) {
 			g_slist_foreach (data_list, cb_merge_trim_data, &min_length);
 			g_free (text);
@@ -290,7 +290,7 @@ cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 		}
 
 	}
-	
+
 	if (!cmd_merge_data (WORKBOOK_CONTROL (state->wbcg), state->sheet,
 			     v_zone, field_list, data_list))
 		gtk_widget_destroy (state->dialog);

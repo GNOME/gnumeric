@@ -270,7 +270,7 @@ recalc_spans (FooCanvasItem *item)
 	StyleFont  const *style_font = item_edit->style_font;
 	Range	   const *merged;
 	int col_span, row_span, tmp, cur_col, width, height, col_size;
-	
+
 	cur_col = item_edit->pos.col;
 	cri = sheet_col_get_info (sheet, cur_col);
 
@@ -320,7 +320,7 @@ recalc_spans (FooCanvasItem *item)
 				       item_edit->pos.row + row_span) - 2;
 	item->y2 = 1 + item->y1 + MAX (height, tmp);
 }
-	
+
 
 static void
 item_edit_update (FooCanvasItem *item,  double i2w_dx, double i2w_dy, int flags)

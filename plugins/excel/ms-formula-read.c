@@ -1178,7 +1178,7 @@ excel_parse_formula (MSContainer const *container,
 			unsigned lpx, lpy, elem_len = 0;
 			Value *v, *elem;
 			guint8 val_type;
-			
+
 			if (ver >= MS_BIFF_V8) {
 				cols++;
 				rows++;

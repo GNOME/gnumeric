@@ -225,7 +225,7 @@ gnumeric_randdiscrete (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	return rd.res;
-	
+
 }
 
 /***************************************************************************/

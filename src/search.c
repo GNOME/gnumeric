@@ -755,7 +755,7 @@ search_replace_value (SearchReplace *sr,
 		return FALSE;
 	else {
 		char *val = value_get_as_string (cell->value);
-		gboolean res = search_match_string (sr, val);			
+		gboolean res = search_match_string (sr, val);
 		g_free (val);
 		return res;
 	}

@@ -352,7 +352,7 @@ font_init (void)
 	double font_size = gconf_client_get_float (client,
 						   GCONF_DEFAULT_SIZE, NULL);
 	gnumeric_default_font = NULL;
-	
+
 	if (font_name && font_size >= 1)
 		gnumeric_default_font = style_font_new_simple (font_name, font_size,
 							       1., FALSE, FALSE);

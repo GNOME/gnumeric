@@ -348,7 +348,7 @@ static void
 setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 {
 	GnumericExprEntryFlags flags;
-	
+
 	state->gui.dialog      = GTK_DIALOG        (glade_xml_get_widget (glade_gui, "dialog"));
 
 	state->gui.function    = GTK_OPTION_MENU     (glade_xml_get_widget (glade_gui, "function"));

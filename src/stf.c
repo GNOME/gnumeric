@@ -268,7 +268,7 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 	Range		 target;
 	GsfOutput	*buf;
 	guint8 const	*data;
-	
+
 	sv    = wb_control_cur_sheet_view (wbc);
 	src_sheet = sv_sheet (sv);
 	src = selection_first_range (sv, cc, _("Text to Columns"));

@@ -1092,7 +1092,7 @@ gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 	int start_offset, end_offset, res;
 	networkdays_holiday_closure close;
 	GDate * start_date;
-	
+
 	start_serial = datetime_value_to_serial (argv[0]);
 	end_serial = datetime_value_to_serial (argv[1]);
 
@@ -1218,7 +1218,7 @@ gnumeric_isoyear (FunctionEvalInfo *ei, Value **argv)
 		year--;
 	else if (isoweeknum == 1 && month == G_DATE_DECEMBER)
 		year++;
-	
+
 	res = value_new_int (year);
 
 	g_date_free (date);

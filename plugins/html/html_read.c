@@ -113,7 +113,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 {
 	htmlNodePtr ptr;
 	int col = -1;
-	
+
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
 		if (xmlStrEqual (ptr->name, (xmlChar *)"td") || xmlStrEqual (ptr->name, (xmlChar *)"th")) {
 			xmlBufferPtr buf, a_buf;

@@ -105,7 +105,7 @@ gnm_check_ctrl_mask (GnmCanvas *gcanvas,guint keyval)
 	}
 	return FALSE;
 }
-		
+
 
 /*
  * key press event handler for the gnumeric sheet for the sheet mode

@@ -284,7 +284,7 @@ wbcc_init (WorkbookControlCORBA *wbcc)
 	if (ev._major == CORBA_NO_EXCEPTION) {
 		PortableServer_ObjectId *oid;
 		PortableServer_POA poa = bonobo_poa ();
-		
+
 		wbcc->initialized = TRUE;
 
 		oid = PortableServer_POA_activate_object (poa,

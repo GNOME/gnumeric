@@ -40,7 +40,7 @@ typedef struct _GnumericCellRendererToggleClass GnumericCellRendererToggleClass;
 struct _GnumericCellRendererToggle
 {
 	GtkCellRendererToggle parent;
-	
+
 	GdkPixbuf *pixbuf;
 };
 

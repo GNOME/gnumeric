@@ -100,7 +100,7 @@ make_value (SCM scm)
 	else
 		v = value_new_error (NULL,
 				     _("Unable to convert value from Guile"));
-	
+
 	value = (SCM_Value *) scm_must_malloc (sizeof (SCM_Value), "value");
 	value->v = v;
 	value->update_func = SCM_BOOL_F;

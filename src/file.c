@@ -55,7 +55,7 @@ gnum_file_opener_probe_real (GnumFileOpener const *fo, GsfInput *input,
                              FileProbeLevel pl)
 {
 	gboolean ret = FALSE;
-	
+
 	if (fo->probe_func != NULL) {
 		ret =  fo->probe_func (fo, input, pl);
 		gsf_input_seek (input, 0, G_SEEK_SET);
@@ -483,7 +483,7 @@ gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
                       WorkbookView const *wbv, GsfOutput *output)
 {
 	char *file_name;
-	
+
 	g_return_if_fail (IS_GNUM_FILE_SAVER (fs));
 	g_return_if_fail (GSF_IS_OUTPUT (output));
 

@@ -104,7 +104,7 @@ model_get_plugin_iter (GtkTreeModel *model, gpointer plugin, GtkTreeIter *ret_it
 	for (has_iter = gtk_tree_model_get_iter_first (model, ret_iter);
 	     has_iter; has_iter = gtk_tree_model_iter_next (model, ret_iter)) {
 		gpointer current;
-	
+
 		gtk_tree_model_get (model, ret_iter, PLUGIN_POINTER, &current, -1);
 		if (current == plugin) {
 			return TRUE;
@@ -178,7 +178,7 @@ cb_pm_button_rescan_directories_clicked (G_GNUC_UNUSED GtkButton *button,
 	     has_iter && l != NULL;
 	     has_iter = gtk_tree_model_iter_next (model, &iter)) {
 		GnmPlugin *old_plugin, *new_plugin;
-	
+
 		gtk_tree_model_get (model, &iter, PLUGIN_POINTER, &old_plugin, -1);
 		while (new_plugin = l->data, plugin_compare_name (old_plugin, new_plugin) > 0) {
 			gtk_list_store_insert_before (pm_gui->model_plugins, &new_iter, &iter);
@@ -209,7 +209,7 @@ pm_delete_dir (char *dir_name)
 {
 	GSList *plugin_dirs;
 	GSList *directory;
-	
+
 	plugin_dirs = gnm_app_prefs->plugin_extra_dirs;
 	directory = g_slist_find_custom (plugin_dirs, dir_name, g_str_compare);
 	g_free (dir_name);
@@ -225,7 +225,7 @@ static void
 pm_add_dir (char *dir_name)
 {
 	GSList *plugin_dirs;
-	
+
 	plugin_dirs = gnm_app_prefs->plugin_extra_dirs;
 	if (g_slist_find_custom (plugin_dirs, dir_name, g_str_compare)) 
 		g_free (dir_name);
@@ -387,7 +387,7 @@ pm_dialog_cleanup (G_GNUC_UNUSED GObject *dialog,
 	for (has_iter = gtk_tree_model_get_iter_first (model, &iter);
 	     has_iter; has_iter = gtk_tree_model_iter_next (model, &iter)) {
 		gpointer plugin;
-	
+
 		gtk_tree_model_get (model, &iter, PLUGIN_POINTER, &plugin, -1);
 		g_signal_handlers_disconnect_by_func (
 			G_OBJECT (plugin), G_CALLBACK (cb_plugin_changed), pm_gui);
@@ -457,7 +457,7 @@ pm_dialog_init (PluginManagerGUI *pm_gui)
 	g_signal_connect (G_OBJECT (pm_gui->dialog_pm),
 		"destroy",
 		G_CALLBACK (pm_dialog_cleanup), pm_gui);
-	
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pm_gui->checkbutton_install_new),
 				      gnm_app_prefs->activate_new_plugins);
 
@@ -511,7 +511,7 @@ pm_gui_load_directory_page (PluginManagerGUI *pm_gui)
 			    DIR_IS_SYSTEM, TRUE,
 			    -1);
 	g_free (usr_plugins);
-	
+
 	plugin_path_env = g_getenv ("GNUMERIC_PLUGIN_PATH");
 	if (plugin_path_env != NULL) {
 		plugin_dirs = g_strsplit_to_slist (plugin_path_env, ":");
@@ -753,7 +753,7 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 
 	pm_gui->directories_changed_notification = gnm_gconf_rm_notification 
 		(pm_gui->directories_changed_notification);
-	
+
 	g_free (pm_gui);
 	g_object_unref (G_OBJECT (gui));
 }

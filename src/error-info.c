@@ -36,7 +36,7 @@ error_info_new_vprintf (GnmSeverity severity, char const *msg_format,
 
 	g_return_val_if_fail (severity >= GNM_WARNING, NULL);
 	g_return_val_if_fail (severity <= GNM_ERROR, NULL);
-	
+
 	error = g_new (ErrorInfo, 1);
 	error->msg = g_strdup_vprintf (msg_format, args);
 	error->severity = severity;
@@ -160,7 +160,7 @@ error_info_print_with_offset (ErrorInfo *error, gint offset)
 
 	if (error->msg != NULL) {
 		char c = 'E';
-		
+
 		if (error->severity == GNM_WARNING)
 			c = 'W';
 		fprintf (stderr, "%*s%c %s\n", offset, "", c, error->msg);

@@ -87,7 +87,7 @@ struct _FormatTemplate {
 		gboolean top;
 		gboolean bottom;
 	} edges;
-	
+
 /* <private> */
 	/* pre-calculate styles */
 	GHashTable *table;

@@ -185,7 +185,7 @@ static void
 cb_attr_dialog_dialog_ok (GtkWidget *button, AttrState *state)
 {
 	cb_attr_dialog_dialog_apply (button, state);
-	cb_attr_dialog_dialog_close (button, state);	
+	cb_attr_dialog_dialog_close (button, state);
 }
 
 static void

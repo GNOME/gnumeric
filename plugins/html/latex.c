@@ -724,7 +724,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, Cell const *cell, int num_mer
 			latex_fputs (rendered_string, output);
 			g_free (rendered_string);
 		}
-		
+
 		/* Close the styles for the cell. */
 		if (mstyle_get_font_italic (mstyle))
 			gsf_output_printf (output, "}");
@@ -941,7 +941,7 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		ri = sheet_row_get_info (current_sheet, row);
 		if (ri->needs_respan)
 			row_calc_spans ((ColRowInfo *) ri, current_sheet);
-		
+
 		/* We need to check for horizontal borders at the top of this row */
 		length = num_cols;
 		clines = g_new0 (StyleBorderType, length);

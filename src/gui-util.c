@@ -1072,7 +1072,7 @@ entry_to_float_with_format_default (GtkEntry *entry, gnm_float *the_float, gbool
 {
 	char const *text = gtk_entry_get_text (entry);
 	gboolean need_default = (text == NULL);
-	
+
 	if (!need_default) {
 		char *new_text = g_strdup (text);
 		need_default = (0 ==  strlen (g_strstrip(new_text)));
@@ -1086,7 +1086,7 @@ entry_to_float_with_format_default (GtkEntry *entry, gnm_float *the_float, gbool
 
 	if (need_default)
 		float_to_entry (entry, num);
-		
+
 	return entry_to_float_with_format (entry, the_float, update, format);
 }
 

@@ -65,7 +65,7 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer    *cell,
 	GtkCellRendererText *celltext = (GtkCellRendererText *) cell;
 	GtkStateType state;
 	GdkGC *gc = gdk_gc_new (window);
-	
+
 	if ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED)
 	{
 		if (GTK_WIDGET_HAS_FOCUS (widget))
@@ -84,13 +84,13 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer    *cell,
 	if (celltext->background_set)
 	{
 		GdkColor color;
-		
+
 		color.red = celltext->background.red;
 		color.green = celltext->background.green;
 		color.blue = celltext->background.blue;
-		
+
 		gdk_gc_set_rgb_fg_color (gc, &color);
-		
+
 		gdk_draw_rectangle (window,
 				    gc,
 				    TRUE,
@@ -99,11 +99,11 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer    *cell,
 				    background_area->width,
 				    background_area->height - 2 * cell->ypad);
 	}
-	
+
 	gdk_gc_set_rgb_fg_color (gc, &widget->style->bg[
 		     ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED) ?
 					 GTK_STATE_ACTIVE : GTK_STATE_INSENSITIVE]);
-	
+
 	if (celltext->editable) {
 		gdk_draw_rectangle (window, gc, FALSE,
 				    background_area->x,
@@ -128,7 +128,7 @@ gnumeric_cell_renderer_text_class_init (GnumericCellRendererTextClass *class)
 	parent_class = g_type_class_peek_parent (object_class);
 
 	cell_class->render = gnumeric_cell_renderer_text_render;
-	
+
 }
 
 

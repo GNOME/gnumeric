@@ -144,7 +144,7 @@ gnm_dump_func_defs (char const* filename, gboolean def_or_state)
 {
 	int retval;
 	CommandContextStderr *ccs = command_context_stderr_new ();
-	
+
 	plugins_init (COMMAND_CONTEXT (ccs));
 	if ((retval = command_context_stderr_get_status (ccs)) == 0)
 		function_dump_defs (filename, def_or_state);
@@ -177,6 +177,6 @@ gnm_shutdown (void)
 	global_gnome_font_shutdown ();
 
 	application_release_gconf_client ();
-	
+
 	g_object_unref (gnumeric_application_get_app ());
 }

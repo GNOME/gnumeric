@@ -45,7 +45,7 @@ char const *sheet_names_check	      (Sheet const *sheet, Range const *r);
 struct _GnmNamedExprCollection {
 	/* all the defined names */
 	GHashTable *names;
-	
+
 	/* placeholders for references to undefined names */
 	GHashTable *placeholders;
 };

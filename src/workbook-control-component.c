@@ -58,7 +58,7 @@ double
 wbcc_get_zoom_factor (WorkbookControlComponent *wbcc)
 {
 	Sheet *sheet;
-	
+
 	g_return_val_if_fail (wbcc != NULL, 1.0);
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbcc), 1.0);
 
@@ -71,7 +71,7 @@ wbcc_set_zoom_factor (WorkbookControlComponent *wbcc, double new_zoom_factor)
 {
 	WorkbookControlGUI *wbcg;
 	Sheet *sheet;
-	
+
 	g_return_if_fail (IS_WORKBOOK_CONTROL_COMPONENT (wbcc));
 
 	wbcg = (WorkbookControlGUI *)wbcc;
@@ -85,7 +85,7 @@ wbcc_set_zoom_factor (WorkbookControlComponent *wbcc, double new_zoom_factor)
 	   disgusting fix.  */
 	gtk_idle_add ((GtkFunction) gtk_widget_queue_resize, wbcg->notebook);
 	wbcg_focus_cur_scg (wbcg);
-	
+
 	bonobo_zoomable_report_zoom_level_changed
 		(wbcc->zoomable, new_zoom_factor, NULL);
 }
@@ -160,7 +160,7 @@ wbcc_set_transient_for (WorkbookControlGUI *wbcg, GtkWindow *window)
 	WorkbookControlComponent *wbcc;
 
 	wbcc = WORKBOOK_CONTROL_COMPONENT (wbcg);
-	
+
 	g_return_if_fail (wbcc->bcontrol != NULL);
 
 	bonobo_control_set_transient_for (wbcc->bcontrol, window, NULL);
@@ -198,7 +198,7 @@ cb_file_print_setup (GtkWidget *widget, BonoboControl *control)
 {
 	WorkbookControlGUI *wbcg = bcontrol_get_wbcg (control);
 	Sheet *sheet;
-	
+
 	g_return_if_fail (wbcg != NULL);
 
 	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
@@ -291,7 +291,7 @@ workbook_control_component_activate (WorkbookControlComponent *wbcc,
 	uic = bonobo_control_get_ui_component (wbcc->bcontrol);
 	bonobo_ui_component_set_container (uic, ui_container, NULL);
 	bonobo_object_release_unref (ui_container, NULL);
-	
+
 	bonobo_ui_component_freeze (uic, NULL);
 	bonobo_ui_component_add_verb_list_with_data (uic, verbs,
 						     wbcc->bcontrol);
@@ -312,7 +312,7 @@ workbook_control_component_init (WorkbookControlComponent *wbcc,
 	wbcg->updating_ui = FALSE;
 
 	workbook_control_set_view (&wbcg->wb_control, optional_view, optional_wb);
-	
+
 	/* We don't display the edit area, but by constructing it, we avoid
 	 * warnings when attaching gurus */
 	wbcg_edit_ctor (wbcg);

@@ -177,7 +177,7 @@ currency_date_format_init (void)
 	/* Compile the regexps for format classification */
 
 	/* This is the regexp for FMT_NUMBER and FMT_CURRENCY */
-	
+
 	/*
 	 *  1.  "$ #,##0.000"
 	 *   (currency symbol before number)
@@ -198,22 +198,22 @@ currency_date_format_init (void)
 	 */
 
 	char const *pattern_number_currency = "^\\(\\(\\(\\$\\|£\\|¥\\|€\\|\\[\\$[A-Z][A-Z][A-Z]\\]\\)\\(\\\\\\? \\)\\?\\)\\?\\(#,##\\)\\?0\\(\\.0\\{1,30\\}\\)\\?\\(\\(\\\\\\? \\)\\?\\(\\$\\|£\\|¥\\|€\\|\\[\\$[A-Z][A-Z][A-Z]\\]\\)\\)\\?\\)\\(\\(;\\(\\[Red\\]\\)\\?\\1\\)\\|\\(_);\\(\\[Red\\]\\)\\?(\\1)\\)\\)\\?$";
-	
+
 	/* This one is for FMT_PERCENT and FMT_SCIENCE */
 	char const *pattern_percent_science = "^0\\(.0\\{1,30\\}\\)\\?\\(%\\|E+00\\)$";
 
 	/* This one is for FMT_ACCOUNT */
 	char const *pattern_account = "^_(\\(\\(\\(\\$\\|£\\|¥\\|€\\|\\|\\[\\$[A-Z][A-Z][A-Z]\\]\\)\\*\\\\\\?  \\?\\)\\?\\)\\(#,##0\\(\\.0\\{1,30\\}\\)\\?\\)\\(\\(\\*\\\\\\?  \\?\\(\\$\\|£\\|¥\\|€\\|\\[\\$[A-Z][A-Z][A-Z]\\]\\)\\)\\?\\)_);_(\\1(\\4)\\6;_(\\1\"-\"?\\{0,30\\}\\6_);_(@_)$";
-	
+
 	if ((regcomp(&re_number_currency, pattern_number_currency, 0)) != 0)
 		fprintf(stderr, "Error in regcomp()\n");
-	
+
 	if ((regcomp(&re_percent_science, pattern_percent_science, 0)) != 0)
 		fprintf(stderr, "Error in regcomp()\n");
 
 	if ((regcomp(&re_account, pattern_account, 0)) != 0)
 		fprintf(stderr, "Error in regcomp()\n");
-	
+
 	if (precedes) {
 		post_rep = post = (char *)"";
 		pre_rep = (char *)"* ";
@@ -482,12 +482,12 @@ static int
 find_currency(char const *ptr, int len)
 {
 	int i;
-	
+
 	for (i = 0; currency_symbols[i].symbol; i++) {
 		if (strncmp(currency_symbols[i].symbol, ptr, len) == 0)
 			return i;
 	}
-	
+
 	return -1;
 }
 
@@ -497,13 +497,13 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	FormatFamily result = FMT_NUMBER;
 	char const *ptr = fmt;
 	int cur = -1;
-	
-#define MATCH_SIZE 15	
-	regmatch_t match[MATCH_SIZE];	
+
+#define MATCH_SIZE 15
+	regmatch_t match[MATCH_SIZE];
 
 	/* FMT_CURRENCY or FMT_NUMBER ? */
 	if (regexec(&re_number_currency, fmt, MATCH_SIZE, match, 0) == 0) {
-		
+
 		/* match[3] and match[9] contain the Currency symbol */
 		if (match[3].rm_eo == -1 && match[9].rm_eo == -1)
 			result = FMT_NUMBER;
@@ -519,22 +519,22 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 						    - match[9].rm_so);
 			else
 				return FMT_UNKNOWN;
-			
+
 			if (cur == -1)
 				return FMT_UNKNOWN;
 			info->currency_symbol_index = cur;
 		}
-		
+
 		/* match[5] contains the #,## string */
 		if (match[5].rm_eo != -1)
 			info->thousands_sep = TRUE;
-		
+
 		/* match[6] contains the .0000... string */
 		info->num_decimals = 0;
 		if (match[6].rm_eo != -1)
 			info->num_decimals = match[6].rm_eo -
 				match[6].rm_so - 1;
-		
+
 		info->negative_fmt = 0;
 		/* match[12] and match[14] contain the [Red] string */
 		if ((match[12].rm_eo != -1) || (match[14].rm_eo != -1))
@@ -542,24 +542,24 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 		/* match[13] contains _);(...) */
 		if (match[13].rm_eo != -1)
 			info->negative_fmt += 2;
-		
+
 		return result;
 	}
 
 	/* FMT_PERCENT or FMT_SCIENCE ? */
 	if (regexec(&re_percent_science, fmt, MATCH_SIZE, match, 0) == 0) {
-		
+
 		info->num_decimals = 0;
 		if (match[1].rm_eo != -1)
 			info->num_decimals = match[1].rm_eo -
 				match[1].rm_so - 1;
-		
+
 		if (ptr[match[2].rm_so] == '%')
 			return FMT_PERCENT;
 		else
 			return FMT_SCIENCE;
 	}
-	
+
 	/* FMT_ACCOUNT */
 	if (regexec(&re_account, fmt, MATCH_SIZE, match, 0) == 0) {
 
@@ -567,7 +567,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 		if (match[5].rm_eo != -1)
 			info->num_decimals = match[5].rm_eo -
 				match[5].rm_so - 1;
-		
+
 		if (match[1].rm_eo == -1 && match[6].rm_eo == -1)
 			return FMT_UNKNOWN;
 		else {
@@ -581,18 +581,18 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 						    - match[8].rm_so);
 			else
 				return FMT_UNKNOWN;
-			
+
 		}
-		
+
 		if (cur == -1)
 			return FMT_UNKNOWN;
 		info->currency_symbol_index = cur;
 
 		return FMT_ACCOUNT;
 	}
-	
+
 	return FMT_UNKNOWN;
-	
+
 }
 
 FormatFamily

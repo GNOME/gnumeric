@@ -537,7 +537,7 @@ wbv_save_to_file (WorkbookView *wbv, GnumFileSaver const *fs,
 	if (gnumeric_valid_filename (file_name)) {
 		GError *err = NULL;
 		GsfOutput *output;
-		
+
 		output = gsf_output_stdio_new (file_name, &err);
 		if (output == NULL) {
 			char *str = g_strdup_printf (_("Can't open '%s' : %s"),

@@ -121,19 +121,19 @@
 	* templates/autoformat/, templates/autoformat/Makefile.am:
 	Remove subdirectories, convert into a flat directory with structured 
 	filenames.
-	
+
 	* configure.in:
 	Remove templates/autoformat subdirectories
 
 	* gnumeric.spec.in:
 	Adjust to cope with new autoformat directory structure
-	
+
 	* src/dialogs/Makefile.am:
 	Remove -DGNUMERIC_AUTOFORMATDIR
 
 	* src/Makefile.am
 	Add -DGNUMERIC_AUTOFORMATDIR
-	
+
 	* src/file-autoft.c, src/file-autoft.h:
 	New, functions for loading special listings of the autoformat
 	directory.
@@ -475,7 +475,7 @@
 	* src/workbook.c (workbook_expr_relocate) : Handle dependents.
 
 	* src/position.c (eval_pos_init_dep) : new function.
-	
+
 	* configure.in : Prepare for release.
 	  Update req for gnome-print to 0.23
 	  Update req for libglade to 0.14
@@ -816,7 +816,7 @@
 	(compute_sheet_pages, print_sheet): Remove "key" parameter because
 	we are now called from g_list_foreach instead of
 	g_hash_table_foreach.
-	
+
 	(compute_pages): Use list returned by workbook_sheets instead of
 	wb->sheets so sheets are processed in order.
 	(workbook_print_all): Print sheets in display order. To do so, use
@@ -1057,13 +1057,13 @@
 	* src/dialogs/dialog-stf.h: Limit the number of lines 
 	displayed in the preview. This is a temporary solution for
 	bug #23426.
-	
+
 	* src/dialogs/dialog-stf-csv-page.c:
 	(stf_dialog_csv_page_prepare): Ditto.
 
 	* src/dialogs/dialog-stf-fixed-page.c:
 	(stf_dialog_fixed_page_prepare): Ditto.
-	
+
 	* src/dialogs/dialog-stf-format-page.c:
 	(stf_dialog_format_page_prepare): Ditto.
 	(format_page_format_changed): Kill memory
@@ -1125,7 +1125,7 @@
 	helper functions.
 
 	* src/corba-workbook.c (Workbook_show): use workbook show/hide
-	
+
 	* src/analysis-tools.c (prepare_output): ditto.
 
 	* src/main.c (gnumeric_main): ditto.
@@ -1217,7 +1217,7 @@
 	* src/item-grid.c, src/item-grid.h:
 	(item_grid_draw_border): Export this routine for use
 	by the preview-grid.
-	
+
 	* src/preview-grid.h, src/preview-grid.c:
 	New, preview-grid canvasitem, based upon item-grid.
 
@@ -1232,14 +1232,14 @@
 
 	* src/dialogs/autoformat.glade.h: New,
 	translation header for autoformat dialog.
-	
+
 	* src/dialogs/dialog-autoformat.c: New, source
 	for controlling autoformat dialog.
 
 	* src/sheet-view.c:
 	(sheet_view_get_style_font): Modify to accept a 
 	NULL sheet. (defaults to zoomlevel 1)
-	
+
 	* src/workbook.c:
 	(workbook_menu_format[]): Add autoformat.
 	(autoformat_cmd): New, invokes autoformat dialog.
@@ -1271,7 +1271,7 @@
 	(xml_set_value_int): Idem.
 	(xml_write_style): Idem.
 	(xml_read_style): Idem.
-	
+
 	* src/xml-io-autoft.c, src/xml-io-autoft.h:
 	New, these handle the reading/writing of autoformat templates.
 
@@ -1947,7 +1947,7 @@
 	(paste_cell_with_operation) : New function.
 	(paste_cell) : Call paste_cell_with_operation if paste_flags
 	indicates an arithmetic operation.
-	
+
 2000-07-12  Michael Meeks  <michael@helixcode.com>
 
 	* src/main.c (gnumeric_main): add bonobo_shutdown.
@@ -2202,12 +2202,12 @@
 
 	* src/dialogs/dialog-stf.glade:
 	Add clear and autodiscovery buttons
-	
+
 	* src/dialogs/dialog-stf-fixed-page.c: 
 	(fixed_page_autodiscover): Autodiscovery routine.
 	(fixed_page_clear_clicked): Clear click handler
 	(fixed_page_auto_clicked): Autodiscovery click handler
-	
+
 2000-07-04  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* samples/excel/infofuns.xls: Changed the third test case of
@@ -2259,17 +2259,17 @@
 	* src/dialogs/analysis-tools.glade, 
 	src/dialogs/dialog-analysis-tools.c: Added dialogs for `Histogram'
 	and `Fourier Analysis' tools.  The later is not implemented yet.
-	
+
 2000-07-03  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-financial.c: Implemented COUPNUM().
 
 	* src/analysis-tools.c: Started the implementation of the third
 	anova tool (two-factor with replication).
-	
+
 	* src/dialogs/analysis-tools.glade: Added dialog for the new
 	tool.  Fixed the `Correlation' dialog.
-	
+
 	* src/dialogs/dialog-analysis-tools.c: Added 
 	dialog_anova_two_factor_without_r_tool().
 
@@ -2488,7 +2488,7 @@
  	also a function in Excel.
 
 	* TODO: Updated the status of the build-in functions.
-	
+
 2000-06-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/value.c (value_get_as_checked_bool) : Use g_return_val_if_fail
@@ -2916,7 +2916,7 @@
 
 	* src/sheet.c (sheet_foreach_colrow) : renamed and moved to.
 	* src/colrow.c (col_row_foreach) here.
-	
+
 	* src/gnumeric-sheet.c (gnumeric_sheet_find_{col,row}) : Moved here
 	  and renamed from.
 	* src/item-grid.c (item_grid_find_{col,row}) : here.
@@ -3477,11 +3477,11 @@
 
 	* src/dialogs/dialog-stf.glade:
 	Added trim spaces option and did some general polishing.
-	
+
 	* src/dialogs/dialog-stf.h:
 	Added new member to DruidPageData_t which indicates weather
 	the user wants to trim spaces and in which way.
-	
+
 	* src/dialogs/dialog-stf-main-page.c:
 	(stf_dialog_main_page_init): Modified so it loads the trim optionmenu.
 	(main_page_trim_menu_deactivate): New.
@@ -3505,11 +3505,11 @@
 	(format_page_collist_select_row): Ditto.
 	(format_page_format_changed): Ditto.
 	(stf_dialog_format_page_prepare): Ditto.
-	
+
 	* src/gnumeric-util.c, src/gnumeric-util.h:
 	(gnumeric_option_menu_get_selected_index): New function, Returns
 	the selected index of a GtkOptionMenu. (Originally from
-	dialog-stf-export-format-page.c)	
+	dialog-stf-export-format-page.c)
 
 	* src/dialogs/dialog-stf-export-format-page.c:
 	(stf_export_dialog_option_menu_index): Removed.
@@ -3519,7 +3519,7 @@
 
 	* doc/stf-parser.txt:
 	Update documentation.
-	
+
 2000-05-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/clipboard.c (clipboard_paste_region) : Fix typo, and thinko.
@@ -3651,7 +3651,7 @@
 	in glade file. Tweak layout.
 	(sheet page): Give meaningful names to print area entry and
 	comments combo. Make them insensitive.
-	
+
 	* src/dialogs/cell-format.glade: Add focus target to
 	format_symbol_label to make Number/Currency/S_ymbol accelerator
 	work.
@@ -3752,7 +3752,7 @@
 
 	* src/dialogs/plugin-manager.glade(.h?): Add accelerators to
 	notebook tabs.
-	
+
 	* src/dialogs/autocorrect-exceptions.glade(.h?): Add accelerators to
 	buttons on notebook pages.
 
@@ -4046,7 +4046,7 @@
 
 	* src/dialogs/dialog-analysis-tools.c (dialog_data_analysis):
 	Use gnumeric_clist_moveto to ensure that selected tool is visible.
-	
+
 	* src/dialogs/dialog-function-select.c (category_list_fill):
 	s/current sheet/selected category/
 	(function_list_fill): s/category/function/
@@ -4060,7 +4060,7 @@
 
 	* src/dialogs/dialog-sheet-order.c (dialog_sheet_order_impl): 
 	s/list rows/current sheet/
-	
+
 	* src/gnumeric-util.c (clist_moveto): New helper function scroll
 	list so that row becomes visible.
 	(cb_clist_moveto): New callback function:
@@ -4071,7 +4071,7 @@
 	otherwise by attaching a signal handler.
 	(gnumeric_clist_make_selection_visible): New public function: Make
 	first selected row visible in list.
-	
+
 2000-05-10  Jon K Hellan  <hellan@acm.org>
 
 	* src/func.c (tokenized_help_find): This segfaulted if no help was
@@ -4203,7 +4203,7 @@
 2000-05-08  Jon K Hellan  <hellan@acm.org>
 
 	This change was committed a week ago, but I forgot the changelog:
-	
+
 	* src/dialogs/dialog-goto-cell.c (cb_row_selected): Make double
 	click on list work like "OK".
 
@@ -4265,7 +4265,7 @@
 
 	* src/stf.c (stf_read_workbook) : Add a workbook_recalc just
 	to be sure.
-	
+
 2000-05-06  Michael Meeks  <michael@helixcode.com>
 
 	* src/eval.c (handle_cell_range_deps): Add 3D dependency support.
@@ -4491,7 +4491,7 @@
 
 	* doc/Dependencies.txt: update to reflect changes.
 
-	* src/eval.c: comment and const mending.	
+	* src/eval.c: comment and const mending.
 	(handle_cell_range_deps): prune no inter-sheet singletons code,
 	it is a sluggish anachronism. (handle_cell_single_dep): setup
 	the correct sheet to enter data into.
@@ -4561,7 +4561,7 @@
 	* src/dialogs/row-height.glade: Ditto
 	* src/dialogs/sheet-rename.glade: Ditto
 	* src/dialogs/summary.glade: Ditto
-	
+
 	* src/dialogs/analysis-tools.glade (All dialogs): Add padding
 	between input and output frames.
 	(TTest1 dialog, TTest2 dialog, TTest3 dialog, Anova2 dialog,
@@ -4625,19 +4625,19 @@
 
 	* configure.in:
 	Export GNUMERIC_VERSION
-	
+
 	* acconfig.h:
 	Undefine GNUMERIC_VERSION
 
 	* */Makefile.am:
 	Removed -DGNUMERIC_VERSION, now located in config.h
 
-	* src/functions/Makefile.am, src/dialogs/Makefile.am : 	
+	* src/functions/Makefile.am, src/dialogs/Makefile.am : 
 	VERSION changed to gnumeric_version.
 
 	* plugins/excel/libole2/Makefile.am, plugins/guile/Makefile.am :
 	ditto
-	
+
 	* plugins/perl/Makefile.am :
 	ditto
 
@@ -4651,7 +4651,7 @@
 	* src/application.c (application_init): Oops.
 
 2000-04-29  Jody Goldberg <jgoldberg@home.com>
-	
+
 	* * : Convert 'Value' into a union of real types and allocate each
 	  separately.
 
@@ -4691,14 +4691,14 @@
 
 	* src/dialogs/dialog-stf-export-sheet-page.c : New, 
 	controlling code for the sheet page of the stf export dialog
-	
+
 	* src/Makefile.am : Updated to include new files
 
 	* src/stf.c : Now also provides export for csv files
 	using the new stf export dialog
 
 	* src/dialogs/Makefile.am : Updated to include new files
-	
+
 2000-04-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/parser.y : Make the sheet_sep, and range_sep conditional
@@ -4982,13 +4982,13 @@
 	Fixed Bug #9007 
 	Note : Does not fix the mouse click problem, just the focus
 	problem
-	
+
 	* src/workbook.c 
 	(workbook_attach_sheet) : Attaches a signal handler for 
 	the "editing_stopped" signal of the editable label.
 	(sheet_label_editing_stopped_signal) : The signal handler
 	of the "editing_stopped" signal.
-	
+
 2000-04-21  Chema Celorio  <chema@celorio.com>
 
 	* src/sheet.c (sheet_redraw_cell_region): small typo
@@ -5493,7 +5493,7 @@
 	  up_clicked_cb, down_clicked_cb, close_clicked_cb, 
 	  dialog_sheet_order_impl) : Improve look by moving buttons to the
 	  right edge rather than using stock buttons on the bottom and side.
-	
+
 2000-04-07  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_finish_editing) : resensitize the toolbars
@@ -5564,7 +5564,7 @@
 	(stf_parse_region) : Only the last item of the GSList's would be
 	freed
 	(stf_parse_sheet) : ditto
-	
+
 2000-04-08  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet.c (cellref_name): Remove unused variable.
@@ -5807,7 +5807,7 @@
 2000-04-05  Miguel de Icaza  <miguel@gnu.org>
 
 	Fix #8326
-	
+
 	* src/print-info.c (print_info_new): Test was reversed here, so we
 	were actually flipping the orientation for printing.
 
@@ -6116,7 +6116,7 @@
 2000-03-30  Kjartan Maraas  <kmaraas@online.no>
 
 	* gnumeric.spec.in: Make it build a RPM.
-	
+
 2000-03-29  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-format-toolbar.c (workbook_create_format_toolbar):
@@ -6197,7 +6197,7 @@
 	* src/plugin-util.c, src/plugin-util.h: New, ment for reducing
 	some duplicate code in the plugins and provide better error
 	reporting. modified the ff-csv plugin to use the new functions.
-	
+
 2000-03-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_{col,row}_set_size_pts) : Set the update flags.
@@ -6255,7 +6255,7 @@
 	stf_dialog prefix to all functions and changed dialog_stf into
 	stf_dialog, this makes more sense as the same naming convention
 	was used in src/stf-parse.[ch] and src/dialogs/dialog-stf-preview.[ch]
-	
+
 	* src/dialogs/dialog-stf-main-page.c : idem
 	* src/dialogs/dialog-stf-csv-page.c : idem
 	* src/dialogs/dialog-stf-fixed-page.c : idem
@@ -6264,7 +6264,7 @@
 
 	* src/stf.c : Uses the renamed functions
 	* src/clipboard.c : idem
-	
+
 2000-03-24  Miguel de Icaza  <miguel@helixcode.com>
 
 	* src/file.c (workbook_import): Destroy the toplevel not the
@@ -6354,7 +6354,7 @@
 
 	* src/pixmaps/function_selector.xpm: New pixmap for Function
 	Selection Wizard 
-	
+
 	* src/pixmaps/sort-ascending.xpm 
 	* src/pixmaps/sort-descending.xpm: New versions of the sort icons,
 	we dont sort by numeric value so we dont want to use 123 in the icon
@@ -6470,7 +6470,7 @@
 	* src/file.h: (FileFormatLevel): Add the enum. At the best level,
 	the save command saves to the given name without asking.  At the
 	worst level, no name has been assigned.
-	
+
 	* src/file.c (_FileSaver): Add "level" member.
 	(file_format_unregister_save): Set level to manual for workbooks
 	which had this saver set.
@@ -6488,7 +6488,7 @@
 	* src/workbook.[ch] (workbook_set_saveinfo): New function. Set
 	filename, level and save function, but do nothing if we already
 	have info at a higher level.
-	
+
 	* src/workbook.h (struct _Workbook): Replace needs_name with
 	file_format_level. Add file_save_fn member. Include file.h
 	(workbook_set_saveinfo): Add "level" parameter.
@@ -6686,7 +6686,7 @@
 	* src/workbook.c (sort_cmd): Moved from workbook-format-toolbar.c
 	(sort_ascend_cmd): ditto
 	(sort_descend_cmd): ditto
-	
+
 	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort): Duh, 
 	pass the parameters in the correct order.
 
@@ -6747,7 +6747,7 @@
 
 	history_menu_flush is called to remove the old list,
 	history_menu_update to build the new.
-	
+
 	* src/history.c
 	(history_item_label): Add accel_number parameter, make label from
 	accel_number and basename. Rename basename variable to label.
@@ -6769,7 +6769,7 @@
 	list from the file menus of all workbooks.
 	(history_insert_menu_item): Remove.
 	(history_remove_menu_item): Remove.
-	
+
 	* src/history.h
 	(history_menu_fill, history_menu_flush): Declare.
 	(history_insert_menu_item, history_remove_menu_item): Remove.
@@ -6809,7 +6809,7 @@
 	selection in ascending order. 
 	(sort_descend_cmd): New toolbar callback function to sort
 	selection in descending order.
-	
+
 
 2000-03-12  JP Rosevear  <jpr@arcavia.com>
 
@@ -6826,9 +6826,9 @@
 	* src/Makefile.am: Cleaned Makefile.
 
 	* graph/Makefile.am: ditto.
-	
+
 	* graph/sample.c: fix
-	
+
 	* idl/Makefile.am, idl/Graph.idl, idl/Gnumeric.idl: Moved IDL
 	files here, and create the libGnumeric.a and libGraph.a libraries
 	here. 
@@ -6990,7 +6990,7 @@
 	Gnumeric::Value. 
 	(GNOME::Gnumeric::Workbook::parse): Change Sheet to
 	Gnumeric::Sheet.
-	
+
 	* src/dialogs/dialog-cell-comment.c (dialog_cell_comment): Set
 	word wrap.
 
@@ -7004,7 +7004,7 @@
 2000-03-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/Vector.idl: Move the vector interfaces here.
-	
+
 	* src/Makefile.am: Arrange for compilation linking of Vector code.
 
 2000-03-07  Almer. S. Tigelaar.  <almer1@dds.nl>
@@ -7013,7 +7013,7 @@
 	XML clipboard format. This way style information and such
 	can be preserved when copying/cutting from one instance
 	to another.
-	
+
 	* src/xml-io.c, src/xml-io.h :
 	Added some functions for the gnumeric clipboard xml format.
 	(gnumeric_xml_read_selection_clipboard) : 
@@ -7044,7 +7044,7 @@
 	New cellcopy type added CELL_COPY_TYPE_AND_COMMENT, if a
 	cellcopy is of this type the comments will be put in 
 	cellcopy.comment
-	
+
 	* src/clipboard.c
 	(paste_cell_flags) :
 	added support for the new CELL_COPY_TYPE_TEXT_AND_COMMENT copy type
@@ -7070,7 +7070,7 @@
 	* src/dialogs/Makefile.am: Added three above files to project
 
 	* src/dialogs/dialogs.h (dialog_sheet_order): added new function
-	
+
 	* src/workbook.c (sheet_order_cmd): added
 	(workbook_get_sheet_position, workbook_delete_sheet),
 	(workbook_move_sheet, workbook_focus_sheet, wb_edit_key_pressed): updated.
@@ -7082,7 +7082,7 @@
 	* src/Gnumeric.idl: add nasty mess copied from Bonobo.
 
 	* src/Makefile.am ($(GNUMERIC_CORBA_GENERATED)): Add -D__GNUMERIC_COMPILE
-	
+
 2000-03-05  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* doc/C/solver.sgml, doc/C/images/solver-0[1,2,3,4,5].jpg: Added
@@ -7160,7 +7160,7 @@
 	(refresh_right_frame): New function
 
 	* src/dialogs/plugin-manager.glade: updated.
-	
+
 	* src/dialogs/plugin-manager.glade.h: updated
 
 2000-03-03  Morten Welinder  <terra@diku.dk>
@@ -7185,7 +7185,7 @@
 	(gnumeric_pricemat): Same
 
 	* src/functions/fn-stat.c (gnumeric_ttest): Ditto
-	
+
 2000-03-02  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet-vector.c (sheet_vector_corba_object_create): made static.
@@ -7259,7 +7259,7 @@
 	(x_selection_to_cell_region): 
 	(x_selection_received): Call x_selection_to_cell_region with
 	workbook_command_context_gui.
-	
+
 2000-03-02  Miguel de Icaza  <miguel@helixcode.com>
 
 	* src/about.c (dialog_about): Changed to www.helixcode.com
@@ -7320,7 +7320,7 @@
 	* src/sheet.c (sheet_destroy): free private structure.
 	(sheet_new): init private structure.
 	(sheet_cell_changed): New function.
-	
+
 	* src/sheet-private.h: New file.
 
 	* src/sheet.h: Sheet structure includes SheetPrivate field now.
@@ -7336,7 +7336,7 @@
 	(xml_write_style) : Save the underline style.
 
 	* src/pattern.c (gnumeric_background_set_pc) : suppress warning.
-	
+
 	* src/mstyle.[ch] : Add MSTYLE_FONT_UNDERLINE.
 	(mstyle_get_font_uline) : New function.
 	(mstyle_set_font_uline) : New function.
@@ -7372,7 +7372,7 @@
 
 	* src/sheet.c (sheet_new): Added initialization of all the Solver
  	parameters.
-	
+
 	* src/xml-io.c: Enabled the solver parameter saving again.
 
 2000-02-29  Jon K Hellan  <hellan@acm.org>
@@ -7496,7 +7496,7 @@
 
 	* src/dialogs/dialog-solver.c (dialog_solver_options): Made the
 	`Assume non-negative' to be sensitive.
-	
+
 2000-02-28  Morten Welinder  <terra@diku.dk>
 
 	* src/format.c (render_number): Move calculation of thousand's sep
@@ -7516,7 +7516,7 @@
  	* src/function/fn-stat.c (callback_function_stat),
 	(callback_function_chitest_theoretical, gnumeric_betadist),
 	(gnumeric_confidence, gnumeric_ftest): ditto.
- 	
+ 
 2000-02-27  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/solver-lp.c, src/dialogs/dialog-solver.c: Constraints can
@@ -7526,7 +7526,7 @@
 	* src/utils.[ch] (parse_cell_name_or_range): Wrote.
 
 	* src/xml-io.c: Related changes.
-	
+
 2000-02-26  Jon K Hellan  <hellan@acm.org>
 
 	* doc/python-gnumeric.txt: New file. Documents the Python plugin.
@@ -7546,7 +7546,7 @@
 	are per sheet.
 
 	* src/dialogs/dialog-solver.c: A few bug fixes and improvements.
-	
+
 2000-02-22  Jody Goldberg <jgoldberg@home.com>
 
         * src/workbook-format-toolbar.c

@@ -938,7 +938,7 @@ dependent_add_dynamic_dep (Dependent *dep, ValueRange const *v)
 	DependentFlags   flags;
 	DynamicDep	*dyn;
 	CellPos const	*pos;
-	
+
 	g_return_if_fail (dep != NULL);
 
 	pos = (dependent_is_cell (dep))

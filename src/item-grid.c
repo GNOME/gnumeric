@@ -960,7 +960,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 			g_object_get (gtk_widget_get_settings (GTK_WIDGET (canvas)),
 				      "gtk-double-click-time", &double_click_time,
 				      NULL);
-			
+
 			if ((ig->last_click_time + double_click_time) > event->time &&
 			    wbcg_edit_start (scg->wbcg, FALSE, FALSE))
 				break;

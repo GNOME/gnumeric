@@ -69,7 +69,7 @@ dialog_summary_get (SummaryState *state)
 	for (lp = 0; dialog_summary_names[lp]; lp++) {
 		SummaryItem *sit = NULL;
 		char const *txt;
-		
+
 		w = glade_xml_get_widget (state->gui, dialog_summary_names[lp]);
 		if (w == NULL) 
 			continue;
@@ -77,19 +77,19 @@ dialog_summary_get (SummaryState *state)
 		old_content = summary_item_as_text_by_name (dialog_summary_names[lp], 
 							    wb->summary_info);
 		txt = gtk_entry_get_text (GTK_ENTRY (w));
-		
+
 		if (0 != strcmp (old_content, txt))
 			sit = summary_item_new_string (dialog_summary_names[lp],
 						       txt, TRUE);
 		g_free (old_content);
 		if (sit)
-			changes = g_slist_prepend (changes, sit);	
+			changes = g_slist_prepend (changes, sit);
 	}
 
 	{
 		char *comments;
 		SummaryItem *sit = NULL;
-		
+
 		w = glade_xml_get_widget (state->gui, summary_item_name[SUMMARY_I_COMMENTS]);
 		comments = gnumeric_textview_get_text (GTK_TEXT_VIEW (w));
 		old_content = summary_item_as_text_by_name (summary_item_name[SUMMARY_I_COMMENTS], 
@@ -101,7 +101,7 @@ dialog_summary_get (SummaryState *state)
 			g_free (comments);
 		g_free (old_content);
 		if (sit)
-			changes = g_slist_prepend (changes, sit);	
+			changes = g_slist_prepend (changes, sit);
 	}
 
 	if (changes)
@@ -116,7 +116,7 @@ dialog_summary_put (SummaryState *state)
 	SummaryInfo *sin = wb->summary_info;
 	GtkWidget   *w ;
 	int i;
-	
+
 	for (i = 0; dialog_summary_names[i]; i++) {
 		w = glade_xml_get_widget (state->gui, dialog_summary_names[i]);
 		if (w) {
@@ -221,7 +221,7 @@ dialog_summary_update (WorkbookControlGUI *wbcg, gboolean open_dialog)
 
 	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
 	g_return_if_fail (state->gui != NULL);
-	
+
 	state->dialog = glade_xml_get_widget (state->gui, "SummaryInformation");
 	g_return_if_fail (state->dialog != NULL);
 
@@ -255,10 +255,10 @@ dialog_summary_update (WorkbookControlGUI *wbcg, gboolean open_dialog)
 		"summary.html");
 
 	dialog_summary_put (state);
-	
+
 	g_object_set_data (G_OBJECT (state->dialog), SUMMARY_DIALOG_KEY_DIALOG, 
 			   state);
-	
+
 	state->signal_handler_filename_changed = g_signal_connect ( 
 		G_OBJECT (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg))), 
 		"filename_changed", G_CALLBACK (cb_info_changed), state) ;

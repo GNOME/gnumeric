@@ -2404,7 +2404,7 @@ gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
 	if (v >= 0)
 		return value_new_float (v);
 	else
-		return value_new_error (ei->pos, gnumeric_err_NUM);	
+		return value_new_error (ei->pos, gnumeric_err_NUM);
 }
 
 /***************************************************************************/
@@ -2453,7 +2453,7 @@ gnumeric_euroconvert (FunctionEvalInfo *ei, Value **argv)
 	if (c1 >= 0 && c2 >= 0)
 		return value_new_float (n * c2 / c1);
 	else
-		return value_new_error (ei->pos, gnumeric_err_VALUE);	
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
 }
 
 /***************************************************************************/

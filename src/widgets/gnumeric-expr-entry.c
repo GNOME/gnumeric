@@ -568,7 +568,7 @@ cb_gee_button_press_event (G_GNUC_UNUSED GtkEntry *entry,
 		gnm_expr_expr_find_range (gee);
 		g_signal_emit (G_OBJECT (gee), signals [CHANGED], 0);
 	}
-	
+
 	return FALSE;
 }
 

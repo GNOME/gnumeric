@@ -615,7 +615,7 @@ cb_hide_unwanted_items (Sheet *sheet, int col, int row, Cell *cell,
 {
 	int i = data->elements;
 	Value const *v = cell->value;
-	
+
 	while (i-- > 0)
 		if (data->vals[i] == v)
 			return NULL;
@@ -795,7 +795,7 @@ gnm_filter_new (Sheet *sheet, Range const *r)
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (r != NULL, NULL);
-	
+
 	filter = g_new0 (GnmFilter, 1);
 	filter->dep.sheet = sheet;
 	filter->dep.flags = filter_get_dep_type ();

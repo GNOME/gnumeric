@@ -413,12 +413,12 @@ format_template_new (void)
 	ft->font      = TRUE;
 	ft->patterns  = TRUE;
 	ft->alignment = TRUE;
-	
+
 	ft->edges.left   = TRUE;
 	ft->edges.right  = TRUE;
 	ft->edges.top    = TRUE;
 	ft->edges.bottom = TRUE;
-	
+
 	ft->table     = hash_table_create ();
 	ft->invalidate_hash = TRUE;
 
@@ -1006,7 +1006,7 @@ format_template_transform_edges (FormatTemplate const *origft)
 	GSList *iterator;
 
 	g_return_val_if_fail (origft != NULL, NULL);
-	
+
 	ft = format_template_clone (origft);
 	iterator = ft->members;
 	while (iterator) {
@@ -1016,7 +1016,7 @@ format_template_transform_edges (FormatTemplate const *origft)
 		gboolean right  = FALSE;
 		gboolean top    = FALSE;
 		gboolean bottom = FALSE;
-			
+
 		if (member->col.size == 1 &&
 		    member->direction == FREQ_DIRECTION_NONE) {
 			left   = (member->col.offset_gravity > 0
@@ -1031,7 +1031,7 @@ format_template_transform_edges (FormatTemplate const *origft)
 			bottom = (member->row.offset_gravity < 0
 				  && !ft->edges.bottom);
 		}
-			
+
 		if (left || right || top || bottom) {
 			GSList *subiterator = ft->members;
 			GSList *tmp = NULL;
@@ -1047,7 +1047,7 @@ format_template_transform_edges (FormatTemplate const *origft)
 					} else if (submember->col.offset == 1)
 						submember->col.offset = 0;
 				}
-					
+
 				if (right
 				    && submember->col.offset_gravity == -member->col.offset_gravity) {
 					if (submember->col.size == -member->col.size)
@@ -1072,7 +1072,7 @@ format_template_transform_edges (FormatTemplate const *origft)
 					else if (submember->direction != FREQ_DIRECTION_NONE)
 						submember->edge = 0;
 				}
-					
+
 				subiterator = g_slist_next (subiterator);
 			}
 
@@ -1107,7 +1107,7 @@ format_template_calculate (FormatTemplate *origft, Range const *r, PCalcCallback
 
 	if (!ft->edges.left || !ft->edges.right || !ft->edges.top || !ft->edges.bottom)
 		ft = format_template_transform_edges (origft);
-		
+
 	/*
 	 * Apply all styles
 	 */

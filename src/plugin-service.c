@@ -1303,7 +1303,7 @@ plugin_service_ui_read_xml (PluginService *service, xmlNode *tree, ErrorInfo **r
 		*ret_error = error_info_new_str (
 		             _("Missing file name."));
 		return;
-	}		
+	}
 	verbs_node = e_xml_get_child_by_name (tree, "verbs");
 	if (verbs_node != NULL) {
 		xmlNode *node;
@@ -1328,7 +1328,7 @@ ui_verb_fn (BonoboUIComponent *uic, gpointer user_data, const gchar *cname)
 {
 	PluginService *service = GNM_PLUGIN_SERVICE (user_data);
 	ErrorInfo *load_error = NULL;
-	
+
 	plugin_service_load (service, &load_error);
 	if (load_error == NULL) {
 		PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
@@ -1499,7 +1499,7 @@ plugin_service_new (xmlNode *tree, ErrorInfo **ret_error)
 		*ret_error = error_info_new_str (_("No \"type\" attribute on \"service\" element."));
 		g_free (id);
 		return NULL;
-	}	
+	}
 	for (ti = 0; ti < GNM_SIZEOF_ARRAY (service_types); ti++) {
 		if (g_ascii_strcasecmp (service_types[ti].type_str, type_str) == 0)
 			break;

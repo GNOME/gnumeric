@@ -101,7 +101,7 @@ gnumeric_cell_renderer_toggle_class_init (GnumericCellRendererToggleClass *class
 
 	cell_class->render = gnumeric_cell_renderer_toggle_render;
 	cell_class->get_size = gnumeric_cell_renderer_toggle_get_size;
-	
+
 	g_object_class_install_property 
 		(object_class, PROP_PIXBUF,
 		 g_param_spec_object ("pixbuf",
@@ -126,7 +126,7 @@ gnumeric_cell_renderer_toggle_get_property (GObject     *object,
 					    GParamSpec  *pspec)
 {
 	GnumericCellRendererToggle *celltoggle = GNUMERIC_CELL_RENDERER_TOGGLE (object);
-	
+
 	switch (param_id) {
 	case PROP_PIXBUF:
 		g_value_set_object (value,
@@ -147,7 +147,7 @@ gnumeric_cell_renderer_toggle_set_property (GObject      *object,
 {
 	GnumericCellRendererToggle *celltoggle = GNUMERIC_CELL_RENDERER_TOGGLE (object);
 	GdkPixbuf *pixbuf;
-	
+
 	switch (param_id) {
 	case PROP_PIXBUF:
 		pixbuf = (GdkPixbuf*) g_value_get_object (value);
@@ -177,19 +177,19 @@ gnumeric_cell_renderer_toggle_get_size (GtkCellRenderer *cell,
 	gint pixbuf_height = 0;
 	gint calc_width;
 	gint calc_height;
-	
+
 	if (cellpixbuf->pixbuf)
 	{
 		pixbuf_width = gdk_pixbuf_get_width (cellpixbuf->pixbuf);
 		pixbuf_height = gdk_pixbuf_get_height (cellpixbuf->pixbuf);
 	}
-	
+
 	calc_width = (gint) GTK_CELL_RENDERER (cellpixbuf)->xpad * 2 + pixbuf_width;
 	calc_height = (gint) GTK_CELL_RENDERER (cellpixbuf)->ypad * 2 + pixbuf_height;
-	
+
 	if (x_offset) *x_offset = 0;
 	if (y_offset) *y_offset = 0;
-	
+
 	if (cell_area && pixbuf_width > 0 && pixbuf_height > 0)
 	{
 		if (x_offset)
@@ -208,13 +208,13 @@ gnumeric_cell_renderer_toggle_get_size (GtkCellRenderer *cell,
 			*y_offset = MAX (*y_offset, 0) + GTK_CELL_RENDERER (cellpixbuf)->ypad;
 		}
 	}
-	
+
 	if (calc_width)
 		*width = calc_width;
-	
+
 	if (height)
 		*height = calc_height;
-	
+
 }
 
 static void
@@ -230,23 +230,23 @@ gnumeric_cell_renderer_toggle_render (GtkCellRenderer *cell,
 	GdkPixbuf *pixbuf;
 	GdkRectangle pix_rect;
 	GdkRectangle draw_rect;
-	
+
 	pixbuf = cellpixbuf->pixbuf;
-	
+
 	if (!pixbuf)
 		return;
-	
+
 	gnumeric_cell_renderer_toggle_get_size (cell, widget, cell_area,
 						&pix_rect.x,
 						&pix_rect.y,
 						&pix_rect.width,
 						&pix_rect.height);
-	
+
 	pix_rect.x += cell_area->x;
 	pix_rect.y += cell_area->y;
 	pix_rect.width -= cell->xpad * 2;
 	pix_rect.height -= cell->ypad * 2;
-	
+
 	if (gdk_rectangle_intersect (cell_area, &pix_rect, &draw_rect))
 		gdk_pixbuf_render_to_drawable_alpha (pixbuf,
 						     window,

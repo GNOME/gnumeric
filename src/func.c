@@ -731,7 +731,7 @@ function_def_get_arg_name (GnmFunc const *fn_def,
 	while (arg_idx-- && *names) {
 		names++;
 	}
-	
+
 	if (*names == NULL)
 		return NULL;
 	name = g_strdup (*names);

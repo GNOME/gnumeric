@@ -119,7 +119,7 @@ item_bar_calc_size (ItemBar *ib)
 					    zoom_factor, FALSE, FALSE);
 	bold_font = style_font_new_simple (font_name, size,
 					   zoom_factor, TRUE, FALSE);
-	
+
 	/* Now that we have the new fonts unref the old ones */
 	ib_fonts_unref (ib);
 

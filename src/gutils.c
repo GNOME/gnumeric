@@ -623,7 +623,7 @@ gnumeric_utf8_strcapital (const char *p, ssize_t len)
 
 	result = res->str;
 	g_string_free (res, FALSE);
-	return result;	
+	return result;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -921,6 +921,6 @@ g_str_compare (void const *x, void const *y)
 		else
 			return x ? -1 : 1;
 	} 
-		
+
 	return strcmp (x, y);
 }

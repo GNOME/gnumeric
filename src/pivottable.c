@@ -30,7 +30,7 @@ gnm_pivottable_new (Sheet *src_sheet, Range const *src,
 		    Sheet *dst_sheet, Range const *dst)
 {
 	GnmPivotTable *res;
-	
+
 	g_return_val_if_fail (IS_SHEET (src_sheet), NULL);
 	g_return_val_if_fail (IS_SHEET (dst_sheet), NULL);
 	g_return_val_if_fail (src != NULL && dst != NULL, NULL);

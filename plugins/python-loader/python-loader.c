@@ -235,7 +235,7 @@ gnumeric_plugin_loader_python_func_file_probe (
 	g_warning ("Probing from Python plugins requires gnome-python "
 		   "and Python bindings for libgsf");
 	return FALSE;
-#else	
+#else
 	ServiceLoaderDataFileOpener *loader_data;
 	PyObject *probe_result = NULL;
 	PyObject *input_wrapper;
@@ -281,7 +281,7 @@ gnumeric_plugin_loader_python_func_file_open (GnumFileOpener const *fo,
 		(io_context,
 		 "File opening from python plugins requires gnome-python "
 		 "and Python bindings for libgsf");
-#else	
+#else
 	ServiceLoaderDataFileOpener *loader_data;
 	Sheet *sheet;
 	PyObject *open_result = NULL;
@@ -378,7 +378,7 @@ gnumeric_plugin_loader_python_func_file_save (GnumFileSaver const *fs, PluginSer
 		(io_context,
 		 "File saving from python plugins requires gnome-python "
 		 "and Python bindings for libgsf");
-#else	
+#else
 	ServiceLoaderDataFileSaver *saver_data;
 	PyObject *py_workbook;
 	PyObject *save_result = NULL;

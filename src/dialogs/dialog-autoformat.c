@@ -108,14 +108,14 @@ typedef struct {
 	GtkTextView    *info_descr;
 
 	GtkCheckMenuItem *number, *border, *font, *patterns, *alignment;
-	
+
 	struct {
 		GtkCheckMenuItem *left;
 		GtkCheckMenuItem *right;
 		GtkCheckMenuItem *top;
 		GtkCheckMenuItem *bottom;
 	} edges;
-	
+
 	GtkButton      *ok, *cancel;
 
 	GtkTooltips    *tooltips;
@@ -452,18 +452,18 @@ cb_check_item_toggled (G_GNUC_UNUSED GtkCheckMenuItem *item,
 
 	for (ptr = state->templates; ptr != NULL ; ptr = ptr->next) {
 		FormatTemplate *ft = ptr->data;
-		
+
 		ft->number    = state->number->active;
 		ft->border    = state->border->active;
 		ft->font      = state->font->active;
 		ft->patterns  = state->patterns->active;
 		ft->alignment = state->alignment->active;
-		
+
 		ft->edges.left   = state->edges.left->active;
 		ft->edges.right  = state->edges.right->active;
 		ft->edges.top    = state->edges.top->active;
 		ft->edges.bottom = state->edges.bottom->active;
-		
+
 		ft->invalidate_hash = TRUE;
 	}
 

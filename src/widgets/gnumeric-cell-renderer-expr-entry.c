@@ -77,7 +77,7 @@ gnumeric_cell_renderer_expr_entry_class_init (GnumericCellRendererExprEntryClass
 	parent_class = g_type_class_peek_parent (object_class);
 
 	cell_class->start_editing = gnumeric_cell_renderer_expr_entry_start_editing;
-	
+
 }
 
 

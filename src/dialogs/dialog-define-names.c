@@ -376,7 +376,7 @@ name_guru_add (NameGuruState *state)
 		cmd_define_name (WORKBOOK_CONTROL (state->wbcg), name,
 				 &pp, expr, NULL);
 	}
-	
+
 	name_guru_populate_list (state);
 	gtk_widget_grab_focus (GTK_WIDGET (state->name));
 
