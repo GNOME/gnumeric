@@ -7,8 +7,8 @@ SUBDIRS = pixmaps dialogs widgets tools cut-n-paste-code
 if WITH_BONOBO
 libexec_PROGRAMS = gnumeric-component
 endif
-bin_PROGRAMS = gnumeric test-pango # ssconvert
-#noinst_PROGRAMS = number-match
+bin_PROGRAMS = gnumeric # ssconvert
+check_PROGRAMS = test-pango # number-match
 
 INCLUDES = 								\
 	-DGNUMERIC_PREFIX=\""$(gnumeric_prefix)"\"			\
@@ -300,7 +300,6 @@ gnumeric_SOURCES =				\
 	io-context-gtk.h			\
 	main-application.c			\
 	normal-args.c
-#	 corba-args.c (use normal for now)
 
 gnumeric_LDADD =				\
 	$(gnumeric_app_libs)			\
@@ -331,12 +330,13 @@ gnumeric_app_libs =				\
 	tools/solver/lp_solve/liblp_solve.a	\
 	cut-n-paste-code/foocanvas/libfoocanvas/libfoocanvas.a
 
+	# cut-n-paste-code/goffice-graph/libgoffice-graph.a
+
 if WITH_BONOBO
 gnumeric_component_SOURCES =			\
 	$(GNUMERIC_BASE)			\
 	$(GNUMERIC_BONOBO)			\
 	main-component.c
-#	 corba-args.c (use normal for now)
 
 gnumeric_component_LDADD = $(gnumeric_LDADD)
 
@@ -344,12 +344,6 @@ gnumeric_component_LDFLAGS = $(gnumeric_LDFLAGS)
 
 gnumeric_component_app_libs = $(gnumeric_app_libs)
 endif
-
-#ssconvert_LDADD   = $(gnumeric_LDADD)
-#ssconvert_LDFLAGS = $(gnumeric_LDFLAGS)
-#ssconvert_SOURCES =				\
-#	$(GNUMERIC_BASE)			\
-#	ssconvert.c
 
 test_pango_LDADD   = $(gnumeric_LDADD)
 test_pango_LDFLAGS = $(gnumeric_LDFLAGS)
@@ -366,7 +360,7 @@ gnm-marshalers.c : gnm-marshalers.list $(GLIB_GENMARSHAL)
 # what the build
 EXTRA_DIST = GNOME_Gnumeric.xml GNOME_Gnumeric_Component.xml	\
 	    gnm-marshalers.list	                        	\
-	    main-application.c normal-args.c corba-args.c	\
+	    main-application.c normal-args.c 			\
 	    main-component.c					\
 	    $(GNUMERIC_BONOBO) README.gnm_float
 

@@ -385,6 +385,8 @@ map_wp_char (int charset, int charcode)
   return ucode;
 }
 
+guint8 *pln_get_str (guint8 const *ch, unsigned len);
+
 guint8 *
 pln_get_str (guint8 const *ch, unsigned len)
 {

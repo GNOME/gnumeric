@@ -302,7 +302,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	if (fs == NULL)
 		fs = workbook_get_file_saver (wb_view_workbook (wb_view));
 	if (fs == NULL || g_list_find (savers, fs) == NULL)
-		fs = get_default_file_saver ();
+		fs = gnm_file_saver_get_default ();
 
 	gtk_option_menu_set_history (omenu, g_list_index (savers, fs));
 
@@ -389,7 +389,7 @@ ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 						wb_view_workbook (wb_view));
 	}
 	if (fs == NULL || g_list_find (savers, fs) == NULL) {
-		fs = get_default_file_saver ();
+		fs = gnm_file_saver_get_default ();
 	}
 	gtk_option_menu_set_history (omenu, g_list_index (savers, fs));
 	gtk_widget_show_all (GTK_DIALOG (dialog)->vbox);
@@ -425,7 +425,7 @@ gui_file_save_to_stream (BonoboStream *stream, WorkbookControlGUI *wbcg,
 			return;
 		}
 	} else {
-		fs = get_file_saver_for_mime_type (mime_type);
+		fs = gnm_file_saver_for_mime_type (mime_type);
 		if (!fs) {
 			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 					     ex_Bonobo_Stream_NotSupported,

@@ -201,8 +201,7 @@ gnm_plugin_class_init (GObjectClass *gobject_class)
 	type_module_class->load = gnm_plugin_type_module_load;
 	type_module_class->unload = gnm_plugin_type_module_unload;
 
-	gnm_plugin_signals[STATE_CHANGED] =
-	g_signal_new (
+	gnm_plugin_signals[STATE_CHANGED] = g_signal_new (
 		"state_changed", 
 		G_TYPE_FROM_CLASS (gobject_class),
 		G_SIGNAL_RUN_LAST,
@@ -210,8 +209,7 @@ gnm_plugin_class_init (GObjectClass *gobject_class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
-	gnm_plugin_signals[CAN_DEACTIVATE_CHANGED] =
-	g_signal_new (
+	gnm_plugin_signals[CAN_DEACTIVATE_CHANGED] = g_signal_new (
 		"can_deactivate_changed", 
 		G_TYPE_FROM_CLASS (gobject_class),
 		G_SIGNAL_RUN_LAST,

@@ -48,14 +48,3 @@ void
 gnm_pivottable_free (GnmPivotTable *filter)
 {
 }
-
-/**
- * gnm_pivottable_remove :
- * @filter :
- *
- * Removes @filter from the sheet but does not free it
- **/
-void
-gnm_pivottable_remove (GnmPivotTable *filter)
-{
-}

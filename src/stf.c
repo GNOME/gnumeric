@@ -463,15 +463,15 @@ stf_write_workbook (GnmFileSaver const *fs, IOContext *context,
 void
 stf_init (void)
 {
-	register_file_opener (gnm_file_opener_new (
+	gnm_file_opener_register (gnm_file_opener_new (
 		"Gnumeric_stf:stf_csvtab",
 		_("Comma or tab separated files (CSV/TSV))"),
 		stf_read_default_probe, stf_read_workbook_auto_csvtab), 0);
-	register_file_opener (gnm_file_opener_new (
+	gnm_file_opener_register (gnm_file_opener_new (
 		"Gnumeric_stf:stf_druid",
 		_("Text import (configurable)"),
 		NULL, stf_read_workbook), 0);
-	register_file_saver (gnm_file_saver_new (
+	gnm_file_saver_register (gnm_file_saver_new (
 		"Gnumeric_stf:stf", "csv",
 		_("Text export (configurable)"),
 		FILE_FL_WRITE_ONLY, stf_write_workbook));

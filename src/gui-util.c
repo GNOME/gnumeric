@@ -840,14 +840,21 @@ void
 gnumeric_inject_widget_into_bonoboui (WorkbookControlGUI *wbcg, GtkWidget *widget, char const *path)
 {
 	BonoboControl *control;
+	CORBA_Environment ev;
 
 	gtk_widget_show_all (widget);
 	control = bonobo_control_new (widget);
+
+	CORBA_exception_init (&ev);
 	bonobo_ui_component_object_set (
 		wbcg->uic, path,
 		BONOBO_OBJREF (control),
-		NULL);
-	bonobo_object_unref (BONOBO_OBJECT (control));
+		&ev);
+	/* if there was a problem injecting the widget then nothing is refing
+	 * the control and the widget will go away under our feet */
+	if (!BONOBO_EX (&ev))
+		bonobo_object_unref (BONOBO_OBJECT (control));
+	CORBA_exception_free (&ev);
 }
 #endif
 

@@ -1,1 +1,1 @@
-SUBDIRS = egg foocanvas
+SUBDIRS = egg foocanvas # goffice-graph

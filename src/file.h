@@ -97,43 +97,44 @@ typedef void (*GnmFileSaverSaveFunc) (GnmFileSaver const *fs,
 GType gnm_file_saver_get_type (void);
 
 GnmFileSaver *gnm_file_saver_new (const gchar *id,
-                                    const gchar *extension,
-                                    const gchar *description,
-                                    FileFormatLevel level,
-                                    GnmFileSaverSaveFunc save_func);
+				  const gchar *extension,
+				  const gchar *description,
+				  FileFormatLevel level,
+				  GnmFileSaverSaveFunc save_func);
 
 void          gnm_file_saver_set_save_scope (GnmFileSaver *fs, FileSaveScope scope);
 FileSaveScope gnm_file_saver_get_save_scope (GnmFileSaver *fs);
 
 void         gnm_file_saver_save (GnmFileSaver const *fs, IOContext *io_context,
                                    WorkbookView const *wbv, GsfOutput *output);
-void         gnm_file_saver_set_overwrite_files (GnmFileSaver *fs,
-                                                  gboolean overwrite);
-gboolean     gnm_file_saver_fix_file_name (GnmFileSaver const *fs,
-                                            const gchar *file_name,
-					    gchar **new_file_name);
-const gchar *gnm_file_saver_get_id (GnmFileSaver const *fs);
-const gchar *gnm_file_saver_get_extension (GnmFileSaver const *fs);
-const gchar *gnm_file_saver_get_mime_type (GnmFileSaver const *fs);
-const gchar *gnm_file_saver_get_description (GnmFileSaver const *fs);
-FileFormatLevel gnm_file_saver_get_format_level (GnmFileSaver const *fs);
+void         gnm_file_saver_set_overwrite_files	(GnmFileSaver *fs,
+						 gboolean overwrite);
+gboolean     gnm_file_saver_fix_file_name	(GnmFileSaver const *fs,
+						 char const *file_name,
+						 char **new_file_name);
+const gchar *gnm_file_saver_get_id	  	(GnmFileSaver const *fs);
+const gchar *gnm_file_saver_get_extension	(GnmFileSaver const *fs);
+const gchar *gnm_file_saver_get_mime_type	(GnmFileSaver const *fs);
+const gchar *gnm_file_saver_get_description	(GnmFileSaver const *fs);
+FileFormatLevel gnm_file_saver_get_format_level	(GnmFileSaver const *fs);
 
 /*
  *
  */
 
-void register_file_opener (GnmFileOpener *fo, gint priority);
-void unregister_file_opener (GnmFileOpener *fo);
-void register_file_saver (GnmFileSaver *fs);
-void register_file_saver_as_default (GnmFileSaver *fs, gint priority);
-void unregister_file_saver (GnmFileSaver *fs);
-
-GnmFileSaver *get_default_file_saver (void);
-GnmFileSaver *get_file_saver_for_mime_type (const gchar *mime_type);
-GnmFileOpener *get_file_opener_by_id (const gchar *id);
-GnmFileSaver *get_file_saver_by_id (const gchar *id);
+GList *get_file_openers (void);
+void		 gnm_file_opener_unregister (GnmFileOpener *fo);
+void		 gnm_file_opener_register   (GnmFileOpener *fo, gint priority);
+GnmFileOpener	*gnm_file_opener_for_id	    (char const *id);
 
 GList *get_file_savers (void);
-GList *get_file_openers (void);
+void gnm_file_saver_unregister	(GnmFileSaver *fs);
+void gnm_file_saver_register	(GnmFileSaver *fs);
+void gnm_file_saver_register_as_default (GnmFileSaver *fs, gint priority);
+
+GnmFileSaver	*gnm_file_saver_get_default (void);
+GnmFileSaver	*gnm_file_saver_for_mime_type	(char const *mime_type);
+GnmFileSaver	*gnm_file_saver_for_file_name	(char const *file_name);
+GnmFileSaver	*gnm_file_saver_for_id		(char const *id);
 
 #endif /* GNUMERIC_FILE_H */

@@ -649,7 +649,7 @@ wb_view_save (WorkbookView *wbv, CommandContext *context)
 	wb = wb_view_workbook (wbv);
 	fs = workbook_get_file_saver (wb);
 	if (fs == NULL)
-		fs = get_default_file_saver ();
+		fs = gnm_file_saver_get_default ();
 
 	io_context = gnumeric_io_context_new (context);
 	if (fs == NULL)

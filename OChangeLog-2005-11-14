@@ -1,9 +1,18 @@
+2003-03-27  Jody Goldberg <jody@gnome.org>
+
+	* src/style.c (style_font_new_simple) : doh!  Thanks Morten.
+
 2003-03-26  Morten Welinder  <terra@diku.dk>
 
 	* src/style.c (style_font_string_width): Dont'ask for height just
 	to throw it away.
 
 2003-03-26  Jody Goldberg <jody@gnome.org>
+
+	* src/pattern.c (gnumeric_background_set_gc) : trivial optimization to
+	  avoid multiple calls to gdk_gc_set_values.
+	(gnumeric_pattern_get_stipple) : no need to publicize this for now.
+	  simply a bit.
 
 	* src/commands.c (command_register_undo) : handle 0 sized command
 	  queues by keeping a ref to the current command in case the

@@ -1,10 +1,11 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * pattern.c : Support and specifications for patterns.
  *
  * Author:
  *     Jody Goldberg <jody@gnome.org>
  *
- *  (C) 1999-2001 Jody Goldberg
+ *  (C) 1999-2003 Jody Goldberg
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
@@ -18,7 +19,9 @@ typedef struct {
 } gnumeric_sheet_pattern_t;
 
 static gnumeric_sheet_pattern_t const
-gnumeric_sheet_patterns [GNUMERIC_SHEET_PATTERNS] = {
+gnumeric_sheet_patterns [] = {
+/* 0 */	{ 8, 8, /* DUMMY PLACEHOLDER */
+	  { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 } },
 /* 1 */	{ 8, 8, /* Solid */
 	  { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 } },
 /* 2 */	{ 8, 8, /* 75% */
@@ -71,7 +74,7 @@ gnumeric_sheet_patterns [GNUMERIC_SHEET_PATTERNS] = {
 	  { 0xfe, 0xef, 0xfb, 0xdf, 0xfd, 0xf7, 0x00, 0x00 } }
 };
 
-GdkPixmap *
+static GdkPixmap *
 gnumeric_pattern_get_stipple (gint index)
 {
 	static GdkPixmap *patterns [GNUMERIC_SHEET_PATTERNS];
@@ -80,7 +83,7 @@ gnumeric_pattern_get_stipple (gint index)
 	/* Initialize the patterns to NULL */
 	if (need_init) {
 		int i;
-		for (i = GNUMERIC_SHEET_PATTERNS; --i >= 0 ;)
+		for (i = GNUMERIC_SHEET_PATTERNS+1; i-- > 0 ;)
 			patterns [i] = NULL;
 	}
 
@@ -90,7 +93,6 @@ gnumeric_pattern_get_stipple (gint index)
 	if (index == 0)
 		return NULL;
 
-	--index;
 	if (patterns [index] == NULL) {
 		gnumeric_sheet_pattern_t const * pat = gnumeric_sheet_patterns + index;
 		patterns [index] = gdk_bitmap_create_from_data (
@@ -111,6 +113,7 @@ gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
 			    gboolean const is_selected)
 {
 	int pattern;
+	GdkGCValues values;
 
 	/*
 	 * Draw the background if the PATTERN is non 0
@@ -118,7 +121,7 @@ gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
 	 */
 	pattern = mstyle_get_pattern (mstyle);
 	if (pattern > 0) {
-		GdkColor   *back;
+		GdkColor const *back;
 		StyleColor *back_col =
 			mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
 		g_return_val_if_fail (back_col != NULL, FALSE);
@@ -127,25 +130,32 @@ gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
 
 		if (pattern > 1) {
 			StyleColor *pat_col =
-			mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
+				mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 
-			gdk_gc_set_fill (gc, GDK_OPAQUE_STIPPLED);
-			gdk_gc_set_foreground (gc, &pat_col->color);
-			gdk_gc_set_background (gc, back);
-			gdk_gc_set_stipple (gc, gnumeric_pattern_get_stipple (pattern));
+			values.fill = GDK_OPAQUE_STIPPLED;
+			values.foreground = pat_col->color;
+			values.background = *back;
+			values.stipple = gnumeric_pattern_get_stipple (pattern);
+			gdk_gc_set_values (gc, &values,
+				GDK_GC_FILL | GDK_GC_FOREGROUND |
+				GDK_GC_BACKGROUND | GDK_GC_STIPPLE);
+
 			foo_canvas_set_stipple_origin (canvas, gc);
 		} else {
-			gdk_gc_set_fill (gc, GDK_SOLID);
-			gdk_gc_set_foreground (gc, back);
+			values.fill = GDK_SOLID;
+			values.foreground = *back;
+			gdk_gc_set_values (gc, &values,
+				GDK_GC_FILL | GDK_GC_FOREGROUND);
 		}
 		return TRUE;
 	} else if (is_selected) {
 		/* No need to reset the gc to white if not selected
-		 * we only paint a cell packground if it is non-white
-		 */
-		gdk_gc_set_fill (gc, GDK_SOLID);
-		gdk_gc_set_foreground (gc, &gs_lavender);
+		 * we only paint a cell packground if it is non-white */
+		values.fill = GDK_SOLID;
+		values.foreground = gs_lavender;
+		gdk_gc_set_values (gc, &values,
+			GDK_GC_FILL | GDK_GC_FOREGROUND);
 	}
 	return FALSE;
 }

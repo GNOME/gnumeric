@@ -41,6 +41,8 @@
 
 static void dynamic_dep_eval 	   (Dependent *dep);
 static void dynamic_dep_debug_name (Dependent const *dep, FILE *out);
+static void name_dep_eval 	   (Dependent *dep);
+static void name_dep_debug_name	   (Dependent const *dep, FILE *out);
 
 static CellPos const dummy = { 0, 0 };
 static GPtrArray *dep_classes = NULL;
@@ -48,6 +50,11 @@ static DependentClass dynamic_dep_class = {
 	dynamic_dep_eval,
 	NULL,
 	dynamic_dep_debug_name,
+};
+static DependentClass name_dep_class = {
+	name_dep_eval,
+	NULL,
+	name_dep_debug_name,
 };
 typedef struct {
 	Dependent  base;
@@ -65,6 +72,7 @@ dependent_types_init (void)
 	g_ptr_array_add	(dep_classes, NULL); /* bogus filler */
 	g_ptr_array_add	(dep_classes, NULL); /* Cell */
 	g_ptr_array_add	(dep_classes, &dynamic_dep_class);
+	g_ptr_array_add	(dep_classes, &name_dep_class);
 }
 
 void
@@ -925,6 +933,13 @@ workbook_unlink_3d_dep (Dependent *dep)
 
 /*****************************************************************************/
 
+static void name_dep_eval (G_GNUC_UNUSED Dependent *dep) { }
+
+static void
+name_dep_debug_name (Dependent const *dep, FILE *out)
+{
+	fprintf (out, "Name%p", dep);
+}
 static void dynamic_dep_eval (G_GNUC_UNUSED Dependent *dep) { }
 
 static void
@@ -1490,6 +1505,7 @@ dependents_unrelocate (GSList *info)
 			 */
 			if (cell != NULL)
 				sheet_cell_set_expr (cell, tmp->oldtree);
+		} else if (tmp->dep_type == DEPENDENT_NAME) {
 		} else {
 			dependent_set_expr (tmp->u.dep, tmp->oldtree);
 			dependent_flag_recalc (tmp->u.dep);
@@ -1591,6 +1607,7 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 	GnmExpr const *newtree;
 	int i;
 	CollectClosure collect;
+	GHashTable *names;
 
 	g_return_val_if_fail (info != NULL, NULL);
 
@@ -1651,31 +1668,34 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 				g_new (ExprRelocateStorage, 1);
 
 			tmp->dep_type = t;
-			if (t != DEPENDENT_CELL)
-				tmp->u.dep = dep;
-			else
-				tmp->u.pos = rwinfo.u.relocate.pos;
-			tmp->oldtree = dep->expression;
-			gnm_expr_ref (tmp->oldtree);
-			undo_info = g_slist_prepend (undo_info, tmp);
+			if (t == DEPENDENT_NAME) {
+			} else {
+				if (t == DEPENDENT_CELL)
+					tmp->u.pos = rwinfo.u.relocate.pos;
+				else
+					tmp->u.dep = dep;
+				tmp->oldtree = dep->expression;
+				gnm_expr_ref (tmp->oldtree);
+				undo_info = g_slist_prepend (undo_info, tmp);
 
-			dependent_set_expr (dep, newtree); /* unlinks */
-			gnm_expr_unref (newtree);
+				dependent_set_expr (dep, newtree); /* unlinks */
+				gnm_expr_unref (newtree);
 
-			/* queue the things that depend on the changed dep
-			 * even if it is going to move.
-			 */
-			dependent_queue_recalc (dep);
+				/* queue the things that depend on the changed dep
+				 * even if it is going to move.
+				 */
+				dependent_queue_recalc (dep);
 
-			/* relink if it is not going to move, if it is moving
-			 * then the caller is responsible for relinking.
-			 * This avoids a link/unlink/link tuple
-			 */
-			if (t == DEPENDENT_CELL) {
-				CellPos const *pos = &DEP_TO_CELL (dep)->pos;
-				if (dep->sheet != sheet ||
-				    !range_contains (r, pos->col, pos->row))
-					dependent_link (dep, pos);
+				/* relink if it is not going to move, if it is moving
+				 * then the caller is responsible for relinking.
+				 * This avoids a link/unlink/link tuple
+				 */
+				if (t == DEPENDENT_CELL) {
+					CellPos const *pos = &DEP_TO_CELL (dep)->pos;
+					if (dep->sheet != sheet ||
+					    !range_contains (r, pos->col, pos->row))
+						dependent_link (dep, pos);
+				}
 			}
 		}
 
@@ -1683,6 +1703,41 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 		 * definitely cheaper tha finding the set of effected sheets.
 		 */
 		sheet_flag_status_update_range (dep->sheet, NULL);
+	}
+
+	names = info->origin_sheet->deps->referencing_names;
+	if (names != NULL) {
+#if 0
+	if ((info->col_offset == 0 && range_is_full (&info->origin, TRUE)) ||
+	    (info->row_offset == 0 && range_is_full (&info->origin, TRUE)) ||
+		rwinfo.flavour = GNM_EXPR_REWRITE_NAME;
+		GSList *ptr, *accum = NULL;
+		Dependent *dep;
+
+		info->origin_sheet->deps->referencing_names = NULL;
+
+		/* collect the deps of the names */
+		g_hash_table_foreach (names,
+			(GHFunc)cb_collect_deps_of_names,
+			(gpointer)&accum);
+
+		for (ptr = accum ; ptr != NULL ; ptr = ptr->next) {
+			dep = ptr->data;
+			dep->flags &= ~DEPENDENT_FLAGGED;
+			dependent_unlink (dep, NULL);
+		}
+
+		/* now that all of the dependents of these names are unlinked.
+		 * change the references in the names to avoid this sheet */
+		g_hash_table_foreach (names,
+			(GHFunc)cb_name_invalidate, (gpointer)rwinfo);
+
+		/* the relink things en-mass in case one of the deps outside
+		 * this sheet used multiple names that referenced us */
+		dependents_link (accum, rwinfo);
+
+		g_hash_table_destroy (names);
+#endif
 	}
 
 	g_slist_free (dependents);

@@ -7,8 +7,6 @@
 
 #define GNUMERIC_SHEET_PATTERNS 25
 
-GdkPixmap * gnumeric_pattern_get_stipple(gint index);
-
 gboolean    gnumeric_background_set_gc	(MStyle const *style,
 					 GdkGC *gc, FooCanvas *canvas,
 					 gboolean const is_selected);

@@ -269,10 +269,10 @@ recalc_spans (FooCanvasItem *item)
 	Sheet	   const *sheet  = sc_sheet (SHEET_CONTROL (item_edit->scg));
 	StyleFont  const *style_font = item_edit->style_font;
 	Range	   const *merged;
-	int col_span, row_span, tmp, cur_col, width, height, col_size;
+	int end_col, end_row, tmp, width, height, col_size;
 
-	cur_col = item_edit->pos.col;
-	cri = sheet_col_get_info (sheet, cur_col);
+	end_col = item_edit->pos.col;
+	cri = sheet_col_get_info (sheet, end_col);
 
 	g_return_if_fail (cri != NULL);
 
@@ -281,44 +281,46 @@ recalc_spans (FooCanvasItem *item)
 		pango_context_get_font_description (style_font->pango.context));
 	pango_layout_set_wrap (layout, PANGO_WRAP_CHAR);
 	pango_layout_set_width (layout, -1);
-	pango_layout_get_pixel_size(layout,&width,&height);
+	pango_layout_get_pixel_size (layout, &width, &height);
 
 	/* Start after the grid line and the left margin */
 	col_size = cri->size_pixels - cri->margin_a - 1;
-
-	while (col_size < width) {
-		cur_col++;
-		if (cur_col > gcanvas->last_full.col || cur_col >= SHEET_MAX_COLS) {
-			cur_col--;
-			pango_layout_set_width (layout, col_size*PANGO_SCALE);
-			break;
-		}
-		cri = sheet_col_get_info (sheet, cur_col);
+	while (col_size < width &&
+	       end_col <= gcanvas->last_full.col &&
+	       end_col < SHEET_MAX_COLS-1) {
+		end_col++;
+		cri = sheet_col_get_info (sheet, end_col);
 		g_return_if_fail (cri != NULL);
 		if (cri->visible)
 			col_size += cri->size_pixels;
 	}
-	pango_layout_get_pixel_size (layout,&width,&height);
-	g_object_unref (layout);
-	col_span = 1 + cur_col - item_edit->pos.col;
+
 	merged = sheet_merge_is_corner (sheet, &item_edit->pos);
 	if (merged != NULL) {
-		int tmp = merged->end.col - merged->start.col + 1;
-		if (col_span < tmp)
-			col_span = tmp;
-		row_span = merged->end.row - merged->start.row + 1;
+		if (end_col < merged->end.col)
+			end_col = merged->end.col;
+		end_row = merged->end.row;
 	} else
-		row_span = 1;
+		end_row = item_edit->pos.row;
 
 	/* The lower right is based on the span size excluding the grid lines
 	 * Recall that the bound excludes the far point */
-	item->x2 = 1 + item->x1 - 2 +
-		scg_colrow_distance_get (item_edit->scg, TRUE, item_edit->pos.col,
-					 item_edit->pos.col + col_span);
+	item->x2 = 1 + item->x1 +
+		scg_colrow_distance_get (item_edit->scg, TRUE,
+					 item_edit->pos.col, end_col+1) - 2;
 
-	tmp = scg_colrow_distance_get (item_edit->scg, FALSE, item_edit->pos.row,
-				       item_edit->pos.row + row_span) - 2;
+	tmp = gcanvas->first_offset.col +
+		GTK_WIDGET (item->canvas)->allocation.width;
+	if (item->x2 >= tmp) {
+		item->x2 = tmp;
+		pango_layout_set_width (layout, (item->x2 - item->x1 + 1)*PANGO_SCALE);
+		pango_layout_get_pixel_size (layout, &width, &height);
+	}
+
+	tmp = scg_colrow_distance_get (item_edit->scg, FALSE,
+				       item_edit->pos.row, end_row+1) - 2;
 	item->y2 = 1 + item->y1 + MAX (height, tmp);
+	g_object_unref (layout);
 }
 
 

@@ -258,7 +258,7 @@ dif_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	DifInputContext *ctxt = dif_input_context_new (io_context, wb, input);
 
 	workbook_set_saveinfo (wb, FILE_FL_MANUAL_REMEMBER,
-		get_file_saver_by_id ("Gnumeric_dif:dif"));
+		gnm_file_saver_for_id ("Gnumeric_dif:dif"));
 	if (ctxt != NULL) {
 		dif_parse_sheet (ctxt);
 		if (gnumeric_io_error_occurred (io_context))

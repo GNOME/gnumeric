@@ -76,9 +76,9 @@ style_font_string_width (StyleFont const *font, char const *str)
 }
 
 static double
-calc_font_width (const StyleFont *font, const char *teststr)
+calc_font_width (StyleFont const *font, char const *teststr)
 {
-	const char *p1, *p2;
+	char const *p1, *p2;
 	int w = 0, w1, w2, dw;
 	char buf[3];
 
@@ -183,6 +183,8 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 						gtk_widget_get_default_colormap ());
 
 		font->pango.layout  = pango_layout_new (font->pango.context);
+		pango_layout_set_font_description (font->pango.layout,
+						   font->pango.font_descr);
 
 		font->pango.metrics = pango_font_get_metrics (font->pango.font,
 							      gtk_get_default_language ());

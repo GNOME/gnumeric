@@ -120,7 +120,7 @@ gnm_file_opener_setup (GnmFileOpener *fo, gchar const *id,
  * @open_func   : Pointer to "open" function
  *
  * Creates new GnmFileOpener object. Optional @id will be used
- * after registering it with register_file_opener function.
+ * after registering it with gnm_file_opener_register function.
  *
  * Return value: newly created GnmFileOpener object.
  */
@@ -388,8 +388,8 @@ gnm_file_saver_setup (GnmFileSaver *fs, gchar const *id,
  * @save_func   : Pointer to "save" function
  *
  * Creates new GnmFileSaver object. Optional @id will be used
- * after registering it with register_file_saver or
- * register_file_saver_as_default function.
+ * after registering it with gnm_file_saver_register or
+ * gnm_file_saver_register_as_default function.
  *
  * Return value: newly created GnmFileSaver object.
  */
@@ -589,7 +589,7 @@ cmp_int_less_than (gconstpointer list_i, gconstpointer i)
 }
 
 /**
- * register_file_opener:
+ * gnm_file_opener_register:
  * @fo          : GnmFileOpener object
  * @priority    : Opener's priority
  *
@@ -605,7 +605,7 @@ cmp_int_less_than (gconstpointer list_i, gconstpointer i)
  * gnm_file_opener_new and not referenced anywhere).
  */
 void
-register_file_opener (GnmFileOpener *fo, gint priority)
+gnm_file_opener_register (GnmFileOpener *fo, gint priority)
 {
 	gint pos;
 	gchar const *id;
@@ -631,15 +631,15 @@ register_file_opener (GnmFileOpener *fo, gint priority)
 }
 
 /**
- * unregister_file_opener:
+ * gnm_file_opener_unregister:
  * @fo          : GnmFileOpener object previously registered using
- *                register_file_opener
+ *                gnm_file_opener_register
  *
  * Removes @fo opener from list of available file openers. Reference count
  * for the opener is decremented inside the function.
  */
 void
-unregister_file_opener (GnmFileOpener *fo)
+gnm_file_opener_unregister (GnmFileOpener *fo)
 {
 	gint pos;
 	GList *l;
@@ -677,14 +677,14 @@ default_file_saver_cmp_priority (gconstpointer a, gconstpointer b)
 }
 
 /**
- * register_file_saver:
+ * gnm_file_saver_register:
  * @fs          : GnmFileSaver object
  *
  * Adds @fs saver to the list of available file savers, making it
  * available for the user when selecting file format for save.
  */
 void
-register_file_saver (GnmFileSaver *fs)
+gnm_file_saver_register (GnmFileSaver *fs)
 {
 	gchar const *id;
 
@@ -703,7 +703,7 @@ register_file_saver (GnmFileSaver *fs)
 }
 
 /**
- * register_file_saver_as_default:
+ * gnm_file_saver_register_as_default:
  * @fs          : GnmFileSaver object
  * @priority    : Saver's priority
  *
@@ -714,14 +714,14 @@ register_file_saver (GnmFileSaver *fs)
  * highest priority. Recommended range for @priority is [0, 100].
  */
 void
-register_file_saver_as_default (GnmFileSaver *fs, gint priority)
+gnm_file_saver_register_as_default (GnmFileSaver *fs, gint priority)
 {
 	DefaultFileSaver *dfs;
 
 	g_return_if_fail (IS_GNM_FILE_SAVER (fs));
 	g_return_if_fail (priority >=0 && priority <= 100);
 
-	register_file_saver (fs);
+	gnm_file_saver_register (fs);
 
 	dfs = g_new (DefaultFileSaver, 1);
 	dfs->priority = priority;
@@ -732,15 +732,15 @@ register_file_saver_as_default (GnmFileSaver *fs, gint priority)
 }
 
 /**
- * unregister_file_saver:
+ * gnm_file_saver_unregister:
  * @fs          : GnmFileSaver object previously registered using
- *                register_file_saver or register_file_saver_as_default
+ *                gnm_file_saver_register or gnm_file_saver_register_as_default
  *
  * Removes @fs saver from list of available file savers. Reference count
  * for the saver is decremented inside the function.
  */
 void
-unregister_file_saver (GnmFileSaver *fs)
+gnm_file_saver_unregister (GnmFileSaver *fs)
 {
 	GList *l;
 	gchar const *id;
@@ -774,7 +774,7 @@ unregister_file_saver (GnmFileSaver *fs)
 }
 
 /**
- * get_default_file_saver:
+ * gnm_file_saver_get_default:
  *
  * Returns file saver registered as default saver with the highest priority.
  * Reference count for the saver is NOT incremented.
@@ -783,7 +783,7 @@ unregister_file_saver (GnmFileSaver *fs)
  *               available.
  */
 GnmFileSaver *
-get_default_file_saver (void)
+gnm_file_saver_get_default (void)
 {
 	if (default_file_saver_list == NULL)
 		return NULL;
@@ -792,7 +792,7 @@ get_default_file_saver (void)
 }
 
 /**
- * get_file_saver_for_mime_type:
+ * gnm_file_saver_for_mime_type:
  * @mime_type: A mime type
  *
  * Returns a file saver that claims to save files with given mime type.
@@ -801,7 +801,7 @@ get_default_file_saver (void)
  *               be found.
  */
 GnmFileSaver *
-get_file_saver_for_mime_type (gchar const *mime_type)
+gnm_file_saver_for_mime_type (gchar const *mime_type)
 {
 	GList *l;
 
@@ -814,16 +814,16 @@ get_file_saver_for_mime_type (gchar const *mime_type)
 }
 
 /**
- * get_file_opener_by_id:
+ * gnm_file_opener_for_id:
  * @id          : File opener's ID
  *
  * Searches for file opener with given @id, registered using
- * register_file_opener
+ * gnm_file_opener_register
  *
  * Return value: GnmFileOpener object or NULL if opener cannot be found.
  */
 GnmFileOpener *
-get_file_opener_by_id (gchar const *id)
+gnm_file_opener_for_id (gchar const *id)
 {
 	g_return_val_if_fail (id != NULL, NULL);
 
@@ -833,16 +833,16 @@ get_file_opener_by_id (gchar const *id)
 }
 
 /**
- * get_file_saver_by_id:
+ * gnm_file_saver_for_id:
  * @id          : File saver's ID
  *
  * Searches for file saver with given @id, registered using
- * register_file_saver or register_file_opener_as_default.
+ * gnm_file_saver_register or register_file_opener_as_default.
  *
  * Return value: GnmFileSaver object or NULL if saver cannot be found.
  */
 GnmFileSaver *
-get_file_saver_by_id (gchar const *id)
+gnm_file_saver_for_id (gchar const *id)
 {
 	g_return_val_if_fail (id != NULL, NULL);
 
@@ -854,8 +854,8 @@ get_file_saver_by_id (gchar const *id)
 /**
  * get_file_savers:
  *
- * Returns the list of registered file savers (using register_file_saver or
- * register_file_saver_as_default).
+ * Returns the list of registered file savers (using gnm_file_saver_register or
+ * gnm_file_saver_register_as_default).
  *
  * Return value: list of GnmFileSaver objects, which you shouldn't modify.
  */
@@ -868,7 +868,7 @@ get_file_savers (void)
 /**
  * get_file_openers:
  *
- * Returns the list of registered file openers (using register_file_opener).
+ * Returns the list of registered file openers (using gnm_file_opener_register).
  *
  * Return value: list of GnmFileOpener objects, which you shouldn't modify.
  */

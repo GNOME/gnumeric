@@ -1635,9 +1635,8 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		if (rwinfo->type != GNM_EXPR_REWRITE_RELOCATE)
 			return NULL;
 
-		/* If the nme is not officially scope check that it is
-		 * available in the new scope ?
-		 */
+		/* If the name is not officially scoped, check that it is
+		 * available in the new scope ?  */
 		if (expr->name.optional_scope == NULL &&
 		    rwinfo->u.relocate.target_sheet != rwinfo->u.relocate.origin_sheet) {
 			GnmNamedExpr *new_nexpr;
@@ -1683,7 +1682,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 				return gnm_expr_new_constant (value_new_error_REF (NULL));
 			return NULL;
 
-		case GNM_EXPR_REWRITE_RELOCATE : {
+		default : {
 			CellRef res = expr->cellref.ref; /* Copy */
 
 			switch (cellref_relocate (&res, &rwinfo->u.relocate)) {

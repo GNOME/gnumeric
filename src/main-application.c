@@ -63,11 +63,11 @@ gnumeric_popt_options[] = {
 	{ "debug", '\0', POPT_ARG_INT, &gnumeric_debugging, 0,
 	  N_("Enables some debugging functions"), N_("LEVEL") },
 
-	{ "debug_deps", '\0', POPT_ARG_INT, &dependency_debugging, 0,
+	{ "debug-deps", '\0', POPT_ARG_INT, &dependency_debugging, 0,
 	  N_("Enables some dependency related debugging functions"), N_("LEVEL") },
-	{ "debug_share", '\0', POPT_ARG_INT, &expression_sharing_debugging, 0,
+	{ "debug-share", '\0', POPT_ARG_INT, &expression_sharing_debugging, 0,
 	  N_("Enables some debugging functions for expression sharing"), N_("LEVEL") },
-	{ "debug_print", '\0', POPT_ARG_INT, &print_debugging, 0,
+	{ "debug-print", '\0', POPT_ARG_INT, &print_debugging, 0,
 	  N_("Enables some print debugging behavior"), N_("LEVEL") },
 
 	{ "geometry", 'g', POPT_ARG_STRING, &x_geometry, 0,

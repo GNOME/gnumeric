@@ -132,7 +132,7 @@ cmd_create_ellipse (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cmd_create_graph (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	go_graph_guru (NULL, wbcg);
+	go_graph_guru (NULL, NULL, wbcg);
 }
 #endif
 

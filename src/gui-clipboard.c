@@ -138,7 +138,7 @@ x_clipboard_to_cell_region (WorkbookControlGUI *wbcg,
  * We use the file_opener service by wrapping the selection data in a GsfInput,
  * and calling wb_view_new_from_input.
  **/
-CellRegion *
+static CellRegion *
 table_cellregion_read (WorkbookControl *wbc, const char *reader_id,
 		       PasteTarget *pt, guchar *buffer, int length)
 {
@@ -146,7 +146,7 @@ table_cellregion_read (WorkbookControl *wbc, const char *reader_id,
 	Workbook *wb = NULL;
 	GList *l = NULL;
 	CellRegion *ret = NULL;
-	const GnmFileOpener *reader = get_file_opener_by_id (reader_id);
+	const GnmFileOpener *reader = gnm_file_opener_for_id (reader_id);
 	IOContext *ioc;
 	GsfInputMemory *input;
 

@@ -3034,15 +3034,21 @@ foo_canvas_set_center_scroll_region (FooCanvas *canvas,
 void
 foo_canvas_set_pixels_per_unit (FooCanvas *canvas, double n)
 {
+	GtkWidget *widget;
 	double cx, cy;
 	int x1, y1;
 	int center_x, center_y;
+	GdkWindow *window;
+	GdkWindowAttr attributes;
+	gint attributes_mask;
 
 	g_return_if_fail (FOO_IS_CANVAS (canvas));
 	g_return_if_fail (n > FOO_CANVAS_EPSILON);
 
-	center_x = GTK_WIDGET (canvas)->allocation.width / 2;
-	center_y = GTK_WIDGET (canvas)->allocation.height / 2;
+	widget = GTK_WIDGET (canvas);
+
+	center_x = widget->allocation.width / 2;
+	center_y = widget->allocation.height / 2;
 
 	/* Find the coordinates of the screen center in units. */
 	cx = (canvas->layout.hadjustment->value + center_x) / canvas->pixels_per_unit + canvas->scroll_x1 + canvas->zoom_xofs;
@@ -3059,7 +3065,45 @@ foo_canvas_set_pixels_per_unit (FooCanvas *canvas, double n)
 		foo_canvas_request_update (canvas);
 	}
 
+	/* Map a background None window over the bin_window to avoid
+	 * scrolling the window scroll causing exposes.
+	 */
+	window = NULL;
+	if (GTK_WIDGET_MAPPED (widget)) {
+		attributes.window_type = GDK_WINDOW_CHILD;
+		attributes.x = widget->allocation.x;
+		attributes.y = widget->allocation.y;
+		attributes.width = widget->allocation.width;
+		attributes.height = widget->allocation.height;
+		attributes.wclass = GDK_INPUT_OUTPUT;
+		attributes.visual = gtk_widget_get_visual (widget);
+		attributes.colormap = gtk_widget_get_colormap (widget);
+		attributes.event_mask = GDK_VISIBILITY_NOTIFY_MASK;
+
+		attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
+
+		window = gdk_window_new (gtk_widget_get_parent_window (widget),
+					 &attributes, attributes_mask);
+		gdk_window_set_back_pixmap (window, NULL, FALSE);
+		gdk_window_set_user_data (window, widget);
+
+		gdk_window_show (window);
+	}
+
 	scroll_to (canvas, x1, y1);
+
+	/* If we created a an overlapping background None window, remove it how.
+	 *
+	 * TODO: We would like to temporarily set the bin_window background to
+	 * None to avoid clearing the bin_window to the background, but gdk doesn't
+	 * expose enought to let us do this, so we get a flash-effect here. At least
+	 * it looks better than scroll + expose.
+	 */
+	if (window != NULL) {
+		gdk_window_hide (window);
+		gdk_window_set_user_data (window, NULL);
+		gdk_window_destroy (window);
+	}
 
 	canvas->need_repick = TRUE;
 }

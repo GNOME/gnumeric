@@ -435,7 +435,7 @@ workbook_new (void)
 	static int count = 0;
 	gboolean is_unique;
 	Workbook  *wb;
-	GnmFileSaver *def_save = get_default_file_saver ();
+	GnmFileSaver *def_save = gnm_file_saver_get_default ();
 	char const *extension = NULL;
 
 	if (def_save != NULL)

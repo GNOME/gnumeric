@@ -3704,6 +3704,6 @@ xml_init (void)
 	xml_saver = gnm_file_saver_new (
 	            "Gnumeric_XmlIO:gnum_xml", "gnumeric", desc,
 	            FILE_FL_AUTO, gnumeric_xml_write_workbook);
-	register_file_opener (opener, 50);
-	register_file_saver_as_default (xml_saver, 50);
+	gnm_file_opener_register (opener, 50);
+	gnm_file_saver_register_as_default (xml_saver, 50);
 }

@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef GNUMERIC_EXPR_H
 #define GNUMERIC_EXPR_H
 
@@ -83,14 +84,20 @@ struct _GnmExprRelocateInfo {
 
 	Sheet  *target_sheet;	/* to point at this sheet */
 	int col_offset, row_offset;/* and offset by this amount */
+	enum {
+		GNM_EXPR_RELOCATE_STD = 0,	/* do standard relocation */
+		GNM_EXPR_RELOCATE_NAME_COL = 0x1, /* col ins/del */
+		GNM_EXPR_RELOCATE_NAME_ROW = 0x2  /* row ins/del */
+	} type;
 };
 
 struct _GnmExprRewriteInfo {
 	enum {
 		GNM_EXPR_REWRITE_SHEET,
 		GNM_EXPR_REWRITE_WORKBOOK,
-		GNM_EXPR_REWRITE_RELOCATE
+		GNM_EXPR_REWRITE_RELOCATE,
 	} type;
+
 	union {
 		Sheet const     *sheet;
 		Workbook const  *workbook;
@@ -98,8 +105,8 @@ struct _GnmExprRewriteInfo {
 	} u;
 };
 
-GnmExpr const *gnm_expr_rewrite		(GnmExpr const *expr,
-					 GnmExprRewriteInfo const *rwinfo);
+GnmExpr const *gnm_expr_rewrite	(GnmExpr const *expr,
+				 GnmExprRewriteInfo const *rwinfo);
 
 Value *gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 		      GnmExprEvalFlags flags);

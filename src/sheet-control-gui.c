@@ -838,18 +838,22 @@ gnm_canvas_make_cell_visible (GnmCanvas *gcanvas, int col, int row,
 		new_first_col = col;
 	} else if (col > gcanvas->last_full.col) {
 		int width = GTK_WIDGET (canvas)->allocation.width;
-		int first_col = (gcanvas->last_visible.col == gcanvas->first.col)
-			? gcanvas->first.col : col;
+		ColRowInfo const * const ci = sheet_col_get_info (sheet, col);
+		if (ci->size_pixels < width) {
+			int first_col = (gcanvas->last_visible.col == gcanvas->first.col)
+				? gcanvas->first.col : col;
 
-		for (; first_col > 0; --first_col) {
-			ColRowInfo const * const ci = sheet_col_get_info (sheet, first_col);
-			if (ci->visible) {
-				width -= ci->size_pixels;
-				if (width < 0)
-					break;
+			for (; first_col > 0; --first_col) {
+				ColRowInfo const * const ci = sheet_col_get_info (sheet, first_col);
+				if (ci->visible) {
+					width -= ci->size_pixels;
+					if (width < 0)
+						break;
+				}
 			}
-		}
-		new_first_col = first_col+1;
+			new_first_col = first_col+1;
+		} else
+			new_first_col = col;
 	} else
 		new_first_col = gcanvas->first.col;
 
@@ -858,18 +862,22 @@ gnm_canvas_make_cell_visible (GnmCanvas *gcanvas, int col, int row,
 		new_first_row = row;
 	} else if (row > gcanvas->last_full.row) {
 		int height = GTK_WIDGET (canvas)->allocation.height;
-		int first_row = (gcanvas->last_visible.row == gcanvas->first.row)
-			? gcanvas->first.row : row;
+		ColRowInfo const * const ri = sheet_row_get_info (sheet, row);
+		if (ri->size_pixels < height) {
+			int first_row = (gcanvas->last_visible.row == gcanvas->first.row)
+				? gcanvas->first.row : row;
 
-		for (; first_row > 0; --first_row) {
-			ColRowInfo const * const ri = sheet_row_get_info (sheet, first_row);
-			if (ri->visible) {
-				height -= ri->size_pixels;
-				if (height < 0)
-					break;
+			for (; first_row > 0; --first_row) {
+				ColRowInfo const * const ri = sheet_row_get_info (sheet, first_row);
+				if (ri->visible) {
+					height -= ri->size_pixels;
+					if (height < 0)
+						break;
+				}
 			}
-		}
-		new_first_row = first_row+1;
+			new_first_row = first_row+1;
+		} else
+			new_first_row = row;
 	} else
 		new_first_row = gcanvas->first.row;
 

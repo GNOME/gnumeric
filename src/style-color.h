@@ -5,8 +5,7 @@
 #include <gdk/gdkcolor.h>
 
 struct _StyleColor {
-	GdkColor color;
-	GdkColor selected_color;
+	GdkColor color, selected_color;
 	gushort  red;
 	gushort  green;
 	gushort  blue;

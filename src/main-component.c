@@ -61,7 +61,7 @@ control_activated_cb (BonoboControl *control, gboolean activate,
 static float
 zoom_level_from_index (int index)
 {
-	if (index >= 0 && index < G_N_ELEMENTS (preferred_zoom_levels))
+	if (index >= 0 && index < (int)G_N_ELEMENTS (preferred_zoom_levels))
 		return preferred_zoom_levels [index];
 	else
 		return 1.0;
@@ -83,7 +83,8 @@ zoom_in_cb (BonoboZoomable *zoomable, WorkbookControlComponent *wbcc)
 {
  	float zoom_level;
 	float new_zoom_level;
-	int index, i;
+	int index;
+	unsigned i;
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL_COMPONENT (wbcc));
 

@@ -285,7 +285,8 @@ plugin_service_clipboard_class_init (GObjectClass *gobject_class)
 	plugin_service_class->get_description	= plugin_service_clipboard_get_description;
 }
 
-GSF_CLASS (PluginServiceClipboard, plugin_service_clipboard,
+/* disabled for now */
+static GSF_CLASS (PluginServiceClipboard, plugin_service_clipboard,
            plugin_service_clipboard_class_init, plugin_service_clipboard_init,
            GNM_PLUGIN_SERVICE_TYPE)
 
@@ -450,8 +451,8 @@ plugin_service_file_opener_activate (PluginService *service, ErrorInfo **ret_err
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	service_file_opener->opener = GNM_FILE_OPENER (gnm_plugin_file_opener_new (service));
-	register_file_opener (service_file_opener->opener,
-			      service_file_opener->priority);
+	gnm_file_opener_register (service_file_opener->opener,
+				  service_file_opener->priority);
 	service->is_active = TRUE;
 }
 
@@ -461,7 +462,7 @@ plugin_service_file_opener_deactivate (PluginService *service, ErrorInfo **ret_e
 	PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (service);
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	unregister_file_opener (service_file_opener->opener);
+	gnm_file_opener_unregister (service_file_opener->opener);
 	service->is_active = FALSE;
 }
 
@@ -752,10 +753,10 @@ plugin_service_file_saver_activate (PluginService *service, ErrorInfo **ret_erro
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	service_file_saver->saver = GNM_FILE_SAVER (gnm_plugin_file_saver_new (service));
 	if (service_file_saver->default_saver_priority < 0) {
-		register_file_saver (service_file_saver->saver);
+		gnm_file_saver_register (service_file_saver->saver);
 	} else {
-		register_file_saver_as_default (service_file_saver->saver,
-		                                service_file_saver->default_saver_priority);
+		gnm_file_saver_register_as_default (service_file_saver->saver,
+						    service_file_saver->default_saver_priority);
 	}
 	file_savers_hash = get_plugin_file_savers_hash (service->plugin);
 	g_assert (g_hash_table_lookup (file_savers_hash, service->id) == NULL);
@@ -772,7 +773,7 @@ plugin_service_file_saver_deactivate (PluginService *service, ErrorInfo **ret_er
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	file_savers_hash = get_plugin_file_savers_hash (service->plugin);
 	g_hash_table_remove (file_savers_hash, service->id);
-	unregister_file_saver (service_file_saver->saver);
+	gnm_file_saver_unregister (service_file_saver->saver);
 	service->is_active = FALSE;
 }
 
@@ -1520,7 +1521,7 @@ plugin_service_new (GnmPlugin *plugin, xmlNode *tree, ErrorInfo **ret_error)
 	ErrorInfo *service_error = NULL;
 	GnmPluginServiceCreate ctor;
 
-	g_return_if_fail (GNM_IS_PLUGIN (plugin));
+	g_return_val_if_fail (GNM_IS_PLUGIN (plugin), NULL);
 	g_return_val_if_fail (tree != NULL, NULL);
 	g_return_val_if_fail (strcmp (tree->name, "service") == 0, NULL);
 
