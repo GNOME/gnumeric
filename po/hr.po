@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-12-12 19:59+0000\n"
+"POT-Creation-Date: 2003-01-03 18:51+0000\n"
 "PO-Revision-Date: 1999-06-01 11:20+0100\n"
 "Last-Translator: Vladimir Vuksan <vuksan@veus.hr>\n"
 "Language-Team: Croatian <hr@li.org>\n"
@@ -1560,7 +1560,7 @@ msgstr "Prvi plan"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4096
+#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4098
 #: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3047
 msgid "Fourier Analysis"
 msgstr ""
@@ -1892,7 +1892,7 @@ msgstr ""
 msgid "Pearson Correlation"
 msgstr "Operacija"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/analysis-tools.c:2743
+#: src/GNOME_Gnumeric.xml.h:166 src/analysis-tools.c:2745
 #: src/workbook-format-toolbar.c:463
 msgid "Percent"
 msgstr "Postotak"
@@ -2646,12 +2646,12 @@ msgstr "_Bilje¾nica..."
 msgid "_Zoom..."
 msgstr "_Uveæaj/Umanji..."
 
-#: src/analysis-tools.c:195 src/analysis-tools.c:3236
+#: src/analysis-tools.c:195 src/analysis-tools.c:3238
 #, fuzzy, c-format
 msgid "Row %i"
 msgstr "Red: %d"
 
-#: src/analysis-tools.c:198 src/analysis-tools.c:3228
+#: src/analysis-tools.c:198 src/analysis-tools.c:3230
 #, fuzzy, c-format
 msgid "Column %i"
 msgstr "Stupac: %s"
@@ -2666,17 +2666,17 @@ msgstr "Min"
 msgid "Area %i"
 msgstr ""
 
-#: src/analysis-tools.c:812 src/analysis-tools.c:815
+#: src/analysis-tools.c:814 src/analysis-tools.c:817
 #, fuzzy
 msgid "Correlations"
 msgstr "Operacija"
 
-#: src/analysis-tools.c:904 src/analysis-tools.c:907
+#: src/analysis-tools.c:906 src/analysis-tools.c:909
 #, fuzzy
 msgid "Covariances"
 msgstr "umetni æelije"
 
-#: src/analysis-tools.c:986
+#: src/analysis-tools.c:988
 msgid "Summary Statistics"
 msgstr ""
 
@@ -2687,274 +2687,274 @@ msgstr ""
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/analysis-tools.c:997
+#: src/analysis-tools.c:999
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
 
-#: src/analysis-tools.c:1083
+#: src/analysis-tools.c:1085
 msgid "Confidence Interval for the Mean"
 msgstr ""
 
-#: src/analysis-tools.c:1084
+#: src/analysis-tools.c:1086
 #, c-format
 msgid "/%g%% CI for the Mean from/to"
 msgstr ""
 
-#: src/analysis-tools.c:1121 src/dialogs/descriptive-stats.glade.h:10
+#: src/analysis-tools.c:1123 src/dialogs/descriptive-stats.glade.h:10
 msgid "Kth Largest"
 msgstr ""
 
-#: src/analysis-tools.c:1122
+#: src/analysis-tools.c:1124
 #, c-format
 msgid "Largest (%d)"
 msgstr ""
 
-#: src/analysis-tools.c:1146 src/dialogs/descriptive-stats.glade.h:11
+#: src/analysis-tools.c:1148 src/dialogs/descriptive-stats.glade.h:11
 msgid "Kth Smallest"
 msgstr ""
 
-#: src/analysis-tools.c:1147
+#: src/analysis-tools.c:1149
 #, c-format
 msgid "Smallest (%d)"
 msgstr ""
 
-#: src/analysis-tools.c:1268 src/dialogs/cell-format.glade.h:69
+#: src/analysis-tools.c:1270 src/dialogs/cell-format.glade.h:69
 #, fuzzy
 msgid "Sample"
 msgstr "Uzorak:"
 
-#: src/analysis-tools.c:1365 src/analysis-tools.c:1367
-#: src/analysis-tools.c:1484 src/analysis-tools.c:1486
-#: src/analysis-tools.c:1643 src/analysis-tools.c:1645
-#: src/analysis-tools.c:1771 src/analysis-tools.c:1773
-#: src/analysis-tools.c:1907 src/analysis-tools.c:1909
+#: src/analysis-tools.c:1367 src/analysis-tools.c:1369
+#: src/analysis-tools.c:1486 src/analysis-tools.c:1488
+#: src/analysis-tools.c:1645 src/analysis-tools.c:1647
+#: src/analysis-tools.c:1773 src/analysis-tools.c:1775
+#: src/analysis-tools.c:1909 src/analysis-tools.c:1911
 #, fuzzy, c-format
 msgid "Variable %i"
 msgstr "Oznaka _Y osi:"
 
-#: src/analysis-tools.c:1369
+#: src/analysis-tools.c:1371
 #, fuzzy
 msgid "z-Test"
 msgstr "Tekst"
 
-#: src/analysis-tools.c:1372
+#: src/analysis-tools.c:1374
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1500 src/analysis-tools.c:1647
-#: src/analysis-tools.c:1775
+#: src/analysis-tools.c:1502 src/analysis-tools.c:1649
+#: src/analysis-tools.c:1777
 #, fuzzy
 msgid "t-Test"
 msgstr "Tekst"
 
-#: src/analysis-tools.c:1503
+#: src/analysis-tools.c:1505
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
 "two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1650
+#: src/analysis-tools.c:1652
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1778
+#: src/analysis-tools.c:1780
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1916
+#: src/analysis-tools.c:1918
 #, fuzzy
 msgid "F-Test"
 msgstr "Tekst"
 
-#: src/analysis-tools.c:1922
+#: src/analysis-tools.c:1924
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:2040 src/analysis-tools.c:2098
+#: src/analysis-tools.c:2042 src/analysis-tools.c:2100
 msgid "Random"
 msgstr ""
 
-#: src/analysis-tools.c:2214
+#: src/analysis-tools.c:2216
 msgid "Not implemented yet.\n"
 msgstr ""
 
-#: src/analysis-tools.c:2291
+#: src/analysis-tools.c:2293
 #, fuzzy
 msgid "Y Variable"
 msgstr "Oznaka _Y osi:"
 
-#: src/analysis-tools.c:2350 src/dialogs/regression.glade.h:8
+#: src/analysis-tools.c:2352 src/dialogs/regression.glade.h:8
 msgid "Regression"
 msgstr ""
 
-#: src/analysis-tools.c:2352
+#: src/analysis-tools.c:2354
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 
-#: src/analysis-tools.c:2373
+#: src/analysis-tools.c:2375
 msgid "/df/SS/MS/F/Significance of F"
 msgstr ""
 
-#: src/analysis-tools.c:2380
+#: src/analysis-tools.c:2382
 #, c-format
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
 msgstr ""
 
-#: src/analysis-tools.c:2548
+#: src/analysis-tools.c:2550
 #, fuzzy
 msgid "Moving Averages"
 msgstr "umetni æelije"
 
-#: src/analysis-tools.c:2563
+#: src/analysis-tools.c:2565
 #, fuzzy
 msgid "Standard Error"
 msgstr "Gre¹ka u sintaksi"
 
-#: src/analysis-tools.c:2651
+#: src/analysis-tools.c:2653
 msgid "Exponential Smoothing"
 msgstr ""
 
-#: src/analysis-tools.c:2731
+#: src/analysis-tools.c:2733
 #, fuzzy
 msgid "Ranks"
 msgstr "Èetverokut"
 
-#: src/analysis-tools.c:2740
+#: src/analysis-tools.c:2742
 #, fuzzy
 msgid "Point"
 msgstr "Postotak"
 
-#: src/analysis-tools.c:2742
+#: src/analysis-tools.c:2744
 #, fuzzy
 msgid "Rank"
 msgstr "Èetverokut"
 
 #. We are ready to create the summary table
-#: src/analysis-tools.c:2831 src/analysis-tools.c:3026
-#: src/analysis-tools.c:3288
+#: src/analysis-tools.c:2833 src/analysis-tools.c:3028
+#: src/analysis-tools.c:3290
 msgid "Anova"
 msgstr ""
 
-#: src/analysis-tools.c:2833
+#: src/analysis-tools.c:2835
 msgid "Anova: Single Factor"
 msgstr ""
 
-#: src/analysis-tools.c:2834 src/analysis-tools.c:3291
+#: src/analysis-tools.c:2836 src/analysis-tools.c:3293
 msgid "SUMMARY"
 msgstr ""
 
-#: src/analysis-tools.c:2835
+#: src/analysis-tools.c:2837
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/analysis-tools.c:2891
+#: src/analysis-tools.c:2893
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 
-#: src/analysis-tools.c:2896 src/analysis-tools.c:3108
-#: src/analysis-tools.c:3315
+#: src/analysis-tools.c:2898 src/analysis-tools.c:3110
+#: src/analysis-tools.c:3317
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 
-#: src/analysis-tools.c:3032
+#: src/analysis-tools.c:3034
 msgid "Anova: Two-Factor Without Replication"
 msgstr ""
 
-#: src/analysis-tools.c:3033
+#: src/analysis-tools.c:3035
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/analysis-tools.c:3102
+#: src/analysis-tools.c:3104
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr ""
 
-#: src/analysis-tools.c:3290
+#: src/analysis-tools.c:3292
 msgid "Anova: Two-Factor With Replication"
 msgstr ""
 
-#: src/analysis-tools.c:3295 src/analysis-tools.c:3305
-#: src/analysis-tools.c:3313 src/dialogs/dialog-autoformat.c:74
+#: src/analysis-tools.c:3297 src/analysis-tools.c:3307
+#: src/analysis-tools.c:3315 src/dialogs/dialog-autoformat.c:74
 #: src/dialogs/dialog-autoformat.c:78
 #, fuzzy
 msgid "Total"
 msgstr "Nako¹eno"
 
-#: src/analysis-tools.c:3297
+#: src/analysis-tools.c:3299
 msgid "/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/analysis-tools.c:3307
+#: src/analysis-tools.c:3309
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr ""
 
-#: src/analysis-tools.c:3775
+#: src/analysis-tools.c:3777
 #, c-format
 msgid "<%s"
 msgstr ""
 
-#: src/analysis-tools.c:3779
+#: src/analysis-tools.c:3781
 msgid "Too Small"
 msgstr ""
 
-#: src/analysis-tools.c:3796
+#: src/analysis-tools.c:3798
 #, fuzzy
 msgid "More"
 msgstr "Premjesti"
 
-#: src/analysis-tools.c:3804
+#: src/analysis-tools.c:3806
 #, c-format
 msgid ">%s"
 msgstr ""
 
-#: src/analysis-tools.c:3808
+#: src/analysis-tools.c:3810
 msgid "Too Large"
 msgstr ""
 
-#: src/analysis-tools.c:3849 src/dialogs/histogram.glade.h:7
+#: src/analysis-tools.c:3851 src/dialogs/histogram.glade.h:7
 msgid "Histogram"
 msgstr ""
 
-#: src/analysis-tools.c:3854
+#: src/analysis-tools.c:3856
 #, fuzzy
 msgid "Bin"
 msgstr "Min"
 
-#: src/analysis-tools.c:3879
+#: src/analysis-tools.c:3881
 msgid "Frequency"
 msgstr ""
 
-#: src/analysis-tools.c:3881 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3883 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3884
+#: src/analysis-tools.c:3886
 #, no-c-format
 msgid "Cumulative %"
 msgstr ""
 
-#: src/analysis-tools.c:4116
+#: src/analysis-tools.c:4118
 #, fuzzy
 msgid "Real"
 msgstr "Èetverokut"
 
-#: src/analysis-tools.c:4117
+#: src/analysis-tools.c:4119
 #, fuzzy
 msgid "Imaginary"
 msgstr "Sijeèanj"
@@ -2964,7 +2964,7 @@ msgstr "Sijeèanj"
 msgid "Error '%s' opening workbook stream"
 msgstr ""
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3414
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3412
 msgid "Invalid xml file. Tree is empty ?"
 msgstr ""
 
@@ -2976,17 +2976,17 @@ msgstr ""
 msgid "EXPERIMENTAL Bonobo EFS format"
 msgstr ""
 
-#: src/clipboard.c:301 src/clipboard.c:314 src/clipboard.c:326
-#: src/clipboard.c:334
+#: src/clipboard.c:297 src/clipboard.c:310 src/clipboard.c:322
+#: src/clipboard.c:330
 #, fuzzy
 msgid "Unable to paste"
 msgstr "Ne mogu stvoriti datoteku %s\n"
 
-#: src/clipboard.c:302
+#: src/clipboard.c:298
 msgid "Content can only be pasted by value or by link."
 msgstr ""
 
-#: src/clipboard.c:310
+#: src/clipboard.c:306
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -2994,7 +2994,7 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: src/clipboard.c:322
+#: src/clipboard.c:318
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -3002,7 +3002,7 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: src/clipboard.c:335
+#: src/clipboard.c:331
 msgid "result passes the sheet boundary"
 msgstr ""
 
@@ -6853,7 +6853,7 @@ msgid "Scale"
 msgstr "Uzorak:"
 
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3094
+#: src/workbook.c:1065 src/xml-io.c:3095
 #, fuzzy
 msgid "Sheet"
 msgstr "_List"
@@ -7781,12 +7781,12 @@ msgstr "¾uta"
 
 #. Is it a boolean?
 #: src/format.c:1551 src/number-match.c:1109 src/value-sheet.c:34
-#: src/value.c:255 src/value.c:494
+#: src/value.c:264 src/value.c:503
 msgid "TRUE"
 msgstr "ISTINA"
 
 #: src/format.c:1551 src/number-match.c:1111 src/value-sheet.c:34
-#: src/value.c:257 src/value.c:494
+#: src/value.c:266 src/value.c:503
 msgid "FALSE"
 msgstr "NEISTINA"
 
@@ -16147,12 +16147,12 @@ msgstr "Cijena"
 msgid "R.H. Side"
 msgstr ""
 
-#: src/stf-parse.c:37
+#: src/stf-parse.c:42
 #, c-format
 msgid "Too many rows in data to parse: %d"
 msgstr ""
 
-#: src/stf-parse.c:38
+#: src/stf-parse.c:43
 #, c-format
 msgid "Too many columns in data to parse: %d"
 msgstr ""
@@ -16287,7 +16287,7 @@ msgstr ""
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric XML format"
 
-#: src/value.c:674
+#: src/value.c:683
 msgid "Terminate"
 msgstr ""
 
@@ -16897,19 +16897,19 @@ msgstr ""
 msgid "Error while trying to build tree from autoformat template file"
 msgstr ""
 
-#: src/xml-io.c:2807
+#: src/xml-io.c:2808
 #, fuzzy
 msgid "Unparsable xml in clipboard"
 msgstr "Nalijepi na poseban naèin"
 
-#: src/xml-io.c:2814
+#: src/xml-io.c:2815
 msgid "Clipboard is in unknown format"
 msgstr ""
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3220
+#: src/xml-io.c:3221
 #, fuzzy
 msgid "Processing file..."
 msgstr "Upozorenje"
@@ -16918,11 +16918,11 @@ msgstr "Upozorenje"
 msgid "Not enough memory to create zlib decompression state."
 msgstr ""
 
-#: src/xml-io.c:3423
+#: src/xml-io.c:3421
 msgid "Is not an Gnumeric Workbook file"
 msgstr ""
 
-#: src/xml-io.c:3480
+#: src/xml-io.c:3478
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML format"
 

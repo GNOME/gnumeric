@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
-"POT-Creation-Date: 2002-12-12 19:59+0000\n"
+"POT-Creation-Date: 2003-01-03 18:51+0000\n"
 "PO-Revision-Date: 2002-06-02 01:02+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -1578,7 +1578,7 @@ msgstr "Forgrunn"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formater et celleområde i tråd med en forhåndsdefinert mal"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4096
+#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4098
 #: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3047
 msgid "Fourier Analysis"
 msgstr "Fourier analyse"
@@ -1875,7 +1875,7 @@ msgstr "Lim inn med alternative filtre og transformasjoner"
 msgid "Pearson Correlation"
 msgstr "Pearson-korrelasjon"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/analysis-tools.c:2743
+#: src/GNOME_Gnumeric.xml.h:166 src/analysis-tools.c:2745
 #: src/workbook-format-toolbar.c:463
 msgid "Percent"
 msgstr "Prosent"
@@ -2564,12 +2564,12 @@ msgstr "_Arbeidsbok..."
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: src/analysis-tools.c:195 src/analysis-tools.c:3236
+#: src/analysis-tools.c:195 src/analysis-tools.c:3238
 #, c-format
 msgid "Row %i"
 msgstr "Rad %i"
 
-#: src/analysis-tools.c:198 src/analysis-tools.c:3228
+#: src/analysis-tools.c:198 src/analysis-tools.c:3230
 #, c-format
 msgid "Column %i"
 msgstr "Kolonne %i"
@@ -2584,15 +2584,15 @@ msgstr "Bin %i"
 msgid "Area %i"
 msgstr "Område %i"
 
-#: src/analysis-tools.c:812 src/analysis-tools.c:815
+#: src/analysis-tools.c:814 src/analysis-tools.c:817
 msgid "Correlations"
 msgstr "Korrelasjoner"
 
-#: src/analysis-tools.c:904 src/analysis-tools.c:907
+#: src/analysis-tools.c:906 src/analysis-tools.c:909
 msgid "Covariances"
 msgstr "Kovarianser"
 
-#: src/analysis-tools.c:986
+#: src/analysis-tools.c:988
 msgid "Summary Statistics"
 msgstr "Sammendragsstatistikk"
 
@@ -2603,260 +2603,260 @@ msgstr "Sammendragsstatistikk"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/analysis-tools.c:997
+#: src/analysis-tools.c:999
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
 
-#: src/analysis-tools.c:1083
+#: src/analysis-tools.c:1085
 msgid "Confidence Interval for the Mean"
 msgstr "Konfidensintervall for middelverdien"
 
-#: src/analysis-tools.c:1084
+#: src/analysis-tools.c:1086
 #, c-format
 msgid "/%g%% CI for the Mean from/to"
 msgstr "/%g%% CI for middelverdien fra/til"
 
-#: src/analysis-tools.c:1121 src/dialogs/descriptive-stats.glade.h:10
+#: src/analysis-tools.c:1123 src/dialogs/descriptive-stats.glade.h:10
 msgid "Kth Largest"
 msgstr "Kte største"
 
-#: src/analysis-tools.c:1122
+#: src/analysis-tools.c:1124
 #, c-format
 msgid "Largest (%d)"
 msgstr "Største (%d)"
 
-#: src/analysis-tools.c:1146 src/dialogs/descriptive-stats.glade.h:11
+#: src/analysis-tools.c:1148 src/dialogs/descriptive-stats.glade.h:11
 msgid "Kth Smallest"
 msgstr "Kte minste"
 
-#: src/analysis-tools.c:1147
+#: src/analysis-tools.c:1149
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Minste (%d)"
 
-#: src/analysis-tools.c:1268 src/dialogs/cell-format.glade.h:69
+#: src/analysis-tools.c:1270 src/dialogs/cell-format.glade.h:69
 msgid "Sample"
 msgstr "Eksempel"
 
-#: src/analysis-tools.c:1365 src/analysis-tools.c:1367
-#: src/analysis-tools.c:1484 src/analysis-tools.c:1486
-#: src/analysis-tools.c:1643 src/analysis-tools.c:1645
-#: src/analysis-tools.c:1771 src/analysis-tools.c:1773
-#: src/analysis-tools.c:1907 src/analysis-tools.c:1909
+#: src/analysis-tools.c:1367 src/analysis-tools.c:1369
+#: src/analysis-tools.c:1486 src/analysis-tools.c:1488
+#: src/analysis-tools.c:1645 src/analysis-tools.c:1647
+#: src/analysis-tools.c:1773 src/analysis-tools.c:1775
+#: src/analysis-tools.c:1909 src/analysis-tools.c:1911
 #, c-format
 msgid "Variable %i"
 msgstr "Variabel %i"
 
-#: src/analysis-tools.c:1369
+#: src/analysis-tools.c:1371
 msgid "z-Test"
 msgstr "z-test"
 
-#: src/analysis-tools.c:1372
+#: src/analysis-tools.c:1374
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1500 src/analysis-tools.c:1647
-#: src/analysis-tools.c:1775
+#: src/analysis-tools.c:1502 src/analysis-tools.c:1649
+#: src/analysis-tools.c:1777
 msgid "t-Test"
 msgstr "t-test"
 
-#: src/analysis-tools.c:1503
+#: src/analysis-tools.c:1505
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
 "two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1650
+#: src/analysis-tools.c:1652
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1778
+#: src/analysis-tools.c:1780
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1916
+#: src/analysis-tools.c:1918
 msgid "F-Test"
 msgstr "F-test"
 
-#: src/analysis-tools.c:1922
+#: src/analysis-tools.c:1924
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 msgstr ""
 
-#: src/analysis-tools.c:2040 src/analysis-tools.c:2098
+#: src/analysis-tools.c:2042 src/analysis-tools.c:2100
 msgid "Random"
 msgstr "Tilfeldig"
 
-#: src/analysis-tools.c:2214
+#: src/analysis-tools.c:2216
 msgid "Not implemented yet.\n"
 msgstr "Ikke implementert ennå.\n"
 
-#: src/analysis-tools.c:2291
+#: src/analysis-tools.c:2293
 msgid "Y Variable"
 msgstr "Y-variabel"
 
-#: src/analysis-tools.c:2350 src/dialogs/regression.glade.h:8
+#: src/analysis-tools.c:2352 src/dialogs/regression.glade.h:8
 msgid "Regression"
 msgstr "Regresjon"
 
-#: src/analysis-tools.c:2352
+#: src/analysis-tools.c:2354
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 
-#: src/analysis-tools.c:2373
+#: src/analysis-tools.c:2375
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/Signifikans av F"
 
-#: src/analysis-tools.c:2380
+#: src/analysis-tools.c:2382
 #, c-format
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
 msgstr "/Koeffisienter/Standardfeil/t stat/P-verdi/Nedre %0.0f%%/Øvre %0.0f%%"
 
-#: src/analysis-tools.c:2548
+#: src/analysis-tools.c:2550
 msgid "Moving Averages"
 msgstr "Bevegelig gjennomsnitt"
 
-#: src/analysis-tools.c:2563
+#: src/analysis-tools.c:2565
 msgid "Standard Error"
 msgstr "Standard feil"
 
-#: src/analysis-tools.c:2651
+#: src/analysis-tools.c:2653
 msgid "Exponential Smoothing"
 msgstr "Eksponentiell utjevning"
 
-#: src/analysis-tools.c:2731
+#: src/analysis-tools.c:2733
 msgid "Ranks"
 msgstr "Rangering"
 
-#: src/analysis-tools.c:2740
+#: src/analysis-tools.c:2742
 msgid "Point"
 msgstr "Punkt"
 
-#: src/analysis-tools.c:2742
+#: src/analysis-tools.c:2744
 msgid "Rank"
 msgstr "Rangering"
 
 #. We are ready to create the summary table
-#: src/analysis-tools.c:2831 src/analysis-tools.c:3026
-#: src/analysis-tools.c:3288
+#: src/analysis-tools.c:2833 src/analysis-tools.c:3028
+#: src/analysis-tools.c:3290
 msgid "Anova"
 msgstr "Anova"
 
-#: src/analysis-tools.c:2833
+#: src/analysis-tools.c:2835
 msgid "Anova: Single Factor"
 msgstr "Anova: Enkeltfaktor"
 
-#: src/analysis-tools.c:2834 src/analysis-tools.c:3291
+#: src/analysis-tools.c:2836 src/analysis-tools.c:3293
 msgid "SUMMARY"
 msgstr "SAMMENDRAG"
 
-#: src/analysis-tools.c:2835
+#: src/analysis-tools.c:2837
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupper/Antall/Sum/Gjennomsnitt/Varians"
 
-#: src/analysis-tools.c:2891
+#: src/analysis-tools.c:2893
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Variasjonskilde/Mellom grupper/Innenfor grupper/Total"
 
-#: src/analysis-tools.c:2896 src/analysis-tools.c:3108
-#: src/analysis-tools.c:3315
+#: src/analysis-tools.c:2898 src/analysis-tools.c:3110
+#: src/analysis-tools.c:3317
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-verdi/F-kritisk"
 
-#: src/analysis-tools.c:3032
+#: src/analysis-tools.c:3034
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Tofaktor uten replisering"
 
-#: src/analysis-tools.c:3033
+#: src/analysis-tools.c:3035
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/SAMMENDRAG/Antall/Sum/Gjennomsnitt/Varians"
 
-#: src/analysis-tools.c:3102
+#: src/analysis-tools.c:3104
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Variasjonskilde/Rader/Kolonner/Feil/Total"
 
-#: src/analysis-tools.c:3290
+#: src/analysis-tools.c:3292
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: To-faktor med replisering"
 
-#: src/analysis-tools.c:3295 src/analysis-tools.c:3305
-#: src/analysis-tools.c:3313 src/dialogs/dialog-autoformat.c:74
+#: src/analysis-tools.c:3297 src/analysis-tools.c:3307
+#: src/analysis-tools.c:3315 src/dialogs/dialog-autoformat.c:74
 #: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr "Total"
 
-#: src/analysis-tools.c:3297
+#: src/analysis-tools.c:3299
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Antall/Sum/Gjennomsnitt/Varians"
 
-#: src/analysis-tools.c:3307
+#: src/analysis-tools.c:3309
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Variasjonskilde/Rader/Kolonner/Krysningspunkt/Innenfor"
 
-#: src/analysis-tools.c:3775
+#: src/analysis-tools.c:3777
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/analysis-tools.c:3779
+#: src/analysis-tools.c:3781
 msgid "Too Small"
 msgstr "For liten"
 
-#: src/analysis-tools.c:3796
+#: src/analysis-tools.c:3798
 msgid "More"
 msgstr "Mer"
 
-#: src/analysis-tools.c:3804
+#: src/analysis-tools.c:3806
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/analysis-tools.c:3808
+#: src/analysis-tools.c:3810
 msgid "Too Large"
 msgstr "For stor"
 
-#: src/analysis-tools.c:3849 src/dialogs/histogram.glade.h:7
+#: src/analysis-tools.c:3851 src/dialogs/histogram.glade.h:7
 msgid "Histogram"
 msgstr "Histogram"
 
-#: src/analysis-tools.c:3854
+#: src/analysis-tools.c:3856
 msgid "Bin"
 msgstr "Bin"
 
-#: src/analysis-tools.c:3879
+#: src/analysis-tools.c:3881
 msgid "Frequency"
 msgstr "Frekvens"
 
-#: src/analysis-tools.c:3881 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3883 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3884
+#: src/analysis-tools.c:3886
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Kumulativ %"
 
-#: src/analysis-tools.c:4116
+#: src/analysis-tools.c:4118
 msgid "Real"
 msgstr "Heltall"
 
-#: src/analysis-tools.c:4117
+#: src/analysis-tools.c:4119
 msgid "Imaginary"
 msgstr "Imaginær"
 
@@ -2865,7 +2865,7 @@ msgstr "Imaginær"
 msgid "Error '%s' opening workbook stream"
 msgstr "Feil «%s» under åpning av arbeidsbok-strøm"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3414
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3412
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ugyldig xml fil. Treet er tomt?"
 
@@ -2877,16 +2877,16 @@ msgstr "Inneholder ikke en Gnumeric arbeidsbok"
 msgid "EXPERIMENTAL Bonobo EFS format"
 msgstr "EKSPERIMENTELT Bonobo EFS-format"
 
-#: src/clipboard.c:301 src/clipboard.c:314 src/clipboard.c:326
-#: src/clipboard.c:334
+#: src/clipboard.c:297 src/clipboard.c:310 src/clipboard.c:322
+#: src/clipboard.c:330
 msgid "Unable to paste"
 msgstr "Kunne ikke lime inn"
 
-#: src/clipboard.c:302
+#: src/clipboard.c:298
 msgid "Content can only be pasted by value or by link."
 msgstr "Innhold kan kun limes inn etter verdi eller med lenke."
 
-#: src/clipboard.c:310
+#: src/clipboard.c:306
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -2897,7 +2897,7 @@ msgstr ""
 "\n"
 "Prøv å velge en enkel celle eller et område med samme form og størrelse."
 
-#: src/clipboard.c:322
+#: src/clipboard.c:318
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -2908,7 +2908,7 @@ msgstr ""
 "\n"
 "Prøv å velge en enkel celle eller et område med samme form og størrelse."
 
-#: src/clipboard.c:335
+#: src/clipboard.c:331
 msgid "result passes the sheet boundary"
 msgstr "resulatet går utenfor arkgrensen"
 
@@ -6557,7 +6557,7 @@ msgid "Scale"
 msgstr "Skaler"
 
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3094
+#: src/workbook.c:1065 src/xml-io.c:3095
 msgid "Sheet"
 msgstr "Ark"
 
@@ -7400,12 +7400,12 @@ msgstr "gul"
 
 #. Is it a boolean?
 #: src/format.c:1551 src/number-match.c:1109 src/value-sheet.c:34
-#: src/value.c:255 src/value.c:494
+#: src/value.c:264 src/value.c:503
 msgid "TRUE"
 msgstr "SANN"
 
 #: src/format.c:1551 src/number-match.c:1111 src/value-sheet.c:34
-#: src/value.c:257 src/value.c:494
+#: src/value.c:266 src/value.c:503
 msgid "FALSE"
 msgstr "USANN"
 
@@ -18774,12 +18774,12 @@ msgstr "Pris"
 msgid "R.H. Side"
 msgstr "Høyre side"
 
-#: src/stf-parse.c:37
+#: src/stf-parse.c:42
 #, c-format
 msgid "Too many rows in data to parse: %d"
 msgstr "For mange rader å tolke i data: %d"
 
-#: src/stf-parse.c:38
+#: src/stf-parse.c:43
 #, c-format
 msgid "Too many columns in data to parse: %d"
 msgstr "For mange kolonner å tolke i data: %d"
@@ -18938,7 +18938,7 @@ msgstr ""
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric: Validering"
 
-#: src/value.c:674
+#: src/value.c:683
 msgid "Terminate"
 msgstr "Terminer"
 
@@ -19512,18 +19512,18 @@ msgstr "Er ikke en autoformat mal"
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Feil under forsøk på å bygge tre fra autoformat malfil"
 
-#: src/xml-io.c:2807
+#: src/xml-io.c:2808
 msgid "Unparsable xml in clipboard"
 msgstr "Ugyldig xml på utklippstavlen"
 
-#: src/xml-io.c:2814
+#: src/xml-io.c:2815
 msgid "Clipboard is in unknown format"
 msgstr "Utklippstavlen har ukjent format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3220
+#: src/xml-io.c:3221
 msgid "Processing file..."
 msgstr "Prossesserer fil..."
 
@@ -19531,11 +19531,11 @@ msgstr "Prossesserer fil..."
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Ikke nok minne til å opprette zlib dekomprimeringstilstand."
 
-#: src/xml-io.c:3423
+#: src/xml-io.c:3421
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Er ikke en Gnumeric arbeidsbok"
 
-#: src/xml-io.c:3480
+#: src/xml-io.c:3478
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
 
