@@ -1,3 +1,8 @@
+2002-10-25  Morten Welinder  <terra@diku.dk>
+
+	* ms-biff.c (skip_bytes): Make scratch buffer static to ensure
+	it's initialised.  Add assert, just in case.
+
 2002-10-24  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-read.c (excel_read_XCT): Fix typo, I think.

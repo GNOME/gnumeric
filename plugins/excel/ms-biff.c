@@ -190,7 +190,7 @@ verify_password (char const *password, guint8 const *docid,
 static void
 skip_bytes (BiffQuery *q, int start, int count)
 {
-	char scratch [REKEY_BLOCK];
+	static char scratch[REKEY_BLOCK];
 	int block;
 
 	block = (start + count) / REKEY_BLOCK;
@@ -199,6 +199,8 @@ skip_bytes (BiffQuery *q, int start, int count)
 		makekey (q->block = block, &q->rc4_key, &q->md5_ctxt);
 		count = (start + count) % REKEY_BLOCK;
 	}
+
+	g_assert (count <= REKEY_BLOCK);
 	rc4 (scratch, count, &q->rc4_key);
 }
 
