@@ -72,6 +72,7 @@ Morten:
 
 Yukihiro Nakai:
 	* Export links when saving as html.
+	* Add actions for www and bug reporting.
 
 Uwe Steinmann:
 	* Paradox DB import.

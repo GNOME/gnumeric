@@ -75,6 +75,9 @@
 #include <glib/gi18n.h>
 #include <gsf/gsf-input.h>
 #include <string.h>
+#ifdef WITH_GNOME
+#include <libgnome/gnome-url.h>
+#endif
 
 static GNM_ACTION_DEF (cb_file_new)
 {
@@ -775,16 +778,45 @@ static GNM_ACTION_DEF (cb_help_docs)
 	char   *argv[] = { (char *)"yelp", NULL, NULL };
 	GError *error = NULL;
 
-#warning handle translations when we generate them
+#warning "handle translations when we generate them"
 	argv[1] = gnumeric_sys_data_dir ("doc/C/gnumeric.xml");
 	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
 		NULL, NULL, NULL, &error);
 	g_free (argv[1]);
 }
 
-static GNM_ACTION_DEF (cb_help_web) { }
+static GNM_ACTION_DEF (cb_help_web)
+{
+#ifdef WITH_GNOME
+	GError *err = NULL;
+
+	gnome_url_show ("http://www.gnumeric.org/", &err);
+	if (err != NULL) {
+		gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
+		g_error_free (err);
+	}
+#else
+#warning "We need a non-gnome version of this."
+#endif
+}
+
 static GNM_ACTION_DEF (cb_help_irc) { }
-static GNM_ACTION_DEF (cb_help_bug) { }
+
+static GNM_ACTION_DEF (cb_help_bug)
+{
+#ifdef WITH_GNOME
+	GError *err = NULL;
+
+	gnome_url_show ("http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric", &err);
+	if (err != NULL) {
+		gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
+		g_error_free (err);
+	}
+#else
+#warning "We need a non-gnome version of this."
+#endif
+}
+
 static GNM_ACTION_DEF (cb_help_about) { dialog_about (wbcg); }
 
 static GNM_ACTION_DEF (cb_autosum)
