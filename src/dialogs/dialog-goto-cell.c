@@ -30,6 +30,7 @@ dialog_goto_cell (Workbook *wb)
 	static GtkWidget *swin;
 	static GtkWidget *entry;
 	char   *text;
+	int    res;
 	
 	if (!dialog){
 		GtkWidget *box;
@@ -74,7 +75,8 @@ dialog_goto_cell (Workbook *wb)
 	gtk_widget_grab_focus (entry);
 	
 	/* Run the dialog */
-	if (gnumeric_dialog_run (wb, GNOME_DIALOG (dialog)) == GNOME_OK) {
+	res = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (res == GNOME_OK) {
 
 		text = gtk_entry_get_text (GTK_ENTRY (entry));
 
@@ -87,6 +89,8 @@ dialog_goto_cell (Workbook *wb)
 				gtk_clist_append (GTK_CLIST (clist), texts);
 			}
 		}
-	}	
-	gnome_dialog_close (GNOME_DIALOG (dialog));
+	}
+
+	if (res != -1)
+		gnome_dialog_close (GNOME_DIALOG (dialog));
 }

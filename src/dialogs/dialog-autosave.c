@@ -66,11 +66,16 @@ dialog_autosave (Workbook *wb)
 	gchar     buf[20];
 	gint      v, old_autosave, old_prompt, old_minutes;
 
+	/*
+	 * FIXME: This is very wrong.  We should not "save" the values
+	 * and then reset them if the user cancels.
+	 */
 	old_autosave = wb->autosave;
 	old_prompt = wb->autosave_prompt;
 	old_minutes = wb->autosave_minutes;
 
-	gtk_timeout_remove (wb->autosave_timer);
+	if (wb->autosave_timer != 0)
+		gtk_timeout_remove (wb->autosave_timer);
 
 	if (!gui) {
 		printf ("Could not find autosave.glade\n");

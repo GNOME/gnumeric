@@ -222,9 +222,10 @@ loop:
 
 	sheet = wb->current_sheet;
 
-	if (v == 1) {
+	if (v == -1 || v == 1){
 	        /* Canceled */
-		gtk_object_destroy (GTK_OBJECT (dia));
+		if (v != -1)
+			gtk_object_destroy (GTK_OBJECT (dia));
 		gtk_object_unref (GTK_OBJECT (gui));
 		return;
 	}

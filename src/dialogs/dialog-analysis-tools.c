@@ -479,8 +479,11 @@ dialog_correlation_tool (Workbook *wb, Sheet *sheet)
 correlation_dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (selection == -1)
+		return;
+	
 	if (selection != 0) {
-	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
 	}
 
@@ -559,6 +562,9 @@ dialog_covariance_tool (Workbook *wb, Sheet *sheet)
 covariance_dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (selection == -1)
+		return;
+	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -666,6 +672,9 @@ dialog_sampling_tool (Workbook *wb, Sheet *sheet)
 sampling_dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (selection == -1)
+		return;
+	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -753,6 +762,9 @@ dialog_descriptive_stat_tool (Workbook *wb, Sheet *sheet)
 stat_dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (selection == -1)
+		return;
+	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -856,6 +868,9 @@ dialog_ztest_tool (Workbook *wb, Sheet *sheet)
 ztest_dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (selection == -1)
+		return;
+	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -966,6 +981,9 @@ dialog_ttest_paired_tool (Workbook *wb, Sheet *sheet)
 ttest_dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (selection == -1)
+		return;
+	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -1070,6 +1088,9 @@ dialog_ttest_eq_tool (Workbook *wb, Sheet *sheet)
 ttest_dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (selection == -1)
+		return;
+	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -1175,6 +1196,9 @@ dialog_ttest_neq_tool (Workbook *wb, Sheet *sheet)
 ttest_dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (selection == -1)
+		return;
+	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -1274,6 +1298,9 @@ dialog_ftest_tool (Workbook *wb, Sheet *sheet)
 ftest_dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (selection == -1)
+		return;
+	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -1613,6 +1640,9 @@ dialog_random_tool (Workbook *wb, Sheet *sheet)
 random_dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (selection == -1)
+		return;
+	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -1748,6 +1778,9 @@ dialog_regression_tool (Workbook *wb, Sheet *sheet)
 dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (selection == -1)
+		return;
+	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -1868,6 +1901,9 @@ dialog_average_tool (Workbook *wb, Sheet *sheet)
 dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (selection == -1)
+		return;
+	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -1956,6 +1992,9 @@ dialog_ranking_tool (Workbook *wb, Sheet *sheet)
 dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (selection == -1)
+		return;
+	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -2041,6 +2080,9 @@ dialog_anova_single_factor_tool (Workbook *wb, Sheet *sheet)
 dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (selection == -1)
+		return;
+	
 	if (selection != 0) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
@@ -2205,6 +2247,11 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
 
 	/* Run the dialog */
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	gtk_object_unref (GTK_OBJECT (gui));
+	
+	if (selection == -1)
+		return;
+	
 	gnome_dialog_close (GNOME_DIALOG (dialog));
 
 	if (selection == 0) {

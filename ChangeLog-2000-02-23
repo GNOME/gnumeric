@@ -1,3 +1,33 @@
+2000-02-14  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/dialogs/dialog-solver.c (constr_add_click): Fix handling
+	of return value from gnumeric_dialog_run.  Fix memory leaks.
+
+	* src/dialogs/dialog-goto-cell.c (dialog_goto_cell): Fix handling
+	of return value from gnumeric_dialog_run
+
+	* src/dialogs/dialog-function-wizard.c (dialog_function_wizard):
+
+	* src/dialogs/dialog-analysis-tools.c (dialog_correlation_tool):
+	Fix handling of return value from gnumeric_dialog_run
+	(dialog_sampling_tool): ditto.
+	(dialog_descriptive_stat_tool): ditto.
+	(dialog_ttest_eq_tool): ditto.
+	(dialog_regression_tool): ditto
+	(dialog_average_tool): ditto.
+	(dialog_ranking_tool): ditto.
+	(dialog_anova_single_factor_tool): ditto.
+
+	* src/dialogs/dialog-solver.c (dialog_solver): The argument is
+	*NOT* a GtkObject, but some other data structure.
+
+	* src/dialogs/dialog-analysis-tools.c (dialog_data_analysis):
+	Correct handling.
+	(dialog_covariance_tool): Handle correctly.
+
+	* src/dialogs/dialog-advanced-filter.c (dialog_advanced_filter):
+	Proper error handling.
+
 2000-02-13  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-format-toolbar.c (workbook_create_format_toolbar)
@@ -6,6 +36,9 @@
 	* src/widgets/widget-pixmap-combo.[ch] : New files.
 
 2000-02-13  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/workbook.c (workbook_new): Do not autosave by default, much
+	less with prompt feature.
 
 	* src/widgets/widget-color-combo.c (color_combo_construct):
 	Acknowledge the GNOME user settings for the combo box button.

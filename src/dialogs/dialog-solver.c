@@ -151,7 +151,7 @@ add_constraint(constraint_dialog_t *constraint_dialog,
 
 /* 'Constraint Add' button clicked */
 static void
-constr_add_click (constraint_dialog_t *constraint_dialog)
+constr_add_click (GtkWidget *widget, constraint_dialog_t *constraint_dialog)
 {
 	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/solver.glade",
 					NULL);
@@ -199,6 +199,11 @@ add_dialog:
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	selection = gnumeric_dialog_run (constraint_dialog->wb,
 					 GNOME_DIALOG (dialog));
+
+	if (selection == -1){
+		gtk_object_destroy (GTK_OBJECT (gui));
+		return;
+	}
 	
 	if (selection == 1) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
@@ -247,7 +252,7 @@ static gint selected_row = -1;
 
 /* 'Constraint Change' button clicked */
 static void
-constr_change_click (constraint_dialog_t *data)
+constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 {
 	SolverConstraint *constraint;
 
@@ -374,7 +379,7 @@ loop:
 
 /* 'Constraint Delete' button clicked */
 static void
-constr_delete_click (gpointer data)
+constr_delete_click (GtkWidget *widget, gpointer data)
 {
         constraint_dialog_t *constraint_dialog = (constraint_dialog_t *) data;
 	gpointer            p;
@@ -627,23 +632,23 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 			    target_entry_str);
 	gtk_entry_select_region (GTK_ENTRY (target_entry),
 				 0, GTK_ENTRY(target_entry)->text_length);
-	gtk_signal_connect(GTK_OBJECT(constraint_list),
-			   "select_row",
-			   GTK_SIGNAL_FUNC(constraint_select_click),
-			   GTK_OBJECT (constraint_dialog));
+	gtk_signal_connect (GTK_OBJECT(constraint_list),
+			    "select_row",
+			    GTK_SIGNAL_FUNC(constraint_select_click),
+			    constraint_dialog);
 
-	gtk_signal_connect_object (GTK_OBJECT (constr_add_button),
-				   "clicked",
-				   GTK_SIGNAL_FUNC (constr_add_click),
-				   GTK_OBJECT (constraint_dialog));
-	gtk_signal_connect_object (GTK_OBJECT (constr_change_button),
-				   "clicked",
-				   GTK_SIGNAL_FUNC(constr_change_click),
-				   GTK_OBJECT(constraint_dialog));
-	gtk_signal_connect_object (GTK_OBJECT (constr_delete_button),
-				   "clicked",
-				   GTK_SIGNAL_FUNC(constr_delete_click),
-				   GTK_OBJECT (constraint_dialog));
+	gtk_signal_connect (GTK_OBJECT (constr_add_button),
+			    "clicked",
+			    GTK_SIGNAL_FUNC (constr_add_click),
+			    constraint_dialog);
+	gtk_signal_connect (GTK_OBJECT (constr_change_button),
+			    "clicked",
+			    GTK_SIGNAL_FUNC(constr_change_click),
+			    constraint_dialog);
+	gtk_signal_connect (GTK_OBJECT (constr_delete_button),
+			    "clicked",
+			    GTK_SIGNAL_FUNC(constr_delete_click),
+			    constraint_dialog);
 
 	radiobutton = glade_xml_get_widget (gui, "radiobutton1");
 	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
@@ -676,12 +681,18 @@ main_dialog:
 	case 1:
    	        /* Cancel */
 		gtk_object_destroy (GTK_OBJECT (dialog));
+
+		/* User close */
+
+	case -1:
 	        gtk_object_unref (GTK_OBJECT (gui));
 	        return;
 	case 2:
 	        gtk_widget_hide (dialog);
 	        dialog_solver_options(wb, sheet);
 		goto main_dialog;
+
+		
 	default:
 	        break;
 	}

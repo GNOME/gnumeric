@@ -627,10 +627,10 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 	
 	/* Clean up */
 	if (sort_flow.dialog)
-	  gtk_object_destroy (GTK_OBJECT (sort_flow.dialog));
+		gtk_object_destroy (GTK_OBJECT (sort_flow.dialog));
 	
 	for (lp = 0; lp < sort_flow.num_clause; lp++)
-	  order_box_destroy (sort_flow.clauses [lp]);
+		order_box_destroy (sort_flow.clauses [lp]);
 	
 	free_string_list (sort_flow.colnames_plain);
 	free_string_list (sort_flow.colnames_header);

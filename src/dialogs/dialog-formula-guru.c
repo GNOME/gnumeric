@@ -314,7 +314,8 @@ dialog_function_wizard (Workbook *wb, FunctionDefinition *fd)
 	GtkWidget *dialog;
 	State state;
 	char *ans = NULL;
-
+	int res;
+	
 	g_return_val_if_fail (wb, NULL);
 
 	state.wb   = wb;
@@ -340,10 +341,12 @@ dialog_function_wizard (Workbook *wb, FunctionDefinition *fd)
 
 	function_wizard_create (&state);
 
-	if (gnumeric_dialog_run (wb, GNOME_DIALOG(dialog)) == 0)
+	res = gnumeric_dialog_run (wb, GNOME_DIALOG(dialog));
+	if (res == 0)
 		ans = get_text_value (&state);
-	
-	gnome_dialog_close (GNOME_DIALOG(dialog));
+
+	if (res != -1)
+		gnome_dialog_close (GNOME_DIALOG(dialog));
 
 	tokenized_help_destroy (state.tok);
 	return ans;
