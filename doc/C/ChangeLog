@@ -1,10 +1,17 @@
 2002-01-04  Kevin Breit  <mrproper@ximian.com>
 
+	* new/appendix-glossary.xml: I'm stupid.  I named this wrong.  Renamed to .xml instead of .sgml.
+
+	* new/gnumeric.xml: Made work with the glossary
+
+	* new/chapter-autofill.xml: Added file and made sure it works in XML.
+
+	* new/gnumeric.xml: Added chapter-autofill.sgml to the list
+
 	* new/appendix-glossary.sgml: Added this file to CVS so that stuff links right
 
 	* new/gnumeric.xml: Added the appendix-glossary.xml file
 
-<<<<<<< ChangeLog
 	* new/preface.xml: Added this file to CVS and put it together.  This should be about all it needs.
 
 2002-01-04  Alexander Kirillov  <kirillov@math.sunysb.edu>
