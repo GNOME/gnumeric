@@ -1,5 +1,10 @@
 2002-05-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/workbook-edit.c : include gnumeric-gconf.h
+	* src/workbook-edit.h : declare wbcg_edit_attach_guru_with_unfocused_rs
+
+2002-05-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* schemas/gnumeric-general.schemas : add unfocused-rs schema
 	* src/gnumeric-gconf-priv.h : add unfocused-rs key and fix 
 	  print-setup-all-sheets key

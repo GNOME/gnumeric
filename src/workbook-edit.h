@@ -12,6 +12,8 @@ gboolean wbcg_edit_start  (WorkbookControlGUI *wbcg,
 			   gboolean blankp, gboolean cursorp);
 
 void	    wbcg_edit_attach_guru	(WorkbookControlGUI *wbcg, GtkWidget *guru);
+void	    wbcg_edit_attach_guru_with_unfocused_rs (WorkbookControlGUI *wbcg, GtkWidget *guru,
+						     GnumericExprEntry *gee);
 void	    wbcg_edit_detach_guru	(WorkbookControlGUI *wbcg);
 GtkWidget  *wbcg_edit_has_guru		(WorkbookControlGUI const *wbcg);
 gboolean    wbcg_edit_entry_redirect_p	(WorkbookControlGUI const *wbcg);

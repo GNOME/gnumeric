@@ -18,6 +18,7 @@
 #include "application.h"
 #include "complete-sheet.h"
 #include "commands.h"
+#include "gnumeric-gconf.h"
 #include "mstyle.h"
 #include "sheet-control-gui.h"
 #include "sheet-style.h"
