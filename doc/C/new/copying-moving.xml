@@ -184,7 +184,7 @@
   <para>
     To cut a cell or a selection to the clipboard, you should select
     a cell or range of cells as described in <xref
-    linkend="editing-selections" /> and then use one of
+    linkend="selections-edit" /> and then use one of
     the following methods:
       <itemizedlist>
 	<listitem><para>
@@ -235,7 +235,7 @@
   <para>
     To copy a cell or a selection to the clipboard, you should select
     a cell or range of cells as described in <xref
-    linkend="editing-selections" /> and then  use one of
+    linkend="selections-edit" /> and then  use one of
     the following methods:
       <itemizedlist>
 	<listitem><para>

@@ -41,7 +41,7 @@
     
     <para>
       To launch this dialog, select the cell or range of cells you want
-      to format (see <xref linkend="editing-selections" /> for details
+      to format (see <xref linkend="selections-edit" /> for details
       on selecting cells) and then use one of the following methods:
     </para>
      <itemizedlist>

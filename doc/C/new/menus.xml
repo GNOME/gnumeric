@@ -437,89 +437,89 @@
 
 
 
- <variablelist>
-
-	<varlistentry>
-		<term>
-		  <guiicon><inlinegraphic fileref="figures/label-one.png"></inlinegraphic>
-		    Change History.
-		  </guiicon>
-		</term>
-		<listitem>
-		  <para>These menu items allow the user to remove recent changes to a
-		  worksheet or re-introduce changes which have been undone. These options give
-		  the user control over recent edits. This functionality is often
-		  called the "change history" of an application. </para>
-		  
-		  <para>The type of edit has no importance. An edit which deletes the 
-		  contents 
-		  of a cell is treated in the same way as an edit which adds contents to 
-		  a cell. The change history is session
-		  specific. The user will not be able to undo changes through the
-		  change history if the
-		  file is saved and then re-opened. Note also that the list only covers
-		  the last few dozen operations. The number of operations which
-		  Gnumeric tracks in its history depends on the size and
-		  complexity of those operations. Finally, there are some operations
-		  which cannot yet be modified in this way in <application>Gnumeric 1.0</application>. Sheet
-		  operations (adding or removal) cannot be undone, nor can deleted
-		  comments be restored, nor can altered summary information, nor can
-		  operations on embedded objects be undone.
-		  </para>
-			<itemizedlist>
-    	  	    <listitem>
-     		      <para>
-     	    	   <guimenuitem>Undo</guimenuitem> --- The
-			    	   <guimenuitem>Undo</guimenuitem> menu item is used to
-					   remove
-					   the last few edits from a workbook. The edits must be
-					   undone in order. This menu item removes only the last edit
-					   from the workbook. The user can also access the undo
-					   list through one of the toolbar buttons and its
-					   associated menu. 
-					   With this menu, the user can undo several
-					   operations at once. This is explained in section <xref
-					   linkend="std-toolbar" />.
-	      	      </para>
-    	 	   </listitem>
-
-      		    <listitem>
-     	    	  <para>
-    	 	       <guimenuitem>Redo</guimenuitem> --- The
-				       <guimenuitem>Redo</guimenuitem> menu item is used after
-					   an undo operation to restore the change that was undone.
-					   The menu item only restores the last undone operation. Users
-					   can also resotre edit using a button on the standard toolbar
-					   and through the associated menu. The menu allows several 
-					   operations to be redone at once. It is explained in <xref
-					   linkend="std-toolbar" />.
-					   </para>
-	     	   </listitem>
-			</itemizedlist>
-		</listitem>
-	</varlistentry>
-
-
-
-
-	<!-- Cut, Copy, Paste, Paste Special... -->
-	<varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/label-two.png"></inlinegraphic>
-	    Operations on selected areas.
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>These menu items enable selected cell contents to be moved
+  <variablelist>
+    
+    <varlistentry>
+      <term>
+	<guiicon><inlinegraphic fileref="figures/label-one.png"></inlinegraphic>
+	  Change History.
+	</guiicon>
+      </term>
+      <listitem>
+	<para>These menu items allow the user to remove recent changes to a
+	  worksheet or re-introduce changes which have been undone. These options give
+	  the user control over recent edits. This functionality is often
+	  called the "change history" of an application. </para>
+	
+	<para>The type of edit has no importance. An edit which deletes the 
+	  contents 
+	  of a cell is treated in the same way as an edit which adds contents to 
+	  a cell. The change history is session
+	  specific. The user will not be able to undo changes through the
+	  change history if the
+	  file is saved and then re-opened. Note also that the list only covers
+	  the last few dozen operations. The number of operations which
+	  Gnumeric tracks in its history depends on the size and
+	  complexity of those operations. Finally, there are some operations
+	  which cannot yet be modified in this way in <application>Gnumeric 1.0</application>. Sheet
+	  operations (adding or removal) cannot be undone, nor can deleted
+	  comments be restored, nor can altered summary information, nor can
+	  operations on embedded objects be undone.
+	</para>
+	<itemizedlist>
+	  <listitem>
+	    <para>
+	      <guimenuitem>Undo</guimenuitem> --- The
+	      <guimenuitem>Undo</guimenuitem> menu item is used to
+	      remove
+	      the last few edits from a workbook. The edits must be
+	      undone in order. This menu item removes only the last edit
+	      from the workbook. The user can also access the undo
+	      list through one of the toolbar buttons and its
+	      associated menu. 
+	      With this menu, the user can undo several
+	      operations at once. This is explained in section <xref
+								     linkend="std-toolbar" />.
+	    </para>
+	  </listitem>
+	  
+	  <listitem>
+	    <para>
+	      <guimenuitem>Redo</guimenuitem> --- The
+	      <guimenuitem>Redo</guimenuitem> menu item is used after
+	      an undo operation to restore the change that was undone.
+	      The menu item only restores the last undone operation. Users
+	      can also resotre edit using a button on the standard toolbar
+	      and through the associated menu. The menu allows several 
+	      operations to be redone at once. It is explained in <xref
+									linkend="std-toolbar" />.
+	    </para>
+	  </listitem>
+	</itemizedlist>
+      </listitem>
+    </varlistentry>
+    
+    
+    
+    
+    <!-- Cut, Copy, Paste, Paste Special... -->
+    <varlistentry>
+      <term>
+	<guiicon><inlinegraphic fileref="figures/label-two.png"></inlinegraphic>
+	  Operations on selected areas.
+	</guiicon>
+      </term>
+      <listitem>
+	<para>These menu items enable selected cell contents to be moved
 	  around a spreadsheet, moved between worksheets or between
 	  workbooks. Selections are areas of the spreadsheet that have been chosen,
 	  usually with the mouse, and are usually colored pale blue. Selections
 	  are explained in greater detail in <xref
-	  linkend="editing-selections" />.
-	  <application>Gnumeric</application> currently only allows single range selections for these
-	  operations.
-	  </para>
-	  <para> To use these menuitems, the user must first select the range of
+						   linkend="selections-edit" />.
+	    <application>Gnumeric</application> currently only allows single range selections for these
+	    operations.
+	</para>
+	<para> To use these menuitems, the user must first select the range of
 	  the cut or copy area. When the user then picks these menuitems, the contents
 	  of the selected areas will be entered into the <application>Gnumeric clipboard</application> and
 	  into the X clipboard. The contents of the <application>Gnumeric</application> clipboard can then be
