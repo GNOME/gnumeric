@@ -1,6 +1,13 @@
 
-Writing builtin functions for Gnumeric:
----------------------------------------
+Howto write builtin functions for gnumeric, version 0.2
+by Michael Meeks <mmeeks@gnu.org>
+
+
+This text describes the API and conventions a programmer should use
+to implement and register new functions for use in gnumeric.
+
+
+-------------------------------------------------------------------
 
 Functions in Gnumeric should be registered in a category, to do this
 you must get a category handle:
