@@ -755,7 +755,6 @@ plugins/gda/Makefile
 plugins/gb/Makefile
 plugins/lotus-123/Makefile
 plugins/oleo/Makefile
-plugins/python/Makefile
 plugins/python-loader/Makefile
 plugins/gnome-glossary/Makefile
 plugins/py-func/Makefile
