@@ -1,3 +1,7 @@
+2002-04-23  Abel Cheung  <maddog@linux.org.hk>
+
+	* POTFILES.in: Synced with source tree and sorted.
+
 2002-04-15  Jon K Hellan  <hellan@acm.org>
 
 	* POTFILES.in: Added the new files
