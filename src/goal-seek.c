@@ -6,7 +6,7 @@
  *
  */
 
-#define DEBUG_GOAL_SEEK
+#undef DEBUG_GOAL_SEEK
 #ifdef STANDALONE
 #define DEBUG_GOAL_SEEK
 #endif
