@@ -75,13 +75,12 @@ plugin_load (Workbook *wb, const gchar *modfile)
 	}
 	
 	if (!g_module_symbol (data->handle, "init_plugin", (gpointer *) &data->init_plugin)){
-		g_free (data);
 		gnumeric_error_plugin_problem (context, 
 					       _("Plugin must contain init_plugin function."));
 		goto error;
 	}
 	
-	res = data->init_plugin (NULL, data);
+	res = data->init_plugin (context, data);
 	if (res != PLUGIN_OK) {
 		/* Avoid displaying 2 error boxes */
 		if (res == PLUGIN_ERROR)

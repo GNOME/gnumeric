@@ -531,7 +531,7 @@ gnumeric_pricemat (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_disc = {
 	N_("@FUNCTION=DISC\n"
-	   "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis]\n"
+	   "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
 	   "@DESCRIPTION="
 	   "DISC calculates and returns the discount rate for a sequrity. "
 	   "@basis is the type of day counting system you want to use:\n"
