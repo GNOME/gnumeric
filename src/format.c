@@ -366,16 +366,20 @@ static void
 append_hour_elapsed (GString *string, struct tm *tm, gnm_float number)
 {
 	double res, int_part;
+	gboolean is_neg;
 
 	/* ick.  round assuming no more than 100th of a second, we really need
 	 * to know the precision earlier */
 	res = gnumeric_fake_round (number * 24. * 60. * 60. * 100.);
 	res = modf (res / (60. * 60. * 100.), &int_part);
 	tm->tm_hour = int_part;
-	res *= ((res < 0.) ? -3600. : 3600.);
+	is_neg = (res < 0);
+	res = 3600 * fabs (res);
 	tm->tm_min = res / 60.;
 	tm->tm_sec = res - tm->tm_min * 60;
 
+	if (tm->tm_hour == 0 && is_neg)
+		g_string_append_c (string, '-');
 	g_string_append_printf (string, "%d", tm->tm_hour);
 }
 

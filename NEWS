@@ -26,6 +26,7 @@ Morten:
 	  small fields.
 	* Speed up STF import by not creating field structures for lines
 	  not shown in the preview anyway.
+	* Fix display of cumulative hours for -1h < time < 0h.
 
 Rodrigo:
 	* Bump requirement to libgda/libgnomedb 1.0.1
