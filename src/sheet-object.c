@@ -737,9 +737,9 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 		char *goad_id;
 
 		if (sheet->mode == SHEET_MODE_CREATE_CANVAS_ITEM)
-			required_interfaces [0] = "IDL:GNOME/Canvas/Item:1.0";
+			required_interfaces [0] = "IDL:Bonobo/Canvas/Item:1.0";
 		else
-			required_interfaces [0] = "IDL:GNOME/Embeddable:1.0";
+			required_interfaces [0] = "IDL:Bonobo/Embeddable:1.0";
 		required_interfaces [1] = NULL;
 
 		goad_id = gnome_bonobo_select_goad_id (_("Select an object"), required_interfaces); 

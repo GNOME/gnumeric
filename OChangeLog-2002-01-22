@@ -1,3 +1,8 @@
+2000-03-09  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-object.c (sheet_set_mode_type): look for the
+	IDL:Bonobo/ interfaces not stale IDL:GNOME ones.
+
 2000-03-09  Jon K Hellan  <hellan@acm.org>
 
 	* src/corba-workbook.c (command_context_corba): Really handle wb

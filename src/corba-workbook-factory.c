@@ -52,9 +52,9 @@ WorkbookFactory_read (PortableServer_Servant servant, const CORBA_char * filenam
 }
 
 static CORBA_boolean
-WorkbookFactory_supports (PortableServer_Servant servant,
-			  const CORBA_char * obj_goad_id,
-			  CORBA_Environment * ev)
+WorkbookFactory_manufactures (PortableServer_Servant servant,
+			      const CORBA_char * obj_goad_id,
+			      CORBA_Environment * ev)
 {
 	g_warning ("Request for: %s\n", obj_goad_id);
 
@@ -104,7 +104,7 @@ GNOME_Gnumeric_WorkbookFactory__create (PortableServer_POA poa, CORBA_Environmen
 	 * Set up our tables
 	 */
 	gnumeric_workbook_factory_epv.read = WorkbookFactory_read;
-	gnumeric_workbook_generic_factory_epv.supports = WorkbookFactory_supports;
+	gnumeric_workbook_generic_factory_epv.manufactures = WorkbookFactory_manufactures;
 	gnumeric_workbook_generic_factory_epv.create_object = WorkbookFactory_create_object;
 		
 	gnumeric_workbook_factory_vepv.GNOME_Gnumeric_WorkbookFactory_epv =
