@@ -162,14 +162,14 @@ gnm_hlink_cur_wb_activate (GnmHLink *lnk, WorkbookControl *wbc)
 		GnmNamedExpr *nexpr = expr_name_lookup (
 			parse_pos_init (&pp, NULL, sheet, 0, 0), lnk->target);
 
-		if (nexpr != NULL) {
+		if (nexpr != NULL)
 			target = gnm_expr_get_range (nexpr->expr);
-			if (target == NULL) {
-				gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Link target"),
-							lnk->target);
+	}
+	if (target == NULL) {
+		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
+					_("Link target"),
+					lnk->target);
 				return FALSE;
-			}
-		}
 	}
 
 	r = &target->v_range.cell;

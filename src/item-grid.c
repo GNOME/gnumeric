@@ -1032,6 +1032,7 @@ cb_cursor_come_to_rest (ItemGrid *ig)
 	GnmHLink *link;
 	int x, y;
 	CellPos pos;
+	char *tiptext;
 
 	/* Be anal and look it up in case something has destroyed the link
 	 * since the last motion */
@@ -1040,13 +1041,12 @@ cb_cursor_come_to_rest (ItemGrid *ig)
 	pos.row = gnm_canvas_find_row (gcanvas, y, NULL);
 
 	link = sheet_hlink_find (sheet, &pos);
-	if (link != NULL && gnm_hlink_get_tip (link) != NULL) {
+	if (link != NULL && (tiptext = gnm_hlink_get_tip (link)) != NULL) {
 		g_return_val_if_fail (link == ig->cur_link, FALSE);
 
-		if (ig->tip == NULL) {
+		if (ig->tip == NULL && strlen (tiptext) > 0) {
 			ig->tip = gnumeric_create_tooltip ();
-			gtk_label_set_text (GTK_LABEL (ig->tip),
-				gnm_hlink_get_tip (link));
+			gtk_label_set_text (GTK_LABEL (ig->tip), tiptext);
 			gnumeric_position_tooltip (ig->tip, TRUE);
 			gtk_widget_show_all (gtk_widget_get_toplevel (ig->tip));
 		}

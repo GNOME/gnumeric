@@ -851,9 +851,8 @@ gnm_expr_entry_thaw (GnumericExprEntry *gee)
  *
  * Changes the flags specified in @mask to values given in @flags.
  *
- * Flags (%FALSE by default, with exceptions given below):
+ * Flags (%FALSE by default):
  * %GNM_EE_SINGLE_RANGE      Entry will only hold a single range.
- *                            %TRUE by default
  * %GNM_EE_ABS_COL           Column reference must be absolute.
  * %GNM_EE_ABS_ROW           Row reference must be absolute.
  * %GNM_EE_FULL_COL          Range consists of full columns.
@@ -1195,7 +1194,7 @@ gnm_expr_entry_parse (GnumericExprEntry *gee, ParsePos const *pp,
 		Value *range = gnm_expr_get_range (expr) ;
 		if (range == NULL) {
 			if (perr != NULL) {
-				perr->err = g_error_new (0, PERR_SINGLE_RANGE,
+				perr->err = g_error_new (1, PERR_SINGLE_RANGE,
 					_("Expecting a single range"));
 				perr->begin_char = perr->end_char   = 0;
 			}

@@ -1,3 +1,10 @@
+2003-01-03  Jon K Hellan  <hellan@acm.org>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_set_flags): Make docs
+	reflect current reality.
+	(gnm_expr_entry_parse): Use the same bogus domain to g_error_new
+	as the parser does.
+
 2002-12-31  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.15

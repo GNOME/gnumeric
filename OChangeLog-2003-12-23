@@ -1,3 +1,11 @@
+2003-01-03  Jon K Hellan  <hellan@acm.org>
+
+	* src/item-grid.c (cb_cursor_come_to_rest): Don't display empty
+	tooltip.
+
+	* src/hlink.c (gnm_hlink_cur_wb_activate): Test and complain if
+	target is neither range nor name.
+
 2003-01-03  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (sheet_foreach_cell_in_range) : fix minor typo.
