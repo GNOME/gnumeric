@@ -1,0 +1,13 @@
+2002-07-07  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c, gsl-complex.c: Implemented the following fns:
+	  IMARCSIN(), IMARCCOS(), IMARCTAN(), IMARCSEC(), IMARCCSC(),
+	  IMARCCOT(), IMSINH(), IMCOSH(), IMTANH(), IMSECH(), IMCSCH(),
+	  IMCOTH(), IMARCSINH(), IMARCCOSH(), IMARCTANH(), IMARCSECH(),
+	  IMARCCSCH(), and IMARCCOTH().
+
+	* functions.c: Imported the complex functions from the fn-eng
+	plug-in.
+
+	* gsl-complex.[ch]: Imported with modifications from the GNU
+	Scientific Library (GPLed stuff).
