@@ -1,3 +1,36 @@
+2004-08-13  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-axis.c (gog_axis_editor): don't show preferences for
+	circular axis.
+	(overlap): new.
+	(draw_axis_from_a_to_b): use gog_axis_map and draw labels.
+	(gog_axis_view_render): at least width of the '0' char between two
+	labels for GOG_AXIS_X.
+	* graph/gog-view.h: remove call_parent_render and add a clip flag.
+	* graph/gog-chart.c (gog_chart_view_render): removed.
+	(gog_chart_view_class_init): set clip to TRUE.
+	* graph/gog-outlined-object.c: allways call parent render.
+	* graph/gog-renderer-gnome-print.c: change start/stop_clipping to
+	clip_push/pop.
+	* graph/gog-renderer-svg.c: change start/stop_clipping to
+	clip_push/pop.
+	(gog_renderer_draw_text): add xml child in current node instead of
+	first doc child.
+	* graph/gog-renderer-pixbuf: change start/stop_clipping to
+	clip_push/pop.
+	(gog_renderer_pixbuf_clip_push): add multilevel clipping capability.
+	(gog_renderer_pixbuf_print_clip_pop): idem.
+	* graph/gog-renderer.c: change start/stop_clipping to clip_push/pop
+	and add a clip stack to handle mutilevel clipping.
+	* graph/gog-view.c (gog_view_class_init): set default clip flag to
+	FALSE.
+	(gog_view_render): if klass->clip is TRUE, call to clip_push/pop
+	functions.
+	* graph/plugins/plot_barcol/gog-barcol.c: set klass->clip to TRUE.
+	* graph/plugins/plot_barcol/gog-line.c: idem.
+	* graph/plugins/plot_xy/gog-xy.c: idem.
+	* graph/plugins/plot_radar/gog-radar.c: idem.
+
 2004-08-09  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-axis.c (map_[log,linear,discrete]_init) : add arguments

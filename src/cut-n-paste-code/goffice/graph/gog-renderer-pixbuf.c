@@ -44,7 +44,6 @@ struct _GogRendererPixbuf {
 	int 		 w, h;
 	int		 x_offset, y_offset;
 	GdkPixbuf 	*buffer;
-	GdkPixbuf	*buffer_cache;
 	guchar    	*pixels; /* from pixbuf */
 	int	   	 rowstride;
 
@@ -60,11 +59,6 @@ gog_renderer_pixbuf_finalize (GObject *obj)
 {
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (obj);
 
-	if (prend->buffer_cache != NULL) {
-		g_object_unref (prend->buffer_cache);
-		prend->buffer_cache = NULL;
-	}
-
 	if (prend->buffer != NULL) {
 		g_object_unref (prend->buffer);
 		prend->buffer = NULL;
@@ -78,27 +72,43 @@ gog_renderer_pixbuf_finalize (GObject *obj)
 	(*parent_klass->finalize) (obj);
 }
 
-static void
-gog_renderer_pixbuf_start_clipping (GogRenderer *rend)
+typedef struct
 {
-	GdkRectangle graph_rect, clip_rect, res_rect;
+	GdkPixbuf	*buffer;
+	double		 x_offset;
+	double		 y_offset;
+} ClipData;
 
+static void
+gog_renderer_pixbuf_clip_push (GogRenderer *rend, GogRendererClip *clip)
+{
+	ClipData *clip_data;
+	GdkRectangle graph_rect, clip_rect, res_rect;
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
+
+	clip->data = g_new (ClipData, 1);
+	clip_data = (ClipData *) clip->data;
+
+	clip_data->x_offset = prend->x_offset;
+	clip_data->y_offset = prend->y_offset;
+	clip_data->buffer = NULL;
 
 	graph_rect.x = graph_rect.y = 0;
 	graph_rect.width = gdk_pixbuf_get_width (prend->buffer);
 	graph_rect.height = gdk_pixbuf_get_height (prend->buffer);
 
-	clip_rect.x = prend->x_offset = rend->clip_rectangle.x;
-	clip_rect.y = prend->y_offset = rend->clip_rectangle.y;
-	clip_rect.width = rend->clip_rectangle.w + 1;
-	clip_rect.height = rend->clip_rectangle.h + 1;
+	clip_rect.x = clip->area.x - prend->x_offset;
+	clip_rect.y = clip->area.y - prend->y_offset;
+	clip_rect.width = clip->area.w + 1;
+	clip_rect.height = clip->area.h + 1;
 
 	if (gdk_rectangle_intersect (&graph_rect, &clip_rect, &res_rect)) {
-		prend->buffer_cache = prend->buffer;
-		prend->buffer = gdk_pixbuf_new_subpixbuf (prend->buffer_cache,
+		clip_data->buffer = prend->buffer;
+		prend->buffer = gdk_pixbuf_new_subpixbuf (clip_data->buffer,
 							  res_rect.x, res_rect.y,
 							  res_rect.width, res_rect.height);
+		prend->x_offset += res_rect.x;
+		prend->y_offset += res_rect.y;
 	}
 
 	if (prend->buffer == NULL)
@@ -111,22 +121,25 @@ gog_renderer_pixbuf_start_clipping (GogRenderer *rend)
 }
 
 static void
-gog_renderer_pixbuf_stop_clipping (GogRenderer *rend)
+gog_renderer_pixbuf_clip_pop (GogRenderer *rend, GogRendererClip *clip)
 {
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
+	ClipData *clip_data = clip->data;
 
-	if (prend->buffer_cache != NULL) {
+	if (clip_data->buffer != NULL) {
 		if (prend->buffer != NULL)
 			g_object_unref (prend->buffer);
-		prend->buffer = prend->buffer_cache;
+		prend->buffer = clip_data->buffer;
 	}
 	prend->pixels = gdk_pixbuf_get_pixels (prend->buffer);
 	prend->w = gdk_pixbuf_get_width (prend->buffer);
 	prend->h = gdk_pixbuf_get_height (prend->buffer);
-	prend->x_offset = 0;
-	prend->y_offset = 0;
 	prend->rowstride = gdk_pixbuf_get_rowstride (prend->buffer);
-	prend->buffer_cache = NULL;
+	prend->x_offset = clip_data->x_offset;
+	prend->y_offset = clip_data->y_offset;
+
+	g_free (clip->data);
+	clip->data = NULL;
 }
 
 static ArtSVP *
@@ -147,7 +160,7 @@ clip_path (GogViewAllocation const *bound)
 }
 
 static double
-gog_renderer_pixbuf_line_size (GogRenderer *rend, double width)
+gog_renderer_pixbuf_line_size (GogRenderer const *rend, double width)
 {
 	if (width < 0.)
 		return 0.;
@@ -587,9 +600,9 @@ gog_renderer_pixbuf_class_init (GogRendererClass *rend_klass)
 	GObjectClass *gobject_klass   = (GObjectClass *) rend_klass;
 
 	parent_klass = g_type_class_peek_parent (rend_klass);
-	gobject_klass->finalize	  	= gog_renderer_pixbuf_finalize;
-	rend_klass->start_clipping  	= gog_renderer_pixbuf_start_clipping;
-	rend_klass->stop_clipping     	= gog_renderer_pixbuf_stop_clipping;
+	gobject_klass->finalize		= gog_renderer_pixbuf_finalize;
+	rend_klass->clip_push  		= gog_renderer_pixbuf_clip_push;
+	rend_klass->clip_pop     	= gog_renderer_pixbuf_clip_pop;
 	rend_klass->sharp_path		= gog_renderer_pixbuf_sharp_path;
 	rend_klass->draw_path	  	= gog_renderer_pixbuf_draw_path;
 	rend_klass->draw_polygon  	= gog_renderer_pixbuf_draw_polygon;
@@ -603,8 +616,7 @@ static void
 gog_renderer_pixbuf_init (GogRendererPixbuf *prend)
 {
 	prend->buffer = NULL;
-	prend->buffer_cache = NULL;
-	prend->w = prend->h = 1; /* jsut in case */
+	prend->w = prend->h = 1; /* just in case */
 }
 
 GSF_CLASS (GogRendererPixbuf, gog_renderer_pixbuf,

@@ -401,6 +401,7 @@ gog_radar_view_class_init (GogViewClass *view_klass)
 {
 	view_klass->render	  = gog_radar_view_render;
 	view_klass->info_at_point = gog_radar_view_info_at_point;
+	view_klass->clip	  = TRUE;
 }
 
 static GSF_CLASS (GogRadarView, gog_radar_view,

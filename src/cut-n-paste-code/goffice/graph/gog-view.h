@@ -45,6 +45,8 @@ struct _GogView {
 typedef struct {
 	GObjectClass	base;
 
+	gboolean	clip;
+
 	/* Virtuals */
 	void	 (*state_init)    (GogView *);
 	void	 (*size_request)  (GogView *, GogViewRequisition *r);

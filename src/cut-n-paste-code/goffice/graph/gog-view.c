@@ -318,6 +318,7 @@ gog_view_class_init (GogViewClass *view_klass)
 	view_klass->size_request    = gog_view_size_request_real;
 	view_klass->size_allocate   = gog_view_size_allocate_real;
 	view_klass->render	    = gog_view_render_real;
+	view_klass->clip	    = FALSE;
 
 	g_object_class_install_property (gobject_klass, GOG_VIEW_PROP_PARENT,
 		g_param_spec_object ("parent", "parent",
@@ -481,7 +482,14 @@ gog_view_render	(GogView *view, GogViewAllocation const *bbox)
 
 	if (view->residual.w < 0 || view->residual.h < 0)
 		return;
-	klass->render (view, bbox);
+	
+	if (klass->clip) {
+		gog_renderer_clip_push (view->renderer, &view->allocation);
+		klass->render (view, bbox);
+		gog_renderer_clip_pop (view->renderer);
+	}
+	else
+		klass->render (view, bbox);
 }
 
 /**

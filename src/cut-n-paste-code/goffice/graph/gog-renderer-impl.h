@@ -28,6 +28,11 @@
 
 G_BEGIN_DECLS
 
+typedef struct {
+	GogViewAllocation	area;
+	gpointer		data;
+} GogRendererClip;
+
 struct _GogRenderer {
 	GObject	 base;
 
@@ -38,8 +43,7 @@ struct _GogRenderer {
 	float	  scale, scale_x, scale_y;
 	float	  zoom;
 	
-	GogViewAllocation clip_rectangle;
-	gboolean  is_clipping;
+	GSList	  *clip_stack;
 
 	GClosure *font_watcher;
 	gboolean  needs_update;
@@ -56,8 +60,8 @@ typedef struct {
 	void (*push_style)     	(GogRenderer *renderer, GogStyle const *style);
 	void (*pop_style)      	(GogRenderer *renderer);
 
- 	void (*start_clipping)	(GogRenderer *renderer);
- 	void (*stop_clipping) 	(GogRenderer *renderer);
+ 	void (*clip_push)	(GogRenderer *renderer, GogRendererClip *clip);
+ 	void (*clip_pop) 	(GogRenderer *renderer, GogRendererClip *clip);
  	
 	void (*sharp_path)	(GogRenderer *renderer, ArtVpath *path, double line_width);
 
@@ -71,7 +75,7 @@ typedef struct {
 	void (*draw_marker)    	(GogRenderer *rend, double x, double y);
 	void (*measure_text)   	(GogRenderer *rend, 
 				 char const *text, GogViewRequisition *size);
-	double (*line_size)	(GogRenderer *rend, double width);
+	double (*line_size)	(GogRenderer const *rend, double width);
 
 	/* Signals */
 	void (*request_update) (GogRenderer *renderer);

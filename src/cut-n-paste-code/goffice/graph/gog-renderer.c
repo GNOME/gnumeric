@@ -51,6 +51,9 @@ gog_renderer_finalize (GObject *obj)
 {
 	GogRenderer *rend = GOG_RENDERER (obj);
 
+	if (rend->clip_stack != NULL) 
+		g_warning ("Missing calls to gog_renderer_pop_clip");
+
 	if (rend->cur_style != NULL) {
 		g_warning ("Missing calls to gog_renderer_style_pop left dangling style references");
 		g_slist_foreach (rend->style_stack,
@@ -197,49 +200,49 @@ gog_renderer_pop_style (GogRenderer *rend)
 }
 
 /**
- * gog_renderer_start_clipping :
+ * gog_renderer_clip_push :
  * @rend : #GogRenderer
  * @region: #GogViewAllocation
  *
- * region defines the current clipping region. Only one layer of 
- * clipping is allowed.
+ * region defines the current clipping region. 
  **/
 void
-gog_renderer_start_clipping (GogRenderer *rend, GogViewAllocation const *region)
+gog_renderer_clip_push (GogRenderer *rend, GogViewAllocation const *region)
 {
+	GogRendererClip *clip;
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
 	g_return_if_fail (klass != NULL);
-	g_return_if_fail (rend->is_clipping == FALSE);
 
-	rend->clip_rectangle = *region;
-	rend->is_clipping = TRUE;
+	clip = g_new (GogRendererClip, 1);
+	clip->area = *region;
 
-	(klass->start_clipping) (rend);
+	rend->clip_stack = g_slist_prepend (rend->clip_stack, clip);
+	
+	(klass->clip_push) (rend, clip);
 }
 
 /**
- * gog_renderer_stop_clipping :
+ * gog_renderer_clip_pop :
  * @rend : #GogRenderer
  *
- * End clipping.
+ * End the current clipping.
  **/
 void
-gog_renderer_stop_clipping (GogRenderer *rend)
+gog_renderer_clip_pop (GogRenderer *rend)
 {
+	GogRendererClip *clip;
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
 	g_return_if_fail (klass != NULL);
-	g_return_if_fail (rend->is_clipping == TRUE);
+	g_return_if_fail (rend->clip_stack != NULL);
 
-	(klass->stop_clipping) (rend);
-	
-	rend->is_clipping = FALSE;
-	rend->clip_rectangle.x =
-	rend->clip_rectangle.y = 
-	rend->clip_rectangle.w =
-	rend->clip_rectangle.h = 0.0;
+	clip = (GogRendererClip *) rend->clip_stack->data;
 
+	(klass->clip_pop) (rend, clip);
+
+	g_free (clip);
+	rend->clip_stack = g_slist_delete_link (rend->clip_stack, rend->clip_stack);
 }
 
 /**
@@ -481,11 +484,8 @@ gog_renderer_class_init (GogRendererClass *renderer_klass)
 static void
 gog_renderer_init (GogRenderer *rend)
 {
-	rend->is_clipping = FALSE;
-	rend->clip_rectangle.x =
-	rend->clip_rectangle.y =
-	rend->clip_rectangle.w =
-	rend->clip_rectangle.h = 0.0;
+	rend->clip_stack = NULL;
+
 	rend->needs_update = FALSE;
 	rend->cur_style    = NULL;
 	rend->style_stack  = NULL;

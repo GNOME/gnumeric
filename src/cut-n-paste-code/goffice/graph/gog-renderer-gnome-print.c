@@ -145,20 +145,20 @@ set_color (GogRendererGnomePrint *prend, GOColor color)
 }
 
 static void
-gog_renderer_gnome_print_start_clipping (GogRenderer *rend)
+gog_renderer_gnome_print_clip_push (GogRenderer *rend, GogRendererClip *clip)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
 
 	gnome_print_gsave (prend->gp_context);
 	print_make_rectangle_path (prend->gp_context,
-				   rend->clip_rectangle.x, -rend->clip_rectangle.y,
-				   rend->clip_rectangle.w + rend->clip_rectangle.x,
-				   -rend->clip_rectangle.h - rend->clip_rectangle.y);
+				   clip->area.x, -clip->area.y,
+				   clip->area.w + clip->area.x,
+				   -clip->area.h - clip->area.y);
 	gnome_print_clip (prend->gp_context);
 }
 
 static void
-gog_renderer_gnome_print_stop_clipping (GogRenderer *rend)
+gog_renderer_gnome_print_clip_pop (GogRenderer *rend, GogRendererClip *clip)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
 
@@ -516,8 +516,8 @@ gog_renderer_gnome_print_class_init (GogRendererClass *rend_klass)
 
 	parent_klass = g_type_class_peek_parent (rend_klass);
 	gobject_klass->finalize	  	= gog_renderer_gnome_print_finalize;
-	rend_klass->start_clipping  	= gog_renderer_gnome_print_start_clipping;
-	rend_klass->stop_clipping 	= gog_renderer_gnome_print_stop_clipping;
+	rend_klass->clip_push  		= gog_renderer_gnome_print_clip_push;
+	rend_klass->clip_pop		= gog_renderer_gnome_print_clip_pop;
 	rend_klass->draw_path	  	= gog_renderer_gnome_print_draw_path;
 	rend_klass->draw_polygon  	= gog_renderer_gnome_print_draw_polygon;
 	rend_klass->draw_text	  	= gog_renderer_gnome_print_draw_text;

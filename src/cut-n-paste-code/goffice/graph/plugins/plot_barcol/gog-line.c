@@ -511,6 +511,7 @@ gog_line_view_class_init (GogViewClass *view_klass)
 {
 	view_klass->render	  = gog_line_view_render;
 	view_klass->info_at_point = gog_line_view_info_at_point;
+	view_klass->clip	  = TRUE;
 }
 
 static GSF_CLASS (GogLineView, gog_line_view,

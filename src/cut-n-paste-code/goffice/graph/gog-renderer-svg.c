@@ -79,7 +79,7 @@ gog_renderer_svg_finalize (GObject *obj)
 }
 
 static void
-gog_renderer_svg_start_clipping (GogRenderer *rend)
+gog_renderer_svg_clip_push (GogRenderer *rend, GogRendererClip *clip)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
 	char *buf;
@@ -95,16 +95,16 @@ gog_renderer_svg_start_clipping (GogRenderer *rend)
 	g_free (buf);
 	child = xmlNewDocNode (prend->doc, NULL, CC2XML("rect"), NULL);
 	xmlAddChild (node, child);
-	buf = g_strdup_printf ("%g", rend->clip_rectangle.x);
+	buf = g_strdup_printf ("%g", clip->area.x);
 	xmlNewProp (child, CC2XML("x"), CC2XML(buf));
 	g_free (buf);
-	buf = g_strdup_printf ("%g", rend->clip_rectangle.y);
+	buf = g_strdup_printf ("%g", clip->area.y);
 	xmlNewProp (child, CC2XML("y"), CC2XML(buf));
 	g_free (buf);
-	buf = g_strdup_printf ("%g", rend->clip_rectangle.w);
+	buf = g_strdup_printf ("%g", clip->area.w);
 	xmlNewProp (child, CC2XML("width"), CC2XML(buf));
 	g_free (buf);
-	buf = g_strdup_printf ("%g", rend->clip_rectangle.h);
+	buf = g_strdup_printf ("%g", clip->area.h);
 	xmlNewProp (child, CC2XML("height"), CC2XML(buf));
 	g_free (buf);
 	
@@ -118,7 +118,7 @@ gog_renderer_svg_start_clipping (GogRenderer *rend)
 }
 
 static void
-gog_renderer_svg_stop_clipping (GogRenderer *rend)
+gog_renderer_svg_clip_pop (GogRenderer *rend, GogRendererClip *clip)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
 	
@@ -504,11 +504,12 @@ gog_renderer_svg_draw_text (GogRenderer *rend, char const *text,
 	default :
 		break;
 	}
+
 	node = xmlNewDocNode (prend->doc, NULL, "text", NULL);
 	xmlNodeSetContent (node, CC2XML (text));
 	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
-	xmlAddChild (prend->doc->children, node);
+	xmlAddChild (prend->current_node, node);
 	buf = g_strdup_printf ("%g", x);
 	xmlNewProp (node, CC2XML ("x"), CC2XML (buf));
 	g_free (buf);
@@ -559,8 +560,8 @@ gog_renderer_svg_class_init (GogRendererClass *rend_klass)
 
 	parent_klass = g_type_class_peek_parent (rend_klass);
 	gobject_klass->finalize	  	= gog_renderer_svg_finalize;
-	rend_klass->start_clipping	= gog_renderer_svg_start_clipping;
-	rend_klass->stop_clipping 	= gog_renderer_svg_stop_clipping;
+	rend_klass->clip_push		= gog_renderer_svg_clip_push;
+	rend_klass->clip_pop	 	= gog_renderer_svg_clip_pop;
 	rend_klass->draw_path	  	= gog_renderer_svg_draw_path;
 	rend_klass->draw_polygon  	= gog_renderer_svg_draw_polygon;
 	rend_klass->draw_text	  	= gog_renderer_svg_draw_text;

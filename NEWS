@@ -15,6 +15,8 @@ Emmanuel Pacaud:
 	* Improve chart printing.
 	* Fix minor tick rendering
 	http://bugzilla.gnome.org/show_bug.cgi?id=144123
+	* Add labels to radar axis
+	http://bugzilla.gnome.org/show_bug.cgi?id=139397
 
 Harald Ashburner:
 	* Updates for the option pricers.
