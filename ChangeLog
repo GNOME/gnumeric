@@ -1,5 +1,9 @@
 2002-12-31  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.1.15
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
 	* src/commands.c (cmd_area_set_text_redo) : fix.  It is an error to
 	  pass NULL as the parse text.
 

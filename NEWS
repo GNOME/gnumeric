@@ -20,6 +20,7 @@ Morten:
 	* Fix crash when no undo information is wanted.
 	* Clean up NULL/FALSE confusion all over.
 	* Remove GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC.
+	* New functions GNUMERIC_UNICHAR, GNUMERIC_UNICODE
 
 Nicolas Peninguy:
 	* Move the generation of the standard formats into StyleFormat

@@ -37,6 +37,7 @@ struct _Workbook {
 		double   tolerance;
 	} iteration;
 	gboolean recalc_auto;
+	gboolean use_1904;	/* Use MacOffice 1904 based date convention */
 
 	gboolean during_destruction;
 	gboolean being_reordered;

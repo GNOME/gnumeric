@@ -357,6 +357,7 @@ workbook_init (GObject *object)
 	wb->iteration.max_number = 100;
 	wb->iteration.tolerance = .001;
 	wb->recalc_auto = TRUE;
+	wb->use_1904    = FALSE;
 
 	wb->file_format_level = FILE_FL_NEW;
 	wb->file_saver        = NULL;
