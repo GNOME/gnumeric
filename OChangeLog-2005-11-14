@@ -1,3 +1,27 @@
+2002-08-20  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/plugin-loader.[ch]: Inherit from GObject, not GtkObject.
+	(gnumeric_plugin_loader_unload_service): Removed FIXME - unload plugin
+	after unloading all services.
+
+	* src/plugin-loader-module.h: Moved all typedefs with plugin
+	structures...
+
+	* src/module-plugin-defs.h: ... here, added some comments and
+	  PLUGIN_CLASS macro
+
+	* src/plugin-loader-module.c: Adjusted to plugin-loader.h
+
+	* src/plugin.c:
+	Inherit GnmPlugin from GModuleType, not GObject.
+	(gnm_plugin_type_module_load, gnm_plugin_type_module_unload):
+	New, GTypeModule methods.
+	(gnm_plugin_deactivate): Destroy loader after deactivating plugin
+	(GnmPlugin): Removed is_base_loaded,
+	use gnumeric_plugin_loader_is_base_loaded to check this.
+	(gnm_plugin_use_ref, gnm_plugin_use_unref):
+	Added assertions (plugin must be active).
+
 2002-08-19  Jon K Hellan  <hellan@acm.org>
 
 	* src/stf.c (stf_read_default_probe): Use glib's seek enum instead

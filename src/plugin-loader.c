@@ -14,10 +14,9 @@
 
 #include <gsf/gsf-impl-utils.h>
 
-#define PARENT_TYPE (gtk_object_get_type ())
 #define PL_GET_CLASS(loader)	GNUMERIC_PLUGIN_LOADER_CLASS (G_OBJECT_GET_CLASS (loader))
 
-static GtkObjectClass *parent_class = NULL;
+static GObjectClass *parent_class = NULL;
 
 static void
 gnumeric_plugin_loader_init (GnumericPluginLoader *loader)
@@ -30,15 +29,11 @@ gnumeric_plugin_loader_init (GnumericPluginLoader *loader)
 }
 
 static void
-gnumeric_plugin_loader_destroy (GtkObject *obj)
+gnumeric_plugin_loader_finalize (GObject *obj)
 {
-	GnumericPluginLoader *loader;
-
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER (obj));
 
-	loader = GNUMERIC_PLUGIN_LOADER (obj);
-
-	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
+	parent_class->finalize (obj);
 }
 
 static void
@@ -134,30 +129,34 @@ gnumeric_plugin_loader_unload_service_ui_real (GnumericPluginLoader *loader,
 }
 
 static void
-gnumeric_plugin_loader_class_init (GnumericPluginLoaderClass *klass)
+gnumeric_plugin_loader_class_init (GObjectClass *gobject_class)
 {
-	klass->set_attributes = NULL;
-	klass->load_base = NULL;
-	klass->unload_base = NULL;
-	klass->load_service_general = NULL;
-	klass->unload_service_general = gnumeric_plugin_loader_unload_service_general_real;
-	klass->load_service_file_opener = NULL;
-	klass->unload_service_file_opener = gnumeric_plugin_loader_unload_service_file_opener_real;
-	klass->load_service_file_saver = NULL;
-	klass->unload_service_file_saver = gnumeric_plugin_loader_unload_service_file_saver_real;
-	klass->load_service_function_group = NULL;
-	klass->unload_service_function_group = gnumeric_plugin_loader_unload_service_function_group_real;
-	klass->load_service_plugin_loader = NULL;
-	klass->unload_service_plugin_loader = gnumeric_plugin_loader_unload_service_plugin_loader_real;
-	klass->load_service_ui = NULL;
-	klass->unload_service_ui = gnumeric_plugin_loader_unload_service_ui_real;
+	GnumericPluginLoaderClass *plugin_loader_class = GNUMERIC_PLUGIN_LOADER_CLASS (gobject_class);
 
-	GTK_OBJECT_CLASS (klass)->destroy = gnumeric_plugin_loader_destroy;
+	parent_class = g_type_class_peek_parent (gobject_class);
+
+	gobject_class->finalize = gnumeric_plugin_loader_finalize;
+
+	plugin_loader_class->set_attributes = NULL;
+	plugin_loader_class->load_base = NULL;
+	plugin_loader_class->unload_base = NULL;
+	plugin_loader_class->load_service_general = NULL;
+	plugin_loader_class->unload_service_general = gnumeric_plugin_loader_unload_service_general_real;
+	plugin_loader_class->load_service_file_opener = NULL;
+	plugin_loader_class->unload_service_file_opener = gnumeric_plugin_loader_unload_service_file_opener_real;
+	plugin_loader_class->load_service_file_saver = NULL;
+	plugin_loader_class->unload_service_file_saver = gnumeric_plugin_loader_unload_service_file_saver_real;
+	plugin_loader_class->load_service_function_group = NULL;
+	plugin_loader_class->unload_service_function_group = gnumeric_plugin_loader_unload_service_function_group_real;
+	plugin_loader_class->load_service_plugin_loader = NULL;
+	plugin_loader_class->unload_service_plugin_loader = gnumeric_plugin_loader_unload_service_plugin_loader_real;
+	plugin_loader_class->load_service_ui = NULL;
+	plugin_loader_class->unload_service_ui = gnumeric_plugin_loader_unload_service_ui_real;
 }
 
 GSF_CLASS (GnumericPluginLoader, gnumeric_plugin_loader,
 	   gnumeric_plugin_loader_class_init,
-	   gnumeric_plugin_loader_init, PARENT_TYPE)
+	   gnumeric_plugin_loader_init, G_TYPE_OBJECT)
 
 void
 gnumeric_plugin_loader_set_attributes (GnumericPluginLoader *loader,
@@ -207,11 +206,9 @@ gnumeric_plugin_loader_unload_base (GnumericPluginLoader *loader, ErrorInfo **re
 	ErrorInfo *error;
 
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader));
+	g_return_if_fail (loader->is_base_loaded);
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	if (!loader->is_base_loaded) {
-		return;
-	}
 	gnumeric_plugin_loader_class = PL_GET_CLASS (loader);
 	if (gnumeric_plugin_loader_class->unload_base != NULL) {
 		gnumeric_plugin_loader_class->unload_base (loader, &error);
@@ -303,11 +300,10 @@ gnumeric_plugin_loader_unload_service (GnumericPluginLoader *loader, PluginServi
 	if (error == NULL) {
 		g_return_if_fail (loader->n_loaded_services > 0);
 		loader->n_loaded_services--;
-/* FIXME - do not unload plugins for now
 		if (loader->n_loaded_services == 0) {
 			gnumeric_plugin_loader_unload_base (loader, &error);
 			error_info_free (error);
-		}*/
+		}
 	} else {
 		*ret_error = error;
 	}

@@ -8,6 +8,7 @@
 #include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "plugin-loader-module.h"
+#include "module-plugin-defs.h"
 
 #include "gutils.h"
 #include "file.h"
@@ -38,7 +39,7 @@ struct _GnumericPluginLoaderModuleClass {
 
 #define PARENT_TYPE (gnumeric_plugin_loader_get_type ())
 
-static GnumericPluginLoaderClass *parent_class = NULL;
+static GObjectClass *parent_class = NULL;
 
 static void gnumeric_plugin_loader_module_set_attributes (GnumericPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_module_load_base (GnumericPluginLoader *loader, ErrorInfo **ret_error);
@@ -98,7 +99,6 @@ gnumeric_plugin_loader_module_load_base (GnumericPluginLoader *loader, ErrorInfo
 			loader_module->handle = handle;
 			loader_module->plugin_init_func = plugin_init_func;
 			loader_module->plugin_cleanup_func = plugin_cleanup_func;
-			plugin_file_struct->pinfo = loader->plugin;
 			if (loader_module->plugin_init_func != NULL) {
 				loader_module->plugin_init_func ();
 			}
@@ -166,20 +166,24 @@ gnumeric_plugin_loader_module_init (GnumericPluginLoaderModule *loader_module)
 }
 
 static void
-gnumeric_plugin_loader_module_destroy (GtkObject *obj)
+gnumeric_plugin_loader_module_finalize (GObject *obj)
 {
 	GnumericPluginLoaderModule *loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (obj);
 
 	g_free (loader_module->module_file_name);
+	loader_module->module_file_name = NULL;
+
+	parent_class->finalize (obj);
 }
 
 static void
-gnumeric_plugin_loader_module_class_init (GnumericPluginLoaderModuleClass *klass)
+gnumeric_plugin_loader_module_class_init (GObjectClass *gobject_class)
 {
-	GnumericPluginLoaderClass *gnumeric_plugin_loader_class =  GNUMERIC_PLUGIN_LOADER_CLASS (klass);
-	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (klass);
+	GnumericPluginLoaderClass *gnumeric_plugin_loader_class = GNUMERIC_PLUGIN_LOADER_CLASS (gobject_class);
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_peek_parent (gobject_class);
+
+	gobject_class->finalize = gnumeric_plugin_loader_module_finalize;
 
 	gnumeric_plugin_loader_class->set_attributes = gnumeric_plugin_loader_module_set_attributes;
 	gnumeric_plugin_loader_class->load_base = gnumeric_plugin_loader_module_load_base;
@@ -192,8 +196,6 @@ gnumeric_plugin_loader_module_class_init (GnumericPluginLoaderModuleClass *klass
 	gnumeric_plugin_loader_class->load_service_plugin_loader = gnumeric_plugin_loader_module_load_service_plugin_loader;
 	gnumeric_plugin_loader_class->load_service_ui = gnumeric_plugin_loader_module_load_service_ui;
 	gnumeric_plugin_loader_class->unload_service_ui = gnumeric_plugin_loader_module_unload_service_ui;
-
-	gtk_object_class->destroy = gnumeric_plugin_loader_module_destroy;
 }
 
 GSF_CLASS (GnumericPluginLoaderModule, gnumeric_plugin_loader_module,
@@ -524,7 +526,7 @@ gnumeric_plugin_loader_module_unload_service_function_group (GnumericPluginLoade
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	g_hash_table_destroy (loader_data->function_indices);
-	parent_class->unload_service_function_group (loader, service, ret_error);
+	GNUMERIC_PLUGIN_LOADER_CLASS (parent_class)->unload_service_function_group (loader, service, ret_error);
 }
 
 /*
@@ -682,5 +684,5 @@ gnumeric_plugin_loader_module_unload_service_ui (GnumericPluginLoader *loader,
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	g_hash_table_destroy (loader_data->ui_verbs_hash);
-	parent_class->unload_service_ui (loader, service, ret_error);
+	GNUMERIC_PLUGIN_LOADER_CLASS (parent_class)->unload_service_ui (loader, service, ret_error);
 }

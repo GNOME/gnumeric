@@ -2,7 +2,7 @@
 #define GNUMERIC_PLUGIN_LOADER_H
 
 #include <glib.h>
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <libxml/tree.h>
 #include "gnumeric.h"
 #include "error-info.h"
@@ -17,7 +17,7 @@
 typedef struct _GnumericPluginLoaderClass GnumericPluginLoaderClass;
 
 struct _GnumericPluginLoader {
-	GtkObject object;
+	GObject object;
 
 	GnmPlugin *plugin;
 	gboolean is_base_loaded;
@@ -25,7 +25,7 @@ struct _GnumericPluginLoader {
 };
 
 struct _GnumericPluginLoaderClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	void (*set_attributes) (GnumericPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error);
 	void (*load_base) (GnumericPluginLoader *loader, ErrorInfo **ret_error);

@@ -71,6 +71,7 @@ static GnmPlugin *plugin_info_read_for_dir (const gchar *dir_name, ErrorInfo **r
 static GSList *plugin_info_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret_error);
 static GSList *plugin_info_list_read_for_subdirs_of_dir_list (GSList *dir_list, ErrorInfo **ret_error);
 static GSList *plugin_info_list_read_for_all_dirs (ErrorInfo **ret_error);
+static void gnm_plugin_load_base (GnmPlugin *plugin, ErrorInfo **ret_error);
 
 /*
  * GnmPlugin
@@ -83,7 +84,7 @@ typedef struct {
 } PluginDependency;
 
 struct _GnmPlugin {
-	GObject   g_object;
+	GTypeModule parent_instance;
 
 	gboolean has_full_info;
 	gchar   *dir_name;
@@ -92,7 +93,7 @@ struct _GnmPlugin {
 	gchar   *name;
 	gchar   *description;
 
-	gboolean is_active, is_base_loaded;
+	gboolean is_active;
 	gint use_refcount; 
 	GSList *dependencies;
 	gchar *loader_id;
@@ -105,7 +106,7 @@ struct _GnmPlugin {
 
 typedef struct _GnmPluginClass GnmPluginClass;
 struct _GnmPluginClass  {
-	GObjectClass g_object_class;
+	GTypeModuleClass parent_class;
 
 	/* signals */
 	void (*state_changed) (GnmPluginClass *gpc);
@@ -153,7 +154,7 @@ gnm_plugin_finalize (GObject *obj)
 			g_hash_table_destroy (plugin->loader_attrs);
 		}
 		if (plugin->loader != NULL) {
-			gtk_object_destroy (GTK_OBJECT (plugin->loader));
+			g_object_unref (plugin->loader);
 		}
 		g_slist_free_custom (plugin->services, g_object_unref);
 	}
@@ -163,12 +164,45 @@ gnm_plugin_finalize (GObject *obj)
 	parent_class->finalize (obj);
 }
 
+gboolean
+gnm_plugin_type_module_load (GTypeModule *module)
+{
+	GnmPlugin *plugin = GNM_PLUGIN (module);
+	ErrorInfo *ignored_error;
+
+	g_return_val_if_fail (plugin->is_active, FALSE);
+
+	gnm_plugin_load_base (plugin, &ignored_error);
+	if (ignored_error != NULL) {
+		error_info_print (ignored_error);
+		error_info_free (ignored_error);
+		return FALSE;
+	}
+	gnm_plugin_use_ref (plugin);
+	return TRUE;
+}
+
+void
+gnm_plugin_type_module_unload (GTypeModule *module)
+{
+	GnmPlugin *plugin = GNM_PLUGIN (module);
+
+	g_return_if_fail (plugin->is_active);
+
+	gnm_plugin_use_unref (plugin);
+}
+
 static void
 gnm_plugin_class_init (GObjectClass *gobject_class)
 {
+	GTypeModuleClass *type_module_class = G_TYPE_MODULE_CLASS (gobject_class); 
+
 	parent_class = g_type_class_peek_parent (gobject_class);
 
 	gobject_class->finalize = gnm_plugin_finalize;
+
+	type_module_class->load = gnm_plugin_type_module_load;
+	type_module_class->unload = gnm_plugin_type_module_unload;
 
 	gnm_plugin_signals[STATE_CHANGED] =
 	g_signal_new (
@@ -191,7 +225,7 @@ gnm_plugin_class_init (GObjectClass *gobject_class)
 }
 
 GSF_CLASS (GnmPlugin, gnm_plugin, gnm_plugin_class_init, gnm_plugin_init,
-           G_TYPE_OBJECT)
+           G_TYPE_TYPE_MODULE)
 
 static GnmPlugin *
 plugin_info_new_from_xml (const gchar *dir_name, ErrorInfo **ret_error)
@@ -219,6 +253,7 @@ plugin_info_new_with_id_and_dir_name_only (const gchar *id, const gchar *dir_nam
 	GnmPlugin *plugin;
 
 	plugin = g_object_new (GNM_PLUGIN_TYPE, NULL);
+	g_type_module_set_name (G_TYPE_MODULE (plugin), id);
 	plugin->id = g_strdup (id);
 	plugin->dir_name = g_strdup (dir_name);
 	plugin->has_full_info = FALSE;
@@ -474,7 +509,8 @@ gnm_plugin_is_loaded (GnmPlugin *pinfo)
 	if (!pinfo->has_full_info) {
 		return FALSE;
 	}
-	return pinfo->is_base_loaded;
+	return pinfo->loader != NULL &&
+	       gnumeric_plugin_loader_is_base_loaded (pinfo->loader);
 }
 
 /* - */
@@ -777,12 +813,12 @@ plugin_info_read (GnmPlugin *pinfo, const gchar *dir_name, ErrorInfo **ret_error
 
 		g_assert (services_error == NULL);
 
+		g_type_module_set_name (G_TYPE_MODULE (pinfo), id);
 		pinfo->dir_name = g_strdup (dir_name);
 		pinfo->id = id;
 		pinfo->name = name;
 		pinfo->description = description;
 		pinfo->is_active = FALSE;
-		pinfo->is_base_loaded = FALSE;
 		pinfo->use_refcount = 0;
 		pinfo->dependencies = dependency_list;
 		pinfo->loader_id = loader_id;
@@ -871,7 +907,7 @@ plugin_get_loader_if_needed (GnmPlugin *pinfo, ErrorInfo **ret_error)
 			pinfo->loader = loader;
 			gnumeric_plugin_loader_set_plugin (loader, pinfo);
 		} else {
-			gtk_object_destroy (GTK_OBJECT (loader));
+			g_object_unref (loader);
 			loader = NULL;
 			*ret_error = error_info_new_printf (
 			             _("Error initializing plugin loader (\"%s\")."),
@@ -1022,6 +1058,10 @@ gnm_plugin_deactivate (GnmPlugin *pinfo, ErrorInfo **ret_error)
 		GNM_SLIST_FOREACH (pinfo->dependencies, PluginDependency, dep,
 			gnm_plugin_use_unref (plugin_dependency_get_plugin (dep));
 		);
+		if (pinfo->loader != NULL) {
+			g_object_unref (pinfo->loader);
+			pinfo->loader = NULL;
+		}
 	}
 	g_signal_emit (G_OBJECT (pinfo), gnm_plugin_signals[STATE_CHANGED], 0);
 }
@@ -1061,10 +1101,10 @@ gnm_plugin_load_base (GnmPlugin *plugin, ErrorInfo **ret_error)
 				     _("Detected cyclic plugin dependencies."));
 		return;
 	}
-	if (!plugin_info_read_full_info_if_needed_error_info (plugin, ret_error)) {
+	if (gnm_plugin_is_loaded (plugin)) {
 		return;
 	}
-	if (plugin->is_base_loaded) {
+	if (!plugin_info_read_full_info_if_needed_error_info (plugin, ret_error)) {
 		return;
 	}
 	plugin_get_loader_if_needed (plugin, &error);
@@ -1121,7 +1161,6 @@ gnm_plugin_load_base (GnmPlugin *plugin, ErrorInfo **ret_error)
 		*ret_error = error;
 		return;
 	}
-	plugin->is_base_loaded = TRUE;
 	g_signal_emit (G_OBJECT (plugin), gnm_plugin_signals[STATE_CHANGED], 0);
 }
 
@@ -1175,12 +1214,12 @@ gnm_plugin_unload_service (GnmPlugin *pinfo, PluginService *service, ErrorInfo *
 /**
  * gnm_plugin_use_ref:
  * @plugin      : The plugin
- *
  */
 void
 gnm_plugin_use_ref (GnmPlugin *plugin)
 {
 	g_return_if_fail (GNM_IS_PLUGIN (plugin));
+	g_return_if_fail (plugin->is_active);
 
 	plugin->use_refcount++;
 	if (plugin->use_refcount == 1) {
@@ -1191,12 +1230,12 @@ gnm_plugin_use_ref (GnmPlugin *plugin)
 /**
  * gnm_plugin_use_unref:
  * @plugin      : The plugin
- *
  */
 void
 gnm_plugin_use_unref (GnmPlugin *plugin)
 {
 	g_return_if_fail (GNM_IS_PLUGIN (plugin));
+	g_return_if_fail (plugin->is_active);
 	g_return_if_fail (plugin->use_refcount > 0);
 
 	plugin->use_refcount--;
