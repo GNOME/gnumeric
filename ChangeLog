@@ -1,5 +1,21 @@
 2005-01-25  Stepan Kasal  <kasal@ucw.cz>
 
+	AC_PATH_PROG can be tricky: if the user sets the variable to
+	something which doesn't look like a full path, autoconf proceeds
+	with the test as if the variable were not set; no warning is issued
+	(at least for autoconf versions <= 2.59).
+	AC_CHECK_PROG is much more transparent: if the variable is nonempty,
+	no test is executed.  Let's use it where possible.
+
+	* configure.in (GCONFTOOL): Don't publish the variable, because
+	  AM_GCONF_SOURCE_2, which is used after the check, has
+	  ``gconftool-2'' hardwired anyway; clear the variable before use.
+	  Call AC_CHECK_PROG instead of AC_PATH_PROG.
+	(GLIB_GENMARSHAL): Explain why full path is needed.
+	(GDK_PIXBUF_CSOURCE): Call AC_CHECK_PROG instead of AC_PATH_PROG.
+
+2005-01-25  Stepan Kasal  <kasal@ucw.cz>
+
 	* configure.in: work on --with-perl; this partially fixes
 		http://bugzilla.gnome.org/show_bug.cgi?id=158029
 

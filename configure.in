@@ -217,8 +217,9 @@ if test "x${gnumeric_with_gnome}" = "xtrue"; then
 	dnl Special GConf section  (stolen from libgnome)
 	dnl ==============================================
 
-	AC_ARG_VAR(GCONFTOOL, [Absolute path of the gconftool-2 executable (part of GConf).])
-	AC_PATH_PROG(GCONFTOOL, gconftool-2)
+	dnl Don't publish the GCONFTOOL variable, AM_GCONF_SOURCE_2 has ``gconftool-2'' hardwired.
+	GCONFTOOL=""
+	AC_CHECK_PROG(GCONFTOOL, gconftool-2, gconftool-2)
 	if test x"$GCONFTOOL" = x; then
 		AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
 	fi
@@ -246,10 +247,13 @@ dnl ****************************
 dnl prep the pixmap generator
 dnl ****************************
 
+dnl We need the full pathname here, since some targets depend on $(GLIB_GENMARSHAL).
+dnl
 AC_ARG_VAR(GLIB_GENMARSHAL, [Absolute path of the glib-genmarshal executable.])
 AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
-AC_ARG_VAR(GDK_PIXBUF_CSOURCE, [Absolute path of the gdk-pixbuf-csource executable.])
-AC_PATH_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource)
+
+AC_ARG_VAR(GDK_PIXBUF_CSOURCE, [The gdk-pixbuf-csource executable.])
+AC_CHECK_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource, gdk-pixbuf-csource)
 
 ## this should come after `AC_PROG_CC'
 ifdef([GNOME_COMPILE_WARNINGS],
