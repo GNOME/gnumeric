@@ -4,7 +4,8 @@
 
 #include <stdio.h>
 
-#define DEBUG_MS_CHART 0
+/* #define NO_DEBUG_EXCEL */
+extern int ms_excel_chart_debug;
 
 typedef struct
 {
@@ -19,6 +20,7 @@ typedef struct
 
 typedef struct
 {
+	/* TODO TODO : fill in later */
 } GUPPI_CHART_STATE;
 
 typedef struct biff_chart_handler BIFF_CHART_HANDLER;
@@ -56,7 +58,7 @@ BC_R(color)(guint8 const * data, char * type)
 
 static gboolean
 BC_R(3dbarshape)(BIFF_CHART_HANDLER const * handle,
-	    BIFF_CHART_STATE * s, BIFF_QUERY * q)
+		 BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 #if GUESS_GUESS
 	/* All the charts I've seen have this record with value 0x0000
@@ -71,7 +73,7 @@ BC_R(3dbarshape)(BIFF_CHART_HANDLER const * handle,
 }
 static gboolean
 BC_W(3dbarshape)(BIFF_CHART_HANDLER const * handle,
-	    GUPPI_CHART_STATE * s, BIFF_PUT * os)
+		 GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -80,7 +82,7 @@ BC_W(3dbarshape)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(3d)(BIFF_CHART_HANDLER const * handle,
-	    BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	 BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	guint16 const rotation = BIFF_GETWORD (q->data);	/* 0-360 */
 	guint16 const elevation = BIFF_GETWORD (q->data+2);	/* -90 - 90 */
@@ -104,19 +106,19 @@ BC_R(3d)(BIFF_CHART_HANDLER const * handle,
 	printf ("Gap = %hu\n", gap);
 
 	if (use_perspective)
-	    puts ("Use perspective");
+		puts ("Use perspective");
 	if (cluster)
-	    puts ("Cluster");
+		puts ("Cluster");
 	if (auto_scale)
-	    puts ("Auto Scale");
+		puts ("Auto Scale");
 	if (walls_2d)
-	    puts ("2D Walls");
+		puts ("2D Walls");
 	return FALSE;
 }
 
 static gboolean
 BC_W(3d)(BIFF_CHART_HANDLER const * handle,
-	    GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	 GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -148,7 +150,7 @@ BC_R(ai)(BIFF_CHART_HANDLER const * handle,
 		 printf ("UKNOWN :data source (%x)\n", id);
 	};
 
-{
+	{
 		/* Simulate a sheet */
 		MS_EXCEL_SHEET sheet;
 		ExprTree * expr;
@@ -159,17 +161,13 @@ BC_R(ai)(BIFF_CHART_HANDLER const * handle,
 		sheet.shared_formulae = NULL;
 
 		if (length > 0)
-	{
-#if DEBUG_MS_CHART > 2
-			extern void dump_tree (ExprTree *tree); /* parser.y */
-#endif
+		{
 			expr = ms_excel_parse_formula (&sheet, q->data+8, 0, 0,
 						       FALSE, length);
-#if DEBUG_MS_CHART > 2
-			dump_tree (expr);
-#endif
+			if (ms_excel_chart_debug > 2)
+				expr_dump_tree (expr);
+		}
 	}
-}
 
 	/* Rest are 0 */
 	if (flags&0x01)
@@ -181,7 +179,7 @@ BC_R(ai)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(ai)(BIFF_CHART_HANDLER const * handle,
-		 GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	 GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -190,7 +188,7 @@ BC_W(ai)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(alruns)(BIFF_CHART_HANDLER const * handle,
-		 BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	     BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	gint16 length = BIFF_GETWORD (q->data);
 	long * in = (q->data + 2);
@@ -199,9 +197,9 @@ BC_R(alruns)(BIFF_CHART_HANDLER const * handle,
 
 	for (; --length >= 0 ; ++in, ++out)
 	{
-	    /* FIXME FIXME FIXME : don't toss font info */
-	    guint32 const rtf_run = BIFF_GETLONG (in);
-	    *out = (char)((*in >> 16) & 0xff);
+		/* FIXME FIXME FIXME : don't toss font info */
+		guint32 const rtf_run = BIFF_GETLONG (in);
+		*out = (char)((*in >> 16) & 0xff);
 	}
 	*out = '\0';
 
@@ -211,7 +209,7 @@ BC_R(alruns)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(alruns)(BIFF_CHART_HANDLER const * handle,
-		 GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	     GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -220,7 +218,7 @@ BC_W(alruns)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(area)(BIFF_CHART_HANDLER const * handle,
-		   BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	   BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	guint16 const flags = BIFF_GETWORD (q->data);
 	gboolean const stacked = (flags & 0x01) ? TRUE : FALSE;
@@ -235,7 +233,7 @@ BC_R(area)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(area)(BIFF_CHART_HANDLER const * handle,
-		   GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	   GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -272,7 +270,7 @@ BC_W(areaformat)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(attachedlabel)(BIFF_CHART_HANDLER const * handle,
-		BIFF_CHART_STATE * s, BIFF_QUERY * q)
+		    BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	guint16 const flags = BIFF_GETWORD (q->data);
 	gboolean const show_value = (flags&0x01) ? TRUE : FALSE;
@@ -289,7 +287,7 @@ BC_R(attachedlabel)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(attachedlabel)(BIFF_CHART_HANDLER const * handle,
-		GUPPI_CHART_STATE * s, BIFF_PUT * os)
+		    GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -298,7 +296,7 @@ BC_W(attachedlabel)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(axesused)(BIFF_CHART_HANDLER const * handle,
-		    BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	       BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	guint16 const num_axis = BIFF_GETWORD (q->data);
 	g_return_val_if_fail(1 <= num_axis && num_axis <= 2, TRUE);
@@ -308,7 +306,7 @@ BC_R(axesused)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(axesused)(BIFF_CHART_HANDLER const * handle,
-		    GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	       GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -329,7 +327,7 @@ static char const * const ms_axis[] =
 
 static gboolean
 BC_R(axis)(BIFF_CHART_HANDLER const * handle,
-		 BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	   BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	guint16 const axis_type = BIFF_GETWORD (q->data);
 	MS_AXIS atype;
@@ -341,7 +339,7 @@ BC_R(axis)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(axis)(BIFF_CHART_HANDLER const * handle,
-		 GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	   GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -350,13 +348,13 @@ BC_W(axis)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(axcext)(BIFF_CHART_HANDLER const * handle,
-		  BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	     BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 static gboolean
 BC_W(axcext)(BIFF_CHART_HANDLER const * handle,
-		  GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	     GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -365,7 +363,7 @@ BC_W(axcext)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(axislineformat)(BIFF_CHART_HANDLER const * handle,
-	     BIFF_CHART_STATE * s, BIFF_QUERY * q)
+		     BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	guint16 const type = BIFF_GETWORD (q->data);
 
@@ -376,7 +374,7 @@ BC_R(axislineformat)(BIFF_CHART_HANDLER const * handle,
 	case 1 : puts ("a major grid along the axis."); break;
 	case 2 : puts ("a minor grid along the axis."); break;
 
-		 /* TODO TODO : floor vs wall */
+	/* TODO TODO : floor vs wall */
 	case 3 : puts ("a floor/wall along the axis."); break;
 	default : printf ("an ERROR.  unkown type (%x).\n", type);
 	};
@@ -385,7 +383,7 @@ BC_R(axislineformat)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(axislineformat)(BIFF_CHART_HANDLER const * handle,
-	     GUPPI_CHART_STATE * s, BIFF_PUT * os)
+		     GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -435,7 +433,7 @@ BC_W(bar)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(begin)(BIFF_CHART_HANDLER const * handle,
-	   BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	    BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	puts ("{");
 	++(s->depth);
@@ -444,7 +442,7 @@ BC_R(begin)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(begin)(BIFF_CHART_HANDLER const * handle,
-	   GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	    GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -453,13 +451,13 @@ BC_W(begin)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(boppop)(BIFF_CHART_HANDLER const * handle,
-	  BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	     BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 static gboolean
 BC_W(boppop)(BIFF_CHART_HANDLER const * handle,
-	  GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	     GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -468,7 +466,7 @@ BC_W(boppop)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(boppopcustom)(BIFF_CHART_HANDLER const * handle,
-	   BIFF_CHART_STATE * s, BIFF_QUERY * q)
+		   BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	gint16 const count = BIFF_GETWORD (q->data);
 	/* TODO TODO : figure out the bitfield */
@@ -477,7 +475,7 @@ BC_R(boppopcustom)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(boppopcustom)(BIFF_CHART_HANDLER const * handle,
-	   GUPPI_CHART_STATE * s, BIFF_PUT * os)
+		   GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -486,14 +484,14 @@ BC_W(boppopcustom)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(catserrange)(BIFF_CHART_HANDLER const * handle,
-	      BIFF_CHART_STATE * s, BIFF_QUERY * q)
+		  BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 
 static gboolean
 BC_W(catserrange)(BIFF_CHART_HANDLER const * handle,
-	      GUPPI_CHART_STATE * s, BIFF_PUT * os)
+		  GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -502,7 +500,7 @@ BC_W(catserrange)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(chart)(BIFF_CHART_HANDLER const * handle,
-		BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	    BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	/* TODO TODO TODO : How is fixed point represented */
 	/* TODO TODO TODO : Why are all charts listed as starting at 0,0 ?? */
@@ -518,7 +516,7 @@ BC_R(chart)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(chart)(BIFF_CHART_HANDLER const * handle,
-		GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	    GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -527,7 +525,7 @@ BC_W(chart)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(chartformat)(BIFF_CHART_HANDLER const * handle,
-	   BIFF_CHART_STATE * s, BIFF_QUERY * q)
+		  BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	guint16 const flags = BIFF_GETWORD (q->data+16);
 	guint16 const z_order = BIFF_GETWORD (q->data+18);
@@ -537,55 +535,6 @@ BC_R(chartformat)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(chartformat)(BIFF_CHART_HANDLER const * handle,
-	   GUPPI_CHART_STATE * s, BIFF_PUT * os)
-{
-	return FALSE;
-}
-
-/****************************************************************************/
-
-static gboolean
-BC_R(chartformatlink)(BIFF_CHART_HANDLER const * handle,
-	   BIFF_CHART_STATE * s, BIFF_QUERY * q)
-{
-	return FALSE;
-}
-
-static gboolean
-BC_W(chartformatlink)(BIFF_CHART_HANDLER const * handle,
-	   GUPPI_CHART_STATE * s, BIFF_PUT * os)
-{
-	return FALSE;
-}
-
-/****************************************************************************/
-
-static gboolean
-BC_R(chartline)(BIFF_CHART_HANDLER const * handle,
-		 BIFF_CHART_STATE * s, BIFF_QUERY * q)
-{
-	return FALSE;
-}
-
-static gboolean
-BC_W(chartline)(BIFF_CHART_HANDLER const * handle,
-		 GUPPI_CHART_STATE * s, BIFF_PUT * os)
-{
-	return FALSE;
-}
-
-/****************************************************************************/
-
-static gboolean
-BC_R(clrtclient)(BIFF_CHART_HANDLER const * handle,
-		  BIFF_CHART_STATE * s, BIFF_QUERY * q)
-{
-	puts ("Undocumented BIFF : clrtclient");
-	dump_biff(q);
-	return FALSE;
-}
-static gboolean
-BC_W(clrtclient)(BIFF_CHART_HANDLER const * handle,
 		  GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
@@ -594,9 +543,58 @@ BC_W(clrtclient)(BIFF_CHART_HANDLER const * handle,
 /****************************************************************************/
 
 static gboolean
+BC_R(chartformatlink)(BIFF_CHART_HANDLER const * handle,
+		      BIFF_CHART_STATE * s, BIFF_QUERY * q)
+{
+	return FALSE;
+}
+
+static gboolean
+BC_W(chartformatlink)(BIFF_CHART_HANDLER const * handle,
+		      GUPPI_CHART_STATE * s, BIFF_PUT * os)
+{
+	return FALSE;
+}
+
+/****************************************************************************/
+
+static gboolean
+BC_R(chartline)(BIFF_CHART_HANDLER const * handle,
+		BIFF_CHART_STATE * s, BIFF_QUERY * q)
+{
+	return FALSE;
+}
+
+static gboolean
+BC_W(chartline)(BIFF_CHART_HANDLER const * handle,
+		GUPPI_CHART_STATE * s, BIFF_PUT * os)
+{
+	return FALSE;
+}
+
+/****************************************************************************/
+
+static gboolean
+BC_R(clrtclient)(BIFF_CHART_HANDLER const * handle,
+		 BIFF_CHART_STATE * s, BIFF_QUERY * q)
+{
+	puts ("Undocumented BIFF : clrtclient");
+	dump_biff(q);
+	return FALSE;
+}
+static gboolean
+BC_W(clrtclient)(BIFF_CHART_HANDLER const * handle,
+		 GUPPI_CHART_STATE * s, BIFF_PUT * os)
+{
+	return FALSE;
+}
+
+/****************************************************************************/
+
+static gboolean
 BC_R(dat)(BIFF_CHART_HANDLER const * handle,
-		     BIFF_CHART_STATE * s, BIFF_QUERY * q)
-	{
+	  BIFF_CHART_STATE * s, BIFF_QUERY * q)
+{
 	gint16 const flags = BIFF_GETWORD (q->data);
 	gboolean const horiz_border = (flags&0x01) ? TRUE : FALSE;
 	gboolean const vert_border = (flags&0x02) ? TRUE : FALSE;
@@ -606,7 +604,7 @@ BC_R(dat)(BIFF_CHART_HANDLER const * handle,
 }
 static gboolean
 BC_W(dat)(BIFF_CHART_HANDLER const * handle,
-		     GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	  GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -615,7 +613,7 @@ BC_W(dat)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(dataformat)(BIFF_CHART_HANDLER const * handle,
-		      BIFF_CHART_STATE * s, BIFF_QUERY * q)
+		 BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	guint16 const pt_num = BIFF_GETWORD (q->data);
 	guint16 const series_index = BIFF_GETWORD (q->data+2);
@@ -633,7 +631,7 @@ BC_R(dataformat)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(dataformat)(BIFF_CHART_HANDLER const * handle,
-		      GUPPI_CHART_STATE * s, BIFF_PUT * os)
+		 GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -670,15 +668,15 @@ BC_W(defaulttext)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(dropbar)(BIFF_CHART_HANDLER const * handle,
-	   BIFF_CHART_STATE * s, BIFF_QUERY * q)
-	{
+	      BIFF_CHART_STATE * s, BIFF_QUERY * q)
+{
 	guint16 const width = BIFF_GETWORD (q->data);	/* 0-100 */
 	return FALSE;
 }
 
 static gboolean
 BC_W(dropbar)(BIFF_CHART_HANDLER const * handle,
-	   GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	      GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -687,7 +685,7 @@ BC_W(dropbar)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(fbi)(BIFF_CHART_HANDLER const * handle,
-	    BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	  BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	/* TODO TODO TODO : Work on appropriate scales */
 	guint16 const x_basis = BIFF_GETWORD (q->data);
@@ -702,7 +700,7 @@ BC_R(fbi)(BIFF_CHART_HANDLER const * handle,
 }
 static gboolean
 BC_W(fbi)(BIFF_CHART_HANDLER const * handle,
-	    GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	  GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -711,8 +709,8 @@ BC_W(fbi)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(fontx)(BIFF_CHART_HANDLER const * handle,
-		 BIFF_CHART_STATE * s, BIFF_QUERY * q)
-	{
+	    BIFF_CHART_STATE * s, BIFF_QUERY * q)
+{
 	/* Child of TEXT, index into FONT table */
 	guint16 const font = BIFF_GETWORD (q->data);
 	return FALSE;
@@ -720,7 +718,7 @@ BC_R(fontx)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(fontx)(BIFF_CHART_HANDLER const * handle,
-		 GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	    GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -792,14 +790,14 @@ BC_W(ifmt)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(legend)(BIFF_CHART_HANDLER const * handle,
-	    BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	     BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 
 static gboolean
 BC_W(legend)(BIFF_CHART_HANDLER const * handle,
-	    GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	     GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -808,14 +806,14 @@ BC_W(legend)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(legendxn)(BIFF_CHART_HANDLER const * handle,
-	  BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	       BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 
 static gboolean
 BC_W(legendxn)(BIFF_CHART_HANDLER const * handle,
-	  GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	       GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -824,14 +822,14 @@ BC_W(legendxn)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(line)(BIFF_CHART_HANDLER const * handle,
-	       BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	   BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 
 static gboolean
 BC_W(line)(BIFF_CHART_HANDLER const * handle,
-	       GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	   GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -872,7 +870,7 @@ static char const * const ms_line_wgt[] = {
 
 static gboolean
 BC_R(lineformat)(BIFF_CHART_HANDLER const * handle,
-	 BIFF_CHART_STATE * s, BIFF_QUERY * q)
+		 BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	StyleColor * color = BC_R(color) (q->data, "Line");
 	guint16 const pattern = BIFF_GETWORD (q->data+4);
@@ -903,7 +901,7 @@ BC_R(lineformat)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(lineformat)(BIFF_CHART_HANDLER const * handle,
-	 GUPPI_CHART_STATE * s, BIFF_PUT * os)
+		 GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -934,7 +932,7 @@ static char const * const ms_chart_marker[] = {
 
 static gboolean
 BC_R(markerformat)(BIFF_CHART_HANDLER const * handle,
-	   BIFF_CHART_STATE * s, BIFF_QUERY * q)
+		   BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	StyleColor * fore = BC_R(color) (q->data, "MarkerFore");
 	StyleColor * back = BC_R(color) (q->data+4, "MarkerBack");
@@ -962,7 +960,7 @@ BC_R(markerformat)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(markerformat)(BIFF_CHART_HANDLER const * handle,
-	   GUPPI_CHART_STATE * s, BIFF_PUT * os)
+		   GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -971,7 +969,7 @@ BC_W(markerformat)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(objectlink)(BIFF_CHART_HANDLER const * handle,
-	      BIFF_CHART_STATE * s, BIFF_QUERY * q)
+		 BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	guint16 const link_type = BIFF_GETWORD (q->data);
 	guint16 const series_num = BIFF_GETWORD (q->data+2);
@@ -984,7 +982,7 @@ BC_R(objectlink)(BIFF_CHART_HANDLER const * handle,
 	case 2 : printf ("TEXT is Y axis title\n"); break;
 	case 3 : printf ("TEXT is X axis title\n"); break;
 	case 4 : printf ("TEXT is data label for pt %hd in series %hd\n",
-			pt_num, series_num); break;
+			 pt_num, series_num); break;
 	case 7 : printf ("TEXT is Z axis title\n"); break;
 	default :
 		 printf ("ERROR : TEXT is linked to undocumented object\n");
@@ -994,7 +992,7 @@ BC_R(objectlink)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(objectlink)(BIFF_CHART_HANDLER const * handle,
-	      GUPPI_CHART_STATE * s, BIFF_PUT * os)
+		 GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1003,14 +1001,14 @@ BC_W(objectlink)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(picf)(BIFF_CHART_HANDLER const * handle,
-	    BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	   BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 
 static gboolean
 BC_W(picf)(BIFF_CHART_HANDLER const * handle,
-	    GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	   GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1019,14 +1017,14 @@ BC_W(picf)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(pie)(BIFF_CHART_HANDLER const * handle,
-	   BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	  BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 
 static gboolean
 BC_W(pie)(BIFF_CHART_HANDLER const * handle,
-	   GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	  GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1054,7 +1052,7 @@ BC_W(pieformat)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(plotarea)(BIFF_CHART_HANDLER const * handle,
-		 BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	       BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	/* Does nothing.  Should always have a 'FRAME' record following */
 	return FALSE;
@@ -1062,7 +1060,7 @@ BC_R(plotarea)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(plotarea)(BIFF_CHART_HANDLER const * handle,
-		 GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	       GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1071,7 +1069,7 @@ BC_W(plotarea)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(plotgrowth)(BIFF_CHART_HANDLER const * handle,
-	       BIFF_CHART_STATE * s, BIFF_QUERY * q)
+		 BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	/* Docs say these are longs
 	 * But it appears that only 2 lsb are valid ??
@@ -1093,7 +1091,7 @@ BC_R(plotgrowth)(BIFF_CHART_HANDLER const * handle,
 }
 static gboolean
 BC_W(plotgrowth)(BIFF_CHART_HANDLER const * handle,
-	       GUPPI_CHART_STATE * s, BIFF_PUT * os)
+		 GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1102,14 +1100,14 @@ BC_W(plotgrowth)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(pos)(BIFF_CHART_HANDLER const * handle,
-	       BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	  BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 
 static gboolean
 BC_W(pos)(BIFF_CHART_HANDLER const * handle,
-	       GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	  GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1118,14 +1116,14 @@ BC_W(pos)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(radar)(BIFF_CHART_HANDLER const * handle,
-	       BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	    BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 
 static gboolean
 BC_W(radar)(BIFF_CHART_HANDLER const * handle,
-	       GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	    GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1134,14 +1132,14 @@ BC_W(radar)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(radararea)(BIFF_CHART_HANDLER const * handle,
-	       BIFF_CHART_STATE * s, BIFF_QUERY * q)
+		BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 
 static gboolean
 BC_W(radararea)(BIFF_CHART_HANDLER const * handle,
-	       GUPPI_CHART_STATE * s, BIFF_PUT * os)
+		GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1166,14 +1164,14 @@ BC_W(sbaseref)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(scatter)(BIFF_CHART_HANDLER const * handle,
-		BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	      BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 
 static gboolean
 BC_W(scatter)(BIFF_CHART_HANDLER const * handle,
-		GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	      GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1182,14 +1180,14 @@ BC_W(scatter)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(serauxerrbar)(BIFF_CHART_HANDLER const * handle,
-		  BIFF_CHART_STATE * s, BIFF_QUERY * q)
+		   BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 
 static gboolean
 BC_W(serauxerrbar)(BIFF_CHART_HANDLER const * handle,
-		  GUPPI_CHART_STATE * s, BIFF_PUT * os)
+		   GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1198,14 +1196,14 @@ BC_W(serauxerrbar)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(serfmt)(BIFF_CHART_HANDLER const * handle,
-	   BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	     BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 
 static gboolean
 BC_W(serfmt)(BIFF_CHART_HANDLER const * handle,
-	   GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	     GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1232,7 +1230,7 @@ map_series_types(BIFF_QUERY * q, int const offset, char const * const pre)
 
 static gboolean
 BC_R(series)(BIFF_CHART_HANDLER const * handle,
-	  BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	     BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	int const category_type = map_series_types(q, 0, "Categories");
 	int const value_type = map_series_types(q, 4, "Values");
@@ -1249,22 +1247,6 @@ BC_R(series)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(series)(BIFF_CHART_HANDLER const * handle,
-	  GUPPI_CHART_STATE * s, BIFF_PUT * os)
-{
-	return FALSE;
-}
-
-/****************************************************************************/
-
-static gboolean
-BC_R(serieslist)(BIFF_CHART_HANDLER const * handle,
-	     BIFF_CHART_STATE * s, BIFF_QUERY * q)
-{
-	return FALSE;
-}
-
-static gboolean
-BC_W(serieslist)(BIFF_CHART_HANDLER const * handle,
 	     GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
@@ -1273,9 +1255,25 @@ BC_W(serieslist)(BIFF_CHART_HANDLER const * handle,
 /****************************************************************************/
 
 static gboolean
+BC_R(serieslist)(BIFF_CHART_HANDLER const * handle,
+		 BIFF_CHART_STATE * s, BIFF_QUERY * q)
+{
+	return FALSE;
+}
+
+static gboolean
+BC_W(serieslist)(BIFF_CHART_HANDLER const * handle,
+		 GUPPI_CHART_STATE * s, BIFF_PUT * os)
+{
+	return FALSE;
+}
+
+/****************************************************************************/
+
+static gboolean
 BC_R(seriestext)(BIFF_CHART_HANDLER const * handle,
-	 BIFF_CHART_STATE * s, BIFF_QUERY * q)
-		{
+		 BIFF_CHART_STATE * s, BIFF_QUERY * q)
+{
 	guint16 const id = BIFF_GETWORD (q->data);	/* must be 0 */
 	int const slen = BIFF_GETBYTE (q->data + 2);
 	char * text = biff_get_text (q->data + 3, slen, NULL);
@@ -1285,7 +1283,7 @@ BC_R(seriestext)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(seriestext)(BIFF_CHART_HANDLER const * handle,
-	 GUPPI_CHART_STATE * s, BIFF_PUT * os)
+		 GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1294,14 +1292,14 @@ BC_W(seriestext)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(serparent)(BIFF_CHART_HANDLER const * handle,
-		   BIFF_CHART_STATE * s, BIFF_QUERY * q)
+		BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 
 static gboolean
 BC_W(serparent)(BIFF_CHART_HANDLER const * handle,
-		   GUPPI_CHART_STATE * s, BIFF_PUT * os)
+		GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1310,7 +1308,7 @@ BC_W(serparent)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(sertocrt)(BIFF_CHART_HANDLER const * handle,
-	     BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	       BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	guint16 const index = BIFF_GETWORD (q->data);
 	printf ("Series chart group index is %hd\n", index);
@@ -1319,7 +1317,7 @@ BC_R(sertocrt)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(sertocrt)(BIFF_CHART_HANDLER const * handle,
-	     GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	       GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1336,9 +1334,9 @@ typedef enum
 static char const * const ms_chart_blank[] = {
 	"Skip blanks", "Blanks are zero", "Interpolate blanks"};
 
-static gboolean
-BC_R(shtprops)(BIFF_CHART_HANDLER const * handle,
-		  BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	static gboolean
+	BC_R(shtprops)(BIFF_CHART_HANDLER const * handle,
+		       BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	guint16 const flags = BIFF_GETWORD (q->data);
 	guint8 const tmp = BIFF_GETWORD (q->data+2);
@@ -1363,7 +1361,7 @@ BC_R(shtprops)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(shtprops)(BIFF_CHART_HANDLER const * handle,
-		  GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	       GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1372,7 +1370,7 @@ BC_W(shtprops)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(siindex)(BIFF_CHART_HANDLER const * handle,
-	  BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	      BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	static int count = 0;
 	/* UNDOCUMENTED : Docs says this is long
@@ -1383,7 +1381,7 @@ BC_R(siindex)(BIFF_CHART_HANDLER const * handle,
 }
 static gboolean
 BC_W(siindex)(BIFF_CHART_HANDLER const * handle,
-	  GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	      GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1392,14 +1390,14 @@ BC_W(siindex)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(surf)(BIFF_CHART_HANDLER const * handle,
-	     BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	   BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 
 static gboolean
 BC_W(surf)(BIFF_CHART_HANDLER const * handle,
-	     GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	   GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1408,7 +1406,7 @@ BC_W(surf)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(text)(BIFF_CHART_HANDLER const * handle,
-	     BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	   BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	if (s->prev_opcode == BIFF_CHART_defaulttext)
 	{
@@ -1418,25 +1416,25 @@ BC_R(text)(BIFF_CHART_HANDLER const * handle,
 	}
 
 #if 0
-	case BIFF_CHART_chart :
-		puts ("Text follows chart");
-		break;
-	case BIFF_CHART_legend :
-		puts ("Text follows legend");
-		break;
-		break;
-	default :
-		printf ("BIFF ERROR : A Text record follows a %x\n",
-		       s->prev_opcode);
+case BIFF_CHART_chart :
+	puts ("Text follows chart");
+	break;
+case BIFF_CHART_legend :
+	puts ("Text follows legend");
+	break;
+	break;
+default :
+	printf ("BIFF ERROR : A Text record follows a %x\n",
+		s->prev_opcode);
 
-	};
+};
 #endif
-	return FALSE;
+return FALSE;
 }
 
 static gboolean
 BC_W(text)(BIFF_CHART_HANDLER const * handle,
-	     GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	   GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1445,14 +1443,14 @@ BC_W(text)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(tick)(BIFF_CHART_HANDLER const * handle,
-	  BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	   BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 
 static gboolean
 BC_W(tick)(BIFF_CHART_HANDLER const * handle,
-	  GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	   GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1461,7 +1459,7 @@ BC_W(tick)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(units)(BIFF_CHART_HANDLER const * handle,
-		 BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	    BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	guint16 const type = BIFF_GETWORD (q->data);
 	g_return_val_if_fail(type == 0, TRUE);
@@ -1471,7 +1469,7 @@ BC_R(units)(BIFF_CHART_HANDLER const * handle,
 }
 static gboolean
 BC_W(units)(BIFF_CHART_HANDLER const * handle,
-		 GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	    GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	g_warning("Should not write BIFF_CHART_UNITS");
 	return FALSE;
@@ -1481,14 +1479,14 @@ BC_W(units)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(valuerange)(BIFF_CHART_HANDLER const * handle,
-	      BIFF_CHART_STATE * s, BIFF_QUERY * q)
+		 BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 
 static gboolean
 BC_W(valuerange)(BIFF_CHART_HANDLER const * handle,
-	      GUPPI_CHART_STATE * s, BIFF_PUT * os)
+		 GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1497,7 +1495,7 @@ BC_W(valuerange)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(end)(BIFF_CHART_HANDLER const * handle,
-	       BIFF_CHART_STATE * s, BIFF_QUERY * q)
+	  BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	puts ("}");
 	--(s->depth);
@@ -1506,7 +1504,7 @@ BC_R(end)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_W(end)(BIFF_CHART_HANDLER const * handle,
-	       GUPPI_CHART_STATE * s, BIFF_PUT * os)
+	  GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1515,14 +1513,14 @@ BC_W(end)(BIFF_CHART_HANDLER const * handle,
 
 static gboolean
 BC_R(serauxtrend)(BIFF_CHART_HANDLER const * handle,
-		   BIFF_CHART_STATE * s, BIFF_QUERY * q)
+		  BIFF_CHART_STATE * s, BIFF_QUERY * q)
 {
 	return FALSE;
 }
 
 static gboolean
 BC_W(serauxtrend)(BIFF_CHART_HANDLER const * handle,
-		   GUPPI_CHART_STATE * s, BIFF_PUT * os)
+		  GUPPI_CHART_STATE * s, BIFF_PUT * os)
 {
 	return FALSE;
 }
@@ -1636,7 +1634,7 @@ BC(register_handler)(BIFF_CHART_HANDLER const * const handle)
 		printf ("Invalid BIFF_CHART handler (%x)\n", handle->opcode);
 	else if (chart_biff_handler[num])
 		printf ("Multiple BIFF_CHART handlers for (%x)\n",
-		       handle->opcode);
+			handle->opcode);
 	else
 		chart_biff_handler[num] = handle;
 }
@@ -1658,7 +1656,8 @@ ms_excel_chart (BIFF_BOF_DATA* bof, MS_EXCEL_WORKBOOK * wb, BIFF_QUERY * q)
 	state.wb = wb;
 	state.defaulttext_applicability = -1; /* Invalid */
 
-	puts ("{ CHART");
+	if (ms_excel_chart_debug > 0)
+		puts ("{ CHART");
 	while (!done && ms_biff_query_next (q))
 	{
 		int const lsb = q->opcode & 0xff;
@@ -1666,9 +1665,9 @@ ms_excel_chart (BIFF_BOF_DATA* bof, MS_EXCEL_WORKBOOK * wb, BIFF_QUERY * q)
 		/* Use registered jump table for chart records */
 		if ((q->opcode&0xff00) == 0x1000)
 		{
-			 int const begin_end =
-				 (q->opcode == BIFF_CHART_begin ||
-				  q->opcode == BIFF_CHART_end);
+			int const begin_end =
+				(q->opcode == BIFF_CHART_begin ||
+				 q->opcode == BIFF_CHART_end);
 
 			if (lsb >= num_handler ||
 			    !chart_biff_handler[lsb] ||
@@ -1681,11 +1680,18 @@ ms_excel_chart (BIFF_BOF_DATA* bof, MS_EXCEL_WORKBOOK * wb, BIFF_QUERY * q)
 				BIFF_CHART_HANDLER const * const h =
 					chart_biff_handler[lsb];
 
-				if (!begin_end)
-					printf ("%s(\n", h->name);
-				(void)(*h->read_fn)(h, &state, q);
-				if (!begin_end)
-					printf (");\n");
+				/*
+				 * All chart handling is debug for now, so just
+				 * lobotomize it here if user isnt interested.
+				 */
+				if (ms_excel_chart_debug > 0)
+				{
+					if (!begin_end)
+						printf ("%s(\n", h->name);
+					(void)(*h->read_fn)(h, &state, q);
+					if (!begin_end)
+						printf (");\n");
+				}
 			}
 		} else
 		{
@@ -1693,7 +1699,8 @@ ms_excel_chart (BIFF_BOF_DATA* bof, MS_EXCEL_WORKBOOK * wb, BIFF_QUERY * q)
 			{
 			case BIFF_EOF:
 				done = TRUE;
-				puts ("}; /* CHART */");
+				if (ms_excel_chart_debug > 0)
+					puts ("}; /* CHART */");
 				g_return_if_fail(state.depth == 0);
 				break;
 
@@ -1701,8 +1708,9 @@ ms_excel_chart (BIFF_BOF_DATA* bof, MS_EXCEL_WORKBOOK * wb, BIFF_QUERY * q)
 			{
 				gboolean const protected =
 					(1 == BIFF_GETWORD (q->data));
-				printf ("Chart is%s protected;\n",
-					protected ? "" : " not");
+				if (ms_excel_chart_debug > 0)
+					printf ("Chart is%s protected;\n",
+						protected ? "" : " not");
 			}
 			break;
 
@@ -1716,10 +1724,9 @@ ms_excel_chart (BIFF_BOF_DATA* bof, MS_EXCEL_WORKBOOK * wb, BIFF_QUERY * q)
 			case BIFF_VCENTER :	/* Skip for Now */
 			case BIFF_SCL :
 			case BIFF_SETUP :
-#if DEBUG_MS_CHART > 0
-				printf ("Handled biff %x in chart;\n",
-				       q->opcode);
-#endif
+				if (ms_excel_chart_debug > 0)
+					printf ("Handled biff %x in chart;\n",
+						q->opcode);
 				break;
 
 			default :

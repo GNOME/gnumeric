@@ -1,3 +1,25 @@
+1999-07-01  Jody Goldberg  <jgoldberg@home.com>
+	* formula-types.h : Add some missing ptg types.
+
+	* ms-excel-read.c : ms_excel_read_debug, ms_excel_formula_debug,
+	    ms_excel_color_debug, ms_excel_chart_debug.  Declare and use these
+	    to allow command line control so that we can ask remote users for
+	    debug info.
+	  (excel_builtin_formats) : Correct some typos.
+	  (ms_excel_read_formula) : Document errors in Excel SDK.
+	  (ms_excel_get_name) : Handle workbook local names. (stub)
+	  (ms_excel_read_name) : re-enable with name lookup. not connected yet.
+
+	* ms-excel-read.h : Add internal_names to workbook.
+	(ms_excel_get_name) : declare.
+
+	* ms-formula-read.c : switch to new debug scheme.
+	  More verbose warnings for errors so we dont ignore them.
+	  (FORMULA_PTG_NAME) : Partial implementation until I have time to look
+	  at the branch.
+	  (FORMULA_PTG_PERCENT) : Guess at this one.
+	  Begin to handle 'extended' ptgs.  Very minimal docs.
+
 1999-07-01  Michael Meeks  <michael@edenproject.org>
 
 	* ms-formula-write.c (ms_formula_cache_init),
