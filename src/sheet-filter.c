@@ -1167,14 +1167,11 @@ sheet_filter_insdel_colrow (Sheet *sheet, gboolean is_cols, gboolean is_insert,
 						filter->r.end.col -= count;
 				}
 
-				if (filter->r.end.col < filter->r.start.col) {
-					g_warning ("clear filter");
+				if (filter->r.end.col < filter->r.start.col)
 					filter = NULL;
-				} else {
-					g_warning ("remove [%d .. %d)", start_del, end_del);
+				else
 					while (end_del-- > start_del)
 						g_ptr_array_remove_index (filter->fields, end_del);
-				}
 			}
 		} else {
 			if (start > filter->r.end.row)
