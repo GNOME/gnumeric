@@ -780,7 +780,6 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 				strcpy (ans, intertxt) ;
 				strcat (ans, ptr) ;
 
-				printf("Answer : '%s'\n", ans) ;
 				parse_list_push_raw (stack, ans, NO_PRECEDENCE) ;
 				g_free (intertxt) ;
 				g_free (ptr) ;

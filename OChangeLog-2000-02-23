@@ -1,3 +1,15 @@
+1999-03-31  Michael Meeks  <michael@imaginator.com>
+
+	* src/dialog-cell-sort.c (dialog_cell_sort): Added multiple
+	clause support, and cleaned UI.
+	(add_clause, del_clause): Added.
+
+1999-03-30  Michael Meeks  <michael@imaginator.com>
+
+	* src/dialog-cell-sort.c (dialog_cell_sort): Fix possible
+	problem with entire column selection. Need some function
+	to determine largest used cell range.
+
 1999-03-31  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/about.c (dialog_about): Fixed.  Patch from Takashi Matsuda

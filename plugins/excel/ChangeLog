@@ -1,3 +1,11 @@
+1999-03-31  Michael Meeks  <michael@imaginator.com>
+
+	* ms-excel.c (ms_excel_read_sheet): Added SELECTION support.
+	Added basic WINDOW2 support.
+	(ms_excel_read_cell): COLINFO, fixed fatal bug in hidden column code.
+
+	* ms-formula.c (ms_excel_parse_formula): Removed debug.
+	
 1999-03-30  Michael Meeks  <michael@imaginator.com>
 
 	* ms-formula.c (ms_excel_parse_formula): Rehashed function

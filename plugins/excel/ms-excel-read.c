@@ -179,7 +179,7 @@ ms_biff_bof_data_new (BIFF_QUERY * q)
 			 * More complicated 
 			 */
 			{
-				if (EXCEL_DEBUG>0)
+				if (EXCEL_DEBUG>2)
 				{
 					printf ("Complicated BIFF version %d\n",
 						BIFF_GETWORD (q->data));
@@ -1394,7 +1394,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			firstcol, lastcol, width/256.0) ;
 		if ((int)width/256.0 == 0) {
 			printf ("FIXME: Hidden columns need implementing\n") ;
-			width++ ;
+			width=40.0 ;
 		}
 		for (lp=firstcol;lp<=lastcol;lp++)
 			sheet_col_set_width (sheet->gnum_sheet, lp, width/25) ;
@@ -1639,9 +1639,60 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 			ms_excel_fixup_array_formulae (sheet);
 			return;
 			break;
+		case BIFF_SELECTION: /* S59DE2.HTM */
+		{
+			int pane_number ;
+			int act_row, act_col ;
+			int num_refs ;
+			guint8 *refs ;
+			pane_number = BIFF_GETBYTE (q->data) ;
+			act_row     = BIFF_GETWORD (q->data + 1) ;
+			act_col     = BIFF_GETWORD (q->data + 3) ;
+			num_refs    = BIFF_GETWORD (q->data + 7) ;
+			refs        = q->data + 9 ;
+/*			printf ("Cursor : %d %d\n", act_col, act_row) ; */
+			if (pane_number != 3) {
+				printf ("FIXME: no pane support\n") ;
+				break ;
+			}
+			sheet_selection_reset_only (sheet->gnum_sheet) ;
+			while (num_refs>0) {
+				int start_row = BIFF_GETWORD(refs + 0) ;
+				int start_col = BIFF_GETBYTE(refs + 4) ;
+				int end_row   = BIFF_GETWORD(refs + 2) ;
+				int end_col   = BIFF_GETBYTE(refs + 5) ;
+/*				printf ("Ref %d = %d %d %d %d\n", num_refs, start_col, start_row, end_col, end_row) ; */
+				sheet_selection_append_range (sheet->gnum_sheet, start_col, start_row,
+							      start_col, start_row,
+							      end_col, end_row) ;
+				refs+=6 ;
+				num_refs-- ;
+			}
+			sheet_cursor_set (sheet->gnum_sheet, act_col, act_row, act_col, act_row, act_col, act_row) ;
+			break ;
+		}
 		default:
-			ms_excel_read_cell (q, sheet);
-			break;
+			switch (q->opcode) {
+			case BIFF_WINDOW2: /* FIXME: see S59E18.HTM */
+			{
+				int top_vis_row, left_vis_col ;
+				guint16 options ;
+
+				options      = BIFF_GETWORD(q->data + 0) ;
+				top_vis_row  = BIFF_GETWORD(q->data + 2) ;
+				left_vis_col = BIFF_GETWORD(q->data + 4) ;
+				if (options & 0x0200)
+					printf ("Sheet flag selected\n") ;
+				if (options & 0x0400)
+					printf ("Sheet top in workbook\n") ;
+				if (options & 0x0001)
+					printf ("FIXME: Sheet display formulae\n") ;
+				break ;
+			}
+			default:
+				ms_excel_read_cell (q, sheet);
+				break;
+			}
 		}
 	}
 	ms_excel_workbook_detach (sheet->wb, sheet) ;
@@ -1761,7 +1812,7 @@ ms_excelReadWorkbook (MS_OLE * file)
 				if (vv != eBiffVUnknown)
 					ver->version = vv;
 
-				if (ver->type == eBiffTWorkbook){
+				if (ver->type == eBiffTWorkbook) {
 					wb = ms_excel_workbook_new ();
 					wb->gnum_wb = workbook_new ();
 				} else if (ver->type == eBiffTWorksheet) {
@@ -1856,11 +1907,6 @@ ms_excelReadWorkbook (MS_OLE * file)
 				} else {
 					printf ("ExternSheet : only BIFF8 supported so far...\n") ;
 				}
-				break ;
-			}
-			case BIFF_SELECTION: /* S59DE2.HTM */
-			{
-				printf ("FIXME: Selection data\n") ;
 				break ;
 			}
 			case BIFF_FORMAT: /* S59D8E.HTM */
