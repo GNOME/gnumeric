@@ -230,7 +230,7 @@ dialog_init (AutoCorrectState *state)
 
         button = glade_xml_get_widget (state->glade, "help_button");
         gtk_signal_connect (GTK_OBJECT (button), "clicked",
-		GTK_SIGNAL_FUNC (cb_dialog_help), "autocorrect.html");
+		GTK_SIGNAL_FUNC (cb_dialog_help), "autocorrect-tool.html");
         button = glade_xml_get_widget (state->glade, "ok_button");
         gtk_signal_connect (GTK_OBJECT (button), "clicked",
 		GTK_SIGNAL_FUNC (cb_button_clicked), state);

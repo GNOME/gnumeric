@@ -174,7 +174,7 @@ dialog_advanced_filter (WorkbookControlGUI *wbcg)
 	GtkWidget *radiobutton;
 	GtkWidget *helpbutton;
 	Sheet     *sheet;
-	gchar     *helpfile = "filter.html";
+	gchar     *helpfile = "filters.html";
 	gint      v, error_flag;
 	Range	  list, crit;
 	gchar const *text;
