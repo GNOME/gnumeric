@@ -1,6 +1,6 @@
 # Copyright (C) 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
 # Karl Eichwalder <ke@suse.de>, 1999, 2000, 2001.
-# Christian Meyer <chrisime@gnome.org>, 2001, 2002.
+# Christian Meyer <chrisime@gnome.org>, 2001.
 # Matthias Warkus <mawa@iname.com>, 1999, 2000.
 # Karsten Weiss <knweiss@gmx.de>, 1999, 2002.
 # Ralf Baechle <ralf@gnu.org>, 1999.
@@ -36,12 +36,6 @@
 #     translations, but *all* should be checked when it is time to translate
 #     the function-reference, *not now*.
 #
-# 2002-02-21  Christian Meyer <chrisime@gnome.org>
-# Currently there are about 200 LATER's. Should we extract them into a
-# separate file and discuss about those? I think completetion of LATER
-# translation should be targeted for Gnumeric 1.2 (GNOME2 port).
-# It'd be also wise to have a policy for Gnumeric like GnuCash's.
-#
 # 2002-02-02  Karsten Weiss <knweiss@gmx.de>
 # 	* selection="Auswahl", mark="Markierung"
 # 	* Standard menu names+accelerator keys
@@ -65,9 +59,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.x\n"
-"POT-Creation-Date: 2002-02-21 12:55+0100\n"
-"PO-Revision-Date: 2002-02-21 12:43+0100\n"
-"Last-Translator: Christian Meyer <chrisime@gnome.org>\n"
+"POT-Creation-Date: 2002-02-23 15:13+0100\n"
+"PO-Revision-Date: 2002-02-16 12:48+0100\n"
+"Last-Translator: Karsten Weiss <knweiss@gmx.de>\n"
 "Language-Team: GNOME-DE <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -111,6 +105,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funktionen aus dem Finanzbereich"
 
 #: plugins/derivatives/options.c:289
+#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_call\n"
 "@SYNTAX=opt_bs_call(strike,price,volatility,days_to_maturity,rate)\n"
@@ -130,6 +125,7 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:309
+#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_put\n"
 "@SYNTAX=opt_bs_put(strike,price,volatility,days_to_maturity,rate)\n"
@@ -149,6 +145,7 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:329
+#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_call_delta\n"
 "@SYNTAX=opt_bs_call_delta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -170,6 +167,7 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:352
+#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_put_delta\n"
 "@SYNTAX=opt_bs_put_delta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -191,7 +189,7 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:376
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_call_rho\n"
 "@SYNTAX=opt_bs_call_rho(strike,price,volatility,days_to_maturity,rate)\n"
@@ -213,7 +211,7 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:400
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_put_rho\n"
 "@SYNTAX=opt_bs_put_rho(strike,price,volatility,days_to_maturity,rate)\n"
@@ -235,6 +233,7 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:423
+#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_call_theta\n"
 "@SYNTAX=opt_bs_call_theta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -255,6 +254,7 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:446
+#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_put_theta\n"
 "@SYNTAX=opt_bs_put_theta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -275,6 +275,7 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:469
+#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_gamma\n"
 "@SYNTAX=opt_bs_gamma(strike,price,volatility,days_to_maturity,rate)\n"
@@ -296,7 +297,7 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:493
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_vega\n"
 "@SYNTAX=opt_bs_bega(strike,price,volatility,days_to_maturity,rate)\n"
@@ -769,6 +770,7 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:233
+#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -6966,16 +6968,14 @@ msgstr "Durchschnittl. Rang"
 msgid "Rank and Percentile"
 msgstr "Rang und Perzentile"
 
-# CHECK: I'm not quite sure about that.
 #: src/dialogs/rank.glade.h:8
 msgid "Ties:"
-msgstr "Unentschieden:"
+msgstr ""
 
 # CHECK: "Oberer Rang" oder "Höchstes Rang"
-# 2002-02-21 I think "Top-Rang" is ok for now. -cm-
 #: src/dialogs/rank.glade.h:16
 msgid "_Top Rank"
-msgstr "_Top-Rang"
+msgstr ""
 
 #: src/dialogs/regression.glade.h:1
 msgid "0.95"
@@ -9184,6 +9184,7 @@ msgstr ""
 "die den angegebenen Kriterien entspricht.\n"
 
 #: src/functions/fn-database.c:704
+#, fuzzy
 msgid ""
 "\n"
 "If none of the items match the conditions, DGET returns #VALUE! error. If "
@@ -9196,8 +9197,8 @@ msgid ""
 msgstr ""
 "\n"
 "Wenn keiner der Posten die Bedingungen erfüllt, gibt DGET einen #WERT!-"
-"Fehler zurück. Erfüllt mehr als ein Posten die Bedingungen, gibt DGET einen "
-"#ZAHL!-Fehler zurück. @EXAMPLES=\n"
+"Fehlerzurück. Erfüllt mehr als ein Posten die Bedingungen, gibt DGET einen "
+"#ZAHL!-Fehler zurück.@EXAMPLES=\n"
 "DGET(A1:C7, \"Gehalt\", A9:A10) ergibt 34323.\n"
 "DGET(A1:C7, \"Name\", A9:A10) ergibt \"Clark\".\n"
 "\n"
@@ -9975,6 +9976,7 @@ msgid "Unimplemented"
 msgstr "Nicht implementiert"
 
 #: src/functions/fn-date.c:993
+#, fuzzy
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
@@ -9988,19 +9990,20 @@ msgid ""
 "\n"
 "@SEEALSO=WORKDAY"
 msgstr ""
-"@FUNCTION=NETWORKDAYS\n"
-"@SYNTAX=NETWORKDAY (Startdatum,Enddatum,Feiertage)\n"
+"@FUNCTION=WORKDAY\n"
+"@SYNTAX=WORKDAY (Startdatum,Enddatum,Feiertage)\n"
 "@DESCRIPTION=Gibt die Anzahl der Werktage zurück, die zwischen @Startdatum "
-"und @Enddatum liegen. Feiertage, die als @Feiertage optional angegeben "
-"werden können, werden berücksichtigt.\n"
-"Gibt #ZAHL! zurück, wenn @Startdatum oder @Enddatum ungültig sind.\n"
+"und @Enddatum liegen. Wochenenden und Feiertage, die als @Feiertage optional "
+"angegeben werden können, werden berücksichtigt.\n"
+"Gibt #ZAHL! zurück, wenn @Startdatum oder @Tage ungültig sind.\n"
 "Diese Funktion ist Excel-kompatibel. \n"
 "@EXAMPLES=\n"
 "NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15)) ergibt 33.\n"
 "\n"
-"@SEEALSO=WORKDAY"
+"@SEEALSO=NETWORKDAYS"
 
 #: src/functions/fn-date.c:1116
+#, fuzzy
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -10016,6 +10019,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-date.c:1160
+#, fuzzy
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -10920,6 +10924,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-eng.c:1686
+#, fuzzy
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -10939,6 +10944,7 @@ msgid "Impossible"
 msgstr "Unmöglich"
 
 #: src/functions/fn-eng.c:1742
+#, fuzzy
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -11866,6 +11872,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-financial.c:2787
+#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -11899,6 +11906,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-financial.c:2829
+#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
@@ -11933,6 +11941,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-financial.c:2872
+#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
@@ -11966,6 +11975,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-financial.c:2914
+#, fuzzy
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -11998,6 +12008,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-financial.c:2955
+#, fuzzy
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -12030,6 +12041,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-financial.c:2996
+#, fuzzy
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
@@ -12262,6 +12274,7 @@ msgstr ""
 "@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-information.c:575
+#, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(value)\n"
@@ -12645,6 +12658,7 @@ msgid "Logical"
 msgstr "Logik"
 
 #: src/functions/fn-lookup.c:316
+#, fuzzy
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -12906,6 +12920,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-math.c:170
+#, fuzzy
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -13505,6 +13520,7 @@ msgstr ""
 "@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-math.c:1235
+#, fuzzy
 msgid ""
 "@FUNCTION=RANDEXP\n"
 "@SYNTAX=RANDEXP(b)\n"
@@ -13513,16 +13529,10 @@ msgid ""
 "RANDEXP(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
-msgstr ""
-"@FUNCTION=RANDEXP\n"
-"@SYNTAX=RANDEXP(b)\n"
-"@DESCRIPTION=RANDEXP gibt eine exponentiell-verteilte Zufallszahl zurück. \n"
-"@EXAMPLES=\n"
-"RANDEXP(0.5).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
+msgstr "LATER"
 
 #: src/functions/fn-math.c:1258
+#, fuzzy
 msgid ""
 "@FUNCTION=RANDPOISSON\n"
 "@SYNTAX=RANDPOISSON(lambda)\n"
@@ -13534,6 +13544,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-math.c:1284
+#, fuzzy
 msgid ""
 "@FUNCTION=RANDBINOM\n"
 "@SYNTAX=RANDBINOM(p,trials)\n"
@@ -13547,6 +13558,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-math.c:1314
+#, fuzzy
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -13561,6 +13573,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-math.c:1345
+#, fuzzy
 msgid ""
 "@FUNCTION=RANDBERNOULLI\n"
 "@SYNTAX=RANDBERNOULLI(p)\n"
@@ -13980,6 +13993,7 @@ msgstr ""
 "@SEEALSO="
 
 #: src/functions/fn-math.c:1949
+#, fuzzy
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -13995,6 +14009,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-math.c:1983
+#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -14037,6 +14052,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-math.c:2068
+#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -14097,6 +14113,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-math.c:2428
+#, fuzzy
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -14125,6 +14142,7 @@ msgid "Array version not implemented!"
 msgstr "Feldversion nicht implementiert!"
 
 #: src/functions/fn-math.c:2541
+#, fuzzy
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -14146,6 +14164,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-math.c:2653
+#, fuzzy
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -14198,6 +14217,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-math.c:2849
+#, fuzzy
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -14557,6 +14577,7 @@ msgstr ""
 "@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-stat.c:707
+#, fuzzy
 msgid ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
@@ -15300,6 +15321,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-stat.c:2461
+#, fuzzy
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
@@ -15317,6 +15339,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-stat.c:2555
+#, fuzzy
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -15369,6 +15392,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-stat.c:2826
+#, fuzzy
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -15387,6 +15411,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-stat.c:2861
+#, fuzzy
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -15477,6 +15502,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-stat.c:3036
+#, fuzzy
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -15698,6 +15724,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-stat.c:4302
+#, fuzzy
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -15718,6 +15745,7 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-stat.c:4373
+#, fuzzy
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -18167,3 +18195,21 @@ msgstr "Ist keine gnumeric-Arbeitsbuch-Datei"
 #: src/xml-io.c:3468
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
+
+#~ msgid ""
+#~ "@FUNCTION=RandBinom\n"
+#~ "@SYNTAX=RandBinom(p,trials)\n"
+#~ "@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
+#~ "If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 "
+#~ "RandBinom returns #NUM! error. \n"
+#~ "@EXAMPLES=\n"
+#~ "RandBinom(0.5,2).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+#~ msgstr "LATER"
+
+#~ msgid "Text File Export (*.csv)"
+#~ msgstr "Textdatei-Export (*.csv)"
+
+#~ msgid "'%f' is not a number"
+#~ msgstr "'%f' ist keine Zahl"
