@@ -337,6 +337,22 @@ else
 fi
 
 dnl ******************************
+dnl Gnome App Lib checking
+dnl ******************************
+AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.01)
+if gnome-config --libs gal > /dev/null 2>&1; then 
+    vers=`gnome-config --modversion gal | sed -e "s/gal-//" -e 's/cvs$//' -e 's/pre$//' | \
+        awk 'BEGIN { FS = "."; } { print $1 * 1000 + $2;}'`
+    if test "$vers" -ge 1; then
+        AC_MSG_RESULT(found)
+    else
+        AC_MSG_ERROR(You need at least GNOME Application libs 0.01 for this version of Gnumeric)
+    fi
+else
+    AC_MSG_ERROR(Did not find GnomeAppLib (GAL) installed)
+fi
+
+dnl ******************************
 dnl gtk+ checking
 dnl ******************************
 AC_MSG_CHECKING(for GTK >= 1.2.7)
@@ -422,8 +438,8 @@ LIBS=$LIBS_save
 
 dnl ***************************************
 
-EXTRA_GNOME_LIBS=`gnome-config --libs gnomeui print libglade $bonobo libole2`
-EXTRA_GNOME_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo libole2`
+EXTRA_GNOME_LIBS=`gnome-config --libs gnomeui print libglade $bonobo libole2 gal`
+EXTRA_GNOME_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo libole2 gal`
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 
