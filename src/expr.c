@@ -1479,10 +1479,9 @@ do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 		conv->expr_name_handler (target, pp, &expr->name, conv);
 		return;
 
-	case GNM_EXPR_OP_CELLREF: {
+	case GNM_EXPR_OP_CELLREF:
 		conv->cell_ref_handler (target, conv, &expr->cellref.ref, pp, FALSE);
 		return;
-	}
 
 	case GNM_EXPR_OP_CONSTANT: {
 		GnmValue const *v = expr->constant.value;

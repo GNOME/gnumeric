@@ -5056,6 +5056,13 @@ excel_read_HEADER_FOOTER (BiffQuery *q, MsBiffVersion const ver, gboolean is_hea
 	}
 }
 
+static void
+excel_read_REFMODE (BiffQuery *q, ExcelReadSheet *esheet)
+{
+	guint16 mode = GSF_LE_GET_GUINT16 (q->data);
+	esheet->sheet->r1c1_addresses = (mode == 0);
+}
+
 static gboolean
 excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		  WorkbookView *wb_view, ExcelReadSheet *esheet)
@@ -5194,7 +5201,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 #endif
 			break;
 
-		case BIFF_REFMODE:	break;
+		case BIFF_REFMODE:	excel_read_REFMODE (q, esheet); break;
 		case BIFF_DELTA:	excel_read_DELTA (q, ewb);	break;
 		case BIFF_ITERATION:	excel_read_ITERATION (q, ewb);	break;
 		case BIFF_PROTECT:	excel_read_PROTECT (q, "Sheet"); break;

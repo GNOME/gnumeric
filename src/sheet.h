@@ -39,6 +39,7 @@ struct _Sheet {
 	gboolean    modified;
 
 	/* Sheet level preferences */
+	gboolean    r1c1_addresses;
 	gboolean    display_formulas;
 	gboolean    hide_zero;
 	gboolean    hide_grid;

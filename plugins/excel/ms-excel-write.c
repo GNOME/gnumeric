@@ -3363,18 +3363,16 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 {
 	guint8 *data;
 	PrintInformation *pi;
-	Workbook *wb = esheet->gnum_sheet->workbook;
+	Sheet const *sheet = esheet->gnum_sheet;
+	Workbook const *wb = sheet->workbook;
 	double header = 0, footer = 0, left = 0, right = 0;
 
-	g_return_if_fail (esheet != NULL);
-	g_return_if_fail (esheet->gnum_sheet != NULL);
-	g_return_if_fail (esheet->gnum_sheet->print_info != NULL);
-
-	pi = esheet->gnum_sheet->print_info;
+	pi = sheet->print_info;
+	g_return_if_fail (pi != NULL);
 
 	ms_biff_put_2byte (bp, BIFF_CALCMODE, wb->recalc_auto ? 1 : 0);
 	ms_biff_put_2byte (bp, BIFF_CALCCOUNT, wb->iteration.max_number);
-	ms_biff_put_2byte (bp, BIFF_REFMODE, 0x0001); /* A1 */
+	ms_biff_put_2byte (bp, BIFF_REFMODE, sheet->r1c1_addresses ? 0 : 1);
 	ms_biff_put_2byte (bp, BIFF_ITERATION, wb->iteration.enabled ? 1 : 0);
 
 	data = ms_biff_put_len_next (bp, BIFF_DELTA, 8);

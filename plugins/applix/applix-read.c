@@ -1520,7 +1520,7 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	GSList *ptr, *renamed_sheets;
 
 	/* Init the state variable */
-	state.input	  = gsf_input_textline_new (src);
+	state.input	  = (GsfInputTextline *)gsf_input_textline_new (src);
 	state.parse_error = NULL;
 	state.wb_view     = wb_view;
 	state.wb          = wb_view_workbook (wb_view);

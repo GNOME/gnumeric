@@ -110,6 +110,7 @@ struct _GnmExprConventions {
 	gboolean force_absolute_row_references;
 	gboolean force_explicit_sheet_references;
 #endif
+	gboolean r1c1_addresses;
 
 	/* What characters are range separators?  */
 	gboolean range_sep_colon;  /* A1:B2 */

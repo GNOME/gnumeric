@@ -1,3 +1,8 @@
+2004-06-29  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_REFMODE) : new.
+	* ms-excel-write.c (write_sheet_head) : export REFMODE
+
 2004-06-26  Jody Goldberg <jody@gnome.org>
 
 	* boot.c (excel_read_metadata) : Failure is a warning, not

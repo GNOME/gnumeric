@@ -211,6 +211,7 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->modified = FALSE;
 
 	/* Init preferences */
+	sheet->r1c1_addresses = FALSE;
 	sheet->display_formulas = FALSE;
 	sheet->hide_zero = FALSE;
 	sheet->hide_grid = FALSE;

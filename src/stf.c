@@ -258,8 +258,8 @@ stf_text_to_columns (WorkbookControl *wbc, GnmCmdContext *cc)
 	SheetView	*sv;
 	Sheet		*src_sheet, *target_sheet;
 	GnmRange const	*src;
-	GnmRange		 target;
-	GsfOutputMemory	*buf;
+	GnmRange	 target;
+	GsfOutput	*buf;
 	guint8 const	*data;
 	size_t data_len;
 
@@ -291,9 +291,9 @@ stf_text_to_columns (WorkbookControl *wbc, GnmCmdContext *cc)
 		src->end.col, src->end.row,
 		(CellIterFunc) &cb_get_content, buf);
 
-	gsf_output_close (GSF_OUTPUT (buf));
-	data = gsf_output_memory_get_bytes (buf);
-	data_len = (size_t)gsf_output_size (GSF_OUTPUT (buf));
+	gsf_output_close (buf);
+	data = gsf_output_memory_get_bytes (GSF_OUTPUT_MEMORY (buf));
+	data_len = (size_t)gsf_output_size (buf);
 	if (data_len == 0) {
 		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (cc),
 					     _("There is no data "
