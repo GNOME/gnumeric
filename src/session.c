@@ -114,6 +114,7 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
 				g_free (base);
 			} else
 				msg = g_strdup (_("Save changes to workbook before logging out?"));
+			gtk_window_deiconify (GTK_WINDOW (wbcg_toplevel (wbcg)));
 			d = gnumeric_message_dialog_new (wbcg_toplevel (wbcg),
 							 GTK_DIALOG_DESTROY_WITH_PARENT,
 							 GTK_MESSAGE_WARNING,

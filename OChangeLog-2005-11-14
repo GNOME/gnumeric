@@ -1,3 +1,8 @@
+2005-03-03  Jon K Hellan  <hellan@acm.org>
+
+        * src/session.c (interaction_function): Deiconify toplevel before
+        displaying save/cancel dialog.
+
 2005-02-09  Jody Goldberg <jody@gnome.org>
 
 	* src/print-info.c (print_hf_same) : be more careful to avoid crash on

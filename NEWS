@@ -16,6 +16,9 @@ Jody:
 	* Fix OFFSET for asymetric ranges [#166764]
 	* Fix SUMIF for asymetric ranges [#166769]
 
+Jon Kåre:
+	* Avoid a session-end hang.
+
 Morten:
 	* Fix SUBSTITUTE.  [#165996]
 	* Fix numeric inputs in xbase. [#166311]
