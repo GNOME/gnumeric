@@ -63,6 +63,8 @@ Jon Kåre:
 	* Fix clipboard export of non-Latin 1 content as text.
 	* Fall back to string when import from clipboard as
  	  table/spreadsheet fails.
+        * Import incomplete html fragments, as produced by
+	* e.g. Mozilla, from clipboard.
 
 Morten:
 	* Hopefully fix NAN issues on Alphas.
