@@ -192,7 +192,7 @@ graph_guru_get_spec (GraphGuruState *s)
 			xml_doc = pctxt->myDoc;
 			xmlFreeParserCtxt (pctxt);
 		}
-		GNOME_Gnumeric_Buffer__free (spec, 0, TRUE);
+		CORBA_free (spec);
 	} else {
 		g_warning ("'%s' : getting the spec from data_guru %p",
 			   gnm_graph_exception (&ev), s->data_guru);

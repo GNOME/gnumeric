@@ -243,7 +243,7 @@ gnm_graph_vector_eval (Dependent *dep)
 			gnm_graph_vector_seq_scalar (vector);
 		GNOME_Gnumeric_Scalar_Vector_changed (
 			vector->subscriber.scalar, 0, seq, &ev);
-		GNOME_Gnumeric_Scalar_Seq__free (seq, 0, TRUE);
+		CORBA_free (seq);
 		break;
 	}
 
@@ -252,7 +252,7 @@ gnm_graph_vector_eval (Dependent *dep)
 			gnm_graph_vector_seq_date (vector);
 		GNOME_Gnumeric_Date_Vector_changed (
 			vector->subscriber.date, 0, seq, &ev);
-		GNOME_Gnumeric_Date_Seq__free (seq, 0, TRUE);
+		CORBA_free (seq);
 		break;
 	}
 
@@ -261,7 +261,7 @@ gnm_graph_vector_eval (Dependent *dep)
 			gnm_graph_vector_seq_string (vector);
 		GNOME_Gnumeric_String_Vector_changed (
 			vector->subscriber.string, 0, seq, &ev);
-		GNOME_Gnumeric_String_Seq__free (seq, 0, TRUE);
+		CORBA_free (seq);
 		break;
 	}
 
@@ -893,8 +893,8 @@ gnm_graph_arrange_vectors (GnmGraph *graph)
 			   bonobo_exception_get_text (&ev), graph);
 	}
 	CORBA_exception_free (&ev);
-	GNOME_Gnumeric_VectorIDs__free (headers, 0/* what is this */, FALSE);
-	GNOME_Gnumeric_VectorIDs__free (data, 0/* what is this */, FALSE);
+	CORBA_free (headers);
+	CORBA_free (data);
 }
 
 void
@@ -993,7 +993,7 @@ gnm_graph_get_spec (GnmGraph *graph, gboolean force_update)
 #endif
 
 		xmlFreeParserCtxt (pctxt);
-		GNOME_Gnumeric_Buffer__free (spec, 0, TRUE);
+		CORBA_free (spec);
 	} else {
 		g_warning ("'%s' : retrieving the specification for graph %p",
 			   bonobo_exception_get_text (&ev), graph);
@@ -1040,7 +1040,7 @@ gnm_graph_import_specification (GnmGraph *graph, xmlDocPtr spec)
 		g_warning ("'%s' : importing the specification for graph %p",
 			   bonobo_exception_get_text (&ev), graph);
 	}
-	GNOME_Gnumeric_Buffer__free (partial, 0/* what is this */, FALSE);
+	CORBA_free (partial);
 	CORBA_exception_free (&ev);
 }
 
