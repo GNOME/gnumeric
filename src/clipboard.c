@@ -586,6 +586,7 @@ x_selection_to_cell_region (CommandContext *context, const char *src,
 	CellRegion *cr = NULL;
 	CellRegion *crerr;
 	char *data;
+	char *c;
 
 	data = g_new (char, len + 1);
 	memcpy (data, src, len);
@@ -603,9 +604,16 @@ x_selection_to_cell_region (CommandContext *context, const char *src,
 		return crerr;
 	}
 
-	if (!stf_parse_is_valid_data (data)) {
+	if ((c = stf_parse_is_valid_data (data)) != NULL) {
+		char *message;
+		
+		message = g_strdup_printf (_("The data on the clipboard does not seem to be valid text.\nThe character '%s' (ASCII decimal %d) was encountered"),
+					   *c, (int) *c);
+		g_warning (message);
+		g_free (message);
+
 		g_free (data);
-		g_warning (_("This data on the clipboard does not seem to be valid text"));
+		
 		return crerr;
 	}
 

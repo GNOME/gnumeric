@@ -1381,15 +1381,13 @@ stf_parse_convert_to_unix (char *data)
  * returns weather the input data is valid to import.
  * (meaning it checks weather it is text only)
  *
- * returns : true if valid, false otherwise
+ * returns : NULL if valid, a pointer to the invalid character otherwise
  **/
-gboolean
-stf_parse_is_valid_data (const char *data)
+char *
+stf_parse_is_valid_data (char *data)
 {
-	gboolean valid;
-	const char *iterator = data;
+	char *iterator = data;
 
-	valid = TRUE;
 	while (*iterator) {
 
 		if (!isprint ((unsigned char)*iterator) &&
@@ -1398,13 +1396,13 @@ stf_parse_is_valid_data (const char *data)
 		    *iterator != '\t' &&
 		    *iterator != '\f') {
 
-			valid = FALSE;
-			break;
+			
+			return iterator;
 		}
 		iterator++;
 	}
 
-	return valid;
+	return NULL;
 }
 
 /**

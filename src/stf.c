@@ -113,6 +113,7 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 	DialogStfResult_t *dialogresult;
 	char *name;
 	char *data;
+	char *c;
 	Sheet *sheet;
 
 	data = stf_open_and_read (filename);
@@ -133,14 +134,19 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 		return -1;
 	}
 
-	if (!stf_parse_is_valid_data (data)) {
+	if ((c = stf_parse_is_valid_data (data)) != NULL) {
+		char *message;
 		/*
 		 * Note this buffer was allocated with malloc, not g_malloc
 		 */
 
+		message = g_strdup_printf (_("This file does not seem to be a valid text file.\nThe character '%c' (ASCII decimal %d) was encountered"),
+					   *c, (int) *c);
+		gnumeric_error_read (context, message);
+		g_free (message);
+
 		free (data);
-		gnumeric_error_read (context,
-				     _("This file does not seem to be a valid text file"));
+		
 		return -1;
 	}
 
