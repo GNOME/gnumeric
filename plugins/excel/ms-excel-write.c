@@ -508,7 +508,7 @@ excel_write_WINDOW1 (BiffPut *bp, WorkbookView const *wb_view)
 
 /* returns TRUE if a PANE record is necessary. */
 static gboolean
-excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet)
+excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
 {
 	/* 1	0x020 grids are the colour of the normal style */
 	/* 0	0x040 arabic */
@@ -518,7 +518,6 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet)
 	guint8 *data;
 	GnmCellPos top_left;
 	Sheet const *sheet = esheet->gnum_sheet;
-	SheetView const *sv = sheet_get_view (sheet, esheet->ewb->gnum_wb_view);
 	GnmColor *sheet_auto   = sheet_style_get_auto_pattern_color (sheet);
 	GnmColor *default_auto = style_color_auto_pattern ();
 	guint32 biff_pat_col = 0x40;	/* default grid color index == auto */
@@ -573,11 +572,9 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet)
 }
 
 static void
-excel_write_PANE (BiffPut *bp, ExcelWriteSheet *esheet)
+excel_write_PANE (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
 {
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_PANE, 10);
-	SheetView const *sv = sheet_get_view (esheet->gnum_sheet,
-		esheet->ewb->gnum_wb_view);
 	int const frozen_height = sv->unfrozen_top_left.row -
 		sv->frozen_top_left.row;
 	int const frozen_width = sv->unfrozen_top_left.col -
@@ -3467,13 +3464,11 @@ excel_write_SELECTION (BiffPut *bp, GList *selections,
 	ms_biff_put_commit (bp);
 }
 static void
-excel_write_selections (BiffPut *bp, ExcelWriteSheet *esheet)
+excel_write_selections (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
 {
 	GnmRange  r;
 	GnmCellPos pos;
 	GList *tmp;
-	SheetView const *sv = sheet_get_view (esheet->gnum_sheet,
-		esheet->ewb->gnum_wb_view);
 
 	excel_write_SELECTION (bp, sv->selections, &sv->edit_pos, 3);
 
@@ -3839,14 +3834,13 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	if (ewb->num_obj_groups > 0)
 		excel_write_objs (esheet);
 
-#warning check this.  Why is there a window1 here ?
-	excel_write_WINDOW1 (ewb->bp, esheet->ewb->gnum_wb_view);
-	if (excel_write_WINDOW2 (ewb->bp, esheet))
-		excel_write_PANE (ewb->bp, esheet);
-
-	excel_write_SCL (ewb->bp,
-		esheet->gnum_sheet->last_zoom_factor_used, FALSE);
-	excel_write_selections (ewb->bp, esheet);
+	SHEET_FOREACH_VIEW (esheet->gnum_sheet, view, {
+		if (excel_write_WINDOW2 (ewb->bp, esheet, view))
+			excel_write_PANE (ewb->bp, esheet, view);
+		excel_write_SCL (ewb->bp, /* zoom will move to view eentually */
+			esheet->gnum_sheet->last_zoom_factor_used, FALSE);
+		excel_write_selections (ewb->bp, esheet, view);
+	});
 
 	/* These are actually specific to >= biff8
 	 * but it can't hurt to have them here
@@ -4284,7 +4278,8 @@ excel_write_workbook (ExcelWriteState *ewb)
 		ms_biff_put_2byte (ewb->bp, BIFF_PROT4REVPASS, 0);
 	}
 
-	excel_write_WINDOW1 (bp, ewb->gnum_wb_view);
+	WORKBOOK_FOREACH_VIEW (ewb->gnum_wb, view,
+		excel_write_WINDOW1 (bp, view););
 
 	ms_biff_put_2byte (ewb->bp, BIFF_BACKUP, 0);
 	ms_biff_put_2byte (ewb->bp, BIFF_HIDEOBJ, 0);

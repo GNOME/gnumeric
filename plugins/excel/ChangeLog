@@ -1,7 +1,9 @@
-2004-07-27  Jody Goldberg <jody@gnome.org>
+2004-07-10  Jody Goldberg <jody@gnome.org>
 
-	* ms-formula-read.c :  SUM(range) seems to generate Value operands not
-	  Reference.
+	* ms-excel-write.c (excel_write_workbook) : write WINDOW1 for all the views
+	(excel_write_sheet) : Drop the WINDOW1 here but expand to write a
+	  WINDOW2, PANE, SCL, SELECTION tuple for all views, not just the
+	  current
 
 2004-07-19  Jody Goldberg <jody@gnome.org>
 
