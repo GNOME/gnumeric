@@ -236,7 +236,7 @@ gnm_combo_stack_push (GnmComboStack *combo, char const *item)
 {
 	GtkWidget *listitem;
 
-	g_return_if_fail (IS_GNM_COMBO_STACK (item));
+	g_return_if_fail (IS_GNM_COMBO_STACK (combo));
 
 	combo->num_items++;
 

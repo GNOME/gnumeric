@@ -312,7 +312,7 @@ ur_stack (WorkbookControl *wbc, gboolean is_undo)
 static void
 wbc_gtk_undo_redo_truncate (WorkbookControl *wbc, int n, gboolean is_undo)
 {
-	go_action_combo_stack_trunc (ur_stack (wbc, is_undo), n);
+	go_action_combo_stack_truncate (ur_stack (wbc, is_undo), n);
 }
 
 static void
@@ -917,6 +917,7 @@ wbc_gtk_init (GObject *obj)
 
 #warning TODO split into smaller chunks
 	gtk->actions = gtk_action_group_new ("Actions");
+	gtk_action_group_set_translation_domain (gtk->actions, NULL);
 
 	wbcg_register_actions (wbcg, gtk->actions);
 

@@ -1,5 +1,10 @@
 2004-01-16  Jody Goldberg <jody@gnome.org>
 
+	* src/wbc-gtk.c (wbc_gtk_init) : enable translations for menus and
+	  toolbars.
+
+2004-01-16  Jody Goldberg <jody@gnome.org>
+
 	* src/wbc-gtk.c : Fix some accelerators and enable colour combos.
 	  Some undo/redo is working too.
 

@@ -1,3 +1,7 @@
+2004-01-16  Jody Goldberg <jody@gnome.org>
+
+	* gnm-combo-stack.c (gnm_combo_stack_push) : typo.
+
 2004-01-14  Jody Goldberg <jody@gnome.org>
 
 	* color-palette.c (cb_swatch_key_press) : still no cleanup, but at
