@@ -115,6 +115,9 @@ static InterpreterInfo *current_interpreter_info;
 
 static PyObject *py_initgnumeric (PluginInfo *pinfo);
 
+static gchar *plugin_argv[] = {"gnumeric", NULL};
+
+
 InterpreterInfo *
 create_python_interpreter (PluginInfo *pinfo)
 {
@@ -126,6 +129,7 @@ create_python_interpreter (PluginInfo *pinfo)
 	if (py_thread_state == NULL) {
 		return NULL;
 	}
+	PySys_SetArgv (sizeof plugin_argv / sizeof plugin_argv[0] - 1, plugin_argv);
 	Gnumeric_module = py_initgnumeric (pinfo); 
 
 	interpreter_info = g_new (InterpreterInfo, 1);

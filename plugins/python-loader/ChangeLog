@@ -1,3 +1,12 @@
+2001-06-29  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* py-gnumeric.c (create_python_interpreter): Call PySys_SetArgv after
+	creating new interpreter (some modules assume that sys.argv is always
+	set).
+
+	* python-loader.c (gnumeric_plugin_loader_python_load): Marked two
+	strings for translation.
+
 2001-06-28  Jody Goldberg <jgoldberg@home>
 
 	* Release 0.67

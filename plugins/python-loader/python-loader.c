@@ -152,7 +152,7 @@ gnumeric_plugin_loader_python_load (GnumericPluginLoader *loader, ErrorInfo **re
 	}
 	if (full_module_file_name == NULL) {
 		*ret_error = error_info_new_printf (
-		             "Module \"%s\" doesn't exist.",
+		             _("Module \"%s\" doesn't exist."),
 		             loader_python->module_name);
 		return;
 	}
@@ -177,7 +177,7 @@ gnumeric_plugin_loader_python_load (GnumericPluginLoader *loader, ErrorInfo **re
 		loader_python->main_module_dict = main_module_dict;
 	} else {
 		*ret_error = error_info_new_printf (
-		             "Execution of module \"%s\" failed.",
+		             _("Execution of module \"%s\" failed."),
 		             loader_python->module_name);
 	}
 	(void) fclose (f);
