@@ -15,6 +15,14 @@
 
 #define CCG_CLASS(o) CMD_CONTEXT_CORBA_CLASS (GTK_OBJECT (o)->klass)
 
+typedef struct {
+	CommandContext parent;
+} CommandContextCorba;
+
+typedef struct {
+	CommandContextClass parent_class;
+} CommandContextCorbaClass;
+
 static void
 ccc_error_plugin (WorkbookControl *context, char const * message)
 {

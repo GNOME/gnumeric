@@ -10,14 +10,6 @@
 #define IS_COMMAND_CONTEXT_CORBA(o)       (GTK_CHECK_TYPE ((o), COMMAND_CONTEXT_CORBA_TYPE))
 #define IS_COMMAND_CONTEXT_CORBA_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), COMMAND_CONTEXT_CORBA_TYPE))
 
-typedef struct {
-	CommandContext parent;
-} CommandContextCorba;
-
-typedef struct {
-	CommandContextClass parent_class;
-} CommandContextCorbaClass;
-
 GtkType         command_context_corba_get_type (void);
 CommandContext *command_context_corba_new      (void);
 

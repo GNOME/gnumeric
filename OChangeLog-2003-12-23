@@ -1,3 +1,7 @@
+2000-11-01  Michael Meeks  <michael@helixcode.com>
+
+	* src/command-context-corba.[ch]: privatize the command context.
+
 2000-10-31  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cmd-edit.c (cmd_paste) : change the selection when pasting.
