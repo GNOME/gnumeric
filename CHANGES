@@ -14,6 +14,9 @@ Morten:
 	* Reworked the insert/delete column/row again.
 	* Reworked the Goal Seek function to produce more accurate
 	  result faster, and fail less often.
+	* Improved the recalculation engine.
+	* Shined up date calculations.
+	* WEEKDAY(), DAYS360, TIMEVALUE().
 
 Miguel
 	* Worked on other things

@@ -1,5 +1,7 @@
 1999-06-02  Morten Welinder  <terra@diku.dk>
 
+	* src/fn-date.c (gnumeric_days360): New (unimplemented) function.
+
 	* src/fn-date.c (gnumeric_year_month_day): Delete.
 	(gnumeric_day, gnumeric_month, gnumeric_year): New functions.
 	(gnumeric_hour_min_sec): Delete.

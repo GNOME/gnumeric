@@ -437,6 +437,29 @@ gnumeric_weekday (FunctionDefinition *fd, Value *argv [], char **error_string)
 }
 
 
+static char *help_days360 = {
+	N_("@FUNCTION=DAY\n"
+	   "@SYNTAX=DAYS360 (serial1,seriel2)\n"
+
+	   "@DESCRIPTION="
+	   "FIXME"
+	   "\n"
+	   "Note that Gnumeric will perform regular string to serial "
+	   "number conversion for you, so you can enter a date as a "
+	   "string.\n"
+	   ""
+	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
+};
+
+static Value *
+gnumeric_days360 (FunctionDefinition *fd, Value *argv [], char **error_string)
+{
+	*error_string = _("Unimplemented function");
+	return NULL;
+}
+
+
+
 FunctionDefinition date_functions [] = {
 	{ "date",      "fff",  "year,month,day",        &help_date,
 	  NULL, gnumeric_date  },
@@ -444,6 +467,8 @@ FunctionDefinition date_functions [] = {
 	  NULL, gnumeric_datevalue  },
 	{ "day",       "f",    "serial_number",         &help_day,
 	  NULL, gnumeric_day  },
+	{ "days360",   "ff",   "serial1,serial2",       &help_days360,
+	  NULL, gnumeric_days360  },
 	{ "edate",     "ff",   "serial_number,months",  &help_edate,
 	  NULL, gnumeric_edate  },
 	{ "hour",      "f",    "serial_number",         &help_hour,
