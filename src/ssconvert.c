@@ -164,7 +164,6 @@ main (int argc, char const *argv [])
 	poptContext ctx;
 
 	gnm_pre_parse_init (argv[0]);
-	gsf_init();
 
 	ctx = poptGetContext (NULL, argc, argv, ssconvert_popt_options, 0);
 	while (poptGetNextOpt (ctx) > 0)
