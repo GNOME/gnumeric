@@ -237,14 +237,15 @@ sheet_selection_set_internal (Sheet *sheet,
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->selections != NULL);
 
-	ss = (Range *)sheet->selections->data;
-
 	new_sel.start.col = MIN(base_col, move_col);
 	new_sel.start.row = MIN(base_row, move_row);
 	new_sel.end.col = MAX(base_col, move_col);
 	new_sel.end.row = MAX(base_row, move_row);
 
+	g_return_if_fail (range_is_sane (&new_sel));
+
 	sheet_merge_find_container (sheet, &new_sel);
+	ss = (Range *)sheet->selections->data;
 	if (!just_add_it && range_equal (ss, &new_sel))
 		return;
 

@@ -1582,8 +1582,12 @@ sheet_redraw_cell_region (Sheet const *sheet,
 	int row, min_row = start_row, max_row = end_row;
 
 	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (start_col >= 0);
 	g_return_if_fail (start_col <= end_col);
+	g_return_if_fail (end_col < SHEET_MAX_COLS);
+	g_return_if_fail (start_row >= 0);
 	g_return_if_fail (start_row <= end_row);
+	g_return_if_fail (end_row < SHEET_MAX_ROWS);
 
 	/*
 	 * Check the first and last columns for spans
@@ -3069,6 +3073,10 @@ sheet_set_edit_pos (Sheet *sheet, int col, int row)
 	CellPos old;
 
 	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (col >= 0);
+	g_return_if_fail (col < SHEET_MAX_COLS);
+	g_return_if_fail (row >= 0);
+	g_return_if_fail (row < SHEET_MAX_ROWS);
 
 	old = sheet->edit_pos;
 

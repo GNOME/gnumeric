@@ -283,9 +283,9 @@ cell_get_rendered_text (Cell const *cell)
 {
 	g_return_val_if_fail (cell != NULL, g_strdup("ERROR"));
 
-	/* A precursor to just in time rendering */
+	/* A precursor to just in time rendering Ick! */
 	if (cell->rendered_value == NULL)
-		cell_render_value (cell, TRUE);
+		cell_render_value ((Cell *)cell, TRUE);
 
 	return rendered_value_get_text (cell->rendered_value);
 }

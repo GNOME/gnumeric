@@ -1135,10 +1135,10 @@ range_is_sane (Range const *range)
 	g_return_val_if_fail (range != NULL, FALSE);
 	g_return_val_if_fail (range->start.col >= 0, FALSE);
 	g_return_val_if_fail (range->end.col >= range->start.col, FALSE);
-	g_return_val_if_fail (range->end.col <= SHEET_MAX_COLS, FALSE);
+	g_return_val_if_fail (range->end.col < SHEET_MAX_COLS, FALSE);
 	g_return_val_if_fail (range->start.row >= 0, FALSE);
 	g_return_val_if_fail (range->end.row >= range->start.row, FALSE);
-	g_return_val_if_fail (range->end.row <= SHEET_MAX_ROWS, FALSE);
+	g_return_val_if_fail (range->end.row < SHEET_MAX_ROWS, FALSE);
 
 	return TRUE;
 }

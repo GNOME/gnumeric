@@ -1,5 +1,10 @@
 2001-06-07  Jody Goldberg <jgoldberg@home.com>
 
+	* src/selection.c (sheet_selection_set_internal) : Add some sanity
+	  checking for safety.
+	* src/sheet.c (sheet_set_edit_pos) : ditto.
+	(sheet_redraw_cell_region) : ditto.
+
 	* src/rendered-value.c (cell_get_rendered_text) : We need this for
 	  now.  There are functions that actualyl rely on the rendered text.
 
