@@ -313,6 +313,11 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 		/* Formating and alignment */
 		for (; *sep && *sep != '|' && *sep != ')' ; ) {
 
+			if (*sep == ',') {
+				++sep;
+				continue;
+			}
+
 			if (isdigit ((unsigned char)*sep)) {
 				StyleHAlignFlags a;
 				switch (*sep) {
@@ -395,6 +400,10 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					sep += 2;
 					break;
 				}
+				case 'G' : /* general */
+					mstyle_set_format_text (style, "General");
+					break;
+
 				case 'C' : /* currency or comma */
 					/* comma 'CO' */
 					if (sep[1] == 'O') {
@@ -413,7 +422,6 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					if (!format_suffix)
 						format_suffix = "%";
 
-				case 'G' : /* general FIXME */
 				case 'F' : /* fixed */
 				{
 					static char const *zeros = "000000000";
@@ -458,9 +466,6 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 				if (needs_free)
 					g_free (format);
 			}
-
-			if (*sep == ',')
-				++sep;
 		}
 
 		/* Font spec */
@@ -1119,8 +1124,10 @@ applix_read_impl (ApplixReadState *state)
 	state->buffer = g_new (gchar, state->buffer_size);
 
 	/* It appears some docs do not have this */
-	if (1 != fscanf (state->file, "Current Doc Real Name: %127s\n", real_name))
+	if (1 != fscanf (state->file, "Current Doc Real Name: %127s\n", real_name)) {
 		strncpy (real_name, "Unspecified", sizeof (real_name)-1);
+		ungetc ((unsigned char)'C', state->file); /* restore the leading 'C' */
+	}
 
 #ifndef NO_APPLIX_DEBUG
 	if (debug_applix_read > 0)

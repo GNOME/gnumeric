@@ -1,3 +1,8 @@
+2000-11-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-graph-guru.c (graph_guru_create_vectors_from_range) :
+	  small improvement to vector selection heuristics.
+
 2000-11-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-object.c (sheet_object_new_view) : Make public.

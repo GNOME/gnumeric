@@ -369,47 +369,41 @@ static void
 graph_guru_create_vectors_from_range (GraphGuruState *state, Range const *src)
 {
 	GraphVector *g_vector;
-	Range vector;
 	int i, count;
-	gboolean has_col_header = range_has_header (state->sheet, src, TRUE);
-	gboolean has_row_header = range_has_header (state->sheet, src, FALSE);
-
-	vector = *src;
-	if (has_col_header)
-		vector.start.col++;
-
-	if (has_row_header)
-		vector.start.row++;
+	gboolean const has_header = range_has_header (state->sheet, src,
+						      state->is_columns);
+	Range vector = *src;
 
 	if (state->is_columns) {
+		if (has_header)
+			vector.start.row++;
 		count = vector.end.col - vector.start.col;
 		vector.end.col = vector.start.col;
 	} else {
+		if (has_header)
+			vector.start.col++;
 		count = vector.end.row - vector.start.row;
 		vector.end.row = vector.start.row;
 	}
 
 	for (i = 0 ; i <= count ; i++) {
 		char *name = NULL;
-		if (state->is_columns) {
-			if (has_col_header) {
-				Cell const *cell = sheet_cell_get (state->sheet,
-								   vector.start.col,
-								   vector.start.row-1);
-				name = value_get_as_string (cell->value);
-			}
-		} else {
-			if (has_row_header) {
-				Cell const *cell = sheet_cell_get (state->sheet,
-								   vector.start.col-1,
-								   vector.start.row);
-				name = value_get_as_string (cell->value);
-			}
-		}
+		Cell const *cell = NULL;
+
+		if (has_header)
+			cell = (state->is_columns)
+				? sheet_cell_get (state->sheet,
+						  vector.start.col,
+						  vector.start.row-1)
+				: sheet_cell_get (state->sheet,
+						  vector.start.col-1,
+						  vector.start.row);
 
 		/* Create a default name if need be */
-		if (name == NULL)
+		if (cell == NULL)
 			name = g_strdup_printf (_("series%d"), state->vectors->len+1);
+		else
+			name = value_get_as_string (cell->value);
 
 		g_vector = graph_vector_new (state->sheet, &vector, name);
 		graph_vector_set_subscriber (g_vector, state->manager);
