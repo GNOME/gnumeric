@@ -6,6 +6,8 @@ Release Critical
 ----------------
 
 - Fix relocation undo to handle Dependents rather than Cell.
+- Resolve print_show_iso8859_1, or the European users will kill
+  us.
 
 
 Post 0.57 Changes
