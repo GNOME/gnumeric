@@ -1,3 +1,13 @@
+1999-03-25  Michael Meeks  <michael@imaginator.com>
+
+	* src/expr.c (eval_funcall): Updated to add new optional argument
+	token.
+
+	* src/expr.h: Comments to explain above.
+
+	* src/fn-eng.c (gnumeric_erf, gnumeric_delta): Drastic clean to use
+	new optional token.
+
 1999-03-23  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-math.c: ceiling added.

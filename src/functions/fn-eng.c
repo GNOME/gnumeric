@@ -484,37 +484,13 @@ static char *help_erf = {
 
 
 static Value *
-gnumeric_erf (void *sheet, GList *l, int eval_col, int eval_row, char **error_string)
+gnumeric_erf (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	float_t ans, lower, upper=0.0 ;
-	int argc = g_list_length (l) ;
-	Value *vlower, *vupper=0 ;
 
-	if (argc < 1 || argc > 2 || !l->data) {
-		*error_string = _("Invalid number of arguments") ;
-		return NULL ;
-	}
-
-	vlower = eval_expr (sheet, l->data, eval_col, eval_row, error_string) ;
-	if (vlower->type != VALUE_INTEGER &&
-	    vlower->type != VALUE_FLOAT) {
-		*error_string = _("#VALUE!") ;
-		return NULL ;
-	}
-	lower = value_get_as_double(vlower) ;
-	value_release (vlower) ;
-	
-	l = g_list_next(l) ;
-	if (l && l->data) {
-		vupper = eval_expr (sheet, l->data, eval_col, eval_row, error_string) ;
-		if (vupper->type != VALUE_INTEGER &&
-		    vupper->type != VALUE_FLOAT) {
-			*error_string = _("#VALUE!") ;
-			return NULL ;
-		}
-		upper = value_get_as_double(vupper) ;
-		value_release (vupper) ;
-	}
+	lower = value_get_as_double(argv[0]) ;
+	if (argv[1])
+		upper = value_get_as_double(argv[1]) ;
 	
 	if (lower < 0.0 || upper < 0.0) {
 		*error_string = _("#NUM!") ;
@@ -522,7 +498,7 @@ gnumeric_erf (void *sheet, GList *l, int eval_col, int eval_row, char **error_st
 	}
 	       
 	ans = erf(lower) ;
-	if (vupper)
+	if (argv[1])
 		ans = erf(upper) - ans ;
 	
 	return value_float (ans) ;
@@ -569,35 +545,17 @@ static char *help_delta = {
 
 
 static Value *
-gnumeric_delta (void *sheet, GList *l, int eval_col, int eval_row, char **error_string)
+gnumeric_delta (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	int ans = 0 ;
-	int argc = g_list_length (l) ;
 	Value *vx, *vy ;
 
-	if (argc < 1 || argc > 2 || !l->data) {
-		*error_string = _("Invalid number of arguments") ;
-		return NULL ;
-	}
-
-	vx = eval_expr (sheet, l->data, eval_col, eval_row, error_string) ;
-	if (vx->type != VALUE_INTEGER &&
-	    vx->type != VALUE_FLOAT) {
-		*error_string = _("#VALUE!") ;
-		return NULL ;
-	}
-	
-	l = g_list_next(l) ;
-	if (l && l->data) {
-		vy = eval_expr (sheet, l->data, eval_col, eval_row, error_string) ;
-		if (vy->type != VALUE_INTEGER &&
-		    vy->type != VALUE_FLOAT) {
-			*error_string = _("#VALUE!") ;
-			return NULL ;
-		}
-	}
+	vx = argv[0] ;
+	if (argv[1])
+		vy = argv[1] ;
 	else
-		vy = value_int (0) ;
+		vy = value_int(0) ;
+
 	switch (vx->type)
 	{
 	case VALUE_INTEGER:
@@ -637,8 +595,6 @@ gnumeric_delta (void *sheet, GList *l, int eval_col, int eval_row, char **error_
 		return NULL ;
 	}
 	       
-	value_release (vx) ;
-	value_release (vy) ;
 	return value_int (ans) ;
 }
 
@@ -764,8 +720,8 @@ FunctionDefinition eng_functions [] = {
 	{ "dec2bin",   0,      "xnum,ynum",   &help_dec2bin, gnumeric_dec2bin, NULL },
 	{ "dec2oct",   0,      "xnum,ynum",   &help_dec2oct, gnumeric_dec2oct, NULL },
 	{ "dec2hex",   0,      "xnum,ynum",   &help_dec2hex, gnumeric_dec2hex, NULL },
-	{ "delta",     0,      "xnum,ynum",   &help_delta,   gnumeric_delta, NULL },
-	{ "erf",       0,      "lower,upper", &help_erf,     gnumeric_erf, NULL },
+	{ "delta",     "f|f",  "xnum,ynum",   &help_delta,   NULL, gnumeric_delta },
+	{ "erf",       "f|f",  "lower,upper", &help_erf,     NULL, gnumeric_erf  },
 	{ "erfc",      "f",    "number",      &help_erfc,    NULL, gnumeric_erfc },
 	{ "gestep",    0,      "xnum,ynum",   &help_gestep,  gnumeric_gestep, NULL },
 	{ "hex2bin",   0,      "xnum,ynum",   &help_hex2bin, gnumeric_hex2bin, NULL },

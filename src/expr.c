@@ -475,17 +475,28 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 	{
 		/* Functions that take pre-computed Values */
 		Value **values;
-		int fn_argc;
-		char *arg_type = fd->args;
+		int fn_argc_min=0, fn_argc_max=0, var_len=0 ;
+		char *arg_type = fd->args, *argptr = fd->args;
+	       
+		/* Get variable limits */
+		while (*argptr) {
+			if (*argptr++=='|') {
+				var_len = 1 ;
+				continue ;
+			}
+			if (!var_len)
+				fn_argc_min++ ;
+			fn_argc_max++ ;
+		}
 
-		fn_argc = strlen (fd->args);
+/*		fn_argc = strlen (fd->args); */
 		
-		if (fn_argc != argc){
+		if (argc > fn_argc_max || argc < fn_argc_min) {
 			*error_string = _("Invalid number of arguments");
 			return NULL;
 		}
 
-		values = g_new (Value *, argc);
+		values = g_new (Value *, fn_argc_max);
 		
 		for (arg = 0; l; l = l->next, arg++, arg_type++){
 			ExprTree *t = (ExprTree *) l->data;
@@ -493,8 +504,8 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 			v = eval_expr (sheet, t, eval_col, eval_row, error_string);
 			if (v == NULL)
 				goto free_list;
-
-			switch (*arg_type){
+			if (*arg_type=='|') arg_type++ ;
+			switch (*arg_type) {
 			case 'f':
 				if (v->type == VALUE_INTEGER ||
 				    v->type == VALUE_FLOAT)
@@ -513,11 +524,15 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 			
 			values [arg] = v;
 		}
+		while (arg<fn_argc_max)
+			values[arg++] = NULL ;
 		v = fd->fn (fd, values, error_string);
 
 	free_list:
-		for (i = 0; i < arg; i++)
-			value_release (values [i]);
+		for (i = 0; i < arg; i++) {
+			if (values[i] != NULL)
+				value_release (values [i]) ;
+		}
 		g_free (values);
 		return v;
 	}

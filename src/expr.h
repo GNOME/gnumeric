@@ -107,12 +107,15 @@ struct FunctionDefinition {
 	/* The function name */
 	char  *name;
 
-	/* The types accepted:
+	/**
+	 *  The types accepted:
 	 * f for float
 	 * s for string
 	 * b for boolean
 	 * ? for any kind
-	 */
+	 *  For optional arguments do:
+	 * "ff|ss" where the strings are optional
+	 **/
 	char  *args;
 	char  *named_arguments;
 	char  **help;
