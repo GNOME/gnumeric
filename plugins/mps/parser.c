@@ -468,6 +468,7 @@ mps_add_bound (MpsInputContext *ctxt, MpsBoundType type, gchar *bound_name,
 	sprintf(bound->name, "Bound #%d: %s", ctxt->n_bounds + 1, bound_name);
 	bound->col_index = info->index;
 	bound->value     = atof (value_str);
+	bound->type      = type;
 	ctxt->bounds     = g_slist_prepend (ctxt->bounds, bound);
 	(ctxt->n_bounds)++;
 

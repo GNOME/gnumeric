@@ -1,3 +1,10 @@
+2002-07-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* parser.c (mps_add_bound): Bug fix: Add type field setting.
+
+	* mps.c (mps_prepare): Bug fix: Write the RHS of a bound into the
+	correct column.
+
 2002-06-16  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* parser.c (mps_add_row): Bug Fix: Row name of the objective

@@ -68,18 +68,20 @@ static const gchar *BINDING_LIMIT    = "0.00000001";
  */
 
 /* Writes a string into a cell. */
-static void
+static inline void
 mps_set_cell (Sheet *sh, int col, int row, const gchar *str)
 {
         Cell *cell = sheet_cell_fetch (sh, col, row);
+
         sheet_cell_set_value (cell, value_new_string (str));
 }
 
 /* Writes a float into a cell. */
-static void
+static inline void
 mps_set_cell_float (Sheet *sh, int col, int row, const gnum_float f)
 {
         Cell *cell = sheet_cell_fetch (sh, col, row);
+
         sheet_cell_set_value (cell, value_new_float (f));
 }
 
@@ -112,7 +114,7 @@ put_into_index (gpointer key, gpointer value, gpointer user_data)
 static void
 mps_prepare (WorkbookView *wbv, MpsInputContext *ctxt)
 {
-        gint i, n;
+        gint i, n, col;
         GSList *current, *tmp;
 
         ctxt->rows = g_slist_reverse (ctxt->rows);
@@ -139,10 +141,15 @@ mps_prepare (WorkbookView *wbv, MpsInputContext *ctxt)
 		  current = current->next;
 	}
 
-	current = ctxt->bounds;
-	tmp = ctxt->rows;
+	if ((ctxt->n_cols + MAX_COL - 1) / MAX_COL == 1)
+		col = CONSTRAINT_COL + ctxt->n_cols - 1;
+	else
+		col = CONSTRAINT_COL + MAX_COL - 1;
+
+	current    = ctxt->bounds;
+	tmp        = ctxt->rows;
 	ctxt->rows = NULL;
-	i = ctxt->n_rows + ctxt->n_bounds - 2;
+	i          = ctxt->n_rows + ctxt->n_bounds - 2;
 	while (current != NULL) {
 	        MpsBound *bound = (MpsBound *) current->data;
 		static const MpsRowType type_map[] = {
@@ -151,7 +158,7 @@ mps_prepare (WorkbookView *wbv, MpsInputContext *ctxt)
 
 		ctxt->matrix[ctxt->n_rows][bound->col_index] = 1.0;
 
-		mps_set_cell_float (wbv->current_sheet, ctxt->n_cols + 3,
+		mps_set_cell_float (wbv->current_sheet, col + 3,
 				    i-- + CONSTRAINT_ROW,
 				    bound->value);
 
@@ -297,7 +304,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 		ecol = CONSTRAINT_COL + ctxt->n_cols - 1;
 	else
 		ecol = CONSTRAINT_COL + MAX_COL - 1;
-	for (i=0; i<ctxt->n_cols; i++) {
+	for (i = 0; i < ctxt->n_cols; i++) {
 		  mps_set_cell_float (sh, VARIABLE_COL + i % MAX_COL,
 				      VARIABLE_ROW + (i / MAX_COL), 0.0);
 		  mps_set_cell_float (sh, VARIABLE_COL + i % MAX_COL,
