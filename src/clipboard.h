@@ -22,8 +22,7 @@ enum {
 
 CellRegion *clipboard_copy_cell_range    (Sheet *sheet,
 					  int start_col, int start_row,
-					  int end_col,   int end_row,
-					  gboolean relocate);
+					  int end_col,   int end_row);
 
 void        clipboard_paste_region       (CellRegion *region,
 					  Sheet      *dest_sheet,

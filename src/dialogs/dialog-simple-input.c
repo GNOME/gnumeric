@@ -42,10 +42,12 @@ dialog_get_number (Workbook *wb, const char *glade_file, double *init_and_return
 		
 		gtk_entry_set_text (GTK_ENTRY (entry), buffer);
 	}
-	
+	gnome_dialog_editable_enters (dialog, GTK_EDITABLE (entry));
+
 	gnome_dialog_set_parent (dialog, GTK_WINDOW (wb->toplevel));
-	switch (gnome_dialog_run_and_close (dialog)){
+	switch (gnome_dialog_run (dialog)){
 	case 1:			/* cancel */
+		break;
 	case -1:		/* window manager close */
 		return FALSE;
 
@@ -53,6 +55,7 @@ dialog_get_number (Workbook *wb, const char *glade_file, double *init_and_return
 		*init_and_return = atof (gtk_entry_get_text (GTK_ENTRY (entry)));
 	}
 	
+	gnome_dialog_close (dialog);
 	gtk_object_destroy (GTK_OBJECT (gui));
 
 	return TRUE;
@@ -64,7 +67,7 @@ dialog_get_sheet_name (Workbook *wb, const char *current)
 	GladeXML *gui;
 	GnomeDialog *dialog;
 	GtkWidget *entry;
-	char *str;
+	char *str = NULL;
 	
 	gui = glade_xml_new (GNUMERIC_GLADEDIR "/sheet-rename.glade", NULL);
 	if (!gui)
@@ -78,10 +81,12 @@ dialog_get_sheet_name (Workbook *wb, const char *current)
 
 	entry = glade_xml_get_widget (gui, "entry");
 	gtk_entry_set_text (GTK_ENTRY (entry), current);
-	
+	gnome_dialog_editable_enters (dialog, GTK_EDITABLE (entry));	
+
 	gnome_dialog_set_parent (dialog, GTK_WINDOW (wb->toplevel));
-	switch (gnome_dialog_run_and_close (dialog)){
+	switch (gnome_dialog_run (dialog)){
 	case 1:			/* cancel */
+		break;
 	case -1:		/* window manager close */
 		return NULL;
 
@@ -89,6 +94,7 @@ dialog_get_sheet_name (Workbook *wb, const char *current)
 		str = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 	}
 	
+	gnome_dialog_close (dialog);
 	gtk_object_destroy (GTK_OBJECT (gui));
 
 	return str;

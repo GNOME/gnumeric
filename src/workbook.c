@@ -115,13 +115,14 @@ plugins_cmd (GtkWidget *widget, Workbook *wb)
 	gtk_widget_show(pm);
 }
 
+#ifndef ENABLE_BONOBO
 static void
 about_cmd (GtkWidget *widget, Workbook *wb)
 {
 	dialog_about (wb);
 }
 
-#ifdef ENABLE_BONOBO
+#else
 static void
 create_graphic_cmd (GtkWidget *widget, Workbook *wb)
 {
@@ -198,11 +199,10 @@ create_ellipse_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-cb_sheet_do_erase (gpointer key, gpointer value, gpointer user_data)
+cb_sheet_destroy_contents (gpointer key, gpointer value, gpointer user_data)
 {
 	Sheet *sheet = value;
-
-	sheet_clear_region (sheet, 0, 0, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1, NULL);
+	sheet_destroy_contents (sheet);
 }
 
 static void
@@ -239,11 +239,11 @@ workbook_do_destroy (Workbook *wb)
 	summary_info_free (wb->summary_info);
 	wb->summary_info = NULL;
 
-	/*
-	 * Erase all cells.  In particular this removes all links between
-	 * sheets.
+	/* Erase all cells.  This does NOT remove links between sheets
+	 * but we don't care beacuse the other sheets are going to be
+	 * deleted too.
 	 */
-	g_hash_table_foreach (wb->sheets, cb_sheet_do_erase, NULL);
+	g_hash_table_foreach (wb->sheets, &cb_sheet_destroy_contents, NULL);
 
 	if (wb->auto_expr_desc)
 		string_unref (wb->auto_expr_desc);
@@ -788,6 +788,7 @@ goal_seek_cmd (GtkWidget *widget, Workbook *wb)
 	dialog_goal_seek (wb, sheet);
 }
 
+#if 0
 static void
 solver_cmd (GtkWidget *widget, Workbook *wb)
 {
@@ -796,6 +797,7 @@ solver_cmd (GtkWidget *widget, Workbook *wb)
 	sheet = workbook_get_current_sheet (wb);
 	dialog_solver (wb, sheet);
 }
+#endif
 
 static void
 data_analysis_cmd (GtkWidget *widget, Workbook *wb)
@@ -1024,11 +1026,13 @@ static GnomeUIInfo workbook_menu_tools [] = {
 	GNOMEUIINFO_END
 };
 
+#ifndef ENABLE_BONOBO
 static GnomeUIInfo workbook_menu_help [] = {
 	GNOMEUIINFO_HELP ("gnumeric"),
         GNOMEUIINFO_MENU_ABOUT_ITEM(about_cmd, NULL),
 	GNOMEUIINFO_END
 };
+#endif
 
 static GnomeUIInfo workbook_menu [] = {
         GNOMEUIINFO_MENU_FILE_TREE(workbook_menu_file),
@@ -1966,6 +1970,7 @@ workbook_new (void)
 	wb = gtk_type_new (workbook_get_type ());
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
 	wb->table     = gtk_table_new (0, 0, 0);
+	wb->clipboard_contents = NULL;
 
 	gtk_window_set_policy (GTK_WINDOW(wb->toplevel), 1, 1, 0);
 	sx = MAX (gdk_screen_width  () - 64, 400);
@@ -2105,6 +2110,8 @@ gboolean
 workbook_rename_sheet (Workbook *wb, const char *old_name, const char *new_name)
 {
 	Sheet *sheet;
+	GtkNotebook *notebook;
+	int sheets, i;
 
 	g_return_val_if_fail (wb != NULL, FALSE);
 	g_return_val_if_fail (old_name != NULL, FALSE);
@@ -2123,6 +2130,25 @@ workbook_rename_sheet (Workbook *wb, const char *old_name, const char *new_name)
 	g_hash_table_insert (wb->sheets, sheet->name, sheet);
 
 	sheet_set_dirty (sheet, TRUE);
+
+	/* Update the notebook label */
+	notebook = GTK_NOTEBOOK (wb->notebook);
+	sheets = workbook_sheet_count (wb);
+
+	for (i = 0; i < sheets; i++) {
+		Sheet *this_sheet;
+		GtkWidget *w;
+
+		w = gtk_notebook_get_nth_page (notebook, i);
+
+		this_sheet = gtk_object_get_data (GTK_OBJECT (w), "sheet");
+
+		if (this_sheet == sheet) {
+			gtk_notebook_set_tab_label_text 
+				(notebook, w, new_name);
+		}
+	}
+
 	return TRUE;
 }
 
@@ -2203,6 +2229,24 @@ sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
 	 */
 	workbook_detach_sheet (wb, current_sheet, FALSE);
 	sheet_destroy (current_sheet);
+
+	/*
+	 * Invalidate references to the deleted sheet from other sheets in the
+	 * workbook by pretending to move the contents of the deleted sheet
+	 * to infinity (and beyond)
+	 */
+	{
+		struct expr_relocate_info rinfo;
+		rinfo.origin.start.col = 0;
+		rinfo.origin.start.row = 0;
+		rinfo.origin.end.col = SHEET_MAX_COLS-1;
+		rinfo.origin.end.row = SHEET_MAX_ROWS-1;
+		rinfo.origin_sheet = rinfo.target_sheet = current_sheet;
+		rinfo.col_offset = SHEET_MAX_COLS-1;
+		rinfo.row_offset = SHEET_MAX_ROWS-1;
+
+		workbook_expr_relocate (wb, &rinfo);
+	}
 	workbook_recalc_all (wb);
 }
 
@@ -2593,7 +2637,7 @@ workbook_foreach (WorkbookCallback cback, gpointer data)
 }
 
 /**
- * workbook_fixup_references:
+ * workbook_expr_relocate:
  * @wb: the workbook to modify
  * @sheet: the sheet containing the column/row that was moved
  * @col: starting column that was moved.
@@ -2605,88 +2649,30 @@ workbook_foreach (WorkbookCallback cback, gpointer data)
  */
 
 void
-workbook_fixup_references (Workbook *wb, Sheet *sheet, int col, int row,
-			   int coldelta, int rowdelta)
+workbook_expr_relocate (Workbook *wb, struct expr_relocate_info const *info)
 {
 	GList *cells, *l;
-	EvalPosition epa, epb;
+	EvalPosition pos;
 
 	g_return_if_fail (wb != NULL);
 
-	if (coldelta == 0 && rowdelta == 0) return;
+	if (info->col_offset == 0 && info->row_offset == 0)
+		return;
 
 	/* Copy the list since it will change underneath us.  */
 	cells = g_list_copy (wb->formula_cell_list);
 
 	for (l = cells; l; l = l->next)	{
 		Cell *cell = l->data;
-		ExprTree *newtree;
-
-		newtree = expr_tree_fixup_references (cell->parsed_node,
-						      eval_pos_cell (&epa, cell),
-						      eval_pos_init (&epb, sheet, col, row),
-						      coldelta, rowdelta);
+		ExprTree *newtree = expr_relocate (cell->parsed_node,
+						   eval_pos_cell (&pos, cell),
+						   info);
 		if (newtree)
 			cell_set_formula_tree (cell, newtree);
 	}
 
 	g_list_free (cells);
 }
-
-/**
- * workbook_invalidate_references:
- * @wb: the workbook to modify
- * @sheet:  the sheet containing column and row to be invalidated
- * @col: starting column to be invalidated.
- * @row: starting row to be invalidated.
- * @colcount: number of columns to be invalidated.
- * @rowcount: number of rows to be invalidated.
- *
- * Invalidates *either* a number of columns *or* a number of rows.
- */
-
-void
-workbook_invalidate_references (Workbook *wb, Sheet *sheet, int col, int row,
-				int colcount, int rowcount)
-{
-	GList *cells, *l;
-	EvalPosition epa, epb;
-
-	g_return_if_fail (wb != NULL);
-	g_return_if_fail (colcount == 0 || rowcount == 0);
-	g_return_if_fail (colcount >= 0 && rowcount >= 0);
-
-	if (colcount == 0 && rowcount == 0) return;
-
-	/* Copy the list since it will change underneath us.  */
-	cells = g_list_copy (wb->formula_cell_list);
-
-	for (l = cells; l; l = l->next)	{
-		Cell *cell = l->data;
-		ExprTree *newtree;
-
-		newtree = expr_tree_invalidate_references (cell->parsed_node,
-							   eval_pos_cell (&epa, cell),
-							   eval_pos_init (&epb, sheet, col, row),
-							   colcount, rowcount);
-		if (newtree)
-			cell_set_formula_tree (cell, newtree);
-	}
-
-	g_list_free (cells);
-}
-
-
-/* Old code discarded the order
-static void
-cb_workbook_sheets (gpointer key, gpointer value, gpointer user_data)
-{
-	Sheet *sheet = value;
-	GList **l = user_data;
-
-	*l = g_list_prepend (*l, sheet);
-}
-*/
 
 GList *
 workbook_sheets (Workbook *wb)

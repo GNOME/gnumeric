@@ -42,7 +42,12 @@ void        sheet_selection_extend_horizontal (Sheet *sheet, int count, gboolean
 void        sheet_selection_extend_vertical   (Sheet *sheet, int count, gboolean jump_to_boundaries);
 int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
 
-/****************************************************************************/
+gboolean    selection_contains_colrow         (Sheet *sheet, int colrow, gboolean is_col);
+
+/* User visible actions */
+void        sheet_selection_ant               (Sheet *sheet);
+void        sheet_selection_unant             (Sheet *sheet);
+
 /* Utilities for operating on a selection */
 typedef void (*SelectionApplyFunc) (Sheet *sheet, 
 				    int start_col, int start_row,

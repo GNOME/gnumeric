@@ -1211,23 +1211,36 @@ xml_read_style_region (parse_xml_context_t *ctxt, xmlNodePtr tree)
 /*
  * Create an XML subtree of doc equivalent to the given ColRowInfo.
  */
-static xmlNodePtr
-xml_write_colrow_info (parse_xml_context_t *ctxt, ColRowInfo *info, int col)
+typedef struct
 {
+	gboolean is_column;
+	xmlNodePtr container;
+	parse_xml_context_t *ctxt;
+} closure_write_colrow;
+
+static gboolean
+xml_write_colrow_info (Sheet *sheet, ColRowInfo *info, void *user_data)
+{
+	closure_write_colrow * closure = user_data;
 	xmlNodePtr cur;
 
-	if (col)
-		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "ColInfo", NULL);
+	if (closure->is_column)
+		cur = xmlNewDocNode (closure->ctxt->doc,
+				     closure->ctxt->ns, "ColInfo", NULL);
 	else
-		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "RowInfo", NULL);
+		cur = xmlNewDocNode (closure->ctxt->doc,
+				     closure->ctxt->ns, "RowInfo", NULL);
 
-	xml_set_value_int (cur, "No", info->pos);
-	xml_set_value_double (cur, "Unit", info->units);
-	xml_set_value_double (cur, "MarginA", info->margin_a_pt);
-	xml_set_value_double (cur, "MarginB", info->margin_b);
-	xml_set_value_int (cur, "HardSize", info->hard_size);
+	if (cur != NULL) {
+		xml_set_value_int (cur, "No", info->pos);
+		xml_set_value_double (cur, "Unit", info->units);
+		xml_set_value_double (cur, "MarginA", info->margin_a_pt);
+		xml_set_value_double (cur, "MarginB", info->margin_b);
+		xml_set_value_int (cur, "HardSize", info->hard_size);
 
-	return cur;
+		xmlAddChild (closure->container, cur);
+	}
+	return FALSE;
 }
 
 /*
@@ -1522,6 +1535,7 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	xmlNodePtr printinfo;
 	xmlNodePtr styles;
 	GList *l;
+
 	char str[50];
 
 	/*
@@ -1532,9 +1546,9 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 		return NULL;
 	xmlNewChild (cur, ctxt->ns, "Name", 
 	             xmlEncodeEntities(ctxt->doc, sheet->name));
-	sprintf (str, "%d", sheet->max_col_used);
+	sprintf (str, "%d", sheet->cols.max_used);
 	xmlNewChild (cur, ctxt->ns, "MaxCol", str);
-	sprintf (str, "%d", sheet->max_row_used);
+	sprintf (str, "%d", sheet->rows.max_used);
 	xmlNewChild (cur, ctxt->ns, "MaxRow", str);
 	sprintf (str, "%f", sheet->last_zoom_factor_used);
 	xmlNewChild (cur, ctxt->ns, "Zoom", str);
@@ -1556,24 +1570,28 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	 * Cols informations.
 	 */
 	cols = xmlNewChild (cur, ctxt->ns, "Cols", NULL);
-	l = sheet->cols_info;
-	while (l) {
-		child = xml_write_colrow_info (ctxt, l->data, 1);
-		if (child)
-			xmlAddChild (cols, child);
-		l = l->next;
+	{
+		closure_write_colrow closure;
+		closure.is_column = TRUE;
+		closure.container = cols;
+		closure.ctxt = ctxt;
+		sheet_foreach_colrow (sheet, &sheet->cols,
+				      0, SHEET_MAX_COLS-1,
+				      &xml_write_colrow_info, &closure);
 	}
 
 	/*
 	 * Rows informations.
 	 */
 	rows = xmlNewChild (cur, ctxt->ns, "Rows", NULL);
-	l = sheet->rows_info;
-	while (l) {
-		child = xml_write_colrow_info (ctxt, l->data, 0);
-		if (child)
-			xmlAddChild (rows, child);
-		l = l->next;
+	{
+		closure_write_colrow closure;
+		closure.is_column = FALSE;
+		closure.container = rows;
+		closure.ctxt = ctxt;
+		sheet_foreach_colrow (sheet, &sheet->rows,
+				      0, SHEET_MAX_ROWS-1,
+				      &xml_write_colrow_info, &closure);
 	}
 
 	/*
@@ -1582,8 +1600,8 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	 * is possible
 	 */
 	if (sheet->objects != NULL) {
+		GList * l = sheet->objects;
 		objects = xmlNewChild (cur, ctxt->ns, "Objects", NULL);
-		l = sheet->objects;
 		while (l) {
 			child = xml_write_sheet_object (ctxt, l->data);
 			if (child)
@@ -1693,8 +1711,8 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 
 	ctxt->sheet = ret;
 
-	xml_get_value_int (tree, "MaxCol", &ret->max_col_used);
-	xml_get_value_int (tree, "MaxRow", &ret->max_row_used);
+	xml_get_value_int (tree, "MaxCol", &ret->cols.max_used);
+	xml_get_value_int (tree, "MaxRow", &ret->rows.max_used);
 	xml_get_value_double (tree, "Zoom", &ret->last_zoom_factor_used);
 
 	xml_read_print_info (ctxt, tree);

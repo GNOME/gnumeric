@@ -281,8 +281,8 @@ text_parse_file (gchar *file, gint flen, gint start,
 		crow ++;
 	}
 
-	sheet->max_col_used = mcol;
-	sheet->max_row_used = crow;
+	sheet->cols.max_used = mcol;
+	sheet->rows.max_used = crow;
 
 	return idx;
 }

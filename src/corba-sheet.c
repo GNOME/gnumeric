@@ -477,20 +477,19 @@ Sheet_cell_get_format (PortableServer_Servant servant,
 		       const CORBA_long row,
 		       CORBA_Environment *ev)
 {
-/*	Sheet *sheet = sheet_from_servant (servant);
-	Cell *cell;
+	Sheet *sheet = sheet_from_servant (servant);
+	Style *style;
 
 	verify_col_val (col, NULL);
 	verify_row_val (row, NULL);
-	
-	cell = sheet_cell_get (sheet, col, row);
-	if (cell){
-		Style *style = cell_get_style (cell);
+
+	style = sheet_style_compute (sheet, col, row);
+	g_warning ("leak.");
+	if (style) {
 		return CORBA_string_dup (style->format->format);
 	} else {
 		return CORBA_string_dup ("");
-		}*/
-	g_warning ("dummy");
+	}
 }
 
 static void
@@ -508,6 +507,7 @@ static CORBA_char *
 Sheet_cell_get_font (PortableServer_Servant servant, const CORBA_long col, const CORBA_long row, CORBA_Environment *ev)
 {
 	g_warning ("Deprecated cell get font");
+	return NULL;
 }
 
 static void
@@ -831,7 +831,7 @@ Sheet_range_get_values (PortableServer_Servant servant, const CORBA_char *range,
 	vector->_buffer = CORBA_sequence_GNOME_Gnumeric_Value_allocbuf (size);
 
 	/* No memory, return an empty vector */
-	if (vector->_buffer == NULL){
+	if (vector->_buffer == NULL) {
 		vector->_length = 0;
 		vector->_maximum = 0;
 
@@ -841,7 +841,7 @@ Sheet_range_get_values (PortableServer_Servant servant, const CORBA_char *range,
 	/*
 	 * Fill in the vector
 	 */
-	for (i = 0, l = ranges; l; l = l->next, i++){
+	for (i = 0, l = ranges; l; l = l->next, i++) {
 		Value *value = l->data;
 		CellRef a, b;
 		int col, row;
@@ -911,14 +911,13 @@ Sheet_range_set_format (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 	MStyleElement e;
 	GSList *ranges;
-	Style *style;
 
 	verify_range (sheet, range, &ranges);
 
 	cell_freeze_redraws ();
 
 	e.type = MSTYLE_FORMAT;
-	e.u.format = g_strdup (format);
+	e.u.format = style_format_new (format);
 	range_set_style (sheet, ranges, mstyle_new_elem (NULL, e));
 
 	cell_thaw_redraws ();
@@ -931,7 +930,7 @@ Sheet_max_cols_used (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
-	return sheet->max_col_used;
+	return sheet->cols.max_used;
 }
 
 static CORBA_long
@@ -939,7 +938,7 @@ Sheet_max_rows_used (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
-	return sheet->max_row_used;
+	return sheet->rows.max_used;
 }
 
 static CORBA_double

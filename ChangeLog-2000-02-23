@@ -1,3 +1,13 @@
+1999-10-08  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet.c (sheet_delete_col): hack up.
+
+	* src/item-grid.c (item_grid_paint_empty_cell): cull stuff.
+
+	* src/corba-sheet.c (Sheet_cell_get_format, Sheet_cell_get_font): fix.
+
+	* configure.in: Fixup bonobo check.
+
 1999-10-07  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/mstyle.c (check_sorted): update check & add comment.
@@ -242,6 +252,317 @@
 	(cell_set_formula, cell_calc_dimensions): ditto.
 	(cell_get_style): implement.
 
+1999-10-07  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_compute_visible_ranges):
+	Fix typo here.
+
+1999-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_find_row,
+	item_grid_find_col) : Return a value in the overflow case.
+
+	From : Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
+
+	* src/dialogs/dialog-zoom.glade: Place sheet list inside frame. 
+	  Use frame label, not list column label.
+	  Add padding.
+	  Use 0 height drawing area to set minimum width of spin button.
+
+1999-10-06  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/workbook-format-toolbar.c (change_selection_font): Remove
+	ants when we change the font.
+	(set_selection_halign): And when we change the alignment.
+
+	Many more left to be removed.  Left as an excercise to Jody :-)
+
+	* src/sheet.c (sheet_start_editing_at_cursor): remove ants when we
+	start entering new text.
+
+	* src/sheet-view.c (sheet_view_selection_unant): Destroys the
+	anted cursors from the sheet view.
+	(sheet_view_selection_ant): Adds cursors to the sheetview.
+	(sheet_view_construct): New group that is used to hold the
+	selection-ant items.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Kill ants
+	on escape.
+	(gnumeric_sheet_key_mode_object): ditto.
+
+	* src/selection.c (sheet_selection_unant): New function, kills the
+	selection ants.
+	(sheet_selection_ant): New function, adds an anted selection to
+	all the selected regions.
+
+	* src/clipboard.c (do_clipboard_paste_cell_region): Do not paste
+	beyond sheet boundaries.
+
+	* src/item-grid.c (item_grid_find_row): Do not go beyond sheet boundaries.
+	(item_grid_find_col): ditto.
+
+	* configure.in: Generate gnumeric.desktop
+
+	* gnumeric.desktop.in: New file, used to choose the correct
+	gnumeric/gnumeric-bonobo executable name.
+
+	* src/sheet-object-item.c: Updated to fit with the new Bonobo
+	changes. 
+
+1999-10-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-zoom.c (dialog_zoom_impl) : Have the custom zoom
+	  spinbox call 'Ok' when enter is pressed.
+
+	* src/sheet.c (sheet_destroy_contents) : Fix typo causing memory
+	  corruption.
+
+	* src/sheet.h : Decrease SHEET_MAX_ROWS to 16k until we can tune
+	  memory usage.
+
+	From : Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
+
+	* src/dialogs/dialog-printer.c (gnumeric_printer_dialog_run): 
+	  Workbook: New parameter
+	  Set initial focus.
+	  Make <Enter> in entry fields invoke default button.
+	  Specify the app as the parent.
+
+	* src/dialogs/dialog-printer.h (gnumeric_printer_dialog_run): 
+	  Change signature
+
+	* src/print.c (sheet_print): 
+	  gnumeric_printer_dialog_run has new signature
+
+	* src/dialogs/dialog-sovler.c (add_strings_to_glist): Remove
+	(add_radio_buttons): Remove unnecessary "_()"
+	(dialog_solver_options, dialog_solver): Add missing "_()"
+
+	* src/dialogs/utils-dialog.c: New file
+	(ut_dia_entry_new_with_max_length, ut_dia_entry_new): 
+	  Create entry fields where <Enter> activates the default button
+	(hbox_pack_label_and_entry): Move from dialog-analysis-tools.c
+	(add_strings_to_glist): Move from dialog-solver.c
+
+	* src/dialogs/utils-dialog.h: New file
+	(hbox_pack_label_and_entry, add_strings_to_glist): Move from tools.h
+
+	* src/dialogs/dialog-cell-comment.c (dialog_cell_comment): 
+	  Make OK button the default.
+
+	* src/dialogs/dialog-cell-sort.c (order_box_new):  
+	  Make <Enter> in entry field invoke default button.
+
+	* src/dialogs/dialog-define-names.c (dialog_define_names): 
+	  Make <Enter> in entry field invoke default button.
+	  Specify the app as the parent.
+
+	* src/dialogs/names.glade: ok button needs "can_default".
+
+	* src/dialogs/dialog-summary.c (dialog_summary_update): 
+	  Make <Enter> in entry fields invoke default button.
+
+	* src/dialogs/summary.glade: Make OK button the default.
+	  Change widget names used by program to avoid inadvertent
+	  translation. 
+
+	* src/dialogs/dialog-analysis-tools.c 
+	(new_dialog): Make OK button the default
+	(dialog_data_analysis): Initial focus and selection, Make OK button
+	  the default.
+	(add_check_buttons, add_output_frame, dialog_sampling_tool): Make
+	  <Enter> in entry field invoke default button
+	(hbox_pack_label_and_entry): Move to utils-dialog.c
+	(dialog_random_tool): Replace pack_label_and_entry with
+	  hbox_pack_label_and_entry  
+	(pack_label_and_entry): Remove
+
+	* src/dialogs/dialog-goal-seek.c (dialog_found_solution, 
+	dialog_goal_seek): Make OK button the default
+	(dialog_goal_seek): Make <Enter> in entry field invoke default button.
+
+	* src/dialogs/dialog-paste-special.c (dialog_paste_special): 
+	  Initial focus
+
+1999-10-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_destroy_contents) : Mark freed segments with
+	  NULL.
+
+	* src/selection.c (selection_contains_colrow) : New function.
+	* src/item-bar.c (item_bar_event) : Use it.
+
+	From : Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
+
+	* src/dialogs/{insert,delete}-cells.glade : New files.
+	* src/dialogs/dialog-{insert,delete}-cells.c : Switch from using
+	  Cauldron to using libglade.
+
+	* src/plugin-manager.c (plugin_manager_new): 
+	  Go away on <Esc>, set initial focus.
+
+	* src/dialogs/sheet-rename.glade: Made OK button default.
+
+	* dialog-simple-input.c (dialog_get_number): gnome_dialog_run instead
+	  of run_and_close - otherwise entry widget is destroyed before it is
+	  read.  Make <Enter> in entry field activate default button.
+	(dialog_get_sheet_name) : Ditto.
+
+	* src/workbook.c (workbook_rename_sheet): Update notebook label
+
+	* src/workbook-cmd-format.c 
+	(workbook_cmd_format_column_width,
+	 workbook_cmd_format_row_height): Off by one error.
+
+1999-10-04  Jody Goldberg <jgoldberg@home.com>
+	From: Nick Lamb <njl98r@ecs.soton.ac.uk>
+
+	* src/cursors.c (cursors_init, create_bitmap_and_mask_from_xpm) :
+	  A small patch to invert the logic when handling black vs white in
+	  cursors.  This works around a problem with some Xservers.
+	  Bug 808.
+
+1999-09-30  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/Gnumeric-value.idl: New file, move the value structure
+	definition here. 
+
+	* src/Gnumeric.idl: Add new interface for data access.
+	
+	* src/value-sheet.c: New file.  Moved here the value code that
+	uses a Sheet directly.
+	(value_dump): moved here.
+	(value_cellrange_get_as_string): ditto.
+	(encode_cellref): ditto.
+	(value_area_get_width): ditto.
+	(value_area_get_height): ditto.
+	(value_area_get_x_y): ditto.
+	(constants_init): ditto.
+	(value_area_foreach): ditto
+	(wrapper_foreach_cell_in_area_callback): ditto.
+	(value_area_fetch_x_y): ditto.
+
+1999-10-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (sheet_action_delete_sheet) : Use a
+	  workbook_expr_relocate to invalidate references to the contents of
+	  the deleted sheet.
+	(cb_sheet_erase) : Renamed to cb_sheet_destroy_contents.
+
+	* src/sheet.c (sheet_destroy_contents) : Renamed from
+	  sheet_destroy_columns_and_rows.  Delete the cells directly
+	  from the hash.  Don't use a range.
+
+	* src/cellspan.c (row_destroy_span) : Set deleted span hash to NULL.
+
+	* src/sheet.c (sheet_destroy_columns_and_rows) : Wipe all row spans
+	  in one stage to avoid looking them up one by one.
+
+1999-10-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-delete-cells.c (dialog_delete_cells) :
+	  Specify the app as the parent.
+	* src/dialogs/dialog-insert-cells.c (dialog_insert_cells) :
+	  Ditto.
+
+	* src/expr.[ch]  : (cell_ref_restore_absolute,
+	  cell_in_range, do_expr_tree_invalidate_references,
+	  expr_tree_invalidate_references, fixup_calc_new_cellref,
+	  do_expr_tree_fixup_references, expr_tree_fixup_references) : Delete.
+
+	  (cellref_relocate) : Rewrite to support intersheet,
+	    moves, invalidation, and references to and from moving cells.
+	  (expr_relocate) : Use new cellref_relocate.
+
+	 * src/workbook.[ch] (workbook_fixup_references,
+	   workbook_invalidate_references) : Delete.
+	 (workbook_expr_relocate) : Replace with.
+
+1999-10-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/{selection.c, collect.c, complex.c } : Add include config.h.
+	  So that we get the right #defines when including Workbook
+	  in a bonobo envirnoment.
+
+	From : Jon K Hellan <Jon.K.Hellan@item.ntnu.no>
+	* src/dialogs/{col-width, dialog-zoom, names,
+		     row-height, sheet-rename, summary}.glade :
+	  Dialogs made with glade pop up for a moment in one position before
+	  being moved to the proper place. This is fixed by setting "Visible" to
+	  False in Glade.
+
+	* src/print.c (print_page) : Make func pointer match new signature
+	  for sheet_col_get_info.
+
+1999-10-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.h : Add ColRowCollection, a structure to store
+	  a segmented array of ColRowInfo *, and some of the other
+	  useful information, like max_element, and default_style.
+
+	  Rename data to 'spans' to facilitate removing dependancies
+	  on old name.
+
+	  Renumbered the CELL_ flags now that CELL_ERROR is gone.
+
+	* plugins/* : Switch to ColRowCollection.
+	* src/print.c : Ditto.
+	* src/value.c : Ditto.
+	* src/xml-io.c : Ditto.
+	* src/dialogs/dialog-cell-format.c : Ditto, and use sheet_foreach_colrow.
+	* src/sheet-view.c : Ditto.  Use sheet_{row,col}_fetch and document
+	  why they are called.
+	(sheet_view_scrollbar_display) : ifdef out untill some one wants it.
+
+	src/dialogs/dialog-solver.c : Add include "tools.h"
+
+	* src/sheet.[ch] : Massive reorg.
+	  Rows and Cols are no longer in lists they are in segmented arrays.
+	  Cols don't have lists of cells in them.
+	  All the insert/delete row/col code was redone and simplified.
+	  The Shift row/col is broken pending the merge with the new copy
+	  code.
+
+	* src/cellspan.c : Switch from 'data' to 'spans'
+
+	* src/clipboard.c : Use boolean, not integer '1'
+
+	* src/corba-sheet.c : Switch to ColRowcollection.
+	(Sheet_cell_get_background) : #ifdef until this is implemented.
+
+	* src/embeddable-grid.c (grid_view_new) : Add a cast to silent
+	  warning.
+
+	* src/item-grid.c (item_grid_draw_cell) : Paint the borders After
+	  contents.  They still don't work, but this is slightly better.
+
+	* src/expr.c (do_expr_tree_fixup_references) : Partial patch that fixes
+	  the common case and probably breaks the uncommon.  Refs to
+	  cells/ranges on the current sheet have sheet == NULL.  The
+	  destination specifies the sheet, so only references on a different
+	  sheet were fixed.  When I rework this code for use by the 'move'
+	  operation I'll fix it.
+
+	* src/gnumeric-sheet.c (move_cursor) : Move the cursor before making
+	  the area visible, Reset the selection after the motion.
+
+1999-09-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_draw) : Don't attempt to paint past
+	  SHEET_MAX_{ROWS,COLS}.
+	* src/gnumeric-sheet.c (gnumeric_sheet_compute_visible_ranges) :
+	  Ditto.
+	(move_cursor) : Set the cursor before making the area visible so that
+	  the scrollbars know the real position.
+
+1999-09-26  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/print-preview.c (print_preview_new): Removed warning/
+
+1999-09-26  Morten Welinder  <terra@diku.dk>
+
+	* src/cell.c (cell_relocate): Plug leak.
+
 1999-09-26  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/workbook.c (workbook_do_destroy): rename name clean.
@@ -268,13 +589,17 @@
 1999-09-26  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/sheet-object.c (sheet_set_mode_type): Protect Bonobo code
-	from being included if we dont have Bonobo.
+	from being included if we dont have Bonobo.  
 
 	* src/Makefile.am: reverted changes from the libole2 code.
 	
 1999-09-26  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/Makefile.am (gnumeric_libs): Fix so gnumeric compiles.
+
+1999-09-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/clipboard.c (clipboard_copy_cell_range) : use boolean.
 
 1999-09-26  Miguel de Icaza  <miguel@gnu.org>
 
@@ -322,6 +647,7 @@
 	* src/item-grid.c (item_grid_draw) : Paint an empty
 	  only if the cell does not exist.  VALUE_EMPTY cells should be
 	  treated as std cells when drawing the background.
+	(item_grid_draw_cell) : Draw the contents before the border.
 
 1999-09-24  Morten Welinder  <terra@diku.dk>
 

@@ -29,6 +29,13 @@
 
 #define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);
 
+/* The size, mask, and shift must be kept in sync */
+#define COLROW_SEGMENT_SIZE	0x80
+#define COLROW_SUB_INDEX(i)	((i) & 0x7f)
+#define COLROW_SEGMENT_INDEX(i)	((i) >> 7)
+#define COLROW_GET_SEGMENT(seg_array, i) \
+	(g_ptr_array_index ((seg_array)->info, COLROW_SEGMENT_INDEX(i)))
+
 void
 sheet_redraw_all (Sheet const *sheet)
 {
@@ -76,15 +83,16 @@ col_row_info_init (ColRowInfo *cri, double points)
 	cri->pixels = 0;
 	cri->margin_a = 0;
 	cri->margin_b = 0;
-	cri->data = NULL;
+
+	cri->spans = NULL;
 }
 
 static void
 sheet_init_default_styles (Sheet *sheet)
 {
 	/* Sizes seem to match excel */
-	col_row_info_init (&sheet->default_col_style, 62.0);
-	col_row_info_init (&sheet->default_row_style, 15.0);
+	col_row_info_init (&sheet->cols.default_style, 62.0);
+	col_row_info_init (&sheet->rows.default_style, 15.0);
 }
 
 /* Initialize some of the columns and rows, to test the display engine */
@@ -118,19 +126,9 @@ cell_hash (gconstpointer key)
 }
 
 static gint
-cell_compare (gconstpointer a, gconstpointer b)
+cell_compare (CellPos const * a, CellPos const * b)
 {
-	const CellPos *ca, *cb;
-
-	ca = (const CellPos *) a;
-	cb = (const CellPos *) b;
-
-	if (ca->row != cb->row)
-		return 0;
-	if (ca->col != cb->col)
-		return 0;
-
-	return 1;
+	return (a->row == b->row && a->col == b->col);
 }
 
 void
@@ -186,11 +184,17 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->workbook = wb;
 	sheet->name = g_strdup (name);
 	sheet->last_zoom_factor_used = -1.0;
-	sheet->max_col_used = 0;
-	sheet->max_row_used = 0;
-	sheet->print_info   = print_info_new ();
+	sheet->cols.max_used = -1;
+	sheet->rows.max_used = -1;
 
-	sheet->cell_hash = g_hash_table_new (cell_hash, cell_compare);
+	g_ptr_array_set_size (sheet->cols.info = g_ptr_array_new(), 
+			      COLROW_SEGMENT_INDEX(SHEET_MAX_COLS-1)+1);
+	g_ptr_array_set_size (sheet->rows.info = g_ptr_array_new(), 
+			      COLROW_SEGMENT_INDEX(SHEET_MAX_ROWS-1)+1);
+	sheet->print_info = print_info_new ();
+
+	sheet->cell_hash = g_hash_table_new (cell_hash,
+					     (GCompareFunc)&cell_compare);
 
 	sheet_init_default_styles (sheet);
 
@@ -211,43 +215,55 @@ sheet_new (Workbook *wb, const char *name)
 	return sheet;
 }
 
-static void
-cell_hash_free_key (gpointer key, gpointer value, gpointer user_data)
+static gboolean
+cell_hash_free_cell (gpointer	key, gpointer	value, gpointer	user_data)
 {
+	cell_destroy (value);
 	g_free (key);
+	return TRUE;
 }
 
+/**
+ * sheet_foreach_colrow:
+ * @sheet	the sheet
+ * @infos	The Row or Column collection.
+ * @start	start position (inclusive)
+ * @end		stop column (inclusive)
+ * @callback	A callback function which should return TRUE to stop
+ *              the iteration.
+ * @user_data	A bagage pointer.
+ *
+ * Iterates through the existing rows or columns within the range supplied.
+ * Currently only support left -> right iteration.  If a callback returns
+ * TRUE iteration stops.
+ */
 void
-sheet_foreach_col (Sheet *sheet, sheet_col_row_callback callback, void *user_data)
+sheet_foreach_colrow (Sheet *sheet, ColRowCollection *infos,
+		      int start, int stop,
+		      sheet_col_row_callback callback, void *user_data)
 {
-	GList *l = sheet->cols_info;
+	int i;
 
-	/* Invoke the callback for the default style */
-	(*callback)(sheet, &sheet->default_col_style, user_data);
+	/* TODO : Do we need to support right -> left as an option */
+	if (stop > infos->max_used)
+		stop = infos->max_used;
 
-	/* And then for the rest */
-	while (l){
-		(*callback)(sheet, l->data, user_data);
-		l = l->next;
+	i = start;
+	while (i <= stop) {
+		ColRowInfo **segment = COLROW_GET_SEGMENT(infos, i);
+		int sub = COLROW_SUB_INDEX(i);
+		i += COLROW_SEGMENT_SIZE - sub;
+		if (segment != NULL)
+			for (; sub < COLROW_SEGMENT_SIZE; ++sub) {
+				ColRowInfo * info = segment[sub];
+				if (info != NULL)
+					if ((*callback)(sheet, info, user_data))
+						return;
+			}
 	}
 }
 
-void
-sheet_foreach_row (Sheet *sheet, sheet_col_row_callback callback, void *user_data)
-{
-	GList *l = sheet->rows_info;
-
-	/* Invoke the callback for the default style */
-	(callback)(sheet, &sheet->default_row_style, user_data);
-
-	/* And then for the rest */
-	while (l){
-		(*callback)(sheet, l->data, user_data);
-		l = l->next;
-	}
-}
-
-static void
+static gboolean
 sheet_compute_col_row_new_size (Sheet *sheet, ColRowInfo *ci, void *data)
 {
 	double pix_per_unit = sheet->last_zoom_factor_used;
@@ -260,6 +276,8 @@ sheet_compute_col_row_new_size (Sheet *sheet, ColRowInfo *ci, void *data)
 	 */
 	ci->margin_a = MAX(ci->margin_a_pt * pix_per_unit, 1);
 	ci->margin_b = MAX(ci->margin_b_pt * pix_per_unit, 1);
+
+	return FALSE;
 }
 
 static Value *
@@ -285,16 +303,22 @@ void
 sheet_set_zoom_factor (Sheet *sheet, double factor)
 {
 	GList *l, *cl;
+	double const diff = sheet->last_zoom_factor_used - factor;
+
+	if (-.0001 < diff && diff < .0001)
+		return;
 
 	sheet->last_zoom_factor_used = factor;
 
 	/* First, the default styles */
-	sheet_compute_col_row_new_size (sheet, &sheet->default_row_style, NULL);
-	sheet_compute_col_row_new_size (sheet, &sheet->default_col_style, NULL);
+	sheet_compute_col_row_new_size (sheet, &sheet->rows.default_style, NULL);
+	sheet_compute_col_row_new_size (sheet, &sheet->cols.default_style, NULL);
 
 	/* Then every column and row */
-	sheet_foreach_col (sheet, sheet_compute_col_row_new_size, NULL);
-	sheet_foreach_row (sheet, sheet_compute_col_row_new_size, NULL);
+	sheet_foreach_colrow (sheet, &sheet->cols, 0, SHEET_MAX_COLS-1,
+			      &sheet_compute_col_row_new_size, NULL);
+	sheet_foreach_colrow (sheet, &sheet->rows, 0, SHEET_MAX_ROWS-1,
+			      &sheet_compute_col_row_new_size, NULL);
 
 	for (l = sheet->sheet_views; l; l = l->next){
 		SheetView *sheet_view = l->data;
@@ -312,7 +336,7 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 	 * Scale the fonts for every cell
 	 */
 	sheet_cell_foreach_range (
-		sheet, TRUE, 0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
+		sheet, TRUE, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
 		zoom_cell_style, sheet);
 
 	/*
@@ -354,7 +378,7 @@ sheet_row_new (Sheet *sheet)
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	*ri = sheet->default_row_style;
+	*ri = sheet->rows.default_style;
 	row_init_span (ri);
 
 	return ri;
@@ -368,93 +392,105 @@ sheet_col_new (Sheet *sheet)
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	*ci = sheet->default_col_style;
-	ci->data = NULL;
+	*ci = sheet->cols.default_style;
 
 	return ci;
-}
-
-
-static gint
-CRsort (gconstpointer a, gconstpointer b)
-{
-	const ColRowInfo *ia = (const ColRowInfo *) a;
-	const ColRowInfo *ib = (const ColRowInfo *) b;
-
-	return (ia->pos - ib->pos);
 }
 
 void
 sheet_col_add (Sheet *sheet, ColRowInfo *cp)
 {
-	if (cp->pos > sheet->max_col_used){
+	int const col = cp->pos;
+	ColRowInfo *** segment = (ColRowInfo ***)&COLROW_GET_SEGMENT(&(sheet->cols), col);
+
+	g_return_if_fail (col >= 0);
+	g_return_if_fail (col < SHEET_MAX_COLS);
+
+	if (*segment == NULL)
+		*segment = g_new0(ColRowInfo *, COLROW_SEGMENT_SIZE);
+	(*segment)[COLROW_SUB_INDEX(col)] = cp;
+
+	if (col > sheet->cols.max_used){
 		GList *l;
 
-		sheet->max_col_used = cp->pos;
+		sheet->cols.max_used = col;
 
 		for (l = sheet->sheet_views; l; l = l->next){
 			SheetView *sheet_view = l->data;
 			GtkAdjustment *ha = GTK_ADJUSTMENT (sheet_view->ha);
 
-			if (sheet->max_col_used > ha->upper){
-				ha->upper = sheet->max_col_used;
+			if (sheet->cols.max_used > ha->upper){
+				ha->upper = col;
 				gtk_adjustment_changed (ha);
 			}
 		}
 	}
-
-	sheet->cols_info = g_list_insert_sorted (sheet->cols_info, cp, CRsort);
 }
 
 void
 sheet_row_add (Sheet *sheet, ColRowInfo *rp)
 {
-	if (rp->pos > sheet->max_row_used){
+	int const row = rp->pos;
+	ColRowInfo *** segment = (ColRowInfo ***)&COLROW_GET_SEGMENT(&(sheet->rows), row);
+
+	g_return_if_fail (row >= 0);
+	g_return_if_fail (row < SHEET_MAX_ROWS);
+
+	if (*segment == NULL)
+		*segment = g_new0(ColRowInfo *, COLROW_SEGMENT_SIZE);
+	(*segment)[COLROW_SUB_INDEX(row)] = rp;
+
+	if (rp->pos > sheet->rows.max_used){
 		GList *l;
 
-		sheet->max_row_used = rp->pos;
+		sheet->rows.max_used = row;
 
 		for (l = sheet->sheet_views; l; l = l->next){
 			SheetView *sheet_view = l->data;
 			GtkAdjustment *va = GTK_ADJUSTMENT (sheet_view->va);
 
-			if (sheet->max_row_used > va->upper){
-				va->upper = sheet->max_row_used;
+			if (sheet->rows.max_used > va->upper){
+				va->upper = row;
 				gtk_adjustment_changed (va);
 			}
 		}
 	}
-	sheet->rows_info = g_list_insert_sorted (sheet->rows_info, rp, CRsort);
 }
 
 ColRowInfo *
-sheet_col_get_info (Sheet *sheet, int col)
+sheet_col_get_info (Sheet const *sheet, int const col)
 {
-	GList *l = sheet->cols_info;
+	ColRowInfo *ci = NULL;
+	ColRowInfo ** segment;
 
-	for (; l; l = l->next){
-		ColRowInfo *ci = l->data;
+	g_return_val_if_fail (col >= 0, NULL);
+	g_return_val_if_fail (col < SHEET_MAX_COLS, NULL);
 
-		if (ci->pos == col)
-			return ci;
-	}
+	segment = COLROW_GET_SEGMENT(&(sheet->cols), col);
+	if (segment != NULL)
+		ci = segment[COLROW_SUB_INDEX(col)];
+	if (ci != NULL)
+		return ci;
 
-	return &sheet->default_col_style;
+	return (ColRowInfo *) &sheet->cols.default_style;
 }
 
 ColRowInfo *
-sheet_row_get_info (Sheet *sheet, int row)
+sheet_row_get_info (Sheet const *sheet, int const row)
 {
-	GList *l = sheet->rows_info;
+	ColRowInfo *ri = NULL;
+	ColRowInfo ** segment;
 
-	for (; l; l = l->next){
-		ColRowInfo *ri = l->data;
+	g_return_val_if_fail (row >= 0, NULL);
+	g_return_val_if_fail (row < SHEET_MAX_ROWS, NULL);
 
-		if (ri->pos == row)
-			return ri;
-	}
+	segment = COLROW_GET_SEGMENT(&(sheet->rows), row);
+	if (segment != NULL)
+		ri = segment[COLROW_SUB_INDEX(row)];
+	if (ri != NULL)
+		return ri;
 
-	return &sheet->default_row_style;
+	return (ColRowInfo *) &sheet->rows.default_style;
 }
 
 void
@@ -546,7 +582,7 @@ sheet_row_set_height (Sheet *sheet, int row, int height, gboolean height_set_by_
 	g_return_if_fail (IS_SHEET (sheet));
 
 	ri = sheet_row_get_info (sheet, row);
-	if (ri == &sheet->default_row_style){
+	if (ri == &sheet->rows.default_style){
 		ri = sheet_row_new (sheet);
 		ri->pos = row;
 		add = 1;
@@ -630,7 +666,7 @@ sheet_row_set_height_units (Sheet *sheet, int row, double height, gboolean heigh
 	g_return_if_fail (height > 0.0);
 
 	ri = sheet_row_get_info (sheet, row);
-	if (ri == &sheet->default_col_style){
+	if (ri == &sheet->cols.default_style){
 		ri = sheet_row_new (sheet);
 		ri->pos = row;
 		sheet_row_add (sheet, ri);
@@ -652,13 +688,27 @@ sheet_col_set_width_units (Sheet *sheet, int col, double width)
 	g_return_if_fail (width > 0.0);
 
 	ci = sheet_col_get_info (sheet, col);
-	if (ci == &sheet->default_col_style){
+	if (ci == &sheet->cols.default_style){
 		ci = sheet_col_new (sheet);
 		ci->pos = col;
 		sheet_col_add (sheet, ci);
 	}
 
 	sheet_col_set_internal_width (sheet, ci, width);
+}
+
+/*
+ * Callback for sheet_cell_foreach_range to find the maximum width
+ * in a range.
+ */
+static Value *
+cb_max_cell_width (Sheet *sheet, int col, int row, Cell *cell,
+		   int *max)
+{
+	int const width = cell->width;
+	if (width > *max)
+		*max = width;
+	return NULL;
 }
 
 /**
@@ -673,37 +723,45 @@ int
 sheet_col_size_fit (Sheet *sheet, int col)
 {
 	ColRowInfo *ci;
-	GList *l;
-	int max = 0;
-	int margins;
+	int max = -1;
 	
 	g_return_val_if_fail (sheet != NULL, 0);
 	g_return_val_if_fail (IS_SHEET (sheet), 0);
-	g_return_val_if_fail (col >= 0, 0);
-	g_return_val_if_fail (col < SHEET_MAX_COLS, 0);
 
 	ci = sheet_col_get_info (sheet, col);
+	if (ci == NULL)
+		return 0;
 
 	/*
-	 * If ci == sheet->default_col_style then it means
+	 * If ci == sheet->cols.default_style then it means
 	 * no cells have been allocated here
 	 */
-	if (ci == &sheet->default_col_style)
+	if (ci == &sheet->cols.default_style)
 		return ci->pixels;
 
-	margins = ci->margin_a + ci->margin_b;
-	
-	for (l = ci->data; l; l = l->next){
-		Cell *cell = l->data;
-		int width;
-			
-		width = cell->width + margins;
-		
-		if (width > max)
-			max = width;
-	}
+	sheet_cell_foreach_range (sheet, TRUE,
+				  col, 0,
+				  col, SHEET_MAX_ROWS-1,
+				  (sheet_cell_foreach_callback)&cb_max_cell_width, &max);
 
-	return max;
+	/* Reset to the default width if the column was empty */
+	if (max < 0)
+		max = sheet->cols.default_style.pixels;
+	return max + ci->margin_a + ci->margin_b;
+}
+
+/*
+ * Callback for sheet_cell_foreach_range to find the maximum height
+ * in a range.
+ */
+static Value *
+cb_max_cell_height (Sheet *sheet, int col, int row, Cell *cell,
+		   int *max)
+{
+	int const height = cell->height;
+	if (height > *max)
+		*max = height;
+	return NULL;
 }
 
 /**
@@ -718,46 +776,45 @@ int
 sheet_row_size_fit (Sheet *sheet, int row)
 {
 	ColRowInfo *ri;
-	GList *clist;
-	int max = 0;
-	int margins;
-	int height;
+	int max = -1;
 	
 	g_return_val_if_fail (sheet != NULL, 0);
 	g_return_val_if_fail (IS_SHEET (sheet), 0);
-	g_return_val_if_fail (row >= 0, 0);
-	g_return_val_if_fail (row < SHEET_MAX_ROWS, 0);
 
 	ri = sheet_row_get_info (sheet, row);
+	if (ri == NULL)
+		return 0;
 
 	/*
-	 * If ri == sheet->default_row_style then it means
+	 * If ri == sheet->rows.default_style then it means
 	 * no cells have been allocated here
 	 */
-	if (ri == &sheet->default_row_style)
+	if (ri == &sheet->rows.default_style)
 		return ri->pixels;
 
-	margins = ri->margin_a + ri->margin_b;
+	sheet_cell_foreach_range (sheet, TRUE,
+				  0, row,
+				  SHEET_MAX_COLS-1, row,
+				  (sheet_cell_foreach_callback)&cb_max_cell_height, &max);
 
-	/*
-	 * Now, we need to scan all columns, as the list of rows
-	 * does not contains pointers to the cells.
-	 */
-	for (clist = sheet->cols_info; clist; clist = clist->next){
-		ColRowInfo *ci = clist->data;
-		Cell *cell;
-		
-		cell = sheet_cell_get (sheet, ci->pos, row);
-		if (!cell)
-			continue;
+	/* Reset to the default width if the column was empty */
+	if (max < 0)
+		max = sheet->rows.default_style.pixels;
 
-		height = cell->height + margins;
-		
-		if (height > max)
-			max = height;
-	}
+	return max + ri->margin_a + ri->margin_b;
+}
 
-	return max;
+typedef struct {
+	int col;
+	GList * cells;
+} closure_cells_in_col;
+static gboolean
+cb_collect_cells_in_col(Sheet *sheet, ColRowInfo *ri, closure_cells_in_col *dat)
+{
+	Cell * cell = row_cell_get_displayed_at (ri, dat->col);
+	if (cell)
+		dat->cells = g_list_prepend (dat->cells, cell);
+	return FALSE;
 }
 
 /**
@@ -771,29 +828,24 @@ sheet_row_size_fit (Sheet *sheet, int row)
 static void
 sheet_recompute_spans_for_col (Sheet *sheet, int col)
 {
-	GList *l, *cells;
-	Cell *cell;
+	GList *l;
+	closure_cells_in_col dat;
+	dat.col = col;
+	dat.cells = NULL;
 
-	cells = NULL;
-	for (l = sheet->rows_info; l; l = l->next){
-		ColRowInfo *ri = l->data;
-
-		if (!(cell = sheet_cell_get (sheet, col, ri->pos)))
-			cell = row_cell_get_displayed_at (ri, col);
-
-		if (cell)
-			cells = g_list_prepend (cells, cell);
-	}
+	sheet_foreach_colrow (sheet, &sheet->rows,
+			      0, SHEET_MAX_ROWS-1,
+			      (sheet_col_row_callback) &cb_collect_cells_in_col,
+			      &dat);
 
 	/* No spans, just return */
-	if (!cells)
+	if (!dat.cells)
 		return;
 
 	/* Unregister those cells that touched this column */
-	for (l = cells; l; l = l->next){
+	for (l = dat.cells; l; l = l->next){
+		Cell * cell = l->data;
 		int left, right;
-
-		cell = l->data;
 
 		cell_unregister_span (cell);
 		cell_get_span (cell, &left, &right);
@@ -801,7 +853,7 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
 			cell_register_span (cell, left, right);
 	}
 
-	g_list_free (cells);
+	g_list_free (dat.cells);
 }
 
 void
@@ -829,7 +881,10 @@ sheet_col_set_width (Sheet *sheet, int col, int width)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	ci = sheet_col_get_info (sheet, col);
-	if (ci == &sheet->default_col_style){
+	if (ci == NULL)
+		return;
+
+	if (ci == &sheet->cols.default_style){
 		ci = sheet_col_new (sheet);
 		ci->pos = col;
 		add = 1;
@@ -847,109 +902,26 @@ sheet_col_set_width (Sheet *sheet, int col, int width)
 	sheet_reposition_comments_from_col (sheet, col);
 }
 
-static inline int
-col_row_distance (GList *list, int from, int to, int default_pixels)
-{
-	ColRowInfo *cri;
-	int pixels = 0, n = 0;
-	GList *l;
-
-	if (to == from)
-		return 0;
-
-	n = to - from;
-
-	for (l = list; l; l = l->next){
-		cri = l->data;
-
-		if (cri->pos >= to)
-			break;
-
-		if (cri->pos >= from){
-			n--;
-			pixels += cri->pixels;
-		}
-	}
-	pixels += n * default_pixels;
-
-	return pixels;
-}
-
 /**
  * sheet_col_get_distance:
  *
  * Return the number of pixels between from_col to to_col
  */
 int
-sheet_col_get_distance (Sheet const *sheet, int from_col, int to_col)
+sheet_col_get_distance (Sheet const *sheet, int from, int to)
 {
-	g_assert (from_col <= to_col);
+	int i, pixels = 0;
+
+	g_assert (from <= to);
 	g_assert (sheet != NULL);
 
-	return col_row_distance (sheet->cols_info, from_col, to_col, sheet->default_col_style.pixels);
-}
-
-static inline double
-col_row_unit_distance (GList *list, int from, int to, double default_units, double default_margins)
-{
-	ColRowInfo *cri;
-	double units = 0;
-	int n = 0;
-	GList *l;
-	
-	if (to == from)
-		return 0;
-
-	n = to - from;
-	
-	for (l = list; l; l = l->next){
-		cri = l->data;
-		
-		if (cri->pos >= to)
-			break;
-		
-		if (cri->pos >= from){
-			n--;
-			units += cri->units + cri->margin_a_pt + cri->margin_b_pt;
-		}
+	/* Do not use sheet_foreach_colrow, it ignores empties */
+	for (i = from ; i < to ; ++i) {
+		ColRowInfo const *ci = sheet_col_get_info (sheet, i);
+		pixels += ci->pixels;
 	}
-	units += n * default_units + n * default_margins;
-	
-	return units;
-}
 
-/**
- * sheet_col_get_unit_distance:
- *
- * Return the number of points between from_col to to_col
- */
-double
-sheet_col_get_unit_distance (Sheet const *sheet, int from_col, int to_col)
-{
-	g_assert (from_col <= to_col);
-	g_assert (sheet != NULL);
-
-	return col_row_unit_distance (sheet->cols_info, from_col, to_col,
-				      sheet->default_col_style.units,
-				      sheet->default_col_style.margin_a_pt +
-				      sheet->default_col_style.margin_b_pt);
-}
-
-/**
- * sheet_row_get_unit_distance:
- *
- * Return the number of points between from_row to to_row
- */
-double
-sheet_row_get_unit_distance (Sheet const *sheet, int from_row, int to_row)
-{
-	g_assert (from_row <= to_row);
-	g_assert (sheet != NULL);
-
-	return col_row_unit_distance (sheet->rows_info, from_row, to_row,
-				      sheet->default_row_style.units,
-				      sheet->default_row_style.margin_a +
-				      sheet->default_row_style.margin_b);
+	return pixels;
 }
 
 /**
@@ -958,14 +930,67 @@ sheet_row_get_unit_distance (Sheet const *sheet, int from_row, int to_row)
  * Return the number of pixels between from_row to to_row
  */
 int
-sheet_row_get_distance (Sheet const *sheet, int from_row, int to_row)
+sheet_row_get_distance (Sheet const *sheet, int from, int to)
 {
-	g_assert (from_row <= to_row);
+	int i, pixels = 0;
+
+	g_assert (from <= to);
 	g_assert (sheet != NULL);
 
-	return col_row_distance (sheet->rows_info, from_row, to_row, sheet->default_row_style.pixels);
+	/* Do not use sheet_foreach_colrow, it ignores empties */
+	for (i = from ; i < to ; ++i) {
+		ColRowInfo const *ri = sheet_row_get_info (sheet, i);
+		pixels += ri->pixels;
+	}
+
+	return pixels;
 }
 
+/**
+ * sheet_col_get_unit_distance:
+ *
+ * Return the number of points between from_col to to_col
+ */
+double
+sheet_col_get_unit_distance (Sheet const *sheet, int from, int to)
+{
+	double units = 0;
+	int i;
+
+	g_assert (sheet != NULL);
+	g_assert (from <= to);
+
+	/* Do not use sheet_foreach_colrow, it ignores empties */
+	for (i = from ; i < to ; ++i) {
+		ColRowInfo const *ci = sheet_col_get_info (sheet, i);
+		units += ci->units + ci->margin_a_pt + ci->margin_b_pt;
+	}
+	
+	return units;
+}
+
+/**
+ * sheet_row_get_unit_distance:
+ *
+ * Return the number of points between from_row to to_row
+ */
+double
+sheet_row_get_unit_distance (Sheet const *sheet, int from, int to)
+{
+	double units = 0;
+	int i;
+
+	g_assert (sheet != NULL);
+	g_assert (from <= to);
+
+	/* Do not use sheet_foreach_colrow, it ignores empties */
+	for (i = from ; i < to ; ++i) {
+		ColRowInfo const *ri = sheet_row_get_info (sheet, i);
+		units += ri->units + ri->margin_a_pt + ri->margin_b_pt;
+	}
+	
+	return units;
+}
 
 void
 sheet_update_auto_expr (Sheet *sheet)
@@ -995,32 +1020,45 @@ sheet_update_auto_expr (Sheet *sheet)
 		workbook_auto_expr_label_set (wb, _("Internal ERROR"));
 }
 
-
-void
-sheet_set_text (Sheet *sheet, int col, int row, const char *str)
+/*
+ * Callback for sheet_cell_foreach_range to assign some text
+ * to a range.
+ */
+static Value *
+cb_set_cell_text (Sheet *sheet, int col, int row, Cell *cell,
+		  void *user_data)
 {
-	GList *l;
-	Cell *cell;
-	char *text;
-	int  text_set = FALSE;
+	if (cell == NULL)
+		cell = sheet_cell_new (sheet, col, row);
+	cell_set_text (cell, user_data);
+	return NULL;
+}
 
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
+typedef struct {
+	char * format;
+	float_t val;
+} closure_set_cell_value;
 
-	cell = sheet_cell_get (sheet, col, row);
+static Value *
+cb_set_cell_value (Sheet *sheet, int col, int row, Cell *cell,
+		  void *user_data)
+{
+	closure_set_cell_value * info = user_data;
 
-	if (!cell)
+	if (cell == NULL)
 		cell = sheet_cell_new (sheet, col, row);
 
-	text = gtk_entry_get_text (GTK_ENTRY (sheet->workbook->ea_input));
+	if (!CELL_IS_FORMAT_SET (cell))
+		cell_set_format_simple (cell, info->format);
+	cell_set_value (cell, value_new_float (info->val));
+	return NULL;
+}
 
-	if (*text == '@'){
-		char *new_text = g_strdup (text);
-
-		*new_text = '=';
-		gtk_entry_set_text (GTK_ENTRY (sheet->workbook->ea_input), new_text);
-		g_free (new_text);
-	}
+static void
+sheet_set_text (Sheet *sheet, char const *text, Range const * r)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	/*
 	 * Figure out if a format matches, and for sanity compare that to
@@ -1028,8 +1066,8 @@ sheet_set_text (Sheet *sheet, int col, int row, const char *str)
 	 * use that.
 	 */
 	if (*text != '=') {
-		char *end, *format;
-		float_t v;
+		closure_set_cell_value	closure;
+		char *end;
 
 		strtod (text, &end);
 		if (end != text && *end == 0) {
@@ -1038,16 +1076,44 @@ sheet_set_text (Sheet *sheet, int col, int row, const char *str)
 			 * that we would other wise actually set a "0" format
 			 * for integers and that it would stick.
 			 */
-		} else if (format_match (text, &v, &format)) {
-			if (!CELL_IS_FORMAT_SET (cell))
-				cell_set_format_simple (cell, format);
-			cell_set_value (cell, value_new_float (v));
-			text_set = TRUE;
+		} else if (format_match (text, &closure.val, &closure.format)) {
+			sheet_cell_foreach_range (sheet, FALSE,
+						  r->start.col, r->start.row,
+						  r->end.col, r->end.row,
+						  &cb_set_cell_value, &closure);
+			return;
 		}
 	}
+	sheet_cell_foreach_range (sheet, FALSE,
+				  r->start.col, r->start.row,
+				  r->end.col, r->end.row,
+				  &cb_set_cell_text, (void *)text);
+}
 
-	if (!text_set)
-		cell_set_text (cell, text);
+void
+sheet_set_current_value (Sheet *sheet)
+{
+	GList *l;
+	char *str;
+	Range r;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	str = gtk_entry_get_text (GTK_ENTRY (sheet->workbook->ea_input));
+	g_return_if_fail (str != NULL);
+
+	if (*str == '@'){
+		char *new_text = g_strdup (str);
+
+		*new_text = *str = '=';
+		gtk_entry_set_text (GTK_ENTRY (sheet->workbook->ea_input), new_text);
+		g_free (new_text);
+	}
+
+	r.start.col = r.end.col = sheet->cursor_col;
+	r.start.row = r.end.row = sheet->cursor_row;
+	sheet_set_text (sheet, str, &r);
 
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
@@ -1056,19 +1122,6 @@ sheet_set_text (Sheet *sheet, int col, int row, const char *str)
 	}
 
 	workbook_recalc (sheet->workbook);
-
-}
-
-void
-sheet_set_current_value (Sheet *sheet)
-{
-	char *str;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	str = gtk_entry_get_text (GTK_ENTRY (sheet->workbook->ea_input));
-	sheet_set_text (sheet, sheet->cursor_col, sheet->cursor_row, str);
 }
 
 static void
@@ -1175,6 +1228,8 @@ sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
+	sheet_selection_unant (sheet);
+	
 	if (blankp)
 		gtk_entry_set_text (GTK_ENTRY (sheet->workbook->ea_input), "");
 
@@ -1253,7 +1308,7 @@ range_is_homogeneous(Sheet *sheet,
 		     void *closure)
 {
 	/*
-	 * FIXME : Only check existing cells for now.  In when styles are
+	 * FIXME : Only check existing cells for now.  When styles are
 	 * redone this will need rethinking.
 	 */
 /*	sheet_cell_foreach_range (sheet, TRUE,
@@ -1444,7 +1499,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 
 		if (new_col < 0)
 			new_col = 0;
-		else if (new_col > SHEET_MAX_COLS-1)
+		else if (new_col >= SHEET_MAX_COLS)
 			new_col = SHEET_MAX_COLS-1;
 		else if (jump_to_boundaries) {
 			keep_looking = (cell_is_blank( sheet_cell_get (sheet, new_col, row)) == find_first);
@@ -1463,7 +1518,6 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 		}
 	} while (keep_looking);
 
-	sheet_make_cell_visible (sheet, new_col, row);
 	return new_col;
 }
 
@@ -1519,7 +1573,6 @@ sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
 		}
 	} while (keep_looking);
 
-	sheet_make_cell_visible (sheet, col, new_row);
 	return new_row;
 }
 
@@ -1545,14 +1598,19 @@ sheet_is_cell_array (Sheet *sheet, int const col, int const row)
 static gboolean
 range_check_for_partial_array (Sheet *sheet,
 			       int const start_row, int const start_col,
-			       int const end_row, int const end_col)
+			       int end_row, int end_col)
 {
 	ArrayRef *a;
 	gboolean valid = TRUE;
 	gboolean single;
 	int r, c;
 
-	if (start_row > 0 || end_row < SHEET_MAX_ROWS)
+	if (end_col > sheet->cols.max_used)
+		end_col = sheet->cols.max_used;
+	if (end_row > sheet->rows.max_used)
+		end_row = sheet->rows.max_used;
+
+	if (start_row > 0 || end_row < SHEET_MAX_ROWS-1)
 	{
 		/* Check top & bottom */
 		single = (start_row == end_row);
@@ -1691,7 +1749,7 @@ sheet_selection_walk_step (Sheet *sheet, int forward, int horizontal,
 
 		/* If there is no selection besides the cursor, plain movement */
 		if (ss->user.start.col == ss->user.end.col && ss->user.start.row == ss->user.end.row){
-			walk_boundaries (0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
+			walk_boundaries (0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
 					 inc_x, inc_y, current_col, current_row,
 					 new_col, new_row);
 			return FALSE;
@@ -1736,28 +1794,61 @@ sheet_selection_walk_step (Sheet *sheet, int forward, int horizontal,
 /**
  * sheet_col_get:
  *
- * Returns an allocated column:  either an existing one, or a fresh copy
+ * Returns an allocated column:  either an existing one, or NULL
  */
 ColRowInfo *
-sheet_col_get (Sheet *sheet, int pos)
+sheet_col_get (Sheet const *sheet, int const pos)
 {
-	GList *clist;
-	ColRowInfo *col;
+	ColRowInfo *ci = NULL;
+	ColRowInfo ** segment;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (pos < SHEET_MAX_COLS, NULL);
+	g_return_val_if_fail (pos >= 0, NULL);
 
-	for (clist = sheet->cols_info; clist; clist = clist->next){
-		col = (ColRowInfo *) clist->data;
+	segment = COLROW_GET_SEGMENT(&(sheet->cols), pos);
+	if (segment != NULL)
+		ci = segment[COLROW_SUB_INDEX(pos)];
+	return ci;
+}
+/**
+ * sheet_col_get:
+ *
+ * Returns an allocated column:  either an existing one, or a fresh copy
+ */
+ColRowInfo *
+sheet_col_fetch (Sheet *sheet, int pos)
+{
+	ColRowInfo * res = sheet_col_get (sheet, pos);
+	if (res == NULL)
+		if ((res = sheet_col_new (sheet)) != NULL) {
+			res->pos = pos;
+			sheet_col_add (sheet, res);
+		}
+	return res;
+}
 
-		if (col->pos == pos)
-			return col;
-	}
-	col = sheet_col_new (sheet);
-	col->pos = pos;
-	sheet_col_add (sheet, col);
+/**
+ * sheet_row_get:
+ *
+ * Returns an allocated row:  either an existing one, or NULL
+ */
+ColRowInfo *
+sheet_row_get (Sheet const *sheet, int const pos)
+{
+	ColRowInfo *ri = NULL;
+	ColRowInfo ** segment;
 
-	return col;
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (pos < SHEET_MAX_ROWS, NULL);
+	g_return_val_if_fail (pos >= 0, NULL);
+
+	segment = COLROW_GET_SEGMENT(&(sheet->rows), pos);
+	if (segment != NULL)
+		ri = segment[COLROW_SUB_INDEX(pos)];
+	return ri;
 }
 
 /**
@@ -1766,52 +1857,15 @@ sheet_col_get (Sheet *sheet, int pos)
  * Returns an allocated row:  either an existing one, or a fresh copy
  */
 ColRowInfo *
-sheet_row_get (Sheet *sheet, int pos)
+sheet_row_fetch (Sheet *sheet, int pos)
 {
-	GList *rlist;
-	ColRowInfo *row;
-
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-
-	for (rlist = sheet->rows_info; rlist; rlist = rlist->next){
-		row = (ColRowInfo *) rlist->data;
-
-		if (row->pos == pos)
-			return row;
-	}
-	row = sheet_row_new (sheet);
-	row->pos = pos;
-	sheet_row_add (sheet, row);
-
-	return row;
-}
-
-static int
-gen_row_blanks (Sheet *sheet, int col, int start_row, int end_row,
-		sheet_cell_foreach_callback callback, void *closure)
-{
-	int row;
-
-	for (row = 0; row < end_row; row++)
-		if (!(*callback)(sheet, col, row, NULL, closure))
-			return FALSE;
-
-	return TRUE;
-}
-
-static int
-gen_col_blanks (Sheet *sheet, int start_col, int end_col,
-		int start_row, int end_row,
-		sheet_cell_foreach_callback callback, void *closure)
-{
-	int col;
-
-	for (col = 0; col < end_col; col++)
-		if (!gen_row_blanks (sheet, col, start_row, end_row, callback, closure))
-			return FALSE;
-
-	return TRUE;
+	ColRowInfo * res = sheet_row_get (sheet, pos);
+	if (res == NULL)
+		if ((res = sheet_row_new (sheet)) != NULL) {
+			res->pos = pos;
+			sheet_row_add (sheet, res);
+		}
+	return res;
 }
 
 /**
@@ -1883,9 +1937,7 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 			  sheet_cell_foreach_callback callback,
 			  void *closure)
 {
-	GList *col;
-	GList *row;
-	int    last_col_gen = -1, last_row_gen = -1;
+	int i, j;
 	Value *cont;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
@@ -1898,61 +1950,38 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 	if (start_row > end_row)
 		SWAP_INT (start_row, end_row);
 
-	col = sheet->cols_info;
-	for (; col; col = col->next){
-		ColRowInfo *ci = col->data;
+	if (only_existing) {
+		if (end_col > sheet->cols.max_used)
+			end_col = sheet->cols.max_used;
+		if (end_row > sheet->rows.max_used)
+			end_row = sheet->rows.max_used;
+	}
 
-		if (ci->pos < start_col)
+	for (i = start_col; i <= end_col ; ++i) {
+		ColRowInfo *ci = sheet_col_get(sheet, i);
+		if (ci == NULL) {
+			if (!only_existing)
+				for (j = start_row; j <= end_row ; ++j) {
+					cont = (*callback)(sheet, i, j, NULL, closure);
+					if (cont != NULL)
+						return cont;
+				}
+
 			continue;
-		if (ci->pos > end_col)
-			break;
-
-		if (!only_existing){
-			if ((last_col_gen > 0) && (ci->pos != last_col_gen+1))
-				if (!gen_col_blanks (sheet, last_col_gen, ci->pos,
-						     start_row, end_row, callback,
-						     closure))
-				    return value_terminate();
-
-			if (ci->pos > start_col)
-				if (!gen_col_blanks (sheet, start_col, ci->pos,
-						     start_row, end_row, callback,
-						     closure))
-					return value_terminate();
 		}
-		last_col_gen = ci->pos;
 
-		last_row_gen = -1;
-		for (row = (GList *) ci->data; row; row = row->next){
-			Cell *cell = (Cell *) row->data;
-			int  row_pos = cell->row->pos;
+		for (j = start_row; j <= end_row ; ++j) {
+			ColRowInfo *ri = sheet_row_get(sheet, j);
+			Cell * cell = NULL;
 
-			if (row_pos < start_row)
-				continue;
+			if (ri != NULL)
+				cell = sheet_cell_get (sheet, i, j);
 
-			if (row_pos > end_row)
-				break;
-
-			if (!only_existing){
-				if (last_row_gen > 0){
-					if (row_pos != last_row_gen+1)
-						if (!gen_row_blanks (sheet, ci->pos,
-								     last_row_gen,
-								     row_pos,
-								     callback,
-								     closure))
-							return value_terminate();
-				}
-				if (row_pos > start_row){
-					if (!gen_row_blanks (sheet, ci->pos,
-							     row_pos, start_row,
-							     callback, closure))
-						return value_terminate();
-				}
+			if (cell != NULL || !only_existing) {
+				cont = (*callback)(sheet, i, j, cell, closure);
+				if (cont != NULL)
+					return cont;
 			}
-			cont = (*callback)(sheet, ci->pos, row_pos, cell, closure);
-			if (cont != NULL)
-				return cont;
 		}
 	}
 	return NULL;
@@ -1995,15 +2024,6 @@ sheet_is_region_empty_or_selected (Sheet *sheet, int start_col, int start_row, i
 
 }
 
-static gint
-CRowSort (gconstpointer a, gconstpointer b)
-{
-	const Cell *ca = (const Cell *) a;
-	const Cell *cb = (const Cell *) b;
-
-	return ca->row->pos - cb->row->pos;
-}
-
 /**
  * sheet_cell_add_to_hash:
  * @sheet The sheet where the cell is inserted
@@ -2044,11 +2064,9 @@ sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 void
 sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 {
-	GList *tmp;
-
 	cell->sheet = sheet;
-	cell->col   = sheet_col_get (sheet, col);
-	cell->row   = sheet_row_get (sheet, row);
+	cell->col   = sheet_col_fetch (sheet, col);
+	cell->row   = sheet_row_fetch (sheet, row);
 
 	cell_realize (cell);
 
@@ -2064,12 +2082,6 @@ sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 	cell_calc_dimensions (cell);
 
 	sheet_cell_add_to_hash (sheet, cell);
-	if ((tmp = g_list_last (cell->col->data)) &&
-	    CRowSort (tmp->data, cell) < 0)
-		(void)g_list_append (tmp, cell);
-	else
-		cell->col->data = g_list_insert_sorted (cell->col->data, cell,
-							&CRowSort);
 }
 
 Cell *
@@ -2113,8 +2125,7 @@ sheet_cell_remove_internal (Sheet *sheet, Cell *cell)
 		sheet_cell_formula_unlink (cell);
 
 	deps = cell_get_dependencies (sheet, cell->col->pos, cell->row->pos);
-	if (deps)
-		cell_queue_recalc_list (deps, TRUE);
+	cell_queue_recalc_list (deps, TRUE);
 
 	sheet_cell_remove_from_hash (sheet, cell);
 
@@ -2134,30 +2145,10 @@ sheet_cell_remove (Sheet *sheet, Cell *cell)
 				  cell->col->pos, cell->row->pos);
 
 	sheet_cell_remove_internal (sheet, cell);
-	cell->col->data = g_list_remove (cell->col->data, cell);
 
 	sheet_redraw_cell_region (sheet,
 				  cell->col->pos, cell->row->pos,
 				  cell->col->pos, cell->row->pos);
-}
-
-/**
- * sheet_cell_remove_to_eot:
- *
- * Removes all of the cells from CELL_LIST point on.
- */
-static void
-sheet_cell_remove_to_eot (Sheet *sheet, GList *cell_list)
-{
-	while (cell_list){
-		Cell *cell = cell_list->data;
-
-		if (cell->parsed_node)
-			sheet_cell_formula_unlink (cell);
-
-		sheet_cell_remove_from_hash (sheet, cell);
-		cell_destroy (cell);
-	}
 }
 
 void
@@ -2230,40 +2221,87 @@ sheet_cell_formula_unlink (Cell *cell)
 		cell_unqueue_from_recalc (cell);
 }
 
+/*
+ * Callback for sheet_cell_foreach_range to remove a set of cells.
+ */
+static Value *
+cb_free_cell (Sheet *sheet, int col, int row, Cell *cell,
+	      void *user_data)
+{
+	sheet_cell_remove_from_hash (sheet, cell);
+	cell_destroy (cell);
+	return NULL;
+}
+
 /**
  * sheet_col_destroy:
  *
  * Destroys a ColRowInfo from the Sheet with all of its cells
  */
 static void
-sheet_col_destroy (Sheet *sheet, ColRowInfo *ci)
+sheet_col_destroy (Sheet *sheet, int const col, gboolean free_cells)
 {
-	GList *l;
-	g_return_if_fail (ci);
+	ColRowInfo ***segment = (ColRowInfo ***)&COLROW_GET_SEGMENT(&(sheet->cols), col);
+	int const sub = COLROW_SUB_INDEX(col);
+	ColRowInfo *ci = NULL;
+	if (*segment == NULL)
+		return;
+	ci = (*segment)[sub];
+	if (ci == NULL)
+		return;
 
-	for (l = ci->data; l; l = l->next){
-		Cell *cell = l->data;
-		l->data = NULL;
-		sheet_cell_remove_internal (sheet, cell);
-		cell_destroy (cell);
-	}
+	if (free_cells)
+		sheet_cell_foreach_range (sheet, TRUE,
+					  col, 0,
+					  col, SHEET_MAX_ROWS-1,
+					  &cb_free_cell, NULL);
 
-	sheet->cols_info = g_list_remove (sheet->cols_info, ci);
-	g_list_free (ci->data);
-	ci->data = NULL;
+	(*segment)[sub] = NULL;
 	g_free (ci);
+
+	/* Use >= just in case things are screwed up */
+	if (col >= sheet->cols.max_used) {
+		int i = col;
+		while (--i >= 0 && sheet_col_get (sheet, i) == NULL)
+		    ;
+		sheet->cols.max_used = i;
+	}
 }
 
 /*
  * Destroys a row ColRowInfo
  */
 static void
-sheet_row_destroy (Sheet *sheet, ColRowInfo *ri)
+sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 {
-	sheet->rows_info = g_list_remove (sheet->rows_info, ri);
+	ColRowInfo ***segment = (ColRowInfo ***)&COLROW_GET_SEGMENT(&(sheet->rows), row);
+	int const sub = COLROW_SUB_INDEX(row);
+	ColRowInfo *ri = NULL;
+	if (*segment == NULL)
+		return;
+	ri = (*segment)[sub];
+	if (ri == NULL)
+		return;
+
+	if (free_cells)
+		sheet_cell_foreach_range (sheet, TRUE,
+					  0, row,
+					  SHEET_MAX_COLS-1, row,
+					  &cb_free_cell, NULL);
+
+	/* Rows have span lists, destroy them too */
 	row_destroy_span (ri);
 
+	(*segment)[sub] = NULL;
 	g_free (ri);
+
+	/* Use >= just in case things are screwed up */
+	if (row >= sheet->rows.max_used) {
+		int i = row;
+		while (--i >= 0 && sheet_row_get (sheet, i) == NULL)
+		    ;
+		sheet->rows.max_used = i;
+	}
 }
 
 static void
@@ -2281,16 +2319,41 @@ sheet_destroy_styles (Sheet *sheet)
 	sheet->style_list = NULL;
 }
 
-static void
-sheet_destroy_columns_and_rows (Sheet *sheet)
+void
+sheet_destroy_contents (Sheet *sheet)
 {
-	while (sheet->cols_info)
-		sheet_col_destroy (sheet, sheet->cols_info->data);
-	sheet->cols_info = NULL;
+	/* Save these because they are going to get zeroed. */
+	int const max_col = sheet->cols.max_used;
+	int const max_row = sheet->rows.max_used;
 
-	while (sheet->rows_info)
-		sheet_row_destroy (sheet, sheet->rows_info->data);
-	sheet->rows_info = NULL;
+	int i;
+	gpointer tmp;
+
+	/* Clear the row spans 1st */
+	for (i = sheet->rows.max_used; i >= 0 ; --i)
+		row_destroy_span(sheet_row_get (sheet, i));
+
+	/* Free the cells in a random order */
+	g_hash_table_foreach_remove (sheet->cell_hash, &cell_hash_free_cell, NULL);
+
+	/* Delete in ascending order to avoid decrementing max_used each time */
+	for (i = 0; i <= max_col; ++i)
+		sheet_col_destroy (sheet, i, FALSE);
+
+	for (i = 0; i <= max_row; ++i)
+		sheet_row_destroy (sheet, i, FALSE);
+
+	/* Free segments too */
+	for (i = COLROW_SEGMENT_INDEX(max_col); i >= 0 ; --i)
+		if ((tmp = g_ptr_array_index (sheet->cols.info, i)) != NULL) {
+			g_free (tmp);
+			g_ptr_array_index (sheet->cols.info, i) = NULL;
+		}
+	for (i = COLROW_SEGMENT_INDEX(max_row); i >= 0 ; --i)
+		if ((tmp = g_ptr_array_index (sheet->rows.info, i)) != NULL) {
+			g_free (tmp);
+			g_ptr_array_index (sheet->rows.info, i) = NULL;
+		}
 }
 
 /**
@@ -2340,10 +2403,9 @@ sheet_destroy (Sheet *sheet)
 	g_list_free (sheet->comment_list);
 	sheet->comment_list = NULL;
 
-	sheet_destroy_columns_and_rows (sheet);
+	sheet_destroy_contents (sheet);
 	sheet_destroy_styles (sheet);
 
-	g_hash_table_foreach (sheet->cell_hash, cell_hash_free_key, NULL);
 	g_hash_table_destroy (sheet->cell_hash);
 
 	expr_name_clean_sheet (sheet);
@@ -2376,8 +2438,6 @@ assemble_clear_cell_list (Sheet *sheet, int col, int row, Cell *cell,
 	struct sheet_clear_region_callback_data * cb =
 	    (struct sheet_clear_region_callback_data *) user_data;
 
-	cb->l = g_list_prepend (cb->l, cell);
-
 	/* TODO TODO TODO : Where to deal with a user creating
 	 * several adjacent regions to clear ??
 	 */
@@ -2394,6 +2454,8 @@ assemble_clear_cell_list (Sheet *sheet, int col, int row, Cell *cell,
 		if ((row - ref->y + ref->rows -1) > cb->end_row)
 			return value_terminate();
 	}
+
+	cb->l = g_list_prepend (cb->l, cell);
 	return NULL;
 }
 
@@ -2427,13 +2489,16 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 	cb.l = NULL;
 	if (sheet_cell_foreach_range ( sheet, TRUE,
 				       start_col, start_row, end_col, end_row,
-				       assemble_clear_cell_list, &cb) == NULL){
+				       assemble_clear_cell_list, &cb) == NULL) {
+		cb.l = g_list_reverse (cb.l);
+		cell_freeze_redraws();
 		for (l = cb.l; l; l = l->next){
 			Cell *cell = l->data;
 
 			sheet_cell_remove (sheet, cell);
 			cell_destroy (cell);
 		}
+		cell_thaw_redraws();
 		workbook_recalc (sheet->workbook);
 	} else 
 		gnumeric_no_modify_array_notice (sheet->workbook);
@@ -2540,671 +2605,6 @@ sheet_clear_region_formats (Sheet *sheet, int start_col, int start_row, int end_
 		clear_cell_format, NULL);
 }
 
-static void
-sheet_move_column (Sheet *sheet, ColRowInfo *ci, int new_column)
-{
-	GList *rows, *column_cells, *l;
-
-	/* remove the cells */
-	column_cells = NULL;
-	for (rows = ci->data; rows; rows = rows->next){
-		Cell *cell = rows->data;
-
-		sheet_cell_remove_from_hash (sheet, cell);
-		column_cells = g_list_prepend (column_cells, cell);
-	}
-
-	/* Update the column position */
-	ci->pos = new_column;
-
-	/* Insert the cells back */
-	for (l = column_cells; l; l = l->next){
-		Cell *cell = l->data;
-
-		sheet_cell_add_to_hash (sheet, cell);
-
-		cell_relocate (cell, 0, 0);
-	}
-	g_list_free (column_cells);
-}
-
-/*
- * Callback for sheet_cell_foreach_range to test whether a cell is in an
- * array-formula to the right of the leftmost column.
- */
-static Value *
-avoid_dividing_array_horizontal (Sheet *sheet, int col, int row, Cell *cell,
-				 void *user_data)
-{
-	if (cell == NULL ||
-	    cell->parsed_node == NULL ||
-	    cell->parsed_node->oper != OPER_ARRAY ||
-	    cell->parsed_node->u.array.x <= 0)
-		return NULL;
-	return value_terminate();
-}
-
-/**
- * sheet_insert_col:
- * @sheet   The sheet
- * @col     At which position we want to insert
- * @count   The number of columns to be inserted
- */
-void
-sheet_insert_col (Sheet *sheet, int col, int count)
-{
-	GList   *cur_col, *deps;
-	int   col_count;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (count != 0);
-
-	col_count = g_list_length (sheet->cols_info);
-	if (col_count == 0)
-		return;
-
-	/* 0. Walk cells in displaced col and ensure arrays aren't divided. */
-	if (col > 0)	/* No need to test leftmost column */
-		if (sheet_cell_foreach_range (sheet, TRUE, col, 0,
-					      col, SHEET_MAX_ROWS,
-					      &avoid_dividing_array_horizontal,
-					      NULL) != NULL){
-			gnumeric_no_modify_array_notice (sheet->workbook);
-			return;
-		}
-
-	/* FIXME: we should probably invalidate the rightmost `count' columns here.  */
-
-	/* Fixup all references to point at cells' new location.  */
-	workbook_fixup_references (sheet->workbook, sheet, col, 0, count, 0);
-
-	/* 1. Start scaning from the last column toward the goal column
-	 *    moving all of the cells to their new location
-	 */
-	cur_col = g_list_nth (sheet->cols_info, col_count - 1);
-
-	do {
-		ColRowInfo *ci;
-		int new_column;
-
-		ci = cur_col->data;
-		if (ci->pos < col)
-			break;
-
-		/* 1.1 Move every cell on this column count positions */
-		new_column = ci->pos + count;
-
-		if (new_column > SHEET_MAX_COLS-1){
-			sheet_col_destroy (sheet, ci);
-
-			/* Skip to next */
-			cur_col = cur_col->prev;
-			continue;
-		}
-
-		sheet_move_column (sheet, ci, new_column);
-
-		/* 1.4 Go to the next column */
-		cur_col = cur_col->prev;
-	} while (cur_col);
-
-	/* 2. Recompute dependencies */
-	deps = region_get_dependencies (sheet, col, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-	cell_queue_recalc_list (deps, TRUE);
-	workbook_recalc (sheet->workbook);
-
-	/* 3. Redraw */
-	sheet_redraw_all (sheet);
-}
-
-/*
- * sheet_delete_col
- * @sheet   The sheet
- * @col     At which position we want to start deleting columns
- * @count   The number of columns to be deleted
- */
-void
-sheet_delete_col (Sheet *sheet, int col, int count)
-{
-	GList *cols, *deps, *destroy_list, *l;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (count != 0);
-
-	/* Is there any work to do? */
-	if (g_list_length (sheet->cols_info) == 0)
-		return;
-
-	if (!range_check_for_partial_array (sheet, 0, col, 
-					    SHEET_MAX_ROWS-1, col+count-1))
-	{
-		gnumeric_no_modify_array_notice (sheet->workbook);
-		return;
-	}
-	/* Invalidate all references to cells being deleted.  */
-	workbook_invalidate_references (sheet->workbook, sheet, col, 0, count, 0);
-
-	/* Fixup all references to point at cells' new location.  */
-	workbook_fixup_references (sheet->workbook, sheet, col, 0, -count, 0);
-
-	/* Assemble the list of columns to destroy */
-	destroy_list = NULL;
-	for (cols = sheet->cols_info; cols; cols = cols->next){
-		ColRowInfo *ci = cols->data;
-
-		if (ci->pos < col)
-			continue;
-
-		if (ci->pos > col+count-1)
-			break;
-
-		destroy_list = g_list_prepend (destroy_list, ci);
-	}
-
-	for (l = destroy_list; l; l = l->next) {
-		ColRowInfo *ci = l->data;
-
-		sheet_col_destroy (sheet, ci);
-	}
-	g_list_free (destroy_list);
-
-	for (cols = sheet->cols_info; cols; cols = cols->next){
-		ColRowInfo *ci = cols->data;
-
-		if (ci->pos < col)
-			continue;
-
-		g_assert (ci->pos > col+count-1);
-		sheet_move_column (sheet, ci, ci->pos-count);
-	}
-
-	/* Recompute dependencies */
-	deps = region_get_dependencies (sheet, col, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-	cell_queue_recalc_list (deps, TRUE);
-	workbook_recalc (sheet->workbook);
-
-	sheet_redraw_all (sheet);
-}
-
-/**
- * colrow_closest_above:
- *
- * Returns the closest column (from above) to pos
- */
-static GList *
-colrow_closest_above (GList *l, int pos)
-{
-	for (; l; l = l->next){
-		ColRowInfo *info = l->data;
-
-		if (info->pos >= pos)
-			return l;
-	}
-	return NULL;
-}
-
-/**
- * sheet_shift_row:
- * @sheet the sheet
- * @row   row where the shifting takes place
- * @col   first column
- * @count numbers of columns to shift.  negative numbers will
- *        delete count columns, positive number will insert
- *        count columns.
- */
-void
-sheet_shift_row (Sheet *sheet, int col, int row, int count)
-{
-	GList *cur_col, *deps, *l, *l2, *cell_list;
-	int   col_count, new_column;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (count != 0);
-
-	col_count = g_list_length (sheet->cols_info);
-
-	if (count < 0){
-		sheet_clear_region (sheet, col, row, col - count - 1, row, NULL);
-		cur_col = colrow_closest_above (sheet->cols_info, col);
-	} else
-		cur_col = g_list_nth (sheet->cols_info, col_count - 1);
-
-
-	/* If nothing interesting found, return */
-	if (cur_col == NULL)
-		return;
-
-	cell_list = NULL;
-	do {
-		ColRowInfo *ci;
-
-		ci = cur_col->data;
-		if (count > 0){
-			if (ci->pos < col)
-				break;
-		} else {
-			if (ci->pos < col){
-				cur_col = cur_col->next;
-				continue;
-			}
-		}
-
-		new_column = ci->pos + count;
-
-		/* Search for this row */
-		for (l = ci->data; l; l = l->next){
-			Cell *cell = l->data;
-
-			if (cell->row->pos > row)
-				break;
-
-			if (cell->row->pos < row)
-				continue;
-
-			cell_list = g_list_prepend (cell_list, cell);
-		}
-
-		/* Advance to the next column */
-		if (count > 0)
-			cur_col = cur_col->prev;
-		else
-			cur_col = cur_col->next;
-	} while (cur_col);
-
-
-	/* Now relocate the cells */
-	l = l2 = g_list_nth (cell_list, g_list_length (cell_list)-1);
-	for (; l; l = l->prev){
-		Cell *cell = l->data;
-
-		new_column = cell->col->pos + count;
-
-		/* If it overflows, remove it */
-		if (new_column > SHEET_MAX_COLS-1){
-			sheet_cell_remove (sheet, cell);
-			cell_destroy (cell);
-			break;
-		}
-
-		/* Relocate the cell */
-		sheet_cell_remove (sheet, cell);
-		sheet_cell_add (sheet, cell, new_column, row);
-		cell_relocate (cell, 0, 0);
-	}
-	g_list_free (l2);
-
-	/* Check the dependencies and recompute them */
-	deps = region_get_dependencies (sheet, col, row, SHEET_MAX_COLS-1, row);
-	cell_queue_recalc_list (deps, TRUE);
-	workbook_recalc (sheet->workbook);
-
-	sheet_redraw_all (sheet);
-}
-
-void
-sheet_shift_rows (Sheet *sheet, int col, int start_row, int end_row, int count)
-{
-	int i;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (count != 0);
-	g_return_if_fail (start_row <= end_row);
-
-	for (i = start_row; i <= end_row; i++)
-		sheet_shift_row (sheet, col, i, count);
-}
-
-/*
- * Callback for sheet_cell_foreach_range to test whether a cell is in an
- * array-formula below the top line.
- */
-static Value *
-avoid_dividing_array_vertical (Sheet *sheet, int col, int row, Cell *cell,
-			       void *user_data)
-{
-	if (cell == NULL ||
-	    cell->parsed_node == NULL ||
-	    cell->parsed_node->oper != OPER_ARRAY ||
-	    cell->parsed_node->u.array.y <= 0)
-		return NULL;
-	return value_terminate();
-}
-
-/**
- * sheet_insert_row:
- * @sheet   The sheet
- * @row     At which position we want to insert
- * @count   The number of rows to be inserted
- */
-void
-sheet_insert_row (Sheet *sheet, int row, int count)
-{
-	GList *cell_store, *cols, *l, *rows, *deps, *destroy_list;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (count != 0);
-
-	cell_store = NULL;
-
-	/* 0. Walk cells in displaced row and ensure arrays aren't divided. */
-	if (row > 0)	/* No need to test top row */
-		if (sheet_cell_foreach_range (sheet, TRUE, 0, row,
-					      SHEET_MAX_COLS, row,
-					      &avoid_dividing_array_vertical,
-					      NULL) != NULL){
-			gnumeric_no_modify_array_notice (sheet->workbook);
-			return;
-		}
-
-	/* FIXME: we should probably invalidate the bottom `count' rows here.  */
-
-	/* Fixup all references to point at cells' new location.  */
-	workbook_fixup_references (sheet->workbook, sheet, 0, row, 0, count);
-
-	/* 1. Walk every column, see which cells are out of range */
-	for (cols = sheet->cols_info; cols; cols = cols->next){
-		ColRowInfo *ci = cols->data;
-		GList *cells;
-
-		for (cells = ci->data; cells; cells = cells->next){
-			Cell *cell = cells->data;
-
-			if (cell->row->pos < row)
-				continue;
-
-			/* If the new position is out of range, destroy the cell */
-			if (cell->row->pos + count > SHEET_MAX_ROWS-1){
-				sheet_cell_remove_to_eot (sheet, cells);
-
-				/* Remove any trace of the tail that just got deleted */
-				if (cells->prev)
-					cells->prev->next = NULL;
-
-				g_list_free (cells);
-				break;
-			}
-
-			/* At this point we now we can move the cell safely */
-			sheet_cell_remove_from_hash (sheet, cell);
-
-			/* Keep track of it */
-			cell_store = g_list_prepend (cell_store, cell);
-		}
-	}
-
-	/* 2. Relocate the row information pointers, destroy overflowed rows */
-	destroy_list = NULL;
-	for (rows = sheet->rows_info; rows; rows = rows->next){
-		ColRowInfo *ri = rows->data;
-
-		if (ri->pos < row)
-			continue;
-
-		if (ri->pos + count > SHEET_MAX_ROWS-1){
-			destroy_list = g_list_prepend (destroy_list, ri);
-			continue;
-		}
-
-		ri->pos += count;
-	}
-
-	/* Destroy those row infos that are gone */
-	for (l = destroy_list; l; l = l->next){
-		ColRowInfo *ri = l->data;
-
-		sheet_row_destroy (sheet, ri);
-	}
-	g_list_free (destroy_list);
-
-	/* 3. Put back the moved cells in their new spot */
-	for (l = cell_store; l; l = l->next){
-		Cell *cell = l->data;
-
-		sheet_cell_add_to_hash (sheet, cell);
-
-		cell_relocate (cell, 0, 0);
-	}
-
-	g_list_free (cell_store);
-
-	/* 4. Recompute any changes required */
-	deps = region_get_dependencies (sheet, 0, row, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-	cell_queue_recalc_list (deps, TRUE);
-	workbook_recalc (sheet->workbook);
-
-	/* 5. Redraw everything */
-	sheet_redraw_all (sheet);
-}
-
-/**
- * sheet_delete_row:
- * @sheet   The sheet
- * @row     At which position we want to delete
- * @count   The number of rows to be deleted
- */
-void
-sheet_delete_row (Sheet *sheet, int row, int count)
-{
-	GList *destroy_list, *cols, *rows, *cell_store, *deps, *l;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (count != 0);
-
-	if (!range_check_for_partial_array (sheet, row, 0, 
-					    row+count-1, SHEET_MAX_COLS-1))
-	{
-		gnumeric_no_modify_array_notice (sheet->workbook);
-		return;
-	}
-
-	/* Invalidate all references to cells being deleted.  */
-	workbook_invalidate_references (sheet->workbook, sheet, 0, row, 0, count);
-
-	/* Fixup all references to point at cells' new location.  */
-	workbook_fixup_references (sheet->workbook, sheet, 0, row, 0, -count);
-
-	/* 1. Remove cells from hash tables and grab all dangling rows */
-	cell_store = NULL;
-	for (cols = sheet->cols_info; cols; cols = cols->next){
-		ColRowInfo *ci = cols->data;
-		GList *cells;
-
-		destroy_list = NULL;
-		for (cells = ci->data; cells; cells = cells->next){
-			Cell *cell = cells->data;
-
-			if (cell->row->pos < row)
-				continue;
-
-			if (cell->parsed_node)
-				sheet_cell_formula_unlink (cell);
-
-			sheet_cell_remove_from_hash (sheet, cell);
-
-			if (cell->row->pos >= row && cell->row->pos <= row+count-1){
-				destroy_list = g_list_prepend (destroy_list, cell);
-				continue;
-			}
-
-			cell_store = g_list_prepend (cell_store, cell);
-		}
-
-		/* Destroy the cells in the range */
-		for (l = destroy_list; l; l = l->next){
-			Cell *cell = l->data;
-
-			cell->col->data = g_list_remove (cell->col->data, cell);
-			cell_destroy (cell);
-		}
-
-		g_list_free (destroy_list);
-	}
-
-	/* 2. Relocate row information pointers, destroy unused rows */
-	destroy_list = NULL;
-	for (rows = sheet->rows_info; rows; rows = rows->next){
-		ColRowInfo *ri = rows->data;
-
-		if (ri->pos < row)
-			continue;
-
-		if (ri->pos >= row && ri->pos <= row+count-1){
-			destroy_list = g_list_prepend (destroy_list, ri);
-			continue;
-		}
-		ri->pos -= count;
-	}
-	for (l = destroy_list; l; l = l->next){
-		ColRowInfo *ri = l->data;
-
-		sheet_row_destroy (sheet, ri);
-	}
-	g_list_free (destroy_list);
-
-	/* 3. Put back the cells at their new location */
-	for (l = cell_store; l; l = l->next){
-		Cell *cell = l->data;
-
-		sheet_cell_add_to_hash (sheet, cell);
-
-		cell_relocate (cell, 0, 0);
-	}
-	g_list_free (cell_store);
-
-	/* 4. Recompute dependencies */
-	deps = region_get_dependencies (sheet, 0, row, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-	cell_queue_recalc_list (deps, TRUE);
-	workbook_recalc (sheet->workbook);
-
-	/* 5. Redraw everything */
-	sheet_redraw_all (sheet);
-}
-
-/**
- * sheet_shift_col:
- * @sheet the sheet
- * @row   first row
- * @col   column where the shifting takes place
- * @count numbers of rows to shift.  a negative numbers will
- *        delete count rows, positive number will insert
- *        count rows.
- */
-void
-sheet_shift_col (Sheet *sheet, int col, int row, int count)
-{
-	GList *row_list, *cur_row, *deps, *cell_list, *l;
-	ColRowInfo *ci;
-	int row_count;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (count != 0);
-
-	ci = sheet_col_get_info (sheet, col);
-
-	/* Check if the column did exist, if not, then shift_col is a no-op */
-	if (ci->pos != col)
-		return;
-
-	if (count < 0){
-		sheet_clear_region (sheet, col, row, col, row -count - 1, NULL);
-		ci = sheet_col_get_info (sheet, col);
-		row_list = ci->data;
-		cur_row = colrow_closest_above (row_list, row);
-	} else {
-		row_list = ci->data;
-		row_count = g_list_length (row_list);
-		cur_row = g_list_nth (row_list, row_count-1);
-	}
-
-	/* If nothing interesting found, return */
-	if (cur_row == NULL)
-		return;
-
-	cell_list = NULL;
-	do {
-		Cell *cell = cur_row->data;
-		int new_row;
-
-		if (count > 0){
-			if (cell->row->pos < row)
-				break;
-		} else {
-			if (cell->row->pos < row){
-				cur_row = cur_row->next;
-				continue;
-			}
-		}
-
-		new_row = cell->row->pos + count;
-
-		cell_list = g_list_prepend (cell_list, cell);
-
-		/* Advance to next row */
-		if (count > 0)
-			cur_row = cur_row->prev;
-		else
-			cur_row = cur_row->next;
-	} while (cur_row);
-
-	/* Relocate the cells */
-	l = g_list_nth (cell_list, g_list_length (cell_list)-1);
-
-	for (; l; l = l->prev){
-		Cell *cell = l->data;
-		int old_pos = cell->row->pos;
-		int new_row = old_pos + count;
-
-		sheet_cell_remove (sheet, cell);
-
-		/* if it overflows */
-		if (new_row > SHEET_MAX_ROWS-1){
-			cell_destroy (cell);
-			continue;
-		}
-
-		sheet_cell_add (sheet, cell, col, new_row);
-		cell_relocate (cell, 0, 0);
-	}
-	g_list_free (cell_list);
-
-	/* Recompute dependencies on the changed data */
-	deps = region_get_dependencies (sheet, col, row, col, SHEET_MAX_ROWS-1);
-	cell_queue_recalc_list (deps, TRUE);
-	workbook_recalc (sheet->workbook);
-
-	sheet_redraw_all (sheet);
-}
-
-/**
- * sheet_shift_cols:
- * @sheet the sheet
- * @start_col first column
- * @end_col   end column
- * @row       first row where the shifting takes place.
- * @count     numbers of rows to shift.  a negative numbers will
- *            delete count rows, positive number will insert
- *            count rows.
- */
-void
-sheet_shift_cols (Sheet *sheet, int start_col, int end_col, int row, int count)
-{
-	int i;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (count != 0);
-
-	for (i = start_col; i <= end_col; i++)
-		sheet_shift_col (sheet, i, row, count);
-}
-
 void
 sheet_make_cell_visible (Sheet *sheet, int col, int row)
 {
@@ -3308,7 +2708,7 @@ sheet_fill_selection_with (Sheet *sheet, const char *str,
 			   gboolean const is_array)
 {
 	GList *l;
-	int  col, row;
+
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (str != NULL);
@@ -3357,14 +2757,12 @@ sheet_fill_selection_with (Sheet *sheet, const char *str,
 		g_return_if_fail (str != NULL);
 	}
 
+	cell_freeze_redraws();
 	for (; l; l = l->next){
 		SheetSelection *ss = l->data;
-
-		for (col = ss->user.start.col; col <= ss->user.end.col; col++)
-			for (row = ss->user.start.row; row <=
-			     ss->user.end.row; row++)
-				sheet_set_text (sheet, col, row, str);
+		sheet_set_text (sheet, str, &ss->user);
 	}
+	cell_thaw_redraws();
 }
 
 void
@@ -3687,4 +3085,499 @@ sheet_set_selection (Sheet *sheet, SheetSelection const *ss)
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
 		gnumeric_sheet_set_selection (gsheet, ss);
 	}
+}
+
+/****************************************************************************/
+
+/* FIXME FIXME FIXME : 1999/Sept/29 when the style changes are done we need
+ *  to figure out how row/col/cell movement will apply to that.
+ */
+
+/*
+ * Callback for sheet_cell_foreach_range to remove a cell and
+ * put it in a temporary list.
+ */
+static Value *
+cb_collect_cell (Sheet *sheet, int col, int row, Cell *cell,
+		 void *user_data)
+{
+	GList ** l = user_data;
+
+	sheet_cell_remove_from_hash (sheet, cell);
+	*l = g_list_prepend (*l, cell);
+	return NULL;
+}
+
+/*
+ * Callback for sheet_cell_foreach_range to test whether a cell is in an
+ * array-formula to the right of the leftmost column.
+ */
+static Value *
+avoid_dividing_array_horizontal (Sheet *sheet, int col, int row, Cell *cell,
+				 void *user_data)
+{
+	if (cell == NULL ||
+	    cell->parsed_node == NULL ||
+	    cell->parsed_node->oper != OPER_ARRAY ||
+	    cell->parsed_node->u.array.x <= 0)
+		return NULL;
+	return value_terminate();
+}
+
+/*
+ * Callback for sheet_cell_foreach_range to test whether a cell is in an
+ * array-formula below the top line.
+ */
+static Value *
+avoid_dividing_array_vertical (Sheet *sheet, int col, int row, Cell *cell,
+			       void *user_data)
+{
+	if (cell == NULL ||
+	    cell->parsed_node == NULL ||
+	    cell->parsed_node->oper != OPER_ARRAY ||
+	    cell->parsed_node->u.array.y <= 0)
+		return NULL;
+	return value_terminate();
+}
+
+/*
+ * 1) collects the cells in the source rows/cols
+ * 2) Moves the headers to their new location
+ * 3) replaces the cells in their new location
+ */
+static void
+colrow_move (Sheet *sheet,
+	     int start_col, int start_row,
+	     int end_col, int end_row,
+	     ColRowCollection *info_collection,
+	     int const old_pos, int const new_pos)
+{
+	ColRowInfo **segment = COLROW_GET_SEGMENT(info_collection, old_pos);
+	ColRowInfo *info = (segment != NULL) ?
+		segment[COLROW_SUB_INDEX(old_pos)] : NULL;
+
+	GList *cells = NULL;
+	Cell *cell;
+
+	g_return_if_fail (old_pos >= 0);
+	g_return_if_fail (new_pos >= 0);
+
+	if (info == NULL)
+		return;
+
+	/* Collect the cells */
+	sheet_cell_foreach_range (sheet, TRUE,
+				  start_col, start_row,
+				  end_col, end_row,
+				  &cb_collect_cell, &cells);
+
+	/* Reverse the list so that we start at the top left
+	 * which makes things easier for arrays.
+	 */
+	cells = g_list_reverse (cells);
+
+	/* Update the position */
+	segment[COLROW_SUB_INDEX(old_pos)] = NULL;
+	info->pos = new_pos;
+
+	/* TODO : Figure out a way to merge these functions */
+	if (info_collection == &sheet->cols)
+		sheet_col_add (sheet, info);
+	else
+		sheet_row_add (sheet, info);
+
+	/* Insert the cells back */
+	for (; cells != NULL ; cells = g_list_remove (cells, cell)) {
+		cell = cells->data;
+
+		sheet_cell_add_to_hash (sheet, cell);
+		cell_relocate (cell);
+	}
+}
+
+/**
+ * sheet_insert_col:
+ * @sheet   The sheet
+ * @col     At which position we want to insert
+ * @count   The number of columns to be inserted
+ */
+void
+sheet_insert_col (Sheet *sheet, int col, int count)
+{
+	struct expr_relocate_info reloc_info;
+	GList *deps;
+	int   i;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (count != 0);
+
+	/* Is there any work to do? */
+	if (sheet->cols.max_used < 0)
+		return;
+
+	/* 0. Walk cells in displaced col and ensure arrays aren't divided. */
+	if (col > 0)	/* No need to test leftmost column */
+		if (sheet_cell_foreach_range (sheet, TRUE, col, 0,
+					      col, SHEET_MAX_ROWS-1,
+					      &avoid_dividing_array_horizontal,
+					      NULL) != NULL){
+			gnumeric_no_modify_array_notice (sheet->workbook);
+			return;
+		}
+
+	/* TODO TODO : Walk the right edge to make sure nothing is split
+	 * due to over run.
+	 */
+
+	/* 1. Delete all columns (and their cells) that will fall off the end */
+	for (i = sheet->cols.max_used; i >= SHEET_MAX_COLS - count ; --i)
+		sheet_col_destroy (sheet, i, TRUE);
+
+	/* 2. Fix references to and from the cells which are moving */
+	reloc_info.origin.start.col = col;
+	reloc_info.origin.start.row = 0;
+	reloc_info.origin.end.col = SHEET_MAX_COLS-1;
+	reloc_info.origin.end.row = SHEET_MAX_ROWS-1;
+	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
+	reloc_info.col_offset = count;
+	reloc_info.row_offset = 0;
+	workbook_expr_relocate (sheet->workbook, &reloc_info);
+
+	/* 3. Move the columns to their new location (From right to left) */
+	for (i = sheet->cols.max_used; i >= col ; --i)
+		colrow_move (sheet, i, 0, i, SHEET_MAX_ROWS-1,
+			     &sheet->cols, i, i + count);
+
+	/* 4. Recompute dependencies */
+	deps = region_get_dependencies (sheet,
+					col, 0,
+					SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+	cell_queue_recalc_list (deps, TRUE);
+	workbook_recalc (sheet->workbook);
+
+	/* 5. Redraw */
+	sheet_redraw_all (sheet);
+}
+
+/*
+ * sheet_delete_col
+ * @sheet   The sheet
+ * @col     At which position we want to start deleting columns
+ * @count   The number of columns to be deleted
+ */
+void
+sheet_delete_col (Sheet *sheet, int col, int count)
+{
+	struct expr_relocate_info reloc_info;
+	GList *deps;
+	int i;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (count != 0);
+
+	/* Is there any work to do? */
+	if (sheet->cols.max_used < 0)
+		return;
+
+	/* 0. Walk cells in deleted cols and ensure arrays aren't divided. */
+	if (!range_check_for_partial_array (sheet, 0, col, 
+					    SHEET_MAX_ROWS-1, col+count-1))
+	{
+		gnumeric_no_modify_array_notice (sheet->workbook);
+		return;
+	}
+
+	/* 1. Delete all columns (and their cells) that will fall off the end */
+	for (i = col + count ; --i >= col; )
+		sheet_col_destroy (sheet, i, TRUE);
+
+	/* 2. Invalidate references to the cells in the delete columns */
+	reloc_info.origin.start.col = col;
+	reloc_info.origin.start.row = 0;
+	reloc_info.origin.end.col = col + count - 1;
+	reloc_info.origin.end.row = SHEET_MAX_ROWS-1;
+	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
+	reloc_info.col_offset = SHEET_MAX_COLS; /* send them to infinity */
+	reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
+	workbook_expr_relocate (sheet->workbook, &reloc_info);
+
+	/* 3. Fix references to and from the cells which are moving */
+	reloc_info.origin.start.col = col+count;
+	reloc_info.origin.end.col = SHEET_MAX_COLS-1;
+	reloc_info.col_offset = -count;
+	reloc_info.row_offset = 0;
+	workbook_expr_relocate (sheet->workbook, &reloc_info);
+
+	/* 4. Move the columns to their new location (from left to right) */
+	for (i = col + count ; i <= sheet->cols.max_used; ++i)
+		colrow_move (sheet, i, 0, i, SHEET_MAX_ROWS-1,
+			     &sheet->cols, i, i-count);
+
+	/* 5. Recompute dependencies */
+	deps = region_get_dependencies (sheet,
+					col, 0,
+					SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+	cell_queue_recalc_list (deps, TRUE);
+	workbook_recalc (sheet->workbook);
+
+	/* 6. Redraw */
+	sheet_redraw_all (sheet);
+}
+
+///////////////////////////////////////
+/**
+ * sheet_insert_row:
+ * @sheet   The sheet
+ * @row     At which position we want to insert
+ * @count   The number of rows to be inserted
+ */
+void
+sheet_insert_row (Sheet *sheet, int row, int count)
+{
+	struct expr_relocate_info reloc_info;
+	GList *deps;
+	int   i;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (count != 0);
+
+	/* Is there any work to do? */
+	if (sheet->rows.max_used < 0)
+		return;
+
+	/* 0. Walk cells in displaced row and ensure arrays aren't divided. */
+	if (row > 0)	/* No need to test leftmost column */
+		if (sheet_cell_foreach_range (sheet, TRUE,
+					      0, row,
+					      SHEET_MAX_COLS-1, row,
+					      &avoid_dividing_array_vertical,
+					      NULL) != NULL){
+			gnumeric_no_modify_array_notice (sheet->workbook);
+			return;
+		}
+
+	/* TODO TODO : Walk the right edge to make sure nothing is split
+	 * due to over run.
+	 */
+
+	/* 1. Delete all rows (and their cells) that will fall off the end */
+	for (i = sheet->rows.max_used; i >= SHEET_MAX_ROWS - count ; --i)
+		sheet_row_destroy (sheet, i, TRUE);
+
+	/* 2. Fix references to and from the cells which are moving */
+	reloc_info.origin.start.col = 0;
+	reloc_info.origin.start.row = row;
+	reloc_info.origin.end.col = SHEET_MAX_COLS-1;
+	reloc_info.origin.end.row = SHEET_MAX_ROWS-1;
+	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
+	reloc_info.col_offset = 0;
+	reloc_info.row_offset = count;
+	workbook_expr_relocate (sheet->workbook, &reloc_info);
+
+	/* 3. Move the rows to their new location (from bottom to top) */
+	for (i = sheet->rows.max_used; i >= row ; --i)
+		colrow_move (sheet, 0, i, SHEET_MAX_COLS-1, i,
+			     &sheet->rows, i, i+count);
+
+	/* 4. Recompute dependencies */
+	deps = region_get_dependencies (sheet,
+					0, row,
+					SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+	cell_queue_recalc_list (deps, TRUE);
+	workbook_recalc (sheet->workbook);
+
+	/* 5. Redraw */
+	sheet_redraw_all (sheet);
+}
+
+/*
+ * sheet_delete_row
+ * @sheet   The sheet
+ * @row     At which position we want to start deleting rows
+ * @count   The number of rows to be deleted
+ */
+void
+sheet_delete_row (Sheet *sheet, int row, int count)
+{
+	struct expr_relocate_info reloc_info;
+	GList *deps;
+	int i;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (count != 0);
+
+	/* Is there any work to do? */
+	if (sheet->rows.max_used < 0)
+		return;
+
+	/* 0. Walk cells in deleted rows and ensure arrays aren't divided. */
+	if (!range_check_for_partial_array (sheet, row, 0, 
+					    row+count-1, SHEET_MAX_COLS-1))
+	{
+		gnumeric_no_modify_array_notice (sheet->workbook);
+		return;
+	}
+
+	/* 1. Delete all cols (and their cells) that will fall off the end */
+	for (i = row + count ; --i >= row; )
+		sheet_row_destroy (sheet, i, TRUE);
+
+	/* 2. Invalidate references to the cells in the delete columns */
+	reloc_info.origin.start.col = 0;
+	reloc_info.origin.start.row = row;
+	reloc_info.origin.end.col = SHEET_MAX_COLS-1;
+	reloc_info.origin.end.row = row + count - 1;
+	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
+	reloc_info.col_offset = SHEET_MAX_COLS; /* send them to infinity */
+	reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
+	workbook_expr_relocate (sheet->workbook, &reloc_info);
+
+	/* 3. Fix references to and from the cells which are moving */
+	reloc_info.origin.start.row = row + count;
+	reloc_info.origin.end.row = SHEET_MAX_ROWS-1;
+	reloc_info.col_offset = 0;
+	reloc_info.row_offset = -count;
+	workbook_expr_relocate (sheet->workbook, &reloc_info);
+
+	/* 4. Move the rows to their new location (from top to bottom) */
+	for (i = row + count ; i <= sheet->rows.max_used; ++i)
+		colrow_move (sheet, 0, i, SHEET_MAX_COLS-1, i,
+			     &sheet->rows, i, i-count);
+
+	/* 5. Recompute dependencies */
+	deps = region_get_dependencies (sheet,
+					0, row,
+					SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+	cell_queue_recalc_list (deps, TRUE);
+	workbook_recalc (sheet->workbook);
+
+	/* 6. Redraw */
+	sheet_redraw_all (sheet);
+}
+
+/*
+ * This is currently only used by the shift routines.
+ * However, it is intended to become the heart of the 'cut'
+ * operation.
+ *
+ * Excel does not support paste special from a 'cut' will we want to
+ * do that ?
+ */
+static void
+sheet_move_range (struct expr_relocate_info const * rinfo)
+{
+	GList *deps, *cells = NULL;
+	Cell  *cell;
+
+	g_return_if_fail (rinfo->origin_sheet != NULL);
+	g_return_if_fail (IS_SHEET (rinfo->origin_sheet));
+	g_return_if_fail (rinfo->target_sheet != NULL);
+	g_return_if_fail (IS_SHEET (rinfo->target_sheet));
+
+	/* 0. Walk cells in the moving range and ensure arrays aren't divided. */
+
+	/* 1. Fix references to and from the cells which are moving */
+	/* All we really want is the workbook so either sheet will do */
+	workbook_expr_relocate (rinfo->origin_sheet->workbook, rinfo);
+
+	/* 2. Collect the cells */
+	sheet_cell_foreach_range (rinfo->origin_sheet, TRUE,
+				  rinfo->origin.start.col,
+				  rinfo->origin.start.row,
+				  rinfo->origin.end.col,
+				  rinfo->origin.end.row,
+				  &cb_collect_cell, &cells);
+
+	/* 3. Reverse the list so that we start at the top left which makes
+	 * things easier for arrays.
+	 */
+	cells = g_list_reverse (cells);
+
+	/* Insert the cells back */
+	for (; cells != NULL ; cells = g_list_remove (cells, cell)) {
+		cell = cells->data;
+
+		/* Update the location */
+		cell->col = sheet_col_fetch (rinfo->target_sheet,
+					     cell->col->pos + rinfo->col_offset);
+		cell->row = sheet_row_fetch (rinfo->target_sheet,
+					     cell->row->pos + rinfo->row_offset);
+
+		sheet_cell_add_to_hash (rinfo->target_sheet, cell);
+
+		/* Move comments */
+		cell_relocate (cell);
+	}
+
+	/* 4. Recompute dependencies */
+	/* TODO : What region needs this ? the source or the target ? */
+	deps = region_get_dependencies (rinfo->target_sheet,
+					0, 0,
+					SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+	cell_queue_recalc_list (deps, TRUE);
+	workbook_recalc (rinfo->target_sheet->workbook);
+
+	/* 6. Redraw */
+	sheet_redraw_all (rinfo->target_sheet);
+}
+
+/**
+ * sheet_shift_rows:
+ * @sheet	the sheet
+ * @col		column marking the start of the shift
+ * @start_row	first row
+ * @end_row	end row
+ * @count	numbers of columns to shift.  negative numbers will
+ *		delete count columns, positive number will insert
+ *		count columns.
+ *
+ * Takes the cells to the in the region (col,start_row):(MAX_COL,end_row)
+ * and copies them @count units (possibly negative) to the right.
+ */
+
+void
+sheet_shift_rows (Sheet *sheet, int col, int start_row, int end_row, int count)
+{
+	struct expr_relocate_info rinfo;
+	rinfo.origin.start.col = col;
+	rinfo.origin.start.row = start_row;
+	rinfo.origin.end.col = SHEET_MAX_COLS-1;
+	rinfo.origin.end.row = end_row;
+	rinfo.origin_sheet = rinfo.target_sheet = sheet;
+	rinfo.col_offset = count;
+	rinfo.row_offset = 0;
+
+	sheet_move_range (&rinfo);
+}
+
+/**
+ * sheet_shift_cols:
+ * @sheet	the sheet
+ * @start_col	first column
+ * @end_col	end column
+ * @row		row marking the start of the shift
+ * @count	numbers of rows to shift.  a negative numbers will
+ *		delete count rows, positive number will insert
+ *		count rows.
+ *
+ * Takes the cells to the in the region (start_col,row):(end_col,MAX_ROW)
+ * and copies them @count units (possibly negative) downwards.
+ */
+void
+sheet_shift_cols (Sheet *sheet, int start_col, int end_col, int row, int count)
+{
+	struct expr_relocate_info rinfo;
+	rinfo.origin.start.col = start_col;
+	rinfo.origin.start.row = row;
+	rinfo.origin.end.col = end_col;
+	rinfo.origin.end.row = SHEET_MAX_ROWS-1;
+	rinfo.origin_sheet = rinfo.target_sheet = sheet;
+	rinfo.col_offset = 0;
+	rinfo.row_offset = count;
+
+	sheet_move_range (&rinfo);
 }

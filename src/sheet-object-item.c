@@ -15,30 +15,17 @@
 
 static SheetObject *sheet_object_item_parent_class;
 
-static void
-item_destroyed (GnomeCanvasItem *item, GnomeViewFrame *view_frame)
-{
-	gnome_object_destroy (GNOME_OBJECT (view_frame));
-}
-
 static GnomeCanvasItem *
 sheet_object_item_realize (SheetObject *so, SheetView *sheet_view)
 {
 	GnomeCanvasItem *item = NULL;
-	GnomeViewFrame *view_frame;
 
 	/*
 	 * Create item/view-frame
 	 */
-	view_frame = gnome_client_site_new_item (
+	item = gnome_client_site_new_item (
 		SHEET_OBJECT_BONOBO (so)->client_site,
-		sheet_view->object_group, &item);
-	
-	gnome_view_frame_set_ui_handler (view_frame, so->sheet->workbook->uih);
-
-	gtk_signal_connect (
-		GTK_OBJECT (item), "destroy",
-		GTK_SIGNAL_FUNC (item_destroyed), view_frame);
+		sheet_view->object_group);
 	
 	return item;
 }
@@ -46,7 +33,6 @@ sheet_object_item_realize (SheetObject *so, SheetView *sheet_view)
 static void
 sheet_object_item_update_bounds (SheetObject *sheet_object)
 {
-	/* Does not do much */
 }
 
 static void

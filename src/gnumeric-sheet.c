@@ -151,15 +151,13 @@ static void
 move_cursor (GnumericSheet *gsheet, int col, int row, gboolean clear_selection)
 {
 	Sheet *sheet = gsheet->sheet_view->sheet;
-
-	if (clear_selection)
-		sheet_selection_reset_only (sheet);
-
-	sheet_make_cell_visible (sheet, col, row);
 	sheet_cursor_set (sheet, col, row, col, row, col, row);
+	sheet_make_cell_visible (sheet, col, row);
 
-	if (clear_selection)
+	if (clear_selection) {
+		sheet_selection_reset_only (sheet);
 		sheet_selection_append (sheet, col, row);
+	}
 }
 
 void
@@ -189,7 +187,7 @@ gnumeric_sheet_set_cursor_bounds (GnumericSheet *gsheet,
  * move_cursor_horizontal:
  *  @Sheet:  The sheet name
  *  @count:  number of units to move the cursor horizontally
- *  @jump_to_boundaries : skip from the start to the end of ranges
+ *  @jump_to_boundaries: skip from the start to the end of ranges
  *                       of filled or unfilled cells.
  *
  * Moves the cursor count columns
@@ -216,7 +214,7 @@ move_horizontal_selection (GnumericSheet *gsheet, int count, gboolean jump_to_bo
  * move_cursor_vertical:
  *  @Sheet:  The sheet name
  *  @count:  number of units to move the cursor vertically
- *  @jump_to_boundaries : skip from the start to the end of ranges
+ *  @jump_to_boundaries: skip from the start to the end of ranges
  *                       of filled or unfilled cells.
  *
  * Moves the cursor count rows
@@ -809,9 +807,11 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_Escape:
 		sheet_cancel_pending_input (sheet);
+		sheet_selection_unant (sheet);
 		break;
 
 	case GDK_F2:
+		sheet_selection_unant (sheet);
 		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), wb->ea_input);
 		sheet_start_editing_at_cursor (sheet, FALSE, FALSE);
 		/* fall down */
@@ -842,6 +842,7 @@ gnumeric_sheet_key_mode_object (GnumericSheet *gsheet, GdkEventKey *event)
 	switch (event->keyval){
 	case GDK_Escape:
 		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
+		sheet_selection_unant (sheet);
 		break;
 
 	case GDK_BackSpace:
@@ -1120,8 +1121,13 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 				gsheet->last_full_col = col - 1;
 		}
 		pixels = cb;
-		col++;
-	} while (pixels < width);
+		++col;
+	} while (pixels < width && col < SHEET_MAX_COLS);
+
+	if (col >= SHEET_MAX_COLS) {
+		gsheet->last_visible_col = SHEET_MAX_COLS-1;
+		gsheet->last_full_col = SHEET_MAX_COLS-1;
+	}
 
 	/* Find out the last visible row and the last fully visible row */
 	pixels = 0;
@@ -1146,7 +1152,12 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 		}
 		pixels = cb;
 		row++;
-	} while (pixels < height);
+	} while (pixels < height && row < SHEET_MAX_ROWS);
+
+	if (row >= SHEET_MAX_ROWS) {
+		gsheet->last_visible_row = SHEET_MAX_ROWS-1;
+		gsheet->last_full_row = SHEET_MAX_ROWS-1;
+	}
 
 	/* Update the scrollbar sizes */
 	sheet_view_scrollbar_config (gsheet->sheet_view);
@@ -1161,7 +1172,7 @@ gnumeric_sheet_bar_set_top_row (GnumericSheet *gsheet, int new_top_row)
 	int x;
 
 	g_return_val_if_fail (gsheet != NULL, 0);
-	g_return_val_if_fail (new_top_row >= 0 && new_top_row <= SHEET_MAX_ROWS-1, 0);
+	g_return_val_if_fail (0 <= new_top_row && new_top_row < SHEET_MAX_ROWS, 0);
 
 	rowc = GNOME_CANVAS_ITEM (gsheet->rowbar)->canvas;
 	sheet = gsheet->sheet_view->sheet;
@@ -1180,7 +1191,7 @@ gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_top_row)
 	int distance, x;
 
 	g_return_if_fail (gsheet != NULL);
-	g_return_if_fail (new_top_row >= 0 && new_top_row <= SHEET_MAX_ROWS-1);
+	g_return_if_fail (0 <= new_top_row && new_top_row < SHEET_MAX_ROWS);
 
 	if (gsheet->top_row != new_top_row) {
 		distance = gnumeric_sheet_bar_set_top_row (gsheet, new_top_row);
@@ -1199,7 +1210,7 @@ gnumeric_sheet_bar_set_top_col (GnumericSheet *gsheet, int new_top_col)
 	int y;
 
 	g_return_val_if_fail (gsheet != NULL, 0);
-	g_return_val_if_fail (new_top_col >= 0 && new_top_col <= SHEET_MAX_COLS-1, 0);
+	g_return_val_if_fail (0 <= new_top_col && new_top_col < SHEET_MAX_COLS, 0);
 
 	colc = GNOME_CANVAS_ITEM (gsheet->colbar)->canvas;
 	sheet = gsheet->sheet_view->sheet;
@@ -1219,7 +1230,7 @@ gnumeric_sheet_set_top_col (GnumericSheet *gsheet, int new_top_col)
 	int distance, y;
 
 	g_return_if_fail (gsheet != NULL);
-	g_return_if_fail (new_top_col >= 0 && new_top_col <= SHEET_MAX_COLS-1);
+	g_return_if_fail (0 <= new_top_col && new_top_col < SHEET_MAX_COLS);
 
 	if (gsheet->top_col != new_top_col) {
 		distance = gnumeric_sheet_bar_set_top_col (gsheet, new_top_col);

@@ -3,12 +3,14 @@
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
+ *
+ * (C) 1998, 1999 Michael Meeks
  **/
 
 #include <stdio.h>
 
+#include <config.h>
 #include <glib.h>
-
 #include "ms-ole.h"
 #include "ms-ole-summary.h"
 #include "ms-biff.h"

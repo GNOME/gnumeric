@@ -18,6 +18,7 @@
 #include "expr.h"
 #include "eval.h"
 #include "utils.h"
+#include "utils-dialog.h"
 #include "goal-seek.h"
 #ifdef HAVE_IEEEFP_H
 #include <ieeefp.h>
@@ -206,6 +207,7 @@ dialog_found_solution (Cell *set_cell, Cell *change_cell, float_t target_value)
 				   GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
 
+	gnome_dialog_set_default(GNOME_DIALOG(dialog), GNOME_OK);
 	status_label = gtk_label_new (status_str);
 	empty_label = gtk_label_new ("");
 	target_label = gtk_label_new (target_str);
@@ -239,7 +241,6 @@ dialog_found_solution (Cell *set_cell, Cell *change_cell, float_t target_value)
 	return (selection != 0);
 }
 
-
 void
 dialog_goal_seek (Workbook *wb, Sheet *sheet)
 {
@@ -270,12 +271,18 @@ dialog_goal_seek (Workbook *wb, Sheet *sheet)
                 gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
 		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
 					 GTK_WINDOW (wb->toplevel));
+		gnome_dialog_set_default (GNOME_DIALOG(dialog), GNOME_OK);
 
-                set_entry = gtk_entry_new_with_max_length (MAX_CELL_NAME_LEN);
-                target_entry = gtk_entry_new_with_max_length (MAX_CELL_NAME_LEN);
-                change_entry = gtk_entry_new_with_max_length (MAX_CELL_NAME_LEN);
-                xmin_entry = gtk_entry_new_with_max_length (MAX_CELL_NAME_LEN);
-                xmax_entry = gtk_entry_new_with_max_length (MAX_CELL_NAME_LEN);
+                set_entry = gnumeric_dialog_entry_new_with_max_length 
+			(GNOME_DIALOG (dialog), MAX_CELL_NAME_LEN);
+                target_entry = gnumeric_dialog_entry_new_with_max_length 
+			(GNOME_DIALOG (dialog), MAX_CELL_NAME_LEN);
+                change_entry = gnumeric_dialog_entry_new_with_max_length 
+			(GNOME_DIALOG (dialog), MAX_CELL_NAME_LEN);
+                xmin_entry = gnumeric_dialog_entry_new_with_max_length 
+			(GNOME_DIALOG (dialog), MAX_CELL_NAME_LEN);
+                xmax_entry = gnumeric_dialog_entry_new_with_max_length 
+			(GNOME_DIALOG (dialog), MAX_CELL_NAME_LEN);
 
 		set_label    = gtk_label_new (_("Set cell:"));
 		target_label = gtk_label_new (_("To value:"));

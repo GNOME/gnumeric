@@ -3,6 +3,8 @@
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
+ *
+ * (C) 1999 Michael Meeks
  **/
 
 #include "summary.h"

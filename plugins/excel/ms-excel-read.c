@@ -4,7 +4,11 @@
  * Author:
  *    Michael Meeks (michael@imaginator.com)
  *    Jody Goldberh (jgoldberg@home.com)
+ *
+ * (C) 1998, 1999 Michael Meeks, Jody Goldberg
  **/
+
+#include <config.h>
 
 #include "ms-formula-read.h"
 #include "ms-excel-read.h"
@@ -12,7 +16,6 @@
 #include "ms-chart.h"
 #include "gnumeric-chart.h"
 #include "ms-escher.h"
-
 #include "print-info.h"
 #include "selection.h"
 #include "utils.h"	/* for cell_name */
@@ -42,6 +45,7 @@ static void        ms_excel_workbook_attach (ExcelWorkbook *wb,
 #define STYLE_BOTTOM  (MSTYLE_BORDER_BOTTOM - MSTYLE_BORDER_TOP)
 #define STYLE_LEFT    (MSTYLE_BORDER_LEFT   - MSTYLE_BORDER_TOP)
 #define STYLE_RIGHT   (MSTYLE_BORDER_RIGHT  - MSTYLE_BORDER_TOP)
+#define STYLE_ORIENT_MAX 4
 
 /*static guint16
 ms_bug_get_padding (const BiffQuery *q, guint16 opcode)
@@ -394,16 +398,16 @@ biff_boundsheet_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 	}
 	ans->streamStartPos = MS_OLE_GET_GUINT32 (q->data);
 	switch (MS_OLE_GET_GUINT8 (q->data + 4)) {
-	case 00:
+	case 0:
 		ans->type = eBiffTWorksheet;
 		break;
-	case 01:
+	case 1:
 		ans->type = eBiffTMacrosheet;
 		break;
-	case 02:
+	case 2:
 		ans->type = eBiffTChart;
 		break;
-	case 06:
+	case 6:
 		ans->type = eBiffTVBModule;
 		break;
 	default:
@@ -942,8 +946,8 @@ typedef struct _BiffXFData {
 	gboolean wrap;
 	guint8 rotation;
 	eBiff_eastern eastern;
-	guint8 border_color[4];	        /* Array [StyleSide] */
-	StyleBorderType border_type[4];	/* Array [StyleSide] */
+	guint8 border_color[STYLE_ORIENT_MAX];
+	StyleBorderType border_type[STYLE_ORIENT_MAX];
 	eBiff_border_orientation border_orientation;
 	StyleBorderType border_linestyle;
 	guint8 fill_pattern_idx;
@@ -2117,27 +2121,29 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 	case BIFF_MULBLANK:
 	{
 		/* S59DA7.HTM is extremely unclear, this is an educated guess */
-		int col = EX_GETCOL (q);
+		int firstcol = EX_GETCOL (q);
 		int const row = EX_GETROW (q);
-		int lastcol = MS_OLE_GET_GUINT16 (q->data + q->length - 2);
-		guint8 const *ptr = (q->data + 4);
+		guint8 const *ptr = (q->data + q->length - 2);
+		int lastcol = MS_OLE_GET_GUINT16 (ptr);
+		int i;
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 0) {
 			printf ("Cells in row %d are blank starting at col %s until col ",
-				row+1, col_name(col));
+				row+1, col_name(firstcol));
 			printf ("%s;\n",
 				col_name(lastcol));
 		}
 #endif
-		if (lastcol < col) {
-			int const tmp = col;
-			col = lastcol;
+		if (lastcol < firstcol) {
+			int const tmp = firstcol;
+			firstcol = lastcol;
 			lastcol = tmp;
 		}
-		for (; col <= lastcol ; ++col, ptr += 2) {
+		for (i = lastcol; i >= firstcol ; --i) {
+			ptr -= 2;
 			ms_excel_sheet_insert_val (sheet,
 						   MS_OLE_GET_GUINT16 (ptr),
-						   col, EX_GETROW (q),
+						   i, row,
 						   value_new_empty());
 		}
 		break;
@@ -2220,7 +2226,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		BiffXFData const *xf = NULL;
 		BiffFontData const *fd = NULL;
 		guint16 const firstcol = MS_OLE_GET_GUINT16(q->data);
-		guint16 const lastcol  = MS_OLE_GET_GUINT16(q->data+2);
+		guint16       lastcol  = MS_OLE_GET_GUINT16(q->data+2);
 		guint16       width    = MS_OLE_GET_GUINT16(q->data+4);
 		guint16 const cols_xf  = MS_OLE_GET_GUINT16(q->data+6);
 		guint16 const options  = MS_OLE_GET_GUINT16(q->data+8);
@@ -2269,7 +2275,11 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		 * horizontally. (NOTE : this is different from vertically)
 		 */
 		width *= .70;
-		for (lp=firstcol;lp<=lastcol;lp++)
+
+		/* NOTE : seems like this is inclusive firstcol, inclusive lastcol */
+		if (lastcol >= SHEET_MAX_COLS)
+			lastcol = SHEET_MAX_COLS-1;
+		for (lp = firstcol ; lp <= lastcol ; ++lp)
 			sheet_col_set_width (sheet->gnum_sheet, lp,
 					     width);
 		break;
@@ -2513,7 +2523,6 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 						sheet->gnum_sheet->name);
 			}
 			return TRUE;
-			break;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
 			sheet->obj_queue = g_list_append (sheet->obj_queue,

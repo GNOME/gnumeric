@@ -203,17 +203,17 @@ ExprTree   *expr_tree_array_formula (int const x, int const y, int const rows,
 void        expr_tree_ref          (ExprTree *tree);
 void        expr_tree_unref        (ExprTree *tree);
 
-ExprTree   *expr_tree_invalidate_references (ExprTree *src, EvalPosition *src_fp,
-					     const EvalPosition *fp,
-					     int colcount, int rowcount);
+struct expr_relocate_info {
+	Range origin;		/* References to cells in origin_sheet!range */
+	Sheet *origin_sheet;	/* should to adjusted */
 
-ExprTree   *expr_tree_fixup_references (ExprTree *src, EvalPosition *src_fp,
-					const EvalPosition *fp,
-					int coldelta, int rowdelta);
+	Sheet *target_sheet;	/* to point at this sheet */
+	int col_offset, row_offset;/* and offset by this amount */
+};
 
-
-ExprTree * expr_relocate (ExprTree *expr, EvalPosition const *pos,
-			  int col_offset, int row_offset);
+ExprTree * expr_relocate (ExprTree const *expr,
+			  EvalPosition const *pos,
+			  struct expr_relocate_info const *info);
 
 int             expr_tree_get_const_int (ExprTree const *const expr);
 char const *	expr_tree_get_const_str (ExprTree const *const expr);

@@ -3,6 +3,8 @@
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
+ *
+ * (C) 1998, 1999 Michael Meeks
  */
 #ifndef GNUMERIC_MS_FORMULA_W_H
 #define GNUMERIC_MS_FORMULA_W_H

@@ -3,9 +3,12 @@
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
+ *
+ * (C) 1998, 1999 Michael Meeks
  **/
 #include <stdio.h>
 #include <sys/stat.h>
+
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
@@ -23,12 +26,13 @@ static gboolean
 excel_probe (const char *filename)
 {
 	MsOle    *f;
-	MsOleErr  result;
 	
-	result = ms_ole_open (&f, filename);
-	ms_ole_destroy (&f);
+	if (ms_ole_open (&f, filename) == MS_OLE_ERR_OK) {
+		ms_ole_destroy (&f);
+		return TRUE;
+	}
 
-	return result == MS_OLE_ERR_OK;
+	return FALSE;
 }
 
 static gboolean

@@ -38,7 +38,7 @@ dnl
 dnl Check doc/translating.sgml for a description of how to translate
 dnl and why we have so many translations.
 dnl
-ALL_LINGUAS="cs da de en_GB es es_DO es_GT es_HN es_MX es_PA es_PE es_SV et fi fr hu hr it ja ko no pt pt_BR ru pl sk zh_TW.Big5 sv"
+ALL_LINGUAS="cs da de en_GB es es_DO es_GT es_HN es_MX es_PA es_PE es_SV et fi fr hu hr it ja ko nl no pt pt_BR ru pl sk zh_TW.Big5 sv"
 AM_GNU_GETTEXT
 AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
 
@@ -133,6 +133,8 @@ AC_ARG_WITH(bonobo,
 	fi
 )
 
+gnumeric_executable=gnumeric
+AC_SUBST(gnumeric_executable)
 if $try_bonobo; then
 	AC_MSG_CHECKING(for Bonobo > 0.2)
 	if gnome-config --libs bonobo > /dev/null 2>&1; then
@@ -152,6 +154,7 @@ if $try_bonobo; then
 		have_bonobo=true
 		bonobo=bonobo
 		bonobo_msg=yes
+	        gnumeric_executable=gnumeric-bonobo
 	else
 		AC_MSG_RESULT(not found)
 	fi
@@ -225,6 +228,7 @@ plugins/html/Makefile
 intl/Makefile
 po/Makefile.in
 macros/Makefile
+gnumeric.desktop
 stamp.h
 ],[sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile])
 

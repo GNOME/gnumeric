@@ -28,6 +28,7 @@
 <widget>
   <class>GnomeDialog</class>
   <name>NamesDialog</name>
+  <visible>False</visible>
   <title>Define Name</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
@@ -126,6 +127,7 @@
 	  <class>GtkButton</class>
 	  <name>ok</name>
 	  <has_default>True</has_default>
+	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
 	  <stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
 	  <child>

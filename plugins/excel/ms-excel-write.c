@@ -3,6 +3,8 @@
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
+ *
+ * (C) 1998, 1999 Michael Meeks
  **/
 
 #include <stdio.h>
@@ -11,11 +13,11 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
-#include <config.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <math.h>
 
+#include <config.h>
 #include <gnome.h>
 
 #include "gnumeric.h"
@@ -1470,8 +1472,8 @@ new_sheet (ExcelWorkbook *wb, Sheet *value)
 	sheet->gnum_sheet = value;
 	sheet->streamPos  = 0x0deadbee;
 	sheet->wb         = wb;
-	sheet->maxx       = sheet->gnum_sheet->max_col_used + 1;
-	sheet->maxy       = sheet->gnum_sheet->max_row_used + 1;
+	sheet->maxx       = sheet->gnum_sheet->cols.max_used + 1;
+	sheet->maxy       = sheet->gnum_sheet->cols.max_used + 1;
 	sheet->dbcells    = g_array_new (FALSE, FALSE, sizeof (MsOlePos));
 
 	g_ptr_array_add (wb->sheets, sheet);

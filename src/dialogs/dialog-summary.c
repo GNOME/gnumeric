@@ -76,6 +76,10 @@ dialog_summary_update (Workbook *wb, SummaryInfo *sin)
 {
 	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/summary.glade", NULL);
 	GtkWidget *dia;
+	int i;
+	static char *names[] 
+	  = {"glade_title", "glade_author", "glade_category", 
+	     "glade_keywords", "glade_manager"};
 	gint v;
 
 	if (!gui) {
@@ -87,6 +91,13 @@ dialog_summary_update (Workbook *wb, SummaryInfo *sin)
 	if (!dia) {
 		printf ("Corrupt file summary.glade\n");
 		return;
+	}
+
+	for (i = 0; i < sizeof(names)/sizeof(char *); i++) {
+		GtkWidget *entry;
+		entry = glade_xml_get_widget (gui, names[i]);
+		gnome_dialog_editable_enters(GNOME_DIALOG(dia), 
+					     GTK_EDITABLE(entry));
 	}
 	
 	gnome_dialog_set_parent (GNOME_DIALOG (dia),

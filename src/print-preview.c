@@ -545,21 +545,6 @@ print_preview_new (Sheet *sheet)
 		GTK_OBJECT (pp->sheet->workbook), "destroy",
 		GTK_SIGNAL_FUNC (sheet_destroyed), pp);
 
-	{
-		static int warning_shown;
-
-		if (!warning_shown) {
-			gnumeric_notice (
-				sheet->workbook,
-				GNOME_MESSAGE_BOX_WARNING,
-				_("The Print Preview feature is being developed.\n"
-				  "The results of the preview is not correct currently,\n"
-				  "it might include a buggy rendering (like black\n"
-				  "blocks or an incorrect text placement).\n\n"
-				  "We apologize for the inconvenience"));
-		}
-		warning_shown = 1;
-	}
 	return pp;
 }
 

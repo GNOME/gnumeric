@@ -519,15 +519,26 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		
 	case FILL_FORMULA:
 	{
+		ExprTree * func;
 		EvalPosition pos;
-		ExprTree * func = expr_relocate (fi->v.formula,
-						 eval_pos_cell (&pos, cell),
-						 0,0);
+		struct expr_relocate_info rinfo;
+
+		/* FIXME : Find out how to handle this */
+		rinfo.target_sheet = rinfo.origin_sheet = 0;
+		rinfo.col_offset = rinfo.row_offset = 0;
+		rinfo.origin.start.col = rinfo.origin.end.col = cell->col->pos;
+		rinfo.origin.start.row = rinfo.origin.end.row = cell->row->pos;
+
+		/* FIXME : I presume this is needed to invalidate
+		 * relative references that will fall off the
+		 * edge ?? */
+		func = expr_relocate (fi->v.formula,
+				      eval_pos_cell (&pos, cell),
+				      &rinfo);
 		cell_set_formula_tree (cell,
 				       (func == NULL) ? fi->v.formula : func);
 		return;
 	}
-	
 	}
 }
 

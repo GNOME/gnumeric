@@ -38,7 +38,8 @@ libdialogs_a_SOURCES =				\
 	utils-dialog.c                          \
 	dialogs.h				\
 	tools.h                                 \
-	utils-dialog.h
+	utils-dialog.h				\
+	utils-dialog.c
 
 gladedir   = $(datadir)/gnumeric/glade
 glade_DATA = 				\
@@ -51,7 +52,9 @@ glade_DATA = 				\
 	row-height.glade		\
 	sheet-rename.glade		\
 	summary.glade			\
-	dialog-zoom.glade
+	dialog-zoom.glade		\
+	insert-cells.glade		\
+	delete-cells.glade
 
 glade_msgs = 				\
 	col-width.glade.h		\

@@ -1,3 +1,24 @@
+1999-10-05  Arturo Tena <arturo@directmail.org>
+
+	* ms-ole.c: Add a comment regarding check_stream performance issue
+	  and fixed English typo.
+	  (read_bb): Fixed bug: tried to mark an inexistent block as
+	  unused.
+
+1999-10-03  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-ole.c (ms_ole_destroy) : Quick and dirty test to
+	  avoid freeing the magic ptr on exit when we have a
+	  failure during intialization.
+
+1999-09-30  Arturo Tena <arturo@directmail.org>
+
+	* ms-ole.c: Cleanup the code.
+	(ADD_BBD_LIST_BLOCK): added new type of block.
+	(TRY_MARK_UNUSED_BLOCK): added.
+	(characterise_block): added the new block type.
+	(read_bb): fixed bug that prevent unuse all bbd list blocks.
+
 1999-09-27  Arturo Tena <arturo@directmail.org>
 
 	* Makefile.am: install missing headers.

@@ -6,6 +6,7 @@
  *  Jody Goldberg (jgoldberg@home.com)
  *
  */
+#include <config.h>
 #include "selection.h"
 #include "gnumeric-sheet.h"
 #include "utils.h"
@@ -551,6 +552,36 @@ sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 	return result;
 }
 
+void
+sheet_selection_ant (Sheet *sheet)
+{
+	GList *l;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	for (l = sheet->sheet_views; l; l = l->next){
+		SheetView *sheet_view = l->data;
+
+		sheet_view_selection_ant (sheet_view);
+	}
+}
+
+void
+sheet_selection_unant (Sheet *sheet)
+{
+	GList *l;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	for (l = sheet->sheet_views; l; l = l->next){
+		SheetView *sheet_view = l->data;
+
+		sheet_view_selection_unant (sheet_view);
+	}
+}
+
 gboolean
 sheet_selection_copy (Sheet *sheet)
 {
@@ -562,6 +593,8 @@ sheet_selection_copy (Sheet *sheet)
 	if (!selection_is_simple (sheet, _("copy")))
 		return FALSE;
 
+	sheet_selection_ant (sheet);
+	
 	ss = sheet->selections->data;
 
 	if (sheet->workbook->clipboard_contents)
@@ -570,7 +603,7 @@ sheet_selection_copy (Sheet *sheet)
 	sheet->workbook->clipboard_contents = clipboard_copy_cell_range (
 		sheet,
 		ss->user.start.col, ss->user.start.row,
-		ss->user.end.col, ss->user.end.row, FALSE);
+		ss->user.end.col, ss->user.end.row);
 
 	return TRUE;
 }
@@ -580,6 +613,16 @@ sheet_selection_cut (Sheet *sheet)
 {
 	SheetSelection *ss;
 
+	/* FIXME FIXME FIXME
+	 * This code should be replaced completely.
+	 * 'cut' is a poor description of what we're
+	 * doing here.  'move' would be a better
+	 * approximation.  The key portion of this process is that
+	 * the range being moved has all
+	 * 	- references to it adjusted to the new site.
+	 * 	- relative references from it adjusted.
+	 */
+
 	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (sheet->selections, FALSE);
@@ -587,6 +630,8 @@ sheet_selection_cut (Sheet *sheet)
 	if (!selection_is_simple (sheet, _("cut")))
 		return FALSE;
 
+	sheet_selection_ant (sheet);
+	
 	ss = sheet->selections->data;
 
 	if (sheet->workbook->clipboard_contents)
@@ -595,7 +640,7 @@ sheet_selection_cut (Sheet *sheet)
 	sheet->workbook->clipboard_contents = clipboard_copy_cell_range (
 		sheet,
 		ss->user.start.col, ss->user.start.row,
-		ss->user.end.col, ss->user.end.row, TRUE);
+		ss->user.end.col, ss->user.end.row);
 
 	sheet_clear_region (sheet, ss->user.start.col, ss->user.start.row,
 			    ss->user.end.col, ss->user.end.row, NULL);
@@ -1010,4 +1055,42 @@ selection_to_list (Sheet *sheet, gboolean allow_intersection)
 	selection_apply (sheet, &assemble_selection_list,
 			 allow_intersection, &list);
 	return list;
+}
+
+/*****************************************************************************/
+
+/*
+ * selection_contains_colrow :
+ * @sheet : The whose selection we are interested in.
+ * @colrow: The column or row number we are interested in.
+ * @is_col: A flag indicating whether this it is a column or a row.
+ *
+ * Searches the selection list to see whether the entire col/row specified is
+ * contained by the section regions.  Since the selection is stored as the set
+ * overlapping user specifed regions we can safely search for the range directly.
+ *
+ * Eventually to be completely correct and deal with the case of someone manually
+ * selection an entire col/row, in seperate chunks,  we will need to do something
+ * more advanced.
+ */
+gboolean
+selection_contains_colrow (Sheet *sheet, int colrow, gboolean is_col)
+{
+	GList *l;
+	for (l = sheet->selections; l != NULL; l = l->next) {
+		SheetSelection const *ss = l->data;
+
+		if (is_col) {
+			if (ss->user.start.row == 0 &&
+			    ss->user.end.row >= SHEET_MAX_ROWS-1 &&
+			    ss->user.start.col <= colrow && colrow <= ss->user.end.col)
+				return TRUE;
+		} else {
+			if (ss->user.start.col == 0 &&
+			    ss->user.end.col >= SHEET_MAX_COLS-1 &&
+			    ss->user.start.row <= colrow && colrow <= ss->user.end.row)
+				return TRUE;
+		}
+	}
+	return FALSE;
 }

@@ -88,6 +88,16 @@ row_cb (GtkWidget * clist, gint row, gint col,
 		gtk_widget_set_sensitive (pm->button_remove, 0);
 }
 
+static gint
+pm_key_event (GtkWidget *pm, GdkEventKey *event)
+{
+	if (event->keyval == GDK_Escape) {
+		gtk_widget_destroy(pm);
+		return 1;
+	} else
+		return 0;
+}
+
 GtkWidget *
 plugin_manager_new (Workbook *wb)
 {
@@ -101,6 +111,7 @@ plugin_manager_new (Workbook *wb)
 
 	pm->workbook = wb;
 	pm->dialog = gtk_window_new (GTK_WINDOW_DIALOG);
+	/*gnome_dialog_set_parent (GNOME_DIALOG (pm->dialog), GTK_WINDOW (wb->toplevel)); */
 	
 	pm->hbox = gtk_hbox_new (0, 0);
 	gtk_container_add (GTK_CONTAINER (pm->dialog), pm->hbox);
@@ -150,6 +161,11 @@ plugin_manager_new (Workbook *wb)
 	gtk_signal_connect(GTK_OBJECT (pm->clist), "unselect_row",
 			   GTK_SIGNAL_FUNC (row_cb), pm);
 	
+	gtk_signal_connect (GTK_OBJECT (pm->dialog), "key_press_event",
+			    GTK_SIGNAL_FUNC (pm_key_event), NULL);
+
+	gtk_widget_grab_focus (pm->button_add);
+
 	gtk_widget_show_all (pm->hbox);
 	
 	return pm->dialog;

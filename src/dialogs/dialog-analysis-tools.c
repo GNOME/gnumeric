@@ -13,6 +13,7 @@
 #include "utils-dialog.h"
 #include "dialogs.h"
 #include "utils.h"
+#include "utils-dialog.h"
 #include "tools.h"
 
 
@@ -221,6 +222,7 @@ new_dialog(char *name, GtkWidget *win)
 				   NULL);
 
 	gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
+	gnome_dialog_set_default (GNOME_DIALOG(dialog), GNOME_OK);
 	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (win));
 
 	return dialog;
@@ -255,8 +257,10 @@ add_check_buttons (GtkWidget *box, check_button_t *cbs)
 {
 	static gboolean do_transpose = FALSE;
         GtkWidget *button;
+	GnomeDialog *dialog;
 	int       i;
 
+	dialog = GNOME_DIALOG (gtk_widget_get_toplevel (box));
 	for (i = 0; cbs[i].name; i++) {
 	        GtkWidget *hbox, *entry;
 
@@ -264,7 +268,7 @@ add_check_buttons (GtkWidget *box, check_button_t *cbs)
 	        button = gtk_check_button_new_with_label (cbs[i].name);
 		gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
 		if (cbs[i].entry_flag) {
-		        entry = gtk_entry_new_with_max_length (20);
+		        entry = gnumeric_dialog_entry_new_with_max_length (dialog, 20);
 			gtk_entry_set_text (GTK_ENTRY (entry),
 					    cbs[i].default_entry);
 			gtk_box_pack_start (GTK_BOX (hbox), entry, 
@@ -336,7 +340,8 @@ add_output_frame(GtkWidget *box, GSList **output_ops)
 					    _("Output Range:"));
 	*output_ops = GTK_RADIO_BUTTON (r)->group;
 	gtk_box_pack_start_defaults (GTK_BOX (hbox), r);
-	output_range_entry = gtk_entry_new_with_max_length (20);
+	output_range_entry = gnumeric_dialog_entry_new_with_max_length 
+		(GNOME_DIALOG (gtk_widget_get_toplevel (box)), 20);
 	gtk_box_pack_start_defaults (GTK_BOX (hbox), 
 				     output_range_entry);
 	gtk_box_pack_start_defaults (GTK_BOX (box), hbox);
@@ -573,8 +578,8 @@ dialog_sampling_tool(Workbook *wb, Sheet *sheet)
 			else
 			        label =
 				  gtk_label_new (_("Number of Samples:"));
-			sampling_entry[i] =
-			        gtk_entry_new_with_max_length (20);
+			sampling_entry[i] =  gnumeric_dialog_entry_new_with_max_length 
+				(GNOME_DIALOG (dialog), 20);
 			r = gtk_radio_button_new_with_label
 			  (sampling_ops, _(sample_method_ops[i]));
 			sampling_ops = GTK_RADIO_BUTTON (r)->group;
@@ -1264,25 +1269,6 @@ ftest_dialog_loop:
 }
 
 
-static GtkWidget *
-pack_label_and_entry(char *str, char *default_str,
-		     int entry_len, GtkWidget *vbox)
-{
-        GtkWidget *box, *label, *entry;
-
-        box = gtk_hbox_new (FALSE, 0);
-	entry = gtk_entry_new_with_max_length (entry_len);
-	label = gtk_label_new (str);
-	gtk_entry_set_text (GTK_ENTRY (entry), default_str);
-
-	gtk_box_pack_start_defaults (GTK_BOX (box), label);
-	gtk_box_pack_start_defaults (GTK_BOX (box), entry);
-	gtk_box_pack_start_defaults (GTK_BOX (vbox), box);
-
-	return entry;
-}
-
-
 static void
 distribution_callback(GtkWidget *widget, random_tool_callback_t *p)
 {
@@ -1384,30 +1370,30 @@ dialog_random_tool(Workbook *wb, Sheet *sheet)
 		   &callback_data);
 
 		callback_data.discrete_box = gtk_vbox_new (FALSE, 0);
-		discrete_range_entry = pack_label_and_entry
+		discrete_range_entry = hbox_pack_label_and_entry
 		  (_("Value and Probability Input Range:"), "", 20,
 		   callback_data.discrete_box);
 
 		callback_data.uniform_box = gtk_vbox_new (FALSE, 0);
 		uniform_lower_entry = 
-		  pack_label_and_entry(_("Between:"), "0", 20,
-				       callback_data.uniform_box);
+		  hbox_pack_label_and_entry(_("Between:"), "0", 20,
+					    callback_data.uniform_box);
 		uniform_upper_entry = 
-		  pack_label_and_entry(_("And:"), "1", 20, 
-				       callback_data.uniform_box);
+		  hbox_pack_label_and_entry(_("And:"), "1", 20, 
+					    callback_data.uniform_box);
 
 		callback_data.normal_box = gtk_vbox_new (FALSE, 0);
-		normal_mean_entry = pack_label_and_entry
+		normal_mean_entry = hbox_pack_label_and_entry
 		  (_("Mean = "), "0", 20, callback_data.normal_box);
-		normal_stdev_entry = pack_label_and_entry
+		normal_stdev_entry = hbox_pack_label_and_entry
 		  (_("Standard Deviation = "), "1", 20, callback_data.normal_box);
 
 		callback_data.poisson_box = gtk_vbox_new (FALSE, 0);
-		poisson_lambda_entry = pack_label_and_entry
+		poisson_lambda_entry = hbox_pack_label_and_entry
 		  (_("Lambda"), "0", 20, callback_data.poisson_box);
 
 		callback_data.bernoulli_box = gtk_vbox_new (FALSE, 0);
-		bernoulli_p_entry = pack_label_and_entry
+		bernoulli_p_entry = hbox_pack_label_and_entry
 		  (_("p Value"), "0", 20, callback_data.bernoulli_box);
 
 		box = gtk_vbox_new (FALSE, 0);
@@ -1992,6 +1978,7 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
 					   GNOME_STOCK_BUTTON_CANCEL,
 					   NULL);
 		gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
+		gnome_dialog_set_default (GNOME_DIALOG(dialog), GNOME_OK);
 
 		box = gtk_vbox_new (FALSE, 0);
 		main_label = gtk_label_new(_("Analysis Tools"));
@@ -2024,9 +2011,14 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
 		gtk_signal_connect (GTK_OBJECT(tool_list), "select_row",
 				    GTK_SIGNAL_FUNC(selection_made), NULL);
 
+		if (tools[0].fun)
+			gtk_clist_select_row(GTK_CLIST(tool_list), 0, 0);
+
 		gtk_widget_show_all (dialog);
 	} else
 		gtk_widget_show (dialog);
+	
+	gtk_widget_grab_focus (GTK_WIDGET(tool_list));
 
 	/* Run the dialog */
 	selection = gnome_dialog_run (GNOME_DIALOG (dialog));

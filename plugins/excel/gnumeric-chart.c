@@ -5,8 +5,11 @@
  *
  * Author:
  *    Jody Goldberg (jgoldberg@home.com)
+ *
+ * (C) 1999 Jody Goldberg
  **/
 
+#include <config.h>
 #include "gnumeric-chart.h"
 
 GnumericChart *

@@ -144,12 +144,12 @@ epsf_write_wb (Workbook *wb, const char *filename)
 		 * the current sheet as the one for the EPS..
 		 */
 		bh = 0;
-		for (row = 0; row < (sheet->max_row_used+1); row++) {
+		for (row = 0; row <= sheet->rows.max_used; row++) {
 			row_info = sheet_row_get_info (sheet, row);
 			bh += ROW_HEIGHT(row_info);
 		}
 		bw = 0;
-		for (col = 0; col < (sheet->max_col_used+1); col++) {
+		for (col = 0; col <= sheet->cols.max_used; col++) {
 			col_info = sheet_col_get_info (sheet, col);
 			bw += COL_WIDTH(col_info);
 		}
@@ -157,10 +157,10 @@ epsf_write_wb (Workbook *wb, const char *filename)
 
 		x_pos = 0;
 		y_pos = bh;
-		for (row = 0; row < (sheet->max_row_used+1); row++) {
+		for (row = 0; row <= sheet->rows.max_used; row++) {
 			row_info = sheet_row_get_info (sheet, row);
 			y_pos -= ROW_HEIGHT(row_info);
-			for (col = 0; col < (sheet->max_col_used+1); col++) {
+			for (col = 0; col <= sheet->cols.max_used; col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				col_info = sheet_col_get_info (sheet, col);
 				epsf_write_cell (fp, cell, x_pos, y_pos);
@@ -200,6 +200,10 @@ epsf_write_wb (Workbook *wb, const char *filename)
 						/* needs work */
 						ps_draw_circle (fp,
 							pos[2], bh - pos[3], 2, 0.5);
+						break;
+
+					default :
+						/* Ignore the rest for now */
 						break;
 				}
 			}

@@ -66,8 +66,8 @@ typedef struct {
 #include "summary.h"
 #include "workbook.h"
 
-#define SHEET_MAX_ROWS (64 * 1024)
-#define SHEET_MAX_COLS 256
+#define SHEET_MAX_ROWS (16 * 1024)
+#define SHEET_MAX_COLS 256	/* 0 - 255 inclusive */
 
 typedef GList ColStyleList;
 
@@ -110,15 +110,11 @@ struct _Sheet {
 	ColRowInfo  default_col_style;
 	GList       *cols_info;
 
-	ColRowInfo  default_row_style;
-	GList       *rows_info;
+	ColRowCollection cols, rows;
 
 	GHashTable  *cell_hash;	/* The cells in hashed format */
 
 	GList       *selections;
-
-	int         max_col_used;
-	int         max_row_used;
 
 	/* Cursor information */
 	/* TODO switch to CellPos */
@@ -168,8 +164,8 @@ struct _Sheet {
 #define SHEET_SIGNATURE 0x12349876
 #define IS_SHEET(x) ((x)->signature == SHEET_SIGNATURE)
 
-typedef  void (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *ci,
-					void *user_data);
+typedef  gboolean (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *info,
+					    void *user_data);
 
 typedef  Value * (*sheet_cell_foreach_callback)(Sheet *sheet, int col, int row,
 						Cell *cell, void *user_data);
@@ -177,11 +173,10 @@ typedef  Value * (*sheet_cell_foreach_callback)(Sheet *sheet, int col, int row,
 Sheet      *sheet_new                  	 (Workbook *wb, const char *name);
 void        sheet_rename                 (Sheet *sheet, const char *new_name);
 void        sheet_destroy              	 (Sheet *sheet);
-void        sheet_foreach_col          	 (Sheet *sheet,
+void        sheet_destroy_contents       (Sheet *sheet);
+void        sheet_foreach_colrow	 (Sheet *sheet, ColRowCollection *infos,
+					  int start_col, int end_col,
 					  sheet_col_row_callback callback,
-					  void *user_data);
-void        sheet_foreach_row          	 (Sheet *sheet,
-					  sheet_col_row_callback,
 					  void *user_data);
 void        sheet_set_zoom_factor      	 (Sheet *sheet, double factor);
 void        sheet_cursor_set             (Sheet *sheet,
@@ -193,8 +188,6 @@ void        sheet_cursor_move            (Sheet *sheet, int col, int row,
 void        sheet_make_cell_visible      (Sheet *sheet, int col, int row);
 
 /* Cell management */
-void        sheet_set_text                (Sheet *sheet, int col, int row,
-					   const char *str);
 Cell       *sheet_cell_new                (Sheet *sheet, int col, int row);
 void        sheet_cell_add                (Sheet *sheet, Cell *cell,
 				           int col, int row);
@@ -230,12 +223,16 @@ int	    sheet_find_boundary_vertical   (Sheet *sheet, int col, int start_row,
 ColRowInfo *sheet_duplicate_colrow        (ColRowInfo *original);
 
 /* Retrieve information from a col/row */
-ColRowInfo *sheet_col_get_info            (Sheet *sheet, int col);
-ColRowInfo *sheet_row_get_info            (Sheet *sheet, int row);
+ColRowInfo *sheet_col_get_info            (Sheet const *sheet, int const col);
+ColRowInfo *sheet_row_get_info            (Sheet const *sheet, int const row);
+
+/* Returns a pointer to a ColRowInfo: existed or NULL */
+ColRowInfo *sheet_row_get                 (Sheet const *sheet, int const pos);
+ColRowInfo *sheet_col_get                 (Sheet const *sheet, int const pos);
 
 /* Returns a pointer to a ColRowInfo: existed or freshly created */
-ColRowInfo *sheet_row_get                 (Sheet *sheet, int pos);
-ColRowInfo *sheet_col_get                 (Sheet *sheet, int pos);
+ColRowInfo *sheet_row_fetch               (Sheet *sheet, int pos);
+ColRowInfo *sheet_col_fetch               (Sheet *sheet, int pos);
 
 /* Add a ColRowInfo to the Sheet */
 void        sheet_col_add                 (Sheet *sheet, ColRowInfo *cp);

@@ -4,13 +4,17 @@
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
+ *
+ * (C) 1998, 1999 Michael Meeks
  */
 
 #include <fcntl.h>
 #include <assert.h>
-#include <config.h>
 #include <stdio.h>
+
+#include <config.h>
 #include <gnome.h>
+
 #include "gnumeric.h"
 #include "func.h"
 

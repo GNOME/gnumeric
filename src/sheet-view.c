@@ -199,14 +199,14 @@ sheet_view_scrollbar_config (SheetView const *sheet_view)
 	int const last_row = gsheet->last_full_row;
 
 	va->upper = MAX (MAX (last_row,
-			      sheet_view->sheet->max_row_used),
+			      sheet_view->sheet->rows.max_used),
 			 sheet->cursor_row);
 	va->page_size = last_row - gsheet->top_row;
 	va->step_increment = va->page_increment =
 	    va->page_size / 2;
 	
 	ha->upper = MAX (MAX (last_col,
-			      sheet_view->sheet->max_col_used),
+			      sheet_view->sheet->cols.max_used),
 			 sheet->cursor_col);
 	ha->page_size = last_col - gsheet->top_col;
 	ha->step_increment = ha->page_increment =
@@ -227,7 +227,8 @@ sheet_view_col_selection_changed (ItemBar *item_bar, int column, int modifiers, 
 {	
 	Sheet *sheet = sheet_view->sheet;
 	
-	sheet_col_get (sheet, column);
+	/* Ensure that col row exists, ignore result */
+	sheet_col_fetch (sheet, column);
 	
 	if (modifiers){
 		if ((modifiers & GDK_SHIFT_MASK) && sheet->selections){
@@ -259,19 +260,21 @@ static void
 sheet_view_col_size_changed (ItemBar *item_bar, int col, int width, SheetView *sheet_view)
 {
 	Sheet *sheet = sheet_view->sheet;
-	GList *l;
 	ItemBarSelectionType type;
 
 	type = sheet_col_selection_type (sheet, col);
 
- 	if (type == ITEM_BAR_FULL_SELECTION)
- 		for (l = sheet->cols_info; l; l = l->next){
- 			ColRowInfo *ci = l->data;
+ 	if (type == ITEM_BAR_FULL_SELECTION) {
+		int i = sheet->cols.max_used;
+		for (;i >= 0 ; --i) {
+ 			ColRowInfo *ci = sheet_col_get (sheet, i);
+			if (ci == NULL)
+				continue;
  
  			if (sheet_col_selection_type (sheet, ci->pos) == ITEM_BAR_FULL_SELECTION)
  				sheet_col_set_width (sheet, ci->pos, width);
  		}
- 	else
+	} else
  		sheet_col_set_width (sheet, col, width);
 	
 	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (sheet_view->sheet_view));
@@ -282,7 +285,8 @@ sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, She
 {
 	Sheet *sheet = sheet_view->sheet;
 
-	sheet_row_get (sheet, row);
+	/* Ensure that the row exists, ignore result */
+	sheet_row_fetch (sheet, row);
 	
 	if (modifiers){
 		if ((modifiers & GDK_SHIFT_MASK) && sheet->selections){
@@ -314,20 +318,21 @@ static void
 sheet_view_row_size_changed (ItemBar *item_bar, int row, int height, SheetView *sheet_view)
 {
 	Sheet *sheet = sheet_view->sheet;
-	GList *l;
 	ItemBarSelectionType type;
 
 	type = sheet_row_selection_type (sheet, row);
 
-	if (type == ITEM_BAR_FULL_SELECTION)
-		for (l = sheet->rows_info; l; l = l->next){
-			ColRowInfo *ri = l->data;
+	if (type == ITEM_BAR_FULL_SELECTION) {
+		int i;
+		for (i = sheet->rows.max_used; i >= 0 ; --i) {
+ 			ColRowInfo *ri = sheet_row_get (sheet, i);
+			if (ri == NULL)
+				continue;
 			
 			if (sheet_row_selection_type (sheet, ri->pos) == ITEM_BAR_FULL_SELECTION)
 					sheet_row_set_height (sheet, ri->pos, height, TRUE);
-			
 		}
-	else
+	} else
 		sheet_row_set_height (sheet, row, height, TRUE);
 }
 
@@ -522,6 +527,17 @@ sheet_view_construct (SheetView *sheet_view)
 			  0, 0);
 	gtk_widget_show (sheet_view->sheet_view);
 
+	/*
+	 * The selection group
+	 */
+	sheet_view->selection_group = GNOME_CANVAS_GROUP (
+		gnome_canvas_item_new (
+			root_group,
+			gnome_canvas_group_get_type (),
+			"x", 0.0,
+			"y", 0.0,
+			NULL));
+	
 	/* The select-all button */
 	select_all = gtk_button_new ();
 	GTK_WIDGET_UNSET_FLAGS (select_all, GTK_CAN_FOCUS);
@@ -530,8 +546,8 @@ sheet_view_construct (SheetView *sheet_view)
 			    GTK_SIGNAL_FUNC (button_select_all), sheet_view);
 	
 	/* Scroll bars and their adjustments */
-	sheet_view->va = gtk_adjustment_new (0.0, 0.0, sheet->max_row_used, 1.0, 1.0, 1.0);
-	sheet_view->ha = gtk_adjustment_new (0.0, 0.0, sheet->max_col_used, 1.0, 1.0, 1.0);
+	sheet_view->va = gtk_adjustment_new (0.0, 0.0, sheet->rows.max_used, 1.0, 1.0, 1.0);
+	sheet_view->ha = gtk_adjustment_new (0.0, 0.0, sheet->cols.max_used, 1.0, 1.0, 1.0);
 	sheet_view->hs = gtk_hscrollbar_new (GTK_ADJUSTMENT (sheet_view->ha));
 	sheet_view->vs = gtk_vscrollbar_new (GTK_ADJUSTMENT (sheet_view->va));
 
@@ -584,6 +600,8 @@ sheet_view_set_header_visibility (SheetView *sheet_view,
 	}
 }
 
+/* This seems unused comment it out for now */
+#if 0
 static void
 sheet_view_scrollbar_display (SheetView *sheet_view,
 			      gboolean show_col_scrollbar,
@@ -608,6 +626,7 @@ sheet_view_scrollbar_display (SheetView *sheet_view,
 			gtk_widget_hide (sheet_view->vs);
 	}
 }
+#endif
 
 GtkWidget *
 sheet_view_new (Sheet *sheet)
@@ -753,6 +772,61 @@ sheet_view_comment_relocate (SheetView *sheet_view, int col, int row, GnomeCanva
 	gnome_canvas_item_set (o, "points", points, NULL);
 }
 
+void
+sheet_view_selection_unant (SheetView *sheet_view)
+{
+	GList *l;
+
+	g_return_if_fail (sheet_view != NULL);
+	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+
+	if (sheet_view->anted_cursors == NULL)
+		return;
+
+	for (l = sheet_view->anted_cursors; l; l = l->next)
+		gtk_object_destroy (GTK_OBJECT (l->data));
+
+	g_list_free (sheet_view->anted_cursors);
+	sheet_view->anted_cursors = NULL;
+}
+
+void
+sheet_view_selection_ant (SheetView *sheet_view)
+{
+	GnomeCanvasGroup *group;
+	ItemGrid *grid;
+	GList *l;
+	
+	g_return_if_fail (sheet_view != NULL);
+	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+	
+	if (sheet_view->anted_cursors)
+		sheet_view_selection_unant (sheet_view);
+
+	group = sheet_view->selection_group;
+	grid = GNUMERIC_SHEET (sheet_view->sheet_view)->item_grid;
+	
+	for (l = sheet_view->sheet->selections; l; l = l->next){
+		SheetSelection *ss = l->data;
+		ItemCursor *item_cursor;
+		
+		item_cursor = ITEM_CURSOR (gnome_canvas_item_new (
+			group, item_cursor_get_type (),
+			"Sheet", sheet_view->sheet,
+			"Grid",  grid,
+			"Style", ITEM_CURSOR_ANTED,
+			NULL));
+		item_cursor_set_bounds (
+			item_cursor,
+			ss->user.start.col, ss->user.start.row,
+			ss->user.end.col, ss->user.end.row);
+
+		sheet_view->anted_cursors = g_list_prepend (sheet_view->anted_cursors, item_cursor);
+	}
+}
+
+
+#if 0
 #ifdef ENABLE_BONOBO
 void
 sheet_view_insert_object (SheetView *sheet_view, GnomeObjectClient *object)
@@ -767,4 +841,5 @@ sheet_view_insert_object (SheetView *sheet_view, GnomeObjectClient *object)
 	/* view = gnome_bonobo_object_new_view (object); */
 	g_warning ("Stick this into the SheetView");
 }
+#endif
 #endif

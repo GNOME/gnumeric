@@ -13,6 +13,7 @@
 #include "item-bar.h"
 #include "item-debug.h"
 #include "utils.h"
+#include "selection.h"
 
 /* Marshal forward declarations */
 static void   item_bar_marshal      (GtkObject *,
@@ -500,10 +501,17 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			item_bar->resize_width = cri->pixels;
 		} else if (e->button.button == 3){
 			Sheet   *sheet = item_bar->sheet_view->sheet;
-			gtk_signal_emit (GTK_OBJECT (item),
-					 item_bar_signals [SELECTION_CHANGED],
-					 element, e->button.state | GDK_BUTTON1_MASK);
-			if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
+			gboolean const is_col = (item_bar->orientation != GTK_ORIENTATION_VERTICAL);
+
+			/* If the selection does not contain the current row/col
+			 * then clear the selection and add it.
+			 */
+			if (!selection_contains_colrow (sheet, element, is_col))
+				gtk_signal_emit (GTK_OBJECT (item),
+						 item_bar_signals [SELECTION_CHANGED],
+						 element, e->button.state | GDK_BUTTON1_MASK);
+
+			if (is_col)
 				item_grid_popup_menu (sheet, e, element, 0);
 			else
 				item_grid_popup_menu (sheet, e, 0, element);

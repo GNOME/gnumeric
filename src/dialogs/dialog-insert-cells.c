@@ -7,17 +7,69 @@
  */
 #include <config.h>
 #include <gnome.h>
+#include <glade/glade.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "selection.h"
 #include "dialogs.h"
 
+#define GLADE_FILE "insert-cells.glade"
+
+static void
+dialog_insert_cells_impl (Workbook *wb, Sheet *sheet, GladeXML  *gui)
+{
+
+	GtkWidget *dialog, *radio_0;
+	SheetSelection *ss;
+	int  cols, rows;
+	int i, res;
+
+	dialog = glade_xml_get_widget (gui, "Insert_cells");
+	if (dialog == NULL) {
+		g_print ("Corrupt file " GLADE_FILE "\n");
+		return;
+	}
+	radio_0 = glade_xml_get_widget (gui, "radio_0");
+	g_return_if_fail (radio_0 != NULL);
+
+	/* Make dialog a child of the application so that it will iconify */
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog), 
+				    GTK_WINDOW (wb->toplevel));
+
+	/* Bring up the dialog */
+	res = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (res == GNOME_OK) {
+		i = gtk_radio_group_get_selected
+			(GTK_RADIO_BUTTON(radio_0)->group);
+
+		ss = sheet->selections->data;
+		cols = ss->user.end.col - ss->user.start.col + 1;
+		rows = ss->user.end.row - ss->user.start.row + 1;
+
+		if (i == 0)
+			sheet_shift_rows (sheet, ss->user.start.col, 
+					  ss->user.start.row, 
+					  ss->user.end.row, cols);
+		else if (i == 1)
+			sheet_shift_cols (sheet, ss->user.start.col,
+					  ss->user.end.col, 
+					  ss->user.start.row, rows);
+		else if (i == 2)
+			sheet_insert_row (sheet, ss->user.start.row, rows);
+		else if (i == 3)
+			sheet_insert_col (sheet, ss->user.start.col, cols);
+	}
+
+	/* If user closed the dialog with prejudice, it's already destroyed */
+	if (res >= 0)
+		gnome_dialog_close (GNOME_DIALOG (dialog));
+}
+
 void
 dialog_insert_cells (Workbook *wb, Sheet *sheet)
 {
-	int state [4] = { 1, 0, 0, 0 };
+	GladeXML  *gui;
 	SheetSelection *ss;
-	char *ret;
 	int  cols, rows;
 
 	g_return_if_fail (wb != NULL);
@@ -43,39 +95,14 @@ dialog_insert_cells (Workbook *wb, Sheet *sheet)
 		return;
 	}
 
-	ret = gtk_dialog_cauldron (
-		_("Insert cells"),
-		GTK_CAULDRON_DIALOG,
-		"( %[ ( %Rd // %Rd / %Rd // %Rd ) ] /   (   %Bqrg || %Bqrg ) )",
-		_("Insert"),
-		_("Shift cells right"), &state[0],
-		_("Shift cells down"),  &state[1],
-		_("Insert row(s)"),      &state[2],
-		_("Insert column(s)"),   &state[3],
-		GNOME_STOCK_BUTTON_OK,
-		GNOME_STOCK_BUTTON_CANCEL);
-
-	if (ret == NULL)
-		return;
-
-	if (strcmp (ret, GNOME_STOCK_BUTTON_CANCEL) == 0)
-		return;
-
-	if (state [0]){
-		sheet_shift_rows (sheet, ss->user.start.col, ss->user.start.row, ss->user.end.row, cols);
+	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE , NULL);
+	if (!gui) {
+		printf ("Could not find " GLADE_FILE "\n");
 		return;
 	}
 
-	if (state [1]){
-		sheet_shift_cols (sheet, ss->user.start.col, ss->user.end.col, ss->user.start.row, rows);
-		return;
-	}
-
-	if (state [2]){
-		sheet_insert_row (sheet, ss->user.start.row, rows);
-		return;
-	}
-
-	/* default */
-	sheet_insert_col (sheet, ss->user.start.col, cols);
+	/* Wrapper to ensure the libglade object gets removed on error */
+	dialog_insert_cells_impl (wb, sheet, gui);
+	
+	gtk_object_unref (GTK_OBJECT (gui));
 }

@@ -22,6 +22,7 @@ typedef struct {
 GtkType       gnumeric_printer_dialog_get_type    (void);
 GtkWidget    *gnumeric_printer_dialog_new         (PrintRange default_range);
 PrintRange    gnumeric_printer_dialog_get_range   (GnumericPrinterDialog *pd);
-GnomePrinter *gnumeric_printer_dialog_run         (PrintRange *range);
+GnomePrinter *gnumeric_printer_dialog_run         (PrintRange *range, 
+						   Workbook *wb);
 
 #endif /*  GNUMERIC_DIALOG_PRINT_H */

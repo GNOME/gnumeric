@@ -24,6 +24,9 @@ struct _SheetView {
 	/* Object group */
 	GnomeCanvasGroup *object_group;
 
+	/* Selection group */
+	GnomeCanvasGroup *selection_group;
+	
 	/*
 	 * Font mappings
 	 */
@@ -46,6 +49,9 @@ struct _SheetView {
 
 	/* Tip for scrolling */
 	GtkWidget        *tip;
+
+	/* Anted cursor */
+	GList            *anted_cursors;
 };
 
 GtkType          sheet_view_get_type              (void);
@@ -74,6 +80,9 @@ void             sheet_view_set_header_visibility (SheetView *sheet_view,
 						   gboolean row_headers_visible);
 
 void             sheet_view_scrollbar_config      (SheetView const *sheet_view);
+
+void             sheet_view_selection_ant         (SheetView *sheet_view);
+void             sheet_view_selection_unant       (SheetView *sheet_view);
 
 typedef struct {
 	GtkTableClass parent_class;

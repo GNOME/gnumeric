@@ -273,7 +273,7 @@ create_number_format_page (GtkWidget *prop_win, MStyleElement *styles,
 	gtk_table_attach (tt, gtk_label_new (_("Code:")),
 			  0, 1, 0, 1, 0, 0, 2, 0);
 	
-	number_input = ut_dia_entry_new (GNOME_DIALOG (prop_win));
+	number_input = gnumeric_dialog_entry_new (GNOME_DIALOG (prop_win));
 	gtk_signal_connect (GTK_OBJECT (number_input), "changed",
 			    GTK_SIGNAL_FUNC (format_code_changed), prop_win);
 
@@ -531,6 +531,13 @@ create_font_page (GtkWidget *prop_win, MStyleElement *styles,
 	return font_widget;
 }
 
+static gboolean
+cb_set_row_height(Sheet *sheet, ColRowInfo *info, void *height)
+{
+	sheet_row_set_internal_height (sheet, info, *((double *)height));
+	return FALSE;
+}
+
 static void
 apply_font_format (Style *style, Sheet *sheet, MStyleElement *styles)
 {
@@ -599,7 +606,14 @@ apply_font_format (Style *style, Sheet *sheet, MStyleElement *styles)
 			
 			sheet_row_set_internal_height (sheet, ri, height);
 		}
-		}*/
+		}
+		if (ss->user.start.row == 0 && ss->user.end.row == SHEET_MAX_ROWS-1)
+			sheet_row_set_internal_height (sheet, &sheet->rows.default_style, height);
+		else
+			sheet_foreach_colrow (sheet, &sheet->rows,
+					      ss->user.start.row, ss->user.end.row,
+					      &cb_set_row_height, &height);
+	}*/
 }
 
 

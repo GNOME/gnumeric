@@ -1,9 +1,9 @@
 #ifndef GNUMERIC_UTILS_DIALOG_H
 #define GNUMERIC_UTILS_DIALOG_H
 
-GtkWidget *ut_dia_entry_new (GnomeDialog *dialog);
+GtkWidget *gnumeric_dialog_entry_new (GnomeDialog *dialog);
 
-GtkWidget *ut_dia_entry_new_with_max_length (GnomeDialog *dialog, guint16 max);
+GtkWidget *gnumeric_dialog_entry_new_with_max_length (GnomeDialog *dialog, guint16 max);
 
 GtkWidget *
 hbox_pack_label_and_entry(char *str, char *default_str,

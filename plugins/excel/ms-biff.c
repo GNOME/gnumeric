@@ -3,6 +3,8 @@
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
+ *
+ * (C) 1998, 1999 Michael Meeks
  **/
 
 #include <stdio.h>
@@ -14,8 +16,9 @@
 #include <malloc.h>
 #include <assert.h>
 #include <ctype.h>
-#include <glib.h>
 
+#include <config.h>
+#include <glib.h>
 #include "ms-ole.h"
 #include "ms-biff.h"
 #include "biff-types.h"
