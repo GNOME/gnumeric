@@ -102,6 +102,20 @@ calculate_pmt (float_t rate, float_t nper, float_t pv, float_t fv, int type)
         return (((-1.0) * pv * pvif  - fv ) / ((1.0 + rate * type) * fvifa));
 }
 
+static float_t
+calculate_npv (float_t rate, float_t *values, int n)
+{
+	float_t sum;
+        int     i;
+
+	sum = 0;
+	for (i=0; i<n; i++)
+	        sum += values[i] / pow(1 + rate, i);
+
+	return sum;
+}
+
+
 static char *help_effect = {
 	N_("@FUNCTION=EFFECT\n"
 	   "@SYNTAX=EFFECT(r,nper)\n"
@@ -428,6 +442,91 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 					   pow(10, n)));
 }
 
+static char *help_mirr = {
+	N_("@FUNCTION=MIRR\n"
+	   "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
+	   "@DESCRIPTION="
+	   "MIRR function returns the modified internal rate of return "
+	   "for a given periodic cash flow. "
+	   "\n"
+	   "@SEEALSO=NPV")
+};
+
+static Value *
+gnumeric_mirr (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t frate, rrate, npv_neg, npv_pos;
+	float_t *pos_values = NULL, *neg_values = NULL, res;
+	Value   *result = NULL;
+	int     n, n_pos, n_neg;
+
+	frate = value_get_as_float (argv[1]);
+	rrate = value_get_as_float (argv[2]);
+
+	pos_values = collect_floats_value (argv[0], &ei->pos,
+					   COLLECT_IGNORE_NEGATIVE,
+					   &n_pos, &result);
+	if (result)
+		goto out;
+
+	neg_values = collect_floats_value (argv[0], &ei->pos,
+					   COLLECT_IGNORE_POSITIVE,
+					   &n_neg, &result);
+	if (result)
+		goto out;
+
+	n = n_pos + n_neg;
+
+	npv_pos = calculate_npv(rrate, pos_values, n_pos);
+	npv_neg = calculate_npv(frate, neg_values, n_neg);
+	res = pow((-npv_pos * pow(1+rrate, n_pos)) / (npv_neg * (1+frate)), 
+		  (1.0 / (n-1))) - 1.0;
+
+	result = value_new_float (res);
+out:
+	g_free(pos_values);
+	g_free(neg_values);
+
+	return result;
+}
+
+static char *help_tbilleq = {
+	N_("@FUNCTION=TBILLEQ\n"
+	   "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
+	   "@DESCRIPTION="
+	   "TBILLEQ function returns the bond-yield equivalent (BEY) for "
+	   "a treasury bill.  TBILLEQ is equivalent to (365 x discount) / "
+	   "(360 - discount x DSM) where DSM is the days between @settlement "
+	   "and @maturity. "
+	   "\n"
+	   "If @settlement is after @maturity or the @maturity is set to "
+	   "over one year later than the @settlement, TBILLEQ returns "
+	   "NUM! error. "
+	   "If @discount is negative, TBILLEQ returns NUM! error. "
+	   "\n"
+	   "@SEEALSO=TBILLPRICE,TBILLYIELD")
+};
+
+static Value *
+gnumeric_tbilleq (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t settlement, maturity, discount;
+	float_t res, dsm;
+
+	settlement = get_serial_date (argv[0]);
+	maturity = get_serial_date (argv[1]);
+	discount = value_get_as_float (argv[2]);
+	
+	dsm = maturity - settlement;
+
+	if (settlement > maturity || discount < 0 || dsm > 356)
+                return value_new_error (&ei->pos, gnumeric_err_NUM);
+
+	res = (365 * discount) / (360 - discount * dsm);
+
+	return value_new_float (res);
+}
+
 static char *help_tbillprice = {
 	N_("@FUNCTION=TBILLPRICE\n"
 	   "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -442,7 +541,7 @@ static char *help_tbillprice = {
 	   "NUM! error. "
 	   "If @discount is negative, TBILLPRICE returns NUM! error. "
 	   "\n"
-	   "@SEEALSO=TBILLYIELD")
+	   "@SEEALSO=TBILLEQ,TBILLYIELD")
 };
 
 static Value *
@@ -479,7 +578,7 @@ static char *help_tbillyield = {
 	   "NUM! error. "
 	   "If @pr is negative, TBILLYIELD returns NUM! error. "
 	   "\n"
-	   "@SEEALSO=TBILLPRICE")
+	   "@SEEALSO=TBILLEQ,TBILLPRICE")
 };
 
 static Value *
@@ -823,8 +922,14 @@ gnumeric_ipmt (FunctionEvalInfo *ei, Value **argv)
 	nper = value_get_as_float (argv [1]);
 	per  = value_get_as_float (argv [2]);
 	pv   = value_get_as_float (argv [3]);
-	fv   = value_get_as_float (argv [4]);
-	type = value_get_as_int (argv [5]);
+	if (argv[4] == NULL)
+	        fv = 0;
+	else
+	        fv   = value_get_as_float (argv [4]);
+	if (argv[5] == NULL)
+	        type = 0;
+	else
+	        type = value_get_as_int (argv [5]);
 
 	/* First calculate the payment */
         pmt = calculate_pmt (rate, nper, pv, fv, type);
@@ -974,8 +1079,11 @@ void finance_functions_init()
 			    &help_effect,   gnumeric_effect);
 	function_add_args  (cat, "fv", "fffff", "rate,nper,pmt,pv,type",
 			    &help_fv,       gnumeric_fv);
-	function_add_args  (cat, "ipmt", "ffffff", "rate,per,nper,pv,fv,type",
+	function_add_args  (cat, "ipmt", "ffff|ff", "rate,per,nper,pv,fv,type",
 			    &help_ipmt,     gnumeric_ipmt);
+	function_add_args  (cat, "mirr", "Aff",
+			    "values,finance_rate,reinvest_rate",
+			    &help_mirr,     gnumeric_mirr);
 	function_add_args  (cat, "nominal", "ff",    "rate,nper",
 			    &help_nominal,  gnumeric_nominal);
 	function_add_args  (cat, "nper", "fffff", "rate,pmt,pv,fv,type",
@@ -997,6 +1105,9 @@ void finance_functions_init()
 	function_add_args  (cat, "syd", "ffff",
 			    "cost,salvagevalue,life,period",
 			    &help_syd,      gnumeric_syd);
+        function_add_args  (cat, "tbilleq", "??f",
+			    "settlement,maturity,discount",
+			    &help_tbilleq,  gnumeric_tbilleq);
         function_add_args  (cat, "tbillprice", "??f",
 			    "settlement,maturity,discount",
 			    &help_tbillprice,  gnumeric_tbillprice);

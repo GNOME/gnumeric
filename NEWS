@@ -1,7 +1,7 @@
 Gnumeric 0.33
 
 Jukka:
-	* Implemented TBILLPRICE and TBILLYIELD functions
+	* Implemented TBILLEQ, TBILLPRICE and TBILLYIELD functions
 
 --------------------------------------------------------------------------
 

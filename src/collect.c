@@ -49,10 +49,14 @@ callback_function_collect (const EvalPosition *ep, Value *value, void *closure)
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
 		x = value_get_as_float (value);
+	        if ((cl->flags & COLLECT_IGNORE_NEGATIVE) && x < 0)
+		        return NULL;
+	        if ((cl->flags & COLLECT_IGNORE_POSITIVE) && x >= 0)
+		        return NULL;
 		break;
 
 	case VALUE_STRING:
-	        if (cl->flags % COLLECT_DATES) {
+	        if (cl->flags & COLLECT_DATES) {
 		        x = get_serial_date (value);
 			if (x == 0)
 			        return value_new_error(ep, gnumeric_err_VALUE);

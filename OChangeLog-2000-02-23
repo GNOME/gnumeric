@@ -1,3 +1,8 @@
+1999-08-24  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/functions/fn-financial.c: Implemented TBILLEQ() and started
+	MIRR().
+	
 1999-08-23  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-financial.c: Implemented TBILLPRICE() and
