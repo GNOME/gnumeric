@@ -19,10 +19,6 @@
 #define M_LN10gnum (gnm_log (10))
 #define M_SQRT2gnum (gnm_sqrt (2))
 
-extern gnm_float gnm_nan;
-extern gnm_float gnm_pinf;
-extern gnm_float gnm_ninf;
-
 /* ------------------------------------------------------------------------- */
 
 gnm_float log1pmx (gnm_float x);

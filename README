@@ -23,6 +23,7 @@ You need:				Debian package name
 	intltool	>= 0.27.2	intltool
 	gnome-xml   	>= 2.4.12	libxml2-dev
 	libart   	>= 2.3.11	libart-2.0-dev
+	pango		>= 1.8.1	?
 	NOTE : gnome-xml is also known as libxml
 
 Optionally:

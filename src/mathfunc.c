@@ -102,35 +102,10 @@ static const gnm_float scalefactor = SQR(SQR(SQR(GNM_const(4294967296.0))));
 
 /* MW ---------------------------------------------------------------------- */
 
-gnm_float gnm_nan;
-gnm_float gnm_pinf;
-gnm_float gnm_ninf;
-
 void
 mathfunc_init (void)
 {
-	const char *bug_url = "http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric";
-
-	gnm_pinf = go_pinf;
-	if (gnm_finite (gnm_pinf) || !(gnm_pinf > 0)) {
-		g_error ("Failed to generate +Inf.  Please report at %s",
-			 bug_url);
-		abort ();
-	}
-
-	gnm_ninf = go_ninf;
-	if (gnm_finite (gnm_ninf) || !(gnm_ninf < 0)) {
-		g_error ("Failed to generate -Inf.  Please report at %s",
-			 bug_url);
-		abort ();
-	}
-
-	gnm_nan = go_nan;
-	if (!gnm_isnan (gnm_nan)) {
-		g_error ("Failed to generate NaN.  Please report at %s",
-			 bug_url);
-		abort ();
-	}
+	/* Nothing, for the time being.  */
 }
 
 /* ------------------------------------------------------------------------- */

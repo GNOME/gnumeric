@@ -1,3 +1,7 @@
+2005-03-07  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (mathfunc_init): Use goffice's nan etc.
+
 2005-03-04  Jon K Hellan  <hellan@acm.org>
 
 	* src/ssindex.c (main): Plugin api renamed.
