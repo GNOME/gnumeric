@@ -1,3 +1,16 @@
+1999-07-05  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (value_array_resize): Shined up, fixed, not tested.
+
+	* src/print-info.c (print_hf_new): Constify.
+	(print_hf_free): Fix leaks.
+
+	* src/workbook.c (workbook_do_destroy): Fix leak.
+
+	* src/style.c (style_shutdown): Unref out fonts.
+
+	* src/sheet.c (sheet_start_editing_at_cursor): Doc fix.
+
 1999-07-05  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/analysis-tools.c, src/dialog-analysis-tools.c,

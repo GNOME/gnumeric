@@ -1,5 +1,11 @@
 1999-07-05  Morten Welinder  <terra@diku.dk>
 
+	* ms-excel-read.c (biff_shared_formula_new): Constify.  Copy data
+ 	because it seems it can be freed underneath us.
+	(biff_shared_formula_destroy): Consequently free data.
+	(ms_excel_workbook_destroy): Free global strings.
+	(ms_excel_palette_destroy): Fix leak.
+
 	* ms-excel-read.c (ms_excel_read_supporting_wb): Warning killer.
 	(ms_excel_read_workbook): Ditto.  Fill in some code page info.
 	(ms_excel_read_cell): Ditto.

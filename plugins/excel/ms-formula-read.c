@@ -961,8 +961,8 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 					value_array_set (v, lpx, lpy, set_val);
 				}
 			}
-			parse_list_push_raw (&stack, v);
 		really_duff:
+			parse_list_push_raw (&stack, v);
 			break;
 		}
 		case FORMULA_PTG_FUNC:

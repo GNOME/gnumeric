@@ -217,13 +217,17 @@ biff_get_error_text (const guint8 err)
 }
 
 static BiffSharedFormula *
-biff_shared_formula_new (guint16 col, guint16 row, guint8 *data,
+biff_shared_formula_new (guint16 col, guint16 row, const guint8 *data,
 			 guint32 data_len)
 {
 	BiffSharedFormula *sf = g_new (BiffSharedFormula, 1);
 	sf->key.col = col;
 	sf->key.row = row;
-	sf->data = data;
+	if (data_len > 0) {
+		sf->data = g_malloc (data_len);
+		memcpy (sf->data, data, data_len);
+	} else
+		sf->data = NULL;
 	sf->data_len = data_len;
 	return sf;
 }
@@ -231,6 +235,7 @@ biff_shared_formula_new (guint16 col, guint16 row, guint8 *data,
 static gboolean
 biff_shared_formula_destroy (gpointer key, BiffSharedFormula *sf, gpointer userdata)
 {
+	g_free (sf->data);
 	g_free (sf);
 	return 1;
 }
@@ -846,6 +851,7 @@ ms_excel_palette_destroy (ExcelPalette *pal)
 	for (lp=0;lp<pal->length;lp++)
 		if (pal->gnum_cols[lp])
 			style_color_unref (pal->gnum_cols[lp]);
+	g_free (pal->gnum_cols);
 	g_free (pal);
 }
 
@@ -1650,6 +1656,13 @@ ms_excel_workbook_destroy (ExcelWorkbook *wb)
 
 	if (wb->extern_sheets)
 		g_free (wb->extern_sheets);
+
+	if (wb->global_strings) {
+		int i;
+		for (i = 0; i < wb->global_string_max; i++)
+			g_free (wb->global_strings[i]);
+		g_free (wb->global_strings);
+	}
 
 	g_free (wb);
 }

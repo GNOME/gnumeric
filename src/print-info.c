@@ -14,7 +14,8 @@
 #include "print-info.h"
 
 PrintHF *
-print_hf_new (char *left_side_format, char *middle_format, char *right_side_format)
+print_hf_new (const char *left_side_format, const char *middle_format,
+	      const char *right_side_format)
 {
 	PrintHF *format;
 
@@ -36,7 +37,10 @@ void
 print_hf_free (PrintHF *print_hf)
 {
 	g_return_if_fail (print_hf != NULL);
-	
+
+	g_free (print_hf->left_format);
+	g_free (print_hf->middle_format);
+	g_free (print_hf->right_format);
 	g_free (print_hf);
 }
 
@@ -47,7 +51,7 @@ print_info_free (PrintInformation *pi)
 
 	print_hf_free (pi->header);
 	print_hf_free (pi->footer);
-	
+
 	g_free (pi);
 }
 

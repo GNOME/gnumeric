@@ -768,8 +768,11 @@ style_shutdown (void)
 	}
 #endif
 	
+	style_font_unref (gnumeric_default_font);
 	gnumeric_default_font = NULL;
+	style_font_unref (gnumeric_default_bold_font);
 	gnumeric_default_bold_font = NULL;
+	style_font_unref (gnumeric_default_italic_font);
 	gnumeric_default_italic_font = NULL;
 
 	g_hash_table_destroy (style_format_hash);

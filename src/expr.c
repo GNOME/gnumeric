@@ -858,27 +858,24 @@ value_array_resize (Value *v, guint width, guint height)
 
 	newval = value_array_new (width, height);
 
-	if (width>v->v.array.x)
-		xcpy = v->v.array.x;
-	else
-		xcpy = width;
-
-	if (height>v->v.array.y)
-		ycpy = v->v.array.y;
-	else
-		ycpy = height;
+	xcpy = MIN (width, v->v.array.x);
+	ycpy = MIN (height, v->v.array.y);
 
 	for (x = 0; x < xcpy; x++)
-		for (y = 0; y < ycpy; y++)
+		for (y = 0; y < ycpy; y++) {
 			value_array_set (newval, x, y, v->v.array.vals[x][y]);
+			v->v.array.vals[x][y] = NULL;
+		}
 
 	tmp = v->v.array.vals;
 	v->v.array.vals = newval->v.array.vals;
 	newval->v.array.vals = tmp;
-	value_release (newval);
-
+	newval->v.array.x = v->v.array.x;
+	newval->v.array.y = v->v.array.y;
 	v->v.array.x = width;
 	v->v.array.y = height;
+
+	value_release (newval);
 }
 
 void

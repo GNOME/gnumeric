@@ -984,6 +984,20 @@ sheet_load_cell_val (Sheet *sheet)
 		gtk_entry_set_text (entry, "");
 }
 
+/**
+ * sheet_start_editing_at_cursor:
+ *
+ * @sheet:    The sheet to be edited.
+ * @blankp:   If true, erase current cell contents first.  If false, leave the
+ *            contents alone.
+ * @cursorp:  If true, create an editing cursor in the sheet itself.  (If
+ *            false, the text will be editing in the edit box above the sheet,
+ *            but this is not handled by this function.)
+ *
+ * Initiate editing of a cell in the sheet.  Note that we have two modes of
+ * editing: (1) in-cell editing when you just start typing, and (2) above-
+ * sheet editing when you hit F2.
+ */
 void
 sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 {
@@ -1020,7 +1034,7 @@ sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 /**
  * sheet_update_controls:
  *
- * This routine is ran every time the seleciton has changed.  It checks
+ * This routine is ran every time the selection has changed.  It checks
  * what the status of various toolbar feedback controls should be
  */
 static void

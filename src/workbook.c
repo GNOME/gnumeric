@@ -286,9 +286,15 @@ workbook_do_destroy (Workbook *wb)
 		g_list_free (sheets);
 	}
 
-	if (wb->clipboard_contents)
+	if (wb->clipboard_contents) {
 		clipboard_release (wb->clipboard_contents);
-	wb->clipboard_contents = NULL;
+		wb->clipboard_contents = NULL;
+	}
+
+	if (wb->print_info) {
+		print_info_free (wb->print_info);
+		wb->print_info = NULL;
+	}
 
 	/* Remove ourselves from the list of workbooks.  */
 	workbook_list = g_list_remove (workbook_list, wb);

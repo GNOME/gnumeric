@@ -96,9 +96,9 @@ void              print_info_save (PrintInformation *pi);
 
 void              print_info_free (PrintInformation *pi);
 
-PrintHF          *print_hf_new    (char *left_side_format,
-				   char *middle_format,
-				   char *right_side_format);
+PrintHF          *print_hf_new    (const char *left_side_format,
+				   const char *middle_format,
+				   const char *right_side_format);
 void              print_hf_free   (PrintHF *print_hf);
 
 const char *unit_name_get_short_name (UnitName name);
