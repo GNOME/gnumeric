@@ -1,3 +1,7 @@
+1999-05-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math.c: Added GCD().
+
 1999-05-12  Michael Meeks  <michael@imaginator.com>
 
 	* src/workbook.c (workbook_setup_edit_area): Added dependancy

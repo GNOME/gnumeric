@@ -36,6 +36,33 @@ static char *help_ = {
 
 #endif
 
+static int
+gcd(int a, int b)
+{
+        int ri, ri_1, ri_2, qi;
+ 
+	if (b == 0)
+	        return a;
+ 
+	qi = a/b;
+	ri_2 = a - qi*b;
+ 
+	if (ri_2 == 0)
+	        return 1;
+ 
+	qi = b/ri_2;
+	ri = ri_1 = b - qi*ri_2;
+ 
+	while (ri > 0) {
+	        qi = ri_2/ri_1;
+		ri = ri_2 - qi*ri_1;
+		ri_2 = ri_1;
+		ri_1 = ri;
+	}
+ 
+	return ri_2;
+}
+ 
 
 typedef struct {
         GSList *list;
@@ -113,6 +140,36 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 	        value_release(v);
 
 	return TRUE;
+}
+
+static char *help_gcd = {
+	N_("@FUNCTION=GCD\n"
+	   "@SYNTAX=GCD(a,b)\n"
+
+	   "@DESCRIPTION="
+	   "GCD returns the greatest common divisor of to numbers. "
+	   "\n"
+	   "If any of the arguments is less than zero, GCD returns #NUM! "
+	   "error. "
+	   "\n"
+	   "@SEEALSO=LCM")
+};
+
+static Value *
+gnumeric_gcd (struct FunctionDefinition *i,
+	      Value *argv [], char **error_string)
+{
+        float_t a, b;
+
+	a = value_get_as_double(argv[0]);
+	b = value_get_as_double(argv[1]);
+
+        if (a < 0 || b < 0) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	        
+	return value_int (gcd(a, b));
 }
 
 static char *help_abs = {
@@ -2220,6 +2277,8 @@ FunctionDefinition math_functions [] = {
 	  NULL, gnumeric_combin },
 	{ "floor",   "f",    "number",    &help_floor,
 	  NULL, gnumeric_floor },
+	{ "gcd",     "ff",   "number1,number2", &help_gcd,
+	  NULL, gnumeric_gcd },
 	{ "int",     "f",    "number",    &help_int,     NULL, gnumeric_int },
 	{ "ln",      "f",    "number",    &help_ln,      NULL, gnumeric_ln },
 	{ "log",     "f|f",  "number[,base]", &help_log, NULL, gnumeric_log },
