@@ -9,11 +9,6 @@
  * (C) 1998-2000 Michael Meeks, Jon K Hellan
  **/
 
-/**
- * Read the comments to gather_styles to see how style information is
- * collected.
- **/
-
 /*
  * FIXME: Check for errors and propagate upward. We've only started.
  */
@@ -144,8 +139,7 @@ biff_put_text (BiffPut *bp, const char *txt, int len, MsBiffVersion ver,
 	ans = 0;
 /*	printf ("Write '%s' len = %d\n", txt, len); */
 
-	if ((how == AS_PER_VER &&
-	     ver >= MS_BIFF_V8) ||
+	if ((how == AS_PER_VER && ver >= MS_BIFF_V8) ||
 	    how == SIXTEEN_BIT)
 		sixteen_bit_len = TRUE;
 	else
@@ -170,7 +164,7 @@ biff_put_text (BiffPut *bp, const char *txt, int len, MsBiffVersion ver,
 				off = 1;
 			}
 		}
-		GSF_LE_SET_GUINT8  (data + off, 0x0);
+		GSF_LE_SET_GUINT8  (data + off, 0x1);
 		off++;
 		ms_biff_put_var_write (bp, data, off);
 
@@ -784,26 +778,18 @@ biff_boundsheet_write_first (BiffPut *bp, MsBiffFileType type,
 
 	GSF_LE_SET_GUINT32 (data, 0xdeadbeef); /* To be stream start pos */
 	switch (type) {
-	case MS_BIFF_TYPE_Worksheet:
-		GSF_LE_SET_GUINT8 (data+4, 00);
-		break;
-	case MS_BIFF_TYPE_Macrosheet:
-		GSF_LE_SET_GUINT8 (data+4, 01);
-		break;
-	case MS_BIFF_TYPE_Chart:
-		GSF_LE_SET_GUINT8 (data+4, 02);
-		break;
-	case MS_BIFF_TYPE_VBModule:
-		GSF_LE_SET_GUINT8 (data+4, 06);
-		break;
+	case MS_BIFF_TYPE_Worksheet :	GSF_LE_SET_GUINT8 (data+4, 0); break;
+	case MS_BIFF_TYPE_Macrosheet :	GSF_LE_SET_GUINT8 (data+4, 1); break;
+	case MS_BIFF_TYPE_Chart :	GSF_LE_SET_GUINT8 (data+4, 2); break;
+	case MS_BIFF_TYPE_VBModule :	GSF_LE_SET_GUINT8 (data+4, 6); break;
 	default:
 		g_warning ("Duff type.");
 		break;
 	}
 	GSF_LE_SET_GUINT8 (data+5, 0); /* Visible */
 	ms_biff_put_var_write (bp, data, 6);
-	len = biff_convert_text(&buf, name, ver);
-	biff_put_text (bp, buf, len, ver, TRUE, AS_PER_VER);
+	len = biff_convert_text (&buf, name, ver);
+	biff_put_text (bp, buf, len, ver, TRUE, EIGHT_BIT);
 	g_free(buf);
 
 	ms_biff_put_commit (bp);
@@ -863,7 +849,7 @@ inline static void
 log_put_color (guint c, gboolean was_added, gint index, const char *tmpl)
 {
 	d(2, if (was_added) printf (tmpl, index, c););
-	}
+}
 
 /**
  * Put Excel default colors to palette table
@@ -914,9 +900,8 @@ palette_free (ExcelWorkbook *wb)
 
 	if (wb && wb->pal) {
 		twt = wb->pal->two_way_table;
-		if (twt) {
+		if (twt)
 			two_way_table_free (twt);
-		}
 		g_free (wb->pal);
 		wb->pal = NULL;
 	}
@@ -1021,7 +1006,7 @@ gather_palette (ExcelWorkbook *wb)
 
 	/* For each color in each style, get color index from hash. If
            none, it's not there yet, and we enter it. */
-	g_hash_table_foreach (twt->key_to_idx, (GHFunc) put_colors, wb);
+	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_colors, wb);
 
 	twt = wb->pal->two_way_table;
 	for (i = twt->idx_to_key->len - 1; i >= EXCEL_DEF_PAL_LEN; i--) {
@@ -1294,7 +1279,7 @@ gather_fonts (ExcelWorkbook *wb)
 
 	/* For each style, get fonts index from hash. If none, it's
            not there yet, and we enter it. */
-	g_hash_table_foreach (twt->key_to_idx, (GHFunc) put_font, wb);
+	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_font, wb);
 }
 
 /**
@@ -1350,9 +1335,9 @@ write_font (BiffPut *bp, ExcelWorkbook *wb, const ExcelFont *f)
 	GSF_LE_SET_GUINT8  (data + 10, underline);
 	GSF_LE_SET_GUINT8  (data + 11, family);
 	GSF_LE_SET_GUINT8  (data + 12, charset);
-	GSF_LE_SET_GUINT8  (data +13, 0);
+	GSF_LE_SET_GUINT8  (data + 13, 0);
 	ms_biff_put_var_write (bp, data, 14);
-	len = biff_convert_text(&buf, font_name, wb->ver);
+	len = biff_convert_text (&buf, font_name, wb->ver);
 	biff_put_text (bp, buf, len, wb->ver, TRUE, EIGHT_BIT);
 	g_free(buf);
 
@@ -1515,7 +1500,7 @@ gather_formats (ExcelWorkbook *wb)
 	TwoWayTable *twt = wb->xf->two_way_table;
 	/* For each style, get fonts index from hash. If none, it's
            not there yet, and we enter it. */
-	g_hash_table_foreach (twt->key_to_idx, (GHFunc) put_format, wb);
+	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_format, wb);
 }
 
 
@@ -1582,52 +1567,6 @@ write_formats (BiffPut *bp, ExcelWorkbook *wb)
 }
 
 /**
- * Make bitmap for keeping track of cells in use
- **/
-static gpointer
-cell_used_map_new (ExcelSheet *esheet)
-{
-	long nwords;
-	gpointer ptr = NULL;
-	if (esheet->max_col > 0 && esheet->max_row > 0) {
-		nwords = (esheet->max_col * esheet->max_row - 1) / 32 + 1;
-		ptr = g_malloc0 (nwords * 4);
-	}
-	return ptr;
-}
-
-/**
- * Mark cell in use in bitmap
- **/
-static void
-cell_mark_used (ExcelSheet *esheet, int col, int row)
-{
-	long bit_ix = row * esheet->max_col + col;
-	long word_ix = bit_ix / 32;
-	int  rem     = bit_ix % 32;
-
-	if (esheet && esheet->cell_used_map)
-		*((guint32 *) esheet->cell_used_map + word_ix) |= 1 << rem;
-}
-
-/**
- * Return true if cell marked in use in bitmap
- **/
-static gboolean
-cell_is_used (const ExcelSheet *esheet, int col, int row)
-{
-	long bit_ix = row * esheet->max_col + col;
-	long word_ix = bit_ix / 32;
-	int  rem     = bit_ix % 32;
-	gboolean ret = FALSE;
-
-	if (esheet && esheet->cell_used_map)
-		ret = 1 & *((guint32 *) esheet->cell_used_map + word_ix) >> rem;
-
-	return ret;
-}
-
-/**
  * Get default MStyle of esheet
  *
  * FIXME: This works now. But only because the default style for a
@@ -1651,9 +1590,8 @@ xf_init (ExcelWorkbook *wb)
 {
 	wb->xf = g_new (XF, 1);
 	/* Excel starts at XF_RESERVED for user defined xf */
-	wb->xf->two_way_table
-		= two_way_table_new (mstyle_hash, (GCompareFunc) mstyle_equal,
-				     XF_RESERVED);
+	wb->xf->two_way_table = two_way_table_new (mstyle_hash,
+		(GCompareFunc) mstyle_equal_XL, XF_RESERVED);
 	wb->xf->default_style = get_default_mstyle ();
 }
 
@@ -1675,37 +1613,20 @@ xf_get_mstyle (ExcelWorkbook *wb, gint idx)
 static void
 xf_free (ExcelWorkbook *wb)
 {
-	TwoWayTable *twt;
-	MStyle *st;
-	guint i;
-
 	if (wb && wb->xf) {
-		if (wb->xf->two_way_table) {
-			twt = wb->xf->two_way_table;
-			for (i = 0; i < twt->idx_to_key->len; i++) {
-				st = xf_get_mstyle (wb, i + twt->base);
-				mstyle_unref (st);
-			}
+		if (wb->xf->two_way_table)
 			two_way_table_free (wb->xf->two_way_table);
-		}
 		mstyle_unref (wb->xf->default_style);
 		g_free (wb->xf);
 		wb->xf = NULL;
 	}
 }
 
-/**
- * Callback called when putting MStyle to table. Print to debug log when
- * style is added. Add a reference when putting a style into the table.
- **/
 static void
 after_put_mstyle (MStyle *st, gboolean was_added, gint index, gconstpointer dummy)
 {
 	if (was_added) {
-		d (1, {
-			printf ("Found unique mstyle %d\n", index);
-		   mstyle_dump (st);});
-		mstyle_ref (st);
+		d (1, { printf ("Found unique mstyle %d\n", index); mstyle_dump (st);});
 	}
 }
 
@@ -1715,168 +1636,30 @@ after_put_mstyle (MStyle *st, gboolean was_added, gint index, gconstpointer dumm
 static gint
 put_mstyle (ExcelWorkbook *wb, MStyle *st)
 {
-	TwoWayTable *twt = wb->xf->two_way_table;
-
-	return two_way_table_put (twt, st, TRUE,
+	return two_way_table_put (wb->xf->two_way_table, st, TRUE,
 				  (AfterPutFunc) after_put_mstyle, NULL);
 }
 
-/**
- * Get ExcelCell record for cell position.
- **/
-inline static ExcelCell *
-excel_cell_get (ExcelSheet *esheet, int col, int row)
-{
-	g_return_val_if_fail (col < esheet->max_col, NULL);
-	g_return_val_if_fail (row < esheet->max_row, NULL);
-	return *(esheet->cells + row) + col;
-}
-
-/**
- * Add MStyle of cell to table if not already there. Cache some info.
- **/
 static void
-pre_cell (gconstpointer dummy, Cell *cell, ExcelSheet *esheet)
+cb_accum_styles (MStyle *st, gconstpointer dummy, ExcelWorkbook *wb)
 {
-	ExcelCell *c;
-	int col, row;
-	MStyle *cell_style;
-
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (esheet != NULL);
-
-	count_io_progress_update (esheet->wb->io_context, 1);
-
-	col = cell->pos.col;
-	row = cell->pos.row;
-
-	d (3, printf ("Pre cell %s\n", cell_coord_name (col, row)););
-
-	if (col >= esheet->max_col || row >= esheet->max_row) {
-		/* sheet_get_extent clipped blank cells, this had better be blank. */
-		g_return_if_fail (cell_is_blank (cell));
-		return;
-	}
-
-	cell_mark_used (esheet, col, row);
-	if (cell_has_expr (cell))
-		ms_formula_build_pre_data (esheet, cell->base.expression);
-
-	/* Save cell pointer */
-	c = excel_cell_get (esheet, col, row);
-	c->gnum_cell = cell;
-
-	/* For the general format XL assigns the parse format */
-	cell_style = cell_get_mstyle (cell);
-	if (cell->value != NULL &&
-	    VALUE_FMT (cell->value) != NULL &&
-	    !style_format_is_general (VALUE_FMT (cell->value)) &&
-	    style_format_is_general (mstyle_get_format (cell_style))) {
-		cell_style = mstyle_copy (cell_style);
-		mstyle_set_format (cell_style, VALUE_FMT (cell->value));
-		c->xf = put_mstyle (esheet->wb, cell_style);
-		mstyle_ref (cell_style);
-	} else
-		c->xf = put_mstyle (esheet->wb, cell_style);
+	put_mstyle (wb, st);
 }
 
-/**
- * Add MStyle of blank cell to table if not already there.
- **/
-static void
-pre_blank (ExcelSheet *esheet, int col, int row)
-{
-	ExcelCell *c = excel_cell_get (esheet, col, row);
-
-	MStyle *st = sheet_style_get (esheet->gnum_sheet,
-				      col, row);
-
-	d (3, printf ("Pre blank %s\n", cell_coord_name (col, row)););
-	c->gnum_cell = NULL;
-	c->xf = put_mstyle (esheet->wb, st);
-}
-
-/**
- * Add MStyles of all blank cells to table if not already there.
- **/
-static void
-pre_blanks (ExcelSheet *esheet)
-{
-	int row, col;
-
-	for (row = 0; row < esheet->max_row; row++) {
-		for (col = 0; col < esheet->max_col; col++)
-			if (!cell_is_used (esheet, col, row))
-				pre_blank (esheet, col, row);
-		count_io_progress_update (esheet->wb->io_context, 1);
-	}
-}
-
-/**
- * pre_colstyle :
- * @esheet :
- *
- * Find the xf record to associate with each column in the sheet.
- */
-static void
-pre_colstyle (ExcelSheet *esheet)
-{
-	int col;
-	Sheet *sheet;
-
-	g_return_if_fail (esheet != NULL);
-
-	sheet = esheet->gnum_sheet;
-	for (col = 0; col < esheet->max_col; col++)
-		esheet->col_xf[col]  = put_mstyle (esheet->wb,
-			sheet_style_most_common_in_col (sheet, col));
-}
-
-/**
- * Add all MStyles in workbook to table
- *
- * First, we invoke pre_cell on each cell in the cell hash. This
- * computes the style for each non-blank cell, and adds the style to
- * the table.
- *
- * We also need styles for blank cells, so we let pre_blanks scan all
- * blank cell positions, limited by max_col and max_row.
- *
- * To see what cells are blank, we use the cell_used_map, where
- * pre_cell sets a bit for each cell which is in use. This should be
- * somewhat faster than just visiting each cell postion in sequence.
- *
- * Another optimization we do: When writing to file, we need the cell
- * pointer and the XF style index for each cell. To avoid having to
- * locate the cell pointer and computing the style once more, we cache
- * the cell pointer and XF index in an ExcelCell in the cells table.
- **/
 static void
 gather_styles (ExcelWorkbook *wb)
 {
-	guint n = 0, i;
-	enum {N_CELLS_BETWEEN_UPDATES = 20};
+	unsigned i;
+	int	 col;
+	ExcelSheet *esheet;
 
 	for (i = 0; i < wb->sheets->len; i++) {
-		ExcelSheet *s;
-
-		s = g_ptr_array_index (wb->sheets, i);
-		n += g_hash_table_size (s->gnum_sheet->cell_hash);
-		n += s->max_row;
+		esheet = g_ptr_array_index (wb->sheets, i);
+		sheet_style_foreach (esheet->gnum_sheet, (GHFunc)cb_accum_styles, wb);
+		for (col = 0; col < esheet->max_col; col++)
+			esheet->col_xf [col] = two_way_table_key_to_idx (wb->xf->two_way_table,
+				sheet_style_most_common_in_col (esheet->gnum_sheet, col));
 	}
-
-	count_io_progress_set (wb->io_context, n, N_CELLS_BETWEEN_UPDATES);
-	for (i = 0; i < wb->sheets->len; i++) {
-		ExcelSheet *esheet = g_ptr_array_index (wb->sheets, i);
-
-		pre_colstyle (esheet);
-
-		/* Gather style info from cells and blanks */
-		g_hash_table_foreach (esheet->gnum_sheet->cell_hash,
-				      (GHFunc) pre_cell, esheet);
-		pre_blanks (esheet);
-	}
-	io_progress_unset (wb->io_context);
 }
 
 /**
@@ -2790,37 +2573,23 @@ repeat:
  * Write cell to file
  **/
 static void
-write_cell (BiffPut *bp, ExcelSheet *esheet, const ExcelCell *cell)
+write_cell (BiffPut *bp, ExcelSheet *esheet, Cell const *cell, unsigned xf)
 {
-	gint col, row;
-	Cell *gnum_cell;
-
-	g_return_if_fail (bp);
-	g_return_if_fail (cell);
-	g_return_if_fail (cell->gnum_cell);
-	g_return_if_fail (esheet);
-
-	gnum_cell = cell->gnum_cell;
-	col = gnum_cell->pos.col;
-	row = gnum_cell->pos.row;
-
 	d (2, {
 		ParsePos tmp;
 		printf ("Writing cell at %s '%s' = '%s', xf = 0x%x\n",
-			cell_name (gnum_cell),
-			(cell_has_expr (gnum_cell) ?
-			 gnm_expr_as_string (gnum_cell->base.expression,
-					      parse_pos_init_cell (&tmp, gnum_cell)) :
-			 "none"),
-			(gnum_cell->value ?
-			 value_get_as_string (gnum_cell->value) : "empty"),
-			cell->xf);
+			cell_name (cell),
+			(cell_has_expr (cell) ?
+			 gnm_expr_as_string (cell->base.expression,
+					     parse_pos_init_cell (&tmp, cell)) : "none"),
+			(cell->value ?
+			 value_get_as_string (cell->value) : "empty"), xf);
 	});
-	if (cell_has_expr (gnum_cell))
-		write_formula (bp, esheet, gnum_cell, cell->xf);
-	else if (gnum_cell->value)
-		write_value (bp, gnum_cell->value, esheet->wb->ver,
-			     col, row, cell->xf);
+	if (cell_has_expr (cell))
+		write_formula (bp, esheet, cell, xf);
+	else if (cell->value != NULL)
+		write_value (bp, cell->value, esheet->wb->ver,
+			     cell->pos.col, cell->pos.row, xf);
 }
 
 /**
@@ -3171,6 +2940,25 @@ write_dimension (BiffPut *bp, ExcelSheet *esheet)
 }
 
 static void
+ms_excel_write_wsbool (BiffPut *bp, ExcelSheet *esheet)
+{
+	guint8 *data = ms_biff_put_len_next (bp, BIFF_WSBOOL, 2);
+	guint16 flags = 0;
+
+	/* 0x0001 automatic page breaks are visible */
+	/* 0x0010 the sheet is a dialog sheet */
+	/* 0x0020 automatic styles are not applied to an outline */
+	if (esheet->gnum_sheet->outline_symbols_below)	flags |= 0x040;
+	if (esheet->gnum_sheet->outline_symbols_right)	flags |= 0x080;
+	/* 0x0100 the Fit option is on (Page Setup dialog box, Page tab) */
+	if (esheet->gnum_sheet->display_outlines)	flags |= 0x600;
+
+	GSF_LE_SET_GUINT16 (data, 0x04c1);
+	ms_biff_put_commit (bp);
+
+}
+
+static void
 write_sheet_head (BiffPut *bp, ExcelSheet *esheet)
 {
 	guint8 *data;
@@ -3239,11 +3027,7 @@ write_sheet_head (BiffPut *bp, ExcelSheet *esheet)
 	GSF_LE_SET_GUINT32 (data, 0x002c0001); /* Made in the UK */
 	ms_biff_put_commit (bp);
 
-	/* See: S59E1C.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_WSBOOL, 2);
-	GSF_LE_SET_GUINT16 (data, 0x04c1);
-	ms_biff_put_commit (bp);
-
+	ms_excel_write_wsbool (bp, esheet);
 	/* See: S59D94.HTM */
 	ms_biff_put_var_next (bp, BIFF_HEADER);
 /*	biff_put_text (bp, "&A", MS_BIFF_V7, TRUE); */
@@ -3473,6 +3257,10 @@ write_block (BiffPut *bp, ExcelSheet *esheet, guint32 begin, int nrows)
 	unsigned  ri_start [2]; /* Row info start */
 	unsigned *rc_start;	/* Row cells start */
 	guint16   xf_list [SHEET_MAX_COLS];
+	Cell const *cell;
+	Sheet	   *sheet = esheet->gnum_sheet;
+	int	    xf;
+	TwoWayTable *twt = esheet->wb->xf->two_way_table;
 
 	if (nrows > esheet->max_row - (int) begin) /* Incomplete final block? */
 		nrows = esheet->max_row - (int) begin;
@@ -3490,11 +3278,13 @@ write_block (BiffPut *bp, ExcelSheet *esheet, guint32 begin, int nrows)
 		/* Save start pos of 1st cell in row */
 		rc_start [row - begin] = bp->streamPos;
 		for (col = 0; col < max_col; col++) {
-			const ExcelCell *cell = excel_cell_get (esheet, col, row);
-			if (!cell->gnum_cell) {
-				if (cell->xf != esheet->col_xf [col]) {
-					xf_list [run_size++] = cell->xf;
-				} else if (run_size > 0) {
+			cell = sheet_cell_get (sheet, col, row);
+			xf = two_way_table_key_to_idx (twt,
+				sheet_style_get (sheet, col, row));
+			if (cell == NULL) {
+				if (xf != esheet->col_xf [col])
+					xf_list [run_size++] = xf;
+				else if (run_size > 0) {
 					write_mulblank (bp, esheet, col - 1, row,
 							xf_list, run_size);
 					run_size = 0;
@@ -3505,7 +3295,7 @@ write_block (BiffPut *bp, ExcelSheet *esheet, guint32 begin, int nrows)
 							xf_list, run_size);
 					run_size = 0;
 				}
-				write_cell (bp, esheet, cell);
+				write_cell (bp, esheet, cell, xf);
 				workbook_io_progress_update (esheet->wb->io_context, 1);
 			}
 		}
@@ -3529,11 +3319,14 @@ write_sheet (IOContext *context, BiffPut *bp, ExcelSheet *esheet)
 	gint32 maxrows, y;
 	int rows_in_block = ROW_BLOCK_MAX_LEN;
 	unsigned index_off;
-	/* No. of blocks of rows. Only correct as long as all rows -
-	   including empties - have row info records */
+
+	/* No. of blocks of rows. Only correct as long as all rows
+	 * _including empties_ have row info records
+	 */
 	guint32 nblocks = (esheet->max_row - 1) / rows_in_block + 1;
 
 	esheet->streamPos = biff_bof_write (bp, esheet->wb->ver, MS_BIFF_TYPE_Worksheet);
+
 	/* We catch too large sheets during write check, but leave this in: */
 	maxrows = (esheet->wb->ver >= MS_BIFF_V8)
 		? MsBiffMaxRowsV8 : MsBiffMaxRowsV7;
@@ -3578,7 +3371,6 @@ excel_sheet_new (ExcelWorkbook *ewb, Sheet *gnum_sheet, IOContext *context)
 {
 	ExcelSheet      *esheet = g_new (ExcelSheet, 1);
 	Range           extent;
-	ExcelCell       **p, **pmax;
 	int const maxrows = (ewb->ver >= MS_BIFF_V8)
 		? MsBiffMaxRowsV8 : MsBiffMaxRowsV7;
 
@@ -3612,11 +3404,6 @@ excel_sheet_new (ExcelWorkbook *ewb, Sheet *gnum_sheet, IOContext *context)
 		esheet->max_row = maxrows;
 
 	ms_formula_cache_init (esheet);
-	esheet->cell_used_map = cell_used_map_new (esheet);
-
-	esheet->cells = g_new (ExcelCell *, esheet->max_row);
-	for (p = esheet->cells, pmax = p + esheet->max_row; p < pmax; p++)
-		*p = g_new0 (ExcelCell, esheet->max_col);
 
 	return esheet;
 }
@@ -3624,13 +3411,7 @@ excel_sheet_new (ExcelWorkbook *ewb, Sheet *gnum_sheet, IOContext *context)
 static void
 excel_sheet_free (ExcelSheet *esheet)
 {
-	ExcelCell     **p, **pmax;
-
 	if (esheet) {
-		g_free (esheet->cell_used_map);
-		for (p = esheet->cells, pmax = p + esheet->max_row; p < pmax; p++)
-			g_free (*p);
-		g_free (esheet->cells);
 		g_array_free (esheet->dbcells, TRUE);
 		ms_formula_cache_shutdown (esheet);
 		g_free (esheet);

@@ -46,7 +46,6 @@
 #define GNUMERIC_ITEM "GRID"
 #include "item-debug.h"
 
-#undef PAINT_DEBUG
 #if 0
 #define MERGE_DEBUG(range, str) do { range_dump (range, str); } while (0)
 #else
@@ -451,7 +450,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 					if (ci->visible)
 						item_grid_draw_merged_range (drawable, ig,
-						diff_x, y, &view, r, draw_selection);
+							diff_x, y, &view, r, draw_selection);
 				}
 			} else {
 				lag = &(ptr->next);
@@ -488,9 +487,27 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			if (merged_active != NULL) {
 				Range const *r = merged_active->data;
 				if (r->start.col <= col) {
-					gboolean clear_top, clear_bottom = TRUE;
+					gboolean clear_top, clear_bottom = FALSE;
 					int i, first = r->start.col;
 					int last  = r->end.col;
+
+					ptr = merged_active;
+					merged_active = merged_active->next;
+					if (r->end.row <= row) {
+						ptr->next = merged_used;
+						merged_used = ptr;
+						MERGE_DEBUG (r, " : active -> used\n");
+
+						/* in case something managed the bottom of a merge */
+						if (r->end.row < row)
+							continue;
+					} else {
+						ptr->next = merged_active_seen;
+						merged_active_seen = ptr;
+						MERGE_DEBUG (r, " : active -> seen\n");
+						if (next_sr.row <= r->end.row)
+							clear_bottom = TRUE;
+					}
 
 					x += scg_colrow_distance_get (
 						gcanvas->simple.scg, TRUE, col, last+1);
@@ -505,19 +522,6 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 						sr.vertical [last+1] = NULL;
 					}
 					clear_top = (r->start.row != row);
-
-					ptr = merged_active;
-					merged_active = merged_active->next;
-					if (r->end.row <= row) {
-						clear_bottom = FALSE;
-						ptr->next = merged_used;
-						merged_used = ptr;
-						MERGE_DEBUG (r, " : active -> used\n");
-					} else {
-						ptr->next = merged_active_seen;
-						merged_active_seen = ptr;
-						MERGE_DEBUG (r, " : active -> seen\n");
-					}
 
 					/* Clear the borders */
 					for (i = first ; i <= last ; i++) {
@@ -922,16 +926,21 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	if (!wbcg_edit_finish (scg->wbcg, TRUE))
 		return 1;
 
-	if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
-		sv_selection_reset (sc->view);
+	/* button 1 will always change the selection,  the other buttons will
+	 * only effect things if the target is not already selected.
+	 */
+	if (event->button == 1 || !sv_is_pos_selected (sc->view, pos.col, pos.row)) {
+		if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
+			sv_selection_reset (sc->view);
 
-	if (event->button != 1 || !(event->state & GDK_SHIFT_MASK) ||
-	    sc->view->selections == NULL) {
-		sv_selection_add_pos (sc->view, pos.col, pos.row);
-		sv_make_cell_visible (sc->view, pos.col, pos.row, FALSE);
-	} else if (event->button != 2)
-		sv_selection_extend_to (sc->view, pos.col, pos.row);
-	sheet_update (sheet);
+		if (event->button != 1 || !(event->state & GDK_SHIFT_MASK) ||
+		    sc->view->selections == NULL) {
+			sv_selection_add_pos (sc->view, pos.col, pos.row);
+			sv_make_cell_visible (sc->view, pos.col, pos.row, FALSE);
+		} else if (event->button != 2)
+			sv_selection_extend_to (sc->view, pos.col, pos.row);
+		sheet_update (sheet);
+	}
 
       	switch (event->button) {
 	case 1: ig->selecting = ITEM_GRID_SELECTING_CELL_RANGE;

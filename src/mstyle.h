@@ -48,8 +48,9 @@ typedef enum _MStyleElementType {
 	        MSTYLE_CONTENT_LOCKED,
 	        MSTYLE_CONTENT_HIDDEN,
 
+	/* Things not in MS Excel's Style */
 	        MSTYLE_VALIDATION,
-	        MSTYLE_HLINK,
+	        MSTYLE_HLINK, /* patch equal_XL if this is changed */
 	/* Delimiter */
 	MSTYLE_ELEMENT_MAX
 } MStyleElementType;
@@ -66,8 +67,9 @@ void        mstyle_link          (MStyle *st);
 void        mstyle_link_multiple (MStyle *st, int count);
 void        mstyle_unlink        (MStyle *st);
 
-gboolean    mstyle_equal         (const MStyle *a, const MStyle *b);
-gboolean    mstyle_verify        (const MStyle *st);
+gboolean    mstyle_equal         (MStyle const *a, MStyle const *b);
+gboolean    mstyle_equal_XL	 (MStyle const *a, MStyle const *b);
+gboolean    mstyle_verify        (MStyle const *st);
 guint       mstyle_hash          (gconstpointer st);
 gboolean    mstyle_empty         (const MStyle *st);
 

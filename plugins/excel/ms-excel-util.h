@@ -16,7 +16,8 @@
 typedef struct _TwoWayTable   TwoWayTable;
 
 struct _TwoWayTable {
-	GHashTable *key_to_idx;
+	GHashTable *all_keys;
+	GHashTable *unique_keys;
 	GPtrArray  *idx_to_key;
 	gint       base;	/* Indices assigned consecutively from base */
 };

@@ -1085,7 +1085,7 @@ biff_boundsheet_data_new (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 	g_hash_table_insert (wb->boundsheet_data_by_stream, &ans->streamStartPos, ans);
 
 	/* AARRRGGGG : This is useless XL calls chart tabs 'worksheet' too */
-	/* if (ans->type == MS_BIFF_TYPE_Worksheet) */
+	/* if (ans->type == MS_BIFF_TYPE_Worksheet) { } */
 
 	/* FIXME : Use this kruft instead */
 	if (ans->hidden == MS_BIFF_H_VISIBLE) {

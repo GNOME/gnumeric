@@ -15,7 +15,6 @@
 #include "style.h"
 
 typedef struct _ExcelFont     ExcelFont;
-typedef struct _ExcelCell     ExcelCell;
 typedef struct _ExcelSheet    ExcelSheet;
 typedef struct _ExcelWorkbook ExcelWorkbook;
 typedef struct _XF       XF;
@@ -49,11 +48,6 @@ struct _XF {
 	MStyle      *default_style;
 };
 
-struct _ExcelCell {
-	gint     xf;
-	Cell    *gnum_cell;
-};
-
 struct _ExcelSheet {
 	ExcelWorkbook *wb;
 	Sheet         *gnum_sheet;
@@ -62,8 +56,6 @@ struct _ExcelSheet {
 	guint32        boundsheetPos;
 	gint32         max_col, max_row;
 	GHashTable    *formula_cache;
-	gpointer       cell_used_map;
-	ExcelCell    **cells;
 	double         base_char_width;
 	double         base_char_width_default;
 	guint16	       col_xf [SHEET_MAX_COLS];

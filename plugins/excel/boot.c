@@ -195,6 +195,7 @@ excel_save (IOContext *context, WorkbookView *wb_view, const char *filename,
 	Workbook *wb = wb_view_workbook (wb_view);
 	ms_summary_write (f, wb->summary_info);
 #endif
+	gsf_output_close (GSF_OUTPUT (outfile));
 	g_object_unref (G_OBJECT (outfile));
 }
 

@@ -1979,3 +1979,12 @@ sheet_style_most_common_in_col (Sheet const *sheet, int col)
 	g_hash_table_destroy (accumulator);
 	return res.style;
 }
+
+void
+sheet_style_foreach (Sheet const *sheet, GHFunc	func, gpointer user_data)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (sheet->style_data != NULL);
+
+	g_hash_table_foreach (sheet->style_data->style_hash, func, user_data);
+}

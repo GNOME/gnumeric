@@ -1,3 +1,44 @@
+2002-08-01  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (biff_put_text) : set the unicode flag on the
+	  string header for unicode strings.  This routine needs to be cleaned
+	  up to handle utf8 -> utf16 if necessary.
+	(biff_boundsheet_write_first) : tidy and make the name len 1 byte.
+	(gather_palette) : convert to new two way table convention.
+	(gather_fonts) : ditto.
+	(gather_formats) : ditto.
+	(xf_free) : ditto.
+	(after_put_mstyle) : ditto.
+	(put_mstyle) : simplify.
+	(xf_init) : delete.
+	(cell_used_map_new) : delete.
+	(cell_mark_used ) : delete.
+	(cell_is_used) : delete.
+	(excel_cell_get) : delete.
+	(pre_cell) : delete.
+	(pre_blank) : delete.
+	(pre_blanks) : delete.
+	(pre_colstyle) : delete.
+	(gather_styles) : greatly simplify by using the knowledge that there
+	  is a per sheet hash of the styles in use.
+	(cb_accum_styles) : new.
+	(write_cell) : Use the gnumeric data structures directly.
+	(write_block) : ditto.
+	(ms_excel_write_wsbool) : new.
+	(write_sheet_head) : use ms_excel_write_wsbool.
+	(excel_sheet_new) : no more need for large cell map.
+	(excel_sheet_free) : ditto.
+
+	* ms-excel-util.c (two_way_table_new) : Allow for ptr tp ptr
+	  comparisons as an optimization.
+	(two_way_table_free) : ditto.
+	(two_way_table_put) : ditto.
+	(two_way_table_replace) : ditto.
+	(two_way_table_key_to_idx) : ditto.
+
+	* boot.c (excel_save) : bah!  I forgot to commit this.  export is
+	  broken without it.
+
 2002-07-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.6

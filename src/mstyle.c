@@ -142,7 +142,8 @@ const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
 	"WrapText",
 	"Content.Locked",
 	"Content.Hidden",
-	"Validation"
+	"Validation",
+	"Hyper Link"
 };
 
 /* Some ref/link count debugging */
@@ -363,41 +364,6 @@ mstyle_element_equal (MStyleElement const *a,
 	}
 
 	return FALSE;
-}
-
-/**
- * mstyle_elements_equal:
- * @a: a style
- * @b: another style
- *
- * Compares for identical style element arrays,
- * fully commutative.
- *
- * Return value: TRUE if equal.
- **/
-static gboolean
-mstyle_elements_equal (const MStyleElement *a,
-		       const MStyleElement *b)
-{
-	int i;
-
-	g_return_val_if_fail (a != NULL, FALSE);
-	g_return_val_if_fail (b != NULL, FALSE);
-
-	for (i = 1; i < MSTYLE_ELEMENT_MAX; i++) {
-		/* Elements in the same position should have the same types */
-		if (a[i].type != b[i].type) {
-			if (a[i].type != MSTYLE_ELEMENT_UNSET &&
-			    b[i].type != MSTYLE_ELEMENT_UNSET)
-				g_warning ("%s mismatched types.", mstyle_names[i]);
-			return FALSE;
-		}
-
-		if (!mstyle_element_equal (a+i, b+i))
-			return FALSE;
-	}
-
-	return TRUE;
 }
 
 static inline MStyleElement
@@ -886,14 +852,63 @@ mstyle_dump (const MStyle *style)
 gboolean
 mstyle_equal (const MStyle *a, const MStyle *b)
 {
+	int i;
+	MStyleElement const *ea, *eb;
+
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);
 
 	if (a == b)
 		return TRUE;
 
-	return mstyle_elements_equal (a->elements, b->elements);
+	ea = a->elements;
+	eb = b->elements;
+	for (i = 1; i < MSTYLE_ELEMENT_MAX; i++) {
+		/* Elements in the same position should have the same types */
+		if (ea[i].type != eb[i].type) {
+			if (ea[i].type != MSTYLE_ELEMENT_UNSET &&
+			    eb[i].type != MSTYLE_ELEMENT_UNSET)
+				g_warning ("%s mismatched types.", mstyle_names[i]);
+			return FALSE;
+		}
+
+		if (!mstyle_element_equal (ea+i, eb+i))
+			return FALSE;
+	}
+
+	return TRUE;
 }
+
+gboolean
+mstyle_equal_XL (const MStyle *a, const MStyle *b)
+{
+	int i;
+	MStyleElement const *ea, *eb;
+
+	g_return_val_if_fail (a != NULL, FALSE);
+	g_return_val_if_fail (b != NULL, FALSE);
+
+	if (a == b)
+		return TRUE;
+
+	ea = a->elements;
+	eb = b->elements;
+	for (i = 1; i <= MSTYLE_HLINK; i++) {
+		/* Elements in the same position should have the same types */
+		if (ea[i].type != eb[i].type) {
+			if (ea[i].type != MSTYLE_ELEMENT_UNSET &&
+			    eb[i].type != MSTYLE_ELEMENT_UNSET)
+				g_warning ("%s mismatched types.", mstyle_names[i]);
+			return FALSE;
+		}
+
+		if (!mstyle_element_equal (ea+i, eb+i))
+			return FALSE;
+	}
+
+	return TRUE;
+}
+
 
 gboolean
 mstyle_empty (const MStyle *style)

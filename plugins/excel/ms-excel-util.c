@@ -71,7 +71,8 @@ two_way_table_new (GHashFunc    hash_func,
 	TwoWayTable *table = g_new (TwoWayTable, 1);
 
 	g_return_val_if_fail (base >= 0, NULL);
-	table->key_to_idx  = g_hash_table_new (hash_func, key_compare_func);
+	table->all_keys  = g_hash_table_new (g_direct_hash, g_direct_equal);
+	table->unique_keys	   = g_hash_table_new (hash_func, key_compare_func);
 	table->idx_to_key  = g_ptr_array_new ();
 	table->base        = base;
 
@@ -87,7 +88,8 @@ two_way_table_new (GHashFunc    hash_func,
 void
 two_way_table_free (TwoWayTable *table)
 {
-	g_hash_table_destroy (table->key_to_idx);
+	g_hash_table_destroy (table->all_keys);
+	g_hash_table_destroy (table->unique_keys);
 	g_ptr_array_free (table->idx_to_key, TRUE);
 	g_free (table);
 }
@@ -96,7 +98,7 @@ two_way_table_free (TwoWayTable *table)
  * two_way_table_put
  * @table  Table
  * @key    Key to enter
- * @unique True if key is entered also if already in table
+ * @potentially_unique True if key is entered also if already in table
  * @apf    Function to call after putting.
  *
  * Puts a key to the TwoWayTable if it is not already there. Returns
@@ -106,18 +108,28 @@ two_way_table_free (TwoWayTable *table)
  */
 gint
 two_way_table_put (const TwoWayTable *table, gpointer key,
-		   gboolean unique,  AfterPutFunc apf, gconstpointer closure)
+		   gboolean potentially_unique,
+		   AfterPutFunc apf, gconstpointer closure)
 {
 	gint index = two_way_table_key_to_idx (table, key);
 	gboolean found = (index >= 0);
-	gboolean addit = !found || !unique;
+	gboolean addit = !found || !potentially_unique;
+	gpointer unique;
 
 	if (addit) {
 		index = table->idx_to_key->len + table->base;
 
-		if (!found)
-			g_hash_table_insert (table->key_to_idx, key,
+		if (!found) {
+			/* We have not seen this pointer before, but is the key
+			 * already in the set ?
+			 */
+			unique = g_hash_table_lookup (table->all_keys, key);
+			if (unique == NULL)
+				g_hash_table_insert (table->all_keys, key,
+						     GINT_TO_POINTER (index + 1));
+			g_hash_table_insert (table->unique_keys, key,
 					     GINT_TO_POINTER (index + 1));
+		}
 		g_ptr_array_add (table->idx_to_key, key);
 	}
 
@@ -140,9 +152,9 @@ two_way_table_replace (const TwoWayTable *table, gint idx, gpointer key)
 {
 	gpointer old_key = two_way_table_idx_to_key (table, idx);
 
-	g_hash_table_remove(table->key_to_idx, old_key);
-	g_hash_table_insert(table->key_to_idx, key, GINT_TO_POINTER (idx + 1));
-	g_ptr_array_index (table->idx_to_key, idx) = key;
+	g_hash_table_remove (table->all_keys, old_key);
+	g_hash_table_insert (table->all_keys, key, GINT_TO_POINTER (idx + 1));
+	g_ptr_array_index   (table->idx_to_key, idx) = key;
 
 	return old_key;
 }
@@ -157,8 +169,7 @@ two_way_table_replace (const TwoWayTable *table, gint idx, gpointer key)
 gint
 two_way_table_key_to_idx (const TwoWayTable *table, gconstpointer key)
 {
-	return GPOINTER_TO_INT (g_hash_table_lookup (table->key_to_idx, key))
-		- 1;
+	return GPOINTER_TO_INT (g_hash_table_lookup (table->unique_keys, key)) - 1;
 }
 
 /**

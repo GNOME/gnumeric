@@ -1,5 +1,9 @@
 Gnumeric 1.1.7
 
+Jody:
+	* Fix and speed up the XL exporter.
+	* Make the behaviour for right button consistent in all contexts.
+
 Jukka:
 	* New random distribution functions (mostly integrated from the 
 	  GNU Scientific Library with some minor modifications):

@@ -739,7 +739,6 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 			return TRUE;
 
 		ic->drag_button = -1;
-
 		gnm_simple_canvas_ungrab (item, event->button.time);
 
 		if (sheet_is_region_empty (sheet, &ic->pos))
@@ -863,16 +862,18 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (ic->drag_button >= 0)
 			return TRUE;
 
-		ic->drag_button = event->button.button;
-
-		/* prepare to create fill or drag cursors, but dont until we
-		 * move.  If we did create them here there would be problems
-		 * with race conditions when the new cursors pop into existence
-		 * during a double-click
-		 */
-		gnm_simple_canvas_grab (item,
-			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
-			NULL, event->button.time);
+		if (event->button.button != 3) {
+			/* prepare to create fill or drag cursors, but dont until we
+			 * move.  If we did create them here there would be problems
+			 * with race conditions when the new cursors pop into existence
+			 * during a double-click
+			 */
+			ic->drag_button = event->button.button;
+			gnm_simple_canvas_grab (item,
+				GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
+				NULL, event->button.time);
+		} else
+			scg_context_menu (ic->scg, &event->button, FALSE, FALSE);
 		return TRUE;
 
 	case GDK_BUTTON_RELEASE:
@@ -881,8 +882,8 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		/* Double clicks may have already released the drag prep */
 		if (ic->drag_button >= 0) {
-			ic->drag_button = -1;
 			gnm_simple_canvas_ungrab (item, event->button.time);
+			ic->drag_button = -1;
 		}
 		return TRUE;
 
