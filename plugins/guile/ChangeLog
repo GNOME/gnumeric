@@ -1,3 +1,7 @@
+2000-04-29  Michael Meeks  <michael@helixcode.com>
+
+	* Makefile.am (gnumeric_guiledir): fix so it builds.
+
 2000-04-26  Jody Goldberg <jgoldberg@home.com>
 
 	* plugin.c (init_plugin) : Use gnumeric_sys_data_dir.

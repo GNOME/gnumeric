@@ -1,4 +1,4 @@
-guiledir  = $(gnumeric_datadir)/guile
+gnumeric_guiledir  = $(gnumeric_datadir)/guile
 INCLUDES = 					\
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
     -DGNUMERIC_VERSION=\""$(VERSION)"\"		\
