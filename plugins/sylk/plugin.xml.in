@@ -1,12 +1,17 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_sylk">
-	<information name="MultiPlan (SYLK)" description="Imports MultiPlan (SYLK) files"/>
+	<information>
+		<_name>MultiPlan (SYLK)</_name>
+		<_description>Imports MultiPlan (SYLK) files</_description>
+	</information>
 	<loader type="g_module">
 		<attribute name="module_file" value="sylk.so"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="sylk" priority="1" probe="TRUE">
-			<information description="MultiPlan (SYLK) import"/>
+			<information>
+				<_description>MultiPlan (SYLK) import</_description>
+			</information>
 			<save_info saver_id="" format_level="manual_remember"/>
 		</service>
 	</services>

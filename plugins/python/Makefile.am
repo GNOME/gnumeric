@@ -6,7 +6,7 @@ INCLUDES = \
     $(GNOME_INCLUDEDIR)
 
 gnumeric_plugin_pythondir = $(gnumeric_plugindir)/python
-gnumeric_plugin_python_DATA = plugin.xml
+xmldir = $(gnumeric_plugin_pythondir)
 gnumeric_plugin_python_LTLIBRARIES = python.la
 
 python_la_LDFLAGS = -module -avoid-version $(PY_LIB_LOC)  
@@ -16,4 +16,9 @@ python_la_SOURCES = python.c
 Pythonscriptsdir = $(gnumeric_pythondir)
 Pythonscripts_DATA = gnumeric_startup.py gnumeric_defs.py
 
-EXTRA_DIST = $(Pythonscripts_DATA) $(gnumeric_plugin_python_DATA)
+xml_in_files = plugin.xml.in
+xml_DATA = $(xml_in_files:.xml.in=.xml)
+
+@XML_I18N_MERGE_XML_RULE@
+
+EXTRA_DIST = $(Pythonscripts_DATA) $(xml_in_files) $(xml_DATA)

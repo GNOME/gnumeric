@@ -1,12 +1,17 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_GnomeGlossary">
-	<information name="Gnome Glossary" description="It provides support for saving Gnome Glossary in .po files."/>
+	<information>
+		<_name>Gnome Glossary</_name>
+		<_description>It provides support for saving Gnome Glossary in .po files.</_description>
+	</information>
 	<loader type="python">
 		<attribute name="module_name" value="gnome_glossary"/>
 	</loader>
 	<services>
 		<service type="file_saver" id="po" file_extension="po" format_level="auto">
-			<information description="Gnome Glossary PO file format"/>
+			<information>
+				<_description>Gnome Glossary PO file format</_description>
+			</information>
 		</service>
 	</services>
 </plugin>

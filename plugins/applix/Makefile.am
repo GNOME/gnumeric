@@ -4,9 +4,14 @@ INCLUDES = \
     $(GNOME_INCLUDEDIR)
 
 gnumeric_plugin_applixdir = $(gnumeric_plugindir)/applix
-gnumeric_plugin_applix_DATA = plugin.xml
+xmldir = $(gnumeric_plugin_applixdir)
 gnumeric_plugin_applix_LTLIBRARIES = applix.la
 applix_la_LDFLAGS = -module -avoid-version
 applix_la_SOURCES = boot.c applix.h applix-read.c
 
-EXTRA_DIST = $(gnumeric_plugin_applix_DATA)
+xml_in_files = plugin.xml.in
+xml_DATA = $(xml_in_files:.xml.in=.xml)
+
+@XML_I18N_MERGE_XML_RULE@
+
+EXTRA_DIST = $(xml_in_files) $(xml_DATA)

@@ -1,6 +1,13 @@
 gnumeric_plugin_gnome_glossarydir = $(gnumeric_plugindir)/gnome-glossary
-gnumeric_plugin_gnome_glossary_DATA = plugin.xml glossary-po-header
+xmldir = $(gnumeric_plugin_gnome_glossarydir)
+gnumeric_plugin_gnome_glossary_DATA = glossary-po-header
 gnumeric_plugin_gnome_glossary_SCRIPTS = gnome_glossary.py
 
+xml_in_files = plugin.xml.in
+xml_DATA = $(xml_in_files:.xml.in=.xml)
+
+@XML_I18N_MERGE_XML_RULE@
+
 EXTRA_DIST = $(gnumeric_plugin_gnome_glossary_DATA) \
-	     $(gnumeric_plugin_gnome_glossary_SCRIPTS)
+             $(gnumeric_plugin_gnome_glossary_SCRIPTS) \
+             $(xml_in_files) $(xml_DATA)

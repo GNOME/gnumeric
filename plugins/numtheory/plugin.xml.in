@@ -1,13 +1,15 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_numtheory">
-	<information name="Number Theory" description="Several basic utilities for prime numbers, pi, phi, sigma. It also hold some simple bitwise operations"/>
+	<information>
+		<_name>Number Theory</_name>
+		<_description>Several basic utilities for prime numbers, pi, phi, sigma. It also hold some simple bitwise operations</_description>
+	</information>
 	<loader type="g_module">
 		<attribute name="module_file" value="numtheory.so"/>
 	</loader>
 	<services>
 		<service type="function_group" id="num_theory">
-			<category name="Number Theory"/>
-			<category xml:lang="pl" name="Teoria liczb"/>
+			<_category>Number Theory</_category>
 			<functions>
 				<function name="ithprime"/>
 				<function name="nt_phi"/>
@@ -19,8 +21,7 @@
 			</functions>
 		</service>
 		<service type="function_group" id="bitwise">
-			<category name="Bitwise Operations"/>
-			<category xml:lang="pl" name="Operacje bitowe"/>
+			<_category>Bitwise Operations</_category>
 			<functions>
 				<function name="bitor"/>
 				<function name="bitxor"/>

@@ -1,10 +1,8 @@
 # Do not build by default until we are ready.
 #if WITH_PERL
 PERL_PROGRAMS_TARGET = perl.so
-PERL_DATA_TARGET = plugin.xml
 #else
 #PERL_PROGRAMS_TARGET =
-#PERL_DATA_TARGET =
 #endif
 
 gnperldir = $(gnumeric_datadir)/perl
@@ -19,7 +17,7 @@ PERL_CFLAGS = -I../.. $(PERL_CCCDLFLAGS)		\
 #
 
 gnumeric_plugin_perldir = $(gnumeric_plugindir)/perl
-gnumeric_plugin_perl_DATA = $(PERL_DATA_TARGET)
+xmldir = $(gnumeric_plugin_perldir)
 gnumeric_plugin_perl_PROGRAMS = $(PERL_PROGRAMS_TARGET)
 perl_so_SOURCES = perl.c
 
@@ -72,4 +70,11 @@ Perlscripts_DATA = \
 	ext/Gnumeric.xs		\
 	ext/Gnumeric.pm
 
-EXTRA_DIST = $(Perlscripts_DATA) $(gnumeric_plugin_perl_DATA)
+xml_in_files = plugin.xml.in
+xml_DATA = $(xml_in_files:.xml.in=.xml)
+
+@XML_I18N_MERGE_XML_RULE@
+
+#if WITH_PERL
+EXTRA_DIST = $(Perlscripts_DATA) $(xml_in_files) $(xml_DATA)
+#endif

@@ -1,13 +1,18 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_plan_perfect">
-	<information name="Plan Perfect" description="Imports Plan Perfect Formatted Documents"/>
+	<information>
+		<_name>Plan Perfect</_name>
+		<_description>Imports Plan Perfect Formatted Documents</_description>
+	</information>
 	<loader type="g_module">
 		<attribute name="module_file" value="plan_perfect.so"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="pln" priority="1" probe="FALSE"
 		         open="FALSE" import="TRUE">
-			<information description="Plan Perfect Format (PLN) import"/>
+			<information>
+				<_description>Plan Perfect Format (PLN) import</_description>
+			</information>
 			<save_info saver_id="" format_level="manual"/>
 		</service>
 	</services>

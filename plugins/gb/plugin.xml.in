@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_gb">
-	<information name="Gnome Basic"
-	 description="Enables Gnome Basic support"/>
+	<information>
+		<_name>Gnome Basic</_name>
+		<_description>Enables Gnome Basic support</_description>
+	</information>
 	<dependencies>
 		<dep_plugin id="Gnumeric_Excel"/>
 	</dependencies>

@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_python">
-	<information name="Python Plugin" description="This plugin provides Python language support in Gnumeric"/>
+	<information>
+		<_name>Python Plugin</_name>
+		<_description>This plugin provides Python language support in Gnumeric</_description>
+	</information>
 	<loader type="g_module">
 		<attribute name="module_file" value="python.so"/>
 	</loader>

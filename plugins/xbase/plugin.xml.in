@@ -1,13 +1,17 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_xbase">
-	<information name="XBase" description="Imports XBase files"/>
+	<information>
+		<_name>XBase</_name>
+		<_description>Imports XBase files</_description>
+	</information>
 	<loader type="g_module">
 		<attribute name="module_file" value="xbase.so"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="xbase" priority="100" probe="FALSE">
-			<information description="Xbase (*.dbf) file format"/>
-			<information xml:lang="pl" description="Format pliku Xbase (*.dbf)"/>
+			<information>
+				<_description>Xbase (*.dbf) file format</_description>
+			</information>
 			<file_patterns>
 				<file_pattern type="shell_pattern" value="*.dbf"/>
 			</file_patterns>

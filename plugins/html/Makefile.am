@@ -4,7 +4,7 @@ INCLUDES = \
     $(GNOME_INCLUDEDIR)
 
 gnumeric_plugin_htmldir = $(gnumeric_plugindir)/html
-gnumeric_plugin_html_DATA = plugin.xml
+xmldir = $(gnumeric_plugin_htmldir)
 gnumeric_plugin_html_LTLIBRARIES = html.la
 html_la_LDFLAGS = -module -avoid-version
 html_la_SOURCES = \
@@ -16,4 +16,9 @@ html_la_SOURCES = \
 #No longer used now that printing is available.
 #epsf.h epsf.c ps.h ps.c
 
-EXTRA_DIST = README ChangeLog $(gnumeric_plugin_html_DATA)
+xml_in_files = plugin.xml.in
+xml_DATA = $(xml_in_files:.xml.in=.xml)
+
+@XML_I18N_MERGE_XML_RULE@
+
+EXTRA_DIST = README ChangeLog $(xml_in_files) $(xml_DATA)

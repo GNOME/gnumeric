@@ -1,12 +1,17 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_applix">
-	<information name="Applix" description="Imports version 4.[234] spreadsheets"/>
+	<information>
+		<_name>Applix</_name>
+		<_description>Imports version 4.[234] spreadsheets</_description>
+	</information>
 	<loader type="g_module">
 		<attribute name="module_file" value="applix.so"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="applix" priority="100" probe="TRUE">
-			<information description="Applix (*.as)"/>
+			<information>
+				<_description>Applix (*.as)</_description>
+			</information>
 			<file_patterns>
 				<file_pattern type="shell_pattern" value="*.as"/>
 			</file_patterns>

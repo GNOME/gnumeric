@@ -13,9 +13,14 @@ INCLUDES = \
     $(GNOME_INCLUDEDIR)
 
 gnumeric_plugin_plan_perfectdir = $(gnumeric_plugindir)/plan_perfect
-gnumeric_plugin_plan_perfect_DATA = $(PP_DATA_TARGET)
+xmldir = $(gnumeric_plugin_plan_perfectdir)
 gnumeric_plugin_plan_perfect_LTLIBRARIES = $(PP_LTLIBRARIES_TARGET)
 plan_perfect_la_LDFLAGS = -module -avoid-version
 plan_perfect_la_SOURCES = pln.h pln.c
 
-# EXTRA_DIST = $(gnumeric_plugin_plan_perfect_DATA)
+xml_in_files = plugin.xml.in
+xml_DATA = $(xml_in_files:.xml.in=.xml)
+
+@XML_I18N_MERGE_XML_RULE@
+
+# EXTRA_DIST = $(xml_in_files) $(xml_DATA)

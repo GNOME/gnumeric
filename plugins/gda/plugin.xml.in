@@ -1,13 +1,15 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_gdaif">
-	<information name="Database" description="Database functions for allowing the retrieval of data from a database"/>
+	<information>
+		<_name>Database</_name>
+		<_description>Database functions for allowing the retrieval of data from a database</_description>
+	</information>
 	<loader type="g_module">
 		<attribute name="module_file" value="gdaif.so"/>
 	</loader>
 	<services>
 		<service type="function_group" id="gdaif">
-			<category name="Database"/>
-			<category xml:lang="pl" name="Baza danych"/>
+			<_category>Database</_category>
 			<functions>
 				<function name="execSQL"/>
 			</functions>

@@ -4,9 +4,14 @@ INCLUDES = \
     $(GNOME_INCLUDEDIR)
 
 gnumeric_plugin_xml_saxdir = $(gnumeric_plugindir)/xml_sax
-gnumeric_plugin_xml_sax_DATA = plugin.xml
+xmldir = $(gnumeric_plugin_xml_saxdir)
 gnumeric_plugin_xml_sax_LTLIBRARIES = xml_sax.la
 xml_sax_la_LDFLAGS = -module -avoid-version
 xml_sax_la_SOURCES = xml-sax-read.c
 
-EXTRA_DIST = $(gnumeric_plugin_xml_sax_DATA)
+xml_in_files = plugin.xml.in
+xml_DATA = $(xml_in_files:.xml.in=.xml)
+
+@XML_I18N_MERGE_XML_RULE@
+
+EXTRA_DIST = $(xml_in_files) $(xml_DATA)

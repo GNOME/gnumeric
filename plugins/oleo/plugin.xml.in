@@ -1,12 +1,17 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_oleo">
-	<information name="GNU Oleo" description="Imports GNU Oleo documents"/>
+	<information>
+		<_name>GNU Oleo</_name>
+		<_description>Imports GNU Oleo documents</_description>
+	</information>
 	<loader type="g_module">
 		<attribute name="module_file" value="oleo.so"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="oleo" priority="100" probe="FALSE">
-			<information description="GNU Oleo (*.oleo)"/>
+			<information>
+				<_description>GNU Oleo (*.oleo)</_description>
+			</information>
 			<file_patterns>
 				<file_pattern type="shell_pattern" value="*.oleo"/>
 			</file_patterns>

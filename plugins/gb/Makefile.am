@@ -4,7 +4,7 @@ INCLUDES = \
     $(GNOME_INCLUDEDIR) $(GB_CFLAGS)
 
 gnum_gbdir = $(gnumeric_plugindir)/gb
-gnum_gb_DATA = plugin.xml
+xmldir = $(gnumeric_plugin_gbdir)
 gnum_gb_LTLIBRARIES = gnum_gb.la
 gnum_gb_la_LDFLAGS = -module -avoid-version
 
@@ -36,4 +36,9 @@ gnum_gb_la_LIBADD =		\
 	$(EXTRA_GNOME_LIBS)	\
 	-lm @GLIB_LIBS@ -lgb -lgbrun
 
-EXTRA_DIST = README main.gba gnumeric.gbp $(gnum_gb_DATA)
+xml_in_files = plugin.xml.in
+xml_DATA = $(xml_in_files:.xml.in=.xml)
+
+@XML_I18N_MERGE_XML_RULE@
+
+EXTRA_DIST = README main.gba gnumeric.gbp $(xml_in_files) $(xml_DATA)

@@ -4,9 +4,14 @@ INCLUDES = \
     $(GNOME_INCLUDEDIR)
 
 gnumeric_plugin_sylkdir = $(gnumeric_plugindir)/sylk
-gnumeric_plugin_sylk_DATA = plugin.xml
+xmldir = $(gnumeric_plugin_sylkdir)
 gnumeric_plugin_sylk_LTLIBRARIES = sylk.la
 sylk_la_LDFLAGS = -module -avoid-version
 sylk_la_SOURCES = sylk.c
 
-EXTRA_DIST = $(gnumeric_plugin_sylk_DATA)
+xml_in_files = plugin.xml.in
+xml_DATA = $(xml_in_files:.xml.in=.xml)
+
+@XML_I18N_MERGE_XML_RULE@
+
+EXTRA_DIST = $(xml_in_files) $(xml_DATA)

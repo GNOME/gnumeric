@@ -1,12 +1,17 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_html">
-	<information name="HTML &amp; TeX" description="Import/Export of HTML, TeX, DVI, roff"/>
+	<information>
+		<_name>HTML &amp; TeX</_name>
+		<_description>Import/Export of HTML, TeX, DVI, roff</_description>
+	</information>
 	<loader type="g_module">
 		<attribute name="module_file" value="html.so"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="html32" priority="100" probe="FALSE">
-			<information description="HTML file made by gnumeric"/>
+			<information>
+				<_description>HTML file made by gnumeric</_description>
+			</information>
 			<file_patterns>
 				<file_pattern type="shell_pattern" value="*.html"/>
 				<file_pattern type="shell_pattern" value="*.htm"/>
@@ -14,22 +19,34 @@
 			<save_info saver_id="html32" format_level="auto"/>
 		</service>
 		<service type="file_saver" id="html32" file_extension="html" format_level="auto">
-			<information description="HTML 3.2 (*.html)"/>
+			<information>
+				<_description>HTML 3.2 (*.html)</_description>
+			</information>
 		</service>
 		<service type="file_saver" id="html40" file_extension="html" format_level="auto">
-			<information description="HTML 4.0 (*.html)"/>
+			<information>
+				<_description>HTML 4.0 (*.html)</_description>
+			</information>
 		</service>
 		<service type="file_saver" id="latex" file_extension="tex" format_level="write_only">
-			<information description="LaTeX (*.tex)"/>
+			<information>
+				<_description>LaTeX (*.tex)</_description>
+			</information>
 		</service>
 		<service type="file_saver" id="latex2e" file_extension="tex" format_level="write_only">
-			<information description="LaTeX2e (*.tex)"/>
+			<information>
+				<_description>LaTeX2e (*.tex)</_description>
+			</information>
 		</service>
 		<service type="file_saver" id="roff_dvi" file_extension="dvi" format_level="write_only">
-			<information description="DVI TeX (via groff)"/>
+			<information>
+				<_description>DVI TeX (via groff)</_description>
+			</information>
 		</service>
 		<service type="file_saver" id="roff" file_extension="me" format_level="write_only">
-			<information description="TROFF (*.me)"/>
+			<information>
+				<_description>TROFF (*.me)</_description>
+			</information>
 		</service>
 	</services>
 </plugin>

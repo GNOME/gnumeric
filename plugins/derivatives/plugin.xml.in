@@ -1,12 +1,15 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_derivatives">
-	<information name="Financial Derivatives" description="Functions related to financial derivatives"/>
+	<information>
+		<_name>Financial Derivatives</_name>
+		<_description>Functions related to financial derivatives</_description>
+	</information>
 	<loader type="g_module">
 		<attribute name="module_file" value="derivatives.so"/>
 	</loader>
 	<services>
 		<service type="function_group" id="derivatives">
-			<category name="Finance"/>
+			<_category>Finance</_category>
 			<functions>
 				<function name="opt_bs_call"/>
 				<function name="opt_bs_call_delta"/>

@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_perl">
-	<information name="Perl" description="Enables the creation of functions in Perl"/>
+	<information>
+		<_name>Perl</_name>
+		<_description>Enables the creation of functions in Perl</_description>
+	</information>
 	<loader type="g_module">
 		<attribute name="module_file" value="perl.so"/>
 	</loader>

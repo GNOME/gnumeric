@@ -1,13 +1,18 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_sc">
-	<information name="SC/XSpread" description="Imports SC/XSpread files"/>
+	<information>
+		<_name>SC/XSpread</_name>
+		<_description>Imports SC/XSpread files</_description>
+	</information>
 	<loader type="g_module">
 		<attribute name="module_file" value="sc.so"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="sc" priority="1" probe="FALSE"
 		         open="FALSE" import="TRUE">
-			<information description="SC/xspread"/>
+			<information>
+				<_description>SC/xspread</_description>
+			</information>
 			<save_info saver_id="" format_level="manual"/>
 		</service>
 	</services>

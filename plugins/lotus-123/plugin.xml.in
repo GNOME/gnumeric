@@ -1,12 +1,17 @@
 <?xml version="1.0"?>
 <plugin id="Gnumeric_lotus">
-	<information name="Lotus 123" description="Imports Lotus 123 files"/>
+	<information>
+		<_name>Lotus 123</_name>
+		<_description>Imports Lotus 123 files</_description>
+	</information>
 	<loader type="g_module">
 		<attribute name="module_file" value="lotus.so"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="lotus" priority="50" probe="TRUE">
-			<information description="Lotus 123 (*.wk1)"/>
+			<information>
+				<_description>Lotus 123 (*.wk1)</_description>
+			</information>
 			<file_patterns>
 				<file_pattern type="shell_pattern" value="*.wk1"/>
 				<file_pattern type="shell_pattern" value="*.wks"/>
