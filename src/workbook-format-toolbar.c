@@ -364,7 +364,11 @@ workbook_cmd_format_remove_decimals (GtkWidget *widget, Workbook *wb)
 static GnomeUIInfo workbook_format_toolbar [] = {
 	/* Placeholder: font selector */
         /* Placeholder: size selector */
-	
+
+	/* Button to replace font and size selectors in vertical mode */
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Select font"), N_("Font selector"),
+		&font_select_cmd, "Font"),
 	{ GNOME_APP_UI_TOGGLEITEM,
 	  N_("Bold"),
 	  N_("Sets the bold font"),
@@ -495,13 +499,19 @@ workbook_format_toolbar_orient (GtkToolbar *toolbar,
 				gpointer closure)
 {
 	Workbook *wb = closure;
-
+	GtkWidget *font_button;
+	
+	font_button = gnumeric_toolbar_get_widget (toolbar,
+						   TOOLBAR_FONT_BUTTON_INDEX);
+		
 	if (dir == GTK_ORIENTATION_HORIZONTAL) {
 		gtk_widget_show (wb->priv->font_name_selector);
 		gtk_widget_show (wb->priv->font_size_selector);
+		gtk_widget_hide (font_button);
 	} else {
 		gtk_widget_hide (wb->priv->font_name_selector);
 		gtk_widget_hide (wb->priv->font_size_selector);
+		gtk_widget_show (font_button);
 	}
 }
 #endif
@@ -638,6 +648,7 @@ workbook_create_format_toolbar (Workbook *wb)
 	const char *name = "FormatToolbar";
 	GnomeDockItemBehavior behavior;
 	GnomeApp *app;
+	GtkWidget *font_button;
 
 	app = GNOME_APP (wb->toplevel);
 
@@ -769,6 +780,11 @@ workbook_create_format_toolbar (Workbook *wb)
 		GTK_TOOLBAR (toolbar),
 		fore_combo, _("Foreground"), NULL);
 
+	/* Hide font selector button - only shown in vertical mode */
+	font_button = gnumeric_toolbar_get_widget (toolbar,
+						   TOOLBAR_FONT_BUTTON_INDEX);
+	gtk_widget_hide (font_button);
+	
 	/* Handle orientation changes so that we can hide wide widgets */
 	gtk_signal_connect (
 		GTK_OBJECT(toolbar), "orientation-changed",

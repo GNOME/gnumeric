@@ -1,3 +1,14 @@
+2000-10-22  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-format-toolbar.c (workbook_format_toolbar []): Now
+	also for non bonobo case: Add button to replace font and size
+	selectors in vertical mode.
+	(workbook_format_toolbar_orient): Show/hide font button mentioned
+	above.
+	(workbook_create_format_toolbar): Hide font button.
+
+	* src/workbook-format-toolbar.h: Update all toolbar item indexes.
+
 2000-10-21  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet-object-container.c: include bonobo-object-directory.h

@@ -5,6 +5,10 @@ Jody:
 	* Fix embeddable grid.
 	* 'General' number formats.
 
+Jon Kåre:
+	* When format toolbar is vertical, replace font and size
+	  selectors with a button.
+
 --------------------------------------------------------------------------
 Gnumeric 0.57
 
