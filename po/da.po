@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
 "POT-Creation-Date: 2000-05-30 00:08+0200\n"
-"PO-Revision-Date: 2000-05-29 23:30+02:00\n"
+"PO-Revision-Date: 2000-05-30 17:30+02:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1265,14 +1265,19 @@ msgid "Hide rows"
 msgstr "Skjul rækker"
 
 #. FIXME : improve on this
-#: src/commands.c:1789
+#: src/commands.c:1790
 msgid "Moving cells"
 msgstr "Flytter celler"
 
-#: src/commands.c:1926
+#: src/commands.c:1927
 #, c-format
 msgid "Pasting into %s"
 msgstr "Indsætter i %s"
+
+#. FIXME : improve on this
+#: src/commands.c:2033
+msgid "Shift cells"
+msgstr "Skift celler"
 
 #: src/corba-args.c:33
 msgid "Oaf options"
@@ -2923,11 +2928,11 @@ msgstr "Ændret:"
 msgid "Modified: %s"
 msgstr "Ændret: %s"
 
-#: src/dialogs/dialog-printer-setup.c:689
+#: src/dialogs/dialog-printer-setup.c:922
 msgid "Custom header configuration"
 msgstr "Konfiguration af personlig sidehoved"
 
-#: src/dialogs/dialog-printer-setup.c:701
+#: src/dialogs/dialog-printer-setup.c:934
 msgid "Custom footer configuration"
 msgstr "Konfiguration af personlig sidefod"
 
@@ -14472,7 +14477,7 @@ msgstr "/Fil/"
 
 #: src/history.c:136 src/history.c:158
 msgid "File/Print preview"
-msgstr "Fil/Vis udskrift"
+msgstr "Fil/udskrift frohåndsvisning"
 
 #: src/history.c:204
 msgid "File/"
