@@ -1,14 +1,28 @@
 2000-04-21  Jody Goldberg <jgoldberg@home.com>
 
+	* src/functions/fn-math.c (gnumeric_lcm) : Use value_new_int.
+	(gnumeric_minverse) : Use value_new_array_non_init.
+	(gnumeric_mmult) : Ditto.
+	* src/functions/fn-stat.c (gnumeric_frequency) : Ditto.
+
+	* src/value.c : Make Value::type a constant in preparation for
+	  changing the structure of the union to save space.
+
+	* src/workbook.c (do_focus_sheet) : Use sheet_update.
+	(workbook_calc_spans) : New routine.
+	(workbook_mark_clean) : Delete, use workbook_set_dirty instead.
+
+	* src/file.c (workbook_import) : Set the dialog parent.
+	(workbook_read) : Use workbook_calc_spans.
+
 	* src/sheet.c (sheet_row_get_distance_{pixels,pts}) : Optimize this
 	  to directly access the segmented arrays so that we can skip empty
 	  blocks.
-
-2000-04-21  Jody Goldberg <jgoldberg@home.com>
-
-	* src/sheet.c (sheet_find_boundary_{horizontal,vertical}) : Rename
+	(sheet_find_boundary_{horizontal,vertical}) : Rename
 	  some variables for clarity and add some trivial optimizations to
 	  recognize when we are jumping to/from the far edge.
+	(sheet_cell_calc_span) : Differentiate between a forced rerender and
+	  one that fills in the blanks.
 
 2000-04-20  Jody Goldberg <jgoldberg@home.com>
 

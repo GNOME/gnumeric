@@ -197,6 +197,7 @@ void        workbook_delete_sheet        (Sheet *sheet);
  */
 void        workbook_recalc              (Workbook *wb);
 void        workbook_recalc_all          (Workbook *wb);
+void        workbook_calc_spans          (Workbook *wb, SpanCalcFlags const flags);
 
 typedef gboolean (*WorkbookCallback)(Workbook *, gpointer data);
 

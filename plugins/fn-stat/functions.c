@@ -3764,11 +3764,7 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 		count[i]++;
 	}
 
-        res = g_new (Value, 1);
-        res->type = VALUE_ARRAY;
-        res->v.array.x = 1;
-        res->v.array.y = bin_cl.n + 1;
-        res->v.array.vals = g_new (Value **, 1);
+	res = value_new_array_non_init (1, bin_cl.n + 1);
 	res->v.array.vals [0] = g_new (Value *, bin_cl.n + 1);
 
 	for (i = 0; i < bin_cl.n + 1; i++)

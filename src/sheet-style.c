@@ -686,7 +686,7 @@ sheet_range_apply_style (Sheet       *sheet,
 	    mstyle_is_element_set (style, MSTYLE_FORMAT);
 
 	SpanCalcFlags spanflags =
-	format_change ? SPANCALC_RENDER|SPANCALC_RESIZE
+	format_change ? SPANCALC_RE_RENDER|SPANCALC_RESIZE
 		      : font_change ? SPANCALC_RESIZE
 		                    : SPANCALC_SIMPLE;
 

@@ -20,7 +20,7 @@ Value *
 value_new_empty (void)
 {
 	Value *v = g_new (Value, 1);
-	v->type = VALUE_EMPTY;
+	*((ValueType *)&(v->type)) = VALUE_EMPTY;
 
 	return v;
 }
@@ -30,7 +30,7 @@ value_new_bool (gboolean b)
 {
 	Value *v = g_new (Value, 1);
 
-	v->type = VALUE_BOOLEAN;
+	*((ValueType *)&(v->type)) = VALUE_BOOLEAN;
 	v->v.v_bool = b;
 
 	return v;
@@ -41,8 +41,19 @@ value_new_error (EvalPosition const *ep, char const *mesg)
 {
 	Value *v = g_new (Value, 1);
 
-	v->type = VALUE_ERROR;
+	*((ValueType *)&(v->type)) = VALUE_ERROR;
 	v->v.error.mesg = string_get (mesg);
+
+	return v;
+}
+
+Value *
+value_new_error_str (EvalPosition const *ep, String *mesg)
+{
+	Value *v = g_new (Value, 1);
+
+	*((ValueType *)&(v->type)) = VALUE_ERROR;
+	v->v.error.mesg = string_ref (mesg);
 
 	return v;
 }
@@ -52,8 +63,19 @@ value_new_string (const char *str)
 {
 	Value *v = g_new (Value, 1);
 
-	v->type = VALUE_STRING;
+	*((ValueType *)&(v->type)) = VALUE_STRING;
 	v->v.str = string_get (str);
+
+	return v;
+}
+
+Value *
+value_new_string_str (String *str)
+{
+	Value *v = g_new (Value, 1);
+
+	*((ValueType *)&(v->type)) = VALUE_STRING;
+	v->v.str = string_ref (str);
 
 	return v;
 }
@@ -63,7 +85,7 @@ value_new_int (int i)
 {
 	Value *v = g_new (Value, 1);
 
-	v->type = VALUE_INTEGER;
+	*((ValueType *)&(v->type)) = VALUE_INTEGER;
 	v->v.v_int = i;
 
 	return v;
@@ -74,9 +96,19 @@ value_new_float (float_t f)
 {
 	Value *v = g_new (Value, 1);
 
-	v->type = VALUE_FLOAT;
+	*((ValueType *)&(v->type)) = VALUE_FLOAT;
 	v->v.v_float = f;
 
+	return v;
+}
+
+Value *
+value_new_cellrange_unsafe (const CellRef *a, const CellRef *b)
+{
+	Value *v = g_new (Value, 1);
+	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
+	v->v.cell_range.cell_a = *a;
+	v->v.cell_range.cell_b = *b;
 	return v;
 }
 
@@ -87,7 +119,7 @@ value_new_cellrange (const CellRef *a, const CellRef *b,
 	Value *v = g_new (Value, 1);
 	int tmp;
 
-	v->type = VALUE_CELLRANGE;
+	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
 	v->v.cell_range.cell_a = *a;
 	v->v.cell_range.cell_b = *b;
 
@@ -131,7 +163,7 @@ value_new_cellrange_r (Sheet *sheet, const Range *r)
 	Value *v = g_new (Value, 1);
 	CellRef *a, *b;
 
-	v->type = VALUE_CELLRANGE;
+	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
 	a = &v->v.cell_range.cell_a;
 	b = &v->v.cell_range.cell_b;
 	
@@ -148,15 +180,21 @@ value_new_cellrange_r (Sheet *sheet, const Range *r)
 }
 
 Value *
-value_new_array (guint cols, guint rows)
+value_new_array_non_init (guint cols, guint rows)
 {
-	int x, y;
-
 	Value *v = g_new (Value, 1);
-	v->type = VALUE_ARRAY;
+	*((ValueType *)&(v->type)) = VALUE_ARRAY;
 	v->v.array.x = cols;
 	v->v.array.y = rows;
 	v->v.array.vals = g_new (Value **, cols);
+	return v;
+}
+
+Value *
+value_new_array (guint cols, guint rows)
+{
+	int x, y;
+	Value * v = value_new_array_non_init (cols, rows);
 
 	for (x = 0; x < cols; x++) {
 		v->v.array.vals [x] = g_new (Value *, rows);
@@ -170,12 +208,7 @@ Value *
 value_new_array_empty (guint cols, guint rows)
 {
 	int x, y;
-
-	Value *v = g_new (Value, 1);
-	v->type = VALUE_ARRAY;
-	v->v.array.x = cols;
-	v->v.array.y = rows;
-	v->v.array.vals = g_new (Value **, cols);
+	Value * v = value_new_array_non_init (cols, rows);
 
 	for (x = 0; x < cols; x++) {
 		v->v.array.vals [x] = g_new (Value *, rows);
@@ -243,7 +276,7 @@ value_release (Value *value)
 	}
 
 	/* poison the type before freeing to help catch dangling pointers */
-	value->type = 9999;
+	*((ValueType *)&(value->type)) = 9999;
 	g_free (value);
 }
 
@@ -251,65 +284,55 @@ value_release (Value *value)
  * Makes a copy of a Value
  */
 Value *
-value_duplicate (const Value *value)
+value_duplicate (const Value *src)
 {
 	Value *new_value;
 
-	g_return_val_if_fail (value != NULL, NULL);
+	g_return_val_if_fail (src != NULL, NULL);
+
 	new_value = g_new (Value, 1);
-	value_copy_to (new_value, value);
-
-	return new_value;
-}
-
-/*
- * Copies a Value.
- */
-void
-value_copy_to (Value *dest, const Value *source)
-{
-	g_return_if_fail (dest != NULL);
-	g_return_if_fail (source != NULL);
-
-	dest->type = source->type;
-
-	switch (source->type){
+	switch (src->type){
 	case VALUE_EMPTY:
-		break;
+		return value_new_empty();
 
 	case VALUE_BOOLEAN:
-		dest->v.v_bool = source->v.v_bool;
-		break;
-
-	case VALUE_ERROR:
-		string_ref (dest->v.error.mesg = source->v.error.mesg);
-		break;
-
-	case VALUE_STRING:
-		dest->v.str = source->v.str;
-		string_ref (dest->v.str);
-		break;
+		return value_new_bool(src->v.v_bool);
 
 	case VALUE_INTEGER:
-		dest->v.v_int = source->v.v_int;
-		break;
+		return value_new_int (src->v.v_int);
 
 	case VALUE_FLOAT:
-		dest->v.v_float = source->v.v_float;
-		break;
+		return value_new_float (src->v.v_float);
 
-	case VALUE_ARRAY:
-		value_array_copy_to (dest, source);
-		break;
+	case VALUE_ERROR:
+		return value_new_error_str (&src->v.error.src,
+					    src->v.error.mesg);
+
+	case VALUE_STRING:
+		return value_new_string_str (src->v.str);
 
 	case VALUE_CELLRANGE:
-		dest->v.cell_range = source->v.cell_range;
-		break;
+		return value_new_cellrange_unsafe (&src->v.cell_range.cell_a,
+						   &src->v.cell_range.cell_b);
+
+	case VALUE_ARRAY:
+	{
+		int x, y;
+		Value *v = value_new_array_non_init (src->v.array.x, src->v.array.y);
+
+		for (x = 0; x < v->v.array.x; x++) {
+			v->v.array.vals [x] = g_new (Value *, v->v.array.y);
+			for (y = 0; y < v->v.array.y; y++)
+				v->v.array.vals [x] [y] = value_duplicate (src->v.array.vals [x][y]);
+		}
+		return v;
+	}
 
 	default:
-		g_warning ("value_copy_to problem\n");
 		break;
 	}
+	g_warning ("value_duplicate problem\n");
+	return value_new_empty();
 }
 
 gboolean
@@ -593,23 +616,6 @@ value_array_resize (Value *v, guint width, guint height)
 	value_release (newval);
 }
 
-void
-value_array_copy_to (Value *v, const Value *src)
-{
-	int x, y;
-
-	g_return_if_fail (src->type == VALUE_ARRAY);
-	v->type = VALUE_ARRAY;
-	v->v.array.x = src->v.array.x;
-	v->v.array.y = src->v.array.y;
-	v->v.array.vals = g_new (Value **, v->v.array.x);
-
-	for (x = 0; x < v->v.array.x; x++) {
-		v->v.array.vals [x] = g_new (Value *, v->v.array.y);
-		for (y = 0; y < v->v.array.y; y++)
-			v->v.array.vals [x] [y] = value_duplicate (src->v.array.vals [x][y]);
-	}
-}
 
 gboolean
 value_equal (const Value *a, const Value *b)

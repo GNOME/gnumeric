@@ -211,11 +211,7 @@ callback_function_lcm (const EvalPosition *ep, Value *value, void *closure)
 static Value *
 gnumeric_lcm (FunctionEvalInfo *ei, GList *nodes)
 {
-	Value *result;
-
-	result = g_new (Value, 1);
-	result->type = VALUE_INTEGER;
-	result->v.v_int = 1;
+	Value *result = value_new_int (1);
 
 	if (function_iterate_argument_values (ei->pos, callback_function_lcm,
 					      result, nodes, TRUE) != NULL)
@@ -3116,11 +3112,7 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	g_free (matrix);
-	res = g_new (Value, 1);
-	res->type = VALUE_ARRAY;
-	res->v.array.x = cols;
-	res->v.array.y = rows;
-	res->v.array.vals = g_new (Value **, cols);
+	res = value_new_array_non_init (cols, rows);
 
 	for (c = 0; c < cols; ++c){
 		res->v.array.vals [c] = g_new (Value *, rows);
@@ -3177,11 +3169,7 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 	if (cols_a != rows_b || !rows_a || !rows_b || !cols_a || !cols_b)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	res = g_new (Value, 1);
-	res->type = VALUE_ARRAY;
-	res->v.array.x = cols_b;
-	res->v.array.y = rows_a;
-	res->v.array.vals = g_new (Value **, cols_b);
+	res = value_new_array_non_init (cols_b, rows_a);
 
 	A = g_new (float_t, cols_a * rows_a);
 	B = g_new (float_t, cols_b * rows_b);

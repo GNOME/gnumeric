@@ -351,10 +351,10 @@ void sheet_range_set_text  (EvalPosition const * const pos,
 			    Range const *r, char const *string);
 
 typedef enum {
-    SPANCALC_SIMPLE 	= 0x0,
-    SPANCALC_RENDER	= 0x1,
-    SPANCALC_RESIZE	= 0x2,
-    SPANCALC_CHECKHEIGHT= 0x4
+    SPANCALC_SIMPLE 	= 0x0,	/* Just calc spans */
+    SPANCALC_RESIZE	= 0x1,	/* Calculate the size of the rendered result */
+    SPANCALC_RENDER	= 0x2,	/* render and size any unrendered cells */
+    SPANCALC_RE_RENDER	= 0x4,	/* render of all cells */
 } SpanCalcFlags;
 void sheet_calc_spans (Sheet const *sheet, SpanCalcFlags const flags);
 void sheet_range_calc_spans (Sheet *sheet, Range r, SpanCalcFlags const flags);

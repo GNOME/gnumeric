@@ -365,12 +365,16 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags const flags)
 	CellSpanInfo const * span;
 	int left, right;
 	int other_left, other_right;
+	gboolean full;
 
 	g_return_if_fail (cell != NULL);
 
-	if ((flags & SPANCALC_RENDER))
+	full = (flags & SPANCALC_RENDER) && cell->rendered_value == NULL;
+
+	if (full || (flags & SPANCALC_RE_RENDER))
 		cell_render_value ((Cell *)cell);
-	if ((flags & SPANCALC_RESIZE))
+
+	if (full || (flags & SPANCALC_RESIZE))
 		rendered_value_calc_size (cell);
 
 	/* Calculate the span of the cell */

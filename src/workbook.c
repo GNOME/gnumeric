@@ -433,14 +433,6 @@ workbook_set_dirty (Workbook *wb, gboolean is_dirty)
 	g_hash_table_foreach (wb->sheets, cb_sheet_mark_dirty, GINT_TO_POINTER (is_dirty));
 }
 
-void
-workbook_mark_clean (Workbook *wb)
-{
-	g_return_if_fail (wb != NULL);
-
-	g_hash_table_foreach (wb->sheets, cb_sheet_mark_dirty, GINT_TO_POINTER (0));
-}
-
 static void
 cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 {
@@ -571,7 +563,7 @@ workbook_close_if_user_permits (Workbook *wb)
 		case 1:
 			can_close = TRUE;
 			done      = TRUE;
-			workbook_mark_clean (wb);
+			workbook_set_dirty (wb, FALSE);
 			break;
 			
 			/* CANCEL */
@@ -925,7 +917,7 @@ static void
 recalc_cmd (GtkWidget *widget, Workbook *wb)
 {
 	workbook_recalc_all (wb);
-	sheet_load_cell_val (wb->current_sheet);
+	sheet_update (wb->current_sheet);
 }
 
 static void
@@ -1500,11 +1492,8 @@ do_focus_sheet (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, Wo
 		if (accept)
 			workbook_finish_editing (wb, TRUE);
 	}
-	if (accept && wb->current_sheet != NULL) {
-		sheet_load_cell_val (sheet);
-		workbook_set_region_status (sheet->workbook,
-					    cell_pos_name (&sheet->cursor.edit_pos));
-	}
+	if (accept && wb->current_sheet != NULL)
+		sheet_update (sheet);
 }
 
 static void
@@ -2767,6 +2756,7 @@ sheet_action_delete_sheet (GtkWidget *ignored, Sheet *current_sheet)
 
 	workbook_delete_sheet (current_sheet);
 	workbook_recalc_all (wb);
+	sheet_update (current_sheet);
 }
 
 /*
@@ -2996,8 +2986,10 @@ workbook_detach_sheet (Workbook *wb, Sheet *sheet, gboolean force)
 	sheet_destroy (sheet);
 
 	/* No need to recalc if we are exiting */
-	if (!wb->priv->during_destruction)
+	if (!wb->priv->during_destruction) {
 		workbook_recalc_all (wb);
+		sheet_update (wb->current_sheet);
+	}
 
 	/*
 	 * GUI-adjustments
@@ -3625,4 +3617,17 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 
 	if (accept)
 		workbook_recalc (wb);
+}
+
+static void
+cb_sheet_calc_spans (gpointer key, gpointer value, gpointer flags)
+{
+	sheet_calc_spans (value, GPOINTER_TO_INT(flags));
+}
+void
+workbook_calc_spans (Workbook *wb, SpanCalcFlags const flags)
+{
+	g_return_if_fail (wb != NULL);
+
+	g_hash_table_foreach (wb->sheets, &cb_sheet_calc_spans, GINT_TO_POINTER (flags));
 }

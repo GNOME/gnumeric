@@ -1052,11 +1052,8 @@ gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
 	if (rows == 1 && cols == 1)
 		return value_duplicate(value_area_get_x_y (ep, matrix, 0, 0));
 
-	res = g_new (Value, 1);
-	res->type = VALUE_ARRAY;
-	res->v.array.x = rows;
-	res->v.array.y = cols;
-	res->v.array.vals = g_new (Value **, rows);
+	/* REMEMBER this is a transpose */
+	res = value_new_array_non_init (rows, cols);
 
 	for (r = 0; r < rows; ++r){
 		res->v.array.vals [r] = g_new (Value *, cols);

@@ -198,7 +198,7 @@ workbook_load_from (CommandContext *context, Workbook *wb,
 		if (fo->probe != NULL && (*fo->probe) (filename)) {
 			int result = (*fo->open) (context, wb, filename);
 			if (result == 0)
-				workbook_mark_clean (wb);
+				workbook_set_dirty (wb, FALSE);
 			return result;
 		}
 	}
@@ -269,9 +269,15 @@ workbook_read (CommandContext *context, const char *filename)
 	}
 
 	if (wb != NULL) {
-		/* FIXME : This should not be needed */
 		workbook_recalc (wb);
-		workbook_mark_clean (wb);
+
+		/* render and calc size of unrendered cells,
+		 * then calc spans for everything
+		 */
+		workbook_calc_spans (wb, SPANCALC_RENDER|SPANCALC_RESIZE);
+
+		/* FIXME : This should not be needed */
+		workbook_set_dirty (wb, FALSE);
 
 		sheet_update (wb->current_sheet);
 	}
@@ -308,6 +314,8 @@ workbook_import (CommandContext *context, Workbook *parent,
 
 	dialog = gnome_dialog_new ("Import File", GNOME_STOCK_BUTTON_OK,
 				   GNOME_STOCK_BUTTON_CANCEL, NULL);
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
+				 GTK_WINDOW (parent->toplevel));
 
 	gtk_widget_reparent (contents, GTK_WIDGET (GNOME_DIALOG (dialog)->vbox));
 	gtk_widget_show (contents);
@@ -361,9 +369,8 @@ workbook_import (CommandContext *context, Workbook *parent,
 			gtk_object_destroy   (GTK_OBJECT (wb));
 #endif
 			wb = NULL;
-		} else {
-			workbook_mark_clean (wb);
-		}
+		} else
+			workbook_set_dirty (wb, FALSE);
 	}
 
 	if (ret != -1)
@@ -633,7 +640,7 @@ do_save_as (CommandContext *context, Workbook *wb, char *name)
 	if (current_saver->save (context, wb, name) == 0) {
 		workbook_set_saveinfo (wb, name, current_saver->level,
 				       current_saver->save);
-		workbook_mark_clean (wb);
+		workbook_set_dirty (wb, FALSE);
 		success = TRUE;
 	}
 
@@ -718,7 +725,7 @@ workbook_save (CommandContext *context, Workbook *wb)
 		save_fn = gnumeric_xml_write_workbook;
 	ret = ((save_fn) (context, wb, wb->filename) == 0);
 	if (ret == TRUE) 
-		workbook_mark_clean (wb);
+		workbook_set_dirty (wb, FALSE);
 
 	command_context_pop_template (context);
 	g_free (template);

@@ -25,7 +25,7 @@ struct _ErrorMessage {
 };
 
 struct _Value {
-	ValueType type;
+	ValueType const type;
 	union {
 		/*
 		 * This element is used as a short hand for cell_range.cell_a
@@ -55,22 +55,25 @@ struct _Value {
 #define VALUE_IS_EMPTY_OR_ERROR(x) (value_is_empty_cell (x) || \
 				    ((x)->type == VALUE_ERROR))
 
-Value       *value_new_empty       (void);
-Value       *value_new_bool        (gboolean b);
-Value       *value_new_error       (EvalPosition const *pos, char const *mesg);
-Value       *value_new_string      (const char *str);
-Value       *value_new_int         (int i);
-Value       *value_new_float       (float_t f);
-Value       *value_new_cellrange   (const CellRef *a, const CellRef *b,
-				    int const eval_col, int const eval_row);
-Value       *value_new_cellrange_r (Sheet *sheet, const Range *r);
-Value       *value_new_array       (guint cols, guint rows);
-Value       *value_new_array_empty (guint cols, guint rows);
+Value       *value_new_empty            (void);
+Value       *value_new_bool             (gboolean b);
+Value       *value_new_error            (EvalPosition const *pos, char const *mesg);
+Value       *value_new_error_str        (EvalPosition const *pos, String *mesg);
+Value       *value_new_string           (const char *str);
+Value       *value_new_string_str       (String *str);
+Value       *value_new_int              (int i);
+Value       *value_new_float            (float_t f);
+Value       *value_new_cellrange_unsafe (const CellRef *a, const CellRef *b);
+Value       *value_new_cellrange        (const CellRef *a, const CellRef *b,
+				         int const eval_col, int const eval_row);
+Value       *value_new_cellrange_r      (Sheet *sheet, const Range *r);
+Value       *value_new_array            (guint cols, guint rows);
+Value       *value_new_array_empty      (guint cols, guint rows);
+Value 	    *value_new_array_non_init   (guint cols, guint rows);
 
 void         value_release         (Value *value);
 void         value_dump            (Value const *value);
 Value       *value_duplicate       (Value const *value);
-void         value_copy_to         (Value *dest, Value const *source);
 gboolean     value_equal           (const Value *a, const Value *b);
 
 gboolean     value_get_as_bool     (Value const *v, gboolean *err);
@@ -109,7 +112,6 @@ Value * value_area_foreach (EvalPosition const *ep, Value const *v,
 
 void value_array_set       (Value *array, guint col, guint row, Value *v);
 void value_array_resize    (Value *v, guint width, guint height);
-void value_array_copy_to   (Value *dest, const Value *src);
 
 Value * value_is_error (char const * const str, int *offset);
 StyleHAlignFlags value_get_default_halign (Value const *v, MStyle const *mstyle);
