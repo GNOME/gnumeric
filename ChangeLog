@@ -1,3 +1,9 @@
+2002-09-06  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-component.c
+	(workbook_control_component_init): wbcg no longer has editing,
+	editing_sheet or editing_cell members, so don't initialize them.
+
 2002-09-06  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-control-gui.c (scg_colrow_select) : don't do a start and a
