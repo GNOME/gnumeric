@@ -79,7 +79,7 @@ display_recordset (GdaRecordset *recset)
 /*
  * execSQL function
  */
-static char *help_execSQL = {
+static char const *help_execSQL = {
 	N_("@FUNCTION=EXECSQL\n"
 	   "@SYNTAX=EXECSQL(i)\n"
 	   "@DESCRIPTION="
