@@ -15,18 +15,12 @@
 
 
 #define NUM_RADIO_BUTTONS	5
+#define GLADE_FILE "dialog-zoom.glade"
+
 typedef struct {
-	GtkRadioButton *me;
 	int             factor;
-
 	GtkSpinButton  *zoom;
-	GtkRadioButton *custom;
 } radio_cb_data;
-
-typedef struct {
-	Sheet *sheet;
-	radio_cb_data *cb_data;
-} sheet_closure_t;
 
 static void
 radio_toggled (GtkToggleButton *togglebutton,
@@ -47,36 +41,6 @@ custom_selected (GtkWidget *widget, GdkEventFocus   *event,
 }
 
 static void
-update_zoom_buttons (const Sheet *sheet, radio_cb_data *cb_data)
-{
-	int      i;
-	gboolean is_custom = TRUE;
-
-	for (i = NUM_RADIO_BUTTONS; --i >= 0; ) {
-		if (sheet->last_zoom_factor_used * 100.0 == cb_data[i].factor) {
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cb_data[i].me), TRUE);
-			is_custom = FALSE;
-		}
-	}
-
-	if (is_custom) {
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cb_data[0].custom), TRUE);
-		gtk_spin_button_set_value (cb_data[0].zoom, 
-					   (int)(sheet->last_zoom_factor_used * 100. + .5));
-	}
-
-}
-
-static void
-select_sheet_cb (GtkCList *clist, gint row, gint col, GdkEventButton *event,
-		 sheet_closure_t *sheet_data)
-{
-	g_return_if_fail (sheet_data != NULL);
-
-	update_zoom_buttons (sheet_data->sheet, sheet_data->cb_data);
-}
-
-static void
 dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 {
 	static struct {
@@ -90,7 +54,6 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 		{ "radio_25", .25 },
 	};
 	radio_cb_data	cb_data[NUM_RADIO_BUTTONS];
-	GList          *sheet_data;
 
 	GtkCList *list;
 	GtkWidget *dialog;
@@ -98,6 +61,7 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 	GtkSpinButton *zoom;
 	GList *l, *sheets;
 	int i, res, cur_row;
+	gboolean is_custom = TRUE;
 
 	list = GTK_CLIST (glade_xml_get_widget (gui, "sheet_list"));
 	g_return_if_fail (list);
@@ -114,48 +78,46 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 		g_return_if_fail (radio != NULL);
 
 		cb_data[i].factor = (int)(buttons[i].factor * 100.);
-		cb_data[i].me     = radio;
-
 		cb_data[i].zoom   = zoom;
-		cb_data[i].custom = custom;
 
 		gtk_signal_connect (GTK_OBJECT (radio), "toggled",
 				    GTK_SIGNAL_FUNC (radio_toggled),
 				    &(cb_data[i]));
+
+		if (cur_sheet->last_zoom_factor_used == buttons[i].factor) {
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio), TRUE);
+			is_custom = FALSE;
+		}
 	}
 
-	update_zoom_buttons (cur_sheet, &cb_data[0]);
+	if (is_custom) {
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (custom), TRUE);
+		gtk_spin_button_set_value (zoom, 
+					   (int)(cur_sheet->last_zoom_factor_used * 100. + .5));
+	}
 
+	/* Get the list of sheets */
 	gtk_clist_freeze (list);
+
 	sheets = workbook_sheets (wb);
-	cur_row = -1;
-	sheet_data = NULL;
+	cur_row = 0;
 	for (l = sheets; l; l = l->next) {
 		Sheet *sheet = l->data;
 		int const row = gtk_clist_append (list, &sheet->name);
-		sheet_closure_t *sdata = g_new (sheet_closure_t, 1);
-
-		gtk_clist_set_row_data (list, row, sheet);
-		sdata->sheet   = sheet;
-		sdata->cb_data = &cb_data[0];
-		sheet_data = g_list_append (sheet_data, sdata);
 
 		if (sheet == cur_sheet)
 			cur_row = row;
-
-		gtk_signal_connect (GTK_OBJECT (list), "select-row",
-				    GTK_SIGNAL_FUNC (select_sheet_cb),
-				    sdata);
+		gtk_clist_set_row_data (list, row, sheet);
 	}
 	g_list_free (sheets);
-	gtk_clist_thaw (list);
 
 	gtk_clist_select_row (list, cur_row, 0);
 	gtk_clist_moveto     (list, cur_row, 0, .5, 0.0);
+	gtk_clist_thaw (list);
 
 	dialog = glade_xml_get_widget (gui, "Zoom");
 	if (dialog == NULL) {
-		printf ("Corrupt file dialog-zoom.glade\n");
+		printf ("Corrupt file " GLADE_FILE "\n");
 		return;
 	}
 
@@ -175,12 +137,6 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 	/* If the user closed the dialog with prejudice, its already destroyed */
 	if (res >= 0)
 		gnome_dialog_close (GNOME_DIALOG (dialog));
-
-
-	for (l = sheet_data; l; l = g_list_next (l))
-		g_free (l->data);
-
-	g_list_free (sheet_data);
 }
 
 /* Wrapper to ensure the libglade object gets removed on error */
@@ -192,9 +148,9 @@ dialog_zoom (Workbook *wb, Sheet *sheet)
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (sheet != NULL);
 
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/dialog-zoom.glade", NULL);
+	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE , NULL);
 	if (!gui) {
-		printf ("Could not find dialog-zoom.glade\n");
+		printf ("Could not find " GLADE_FILE "\n");
 		return;
 	}
 

@@ -94,11 +94,6 @@
 	      <class>GtkRadioButton</class>
 	      <name>radio_200</name>
 	      <can_focus>True</can_focus>
-	      <accelerator>
-		<modifiers>0</modifiers>
-		<key>GDK_0</key>
-		<signal>pressed</signal>
-	      </accelerator>
 	      <label>20_0 %</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
@@ -114,11 +109,6 @@
 	      <class>GtkRadioButton</class>
 	      <name>radio_100</name>
 	      <can_focus>True</can_focus>
-	      <accelerator>
-		<modifiers>0</modifiers>
-		<key>GDK_1</key>
-		<signal>pressed</signal>
-	      </accelerator>
 	      <label>_100 %</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
@@ -134,11 +124,6 @@
 	      <class>GtkRadioButton</class>
 	      <name>radio_75</name>
 	      <can_focus>True</can_focus>
-	      <accelerator>
-		<modifiers>0</modifiers>
-		<key>GDK_7</key>
-		<signal>pressed</signal>
-	      </accelerator>
 	      <label>_75 %</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
@@ -154,11 +139,6 @@
 	      <class>GtkRadioButton</class>
 	      <name>radio_50</name>
 	      <can_focus>True</can_focus>
-	      <accelerator>
-		<modifiers>0</modifiers>
-		<key>GDK_5</key>
-		<signal>pressed</signal>
-	      </accelerator>
 	      <label>_50 %</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
@@ -174,11 +154,6 @@
 	      <class>GtkRadioButton</class>
 	      <name>radio_25</name>
 	      <can_focus>True</can_focus>
-	      <accelerator>
-		<modifiers>0</modifiers>
-		<key>GDK_2</key>
-		<signal>pressed</signal>
-	      </accelerator>
 	      <label>_25%</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
@@ -338,15 +313,14 @@
 	<can_default>True</can_default>
 	<has_default>True</has_default>
 	<can_focus>True</can_focus>
+	<has_focus>True</has_focus>
 	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
       </widget>
 
       <widget>
 	<class>GtkButton</class>
 	<name>cancel_button</name>
-	<can_default>True</can_default>
 	<can_focus>True</can_focus>
-	<has_focus>True</has_focus>
 	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
       </widget>
     </widget>
