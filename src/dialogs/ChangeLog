@@ -1,3 +1,7 @@
+2002-11-11  Morten Welinder  <terra@diku.dk>
+
+	* dialog-stf-export.glade: A colon is ":", not ";". 
+
 2002-11-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf-export.glade : fix some glade-2 changes and the 
