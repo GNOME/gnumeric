@@ -55,6 +55,13 @@ Probably Post 1.2 Targets
 - conditional formats : could be done if someone wanted to work on the dialog
 - pivots and scripting
 
+
+UTF-8 and file names:
+- Recent files in "File" menu.
+- Error messages.
+- Window titles.
+
+
 Pending Patches
 ---------------
 
