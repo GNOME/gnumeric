@@ -403,6 +403,9 @@ cb_pm_clist_row_selected (GtkCList *clist, gint row_no, gint col_no, gpointer un
 		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin), FALSE);
 	}
 	update_plugin_details_view (pm_gui);
+	gnumeric_notebook_set_page_enabled (pm_gui->gnotebook,
+	                                    pm_gui->plugin_details_page_no,
+	                                    TRUE);
 }
 
 static void
@@ -411,6 +414,9 @@ cb_pm_clist_row_unselected (GtkCList *clist, gint row_no, gint col_no, gpointer 
 	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin), FALSE);
 	update_plugin_details_view (pm_gui);
+	gnumeric_notebook_set_page_enabled (pm_gui->gnotebook,
+	                                    pm_gui->plugin_details_page_no,
+	                                    FALSE);
 }
 
 static void
@@ -520,6 +526,9 @@ update_plugin_manager_view (PluginManagerGUI *pm_gui)
 	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_all), n_inactive_plugins > 0);
 	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_all), n_active_plugins > 0);
 	update_plugin_details_view (pm_gui);
+	gnumeric_notebook_set_page_enabled (pm_gui->gnotebook,
+	                                    pm_gui->plugin_details_page_no,
+	                                    FALSE);
 }
 
 static void
@@ -548,9 +557,9 @@ update_plugin_details_view (PluginManagerGUI *pm_gui)
 		                          &txt_pos);
 
 		n_extra_info_items = plugin_info_get_extra_info_list (pinfo, &extra_info_keys, &extra_info_values);
+		gtk_clist_clear (pm_gui->clist_extra_info);
 		if (n_extra_info_items > 0) {
 			gtk_clist_freeze (pm_gui->clist_extra_info);
-			gtk_clist_clear (pm_gui->clist_extra_info);
 			for (i = 0, lkey = extra_info_keys, lvalue = extra_info_values;
 			     i < n_extra_info_items;
 			     i++, lkey = lkey->next, lvalue = lvalue->next ) {
@@ -564,10 +573,6 @@ update_plugin_details_view (PluginManagerGUI *pm_gui)
 			e_free_string_list (extra_info_keys);
 			e_free_string_list (extra_info_values);
 		}
-
-		gnumeric_notebook_set_page_enabled (pm_gui->gnotebook,
-		                                    pm_gui->plugin_details_page_no,
-		                                    TRUE);
 	} else {
 		gtk_entry_set_text (pm_gui->entry_name, "");
 		gtk_entry_set_text (pm_gui->entry_directory, "");
@@ -577,9 +582,6 @@ update_plugin_details_view (PluginManagerGUI *pm_gui)
 			gtk_editable_delete_text (GTK_EDITABLE (pm_gui->text_description), 0, txt_len);
 		}
 		gtk_clist_clear (pm_gui->clist_extra_info);
-		gnumeric_notebook_set_page_enabled (pm_gui->gnotebook,
-		                                    pm_gui->plugin_details_page_no,
-		                                    FALSE);
 	}
 }
 

@@ -1,3 +1,13 @@
+2001-03-16  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/dialogs/dialog-plugin-manager.c
+	(update_plugin_details_view): Always clear extra info CList.
+	(update_plugin_details_view): Don't enable/disable plugin details
+	notebook page here.
+	(cb_pm_clist_row_selected): Do it here...
+	(cb_pm_clist_row_unselected): ... here
+	(update_plugin_manager_view): ... and here
+
 2001-03-11  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-cell-sort.c (dialog_cell_sort_ok) : sneaky.  To avoid
