@@ -19,6 +19,7 @@ dialog_insert_cells (Workbook *wb, Sheet *sheet)
 	char *ret;
 	int  cols, rows;
 
+	g_return_if_fail (wb != NULL);
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	

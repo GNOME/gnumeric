@@ -1,3 +1,34 @@
+1999-01-04  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_rename): New routine.
+
+	* src/workbook.c (workbook_attach_sheet): Use a EditableLabel for
+	the notebook tab.
+	(workbook_rename_sheet): New routine.
+
+	* src/widget-editable-label.c:  New widget.  This is a label that
+	can be edited if you double click on it.  This uses the same trick
+	of the gnome-icon-item to provide the editing facilities.
+
+1999-01-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c (workbook_setup_status_area): Use the style font,
+	not "fixed".
+	(workbook_setup_status_area): One hack down.  Use GTK_ANCHOR_NW to
+	achieve the same effect I had with my previous hack.
+
+	* src/dialog-cell-comment.c (dialog_cell_comment): New file.
+	Implements the cell comment dialog box.
+
+	* src/cell.c (cell_relocate): Only call cell_comment_reposition is
+	there is a cell comment bound to this cell.
+
+	* src/format.c (format_value): No format means "General" format as
+	well.
+	If the value has decimal numbers use "0.00##########" for the
+	formatting instead of 0.00.
+	
+
 1998-01-03  Jeff Garzik  <jgarzik@pobox.com>
 
 	* src/number-match.c, src/plugin-manager.c, src/sheet.c:

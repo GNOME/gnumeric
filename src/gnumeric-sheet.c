@@ -1173,7 +1173,7 @@ gnumeric_sheet_class_init (GnumericSheetClass *class)
 	widget_class = (GtkWidgetClass *) class;
 	canvas_class = (GnomeCanvasClass *) class;
 	
-	sheet_parent_class = gtk_type_class (gnome_canvas_get_type());
+	sheet_parent_class = gtk_type_class (gnome_canvas_get_type ());
 
 	/* Method override */
 	object_class->destroy = gnumeric_sheet_destroy;

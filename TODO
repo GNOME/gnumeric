@@ -2,15 +2,11 @@
 
 GNOME Spread Sheet task list
 
-* Comments
-
-   Comments location needs to be reset on col/row dimenssion changes.
-
 * Cell range naming
 
    Finish implementing.
 
-* Cell references to other sheets.
+* Cell dimensio computation is broken on font change for multilines.
 
 * Number formatting
 
@@ -29,6 +25,8 @@ GNOME Spread Sheet task list
 ** Object Clipboard
    If sheet->mode is OBJECT_SELECTED cut/copy/paste should operate on
    the object.
+
+   Object properties.
 
 ** Paste special 
 
@@ -54,8 +52,8 @@ GNOME Spread Sheet task list
     I have the specs for the XS3 format.  SC should be
     trivial to support as well (from the guile sources)
 
-  Add a format registration input point.
-
+  Add "hints" to the file save routine based on the registered
+  formats.
 
 * CORBA exporting
 

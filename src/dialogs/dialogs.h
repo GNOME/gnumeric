@@ -10,5 +10,6 @@ void  dialog_zoom            (Workbook *wb, Sheet *sheet);
 char *dialog_query_load_file (Workbook *wb);
 void  dialog_about           (Workbook *wb);
 void  dialog_define_names    (Workbook *wb);
+void  dialog_cell_comment    (Workbook *wb, Cell *cell);
 
 #endif /* GNUMERIC_DIALOGS_H */

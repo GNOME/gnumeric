@@ -143,6 +143,7 @@ typedef  int (*sheet_cell_foreach_callback)(Sheet *sheet, int col, int row,
 					    Cell *cell, void *user_data);
 
 Sheet      *sheet_new                  	 (Workbook *wb, char *name);
+void        sheet_rename                 (Sheet *sheet, const char *new_name);
 void        sheet_destroy              	 (Sheet *sheet);
 void        sheet_foreach_col          	 (Sheet *sheet,
 					  sheet_col_row_callback callback,
@@ -364,6 +365,9 @@ void        workbook_set_region_status   (Workbook *wb, char *str);
 int         workbook_parse_and_jump      (Workbook *wb, char *text);
 Sheet      *workbook_sheet_lookup        (Workbook *wb, char *sheet_name);
 void        workbook_mark_clean          (Workbook *wb);
+void        workbook_rename_sheet        (Workbook *wb,
+					  const char *old_name,
+					  const char *new_name);
 
 /*
  * Does any pending recalculations

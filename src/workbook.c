@@ -18,6 +18,7 @@
 #include "xml-io.h"
 #include "plugin.h"
 #include "pixmaps.h"
+#include "widget-editable-label.h"
 
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0
@@ -620,8 +621,8 @@ workbook_edit_comment (GtkWidget *widget, Workbook *wb)
 		cell = sheet_cell_new (sheet, sheet->cursor_col, sheet->cursor_row);
 		cell_set_text (cell, "");
 	}
-	
-	cell_set_comment (cell, "Test comment");
+
+	dialog_cell_comment (wb, cell);
 }
 
 static void
@@ -1116,12 +1117,29 @@ change_auto_expr_menu (GtkWidget *widget, GdkEventButton *event, Workbook *wb)
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, 0, NULL, 1, event->time);
 }
 
+/*
+ * Sets up the autocalc label on the workbook.
+ *
+ * This code is more complex than it should for a number of
+ * reasons:
+ *
+ *    1. GtkLabels flicker a lot, so we use a GnomeCanvas to
+ *       avoid the unnecessary flicker
+ *
+ *    2. Using a Canvas to display a label is tricky, there
+ *       are a number of ugly hacks here to do what we want
+ *       to do.
+ *
+ * When GTK+ gets a flicker free label (Owen mentions that the
+ * new repaint engine in GTK+ he is working on will be flicker free)
+ * we can remove most of these hacks
+ */
 static void
-workbook_setup_status_area (Workbook *wb)
+workbook_setup_auto_calc (Workbook *wb)
 {
 	GtkWidget *canvas;
 	GnomeCanvasGroup *root;
-	GtkWidget *t;
+	GtkWidget *t, *l;
 	
 	t = gtk_table_new (0, 0, 0);
 	gtk_table_attach (GTK_TABLE (wb->table), t,
@@ -1129,15 +1147,17 @@ workbook_setup_status_area (Workbook *wb)
 
 	canvas = gnome_canvas_new ();
 
+	l = gtk_label_new ("Info");
+	
 	/* The canvas that displays text */
 	root = GNOME_CANVAS_GROUP (GNOME_CANVAS (canvas)->root);
 	wb->auto_expr_label = GNOME_CANVAS_ITEM (gnome_canvas_item_new (
 		root, gnome_canvas_text_get_type (),
-		"text",   "x",
-		"x",      (double) 0,
-		"y",      (double) 10,	/* FIXME :-) */
-		"font",   "fixed", /* FIXME :-) */
-		"anchor", GTK_ANCHOR_W,
+		"text",     "x",
+		"x",        (double) 0,
+		"y",        (double) 0,	/* FIXME :-) */
+		"font_gdk", l->style->font,
+		"anchor",   GTK_ANCHOR_NW,
 		"fill_color", "black",
 		NULL));
 	
@@ -1152,9 +1172,19 @@ workbook_setup_status_area (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (canvas), "button_press_event",
 			    GTK_SIGNAL_FUNC (change_auto_expr_menu), wb);
 	
-	gtk_table_attach (GTK_TABLE (t), gtk_label_new ("Info"), 0, 1, 0, 1,
+	gtk_table_attach (GTK_TABLE (t), l, 0, 1, 0, 1,
 			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	gtk_widget_show_all (t);
+}
+
+/*
+ * Sets up the status display area
+ */
+static void
+workbook_setup_status_area (Workbook *wb)
+{
+	workbook_setup_auto_calc (wb);
+	
 }
 
 void
@@ -1165,11 +1195,8 @@ workbook_auto_expr_label_set (Workbook *wb, char *text)
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (text != NULL);
 	
-	res = g_strconcat (wb->auto_expr_desc->str, "=",
-			      text, NULL);
-	gnome_canvas_item_set (wb->auto_expr_label,
-			       "text", res,
-			       NULL);
+	res = g_strconcat (wb->auto_expr_desc->str, "=", text, NULL);
+	gnome_canvas_item_set (wb->auto_expr_label, "text", res, NULL);
 	g_free (res);
 }
 
@@ -1182,8 +1209,6 @@ workbook_set_focus (GtkWindow *window, GtkWidget *focus, Workbook *wb)
 
 /*
  * Sets up the workbook.
- * Right now it is adding some decorations to the window,
- * this is for testing purposes.
  */
 Workbook *
 workbook_new (void)
@@ -1307,6 +1332,39 @@ buttons (Sheet *sheet, GtkTable *table)
 }
 
 void
+workbook_rename_sheet (Workbook *wb, const char *old_name, const char *new_name)
+{
+	Sheet *sheet;
+	
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (old_name != NULL);
+	g_return_if_fail (new_name != NULL);
+
+	sheet = (Sheet *) g_hash_table_lookup (wb->sheets, old_name);
+	g_return_if_fail (sheet != NULL);
+
+	g_hash_table_remove (wb->sheets, old_name);
+	sheet_rename (sheet, new_name);
+	g_hash_table_insert (wb->sheets, sheet->name, sheet);
+}
+
+/*
+ * Signal handler for EditableLabel's text_changed signal.
+ */
+static gboolean
+sheet_label_text_changed_signal (EditableLabel *el, const char *new_name, Workbook *wb)
+{
+	if (strchr (new_name, '"'))
+		return FALSE;
+	if (strchr (new_name, '\''))
+		return FALSE;
+
+	workbook_rename_sheet (wb, el->text, new_name);
+
+	return TRUE;
+}
+
+void
 workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 {
 	GtkWidget *t, *sheet_label;
@@ -1324,7 +1382,12 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 	gtk_widget_show_all (t);
 	gtk_object_set_data (GTK_OBJECT (t), "sheet", sheet);
 
-	sheet_label = gtk_label_new (sheet->name);
+	sheet_label = editable_label_new (sheet->name);
+	gtk_signal_connect (
+		GTK_OBJECT (sheet_label), "text_changed",
+		GTK_SIGNAL_FUNC (sheet_label_text_changed_signal), wb);
+	
+	gtk_widget_show (sheet_label);
 	gtk_notebook_append_page (GTK_NOTEBOOK (wb->notebook),
 				  t, sheet_label);
 }

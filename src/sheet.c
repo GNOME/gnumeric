@@ -126,6 +126,17 @@ cell_compare (gconstpointer a, gconstpointer b)
 	return 1;
 }
 
+void
+sheet_rename (Sheet *sheet, const char *new_name)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (new_name != NULL);
+
+	g_free (sheet->name);
+	sheet->name = g_strdup (new_name);
+}
+
 Sheet *
 sheet_new (Workbook *wb, char *name)
 {
@@ -133,6 +144,9 @@ sheet_new (Workbook *wb, char *name)
 	Sheet *sheet;
 	Style *sheet_style;
 
+	g_return_val_if_fail (wb != NULL, NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+	
 	sheet = g_new0 (Sheet, 1);
 	sheet->signature = SHEET_SIGNATURE;
 	sheet->workbook = wb;

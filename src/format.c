@@ -251,7 +251,8 @@ append_half (GString *string, gchar *format, struct tm *time_split)
 }
 
 /*
- * Does some analisis before hand on the format
+ * Since the Excel formating codes contain a number of ambiguities,
+ * this routine does some analisis on the format first.
  */
 static void
 pre_parse_format (StyleFormatEntry *style)
@@ -295,8 +296,8 @@ typedef struct
 } xformat_info;
 
 /*
- * This routine should always return, it cant fail, in the worst
- * case it should just downgrade to stupid formatting
+ * This routine should always return, it can not fail, in the worst
+ * case it should just downgrade to simplistic formatting
  */
 void
 format_compile (StyleFormat *format)
@@ -315,11 +316,10 @@ format_compile (StyleFormat *format)
 	
 	for (i = 0; i < length; i++){
 
-		switch (format->format[i])
-		{
+		switch (format->format[i]){
+
 		case ';':
-			if (which < 4)
-			{
+			if (which < 4){
 				standard_entries [which].format = g_malloc0 (string->len + 1);
 				strncpy (standard_entries[which].format, string->str, string->len);
 				standard_entries [which].format[string->len] = 0;
@@ -345,8 +345,8 @@ format_compile (StyleFormat *format)
 	/* Set up restriction types. */
 	standard_entries[1].restriction_type = '<';
 	standard_entries[1].restriction_value = 0;
-	switch (which)
-	{
+	switch (which){
+
 	case 4:
 		standard_entries[3].restriction_type = '@';
 		/* Fall through. */
@@ -361,13 +361,14 @@ format_compile (StyleFormat *format)
 		standard_entries[0].restriction_value = 0;
 		break;
 	}
-	for (i = 0; i < which; i++)
-	{
+
+	for (i = 0; i < which; i++){
 		temp = g_new (StyleFormatEntry, 1);
 		*temp = standard_entries[i];
 		pre_parse_format (temp);
 		format->format_list = g_list_append (format->format_list, temp);
 	}
+
 	g_string_free (string, TRUE);
 }
 
@@ -380,16 +381,16 @@ style_entry_free(gpointer data, gpointer user_data)
 	g_free (entry);
 }
 
+/*
+ * This routine is invoked when the last user of the
+ * format is gone (ie, refcount has reached zero) just
+ * before the StyleFormat structure is actually released.
+ *
+ * resources allocated in format_compile should be disposed here
+ */
 void
 format_destroy (StyleFormat *format)
 {
-	/* This routine is invoked when the last user of the
-	 * format is gone (ie, refcount has reached zero) just
-	 * before the StyleFormat structure is actually released.
-	 *
-	 * resources allocated in format_compile should be disposed here
-	 */
-	
 	g_list_foreach (format->format_list, style_entry_free, NULL);
 	g_list_free (format->format_list);
 	format->format_list = NULL;  
@@ -444,7 +445,7 @@ lookup_color (char *str, char *end)
 		int len = strlen (format_colors [i].name);
 
 		if ((strncasecmp (format_colors [i].name, str, len) == 0) ||
-		   (strncasecmp (_(format_colors [i].name), str, len) == 0)){
+		    (strncasecmp (_(format_colors [i].name), str, len) == 0)){
 			style_color_ref (format_colors [i].color);
 			return format_colors [i].color;
 		}
@@ -928,53 +929,56 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 static gboolean
 check_valid (StyleFormatEntry *entry, Value *value)
 {
-  switch (value->type)
-    {
-    case VALUE_STRING:
-      return entry->restriction_type == '@';
-    case VALUE_FLOAT:
-      switch (entry->restriction_type)
-	{
-	case '*': 
-	  return TRUE;
-	case '<':
-	  return value->v.v_float < entry->restriction_value;
-	case '>':
-	  return value->v.v_float > entry->restriction_value;
-	case '=':
-	  return value->v.v_float == entry->restriction_value;
-	case ',':
-	  return value->v.v_float <= entry->restriction_value;
-	case '.':
-	  return value->v.v_float >= entry->restriction_value;
-	case '+':
-	  return value->v.v_float != entry->restriction_value;
+	switch (value->type){
+
+	case VALUE_STRING:
+		return entry->restriction_type == '@';
+
+	case VALUE_FLOAT:
+		switch (entry->restriction_type){
+
+		case '*': 
+			return TRUE;
+		case '<':
+			return value->v.v_float < entry->restriction_value;
+		case '>':
+			return value->v.v_float > entry->restriction_value;
+		case '=':
+			return value->v.v_float == entry->restriction_value;
+		case ',':
+			return value->v.v_float <= entry->restriction_value;
+		case '.':
+			return value->v.v_float >= entry->restriction_value;
+		case '+':
+			return value->v.v_float != entry->restriction_value;
+		default:
+			return FALSE;
+		}
+		
+	case VALUE_INTEGER:
+		switch (entry->restriction_type){
+
+		case '*': 
+			return TRUE;
+		case '<':
+			return value->v.v_int < entry->restriction_value;
+		case '>':
+			return value->v.v_int > entry->restriction_value;
+		case '=':
+			return value->v.v_int == entry->restriction_value;
+		case ',':
+			return value->v.v_int <= entry->restriction_value;
+		case '.':
+			return value->v.v_int >= entry->restriction_value;
+		case '+':
+			return value->v.v_int != entry->restriction_value;
+		default:
+			return FALSE;
+		}
+		
 	default:
-	  return FALSE;
+		return FALSE;
 	}
-    case VALUE_INTEGER:
-      switch (entry->restriction_type)
-	{
-	case '*': 
-	  return TRUE;
-	case '<':
-	  return value->v.v_int < entry->restriction_value;
-	case '>':
-	  return value->v.v_int > entry->restriction_value;
-	case '=':
-	  return value->v.v_int == entry->restriction_value;
-	case ',':
-	  return value->v.v_int <= entry->restriction_value;
-	case '.':
-	  return value->v.v_int >= entry->restriction_value;
-	case '+':
-	  return value->v.v_int != entry->restriction_value;
-	default:
-	  return FALSE;
-	}      
-    default:
-      return FALSE;
-    }
 }
 
 gchar *
@@ -1009,6 +1013,9 @@ format_value (StyleFormat *format, Value *value, StyleColor **color)
 		}
 	}
 
+	if (entry.format [0] == 0)
+		is_general = 1;
+	
 	if (strcmp (entry.format, "General") == 0){
 		entry.format += 7;
 		is_general = 1;
@@ -1020,7 +1027,7 @@ format_value (StyleFormat *format, Value *value, StyleColor **color)
 			if (floor (value->v.v_float) == value->v.v_float)
 				entry.format = "0";
 			else
-				entry.format = "0.##";
+				entry.format = "0.00########";
 		}
 		if (finite (value->v.v_float))
 			v = format_number (value->v.v_float, &entry);

@@ -321,7 +321,6 @@ cell_comment_unrealize (Cell *cell)
 	for (l = cell->comment->realized_list; l; l = l->next){
 		GnomeCanvasItem *o = l->data;
 
-		printf ("Destruyendo: %p\n", o);
 		gtk_object_destroy (GTK_OBJECT (o));
 	}
 	g_list_free (cell->comment->realized_list);
@@ -871,7 +870,8 @@ cell_relocate (Cell *cell, int target_col, int target_row)
 	}
 
 	/* 3. Move any auxiliary canvas items */
-	cell_comment_reposition (cell);
+	if (cell->comment)
+		cell_comment_reposition (cell);
 }
 
 /*

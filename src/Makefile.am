@@ -26,6 +26,7 @@ GNUMERIC_BASE_SOURCES =			\
 	cursors.h			\
 	dates.c				\
 	dates.h				\
+	dialog-cell-comment.c		\
 	dialog-cell-format.c		\
 	dialog-goto-cell.c		\
 	dialog-insert-cells.c		\
@@ -97,6 +98,8 @@ GNUMERIC_BASE_SOURCES =			\
 	symbol.c			\
 	utils.c				\
 	utils.h				\
+	widget-editable-label.c		\
+	widget-editable-label.h		\
 	workbook.c			\
 	xml-io.c			\
 	xml-io.h
