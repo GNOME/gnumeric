@@ -1,3 +1,7 @@
+2004-01-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* functions.c: fix argument names for RATE.
+
 2004-01-08  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_euroconvert) : slight cleanup.  Nothing major.

@@ -7,6 +7,8 @@ Andreas:
 	  to selected analysis tools.
 	http://bugzilla.gnome.org/show_bug.cgi?id=131343
 	* Use the paper selected in the print dialog [backported]
+	http://bugzilla.gnome.org/show_bug.cgi?id=132347
+	* Fix argument names for RATE.
 
 Emmanuel Pacaud:
 	* Work on single point formating for charts.
