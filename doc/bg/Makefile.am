@@ -1,5 +1,5 @@
 lang=bg
-locale=bg
+locale="bg_BG.UTF-8"
 
 entities =
 EXTRA_DIST =

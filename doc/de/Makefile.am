@@ -1,5 +1,5 @@
-lang=de
-locale=de_DE
+lang=ca
+locale="ca_ES.UTF-8@euro"
 
 entities =
 EXTRA_DIST =
