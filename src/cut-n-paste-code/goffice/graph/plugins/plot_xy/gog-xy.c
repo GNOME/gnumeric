@@ -590,11 +590,11 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (GOG_IS_BUBBLE_PLOT (model)) {
 			double zmin;
 			go_data_vector_get_minmax (GO_DATA_VECTOR (series->base.values[2].data), &zmin, &zmax);
-			if ((! finite (zmax)) || (zmax <= 0)) continue;
+			show_negatives = GOG_BUBBLE_PLOT (view->model)->show_negatives;
+			if ((! finite (zmax)) || (!show_negatives && (zmax <= 0))) continue;
 			rmax = MIN (view->residual.w, view->residual.h) / BUBBLE_MAX_RADIUS_RATIO
 						* GOG_BUBBLE_PLOT (view->model)->bubble_scale;
 			size_as_area = GOG_BUBBLE_PLOT (view->model)->size_as_area;
-			show_negatives = GOG_BUBBLE_PLOT (view->model)->show_negatives;
 			in_3d = GOG_BUBBLE_PLOT (view->model)->in_3d;
 			if (show_negatives) {
 				zmin = fabs (zmin);
@@ -737,7 +737,7 @@ gog_xy_series_update (GogObject *obj)
 		y_len = go_data_vector_get_len (
 			GO_DATA_VECTOR (series->base.values[1].data));
 	}
-	if (series->base.plot->desc.series.num_dim == 3) {
+	if (GOG_IS_BUBBLE_PLOT (series->base.plot)) {
 		double *z_vals = NULL;
 		int z_len = 0;
 		if (series->base.values[2].data != NULL) {
@@ -772,7 +772,7 @@ gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 	series_parent_klass->init_style (gso, style);
 	if (!style->needs_obj_defaults || series->plot == NULL)
 		return;
-	if (series->plot->desc.series.num_dim != 3) {
+	if (!GOG_IS_BUBBLE_PLOT (series->plot)) {
 		GogXYPlot const *xy;
 		xy = GOG_XY_PLOT (series->plot);
 	
