@@ -1,5 +1,12 @@
 2003-06-16  Morten Welinder  <terra@gnome.org>
 
+	* src/gutils.c (gnm_guess_encoding): New function.
+
+	* src/stf.c (stf_read_workbook_auto_csvtab): Properly decode file
+	before inspecting.  Use stf_parse_options_guess.
+
+	* src/stf-parse.c (stf_parse_options_guess): New function.
+
 	* src/parse-util.c (sheetref_parse): Base on gnm_strunescape like
 	parser.y's equivalent code.  Avoid unbounded stack usage.
 

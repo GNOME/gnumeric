@@ -870,3 +870,43 @@ g_str_compare (void const *x, void const *y)
 
 	return strcmp (x, y);
 }
+
+
+const char *
+gnm_guess_encoding (const char *raw, size_t len, const char *user_guess,
+		    char **utf8_str)
+{
+	int try;
+
+	g_return_val_if_fail (raw != NULL, NULL);
+
+	for (try = 1; 1; try++) {
+		const char *guess;
+		GError *error = NULL;
+		char *utf8_data;
+
+		switch (try) {
+		case 1: guess = user_guess; break;
+		case 2: g_get_charset (&guess); break;
+		case 3: guess = "ASCII"; break;
+		case 4: guess = "ISO-8859-1"; break;
+		case 5: guess = "UTF-8"; break;
+		default: return NULL;
+		}
+
+		if (!guess)
+			continue;
+
+		utf8_data = g_convert (raw, len, "UTF-8", guess,
+				       NULL, NULL, &error);
+		if (!error) {
+			if (utf8_str)
+				*utf8_str = utf8_data;
+			else
+				g_free (utf8_data);
+			return guess;
+		}
+
+		g_error_free (error);
+	}
+}

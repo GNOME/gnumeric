@@ -59,6 +59,8 @@ typedef struct {
 StfParseOptions_t  *stf_parse_options_new                             (void);
 void                stf_parse_options_free                            (StfParseOptions_t *parseoptions);
 
+StfParseOptions_t  *stf_parse_options_guess                           (const char *data);
+
 /* MANIPULATION of stf options struct */
 
 void stf_parse_options_set_type                        (StfParseOptions_t *parseoptions,

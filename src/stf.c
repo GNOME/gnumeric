@@ -319,76 +319,45 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	Sheet *sheet;
 	Workbook *book;
 	char *name;
-	char *data;
+	char *data, *utf8data;
 	size_t data_len;
 	StfParseOptions_t *po;
-	char const *pos;
-	unsigned int sep = 0, tab = 0, lines = 0;
-	int i;
-	gboolean last_was_newline = FALSE;
 
-        gunichar guni_tab = '\t';
-	gunichar guni_newline = '\n';
-	gunichar guni_carriage = '\r';
-	gunichar guni_sep = format_get_arg_sep ();
+	g_return_if_fail (context != NULL);
+	g_return_if_fail (wbv != NULL);
 
 	book = wb_view_workbook (wbv);
 	data = stf_preparse (COMMAND_CONTEXT (context), input, &data_len);
 	if (!data)
 		return;
 
-        po = stf_parse_options_new ();
+	enc = gnm_guess_encoding (data, data_len, enc, &utf8data);
+	g_free (data);
 
-	stf_parse_options_set_type (po, PARSE_TYPE_CSV);
-	stf_parse_options_set_trim_spaces (po, TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
-	stf_parse_options_csv_set_stringindicator (po, '"');
-	stf_parse_options_csv_set_indicator_2x_is_single (po, TRUE);
-	stf_parse_options_csv_set_duplicates (po, FALSE);
-
-        for (i = STF_PROBE_SIZE, pos = data ; pos && *pos && i-- > 0;
-	     pos = stf_parse_next_token (pos, po, NULL)) {
-		gunichar this_char;
-
-		this_char = g_utf8_get_char (pos);
-		if (this_char == guni_sep) {
-			++sep;
-			last_was_newline = FALSE;
-		} else if (this_char == guni_tab) {
-			++tab;
-			last_was_newline = FALSE;
-		} else if ((this_char == guni_newline || this_char == guni_carriage)
-			   && !last_was_newline) {
-			++lines;
-			last_was_newline = TRUE;
-		}
+	if (!enc) {
+		gnumeric_error_read (COMMAND_CONTEXT (context),
+				     _("That file is not in the given encoding."));
+		return;
 	}
+
+        po = stf_parse_options_guess (utf8data);
 
 	name = g_path_get_basename (gsf_input_name (input));
 	sheet = sheet_new (book, name);
-
+	g_free (name);
 	workbook_sheet_attach (book, sheet, NULL);
 
-	/* Guess */
-	stf_parse_options_csv_set_separators (po, (guni_sep == ',') ? ",":";", NULL);
-	if (tab > lines || tab >= sep)
-		stf_parse_options_csv_set_separators (po, "\t", NULL);
-
-	if (!stf_parse_sheet (po, data, NULL, sheet, 0, 0)) {
-
+	if (stf_parse_sheet (po, utf8data, NULL, sheet, 0, 0)) {
+		workbook_recalc (book);
+		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
+	} else {
 		workbook_sheet_detach (book, sheet);
-		g_free (data);
-		stf_parse_options_free (po);
 		gnumeric_error_read (COMMAND_CONTEXT (context),
 			_("Parse error while trying to parse data into sheet"));
-		return;
 	}
+
 	stf_parse_options_free (po);
-
-	workbook_recalc (book);
-	sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
-
-	g_free (name);
-	g_free (data);
+	g_free (utf8data);
 }
 
 /***********************************************************************************/

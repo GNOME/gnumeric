@@ -39,11 +39,8 @@
 #include "number-match.h"
 #include "gutils.h"
 #include "parse-util.h"
+#include "format.h"
 
-#include <ctype.h>
-#ifdef HAVE_WCTYPE_H
-#include <wctype.h>
-#endif
 #include <stdlib.h>
 
 #define WARN_TOO_MANY_ROWS _("Too many rows in data to parse: %d")
@@ -304,7 +301,7 @@ stf_parse_options_csv_set_separators (StfParseOptions_t *parseoptions, char cons
 	parseoptions->sep.chr = g_strdup (character);
 
 	g_slist_free_custom (parseoptions->sep.str, g_free);
-	parseoptions->sep.str = g_slist_map (string, g_strdup);
+	parseoptions->sep.str = g_slist_map (string, (GnmMapFunc)g_strdup);
 }
 
 void
@@ -334,7 +331,7 @@ stf_parse_options_csv_set_indicator_2x_is_single (StfParseOptions_t *parseoption
 /**
  * stf_parse_options_csv_set_duplicates:
  * @duplicates : a boolean value indicating whether we want to see two
- *               separators right behind eachother as one
+ *               separators right behind each other as one
  **/
 void
 stf_parse_options_csv_set_duplicates (StfParseOptions_t *parseoptions, gboolean const duplicates)
@@ -1263,4 +1260,81 @@ stf_parse_next_token (char const *data, StfParseOptions_t *parseoptions, StfToke
 	if (tokentype)
 		*tokentype = ttype;
 	return character;
+}
+
+static int
+int_sort (const void *a, const void *b)
+{
+	return *(const int *)a - *(const int *)b;
+}
+
+
+static int
+count_character (GPtrArray *lines, gunichar c, double quantile)
+{
+	int *counts, res;
+	unsigned int ui;
+
+	if (lines->len == 0)
+		return 0;
+
+	counts = g_new (int, lines->len);
+	for (ui = 0; ui < lines->len; ui++) {
+		int count = 0;
+		GPtrArray *boxline = g_ptr_array_index (lines, ui);
+		const char *line = g_ptr_array_index (boxline, 0);
+
+		while (*line) {
+			if (g_utf8_get_char (line) == c)
+				count++;
+			line = g_utf8_next_char (line);
+		}
+
+		counts[ui] = count;
+	}
+
+	qsort (counts, lines->len, sizeof (counts[0]), int_sort);
+	ui = (unsigned int)ceil (quantile * lines->len);
+	if (ui == lines->len)
+		ui--;
+	res = counts[ui];
+
+	g_free (counts);
+
+	return res;
+}
+
+
+StfParseOptions_t *
+stf_parse_options_guess (const char *data)
+{
+	StfParseOptions_t *res;
+	GPtrArray *lines;
+	int tabcount;
+	int sepcount;
+	gunichar sepchar = format_get_arg_sep ();
+
+	g_return_val_if_fail (data != NULL, NULL);
+
+	res = stf_parse_options_new ();
+	lines = stf_parse_lines (res, data, FALSE);
+
+	tabcount = count_character (lines, '\t', 0.2);
+	sepcount = count_character (lines, sepchar, 0.2);
+
+	/* At least one tab per line and enough to separate every
+	   would-be sepchars.  */
+	if (tabcount >= 1 && tabcount >= sepcount - 1)
+		stf_parse_options_csv_set_separators (res, "\t", NULL);
+
+	stf_parse_options_set_type (res, PARSE_TYPE_CSV);
+	stf_parse_options_set_trim_spaces (res, TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
+	stf_parse_options_csv_set_indicator_2x_is_single (res, TRUE);
+	stf_parse_options_csv_set_duplicates (res, FALSE);
+
+	stf_parse_options_csv_set_stringindicator (res, '"');
+
+	stf_parse_general_free (lines);
+
+	return res;
 }

@@ -187,7 +187,7 @@ Pending Patches
     2.8) Make listed separators locale dependent
     2.9) User specifiable locale encoding (not to be confused
          with character encoding)			
-    2.10) Fix stf bugs
+    2.10) Fix stf bugs                                          (DONE)
     2.11) Improve initial file preview                          (DONE)
     2.12) Hook up workbook-control-gui.c:cb_data_import_text
 	Data -> External -> Import _Text File...

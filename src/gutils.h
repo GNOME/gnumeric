@@ -68,6 +68,10 @@ guint     gnumeric_ascii_strcase_hash  (gconstpointer v);
 gint      gnumeric_ascii_strcase_equal (gconstpointer v, gconstpointer v2);
 gint      gnumeric_utf8_collate_casefold (const char *a, const char *b);
 
+const char *gnm_guess_encoding (const char *raw, size_t len,
+				const char *user_guess,
+				char **utf8_str);
+
 /**
  * System and user paths
  */
