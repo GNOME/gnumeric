@@ -1,3 +1,7 @@
+2003-05-14  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (gee_detach_scg) : clear the sheet too.
+
 2003-05-14  Morten Welinder  <terra@gnome.org>
 
 	* widget-charmap-selector.c: Mark a few charsets as major.

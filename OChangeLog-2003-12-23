@@ -1,5 +1,8 @@
 2003-05-14  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control-gui.c (cb_notebook_switch_page) : set the edit
+	  line's scg if we are not in the middle of a rangesel.
+
 	* src/xml-io.c (xml_read_names) : revert my previous error.
 	  We can't use parse_pos_init_sheet here because it will fail in the
 	  context of workbook level names.

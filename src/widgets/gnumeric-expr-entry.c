@@ -732,6 +732,7 @@ gee_detach_scg (GnmExprEntry *gee)
 		g_object_weak_unref (G_OBJECT (gee->scg),
 				     (GWeakNotify) cb_scg_destroy, gee);
 		gee->scg = NULL;
+		gee->sheet = NULL;
 	}
 }
 
@@ -933,6 +934,9 @@ gnm_expr_entry_set_scg (GnmExprEntry *gee, SheetControlGUI *scg)
 		gee->wbcg = scg_get_wbcg (gee->scg);
 	} else
 		gee->sheet = NULL;
+#if 0
+	g_warning ("Setting gee (%p)->sheet = %p", gee, gee->sheet);
+#endif
 }
 
 /**

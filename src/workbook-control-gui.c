@@ -158,9 +158,7 @@ wbcg_sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet,
 	g_return_val_if_fail (IS_SHEET (sheet), -1);
 
 	for ( ; NULL != (w = gtk_notebook_get_nth_page (wbcg->notebook, i)) ; i++) {
-		GtkObject *obj = gtk_object_get_data (GTK_OBJECT (w),
-						      SHEET_CONTROL_KEY);
-		SheetControlGUI *scg = SHEET_CONTROL_GUI (obj);
+		SheetControlGUI *scg = g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
 		SheetControl *sc = (SheetControl *) scg;
 
 		if (scg != NULL && sc->sheet == sheet) {
@@ -205,7 +203,6 @@ Sheet *
 wbcg_focus_cur_scg (WorkbookControlGUI *wbcg)
 {
 	GtkWidget *table;
-	GtkObject *obj;
 	SheetControlGUI *scg;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
@@ -215,8 +212,7 @@ wbcg_focus_cur_scg (WorkbookControlGUI *wbcg)
 
 	table = gtk_notebook_get_nth_page (wbcg->notebook,
 		gtk_notebook_get_current_page (wbcg->notebook));
-	obj = gtk_object_get_data (GTK_OBJECT (table), SHEET_CONTROL_KEY);
-	scg = SHEET_CONTROL_GUI (obj);
+	scg = g_object_get_data (G_OBJECT (table), SHEET_CONTROL_KEY);
 
 	g_return_val_if_fail (scg != NULL, NULL);
 
@@ -652,9 +648,7 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 {
 	GtkWidget *notebook;
 	gint page_number;
-	GtkObject *obj = gtk_object_get_data (GTK_OBJECT (child),
-					      SHEET_CONTROL_KEY);
-	SheetControlGUI *scg = SHEET_CONTROL_GUI (obj);
+	SheetControlGUI *scg = g_object_get_data (G_OBJECT (child), SHEET_CONTROL_KEY);
 
 	g_return_val_if_fail (scg != NULL, FALSE);
 
@@ -670,8 +664,8 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 		return TRUE;
 
 	if (event->button == 3) {
-		sheet_menu_label_run (SHEET_CONTROL_GUI (obj), event);
-		scg_take_focus (SHEET_CONTROL_GUI (obj));
+		sheet_menu_label_run (scg, event);
+		scg_take_focus (scg);
 		return TRUE;
 	}
 
@@ -910,7 +904,7 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	scg->label = editable_label_new (sheet->name_unquoted,
 			sheet->tab_color ? &sheet->tab_color->color : NULL,
 			sheet->tab_text_color ? &sheet->tab_text_color->color : NULL);
-	g_signal_connect_after (GTK_OBJECT (scg->label),
+	g_signal_connect_after (G_OBJECT (scg->label),
 		"edit_finished",
 		G_CALLBACK (cb_sheet_label_edit_finished), wbcg);
 
@@ -4380,6 +4374,8 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 			 guint page_num, WorkbookControlGUI *wbcg)
 {
 	Sheet *sheet;
+	SheetControlGUI *new_scg;
+	GtkWidget *child; 
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
@@ -4397,23 +4393,21 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	if (NULL != wbcg->rangesel)
 		scg_rangesel_stop (wbcg->rangesel, TRUE);
 
+	child = gtk_notebook_get_nth_page (notebook, page_num);
+	new_scg = g_object_get_data (G_OBJECT (child), SHEET_CONTROL_KEY);
 	if (wbcg_rangesel_possible (wbcg)) {
-		GtkWidget *child;
-		GtkObject *obj;
-
-		child = gtk_notebook_get_nth_page (notebook, page_num);
-		obj = gtk_object_get_data (GTK_OBJECT (child),
-					   SHEET_CONTROL_KEY);
-		scg_take_focus (SHEET_CONTROL_GUI (obj));
+		scg_take_focus (new_scg);
 		return;
 	}
+
+	gnm_expr_entry_set_scg (wbcg->edit_line.entry, new_scg);
 
 	/*
 	 * Make absolutely sure the expression doesn't get 'lost', if it's invalid
 	 * then prompt the user and don't switch the notebook page.
 	 */
 	if (wbcg_is_editing (wbcg)) {
-		guint prev = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (notebook), "previous_page"));
+		guint prev = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (notebook), "previous_page"));
 
 		if (prev == page_num)
 			return;
@@ -4426,8 +4420,8 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 		return;
 	}
 
-	gtk_object_set_data (GTK_OBJECT (notebook), "previous_page",
-			     GINT_TO_POINTER (gtk_notebook_get_current_page (notebook)));
+	g_object_set_data (G_OBJECT (notebook), "previous_page",
+			   GINT_TO_POINTER (gtk_notebook_get_current_page (notebook)));
 
 	/* if we are not selecting a range for an expression update */
 	sheet = wbcg_focus_cur_scg (wbcg);
@@ -4543,8 +4537,8 @@ workbook_setup_sheets (WorkbookControlGUI *wbcg)
 {
 	GtkWidget *w = gtk_notebook_new ();
 	wbcg->notebook = GTK_NOTEBOOK (w);
-	g_signal_connect_after (GTK_OBJECT (wbcg->notebook), "switch_page",
-		GTK_SIGNAL_FUNC (cb_notebook_switch_page), wbcg);
+	g_signal_connect_after (G_OBJECT (wbcg->notebook), "switch_page",
+		G_CALLBACK (cb_notebook_switch_page), wbcg);
 
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (wbcg->notebook), GTK_POS_BOTTOM);
 	gtk_notebook_set_tab_border (GTK_NOTEBOOK (wbcg->notebook), 0);
@@ -4648,8 +4642,8 @@ cb_auto_expr_changed (GtkWidget *item, WorkbookControlGUI *wbcg)
 
 	wb_view_auto_expr (
 		wb_control_view (WORKBOOK_CONTROL (wbcg)),
-		gtk_object_get_data (GTK_OBJECT (item), "name"),
-		gtk_object_get_data (GTK_OBJECT (item), "expr"));
+		g_object_get_data (G_OBJECT (item), "name"),
+		g_object_get_data (G_OBJECT (item), "expr"));
 }
 
 static gboolean
@@ -4701,10 +4695,9 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
 
 		item = gtk_menu_item_new_with_label (
 			_(quick_compute_routines [i].displayed_name));
-		gtk_object_set_data (GTK_OBJECT (item), "expr",
-			(char *)expr);
-		gtk_object_set_data (GTK_OBJECT (item), "name",
-			(char *)_(quick_compute_routines [i].displayed_name));
+		g_object_set_data (G_OBJECT (item), "expr", (gpointer)expr);
+		g_object_set_data (G_OBJECT (item), "name",
+			(gpointer)_(quick_compute_routines [i].displayed_name));
 		g_signal_connect (G_OBJECT (item),
 			"activate",
 			G_CALLBACK (cb_auto_expr_changed), wbcg);
