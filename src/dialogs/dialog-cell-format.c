@@ -2477,7 +2477,7 @@ static void
 set_initial_focus (FormatState *state)
 {
 	GtkWidget *focus_widget = NULL, *pagew;
-	gchar *name;
+	gchar const *name;
 
 	pagew = gtk_notebook_get_nth_page
 		(GTK_NOTEBOOK (state->dialog->notebook), fmt_dialog_page);

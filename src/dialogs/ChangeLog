@@ -1,5 +1,9 @@
 2001-12-12  Jody Goldberg <jody@gnome.org>
 
+	* dialog-cell-format.c (set_initial_focus) : const.
+
+2001-12-12  Jody Goldberg <jody@gnome.org>
+
 	* dialog-solver.c (cb_dialog_solve_clicked) : gtk_entry_get_text const.
 	* dialog-printer-setup.c (do_fetch_page) : ditto.
 	(paper_size_changed) : ditto.

@@ -3364,8 +3364,6 @@ sheet_colrow_insdel_finish (ExprRelocateInfo const *rinfo, gboolean is_cols,
 {
 	Sheet *sheet = rinfo->origin_sheet;
 
-	/* Order matters here, styles must be before merges */
-	sheet_style_insert_colrow (rinfo);
 	sheet_merge_relocate (rinfo);
 	sheet_relocate_objects (rinfo, FALSE);
 
@@ -3405,6 +3403,7 @@ static void
 sheet_colrow_insert_finish (ExprRelocateInfo const *rinfo, gboolean is_cols,
 			    int pos, int count, ColRowStateList *states)
 {
+	sheet_style_insert_colrow (rinfo);
 	sheet_colrow_insdel_finish (rinfo, is_cols, pos, pos, states);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos+count);
@@ -3417,6 +3416,7 @@ sheet_colrow_delete_finish (ExprRelocateInfo const *rinfo, gboolean is_cols,
 			    int pos, int count, ColRowStateList *states)
 {
 	int end = colrow_max (is_cols) - count;
+	sheet_style_relocate (rinfo);
 	sheet_colrow_insdel_finish (rinfo, is_cols, pos, end, states);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, pos);
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, end);

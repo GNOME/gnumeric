@@ -1,5 +1,10 @@
 2001-12-12  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=66821
+	* src/sheet.c (sheet_colrow_insdel_finish) : don't move styles here.
+	(sheet_colrow_insert_finish) : do it here, and insert.
+	(sheet_colrow_delete_finish) : or here, and remove.
+
 	* src/commands.c (cmd_autofill_redo) : add some protection against
 	  failed copies.
 	* src/commands.c (cmd_autofill) : disable attempts to shrink a
