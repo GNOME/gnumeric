@@ -243,6 +243,7 @@
 	      <label>Adjust to</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
+	      <group>scale-group</group>
 	    </widget>
 
 	    <widget>
@@ -266,6 +267,7 @@
 	      <label>Adjust to</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
+	      <group>scale-group</group>
 	    </widget>
 
 	    <widget>
@@ -1777,9 +1779,10 @@
 		  <fill>True</fill>
 		</child>
 		<can_focus>True</can_focus>
-		<label>Down, then irght</label>
+		<label>Down, then right</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
+		<group>page-order</group>
 	      </widget>
 
 	      <widget>
@@ -1794,6 +1797,7 @@
 		<label>RIght, then down</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
+		<group>page-order</group>
 	      </widget>
 	    </widget>
 
