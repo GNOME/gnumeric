@@ -1684,17 +1684,12 @@ dump (guint8 const *ptr, guint32 len)
 	}
 }
 
+/*
+ * Redundant stream check function.
+ */
 static void
 check_stream (MsOleStream *s)
 {
-       /* FIXME tenix
-          jody told me (1/oct/99) check_stream causes a performance issue:
-          "it is accounting for between 25 and 50 % of load ties."
-          "Its not an immediate issue.  The code has been this way for a while.
-          The only reason I noticed is that I just finished donig some
-          streamlining of the engine and this pops up as the most expensive
-          operatiion (by a good margin) now." */
-
 	BLP blk;
 	guint32 idx;
 	PPS *p;
@@ -1889,9 +1884,6 @@ ms_ole_read_ptr_sb (MsOleStream *s, MsOlePos length)
 {
 	int blockidx = s->position/SB_BLOCK_SIZE;
 	int blklen;
-/* FIXME tenix 
-   ms-ole.c:1891: warning: `blklen' might be used uninitialized in this function
- */
 	guint32 len=length;
 	guint8 *ans;
 
@@ -1902,10 +1894,11 @@ ms_ole_read_ptr_sb (MsOleStream *s, MsOlePos length)
 		return 0;
 	}
 
+	blklen = SB_BLOCK_SIZE - s->position%SB_BLOCK_SIZE;
+
 	if (len > blklen && !s->file->ole_mmap)
 		return 0;
 
-	blklen = SB_BLOCK_SIZE - s->position%SB_BLOCK_SIZE;
 	while (len > blklen) {
 		len -= blklen;
 		blklen = SB_BLOCK_SIZE;

@@ -1,3 +1,8 @@
+1999-10-17  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-ole.c (check_stream): Kill performance comment.
+	(ms_ole_read_ptr_sb): fix blklen init before check.
+
 1999-10-14  Arturo Tena <arturo@directmail.org>
 
 	* ms-ole.c: Changed calls to system calls to wrappers.
