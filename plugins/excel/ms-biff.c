@@ -392,14 +392,15 @@ ms_biff_query_destroy (BiffQuery *q)
 
 /**
  * ms_biff_put_new :
- * @output : the output storage
- * @version :
+ * @output   : the output storage
+ * @version  :
+ * @codepage : Ignored if negative
  *
  * Take responsibility for @output
  * and prepare to generate biff records.
  **/
 BiffPut *
-ms_biff_put_new (GsfOutput *output, MsBiffVersion version)
+ms_biff_put_new (GsfOutput *output, MsBiffVersion version, int codepage)
 {
 	BiffPut *bp;
 
@@ -424,7 +425,8 @@ ms_biff_put_new (GsfOutput *output, MsBiffVersion version)
 		bp->convert = g_iconv_open ("UTF16LE", "UTF-8");
 		bp->codepage = 1200;
 	} else {
-		bp->codepage = gsf_msole_iconv_win_codepage ();
+		bp->codepage = (codepage > 0)
+			? codepage : gsf_msole_iconv_win_codepage ();
 		bp->convert = gsf_msole_iconv_open_codepage_for_export (bp->codepage);
 	}
 

@@ -2180,6 +2180,11 @@ excel_read_FORMULA (BiffQuery *q, ExcelSheet *esheet)
 
 	expr = excel_parse_formula (&esheet->container, esheet, col, row,
 		(q->data + offset), expr_length, FALSE, &array_elem);
+#if 0
+	/* dump the trailing array data */
+	gsf_mem_dump (q->data + offset + expr_length,
+		      q->length - offset - expr_length);
+#endif
 
 	/* Error was flaged by parse_formula */
 	if (expr == NULL && !array_elem)
@@ -5048,9 +5053,16 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			/* This seems to appear within a workbook */
 			/* MW: And on Excel seems to drive the display
 			   of currency amounts.  */
-			guint16 const codepage = GSF_LE_GET_GUINT16 (q->data);
+			unsigned const codepage = GSF_LE_GET_GUINT16 (q->data);
 			gsf_iconv_close (current_workbook_iconv);
 			current_workbook_iconv = excel_iconv_open_for_import (codepage);
+
+			/* Store the codepage to make export easier, might
+			 * cause problems with double stream files because
+			 * we'll lose the codepage in the biff8 version */
+			g_object_set_data (G_OBJECT (ewb->gnum_wb), "excel-codepage",
+				GINT_TO_POINTER (codepage));
+
 			d (0, {
 				switch (codepage) {
 				case 437:

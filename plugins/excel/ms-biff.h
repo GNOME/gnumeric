@@ -83,8 +83,8 @@ typedef struct _BiffPut {
 } BiffPut;
 
 /* Sets up a record on a stream */
-BiffPut      *ms_biff_put_new        (GsfOutput *, MsBiffVersion version);
-void          ms_biff_put_destroy    (BiffPut *);
+BiffPut *ms_biff_put_new     (GsfOutput *, MsBiffVersion version, int codepage);
+void     ms_biff_put_destroy (BiffPut *);
 
 /**
  * If between the 'next' and 'commit' ls / ms_op are changed they will be

@@ -10,8 +10,6 @@ Release Critical
 - validate expression names to ensure that they are not simple values (eg TRUE)
 - height calculation in render value is hosed for embedded new lines
 - fix stf export warnings
-- Store the import code page from xls95 and use that to guess the
-  when exporting.
 
 Pending Patches
 ---------------
@@ -44,10 +42,9 @@ Pending Patches
     6.2) 97 export						(DONE)
     6.3) Check xl import of unicode names			(DONE)
     6.4) Fix export of unicode for 95 & 97			(DONE)
-    6.5) Form import
-    6.6) Intersection, union and set export
-    6.7) fix name export now that we sorta understand it
-    6.8) non-ole import (Nick Lamb is working on this)		(DONE)
+    6.5) Intersection, union and set export
+    6.6) fix name export now that we sorta understand it
+    6.7) non-ole import (Nick Lamb is working on this)		(DONE)
 9) Manual recalc						(DONE)
     9.1) finish calculation ui in workbook attr dialog		(DONE)
 10) fix highlighting of completion code				(DONE)
@@ -58,7 +55,7 @@ Pending Patches
     12.3)  lotus
     12.4)  quattro pro
     12.5)  plan perfect						(DONE)
-    12.6)  html
+    12.6)  html							(DONE)
     12.7)  opencalc						(DONE)
     12.8)  oleo
     12.9)  sc
@@ -97,6 +94,9 @@ Probably Post 1.2 Targets
 - input message				(Stored)
 - validation from list
 - clipboard handlers in plugins
+
+Excel i/o
+    - 'Forms' import.
 
 Misc stuff that should be fixed
 -------------------------------

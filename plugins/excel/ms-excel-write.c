@@ -612,7 +612,7 @@ excel_write_NAME_v7 (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 
 	excel_write_string (ewb->bp, name, STR_NO_LENGTH);
 	len = excel_write_formula (ewb, nexpr->expr_tree,
-				   nexpr->pos.sheet, 0, 0, 0);
+				   nexpr->pos.sheet, 0, 0);
 
 	g_return_if_fail (len <= 0xffff);
 
@@ -2270,7 +2270,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelSheet *esheet, Cell const *cell,
 	GSF_LE_SET_GUINT32 (data + 16, 0x0);
 	GSF_LE_SET_GUINT16 (data + 20, 0x0); /* bogus len, fill in later */
 	ms_biff_put_var_write (ewb->bp, data, 22);
-	len = excel_write_formula (ewb, expr, esheet->gnum_sheet, col, row, 0);
+	len = excel_write_formula (ewb, expr, esheet->gnum_sheet, col, row);
 
 	ms_biff_put_var_seekto (ewb->bp, 20);
 	GSF_LE_SET_GUINT16 (lendat, len);
@@ -2290,7 +2290,7 @@ excel_write_FORMULA (ExcelWriteState *ewb, ExcelSheet *esheet, Cell const *cell,
 		GSF_LE_SET_GUINT16 (data+12, 0); /* bogus len, fill in later */
 		ms_biff_put_var_write (ewb->bp, data, 14);
 		len = excel_write_formula (ewb, expr->array.corner.expr,
-					   esheet->gnum_sheet, col, row, 0);
+					   esheet->gnum_sheet, col, row);
 
 		ms_biff_put_var_seekto (ewb->bp, 12);
 		GSF_LE_SET_GUINT16 (lendat, len);
@@ -3427,6 +3427,8 @@ void
 excel_write_v7 (ExcelWriteState *ewb, GsfOutfile *outfile)
 {
 	GsfOutput   *content;
+	int codepage = -1;
+	gpointer tmp;
 
 	g_return_if_fail (outfile != NULL);
 	g_return_if_fail (ewb != NULL);
@@ -3434,7 +3436,10 @@ excel_write_v7 (ExcelWriteState *ewb, GsfOutfile *outfile)
 
 	content = gsf_outfile_new_child (outfile, "Book", FALSE);
 	if (content != NULL) {
-		ewb->bp = ms_biff_put_new (content, MS_BIFF_V7);
+		tmp = g_object_get_data (G_OBJECT (ewb->gnum_wb), "excel-codepage");
+		if (tmp != NULL)
+			codepage = GPOINTER_TO_INT (tmp);
+		ewb->bp = ms_biff_put_new (content, MS_BIFF_V7, codepage);
 		write_workbook (ewb);
 		ms_biff_put_destroy (ewb->bp);
 		ewb->bp = NULL;
@@ -3454,7 +3459,7 @@ excel_write_v8 (ExcelWriteState *ewb, GsfOutfile *outfile)
 
 	content = gsf_outfile_new_child (outfile, "Workbook", FALSE);
 	if (content != NULL) {
-		ewb->bp = ms_biff_put_new (content, MS_BIFF_V8);
+		ewb->bp = ms_biff_put_new (content, MS_BIFF_V8, -1);
 		write_workbook (ewb);
 		ms_biff_put_destroy (ewb->bp);
 		ewb->bp = NULL;

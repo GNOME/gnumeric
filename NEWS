@@ -23,6 +23,8 @@ Jody
 	* Support writing dual stream xls files
 	* http://bugzilla.gnome.org/show_bug.cgi?id=97672
 	* Rewrite string export for xls (95 & 97)
+	* Fix inline array export for xls (95 &97)
+	* Store the xls codepage when importing for use when exporting
 
 Morten:
 	* Spelling fixes all over.

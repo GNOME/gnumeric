@@ -1,5 +1,19 @@
 2002-11-10  Jody Goldberg <jody@gnome.org>
 
+	* ms-biff.c (ms_biff_put_new) : take a codepage as an argument.
+	* ms-excel-write.c (excel_write_v7) : pass in the code page we stored
+	  on import.
+	(excel_write_v8) : ignore the codepage. biff8 uses unicode.
+
+	* ms-excel-read.c (excel_read_workbook) : store the codepage we
+	  imported with.
+
+2002-11-10  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-write.c (write_arrays) : rewrite.
+
+2002-11-10  Jody Goldberg <jody@gnome.org>
+
 	* ms-formula-write.c (write_string) : Use excel_write_string.
 	(write_arrays) : Use it here, but this code is suspect.
 

@@ -131,7 +131,7 @@ typedef struct {
 	ExcelWriteState *ewb;
 	Sheet	 	*sheet;
 	int	  	 col, row;
-	GList		*arrays; /* A list of Value *'s ? */
+	GSList		*arrays; /* A list of Value *'s ? */
 } PolishData;
 
 static void write_node (PolishData *pd, GnmExpr const *expr, int paren_level);
@@ -526,7 +526,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level)
 			GSF_LE_SET_GUINT16 (data + 6, 0x0); /* ? */
 			ms_biff_put_var_write (pd->ewb->bp, data, 8);
 
-			pd->arrays = g_list_append (pd->arrays, (gpointer)v);
+			pd->arrays = g_slist_prepend (pd->arrays, (gpointer)v);
 			break;
 		}
 
@@ -604,37 +604,50 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level)
 static void
 write_arrays (PolishData *pd)
 {
-	Value   *array;
-	guint16  lpx, lpy;
+	Value const *array;
+	GSList  *ptr;
+	int  	 x, y;
 	guint8   data[8];
+	WriteStringFlags string_flags;
 
-	array = pd->arrays->data;
-	g_return_if_fail (array->type == VALUE_ARRAY);
+	string_flags = (pd->ewb->bp->version >= MS_BIFF_V8)
+		? STR_TWO_BYTE_LENGTH : STR_ONE_BYTE_LENGTH;
+	pd->arrays = g_slist_reverse (pd->arrays);
+	for (ptr = pd->arrays ; ptr != NULL ; ptr = ptr->next) {
+		array = ptr->data;
+		if (pd->ewb->bp->version >= MS_BIFF_V8) {
+			push_guint8  (pd, array->v_array.x - 1);
+			push_guint16 (pd, array->v_array.y - 1);
+		} else {
+			push_guint8  (pd, (array->v_array.x == 256)
+				      ? 0 : array->v_array.x);
+			push_guint16 (pd, array->v_array.y);
+		}
 
-	for (lpy = 0; lpy < array->v_array.y; lpy++) {
-		for (lpx = 0; lpx < array->v_array.x; lpx++) {
-			Value const *v = array->v_array.vals[lpx][lpy];
+		for (y = 0; y < array->v_array.y; y++) {
+			for (x = 0; x < array->v_array.x; x++) {
+				Value const *v = array->v_array.vals[x][y];
 
-			if (VALUE_IS_NUMBER (v)) {
-				push_guint8 (pd, 1);
-				gsf_le_set_double (data, value_get_as_float (v));
-				ms_biff_put_var_write (pd->ewb->bp, data, 8);
-			} else { /* Can only be a string */
-				char const *str = value_peek_string (v);
-				push_guint8 (pd, 2);
-				excel_write_string (pd->ewb->bp, str,
-					STR_ONE_BYTE_LENGTH);
+				if (VALUE_IS_NUMBER (v)) {
+					push_guint8 (pd, 1);
+					gsf_le_set_double (data, value_get_as_float (v));
+					ms_biff_put_var_write (pd->ewb->bp, data, 8);
+				} else { /* Can only be a string */
+					push_guint8 (pd, 2);
+					excel_write_string (pd->ewb->bp,
+						value_peek_string (v), string_flags);
+				}
 			}
 		}
 	}
 
-	pd->arrays = g_list_next (pd->arrays);
+	g_slist_free (pd->arrays);
+	pd->arrays = NULL;
 }
 
 guint32
 excel_write_formula (ExcelWriteState *ewb, GnmExpr const *expr,
-		     Sheet *sheet,
-		     int fn_col, int fn_row, int paren_level)
+		     Sheet *sheet, int fn_col, int fn_row)
 {
 	PolishData pd;
 	unsigned start;
@@ -653,13 +666,7 @@ excel_write_formula (ExcelWriteState *ewb, GnmExpr const *expr,
 	write_node (&pd, expr, 0);
 	len = ewb->bp->length - start;
 
-	if (pd.arrays) {
-		push_guint16 (&pd, 0x0); /* Sad but true */
-		push_guint8  (&pd, 0x0);
-
-		while (pd.arrays)
-			write_arrays (&pd);
-	}
+	write_arrays (&pd);
 
 	return len;
 }
