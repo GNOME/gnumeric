@@ -1,5 +1,6 @@
 Gnumeric 1.1.10
 
+
 Andreas:
 	* Add XHTML exporter
 	* Fix minor bug in the sort dialog
@@ -54,6 +55,7 @@ Nicolas Peninguy:
 
 Tim A. Garner:
 	* Hide hidden data in html export
+	* In the LaTeX exporter optionally export math in italics
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.9

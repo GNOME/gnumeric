@@ -283,6 +283,10 @@ latex2e_write_file_header(FILE *fp)
 "%%                                                                  %%\n"
 "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
 "\n"
+"\\providecommand{\\gnumericmathit}[1]{#1} \n" 
+"%%  Uncomment the next line if you would like your numbers to be in %%\n"
+"%%  italics if they are italizised in the gnumeric table.           %%\n"
+"%\\renewcommand{\\gnumericmathit}[1]{\\mathit{#1}}\n"
 "\\providecommand{\\gnumericPB}[1]%\n"
 "{\\let\\gnumericTemp=\\\\#1\\let\\\\=\\gnumericTemp\\hspace{0pt}}\n"
 " \\ifundefined{gnumericTableWidthDefined}"
@@ -666,9 +670,11 @@ latex2e_write_multicolumn_cell (FILE *fp, Cell const *cell, int num_merged_cols,
 							   &cell_format_characteristic);
 		if (cell_format_family == FMT_NUMBER || cell_format_family == FMT_CURRENCY ||
 		    cell_format_family == FMT_PERCENT || cell_format_family == FMT_FRACTION ||
-		    cell_format_family == FMT_SCIENCE)
+		    cell_format_family == FMT_SCIENCE){
 			fprintf (fp, "$");
-
+		        if (mstyle_get_font_italic(mstyle))
+			    fprintf (fp, "\\gnumericmathit{");
+		}
 		/* Print the cell contents. */
 		rendered_string = cell_get_rendered_text (cell);
 		latex_fputs (rendered_string, fp);
@@ -677,7 +683,7 @@ latex2e_write_multicolumn_cell (FILE *fp, Cell const *cell, int num_merged_cols,
 		if (cell_format_family == FMT_NUMBER || cell_format_family == FMT_CURRENCY ||
 		    cell_format_family == FMT_PERCENT || cell_format_family == FMT_FRACTION ||
 		    cell_format_family == FMT_SCIENCE)
-			fprintf (fp, "$");
+			fprintf (fp, "}$");
 
 		/* Close the styles for the cell. */
 		if (mstyle_get_font_italic (mstyle))
