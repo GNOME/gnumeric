@@ -27,10 +27,10 @@
 <widget>
   <class>GnomeDialog</class>
   <name>AnalysisTools</name>
-  <width>355</width>
-  <height>254</height>
+  <width>390</width>
+  <height>460</height>
   <visible>False</visible>
-  <title>Data Analysis</title>
+  <title>Data Analysis Tools</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
@@ -45,9 +45,9 @@
     <child_name>GnomeDialog:vbox</child_name>
     <name>dialog-vbox1</name>
     <homogeneous>False</homogeneous>
-    <spacing>8</spacing>
+    <spacing>0</spacing>
     <child>
-      <padding>4</padding>
+      <padding>0</padding>
       <expand>True</expand>
       <fill>True</fill>
     </child>
@@ -64,27 +64,10 @@
       </child>
 
       <widget>
-	<class>GtkLabel</class>
-	<name>label1</name>
-	<label>Analysis Tools</label>
-	<justify>GTK_JUSTIFY_LEFT</justify>
-	<wrap>False</wrap>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
-      </widget>
-
-      <widget>
 	<class>GtkScrolledWindow</class>
 	<name>scrolledwindow1</name>
-	<hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
-	<vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+	<hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	<vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
 	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
 	<vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
 	<child>
