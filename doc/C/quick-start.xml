@@ -101,10 +101,7 @@
     <screen>
       gnumeric &amp;
     </screen>
-   which will start the program and send it into the background. Do
-   not close that window until you are done using
-   <application>Gnumeric</application> or this will cause
-   <application>Gnumeric</application> to terminate.
+   which will start the program and send it into the background.
   </para>
 
   <para>
