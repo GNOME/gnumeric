@@ -61,7 +61,7 @@ cellref_name (CellRef const *cell_ref, ParsePos const *pp, gboolean no_sheetname
 	if (col < 0)
 		col += SHEET_MAX_COLS;
 
-	if (col <= 'Z'-'A'){
+	if (col <= 'Z'-'A') {
 		*p++ = col + 'A';
 	} else {
 		int a = col / ('Z'-'A'+1);
@@ -100,27 +100,37 @@ cellref_a1_get (CellRef *out, char const *in, CellPos const *pos)
 {
 	int col = 0;
 	int row = 0;
+	unsigned char uc;
 
 	g_return_val_if_fail (in != NULL, NULL);
 	g_return_val_if_fail (out != NULL, NULL);
 
 	/* Try to parse a column */
-	if (*in == '$'){
+	if (*in == '$') {
 		out->col_relative = FALSE;
 		in++;
 	} else
 		out->col_relative = TRUE;
 
-	if (!(toupper (*in) >= 'A' && toupper (*in) <= 'Z'))
+	/*
+	 * Careful here!  'A' and 'a' are not necessarily the only
+	 * characters which toupper maps to 'A'.
+	 */
+	uc = (unsigned char)*in;
+	if (!((uc >= 'A' && uc <= 'Z') ||
+	      (uc >= 'a' && uc <= 'z')))
 		return NULL;
+	col = toupper (uc) - 'A';
+	in++;
 
-	col = toupper (*in++) - 'A';
-
-	if (toupper (*in) >= 'A' && toupper (*in) <= 'Z')
-		col = (col+1) * ('Z'-'A'+1) + toupper (*in++) - 'A';
+	uc = (unsigned char)*in;
+	if ((uc >= 'A' && uc <= 'Z') || (uc >= 'a' && uc <= 'z')) {
+		col = (col + 1) * ('Z' - 'A' + 1) + toupper (uc) - 'A';
+		in++;
+	}
 
 	/* Try to parse a row */
-	if (*in == '$'){
+	if (*in == '$') {
 		out->row_relative = FALSE;
 		in++;
 	} else
@@ -129,12 +139,12 @@ cellref_a1_get (CellRef *out, char const *in, CellPos const *pos)
 	if (!(*in >= '1' && *in <= '9'))
 		return NULL;
 
-	while (isdigit ((unsigned char)*in)){
+	while (isdigit ((unsigned char)*in)) {
 		row = row * 10 + *in - '0';
+		if (row > SHEET_MAX_ROWS)
+			return NULL;
 		in++;
 	}
-	if (row > SHEET_MAX_ROWS)
-		return NULL;
 	row--;
 
 	/* Setup the cell reference information */
@@ -293,7 +303,7 @@ col_name_internal (char *buf, int col)
 	g_return_val_if_fail (col < SHEET_MAX_COLS, buf);
 	g_return_val_if_fail (col >= 0, buf);
 
-	if (col <= 'Z'-'A'){
+	if (col <= 'Z'-'A') {
 		*buf++ = col + 'A';
 	} else {
 		int a = col / ('Z'-'A'+1);
@@ -455,8 +465,8 @@ parse_cell_name (char const *cell_str, int *col, int *row, gboolean strict, int 
 
 	/* Parse row number: a sequence of digits.  */
 	for (*row = 0; *cell_str; cell_str++) {
-		if (*cell_str < '0' || *cell_str > '9'){
-			if (found_digits && strict == FALSE){
+		if (*cell_str < '0' || *cell_str > '9') {
+			if (found_digits && strict == FALSE) {
 				break;
 			} else
 				return FALSE;

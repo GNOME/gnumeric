@@ -1,6 +1,12 @@
+2002-04-10  Morten Welinder  <terra@diku.dk>
+
+	* src/parse-util.c (cellref_a1_get): Fix toupper usage.  Make this
+ 	work for non-English.  Check for overflow in row number.
+
 2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* sheet-object-widget.c (cb_checkbox_config_ok_clicked) : plug expr leak
+	* sheet-object-widget.c (cb_checkbox_config_ok_clicked) : plug
+ 	expr leak
 	(cb_scrollbar_config_ok_clicked) : plug expr leak
 
 2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>

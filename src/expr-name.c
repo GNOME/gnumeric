@@ -285,7 +285,7 @@ expr_name_add (ParsePos const *pp, char const *name,
  * @value:
  * @error:
  *
- * Parses a texual name in @value, and enters the value
+ * Parses a textual name in @value, and enters the value
  * either as a workbook name if @sheet == NULL or a sheet
  * name if @wb == NULL.
  *

@@ -135,7 +135,7 @@ gnm_expr_new_binary (GnmExpr const *l, GnmExprOp op, GnmExpr const *r)
 
 GnmExpr const *
 gnm_expr_new_name (GnmNamedExpr *name,
-		    Sheet *optional_scope, Workbook *optional_wb_scope)
+		   Sheet *optional_scope, Workbook *optional_wb_scope)
 {
 	GnmExprName *ans;
 
