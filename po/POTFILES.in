@@ -45,6 +45,7 @@ plugins/gb/plugin.xml.in
 plugins/gda/plugin-gda.c
 plugins/gda/plugin.xml.in
 plugins/gnome-glossary/plugin.xml.in
+plugins/gnumeric_1_0/xml-io.c
 plugins/guile/plugin.c
 plugins/guile/plugin.xml.in
 plugins/guile/smob-value.c
@@ -129,6 +130,7 @@ src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.c
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c
+src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in
 src/dates.c
