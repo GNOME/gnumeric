@@ -7,6 +7,7 @@
 GNU oleo">
 <!ENTITY introduction SYSTEM "introduction.xml">
 <!ENTITY getting-started SYSTEM "getting-started.xml">
+<!ENTITY autofill SYSTEM "chapter-autofill.xml">
 <!--
 <!ENTITY advanced-features SYSTEM "advanced-features.xml">
 <!ENTITY data-analysis SYSTEM "data-analysis.xml">
@@ -89,6 +90,10 @@ This document is written in 2nd person.  If your language has a formal
       &getting-started;
   </chapter>
 
+  <chapter id="autofill">
+    <title>Autofill</title>
+    &autofill;
+  </chapter>
 <!--
 
   <chapter id="advanced-features">
