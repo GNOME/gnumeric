@@ -448,7 +448,7 @@ font_init (void)
 		msg = g_strdup_printf (
 			_("Gnumeric failed to find a suitable default font.\n"
 			"Please verify your gnome-print installation.\n"
-			"Your fontmap file %s\n"
+			"Your fontmap file %s.\n"
 			"\n"
 			"If you still have no luck, please file a proper bug report (see\n"
 			"http://bugs.gnome.org) including the following extra items:\n"

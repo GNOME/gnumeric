@@ -1,3 +1,7 @@
+2000-06-23  Karl Eichwalder  <ke@suse.de>
+
+	* src/style.c (font_init): Add missing dot.
+
 2000-06-22  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-edit.c (item_edit_draw_text) : Restore code that was
