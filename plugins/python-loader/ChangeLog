@@ -1,3 +1,9 @@
+2002-10-11  Jon K Hellan  <hellan@acm.org>
+
+	* gnm-python.c: Include stdlib.h for setenv
+	(gnm_python_object_get): Only call PyEval_InitThreads if
+	WITH_THREAD defined in Python headers.
+
 2002-09-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.9

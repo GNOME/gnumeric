@@ -17,6 +17,9 @@
 #include "gnm-python.h"
 
 #include <unistd.h>
+#ifdef BROKEN_PY_INITIALIZE
+#include <stdlib.h>
+#endif
 
 struct _GnmPython {
 	GObject parent_instance;
@@ -133,7 +136,9 @@ gnm_python_object_get (void)
 		}
 #endif
 		Py_Initialize ();
+#ifdef WITH_THREAD
 		PyEval_InitThreads ();
+#endif
 #ifdef WITH_PYGTK
 		init_pygobject ();
 #endif
