@@ -18,7 +18,6 @@
 #include "selection.h"
 #include "utils.h"
 #include "ranges.h"
-#include "sheet-private.h"
 
 #undef DEBUG_POSITIONS
 

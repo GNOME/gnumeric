@@ -23,7 +23,6 @@
 #ifdef ENABLE_BONOBO
 #    include <libgnorba/gnorba.h>
 #endif
-#include "sheet-private.h"
 
 #undef DEBUG_CELL_FORMULA_LIST
 
