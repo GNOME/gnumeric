@@ -38,6 +38,9 @@ Morten:
 Uwe Steinmann:
 	* Validate the field names for paradox databases
 
+Yaacov Zamir:
+	* Fix header/footer printing to use pango layouts.
+
 --------------------------------------------------------------------------
 
 Gnumeric 1.3.90

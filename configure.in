@@ -493,6 +493,13 @@ if test "$TPUT_CMD" '!=' no  -a  -t 1  -a  -t 2; then
   marker_no="<`$TPUT_CMD bold`no`$TPUT_CMD sgr0`  >"
 fi
 
+dnl We do not want to force libgnomeprint 2.8 just yet.
+SAVE_LIBS="$LIBS"
+LIBS="$LIBS $GNUMERIC_LIBS"
+AC_CHECK_FUNCS(gnome_print_pango_create_layout)
+LIBS="$SAVE_LIBS"
+unset SAVE_LIBS
+
 dnl
 dnl On Solaris finite() needs ieeefp.h
 dnl Either of these seem to signal IEEE754 math, see mathfunc.c
@@ -525,8 +532,6 @@ fi
 
 dnl check for complete locale implementation
 AC_CHECK_HEADERS(langinfo.h)
-dnl iswprint/iswspace are sometimes in wctype.h
-AC_CHECK_HEADERS(wctype.h)
 
 dnl We supply our own lgamma_r (using lgamma) when missing.
 dnl We supply our own expm1 (using log1p) when missing.

@@ -34,6 +34,9 @@
 
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprint/gnome-print-config.h>
+#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
+#include <libgnomeprint/gnome-print-pango.h>
+#endif
 #include <libgnomeprintui/gnome-print-job-preview.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
 
@@ -252,6 +255,13 @@ typedef enum {
 	MIDDLE_HEADER
 } HFSide;
 
+static const PangoAlignment hfside_to_alignment[] = {
+	PANGO_ALIGN_LEFT,
+	PANGO_ALIGN_RIGHT,
+	PANGO_ALIGN_CENTER
+};
+
+
 /*
  * print_hf_element
  * @pj: printing context
@@ -269,13 +279,7 @@ print_hf_element (PrintJobInfo const *pj, char const *format,
 		  HFSide side, double y)
 {
 	char *text;
-	double x;
-	double len;
-	double header = 0, footer = 0, left = 0, right = 0;
 
-	/* Be really really anal in case Bug
-	 * http://bugs.gnome.org/db/82/8200.html exists
-	 */
 	g_return_if_fail (pj != NULL);
 	g_return_if_fail (pj->decoration_font != NULL);
 	g_return_if_fail (pj->render_info != NULL);
@@ -284,32 +288,56 @@ print_hf_element (PrintJobInfo const *pj, char const *format,
 
 	g_return_if_fail (text != NULL);
 
-	if (text [0] == 0) {
-		g_free (text);
-		return;
+	if (text[0]) {
+#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
+		const double dummy_dpi = 300; /* FIXME: What exactly is this?  */
+		PangoLayout *layout =
+			gnome_print_pango_create_layout (pj->print_context);
+		PangoFontDescription *pango_font =
+			gnome_font_get_pango_description (pj->decoration_font, dummy_dpi);
+		int height;
+		double header = 0, footer = 0, left = 0, right = 0;
+
+		print_info_get_margins (pj->pi, &header, &footer, &left, &right);
+		pango_layout_set_alignment (layout,
+					    hfside_to_alignment[side]);
+		pango_layout_set_font_description (layout, pango_font);
+		pango_layout_set_width (layout, (pj->width - left - right) * PANGO_SCALE);
+		pango_layout_set_text (layout, text, -1);
+
+		pango_layout_get_size (layout, NULL, &height);
+
+		gnome_print_moveto (pj->print_context,
+				    left,
+				    y + height / (double)PANGO_SCALE);
+		gnome_print_pango_layout (pj->print_context, layout);
+
+		g_object_unref (layout);
+		pango_font_description_free (pango_font);
+#else
+		/* This code will die when we require libgnomeprint 2.8  */
+		double x;
+		double len = gnome_font_get_width_utf8 (pj->decoration_font, text);
+		double header = 0, footer = 0, left = 0, right = 0;
+
+		print_info_get_margins (pj->pi, &header, &footer, &left, &right);
+		switch (side){
+		case LEFT_HEADER:
+			x = left;
+			break;
+		case RIGHT_HEADER:
+			x = pj->width - right - len;
+			break;
+		case MIDDLE_HEADER:
+			x = (pj->x_points - len) / 2 + left;
+			break;
+		default:
+			x = 0;
+		}
+		gnome_print_moveto (pj->print_context, x, y);
+		gnome_print_show (pj->print_context, text);
+#endif
 	}
-
-	len = gnome_font_get_width_utf8 (pj->decoration_font, text);
-
-	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);
-	switch (side){
-	case LEFT_HEADER:
-		x = left;
-		break;
-
-	case RIGHT_HEADER:
-		x = pj->width - right - len;
-		break;
-
-	case MIDDLE_HEADER:
-		x = (pj->x_points - len)/2 + left;
-		break;
-
-	default:
-		x = 0;
-	}
-	gnome_print_moveto (pj->print_context, x, y);
-	gnome_print_show (pj->print_context, text);
 	g_free (text);
 }
 
