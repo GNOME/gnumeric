@@ -1,3 +1,8 @@
+1999-08-05  Morten Welinder  <terra@diku.dk>
+
+	* src/item-cursor.c (item_cursor_autofill_event): Don't unref, but
+ 	destroy.  We no longer own the ref.
+
 1999-08-05  Michael Meeks  <michael@imaginator.com>
 
 	* src/file.c (workbook_import): Fix control flow to have 1 return.

@@ -729,7 +729,7 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		sheet_selection_append (sheet, item_cursor->base_col, item_cursor->base_row);
 		sheet_selection_extend_to (sheet, item_cursor->end_col, item_cursor->end_row);
 		
-		gtk_object_unref (GTK_OBJECT (item));
+		gtk_object_destroy (GTK_OBJECT (item));
 		
 		return TRUE;
 	}
