@@ -1032,8 +1032,8 @@ static char *help_tbilleq = {
 	   "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
 	   "@DESCRIPTION="
 	   "TBILLEQ function returns the bond-yield equivalent (BEY) for "
-	   "a treasury bill.  TBILLEQ is equivalent to (365 x discount) / "
-	   "(360 - discount x DSM) where DSM is the days between @settlement "
+	   "a treasury bill.  TBILLEQ is equivalent to (365 * discount) / "
+	   "(360 - discount * DSM) where DSM is the days between @settlement "
 	   "and @maturity. "
 	   "\n"
 	   "If @settlement is after @maturity or the @maturity is set to "
@@ -1050,7 +1050,7 @@ static Value *
 gnumeric_tbilleq (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t settlement, maturity, discount;
-	float_t res, dsm;
+	float_t res, dsm, divisor;
 
 	settlement = get_serial_date (argv[0]);
 	maturity = get_serial_date (argv[1]);
@@ -1061,9 +1061,13 @@ gnumeric_tbilleq (FunctionEvalInfo *ei, Value **argv)
 	if (settlement > maturity || discount < 0 || dsm > 356)
                 return value_new_error (&ei->pos, gnumeric_err_NUM);
 
-	res = (365 * discount) / (360 - discount * dsm);
+	divisor = 360 - discount * dsm;
+	/* This test probably isn't right, but it is better that not checking
+	   at all.  --MW.  */
+	if (divisor == 0)
+		return value_new_error (&ei->pos, gnumeric_err_DIV0);
 
-	return value_new_float (res);
+	return value_new_float ((365 * discount) / divisor);
 }
 
 /***************************************************************************/
@@ -1140,7 +1144,7 @@ gnumeric_tbillyield (FunctionEvalInfo *ei, Value **argv)
 	
 	dsm = maturity - settlement;
 
-	if (settlement > maturity || pr < 0 || dsm > 356)
+	if (pr <= 0 || dsm <= 0 || dsm > 356)
                 return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 	res = (100.0 - pr) / pr * (360.0 / dsm);

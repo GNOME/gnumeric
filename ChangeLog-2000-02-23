@@ -1,3 +1,8 @@
+1999-12-18  Morten Welinder  <terra@diku.dk>
+
+	* src/functions/fn-financial.c (gnumeric_tbilleq,
+ 	gnumeric_tbillyield): check params better.
+
 1999-12-18  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/about.c (dialog_about): add Jon.
