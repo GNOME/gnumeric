@@ -15,6 +15,10 @@
 
 2003-01-03  Jody Goldberg <jody@gnome.org>
 
+	* src/position.h : Some minor arg name cleanup.
+
+	* src/commands.c (cmd_area_set_text_redo) : really fix it this time.
+
 	* src/sheet.c (sheet_foreach_cell_in_range) : fix minor typo.
 
 	* src/rendered-value.c (rendered_value_new) : handle preview grid's

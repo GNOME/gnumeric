@@ -196,7 +196,7 @@ xml_sax_attr_range (xmlChar const * const *attrs, Range *res)
 /*****************************************************************************/
 
 typedef struct {
-	GsfXmlSAXState base;
+	GsfInputXML base;
 
 	IOContext 	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
@@ -269,7 +269,7 @@ unknown_attr (XMLSaxParseState *state,
 }
 
 static void
-xml_sax_wb (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_wb (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -310,7 +310,7 @@ xml_sax_wb (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_wb_sheetname (GsfXmlSAXState *gsf_state)
+xml_sax_wb_sheetname (GsfInputXML *gsf_state)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -320,7 +320,7 @@ xml_sax_wb_sheetname (GsfXmlSAXState *gsf_state)
 }
 
 static void
-xml_sax_wb_view (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_wb_view (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -341,7 +341,7 @@ xml_sax_wb_view (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_finish_parse_wb_attr (GsfXmlSAXState *gsf_state)
+xml_sax_finish_parse_wb_attr (GsfInputXML *gsf_state)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -356,7 +356,7 @@ xml_sax_finish_parse_wb_attr (GsfXmlSAXState *gsf_state)
 }
 
 static void
-xml_sax_attr_elem (GsfXmlSAXState *gsf_state)
+xml_sax_attr_elem (GsfInputXML *gsf_state)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -380,7 +380,7 @@ xml_sax_attr_elem (GsfXmlSAXState *gsf_state)
 }
 
 static void
-xml_sax_sheet_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_sheet_start (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -418,7 +418,7 @@ xml_sax_sheet_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_sheet_end (GsfXmlSAXState *gsf_state)
+xml_sax_sheet_end (GsfInputXML *gsf_state)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -432,7 +432,7 @@ xml_sax_sheet_end (GsfXmlSAXState *gsf_state)
 }
 
 static void
-xml_sax_sheet_name (GsfXmlSAXState *gsf_state)
+xml_sax_sheet_name (GsfInputXML *gsf_state)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -473,7 +473,7 @@ xml_sax_sheet_name (GsfXmlSAXState *gsf_state)
 }
 
 static void
-xml_sax_sheet_zoom (GsfXmlSAXState *gsf_state)
+xml_sax_sheet_zoom (GsfInputXML *gsf_state)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -514,7 +514,7 @@ xml_sax_print_margins_unit (XMLSaxParseState *state, xmlChar const **attrs, Prin
 }
 
 static void
-xml_sax_print_margins (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_print_margins (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -552,7 +552,7 @@ xml_sax_print_margins (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 
 
 static void
-xml_sax_print_scale (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_print_scale (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -578,7 +578,7 @@ xml_sax_print_scale (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_selection_range (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_selection_range (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -592,7 +592,7 @@ xml_sax_selection_range (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_selection (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_selection (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -615,7 +615,7 @@ xml_sax_selection (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_selection_end (GsfXmlSAXState *gsf_state)
+xml_sax_selection_end (GsfInputXML *gsf_state)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -625,7 +625,7 @@ xml_sax_selection_end (GsfXmlSAXState *gsf_state)
 }
 
 static void
-xml_sax_sheet_layout (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_sheet_layout (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -641,7 +641,7 @@ xml_sax_sheet_layout (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_sheet_freezepanes (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_sheet_freezepanes (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -662,7 +662,7 @@ xml_sax_sheet_freezepanes (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_cols_rows (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_cols_rows (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -681,7 +681,7 @@ xml_sax_cols_rows (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_colrow (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_colrow (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -740,7 +740,7 @@ xml_sax_colrow (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_style_region_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_style_region_start (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -756,7 +756,7 @@ xml_sax_style_region_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_style_region_end (GsfXmlSAXState *gsf_state)
+xml_sax_style_region_end (GsfInputXML *gsf_state)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -771,7 +771,7 @@ xml_sax_style_region_end (GsfXmlSAXState *gsf_state)
 }
 
 static void
-xml_sax_styleregion_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_styleregion_start (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -818,7 +818,7 @@ xml_sax_styleregion_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_styleregion_font (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_styleregion_font (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -890,7 +890,7 @@ style_font_read_from_x11 (MStyle *mstyle, const char *fontname)
 }
 
 static void
-xml_sax_styleregion_font_end (GsfXmlSAXState *gsf_state)
+xml_sax_styleregion_font_end (GsfInputXML *gsf_state)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -904,7 +904,7 @@ xml_sax_styleregion_font_end (GsfXmlSAXState *gsf_state)
 }
 
 static void
-xml_sax_validation (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_validation (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -943,7 +943,7 @@ xml_sax_validation (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_validation_end (GsfXmlSAXState *gsf_state)
+xml_sax_validation_end (GsfInputXML *gsf_state)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -972,7 +972,7 @@ xml_sax_validation_end (GsfXmlSAXState *gsf_state)
 }
 
 static void
-xml_sax_validation_expr_end (GsfXmlSAXState *gsf_state)
+xml_sax_validation_expr_end (GsfInputXML *gsf_state)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -991,7 +991,7 @@ xml_sax_validation_expr_end (GsfXmlSAXState *gsf_state)
 }
 
 static void
-xml_sax_style_region_borders (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_style_region_borders (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -1018,7 +1018,7 @@ xml_sax_style_region_borders (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-xml_sax_cell (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_cell (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -1139,7 +1139,7 @@ xml_not_used_old_array_spec (Cell *cell, char const *content)
 }
 
 static void
-xml_sax_cell_content (GsfXmlSAXState *gsf_state)
+xml_sax_cell_content (GsfInputXML *gsf_state)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -1229,7 +1229,7 @@ xml_sax_cell_content (GsfXmlSAXState *gsf_state)
 }
 
 static void
-xml_sax_merge (GsfXmlSAXState *gsf_state)
+xml_sax_merge (GsfInputXML *gsf_state)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -1242,12 +1242,12 @@ xml_sax_merge (GsfXmlSAXState *gsf_state)
 }
 
 static void
-xml_sax_object (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+xml_sax_object (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 }
 
 static void
-xml_sax_named_expr_end (GsfXmlSAXState *gsf_state)
+xml_sax_named_expr_end (GsfInputXML *gsf_state)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -1297,7 +1297,7 @@ xml_sax_named_expr_end (GsfXmlSAXState *gsf_state)
 }
 
 static void
-xml_sax_named_expr_prop (GsfXmlSAXState *gsf_state)
+xml_sax_named_expr_prop (GsfInputXML *gsf_state)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
@@ -1324,7 +1324,7 @@ xml_sax_named_expr_prop (GsfXmlSAXState *gsf_state)
 
 /****************************************************************************/
 
-static GsfXmlSAXNode gnumeric_1_0_dtd[] = {
+static GsfInputXMLNode gnumeric_1_0_dtd[] = {
 GSF_XML_SAX_NODE (START, START, NULL, FALSE, NULL, NULL, 0),
 GSF_XML_SAX_NODE (START, WB, "gmr:Workbook", FALSE, &xml_sax_wb, NULL, 0),
   GSF_XML_SAX_NODE (WB, WB_ATTRIBUTES, "gmr:Attributes", FALSE, NULL, NULL, 0),
@@ -1464,7 +1464,7 @@ xml_sax_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	state.delayed_names = NULL;
 
 	state.base.root = gnumeric_1_0_dtd;
-	if (!gsf_xmlSAX_parse (input, &state.base))
+	if (!gsf_input_xml_parse (input, &state.base))
 		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
 	else
 		workbook_queue_all_recalc (state.wb);

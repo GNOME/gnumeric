@@ -1210,9 +1210,6 @@ item_grid_event (FooCanvasItem *item, GdkEvent *event)
 	return FALSE;
 }
 
-/*
- * Instance initialization
- */
 static void
 item_grid_init (ItemGrid *ig)
 {

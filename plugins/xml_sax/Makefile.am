@@ -7,7 +7,7 @@ gnumeric_plugin_xml_saxdir = $(gnumeric_plugindir)/xml_sax
 xmldir = $(gnumeric_plugin_xml_saxdir)
 gnumeric_plugin_xml_sax_LTLIBRARIES = xml_sax.la
 xml_sax_la_LDFLAGS = -module -avoid-version
-xml_sax_la_SOURCES = xml-sax-read.c
+xml_sax_la_SOURCES = xml-sax-read.c xml-sax-write.c
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

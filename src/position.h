@@ -22,10 +22,10 @@ struct _ParsePos {
 #define eval_sheet(a,b)     (((a) != NULL) ? (a) : (b))
 
 /* Initialization routines for Evaluation Positions */
-EvalPos  *eval_pos_init		(EvalPos *pp, Sheet *s, CellPos const *pos);
-EvalPos  *eval_pos_init_dep	(EvalPos *eval_pos, Dependent const *dep);
-EvalPos  *eval_pos_init_cell	(EvalPos *pp, Cell const *cell);
-EvalPos  *eval_pos_init_sheet	(EvalPos *pp, Sheet *sheet);
+EvalPos  *eval_pos_init		(EvalPos *ep, Sheet *s, CellPos const *pos);
+EvalPos  *eval_pos_init_dep	(EvalPos *ep, Dependent const *dep);
+EvalPos  *eval_pos_init_cell	(EvalPos *ep, Cell const *cell);
+EvalPos  *eval_pos_init_sheet	(EvalPos *ep, Sheet *sheet);
 
 /* Initialization routines for Parse Positions */
 ParsePos *parse_pos_init         (ParsePos *pp, Workbook *wb,

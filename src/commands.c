@@ -933,7 +933,6 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	CmdAreaSetText *me = CMD_AREA_SET_TEXT (cmd);
 	GnmExpr const *expr = NULL;
 	GSList *l;
-	StyleFormat *sf;
 	MStyle *new_style = NULL;
 	char const *expr_txt;
 
@@ -950,26 +949,21 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		return TRUE;
 
 	expr_txt = gnm_expr_char_start_p (me->text);
+	if (expr_txt != NULL)
+		expr = gnm_expr_parse_str_simple (expr_txt, &me->pp);
 	if (me->as_array) {
-		if (expr_txt != NULL)
-			expr = gnm_expr_parse_str_simple (expr_txt, &me->pp);
 		if (expr == NULL)
 			return TRUE;
-	} else {
-		GnmExpr const *tmpexpr = gnm_expr_parse_str_simple (
-			expr_txt, &me->pp);
-		if (tmpexpr != NULL) {
-			EvalPos ep;
+	} else if (expr != NULL) {
+		EvalPos ep;
+		StyleFormat *sf = auto_style_format_suggest (expr,
+			eval_pos_init (&ep, me->cmd.sheet, &me->pp.eval));
+		gnm_expr_unref (expr);
+		expr = NULL;
 
-			ep.eval = me->pp.eval;
-			ep.sheet = me->cmd.sheet;
-			ep.dep = NULL;
-			sf = auto_style_format_suggest (tmpexpr, &ep);
-			gnm_expr_unref (tmpexpr);
-			new_style = mstyle_new ();
-			mstyle_set_format (new_style, sf);
-			style_format_unref (sf);
-		}
+		new_style = mstyle_new ();
+		mstyle_set_format (new_style, sf);
+		style_format_unref (sf);
 	}
 
 	/* Everything is ok. Store previous contents and perform the operation */

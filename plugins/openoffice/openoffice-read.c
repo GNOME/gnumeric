@@ -54,7 +54,7 @@
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 typedef struct {
-	GsfXmlSAXState base;
+	GsfInputXML base;
 
 	IOContext 	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
@@ -222,7 +222,7 @@ oo_attr_enum (OOParseState *state, xmlChar const * const *attrs,
 /****************************************************************************/
 
 static void
-oo_date_convention (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+oo_date_convention (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	/* <table:null-date table:date-value="1904-01-01"/> */
 	OOParseState *state = (OOParseState *)gsf_state;
@@ -234,7 +234,7 @@ oo_date_convention (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-oo_table_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+oo_table_start (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	/* <table:table table:name="Result" table:style-name="ta1"> */
 	OOParseState *state = (OOParseState *)gsf_state;
@@ -260,7 +260,7 @@ oo_table_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-oo_col_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+oo_col_start (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)gsf_state;
 	MStyle *style = NULL;
@@ -277,7 +277,7 @@ oo_col_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-oo_row_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+oo_row_start (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)gsf_state;
 	int      repeat_count;
@@ -363,7 +363,7 @@ oo_rangeref_parse (RangeRef *ref, char const *start, ParsePos const *pp)
 }
 
 static void
-oo_cell_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+oo_cell_start (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)gsf_state;
 	GnmExpr const	*expr = NULL;
@@ -504,7 +504,7 @@ oo_cell_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-oo_cell_end (GsfXmlSAXState *gsf_state)
+oo_cell_end (GsfInputXML *gsf_state)
 {
 	OOParseState *state = (OOParseState *)gsf_state;
 
@@ -526,7 +526,7 @@ oo_cell_end (GsfXmlSAXState *gsf_state)
 }
 
 static void
-oo_covered_cell_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+oo_covered_cell_start (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)gsf_state;
 
@@ -551,14 +551,14 @@ oo_covered_cell_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-oo_covered_cell_end (GsfXmlSAXState *gsf_state)
+oo_covered_cell_end (GsfInputXML *gsf_state)
 {
 	OOParseState *state = (OOParseState *)gsf_state;
 	state->pos.eval.col += state->col_inc;
 }
 
 static void
-oo_cell_content_end (GsfXmlSAXState *gsf_state)
+oo_cell_content_end (GsfInputXML *gsf_state)
 {
 	OOParseState *state = (OOParseState *)gsf_state;
 
@@ -574,7 +574,7 @@ oo_cell_content_end (GsfXmlSAXState *gsf_state)
 	}
 }
 static void
-oo_style (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+oo_style (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)gsf_state;
 	xmlChar const *name = NULL;
@@ -608,14 +608,14 @@ oo_style (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 
 static void
-oo_style_end (GsfXmlSAXState *gsf_state)
+oo_style_end (GsfInputXML *gsf_state)
 {
 	OOParseState *state = (OOParseState *)gsf_state;
 	state->style = NULL;
 }
 
 static void
-oo_style_prop (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+oo_style_prop (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	static OOEnum const h_alignments [] = {
 		{ "start",	HALIGN_LEFT },
@@ -680,7 +680,7 @@ oo_style_prop (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 }
 		       
 static void
-oo_named_expr (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+oo_named_expr (GsfInputXML *gsf_state, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)gsf_state;
 	xmlChar const *name     = NULL;
@@ -734,7 +734,7 @@ oo_named_expr (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 	}
 }
 
-static GsfXmlSAXNode opencalc_dtd[] = {
+static GsfInputXMLNode opencalc_dtd[] = {
 GSF_XML_SAX_NODE (START, START, NULL, FALSE, NULL, NULL, 0),
 GSF_XML_SAX_NODE (START, OFFICE, "office:document-content", FALSE, NULL, NULL, 0),
   GSF_XML_SAX_NODE (OFFICE, SCRIPT, "office:script", FALSE, NULL, NULL, 0),
@@ -816,7 +816,7 @@ oo_config_item_set ()
 }
 #endif
 
-static GsfXmlSAXNode opencalc_settings_dtd [] = {
+static GsfInputXMLNode opencalc_settings_dtd [] = {
 GSF_XML_SAX_NODE (START, START, NULL, FALSE, NULL, NULL, 0),
 GSF_XML_SAX_NODE (START, OFFICE, "office:document-settings", FALSE, NULL, NULL, 0),
   GSF_XML_SAX_NODE (OFFICE, SETTINGS, "office:settings", FALSE, NULL, NULL, 0),
@@ -903,7 +903,7 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	state.exprconv = oo_conventions ();
 
 	state.base.root = opencalc_dtd;
-	if (gsf_xmlSAX_parse (content, &state.base)) {
+	if (gsf_input_xml_parse (content, &state.base)) {
 		GsfInput *settings;
 
 		/* get the sheet in the right order (in case something was
@@ -916,7 +916,7 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		settings = gsf_infile_child_by_name (zip, "settings.xml");
 		if (settings != NULL) {
 			state.base.root = opencalc_settings_dtd;
-			gsf_xmlSAX_parse (settings, &state.base);
+			gsf_input_xml_parse (settings, &state.base);
 			g_object_unref (G_OBJECT (settings));
 		}
 	} else

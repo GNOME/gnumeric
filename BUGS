@@ -34,19 +34,16 @@ Pending Patches
     2.5) A help button
 
 3) hlinks
-    3.1) Finish the edit dialog to load and store results (easy project)
+    3.1) Finish the edit dialog to load and store results 	(DONE)
     3.2) Figure out import semantics of the other 2 XL types
+    3.3) email support ?
 
 5) zip based format
-    5.1) move existing code into plugin (depends on 7)
-    5.2) work on sax-ish exporter
-    5.3) convert xml-sax to use gsf sax helper
-    5.3) extend format api to contain opencalc flags.
-    5.4) Autocolors Export/import them to/from gnumeric format.
-    5.5) it would be nice to store custom colours too
-    5.6) merge the myriad bits of layout into 1
-    5.7) Evaluate change to styles, formats and fonts to
-         predeclare then associate with a range.
+    5.1) move existing code into plugin (easy)
+    5.2) work on sax-ish exporter				(DONE)
+    5.3) convert xml-sax to use gsf sax helper			(DONE)
+    5.4) writeup and discuss proposals for container
+    5.5) writeup and discuss proposals for content
 
 6) XL
     6.1) biff7 externsheet records in charts			(DONE)

@@ -3,6 +3,7 @@ Gnumeric 1.1.16
 Jody:
 	* Support Mac Office style 1904 date convention.
 	* Fix recalc problem with MMULT.
+	* Bump libgsf req to 1.7.0
 
 Jon Kåre:
 	* Finish UI for managing hyperlinks of various sorts.
