@@ -10,11 +10,6 @@ GNUMERIC_SRC_DIR = $(top_srcdir)/src
 plugindir = $(libdir)/gnumeric/plugins
 hack=$(shell gnome-config --includedir)
 
-
-CFLAGS += -g -Wall 	\
-	-Wpointer-arith  	\
-	-Wmissing-prototypes -Wmissing-declarations 
-
 plugin_LTLIBRARIES = libgdaif.la
 
 libgdaif_la_SOURCES = plugin-gda.c

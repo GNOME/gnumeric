@@ -10,10 +10,6 @@ GNUMERIC_SRC_DIR = $(srcdir)/../../src
 #
 plugindir = $(libdir)/gnumeric/plugins
 
-# CFLAGS += -g -Wall 	\
-# 	-Wshadow             -Wpointer-arith  	\
-# 	-Wmissing-prototypes -Wmissing-declarations 
-
 plugin_LTLIBRARIES = libpython.la
 
 libpython_la_SOURCES = python.c

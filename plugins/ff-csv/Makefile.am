@@ -10,10 +10,6 @@ GNUMERIC_SRC_DIR = $(top_srcdir)/src
 #
 plugindir = $(libdir)/gnumeric/plugins
 
-CFLAGS += -g -Wall 	\
-	-Wpointer-arith  	\
-	-Wmissing-prototypes -Wmissing-declarations 
-
 plugin_LTLIBRARIES = libcsv.la
 
 libcsv_la_SOURCES = csv-io.h csv-io.c libcsv.c libcsv.h

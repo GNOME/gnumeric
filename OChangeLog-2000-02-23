@@ -10,6 +10,10 @@
 
 1999-09-20  Jody Goldberg <jgoldberg@home.com>
 
+	* plugins/{ff-csv, gda, guile, python, sample, text}/Makefile.am :
+	  Do not specify private warnings.  Use the default set from
+	  compiler-flags.m4.
+
 	* src/cell.h (cell_deep_thaw_dependencies,
 		      cell_deep_freeze_dependencies) : Remove non-existant
 		      prototypes.

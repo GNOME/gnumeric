@@ -10,10 +10,6 @@ GNUMERIC_SRC_DIR = $(top_srcdir)/src
 #
 plugindir = $(libdir)/gnumeric/plugins
 
-CFLAGS += -g -Wall 	\
-	             -Wpointer-arith  	\
-	-Wmissing-prototypes -Wmissing-declarations 
-
 plugin_LTLIBRARIES = libtext.la
 
 libtext_la_SOURCES = text-io.h text-io.c
