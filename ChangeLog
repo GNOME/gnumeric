@@ -46,7 +46,6 @@
 	(scg_colrow_resize_start) : ditto.
 	(scg_colrow_resize_move) : ditto.
 
->>>>>>> 1.1333
 2001-07-08  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
 	* src/GNOME_Gnumeric.xml: Wrap file related menus into a placeholder
