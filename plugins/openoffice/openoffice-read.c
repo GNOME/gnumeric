@@ -215,8 +215,8 @@ oo_table_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)gsf_state;
 	int i;
 
-	state->pos.eval.col = 0;
-	state->pos.eval.row = 0;
+	state->pos.eval.col = -1;
+	state->pos.eval.row = -1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (!strcmp (attrs[0], "table:name")) {
