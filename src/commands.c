@@ -1380,7 +1380,7 @@ cmd_format_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 			r = l2->data;
 			sheet_range_calc_spans (me->sheet, *r, flags);
 			if (flags != SPANCALC_SIMPLE)
-				rows_height_update (me->sheet, r);
+				rows_height_update (me->sheet, r, TRUE);
 			sheet_flag_format_update_range (me->sheet, r);
 		}
 	}
@@ -2320,7 +2320,7 @@ cmd_paste_cut_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	/* Backup row heights and adjust row heights to fit */
 	me->saved_sizes = colrow_save_sizes (me->info.target_sheet, FALSE, tmp.start.row, tmp.end.row);
-	rows_height_update (me->info.target_sheet, &tmp);
+	rows_height_update (me->info.target_sheet, &tmp, FALSE);
 
 	/* Make sure the destination is selected */
 	if (me->move_selection)
@@ -2465,7 +2465,7 @@ cmd_paste_copy_impl (GnumericCommand *cmd, WorkbookControl *wbc,
 	} else {
 		me->saved_sizes = colrow_save_sizes (me->dst.sheet, FALSE, me->dst.range.start.row,
 						     me->dst.range.end.row);
-		rows_height_update (me->dst.sheet, &me->dst.range);
+		rows_height_update (me->dst.sheet, &me->dst.range, FALSE);
 	}
 
 	me->content = content;
@@ -2759,7 +2759,7 @@ cmd_autoformat_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 			r = l2->data;
 			sheet_range_calc_spans (me->sheet, *r, flags);
 			if (flags != SPANCALC_SIMPLE)
-				rows_height_update (me->sheet, r);
+				rows_height_update (me->sheet, r, TRUE);
 		}
 	}
 

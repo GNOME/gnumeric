@@ -1,5 +1,22 @@
 2001-05-14  Almer S. Tigelaar  <almer@gnome.org>
 
+	* src/colrow.c (rows_height_update): Add shrink flag.
+	(cb_autofit_height_no_shrink): Callback function for new
+	autofit without shrinking functionality.
+
+	* src/commands.c (cmd_paste_cut_redo): Adjust for change
+	to rows_height_update.
+	(cmd_paste_copy_undo): Idem.
+	(cmd_autoformat_undo): Idem.
+	(cmd_format_undo): Idem.
+
+	* src/clipboard.c (clipboard_paste_region): Idem.
+
+	* src/sheet.c (sheet_clear_region): Idem.
+	(sheet_apply_style): Idem.
+
+2001-05-14  Almer S. Tigelaar  <almer@gnome.org>
+
 	* src/commands.c (cmd_paste_copy_impl): New, contains
 	what was previously in cmd_paste_copy_undo.
 	(cmd_paste_copy_undo): Call upon cmd_paste_copy_impl.

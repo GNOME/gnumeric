@@ -435,7 +435,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 		sheet_flag_format_update_range (pt->sheet, &pt->range);
 
 	if (pt->paste_flags & PASTE_UPDATE_ROW_HEIGHT)
-		rows_height_update (pt->sheet, &pt->range);
+		rows_height_update (pt->sheet, &pt->range, FALSE);
 	
 	return FALSE;
 }

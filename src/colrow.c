@@ -507,23 +507,43 @@ cb_autofit_height (ColRowInfo *info, void *sheet)
 	return FALSE;
 }
 
+static gboolean
+cb_autofit_height_no_shrink (ColRowInfo *info, void *sheet)
+{
+	/* If the size was not set by the user then auto resize */
+	if (!info->hard_size) {
+		int const new_size     = sheet_row_size_fit_pixels (sheet, info->pos);
+		int const default_size = sheet_row_get_default_size_pixels (sheet);
+		
+		if (new_size > 0 && new_size > default_size)
+			sheet_row_set_size_pixels (sheet, info->pos, new_size, FALSE);
+	}
+	return FALSE;
+}
+
 /**
  * rows_height_update
  * @sheet:  The sheet,
  * @range:  The range whose rows should be resized.
+ * @shrink: If set to FALSE, rows will never shrink!
  *
  * Use this function having changed the font size to auto
  * resize the row heights to make the text fit nicely.
  **/
 void
-rows_height_update (Sheet *sheet, Range const * range)
+rows_height_update (Sheet *sheet, Range const * range, gboolean shrink)
 {
 	/* FIXME : this needs to check font sizes and contents rather than
 	 * just contents.  Empty cells will cause resize also
 	 */
-	colrow_foreach (&sheet->rows, range->start.row, range->end.row,
-			&cb_autofit_height, sheet);
+	if (shrink)
+		colrow_foreach (&sheet->rows, range->start.row, range->end.row,
+				&cb_autofit_height, sheet);
+	else
+		colrow_foreach (&sheet->rows, range->start.row, range->end.row,
+				&cb_autofit_height_no_shrink, sheet);
 }
+
 /*****************************************************************************/
 
 struct colrow_visiblity
