@@ -237,7 +237,7 @@ scm_value_get_as_list (SCM value_smob)
 			for (i = 0; i < y; i++)
 				for (ii = 0; i < x; i++)
 					{
-						*ls = scm_cons (value_get_as_float (v->v->v_array.vals[i][ii]), *ls); // FIXME
+						*ls = scm_cons (gh_double2scm (value_get_as_float (v->v->v_array.vals[i][ii])), *ls); // FIXME
 						ls = SCM_CDRLOC (*ls);
 					}
 			*ls = SCM_EOL;

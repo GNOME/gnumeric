@@ -1,3 +1,7 @@
+2000-11-11  Ariel Rios  <ariel@arcavia.com>
+
+	* smob-value.c (scm_value_get_as_list): Should remove warning
+
 2000-11-06  Ariel Rios  <ariel@arcavia.com>
 
 	* smob-value.h (make_new_smob): Add prototype.
