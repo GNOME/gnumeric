@@ -1,5 +1,14 @@
 1998-12-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/cell.h: cell->entered_text is back, now only used for typo
+	correction.  Maybe I will use it for saving. 
+
+	* src/fn-string.c (gnumeric_right): Use value_str.
+	(gnumeric_char): same
+	(gnumeric_left): same
+
+	* src/expr.c (value_str): New function.
+
 	* src/xml-io.c (writeXmlCell): Use cell_get_content instead of
 	cell_get_text.
 

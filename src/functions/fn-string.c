@@ -16,17 +16,12 @@
 static Value *
 gnumeric_char (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v;
 	char result [2];
 
 	result [0] = value_get_as_int (argv [0]);
 	result [1] = 0;
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (result);
-
-	return v;
+	return value_str (result);
 }
 
 static Value *
@@ -126,10 +121,8 @@ gnumeric_left (void *sheet, GList *expr_node_list, int eval_col, int eval_row, c
 	s [count] = 0;
 
 	value_release (vs);
-	
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (s);
+
+	v = value_str (s);
 	g_free (s);
 	
 	return v;
@@ -189,10 +182,8 @@ gnumeric_right (void *sheet, GList *expr_node_list, int eval_col, int eval_row, 
 	s [count] = 0;
 
 	value_release (vs);
-	
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (s);
+
+	v = value_str (s);
 	g_free (s);
 	
 	return v;

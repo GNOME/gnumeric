@@ -50,7 +50,7 @@ typedef struct {
 	ColRowInfo  *row;
 
 	/* Text as entered by the user */
-/*	String      *entered_text; */
+	String      *entered_text;
 	
 	/* Type of the content and the actual parsed content */
 	ExprTree    *parsed_node;	/* Parse tree with the expression */

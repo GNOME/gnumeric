@@ -53,9 +53,18 @@ cell_set_formula (Cell *cell, char *text)
 					       &desired_format,
 					       &error_msg);
 	if (cell->parsed_node == NULL){
+		cell->flags |= CELL_ERROR;
 		cell_set_rendered_text (cell, error_msg);
+		
+		if (cell->value)
+			value_release (cell->value);
+		cell->value = NULL;
 		return;
+	} else {
+		if (cell->flags & CELL_ERROR)
+			cell->flags &= ~CELL_ERROR;
 	}
+	
 	if (desired_format && strcmp (cell->style->format->format, "General") == 0){
 		style_format_unref (cell->style->format);
 		cell->style->format = style_format_new (desired_format);
@@ -482,6 +491,10 @@ cell_set_text_simple (Cell *cell, char *text)
 
 	cell_modified (cell);
 
+	if (cell->entered_text)
+		string_unref (cell->entered_text);
+	cell->entered_text = string_get (text);
+					 
 	if (cell->value){
 		value_release (cell->value);
 		cell->value = NULL;
@@ -1502,7 +1515,7 @@ cell_get_text (Cell *cell)
 	if (cell->value)
 		str = format_value (cell->style->format, cell->value, NULL);
 	else
-		str = g_strdup (cell->text->str);
+		str = g_strdup (cell->entered_text->str);
 	
 	return str;
 }
@@ -1541,7 +1554,7 @@ cell_get_content (Cell *cell)
 	if (cell->value)
 		str = value_string (cell->value);
 	else
-		str = g_strdup (cell->text->str);
+		str = g_strdup (cell->entered_text->str);
 	
 	return str;
 }

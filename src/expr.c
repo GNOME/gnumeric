@@ -310,6 +310,17 @@ value_int (int i)
 	return v;
 }
 
+Value *
+value_str (char *str)
+{
+	Value *v = g_new (Value, 1);
+
+	v->type = VALUE_STRING;
+	v->v.str = string_get (str);
+
+	return v;
+}
+
 /*
  * Casts a value to float if it is integer, and returns
  * a new Value * if required
