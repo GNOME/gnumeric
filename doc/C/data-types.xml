@@ -52,7 +52,7 @@
               A number element can contain a series of digits (425)
               but may include specific text and formatting characters
               to indicate negative numbers (-345), decimal separator
-              (34.056), thousand separators (12,342), currency ($23),
+              (34.0567), thousand separators (12,342), currency ($23),
               dates (21-10-1998), times (10:23) or scientific notation
               (2.3e12). Dates may include the names of months or their
               abbreviation. The currency, decimal separator and
@@ -77,7 +77,9 @@
            <para>
               A boolean element can contain one of two values: TRUE
               and FALSE. These are useful as inputs or outputs from
-              formulas.
+              formulas and for boolean algebra.  More information on
+              boolean data elements is presented in <xref
+              linkend="sect-data-boolean" />.
             </para>
           </listitem>
         </varlistentry>
@@ -95,7 +97,7 @@
              other cells. Calculations which depend on other cells are
              usually recalculated when the values of another cell
              changes. Formulas always begin with a special character
-             &mdash; the equals sign (=). The comercial at symbol (@)
+             &mdash; the equals sign (=). The commercial at symbol (@)
              can be used instead of the equals sign during data entry
              but <application>Gnumeric</application> will convert this
              to an equals sign. Alternatively, an entry which
@@ -141,11 +143,12 @@
     <para>
       A cell may display a series of hash marks (######). This
       indicates that the result is too wide to display in the cell
-      given the current font setting and the current width. The value
-      in the cell can be seen in two ways. If the cell is selected,
-      the value will appear in the data entry area (to the right of
-      the equals button directly above the cell gridd). Alternatively,
-      the cell can be widened until the data become visible.
+      given the current font setting and the current column
+      width. When this occurs, the value in the cell can be seen in
+      two ways. If the cell is selected, the value will appear in the
+      data entry area (to the right of the equals button directly
+      above the cell grid). Alternatively, the column containing the
+      cell can be widened until the data contents become visible.
     </para>
   </note>
 
@@ -154,12 +157,19 @@
   <title>Text Data Elements</title>
 
   <para>
-    Text elements consist of an arbitrary sequence of characters
-    entered into a cell. Text elements can contain any sequence of
-    characters but, in order to distinguish text from other data
-    types, text elements may have to start with an apostrophe symbol
-    (<keysym>'</keysym>). These are the simplest elements to enter
-    into spreadsheet cells.
+    Text elements consist of an arbitrary sequence of characters or
+    numbers entered into a cell. Because
+    <application>Gnumeric</application> automatically recogizes
+    certain sequences as numbers or formulas, certain sequences of
+    characters (such as sequences containing only digits or a text
+    element which starts with an equals sign) must be treated
+    specially to have them considered text. In order to force any
+    sequence to be considered text, the sequence can be started with
+    an apostrophe symbol (<keysym>'</keysym>). Alternatively, the
+    'number' format of the cell can be specified to be 'text' before
+    entering the characters, as explained in <xref
+    linkend="number-formatting-overview"/>. Text elements are the
+    simplest elements to enter into spreadsheet cells.
   </para>
 
   <para> An example of a spreadsheet cell grid with cells containing
@@ -184,7 +194,7 @@
   <note>
     <para>
       To include a newline in a cell, a special key combination is
-      required. An newline symbol can be inserted with the key
+      required. A newline symbol can be inserted with the key
       combination of
       <keycombo><keysym>Alt</keysym><keysym>Enter</keysym></keycombo>.
     </para>
@@ -205,31 +215,31 @@
   </para>
 
   <para>
-    Data are recognized as numbers when they are entered, dependant on
+    Data are recognized as numbers when they are entered, dependent on
     the format of the sequence of characters
     entered. <application>Gnumeric</application> attempts to
     intelligently guess the subtype of the data and match the data to
     an existing format for numbered data. If it matches a data format,
     <application>Gnumeric</application> will automatically assign the
     datum to a data type and associate an appropriate display format
-    with the cell.
-  </para>
-
-  <para>
-    The format recognition of <application>Gnumeric</application>
-    includes a wide variety of data formats. Some examples are
-    presented in <xref linkend="number-format-date-examples" />.
+    with the cell. The format recognition of
+    <application>Gnumeric</application> includes a wide variety of
+    data formats which are discussed in detail in <xref
+    linkend="number-formatting-overview" />.
   </para>
 
   <para>
     Because <application>Gnumeric</application> automatically guesses
     the data type of a number being entered into a cell, this process
-    may have to be over-ridden for ceratain types of data. For
+    may have to be over-ridden for certain types of data. For
     example, postal codes in the United States consist of a sequence
-    of numbers which <application>Gnumeric</application> interprest as
+    of numbers which <application>Gnumeric</application> interprets as
     an integer. However, U.S. postal codes can start with a leading
-    zero which <application>Gnumeric</application> discards. 
-   <!-- TODO this is explained below. -->
+    zero which <application>Gnumeric</application> discards by
+    default. In order to override the default format, the number
+    format of the cell must be specified before the entry of the
+    data. This is explained in <xref
+    linkend="number-formatting-overview" />, below.
   </para>
 
 
@@ -241,7 +251,7 @@
   <para>
     Cells can contain boolean data elements. These elements arise from
     Boolean logic which is a branch of mathematics. These elements are
-    useful for mainpulation of formulas.
+    useful for manipulation of formulas.
   </para>
 
   <para>
@@ -277,7 +287,7 @@
   <para>
     Formulas are the key to making a powerful spreadsheet. A formula
     instructs <application>Gnumeric</application> to perform
-    calculations and dsplay the results. These calculations are
+    calculations and display the results. These calculations are
     defined as a formula data elements. The power of these formulas
     arises because these formulas can include the contents of other
     cells and the results of the formulas are updated automatically
@@ -307,8 +317,8 @@
       <title>Alternate Beginnings for Formulas</title>
 
       <para>
-        To accomodate those more familiar with Lotus spreadsheets,
-        Gnumeric recognizes the comercial at symbol (@) as the
+        To accommodate those more familiar with Lotus spreadsheets,
+        Gnumeric recognizes the commercial at symbol (@) as the
         beginning of a formula and substitutes an equals sign.  The
         plus and minus characters (+ and -) may also start formulas
         that involve calculation, but when used in front of a single
@@ -325,17 +335,17 @@
       <example id="standardoperators">
         <title>Examples of standard operators</title>
         <programlisting>
-	  =5+5            returns 10.
+=5+5            returns 10.
 	
-	  =5-4            returns 1.
+=5-4            returns 1.
 	
-	  =-5             returns -5.
+=-5             returns -5.
 	
-	  =5*5            returns 25.
+=5*5            returns 25.
+
+=(5*5)+11       returns 36.
 	
-	  =(5*5)+11       returns 36.
-	
-  	  =(5*5)+(49/7)    returns 32.
+=(5*5)+(49/7)   returns 32.
         </programlisting>
       </example>
     </para>
@@ -360,10 +370,10 @@
     
     <para>
       Formulas can also contain functions which denote the use of
-      standard mathematic, business, statistical, and scientific
+      standard mathematical, business, statistical, and scientific
       calculations. These functions take the place of any data element
       in a formula and can therefore be combined with the standard
-      arithmetic opearators described above.
+      arithmetic operators described above.
     </para>
 
     <para>
@@ -372,13 +382,13 @@
       <example id="basicfunctionsyntax">
         <title>Basic Function syntax</title>
         <programlisting>
-	  FUNCTIONNAME(ARGUMENTS)
+FUNCTIONNAME(ARGUMENTS)
         </programlisting>
       </example>
 
       where FUNCTIONNAME indicates the name of a function and
       ARGUMENTS indicates one or more arguments to the function. The
-      function arguments are separated by commas (<keysym>,</keysym>)
+      function arguments are separated by commas (<keysym>,</keysym>).
 
     </para>
 
@@ -396,15 +406,15 @@
 	<example id="functionsyntax">
 	  <title>Some examples of function syntax</title>
 	  <programlisting>
-	    =SUM(A1,A2,A4,B5)
+=SUM(A1,A2,A4,B5)
 	    
-            =AVERAGE(A1:A16)
+=AVERAGE(A1:A16)
 	    
-            =EXP(1)
+=EXP(1)
 	    
-	    =PI()
+=PI()
 	    
-            =3+4*MIN(A1,A2,B6)
+=3+4*MIN(A1,A2,B6)
 	  </programlisting>
 	</example>
 
@@ -446,10 +456,9 @@
         <title>Some examples of simple cell reference syntax</title>
 
         <programlisting>
-          =A1+EXP(B1)-(C3/C4)
+=A1+EXP(B1)-(C3/C4)
       
-          =COS(A2)*SIN(A2)
-      
+=COS(A2)*SIN(A2)
         </programlisting>
       </example>
     </para>
@@ -459,9 +468,9 @@
 
       <para>
         Cells can be referenced in the default way (relative
-        referencing), or by using absolute referening. Absolute
+        referencing), or by using absolute referencing. Absolute
         referencing means that when the cell is copied, the cell
-        reference does not change. Normally, autofilling a cell range
+        reference does not change. Normally, auto-filling a cell range
         or moving cell will change its cell reference to so that it
         maintains a relation to the original cell. Absolute
         referencing prevents these changes.
@@ -482,7 +491,7 @@
         <title>Relative References</title>
           <para>
             For example, if =A1 is the formula entered into cell B2,
-            cell B2 will displat the data in cell A1, which is one row
+            cell B2 will display the data in cell A1, which is one row
             up and one column left.  Then, if you copy the contents of
             B2 to cell F6, cell F6 will contain the value from E5,
             which is also one row up and one column left.
@@ -496,7 +505,7 @@
         </example>
 
       <para>
-        The format for absolute cell refencing is to use a '$' in
+        The format for absolute cell referencing is to use a '$' in
         front of the cell coordinate that the you want to stay
         constant. The column, row, sheet, or any combination of these
         can be held constant.
@@ -516,10 +525,11 @@
                 =A1 is a normal, or relative, cell reference
                 function. When =A1 is entered into cell B2, it refers
                 to the value of data one cell up and one cell left
-                from the cell it is in. Therefore the value displayed
-                in cell C2 will be the value of data in cell B1.
-                Copied to cell R19, the formula will display the data
-                in cell Q18.
+                from the cell with the reference. Therefore, if this
+                formula were copied from cell B2 to cell C2, the value
+                displayed in cell C2 will be the value of data in cell
+                B1.  Copied to cell R19, the formula will display the
+                data in cell Q18.
               </para>
             </listitem>
 	  </varlistentry>
@@ -588,10 +598,9 @@
         <example id="cellrefermutiplecells">
 	  <title>Some examples of function syntax</title>
 	  <programlisting>
-	    =SUM(A1,B2,C4)
+=SUM(A1,B2,C4)
 	  
-	    =MIN(A1,B2, C4,C5,D6)
-	  
+=MIN(A1,B2,C4,C5,D6)
 	  </programlisting>
         </example>
       
@@ -627,11 +636,11 @@
         <example id="cellrefercontin">
 	  <title>Referencing blocks of cells</title>
 	  <programlisting>
-	    =SUM(A1:E1)
+=SUM(A1:E1)
 	  
-	    =AVERAGE(B4:E7)
+=AVERAGE(B4:E7)
 	  
-	    =MIN(A1:A5)            
+=MIN(A1:A5)            
 	  </programlisting>
         </example>
       
@@ -662,10 +671,9 @@
 	<example id="cellreferdiscontin">
 	  <title>Referencing blocks of cells</title>
 	  <programlisting>
-	    =SUM(A1:E1, B19, L14:L17)
+=SUM(A1:E1, B19, L14:L17)
 	  
-	    =AVERAGE(A1,A3, A5:C5)
-	  
+=AVERAGE(A1,A3, A5:C5)
 	  </programlisting>
         </example>
       </sect5>
@@ -690,15 +698,39 @@
       </para>
 
       <example id="simple-sheet-ref">
-        <title>Referencing values in other sheets</title>
+        <title>Referencing cells in other sheets</title>
         <programlisting>
-	  ='Sheet 0'!A1+'Sheet 3'!A5
+='Sheet 0'!A1+'Sheet 3'!A5
 
-	  =SUM('Sheet 1'!A1:'Sheet 1'!A5)
+=SUM('Sheet 1'!A1:'Sheet 1'!A5)
         </programlisting>
       </example>
 
     </sect4>
+
+    <sect4>
+      <title>Referencing cells on other files</title>
+
+      <para>
+        It is possible to reference cells in other files. The
+        canonical form for these references is
+        =[filename]SHEETNAME!CELLLIST. Again, if the name of the file
+        contains spaces, it is necessary to surround the filename with
+        quotes.
+      </para>
+
+      <example id="simple-file-ref">
+        <title>Referencing cells in other files</title>
+        <programlisting>
+=['Name of the file']'Sheet 0'!A1
+
+=CEIL( ['First Version.gnumeric']'Sheet 1'!E20 )
+        </programlisting>
+      </example>
+
+    </sect4>
+
+
   </sect3>
 
 
@@ -723,11 +755,11 @@
       </para>
 
       <programlisting>
-	    =VLOOKUP (C1, "gnu", myCellRange, 2, 0)
+=VLOOKUP(C1, "gnu", myCellRange, 2, 0)
 
-	    =LN(my_E_Constant)
+=LN(my_E_Constant)
 
-	    =SUM(myCellRange, my_E_Constant)
+=SUM(myCellRange, my_E_Constant)
       </programlisting>
     </example>
 
@@ -774,7 +806,12 @@
       <para>
         An array formula is currently entered by selecting the single
         range in which to store the result, entering the array
-        formula, and hitting the magic combination, Ctrl-Shift-Enter.
+        formula, and hitting the key combination,
+        <keycombo>
+          <keycap>Ctrl</keycap>
+          <keycap>Shift</keycap>
+          <keycap>Enter</keycap>
+        </keycombo>.
       </para>
 
       <para>
@@ -782,7 +819,7 @@
       </para>
 
       <programlisting>
-	={FUNCTION(ARGUMENTS)}(num_rows, num_cols)[row number][col number]
+={FUNCTION(ARGUMENTS)}(num_rows, num_cols)[row][column]
       </programlisting>
     </example>
 
@@ -800,7 +837,7 @@
   
   <para>
     Cells can display error values if the formula contained in the
-    cell cannot be solved or if other anomolous conditions occur.
+    cell cannot be solved or if other anomalous conditions occur.
   </para>
 
 

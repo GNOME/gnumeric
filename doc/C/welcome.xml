@@ -74,15 +74,18 @@
         <application>gzip</application> program decompresser, into
         text.  <application>Gnumeric</application> can open files from
         several well known proprietary and free spreadsheets including
-        MS Excel (tm), Lotus 1-2-3 (tm), Applix (tm), OpenOffice.org,
-        Psion, Sylk, XBase, Oleo, PlanPerfect, Quattro Pro and
-        HTML. <application>Gnumeric</application> can save files to
-        several versions of the MS Excel (tm) file format and can save
-        tables into LaTeX <markup>\longtable</markup>, HTML, and roff
+        MS Excel<trademark/>, Lotus 1-2-3<trademark/>,
+        Applix<trademark/>, OpenOffice.org<trademark/>,
+        Psion<trademark/>, Sylk<trademark/>, XBase<trademark/>,
+        Oleo<trademark/>, PlanPerfect<trademark/>, Quattro
+        Pro<trademark/> and HTML. <application>Gnumeric</application>
+        can save files to several versions of the MS Excel<trademark/> file
+        format and can save tables into LaTeX
+        <markup>\longtable</markup>, HTML, and roff
         files. <application>Gnumeric</application> also benefits from
         a highly configurable text importer and exporter which ensures
-        that data can be transfered smoothly, and allows new formats to
-        be added easily as plug-in software routines.
+        that data can be transfered smoothly, and allows new formats
+        to be added easily as plug-in software routines.
       </para>
     </listitem>
 
@@ -303,15 +306,15 @@
 
     <listitem>
       <para>
-        <guilabel>Improved Microsoft Excel (TM) Compatibility</guilabel>
+        <guilabel>Improved Microsoft Excel<trademark/> Compatibility</guilabel>
       </para>
       <para>
-        The file format used by the Microsoft Excel (TM) spreadsheet
-        is commonly used to exchange spreadsheet documents. The
-        <application>Gnumeric</application> team spends a considerable
-        effort reverse engineering that file format to ensure that
-        <application>Gnumeric</application> can read and write files
-        in that format.
+        The file format used by the Microsoft Excel<trademark/>
+        spreadsheet is commonly used to exchange spreadsheet
+        documents. The <application>Gnumeric</application> team spends
+        a considerable effort reverse engineering that file format to
+        ensure that <application>Gnumeric</application> can read and
+        write files in that format.
       </para>
     </listitem>
 
@@ -368,10 +371,11 @@
       <para>
         The ability to import and export files of different formats
         has been greatly improved. <application>Gnumeric</application>
-        now supports Applix, Excel 1997, 2000 and XP formats (possibly
-        encrypted), Lotus, OpenOffice, Plan Perfect, and Quattro
-        Pro. These file tools have been made more robust by using the
-        GNOME Structured File library.
+        now supports Applix<trademark/>, Excel<trademark/> 1997, 2000
+        and XP formats (possibly encrypted), Lotus<trademark/>,
+        OpenOffice.org<trademark/>, Plan Perfect<trademark/>, and
+        Quattro Pro<trademark/>. These file tools have been made more
+        robust by using the GNOME Structured File library.
       </para>
     </listitem>
 
@@ -403,7 +407,7 @@
         libraries. <application>Gnumeric</application> is now able to
         produce characters from a much larger range of languages, has
         improved icons, is better integrated with GNOME and has other
-        visual improvments like anti-aliased
+        visual improvements like anti-aliased
         fonts. <application>Gnumeric</application> can also now be
         used without problem on a machine with several screens. The
         transition to GTK+ 2.0 has also greatly improved performance.

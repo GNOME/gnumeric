@@ -219,12 +219,12 @@
   </sect3>
 
   <sect3 id="file-format-xl">
-  <title>MS Excel (tm) File Formats</title>
-  <para>This format is supported by the <quote>MS Excel (tm) File Formats</quote> 
+  <title>MS Excel<trademark/> File Formats</title>
+  <para>This format is supported by the <quote>MS Excel<trademark/> File Formats</quote> 
   plug-in.</para>
   <para><application>Gnumeric</application> can open files from most recent 
-  versions of MS Excel (tm). It can 
-  also save files in MS Excel (tm) 95 format.</para>
+  versions of MS Excel<trademark/>. It can 
+  also save files in MS Excel<trademark/> 95 format.</para>
   </sect3>
 
   <sect3 id="file-format-efs">

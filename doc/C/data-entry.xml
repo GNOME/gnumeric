@@ -1,5 +1,5 @@
 <sect1 id="sect-data-entry">
-  <title>Data Entry.</title>
+  <title>Data Entry</title>
 
   <para>
     There are several ways to add data into a spreadsheet. The
@@ -30,7 +30,7 @@
       error message. The user may then be forced to edit the data
       before continuing. For example, a formula may be mathematically
       incorrect if the user has two operators in a row (e.g. =3+*4)
-      and the diaolog will give the user the chance to re-edit the
+      and the dialog will give the user the chance to re-edit the
       entry or accept the entry as text rather than as a formula. When
       the formula is corrected, the leading apostrophe can be removed
       and <application>Gnumeric</application> will re-interpret the
@@ -70,7 +70,7 @@
         <para>
           Press the <keysym>Enter</keysym> key. This will complete the
           input and move the selection box down one cell which will
-          then be able to recieve further input.
+          then be able to receive further input.
         </para>
       </step>
     </procedure>
@@ -235,7 +235,7 @@
 
     <para>
       Formulas can be entered simply by typing a syntactically correct
-      formula in a cell. The correct syntax for formulas is expalined
+      formula in a cell. The correct syntax for formulas is explained
       in detail in <xref linkend="sect-data-formulas" />. Formulas
       begin with an equals sign (=) and contain arithmetic symbols,
       functions with their arguments and cell references.
@@ -251,8 +251,8 @@
       <para>
         If the formula entered into
         <application>Gnumeric</application> cannot be interpreted
-        correclty, <application>Gnumeric</application> will display an
-        error message giving the user the choice of re-editng the
+        correctly, <application>Gnumeric</application> will display an
+        error message giving the user the choice of re-editing the
         formula or saving the formula as a text field to be edited
         later. For example, a formula may be mathematically incorrect
         if the user has two operators in a row (e.g. =3+*4). If the
@@ -281,9 +281,9 @@
 
       <para>
         When editing a formula, if the cursor is at a point where a
-        cell refrerence or range would be approrite, the reference or
+        cell reference or range would be appropriate, the reference or
         range can be selected using the mouse. If the mouse is used to
-        click on a cell, the refrence of that cell will be entered
+        click on a cell, the reference of that cell will be entered
         into a formula. Alternatively, if the mouse is used to drag a
         selection over a range of cells, that cell range will become
         part of the formula. The selected range will be highlighted by
@@ -324,7 +324,7 @@
       </step>
     </procedure>
     
-    <para>The mouse can be used to select a single cell, a continous
+    <para>The mouse can be used to select a single cell, a continuous
     range of cells or several disjoint ranges of cells just like
     regular selections. </para>
 

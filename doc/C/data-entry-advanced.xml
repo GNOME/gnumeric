@@ -1,5 +1,5 @@
 <sect1 id="sect-dataentryadv">
-  <title>Advanced Data Entry.</title>
+  <title>Advanced Data Entry</title>
 
   <para>
     This section describes advanced methods for data entry in
@@ -142,7 +142,7 @@
 	    the selection should be a small box. Your mouse cursor
 	    will change to a cross-hair when placed over the box.
 	    Press and hold on the box. Drag in the direction, either
-	    vertical or horizonatal, you wish to increment and release
+	    vertical or horizontal, you wish to increment and release
 	    when all the cells are filled. For example, selecting
 	    cells C2 and D2, then dragging the bottom right of the
 	    selection to cell I2 will fill the cells with the sequence
@@ -164,7 +164,7 @@
 
         <para>
 	  <application>Gnumeric</application> is able to increment
-	  several types of data beyond simple integers. The proceedure
+	  several types of data beyond simple integers. The procedure
 	  is the same as described above but involves different
 	  starting values. <application>Gnumeric</application> can
 	  increment:
@@ -273,8 +273,8 @@
       work which is prone to repeated
       mistakes. <application>Gnumeric</application> provides a tool to
       automatically correct commonly made simple mistakes. The
-      corrections are configured and activated using AutoCorrect
-      Dialog, available via <guimenuitem>Auto Correct</guimenuitem> in
+      corrections are configured and activated using the `AutoCorrect'
+      dialog, available via <guimenuitem>Auto Correct</guimenuitem> in
       the <guimenu>Tools</guimenu> menu.
     </para>
 
@@ -387,34 +387,34 @@
      numbers.  This tool can generate random numbers from various
      probability distributions.</para>
 
-     <para>Specify the number of variables in
-     the <quote><guilabel>Number of Variables:</guilabel></quote> entry.  This determines the
-     number of columns of random values to be produced.</para>
-     <para> Specify the number of random numbers for each variable in the 
-     <quote><guilabel>Size of Sample:</guilabel></quote> entry.  This determines the number
-     of rows of random values to be produced.</para>
-     <para>  Specify the
-     random distribution by selecting one of the items from the
-     random distribution list.  The following random distributions are
+     <para>Specify the number of variables in the
+     <quote><guilabel>Number of Variables:</guilabel></quote> entry.
+     This determines the number of columns of random values to be
+     produced.</para> <para> Specify the number of random numbers for
+     each variable in the <quote><guilabel>Size of
+     Sample:</guilabel></quote> entry.  This determines the number of
+     rows of random values to be produced.</para> <para> Specify the
+     random distribution by selecting one of the items from the random
+     distribution list.  The following random distributions are
      supported: Discrete, Normal, Poisson, Exponential, Binomial,
-     Negative Binomial, Bernoulli, and Uniform.</para>
-     <para>  Specify the parameters of the selected distribution:</para>
+     Negative Binomial, Bernoulli, and Uniform.</para> <para> Specify
+     the parameters of the selected distribution:</para>
 
      <variablelist>
      <varlistentry><term>Discrete Random Distribution</term>
      <listitem>
-        <para>Specify the value and
-	probability input range in the <quote><guilabel>Value and Probability Input
-	Range:</guilabel></quote> entry box.  The value and
-	probability input range is a table consisting of two columns
-	and any number of rows.  The first column specifies the
-	discrete random values and the second column the probabilities
-	for them.  The discrete random values do not have to be
-	numbers, for example, strings will do as well.  The sum of the
-	probabilities in the second column should be one.  For
-	example, if you have the values A, B, C, and D in A1:A4 and
-	values 0.1, 0.4, 0.2, and 0.3 in B1:B4, you would specify the
-	value and probability input range to be A1:B4.</para>
+        <para>Specify the value and probability input range in the
+        <quote><guilabel>Value and Probability Input
+        Range:</guilabel></quote> entry box.  The value and
+        probability input range is a table consisting of two columns
+        and any number of rows.  The first column specifies the
+        discrete random values and the second column the probabilities
+        for them.  The discrete random values do not have to be
+        numbers, for example, strings will do as well.  The sum of the
+        probabilities in the second column should be one.  For
+        example, if you have the values A, B, C, and D in A1:A4 and
+        values 0.1, 0.4, 0.2, and 0.3 in B1:B4, you would specify the
+        value and probability input range to be A1:B4.</para>
 
 	<note><para>If the probabilities do not add to 1, they will be 
 	automatically scaled.</para></note>
@@ -429,10 +429,10 @@
 
      <varlistentry><term>Poisson Random Distribution</term>
      <listitem>
-	<para>Specify the lambda in
-	the <quote><guilabel>Lambda</guilabel></quote> entry. Lambda is the average 
-	number of events in a unit time interval.</para>
-     </listitem></varlistentry>
+	<para>Specify the lambda in the
+	<quote><guilabel>Lambda</guilabel></quote> entry. Lambda is
+	the average number of events in a unit time interval.</para>
+	</listitem></varlistentry>
 
      <varlistentry><term>Exponential Random Distribution</term>
      <listitem>
@@ -461,42 +461,43 @@
 
      <varlistentry><term>Negative Binomial Distribution</term>
      <listitem>
-	<para>Specify the
-	probability of success <parameter>p</parameter> in the 
-	<quote><guilabel>p Value</guilabel></quote> entry and the
-	number of failures <parameter>r</parameter> in the 
-	<quote><guilabel>Number of Failures</guilabel></quote> entry.
-	Negative Binomial distribution is a discrete distribution in
-	which the experiment consists of a sequence of independent
-	trials.  Each trial has two possible outcomes, a success or a
-	failure.  The probability of success <parameter>p</parameter> 
-	is constant from one trial to another.  The experiment continues 
-	until <parameter>r</parameter> failures
-	are observed, where <parameter>r</parameter> is fixed in advance.  The mean of a
+	<para>Specify the probability of success
+	<parameter>p</parameter> in the <quote><guilabel>p
+	Value</guilabel></quote> entry and the number of failures
+	<parameter>r</parameter> in the <quote><guilabel>Number of
+	Failures</guilabel></quote> entry.  Negative Binomial
+	distribution is a discrete distribution in which the
+	experiment consists of a sequence of independent trials.  Each
+	trial has two possible outcomes, a success or a failure.  The
+	probability of success <parameter>p</parameter> is constant
+	from one trial to another.  The experiment continues until
+	<parameter>r</parameter> failures are observed, where
+	<parameter>r</parameter> is fixed in advance.  The mean of a
 	random variable that has a Negative Binomial distribution is
-	<parameter>E(X) = r(1-p)/p</parameter>, and the variance is <parameter>var(X) =
-	r(1-p)/p^2</parameter>.</para>
-     </listitem></varlistentry>
+	<parameter>E(X) = r(1-p)/p</parameter>, and the variance is
+	<parameter>var(X) = r(1-p)/p^2</parameter>.</para>
+	</listitem></varlistentry>
 
      <varlistentry><term>Bernoulli Random Distribution</term>
      <listitem>
-        <para>Specify the probability of success (<parameter>p</parameter>) in the 
-	<quote><guilabel>p Value</guilabel></quote> entry. <parameter>p</parameter>
-	is a probability value between 0 and 1. The
-        Bernoulli distribution has two random values 0 and 1, and
-        <parameter>p</parameter> is the probability to observe value 1.  The mean of
-        a random variable that has a Bernoulli distribution is <parameter>E(X) =
-        1(p) + 0(1-p) = p</parameter>, and the variance is <parameter>var(X) = 
-	p(1-p)</parameter>.</para>
-     </listitem></varlistentry>
+        <para>Specify the probability of success
+        (<parameter>p</parameter>) in the <quote><guilabel>p
+        Value</guilabel></quote> entry. <parameter>p</parameter> is a
+        probability value between 0 and 1. The Bernoulli distribution
+        has two random values 0 and 1, and <parameter>p</parameter> is
+        the probability to observe value 1.  The mean of a random
+        variable that has a Bernoulli distribution is <parameter>E(X)
+        = 1(p) + 0(1-p) = p</parameter>, and the variance is
+        <parameter>var(X) = p(1-p)</parameter>.</para>
+        </listitem></varlistentry>
 
      <varlistentry><term>Uniform Random Distribution</term>
      <listitem>
-        <para>Specify the range of
-        the continuous random variable with the <quote><guilabel>Between:</guilabel></quote> 
-	and <quote><guilabel>And:</guilabel></quote>
-        entries.  The default values for these entries are 0 and 1.</para>
-     </listitem></varlistentry>
+        <para>Specify the range of the continuous random variable with
+        the <quote><guilabel>Between:</guilabel></quote> and
+        <quote><guilabel>And:</guilabel></quote> entries.  The default
+        values for these entries are 0 and 1.</para>
+        </listitem></varlistentry>
      </variablelist>
    <figure id="random-example-1">
     <title>Some Example Data for the Random Number Generation Tool</title>

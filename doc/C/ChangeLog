@@ -1,5 +1,18 @@
 2004-07-05  Adrian Custer <acuster@gnome.org>
 
+	* gnumeric.xml: Spell check.
+	* welcome.xml: Spell check. Change (tm) to <trademark/>.
+	* manual-usage.xml: Spell check.
+	* quick-start.xml: Spell check. Change verbatim indents.
+    	* data-overview.xml: Minor edits. Spell check.
+	* data-types.xml: Fix typos. Change verbatim indents. Spell
+	check. Minor edits.
+	* data-entry.xml: Minor edits. Spell check.
+	* data-entry-advanced.xml: Minor edits. Spell check.
+	* file-opening.xml: Change (tm) to <trademark/>.
+
+2004-07-05  Adrian Custer <acuster@gnome.org>
+
     	* The first major 1.3 edits.
 	* TODO: Addded with list of topics that need some gnum. lovin'.
     	* gnumeric.xml: Start of 1.3 docs. Update versions and

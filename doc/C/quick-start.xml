@@ -23,7 +23,7 @@
       file. (Because the workbook is far more important than the extra
       information, the files themselves are often called workbooks.) A
       workbook contains one or more worksheets. Each worksheet
-      contains a lare number of cells usually arranged into a two
+      contains a large number of cells usually arranged into a two
       dimensional grid made up of columns and rows. The names of the
       parts of <application>Gnumeric</application> will be explained
       below in <xref linkend="quick-parts-of-gnumeric" />
@@ -53,7 +53,7 @@
       therefore beyond the scope of this manual. If
       <application>Gnumeric</application> is not installed on your
       machine, read the manuals that came with your distribution or
-      look at your distribution vendor's website.
+      look at your distribution vendor's web site.
     </para>
   </note>
 
@@ -83,8 +83,8 @@
       One of these menus is called <guimenu>Applications</guimenu> and
       has an icon which looks like the outline of a foot. If you click
       on this menu name, a menu will appear. Drag the cursor down to
-      the <guisubmenu>Office</guisubmenu> sub-menu name, and a submenu
-      will appear. Drag the cursor into the submenu and then release
+      the <guisubmenu>Office</guisubmenu> sub-menu name, and a sub-menu
+      will appear. Drag the cursor into the sub-menu and then release
       the mouse button when the cursor is on the entry which reads
       "Gnumeric Spreadsheet." This will start the program and the main
       window of <application>Gnumeric</application> will appear as
@@ -96,13 +96,14 @@
     <title>Starting Gnumeric from another *NIX desktop</title>
 
     <para>
-      If you run a UNIX-like operating system (called *NIX in this manual) such 
-      as GNU/Linux, GNU on some other
-      kernel, or a commercial UNIX (TM) system, or if you use a commercially
-      distributed version of GNOME, of the KDE (K Desktop Environment), or of a 
-      similar desktop system, you will have to find a way to launch 
-      <application>Gnumeric</application> yourself. Hunt around the menus until 
-      you find something named "Gnumeric", possibly with the
+      If you run a UNIX-like operating system (called *NIX in this
+      manual) such as GNU/Linux, GNU on some other kernel, or a
+      commercial UNIX (TM) system, or if you use a commercially
+      distributed version of GNOME, of the KDE (K Desktop
+      Environment), or of a similar desktop system, you will have to
+      find a way to launch <application>Gnumeric</application>
+      yourself. Hunt around the menus until you find something named
+      "Gnumeric", possibly with the
       <inlinemediaobject>
         <imageobject>
           <imagedata fileref="figures/gnumeric-icon-24.png" 
@@ -133,7 +134,7 @@
       equivalent terminal emulator. Open a terminal, and, at the shell
       prompt type:
       <screen>
-        gnumeric &amp;
+gnumeric &amp;
       </screen>
       which will start the program and send it into the background.
     </para>
@@ -163,12 +164,12 @@
         which will be called <filename>gnumeric.exe</filename>. You
         can either move to that directory and type:
         <screen>
-          gnumeric
+gnumeric
         </screen>
         or you can type the whole name of the path and file, which
         will be something like:
         <screen>
-          c:\Program Files\Gnome-Office\gnumeric
+c:\Program Files\Gnome-Office\gnumeric
         </screen>
         either of which should start the program.
       </para>
@@ -250,7 +251,7 @@
       name causes a menu to open, dragging the mouse cursor onto the
       menu and then releasing the mouse button (or clicking again)
       while the cursor is above a menu entry causes that command to be
-      exectuted. For further information, see <xref
+      executed. For further information, see <xref
       linkend="sect-gui-menus"/>.
     </para>
   </sect2>
@@ -669,7 +670,7 @@
       <para>
         A valid formula can be a simple arithmetic equation such as 
         <screen>
-          =3+4-1
+=3+4-1
         </screen>
         which uses a formula to make the cell equal to the value
         6.
@@ -771,7 +772,7 @@
     <guilabel>Format Cells...</guilabel> menu entry. This will open a
     dialog window with tabs which group together similar types of
     formatting. Clicking on the <guilabel>Font</guilabel> tab allows a
-    user to change the font famly, style, size and colour. For
+    user to change the font family, style, size and colour. For
     instance, if the cell B2 contained the text "Hello, this is my
     first spreadsheet" then this text could be made bigger by
     selecting a larger font size.
@@ -798,7 +799,7 @@
     <para>
       The <guilabel>Protection</guilabel> and
       <guilabel>Validation</guilabel> tabs are advanced functionality
-      which can be ignored at the begining. For explanations of these
+      which can be ignored at the beginning. For explanations of these
       tabs, see the advanced description in <xref
       linkend="sect-data-format-validation" />.
       </para>
@@ -859,7 +860,7 @@
       <para>
         The order in which the formatting operations occur is
         critical. It is not possible to alter the type of a datum
-        currently in a cell by formatting. To alter the intrepretation
+        currently in a cell by formatting. To alter the interpretation
         of the data type in a cell, formatting must occur
         <emphasis>prior</emphasis> to the entry of the data.
       </para>
@@ -880,7 +881,7 @@
       formatting of the cell. Finally, the Zip Code can be
       entered. Following these steps, the data value will be
       considered to be a "Text" value, any leading zeros will be
-      retained and the data will be left justifed since this is the
+      retained and the data will be left justified since this is the
       default display format for "Text" values.
     </para>
 
@@ -910,14 +911,14 @@
     <para>
       Selections can be more complex than a single cell at a
       time. Selections may describe a continuous rectangular block of
-      cells, an arbitrary shaped group of cells or even a discontinous
+      cells, an arbitrary shaped group of cells or even a discontinuous
       group of cells.
     </para>
 
     <para>
-      The most common way to select a continous rectangular block of
+      The most common way to select a continuous rectangular block of
       cells uses a click and drag mouse motion. The cells in this
-      continous block can be selected by clicking and holding the left
+      continuous block can be selected by clicking and holding the left
       mouse button down on one of the corner cells (for instance, the
       top, leftmost cell) and dragging the mouse cursor to the
       opposite corner (for instance, the bottom, rightmost cell)
@@ -927,7 +928,7 @@
 
     <para>
       The most common way to select an arbitrary shaped or
-      discontinous group of cells is to hold down the
+      discontinuous group of cells is to hold down the
       <keycap>Ctrl</keycap> key while using the mouse to select
       cells. As long as the <keycap>Ctrl</keycap> key is held down,
       all of the cells included by a click or a click and drag motion
@@ -937,7 +938,7 @@
     <note>
       <para>
         There are several operations which cannot be performed with
-        odd shaped or discontinous groups of cells.
+        odd shaped or discontinuous groups of cells.
       </para>
     </note>
 
@@ -976,7 +977,7 @@
 
     <para>
       Moving data can only be performed with a single selection of
-      cells which means that only continous rectangular blocks of
+      cells which means that only continuous rectangular blocks of
       cells can be moved. This does mean, however, that columns or
       rows can be moved as a unit. By default,
       <application>Gnumeric</application> moves the entire contents of
@@ -1035,7 +1036,7 @@
       Both the <guimenu>Edit</guimenu> menu and the context menu have
       an extra menu entry called <guimenuitem>Paste
       Special...</guimenuitem> which can be used during a cut and
-      paste operation to seletively transfer some of the original the
+      paste operation to selectively transfer some of the original the
       cell contents or to alter the contents in specific ways. This
       option allows the transfer of only the cell contents, only the
       cell formats or only the calculated values of the cells. The
@@ -1079,7 +1080,7 @@
     </warning>
 
     <para>
-      Individual cells or contiguious rectangular blocks of cells can
+      Individual cells or contiguous rectangular blocks of cells can
       also be inserted and deleted. During this operation, the user is
       asked which way to shift the current cells to allow the
       insertion or deletion of the selected cells. The movement can be
@@ -1149,7 +1150,7 @@
     mouse button on a tab, then dragging that tab to the left or to
     the right. Little arrows will appear showing the location where
     the sheet will be placed. Releasing the mouse button will then
-    move the sheet to this new positon.
+    move the sheet to this new position.
   </para>
 
   <para>
@@ -1213,7 +1214,7 @@
     </tip>
     <application>Gnumeric</application> includes a large number of
     features which allow users to craft the look of a particular graph
-    to maxamize the effectiveness of the presentation. In
+    to maximize the effectiveness of the presentation. In
     <application>Gnumeric</application>, it is possible to change the
     fonts, modify the borders of each element, add patterns and images
     to backgrounds, add patterns to plot elements and configure the
@@ -1536,7 +1537,7 @@
       been completely redesigned in
       <application>Gnumeric</application> version 1.2 and is still
       being improved. The ultimate goal is a system which will produce
-      an elegant graph automatically but can be cutomized in detail
+      an elegant graph automatically but can be customized in detail
       according the user's preferences. This is a active area of
       programming development and therefore will be changing
       repeatedly in future versions.
