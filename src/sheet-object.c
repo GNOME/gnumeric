@@ -465,9 +465,7 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 	tmp = xmlGetProp (tree, "ObjectBound");
 	if (tmp != NULL) {
 		Range r;
-		if (parse_range (tmp,
-				 &r.start.col, &r.start.row,
-				 &r.end.col, &r.end.row))
+		if (parse_range (tmp, &r))
 			so->anchor.cell_bound = r;
 		xmlFree (tmp);
 	}

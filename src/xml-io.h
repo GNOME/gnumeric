@@ -24,7 +24,6 @@ typedef gboolean (*XmlSheetObjectReadFn)  (xmlNodePtr   tree,
 struct _XmlParseContext {
 	xmlDocPtr doc;		/* Xml document */
 	xmlNsPtr ns;		/* Main name space */
-	xmlNodePtr parent;	/* used only for g_hash_table_foreach callbacks */
 	Sheet *sheet;		/* the associated sheet */
 	Workbook *wb;		/* the associated workbook */
 	IOContext *io_context;
@@ -77,10 +76,10 @@ gboolean         xml_workbook_read      (IOContext            *context,
 xmlNsPtr         xml_check_version      (xmlDocPtr            doc,
 					 GnumericXMLVersion  *version);
 
-int        gnumeric_xml_write_selection_clipboard (WorkbookControl *context, Sheet *sheet,
-						   xmlChar **buffer, int *size);
-int        gnumeric_xml_read_selection_clipboard  (WorkbookControl *context, CellRegion **cr,
-						   xmlChar *buffer);
+xmlChar	   *xml_cellregion_write (WorkbookControl *context,
+				  CellRegion *cr, int *size);
+CellRegion *xml_cellregion_read  (WorkbookControl *context, Sheet *sheet,
+				  guchar *buffer, int length);
 
 /* Some utility routines for setting attributes or content */
 xmlChar   *xml_node_get_cstr	(xmlNodePtr node, char const *name);

@@ -21,6 +21,15 @@
 #include <config.h>
 #include "validation.h"
 
+/**
+ * validation_new :
+ * @vs :
+ * @title :
+ * @msg :
+ * @sc :
+ *
+ * Absorb the StyleCondition reference.
+ */
 Validation *
 validation_new (ValidationStyle vs, char const *title,
 		char const *msg, StyleCondition *sc)
@@ -43,12 +52,15 @@ validation_new (ValidationStyle vs, char const *title,
 void
 validation_ref (Validation *v)
 {
+	g_return_if_fail (v != NULL);
 	v->ref_count++;
 }
 
 void
 validation_unref (Validation *v)
 {
+	g_return_if_fail (v != NULL);
+
 	v->ref_count--;
 	
 	if (v->ref_count < 1) {
@@ -59,4 +71,18 @@ validation_unref (Validation *v)
 		style_condition_unref (v->sc);
 		g_free (v);
 	}
+}
+
+void
+validation_link (Validation *v, Sheet *sheet)
+{
+	g_return_if_fail (v != NULL);
+	style_condition_link (v->sc, sheet);
+}
+
+void
+validation_unlink (Validation *v)
+{
+	g_return_if_fail (v != NULL);
+	style_condition_unlink (v->sc);
 }

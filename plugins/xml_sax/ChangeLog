@@ -1,3 +1,9 @@
+2001-12-18  Jody Goldberg <jody@gnome.org>
+
+	* xml-sax-read.c (xml_sax_style_condition_expr) :
+	  style_condition_new_expr change.
+	(xml_sax_merge) : parse_range change.
+
 2001-12-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 0.99.0

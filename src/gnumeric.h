@@ -72,6 +72,7 @@ typedef struct _MStyle		        MStyle;
 
 typedef struct _SheetStyleData	        SheetStyleData;
 typedef struct _StyleRegion	        StyleRegion;
+typedef GSList				StyleList;
 
 typedef struct _EvalPos		        EvalPos;
 typedef struct _ParsePos	        ParsePos;

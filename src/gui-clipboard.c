@@ -28,8 +28,8 @@
 #include <ctype.h>
 
 /* The name of our clipboard atom and the 'magic' info number */
-#define GNUMERIC_ATOM_NAME "GNUMERIC_CLIPBOARD_XML"
-#define GNUMERIC_ATOM_INFO 2000
+#define GNUMERIC_ATOM_NAME "application/x-gnumeric"
+#define GNUMERIC_ATOM_INFO 2001
 
 /* The name of the TARGETS atom (don't change unless you know what you are doing!) */
 #define TARGETS_ATOM_NAME "TARGETS"
@@ -113,7 +113,7 @@ x_selection_to_cell_region (WorkbookControlGUI *wbcg, const char *src, int len)
 				sr->style = mstyle_new_default ();
 				mstyle_set_format (sr->style, iterator->data);
 
-				cr->styles = g_list_prepend (cr->styles, sr);
+				cr->styles = g_slist_prepend (cr->styles, sr);
 
 				iterator = g_slist_next (iterator);
 
@@ -144,6 +144,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time,
 {
 	GdkAtom atom_targets  = gdk_atom_intern (TARGETS_ATOM_NAME, FALSE);
 	GdkAtom atom_gnumeric = gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE);
+	GdkAtom atom_html = gdk_atom_intern ("text/html", FALSE);
 	PasteTarget *pt = wbcg->clipboard_paste_callback_data;
 	CellRegion *content = NULL;
 	gboolean region_pastable = FALSE;
@@ -152,7 +153,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time,
 
 	if (sel->target == atom_targets) { /* The data is a list of atoms */
 		GdkAtom *atoms = (GdkAtom *) sel->data;
-		gboolean gnumeric_format;
+		gboolean gnumeric_format, html_format;
 		GtkWidget *toplevel;
 		int atom_count = (sel->length / sizeof (GdkAtom));
 		int i;
@@ -167,22 +168,18 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time,
 			return;
 		}
 
-		/*
-		 * Iterate over the atoms and try to find the gnumeric atom
-		 */
-		gnumeric_format = FALSE;
-		for (i = 0; i < atom_count; i++) {
-			if (atoms[i] == atom_gnumeric) {
-				/* Hooya! other app == gnumeric */
+		gnumeric_format = html_format = FALSE;
+		/* Does the remote app support Gnumeric xml ? */
+		for (i = 0; i < atom_count; i++)
+			if (atoms[i] == atom_gnumeric)
 				gnumeric_format = TRUE;
-				break;
-			}
-		}
+			else if (atoms[i] == atom_html)
+				html_format = TRUE;
 
 		/* NOTE : We don't release the date resources
 		 * (wbcg->clipboard_paste_callback_data), the
 		 * reason for this is that we will actually call ourself
-		 * again (indirectly trough the gtk_selection_convert
+		 * again (indirectly through the gtk_selection_convert
 		 * and that call _will_ free the data (and also needs it).
 		 * So we won't release anything.
 		 */
@@ -196,28 +193,32 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time,
 			gtk_selection_convert (toplevel,
 					       GDK_SELECTION_PRIMARY,
 					       atom_gnumeric, time);
+#if 0
+		else if (html_format)
+			gtk_selection_convert (toplevel,
+					       GDK_SELECTION_PRIMARY,
+					       atom_html, time);
+#endif
 		else
 			gtk_selection_convert (toplevel,
 					       GDK_SELECTION_PRIMARY,
 					       GDK_SELECTION_TYPE_STRING, time);
 
-	} else if (sel->target == atom_gnumeric) { /* The data is the gnumeric specific XML interchange format */
-
-		if (gnumeric_xml_read_selection_clipboard (wbc, &content, sel->data) == 0)
-			region_pastable = TRUE;
-
+	} else if (sel->target == atom_gnumeric) {
+		/* The data is the gnumeric specific XML interchange format */
+		content = xml_cellregion_read (wbc, pt->sheet, sel->data, sel->length);
+#if 0
+	} else if (sel->target == atom_html) {
+		content = html_cellregion_read (wbc, pt->sheet, sel->data, sel->length);
+#endif
 	} else {  /* The data is probably in String format */
-		region_pastable = TRUE;
-
+		free_closure = TRUE;
 		/* Did X provide any selection? */
-		if (sel->length < 0) {
-			region_pastable = FALSE;
-			free_closure = TRUE;
-		} else
+		if (sel->length > 0)
 			content = x_selection_to_cell_region (wbcg, sel->data, sel->length);
 	}
 
-	if (region_pastable) {
+	if (content != NULL) {
 		/*
 		 * if the conversion from the X selection -> a cellregion
 		 * was canceled this may have content sized -1,-1
@@ -282,14 +283,10 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data,
 	 * to be absolutely sure I check if the atom checks out too
 	 */
 	if (selection_data->target == atom_gnumeric && info == GNUMERIC_ATOM_INFO) {
-		xmlChar *buffer;
 		int buffer_size;
-
-		gnumeric_xml_write_selection_clipboard (wbc, sheet, &buffer, &buffer_size);
-
+		xmlChar *buffer = xml_cellregion_write (wbc, clipboard, &buffer_size);
 		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING, 8,
 					(char *) buffer, buffer_size);
-
 		xmlFree (buffer);
 		to_gnumeric = TRUE;
 	} else {
@@ -353,6 +350,7 @@ x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt, guint32 ti
 		GDK_SELECTION_PRIMARY,
 		gdk_atom_intern (TARGETS_ATOM_NAME, FALSE), time);
 }
+
 /**
  * x_clipboard_bind_workbook:
  *

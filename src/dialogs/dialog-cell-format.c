@@ -2029,30 +2029,26 @@ validation_rebuild_validation (FormatState *state)
 		int operator        = gnumeric_option_menu_get_selected_index (state->validation.operator);
 		
 		if (operator > 1) {
-			ExprTree *bound;
-
-			bound = validation_entry_to_expr (state->sheet, state->validation.bound1.entry);
-			if (bound) {
-				sc = scl = style_condition_new_expr (state->sheet, (StyleConditionOperator) operator - 2, bound);
-				expr_tree_unref (bound);
-			}
+			ExprTree *bound = validation_entry_to_expr (state->sheet, state->validation.bound1.entry);
+			if (bound != NULL)
+				sc = scl = style_condition_new_expr ((StyleConditionOperator) operator - 2, bound);
 		} else {
-			ExprTree *bound1, *bound2;
-			
-			bound1 = validation_entry_to_expr (state->sheet, state->validation.bound1.entry);
-			bound2 = validation_entry_to_expr (state->sheet, state->validation.bound2.entry);
+			ExprTree *bound1 = validation_entry_to_expr (state->sheet, state->validation.bound1.entry);
+			ExprTree *bound2 = validation_entry_to_expr (state->sheet, state->validation.bound2.entry);
 
-			if (bound1 && bound2) {
-				sc  = style_condition_new_expr (state->sheet, operator == 0 ? SCO_GREATER_EQUAL : SCO_LESS, bound1);
-				scl = style_condition_new_expr (state->sheet, operator == 0 ? SCO_LESS_EQUAL : SCO_GREATER, bound2);
+			if (bound1 == NULL) {
+				if (bound2 != NULL)
+					expr_tree_unref (bound2);
+			} else if (bound2 == NULL)
+				expr_tree_unref (bound1);
+			else {
+				sc  = style_condition_new_expr (operator == 0 ? SCO_GREATER_EQUAL : SCO_LESS, bound1);
+				scl = style_condition_new_expr (operator == 0 ? SCO_LESS_EQUAL : SCO_GREATER, bound2);
 
 				if (operator == 0)
 					style_condition_chain (sc, SCB_AND_PAIR, scl);
 				else
 					style_condition_chain (sc, SCB_OR_PAIR, scl);
-
-				expr_tree_unref (bound2);
-				expr_tree_unref (bound1);
 			}
 		}
 

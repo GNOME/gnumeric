@@ -1474,7 +1474,7 @@ cmd_format (WorkbookControl *wbc, Sheet *sheet,
 		os->styles = sheet_style_get_list (sheet, &range);
 		os->pos = range.start;
 
-		me->parent.size += g_list_length (os->styles);
+		me->parent.size += g_slist_length (os->styles);
 		me->old_styles = g_slist_append (me->old_styles, os);
 	}
 
@@ -2673,7 +2673,7 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	if (me->parent.size == 1)
 		me->parent.size += (g_list_length (me->content->content) +
-				    g_list_length (me->content->styles) +
+				    g_slist_length (me->content->styles) +
 				    1);
 	/* Queue depends of region as a block beforehand */
 	sheet_region_queue_recalc (me->dst.sheet, &me->dst.range);

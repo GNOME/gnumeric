@@ -1715,7 +1715,7 @@ cb_hash_to_list (gpointer key, gpointer	value, gpointer	user_data)
 		return TRUE;
 	}
 
-	*res = g_list_prepend (*res, value);
+	*res = g_slist_prepend (*res, value);
 	return FALSE;
 }
 
@@ -1763,10 +1763,10 @@ sheet_style_get_list (Sheet const *sheet, Range const *r)
  */
 SpanCalcFlags
 sheet_style_set_list (Sheet *sheet, CellPos const *corner,
-		      gboolean transpose, GList const *list)
+		      gboolean transpose, StyleList const *list)
 {
 	SpanCalcFlags spanflags = SPANCALC_SIMPLE;
-	GList const *l;
+	StyleList const *l;
 
 	g_return_val_if_fail (IS_SHEET (sheet), spanflags);
 
@@ -1801,7 +1801,7 @@ style_list_free (StyleList *list)
 
 	for (l = list; l; l = l->next)
 		style_region_free (l->data);
-	g_list_free (list);
+	g_slist_free (list);
 }
 
 /**

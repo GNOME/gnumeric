@@ -128,7 +128,7 @@ construct_consolidate (ConsolidateState *state)
 		return NULL;
 	}
 	
-	if (parse_range (t, &r.start.col, &r.start.row, &r.end.col, &r.end.row)) {
+	if (parse_range (t, &r)) {
 		if (!consolidate_set_destination (cs, state->sheet, &r))
 			g_warning ("Error while setting destination! This should not happen");
 		g_free (t);
@@ -151,7 +151,7 @@ construct_consolidate (ConsolidateState *state)
 		char *tmp[1];
 		
 		gtk_clist_get_text (state->gui.areas, i, 0, tmp);
-		if (parse_range (tmp[0], &r.start.col, &r.start.row, &r.end.col, &r.end.row)) {
+		if (parse_range (tmp[0], &r)) {
 			if (!consolidate_add_source (cs, state->sheet, &r)) {
 				state->construct_error = g_strdup_printf (
 					_("Source region %s overlaps with the destination region"), tmp[0]);

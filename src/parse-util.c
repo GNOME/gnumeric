@@ -83,18 +83,10 @@ cellref_name (CellRef const *cell_ref, ParsePos const *pp, gboolean no_sheetname
 
 	/* If it is a non-local reference, add the path to the external sheet */
 	if (sheet != NULL && !no_sheetname) {
-		char *s;
-
-		s = g_strconcat (sheet->name_quoted, "!", buffer, NULL);
-
-		if (sheet->workbook != pp->wb) {
-			char *n;
-
-			n = g_strconcat ("[", sheet->workbook->filename, "]", s, NULL);
-			g_free (s);
-			s = n;
-		}
-		return s;
+		if (sheet->workbook == pp->wb)
+			return g_strconcat (sheet->name_quoted, "!", buffer, NULL);
+		return g_strconcat ("[", sheet->workbook->filename, "]",
+				    sheet->name_quoted, "!", buffer, NULL);
 	} else
 		return g_strdup (buffer);
 }

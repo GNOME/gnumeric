@@ -565,11 +565,11 @@ xml_write_style_condition_chain (XmlParseContext *ctxt, StyleCondition *sc)
 
 			if (sci->u.expr.dep.expression) {
 				Sheet *sheet = sci->u.expr.dep.sheet;
-				ParsePos pos, *pp;
+				ParsePos pos;
 				char *val, *tstr;
 			
-				pp = parse_pos_init (&pos, sheet->workbook, sheet, 0, 0);
-				val = expr_tree_as_string (sci->u.expr.dep.expression, pp);
+				val = expr_tree_as_string (sci->u.expr.dep.expression,
+					parse_pos_init (&pos, sheet->workbook, sheet, 0, 0));
 				
 				tstr = xmlEncodeEntitiesReentrant (ctxt->doc, val);
 				xml_node_set_cstr (ptr, "Expression", val);
@@ -641,7 +641,7 @@ xml_read_style_condition_chain (XmlParseContext *ctxt, xmlNodePtr tree)
 				} else
 					g_warning ("StyleConditionExpression without Expression!");
 			
-				sc = style_condition_new_expr (ctxt->sheet, op, expr);
+				sc = style_condition_new_expr (op, expr);
 				expr_tree_unref (expr);
 			} else
 				fprintf (stderr,
@@ -1308,9 +1308,7 @@ xml_read_print_repeat_range (XmlParseContext *ctxt, xmlNodePtr tree, char *name,
 
 		if (s) {
 			Range r;
-			if (parse_range (s,
-					 &r.start.col, &r.start.row,
-					 &r.end.col, &r.end.row)) {
+			if (parse_range (s, &r)) {
 				range->range = r;
 				range->use   = TRUE;
 			}
@@ -1619,7 +1617,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
  * Create an XML subtree of doc equivalent to the given StyleRegion.
  */
 static xmlNodePtr
-xml_write_style_region (XmlParseContext *ctxt, StyleRegion *region)
+xml_write_style_region (XmlParseContext *ctxt, StyleRegion const *region)
 {
 	xmlNodePtr cur, child;
 
@@ -1741,7 +1739,7 @@ xml_write_colrow_info (ColRowInfo *info, void *user_data)
  * set col and row to be the absolute coordinates
  */
 static xmlNodePtr
-xml_write_cell_and_position (XmlParseContext *ctxt, Cell *cell, int col, int row)
+xml_write_cell_and_position (XmlParseContext *ctxt, Cell const *cell, ParsePos const *pp)
 {
 	xmlNodePtr cur, child = NULL;
 	char *text, *tstr;
@@ -1751,8 +1749,8 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell *cell, int col, int row
 	    (cell_has_expr (cell) && expr_tree_is_shared (cell->base.expression));
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Cell", NULL);
-	xml_node_set_int (cur, "Col", col);
-	xml_node_set_int (cur, "Row", row);
+	xml_node_set_int (cur, "Col", pp->eval.col);
+	xml_node_set_int (cur, "Row", pp->eval.row);
 
 	/* Only the top left corner of an array needs to be saved (>= 0.53) */
 	if (NULL != (ar = cell_is_array (cell)) && (ar->y != 0 || ar->x != 0))
@@ -1775,10 +1773,8 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell *cell, int col, int row
 	if (write_contents) {
 		if (cell_has_expr (cell)) {
 			char *tmp;
-			ParsePos pp;
 
-			tmp = expr_tree_as_string (cell->base.expression,
-				parse_pos_init_cell (&pp, cell));
+			tmp = expr_tree_as_string (cell->base.expression, pp);
 			text = g_strconcat ("=", tmp, NULL);
 			g_free (tmp);
 		} else
@@ -1817,9 +1813,11 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell *cell, int col, int row
  * Create an XML subtree of doc equivalent to the given Cell.
  */
 static xmlNodePtr
-xml_write_cell (XmlParseContext *ctxt, Cell *cell)
+xml_write_cell (XmlParseContext *ctxt, Cell const *cell)
 {
-	return xml_write_cell_and_position (ctxt, cell, cell->pos.col, cell->pos.row);
+	ParsePos pp;
+	return xml_write_cell_and_position (ctxt, cell,
+		parse_pos_init_cell (&pp, cell));
 }
 
 /**
@@ -1975,8 +1973,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		}
 	}
 
-	child = tree->xmlChildrenNode;
-	while (child != NULL) {
+	for (child = tree->xmlChildrenNode; child != NULL ; child = child->next) {
 		/*
 		 * This style code is a gross anachronism that slugs performance
 		 * in the common case this data won't exist. In the long term all
@@ -2008,7 +2005,6 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
  				xmlFree (comment);
 			}
  		}
-		child = child->next;
 	}
 	if (content == NULL) {
 		content = xmlNodeGetContent (tree);
@@ -2065,64 +2061,6 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		cell_set_value (ret, value_new_empty (), NULL);
 
 	return ret;
-}
-
-/*
- * Create a CellCopy equivalent to the XML subtree of doc.
- *
- */
-static CellCopy *
-xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree)
-{
-	CellCopy *ret;
-	xmlNodePtr child;
-
-	if (strcmp (tree->name, "Cell")) {
-		fprintf (stderr,
-		 "xml_read_cell_copy: invalid element type %s, 'Cell' expected`\n",
-			 tree->name);
-		return NULL;
-	}
-
-	ret           = g_new (CellCopy, 1);
-	ret->type     = CELL_COPY_TYPE_TEXT;
-	ret->u.text   = NULL;
-
-	xml_node_get_int (tree, "Col", &ret->col_offset);
-	xml_node_get_int (tree, "Row", &ret->row_offset);
-
-	for (child = tree->xmlChildrenNode; child != NULL ; child = child->next)
-		if (!strcmp (child->name, "Content"))
-			ret->u.text = xmlNodeGetContent (child);
-
-	if (ret->u.text == NULL)
-		ret->u.text = xmlNodeGetContent (tree);
-
-	/*
-	 * Here we see again that the text was malloc'ed and thus should be xmlFreed and
-	 * not g_free 'd
-	 */
-	if (ret->u.text != NULL) {
-		char *temp = g_strdup (ret->u.text);
-
-		xmlFree (ret->u.text);
-		ret->u.text = temp;
-	}
-
-	return ret;
-}
-
-/*
- * Create an XML subtree equivalent to the given cell and add it to the parent
- */
-static void
-xml_write_cell_to (gpointer key, gpointer value, gpointer data)
-{
-	XmlParseContext *ctxt = (XmlParseContext *) data;
-	xmlNodePtr cur;
-
-	cur = xml_write_cell (ctxt, (Cell *) value);
-	xmlAddChild (ctxt->parent, cur);
 }
 
 static void
@@ -2468,13 +2406,8 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 		}
 	}
 
-	/*
-	 * Cells informations
-	 */
-	cells = xmlNewChild (cur, ctxt->ns, "Cells", NULL);
-	ctxt->parent = cells;
-	/* g_hash_table_foreach (sheet->cell_hash, xml_write_cell_to, ctxt); */
 	/* save cells in natural order */
+	cells = xmlNewChild (cur, ctxt->ns, "Cells", NULL);
 	{
 		gint i ,n ;
 		n = g_hash_table_size (sheet->cell_hash);
@@ -2486,7 +2419,8 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 			       sizeof (gpointer),
 			       natural_order_cmp);
 			for (i = 0; i < n; i++)
-				xml_write_cell_to (NULL, g_ptr_array_index (natural, i), ctxt);
+				cur = xml_write_cell (ctxt, g_ptr_array_index (natural, i));
+				xmlAddChild (cells, cur);
 			g_ptr_array_free (natural,TRUE);
 		}
 	}
@@ -2497,58 +2431,6 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	solver = xml_write_solver (ctxt, &sheet->solver_parameters);
 	if (solver)
 		xmlAddChild (cur, solver);
-
-	return cur;
-}
-
-static xmlNodePtr
-xml_write_selection_clipboard (XmlParseContext *ctxt, Sheet *sheet)
-{
-	xmlNodePtr cur;
-	xmlNodePtr styles;
-	xmlNodePtr cells;
-	xmlNodePtr cell_xml;
-	GSList *range_list, *ptr;
-
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "ClipboardRange", NULL);
-	if (cur == NULL)
-		return NULL;
-
-	/* Write styles */
-	range_list = selection_get_ranges (sheet, FALSE);
-	for (ptr = range_list; ptr != NULL ; ptr = ptr->next) {
-		Range const *range = ptr->data;
-		styles = xml_write_styles (ctxt,
-			sheet_style_get_list (sheet, range));
-		if (styles)
-			xmlAddChild (cur, styles);
-	}
-
-	/* Write selected regions */
-	cells = xmlNewChild (cur, ctxt->ns, "Cells", NULL);
-	ctxt->parent = cells;
-
-	for (ptr = range_list; ptr != NULL ; ptr = ptr->next) {
-		int row, col;
-		Range *range = ptr->data;
-
-		for (row = range->start.row; row <= range->end.row; row++) {
-
-			for (col = range->start.col; col <= range->end.col; col++) {
-				Cell *cell = sheet_cell_get (sheet, col, row);
-
-				if (cell) {
-
-					cell_xml = xml_write_cell_and_position (ctxt, cell, col - range->start.col, row - range->start.row);
-					xmlAddChild (ctxt->parent, cell_xml);
-				}
-			}
-		}
-
-		/* NOTE : The list is being invalidated */
-		g_free (range);
-	}
-	g_slist_free (range_list);
 
 	return cur;
 }
@@ -2566,9 +2448,7 @@ xml_read_merged_regions (XmlParseContext const *ctxt, xmlNodePtr sheet)
 		char *content = xmlNodeGetContent (region);
 		Range r;
 		if (content != NULL) {
-			if (parse_range (content,
-					 &r.start.col, &r.start.row,
-					 &r.end.col, &r.end.row))
+			if (parse_range (content, &r))
 				sheet_merge_add (NULL, ctxt->sheet, &r, FALSE);
 			xmlFree (content);
 		}
@@ -2588,28 +2468,6 @@ xml_read_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 	for (regions = child->xmlChildrenNode; regions != NULL; regions = regions->next) {
 		xml_read_style_region (ctxt, regions);
 		count_io_progress_update (ctxt->io_context, 1);
-	}
-}
-
-/*
- * Read styles and add them to a cellregion
- */
-static void
-xml_read_styles_ex (XmlParseContext *ctxt, xmlNodePtr tree, CellRegion *cr)
-{
-	xmlNodePtr child;
-	xmlNodePtr regions;
-
-	child = e_xml_get_child_by_name (tree, "Styles");
-	if (child == NULL)
-		return;
-
-	for (regions = child->xmlChildrenNode; regions; regions = regions->next) {
-		StyleRegion *region = g_new0 (StyleRegion, 1);
-
-		region->style = xml_read_style_region_ex (ctxt, regions, &region->range);
-
-		cr->styles = g_list_prepend (cr->styles, region);
 	}
 }
 
@@ -2835,57 +2693,305 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	return sheet;
 }
 
-/*
- * Reads the tree data into the sheet and pastes cells relative to topcol and toprow.
- */
-static CellRegion *
-xml_read_selection_clipboard (XmlParseContext *ctxt, xmlNodePtr tree)
+/****************************************************************************/
+
+static CellCopy *
+cell_copy_new (void)
 {
-	CellRegion *cr;
-	xmlNodePtr child;
-	xmlNodePtr cells;
+	Cell *cell;
+	CellCopy *cc;
+	
+	cell = g_new0 (Cell, 1);
+	cell->base.sheet   = NULL;
+	cell->base.flags = DEPENDENT_CELL;
+	cell->pos.col = -1;
+	cell->pos.row = -1;
+	cell->value   = value_new_empty ();
+	cell->format  = NULL;
 
-	if (strcmp (tree->name, "ClipboardRange")){
+	cc         = g_new (CellCopy, 1);
+	cc->type   = CELL_COPY_TYPE_CELL;
+	cc->u.cell = cell;
+
+	return cc;
+}
+
+static void
+xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
+		    CellRegion *cr, Sheet *sheet)
+{
+	int tmp;
+	CellCopy *cc;
+	Cell     *cell;
+	xmlNode  *child;
+	xmlChar	 *content;
+	int array_cols, array_rows, shared_expr_index = -1;
+	gboolean is_post_52_array = FALSE;
+	gboolean is_value = FALSE;
+	ValueType value_type = VALUE_EMPTY; /* Make compiler shut up */
+	StyleFormat *value_fmt = NULL;
+	ParsePos pp;
+
+	if (strcmp (tree->name, "Cell")) {
 		fprintf (stderr,
-			 "xml_read_selection_clipboard: invalid element type %s, 'ClipboardRange' expected\n",
+		 "xml_read_cell_copy: invalid element type %s, 'Cell' expected`\n",
 			 tree->name);
+		return;
 	}
-	child = tree->xmlChildrenNode;
 
-	ctxt->sheet = NULL;
+	cc = cell_copy_new ();
+	cell = cc->u.cell;
+	xml_node_get_int (tree, "Col", &cell->pos.col);
+	xml_node_get_int (tree, "Row", &cell->pos.row);
+	cc->col_offset = cell->pos.col - cr->base.col;
+	cc->row_offset = cell->pos.row - cr->base.row;
+	parse_pos_init (&pp, NULL, sheet, cell->pos.col, cell->pos.row);
 
-	cr = cellregion_new (NULL);
+	/* Is this a post 0.52 shared expression */
+	if (!xml_node_get_int (tree, "ExprID", &shared_expr_index))
+		shared_expr_index = -1;
 
-	/*
-	 * This nicely puts all the styles into the cr->styles list
-	 */
-	xml_read_styles_ex (ctxt, tree, cr);
-	xml_read_cell_styles (ctxt, tree);
+	is_post_52_array =
+		xml_node_get_int (tree, "Rows", &array_rows) &&
+		xml_node_get_int (tree, "Cols", &array_cols);
+	if (xml_node_get_int (tree, "ValueType", &tmp)) {
+		char *fmt;
 
-	/*
-	 * Read each cell and add them to the celllist
-	 * also keep track of the highest column and row numbers
-	 * passed
-	 */
-	child = e_xml_get_child_by_name (tree, "Cells");
-	if (child != NULL) {
-		for (cells = child->xmlChildrenNode; cells != NULL ; cells = cells->next) {
-			CellCopy *cc = xml_read_cell_copy (ctxt, cells);
-			if (cc) {
-				if (cr->cols < cc->col_offset + 1)
-					cr->cols = cc->col_offset + 1;
-				if (cr->rows  < cc->row_offset + 1)
-					cr->rows  = cc->row_offset + 1;
+		value_type = tmp;
+		is_value = TRUE;
 
-				cr->content = g_list_prepend (cr->content, cc);
-			}
+		fmt = xmlGetProp (tree, "ValueFormat");
+		if (fmt != NULL) {
+			value_fmt = style_format_new_XL (fmt, FALSE);
+			xmlFree (fmt);
 		}
 	}
 
-	xml_dispose_read_cell_styles (ctxt);
+	child = e_xml_get_child_by_name (tree, "Content");
+	content = xmlNodeGetContent (child);
+	if (content != NULL) {
+		if (is_post_52_array) {
+			ExprTree *expr;
+
+			g_return_if_fail (content[0] == '=');
+
+			expr = expr_parse_str_simple (content, &pp);
+
+			g_return_if_fail (expr != NULL);
+#warning TODO : arrays
+		} else if (is_value) {
+			cell->value = value_new_from_string (value_type, content);
+			cell->format = value_fmt;
+		} else {
+			Value *val;
+			ExprTree *expr;
+
+			value_fmt = parse_text_value_or_expr (&pp,
+				content, &val, &expr, NULL);
+
+			if (val != NULL) {	/* String was a value */
+				cell->value = val;
+				cell->format = value_fmt;
+			} else {		/* String was an expression */
+				expr_tree_ref (expr);
+				cell->base.expression = expr;
+				cell->base.flags |= CELL_HAS_EXPRESSION;
+			}
+		}
+
+		if (shared_expr_index > 0) {
+			if (shared_expr_index == (int)ctxt->shared_exprs->len + 1) {
+				if (!cell_has_expr (cell)) {
+					/* The parse failed, but we know it is
+					 * an expression.  this can happen
+					 * until we get proper interworkbook
+					 * linkages.  Force the content into
+					 * being an expression.
+					 */
+					cell->base.expression = expr_tree_new_constant (
+						value_new_string (
+							  gnumeric_char_start_expr_p (content)));
+					cell->base.flags |= CELL_HAS_EXPRESSION;
+					value_release (cell->value);
+					cell->value = NULL;
+				}
+				g_ptr_array_add (ctxt->shared_exprs,
+						 cell->base.expression);
+			} else {
+				g_warning ("XML-IO: Duplicate or invalid shared expression: %d",
+					   shared_expr_index);
+			}
+		}
+		xmlFree (content);
+	} else if (shared_expr_index > 0) {
+		if (shared_expr_index <= (int)ctxt->shared_exprs->len + 1) {
+			ExprTree *expr = g_ptr_array_index (ctxt->shared_exprs,
+							    shared_expr_index - 1);
+			expr_tree_ref (expr);
+			cell->base.expression = expr;
+			cell->base.flags |= CELL_HAS_EXPRESSION;
+		} else {
+			g_warning ("XML-IO: Missing shared expression");
+		}
+	}
+
+	cr->content = g_list_prepend (cr->content, cc);
+}
+
+/**
+ * xml_clipboard_read :
+ * @wbc : where to report errors.
+ * @buffer : the buffer to parse.
+ * @length : the size of the buffer.
+ *
+ * Attempt to parse the data in @buffer assuming it is in Gnumeric
+ * ClipboardRange format.
+ *
+ * returns a CellRegion on success or NULL on failure.
+ */
+CellRegion *
+xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar *buffer, int length)
+{
+	XmlParseContext *ctxt;
+	xmlNode	   *l, *clipboard;
+	xmlDoc	   *doc;
+	CellRegion *cr;
+	int dummy;
+
+	g_return_val_if_fail (buffer != NULL, NULL);
+
+	doc = xmlParseDoc (buffer);
+	if (doc == NULL) {
+		gnumeric_error_read (COMMAND_CONTEXT (wbc),
+			_("Unparsable xml in clipboard"));
+		return NULL;
+	}
+	clipboard = doc->xmlRootNode;
+	if (clipboard == NULL || strcmp (clipboard->name, "ClipboardRange")) {
+		xmlFreeDoc (doc);
+		gnumeric_error_read (COMMAND_CONTEXT (wbc),
+			_("Clipboard is in unknown format"));
+		return NULL;
+	}
+
+	ctxt = xml_parse_ctx_new (doc, NULL);
+	cr = cellregion_new (NULL);
+
+	xml_node_get_int (clipboard, "Cols", &cr->cols);
+	xml_node_get_int (clipboard, "Rows", &cr->rows);
+	xml_node_get_int (clipboard, "BaseCol", &cr->base.col);
+	xml_node_get_int (clipboard, "BaseRow", &cr->base.row);
+	/* if it exists it is TRUE */
+	cr->not_as_content = xml_node_get_int (clipboard, "NotAsContent", &dummy);
+
+	l = e_xml_get_child_by_name (clipboard, "Styles");
+	if (l != NULL)
+		for (l = l->xmlChildrenNode; l != NULL ; l = l->next) {
+			StyleRegion *sr = g_new (StyleRegion, 1);
+			sr->style = xml_read_style_region_ex (ctxt, l, &sr->range);
+			cr->styles = g_slist_prepend (cr->styles, sr);
+		}
+
+	l = e_xml_get_child_by_name (clipboard, "MergedRegions");
+	if (l != NULL)
+		for (l = l->xmlChildrenNode; l != NULL ; l = l->next) {
+			char *content = xmlNodeGetContent (l);
+			Range r;
+			if (content != NULL) {
+				if (parse_range (content, &r))
+					cr->merged = g_slist_prepend (cr->merged, 
+						range_dup (&r));
+				xmlFree (content);
+			}
+		}
+
+	l = e_xml_get_child_by_name (clipboard, "Cells");
+	if (l != NULL)
+		for (l = l->xmlChildrenNode; l != NULL ; l = l->next)
+			xml_read_cell_copy (ctxt, l, cr, sheet);
+
+	xml_parse_ctx_destroy (ctxt);
+	xmlFreeDoc (doc);
 
 	return cr;
 }
+
+/**
+ * xml_cellregion_write :
+ * @wbc : where to report errors.
+ * @cr  : the content to store.
+ * @size: store the size of the buffer here.
+ *
+ * Caller is responsible for xmlFree-ing the result.
+ * returns NULL on error
+ **/
+xmlChar *
+xml_cellregion_write (WorkbookControl *wbc, CellRegion *cr, int *size)
+{
+	XmlParseContext *ctxt;
+	xmlNode   *clipboard, *container, *cell_node;
+	GSList    *ptr;
+	StyleList *s_ptr;
+	CellCopyList *c_ptr;
+	xmlChar	  *buffer;
+	ParsePos   pp;
+
+	g_return_val_if_fail (cr != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (cr->origin_sheet), NULL);
+
+	/* Create the tree */
+	ctxt = xml_parse_ctx_new (xmlNewDoc ("1.0"), NULL);
+	clipboard = xmlNewDocNode (ctxt->doc, ctxt->ns, "ClipboardRange", NULL);
+	xml_node_set_int (clipboard, "Cols", cr->cols);
+	xml_node_set_int (clipboard, "Rows", cr->rows);
+	xml_node_set_int (clipboard, "BaseCol", cr->base.col);
+	xml_node_set_int (clipboard, "BaseRow", cr->base.row);
+	if (cr->not_as_content)
+		xml_node_set_int (clipboard, "NotAsContent", 1);
+
+	/* styles */
+	if (cr->styles != NULL)
+		container = xmlNewChild (clipboard, clipboard->ns, "Styles", NULL);
+	for (s_ptr = cr->styles ; s_ptr != NULL ; s_ptr = s_ptr->next) {
+		StyleRegion const *sr = s_ptr->data;
+		xmlAddChild (container, xml_write_style_region (ctxt, sr));
+	}
+
+	/* merges */
+	if (cr->merged != NULL)
+		container = xmlNewChild (clipboard, clipboard->ns, "MergedRegions", NULL);
+	for (ptr = cr->merged ; ptr != NULL ; ptr = ptr->next) {
+		Range const *m_range = ptr->data;
+		xmlNewChild (container, container->ns, "Merge",
+			     range_name (m_range));
+	}
+
+	pp.wb = NULL; /* sneaky way to ensure that sheets are fully qualified */
+	pp.sheet = cr->origin_sheet;
+
+	/* cells */
+	if (cr->content != NULL)
+		container = xmlNewChild (clipboard, clipboard->ns, "Cells", NULL);
+	for (c_ptr = cr->content; c_ptr != NULL ; c_ptr = c_ptr->next) {
+		CellCopy const *c_copy = c_ptr->data;
+
+		g_return_val_if_fail (c_copy->type == CELL_COPY_TYPE_CELL, NULL);
+
+		pp.eval.col = cr->base.col + c_copy->col_offset,
+		pp.eval.row = cr->base.row + c_copy->row_offset;
+		cell_node = xml_write_cell_and_position (ctxt, c_copy->u.cell, &pp);
+		xmlAddChild (container, cell_node);
+	}
+
+	ctxt->doc->xmlRootNode = clipboard;
+	xmlDocDumpMemory (ctxt->doc, &buffer, size);
+	xmlFreeDoc (ctxt->doc);
+	xml_parse_ctx_destroy (ctxt);
+
+	return buffer;
+}
+
+/*****************************************************************************/
 
 /* These will be searched IN ORDER, so add new versions at the top */
 static const struct {
@@ -3007,24 +3113,10 @@ xml_workbook_write (XmlParseContext *ctxt, WorkbookView *wb_view)
 	xml_node_set_int (child, "Height", wb_view->preferred_height);
 	xmlAddChild (cur, child);
 
-	/*
-	 * Cells informations
-	 */
+	/* sheet content */
 	child = xmlNewChild (cur, ctxt->ns, "Sheets", NULL);
-	ctxt->parent = child;
-
-	sheets = sheets0;
-	while (sheets) {
-		xmlNodePtr cur, parent;
-		Sheet *sheet = sheets->data;
-
-		parent = ctxt->parent;
-		cur = xml_sheet_write (ctxt, sheet);
-		ctxt->parent = parent;
-		xmlAddChild (parent, cur);
-
-		sheets = g_list_next (sheets);
-	}
+	for (sheets = sheets0; sheets ; sheets = sheets->next)
+		xmlAddChild (child, xml_sheet_write (ctxt, sheets->data));
 	g_list_free (sheets0);
 
 	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "UIData", NULL);
@@ -3296,81 +3388,6 @@ gnumeric_xml_set_compression (xmlDoc *doc, int compression)
 		xmlSetDocCompressMode (doc, compression);
 }
 
-/*
- * Save a Sheet in Gnumerix XML clipboard format to a @buffer and return
- * the size of the data in @size.  Caller is responsible for xmlFree-ing
- * @buffer.
- *
- * returns 0 in case of success, -1 otherwise.
- */
-int
-gnumeric_xml_write_selection_clipboard (WorkbookControl *wbc, Sheet *sheet,
-					xmlChar **buffer, int *size)
-{
-	xmlDocPtr xml;
-	XmlParseContext *ctxt;
-
-	g_return_val_if_fail (IS_SHEET (sheet), -1);
-
-	/*
-	 * Create the tree
-	 */
-	xml = xmlNewDoc ("1.0");
-	if (xml == NULL) {
-		gnumeric_error_save (COMMAND_CONTEXT (wbc), "");
-		return -1;
-	}
-
-	ctxt = xml_parse_ctx_new (xml, NULL);
-	xml->xmlRootNode = xml_write_selection_clipboard (ctxt, sheet);
-	xml_parse_ctx_destroy (ctxt);
-
-	gnumeric_xml_set_compression (xml, -1);
-	xmlDocDumpMemory (xml, buffer, size);
-	xmlFreeDoc (xml);
-
-	return 0;
-}
-
-/*
- * Parse the gnumeric XML clipboard data in @buffer into a cellregion @cr
- * Cellregion @cr MUST be NULL (it will put a newly allocated cellregion in @cr)
- *
- * returns 0 on success and -1 otherwise.
- */
-int
-gnumeric_xml_read_selection_clipboard (WorkbookControl *wbc, CellRegion **cr,
-				       xmlChar *buffer)
-{
-	xmlDocPtr doc;
-	XmlParseContext *ctxt;
-
-	g_return_val_if_fail (*cr == NULL, -1);
-	g_return_val_if_fail (buffer != NULL, -1);
-
-	/*
-	 * Load the buffer into an XML tree.
-	 */
-	doc = xmlParseDoc (buffer);
-	if (doc == NULL) {
-		gnumeric_error_read (COMMAND_CONTEXT (wbc), "");
-		return -1;
-	}
-	if (doc->xmlRootNode == NULL) {
-		xmlFreeDoc (doc);
-		gnumeric_error_read (COMMAND_CONTEXT (wbc),
-			_("Invalid xml clipboard data. Tree is empty ?"));
-		return -1;
-	}
-
-	ctxt = xml_parse_ctx_new (doc, NULL);
-	*cr = xml_read_selection_clipboard (ctxt, doc->xmlRootNode);
-	xml_parse_ctx_destroy (ctxt);
-
-	xmlFreeDoc (doc);
-
-	return 0;
-}
 
 /*
  * Open an XML file and read a Workbook

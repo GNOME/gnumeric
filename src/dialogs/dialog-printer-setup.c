@@ -1805,21 +1805,13 @@ do_fetch_page_info (PrinterSetupState *state)
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "radio-order-right"));
 	state->pi->print_order = t->active ? PRINT_ORDER_RIGHT_THEN_DOWN : PRINT_ORDER_DOWN_THEN_RIGHT;
 
-	pi->repeat_top.use
-		= parse_range (
-			gtk_entry_get_text (GTK_ENTRY (state->top_entry)),
-			&pi->repeat_top.range.start.col,
-			&pi->repeat_top.range.start.row,
-			&pi->repeat_top.range.end.col,
-			&pi->repeat_top.range.end.row);
+	pi->repeat_top.use = parse_range (
+		gtk_entry_get_text (GTK_ENTRY (state->top_entry)),
+		&pi->repeat_top.range);
 
-	pi->repeat_left.use
-		= parse_range (
-			gtk_entry_get_text (GTK_ENTRY (state->left_entry)),
-			&pi->repeat_left.range.start.col,
-			&pi->repeat_left.range.start.row,
-			&pi->repeat_left.range.end.col,
-			&pi->repeat_left.range.end.row);
+	pi->repeat_left.use = parse_range (
+		gtk_entry_get_text (GTK_ENTRY (state->left_entry)),
+		&pi->repeat_left.range);
 }
 
 static void

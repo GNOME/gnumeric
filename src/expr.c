@@ -1170,6 +1170,7 @@ char *
 expr_tree_as_string (ExprTree const *expr, ParsePos const *pp)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
+	g_return_val_if_fail (pp != NULL, NULL);
 
 	return do_expr_tree_as_string (expr, pp, 0);
 }

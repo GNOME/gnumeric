@@ -176,8 +176,7 @@ dialog_advanced_filter (WorkbookControlGUI *wbcg)
 	Sheet     *sheet;
 	gchar     *helpfile = "filter.html";
 	gint      v, error_flag;
-	gint      list_col_b, list_col_e, list_row_b, list_row_e;
-	gint      crit_col_b, crit_col_e, crit_row_b, crit_row_e;
+	Range	  list, crit;
 	gchar const *text;
 
 	f.type = InPlace;
@@ -249,9 +248,7 @@ loop:
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (list_range));
-	error_flag = parse_range (text, &list_col_b, &list_row_b,
-				  &list_col_e, &list_row_e);
-	if (! error_flag) {
+	if (!parse_range (text, &list)) {
  	        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("You should introduce a valid cell names "
 				   "in 'List Range:'"));
@@ -263,8 +260,7 @@ loop:
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (criteria_range));
-	error_flag = parse_range (text, &crit_col_b, &crit_row_b,
-				  &crit_col_e, &crit_row_e);
+	error_flag = parse_range (text, &crit);
 	if (! error_flag) {
  	        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("You should introduce a valid cell names "
@@ -277,14 +273,9 @@ loop:
 	}
 
 	if (f.type == CopyTo) {
-	        int x, y;
-
+		Range r;
 	        text = gtk_entry_get_text (GTK_ENTRY (copy_to));
-		error_flag = parse_range (text, &dao.start_col, &dao.start_row,
-					  &x, &y);
-		dao.cols = x - dao.start_col + 1;
-		dao.rows = y - dao.start_row + 1;
-		if (! error_flag) {
+		if (!parse_range (text, &r)) {
 		        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 					 _("You should introduce a valid "
 					   "cell range in 'Copy To:'"));
@@ -294,15 +285,19 @@ loop:
 						 GTK_ENTRY (copy_to)->text_length);
 			goto loop;
 		}
+		dao.start_col = r.start.col;
+		dao.start_row = r.end.row;
+		dao.cols = range_width (&r);
+		dao.rows = range_height (&r);
 	}
 
 	switch (f.type) {
 	case InPlace:
 	        dao.type = RangeOutput;
-		dao.start_col = list_col_b;
-		dao.start_row = list_row_b;
-		dao.cols = list_col_e-list_col_b+1;
-		dao.rows = list_row_e-list_row_b+1;
+		dao.start_col = list.start.col;
+		dao.start_row = list.start.row;
+		dao.cols = range_width (&list);
+		dao.rows = range_height (&list);
 		dao.sheet = sheet;
 	        break;
 	case CopyTo:
@@ -318,10 +313,11 @@ loop:
 	}
 	prepare_output (WORKBOOK_CONTROL (wbcg), &dao, "Filtered");
 	error_flag = advanced_filter (WORKBOOK_CONTROL (wbcg),
-				      &dao, list_col_b, list_row_b,
-				      list_col_e, list_row_e,
-				      crit_col_b, crit_row_b,
-				      crit_col_e, crit_row_e,
+				      &dao,
+				      list.start.col, list.start.row,
+				      list.end.col, list.end.row,
+				      crit.start.col, crit.start.row,
+				      crit.end.col, crit.end.row,
 				      unique_only_flag);
 	switch (error_flag) {
 	case OK: break;

@@ -99,20 +99,18 @@ range_parse (Sheet *sheet, char const *range, gboolean strict)
  * Should be merged with range_parse
  */
 gboolean
-parse_range (char const *text, int *start_col, int *start_row,
-	     int *end_col, int *end_row)
+parse_range (char const *text, Range *r)
 {
 	int len;
 
-	if (!parse_cell_name (text, start_col, start_row, FALSE, &len))
+	if (!parse_cell_name (text, &r->start.col, &r->start.row, FALSE, &len))
 		return FALSE;
 	if (text [len] == '\0') {
-		*end_col = *start_col;
-		*end_row = *start_row;
+		r->end = r->start;
 		return TRUE;
 	}
 	return (text[len] == ':' &&
-		parse_cell_name (text + len + 1, end_col, end_row, TRUE, NULL));
+		parse_cell_name (text + len + 1, &r->end.col, &r->end.row, TRUE, NULL));
 }
 
 /**

@@ -177,13 +177,10 @@ load_range (char const *name, Range *r)
 {
 	gboolean success = FALSE;
 	char *str = gnome_config_get_string (name);
-	if (!str)
-		return FALSE;
-
-	success = parse_range (str, 
-			       &r->start.col, &r->start.row,
-			       &r->end.col, &r->end.row);
-	g_free (str);
+	if (str != NULL) {
+		success = parse_range (str, r);
+		g_free (str);
+	}
 	return success;
 }
 

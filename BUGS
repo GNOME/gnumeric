@@ -7,6 +7,12 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+- name refering to deleted sheet
+- change message generation for undo ins col to avoid g_lib problems
+  during translations.
+- Check ref vs link support for validation.
+- ins/del col/row undo with deleted objects (66666)
+
     1. Select b3:c4.
     2. Type "=2" and hit ctrl-shift-enter.
     3. Select c4.
@@ -36,16 +42,11 @@ Pre 1.0 breakage
     : Tino's example of \n\n truncating.
     : How to support @EXAMPLE
 
-- outline numbers
-    : implement 'clicked' callbacks (requires cleanup in the collapse code)
-
 - Names
     : Fix XL named expr import for sheet local names
       * externsheet for biff7 type=3
       * test for unicode
     : Check scoping changes.
-
-- Check ref vs link support for validation.
 
 Long term breakage
 ------------------
@@ -105,6 +106,8 @@ Long term breakage
 - outline mode
     : finish implementing optionally putting markers above/left
     : Make ungroup smarter about handling extra items of lower level at the edges
+    : implement 'clicked' for numbers callbacks (requires cleanup in the collapse code)
+
 - hidden rows/cols
     : Make unhide smarter to find hidden regions on either side of selected ranges.
 

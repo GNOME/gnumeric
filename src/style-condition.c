@@ -79,14 +79,19 @@ static DEPENDENT_MAKE_TYPE (style_condition_expr_dep, &style_condition_expr_dep_
 
 /*********************************************************************************/
 
+/**
+ * style_condition_new_expr :
+ * @op :
+ * @expr :
+ *
+ * Absorbs the reference to the expression.
+ */
 StyleCondition *
-style_condition_new_expr (Sheet *sheet, StyleConditionOperator op,
-			  ExprTree *expr)
+style_condition_new_expr (StyleConditionOperator op, ExprTree *expr)
 {
 	StyleCondition *sc;
 
 	g_return_val_if_fail (expr != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	
 	sc = g_new0 (StyleCondition, 1);
 
@@ -94,9 +99,9 @@ style_condition_new_expr (Sheet *sheet, StyleConditionOperator op,
 	sc->ref_count = 1;
 	
 	sc->u.expr.op        = op;
-	sc->u.expr.dep.sheet = sheet;
+	sc->u.expr.dep.sheet = NULL;
 	sc->u.expr.dep.flags = style_condition_expr_dep_get_dep_type ();
-	dependent_set_expr (&sc->u.expr.dep, expr);
+	sc->u.expr.dep.expression = expr;
 	sc->u.expr.val = NULL;
 	
 	sc->next    = NULL;
@@ -148,6 +153,33 @@ style_condition_ref (StyleCondition *sc)
 	g_return_if_fail (sc->ref_count > 0);
 
 	sc->ref_count++;
+}
+
+void
+style_condition_link (StyleCondition *sc, Sheet *sheet)
+{
+	static CellPos const pos = { 0, 0 };
+	g_return_if_fail (sc != NULL);
+
+	do {
+		g_return_if_fail (sc->u.expr.dep.sheet == NULL);
+		sc->u.expr.dep.sheet = sheet;
+		if (sc->u.expr.dep.expression != NULL)
+			dependent_link (&sc->u.expr.dep, &pos);
+		sc = sc->next;
+	} while (sc != NULL);
+}
+
+void
+style_condition_unlink (StyleCondition *sc)
+{
+	static CellPos const pos = { 0, 0 };
+	g_return_if_fail (sc != NULL);
+	do {
+		if (sc->u.expr.dep.expression != NULL)
+			dependent_unlink (&sc->u.expr.dep, &pos);
+		sc = sc->next;
+	} while (sc != NULL);
 }
 
 void
@@ -258,6 +290,8 @@ style_condition_constraint_eval (StyleConditionConstraint scc, Value *val, Style
 	case SCC_IS_TEXTLEN :
 		g_warning ("Style Condition: 'Is Text Length' not implemented");
 		break;
+	case SCC_IS_CUSTOM :
+		return TRUE;
 	default :
 		g_warning ("Style Condition: Unhandled operator");
 		return FALSE;

@@ -1,3 +1,43 @@
+2001-12-18  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-clipboard.c (x_selection_handler) :  tweak the
+	  interface for serializing a CellRegion.
+	(x_selection_received) : rework the handling of gnumeric -> gnumeric
+	  operations, change the atom to be the mime type, and add hooks to
+	  prepare for html parsing.
+
+	* src/xml-io.c (cell_copy_new) : new.
+	(xml_read_cell_copy) : new.
+	(xml_cellregion_read) : new.
+	(xml_cellregion_write) : new.
+
+2001-12-18  Jody Goldberg <jody@gnome.org>
+
+	* src/parse-util.c (cellref_name) : avoid temporaries.
+
+	* src/validation.c (validation_link) : new.
+	(validation_unlink) : new.
+
+	* src/ranges.c (parse_range) : clean the interface to actually take a
+	  range.
+	* src/print-info.c (load_range) : parse_range change.
+	* src/sheet-object.c (sheet_object_read_xml) : ditto.
+
+	* gnumeric.mime : Add Applix.
+
+	* src/style-condition.c (style_condition_new_expr) : do not link in
+	  on creation, there is no need for a sheet here.
+	(style_condition_constraint_eval) : ignore SCC_IS_CUSTOM.
+	(style_condition_link) : new.
+	(style_condition_unlink) : new.
+
+	* src/mstyle.c (mstyle_link_sheet) : link validation elements.
+	(mstyle_unlink_sheet) : unlink validation elements.
+
+2001-12-17  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-canvas.h (GNUMERIC_CANVAS_FACTOR_Y) : increase.
+
 2001-12-17  Morten Welinder  <terra@diku.dk>
 
 	* src/search.c (search_collect_cells): Improve portability.  (From:

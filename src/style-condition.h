@@ -65,17 +65,21 @@ struct _StyleCondition {
 	StyleConditionBool      next_op;
 };
 
-StyleCondition *style_condition_new_expr       (Sheet *sheet, StyleConditionOperator op,
+StyleCondition *style_condition_new_expr       (StyleConditionOperator op,
 						ExprTree *expr);
 StyleCondition *style_condition_new_constraint (StyleConditionConstraint constraint);
 StyleCondition *style_condition_new_flags      (StyleConditionFlags flags);
 
-void            style_condition_ref   (StyleCondition *sc);
-void            style_condition_unref (StyleCondition *sc);
+void            style_condition_ref    (StyleCondition *sc);
+void            style_condition_unref  (StyleCondition *sc);
+void	 	style_condition_link   (StyleCondition *sc, Sheet *sheet);
+void	 	style_condition_unlink (StyleCondition *sc);
 
-void            style_condition_dump  (StyleCondition *sc);
-StyleCondition *style_condition_chain (StyleCondition *dst, StyleConditionBool op,
-				       StyleCondition *src);
-gboolean        style_condition_eval  (StyleCondition *sc, Value *val, StyleFormat *format);
+void            style_condition_dump   (StyleCondition *sc);
+StyleCondition *style_condition_chain  (StyleCondition *dst, StyleConditionBool op,
+				        StyleCondition *src);
+gboolean        style_condition_eval   (StyleCondition *sc, Value *val,
+					StyleFormat *format);
+
 
 #endif /* GNUMERIC_STYLE_CONDITION_H */

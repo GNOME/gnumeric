@@ -1259,7 +1259,7 @@ xml_sax_style_condition_expr (XMLSaxParseState *state, xmlChar const **attrs)
 	} else
 		g_warning ("StyleConditionExpression without Expression!");
 
-	sc = style_condition_new_expr (state->sheet, op, expr);
+	sc = style_condition_new_expr (op, expr);
 	expr_tree_unref (expr);
 	xml_sax_style_condition_chain (state, sc);
 }
@@ -1536,9 +1536,7 @@ xml_sax_merge (XMLSaxParseState *state)
 	Range r;
 	g_return_if_fail (state->content->len > 0);
 
-	if (parse_range (state->content->str,
-			 &r.start.col, &r.start.row,
-			 &r.end.col, &r.end.row))
+	if (parse_range (state->content->str, &r))
 		sheet_merge_add (NULL, state->sheet, &r, FALSE);
 }
 

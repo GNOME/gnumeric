@@ -699,6 +699,9 @@ mstyle_link_sheet (MStyle *style, Sheet *sheet)
 	style->linked_sheet = sheet;
 	style->link_count = 1;
 
+	if (mstyle_is_element_set (style, MSTYLE_VALIDATION))
+		validation_link (style->elements[MSTYLE_VALIDATION].u.validation, sheet);
+
 	d(("link sheet %p = 1\n", style));
 	return style;
 }
@@ -727,7 +730,9 @@ mstyle_unlink (MStyle *style)
 	g_return_if_fail (style->link_count > 0);
 
 	d(("unlink %p = %d\n", style, style->link_count-1));
-	if (style->link_count-- <= 1) {
+	if (style->link_count-- == 1) {
+		if (mstyle_is_element_set (style, MSTYLE_VALIDATION))
+			validation_unlink (style->elements[MSTYLE_VALIDATION].u.validation);
 		sheet_style_unlink (style->linked_sheet, style);
 		style->linked_sheet = NULL;
 		mstyle_unref (style);

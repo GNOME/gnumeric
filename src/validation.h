@@ -24,7 +24,9 @@ struct _Validation {
 
 Validation *validation_new   (ValidationStyle vs, char const *title,
 			      char const *msg, StyleCondition *sc);
-void        validation_ref   (Validation *v);
-void        validation_unref (Validation *v);
+void        validation_ref    (Validation *v);
+void        validation_unref  (Validation *v);
+void        validation_link   (Validation *v, Sheet *sheet);
+void        validation_unlink (Validation *v);
 
 #endif /* GNUMERIC_VALIDATION_H */

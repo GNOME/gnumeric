@@ -8,6 +8,8 @@ Jody:
 	* Fix Exit icon for bonbo build.
 	* Delete the CAPS lock feature from autocorrect.
 	* Fix Chema's sneaky cursor grab.
+	* Applix import for v4.41, add it to the mime types.
+	* Inter-Gnumeric pasting support for merges, and shares.
 
 --------------------------------------------------------------------------
 Gnumeric 0.99.0

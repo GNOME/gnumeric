@@ -1,3 +1,13 @@
+2001-12-18  Jody Goldberg <jody@gnome.org>
+
+	* dialog-consolidate.c (construct_consolidate) : parse_range change.
+	* dialog-printer-setup.c (do_fetch_page_info) : ditto.
+
+	* dialog-cell-format.c (validation_rebuild_validation) : no need
+	  to pass sheets to create the style conditions.
+
+	* dialog-advanced-filter.c (dialog_advanced_filter) : Use Range.
+
 2001-12-16  Jody Goldberg <jody@gnome.org>
 
 	* dialog-stf-main-page.c (stf_dialog_main_page_init) : suppress

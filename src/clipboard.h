@@ -61,7 +61,7 @@ struct _CellRegion {
 	CellPos		 base;
 	int		 cols, rows;
 	CellCopyList	*content;
-	GList		*styles;
+	StyleList	*styles;
 	GSList		*merged;
 	gboolean	 not_as_content;
 };
