@@ -2537,6 +2537,8 @@ workbook_create_standard_toobar (Workbook *wb)
 	/* Undo dropdown list */
 	undo = wb->priv->undo_combo = gtk_combo_stack_new (GNOME_STOCK_PIXMAP_UNDO, TRUE);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (undo), _("Undo"));
+	if (!gnome_preferences_get_toolbar_relief_btn ())
+		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (undo), GTK_RELIEF_NONE);
 	gtk_widget_show (undo);	
 	gtk_signal_connect (GTK_OBJECT (undo), "pop",
 			    (GtkSignalFunc) undo_combo_cmd, wb);
@@ -2544,6 +2546,8 @@ workbook_create_standard_toobar (Workbook *wb)
 	/* Redo dropdown list */
 	redo = wb->priv->redo_combo = gtk_combo_stack_new (GNOME_STOCK_PIXMAP_REDO, TRUE);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (redo), _("Redo"));
+	if (!gnome_preferences_get_toolbar_relief_btn ())
+		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (redo), GTK_RELIEF_NONE);
 	gtk_widget_show (redo);
 	gtk_signal_connect (GTK_OBJECT (redo), "pop",
 			    (GtkSignalFunc) redo_combo_cmd, wb);
