@@ -73,7 +73,7 @@ if (@missing_files) {
             open NEW, "> $file.new" or die "can't open $file.new: $!\n";
             while (<OLD>) {
                 if (/^\s*\#\s*include\s*/) {
-                    print NEW "$&$<$configfile>\n";
+                    print NEW "$&<$configfile>\n";
                     print NEW;
                     last;
                 }
