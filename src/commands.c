@@ -6041,7 +6041,8 @@ typedef struct
 	CellRegion      *content;
 	PasteTarget      dst;
 	Range            src;
-	Sheet           *src_sheet;
+	int              src_sheet_idx;
+	int              dst_sheet_idx;
 	ColRowStateList *saved_sizes;
 } CmdTextToColumns;
 
@@ -6057,6 +6058,9 @@ cmd_text_to_columns_impl (GnumericCommand *cmd, WorkbookControl *wbc,
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->content != NULL, TRUE);
+
+	me->dst.sheet = workbook_sheet_by_index (wb_control_workbook (wbc), 
+						 me->dst_sheet_idx);
 
 	content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
 	if (clipboard_paste_region (me->content, &me->dst, COMMAND_CONTEXT (wbc))) {
@@ -6142,9 +6146,10 @@ cmd_text_to_columns (WorkbookControl *wbc,
 						  undo_global_range_name (target_sheet, target));
 	me->dst.range = *target;
 	me->dst.sheet = target_sheet;
+	me->dst_sheet_idx = target_sheet->index_in_wb;
 	me->dst.paste_flags = PASTE_CONTENT | PASTE_FORMATS;
 	me->src = *src;
-	me->src_sheet = src_sheet;
+	me->src_sheet_idx = src_sheet->index_in_wb;
 	me->content = content;
 	me->saved_sizes = NULL;
 
