@@ -1053,12 +1053,12 @@ tokenized_help_new (FunctionDefinition const *fn_def)
 		gboolean seek_at = TRUE;
 		gboolean last_newline = TRUE;
 
-		start = ptr = _(fn_def->help [0]);
+		ptr = _(fn_def->help [0]);
 		tok->help_is_localized = ptr != fn_def->help [0];
 		tok->help_copy = g_strdup (ptr);
 		tok->sections = g_ptr_array_new ();
 
-		for (ptr = tok->help_copy; *ptr ; ptr++) {
+		for (start = ptr = tok->help_copy; *ptr ; ptr++) {
 			if (ptr[0] == '\\' && ptr[1])
 				ptr += 2;
 

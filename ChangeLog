@@ -1,3 +1,9 @@
+2001-11-05  Morten Welinder  <terra@diku.dk>
+
+	* src/func.c (tokenized_help_new): Fix ABW.  Jody: Hot Chocolate.
+
+	* src/workbook-edit.c (wbcg_edit_finish): Plug leak.
+
 2001-11-05  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : Post release version bump.

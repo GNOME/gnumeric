@@ -219,7 +219,6 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 			if (expr_txt != NULL) {
 				ParsePos    pp;
 				ParseError  perr;
-				ExprTree   *expr;
 				parse_pos_init (&pp, sheet->workbook, sheet,
 						sheet->edit_pos.col, sheet->edit_pos.row);
 
