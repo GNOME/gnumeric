@@ -55,6 +55,10 @@ Almer :
 	  - Preview is drawn faster and is interactive.
 	  - More separators to choose from when doing a CSV import
 
+Morten:
+	* Fixed display of pre-1900 dates.
+	* Fixed display of very large numbers.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.48
