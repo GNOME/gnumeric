@@ -1,5 +1,11 @@
 2003-12-23  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : post BRANCH bump
+	  require gtk/glib 2.3.0, that will probably go up shortly
+	  as we depend more on head directly
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.2.3
 
 2003-12-23  Jody Goldberg <jody@gnome.org>
