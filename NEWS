@@ -12,6 +12,9 @@ Jody:
 	* Improve theme support for single points in charts
 	* ctrl-7, ctrl-9, ctrl-(, ctrl-0, ctrl-)
 	* Rework column size calculation on xls import/export
+	http://bugzilla.gnome.org/show_bug.cgi?id=152248
+	* font strangeness when exporting to xls
+
 
 --------------------------------------------------------------------------
 

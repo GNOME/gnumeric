@@ -8,9 +8,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=152248
-    : font strangeness when exporting to xls
-
     http://bugzilla.gnome.org/show_bug.cgi?id=152317
     : Warning of possible dataloss loading into XP
 
