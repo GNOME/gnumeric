@@ -3,6 +3,8 @@
 	* src/dialog-goal-seek.c: Goal seek tool implemented.  Goal seek
  	should now find a solution for all linear problems (if there is
  	one).  A simple non-linear search algorithm also implemented.
+
+	* src/workbook.c: Made 'Goal seek' menu entry visible.
 	
 1999-04-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
