@@ -1,24 +1,6 @@
-<sect1 id="sect-gui-other-elements">
-  <title>The Elements of the Gnumeric Worksheet</title>
-  
-  <para>
-    The Gnumeric worksheet is made up of three elements which are
-    presented below. <xref linkend="data-entry" /> explains the use of
-    the Data entry area, the area immediately above the worksheet
-    area. <xref linkend="cell-grid" /> explains the cell grid which is
-    the area in the middle of the window and the area users spend the
-    most time editing. Finally, <xref linkend="info-area" /> explains
-    the information area at the bottom of the worksheet where Gnumeric
-    displays information about its current work.
-  </para>
-  
-</sect1>
-
-
-
 <sect1 id="data-entry">
   <title>Data Entry Area</title>
-  
+
   <para>Immediately above the grid of cells is the data entry
     area as shown in <xref linkend="worksheet-data-1" />.</para>
   <figure id="worksheet-data-1">
@@ -42,7 +24,7 @@
     individually below.
   </para>
   
-
+<!-- TODO: change through whole file current cell to selection. -->
     <sect2>
       <title>Current Cell Indicator</title>
 	  
@@ -51,6 +33,8 @@
         indicator area.  This area is shown in <xref
         linkend="worksheet-data-2" />
       </para>
+
+<!-- TODO: change the screenshot to drop the other two buttons. -->
 
       <figure id="worksheet-data-2">
 	<title>The Current Cell Indicator.</title>
@@ -169,6 +153,7 @@
       
     </sect2>
 
+<!--TODO: Add <sect2> with discussion of the formula entry field. -->
 
 
 </sect1>
@@ -187,6 +172,7 @@
     where all the formulas and data are entered, and is the center of
     activity for the spreadsheet.</para>
 
+<!-- TODO: change screenshot to fit in 510pixels. -->
     <figure id="cell-grid.png">
       <title>The Cell Grid area, with cells of different sizes.</title>
       <screenshot>
@@ -286,47 +272,53 @@
 
 	</sect2>
 
-	<sect2>
-		<title>The Scrollbars</title>
+  <sect2>
+    <title>The Scrollbars</title>
 
-		<para>
-		The cell grid area's scrollbars work like other
-		scrollbars. In this case they let the user work on a
-		worksheet which is much bigger than what could be
-		shown at any given moment.
-		</para>
+<!-- TODO: add screenshot, explain the different parts: thumb, channel... -->
+    <para>
+      The cell grid area's scrollbars work like other scrollbars. In
+      this case they let the user work on a worksheet which is much
+      bigger than what could be shown at any given moment.
+    </para>
 
-		</sect2>
+  </sect2>
 
- <sect2>
-      <title>The Tabbed Sheet Indicator</title> <para>At the bottom of
-      <xref linkend="cell-grid.png" />, Gnumeric has a tabbed sheet
-      indicator. This is the boxes with the labels "Guppies",
-      "Turtles", "Mermaids", "seahorses" and so on. In workbooks where
-      there are more than one sheet, extra tabs are used to indicate
-      how many sheets are there, and also allows the user to move to
-      another sheet by clicking the proper tab. Each tab is a link to
-      a separate worksheet within Gnumeric. In this figure, the
-      "Turtles" tab has been selected. Gnumeric shows this by making
-      the "Turtles" since the tab is a little bigger and making it
-      overlap the two neighbouring tabs.</para>
-	  
-	  <para>On the far right, the two arrows indicate that there
-	  are more sheets in the workbook and more tabs for those
-	  sheets. Unfortunately, there is not enough space to show
-	  them all so Gnumeric displays these arrows. If all the
-	  sheets are visible, these arrows will not be
-	  displayed. These arrows can be used to scroll the tabs and
-	  bring tabs that were hidden into view. This may be a little
-	  difficult to understand and work with but becomes easier
-	  quickly.</para>
-    </sect2>
+
+
+
+  <sect2>
+    <title>The Tabbed Sheet Indicator</title>
+
+<!-- TODO: add a screenshot. Explain selction, drag. -->
+    <para>
+      At the bottom of <xref linkend="cell-grid.png" />, Gnumeric has
+      a tabbed sheet indicator. This is the boxes with the labels
+      "Guppies", "Turtles", "Mermaids", "seahorses" and so on. In
+      workbooks where there are more than one sheet, extra tabs are
+      used to indicate how many sheets are there, and also allows the
+      user to move to another sheet by clicking the proper tab. Each
+      tab is a link to a separate worksheet within Gnumeric. In this
+      figure, the "Turtles" tab has been selected. Gnumeric shows this
+      by making the "Turtles" since the tab is a little bigger and
+      making it overlap the two neighbouring tabs.
+    </para>
+
+    <para>
+      On the far right, the two arrows indicate that there are more
+      sheets in the workbook and more tabs for those
+      sheets. Unfortunately, there is not enough space to show them
+      all so Gnumeric displays these arrows. If all the sheets are
+      visible, these arrows will not be displayed. These arrows can be
+      used to scroll the tabs and bring tabs that were hidden into
+      view. This may be a little difficult to understand and work with
+      but becomes easier quickly.
+    </para>
+
+  </sect2>
     
 
 
-
-
-    
 </sect1>
  
 

@@ -1,3 +1,28 @@
+2004-10-05  Adrian Custer <acuster@gnome.org>
+
+	* NEWS Updated the 'Elements' chapter.
+
+	* gnumeric.xml: Revert to Docbook 4.2. We actually need to back 
+	  down to 4.1.2 or clear this with the GDP. For the moment, I 
+	  only have 4.2 so we can change this when I get closer to a 
+	  real network. Bump this up to validate and back down to commit.
+
+	* figures/gnumeric-labelled.png: changed.
+	* figures/gnumeric-rearranged.png: deleted.
+	* figures/toolbars.png: changed to toolbars.510.png.
+	* figures/toolbar-standard.png: changed to toolbar-standard.510.png.
+	* figures/toolbar-format.png: changed to toolbar-forat.510.png.
+	* figures/label-*.png: 7 files deleted.
+	* figures/gnumeric-empty.png: changed to gnumeric-empty.510.png.
+	* figures/Makefile.am: Ammended.
+
+	* gnumeric.xml: Rename "elements" chapter. Remove warning.
+	* manual-usage.xml: Rename "elements" chapter.
+	* gui-overview.xml: Edits. New Screenshot.
+	* gui-menus.xml: Edits. New Screenshots.
+	* gui-toolbars.xml: Move down a level. Update.
+	* gui-other-elements.xml: remove intro section.
+
 2004-10-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* gnumeric.xml: Upgrade to DocBook XML V4.3 which is the first version

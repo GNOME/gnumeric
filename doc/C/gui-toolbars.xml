@@ -1,6 +1,8 @@
 <sect1 id="sect-gui-toolbars">
-  <title>The Gnumeric Toolbars</title>
-    
+  <title>Toolbars</title>
+
+<!-- TODO: add xrefs from each button to a section of the manual. -->
+
   <para>
     The toolbars contain buttons and other elements which can be used
     to perform quickly some the more common operations. Each button
@@ -20,15 +22,20 @@
     <title>The Three Gnumeric Toolbars</title>
     <mediaobject>
       <imageobject>
-	<imagedata fileref="figures/toolbars.png" format="PNG" />
+	<imagedata fileref="figures/toolbars.510.png" 
+	           format="PNG" scale="100"/>
       </imageobject>
     </mediaobject>
   </figure>
-  <para> These toolbars will be discussed separately in the subsequent
-  sections of this manual. User interaction with each toolbar happens
-  in essentially the same way. Similarly, the toolbars can be
-  configured in the same way. The next section explains the standard
-  behavior of <application>Gnumeric</application> toolbars.</para>
+
+  <para>
+    These toolbars will be discussed separately in the subsequent
+    sections of this manual. User interaction with each toolbar
+    happens in essentially the same way. Similarly, the toolbars can
+    be configured in the same way. The next section explains the
+    standard behavior of <application>Gnumeric</application>
+    toolbars.
+  </para>
   
   
   
@@ -66,7 +73,6 @@
     </para>
     
   </sect2>
-</sect1>
 
 
 
@@ -74,7 +80,7 @@
 
 
 <!-- ************************* THE STANDARD TOOLBAR ************** -->
-<sect1 id="std-toolbar">
+<sect2 id="std-toolbar">
   <title>The Standard Toolbar</title>
   
   <para>
@@ -86,7 +92,7 @@
     <title>The <interface>Standard Toolbar</interface>.</title>
     <mediaobject>
       <imageobject>
-	<imagedata fileref="figures/toolbar-standard.png" format="PNG" />
+	<imagedata fileref="figures/toolbar-standard.510.png" format="PNG" />
       </imageobject>
     </mediaobject>
   </figure>
@@ -511,14 +517,14 @@
 
 
     </variablelist>
-</sect1>
+</sect2>
 
 
 
 
 
 <!-- ************************* THE FORMAT TOOLBAR ************** -->
-<sect1 id="fmt-toolbar">
+<sect2 id="fmt-toolbar">
   <title>The Format Toolbar</title>
 
   <para> The <interface>Format Toolbar</interface> ...</para>
@@ -527,7 +533,7 @@
      <title>The <interface>Format Toolbar</interface></title>
     <mediaobject>
       <imageobject>
-	<imagedata fileref="figures/toolbar-format.png" format="PNG" />
+	<imagedata fileref="figures/toolbar-format.510.png" format="PNG" />
       </imageobject>
     </mediaobject>
   </figure>
@@ -982,7 +988,7 @@ colour.</para>
 
 
    </variablelist>
-</sect1>
+</sect2>
 
 
 
@@ -994,7 +1000,7 @@ colour.</para>
 
 
 <!-- ************************* THE OBJECT TOOLBAR ************** -->
-<sect1 id="obj-toolbar">
+<sect2 id="obj-toolbar">
 	<title>The Object Toolbar</title>
 
 
@@ -1255,6 +1261,8 @@ colour.</para>
 	</listitem>
       </varlistentry>
     </variablelist>
-</sect1>
-  <!-- end of button bar docs -->
+</sect2>
+<!-- end of button bar docs -->
  
+</sect1>
+

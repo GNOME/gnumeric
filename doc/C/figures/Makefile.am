@@ -176,11 +176,10 @@ EXTRA_DIST = \
      files-html-example.png \
      files-html32-example.png \
      files-html40-example.png \
-     gnumeric-empty.png \
+     gnumeric-empty.510.png \
      gnumeric-icon-24.png \
      gnumeric-labelled.png \
      gnumeric-power-example.png \
-     gnumeric-rearranged.png \
      graph-components.png \
      graph-hierarchy.png \
      graphguru-axes-category-bounds.png \
@@ -229,13 +228,6 @@ EXTRA_DIST = \
      graphs-types-surface.png \
      graphs-types-xyplot.png \
      info-area.png \
-     label-five.png \
-     label-four.png \
-     label-one.png \
-     label-seven.png \
-     label-six.png \
-     label-three.png \
-     label-two.png \
      menubar.png \
      menu-context-col-row-header.png \
      menu-context-graph.png \
@@ -318,10 +310,10 @@ EXTRA_DIST = \
      textguru-import-panel2a-withTags.png \
      textguru-import-panel2b-withTags.png \
      textguru-import-panel3-withTags.png \
-     toolbar-format.png \
-     toolbar-object.png \
+     toolbar-format.510.png \
+     toolbar-object.510.png \
      toolbar-standard.png \
-     toolbars.png \
+     toolbars.510.png \
      widget-label.png \
      widget-frame.png \
      widget-checkbox.png \

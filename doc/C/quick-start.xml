@@ -34,6 +34,12 @@
 </sect1>
 
 
+
+
+
+
+
+
 <sect1 id="sect-quick-starting-gnumeric">
   <title>Starting Gnumeric the First Time</title>
 
@@ -63,7 +69,7 @@
     <screenshot>
       <mediaobject>
         <imageobject>
-          <imagedata fileref="figures/gnumeric-empty.png" 
+          <imagedata fileref="figures/gnumeric-empty.510.png" 
               format="PNG" scale="100" />
         </imageobject>
         <textobject>
@@ -178,7 +184,7 @@ c:\Program Files\Gnome-Office\gnumeric
 
   </sect2>
 
-  <!--Had to add a section2 tag here to make xmllint happy. -->
+<!--  Had to add a section2 tag here to make xmllint happy. -->
 <!--  <sect2 id='temporarytoo'> -->
 <!--    <title>temporary</title> -->
   <para>
@@ -204,6 +210,7 @@ c:\Program Files\Gnome-Office\gnumeric
     <application>Gnumeric</application> as the application to use to
     open the file.
   </para>
+
 <!--    </sect2> -->
 
 </sect1>
@@ -214,15 +221,141 @@ c:\Program Files\Gnome-Office\gnumeric
 
   <para>
     After opening, <application>Gnumeric</application> appears as was
-    shown in <xref linkend="fig-gnumeric-first-start" />. The open
+    shown in <xref linkend="fig-gnumeric-first-start" /> but is shown
+    below with the major compnents labeled. The open
     application contains a menubar at the top, two toolbars below the
     menu bar, and below these, on the left, the object toolbar, and,
     on the right, the data entry area above the cell grid area which
     itself is above the list of worksheets and the information
-    area. For a detailed explanation of each of these elements, see
-    <xref linkend="sect-gui-overview" />.  By default,
-    <application>Gnumeric</application> opens a workbook with three
-    worksheets and a file name of <filename>Book1.gnumeric</filename>.
+    area.
+  </para>
+
+  <figure id="gnumeric-labelled.png">
+    <title>The parts of Gnumeric</title>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="figures/gnumeric-labelled.png" format="PNG" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <para>
+    The part names are listed below along with a reference to
+    the section that discusses that element. Those reading this document
+    on their computers may be able to click on the references to jump to
+    that section of the manual.
+  </para>
+  
+  <variablelist>
+    <varlistentry>
+      <term>
+        <emphasis role="bold">1</emphasis>
+	  The menubar
+      </term>
+      <listitem>
+	<para>The menubar provides access to the core
+	  functions of gnome. Almost everything that can
+	  be done in <application>Gnumeric</application>
+	  can be done through the menus. The menus and
+	  menubar are discussed in <xref linkend="sect-gui-menus" />. </para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>
+        <emphasis role="bold">2</emphasis>
+	  The standard toolbar
+      </term>
+      <listitem>
+	<para>
+	  The standard toolbar provides shortcuts for the most used
+	  items in the menus. The toolbars are discussed in <xref
+	  linkend="sect-gui-toolbars" /> and this toolbar in particular in
+	  <xref linkend="std-toolbar" />.
+	</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>
+        <emphasis role="bold">3</emphasis>
+	    The format toolbar
+      </term>
+      <listitem>
+	<para>
+	  The format toolbar changes the display properties of data in
+	  the workbook. It is presented in <xref linkend="fmt-toolbar"
+	  />, part of the general discussion of toolbars of <xref
+	  linkend="sect-gui-toolbars" />.
+        </para>
+      </listitem>
+    </varlistentry>
+   
+    <varlistentry>
+      <term>
+        <emphasis role="bold">4</emphasis>
+	  The object toolbar
+      </term>
+      <listitem>
+	<para>This toolbar enables the user to draw graphic elements
+	on the sheet, such as text labels, big red circles or thin
+	green arrows. These can be used to bring attention to a
+	particular part of a worksheet. The object toolbar is
+	explained in <xref linkend="obj-toolbar" /> in the <xref
+	linkend="sect-gui-toolbars" /> portion of the manual.</para>
+      </listitem>
+    </varlistentry>
+    
+    <varlistentry>
+      <term>
+        <emphasis role="bold">5</emphasis>
+	    The data entry area
+      </term>
+      <listitem>
+	<para>The data entry area is useful for the
+	  modification of complex formulas. It is discussed in
+	  <xref linkend="data-entry" />. </para>
+      </listitem>
+    </varlistentry>
+      
+    <varlistentry>
+      <term>
+        <emphasis role="bold">6</emphasis>
+	  The cell grid area
+      </term>
+      <listitem>
+	<para>The cell area lies in the middle of all the rest. The
+	cell area includes the row and column labels, the scrollbars
+	and the tabs below. The use of these elements is explained in
+	<xref linkend="cell-grid" />.</para>
+      </listitem>
+    </varlistentry>
+    
+    <varlistentry>
+      <term>
+        <emphasis role="bold">7</emphasis>
+	  The information area
+      </term>
+      <listitem>
+	<para>This area is used by
+	  <application>Gnumeric</application> to give
+	  feedback on the status of certain
+	  operations. This information is explained in
+	  <xref linkend="info-area" />. </para>
+      </listitem>
+    </varlistentry>
+    
+  </variablelist>
+
+  <para>
+    For a detailed explanation of each of these elements, see
+    <xref linkend="sect-gui-overview" />.
+  </para>
+
+  <para>
+    By default, <application>Gnumeric</application> opens a workbook
+    with three worksheets and a file name of
+    <filename>Book1.gnumeric</filename>.
   </para>
 
 </sect1>

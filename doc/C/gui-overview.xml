@@ -1,6 +1,8 @@
 <sect1 id="sect-gui-overview">
-  <title>Overview of the Elements of Gnumeric</title>
+  <title>Overview</title>
 
+<!-- TODO: add section on "druids" graph/textopen/textsave. -->
+<!-- TODO: add section with "dialogs" filein/fileout/sheet/function/preferences/properties... -->
   <para>
     This part of the <application>Gnumeric</application> manual
     explains the pieces of the software that users can manipulate. The
@@ -24,15 +26,16 @@
   </para>
   
   <para>
-    The majority of spreadsheet work is done while
-    interacting with this view of
-    <application>Gnumeric</application>. All of the functions
-    which <application>Gnumeric</application> provides can be
-    accessed quickly from here. The graphic elements of
+    The majority of spreadsheet work is done while interacting with
+    this view of <application>Gnumeric</application>. All of the
+    functions which <application>Gnumeric</application> provides can
+    be accessed quickly from here. The graphic elements of
     <application>Gnumeric</application> are made of several
     independent pieces.  <xref linkend="gnumeric-labelled.png" />
-      shows a newly opened, empty Gnumeric with the principle
-      elements labelled.</para>
+    shows a newly opened, empty Gnumeric with the principle elements
+    labelled.
+  </para>
+
   <figure id="gnumeric-labelled.png">
     <title>The Gnumeric worksheet elements</title>
     <mediaobject>
@@ -52,17 +55,8 @@
   <variablelist>
     <varlistentry>
       <term>
-	<guiicon>
-	  <inlinemediaobject>
-            <imageobject>
-              <imagedata fileref="figures/label-one.png" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the number 1 label.</phrase>
-            </textobject>
-           </inlinemediaobject>
+        <emphasis role="bold">1</emphasis>
 	  The menubar
-	</guiicon>
       </term>
       <listitem>
 	<para>The menubar provides access to the core
@@ -75,17 +69,8 @@
 
     <varlistentry>
       <term>
-	<guiicon>
-	  <inlinemediaobject>
-            <imageobject>
-              <imagedata fileref="figures/label-two.png" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the label number 2.</phrase>
-            </textobject>
-           </inlinemediaobject>
+        <emphasis role="bold">2</emphasis>
 	  The standard toolbar
-	</guiicon>
       </term>
       <listitem>
 	<para>
@@ -99,17 +84,8 @@
 
     <varlistentry>
       <term>
-	<guiicon>
-	  <inlinemediaobject>
-	    <imageobject>
-	      <imagedata fileref="figures/label-three.png" />
-	    </imageobject>                                              
-            <textobject>
-              <phrase>An image of the label number 3.</phrase>
-            </textobject>
-	  </inlinemediaobject>
+        <emphasis role="bold">3</emphasis>
 	    The format toolbar
-	</guiicon>
       </term>
       <listitem>
 	<para>
@@ -120,66 +96,11 @@
         </para>
       </listitem>
     </varlistentry>
-
+   
     <varlistentry>
       <term>
-	<guiicon>
-	  <inlinemediaobject>
-	    <imageobject>
-	      <imagedata fileref="figures/label-four.png" />
-	    </imageobject>                                              
-            <textobject>
-              <phrase>An image of the label number 4.</phrase>
-            </textobject>
-	  </inlinemediaobject>
-	    The data entry area
-	</guiicon>
-      </term>
-      <listitem>
-	<para>The data entry area is useful for the
-	  modification of complex formulas. It is discussed in
-	  <xref linkend="data-entry" />. </para>
-      </listitem>
-    </varlistentry>
-    
-    
-    <varlistentry>
-      <term>
-	<guiicon>
-	  <inlinemediaobject>
-	    <imageobject>
-	      <imagedata fileref="figures/label-five.png" />
-	    </imageobject>                                              
-            <textobject>
-              <phrase>An image of the label number 5.</phrase>
-            </textobject>
-	  </inlinemediaobject>
-	  The information area
-	</guiicon>
-      </term>
-      <listitem>
-	<para>This area is used by
-	  <application>Gnumeric</application> to give
-	  feedback on the status of certain
-	  operations. This information is explained in
-	  <xref linkend="info-area" />. </para>
-      </listitem>
-    </varlistentry>
-    
-    
-    <varlistentry>
-      <term>
-	<guiicon>
-	  <inlinemediaobject>
-	    <imageobject>
-	      <imagedata fileref="figures/label-six.png" />
-	    </imageobject>                                              
-            <textobject>
-              <phrase>An image of the label number 6.</phrase>
-            </textobject>
-	  </inlinemediaobject>
+        <emphasis role="bold">4</emphasis>
 	  The object toolbar
-	</guiicon>
       </term>
       <listitem>
 	<para>This toolbar enables the user to draw graphic elements
@@ -193,23 +114,40 @@
     
     <varlistentry>
       <term>
-	<guiicon>
-	  <inlinemediaobject>
-	    <imageobject>
-	      <imagedata fileref="figures/label-seven.png" />
-	    </imageobject>                                              
-            <textobject>
-              <phrase>An image of the label number 7.</phrase>
-            </textobject>
-	  </inlinemediaobject>
+        <emphasis role="bold">5</emphasis>
+	    The data entry area
+      </term>
+      <listitem>
+	<para>The data entry area is useful for the
+	  modification of complex formulas. It is discussed in
+	  <xref linkend="data-entry" />. </para>
+      </listitem>
+    </varlistentry>
+      
+    <varlistentry>
+      <term>
+        <emphasis role="bold">6</emphasis>
 	  The cell grid area
-	</guiicon>
       </term>
       <listitem>
 	<para>The cell area lies in the middle of all the rest. The
 	cell area includes the row and column labels, the scrollbars
 	and the tabs below. The use of these elements is explained in
 	<xref linkend="cell-grid" />.</para>
+      </listitem>
+    </varlistentry>
+    
+    <varlistentry>
+      <term>
+        <emphasis role="bold">7</emphasis>
+	  The information area
+      </term>
+      <listitem>
+	<para>This area is used by
+	  <application>Gnumeric</application> to give
+	  feedback on the status of certain
+	  operations. This information is explained in
+	  <xref linkend="info-area" />. </para>
       </listitem>
     </varlistentry>
     
