@@ -5,9 +5,9 @@ config.guess
 config.sub
 ltconfig
 ltmain.sh
-config.h.in
+gnumeric-config.h.in
+gnumeric-config.h
 config.log
-config.h
 config.cache
 libtool
 config.status
