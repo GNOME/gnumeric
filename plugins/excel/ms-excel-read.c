@@ -889,8 +889,10 @@ ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, guint16 xfidx)
 	if (p && p->len > idx)
 		xf = g_ptr_array_index (p, idx);
         else {
-	        printf ("No XF record for %d out of %d found :-(\n",
+#if EXCEL_DEBUG > 0
+	        printf ("FIXME: No XF record for %d out of %d found :-(\n",
 			xfidx, p?p->len:-666);
+#endif
 	        return;
 	}
 	if (xf->xftype != eBiffXCell)

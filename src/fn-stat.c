@@ -4052,7 +4052,7 @@ static char *help_averagea = {
 	   "@SEEALSO=AVERAGE")
 };
 
-Value *
+static Value *
 gnumeric_averagea (Sheet *sheet, GList *expr_node_list,
 		   int eval_col, int eval_row, char **error_string)
 {
@@ -4161,7 +4161,7 @@ callback_function_mina_maxa (Sheet *sheet, Value *value,
 	return TRUE;
 }
 
-Value *
+static Value *
 gnumeric_maxa (Sheet *sheet, GList *expr_node_list,
 	       int eval_col, int eval_row, char **error_string)
 {
@@ -4194,7 +4194,7 @@ static char *help_mina = {
 	   "@SEEALSO=MIN,MAXA")
 };
 
-Value *
+static Value *
 gnumeric_mina (Sheet *sheet, GList *expr_node_list,
 	       int eval_col, int eval_row, char **error_string)
 {
@@ -4263,7 +4263,7 @@ static char *help_varpa = {
 	   "@SEEALSO=VARP,VARP")
 };
 
-Value *
+static Value *
 gnumeric_varpa (Sheet *sheet, GList *expr_node_list, int eval_col,
 		int eval_row, char **error_string)
 {
@@ -4299,7 +4299,7 @@ static char *help_stdeva = {
 	   "@SEEALSO=STDEV,STDEVPA")
 };
 
-Value *
+static Value *
 gnumeric_stdeva (Sheet *sheet, GList *expr_node_list, int eval_col,
 		 int eval_row, char **error_string)
 {
@@ -4326,7 +4326,7 @@ static char *help_stdevpa = {
 	   "@SEEALSO=STDEVA,STDEVP")
 };
 
-Value *
+static Value *
 gnumeric_stdevpa (Sheet *sheet, GList *expr_node_list, int eval_col,
 		  int eval_row, char **error_string)
 {

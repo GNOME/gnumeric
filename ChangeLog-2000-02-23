@@ -1,3 +1,10 @@
+1999-05-19  Michael Meeks  <michael@imaginator.com>
+
+	* src/fn-stat.c: Added 'static' to new non-global functions.
+
+	* src/cell.c (cell_set_formula_tree_simple): Added
+	missing sheet_cell_formula_unlink.
+
 1999-05-19  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-math.c: SERIESSUM(), SUBTOTAL() and SUMA() added.
