@@ -166,12 +166,12 @@ AC_ARG_WITH(bonobo,
 gnumeric_executable=gnumeric
 AC_SUBST(gnumeric_executable)
 if $try_bonobo; then
-	AC_MSG_CHECKING(for Bonobo > 0.7)
+	AC_MSG_CHECKING(for Bonobo >= 0.9)
 	if gnome-config --libs bonobo > /dev/null 2>&1; then
 		vers=`gnome-config --modversion bonobo`
 		case $vers
 		in
-		    bonobo-0.[[01234567]]) bonobo_ok=false ;;
+		    bonobo-0.[[012345678]]) bonobo_ok=false ;;
 		    *) bonobo_ok=true ;;
 		esac
 	else
