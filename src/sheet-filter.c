@@ -24,6 +24,7 @@
 
 #include "workbook.h"
 #include "sheet.h"
+#include "sheet-private.h"
 #include "cell.h"
 #include "expr.h"
 #include "value.h"
@@ -917,6 +918,7 @@ gnm_filter_add_field (GnmFilter *filter, int i)
 		SO_ANCHOR_PERCENTAGE_FROM_COLROW_END
 	};
 	static float const offsets [4] = { .0, .0, 0., 0. };
+	int n;
 	Range tmp;
 	SheetObjectAnchor anchor;
 	GnmFilterField *field = g_object_new (filter_field_get_type (), NULL);
@@ -928,7 +930,12 @@ gnm_filter_add_field (GnmFilter *filter, int i)
 				  SO_DIR_DOWN_RIGHT);
 	sheet_object_anchor_set (&field->parent, &anchor);
 	sheet_object_set_sheet (&field->parent, filter->sheet);
-	g_ptr_array_add (filter->fields, field);
+
+	g_ptr_array_add (filter->fields, NULL);
+	for (n = filter->fields->len; n-- > i ; )
+		g_ptr_array_index (filter->fields, n) =
+			g_ptr_array_index (filter->fields, n-1);
+	g_ptr_array_index (filter->fields, n) = field;
 	g_object_unref (G_OBJECT (field));
 }
 
@@ -959,6 +966,7 @@ gnm_filter_new (Sheet *sheet, Range const *r)
 		gnm_filter_add_field (filter, i);
 
 	sheet->filters = g_slist_prepend (sheet->filters, filter);
+	sheet->priv->filters_changed = TRUE;
 
 	return filter;
 }
@@ -985,8 +993,10 @@ gnm_filter_remove (GnmFilter *filter)
 	int i;
 
 	g_return_if_fail (filter != NULL);
+	g_return_if_fail (filter->sheet != NULL);
 
 	sheet = filter->sheet;
+	sheet->priv->filters_changed = TRUE;
 	sheet->filters = g_slist_remove (sheet->filters, filter);
 	for (i = filter->r.start.row; ++i <= filter->r.end.row ; ) {
 		ColRowInfo *ri = sheet_row_get (sheet, i);
@@ -1126,33 +1136,45 @@ sheet_filter_insdel_colrow (Sheet *sheet, gboolean is_cols, gboolean is_insert,
 		filter = ptr->data;
 
 		if (is_cols) {
-			if (start > filter->r.end.col)
+			if (start > filter->r.end.col)	/* a */
 				continue;
 			if (is_insert) {
 				filter->r.end.col += count;
-				if (start >= filter->r.start.col) {
+				/* inserting in the middle of a filter adds
+				 * fields.  Everything else just moves it */
+				if (start > filter->r.start.col &&
+				    start <= filter->r.end.col) {
 					while (count--)
 						gnm_filter_add_field (filter,
 							start - filter->r.start.col + count);
 				} else
 					filter->r.start.col += count;
 			} else {
-				if (start <= filter->r.start.col) {
-					filter->r.end.col -= count;
-					if ((start+count) <= filter->r.start.col)
-						filter->r.start.col -= count;
+				int start_del = start - filter->r.start.col;
+				int end_del   = start_del + count;
+				if (start_del <= 0) {
+					start_del = 0;
+					if (end_del > 0)
+						filter->r.start.col = start;	/* c */
 					else
-						filter->r.start.col = start;
-				} else if ((start+count) > filter->r.end.col)
-					filter->r.end.col = start -1;
-				else
+						filter->r.start.col -= count;	/* b */
 					filter->r.end.col -= count;
+				} else {
+					if ((unsigned)end_del > filter->fields->len) {
+						end_del = filter->fields->len;
+						filter->r.end.col = start - 1;	/* d */
+					} else
+						filter->r.end.col -= count;
+				}
 
-				if (filter->r.end.col < filter->r.end.col)
+				if (filter->r.end.col < filter->r.start.col) {
+					g_warning ("clear filter");
 					filter = NULL;
-				else
-					g_ptr_array_set_size (filter->fields,
-						range_width (&filter->r));
+				} else {
+					g_warning ("remove [%d .. %d)", start_del, end_del);
+					while (end_del-- > start_del)
+						g_ptr_array_remove_index (filter->fields, end_del);
+				}
 			}
 		} else {
 			if (start > filter->r.end.row)
@@ -1187,5 +1209,7 @@ sheet_filter_insdel_colrow (Sheet *sheet, gboolean is_cols, gboolean is_insert,
 			gnm_filter_free (filter);
 		}
 	}
+	if (filters != NULL)
+		sheet->priv->filters_changed = TRUE;
 	g_slist_free (filters);
 }

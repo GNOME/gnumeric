@@ -107,7 +107,6 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 		{ 1., { 0, 0, 0, 0 }}
 	};
 	GdkPixbuf *image;
-	GError *err = NULL;
 	gint i, j, imax, jmax, w, h, x, y;
 
 	if (!narrow && style->outline.width >= 0.)
@@ -218,15 +217,13 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 		case GOG_FILL_STYLE_IMAGE: {
 			double dx, dy;
 
-			if (!style->fill.u.image.image_file)
+			image = style->fill.u.image.image;
+			if (image == NULL)
 				break;
 			
 			art_vpath_bbox_drect (path, &bbox);
 			dx = bbox.x1 - bbox.x0;
 			dy = bbox.y1 - bbox.y0;
-			image = gdk_pixbuf_new_from_file (style->fill.u.image.image_file, &err);
-			if (err != NULL)
-				break;
 			switch (style->fill.u.image.type) {
 			case GOG_IMAGE_STRETCHED:
 				gdk_pixbuf_composite (image, prend->buffer,
@@ -261,9 +258,6 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 						      prend->buffer, x, y);
 				break;
 			}
-
-			g_object_unref (image);
-
 			break;
 		}
 

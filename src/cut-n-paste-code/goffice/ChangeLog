@@ -1,3 +1,15 @@
+2003-08-10  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-style.c : re-enable image handling and cache the pixbuf.
+
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_draw_polygon) : The
+	  style stores the pixbuf now, no need to reload the damn thing from
+	  disk every time we use it.
+
+	* graph/gog-renderer-gnome-print.c
+	(gog_renderer_gnome_print_draw_polygon) : Use a convenience routine
+	(print_image) : new convenience routine.
+
 2003-08-11  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* graph/plugins/plot_pie/gog-pie-prefs.c (cb_center_size_changed):

@@ -98,11 +98,12 @@ struct _GogStyle {
 				GogGradientDirection dir;
 				GOColor	start;
 				GOColor end;
-				float   brightness; /* < 0 == 2 color */
+				float   brightness; /* < 0 => 2 color */
 			} gradient;
 			struct {
 				GogImageType type;
-				char *image_file; /* should be a pixbuf */
+				GdkPixbuf *image;
+				char      *filename;
 			} image;
 		} u;
 	} fill;

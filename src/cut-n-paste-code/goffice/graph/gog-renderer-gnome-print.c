@@ -110,6 +110,19 @@ gog_renderer_gnome_print_draw_path (GogRenderer *renderer, ArtVpath *path)
 	gnome_print_stroke (prend->gp_context);
 }
 
+static void
+print_image (GogRendererGnomePrint *prend, GdkPixbuf *image, int w, int h)
+{
+	if (gdk_pixbuf_get_has_alpha (image))
+		gnome_print_rgbaimage (prend->gp_context,
+			gdk_pixbuf_get_pixels (image), w, h,
+			gdk_pixbuf_get_rowstride (image));
+	else
+		gnome_print_rgbimage (prend->gp_context,
+			gdk_pixbuf_get_pixels (image), w, h,
+			gdk_pixbuf_get_rowstride (image));
+}
+
 #define PIXBUF_SIZE 1024
 static void
 gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolean narrow)
@@ -118,7 +131,6 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 	GogStyle *style = renderer->cur_style;
 	gboolean with_outline = (!narrow && style->outline.width >= 0.);
 	GdkPixbuf *image;
-	GError *err = NULL;
 	ArtDRect bbox;
 	ArtRender *render;
 	gint i, j, imax, jmax, w, h, x, y;
@@ -157,10 +169,10 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 				gnome_print_translate (prend->gp_context, 0, - bbox.y1);
 				gnome_print_scale (prend->gp_context, bbox.x1, bbox.y1);
 				gnome_print_rgbaimage (prend->gp_context,
-					gdk_pixbuf_get_pixels(image),
-					gdk_pixbuf_get_width(image),
-					gdk_pixbuf_get_height(image),
-					gdk_pixbuf_get_rowstride(image));
+					gdk_pixbuf_get_pixels (image),
+					gdk_pixbuf_get_width (image),
+					gdk_pixbuf_get_height (image),
+					gdk_pixbuf_get_rowstride (image));
 
 				art_free (fill);
 				g_object_unref (image);
@@ -244,19 +256,18 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 			art_render_invoke (render);
 			gnome_print_translate (prend->gp_context, bbox.x0, - bbox.y1);
 			gnome_print_scale (prend->gp_context, bbox.x1 - bbox.x0, bbox.y1 - bbox.y0);
-			gnome_print_rgbaimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
-									gdk_pixbuf_get_width(image),
-									gdk_pixbuf_get_height(image),
-									gdk_pixbuf_get_rowstride(image));
+			gnome_print_rgbaimage (prend->gp_context,
+				gdk_pixbuf_get_pixels (image),
+				gdk_pixbuf_get_width (image),
+				gdk_pixbuf_get_height (image),
+				gdk_pixbuf_get_rowstride (image));
 			gnome_print_grestore (prend->gp_context);
 			g_object_unref (image);
 			break;
 
 		case GOG_FILL_STYLE_IMAGE:
-			if (!style->fill.u.image.image_file)
-				break;
-			image = gdk_pixbuf_new_from_file (style->fill.u.image.image_file, &err);
-			if (err != NULL)
+			image = style->fill.u.image.image;
+			if (image == NULL)
 				break;
 			gnome_print_gsave (prend->gp_context);
 			gnome_print_clip (prend->gp_context);
@@ -264,16 +275,9 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 			case GOG_IMAGE_STRETCHED:
 				gnome_print_translate (prend->gp_context, bbox.x0, - bbox.y1);
 				gnome_print_scale (prend->gp_context, bbox.x1 - bbox.x0, bbox.y1 - bbox.y0);
-				if (gdk_pixbuf_get_has_alpha (image))
-					gnome_print_rgbaimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
-											gdk_pixbuf_get_width(image),
-											gdk_pixbuf_get_height(image),
-											gdk_pixbuf_get_rowstride(image));
-				else
-					gnome_print_rgbimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
-											gdk_pixbuf_get_width(image),
-											gdk_pixbuf_get_height(image),
-											gdk_pixbuf_get_rowstride(image));
+				print_image (prend, image,
+					gdk_pixbuf_get_width (image),
+					gdk_pixbuf_get_height (image));
 				break;
 
 			case GOG_IMAGE_WALLPAPER:
@@ -284,31 +288,21 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 					y = 0;
 					for (j = 0; j < jmax; j++) {
 						gnome_print_gsave (prend->gp_context);
-						gnome_print_translate (prend->gp_context, bbox.x0 + x, - y - h - bbox.y0);
+						gnome_print_translate (prend->gp_context,
+							bbox.x0 + x,
+							- y - h - bbox.y0);
 						gnome_print_scale (prend->gp_context, w, h);
-						if (gdk_pixbuf_get_has_alpha (image))
-							gnome_print_rgbaimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
-													w, h,
-													gdk_pixbuf_get_rowstride(image));
-						else
-							gnome_print_rgbimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
-													w, h,
-													gdk_pixbuf_get_rowstride(image));
+						print_image (prend, image, w, h);
 						gnome_print_grestore (prend->gp_context);
 						y += h;
 					}
 					gnome_print_gsave (prend->gp_context);
-					gnome_print_translate (prend->gp_context, bbox.x0 + x, - y - (int)(bbox.y1 - bbox.y0) % h - bbox.y0);
+					gnome_print_translate (prend->gp_context,
+						bbox.x0 + x,
+						- y - (int)(bbox.y1 - bbox.y0) % h - bbox.y0);
 					gnome_print_scale (prend->gp_context, w, (int)(bbox.y1 - bbox.y0) % h);
-					if (gdk_pixbuf_get_has_alpha (image))
-						gnome_print_rgbaimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
-												w, (int)(bbox.y1 - bbox.y0) % h,
-												gdk_pixbuf_get_rowstride(image));
-					else
-						gnome_print_rgbimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
-												w, (int)(bbox.y1 - bbox.y0) % h,
-												gdk_pixbuf_get_rowstride(image));
-						gnome_print_grestore (prend->gp_context);
+					print_image (prend, image, w, (int)(bbox.y1 - bbox.y0) % h);
+					gnome_print_grestore (prend->gp_context);
 					x += w;
 				}
 				y = 0;
@@ -316,33 +310,18 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 					gnome_print_gsave (prend->gp_context);
 					gnome_print_translate (prend->gp_context, bbox.x0 + x, - y - h - bbox.y0);
 					gnome_print_scale (prend->gp_context, (int)(bbox.x1 - bbox.x0) % w, h);
-					if (gdk_pixbuf_get_has_alpha (image))
-						gnome_print_rgbaimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
-												(int)(bbox.x1 - bbox.x0) % w, h,
-												gdk_pixbuf_get_rowstride(image));
-					else
-						gnome_print_rgbimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
-												(int)(bbox.x1 - bbox.x0) % w, h,
-												gdk_pixbuf_get_rowstride(image));
+					print_image (prend, image, (int)(bbox.x1 - bbox.x0) % w, h);
 					gnome_print_grestore (prend->gp_context);
 					y += h;
 				}
 				gnome_print_gsave (prend->gp_context);
 				gnome_print_translate (prend->gp_context, bbox.x0 + x, - y - (int)(bbox.y1 - bbox.y0) % h - bbox.y0);
 				gnome_print_scale (prend->gp_context, (int)(bbox.x1 - bbox.x0) % w, (int)(bbox.y1 - bbox.y0) % h);
-				if (gdk_pixbuf_get_has_alpha (image))
-					gnome_print_rgbaimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
-											(int)(bbox.x1 - bbox.x0) % w, (int)(bbox.y1 - bbox.y0) % h,
-											gdk_pixbuf_get_rowstride(image));
-				else
-					gnome_print_rgbimage (prend->gp_context, gdk_pixbuf_get_pixels(image),
-											(int)(bbox.x1 - bbox.x0) % w, (int)(bbox.y1 - bbox.y0) % h,
-											gdk_pixbuf_get_rowstride(image));
-					gnome_print_grestore (prend->gp_context);
+				print_image (prend, image, (int)(bbox.x1 - bbox.x0) % w, (int)(bbox.y1 - bbox.y0) % h);
+				gnome_print_grestore (prend->gp_context);
 				break;
 			}
 			gnome_print_grestore (prend->gp_context);
-			g_object_unref (image);
 			break;
 
 		case GOG_FILL_STYLE_NONE:

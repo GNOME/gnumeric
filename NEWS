@@ -48,6 +48,7 @@ Gustavo Carneiro:
 
 Jean Brefort:
 	* Support image files in chart areas (background, bar/col or pie)
+	* Initial pass at supporting patterns in chart areas.
 
 Jody:
 	* Fix the generated source files.
@@ -78,6 +79,8 @@ Jody:
 	* Spinner/Scrollbar import for xl 95 & 97.
 	* Fix 118723
 	* Work on image persistence in xml
+	* Revamp chart styles and patterns
+	* Improve behavior of autofilters with ins/del col/row
 
 John Gill:
 	* More More XLish heuristics for autofill range selection.

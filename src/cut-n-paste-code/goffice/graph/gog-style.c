@@ -272,6 +272,7 @@ cb_fg_color_changed (GtkWidget *cc,
 {
 	GogStyle *style = gog_object_dup_style (state->obj);
 	g_return_if_fail (style != NULL);
+	g_return_if_fail (GOG_FILL_STYLE_PATTERN == style->fill.type);
 	style->fill.u.pattern.pat.fore = color_combo_get_gocolor (cc);
 	gog_object_set_style (state->obj, style);
 	populate_pattern_combo (state, style);
@@ -285,6 +286,7 @@ cb_bg_color_changed (GtkWidget *cc,
 {
 	GogStyle *style = gog_object_dup_style (state->obj);
 	g_return_if_fail (style != NULL);
+	g_return_if_fail (GOG_FILL_STYLE_PATTERN == style->fill.type);
 	style->fill.u.pattern.pat.back = color_combo_get_gocolor (cc);
 	gog_object_set_style (state->obj, style);
 	populate_pattern_combo (state, style);
@@ -470,6 +472,7 @@ cb_fill_gradient_start_color (GtkWidget *cc,
 {
 	GogStyle *style = gog_object_dup_style (state->obj);
 	g_return_if_fail (style != NULL);
+	g_return_if_fail (GOG_FILL_STYLE_GRADIENT == style->fill.type);
 	style->fill.u.gradient.start = color_combo_get_gocolor (cc);
 	gog_object_set_style (state->obj, style);
 	populate_gradient_combo (state, style);
@@ -483,6 +486,7 @@ cb_fill_gradient_end_color (GtkWidget *cc,
 {
 	GogStyle *style = gog_object_dup_style (state->obj);
 	g_return_if_fail (style != NULL);
+	g_return_if_fail (GOG_FILL_STYLE_GRADIENT == style->fill.type);
 	style->fill.u.gradient.end = color_combo_get_gocolor (cc);
 	gog_object_set_style (state->obj, style);
 	populate_gradient_combo (state, style);
@@ -509,19 +513,98 @@ fill_gradient_init (StylePrefState *state, GogStyle const *style)
 	gtk_widget_show_all (table);
 }
 
+/************************************************************************/
+
+static void
+cb_image_file_select (GtkWidget *cc, StylePrefState *state)
+{
+	GogStyle *style = gog_object_get_style (state->obj);
+	GtkFileSelection *fs;
+	GtkWidget *w;
+	gint result;
+
+	g_return_if_fail (style != NULL);
+	g_return_if_fail (GOG_FILL_STYLE_IMAGE == style->fill.type);
+
+	fs = GTK_FILE_SELECTION (gtk_file_selection_new (_("Select an image")));
+	gtk_window_set_modal (GTK_WINDOW (fs), TRUE);
+	gtk_file_selection_hide_fileop_buttons (fs);
+
+	if (style->fill.u.image.filename != NULL)
+		gtk_file_selection_set_filename (fs, style->fill.u.image.filename);
+
+	/* SHOULD BE USING gnumeric_dialog_file_selection
+	 * and should not be modal
+	 **/
+	result = gtk_dialog_run (GTK_DIALOG (fs));
+	if (result == GTK_RESPONSE_OK) {
+		style = gog_style_dup (style);
+
+		if (style->fill.u.image.image != NULL)
+			g_object_unref (style->fill.u.image.image);
+		g_free (style->fill.u.image.filename);
+
+		style->fill.u.image.filename =
+			g_strdup (gtk_file_selection_get_filename (fs));
+		style->fill.u.image.image = (style->fill.u.image.filename != NULL) 
+			? gdk_pixbuf_new_from_file (style->fill.u.image.filename, NULL)
+			: NULL;
+
+		w = glade_xml_get_widget (state->gui, "fill_image_sample");
+		gtk_image_set_from_pixbuf (GTK_IMAGE (w), style->fill.u.image.image);
+		gog_object_set_style (state->obj, style);
+	}
+	gtk_widget_destroy (GTK_WIDGET (fs));
+}
+
+static void
+cb_image_style_changed (GtkWidget *w, StylePrefState *state)
+{
+	GogStyle *style = gog_object_dup_style (state->obj);
+	g_return_if_fail (style != NULL);
+	g_return_if_fail (GOG_FILL_STYLE_IMAGE == style->fill.type);
+	style->fill.u.image.type = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
+	gog_object_set_style (state->obj, style);
+}
+
+static void
+fill_image_init (StylePrefState *state, GogStyle const *style)
+{
+	GtkWidget *w, *sample, *type;
+
+	w = glade_xml_get_widget (state->gui, "fill_image_select_picture");
+	g_signal_connect (G_OBJECT (w),
+		"clicked",
+		G_CALLBACK (cb_image_file_select), state);
+
+	sample = glade_xml_get_widget (state->gui, "fill_image_sample");
+	type   = glade_xml_get_widget (state->gui, "fill_image_fit");
+
+	if (GOG_FILL_STYLE_IMAGE == style->fill.type) {
+		gtk_option_menu_set_history (GTK_OPTION_MENU (type),
+			style->fill.u.image.type);
+		gtk_image_set_from_pixbuf (GTK_IMAGE (sample),
+			style->fill.u.image.image);
+	}
+	g_signal_connect (G_OBJECT (type),
+		"changed",
+		G_CALLBACK (cb_image_style_changed), state);
+}
+
+/************************************************************************/
+
 static void
 cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 {
 	GogStyle *style = gog_object_dup_style (state->obj);
 	GtkWidget *w;
 	unsigned page;
-	char const *filename;
 
 	page = gtk_option_menu_get_history (GTK_OPTION_MENU (menu));
 
 	if (page != style->fill.type &&
 	    GOG_FILL_STYLE_IMAGE == style->fill.type)
-		g_free (style->fill.u.image.image_file);
+		g_object_unref (style->fill.u.image.image);
 
 	switch (page) {
 	case GOG_FILL_STYLE_NONE:
@@ -545,10 +628,11 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 		break;
 
 	case GOG_FILL_STYLE_IMAGE:
-		w = glade_xml_get_widget (state->gui, "file_image_table");
-		filename = gtk_entry_get_text (GTK_ENTRY (w));
-		style->fill.u.image.image_file = (filename && *filename)? g_strdup (filename): NULL;
-		w = glade_xml_get_widget (state->gui, "image_option");
+		w = glade_xml_get_widget (state->gui, "fill_image_sample");
+		style->fill.u.image.image =  gtk_image_get_pixbuf (GTK_IMAGE (w));
+		if (NULL != style->fill.u.image.image)
+			g_object_ref (style->fill.u.image.image);
+		w = glade_xml_get_widget (state->gui, "fill_image_fit");
 		style->fill.u.image.type = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
 		break;
 	}
@@ -558,99 +642,6 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 	w = glade_xml_get_widget (state->gui, "fill_notebook");
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (w), page);
 }
-
-/************************************************************************/
-
-#if 0
-static gboolean
-cb_image_filename_changed (GtkWidget *cc, GdkEventFocus *ev, GogObject *obj)
-{
-	GogStyle *style = NULL, *newstyle;
-	char const *filename;
-
-	g_object_get (G_OBJECT (obj), "style", &style, NULL);
-	newstyle = gog_style_dup (style);
-	g_object_unref (style);
-	g_return_val_if_fail (newstyle != NULL, FALSE);
-
-	filename = gtk_entry_get_text (GTK_ENTRY (cc));
-
-	newstyle->fill.u.image.image_file = g_strdup (filename);
-	g_object_set (G_OBJECT (obj), "style", newstyle, NULL);
-	g_object_unref (newstyle);
-
-	return FALSE;
-}
-
-static void
-cb_image_file_select (GtkWidget *cc, GogObject *obj)
-{
-	GogStyle *style = NULL, *newstyle;
-	GtkWidget *fs, *w;
-	gint result;
-	const gchar* filename;
-
-	g_object_get (G_OBJECT (obj), "style", &style, NULL);
-	newstyle = gog_style_dup (style);
-	g_object_unref (style);
-	g_return_if_fail (newstyle != NULL);
-
-	fs = gtk_file_selection_new (_("Select an image file"));
-	gtk_window_set_modal (GTK_WINDOW (fs), TRUE);
-	if (newstyle->fill.u.image.image_file)
-		gtk_file_selection_set_filename (GTK_FILE_SELECTION (fs), newstyle->fill.u.image.image_file);
-	result = gtk_dialog_run (GTK_DIALOG (fs));
-	if (result == GTK_RESPONSE_OK) {
-		filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs));
-		if (filename && !*filename) filename = NULL;
-		g_free (newstyle->fill.u.image.image_file);
-		newstyle->fill.u.image.image_file = g_strdup (filename);
-		w = glade_xml_get_widget (state->gui, "image_filename");
-		gtk_entry_set_text (GTK_ENTRY (w), (filename)? filename: "");
-		g_object_set (G_OBJECT (obj), "style", newstyle, NULL);
-	}
-	g_object_unref (newstyle);
-	gtk_widget_destroy (fs);
-}
-#endif
-
-static void
-cb_image_style_changed (GtkWidget *w, StylePrefState *state)
-{
-	GogStyle *style = gog_object_dup_style (state->obj);
-	g_return_if_fail (style != NULL);
-	style->fill.u.image.type = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
-	gog_object_set_style (state->obj, style);
-}
-
-static void
-fill_image_init (StylePrefState *state, GogStyle const *style)
-{
-	GtkWidget *w;
-#if 0
-		w = glade_xml_get_widget (state->gui, "image_filename");
-		gtk_entry_set_text (GTK_ENTRY (w), style->fill.u.image.image_file);
-		w = glade_xml_get_widget (state->gui, "image_option");
-		gtk_option_menu_set_history (GTK_OPTION_MENU (w), style->fill.u.image.type);
-
-	/* initialization of the image related widgets */
-	w = glade_xml_get_widget (state->gui, "image_filename");
-	g_signal_connect (G_OBJECT (w),
-		"focus_out_event",
-		G_CALLBACK (cb_image_filename_changed), obj);
-	w = glade_xml_get_widget (state->gui, "image_button");
-	g_signal_connect (G_OBJECT (w),
-		"clicked",
-		G_CALLBACK (cb_image_file_select), state);
-#endif
-
-	w = glade_xml_get_widget (state->gui, "fill_image_fit");
-	g_signal_connect (G_OBJECT (w),
-		"changed",
-		G_CALLBACK (cb_image_style_changed), state);
-}
-
-/************************************************************************/
 
 static void
 fill_init (StylePrefState *state, GogStyle const *style, gboolean enable)
@@ -787,16 +778,20 @@ gog_style_dup (GogStyle const *src)
 void
 gog_style_assign (GogStyle *dst, GogStyle const *src)
 {
-	char *old_image = NULL;
+	if (src == dst)
+		return;
 
 	g_return_if_fail (GOG_STYLE (src) != NULL);
 	g_return_if_fail (GOG_STYLE (dst) != NULL);
 
-	if (GOG_FILL_STYLE_IMAGE == dst->fill.type)
-		old_image = dst->fill.u.image.image_file;
-	if (GOG_FILL_STYLE_IMAGE == dst->fill.type)
-		dst->fill.u.image.image_file = g_strdup (src->fill.u.image.image_file);
-	g_free (old_image);
+	if (GOG_FILL_STYLE_IMAGE == src->fill.type &&
+	    src->fill.u.image.image != NULL)
+		g_object_ref (src->fill.u.image.image);
+	if (GOG_FILL_STYLE_IMAGE == dst->fill.type) {
+		if (dst->fill.u.image.image != NULL)
+			g_object_unref (dst->fill.u.image.image);
+		g_free (dst->fill.u.image.filename);
+	}
 
 	if (src->font.desc != NULL)
 		g_object_ref (src->font.desc);
@@ -807,6 +802,9 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 	dst->fill    = src->fill;
 	dst->marker  = src->marker;
 	dst->font    = src->font;
+
+	if (GOG_FILL_STYLE_IMAGE == dst->fill.type)
+		dst->fill.u.image.filename = g_strdup (dst->fill.u.image.filename);
 }
 
 /**
@@ -828,8 +826,8 @@ gog_style_finalize (GObject *obj)
 	GogStyle *style = GOG_STYLE (obj);
 
 	if (GOG_FILL_STYLE_IMAGE == style->fill.type &&
-	    style->fill.u.image.image_file)
-		g_free (style->fill.u.image.image_file);
+	    style->fill.u.image.image != NULL)
+		g_object_unref (style->fill.u.image.image);
 
 	if (style->font.desc != NULL) {
 		g_object_unref (style->font.desc);

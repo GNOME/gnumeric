@@ -558,8 +558,7 @@ sv_update (SheetView *sv)
 			if (new_pos == NULL)
 				new_pos = cellpos_as_string (&sv->edit_pos);
 			SHEET_VIEW_FOREACH_CONTROL (sv, sc,
-				wb_control_selection_descr_set (sc_wbc (sc), new_pos);
-				wb_control_menu_state_update (sc_wbc (sc), MS_ADD_VS_REMOVE_FILTER););
+				wb_control_selection_descr_set (sc_wbc (sc), new_pos););
 		}
 	}
 
@@ -571,6 +570,8 @@ sv_update (SheetView *sv)
 			sv->auto_expr_timer = g_timeout_add_full (0, abs (lag), /* seems ok */
 				cb_update_auto_expr, (gpointer) sv, NULL);
 		}
+		SHEET_VIEW_FOREACH_CONTROL (sv, sc,
+			wb_control_menu_state_update (sc_wbc (sc), MS_ADD_VS_REMOVE_FILTER););
 	}
 }
 

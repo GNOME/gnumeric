@@ -14,6 +14,7 @@ struct _SheetPrivate {
 	unsigned char	 resize_scrollbar;
 	unsigned char	 resize;
 	CellPos		 reposition_objects;
+	unsigned char	 filters_changed;
 };
 
 #endif /* GNUMERIC_SHEET_PRIVATE_H */

@@ -2896,8 +2896,6 @@ cb_auto_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 		gnm_filter_free (filter);
 	}
 	sheet_update (sv->sheet);
-	WORKBOOK_VIEW_FOREACH_CONTROL(sv->wbv, wbc,
-		wb_control_menu_state_update (wbc, MS_ADD_VS_REMOVE_FILTER););
 }
 
 static void

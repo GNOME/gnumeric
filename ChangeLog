@@ -1,3 +1,20 @@
+2003-08-11  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-private.h : Add filters_changed flag.
+
+	* src/sheet-filter.c (gnm_filter_new) : set it here.
+	(gnm_filter_remove) : here.
+	(sheet_filter_insdel_colrow) : and here.  Only add a new field if a
+	  col is inserted in the midst of a filter range.  Inserting before or
+	  after just ignores moves them.
+	  
+	(gnm_filter_add_field) : fix inserting fields in the middle.
+
+	* src/sheet.c (sheet_update_only_grid) : regenerate the menu here if
+	  it's set.
+
+	* src/workbook-control-gui.c (cb_auto_filter) : sheet_update handles
+	  it now.
 
 2003-08-11  Carlos Perelló Marín <carlos@gnome.org>
 

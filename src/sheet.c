@@ -738,6 +738,11 @@ sheet_update_only_grid (Sheet const *sheet)
 		sheet_scrollbar_config (sheet);
 		p->resize_scrollbar = FALSE;
 	}
+	if (p->filters_changed) {
+		p->filters_changed = FALSE;
+		SHEET_FOREACH_CONTROL (sheet, sv, sc,
+			wb_control_menu_state_update (sc_wbc (sc), MS_ADD_VS_REMOVE_FILTER););
+	}
 }
 
 /**
