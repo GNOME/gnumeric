@@ -1,8 +1,28 @@
+10/07/99 (rasca)
+
+	* merged in miguels changes from gnumeric 0.28
+
 1999-07-07  Miguel de Icaza  <miguel@gnu.org>
 
 	* html.c: Split the code in manageable chunks.
 
 	* html.c: Removed useless pieces of code.
+
+09/07/99 (rasca)
+	- export latex2e: added font colors
+	- added latex2e export funktion
+	- export latex: support for monospaced (\tt) font
+	- export troff/ps: support for helvetica font
+	- export troff: put font size information into the troff file
+	- export troff: support for fixed font formated cells
+	- export html: use TT-tag for fixed font
+	- minor improvements to the troff export filter
+
+08/07/99 (rasca)
+	- added first prototype for exporting as TROFF
+	- exporting html: fixed a bug which ignored empty cells
+	- exporting html: added caption to every table
+	- exporting latex: fixed a bug which ignoerd empty cells
 
 07/07/99 (rasca)
 	- added first latex export code

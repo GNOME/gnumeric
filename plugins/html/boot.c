@@ -24,6 +24,7 @@
 #include "boot.h"
 #include "html.h"
 #include "latex.h"
+#include "roff.h"
 #include "file.h"
 
 /*
@@ -43,7 +44,13 @@ html_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_save (html_write_wb_html32);
 	file_format_unregister_save (html_write_wb_html40);
-	file_format_unregister_open (NULL, html_read);
+	file_format_unregister_save (html_write_wb_latex);
+	file_format_unregister_save (html_write_wb_latex2e);
+	file_format_unregister_save (html_write_wb_roff_ps);
+	file_format_unregister_save (html_write_wb_roff_dvi);
+	file_format_unregister_save (html_write_wb_roff_pdf);
+	file_format_unregister_save (html_write_wb_roff);
+	file_format_unregister_open (NULL,html_read);
 }
 
 /*
@@ -53,15 +60,27 @@ static void
 html_init (void)
 {
 	char *desc;
-	desc = _("HTML 3.2 file format");
+	desc = _("HTML 3.2 file format (*.html)");
 	file_format_register_save (".html", desc, html_write_wb_html32);
-	desc = _("HTML 4.0 file format");
+	desc = _("HTML 4.0 file format (*.html)");
 	file_format_register_save (".html", desc, html_write_wb_html40);
 	desc = _("HTML file made by gnumeric");
 		/* Q: what does the '100' mean? */
 	file_format_register_open (100, desc, NULL, html_read);
-	desc = _("LaTeX file format");
+
+	desc = _("LaTeX file format (*.tex)");
 	file_format_register_save (".tex", desc, html_write_wb_latex);
+	desc = _("LaTeX2e file format (*.tex)");
+	file_format_register_save (".tex", desc, html_write_wb_latex2e);
+
+	desc = _("PS file format (via groff)");
+	file_format_register_save (".ps", desc, html_write_wb_roff_ps);
+	desc = _("DVI TeX file format (via groff)");
+	file_format_register_save (".dvi", desc, html_write_wb_roff_dvi);
+	desc = _("TROFF file format (*.me)");
+	file_format_register_save (".me", desc, html_write_wb_roff);
+	desc = _("PDF file format (via groff/gs)");
+	file_format_register_save (".pdf", desc, html_write_wb_roff_pdf);
 }
 
 /*

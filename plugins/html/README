@@ -24,8 +24,8 @@ Features of the export/import functions:
 		  created by this plugin!
 		* while reading the html file the following attributes
 		  are imported:
-			- bold font setting
-			- italic font setting
+			- bold font setting (does not work since 0.28)
+			- italic font setting (does not work since 0.28)
 			- horizontal center and right aligment
 		* the 7bit presentation of "<" and ">" are decoded
 

@@ -1,5 +1,5 @@
 /*
- * html.h
+ * font.h
  *
  * Copyright (C) 1999 Rasca, Berlin
  * EMail: thron@gmx.de
@@ -19,17 +19,16 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef GNUMERIC_PLUGIN_HTML_H
-#define GNUMERIC_PLUGIN_HTML_H
+#ifndef G_PLUGIN_FONT_H_
+#define G_PLUGIN_FONT_H_
 
 #include "../../src/gnumeric.h"
 #include "../../src/gnumeric-util.h"
 
-int html_write_wb_html32 (Workbook *wb, const char *filename);
-int html_write_wb_html40 (Workbook *wb, const char *filename);
-Workbook *html_read (const char *filename);
-
-#define G_PLUGIN_FOR_HTML "GPFH/0.4"
+int font_is_monospaced (Style *style);
+int font_is_helvetica (Style *style);
+int font_is_sansserif (Style *style);
+int font_get_size (Style *style);
 
 #endif
 

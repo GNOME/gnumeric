@@ -22,6 +22,7 @@
 #include <gnome.h>
 #include "config.h"
 #include "html.h"
+#include "font.h"
 
 /*
  * escape special characters
@@ -55,94 +56,120 @@ html_fprintf (FILE *fp, const char *s)
 	return len;
 }
 
+/*
+ * write a TD
+ */
 static void
 html_write_cell32 (FILE *fp, Cell *cell)
 {
 	Style *style;
-	unsigned char r,g,b;
+	unsigned char r, g, b;
 
-	if (!cell) {
-		fprintf (fp, "\t<TD?>\n");
-		return;
-	} 
-
-	style = cell->style;
-	fprintf (fp, "\t<TD");
-	if (style->halign & HALIGN_RIGHT)
-		fprintf (fp, " align=right");
-	if (style->halign & HALIGN_CENTER)
-		fprintf (fp, " align=center");
-	if (style->valign & VALIGN_TOP)
-		fprintf (fp, " valign=top");
-	r = style->back_color->color.red >> 8;
-	g = style->back_color->color.green >> 8;
-	b = style->back_color->color.blue >> 8;
-	if (r != 255 || g != 255 || b != 255)
-		fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
-	fprintf (fp, ">");
-	r = style->fore_color->color.red >> 8;
-	g = style->fore_color->color.green >> 8;
-	b = style->fore_color->color.blue >> 8;
-	if (r != 0 || g != 0 || b != 0)
-		fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
-			 r, g, b);
-	if (style->font->is_bold)
-		fprintf (fp, "<B>");
-	if (style->font->is_italic)
-		fprintf (fp, "<I>");
-	html_fprintf (fp, cell->text->str);
-	if (style->font->is_bold)
-		fprintf (fp, "</B>");
-	if (style->font->is_italic)
-		fprintf (fp, "</I>");
-	if (r != 0 || g != 0 || b != 0)
-		fprintf (fp, "</FONT>");
-	fprintf (fp, "\n");
+	if (!cell) {	/* empty cell */
+		fprintf (fp, "\t<TD>\n");
+	} else {
+		style = cell->style;
+		if (!style) {
+			/* is this case posible? */
+			fprintf (fp, "\t<TD>");
+			html_fprintf (fp, cell->text->str);
+			fprintf (fp, "\n");
+		} else {
+			fprintf (fp, "\t<TD");
+			if (style->halign & HALIGN_RIGHT)
+				fprintf (fp, " align=right");
+			if (style->halign & HALIGN_CENTER)
+				fprintf (fp, " align=center");
+			if (style->valign & VALIGN_TOP)
+				fprintf (fp, " valign=top");
+			r = style->back_color->color.red >> 8;
+			g = style->back_color->color.green >> 8;
+			b = style->back_color->color.blue >> 8;
+			if (r != 255 || g != 255 || b != 255)
+				fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
+			fprintf (fp, ">");
+			r = style->fore_color->color.red >> 8;
+			g = style->fore_color->color.green >> 8;
+			b = style->fore_color->color.blue >> 8;
+			if (r != 0 || g != 0 || b != 0)
+				fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
+						r, g, b);
+			if (font_is_monospaced (style))
+				fprintf (fp, "<TT>");
+			if (style->font->is_bold)
+				fprintf (fp, "<B>");
+			if (style->font->is_italic)
+				fprintf (fp, "<I>");
+			html_fprintf (fp, cell->text->str);
+			if (style->font->is_italic)
+				fprintf (fp, "</I>");
+			if (style->font->is_bold)
+				fprintf (fp, "</B>");
+			if (font_is_monospaced (style))
+				fprintf (fp, "</TT>");
+			if (r != 0 || g != 0 || b != 0)
+				fprintf (fp, "</FONT>");
+			fprintf (fp, "\n");
+		}
+	}
 }
 
+/*
+ * write a TD
+ */
 static void
 html_write_cell40 (FILE *fp, Cell *cell)
 {
 	Style *style;
-	unsigned char r,g,b;
+	unsigned char r, g, b;
 
-	if (!cell) {
-		fprintf (fp, "\t<TD?>\n");
-		return;
+	if (!cell) {	/* empty cell */
+		fprintf (fp, "\t<TD>\n");
+	} else {
+		style = cell->style;
+		if (!style) {
+			/* is this case posible? */
+			fprintf (fp, "\t<TD>");
+			html_fprintf (fp, cell->text->str);
+			fprintf (fp, "\n");
+		} else {
+			fprintf (fp, "\t<TD");
+			if (style->halign & HALIGN_RIGHT)
+				fprintf (fp, " halign=right");
+			if (style->halign & HALIGN_CENTER)
+				fprintf (fp, " halign=center");
+			if (style->valign & VALIGN_TOP)
+				fprintf (fp, " valign=top");
+			r = style->back_color->color.red >> 8;
+			g = style->back_color->color.green >> 8;
+			b = style->back_color->color.blue >> 8;
+			if (r != 255 || g != 255 || b != 255)
+				fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
+			fprintf (fp, ">");
+			r = style->fore_color->color.red >> 8;
+			g = style->fore_color->color.green >> 8;
+			b = style->fore_color->color.blue >> 8;
+			if (r != 0 || g != 0 || b != 0)
+				fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
+						r, g, b);
+			if (font_is_monospaced (style))
+				fprintf (fp, "<TT>");
+			if (style->font->is_bold)
+				fprintf (fp, "<B>");
+			if (style->font->is_italic)
+				fprintf (fp, "<I>");
+			html_fprintf (fp, cell->text->str);
+			if (style->font->is_italic)
+				fprintf (fp, "</I>");
+			if (style->font->is_bold)
+				fprintf (fp, "</B>");
+			if (font_is_monospaced (style))
+				fprintf (fp, "</TT>");
+			if (r != 0 || g != 0 || b != 0)
+				fprintf (fp, "</FONT>");
+			fprintf (fp, "\n");
+		}
 	}
-	
-	style = cell->style;
-	fprintf (fp, "\t<TD");
-	if (style->halign & HALIGN_RIGHT)
-		fprintf (fp, " halign=right");
-	if (style->halign & HALIGN_CENTER)
-		fprintf (fp, " halign=center");
-	if (style->valign & VALIGN_TOP)
-		fprintf (fp, " valign=top");
-	r = style->back_color->color.red >> 8;
-	g = style->back_color->color.green >> 8;
-	b = style->back_color->color.blue >> 8;
-	if (r != 255 || g != 255 || b != 255)
-		fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
-	fprintf (fp, ">");
-	r = style->fore_color->color.red >> 8;
-	g = style->fore_color->color.green >> 8;
-	b = style->fore_color->color.blue >> 8;
-	if (r != 0 || g != 0 || b != 0)
-		fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
-			 r, g, b);
-	if (style->font->is_bold)
-		fprintf (fp, "<B>");
-	if (style->font->is_italic)
-		fprintf (fp, "<I>");
-	html_fprintf (fp, cell->text->str);
-	if (style->font->is_bold)
-		fprintf (fp, "</B>");
-	if (style->font->is_italic)
-		fprintf (fp, "</I>");
-	if (r != 0 || g != 0 || b != 0)
-		fprintf (fp, "</FONT>");
-	fprintf (fp, "\n");
 }
 
 /*
@@ -166,11 +193,26 @@ html_write_wb_html32 (Workbook *wb, const char *filename)
 
 	fprintf (fp, "<!DOCTYPE HTML PUBLIC \"-//W3C/DTD HTML 3.2/EN\">\n");
 	fprintf (fp, "<HTML>\n");
-	fprintf (fp, "<!-- "G_PLUGIN_FOR_HTML" -->\n");
+	fprintf (fp, "<HEAD>\n\t<TITLE>Tables</TITLE>\n");
+	fprintf (fp, "\t<!-- "G_PLUGIN_FOR_HTML" -->\n");
+	fprintf (fp, "<STYLE><!--\n");
+	fprintf (fp, "TT {\n");
+	fprintf (fp, "\tfont-family: courier;\n");
+	fprintf (fp, "}\n");
+	fprintf (fp, "TD {\n");
+	fprintf (fp, "\tfont-family: helvetica, sans-serif;\n");
+	fprintf (fp, "}\n");
+	fprintf (fp, "CAPTION {\n");
+	fprintf (fp, "\tfont-size: 14pt;\n");
+	fprintf (fp, "\ttext-align: left;\n");
+	fprintf (fp, "}\n");
+	fprintf (fp, "--></STYLE>\n");
+	fprintf (fp, "</HEAD>\n<BODY>\n");
 	sheet_list = workbook_sheets (wb);
 	while (sheet_list) {
 		sheet = sheet_list->data;
 		fprintf (fp, "<TABLE border=1>\n");
+		fprintf (fp, "<CAPTION>%s</CAPTION>\n", sheet->name);
 
 		for (row = 0; row < (sheet->max_row_used+1); row++) {
 			fprintf (fp, "<TR>\n");
@@ -183,7 +225,7 @@ html_write_wb_html32 (Workbook *wb, const char *filename)
 		fprintf (fp, "</TABLE>\n<P>\n\n");
 		sheet_list = sheet_list->next;
 	}
-	fprintf (fp, "</HTML>\n");
+	fprintf (fp, "<BODY>\n</HTML>\n");
 	fclose (fp);
 	return 0;	/* what do we have to return here?? */
 }
@@ -209,11 +251,27 @@ html_write_wb_html40 (Workbook *wb, const char *filename)
 
 	fprintf (fp, "<!DOCTYPE HTML PUBLIC \"-//W3C/DTD HTML 4.0/EN\">\n");
 	fprintf (fp, "<HTML>\n");
-	fprintf (fp, "<!-- "G_PLUGIN_FOR_HTML" -->\n");
+	fprintf (fp, "<HEAD>\n\t<TITLE>Tables</TITLE>\n");
+	fprintf (fp, "\t<!-- "G_PLUGIN_FOR_HTML" -->\n");
+	fprintf (fp, "<STYLE><!--\n");
+	fprintf (fp, "TT {\n");
+	fprintf (fp, "\tfont-family: courier;\n");
+	fprintf (fp, "}\n");
+	fprintf (fp, "TD {\n");
+	fprintf (fp, "\tfont-family: helvetica, sans-serif;\n");
+	fprintf (fp, "}\n");
+	fprintf (fp, "CAPTION {\n");
+	fprintf (fp, "\tfont-family: helvetica, sans-serif;\n");
+	fprintf (fp, "\tfont-size: 14pt;\n");
+	fprintf (fp, "\ttext-align: left;\n");
+	fprintf (fp, "}\n");
+	fprintf (fp, "--></STYLE>\n");
+	fprintf (fp, "</HEAD>\n<BODY>\n");
 	sheet_list = workbook_sheets (wb);
 	while (sheet_list) {
 		sheet = sheet_list->data;
 		fprintf (fp, "<TABLE border=1>\n");
+		fprintf (fp, "<CAPTION>%s</CAPTION>\n", sheet->name);
 
 		for (row = 0; row < (sheet->max_row_used+1); row++) {
 			fprintf (fp, "<TR>\n");
@@ -226,7 +284,7 @@ html_write_wb_html40 (Workbook *wb, const char *filename)
 		fprintf (fp, "</TABLE>\n<P>\n\n");
 		sheet_list = sheet_list->next;
 	}
-	fprintf (fp, "</HTML>\n");
+	fprintf (fp, "<BODY>\n</HTML>\n");
 	fclose (fp);
 	return 0;	/* Q: what do we have to return here?? */
 }
@@ -281,6 +339,54 @@ html_get_string (char *s, int *flags)
 	}
 	*q = '\0';
 	return buf;
+}
+
+/*
+ * change the font of a cell to bold
+ */
+static void
+html_cell_bold (Cell *cell)
+{
+	Style *style;
+	StyleFont *sf, *cf;
+
+	if (!cell)
+		return;
+	style = cell->style;
+	if (!style)
+		return;
+	cf = style->font;
+	if (!cf)
+		return;
+	sf = style_font_new_simple (cf->font_name, cf->size, cf->scale,
+			1, cf->is_italic);
+	if (sf) {
+		cell_set_font_from_style (cell, sf);
+	}
+}
+
+/*
+ * change the font of a cell to italic
+ */
+static void
+html_cell_italic (Cell *cell)
+{
+	Style *style;
+	StyleFont *sf, *cf;
+
+	if (!cell)
+		return;
+	style = cell->style;
+	if (!style)
+		return;
+	cf = style->font;
+	if (!cf)
+		return;
+	sf = style_font_new_simple (cf->font_name, cf->size, cf->scale,
+			cf->is_bold, 1);
+	if (sf) {
+		cell_set_font_from_style (cell, sf);
+	}
 }
 
 /*
@@ -369,10 +475,10 @@ html_read (const char *filename)
 						 */
 						if (cell->style && cell->style->font && flags) {
 							if (flags & HTML_BOLD) {
-/*								html_cell_bold (cell); */
+								html_cell_bold (cell);
 							}
 							if (flags & HTML_ITALIC) {
-/*								html_cell_italic (cell); */
+								html_cell_italic (cell);
 							}
 							if (flags & HTML_RIGHT) {
 								cell_set_halign (cell, HALIGN_RIGHT);
