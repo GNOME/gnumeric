@@ -57,7 +57,13 @@ create_bitmap_and_mask_from_xpm (GdkBitmap **bitmap, GdkBitmap **mask, gchar **x
 				if (xpm [y + yofs][x] != transparent_color){
 					maskv |= 1 << pix;
 
-					if (xpm [y + yofs][x] != black_color){
+					/*
+					 * Invert the colours here because it seems
+					 * to workaround a bug the Matrox G100 Xserver?
+					 * We reverse the foreground & background in the next
+					 * routine to compensate.
+					 */
+					if (xpm [y + yofs][x] == black_color){
 						value |= 1 << pix;
 					}
 				}
@@ -85,10 +91,14 @@ cursors_init (void)
 		else {
 			create_bitmap_and_mask_from_xpm (
 				&bitmap, &mask, gnumeric_cursors [i].xpm);
+
+			/* The foreground and background colours are reversed.
+			 * See comment above for explanation.
+			 */
 			gnumeric_cursors [i].cursor =
 				gdk_cursor_new_from_pixmap (
 					bitmap, mask,
-					&gs_white, &gs_black,
+					&gs_black, &gs_white,
 					gnumeric_cursors [i].hot_x,
 					gnumeric_cursors [i].hot_y);
 		}

@@ -1,3 +1,28 @@
+1999-10-05  Jody Goldberg <jgoldberg@home.com>
+	From : Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
+
+	* src/dialogs/sheet-rename.glade: Made OK button default.
+
+	* dialog-simple-input.c
+	(dialog_get_number) : gnome_dialog_run instead of run_and_close -
+	  otherwise entry widget is destroyed before it is read.  Make
+	  <Enter> in entry field activate default button.
+	(dialog_get_sheet_name) : As above
+
+	* src/workbook.c (workbook_rename_sheet): Update notebook label
+
+	* src/workbook-cmd-format.c 
+	(workbook_cmd_format_column_width,
+	 workbook_cmd_format_row_height): Off by one error.
+
+1999-10-04  Jody Goldberg <jgoldberg@home.com>
+	From: Nick Lamb <njl98r@ecs.soton.ac.uk>
+
+	* src/cursors.c (cursors_init, create_bitmap_and_mask_from_xpm) :
+	  A small patch to invert the logic when handling black vs white in
+	  cursors.  This works around a problem with some Xservers.
+	  Bug 808.
+
 1999-09-30  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/Gnumeric-value.idl: New file, move the value structure
