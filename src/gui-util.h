@@ -16,14 +16,14 @@
 #include <glade/glade-xml.h>
 
 gboolean   gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
-                                            const gchar *message,
+                                            char const *message,
                                             gboolean default_answer);
 gboolean   gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, 
 					   GtkFileSelection *fsel);
 gboolean   gnumeric_dialog_dir_selection (WorkbookControlGUI *wbcg, 
 					  GtkFileSelection *fsel);
 void       gnumeric_notice (WorkbookControlGUI *wbcg, GtkMessageType type, 
-			    const char *str);
+			    char const *str);
 void       gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref,
 				     GtkMessageType type, char const *str);
 
@@ -35,20 +35,20 @@ void       gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg,
 void       gnumeric_set_transient (GtkWindow *parent, GtkWindow *window);
 void       gnumeric_keyed_dialog (WorkbookControlGUI *wbcg,
 				  GtkWindow *dialog,
-				  const char *key);
+				  char const *key);
 gpointer   gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg,
-					    const char *key);
-void       gnumeric_editable_enters (GtkWindow *window, GtkWidget *w);
-void       gnumeric_combo_enters (GtkWindow *window, GtkCombo *combo);
+					    char const *key);
+void       gnumeric_editable_enters	(GtkWindow *window, GtkWidget *w);
+void       gnumeric_combo_enters	(GtkWindow *window, GtkWidget *combo);
 void       gnumeric_toolbar_insert_with_eventbox (GtkToolbar *toolbar,
                                                   GtkWidget  *widget,
-                                                  const char *tooltip_text,
-                                                  const char *tooltip_private_text,
+                                                  char const *tooltip_text,
+                                                  char const *tooltip_private_text,
                                                   gint        position);
 void       gnumeric_toolbar_append_with_eventbox (GtkToolbar *toolbar,
                                                   GtkWidget  *widget,
-                                                  const char *tooltip_text,
-                                                  const char *tooltip_private_text);
+                                                  char const *tooltip_text,
+                                                  char const *tooltip_private_text);
 
 /* change alignment of a stock buttons content (should be removed for 2.2) */
 void gtk_button_stock_alignment_set (GtkButton *button,
@@ -60,7 +60,7 @@ void gtk_button_stock_alignment_set (GtkButton *button,
 /* Utility routine as Gtk does not have any decent routine to do this */
 int gtk_radio_group_get_selected (GSList *radio_group);
 /* Utility routine as libglade does not have any decent routine to do this */
-int gnumeric_glade_group_value (GladeXML *gui, const char *group[]);
+int gnumeric_glade_group_value (GladeXML *gui, char const *group[]);
 
 /* Use this on menus that are popped up */
 void gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event);
@@ -71,7 +71,7 @@ void gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event);
 void        gnumeric_position_tooltip (GtkWidget *tip, int horizontal);
 GtkWidget  *gnumeric_create_tooltip (void);
 
-GladeXML   *gnm_glade_xml_new (GnmCmdContext *cc, char const * gladefile,
+GladeXML   *gnm_glade_xml_new (GnmCmdContext *cc, char const *gladefile,
 			       char const *root, char const *domain);
 
 void 	    gnumeric_inject_widget_into_bonoboui (WorkbookControlGUI *wbcg,
@@ -79,8 +79,8 @@ void 	    gnumeric_inject_widget_into_bonoboui (WorkbookControlGUI *wbcg,
 						  char const *path);
 
 typedef struct {
-	char const * name;
-	char const * pixmap;
+	char const *name;
+	char const *pixmap;
 	int display_filter;
 	int sensitive_filter;
 
@@ -129,11 +129,11 @@ void	 int_to_entry	(GtkEntry *entry, gint the_int);
 GtkWidget *gnumeric_load_image  (char const *name);
 GdkPixbuf *gnumeric_load_pixbuf (char const *name);
 
-GdkPixbuf *gnm_pixbuf_tile (const GdkPixbuf *src, int w, int h);
+GdkPixbuf *gnm_pixbuf_tile (GdkPixbuf const *src, int w, int h);
 
 void gnm_setup_label_atk (GtkWidget *label, GtkWidget *target);
 
-int gnm_measure_string (PangoContext *context, const PangoFontDescription *font_desc, const char *str);
+int gnm_measure_string (PangoContext *context, PangoFontDescription const *font_desc, char const *str);
 
 void gnm_link_button_and_entry (GtkWidget *button, GtkWidget *entry);
 
@@ -141,14 +141,14 @@ void gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct);
 void gnm_widget_set_cursor (GtkWidget *w, GdkCursor *ct);
 GdkCursor *gnm_fat_cross_cursor (GdkDisplay *display);
 
-GtkWidget * gnumeric_button_new_with_stock_image (const gchar* text, const gchar* stock_id);
-GtkWidget * gnumeric_dialog_add_button (GtkDialog *dialog, const gchar* text, const gchar* stock_id,
+GtkWidget * gnumeric_button_new_with_stock_image (char const *text, char const *stock_id);
+GtkWidget * gnumeric_dialog_add_button (GtkDialog *dialog, char const *text, char const *stock_id,
 					gint response_id);
 GtkWidget * gnumeric_message_dialog_new (GtkWindow * parent,
 					 GtkDialogFlags flags,
 					 GtkMessageType type,
-					 gchar const * primary_message,
-					 gchar const * secondary_message);
+					 char const *primary_message,
+					 char const *secondary_message);
 
 GdkPixbuf* gnm_pixbuf_intelligent_scale (GdkPixbuf *pixbuf, 
 					 guint width, guint height);

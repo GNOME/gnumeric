@@ -1,3 +1,8 @@
+2003-10-12  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : remove GTK_DISABLE_DEPRECATED for now.  gtk head has
+	  changed alot recently and this breaks the build.
+
 2003-10-12  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* configure.in: bumped requirements for libgda and libgnomedb.

@@ -8,9 +8,13 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    http://bugzilla.gnome.org/show_bug.cgi?id=124339	[XL4 import crash]
+    http://bugzilla.gnome.org/show_bug.cgi?id=124271	[crash on undo free ?]
+    http://bugzilla.gnome.org/show_bug.cgi?id=124315	[line plot ignores axis]
+    http://bugzilla.gnome.org/show_bug.cgi?id=124318	[line plot should center ticks]
+    http://bugzilla.gnome.org/show_bug.cgi?id=124316	[pad graph, and chart]
     http://bugzilla.gnome.org/show_bug.cgi?id=124244	[unable to open group]
     http://bugzilla.gnome.org/show_bug.cgi?id=122546	[col labels]
-    http://bugzilla.gnome.org/show_bug.cgi?id=123342	[gda borkage]
     - Verify histogram tool.  Feels fubar.
     : text in boxes for text-xls/pivot.xls is white ??
     : guia.xls complains of problems importing autofilter

@@ -25,6 +25,7 @@
 
 #include <workbook.h>
 #include <gui-util.h>
+#include <gtk/gtkhbox.h>
 #include <libgnomeui/gnome-about.h>
 #include <libgnomeui/gnome-href.h>
 

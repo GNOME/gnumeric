@@ -564,13 +564,13 @@ gnumeric_editable_enters (GtkWindow *window, GtkWidget *w)
  * when enter is pressed
  **/
 void
-gnumeric_combo_enters (GtkWindow *window, GtkCombo *combo)
+gnumeric_combo_enters (GtkWindow *window, GtkWidget *combo)
 {
 	g_return_if_fail (GTK_IS_WINDOW(window));
 	g_return_if_fail (GTK_IS_COMBO (combo));
 
-	gtk_combo_disable_activate (combo);
-	gnumeric_editable_enters (window, GTK_WIDGET (combo->entry));
+	gtk_combo_disable_activate (GTK_COMBO (combo));
+	gnumeric_editable_enters (window, GTK_WIDGET (GTK_COMBO (combo)->entry));
 }
 
 /**
