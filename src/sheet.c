@@ -3127,6 +3127,7 @@ sheet_insert_cols (Sheet *sheet,
 			     &sheet->cols, i, i + count);
 
 	solver_insert_cols (sheet, col, count);
+	scenario_insert_cols (sheet->scenarios, col, count);
 	sheet_colrow_insert_finish (&reloc_info, TRUE, col, count, states);
 	return FALSE;
 }
@@ -3187,6 +3188,7 @@ sheet_delete_cols (Sheet *sheet,
 			     &sheet->cols, i, i-count);
 
 	solver_delete_cols (sheet, col, count);
+	scenario_delete_cols (sheet->scenarios, col, count);
 	sheet_colrow_delete_finish (&reloc_info, TRUE, col, count, states);
 	return FALSE;
 }
@@ -3239,6 +3241,7 @@ sheet_insert_rows (Sheet *sheet,
 			     &sheet->rows, i, i+count);
 
 	solver_insert_rows (sheet, row, count);
+	scenario_insert_rows (sheet->scenarios, row, count);
 	sheet_colrow_insert_finish (&reloc_info, FALSE, row, count, states);
 	return FALSE;
 }
@@ -3299,6 +3302,7 @@ sheet_delete_rows (Sheet *sheet,
 			     &sheet->rows, i, i-count);
 
 	solver_delete_rows (sheet, row, count);
+	scenario_delete_rows (sheet->scenarios, row, count);
 	sheet_colrow_delete_finish (&reloc_info, FALSE, row, count, states);
 	return FALSE;
 }
