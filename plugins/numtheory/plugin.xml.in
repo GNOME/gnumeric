@@ -4,7 +4,7 @@
 		<_name>Number Theory</_name>
 		<_description>Several basic utilities for prime numbers, pi, phi, sigma. It also hold some simple bitwise operations</_description>
 	</information>
-	<loader type="g_module">
+	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="numtheory.la"/>
 	</loader>
 	<services>

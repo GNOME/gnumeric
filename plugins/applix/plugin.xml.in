@@ -4,7 +4,7 @@
 		<_name>Applix</_name>
 		<_description>Imports version 4.[234] spreadsheets</_description>
 	</information>
-	<loader type="g_module">
+	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="applix.la"/>
 	</loader>
 	<services>

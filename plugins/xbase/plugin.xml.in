@@ -4,7 +4,7 @@
 		<_name>XBase</_name>
 		<_description>Imports XBase files</_description>
 	</information>
-	<loader type="g_module">
+	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="xbase.la"/>
 	</loader>
 	<services>

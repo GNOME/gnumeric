@@ -4,7 +4,7 @@
 		<_name>Financial Derivatives</_name>
 		<_description>Functions related to financial derivatives</_description>
 	</information>
-	<loader type="g_module">
+	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="derivatives.la"/>
 	</loader>
 	<services>

@@ -4,7 +4,7 @@
 		<_name>Sample DataSource</_name>
 		<_description>A proof of concept external data source</_description>
 	</information>
-	<loader type="g_module">
+	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="sample_datasource.la"/>
 	</loader>
 	<services>

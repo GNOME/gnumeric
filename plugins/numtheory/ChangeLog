@@ -1,3 +1,7 @@
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
 2002-07-27  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* numtheory.c: Function description clean up.

@@ -4,7 +4,7 @@
 		<_name>Data Interchange Format (DIF) module</_name>
 		<_description>Reads and writes information stored in the Data Interchange Format (*.dif)</_description>
 	</information>
-	<loader type="g_module">
+	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="dif.la"/>
 	</loader>
 	<services>

@@ -4,7 +4,7 @@
 		<_name>Lotus 123</_name>
 		<_description>Imports Lotus 123 files</_description>
 	</information>
-	<loader type="g_module">
+	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="lotus.la"/>
 	</loader>
 	<services>

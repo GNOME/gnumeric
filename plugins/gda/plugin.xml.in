@@ -4,7 +4,7 @@
 		<_name>Database</_name>
 		<_description>Database functions for allowing the retrieval of data from a database</_description>
 	</information>
-	<loader type="g_module">
+	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="gdaif.la"/>
 	</loader>
 	<services>

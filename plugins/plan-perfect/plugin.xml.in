@@ -4,7 +4,7 @@
 		<_name>Plan Perfect</_name>
 		<_description>Imports Plan Perfect Formatted Documents</_description>
 	</information>
-	<loader type="g_module">
+	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="plan_perfect.la"/>
 	</loader>
 	<services>

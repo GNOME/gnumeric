@@ -4,7 +4,7 @@
 		<_name>Financial Functions</_name>
 		<_description>Interest rate calculations</_description>
 	</information>
-	<loader type="g_module">
+	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="plugin.la"/>
 	</loader>
 	<services>

@@ -4,7 +4,7 @@
 		<_name>MS Excel (tm)</_name>
 		<_description>Imports/Exports MS Excel (tm) files</_description>
 	</information>
-	<loader type="g_module">
+	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="excel.la"/>
 	</loader>
 	<services>

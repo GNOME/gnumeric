@@ -4,7 +4,7 @@
 		<_name>Linear and integer program expression format (MPS) module</_name>
 		<_description>Reads LP programs stored in the MPS format (*.mps)</_description>
 	</information>
-	<loader type="g_module">
+	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="mps.la"/>
 	</loader>
 	<services>

@@ -4,7 +4,7 @@
 		<_name>EXPERIMENTAL SAX based XML</_name>
 		<_description>The next generation sax based xml I/O subsystem</_description>
 	</information>
-	<loader type="g_module">
+	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="xml_sax.la"/>
 	</loader>
 	<services>

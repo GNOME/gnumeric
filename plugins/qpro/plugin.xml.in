@@ -4,7 +4,7 @@
 		<_name>Quatro Pro(tm)</_name>
 		<_description>Imports Quatro Pro (tm) files</_description>
 	</information>
-	<loader type="g_module">
+	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="qpro.la"/>
 	</loader>
 	<services>

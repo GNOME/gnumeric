@@ -4,7 +4,7 @@
 		<_name>GNU Oleo</_name>
 		<_description>Imports GNU Oleo documents</_description>
 	</information>
-	<loader type="g_module">
+	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="oleo.la"/>
 	</loader>
 	<services>

@@ -4,7 +4,7 @@
 		<_name>HTML &amp; TeX</_name>
 		<_description>Import/Export of HTML, TeX, DVI, roff</_description>
 	</information>
-	<loader type="g_module">
+	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="html.la"/>
 	</loader>
 	<services>

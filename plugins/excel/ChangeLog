@@ -1,3 +1,7 @@
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
 2002-08-01  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (biff_put_text) : set the unicode flag on the
