@@ -1,8 +1,8 @@
 2001-11-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
-	
-	* src/search.c (search_filter_matching) initialize pointers to 
+
+	* src/search.c (search_filter_matching) initialize pointers to
 	  NULL
-	
+
 2001-11-29  Abel Cheung  <maddog@linux.org.hk>
 
 	* configure.in: Re-added zh_TW into ALL_LINGUAS, verified
@@ -23,8 +23,8 @@
 	* src/analysis-tools.c (free_data_set) : delete (obsolete)
 	(set_percent) new utility procedure to set cell format
 	(ranking_tool) rewrite to use new suport functions, to allow
-	  input references to other sheets, handle ties in ranks 
-	  according to statistical practice, set cell format for 
+	  input references to other sheets, handle ties in ranks
+	  according to statistical practice, set cell format for
 	  percentile
 
 2001-11-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -101,10 +101,10 @@
 
 2001-11-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/analysis-tools.h : change discrete_random_tool_t to use Value rather than 
+	* src/analysis-tools.h : change discrete_random_tool_t to use Value rather than
 	  explicit row/column numbers
-	* src/analysis-tools.c (random_tool) : use Value rather than explicit row/column 
-	  numbers support input from other sheets, differentiate between various errors 
+	* src/analysis-tools.c (random_tool) : use Value rather than explicit row/column
+	  numbers support input from other sheets, differentiate between various errors
 	  by returning more specifc error codes
 	* ranges.c (global_range_parse) : use default sheet if string does not contain
 	  specific sheet reference
@@ -117,7 +117,7 @@
 2001-11-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/search.h : add curr_sheet to _SearchReplace
-	* src/search.c (search_replace_verify) : use global_range_list_parse 
+	* src/search.c (search_replace_verify) : use global_range_list_parse
 	  rather than parse_range
 	(search_collect_cells) : ditto
 	(search_collect_cells_cb) : callback for global_range_list_foreach in
@@ -144,7 +144,7 @@
 	* Release 0.76
 
 2001-11-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
-	* src/analysis-tools.c (descriptive_stat_tool) : fix stupid error allowing more 
+	* src/analysis-tools.c (descriptive_stat_tool) : fix stupid error allowing more
 	  than one of summary, confidnec intervals, kth-largest, and kth-smallest
 	  to be redirected to a new sheet or workbook. Fix code formatting.
 
@@ -163,7 +163,7 @@
 	  allow inverse auto-fill, pass parameter to cmd_autofill to indicate inverse autofill
 
 	* commands.h (cmd_autofill) :
-	* commands.c (CmdAutofill, cmd_autofill) : extra parameter and struct 
+	* commands.c (CmdAutofill, cmd_autofill) : extra parameter and struct
 	  member to support inverse autofill
 	  (cmd_autofill_redo) : flipped row, col parameters to sheet_autofill
 	  for inverse autofill
@@ -174,7 +174,7 @@
 
 	* workbook-control-gui.c (cb_edit_fill_autofill) : added parameter in call
 	  to cmd_autofill for consistency
-			     
+
 2001-11-17  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c (workbook_close_if_user_permits) : fix
@@ -235,7 +235,7 @@
 
 	* src/analysis-tools.c (new_data_set_list) : add `Bin'
 	(histogram_tool) improve to ignore non-numerical entries and to support
-	  labels, pareto, multiple variables and input from several sheets 
+	  labels, pareto, multiple variables and input from several sheets
 	* src/analysis-tools.h : add GROUPED_BY_BIN
 
 2001-11-14  Jody Goldberg <jgoldberg@home.com>
@@ -389,7 +389,7 @@
 	(ttest_neq_var_tool) : ditto
 	(anova_single_factor_tool_tool) : ditto
 	(ftest_tool) : ditto
-	
+
 2001-11-07  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/workbook-view.c (wb_view_auto_expr) : changes to
@@ -605,7 +605,7 @@
 
 2001-10-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/ranges.c/h (global_range_contained) : new routine testing whether 
+	* src/ranges.c/h (global_range_contained) : new routine testing whether
 	  a range is contained in another, similar to range_contained.
 
 2001-10-30  Morten Welinder  <terra@diku.dk>
@@ -701,7 +701,7 @@
 
 	* src/validation.[ch]: New, defines a container for
 	validation settings.
-	
+
 	* src/Makefile.am: Add new validation.[ch]
 
 	* src/gnumeric.h: Add validation declaration.
@@ -754,7 +754,7 @@
 	StyleConditionChain into a real StyleConditionChain.
 	(xml_write_style): Add validation support.
 	(xml_read_style): Idem.
-	
+
 2001-10-27  Jody Goldberg <jgoldberg@home.com>
 
 	* src/expr.c (cellref_relocate) : Only make the sheet local if the
@@ -832,18 +832,18 @@
 
 2001-10-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/analysis-tools.c : various routines added to keep track of missing 
+	* src/analysis-tools.c : various routines added to keep track of missing
 	  observations as well as various routines removed that are no longer
 	  required. Renamed data_set_t to old_data_set_t, and introduced a new
           data_set_t
 	(correlation_tool) : now handles missing observations and permits disconnected
           rectangular data regions
 	(covariance_tool) : ditto
-	(descriptive_stat_tool) : now permits disconnected rectangular data regions 
-	(sampling_tool) : now permits samples of multiple datasets as well as multiple 
+	(descriptive_stat_tool) : now permits disconnected rectangular data regions
+	(sampling_tool) : now permits samples of multiple datasets as well as multiple
 	  samples.
 	* src/analysis-tools.h : new group_by_t type
-	* src/ranges.c (global_range_parse) : fix bug (relative references were 
+	* src/ranges.c (global_range_parse) : fix bug (relative references were
 	  evaluated with respect to B2 rather than A1)
 
 2001-10-25  Morten Welinder  <terra@diku.dk>
@@ -912,12 +912,12 @@
 
 	* src/ranges.c/h (global_range_parse) : remove `strict' argument
 	(range_list_foreach_full) : change third argument from boolean to
-	  enumerate to allow third variant, namely call backup even for NULL 
+	  enumerate to allow third variant, namely call backup even for NULL
 	  cells without creating them.
         * src/ranges.c (global_range_parse) : change to a wrapper
 	  around expr_parse_string.
-	(global_range_list_parse) : new routine, analogue 
-	  to range_list_parse but calling global_range_parse rather than 
+	(global_range_list_parse) : new routine, analogue
+	  to range_list_parse but calling global_range_parse rather than
 	  range_parse (for analysis tools)
 
 2001-10-23  Almer S. Tigelaar  <almer@gnome.org>
@@ -934,7 +934,7 @@
 
 	* src/style-condition.c (style_condition_flags_eval): Remove
 	debug message.
-	
+
 2001-10-22  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/style-condition.h :
@@ -1118,11 +1118,11 @@
 	(gnm_graph_arrange_vectors) : ditto.
 
 2001-10-14  Almer S. Tigelaar  <almer@gnome.org>
- 
+
  	* src/workbook-control-gui.c (cb_data_validate):
  	Pop-up validation page of format dialog. Disabled
 	for now.
- 
+
  	* src/GNOME_Gnumeric.xml: Add validate menu
  	item. Commented out for now.
 
@@ -1265,7 +1265,7 @@
 
 2001-10-08    J.H.M. Dassen (Ray) <jdassen@debian.org>
 
-	* src/workbook-control-gui.c (cb_edit_fill_autofill) : 
+	* src/workbook-control-gui.c (cb_edit_fill_autofill) :
 	  Don't use C++/C99 `//' comment.
 
 2001-10-10  Jody Goldberg <jgoldberg@home.com>
