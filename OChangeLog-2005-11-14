@@ -1,3 +1,13 @@
+2003-04-15  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* src/xml-io.c (xml_read_scenarios): Wrote. Reads scenarios of a
+	sheet.
+	(xml_write_scenarios): Wrote. Stores scenarios of a sheet.
+	(xml_node_set_value): Wrote.
+	(xml_node_get_value): Wrote.
+	(xml_sheet_write): Added a call to write scenarios.
+	(xml_sheet_read): Added a call to read scenarios.
+	
 2003-04-12  Jody Goldberg <jody@gnome.org>
 
 	* icons/chart* : fix the background transparency.

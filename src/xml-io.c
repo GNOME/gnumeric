@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * xml-io.c: save/read gnumeric workbooks using gnumeric-1.0 style xml.
  *
@@ -6,6 +6,7 @@
  *   Daniel Veillard <Daniel.Veillard@w3.org>
  *   Miguel de Icaza <miguel@gnu.org>
  *   Jody Goldberg <jody@gnome.org>
+ *   Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  */
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
@@ -23,6 +24,7 @@
 #include "sheet-object-cell-comment.h"
 #include "str.h"
 #include "solver.h"
+#include "scenarios.h"
 #include "print-info.h"
 #include "file.h"
 #include "expr.h"
@@ -241,6 +243,43 @@ xml_node_set_double (xmlNodePtr node, char const *name, double val,
 		snprintf (str, 100 + DBL_DIG, "%f", val);
 
 	xml_node_set_cstr (node, name, str);
+}
+
+/*
+ * Reads a value which is stored using a format '%d:%s' where %d is the
+ * ValueType and %s is the string containing the value.
+ */
+Value *
+xml_node_get_value (xmlNodePtr node, char const *name)
+{
+	xmlChar   *str;
+	Value     *value;
+	ValueType type;
+	gchar     *vstr;
+
+	str  = xml_node_get_cstr (node, name);
+	type = (ValueType) atoi (str);
+	vstr = g_strrstr (str, ":") + 1;
+
+	value = value_new_from_string (type, vstr, NULL, FALSE);
+	xmlFree (str);
+
+	return value;
+}
+
+void
+xml_node_set_value (xmlNodePtr node, char const *name, Value const *value)
+{
+        GString *str;
+
+	/* Set value type. */
+	str = g_string_new (NULL);
+	g_string_append_printf (str, "%d:", value->type);
+
+	/* Set value. */
+        value_get_as_gstring (str, value, gnm_expr_conventions_default);
+	xml_node_set_cstr (node, name, str->str);
+	g_string_free (str, FALSE);
 }
 
 StyleColor *
@@ -2441,6 +2480,114 @@ xml_write_solver (XmlParseContext *ctxt, SolverParameters const *param)
 	return cur;
 }
 
+static void
+xml_read_scenarios (XmlParseContext *ctxt, xmlNodePtr tree)
+{
+	xmlNodePtr child;
+	int        col, row;
+	Sheet      *sheet = ctxt->sheet;
+	ParsePos   pos;
+
+	tree = e_xml_get_child_by_name (tree, CC2XML ("Scenarios"));
+	if (tree == NULL)
+		return;
+
+	child = e_xml_get_child_by_name (tree, CC2XML ("Scenario"));
+	while (child != NULL) {
+		scenario_t *s;
+		xmlChar    *str;
+		int        rows, cols, i;
+
+		s = g_new0 (scenario_t, 1);
+
+		/* Scenario: name. */
+	        str = xml_node_get_cstr (child, "Name");
+		s->name = g_strdup ((const gchar *)str);
+		xmlFree (str);
+
+		/* Scenario: comment. */
+	        str = xml_node_get_cstr (child, "Comment");
+		s->comment = g_strdup ((const gchar *)str);
+		xmlFree (str);
+
+		/* Scenario: changing cells in a string form. */
+	        str = xml_node_get_cstr (child, "CellsStr");
+		s->cell_sel_str = g_strdup ((const gchar *)str);
+		parse_range (str, &s->range);
+		xmlFree (str);
+
+		/* Scenario: values. */
+		rows = s->range.end.row - s->range.start.row + 1;
+		cols = s->range.end.col - s->range.start.col + 1;
+		s->changing_cells = g_new (Value *, rows * cols);
+		for (i = 0; i < cols * rows; i++) {
+		        GString *name;
+
+			name = g_string_new (NULL);
+			g_string_append_printf (name, "V%d", i);
+			s->changing_cells [i] = xml_node_get_value (child,
+								    name->str);
+			g_string_free (name, FALSE);
+		}
+
+		sheet->scenarios = g_list_append (sheet->scenarios, s);
+		child = e_xml_get_child_by_name (child, CC2XML ("Scenario"));
+	}
+}
+
+static xmlNodePtr
+xml_write_scenarios (XmlParseContext *ctxt, GList const *scenarios)
+{
+	xmlNodePtr cur;
+	xmlNodePtr scen;
+	xmlNodePtr prev = NULL;
+
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns,
+			     CC2XML ("Scenarios"), NULL);
+
+	while (scenarios) {
+	        const scenario_t *s =
+			(const scenario_t *)scenarios->data;
+		GString  *name;
+		int      i, cols, rows;
+
+		scen = xmlNewDocNode (ctxt->doc, ctxt->ns,
+				      CC2XML ("Scenario"), NULL);
+
+		/* Scenario: name. */
+		xml_node_set_cstr (scen, "Name", s->name);
+
+		/* Scenario: comment. */
+		xml_node_set_cstr (scen, "Comment", s->comment);
+
+		/* Scenario: changing cells in a string form.  In a string
+		 * form so that we can in the future allow it to contain
+		 * multiple ranges without modifing the file format.*/
+		xml_node_set_cstr (scen, "CellsStr", s->cell_sel_str);
+
+		/* Scenario: values. */
+		rows = s->range.end.row - s->range.start.row + 1;
+		cols = s->range.end.col - s->range.start.col + 1;
+		for (i = 0; i < cols * rows; i++) {
+			name = g_string_new (NULL);
+			g_string_append_printf (name, "V%d", i);
+			xml_node_set_value (scen, name->str,
+					    s->changing_cells [i]);
+			g_string_free (name, FALSE);
+		}
+
+		if (!prev)
+		        xmlAddChild (cur, scen);
+		else
+		        xmlAddChild (prev, scen);
+
+		prev = scen;
+		scenarios = scenarios->next;
+	}
+
+	return cur;
+}
+
 /*
  *
  */
@@ -2478,6 +2625,7 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	xmlNodePtr printinfo;
 	xmlNodePtr styles;
 	xmlNodePtr solver;
+	xmlNodePtr scenarios;
 	xmlChar *tstr;
 
 	/* General information about the Sheet */
@@ -2617,6 +2765,10 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	solver = xml_write_solver (ctxt, sheet->solver_parameters);
 	if (solver)
 		xmlAddChild (sheetNode, solver);
+
+	scenarios = xml_write_scenarios (ctxt, sheet->scenarios);
+	if (scenarios)
+		xmlAddChild (sheetNode, scenarios);
 
 	return sheetNode;
 }
@@ -2861,6 +3013,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	}
 
 	xml_read_solver (ctxt, tree);
+	xml_read_scenarios (ctxt, tree);
 	xml_read_sheet_layout (ctxt, tree);
 
 	g_hash_table_destroy (ctxt->style_table);
