@@ -6,12 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.68\n"
-"POT-Creation-Date: 2001-11-05 01:48-0500\n"
-"PO-Revision-Date: 2001-07-15 14:52+300\n"
+"POT-Creation-Date: 2001-11-05 06:14-0500\n"
+"PO-Revision-Date: 2001-11-06 18:43+0200\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@fide.org>\n"
-"Language-Team: Turkish <tr@li.org>\n"
+"Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-9\n"
+"Content-Type: text/plain; charset=iso-8859-9\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: plugins/applix/applix-read.c:78
@@ -20,29 +20,27 @@ msgstr "Applix dosyasý okunurken ayrýþtýrma hatasý"
 
 #: plugins/applix/plugin.xml.in.h:1
 msgid "Applix"
-msgstr ""
+msgstr "Applix"
 
 #: plugins/applix/plugin.xml.in.h:2
 msgid "Applix (*.as)"
-msgstr ""
+msgstr "Applix (*.as)"
 
 #: plugins/applix/plugin.xml.in.h:3
 msgid "Imports version 4.[234] spreadsheets"
-msgstr ""
+msgstr "4.[234] sürümü çizelgeleri açar"
 
 #: plugins/derivatives/plugin.xml.in.h:1
-#, fuzzy
 msgid "Finance"
-msgstr "Finansal"
+msgstr "Finans"
 
 #: plugins/derivatives/plugin.xml.in.h:2
-#, fuzzy
 msgid "Financial Derivatives"
-msgstr "Finansal"
+msgstr "Finansal Türevler"
 
 #: plugins/derivatives/plugin.xml.in.h:3
 msgid "Functions related to financial derivatives"
-msgstr ""
+msgstr "Finansal türevlerle ilgili iþlevler"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4352 src/xml-io.c:3449
 msgid "Reading file..."
@@ -105,16 +103,15 @@ msgstr "DIF dosyasý kaydedilirken hata"
 
 #: plugins/dif/plugin.xml.in.h:1
 msgid "Data Interchange Format (*.dif)"
-msgstr ""
+msgstr "Veri Deðiþim Biçemi (*.dif)"
 
 #: plugins/dif/plugin.xml.in.h:2
 msgid "Data Interchange Format (DIF) module"
-msgstr ""
+msgstr "Veri Deðiþim Biçemi (DIF) modülü"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid ""
-"Reads and writes information stored in the Data Interchange Format (*.dif)"
-msgstr ""
+msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgstr "Veri Deðiþim Biçemi (*.dif) olarak kayýtlý bilgileri okur ve yazar"
 
 #: plugins/excel/boot.c:144
 msgid "Preparing for save..."
@@ -152,9 +149,9 @@ msgid "Unable to locate valid MS Excel workbook"
 msgstr "MS Excel defteri konumlanamadý"
 
 #: plugins/excel/ms-excel-write.c:3479
-#, fuzzy, c-format
+#, c-format
 msgid "Too many rows for this format (%d > %d)"
-msgstr "Bu biçem için çok fazla satýr"
+msgstr "Bu biçem için çok fazla satýr (%d > %d)"
 
 #: plugins/excel/ms-excel-write.c:3707
 msgid "Can't open stream for writing\n"
@@ -170,23 +167,23 @@ msgstr " Bilinmeyen formül"
 
 #: plugins/excel/plugin.xml.in.h:1
 msgid "Excel(R) 95 file format"
-msgstr ""
+msgstr "Excel(R) 95 dosya biçemi"
 
 #: plugins/excel/plugin.xml.in.h:2
 msgid "Excel(R) 97 file format"
-msgstr ""
+msgstr "Excel(R) 97 dosya biçemi"
 
 #: plugins/excel/plugin.xml.in.h:3
 msgid "Imports/Exports Microsoft(R) Excel files"
-msgstr ""
+msgstr "Microsoft(R) Excel dosyalarýný okur/kaydeder"
 
 #: plugins/excel/plugin.xml.in.h:4
 msgid "Microsoft(R) Excel"
-msgstr ""
+msgstr "Microsoft(R) Excel"
 
 #: plugins/excel/plugin.xml.in.h:5
 msgid "Microsoft(R) Excel (*.xls)"
-msgstr ""
+msgstr "Microsoft(R) Excel (*.xls)"
 
 #: plugins/gb/plugin.c:138
 msgid "Unknown GB error"
@@ -204,12 +201,11 @@ msgstr "'%s' projesinde hata"
 
 #: plugins/gb/plugin.xml.in.h:1
 msgid "Enables Gnome Basic support"
-msgstr ""
+msgstr "Gnome Basic desteðini etkinleþtirir"
 
 #: plugins/gb/plugin.xml.in.h:2
-#, fuzzy
 msgid "Gnome Basic"
-msgstr "Gnumeric"
+msgstr "Gnome Basic"
 
 #: plugins/gda/plugin-gda.c:109
 msgid ""
@@ -249,20 +245,19 @@ msgstr "Veritabaný"
 
 #: plugins/gda/plugin.xml.in.h:2
 msgid "Database functions for allowing the retrieval of data from a database"
-msgstr ""
+msgstr "Bir veritabanýndan veri almak için veritabaný iþlevleri"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:1
 msgid "Gnome Glossary"
-msgstr ""
+msgstr "Gnome Terimleri"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:2
-#, fuzzy
 msgid "Gnome Glossary PO file format"
-msgstr "Gnumeric XML dosya biçimi"
+msgstr "Gnome Terimleri PO dosyasý biçemi"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:3
 msgid "It provides support for saving Gnome Glossary in .po files."
-msgstr ""
+msgstr "Gnome Terimlerini .po dosyasýna kaydetmek için destek saðlar."
 
 #: plugins/guile/plugin.c:67 src/func.c:776 src/functions/fn-information.c:653
 #: src/functions/fn-information.c:722 src/functions/fn-information.c:749
@@ -286,49 +281,48 @@ msgid "Could not evaluate argument"
 msgstr "Argüman deðerlendirilemedi"
 
 #: plugins/guile/plugin.xml.in.h:1
-#, fuzzy
 msgid "Guile Plugin"
-msgstr "Eklentileri etkinleþtir"
+msgstr "Guile Eklentisi"
 
 #: plugins/guile/plugin.xml.in.h:2
 msgid "This plugin enables Guile(scheme) support in Gnumeric"
-msgstr ""
+msgstr "Bu eklenti Gnumeric içinde Guile(þema) desteðini etkinleþtirir"
 
 #: plugins/html/plugin.xml.in.h:1
 msgid "DVI TeX (via groff)"
-msgstr ""
+msgstr "DVI TeX (groff ile)"
 
 #: plugins/html/plugin.xml.in.h:2
 msgid "HTML & TeX"
-msgstr ""
+msgstr "HTML ve TeX"
 
 #: plugins/html/plugin.xml.in.h:3
 msgid "HTML 3.2 (*.html)"
-msgstr ""
+msgstr "HTML 3.2 (*.html)"
 
 #: plugins/html/plugin.xml.in.h:4
 msgid "HTML 4.0 (*.html)"
-msgstr ""
+msgstr "HTML 4.0 (*.html)"
 
 #: plugins/html/plugin.xml.in.h:5
 msgid "HTML file made by gnumeric"
-msgstr ""
+msgstr "HTML dosyasý Gnumeric ile yapýldý"
 
 #: plugins/html/plugin.xml.in.h:6
 msgid "Import/Export of HTML, TeX, DVI, roff"
-msgstr ""
+msgstr "HTML, TeX, DVI, roff dosyalarýný okur/kaydeder"
 
 #: plugins/html/plugin.xml.in.h:7
 msgid "LaTeX 2.09 (*.tex)"
-msgstr ""
+msgstr "LaTeX 2.09 (*.tex)"
 
 #: plugins/html/plugin.xml.in.h:8
 msgid "LaTeX2e (*.tex)"
-msgstr ""
+msgstr "LaTeX2e (*.tex)"
 
 #: plugins/html/plugin.xml.in.h:9
 msgid "TROFF (*.me)"
-msgstr ""
+msgstr "TROFF (*.me)"
 
 #: plugins/html/roff.c:199
 msgid "Error executing groff."
@@ -339,17 +333,16 @@ msgid "Error while reading lotus workbook."
 msgstr "Lotus defteri okunurken hata"
 
 #: plugins/lotus-123/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports Lotus 123 files"
-msgstr "Baþka bir uygulamanýn dosyasýný açar"
+msgstr "Lotus 123 dosyalarýný açar"
 
 #: plugins/lotus-123/plugin.xml.in.h:2
 msgid "Lotus 123"
-msgstr ""
+msgstr "Lotus 123"
 
 #: plugins/lotus-123/plugin.xml.in.h:3
 msgid "Lotus 123 (*.wk1)"
-msgstr ""
+msgstr "Lotus 123 (*.wk1)"
 
 #: plugins/numtheory/numtheory.c:198
 msgid ""
@@ -562,41 +555,40 @@ msgstr ""
 "@SEEALSO=BITRSHIFT"
 
 #: plugins/numtheory/plugin.xml.in.h:1
-#, fuzzy
 msgid "Bitwise Operations"
-msgstr "Ýþlem"
+msgstr "Bitler arasý Ýþlemler"
 
 #: plugins/numtheory/plugin.xml.in.h:2
-#, fuzzy
 msgid "Number Theory"
-msgstr "Sayý"
+msgstr "Sayý Teorisi"
 
 #: plugins/numtheory/plugin.xml.in.h:3
 msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
 "simple bitwise operations"
 msgstr ""
+"Pi, fi, sigma asal sayýlar için çeþitli temel araçlar. Ayrýca bitler arasý "
+"basit iþlemler"
 
 #: plugins/oleo/plugin.xml.in.h:1
 msgid "GNU Oleo"
-msgstr ""
+msgstr "GNU Oleo"
 
 #: plugins/oleo/plugin.xml.in.h:2
 msgid "GNU Oleo (*.oleo)"
-msgstr ""
+msgstr "GNU Oleo (*.oleo)"
 
 #: plugins/oleo/plugin.xml.in.h:3
 msgid "Imports GNU Oleo documents"
-msgstr ""
+msgstr "GNU Oleo belgelerini açar"
 
 #: plugins/perl/plugin.xml.in.h:1
-#, fuzzy
 msgid "Enables the creation of functions in Perl"
-msgstr "Bazý hata ayýklama iþlevlerini etkinleþtirir"
+msgstr "Ýþlevlerin Perl ile oluþturulmasýný etkinleþtirir"
 
 #: plugins/perl/plugin.xml.in.h:2
 msgid "Perl"
-msgstr ""
+msgstr "Perl"
 
 #: plugins/plan-perfect/pln.c:741
 msgid "PLN : Not a PlanPerfect File"
@@ -634,50 +626,47 @@ msgstr "Dosya mmap'lenemedi"
 
 #: plugins/plan-perfect/plugin.xml.in.h:1
 msgid "Imports Plan Perfect Formatted Documents"
-msgstr ""
+msgstr "Plan Perfect Biçemli belgeleri açar"
 
 #: plugins/plan-perfect/plugin.xml.in.h:2
-#, fuzzy
 msgid "Plan Perfect"
 msgstr "Plan Perfect"
 
 #: plugins/plan-perfect/plugin.xml.in.h:3
 msgid "Plan Perfect Format (PLN) import"
-msgstr ""
+msgstr "Plan Perfect Biçemi (PLN) desteði"
 
 #: plugins/psiconv/plugin.xml.in.h:1
 msgid "Imports Psion 5 series Sheet files"
-msgstr ""
+msgstr "Psion 5 serisi çizelge dosyalarýný açar"
 
 #: plugins/psiconv/plugin.xml.in.h:2
 msgid "Psiconv"
-msgstr ""
+msgstr "Psiconv"
 
 #: plugins/psiconv/plugin.xml.in.h:3
 msgid "Psion (*.psisheet)"
-msgstr ""
+msgstr "Psion (*.psisheet)"
 
 #: plugins/py-func/plugin.xml.in.h:1
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #: plugins/py-func/plugin.xml.in.h:2
-#, fuzzy
 msgid "Python functions"
-msgstr "Python kuraldýþýlýðý"
+msgstr "Python iþlevleri"
 
 #: plugins/py-func/plugin.xml.in.h:3
 msgid "Sample Python plugin providing some (useless) functions."
-msgstr ""
+msgstr "Bazý faydalý iþlevleri saðlayan Örnek Python Eklentisi."
 
 #: plugins/python-loader/plugin.xml.in.h:1
-#, fuzzy
 msgid "Python plugin loader"
-msgstr "Eklenti yükleyicisi yüklenemiyor."
+msgstr "Python eklenti yükleyici"
 
 #: plugins/python-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Python plugins"
-msgstr ""
+msgstr "Bu eklenti Python eklentileri desteði saðlar"
 
 #: plugins/python-loader/py-gnumeric.c:273
 #: plugins/python-loader/py-gnumeric.c:313
@@ -757,13 +746,12 @@ msgid "Object \"%s\" is not a dictionary."
 msgstr "\"%s\" nesnesi bir dizin deðil."
 
 #: plugins/python/plugin.xml.in.h:1
-#, fuzzy
 msgid "Python Plugin"
-msgstr "Python kuraldýþýlýðý"
+msgstr "Python Eklentisi"
 
 #: plugins/python/plugin.xml.in.h:2
 msgid "This plugin provides Python language support in Gnumeric"
-msgstr ""
+msgstr "Bu eklenti Gnumeric içinde Python dil desteði saðlar"
 
 #: plugins/python/python.c:52
 msgid "Python exception"
@@ -787,17 +775,16 @@ msgid "Unhandled Python exception: %s"
 msgstr "Elde edilemeyen Python kuraldýþýlýðý: %s"
 
 #: plugins/sc/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports SC/XSpread files"
-msgstr "Baþka bir uygulamanýn dosyasýný açar"
+msgstr "SC/XSpread dosyalarýný açar"
 
 #: plugins/sc/plugin.xml.in.h:2
 msgid "SC/XSpread"
-msgstr ""
+msgstr "SC/XSpread"
 
 #: plugins/sc/plugin.xml.in.h:3
 msgid "SC/xspread"
-msgstr ""
+msgstr "SC/xspread"
 
 #: plugins/sc/sc.c:387
 msgid "Error parsing line"
@@ -808,17 +795,16 @@ msgid "Error reading sheet."
 msgstr "Çizelge okunurken hata."
 
 #: plugins/sylk/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports MultiPlan (SYLK) files"
-msgstr "Baþka bir uygulamanýn dosyasýný açar"
+msgstr "MultiPlan (SYLK) dosyalarýný açar"
 
 #: plugins/sylk/plugin.xml.in.h:2
 msgid "MultiPlan (SYLK)"
-msgstr ""
+msgstr "MultiPlan (SYLK)"
 
 #: plugins/sylk/plugin.xml.in.h:3
 msgid "MultiPlan (SYLK) import"
-msgstr ""
+msgstr "MultiPlan (SYLK) desteði"
 
 #: plugins/sylk/sylk.c:418
 msgid "Not SYLK file"
@@ -841,31 +827,28 @@ msgid "Error while opening xbase file."
 msgstr "xbase dosyasý açýlýrken hata."
 
 #: plugins/xbase/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports XBase files"
-msgstr "Baþka bir uygulamanýn dosyasýný açar"
+msgstr "XBase dosyalarýný açar"
 
 #: plugins/xbase/plugin.xml.in.h:2
-#, fuzzy
 msgid "XBase"
-msgstr "Yapýþtýr"
+msgstr "XBase"
 
 #: plugins/xbase/plugin.xml.in.h:3
-#, fuzzy
 msgid "Xbase (*.dbf) file format"
-msgstr "Dosya biçemi desteklenmiyor."
+msgstr "Xbase (*.dbf) dosya biçemi"
 
 #: plugins/xml_sax/plugin.xml.in.h:1
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
-msgstr ""
+msgstr "Gnumeric (*.gnumeric) tabanlý DENEYSEL SAX"
 
 #: plugins/xml_sax/plugin.xml.in.h:2
 msgid "EXPERIMENTAL SAX based XML"
-msgstr ""
+msgstr "XML tabanlý DENEYSEL SAX"
 
 #: plugins/xml_sax/plugin.xml.in.h:3
 msgid "The next generation sax based xml I/O subsystem"
-msgstr ""
+msgstr "Gelecek nesil sax tabanlý xml G/Ç altsistemi"
 
 #: plugins/xml_sax/xml-sax-read.c:2227
 msgid "xmlCreateFileParserCtxt () failed."
@@ -884,9 +867,8 @@ msgid "Add an outline group"
 msgstr "Bir sýnýrlý grup ekler"
 
 #: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:2876
-#, fuzzy
 msgid "Advanced _Filter..."
-msgstr "Geliþmiþ Süzgeç"
+msgstr "Geliþmiþ Sü_zgeç..."
 
 #: src/GNOME_Gnumeric.xml.h:4 src/workbook-format-toolbar.c:481
 msgid "Aligns the contents to the left and decreases the indent"
@@ -905,14 +887,12 @@ msgid "Auto _Correct..."
 msgstr "Otomatik _Düzelt..."
 
 #: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2524
-#, fuzzy
 msgid "Auto_fill"
-msgstr "Otomatik sýnýrla"
+msgstr "Otomatik _doldur"
 
 #: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2525
-#, fuzzy
 msgid "Automatically fill the current selection"
-msgstr "Basit sözdizimi denetimini otomatik olarak yapar"
+msgstr "Seçilenleri otomatik olarak doldurur"
 
 #: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:2814
 msgid "Automatically perform simple spell checking"
@@ -1030,9 +1010,8 @@ msgid "Combo Box"
 msgstr "Etkileþimli Liste Nesnesi"
 
 #: src/GNOME_Gnumeric.xml.h:37
-#, fuzzy
 msgid "Configure toolbars"
-msgstr "Yapýlandýr"
+msgstr "Araç çubuklarý Yapýlandýrmasý"
 
 #: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2894
 msgid "Consolidate regions using a function"
@@ -1604,9 +1583,8 @@ msgid "Save"
 msgstr "Kaydet"
 
 #: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:2450
-#, fuzzy
 msgid "Save _As..."
-msgstr "_Farklý Kaydet"
+msgstr "_Farklý Kaydet..."
 
 #: src/GNOME_Gnumeric.xml.h:175
 msgid "Save the current file"
@@ -1625,18 +1603,16 @@ msgid "Search and Replace..."
 msgstr "Ara ve Deðiþtir..."
 
 #: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2602
-#, fuzzy
 msgid "Search for some text"
-msgstr "Aranacak"
+msgstr "Aranacak metin"
 
 #: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2608
 msgid "Search for some text and replace it with something else"
 msgstr "Aranacak metni varsa bulur ve deðiþtirilecek metinle deðiþtirir"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2601
-#, fuzzy
 msgid "Search..."
-msgstr "Arama"
+msgstr "Arama..."
 
 #: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2511
 msgid "Select Arra_y"
@@ -1758,8 +1734,7 @@ msgstr "Sýfýrlarýn boþluk olarak gösterilip gösterilmeyeceði seçilir"
 
 #: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2868
 msgid "Toggle whether to display column outlines on the left or right"
-msgstr ""
-"Sütunun sol ve saðýndaki sýnýrlarýn gösterilip gösterilmeyeceði seçilir"
+msgstr "Sütunun sol ve saðýndaki sýnýrlarýn gösterilip gösterilmeyeceði seçilir"
 
 #: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2862
 msgid "Toggle whether to display row outlines on top or bottom"
@@ -1884,9 +1859,8 @@ msgid "_Fill"
 msgstr "_Doldur"
 
 #: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2889
-#, fuzzy
 msgid "_Filter"
-msgstr "_Dosya"
+msgstr "Sü_zgeç"
 
 #: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2481
 msgid "_Formats"
@@ -2026,9 +2000,8 @@ msgid "_Standard Width"
 msgstr "_Öntanýmlý Geniþlik"
 
 #: src/GNOME_Gnumeric.xml.h:271
-#, fuzzy
 msgid "_Toolbars..."
-msgstr "_Araçlar"
+msgstr "_Araç Çubuklarý..."
 
 #: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:2916
 msgid "_Tools"
@@ -2070,19 +2043,19 @@ msgid "_Zoom..."
 msgstr "_Yakýnlaþtýr..."
 
 #: src/analysis-tools.c:196
-#, fuzzy, c-format
+#, c-format
 msgid "Row %i"
-msgstr "%d. satýr"
+msgstr "%i. satýr"
 
 #: src/analysis-tools.c:199
-#, fuzzy, c-format
+#, c-format
 msgid "Column %i"
-msgstr "%d. sütun"
+msgstr "%i. sütun"
 
 #: src/analysis-tools.c:203
 #, c-format
 msgid "Area %i"
-msgstr ""
+msgstr "%i Alaný"
 
 #: src/analysis-tools.c:910 src/analysis-tools.c:913
 msgid "Correlations"
@@ -2112,14 +2085,13 @@ msgstr ""
 "Eðrilik/Aralýk/Enaz/Ençok/Toplam/Sayaç"
 
 #: src/analysis-tools.c:1211
-#, fuzzy
 msgid "Confidence Interval for the Mean"
-msgstr "Ortalama için Kesinlik Derecesi"
+msgstr "Ortalama için Emniyet Aralýðý"
 
 #: src/analysis-tools.c:1212
 #, c-format
 msgid "/%g%% CI for the Mean from/to"
-msgstr ""
+msgstr "/%%%g CI, Ortalama için"
 
 #: src/analysis-tools.c:1247 src/dialogs/descriptive-stats.glade.h:9
 msgid "Kth Largest"
@@ -2207,8 +2179,7 @@ msgstr "F-Testi"
 
 #: src/analysis-tools.c:2006
 msgid "/Mean/Variance/Observations/df/F/P (F<=f) one-tail/F Critical one-tail"
-msgstr ""
-"/Ortalama/Deðiþim/Gözlemler/df/F/P (F<=f) tek-uçlusu/F kritik tek-uçlusu"
+msgstr "/Ortalama/Deðiþim/Gözlemler/df/F/P (F<=f) tek-uçlusu/F kritik tek-uçlusu"
 
 #: src/analysis-tools.c:2081
 msgid "Random"
@@ -2221,15 +2192,15 @@ msgstr "Daha programlanmadý.\n"
 #: src/analysis-tools.c:2346 src/dialogs/dialog-analysis-tools.c:3699
 #: src/dialogs/regression.glade.h:7
 msgid "Regression"
-msgstr "Sapma"
+msgstr "Geri dönme"
 
 #: src/analysis-tools.c:2348
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
-"/ÖZET ÇIKTI//Sapma Ýstatistikleri/Çoklu R/R Kare/Ayarlý R Kare/Standart Hata/"
-"Gözlemler//ANOVA//Sapma/Artan/Toplam///Kesir"
+"/ÖZET ÇIKTI//Geri dönme Ýstatistikleri/Çoklu R/R Kare/Ayarlý R Kare/Standart Hata/"
+"Gözlemler//ANOVA//Geri dönme/Artan/Toplam///Kesir"
 
 #: src/analysis-tools.c:2367
 #, c-format
@@ -2411,7 +2382,7 @@ msgstr "Bir defter dosyasý içermiyor"
 
 #: src/bonobo-io.c:526
 msgid "EXPERIMENTAL Bonobo EFS format"
-msgstr ""
+msgstr "DENEYSEL Bonobo EFS biçemi"
 
 #: src/clipboard.c:297 src/clipboard.c:310 src/clipboard.c:322
 #: src/clipboard.c:330
@@ -2563,9 +2534,9 @@ msgid "Clearing %s in %s"
 msgstr "%s %s'den siliniyor"
 
 #: src/commands.c:1516
-#, fuzzy, c-format
+#, c-format
 msgid "Changing format of %s"
-msgstr "%s dosyasý oluþturulamýyor\n"
+msgstr "%s için biçem deðiþtirilmesi"
 
 #: src/commands.c:1592
 #, c-format
@@ -2778,23 +2749,20 @@ msgid "Zoom %s to %.0f%%"
 msgstr "%s büyüklüðü %.0f%% yapýlýyor"
 
 #: src/commands.c:3973
-#, fuzzy
 msgid "Insert object"
-msgstr "Bonobo Nesnesi Ekler"
+msgstr "Nesne ekle"
 
 #: src/commands.c:4031
-#, fuzzy
 msgid "Delete object"
-msgstr "Satýr Sil"
+msgstr "Nesne sil"
 
 #: src/commands.c:4112
-#, fuzzy
 msgid "Resize object"
-msgstr "Çizgi nesnesi oluþturur"
+msgstr "Nesneyi boyutlandýr"
 
 #: src/commands.c:4112
 msgid "Move object"
-msgstr ""
+msgstr "Nesneyi taþý"
 
 #: src/corba-args.c:30
 msgid "Oaf options"
@@ -2993,14 +2961,12 @@ msgid "_Unique records only"
 msgstr "Sadece _benzersiz kayýtlar"
 
 #: src/dialogs/analysis-tools.glade.h:1
-#, fuzzy
 msgid "Data Analysis Tools"
-msgstr "Analiz Araçlarý"
+msgstr "Veri Analiz Araçlarý"
 
 #: src/dialogs/anova-one.glade.h:1 src/dialogs/anova-two.glade.h:1
-#, fuzzy
 msgid "(1 - _Alpha) = "
-msgstr "1 - Alfa:"
+msgstr "(1 - _Alfa) = "
 
 #: src/dialogs/anova-one.glade.h:2 src/dialogs/anova-two.glade.h:2
 #: src/dialogs/mean-tests.glade.h:3 src/dialogs/regression.glade.h:1
@@ -3009,9 +2975,8 @@ msgid "0.95"
 msgstr "0.95"
 
 #: src/dialogs/anova-one.glade.h:3
-#, fuzzy
 msgid "ANOVA - Single Factor"
-msgstr "Anova: Tek çarpan"
+msgstr "Anova - Tek çarpan"
 
 #: src/dialogs/anova-one.glade.h:4 src/dialogs/correlation.glade.h:2
 #: src/dialogs/covariance.glade.h:2 src/dialogs/descriptive-stats.glade.h:6
@@ -3050,9 +3015,8 @@ msgstr "Y_eni Defter"
 #: src/dialogs/random-generation.glade.h:4 src/dialogs/rank.glade.h:4
 #: src/dialogs/regression.glade.h:6 src/dialogs/sampling.glade.h:7
 #: src/dialogs/variance-tests.glade.h:5
-#, fuzzy
 msgid "Output"
-msgstr "Çýktý Aralýðý:"
+msgstr "Çýktý"
 
 #: src/dialogs/anova-one.glade.h:9 src/dialogs/anova-two.glade.h:9
 #: src/dialogs/correlation.glade.h:8 src/dialogs/covariance.glade.h:8
@@ -3103,12 +3067,11 @@ msgstr "1"
 
 #: src/dialogs/anova-two.glade.h:4
 msgid "ANOVA - Two-Factor"
-msgstr ""
+msgstr "ANOVA - Ýki-çarpan"
 
 #: src/dialogs/anova-two.glade.h:7
-#, fuzzy
 msgid "Number of Rows _Per Sample:"
-msgstr "Ö_rnek sayýsý:"
+msgstr "Ö_rnek baþýna Satýr Sayýsý:"
 
 #: src/dialogs/autocorrect.glade.h:1
 msgid "Auto Correct"
@@ -3306,23 +3269,20 @@ msgid "75% Grey"
 msgstr "% 75 Gri"
 
 #: src/dialogs/cell-format.glade.h:12
-#, fuzzy
 msgid "Action :"
-msgstr "Eyl_em:"
+msgstr "Eylem:"
 
 #: src/dialogs/cell-format.glade.h:13
 msgid "Alignment"
 msgstr "Hizalama"
 
 #: src/dialogs/cell-format.glade.h:14
-#, fuzzy
 msgid "Allow :"
-msgstr "Ýzin _Ver:"
+msgstr "Ýzin Ver:"
 
 #: src/dialogs/cell-format.glade.h:15
-#, fuzzy
 msgid "Any Value                     (no validation)"
-msgstr "deðer != sýnýr         (farklýdýr, eþit/ayný deðildir)"
+msgstr "Bir deðer                    (deðerlemesiz)"
 
 #: src/dialogs/cell-format.glade.h:17
 msgid "Background Color"
@@ -3357,18 +3317,16 @@ msgid "Color :"
 msgstr "Renk:"
 
 #: src/dialogs/cell-format.glade.h:25
-#, fuzzy
 msgid "Condition :"
-msgstr "K_oþul:"
+msgstr "Koþul:"
 
 #: src/dialogs/cell-format.glade.h:26
 msgid "Control"
 msgstr "Kontrol"
 
 #: src/dialogs/cell-format.glade.h:27
-#, fuzzy
 msgid "Criteria"
-msgstr "K_oþul aralýðý:"
+msgstr "Kriter"
 
 #: src/dialogs/cell-format.glade.h:28
 msgid "Cust_om"
@@ -3422,9 +3380,8 @@ msgid "Effects"
 msgstr "Etkiler"
 
 #: src/dialogs/cell-format.glade.h:40
-#, fuzzy
 msgid "Error Alert"
-msgstr "Hata _Uyarýsý"
+msgstr "Hata Uyarýsý"
 
 #: src/dialogs/cell-format.glade.h:42
 msgid "Foreground Solid"
@@ -3434,8 +3391,7 @@ msgstr "Önalan Dolgu"
 msgid ""
 "General format cells attempt to select an appropriate format depending on "
 "the value of the cell."
-msgstr ""
-"Genel biçimli gözeler için gözenin deðerine baðlý uygun bir biçim seçilir."
+msgstr "Genel biçimli gözeler için gözenin deðerine baðlý uygun bir biçim seçilir."
 
 #: src/dialogs/cell-format.glade.h:44
 msgid "Horizontal"
@@ -3446,23 +3402,20 @@ msgid "Horizontal Stripe"
 msgstr "Yatay Þerit"
 
 #: src/dialogs/cell-format.glade.h:46
-#, fuzzy
 msgid "Ignore blank cells"
-msgstr "_Boþlarý yoksay"
+msgstr "Boþlarý yoksay"
 
 #: src/dialogs/cell-format.glade.h:47
-#, fuzzy
 msgid "In-cell dropdown"
-msgstr "Göze-içine bý_rak"
+msgstr "Göze-içine býrak"
 
 #: src/dialogs/cell-format.glade.h:48
 msgid "Information  (allows invalid input)"
-msgstr ""
+msgstr "Bilgi  (geçersiz girdiye izin verir)"
 
 #: src/dialogs/cell-format.glade.h:49
-#, fuzzy
 msgid "Input Message"
-msgstr "_Girdi Ýletisi"
+msgstr "Girdi Ýletisi"
 
 #: src/dialogs/cell-format.glade.h:50
 msgid "Inside"
@@ -3486,13 +3439,11 @@ msgstr "Büyük Daireler"
 
 #: src/dialogs/cell-format.glade.h:58
 msgid "Locking cells or hiding formulas only affects protected worksheets."
-msgstr ""
-"Göze kilitleme ve formül gizleme sadece korumalý defterlerde etkilidir."
+msgstr "Göze kilitleme ve formül gizleme sadece korumalý defterlerde etkilidir."
 
 #: src/dialogs/cell-format.glade.h:59
-#, fuzzy
 msgid "Message :"
-msgstr "Ýle_ti:"
+msgstr "Ýleti:"
 
 #: src/dialogs/cell-format.glade.h:60
 msgid "Negat_ive number:"
@@ -3505,7 +3456,7 @@ msgstr "Hiçbiri"
 
 #: src/dialogs/cell-format.glade.h:62
 msgid "None          (silently accept invalid input)"
-msgstr ""
+msgstr "Yok     (geçersiz girdiyi sessizce kabul eder)"
 
 #: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-formula-guru.c:432
 #: src/dialogs/dialog-search.c:135
@@ -3545,9 +3496,8 @@ msgid "Semi Circles"
 msgstr "Dairemsiler"
 
 #: src/dialogs/cell-format.glade.h:74
-#, fuzzy
 msgid "Show input message when cell is selected"
-msgstr "Göze _seçildiðinde girdi iletisi göster"
+msgstr "Göze seçildiðinde girdi iletisi gösterir"
 
 #: src/dialogs/cell-format.glade.h:75
 msgid "Shrin_k to fit"
@@ -3573,7 +3523,7 @@ msgstr "Özgü_n"
 
 #: src/dialogs/cell-format.glade.h:80
 msgid "Stop           (never allow invalid input)"
-msgstr ""
+msgstr "Dur       (geçersiz girdiye izin verilmez)"
 
 #: src/dialogs/cell-format.glade.h:81
 msgid "Stri_kethrough"
@@ -3632,9 +3582,8 @@ msgid "Time"
 msgstr "Zaman"
 
 #: src/dialogs/cell-format.glade.h:95
-#, fuzzy
 msgid "Title :"
-msgstr "Baþ_lýk:"
+msgstr "Baþlýk:"
 
 #: src/dialogs/cell-format.glade.h:96
 msgid "Top"
@@ -3648,9 +3597,8 @@ msgstr ""
 "continued"
 
 #: src/dialogs/cell-format.glade.h:98
-#, fuzzy
 msgid "Validation"
-msgstr "Girdi Deðerlendirmesi"
+msgstr "Deðerlendirme"
 
 #: src/dialogs/cell-format.glade.h:99
 msgid "Vertical Alignment"
@@ -3662,7 +3610,7 @@ msgstr "Dikey Þerit"
 
 #: src/dialogs/cell-format.glade.h:101
 msgid "Warning      (accept/discard invalid input)"
-msgstr ""
+msgstr "Uyarý      (geçersiz girdiyi kabul/red et)"
 
 #: src/dialogs/cell-format.glade.h:102
 msgid "Whole numbers"
@@ -3769,28 +3717,28 @@ msgid "val != bound                  (not equal to)"
 msgstr "deðer != sýnýr         (farklýdýr, eþit/ayný deðildir)"
 
 #: src/dialogs/cell-format.glade.h:130
-msgid "val >  bound                  (greater than)"
-msgstr "deðer > sýnýr          (büyüktür)"
-
-#: src/dialogs/cell-format.glade.h:131
-msgid "val >=bound                  (greater than or equal to)"
-msgstr "deðer >= sýnýr      (büyük veya eþittir)"
-
-#: src/dialogs/cell-format.glade.h:132
 msgid "val <  bound                  (less than)"
 msgstr "deðer < sýnýr         (küçüktür)"
 
-#: src/dialogs/cell-format.glade.h:133
+#: src/dialogs/cell-format.glade.h:131
 msgid "val <= min || max <= val (not between)"
 msgstr "deðer <= enaz || ençok <= deðer (dýþýndadýr)"
 
-#: src/dialogs/cell-format.glade.h:134
+#: src/dialogs/cell-format.glade.h:132
 msgid "val <=bound                  (less than or equal to)"
 msgstr "deðer <= sýnýr       (eþit veya küçüktür)"
 
-#: src/dialogs/cell-format.glade.h:135
+#: src/dialogs/cell-format.glade.h:133
 msgid "val == bound                 (equal to)"
 msgstr "deðer == sýnýr       (eþittir, aynýdýr)"
+
+#: src/dialogs/cell-format.glade.h:134
+msgid "val >  bound                  (greater than)"
+msgstr "deðer > sýnýr          (büyüktür)"
+
+#: src/dialogs/cell-format.glade.h:135
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "deðer >= sýnýr      (büyük veya eþittir)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A header"
@@ -3976,9 +3924,8 @@ msgstr "Baðýntýlama"
 
 #: src/dialogs/correlation.glade.h:6 src/dialogs/covariance.glade.h:6
 #: src/dialogs/descriptive-stats.glade.h:14 src/dialogs/sampling.glade.h:12
-#, fuzzy
 msgid "_Areas"
-msgstr "_Altçizgi:"
+msgstr "Alanlar"
 
 #: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:3683
 msgid "Covariance"
@@ -4010,19 +3957,16 @@ msgid "Shift cells _up"
 msgstr "Gözeleri _yukarý kaydýr"
 
 #: src/dialogs/descriptive-stats.glade.h:1
-#, fuzzy
 msgid "(1 - alpha) = "
-msgstr "1 - Alfa:"
+msgstr "(1 - alfa) = "
 
 #: src/dialogs/descriptive-stats.glade.h:2
-#, fuzzy
 msgid ".95"
-msgstr "0.95"
+msgstr ".95"
 
 #: src/dialogs/descriptive-stats.glade.h:4
-#, fuzzy
 msgid "Confidence Interval for the _Mean"
-msgstr "Ortalama için Kesinlik Derecesi"
+msgstr "_Ortalama için Emniyet Aralýðý"
 
 #: src/dialogs/descriptive-stats.glade.h:5
 #: src/dialogs/dialog-analysis-tools.c:3685
@@ -4031,12 +3975,11 @@ msgstr "Tanýmsal Ýstatistikler"
 
 #: src/dialogs/descriptive-stats.glade.h:8
 msgid "K = "
-msgstr ""
+msgstr "K = "
 
 #: src/dialogs/descriptive-stats.glade.h:13
-#, fuzzy
 msgid "S_ummary Statistics"
-msgstr "Özet Ýstatistikleri"
+msgstr "Ö_zet Ýstatistikleri"
 
 #: src/dialogs/dialog-about.c:30
 msgid "Miguel de Icaza, creator."
@@ -4068,7 +4011,7 @@ msgstr "Eklenti sistemi ve i18n: Zbigniew Chyla."
 
 #: src/dialogs/dialog-about.c:37
 msgid "J.H.M. Dassen (Ray), debian packaging."
-msgstr ""
+msgstr "Debian paketleme: J.H.M. Dassen (Ray)"
 
 #: src/dialogs/dialog-about.c:38
 msgid "Tom Dyas, plugin support."
@@ -4083,11 +4026,11 @@ msgstr "Gnumeric programlama: Gerg ?di"
 
 #: src/dialogs/dialog-about.c:43
 msgid "John Gotts, rpm packaging."
-msgstr ""
+msgstr "rpm paketleme: John Gotts"
 
 #: src/dialogs/dialog-about.c:44
 msgid "Andreas J. Guelzow, statistics stuff."
-msgstr ""
+msgstr "Ýstatistikler: Andreas J. Guelzow"
 
 #: src/dialogs/dialog-about.c:45
 msgid "Jon K. Hellan, Gnumeric hacker."
@@ -4123,7 +4066,7 @@ msgstr "Excel ve OLE2 aktarma: Michael Meeks"
 
 #: src/dialogs/dialog-about.c:53
 msgid "Lutz Muller, SheetObject improvements"
-msgstr ""
+msgstr "Çizelge nesneleri desteði: Lutz Muller"
 
 #: src/dialogs/dialog-about.c:54
 msgid "Federico M. Quintero, canvas support."
@@ -4209,84 +4152,74 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:957
 #: src/dialogs/dialog-analysis-tools.c:1067
 msgid "The selected input rows must have equal size!"
-msgstr ""
+msgstr "Seçilen girdi satýrlarý eþit uzunlukta olmalý!"
 
 #: src/dialogs/dialog-analysis-tools.c:961
 #: src/dialogs/dialog-analysis-tools.c:1071
 msgid "The selected input columns must have equal size!"
-msgstr ""
+msgstr "Seçilen girdi sütunlarý eþit yükseklikte olmalý!"
 
 #: src/dialogs/dialog-analysis-tools.c:965
 #: src/dialogs/dialog-analysis-tools.c:1075
 msgid "The selected input areas must have equal size!"
-msgstr ""
+msgstr "Seçilen girdi alanlarý ayný boyutlarda olmalý!"
 
 #: src/dialogs/dialog-analysis-tools.c:1011
-#, fuzzy
 msgid "Could not create the Correlation Tool dialog."
-msgstr "Ýsim Uzmaný oluþturulamadý."
+msgstr "Baðýntýlama Araçlarý diyaloðu oluþtururlamadý."
 
 #: src/dialogs/dialog-analysis-tools.c:1121
-#, fuzzy
 msgid "Could not create the Covariance Tool dialog."
-msgstr "Ýsim Uzmaný oluþturulamadý."
+msgstr "Ortak Uyumsuzluk Araçlarý diyaloðu olulturulamadý."
 
 #: src/dialogs/dialog-analysis-tools.c:1323
 msgid "Could not create the Descriptive Statistics Tool dialog."
-msgstr ""
+msgstr "Açýklamalý Ýstatistikler Araçlarý diyaloðu oluþturulamadý."
 
 #: src/dialogs/dialog-analysis-tools.c:1420
 msgid "Could not create the Rank and  Percentile Tools dialog."
-msgstr ""
+msgstr "Sýralama ve Oranlama Araçlarý diyaloðu oluþturulamadý."
 
 #: src/dialogs/dialog-analysis-tools.c:1535
 #, c-format
 msgid "An unexpected error has occurred: %d."
-msgstr ""
+msgstr "Umulmadýk bir hata saptandý: %d."
 
 #: src/dialogs/dialog-analysis-tools.c:1760
-#, fuzzy
 msgid "Var_iable 1 Range:"
-msgstr "1. Deðiþken Aralýðý:"
+msgstr "_1. Deðiþken Aralýðý:"
 
 #: src/dialogs/dialog-analysis-tools.c:1761
-#, fuzzy
 msgid "_Variable 2 Range:"
-msgstr "2. Deðiþken Aralýðý:"
+msgstr "_2. Deðiþken Aralýðý:"
 
 #: src/dialogs/dialog-analysis-tools.c:1765
-#, fuzzy
 msgid "Could not create the Mean Tests Tool dialog."
-msgstr "Ýsim Uzmaný oluþturulamadý."
+msgstr "Ortalama Testleri Araçlarý diyaloðu oluþturulamadý."
 
 #: src/dialogs/dialog-analysis-tools.c:1945
-#, fuzzy
 msgid "Var_iable 1 Range"
-msgstr "1. Deðiþken Aralýðý:"
+msgstr "_1. Deðiþken Aralýðý"
 
 #: src/dialogs/dialog-analysis-tools.c:1946
-#, fuzzy
 msgid "_Variable 2 Range"
-msgstr "2. Deðiþken Aralýðý:"
+msgstr "_2. Deðiþken Aralýðý"
 
 #: src/dialogs/dialog-analysis-tools.c:1950
-#, fuzzy
 msgid "Could not create the FTest Tool dialog."
-msgstr "Ýsim Uzmaný oluþturulamadý."
+msgstr "FTest Araçlarý diyaloðu oluþturulamadý."
 
 #: src/dialogs/dialog-analysis-tools.c:2207
-#, fuzzy
 msgid "Could not create the Sampling Tool dialog."
-msgstr "Ýsim Uzmaný oluþturulamadý."
+msgstr "Örnekleme Araçlarý diyaloðu oluþturulamadý."
 
 #: src/dialogs/dialog-analysis-tools.c:2244
 msgid "Discrete"
 msgstr "Soyut"
 
 #: src/dialogs/dialog-analysis-tools.c:2244
-#, fuzzy
 msgid "_Value And Probability Input Range:"
-msgstr "_Deðer ve olasýlýk girdileri aralýðý:"
+msgstr "_Deðer ve Olasýlýk Girdileri Aralýðý:"
 
 #: src/dialogs/dialog-analysis-tools.c:2246
 #: src/dialogs/search-replace.glade.h:24
@@ -4299,9 +4232,8 @@ msgid "_Mean:"
 msgstr "_Ortalama:"
 
 #: src/dialogs/dialog-analysis-tools.c:2246
-#, fuzzy
 msgid "_Standard Deviation:"
-msgstr "_Standart sapma:"
+msgstr "_Standart Sapma:"
 
 #: src/dialogs/dialog-analysis-tools.c:2248
 msgid "Poisson"
@@ -4316,9 +4248,8 @@ msgid "Exponential"
 msgstr "Üstel"
 
 #: src/dialogs/dialog-analysis-tools.c:2250
-#, fuzzy
 msgid "_b Value:"
-msgstr "_b deðeri:"
+msgstr "_b Deðeri:"
 
 #: src/dialogs/dialog-analysis-tools.c:2252
 msgid "Binomial"
@@ -4327,23 +4258,20 @@ msgstr "Binom"
 #: src/dialogs/dialog-analysis-tools.c:2252
 #: src/dialogs/dialog-analysis-tools.c:2254
 #: src/dialogs/dialog-analysis-tools.c:2257
-#, fuzzy
 msgid "_p Value:"
-msgstr "_p deðeri:"
+msgstr "_p Deðeri:"
 
 #: src/dialogs/dialog-analysis-tools.c:2252
-#, fuzzy
 msgid "N_umber of Trials:"
-msgstr "Deneme sayýsý"
+msgstr "Deneme Sayýsý:"
 
 #: src/dialogs/dialog-analysis-tools.c:2254
 msgid "Negative Binomial"
 msgstr "Negatif Binom"
 
 #: src/dialogs/dialog-analysis-tools.c:2255
-#, fuzzy
 msgid "N_umber of Failures"
-msgstr "Baþarýsýzlýk sayýsý"
+msgstr "_Baþarýsýzlýk Sayýsý"
 
 #: src/dialogs/dialog-analysis-tools.c:2257
 msgid "Bernoulli"
@@ -4354,14 +4282,12 @@ msgid "Uniform"
 msgstr "Uniform"
 
 #: src/dialogs/dialog-analysis-tools.c:2259
-#, fuzzy
 msgid "_Lower Bound:"
-msgstr "_Alt sýnýr:"
+msgstr "_Alt Sýnýr:"
 
 #: src/dialogs/dialog-analysis-tools.c:2259
-#, fuzzy
 msgid "_Upper Bound:"
-msgstr "Ü_st sýnýr:"
+msgstr "Ü_st Sýnýr:"
 
 #: src/dialogs/dialog-analysis-tools.c:2508
 msgid ""
@@ -4372,14 +4298,12 @@ msgstr ""
 "tanýtmalýsýnýz"
 
 #: src/dialogs/dialog-analysis-tools.c:2686
-#, fuzzy
 msgid "Could not create the Random Tool dialog."
-msgstr "Ýsim Uzmaný oluþturulamadý."
+msgstr "Rasgele Araçlarý diyaloðu oluþturulamadý."
 
 #: src/dialogs/dialog-analysis-tools.c:2727
-#, fuzzy
 msgid "You should introduce a valid cell range in 'X Variables:'"
-msgstr "'1. Deðiþken:' içinde geçerli göze aralýðýný tanýtmalýsýnýz"
+msgstr "'X Deðiþkenleri:' içinde geçerli göze aralýðýný tanýtmalýsýnýz"
 
 #: src/dialogs/dialog-analysis-tools.c:2756
 msgid ""
@@ -4400,38 +4324,32 @@ msgstr ""
 "geri dönme hesabýný tekrarlayýn."
 
 #: src/dialogs/dialog-analysis-tools.c:2769
-msgid ""
-"There must be an equal number of entries for each variable in the regression."
+msgid "There must be an equal number of entries for each variable in the regression."
 msgstr "Geri dönme içindeki her deðiþken için ayný sayýda girdi olmalýdýr."
 
 #: src/dialogs/dialog-analysis-tools.c:2881
-#, fuzzy
 msgid "_X Variables:"
-msgstr "X Deðiþken %d"
+msgstr "_X Deðiþkenleri:"
 
 #: src/dialogs/dialog-analysis-tools.c:2882
-#, fuzzy
 msgid "_Y Variables:"
-msgstr "2. Deðiþken Aralýðý:"
+msgstr "_Y Deðiþkenleri:"
 
 #: src/dialogs/dialog-analysis-tools.c:2886
-#, fuzzy
 msgid "Could not create the Regression Tool dialog."
-msgstr "Ýsim Uzmaný oluþturulamadý."
+msgstr "Geri Dönme Araçlarý diyaloðu oluþturulamadý."
 
 #: src/dialogs/dialog-analysis-tools.c:3054
-#, fuzzy
 msgid "Could not create the Moving Average Tool dialog."
-msgstr "Ýsim Uzmaný oluþturulamadý."
+msgstr "Hareketli Ortalama Araçlarý diyaloðu oluþturulamadý."
 
 #: src/dialogs/dialog-analysis-tools.c:3101
 msgid "Fourier analysis is not implemented yet.  Sorry."
 msgstr "Fourier analizi daha programlanmadý."
 
 #: src/dialogs/dialog-analysis-tools.c:3144
-#, fuzzy
 msgid "Could not create the Fourier Analyis Tool dialog."
-msgstr "Ýsim Uzmaný oluþturulamadý."
+msgstr "Fourier Analizi Araçlarý diyaloðu oluþturulamadý."
 
 #: src/dialogs/dialog-analysis-tools.c:3216
 #: src/dialogs/dialog-analysis-tools.c:3519
@@ -4443,24 +4361,20 @@ msgid "Given bin range contains non-numeric data."
 msgstr "Verilen bölge sayýsal olmayan veri içeriyor."
 
 #: src/dialogs/dialog-analysis-tools.c:3260 src/dialogs/histogram.glade.h:1
-#, fuzzy
 msgid "Bin _Range:"
 msgstr "K_utu Aralýðý:"
 
 #: src/dialogs/dialog-analysis-tools.c:3267
-#, fuzzy
 msgid "Could not create the Histogram Tool dialog."
-msgstr "Ýsim Uzmaný oluþturulamadý."
+msgstr "Histogram Araçlarý diyaloðu oluþturulamadý."
 
 #: src/dialogs/dialog-analysis-tools.c:3441
-#, fuzzy
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr "Ýsim Uzmaný oluþturulamadý."
+msgstr "ANOVA (tek çarpan) Araçlarý diyaloðu oluþturulamadý."
 
 #: src/dialogs/dialog-analysis-tools.c:3514
-#, fuzzy
 msgid "Each sample must contain the same number of rows."
-msgstr "Her örnek ayný sayýda satýr içermeli (`Örnek baþýna satýr:')"
+msgstr "Her örnek ayný sayýda satýr içermelidir."
 
 #: src/dialogs/dialog-analysis-tools.c:3524
 msgid ""
@@ -4469,14 +4383,12 @@ msgid ""
 msgstr "Verilen girdi alaný en az iki veri sütunu ve etiketlerini içermeli."
 
 #: src/dialogs/dialog-analysis-tools.c:3648
-#, fuzzy
 msgid "Could not create the ANOVA (two factor) tool dialog."
-msgstr "Ýsim Uzmaný oluþturulamadý."
+msgstr "ANOVA (iki çarpan) Araçlarý diyaloðu oluþturulamadý."
 
 #: src/dialogs/dialog-analysis-tools.c:3679
-#, fuzzy
 msgid "Anova: Two-Factor With Or Without Replication"
-msgstr "Anova: Örneklemeksizin iki-çarpan"
+msgstr "Anova: Örneklemesiz/örneklemeli iki-çarpan"
 
 #: src/dialogs/dialog-analysis-tools.c:3687
 msgid "F-Test: Two-Sample for Variances"
@@ -4629,9 +4541,8 @@ msgid "Missing %s file"
 msgstr "%s dosyasý bulunamadý"
 
 #: src/dialogs/dialog-autoformat.c:948
-#, fuzzy
 msgid "An error occurred while reading the category list"
-msgstr "Kategori listesi yüklenirken bir hata oluþtu"
+msgstr "Kategori listesi okunurken bir hata oluþtu"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
@@ -4803,44 +4714,38 @@ msgid "Any"
 msgstr "Herhangi"
 
 #: src/dialogs/dialog-goal-seek.c:367
-#, fuzzy
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
-msgstr "'Göze belirtin:' alanýnda geçerli göze aralýðýný tanýtmalýsýnýz"
+msgstr "'Göze belirtin:' alanýnda geçerli göze ismini vermelisiniz!"
 
 #: src/dialogs/dialog-goal-seek.c:375
-#, fuzzy
 msgid "The cell named in 'Set Cell:' must contain a formula!"
-msgstr "'Göze belirtin:' alanýnda belirtilen göze bir formül içermeli"
+msgstr "'Göze belirtin:' alanýnda belirtilen göze bir formül içermeli!"
 
 #: src/dialogs/dialog-goal-seek.c:383
-#, fuzzy
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
-msgstr ""
-"'Bu gözeyi deðiþtirerek:' alanýnda geçerli göze aralýðýný tanýtmalýsýnýz"
+msgstr "'Bu gözeyi deðiþtirerek:' alanýnda geçerli göze ismini vermelisiniz!"
 
 #: src/dialogs/dialog-goal-seek.c:392
-#, fuzzy
 msgid "The cell named in 'By changing cell' must not contain a formula."
 msgstr "'Bu gözeyi deðiþtirerek:' alanýnda belirtilen göze bir formül içermeli"
 
 #: src/dialogs/dialog-goal-seek.c:405
 msgid "The value given in 'To Value:' is not valid."
-msgstr ""
+msgstr "'Bu Deðere:' alanýnda verilen deðer geçersiz."
 
 #: src/dialogs/dialog-goal-seek.c:482
-#, fuzzy, c-format
+#, c-format
 msgid "Goal seeking with cell %s found a solution."
-msgstr "%s gözesi ile sonuç arama bir çözüme ulaþtý"
+msgstr "%s gözesi ile sonuç arama bir çözüme ulaþtý."
 
 #: src/dialogs/dialog-goal-seek.c:498
-#, fuzzy, c-format
+#, c-format
 msgid "Goal seeking with cell %s did not find a solution."
-msgstr "%s gözesi ile sonuç arama bir çözüme ulaþtý"
+msgstr "%s gözesi ile sonuç arama bir çözüme ulaþmadý."
 
 #: src/dialogs/dialog-goal-seek.c:667
-#, fuzzy
 msgid "Could not create the Goal-Seek dialog."
-msgstr "Ýsim Uzmaný oluþturulamadý."
+msgstr "Çözüm Arama diyaloðu oluþturulamadý."
 
 #: src/dialogs/dialog-goto-cell.c:48 src/solver-lp.c:896 src/solver-lp.c:920
 #: src/solver-lp.c:953 src/solver-lp.c:1047 src/solver-lp.c:1094
@@ -4852,7 +4757,6 @@ msgid "Go to..."
 msgstr "Git..."
 
 #: src/dialogs/dialog-graph-guru.c:743
-#, fuzzy
 msgid "Step 1 of 3: Select graph type"
 msgstr "Adým 1/3: Grafik türü seçimi"
 
@@ -4861,29 +4765,24 @@ msgid "Step 2 of 3: Select data ranges"
 msgstr "Adým 2/3: Veri bölgesi seçimi"
 
 #: src/dialogs/dialog-graph-guru.c:751
-#, fuzzy
 msgid "Graph Data"
-msgstr "Çizim Uzmaný"
+msgstr "Çizim Verisi"
 
 #: src/dialogs/dialog-graph-guru.c:756
-#, fuzzy
 msgid "Step 3 of 3: Customize graph"
 msgstr "Adým 3/3: Grafiðin özelleþtirilmesi"
 
 #: src/dialogs/dialog-graph-guru.c:758
-#, fuzzy
 msgid "Format Graph"
-msgstr "Formül Uzmaný"
+msgstr "Grafiði Biçemle"
 
 #: src/dialogs/dialog-graph-guru.c:933
-#, fuzzy
 msgid "Plot name"
-msgstr "Bir isim"
+msgstr "Çizim ismi"
 
 #: src/dialogs/dialog-graph-guru.c:936
-#, fuzzy
 msgid "Series name"
-msgstr "Çizelge ismi"
+msgstr "Seri ismi"
 
 #: src/dialogs/dialog-insert-cells.c:84 src/dialogs/insert-cells.glade.h:1
 msgid "Insert"
@@ -4996,19 +4895,19 @@ msgid "Errors while deactivating plugins"
 msgstr "Eklentiler kaldýrýlýrken hata oluþtu."
 
 #: src/dialogs/dialog-plugin-manager.c:476
-#, fuzzy, c-format
+#, c-format
 msgid "%s[in memory, marked for deactivation]"
-msgstr "%s [bellekte, kaldýrmak içim iþaretlendi]"
+msgstr "%s[bellekte, kaldýrmak için iþaretlendi]"
 
 #: src/dialogs/dialog-plugin-manager.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "%s[in memory]"
-msgstr "%s [bellekte]"
+msgstr "%s[bellekte]"
 
 #: src/dialogs/dialog-plugin-manager.c:482
-#, fuzzy, c-format
+#, c-format
 msgid "%s[marked for deactivation]"
-msgstr "%s [kaldýrmak için iþaretlendi]"
+msgstr "%s[kaldýrmak için iþaretlendi]"
 
 #: src/dialogs/dialog-plugin-manager.c:621
 msgid "Plugin list"
@@ -5020,15 +4919,13 @@ msgstr "Eklenti ayrýntýlarý"
 
 #: src/dialogs/dialog-printer-setup.c:985
 #: src/dialogs/dialog-printer-setup.c:1117
-#, fuzzy
 msgid "Customize header"
-msgstr "_Baþlýðý özelleþtir"
+msgstr "Baþlýðý özelleþtir"
 
 #: src/dialogs/dialog-printer-setup.c:987
 #: src/dialogs/dialog-printer-setup.c:1123
-#, fuzzy
 msgid "Customize footer"
-msgstr "_Altbilgiyi özelleþtir"
+msgstr "Altbilgiyi özelleþtir"
 
 #: src/dialogs/dialog-printer-setup.c:1116
 msgid "Custom header configuration"
@@ -5039,24 +4936,20 @@ msgid "Custom footer configuration"
 msgstr "Özel altbilgi yapýlandýrmasý"
 
 #: src/dialogs/dialog-search.c:129
-#, fuzzy
 msgid "Expression"
-msgstr "Ýfadeler"
+msgstr "Ýfade"
 
 #: src/dialogs/dialog-search.c:133
-#, fuzzy
 msgid "Integer"
-msgstr "Ortala"
+msgstr "Tamsayý"
 
 #: src/dialogs/dialog-search.c:137
-#, fuzzy
 msgid "Other value"
-msgstr "Diðer deðerler"
+msgstr "Diðer deðer"
 
 #: src/dialogs/dialog-search.c:139
-#, fuzzy
 msgid "Comment"
-msgstr "Yorumlar"
+msgstr "Yorum"
 
 #: src/dialogs/dialog-search-replace.c:130 src/dialogs/dialog-search.c:367
 msgid "You must select some cell types to search."
@@ -5067,15 +4960,15 @@ msgstr "Arama yapmak için bazý göze türlerini seçmelisiniz."
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "`%s' çizelgesini gerçekten silmek istiyor musunuz?"
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:68 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:68 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:69 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:69 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5089,15 +4982,17 @@ msgid ""
 "Solver found an optimal solution. All constraints and optimality conditions "
 "are satisfied.\n"
 msgstr ""
+"Çözümleyici en elveriþli çözümü buldu. Tüm zorlamalar ve elveriþlilik koþullarý "
+"saðlandý.\n"
 
 #: src/dialogs/dialog-solver.c:836
 msgid "The Target Cell value does not converge!"
-msgstr ""
+msgstr "Hedef göze deðeri yakýnsanmýyor!"
 
 #: src/dialogs/dialog-solver.c:840
 #, c-format
 msgid "Solver was not successful: %i"
-msgstr ""
+msgstr "Çözümleyici baþarýlý olamadý: %i"
 
 #: src/dialogs/dialog-solver.c:862
 #, c-format
@@ -5105,9 +5000,8 @@ msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "`%s' koþulu bir girdi gözesi olmayan bir göze içindir"
 
 #: src/dialogs/dialog-solver.c:1113
-#, fuzzy
 msgid "Could not create the Solver dialog."
-msgstr "Ýsim Uzmaný oluþturulamadý."
+msgstr "Çözümleyici diyaloðu oluþturulamadý."
 
 #: src/dialogs/dialog-stf-export-sheet-page.c:358
 msgid "You need to select at least one sheet to export"
@@ -5119,21 +5013,21 @@ msgstr ""
 msgid "Are you sure you want to cancel?"
 msgstr "Gerçekten iptal etmek istiyor musunuz?"
 
-#: src/dialogs/dialog-stf-export.glade.h:1
-msgid "<- Remove"
-msgstr "<- Kaldýr"
-
-#: src/dialogs/dialog-stf-export.glade.h:2
-msgid "<- Remove all"
-msgstr "<- Tümünü kaldýr"
-
-#: src/dialogs/dialog-stf-export.glade.h:3 src/dialogs/dialog-stf.glade.h:1
+#: src/dialogs/dialog-stf-export.glade.h:1 src/dialogs/dialog-stf.glade.h:1
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
+
+#: src/dialogs/dialog-stf-export.glade.h:3
+msgid "<- Remove"
+msgstr "<- Kaldýr"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+msgid "<- Remove all"
+msgstr "<- Tümünü kaldýr"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
 msgid "Add ->"
@@ -5288,7 +5182,7 @@ msgstr "Veri (%s'ten)"
 #.
 #: src/dialogs/dialog-stf-preview.c:610 src/style.c:89
 msgid "fixed"
-msgstr ""
+msgstr "sabit"
 
 #: src/dialogs/dialog-stf.glade.h:3
 msgid ""
@@ -5481,8 +5375,7 @@ msgid "See two successive separators as one."
 msgstr "Ýki ardarda ayracý tek olarak görür."
 
 #: src/dialogs/dialog-stf.glade.h:48
-msgid ""
-"See two successive text indicators as one that does not terminate the cell."
+msgid "See two successive text indicators as one that does not terminate the cell."
 msgstr ""
 "Ýki ardarda metin belirtecini gözeyi sonlandýrmayan tek belirteç olarak "
 "görür."
@@ -5667,68 +5560,57 @@ msgstr "çevrilmesi gerekmeyen yer tutucu"
 
 #: src/dialogs/graph-guru.glade.h:4
 msgid "_Finish"
-msgstr ""
+msgstr "_Bitiþ"
 
 #: src/dialogs/graph-guru.glade.h:5
-#, fuzzy
 msgid "_Plot"
-msgstr "_Sýrala"
+msgstr "Çi_z"
 
 #: src/dialogs/graph-guru.glade.h:6
-#, fuzzy
 msgid "_Series"
-msgstr "_Altçizgi:"
+msgstr "_Seri"
 
 #: src/dialogs/goalseek.glade.h:1
-#, fuzzy
 msgid "(Maximum):"
-msgstr "En çok:"
+msgstr "(En çok):"
 
 #: src/dialogs/goalseek.glade.h:2
-#, fuzzy
 msgid "(Minimum):"
-msgstr "En az:"
+msgstr "(En az):"
 
 #: src/dialogs/goalseek.glade.h:3
-#, fuzzy
 msgid "By Changing Cell:"
-msgstr "Deðiþti_ren Gözeler: "
+msgstr "Deðiþtiren Gözeler: "
 
 #: src/dialogs/goalseek.glade.h:4
-#, fuzzy
 msgid "Current Value:"
-msgstr "Þimdiki _tarih"
+msgstr "Þimdiki Deðer:"
 
 #: src/dialogs/goalseek.glade.h:5
-#, fuzzy
 msgid "Goal:"
-msgstr "Toplam"
+msgstr "Sonuç:"
 
 #: src/dialogs/goalseek.glade.h:6
-#, fuzzy
 msgid "GoalSeek"
-msgstr "Sonuç Arama..."
+msgstr "Sonuç Arama"
 
 #: src/dialogs/goalseek.glade.h:7
 msgid "Last Result:"
-msgstr ""
+msgstr "Son Sonuç:"
 
 #: src/dialogs/goalseek.glade.h:8
 msgid "Remaining Error:"
-msgstr ""
+msgstr "Bekleyen Hata:"
 
 #: src/dialogs/goalseek.glade.h:9
-#, fuzzy
 msgid "Set Cell:"
 msgstr "Gözeyi belirtin:"
 
 #: src/dialogs/goalseek.glade.h:10
-#, fuzzy
 msgid "Solution:"
-msgstr "Çözümleyici Seçenekleri"
+msgstr "Çözüm:"
 
 #: src/dialogs/goalseek.glade.h:11
-#, fuzzy
 msgid "To Value:"
 msgstr "Bu deðere:"
 
@@ -5738,16 +5620,15 @@ msgstr "Her bölüm için biçem dizgelerini verin:"
 
 #: src/dialogs/hf-config.glade.h:2
 msgid "Header/Footer Config"
-msgstr ""
+msgstr "Baþlýk/DipNot Yapýlandýrmasý"
 
 #: src/dialogs/hf-config.glade.h:3
 msgid "Left section:"
 msgstr "Sol bölüm:"
 
 #: src/dialogs/hf-config.glade.h:4
-#, fuzzy
 msgid "Middle section:"
-msgstr "Sol bölüm:"
+msgstr "Orta bölüm:"
 
 #: src/dialogs/hf-config.glade.h:5
 msgid "Right section:"
@@ -5758,9 +5639,8 @@ msgid "C_umulative Percentages"
 msgstr "K_ümülatif Yüzde Oraný"
 
 #: src/dialogs/histogram.glade.h:3
-#, fuzzy
 msgid "Chart Output"
-msgstr "_Grafik Çýktýsý"
+msgstr "Grafik Çýktýsý"
 
 #: src/dialogs/histogram.glade.h:12
 msgid "_Pareto (Sorted)"
@@ -5787,89 +5667,76 @@ msgid "_Shift cells right"
 msgstr "Gözeleri _saða kaydýr"
 
 #: src/dialogs/mean-tests.glade.h:1 src/dialogs/variance-tests.glade.h:1
-#, fuzzy
 msgid "(1 - _Alpha) ="
-msgstr "1 - Alfa:"
+msgstr "(1 - _Alfa) ="
 
 #: src/dialogs/mean-tests.glade.h:4
-#, fuzzy
 msgid "E_qual"
-msgstr "Eþittir:"
+msgstr "Eþ_it"
 
 #: src/dialogs/mean-tests.glade.h:5
-#, fuzzy
 msgid "H_ypothesized Mean Difference:"
-msgstr "Varsayýlan Ortalama Farký:"
+msgstr "_Varsayýlan Ortalama Farký:"
 
 #: src/dialogs/mean-tests.glade.h:9
 msgid "Population Variances are:"
-msgstr ""
+msgstr "Daðýlým Deðiþimi:"
 
 #: src/dialogs/mean-tests.glade.h:10 src/dialogs/variance-tests.glade.h:6
-#, fuzzy
 msgid "Test"
-msgstr "z-Testi"
+msgstr "Test"
 
 #: src/dialogs/mean-tests.glade.h:11
 msgid "Testing the Difference of 2 Means"
-msgstr ""
+msgstr "2 Ortalamanýn Farký Testi"
 
 #: src/dialogs/mean-tests.glade.h:12
-#, fuzzy
 msgid "Unkno_wn"
-msgstr "Ýsmi bilinmiyor"
+msgstr "Bilin_meyen"
 
 #: src/dialogs/mean-tests.glade.h:13
-#, fuzzy
 msgid "Unknown Pop. Var. are:"
-msgstr "Bilinmeyen operatör"
+msgstr "Bilinmeyen Daðl. Deðþ:"
 
 #: src/dialogs/mean-tests.glade.h:14
 msgid "Unpai_red"
-msgstr ""
+msgstr "Çi_fti olmayan"
 
 #: src/dialogs/mean-tests.glade.h:15
-#, fuzzy
 msgid "Variable 1 Pop. Variance:"
-msgstr "1. Deðiþken Deðiþimi (bilinen):"
+msgstr "1. Deðiþken Daðl. Deðiþimi:"
 
 #: src/dialogs/mean-tests.glade.h:16 src/dialogs/variance-tests.glade.h:8
 msgid "Variable 1 Range:"
 msgstr "1. Deðiþken Aralýðý:"
 
 #: src/dialogs/mean-tests.glade.h:17
-#, fuzzy
 msgid "Variable 2 Pop. Variance:"
-msgstr "2. Deðiþken Deðiþimi (bilinen):"
+msgstr "2. Deðiþken Daðl. Deðiþimi:"
 
 #: src/dialogs/mean-tests.glade.h:18 src/dialogs/variance-tests.glade.h:9
 msgid "Variable 2 Range:"
 msgstr "2. Deðiþken Aralýðý:"
 
 #: src/dialogs/mean-tests.glade.h:19
-#, fuzzy
 msgid "Variables are:"
-msgstr "2. Deðiþken Aralýðý:"
+msgstr "Deðiþkenler:"
 
 #: src/dialogs/mean-tests.glade.h:20
-#, fuzzy
 msgid "_Known"
-msgstr "_Satýr"
+msgstr "_Bilinen"
 
 #: src/dialogs/mean-tests.glade.h:24
-#, fuzzy
 msgid "_Paired"
-msgstr "_Yapýþtýr"
+msgstr "_Çift"
 
 #: src/dialogs/mean-tests.glade.h:25
-#, fuzzy
 msgid "_Unequal"
-msgstr "_Genel"
+msgstr "_Eþit olmayan"
 
 #: src/dialogs/moving-averages.glade.h:1
-#, fuzzy
 msgid "3"
-msgstr "37"
+msgstr "3"
 
 #: src/dialogs/moving-averages.glade.h:3
 msgid "In_terval:"
@@ -5987,9 +5854,8 @@ msgid "He_ader:"
 msgstr "_Baþlýk:"
 
 #: src/dialogs/print.glade.h:8
-#, fuzzy
 msgid "Header:"
-msgstr "_Baþlýk:"
+msgstr "Baþlýk:"
 
 #: src/dialogs/print.glade.h:9
 msgid "Headers and footers"
@@ -6142,19 +6008,16 @@ msgid "tall"
 msgstr "uzun"
 
 #: src/dialogs/random-generation.glade.h:3
-#, fuzzy
 msgid "Number of _Variables:"
-msgstr "_Deðiþken sayýsý:"
+msgstr "_Deðiþken Sayýsý:"
 
 #: src/dialogs/random-generation.glade.h:6
-#, fuzzy
 msgid "Random Numbers"
-msgstr "Rasgele Sayý Üreteci"
+msgstr "Rasgele Sayýlar"
 
 #: src/dialogs/random-generation.glade.h:7
-#, fuzzy
 msgid "Size of _Sample:"
-msgstr "Örnek Sayýsý:"
+msgstr "Ör_nek Boyutu:"
 
 #: src/dialogs/random-generation.glade.h:8
 msgid "_Distribution:"
@@ -6165,19 +6028,16 @@ msgid "Confidence Level:"
 msgstr "Kesinlik Derecesi:"
 
 #: src/dialogs/regression.glade.h:3
-#, fuzzy
 msgid "Force Intercept To Be Zero"
 msgstr "Bölme Sýfýra Gider"
 
 #: src/dialogs/regression.glade.h:8
-#, fuzzy
 msgid "X Variables:"
-msgstr "X Deðiþken %d"
+msgstr "X Deðiþkenleri:"
 
 #: src/dialogs/regression.glade.h:9
-#, fuzzy
 msgid "Y Variable:"
-msgstr "2. Deðiþken"
+msgstr "Y Deðiþkeni:"
 
 #: src/dialogs/row-height.glade.h:1
 msgid "Row height"
@@ -6188,14 +6048,12 @@ msgid "_Row height (pts):"
 msgstr "_Satýr yüksekliði (punto):"
 
 #: src/dialogs/sampling.glade.h:4
-#, fuzzy
 msgid "Input Range: "
-msgstr "Girdi Aralýðý:"
+msgstr "Girdi Aralýðý: "
 
 #: src/dialogs/sampling.glade.h:6
-#, fuzzy
 msgid "N_umber of Samples:"
-msgstr "Ö_rnek sayýsý:"
+msgstr "Ö_rnek Sayýsý:"
 
 #: src/dialogs/sampling.glade.h:8
 msgid "Period:"
@@ -6206,57 +6064,48 @@ msgid "Sampling Method:"
 msgstr "Örnekleme Yöntemi:"
 
 #: src/dialogs/sampling.glade.h:11
-#, fuzzy
 msgid "Size of Sample:"
-msgstr "Örnek Sayýsý:"
+msgstr "Örnek Boyutu:"
 
 #: src/dialogs/sampling.glade.h:17
-#, fuzzy
 msgid "_Periodic"
-msgstr "Periyodik"
+msgstr "_Periyodik"
 
 #: src/dialogs/sampling.glade.h:18
-#, fuzzy
 msgid "_Random"
-msgstr "Rasgele"
+msgstr "_Rasgele"
 
 #: src/dialogs/search.glade.h:1
-#, fuzzy
 msgid "C_olumn major"
-msgstr "Sütun"
+msgstr "A_na Sütun"
 
 #: src/dialogs/search.glade.h:2
 msgid "Dismiss search center"
-msgstr ""
+msgstr "Arama merkezini býrak"
 
 #: src/dialogs/search-replace.glade.h:10 src/dialogs/search.glade.h:3
 msgid "Do not consider matches in the middle of words"
 msgstr "Sözcüklerin ortasýndakileri yoksayar"
 
 #: src/dialogs/search.glade.h:4
-#, fuzzy
 msgid "Find text within cell comments"
-msgstr "Deðiþiklikleri göze açýklamalarýnda yapar"
+msgstr "Göze açýklamalarýnda bul"
 
 #: src/dialogs/search.glade.h:5
-#, fuzzy
 msgid "Find text within expressions"
-msgstr "Deðiþiklikleri ifadelerin içinde yapar"
+msgstr "Ýfadelerin içinde bul"
 
 #: src/dialogs/search.glade.h:6
-#, fuzzy
 msgid "Find text within non-string values"
-msgstr "Deðiþiklikleri dizge olmayan deðerlerde yapar"
+msgstr "Dizge olmayan deðerler içinde bul"
 
 #: src/dialogs/search.glade.h:7
-#, fuzzy
 msgid "Find text within string values"
-msgstr "Deðiþiklikleri dizgelerin içinde yapar"
+msgstr "Dizgelerin içinde bul"
 
 #: src/dialogs/search.glade.h:8
-#, fuzzy
 msgid "Match _whole words only"
-msgstr "Sadece tam sözcükleri bul"
+msgstr "Sadece _tam sözcük"
 
 #: src/dialogs/search-replace.glade.h:23 src/dialogs/search.glade.h:9
 msgid "Miscellanea"
@@ -6267,50 +6116,44 @@ msgid "Search"
 msgstr "Arama"
 
 #: src/dialogs/search.glade.h:11
-#, fuzzy
 msgid "Search Center"
-msgstr "Aranacak"
+msgstr "Arama Merkezi"
 
 #: src/dialogs/search.glade.h:12
-#, fuzzy
 msgid "Search cells containing"
-msgstr "Deðiþtirilecek içerik"
+msgstr "Aranacak içerik"
 
 #: src/dialogs/search-replace.glade.h:48 src/dialogs/search.glade.h:13
 msgid "Search column by column"
-msgstr ""
+msgstr "Sütun-sütun arama"
 
 #: src/dialogs/search.glade.h:14
-#, fuzzy
 msgid "Search in all cells in the workbook"
-msgstr "Defter içindeki tüm gözelerde arar ve deðiþtirir"
+msgstr "Defter içindeki tüm gözelerde ara"
 
 #: src/dialogs/search.glade.h:15
-#, fuzzy
 msgid "Search in current sheet only"
-msgstr "Sadece çalýþýlan çizelgede arar ve deðiþtirir"
+msgstr "Sadece çalýþýlan çizelgede ara"
 
 #: src/dialogs/search.glade.h:16
-#, fuzzy
 msgid "Search in specified range only"
-msgstr "Belirtilen bölgede arar ve deðiþtirir"
+msgstr "Sadece belirtilen bölgede ara"
 
 #: src/dialogs/search-replace.glade.h:50 src/dialogs/search.glade.h:17
 msgid "Search line by line"
-msgstr ""
+msgstr "Satýr-satýr arama"
 
 #: src/dialogs/search.glade.h:18
 msgid "Show next match"
-msgstr ""
+msgstr "Sonraki bulunaný göster"
 
 #: src/dialogs/search.glade.h:19
 msgid "Show previous match"
-msgstr ""
+msgstr "Önceki bulunaný göster"
 
 #: src/dialogs/search.glade.h:20
-#, fuzzy
 msgid "Start search"
-msgstr "Arama"
+msgstr "Aramayý baþlat"
 
 #: src/dialogs/search-replace.glade.h:53 src/dialogs/search.glade.h:21
 msgid "The search text is a regular expression"
@@ -6325,79 +6168,64 @@ msgid "When set, do not distinguish between upper and lower case letters"
 msgstr "Ýþaretlendiðinde büyük ve küçük harf ayrýmý yapmaz"
 
 #: src/dialogs/search.glade.h:24
-#, fuzzy
 msgid "_Advanced"
-msgstr "Geliþmiþ"
+msgstr "_Geliþmiþ"
 
 #: src/dialogs/search.glade.h:25
-#, fuzzy
 msgid "_Comments"
-msgstr "Yorumlar"
+msgstr "_Yorumlar"
 
 #: src/dialogs/search.glade.h:26
-#, fuzzy
 msgid "_Current sheet"
-msgstr "Þu anki çizelge"
+msgstr "Þu a_nki çizelge"
 
 #: src/dialogs/search.glade.h:27
-#, fuzzy
 msgid "_Entire workbook"
-msgstr "Tüm defter"
+msgstr "_Tüm defter"
 
 #: src/dialogs/search.glade.h:28
-#, fuzzy
 msgid "_Expressions"
-msgstr "Ýfadeler"
+msgstr "Ý_fadeler"
 
 #: src/dialogs/search.glade.h:29
-#, fuzzy
 msgid "_Ignore case"
-msgstr "Harf ayrýmý yapma"
+msgstr "Büyük/küçük _Harf ayrýmý yapma"
 
 #: src/dialogs/search.glade.h:30
-#, fuzzy
 msgid "_Matches"
-msgstr "Mart"
+msgstr "_Eþleþmeler"
 
 #: src/dialogs/search.glade.h:31
-#, fuzzy
 msgid "_Normal"
-msgstr "Normal"
+msgstr "_Normal"
 
 #: src/dialogs/search.glade.h:32
-#, fuzzy
 msgid "_Other values"
-msgstr "Diðer deðerler"
+msgstr "_Diðer deðerler"
 
 #: src/dialogs/search.glade.h:33
-#, fuzzy
 msgid "_Plain text"
-msgstr "Plan Perfect"
+msgstr "_Salt metin"
 
 #: src/dialogs/search.glade.h:34
-#, fuzzy
 msgid "_Range"
-msgstr "Bölge"
+msgstr "_Bölge"
 
 #: src/dialogs/search.glade.h:35
-#, fuzzy
 msgid "_Regular expression"
-msgstr "Düzenli ifade"
+msgstr "_Düzenli ifade"
 
 #: src/dialogs/search.glade.h:36
-#, fuzzy
 msgid "_Row major"
-msgstr "Sütun"
+msgstr "A_na Satýr"
 
 #: src/dialogs/search.glade.h:37
-#, fuzzy
 msgid "_Search for"
-msgstr "Aranacak"
+msgstr "_Aranacak"
 
 #: src/dialogs/search.glade.h:38
-#, fuzzy
 msgid "_Strings"
-msgstr "Dizgeler"
+msgstr "_Dizgeler"
 
 #: src/dialogs/search-replace.glade.h:1
 msgid "Advanced"
@@ -6420,9 +6248,8 @@ msgid "Change cells containing"
 msgstr "Deðiþtirilecek içerik"
 
 #: src/dialogs/search-replace.glade.h:6
-#, fuzzy
 msgid "Column major"
-msgstr "Sütun"
+msgstr "Ana Sütun"
 
 #: src/dialogs/search-replace.glade.h:7 src/dialogs/summary.glade.h:3
 msgid "Comments"
@@ -6544,7 +6371,7 @@ msgstr "_Deðiþtir:"
 
 #: src/dialogs/search-replace.glade.h:40
 msgid "Row major"
-msgstr ""
+msgstr "Ana Satýr"
 
 #: src/dialogs/search-replace.glade.h:41
 msgid "Scope"
@@ -6639,23 +6466,20 @@ msgid "M_in"
 msgstr "_En az"
 
 #: src/dialogs/solver.glade.h:11
-#, fuzzy
 msgid "Parameters"
-msgstr "Çözümleyici Parametreleri"
+msgstr "Parametreler"
 
 #: src/dialogs/solver.glade.h:12
-#, fuzzy
 msgid "Reports"
-msgstr "Raporlar:"
+msgstr "Raporlar"
 
 #: src/dialogs/solver.glade.h:13
 msgid "Solve"
 msgstr "Çöz"
 
 #: src/dialogs/solver.glade.h:14
-#, fuzzy
 msgid "Solver"
-msgstr "Çöz"
+msgstr "Çözümleyici"
 
 #: src/dialogs/solver.glade.h:15
 msgid "Subject to the Constraints:"
@@ -6730,13 +6554,12 @@ msgid "Title"
 msgstr "Baþlýk"
 
 #: src/dialogs/variance-tests.glade.h:7
-#, fuzzy
 msgid "Testing Equality of 2 Variances (F-Test)"
-msgstr "T-Test: Deðiþimler Ayný Varsayýmý"
+msgstr "2 Deðiþimin Aynýlýðý Testi (F-Test)"
 
 #: src/dialogs/workbook-attr.glade.h:1
 msgid "Notebook _Tabs for Sheets"
-msgstr ""
+msgstr "Çizelgeler için Not Defteri _Sekmeleri"
 
 #: src/dialogs/workbook-attr.glade.h:2
 msgid "View"
@@ -6744,7 +6567,7 @@ msgstr "Görünüm"
 
 #: src/dialogs/workbook-attr.glade.h:3
 msgid "_Auto Complete Text in Cells"
-msgstr ""
+msgstr "Gözelerde Otomatik Metin _Tamamlama"
 
 #: src/dialogs/workbook-attr.glade.h:4
 msgid "_Horizontal Scrollbar"
@@ -6763,14 +6586,13 @@ msgid "already defined in workbook"
 msgstr "zaten defterde atanmýþ"
 
 #: src/expr-name.c:228
-#, fuzzy
 msgid "already globally defined "
-msgstr "Zaten çizelgede atanmýþ"
+msgstr "Zaten genelde atanmýþ "
 
 #: src/expr-name.c:234
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' has a circular reference"
-msgstr "kýsýr döngü"
+msgstr "'%s' bir döngüsel baþvuru içeriyor"
 
 #: src/expr-name.c:397
 msgid "Builtin"
@@ -6798,59 +6620,51 @@ msgid "Invalid template file: %s"
 msgstr "Geçici dosya geçersiz: %s"
 
 #: src/file.c:270
-#, fuzzy
 msgid "Cannot create temporary file."
-msgstr "%s dosyasý oluþturulamýyor\n"
+msgstr "Geçici dosya oluþturulamadý."
 
 #: src/file.c:282
-#, fuzzy
 msgid "Error saving to temporary file."
-msgstr "Eþlem dosyasý belleðe alýnýrken hata oluþtu"
+msgstr "Geçici dosya kaydedilirken hata."
 
 #: src/file.c:285
-#, fuzzy
 msgid "Cannot get temporary file size."
-msgstr "Dosya boyutu alýnamýyor."
+msgstr "Geçici dosya boyutu alýnamýyor."
 
 #: src/file.c:291
-#, fuzzy
 msgid "Saving file to stream."
-msgstr "Dosya kaydediliyor..."
+msgstr "Dosya akýma kaydediliyor."
 
 #: src/file.c:304
-#, fuzzy
 msgid "Error reading temporary file."
-msgstr "Dosya okunurken hata."
+msgstr "Geçici dosya okunurken hata."
 
 #: src/file.c:317
-#, fuzzy
 msgid "Exception occurred while saving to stream."
-msgstr "Kategori listesi yüklenirken bir hata oluþtu"
+msgstr "Akýma kaydedilirken bir hata oluþtu"
 
 #: src/file.c:493
 msgid "Saving over old files of this type is disabled for safety."
-msgstr ""
+msgstr "Bu türün güvenlik için iptal edilen eski dosyalarýna kaydediliyor."
 
 #: src/file.c:495
-msgid ""
-"You can turn this safety feature off by editing appropriate plugin.xml file."
-msgstr ""
+msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
+msgstr "Ýlgili eklenti.xml dosyasýný düzenleyerek, bu emniyet özelliðini kapatabilirsiniz."
 
 #: src/format-template.c:883
-#, fuzzy, c-format
-msgid ""
-"The target region is too small.  It should be at least %d rows by %d columns"
-msgstr "Hedef bölge çok küçük, en azýndan %d satýr x %d sütun olmalýydý"
+#, c-format
+msgid "The target region is too small.  It should be at least %d rows by %d columns"
+msgstr "Hedef bölge çok küçük.  En azýndan %d satýr x %d sütun olmalýydý"
 
 #: src/format-template.c:886
-#, fuzzy, c-format
+#, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
-msgstr "Hedef bölge çok küçük, en azýndan %d sütun olmalýydý"
+msgstr "Hedef bölge çok küçük. En azýndan %d sütun geniþlikte olmalýydý"
 
 #: src/format-template.c:889
-#, fuzzy, c-format
+#, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
-msgstr "Hedef bölge çok küçük, en azýndan %d satýr olmalýydý"
+msgstr "Hedef bölge çok küçük. En azýndan %d satýr yüksekliðinde olmalýydý"
 
 #: src/format.c:605
 msgid "black"
@@ -6966,9 +6780,8 @@ msgid "[$ARA]"
 msgstr "[$ARA]"
 
 #: src/formats.c:266
-#, fuzzy
 msgid "Argentine peso"
-msgstr "Arjantin östreli"
+msgstr "Arjantin pesosu"
 
 #: src/formats.c:267
 msgid "[$ATS]"
@@ -7071,9 +6884,8 @@ msgid "[$BRE]"
 msgstr "[$BRE]"
 
 #: src/formats.c:279
-#, fuzzy
 msgid "Brazilian real"
-msgstr "Brezilya kruzeriyosu"
+msgstr "Brezilya reali"
 
 #: src/formats.c:280
 msgid "[$BSD]"
@@ -10527,7 +10339,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:1853
-#, fuzzy
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -10536,12 +10347,6 @@ msgid ""
 "\n"
 "@SEEALSO=PV,FV"
 msgstr ""
-"@FUNCTION=TRANSPOSE\n"
-"@SYNTAX=TRANSPOSE(matris)\n"
-"@DESCRIPTION=TRANSPOSE iþlevi giriþ @matrisinin transpozesini hesaplar.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=MMULT"
 
 #: src/functions/fn-financial.c:1961
 msgid ""
@@ -11209,7 +11014,6 @@ msgid "Unknown info_type"
 msgstr "Bilinmeyen bilgi _türü"
 
 #: src/functions/fn-information.c:255
-#, fuzzy
 msgid ""
 "@FUNCTION=EXPRESSION\n"
 "@SYNTAX=EXPRESSION(cell)\n"
@@ -11221,7 +11025,6 @@ msgid ""
 "\n"
 "@SEEALSO=TEXT"
 msgstr ""
-"@FUNCTION=EXPRESSION\n"
 "@SYNTAX=EXPRESSION(göze)\n"
 "@DESCRIPTION=EXPRESSION @göze bir ifade ise bu ifadeyi bir dizge olarak "
 "verir, deðilse boþ döner.\n"
@@ -12674,7 +12477,6 @@ msgstr ""
 "@SEEALSO=FLOOR, CEIL, ABS"
 
 #: src/functions/fn-math.c:979
-#, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -12687,7 +12489,6 @@ msgid ""
 "\n"
 "@SEEALSO=LN, LOG2, LOG10"
 msgstr ""
-"@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[;taban])\n"
 "@DESCRIPTION=LOG iþlevi @x'in @taban tabanýndaki logaritmasýný hesaplar. "
 "@taban verilmezse 10 kabul edilir. Bu iþlev Excel uyumludur.\n"
@@ -15279,7 +15080,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:3246
-#, fuzzy
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -15294,16 +15094,6 @@ msgid ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 msgstr ""
-"@FUNCTION=SLOPE\n"
-"@SYNTAX=SLOPE(x'ler;y'ler)\n"
-"@DESCRIPTION=SLOPE bir eðrinin eðimini hesaplar. Bu iþlev Excel uyumludur. \n"
-"@EXAMPLES=\n"
-"A1, A2, ..., A5 gözeleri sýrayla 11.4, 17.3, 21.3, 25.9, 40.1 ve B1, "
-"B2, ..., B5 gözeleri sýrayla 23.2, 25.8, 29.9, 33.5, 42.7 deðerlerini "
-"içerdiði varsayýmýyla:\n"
-"SLOPE(A1:A5;B1:B5) eþittir 1.417959936.\n"
-"\n"
-"@SEEALSO=STDEV,STDEVPA"
 
 #: src/functions/fn-stat.c:3296
 msgid ""
@@ -15854,7 +15644,6 @@ msgid "Out of memory"
 msgstr "Bellek yetersiz"
 
 #: src/functions/fn-string.c:388
-#, fuzzy
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -16239,19 +16028,16 @@ msgid "Which file format would you like?"
 msgstr "Hangi dosya biçemini istersiniz?"
 
 #: src/gui-util.c:284
-#, fuzzy
 msgid "Multiple errors"
-msgstr "Çarp"
+msgstr "Çok sayýda hata"
 
 #: src/gui-util.c:316
-#, fuzzy
 msgid "Detailed error message"
-msgstr "Gnumeric hata iletisi"
+msgstr "Ayrýntýlý hata iletisi"
 
 #: src/gui-util.c:373
-#, fuzzy
 msgid "Show details"
-msgstr "Ayrýntýlarý Gö_ster"
+msgstr "Ayrýntýlarý göster"
 
 #: src/gui-util.c:950
 #, c-format
@@ -16445,19 +16231,19 @@ msgid "#RECALC!"
 msgstr "#HESAP!"
 
 #: src/parser.y:446
-#, fuzzy, c-format
+#, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
-msgstr "'%s' ifadesi '%s' çizelgesinde yok"
+msgstr "Ýsim '%s' '%s' çizelgesinde yok"
 
 #: src/parser.y:468
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown workbook '%s'"
-msgstr "Çizelge '%s' bilinmiyor"
+msgstr "Defter '%s' bilinmiyor"
 
 #: src/parser.y:480
-#, fuzzy, c-format
+#, c-format
 msgid "Name '%s' does not exist in workbook '%s'"
-msgstr "'%s' ifadesi '%s' çizelgesinde yok"
+msgstr "Ýsim '%s' '%s' defterinde yok"
 
 #: src/parser.y:505 src/parser.y:528
 #, c-format
@@ -16465,7 +16251,7 @@ msgid "Unknown sheet '%s'"
 msgstr "Çizelge '%s' bilinmiyor"
 
 #: src/parser.y:621 src/parser.y:635
-#, fuzzy, c-format
+#, c-format
 msgid "The character %c cannot be used to separate array elements"
 msgstr "%c karakteri dizi elemanlarý arasýnda ayraç olarak kullanýlamaz"
 
@@ -16499,9 +16285,9 @@ msgid "Module file name not given."
 msgstr "Modül ismi verilmemiþ."
 
 #: src/plugin-loader-module.c:124
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open module file \"%s\"."
-msgstr "\"%s\" modül dosyasý açýlamadý: %s"
+msgstr "\"%s\" modül dosyasý açýlamadý."
 
 #: src/plugin-loader-module.c:129 src/plugin-loader-module.c:333
 #: src/plugin-loader-module.c:434 src/plugin-loader-module.c:505
@@ -16528,9 +16314,9 @@ msgid "Dynamic module loading is not supported in this system."
 msgstr "Bu sistemde dinamik modül yükleme desteklenmiyor."
 
 #: src/plugin-loader-module.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to close module file \"%s\"."
-msgstr "'%s' modül dosyasý kapatýlamadý: %s"
+msgstr "'%s' modül dosyasý kapatýlamadý."
 
 #: src/plugin-loader-module.c:195
 msgid "Module file name"
@@ -16662,8 +16448,7 @@ msgstr "Dosya boyutu alýnamýyor."
 #: src/plugin.c:238
 #, c-format
 msgid "File contain plugin info with invalid id (%s), expected %s."
-msgstr ""
-"Dosya geçersiz kimlikli (%s) eklenti bilgileri içeriyor. Kimlik %s olmalýydý."
+msgstr "Dosya geçersiz kimlikli (%s) eklenti bilgileri içeriyor. Kimlik %s olmalýydý."
 
 #: src/plugin.c:242
 msgid "Couldn't read plugin info from file."
@@ -16765,7 +16550,7 @@ msgid "We depend on plugin with id=\"%s\" which couldn't be loaded."
 msgstr "Yüklenemeyen \"%s\" kimlikli eklenti gerekli."
 
 #: src/plugin.c:1308
-#, fuzzy, c-format
+#, c-format
 msgid "Errors occurred while reading plugin informations from file \"%s\"."
 msgstr "\"%s\" dosyasýndan eklenti bilgileri okunurken hata oluþtu."
 
@@ -16970,9 +16755,8 @@ msgid "There is already a merged region that intersects"
 msgstr "Katýþtýrýlmýþ bir bölge zaten var"
 
 #: src/sheet-object-bonobo.c:243
-#, fuzzy
 msgid "Open..."
-msgstr "Aç"
+msgstr "Aç..."
 
 #: src/sheet-object-container.c:182
 #, c-format
@@ -16986,37 +16770,32 @@ msgstr "Dosya yüklenemedi: %s"
 
 #: src/sheet-object-graphic.c:445
 msgid "Configure line or arrow"
-msgstr ""
+msgstr "Çizgi veya ok yapýlandýrmasý"
 
 #: src/sheet-object-graphic.c:461
-#, fuzzy
 msgid "Line Width"
-msgstr "_Sabit geniþlik"
+msgstr "_Satýr Geniþliði"
 
 #: src/sheet-object-graphic.c:465
-#, fuzzy
 msgid "Arrow tip"
-msgstr "Ok"
+msgstr "Ok ucu"
 
 #: src/sheet-object-graphic.c:467
-#, fuzzy
 msgid "Arrow length"
-msgstr "Hata _Uyarýsý"
+msgstr "Ok uzunluðu"
 
 #: src/sheet-object-graphic.c:469
-#, fuzzy
 msgid "Arrow width"
-msgstr "Kenarlýk"
+msgstr "Ok geniþliði"
 
 #: src/sheet-object-graphic.c:482 src/sheet-object-graphic.c:863
 #: src/sheet-object-graphic.c:869
-#, fuzzy
 msgid "Transparent"
-msgstr "Transpoze"
+msgstr "Þeffaf"
 
 #: src/sheet-object-graphic.c:503
 msgid "Distance from tip of arrowhead to the center point"
-msgstr ""
+msgstr "Ok ucundan merkeze uzaklýk"
 
 #: src/sheet-object-graphic.c:505
 msgid "Distance from tip of arrowhead to trailing point, measured along shaft"
@@ -17028,21 +16807,19 @@ msgstr ""
 
 #: src/sheet-object-graphic.c:841
 msgid "Configure filled object"
-msgstr ""
+msgstr "Dolgu nesneleri yapýlandýrmasý"
 
 #: src/sheet-object-graphic.c:853
-#, fuzzy
 msgid "Outline color"
-msgstr "Al_týný Sýnýrla"
+msgstr "Sýnýr çizgisi rengi"
 
 #: src/sheet-object-graphic.c:855
 msgid "Fill color"
-msgstr ""
+msgstr "Dolgu rengi"
 
 #: src/sheet-object-graphic.c:857
-#, fuzzy
 msgid "Border width"
-msgstr "Kenarlýk"
+msgstr "Kenarlýk geniþliði"
 
 #: src/sheet-object-widget.c:800
 msgid "Checkbox Configure"
@@ -17057,21 +16834,18 @@ msgid "Label :"
 msgstr "Etiket:"
 
 #: src/sheet-object.c:87
-#, fuzzy
 msgid "Properties..."
-msgstr "Seçenekler..."
+msgstr "Özellikler..."
 
 #: src/sheet.c:2182
 msgid "Target region contains merged cells"
 msgstr "Hedef alan birleþik gözeler içeriyor"
 
 #: src/sheet.c:2244
-#, fuzzy
 msgid "cannot operate on merged cells"
 msgstr "birleþik gözelerde iþlem yapýlamýyor"
 
 #: src/sheet.c:2255
-#, fuzzy
 msgid "cannot operate on array formulae"
 msgstr "dizi formülünde iþlem yapýlamýyor"
 
@@ -17258,7 +17032,7 @@ msgid "<Has not been set>"
 msgstr "<Ayarlanmamýþtý>"
 
 #: src/style.c:274
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Gnumeric failed to find a suitable default font.\n"
 "Your gnome-print installation is likely incomplete.  Please\n"
@@ -17282,19 +17056,19 @@ msgid ""
 "\n"
 "Thanks -- the Gnumeric Team\n"
 msgstr ""
-"Gnumeric uygun bir öntanýmlý yazýtipi bulamadý.\n"
+"Gnumeric uygun bir öntanýmlý yazý tipi bulamadý.\n"
 "Lütfen gnome-print paketinini yeniden kurmayý deneyin.\n"
 "\n"
 "%s\n"
 "\n"
-"Herþey tamamsa, lütfen aþaðýdaki öðeleri içeren bir hata\n"
+"Hala olmuyorsa, lütfen aþaðýdaki öðeleri içeren bir hata\n"
 "raporu hazýrlayýn. (Bakýnýz: http://bugzilla.gnome.org)\n"
 "\n"
-"1) Eðer varsa, yazýtipi eþlem dosyanýzýn içeriði\n"
+"1) Eðer varsa, fontmap2 dosyanýzýn içeriði\n"
 "\t (genellikle %s dizininde bulunur)\n"
-"2) LC_ALL çevre deðiþkeninin deðeri\n"
+"2) LC_ALL ortam deðiþkeninin deðeri\n"
 "\tLC_ALL=%s\n"
-"3) LANG çevre deðiþkeninin deðeri\n"
+"3) LANG ortam deðiþkeninin deðeri\n"
 "\tLANG=%s\n"
 "4) libxml sürümü\n"
 "   Bu bilgiyi almak için 'ldd' komutunu kullanabilirsiniz.\n"
@@ -17304,14 +17078,12 @@ msgstr ""
 "Teþekkürler -- Gnumeric Ekibi\n"
 
 #: src/style.c:294
-#, fuzzy
 msgid "Your fontmap2 file does not have a valid entry for Helvetica."
-msgstr "Yazý tipi eþlem dosyanýzda Helvetica için geçerli bir girdi yok."
+msgstr "fontmap2 dosyanýzda Helvetica için geçerli bir girdi yok."
 
 #: src/style.c:295
-#, fuzzy
 msgid "Your fontmap2 file could not be found in the expected location."
-msgstr "Yazý tipi eþlem dosyanýz yerinde bulunamadý."
+msgstr "fontmap2 dosyanýz yerinde bulunamadý."
 
 #: src/value.c:671
 msgid "Terminate"
@@ -17346,15 +17118,13 @@ msgstr ""
 "verilmeli."
 
 #: src/workbook-cmd-format.c:236
-msgid ""
-"You entered an invalid default column width value.  It must be bigger than 0"
+msgid "You entered an invalid default column width value.  It must be bigger than 0"
 msgstr ""
 "Girdiðiniz öntanýmlý sütun geniþliði geçersiz. Sýfýrdan büyük (pozitif) bir "
 "deðer verilmeli."
 
 #: src/workbook-cmd-format.c:264
-msgid ""
-"You entered an invalid default row height value.  It must be bigger than 0"
+msgid "You entered an invalid default row height value.  It must be bigger than 0"
 msgstr ""
 "Girdiðiniz öntanýmlý satýr yüksekliði geçersiz. Sýfýrdan büyük (pozitif) bir "
 "deðer verilmeli."
@@ -17388,7 +17158,6 @@ msgid "Nothing"
 msgstr "Yok"
 
 #: src/workbook-control-gui.c:957
-#, fuzzy
 msgid "Un_freeze Panes"
 msgstr "Yüzeyleri _Çöz"
 
@@ -17436,9 +17205,9 @@ msgstr ""
 "Hiçbir yerleþtirme yapýlmadý ve çýkýldý."
 
 #: src/workbook-control-gui.c:1765
-#, fuzzy, c-format
+#, c-format
 msgid "Comment in cell %s!%s"
-msgstr "%s!%s'e birleþtiriliyor"
+msgstr "%s!%s yorumu"
 
 #. TODO : No need to check simplicty.  XL applies for each non-discrete
 #. * selected region, (use selection_apply).  Arrays and Merged regions
@@ -17466,18 +17235,16 @@ msgid "Unable to create object of type '%s'"
 msgstr "'%s' türünde nesne oluþturulamadý"
 
 #: src/workbook-control-gui.c:2218
-#, fuzzy
 msgid "Show"
-msgstr "Gölgeleme"
+msgstr "Göster"
 
 #: src/workbook-control-gui.c:2218
-#, fuzzy
 msgid "Hide"
-msgstr "_Gizle"
+msgstr "Gizle"
 
 #: src/workbook-control-gui.c:2237
 msgid "can only be performed on an existing group"
-msgstr ""
+msgstr "sadece mevcut bir grup üzerinde uygulanabilir"
 
 #: src/workbook-control-gui.c:2261
 msgid "Group"
@@ -17489,7 +17256,7 @@ msgstr "Grubu çöz"
 
 #: src/workbook-control-gui.c:2450
 msgid "Save with a new name or format"
-msgstr ""
+msgstr "Yeni bir isim ya da biçemle kaydet"
 
 #: src/workbook-control-gui.c:2517
 msgid "Select all the cells that depend on the current edit cell."
@@ -17607,25 +17374,21 @@ msgstr "Gözedeki iþlevi düzenlemeniz için diyalog açar."
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
-msgstr ""
-"Seçimin ilk sütununu temel alarak seçilen bölgeyi artan sýralamayla dizer."
+msgstr "Seçimin ilk sütununu temel alarak seçilen bölgeyi artan sýralamayla dizer."
 
 #: src/workbook-control-gui.c:2981
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
-msgstr ""
-"Seçimin ilk sütununu temel alarak seçilen bölgeyi azalan sýralamayla dizer."
+msgstr "Seçimin ilk sütununu temel alarak seçilen bölgeyi azalan sýralamayla dizer."
 
 #: src/workbook-control-gui.c:3745
-#, fuzzy
 msgid "Send"
-msgstr "Pazar"
+msgstr "Gönder"
 
 #: src/workbook-control-gui.c:3745
-#, fuzzy
 msgid "Send the current file in email"
-msgstr "Dosyayý kaydeder"
+msgstr "Mevcut dosyayý e-posta ile gönder"
 
 #: src/workbook-control.c:194
 msgid "Address"
@@ -17652,9 +17415,8 @@ msgid "Format as Money"
 msgstr "Para olarak Biçemle"
 
 #: src/workbook-format-toolbar.c:322
-#, fuzzy
 msgid "Format with thousands separator"
-msgstr "Binler ayracý ile biçemler"
+msgstr "Binler ayracý ile biçemle"
 
 #: src/workbook-format-toolbar.c:350
 msgid "Increase precision"
@@ -17722,8 +17484,7 @@ msgstr "Binler ayracý"
 
 #: src/workbook-format-toolbar.c:469
 msgid "Sets the format of the selected cells to include a thousands separator"
-msgstr ""
-"Seçilen gözelerin içeriðini binler ayracý kullanýlacak þekilde biçimlendirir"
+msgstr "Seçilen gözelerin içeriðini binler ayracý kullanýlacak þekilde biçimlendirir"
 
 #: src/workbook-format-toolbar.c:472
 msgid "Add decimals"
@@ -17850,9 +17611,9 @@ msgid "Creates an ellipse object"
 msgstr "Elips nesnesi oluþturur"
 
 #: src/workbook-view.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "%dR x %dC"
-msgstr "%dLx%dC"
+msgstr "%dR x %dC"
 
 #: src/workbook-view.c:379
 msgid "Internal ERROR"
@@ -17905,9 +17666,8 @@ msgstr ""
 #. * Pass 2: read the contents
 #.
 #: src/xml-io.c:3210
-#, fuzzy
 msgid "Processing file..."
-msgstr "XML dosyasý ayrýþtýrýlýyor..."
+msgstr "Dosya iþleniyor..."
 
 #: src/xml-io.c:3386
 msgid "Invalid xml clipboard data. Tree is empty ?"
@@ -17929,366 +17689,3 @@ msgstr "Gnumeric XML dosya biçimi"
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME Hesap Çizelgesi"
 
-#~ msgid "_Filter..."
-#~ msgstr "_Süzgeç..."
-
-#~ msgid "1 - _Alpha:"
-#~ msgstr "1 - Alfa:"
-
-#~ msgid "Grouped by:"
-#~ msgstr "Gruplayan:"
-
-#~ msgid "N_ew sheet"
-#~ msgstr "Y_eni çizelge"
-
-#~ msgid "New _workbook"
-#~ msgstr "Yeni de_fter"
-
-#~ msgid "Numbe_r of samples:"
-#~ msgstr "Ö_rnek sayýsý:"
-
-#~ msgid "Output options"
-#~ msgstr "Çýktý seçenekleri"
-
-#~ msgid "T-Test: Assuming Equal Variances"
-#~ msgstr "T-Test: Deðiþimler Ayný Varsayýmý"
-
-#~ msgid "T-Test: Assuming Unequal Variances"
-#~ msgstr "T-Test: Deðiþimler Farklý Varsayýmý"
-
-#~ msgid "T-Test: Paired Two Sample for Means"
-#~ msgstr "T-Test: Ortalamalar için Ýki Örnek Çifti"
-
-#~ msgid "Va_riable 2 Range:"
-#~ msgstr "2. Deðiþken Aralýðý:"
-
-#~ msgid "_Bin Range:"
-#~ msgstr "K_utu Aralýðý:"
-
-#~ msgid "_Chart Output"
-#~ msgstr "_Grafik Çýktýsý"
-
-#~ msgid "_Hypothesized Mean Difference:"
-#~ msgstr "_Varsayýlan Ortalama Farký:"
-
-#~ msgid "_Labels in First Row"
-#~ msgstr "_Etiketler Ýlk Satýrda"
-
-#~ msgid "_Number of variables:"
-#~ msgstr "_Deðiþken sayýsý:"
-
-#~ msgid "_Output range:"
-#~ msgstr "Çý_ktý aralýðý:"
-
-#~ msgid "_Rows per sample:"
-#~ msgstr "Örnek baþýna _satýr:"
-
-#~ msgid "_Variable 1 Range:"
-#~ msgstr "1. _Deðiþken Aralýðý:"
-
-#~ msgid "AutoCorrect Exceptions"
-#~ msgstr "Otomatik Düzeltme Kuraldýþýlýklarý"
-
-#~ msgid "_Exceptions..."
-#~ msgstr "Ý_stisnalar..."
-
-#~ msgid ""
-#~ "The constraints having cell ranges in LHS and RHS should have the same "
-#~ "number of columns and rows in both sides."
-#~ msgstr ""
-#~ "Sol taraf ve sað taraf içinde zorlamalar içeren göze kapsamlarý her iki "
-#~ "tarafta ayný sayýda sütun ve satýr içermelidir"
-
-#~ msgid "The cell range in LHS or RHS should have only one column or row."
-#~ msgstr ""
-#~ "Sol taraf ya da sað taraf içindeki göze aralýðý tek satýr ya da tek sütun "
-#~ "içermeli"
-
-#~ msgid "You should introduce a valid cell name for 'Target cell'"
-#~ msgstr "'Hedef göze' içinde geçerli göze ismini tanýtmalýsýnýz"
-
-#~ msgid "You should introduce a valid cell names in 'By changing cells'"
-#~ msgstr ""
-#~ "'Deðiþtiren gözeler' alanýnda geçerli göze isimlerini tanýtmalýsýnýz"
-
-#~ msgid "Solver Options"
-#~ msgstr "Çözümleyici Seçenekleri"
-
-#~ msgid "                         "
-#~ msgstr "                         "
-
-#~ msgid "Add  "
-#~ msgstr "Ekle  "
-
-#~ msgid "Add Constraint"
-#~ msgstr "Koþul Ekle"
-
-#~ msgid "Change Constraint"
-#~ msgstr "Koþulu Deðiþtir"
-
-#~ msgid "Options..."
-#~ msgstr "Seçenekler..."
-
-#~ msgid "Solver Result"
-#~ msgstr "Çözümleyici Sonuçlarý"
-
-#~ msgid "_Keep Solver Solution"
-#~ msgstr "Çö_zümü Koru"
-
-#~ msgid "_Restore Original Values"
-#~ msgstr "Özgün Deðerleri _Geri Yükle"
-
-#~ msgid "Notebook"
-#~ msgstr "Not Defteri"
-
-#~ msgid "Scrollbars"
-#~ msgstr "Kaydýrma Çubuklarý"
-
-#~ msgid "_Tabs"
-#~ msgstr "_Sekmeler"
-
-#~ msgid "Base error"
-#~ msgstr "Temel hata"
-
-#~ msgid "_Freeze..."
-#~ msgstr "D_ondur..."
-
-#~ msgid "You should introduce a valid cell range in 'Input Range:'"
-#~ msgstr "'Girdi Aralýðý:' içinde geçerli göze aralýðýný tanýtmalýsýnýz"
-
-#, fuzzy
-#~ msgid "Target Value:"
-#~ msgstr "Hedef deðer:    %12.2f"
-
-#~ msgid "Center section:"
-#~ msgstr "Merkez bölümü:"
-
-#~ msgid "Customize header/footer"
-#~ msgstr "Alt/Üstbilgiyi özelleþtir"
-
-#~ msgid "Define Name"
-#~ msgstr "Ýsim Ata"
-
-#~ msgid "Labels in First Row"
-#~ msgstr "Etiketler Ýlk Satýrda"
-
-#~ msgid "Output options:"
-#~ msgstr "Çýktý seçenekleri:"
-
-#~ msgid "New Sheet"
-#~ msgstr "Yeni Çizelge"
-
-#~ msgid "New Workbook"
-#~ msgstr "Yeni Defter"
-
-#~ msgid "Output Range:"
-#~ msgstr "Çýktý Aralýðý:"
-
-#~ msgid "You should introduce a valid cell range in 'Output Range:'"
-#~ msgstr "'Çýktý Aralýðý:' içinde geçerli göze aralýðýný tanýtmalýsýnýz"
-
-#~ msgid "Input:"
-#~ msgstr "Girdi:"
-
-#~ msgid "Input Y Range:"
-#~ msgstr "Düþey Girdi Aralýðý:"
-
-#~ msgid "Input X Range:"
-#~ msgstr "Yatay Girdi Aralýðý:"
-
-#~ msgid "You should introduce a valid cell range in 'Input X Range'"
-#~ msgstr "'Yatay Girdi Aralýðý:' içinde geçerli göze aralýðýný tanýtmalýsýnýz"
-
-#~ msgid "You should introduce a valid cell range in 'Range:'"
-#~ msgstr "'Aralýk:' içinde geçerli göze aralýðýný tanýtmalýsýnýz"
-
-#~ msgid "You should introduce a valid cell range in 'Bin Range:'"
-#~ msgstr "'Kutu Aralýðý:' içinde geçerli göze aralýðýný tanýtmalýsýnýz"
-
-#~ msgid "Current value:  %12.2f"
-#~ msgstr "Þu anki deðer:   %12.2f"
-
-#~ msgid "Solution:       %12.2f"
-#~ msgstr "Çözüm:          %12.2f"
-
-#~ msgid "Goal Seek Report"
-#~ msgstr "Sonuç Arama Raporu"
-
-#~ msgid "By changing cell:"
-#~ msgstr "Bu gözeyi deðiþtirerek:"
-
-#~ msgid "To a value of at least [optional]:"
-#~ msgstr "En az bir deðere [isteðe baðlý]:"
-
-#~ msgid "But no bigger than [optional]:"
-#~ msgstr "Ama bundan büyük olmayan [isteðe baðlý]:"
-
-#~ msgid "Goal seek did not find a solution!"
-#~ msgstr "Sonuç aramasý bir çözüme ulaþamadý!"
-
-#, fuzzy
-#~ msgid "Searching for"
-#~ msgstr "Aranacak"
-
-#~ msgid "A blank cell will be seen as valid"
-#~ msgstr "Bir boþ göze geçerli olarak görülecek"
-
-#~ msgid "Any Value"
-#~ msgstr "Herhangi bir deðer"
-
-#~ msgid "Apply these changes to _other cells with the same settings"
-#~ msgstr "Bu _deðiþiklikleri ayný ayarlarla diðer gözelere de uygula"
-
-#~ msgid "Clear All"
-#~ msgstr "Tümünü Temizle"
-
-#~ msgid "Give the cell a dropdown combo with all possible valid values"
-#~ msgstr "Tüm olasý deðerleri içeren aþaðý açýlan listeli bir göze verir"
-
-#~ msgid "Input _Message :"
-#~ msgstr "Girdi Ýle_tisi:"
-
-#~ msgid "S_how error alert after invalid data is entered"
-#~ msgstr "_Geçersiz veri girildiðinde hata uyarýsý göster"
-
-#~ msgid "Stop"
-#~ msgstr "Dur"
-
-#~ msgid "Validation criteria"
-#~ msgstr "Deðerlendirme koþullarý"
-
-#~ msgid "Warning"
-#~ msgstr "Uyarý"
-
-#~ msgid "_Settings"
-#~ msgstr "_Ayarlar"
-
-#~ msgid "_Title :"
-#~ msgstr "_Baþlýk:"
-
-#~ msgid ""
-#~ "Saving over old Excel files disabled for safety.\n"
-#~ "\n"
-#~ "(You can turn this safety feature off by setting the\n"
-#~ "enviromental variable GNUMERIC_ENABLE_XL_OVERWRITE.)"
-#~ msgstr ""
-#~ "Bir önlem olarak eski Excel dosyalarýnýn üzerine yazýlmýyor.\n"
-#~ "\n"
-#~ "(Bu önlemi GNUMERIC_ENABLE_XL_OVERWRITE çevre deðiþkeni ile\n"
-#~ "kaldýrabilirsiniz.)"
-
-#~ msgid "Confidence Level"
-#~ msgstr "Kesinlik Derecesi"
-
-#~ msgid "Confidence Level (%g%%)"
-#~ msgstr "Kesinlik Derecesi (%g%%)"
-
-#~ msgid "Gnumeric Bonobo file format"
-#~ msgstr "Gnumeric Bonobo dosya biçemi"
-
-#~ msgid "Data Analysis"
-#~ msgstr "Veri Analizi"
-
-#~ msgid "Kth Largest:"
-#~ msgstr "En Büyük k.ýncý:"
-
-#~ msgid "Kth Smallest:"
-#~ msgstr "En Küçük k.ýncý:"
-
-#, fuzzy
-#~ msgid "Labels in First Column"
-#~ msgstr "Etiketler Ýlk Satýrda"
-
-#~ msgid "Rows"
-#~ msgstr "Satýrlar"
-
-#~ msgid "Alpha:"
-#~ msgstr "Alfa:"
-
-#~ msgid "You should introduce a valid cell range in 'Variable 2:'"
-#~ msgstr "'2. Deðiþken:' içinde geçerli göze aralýðýný tanýtmalýsýnýz"
-
-#, fuzzy
-#~ msgid " Location "
-#~ msgstr "Eylem"
-
-#, fuzzy
-#~ msgid "Data ranges"
-#~ msgstr "Bir dörtgen çizer"
-
-#, fuzzy
-#~ msgid "Series"
-#~ msgstr "seri%d"
-
-#, fuzzy
-#~ msgid "Series in:"
-#~ msgstr "Sapma"
-
-#, fuzzy
-#~ msgid "Titles"
-#~ msgstr "Baþlýk"
-
-#, fuzzy
-#~ msgid "_Automatic"
-#~ msgstr "Otomatik"
-
-#, fuzzy
-#~ msgid "_Corner"
-#~ msgstr "Or_tala"
-
-#, fuzzy
-#~ msgid "_Data Range:"
-#~ msgstr "G_irdi Aralýðý:"
-
-#, fuzzy
-#~ msgid "_Name:"
-#~ msgstr "Ýsi_m"
-
-#, fuzzy
-#~ msgid "_Plot title:"
-#~ msgstr "Yazý tipi biçemi:"
-
-#, fuzzy
-#~ msgid "_Scale"
-#~ msgstr "Oranla"
-
-#, fuzzy
-#~ msgid "_Up"
-#~ msgstr "_Güncelle"
-
-#, fuzzy
-#~ msgid "_Value:"
-#~ msgstr "Deðer:"
-
-#~ msgid "Header"
-#~ msgstr "Üstbilgi"
-
-#~ msgid "sample goes here"
-#~ msgstr "örnek buraya gider"
-
-#~ msgid "Processing XML tree..."
-#~ msgstr "XML aðacý iþleniyor..."
-
-#~ msgid "Gnumeric has not been compiled with support for guile."
-#~ msgstr "Gnumeric guile desteði ile derlenmemiþ"
-
-#~ msgid "series%d"
-#~ msgstr "seri%d"
-
-#~ msgid "*Control*b"
-#~ msgstr "*Denetim*b"
-
-#~ msgid "*Control*i"
-#~ msgstr "*Denetim*i"
-
-#~ msgid "*Control*u"
-#~ msgstr "*Denetim*u"
-
-#~ msgid "Error executing groff+gs."
-#~ msgstr "groff+gs çalýþýrken hata."
-
-#~ msgid "Message"
-#~ msgstr "Ýleti"
-
-#~ msgid "Details"
-#~ msgstr "Ayrýntýlar"
