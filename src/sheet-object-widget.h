@@ -5,9 +5,6 @@
 
 void sheet_object_widget_register (void);
 
-void sheet_object_widget_handle (SheetObject *so, GtkWidget *widget,
-				 GnomeCanvasItem *item);
-
 GType sheet_widget_label_get_type	(void);
 GType sheet_widget_frame_get_type	(void);
 GType sheet_widget_button_get_type	(void);

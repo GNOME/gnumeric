@@ -73,11 +73,12 @@ cell_comment_finalize (GObject *object)
 
 #define TRIANGLE_WIDTH 6
 static GnomeCanvasPoints *
-comment_get_points (SheetControlGUI *scg, SheetObject *so)
+comment_get_points (SheetControl *sc, SheetObject *so)
 {
 	GnomeCanvasPoints *points;
 	int x, y, i, far_col;
 	Range const *r;
+	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
 
 	r = sheet_merge_is_corner (so->sheet, &so->anchor.cell_bound.start);
 	if (r != NULL) {
@@ -100,8 +101,8 @@ comment_get_points (SheetControlGUI *scg, SheetObject *so)
 	points->coords [4] = x;
 	points->coords [5] = y + TRIANGLE_WIDTH;
 
+	/* Just use pane 0 for sizing, it always exists */
 	for (i = 0; i < 3; i++)
-		/* FIXME : panes ? */
 		gnome_canvas_c2w (GNOME_CANVAS (scg_pane (scg, 0)),
 				  points->coords [i*2],
 				  points->coords [i*2+1],
@@ -112,11 +113,11 @@ comment_get_points (SheetControlGUI *scg, SheetObject *so)
 }
 
 static void
-cell_comment_update_bounds (SheetObject *so, GObject *view,
-			    SheetControlGUI *scg)
+cell_comment_update_bounds (SheetObject *so, GObject *view)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (view);
-	GnomeCanvasPoints *points = comment_get_points (scg, so);
+	GnomeCanvasPoints *points = comment_get_points (
+		sheet_object_view_control (view), so);
 	gnome_canvas_item_set (item, "points", points, NULL);
 	gnome_canvas_points_free (points);
 
@@ -177,19 +178,21 @@ cell_comment_event (GnomeCanvasItem *view, GdkEvent *event, SheetControlGUI *scg
 }
 
 static GObject *
-cell_comment_new_view (SheetObject *so, SheetControlGUI *scg)
+cell_comment_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
+	GnumericCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	GnomeCanvasPoints *points;
 	GnomeCanvasGroup *group;
 	GnomeCanvasItem *item = NULL;
+	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
 	CellComment *cc = CELL_COMMENT (so);
 
 	g_return_val_if_fail (cc != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
+	g_return_val_if_fail (scg != NULL, NULL);
+	g_return_val_if_fail (key != NULL, NULL);
 
-	/* FIXME : panes ? */
-	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (scg_pane (scg, 0))->root);
-	points = comment_get_points (scg, so);
+	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (gcanvas)->root);
+	points = comment_get_points (sc, so);
 	item = gnome_canvas_item_new (
 		group,		GNOME_TYPE_CANVAS_POLYGON,
 		"points",	points,

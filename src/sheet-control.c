@@ -119,6 +119,9 @@ SC_VIRTUAL (make_cell_visible,
 SC_VIRTUAL (cursor_bound, (SheetControl *sc, Range const *r), (sc, r))
 SC_VIRTUAL (set_panes, (SheetControl *sc), (sc))
 
+SC_VIRTUAL (object_create_view,	(SheetControl *sc, SheetObject *so), (sc, so));
+SC_VIRTUAL (object_destroy_view, (SheetControl *sc, SheetObject *so), (sc, so));
+
 float
 sc_colrow_distance_get (SheetControl const *sc, gboolean is_col,
 			int start, int end)

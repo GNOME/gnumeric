@@ -27,6 +27,7 @@
 #include "gui-util.h"
 #include "dependent.h"
 #include "gnumeric-canvas.h"
+#include "gnumeric-pane.h"
 #include "sheet-control-gui.h"
 #include "sheet-object-impl.h"
 #include "expr.h"
@@ -93,19 +94,18 @@ static GObjectClass *sheet_object_widget_class = NULL;
 static GType sheet_object_widget_get_type	(void);
 
 static GObject *
-sheet_object_widget_new_view (SheetObject *so, SheetControlGUI *scg)
+sheet_object_widget_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	/* FIXME : this is bogus */
-	GnumericCanvas *gcanvas = scg_pane (scg, 0);
+	GnumericCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	GtkWidget *view_widget = SOW_CLASS(so)->create_widget (
-		SHEET_OBJECT_WIDGET (so), scg);
+		SHEET_OBJECT_WIDGET (so), SHEET_CONTROL_GUI (sc));
 	GnomeCanvasItem *view_item = gnome_canvas_item_new (
 		gcanvas->object_group,
 		gnome_canvas_widget_get_type (),
 		"widget", view_widget,
 		"size_pixels", FALSE,
 		NULL);
-	scg_object_widget_register (so, view_widget, view_item);
+	gnm_pane_widget_register (so, view_widget, view_item);
 	gtk_widget_show_all (view_widget);
 
 	return G_OBJECT (view_item);
@@ -116,23 +116,25 @@ sheet_object_widget_new_view (SheetObject *so, SheetControlGUI *scg)
  * destroying/updating/creating the views
  */
 static void
-sheet_object_widget_update_bounds (SheetObject *so, GObject *view,
-				   SheetControlGUI *scg)
+sheet_object_widget_update_bounds (SheetObject *so, GObject *view_obj)
 {
 	double coords [4];
+	GnomeCanvasItem   *view = GNOME_CANVAS_ITEM (view_obj);
+	SheetControlGUI	  *scg  =
+		SHEET_CONTROL_GUI (sheet_object_view_control (view_obj));
 
 	/* NOTE : far point is EXCLUDED so we add 1 */
  	scg_object_view_position (scg, so, coords);
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (view),
+	gnome_canvas_item_set (view,
 		"x", coords [0], "y", coords [1],
 		"width",  coords [2] - coords [0] + 1.,
 		"height", coords [3] - coords [1] + 1.,
 		NULL);
 
 	if (so->is_visible)
-		gnome_canvas_item_show (GNOME_CANVAS_ITEM (view));
+		gnome_canvas_item_show (view);
 	else
-		gnome_canvas_item_hide (GNOME_CANVAS_ITEM (view));
+		gnome_canvas_item_hide (view);
 }
 
 static void
@@ -145,7 +147,7 @@ sheet_object_widget_class_init (GtkObjectClass *object_class)
 	sheet_object_widget_parent_class = gtk_type_class (sheet_object_get_type ());
 
 	/* SheetObject class method overrides */
-	so_class->new_view = sheet_object_widget_new_view;
+	so_class->new_view	= sheet_object_widget_new_view;
 	so_class->update_bounds = sheet_object_widget_update_bounds;
 
 	sow_class->create_widget = NULL;
@@ -708,10 +710,10 @@ cb_scrollbar_config_cancel_clicked (GtkWidget *button, ScrollbarConfigState *sta
 }
 
 static void
-sheet_widget_scrollbar_user_config (SheetObject *so, SheetControlGUI *scg)
+sheet_widget_scrollbar_user_config (SheetObject *so, SheetControl *sc)
 {
 	SheetWidgetScrollbar *swb = SHEET_WIDGET_SCROLLBAR (so);
-	WorkbookControlGUI   *wbcg = scg_get_wbcg (scg);
+	WorkbookControlGUI   *wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 	ScrollbarConfigState *state;
 	GtkWidget *table;
 
@@ -724,7 +726,7 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControlGUI *scg)
 	state = g_new (ScrollbarConfigState, 1);
 	state->swb = swb;
 	state->wbcg = wbcg;
-	state->sheet = sc_sheet	(SHEET_CONTROL (scg));
+	state->sheet = sc_sheet	(sc);
 	state->old_focus = NULL;
 	state->gui = gnumeric_glade_xml_new (wbcg, "so-scrollbar.glade");
 	state->dialog = glade_xml_get_widget (state->gui, "SO-Scrollbar");
@@ -735,7 +737,7 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControlGUI *scg)
 	gnm_expr_entry_set_flags (state->expression,
 		GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL | GNUM_EE_SINGLE_RANGE,
 		GNUM_EE_MASK);
-	gnm_expr_entry_set_scg (state->expression, scg);
+	gnm_expr_entry_set_scg (state->expression, SHEET_CONTROL_GUI (sc));
 	gnm_expr_entry_load_from_dep (state->expression, &swb->dep);
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
 			  1, 2, 0, 1,
@@ -1196,10 +1198,10 @@ cb_checkbox_label_changed (GtkWidget *entry, CheckboxConfigState *state)
 }
 
 static void
-sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
+sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
-	WorkbookControlGUI  *wbcg = scg_get_wbcg (scg);
+	WorkbookControlGUI  *wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 	CheckboxConfigState *state;
 	GtkWidget *table;
 
@@ -1212,7 +1214,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 	state = g_new (CheckboxConfigState, 1);
 	state->swc = swc;
 	state->wbcg = wbcg;
-	state->sheet = sc_sheet	(SHEET_CONTROL (scg));
+	state->sheet = sc_sheet	(sc);
 	state->old_focus = NULL;
 	state->old_label = g_strdup (swc->label);
 	state->gui = gnumeric_glade_xml_new (wbcg, "so-checkbox.glade");
@@ -1224,7 +1226,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 	gnm_expr_entry_set_flags (state->expression,
 		GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL | GNUM_EE_SINGLE_RANGE,
 		GNUM_EE_MASK);
-	gnm_expr_entry_set_scg (state->expression, scg);
+	gnm_expr_entry_set_scg (state->expression, SHEET_CONTROL_GUI (sc));
 	gnm_expr_entry_load_from_dep (state->expression, &swc->dep);
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
 			  1, 2, 0, 1,
@@ -1508,7 +1510,7 @@ list_eval (Dependent *dep)
 	result = value_get_as_int (v);
 	value_release (v);
 	if (!err) {
-		SheetWidgetList *swl = DEP_TO_LIST (dep);
+		/* SheetWidgetList *swl = DEP_TO_LIST (dep); */
 	}
 }
 
@@ -1607,7 +1609,7 @@ combo_input_eval (Dependent *dep)
 	result = value_get_as_int (v);
 	value_release (v);
 	if (!err) {
-		SheetWidgetCombo *swc = DEP_TO_COMBO_INPUT (dep);
+		/* SheetWidgetCombo *swc = DEP_TO_COMBO_INPUT (dep); */
 	}
 }
 
@@ -1633,7 +1635,7 @@ combo_output_eval (Dependent *dep)
 	result = value_get_as_int (v);
 	value_release (v);
 	if (!err) {
-		SheetWidgetCombo *swc = DEP_TO_COMBO_OUTPUT (dep);
+		/* SheetWidgetCombo *swc = DEP_TO_COMBO_OUTPUT (dep); */
 	}
 }
 

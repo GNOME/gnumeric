@@ -12,16 +12,24 @@
 
 #include "gnumeric-canvas.h"
 #include "gnumeric-simple-canvas.h"
+#include "item-acetate.h"
 #include "item-bar.h"
 #include "item-cursor.h"
 #include "item-edit.h"
 #include "item-grid.h"
-#include "sheet-control-gui.h"
+#include "sheet-control-gui-priv.h"
 #include "workbook-control.h"
+#include "workbook-edit.h"
 #include "sheet.h"
+#include "sheet-object-impl.h"
 #include "ranges.h"
+#include "commands.h"
+#include "gui-util.h"
 
 #include <libgnomecanvas/gnome-canvas-line.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <gal/widgets/e-cursors.h>
+#include <math.h>
 
 static void
 gnumeric_pane_realized (GtkWidget *widget, gpointer ignored)
@@ -75,7 +83,9 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 {
 	GnomeCanvasItem	 *item;
 	GnomeCanvasGroup *gcanvas_group;
+	Sheet *sheet;
 	Range r;
+	int i;
 
 	pane->gcanvas = gnumeric_canvas_new (scg, pane);
 	pane->index = index;
@@ -97,12 +107,27 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 	pane->editor = NULL;
 	pane->cursor.rangesel = NULL;
 	pane->cursor.special = NULL;
+	pane->anted_cursors = NULL;
 
 	if (headers) {
 		gnumeric_pane_header_init (pane, scg, TRUE);
 		gnumeric_pane_header_init (pane, scg, FALSE);
 	} else
 		pane->col.canvas = pane->row.canvas = NULL;
+
+	pane->drag_object = NULL;
+	i = sizeof (pane->control_points)/sizeof(GnomeCanvasItem *);
+	while (i-- > 0)
+		pane->control_points[i] = NULL;
+
+	/* create views for the sheet objects */
+	sheet = sc_sheet (SHEET_CONTROL (scg));
+	if (sheet != NULL) {
+		GList *ptr;
+		for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next)
+			sheet_object_new_view (ptr->data, SHEET_CONTROL (scg),
+					       (gpointer)pane);
+	}
 }
 
 void
@@ -123,7 +148,7 @@ gnm_pane_release (GnumericPane *pane)
 		pane->row.canvas = NULL;
 	}
 	if (pane->anted_cursors != NULL) {
-		g_list_free (pane->anted_cursors);
+		g_slist_free (pane->anted_cursors);
 		pane->anted_cursors = NULL;
 	}
 
@@ -261,7 +286,7 @@ gnm_pane_colrow_resize_move (GnumericPane *pane,
 void
 gnm_pane_reposition_cursors (GnumericPane *pane)
 {
-	GList *l;
+	GSList *l;
 
 	item_cursor_reposition (pane->cursor.std);
 	if (NULL != pane->cursor.rangesel)
@@ -408,3 +433,477 @@ gnm_pane_edit_stop (GnumericPane *pane)
 		pane->editor = NULL;
 	}
 }
+
+void
+gnm_pane_object_stop_editing (GnumericPane *pane)
+{
+	int i = G_N_ELEMENTS (pane->control_points);
+	while (i-- > 0) {
+		gtk_object_destroy (GTK_OBJECT (pane->control_points [i]));
+		pane->control_points [i] = NULL;
+	}
+}
+
+#define CTRL_PT_SIZE		4
+#define CTRL_PT_OUTLINE		2
+/* space for 2 halves and a full */
+#define CTRL_PT_TOTAL_SIZE 	(CTRL_PT_SIZE*4 + CTRL_PT_OUTLINE*2)
+
+static void
+gnm_pane_object_move (SheetControlGUI *scg, SheetObject *so,
+		      GtkObject *ctrl_pt,
+		      gdouble new_x, gdouble new_y)
+{
+	int i, idx = GPOINTER_TO_INT (gtk_object_get_user_data (ctrl_pt));
+	double new_coords [4], dx, dy;
+
+	dx = new_x - scg->last_x;
+	dy = new_y - scg->last_y;
+	scg->last_x = new_x;
+	scg->last_y = new_y;
+
+	for (i = 4; i-- > 0; )
+		new_coords [i] = scg->object_coords [i];
+
+	switch (idx) {
+	case 0: new_coords [0] += dx;
+		new_coords [1] += dy;
+		break;
+	case 1: new_coords [1] += dy;
+		break;
+	case 2: new_coords [1] += dy;
+		new_coords [2] += dx;
+		break;
+	case 3: new_coords [0] += dx;
+		break;
+	case 4: new_coords [2] += dx;
+		break;
+	case 5: new_coords [0] += dx;
+		new_coords [3] += dy;
+		break;
+	case 6: new_coords [3] += dy;
+		break;
+	case 7: new_coords [2] += dx;
+		new_coords [3] += dy;
+		break;
+	case 8: new_coords [0] += dx;
+		new_coords [1] += dy;
+		new_coords [2] += dx;
+		new_coords [3] += dy;
+		break;
+
+	default:
+		g_warning ("Should not happen %d", idx);
+	}
+
+	/* moving any of the points other than the overlay resizes */
+	if (idx != 8)
+		scg->object_was_resized = TRUE;
+	sheet_object_direction_set (so, new_coords);
+
+	/* Tell the object to update its co-ordinates */
+	scg_object_update_bbox (scg, so, new_coords);
+}
+
+static gboolean
+cb_slide_handler (GnumericCanvas *gcanvas, int col, int row, gpointer user)
+{
+	int x, y;
+	gdouble new_x, new_y;
+	SheetControlGUI *scg = gcanvas->simple.scg;
+
+	x = scg_colrow_distance_get (scg, TRUE, gcanvas->first.col, col);
+	x += gcanvas->first_offset.col;
+	y = scg_colrow_distance_get (scg, FALSE, gcanvas->first.row, row);
+	y += gcanvas->first_offset.row;
+	gnome_canvas_c2w (GNOME_CANVAS (gcanvas), x, y, &new_x, &new_y);
+	gnm_pane_object_move (scg, scg->current_object, user, new_x, new_y);
+
+	return TRUE;
+}
+
+static void
+display_object_menu (SheetObject *so, GnomeCanvasItem *view, GdkEvent *event)
+{
+	GtkMenu *menu;
+	SheetControlGUI *scg =
+		SHEET_CONTROL_GUI (sheet_object_view_control (G_OBJECT (view)));
+
+	scg_mode_edit_object (scg, so);
+	menu = GTK_MENU (gtk_menu_new ());
+	SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so))->populate_menu (so, G_OBJECT (view), menu);
+
+	gtk_widget_show_all (GTK_WIDGET (menu));
+	gnumeric_popup_menu (menu, &event->button);
+}
+
+/**
+ * cb_control_point_event :
+ *
+ * Event handler for the control points.
+ * Index & cursor type are stored as user data associated with the CanvasItem
+ */
+static int
+cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
+			GnomeCanvasItem *so_view)
+{
+	SheetObject *so = sheet_object_view_obj (G_OBJECT (so_view));
+	GnumericPane *pane = sheet_object_view_key (G_OBJECT (so_view));
+	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (ctrl_pt->canvas);
+	SheetControlGUI *scg = gcanvas->simple.scg;
+	WorkbookControl *wbc = WORKBOOK_CONTROL (scg_get_wbcg (scg));
+
+	if (wbcg_edit_has_guru (scg_get_wbcg (scg)))
+		return FALSE;
+
+	switch (event->type) {
+	case GDK_ENTER_NOTIFY: {
+		gpointer p = gtk_object_get_data (GTK_OBJECT (ctrl_pt),
+						  "cursor");
+		e_cursor_set_widget (ctrl_pt->canvas, GPOINTER_TO_UINT (p));
+		break;
+	}
+	case GDK_LEAVE_NOTIFY:
+		scg_set_display_cursor (scg);
+		break;
+
+	case GDK_BUTTON_RELEASE:
+		if (pane->drag_object != so)
+			return FALSE;
+
+		cmd_object_move (wbc, so, &scg->old_anchor,
+				 scg->object_was_resized);
+		gnm_canvas_slide_stop (gcanvas);
+		pane->drag_object = NULL;
+		gnm_simple_canvas_ungrab (ctrl_pt, event->button.time);
+		sheet_object_update_bounds (so, NULL);
+		break;
+
+	case GDK_BUTTON_PRESS:
+		gnm_canvas_slide_stop (gcanvas);
+
+		switch (event->button.button) {
+		case 1:
+		case 2: pane->drag_object = so;
+			gnm_simple_canvas_grab (ctrl_pt,
+				GDK_POINTER_MOTION_MASK |
+				GDK_BUTTON_RELEASE_MASK,
+				NULL, event->button.time);
+			sheet_object_anchor_cpy (&scg->old_anchor, sheet_object_anchor_get (so));
+			scg->object_was_resized = FALSE;
+			scg->last_x = event->button.x;
+			scg->last_y = event->button.y;
+			gnm_canvas_slide_init (gcanvas);
+			break;
+
+		case 3: display_object_menu (so, so_view, event);
+			break;
+
+		default: /* Ignore mouse wheel events */
+			return FALSE;
+		}
+		break;
+
+	case GDK_MOTION_NOTIFY :
+		if (pane->drag_object == NULL)
+			break;
+
+		/* TODO : motion is still too granular along the internal axis
+		 * when the other axis is external.
+		 * eg  drag from middle of sheet down.  The x axis is still internal
+		 * onlt the y is external, however, since we are autoscrolling
+		 * we are limited to moving with col/row coords, not x,y.
+		 * Possible solution would be to change the EXTERIOR_ONLY flag
+		 * to something like USE_PIXELS_INSTEAD_OF_COLROW and change
+		 * the semantics of the col,row args in the callback.  However,
+		 * that is more work than I want to do right now.
+		 */
+		if (gnm_canvas_handle_motion (GNUMERIC_CANVAS (ctrl_pt->canvas),
+					      ctrl_pt->canvas, &event->motion,
+					      GNM_SLIDE_X | GNM_SLIDE_Y | GNM_SLIDE_EXTERIOR_ONLY,
+					      cb_slide_handler, ctrl_pt))
+			gnm_pane_object_move (scg, scg->current_object,
+				GTK_OBJECT (ctrl_pt), event->motion.x, event->motion.y);
+		break;
+
+	default:
+		return FALSE;
+	}
+	return TRUE;
+}
+
+/**
+ * new_control_point
+ * @group:  The canvas group to which this control point belongs
+ * @so_view: The sheet object view
+ * @idx:    control point index to be created
+ * @x:      x coordinate of control point
+ * @y:      y coordinate of control point
+ *
+ * This is used to create a number of control points in a sheet
+ * object, the meaning of them is used in other parts of the code
+ * to belong to the following locations:
+ *
+ *     0 -------- 1 -------- 2
+ *     |                     |
+ *     3                     4
+ *     |                     |
+ *     5 -------- 6 -------- 7
+ **/
+static GnomeCanvasItem *
+new_control_point (GObject *so_view, int idx, double x, double y,
+		   ECursorType ct)
+{
+	GnomeCanvasItem *item, *so_view_item = GNOME_CANVAS_ITEM (so_view);
+	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (so_view_item->canvas);
+
+	item = gnome_canvas_item_new (
+		gcanvas->object_group,
+		GNOME_TYPE_CANVAS_RECT,
+		"outline_color", "black",
+		"fill_color",    "white",
+		"width_pixels",  CTRL_PT_OUTLINE,
+		NULL);
+
+	g_signal_connect (G_OBJECT (item),
+		"event",
+		G_CALLBACK (cb_control_point_event), so_view);
+
+	gtk_object_set_user_data (GTK_OBJECT (item), GINT_TO_POINTER (idx));
+	gtk_object_set_data (GTK_OBJECT (item), "cursor", GINT_TO_POINTER (ct));
+
+	return item;
+}
+
+/**
+ * set_item_x_y:
+ *
+ * Changes the x and y position of the idx-th control point,
+ * creating the control point if necessary.
+ */
+static void
+set_item_x_y (GnumericPane *pane, GObject *so_view, int idx,
+	      double x, double y, ECursorType ct, gboolean visible)
+{
+	if (pane->control_points [idx] == NULL)
+		pane->control_points [idx] = new_control_point (
+			so_view, idx, x, y, ct);
+	gnome_canvas_item_set (
+	       pane->control_points [idx],
+	       "x1", x - CTRL_PT_SIZE,
+	       "y1", y - CTRL_PT_SIZE,
+	       "x2", x + CTRL_PT_SIZE,
+	       "y2", y + CTRL_PT_SIZE,
+	       NULL);
+	if (visible)
+		gnome_canvas_item_show (pane->control_points [idx]);
+	else
+		gnome_canvas_item_hide (pane->control_points [idx]);
+}
+
+#define normalize_high_low(d1,d2) if (d1<d2) { double tmp=d1; d1=d2; d2=tmp;}
+
+static void
+set_acetate_coords (GnumericPane *pane, GObject *so_view,
+		    double l, double t, double r, double b)
+{
+	GnomeCanvasItem *so_view_item = GNOME_CANVAS_ITEM (so_view);
+	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (so_view_item->canvas);
+
+	normalize_high_low (r, l);
+	normalize_high_low (b, t);
+
+	l -= (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2 - 1;
+	r += (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2 - 1;
+	t -= (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2 - 1;
+	b += (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2 - 1;
+
+	if (pane->control_points [8] == NULL) {
+		static char diagonal [] = { 0xcc, 0x66, 0x33, 0x99, 0xcc, 0x66, 0x33, 0x99 };
+		GdkBitmap *stipple = gdk_bitmap_create_from_data (NULL, diagonal, 8, 8);
+		GnomeCanvasItem *item = gnome_canvas_item_new (
+			gcanvas->object_group,
+			item_acetate_get_type (),
+			"fill_color",		NULL,
+			"width_pixels",		CTRL_PT_SIZE + CTRL_PT_OUTLINE,
+			"outline_color",	"black",
+			"outline_stipple",	stipple,
+			/* work around the screwup in canvas-item-shape that adds a large
+			 * border to anything that uses miter
+			 */
+			"join_style",		GDK_JOIN_ROUND,
+			NULL);
+		gdk_bitmap_unref (stipple);
+		g_signal_connect (G_OBJECT (item),
+			"event",
+			G_CALLBACK (cb_control_point_event), so_view);
+		gtk_object_set_user_data (GTK_OBJECT (item), GINT_TO_POINTER (8));
+		gtk_object_set_data (GTK_OBJECT (item), "cursor",
+			GINT_TO_POINTER (E_CURSOR_MOVE));
+
+		pane->control_points [8] = item;
+	}
+	gnome_canvas_item_set (
+	       pane->control_points [8],
+	       "x1", l,
+	       "y1", t,
+	       "x2", r,
+	       "y2", b,
+	       NULL);
+}
+
+void
+gnm_pane_object_set_bounds (GnumericPane *pane, SheetObject *so,
+			    double l, double t, double r, double b)
+{
+	GObject *so_view_obj = sheet_object_get_view (so, pane);
+
+	g_return_if_fail (so_view_obj != NULL);
+
+	/* set the acetate 1st so that the other points
+	 * will override it
+	 */
+	set_acetate_coords (pane, so_view_obj, l, t, r, b);
+
+	set_item_x_y (pane, so_view_obj, 0, l, t,
+		      E_CURSOR_SIZE_TL, TRUE);
+	set_item_x_y (pane, so_view_obj, 1, (l + r) / 2, t,
+		      E_CURSOR_SIZE_Y, fabs (r-l) >= CTRL_PT_TOTAL_SIZE);
+	set_item_x_y (pane, so_view_obj, 2, r, t,
+		      E_CURSOR_SIZE_TR, TRUE);
+	set_item_x_y (pane, so_view_obj, 3, l, (t + b) / 2,
+		      E_CURSOR_SIZE_X, fabs (b-t) >= CTRL_PT_TOTAL_SIZE);
+	set_item_x_y (pane, so_view_obj, 4, r, (t + b) / 2,
+		      E_CURSOR_SIZE_X, fabs (b-t) >= CTRL_PT_TOTAL_SIZE);
+	set_item_x_y (pane, so_view_obj, 5, l, b,
+		      E_CURSOR_SIZE_TR, TRUE);
+	set_item_x_y (pane, so_view_obj, 6, (l + r) / 2, b,
+		      E_CURSOR_SIZE_Y, fabs (r-l) >= CTRL_PT_TOTAL_SIZE);
+	set_item_x_y (pane, so_view_obj, 7, r, b,
+		      E_CURSOR_SIZE_TL, TRUE);
+}
+
+static int
+cb_sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event,
+			      SheetObject *so)
+{
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), FALSE);
+
+	switch (event->type) {
+	case GDK_ENTER_NOTIFY:
+		e_cursor_set_widget (item->canvas,
+			(so->type == SHEET_OBJECT_ACTION_STATIC)
+			? E_CURSOR_ARROW : E_CURSOR_PRESS);
+		break;
+
+	case GDK_BUTTON_PRESS: {
+		SheetControlGUI *scg =
+			SHEET_CONTROL_GUI (sheet_object_view_control (G_OBJECT (item)));
+
+		/* Ignore mouse wheel events */
+		if (event->button.button > 3)
+			return FALSE;
+
+		if (scg->current_object != so)
+			scg_mode_edit_object (scg, so);
+
+		if (event->button.button < 3) {
+			GnumericPane *pane = sheet_object_view_key (G_OBJECT (item));
+
+			g_return_val_if_fail (pane->drag_object == NULL, FALSE);
+			pane->drag_object = so;
+
+			/* grab the acetate */
+			gnm_simple_canvas_grab (pane->control_points [8],
+				GDK_POINTER_MOTION_MASK |
+				GDK_BUTTON_RELEASE_MASK,
+				NULL, event->button.time);
+			scg->last_x = event->button.x;
+			scg->last_y = event->button.y;
+		} else
+			display_object_menu (so, item, event);
+		break;
+	}
+
+	default:
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static void
+cb_sheet_object_view_destroy (GObject *view, SheetObject *so)
+{
+	SheetControlGUI	*scg =
+		SHEET_CONTROL_GUI (sheet_object_view_control (view));
+
+	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (view != NULL);
+
+	if (scg) {
+		if (scg->current_object == so)
+			scg_mode_edit ((SheetControl *) scg);
+		else
+			scg_object_stop_editing (scg, so);
+	}
+}
+
+static int
+cb_sheet_object_widget_canvas_event (GtkWidget *widget, GdkEvent *event,
+				     GnomeCanvasItem *view)
+{
+	if (event->type == GDK_BUTTON_PRESS && event->button.button == 3) {
+		SheetObject *so = sheet_object_view_obj (G_OBJECT (view));
+		SheetControlGUI *scg =
+			SHEET_CONTROL_GUI (sheet_object_view_control (G_OBJECT (view)));
+
+		g_return_val_if_fail (so != NULL, FALSE);
+
+		scg_mode_edit_object (scg, so);
+		return cb_sheet_object_canvas_event (view, event, so);
+	}
+
+	return FALSE;
+}
+
+
+/**
+ * gnm_pane_object_register :
+ *
+ * @so : A sheet object
+ * @view   : A canvas item acting as a view for @so
+ *
+ * Setup some standard callbacks for manipulating a view of a sheet object.
+ */
+void
+gnm_pane_object_register (SheetObject *so, GnomeCanvasItem *view)
+{
+	g_signal_connect (G_OBJECT (view),
+		"event",
+		G_CALLBACK (cb_sheet_object_canvas_event), so);
+	/* all gui views are gtkobjects */
+	g_signal_connect (G_OBJECT (view),
+		"destroy",
+		G_CALLBACK (cb_sheet_object_view_destroy), so);
+}
+
+/**
+ * gnm_pane_object_widget_register :
+ *
+ * @so : A sheet object
+ * @widget : The widget for the sheet object view
+ * @view   : A canvas item acting as a view for @so
+ *
+ * Setup some standard callbacks for manipulating widgets as views of sheet
+ * objects.
+ */
+void
+gnm_pane_widget_register (SheetObject *so, GtkWidget *widget,
+			  GnomeCanvasItem *view)
+{
+	g_signal_connect (G_OBJECT (widget),
+		"event",
+		G_CALLBACK (cb_sheet_object_widget_canvas_event), view);
+	gnm_pane_object_register (so, view);
+}
+

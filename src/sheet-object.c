@@ -37,17 +37,16 @@
 
 #define	SO_VIEW_SHEET_CONTROL_KEY	"SheetControl"
 #define	SO_VIEW_OBJECT_KEY		"SheetObject"
+#define	SO_VIEW_KEY			"Key"
 
 static void
 cb_sheet_object_raise (GtkWidget *widget, GObject *so_view)
 {
 	SheetObject *so;
-	SheetControlGUI *scg;
 	WorkbookControl *wbc;
 
 	so = sheet_object_view_obj (so_view);
-	scg = sheet_object_view_control (so_view);
-	wbc = sc_wbc (SHEET_CONTROL (scg));
+	wbc = sc_wbc (sheet_object_view_control (so_view));
 
 	cmd_object_raise (wbc, so, cmd_object_raise_up);
 }
@@ -56,12 +55,10 @@ static void
 cb_sheet_object_raise_to_top (GtkWidget *widget, GObject *so_view)
 {
 	SheetObject *so;
-	SheetControlGUI *scg;
 	WorkbookControl *wbc;
 
 	so = sheet_object_view_obj (so_view);
-	scg = sheet_object_view_control (so_view);
-	wbc = sc_wbc (SHEET_CONTROL (scg));
+	wbc = sc_wbc (sheet_object_view_control (so_view));
 
 	cmd_object_raise (wbc, so, cmd_object_raise_top);
 }
@@ -70,12 +67,10 @@ static void
 cb_sheet_object_lower (GtkWidget *widget, GObject *so_view)
 {
 	SheetObject *so;
-	SheetControlGUI *scg;
 	WorkbookControl *wbc;
 
 	so = sheet_object_view_obj (so_view);
-	scg = sheet_object_view_control (so_view);
-	wbc = sc_wbc (SHEET_CONTROL (scg));
+	wbc = sc_wbc (sheet_object_view_control (so_view));
 
 	cmd_object_raise (wbc, so, cmd_object_raise_down);
 }
@@ -84,12 +79,10 @@ static void
 cb_sheet_object_lower_to_bottom (GtkWidget *widget, GObject *so_view)
 {
 	SheetObject *so;
-	SheetControlGUI *scg;
 	WorkbookControl *wbc;
 
 	so = sheet_object_view_obj (so_view);
-	scg = sheet_object_view_control (so_view);
-	wbc = sc_wbc (SHEET_CONTROL (scg));
+	wbc = sc_wbc (sheet_object_view_control (so_view));
 
 	cmd_object_raise (wbc, so, cmd_object_raise_bottom);
 }
@@ -99,13 +92,13 @@ cb_sheet_object_remove (GtkWidget *widget, GObject *so_view)
 {
 	Sheet *sheet;
 	SheetObject *so;
-	SheetControlGUI *scg;
+	SheetControl *sc;
 	WorkbookControl *wbc;
 
 	so = sheet_object_view_obj (so_view);
-	scg = sheet_object_view_control (so_view);
-	wbc = sc_wbc (SHEET_CONTROL (scg));
-	sheet = sc_sheet (SHEET_CONTROL (scg));
+	sc = sheet_object_view_control (so_view);
+	wbc = sc_wbc (sc);
+	sheet = sc_sheet (sc);
 
 	cmd_object_delete (wbc, so);
 	g_object_unref (G_OBJECT (so));
@@ -114,15 +107,15 @@ cb_sheet_object_remove (GtkWidget *widget, GObject *so_view)
 static void
 cb_sheet_object_configure (GtkWidget *widget, GObject *obj_view)
 {
-	SheetControlGUI *scg;
+	SheetControl *sc;
 	SheetObject *so;
 
 	g_return_if_fail (obj_view != NULL);
 
 	so = sheet_object_view_obj (obj_view);
-	scg = sheet_object_view_control (obj_view);
+	sc = sheet_object_view_control (obj_view);
 
-	SO_CLASS(so)->user_config (so, scg);
+	SO_CLASS(so)->user_config (so, sc);
 }
 
 /**
@@ -185,7 +178,9 @@ sheet_object_unrealize (SheetObject *so)
 
 	/* The views remove themselves from the list */
 	while (so->realized_list != NULL)
-		gtk_object_destroy (GTK_OBJECT (so->realized_list->data));
+		sc_object_destroy_view (
+			sheet_object_view_control (G_OBJECT (so->realized_list->data)),
+			so);
 }
 
 /**
@@ -293,19 +288,27 @@ E_MAKE_TYPE (sheet_object, "SheetObject", SheetObject,
 SheetObject *
 sheet_object_view_obj (GObject *view)
 {
-	gpointer *obj = g_object_get_data (view, SO_VIEW_OBJECT_KEY);
+	gpointer obj = g_object_get_data (view, SO_VIEW_OBJECT_KEY);
 	return SHEET_OBJECT (obj);
 }
 
-SheetControlGUI *
+SheetControl *
 sheet_object_view_control (GObject *view)
 {
-	gpointer *obj = g_object_get_data (view, SO_VIEW_SHEET_CONTROL_KEY);
-	return SHEET_CONTROL_GUI (obj);
+	gpointer obj = g_object_get_data (view, SO_VIEW_SHEET_CONTROL_KEY);
+	return SHEET_CONTROL (obj);
+}
+
+gpointer
+sheet_object_view_key (GObject *view)
+{
+	gpointer obj = g_object_get_data (view, SO_VIEW_SHEET_CONTROL_KEY);
+	return SHEET_CONTROL (obj);
+	return g_object_get_data (obj, SO_VIEW_KEY);
 }
 
 GObject *
-sheet_object_get_view (SheetObject *so, SheetControl *sc)
+sheet_object_get_view (SheetObject *so, gpointer key)
 {
 	GList *l;
 
@@ -313,7 +316,7 @@ sheet_object_get_view (SheetObject *so, SheetControl *sc)
 
 	for (l = so->realized_list; l; l = l->next) {
 		GObject *obj = G_OBJECT (l->data);
-		if (sc == SHEET_CONTROL (sheet_object_view_control (obj)))
+		if (key == g_object_get_data (obj, SO_VIEW_KEY))
 			return obj;
 	}
 
@@ -364,8 +367,7 @@ sheet_object_update_bounds (SheetObject *so, CellPos const *pos)
 
 	for (l = so->realized_list; l; l = l->next) {
 		GObject *view = G_OBJECT (l->data);
-		SO_CLASS (so)->update_bounds (so, view,
-			sheet_object_view_control (view));
+		SO_CLASS (so)->update_bounds (so, view);
 	}
 }
 
@@ -397,7 +399,7 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 	g_object_ref (G_OBJECT (so));
 	sheet->sheet_objects = g_list_prepend (sheet->sheet_objects, so);
 	SHEET_FOREACH_CONTROL (so->sheet, control,
-		sheet_object_new_view (so, (SheetControlGUI *) control););
+		sc_object_create_view (control, so););
 	sheet_object_update_bounds (so, NULL);
 
 	/* FIXME : add a flag to sheet to have sheet_update do this */
@@ -452,11 +454,11 @@ sheet_object_clear_sheet (SheetObject *so)
 static void
 sheet_object_view_destroyed (GObject *view, SheetObject *so)
 {
-	SheetControlGUI *scg = sheet_object_view_control (view);
+	SheetControl *sc = sheet_object_view_control (view);
 
 	so->realized_list = g_list_remove (so->realized_list, view);
 	g_datalist_remove_data (&G_OBJECT (view)->qdata, SO_VIEW_SHEET_CONTROL_KEY);
-	g_object_unref (G_OBJECT (scg));
+	g_object_unref (G_OBJECT (sc));
 }
 
 /*
@@ -466,28 +468,27 @@ sheet_object_view_destroyed (GObject *view, SheetObject *so)
  * handlers.
  */
 void
-sheet_object_new_view (SheetObject *so, SheetControlGUI *scg)
+sheet_object_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
 	GObject *view;
 
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+	g_return_if_fail (IS_SHEET_CONTROL (sc));
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
-	view = SO_CLASS (so)->new_view (so, scg);
+	view = SO_CLASS (so)->new_view (so, sc, key);
 
 	g_return_if_fail (GTK_IS_OBJECT (view));
 
 	/* Store some useful information */
 	g_object_set_data (G_OBJECT (view), SO_VIEW_OBJECT_KEY, so);
-	g_object_set_data (G_OBJECT (view), SO_VIEW_SHEET_CONTROL_KEY, scg);
-	g_object_ref (G_OBJECT (scg));
-
-	g_signal_connect (G_OBJECT (view),
-		"destroy",
-		G_CALLBACK (sheet_object_view_destroyed), so);
+	g_object_set_data (G_OBJECT (view), SO_VIEW_SHEET_CONTROL_KEY, sc);
+	g_object_set_data (G_OBJECT (view), SO_VIEW_KEY, key);
+	g_object_ref (G_OBJECT (sc));
+	g_object_weak_ref (G_OBJECT (view),
+		(GWeakNotify) sheet_object_view_destroyed, so);
 	so->realized_list = g_list_prepend (so->realized_list, view);
 
-	SO_CLASS (so)->update_bounds (so, view, scg);
+	SO_CLASS (so)->update_bounds (so, view);
 }
 
 void

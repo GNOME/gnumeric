@@ -33,15 +33,14 @@ typedef struct {
 				       Sheet		*sheet);
 
 	GObject *      (*new_view)   (SheetObject	*sheet_object,
-				      SheetControlGUI	*s_control);
+				      SheetControl	*s_control, gpointer key);
 	void        (*populate_menu) (SheetObject	*sheet_object,
 				      GObject		*obj_view,
 				      GtkMenu		*menu);
 	void	      (*user_config) (SheetObject	*sheet_object,
-				      SheetControlGUI	*s_control);
+				      SheetControl	*s_control);
 	void        (*update_bounds) (SheetObject	*so,
-				      GObject		*obj_view,
-				      SheetControlGUI	*s_control);
+				      GObject		*obj_view);
 	void           (*set_active) (SheetObject	*so,
 				      GObject           *obj_view,
 				      gboolean		val);

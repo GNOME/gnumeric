@@ -3,7 +3,6 @@
 #define GNUMERIC_SHEET_OBJECT_H
 
 #include "gnumeric.h"
-#include "gui-gnumeric.h"	/* TODO : work to remove this when sheet MVC is done */
 #include "xml-io.h"
 
 #include <libgnomeprint/gnome-print.h>
@@ -64,13 +63,14 @@ void         sheet_object_update_bounds	   (SheetObject *so, CellPos const *p);
 void	     sheet_object_default_size	   (SheetObject *so,
 					    double *w, double *h);
 
-void		 sheet_object_new_view	   (SheetObject *so, SheetControlGUI *);
-GObject		*sheet_object_get_view	   (SheetObject *so, SheetControl *);
-SheetObject     *sheet_object_view_obj     (GObject *view);
-SheetControlGUI *sheet_object_view_control (GObject *view);
+void		 sheet_object_new_view	   (SheetObject *so, SheetControl *, gpointer key);
+GObject		*sheet_object_get_view	   (SheetObject *so, gpointer key);
+SheetObject	*sheet_object_view_obj     (GObject *view);
+SheetControl	*sheet_object_view_control (GObject *view);
+gpointer	 sheet_object_view_key	   (GObject *view);
 
-Range const *	sheet_object_range_get	   (SheetObject const *so);
-void		sheet_object_anchor_set	   (SheetObject *so,
+Range const	*sheet_object_range_get	   (SheetObject const *so);
+void		 sheet_object_anchor_set   (SheetObject *so,
 					    SheetObjectAnchor const *anchor);
 SheetObjectAnchor const *sheet_object_anchor_get (SheetObject const *so);
 

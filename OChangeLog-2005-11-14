@@ -1,3 +1,62 @@
+2002-04-26  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_sheet_add) : Use
+	  sc_object_create_view.
+
+	* src/sheet-control-gui-priv.h (SCG_FOREACH_PANE) : new.
+	* src/sheet-control-gui.c (scg_redraw_all) : use SCG_FOREACH_PANE.
+	(scg_redraw_region) : ditto.
+	(scg_resize) : ditto.
+	(scg_set_zoom_factor) : ditto.
+	(cb_table_destroy) : ditto.
+	(sheet_control_gui_new) : ditto.
+	(scg_unant) : ditto.
+	(scg_ant) : ditto.
+	(scg_adjust_preferences) : ditto.
+	(scg_cursor_visible) : ditto.
+	(scg_compute_visible_region) : ditto.
+	(scg_edit_start) : ditto.
+	(scg_edit_stop) : ditto.
+	(scg_rangesel_changed) : ditto.
+	(scg_rangesel_start) : ditto.
+	(scg_rangesel_stop) : ditto.
+	(scg_set_display_cursor) : ditto.
+	(scg_colrow_resize_stop) : ditto.
+	(scg_colrow_resize_start) : ditto.
+	(scg_colrow_resize_move) : ditto.
+	(scg_special_cursor_start) : ditto.
+	(scg_special_cursor_stop) : ditto.
+	(scg_special_cursor_bound_set) : ditto.
+	(scg_object_stop_editing) : clear the control points in the panes.
+	(scg_mode_edit_object) : ditto.
+	(scg_object_update_bbox) : ditto.
+
+	* src/gnumeric-pane.c (gnm_pane_init) : init anted_cursors and the
+	  control points.  Optionally create views of all the objects if we
+	  already have a sheet.
+	(gnm_pane_object_stop_editing) : transfered from scg.
+	(gnm_pane_object_move) : ditto.
+	(cb_slide_handler) : ditto.
+	(display_object_menu) : ditto.
+	(cb_control_point_event) : ditto.
+	(new_control_point) : ditto.
+	(set_item_x_y) : ditto.
+	(set_acetate_coords) : ditto.
+	(gnm_pane_object_set_bounds) : ditto.
+	(cb_sheet_object_canvas_event) : ditto.
+	(cb_sheet_object_view_destroy) : ditto.
+	(cb_sheet_object_widget_canvas_event) : ditto.
+	(gnm_pane_object_register) : ditto.
+	(gnm_pane_widget_register) : ditto.
+
+	* src/sheet-control-gui.c (scg_object_destroy_view) : new.
+	(scg_object_create_view) : new.
+	(scg_class_init) : register the new functions.
+
+	* src/sheet-object*.c
+	(*update_bounds) : update signature.
+	(*new_view) : update signature.
+
 2002-04-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/print.c (compute_sheet_pages) : don't overwrite number of 

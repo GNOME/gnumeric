@@ -12,6 +12,7 @@
 
 #include "sheet-control-gui.h"
 #include "gnumeric-canvas.h"
+#include "gnumeric-pane.h"
 #include "str.h"
 #include "gui-util.h"
 #include "style-color.h"
@@ -124,16 +125,16 @@ sheet_object_graphic_finalize (GObject *object)
 }
 
 static GObject *
-sheet_object_graphic_new_view (SheetObject *so, SheetControlGUI *scg)
+sheet_object_graphic_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	/* FIXME : this is bogus */
-	GnumericCanvas *gcanvas = scg_pane (scg, 0);
+	GnumericCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	GnomeCanvasItem *item = NULL;
 	GdkColor *fill_color;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
+	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
+	g_return_val_if_fail (gcanvas != NULL, NULL);
 
 	fill_color = (sog->fill_color != NULL) ? &sog->fill_color->color : NULL;
 
@@ -166,26 +167,26 @@ sheet_object_graphic_new_view (SheetObject *so, SheetControlGUI *scg)
 		g_assert_not_reached ();
 	}
 
-	scg_object_register (so, item);
+	gnm_pane_object_register (so, item);
 	return G_OBJECT (item);
 }
 
 static void
-sheet_object_graphic_update_bounds (SheetObject *so, GObject *view,
-				    SheetControlGUI *scg)
+sheet_object_graphic_update_bounds (SheetObject *so, GObject *view_obj)
 {
 	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
+	GnomeCanvasItem   *view = GNOME_CANVAS_ITEM (view_obj);
+	SheetControlGUI	  *scg  =
+		SHEET_CONTROL_GUI (sheet_object_view_control (view_obj));
 
 	scg_object_view_position (scg, so, points->coords);
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (view),
-			       "points", points,
-			       NULL);
+	gnome_canvas_item_set (view, "points", points, NULL);
 	gnome_canvas_points_free (points);
 
 	if (so->is_visible)
-		gnome_canvas_item_show (GNOME_CANVAS_ITEM (view));
+		gnome_canvas_item_show (view);
 	else
-		gnome_canvas_item_hide (GNOME_CANVAS_ITEM (view));
+		gnome_canvas_item_hide (view);
 }
 
 static gboolean
@@ -459,10 +460,10 @@ cb_fill_color_changed (ColorCombo *color_combo, GdkColor *color,
 }
 
 static void
-sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
+sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 {
 	SheetObjectGraphic *sog= SHEET_OBJECT_GRAPHIC (so);
-	WorkbookControlGUI *wbcg = scg_get_wbcg (scg);
+	WorkbookControlGUI *wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 	DialogGraphicData *state;
 	GnomeCanvasPoints *points;
 	GtkWidget *table;
@@ -476,11 +477,9 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 	state = g_new0 (DialogGraphicData, 1);
 	state->sog = sog;
 	state->wbcg = wbcg;
-	state->sheet = sc_sheet	(SHEET_CONTROL (scg));
+	state->sheet = sc_sheet	(sc);
 
 	sog = SHEET_OBJECT_GRAPHIC (so);
-	wbcg = scg_get_wbcg (scg);
-
 	state->gui = gnumeric_glade_xml_new (wbcg, "so-arrow.glade");
 	state->dialog = glade_xml_get_widget (state->gui, "SO-Arrow");
 
@@ -700,10 +699,11 @@ sheet_object_filled_finalize (GObject *object)
 }
 
 static void
-sheet_object_filled_update_bounds (SheetObject *so, GObject *view,
-				   SheetControlGUI *scg)
+sheet_object_filled_update_bounds (SheetObject *so, GObject *view)
 {
 	double coords [4];
+	SheetControlGUI	  *scg  =
+		SHEET_CONTROL_GUI (sheet_object_view_control (view));
 
 	scg_object_view_position (scg, so, coords);
 
@@ -721,17 +721,18 @@ sheet_object_filled_update_bounds (SheetObject *so, GObject *view,
 }
 
 static GObject *
-sheet_object_filled_new_view (SheetObject *so, SheetControlGUI *scg)
+sheet_object_filled_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
-	/* FIXME : this is bogus */
-	GnumericCanvas *gcanvas = scg_pane (scg, 0);
+	GnumericCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	SheetObjectGraphic *sog;
 	SheetObjectFilled  *sof;
 	GnomeCanvasItem *item;
 	GdkColor *fill_color, *outline_color;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT_FILLED (so), NULL);
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
+	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
+	g_return_val_if_fail (gcanvas != NULL, NULL);
+
 	sof = SHEET_OBJECT_FILLED (so);
 	sog = SHEET_OBJECT_GRAPHIC (so);
 
@@ -749,7 +750,7 @@ sheet_object_filled_new_view (SheetObject *so, SheetControlGUI *scg)
 		"width_units",		sog->width,
 		NULL);
 
-	scg_object_register (so, item);
+	gnm_pane_object_register (so, item);
 	return G_OBJECT (item);
 }
 
@@ -883,16 +884,15 @@ cb_dialog_filled_config_cancel_clicked (GtkWidget *button, DialogFilledData *sta
 }
 
 static void
-sheet_object_filled_user_config (SheetObject *so, SheetControlGUI *scg)
+sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 {
 	SheetObjectFilled *sof = SHEET_OBJECT_FILLED (so);
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
-	WorkbookControlGUI *wbcg = scg_get_wbcg (scg);
+	WorkbookControlGUI *wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 	GtkWidget *table;
 	DialogFilledData *state;
 
 	g_return_if_fail (IS_SHEET_OBJECT_FILLED (so));
-	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
@@ -901,7 +901,7 @@ sheet_object_filled_user_config (SheetObject *so, SheetControlGUI *scg)
 	state = g_new0 (DialogFilledData, 1);
 	state->sof = sof;
 	state->wbcg = wbcg;
-	state->sheet = sc_sheet	(SHEET_CONTROL (scg));
+	state->sheet = sc_sheet	(sc);
 
 	state->gui = gnumeric_glade_xml_new (wbcg, "so-fill.glade");
 	state->dialog = glade_xml_get_widget (state->gui, "SO-Fill");

@@ -591,7 +591,7 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 
 	/* create views for the sheet objects */
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next)
-		sheet_object_new_view (ptr->data, scg);
+		sc_object_create_view (sc, ptr->data);
 	scg_adjust_preferences (sc);
 	scg_set_zoom_factor (sc);
 	scg_take_focus (scg);

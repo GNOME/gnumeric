@@ -5,7 +5,6 @@
 #include <libgnomecanvas/gnome-canvas-util.h>
 
 struct _GnumericPane {
-	GList		*anted_cursors;
 	int		 index;
 	GnumericCanvas	*gcanvas;
 	struct {
@@ -26,6 +25,10 @@ struct _GnumericPane {
 	struct {
 		ItemCursor *std, *rangesel, *special;
 	} cursor;
+	GSList		*anted_cursors;
+
+	SheetObject	 *drag_object;
+	GnomeCanvasItem  *control_points [9]; /* Control points for the current item */
 };
 
 void gnm_pane_init	(GnumericPane *pane, SheetControlGUI *scg,
@@ -52,5 +55,12 @@ void gnm_pane_rangesel_stop			(GnumericPane *pane);
 gboolean gnm_pane_special_cursor_bound_set	(GnumericPane *pane, Range const *r);
 void gnm_pane_special_cursor_start 		(GnumericPane *pane, int style, int button);
 void gnm_pane_special_cursor_stop		(GnumericPane *pane);
+
+void gnm_pane_object_register	  (SheetObject *so, GnomeCanvasItem *view);
+void gnm_pane_widget_register	  (SheetObject *so, GtkWidget *widget,
+				   GnomeCanvasItem *view);
+void gnm_pane_object_stop_editing (GnumericPane *pane);
+void gnm_pane_object_set_bounds   (GnumericPane *pane, SheetObject *so,
+				   double l, double t, double r, double b);
 
 #endif /* GNUMERIC_PANE_H */

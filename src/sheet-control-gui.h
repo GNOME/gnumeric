@@ -22,13 +22,11 @@ void scg_mode_create_object	(SheetControlGUI *scg, SheetObject *so);
 
 void scg_context_menu		(SheetControlGUI *scg, GdkEventButton *event,
 				 gboolean is_col, gboolean is_row);
-void scg_object_register	(SheetObject *so, GnomeCanvasItem *view);
-void scg_object_widget_register (SheetObject *so, GtkWidget *widget,
-				 GnomeCanvasItem *view);
 void scg_object_nudge		(SheetControlGUI *scg, int x_offset, int y_offset);
 void scg_object_update_bbox	(SheetControlGUI *scg, SheetObject *so, double const *offset);
 void scg_object_calc_position	(SheetControlGUI *scg, SheetObject *so, double const *coords);
 void scg_object_view_position	(SheetControlGUI *scg, SheetObject *so, double *coords);
+void scg_object_stop_editing	(SheetControlGUI *scg, SheetObject *so);
 
 void scg_comment_select		(SheetControlGUI *scg, CellComment *cc);
 void scg_comment_display	(SheetControlGUI *scg, CellComment *cc);

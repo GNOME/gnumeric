@@ -52,11 +52,13 @@ Jody:
 	* apply some pending japanese patches.
 	* Improve HIG compliance.
 	* Start support for filter importing.
+	* Fix sheetobjects in the presence of panes.
 
 Jon Kåre:
 	* Enable bonobo
 	* fix hpux build
 	* Clean up Guile plugin
+	* Enable use as a bonobo control
 
 Jukka:
 	* More solver improvements.

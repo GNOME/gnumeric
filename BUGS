@@ -154,7 +154,6 @@ Long term breakage
     : Add acetate_create virtual to handle shaped objects.
     : Other anchor types for sheet objects
     : Add keyboard controls for the control points
-    : display a view per Pane not per scg
     : Add object control for resize to disable invalid sizes.
 
 - Add a warning when attempting to save using the suffix from a different saver.
