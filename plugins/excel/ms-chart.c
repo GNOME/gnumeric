@@ -15,9 +15,6 @@ typedef struct
 	eBiff_version	ver;
 	guint32		prev_opcode;
 	ExcelWorkbook  *wb;
-
-	/* Used by DEFAULTTEXT to communicate with TEXT */
-	int	defaulttext_applicability;
 } ExcelChartState;
 
 typedef struct
@@ -33,15 +30,15 @@ typedef gboolean (*ExcelChartWriter)(ExcelChartHandler const *handle,
 struct biff_chart_handler
 {
 	guint16 const opcode;
-	int const	min_size;
+	int const	min_size; /* To be useful this needs to be versioned */
 	char const *const name;
 	ExcelChartReader const read_fn;
 	ExcelChartWriter const write_fn;
 };
 
 #define BC(n)	biff_chart_ ## n
-#define BC_R(n)	BC(write_ ## n)
-#define BC_W(n)	BC(read_ ## n)
+#define BC_R(n)	BC(read_ ## n)
+#define BC_W(n)	BC(write_ ## n)
 
 static StyleColor *
 BC_R(color)(guint8 const *data, char *type)
@@ -135,6 +132,9 @@ BC_R(ai)(ExcelChartHandler const *handle,
 	guint16 const flags = BIFF_GET_GUINT16 (q->data + 2);
 	guint16 const fmt_index = BIFF_GET_GUINT16 (q->data + 4);
 	guint16 const length = BIFF_GET_GUINT16 (q->data + 6);
+	StyleFormat * fmt = biff_format_data_lookup (s->wb, fmt_index);
+
+	printf ("Format = '%s';\n", fmt->format);
 
 	switch (id) {
 	case 0 : puts ("Linking title or text"); break;
@@ -191,15 +191,19 @@ BC_R(alruns)(ExcelChartHandler const *handle,
 	     ExcelChartState *s, BiffQuery *q)
 {
 	gint16 length = BIFF_GET_GUINT16 (q->data);
-	long *in = (q->data + 2);
+	guint8 const *in = (q->data + 2);
 	char *const ans = (char *) g_new (char, length + 2);
 	char *out = ans;
 
-	for (; --length >= 0 ; ++in, ++out)
+	for (; --length >= 0 ; in+=4, ++out)
 	{
-		/* FIXME FIXME FIXME : don't toss font info */
-		guint32 const rtf_run = BIFF_GET_GUINT32 (in);
-		*out = (char)((*in >> 16) & 0xff);
+		/*
+		 * FIXME FIXME FIXME :
+		 *        - don't toss font info
+		 *        - Merge streams of the same font together.
+		 */
+		guint32 const elem = BIFF_GET_GUINT32 (in);
+		*out = (char)((elem >> 16) & 0xff);
 	}
 	*out = '\0';
 
@@ -870,7 +874,8 @@ typedef enum
 	MS_LINE_WGT_WIDE	= 2,
 	MS_LINE_WGT_MAX	= 3
 } MS_LINE_WGT;
-static char const *const ms_line_wgt[] = {
+static char const *const ms_line_wgt[] =
+{
 	"hairline", "normal", "medium", "extra"
 };
 
@@ -931,13 +936,13 @@ typedef enum
 	MS_CHART_MARKER_PLUS	= 9,
 	MS_CHART_MARKER_MAX	= 10
 } MS_CHART_MARKER;
-static char const *const ms_chart_marker[] = {
+static char const *const ms_chart_marker[] =
+{
 	"not marked", "marked with squares", "marked with diamonds",
 	"marked with triangle", "marked with an x", "marked with star",
 	"marked with a dow symbol", "marked with a std", "marked with a circle",
 	"marked with a plus"
 };
-
 
 static gboolean
 BC_R(markerformat)(ExcelChartHandler const *handle,
@@ -947,22 +952,40 @@ BC_R(markerformat)(ExcelChartHandler const *handle,
 	StyleColor *back = BC_R(color) (q->data+4, "MarkerBack");
 	guint16 const tmp = BIFF_GET_GUINT16 (q->data+8);
 	guint16 const flags = BIFF_GET_GUINT16 (q->data+10);
+	gboolean const auto_color = (flags & 0x01) ? TRUE : FALSE;
+	gboolean const no_fore	= (flags & 0x10) ? TRUE : FALSE;
+	gboolean const no_back = (flags & 0x20) ? TRUE : FALSE;
 	MS_CHART_MARKER marker;
-	gboolean	auto_color, no_fore, no_back;
 
 	g_return_val_if_fail (tmp < MS_CHART_MARKER_MAX, TRUE);
 	marker = tmp;
 	printf ("Points are %s\n", ms_chart_marker[marker]);
 
-	auto_color = (flags & 0x01) ? TRUE : FALSE;
-	no_fore	= (flags & 0x10) ? TRUE : FALSE;
-	no_back = (flags & 0x20) ? TRUE : FALSE;
+	if (auto_color)
+		printf ("Ignore the specified colors do it ourselves\n");
+	if (no_fore)
+		printf ("Transparent borders\n");
+	if (no_fore)
+		printf ("Transparent interior\n");
 
 	if (s->ver >= eBiffV8)
 	{
-		guint16 const fore_index = BIFF_GET_GUINT16 (q->data+12);
-		guint16 const back_index = BIFF_GET_GUINT16 (q->data+14);
+		/* What are these for ?
+		 * We already have the colors ?
+		 */
+		StyleColor const * marker_border =
+		    ms_excel_palette_get (s->wb->palette, 
+					  BIFF_GET_GUINT16 (q->data+12),
+					  NULL);
+		StyleColor const * marker_fill =
+		    ms_excel_palette_get (s->wb->palette, 
+					  BIFF_GET_GUINT16 (q->data+14),
+					  NULL);
 		guint32 const marker_size = BIFF_GET_GUINT32 (q->data+16);
+
+		printf ("Marker is %u, with border %x and interior %x\n",
+			marker_size,
+			(guint32)marker_border, (guint32)marker_fill);
 	}
 	return FALSE;
 }
@@ -1218,44 +1241,91 @@ BC_W(serfmt)(ExcelChartHandler const *handle,
 
 /****************************************************************************/
 
-static int
-map_series_types(BiffQuery *q, int const offset, char const *const pre)
+typedef enum
 {
-	guint16 const type = BIFF_GET_GUINT16 (q->data);
+	MS_CHART_SERIES_DATES		= 0,
+	MS_CHART_SERIES_NUMBERS		= 1,
+	MS_CHART_SERIES_SEQUENCES	= 2,
+	MS_CHART_SERIES_STRINGS		= 3,
+	MS_CHART_SERIES_MAX		= 4
+} MS_CHART_SERIES;
 
-	printf("%s", pre);
-	switch (type)
+static char const *const ms_chart_series[] =
+{
+    "Dates (This is invalid)", "Numbers",
+    "Sequences (This is invalid)", "Strings",
+};
+
+typedef struct _ExcelChartSeries
+{
+	struct
 	{
-	case 0 : puts(" are Dates !! (Should not happen)"); break;
-	case 1 : puts(" are numbers."); break;
-	case 2 : puts(" are sequences !! (Should not happen)"); break;
-	case 3 : puts(" are strings."); break;
-	default :
-		 puts(" UNKNOWN!."); break;
-	};
-	return type;
+		MS_CHART_SERIES type;
+		int		count;
+	} category, value, bubble;
+	gboolean has_bubbles;
+} ExcelChartSeries;
+
+static gboolean
+BC_R(series_impl)(ExcelChartState *s, BiffQuery *q, ExcelChartSeries * ser)
+{
+	guint16 tmp;
+
+	/*
+	 * WARNING : The offsets in the documentation are WRONG.
+	 *           Use the sizes instead.
+	 */
+
+	/* Categories */
+	tmp = BIFF_GET_GUINT16 (q->data+0);
+	g_return_val_if_fail (tmp < MS_CHART_SERIES_MAX, TRUE);
+	ser->category.type = tmp;
+	ser->category.count = BIFF_GET_GUINT16 (q->data+4);
+	printf ("%d Categories are %s\n",
+		ser->category.count,
+		ms_chart_series[ser->category.type]);
+
+	/* Values */
+	tmp = BIFF_GET_GUINT16 (q->data+2);
+	g_return_val_if_fail (tmp < MS_CHART_SERIES_MAX, TRUE);
+	ser->value.type = tmp;
+	ser->value.count = BIFF_GET_GUINT16 (q->data+6);
+	printf ("%d Values are %s\n",
+		ser->value.count,
+		ms_chart_series[ser->value.type]);
+
+	if ((ser->has_bubbles = (s->ver >= eBiffV8)))
+	{
+		tmp = BIFF_GET_GUINT16 (q->data+8);
+		g_return_val_if_fail (tmp < MS_CHART_SERIES_MAX, TRUE);
+		ser->bubble.type = tmp;
+		ser->bubble.count = BIFF_GET_GUINT16 (q->data+10);
+		printf ("%d Bubbles are %s\n",
+			ser->bubble.count,
+			ms_chart_series[ser->bubble.type]);
+	}
+
+	if (s->wb->chart.series == NULL)
+		s->wb->chart.series = g_ptr_array_new ();
+	g_ptr_array_add (s->wb->chart.series, ser);
+	printf ("SERIES = %d\n", s->wb->chart.series->len);
+	return FALSE;
 }
 
+/*
+ * Wrapper function to avoid leaking memory on failure
+ */
 static gboolean
 BC_R(series)(ExcelChartHandler const *handle,
 	     ExcelChartState *s, BiffQuery *q)
 {
-	int const category_type = map_series_types(q, 0, "Categories");
-	int const value_type = map_series_types(q, 4, "Values");
-	guint16 const num_categories = BIFF_GET_GUINT16 (q->data+6);
-	guint16 const num_values = BIFF_GET_GUINT16 (q->data+8);
+	ExcelChartSeries * ser = g_new (ExcelChartSeries, 1);
 
-	if (s->ver >= eBiffV8)
+	if (BC_R(series_impl)(s, q, ser))
 	{
-		int const bubble_type = map_series_types(q, 10, "Bubbles");
-		guint16 const num_bubble = BIFF_GET_GUINT16 (q->data+12);
+		g_free (ser);
+		return TRUE;
 	}
-
-	/* FIXME Make a structure */
-	if (s->wb->chart.series == NULL)
-		s->wb->chart.series = g_ptr_array_new ();
-	g_ptr_array_add (s->wb->chart.series, NULL);
-	printf ("SERIES = %d\n", s->wb->chart.series->len);
 	return FALSE;
 }
 
@@ -1347,12 +1417,14 @@ typedef enum
 	MS_CHART_BLANK_INTERPOLATE	= 2,
 	MS_CHART_BLANK_MAX		= 3
 } MS_CHART_BLANK;
-static char const *const ms_chart_blank[] = {
-	"Skip blanks", "Blanks are zero", "Interpolate blanks"};
+static char const *const ms_chart_blank[] =
+{
+	"Skip blanks", "Blanks are zero", "Interpolate blanks"
+};
 
-	static gboolean
-	BC_R(shtprops)(ExcelChartHandler const *handle,
-		       ExcelChartState *s, BiffQuery *q)
+static gboolean
+BC_R(shtprops)(ExcelChartHandler const *handle,
+	       ExcelChartState *s, BiffQuery *q)
 {
 	guint16 const flags = BIFF_GET_GUINT16 (q->data);
 	guint8 const tmp = BIFF_GET_GUINT16 (q->data+2);
@@ -1627,7 +1699,7 @@ BC(register_handlers)()
 	BIFF_CHART(serauxerrbar, 14);
 	BIFF_CHART(serauxtrend, 28);
 	BIFF_CHART(serfmt, 2);
-	BIFF_CHART(series, 10);
+	BIFF_CHART(series, 8);
 	BIFF_CHART(serieslist, 2);
 	BIFF_CHART(seriestext, 3);
 	BIFF_CHART(serparent, 2);
@@ -1682,7 +1754,6 @@ ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, BIFF_BOF_DATA *bof)
 	state.depth = 0;
 	state.prev_opcode = 0xdead; /* Invalid */
 	state.wb = wb;
-	state.defaulttext_applicability = -1; /* Invalid */
 
 	if (ms_excel_chart_debug > 0)
 		puts ("{ CHART");

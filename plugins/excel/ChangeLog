@@ -1,3 +1,12 @@
+1999-07-09  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-chart.c : Actually make a series object !  After finding another
+	  Excel documentation error.
+
+	* ms-obj.c : Conditionalize a debug printout.
+
+	* ms-excel-read.c (biff_name_data_get_name) : Indicies are ONE based.
+
 1999-07-09  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-read.c (ms_excel_read_workbook): Update this with

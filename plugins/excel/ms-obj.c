@@ -314,7 +314,8 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb)
 		    break;
 	}
 
-	printf ("\n\n");
+	if (ms_excel_read_debug > 0)
+	    printf ("\n\n");
 }
 
 void

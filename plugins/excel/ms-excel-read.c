@@ -606,7 +606,7 @@ biff_name_data_get_name (ExcelSheet *sheet, guint16 idx)
 
 	a = sheet->wb->name_data;
 
-	if (a && idx < a->len && (bnd = g_ptr_array_index (a, idx))) {
+	if (a && 0 < idx && idx < a->len && (bnd = g_ptr_array_index (a, idx-1))) {
 		if (bnd->type == BNDStore && bnd->v.store.data) {
 			char     *duff = "Some Error";
 			ExprTree *tree;
