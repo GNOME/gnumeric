@@ -130,6 +130,8 @@ static const DistributionStrs distribution_strs[] = {
 	  N_("Gamma"), N_("_a Value:"), N_("_b Value:"), FALSE },
 	{ GeometricDistribution,
 	  N_("Geometric"), N_("_p Value:"), NULL, FALSE },
+	{ LandauDistribution,
+	  N_("Landau"), NULL, NULL, FALSE },
 	{ LaplaceDistribution,
 	  N_("Laplace"), N_("_a Value:"), NULL, FALSE },
 	{ LevyDistribution,
@@ -280,6 +282,9 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
 			a_float > 0.0;
 		break;
+	case LandauDistribution:
+		ready = TRUE;
+		break;
 	case LaplaceDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
@@ -426,8 +431,8 @@ static void
 distribution_parbox_config (RandomToolState *state,
 			    random_distribution_t dist)
 {
-	GtkWidget *par1_entry;
-	guint par1_key = 0, par2_key = 0;
+	GtkWidget              *par1_entry;
+	guint                  par1_key = 0, par2_key = 0;
 	const DistributionStrs *ds = distribution_strs_find (dist);
 
 	if (ds->par1_is_range) {
@@ -437,21 +442,28 @@ distribution_parbox_config (RandomToolState *state,
 		par1_entry = state->par1_entry;
 		gtk_widget_hide (state->par1_expr_entry);
 	}
-	gtk_widget_show (par1_entry);
+	if (ds->label1 != NULL) {
+	        gtk_widget_show (par1_entry);
+		if (state->distribution_accel != NULL) {
+		        gtk_window_remove_accel_group
+			        (GTK_WINDOW (state->base.dialog),
+				 state->distribution_accel);
+			state->distribution_accel = NULL;
+		}
+		state->distribution_accel = gtk_accel_group_new ();
 
-	if (state->distribution_accel != NULL) {
-		gtk_window_remove_accel_group (GTK_WINDOW (state->base.dialog),
-					       state->distribution_accel);
-		state->distribution_accel = NULL;
+		par1_key = gtk_label_parse_uline (GTK_LABEL (state->par1_label),
+						  _(ds->label1));
+		if (par1_key != GDK_VoidSymbol)
+		        gtk_widget_add_accelerator (par1_entry, "grab_focus",
+						    state->distribution_accel,
+						    par1_key,
+						    GDK_MOD1_MASK, 0);
+	} else {
+		gtk_label_set_text (GTK_LABEL (state->par1_label), "");
+ 	        gtk_widget_hide (par1_entry);
 	}
-	state->distribution_accel = gtk_accel_group_new ();
 
-	par1_key = gtk_label_parse_uline (GTK_LABEL (state->par1_label),
-					  _(ds->label1));
-	if (par1_key != GDK_VoidSymbol)
-		gtk_widget_add_accelerator (par1_entry, "grab_focus",
-					    state->distribution_accel, par1_key,
-					    GDK_MOD1_MASK, 0);
 	if (ds->label2 != NULL) {
 		par2_key = gtk_label_parse_uline (GTK_LABEL (state->par2_label),
 						  _(ds->label2));
@@ -465,8 +477,10 @@ distribution_parbox_config (RandomToolState *state,
 		gtk_label_set_text (GTK_LABEL (state->par2_label), "");
 	        gtk_widget_hide (state->par2_entry);
 	}
-	gtk_window_add_accel_group (GTK_WINDOW (state->base.dialog),
-				    state->distribution_accel);
+	if (ds->label1 != NULL) {
+	        gtk_window_add_accel_group (GTK_WINDOW (state->base.dialog),
+					    state->distribution_accel);
+	}
 }
 
 /*
@@ -575,6 +589,8 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 	case CauchyDistribution:
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
 				      &data->param.cauchy.a, TRUE);
+		break;
+	case LandauDistribution:
 		break;
 	case LaplaceDistribution:
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
