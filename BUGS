@@ -13,6 +13,7 @@ Release Critical
     - possibly backport a fix for jon kare's sorting issue
     - solver crash
     - how to add constraints to the solver (gui problem?)
+    - wide char ifdef in stf http://bugzilla.gnome.org/show_bug.cgi?id=81897
 
 Pending Patches
 ---------------
