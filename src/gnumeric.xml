@@ -185,15 +185,18 @@
 			_label="_Sheet" _tip="Insert a new spreadsheet"/>
 
 			<menuitem name="InsertRows" verb=""
+			pixtype="stock" pixname="Gnumeric_RowAdd"
 			_label="_Rows" _tip="Insert new rows"/>
 
 			<menuitem name="InsertColumns" verb=""
+			pixtype="stock" pixname="Gnumeric_ColumnAdd"
 			_label="_Columns" _tip="Insert new columns"/>
 
 			<menuitem name="InsertCells" verb=""
 			_label="_Cells" _tip="Insert new cells"/>
 
 			<menuitem name="InsertObject" verb=""
+			pixtype="stock" pixname="Gnumeric_InsertShapedComponent"
 			_label="_Object" _tip="Inserts a Bonobo object"/>
 
 			<separator/>
@@ -206,6 +209,7 @@
 			</submenu>
 
 			<menuitem name="InsertComment" verb=""
+			pixtype="stock" pixname="Gnumeric_CommentAdd"
 			_label="_Add / modify comment..."
 			_tip="Edit the selected cell's comment"/>
 
@@ -239,14 +243,17 @@
 				_tip="Ensure columns are just wide enough to display content" />
 
 				<menuitem name="Size" verb="ColumnSize"
+				pixtype="stock" pixname="Gnumeric_ColumnSize"
 				_label="_Width..."
 				_tip="Change width of the selected columns" />
 
 				<menuitem name="Hide" verb="ColumnHide"
+				pixtype="stock" pixname="Gnumeric_ColumnHide"
 				_label="_Hide"
 				_tip="Hide the selected columns" />
 
 				<menuitem name="Unhide" verb="ColumnUnhide"
+				pixtype="stock" pixname="Gnumeric_ColumnUnhide"
 				_label="_Unhide"
 				_tip="Make any hidden columns in the selection visible" />
 
@@ -261,14 +268,17 @@
 				_tip="Ensure rows are just tall enough to display content" />
 
 				<menuitem name="Size" verb="RowSize"
+				pixtype="stock" pixname="Gnumeric_RowSize"
 				_label="_Height..."
 				_tip="Change height of the selected rows" />
 
 				<menuitem name="Hide" verb="RowHide"
+				pixtype="stock" pixname="Gnumeric_RowHide"
 				_label="_Hide"
 				_tip="Hide the selected rows" />
 
 				<menuitem name="Unhide" verb="RowUnhide"
+				pixtype="stock" pixname="Gnumeric_RowUnhide"
 				_label="_Unhide"
 				_tip="Make any hidden rows in the selection visible" />
 
@@ -372,7 +382,7 @@
 	</menu>
 
 	<dockitem name="StandardToolbar" behavior="exclusive" homogeneous="0"
-	band_num="1" look="icons" relief="none">
+	band_num="1" look="icon" relief="none">
 
 		<toolitem name="New" pixtype="stock" pixname="New"
 		 _label="New" _tip="Create a new workbook"
@@ -454,7 +464,7 @@
 	</dockitem>
 
 	<dockitem name="FormatToolbar" band_num="2" behavior="exclusive"
-	homogeneous="0" look="icons" relief="none">
+	homogeneous="0" look="icon" relief="none">
 
 		<control name="FontName"  _tip="Font selector"  
 			 vdisplay="button" verb="FontSelect" pixtype="stock" 
@@ -490,6 +500,11 @@
 		 _label="Right" _tip="Right justifies the contents of each cell"
 		 verb="AlignRight"/>
 
+		<toolitem type="toggle" name="CenterAcrossSelection"
+		 pixtype="stock" pixname="Gnumeric_CenterAcrossSelection"
+		 _label="CenterAcrossSelection" _tip="Right justifies the contents of each cell"
+		 verb="CenterAcrossSelection"/>
+
 		<separator/>
 
 		<toolitem name="Money" pixtype="stock" pixname="Gnumeric_FormatAsMoney"
@@ -522,9 +537,10 @@
 	</dockitem>
 
 	<dockitem name="ObjectToolbar" band_num="2" placement="left"
-	homogeneous="0" look="icons" relief="none">
+	homogeneous="0" look="icon" relief="none">
 
 		<toolitem name="Label" pixtype="stock" pixname="Gnumeric_Label"
+		 look="icon"
 		 _label="Label" _tip="Create a label" verb="CreateLabel"/>
 
 		<toolitem name="Frame" pixtype="stock" pixname="Gnumeric_Frame"

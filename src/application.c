@@ -23,7 +23,6 @@
 #include "pixmaps/equal-sign.xpm"
 #include "pixmaps/function_selector.xpm"
 #include "pixmaps/graphic.xpm"
-#include "pixmaps/object.xpm"
 #include "pixmaps/insert-bonobo-component.xpm"
 
 #include "pixmaps/label.xpm"
@@ -44,6 +43,39 @@
 #include "pixmaps/thousands.xpm"
 #include "pixmaps/add_decimals.xpm"
 #include "pixmaps/remove_decimals.xpm"
+
+#include "pixmaps/16_add_column.xpm"
+#include "pixmaps/16_add_comment.xpm"
+#include "pixmaps/16_add_row.xpm"
+#include "pixmaps/16_cell_height.xpm"
+#include "pixmaps/16_cell_width.xpm"
+#include "pixmaps/16_center_across_selection.xpm"
+#include "pixmaps/16_delete_column.xpm"
+#include "pixmaps/16_delete_comment.xpm"
+#include "pixmaps/16_delete_row.xpm"
+#include "pixmaps/16_edit_comment.xpm"
+#include "pixmaps/16_hide_column.xpm"
+#include "pixmaps/16_hide_row.xpm"
+#include "pixmaps/16_insert_shaped_object.xpm"
+#include "pixmaps/16_merge_cells.xpm"
+#include "pixmaps/16_split_cells.xpm"
+#include "pixmaps/16_unhide_column.xpm"
+#include "pixmaps/16_unhide_row.xpm"
+
+#include "pixmaps/24_add_column.xpm"
+#include "pixmaps/24_add_row.xpm"
+#include "pixmaps/24_cell_height.xpm"
+#include "pixmaps/24_cell_width.xpm"
+#include "pixmaps/24_center_across_selection.xpm"
+#include "pixmaps/24_delete_column.xpm"
+#include "pixmaps/24_delete_row.xpm"
+#include "pixmaps/24_hide_column.xpm"
+#include "pixmaps/24_hide_row.xpm"
+#include "pixmaps/24_insert_shaped_object.xpm"
+#include "pixmaps/24_merge_cells.xpm"
+#include "pixmaps/24_split_cells.xpm"
+#include "pixmaps/24_unhide_column.xpm"
+#include "pixmaps/24_unhide_row.xpm"
 
 typedef struct
 {
@@ -78,7 +110,46 @@ application_init (void)
 		gchar **xpm_data;
 	} const entry_names [] = {
 		{ 16, 16, "Menu_Gnumeric_PrintPreview", menu_print_preview_xpm },
+		{ 16, 16, "Menu_Gnumeric_InsertShapedComponent", i16_insert_shaped_object_xpm },
+
+		{ 16, 16, "Menu_Gnumeric_CommentAdd", i16_add_comment_xpm },
+		{ 16, 16, "Menu_Gnumeric_CommentDelete", i16_delete_comment_xpm },
+		{ 16, 16, "Menu_Gnumeric_CommentEdit", i16_edit_comment_xpm },
+		{ 16, 16, "Menu_Gnumeric_ColumnAdd", i16_add_column_xpm },
+		{ 16, 16, "Menu_Gnumeric_ColumnDelete", i16_delete_column_xpm },
+		{ 16, 16, "Menu_Gnumeric_ColumnSize", i16_cell_width_xpm },
+		{ 16, 16, "Menu_Gnumeric_ColumnHide", i16_hide_column_xpm },
+		{ 16, 16, "Menu_Gnumeric_ColumnUnhide", i16_unhide_column_xpm },
+		{ 16, 16, "Menu_Gnumeric_RowAdd", i16_add_row_xpm },
+		{ 16, 16, "Menu_Gnumeric_RowDelete", i16_delete_row_xpm },
+		{ 16, 16, "Menu_Gnumeric_RowSize", i16_cell_height_xpm },
+		{ 16, 16, "Menu_Gnumeric_RowHide", i16_hide_row_xpm },
+		{ 16, 16, "Menu_Gnumeric_RowUnhide", i16_unhide_row_xpm },
+		{ 16, 16, "Menu_Gnumeric_MergeCells", i16_merge_cells_xpm },
+		{ 16, 16, "Menu_Gnumeric_SplitCells", i16_split_cells_xpm },
+		{ 16, 16, "Menu_Gnumeric_CenterAcrossSelection", i16_center_across_selection_xpm },
+
 		{ 24, 24, "Gnumeric_PrintPreview", print_preview_xpm },
+		{ 24, 24, "Gnumeric_InsertShapedComponent", i24_insert_shaped_object_xpm },
+#if 0
+		{ 24, 24, "Gnumeric_CommentAdd", i24_add_comment_xpm },
+		{ 24, 24, "Gnumeric_CommentDelete", i24_delete_comment_xpm },
+		{ 24, 24, "Gnumeric_CommentEdit", i24_edit_comment_xpm },
+#endif
+		{ 24, 24, "Gnumeric_ColumnAdd", i24_add_column_xpm },
+		{ 24, 24, "Gnumeric_ColumnDelete", i24_delete_column_xpm },
+		{ 24, 24, "Gnumeric_ColumnSize", i24_cell_width_xpm },
+		{ 24, 24, "Gnumeric_ColumnHide", i24_hide_column_xpm },
+		{ 24, 24, "Gnumeric_ColumnUnhide", i24_unhide_column_xpm },
+		{ 24, 24, "Gnumeric_RowAdd", i24_add_row_xpm },
+		{ 24, 24, "Gnumeric_RowDelete", i24_delete_row_xpm },
+		{ 24, 24, "Gnumeric_RowSize", i24_cell_height_xpm },
+		{ 24, 24, "Gnumeric_RowHide", i24_hide_row_xpm },
+		{ 24, 24, "Gnumeric_RowUnhide", i24_unhide_row_xpm },
+		{ 24, 24, "Gnumeric_MergeCells", i24_merge_cells_xpm },
+		{ 24, 24, "Gnumeric_SplitCells", i24_split_cells_xpm },
+		{ 24, 24, "Gnumeric_CenterAcrossSelection", i24_center_across_selection_xpm },
+
 		{ 24, 24, "Gnumeric_SortAscending", sort_ascending_xpm },
 		{ 24, 24, "Gnumeric_SortDescending", sort_descending_xpm },
 		{ 24, 24, "Gnumeric_AutoSum", auto_sum_xpm },
@@ -86,7 +157,6 @@ application_init (void)
 		{ 24, 24, "Gnumeric_FormulaGuru", formula_guru_xpm },
 		{ 24, 24, "Gnumeric_GraphGuru", graph_guru_xpm },
 		{ 24, 24, "Gnumeric_InsertComponent", insert_component_xpm },
-		{ 24, 24, "Gnumeric_InsertShapedComponent", insert_shaped_component_xpm },
 
 		{ 24, 21, "Gnumeric_FormatAsMoney", money_xpm },
 		{ 24, 21, "Gnumeric_FormatAsPercent", percent_xpm },
@@ -105,6 +175,7 @@ application_init (void)
 		{ 21, 21, "Gnumeric_Arrow", arrow_xpm },
 		{ 21, 21, "Gnumeric_Rectangle", rect_xpm },
 		{ 21, 21, "Gnumeric_Oval", oval_xpm },
+
 		{ 0, 0, NULL, NULL}
 	};
 	static GnomeStockPixmapEntry entry[sizeof(entry_names)/sizeof(struct GnumericStockPixmap)-1];

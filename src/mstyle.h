@@ -39,6 +39,7 @@ enum _MStyleElementType {
 
 	        MSTYLE_ALIGN_V,
 	        MSTYLE_ALIGN_H,
+	        MSTYLE_INDENT,
 
 		MSTYLE_ORIENTATION,
 
@@ -97,6 +98,8 @@ void                mstyle_set_align_h     (MStyle *st, StyleHAlignFlags a);
 StyleHAlignFlags    mstyle_get_align_h     (const MStyle *st);
 void                mstyle_set_align_v     (MStyle *st, StyleVAlignFlags a);
 StyleVAlignFlags    mstyle_get_align_v     (const MStyle *st);
+void                mstyle_set_indent	   (MStyle *st, int i);
+int		    mstyle_get_indent	   (const MStyle *st);
 void                mstyle_set_orientation (MStyle *st, StyleOrientation o);
 StyleOrientation    mstyle_get_orientation (const MStyle *st);
 void                mstyle_set_fit_in_cell (MStyle *st, gboolean f);
@@ -109,4 +112,5 @@ char       *mstyle_to_string   (const MStyle *st); /* Debug only ! leaks like a 
 void        mstyle_dump        (const MStyle *st);
 
 MStyle     *mstyle_do_merge    (const GList *list, MStyleElementType max);
+
 #endif /* GNUMERIC_MSTYLE_H */

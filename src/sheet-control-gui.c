@@ -1137,25 +1137,27 @@ scg_context_menu (SheetControlGUI *sheet_view, GdkEventButton *event,
 		{ N_("Clear Co_ntents"),NULL,
 		    0, 0, CONTEXT_CLEAR_CONTENT },
 
+		/* TODO : Add the comment modification elements
+		* We may need to make the filter for popupmenus stronger */
 		{ "", NULL, 0, 0, 0 },
 
 		{ N_("_Format Cells..."),GNOME_STOCK_MENU_PREF,
 		    0, 0, CONTEXT_FORMAT_CELL },
 
 		/* Column specific (Note some labels duplicate row labels) */
-		{ N_("Column _Width..."),NULL,
+		{ N_("Column _Width..."), "Menu_Gnumeric_ColumnSize",
 		    CONTEXT_IGNORE_FOR_COLS, 0, CONTEXT_COL_WIDTH },
-		{ N_("_Hide"),		 NULL,
+		{ N_("_Hide"),		  "Menu_Gnumeric_ColumnHide",
 		    CONTEXT_IGNORE_FOR_COLS, 0, CONTEXT_COL_HIDE },
-		{ N_("_Unhide"),	 NULL,
+		{ N_("_Unhide"),	  "Menu_Gnumeric_ColumnUnhide",
 		    CONTEXT_IGNORE_FOR_COLS, 0, CONTEXT_COL_UNHIDE },
 
 		/* Row specific (Note some labels duplicate col labels) */
-		{ N_("_Row Height..."),	 NULL,
+		{ N_("_Row Height..."),	  "Menu_Gnumeric_RowSize",
 		    CONTEXT_IGNORE_FOR_ROWS, 0, CONTEXT_ROW_HEIGHT },
-		{ N_("_Hide"),		 NULL,
+		{ N_("_Hide"),		  "Menu_Gnumeric_RowHide",
 		    CONTEXT_IGNORE_FOR_ROWS, 0, CONTEXT_ROW_HIDE },
-		{ N_("_Unhide"),	 NULL,
+		{ N_("_Unhide"),	  "Menu_Gnumeric_RowUnhide",
 		    CONTEXT_IGNORE_FOR_ROWS, 0, CONTEXT_ROW_UNHIDE },
 
 		{ NULL, NULL, 0, 0, 0 },

@@ -52,6 +52,7 @@ typedef struct {
 			guint16   v;
 			guint16   h;
 		}                align;
+		int		 indent;
 		StyleOrientation orientation;
 		gboolean         fit_in_cell;
 
@@ -120,6 +121,7 @@ const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
 	"Format",
 	"Align.v",
 	"Align.h",
+	"Indent",
 	"Orientation",
 	"FitInCell"
 };
@@ -163,6 +165,9 @@ mstyle_hash (gconstpointer st)
 			break;
 		case MSTYLE_ANY_GUINT32:
 			hash = hash ^ e->u.any_guint32;
+			break;
+		case MSTYLE_INDENT:
+			hash = hash ^ e->u.indent;
 			break;
 		case MSTYLE_ORIENTATION:
 			hash = hash ^ e->u.orientation;
@@ -325,6 +330,10 @@ mstyle_element_equal (const MStyleElement a,
 		break;
 	case MSTYLE_ALIGN_H:
 		if (a.u.align.h == b.u.align.h)
+			return TRUE;
+		break;
+	case MSTYLE_INDENT:
+		if (a.u.indent == b.u.indent)
 			return TRUE;
 		break;
 	case MSTYLE_ORIENTATION:
@@ -554,6 +563,7 @@ mstyle_new_default (void)
 	mstyle_set_format_text (mstyle, "General");
 	mstyle_set_align_v     (mstyle, VALIGN_BOTTOM);
 	mstyle_set_align_h     (mstyle, HALIGN_GENERAL);
+	mstyle_set_indent      (mstyle, 0);
 	mstyle_set_orientation (mstyle, ORIENT_HORIZ);
 	mstyle_set_fit_in_cell (mstyle, FALSE);
 	mstyle_set_font_name   (mstyle, DEFAULT_FONT);
@@ -1149,6 +1159,23 @@ mstyle_get_align_v (const MStyle *style)
 }
 
 void
+mstyle_set_indent (MStyle *style, int i)
+{
+	g_return_if_fail (style != NULL);
+
+	style->elements[MSTYLE_INDENT].type = MSTYLE_INDENT;
+	style->elements[MSTYLE_INDENT].u.indent = i;
+}
+
+int
+mstyle_get_indent (const MStyle *style)
+{
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_INDENT), 0);
+
+	return style->elements[MSTYLE_INDENT].u.indent;
+}
+
+void
 mstyle_set_orientation (MStyle *style, StyleOrientation o)
 {
 	g_return_if_fail (style != NULL);
@@ -1162,7 +1189,7 @@ mstyle_get_orientation (const MStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ORIENTATION), 0);
 
-	return style->elements[MSTYLE_ORIENTATION].u.align.v;
+	return style->elements[MSTYLE_ORIENTATION].u.orientation;
 }
 
 void

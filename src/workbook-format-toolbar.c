@@ -42,6 +42,7 @@
 #define TOOLBAR_ALIGN_LEFT_BUTTON_INDEX		6
 #define TOOLBAR_ALIGN_CENTER_BUTTON_INDEX	7
 #define TOOLBAR_ALIGN_RIGHT_BUTTON_INDEX	8
+#define TOOLBAR_CENTER_ACROSS_SELECTION_INDEX	9
 
 static void
 workbook_format_halign_feedback_set (WorkbookControlGUI *wbcg,
@@ -86,6 +87,12 @@ static void
 center_cmd (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	set_selection_halign (wbcg, HALIGN_CENTER);
+}
+
+static void
+center_across_selection_cmd (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	set_selection_halign (wbcg, HALIGN_CENTER_ACROSS_SELECTION);
 }
 
 /*
@@ -396,6 +403,10 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 		N_("Right align"), N_("Right justifies the cell contents"),
 		&right_align_cmd, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_ALIGN_RIGHT },
+	{ GNOME_APP_UI_TOGGLEITEM,
+		N_("Center across selection"), N_("Center across selection"),
+		&center_across_selection_cmd, NULL, NULL,
+		GNOME_APP_PIXMAP_STOCK, "Gnumeric_CenterAcrossSelection" },
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -426,6 +437,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("AlignLeft",		  &left_align_cmd),
 	BONOBO_UI_UNSAFE_VERB ("AlignCenter",		  &center_cmd),
 	BONOBO_UI_UNSAFE_VERB ("AlignRight",		  &right_align_cmd),
+	BONOBO_UI_UNSAFE_VERB ("CenterAcrossSelection",	  &center_across_selection_cmd),
 	BONOBO_UI_UNSAFE_VERB ("FormatAsMoney",	          &workbook_cmd_format_as_money),
 	BONOBO_UI_UNSAFE_VERB ("FormatAsPercent",	  &workbook_cmd_format_as_percent),
 	BONOBO_UI_UNSAFE_VERB ("FormatWithThousands",	  &workbook_cmd_format_add_thousands),
@@ -857,6 +869,10 @@ workbook_format_halign_feedback_set (WorkbookControlGUI *wbcg,
 					   TOOLBAR_ALIGN_RIGHT_BUTTON_INDEX,
 					   (GtkSignalFunc)&right_align_cmd,
 					   h_align == HALIGN_RIGHT);
+	workbook_format_toolbutton_update (wbcg, toolbar,
+					   TOOLBAR_CENTER_ACROSS_SELECTION_INDEX,
+					   (GtkSignalFunc)&center_across_selection_cmd,
+					   h_align == HALIGN_CENTER_ACROSS_SELECTION);
 }
 #endif
 

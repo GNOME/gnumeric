@@ -155,7 +155,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	gnumeric_arg_parse (argc, argv);
 
 	if (gnumeric_show_version) {
-		printf (_("gnumeric version %s\ndatadir := %s\nlibdir := %s\n"),
+		printf (_("gnumeric version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
 			GNUMERIC_VERSION, GNUMERIC_DATADIR, GNUMERIC_LIBDIR);
 		return;
 	}
