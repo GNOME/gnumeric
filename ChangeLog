@@ -1,3 +1,32 @@
+2001-08-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_cell_destroy) : fix.  We need to check
+	  for recalc before we unlink, and possibly queue the dependents
+	  of cells which had constant values.
+
+	* src/eval.c : rearrange
+	DependentSingle &
+	DependentRange to keep the dep_list at the top
+	Then define DependentAny for generic operations.
+	(depsingle_dtor) : delete.
+	(deprange_dtor) : delete.
+	(dependent_queue_recalc_list) : remove unnecessary parameter.
+	(sheet_region_queue_recalc) : walk the hash in both cases.
+	(dependent_unlink) : only unlink if there is a dep list.
+	(cb_search_rangedeps) : renamed from search_cell_deps.
+	(cb_single_recalc_all_depends) : delete.
+	(cb_range_recalc_all_depends) : delete.
+	(cb_recalc_all_depends) : new.
+	(cb_dep_hash_invalidate) : merge cb_single_hash_invalidate,
+	  cb_range_hash_invalidate. 
+	(do_deps_destroy) : use the merged invalidation routines.
+	(add_range_dep) : loop through the range buckets.
+	(drop_range_dep) : loop through the range buckets.
+	(dependent_unlink_sheet) : use SHEET_FOREACH_DEPENDENT.
+	(cell_foreach_range_dep) : only check useful buckets.
+	(dependency_data_new) : create the buckets.
+	(sheet_dump_dependencies) : handle ranges.
+
 2001-08-30  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook.h (WORKBOOK_FOREACH_SHEET): New macro.

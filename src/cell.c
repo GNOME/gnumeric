@@ -65,6 +65,7 @@ cell_cleanout (Cell *cell)
 			dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 		expr_tree_unref (cell->base.expression);
 		cell->base.expression = NULL;
+		cell->base.flags &= ~(CELL_HAS_EXPRESSION);
 	}
 
 	if (cell->value) {

@@ -41,7 +41,7 @@ struct _DependencyContainer {
 	 *   Large ranges hashed on 'range' to accelerate duplicate
 	 * culling. This is tranversed by g_hash_table_foreach mostly.
 	 */
-	GHashTable *range_hash;
+	GHashTable **range_hash;
 	/*
 	 *   Single ranges, this maps an EvalPos * to a GSList of its
 	 * dependencies.

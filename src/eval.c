@@ -35,6 +35,8 @@
 #include "cell.h"
 #include "sheet.h"
 
+#define BUCKET_SIZE	256
+
 #define UNLINK_DEP(dep)							\
   do {									\
 	if (dep->sheet->deps->dependent_list == dep)			\
@@ -146,13 +148,12 @@ cell_list_deps (const Cell *cell)
 /**
  * dependent_queue_recalc_list :
  * @list :
- * @recurse : optionally recursively dirty things
  *
  * Queues any elements of @list for recalc that are not already queued,
  * and marks all elements as needing a recalc.
  */
 static void
-dependent_queue_recalc_list (GSList *list, gboolean recurse)
+dependent_queue_recalc_list (GSList *list)
 {
 	GSList *work = NULL;
 
@@ -160,8 +161,7 @@ dependent_queue_recalc_list (GSList *list, gboolean recurse)
 		Dependent *dep = list->data;
 		if (!(dep->flags & DEPENDENT_NEEDS_RECALC)) {
 			dependent_queue_recalc (dep);
-			if (recurse)
-				work = g_slist_prepend (work, dep);
+			work = g_slist_prepend (work, dep);
 		}
 	}
 
@@ -211,7 +211,7 @@ cb_dependent_queue_recalc (Dependent *dep, gpointer ignore)
 		GSList listrec;
 		listrec.next = NULL;
 		listrec.data =dep;
-		dependent_queue_recalc_list (&listrec, TRUE);
+		dependent_queue_recalc_list (&listrec);
 	}
 }
 
@@ -231,36 +231,76 @@ cb_dependent_queue_recalc (Dependent *dep, gpointer ignore)
  * cells listed in dependent_list.
  */
 typedef struct {
-	/*
-	 *  This range specifies uniquely the position of the
-	 * cells that are depended on by the dependent_list.
-	 */
+	GSList *dependent_list;		/* Must be first */
 	Range  range;
-
-	/* The list of cells that depend on this range */
-	GSList *dependent_list;
 } DependencyRange;
 
 /*
- *  A DependencySingle stores a list of cells that depend
- * on the cell at @pos in @dependent_list. NB. the EvalPos
- * is quite vital since there may not be a cell there yet.
+ *  A DependencySingle stores a list of dependents that rely
+ * on the cell at @pos.
+ * 
+ * A change in this cell will trigger a recomputation on the
+ * cells listed in dependent_list.
  */
 typedef struct {
-	/*
-	 * The position of a cell
-	 */
+	GSList  *dependent_list;	/* Must be first */
 	CellPos pos;
-	/*
-	 * The list of cells that depend on this cell
-	 */
-	GSList  *dependent_list;
 } DependencySingle;
+
+/* A utility type */
+typedef struct {
+	GSList  *dependent_list;	/* Must be first */
+} DependencyAny;
 
 typedef enum {
 	REMOVE_DEPS = 0,
 	ADD_DEPS = 1
 } DepOperation;
+
+static guint
+deprange_hash_func (gconstpointer v)
+{
+	DependencyRange const *r = v;
+
+	return ((((r->range.start.row << 8) + r->range.end.row) << 8) +
+		(r->range.start.col << 8) + (r->range.end.col));
+}
+static gint
+deprange_equal_func (gconstpointer v, gconstpointer v2)
+{
+	DependencyRange const *r1 = (DependencyRange const *) v;
+	DependencyRange const *r2 = (DependencyRange const *) v2;
+
+	if (r1->range.start.col != r2->range.start.col)
+		return 0;
+	if (r1->range.start.row != r2->range.start.row)
+		return 0;
+	if (r1->range.end.col != r2->range.end.col)
+		return 0;
+	if (r1->range.end.row != r2->range.end.row)
+		return 0;
+
+	return 1;
+}
+
+
+static guint
+depsingle_hash (gconstpointer key)
+{
+	DependencySingle const *d = (DependencySingle const *) key;
+
+	return (d->pos.row << 8) ^ d->pos.col;
+}
+
+static gint
+depsingle_equal (gconstpointer ai, gconstpointer bi)
+{
+	DependencySingle const *a = (DependencySingle const *)ai;
+	DependencySingle const *b = (DependencySingle const *)bi;
+
+	return (a->pos.row == b->pos.row &&
+		a->pos.col == b->pos.col);
+}
 
 static void
 handle_cell_single_dep (Dependent *dep, CellPos const *pos,
@@ -310,56 +350,70 @@ handle_cell_single_dep (Dependent *dep, CellPos const *pos,
 
 static void
 add_range_dep (DependencyContainer *deps, Dependent *dependent,
-	       DependencyRange const *range)
+	       DependencyRange const *r)
 {
-	/* Look it up */
-	DependencyRange *result = g_hash_table_lookup (deps->range_hash, range);
+	int i = r->range.start.row / BUCKET_SIZE;
+	int const end = r->range.end.row / BUCKET_SIZE;
 
-	if (result) {
-		/* Is the dependent already listed? */
-		GSList const *cl = g_slist_find (result->dependent_list, dependent);
-		if (cl)
-			return;
+	for ( ; i <= end; i++) {
+		/* Look it up */
+		DependencyRange *result;
+		
+		if (deps->range_hash [i] == NULL) {
+			deps->range_hash [i] =
+				g_hash_table_new (deprange_hash_func,
+						  deprange_equal_func);
+			result = NULL;
+		} else {
+			result = g_hash_table_lookup (deps->range_hash[i], r);
 
-		/* It was not: add it */
-		result->dependent_list = g_slist_prepend (result->dependent_list, dependent);
+			if (result) {
+				/* Is the dependent already listed? */
+				GSList const *cl = g_slist_find (result->dependent_list,
+								 dependent);
+				if (cl)
+					return;
 
-		return;
+				/* It was not: add it */
+				result->dependent_list = g_slist_prepend (result->dependent_list,
+									  dependent);
+
+				return;
+			}
+		}
+
+		/* Create a new DependencyRange structure */
+		result = g_new (DependencyRange, 1);
+		*result = *r;
+		result->dependent_list = g_slist_prepend (NULL, dependent);
+
+		g_hash_table_insert (deps->range_hash[i], result, result);
 	}
-
-	/* Create a new DependencyRange structure */
-	result = g_new (DependencyRange, 1);
-	*result = *range;
-	result->dependent_list = g_slist_prepend (NULL, dependent);
-
-	g_hash_table_insert (deps->range_hash, result, result);
 }
 
 static void
 drop_range_dep (DependencyContainer *deps, Dependent *dependent,
-		DependencyRange const *range)
+		DependencyRange const *r)
 {
-	DependencyRange *result;
+	int i = r->range.start.row / BUCKET_SIZE;
+	int const end = r->range.end.row / BUCKET_SIZE;
 
-	if (!deps)
-		return;
+	for ( ; i <= end; i++) {
+		DependencyRange *result;
 
-	result = g_hash_table_lookup (deps->range_hash, range);
-	if (result) {
-		result->dependent_list =
-			g_slist_remove (result->dependent_list, dependent);
-		if (result->dependent_list == NULL) {
-			g_hash_table_remove (deps->range_hash, result);
-			g_free (result);
+		if (!deps)
+			return;
+
+		result = g_hash_table_lookup (deps->range_hash[i], r);
+		if (result) {
+			result->dependent_list =
+				g_slist_remove (result->dependent_list, dependent);
+			if (result->dependent_list == NULL) {
+				g_hash_table_remove (deps->range_hash[i], result);
+				g_free (result);
+			}
 		}
 	}
-}
-
-static void
-depsingle_dtor (DependencySingle *single)
-{
-	g_return_if_fail (single->dependent_list == NULL);
-	g_free (single);
 }
 
 static void
@@ -373,13 +427,6 @@ deprange_init (DependencyRange *range, CellPos const *pos,
 	range->dependent_list = NULL;
 	if (b->sheet && a->sheet != b->sheet)
 		g_warning ("FIXME: 3D references need work");
-}
-
-static void
-deprange_dtor (DependencyRange *deprange)
-{
-	deprange->dependent_list = NULL;	/* poison it */
-	g_free (deprange);
 }
 
 /*
@@ -574,11 +621,12 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 		g_return_if_fail (IS_SHEET (dep->sheet));
 
 		/* see note in do_deps_destroy */
-		if (dep->sheet->deps != NULL)
+		if (dep->sheet->deps != NULL) {
 			handle_tree_deps (dep, pos, dep->expression, REMOVE_DEPS);
+			UNLINK_DEP (dep);
+		}
 
 		dep->flags &= ~(DEPENDENT_IN_EXPR_LIST | DEPENDENT_NEEDS_RECALC);
-		UNLINK_DEP (dep);
 	}
 }
 
@@ -594,16 +642,12 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 void
 dependent_unlink_sheet (Sheet *sheet)
 {
-	Workbook *wb;
-
 	g_return_if_fail (IS_SHEET (sheet));
 
-	wb = sheet->workbook;
-	WORKBOOK_FOREACH_DEPENDENT (wb, dep,
-		 if (dep->sheet == sheet) {
-			 dep->flags &= ~DEPENDENT_IN_EXPR_LIST;
-			 UNLINK_DEP (dep);
-		 });
+	SHEET_FOREACH_DEPENDENT (sheet, dep, {
+		 dep->flags &= ~DEPENDENT_IN_EXPR_LIST;
+		 UNLINK_DEP (dep);
+	 });
 }
 
 /**
@@ -698,7 +742,7 @@ cell_queue_recalc (Cell const *cell)
 			dependent_queue_recalc (CELL_TO_DEP (cell));
 
 		deps = cell_list_deps (cell);
-		dependent_queue_recalc_list (deps, TRUE);
+		dependent_queue_recalc_list (deps);
 		g_slist_free (deps);
 	}
 }
@@ -707,12 +751,12 @@ typedef struct {
 	int      col, row;
 	DepFunc	 func;
 	gpointer user;
-} get_cell_dep_closure_t;
+} search_rangedeps_closure_t;
 
 static void
-search_cell_deps (gpointer key, gpointer value, gpointer closure)
+cb_search_rangedeps (gpointer key, gpointer value, gpointer closure)
 {
-	get_cell_dep_closure_t const *c = closure;
+	search_rangedeps_closure_t const *c = closure;
 	DependencyRange const *deprange = key;
 	Range const *range = &(deprange->range);
 
@@ -736,22 +780,26 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 static void
 cell_foreach_range_dep (Cell const *cell, DepFunc func, gpointer user)
 {
-	get_cell_dep_closure_t closure;
+	search_rangedeps_closure_t closure;
+	GHashTable *bucket =
+		cell->base.sheet->deps->range_hash [cell->pos.row /BUCKET_SIZE];
 
-	closure.col   = cell->pos.col;
-	closure.row   = cell->pos.row;
-	closure.func  = func;
-	closure.user  = user;
+	if (bucket != NULL) {
+		closure.col   = cell->pos.col;
+		closure.row   = cell->pos.row;
+		closure.func  = func;
+		closure.user  = user;
 
-	/* FIXME FIXME FIXME :
-	 * This call decimates performance
-	 * If this list contains lots of ranges we are toast.  Consider
-	 * subdividing the master list.  A simple fixed bucket scheme is
-	 * probably sufficient (say 64x64) but we could go to something
-	 * adaptive or a simple quad tree.
-	 */
-	g_hash_table_foreach (cell->base.sheet->deps->range_hash,
-			      &search_cell_deps, &closure);
+		/* FIXME FIXME FIXME :
+		 * This call decimates performance
+		 * If this list contains lots of ranges we are toast.  Consider
+		 * subdividing the master list.  A simple fixed bucket scheme is
+		 * probably sufficient (say 64x64) but we could go to something
+		 * adaptive or a simple quad tree.
+		 */
+		g_hash_table_foreach (bucket,
+			&cb_search_rangedeps, &closure);
+	}
 }
 
 static void
@@ -790,28 +838,31 @@ cell_foreach_dep (Cell const *cell, DepFunc func, gpointer user)
 }
 
 static void
-cb_region_contained_depend (gpointer key, gpointer value, gpointer user)
+cb_recalc_all_depends (gpointer key, gpointer value, gpointer ignore)
+{
+	DependencyAny const *depany = key;
+	dependent_queue_recalc_list (depany->dependent_list);
+}
+
+static void
+cb_range_contained_depend (gpointer key, gpointer value, gpointer user)
 {
 	DependencyRange const *deprange  = key;
 	Range const *range = &deprange->range;
 	Range const *target = user;
 
 	if (range_overlap (target, range))
-		dependent_queue_recalc_list (deprange->dependent_list, TRUE);
+		dependent_queue_recalc_list (deprange->dependent_list);
 }
 
 static void
-cb_range_recalc_all_depends (gpointer key, gpointer value, gpointer ignore)
+cb_single_contained_depend (gpointer key, gpointer value, gpointer user)
 {
-	DependencyRange const *deprange = key;
-	dependent_queue_recalc_list (deprange->dependent_list, FALSE);
-}
+	DependencySingle const *depsingle  = key;
+	Range const *target = user;
 
-static void
-cb_single_recalc_all_depends (gpointer key, gpointer value, gpointer ignore)
-{
-	DependencySingle const *single = value;
-	dependent_queue_recalc_list (single->dependent_list, FALSE);
+	if (range_contains (target, depsingle->pos.col, depsingle->pos.row))
+		dependent_queue_recalc_list (depsingle->dependent_list);
 }
 
 /**
@@ -827,24 +878,30 @@ cb_single_recalc_all_depends (gpointer key, gpointer value, gpointer ignore)
 void
 sheet_region_queue_recalc (Sheet const *sheet, Range const *r)
 {
+	int i;
+
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->deps != NULL);
 
 	if (r == NULL) {
+		/* mark the contained depends dirty non recursively */
 		SHEET_FOREACH_DEPENDENT (sheet, dep, {
 			dependent_queue_recalc (dep);
 		});
 
-		/* Find anything that depends on a range in this sheet */
-		g_hash_table_foreach (sheet->deps->range_hash,
-				      &cb_range_recalc_all_depends, NULL);
-
-		/* Find anything that depends on a single reference */
+		/* look for things that depend on the sheet */
+		for (i = (SHEET_MAX_ROWS-1)/BUCKET_SIZE; i >= 0 ; i--) {
+			GHashTable *hash = sheet->deps->range_hash[i];
+			if (hash != NULL)
+				g_hash_table_foreach (hash,
+					&cb_recalc_all_depends, NULL);
+		}
 		g_hash_table_foreach (sheet->deps->single_hash,
-				      &cb_single_recalc_all_depends, NULL);
+			&cb_recalc_all_depends, NULL);
 	} else {
-		int ix, iy, end_col, end_row;
+		int const first = r->start.row / BUCKET_SIZE;
 
+		/* mark the contained depends dirty non recursively */
 		SHEET_FOREACH_DEPENDENT (sheet, dep, {
 			Cell *cell = DEP_TO_CELL (dep);
 			if (DEPENDENT_IS_CELL (dep) &&
@@ -852,20 +909,15 @@ sheet_region_queue_recalc (Sheet const *sheet, Range const *r)
 				dependent_queue_recalc (dep);
 		});
 
-		g_hash_table_foreach (sheet->deps->range_hash,
-				      &cb_region_contained_depend,
-				      (gpointer)r);
-
-		/* TODO : Why not use sheet_foreach_cell ?
-		 * We would need to be more careful about queueing
-		 * things that depend on blanks, but that is not too hard.
-		 */
-		end_col = MIN (r->end.col, sheet->cols.max_used);
-		end_row = MIN (r->end.row, sheet->rows.max_used);
-		for (ix = r->start.col; ix <= end_col; ix++)
-			for (iy = r->start.row; iy <= end_row; iy++)
-				cell_foreach_single_dep (sheet, ix, iy,
-					cb_dependent_queue_recalc, NULL);
+		/* look for things that depend on target region */
+		for (i = (r->end.row)/BUCKET_SIZE; i >= first ; i--) {
+			GHashTable *hash = sheet->deps->range_hash[i];
+			if (hash != NULL)
+			g_hash_table_foreach (hash,
+				&cb_range_contained_depend, (gpointer)r);
+		}
+		g_hash_table_foreach (sheet->deps->single_hash,
+			&cb_single_contained_depend, (gpointer)r);
 	}
 }
 
@@ -893,15 +945,15 @@ invalidate_refs (Dependent *dep, ExprRewriteInfo const *rwinfo)
  * This is tightly coupled with do_deps_destroy.
  */
 static void
-cb_range_hash_invalidate (gpointer key, gpointer value, gpointer closure)
+cb_dep_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 {
 	ExprRewriteInfo const *rwinfo = closure;
-	DependencyRange   *deprange = value;
-	GSList *deps = deprange->dependent_list;
+	DependencyAny *depany = value;
+	GSList *deps = depany->dependent_list;
 	GSList *ptr = deps;
 	Dependent *dependent;
 
-	deprange->dependent_list = NULL;
+	depany->dependent_list = NULL;	/* poison it */
 	if (rwinfo->type == EXPR_REWRITE_SHEET) {
 		Sheet const *target = rwinfo->u.sheet;
 		for (; ptr != NULL; ptr = ptr->next) {
@@ -921,43 +973,7 @@ cb_range_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 	}
 
 	g_slist_free (deps);
-	deprange_dtor (deprange);
-}
-
-/*
- * WARNING : Hash is pointing to freed memory once this is complete
- * This is tightly coupled with do_deps_destroy.
- */
-static void
-cb_single_hash_invalidate (gpointer key, gpointer value, gpointer closure)
-{
-	ExprRewriteInfo const *rwinfo = closure;
-	DependencySingle *depsingle = value;
-	GSList *deps = depsingle->dependent_list;
-	GSList *ptr = deps;
-	Dependent *dependent;
-
-	depsingle->dependent_list = NULL;
-	if (rwinfo->type == EXPR_REWRITE_SHEET) {
-		Sheet const *target = rwinfo->u.sheet;
-		for (; ptr != NULL; ptr = ptr->next) {
-			dependent = ptr->data;
-			if (dependent->sheet != target)
-				invalidate_refs (dependent, rwinfo);
-		}
-	} else if (rwinfo->type == EXPR_REWRITE_WORKBOOK) {
-		Workbook const *target = rwinfo->u.workbook;
-		for (; ptr != NULL; ptr = ptr->next) {
-			dependent = ptr->data;
-			if (dependent->sheet->workbook != target)
-				invalidate_refs (dependent, rwinfo);
-		}
-	} else {
-		g_assert_not_reached ();
-	}
-
-	g_slist_free (deps);
-	depsingle_dtor (depsingle);
+	g_free (depany);
 }
 
 /*
@@ -984,15 +1000,22 @@ do_deps_destroy (Sheet *sheet, ExprRewriteInfo const *rwinfo)
 	sheet->deps = NULL;
 
 	if (deps->range_hash) {
-		g_hash_table_foreach (deps->range_hash,
-				      &cb_range_hash_invalidate, (gpointer)rwinfo);
-		g_hash_table_destroy (deps->range_hash);
+		int i;
+		for (i = (SHEET_MAX_ROWS-1)/BUCKET_SIZE; i >= 0 ; i--) {
+			GHashTable *hash = deps->range_hash[i];
+			if (hash != NULL) {
+				g_hash_table_foreach (hash,
+					&cb_dep_hash_invalidate, (gpointer)rwinfo);
+				g_hash_table_destroy (hash);
+			}
+		}
+		g_free (deps->range_hash);
 		deps->range_hash = NULL;
 	}
 
 	if (deps->single_hash) {
 		g_hash_table_foreach (deps->single_hash,
-				      &cb_single_hash_invalidate, (gpointer)rwinfo);
+			&cb_dep_hash_invalidate, (gpointer)rwinfo);
 		g_hash_table_destroy (deps->single_hash);
 		deps->single_hash = NULL;
 	}
@@ -1083,51 +1106,6 @@ workbook_recalc_all (Workbook *wb)
 		sheet_update (wb_view_cur_sheet (view)););
 }
 
-static guint
-deprange_hash_func (gconstpointer v)
-{
-	DependencyRange const *r = v;
-
-	return ((((r->range.start.row << 8) + r->range.end.row) << 8) +
-		(r->range.start.col << 8) + (r->range.end.col));
-}
-static gint
-deprange_equal_func (gconstpointer v, gconstpointer v2)
-{
-	DependencyRange const *r1 = (DependencyRange const *) v;
-	DependencyRange const *r2 = (DependencyRange const *) v2;
-
-	if (r1->range.start.col != r2->range.start.col)
-		return 0;
-	if (r1->range.start.row != r2->range.start.row)
-		return 0;
-	if (r1->range.end.col != r2->range.end.col)
-		return 0;
-	if (r1->range.end.row != r2->range.end.row)
-		return 0;
-
-	return 1;
-}
-
-
-static guint
-depsingle_hash (gconstpointer key)
-{
-	DependencySingle const *d = (DependencySingle const *) key;
-
-	return (d->pos.row << 8) ^ d->pos.col;
-}
-
-static gint
-depsingle_equal (gconstpointer ai, gconstpointer bi)
-{
-	DependencySingle const *a = (DependencySingle const *)ai;
-	DependencySingle const *b = (DependencySingle const *)bi;
-
-	return (a->pos.row == b->pos.row &&
-		a->pos.col == b->pos.col);
-}
-
 DependencyContainer *
 dependency_data_new (void)
 {
@@ -1135,8 +1113,8 @@ dependency_data_new (void)
 
 	deps->dependent_list = NULL;
 
-	deps->range_hash  = g_hash_table_new (deprange_hash_func,
-					      deprange_equal_func);
+	deps->range_hash  = g_new0 (GHashTable *,
+				    (SHEET_MAX_ROWS-1)/BUCKET_SIZE + 1);
 	deps->single_hash = g_hash_table_new (depsingle_hash,
 					      depsingle_equal);
 
@@ -1197,17 +1175,21 @@ sheet_dump_dependencies (Sheet const *sheet)
 	deps = sheet->deps;
 
 	if (deps) {
+		int i;
 		printf ("For %s:%s\n",
 			sheet->workbook->filename
 			?  sheet->workbook->filename
 			: "(no name)",
 			sheet->name_unquoted);
 
-		if (g_hash_table_size (deps->range_hash) > 0) {
-			printf ("Range hash size %d: range over which cells in list depend\n",
-				g_hash_table_size (deps->range_hash));
-			g_hash_table_foreach (deps->range_hash,
-					      dump_range_dep, NULL);
+		for (i = (SHEET_MAX_ROWS-1)/BUCKET_SIZE; i >= 0 ; i--) {
+			GHashTable *hash = sheet->deps->range_hash[i];
+			if (hash != NULL && g_hash_table_size (hash) > 0) {
+				printf ("Range hash size %d: range over which cells in list depend\n",
+					g_hash_table_size (hash));
+				g_hash_table_foreach (hash,
+						      dump_range_dep, NULL);
+			}
 		}
 
 		if (g_hash_table_size (deps->single_hash) > 0) {

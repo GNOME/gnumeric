@@ -2670,12 +2670,16 @@ static void
 sheet_cell_destroy (Sheet *sheet, Cell *cell, gboolean queue_recalc)
 {
 	if (cell_has_expr (cell)) {
-		dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
+		/* if it needs recalc then its depends are already queued 
+		 * check recalc status before we unlink
+		 */
+		queue_recalc &= !cell_needs_recalc (cell);
 
-		/* if it needs recalc then its depends are already queued */
-		if (queue_recalc && !cell_needs_recalc (cell))
-			cell_foreach_dep (cell, cb_dependent_queue_recalc, NULL);
+		dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 	}
+
+	if (queue_recalc)
+		cell_foreach_dep (cell, cb_dependent_queue_recalc, NULL);
 
 	sheet_cell_remove_from_hash (sheet, cell);
 	cell_destroy (cell);
