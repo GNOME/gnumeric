@@ -53,7 +53,6 @@ Long term breakage
     - Duplicate sheet.
     - Remove sheet. This raises some serious design issues.
     - Freeze panes.
-    - Random Generator Tool.
     - Goal seek.
     - Tabulate.
 

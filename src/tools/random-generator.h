@@ -10,7 +10,7 @@
 typedef enum {
   DiscreteDistribution, UniformDistribution, NormalDistribution,
   BernoulliDistribution, BinomialDistribution, PoissonDistribution,
-  PatternedDistribution, NegativeBinomialDistribution, ExponentialDistribution
+  /* PatternedDistribution, */ NegativeBinomialDistribution, ExponentialDistribution
 } random_distribution_t;
 
 typedef struct {
@@ -49,12 +49,12 @@ typedef struct {
         gnum_float b;
 } exponential_random_tool_t;
 
-typedef struct {
-        gnum_float from, to;
-        gnum_float step;
-        int     repeat_number;
-        int     repeat_sequence;
-} patterned_random_tool_t;
+/* typedef struct { */
+/*         gnum_float from, to; */
+/*         gnum_float step; */
+/*         int     repeat_number; */
+/*         int     repeat_sequence; */
+/* } patterned_random_tool_t; */
 
 typedef union {
         discrete_random_tool_t    discrete;
@@ -65,12 +65,18 @@ typedef union {
         negbinom_random_tool_t    negbinom;
         poisson_random_tool_t     poisson;
         exponential_random_tool_t exponential;
-        patterned_random_tool_t   patterned;
+/*         patterned_random_tool_t   patterned; */
 } random_tool_t;
 
-int random_tool           (WorkbookControl *context, Sheet *sheet,
-			   int vars, int count, random_distribution_t distribution,
-			   random_tool_t *param, data_analysis_output_t *dao);
+typedef struct {
+	random_tool_t param;
+	WorkbookControlGUI *wbcg;       
+	gint n_vars;
+	gint count;
+	random_distribution_t distribution;
+} tools_data_random_t;
 
+gboolean tool_random_engine (data_analysis_output_t *dao, gpointer specs, 
+			     analysis_tool_engine_t selector, gpointer result);
 
 #endif

@@ -362,92 +362,74 @@ dialog_random_realized (GtkWidget *widget, RandomToolState *state)
 static void
 random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 {
+	data_analysis_output_t  *dao;
+	tools_data_random_t  *data;
 
-	data_analysis_output_t  dao;
-        char   *text;
-	gint vars, count, err;
-	random_tool_t           param;
+	gint err;
 
-	if (state->base.warning_dialog != NULL)
-		gtk_widget_destroy (state->base.warning_dialog);
+	data = g_new0 (tools_data_random_t, 1);
+	dao  = parse_output ((GenericToolState *)state, NULL);
 
-        parse_output ((GenericToolState *)state, &dao);
+	data->wbcg = state->base.wbcg;
 
-	err = entry_to_int (GTK_ENTRY (state->vars_entry), &vars, FALSE);
-	err = entry_to_int (GTK_ENTRY (state->count_entry), &count, FALSE);
+	err = entry_to_int (GTK_ENTRY (state->vars_entry), &data->n_vars, FALSE);
+	err = entry_to_int (GTK_ENTRY (state->count_entry), &data->count, FALSE);
 
-	state->distribution = combo_get_distribution (state->distribution_combo);
+	data->distribution = state->distribution = 
+		combo_get_distribution (state->distribution_combo);
 	switch (state->distribution) {
 	case NormalDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), &param.normal.mean, TRUE);
-		err = entry_to_float (GTK_ENTRY (state->par2_entry), &param.normal.stdev, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.normal.mean, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+				      &data->param.normal.stdev, TRUE);
 		break;
 	case BernoulliDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), &param.bernoulli.p, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.bernoulli.p, TRUE);
 		break;
 	case PoissonDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), &param.poisson.lambda, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.poisson.lambda, TRUE);
 		break;
 	case ExponentialDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), &param.exponential.b, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.exponential.b, TRUE);
 		break;
 	case BinomialDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), &param.binomial.p, TRUE);
-		err = entry_to_int (GTK_ENTRY (state->par2_entry), &param.binomial.trials, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.binomial.p, TRUE);
+		err = entry_to_int (GTK_ENTRY (state->par2_entry), 
+				    &data->param.binomial.trials, TRUE);
 		break;
 	case NegativeBinomialDistribution:
-		err = entry_to_float (GTK_ENTRY (state->par1_entry), &param.negbinom.p, TRUE);
-		err = entry_to_int (GTK_ENTRY (state->par2_entry), &param.negbinom.f, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.negbinom.p, TRUE);
+		err = entry_to_int (GTK_ENTRY (state->par2_entry), 
+				    &data->param.negbinom.f, TRUE);
 		break;
 	case DiscreteDistribution:
-		param.discrete.range = gnm_expr_entry_parse_as_value (
+		data->param.discrete.range = gnm_expr_entry_parse_as_value (
 			GNUMERIC_EXPR_ENTRY (state->par1_expr_entry), state->base.sheet);
 		break;
 	case UniformDistribution:
 	default:
 		err = entry_to_float (GTK_ENTRY (state->par1_entry),
-				     &param.uniform.lower_limit, TRUE);
+				     &data->param.uniform.lower_limit, TRUE);
 		err = entry_to_float (GTK_ENTRY (state->par2_entry),
-				     &param.uniform.upper_limit, TRUE);
+				     &data->param.uniform.upper_limit, TRUE);
 		break;
 	}
 
-	err = random_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
-			   vars, count, state->distribution, &param,&dao);
-	switch (err) {
-	case 0:
-		if (button == state->base.ok_button) {
-			if (state->distribution_accel) {
-				gtk_window_remove_accel_group (GTK_WINDOW (state->base.dialog),
-							       state->distribution_accel);
-				state->distribution_accel = NULL;
-			}
-			gtk_widget_destroy (state->base.dialog);
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet, 
+			       dao, data, tool_random_engine) && 
+	    (button == state->base.ok_button)) {
+		if (state->distribution_accel) {
+			gtk_window_remove_accel_group (GTK_WINDOW (state->base.dialog),
+						       state->distribution_accel);
+			state->distribution_accel = NULL;
 		}
-		break;
-	case 1: /* non-numeric probability (DiscreteDistribution) */
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->par1_expr_entry),
-				_("The probability input range contains a non-numeric value.\n"
-				  "All probabilities must be non-negative numbers."));
-		break;
-        case 2: /* probabilities are all zero  (DiscreteDistribution) */
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->par1_expr_entry),
-				_("The probabilities may not all be 0!"));
-		break;
-        case 3: /* negative probability  (DiscreteDistribution) */
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->par1_expr_entry),
-				_("The probability input range contains a negative number.\n"
-				"All probabilities must be non-negative!"));
-		break;
-        case 4: /* value is empty  (DiscreteDistribution) */
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->par1_expr_entry),
-				_("None of the values in the value range may be empty!"));
-		break;
-	default:
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		gnumeric_notice (state->base.wbcg, GTK_MESSAGE_ERROR, text);
-		g_free (text);
-		break;
+		gtk_widget_destroy (state->base.dialog);
 	}
 	return;
 }

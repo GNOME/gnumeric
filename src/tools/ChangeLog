@@ -1,3 +1,7 @@
+2002-04-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* random-generator.[ch] : make undoable
+
 2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* analysis-tools.c : adjust includes

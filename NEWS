@@ -9,6 +9,7 @@ Andreas:
 	* Plug leaks.
 	* Add preference dialog.
 	* Improve treeview cell renderers.
+	* Make Random Generator Tool undoable.
 
 Jody:
 	* Add password dialog to support encrypted input.
