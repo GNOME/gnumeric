@@ -1,3 +1,13 @@
+2003-12-24  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_WRITEACCESS) : don't free memory we do
+	  no own.
+	(excel_write_COUNTRY) : init both fields.
+	(write_sheet_head) : pre biff8 it was part of the sheet record.  Its
+	  hard to tell if this should be part of every sheet or just the first.
+	  I've seen both.
+	(write_workbook) : biff8 puts the COUNTRY record in the workbook area.
+
 2003-12-23  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.3
