@@ -32,7 +32,7 @@ excel_gb_selection_interior (GBRunEvalContext *ec,
 
 	sheet = EXCEL_GB_SELECTION (object)->sheet;
 
-	first_range = selection_first_range (sheet, FALSE);
+	first_range = selection_first_range (sheet, NULL, NULL);
 
 	interior = excel_gb_interior_new (sheet, *first_range);
 

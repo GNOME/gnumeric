@@ -1,3 +1,8 @@
+2001-05-03  Jody Goldberg <jgoldberg@home.com>
+
+	* excel-gb-selection.c (excel_gb_selection_interior) : signature
+	  change to selection_first_range.
+
 2001-03-20  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugins/gb/plugin.c
