@@ -11,8 +11,7 @@ Release Critical
     - Sheet objects
 		: panes
 		: ctrl points
-    - Panes : item-cursor handling of drag handle.  We should only move it to the top if the
-	      bottom is not visible in any pane.
+    - Panes : finish autoscroll
 	    : xml persistence
 
     - Span : C3 : "spanning text"  C4 : '=A2' span not broken
@@ -25,16 +24,14 @@ Release Critical
 
     - 57372
 
-    - The evolution check is broken.  We should check for "idl/Evolution-Composer.h"
-      because we use it in workbook-control-gui.c.  Moreover, the idl check currently
-      in configure.in should be run-time, not compile time.
-
 
 Pending Patches
 ---------------
 
 Long term breakage
 ------------------
+
+- Evo & Guppi cmnds should only be enabled if those components are available.
 
 - Panes 
     : Make ctrl-arrow smarter in the presence of panes.
