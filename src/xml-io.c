@@ -2823,9 +2823,9 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 	if (cur == NULL)
 		return NULL;
 	if (ctxt->ns == NULL) {
-	    gmr = xmlNewNs (cur, "http://www.gnome.org/gnumeric/v2", "gmr");
-	    xmlSetNs(cur, gmr);
-	    ctxt->ns = gmr;
+		gmr = xmlNewNs (cur, "http://www.gnome.org/gnumeric/v3", "gmr");
+		xmlSetNs(cur, gmr);
+		ctxt->ns = gmr;
 	}
 
 	oldlocale = g_strdup (setlocale (LC_NUMERIC, NULL));
@@ -3049,6 +3049,8 @@ xml_probe (const char *filename)
 	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/");
 	if (gmr == NULL)
 		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/v2");
+	if (gmr == NULL)
+		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/v3");
 
 	if (res->root->name == NULL || strcmp (res->root->name, "Workbook") || (gmr == NULL)){
 		xmlFreeDoc (res);

@@ -1,3 +1,8 @@
+2000-05-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_workbook_write) : Bump the xml version to v3.
+	(xml_probe) : Handle v[123].
+
 2000-05-07  Jon K Hellan  <hellan@acm.org>
 
         * src/dialogs/Makefile.am: dialog-printer.[ch] have been
