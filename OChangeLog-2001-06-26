@@ -1,3 +1,111 @@
+2001-05-07  Zbigniew Chyla  <cyba@gnome.pl>
+
+	Improved plugin system performance & scalability:
+	- reading plugin information from file only if necessary
+	  (usually when activating a plugin)
+	- some minor optimizations (using hashes instead of lists, etc.)
+
+	* src/Makefile.am
+	(GNUMERIC_BASE_SOURCES): Sorted some items.
+
+	* src/gutils.h (g_list_to_vector_custom): New macro.
+
+	* src/plugin.c:
+	Made some functions static.
+	s/plugin_loader_get_by_id/plugin_loader_get_type_by_id/
+	(struct _PluginInfo): Added has_full_info field.
+	(get_file_state_as_string, plugin_file_state_as_string,
+	plugin_file_state_from_string, plugin_file_state_free,
+	plugin_cache_init, plugin_cache_shutdown):
+	New functions, support for caching information about plugin ids
+	stored in XML files (together with modification dates).
+	(plugin_info_read_full_info_if_needed_error_info,
+	plugin_info_read_full_info_if_needed): New functions loading missing
+	plugin information from file if necessary.
+	(plugin_info_read):
+	Use existing PluginInfo struct rather than creating a new one,
+	take XML file name (not parsed XML tree) as an argument.
+	(plugin_info_new_from_xml):
+	New function, creates new PluginInfo struct from XML file (using
+	plugin_info_read).
+	(plugin_info_new_with_id_and_dir_name_only):
+	New function, creates new PluginInfo struct with only plugin id and
+	directory name given (sets has_full_info to FALSE).
+	(plugin_info_get_name, plugin_info_get_description,
+	plugin_info_get_extra_info_list, plugin_info_is_active,
+	plugin_info_peek_name, plugin_info_peek_description,
+	plugin_info_peek_loader_type_str,
+	plugin_info_provides_loader_by_type_str,
+	plugin_info_is_loaded, plugin_info_peek_services_data,
+	plugin_info_get_loader,
+	plugin_inc_dependants, plugin_dec_dependants,
+	plugin_dependencies_inc_dependants,
+	plugin_dependencies_dec_dependants,
+	plugin_get_loader_if_needed, activate_plugin, deactivate_plugin,
+	plugin_can_deactivate, plugin_info_force_mark_inactive,
+	plugin_load_service, plugin_unload_service,
+	plugin_load_dependencies):
+	Read full plugin information if needed.
+	(plugin_info_free):
+	Don't try to free most data if has_full_info == FALSE.
+	(plugin_info_list_read_for_dir):
+	Return one PluginInfo instead of a list, create incomplete
+	PluginInfo (using plugin_info_new_with_id_and_dir_name_only) if
+	found a directory in plugin_file_state_dir_hash.
+	(plugin_info_list_read_for_subdirs_of_dir):
+	Don't check if current file is a directory (it'll be detected
+	anyway).
+	(plugin_db_get_known_plugin_id_list,
+	plugin_db_extend_known_plugin_id_list, plugin_db_is_known_plugin,
+	plugin_db_get_saved_active_plugin_id_list,
+	plugin_db_is_saved_active_plugin):
+	Removed.
+	(plugin_db_get_available_plugin_info_list): Just return
+	available_plugin_info_list, never fail.
+	(plugin_db_mark_plugin_for_deactivation,
+	plugin_db_is_plugin_marked_for_deactivation, plugins_shutdown):
+	Use hash table (plugins_marked_for_deactivation_hash) instead of
+	a list.
+	(plugin_db_init): Initialize available_plugin_info_list and
+	saved_active_plugin_id_list here, use a hash table when detecting
+	new plugins.
+	(plugins_init): Call plugin_cache_init.
+	(plugins_init): Call plugin_cache_shutdown.
+
+	* src/plugin.h
+	(plugin_info_read, plugin_info_print, plugin_info_list_read_for_dir,
+	plugin_info_list_read_for_subdirs_of_dir,
+	plugin_info_list_read_for_subdirs_of_dir_list,
+	plugin_info_list_read_for_all_dirs,
+	plugin_db_extend_known_plugin_id_list, plugin_db_is_known_plugin,
+	plugin_db_extend_saved_active_plugin_id_list,
+	plugin_db_is_saved_active_plugin,
+	plugin_db_activate_saved_active_plugins):
+	Removed (most of them are now static functions).
+
+	* src/plugin-service.c
+	(plugin_service_file_saver_initialize): Fixed serious typo.
+
+	* src/dialogs/dialog-plugin-manager.c
+	(cb_pm_button_activate_plugin_clicked,
+	cb_pm_button_activate_all_clicked,
+	cb_pm_button_deactivate_all_clicked,
+	update_plugin_manager_view): Adjusted to
+	plugin_db_get_available_plugin_info_list signature change.
+
+	* plugins/applix/plugin.xml, plugins/dif/plugin.xml,
+	plugins/excel/plugin.xml, plugins/gb/plugin.xml,
+	plugins/gda/plugin.xml, plugins/gnome-glossary/plugin.xml,
+	plugins/guile/plugin.xml, plugins/html/plugin.xml,
+	plugins/lotus-123/plugin.xml, plugins/numtheory/plugin.xml,
+	plugins/oleo/plugin.xml, plugins/perl/plugin.xml,
+	plugins/plan-perfect/plugin.xml, plugins/py-func/plugin.xml,
+	plugins/python/plugin.xml, plugins/python-loader/plugin.xml,
+	plugins/sc/plugin.xml, plugins/sylk/plugin.xml,
+	plugins/xbase/plugin.xml, plugins/xml_sax/plugin.xml:
+	Removed <gnumeric_plugin_group> tags. Now every directory may contain
+	only one plugin.
+
 2001-05-07  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/preview-grid.c (preview_grid_draw_background):

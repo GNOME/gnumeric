@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<gnumeric_plugin_group>
 <plugin id="Gnumeric_xml_sax">
 	<information name="EXPERIMENTAL SAX based XML" description="The next generation sax based xml I/O subsystem"/>
 	<loader type="g_module">
@@ -12,4 +11,3 @@
 		</service>
 	</services>
 </plugin>
-</gnumeric_plugin_group>

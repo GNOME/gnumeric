@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<gnumeric_plugin_group>
 <plugin id="Gnumeric_perl">
 	<information name="Perl" description="Enables the creation of functions in Perl"/>
 	<loader type="g_module">
@@ -9,4 +8,3 @@
 		<service type="general"></service>
 	</services>
 </plugin>
-</gnumeric_plugin_group>

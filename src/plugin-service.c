@@ -595,7 +595,7 @@ plugin_service_file_saver_initialize (PluginService *service, ErrorInfo **ret_er
 	file_saver_set_user_data (service_file_saver->saver, service);
 	file_savers_hash = plugin_info_peek_services_data (service->plugin)->file_savers_hash;
 	g_assert (g_hash_table_lookup (file_savers_hash, service_file_saver->id) == NULL);
-	g_hash_table_insert (file_savers_hash, service_file_saver->id, &service_file_saver->id);
+	g_hash_table_insert (file_savers_hash, service_file_saver->id, service_file_saver->saver);
 }
 
 static gboolean

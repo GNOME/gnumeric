@@ -29,6 +29,17 @@ G_STMT_START { \
 		(vector)[i] = (elem_type *) l->data; \
 	(vector)[size] = NULL; \
 } G_STMT_END
+#define   g_list_to_vector_custom(vector,elem_type,list_expr,conv_func) \
+G_STMT_START { \
+	GList *list, *l; \
+	gint size, i; \
+	list = (list_expr); \
+	size = g_list_length (list); \
+	(vector) = g_new (elem_type *, size + 1); \
+	for (l = list, i = 0; l != NULL; l = l->next, i++) \
+		(vector)[i] = (elem_type *) conv_func (l->data); \
+	(vector)[size] = NULL; \
+} G_STMT_END
 #define   g_vector_free_custom(vector_expr,elem_type,free_func_expr) \
 G_STMT_START { \
 	elem_type **vector, **v; \

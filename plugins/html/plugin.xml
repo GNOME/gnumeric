@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<gnumeric_plugin_group>
 <plugin id="Gnumeric_html">
 	<information name="HTML" description="Import/Export of HTML, TeX, DVI, roff and pdf"/>
 	<loader type="g_module">
@@ -37,4 +36,3 @@
 		</service>
 	</services>
 </plugin>
-</gnumeric_plugin_group>

@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<gnumeric_plugin_group>
 <plugin id="Gnumeric_dif">
 	<information name="Data Interchange Format (CSV) module" description="Reads and writes information stored in the Data Interchange Format (*.dif)"/>
 	<loader type="g_module">
@@ -15,4 +14,3 @@
 		</service>
 	</services>
 </plugin>
-</gnumeric_plugin_group>

@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<gnumeric_plugin_group>
 <plugin id="Gnumeric_sylk">
 	<information name="MultiPlan (SYLK)" description="Imports MultiPlan (SYLK) files"/>
 	<loader type="g_module">
@@ -12,4 +11,3 @@
 		</service>
 	</services>
 </plugin>
-</gnumeric_plugin_group>

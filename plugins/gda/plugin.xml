@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<gnumeric_plugin_group>
 <plugin id="Gnumeric_gdaif">
 	<information name="Database" description="Database functions for allowing the retrieval of data from a database"/>
 	<loader type="g_module">
@@ -15,4 +14,3 @@
 		</service>
 	</services>
 </plugin>
-</gnumeric_plugin_group>

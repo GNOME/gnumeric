@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<gnumeric_plugin_group>
 <plugin id="Gnumeric_PyFunc">
 	<information name="Python functions" description="Sample Python plugin providing some (useless) functions."/>
 	<loader type="python">
@@ -23,4 +22,3 @@
 		</service>
 	</services>
 </plugin>
-</gnumeric_plugin_group>

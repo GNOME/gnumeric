@@ -38,10 +38,9 @@ typedef GtkType (*PluginLoaderGetTypeCallback) (gpointer callback_data, ErrorInf
 void         plugin_loader_register_type (const gchar *id_str, GtkType loader_type);
 void         plugin_loader_register_id_only (const gchar *id_str, PluginLoaderGetTypeCallback callback,
                                              gpointer callback_data);
-GtkType      plugin_loader_get_by_id (const gchar *id_str, ErrorInfo **ret_error);
+GtkType      plugin_loader_get_type_by_id (const gchar *id_str, ErrorInfo **ret_error);
 gboolean     plugin_loader_is_available_by_id (const gchar *id_str);
 
-PluginInfo  *plugin_info_read (const gchar *dir_name, xmlNodePtr tree, ErrorInfo **ret_error);
 void         plugin_info_free (PluginInfo *pinfo);
 void         activate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error);
 void         deactivate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error);
@@ -49,28 +48,17 @@ gboolean     plugin_can_deactivate (PluginInfo *pinfo);
 void         plugin_load_service (PluginInfo *pinfo, PluginService *service, ErrorInfo **ret_error);
 void         plugin_unload_service (PluginInfo *pinfo, PluginService *service, ErrorInfo **ret_error);
 void         plugin_load_dependencies (PluginInfo *pinfo, ErrorInfo **ret_error);
-void         plugin_info_print (PluginInfo *pinfo);
-GList       *plugin_info_list_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error);
-GList       *plugin_info_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret_error);
-GList       *plugin_info_list_read_for_subdirs_of_dir_list (GList *dir_list, ErrorInfo **ret_error);
-GList       *plugin_info_list_read_for_all_dirs (ErrorInfo **ret_error);
 void         plugin_inc_dependants (PluginInfo *pinfo, PluginDependencyType dep_type);
 void         plugin_dec_dependants (PluginInfo *pinfo, PluginDependencyType dep_type);
 void         plugin_dependencies_inc_dependants (PluginInfo *pinfo, PluginDependencyType dep_type);
 void         plugin_dependencies_dec_dependants (PluginInfo *pinfo, PluginDependencyType dep_type);
 
-GList       *plugin_db_get_known_plugin_id_list (void);
-void         plugin_db_extend_known_plugin_id_list (GList *extra_ids);
-gboolean     plugin_db_is_known_plugin (const gchar *plugin_id);
-GList       *plugin_db_get_available_plugin_info_list (ErrorInfo **ret_error);
 PluginInfo  *plugin_db_get_plugin_info_by_plugin_id (const gchar *plugin_id);
-GList       *plugin_db_get_saved_active_plugin_id_list (void);
+GList       *plugin_db_get_known_plugin_id_list (void);
+GList       *plugin_db_get_available_plugin_info_list (void);
 void         plugin_db_update_saved_active_plugin_id_list (void);
-void         plugin_db_extend_saved_active_plugin_id_list (GList *extra_ids);
-gboolean     plugin_db_is_saved_active_plugin (const gchar *plugin_id);
 void         plugin_db_init (ErrorInfo **ret_error);
 void         plugin_db_shutdown (ErrorInfo **ret_error);
-void         plugin_db_activate_saved_active_plugins (ErrorInfo **ret_error);
 void         plugin_db_activate_plugin_list (GList *plugins, ErrorInfo **ret_error);
 void         plugin_db_deactivate_plugin_list (GList *plugins, ErrorInfo **ret_error);
 void         plugin_db_mark_plugin_for_deactivation (PluginInfo *pinfo, gboolean mark);

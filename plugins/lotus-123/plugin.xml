@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<gnumeric_plugin_group>
 <plugin id="Gnumeric_lotus">
 	<information name="Lotus 123" description="Imports Lotus 123 files"/>
 	<loader type="g_module">
@@ -16,4 +15,3 @@
 		</service>
 	</services>
 </plugin>
-</gnumeric_plugin_group>

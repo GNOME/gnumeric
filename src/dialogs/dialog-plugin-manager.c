@@ -210,13 +210,10 @@ cb_pm_button_activate_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_gu
 	if (plugin_loader_is_available_by_id (loader_type_str)) {
 		loader_available = TRUE;
 	} else {
-		ErrorInfo *ignored_error;
-		GList *plugin_list, *l;
+		GList *l;
 		PluginInfo *loader_pinfo = NULL;
 
-		plugin_list = plugin_db_get_available_plugin_info_list (&ignored_error);
-		error_info_free (ignored_error);
-		for (l = plugin_list; l != NULL; l = l->next) {
+		for (l = plugin_db_get_available_plugin_info_list (); l != NULL; l = l->next) {
 			loader_pinfo = (PluginInfo *) l->data;
 			if (!plugin_info_is_active (loader_pinfo) &&
 			    plugin_info_provides_loader_by_type_str (loader_pinfo, loader_type_str)) {
@@ -325,13 +322,10 @@ cb_pm_button_deactivate_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_
 static void
 cb_pm_button_activate_all_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
 {
-	ErrorInfo *error, *ignored_error;
-	GList *plugin_list;
+	ErrorInfo *error;
 
 	g_return_if_fail (pm_gui != NULL);
-	plugin_list = plugin_db_get_available_plugin_info_list (&ignored_error);
-	error_info_free (ignored_error);
-	plugin_db_activate_plugin_list (plugin_list, &error);
+	plugin_db_activate_plugin_list (plugin_db_get_available_plugin_info_list (), &error);
 	update_plugin_manager_view (pm_gui);
 	plugin_db_update_saved_active_plugin_id_list ();
 	if (error != NULL) {
@@ -346,13 +340,10 @@ cb_pm_button_activate_all_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
 static void
 cb_pm_button_deactivate_all_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
 {
-	ErrorInfo *error, *ignored_error;
-	GList *plugin_list;
+	ErrorInfo *error;
 
 	g_return_if_fail (pm_gui != NULL);
-	plugin_list = plugin_db_get_available_plugin_info_list (&ignored_error);
-	error_info_free (ignored_error);
-	plugin_db_deactivate_plugin_list (plugin_list, &error);
+	plugin_db_deactivate_plugin_list (plugin_db_get_available_plugin_info_list (), &error);
 	update_plugin_manager_view (pm_gui);
 	plugin_db_update_saved_active_plugin_id_list ();
 	if (error != NULL) {
@@ -475,13 +466,11 @@ plugin_compare_name (gconstpointer a, gconstpointer b)
 static void
 update_plugin_manager_view (PluginManagerGUI *pm_gui)
 {
-	GList *plugin_list, *sorted_plugin_list, *l;
-	ErrorInfo *ignored_error;
+	GList *sorted_plugin_list, *l;
 	gint n_active_plugins, n_inactive_plugins;
 
-	plugin_list = plugin_db_get_available_plugin_info_list (&ignored_error);
-	error_info_free (ignored_error);
-	sorted_plugin_list = g_list_sort (g_list_copy (plugin_list), &plugin_compare_name);
+	sorted_plugin_list = g_list_sort (g_list_copy (plugin_db_get_available_plugin_info_list ()),
+	                                  &plugin_compare_name);
 
 	gtk_clist_freeze (pm_gui->clist_active);
 	gtk_clist_freeze (pm_gui->clist_inactive);

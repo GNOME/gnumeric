@@ -43,6 +43,11 @@ Morten:
 Vlad Harchev
 	* Improve i18n support for XL import/export
 
+Zbigniew:
+	* Added support for plugin dependencies
+	* Made Excel a real plugin.
+	* Improved plugin system performance & scalability.
+
 --------------------------------------------------------------------------
 Gnumeric 0.64
 

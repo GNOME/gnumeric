@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<gnumeric_plugin_group>
 <plugin id="Gnumeric_numtheory">
 	<information name="Number Theory" description="Several basic utilities for prime numbers, pi, phi, sigma. It also hold some simple bitwise operations"/>
 	<loader type="g_module">
@@ -32,4 +31,3 @@
 		</service>
 	</services>
 </plugin>
-</gnumeric_plugin_group>

@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<gnumeric_plugin_group>
 <plugin id="Gnumeric_Excel">
 	<information name="Microsoft(R) Excel" description="Imports/Exports Microsoft(R) Excel files"/>
 	<loader type="g_module">
@@ -23,4 +22,3 @@
 	     -->
 	</services>
 </plugin>
-</gnumeric_plugin_group>

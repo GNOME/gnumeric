@@ -204,7 +204,7 @@ g_create_list (gpointer item1, ...)
  * @list: list of some items
  * @free_func: function freeing list item
  *
- * Clears a list, calling g_free() for each list item.
+ * Clears a list, calling @free_func for each list item.
  *
  */
 void

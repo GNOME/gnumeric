@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<gnumeric_plugin_group>
 <plugin id="Gnumeric_gb">
 	<information name="Gnome Basic"
 	 description="Enables Gnome Basic support"/>
@@ -13,4 +12,3 @@
 		<service type="general"></service>
 	</services>
 </plugin>
-</gnumeric_plugin_group>

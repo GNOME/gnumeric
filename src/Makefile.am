@@ -137,6 +137,7 @@ GNUMERIC_BASE_SOURCES =				\
 	main.h					\
 	mathfunc.c				\
 	mathfunc.h				\
+	module-plugin-defs.h			\
 	mstyle.c				\
 	mstyle.h				\
 	number-match.c				\
@@ -147,17 +148,16 @@ GNUMERIC_BASE_SOURCES =				\
 	parse-util.h				\
 	pattern.h				\
 	pattern.c				\
-	plugin.c				\
-	plugin.h				\
-	module-plugin-defs.h			\
-	plugin-service.c			\
-	plugin-service.h			\
-	plugin-loader.c				\
-	plugin-loader.h				\
 	plugin-loader-module.c			\
 	plugin-loader-module.h			\
+	plugin-loader.c				\
+	plugin-loader.h				\
+	plugin-service.c			\
+	plugin-service.h			\
 	plugin-util.c				\
 	plugin-util.h				\
+	plugin.c				\
+	plugin.h				\
 	portability.h				\
 	position.c				\
 	position.h				\

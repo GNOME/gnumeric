@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<gnumeric_plugin_group>
 <plugin id="Gnumeric_GnomeGlossary">
 	<information name="Gnome Glossary" description="It provides support for saving Gnome Glossary in .po files."/>
 	<loader type="python">
@@ -11,4 +10,3 @@
 		</service>
 	</services>
 </plugin>
-</gnumeric_plugin_group>

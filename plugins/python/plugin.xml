@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<gnumeric_plugin_group>
 <plugin id="Gnumeric_python">
 	<information name="Python Plugin" description="This plugin provides Python language support in Gnumeric"/>
 	<loader type="g_module">
@@ -9,4 +8,3 @@
 		<service type="general"></service>
 	</services>
 </plugin>
-</gnumeric_plugin_group>
