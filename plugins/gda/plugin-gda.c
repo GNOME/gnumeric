@@ -37,7 +37,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 static GdaClient* connection_pool = NULL;
 
 static Value *
-display_recordset (GdaRecordset *recset)
+display_recordset (GdaDataModel *recset)
 {
 	Value* array = NULL;
 	gint   col;
@@ -50,7 +50,7 @@ display_recordset (GdaRecordset *recset)
 	fieldcount = gda_data_model_get_n_columns (GDA_DATA_MODEL (recset));
 	rowcount = gda_data_model_get_n_rows (GDA_DATA_MODEL (recset));
 
-	/* convert the GdaRecordset in an array */
+	/* convert the GdaDataModel in an array */
 	if (rowcount > 0) {
 		array = value_new_array_empty (fieldcount, rowcount);
 		for (row = 0; row < rowcount; row++) {
@@ -102,7 +102,7 @@ gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
 	gchar*         password;
 	gchar*         sql;
 	GdaConnection* cnc;
-	GdaRecordset*  recset;
+	GdaDataModel*  recset;
 	GList*         recset_list;
 	GdaCommand*    cmd;
 
@@ -130,8 +130,8 @@ gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
 	recset_list = gda_connection_execute_command (cnc, cmd, NULL);
 	gda_command_free (cmd);
 	if (recset_list) {
-		recset = (GdaRecordset *) recset_list->data;
-		if (!GDA_IS_RECORDSET (recset))
+		recset = (GdaDataModel *) recset_list->data;
+		if (!GDA_IS_DATA_MODEL (recset))
 			ret = value_new_error (ei->pos, _("Error: no recordsets were returned"));
 		else
 			ret = display_recordset (recset);
