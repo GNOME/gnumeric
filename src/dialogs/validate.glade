@@ -13,7 +13,6 @@
   <output_main_file>False</output_main_file>
   <output_support_files>False</output_support_files>
   <output_build_files>False</output_build_files>
-  <output_translatable_strings>False</output_translatable_strings>
 </project>
 
 <widget>
@@ -178,7 +177,7 @@ Custom
 
 	      <widget>
 		<class>GtkLabel</class>
-		<name>label10</name>
+		<name>set_operator_label</name>
 		<label>_Condition :</label>
 		<justify>GTK_JUSTIFY_CENTER</justify>
 		<wrap>False</wrap>
@@ -293,8 +292,9 @@ val &lt;=bound                 (less than or equal to)
 	      <widget>
 		<class>GtkCheckButton</class>
 		<name>set_ignore_blank</name>
+		<tooltip>A blank cell will be seen as valid</tooltip>
 		<can_focus>True</can_focus>
-		<label>Ignore blank</label>
+		<label>Ignore _blank</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<child>
@@ -307,8 +307,9 @@ val &lt;=bound                 (less than or equal to)
 	      <widget>
 		<class>GtkCheckButton</class>
 		<name>set_in_dropdown</name>
+		<tooltip>Give the cell a dropdown combo with all possible valid values</tooltip>
 		<can_focus>True</can_focus>
-		<label>_In-cell dropdown</label>
+		<label>In-cell _dropdown</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<child>
@@ -324,7 +325,7 @@ val &lt;=bound                 (less than or equal to)
 	    <class>GtkCheckButton</class>
 	    <name>set_apply_shared</name>
 	    <can_focus>True</can_focus>
-	    <label>Apply these _changes to other cells with the same settings</label>
+	    <label>Apply these changes to _other cells with the same settings</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -360,7 +361,7 @@ val &lt;=bound                 (less than or equal to)
 	  <class>GtkCheckButton</class>
 	  <name>input_flag</name>
 	  <can_focus>True</can_focus>
-	  <label>_Show input message when cell is selected</label>
+	  <label>Show input _message when cell is selected</label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
 	  <child>
@@ -458,7 +459,7 @@ val &lt;=bound                 (less than or equal to)
 	      <class>GtkText</class>
 	      <name>input_msg</name>
 	      <can_focus>True</can_focus>
-	      <editable>False</editable>
+	      <editable>True</editable>
 	      <text></text>
 	    </widget>
 	  </widget>
@@ -489,7 +490,7 @@ val &lt;=bound                 (less than or equal to)
 	  <class>GtkCheckButton</class>
 	  <name>error_flag</name>
 	  <can_focus>True</can_focus>
-	  <label>_Show error alert after invalid data is entered</label>
+	  <label>S_how error alert after invalid data is entered</label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
 	  <child>
@@ -525,25 +526,6 @@ val &lt;=bound                 (less than or equal to)
 	  </child>
 
 	  <widget>
-	    <class>GnomePixmap</class>
-	    <name>error_image</name>
-	    <child>
-	      <left_attach>0</left_attach>
-	      <right_attach>1</right_attach>
-	      <top_attach>3</top_attach>
-	      <bottom_attach>4</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>True</xexpand>
-	      <yexpand>True</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>True</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
 	    <class>GtkScrolledWindow</class>
 	    <name>scrolledwindow2</name>
 	    <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
@@ -569,7 +551,7 @@ val &lt;=bound                 (less than or equal to)
 	      <class>GtkText</class>
 	      <name>error_msg</name>
 	      <can_focus>True</can_focus>
-	      <editable>False</editable>
+	      <editable>True</editable>
 	      <text></text>
 	    </widget>
 	  </widget>
@@ -577,7 +559,7 @@ val &lt;=bound                 (less than or equal to)
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label6</name>
-	    <label>_Error message :</label>
+	    <label>Messa_ge :</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -626,7 +608,7 @@ val &lt;=bound                 (less than or equal to)
 
 	  <widget>
 	    <class>GtkOptionMenu</class>
-	    <name>error_style</name>
+	    <name>error_action</name>
 	    <can_focus>True</can_focus>
 	    <items>Stop
 Warning
@@ -652,14 +634,13 @@ Information
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label7</name>
-	    <label>St_yle :</label>
+	    <label>Ac_tion :</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
-	    <focus_target>error_style</focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -679,7 +660,7 @@ Information
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label8</name>
-	    <label>_Title :</label>
+	    <label>Tit_le :</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -700,6 +681,25 @@ Information
 	      <yshrink>False</yshrink>
 	      <xfill>True</xfill>
 	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GnomePixmap</class>
+	    <name>error_image</name>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>3</top_attach>
+	      <bottom_attach>4</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>True</xexpand>
+	      <yexpand>True</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>True</yfill>
 	    </child>
 	  </widget>
 	</widget>

@@ -1,3 +1,18 @@
+2001-03-18  Almer S. Tigelaar  <almer@gnome.org>
+
+	* validate.glade : Polish.
+	
+	* dialog-validate.c :
+	(cb_set_constraint_type_deactive) : Also de-activate labels and clean-up a bit.
+	(cb_input_flag_toggled) : clean-up.
+	(cb_error_flag_toggled) : idem.
+	(setup_widgets) : Initialize some new widgets added to validate.glade
+	(connect_signals) : Add signal for error_action.
+	(cb_error_action_deactivate) : New, the signal handler for error_action,
+	will load a pixmap representating the action to be taken.
+	(dialog_validate) : Initialize the error_action pixmap by calling the
+	cb_error_action_deactivate callback.
+
 2001-03-17  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.64
@@ -30,7 +45,7 @@
 
 	* validate.glade : Improve.
 
-	* dialog-validate.glade : Implement.
+	* dialog-validate.c : Implement.
 
 	* dialogs.h : Add dialog-validate entry point here.
 

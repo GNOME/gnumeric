@@ -31,8 +31,9 @@ typedef struct {
 	Sheet              *sheet;
 	
 	GnomeDialog     *dialog;
-	
+
 	GtkOptionMenu   *set_constraint_type;
+	GtkLabel        *set_operator_label;
 	GtkOptionMenu   *set_operator;
 	GtkLabel        *set_bound1_name;
 	GtkLabel        *set_bound2_name;
@@ -47,7 +48,7 @@ typedef struct {
 	GtkText         *input_msg;
 	
 	GtkToggleButton *error_flag;
-	GtkOptionMenu   *error_style;
+	GtkOptionMenu   *error_action;
 	GtkEntry        *error_title;
 	GtkText         *error_msg;
 	GnomePixmap     *error_image;
@@ -57,21 +58,18 @@ typedef struct {
 static void
 cb_set_constraint_type_deactivate (GtkMenuShell *shell, ValidateState *state)
 {
-	if (gnumeric_option_menu_get_selected_index (state->set_constraint_type) == 0) {
-		gtk_widget_set_sensitive (GTK_WIDGET (state->set_operator), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->set_bound1_entry), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->set_bound2_entry), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->set_apply_shared), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->set_ignore_blank), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->set_in_dropdown), FALSE);
-	} else {
-		gtk_widget_set_sensitive (GTK_WIDGET (state->set_operator), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->set_bound1_entry), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->set_bound2_entry), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->set_apply_shared), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->set_ignore_blank), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->set_in_dropdown), TRUE);
-	}
+	gboolean flag = (gnumeric_option_menu_get_selected_index (state->set_constraint_type) != 0);
+	
+	gtk_widget_set_sensitive (GTK_WIDGET (state->set_operator), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->set_bound1_entry), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->set_bound2_entry), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->set_apply_shared), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->set_ignore_blank), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->set_in_dropdown), flag);
+
+	gtk_widget_set_sensitive (GTK_WIDGET (state->set_operator_label), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->set_bound1_name), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->set_bound2_name), flag);
 }
 
 static void
@@ -109,31 +107,47 @@ cb_set_operator_deactivate (GtkMenuShell *shell, ValidateState *state)
 }
 
 static void
+cb_error_action_deactivate (GtkMenuShell *shell, ValidateState *state)
+{
+	int   index = gnumeric_option_menu_get_selected_index (state->error_action);
+	char *s     = NULL;
+
+	switch (index) {
+	case 0 :
+		s = gnome_pixmap_file("gnome-error.png");
+		break;
+	case 1 :
+		s = gnome_pixmap_file("gnome-warning.png");
+		break;
+	case 2 :
+		s = gnome_pixmap_file("gnome-info.png");
+		break;
+	}
+	
+	if (s != NULL) {
+		gnome_pixmap_load_file (state->error_image, s);
+		g_free (s);
+	}
+}
+
+static void
 cb_input_flag_toggled (GtkToggleButton *button, ValidateState *state)
 {
-	if (gtk_toggle_button_get_active (button)) {
-		gtk_widget_set_sensitive (GTK_WIDGET (state->input_title), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->input_msg), TRUE);
-	} else {
-		gtk_widget_set_sensitive (GTK_WIDGET (state->input_title), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->input_msg), FALSE);
-	}
+	gboolean flag = gtk_toggle_button_get_active (button);
+	
+	gtk_widget_set_sensitive (GTK_WIDGET (state->input_title), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->input_msg), flag);
 }
 
 static void
 cb_error_flag_toggled (GtkToggleButton *button, ValidateState *state)
 {
-	if (gtk_toggle_button_get_active (button)) {
-		gtk_widget_set_sensitive (GTK_WIDGET (state->error_style), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->error_title), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->error_msg), TRUE);
-	} else {
-		gtk_widget_set_sensitive (GTK_WIDGET (state->error_style), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->error_title), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->error_msg), FALSE);
-	}
+	gboolean flag = gtk_toggle_button_get_active (button);
+	
+	gtk_widget_set_sensitive (GTK_WIDGET (state->error_action), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->error_title), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->error_msg), flag);
 }
-
 
 static void
 setup_widgets (ValidateState *state, GladeXML *gui)
@@ -142,8 +156,9 @@ setup_widgets (ValidateState *state, GladeXML *gui)
 	g_return_if_fail (gui != NULL);
 
 	state->dialog              = GNOME_DIALOG     (glade_xml_get_widget (gui, "dialog"));
-	
+
 	state->set_constraint_type = GTK_OPTION_MENU   (glade_xml_get_widget (gui, "set_constraint_type"));
+	state->set_operator_label  = GTK_LABEL         (glade_xml_get_widget (gui, "set_operator_label"));
 	state->set_operator        = GTK_OPTION_MENU   (glade_xml_get_widget (gui, "set_operator"));
 	state->set_bound1_name     = GTK_LABEL         (glade_xml_get_widget (gui, "set_bound1_name"));
 	state->set_bound2_name     = GTK_LABEL         (glade_xml_get_widget (gui, "set_bound2_name"));
@@ -164,7 +179,7 @@ setup_widgets (ValidateState *state, GladeXML *gui)
 	gnome_dialog_editable_enters (state->dialog, GTK_EDITABLE (state->input_msg));
 
 	state->error_flag          = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "error_flag"));
-	state->error_style         = GTK_OPTION_MENU   (glade_xml_get_widget (gui, "error_style"));
+	state->error_action        = GTK_OPTION_MENU   (glade_xml_get_widget (gui, "error_action"));
 	state->error_title         = GTK_ENTRY         (glade_xml_get_widget (gui, "error_title"));
 	state->error_msg           = GTK_TEXT          (glade_xml_get_widget (gui, "error_msg"));
 	state->error_image         = GNOME_PIXMAP      (glade_xml_get_widget (gui, "error_image"));
@@ -180,6 +195,8 @@ connect_signals (ValidateState *state)
 			    GTK_SIGNAL_FUNC (cb_set_constraint_type_deactivate), state);
 	gtk_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->set_operator)), "deactivate",
 			    GTK_SIGNAL_FUNC (cb_set_operator_deactivate), state);
+	gtk_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->error_action)), "deactivate",
+			    GTK_SIGNAL_FUNC (cb_error_action_deactivate), state);
 
 	gtk_signal_connect (GTK_OBJECT (state->input_flag), "toggled",
 			    GTK_SIGNAL_FUNC (cb_input_flag_toggled), state);
@@ -210,6 +227,7 @@ dialog_validate (WorkbookControlGUI *wbcg, Sheet *sheet)
 	/* Initialize */
 	cb_set_constraint_type_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->set_constraint_type)), state);
 	cb_set_operator_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->set_operator)), state);
+	cb_error_action_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->error_action)), state);
 	cb_input_flag_toggled (state->input_flag, state);
 	cb_error_flag_toggled (state->error_flag, state);
 	
