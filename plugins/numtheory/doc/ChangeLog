@@ -1,3 +1,7 @@
+2002-03-01  Kevin Breit  <mrproper@ximian.com>
+
+	* C/number_theory/bitand.xml: Added this file as well as its title.  The num theory stuff is fully documented!
+
 2002-02-23  Kevin Breit  <mrproper@ximian.com>
 
 	* C/number_theory/*.xml: Added a whole bunch of files.  I seem to be only missing one more function to write about.  Almost done, so the fun can start!
