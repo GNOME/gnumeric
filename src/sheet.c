@@ -2732,8 +2732,10 @@ sheet_set_selection (Sheet *sheet, int base_col, int base_row,
 		     SheetSelection const *ss)
 {
 	GList *l = sheet->sheet_views;
+
 	for (; l != NULL; l = l->next) {
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
+
 		gnumeric_sheet_set_selection (gsheet, base_col, base_row, ss);
 	}
 }
