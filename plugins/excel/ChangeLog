@@ -1,3 +1,7 @@
+1999-09-17  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* ole.c (main, do_draw, dump_escher): dump raw data.
+
 1999-09-17  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-escher.c (ms_escher_read_ClientAnchor) : Yahoo!  figured out

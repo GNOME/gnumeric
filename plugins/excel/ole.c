@@ -271,7 +271,7 @@ biff_to_flat_data (const BiffQuery *q, guint8 **data, guint32 *length)
 /* ---------------------------- End cut ---------------------------- */
 
 static void
-dump_escher (guint8 *data, guint32 len, int level)
+dump_escher (guint8 *data, guint32 len, gboolean raw, int level)
 {
 	ESH_HEADER *h = esh_header_new (data, len);
 	while (esh_header_next(h)) {
@@ -281,10 +281,17 @@ dump_escher (guint8 *data, guint32 len, int level)
 			h->type, get_escher_opcode_name (h->type), h->instance,
 			h->ver, h->length);
 		if (h->ver == 0xf) /* A container */
-			dump_escher (h->data+ESH_HEADER_LEN, h->length-ESH_HEADER_LEN, level+1);
-		if (h->type == 0xf007) { /* Magic hey */
+			dump_escher (h->data+ESH_HEADER_LEN,
+				     h->length-ESH_HEADER_LEN,
+				     raw, level+1);
+		else if (h->type == 0xf007) { /* Magic hey */
 			dump_escher (h->data + ESH_HEADER_LEN + 36,
-				     h->length - ESH_HEADER_LEN - 36, level + 1);
+				     h->length - ESH_HEADER_LEN - 36,
+				     raw, level + 1);
+		} else if (raw) {
+			int l = MIN (h->length - ESH_HEADER_LEN,
+				     len + data - h->data);
+			dump (h->data + ESH_HEADER_LEN, l);
 		}
 	}
 	esh_header_destroy (h); 
@@ -420,7 +427,7 @@ do_biff_raw (MsOle *ole)
 }
 
 static void
-do_draw (MsOle *ole)
+do_draw (MsOle *ole, gboolean raw)
 {
 	char *ptr;
 	MsOleDirectory *dir;
@@ -439,7 +446,7 @@ do_draw (MsOle *ole)
 				guint skip = biff_to_flat_data (q, &data, &len) - 1;
 				printf("Drawing: '%s' - data %p, length 0x%x\n", get_biff_opcode_name(q->opcode),
 				       data, len);
-				dump_escher (data, len, 0);
+				dump_escher (data, len, raw, 0);
 				while (skip > 0 && ms_biff_query_next(q)) skip--;
 			}
 		}
@@ -762,7 +769,9 @@ int main (int argc, char **argv)
 		else if (g_strcasecmp(ptr, "biffraw")==0)
 			do_biff_raw (ole);
 		else if (g_strcasecmp(ptr, "draw")==0) /* Assume its in a BIFF file */
-			do_draw (ole);
+			do_draw (ole, FALSE);
+		else if (g_strcasecmp(ptr, "drawraw")==0) /* Assume its in a BIFF file */
+			do_draw (ole, TRUE);
 		else if (g_strcasecmp(ptr, "get")==0)
 			do_get (ole);
 		else if (g_strcasecmp(ptr, "put")==0)

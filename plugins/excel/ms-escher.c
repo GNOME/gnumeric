@@ -599,6 +599,8 @@ ms_escher_read_ClientAnchor (MSEscherState * state,
 	guint8 const * data = h->data + common_header_len;
 	double const zoom = sheet->last_zoom_factor_used;
 
+	/* Warning this is host specific and only works for Excel */
+
 	/* the word at offset 0 always seems to be 2 ?? */
 
 	int i;
