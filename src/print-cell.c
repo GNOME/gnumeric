@@ -114,7 +114,7 @@ g_unichar_to_utf8 (gint c, gchar *outbuf)
 int
 print_show_iso8859_1 (GnomePrintContext *pc, char const *text)
 {
-	gchar *p, *utf, *udyn, ubuf[128];
+	gchar *p, *utf, *udyn, ubuf[4096];
 	gint len, ret, i;
 
 	g_return_val_if_fail (pc && text, -1);
