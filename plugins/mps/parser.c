@@ -463,8 +463,9 @@ mps_add_bound (MpsInputContext *ctxt, MpsBoundType type, gchar *bound_name,
 	if (info == NULL)
 	        return FALSE;  /* Column is not defined */
 
-	bound            = g_new (MpsBound, 1);
-	bound->name      = g_new (gchar, strlen (bound_name) + 13);
+	bound       = g_new (MpsBound, 1);
+	bound->name = g_new (gchar,
+			     4 * sizeof (gint) + strlen (bound_name) + 11);
 	sprintf(bound->name, "Bound #%d: %s", ctxt->n_bounds + 1, bound_name);
 	bound->col_index = info->index;
 	bound->value     = atof (value_str);

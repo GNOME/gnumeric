@@ -1,3 +1,8 @@
+2002-08-16  Jon K Hellan  <hellan@acm.org>
+
+	* parser.c (mps_add_bound): Allocate sufficient space in
+	bound->name for all possible values of counter.
+
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.7
