@@ -150,15 +150,14 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 				format++;
 			break;
 
-		case '\\':
-			if (*(format + 1)) {
+		case '\\': {
+			char buf[3];
+			if (format[1] != '\0')
 				format++;
-				g_string_append_c (regexp, *format);
-			}
+			char_to_re (buf, *format);
+			g_string_append (regexp, buf);
 			break;
-
-			g_string_append_c (regexp, *format);
-			break;
+		}
 
 		case '[' :
 			/* Currency symbol */

@@ -1089,7 +1089,7 @@ ms_excel_get_xf (ExcelSheet *esheet, int xfidx)
 
 	g_return_val_if_fail (p != NULL, NULL);
 	if (0 > xfidx || xfidx >= (int)p->len) {
-		g_warning ("XL: Xf index 0x%x is not in the range[0..0x%x)", xfidx, p->len);
+		g_warning ("XL: Xf index 0x%X is not in the range[0..0x%X)", xfidx, p->len);
 		return NULL;
 	}
 	xf = g_ptr_array_index (p, xfidx);
@@ -3855,21 +3855,16 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 			const guint8 *ptr = q->data;
 			Value *v;
 
-	/*		printf ("MULRK\n");
-			ms_ole_dump (q->data, q->length); */
-
 			row = MS_OLE_GET_GUINT16 (q->data);
 			col = MS_OLE_GET_GUINT16 (q->data + 2);
 			ptr += 4;
 			lastcol = MS_OLE_GET_GUINT16 (q->data + q->length - 2);
-	/*		g_assert ((lastcol-firstcol) * 6 == q->length - 6 */
-			g_assert (lastcol>=col);
-			while (col<=lastcol) {
+
+			for (; col <= lastcol ; col++) {
 				/* 2byte XF, 4 byte RK */
 				v = biff_get_rk (ptr + 2);
-				ms_excel_sheet_insert_val (esheet, MS_OLE_GET_GUINT16 (ptr),
-							   col, row, v);
-				col++;
+				ms_excel_sheet_insert_val (esheet,
+					MS_OLE_GET_GUINT16 (ptr), col, row, v);
 				ptr += 6;
 			}
 			break;

@@ -2363,6 +2363,12 @@ chart_parse_expr  (MSContainer *container, guint8 const *data, int length)
 	return NULL;
 }
 
+static StyleFormat *
+chart_get_fmt (MSContainer const *container, guint16 indx)
+{
+	return ms_container_get_fmt (container->parent_container, indx);
+}
+
 gboolean
 ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObject *graph)
 {
@@ -2370,7 +2376,8 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObje
 		chart_realize_obj,
 		chart_create_obj,
 		chart_parse_expr,
-		NULL, NULL
+		NULL,
+		chart_get_fmt
 	};
 	int const num_handler = sizeof(chart_biff_handler) /
 		sizeof(ExcelChartHandler *);

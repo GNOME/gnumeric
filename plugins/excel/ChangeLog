@@ -1,5 +1,10 @@
 2001-10-29  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-chart.c (chart_get_fmt) : new function to chain to parent.
+	(ms_excel_chart) : use it here.
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
 	* Release 0.73
 
 2001-10-29  Jody Goldberg <jgoldberg@home.com>

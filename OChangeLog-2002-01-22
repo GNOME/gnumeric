@@ -1,5 +1,10 @@
 2001-10-29  Jody Goldberg <jgoldberg@home.com>
 
+	* src/number-match.c (format_create_regexp) : escape escaped
+	  characters in regexps.
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
 	* configure.in : fix python test
 
 2001-10-29  Morten Welinder  <terra@diku.dk>
