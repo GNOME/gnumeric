@@ -211,9 +211,79 @@
 			_descr="Modify the formatting of the selected cells"
 			accel="&lt;Control&gt;1"/>
 
-			<submenu _label="C_olumn"/>
-			<submenu _label="_Row"/>
-			<submenu _label="_Sheet"/>
+			<submenu _label="C_olumn">
+				<menuitem name="AutoFit" verb="ColumnAutoSize"
+				_label="_Auto fit selection"
+				_descr="Ensure columns are just wide enough to display content" />
+
+				<menuitem name="Size" verb="ColumnSize"
+				_label="_Width..."
+				_descr="Change width of the selected columns" />
+
+				<menuitem name="Hide" verb="ColumnHide"
+				_label="_Hide"
+				_descr="Hide the selected columns" />
+
+				<menuitem name="Unhide" verb="ColumnUnhide"
+				_label="_Unhide"
+				_descr="Make any hidden columns in the selection visible" />
+
+				<menuitem name="Default" verb="ColumnDefaultSize"
+				_label="_Standard Width"
+				_descr="Change the default column width" />
+			</submenu>
+
+			<submenu _label="_Row">
+				<menuitem name="AutoFit" verb="RowAutoSize"
+				_label="_Auto fit selection"
+				_descr="Ensure rows are just tall enough to display content" />
+
+				<menuitem name="Size" verb="RowSize"
+				_label="_Height..."
+				_descr="Change height of the selected rows" />
+
+				<menuitem name="Hide" verb="RowHide"
+				_label="_Hide"
+				_descr="Hide the selected rows" />
+
+				<menuitem name="Unhide" verb="RowUnhide"
+				_label="_Unhide"
+				_descr="Make any hidden rows in the selection visible" />
+
+				<menuitem name="Default" verb="RowDefaultSize"
+				_label="_Standard Height"
+				_descr="Change the default row height" />
+			</submenu>
+
+			<submenu _label="_Sheet">
+				<menuitem name="SheetChangeName" verb=""
+				_label="_Change Name"
+				_descr="Edit the name of the current sheet" />
+
+				<menuitem name="SheetReorder" verb=""
+				_label="Re-_Order Sheets"
+				_descr="Change the order the sheets are displayed" />
+
+				<menuitem name="SheetDisplayFormulas" verb="" type="toggle"
+				_label="Display _Formulas"
+				_descr="Display the value of a formula or the formula itself" />
+
+				<menuitem name="SheetHideZeros" verb="" type="toggle"
+				_label="Hide _Zeros"
+				_descr="Toggle whether or not to display zeros as blanks" />
+
+				<menuitem name="SheetHideGridlines" verb="" type="toggle"
+				_label="Hide _Gridlines"
+				_descr="Toggle whether or not to display gridlines" />
+
+				<menuitem name="SheetHideColHeader" verb="" type="toggle"
+				_label="Hide _Column Headers"
+				_descr="Toggle whether or not to display column headers" />
+
+				<menuitem name="SheetHideRowHeader" verb="" type="toggle"
+				_label="Hide _Row Headers"
+				_descr="Toggle whether or not to display row headers" />
+			</submenu>
 
 			<menuitem name="FormatAuto" verb=""
 			_label="_Autoformat..."
@@ -229,7 +299,7 @@
 
 			<menuitem name="ToolsPlugins" verb=""
 			_label="_Plug-ins..."
-			_descr="Manage available plugin modules."/>
+			_descr="Manage available plugin modules"/>
 
 			<menuitem/>
 

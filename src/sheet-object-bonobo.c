@@ -326,7 +326,7 @@ sheet_object_bonobo_new_from_oid (Sheet *sheet, char *obj_id)
 
 		gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR, msg);
 		g_free (msg);
-		return NULL;
+		return;
 	}
 
 	client_site = bonobo_client_site_new (sheet->workbook->priv->bonobo_container);

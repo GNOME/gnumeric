@@ -29,6 +29,7 @@
 #include "workbook-edit.h"
 #include "workbook-private.h" /* FIXME Ick */
 #include "sheet-object.h"
+#include "sheet-object-container.h"
 #include "selection.h"
 #include "graph-series.h"
 #include "idl/gnumeric-graphs.h"

@@ -281,12 +281,6 @@ gnumeric_bonobo_LDADD =					\
 	$(PSPELL_LIBS)					\
 	$(INTLLIBS)
 
-wc:
-	wc -l $(gnumeric_SOURCES)
-
-wc_bonobo:
-	wc -l $(gnumeric_SOURCES) $(GNUMERIC_BONOBO_SOURCES)
-
 dist-hook:
 	-mkdir $(distdir)/pixmaps
 	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps

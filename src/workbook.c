@@ -50,6 +50,7 @@
 #include "sheet-object-container.h"
 #include "sheet-object-bonobo.h"
 #include "embeddable-grid.h"
+#include "sheet-object-container.h"
 #endif
 
 #include <ctype.h>
@@ -1112,7 +1113,6 @@ sort_descend_cmd (GtkWidget *widget, Workbook *wb)
 static void
 insert_object_cmd (GtkWidget *widget, Workbook *wb)
 {
-	SheetObject *so;
 	char  *obj_id;
 
 	obj_id = bonobo_selector_select_id (
@@ -1121,9 +1121,10 @@ insert_object_cmd (GtkWidget *widget, Workbook *wb)
 	if (obj_id == NULL)
 		return;
 
-	so = sheet_object_bonobo_new_from_oid (wb->current_sheet, obj_id);
-	if (so != NULL)
-		sheet_mode_create_object (so);
+	/* FIXME : This is different.  I don't see
+	 *  a sheetobject in there.  Why ?
+	 */
+	sheet_object_bonobo_new_from_oid (wb->current_sheet, obj_id);
 }
 #endif
 
@@ -1178,6 +1179,43 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("InsertObject", insert_object_cmd),
 	BONOBO_UI_VERB ("InsertComment", workbook_edit_comment),
 	
+	BONOBO_UI_VERB ("ColumnAutoSize",
+		workbook_cmd_format_column_auto_fit),
+	BONOBO_UI_VERB ("ColumnSize",
+		workbook_cmd_format_column_width),
+	BONOBO_UI_VERB ("ColumnHide",
+		workbook_cmd_format_column_hide),
+	BONOBO_UI_VERB ("ColumnUnhide",
+		workbook_cmd_format_column_unhide),
+	BONOBO_UI_VERB ("ColumnDefaultSize",
+		workbook_cmd_format_column_std_width),
+
+	BONOBO_UI_VERB ("RowAutoSize",
+		workbook_cmd_format_row_auto_fit),
+	BONOBO_UI_VERB ("RowSize",
+		workbook_cmd_format_row_height),
+	BONOBO_UI_VERB ("RowHide",
+		workbook_cmd_format_row_hide),
+	BONOBO_UI_VERB ("RowUnhide",
+		workbook_cmd_format_row_unhide),
+	BONOBO_UI_VERB ("RowDefaultSize",
+		workbook_cmd_format_row_std_height),
+
+	BONOBO_UI_VERB ("SheetChangeName",
+		workbook_cmd_format_sheet_change_name),
+	BONOBO_UI_VERB ("SheetReorder",
+		sheet_order_cmd),
+	BONOBO_UI_VERB ("SheetDisplayFormulas",
+		cb_sheet_pref_display_formulas),
+	BONOBO_UI_VERB ("SheetHideZeros",
+		cb_sheet_pref_hide_zeros),
+	BONOBO_UI_VERB ("SheetHideGridlines",
+		cb_sheet_pref_hide_grid_lines),
+	BONOBO_UI_VERB ("SheetHideColHeader",
+		cb_sheet_pref_hide_col_header),
+	BONOBO_UI_VERB ("SheetHideRowHeader",
+		cb_sheet_pref_hide_row_header),
+
 	BONOBO_UI_VERB ("FormatCells", format_cells_cmd),
 	BONOBO_UI_VERB ("FormatAuto", autoformat_cmd),
 	BONOBO_UI_VERB ("FormatWorkbook", workbook_attr_cmd),

@@ -260,7 +260,7 @@ sheet_object_container_new_file (Sheet *sheet, const char *fname)
 	const char *mime_goad_id;
 	char *msg = NULL;
 
-	g_return_if_fail (sheet != NULL);
+	g_return_val_if_fail (sheet != NULL, NULL);
 
 	if (!(mime_type = gnome_mime_type (fname))) {
 		msg = g_strdup_printf ("unknown mime type for '%s'", (char *)fname);
