@@ -565,7 +565,7 @@ apply_font_format (Style *style, Sheet *sheet, MStyleElement *styles)
 		gnome_font->fontmap_entry->italic);*/
 
 	e.type = MSTYLE_FONT_NAME;
-	e.u.font.name = g_strdup (family_name);
+	e.u.font.name = string_get (family_name);
 	sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
 
 	e.type = MSTYLE_FONT_SIZE;

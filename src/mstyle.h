@@ -9,6 +9,7 @@ typedef struct _MStyleElement     MStyleElement;
 typedef enum   _MStyleElementType MStyleElementType;
 
 #include "sheet.h"
+#include "str.h"
 
 enum _MStyleElementType {
 	/* Delimiter */ 
@@ -81,7 +82,7 @@ struct _MStyleElement {
 		guint32          pattern;
 
 		union {
-			gchar    *name;
+			String   *name;
 			gboolean  bold;
 			gboolean  italic;
 			gdouble   size;
@@ -99,6 +100,8 @@ struct _MStyleElement {
 MStyleElement  mstyle_element_copy     (MStyleElement e);
 void           mstyle_element_destroy  (MStyleElement e);
 gboolean       mstyle_elements_equal   (const MStyleElement *a, const MStyleElement *b);
+void           mstyle_elements_compare (MStyleElement *a, const MStyleElement *b);
+void           mstyle_elements_destroy (MStyleElement *e);
 
 MStyle     *mstyle_new         (const gchar *name);
 MStyle     *mstyle_new_elem    (const gchar *name, MStyleElement e);
@@ -120,7 +123,7 @@ char       *mstyle_to_string   (const MStyle *st); /* Debug only ! leaks like a 
 void        mstyle_dump        (const MStyle *st);
 
 void        mstyle_do_merge    (const GList *list, MStyleElementType max,
-				MStyleElement *mash, gboolean blank_uniq);
+				MStyleElement *mash);
 Style      *render_merge       (const GList *mstyles);
 Style      *render_merge_blank (const GList *mstyles);
 

@@ -960,7 +960,7 @@ ms_excel_set_cell_font (ExcelSheet *sheet, Cell *cell, BiffXFData const *xf)
 		return NULL;
 
 	e.type = MSTYLE_FONT_NAME;
-	e.u.font.name = g_strdup (fd->fontname);
+	e.u.font.name = string_get (fd->fontname);
 	style = mstyle_new_elem (NULL, e);
 
 	e.type = MSTYLE_FONT_SIZE;

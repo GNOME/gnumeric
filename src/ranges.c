@@ -562,26 +562,27 @@ range_split_ranges (const Range *hard, const Range *soft)
  * Return value: new list of fully overlapping ranges.
  **/
 GList *
-range_fragment (GList *ranges)
+range_fragment (const GList *ra)
 {
+	GList *ranges = NULL;
 	GList *a; /* Order n*n: ugly */
 
-	for (a = ranges; a; a = g_list_next (a)) {
+	for (a = (GList *)ra; a; a = g_list_next (a)) {
 		GList *b;
 		b = g_list_next (a);
 		while (b) {
 			GList *next = g_list_next (b);
 
-			if (range_equal   (a->data, b->data))
-				ranges = g_list_remove (ranges, b->data);
-			else if (range_overlap (a->data, b->data)) {
+			if (!range_equal (a->data, b->data)
+			    & range_overlap (a->data, b->data)) {
 				GList *split;
 
 				split  = range_split_ranges (a->data, b->data);
 				ranges = g_list_concat (ranges, split);
 
 				split  = range_split_ranges (b->data, a->data);
-				split  = g_list_remove (split, split->data);
+				if (split)
+					split  = g_list_remove (split, split->data);
 				ranges = g_list_concat (ranges, split);
 			}
 			b = next;

@@ -122,6 +122,7 @@ Style         *style_mstyle_new       (MStyleElement *e, guint len);
 void           style_merge_to         (Style *target, Style *source);
 Style         *style_duplicate        (const Style *style);
 void           style_destroy          (Style *style);
+#define        style_unref(s)         style_destroy (s)
 Style         *style_new_empty        (void);
 
 StyleFormat   *style_format_new       (const char *name);

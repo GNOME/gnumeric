@@ -102,7 +102,7 @@ struct _Sheet {
 	
 	char        *name;
 
-	GList       *style_list;	/* The list of styles applied to the sheets */
+	void        *style_data; /* See sheet-style.c */
 
 	ColRowInfo  default_col_style;
 	GList       *cols_info;
@@ -286,13 +286,16 @@ void        sheet_row_set_selection       (Sheet *sheet,
 					   ColRowInfo *ri, int value);
 void        sheet_set_selection           (Sheet *sheet, SheetSelection const *ss);
 				       
-Style         *sheet_style_compute            (Sheet const *sheet,
-					       int col, int row);
-Style         *sheet_style_compute_blank      (Sheet const *sheet,
-					       int col, int row);
+/* sheet-style.c */
+void           sheet_style_compute            (Sheet const *sheet,
+					       int col, int row,
+					       MStyleElement *style);
 void           sheet_style_optimize           (Sheet *sheet, Range range);
 void           sheet_selection_apply_style    (Sheet *sheet, MStyle *style);
 MStyleElement *sheet_selection_get_uniq_style (Sheet *sheet);
+void           sheet_create_styles            (Sheet *sheet);
+void           sheet_destroy_styles           (Sheet *sheet);
+GList         *sheet_get_style_list           (Sheet *sheet);
 
 /* Redraw */
 void        sheet_compute_visible_ranges  (Sheet const *sheet);

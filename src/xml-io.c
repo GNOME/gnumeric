@@ -695,7 +695,7 @@ xml_write_style (parse_xml_context_t *ctxt,
 		const char *fontname;
 
 		if (style [MSTYLE_FONT_NAME].type)
-			fontname = style [MSTYLE_FONT_NAME].u.font.name;
+			fontname = style [MSTYLE_FONT_NAME].u.font.name->str;
 		else /* backwards compatibility */
 			fontname = "Helvetica";
 
@@ -1140,7 +1140,7 @@ xml_read_style (parse_xml_context_t *ctxt, xmlNodePtr tree)
 			font = xmlNodeGetContent (child);
 			if (font) {
 				style [MSTYLE_FONT_NAME].type = MSTYLE_FONT_NAME;
-				style [MSTYLE_FONT_NAME].u.font.name = font;
+				style [MSTYLE_FONT_NAME].u.font.name = string_get (font);
 			}
 		} else if (!strcmp (child->name, "StyleBorder")) {
 			xml_read_style_border (ctxt, child, style);
@@ -1566,7 +1566,7 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	if (printinfo)
 		xmlAddChild (cur, printinfo);
 
-	styles = xml_write_styles (ctxt, sheet->style_list);
+	styles = xml_write_styles (ctxt, sheet_get_style_list (sheet));
 
 	/*
 	 * Cols informations.

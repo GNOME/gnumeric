@@ -104,7 +104,7 @@ sheet_view_font (SheetView *sheet_view, Cell *cell)
 {
 	Style *style = cell_get_style (cell);
 	GdkFont *tmp = style_font_gdk_font (style->font);
-	style_destroy (style);
+	style_unref (style);
 	return tmp;
 }
 
@@ -142,7 +142,7 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 	if (width < cell->width && cell_is_number (cell)){
 		draw_overflow (drawable, gc, font, x1 + cell->col->margin_a, y1, text_base,
 			       width, height);
-		style_destroy (style);
+		style_unref (style);
 		return 1;
 	}
 
@@ -323,9 +323,6 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 		} while (halign == HALIGN_FILL && total < rect.width && len >0);
 	}
 
-	style_destroy (style);
+	style_unref (style);
 	return end_col - start_col + 1;
 }
-
-
-

@@ -144,9 +144,13 @@ item_edit_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int 
 		GNOME_CANVAS_GROUP (item->parent), item);
 
 	if (item_edit->style)
-		style_destroy (item_edit->style);
-	item_edit->style = sheet_style_compute (
-		item_edit->sheet, item_edit->col, item_edit->row);
+		style_unref (item_edit->style);
+
+	{
+		MStyleElement mash[MSTYLE_ELEMENT_MAX];
+		sheet_style_compute (item_edit->sheet, item_edit->col, item_edit->row, mash);
+		item_edit->style = style_mstyle_new (mash, MSTYLE_ELEMENT_MAX);
+	}
 }
 
 /*

@@ -379,7 +379,7 @@ style_mstyle_new (MStyleElement *e, guint len)
 		style->valid_flags = STYLE_ALL;
 		
 		if (e[MSTYLE_FONT_NAME].type)
-			name = e[MSTYLE_FONT_NAME].u.font.name;
+			name = e[MSTYLE_FONT_NAME].u.font.name->str;
 		else
 			name = DEFAULT_FONT;
 		if (e[MSTYLE_FONT_BOLD].type)

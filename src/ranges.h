@@ -37,7 +37,7 @@ void        range_clip          (Range *clipped, Range const *master,
 				 Range const *slave);
 void        range_dump          (Range const *src);
 Range      *range_duplicate     (Range const *src);
-GList      *range_fragment      (GList *ranges);
+GList      *range_fragment      (const GList *ranges);
 void        range_fragment_free (GList *fragments);
 
 #endif /* GNUMERIC_RANGES_H */

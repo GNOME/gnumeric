@@ -1,3 +1,96 @@
+1999-10-14  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet.c (sheet_update_controls): update.
+
+1999-10-13  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/cell.c (cell_get_style): pass elements around.
+
+	* src/item-edit.c (item_edit_update): ditto.
+
+	* src/corba-sheet.c (Sheet_cell_get_format): ditto..
+
+	* src/item-grid.c (item_grid_paint_empty_cell): ditto.
+
+	* src/print-cell.c (print_empty_cell): ditto.
+
+	* src/sheet-style.c (sheet_style_compute_blank): axe.
+	(sheet_style_compute): update to new API.
+
+	* src/xml-io.c (xml_sheet_write): use sheet_get_style_list.
+
+	* src/sheet-style.c (sheet_style_compute): Unroll render_merge in here
+	to allow caching.
+
+	* src/sheet.c (sheet_set_zoom_factor): calm font scaling down.
+
+	* src/sheet-style.c: Re-write each style list lookup adding dereference.
+	(sheet_create_styles): create, (sheet_destroy_styles): update.
+	(sheet_style_cache_lookup, sheet_style_cache_add),
+	(sheet_style_cache_flush): stub for now + add various flushes.
+	(scache_remove): create.
+
+	* src/sheet.h: Hide style_data in sheet-style.c + add cell lookup
+	hash on advice of profiler.
+
+	* src/sheet.c (sheet_new): use sheet_create_styles.
+
+	* src/ranges.c (range_fragment): fix: was very broken.
+
+	* src/dialogs/dialog-cell-format.c (apply_font_format): use String.
+
+	* src/xml-io.c (xml_write_style, xml_read_style): use String
+
+	* src/workbook-format-toolbar.c (change_font_in_selection_cmd),
+	(workbook_feedback_set): ditto.
+
+	* src/style.c (style_mstyle_new): ditto.
+
+	* doc/Styles.txt: Update bit about strings.
+
+	* src/mstyle.c (mstyle_element_equal, mstyle_element_dump),
+	(mstyle_element_copy, mstyle_element_destroy): Use String not
+	char * for font name.
+
+	* src/mstyle.h: Change font.name to a ref counted String.
+
+	* src/style.h (style_unref): Add.
+
+	* src/cell.c (cell_render_value, cell_get_horizontal_align),
+	(cell_get_text, cell_calc_dimensions): use style_unref.
+
+	* src/item-edit.c (item_edit_update): use style_unref not destroy.
+
+	* src/item-grid.c (item_grid_paint_empty_cell): ditto.
+
+	* src/print-cell.c (print_empty_cell): ditto.
+
+	* src/cell-draw.c (sheet_view_font, cell_draw): ditto.
+
+	* src/corba-sheet.c (Sheet_cell_get_format): unref style.
+
+	* src/mstyle.c (mstyle_do_merge): Remove redundant uniq thing.
+	(render_merge, render_merge_blank): ditto.
+	(mstyle_destroy): nail huge leak, destroy style elements.
+	(mstyle_elements_compare, mstyle_elements_destroy): implement.
+
+	* src/ranges.c (range_fragment): Don't operate on the original list.
+
+	* src/sheet-style.c (sheet_uniq_cb): Implement fully.
+
+1999-10-12  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/ranges.c (range_fragment): Only remove region if it is valid.
+
+	* src/sheet.c (sheet_new): NULL style_list.
+
+	* src/mstyle.c (mstyle_destroy): Add safe catch for NULL pointers.
+
+	* src/sheet-style.c (sheet_destroy_styles): moved & made global,
+	unref mstyles not destroy + precondition on ref_count.
+
+	* src/sheet.c (sheet_destroy_styles): Moved.
+
 1999-10-11  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/style.c (style_mstyle_new): Re-initialize background color

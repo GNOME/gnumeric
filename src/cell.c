@@ -522,7 +522,7 @@ cell_render_value (Cell *cell)
 	{ /* FIXME: serious performance issues here */
 		Style *style = cell_get_style (cell);
 		str = format_value (style->format, cell->value, &color);
-		style_destroy (style);
+		style_unref (style);
 	}
 	cell->render_color = color;
 
@@ -1072,18 +1072,20 @@ int
 cell_get_horizontal_align (const Cell *cell)
 {
 	Style *style = cell_get_style (cell);
+	int    ans = style->halign;
 
-	if (style->halign == HALIGN_GENERAL){
-		if (cell->value){
+	if (style->halign == HALIGN_GENERAL) {
+		if (cell->value) {
 			if (cell->value->type == VALUE_FLOAT ||
 			    cell->value->type == VALUE_INTEGER)
-				return HALIGN_RIGHT;
+				ans = HALIGN_RIGHT;
 			else
-				return HALIGN_LEFT;
+				ans = HALIGN_LEFT;
 		} else
-			return HALIGN_RIGHT;
-	} else
-		return style->halign;
+			ans = HALIGN_RIGHT;
+	}
+	style_unref (style);
+	return ans;
 }
 
 int
@@ -1301,7 +1303,7 @@ calc_text_dimensions (int is_number, Style *style,
 		used = 0;
 		last_was_cut_point = FALSE;
 
-		for (; *p; p++){
+		for (; *p; p++) {
 			int len;
 
 			if (last_was_cut_point && *p != ' ')
@@ -1351,7 +1353,7 @@ cell_calc_dimensions (Cell *cell)
 
 	cell_unregister_span (cell);
 
-	if (cell->text){
+	if (cell->text) {
 		Style *style = cell_get_style (cell);
 		int h, w;
 
@@ -1368,7 +1370,7 @@ cell_calc_dimensions (Cell *cell)
 		if (cell->height > cell->row->pixels && !cell->row->hard_size)
 			sheet_row_set_internal_height (cell->sheet, cell->row, h);
 
-		style_destroy (style);
+		style_unref (style);
 	} else
 		cell->width = cell->col->margin_a + cell->col->margin_b;
 
@@ -1412,7 +1414,7 @@ cell_get_text (Cell *cell)
 		Style *style = cell_get_style (cell);
 		char  *txt;
 		txt = format_value (style->format, cell->value, NULL);
-		style_destroy (style);
+		style_unref (style);
 		return txt;
 	}
 }
@@ -1494,9 +1496,13 @@ cell_is_error (Cell const *cell)
 Style *
 cell_get_style (const Cell *cell)
 {
-	return sheet_style_compute (cell->sheet,
-				    cell->col->pos,
-				    cell->row->pos);
+	MStyleElement mash[MSTYLE_ELEMENT_MAX];
+
+	sheet_style_compute (cell->sheet,
+			     cell->col->pos,
+			     cell->row->pos,
+			     mash);
+	return style_mstyle_new (mash, MSTYLE_ELEMENT_MAX);
 }
 
 void

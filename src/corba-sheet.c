@@ -478,18 +478,16 @@ Sheet_cell_get_format (PortableServer_Servant servant,
 		       CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
-	Style *style;
+	MStyleElement mash[MSTYLE_ELEMENT_MAX];
 
 	verify_col_val (col, NULL);
 	verify_row_val (row, NULL);
 
-	style = sheet_style_compute (sheet, col, row);
-	g_warning ("leak.");
-	if (style) {
-		return CORBA_string_dup (style->format->format);
-	} else {
+	sheet_style_compute (sheet, col, row, mash);
+	if (mash[MSTYLE_FORMAT].type)
+		return CORBA_string_dup (mash[MSTYLE_FORMAT].u.format->format);
+	else
 		return CORBA_string_dup ("");
-	}
 }
 
 static void

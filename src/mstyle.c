@@ -66,7 +66,7 @@ mstyle_element_dump (const MStyleElement *e)
 		g_string_sprintf (ans, "pattern col");
 		break;		
 	case MSTYLE_FONT_NAME:
-		g_string_sprintf (ans, "name '%s'", e->u.font.name);
+		g_string_sprintf (ans, "name '%s'", e->u.font.name->str);
 		break;
 	case MSTYLE_FONT_BOLD:
 		if (e->u.font.bold)
@@ -140,7 +140,7 @@ mstyle_element_equal (const MStyleElement a,
 		break;
 	case MSTYLE_FONT_NAME:
 		/* FIXME: String font names should be uniq & hashed ! */
-		if (!strcmp (a.u.font.name, b.u.font.name))
+		if (a.u.font.name == b.u.font.name)
 			return TRUE;
 		break;
 	case MSTYLE_FONT_BOLD:
@@ -182,6 +182,16 @@ mstyle_element_equal (const MStyleElement a,
 	return FALSE;
 }
 
+/**
+ * mstyle_elements_equal:
+ * @a: a style
+ * @b: another style
+ * 
+ * Compares for identical style element arrays,
+ * fully commutative.
+ * 
+ * Return value: TRUE if equal.
+ **/
 gboolean
 mstyle_elements_equal (const MStyleElement *a,
 		       const MStyleElement *b)
@@ -212,7 +222,7 @@ mstyle_element_copy (MStyleElement e)
 		border_ref (e.u.border.any);
 		break;
 	case MSTYLE_FONT_NAME:
-		e.u.font.name = g_strdup (e.u.font.name);
+		string_ref (e.u.font.name);
 		break;
 	case MSTYLE_FORMAT:
 		style_format_ref (e.u.format);
@@ -234,7 +244,7 @@ mstyle_element_destroy (MStyleElement e)
 		border_unref (e.u.border.any);
 		break;
 	case MSTYLE_FONT_NAME:
-		g_free (e.u.font.name);
+		string_unref (e.u.font.name);
 		break;
 	case MSTYLE_FORMAT:
 		style_format_unref (e.u.format);
@@ -244,6 +254,42 @@ mstyle_element_destroy (MStyleElement e)
 	}
 }
 
+/**
+ * mstyle_elements_compare:
+ * @a: style to be tagged
+ * @b: style to compare.
+ * 
+ * Compares styles and tags conflicts into a.
+ **/
+void
+mstyle_elements_compare (MStyleElement *a,
+			 const MStyleElement *b)
+{
+	int i;
+
+	g_return_if_fail (a != NULL);
+	g_return_if_fail (b != NULL);
+
+	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
+		if (b[i].type == MSTYLE_ELEMENT_UNSET)
+			continue;
+
+		if (!mstyle_element_equal (a[i], b[i])) {
+			mstyle_element_destroy (a[i]);
+			a[i].type = MSTYLE_ELEMENT_CONFLICT;
+		}
+	}
+
+}
+
+void
+mstyle_elements_destroy (MStyleElement *e)
+{
+	int i;
+	if (e)
+		for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
+			mstyle_element_destroy (e[i]);
+}
 
 MStyle *
 mstyle_new (const gchar *name)
@@ -419,17 +465,20 @@ mstyle_dump (const MStyle *st)
 void
 mstyle_destroy (MStyle *st)
 {
-	PrivateStyle *pst = (PrivateStyle *)st;
-	g_return_if_fail (pst != NULL);
+	if (!st) {
+		PrivateStyle *pst = (PrivateStyle *)st;
 
-	if (pst->name)
-		g_free (pst->name);
-	pst->name = NULL;
+		g_return_if_fail (pst->ref_count > 1);
 
-	g_free (pst->elements);
-	pst->elements = NULL;
+		if (pst->name)
+			g_free (pst->name);
+		pst->name = NULL;
 
-	g_free (pst);
+		mstyle_elements_destroy (pst->elements);
+		pst->elements = NULL;
+		
+		g_free (pst);
+	}
 }
 
 static void
@@ -465,7 +514,7 @@ mstyle_equal (const MStyle *a, const MStyle *b)
 
 void
 mstyle_do_merge (const GList *list, MStyleElementType max,
-		 MStyleElement *mash, gboolean blank_uniq)
+		 MStyleElement *mash)
 {
 	const GList *l = list;
 	/* Find the intersection */
@@ -483,8 +532,6 @@ mstyle_do_merge (const GList *list, MStyleElementType max,
 			MStyleElement e = pst->elements[j];
 			if (mash[e.type].type == MSTYLE_ELEMENT_UNSET)
 				mash[e.type] = e;
-			else if (blank_uniq)
-				mash[e.type].type = MSTYLE_ELEMENT_CONFLICT;
 		}
 		l = g_list_next (l);
 	}
@@ -529,7 +576,7 @@ render_merge (const GList *styles)
 	if (!check_sorted (styles))
 	    g_warning ("Styles not sorted");
 
-	mstyle_do_merge (styles, MSTYLE_ELEMENT_MAX, mash, FALSE);
+	mstyle_do_merge (styles, MSTYLE_ELEMENT_MAX, mash);
 
 	return style_mstyle_new (mash, MSTYLE_ELEMENT_MAX);
 }
@@ -542,7 +589,7 @@ render_merge_blank (const GList *styles)
 	if (!check_sorted (styles))
 	    g_warning ("Styles not sorted");
 
-	mstyle_do_merge (styles, MSTYLE_ELEMENT_MAX_BLANK, mash, FALSE);
+	mstyle_do_merge (styles, MSTYLE_ELEMENT_MAX_BLANK, mash);
 
 	return style_mstyle_new (mash, MSTYLE_ELEMENT_MAX_BLANK);
 }

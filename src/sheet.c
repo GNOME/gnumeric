@@ -183,6 +183,7 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->signature = SHEET_SIGNATURE;
 	sheet->workbook = wb;
 	sheet->name = g_strdup (name);
+	sheet_create_styles (sheet);
 	sheet->last_zoom_factor_used = -1.0;
 	sheet->cols.max_used = -1;
 	sheet->rows.max_used = -1;
@@ -342,9 +343,9 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 	/*
 	 * Scale the internal font styles
 	 */
-	for (l = sheet->style_list; l; l = l->next) {
 		g_warning ("Internal font scaling broken");
-/*		StyleRegion *sr = l->data;
+/*	for (l = sheet->style_list; l; l = l->next) {
+		StyleRegion *sr = l->data;
 		Style *style = sr->style;
 		StyleFont *scaled;
 		
@@ -353,8 +354,8 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 
 		scaled = style_font_new_from (style->font, factor);
 		style_font_unref (style->font);
-		style->font = scaled;*/
-	}
+		style->font = scaled;
+		}*/
 }
 
 /*
@@ -1326,11 +1327,14 @@ range_is_homogeneous(Sheet *sheet,
 void
 sheet_update_controls (Sheet *sheet)
 {
-	MStyleElement *styles = sheet_selection_get_uniq_style (sheet);
+	/* FIXME: hack for now, should be 'cursor cell' of selection */
+	MStyleElement styles[MSTYLE_ELEMENT_MAX];
+
+	g_return_if_fail (sheet != NULL);
+
+	sheet_style_compute (sheet, sheet->cursor_col, sheet->cursor_row, styles);
 
 	workbook_feedback_set (sheet->workbook, styles);
-	
-	g_free (styles);
 }		
 
 int
@@ -2292,21 +2296,6 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 		    ;
 		sheet->rows.max_used = i;
 	}
-}
-
-static void
-sheet_destroy_styles (Sheet *sheet)
-{
-	GList *l;
-
-	for (l = sheet->style_list; l; l = l->next) {
-		StyleRegion *sr = l->data;
-
-		mstyle_destroy (sr->style);
-		g_free (sr);
-	}
-	g_list_free (sheet->style_list);
-	sheet->style_list = NULL;
 }
 
 void

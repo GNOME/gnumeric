@@ -300,16 +300,17 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 			    ColRowInfo *ci, ColRowInfo *ri, int col, int row,
 			    int x, int y)
 {
-	Style *style;
+	MStyleElement mash[MSTYLE_ELEMENT_MAX];
 	
-	style = sheet_style_compute (item_grid->sheet, col, row);
+	sheet_style_compute (item_grid->sheet, col, row, mash);
 
-	if (style->valid_flags & (STYLE_PATTERN | STYLE_FORE_COLOR)){
-		/* FIXME: set the GC here */
-	}
+/*	if (style->valid_flags & (STYLE_PATTERN | STYLE_FORE_COLOR)) {
+		 FIXME: set the GC here
+		}*/
 
-	if ((style->valid_flags & STYLE_BACK_COLOR) && (style->back_color)){
-		gdk_gc_set_foreground (item_grid->empty_gc, &style->back_color->color);
+	if (mash[MSTYLE_COLOR_BACK].type && (mash[MSTYLE_COLOR_BACK].u.color.back)) {
+		gdk_gc_set_foreground (item_grid->empty_gc,
+				       &mash[MSTYLE_COLOR_BACK].u.color.back->color);
 		gdk_draw_rectangle (
 			drawable, item_grid->empty_gc, TRUE,
 			x + ci->margin_a, y + ri->margin_b,
@@ -317,9 +318,12 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 			ri->pixels - ri->margin_b);
 	}
 
-	item_grid_draw_border (drawable, style, x, y, ci->pixels, ri->pixels);
+	{
+		Style *style = style_mstyle_new (mash, MSTYLE_ELEMENT_MAX);
+		item_grid_draw_border (drawable, style, x, y, ci->pixels, ri->pixels);
+		style_unref (style);
+	}
 
-	style_destroy (style);
 	return;
 }
 

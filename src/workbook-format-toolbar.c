@@ -119,7 +119,7 @@ change_font_in_selection_cmd (GtkMenuItem *item, Workbook *wb)
 	sheet = workbook_get_current_sheet (wb);
 
 	e.type = MSTYLE_FONT_NAME;
-	e.u.font.name = g_strdup (font_name);
+	e.u.font.name = string_get (font_name);
 	g_warning ("Testme");
 
 	sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
@@ -496,7 +496,7 @@ workbook_feedback_set (Workbook *workbook, MStyleElement *styles)
 	font_set = FALSE;
 	if (styles [MSTYLE_FONT_NAME].type != MSTYLE_ELEMENT_CONFLICT)
 		if (styles [MSTYLE_FONT_NAME].type) {
-			char *font_name = styles [MSTYLE_FONT_NAME].u.font.name;
+			char *font_name = styles [MSTYLE_FONT_NAME].u.font.name->str;
 			void *np;
 			GList *l;
 			int idx = 0;
