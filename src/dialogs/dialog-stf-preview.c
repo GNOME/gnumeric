@@ -3,14 +3,18 @@
  *                        render sheet previews on the gnomecanvas and offers
  *                        functions for making this preview more interactive.
  *
+ * NOTES :
+ * 1) This is rather sucky, it works, reasonably fast, but it's not ideal.
+ * 2) There is a distinct difference between a formatted and non-formatted preview
+ *    non-formatted previews are somewhat faster.
+ *
  * Almer. S. Tigelaar <almer1@dds.nl>
  *
  */ 
 
-/** This might be necessary later for rendering formatted values
 #include "format.h"
 #include "number-match.h"
-**/
+#include "value.h"
 
 #include "dialog-stf.h"
 #include "dialog-stf-preview.h"
@@ -184,12 +188,21 @@ stf_preview_draw_grid (RenderData_t *renderdata, int rowcount, int colcount)
 	double ypos        = 0;
 	char *tempcolor;
 	int i;
-
+	
+	if (renderdata->gridgroup != NULL)
+		gtk_object_destroy (GTK_OBJECT (renderdata->gridgroup));
+				
+	renderdata->gridgroup = GNOME_CANVAS_GROUP (gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (renderdata->canvas)),
+									   gnome_canvas_group_get_type(),
+									   "x", 0.0,
+									   "y", 0.0,
+									   NULL));
+	
 	/* Color the first row */
-	stf_preview_draw_box (renderdata->group, CAPTION_COLOR, 0, 0, tablewidth, rowheight);
+	stf_preview_draw_box (renderdata->gridgroup, CAPTION_COLOR, 0, 0, tablewidth, rowheight);
 
 	/* Color the rest of the table */
-	stf_preview_draw_box (renderdata->group, ROW_COLOR, 0, rowheight, tablewidth, tableheight);
+	stf_preview_draw_box (renderdata->gridgroup, ROW_COLOR, 0, rowheight, tablewidth, tableheight);
 
 	/* now color the active column */
 	if (renderdata->activecolumn != -1) {
@@ -202,8 +215,8 @@ stf_preview_draw_grid (RenderData_t *renderdata, int rowcount, int colcount)
 		}
 		colright = colleft + (renderdata->charwidth * g_array_index (renderdata->colwidths, int, renderdata->activecolumn)) + CELL_HPAD;
 	
-		stf_preview_draw_box (renderdata->group, CAPTION_COLOR_ACTIVE, colleft, 0, colright, rowheight);
-		stf_preview_draw_box (renderdata->group, ROW_COLOR_ACTIVE, colleft, rowheight, colright, tableheight);
+		stf_preview_draw_box (renderdata->gridgroup, CAPTION_COLOR_ACTIVE, colleft, 0, colright, rowheight);
+		stf_preview_draw_box (renderdata->gridgroup, ROW_COLOR_ACTIVE, colleft, rowheight, colright, tableheight);
 	}
 
 	tempcolor = CAPTION_LINE_COLOR;
@@ -213,7 +226,7 @@ stf_preview_draw_grid (RenderData_t *renderdata, int rowcount, int colcount)
 		if (i == 2)
 			tempcolor = LINE_COLOR;
 	
-		stf_preview_draw_line (renderdata->group, tempcolor, 0, ypos, tablewidth, ypos);
+		stf_preview_draw_line (renderdata->gridgroup, tempcolor, 0, ypos, tablewidth, ypos);
 
 		ypos += rowheight;
 	}
@@ -222,8 +235,8 @@ stf_preview_draw_grid (RenderData_t *renderdata, int rowcount, int colcount)
 	i = 0;
 	while (1) {
 
-		stf_preview_draw_line (renderdata->group, CAPTION_LINE_COLOR, xpos, 0, xpos, rowheight);
-		stf_preview_draw_line (renderdata->group, LINE_COLOR, xpos, rowheight, xpos, tableheight);
+		stf_preview_draw_line (renderdata->gridgroup, CAPTION_LINE_COLOR, xpos, 0, xpos, rowheight);
+		stf_preview_draw_line (renderdata->gridgroup, LINE_COLOR, xpos, rowheight, xpos, tableheight);
 
 		if (i == colcount + 1)
 			break;
@@ -232,8 +245,10 @@ stf_preview_draw_grid (RenderData_t *renderdata, int rowcount, int colcount)
 
 		i++;
 	}
-	stf_preview_draw_line (renderdata->group, CAPTION_LINE_COLOR, xpos, 0, xpos, rowheight);
-			
+	stf_preview_draw_line (renderdata->gridgroup, CAPTION_LINE_COLOR, xpos, 0, xpos, rowheight);
+
+	gnome_canvas_item_lower_to_bottom ( (GnomeCanvasItem *) renderdata->gridgroup);
+				
 	return;
 }
 
@@ -252,7 +267,6 @@ static double
 stf_preview_render_row (RenderData_t *renderdata, double rowy, GSList *row, int colcount)
 {
 	GSList *iterator = row;
-	char *celltext;
 	double xpos = 0.0;
 	double textwidth = 0;
 	int col = 0;
@@ -261,59 +275,12 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GSList *row, int 
 
 		return rowy + CELL_VPAD + renderdata->charheight;
 	}
+
 	
 	for (col = 0; col <= colcount; col++)  {
 		int widthwanted;
 
 		if (iterator != NULL && iterator->data != NULL) {
-		
-			if (renderdata->formatted) {
-				/*
-				 * FIXME : We want to render iterator->data here
-				 *         according to the format specified in
-				 *         g_ptr_array_index (renderdata->colformats, col)
-				 *         I (almer) have tried some things, but with no
-				 *         success
-				 */
-			
-				/* causes SIGSEGV
-				Cell *cell = g_new0 (Cell, 1);
-
-				cell_realize (cell);
-				cell_set_text_simple (cell, iterator->data);
-				cell_set_format (cell, g_ptr_array_index (renderdata->colformats, col));
-				celltext = cell_get_formatted_val (cell, NULL);
-
-				g_free (cell);
-				*/
-				
-				/* Doesn't work, renders the value without actually formatting (prolly due to value_new_string ())
-				Value *value;
-				StyleFormat *sf;
-				StyleColor *color;
-				
-				value = value_new_string (iterator->data);
-				sf = style_format_new (g_ptr_array_index (renderdata->colformats, col));
-
-				celltext = format_value (sf, value, &color);
-				g_message ("value %s, format %s, formatted %s", iterator->data, g_ptr_array_index (renderdata->colformats, col), celltext);
-				
-				style_format_unref (sf);
-				value_release (value);
-				*/
-
-				/*char *format;
-				double num;
-
-				if (format_match (iterator->data, &num, &format))
-				g_message ("%s Matches format : %s %f", iterator->data, format, num);*/
-				
-				celltext = g_strdup (iterator->data);
-			}
-			else {
-				
-				celltext = iterator->data;
-			}
 
 			/* In case the active color differs from the inactive color
 			 * this code can be activated
@@ -325,22 +292,20 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GSList *row, int 
 			 */
 				
 			textwidth = stf_preview_draw_text (renderdata->group,
-							   celltext,
+							   iterator->data,
 							   renderdata->font,
 							   TEXT_COLOR,
 							   xpos + (CELL_HPAD / 2),
 							   rowy + (CELL_VPAD / 2));
-						
-			if (renderdata->formatted)
-				g_free (celltext);
 		}
-
+		
 		widthwanted = renderdata->charwidth * g_array_index (renderdata->colwidths, int, col);
 		
-		if (textwidth > widthwanted)
+		if (textwidth > widthwanted) 
 			xpos += textwidth;
 		else
 			xpos += widthwanted;
+
 
 		xpos += CELL_HPAD;
 		
@@ -373,6 +338,192 @@ stf_preview_free_row (GSList *row)
 }
 
 /**
+ * stf_preview_format_recalc_colwidths
+ * @renderdata : renderdata struct
+ * @data : a list containing lists with strings
+ * @colcount : number of items in each list in @data
+ *
+ * This routine will iterate trough the list and calculate the ACTUAL widths
+ * the actual widths are those as seen on screen by the user.
+ * The reason for doing this is that the widths that are manually set can
+ * differ from the widths of the formatted strings if the the strings have
+ * to be rendered formatted (@renderdata->formatted == TRUE).
+ *
+ * returns : nothing. (swaps renderdata->temp and renderdata->colwidths);
+ **/
+static void
+stf_preview_format_recalc_colwidths (RenderData_t *renderdata, GSList *data, int colcount)
+{
+	GArray *newwidths;
+	GSList *iterator;
+	int i;
+	int widths[colcount];
+
+	for (i = 0; i <= colcount; i++) {
+
+		widths[i] = g_array_index (renderdata->colwidths, int, i);
+	}
+	
+	iterator = data;
+	while (iterator) {
+		GSList *subiterator = iterator->data;
+		int col;
+
+		for (col = 0; col <= colcount; col++)  {
+			int width;
+			
+			if (!subiterator || !subiterator->data) {
+
+				subiterator = g_slist_next (subiterator);
+				continue;
+			}
+
+			/* New width calculation */
+			width = gdk_string_width (renderdata->font, subiterator->data) / renderdata->charwidth;
+
+			if (width > widths[col])
+				widths[col] = width;
+			
+			subiterator = g_slist_next (subiterator);
+		}
+		
+		iterator = g_slist_next (iterator);
+	}
+
+	newwidths = g_array_new (FALSE, FALSE, sizeof (int));
+	
+	for (i = 0; i <= colcount; i++) {
+	
+		g_array_append_val (newwidths, widths[i]);	
+	}
+
+	/* We were called before, free our old 'actual' columnwidths */
+	if (renderdata->temp != 0)
+		g_array_free (renderdata->temp, TRUE);
+		
+	renderdata->temp = renderdata->colwidths;
+	renderdata->colwidths = newwidths;
+}
+
+
+/**
+ * stf_preview_format_line
+ * @renderdata : renderdata struct
+ * @data : a list containing strings
+ * @colcount : number of items in @list
+ *
+ * formats a single list of strings
+ *
+ * returns : nothing
+ **/
+static void
+stf_preview_format_line (RenderData_t *renderdata, GSList *data, int colcount)
+{
+	int col;
+	GSList *iterator = data;
+
+	for (col = 0; col <= colcount; col++)  {
+		Value *value;
+		StyleFormat *sf;
+		StyleColor *color;
+		char *format;
+		char *celltext;
+		double val;
+			
+		if (!iterator || !iterator->data) {
+
+			iterator = g_slist_next (iterator);
+			continue;
+		}
+
+		/* Formatting */
+		if (format_match (iterator->data, &val, &format))
+			value = value_new_float (val);
+		else
+			value = value_new_string (iterator->data);
+		
+		sf = style_format_new (g_ptr_array_index (renderdata->colformats, col));
+			
+		celltext = format_value (sf, value, &color);
+			
+		style_format_unref (sf);
+		value_release (value);
+
+		/* Replacement of old data */
+		g_free (iterator->data);
+		iterator->data = celltext;
+			
+		iterator = g_slist_next (iterator);
+	}
+}
+
+/**
+ * stf_preview_format_recalc_colwidths
+ * @renderdata : renderdata struct
+ * @data : a list containing lists with strings
+ * @colcount : number of items in each list in @data
+ *
+ * Walks trough a list which has been acquired by calling parse_sheet_cached and
+ * creates a new list which is a merge of items that were in the hash and items
+ * that are 'new'
+ *
+ * returns : a new list (which the calling routine HAS to free)
+ **/
+static GSList *
+stf_preview_merge_with_hash (RenderData_t *renderdata, GSList *list, int colcount)
+{
+	GSList *iterator = list;
+	GSList *result = NULL;
+	GSList *resultend = NULL;
+	int i = 0;
+	
+ 	while (iterator) {
+		GSList *data;
+		int absoluterow = renderdata->startrow + i - 1;
+
+		if (iterator->data == NULL) {
+			
+			data = g_hash_table_lookup (renderdata->hashholder->hashtable, &absoluterow);
+		} else {
+			int *rowptr = g_new (int, 1);
+			int *origkey = NULL;
+			GSList *origval = NULL;
+				
+			*rowptr = absoluterow;
+			
+			if (g_hash_table_lookup_extended (renderdata->hashholder->hashtable, rowptr, (gpointer) origkey, (gpointer) origval)) {
+				
+				g_free (origkey);
+				stf_preview_free_row (origval);
+			}
+			
+			g_hash_table_insert (renderdata->hashholder->hashtable, rowptr, iterator->data);
+			data = iterator->data;
+
+			/* Reformat the line */
+			if (renderdata->formatted && data != NULL)
+				stf_preview_format_line (renderdata, data, colcount);
+		}
+
+		if (result != NULL) {
+		
+			resultend = g_slist_append (resultend, data)->next;
+		} else {
+			
+			result = g_slist_append (result, data);
+			resultend = result;
+		}
+		
+		iterator = g_slist_next (iterator);
+		i++;
+	}
+
+	g_slist_free (list);
+	
+	return result;
+}
+
+/**
  * stf_preview_render
  * @renderdata : a renderdata struct
  * @list : a list containing the rows of of data to display
@@ -389,6 +540,7 @@ stf_preview_render (RenderData_t *renderdata, GSList *list, int rowcount, int co
 	GnomeCanvasRect *centerrect;
 	GSList *iterator;
 	GSList *captions;
+	GArray *dummy;
 	int i;
 	double ypos = 0.0;
 	
@@ -407,57 +559,33 @@ stf_preview_render (RenderData_t *renderdata, GSList *list, int rowcount, int co
 							   "x", 0.0,
 							   "y", 0.0,
 							   NULL));
-							   
+		
+	list = stf_preview_merge_with_hash (renderdata, list, colcount);
+
+	if (renderdata->formatted)
+		stf_preview_format_recalc_colwidths (renderdata, list, colcount);
+		
 	/* Generate column captions and prepend them */
 	captions = NULL;
 	for (i = 0; i <= colcount; i++) {
 		char *text = g_strdup_printf (_(COLUMN_CAPTION), i);
-		
+
 		captions = g_slist_append (captions, text);
+	}
+
+	ypos = stf_preview_render_row (renderdata, ypos, captions, colcount);
+	
+	/* Render line by line */		   
+	iterator = list;
+ 	while (iterator) {
+	
+		ypos = stf_preview_render_row (renderdata, ypos, iterator->data, colcount);
+
+		iterator = g_slist_next (iterator);
 	}
 
 	stf_preview_draw_grid (renderdata, rowcount, colcount);
 	
-	/* Render line by line */   			   						   
-	iterator = list;
-	i = 0;
-	while (iterator) {
-		GSList *data;
-		int absoluterow = renderdata->startrow + i - 1;
-
-		if (absoluterow >= renderdata->startrow) {
-		
-			if (iterator->data == NULL) {
-			
-				data = g_hash_table_lookup (renderdata->hashholder->hashtable, &absoluterow);
-			} else {
-				int *rowptr = g_new (int, 1);
-				int *origkey = NULL;
-				GSList *origval = NULL;
-				
-				*rowptr = absoluterow;
-			
-				if (g_hash_table_lookup_extended (renderdata->hashholder->hashtable, rowptr, (gpointer) origkey, (gpointer) origval)) {
-					
-					g_free (origkey);
-					stf_preview_free_row (origval);
-				}
-			
-				g_hash_table_insert (renderdata->hashholder->hashtable, rowptr, iterator->data);
-				data = iterator->data;
-			}
-
-			iterator = g_slist_next (iterator);
-		} else {
-		
-			data = captions;
-		}
-		
-		ypos = stf_preview_render_row (renderdata, ypos, data, colcount);
-
-		i++;
-	}
-		
 	centerrect = GNOME_CANVAS_RECT (gnome_canvas_item_new (renderdata->group,
 							       gnome_canvas_rect_get_type (),
 							       "x1", 0,	 "y1", 0,
@@ -479,6 +607,14 @@ stf_preview_render (RenderData_t *renderdata, GSList *list, int rowcount, int co
 		iterator = g_slist_next (iterator);
 	}
 	g_slist_free (captions);
+
+	/* Swap the actual column widths with the set columnwidths */
+	if (renderdata->formatted) {
+	
+		dummy                 = renderdata->temp;
+		renderdata->temp      = renderdata->colwidths;
+		renderdata->colwidths = dummy;
+	}
 	
 	g_slist_free (list);
 }
@@ -509,7 +645,9 @@ stf_preview_new (GnomeCanvas *canvas, gboolean formatted)
 	renderdata->colwidths    = g_array_new (FALSE, FALSE, sizeof (int));
 	renderdata->actualwidths = g_array_new (FALSE, FALSE, sizeof (int));
 	renderdata->colformats   = g_ptr_array_new ();
+	renderdata->temp         = NULL;
 	renderdata->group        = NULL;
+	renderdata->gridgroup    = NULL;
 	renderdata->hashholder   = g_new (HashHolder_t, 1);
 	
 	renderdata->hashholder->hashtable = g_hash_table_new (g_int_hash, g_int_equal);
@@ -560,6 +698,9 @@ stf_preview_free (RenderData_t *renderdata)
 
 	if (renderdata->group != NULL)
 		gtk_object_destroy (GTK_OBJECT (renderdata->group));
+
+	if (renderdata->formatted && renderdata->temp != NULL)
+		g_array_free (renderdata->temp, TRUE);
 		
 	g_array_free (renderdata->colwidths, TRUE);
 	g_array_free (renderdata->actualwidths, TRUE);
@@ -728,12 +869,15 @@ stf_preview_colformats_clear (RenderData_t *renderdata)
  * @format : the format of the column
  *
  * This will add an entry to the @renderdata->colformats array.
+ * The widths of the columns will be set to at least have the width of
+ * the @format.
  *
  * returns : nothing
  **/
 void
 stf_preview_colformats_add (RenderData_t *renderdata, char *format)
 {
+
 	g_return_if_fail (renderdata != NULL);
 	g_return_if_fail (format != NULL);
 
@@ -781,12 +925,18 @@ int
 stf_preview_get_column_at_x (RenderData_t *renderdata, double x)
 {
 	int i, xpos = 0;
+	GArray *sourcearray;
 
 	g_return_val_if_fail (renderdata != NULL, -1);
+
+	if (renderdata->formatted)
+		sourcearray = renderdata->temp;
+	else
+		sourcearray = renderdata->colwidths;
 	
 	for (i = 0; i < renderdata->colwidths->len; i++) {
 	
-		xpos += (renderdata->charwidth * g_array_index (renderdata->colwidths, int, i)) + CELL_HPAD;
+		xpos += (renderdata->charwidth * g_array_index (sourcearray, int, i)) + CELL_HPAD;
 
 		if (xpos > x)
 			break;
@@ -806,6 +956,8 @@ stf_preview_get_column_at_x (RenderData_t *renderdata, double x)
  * Given the @x coordinate this function will determine weather @x is
  * over a column border. (the right side of a column)
  *
+ * NOTE : Can't use this on a formatted preview
+ *
  * returns : the number of the column @x is at or -1 if it is not positioned over a column border
  **/
 int
@@ -815,6 +967,7 @@ stf_preview_get_column_border_at_x (RenderData_t *renderdata, double x)
 	gboolean broken = FALSE;
 
 	g_return_val_if_fail (renderdata != NULL, -1);
+	g_return_val_if_fail (renderdata->formatted == FALSE, -1);
 
 	for (i = 0; i < renderdata->colwidths->len; i++) {
 	
@@ -853,6 +1006,8 @@ stf_preview_get_column_border_at_x (RenderData_t *renderdata, double x)
  * if the mouse is over 'b' this function will return 1 because it is the second character,
  * and if it is over d it will return 3.
  *
+ * NOTE : Can't use this on a formatted preview
+ *
  * returns : the character index of the character below @x or -1 if none.
  **/
 int
@@ -863,7 +1018,8 @@ stf_preview_get_char_at_x (RenderData_t *renderdata, double x)
 	int charindex = 0;
 
 	g_return_val_if_fail (renderdata != NULL, -1);
-
+	g_return_val_if_fail (renderdata->formatted == FALSE, -1);
+	
 	for (i = 0; i < renderdata->actualwidths->len; i++) {
 			
 		tpos = xpos + (renderdata->charwidth * g_array_index (renderdata->actualwidths, int, i));
@@ -884,6 +1040,8 @@ stf_preview_get_char_at_x (RenderData_t *renderdata, double x)
 
 	return -1;
 }
+
+
 
 
 

@@ -96,7 +96,7 @@ dialog_stf_set_scroll_region_and_prevent_center (GnomeCanvas *canvas, GnomeCanva
 static gboolean
 dialog_stf_druid_page_cancel (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *data)
 {
-	GtkWidget *dialog;
+	GtkWidget *dialog, *no_button;
 	int ret;
       
 	dialog = gnome_question_dialog_parented (_("Are you sure you want to cancel?"), 
@@ -104,6 +104,8 @@ dialog_stf_druid_page_cancel (GnomeDruidPage *page, GnomeDruid *druid, DruidPage
 						 NULL,
 						 data->window);
 
+	no_button = g_list_last (GNOME_DIALOG (dialog)->buttons)->data;
+	gtk_widget_grab_focus (no_button);
 	ret = gnome_dialog_run (GNOME_DIALOG (dialog));
 					
 	return (ret==1);
@@ -130,6 +132,44 @@ dialog_stf_druid_position_to_page (DruidPageData_t *pagedata, DruidPosition_t po
 		g_warning ("Unknown druid position");
 		return NULL;
 	}
+}
+
+/** 
+ * dialog_stf_set_initial_keyboard_focus
+ * @pagedata : mother struct
+ *
+ * Sets keyboard focus to the an appropriate widget on the page.
+ *
+ * returns : nothing
+ **/
+static void
+dialog_stf_set_initial_keyboard_focus (DruidPageData_t *pagedata)
+{
+	GtkWidget *focus_widget = NULL;
+	
+	switch (pagedata->position) {
+	case DPG_MAIN   :
+		focus_widget =
+			GTK_WIDGET (pagedata->main_info->main_separated);
+		break;
+	case DPG_CSV    :
+		focus_widget =
+			GTK_WIDGET (pagedata->csv_info->csv_space);
+		break;
+	case DPG_FIXED  :
+		focus_widget = GTK_WIDGET
+			(&pagedata->fixed_info->fixed_colend->entry);
+		break; /* ?? */
+	case DPG_FORMAT :
+		focus_widget =
+			GTK_WIDGET (pagedata->format_info->format_format);
+		break;
+	default :
+		g_warning ("Unknown druid position");
+	}
+
+	if (focus_widget)
+		gtk_widget_grab_focus (focus_widget);
 }
 
 /**
@@ -163,15 +203,23 @@ dialog_stf_druid_page_next (GnomeDruidPage *page, GnomeDruid *druid, DruidPageDa
 	case DPG_CSV    : {
 		newpos = DPG_FORMAT;
 
+		if (data->format_info->format_run_parseoptions != data->csv_info->csv_run_parseoptions)
+			stf_cache_options_set_data  (data->format_info->format_run_cacheoptions, data->csv_info->csv_run_parseoptions, data->cur);
+		else
+			stf_cache_options_invalidate (data->format_info->format_run_cacheoptions);
+			
 		data->format_info->format_run_parseoptions = data->csv_info->csv_run_parseoptions;
-		data->format_info->format_run_cacheoptions = data->csv_info->csv_run_cacheoptions;
 		data->format_info->format_run_source_hash  = data->csv_info->csv_run_renderdata;
 	} break;
         case DPG_FIXED  : {
 		newpos = DPG_FORMAT;
 
+		if (data->format_info->format_run_parseoptions != data->fixed_info->fixed_run_parseoptions)
+			stf_cache_options_set_data  (data->format_info->format_run_cacheoptions, data->fixed_info->fixed_run_parseoptions, data->cur);
+		else
+			stf_cache_options_invalidate (data->format_info->format_run_cacheoptions);
+			
 		data->format_info->format_run_parseoptions = data->fixed_info->fixed_run_parseoptions;
-		data->format_info->format_run_cacheoptions = data->fixed_info->fixed_run_cacheoptions;
 		data->format_info->format_run_source_hash  = data->fixed_info->fixed_run_renderdata;
 	} break;
 	default :
@@ -188,9 +236,12 @@ dialog_stf_druid_page_next (GnomeDruidPage *page, GnomeDruid *druid, DruidPageDa
 	gnome_druid_set_page (druid, nextpage);
 	data->position = newpos;
 
-	if (newpos == DPG_FORMAT)
+	dialog_stf_set_initial_keyboard_focus (data);
+	if (newpos == DPG_FORMAT) {
 		gnome_druid_set_show_finish (data->druid, TRUE);
-	
+		gtk_widget_grab_default (data->druid->finish);
+	}
+
 	return TRUE;
 }
 
@@ -236,9 +287,11 @@ dialog_stf_druid_page_previous (GnomeDruidPage *page, GnomeDruid *druid, DruidPa
 	gnome_druid_set_page (data->druid, nextpage);
 	data->position = newpos;
 
+	dialog_stf_set_initial_keyboard_focus (data);
 	if (newpos == DPG_MAIN) 
 		gnome_druid_set_buttons_sensitive (druid, FALSE, TRUE, TRUE);
-
+	else
+		gtk_widget_grab_default (data->druid->next);
 	return TRUE;
 }
 
@@ -256,6 +309,26 @@ dialog_stf_druid_cancel (GnomeDruid *druid, DruidPageData_t *data)
 {
 	data->canceled = TRUE;
 	gtk_main_quit ();
+}
+
+/**
+ * dialog_stf_check_escape
+ * @druid : a druid
+ * @event : the event
+ * 
+ * Stops the druid if the user pressed escape.
+ *
+ * returns : TRUE if we handled the keypress, FALSE if we pass it on.
+ **/
+static gint
+dialog_stf_check_escape (GnomeDruid *druid, GdkEventKey *event,
+			 DruidPageData_t *data)
+{
+	if (event->keyval == GDK_Escape) {
+		gtk_button_clicked (GTK_BUTTON (data->druid->cancel));
+		return TRUE;
+	} else
+		return FALSE;
 }
 
 /**
@@ -381,6 +454,44 @@ dialog_stf_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
 			    "cancel", 
 			    GTK_SIGNAL_FUNC (dialog_stf_druid_cancel),
 			    pagedata);
+
+	/* And for the surrounding window */
+
+	gtk_signal_connect (GTK_OBJECT (pagedata->window),
+			    "key_press_event",
+			    GTK_SIGNAL_FUNC (dialog_stf_check_escape),
+			    pagedata);
+}
+
+/** 
+ * dialog_stf_editables_enter
+ * @pagedata : mother struct
+ *
+ * Make <Ret> in text fields activate default.
+ *
+ * returns : nothing
+ **/
+static void
+dialog_stf_editables_enter (DruidPageData_t *pagedata)
+{
+	gnumeric_editable_enters
+		(pagedata->window,
+		 GTK_EDITABLE (&pagedata->main_info->main_startrow->entry));
+	gnumeric_editable_enters
+		(pagedata->window,
+		 GTK_EDITABLE (&pagedata->main_info->main_stoprow->entry));
+	gnumeric_editable_enters
+		(pagedata->window,
+		 GTK_EDITABLE (pagedata->csv_info->csv_customseparator));
+/*	gnumeric_editable_enters
+		(pagedata->window,
+		GTK_EDITABLE (pagedata->csv_info->csv_textindicator->entry));*/
+	gnumeric_editable_enters
+		(pagedata->window,
+		 GTK_EDITABLE (&pagedata->fixed_info->fixed_colend->entry));
+	gnumeric_editable_enters
+		(pagedata->window,
+		 GTK_EDITABLE (pagedata->format_info->format_format));
 }
 
 /**
@@ -445,6 +556,12 @@ dialog_stf (CommandContext *context, const char *filename, const char *data)
 
 	dialog_stf_attach_page_signals (gui, &pagedata);
 
+	dialog_stf_editables_enter (&pagedata);	
+
+	dialog_stf_set_initial_keyboard_focus (&pagedata);
+	gtk_widget_grab_default (pagedata.druid->next);
+	
+	gnumeric_set_transient (context, pagedata.window);
 	gtk_widget_show (GTK_WIDGET (pagedata.window));
 	gtk_main ();
 

@@ -193,7 +193,8 @@ do_clipboard_paste_cell_region (CommandContext *context,
 }
 
 static CellRegion *
-x_selection_to_cell_region (char const * data, int len)
+x_selection_to_cell_region (CommandContext *context, char const * data,
+			    int len)
 {
 	DialogStfResult_t *dialogresult;
 	CellRegion *cr = NULL;
@@ -204,8 +205,6 @@ x_selection_to_cell_region (char const * data, int len)
 	crerr->cols   = -1;
 	crerr->rows   = 0;
 	crerr->styles = NULL;
-	
-	/* End of FIXME */
 	
 	if (!stf_parse_convert_to_unix (data)) {
 	
@@ -221,7 +220,7 @@ x_selection_to_cell_region (char const * data, int len)
 		return crerr;
 	}
 
-	dialogresult = dialog_stf (NULL, "clipboard", data);
+	dialogresult = dialog_stf (context, "clipboard", data);
 
 	if (dialogresult != NULL) {
 		GSList *iterator;
@@ -372,6 +371,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 	SheetSelection *ss;
 	Workbook       *wb = data;
 	clipboard_paste_closure_t *pc = wb->clipboard_paste_callback_data;
+	CommandContext *context = workbook_command_context_gui (wb);
 	CellRegion *content;
 
 	ss = pc->dest_sheet->selections->data;
@@ -382,10 +382,10 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 		if (!content)
 			return;
 	} else
-		content = x_selection_to_cell_region (sel->data, sel->length);
+		content = x_selection_to_cell_region (context,
+						      sel->data, sel->length);
 
-	sheet_paste_selection (workbook_command_context_gui (wb),
-			       pc->dest_sheet, content, ss, pc);
+	sheet_paste_selection (context, pc->dest_sheet, content, ss, pc);
 
 	/* Release the resources we used */
 	if (sel->length >= 0)

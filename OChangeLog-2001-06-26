@@ -1,3 +1,57 @@
+2000-03-02  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* src/dialogs/dialog-stf-format-page.c
+	* src/dialogs/dialog-stf-preview.c
+	* src/dialogs/dialog-stf-preview.h
+	* src/dialogs/dialog-stf.c
+	Modified, the format page now really display formatted
+	cells in the preview.
+	NOTE : A downside of this is that the cache is no longer shared
+	between fixed/csv pages and format pages.
+
+	* src/dialogs/dialog-stf.c
+	(dialog_stf_editables_enter) :
+	Disabled "enter activates default button" for the TextIndicator
+	field on the csv page. This would case the page to cycle, which 
+	is ok, but it also caused the dropdown option to pop-up on the
+	next page, which is not ok.
+
+2000-03-02  Jon K Hellan  <hellan@acm.org>
+
+	* src/dialogs/dialog-stf.c (dialog_stf_druid_page_cancel): In
+	Yes/No dialog - set initial keyboard focus to "No". It went
+	nowhere.
+	(dialog_stf_set_initial_keyboard_focus): New function: Set
+	keyboard focus to the an appropriate widget on the page.
+	(dialog_stf_druid_page_next, dialog_stf_druid_page_previous): Set
+	initial keyboard focus.
+	(dialog_stf_druid_page_next): Make "Finish" button default on the the
+	final page. This doesn't change behaviour, but cues the user
+	visually.
+	(dialog_stf_druid_page_previous): Restore "Next" button as default
+	when coming from final page.
+	(dialog_stf_check_escape): New function: Watch keypresses, and
+	simulate "Cancel" when you see <Escape>.
+	(dialog_stf_attach_page_signals): Connect dialog_stf_check_escape
+	to handle <Escape>.
+	(dialog_stf_editables_enter): New function: Make <Ret> in text
+	fields activate default.
+	(dialog_stf): Use dialog_stf_editables_enter,
+	dialog_stf_set_initial_keyboard_focus. Make "next" button the
+	default button. Make window a child of the workbook window. 
+
+	* src/dialogs/dialog-stf-format-page.c (format_page_init): Make
+	format list titles passive.
+
+	* src/dialogs/dialog-stf-fixed-page.c (fixed_page_init): Make
+	column list titles passive.
+
+	* src/clipboard.c (x_selection_to_cell_region): Add command
+	context to interface. Use it when calling dialog_stf.
+	(x_selection_to_cell_region): 
+	(x_selection_received): Call x_selection_to_cell_region with
+	workbook_command_context_gui.
+	
 2000-03-02  Miguel de Icaza  <miguel@helixcode.com>
 
 	* src/about.c (dialog_about): Changed to www.helixcode.com

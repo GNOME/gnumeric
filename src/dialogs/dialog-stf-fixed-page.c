@@ -522,6 +522,8 @@ fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	stf_parse_options_set_type  (info->fixed_run_parseoptions, PARSE_TYPE_FIXED);
 	stf_cache_options_set_data  (info->fixed_run_cacheoptions, info->fixed_run_parseoptions, pagedata->cur);
 	
+	gtk_clist_column_titles_passive (info->fixed_collist);
+
 	t[0] = g_strdup ("0");
 	t[1] = g_strdup ("-1");
 	gtk_clist_append (info->fixed_collist, t);

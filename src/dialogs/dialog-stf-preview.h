@@ -26,6 +26,7 @@
 /* Struct for holding a hash, multiple previews can share the same hash this way */
 typedef struct {
 	GHashTable *hashtable;            /* hashtable */
+	
 	int refcount;                     /* reference count */
 } HashHolder_t;
 
@@ -35,10 +36,12 @@ typedef struct {
 	int               startrow;       /* Row at which to start rendering */
 
 	GnomeCanvasGroup *group;          /* Group used to hold items put on the canvas in 1 render cycle */
+	GnomeCanvasGroup *gridgroup;      /* Used to hold the grid */
 	
 	HashHolder_t     *hashholder;     /* Used to hold the current source hash */
-	
+
 	GArray           *colwidths;      /* An array containing the column widths */
+	GArray           *temp;           /* temporary array holder */
 	GArray           *actualwidths;   /* Array containing the actual column widths (without caption sizes) */
 	GPtrArray        *colformats;     /* Array containing the desired column formats */
 

@@ -190,6 +190,9 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
 
 		listitem = g_slist_nth (info->format_run_list, info->format_run_index);
 		g_return_if_fail (listitem != NULL);
+
+		if (strcmp (listitem->data, format) != 0)
+			stf_cache_options_invalidate (info->format_run_cacheoptions);
 		
 		if (listitem->data)
 			g_free (listitem->data);
@@ -217,7 +220,7 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
 			gtk_clist_moveto (info->format_sublist, found, 0, 0.5, 0.5);
 			
 	}
-	
+		
 	format_page_update_preview (data);
 }
 
@@ -271,8 +274,6 @@ format_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *d
 	for (i = 0; i < data->colcount + 1; i++) {
 		stf_preview_colwidths_add (info->format_run_renderdata, stf_parse_get_colwidth (info->format_run_parseoptions, data->cur, i));
 	}
-		
-	stf_preview_share_hash (info->format_run_source_hash, info->format_run_renderdata);
 
 	stf_cache_options_set_range (info->format_run_cacheoptions,
 				     info->format_run_renderdata->startrow - 1,
@@ -299,8 +300,12 @@ format_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *d
  **/
 void format_page_cleanup (DruidPageData_t *pagedata)
 {
+	FormatInfo_t *info = pagedata->format_info;
 
-	stf_preview_free (pagedata->format_info->format_run_renderdata);
+	stf_preview_free (info->format_run_renderdata);
+
+	stf_cache_options_free (info->format_run_cacheoptions);
+	info->format_run_cacheoptions = NULL;
 }
 
 /**
@@ -343,7 +348,10 @@ format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->format_run_index         = -1;
 	info->format_run_manual_change = FALSE;
 	info->format_run_displayrows   = stf_preview_get_displayed_rowcount (info->format_run_renderdata);
-	
+	info->format_run_cacheoptions  = stf_cache_options_new ();
+
+        gtk_clist_column_titles_passive (info->format_sublist);
+
 	rownumber = 0;
 	temp[0] = _("Custom");
 	gtk_clist_append (info->format_sublist, temp);
