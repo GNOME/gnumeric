@@ -295,7 +295,7 @@ init_plugin (CommandContext *context, PluginData *pd)
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
 	
-	desc = _("Structured Text File import");
+	desc = _("Text File import");
 	file_format_register_open (1, desc, NULL, stf_read_workbook);
 
 	/*    desc = _("Structured Text File format (*.stf)");
@@ -313,7 +313,7 @@ init_plugin (CommandContext *context, PluginData *pd)
 
  
 
-
+ 
 
 
 

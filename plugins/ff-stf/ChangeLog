@@ -1,3 +1,7 @@
+2000-01-15    <miguel@gnu.org>
+
+	* stf.c (init_plugin): Renamed to be more obvious
+
 2000-01-07  Almer. S. Tigelaar <almer1@dds.nl>
 
 	* Initial release
