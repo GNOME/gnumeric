@@ -126,17 +126,19 @@ gnumeric_sheet_set_cursor_bounds (GnumericSheet *gsheet,
 		end_col, end_row);
 }
 
-/*
+/**
  * move_cursor_horizontal:
- *  @Sheet:  The sheet name
- *  @count:  number of units to move the cursor horizontally
- *  @jump_to_boundaries: skip from the start to the end of ranges
+ *
+ * @gsheet : The sheet
+ * @count  : Number of units to move the cursor horizontally
+ * @jump_to_boundaries: skip from the start to the end of ranges
  *                       of filled or unfilled cells.
  *
  * Moves the cursor count columns
  */
 static void
-move_cursor_horizontal (GnumericSheet *gsheet, int count, gboolean jump_to_boundaries)
+move_cursor_horizontal (GnumericSheet *gsheet, int count,
+			gboolean jump_to_boundaries)
 {
 	Sheet *sheet = gsheet->sheet_view->sheet;
 	int const new_col =
@@ -155,17 +157,19 @@ move_horizontal_selection (GnumericSheet *gsheet,
 				count, jump_to_boundaries, TRUE);
 }
 
-/*
+/**
  * move_cursor_vertical:
- *  @Sheet:  The sheet name
- *  @count:  number of units to move the cursor vertically
- *  @jump_to_boundaries: skip from the start to the end of ranges
+ *
+ * @gsheet : The sheet
+ * @count  : Number of units to move the cursor vertically
+ * @jump_to_boundaries: skip from the start to the end of ranges
  *                       of filled or unfilled cells.
  *
  * Moves the cursor count rows
  */
 static void
-move_cursor_vertical (GnumericSheet *gsheet, int count, gboolean jump_to_boundaries)
+move_cursor_vertical (GnumericSheet *gsheet, int count,
+		      gboolean jump_to_boundaries)
 {
 	Sheet *sheet = gsheet->sheet_view->sheet;
 	int const new_row =
@@ -218,9 +222,13 @@ selection_remove_selection_string (GnumericSheet *gsheet)
 {
 	WorkbookControlGUI const *wbcg = gsheet->sheet_view->wbcg;
 
-	gtk_editable_delete_text (GTK_EDITABLE (workbook_get_entry_logical (wbcg)),
-				  gsheet->sel_cursor_pos,
-				  gsheet->sel_cursor_pos+gsheet->sel_text_len);
+	if (gsheet->sel_text_len <= 0)
+		return;
+
+	gtk_editable_delete_text (
+		GTK_EDITABLE (workbook_get_entry_logical (wbcg)),
+		gsheet->sel_cursor_pos,
+		gsheet->sel_cursor_pos + gsheet->sel_text_len);
 }
 
 static void
@@ -261,9 +269,12 @@ selection_insert_selection_string (GnumericSheet *gsheet)
 
 	gsheet->sel_text_len = strlen (buffer);
 	pos = gsheet->sel_cursor_pos;
+
+	gtk_editable_set_position (editable, pos);
 	gtk_editable_insert_text (editable, buffer,
 				  gsheet->sel_text_len,
 				  &pos);
+
 	g_free (buffer);
 
 	/* Set the cursor at the end.  It looks nicer */
@@ -770,7 +781,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		return gtk_widget_event (GTK_WIDGET (workbook_get_entry_logical (wbcg)),
 					 (GdkEvent *) event);
 	}
-	sheet_update (sheet);
+	if (!wbcg->editing)
+		sheet_update (sheet);
 
 	return TRUE;
 }

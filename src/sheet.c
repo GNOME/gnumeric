@@ -767,6 +767,11 @@ sheet_update (Sheet const *sheet)
 		p->resize_scrollbar = FALSE;
 	}
 
+#warning disable during editing
+#if 0
+	if (sheet->workbook->editing)
+	    return;
+#endif
 	if (sheet->priv->edit_pos.content_changed) {
 		sheet->priv->edit_pos.content_changed = FALSE;
 		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
@@ -802,10 +807,6 @@ sheet_update (Sheet const *sheet)
 		char const *new_pos = cell_pos_name (&sheet->cursor.edit_pos);
 
 		sheet->priv->edit_pos.location_changed = FALSE;
-#warning disable during editing
-#if 0
-		if (!sheet->workbook->editing) { }
-#endif
 		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
 		{
 			if (wb_view_cur_sheet (view) == sheet) {
@@ -2541,7 +2542,8 @@ sheet_name_quote (const char *name_unquoted)
 {
 	int         i, j, quotes_embedded = 0;
 	gboolean    needs_quotes;
-	static char quote_chr [] = { '=', '<', '>', '+', '-', ' ', '^', '&', '%', ':', '\0' };
+	static char quote_chr [] =
+	{ '=', '<', '>', '(', ')', '+', '-', ' ', '^', '&', '%', ':', '\0' };
 
 	g_return_val_if_fail (name_unquoted != NULL, NULL);
 
@@ -2551,7 +2553,7 @@ sheet_name_quote (const char *name_unquoted)
 			for (j = 0; quote_chr [j]; j++)
 				if (name_unquoted [i] == quote_chr [j])
 					needs_quotes = TRUE;
-			if (name_unquoted [i] == '"')
+			if (name_unquoted [i] == '\'')
 				quotes_embedded++;
 		}
 
@@ -2561,13 +2563,13 @@ sheet_name_quote (const char *name_unquoted)
 		const char *src;
 		char  *dst;
 
-		*ret = '"';
+		*ret = '\'';
 		for (src = name_unquoted, dst = ret + 1; *src; src++, dst++) {
-			if (*src == '"')
+			if (*src == '\'')
 				*dst++ = '\\';
 			*dst = *src;
 		}
-		*dst++ = '"';
+		*dst++ = '\'';
 		*dst = '\0';
 
 		return ret;

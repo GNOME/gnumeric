@@ -1,5 +1,15 @@
 2000-11-01  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gnumeric-sheet.c (selection_insert_selection_string) :
+	  Set the position to where we expect it to be.
+	(gnumeric_sheet_key_mode_sheet) : Only call sheet_update if we are not editing.
+
+2000-11-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_name_quote) : names with parethesis require quotes.
+
+2000-11-01  Jody Goldberg <jgoldberg@home.com>
+
 	* src/workbook-edit.c (workbook_finish_editing) : Restore the focus
 	  from here.
 	* src/workbook-control-gui.c
