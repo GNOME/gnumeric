@@ -45,8 +45,6 @@ GtkWidget *  charmap_selector_new (CharmapSelectorTestDirection test);
 gchar const *charmap_selector_get_encoding (CharmapSelector *cs);
 gboolean     charmap_selector_set_encoding (CharmapSelector *cs, const char *enc);
 
-void         charmap_selector_set_sensitive (CharmapSelector *cs, gboolean sensitive);
-
 const char  *charmap_selector_get_encoding_name (CharmapSelector *cs, const char *enc);
 
 G_END_DECLS

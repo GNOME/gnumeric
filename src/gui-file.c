@@ -140,7 +140,7 @@ file_format_changed_cb (GtkOptionMenu *omenu_format,
 		gtk_option_menu_get_history (omenu_format));
 	gboolean is_sensitive = fo != NULL && gnm_file_opener_is_encoding_dependent (fo);
 
-	charmap_selector_set_sensitive (data->charmap_selector, is_sensitive);
+	gtk_widget_set_sensitive (GTK_WIDGET (data->charmap_selector), is_sensitive);
 	gtk_widget_set_sensitive (data->charmap_label, is_sensitive);
 }
 

@@ -621,15 +621,6 @@ charmap_selector_set_encoding (CharmapSelector *cs, const char *enc)
 	return TRUE;
 }
 
-
-void
-charmap_selector_set_sensitive (CharmapSelector *cs, gboolean sensitive)
-{
-	g_return_if_fail (IS_CHARMAP_SELECTOR (cs));
-
-	gtk_widget_set_sensitive (GTK_WIDGET (cs->encodings), sensitive);
-}
-
 static void
 cs_set_property (GObject      *object,
 		 guint         prop_id,

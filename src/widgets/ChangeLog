@@ -1,3 +1,8 @@
+2004-02-18  Morten Welinder  <terra@gnome.org>
+
+	* widget-charmap-selector.c (charmap_selector_set_sensitive):
+	Delete.
+
 2004-01-29  Jody Goldberg <jody@gnome.org>
 
 	* gnm-combo-box.c (gnm_combo_box_mnemonic_activate) : fix this to work

@@ -1,5 +1,8 @@
 2004-02-18  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-file.c (file_format_changed_cb): Use
+	gtk_widget_set_sensitive.
+
 	* src/gui-util.c (gnm_fixup_filechooser_size): Remove this.  No
 	longer needed.
 
