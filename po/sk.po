@@ -4,14 +4,11 @@
 # 1999 Bobo Rajec
 # 2000,2001,2002 Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>
 # Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>, 2002
-#: plugins/fn-stat/functions.c:4761 plugins/fn-stat/functions.c:4813
-#: plugins/fn-stat/functions.c:4817 plugins/fn-stat/functions.c:4819
-#: src/dialogs/dialog-sheet-order.c:397
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2002-05-31 15:21+0200\n"
-"PO-Revision-Date: 2002-05-31 15:58+0200\n"
+"POT-Creation-Date: 2002-06-03 12:58+0200\n"
+"PO-Revision-Date: 2002-06-03 12:59+0200\n"
 "Last-Translator: Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -5489,8 +5486,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=XOR\n"
 "@SYNTAX=XOR(b1, b2, ...)\n"
-"@DESCRIPTION=XOR implementuje logické exkluzívne OR: výsledok je TRUE ak "
-"je nepárny počet parametrov vyhodnotený ako TRUE.\n"
+"@DESCRIPTION=XOR implementuje logické exkluzívne OR: výsledok je TRUE ak je "
+"nepárny počet parametrov vyhodnotený ako TRUE.\n"
 "@b1, až @bN sú výrazy, ktoré by mali mať ako výsledok TRUE alebo FALSE.  Ak "
 "je výsledkom číslo, 0 sa chápe ako FALSE a všetko ostatné ako TRUE.\n"
 "Ak hodnoty obsahujú reťazce alebo prázdne bunky, sú ignorované. Ak neboli "
@@ -11596,7 +11593,7 @@ msgstr "riadky"
 #. * Add Sheet
 #.
 #: plugins/plan-perfect/pln.c:910 plugins/sc/sc.c:420 plugins/sylk/sylk.c:460
-#: src/stf.c:175 src/stf.c:264
+#: src/stf.c:176 src/stf.c:276
 #, c-format
 msgid "Imported %s"
 msgstr "Importovaný %s"
@@ -15315,8 +15312,8 @@ msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
 msgstr ""
-"Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce a dva "
-"riadky dát a popisov."
+"Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce a dva riadky dát a "
+"popisov."
 
 #: src/dialogs/dialog-analysis-tools.c:3153
 msgid ""
@@ -15878,8 +15875,8 @@ msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
 msgstr ""
-"Položky na tejto stránke upravujú počiatočné nastavenia v "
-"dialógu triedenia a chovanie tlačidiel triedenia v paneloch nástrojov."
+"Položky na tejto stránke upravujú počiatočné nastavenia v dialógu triedenia "
+"a chovanie tlačidiel triedenia v paneloch nástrojov."
 
 #: src/dialogs/dialog-preferences.c:931
 msgid "The items on this page customize the new default workbook."
@@ -20376,15 +20373,15 @@ msgstr "Príliš veľa riadkov dát pre spracovanie: %d"
 msgid "Too many columns in data to parse: %d"
 msgstr "Príliš veľa stĺpcov dát pre spracovanie: %d"
 
-#: src/stf.c:116
+#: src/stf.c:117
 msgid "Error while trying to memory map file"
 msgstr "Chyba pri pokuse o namapovanie súboru do pamäti"
 
-#: src/stf.c:127
+#: src/stf.c:128
 msgid "Error while trying to pre-convert file"
 msgstr "Chyba pri pokuse o prevod súboru"
 
-#: src/stf.c:133
+#: src/stf.c:134
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -20395,23 +20392,23 @@ msgstr ""
 "Bol nájdený znak '%c' (ASCII hodnota %d).\n"
 "Vaše nastavenie národného prostredia asi nie je v poriadku."
 
-#: src/stf.c:219 src/stf.c:289
+#: src/stf.c:220 src/stf.c:305
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Chyba pri načítavaní dát do listu"
 
-#: src/stf.c:394
+#: src/stf.c:410
 msgid "Error while trying to write csv file"
 msgstr "Chyba pri zápise csv súboru"
 
-#: src/stf.c:410
-msgid "Text import (defaults to csv)"
-msgstr "Import textového súboru (štandardne csv)"
+#: src/stf.c:426
+msgid "Text import (auto-detect CSV or tab-delimited)"
+msgstr "Import textu (automatická detekcia CSV alebo text oddelený tabulátormi)"
 
-#: src/stf.c:414
+#: src/stf.c:430
 msgid "Text import (configurable)"
 msgstr "Import textového súboru (nastaviteľné)"
 
-#: src/stf.c:418
+#: src/stf.c:434
 msgid "Text export (configurable)"
 msgstr "Export textového súboru (nastaviteľné)"
 
@@ -21280,8 +21277,8 @@ msgid ""
 "Model is too large for program report generation. Program report was not "
 "created."
 msgstr ""
-"Model je príliš veľký, aby program mohol vygenerovať správu. "
-"Správa nebola vytvorená."
+"Model je príliš veľký, aby program mohol vygenerovať správu. Správa nebola "
+"vytvorená."
 
 #: src/tools/solver/solver.c:408
 msgid ""
@@ -21940,6 +21937,9 @@ msgstr "Nie je súbor so zošitom Gnumeric"
 #: src/xml-io.c:3450
 msgid "Gnumeric XML file format"
 msgstr "Súborový formát Gnumeric XML"
+
+#~ msgid "Text import (defaults to csv)"
+#~ msgstr "Import textového súboru (štandardne csv)"
 
 #~ msgid "General Statistics"
 #~ msgstr "Všeobecná štatistika"
