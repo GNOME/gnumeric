@@ -6,20 +6,20 @@
 
 #include <stdio.h>
 
-FILE *gnumeric_fopen (IOContext *wbc, const gchar *path, const gchar *mode);
-gint  gnumeric_open  (IOContext *wbc, const gchar *pathname, gint flags);
+FILE *gnumeric_fopen_error_info (char const *file_name, char const *mode,
+				 ErrorInfo **ret_error);
+FILE *gnumeric_fopen		(IOContext *wbc, char const *path,
+				 char const *mode);
 
-const guchar        *gnumeric_mmap_open  (IOContext *wbc, const gchar *filename,
-                                          gint *fdesc, gint *file_size);
+gint gnumeric_open_error_info (char const *file_name, gint flags,
+			       ErrorInfo **ret_error);
+gint gnumeric_open	      (IOContext *wbc, char const *filename, gint flag);
 
-void                 gnumeric_mmap_close (IOContext *wbc, const guchar *data,
-                                          gint fdesc, gint file_size);
-
-FILE                *gnumeric_fopen_error_info (const gchar *file_name, const gchar *mode,
-                                                ErrorInfo **ret_error);
-gint                 gnumeric_open_error_info (const gchar *file_name, gint flags,
-                                               ErrorInfo **ret_error);
-guchar              *gnumeric_mmap_error_info (const gchar *file_name, gint *file_size,
-                                               ErrorInfo **ret_error);
+guchar const *gnumeric_mmap_error_info  (char const *file_name, gint *file_size,
+					 ErrorInfo **ret_error);
+guchar const *gnumeric_mmap_open	(IOContext *wbc, const gchar *filename,
+					 gint *fd, gint *file_size);
+void	      gnumeric_mmap_close	(IOContext *wbc, const guchar *data,
+					 gint fd, gint file_size);
 
 #endif /* GNUMERIC_PLUGIN_UTIL_H */

@@ -292,7 +292,7 @@ gnumeric_open_error_info (const gchar *file_name, gint flags, ErrorInfo **ret_er
  *
  * Return value: a pointer to the mmaped data or NULL on failure.
  **/
-guchar *
+guchar const *
 gnumeric_mmap_error_info (const gchar *file_name, gint *file_size, ErrorInfo **ret_error)
 {
 	gpointer mem;
@@ -331,5 +331,5 @@ gnumeric_mmap_error_info (const gchar *file_name, gint *file_size, ErrorInfo **r
 		*file_size = sbuf.st_size;
 	}
 
-	return (guchar *) mem;
+	return mem;
 }
