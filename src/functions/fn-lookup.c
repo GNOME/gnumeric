@@ -527,13 +527,16 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 	else
 		a1_style = TRUE;
 
-	if (error)
+	if (error) {
+		g_free (text);
 		return value_new_error (&ei->pos, gnumeric_err_REF);
+	}
 
 	if (a1_style)
 		error = !cellref_a1_get (&ref, text, ei->pos.eval_col, ei->pos.eval_row);
 	else
 		error = !cellref_r1c1_get (&ref, text, ei->pos.eval_col, ei->pos.eval_row);
+	g_free (text);
 
 	if (error)
 		return value_new_error (&ei->pos, gnumeric_err_REF);
@@ -546,8 +549,6 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 		return value_new_int (0);
 	else
 		return value_duplicate (cell->value);
-
-	g_free (text);
 }
 
 static char *help_column = {

@@ -2140,6 +2140,7 @@ ms_ole_path_decode (MsOle *f, const char *path)
 
 	while (dirs[lp])
 		g_free (dirs[lp++]);
+	g_free (dirs);
 
 	return dir;
 }

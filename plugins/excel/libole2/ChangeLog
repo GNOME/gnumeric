@@ -1,3 +1,7 @@
+1999-08-29  Morten Welinder  <terra@diku.dk>
+
+	* ms-ole.c (ms_ole_path_decode): Plug leak.
+
 1999-08-16  Michael Meeks  <michael@imaginator.com>
 
 	* gnome-stream-ole.c (real_seek): Expanded, and fixed for

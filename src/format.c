@@ -258,10 +258,12 @@ pre_parse_format (StyleFormatEntry *style)
 	for (format = style->format; *format; format++){
 		switch (*format){
 		case '"':
-			for (format++; *format && *format != '"'; format++)
-				;
-			if (*format)
+			format++;
+			while (*format && *format != '"')
 				format++;
+
+			if (!*format)
+				return;
 			break;
 
 		case '\\':
@@ -794,8 +796,11 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 
 		case '\\':
 			if (*(format+1)){
-				if (can_render_number && !info.rendered)
-					g_string_append (result, do_render_number (number, &info));
+				if (can_render_number && !info.rendered) {
+					char *s = do_render_number (number, &info);
+					g_string_append (result, s);
+					g_free (s);
+				}
 				g_string_append_c (result, *format);
 			}
 			break;

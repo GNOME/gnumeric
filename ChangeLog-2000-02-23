@@ -1,5 +1,10 @@
 1999-08-29  Morten Welinder  <terra@diku.dk>
 
+	* src/functions/fn-lookup.c (gnumeric_indirect): Plug leak.
+
+	* src/format.c (pre_parse_format): Don't overrun string.
+	(format_number): Plug leak.
+
 	* src/workbook.c (workbook_do_destroy): Typo.
 
 1999-08-28  Miguel de Icaza  <miguel@gnu.org>
