@@ -173,6 +173,13 @@ Long term breakage
   eg saving .gnumeric as foo.xls
 - Can we probe for .gzipped files to catch the misnaming ?
 
+- Editable sheet label:
+    1 double click
+    2. right click
+    3 select "Manage sheets"
+    4. Try to get rid of dialog.
+    You can, but you have to finish editing the editable label first
+
 Dialogs
 -------
 - Function selector
