@@ -1,12 +1,14 @@
+# Slovak translation of sk.po
 # Gnumeric Slovak translation
 # Copyright (c) 1999,2000,2001,2002 The Free Software Foundation
 # 1999 Bobo Rajec
 # 2000,2001,2002 Stanislav Visnovsky
+# Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>, 2002
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.0\n"
-"POT-Creation-Date: 2002-04-27 17:26+0200\n"
-"PO-Revision-Date: 2002-04-27 17:27+0200\n"
+"Project-Id-Version: sk\n"
+"POT-Creation-Date: 2002-05-10 16:44+0200\n"
+"PO-Revision-Date: 2002-05-10 16:44+0200\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -520,12 +522,12 @@ msgstr "Zo¹ity chránené heslom zatiaµ nie sú podporované."
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nepodarilo sa nájs» platný zo¹it MS Excel"
 
-#: plugins/excel/ms-excel-write.c:3573
+#: plugins/excel/ms-excel-write.c:3574
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Príli¹ veµa riadkov pre tento formát (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3799
+#: plugins/excel/ms-excel-write.c:3800
 msgid "Can't open stream for writing\n"
 msgstr "Nepodarilo sa otvori» kanál pre zápis\n"
 
@@ -1587,7 +1589,7 @@ msgstr "Vytvorí posuvník"
 msgid "Create an arrow"
 msgstr "Vytvorí objekt ¹ípka"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1393
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1394
 #: src/workbook-control-gui.c:2734
 msgid "Cu_t"
 msgstr "Vystri_hnú»"
@@ -2412,8 +2414,8 @@ msgstr "_Konzolidova»..."
 msgid "_Content"
 msgstr "_Obsah"
 
-#: src/GNOME_Gnumeric.xml.h:260 src/item-cursor.c:1030
-#: src/sheet-control-gui.c:1395 src/workbook-control-gui.c:2738
+#: src/GNOME_Gnumeric.xml.h:260 src/item-cursor.c:1011
+#: src/sheet-control-gui.c:1396 src/workbook-control-gui.c:2738
 msgid "_Copy"
 msgstr "_Kopírova»"
 
@@ -2429,7 +2431,7 @@ msgstr "_Dáta"
 msgid "_Define..."
 msgstr "_Definova»..."
 
-#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1413
+#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1414
 #: src/workbook-control-gui.c:2755
 msgid "_Delete..."
 msgstr "_Zmaza»..."
@@ -2500,8 +2502,8 @@ msgstr "_Skupiny a prehµady"
 msgid "_Help"
 msgstr "_Pomocník"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1436
-#: src/sheet-control-gui.c:1444 src/workbook-control-gui.c:2876
+#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1437
+#: src/sheet-control-gui.c:1445 src/workbook-control-gui.c:2876
 #: src/workbook-control-gui.c:2895
 msgid "_Hide"
 msgstr "_Skry»"
@@ -2559,7 +2561,7 @@ msgstr "_Otvori»..."
 msgid "_Paired Samples: T-Test"
 msgstr "_Párové výbery: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1397
+#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1398
 #: src/workbook-control-gui.c:2742
 msgid "_Paste"
 msgstr "V_lo¾i»"
@@ -2674,8 +2676,8 @@ msgstr "_Vráti»"
 msgid "_Ungroup"
 msgstr "Z_ru¹i» zoskupenie"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1438
-#: src/sheet-control-gui.c:1446 src/workbook-control-gui.c:2879
+#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1439
+#: src/sheet-control-gui.c:1447 src/workbook-control-gui.c:2879
 #: src/workbook-control-gui.c:2898
 msgid "_Unhide"
 msgstr "_Zobrazi» skryté"
@@ -3123,283 +3125,283 @@ msgstr "Napísanie \"%s%s\" v %s"
 msgid "Typing \"%s%s\""
 msgstr "Napísanie \"%s%s\""
 
-#: src/commands.c:1103
+#: src/commands.c:1102
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Vlo¾enie %d ståpcov pred %s"
 
-#: src/commands.c:1104
+#: src/commands.c:1103
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Vlo¾enie %d ståpec pred %s"
 
-#: src/commands.c:1119
+#: src/commands.c:1118
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Vlo¾enie %d riadkov pred %s"
 
-#: src/commands.c:1120
+#: src/commands.c:1119
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Vlo¾enie %d riadok pred %s"
 
-#: src/commands.c:1131
+#: src/commands.c:1130
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Odstránenie ståpcov %s"
 
-#: src/commands.c:1132
+#: src/commands.c:1131
 #, c-format
 msgid "Deleting column %s"
 msgstr "Odstránenie ståpec %s"
 
-#: src/commands.c:1142
+#: src/commands.c:1141
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Odstránenie riadkov %s"
 
-#: src/commands.c:1143
+#: src/commands.c:1142
 #, c-format
 msgid "Deleting row %s"
 msgstr "Odstránenie riadku %s"
 
-#: src/commands.c:1218
+#: src/commands.c:1217
 msgid "Undo Clear"
 msgstr "Vráti» mazanie"
 
-#: src/commands.c:1297
+#: src/commands.c:1296
 msgid "contents"
 msgstr "obsah"
 
-#: src/commands.c:1299
+#: src/commands.c:1298
 msgid "formats"
 msgstr "formáty"
 
-#: src/commands.c:1301
+#: src/commands.c:1300
 msgid "comments"
 msgstr "komentáre"
 
-#: src/commands.c:1317
+#: src/commands.c:1316
 msgid "all"
 msgstr "v¹etko"
 
-#: src/commands.c:1324
+#: src/commands.c:1323
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Vyèistenie %s v %s"
 
-#: src/commands.c:1519
+#: src/commands.c:1518
 #, c-format
 msgid "Changing format of %s"
 msgstr "Zmena formátu %s"
 
-#: src/commands.c:1595
+#: src/commands.c:1594
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Premenovanie listu '%s' '%s'"
 
-#: src/commands.c:1705
+#: src/commands.c:1704
 msgid "Set Date/Time"
 msgstr "Nastavenie dátumu/èasu"
 
-#: src/commands.c:1722
+#: src/commands.c:1721
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Vlo¾enie aktuálneho dátumu do %s"
 
-#: src/commands.c:1723
+#: src/commands.c:1722
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Vlo¾enie aktuálneho èasu v %s"
 
-#: src/commands.c:1830
+#: src/commands.c:1829
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Automatická uprava veµkosti ståpca %s"
 
-#: src/commands.c:1831
+#: src/commands.c:1830
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Automatická úprava veµkosti riadku %s"
 
-#: src/commands.c:1834
+#: src/commands.c:1833
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Nastavenie ¹írky ståpcov %s na %d bodov"
 
-#: src/commands.c:1836
+#: src/commands.c:1835
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Nastavenie vý¹ky riadkov %s na %d bodov"
 
-#: src/commands.c:1841 src/commands.c:1842
+#: src/commands.c:1840 src/commands.c:1841
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Automatická uprava veµkosti ståpcov %s"
 
-#: src/commands.c:1845
+#: src/commands.c:1844
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Nastavenie ¹írky ståpcov %s na %d bodov"
 
-#: src/commands.c:1847
+#: src/commands.c:1846
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Nastavenie vý¹ky riadkov %s na %d bodov"
 
-#: src/commands.c:1931
+#: src/commands.c:1930
 #, c-format
 msgid "Sorting %s"
 msgstr "Triedenie %s"
 
-#: src/commands.c:2059
+#: src/commands.c:2058
 msgid "Unhide columns"
 msgstr "Zobrazenie skrytých ståpcov"
 
-#: src/commands.c:2059
+#: src/commands.c:2058
 msgid "Hide columns"
 msgstr "Skrytie ståpcov"
 
-#: src/commands.c:2060
+#: src/commands.c:2059
 msgid "Unhide rows"
 msgstr "Zobrazenie skrytých riadkov"
 
-#: src/commands.c:2060
+#: src/commands.c:2059
 msgid "Hide rows"
 msgstr "Skrytie riadkov"
 
-#: src/commands.c:2141
+#: src/commands.c:2140
 msgid "Expand columns"
 msgstr "Rozbalenie ståpcov"
 
-#: src/commands.c:2141
+#: src/commands.c:2140
 msgid "Collapse columns"
 msgstr "Zabalenie ståpcov"
 
-#: src/commands.c:2142
+#: src/commands.c:2141
 msgid "Expand rows"
 msgstr "Rozbalenie riadkov"
 
-#: src/commands.c:2142
+#: src/commands.c:2141
 msgid "Collapse rows"
 msgstr "Zabalenie riadkov"
 
-#: src/commands.c:2211
+#: src/commands.c:2210
 msgid "Those columns are already grouped"
 msgstr "Tieto ståpce u¾ sú v skupine"
 
-#: src/commands.c:2212
+#: src/commands.c:2211
 msgid "Those rows are already grouped"
 msgstr "Tieto riadky u¾ sú v skupine"
 
-#: src/commands.c:2215
+#: src/commands.c:2214
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Tieto ståpce nie sú v skupine, tak¾e ich nemô¾ete rozoskupi»"
 
-#: src/commands.c:2216
+#: src/commands.c:2215
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Tieto riadky nie sú v skupine, tak¾e ich nemô¾ete rozoskupi»"
 
-#: src/commands.c:2227
+#: src/commands.c:2226
 #, c-format
 msgid "Group columns %s"
 msgstr "Zoskupi» ståpce %s"
 
-#: src/commands.c:2227
+#: src/commands.c:2226
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Rozoskupi» ståpce %s"
 
-#: src/commands.c:2229
+#: src/commands.c:2228
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Zoskupi» riadky %d:%d"
 
-#: src/commands.c:2229
+#: src/commands.c:2228
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Rozoskupi» riadky %d:%d"
 
-#: src/commands.c:2436
+#: src/commands.c:2435
 #, c-format
 msgid "Moving %s"
 msgstr "Presun %s"
 
-#: src/commands.c:2445 src/commands.c:2653
+#: src/commands.c:2444 src/commands.c:2652
 msgid "is beyond sheet boundaries"
 msgstr "je mimo okraje listu"
 
 #. FIXME?
-#: src/commands.c:2597
+#: src/commands.c:2596
 #, c-format
 msgid "Pasting into %s"
 msgstr "Vlo¾enie do %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2826 src/commands.c:2827 src/workbook-control-gui.c:1841
+#: src/commands.c:2825 src/commands.c:2826 src/workbook-control-gui.c:1841
 msgid "Autofill"
 msgstr "Automatické vyplòovanie"
 
 #. Changed in initial redo.
-#: src/commands.c:2850
+#: src/commands.c:2849
 #, c-format
 msgid "Autofilling %s"
 msgstr "Automatické vyplòovanie %s"
 
-#: src/commands.c:3003
+#: src/commands.c:3002
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automatický formát %s"
 
-#: src/commands.c:3113
+#: src/commands.c:3112
 #, c-format
 msgid "Unmerging %s"
 msgstr "Zru¹enie spojenia buniek %s"
 
-#: src/commands.c:3251
+#: src/commands.c:3250
 #, c-format
 msgid "Merging %s"
 msgstr "Spojenie %s"
 
 #. Corrected below.
-#: src/commands.c:3631 src/dialogs/search-replace.glade.h:23
+#: src/commands.c:3630 src/dialogs/search-replace.glade.h:23
 msgid "Search and Replace"
 msgstr "Nájs» a nahradi»"
 
-#: src/commands.c:3727
+#: src/commands.c:3726
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Nastavenie ¹tandardnej ¹írky ståpcov na %.2f bodov"
 
-#: src/commands.c:3728
+#: src/commands.c:3727
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Nastavenie ¹tandardnej vý¹ky riadkov na %.2f bodov"
 
 #. Changed in initial redo.
-#: src/commands.c:3813
+#: src/commands.c:3812
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "Konzolidujem do %s!%s"
 
-#: src/commands.c:3928
+#: src/commands.c:3927
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zväè¹i» %s na %.0f%%"
 
-#: src/commands.c:3997
+#: src/commands.c:3996
 msgid "Insert object"
 msgstr "Vlo¾i» objekt"
 
-#: src/commands.c:4055
+#: src/commands.c:4054
 msgid "Delete object"
 msgstr "Odstráni» objekt"
 
-#: src/commands.c:4136
+#: src/commands.c:4135
 msgid "Resize object"
 msgstr "Zmeni» veµkos» objektu"
 
-#: src/commands.c:4136
+#: src/commands.c:4135
 msgid "Move object"
 msgstr "Presunú» objekt"
 
@@ -5366,7 +5368,7 @@ msgid "Value%d"
 msgstr "Hodnota%d"
 
 #: src/dialogs/dialog-formula-guru.c:439 src/dialogs/dialog-search.c:122
-#: src/functions/fn-string.c:1217
+#: src/functions/fn-string.c:1232
 msgid "String"
 msgstr "Textové"
 
@@ -8889,7 +8891,7 @@ msgstr "Neznáma funkcia"
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
 #: src/functions/fn-information.c:823 src/functions/fn-information.c:874
 #: src/functions/fn-information.c:904 src/functions/fn-information.c:971
-#: src/functions/fn-logical.c:196 src/functions/fn-string.c:325
+#: src/functions/fn-logical.c:196 src/functions/fn-string.c:337
 msgid "Invalid number of arguments"
 msgstr "Neplatný poèet argumentov"
 
@@ -13643,7 +13645,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AND, OR"
 
-#: src/functions/fn-logical.c:103 src/functions/fn-string.c:506
+#: src/functions/fn-logical.c:103 src/functions/fn-string.c:518
 msgid "Type Mismatch"
 msgstr "Chyba typu"
 
@@ -18474,7 +18476,12 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, RIGHT"
 
-#: src/functions/fn-string.c:161
+#: src/functions/fn-string.c:149 src/functions/fn-string.c:221
+#: src/functions/fn-string.c:269
+msgid "Invalid arguments"
+msgstr "Neplatné argumenty"
+
+#: src/functions/fn-string.c:165
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -18494,7 +18501,7 @@ msgstr ""
 "\n"
 "@SEEALSO=UPPER"
 
-#: src/functions/fn-string.c:191
+#: src/functions/fn-string.c:195
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -18516,11 +18523,11 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, RIGHT"
 
-#: src/functions/fn-string.c:217
-msgid "Invalid arguments"
-msgstr "Neplatné argumenty"
+#: src/functions/fn-string.c:227 src/functions/fn-string.c:632
+msgid "Arguments out of range"
+msgstr "Argumenty sú mimo rozsah"
 
-#: src/functions/fn-string.c:236
+#: src/functions/fn-string.c:244
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -18544,7 +18551,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, LEFT"
 
-#: src/functions/fn-string.c:275
+#: src/functions/fn-string.c:287
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -18564,7 +18571,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER"
 
-#: src/functions/fn-string.c:305
+#: src/functions/fn-string.c:317
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -18584,7 +18591,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 
-#: src/functions/fn-string.c:347
+#: src/functions/fn-string.c:359
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -18606,11 +18613,11 @@ msgstr ""
 
 #. FIXME: this and above case should probably have the
 #. same error message.
-#: src/functions/fn-string.c:386
+#: src/functions/fn-string.c:398
 msgid "Out of memory"
 msgstr "Nedostatok pamäti"
 
-#: src/functions/fn-string.c:402
+#: src/functions/fn-string.c:414
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -18630,7 +18637,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-string.c:434
+#: src/functions/fn-string.c:446
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -18653,7 +18660,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
-#: src/functions/fn-string.c:476
+#: src/functions/fn-string.c:488
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
@@ -18676,7 +18683,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-string.c:544
+#: src/functions/fn-string.c:556
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -18697,7 +18704,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER, UPPER"
 
-#: src/functions/fn-string.c:590
+#: src/functions/fn-string.c:602
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -18719,7 +18726,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
-#: src/functions/fn-string.c:640
+#: src/functions/fn-string.c:655
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -18743,7 +18750,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CELL, N, VALUE"
 
-#: src/functions/fn-string.c:666
+#: src/functions/fn-string.c:681
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -18765,11 +18772,11 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR"
 
-#: src/functions/fn-string.c:702
+#: src/functions/fn-string.c:717
 msgid "Type mismatch"
 msgstr "Chyba typu"
 
-#: src/functions/fn-string.c:714
+#: src/functions/fn-string.c:729
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -18789,7 +18796,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
-#: src/functions/fn-string.c:760
+#: src/functions/fn-string.c:775
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -18809,7 +18816,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
-#: src/functions/fn-string.c:803
+#: src/functions/fn-string.c:818
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -18832,7 +18839,7 @@ msgstr ""
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
-#: src/functions/fn-string.c:919
+#: src/functions/fn-string.c:934
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -18852,7 +18859,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 
-#: src/functions/fn-string.c:988
+#: src/functions/fn-string.c:1003
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
@@ -19066,7 +19073,7 @@ msgstr "©írka: %.2f bodov (%d pixelov)"
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Vý¹ka: %.2f bodov (%d pixelov)"
 
-#: src/item-cursor.c:917
+#: src/item-cursor.c:898
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -19075,35 +19082,35 @@ msgstr ""
 "Presúvané bunky prepí¹u obsah existujúcich buniek\n"
 "v tomto rozsahu. Chcete nahradi» obsah buniek v tomto regióne?"
 
-#: src/item-cursor.c:1027
+#: src/item-cursor.c:1008
 msgid "_Move"
 msgstr "_Presunú»"
 
-#: src/item-cursor.c:1033
+#: src/item-cursor.c:1014
 msgid "Copy _Formats"
 msgstr "Kopírova» _formát"
 
-#: src/item-cursor.c:1035
+#: src/item-cursor.c:1016
 msgid "Copy _Values"
 msgstr "Kopírova» _hodnoty"
 
-#: src/item-cursor.c:1040
+#: src/item-cursor.c:1021
 msgid "Shift _Down and Copy"
 msgstr "Posunú» bunky _dolu a kopírova»"
 
-#: src/item-cursor.c:1042
+#: src/item-cursor.c:1023
 msgid "Shift _Right and Copy"
 msgstr "Posunú» bunky dop_rava a kopírova»"
 
-#: src/item-cursor.c:1044
+#: src/item-cursor.c:1025
 msgid "Shift Dow_n and Move"
 msgstr "Posunú» bunky do_lu a presunú»"
 
-#: src/item-cursor.c:1046
+#: src/item-cursor.c:1027
 msgid "Shift Righ_t and Move"
 msgstr "Posunú» bunky dopra_va a presunú»"
 
-#: src/item-cursor.c:1051
+#: src/item-cursor.c:1032
 msgid "C_ancel"
 msgstr "_Zru¹i»"
 
@@ -19679,17 +19686,17 @@ msgstr "Neplatné spätné lomítko na konci v náhrade."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "nedá sa vykona» s viacnásobným výberom"
 
-#: src/sheet-control-gui.c:556
+#: src/sheet-control-gui.c:557
 #, c-format
 msgid "Row: %s"
 msgstr "Riadok: %s"
 
-#: src/sheet-control-gui.c:571
+#: src/sheet-control-gui.c:572
 #, c-format
 msgid "Column: %s"
 msgstr "Ståpec: %s"
 
-#: src/sheet-control-gui.c:1399
+#: src/sheet-control-gui.c:1400
 msgid "Paste _Special"
 msgstr "Vlo¾i» _inak"
 
@@ -19700,41 +19707,41 @@ msgstr "Vlo¾i» _inak"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1411
+#: src/sheet-control-gui.c:1412
 msgid "_Insert..."
 msgstr "_Prida»..."
 
-#: src/sheet-control-gui.c:1415
+#: src/sheet-control-gui.c:1416
 msgid "_Insert Column(s)"
 msgstr "_Vlo¾i» ståpce"
 
-#: src/sheet-control-gui.c:1417
+#: src/sheet-control-gui.c:1418
 msgid "_Delete Column(s)"
 msgstr "_Odstráni» ståpce"
 
-#: src/sheet-control-gui.c:1419
+#: src/sheet-control-gui.c:1420
 msgid "_Insert Row(s)"
 msgstr "_Vlo¾i» riadky"
 
-#: src/sheet-control-gui.c:1421
+#: src/sheet-control-gui.c:1422
 msgid "_Delete Row(s)"
 msgstr "_Odstráni» riadky"
 
-#: src/sheet-control-gui.c:1424
+#: src/sheet-control-gui.c:1425
 msgid "Clear Co_ntents"
 msgstr "Vymaza» _obsah"
 
-#: src/sheet-control-gui.c:1430
+#: src/sheet-control-gui.c:1431
 msgid "_Format Cells..."
 msgstr "_Formát buniek..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1434
+#: src/sheet-control-gui.c:1435
 msgid "Column _Width..."
 msgstr "©í_rka ståpca..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1442
+#: src/sheet-control-gui.c:1443
 msgid "_Row Height..."
 msgstr "_Vý¹ka riadku..."
 
@@ -19853,23 +19860,23 @@ msgstr "nedá sa vykona» na spojených bunkách"
 msgid "cannot operate on array formulae"
 msgstr "nedá sa vykona» na poli vzorcov"
 
-#: src/sheet.c:3053
+#: src/sheet.c:3066
 msgid "Clear"
 msgstr "Zmaza»"
 
-#: src/sheet.c:3459
+#: src/sheet.c:3472
 msgid "Insert Columns"
 msgstr "Vlo¾i» ståpce"
 
-#: src/sheet.c:3516
+#: src/sheet.c:3529
 msgid "Delete Columns"
 msgstr "Odstráni» ståpce"
 
-#: src/sheet.c:3570
+#: src/sheet.c:3583
 msgid "Insert Rows"
 msgstr "Vlo¾i» riadky"
 
-#: src/sheet.c:3627
+#: src/sheet.c:3640
 msgid "Delete Rows"
 msgstr "Odstráni» riadky"
 
@@ -20082,42 +20089,42 @@ msgstr "Va¹a mapa písiem fontmap2 neobsahuje platné informácie o Helvetica."
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "Va¹a mapa písiem fontmap2 nebola nájdená na oèakávanom mieste."
 
-#: src/validation.c:138
+#: src/validation.c:139
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Bunka %s nesmie by» prázdna"
 
-#: src/validation.c:155
+#: src/validation.c:156
 #, c-format
 msgid "'%s' is an error"
 msgstr "'%s' je chyba"
 
-#: src/validation.c:165
+#: src/validation.c:166
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "%s nie je platný dátum"
 
-#: src/validation.c:167
+#: src/validation.c:168
 #, c-format
 msgid "'%s' is not a valid time"
 msgstr "'%s' nie je paltný èas"
 
-#: src/validation.c:169
+#: src/validation.c:170
 #, c-format
 msgid "'%s' is not a number"
 msgstr "'%s' nie je èíslo"
 
-#: src/validation.c:182
+#: src/validation.c:183
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "'%s' nie je celé èíslo"
 
-#: src/validation.c:275
+#: src/validation.c:276
 #, c-format
 msgid "%s is not true."
 msgstr "%s neplatí."
 
-#: src/validation.c:288
+#: src/validation.c:289
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -20125,7 +20132,7 @@ msgstr ""
 "Hodnota nie je platná.\n"
 "Na obsah tejto bunky sú kladené obmedzenia."
 
-#: src/validation.c:295
+#: src/validation.c:296
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric: Overenie"
 
