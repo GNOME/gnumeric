@@ -1,3 +1,9 @@
+1999-12-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/selection.c (segments_intersect) : Be more agressive about
+	  returning containtment.
+	(selection_apply) : Improve debug output.
+
 1999-12-08  Yuri Syrota  <rasta@renome.rovno.ua>
 
 	* configure.in (ALL_LINGUAS): Added "uk".

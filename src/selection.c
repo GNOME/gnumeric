@@ -35,6 +35,11 @@ segments_intersect (int const s_a, int const e_a,
 	if (e_a < s_b || e_b < s_a)
 		return 0;
 
+	if (s_a == s_b)
+		return (e_a >= e_b) ? 4 : 2;
+	if (e_a == e_b)
+		return (s_a <= s_b) ? 4 : 2;
+
 	if (s_a < s_b)
 		return (e_a >= e_b) ? 4 : 3;
 
@@ -796,6 +801,11 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 		return;
 	}
 
+#undef DEBUG_SELECTION
+#ifdef DEBUG_SELECTION
+	fprintf (stderr, "============================\n");
+#endif
+
 	/*
 	 * Run through all the selection regions to see if any of
 	 * the proposed regions overlap.  Start the search with the
@@ -826,12 +836,20 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 				continue;
 			}
 
+
+#ifdef DEBUG_SELECTION
+			fprintf (stderr, "a = ");
+			range_dump (a);
+			fprintf (stderr, "b = ");
+			range_dump (b);
+#endif
+
 			col_intersect =
 				segments_intersect (a->start.col, a->end.col,
 						    b->start.col, b->end.col);
 
-#if 0
-			printf ("col = %d\na = %d -> %d\nb = %d -> %d\n",
+#ifdef DEBUG_SELECTION
+			fprintf (stderr, "col = %d\na = %d -> %d\nb = %d -> %d\n",
 				col_intersect,
 				a->start.col, a->end.col,
 				b->start.col, b->end.col);
@@ -846,8 +864,8 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 			row_intersect =
 				segments_intersect (a->start.row, a->end.row,
 						    b->start.row, b->end.row);
-#if 0
-			printf ("row = %d\na = %d -> %d\nb = %d -> %d\n",
+#ifdef DEBUG_SELECTION
+			fprintf (stderr, "row = %d\na = %d -> %d\nb = %d -> %d\n",
 				row_intersect,
 				a->start.row, a->end.row,
 				b->start.row, b->end.row);
