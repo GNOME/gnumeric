@@ -120,7 +120,7 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 					   _("clipboard"), data, data_len);
 
 		if (dialogresult != NULL) {
-			int col;
+			unsigned int col, targetcol;
 
 			cr = stf_parse_region (dialogresult->parseoptions, dialogresult->text, NULL);
 
@@ -129,18 +129,22 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 				return cellregion_new (NULL);
 			}
 
-			for (col = 0; col < (int)dialogresult->formats->len; col++) {
-				StyleFormat *sf = g_ptr_array_index (dialogresult->formats, col);
-				StyleRegion *sr = g_new (StyleRegion, 1);
+			targetcol = 0;
+			for (col = 0; col < dialogresult->formats->len; col++) {
+				if (dialogresult->parseoptions->col_import_array[col]) {
+					StyleFormat *sf = g_ptr_array_index (dialogresult->formats, col);
+					StyleRegion *sr = g_new (StyleRegion, 1);
 
-				sr->range.start.col = col;
-				sr->range.start.row = 0;
-				sr->range.end.col   = col;
-				sr->range.end.row   = dialogresult->rowcount - 1;
-				sr->style = mstyle_new_default ();
-				mstyle_set_format (sr->style, sf);
+					sr->range.start.col = targetcol;
+					sr->range.start.row = 0;
+					sr->range.end.col   = targetcol;
+					sr->range.end.row   = dialogresult->rowcount - 1;
+					sr->style = mstyle_new_default ();
+					mstyle_set_format (sr->style, sf);
+					targetcol++;
 
-				cr->styles = g_slist_prepend (cr->styles, sr);
+					cr->styles = g_slist_prepend (cr->styles, sr);
+				}
 			}
 
 			stf_dialog_result_free (dialogresult);

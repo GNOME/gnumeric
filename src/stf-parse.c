@@ -667,7 +667,6 @@ static GPtrArray *
 stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 {
 	GPtrArray *line;
-	int col = 0;
 
 	g_return_val_if_fail (src != NULL, NULL);
 	g_return_val_if_fail (parseoptions != NULL, NULL);
@@ -1125,7 +1124,8 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 				if (text) {
 					Value *v;
 					StyleFormat *fmt = mstyle_get_format 
-						(sheet_style_get (sheet, start_col + lcol_target, 
+						(sheet_style_get (sheet,
+								  start_col + lcol_target, 
 								  row));
 					v = format_match (text, fmt, date_conv);
 					if (v == NULL) {
@@ -1164,45 +1164,50 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 	lines = stf_parse_general (parseoptions, data, data_end);
 	for (row = 0; row < lines->len; row++) {
 		GPtrArray *line = g_ptr_array_index (lines, row);
-		unsigned int col;
+		unsigned int col, targetcol = 0;
 
 		for (col = 0; col < line->len; col++) {
-			char *text = g_ptr_array_index (line, col);
+			if (parseoptions->col_import_array[col]) {
+				char *text = g_ptr_array_index (line, col);
 
-			if (text) {
-				CellCopy *ccopy;
+				if (text) {
+					CellCopy *ccopy;
 
 #warning FIXME
-				/************************
-				 * AAARRRGGGGG
-				 * This is bogus
-				 * none of this should be at this level.
-				 * we need the user selected formats
-				 * which are currently stuck down in the render info ??
-				 * All we really need at this level is the set of values.
-				 * See stf_parse_sheet
-				 **/
+					/************************
+					 * AAARRRGGGGG
+					 * This is bogus
+					 * none of this should be at this level.
+					 * we need the user selected formats
+					 * which are currently stuck down in the render info ??
+					 * All we really need at this level is the set of values.
+					 * See stf_parse_sheet
+					 **/
 
-				if (gnm_expr_char_start_p (text)) {
-					char *tmp = g_strconcat ("\'", text, NULL);
-					g_free (text);
-					text = tmp;
+					if (text[0] == '\'' || gnm_expr_char_start_p (text)) {
+						char *tmp = g_strconcat ("\'", text, NULL);
+						g_free (text);
+						text = tmp;
+					}
+
+					ccopy = g_new (CellCopy, 1);
+					ccopy->type = CELL_COPY_TYPE_TEXT;
+					ccopy->col_offset = targetcol;
+					ccopy->row_offset = row;
+					ccopy->u.text = text; /* No need to free this here */
+					ccopy->comment = NULL;
+
+					content = g_list_prepend (content, ccopy);
+
+					g_ptr_array_index (line, col) = NULL;
+
+					if (targetcol > colhigh)
+						colhigh = targetcol;
+
+					targetcol++;
 				}
-
-				ccopy = g_new (CellCopy, 1);
-				ccopy->type = CELL_COPY_TYPE_TEXT;
-				ccopy->col_offset = col;
-				ccopy->row_offset = row;
-				ccopy->u.text = text; /* No need to free this here */
-				ccopy->comment = NULL;
-
-				content = g_list_prepend (content, ccopy);
-
-				g_ptr_array_index (line, col) = NULL;
 			}
 		}
-		if (col > colhigh)
-			colhigh = col;
 	}
 	stf_parse_general_free (lines);
 
