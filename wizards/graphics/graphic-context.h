@@ -4,7 +4,7 @@
 #include "str.h"
 #include "expr.h"
 #include "sheet-vector.h"
-#include "../../graph/Graph.h"
+#include "Graph.h"
 
 typedef enum {
 	SERIES_COLUMNS,

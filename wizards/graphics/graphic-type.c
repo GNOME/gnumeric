@@ -10,7 +10,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include <glade/glade.h>
-#include "../../graph/Graph.h"
+#include "Graph.h"
 #include "wizard.h"
 #include "graphic-type.h"
 

@@ -30,6 +30,7 @@ INCLUDES = 						\
 	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
         -DGNUMERIC_GLADEDIR=\""$(gladedir)"\"           \
 	-I$(includedir)				 	\
+	-I$(top_srcdir)/idl				\
 	-I$(srcdir)/widgets				\
 	-I$(srcdir)/functions				\
 	-I$(srcdir)/dialogs				\

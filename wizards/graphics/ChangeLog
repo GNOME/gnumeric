@@ -1,3 +1,13 @@
+2000-03-12  JP Rosevear  <jpr@arcavia.com>
+
+	* graphic-type.c: Reflect the fact that the idl dir is now in
+	the INCLUDEs.
+
+	* graphic-context.h: Reflect the fact that the idl dir is now
+	in the INCLUDEs.
+
+	* Makefile.am: Reflect new location of idl.
+
 2000-03-11  Miguel de Icaza  <miguel@helixcode.com>
 
 	* graphic-context.c (graphic_context_destroy): Use
