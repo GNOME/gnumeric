@@ -3,3 +3,5 @@ Makefile
 .deps
 *.lo
 *.loT
+go-marshalers.c
+go-marshalers.h
