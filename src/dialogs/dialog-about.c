@@ -37,6 +37,7 @@ dialog_about (Workbook *wb)
 		N_("Mark Probst, Guile support."),
 		N_("Rasca, HTML, troff, LaTeX exporters."),
 		N_("Vincent Renardias, CSV support, French localisation."),
+		N_("Ariel Rios, Guile support."),
 		N_("Bruno Unna, Excel bits."),
 		N_("Daniel Veillard, XML support."),
 		N_("Vladimir Vuksan, financial functions."),

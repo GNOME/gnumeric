@@ -1,3 +1,7 @@
+2000-01-03  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/about.c (dialog_about): Add Ariel.
+
 2000-01-02  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/func.c (function_marshal_arg): Split from
