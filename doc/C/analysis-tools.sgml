@@ -1,7 +1,7 @@
 <sect1 id="analysis-tools">
   <title>Data Analysis Tools</title>
 
-  <para>Data analysis tools package contains various tools for
+  <para>The data analysis tools package contains various tools for
   statistical data analysis, random number generation and data
   sampling.  To use these tools select the ``Data Analysis...'' entry
   in the ``Tools'' menu.  This gives you a list of tools to choose
