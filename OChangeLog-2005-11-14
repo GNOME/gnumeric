@@ -1,3 +1,16 @@
+2005-03-22  Stepan Kasal  <kasal@ucw.cz>
+
+	* autogen.sh: REQUIRED_AUTOCONF_VERSION=2.54  We already required
+	  that indirectly, by asking for Automake >= 1.7.2.
+	* configure.in: AC_PREREQ(2.54)
+	  - don't default to --without-gtk even if the reqs are not met;
+	  - fail if someone tries --with-python=/path;
+	  - when searching for $PYTHON, try python2.4 and such; 
+	  - don't generate stamp.h; the issue is solved by Automake 1.7.2;
+	    see info '(autoconf)Automatic Remaking' for details.
+	* stamp.h.in: Nuke.
+	* .cvsignore: Remove stamp.h and stamp-h.in.
+
 2005-03-21  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook.c (workbook_dispose): Simplify using

@@ -9,6 +9,10 @@ REQUIRED_LIBTOOL_VERSION=1.4.3
 # We use the XGETTEXT_KEYWORDS variable, thus we require:
 REQUIRED_INTLTOOL_VERSION=0.29
 
+# We require Automake 1.7.2, which requires Autoconf 2.54.
+# (It needs _AC_AM_CONFIG_HEADER_HOOK, for example.)
+REQUIRED_AUTOCONF_VERSION=2.54
+
 USE_GNOME2_MACROS=1
 USE_COMMON_DOC_BUILD=yes
 

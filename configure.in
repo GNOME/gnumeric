@@ -1,5 +1,7 @@
 -*- mode: m4 -*-
-AC_PREREQ(2.52)
+dnl We require Automake 1.7.2, which requires Autoconf 2.54.
+dnl (It needs _AC_AM_CONFIG_HEADER_HOOK, for example.)
+AC_PREREQ(2.54)
 
 m4_define([gnumeric_version_epoch], [1])
 m4_define([gnumeric_version_major], [5])
@@ -135,12 +137,11 @@ AC_ARG_WITH(gtk, [--without-gtk    Build without UI])
 if test "x$with_gtk" = xno; then
 	ui_msg="None (Gtk disabled by request)"
 	gnumeric_with_gtk=false
-fi
-
-if test "x$gnumeric_with_gtk" = "xtrue" ; then
-	PKG_CHECK_MODULES(GTK, [$gnumeric_gtk_reqs],
-		[ui_msg="Gtk"],
-		[ui_msg="None (missing gtk dependencies)" ; gnumeric_with_gtk=false ])
+else
+	dnl We shouldn't silently default to --without-gtk.
+	dnl If the requirements are not met, fail.
+	ui_msg="Gtk"
+	PKG_CHECK_MODULES(GTK, [$gnumeric_gtk_reqs])
 fi 
 
 gnumeric_with_gnome=$gnumeric_with_gtk
@@ -724,8 +725,14 @@ dnl **************************************************
 python_msg="yes"
 AC_ARG_WITH(python, [--{with,without}-python   Compile the Python plugin loader])
 AC_ARG_VAR(PYTHON, [The Python executable.])
+case $with_python in
+yes|no) ;;
+?*) AC_MSG_ERROR([You cannot use --with-python with an argument.
+If you want to specify a path to your Python executable, use:
+	$srcdir/configure PYTHON=/path/to/your/python ...]);;
+esac
 if test "x$with_python" != xno; then
-    AC_CHECK_PROG(PYTHON, python, python)
+    AC_CHECK_PROGS(PYTHON, python python2 python2.4 python2.3 python2.2 python2.1 python2.0)
     if test "x$PYTHON" = x; then
 	python_msg="could not find python"
     fi
@@ -951,7 +958,6 @@ schemas/Makefile
 templates/Makefile
 templates/english/Makefile
 templates/autoformat/Makefile
-stamp.h
 ])
 
 echo "
@@ -963,7 +969,7 @@ Configuration:
 	Compiler flags:		${CFLAGS}
 	Floating point type:	${float_msg}
 
-	UI :			${ui_msg}
+	UI:			${ui_msg}
 
 	Perl Support:		${perl_msg}
 	Python Support:		${python_msg}

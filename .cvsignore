@@ -15,8 +15,6 @@ gnumeric-config.h.in
 gnumeric-config.h
 stamp-h*
 Makefile
-stamp.h
-stamp-h.in
 xlibtool
 xltmain.sh
 depcomp
