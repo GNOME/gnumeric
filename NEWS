@@ -5,6 +5,7 @@ Jody:
 	* bump bonobo req to 1.0.8 to fix the memory problem.
 	* bump the gnome-print req to 0.29 in an effort to decrease
 	  the number of problems with gnome-print installs.
+	* What eval queue?
 
 Jukka:
 	* MPS importer plugin implemented.  Reads a linear program in MPS
@@ -14,6 +15,7 @@ Jukka:
 Morten:
 	* Speed up font handling a bit.
 	* Speed up dependency handling.
+	* Eliminate deep recursion during evaluation.
 	* Fix the python and python-loader modules.  (Work around mind-
 	  boggling bug in python.  Again.)
 
