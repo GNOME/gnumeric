@@ -48,6 +48,9 @@ typedef struct {
 	GsfXMLOut *output;
 } GnmOutputXML;
 
+void	xml_sax_file_save (GnmFileSaver const *fs, IOContext *io_context,
+			   WorkbookView const *wb_view, GsfOutput *output);
+
 static void
 xml_write_attribute (GnmOutputXML *state, char const *name, char const *value)
 {
