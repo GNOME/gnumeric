@@ -15,7 +15,7 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "utils.h"
-
+#include "tools.h"
 
 
 typedef struct {
