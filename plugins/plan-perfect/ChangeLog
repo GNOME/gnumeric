@@ -1,3 +1,7 @@
+2002-08-17  Jon K Hellan  <hellan@acm.org>
+
+	* charset.c (pln_get_str): Make static.
+
 2002-08-17  Jody Goldberg <jody@gnome.org>
 
 	* charset.c : Abiword pointed me at the charset table in kword which
