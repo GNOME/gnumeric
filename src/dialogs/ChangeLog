@@ -1,3 +1,18 @@
+2002-08-09  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* dialog-plugin-manager.c
+	(PluginManagerGUI): Removed entry_name, entry_id, model_extra_info
+	Added view_details, model_details
+	(cb_pm_selection_changed): Generate a tree containing the plugin's
+	dependencies and services
+	(dialog_plugin_manager): Initialize model_details and view_details
+	Adjusted to plugin.c (extra_info has been removed)
+
+	* plugin-manager.glade
+	Moved plugin's description to the first page
+	Removed "extra info" frame
+	Added a placeholder for a tree representing plugin's structure
+
 2002-08-06  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-simulation.c: Started the results summary reporting in

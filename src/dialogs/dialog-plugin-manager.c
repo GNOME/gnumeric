@@ -35,6 +35,7 @@
 #include <workbook-control.h>
 #include <workbook.h>
 #include <plugin.h>
+#include <plugin-service.h>
 #include <gnumeric-gconf.h>
 #include <application.h>
 
@@ -51,6 +52,8 @@ typedef struct {
 	GtkNotebook *gnotebook;
 	GtkListStore  *model_plugins;
 	GtkTreeView   *list_plugins;
+	GtkTreeStore  *model_details;
+	GtkTreeView   *view_details;
 	GtkTreeSelection   *selection;
 	GtkButton *button_rescan_directories;
 	GtkButton *button_directory_add, *button_directory_delete;
@@ -58,9 +61,8 @@ typedef struct {
 	GtkCheckButton *checkbutton_install_new;
 	GtkWidget *frame_mark_for_deactivation;
 	GtkWidget *checkbutton_mark_for_deactivation;
-	GtkEntry *entry_name, *entry_directory, *entry_id;
+	GtkEntry *entry_directory;
 	GtkTextBuffer *text_description;
-	GtkListStore  *model_extra_info;
 	GtkListStore  *model_directories;
 	GtkTreeView   *list_directories;
 	GtkTreeSelection   *selection_directory;
@@ -75,14 +77,14 @@ enum {
 	NUM_COLMNS
 };
 enum {
-	EXTRA_NAME,
-	EXTRA_VALUE,
-	EXTRA_NUM_COLMNS
-};
-enum {
 	DIR_NAME,
 	DIR_IS_SYSTEM,
 	DIR_NUM_COLMNS
+};
+enum {
+	DETAILS_DESC,
+	DETAILS_ID,
+	DETAILS_NUM_COLMNS
 };
 
 
@@ -278,8 +280,7 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 {
 	GnmPlugin *pinfo;
 	GtkTreeIter iter;
-	gint n_extra_info_items, i;
-	GSList *extra_info_keys, *extra_info_values, *lkey, *lvalue;
+	gint i;
 	const char *plugin_desc;
 
 	g_return_if_fail (pm_gui != NULL);
@@ -289,41 +290,73 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 		G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
 		cb_checkbutton_mark_for_deactivation_toggled, NULL);
 
-	gtk_list_store_clear (pm_gui->model_extra_info);
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
-		gtk_entry_set_text (pm_gui->entry_name, "");
-		gtk_entry_set_text (pm_gui->entry_directory, "");
-		gtk_entry_set_text (pm_gui->entry_id, "");
 		gtk_text_buffer_set_text (pm_gui->text_description, "", 0);
+		gtk_entry_set_text (pm_gui->entry_directory, "");
+		gtk_tree_store_clear (pm_gui->model_details);
 		gtk_widget_hide (pm_gui->frame_mark_for_deactivation);
 	} else {
+		GtkTreeIter iter2, iter3;
+		GSList *dep_ids, *services;
+		char *str;
+
 		gtk_tree_model_get (GTK_TREE_MODEL (pm_gui->model_plugins),
 		                    &iter, PLUGIN_POINTER, &pinfo, -1);
-		gtk_entry_set_text (pm_gui->entry_name, gnm_plugin_get_name (pinfo));
-		gtk_entry_set_text (pm_gui->entry_directory, gnm_plugin_get_dir_name (pinfo));
-		gtk_entry_set_text (pm_gui->entry_id, gnm_plugin_get_id (pinfo));
 		plugin_desc = gnm_plugin_get_description (pinfo);
 		if (plugin_desc == NULL) {
 			plugin_desc = "";
 		}
 		gtk_text_buffer_set_text (
 			pm_gui->text_description, plugin_desc, strlen (plugin_desc));
+		gtk_entry_set_text (pm_gui->entry_directory, gnm_plugin_get_dir_name (pinfo));
 
-		n_extra_info_items = gnm_plugin_get_extra_info_list
-			(pinfo, &extra_info_keys, &extra_info_values);
-		if (n_extra_info_items > 0) {
-			for (i = 0, lkey = extra_info_keys, lvalue = extra_info_values;
-			     i < n_extra_info_items;
-			     i++, lkey = lkey->next, lvalue = lvalue->next ) {
-				gtk_list_store_prepend (pm_gui->model_extra_info, &iter);
-				gtk_list_store_set (pm_gui->model_extra_info, &iter,
-						    EXTRA_NAME, (gchar *) lkey->data,
-						    EXTRA_VALUE, (gchar *) lvalue->data,
-						    -1);
-			}
-			e_free_string_slist (extra_info_keys);
-			e_free_string_slist (extra_info_values);
+		gtk_tree_store_clear (pm_gui->model_details);
+		gtk_tree_store_append (pm_gui->model_details, &iter, NULL);
+		gtk_tree_store_set (
+			pm_gui->model_details, &iter,
+			DETAILS_DESC, gnm_plugin_get_name (pinfo),
+			DETAILS_ID, gnm_plugin_get_id (pinfo),
+			-1);
+		dep_ids = gnm_plugin_get_dependencies_ids (pinfo);
+		if (dep_ids != NULL) {
+			gtk_tree_store_append (pm_gui->model_details, &iter2, &iter);
+			gtk_tree_store_set (
+				pm_gui->model_details, &iter2,
+				DETAILS_DESC, _("Plugin dependencies"),
+				DETAILS_ID, "",
+				-1);
+			GNM_SLIST_FOREACH (dep_ids, char, dep_id,
+				GnmPlugin *dep_plugin;
+				const char *name;
+
+				dep_plugin = plugins_get_plugin_by_id (dep_id);
+				name =  dep_plugin != NULL ? (char *) gnm_plugin_get_name (dep_plugin) : _("Unknown plugin");
+				gtk_tree_store_append (pm_gui->model_details, &iter3, &iter2);
+				gtk_tree_store_set (
+					pm_gui->model_details, &iter3,
+					DETAILS_DESC, name,
+					DETAILS_ID, dep_id,
+					-1);
+			);
 		}
+		g_slist_free_custom (dep_ids, g_free);
+
+		gtk_tree_store_append (pm_gui->model_details, &iter2, &iter);
+		gtk_tree_store_set (
+			pm_gui->model_details, &iter2,
+			DETAILS_DESC, _("Plugin services"),
+			DETAILS_ID, "",
+			-1);
+		services = gnm_plugin_get_services (pinfo);
+		GNM_SLIST_FOREACH (services, PluginService, service,
+			gtk_tree_store_append (pm_gui->model_details, &iter3, &iter2);
+			gtk_tree_store_set (
+				pm_gui->model_details, &iter3,
+				DETAILS_DESC, plugin_service_get_description (service),
+				DETAILS_ID, plugin_service_get_id (service),
+				-1);
+		);
+		gtk_tree_view_expand_all (pm_gui->view_details);
 
 		if (gnm_plugin_is_active (pinfo) && !gnm_plugin_can_deactivate (pinfo)) {
 			gtk_toggle_button_set_active (
@@ -583,14 +616,12 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	PluginManagerGUI *pm_gui;
 	GladeXML *gui;
 	GtkWidget *scrolled;
-	GtkWidget *scrolled_extra;
 	GtkWidget *scrolled_directories;
 	GtkWidget *table;
 	GtkTreeViewColumn *column;
-	GtkTreeView   *extra_list_view;
 	GtkCellRenderer *rend;
 
-	g_return_if_fail (wbcg != NULL);
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
 	gui = gnumeric_glade_xml_new (wbcg, "plugin-manager.glade");
 	g_return_if_fail (gui != NULL);
@@ -639,33 +670,29 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 
 	/* Set-up plugin details page */
 
-	pm_gui->entry_name = GTK_ENTRY (glade_xml_get_widget (gui, "entry_name"));
-	pm_gui->entry_directory = GTK_ENTRY (glade_xml_get_widget (gui, "entry_directory"));
 	pm_gui->text_description = gtk_text_view_get_buffer (GTK_TEXT_VIEW (
-				           glade_xml_get_widget (gui, "text_description")));
-	pm_gui->entry_id = GTK_ENTRY (glade_xml_get_widget (gui, "entry_id"));
+				           glade_xml_get_widget (gui, "textview_plugin_description")));
+	pm_gui->entry_directory = GTK_ENTRY (glade_xml_get_widget (gui, "entry_directory"));
 
-	scrolled_extra = glade_xml_get_widget (gui, "scrolled_extra_info");
+	pm_gui->model_details = gtk_tree_store_new (
+		DETAILS_NUM_COLMNS, G_TYPE_STRING, G_TYPE_STRING);
+	pm_gui->view_details = GTK_TREE_VIEW (
+		gtk_tree_view_new_with_model (GTK_TREE_MODEL (pm_gui->model_details)));
+	column = gtk_tree_view_column_new_with_attributes (
+		_("Description"), gtk_cell_renderer_text_new (),
+		"text", DETAILS_DESC, NULL);
+	gtk_tree_view_append_column (pm_gui->view_details, column);
+	column = gtk_tree_view_column_new_with_attributes (
+		_("ID"), gtk_cell_renderer_text_new (),
+		"text", DETAILS_ID, NULL);
+	gtk_tree_view_append_column (pm_gui->view_details, column);
+	scrolled = glade_xml_get_widget (gui, "scrolled_plugin_details");
+	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (pm_gui->view_details));
+
 	pm_gui->frame_mark_for_deactivation =
 		glade_xml_get_widget (gui, "frame_mark_for_deactivation");
 	pm_gui->checkbutton_mark_for_deactivation = 
 		glade_xml_get_widget (gui, "checkbutton_mark_for_deactivation");
-
-	pm_gui->model_extra_info = gtk_list_store_new (EXTRA_NUM_COLMNS, G_TYPE_STRING,
-						       G_TYPE_STRING);
-	extra_list_view = GTK_TREE_VIEW (
-		gtk_tree_view_new_with_model (GTK_TREE_MODEL (pm_gui->model_extra_info)));
-	column = gtk_tree_view_column_new_with_attributes (_("Name"),
-							   gtk_cell_renderer_text_new (),
-							   "text", EXTRA_NAME, NULL);
-	gtk_tree_view_column_set_sort_column_id (column, EXTRA_NAME);
-	gtk_tree_view_append_column (extra_list_view, column);
-	column = gtk_tree_view_column_new_with_attributes (_("Value"),
-							   gtk_cell_renderer_text_new (),
-							   "text", EXTRA_VALUE, NULL);
-	gtk_tree_view_column_set_sort_column_id (column, EXTRA_VALUE);
-	gtk_tree_view_append_column (extra_list_view, column);
-	gtk_container_add (GTK_CONTAINER (scrolled_extra), GTK_WIDGET (extra_list_view));
 
 	/* Set-up directories page */
 
