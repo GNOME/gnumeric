@@ -7029,9 +7029,9 @@ lbeta3 (gnm_float a, gnm_float b, int *sign)
 	    (ab <= 0 && ab == gnm_floor (ab)))
 		return gnm_nan;
 
-	res_a = lgamma_rgnum (a, &sign_a);
-	res_b = lgamma_rgnum (b, &sign_b);
-	res_ab = lgamma_rgnum (ab, &sign_ab);
+	res_a = gnm_lgamma_r (a, &sign_a);
+	res_b = gnm_lgamma_r (b, &sign_b);
+	res_ab = gnm_lgamma_r (ab, &sign_ab);
 
 	*sign = sign_a * sign_b * sign_ab;
 	return res_a + res_b - res_ab;
@@ -7260,7 +7260,7 @@ gnm_yn (int n, gnm_float x)
 
 #ifdef NEED_FAKE_LGAMMA_R
 gnm_float
-lgamma_rgnum (gnm_float x, int *signp)
+gnm_lgamma_r (gnm_float x, int *signp)
 {
 #ifdef HAVE_LGAMMA
 	gnm_float res = gnm_lgamma (x);

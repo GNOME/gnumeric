@@ -94,7 +94,7 @@ gnm_float gnm_yn (int n, gnm_float x);
 #define gnm_hypot hypotl
 #define gnm_isnan isnanl
 #define gnm_lgamma lgammal
-#define lgamma_rgnum lgammal_r
+#define gnm_lgamma_r lgammal_r
 #define gnm_log10 log10l
 #define gnm_log1p log1pl
 #define gnm_log logl
@@ -145,7 +145,7 @@ typedef double gnm_float;
 #define gnm_isnan isnan
 #define gnm_ldexp ldexp
 #define gnm_lgamma lgamma
-#define lgamma_rgnum lgamma_r
+#define gnm_lgamma_r lgamma_r
 #define gnm_log10 log10
 #define gnm_log1p log1p
 #define gnm_log log
@@ -172,7 +172,7 @@ typedef double gnm_float;
 #ifndef HAVE_LGAMMA_R
 #define NEED_FAKE_LGAMMA_R
 /* Defined in gutils.c  */
-gnm_float lgamma_rgnum (gnm_float x, int *signp);
+gnm_float gnm_lgamma_r (gnm_float x, int *signp);
 #endif
 
 #ifndef HAVE_EXPM1
