@@ -5039,7 +5039,7 @@ msgstr "[$KHR]"
 
 #: src/formats.c:301
 msgid "Kampuchean riel"
-msgstr ""
+msgstr "Кампуч╕йський р╕ел"
 
 #: src/formats.c:302
 msgid "[$KMF]"
@@ -5183,7 +5183,7 @@ msgstr "[$MNT]"
 
 #: src/formats.c:319
 msgid "Mongolian tugrik"
-msgstr ""
+msgstr "Монгольський тугрик"
 
 #: src/formats.c:320
 msgid "[$MOP]"
