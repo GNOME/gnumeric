@@ -88,7 +88,7 @@
 	      <class>GtkLabel</class>
 	      <name>label1</name>
 	      <width>480</width>
-	      <label>Select the structure and of the text that most closely matches the data. Separated means that the each column is separated by a 'separation' character and fixed width means that you can define the width of each column yourself. You should also select what part of the data you want to import by adjusting the from and to line.</label>
+	      <label>Select the structure of the text that most closely matches the data. Separated means that the each column is separated by a 'separation' character and fixed width means that you can define the width of each column yourself. You should also select what part of the data you want to import by adjusting the from and to line.</label>
 	      <justify>GTK_JUSTIFY_LEFT</justify>
 	      <wrap>True</wrap>
 	      <xalign>7.45058e-09</xalign>
