@@ -1,5 +1,12 @@
 2000-04-26  Jody Goldberg <jgoldberg@home.com>
 
+	* src/dialogs/cell-format.glade : Improve layout of font attributes
+	  slightly.
+
+	* src/gnumeric-util.c (gnumeric_glade_xml_new) : thinko.
+
+2000-04-26  Jody Goldberg <jgoldberg@home.com>
+
 	* src/command-context.c (gnumeric_error_sys_err) : New function.
 	* src/command-context-gui.c (ccg_error_sys_err) : Support it.
 

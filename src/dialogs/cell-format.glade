@@ -1204,52 +1204,49 @@
 
 	    <widget>
 	      <class>GtkVBox</class>
-	      <name>vbox15</name>
+	      <name>vbox40</name>
 	      <homogeneous>False</homogeneous>
 	      <spacing>0</spacing>
 	      <child>
 		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
+		<expand>True</expand>
+		<fill>True</fill>
 	      </child>
 
 	      <widget>
-		<class>GtkLabel</class>
-		<name>label4</name>
-		<width>50</width>
-		<label>_Underline:</label>
-		<justify>GTK_JUSTIFY_LEFT</justify>
-		<wrap>False</wrap>
-		<xalign>0</xalign>
-		<yalign>0.5</yalign>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
-		<focus_target>combo-entry2</focus_target>
+		<class>GtkHBox</class>
+		<name>hbox36</name>
+		<border_width>4</border_width>
+		<homogeneous>False</homogeneous>
+		<spacing>0</spacing>
 		<child>
 		  <padding>0</padding>
-		  <expand>False</expand>
-		  <fill>False</fill>
+		  <expand>True</expand>
+		  <fill>True</fill>
 		</child>
-	      </widget>
 
-	      <widget>
-		<class>GtkAlignment</class>
-		<name>alignment46</name>
-		<width>80</width>
-		<xalign>0.5</xalign>
-		<yalign>0.5</yalign>
-		<xscale>0</xscale>
-		<yscale>0</yscale>
-		<child>
-		  <padding>0</padding>
-		  <expand>False</expand>
-		  <fill>False</fill>
-		</child>
+		<widget>
+		  <class>GtkLabel</class>
+		  <name>label4</name>
+		  <label>_Underline:</label>
+		  <justify>GTK_JUSTIFY_LEFT</justify>
+		  <wrap>False</wrap>
+		  <xalign>0</xalign>
+		  <yalign>0.5</yalign>
+		  <xpad>0</xpad>
+		  <ypad>0</ypad>
+		  <focus_target>combo-entry2</focus_target>
+		  <child>
+		    <padding>0</padding>
+		    <expand>False</expand>
+		    <fill>True</fill>
+		  </child>
+		</widget>
 
 		<widget>
 		  <class>GtkCombo</class>
 		  <name>underline_combo</name>
-		  <width>110</width>
+		  <width>100</width>
 		  <value_in_list>True</value_in_list>
 		  <ok_if_empty>True</ok_if_empty>
 		  <case_sensitive>False</case_sensitive>
@@ -1259,6 +1256,11 @@
 Single
 Double
 </items>
+		  <child>
+		    <padding>0</padding>
+		    <expand>False</expand>
+		    <fill>False</fill>
+		  </child>
 
 		  <widget>
 		    <class>GtkEntry</class>
@@ -1272,6 +1274,20 @@ Double
 		  </widget>
 		</widget>
 	      </widget>
+
+	      <widget>
+		<class>GtkCheckButton</class>
+		<name>strikethrough_button</name>
+		<can_focus>True</can_focus>
+		<label>Stri_kethrough</label>
+		<active>False</active>
+		<draw_indicator>True</draw_indicator>
+		<child>
+		  <padding>0</padding>
+		  <expand>False</expand>
+		  <fill>False</fill>
+		</child>
+	      </widget>
 	    </widget>
 
 	    <widget>
@@ -1280,9 +1296,9 @@ Double
 	      <homogeneous>False</homogeneous>
 	      <spacing>0</spacing>
 	      <child>
-		<padding>10</padding>
-		<expand>True</expand>
-		<fill>True</fill>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
 	      </child>
 
 	      <widget>
@@ -1313,29 +1329,6 @@ Double
 		  <expand>False</expand>
 		  <fill>False</fill>
 		</child>
-	      </widget>
-	    </widget>
-
-	    <widget>
-	      <class>GtkAlignment</class>
-	      <name>alignment47</name>
-	      <xalign>0.5</xalign>
-	      <yalign>0</yalign>
-	      <xscale>0</xscale>
-	      <yscale>0</yscale>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-
-	      <widget>
-		<class>GtkCheckButton</class>
-		<name>strikethrough_button</name>
-		<can_focus>True</can_focus>
-		<label>Stri_kethrough</label>
-		<active>False</active>
-		<draw_indicator>True</draw_indicator>
 	      </widget>
 	    </widget>
 	  </widget>
@@ -1435,6 +1428,10 @@ Double
 		<tooltip>Reverse Diagonal</tooltip>
 		<can_focus>True</can_focus>
 		<active>False</active>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 	    </widget>
 
@@ -1460,6 +1457,10 @@ Double
 		<tooltip>Left</tooltip>
 		<can_focus>True</can_focus>
 		<active>False</active>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 	    </widget>
 	  </widget>
@@ -1497,6 +1498,10 @@ Double
 		<tooltip>Top</tooltip>
 		<can_focus>True</can_focus>
 		<active>False</active>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 	    </widget>
 
@@ -1558,6 +1563,10 @@ Double
 		<tooltip>Bottom</tooltip>
 		<can_focus>True</can_focus>
 		<active>False</active>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 	    </widget>
 	  </widget>
@@ -1595,6 +1604,10 @@ Double
 		<tooltip>Diagonal</tooltip>
 		<can_focus>True</can_focus>
 		<active>False</active>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 	    </widget>
 
@@ -1620,6 +1633,10 @@ Double
 		<tooltip>Right</tooltip>
 		<can_focus>True</can_focus>
 		<active>False</active>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 	    </widget>
 	  </widget>
@@ -1657,6 +1674,10 @@ Double
 	      <height>45</height>
 	      <tooltip>None</tooltip>
 	      <can_focus>True</can_focus>
+
+	      <widget>
+		<class>Placeholder</class>
+	      </widget>
 	    </widget>
 	  </widget>
 
@@ -1681,6 +1702,10 @@ Double
 	      <height>45</height>
 	      <tooltip>Outline</tooltip>
 	      <can_focus>True</can_focus>
+
+	      <widget>
+		<class>Placeholder</class>
+	      </widget>
 	    </widget>
 	  </widget>
 
@@ -1706,6 +1731,10 @@ Double
 	      <tooltip>Inside Vertical</tooltip>
 	      <can_focus>True</can_focus>
 	      <active>False</active>
+
+	      <widget>
+		<class>Placeholder</class>
+	      </widget>
 	    </widget>
 	  </widget>
 
@@ -1730,6 +1759,10 @@ Double
 	      <height>45</height>
 	      <tooltip>Inside</tooltip>
 	      <can_focus>True</can_focus>
+
+	      <widget>
+		<class>Placeholder</class>
+	      </widget>
 	    </widget>
 	  </widget>
 
@@ -1755,6 +1788,10 @@ Double
 	      <tooltip>Inside Horizontal</tooltip>
 	      <can_focus>True</can_focus>
 	      <active>False</active>
+
+	      <widget>
+		<class>Placeholder</class>
+	      </widget>
 	    </widget>
 	  </widget>
 	</widget>
@@ -1845,6 +1882,10 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
+
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
 		</widget>
 
 		<widget>
@@ -1866,6 +1907,10 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
+
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
 		</widget>
 
 		<widget>
@@ -1887,6 +1932,10 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
+
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
 		</widget>
 
 		<widget>
@@ -1908,6 +1957,10 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
+
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
 		</widget>
 
 		<widget>
@@ -1929,6 +1982,10 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
+
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
 		</widget>
 
 		<widget>
@@ -1950,6 +2007,10 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
+
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
 		</widget>
 
 		<widget>
@@ -1971,6 +2032,10 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
+
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
 		</widget>
 
 		<widget>
@@ -1992,6 +2057,10 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
+
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
 		</widget>
 
 		<widget>
@@ -2013,6 +2082,10 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
+
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
 		</widget>
 
 		<widget>
@@ -2034,6 +2107,10 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
+
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
 		</widget>
 
 		<widget>
@@ -2055,6 +2132,10 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
+
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
 		</widget>
 
 		<widget>
@@ -2076,6 +2157,10 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
+
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
 		</widget>
 
 		<widget>
@@ -2097,6 +2182,10 @@ Double
 		    <xfill>False</xfill>
 		    <yfill>False</yfill>
 		  </child>
+
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
 		</widget>
 
 		<widget>
@@ -2444,6 +2533,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2469,6 +2562,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2494,6 +2591,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2519,6 +2620,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2544,6 +2649,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2569,6 +2678,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2594,6 +2707,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2619,6 +2736,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2644,6 +2765,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2669,6 +2794,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2694,6 +2823,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2719,6 +2852,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2744,6 +2881,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2769,6 +2910,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2794,6 +2939,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2819,6 +2968,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2844,6 +2997,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2869,6 +3026,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2894,6 +3055,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2919,6 +3084,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2944,6 +3113,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2969,6 +3142,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2994,6 +3171,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -3019,6 +3200,10 @@ Double
 		  <xfill>False</xfill>
 		  <yfill>False</yfill>
 		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
 	      </widget>
 	    </widget>
 	  </widget>

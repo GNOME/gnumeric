@@ -508,7 +508,8 @@ GladeXML *
 gnumeric_glade_xml_new (CommandContext *context, char const * gladefile)
 {
 	GladeXML *gui;
-	char *f = gnumeric_sys_glade_dir ();
+	char *d = gnumeric_sys_glade_dir ();
+	char *f = g_concat_dir_and_file (d, gladefile);
 	gui = glade_xml_new (f, NULL);
 
 	/* Onlt report errors if the context is non-null */
@@ -518,6 +519,7 @@ gnumeric_glade_xml_new (CommandContext *context, char const * gladefile)
 		g_free (msg);
 	}
 	g_free (f);
+	g_free (d);
 
 	return gui;
 }
