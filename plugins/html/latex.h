@@ -25,7 +25,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 
-void latex_file_save (FileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const gchar *file_name);
-void latex2e_file_save (FileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const gchar *file_name);
+void latex_file_save (GnumFileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const gchar *file_name);
+void latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const gchar *file_name);
 
 #endif

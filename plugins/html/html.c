@@ -213,7 +213,7 @@ html_write_cell40 (FILE *fp, Cell *cell, MStyle *style)
  * FIXME: Should html quote sheet name (and everything else)
  */
 void
-html32_file_save (FileSaver const *fs, IOContext *io_context,
+html32_file_save (GnumFileSaver const *fs, IOContext *io_context,
                   WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;
@@ -281,7 +281,7 @@ html32_file_save (FileSaver const *fs, IOContext *io_context,
  * FIXME: Should html quote sheet name (and everything else)
  */
 void
-html40_file_save (FileSaver const *fs, IOContext *io_context,
+html40_file_save (GnumFileSaver const *fs, IOContext *io_context,
                   WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;
@@ -430,7 +430,7 @@ findtag (char const *buf, char const *tag)
  * try at least to read back what we have written before..
  */
 void
-html32_file_open (FileOpener const *fo, IOContext *io_context,
+html32_file_open (GnumFileOpener const *fo, IOContext *io_context,
                   WorkbookView *wb_view, const char *filename)
 {
 	Workbook *wb = wb_view_workbook (wb_view);

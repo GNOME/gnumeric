@@ -26,8 +26,8 @@
 #include "io-context.h"
 #include "gnumeric-util.h"
 
-void roff_dvi_file_save (FileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const char *filename);
-void roff_pdf_file_save (FileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const char *filename);
-void roff_file_save (FileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const char *filename);
+void roff_dvi_file_save (GnumFileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const char *filename);
+void roff_pdf_file_save (GnumFileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const char *filename);
+void roff_file_save (GnumFileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const char *filename);
 
 #endif

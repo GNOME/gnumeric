@@ -84,7 +84,7 @@ latex_fprintf_cell (FILE *fp, const Cell *cell)
  * write every sheet of the workbook to a latex table
  */
 void
-latex_file_save (FileSaver const *fs, IOContext *io_context,
+latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
                  WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;
@@ -181,7 +181,7 @@ latex_file_save (FileSaver const *fs, IOContext *io_context,
  * write every sheet of the workbook to a latex2e table
  */
 void
-latex2e_file_save (FileSaver const *fs, IOContext *io_context,
+latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
                    WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;

@@ -182,7 +182,7 @@ write_wb_roff (IOContext *io_context, WorkbookView *wb_view, FILE *fp)
  * write sheets to a DVI file using groff as filter
  */
 void
-roff_dvi_file_save (FileSaver const *fs, IOContext *io_context,
+roff_dvi_file_save (GnumFileSaver const *fs, IOContext *io_context,
                     WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;
@@ -208,7 +208,7 @@ roff_dvi_file_save (FileSaver const *fs, IOContext *io_context,
  * write sheets to a PDF file using groff and gs as filter
  */
 void
-roff_pdf_file_save (FileSaver const *fs, IOContext *io_context,
+roff_pdf_file_save (GnumFileSaver const *fs, IOContext *io_context,
                     WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;
@@ -237,7 +237,7 @@ roff_pdf_file_save (FileSaver const *fs, IOContext *io_context,
  * write sheets to a roff file
  */
 void
-roff_file_save (FileSaver const *fs, IOContext *io_context,
+roff_file_save (GnumFileSaver const *fs, IOContext *io_context,
                 WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;

@@ -1,3 +1,11 @@
+2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* html.[ch] (html32_file_save, html40_file_save, html32_file_open)
+	latex.[ch] (latex_file_save, latex2e_file_save)
+	roff.[ch] (roff_dvi_file_save, roff_pdf_file_save, roff_file_save):
+	s/FileOpener/GnumFileOpener/
+	s/FileSaver/GnumFileSaver/
+
 2001-05-20  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.65
