@@ -679,7 +679,7 @@ value_get_as_string (Value const *v)
 		 *       references relative to A1
 		 */
 		Range range;
-		setup_range_from_value (&range, v);
+		range_init_value (&range, v);
 		return global_range_name (v->v_range.cell.a.sheet, &range);;
 	}
 

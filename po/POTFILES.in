@@ -145,6 +145,7 @@ src/dialogs/dialog-hyperlink.c
 src/dialogs/dialog-insert-cells.c
 src/dialogs/dialog-merge.c
 src/dialogs/dialog-paste-special.c
+src/dialogs/dialog-pivottable.c
 src/dialogs/dialog-plugin-manager.c
 src/dialogs/dialog-preferences.c
 src/dialogs/dialog-printer-setup.c
@@ -187,6 +188,7 @@ src/dialogs/mean-tests.glade
 src/dialogs/merge.glade
 src/dialogs/moving-averages.glade
 src/dialogs/names.glade
+src/dialogs/pivottable.glade
 src/dialogs/plugin-manager.glade
 src/dialogs/preferences.glade
 src/dialogs/print.glade
@@ -237,6 +239,7 @@ src/mathfunc.c
 src/number-match.c
 src/parse-util.c
 src/parser.y
+src/pivottable.c
 src/plugin-loader-module.c
 src/plugin-loader.c
 src/plugin-service.c
@@ -248,6 +251,7 @@ src/search.c
 src/selection.c
 src/sheet-autofill.c
 src/sheet-control-gui.c
+src/sheet-filter.c
 src/sheet-merge.c
 src/sheet-object-bonobo.c
 src/sheet-object-container.c

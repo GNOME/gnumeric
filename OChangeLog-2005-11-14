@@ -1,3 +1,10 @@
+2002-12-03  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-filter.c : add condition framework
+	  select existing conditions
+	  provide feedback for which filter is active
+	  Support blank/non-blank/All filters
+
 2002-12-02  Jon K Hellan  <hellan@acm.org>
 
 	* src/io-context-gtk.c (icg_inc_files_done): Only increment file

@@ -235,7 +235,7 @@ consolidate_set_destination (Consolidate *cs, Value *range)
 	new = g_new (GlobalRange, 1);
 
 	new->sheet = range->v_range.cell.a.sheet;
-	setup_range_from_value (&new->range, range);
+	range_init_value (&new->range, range);
 	value_release (range);
 
 	/*
@@ -270,7 +270,7 @@ consolidate_add_source (Consolidate *cs, Value *range)
 	new = g_new (GlobalRange, 1);
 
 	new->sheet = range->v_range.cell.a.sheet;
-	setup_range_from_value (&new->range, range);
+	range_init_value (&new->range, range);
 	value_release (range);
 
 	/*

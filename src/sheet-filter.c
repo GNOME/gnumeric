@@ -32,6 +32,8 @@
 #include "gnumeric-canvas.h"
 #include "dependent.h"
 #include "ranges.h"
+#include "str.h"
+#include "number-match.h"
 
 #include <libfoocanvas/foo-canvas-widget.h>
 #include <gtk/gtk.h>
@@ -49,7 +51,7 @@ struct _GnmFilterCondition {
 typedef struct {
 	SheetObject parent;
 
-	GnmFilterCondition *condition;
+	GnmFilterCondition *cond;
 	GnmFilter   	   *filter;
 	int i;
 } GnmFilterField;
@@ -63,12 +65,15 @@ struct _GnmFilter {
 	Range  r;
 
 	GPtrArray *fields;
+	gboolean   is_active;
 };
 
 #define FILTER_FIELD_TYPE     (filter_field_get_type ())
 #define FILTER_FIELD(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), FILTER_FIELD_TYPE, GnmFilterField))
 
-#define	VIEW_ITEM	"view-item"
+#define	VIEW_ITEM_ID	"view-item"
+#define ARROW_ID	"arrow"
+#define	FIELD_ID	"field"
 
 static GType filter_field_get_type (void);
 
@@ -76,41 +81,41 @@ static GType filter_field_get_type (void);
 GnmFilterCondition *
 gnm_filter_condition_new_single (GnmFilterOp op, Value *v)
 {
-	if (v != NULL) {
-		if (v->type == VALUE_STRING)
-			puts (value_peek_string (v));
-		value_release (v);
-	}
-	return NULL;
+	GnmFilterCondition *res = g_new0 (GnmFilterCondition, 1);
+	res->op[0] = op;	res->op[1] = GNM_FILTER_UNUSED;
+	res->value[0] = v;
+	return res;
 }
 
 GnmFilterCondition *
-gnm_filter_condition_new_double (GnmFilterOp op1, Value *v1,
+gnm_filter_condition_new_double (GnmFilterOp op0, Value *v0,
 				 gboolean join_with_and,
-				 GnmFilterOp op2, Value *v2)
+				 GnmFilterOp op1, Value *v1)
 {
-	if (v1 != NULL) {
-		if (v1->type == VALUE_STRING)
-			puts (value_peek_string (v1));
-		value_release (v1);
-	}
-	if (v2 != NULL) {
-		if (v2->type == VALUE_STRING)
-			puts (value_peek_string (v2));
-		value_release (v2);
-	}
-	return NULL;
+	GnmFilterCondition *res = g_new0 (GnmFilterCondition, 1);
+	res->op[0] = op0;	res->op[1] = op1;
+	res->is_and = join_with_and;
+	res->value[0] = v0;	res->value[1] = v1;
+	return res;
 }
 
 GnmFilterCondition *
 gnm_filter_condition_new_bucket (gboolean top, gboolean absolute, unsigned n)
 {
-	return NULL;
+	GnmFilterCondition *res = g_new0 (GnmFilterCondition, 1);
+	res->op[0] = GNM_FILTER_OP_TOP_N | (top ? 0 : 1) | (absolute ? 0 : 2);
+	res->count = n;
+	return res;
 }
 
 void
 gnm_filter_condition_unref (GnmFilterCondition *cond)
 {
+	g_return_if_fail (cond != NULL);
+	if (cond->value[0] != NULL)
+		value_release (cond->value[0]);
+	if (cond->value[1] != NULL)
+		value_release (cond->value[1]);
 }
 
 /**********************************************************************************/
@@ -118,10 +123,15 @@ gnm_filter_condition_unref (GnmFilterCondition *cond)
 static void
 filter_field_finalize (GObject *object)
 {
-	GnmFilterField *cc = FILTER_FIELD (object);
+	GnmFilterField *field = FILTER_FIELD (object);
 	GObjectClass *parent;
 
-	g_return_if_fail (cc != NULL);
+	g_return_if_fail (field != NULL);
+
+	if (field->cond != NULL) {
+		gnm_filter_condition_unref (field->cond);
+		field->cond = NULL;
+	}
 
 	parent = g_type_class_peek (SHEET_OBJECT_TYPE);
 	if (parent != NULL && parent->finalize != NULL)
@@ -173,28 +183,82 @@ cb_filter_key_press (GtkWidget *popup, GdkEventKey *event,
 }
 
 static  gint
-cb_filter_button_press (GtkWidget *popup, GdkEventButton *event, gpointer ignored)
+cb_filter_button_press (GtkWidget *popup, GdkEventButton *event,
+			GtkWidget *container)
 {
-	/* A press outside the popup cancels */
 	if (event->x >= 0 && event->y >= 0 &&
 	    event->x < popup->allocation.width &&
-	    event->y < popup->allocation.height)
+	    event->y < popup->allocation.height) {
+#warning forward the event to the right place somehow
 		return FALSE;
+	}
 
+	/* A press outside the popup cancels */
 	gtk_widget_destroy (popup);
 	return TRUE;
 }
 
 static  gint
 cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
-			  GnmFilterField *field)
+			  GtkTreeView *list)
+			  /* GnmFilterField *field*/
 {
+	GtkTreeIter  iter;
+	GnmFilterField *field;
+	GnmFilterCondition *cond;
+
+	fprintf (stderr, "%g, %g : %d, %d : %d\n", event->x, event->y,
+		popup->allocation.width, popup->allocation.height,
+		GTK_WIDGET_MAPPED (popup));
+
 	/* A release inside popup accepts */
-	if (event->x >= 0 && event->y >= 0 &&
-	    event->x < popup->allocation.width &&
-	    event->y < popup->allocation.height) {
-		gtk_widget_destroy (popup);
+	if (event->x < 0 || event->y < 0 ||
+	    event->x >= popup->allocation.width ||
+	    event->y >= popup->allocation.height)
+		return TRUE;
+
+	field = g_object_get_data (G_OBJECT (list), FIELD_ID);
+	if (field != NULL &&
+	    gtk_tree_selection_get_selected (gtk_tree_view_get_selection (list),
+					     NULL, &iter)) {
+		char	*label;
+		gpointer val;
+		int	 type;
+		gboolean set_condition = TRUE;
+
+		gtk_tree_model_get (gtk_tree_view_get_model (list), &iter,
+				    0, &label, 1, &val, 2, &type,
+				    -1);
+
+		switch (type) {
+		case  0 :
+			set_condition = FALSE;
+			break;
+		case  1 : cond = NULL;	break; /* unfilter */
+		case  2 : /* Custom */
+			set_condition = FALSE;
+			break;
+		case  3 : cond = gnm_filter_condition_new_single (
+				  GNM_FILTER_OP_BLANKS, NULL);
+			break;
+		case  4 : cond = gnm_filter_condition_new_single (
+				  GNM_FILTER_OP_NON_BLANKS, NULL);
+			break;
+		case 10 : /* Top 10 */
+			set_condition = FALSE;
+			break;
+		default :
+			set_condition = FALSE;
+			g_warning ("Unknown type %d", type);
+		};
+
+		g_free (label);
+
+		gnm_filter_set_condition (field->filter, field->i,
+				 cond, TRUE);
+		sheet_redraw_all (field->filter->dep.sheet, TRUE);
 	}
+	gtk_widget_destroy (popup);
 	return TRUE;
 }
 
@@ -223,10 +287,10 @@ static Value *
 cb_collect_unique (Sheet *sheet, int col, int row, Cell *cell,
 		   UniqueCollection *uc)
 {
-	if (cell_is_blank (cell)) {
+	if (cell_is_blank (cell) ||
+	    (cell->value->type == VALUE_STRING && *(cell->value->v_str.val->str) == '\0'))
 		uc->has_blank = TRUE;
-		printf ("%d\n", row+1);
-	} else
+	else
 		g_hash_table_replace (uc->hash, cell->value, cell->value);
 
 	return NULL;
@@ -238,28 +302,56 @@ cb_copy_hash_to_array (Value *key, gpointer value, gpointer sorted)
 }
 
 static GtkListStore *
-collect_unique_elements (Sheet *sheet, Range const *r, GtkTreePath **clip)
+collect_unique_elements (GnmFilterField *field,
+			 GtkTreePath **clip, GtkTreePath **select)
 {
 	UniqueCollection uc;
 	GtkTreeIter	 iter;
 	GtkListStore *model;
 	GPtrArray    *sorted = g_ptr_array_new ();
 	unsigned i;
+	gboolean is_custom = FALSE;
+	Range	 r = field->filter->r;
+	Value const *check = NULL;
+	Value	    *check_num = NULL; /* XL stores numbers as string @$^!@$ */
+
+	if (field->cond != NULL &&
+	    field->cond->op[0] == GNM_FILTER_OP_EQUAL &&
+	    field->cond->op[1] == GNM_FILTER_UNUSED) {
+		check = field->cond->value[0];
+		if (check->type == VALUE_STRING)
+			check_num = format_match_number (check->v_str.val->str, NULL);
+	}
 
 	model = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_INT);
 	gtk_list_store_append (model, &iter);
 	gtk_list_store_set (model, &iter, 0, _("(All)"),	   1, NULL, 2, 1, -1);
+	if (field->cond == NULL || field->cond->op[0] == GNM_FILTER_UNUSED)
+		*select = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
+
 	gtk_list_store_append (model, &iter);
 	gtk_list_store_set (model, &iter, 0, _("(Top 10...)"),     1, NULL, 2, 10,-1);
+	if (field->cond != NULL &&
+	    (GNM_FILTER_OP_TYPE_MASK & field->cond->op[0]) == GNM_FILTER_OP_TOP_N)
+		*select = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
+
+	/* default to this we can easily revamp later */
 	gtk_list_store_append (model, &iter);
 	gtk_list_store_set (model, &iter, 0, _("(Custom...)"),     1, NULL, 2, 2, -1);
+	if (*select == NULL) {
+		is_custom = TRUE;
+		*select = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
+	}
 
+	r.start.row++;
+	/* r.end.row =  XL actually extend to the first non-empty element in the list */
+	r.end.col = r.start.col += field->i;
 	uc.has_blank = FALSE;
 	uc.hash = g_hash_table_new (
 			(GHashFunc) value_hash, (GEqualFunc) value_equal);
-	sheet_foreach_cell_in_range (sheet,
-		CELL_ITER_IGNORE_HIDDEN,
-		r->start.col, r->start.row, r->end.col, r->end.row,
+	sheet_foreach_cell_in_range (field->filter->dep.sheet,
+		CELL_ITER_ALL,
+		r.start.col, r.start.row, r.end.col, r.end.row,
 		(CellIterFunc)&cb_collect_unique, &uc);
 
 	g_hash_table_foreach (uc.hash,
@@ -277,16 +369,38 @@ collect_unique_elements (Sheet *sheet, Range const *r, GtkTreePath **clip)
 		if (i == 10)
 			*clip = gtk_tree_model_get_path (GTK_TREE_MODEL (model),
 							 &iter);
+		if (check != NULL) {
+			if (value_compare (check, v, TRUE) == IS_EQUAL ||
+			    (check_num != NULL && value_compare (check_num, v, TRUE) == IS_EQUAL)) {
+				gtk_tree_path_free (*select);
+				*select = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
+			}
+		}
 	}
 
 	if (uc.has_blank) {
 		gtk_list_store_append (model, &iter);
 		gtk_list_store_set (model, &iter, 0, _("(Blanks...)"),	   1, NULL, 2, 3, -1);
+		if (field->cond != NULL &&
+		    field->cond->op[0] == GNM_FILTER_OP_BLANKS)
+			*select = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
+
 		gtk_list_store_append (model, &iter);
 		gtk_list_store_set (model, &iter, 0, _("(Non Blanks...)"), 1, NULL, 2, 4, -1);
+		if (field->cond != NULL &&
+		    field->cond->op[0] == GNM_FILTER_OP_NON_BLANKS)
+			*select = gtk_tree_model_get_path (GTK_TREE_MODEL (model), &iter);
+	} else if (is_custom && field->cond != NULL &&
+		   (GNM_FILTER_OP_TYPE_MASK & field->cond->op[0]) == GNM_FILTER_OP_BLANKS) {
+		gtk_tree_path_free (*select);
+		*select = NULL;
 	}
 
 	g_hash_table_destroy (uc.hash);
+	g_ptr_array_free (sorted, TRUE);
+
+	if (check_num != NULL)
+		value_release (check_num);
 
 	return model;
 }
@@ -294,23 +408,19 @@ collect_unique_elements (Sheet *sheet, Range const *r, GtkTreePath **clip)
 static void
 cb_filter_button_pressed (GtkButton *button, GnmFilterField *field)
 {
-	GObject	     *view = g_object_get_data (G_OBJECT (button), VIEW_ITEM);
+	GObject	     *view = g_object_get_data (G_OBJECT (button), VIEW_ITEM_ID);
 	GnumericPane *pane = sheet_object_view_key (G_OBJECT (view));
-	GtkWidget    *frame, *popup, *list;
+	GtkWidget    *frame, *popup, *list, *container;
 	SheetControlGUI *scg = pane->gcanvas->simple.scg;
 	int root_x, root_y;
 	GtkListStore  *model;
 	GtkTreeViewColumn *column;
-	GtkTreePath	  *clip = NULL;
+	GtkTreePath	  *clip = NULL, *select = NULL;
 	GtkRequisition	req;
-	Range r = field->filter->r;
 
 	popup = gtk_window_new (GTK_WINDOW_POPUP);
 
-	r.start.row++;
-	/* r.end.row =  XL actually extend to the first non-empty element in the list */
-	r.end.col = r.start.col += field->i;
-	model = collect_unique_elements (field->filter->dep.sheet, &r, &clip);
+	model = collect_unique_elements (field, &clip, &select);
 	column = gtk_tree_view_column_new_with_attributes ("ID",
 			gtk_cell_renderer_text_new (), "text", 0,
 			NULL);
@@ -318,6 +428,7 @@ cb_filter_button_pressed (GtkButton *button, GnmFilterField *field)
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (list), FALSE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (list), column);
 	gtk_widget_size_request (GTK_WIDGET (list), &req);
+	g_object_set_data (G_OBJECT (list), FIELD_ID, field);
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
@@ -336,9 +447,11 @@ cb_filter_button_pressed (GtkButton *button, GnmFilterField *field)
 
 		gtk_widget_set_size_request (list, req.width, rect.y);
 		gtk_container_add (GTK_CONTAINER (sw), list);
-		gtk_container_add (GTK_CONTAINER (frame), sw);
+		container = sw;
 	} else
-		gtk_container_add (GTK_CONTAINER (frame), list);
+		container = list;
+
+	gtk_container_add (GTK_CONTAINER (frame), container);
 
 	/* do the popup */
 	gtk_window_set_decorated (GTK_WINDOW (popup), FALSE);
@@ -359,15 +472,25 @@ cb_filter_button_pressed (GtkButton *button, GnmFilterField *field)
 		G_CALLBACK (cb_filter_key_press), NULL);
 	g_signal_connect (popup,
 		"button_press_event",
-		G_CALLBACK (cb_filter_button_press), NULL);
+		G_CALLBACK (cb_filter_button_press), container);
 	g_signal_connect (popup,
 		"button_release_event",
-		G_CALLBACK (cb_filter_button_release), field);
+		G_CALLBACK (cb_filter_button_release), list);
 	g_signal_connect (popup,
 		"motion_notify_event",
 		G_CALLBACK (cb_filter_motion_notify_event), list);
 
 	gtk_widget_show_all (popup);
+
+	/* after we show the window setup the selection (showing the list
+	 * clears the selection) */
+	if (select != NULL) {
+		gtk_tree_selection_select_path (
+			gtk_tree_view_get_selection (GTK_TREE_VIEW (list)),
+			select);
+		gtk_tree_path_free (select);
+	}
+
 	gtk_grab_add (popup);
 	gdk_pointer_grab (popup->window, FALSE,
 		GDK_BUTTON_PRESS_MASK | 
@@ -381,6 +504,7 @@ filter_field_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 {
 	GnmCanvas *gcanvas = ((GnumericPane *)key)->gcanvas;
 	GtkWidget *arrow, *view_widget = gtk_button_new ();
+	GnmFilterField *field = (GnmFilterField *) so;
 	FooCanvasItem *view_item = foo_canvas_item_new (
 		gcanvas->object_group,
 		foo_canvas_widget_get_type (),
@@ -389,10 +513,12 @@ filter_field_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 		NULL);
 
 	GTK_WIDGET_UNSET_FLAGS (view_widget, GTK_CAN_FOCUS);
-	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_IN);
+	arrow = gtk_arrow_new (field->cond != NULL ?  GTK_ARROW_RIGHT : GTK_ARROW_DOWN,
+			       GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (view_widget), arrow);
 
-	g_object_set_data (G_OBJECT (view_widget), VIEW_ITEM, view_item);
+	g_object_set_data (G_OBJECT (view_widget), VIEW_ITEM_ID, view_item);
+	g_object_set_data (G_OBJECT (view_item), ARROW_ID, arrow);
 	g_signal_connect (view_widget,
 		"pressed",
 		G_CALLBACK (cb_filter_button_pressed), so);
@@ -424,6 +550,75 @@ filter_field_class_init (GObjectClass *object_class)
 
 GSF_CLASS (GnmFilterField, filter_field,
 	   filter_field_class_init, NULL, SHEET_OBJECT_TYPE);
+
+static Value *
+cb_filter_expr (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
+{
+	return NULL;
+}
+
+static Value *
+cb_filter_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
+{
+	if (cell_is_blank (cell) ||
+	    (cell->value->type == VALUE_STRING && *(cell->value->v_str.val->str) == '\0')) {
+		ColRowInfo *ri = sheet_row_fetch (sheet, row);
+		ri->visible = FALSE;
+	}
+	return NULL;
+}
+
+static Value *
+cb_filter_non_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
+{
+	if (!cell_is_blank (cell) &&
+	    !(cell->value->type == VALUE_STRING && *(cell->value->v_str.val->str) == '\0'))
+		cell->row_info->visible = FALSE;
+	return NULL;
+}
+
+static void
+filter_field_apply (GnmFilterField *field)
+{
+	GnmFilter *filter = field->filter;
+	int const col = filter->r.start.col + field->i;
+	int const start_row = filter->r.start.row + 1;
+	int const end_row = filter->r.end.row;
+
+	if (field->cond == NULL ||
+	    field->cond->op[0] == GNM_FILTER_UNUSED)
+		return;
+	if (0x10 >= (field->cond->op[0] & GNM_FILTER_OP_TYPE_MASK))
+		sheet_foreach_cell_in_range (filter->dep.sheet,
+			CELL_ITER_IGNORE_HIDDEN | CELL_ITER_IGNORE_BLANK,
+			col, start_row, col, end_row,
+			cb_filter_expr, field);
+	else if (field->cond->op[0] == GNM_FILTER_OP_BLANKS)
+		sheet_foreach_cell_in_range (filter->dep.sheet,
+			CELL_ITER_IGNORE_HIDDEN,
+			col, start_row, col, end_row,
+			cb_filter_blanks, NULL);
+	else if (field->cond->op[0] == GNM_FILTER_OP_NON_BLANKS)
+		sheet_foreach_cell_in_range (filter->dep.sheet,
+			CELL_ITER_IGNORE_HIDDEN,
+			col, start_row, col, end_row,
+			cb_filter_non_blanks, NULL);
+	else if (0x30 == (field->cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
+	} else
+		g_warning ("Invalid operator %d", field->cond->op[0]);
+}
+
+static void
+filter_field_set_active (GnmFilterField *field)
+{
+	GList *ptr;
+	SheetObject *so = &field->parent;
+
+	for (ptr = so->realized_list; ptr; ptr = ptr->next)
+		gtk_arrow_set (g_object_get_data (ptr->data, ARROW_ID),
+			field->cond != NULL ?  GTK_ARROW_UP : GTK_ARROW_DOWN,
+			GTK_SHADOW_IN);
+}
 
 /*************************************************************************/
 
@@ -483,11 +678,12 @@ gnm_filter_new (Sheet *sheet, Range const *r)
 	filter->dep.expression = gnm_expr_new_constant (
 		value_new_cellrange_r (sheet, r));
 
+	filter->is_active = FALSE;
 	filter->r = *r;
 	filter->fields = g_ptr_array_new ();
 
 	tmp.start.row = tmp.end.row = r->start.row;
-	for (i = range_width (r); i-- > 0 ;) {
+	for (i = 0 ; i <= range_width (r); i++) {
 		field = g_object_new (filter_field_get_type (), NULL);
 		field->filter = filter;
 		field->i      = i;
@@ -497,15 +693,12 @@ gnm_filter_new (Sheet *sheet, Range const *r)
 		sheet_object_anchor_set (&field->parent, &anchor);
 		sheet_object_set_sheet (&field->parent, sheet);
 		g_ptr_array_add (filter->fields, field);
+		g_object_unref (G_OBJECT (field));
 	}
 
 	dependent_link (&filter->dep, &dummy);
 	sheet->filters = g_slist_prepend (sheet->filters, filter);
 
-	for (i = r->start.row; ++i <= r->end.row ; ) {
-		ColRowInfo *ri = sheet_row_fetch (sheet, i);
-		ri->in_filter = TRUE;
-	}
 	return filter;
 }
 
@@ -549,7 +742,66 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 			  GnmFilterCondition *cond,
 			  gboolean apply)
 {
-	gnm_filter_condition_unref (cond);
+	GnmFilterField	*field;
+	gboolean set_infilter = FALSE;
+	gboolean existing_cond;
+	int r;
+
+	g_return_if_fail (filter != NULL);
+	g_return_if_fail (i < filter->fields->len);
+
+	field = g_ptr_array_index (filter->fields, i);
+
+	if (field->cond != NULL) {
+		existing_cond = TRUE;
+		gnm_filter_condition_unref (field->cond);
+	}
+	field->cond = cond;
+	filter_field_set_active (field);
+
+	if (apply) {
+		/* if there was an existing cond then we need to do
+		 * 1) unfilter everything
+		 * 2) reapply all the filters
+		 * This is because we do record what elements this particular
+		 * field filtered
+		 */
+		if (existing_cond) {
+			for (r = filter->r.start.row; ++r <= filter->r.end.row ; ) {
+				ColRowInfo *ri = sheet_row_get (filter->dep.sheet, r);
+				if (ri != NULL)
+					ri->visible = TRUE;
+			}
+			for (i = 0 ; i < filter->fields->len ; i++)
+				filter_field_apply (g_ptr_array_index (filter->fields, i));
+		} else
+			/* When adding a new cond all we need to do is
+			 * apply that filter */
+			filter_field_apply (field);
+	}
+
+	/* set the activity flag and potentially activate the
+	 * in_filter flags in the rows */
+	if (cond == NULL) {
+		for (i = 0 ; i < filter->fields->len ; i++) {
+			field = g_ptr_array_index (filter->fields, i);
+			if (field->cond != NULL)
+				break;
+		}
+		if (i >= filter->fields->len) {
+			filter->is_active = FALSE;
+			set_infilter = TRUE;
+		}
+	} else if (!filter->is_active) {
+		filter->is_active = TRUE;
+		set_infilter = TRUE;
+	}
+
+	if (set_infilter)
+		for (r = filter->r.start.row; ++r <= filter->r.end.row ; ) {
+			ColRowInfo *ri = sheet_row_fetch (filter->dep.sheet, r);
+			ri->in_filter = filter->is_active;
+		}
 }
 
 /**
@@ -557,6 +809,8 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
  * @filter :
  * @col :
  *
+ * We can not use the is_filtered flags because they are only applied when one
+ * of the fields is active.
  **/
 gboolean
 gnm_filter_contains_row (GnmFilter const *filter, int row)

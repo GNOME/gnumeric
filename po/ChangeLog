@@ -1,3 +1,7 @@
+2002-12-02  Jody Goldberg <jody@gnome.org>
+
+	* POTFILES.in : add filter and pivottable
+
 2002-12-01  Jan Morén  <jan.moren@lucs.lu.se>
 
 	* sv.po: Updated Swedish translation.

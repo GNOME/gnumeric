@@ -31,7 +31,39 @@
 #undef RANGE_DEBUG
 
 Range *
-range_init_pos (Range *r, CellPos const *start, CellPos const *end)
+range_init_full_sheet (Range *r)
+{
+	r->start.col = 0;
+	r->start.row = 0;
+	r->end.col = SHEET_MAX_COLS - 1;
+	r->end.row = SHEET_MAX_ROWS - 1;
+	return r;
+}
+
+Range *    
+range_init_rangeref (Range *range, RangeRef const *rr)
+{
+	g_return_val_if_fail (range != NULL && rr != NULL, NULL);
+
+	range->start.col = rr->a.col;
+	range->start.row = rr->a.row;
+	range->end.col   = rr->b.col;
+	range->end.row   = rr->b.row;
+	return range;	
+}
+
+
+Range *    
+range_init_value (Range *range, Value const *v)
+{
+	g_return_val_if_fail (range != NULL && v != NULL &&
+			      v->type == VALUE_CELLRANGE, FALSE);
+
+	return range_init_rangeref (range, &v->v_range.cell);
+}
+
+Range *
+range_init_cellpos (Range *r, CellPos const *start, CellPos const *end)
 {
 	r->start = *start;
 	r->end = *end;
@@ -51,38 +83,6 @@ range_init (Range *r, int start_col, int start_row,
 	r->end.row   = end_row;
 
 	return r;
-}
-
-Range *
-range_init_full_sheet (Range *r)
-{
-	r->start.col = 0;
-	r->start.row = 0;
-	r->end.col = SHEET_MAX_COLS - 1;
-	r->end.row = SHEET_MAX_ROWS - 1;
-	return r;
-}
-
-gboolean    
-setup_range_from_value (Range *range, Value const *v)
-{
-	g_return_val_if_fail (range != NULL && v != NULL &&
-			      v->type == VALUE_CELLRANGE, FALSE);
-
-	setup_range_from_range_ref (range, &v->v_range.cell);
-	return TRUE;	
-}
-
-gboolean    
-setup_range_from_range_ref (Range *range, RangeRef const *rr)
-{
-	g_return_val_if_fail (range != NULL && rr != NULL, FALSE);
-
-	range->start.col = rr->a.col;
-	range->start.row = rr->a.row;
-	range->end.col   = rr->b.col;
-	range->end.row   = rr->b.row;
-	return TRUE;	
 }
 
 
@@ -1016,7 +1016,7 @@ value_to_global_range (Value const *v, GlobalRange *res)
 	g_return_val_if_fail (v->type == VALUE_CELLRANGE, FALSE);
 
 	res->sheet = v->v_range.cell.a.sheet;
-	setup_range_from_value (&res->range, v);
+	range_init_value (&res->range, v);
 	
 	return TRUE;
 }

@@ -6,11 +6,6 @@ release, and longer term bugs.
 
 Release Critical
 ----------------
-    - XL crashes importing our xls95 exports with names
-    - referencing freed named expr from undo clipboard
-    - height calculation in render value is hosed for embedded new lines
-    - setup_range_from_value
-      setup_range_from_range_ref : rename to range_init_*
 
 Pending Patches
 ---------------
@@ -20,6 +15,9 @@ Pending Patches
 1.2 Targets
 -----------
 
+- XL crashes importing our xls95 exports with names
+- referencing freed named expr from undo clipboard
+- height calculation in render value is hosed for embedded new lines
 - validate expression names to ensure that they are not simple values (eg TRUE)
 
 1) graphs
@@ -35,7 +33,7 @@ Pending Patches
     3.2) Figure out import semantics of the other 2 XL types
 5) zip based format
     5.1) move existing code into plugin
-    5.2) work on sax style exporter
+    5.2) work on sax-ish exporter
     5.4) should extend the format api to contain (not support) all of the
         opencalc flags.
 6) XL
@@ -46,6 +44,7 @@ Pending Patches
     6.5) Intersection, union and set export
     6.6) fix name export now that we sorta understand it
     6.7) non-ole import (Nick Lamb is working on this)		(DONE)
+    6.8) Validation export
 
 7) Expr Parser
     7.1) Move the host of flags into an GnmExprConventions      (DONE)
@@ -73,29 +72,46 @@ Pending Patches
 20) Change =IF back to a nodes function to handle the majority case
 21) AutoFilter
     21.1) fix sizing and mouse for scrolled combos
-    21.2) Have the selected combos do something
-    21.3) Handle range changes (cut-n-paste or ins/del col/row)
-    21.4) xml import/export
-    21.5) xls export
+    21.2) race condition on start
+    21.3) expression filters
+    21.4) top 10 filters
+    21.5) blank filters						(DONE)
+    21.6) visual cue that row in part of a filter		(DONE)
+    21.7) visual cue that a field is active			(DONE)
+    21.8) select the current condition in the combos		(DONE)
+    21.9) top 10 dialog
+    21.10 expression dialog
+    21.11) Handle range changes (cut-n-paste or ins/del col/row)
+    21.12) xml import/export
+    21.13) xls export
 
+Functions
+    ODDFPRICE
+    ODDFYEILD
+    ODDLPRICE
+    ODDLYEILD
+    YEILDDISC
 
 UTF-8:
     - Window titles.
     - format precompile
 
-Probably Post 1.2 Targets
+Possibly Post 1.2 Targets
 -------------------------
 - pivot tables
-- validation from list
+- validation from list (generalize filter combos)
 - clipboard handlers in plugins
+- input message				(Stored)
+- Put a pango layout in rendered value
+- load/save of external references
+
+Probably Post 1.2 Targets
+-------------------------
 - eggmenu (would be nice to slide in to support merging from non-bonobo build)
 - finish corba plugin
 - conditional formats : could be done if someone wanted to work on the dialog
-- Put a pango layout in rendered value
 - scripting
 - undo/redo transaction file
-- load/save of external references
-- input message				(Stored)
 - drawing rotated borders
 
 Excel i/o

@@ -53,7 +53,10 @@
 				 (r)->start.row <= (r)->end.row)
 
 Range	   *range_init_full_sheet   (Range *r);
-Range      *range_init_pos          (Range *r, CellPos const *start, CellPos const *end);
+Range	   *range_init_rangeref	    (Range *range, RangeRef const *rr);
+Range	   *range_init_value	    (Range *range, Value const *v);
+Range      *range_init_cellpos	    (Range *r, CellPos const *start, CellPos const *end);
+
 Range      *range_init              (Range *r, int start_col, int start_row,
 				     int end_col, int end_row);
 Value      *range_parse             (Sheet *sheet, char const *range, gboolean strict);
@@ -78,9 +81,6 @@ void        range_ensure_sanity (Range *range);
 gboolean    range_is_sane	(Range const *range);
 gboolean    range_translate     (Range *range, int col_offset, int row_offset);
 gboolean    range_transpose     (Range *range, CellPos const *origin);
-
-gboolean    setup_range_from_value (Range *range, Value const *v);
-gboolean    setup_range_from_range_ref (Range *range, RangeRef const *rr);
 
 /* TODO : Do these 2 belong here ? or in sheet.h
  * Probably sheet.h but that is overfull.
