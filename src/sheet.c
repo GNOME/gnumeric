@@ -1708,6 +1708,7 @@ sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 	GList   *selections;
 	char    *result;
 	sheet_cell_foreach_callback assembler;
+	GList *selections;
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
