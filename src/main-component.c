@@ -19,6 +19,7 @@
 #include <bonobo/bonobo-persist-file.h>
 #include <bonobo/bonobo-persist-stream.h>
 #include "workbook-control-component-priv.h"
+#include "plugin.h"
 
 char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
 char const *gnumeric_data_dir = GNUMERIC_DATADIR;
@@ -252,6 +253,16 @@ gnumeric_component_factory (BonoboGenericFactory *this,
 	g_signal_connect (G_OBJECT (control), "activate",
 			  G_CALLBACK (control_activated_cb), wbc);
 
+	/* TODO: Do this in a common place for component and
+	 * application. See TODO in main-application.c:main */
+	{
+		static gboolean p_initialized = FALSE;
+
+		if (!p_initialized) {
+			plugins_init (COMMAND_CONTEXT (wbc));
+			p_initialized = TRUE;
+		}
+	}
  	return BONOBO_OBJECT (control);
 }
 

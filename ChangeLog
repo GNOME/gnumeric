@@ -1,3 +1,8 @@
+2002-05-14  Jon K Hellan  <hellan@acm.org>
+
+	* src/main-component.c (gnumeric_component_factory): Initialize
+	plugins. Yet another bpb.
+
 2002-05-14  Morten Welinder  <terra@diku.dk>
 
 	* configure.in (GNUMERIC_LOCALE_DIR): Deduce.
