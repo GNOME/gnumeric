@@ -2619,6 +2619,8 @@ workbook_create_standard_toobar (Workbook *wb)
 	gtk_box_pack_start (GTK_BOX (wb->priv->main_vbox), toolbar,
 			    FALSE, FALSE, 0);
 #else
+	app = GNOME_APP (wb->toplevel);
+
 	g_return_val_if_fail (app != NULL, NULL);
 
 	toolbar = gnumeric_toolbar_new (workbook_standard_toolbar,
@@ -2628,7 +2630,6 @@ workbook_create_standard_toobar (Workbook *wb)
 
 	if (!gnome_preferences_get_menubar_detachable ())
 		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
-	app = GNOME_APP (wb->toplevel);
 	gnome_app_add_toolbar (
 		GNOME_APP (wb->toplevel),
 		GTK_TOOLBAR (toolbar),
