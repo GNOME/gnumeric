@@ -1,3 +1,7 @@
+2004-04-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.11
+
 2004-04-17  Jody Goldberg <jody@gnome.org>
 
 	* plugins/fn-database/functions.c (find_cells_that_match) : old

@@ -653,7 +653,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_OUTLINE_COLOR,
 				0x80000000 | GSF_LE_GET_GUINT8 (q->data+38)));
 
-		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
+		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 66);
 
 		if (ms_biff_query_peek_next (q, &peek_op) &&
 		    peek_op == BIFF_COORDLIST) {

@@ -1,3 +1,7 @@
+2004-04-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.11
+
 2004-04-17  Jody Goldberg <jody@gnome.org>
 
 	* src/value.c (parse_database_criteria) : revert change from 2004-03-31

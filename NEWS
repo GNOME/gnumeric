@@ -5,6 +5,8 @@ Jody:
 	  saved by newer version of MS Excel.
 	* Make in sheet edit item cursors blink more smoothly when moving
 	* Fix change in 1.2.9 that broke the db functions
+	* Fix xls import for polygon names
+	* Force redraw on vertical alignment change
 
 Miloslav Trmac:
 	http://bugzilla.gnome.org/show_bug.cgi?id=140029

@@ -32,7 +32,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-07 10:40-0400\n"
+"POT-Creation-Date: 2004-04-18 22:59-0400\n"
 "PO-Revision-Date: 2003-11-22 12:38+0100\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -2436,7 +2436,7 @@ msgstr "Komplexe Funktionen"
 msgid "Functions for complex numbers"
 msgstr "Funktionen für komplexe Zahlen"
 
-#: plugins/fn-database/functions.c:264
+#: plugins/fn-database/functions.c:263
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
@@ -2538,7 +2538,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DBANZAHL"
 
-#: plugins/fn-database/functions.c:338
+#: plugins/fn-database/functions.c:337
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
@@ -2637,7 +2637,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DBMITTELWERT"
 
-#: plugins/fn-database/functions.c:411
+#: plugins/fn-database/functions.c:410
 msgid ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
@@ -2736,7 +2736,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DBANZAHL"
 
-#: plugins/fn-database/functions.c:482
+#: plugins/fn-database/functions.c:481
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
@@ -2842,7 +2842,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DBANZAHL"
 
-#: plugins/fn-database/functions.c:565
+#: plugins/fn-database/functions.c:564
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -2941,7 +2941,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DBMIN"
 
-#: plugins/fn-database/functions.c:640
+#: plugins/fn-database/functions.c:639
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -3038,7 +3038,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DBMAX"
 
-#: plugins/fn-database/functions.c:712
+#: plugins/fn-database/functions.c:711
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -3133,7 +3133,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DBSUMME"
 
-#: plugins/fn-database/functions.c:784
+#: plugins/fn-database/functions.c:783
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -3232,7 +3232,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DBSTDABWN"
 
-#: plugins/fn-database/functions.c:857
+#: plugins/fn-database/functions.c:856
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -3331,7 +3331,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DBSTDABWN"
 
-#: plugins/fn-database/functions.c:930
+#: plugins/fn-database/functions.c:929
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -3428,7 +3428,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DBPRODUKT"
 
-#: plugins/fn-database/functions.c:1003
+#: plugins/fn-database/functions.c:1002
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -3527,7 +3527,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DBVARIANZN"
 
-#: plugins/fn-database/functions.c:1076
+#: plugins/fn-database/functions.c:1075
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -3626,7 +3626,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DBVARIANZ"
 
-#: plugins/fn-database/functions.c:1149
+#: plugins/fn-database/functions.c:1148
 msgid ""
 "@FUNCTION=GETPIVOTDATA\n"
 "@SYNTAX=GETPIVOTDATA(pivot_table,field_name)\n"
@@ -3654,17 +3654,17 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-database/functions.c:1194 plugins/fn-database/functions.c:1197
-#: plugins/fn-database/functions.c:1200 plugins/fn-database/functions.c:1203
-#: plugins/fn-database/functions.c:1206 plugins/fn-database/functions.c:1209
-#: plugins/fn-database/functions.c:1212 plugins/fn-database/functions.c:1215
-#: plugins/fn-database/functions.c:1218 plugins/fn-database/functions.c:1221
-#: plugins/fn-database/functions.c:1224 plugins/fn-database/functions.c:1227
+#: plugins/fn-database/functions.c:1193 plugins/fn-database/functions.c:1196
+#: plugins/fn-database/functions.c:1199 plugins/fn-database/functions.c:1202
+#: plugins/fn-database/functions.c:1205 plugins/fn-database/functions.c:1208
+#: plugins/fn-database/functions.c:1211 plugins/fn-database/functions.c:1214
+#: plugins/fn-database/functions.c:1217 plugins/fn-database/functions.c:1220
+#: plugins/fn-database/functions.c:1223 plugins/fn-database/functions.c:1226
 msgid "database,field,criteria"
 msgstr "Datenbank, Feld, Kriterien"
 
 #. XL stores in lookup
-#: plugins/fn-database/functions.c:1232
+#: plugins/fn-database/functions.c:1231
 msgid "pivot_table,field_name"
 msgstr "Pivottabelle, Feld_Name"
 
@@ -20731,12 +20731,12 @@ msgid "PlotXY"
 msgstr "GraphXY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:322
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:467
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:466
 msgid "X"
 msgstr "X"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:324
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:469
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:468
 msgid "Y"
 msgstr "Y"
 
@@ -20745,7 +20745,7 @@ msgstr "Y"
 msgid "PlotBubble"
 msgstr "Blase"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:471
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:470
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 msgid "Bubble"
 msgstr "Blase"
