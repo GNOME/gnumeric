@@ -2085,3 +2085,375 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 
 	return 0;
 }
+
+
+/************* Anova: Single Factor Tool **********************************
+ *
+ * The results are given in a table which can be printed out in a new
+ * sheet, in a new workbook, or simply into an existing sheet.
+ *
+ **/
+
+int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
+			      int columns_flag, float_t alpha, 
+			      data_analysis_output_t *dao)
+{
+        data_set_t *data_sets;
+	char       buf[256];
+	int        vars, cols, rows, col, i;
+	float_t    *mean, mean_total, sum_total, n_total, ssb, ssw, sst;
+	float_t    ms_b, ms_w, f, p, f_c;
+	int        df_b, df_w, df_t;
+
+	prepare_output(wb, dao, "Anova");
+
+	cols = range->end_col - range->start_col + 1;
+	rows = range->end_row - range->start_row + 1;
+
+	set_cell (dao, 0, 0, "Anova: Single Factor");
+	set_cell (dao, 0, 2, "SUMMARY");
+	set_cell (dao, 0, 3, "Groups");
+	set_cell (dao, 1, 3, "Count");
+	set_cell (dao, 2, 3, "Sum");
+	set_cell (dao, 3, 3, "Average");
+	set_cell (dao, 4, 3, "Variance");
+
+	if (columns_flag) {
+	        vars = cols;
+		for (col=0; col<vars; col++) {
+			if (dao->labels_flag) {
+			        char *s;
+			        Cell *cell = sheet_cell_get
+				  (sheet, range->start_col+col, 
+				   range->start_row);
+				if (cell != NULL && cell->value != NULL) {
+				        s = value_get_as_string(cell->value);
+				        set_cell (dao, 0, col+4, s);
+				}
+			} else {
+			        sprintf(buf, "Column %d", col+1);
+				set_cell (dao, 0, col+4, buf);
+			}
+		}
+		data_sets = g_new(data_set_t, vars);
+
+		if (dao->labels_flag)
+		        range->start_row++;
+
+		for (i=0; i<vars; i++)
+		        get_data_groupped_by_columns(sheet,
+						     range, i, 
+						     &data_sets[i]);
+	} else {
+	        vars = rows;
+		for (col=0; col<vars; col++) {
+			if (dao->labels_flag) {
+			        char *s;
+			        Cell *cell = sheet_cell_get
+				  (sheet, range->start_col, 
+				   range->start_row+col);
+				if (cell != NULL && cell->value != NULL) {
+				        s = value_get_as_string(cell->value);
+				        set_cell (dao, 0, col+4, s);
+				}
+			} else {
+		                sprintf(buf, "Row %d", col+1);
+				set_cell (dao, 0, col+4, buf);
+			}
+		}
+		data_sets = g_new(data_set_t, vars);
+
+		if (dao->labels_flag)
+		        range->start_col++;
+
+		for (i=0; i<vars; i++)
+		        get_data_groupped_by_rows(sheet,
+						  range, i, 
+						  &data_sets[i]);
+	}
+
+	/* SUMMARY */
+	for (i=0; i<vars; i++) {
+	        float_t v;
+
+	        /* Count */
+	        sprintf(buf, "%d", data_sets[i].n);
+		set_cell (dao, 1, i+4, buf);
+
+		/* Sum */
+		sprintf(buf, "%f", data_sets[i].sum);
+		set_cell (dao, 2, i+4, buf);
+
+		/* Average */
+		sprintf(buf, "%f", data_sets[i].sum / data_sets[i].n);
+		set_cell (dao, 3, i+4, buf);
+
+		/* Variance */
+		v = (data_sets[i].sqrsum - data_sets[i].sum2/data_sets[i].n) /
+		  (data_sets[i].n - 1);
+		sprintf(buf, "%f", v);
+		set_cell (dao, 4, i+4, buf);
+	}
+
+	set_cell (dao, 0, vars+6, "ANOVA");
+	set_cell (dao, 0, vars+7, "Source of Variation");
+	set_cell (dao, 1, vars+7, "SS");
+	set_cell (dao, 2, vars+7, "df");
+	set_cell (dao, 3, vars+7, "MS");
+	set_cell (dao, 4, vars+7, "F");
+	set_cell (dao, 5, vars+7, "P-value");
+	set_cell (dao, 6, vars+7, "F critical");
+	set_cell (dao, 0, vars+8, "Between Groups");
+	set_cell (dao, 0, vars+9, "Within Groups");
+	set_cell (dao, 0, vars+11, "Total");
+
+	/* ANOVA */
+	mean = g_new(float_t, vars);
+	sum_total = n_total = 0;
+	ssb = ssw = sst = 0;
+	for (i=0; i<vars; i++) {
+	        mean[i] = data_sets[i].sum / data_sets[i].n;
+		sum_total += data_sets[i].sum;
+		n_total += data_sets[i].n;
+	}
+	mean_total = sum_total / n_total;
+	for (i=0; i<vars; i++) {
+	        float_t t;
+		t = mean[i] - mean_total;
+		ssb += t * t * data_sets[i].n;
+	}
+	for (i=0; i<vars; i++) {
+	        GSList  *current = data_sets[i].array;
+		float_t t, x;
+
+		while (current != NULL) {
+			x = *((float_t *) current->data);
+			t = x - mean[i];
+		        ssw += t * t;
+			t = x - mean_total;
+			sst += t * t;
+			current = current->next;
+		}
+	}
+	df_b = cols-1;
+	df_w = n_total - cols;
+	df_t = n_total - 1;
+	ms_b = ssb / df_b;
+	ms_w = ssw / df_w;
+	f    = ms_b / ms_w;
+	p    = 1.0 - pf(f, df_b, df_w);
+	f_c  = qf(alpha, df_b, df_w);
+
+	sprintf(buf, "%f", ssb);
+	set_cell (dao, 1, vars+8, buf);
+	sprintf(buf, "%f", ssw);
+	set_cell (dao, 1, vars+9, buf);
+	sprintf(buf, "%f", sst);
+	set_cell (dao, 1, vars+11, buf);
+	sprintf(buf, "%d", df_b);
+	set_cell (dao, 2, vars+8, buf);
+	sprintf(buf, "%d", df_w);
+	set_cell (dao, 2, vars+9, buf);
+	sprintf(buf, "%d", df_t);
+	set_cell (dao, 2, vars+11, buf);
+	sprintf(buf, "%f", ms_b);
+	set_cell (dao, 3, vars+8, buf);
+	sprintf(buf, "%f", ms_w);
+	set_cell (dao, 3, vars+9, buf);
+	sprintf(buf, "%f", f);
+	set_cell (dao, 4, vars+8, buf);
+	sprintf(buf, "%f", p);
+	set_cell (dao, 5, vars+8, buf);
+	sprintf(buf, "%f", f_c);
+	set_cell (dao, 6, vars+8, buf);
+
+	g_free(mean);
+
+	for (i=0; i<vars; i++)
+	        free_data_set(&data_sets[i]);
+
+        return 0;
+}
+
+
+/************* Anova: Two-Factor Without Replication Tool ****************
+ *
+ * The results are given in a table which can be printed out in a new
+ * sheet, in a new workbook, or simply into an existing sheet.
+ *
+ **/
+
+int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
+				     float_t alpha, 
+				     data_analysis_output_t *dao)
+{
+        data_set_t *data_sets;
+	char       buf[256];
+	int        cols, rows, i, n;
+	float_t    *row_mean, *col_mean, mean, sum;
+	float_t    ss_r, ss_c, ss_e, ss_t;
+	float_t    ms_r, ms_c, ms_e, f1, f2, p1, p2, f1_c, f2_c;
+	int        df_r, df_c, df_e, df_t;
+
+	prepare_output(wb, dao, "Anova");
+
+	cols = range->end_col - range->start_col + 1;
+	rows = range->end_row - range->start_row + 1;
+
+	set_cell (dao, 0, 0, "Anova: Two-Factor Without Replication");
+	set_cell (dao, 0, 2, "SUMMARY");
+	set_cell (dao, 1, 2, "Count");
+	set_cell (dao, 2, 2, "Sum");
+	set_cell (dao, 3, 2, "Average");
+	set_cell (dao, 4, 2, "Variance");
+
+	data_sets = g_new(data_set_t, cols);
+	col_mean = g_new(float_t, cols);
+	for (i=0; i<cols; i++) {
+	        float_t v;
+
+	        get_data_groupped_by_columns(sheet, range, i, &data_sets[i]);
+	        sprintf(buf, "Column %d", i+1);
+		set_cell (dao, 0, i+4+rows, buf);
+	        sprintf(buf, "%d", data_sets[i].n);
+		set_cell (dao, 1, i+4+rows, buf);
+	        sprintf(buf, "%f", data_sets[i].sum);
+		set_cell (dao, 2, i+4+rows, buf);
+	        sprintf(buf, "%f", data_sets[i].sum/data_sets[i].n);
+		set_cell (dao, 3, i+4+rows, buf);
+		v = (data_sets[i].sqrsum - data_sets[i].sum2/data_sets[i].n) /
+		  (data_sets[i].n - 1);
+		sprintf(buf, "%f", v);
+		set_cell (dao, 4, i+4+rows, buf);
+		col_mean[i] = data_sets[i].sum / data_sets[i].n;
+	}
+	g_free(data_sets);
+
+	data_sets = g_new(data_set_t, rows);
+	row_mean = g_new(float_t, rows);
+	for (i=n=sum=0; i<rows; i++) {
+	        float_t v;
+
+	        get_data_groupped_by_rows(sheet, range, i, &data_sets[i]);
+	        sprintf(buf, "Row %d", i+1);
+		set_cell (dao, 0, i+3, buf);
+	        sprintf(buf, "%d", data_sets[i].n);
+		set_cell (dao, 1, i+3, buf);
+	        sprintf(buf, "%f", data_sets[i].sum);
+		set_cell (dao, 2, i+3, buf);
+	        sprintf(buf, "%f", data_sets[i].sum/data_sets[i].n);
+		set_cell (dao, 3, i+3, buf);
+		v = (data_sets[i].sqrsum - data_sets[i].sum2/data_sets[i].n) /
+		  (data_sets[i].n - 1);
+		sprintf(buf, "%f", v);
+		set_cell (dao, 4, i+3, buf);
+		n += data_sets[i].n;
+		sum += data_sets[i].sum;
+		row_mean[i] = data_sets[i].sum / data_sets[i].n;
+	}
+	ss_e = ss_t = 0;
+	mean = sum / n;
+	for (i=0; i<rows; i++) {
+	        GSList *current = data_sets[i].array;
+		float_t t, x;
+		n = 0;
+
+	        while (current != NULL) {
+		        x = *((float_t *) current->data);
+			t = x - col_mean[n] - row_mean[i] + mean;
+			t *= t;
+			ss_e += t;
+			t = x - mean;
+			t *= t;
+			ss_t += t;
+			n++;
+			current = current->next;
+		}
+	}
+	g_free(data_sets);
+
+	ss_r = ss_c = 0;
+	for (i=0; i<rows; i++) {
+	        float_t t;
+
+		t = row_mean[i] - mean;
+		t *= t;
+	        ss_r += t;
+	}
+	ss_r *= cols;
+	for (i=0; i<cols; i++) {
+	        float_t t;
+
+		t = col_mean[i] - mean;
+		t *= t;
+	        ss_c += t;
+	}
+	g_free(col_mean);
+	g_free(row_mean);
+
+	ss_c *= rows;
+
+	df_r = rows-1;
+	df_c = cols-1;
+	df_e = (rows-1) * (cols-1);
+	df_t = (rows*cols)-1;
+	ms_r = ss_r / df_r;
+	ms_c = ss_c / df_c;
+	ms_e = ss_e / df_e;
+	f1   = ms_r / ms_e;
+	f2   = ms_c / ms_e;
+	p1   = 1.0 - pf(f1, df_r, df_e);
+	p2   = 1.0 - pf(f2, df_c, df_e);
+	f1_c = qf(alpha, df_r, df_e);
+	f2_c = qf(alpha, df_c, df_e);
+
+	set_cell (dao, 0, 6+rows+cols, "ANOVA");
+	set_cell (dao, 0, 7+rows+cols, "Source of Variation");
+	set_cell (dao, 1, 7+rows+cols, "SS");
+	set_cell (dao, 2, 7+rows+cols, "df");
+	set_cell (dao, 3, 7+rows+cols, "MS");
+	set_cell (dao, 4, 7+rows+cols, "F");
+	set_cell (dao, 5, 7+rows+cols, "P-value");
+	set_cell (dao, 6, 7+rows+cols, "F critical");
+	set_cell (dao, 0, 8+rows+cols, "Rows");
+	set_cell (dao, 0, 9+rows+cols, "Columns");
+	set_cell (dao, 0, 10+rows+cols, "Error");
+	set_cell (dao, 0, 12+rows+cols, "Total");
+
+	sprintf(buf, "%f", ss_r);
+	set_cell (dao, 1, 8+rows+cols, buf);
+	sprintf(buf, "%f", ss_c);
+	set_cell (dao, 1, 9+rows+cols, buf);
+	sprintf(buf, "%f", ss_e);
+	set_cell (dao, 1, 10+rows+cols, buf);
+	sprintf(buf, "%f", ss_t);
+	set_cell (dao, 1, 12+rows+cols, buf);
+	sprintf(buf, "%d", df_r);
+	set_cell (dao, 2, 8+rows+cols, buf);
+	sprintf(buf, "%d", df_c);
+	set_cell (dao, 2, 9+rows+cols, buf);
+	sprintf(buf, "%d", df_e);
+	set_cell (dao, 2, 10+rows+cols, buf);
+	sprintf(buf, "%d", df_t);
+	set_cell (dao, 2, 12+rows+cols, buf);
+	sprintf(buf, "%f", ms_r);
+	set_cell (dao, 3, 8+rows+cols, buf);
+	sprintf(buf, "%f", ms_c);
+	set_cell (dao, 3, 9+rows+cols, buf);
+	sprintf(buf, "%f", ms_e);
+	set_cell (dao, 3, 10+rows+cols, buf);
+	sprintf(buf, "%f", f1);
+	set_cell (dao, 4, 8+rows+cols, buf);
+	sprintf(buf, "%f", f2);
+	set_cell (dao, 4, 9+rows+cols, buf);
+	sprintf(buf, "%f", p1);
+	set_cell (dao, 5, 8+rows+cols, buf);
+	sprintf(buf, "%f", p2);
+	set_cell (dao, 5, 9+rows+cols, buf);
+	sprintf(buf, "%f", f1_c);
+	set_cell (dao, 6, 8+rows+cols, buf);
+	sprintf(buf, "%f", f2_c);
+	set_cell (dao, 6, 9+rows+cols, buf);
+
+	return 0;
+}

@@ -1,3 +1,12 @@
+Gnumeric 0.32
+
+Jukka:
+	* Implemented ``Anova: Single Factor'' data analysis tool
+	* Implemented ``Anova: Two-Factor Without Replication'' data
+	  analysis tool
+
+--------------------------------------------------------------------------
+
 Gnumeric 0.30
 
 Jukka:

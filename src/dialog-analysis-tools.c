@@ -28,6 +28,8 @@ static void dialog_ftest_tool(Workbook *wb, Sheet *sheet);
 static void dialog_average_tool(Workbook *wb, Sheet *sheet);
 static void dialog_random_tool(Workbook *wb, Sheet *sheet);
 static void dialog_regression_tool(Workbook *wb, Sheet *sheet);
+static void dialog_anova_single_factor_tool(Workbook *wb, Sheet *sheet);
+static void dialog_anova_two_factor_without_r_tool(Workbook *wb, Sheet *sheet);
 
 
 static descriptive_stat_tool_t ds;
@@ -66,6 +68,10 @@ typedef struct {
 
 
 tool_list_t tools[] = {
+        { { "Anova: Single Factor", NULL },
+	  dialog_anova_single_factor_tool },
+        { { "Anova: Two-Factor Without Replication", NULL },
+	  dialog_anova_two_factor_without_r_tool },
         { { "Correlation", NULL },
 	  dialog_correlation_tool },
         { { "Covariance", NULL },
@@ -1798,6 +1804,180 @@ dialog_loop:
 	dao.labels_flag = labels;
 
 	if (ranking_tool (wb, sheet, &range, !i, &dao))
+	        goto dialog_loop;
+
+	workbook_focus_sheet(sheet);
+ 	gnome_dialog_close (GNOME_DIALOG (dialog));
+}
+
+
+static void
+dialog_anova_single_factor_tool(Workbook *wb, Sheet *sheet)
+{
+        static GtkWidget *dialog, *box;
+	static GtkWidget *range_entry, *output_range_entry, *alpha_entry;
+	static GSList    *group_ops, *output_ops;
+	static int       labels = 0;
+
+	data_analysis_output_t  dao;
+
+	char  *text;
+	int   selection;
+	static Range range;
+	int   i=0, output;
+	float_t alpha;
+
+	label_row_flag = labels;
+
+	if (!dialog) {
+	        dialog = new_dialog("Anova: Single Factor", wb->toplevel);
+
+		box = gtk_vbox_new (FALSE, 0);
+
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		box = new_frame("Input:", box);
+
+		range_entry = hbox_pack_label_and_entry
+		  ("Input Range:", "", 20, box);
+
+		group_ops = add_groupped_by(box);
+
+		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
+							20, box);
+		add_check_buttons(box, label_button);
+
+		box = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		output_range_entry = add_output_frame(box, &output_ops);
+
+		gtk_widget_show_all (dialog);
+	} else
+		gtk_widget_show_all (dialog);
+
+        gtk_widget_grab_focus (range_entry);
+
+dialog_loop:
+
+	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (selection == 1) {
+	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		return;
+	}
+
+	i = gtk_radio_group_get_selected (group_ops);
+	output = gtk_radio_group_get_selected (output_ops);
+
+	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
+	if (!parse_range (text, &range.start_col,
+			  &range.start_row,
+			  &range.end_col,
+			  &range.end_row)) {
+	        error_in_entry(wb, range_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Range:'");
+		goto dialog_loop;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
+	alpha = atof(text);
+
+	if (parse_output(output, sheet, output_range_entry, wb, &dao))
+	        goto dialog_loop;
+
+	labels = label_row_flag;
+	dao.labels_flag = labels;
+
+	if (anova_single_factor_tool (wb, sheet, &range, !i, alpha, &dao))
+	        goto dialog_loop;
+
+	workbook_focus_sheet(sheet);
+ 	gnome_dialog_close (GNOME_DIALOG (dialog));
+}
+
+
+static void
+dialog_anova_two_factor_without_r_tool(Workbook *wb, Sheet *sheet)
+{
+        static GtkWidget *dialog, *box;
+	static GtkWidget *range_entry, *output_range_entry, *alpha_entry;
+	static GSList    *output_ops;
+	static int       labels = 0;
+
+	data_analysis_output_t  dao;
+
+	char         *text;
+	int          selection;
+	static Range range;
+	int          output;
+	float_t      alpha;
+
+	label_row_flag = labels;
+
+	if (!dialog) {
+	        dialog = new_dialog("Anova: Two-Factor Without Replication",
+				    wb->toplevel);
+
+		box = gtk_vbox_new (FALSE, 0);
+
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		box = new_frame("Input:", box);
+
+		range_entry = hbox_pack_label_and_entry
+		  ("Input Range:", "", 20, box);
+
+		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
+							20, box);
+		add_check_buttons(box, label_button);
+
+		box = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		output_range_entry = add_output_frame(box, &output_ops);
+
+		gtk_widget_show_all (dialog);
+	} else
+		gtk_widget_show_all (dialog);
+
+        gtk_widget_grab_focus (range_entry);
+
+dialog_loop:
+
+	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (selection == 1) {
+	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		return;
+	}
+
+	output = gtk_radio_group_get_selected (output_ops);
+
+	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
+	if (!parse_range (text, &range.start_col,
+			  &range.start_row,
+			  &range.end_col,
+			  &range.end_row)) {
+	        error_in_entry(wb, range_entry, 
+			       "You should introduce a valid cell range "
+			       "in 'Range:'");
+		goto dialog_loop;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
+	alpha = atof(text);
+
+	if (parse_output(output, sheet, output_range_entry, wb, &dao))
+	        goto dialog_loop;
+
+	labels = label_row_flag;
+	dao.labels_flag = labels;
+
+	if (anova_two_factor_without_r_tool (wb, sheet, &range, alpha, &dao))
 	        goto dialog_loop;
 
 	workbook_focus_sheet(sheet);

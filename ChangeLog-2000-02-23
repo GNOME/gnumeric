@@ -1,3 +1,11 @@
+1999-07-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialog-analysis-tools.c, src/analysis-tools.c: Implemented
+ 	Anova, single factor tool.
+
+	* src/dialog-analysis-tools.c, src/analysis-tools.c: Implemented
+ 	Anova, two-factor without replication tool.
+	
 1999-07-12  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/print-info.c (save_hf, print_hf_register): Save the headers
