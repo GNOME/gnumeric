@@ -1,3 +1,8 @@
+2003-08-15  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-view.c (wbv_save_to_file): Handle output errors
+	that happen after the initial open.
+
 2003-08-14  Carlos Perelló Marín <carlos@gnome.org>
 
 	* configure.in: We need intltool 0.27.2 to be able to work with UTF-8

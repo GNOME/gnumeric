@@ -584,16 +584,16 @@ wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
 
 		puts (filename);
 		if (output != NULL) {
+			GError const *save_err;
 			gnm_file_saver_save (fs, io_context, wbv, GSF_OUTPUT (output));
-			g_object_unref (G_OBJECT (output));
-			g_free (filename_utf8);
-			return;
-		}
-
-		if (err != NULL) {
-			if (err->message != NULL)
-				msg = g_strdup (err->message);
-			g_error_free (err);
+			save_err = gsf_output_error (GSF_OUTPUT (output));
+			if (save_err)
+				msg = g_strdup (save_err->message);
+			else {
+				g_object_unref (G_OBJECT (output));
+				g_free (filename_utf8);
+				return;
+			}
 		}
 
 		if (msg == NULL)
