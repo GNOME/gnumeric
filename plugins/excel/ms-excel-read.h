@@ -113,7 +113,7 @@ struct _ExcelWorkbook {
 	char		**global_strings;
 	guint32		  global_string_max;
 
-	gboolean          warn_unsupported_graphs;
+	gboolean          is_gnumeric_1_0_x;
 
 	ExprTreeSharer   *expr_sharer;
 

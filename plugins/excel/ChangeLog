@@ -1,3 +1,20 @@
+2003-03-26  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_tab_color) : no need to operate on the
+	  pixel directly.  Use the rgb in the StyleColor.
+	(excel_read_WINDOW2) : ditto.
+
+2003-03-18  Jody Goldberg <jody@gnome.org>
+
+	* boot.c : suppress warning
+
+2003-03-18  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_EXTERNSHEET_v7) : work around a bug in
+	  1.0.x export that quoted names in EXTERNSHEET.
+        (excel_read_workbook) : recognize 1.0.x files.
+	(excel_workbook_new) : init the new flag.
+
 2003-03-07  Morten Welinder  <terra@diku.dk>
 
 	* ms-chart.c (register_handlers): Use G_N_ELEMENTS.

@@ -54,13 +54,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-gboolean xl_xml_file_probe (GnmFileOpener const *fo, GsfInput *input,
-                             FileProbeLevel pl);
-void     xl_xml_file_open (GnmFileOpener const *fo, IOContext *io_context,
-			    WorkbookView *wb_view, GsfInput *input);
-
-/*****************************************************************************/
-
+gboolean excel_xml_file_probe (GnmFileOpener const *fo, GsfInput *input,
+			       FileProbeLevel pl);
+void     excel_xml_file_open (GnmFileOpener const *fo, IOContext *io_context,
+			      WorkbookView *wb_view, GsfInput *input);
 
 /*****************************************************************************/
 

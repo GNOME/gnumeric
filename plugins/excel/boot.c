@@ -65,6 +65,7 @@ gboolean excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLe
 void excel_file_open (GnmFileOpener const *fo, IOContext *context, WorkbookView *wbv, GsfInput *input);
 void excel_biff7_file_save (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
 void excel_biff8_file_save (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
+void excel_dsf_file_save   (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
 void plugin_cleanup (void);
 
 gboolean
@@ -187,13 +188,13 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 	/* simple guess of format based on stream names */
 	if (is_double_stream_file)
 		workbook_set_saveinfo (wb, FILE_FL_AUTO,
-			get_file_saver_by_id ("Gnumeric_Excel:excel_dsf"));
+			gnm_file_saver_for_id ("Gnumeric_Excel:excel_dsf"));
 	else if (i < 3)
 		workbook_set_saveinfo (wb, FILE_FL_AUTO,
-			get_file_saver_by_id ("Gnumeric_Excel:excel_biff8"));
+			gnm_file_saver_for_id ("Gnumeric_Excel:excel_biff8"));
 	else
 		workbook_set_saveinfo (wb, FILE_FL_AUTO,
-			get_file_saver_by_id ("Gnumeric_Excel:excel_biff7"));
+			gnm_file_saver_for_id ("Gnumeric_Excel:excel_biff7"));
 }
 
 static void

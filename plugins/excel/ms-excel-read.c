@@ -2502,7 +2502,7 @@ excel_workbook_new (MsBiffVersion ver, IOContext *context, WorkbookView *wbv)
 	ewb->global_strings   = NULL;
 	ewb->global_string_max = 0;
 
-	ewb->warn_unsupported_graphs = TRUE;
+	ewb->is_gnumeric_1_0_x = FALSE;
 	return ewb;
 }
 
@@ -3142,7 +3142,7 @@ excel_read_tab_color (BiffQuery *q, ExcelReadSheet *esheet)
 	 */
 	color_index = GSF_LE_GET_GUINT8 (q->data + 16);
 	color = excel_palette_get (esheet->container.ewb->palette, color_index);
-	contrast = color->color.red + color->color.green + color->color.blue;
+	contrast = color->red + color->green + color->blue;
 	if (contrast >= 0x18000)
 		text_color = style_color_black ();
 	else
@@ -3723,9 +3723,9 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 			}
 			d (2, fprintf (stderr,"auto pattern color "
 				      "0x%x 0x%x 0x%x\n",
-				      pattern_color->color.red,
-				      pattern_color->color.green,
-				      pattern_color->color.blue););
+				      pattern_color->red,
+				      pattern_color->green,
+				      pattern_color->blue););
 			sheet_style_set_auto_pattern_color (
 				esheet->sheet, pattern_color);
 		}
@@ -4489,6 +4489,17 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 			len = q->length - 2;
 
 		name = biff_get_text (q->data + 2, len, NULL);
+
+		/* There was a bug in 1.0.x export that spewed the quoted name */
+		if (container->ewb->is_gnumeric_1_0_x && name[0] == '\'') {
+			int tmp_len = strlen (name);
+			if (tmp_len > 3 && name[tmp_len-1]) {
+				char *tmp = g_strndup (name+1, tmp_len - 2);
+				g_free (name);
+				name = tmp;
+			}
+		}
+
 		if (name != NULL) {
 			sheet = workbook_sheet_by_name (container->ewb->gnum_wb, name);
 			if (sheet == NULL) {
@@ -5270,7 +5281,13 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		case BIFF_NAME:		excel_read_NAME (q, ewb);	break;
 		case BIFF_XCT:		excel_read_XCT (q, ewb);	break;
 
-		case BIFF_WRITEACCESS:	break;
+		case BIFF_WRITEACCESS:
+			/* recognize gnumeric 1.0.x xl95 files */
+			ewb->is_gnumeric_1_0_x =
+				(q->length == 0x70 &&
+				 0 == memcmp (q->data + 1, "The Gnumeric Development Team", 29));
+			break;
+
 		case BIFF_HIDEOBJ:	break;
 		case BIFF_FNGROUPCOUNT: break;
 		case BIFF_MMS:		break;
