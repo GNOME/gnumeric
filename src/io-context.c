@@ -333,22 +333,18 @@ count_io_progress_update (IOContext *io_context, gint inc)
 }
 
 void
-workbook_io_progress_set (IOContext *io_context, Workbook *wb,
-                          WbProgressElements elements, gint step)
+workbook_io_progress_set (IOContext *io_context, Workbook *wb, gint step)
 {
 	gint n = 0;
 	GList *sheets, *l;
 
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 	g_return_if_fail (IS_WORKBOOK (wb));
-	g_return_if_fail (elements <= WB_PROGRESS_ALL);
 
 	sheets = workbook_sheets (wb);
 	for (l = sheets; l != NULL; l = l->next) {
 		Sheet *sheet = l->data;
-
-		if ((elements & WB_PROGRESS_CELLS) != 0)
-			n += g_hash_table_size (sheet->cell_hash);
+		n += g_hash_table_size (sheet->cell_hash);
 	}
 	g_list_free (sheets);
 

@@ -114,9 +114,6 @@ to features that already work.
 * Calculation
    + Dependancies for - CELL functions.
 
-* Excel Import
-   + Localise sheet/workbook Name import.
-
 1.3
 ==========
 These section lists features that are for post 1.0 versions

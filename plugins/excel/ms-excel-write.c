@@ -3365,7 +3365,7 @@ write_workbook_v7 (ExcelWriteState *ewb, BiffPut *bp)
 
 	ms_excel_write_EOF (bp);
 
-	workbook_io_progress_set (ewb->io_context, ewb->gnum_wb, WB_PROGRESS_CELLS,
+	workbook_io_progress_set (ewb->io_context, ewb->gnum_wb,
 	                          N_ELEMENTS_BETWEEN_PROGRESS_UPDATES);
 	for (i = 0; i < ewb->sheets->len; i++)
 		excel_write_sheet (ewb, g_ptr_array_index (ewb->sheets, i));

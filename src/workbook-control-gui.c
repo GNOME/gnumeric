@@ -4118,10 +4118,14 @@ static GtkWidget *
 edit_area_button (WorkbookControlGUI *wbcg, gboolean sensitive,
 		  GCallback func, char const *stock_id)
 {
-	GtkWidget *button = gtk_button_new_from_stock (stock_id);
+	GtkWidget *button = gtk_button_new ();
+	gtk_container_add (GTK_CONTAINER (button),
+		gtk_image_new_from_stock (stock_id,
+					  GTK_ICON_SIZE_BUTTON));
+	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	if (!sensitive)
 		gtk_widget_set_sensitive (button, FALSE);
-	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
+
 	g_signal_connect (G_OBJECT (button),
 		"clicked",
 		G_CALLBACK (func), wbcg);
@@ -4149,13 +4153,8 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 		G_CALLBACK (cb_cancel_input), GTK_STOCK_CANCEL);
 	wbcg->ok_button = edit_area_button (wbcg, FALSE,
 		G_CALLBACK (cb_accept_input), GTK_STOCK_OK);
-
-	/* Auto function */
-	wbcg->func_button	= gtk_button_new_from_stock ("gnm_equal");
-	GTK_WIDGET_UNSET_FLAGS (wbcg->func_button, GTK_CAN_FOCUS);
-	g_signal_connect (G_OBJECT (wbcg->func_button),
-		"clicked",
-		G_CALLBACK (cb_autofunction), wbcg);
+	wbcg->func_button = edit_area_button (wbcg, TRUE,
+		G_CALLBACK (cb_autofunction), "Gnumeric_Equal");
 
 	gtk_box_pack_start (GTK_BOX (box2), wbcg->selection_descriptor, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), wbcg->cancel_button, 0, 0, 0);

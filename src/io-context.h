@@ -12,11 +12,6 @@ typedef struct _IOContextClass IOContextClass;
 #define IO_CONTEXT(obj)    (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_IO_CONTEXT, IOContext))
 #define IS_IO_CONTEXT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_IO_CONTEXT))
 
-typedef enum {
-	WB_PROGRESS_CELLS  = 1,
-	WB_PROGRESS_ALL    = (WB_PROGRESS_CELLS)
-} WbProgressElements;
-
 GType      io_context_get_type (void);
 IOContext *gnumeric_io_context_new        (CommandContext *cc);
 
@@ -42,8 +37,7 @@ void       count_io_progress_update (IOContext *io_context, gint inc);
 void       value_io_progress_set    (IOContext *io_context, gint total, gint step);
 void       value_io_progress_update (IOContext *io_context, gint value);
 
-void       workbook_io_progress_set    (IOContext *io_context, Workbook *wb,
-                                        WbProgressElements elements, gint step);
+void       workbook_io_progress_set    (IOContext *io_context, Workbook *wb, gint step);
 void       workbook_io_progress_update (IOContext *io_context, gint inc);
 
 void       io_progress_unset      (IOContext *io_context);
