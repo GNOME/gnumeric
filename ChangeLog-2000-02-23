@@ -1,3 +1,28 @@
+1999-03-08  Takashi Matsuda <matsu@arch.comp.kyutech.ac.jp>
+
+	* plugins: new text plugin. 	
+
+	Add new plugin TXT for simple text inport/export
+	tab separated text. multiple sheet in a workbook is separated by
+	'\f' character.
+	If first line of each sheet is not include tab, then that line is
+	interpreted as sheet name.
+
+	* src/gnumeric-sheet.c: Add new mean for hard-coded keyboard short
+	cut CTRL-Return.  Because ItemEdit does not support XIM, I must
+	click the entry whenever I want to input janapese character.  If
+	user does not edit the cell, this key combination switchs a
+	keyboard focus to entry .
+
+	* Replace gdk_font_load() with gdk_fontset_load()
+	src/style.c gdk_font_load() makes impossible to show international
+	string.
+
+	* src/clipboard.h 'copy by value' was not possible because of
+	miss-definition of PASTE_* enume.
+
+	* src/file.c: gnumeric_notice was called with wrong arguments.
+
 1999-03-07  Michael Meeks  <michael@imaginator.com>
 
 	* src/cell.c (cell_set_format_from_style): Removed sluggish
