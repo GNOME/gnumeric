@@ -27,7 +27,7 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean sylk_file_probe (GnumFileOpener const *fo, const gchar *filename);
+gboolean sylk_file_probe (GnumFileOpener const *fo, const gchar *filename, FileProbeLevel pl);
 void     sylk_file_open (GnumFileOpener const *fo, IOContext *io_context,
                          WorkbookView *wb_view, const char *filename);
 
@@ -478,7 +478,7 @@ sylk_file_open (GnumFileOpener const *fo, IOContext *io_context,
 }
 
 gboolean
-sylk_file_probe (GnumFileOpener const *fo, const char *filename)
+sylk_file_probe (GnumFileOpener const *fo, const char *filename, FileProbeLevel pl)
 {
 	char buf [32] = "";
 	FILE *f;
