@@ -26,6 +26,7 @@
 #include "ms-excel-util.h"
 #include "ms-excel-read.h"
 
+#include <gsf/gsf-input.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
 #include <gsf/gsf-msole-utils.h>
@@ -75,8 +76,10 @@ excel_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	if (input == NULL)
 		return FALSE;
 	ole = gsf_infile_msole_new (input, NULL);
-	if (ole == NULL)
+	if (ole == NULL) {
+		/* FIXME Perhaps this is a pure BIFF file */
 		return FALSE;
+	}
 
 	stream = gsf_infile_child_by_name (ole, "Workbook");
 	if (stream == NULL)
@@ -131,6 +134,18 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 	unsigned i = 0;
 
 	if (ole == NULL) {
+		guint8 const *data;
+
+		/* Test for non-OLE BIFF file */
+		gsf_input_seek (input, 0, G_SEEK_SET);
+		data= gsf_input_read (input, 2, NULL);
+		if (data[0] == 0x09 && (data[1] & 0xf1) == 0) {
+			gsf_input_seek (input, -2, G_SEEK_CUR);
+			ms_excel_read_workbook (context, wbv, input);
+			return;
+		}
+
+		/* OK, it really isn't an Excel file */
 		g_return_if_fail (err != NULL);
 		gnumeric_error_read (COMMAND_CONTEXT (context),
 			err->message);

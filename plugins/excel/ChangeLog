@@ -1,3 +1,8 @@
+2002-10-10  Nick Lamb <njl98r@ecs.soton.ac.uk>
+
+	* plugin.xml.in: Excel 4.x had .XLW workbooks as well as .XLS
+	* boot.c: Try to load non-OLE files too
+
 2002-10-09  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-read.c (ms_excel_workbook_destroy): Don't leak

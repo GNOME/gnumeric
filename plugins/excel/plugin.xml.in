@@ -15,6 +15,7 @@
 			</information>
 			<file_patterns>
 				<file_pattern type="shell_pattern" value="*.xls"/>
+				<file_pattern type="shell_pattern" value="*.xlw"/>
 				<file_pattern type="shell_pattern" value="*.xlt"/>
 			</file_patterns>
 			<save_info saver_id="excel95" format_level="manual_remember"/>
