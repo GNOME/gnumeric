@@ -1,3 +1,7 @@
+2001-02-20  Morten Welinder  <terra@diku.dk>
+
+	* src/regression.c (LUPDecomp): Really fix row flipping.
+
 2001-02-19  Jon K Hellan  <hellan@acm.org>
 
 	* src/file.h: Add level FILE_FL_MANUAL_REMEMBER. Fix typos:
@@ -47,7 +51,7 @@
 	* src/gnumeric.xml : Move the toggle specs into commands.
 
 	* src/workbook-control-gui.c (toggle_util) : new func.
-	(TOGGLE_HANDLER) : util macro to simplfy gnome/bonobo transition.
+	(TOGGLE_HANDLER) : util macro to simplify gnome/bonobo transition.
 	(workbook_control_gui_init) : use TOGGLE_REGISTER for the bonobo case.
 
 2001-02-19  Jon K Hellan  <hellan@acm.org>

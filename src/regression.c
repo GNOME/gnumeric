@@ -88,8 +88,8 @@ LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n)
 		P[mov] = tempint;
 		for (j = 0; j < n; j++) {		/*swap the two rows */
 			gnum_float temp = LU[i][j];
-		  	LU[i][j] = LU[i][mov];
-		  	LU[i][mov] = temp;
+		  	LU[i][j] = LU[mov][j];
+		  	LU[mov][j] = temp;
 		}
 		for (j = i + 1; j < n; j++) {
 			LU[i][j] = LU[i][j] / LU[i][i];
