@@ -1,3 +1,9 @@
+2004-12-16  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : install the man pages
+
+	* gnumeric-C.omf : version = 1.4
+
 2004-12-09  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.1
