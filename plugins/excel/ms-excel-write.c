@@ -401,17 +401,17 @@ write_window2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *sheet)
 		MS_OLE_SET_GUINT16 (data +  0, options);
 		MS_OLE_SET_GUINT16 (data +  2, 0x0);	/* top row */
 		MS_OLE_SET_GUINT16 (data +  4, 0x0);	/* left col */
-		MS_OLE_SET_GUINT32 (data +  8, 0x0);	/* grid color index */
+		MS_OLE_SET_GUINT32 (data +  6, 0x0);	/* grid color index */
 	} else {
 		data = ms_biff_put_len_next (bp, BIFF_WINDOW2, 18);
 
 		MS_OLE_SET_GUINT16 (data +  0, options);
 		MS_OLE_SET_GUINT16 (data +  2, 0x0);	/* top row */
 		MS_OLE_SET_GUINT16 (data +  4, 0x0);	/* left col */
-		MS_OLE_SET_GUINT32 (data +  8, 0x0);	/* grid color index */
+		MS_OLE_SET_GUINT32 (data +  6, 0x0);	/* grid color index */
 		MS_OLE_SET_GUINT16 (data + 10, 0x1);	/* print preview 100% */
 		MS_OLE_SET_GUINT16 (data + 12, 0x0);	/* FIXME : why 0? */
-		MS_OLE_SET_GUINT32 (data + 16, 0x0);	/* reserved 0 */
+		MS_OLE_SET_GUINT32 (data + 14, 0x0);	/* reserved 0 */
 	}
 	ms_biff_put_commit (bp);
 }
@@ -3541,7 +3541,7 @@ ms_excel_check_write (IOContext *context, void **state, WorkbookView *gwb_view,
 {
 	int ret = 0;
 	ExcelWorkbook *wb = g_new (ExcelWorkbook, 1);
-	GList    *sheets;
+	GList    *sheets, *ptr;
 
 	g_return_val_if_fail (wb != NULL, -1);
 	g_return_val_if_fail (ver >= MS_BIFF_V7, -1);
@@ -3559,17 +3559,17 @@ ms_excel_check_write (IOContext *context, void **state, WorkbookView *gwb_view,
 	xf_init (wb);
 
 	sheets = workbook_sheets (wb->gnum_wb);
-	while (sheets) {
-		ExcelSheet *sheet = new_sheet (wb, sheets->data);
+	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
+		ExcelSheet *sheet = new_sheet (wb, ptr->data);
 		g_ptr_array_add (wb->sheets, sheet);
 		if ((ret = check_sheet (context, sheet)) != 0)
 			goto cleanup;
-		sheets = g_list_next (sheets);
 	}
 
 	ret = pre_pass (context, wb);
 
 cleanup:
+	g_list_free (sheets);
 	if (ret != 0) {
 		free_workbook (wb);
 		*state = NULL;

@@ -1,3 +1,11 @@
+2001-04-19  Jody Goldberg <jgoldberg@home.com>
+
+	* roff.c (write_wb_roff) : fix leak.
+	* latex.c (latex_file_save) : ditto.
+	(latex2e_file_save) : ditto.
+	* html.c (html32_file_save) : Ditto.
+	(html40_file_save) : Ditto.
+
 2001-03-17  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.64

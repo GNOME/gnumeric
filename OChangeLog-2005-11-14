@@ -1,3 +1,12 @@
+2001-04-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/embeddable-grid.c (embeddable_grid_init_anon) :  fix leak.
+
+	* src/workbook.c (workbook_sheet_rename) : fix error message.
+	(workbook_sheets) : constness.
+	(workbook_sheet_count) : ditto.
+	(workbook_sheet_index_get) : ditto.
+
 2001-04-18  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_cell_set_expr) : clear old span when an

@@ -832,8 +832,12 @@ workbook_detach_view (WorkbookView *wbv)
 
 /*****************************************************************************/
 
+/**
+ * workbook_sheets : Get an ordered list of the sheets in the workbook
+ *                   The caller is required to free the list.
+ */
 GList *
-workbook_sheets (Workbook *wb)
+workbook_sheets (Workbook const *wb)
 {
 	GList *list = NULL;
 
@@ -850,7 +854,7 @@ workbook_sheets (Workbook *wb)
 }
 
 int
-workbook_sheet_count (Workbook *wb)
+workbook_sheet_count (Workbook const *wb)
 {
 	g_return_val_if_fail (IS_WORKBOOK (wb), 0);
 
@@ -858,7 +862,7 @@ workbook_sheet_count (Workbook *wb)
 }
 
 int
-workbook_sheet_index_get (Workbook *wb, Sheet const * sheet)
+workbook_sheet_index_get (Workbook const *wb, Sheet const * sheet)
 {
 	int i;
 
@@ -1156,7 +1160,7 @@ workbook_sheet_rename (WorkbookControl *wbc,
 	tmp = (Sheet *) g_hash_table_lookup (wb->sheet_hash_private, new_name);
 	if (tmp != NULL && tmp != sheet) {
 		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
-					_("There is already a sheet named '%s'"),
+					_("There is already a sheet named"),
 					new_name);
 		return TRUE;
 	}

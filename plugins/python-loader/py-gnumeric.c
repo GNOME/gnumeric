@@ -1627,6 +1627,7 @@ py_Workbook_get_sheets_method (py_Workbook_object *self, PyObject *args)
 		g_assert (py_sheet);
 		(void) PyTuple_SetItem (py_sheets, i, py_sheet);
 	}
+	g_list_free (sheets);
 
 	return py_sheets;
 }

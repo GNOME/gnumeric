@@ -342,6 +342,7 @@ dif_file_save (FileSaver const *fs, IOContext *io_context,
 	 */
 	sheet_list = workbook_sheets (wb);
 
+	/* FIXME : Why not a loop ? */
 	if (sheet_list) {
 		Sheet *sheet = sheet_list->data;
 		Range r = sheet_get_extent (sheet);
@@ -374,9 +375,8 @@ dif_file_save (FileSaver const *fs, IOContext *io_context,
 			}
 
 		}
-
-		sheet_list = sheet_list->next;
 	}
+	g_list_free (sheet_list);
 
 	fputs ("-1,0\nEOD\n", f);
 

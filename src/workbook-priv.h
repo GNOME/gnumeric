@@ -66,9 +66,9 @@ Workbook   *workbook_new_with_sheets     (int sheet_count);
 void	    workbook_unref		 (Workbook *wb);
 
 /* Sheet support routines */
-GList      *workbook_sheets              (Workbook *wb);
-int         workbook_sheet_count         (Workbook *wb);
-int	    workbook_sheet_index_get	 (Workbook *wb, Sheet const * sheet);
+GList      *workbook_sheets              (Workbook const *wb);
+int         workbook_sheet_count         (Workbook const *wb);
+int	    workbook_sheet_index_get	 (Workbook const *wb, Sheet const * sheet);
 Sheet      *workbook_sheet_by_index	 (Workbook *wb, int i);
 Sheet      *workbook_sheet_by_name       (Workbook *wb, const char *sheet_name);
 void        workbook_sheet_attach        (Workbook *, Sheet *new_sheet,

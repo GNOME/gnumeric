@@ -65,6 +65,7 @@ populate_sheet_clist (SheetManager *sm)
 		if (ptr->data == cur_sheet)
 			gtk_clist_select_row (clist, row, 0);
 
+	g_list_free (sheets);
 	gtk_clist_thaw (clist);
 }
 

@@ -83,6 +83,7 @@ excel_gb_worksheets_enumerate (GBRunEvalContext *ec,
 
 		ret = g_slist_prepend (ret, e);
 	}
+	g_list_free (sheets);
 
 	return g_slist_reverse (ret);
 }

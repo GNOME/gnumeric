@@ -216,7 +216,7 @@ html32_file_save (FileSaver const *fs, IOContext *io_context,
                   WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;
-	GList *sheet_list;
+	GList *sheets, *ptr;
 	Cell *cell;
 	MStyle *style;
 	int row, col;
@@ -249,9 +249,9 @@ html32_file_save (FileSaver const *fs, IOContext *io_context,
 	fprintf (fp, "}\n");
 	fprintf (fp, "--></STYLE>\n");
 	fprintf (fp, "</HEAD>\n<BODY>\n");
-	sheet_list = workbook_sheets (wb);
-	while (sheet_list) {
-		Sheet *sheet = sheet_list->data;
+	sheets = workbook_sheets (wb);
+	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
+		Sheet *sheet = ptr->data;
 		Range r = sheet_get_extent (sheet);
 
 		fprintf (fp, "<TABLE border=1>\n");
@@ -268,8 +268,8 @@ html32_file_save (FileSaver const *fs, IOContext *io_context,
 			fprintf (fp, "</TR>\n");
 		}
 		fprintf (fp, "</TABLE>\n<P>\n\n");
-		sheet_list = sheet_list->next;
 	}
+	g_list_free (sheets);
 	fprintf (fp, "<BODY>\n</HTML>\n");
 	fclose (fp);
 }
@@ -284,7 +284,7 @@ html40_file_save (FileSaver const *fs, IOContext *io_context,
                   WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;
-	GList *sheet_list;
+	GList *sheets, *ptr;
 	Cell *cell;
 	MStyle *style;
 	int row, col;
@@ -318,9 +318,9 @@ html40_file_save (FileSaver const *fs, IOContext *io_context,
 	fprintf (fp, "}\n");
 	fprintf (fp, "--></STYLE>\n");
 	fprintf (fp, "</HEAD>\n<BODY>\n");
-	sheet_list = workbook_sheets (wb);
-	while (sheet_list) {
-		Sheet *sheet = sheet_list->data;
+	sheets = workbook_sheets (wb);
+	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
+		Sheet *sheet = ptr->data;
 		Range r = sheet_get_extent (sheet);
 
 		fprintf (fp, "<TABLE border=1>\n");
@@ -337,8 +337,8 @@ html40_file_save (FileSaver const *fs, IOContext *io_context,
 			fprintf (fp, "</TR>\n");
 		}
 		fprintf (fp, "</TABLE>\n<P>\n\n");
-		sheet_list = sheet_list->next;
 	}
+	g_list_free (sheets);
 	fprintf (fp, "<BODY>\n</HTML>\n");
 	fclose (fp);
 }

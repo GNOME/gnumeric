@@ -88,7 +88,7 @@ latex_file_save (FileSaver const *fs, IOContext *io_context,
                  WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;
-	GList *sheet_list;
+	GList *sheets, *ptr;
 	Cell *cell;
 	int row, col;
 	Workbook *wb = wb_view_workbook (wb_view);
@@ -107,9 +107,9 @@ latex_file_save (FileSaver const *fs, IOContext *io_context,
 	fprintf (fp, "\\oddsidemargin -0.54cm\n\\textwidth 17cm\n");
 	fprintf (fp, "\\parskip 1em\n");
 	fprintf (fp, "\\begin{document}\n\n");
-	sheet_list = workbook_sheets (wb);
-	while (sheet_list) {
-		Sheet *sheet = sheet_list->data;
+	sheets = workbook_sheets (wb);
+	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
+		Sheet *sheet = ptr->data;
 		Range r = sheet_get_extent (sheet);
 
 		latex_fputs (sheet->name_unquoted, fp);
@@ -171,8 +171,8 @@ latex_file_save (FileSaver const *fs, IOContext *io_context,
 			fprintf (fp, "\\\\\\hline\n");
 		}
 		fprintf (fp, "\\end{tabular}\n\n");
-		sheet_list = sheet_list->next;
 	}
+	g_list_free (sheets);
 	fprintf (fp, "\\end{document}");
 	fclose (fp);
 }
@@ -185,7 +185,7 @@ latex2e_file_save (FileSaver const *fs, IOContext *io_context,
                    WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;
-	GList *sheet_list;
+	GList *sheets, *ptr;
 	Cell *cell;
 	int row, col;
 	unsigned char r,g,b;
@@ -207,9 +207,9 @@ latex2e_file_save (FileSaver const *fs, IOContext *io_context,
 	fprintf (fp, "\t\\oddsidemargin -0.54cm\n\t\\textwidth 17cm\n");
 	fprintf (fp, "\t\\parskip 1em\n");
 	fprintf (fp, "\\begin{document}\n\n");
-	sheet_list = workbook_sheets (wb);
-	while (sheet_list) {
-		Sheet *sheet = sheet_list->data;
+	sheets = workbook_sheets (wb);
+	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
+		Sheet *sheet = ptr->data;
 		Range range = sheet_get_extent (sheet);
 
 		latex_fputs (sheet->name_unquoted, fp);
@@ -275,8 +275,8 @@ latex2e_file_save (FileSaver const *fs, IOContext *io_context,
 			fprintf (fp, "\\\\\\hline\n");
 		}
 		fprintf (fp, "\\end{tabular}\n\n");
-		sheet_list = sheet_list->next;
 	}
+	g_list_free (sheets);
 	fprintf (fp, "\\end{document}");
 	fclose (fp);
 }

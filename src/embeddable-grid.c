@@ -95,10 +95,13 @@ embeddable_grid_init (GtkObject *object)
 static void
 embeddable_grid_init_anon (EmbeddableGrid *eg)
 {
+	eg->workbook = workbook_new_with_sheets (1);
+#if 0
+	/* What the hell is this trying to do ? */
 	GList *sheets;
 
-	eg->workbook = workbook_new_with_sheets (1);
 	sheets = workbook_sheets (eg->workbook);
+#endif
 }
 
 EmbeddableGrid *

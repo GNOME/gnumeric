@@ -1,3 +1,8 @@
+2001-04-19  Jody Goldberg <jgoldberg@home.com>
+
+	* py-gnumeric.c (py_Workbook_get_sheets_method) : free the list of
+	  sheets.
+
 2001-03-31  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* py-gnumeric.c (destroy_python_interpreter): Fixed typo.

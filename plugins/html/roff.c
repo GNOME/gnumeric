@@ -78,7 +78,7 @@ roff_fprintf (FILE *fp, const Cell *cell)
 static void
 write_wb_roff (IOContext *io_context, WorkbookView *wb_view, FILE *fp)
 {
-	GList *sheet_list;
+	GList *sheets, *ptr;
 	Cell *cell;
 	int row, col, fontsize, v_size;
 	Workbook *wb = wb_view_workbook (wb_view);
@@ -87,9 +87,9 @@ write_wb_roff (IOContext *io_context, WorkbookView *wb_view, FILE *fp)
 
 	fprintf (fp, ".\\\" TROFF file\n");
 	fprintf (fp, ".fo ''%%''\n");
-	sheet_list = workbook_sheets (wb);
-	while (sheet_list) {
-		Sheet *sheet = sheet_list->data;
+	sheets = workbook_sheets (wb);
+	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
+		Sheet *sheet = ptr->data;
 		Range r = sheet_get_extent (sheet);
 
 		fprintf (fp, "%s\n\n", sheet->name_unquoted);
@@ -174,8 +174,8 @@ write_wb_roff (IOContext *io_context, WorkbookView *wb_view, FILE *fp)
 				fprintf (fp, ".TH\n");
 		}
 		fprintf (fp, ".TE\n\n");
-		sheet_list = sheet_list->next;
 	}
+	g_list_free (sheets);
 }
 
 /*

@@ -1,3 +1,9 @@
+2001-04-19  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-stf-export-sheet-page.c (stf_export_dialog_sheet_page_init) :
+	  Free the list of sheets.
+	* dialog-sheet-order.c (populate_sheet_clist) : Ditto.
+
 2001-04-18  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-define-names.c (name_guru_init): Remove commented out stuff.
