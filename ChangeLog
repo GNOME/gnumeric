@@ -1,5 +1,9 @@
 2001-02-16  Jody Goldberg <jgoldberg@home.com>
 
+	* Release 0.62
+
+2001-02-16  Jody Goldberg <jgoldberg@home.com>
+
 	* src/print.c (render_sheet_objects) : more constness.
 
 2001-02-16  Jody Goldberg <jgoldberg@home.com>

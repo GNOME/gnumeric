@@ -615,7 +615,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ISODD()</synopsis>
+      <synopsis>ISODD(value)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -821,7 +821,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ISEVEN()</synopsis>
+      <synopsis>ISEVEN(value)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -1000,15 +1000,16 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Converts a serial number to a weekday.  FIXME: explain.</para>
-        <para>Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.</para>
+        <para>Converts a serial number to a weekday.</para>
+        <para></para>        <para>This function returns an integer in the range 0-6, where Saturday is 0, Sunday is 1, etc.</para>        <para></para>        <para>Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para></para>
+        <para>WEEKDAY("10/24/1968") equals 5 (Thursday).</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-MONTH">MONTH</link>,
+      <para>        <link linkend="gnumeric-DAY">DAY</link>,
+        <link linkend="gnumeric-MONTH">MONTH</link>,
         <link linkend="gnumeric-TIME">TIME</link>,
         <link linkend="gnumeric-NOW">NOW</link>,
         <link linkend="gnumeric-YEAR">YEAR</link>.
@@ -2141,7 +2142,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ISTEXT()</synopsis>
+      <synopsis>ISTEXT(value)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -3295,12 +3296,12 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Converts a serial number to a day.</para>
+        <para>Converts a serial number to a day of month.</para>
         <para>Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para></para>
+        <para>day ("10/24/1968") equals 24.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-MONTH">MONTH</link>,
@@ -3492,7 +3493,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ISLOGICAL()</synopsis>
+      <synopsis>ISLOGICAL(value)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -4784,7 +4785,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para></para>
+        <para>If A1 contains 12/21/00 then EOMONTH(A1,0)=12/31/00, EOMONTH(A1,5)=5/31/01, and EOMONTH(A1,2)=2/28/01</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-MONTH">MONTH</link>.
@@ -5727,7 +5728,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ISNA()</synopsis>
+      <synopsis>ISNA(value)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -6071,7 +6072,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ISBLANK()</synopsis>
+      <synopsis>ISBLANK(value)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -6367,7 +6368,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>TYPE()</synopsis>
+      <synopsis>TYPE(value)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -6737,7 +6738,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>CELL()</synopsis>
+      <synopsis>CELL(ref)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -7088,7 +7089,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>N()</synopsis>
+      <synopsis>N(value)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -8162,7 +8163,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ISNONTEXT()</synopsis>
+      <synopsis>ISNONTEXT(value)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -8307,7 +8308,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ISERR()</synopsis>
+      <synopsis>ISERR(value)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -8937,7 +8938,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ISNUMBER()</synopsis>
+      <synopsis>ISNUMBER(value)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -9079,7 +9080,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ISREF()</synopsis>
+      <synopsis>ISREF(value)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -10086,7 +10087,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ISERROR(exp)</synopsis>
+      <synopsis>ISERROR(value)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -10172,8 +10173,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>IMLN returns the natural logarithm of a complex number. (The result will have an imaginary part between -pi an +pi.  The natural logarithm is not uniquely defined on complex numbers. You may need to add or subtract an even multiple of pi to the imaginary part.)This function is Excel compatible.</para>
-
+        <para>IMLN returns the natural logarithm of a complex number. (The result will have an imaginary part between -pi an +pi.  The natural logarithm is not uniquely defined on complex numbers. You may need to add or subtract an even multiple of pi to the imaginary part.)</para>
+        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -10198,7 +10199,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ERROR(exp)</synopsis>
+      <synopsis>ERROR(value)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>

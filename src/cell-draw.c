@@ -272,7 +272,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	halign = cell_default_halign (cell, mstyle);
 	if (halign != HALIGN_JUSTIFY && valign != VALIGN_JUSTIFY &&
 	    !mstyle_get_fit_in_cell (mstyle)) {
-		int x, offset, len = cell_width_pixel;
+		int x, len = cell_width_pixel;
 
 		switch (halign) {
 		case HALIGN_FILL:
@@ -353,11 +353,10 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 			switch (halign){
 			default:
 				g_warning ("Multi-line justification style not supported\n");
-				/* fall through */
-
-			case HALIGN_LEFT:
 			case HALIGN_JUSTIFY:
-				x = rect.x;
+				/* fall through */
+			case HALIGN_LEFT:
+				x = rect.x + cell_rendered_offset (cell);
 
 				/* Be cheap, only calculate the width of the
 				 * string if we need to. */
@@ -367,7 +366,8 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 
 			case HALIGN_RIGHT:
 				len = gdk_string_width (font, str);
-				x = rect.x + rect.width - 1 - len;
+				x = rect.x + rect.width - 1 - len -
+					cell_rendered_offset (cell);
 				break;
 
 			case HALIGN_CENTER:

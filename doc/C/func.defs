@@ -88,7 +88,7 @@ where:
 @SEEALSO=EFFECT
 
 @FUNCTION=ISODD
-@SYNTAX=ISODD()
+@SYNTAX=ISODD(value)
 @DESCRIPTION=ISODD returns TRUE if the number is odd. This function is Excel compatible. 
 @EXAMPLES=
 
@@ -159,7 +159,7 @@ FDIST(2,5,5) equals 0.232511319.
 @SEEALSO=FINV
 
 @FUNCTION=ISEVEN
-@SYNTAX=ISEVEN()
+@SYNTAX=ISEVEN(value)
 @DESCRIPTION=ISEVEN returns TRUE if the number is even. This function is Excel compatible. 
 @EXAMPLES=
 
@@ -231,11 +231,15 @@ RandBernoulli(0.5).
 
 @FUNCTION=WEEKDAY
 @SYNTAX=WEEKDAY (serial_number)
-@DESCRIPTION=Converts a serial number to a weekday.  FIXME: explain.
+@DESCRIPTION=Converts a serial number to a weekday.
+
+This function returns an integer in the range 0-6, where Saturday is 0, Sunday is 1, etc.
+
 Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.
 @EXAMPLES=
+WEEKDAY("10/24/1968") equals 5 (Thursday).
 
-@SEEALSO=MONTH, TIME, NOW, YEAR
+@SEEALSO=DAY, MONTH, TIME, NOW, YEAR
 
 @FUNCTION=PRODUCT
 @SYNTAX=PRODUCT(value1, value2, ...)
@@ -652,7 +656,7 @@ IMSUB("3-j","2+j") equals 1-2j.
 @SEEALSO=IMSUM
 
 @FUNCTION=ISTEXT
-@SYNTAX=ISTEXT()
+@SYNTAX=ISTEXT(value)
 @DESCRIPTION=ISTEXT returns TRUE if the value is text. This function is Excel compatible. 
 @EXAMPLES=
 
@@ -1017,9 +1021,10 @@ CHAR(65) equals A.
 
 @FUNCTION=DAY
 @SYNTAX=DAY (serial_number)
-@DESCRIPTION=Converts a serial number to a day.
+@DESCRIPTION=Converts a serial number to a day of month.
 Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.
 @EXAMPLES=
+day ("10/24/1968") equals 24.
 
 @SEEALSO=MONTH, TIME, NOW, YEAR
 
@@ -1096,7 +1101,7 @@ DMAX(A1:C7, "Age", A9:B11) equals 43.
 @SEEALSO=DMIN
 
 @FUNCTION=ISLOGICAL
-@SYNTAX=ISLOGICAL()
+@SYNTAX=ISLOGICAL(value)
 @DESCRIPTION=ISLOGICAL returns TRUE if the value is a logical value. This function is Excel compatible. 
 @EXAMPLES=
 
@@ -1516,6 +1521,7 @@ If @fraction is non-integer it is truncated. If @fraction <= 0, DOLLARDE returns
 @DESCRIPTION=Returns the last day of the month which is @months from the @start_date.
 Returns #NUM! if start_date or months are invalid.
 @EXAMPLES=
+If A1 contains 12/21/00 then EOMONTH(A1,0)=12/31/00, EOMONTH(A1,5)=5/31/01, and EOMONTH(A1,2)=2/28/01
 
 @SEEALSO=MONTH
 
@@ -1831,7 +1837,7 @@ ROUNDDOWN(1501.15,-2) equals 1500.0.
 @SEEALSO=ROUND,ROUNDUP
 
 @FUNCTION=ISNA
-@SYNTAX=ISNA()
+@SYNTAX=ISNA(value)
 @DESCRIPTION=ISNA returns TRUE if the value is the #N/A error value. This function is Excel compatible. 
 @EXAMPLES=
 
@@ -1958,7 +1964,7 @@ IMDIV("2-j","2+j") equals 0.6-0.8j.
 @SEEALSO=IMPRODUCT
 
 @FUNCTION=ISBLANK
-@SYNTAX=ISBLANK()
+@SYNTAX=ISBLANK(value)
 @DESCRIPTION=ISBLANK returns TRUE if the value is blank. This function is Excel compatible. 
 @EXAMPLES=
 
@@ -2051,7 +2057,7 @@ OR(3>4,4<3) equals FALSE.
 @SEEALSO=AND, NOT
 
 @FUNCTION=TYPE
-@SYNTAX=TYPE()
+@SYNTAX=TYPE(value)
 @DESCRIPTION=TYPE returns a number indicating the data type of a value. This function is Excel compatible. 
 @EXAMPLES=
 
@@ -2181,7 +2187,7 @@ NORMSINV(0.2) equals -0.841621234.
 @SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST
 
 @FUNCTION=CELL
-@SYNTAX=CELL()
+@SYNTAX=CELL(ref)
 @DESCRIPTION=CELL returns information about the formatting, location, or contents of a cell. 
 @EXAMPLES=
 
@@ -2298,7 +2304,7 @@ ERFC(6) equals 2.15197367e-17.
 @SEEALSO=ERF
 
 @FUNCTION=N
-@SYNTAX=N()
+@SYNTAX=N(value)
 @DESCRIPTION=N returns a value converted to a number.  Strings containing text are converted to the zero value. This function is Excel compatible. 
 @EXAMPLES=
 
@@ -2649,7 +2655,7 @@ MINA(A1:A5) equals 0.
 @SEEALSO=MAX,MINA
 
 @FUNCTION=ISNONTEXT
-@SYNTAX=ISNONTEXT()
+@SYNTAX=ISNONTEXT(value)
 @DESCRIPTION=ISNONTEXT Returns TRUE if the value is not text. This function is Excel compatible. 
 @EXAMPLES=
 
@@ -2690,7 +2696,7 @@ BETADIST(0.12,2,3) equals 0.07319808.
 @SEEALSO=BETAINV
 
 @FUNCTION=ISERR
-@SYNTAX=ISERR()
+@SYNTAX=ISERR(value)
 @DESCRIPTION=ISERR returns TRUE if the value is any error value except #N/A. This function is Excel compatible. 
 @EXAMPLES=
 
@@ -2935,7 +2941,7 @@ SKEWP(A1:A5) equals 0.655256198.
 @SEEALSO=AVERAGE,VARP,SKEW,KURTP
 
 @FUNCTION=ISNUMBER
-@SYNTAX=ISNUMBER()
+@SYNTAX=ISNUMBER(value)
 @DESCRIPTION=ISNUMBER returns TRUE if the value is a number. This function is Excel compatible. 
 @EXAMPLES=
 
@@ -2979,7 +2985,7 @@ PRINCIPAL(PER-1) = amount of the remaining principal from last period
 @SEEALSO=NPV
 
 @FUNCTION=ISREF
-@SYNTAX=ISREF()
+@SYNTAX=ISREF(value)
 @DESCRIPTION=ISREF returns TRUE if the value is a reference. This function is Excel compatible. 
 @EXAMPLES=
 
@@ -3320,7 +3326,7 @@ CONCATENATE("aa","bb") equals "aabb".
 @SEEALSO=LEFT, MID, RIGHT
 
 @FUNCTION=ISERROR
-@SYNTAX=ISERROR(exp)
+@SYNTAX=ISERROR(value)
 @DESCRIPTION=ISERROR returns a TRUE value if the expression has an error
 This function is Excel compatible. 
 @EXAMPLES=
@@ -3343,14 +3349,15 @@ This function is Excel compatible.
 
 @FUNCTION=IMLN
 @SYNTAX=IMLN(inumber)
-@DESCRIPTION=IMLN returns the natural logarithm of a complex number. (The result will have an imaginary part between -pi an +pi.  The natural logarithm is not uniquely defined on complex numbers. You may need to add or subtract an even multiple of pi to the imaginary part.)This function is Excel compatible. 
+@DESCRIPTION=IMLN returns the natural logarithm of a complex number. (The result will have an imaginary part between -pi an +pi.  The natural logarithm is not uniquely defined on complex numbers. You may need to add or subtract an even multiple of pi to the imaginary part.)
+This function is Excel compatible. 
 @EXAMPLES=
 IMLN("3-j") equals 1.15129-0.32175j.
 
 @SEEALSO=IMEXP,IMLOG2,IMLOG10
 
 @FUNCTION=ERROR.TYPE
-@SYNTAX=ERROR(exp)
+@SYNTAX=ERROR(value)
 @DESCRIPTION=ERROR.TYPE returns an error number corresponding to the given error value.  The error numbers for error values are
 #DIV/0!    2
 #VALUE!    3
