@@ -18,6 +18,10 @@ Emmanuel Pacaud:
 	* Fix the performance degradation with too many axis ticks
 	http://bugzilla.gnome.org/show_bug.cgi?id=153146
 	* Fix crash when adding series to a radar plot
+	http://bugzilla.gnome.org/show_bug.cgi?id=153401
+	* Fix ring plots for center radius = 0
+	http://bugzilla.gnome.org/show_bug.cgi?id=153402
+	* Remove unused radar plot editor
 
 Jody:
 	* XLS import formatted single points in charts (only pie for now)
