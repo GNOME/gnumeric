@@ -33,7 +33,7 @@ workbook_from_servant (PortableServer_Servant servant)
 static inline GNOME_Gnumeric_Sheet
 corba_sheet (Sheet *sheet)
 {
-	return sheet->corba_server;
+	return CORBA_Object_duplicate (sheet->corba_server);
 }
 
 static GNOME_Gnumeric_Sheet

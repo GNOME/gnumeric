@@ -68,7 +68,7 @@ WorkbookFactory_create_object (PortableServer_Servant servant,
 			       CORBA_Environment *ev)
 {
 	Workbook *workbook;
-	
+
 	if (strcmp (goad_id, "IDL:GNOME:Gnumeric:Workbook:1.0") != 0){
                 CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
                                      ex_GNOME_GenericFactory_CannotActivate,
