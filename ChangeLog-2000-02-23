@@ -1,4 +1,21 @@
-1999-07-29  Morten Welinder  <terra@diku.dk>
+1999-07-30  Morten Welinder  <terra@diku.dk>
+
+	* src/cell.c (cell_cleanout): New function.
+	(cell_set_formula): Don't bother with CELL_ERROR.  Set value field
+ 	in all cases.
+	(cell_set_array_formula): Set cell values.
+	(cell_set_value_simple): Simplify using cell_cleanout.
+	(cell_set_text_simple): Ditto.
+	(cell_set_formula_tree_simple): Ditto.
+	(cell_destroy): Ditto.
+	(cell_get_text): Simplify.
+	(cell_get_content): Ditto.
+
+	* src/eval.c (cell_eval): Reorganise slightly.
+
+	* src/expr.c (eval_expr_real): value should no longer be null.
+
+	* src/cell.h (CELL_ERROR): Obsolete.
 
 	* src/print-info.h (hf_formats): Make extern.
 

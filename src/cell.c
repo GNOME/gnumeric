@@ -47,6 +47,28 @@ cell_modified (Cell *cell)
 }
 
 
+/* Empty a cell's value, entered_text, and parsed_node.  */
+static void
+cell_cleanout (Cell *cell)
+{
+	if (cell->parsed_node){
+		sheet_cell_formula_unlink (cell);
+		expr_tree_unref (cell->parsed_node);
+		cell->parsed_node = NULL;
+	}
+
+	if (cell->value) {
+		value_release (cell->value);
+		cell->value = NULL;
+	}
+
+	if (cell->entered_text) {
+		string_unref (cell->entered_text);
+		cell->entered_text = NULL;
+	}
+}
+
+
 void
 cell_set_formula (Cell *cell, const char *text)
 {
@@ -63,19 +85,15 @@ cell_set_formula (Cell *cell, const char *text)
 				      parse_pos_cell (&pp, cell),
 				      &desired_format,
 				      &error_msg);
-	if (new_expr == NULL){
-		cell->parsed_node = NULL;
-		cell->flags |= CELL_ERROR;
-		cell_set_rendered_text (cell, error_msg);
+	cell_cleanout (cell);
 
-		if (cell->value)
-			value_release (cell->value);
-		cell->value = NULL;
+	if (new_expr == NULL){
+		cell_set_rendered_text (cell, error_msg);
+		cell->entered_text = string_get (text);
+		/* FIXME: Supply a proper position?  */
+		cell->value = value_new_error (NULL, error_msg);
 		return;
 	}
-
-	if (cell->flags & CELL_ERROR)
-		cell->flags &= ~CELL_ERROR;
 
 	if (desired_format &&
 	    strcmp (cell->style->format->format, "General") == 0){
@@ -105,6 +123,8 @@ cell_set_formula (Cell *cell, const char *text)
 					new_expr->u.array.corner.func.expr);
 	} else {
 		cell->parsed_node = new_expr;
+		/* Until the value is recomputed, we put in this value.  */
+		cell->value = value_new_error (NULL, _("Circular reference"));
 		cell_formula_changed (cell);
 	}
 }
@@ -597,20 +617,7 @@ cell_set_value_simple (Cell *cell, Value *v)
 	g_return_if_fail (v);
 
 	cell_modified (cell);
-
-	if (cell->entered_text)
-		string_unref (cell->entered_text);
-	cell->entered_text = NULL;
-
-	if (cell->value)
-		value_release (cell->value);
-
-	if (cell->parsed_node){
-		sheet_cell_formula_unlink (cell);
-
-		expr_tree_unref (cell->parsed_node);
-		cell->parsed_node = NULL;
-	}
+	cell_cleanout (cell);
 
 	cell->value = v;
 	cell_render_value (cell);
@@ -655,22 +662,7 @@ cell_set_text_simple (Cell *cell, const char *text)
 	g_return_if_fail (text != NULL);
 
 	cell_modified (cell);
-
-	if (cell->entered_text)
-		string_unref (cell->entered_text);
-	cell->entered_text = string_get (text);
-
-	if (cell->value){
-		value_release (cell->value);
-		cell->value = NULL;
-	}
-
-	if (cell->parsed_node){
-		sheet_cell_formula_unlink (cell);
-
-		expr_tree_unref (cell->parsed_node);
-		cell->parsed_node = NULL;
-	}
+	cell_cleanout (cell);
 
  	if (text [0] == '=' && text [1] != 0){
 		cell_set_formula (cell, text);
@@ -681,16 +673,12 @@ cell_set_text_simple (Cell *cell, const char *text)
 
 		l = strtol (text, &end, 10);
 		if (text != end && (l == (int)l)) {
+			/* Allow and ignore spaces at the end of integers.  */
+			while (*end == ' ')
+				end++;
 			if (*end == 0) {
 				cell->value = value_new_int (l);
 				set = 1;
-			} else { /* chomp whitespace to end on integers */
-				while (*end == ' ')
-					end++;
-				if (*end == 0) {
-					cell->value = value_new_int (l);
-					set = 1;
-				}
 			}
 		}
 		
@@ -780,16 +768,15 @@ cell_set_formula_tree_simple (Cell *cell, ExprTree *formula)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (formula != NULL);
 
-	cell_modified (cell);
-
+	/* Ref before unref.  Repeat after me.  */
 	expr_tree_ref (formula);
 
-	if (cell->parsed_node){
-		sheet_cell_formula_unlink (cell);
-		expr_tree_unref (cell->parsed_node);
-	}
+	cell_modified (cell);
+	cell_cleanout (cell);
 
 	cell->parsed_node = formula;
+	/* Until the value is recomputed, we put in this value.  */
+	cell->value = value_new_error (NULL, _("Circular reference"));
 	cell_formula_changed (cell);
 }
 
@@ -904,10 +891,6 @@ cell_copy (const Cell *cell)
 	if (new_cell->render_color)
 		style_color_ref (new_cell->render_color);
 
-	/*
-	 * The cell->value can be NULL if the cell contains
-	 * an error
-	 */
 	if (new_cell->value)
 		new_cell->value = value_duplicate (new_cell->value);
 
@@ -931,10 +914,7 @@ cell_destroy (Cell *cell)
 	}
 
 	cell_modified (cell);
-
-	if (cell->parsed_node)
-		expr_tree_unref (cell->parsed_node);
-	cell->parsed_node = (void *)0xdeadbeef;
+	cell_cleanout (cell);
 
 	if (cell->render_color)
 		style_color_unref (cell->render_color);
@@ -946,16 +926,8 @@ cell_destroy (Cell *cell)
 		string_unref (cell->text);
 	cell->text = (void *)0xdeadbeef;
 
-	if (cell->entered_text)
-		string_unref (cell->entered_text);
-	cell->entered_text = (void *)0xdeadbeef;
-
 	style_destroy (cell->style);
 	cell->style = (void *)0xdeadbeef;
-
-	if (cell->value)
-		value_release (cell->value);
-	cell->value = (void *)0xdeadbeef;
 
 	g_free (cell);
 }
@@ -1184,6 +1156,7 @@ cell_make_value (Cell *cell)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->parsed_node != NULL);
 
+	/* FIXME: does this work at all?  -- MW */
 	cell_modified (cell);
 }
 
@@ -1208,11 +1181,7 @@ cell_get_horizontal_align (const Cell *cell)
 int
 cell_is_number (const Cell *cell)
 {
-	if (cell->value)
-		if (cell->value->type == VALUE_FLOAT || cell->value->type == VALUE_INTEGER)
-			return TRUE;
-
-	return FALSE;
+	return cell->value && VALUE_IS_NUMBER (cell->value);
 }
 
 static inline int
@@ -1506,13 +1475,11 @@ cell_calc_dimensions (Cell *cell)
 char *
 cell_get_text (Cell *cell)
 {
-	char *str;
-	ParsePosition pp;
-
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	if (cell->parsed_node && cell->sheet){
 		char *func, *ret;
+		ParsePosition pp;
 
 		func = expr_decode_tree (cell->parsed_node,
 					 parse_pos_cell (&pp, cell));
@@ -1522,15 +1489,10 @@ cell_get_text (Cell *cell)
 		return ret;
 	}
 
-	/*
-	 * If a value is set, return that text formatted
-	 */
-	if (cell->value)
-		str = format_value (cell->style->format, cell->value, NULL);
+	if (cell->entered_text)
+		return g_strdup (cell->entered_text->str);
 	else
-		str = g_strdup (cell->entered_text->str);
-
-	return str;
+		return format_value (cell->style->format, cell->value, NULL);
 }
 
 
@@ -1547,13 +1509,11 @@ cell_get_text (Cell *cell)
 char *
 cell_get_content (Cell *cell)
 {
-	char *str;
-	ParsePosition pp;
-
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	if (cell->parsed_node){
 		char *func, *ret;
+		ParsePosition pp;
 
 		func = expr_decode_tree (cell->parsed_node,
 					 parse_pos_cell (&pp, cell));
@@ -1566,12 +1526,10 @@ cell_get_content (Cell *cell)
 	/*
 	 * Return the value without parsing.
 	 */
-	if (cell->value)
-		str = value_get_as_string (cell->value);
+	if (cell->entered_text)
+		return g_strdup (cell->entered_text->str);
 	else
-		str = g_strdup (cell->entered_text->str);
-
-	return str;
+		return value_get_as_string (cell->value);
 }
 
 char *

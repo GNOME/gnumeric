@@ -51,22 +51,13 @@ cell_eval (Cell *cell)
 	}
 #endif
 
-	if (cell->value){
+	if (cell->value)
 		value_release (cell->value);
-		cell->value = NULL;
-	}
 
+	if (v == NULL)
+		v = value_new_error (&s.pos, "Internal error");
 	cell->value = v;
-	if (v == NULL){
-		cell_set_rendered_text (cell, _("INTERNAL ERROR"));
-		cell->flags |= CELL_ERROR;
-	} else {
-		cell_render_value (cell);
-		if (v->type == VALUE_ERROR)
-			cell->flags |= CELL_ERROR;
-		else
-			cell->flags &= ~CELL_ERROR;
-	}
+	cell_render_value (cell);
 
 	cell_calc_dimensions (cell);
 

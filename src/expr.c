@@ -1013,10 +1013,7 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 				cell_eval (cell);
 		}
 
-		if (cell->value)
-			return value_duplicate (cell->value);
-		return value_new_error (&s->pos, (cell->text) ? cell->text->str
-				       : _("Reference to newborn cell"));
+		return value_duplicate (cell->value);
 	}
 
 	case OPER_CONSTANT:

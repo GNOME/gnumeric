@@ -34,7 +34,7 @@ struct _ColRowInfo {
 #define ROW_INTERNAL_HEIGHT(row) ((row)->pixels - ((row)->margin_b + (row)->margin_a))
 
 /* Cell has a computation error */
-#define CELL_ERROR             1
+/* #define CELL_ERROR             1 */
 
 /* Cell container a comment */
 #define CELL_HAS_COMMENT       2
@@ -69,7 +69,8 @@ struct _Cell {
 	ColRowInfo  *col;
 	ColRowInfo  *row;
 
-	/* Text as entered by the user */
+	/* Text as entered by the user.  This is only used for cells
+	   with parse errors.  */
 	String      *entered_text;
 	
 	/* Type of the content and the actual parsed content */
