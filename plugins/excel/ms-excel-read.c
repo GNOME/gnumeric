@@ -1405,19 +1405,14 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 
 		g_return_val_if_fail (expr != NULL, FALSE);
 
-		if (is_array) {
+		if (is_array)
 			cell_set_array_formula (sheet->gnum_sheet,
 						array_row_first,
 						array_col_first,
 						array_row_last,
 						array_col_last, expr);
-		} else {
-			cell = sheet_cell_fetch (sheet->gnum_sheet,
-						 array_col_first,
-						 array_row_first);
-			if (cell)
-				cell_set_formula_tree_simple (cell, expr);
-		}
+		else
+		    cell_set_formula_tree_simple (cell, expr);
 
 		expr_tree_unref (expr);
 		sheet->blank = FALSE;
@@ -1452,7 +1447,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 
 	/*
 	 * Get the current value so that we can format, do this BEFORE handling
-	 * shared/array formulas or strings incase we need to go to the next
+	 * shared/array formulas or strings in case we need to go to the next
 	 * record
 	 */
 	if (BIFF_GET_GUINT16 (q->data+12) != 0xffff) {
