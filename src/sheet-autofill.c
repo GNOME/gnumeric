@@ -15,6 +15,7 @@
 #include <config.h>
 
 #include <gnome.h>
+#include <string.h>
 #include "gnumeric.h"
 #include "sheet-autofill.h"
 
@@ -59,6 +60,11 @@ typedef enum {
 	FILL_FORMULA
 } FillType;
 
+typedef struct {
+	int    count;
+	char **items;
+} AutoFillList;
+
 struct FillItem {
 	FillType  type;
 
@@ -67,8 +73,9 @@ struct FillItem {
 		Value    *value;
 		String   *str;
 		struct {
-			GList    *list;
-			int      num;
+			AutoFillList *list;
+			int           num;
+			int           was_i18n;
 		} list;
 		struct {
 			String   *str;
@@ -86,11 +93,6 @@ struct FillItem {
 };
 
 typedef struct FillItem FillItem;
-
-typedef struct {
-	int    count;
-	char **items;
-} AutoFillList;
 
 static GList *autofill_lists;
 
@@ -110,9 +112,29 @@ autofill_register_list (char **list)
 	autofill_lists = g_list_prepend (autofill_lists, afl);
 }
 
-static GList *
-matches_list (String *str, int *n)
+static AutoFillList *
+matches_list (String *str, int *n, int *is_i18n)
 {
+	GList *l;
+	char *s = str->str;
+
+	for (l = autofill_lists; l; l = l->next){
+		AutoFillList *afl = l->data;
+		int i;
+		
+		for (i = 0; i < afl->count; i++){
+			if ((strcasecmp (afl->items [i], s) == 0)){
+				*is_i18n = FALSE;
+				*n = i;
+				return afl;
+			}
+			if (strcasecmp (_(afl->items [i]), s) == 0){
+				*is_i18n = TRUE;
+				*n = i;
+				return afl;
+			}
+		}
+	}
 	return NULL;
 }
 
@@ -127,6 +149,8 @@ fill_item_destroy (FillItem *fi)
 {
 	switch (fi->type){
 	case FILL_STRING_LIST:
+		break;
+		
 	case FILL_STRING_CONSTANT:
 		string_unref (fi->v.str);
 		break;
@@ -168,17 +192,18 @@ fill_item_new (Cell *cell)
 	}
 
 	if (value_type == VALUE_STRING){
-		void *list;
-		int  num, pos;
+		AutoFillList *list;
+		int  num, pos, i18;
 		
 		fi->type = FILL_STRING_CONSTANT;
 		fi->v.str = string_ref (value->v.str);
 		
-		list = matches_list (value->v.str, &num);
+		list = matches_list (value->v.str, &num, &i18);
 		if (list){
 			fi->type = FILL_STRING_LIST;
 			fi->v.list.list = list;
 			fi->v.list.num  = num;
+			fi->v.list.was_i18n = i18;
 			return fi;
 		}
 
@@ -244,24 +269,55 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 		}
 		return;
 		
+	case FILL_STRING_LIST:
+		fi->delta_is_float = FALSE;
+		if (list_last->prev){
+			lfi = list_last->prev->data;
+			
+			fi->delta.d_int = fi->v.list.num - lfi->v.list.num;
+		} else
+			fi->delta.d_int = 1;
+		return;
+		
 	case FILL_EMPTY:
 	case FILL_STRING_CONSTANT:
 	case FILL_FORMULA:
 	case FILL_INVALID:
-	case FILL_STRING_LIST:
 		return;
 
 	}
 }
 
+/*
+ * Determines if two FillItems are compatible
+ */
+static int
+type_is_compatible (FillItem *last, FillItem *current)
+{
+	if (last == NULL)
+		return FALSE;
+
+	if (last->type != current->type)
+		return FALSE;
+
+	if (last->type == FILL_STRING_LIST){
+		if (last->v.list.list != current->v.list.list)
+			return FALSE;
+		if (last->v.list.was_i18n != current->v.list.was_i18n)
+			return FALSE;
+	}
+
+	return TRUE;
+}
+
 static GList *
 autofill_create_fill_items (Sheet *sheet, int x, int y, int region_count, int col_inc, int row_inc)
 {
-	FillType last_type;
+	FillItem *last;
 	GList *item_list, *all_items, *l;
 	int i;
 	
-	last_type = FILL_INVALID;
+	last = NULL;
 	item_list = all_items = NULL;
 
 	for (i = 0; i < region_count; i++){
@@ -271,13 +327,13 @@ autofill_create_fill_items (Sheet *sheet, int x, int y, int region_count, int co
 		cell = sheet_cell_get (sheet, x, y);
 		fi = fill_item_new (cell);
 
-	        if (fi->type != last_type){
-			if (last_type != FILL_INVALID){
+		if (!type_is_compatible (last, fi)){
+			if (last){
 				all_items = g_list_append (all_items, item_list);
 				item_list = NULL;
 			}
 
-			last_type = fi->type;
+			last = fi;
 		}
 		
 		item_list = g_list_append (item_list, fi);
@@ -294,18 +350,18 @@ autofill_create_fill_items (Sheet *sheet, int x, int y, int region_count, int co
 	 * and compute the deltas.
 	 */
 	for (l = all_items; l; l = l->next){
-		GList *group = l->data, *ll, *last;
+		GList *group = l->data, *ll, *last_item;
 		FillItem *last_fi;
 
-		last = g_list_last (group);
-		last_fi = last->data;
+		last_item = g_list_last (group);
+		last_fi = last_item->data;
 		for (ll = group; ll; ll = ll->next){
 			FillItem *fi = ll->data;
 
 			fi->group_last = last_fi;
 		}
 
-		autofill_compute_delta (last, group);
+		autofill_compute_delta (last_item, group);
 	}
 
 	return all_items;
@@ -343,8 +399,6 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		return;
 
 	case FILL_STRING_WITH_NUMBER:
-	case FILL_STRING_LIST:
-		g_warning ("Not yet handled\n");
 		return;
 
 	case FILL_NUMBER: {
@@ -367,6 +421,33 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		return;
 	}
 	
+	case FILL_STRING_LIST: {
+		FillItem *last = fi->group_last;
+		char *text;
+		int n;
+		
+		n = last->v.list.num + idx * last->delta.d_int;
+
+		n %= last->v.list.list->count;
+
+		printf ("base=%d idx=%d delta=%d\n", last->v.list.num, idx, last->delta.d_int);
+		printf ("count=%d, n=%d\n", last->v.list.list->count, n);
+		
+		if (n < 0)
+			n = (last->v.list.list->count + n);
+
+		text = last->v.list.list->items [n];
+		if (last->v.list.was_i18n)
+			text = _(text);
+
+		if (!text)
+			text = "X";
+
+		cell_set_text (cell, text);
+			       
+		return;
+	}
+		
 	case FILL_FORMULA: {
 		char *text, *formula;
 		
@@ -463,6 +544,13 @@ static char *months [] = {
 	NULL
 };
 
+static char *short_months [] = {
+	N_("Jan"), N_("Feb"), N_("Mar"), N_("Apr"),
+	N_("May"), N_("Jun"), N_("Jul"), N_("Aug"),
+	N_("Sep"), N_("Oct"), N_("Nov"), N_("Dec"),
+	NULL
+};
+
 static char *weekdays [] = {
 	N_("Monday"),
 	N_("Tuesday"),
@@ -474,11 +562,18 @@ static char *weekdays [] = {
 	NULL
 };
 
+static char *short_weekdays [] = {
+	N_("Mon"), N_("Tue"), N_("Wed"), N_("Thu"),
+	N_("Fri"), N_("Sat"), N_("Sun"), NULL
+};
+
 static void
 autofill_init (void)
 {
 	autofill_register_list (months);
 	autofill_register_list (weekdays);
+	autofill_register_list (short_months);
+	autofill_register_list (short_weekdays);
 }
 
 /*
@@ -497,10 +592,6 @@ sheet_autofill (Sheet *sheet, int base_col, int base_row, int w, int h, int end_
 		autofill_init ();
 		autofill_inited = TRUE;
 	}
-	
-	printf ("base_col=%d, base_row=%d\n", base_col, base_row);
-	printf ("width=%d     height=%d\n", w, h);
-	printf ("end_col=%d   end_row=%d\n", end_col, end_row);
 	
 	if (end_col != base_col + w - 1){
 		for (range = 0; range < h; range++)
