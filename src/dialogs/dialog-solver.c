@@ -24,7 +24,7 @@
 #include "utils-dialog.h"
 
 /* Different constraint types */
-static const char *constraint_strs[] = {
+static char const * constraint_strs[] = {
         N_("<="),
 	N_(">="),
 	N_("="),
@@ -33,16 +33,15 @@ static const char *constraint_strs[] = {
 	NULL
 };
 
-
-
 typedef struct {
         GtkWidget *dialog;
         GSList    *constraints;
         GtkCList  *clist;
         Sheet     *sheet;
+	gint	   selected_row;
+
         WorkbookControlGUI  *wbcg;
 } constraint_dialog_t;
-
 
 static void
 linearmodel_toggled (GtkWidget *widget, Sheet *sheet)
@@ -276,11 +275,9 @@ add_dialog:
 	gtk_widget_show (constraint_dialog->dialog);
 }
 
-static gint selected_row = -1;
-
 /* 'Constraint Change' button clicked */
 static void
-constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
+constr_change_click (GtkWidget *widget, constraint_dialog_t *state)
 {
 	SolverConstraint *constraint;
 
@@ -297,12 +294,12 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 	int       lhs_cols, lhs_rows;
 	int       rhs_cols, rhs_rows;
 
-	gui = gnumeric_glade_xml_new (data->wbcg, "solver.glade");
+	gui = gnumeric_glade_xml_new (state->wbcg, "solver.glade");
         if (gui == NULL)
                 return;
 
-	if (selected_row < 0)
-	        return;
+	if (state->selected_row < 0)
+		return;
 
 	constraint_type_strs = add_strings_to_glist (constraint_strs);
 
@@ -330,7 +327,9 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 				       constraint_type_strs);
 
 	constraint = (SolverConstraint *)
-	        gtk_clist_get_row_data (data->clist, selected_row);
+	        gtk_clist_get_row_data (state->clist, state->selected_row);
+
+	g_return_if_fail (constraint != NULL);
 
 	if (constraint->cols == 1 && constraint->rows == 1)
 	        gtk_entry_set_text (GTK_ENTRY (lhs_entry),
@@ -374,7 +373,7 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 	}
 
 	gtk_entry_set_text (GTK_ENTRY (combo_entry), constraint->type);
-	gtk_widget_hide (data->dialog);
+	gtk_widget_hide (state->dialog);
 	gtk_entry_set_position(GTK_ENTRY (lhs_entry), 0);
 	gtk_entry_select_region(GTK_ENTRY (lhs_entry), 0,
 				GTK_ENTRY(lhs_entry)->text_length);
@@ -383,7 +382,7 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 	gtk_widget_grab_focus (lhs_entry);
 	gtk_window_set_modal (GTK_WINDOW (dia), TRUE);
 loop:
-	v = gnumeric_dialog_run (data->wbcg, GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (state->wbcg, GNOME_DIALOG (dia));
 
 	if (v == 0) {
 	        gchar *constraint_str[2] = { NULL, NULL };
@@ -431,7 +430,7 @@ loop:
 		}
 
 		if (lhs_cols != rhs_cols || lhs_rows != rhs_rows) {
-		        gnumeric_notice (data->wbcg,
+		        gnumeric_notice (state->wbcg,
 					 GNOME_MESSAGE_BOX_ERROR,
 					 _("The constraints having cell ranges"
 					   " in LHS and RHS should have the "
@@ -441,7 +440,7 @@ loop:
 		}
 
 		if (lhs_cols != 1 && lhs_rows != 1) {
-		        gnumeric_notice (data->wbcg,
+		        gnumeric_notice (state->wbcg,
 					 GNOME_MESSAGE_BOX_ERROR,
 					 _("The cell range in LHS or RHS "
 					   "should have only one column or "
@@ -459,9 +458,9 @@ loop:
 					      constraint->type,
 					      constraint->cols, constraint->rows);
 
-	        gtk_clist_remove (data->clist, selected_row);
-	        gtk_clist_insert (data->clist, selected_row, constraint_str);
-		gtk_clist_set_row_data (data->clist, selected_row,
+	        gtk_clist_remove (state->clist, state->selected_row);
+	        gtk_clist_insert (state->clist, state->selected_row, constraint_str);
+		gtk_clist_set_row_data (state->clist, state->selected_row,
 					(gpointer) constraint);
 	}
 
@@ -469,24 +468,20 @@ loop:
 		gtk_object_destroy (GTK_OBJECT (dia));
 
 	gtk_object_unref (GTK_OBJECT (gui));
-	gtk_widget_show (data->dialog);
+	gtk_widget_show (state->dialog);
 }
 
 
 /* 'Constraint Delete' button clicked */
 static void
-constr_delete_click (GtkWidget *widget, gpointer data)
+constr_delete_click (GtkWidget *widget, constraint_dialog_t *state)
 {
-        constraint_dialog_t *constraint_dialog = (constraint_dialog_t *) data;
-	gpointer            p;
-
-	if (selected_row >= 0) {
-	        p = gtk_clist_get_row_data (constraint_dialog->clist,
-					    selected_row);
-		constraint_dialog->constraints =
-		        g_slist_remove (constraint_dialog->constraints, p);
-
-	        gtk_clist_remove (constraint_dialog->clist, selected_row);
+	if (state->selected_row < 0) {
+		gpointer p = gtk_clist_get_row_data (state->clist,
+						     state->selected_row);
+		state->constraints = g_slist_remove (state->constraints, p);
+	        gtk_clist_remove (state->clist, state->selected_row);
+		state->selected_row = -1;
 	}
 }
 
@@ -495,26 +490,23 @@ constraint_select_click (GtkWidget      *clist,
 			 gint           row,
 			 gint           column,
 			 GdkEventButton *event,
-			 gpointer       data)
+			 constraint_dialog_t *state)
 {
-        selected_row = row;
+        state->selected_row = row;
 }
 
 static void
 max_toggled(GtkWidget *widget, SolverParameters *data)
 {
-        if (GTK_TOGGLE_BUTTON (widget)->active) {
+        if (GTK_TOGGLE_BUTTON (widget)->active)
 	        data->problem_type = SolverMaximize;
-	}
 }
 
 static void
 min_toggled(GtkWidget *widget, SolverParameters *data)
 {
-        if (GTK_TOGGLE_BUTTON (widget)->active) {
-
+        if (GTK_TOGGLE_BUTTON (widget)->active)
 	        data->problem_type = SolverMinimize;
-	}
 }
 
 static void
@@ -727,6 +719,7 @@ dialog_solver (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	constraint_dialog = g_new (constraint_dialog_t, 1);
 	constraint_dialog->constraints = param->constraints;
+	constraint_dialog->selected_row = -1;
 
 	if (param->target_cell == NULL)
 	        target_entry_str =

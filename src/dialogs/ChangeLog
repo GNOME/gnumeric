@@ -1,3 +1,12 @@
+2001-03-08  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-solver.c (constr_change_click) : move selected_row into the
+	  state variable.  The static was bogus.
+	(constr_delete_click) : Use the selected_row in the state variable and
+	  clear it when things are deleted.  Why do we even need this ??
+	(constraint_select_click) : use selected_row in the state var.
+	(dialog_solver) : init the selected_row var.
+
 2001-03-04  Almer S. Tigelaar  <almer@gnome.org>
 
 	* validate.glade : Improve.
