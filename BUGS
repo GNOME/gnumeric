@@ -87,6 +87,9 @@ Pending Patches
     2.4) Provide an optional mechanism for specifying the target location
          useful for text to columns, and import into sheet
     2.5) A help button
+    2.6) Make it possible to ignore column on import, thus making it possible
+         to import (parts of) files with more than 256 columns.  (Think of
+         this as a special "format".)
 
 3) hlinks
     3.1) Finish the edit dialog to load and store results 	(DONE)
