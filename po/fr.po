@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.57\n"
-"POT-Creation-Date: 2000-10-05 09:06+0200\n"
-"PO-Revision-Date: 2000-10-04 23:46+0202\n"
+"Project-Id-Version: gnumeric 0.56\n"
+"POT-Creation-Date: 2000-10-09 11:03+0200\n"
+"PO-Revision-Date: 2000-10-09 10:46+0202\n"
 "Last-Translator: Christophe Merlet (RedFox) <christophe@merlet.net>\n"
 "Language-Team: GNOME French Team <gnomefr@gnomefr.traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -91,7 +91,7 @@ msgid "#UNKNOWN!"
 msgstr "#INCONNU !"
 
 #: plugins/excel/ms-excel-read.c:599 plugins/html/html.c:410
-#: plugins/lotus-123/lotus.c:224 plugins/oleo/oleo.c:44 src/workbook.c:3554
+#: plugins/lotus-123/lotus.c:224 plugins/oleo/oleo.c:44 src/workbook.c:3552
 #, c-format
 msgid "Sheet%d"
 msgstr "Feuille %d"
@@ -361,7 +361,6 @@ msgstr ""
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:417
-#, fuzzy
 msgid ""
 "@FUNCTION=BITOR\n"
 "@SYNTAX=BITOR(a,b)\n"
@@ -370,15 +369,14 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITXOR,BITAND"
 msgstr ""
-"@FUNCTION=ITHPRIME\n"
-"@SYNTAX=ITHPRIME(i)\n"
-"@DESCRIPTION=La fonction ITHPRIME retourne le @ième premier.\n"
-"Cette fonction ne prend qu'un seul argument.\n"
+"@FUNCTION=BITOR\n"
+"@SYNTAX=BITOR(a,b)\n"
+"@DESCRIPTION=La fonction BITOR retourne bitwise or-ing de ses arguments.\n"
+"\n"
 "@EXAMPLES=\n"
-"@SEEALSO=NT_D, NT_SIGMA"
+"@SEEALSO=BITXOR,BITAND"
 
 #: plugins/numtheory/numtheory.c:436
-#, fuzzy
 msgid ""
 "@FUNCTION=BITXOR\n"
 "@SYNTAX=BITXOR(a,b)\n"
@@ -388,15 +386,15 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITAND"
 msgstr ""
-"@FUNCTION=ITHPRIME\n"
-"@SYNTAX=ITHPRIME(i)\n"
-"@DESCRIPTION=La fonction ITHPRIME retourne le @ième premier.\n"
-"Cette fonction ne prend qu'un seul argument.\n"
+"@FUNCTION=BITXOR\n"
+"@SYNTAX=BITXOR(a,b)\n"
+"@DESCRIPTION=La fonction BITXOR retourne bitwise exclusive or-ing de ses "
+"arguments.\n"
+"\n"
 "@EXAMPLES=\n"
-"@SEEALSO=NT_D, NT_SIGMA"
+"@SEEALSO=BITOR,BITAND"
 
 #: plugins/numtheory/numtheory.c:455
-#, fuzzy
 msgid ""
 "@FUNCTION=BITAND\n"
 "@SYNTAX=BITAND(a,b)\n"
@@ -405,12 +403,12 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITXOR"
 msgstr ""
-"@FUNCTION=ITHPRIME\n"
-"@SYNTAX=ITHPRIME(i)\n"
-"@DESCRIPTION=La fonction ITHPRIME retourne le @ième premier.\n"
-"Cette fonction ne prend qu'un seul argument.\n"
+"@FUNCTION=BITAND\n"
+"@SYNTAX=BITAND(a,b)\n"
+"@DESCRIPTION=La fonction BITAND retourne bitwise and-ing de ses arguments.\n"
+"\n"
 "@EXAMPLES=\n"
-"@SEEALSO=NT_D, NT_SIGMA"
+"@SEEALSO=BITOR,BITXOR"
 
 #: plugins/numtheory/numtheory.c:475
 #, fuzzy
@@ -423,12 +421,13 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITRSHIFT"
 msgstr ""
-"@FUNCTION=ITHPRIME\n"
-"@SYNTAX=ITHPRIME(i)\n"
-"@DESCRIPTION=La fonction ITHPRIME retourne le @ième premier.\n"
-"Cette fonction ne prend qu'un seul argument.\n"
+"@FUNCTION=BITLSHIFT\n"
+"@SYNTAX=BITLSHIFT(x,n)\n"
+"@DESCRIPTION=La fonction BITLSHIFT retourne @x bit-shifted left by @n bits.\n"
+"If @n is negative, a right shift will in effect be performed.\n"
+"\n"
 "@EXAMPLES=\n"
-"@SEEALSO=NT_D, NT_SIGMA"
+"@SEEALSO=BITRSHIFT"
 
 #: plugins/numtheory/numtheory.c:502
 #, fuzzy
@@ -580,123 +579,115 @@ msgstr "Importe les fichiers XBase"
 
 #: plugins/xml2/xml2.c:1448
 msgid "EXPERIMENTAL XML"
-msgstr ""
+msgstr "XML EXPÉRIMENTAL"
 
 #: plugins/xml2/xml2.c:1449
 msgid "The next generation sax based xml I/O subsystem"
-msgstr ""
+msgstr "La prochaine génération de sous-sytème d'E/S xml basé sur sax"
 
 #: plugins/xml2/xml2.c:1453
 msgid "EXPERIMENTAL Gnumeric (*.gnumeric) XML based file format"
-msgstr ""
+msgstr "Format de fichier XML Gnumeric EXPÉRIMENTAL (*.gnumeric)"
 
 #: plugins/xml2/xml2.c:1458
-#, fuzzy
 msgid "Gnumeric (*.gnumeric) XML based file format"
-msgstr "Format Gnumeric XML"
+msgstr "Format de fichier XML Gnumeric (*.gnumeric)"
 
 #: src/about.c:39
 msgid "Miguel de Icaza, main programmer."
-msgstr "Miguel de Icaza, Programmeur principal."
+msgstr "Miguel de Icaza, programmeur principal."
 
 #: src/about.c:40
-#, fuzzy
 msgid "Sean Atkinson, functions and X-Base importing."
-msgstr "Sean Atkinson, Fonctions et importation X-base."
+msgstr "Sean Atkinson, fonctions et importation X-base."
 
 #: src/about.c:41
-#, fuzzy
 msgid "Tom Dyas, plugin support."
-msgstr "Tom Dyas, Support pour les greffons."
+msgstr "Tom Dyas, support pour les greffons."
 
 #: src/about.c:42
 msgid "Gergõ Érdi, Gnumeric hacker."
-msgstr "Gergõ Érdi, Hacker Gnumeric."
+msgstr "Gergõ Érdi, hacker Gnumeric."
 
 #: src/about.c:43
 msgid "Jody Goldberg, Gnumeric hacker."
-msgstr "Jody Goldberg, Hacker Gnumeric"
+msgstr "Jody Goldberg, hacker Gnumeric"
 
 #: src/about.c:44
 msgid "Ross Ihaka, special functions."
-msgstr "Ross Ihaka, Fonctions spéciales."
+msgstr "Ross Ihaka, fonctions spéciales."
 
 #: src/about.c:45
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
-msgstr "Jukka-Pekka Iivonen, Nombreuses fonctions et outils."
+msgstr "Jukka-Pekka Iivonen, nombreuses fonctions et outils."
 
 #: src/about.c:46
 msgid "Jakub Jelinek, Gnumeric hacker."
-msgstr "Jakub Jelinek, Hacker Gnumeric"
+msgstr "Jakub Jelinek, hacker Gnumeric"
 
 #: src/about.c:47
 msgid "Jon K Hellan, Gnumeric hacker."
-msgstr "Jon K Hellan, Hacker Gnumeric."
+msgstr "Jon K Hellan, hacker Gnumeric."
 
 #: src/about.c:48
-#, fuzzy
 msgid "Chris Lahey, number format engine."
-msgstr "Chris Lahey, Moteur de formatage des nombres."
+msgstr "Chris Lahey, moteur de formatage des nombres."
 
 #: src/about.c:49
-#, fuzzy
 msgid "Adrian Likins, documentation, debugging."
-msgstr "Adrian Likins, Documentation, débugage."
+msgstr "Adrian Likins, documentation, débogage."
 
 #: src/about.c:50
 msgid "Takashi Matsuda, original text plugin."
-msgstr "Takashi Matsuda, Greffon original pour le texte."
+msgstr "Takashi Matsuda, greffon original pour le texte."
 
 #: src/about.c:51
-#, fuzzy
 msgid "Federico Mena, canvas support."
-msgstr "Federico Mena, Support pour le canevas."
+msgstr "Federico Mena, support pour le canevas."
 
 #: src/about.c:52
 msgid "Michael Meeks, Excel and OLE2 importing."
-msgstr "Michael Meeks, Importation Excel et OLE2"
+msgstr "Michael Meeks, importation Excel et OLE2"
 
 #: src/about.c:53
 msgid "Mark Probst, Guile support."
-msgstr "Mark Probst, Support pour Guile"
+msgstr "Mark Probst, support pour Guile"
 
 #: src/about.c:54
 msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr "Rasca, HTML, troff, LaTeX exportations."
 
 #: src/about.c:55
-#, fuzzy
 msgid "Vincent Renardias, original CSV support, French localization."
-msgstr "Vincent Renardias, Support CSV original, Traduction française."
+msgstr "Vincent Renardias, support CSV original, traduction française."
 
 #: src/about.c:56
 msgid "Ariel Rios, Guile support."
-msgstr "Ariel Rios, Support pour Guile."
+msgstr "Ariel Rios, support pour Guile."
 
 #: src/about.c:57
-#, fuzzy
 msgid "Almer. S. Tigelaar, text import."
-msgstr "Almer. S. Tigelaar, Importation Texte."
+msgstr "Almer. S. Tigelaar, importation Texte."
 
 #: src/about.c:58
 msgid "Bruno Unna, Excel bits."
-msgstr "Bruno Unna, Code Excel."
+msgstr "Bruno Unna, code Excel."
 
 #: src/about.c:59
 msgid "Daniel Veillard, XML support."
-msgstr "Daniel Veillard, Support XML."
+msgstr "Daniel Veillard, support XML."
 
 #: src/about.c:60
 msgid "Vladimir Vuksan, financial functions."
-msgstr "Vladimir Vuksan, Fonctions financières."
+msgstr "Vladimir Vuksan, fonctions financières."
 
 #: src/about.c:61
 msgid "Morten Welinder, Gnumeric hacker."
-msgstr "Morten Welinder, Hacker Gnumeric."
+msgstr "Morten Welinder, hacker Gnumeric."
 
 #: src/about.c:62
 msgid "Kenneth Christiansen, i18n, misc stuff."
-msgstr ""
+msgstr "Kenneth Christiansen, i18n, travaux divers."
 
 #: src/about.c:82 src/functions/fn-sheet.c:139
 msgid "Gnumeric"
@@ -1386,7 +1377,7 @@ msgstr "Options OAF"
 
 #: src/corba-args.c:35
 msgid "Could not initialize the Gnumeric Workbook factory"
-msgstr "Ne peut initialiser l'usine Gnumeric Workbook"
+msgstr "Ne peut initialiser l'usine Classeur Gnumeric"
 
 #: src/dates.c:14
 msgid "*Sun"
@@ -1592,7 +1583,7 @@ msgstr "Enregistrements _unique seulement"
 #.
 #: src/dialogs/analysis-tools.glade.h:7
 msgid "Data Analysis"
-msgstr "Analyse de Données"
+msgstr "Analyse des données"
 
 #: src/dialogs/analysis-tools.glade.h:8
 msgid "Analysis Tools"
@@ -1882,61 +1873,51 @@ msgstr "Gnumeric : Mise en forme automatique"
 
 #: src/dialogs/autoformat.glade.h:8
 msgid "Apply _Number Formats"
-msgstr ""
+msgstr "Appliquer le format des _nombres"
 
 #: src/dialogs/autoformat.glade.h:9
-#, fuzzy
 msgid "Apply _Borders"
-msgstr "Bordure"
+msgstr "Appliquer les _bordures"
 
 #: src/dialogs/autoformat.glade.h:10
 msgid "Apply _Fonts"
-msgstr ""
+msgstr "Appliquer les _Polices"
 
 #: src/dialogs/autoformat.glade.h:11
-#, fuzzy
 msgid "Apply _Patterns"
-msgstr "_Motifs"
+msgstr "Appliquer les _motifs"
 
 #: src/dialogs/autoformat.glade.h:12
-#, fuzzy
 msgid "Apply _Alignment"
-msgstr "_Alignement"
+msgstr "Appliquer l'_alignement"
 
 #: src/dialogs/autoformat.glade.h:13
-#, fuzzy
 msgid "_Show Gridlines"
-msgstr "Lignes de _grille"
+msgstr "_Afficher les lignes de _grille"
 
 #: src/dialogs/autoformat.glade.h:14
-#, fuzzy
 msgid "_New..."
-msgstr "Nouveau..."
+msgstr "_Nouveau..."
 
 #: src/dialogs/autoformat.glade.h:15
-#, fuzzy
 msgid "_Edit..."
-msgstr "Éditer..."
+msgstr "_Éditer..."
 
 #: src/dialogs/autoformat.glade.h:16
-#, fuzzy
 msgid "_Remove Current"
-msgstr "_Enlever"
+msgstr "_Enlever sélectionné"
 
 #: src/dialogs/autoformat.glade.h:17
-#, fuzzy
 msgid "_Category"
-msgstr "Catégorie"
+msgstr "_Catégorie"
 
 #: src/dialogs/autoformat.glade.h:18
-#, fuzzy
 msgid "The current category"
-msgstr "_Date courante"
+msgstr "La catégorie courante"
 
 #: src/dialogs/autoformat.glade.h:19
-#, fuzzy
 msgid "_Preview"
-msgstr "Aperçu"
+msgstr "_Aperçu"
 
 #: src/dialogs/autoformat.glade.h:20
 msgid "A short description of the template"
@@ -1971,9 +1952,8 @@ msgid "Description :"
 msgstr "Description :"
 
 #: src/dialogs/autoformat.glade.h:28
-#, fuzzy
 msgid "_Template Details"
-msgstr "Détails de _fichier"
+msgstr "Détails du _modèle"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -2161,7 +2141,7 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:47
 msgid "_Merge Cells"
-msgstr ""
+msgstr "_Fusionner les cellules"
 
 #: src/dialogs/cell-format.glade.h:48 src/dialogs/print.glade.h:8
 msgid "Orientation"
@@ -2546,7 +2526,7 @@ msgstr "Effacer la(es) _ligne(s)"
 
 #: src/dialogs/delete-cells.glade.h:12
 msgid "Delete _column(s)"
-msgstr "Effacer la(es) colonne(s)"
+msgstr "Effacer la(es) _colonne(s)"
 
 #: src/dialogs/dialog-advanced-filter.c:237
 msgid "You should introduce a valid cell names in 'List Range:'"
@@ -3199,15 +3179,15 @@ msgstr "Modifié :"
 msgid "Modified: %s"
 msgstr "Modifié : %s"
 
-#: src/dialogs/dialog-printer-setup.c:933
+#: src/dialogs/dialog-printer-setup.c:965
 msgid "Custom header configuration"
 msgstr "Configuration personnalisée du haut de page"
 
-#: src/dialogs/dialog-printer-setup.c:945
+#: src/dialogs/dialog-printer-setup.c:977
 msgid "Custom footer configuration"
 msgstr "Configuration personnalisée du pied de page"
 
-#: src/dialogs/dialog-sheet-order.c:142 src/workbook.c:3135
+#: src/dialogs/dialog-sheet-order.c:142 src/workbook.c:3133
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Voulez-vous vraiment supprimer la feuille nommée `%s' ?"
@@ -3628,7 +3608,7 @@ msgstr "_Format :"
 
 #: src/dialogs/dialog-workbook-attr.c:165
 msgid "Workbook Attributes"
-msgstr ""
+msgstr "Attributs du classeur"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3799,7 +3779,7 @@ msgstr "Insérer une(des) _ligne(s)"
 
 #: src/dialogs/insert-cells.glade.h:12
 msgid "Insert _column(s)"
-msgstr "Insérer une(des) colonne(s)"
+msgstr "Insérer une(des) _colonne(s)"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3808,7 +3788,7 @@ msgstr "Insérer une(des) colonne(s)"
 #.
 #: src/dialogs/names.glade.h:7
 msgid "Name Guru"
-msgstr "Nom du Gourou"
+msgstr "Gourou Nom"
 
 #: src/dialogs/names.glade.h:10
 msgid "Define Name"
@@ -4261,15 +4241,15 @@ msgstr "Société"
 #.
 #: src/dialogs/workbook-attr.glade.h:7
 msgid "Scrollbars"
-msgstr "Ascenseurs"
+msgstr "Barre de défilement"
 
 #: src/dialogs/workbook-attr.glade.h:8
 msgid "_Horizontal Scrollbar"
-msgstr "Ascenseur _horizontal"
+msgstr "Barre de défilement _horizontal"
 
 #: src/dialogs/workbook-attr.glade.h:9
 msgid "_Vertical Scrollbar"
-msgstr "Ascenseur _vertical"
+msgstr "Barre de défilement _vertical"
 
 #: src/dialogs/workbook-attr.glade.h:10
 msgid "Notebook"
@@ -4349,6 +4329,8 @@ msgid ""
 "Workbook %s already exists.\n"
 "Do you want to save over it?"
 msgstr ""
+"Le classeur %s existe déjà.\n"
+"Etes vous sur de vouloir l'écraser ?"
 
 #: src/file.c:580
 #, c-format
@@ -9849,7 +9831,6 @@ msgstr ""
 "@SEEALSO=CEIL"
 
 #: src/functions/fn-math.c:750
-#, fuzzy
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -9863,12 +9844,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
-"@DESCRIPTION=La fonction COS calcule le cosinus de x, où x est donné en "
-"radians.\n"
-"Cette fonction n'a aucun effet lorsqu'elle est utilisée sur une chaîne ou "
-"une cellule vide et elle n'utilise qu'un seul paramètre.\n"
-"Cette fonction est compatible avec Excel.\n"
-"@SEEALSO=COSH, SIN, SINH, TAN, TANH, DEGREES, RADIANS"
+"@DESCRIPTION=La fonction COS calcule le cosinus de @x, où @x est donné en "
+"radians. Cette fonction est compatible avec Excel.\n"
+"@EXAMPLES=\n"
+"COS(0.5) = 0.877583.\n"
+"COS(1) = 0.540302.\n"
+"\n"
+"@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
 #: src/functions/fn-math.c:774
 #, fuzzy
@@ -13619,11 +13601,11 @@ msgstr "Incapable d'ouvrir le fichier '%s'"
 #. * 'Print Preview' item in the
 #. * 'File' menu
 #.
-#: src/history.c:143 src/history.c:156
+#: src/history.c:145 src/history.c:158
 msgid "File/Print preview"
 msgstr "Fichier/Aperçu avant impression"
 
-#: src/history.c:237
+#: src/history.c:245
 msgid "File/"
 msgstr "Fichier/"
 
@@ -14328,11 +14310,11 @@ msgstr "Format monétaire"
 
 #: src/workbook-format-toolbar.c:373
 msgid "Sets the format of the selected cells to monetary"
-msgstr "Défini le format des cellules sélectionnées à monnaitaire"
+msgstr "Défini le format des cellules sélectionnées comme monétaire"
 
 #: src/workbook-format-toolbar.c:376
 msgid "Sets the format of the selected cells to percentage"
-msgstr "Défini le format des cellules sélectionnées en pourcentage"
+msgstr "Défini le format des cellules sélectionnées comme pourcentage"
 
 #: src/workbook-format-toolbar.c:379
 msgid "Thousand separator"
@@ -14425,21 +14407,19 @@ msgstr "Taille de police"
 
 #: src/workbook-object-toolbar.c:130
 msgid "Label"
-msgstr "Titre"
+msgstr "Étiquette"
 
 #: src/workbook-object-toolbar.c:130
 msgid "Creates a label"
-msgstr "Crée une nouveau titre"
+msgstr "Crée une étiquette"
 
 #: src/workbook-object-toolbar.c:133
-#, fuzzy
 msgid "Frame"
-msgstr "Nom"
+msgstr "Bordure"
 
 #: src/workbook-object-toolbar.c:133
-#, fuzzy
 msgid "Creates a frame"
-msgstr "Crée une case à cocher"
+msgstr "Crée une bordure"
 
 #: src/workbook-object-toolbar.c:136
 msgid "Creates a button"
@@ -14471,16 +14451,15 @@ msgstr "Crée une nouvelle liste"
 
 #: src/workbook-object-toolbar.c:148
 msgid "Combo"
-msgstr ""
+msgstr "Liste combinée"
 
 #: src/workbook-object-toolbar.c:148
-#, fuzzy
 msgid "Creates a combobox"
-msgstr "Crée une case à cocher"
+msgstr "Crée une liste combinée"
 
 #: src/workbook-object-toolbar.c:151
 msgid "Creates a line object"
-msgstr "Créer une nouvelle ligne"
+msgstr "Crée un objet ligne"
 
 #: src/workbook-object-toolbar.c:154
 msgid "Arrow"
@@ -14488,7 +14467,7 @@ msgstr "Flèche"
 
 #: src/workbook-object-toolbar.c:154
 msgid "Creates an arrow object"
-msgstr "Créer une nouvelle flèche"
+msgstr "Crée un objet flèche"
 
 #: src/workbook-object-toolbar.c:157
 msgid "Rectangle"
@@ -14496,7 +14475,7 @@ msgstr "Rectangle"
 
 #: src/workbook-object-toolbar.c:157
 msgid "Creates a rectangle object"
-msgstr "Créer un nouveau rectangle"
+msgstr "Crée un objet rectangle"
 
 #: src/workbook-object-toolbar.c:160
 msgid "Ellipse"
@@ -14504,7 +14483,7 @@ msgstr "Ellipse"
 
 #: src/workbook-object-toolbar.c:160
 msgid "Creates an ellipse object"
-msgstr "Créer une nouvelle ellipse"
+msgstr "Crée un objet ellipse"
 
 #: src/workbook-view.c:63
 msgid "Nothing"
@@ -14532,14 +14511,13 @@ msgstr "Sélectionner un objet à ajouter"
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr ""
-"La feuille de calcul %s a des changements non enregistrés; les enregistrer "
-"maintenant?"
+"Le classeur %s a des changements non enregistrés; les enregistrer maintenant "
+"?"
 
 #: src/workbook.c:531
 msgid "Workbook has unsaved changes, save them?"
 msgstr ""
-"La feuille de calcul a des changements non enregistrés; les enregistrer "
-"maintenant?"
+"Le classeur a des changements non enregistrés; les enregistrer maintenant ?"
 
 #. TODO : No need to check simplicty.  XL applies for each
 #. * non-discrete selected region, (use selection_apply)
@@ -14559,7 +14537,7 @@ msgstr "_Nouveau"
 
 #: src/workbook.c:1251
 msgid "Create a new spreadsheet"
-msgstr "Créer une nouvelle feuille"
+msgstr "Crée une nouvelle feuille de calcul"
 
 #: src/workbook.c:1255
 msgid "_Import..."
@@ -14595,11 +14573,11 @@ msgstr "_Formats"
 
 #: src/workbook.c:1288
 msgid "Clear the selected cells' formats"
-msgstr "Effacer les formats des cellules sélectionnées"
+msgstr "Efface les formats des cellules sélectionnées"
 
 #: src/workbook.c:1291
 msgid "Clear the selected cells' comments"
-msgstr "Effacer les commentaires des cellules sélectionnées"
+msgstr "Efface les commentaires des cellules sélectionnées"
 
 #: src/workbook.c:1293
 msgid "_Content"
@@ -14607,7 +14585,7 @@ msgstr "_Contenu"
 
 #: src/workbook.c:1294
 msgid "Clear the selected cells' contents"
-msgstr "Effacer le contenu des cellules sélectionnées"
+msgstr "Efface le contenu des cellules sélectionnées"
 
 #: src/workbook.c:1302
 msgid "Select _All"
@@ -14615,7 +14593,7 @@ msgstr "Tout _sélectionner"
 
 #: src/workbook.c:1303
 msgid "Select all cells in the spreadsheet"
-msgstr "Sélectionner toutes les cellules dans la feuille"
+msgstr "Sélectionne toutes les cellules dans la feuille"
 
 #: src/workbook.c:1307
 msgid "Select _Row"
@@ -14623,15 +14601,15 @@ msgstr "Sélectionner la _ligne"
 
 #: src/workbook.c:1308
 msgid "Select an entire row"
-msgstr "Sélectionner une ligne entière"
+msgstr "Sélectionne une ligne entière"
 
 #: src/workbook.c:1312
 msgid "Select _Column"
-msgstr "Sélectionner une colonne"
+msgstr "Sélectionner une _colonne"
 
 #: src/workbook.c:1313
 msgid "Select an entire column"
-msgstr "Sélectionner une colonne entière"
+msgstr "Sélectionne une colonne entière"
 
 #: src/workbook.c:1317
 msgid "Select Arra_y"
@@ -14639,7 +14617,7 @@ msgstr "Sélectionner le _tableau"
 
 #: src/workbook.c:1318
 msgid "Select an array of cells"
-msgstr "Sélectionner un tableau de cellules"
+msgstr "Sélectionne un tableau de cellules"
 
 #: src/workbook.c:1322
 msgid "Select _Depends"
@@ -14659,7 +14637,7 @@ msgstr "Colle avec des filtres et des transformations optionnels"
 
 #: src/workbook.c:1345
 msgid "C_lear"
-msgstr "Vi_der"
+msgstr "_Effacer"
 
 #: src/workbook.c:1348
 msgid "Remove selected cells, shifting other into their place"
@@ -14743,15 +14721,15 @@ msgstr "_Feuille"
 
 #: src/workbook.c:1411
 msgid "Insert a new spreadsheet"
-msgstr "Insérer une nouvelle feuille"
+msgstr "Insére une nouvelle feuille de calcul"
 
 #: src/workbook.c:1414
 msgid "Insert new rows"
-msgstr "Insérer de nouvelles lignes"
+msgstr "Insére des nouvelles lignes"
 
 #: src/workbook.c:1417
 msgid "Insert new columns"
-msgstr "Insérer de nouvelles colonnes"
+msgstr "Insére des nouvelles colonnes"
 
 #: src/workbook.c:1419
 msgid "C_ells..."
@@ -14759,7 +14737,7 @@ msgstr "C_ellules..."
 
 #: src/workbook.c:1420
 msgid "Insert new cells"
-msgstr "Insérer de nouvelles cellules"
+msgstr "Insére des nouvelles cellules"
 
 #: src/workbook.c:1424
 msgid "_Object..."
@@ -14779,7 +14757,7 @@ msgstr "_Ajouter/modifier commentaire..."
 
 #: src/workbook.c:1434
 msgid "Edit the selected cell's comment"
-msgstr "Editer le commentaire de la cellule sélectionnée"
+msgstr "Edite le commentaire de la cellule sélectionnée"
 
 #: src/workbook.c:1437
 msgid "S_pecial"
@@ -14827,11 +14805,11 @@ msgstr "Cacher les lignes de _grille"
 
 #: src/workbook.c:1508
 msgid "Hide _Column Header"
-msgstr "Cacher l'en-tete de _colonne"
+msgstr "Cacher l'en-tête de _colonne"
 
 #: src/workbook.c:1514
 msgid "Hide _Row Header"
-msgstr "Cacher l'en-tetes de _lignes"
+msgstr "Cacher l'en-têtes de _lignes"
 
 #. Default <Ctrl-1> invoke the format dialog
 #: src/workbook.c:1524
@@ -14840,7 +14818,7 @@ msgstr "_Cellules..."
 
 #: src/workbook.c:1525
 msgid "Modify the formatting of the selected cells"
-msgstr "Modifier le formatage des cellules sélectionnées"
+msgstr "Modifie le formatage des cellules sélectionnées"
 
 #: src/workbook.c:1528
 msgid "C_olumn"
@@ -14908,7 +14886,7 @@ msgstr ""
 
 #: src/workbook.c:1568
 msgid "_Data Analysis..."
-msgstr "Analyse des _Données..."
+msgstr "Analyse des _données..."
 
 #: src/workbook.c:1569
 msgid "Statistical methods."
@@ -14928,7 +14906,7 @@ msgstr "_Filtrer..."
 
 #: src/workbook.c:1581
 msgid "Filter data with given criteria"
-msgstr ""
+msgstr "Filtre les données avec les critères données"
 
 #: src/workbook.c:1597
 msgid "_Insert"
@@ -14952,7 +14930,7 @@ msgstr "Nouveau"
 
 #: src/workbook.c:1607
 msgid "Creates a new workbook"
-msgstr "Créer un nouveau classeur"
+msgstr "Crée un nouveau classeur"
 
 #: src/workbook.c:1610
 msgid "Open"
@@ -14960,7 +14938,7 @@ msgstr "Ouvrir"
 
 #: src/workbook.c:1610
 msgid "Opens an existing workbook"
-msgstr "Ouvrir une feuille existante"
+msgstr "Ouvre une feuille existante"
 
 #: src/workbook.c:1613
 msgid "Save"
@@ -14968,11 +14946,11 @@ msgstr "Enregistrer"
 
 #: src/workbook.c:1613
 msgid "Saves the workbook"
-msgstr "Enregistrer la feuille"
+msgstr "Enregistre la feuille"
 
 #: src/workbook.c:1619
 msgid "Prints the workbook"
-msgstr "Imprimer la feuille"
+msgstr "Imprime la feuille"
 
 #: src/workbook.c:1628
 msgid "Cut"
@@ -15008,7 +14986,7 @@ msgstr "Fonction"
 
 #: src/workbook.c:1657
 msgid "Edit a function in the current cell."
-msgstr "Éditer une fonction dans la cellule courante."
+msgstr "Édite une fonction dans la cellule courante."
 
 #: src/workbook.c:1661
 msgid "Sort Ascending"
@@ -15047,35 +15025,35 @@ msgstr "Max"
 msgid "Book%d.gnumeric"
 msgstr "Livret%d.gnumeric"
 
-#: src/workbook.c:3019
+#: src/workbook.c:3017
 msgid "Sheet name"
 msgstr "Nom de la feuille"
 
-#: src/workbook.c:3020
+#: src/workbook.c:3018
 msgid "must have at least 1 letter"
 msgstr "doit avoir au moins 1 lettre"
 
-#: src/workbook.c:3027
+#: src/workbook.c:3025
 msgid "Duplicate Sheet name"
 msgstr "Dupliquer le nom de la feuille"
 
-#: src/workbook.c:3195
+#: src/workbook.c:3193
 msgid "Add another sheet"
 msgstr "Ajouter une autre feuille"
 
-#: src/workbook.c:3196
+#: src/workbook.c:3194
 msgid "Remove this sheet"
 msgstr "Enlever cette feuille"
 
-#: src/workbook.c:3197
+#: src/workbook.c:3195
 msgid "Rename this sheet"
 msgstr "Renommer cette feuille"
 
-#: src/workbook.c:3198
+#: src/workbook.c:3196
 msgid "Duplicate this sheet"
 msgstr "Dupliquer cette feuille"
 
-#: src/workbook.c:3199
+#: src/workbook.c:3197
 msgid "Re-order sheets"
 msgstr "Réordonner les feuilles"
 
@@ -15160,9 +15138,9 @@ msgstr "Changer la largeur des colonnes sélectionnés"
 msgid "Clear the selection"
 msgstr "Vider la sélection"
 
-#: src/gnumeric.xml:45
+#: src/gnumeric.xml:47
 msgid "Close the current file"
-msgstr "Fermer le fichier en cours"
+msgstr "Ferme le fichier en cours"
 
 #: src/gnumeric.xml:489
 msgid "Combo Box"
@@ -15256,12 +15234,12 @@ msgstr ""
 
 #: src/gnumeric.xml:50
 msgid "Exit the program"
-msgstr "Quitter le programme"
+msgstr "Quitte le programme"
 
 #: src/gnumeric.xml:452
 #, fuzzy
 msgid "Format the selected cells as money"
-msgstr "Trie les cellules sélectionnées"
+msgstr "Formate les cellules sélectionnées comme monétaire"
 
 #: src/gnumeric.xml:455
 #, fuzzy
@@ -15269,24 +15247,22 @@ msgid "Format the selected cells as percentages"
 msgstr "Modifier le formatage des cellules sélectionnées"
 
 #: src/gnumeric.xml:395
-#, fuzzy
 msgid "Function Guru"
-msgstr "sélection"
+msgstr "Gourou Fonction"
 
 #: src/gnumeric.xml:407
-#, fuzzy
 msgid "Graph Guru"
-msgstr "Gourou formule"
+msgstr "Gourou Graphique"
 
 #: src/gnumeric.xml:278
 #, fuzzy
 msgid "Hide _Column Headers"
-msgstr "Cacher l'en-tete de _colonne"
+msgstr "Cacher l'en-tête de _colonne"
 
 #: src/gnumeric.xml:282
 #, fuzzy
 msgid "Hide _Row Headers"
-msgstr "Cacher l'en-tetes de _lignes"
+msgstr "Cacher l'en-têtes de _lignes"
 
 #: src/gnumeric.xml:223
 #, fuzzy
@@ -15366,7 +15342,7 @@ msgstr "Utiliser une police italique"
 
 #: src/gnumeric.xml:300
 msgid "Manage available plugin modules"
-msgstr ""
+msgstr "Gère les greffons disponibles"
 
 #: src/gnumeric.xml:375
 #, fuzzy
@@ -15415,7 +15391,7 @@ msgstr "Mis_e en page..."
 
 #: src/gnumeric.xml:36
 msgid "Print the current file"
-msgstr "Imprimer le fichier en cours"
+msgstr "Imprime le fichier en cours"
 
 #: src/gnumeric.xml:366
 msgid "Print the workbook"
@@ -15445,7 +15421,7 @@ msgstr "Enregistrer _sous..."
 
 #: src/gnumeric.xml:18
 msgid "Save the current file"
-msgstr "Enregistrer le fichier en cours"
+msgstr "Enregistre le fichier en cours"
 
 #: src/gnumeric.xml:22
 #, fuzzy
@@ -15524,7 +15500,7 @@ msgstr "_Cellules"
 msgid "_Change Name"
 msgstr "_Changer le nom"
 
-#: src/gnumeric.xml:44
+#: src/gnumeric.xml:46
 msgid "_Close"
 msgstr "_Fermer"
 
