@@ -789,7 +789,7 @@ if test "x$python_msg" = xyes; then
 	PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
 	[echo 'echo_python_libs:
 	@echo $(MODLIBS) $(LIBS)' >confmake.tmp
-	PY_EXTRA_LIBS=`make -f confmake.tmp -f "$PY_EXEC_PREFIX/lib/python$PY_VERSION/config/Makefile"`
+	PY_EXTRA_LIBS=`make -s -f confmake.tmp -f "$PY_EXEC_PREFIX/lib/python$PY_VERSION/config/Makefile"`
 	rm -f confmake.tmp]
     else
 	AC_MSG_RESULT($marker_fail)

@@ -1,7 +1,10 @@
 2004-11-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
-	* configure.in: corrected $(GNUMERIC_PLUGIN_LDFLAGS) to
-	$GNUMERIC_PLUGIN_LDFLAGS.
+	* configure.in: Call the "make" command for PY_EXTRA_LIBS with "-s".
+	  Without it, out-of-source builds have problems due to interference 
+	  from make printing entering/leaving directory messages.
+	* configure.in: Corrected $(GNUMERIC_PLUGIN_LDFLAGS) to
+	  $GNUMERIC_PLUGIN_LDFLAGS.
 
 2004-11-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
