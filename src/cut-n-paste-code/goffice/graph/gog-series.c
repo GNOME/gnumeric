@@ -548,7 +548,7 @@ GSF_CLASS_FULL (GogSeries, gog_series,
 GogPlot *
 gog_series_get_plot (GogSeries const *series)
 {
-	g_return_val_if_fail (GOG_SERIES (series) != NULL, FALSE);
+	g_return_val_if_fail (GOG_SERIES (series) != NULL, NULL);
 	return series->plot;
 }
 
