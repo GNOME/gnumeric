@@ -16,8 +16,8 @@
 #define DAY_SECONDS (3600*24)
 
 static char *help_date = {
-	N_("@FUNCTION=DATE"
-	   "@SYNTAX=DATE (year,month,day)n"
+	N_("@FUNCTION=DATE\n"
+	   "@SYNTAX=DATE (year,month,day)\n"
 
 	   "@DESCRIPTION="
 	   "Computes the number of days since the 1st of jannuary of 1900"
@@ -57,8 +57,8 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
 }
 
 static char *help_today = {
-	N_("@FUNCTION=TODAY"
-	   "@SYNTAX=TODAY ()n"
+	N_("@FUNCTION=TODAY\n"
+	   "@SYNTAX=TODAY ()\n"
 
 	   "@DESCRIPTION="
 	   "Returns the serial number for today (the number of days"
@@ -83,8 +83,8 @@ gnumeric_today (FunctionDefinition *fd, Value *argv [], char **error_string)
 }
 
 static char *help_now = {
-	N_("@FUNCTION=NOW"
-	   "@SYNTAX=NOW ()n"
+	N_("@FUNCTION=NOW\n"
+	   "@SYNTAX=NOW ()\n"
 
 	   "@DESCRIPTION="
 	   "Returns the serial number for the date and time at the time"
@@ -120,8 +120,8 @@ gnumeric_now (FunctionDefinition *fd, Value *argv [], char **error_string)
 }
 
 static char *help_time = {
-	N_("@FUNCTION=TIME"
-	   "@SYNTAX=TIME (hours,minutes,seconds)n"
+	N_("@FUNCTION=TIME\n"
+	   "@SYNTAX=TIME (hours,minutes,seconds)\n"
 
 	   "@DESCRIPTION="
 	   "Returns a fraction representing the hour"
@@ -148,8 +148,8 @@ gnumeric_time (FunctionDefinition *fd, Value *argv [], char **error_string)
 }
 
 static char *help_hour = {
-	N_("@FUNCTION=HOUR"
-	   "@SYNTAX=HOUR (serial_number)n"
+	N_("@FUNCTION=HOUR\n"
+	   "@SYNTAX=HOUR (serial_number)\n"
 
 	   "@DESCRIPTION="
 	   "Converts a serial number to an hour.  The hour is returned as "
@@ -163,8 +163,8 @@ static char *help_hour = {
 };
 
 static char *help_minute = {
-	N_("@FUNCTION=MINUTE"
-	   "@SYNTAX=MINUTE (serial_number)n"
+	N_("@FUNCTION=MINUTE\n"
+	   "@SYNTAX=MINUTE (serial_number)\n"
 
 	   "@DESCRIPTION="
 	   "Converts a serial number to a minute.  The minute is returned as "
@@ -178,8 +178,8 @@ static char *help_minute = {
 };
 
 static char *help_second = {
-	N_("@FUNCTION=SECOND"
-	   "@SYNTAX=SECOND (serial_number)n"
+	N_("@FUNCTION=SECOND\n"
+	   "@SYNTAX=SECOND (serial_number)\n"
 
 	   "@DESCRIPTION="
 	   "Converts a serial number to a second.  The second is returned as "
@@ -216,8 +216,8 @@ gnumeric_hour_min_sec (FunctionDefinition *fd, Value *argv [], char **error_stri
 }
 
 static char *help_year = {
-	N_("@FUNCTION=YEAR"
-	   "@SYNTAX=YEAR (serial_number)n"
+	N_("@FUNCTION=YEAR\n"
+	   "@SYNTAX=YEAR (serial_number)\n"
 
 	   "@DESCRIPTION="
 	   "Converts a serial number to a year."
@@ -230,8 +230,8 @@ static char *help_year = {
 };
 
 static char *help_month = {
-	N_("@FUNCTION=MONTH"
-	   "@SYNTAX=MONTH (serial_number)n"
+	N_("@FUNCTION=MONTH\n"
+	   "@SYNTAX=MONTH (serial_number)\n"
 
 	   "@DESCRIPTION="
 	   "Converts a serial number to a month."
@@ -244,8 +244,8 @@ static char *help_month = {
 };
 
 static char *help_day = {
-	N_("@FUNCTION=DAY"
-	   "@SYNTAX=DARY (serial_number)n"
+	N_("@FUNCTION=DAY\n"
+	   "@SYNTAX=DARY (serial_number)\n"
 
 	   "@DESCRIPTION="
 	   "Converts a serial number to a day."

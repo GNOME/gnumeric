@@ -99,8 +99,8 @@ callback_function_and (Sheet *sheet, Value *value, char **error_string, void *cl
 #if 0
 /* help template */
 static char *help_ = {
-	N_("@FUNCTION=NAME"
-	   "@SYNTAX=(b1, b2, ...)n"
+	N_("@FUNCTION=NAME\n"
+	   "@SYNTAX=(b1, b2, ...)\n"
 
 	   "@DESCRIPTION"
 	   ""
@@ -121,7 +121,7 @@ static char *help_ = {
 
 static char *help_atan2 = {
 	N_("@FUNCTION=ATAN2"
-	   "@SYNTAX=ATAN2(b1,b2)n"
+	   "@SYNTAX=ATAN2(b1,b2)\n"
 
 	   "@DESCRIPTION="
 	   "The ATAN2 function calculates the arc tangent of the two "
@@ -139,8 +139,8 @@ static char *help_atan2 = {
 
 
 static char *help_atanh = {
-	N_("@FUNCTION=ATANH"
-	   "@SYNTAX=ATANH(b1)n"
+	N_("@FUNCTION=ATANH\n"
+	   "@SYNTAX=ATANH(b1)\n"
 
 	   "@DESCRIPTION="
 	   "The  ATANH  function  calculates  the inverse hyperbolic "
@@ -152,13 +152,12 @@ static char *help_atanh = {
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
 	   "\n"
-	   ""
 	   "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS")
 };
 
 static char *help_atan = {
-	N_("@FUNCTION=ATAN"
-	   "@SYNTAX=ATAN(b1)n"
+	N_("@FUNCTION=ATAN\n"
+	   "@SYNTAX=ATAN(b1)\n"
 
 	   "@DESCRIPTION="
 	   "The ATAN function calculates the arc tangent of b1; that "
@@ -174,8 +173,8 @@ static char *help_atan = {
 };
 
 static char *help_asinh = {
-	N_("@FUNCTION=ASINH"
-	   "@SYNTAX=ASINH(b1)n"
+	N_("@FUNCTION=ASINH\n"
+	   "@SYNTAX=ASINH(b1)\n"
 
 	   "@DESCRIPTION="
 	   "The ASIN  function  calculates  the inverse hyperbolic "
@@ -190,8 +189,8 @@ static char *help_asinh = {
 
 
 static char *help_asin = {
-	N_("@FUNCTION=ASIN"
-	   "@SYNTAX=ASIN(b1)n"
+	N_("@FUNCTION=ASIN\n"
+	   "@SYNTAX=ASIN(b1)\n"
 
 	   "@DESCRIPTION="
 	   "The ASIN function calculates the arc sine of b1; that is "
@@ -206,8 +205,8 @@ static char *help_asin = {
 
 
 static char *help_acosh = {
-	N_("@FUNCTION=ACOSH"
-	   "@SYNTAX=ACOSH(b1)n"
+	N_("@FUNCTION=ACOSH\n"
+	   "@SYNTAX=ACOSH(b1)\n"
 
 	   "@DESCRIPTION="
 	   "The ACOSH  function  calculates  the inverse hyperbolic "
@@ -222,8 +221,8 @@ static char *help_acosh = {
 };
 
 static char *help_acos = {
-	N_("@FUNCTION=ACOS"
-	   "@SYNTAX=ACOS(b1)n"
+	N_("@FUNCTION=ACOS\n"
+	   "@SYNTAX=ACOS(b1)\n"
 
 	   "@DESCRIPTION="
 	   "The ACOS function calculates the arc cosine of b1; that "
@@ -238,20 +237,20 @@ static char *help_acos = {
 };
 
 static char *help_average = {
-	N_("@FUNCTION=AVERAGE"
+	N_("@FUNCTION=AVERAGE\n"
 	   "@SYNTAX=AVERAGE(value1, value2,...)"
 
 	   "@DESCRIPTION="
 	   "Computes the average of all the values and cells referenced in the "
 	   "argument list.  This is equivalent to the sum of the arguments divided "
 	   "by the count of the arguments."
-	   ""
+	   "\n"
 	   "@SEEALSO=SUM, COUNT")
 };
 
 static char *help_tanh = {
-	N_("@FUNCTION=TANH"
-	   "@SYNTAX=TANH(b1)n"
+	N_("@FUNCTION=TANH\n"
+	   "@SYNTAX=TANH(b1)\n"
 
 	   "@DESCRIPTION="
 	   " The TANH function returns the hyperbolic tangent of b1, "
@@ -264,8 +263,8 @@ static char *help_tanh = {
 };
 
 static char *help_tan = {
-	N_("@FUNCTION=TAN"
-	   "@SYNTAX=TAN(b1)n"
+	N_("@FUNCTION=TAN\n"
+	   "@SYNTAX=TAN(b1)\n"
 
 	   "@DESCRIPTION="
 	   "The TAN function  returns the tangent of b1, where b1 is "
@@ -279,8 +278,8 @@ static char *help_tan = {
 
 
 static char *help_sinh = {
-	N_("@FUNCTION=SINH"
-	   "@SYNTAX=SINH(b1)n"
+	N_("@FUNCTION=SINH\n"
+	   "@SYNTAX=SINH(b1)\n"
 
 	   "@DESCRIPTION="
 	   "The SINH  function  returns  the  hyperbolic sine of b1, "
@@ -294,8 +293,8 @@ static char *help_sinh = {
 };
 
 static char *help_cosh = {
-	N_("@FUNCTION=COSH"
-	   "@SYNTAX=COSH(b1)n"
+	N_("@FUNCTION=COSH\n"
+	   "@SYNTAX=COSH(b1)\n"
 
 	   "@DESCRIPTION="
 	   "The COSH  function  returns the hyperbolic cosine of b1, "
@@ -310,8 +309,8 @@ static char *help_cosh = {
 
 
 static char *help_sin = {
-	N_("@FUNCTION=SIN"
-	   "@SYNTAX=SIN(b1)n"
+	N_("@FUNCTION=SIN\n"
+	   "@SYNTAX=SIN(b1)\n"
 
 	   "@DESCRIPTION="
 	   "The SIN function returns the sine of b1, where b1 is given "
@@ -324,8 +323,8 @@ static char *help_sin = {
 };
 
 static char *help_cos = {
-	N_("@FUNCTION=COS"
-	   "@SYNTAX=COS(b1)n"
+	N_("@FUNCTION=COS\n"
+	   "@SYNTAX=COS(b1)\n"
 
 	   "@DESCRIPTION="
 	   "The  COS  function  returns  the cosine of b1, where b1 is "
@@ -340,8 +339,8 @@ static char *help_cos = {
 
 
 static char *help_int = {
-	N_("@FUNCTION=INT"
-	   "@SYNTAX=INT(b1, b2, ...)n"
+	N_("@FUNCTION=INT\n"
+	   "@SYNTAX=INT(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
 	   "The INT function round b1 now to the nearest int. "
@@ -356,8 +355,8 @@ static char *help_int = {
 };
 
 static char *help_count = {
-	N_("@FUNCTION=COUNT"
-	   "@SYNTAX=COUNT(b1, b2, ...)n"
+	N_("@FUNCTION=COUNT\n"
+	   "@SYNTAX=COUNT(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
 	   "Returns the total number of arguments passed."
@@ -369,22 +368,22 @@ static char *help_count = {
 
 
 static char *help_fact = {
-	N_("@FUNCTION=FACT"
-	   "@SYNTAX=FACT(b1)n"
+	N_("@FUNCTION=FACT\n"
+	   "@SYNTAX=FACT(b1)\n"
 
 	   "@DESCRIPTION="
 	   "Computes the factorial of b1. ie, b1!"
 	   "\n"
 	   "Performing this function on a string or empty cell returns an error"
 	   "\n"
-	   "`Factorials were someone's attempt to make math *look* exciting. ` --Steven Wright "
+	   "\n"
 	   "@SEEALSO=")
 };
 
 
 static char *help_exp = {
-	N_("@FUNCTION=EXP"
-	   "@SYNTAX=EXP(b1)n"
+	N_("@FUNCTION=EXP\n"
+	   "@SYNTAX=EXP(b1)\n"
 
 	   "@DESCRIPTION="
 	   "Computes the value of e(the base of natural logarithmns) raised "
@@ -396,8 +395,8 @@ static char *help_exp = {
 };
 
 static char *help_log = {
-	N_("@FUNCTION=LOG"
-	   "@SYNTAX=LOG(b1)n"
+	N_("@FUNCTION=LOG\n"
+	   "@SYNTAX=LOG(b1)\n"
 
 	   "@DESCRIPTION="
 	   "Computes the natural logarithm  of b1. "
@@ -409,7 +408,7 @@ static char *help_log = {
 
 static char *help_log10 = {
 	N_("@FUNCTION=LOG10"
-	   "@SYNTAX=LOG10(b1)n"
+	   "@SYNTAX=LOG10(b1)\n"
 
 	   "@DESCRIPTION="
 	   "Computes the base-10 logarithm  of b1. "
@@ -422,7 +421,7 @@ static char *help_log10 = {
 
 static char *help_log2 = {
 	N_("@FUNCTION=LOG2"
-	   "@SYNTAX=LOG2(b1)n"
+	   "@SYNTAX=LOG2(b1)\n"
 
 	   "@DESCRIPTION="
 	   "Computes the base-2 logarithm  of b1. "
@@ -434,8 +433,8 @@ static char *help_log2 = {
 
 
 static char *help_min = {
-	N_("@FUNCTION=MIN"
-	   "@SYNTAX=MIN(b1, b2, ...)n"
+	N_("@FUNCTION=MIN\n"
+	   "@SYNTAX=MIN(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
 	   "MIN returns the value of the element of the values passed "
@@ -448,8 +447,8 @@ static char *help_min = {
 };
 
 static char *help_max = {
-	N_("@FUNCTION=MAX"
-	   "@SYNTAX=MAX(b1, b2, ...)n"
+	N_("@FUNCTION=MAX\n"
+	   "@SYNTAX=MAX(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
 	   "MAX returns the value of the element of the values passed "
@@ -463,7 +462,7 @@ static char *help_max = {
 
 
 static char *help_or = {
-	N_("@FUNCTION=OR"
+	N_("@FUNCTION=OR\n"
 	   "@SYNTAX=OR(b1, b2, ...)"
 
 	   "@DESCRIPTION="
@@ -481,8 +480,8 @@ static char *help_or = {
 
 
 static char *help_radians = {
-	N_("@FUNCTION=RADIANS"
-	   "@SYNTAX=RADIANS(b1)n"
+	N_("@FUNCTION=RADIANS\n"
+	   "@SYNTAX=RADIANS(b1)\n"
 
 	   "@DESCRIPTION="
 	   "Computes the number of radians equilivent to  "
@@ -496,8 +495,8 @@ static char *help_radians = {
 };
 
 static char *help_degrees = {
-	N_("@FUNCTION=DEGREES"
-	   "@SYNTAX=DEGREES(b1)n"
+	N_("@FUNCTION=DEGREES\n"
+	   "@SYNTAX=DEGREES(b1)\n"
 
 	   "@DESCRIPTION="
 	   "Computes the number of degrees equilivent to "
@@ -511,8 +510,8 @@ static char *help_degrees = {
 };
 
 static char *help_sum = {
-	N_("@FUNCTION=SUM"
-	   "@SYNTAX=SUM(value1, value2, ...)n"
+	N_("@FUNCTION=SUM\n"
+	   "@SYNTAX=SUM(value1, value2, ...)\n"
 
 	   "@DESCRIPTION="
 	   "Computes the sum of all the values and cells referenced in the "
@@ -525,7 +524,7 @@ static char *help_sum = {
 
 static char *help_bin2dec = {
 	N_("@FUNCTION=BIN2DEC("
-	   "@SYNTAX=BIN2DEC(b1)n"
+	   "@SYNTAX=BIN2DEC(b1)\n"
 
 	   "@DESCRIPTION="
 	   "The BIN2DEC function coverts a binary number "
@@ -539,8 +538,8 @@ static char *help_bin2dec = {
 
 
 static char *help_pi = {
-	N_("@FUNCTION=PI"
-	   "@SYNTAX=PI()n"
+	N_("@FUNCTION=PI\n"
+	   "@SYNTAX=PI()\n"
 
 	   "@DESCRIPTION=The PI functions returns the value of Pi "
 	   "as defined by M_PI."
@@ -554,8 +553,8 @@ static char *help_pi = {
 
 
 static char *help_floor = {
-	N_("@FUNCTION=FLOOR"
-	   "@SYNTAX=FLOOR(b1)n"
+	N_("@FUNCTION=FLOOR\n"
+	   "@SYNTAX=FLOOR(b1)\n"
 
 	   "@DESCRIPTION=The FLOOR function rounds b1 down to the next nearest"
 	   "integer."
@@ -567,20 +566,21 @@ static char *help_floor = {
 };
 
 static char *help_ceil = {
-	N_("@FUNCTION=CEIL"
-	   "@SYNTAX=CEIL(b1)n"
+	N_("@FUNCTION=CEIL\n"
+	   "@SYNTAX=CEIL(b1)\n"
 
 	   "@DESCRIPTION=The CEIL function rounds b1 up to the next nearest"
 	   "integer."
-	   "\n"
+
 	   "Performing this function on a string or empty cell simply does nothing."
 	   "\n"
+	   
 	   "@SEEALSO=ABS, FLOOR, INT")
 };
 
 static char *help_abs = {
-	N_("@FUNCTION=ABS"
-	   "@SYNTAX=ABS(b1)n"
+	N_("@FUNCTION=ABS\n"
+	   "@SYNTAX=ABS(b1)\n"
 
 	   "@DESCRIPTION=Implements the Absolute Value function:  the result is "
 	   "to drop the negative sign (if present).  This can be done for "
@@ -592,8 +592,8 @@ static char *help_abs = {
 };
 
 static char *help_and = {
-	N_("@FUNCTION=AND"
-	   "@SYNTAX=AND(b1, b2, ...)n"
+	N_("@FUNCTION=AND\n"
+	   "@SYNTAX=AND(b1, b2, ...)\n"
 
 	   "@DESCRIPTION=Implements the logical AND function: the result is TRUE "
 	   "if all of the expression evaluates to TRUE, otherwise it returns "
@@ -606,7 +606,7 @@ static char *help_and = {
 	   "If the values contain strings or empty cells those values are "
 	   "ignored.  If no logical values are provided, then the error '#VALUE!' "
 	   "is returned. "
-	   ""
+	   "\n"
 	   "@SEEALSO=OR")
 };
 

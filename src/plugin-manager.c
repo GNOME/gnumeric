@@ -101,6 +101,7 @@ plugin_manager_new (void)
 	gtk_container_add (GTK_CONTAINER (pm->dialog), pm->hbox);
 	
 	pm->clist = gtk_clist_new_with_titles (2, titles);
+	gtk_widget_set_usize (pm->clist, 300, 120);
 	gtk_box_pack_start (GTK_BOX (pm->hbox), pm->clist, 1, 1, 5);
 	
 	pm->vbbox = gtk_vbutton_box_new ();
