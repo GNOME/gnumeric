@@ -1,3 +1,8 @@
+2000-11-13  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel-read.c (ms_excel_get_style_from_xf): Fix some
+ 	style_color reference count problems.
+
 2000-11-10  Jody Goldberg <jgoldberg@home.com>
 
 	* excel_builtin_formats : Correct long standing typos.

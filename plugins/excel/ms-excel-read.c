@@ -1317,7 +1317,8 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 			/* FIXME : This should use the 'Normal' Style */
 			if (pattern_index == 64 || pattern_index == 65 || pattern_index == 0) {
 				back_color = style_color_white ();
-				font_color = pattern_color = style_color_black ();
+				font_color = style_color_black ();
+				style_color_ref ((pattern_color = font_color));
 			} else {
 				pattern_color =
 					ms_excel_palette_get (sheet->wb->palette,
@@ -1339,7 +1340,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 
 			/* Pattern is auto contrast it to back */
 			if (pattern_index == 64 || pattern_index == 65 || pattern_index == 0)
-				pattern_color = font_color;
+				style_color_ref ((pattern_color = font_color));
 			else
 				pattern_color =
 					ms_excel_palette_get (sheet->wb->palette,
