@@ -1,5 +1,10 @@
 2003-08-03  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* dialog-consolidate.c (cb_consolidate_ok_clicked): use
+	  consolidate_check_destination
+
+2003-08-03  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* consolidate.glade: add standard output selector
 	* dao-gui-utils.c (dialog_tool_init_outputs): handle put_menu
 	(parse_output): ditto

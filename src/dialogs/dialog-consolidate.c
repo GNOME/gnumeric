@@ -311,15 +311,21 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 		return;
 	}
 	
-/* consolidate_check_destination  should be written and verified */
-
-/* 	cmd_consolidate (WORKBOOK_CONTROL (state->base.wbcg), cs); */
-
-	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
-				state->base.sheet,
-				dao, cs, tool_consolidate_engine) &&
-	    (button == state->base.ok_button))
-		gtk_widget_destroy (state->base.dialog);
+	if (consolidate_check_destination (cs, dao)) {
+		if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
+					state->base.sheet,
+					dao, cs, tool_consolidate_engine) &&
+		    (button == state->base.ok_button))
+			gtk_widget_destroy (state->base.dialog);
+	} else {
+		gnumeric_notice_nonmodal (GTK_WINDOW (state->base.dialog),
+					  &state->base.warning_dialog,
+					  GTK_MESSAGE_ERROR,
+					  _("The output range overlaps "
+					    "with the input ranges."));
+		g_free (dao);
+		consolidate_free (cs, FALSE);
+	}
 }
 
 static void

@@ -159,31 +159,31 @@ consolidate_set_mode (Consolidate *cs, ConsolidateMode mode)
 gboolean
 consolidate_check_destination (Consolidate *cs, data_analysis_output_t *dao)
 {
-/* 	GlobalRange *new; */
-/* 	GSList const *l; */
+	GlobalRange *new;
+	Range r;
+	GSList const *l;
 
-/* 	g_return_val_if_fail (cs != NULL, FALSE); */
-/* 	g_return_val_if_fail (range != NULL, FALSE); */
+	g_return_val_if_fail (cs != NULL, FALSE);
+	g_return_val_if_fail (dao != NULL, FALSE);
 
-/* 	new = g_new (GlobalRange, 1); */
+	if (dao->type == NewSheetOutput || dao->type == NewWorkbookOutput)
+		return TRUE;
 
-/* 	new->sheet = range->v_range.cell.a.sheet; */
-/* 	range_init_value (&new->range, range); */
-/* 	value_release (range); */
+	range_init (&r, dao->start_col, dao->start_row, 
+		    dao->start_col + dao->cols - 1, 
+		    dao->start_row + dao->rows - 1);
+	new = global_range_new (dao->sheet, &r);
 
-/* 	/\* */
-/* 	 * Don't allow the destination to overlap */
-/* 	 * with any of the source ranges */
-/* 	 *\/ */
-/* 	for (l = cs->src; l != NULL; l = l->next) { */
-/* 		GlobalRange const *gr = l->data; */
+	for (l = cs->src; l != NULL; l = l->next) {
+		GlobalRange const *gr = l->data;
 
-/* 		if (global_range_overlap (new, gr)) { */
-/* 			global_range_free (new); */
-/* 			return FALSE; */
-/* 		} */
-/* 	} */
+		if (global_range_overlap (new, gr)) {
+			global_range_free (new);
+			return FALSE;
+		}
+	}
 
+	global_range_free (new);
 	return TRUE;
 }
 
