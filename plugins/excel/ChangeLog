@@ -1,3 +1,9 @@
+2002-11-25  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_set_xf) : remove bogus optimization.
+	(excel_set_xf_segment) : ditto.  We can not assume that the default is
+	  the current format.  See 'Tax2001-23.xls'
+
 2002-11-24  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c (excel_formula_parses_ref_sheets) : fix typo.

@@ -1618,17 +1618,15 @@ excel_get_style_from_xf (ExcelSheet *esheet, guint16 xfidx)
 static void
 excel_set_xf (ExcelSheet *esheet, int col, int row, guint16 xfidx)
 {
+	MStyle *const mstyle = excel_get_style_from_xf (esheet, xfidx);
+
 	d (2, fprintf (stderr,"%s!%s%d = xf(%d)\n", esheet->sheet->name_unquoted,
 		      col_name (col), row + 1, xfidx););
 
-	/* no need to reapply the default */
-	if (xfidx != 15) {
-		MStyle *const mstyle = excel_get_style_from_xf (esheet, xfidx);
-		if (mstyle == NULL)
-			return;
+	if (mstyle == NULL)
+		return;
 
-		sheet_style_set_pos (esheet->sheet, col, row, mstyle);
-	}
+	sheet_style_set_pos (esheet->sheet, col, row, mstyle);
 }
 
 static void
@@ -1636,25 +1634,22 @@ excel_set_xf_segment (ExcelSheet *esheet,
 			 int start_col, int end_col,
 			 int start_row, int end_row, guint16 xfidx)
 {
-	/* no need to reapply the default */
-	if (xfidx != 15) {
-		Range   range;
-		MStyle * const mstyle  = excel_get_style_from_xf (esheet, xfidx);
+	Range   range;
+	MStyle * const mstyle  = excel_get_style_from_xf (esheet, xfidx);
 
-		if (mstyle == NULL)
-			return;
+	if (mstyle == NULL)
+		return;
 
-		range.start.col = start_col;
-		range.start.row = start_row;
-		range.end.col   = end_col;
-		range.end.row   = end_row;
-		sheet_style_set_range (esheet->sheet, &range, mstyle);
+	range.start.col = start_col;
+	range.start.row = start_row;
+	range.end.col   = end_col;
+	range.end.row   = end_row;
+	sheet_style_set_range (esheet->sheet, &range, mstyle);
 
-		d (2, {
-			range_dump (&range, "");
-			fprintf (stderr, " = xf(%d)\n", xfidx);
-		});
-	}
+	d (2, {
+		range_dump (&range, "");
+		fprintf (stderr, " = xf(%d)\n", xfidx);
+	});
 }
 
 static StyleBorderType
@@ -3437,13 +3432,13 @@ excel_read_MULBLANK (BiffQuery *q, ExcelSheet *esheet)
 		if (prev_xf != xf_index) {
 			if (prev_xf >= 0)
 				excel_set_xf_segment (esheet, i + 1, range_end,
-							 row, row, prev_xf);
+						      row, row, prev_xf);
 			prev_xf = xf_index;
 			range_end = i;
 		}
 	} while (--i >= firstcol);
 	excel_set_xf_segment (esheet, firstcol, range_end,
-				 row, row, prev_xf);
+			      row, row, prev_xf);
 	d (2, fprintf (stderr,"\n"););
 }
 
