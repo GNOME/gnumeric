@@ -1,5 +1,11 @@
 2001-06-17  Almer S. Tigelaar  <almer@gnome.org>
 
+	For Tino Meinen <a.t.meinen@chello.nl> :
+
+	* nl.po: Updated Dutch translation.
+
+2001-06-17  Almer S. Tigelaar  <almer@gnome.org>
+
 	* POTFILES.in: Cope for change of location
 	of the about dialog.
 
