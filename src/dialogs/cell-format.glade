@@ -1083,7 +1083,6 @@
 		<class>GtkLabel</class>
 		<name>label4</name>
 		<width>50</width>
-		<sensitive>False</sensitive>
 		<label>_Underline:</label>
 		<justify>GTK_JUSTIFY_LEFT</justify>
 		<wrap>False</wrap>
@@ -1116,7 +1115,6 @@
 		  <class>GtkCombo</class>
 		  <name>combo3</name>
 		  <width>110</width>
-		  <sensitive>False</sensitive>
 		  <value_in_list>False</value_in_list>
 		  <ok_if_empty>True</ok_if_empty>
 		  <case_sensitive>False</case_sensitive>
