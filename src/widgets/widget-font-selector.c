@@ -15,6 +15,7 @@
 #include <gnumeric.h>
 #include "widget-font-selector.h"
 
+#include <gnm-marshalers.h>
 #include "../global-gnome-font.h"
 #include <value.h>
 #include <mstyle.h>
@@ -340,20 +341,23 @@ fs_destroy (GtkObject *object)
 }
 
 static void
-fs_class_init (GtkObjectClass *klass)
+fs_class_init (GObjectClass *klass)
 {
-	klass->destroy = fs_destroy;
+	GtkObjectClass *gto_class = (GtkObjectClass *) klass;
+
+	gto_class->destroy = fs_destroy;
 
 	fs_parent_class = g_type_class_peek (gtk_hbox_get_type ());
 
 	fs_signals[FONT_CHANGED] =
-		gtk_signal_new (
+		g_signal_new (
 			"font_changed",
-			GTK_RUN_LAST,
-			GTK_CLASS_TYPE (klass),
-			GTK_SIGNAL_OFFSET (FontSelectorClass, font_changed),
-			gtk_marshal_NONE__POINTER,
-			GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+			G_OBJECT_CLASS_TYPE (klass),
+			G_SIGNAL_RUN_LAST,
+			G_STRUCT_OFFSET (FontSelectorClass, font_changed),
+			NULL, NULL,
+			gnm__VOID__POINTER,
+			G_TYPE_NONE, 1, G_TYPE_POINTER);
 }
 
 GSF_CLASS (FontSelector, font_selector,
@@ -364,7 +368,7 @@ font_selector_new (void)
 {
 	GtkWidget *w;
 
-	w = gtk_type_new (FONT_SELECTOR_TYPE);
+	w = g_object_new (FONT_SELECTOR_TYPE, NULL);
 	return w;
 }
 

@@ -1,3 +1,8 @@
+2003-06-21  Jon K Hellan  <hellan@acm.org>
+
+	* widget-font-selector.c (fs_class_init): convert to g_signal.
+	(font_selector_new): Use g_object_new.
+
 2003-06-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* widget-locale-selector.c: #include locale.h
