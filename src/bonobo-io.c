@@ -30,8 +30,8 @@
 #include "xml-io.h"
 #include "bonobo-io.h"
 
-static FileOpener *gnumeric_bonobo_opener;
-static FileSaver *gnumeric_bonobo_saver;
+static GnumFileOpener *gnumeric_bonobo_opener;
+static GnumFileSaver *gnumeric_bonobo_saver;
 
 static void
 write_stream_to_storage (xmlNodePtr           cur,
@@ -226,13 +226,12 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 	return FALSE;
 }
 
-static gboolean
-gnumeric_bonobo_write_workbook (FileSaver const *fs,
+static void
+gnumeric_bonobo_write_workbook (GnumFileSaver const *fs,
                                 IOContext    *context,
                                 WorkbookView *wb_view,
                                 const gchar   *filename)
 {
-	gboolean         success;
 	int              size;
 	xmlChar         *mem;
 	xmlDocPtr        xml;
@@ -240,8 +239,8 @@ gnumeric_bonobo_write_workbook (FileSaver const *fs,
 	BonoboStorage   *storage;
 	int              flags;
 
-	g_return_val_if_fail (wb_view != NULL, FALSE);
-	g_return_val_if_fail (filename != NULL, FALSE);
+	g_return_if_fail (wb_view != NULL);
+	g_return_if_fail (filename != NULL);
 
 	flags = Bonobo_Storage_CREATE | Bonobo_Storage_WRITE |
 		Bonobo_Storage_FAILIFEXIST;
@@ -253,7 +252,7 @@ gnumeric_bonobo_write_workbook (FileSaver const *fs,
 		char *msg = g_strdup_printf ("Can't open '%s'", filename);
 		gnumeric_io_error_save (context, msg);
 		g_free (msg);
-		return FALSE;
+		return;
 	}
 
 	/*
@@ -263,7 +262,7 @@ gnumeric_bonobo_write_workbook (FileSaver const *fs,
 	if (!xml) {
 		gnumeric_io_error_save (context, "");
 		bonobo_object_unref (BONOBO_OBJECT (storage));
-		return FALSE;
+		return;
 	}
 	ctxt = xml_parse_ctx_new_full (
 		xml, NULL, GNUM_XML_V5, NULL,
@@ -277,7 +276,6 @@ gnumeric_bonobo_write_workbook (FileSaver const *fs,
 	 */
 	xmlDocDumpMemory (xml, &mem, &size);
 
-	success = TRUE;
 	if (mem) {
 		CORBA_Environment ev;
 		Bonobo_Stream stream;
@@ -294,7 +292,7 @@ gnumeric_bonobo_write_workbook (FileSaver const *fs,
 		if (ev._major == CORBA_USER_EXCEPTION &&
 		    strcmp (ev._repo_id, ex_Bonobo_Storage_NameExists)) {
 			g_warning ("Workbook stream already exists");
-			success = FALSE;
+			gnumeric_io_error_unknown (context);
 		} else {
 			if (!BONOBO_EX (&ev))
 				bonobo_stream_client_write (stream, mem,
@@ -303,7 +301,6 @@ gnumeric_bonobo_write_workbook (FileSaver const *fs,
 			if (BONOBO_EX (&ev)) {
 				gnumeric_io_error_save (context,
 					"Error storing workbook stream");
-				success = FALSE;
 			}
 		}
 
@@ -313,8 +310,6 @@ gnumeric_bonobo_write_workbook (FileSaver const *fs,
 
 	xmlFreeDoc (xml);
 	bonobo_object_unref (BONOBO_OBJECT (storage));
-
-	return success;
 }
 
 #ifdef HAVE_LIBXML_2
@@ -419,8 +414,8 @@ hack_xmlSAXParseFile (Bonobo_Stream stream)
 #endif /* HAVE_LIBXML_2*/
 }
 
-static gboolean
-gnumeric_bonobo_read_workbook (FileOpener const *fo,
+static void
+gnumeric_bonobo_read_workbook (GnumFileOpener const *fo,
                                IOContext    *context,
                                WorkbookView *wb_view,
                                const char   *filename)
@@ -433,7 +428,7 @@ gnumeric_bonobo_read_workbook (FileOpener const *fo,
 	Bonobo_Stream       stream;
 	GnumericXMLVersion  version;
 
-	g_return_val_if_fail (filename != NULL, FALSE);
+	g_return_if_fail (filename != NULL);
 
 	storage = bonobo_storage_open (BONOBO_IO_DRIVER_FS,
 				       filename, Bonobo_Storage_READ, 0);
@@ -441,7 +436,7 @@ gnumeric_bonobo_read_workbook (FileOpener const *fo,
 		char *msg = g_strdup_printf ("Can't open '%s'", filename);
 		gnumeric_io_error_save (context, msg);
 		g_free (msg);
-		return FALSE;
+		return;
 	}
 
 	CORBA_exception_init (&ev);
@@ -499,16 +494,16 @@ gnumeric_bonobo_read_workbook (FileOpener const *fo,
 	xmlFreeDoc (doc);
 	bonobo_object_unref (BONOBO_OBJECT (storage));
 	CORBA_exception_free (&ev);
-	return TRUE;
+	return;
 
  storage_err:
 	bonobo_object_unref (BONOBO_OBJECT (storage));
 	CORBA_exception_free (&ev);
-	return FALSE;
+	return;
 }
 
 static gboolean
-gnumeric_bonobo_io_probe (FileOpener const *fo, const char *filename)
+gnumeric_bonobo_io_probe (GnumFileOpener const *fo, const char *filename)
 {
 	char *p;
 
@@ -528,10 +523,12 @@ gnumeric_bonobo_io_init (void)
 {
 	char *desc = _("Gnumeric Bonobo file format");
 
-	gnumeric_bonobo_opener = file_format_register_open (
-	                         100, desc, gnumeric_bonobo_io_probe,
+	gnumeric_bonobo_opener = gnum_file_opener_new (
+	                         NULL, desc, gnumeric_bonobo_io_probe,
 	                         gnumeric_bonobo_read_workbook);
-	gnumeric_bonobo_saver = file_format_register_save (
-	                        "efs", desc, FILE_FL_AUTO,
+	gnumeric_bonobo_saver = gnum_file_saver_new (
+	                        NULL, "efs", desc, FILE_FL_AUTO,
 	                        gnumeric_bonobo_write_workbook);
+	register_file_opener (gnumeric_bonobo_opener, 100);
+	register_file_saver (gnumeric_bonobo_saver);
 }

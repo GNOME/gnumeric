@@ -102,14 +102,23 @@
 	(don't return gboolean).
 	(stf_init): Adjusted to file i/o interface changes.
 
-	src/xml-io.[ch]
+	* src/xml-io.[ch]
 	(gnumeric_xml_get_opener, xml_probe):
 	s/FileOpener/GnumFileOpener/
-	(gnumeric_xml_get_opener):
+	(gnumeric_xml_get_saver):
 	s/FileSaver/GnumFileSaver/
 	(gnumeric_xml_read_workbook, gnumeric_xml_write_workbook): Signature
 	change (don't return gboolean).
 	(xml_init): Adjusted to file i/o interface changes.
+
+	* src/bonobo-io.c
+	(gnumeric_bonobo_read_workbook, gnumeric_bonobo_write_workbook):
+	Signature change (don't return gboolean).
+	s/FileOpener/GnumFileOpener
+	s/FileSaver/GnumFileSaver
+	(gnumeric_bonobo_io_probe):
+	s/FileOpener/GnumFileOpener
+	(gnumeric_bonobo_io_init): Adjusted to file i/o interface changes.
 
 2001-05-20  Chema Celorio  <chema@celorio.com>
 
