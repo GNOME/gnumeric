@@ -222,8 +222,9 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 			gdk_gc_set_foreground (gc, &cell->style->fore_color->color);
 	}
 	
-	if (cell->style->valid_flags & STYLE_BACK_COLOR)
+	if (cell->style->valid_flags & STYLE_BACK_COLOR){
 		gdk_gc_set_background (gc, &cell->style->back_color->color);
+	}
 
 
 	if ((cell->style->valid_flags & STYLE_PATTERN) && cell->style->pattern){

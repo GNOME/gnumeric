@@ -1,3 +1,9 @@
+1999-02-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c (workbook_configure_minimized_pixmap): Provide an
+	icon.  Note that I could not get this to work on fvwm2 though.  I
+	will wait for other people to try it.
+
 1999-02-01  Jaka Mocnik  <jaka.mocnik@kiss.uni-lj.si>
 
 	* src/widget-editable-label.c (el_realize): new function.

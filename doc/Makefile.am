@@ -55,7 +55,7 @@ func-list.sgml: func.defs $(srcdir)/make-docbook.pl
 func-index.sgml: func.defs $(srcdir)/make-index.pl
 	perl $(srcdir)/make-index.pl func.defs > func-index.sgml
 
-func.defs: $(top_builddir)/src/gnumeric
+make-func.defs: 
 	$(top_builddir)/src/gnumeric --dump-func-defs=func.defs
 
 dist-hook:

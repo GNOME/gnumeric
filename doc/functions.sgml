@@ -44,6 +44,7 @@
 <listitem><para><link linkend="gnumeric-MINUTE">MINUTE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MONTH">MONTH</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NOW">NOW</link></para></listitem>
+<listitem><para><link linkend="gnumeric-NVARIANCE">NVARIANCE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-OR">OR</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PI">PI</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RADIANS">RADIANS</link></para></listitem>
@@ -52,12 +53,14 @@
 <listitem><para><link linkend="gnumeric-SELECTION">SELECTION</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SIN">SIN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SINH">SINH</link></para></listitem>
+<listitem><para><link linkend="gnumeric-STDEV">STDEV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SUM">SUM</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TAN">TAN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TANH">TANH</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TIME">TIME</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TODAY">TODAY</link></para></listitem>
 <listitem><para><link linkend="gnumeric-UPPER">UPPER</link></para></listitem>
+<listitem><para><link linkend="gnumeric-VARIANCE">VARIANCE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-YEAR">YEAR</link></para></listitem>
 </itemizedlist>
 
@@ -945,6 +948,16 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-NVARIANCE">NVARIANCE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>NVARIANCE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-MINUTE">MINUTE</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -968,6 +981,16 @@
     </refsect1>
   </refentry>
 
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-VARIANCE">VARIANCE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>VARIANCE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
 
 
   <refentry>
@@ -1269,6 +1292,24 @@
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-CHAR">CHAR</link>
 ,         <link linkend="gnumeric-CODE">CODE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-STDEV">STDEV</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>STDEV</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-VARIANCE">VARIANCE</link>
       </para>
     </refsect1>
   </refentry>

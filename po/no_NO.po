@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 1998-12-16 12:43-0500\n"
+"POT-Creation-Date: 1999-02-03 14:07-0600\n"
 "Content-Type: text/plain; charset=\n"
 "Date: 1998-12-15 01:37:05-0600\n"
 "From: Miguel de Icaza,computo,622-4680 <miguel@metropolis.nuclecu.unam.mx>\n"
@@ -53,11 +53,11 @@ msgstr ""
 msgid "variance - division by 0"
 msgstr ""
 
-#: src/about.c:33
+#: src/about.c:36
 msgid "Gnumeric"
 msgstr ""
 
-#: src/about.c:36
+#: src/about.c:39
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric"
@@ -251,14 +251,17 @@ msgstr ""
 msgid "Money"
 msgstr ""
 
+#. 1. Categories
 #: src/dialog-cell-format.c:253
 msgid "Categories"
 msgstr ""
 
+#. 2.1 Input line
 #: src/dialog-cell-format.c:283
 msgid "Code:"
 msgstr ""
 
+#. 2.2 Sample
 #: src/dialog-cell-format.c:292
 msgid "Sample:"
 msgstr ""
@@ -276,7 +279,7 @@ msgid "Left"
 msgstr ""
 
 #: src/dialog-cell-format.c:355 src/dialog-cell-format.c:364
-#: src/workbook.c:848
+#: src/workbook.c:849
 msgid "Center"
 msgstr ""
 
@@ -300,6 +303,7 @@ msgstr ""
 msgid "Bottom"
 msgstr ""
 
+#. Vertical alignment
 #: src/dialog-cell-format.c:421
 msgid "Vertical"
 msgstr ""
@@ -317,6 +321,7 @@ msgstr ""
 msgid "Text color"
 msgstr ""
 
+#. The radio buttons
 #: src/dialog-cell-format.c:601 src/dialog-cell-format.c:631
 #: src/dialog-paste-special.c:28
 msgid "None"
@@ -338,16 +343,20 @@ msgstr ""
 msgid "Use a pattern"
 msgstr ""
 
-#: src/dialog-cell-format.c:724
+#: src/dialog-cell-format.c:861
 msgid "Number"
 msgstr ""
 
-#: src/dialog-cell-format.c:725
+#: src/dialog-cell-format.c:862
 msgid "Alignment"
 msgstr ""
 
-#: src/dialog-cell-format.c:726
+#: src/dialog-cell-format.c:863
 msgid "Font"
+msgstr ""
+
+#: src/dialog-cell-format.c:864
+msgid "Coloring"
 msgstr ""
 
 #: src/dialog-define-names.c:23
@@ -378,7 +387,7 @@ msgstr ""
 msgid "Delete cells"
 msgstr ""
 
-#: src/dialog-delete-cells.c:32 src/item-grid.c:527
+#: src/dialog-delete-cells.c:32 src/item-grid.c:528
 msgid "Delete"
 msgstr ""
 
@@ -418,7 +427,7 @@ msgstr ""
 msgid "Insert cells"
 msgstr ""
 
-#: src/dialog-insert-cells.c:33 src/item-grid.c:526
+#: src/dialog-insert-cells.c:33 src/item-grid.c:527
 msgid "Insert"
 msgstr ""
 
@@ -466,7 +475,7 @@ msgstr ""
 msgid "Divide"
 msgstr ""
 
-#: src/dialog-paste-special.c:56 src/item-grid.c:524
+#: src/dialog-paste-special.c:56 src/item-grid.c:525
 msgid "Paste special"
 msgstr ""
 
@@ -487,10 +496,12 @@ msgid "Custom"
 msgstr ""
 
 #: src/dialog-zoom.c:83
+#, c-format
 msgid "Zoom factor should be at least 50%"
 msgstr ""
 
 #: src/dialog-zoom.c:88
+#, c-format
 msgid "Zoom factor should be at most 900%"
 msgstr ""
 
@@ -502,8 +513,7 @@ msgstr ""
 msgid "Missing quote"
 msgstr ""
 
-#. Type checking
-#: src/expr.c:479 src/fn-sheet.c:25 src/fn-sheet.c:59
+#: src/expr.c:479 src/fn-sheet.c:38 src/fn-sheet.c:83
 msgid "Invalid number of arguments"
 msgstr ""
 
@@ -511,7 +521,7 @@ msgstr ""
 msgid "Type error"
 msgstr ""
 
-#: src/expr.c:765 src/expr.c:927 src/fn-misc.c:40 src/fn-misc.c:67
+#: src/expr.c:765 src/expr.c:927 src/fn-misc.c:34
 msgid "Type mismatch"
 msgstr ""
 
@@ -589,8 +599,8 @@ msgid ""
 "@DESCRIPTION=Converts a serial number to an hour.  The hour is returned as "
 "an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.)\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string@SEEALSO=MINUTE, NOW, TIME, "
-"SECOND"
+"for you, so you can enter a date as a string\n"
+"@SEEALSO=MINUTE, NOW, TIME, SECOND"
 msgstr ""
 
 #: src/fn-date.c:182
@@ -600,7 +610,8 @@ msgid ""
 "@DESCRIPTION=Converts a serial number to a minute.  The minute is returned "
 "as an integer in the range 0 to 59\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string@SEEALSO=HOUR, NOW, TIME, SECOND"
+"for you, so you can enter a date as a string\n"
+"@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
 
 #: src/fn-date.c:197
@@ -610,7 +621,8 @@ msgid ""
 "@DESCRIPTION=Converts a serial number to a second.  The second is returned "
 "as an integer in the range 0 to 59\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string@SEEALSO=HOUR, MINUTE, NOW, TIME"
+"for you, so you can enter a date as a string\n"
+"@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
 
 #: src/fn-date.c:235
@@ -619,7 +631,8 @@ msgid ""
 "@SYNTAX=YEAR (serial_number)\n"
 "@DESCRIPTION=Converts a serial number to a year.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string@SEEALSO=DAY, MONTH, TIME, NOW"
+"for you, so you can enter a date as a string\n"
+"@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
 
 #: src/fn-date.c:249
@@ -628,7 +641,8 @@ msgid ""
 "@SYNTAX=MONTH (serial_number)\n"
 "@DESCRIPTION=Converts a serial number to a month.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string@SEEALSO=DAY, TIME, NOW, YEAR"
+"for you, so you can enter a date as a string\n"
+"@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
 
 #: src/fn-date.c:263
@@ -637,7 +651,8 @@ msgid ""
 "@SYNTAX=DAY (serial_number)\n"
 "@DESCRIPTION=Converts a serial number to a day.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
-"for you, so you can enter a date as a string@SEEALSO=MONTH, TIME, NOW, YEAR"
+"for you, so you can enter a date as a string\n"
+"@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 
 #: src/fn-math.c:27
@@ -1033,7 +1048,69 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-string.c:96
+#: src/fn-misc.c:18
+msgid ""
+"@FUNCTION=CLEAN\n"
+"@SYNTAX=CLEAN(string)\n"
+"@DESCRIPTION=Cleans the string from any non-printable characters.\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-sheet.c:17
+msgid ""
+"@FUNCTION=IF\n"
+"@SYNTAX=IF(condition,if-true,if-false)\n"
+"@DESCRIPTION=Use the IF statement to evaluate conditionally other "
+"expressions IF evaluates @condition.  If @condition returns a non-zero value "
+"the result of the IF expression is the @if-true expression, otherwise IF "
+"evaluates to the value of @if-false\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-sheet.c:64
+msgid ""
+"@FUNCTION=SELECTION\n"
+"@SYNTAX=SELECTION(x)\n"
+"@DESCRIPTION=The SELECTION function returns a list with the values in the "
+"current mouse cursor. This is usually used to implement on-the-flight "
+"computation of values\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-string.c:17
+msgid ""
+"@FUNCTION=CHAR\n"
+"@SYNTAX=CHAR(x)\n"
+"@DESCRIPTION=Returns the ascii character reprensented by the number x.\n"
+"@SEEALSO=CODE"
+msgstr ""
+
+#: src/fn-string.c:39
+msgid ""
+"@FUNCTION=CODE\n"
+"@SYNTAX=CODE(char)\n"
+"@DESCRIPTION=Returns the ASCII number for the character char.\n"
+"@SEEALSO=CHAR"
+msgstr ""
+
+#: src/fn-string.c:61
+msgid ""
+"@FUNCTION=EXACT\n"
+"@SYNTAX=EXACT(string1, string2)\n"
+"@DESCRIPTION=Returns true if string1 is exactly equal to string2 (this "
+"routine is case sensitive.\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-string.c:83
+msgid ""
+"@FUNCTION=LEN\n"
+"@SYNTAX=LEN(string)\n"
+"@DESCRIPTION=Returns the length in characters of the string @string.\n"
+"@SEEALSO=CHAR, CODE"
+msgstr ""
+
+#: src/fn-string.c:140
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -1042,13 +1119,38 @@ msgid ""
 "@SEEALSO=MID, RIGHT"
 msgstr ""
 
-#: src/fn-string.c:153
+#: src/fn-string.c:176
+msgid ""
+"@FUNCTION=LOWER\n"
+"@SYNTAX=LOWER(text)\n"
+"@DESCRIPTION=Returns a lower-case version of the string in @text\n"
+"@SEEALSO=UPPER"
+msgstr ""
+
+#: src/fn-string.c:207
+msgid ""
+"@FUNCTION=MID\n"
+"@SYNTAX=MID(string, position, length)\n"
+"@DESCRIPTION=Returns a substring from @string starting at @position for "
+"@lenght characters.\n"
+"@SEEALSO=LEFT, RIGHT"
+msgstr ""
+
+#: src/fn-string.c:255
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
 "@DESCRIPTION=Returns the rightmost num_chars characters or the right "
 "character if num_chars is not specified\n"
 "@SEEALSO=MID, LEFT"
+msgstr ""
+
+#: src/fn-string.c:295
+msgid ""
+"@FUNCTION=UPPER\n"
+"@SYNTAX=UPPER(text)\n"
+"@DESCRIPTION=Returns a upper-case version of the string in @text\n"
+"@SEEALSO=LOWER"
 msgstr ""
 
 #: src/format.c:403
@@ -1248,10 +1350,12 @@ msgid "[h]:mm:ss"
 msgstr ""
 
 #: src/formats.c:74
+#, c-format
 msgid "0%"
 msgstr ""
 
 #: src/formats.c:75
+#, c-format
 msgid "0.00%"
 msgstr ""
 
@@ -1288,22 +1392,27 @@ msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr ""
 
 #: src/gnumeric-sheet.c:887
+#, c-format
 msgid "75%"
 msgstr ""
 
 #: src/gnumeric-sheet.c:890
+#, c-format
 msgid "50%"
 msgstr ""
 
 #: src/gnumeric-sheet.c:893
+#, c-format
 msgid "25%"
 msgstr ""
 
 #: src/gnumeric-sheet.c:896
+#, c-format
 msgid "12%"
 msgstr ""
 
 #: src/gnumeric-sheet.c:899
+#, c-format
 msgid "6%"
 msgstr ""
 
@@ -1332,7 +1441,7 @@ msgstr ""
 msgid "Notice"
 msgstr ""
 
-#: src/item-cursor.c:554 src/item-grid.c:522 src/workbook.c:836
+#: src/item-cursor.c:554 src/item-grid.c:523 src/workbook.c:837
 msgid "Copy"
 msgstr ""
 
@@ -1364,19 +1473,19 @@ msgstr ""
 msgid "Shift cells right and move"
 msgstr ""
 
-#: src/item-grid.c:521 src/workbook.c:833
+#: src/item-grid.c:522 src/workbook.c:834
 msgid "Cut"
 msgstr ""
 
-#: src/item-grid.c:523 src/sheet.c:2428 src/workbook.c:839
+#: src/item-grid.c:524 src/sheet.c:2428 src/workbook.c:840
 msgid "Paste"
 msgstr ""
 
-#: src/item-grid.c:528
+#: src/item-grid.c:529
 msgid "Erase content"
 msgstr ""
 
-#: src/item-grid.c:530
+#: src/item-grid.c:531
 msgid "Cell format"
 msgstr ""
 
@@ -1433,10 +1542,12 @@ msgid "Plugin is still in use.\n"
 msgstr ""
 
 #: src/sheet-view.c:336 src/sheet-view.c:410
+#, c-format
 msgid "Row: %d"
 msgstr ""
 
 #: src/sheet-view.c:343 src/sheet-view.c:382
+#, c-format
 msgid "Column: %s"
 msgstr ""
 
@@ -1445,6 +1556,7 @@ msgid "Warning"
 msgstr ""
 
 #: src/workbook.c:290
+#, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr ""
 
@@ -1648,163 +1760,164 @@ msgstr ""
 msgid "_Row"
 msgstr ""
 
-#: src/workbook.c:811
+#: src/workbook.c:812
 msgid "_Insert"
 msgstr ""
 
-#: src/workbook.c:812
+#: src/workbook.c:813
 msgid "F_ormat"
 msgstr ""
 
-#: src/workbook.c:821
+#: src/workbook.c:822
 msgid "New"
 msgstr ""
 
-#: src/workbook.c:821
+#: src/workbook.c:822
 msgid "Create a new sheet"
 msgstr ""
 
-#: src/workbook.c:824
+#: src/workbook.c:825
 msgid "Open"
 msgstr ""
 
-#: src/workbook.c:824
+#: src/workbook.c:825
 msgid "Opens an existing workbook"
 msgstr ""
 
-#: src/workbook.c:827
+#: src/workbook.c:828
 msgid "Save"
 msgstr ""
 
-#: src/workbook.c:827
+#: src/workbook.c:828
 msgid "Saves the workbook"
 msgstr ""
 
-#: src/workbook.c:833
+#: src/workbook.c:834
 msgid "Cuts the selection to the clipboard"
 msgstr ""
 
-#: src/workbook.c:836
+#: src/workbook.c:837
 msgid "Copies the selection to the clipboard"
 msgstr ""
 
-#: src/workbook.c:839
+#: src/workbook.c:840
 msgid "Pastes the clipboard"
 msgstr ""
 
-#: src/workbook.c:845
+#: src/workbook.c:846
 msgid "Left align"
 msgstr ""
 
-#: src/workbook.c:845
+#: src/workbook.c:846
 msgid "Sets the cell alignment to the left"
 msgstr ""
 
-#: src/workbook.c:848
+#: src/workbook.c:849
 msgid "Centers the cell contents"
 msgstr ""
 
-#: src/workbook.c:851
+#: src/workbook.c:852
 msgid "Right align"
 msgstr ""
 
-#: src/workbook.c:851
+#: src/workbook.c:852
 msgid "Sets the cell alignment to the right"
 msgstr ""
 
-#: src/workbook.c:856
+#: src/workbook.c:857
 msgid "Bold"
 msgstr ""
 
-#: src/workbook.c:856
+#: src/workbook.c:857
 msgid "Sets the bold attribute on the cell"
 msgstr ""
 
-#: src/workbook.c:859
+#: src/workbook.c:860
 msgid "Italic"
 msgstr ""
 
-#: src/workbook.c:859
+#: src/workbook.c:860
 msgid "Sets the italic attribute on the cell"
 msgstr ""
 
-#: src/workbook.c:865
+#: src/workbook.c:866
 msgid "Line"
 msgstr ""
 
-#: src/workbook.c:865
+#: src/workbook.c:866
 msgid "Creates a line object"
 msgstr ""
 
-#: src/workbook.c:868
+#: src/workbook.c:869
 msgid "Arrow"
 msgstr ""
 
-#: src/workbook.c:868
+#: src/workbook.c:869
 msgid "Creates an arrow object"
 msgstr ""
 
-#: src/workbook.c:871
+#: src/workbook.c:872
 msgid "Rectangle"
 msgstr ""
 
-#: src/workbook.c:871
+#: src/workbook.c:872
 msgid "Creates a rectangle object"
 msgstr ""
 
-#: src/workbook.c:874
+#: src/workbook.c:875
 msgid "Ellipse"
 msgstr ""
 
-#: src/workbook.c:874
+#: src/workbook.c:875
 msgid "Creates an ellipse object"
 msgstr ""
 
-#: src/workbook.c:953
+#: src/workbook.c:954
 msgid "You should introduce a valid cell name"
 msgstr ""
 
-#: src/workbook.c:959
+#: src/workbook.c:960
 msgid "Column out of range"
 msgstr ""
 
-#: src/workbook.c:964
+#: src/workbook.c:965
 msgid "Row number out of range"
 msgstr ""
 
-#: src/workbook.c:1070
+#: src/workbook.c:1071
 msgid "Sum"
 msgstr ""
 
-#: src/workbook.c:1071
+#: src/workbook.c:1072
 msgid "Min"
 msgstr ""
 
-#: src/workbook.c:1072
+#: src/workbook.c:1073
 msgid "Max"
 msgstr ""
 
-#: src/workbook.c:1073
+#: src/workbook.c:1074
 msgid "Average"
 msgstr ""
 
-#: src/workbook.c:1074
+#: src/workbook.c:1075
 msgid "Count"
 msgstr ""
 
-#: src/workbook.c:1258
+#: src/workbook.c:1259
 msgid "Untitled.gnumeric"
 msgstr ""
 
-#: src/workbook.c:1339
+#: src/workbook.c:1340
 msgid "Zoom out"
 msgstr ""
 
-#: src/workbook.c:1346
+#: src/workbook.c:1347
 msgid "Zoom in"
 msgstr ""
 
-#: src/workbook.c:1477 src/workbook.c:1498
+#: src/workbook.c:1478 src/workbook.c:1499
+#, c-format
 msgid "Sheet %d"
 msgstr ""
 
