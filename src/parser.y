@@ -917,18 +917,9 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 #ifndef KEEP_DEALLOCATION_STACK_BETWEEN_CALLS
 	deallocate_uninit ();
 #endif
-	/*
-	 * If an error has occured we ALWAYS return NULL.
-	 * In some cases the expression tree may have been partially
-	 * built-up before an error occurs. Therefore the pstate.result
-	 * (which is resulting ExprTree) must be freed in case it's non-null
-	 * and an error has occured.
-	 */
-	if (pstate.error->message != NULL) {
-		if (pstate.result)
-			expr_tree_unref (pstate.result);
 
-		return NULL;
-	} else
-		return pstate.result;
+	if (pstate.error->message && pstate.result)
+		g_warning ("An error occurred and the ExprTree is non-null! This should not happen");
+		
+	return pstate.result;
 }

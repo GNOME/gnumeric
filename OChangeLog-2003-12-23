@@ -1,3 +1,9 @@
+2001-04-30  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/parser.y (gnumeric_expr_parser) : Give a warning
+	when both the resulting ExprTree and error message is non-null.
+	This should never happen.
+
 2001-04-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/parser.y (yylex) : return INVALID_TOKEN rather than EOF when a
