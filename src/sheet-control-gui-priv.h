@@ -25,6 +25,8 @@ struct _SheetControlGUI {
 	GnumericPane	 pane [4];
 	int		 active_panes;
 
+	int grab_stack; /* utility to keep track of grabs in the various canvases */
+
 	/* Scrolling information */
 	GtkWidget	*vs, *hs;	/* Scrollbars */
 	GtkObject	*va, *ha;	/* Adjustments */

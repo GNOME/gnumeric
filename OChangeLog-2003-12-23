@@ -1,3 +1,24 @@
+2001-12-19  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-simple-canvas.c : new simple base to help keep
+	  multiple canvases register grab states with the scg.
+
+	* src/commands.c (cmd_autofill) : check the source range for array
+	  splits too.
+
+2001-12-18  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_read_cell_copy) : only add an expr_ref when
+	  connecting to shared expressions, the parse has already set it to 1.
+	  On expr parse errors for shard expressions set the value to empty
+	  not NULL.  Be pedantic and value_release the empty in the value
+	  case, things may change in the future.
+
+	* src/cell-draw.c (cell_draw) : more protection from missing fonts.
+
+	* bonobo/src/parser.c (gnumeric_parse_error) : fix leak when there is
+	  no ParseError to store the message.
+
 2001-12-18  Jody Goldberg <jody@gnome.org>
 
 	* src/gui-clipboard.c (x_selection_handler) :  tweak the

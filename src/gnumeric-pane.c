@@ -9,6 +9,7 @@
 #include <config.h>
 #include <gnumeric-pane.h>
 #include <gnumeric-canvas.h>
+#include <gnumeric-simple-canvas.h>
 #include <item-bar.h>
 #include <item-cursor.h>
 #include <item-edit.h>
@@ -25,9 +26,10 @@ canvas_bar_realized (GtkWidget *widget, gpointer ignored)
 }
 
 static void
-gnumeric_pane_header_init (GnumericPane *pane, gboolean is_col_header)
+gnumeric_pane_header_init (GnumericPane *pane, SheetControlGUI *scg,
+			   gboolean is_col_header)
 {
-	GnomeCanvas *canvas = GNOME_CANVAS (gnome_canvas_new ());
+	GnomeCanvas *canvas = gnm_simple_canvas_new (scg);
 	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
 	GnomeCanvasItem *item = gnome_canvas_item_new (group,
 		item_bar_get_type (),
@@ -64,7 +66,7 @@ gnumeric_pane_header_init (GnumericPane *pane, gboolean is_col_header)
 
 void
 gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
-		    gboolean headers, int index)
+	       gboolean headers, int index)
 {
 	GnomeCanvasItem	 *item;
 	GnomeCanvasGroup *gcanvas_group;
@@ -92,8 +94,8 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 	pane->cursor.special = NULL;
 
 	if (headers) {
-		gnumeric_pane_header_init (pane, TRUE);
-		gnumeric_pane_header_init (pane, FALSE);
+		gnumeric_pane_header_init (pane, scg, TRUE);
+		gnumeric_pane_header_init (pane, scg, FALSE);
 	} else
 		pane->col.canvas = pane->row.canvas = NULL;
 }
@@ -165,7 +167,7 @@ gnm_pane_colrow_resize_start (GnumericPane *pane,
 	g_return_if_fail (pane->colrow_resize.points == NULL);
 
 	gcanvas = pane->gcanvas;
-	scg = gcanvas->scg;
+	scg = gcanvas->simple.scg;
 	zoom = GNOME_CANVAS (gcanvas)->pixels_per_unit;
 
 	points = pane->colrow_resize.points = gnome_canvas_points_new (2);
@@ -284,7 +286,7 @@ gnm_pane_rangesel_start (GnumericPane *pane, Range const *r)
 	GnomeCanvas *canvas = GNOME_CANVAS (pane->gcanvas);
 	GnomeCanvasItem *tmp;
 	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
-	SheetControl *sc = (SheetControl *) pane->gcanvas->scg;
+	SheetControl *sc = (SheetControl *) pane->gcanvas->simple.scg;
 
 	g_return_if_fail (pane->cursor.rangesel == NULL);
 
@@ -296,7 +298,7 @@ gnm_pane_rangesel_start (GnumericPane *pane, Range const *r)
 
 	tmp = gnome_canvas_item_new (group,
 		item_cursor_get_type (),
-		"SheetControlGUI", pane->gcanvas->scg,
+		"SheetControlGUI", pane->gcanvas->simple.scg,
 		"Style", ITEM_CURSOR_ANTED, NULL);
 	pane->cursor.rangesel = ITEM_CURSOR (tmp);
 	item_cursor_bound_set (pane->cursor.rangesel, r);
@@ -342,7 +344,7 @@ gnm_pane_special_cursor_start (GnumericPane *pane, int style, int button)
 	item = gnome_canvas_item_new (
 		GNOME_CANVAS_GROUP (canvas->root),
 		item_cursor_get_type (),
-		"ItemCursor::SheetControlGUI", pane->gcanvas->scg,
+		"ItemCursor::SheetControlGUI", pane->gcanvas->simple.scg,
 		"ItemCursor::Style", style,
 		"ItemCursor::Button", button,
 		NULL);
@@ -364,7 +366,7 @@ void
 gnm_pane_edit_start (GnumericPane *pane)
 {
 	GnumericCanvas const *gcanvas = pane->gcanvas;
-	Sheet const *sheet = sc_sheet (SHEET_CONTROL (gcanvas->scg));
+	Sheet const *sheet = sc_sheet (SHEET_CONTROL (gcanvas->simple.scg));
 	CellPos const *edit_pos;
 
 	g_return_if_fail (pane->editor == NULL);
@@ -384,7 +386,7 @@ gnm_pane_edit_start (GnumericPane *pane)
 
 		item = gnome_canvas_item_new (GNOME_CANVAS_GROUP (canvas->root),
 			item_edit_get_type (),
-			"ItemEdit::SheetControlGUI",     gcanvas->scg,
+			"ItemEdit::SheetControlGUI",     gcanvas->simple.scg,
 			NULL);
 
 		pane->editor = ITEM_EDIT (item);

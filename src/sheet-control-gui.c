@@ -609,6 +609,7 @@ scg_init (SheetControlGUI *scg)
 	scg->comment.item = NULL;
 	scg->comment.timer = -1;
 
+	scg->grab_stack = 0;
 	scg->new_object = NULL;
 	scg->current_object = NULL;
 	scg->drag_object = NULL;
@@ -628,7 +629,7 @@ gnm_canvas_update_inital_top_left (GnumericCanvas const *gcanvas)
 {
 	/* FIXME : we need SheetView */
 	if (gcanvas->pane->index == 0) {
-		Sheet *sheet = gcanvas->scg->sheet_control.sheet;
+		Sheet *sheet = gcanvas->simple.scg->sheet_control.sheet;
 		sheet->initial_top_left.col = gcanvas->first.col;
 		sheet->initial_top_left.row = gcanvas->first.row;
 	}
@@ -643,7 +644,7 @@ bar_set_left_col (GnumericCanvas *gcanvas, int new_first_col)
 	g_return_val_if_fail (0 <= new_first_col && new_first_col < SHEET_MAX_COLS, 0);
 
 	col_offset = gcanvas->first_offset.col +=
-		scg_colrow_distance_get (gcanvas->scg, TRUE, gcanvas->first.col, new_first_col);
+		scg_colrow_distance_get (gcanvas->simple.scg, TRUE, gcanvas->first.col, new_first_col);
 	gcanvas->first.col = new_first_col;
 
 	/* Scroll the column headers */
@@ -702,7 +703,7 @@ bar_set_top_row (GnumericCanvas *gcanvas, int new_first_row)
 	g_return_val_if_fail (0 <= new_first_row && new_first_row < SHEET_MAX_ROWS, 0);
 
 	row_offset = gcanvas->first_offset.row +=
-		scg_colrow_distance_get (gcanvas->scg, FALSE, gcanvas->first.row, new_first_row);
+		scg_colrow_distance_get (gcanvas->simple.scg, FALSE, gcanvas->first.row, new_first_row);
 	gcanvas->first.row = new_first_row;
 
 	/* Scroll the row headers */
@@ -823,7 +824,7 @@ gnm_canvas_make_cell_visible (GnumericCanvas *gcanvas, int col, int row,
 	g_return_if_fail (col < SHEET_MAX_COLS);
 	g_return_if_fail (row < SHEET_MAX_ROWS);
 
-	sheet = ((SheetControl *) gcanvas->scg)->sheet;
+	sheet = ((SheetControl *) gcanvas->simple.scg)->sheet;
 	canvas = GNOME_CANVAS (gcanvas);
 
 	/* Find the new gcanvas->first.col */
@@ -1722,7 +1723,7 @@ cb_slide_handler (GnumericCanvas *gcanvas, int col, int row, gpointer user)
 {
 	int x, y;
 	gdouble new_x, new_y;
-	SheetControlGUI *scg = gcanvas->scg;
+	SheetControlGUI *scg = gcanvas->simple.scg;
 
 	x = scg_colrow_distance_get (scg, TRUE, gcanvas->first.col, col);
 	x += gcanvas->first_offset.col;
@@ -1746,7 +1747,7 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 {
 	SheetObject *so = sheet_object_view_obj (GTK_OBJECT (so_view));
 	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (ctrl_pt->canvas);
-	SheetControlGUI *scg = gcanvas->scg;
+	SheetControlGUI *scg = gcanvas->simple.scg;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (scg_get_wbcg (scg));
 
 	switch (event->type) {
@@ -1765,7 +1766,7 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 				 scg->object_was_resized);
 		gnm_canvas_slide_stop (gcanvas);
 		scg->drag_object = NULL;
-		gnm_canvas_item_ungrab (ctrl_pt, event->button.time);
+		gnm_simple_canvas_ungrab (ctrl_pt, event->button.time);
 		sheet_object_update_bounds (so, NULL);
 		break;
 
@@ -1775,7 +1776,7 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 		switch (event->button.button) {
 		case 1:
 		case 2: scg->drag_object = so;
-			gnm_canvas_item_grab (ctrl_pt,
+			gnm_simple_canvas_grab (ctrl_pt,
 				GDK_POINTER_MOTION_MASK |
 				GDK_BUTTON_RELEASE_MASK,
 				NULL, event->button.time);
@@ -2000,7 +2001,7 @@ calc_obj_place (GnumericCanvas *gcanvas, int pixel, gboolean is_col,
 	int origin;
 	int colrow;
 	ColRowInfo const *cri;
-	Sheet *sheet = ((SheetControl *) gcanvas->scg)->sheet;
+	Sheet *sheet = ((SheetControl *) gcanvas->simple.scg)->sheet;
 
 	if (is_col) {
 		colrow = gnm_canvas_find_col (gcanvas, pixel, &origin);
@@ -2142,7 +2143,7 @@ cb_sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event,
 			scg->drag_object = so;
 
 			/* grab the acetate */
-			gnm_canvas_item_grab (scg->control_points [8],
+			gnm_simple_canvas_grab (scg->control_points [8],
 				GDK_POINTER_MOTION_MASK |
 				GDK_BUTTON_RELEASE_MASK,
 				NULL, event->button.time);

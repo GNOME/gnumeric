@@ -10,6 +10,7 @@ Jody:
 	* Fix Chema's sneaky cursor grab.
 	* Applix import for v4.41, add it to the mime types.
 	* Inter-Gnumeric pasting support for merges, and shares.
+	* Fix movement of validation styles.
 
 --------------------------------------------------------------------------
 Gnumeric 0.99.0

@@ -7,13 +7,13 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+- format leak in xml cell import
 - name refering to deleted sheet
 - change message generation for undo ins col to avoid g_lib problems
   during translations.
-- Check ref vs link support for validation.
 - ins/del col/row undo with deleted objects (66666)
 
-    1. Select b3:c4.
+-   1. Select b3:c4.
     2. Type "=2" and hit ctrl-shift-enter.
     3. Select c4.
     4. Drag onto c5.
@@ -21,12 +21,17 @@ Release Critical
     left is b4.
     > ** CRITICAL **: file expr.c: line 201 (expr_tree_array_corner): assertion
     > `corner->base.expression->array.y == 0' failed.
+    * Assigned : we were only checking the target range for validity.
 
-    1.  Select b3:c4.
+-   1.  Select b3:c4.
     2. Type "=2" and hit ctrl-shift-enter.
     3. Grab the selected area's edge and drag one column left.
     4. Undo.
     ==> error message.
+
+- Fix help tokenizer
+    : Tino's example of \n\n truncating.
+    : How to support @EXAMPLE
 
 Pending Patches
 ---------------
@@ -36,20 +41,14 @@ Pending Patches
     Yukihiro's IM support
     The dbf patch
 
-Pre 1.0 breakage
+Long term breakage
 ------------------
-- Fix help tokenizer
-    : Tino's example of \n\n truncating.
-    : How to support @EXAMPLE
 
 - Names
     : Fix XL named expr import for sheet local names
       * externsheet for biff7 type=3
       * test for unicode
     : Check scoping changes.
-
-Long term breakage
-------------------
 
 - Add -Wbad-function-cast and deal with it.  Lots of fun here.
 
@@ -69,6 +68,9 @@ Long term breakage
 
 - Data->Filter dialog
     : use expr entry widget.
+
+- The autocalc label should use a more readable format and should not get
+  clipped.
 
 - Missing undo/redo for
     - Add/duplicate sheet.

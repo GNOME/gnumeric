@@ -3491,7 +3491,7 @@ cb_scroll_wheel_support (GtkWidget *ignored, GdkEventButton *button,
 			col = gcanvas->first.col - col;
 		else
 			col = gcanvas->first.col + col;
-		scg_set_left_col (gcanvas->scg, col);
+		scg_set_left_col (gcanvas->simple.scg, col);
 	} else {
 		int row = (gcanvas->last_full.row - gcanvas->first.row) / 4;
 		if (row < 1)
@@ -3500,7 +3500,7 @@ cb_scroll_wheel_support (GtkWidget *ignored, GdkEventButton *button,
 			row = gcanvas->first.row - row;
 		else
 			row = gcanvas->first.row + row;
-		scg_set_top_row (gcanvas->scg, row);
+		scg_set_top_row (gcanvas->simple.scg, row);
 	}
 	return TRUE;
 }

@@ -1,3 +1,7 @@
+2001-12-18  Jody Goldberg <jody@gnome.org>
+
+	* fn-date.c (help_datevalue) : fix embarassing typo.
+
 2001-12-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 0.99.0

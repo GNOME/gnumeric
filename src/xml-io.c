@@ -2790,10 +2790,10 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 				content, &val, &expr, NULL);
 
 			if (val != NULL) {	/* String was a value */
+				value_release (cell->value);
 				cell->value = val;
 				cell->format = value_fmt;
 			} else {		/* String was an expression */
-				expr_tree_ref (expr);
 				cell->base.expression = expr;
 				cell->base.flags |= CELL_HAS_EXPRESSION;
 			}
@@ -2813,7 +2813,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 							  gnumeric_char_start_expr_p (content)));
 					cell->base.flags |= CELL_HAS_EXPRESSION;
 					value_release (cell->value);
-					cell->value = NULL;
+					cell->value = value_new_empty ();
 				}
 				g_ptr_array_add (ctxt->shared_exprs,
 						 cell->base.expression);
@@ -2966,7 +2966,8 @@ xml_cellregion_write (WorkbookControl *wbc, CellRegion *cr, int *size)
 			     range_name (m_range));
 	}
 
-	pp.wb = NULL; /* sneaky way to ensure that sheets are fully qualified */
+	/* NOTE SNEAKY : ensure that sheet names have explicit workbooks */
+	pp.wb = NULL;
 	pp.sheet = cr->origin_sheet;
 
 	/* cells */

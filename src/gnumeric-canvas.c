@@ -44,9 +44,9 @@ static GnomeCanvasClass *gcanvas_parent_class;
 static gboolean
 gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 {
-	SheetControl *sc = (SheetControl *) gcanvas->scg;
+	SheetControl *sc = (SheetControl *) gcanvas->simple.scg;
 	Sheet *sheet = sc->sheet;
-	WorkbookControlGUI *wbcg = gcanvas->scg->wbcg;
+	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
 	gboolean const jump_to_bounds = event->state & GDK_CONTROL_MASK;
 	int state = gnumeric_filter_modifiers (event->state);
 	void (*movefn) (SheetControlGUI *, int n,
@@ -132,33 +132,33 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 	case GDK_KP_Left:
 	case GDK_Left:
 		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
-			scg_set_left_col (gcanvas->scg, gcanvas->first.col - 1);
+			scg_set_left_col (gcanvas->simple.scg, gcanvas->first.col - 1);
 		else
-			(*movefn) (gcanvas->scg, -1, jump_to_bounds, TRUE);
+			(*movefn) (gcanvas->simple.scg, -1, jump_to_bounds, TRUE);
 		break;
 
 	case GDK_KP_Right:
 	case GDK_Right:
 		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
-			scg_set_left_col (gcanvas->scg, gcanvas->first.col + 1);
+			scg_set_left_col (gcanvas->simple.scg, gcanvas->first.col + 1);
 		else
-			(*movefn) (gcanvas->scg, 1, jump_to_bounds, TRUE);
+			(*movefn) (gcanvas->simple.scg, 1, jump_to_bounds, TRUE);
 		break;
 
 	case GDK_KP_Up:
 	case GDK_Up:
 		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
-			scg_set_top_row (gcanvas->scg, gcanvas->first.row - 1);
+			scg_set_top_row (gcanvas->simple.scg, gcanvas->first.row - 1);
 		else
-			(*movefn) (gcanvas->scg, -1, jump_to_bounds, FALSE);
+			(*movefn) (gcanvas->simple.scg, -1, jump_to_bounds, FALSE);
 		break;
 
 	case GDK_KP_Down:
 	case GDK_Down:
 		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
-			scg_set_top_row (gcanvas->scg, gcanvas->first.row + 1);
+			scg_set_top_row (gcanvas->simple.scg, gcanvas->first.row + 1);
 		else
-			(*movefn) (gcanvas->scg, 1, jump_to_bounds, FALSE);
+			(*movefn) (gcanvas->simple.scg, 1, jump_to_bounds, FALSE);
 		break;
 
 	case GDK_KP_Page_Up:
@@ -166,11 +166,11 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 		if ((event->state & GDK_CONTROL_MASK) != 0)
 			gtk_notebook_prev_page (wbcg->notebook);
 		else if ((event->state & GDK_MOD1_MASK) == 0)
-			(*movefn)( gcanvas->scg,
+			(*movefn)( gcanvas->simple.scg,
 				   -(gcanvas->last_visible.row-gcanvas->first.row),
 				   FALSE, FALSE);
 		else
-			(*movefn)(gcanvas->scg,
+			(*movefn)(gcanvas->simple.scg,
 				  -(gcanvas->last_visible.col-gcanvas->first.col),
 				  FALSE, TRUE);
 		break;
@@ -180,11 +180,11 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 		if ((event->state & GDK_CONTROL_MASK) != 0)
 			gtk_notebook_next_page (wbcg->notebook);
 		else if ((event->state & GDK_MOD1_MASK) == 0)
-			(*movefn)(gcanvas->scg,
+			(*movefn)(gcanvas->simple.scg,
 				  gcanvas->last_visible.row-gcanvas->first.row,
 				  FALSE, FALSE);
 		else
-			(*movefn)(gcanvas->scg,
+			(*movefn)(gcanvas->simple.scg,
 				  gcanvas->last_visible.col-gcanvas->first.col,
 				  FALSE, TRUE);
 		break;
@@ -192,13 +192,13 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 	case GDK_KP_Home:
 	case GDK_Home:
 		if (event->state & GDK_MOD5_MASK) { /* Scroll Lock */
-			scg_set_left_col (gcanvas->scg, sheet->edit_pos.col);
-			scg_set_top_row (gcanvas->scg, sheet->edit_pos.row);
+			scg_set_left_col (gcanvas->simple.scg, sheet->edit_pos.col);
+			scg_set_top_row (gcanvas->simple.scg, sheet->edit_pos.row);
 		} else {
 			/* do the ctrl-home jump to A1 in 2 steps */
-			(*movefn)(gcanvas->scg, -SHEET_MAX_COLS, FALSE, TRUE);
+			(*movefn)(gcanvas->simple.scg, -SHEET_MAX_COLS, FALSE, TRUE);
 			if ((event->state & GDK_CONTROL_MASK))
-				(*movefn)(gcanvas->scg, -SHEET_MAX_ROWS, FALSE, FALSE);
+				(*movefn)(gcanvas->simple.scg, -SHEET_MAX_ROWS, FALSE, FALSE);
 		}
 		break;
 
@@ -207,15 +207,15 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 		if (event->state & GDK_MOD5_MASK) { /* Scroll Lock */
 			int new_col = sheet->edit_pos.col - (gcanvas->last_full.col - gcanvas->first.col);
 			int new_row = sheet->edit_pos.row - (gcanvas->last_full.row - gcanvas->first.row);
-			scg_set_left_col (gcanvas->scg, new_col);
-			scg_set_top_row (gcanvas->scg, new_row);
+			scg_set_left_col (gcanvas->simple.scg, new_col);
+			scg_set_top_row (gcanvas->simple.scg, new_row);
 		} else {
 			Range r = sheet_get_extent (sheet, FALSE);
 		
 			/* do the ctrl-end jump to the extent in 2 steps */
-			(*movefn)(gcanvas->scg, r.end.col - sheet->edit_pos.col, FALSE, TRUE);
+			(*movefn)(gcanvas->simple.scg, r.end.col - sheet->edit_pos.col, FALSE, TRUE);
 			if ((event->state & GDK_CONTROL_MASK))
-				(*movefn)(gcanvas->scg, r.end.row - sheet->edit_pos.row, FALSE, FALSE);
+				(*movefn)(gcanvas->simple.scg, r.end.row - sheet->edit_pos.row, FALSE, FALSE);
 		}
 		break;
 
@@ -289,7 +289,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 	case GDK_BackSpace:
 		/* Re-center the view on the active cell */
 		if (!wbcg->editing && (event->state & GDK_CONTROL_MASK) != 0) {
-			scg_make_cell_visible (gcanvas->scg, sheet->edit_pos.col,
+			scg_make_cell_visible (gcanvas->simple.scg, sheet->edit_pos.col,
 					       sheet->edit_pos.row, FALSE, TRUE);
 			break;
 		}
@@ -305,7 +305,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 
 			wbcg_edit_start (wbcg, TRUE, TRUE);
 		}
-		scg_rangesel_stop (gcanvas->scg, FALSE);
+		scg_rangesel_stop (gcanvas->simple.scg, FALSE);
 
 		/* Forward the keystroke to the input line */
 		return gtk_widget_event (GTK_WIDGET (wbcg_get_entry_logical (wbcg)),
@@ -323,7 +323,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 static gboolean
 gnm_canvas_key_mode_object (GnumericCanvas *gcanvas, GdkEventKey *event)
 {
-	SheetControlGUI *scg = gcanvas->scg;
+	SheetControlGUI *scg = gcanvas->simple.scg;
 	int size = (event->state & GDK_CONTROL_MASK) ? 1 : 10;
 
 	switch (event->keyval) {
@@ -346,16 +346,16 @@ gnm_canvas_key_mode_object (GnumericCanvas *gcanvas, GdkEventKey *event)
 		break;
 
 	case GDK_KP_Left: case GDK_Left:
-		scg_object_nudge (gcanvas->scg, -size, 0);
+		scg_object_nudge (gcanvas->simple.scg, -size, 0);
 		return TRUE;
 	case GDK_KP_Right: case GDK_Right:
-		scg_object_nudge (gcanvas->scg,  size, 0);
+		scg_object_nudge (gcanvas->simple.scg,  size, 0);
 		return TRUE;
 	case GDK_KP_Up: case GDK_Up:
-		scg_object_nudge (gcanvas->scg, 0, -size);
+		scg_object_nudge (gcanvas->simple.scg, 0, -size);
 		return TRUE;
 	case GDK_KP_Down: case GDK_Down:
-		scg_object_nudge (gcanvas->scg, 0,  size);
+		scg_object_nudge (gcanvas->simple.scg, 0,  size);
 		return TRUE;
 
 	default:
@@ -368,10 +368,10 @@ static gint
 gnm_canvas_key_press (GtkWidget *widget, GdkEventKey *event)
 {
 	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (widget);
-	SheetControlGUI *scg = gcanvas->scg;
+	SheetControlGUI *scg = gcanvas->simple.scg;
 	gboolean res;
 
-	if (gcanvas->grab_stack > 0)
+	if (scg->grab_stack > 0)
 		return TRUE;
 
 	if (scg->current_object != NULL || scg->new_object != NULL)
@@ -396,9 +396,9 @@ static gint
 gnm_canvas_key_release (GtkWidget *widget, GdkEventKey *event)
 {
 	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (widget);
-	SheetControl *sc = (SheetControl *) gcanvas->scg;
+	SheetControl *sc = (SheetControl *) gcanvas->simple.scg;
 
-	if (gcanvas->grab_stack > 0)
+	if (gcanvas->simple.scg->grab_stack > 0)
 		return TRUE;
 
 	/*
@@ -408,7 +408,7 @@ gnm_canvas_key_release (GtkWidget *widget, GdkEventKey *event)
 	 * is released, or the mouse button is release we need to reset
 	 * to displaying the edit pos.
 	 */
-	if (gcanvas->scg->current_object == NULL &&
+	if (gcanvas->simple.scg->current_object == NULL &&
 	    (event->keyval == GDK_Shift_L || event->keyval == GDK_Shift_R))
 		wb_view_selection_desc (wb_control_view (
 			sc->wbc), TRUE, NULL);
@@ -422,7 +422,7 @@ gnm_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 {
 	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (widget);
 	if (gcanvas->ic)
-		gdk_im_begin (gcanvas->ic, gcanvas->canvas.layout.bin_window);
+		gdk_im_begin (gcanvas->ic, gcanvas->simple.canvas.layout.bin_window);
 	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->focus_in_event)(widget, event);
 }
 
@@ -443,10 +443,10 @@ gnm_canvas_drag_data_get (GtkWidget *widget,
 {
 #if 0
 	BonoboMoniker *moniker;
-	Sheet *sheet = GNUMERIC_CANVAS (widget)->scg->sheet;
+	Sheet *sheet = GNUMERIC_CANVAS (widget)->simple.scg->sheet;
 	Workbook *wb = sheet->workbook;
 	char *s;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (gcanvas->scg->wbcg);
+	WorkbookControl *wbc = WORKBOOK_CONTROL (gcanvas->simple.scg->wbcg);
 
 	if (wb->filename == NULL)
 		workbook_save (wbc, wb);
@@ -482,7 +482,7 @@ gnm_canvas_filenames_dropped (GtkWidget        *widget,
 			      GnumericCanvas    *gcanvas)
 {
 	GList *names, *tmp_list;
-	SheetControl *sc = (SheetControl *) gcanvas->scg;
+	SheetControl *sc = (SheetControl *) gcanvas->simple.scg;
 	WorkbookControl *wbc = sc->wbc;
 
 	names = gnome_uri_list_extract_filenames ((char *)selection_data->data);
@@ -496,7 +496,7 @@ gnm_canvas_filenames_dropped (GtkWidget        *widget,
 			SheetObject *so = sheet_object_container_new_file (
 				sc->sheet->workbook, file_name);
 			if (so != NULL)
-				scg_mode_create_object (gcanvas->scg, so);
+				scg_mode_create_object (gcanvas->simple.scg, so);
 #else
 			gchar *msg;
 
@@ -540,7 +540,7 @@ gnm_canvas_realize (GtkWidget *widget)
 		  supported_style &= ~GDK_IM_PREEDIT_POSITION;
 
 		attr->style = style = gdk_im_decide_style (supported_style);
-		attr->client_window = gcanvas->canvas.layout.bin_window;
+		attr->client_window = gcanvas->simple.canvas.layout.bin_window;
 
 		switch (style & GDK_IM_PREEDIT_MASK)
 		  {
@@ -658,7 +658,7 @@ gnm_canvas_init (GnumericCanvas *gcanvas)
 
 E_MAKE_TYPE (gnumeric_canvas, "GnumericCanvas", GnumericCanvas,
 	     gnm_canvas_class_init, gnm_canvas_init,
-	     GNOME_TYPE_CANVAS);
+	     GNM_SIMPLE_CANVAS_TYPE);
 
 GnumericCanvas *
 gnumeric_canvas_new (SheetControlGUI *scg, GnumericPane *pane)
@@ -673,11 +673,10 @@ gnumeric_canvas_new (SheetControlGUI *scg, GnumericPane *pane)
 
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
 
-	gcanvas = gtk_type_new (GNUMERIC_TYPE_CANVAS);
+	gcanvas = gtk_type_new (GNUMERIC_CANVAS_TYPE);
 
-	gcanvas->scg = scg;
+	gcanvas->simple.scg = scg;
 	gcanvas->pane = pane;
-	gcanvas->grab_stack = 0;
 
 	/* FIXME: figure out some real size for the canvas scrolling region */
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (gcanvas), 0, 0,
@@ -709,7 +708,7 @@ gnumeric_canvas_new (SheetControlGUI *scg, GnumericPane *pane)
 int
 gnm_canvas_find_col (GnumericCanvas *gcanvas, int x, int *col_origin)
 {
-	Sheet *sheet = ((SheetControl *) gcanvas->scg)->sheet;
+	Sheet *sheet = ((SheetControl *) gcanvas->simple.scg)->sheet;
 	int col   = gcanvas->first.col;
 	int pixel = gcanvas->first_offset.col;
 
@@ -753,7 +752,7 @@ gnm_canvas_find_col (GnumericCanvas *gcanvas, int x, int *col_origin)
 int
 gnm_canvas_find_row (GnumericCanvas *gcanvas, int y, int *row_origin)
 {
-	Sheet *sheet = ((SheetControl *) gcanvas->scg)->sheet;
+	Sheet *sheet = ((SheetControl *) gcanvas->simple.scg)->sheet;
 	int row   = gcanvas->first.row;
 	int pixel = gcanvas->first_offset.row;
 
@@ -803,7 +802,7 @@ void
 gnm_canvas_compute_visible_region (GnumericCanvas *gcanvas,
 				   gboolean const full_recompute)
 {
-	SheetControlGUI const * const scg = gcanvas->scg;
+	SheetControlGUI const * const scg = gcanvas->simple.scg;
 	Sheet const * const sheet = ((SheetControl *) scg)->sheet;
 	GnomeCanvas   *canvas = GNOME_CANVAS (gcanvas);
 	int pixels, col, row, width, height;
@@ -911,7 +910,7 @@ gnm_canvas_redraw_region (GnumericCanvas *gcanvas,
 
 	g_return_if_fail (IS_GNUMERIC_CANVAS (gcanvas));
 
-	scg = gcanvas->scg;
+	scg = gcanvas->simple.scg;
 	canvas = GNOME_CANVAS (gcanvas);
 
 	if ((end_col < gcanvas->first.col) ||
@@ -1003,9 +1002,9 @@ gcanvas_sliding_callback (gpointer data)
 {
 	GnumericCanvas *gcanvas = data;
 	int const pane_index = gcanvas->pane->index;
-	GnumericCanvas *gcanvas0 = scg_pane (gcanvas->scg, 0);
-	GnumericCanvas *gcanvas1 = scg_pane (gcanvas->scg, 1);
-	GnumericCanvas *gcanvas3 = scg_pane (gcanvas->scg, 3);
+	GnumericCanvas *gcanvas0 = scg_pane (gcanvas->simple.scg, 0);
+	GnumericCanvas *gcanvas1 = scg_pane (gcanvas->simple.scg, 1);
+	GnumericCanvas *gcanvas3 = scg_pane (gcanvas->simple.scg, 3);
 	gboolean slide_x = FALSE, slide_y = FALSE;
 	int col = -1, row = -1;
 
@@ -1129,7 +1128,7 @@ gcanvas_sliding_callback (gpointer data)
 
 	if (gcanvas->slide_handler == NULL ||
 	    (*gcanvas->slide_handler) (gcanvas, col, row, gcanvas->slide_data))
-		scg_make_cell_visible (gcanvas->scg, col, row, FALSE, TRUE);
+		scg_make_cell_visible (gcanvas->simple.scg, col, row, FALSE, TRUE);
 
 	if (slide_x || slide_y) {
 		if (gcanvas->sliding == -1)
@@ -1179,9 +1178,9 @@ gnm_canvas_handle_motion (GnumericCanvas *gcanvas,
 	width = GTK_WIDGET (gcanvas)->allocation.width;
 	height = GTK_WIDGET (gcanvas)->allocation.height;
 
-	gcanvas0 = scg_pane (gcanvas->scg, 0);
-	gcanvas1 = scg_pane (gcanvas->scg, 1);
-	gcanvas3 = scg_pane (gcanvas->scg, 3);
+	gcanvas0 = scg_pane (gcanvas->simple.scg, 0);
+	gcanvas1 = scg_pane (gcanvas->simple.scg, 1);
+	gcanvas3 = scg_pane (gcanvas->simple.scg, 3);
 
 	if (slide_flags & GNM_SLIDE_X) {
 		if (x < left)
@@ -1284,9 +1283,9 @@ gnm_canvas_slide_init (GnumericCanvas *gcanvas)
 
 	g_return_if_fail (IS_GNUMERIC_CANVAS (gcanvas));
 
-	gcanvas0 = scg_pane (gcanvas->scg, 0);
-	gcanvas1 = scg_pane (gcanvas->scg, 1);
-	gcanvas3 = scg_pane (gcanvas->scg, 3);
+	gcanvas0 = scg_pane (gcanvas->simple.scg, 0);
+	gcanvas1 = scg_pane (gcanvas->simple.scg, 1);
+	gcanvas3 = scg_pane (gcanvas->simple.scg, 3);
 
 	gcanvas->sliding_adjacent_h = (gcanvas1 != NULL)
 		? (gcanvas1->last_full.col == (gcanvas0->first.col - 1))
@@ -1294,23 +1293,4 @@ gnm_canvas_slide_init (GnumericCanvas *gcanvas)
 	gcanvas->sliding_adjacent_v = (gcanvas3 != NULL)
 		? (gcanvas3->last_full.row == (gcanvas0->first.row - 1))
 		: FALSE;
-}
-
-int
-gnm_canvas_item_grab (GnomeCanvasItem *item, unsigned int event_mask,
-		      GdkCursor *cursor, guint32 etime)
-{
-	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (item->canvas);
-	g_return_val_if_fail (gcanvas != NULL, FALSE);
-	gcanvas->grab_stack++;
-	return gnome_canvas_item_grab (item, event_mask, cursor, etime);
-}
-
-void
-gnm_canvas_item_ungrab (GnomeCanvasItem *item, guint32 etime)
-{
-	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (item->canvas);
-	g_return_if_fail (gcanvas != NULL);
-	gcanvas->grab_stack--;
-	gnome_canvas_item_ungrab (item, etime);
 }

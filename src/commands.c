@@ -2723,7 +2723,7 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 {
 	GtkObject *obj;
 	CmdAutofill *me;
-	Range r;
+	Range target, src;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
@@ -2732,29 +2732,40 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 		return FALSE;
 
 	if (inverse_autofill) {
-		if (end_col != base_col + w - 1)
-			range_init (&r, base_col, base_row,
+		if (end_col != base_col + w - 1) {
+			range_init (&target, base_col, base_row,
 				    end_col - w, end_row);
-		else
-			range_init (&r, base_col, base_row,
+			range_init (&src, end_col - w + 1, base_row,
+				    end_col, end_row);
+		} else {
+			range_init (&target, base_col, base_row,
 				    end_col, end_row - h);
+			range_init (&src, base_col, end_row - h + 1,
+				    end_col, end_row);
+		}
 	} else {
-		if (end_col != base_col + w - 1)
-			range_init (&r, base_col + w, base_row,
+		if (end_col != base_col + w - 1) {
+			range_init (&target, base_col + w, base_row,
 				    end_col, end_row);
-		else
-			range_init (&r, base_col, base_row + h,
+			range_init (&src, base_col, base_row,
+				    base_col + w - 1, end_row);
+		} else {
+			range_init (&target, base_col, base_row + h,
 				    end_col, end_row);
+			range_init (&src, base_col, base_row,
+				    end_col, base_row + h - 1);
+		}
 	}
 
 	/* We don't support clearing regions, when a user uses the autofill
 	 * cursor to 'shrink' a selection
 	 */
-	if (r.start.col > r.end.col || r.start.row > r.end.row)
+	if (target.start.col > target.end.col || target.start.row > target.end.row)
 		return TRUE;
 
-	/* Check arrays or merged regions */
-	if (sheet_range_splits_region (sheet, &r, NULL, wbc, _("Autofill")))
+	/* Check arrays or merged regions in src or target regions */
+	if (sheet_range_splits_region (sheet, &target, NULL, wbc, _("Autofill")) ||
+	    sheet_range_splits_region (sheet, &src, NULL, wbc, _("Autofill")))
 		return TRUE;
 
 	obj = gtk_type_new (CMD_AUTOFILL_TYPE);
@@ -2764,7 +2775,7 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	me->content = NULL;
 	me->dst.sheet = sheet;
 	me->dst.paste_flags = PASTE_CONTENT | PASTE_FORMATS;
-	me->dst.range = r;
+	me->dst.range = target;
 
 	me->base_col = base_col;
 	me->base_row = base_row,

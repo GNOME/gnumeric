@@ -92,7 +92,7 @@ static char *help_datevalue = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "DATEVALUE(\"1/1/1999\") equals 36160. "
+	   "DATEVALUE(\"1/1/1999\") equals 36161."
 	   "\n"
 	   "@SEEALSO=DATE")
 };

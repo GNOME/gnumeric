@@ -90,6 +90,8 @@ GNUMERIC_BASE =					\
 	global-gnome-font.h			\
 	goal-seek.c				\
 	goal-seek.h				\
+	gnumeric-simple-canvas.c		\
+	gnumeric-simple-canvas.h		\
 	gnumeric-canvas.c			\
 	gnumeric-canvas.h			\
 	gnumeric-pane.c				\

@@ -264,8 +264,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 {
 	GnomeCanvas *canvas = item->canvas;
 	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (canvas);
-	Sheet const *sheet = ((SheetControl *) gcanvas->scg)->sheet;
-	Cell const * const edit_cell = gcanvas->scg->wbcg->editing_cell;
+	Sheet const *sheet = ((SheetControl *) gcanvas->simple.scg)->sheet;
+	Cell const * const edit_cell = gcanvas->simple.scg->wbcg->editing_cell;
 	ItemGrid *ig = ITEM_GRID (item);
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 
@@ -437,7 +437,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 					int last  = r->end.col;
 
 					x += scg_colrow_distance_get (
-						gcanvas->scg, TRUE, col, last+1);
+						gcanvas->simple.scg, TRUE, col, last+1);
 					col = last;
 
 					if (first < start_col) {
@@ -526,12 +526,12 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				 */
 				if (start_span_col != cell->pos.col)
 					center_offset += scg_colrow_distance_get (
-						gcanvas->scg, TRUE,
+						gcanvas->simple.scg, TRUE,
 						start_span_col, cell->pos.col);
 
 				if (start_span_col != col) {
 					int offset = scg_colrow_distance_get (
-						gcanvas->scg, TRUE,
+						gcanvas->simple.scg, TRUE,
 						start_span_col, col);
 					real_x -= offset;
 					tmp_width += offset;
@@ -539,7 +539,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				}
 				if (end_span_col != col) {
 					tmp_width += scg_colrow_distance_get (
-						gcanvas->scg, TRUE,
+						gcanvas->simple.scg, TRUE,
 						col+1, end_span_col + 1);
 				}
 
@@ -748,7 +748,7 @@ ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 
 	ig->selecting = ITEM_GRID_SELECTING_OBJECT_CREATION;
 	gnm_canvas_slide_init (gcanvas);
-	gnm_canvas_item_grab (item,
+	gnm_simple_canvas_grab (item,
 		GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
 		NULL, event->time);
 
@@ -797,7 +797,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 		else
 			scg_rangesel_bound (scg, col, row, col, row);
 		gnm_canvas_slide_init (gcanvas);
-		gnm_canvas_item_grab (item,
+		gnm_simple_canvas_grab (item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
 			NULL, event->time);
 		return 1;
@@ -810,7 +810,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 		scg_rangesel_start (scg, col, row, col, row);
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		gnm_canvas_slide_init (gcanvas);
-		gnm_canvas_item_grab (item,
+		gnm_simple_canvas_grab (item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
 			NULL, event->time);
 		return 1;
@@ -840,7 +840,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	sheet_update (sheet);
 
 	gnm_canvas_slide_init (gcanvas);
-	gnm_canvas_item_grab (item,
+	gnm_simple_canvas_grab (item,
 		GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
 		NULL, event->time);
 	return 1;
@@ -873,14 +873,14 @@ drag_start (GtkWidget *widget, GdkEvent *event, Sheet *sheet)
 static gboolean
 cb_extend_cell_range (GnumericCanvas *gcanvas, int col, int row, gpointer ignored)
 {
-	sheet_selection_extend_to (((SheetControl *) gcanvas->scg)->sheet, col, row);
+	sheet_selection_extend_to (((SheetControl *) gcanvas->simple.scg)->sheet, col, row);
 	return TRUE;
 }
 
 static gboolean
 cb_extend_expr_range (GnumericCanvas *gcanvas, int col, int row, gpointer ignored)
 {
-	scg_rangesel_extend_to (gcanvas->scg, col, row);
+	scg_rangesel_extend_to (gcanvas->simple.scg, col, row);
 	return TRUE;
 }
 
@@ -889,7 +889,7 @@ cb_extend_object_creation (GnumericCanvas *gcanvas, int col, int row, gpointer i
 {
 	int x, y;
 	gdouble new_x, new_y;
-	SheetControlGUI *scg = gcanvas->scg;
+	SheetControlGUI *scg = gcanvas->simple.scg;
 
 	x = scg_colrow_distance_get (scg, TRUE, gcanvas->first.col, col);
 	x += gcanvas->first_offset.col;
@@ -943,7 +943,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		};
 
 		ig->selecting = ITEM_GRID_NO_SELECTION;
-		gnm_canvas_item_ungrab (item, event->button.time);
+		gnm_simple_canvas_ungrab (item, event->button.time);
 		return TRUE;
 
 	case GDK_MOTION_NOTIFY: {
@@ -1005,7 +1005,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			g_warning ("This is here just for demo purposes");
 			return TRUE;
 
-		case 3: scg_context_menu (ig->scg,&event->button, FALSE, FALSE);
+		case 3: scg_context_menu (ig->scg, &event->button, FALSE, FALSE);
 			return TRUE;
 
 		default :

@@ -96,7 +96,7 @@ ib_fonts_unref (ItemBar *ib)
 int
 item_bar_calc_size (ItemBar *ib)
 {
-	Sheet const *sheet = ((SheetControl *) ib->gcanvas->scg)->sheet;
+	Sheet const *sheet = ((SheetControl *) ib->gcanvas->simple.scg)->sheet;
 	double const zoom_factor = sheet->last_zoom_factor_used;
 	double const res  = application_dpi_to_pixels ();
 
@@ -277,7 +277,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 {
 	ItemBar const         *ib = ITEM_BAR (item);
 	GnumericCanvas const   *gcanvas = ib->gcanvas;
-	SheetControlGUI const *scg    = gcanvas->scg;
+	SheetControlGUI const *scg    = gcanvas->simple.scg;
 	Sheet const           *sheet  = ((SheetControl *) scg)->sheet;
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item)->canvas);
 	ColRowInfo const *cri;
@@ -535,7 +535,7 @@ item_bar_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 static ColRowInfo const *
 is_pointer_on_division (ItemBar const *ib, int pos, int *the_total, int *the_element)
 {
-	Sheet *sheet = sc_sheet (SHEET_CONTROL (ib->gcanvas->scg));
+	Sheet *sheet = sc_sheet (SHEET_CONTROL (ib->gcanvas->simple.scg));
 	ColRowInfo const *cri;
 	int i, total = 0;
 
@@ -559,8 +559,8 @@ is_pointer_on_division (ItemBar const *ib, int pos, int *the_total, int *the_ele
 		if (cri->visible) {
 			total += cri->size_pixels;
 
-			if (!wbcg_edit_has_guru (ib->gcanvas->scg->wbcg) &&
-			    !wbcg_is_editing (ib->gcanvas->scg->wbcg) &&
+			if (!wbcg_edit_has_guru (ib->gcanvas->simple.scg->wbcg) &&
+			    !wbcg_is_editing (ib->gcanvas->simple.scg->wbcg) &&
 			    (total - 4 < pos) && (pos < total + 4)) {
 				if (the_total)
 					*the_total = total;
@@ -629,12 +629,12 @@ static void
 item_bar_resize_stop (ItemBar *ib, int new_size)
 {
 	if (new_size != 0 && ib->colrow_being_resized >= 0)
-		scg_colrow_size_set (ib->gcanvas->scg,
+		scg_colrow_size_set (ib->gcanvas->simple.scg,
 				     ib->is_col_header,
 				     ib->colrow_being_resized, new_size);
 	ib->colrow_being_resized = -1;
 	ib->has_resize_guides = FALSE;
-	scg_colrow_resize_stop (ib->gcanvas->scg);
+	scg_colrow_resize_stop (ib->gcanvas->simple.scg);
 
 	if (ib->tip != NULL) {
 		gtk_widget_destroy (gtk_widget_get_toplevel (ib->tip));
@@ -648,7 +648,7 @@ cb_extend_selection (GnumericCanvas *gcanvas,
 {
 	ItemBar * const ib = user_data;
 	gboolean const is_cols = ib->is_col_header;
-	scg_colrow_select (gcanvas->scg,
+	scg_colrow_select (gcanvas->simple.scg,
 			   is_cols, is_cols ? col : row, GDK_SHIFT_MASK);
 	return TRUE;
 }
@@ -656,7 +656,7 @@ cb_extend_selection (GnumericCanvas *gcanvas,
 static gint
 outline_button_press (ItemBar const *ib, int element, int pixel)
 {
-	SheetControl *sc = (SheetControl *) ib->gcanvas->scg;
+	SheetControl *sc = (SheetControl *) ib->gcanvas->simple.scg;
 	Sheet * const sheet = sc->sheet;
 	int inc, step;
 
@@ -683,8 +683,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	GnomeCanvas	* const canvas = item->canvas;
 	ItemBar		* const ib = ITEM_BAR (item);
 	GnumericCanvas	* const gcanvas = ib->gcanvas;
-	SheetControlGUI	* const scg = gcanvas->scg;
-	SheetControl	* const sc = (SheetControl *) gcanvas->scg;
+	SheetControlGUI	* const scg = gcanvas->simple.scg;
+	SheetControl	* const sc = (SheetControl *) gcanvas->simple.scg;
 	Sheet		* const sheet = sc->sheet;
 	WorkbookControlGUI * const wbcg = scg->wbcg;
 	gboolean const is_cols = ib->is_col_header;
@@ -708,11 +708,11 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			int new_size;
 			if (!ib->has_resize_guides) {
 				ib->has_resize_guides = TRUE;
-				scg_colrow_resize_start	(ib->gcanvas->scg,
+				scg_colrow_resize_start	(ib->gcanvas->simple.scg,
 							 ib->is_col_header,
 							 ib->colrow_being_resized);
 
-				gnm_canvas_item_grab (item,
+				gnm_simple_canvas_grab (item,
 					GDK_POINTER_MOTION_MASK |
 					GDK_BUTTON_RELEASE_MASK,
 					ib->change_cursor,
@@ -816,7 +816,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 
 			ib->start_selection = element;
 			gnm_canvas_slide_init (gcanvas);
-			gnm_canvas_item_grab (item,
+			gnm_simple_canvas_grab (item,
 				GDK_POINTER_MOTION_MASK |
 				GDK_BUTTON_RELEASE_MASK,
 				ib->normal_cursor,
@@ -864,7 +864,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 				item_bar_resize_stop (ib, 0);
 		}
 		if (needs_ungrab)
-			gnm_canvas_item_ungrab (item, e->button.time);
+			gnm_simple_canvas_ungrab (item, e->button.time);
 		break;
 	}
 

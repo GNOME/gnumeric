@@ -218,6 +218,8 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 	font_height = style_font_get_height (style_font);
 	valign = mstyle_get_align_v (mstyle);
 
+	g_return_if_fail (font != NULL);
+
 	switch (valign) {
 	default:
 		g_warning ("Unhandled cell vertical alignment\n");
