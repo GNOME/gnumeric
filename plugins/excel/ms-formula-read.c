@@ -969,10 +969,10 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			}
 #endif
 			array_data += 3;
-			for (lpy=0;lpy<rows;lpy++) {
-				for (lpx=0;lpx<cols;lpx++) {
-					Value *set_val=0;
-					guint8 opts=MS_OLE_GET_GUINT8(array_data);
+			for (lpy = 0; lpy < rows; lpy++) {
+				for (lpx = 0; lpx < cols; lpx++) {
+					Value *set_val = 0;
+					guint8 opts = MS_OLE_GET_GUINT8(array_data);
 #ifndef NO_DEBUG_EXCEL
 					if (ms_excel_formula_debug > 0) {
 						printf ("Opts 0x%x\n", opts);

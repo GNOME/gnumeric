@@ -124,7 +124,7 @@ mstyle_hash (gconstpointer st)
 {
 	const MStyle *mstyle = (const MStyle *)st;
 	int     i;
-	guint32 hash;
+	guint32 hash = 0;
 
 	for (i = MSTYLE_ELEMENT_CONFLICT + 1; i < MSTYLE_ELEMENT_MAX; i++) {
 		const MStyleElement *e = &mstyle->elements [i];

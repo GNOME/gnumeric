@@ -15,6 +15,7 @@
 #include "cursors.h"
 #include "number-match.h"
 #include "main.h"
+#include "func.h"
 #include "application.h"
 #include "global-gnome-font.h"
 
