@@ -23,7 +23,7 @@ module GNOME {
 
 	enum VectorType {
 	    VECTOR_TYPE_SCALAR,
-	    VECTOR_TYPE_DATE,
+	    VECTOR_TYPE_DATE,	/* unused */
 	    VECTOR_TYPE_STRING
 	};
 
@@ -33,13 +33,6 @@ module GNOME {
 	};
 	module Scalar {
 	    typedef sequence<double> Seq;
-	    interface Vector : VectorSelection {
-		oneway void changed (in short start, in Seq new_values);
-		void value (out Seq values);
-	    };
-	};
-	module Date {
-	    typedef sequence<long> Seq;
 	    interface Vector : VectorSelection {
 		oneway void changed (in short start, in Seq new_values);
 		void value (out Seq values);

@@ -966,7 +966,8 @@ radio_button_eval (Dependent *dep)
 	pos.eval.row = pos.eval.col = 0;
 	v = eval_expr (&pos, dep->expression, EVAL_STRICT);
 	if (!err) {
-		SheetWidgetRadioButton *swrb = DEP_TO_RADIO_BUTTON (dep);
+		/* FIXME : finish this when I have a better idea of a group */
+		/* SheetWidgetRadioButton *swrb = DEP_TO_RADIO_BUTTON (dep); */
 	}
 }
 

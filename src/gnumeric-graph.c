@@ -85,7 +85,6 @@ struct _GnmGraphVector {
 	CORBA_Object    corba_obj;	/* local CORBA object */
 	union {
 		POA_GNOME_Gnumeric_Scalar_Vector	scalar;
-		POA_GNOME_Gnumeric_Date_Vector		date;
 		POA_GNOME_Gnumeric_String_Vector	string;
 		PortableServer_POA			any;
 	} servant;
@@ -93,7 +92,6 @@ struct _GnmGraphVector {
 	/* The remote server monitoring this vector */
 	union {
 		GNOME_Gnumeric_Scalar_Vector		scalar;
-		GNOME_Gnumeric_Date_Vector		date;
 		GNOME_Gnumeric_String_Vector		string;
 		CORBA_Object				any;
 	} subscriber;
@@ -154,33 +152,7 @@ gnm_graph_vector_seq_scalar (GnmGraphVector *vector)
 
 	return values;
 }
-static GNOME_Gnumeric_Date_Seq *
-gnm_graph_vector_seq_date (GnmGraphVector *vector)
-{
-	int i, len;
-	EvalPos pos;
-	GNOME_Gnumeric_Date_Seq *values;
-	Value *v = vector->value;
 
-	len = vector->is_column
-		? value_area_get_height (&pos, v)
-		: value_area_get_width (&pos, v);
-	values = GNOME_Gnumeric_Date_Seq__alloc ();
-	values->_length = values->_maximum = len;
-	values->_buffer = CORBA_sequence_CORBA_long_allocbuf (len);
-	values->_release = CORBA_TRUE;
-
-	/* FIXME : This is dog slow */
-	for (i = 0; i < len ; ++i) {
-		Value const *elem = vector->is_column
-			? value_area_get_x_y (&pos, v, 0, i)
-			: value_area_get_x_y (&pos, v, i, 0);
-		/* TODO : do we want to handle ignoring blanks at this level ? */
-		values->_buffer [i] = elem ? value_get_as_int (elem) : 0;
-	}
-
-	return values;
-}
 static GNOME_Gnumeric_String_Seq *
 gnm_graph_vector_seq_string (GnmGraphVector *vector)
 {
@@ -247,15 +219,6 @@ gnm_graph_vector_eval (Dependent *dep)
 		break;
 	}
 
-	case GNM_VECTOR_DATE : {
-		GNOME_Gnumeric_Date_Seq *seq =
-			gnm_graph_vector_seq_date (vector);
-		GNOME_Gnumeric_Date_Vector_changed (
-			vector->subscriber.date, 0, seq, &ev);
-		CORBA_free (seq);
-		break;
-	}
-
 	case GNM_VECTOR_STRING : {
 		GNOME_Gnumeric_String_Seq *seq =
 			gnm_graph_vector_seq_string (vector);
@@ -289,19 +252,6 @@ impl_scalar_vector_value (PortableServer_Servant servant,
 }
 
 static void
-impl_date_vector_value (PortableServer_Servant servant,
-			GNOME_Gnumeric_Date_Seq **values,
-			CORBA_Environment *ev)
-{
-	GnmGraphVector *vector = SERVANT_TO_GRAPH_VECTOR (servant);
-
-	g_return_if_fail (IS_GNUMERIC_GRAPH_VECTOR (vector));
-	g_return_if_fail (vector->type == GNM_VECTOR_DATE);
-
-	*values = gnm_graph_vector_seq_date (vector);
-}
-
-static void
 impl_string_vector_value (PortableServer_Servant servant,
 			  GNOME_Gnumeric_String_Seq **values,
 			  CORBA_Environment *ev)
@@ -326,20 +276,6 @@ impl_scalar_vector_changed (PortableServer_Servant servant,
 	g_return_if_fail (vector->type == GNM_VECTOR_STRING);
 
 	g_warning ("Gnumeric : scalar vector changed remotely (%p)", vector);
-}
-
-static void
-impl_date_vector_changed (PortableServer_Servant servant,
-			  const CORBA_short start,
-			  const GNOME_Gnumeric_Date_Seq *vals,
-			  CORBA_Environment *ev)
-{
-	GnmGraphVector *vector = SERVANT_TO_GRAPH_VECTOR (servant);
-
-	g_return_if_fail (IS_GNUMERIC_GRAPH_VECTOR (vector));
-	g_return_if_fail (vector->type == GNM_VECTOR_DATE);
-
-	g_warning ("Gnumeric : date vector changed remotely (%p)", vector);
 }
 
 static void
@@ -369,7 +305,6 @@ gnm_graph_vector_get_dependent (GnmGraphVector const *vec)
 static GtkObjectClass *gnm_graph_vector_parent_class = NULL;
 static POA_GNOME_Gnumeric_VectorSelection__vepv	vector_selection_vepv;
 static POA_GNOME_Gnumeric_Scalar_Vector__vepv	scalar_vector_vepv;
-static POA_GNOME_Gnumeric_Date_Vector__vepv	date_vector_vepv;
 static POA_GNOME_Gnumeric_String_Vector__vepv	string_vector_vepv;
 
 Bonobo_Control
@@ -426,12 +361,6 @@ gnm_graph_vector_corba_init (GnmGraphVector *vector)
 		vector->servant.scalar.vepv = &scalar_vector_vepv;
 		POA_GNOME_Gnumeric_Scalar_Vector__init (
 			&vector->servant.scalar, &ev);
-		break;
-
-	case GNM_VECTOR_DATE :
-		vector->servant.date.vepv = &date_vector_vepv;
-		POA_GNOME_Gnumeric_Date_Vector__init (
-			&vector->servant.date, &ev);
 		break;
 
 	case GNM_VECTOR_STRING :
@@ -498,10 +427,6 @@ gnm_graph_vector_corba_destroy (GnmGraphVector *vector)
 			POA_GNOME_Gnumeric_Scalar_Vector__fini (
 				&vector->servant.scalar, &ev);
 			break;
-		case GNM_VECTOR_DATE :
-			POA_GNOME_Gnumeric_Date_Vector__fini (
-				&vector->servant.date, &ev);
-			break;
 		case GNM_VECTOR_STRING :
 			POA_GNOME_Gnumeric_String_Vector__fini (
 				&vector->servant.string, &ev);
@@ -551,7 +476,6 @@ gnm_graph_vector_corba_class_init (void)
 {
 	static POA_GNOME_Gnumeric_VectorSelection__epv	selection_epv;
 	static POA_GNOME_Gnumeric_Scalar_Vector__epv	scalar_epv;
-	static POA_GNOME_Gnumeric_Date_Vector__epv	date_epv;
 	static POA_GNOME_Gnumeric_String_Vector__epv	string_epv;
 
 	selection_epv.selected = &impl_vector_selection_selected;
@@ -563,13 +487,6 @@ gnm_graph_vector_corba_class_init (void)
 	scalar_vector_vepv.GNOME_Gnumeric_Scalar_Vector_epv =
 		&scalar_epv;
 	scalar_vector_vepv.GNOME_Gnumeric_VectorSelection_epv =
-		&selection_epv;
-
-	date_epv.changed = & impl_date_vector_changed;
-	date_epv.value = &impl_date_vector_value;
-	date_vector_vepv.GNOME_Gnumeric_Date_Vector_epv =
-		&date_epv;
-	date_vector_vepv.GNOME_Gnumeric_VectorSelection_epv =
 		&selection_epv;
 
 	string_epv.changed = & impl_string_vector_changed;
@@ -737,10 +654,6 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 		break;
 	case GNM_VECTOR_SCALAR :
 	case GNM_VECTOR_STRING :
-		break;
-	case GNM_VECTOR_DATE :
-		g_warning ("Date vectors aren't supported yet");
-		type = GNM_VECTOR_SCALAR;
 		break;
 	default :
 		g_warning ("Unknown vector type");
@@ -1119,9 +1032,9 @@ gnm_graph_populate_menu (SheetObject *so,
 }
 
 static void
-gnm_graph_user_config (SheetObject	*sheet_object,
-		       SheetControlGUI	*s_control)
+gnm_graph_user_config (SheetObject *so, SheetControlGUI	*scg)
 {
+	dialog_graph_guru (scg_get_wbcg (scg), GNUMERIC_GRAPH (so), 2);
 }
 
 static gboolean

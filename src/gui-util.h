@@ -90,6 +90,13 @@ typedef struct {
 typedef gboolean (*GnumericPopupMenuHandler) (GnumericPopupMenuElement const *e,
 					      gpointer user_data);
 
+void gnumeric_create_popup_menu_list (GSList *elements,
+				      GnumericPopupMenuHandler handler,
+				      gpointer user_data,
+				      int display_filter,
+				      int sensitive_filter,
+				      GdkEventButton *event);
+
 void gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 				 GnumericPopupMenuHandler handler,
 				 gpointer user_data,

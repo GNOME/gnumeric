@@ -1,5 +1,12 @@
 2001-10-16  Jody Goldberg <jgoldberg@home.com>
 
+	* dialog-graph-guru.c (graph_guru_apply_changes) : add the format guru.
+	(graph_guru_init_format_page) : new.
+	(dialog_graph_guru) : support format guru..
+	(graph_guru_set_page) : ditto.
+
+2001-10-16  Jody Goldberg <jgoldberg@home.com>
+
 	* dialog-graph-guru.c (cb_series_entry_changed) : allow renaming of
 	  series from the series combo.
 

@@ -84,7 +84,7 @@ struct _GraphGuruState
 	GtkWidget *selection_table;
 	GtkWidget *shared_separator;
 
-	CONFIG_GURU type_selector;
+	CONFIG_GURU type_selector, format_guru;
 	DATA_GURU   data_guru;
 	GtkWidget *sample;
 	GPtrArray *shared, *unshared;
@@ -678,7 +678,8 @@ graph_guru_apply_changes (GraphGuruState *state)
 	case 1: if (state->data_guru != CORBA_OBJECT_NIL)
 			CONFIG_GURU1 (applyChanges) (state->data_guru, &ev);
 		break;
-	case 2:
+	case 2: if (state->format_guru != CORBA_OBJECT_NIL)
+			CONFIG_GURU1 (applyChanges) (state->format_guru, &ev);
 		break;
 
 	default : /* it is ok to be invalid when intializing */
@@ -693,7 +694,8 @@ graph_guru_init_data_page (GraphGuruState *s)
 	if (s->data_guru != CORBA_OBJECT_NIL)
 		return;
 
-	s->data_guru = gnm_graph_get_config_control (s->graph, "DataGuru"),
+	s->data_guru = gnm_graph_get_config_control (
+		s->graph, "DataGuru"),
 
 	g_return_if_fail (s->data_guru != CORBA_OBJECT_NIL);
 
@@ -702,6 +704,28 @@ graph_guru_init_data_page (GraphGuruState *s)
 	gtk_container_add (GTK_CONTAINER (s->sample_frame), s->sample);
 	gtk_widget_show_all (s->sample_frame);
 	graph_guru_get_spec (s);
+}
+
+static void
+graph_guru_init_format_page (GraphGuruState *s)
+{
+	GtkWidget *w;
+
+	if (s->format_guru != CORBA_OBJECT_NIL)
+		return;
+
+	s->format_guru = gnm_graph_get_config_control (
+		s->graph, "FormatGuru");
+
+	g_return_if_fail (s->format_guru != CORBA_OBJECT_NIL);
+
+	w = bonobo_widget_new_control_from_objref (
+		s->format_guru, CORBA_OBJECT_NIL);
+	gtk_widget_show_all (w);
+	if (s->initial_page == 0)
+		gtk_notebook_append_page (s->steps, w, NULL);
+	else
+		gtk_notebook_prepend_page (s->steps, w, NULL);
 }
 
 static void
@@ -727,7 +751,12 @@ graph_guru_set_page (GraphGuruState *state, int page)
 			name = _("Graph Data");
 		graph_guru_init_data_page (state);
 		break;
-	case 2: name = _("Step 3 of 3: Customize graph");
+	case 2:
+		if (state->initial_page == 0)
+			name = _("Step 3 of 3: Customize graph");
+		else
+			name = _("Format Graph");
+		graph_guru_init_format_page (state);
 		next_ok = FALSE;
 		break;
 
@@ -958,6 +987,7 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 	state->current_series	= -1;
 	state->type_selector	= CORBA_OBJECT_NIL;
 	state->data_guru	= CORBA_OBJECT_NIL;
+	state->format_guru	= CORBA_OBJECT_NIL;
 
 	if (graph != NULL) {
 		g_return_if_fail (IS_GNUMERIC_GRAPH (graph));
@@ -994,11 +1024,13 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 
 	state->initial_page = page;
 	if (page == 0) {
+		GtkWidget *w;
 		state->type_selector = gnm_graph_get_config_control (
 			state->graph, "TypeSelector");
-		gtk_notebook_prepend_page (state->steps, 
-			bonobo_widget_new_control_from_objref (
-				state->type_selector, CORBA_OBJECT_NIL), NULL);
+		w = bonobo_widget_new_control_from_objref (
+			state->type_selector, CORBA_OBJECT_NIL);
+		gtk_widget_show_all (w);
+		gtk_notebook_prepend_page (state->steps, w, NULL);
 	}
 
 	gtk_widget_show_all (state->dialog);
