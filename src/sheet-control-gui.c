@@ -1200,9 +1200,6 @@ scg_cursor_visible (SheetControlGUI *scg, gboolean is_visible)
 
 #define SO_CLASS(so) SHEET_OBJECT_CLASS(GTK_OBJECT(so)->klass)
 
-static void scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
-				    GnomeCanvasItem *so_view, double const *offset);
-
 /**
  * scg_object_destroy_control_points :
  *
@@ -1598,18 +1595,32 @@ set_acetate_coords (SheetControlGUI *scg, GtkObject *so_view,
 
 /**
  * scg_object_update_bbox:
- * @so_view: A canvas item representing the view in this control
  *
- *  This updates all the views this object appears in. It
- * re-aligns the control points so that they appear at the
- * correct verticies.
- **/
-static void
+ * @scg : The Sheet control
+ * @so : the optional sheet object
+ * @so_view: A canvas item representing the view in this control
+ * @offset : an optional array of offsets.
+ *
+ * Re-align the control points so that they appear at the correct verticies for
+ * this view of the object.  If the object is not specified
+ */
+void
 scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 			GnomeCanvasItem *so_view, double const *offset)
 {
 	double coords [4];
-	GtkObject *so_view_obj = GTK_OBJECT (so_view);
+	GtkObject *so_view_obj;
+	
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+
+	if (so == NULL)
+		so = scg->current_object;
+	if (so == NULL)
+		return;
+	g_return_if_fail (IS_SHEET_OBJECT (so));
+
+	so_view_obj = (so_view == NULL)
+		? sheet_object_get_view (so, scg) : GTK_OBJECT (so_view);
 
 	scg_object_view_position (scg, so, coords);
 	if (offset != NULL) {

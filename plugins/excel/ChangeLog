@@ -1,3 +1,9 @@
+2000-12-05  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-escher.c (ms_escher_read_Blip) : revert to using the old
+	  non-installed image viewer.  The one in eog/viewer does not work.
+	  the one in eog/bonobo does.
+
 2000-12-04  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_sheet_obj_create) : fix warnings.

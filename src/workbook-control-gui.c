@@ -264,6 +264,9 @@ wbcg_zoom_feedback (WorkbookControl *wbc)
 	wbcg->updating_ui = TRUE;
 	zoom_changed (wbcg, sheet);
 	wbcg->updating_ui = FALSE;
+
+	scg_object_update_bbox (wb_control_gui_cur_sheet (wbcg),
+				NULL, NULL, NULL);
 }
 
 static void
