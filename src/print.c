@@ -9,7 +9,6 @@
  */
 #include <config.h>
 #include <gnome.h>
-#include <gdk/gdkkeysyms.h>
 #include <libgnomeprint/gnome-printer.h>
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-printer-dialog.h>
@@ -23,20 +22,15 @@
 #endif
 
 #include "gnumeric.h"
-#include "eval.h"
 #include "gnumeric-util.h"
 #include "sheet-object.h"
 #include "selection.h"
 #include "workbook.h"
 #include "dialogs.h"
 #include "main.h"
-#include "file.h"
-#include "gutils.h"
 #include "print-info.h"
 #include "print.h"
 #include "print-cell.h"
-#include "print-preview.h"
-#include "dialog-printer.h"
 #include "application.h"
 
 /* If TRUE, we print empty pages */

@@ -1,3 +1,10 @@
+2000-04-15  Morten Welinder  <terra@diku.dk>
+
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Delete
+ 	print-preview.[ch]
+
+	* src/print.c: Kill many #includes.
+
 2000-04-15  Karl EICHWALDER  <ke@suse.de>
 
 	* src/dialogs/dialog-zoom.glade, src/dialogs/dialog-zoom.glade.h

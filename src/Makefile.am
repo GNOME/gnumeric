@@ -140,8 +140,6 @@ GNUMERIC_BASE_SOURCES =				\
 	print-cell.h				\
 	print-info.c				\
 	print-info.h				\
-	print-preview.c				\
-	print-preview.h				\
 	ranges.c				\
 	ranges.h				\
 	regression.c				\
