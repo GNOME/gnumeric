@@ -96,7 +96,7 @@ msgstr "Το %s εισήχθη"
 
 #: plugins/ff-csv/csv-io.c:194
 msgid "Unable to mmap the file"
-msgstr ""
+msgstr "Απεικόνιση αρχείου στη μνήμη (mmap) αδύνατη"
 
 #: plugins/ff-csv/csv-io.c:322
 msgid "Comma Separated Value (CSV) import"
@@ -200,7 +200,7 @@ msgstr "Υπερβολικά μεγάλο αρχείο"
 
 #: plugins/text/text-io.c:332
 msgid "Can not mmap the file"
-msgstr ""
+msgstr "Δεν μπορώ να απεικονίσω το αρχείο στη μνήμη (mmap)"
 
 #: plugins/text/text-io.c:338
 msgid "NoName"
@@ -381,7 +381,7 @@ msgstr "Διαγραφή σειράς %d"
 #. TODO : Something more descriptive ? maybe the range name
 #: src/commands.c:785 src/workbook-format-toolbar.c:591
 msgid "Clear"
-msgstr ""
+msgstr "Διαγραφή"
 
 #: src/commands.c:961
 msgid "Format cells"
@@ -610,36 +610,38 @@ msgstr "Νοέμβριος"
 msgid "December"
 msgstr "Δεκέμβριος"
 
+## FIX?  If anyone is familiar with the following statistical terms...
+
 #: src/dialogs/dialog-analysis-tools.c:78
 msgid "Anova: Single Factor"
-msgstr ""
+msgstr "Anova: Απλός Παράγοντας"
 
 #: src/dialogs/dialog-analysis-tools.c:80
 msgid "Anova: Two-Factor Without Replication"
-msgstr ""
+msgstr "Anova: Δύο Παράγοντες Χωρίς Επανάληψη"
 
 #: src/dialogs/analysis-tools.glade.h:52
 #: src/dialogs/dialog-analysis-tools.c:82
 msgid "Correlation"
-msgstr ""
+msgstr "Συσχέτιση"
 
 #: src/dialogs/analysis-tools.glade.h:63
 #: src/dialogs/dialog-analysis-tools.c:84
 msgid "Covariance"
-msgstr ""
+msgstr "Συμμεταβολή"
 
 #: src/dialogs/dialog-analysis-tools.c:86
 #: src/dialogs/dialog-analysis-tools.c:857
 msgid "Descriptive Statistics"
-msgstr ""
+msgstr "Περιγραφικά στατιστικά"
 
 #: src/dialogs/analysis-tools.glade.h:9 src/dialogs/dialog-analysis-tools.c:88
 msgid "F-Test: Two-Sample for Variances"
-msgstr ""
+msgstr "F-Τέστ: Δύο Δείγματα για Διακύμανση"
 
 #: src/dialogs/dialog-analysis-tools.c:90
 msgid "Moving Average"
-msgstr ""
+msgstr "Κινούμενος Μέσος Όρος"
 
 #: src/dialogs/dialog-analysis-tools.c:92
 #: src/dialogs/dialog-analysis-tools.c:1637
@@ -649,7 +651,7 @@ msgstr "Γεννήτρια Τυχαίων Αριθμών"
 #: src/dialogs/analysis-tools.glade.h:74
 #: src/dialogs/dialog-analysis-tools.c:94
 msgid "Rank and Percentile"
-msgstr ""
+msgstr "Τάξη και Ποσοστημόριο"
 
 #. TODO This would be better using the
 #. value in the checkbox instead of this
@@ -666,20 +668,20 @@ msgstr "Δειγματοληψία"
 
 #: src/dialogs/dialog-analysis-tools.c:100
 msgid "t-Test: Paired Two Sample for Means"
-msgstr ""
+msgstr "t-Τέστ: Ζεύγη Δειγμάτων για Μέσο Όρο"
 
 #: src/dialogs/dialog-analysis-tools.c:102
 msgid "t-Test: Two-Sample Assuming Equal Variances"
-msgstr ""
+msgstr "t-Τέστ: Δύο Δείγματα Υποθέτοντας Ίσες Διακυμάνσεις"
 
 #: src/dialogs/dialog-analysis-tools.c:104
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
-msgstr ""
+msgstr "t-Τέστ: Δύο Δείγματα Υποθέτοντας Διάφορες Διακυμάνσεις"
 
 #: src/dialogs/dialog-analysis-tools.c:106
 #: src/dialogs/dialog-analysis-tools.c:956
 msgid "z-Test: Two Sample for Means"
-msgstr ""
+msgstr "z-Τέστ: Δύο Δείγματα για Μέσο Όρο"
 
 #: src/dialogs/dialog-analysis-tools.c:113
 #: src/dialogs/dialog-analysis-tools.c:1591
@@ -734,11 +736,11 @@ msgstr "Ομοιόμορφη"
 
 #: src/dialogs/dialog-analysis-tools.c:272
 msgid "Summary Statistics"
-msgstr ""
+msgstr "Περιληπτικά Στατιστικά"
 
 #: src/dialogs/dialog-analysis-tools.c:274
 msgid "Confidence Level for Mean"
-msgstr ""
+msgstr "Βαθμός Εμπιστοσύνης για Μέσο Όρο"
 
 #: src/dialogs/dialog-analysis-tools.c:275
 msgid "0.95"
@@ -764,7 +766,7 @@ msgstr "Ετικέτες στην Πρώτη Σειρά"
 
 #: src/dialogs/dialog-analysis-tools.c:290
 msgid "Force Intercept to Be Zero"
-msgstr ""
+msgstr "Περιορισμός Τομής Στο Μηδέν"
 
 #: src/dialogs/analysis-tools.glade.h:56 src/dialogs/analysis-tools.glade.h:67
 #: src/dialogs/analysis-tools.glade.h:78 src/dialogs/cell-sort.glade.h:12
@@ -788,7 +790,7 @@ msgstr "Τυχαία"
 
 #: src/dialogs/dialog-analysis-tools.c:450
 msgid "You should introduce a valid cell range in 'Into a Range:'"
-msgstr ""
+msgstr "Πρέπει να εισάγετε έγκυρο διάστημα κελιών στο 'Σε Διάστημα:'"
 
 #: src/dialogs/dialog-analysis-tools.c:482
 msgid "New Sheet"
@@ -877,15 +879,15 @@ msgstr "Διάστημα Μεταβλητής 2:"
 
 #: src/dialogs/dialog-analysis-tools.c:972
 msgid "Hypothesized Mean Difference:"
-msgstr ""
+msgstr "Υπόθεση για Μέση Διαφορά:"
 
 #: src/dialogs/dialog-analysis-tools.c:975
 msgid "Variable 1 Variance (known):"
-msgstr ""
+msgstr "Διακύμανση Μεταβλητής 1 (γνωστή):"
 
 #: src/dialogs/dialog-analysis-tools.c:978
 msgid "Variable 2 Variance (known):"
-msgstr ""
+msgstr "Διακύμανση Μεταβλητής 2 (γνωστή):"
 
 #: src/dialogs/dialog-analysis-tools.c:981
 msgid "Alpha:"
@@ -923,7 +925,7 @@ msgstr "Παράμετροι:"
 
 #: src/dialogs/dialog-analysis-tools.c:1676
 msgid "Value and Probability Input Range:"
-msgstr ""
+msgstr "Διάστημα Εισόδου Τιμών και Πιθανοτήτων:"
 
 #: src/dialogs/dialog-analysis-tools.c:1681
 msgid "Between:"
@@ -968,8 +970,8 @@ msgid ""
 "You should introduce a valid cell range in 'Value and Probability Input "
 "Range:'"
 msgstr ""
-"Πρέπει να εισάγετε έγκυρο διάστημα κελιών στο 'Διάστημα Εισόδου Τιμής και "
-"Πιθανότητας:'"
+"Πρέπει να εισάγετε έγκυρο διάστημα κελιών στο 'Διάστημα Εισόδου Τιμών και "
+"Πιθανοτήτων:'"
 
 #: src/dialogs/dialog-analysis-tools.c:1965
 msgid "Input Y Range:"
@@ -981,13 +983,17 @@ msgstr "Δίαστημα Εισόδου Χ:"
 
 #: src/dialogs/dialog-analysis-tools.c:1971
 msgid "Confidence Level:"
-msgstr ""
+msgstr "Βαθμός Εμπιστοσύνης:"
+
+# FIX:  regression? (next 3 msgs)
 
 #: src/dialogs/dialog-analysis-tools.c:2037
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
 msgstr ""
+"Υπάρχουν πολύ λίγα σημεία δεδομένων για το regression.\n"
+"Πρέπει να υπάρχουν τουλάχιστον τόσα σημεία όσα και ελεύθερες μεταβλητές."
 
 #: src/dialogs/dialog-analysis-tools.c:2043
 msgid ""
@@ -995,11 +1001,15 @@ msgid ""
 "and the regression cannot be calculated. Remove one of these\n"
 "variables and try the regression again."
 msgstr ""
+"Δύο ή περισσότερες από τις ανεξάρτητες μεταβλητές είναι γραμμικά εξαρτημένες,\n"
+"και το regression δε μπορεί να υπολογιστεί. Αφαιρέστε μία από αυτές τις\n"
+"μεταβλητές και ξαναπροσπαθήστε."
 
 #: src/dialogs/dialog-analysis-tools.c:2050
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
+"Πρέπει να υπάρχει ίσος αριθμός στοιχείων για κάθε μεταβλητή στο regression."
 
 #: src/dialogs/dialog-cell-comment.c:25
 msgid "Cell comment"
@@ -1066,11 +1076,11 @@ msgstr "Απαιτείται τουλάχιστον μία συνθήκη."
 
 #: src/dialogs/dialog-cell-sort.c:386
 msgid "Can't add more than the selection length."
-msgstr ""
+msgstr "Δεν μπορώ να προσθέσω περισσότερα από το μήκος της επιλογής."
 
 #: src/dialogs/dialog-cell-sort.c:389
 msgid "Maximum number of clauses has been reached."
-msgstr ""
+msgstr "Ο μέγιστος αριθμός προτάσεων έχει συμπληρωθεί."
 
 #: src/dialogs/dialog-cell-sort.c:514 src/workbook.c:1058
 msgid "sort"
@@ -1114,83 +1124,87 @@ msgstr "Δίαστημα/Πίνακας"
 
 #: src/dialogs/dialog-function-wizard.c:221
 msgid "Any"
-msgstr ""
+msgstr "Οποιοδήποτε"
 
 #: src/dialogs/dialog-function-wizard.c:224
 msgid "Unknown"
 msgstr "¶γνωστο"
 
+# FIX: wizerd?
+
 #: src/dialogs/dialog-function-wizard.c:377
 msgid "Formula Wizard"
 msgstr ""
 
+# FIX????
+
 #: src/dialogs/dialog-goal-seek.c:201
 #, c-format
 msgid "Goal seeking with cell %s found a solution"
-msgstr ""
+msgstr "Η εύρεση στόχου με κελί %s κατέληξε σε λύση"
 
 #: src/dialogs/dialog-goal-seek.c:205
 #, c-format
 msgid "Target value:   %12.2f"
-msgstr ""
+msgstr "Τιμή στόχου:    %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:208
 #, c-format
 msgid "Current value:  %12.2f"
-msgstr ""
+msgstr "Τρέχουσα τιμή:  %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:211
 #, c-format
 msgid "Solution:       %12.2f"
-msgstr ""
+msgstr "Λύση:           %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:214
 msgid "Goal Seek Report"
-msgstr ""
+msgstr "Αναφορά Αναζήτησης Στόχου"
 
 #: src/dialogs/dialog-goal-seek.c:279
 msgid "Goal Seek..."
-msgstr ""
+msgstr "Αναζήτηση Στόχου..."
 
 #: src/dialogs/dialog-goal-seek.c:297
 msgid "Set cell:"
-msgstr ""
+msgstr "Αλλαγή κελίου:"
 
 #: src/dialogs/dialog-goal-seek.c:298
 msgid "To value:"
-msgstr ""
+msgstr "Στην τιμή:"
 
 #: src/dialogs/dialog-goal-seek.c:299
 msgid "By changing cell:"
-msgstr ""
+msgstr "Αλλάζοντας το κελί:"
 
 #: src/dialogs/dialog-goal-seek.c:300
 msgid "To a value of at least [optional]:"
-msgstr ""
+msgstr "Σε τιμή τουλάχιστον [προαιρετικό]:"
 
 #: src/dialogs/dialog-goal-seek.c:301
 msgid "But no bigger than [optional]:"
-msgstr ""
+msgstr "Αλλά το πολύ [προαιρετικό]:"
 
 #: src/dialogs/dialog-goal-seek.c:360
 msgid "You should introduce a valid cell name in 'Set cell'"
-msgstr ""
+msgstr "Πρέπει να δώσετε έγκυρο όνομα κελιού στο 'Αλλαγή κελιού'"
 
 #: src/dialogs/dialog-goal-seek.c:368
 msgid "The cell named in 'Set cell' must contain a formula"
-msgstr ""
+msgstr "Το κελί στο 'Αλλαγή κελιού' πρέπει να περιέχει εξίσωση"
 
 #: src/dialogs/dialog-goal-seek.c:381
 msgid "You should introduce a valid cell name in 'By changing cell'"
-msgstr ""
+msgstr "Πρέπει να δώσετε έγκυρο όνομα κελιού στο 'Αλλάζοντας το κελί'"
 
 #: src/dialogs/dialog-goal-seek.c:390
 msgid "The cell named in 'By changing cell' must not contain a formula"
-msgstr ""
+msgstr "Το κελί στο 'Αλλάζοντας το κελί' πρέπει να περιέχει εξίσωση"
 
 #: src/dialogs/dialog-goal-seek.c:439
 msgid "Goal seek did not find a solution!"
-msgstr ""
+msgstr "Η αναζήτηση στόχου δε βρήκε λύση!"
 
 #: src/dialogs/dialog-goto-cell.c:39
 msgid "Cell"
@@ -1242,11 +1256,11 @@ msgstr "Διαίρεση"
 
 #: src/dialogs/dialog-paste-special.c:64
 msgid "Paste special"
-msgstr ""
+msgstr "Ειδική επικόλληση"
 
 #: src/dialogs/dialog-paste-special.c:68
 msgid "Paste type"
-msgstr ""
+msgstr "Τύπος επικόλλησης"
 
 #: src/dialogs/dialog-paste-special.c:72
 msgid "Operation"
@@ -1274,11 +1288,11 @@ msgstr "Επιλογή Εκτυπωτή"
 
 #: src/dialogs/dialog-printer-setup.c:503
 msgid "Custom header configuration"
-msgstr ""
+msgstr "Ρυθμίσεις επικεφαλίδας"
 
 #: src/dialogs/dialog-printer-setup.c:515
 msgid "Custom footer configuration"
-msgstr ""
+msgstr "Ρυθμίσεις υποκεφαλίδας"
 
 #: src/dialogs/dialog-printer-setup.c:731
 msgid "Print setup"
@@ -1305,18 +1319,20 @@ msgid ""
 "The constraints having cell ranges in LHS and RHS should have the same "
 "number of columns and rows in both sides."
 msgstr ""
+"Οι περιορισμοί με διαστήματα κελιών στο αριστερό ή δεξί μέρος πρέπει να έχουν τον "
+"ίδιο αριθμό στηλών και σειρών και στις δύο πλευρές."
 
 #: src/dialogs/dialog-solver.c:263 src/dialogs/dialog-solver.c:452
 msgid "The cell range in LHS or RHS should have only one column or row."
-msgstr ""
+msgstr "Το διάστημα κελιών στο αριστερό ή δεξί μέρος πρέπει να έχει μία στήλη ή σειρά."
 
 #: src/dialogs/dialog-solver.c:861
 msgid "You should introduce a valid cell name for 'Target cell'"
-msgstr ""
+msgstr "Πρέπει να εισάγετε έγκυρο όνομα κελιού στο 'Κελί στόχου'"
 
 #: src/dialogs/dialog-solver.c:884
 msgid "You should introduce a valid cell names in 'By changing cells'"
-msgstr ""
+msgstr "Πρέπει να εισάγετε έγκυρο όνομα κελιού στο 'Αλλάζοντας τα κελία'"
 
 #: src/dialogs/dialog-plugin-manager.c:110
 #: src/dialogs/plugin-manager.glade.h:9
@@ -1341,12 +1357,12 @@ msgstr "Μέγεθος αρχείου: %ld byte"
 #: src/dialogs/dialog-plugin-manager.c:124
 #: src/dialogs/plugin-manager.glade.h:11
 msgid "Compiled on:"
-msgstr ""
+msgstr "Μεταγλωτισσμένο σε:"
 
 #: src/dialogs/dialog-plugin-manager.c:126
 #, c-format
 msgid "Compiled on: %s"
-msgstr ""
+msgstr "Μεταγλωτισσμένο σε: %s"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1433,7 +1449,7 @@ msgstr "Νέο Φύλλο     "
 
 #: src/dialogs/analysis-tools.glade.h:19
 msgid "T-Test: Paired Two Sample for Means"
-msgstr ""
+msgstr "T-Tέστ: Ζεύγος Δειγμάτων για Μέσο Όρο"
 
 #: src/dialogs/analysis-tools.glade.h:21 src/dialogs/analysis-tools.glade.h:32
 #: src/dialogs/analysis-tools.glade.h:43
@@ -1453,7 +1469,7 @@ msgstr "             Διάστημα Μεταβλητής 2: "
 #: src/dialogs/analysis-tools.glade.h:24 src/dialogs/analysis-tools.glade.h:35
 #: src/dialogs/analysis-tools.glade.h:46
 msgid "Hypothesized Mean Difference: "
-msgstr ""
+msgstr "Υπόθεση για Μέση Διαφορά: "
 
 #: src/dialogs/analysis-tools.glade.h:25 src/dialogs/analysis-tools.glade.h:36
 #: src/dialogs/analysis-tools.glade.h:47
@@ -1462,11 +1478,11 @@ msgstr "                                    ¶λφα: "
 
 #: src/dialogs/analysis-tools.glade.h:30
 msgid "T-Test: Assuming Equal Variances"
-msgstr ""
+msgstr "T-Τέστ: Υποθέτοντας Ίσες Διακυμάνσεις"
 
 #: src/dialogs/analysis-tools.glade.h:41
 msgid "T-Test: Assuming Unequal Variances"
-msgstr ""
+msgstr "T-Τέστ: Υποθέτοντας Διάφορες Διακυμάνσεις"
 
 #: src/dialogs/analysis-tools.glade.h:54 src/dialogs/analysis-tools.glade.h:65
 #: src/dialogs/analysis-tools.glade.h:76
@@ -1505,7 +1521,7 @@ msgstr "Κεφαλαία ο_νόματα ημερών"
 
 #: src/dialogs/autocorrect.glade.h:12
 msgid "Correct accidental use of _cAPS LOCK key"
-msgstr ""
+msgstr "Διόρθωση κατά λάθος χρήσης του _cAPS LOCK"
 
 #: src/dialogs/autocorrect.glade.h:13
 msgid "_Replace text when typed"
@@ -1689,11 +1705,11 @@ msgstr "Προσανατολισμός"
 
 #: src/dialogs/print.glade.h:9
 msgid "Por_trait"
-msgstr ""
+msgstr "Πορ_τραίτου"
 
 #: src/dialogs/print.glade.h:10
 msgid "_Landscape"
-msgstr ""
+msgstr "Το_πίου"
 
 #: src/dialogs/print.glade.h:11
 msgid "Scale"
@@ -1701,11 +1717,11 @@ msgstr "Κλίμακα"
 
 #: src/dialogs/print.glade.h:12
 msgid "_Adjust to:"
-msgstr ""
+msgstr "Προσαρμο_γή σε¨"
 
 #: src/dialogs/print.glade.h:13
 msgid "_Fit to:"
-msgstr ""
+msgstr "Ε_φαρμογή σε:"
 
 #: src/dialogs/print.glade.h:15
 #, no-c-format
@@ -1745,23 +1761,23 @@ msgstr "Σελίδα"
 
 #: src/dialogs/print.glade.h:23
 msgid "_Top:"
-msgstr ""
+msgstr "_Επάνω:"
 
 #: src/dialogs/print.glade.h:24
 msgid "He_ader:"
-msgstr ""
+msgstr "Ε_πικεφαλίδα:"
 
 #: src/dialogs/print.glade.h:25
 msgid "_Bottom:"
-msgstr ""
+msgstr "_Κάτω:"
 
 #: src/dialogs/print.glade.h:26
 msgid "_Footer"
-msgstr ""
+msgstr "_Υποκεφαλίδα:"
 
 #: src/dialogs/print.glade.h:27
 msgid "Center on page"
-msgstr ""
+msgstr "Κεντράρισμα στη σελίδα"
 
 #: src/dialogs/print.glade.h:28
 msgid "_Horizontally"
@@ -1789,43 +1805,43 @@ msgstr "Περιθώρια"
 
 #: src/dialogs/print.glade.h:37 src/dialogs/print.glade.h:42
 msgid "sample goes here"
-msgstr ""
+msgstr "δείγμα εδώ"
 
 #: src/dialogs/print.glade.h:38
 msgid "Header"
-msgstr ""
+msgstr "Επικεφαλίδα"
 
 #: src/dialogs/print.glade.h:39
 msgid "Customize _header"
-msgstr ""
+msgstr "Ρυθμίσεις ε_πικεφαλίδας"
 
 #: src/dialogs/print.glade.h:40
 msgid "Customize _footer"
-msgstr ""
+msgstr "Ρυθμίσεις _υποκεφαλίδας"
 
 #: src/dialogs/print.glade.h:41
 msgid "Footer:"
-msgstr ""
+msgstr "Υποκεφαλίδα:"
 
 #: src/dialogs/print.glade.h:46
 msgid "Headers and footers"
-msgstr ""
+msgstr "Επικεφαλίδες και υποκεφαλίδες"
 
 #: src/dialogs/print.glade.h:47
 msgid "Print _area:"
-msgstr ""
+msgstr "Περιο_χή εκτύπωσης:"
 
 #: src/dialogs/print.glade.h:48
 msgid "Titles to print"
-msgstr ""
+msgstr "Τίτλοι προς εκτύπωση"
 
 #: src/dialogs/print.glade.h:49
 msgid "_Columns to repeat on the left side:"
-msgstr ""
+msgstr "Επανάληψη στη_λών στο αριστερό μέρος:"
 
 #: src/dialogs/print.glade.h:50
 msgid "_Rows to repeat on the upper region:"
-msgstr ""
+msgstr "Επανάληψη σει_ρών στο επάνω μέρος:"
 
 #: src/dialogs/print.glade.h:51 src/workbook.c:1374
 msgid "Print"
@@ -1833,7 +1849,7 @@ msgstr "Εκτύπωση"
 
 #: src/dialogs/print.glade.h:52
 msgid "Row and co_lumn headings"
-msgstr ""
+msgstr "Τίτλοι σειρών και στη_λών"
 
 #: src/dialogs/print.glade.h:53 src/workbook.c:1140
 msgid "Co_mments"
@@ -1933,7 +1949,7 @@ msgstr "Παράμετροι Επίλυσης Gnumeric"
 
 #: src/dialogs/solver.glade.h:17
 msgid "_Set Target Cell:       "
-msgstr ""
+msgstr "Κελί στόχου:            "
 
 #: src/dialogs/solver.glade.h:18 src/dialogs/solver.glade.h:23
 msgid "                         "
@@ -2161,7 +2177,7 @@ msgstr "_Ειδικό"
 
 #: src/dialogs/cell-format.glade.h:18
 msgid "Cust_om"
-msgstr ""
+msgstr "Τυποποιημένο"
 
 #: src/dialogs/cell-format.glade.h:19 src/dialogs/cell-format.glade.h:108
 msgid "Sample"
@@ -2229,7 +2245,7 @@ msgstr "_Κέντρο"
 
 #: src/dialogs/cell-format.glade.h:37
 msgid "_Left"
-msgstr ""
+msgstr "Α_ριστερά"
 
 #: src/dialogs/cell-format.glade.h:39
 msgid "Vertical"
@@ -2351,15 +2367,15 @@ msgstr "Περίγραμμα"
 
 #: src/dialogs/cell-format.glade.h:72
 msgid "Inside Vertical"
-msgstr ""
+msgstr "Έσω Κατακόρυφο"
 
 #: src/dialogs/cell-format.glade.h:73
 msgid "Inside"
-msgstr ""
+msgstr "Έσωτερικό"
 
 #: src/dialogs/cell-format.glade.h:74
 msgid "Inside Horizontal"
-msgstr ""
+msgstr "Έσω Οριζόντιο"
 
 #: src/dialogs/cell-format.glade.h:75 src/workbook.c:1419
 msgid "Line"
@@ -2517,7 +2533,7 @@ msgstr "Η επιλογή έχει"
 
 #: src/dialogs/cell-sort.glade.h:9
 msgid "A header"
-msgstr "Επικεφαλίδα"
+msgstr "Μια επικεφαλίδα"
 
 #: src/dialogs/cell-sort.glade.h:10
 msgid "Sort"
@@ -6763,6 +6779,14 @@ msgid ""
 "\n"
 "@SEEALSO=RANDBETWEEN"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=RAND\n"
+"@ΣΥΝΤΑΞΗ=RAND()\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η RAND επιστρέφει ένα τυχαίο αριθμό μεταξύ μηδέν και ένα ([0..1]). "
+"Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Το RAND() επιστρέφει ένα τυχαίο αριθμό μεγαλύτερο του μηδέν αλλά μικρότερο του ένα.\n"
+"\n"
+"@ΔΕΙΤΕ=RANDBETWEEN"
 
 #: src/functions/fn-math.c:1267
 msgid ""
@@ -6774,6 +6798,13 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=RandExp\n"
+"@ΣΥΝΤΑΞΗ=RandExp(b)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η RandExp επιστρέφει τυχαίους αριθμούς με εκθετική κατανομή. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"RandExp(0.5).\n"
+"\n"
+"@ΔΕΙΤΕ=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1290
 msgid ""
@@ -6785,6 +6816,13 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=RandPoisson\n"
+"@ΣΥΝΤΑΞΗ=RandPoisson(λ)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η RandPoisson επιστρέφει τυχαίους αριθμούς με κατανομή Poisson. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"RandPoisson(3).\n"
+"\n"
+"@ΔΕΙΤΕ=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1316
 msgid ""
@@ -6798,6 +6836,15 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=RandBinom\n"
+"@ΣΥΝΤΑΞΗ=RandBinom(p,δοκιμές)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η RandBinom επιστρέφει τυχαίους αριθμούς με διωνυμική κατανομή. \n"
+"Εάν @p < 0 ή @p > 1 η RandBinom επιστρέφει σφάλμα #ΑΡΙΘ!. Εάν @δοκιμές < 0 η "
+"RandBinom επιστρέφει σφάλμα #ΑΡΙΘ!. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"RandBinom(0.5,2).\n"
+"\n"
+"@ΔΕΙΤΕ=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1346
 msgid ""
@@ -6812,6 +6859,16 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=RandNegBinom\n"
+"@ΣΥΝΤΑΞΗ=RandNegBinom(p,αποτυχίες)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η RandNegBinom επιστρέφει τυχαίους αριθμούς με αρνητική διωνυμική "
+"κατανομή. \n"
+"Εάν @p < 0 ή @p > 1 η RandNegBinom επιστρέφει σφάλμα #ΑΡΙΘ!. Εάν @επαναλ < 0 η "
+"RandNegBinom επιστρέφει σφάλμα #ΑΡΙΘ!. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"RandNegBinom(0.5,2).\n"
+"\n"
+"@ΔΕΙΤΕ=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1377
 msgid ""
@@ -6824,6 +6881,14 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=RandBernoulli\n"
+"@ΣΥΝΤΑΞΗ=RandBernoulli(λ)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η RandBernoulli επιστρέφει τυχαίους αριθμούς με κατανομή Bernulli. \n"
+"Εάν @p < 0 ή @p > 1 η RandBernoulli επιστρέφει σφάλμα #ΑΡΙΘ!. \n "
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"RandBernoulli(0.5).\n"
+"\n"
+"@ΔΕΙΤΕ=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1405
 msgid ""
@@ -6879,6 +6944,15 @@ msgid ""
 "\n"
 "@SEEALSO=POW"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=SQRT\n"
+"@ΣΥΝΤΑΞΗ=SQRT(x)\n"
+"@DESCRIPTION=Η SQRT επιστρέφει την τετραγωνική ρίζα του @x. Η συνάρτηση είναι "
+"συμβατή με Excel. \n"
+"Εάν το @x είναι αρνητικό, η SQRT επιστρέφει σφάλμα #ΑΡΙΘ!. \n"
+"@EXAMPLES=\n"
+"Η SQRT(2) ισούται με 1.4142136.\n"
+"\n"
+"@ΔΕΙΤΕ=POW"
 
 #: src/functions/fn-math.c:1479
 msgid ""
@@ -6893,6 +6967,16 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=SUM\n"
+"@ΣΥΝΤΑΞΗ=SUM(τιμή1, τιμή2, ...)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η SUM υπολογίζει το άθροισμα όλων των τιμών και κελιών που αναφέρονται "
+"από τα ορίσματα. Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Ας υποθέσουμε ότι τα κελιά A1, A2, ..., A5 περιέχουν αριθμούς 11, 15, 17, 21, "
+"και 43.  Τοτε\n"
+"SUM(A1:A5) ισούται με 107.\n"
+"\n"
+"@ΔΕΙΤΕ=AVERAGE, COUNT"
 
 #: src/functions/fn-math.c:1508
 msgid ""
@@ -6910,6 +6994,19 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=SUMA\n"
+"@ΣΥΝΤΑΞΗ=SUMA(τιμή1, τιμή2, ...)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η SUMA υπολογίζει το άθροισμα όλων των τιμών και κελιών που αναφέρονται "
+"από τα ορίσματα. Αριθμοί, κείμενο και λογικές τιμές συμπεριλαμβάνονται στον "
+"υπολογισμό.  Εάν το κελί περιέχει κείμενο ή το όρισμα έχει τιμη ΨΕΥΔΕΣ, "
+"θεωρείται ως τιμή μηδέν (0). Εάν το όρισμα έχει τιμή ΑΛΗΘΕΣ, τότε μετριέται "
+"ως ένα (1). \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Ας υποθέσουμε ότι τα κελιά A1, A2, ..., A5 περιέχουν αριθμούς 11, 15, 17, 21, "
+"και 43.  Τοτε\n"
+"SUMA(A1:A5) ισούται με 107.\n"
+"\n"
+"@ΔΕΙΤΕ=AVERAGE, SUM, COUNT"
 
 #: src/functions/fn-math.c:1539
 msgid ""
@@ -6924,6 +7021,16 @@ msgid ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=SUMSQ\n"
+"@ΣΥΝΤΑΞΗ=SUMSQ(τιμή1, τιμή2, ...)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η SUM υπολογίζει το άθροισμα των τετραγώνων όλων των τιμών και κελιών "
+"που αναφέρονται από τα ορίσματα. Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Ας υποθέσουμε ότι τα κελιά A1, A2, ..., A5 περιέχουν αριθμούς 11, 15, 17, 21, "
+"και 43.  Τοτε\n"
+"SUMSQ(A1:A5) ισούται με 2925.\n"
+"\n"
+"@ΔΕΙΤΕ=SUM, COUNT"
 
 #: src/functions/fn-math.c:1569
 msgid ""
@@ -6936,6 +7043,14 @@ msgid ""
 "\n"
 "@SEEALSO=SUM"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=MULTINOMIAL\n"
+"@ΣΥΝΤΑΞΗ=MULTINOMIAL(τιμή1, τιμή2, ...)\n"
+"@DESCRIPTION=Η MULTINOMIAL το λόγο του παραγοντικού του αθροίσματος των τιμών "
+"προς το γινόμενο των παραγοντικών. Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Η MULTINOMIAL(2,3,4) ισούται με 1260.\n"
+"\n"
+"@ΔΕΙΤΕ=SUM"
 
 #: src/functions/fn-math.c:1629
 msgid ""
@@ -6949,6 +7064,15 @@ msgid ""
 "\n"
 "@SEEALSO=SUM, COUNT, G_PRODUCT"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=PRODUCT\n"
+"@ΣΥΝΤΑΞΗ=PRODUCT(τιμή1, τιμή2, ...)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η PRODUCT υπολογίζει το γινόμενο όλων των τιμών και κελιών που "
+"αναφέρονται από τα ορίσματα. Η συνάρτηση είναι συμβατή με Excel. Αυτό "
+"σημαίνει ότι, έαν όλα τα κελιά είναι άδεια, το αποτέλεσμα είναι 0.\n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Το PRODUCT(2,5,9) ισούται με 90.\n"
+"\n"
+"@ΔΕΙΤΕ=SUM, COUNT, G_PRODUCT"
 
 #: src/functions/fn-math.c:1666
 msgid ""
@@ -6962,6 +7086,15 @@ msgid ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=G_PRODUCT\n"
+"@ΣΥΝΤΑΞΗ=G_PRODUCT(τιμή1, τιμή2, ...)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η G_PRODUCT υπολογίζει το γινόμενο όλων των τιμών και κελιών που "
+"αναφέρονται από τα ορίσματα.  Τα άδεια κελιά αγνοούνται και, εάν όλα είναι "
+"άδεια, το αποτέλεσμα είναι 1.\n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Το G_PRODUCT(2,5,9) ισούται με 90.\n"
+"\n"
+"@ΔΕΙΤΕ=SUM, COUNT"
 
 #: src/functions/fn-math.c:1693
 msgid ""
@@ -7039,6 +7172,16 @@ msgid ""
 "\n"
 "@SEEALSO=INT"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=TRUNC\n"
+"@ΣΥΝΤΑΞΗ=TRUNC(αριθ[,ψηφία])\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η TRUNC επιστρέφει την τιμή του @αριθ περικεκομμένη στον δοσμένο "
+"αριθμό (δεκαδικών) ψηφίων. Εάν τα @ψηφία παραλειφθούν, τότε χρησιμοποιείται η "
+"τιμή μηδέν. Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"TRUNC(3.12) ισούται με 3.\n"
+"TRUNC(4.15,1) ισούται με 4.1.\n"
+"\n"
+"@ΔΕΙΤΕ=INT"
 
 #: src/functions/fn-math.c:1802
 msgid ""
@@ -7051,6 +7194,14 @@ msgid ""
 "\n"
 "@SEEALSO=ODD"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=EVEN\n"
+"@ΣΥΝΤΑΞΗ=EVEN(αριθμός)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η EVEN επιστρέφει τον αριθμό στρογγυλεμένο προς τον αμέσως μεγαλύτερο "
+"άρτιο ακέραιο. Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"EVEN(5.4) ισούται με 6.\n"
+"\n"
+"@ΔΕΙΤΕ=ODD"
 
 #: src/functions/fn-math.c:1840
 msgid ""
@@ -7063,6 +7214,14 @@ msgid ""
 "\n"
 "@SEEALSO=EVEN"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=ODD\n"
+"@ΣΥΝΤΑΞΗ=ODD(αριθμός)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η ODD επιστρέφει τον αριθμό στρογγυλεμένο προς τον αμέσως μεγαλύτερο "
+"περιττό ακέραιο. Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"ODD(4.4) ισούται με 5.\n"
+"\n"
+"@ΔΕΙΤΕ=EVEN"
 
 #: src/functions/fn-math.c:1878
 msgid ""
@@ -7090,6 +7249,14 @@ msgid ""
 "\n"
 "@SEEALSO=MOD"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=QUOTIENT\n"
+"@ΣΥΝΤΑΞΗ=QUOTIENT(αριθ,παρον)\n"
+"@DESCRIPTION=Η QUOTIENT επιστρέφει το ακέραιο πηλίκο της διαίρεσης του "
+"@αριθ με τον @παρον.  Η συνάρτηση είναι συμβατή με Excel. \n "
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Το QUOTIENT(23,5) ισούται με 4.\n"
+"\n"
+"@ΔΕΙΤΕ=MOD"
 
 #: src/functions/fn-math.c:1947
 msgid ""
@@ -7105,6 +7272,17 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=SIGN\n"
+"@ΣΥΝΤΑΞΗ=SIGN(αριθμός)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η SIGN επιστρέφει 1 εάν ο @αριθμός είναι θετικός, μηδέν εάν ο "
+"@αριθμός είναι 0, και -1 εάν ο @αριθμός είναι αρνητικός. Η συνάρτηση είναι "
+"συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Το SIGN(3) ισούται με 1.\n"
+"Το SIGN(-3) ισούται με -1.\n"
+"Το SIGN(0) ισούται με 0.\n"
+"\n"
+"@ΔΕΙΤΕ="
 
 #: src/functions/fn-math.c:1981
 msgid ""
@@ -7140,6 +7318,17 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=RANDBETWEEN\n"
+"@ΣΥΝΤΑΞΗ=RANDBETWEEN(άνω,κάτω)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η RANDBETWEEN επιστρέφει ένα τυχαίο ακέραιο αριθμό μεταξύ "
+"@κάτω και @άνω.\n"
+"Έαν το @κάτω ή @άνω δεν είναι ακέραιοι, λαμβάνεται το ακέραιο μέρος. Εάν "
+"@κάτω > @άνω, η RANDBETWEEN επιστρέφει σφάλμα #ΑΡΙΘ!.\n"
+"Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"RANDBETWEEN(3,7).\n"
+"\n"
+"@ΔΕΙΤΕ=RAND"
 
 #: src/functions/fn-math.c:2044
 msgid ""
@@ -7160,6 +7349,23 @@ msgid ""
 "\n"
 "@SEEALSO=ROUND,ROUNDUP"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=ROUNDDOWN\n"
+"@ΣΥΝΤΑΞΗ=ROUNDDOWN(αριθμός[,ψηφία])\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η ROUNDDOWN στρογγυλοποιεί το δοσμένο αριθμό προς τα κάτω. "
+"Ο @αριθ είναι ο αριθμός που θέλετε να στρογγυλοποιήσετε και @ψηφία είναι ο "
+"αριθμός των (δεκαδικών) ψηφίων που θέλετε να διατηρηθούν. \n"
+"Εάν τα @ψηφία ειναι μεγαλύτερα του μηδέν, ο @αρίθ στρογγυλοποιείται στον "
+"δοσμένο αριθμό ψηφίων. Εάν τα @ψηφία είναι μηδέν ή παραλειφθούν, ο @αριθ "
+"στρογγυλοποιείται στον πλησιέστερο ακέραιο. Εάν τα @ψηφία είναι μικρότερα του "
+"μηδέν, ο αριθμός στρογγυλοποιείται μέχρι και το πρώτο δεκαδικό. Η συνάρτηση "
+"είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Το ROUNDDOWN(5.5) ισούται με 5.\n"
+"Το ROUNDDOWN(-3.3) ισούται με -4.\n"
+"Το ROUNDDOWN(1501.15,1) ισούται με 1501.1.\n"
+"Το ROUNDDOWN(1501.15,-2) ισούται με 1500.0.\n"
+"\n"
+"@ΔΕΙΤΕ=ROUND,ROUNDUP"
 
 #: src/functions/fn-math.c:2091
 msgid ""
@@ -7180,6 +7386,23 @@ msgid ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=ROUND\n"
+"@ΣΥΝΤΑΞΗ=ROUND(αριθμός[,ψηφία])\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η ROUND στρογγυλοποιεί το δοσμένο αριθμό. Ο @αριθ είναι ο αριθμός "
+"που θέλετε να στρογγυλοποιήσετε και @ψηφία είναι ο  αριθμός των (δεκαδικών) "
+"ψηφίων που θέλετε να διατηρηθούν. \n"
+"Εάν τα @ψηφία ειναι μεγαλύτερα του μηδέν, ο @αρίθ στρογγυλοποιείται στον "
+"δοσμένο αριθμό ψηφίων. Εάν τα @ψηφία είναι μηδέν ή παραλειφθούν, ο @αριθ "
+"στρογγυλοποιείται στον πλησιέστερο ακέραιο. Εάν τα @ψηφία είναι μικρότερα του "
+"μηδέν, ο αριθμός στρογγυλοποιείται μέχρι και το πρώτο δεκαδικό. Η συνάρτηση "
+"είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Το ROUND(5.5) ισούται με 6.\n"
+"Το ROUND(-3.3) ισούται με -3.\n"
+"Το ROUND(1501.15,1) ισούται με 1501.2.\n"
+"Το ROUND(1501.15,-2) ισούται με 1500.0.\n"
+"\n"
+"@ΔΕΙΤΕ=ROUNDDOWN,ROUNDUP"
 
 #: src/functions/fn-math.c:2135
 msgid ""
@@ -7200,6 +7423,23 @@ msgid ""
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=ROUNDUP\n"
+"@ΣΥΝΤΑΞΗ=ROUNDUP(αριθμός[,ψηφία])\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η ROUNDUP στρογγυλοποιεί το δοσμένο αριθμό προς τα επάνω. "
+"Ο @αριθ είναι ο αριθμός που θέλετε να στρογγυλοποιήσετε και @ψηφία είναι ο "
+"αριθμός των (δεκαδικών) ψηφίων που θέλετε να διατηρηθούν. \n"
+"Εάν τα @ψηφία ειναι μεγαλύτερα του μηδέν, ο @αρίθ στρογγυλοποιείται στον "
+"δοσμένο αριθμό ψηφίων. Εάν τα @ψηφία είναι μηδέν ή παραλειφθούν, ο @αριθ "
+"στρογγυλοποιείται στον πλησιέστερο ακέραιο. Εάν τα @ψηφία είναι μικρότερα του "
+"μηδέν, ο αριθμός στρογγυλοποιείται μέχρι και το πρώτο δεκαδικό. Η συνάρτηση "
+"είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Το ROUNDUP(5.5) ισούται με 6.\n"
+"Το ROUNDUP(-3.3) ισούται με -3.\n"
+"Το ROUNDUP(1501.15,1) ισούται με 1501.2.\n"
+"Το ROUNDUP(1501.15,-2) ισούται με 1600.0.\n"
+"\n"
+"@ΔΕΙΤΕ=ROUND,ROUNDDOWN"
 
 #: src/functions/fn-math.c:2182
 msgid ""
@@ -7216,6 +7456,19 @@ msgid ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=MROUND\n"
+"@ΣΥΝΤΑΞΗ=MROUND(αριθ,πολλαπλάσιο)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η MROUND στρογγυλοποιεί το δοσμένο αριθμό προς το επιθυμητό "
+"πολλαπλάσιο. Ο @αριθ είναι ο αριθμός που θέλετε να στρογγυλοποιήσετε και "
+"@πολλαπλάσιο είναι το πολλαπλάσιο προς το οποίο θέλετε να στρογγυλοποιήσετε "
+"τον αριθμό. \n"
+"Εάν ο @αριθ και το @πολλαπλάσιο είναι ετερόσημα, η MROUND επιστρέφει σφάλμα "
+"#ΑΡΙΘ!. Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Το MROUND(1.7,0.2) ισούται με 1.8.\n"
+"Το MROUND(321.123,0.12) ισούται με 321.12.\n"
+"\n"
+"@ΔΕΙΤΕ=ROUNDDOWN,ROUND,ROUNDUP"
 
 #: src/functions/fn-math.c:2232
 msgid ""
@@ -7238,6 +7491,24 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=ROMAN\n"
+"@ΣΥΝΤΑΞΗ=ROMAN(αριθμός[,τύπος])\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η ROMAN επιστρέφει έναν αραβικό αριθμό υπό μορφή ρωμαϊκού αριθμού,  "
+"ως κείμενο. Ο @αριθμός είναι ο αριθμός που θέλετε να μετατρέψετε και @τύπος "
+"είναι ο τύπος ρωμαϊκων αριθμών που επιθυμείτε. \n"
+"Εάν ο @τύπος είναι 0 ή παραληφεί, η ROMAN επιστρέφει κλασσικούς ρωμαϊκούς αριθμούς. "
+"Ο τύπος 1 είναι πιο συνοπτικός από τον κλασσικό, ο τύπος 2 πιο συνοπτικός από τον 1, "
+"και ο τύπος 3 πιο συνοπτικός από τον 2.  Ο τύπος 4 είναι απλοποιημένος. \n"
+"Έαν ο @αριθμός είναι αρνητικός ή μεγαλύτερος από 3999, η ROMAN επιστρέφει σφάλμα "
+" #ΤΙΜΗ!. Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"ROMAN(999) είναι CMXCIX.\n"
+"ROMAN(999,1) είναι LMVLIV.\n"
+"ROMAN(999,2) είναι XMIX.\n"
+"ROMAN(999,3) είναι VMIV.\n"
+"ROMAN(999,4) είναι IM.\n"
+"\n"
+"@ΔΕΙΤΕ="
 
 #: src/functions/fn-math.c:2501
 msgid ""
@@ -7258,13 +7529,29 @@ msgid ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2PY2"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=SUMX2MY2\n"
+"@ΣΥΝΤΑΞΗ=SUMX2MY2(πίνακας1,πίνακας2)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η SUMX2MY2 επιστρέφει το άθροισμα της διαφοράς των τετγραγώνων των "
+"αντίστοιχων τιμών σε δύο πίνακες. Ο @πίνακας1 είναι ο πρώτος πίνακας ή διάστημα "
+"δεδομένων και ο @πίνακας2 είναι ο δεύτερος πίνακας ή διάστημα δεδομένων. Η "
+"εξίσωση του SUMX2MY2 είναι SUM (x^2-y^2). \n"
+"Αλφαριθμητικά και άδεια κελιά απλώς αγνοούνται.\n"
+"Εάν οι @πίνακας1 και @πίνακας2 έχουν διαφορετικό πλήθος στοιχείων, η SUMX2MY2 "
+"επιστρέφει σφάλμα #Δ/Ε!. Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Ας υποθέσουμε ότι τα κελιά A1, A2, ..., A5 περιέχουν αριθμούς 11, 15, 17, 21, "
+"and 43 και τα κελία B1, B2, ..., B5 περιέχουν αριθμούς 13, 22, 31, 33, and 39.  "
+"Τότε το\n"
+"SUMX2MY2(A1:A5,B1:B5) ισούται με -1299.\n"
+"\n"
+"@ΔΕΙΤΕ=SUMSQ,SUMX2PY2"
 
 #: src/functions/fn-math.c:2556 src/functions/fn-math.c:2571
 #: src/functions/fn-math.c:2654 src/functions/fn-math.c:2669
 #: src/functions/fn-math.c:2749 src/functions/fn-math.c:2764
 #: src/functions/fn-stat.c:2698 src/functions/fn-stat.c:2728
 msgid "Array version not implemented!"
-msgstr ""
+msgstr "Η περίπτωση για πίνακες δεν είναι υλοποιημένη!"
 
 #: src/functions/fn-math.c:2600
 msgid ""
@@ -7285,6 +7572,22 @@ msgid ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=SUMX2PY2\n"
+"@ΣΥΝΤΑΞΗ=SUMX2PY2(πίνακας1,πίνακας2)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η SUMX2PY2 επιστρέφει το άθρροισμα του αθροίσματος των τετγραγώνων των "
+"αντίστοιχων τιμών σε δύο πίνακες. Ο @πίνακας1 είναι ο πρώτος πίνακας ή διάστημα "
+"δεδομένων και ο @πίνακας2 είναι ο δεύτερος πίνακας ή διάστημα δεδομένων. Η "
+"εξίσωση του SUMX2PY2 είναι SUM (x^2+y^2). \n"
+"Αλφαριθμητικά και άδεια κελιά απλώς αγνοούνται.\n"
+"Εάν οι @πίνακας1 και @πίνακας2 έχουν διαφορετικό πλήθος στοιχείων, η SUMX2PY2 "
+"επιστρέφει σφάλμα #Δ/Ε!. Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Ας υποθέσουμε ότι τα κελιά A1, A2, ..., A5 περιέχουν αριθμούς 11, 15, 17, 21, "
+"and 43 και τα κελία B1, B2, ..., B5 περιέχουν αριθμούς 13, 22, 31, 33, and 39.  "
+"Τότε το\n"
+"SUMX2PY2(A1:A5,B1:B5) ισούται με 7149.\n"
+"\n"
+"@ΔΕΙΤΕ=SUMSQ,SUMX2MY2"
 
 #: src/functions/fn-math.c:2696
 msgid ""
@@ -7305,6 +7608,22 @@ msgid ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=SUMXMY2\n"
+"@ΣΥΝΤΑΞΗ=SUMXMY2(πίνακας1,πίνακας2)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η SUMXMY2 επιστρέφει το άθρροισμα των τετραγώνων της διαφοράς των "
+"αντίστοιχων τιμών σε δύο πίνακες. Ο @πίνακας1 είναι ο πρώτος πίνακας ή διάστημα "
+"δεδομένων και ο @πίνακας2 είναι ο δεύτερος πίνακας ή διάστημα δεδομένων. Η "
+"εξίσωση του SUMXMY2 είναι SUM (x-y)^2. \n"
+"Αλφαριθμητικά και άδεια κελιά απλώς αγνοούνται.\n"
+"Εάν οι @πίνακας1 και @πίνακας2 έχουν διαφορετικό πλήθος στοιχείων, η SUMXMY2 "
+"επιστρέφει σφάλμα #Δ/Ε!. Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Ας υποθέσουμε ότι τα κελιά A1, A2, ..., A5 περιέχουν αριθμούς 11, 15, 17, 21, "
+"and 43 και τα κελία B1, B2, ..., B5 περιέχουν αριθμούς 13, 22, 31, 33, and 39.  "
+"Τότε το\n"
+"SUMXMY2(A1:A5,B1:B5) ισούται με 409.\n"
+"\n"
+"@ΔΕΙΤΕ=SUMSQ,SUMX2MY2,SUMX2PY2"
 
 #: src/functions/fn-math.c:2793
 msgid ""
@@ -7336,6 +7655,33 @@ msgid ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=SUBTOTAL\n"
+"@ΣΥΝΤΑΞΗ=SUMIF(αρ_συνάρτησης,αναφ1,αναφ2,...)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η SUBTOTAL επιστρέφει το άθροισμα των δοσμένων ορισμάτων. Ο "
+"@αρ_συνάρτησης είναι ο αριθμός που καθορίζει τη συνάρτηση που θα χρησιμοποιηθεί "
+"για τον υπολογισμό του αποτελέσματος. Οι ακόλουθες συναρτήσεις είναι διαθέσιμες:\n"
+"1   AVERAGE\n"
+"2   COUNT\n"
+"3   COUNTA\n"
+"4   MAX\n"
+"5   MIN\n"
+"6   PRODUCT\n"
+"7   STDEV\n"
+"8   STDEVP\n"
+"9   SUM\n"
+"10   VAR\n"
+"11   VARP\n"
+"Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Ας υποθέσουμε ότι τα κελία A1, A2, ..., A5 περιέχουν αριθμούς 23, 27, 28, 33, "
+"και 39.  Τότε το\n"
+"SUBTOTAL(1,A1:A5) ισούται με 30.\n"
+"SUBTOTAL(6,A1:A5) ισούται με 22378356.\n"
+"SUBTOTAL(7,A1:A5) ισούται με 6.164414003.\n"
+"SUBTOTAL(9,A1:A5) ισούται με 150.\n"
+"SUBTOTAL(11,A1:A5) ισούται με 30.4.\n"
+"\n"
+"@ΔΕΙΤΕ=COUNT,SUM"
 
 #: src/functions/fn-math.c:2886
 msgid ""
@@ -7353,6 +7699,19 @@ msgid ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=SERIESSUM\n"
+"@ΣΥΝΤΑΞΗ=SERIESSUM(x,n,m,συντελεστές)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η SERIESSUM επιστρέφει το άθροισμα δυναμοσειράς (γεωμ. προόδου).  Το @x "
+"είναι η βάση της δυναμοσειράς, το @n είναι η αρχική δύναμη του @x, το @m είναι η "
+"διαφορά στη δύναμη διαδοχικών όρων της προόδου, και @συντελεστές είναι οι "
+"συντελεστές με τους οποίους πολλαπλασιάζεται κάθε διαδοχική δύναμη του @x. Η "
+"συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Ας υποθέσουμε ότι τα κελία A1, A2, ..., A5 περιέχουν τους αριθμούς 1.23, 2.32, "
+"2.98, 3.42, και 4.33.  Τότε το\n"
+"SERIESSUM(3,1,2.23,A1:A5) ισούται με 251416.43018.\n"
+"\n"
+"@ΔΕΙΤΕ=COUNT,SUM"
 
 #: src/functions/fn-math.c:3009
 msgid ""
@@ -7367,10 +7726,20 @@ msgid ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=MINVERSE\n"
+"@ΣΥΝΤΑΞΗ=MINVERSE(πίνακας)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η MINVERSE επιστρέφει τον αντίστροφο του δοσμένου πίνακα. "
+"\n"
+"Έαν ο πίνακας δεν είναι αντιστρέψιμος, η MINVERSE επιστρέφει σφάλμα #ΑΡΙΘ!. Εάν "
+"ο πίνακας δεν έχει ίσο πλήθος στηλών και γραμμών, η MINVERSE επιστρέφει σφάλμα "
+"#ΤΙΜΗ!. Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"\n"
+"@ΔΕΙΤΕ=MMULT, MDETERM"
 
 #: src/functions/fn-math.c:3057
 msgid "#3D MULT?"
-msgstr ""
+msgstr "#3D ΠΟΛ/ΜΟΣ?"
 
 #: src/functions/fn-math.c:3140
 msgid ""
@@ -7383,6 +7752,14 @@ msgid ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=MMULT\n"
+"@ΣΥΝΤΑΞΗ=MMULT(πίνακας1,πίνακας2)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η MMULT επιστρέφει το γινόμενο δύο πινάκων. Το αποτέλεσμα είναι "
+"πίνακας με τον ίδιο αριθμό γραμμώμ με τον @πίνακα1 και τον ίδιο αριθμό "
+"στηλών με τον @πίνακα2. Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"\n"
+"@ΔΕΙΤΕ=TRANSPOSE,MINVERSE"
 
 #: src/functions/fn-math.c:3220
 msgid ""
@@ -7399,6 +7776,18 @@ msgid ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=MDETERM\n"
+"@ΣΥΝΤΑΞΗ=MDETERM(πίνακας)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η MDETERM επιστρέφει την ορίζουσα του δοσμένου πίνακα. \n"
+"Εάν ο πίνακας δεν έχει το ίδιο πλήθος στηλών και γραμμών, η MDETERM "
+"επιστρέφει σφάλμα #ΤΙΜΗ!. Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Ας υποθέσουμε ότι τα A1, ..., A4 περιέχουν τους αριθμούς 2, 3, 7, και 3, "
+"τα B1, ..., B4 τους 4, 2, 4, και 1, τα C1, ..., C4 τους 9, 4, 3, και 2, και τα"
+"D1, ..., D4 τους 7, 3, 6, και 5.  Τότε η.\n"
+"MDETERM(A1:D4) ισούται με 148.\n"
+"\n"
+"@ΔΕΙΤΕ=MMULT, MINVERSE"
 
 #: src/functions/fn-math.c:3278
 msgid ""
@@ -7417,6 +7806,20 @@ msgid ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=SUMPRODUCT\n"
+"@ΣΥΝΤΑΞΗ=SUMPRODUCT(διάστημα1,διάστημα2,...)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η SUMPRODUCT πολλαπλασίαζει τα αντίστοιχα στοιχεία των δοσμένων "
+"πινάκων ή διαστημάτων και επιστρέφει το άθροισμα αυτών των γινομένων.  Εάν το "
+"στοιχείο ενός πίνακα δεν είναι αριθμος, χρησιμοποιείται η τιμή μηδέν. \n"
+"Εάν οι πίνακες ή τα διαστήματα δεν έχουν τις ίδιες διαστάσεις, η SUMPRODUCT "
+"επιστρέφει σφάλμα #ΤΙΜΗ!. Η συνάρτηση είναι συμβατή με Excel. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"Ας υποθέσουμε ότι τα κελία A1, A2, ..., A5 περιέχουν τους αριθμούς 11, 15, 17, 21, "
+"και 43 και τα κελία B1, B2, ..., B5 περιέχουν τους 13, 22, 31, 33, και 39.  "
+"Τότε το\n"
+"SUMPRODUCT(A1:A5,B1:B5) ισούται με 3370.\n"
+"\n"
+"@ΔΕΙΤΕ=SUM,PRODUCT"
 
 #: src/functions/fn-math.c:3386
 msgid "Maths / Trig."
