@@ -27,6 +27,7 @@
 
 #include <math.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
 #include <libgnome/gnome-i18n.h>
 #include <sys/utsname.h>
@@ -103,9 +104,11 @@ find_name (Sheet *sheet, int col, int row)
 static void
 fill_header_titles (data_analysis_output_t *dao, gchar *title, Sheet *sheet)
 {
-	GString *buf;
-	GDate   date;
-	gchar   str[256];
+	GString   *buf;
+	GDate     date;
+	GTimeVal  t;
+	struct tm tm_s;
+	gchar     str[256], *tmp;
 
 	buf = g_string_new ("");
 	g_string_sprintfa (buf, "%s %s %s", 
@@ -122,9 +125,15 @@ fill_header_titles (data_analysis_output_t *dao, gchar *title, Sheet *sheet)
 	g_string_free (buf, FALSE);
 
 	buf = g_string_new ("");
-	g_date_set_time (&date, time (NULL));
-	g_date_strftime (str, 255, "%D", &date);
-	g_string_sprintfa (buf, "%s %s", _("Report Created:"), str);
+	g_string_append (buf, _("Report Created: "));
+	g_get_current_time (&t);
+	g_date_set_time (&date, t.tv_sec);
+	g_date_to_struct_tm (&date, &tm_s);
+	tm_s.tm_sec  = t.tv_sec % 60;
+	tm_s.tm_min  = (t.tv_sec / 60) % 60;
+	tm_s.tm_hour = (t.tv_sec / 3600) % 24;
+	tmp = asctime (&tm_s);
+	g_string_append (buf, tmp);
 	set_cell (dao, 0, 2, buf->str);
 	g_string_free (buf, FALSE);
 
@@ -441,8 +450,8 @@ solver_limits_report (WorkbookControl *wbc,
 	/* Set this to fool the autofit_column function.  (It will be
 	 * overwriten). */
 	set_cell (&dao, 0, 0, "A");
-	set_cell (&dao, 4, 0, "A");
-	set_cell (&dao, 7, 0, "A");
+	set_cell (&dao, 4, 3, "A");
+	set_cell (&dao, 7, 3, "A");
 
 
 	/*
@@ -534,8 +543,8 @@ solver_limits_report (WorkbookControl *wbc,
 	        autofit_column (&dao, i);
 
 	/* Clear these after autofit calls */
-	set_cell (&dao, 4, 0, "");
-	set_cell (&dao, 7, 0, "");
+	set_cell (&dao, 4, 3, "");
+	set_cell (&dao, 7, 3, "");
 
 
 	/*
@@ -547,6 +556,47 @@ solver_limits_report (WorkbookControl *wbc,
 }
 
 
+/*
+ * Fetches the CPU model and the speed of it.  Returns TRUE if succeeded,
+ * FALSE otherwise.  FIXME: Currently Linux only.
+ */
+static gboolean
+get_cpu_info (gchar *model_name, gchar *cpu_mhz, unsigned int size)
+{
+        FILE     *in;
+	gchar    buf[256], *p;
+	gboolean model = FALSE, cpu = FALSE;
+	unsigned len;
+
+	in = fopen ("/proc/cpuinfo", "r");
+	if (in == NULL)
+	        return FALSE;
+	while (fgets (buf, 255, in) != NULL) {
+	        if (strncmp (buf, "model name", 10) == 0) {
+		        p = g_strrstr (buf, ":");
+			len = strlen (p);
+			if (p != NULL && p[1] != '\0' && p[len - 1] == '\n') {
+			        p[len - 1] = '\0';
+				strncpy (model_name, p + 2, MIN (size, len - 2));
+				model_name [len - 2] = '\0';
+				model = TRUE;
+			}
+		}
+	        if (strncmp (buf, "cpu MHz", 7) == 0) {
+		        p = g_strrstr (buf, ":");
+			len = strlen (p);
+			if (p != NULL && p[1] != '\0' && p[len - 1] == '\n') {
+			        p[len - 1] = '\0';
+				strncpy (cpu_mhz, p + 2, MIN (size, len - 2));
+				cpu_mhz [len - 2] = '\0';
+				cpu = TRUE;
+			}
+		}
+	}
+
+	return model & cpu;
+}
+
 /* Generates the Solver's performance report.  Contains some statistical
  * information regarding the program, information on how long it took
  * to be solved, and what kind of a system did the processing.
@@ -560,6 +610,7 @@ solver_performance_report (WorkbookControl *wbc,
 	int                    i, mat_size, zeros;
 	struct                 utsname unamedata;
 	Value                  *v;
+	gchar                  model_name [256], cpu_mhz [256];
 
 	dao.type = NewSheetOutput;
         prepare_output (wbc, &dao, _("Performance Report"));
@@ -682,28 +733,40 @@ solver_performance_report (WorkbookControl *wbc,
 	 * Fill in the labels of `System Information' section.
 	 */
 
-	set_cell (&dao, 2, 22, _("CPU"));
-	set_cell (&dao, 3, 22, _("OS"));
+	set_cell (&dao, 2, 22, _("CPU Model"));
+	set_cell (&dao, 3, 22, _("CPU MHz"));
+	set_cell (&dao, 4, 22, _("OS"));
 	set_cell (&dao, 1, 23, _("Name"));
 	set_bold (dao.sheet, 0, 22, 3, 22);
 	set_bold (dao.sheet, 1, 23, 1, 23);
 
-	/* Set the `CPU Name'. */
-	set_cell (&dao, 2, 23, _("Unknown")); /* FIXME */
+	if (get_cpu_info (model_name, cpu_mhz, 255)) {
+	        /* Set the `CPU Model'. */
+	        set_cell (&dao, 2, 23, model_name);
+
+	        /* Set the `CPU Mhz'. */
+	        set_cell (&dao, 3, 23, cpu_mhz);
+	} else {
+	        /* Set the `CPU Model'. */
+	        set_cell (&dao, 2, 23, _("Unknown"));
+
+	        /* Set the `CPU Mhz'. */
+	        set_cell (&dao, 3, 23, _("Unknown"));
+	}
 
 	/* Set the `OS Name'. */
 	if (uname (&unamedata) == -1) {
 	        char  *tmp = g_strdup_printf (_("Unknown"));
 		Value *r = value_new_string (tmp);
 		g_free (tmp);
-		set_cell_value (&dao, 3, 23, r);
+		set_cell_value (&dao, 4, 23, r);
 	} else {
 	        char  *tmp = g_strdup_printf (_("%s (%s)"),
 					      unamedata.sysname,
 					      unamedata.release);
 		Value *r = value_new_string (tmp);
 		g_free (tmp);
-		set_cell_value (&dao, 3, 23, r);
+		set_cell_value (&dao, 4, 23, r);
 	}
 
 
@@ -765,8 +828,9 @@ solver_program_report (WorkbookControl *wbc,
 			        set_cell (&dao, 1 + col*3, 6, "+");
 
 			/* Print the coefficent. */
-			set_cell_float (&dao, 2 + col*3, 6,
-					gnumabs (res->obj_coeff[i]));
+			if (gnumabs (res->obj_coeff[i]) != 1)
+			        set_cell_float (&dao, 2 + col*3, 6,
+						gnumabs (res->obj_coeff[i]));
 
 			/* Print the name of the variable. */
 			cell = get_solver_input_var (res, i);
@@ -796,8 +860,9 @@ solver_program_report (WorkbookControl *wbc,
 				        set_cell (&dao, 1 + col*3, 10 + i, "+");
 
 				/* Print the coefficent. */
-				set_cell_float (&dao, 2 + col*3, 10 + i,
-						gnumabs (res->constr_coeff[i][n]));
+				if (gnumabs (res->constr_coeff[i][n]) != 1)
+				        set_cell_float (&dao, 2 + col*3, 10 + i,
+					     gnumabs (res->constr_coeff[i][n]));
 
 				/* Print the name of the variable. */
 				cell = get_solver_input_var (res, n);

@@ -624,7 +624,7 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	        .solve_fn (program);
 	g_get_current_time (&end);
 	res->time_real = end.tv_sec - start.tv_sec
-	        + (end.tv_usec - start.tv_usec) / 1000000.0;
+	        + (end.tv_usec - start.tv_usec) / G_USEC_PER_SEC;
 
 	res->param = sheet->solver_parameters;
 	if (res->status == SOLVER_LP_OPTIMAL) {

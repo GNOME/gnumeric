@@ -12,41 +12,43 @@ Critical bugs:
 Usability fixes:
   * add keep original values dialog
   * check that the program is properly defined (e.g. no #DIV0, #NUM!, ...)
+  * get_lp_coeff: test that it's really LP
 
 Feature enhancements:
   * fix assume non-negative being off
   * implement bool constraints
+  * add algorithm options:
+    - max iterations
+    - max time
+    - scaling
   * sensitivity report:
     - fix reduced cost
     - fix adjustable cells: allowable increase
     - fix adjustable cells: allowable decrease
     - fix constraints: allowable increase
     - fix constraints: allowable decrease
-  * sensitivity report: fix lagrange multipliers
-  * performance report: fix CPU info
-  * get_lp_coeff: test that it's really LP
+  * performance report:
+    - add the name of the algorithm
+    - add options used
+    - fix user & system time reporting
+  * dual program report:
+    - implement generation of a report that gives the dual of the program
+  * MPS plugin:
+    - add program export
+    - finish BOUNDS support
+    - implement RANGES support
+    - clean up
+  * add more algorithms
+    - add a list selection dialog for algorithms into the main dialog
+    - try to integrate SLATEC SPLP to see how it performs
+    - find or implement more algorithms: e.g. some interior point method
+      algorithms would be cool
   * make the solver as a separate thread so that the user can continue working
     while the solver is solving the program
     - start a status dialog after a few hunderd msec if the solver is still
       counting
     - add a callback function into the solve fn for interacting with the
       status dialog
-    - performance report: fix user & system time reporting (need a separate
-      thread)
-  * generate a report that gives the dual of the program in math form
-  * add option support for the solving algorithm
-    - max iterations
-    - max time
-    - scaling
-  * add more algorithms
-    - add a list selection dialog for algorithms into the main dialog
-    - try to integrate SLATEC SPLP to see how it performs
-    - find or implement more algorithms: e.g. some interior point method
-      algorithms would be cool
-  * fix all problems regarding MPS import plugin
-  * add MPS export
-  * performance report: add the name of the algorithm used
-  * performance report: add other used options
   * computing performance improvements:
     - make the getting of LP coefficents faster
 

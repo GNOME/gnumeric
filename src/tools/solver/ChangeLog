@@ -1,3 +1,17 @@
+2002-03-11  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* reports.c (fill_header_titles): Added also the printing of the
+	time.
+	(solver_program_report): Print the coefficent only if it is != 1.
+	(solver_performance_report): Fixed the CPU model and MHz printing
+	at least for Linux.
+	(get_cpu_info): Wrote.
+
+	* solver.c (solver): Use G_USEC_PER_SEC instead of a constant.
+
+	* reports.c (solver_limits_report): Changed the row nbr to three
+	to make the title visible again.
+	
 2002-03-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.1
