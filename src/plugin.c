@@ -33,12 +33,15 @@ plugin_load (Workbook *wb, gchar *modfile)
 	
 	data->handle = g_module_open (modfile, 0);
 	if (!data->handle) {
+		return NULL;
+#if 0
 		char *str;
 		str = g_strconcat(_("unable to open module file: "), g_module_error(), NULL);
 		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, str);
 		g_free(str);
 		g_free(data);
 		return NULL;
+#endif
 	}
 	
 	if (!g_module_symbol (data->handle, "init_plugin", (gpointer *) &data->init_plugin)){
