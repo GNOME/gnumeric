@@ -41,8 +41,7 @@ Jody:
 	* Some support for newer Lotus-123 formats
 	* Translate autoformat categories and descriptions
 	* Re-enable the ui plugin service
-	http://bugzilla.gnome.org/show_bug.cgi?id=152159
-	* Rename x-quattro-pro to match freedesktop
+	* Rename x-quattro-pro to match freedesktop [#152159]
 	* Have text in item-edit does reflect zoom
 	* Show the right rich text format when clicking on edit line
 	* Finish rich text persistence for gnumeric xml and clipboard
@@ -68,6 +67,7 @@ Morten:
 	* Improve accuracy of a few complex number functions.
 	* Make sure basenames of files can be seen during splash for
 	  multiple files.
+	* Fix undo column crash.  [#157045]
 
 Yukihiro Nakai:
 	* Improve perl plugin.

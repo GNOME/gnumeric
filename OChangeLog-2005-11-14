@@ -1,3 +1,8 @@
+2004-11-01  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (dependents_unrelocate): Don't access sheet
+	member in union unless there is supposed to be one.
+
 2004-11-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gui-util.h (gnm_iter_search_t): new type
