@@ -10,18 +10,6 @@
   <language>C</language>
   <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>
-  <use_widget_names>False</use_widget_names>
-  <output_main_file>True</output_main_file>
-  <output_support_files>True</output_support_files>
-  <output_build_files>True</output_build_files>
-  <backup_source_files>True</backup_source_files>
-  <main_source_file>interface.c</main_source_file>
-  <main_header_file>interface.h</main_header_file>
-  <handler_source_file>callbacks.c</handler_source_file>
-  <handler_header_file>callbacks.h</handler_header_file>
-  <support_source_file>support.c</support_source_file>
-  <support_header_file>support.h</support_header_file>
-  <output_translatable_strings>False</output_translatable_strings>
 </project>
 
 <widget>
@@ -49,46 +37,6 @@
       <expand>True</expand>
       <fill>True</fill>
     </child>
-
-    <widget>
-      <class>GtkVBox</class>
-      <name>vbox1</name>
-      <homogeneous>False</homogeneous>
-      <spacing>0</spacing>
-      <child>
-	<padding>0</padding>
-	<expand>True</expand>
-	<fill>True</fill>
-      </child>
-
-      <widget>
-	<class>GtkCheckButton</class>
-	<name>linearmodel</name>
-	<can_focus>True</can_focus>
-	<label>Assume _Linear Model</label>
-	<active>False</active>
-	<draw_indicator>True</draw_indicator>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkCheckButton</class>
-	<name>nonnegative</name>
-	<can_focus>True</can_focus>
-	<label>Assume _Non-Negative</label>
-	<active>False</active>
-	<draw_indicator>True</draw_indicator>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
-      </widget>
-    </widget>
 
     <widget>
       <class>GtkHButtonBox</class>
@@ -122,6 +70,46 @@
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GtkVBox</class>
+      <name>vbox1</name>
+      <homogeneous>False</homogeneous>
+      <spacing>4</spacing>
+      <child>
+	<padding>0</padding>
+	<expand>True</expand>
+	<fill>True</fill>
+      </child>
+
+      <widget>
+	<class>GtkCheckButton</class>
+	<name>linearmodel</name>
+	<can_focus>True</can_focus>
+	<label>Assume _Linear Model</label>
+	<active>False</active>
+	<draw_indicator>True</draw_indicator>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkCheckButton</class>
+	<name>nonnegative</name>
+	<can_focus>True</can_focus>
+	<label>Assume _Non-Negative</label>
+	<active>False</active>
+	<draw_indicator>True</draw_indicator>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
       </widget>
     </widget>
   </widget>

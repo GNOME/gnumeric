@@ -88,14 +88,15 @@
   <widget>
     <class>GtkVBox</class>
     <name>page_plugin_list</name>
+    <border_width>4</border_width>
     <homogeneous>False</homogeneous>
-    <spacing>0</spacing>
+    <spacing>4</spacing>
 
     <widget>
       <class>GtkHBox</class>
       <name>hbox1</name>
       <homogeneous>False</homogeneous>
-      <spacing>0</spacing>
+      <spacing>4</spacing>
       <child>
 	<padding>0</padding>
 	<expand>True</expand>
@@ -106,7 +107,7 @@
 	<class>GtkVBox</class>
 	<name>vbox4</name>
 	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
+	<spacing>4</spacing>
 	<child>
 	  <padding>0</padding>
 	  <expand>True</expand>
@@ -194,7 +195,7 @@
 	<class>GtkVBox</class>
 	<name>vbox5</name>
 	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
+	<spacing>4</spacing>
 	<child>
 	  <padding>0</padding>
 	  <expand>False</expand>
@@ -308,8 +309,9 @@
   <widget>
     <class>GtkVBox</class>
     <name>page_plugin_details</name>
+    <border_width>4</border_width>
     <homogeneous>False</homogeneous>
-    <spacing>0</spacing>
+    <spacing>4</spacing>
 
     <widget>
       <class>GtkTable</class>
@@ -317,8 +319,8 @@
       <rows>4</rows>
       <columns>2</columns>
       <homogeneous>False</homogeneous>
-      <row_spacing>0</row_spacing>
-      <column_spacing>0</column_spacing>
+      <row_spacing>4</row_spacing>
+      <column_spacing>4</column_spacing>
       <child>
 	<padding>0</padding>
 	<expand>False</expand>
@@ -557,6 +559,7 @@
 	<widget>
 	  <class>GtkCList</class>
 	  <name>clist_extra_info</name>
+	  <border_width>4</border_width>
 	  <can_focus>True</can_focus>
 	  <columns>2</columns>
 	  <column_widths>170,80</column_widths>

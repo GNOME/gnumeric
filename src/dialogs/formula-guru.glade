@@ -33,7 +33,7 @@
     <name>dialog-vbox2</name>
     <width>400</width>
     <homogeneous>False</homogeneous>
-    <spacing>0</spacing>
+    <spacing>4</spacing>
 
     <widget>
       <class>GtkHBox</class>
@@ -188,7 +188,7 @@
 	<widget>
 	  <class>GtkFrame</class>
 	  <name>arg_frame</name>
-	  <border_width>10</border_width>
+	  <border_width>4</border_width>
 	  <label_xalign>0.0999999</label_xalign>
 	  <shadow_type>GTK_SHADOW_ETCHED_OUT</shadow_type>
 
@@ -242,7 +242,7 @@
       <class>GtkHBox</class>
       <name>rolled_box</name>
       <homogeneous>False</homogeneous>
-      <spacing>0</spacing>
+      <spacing>4</spacing>
       <child>
 	<padding>0</padding>
 	<expand>False</expand>

@@ -124,15 +124,15 @@
       <widget>
 	<class>GtkHBox</class>
 	<name>hbox2</name>
-	<border_width>8</border_width>
+	<border_width>4</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>8</spacing>
+	<spacing>4</spacing>
 
 	<widget>
 	  <class>GtkVBox</class>
 	  <name>vbox2</name>
 	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
+	  <spacing>4</spacing>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
@@ -143,7 +143,7 @@
 	    <class>GtkHBox</class>
 	    <name>hbox3</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <spacing>4</spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>True</expand>
@@ -184,8 +184,8 @@
 	    <rows>1</rows>
 	    <columns>4</columns>
 	    <homogeneous>False</homogeneous>
-	    <row_spacing>0</row_spacing>
-	    <column_spacing>0</column_spacing>
+	    <row_spacing>4</row_spacing>
+	    <column_spacing>4</column_spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>True</expand>
@@ -246,7 +246,7 @@
 	    <class>GtkHBox</class>
 	    <name>hbox4</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <spacing>4</spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>True</expand>
@@ -284,12 +284,11 @@
 	  <widget>
 	    <class>GtkTable</class>
 	    <name>table4</name>
-	    <sensitive>True</sensitive>
 	    <rows>2</rows>
 	    <columns>5</columns>
 	    <homogeneous>False</homogeneous>
-	    <row_spacing>0</row_spacing>
-	    <column_spacing>0</column_spacing>
+	    <row_spacing>4</row_spacing>
+	    <column_spacing>4</column_spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>True</expand>
@@ -323,10 +322,10 @@
 	    <widget>
 	      <class>GtkRadioButton</class>
 	      <name>scale-size-fit-radio</name>
+	      <sensitive>False</sensitive>
 	      <can_focus>True</can_focus>
 	      <label>_Fit to:</label>
 	      <active>False</active>
-	      <sensitive>False</sensitive>
 	      <draw_indicator>True</draw_indicator>
 	      <group>scale-group</group>
 	      <child>
@@ -380,11 +379,11 @@
 	    <widget>
 	      <class>GtkSpinButton</class>
 	      <name>scale-width-spin</name>
+	      <sensitive>False</sensitive>
 	      <can_focus>True</can_focus>
 	      <climb_rate>1</climb_rate>
 	      <digits>0</digits>
 	      <numeric>False</numeric>
-	      <sensitive>False</sensitive>
 	      <update_policy>GTK_UPDATE_ALWAYS</update_policy>
 	      <snap>False</snap>
 	      <wrap>False</wrap>
@@ -439,10 +438,10 @@
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>label11</name>
+	      <sensitive>False</sensitive>
 	      <label>page(s) wide by</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
-	      <sensitive>False</sensitive>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
@@ -466,11 +465,11 @@
 	    <widget>
 	      <class>GtkSpinButton</class>
 	      <name>scale-height-spin</name>
+	      <sensitive>False</sensitive>
 	      <can_focus>True</can_focus>
 	      <climb_rate>1</climb_rate>
 	      <digits>0</digits>
 	      <numeric>False</numeric>
-	      <sensitive>False</sensitive>
 	      <update_policy>GTK_UPDATE_ALWAYS</update_policy>
 	      <snap>False</snap>
 	      <wrap>False</wrap>
@@ -499,10 +498,10 @@
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>label12</name>
+	      <sensitive>False</sensitive>
 	      <label>tall</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
-	      <sensitive>False</sensitive>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
@@ -553,8 +552,8 @@
 	    <rows>2</rows>
 	    <columns>2</columns>
 	    <homogeneous>False</homogeneous>
-	    <row_spacing>0</row_spacing>
-	    <column_spacing>0</column_spacing>
+	    <row_spacing>4</row_spacing>
+	    <column_spacing>4</column_spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>True</expand>
@@ -643,9 +642,9 @@
       <widget>
 	<class>GtkHBox</class>
 	<name>hbox6</name>
-	<border_width>8</border_width>
+	<border_width>4</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>8</spacing>
+	<spacing>4</spacing>
 
 	<widget>
 	  <class>GtkTable</class>
@@ -653,8 +652,8 @@
 	  <rows>10</rows>
 	  <columns>3</columns>
 	  <homogeneous>False</homogeneous>
-	  <row_spacing>0</row_spacing>
-	  <column_spacing>0</column_spacing>
+	  <row_spacing>4</row_spacing>
+	  <column_spacing>4</column_spacing>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
@@ -665,7 +664,7 @@
 	    <class>GtkHBox</class>
 	    <name>hbox7</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <spacing>4</spacing>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>3</right_attach>
@@ -692,7 +691,7 @@
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
 	      <child>
-		<padding>2</padding>
+		<padding>0</padding>
 		<expand>False</expand>
 		<fill>False</fill>
 	      </child>
@@ -713,7 +712,7 @@
 	    <class>GtkHBox</class>
 	    <name>hbox8</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <spacing>4</spacing>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>3</right_attach>
@@ -762,7 +761,7 @@
 	    <class>GtkVBox</class>
 	    <name>vbox11</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <spacing>4</spacing>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -824,7 +823,7 @@
 	    <class>GtkVBox</class>
 	    <name>vbox12</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <spacing>4</spacing>
 	    <child>
 	      <left_attach>2</left_attach>
 	      <right_attach>3</right_attach>
@@ -1280,15 +1279,15 @@ In
       <widget>
 	<class>GtkHBox</class>
 	<name>hbox9</name>
-	<border_width>8</border_width>
+	<border_width>4</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>8</spacing>
+	<spacing>4</spacing>
 
 	<widget>
 	  <class>GtkVBox</class>
 	  <name>vbox4</name>
 	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
+	  <spacing>4</spacing>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
@@ -1346,7 +1345,7 @@ In
 	    <class>GtkHBox</class>
 	    <name>hbox20</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <spacing>4</spacing>
 	    <child>
 	      <padding>3</padding>
 	      <expand>False</expand>
@@ -1445,15 +1444,15 @@ In
       <widget>
 	<class>GtkHBox</class>
 	<name>hbox10</name>
-	<border_width>8</border_width>
+	<border_width>4</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>8</spacing>
+	<spacing>4</spacing>
 
 	<widget>
 	  <class>GtkVBox</class>
 	  <name>vbox5</name>
 	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
+	  <spacing>4</spacing>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
@@ -1539,8 +1538,8 @@ In
 	    <rows>2</rows>
 	    <columns>2</columns>
 	    <homogeneous>False</homogeneous>
-	    <row_spacing>0</row_spacing>
-	    <column_spacing>0</column_spacing>
+	    <row_spacing>4</row_spacing>
+	    <column_spacing>4</column_spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>True</expand>
@@ -1645,8 +1644,8 @@ In
 	    <rows>3</rows>
 	    <columns>2</columns>
 	    <homogeneous>False</homogeneous>
-	    <row_spacing>0</row_spacing>
-	    <column_spacing>0</column_spacing>
+	    <row_spacing>4</row_spacing>
+	    <column_spacing>4</column_spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>True</expand>
@@ -1858,8 +1857,8 @@ In
 	    <rows>2</rows>
 	    <columns>2</columns>
 	    <homogeneous>True</homogeneous>
-	    <row_spacing>0</row_spacing>
-	    <column_spacing>0</column_spacing>
+	    <row_spacing>4</row_spacing>
+	    <column_spacing>4</column_spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>True</expand>

@@ -12,7 +12,6 @@
   <gettext_support>True</gettext_support>
   <output_main_file>False</output_main_file>
   <output_support_files>False</output_support_files>
-  <output_translatable_strings>False</output_translatable_strings>
 </project>
 
 <widget>
@@ -80,7 +79,7 @@
       <class>GtkHBox</class>
       <name>hbox1</name>
       <homogeneous>False</homogeneous>
-      <spacing>0</spacing>
+      <spacing>4</spacing>
       <child>
 	<padding>0</padding>
 	<expand>True</expand>

@@ -5,6 +5,7 @@ Almer:
 	* Improve the function selector.
 	* Simplify background/pattern preview in cell-format dialog.
 	* Make sure entered text never gets lost.
+	* Equalize the look of all the dialogs.
 
 Andreas:
 	* Rewrite descriptive statistics analysis improving error checks

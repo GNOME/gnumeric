@@ -213,3 +213,24 @@ aren't GnomeDialogs at all, and you have to do more work manually.
   set to "No". You should also not call gtk_widget_show / show_all on
   the dialog before calling gnumeric_dialog_run / gnome_dialog_run,
   because the dialog_run functions reposition the dialog.
+
+Guidelines for designing dialogs
+--------------------------------
+
+Spacing and border properties can be used to tidy a dialog, but this
+is not much use if everyone uses different values for these properties
+everywhere. For consistency the following rules have been made, all
+dialogs in Gnumeric should adhere to these rules :
+ 
+- Any container which can contain only a single widget (GtkWindow,
+  GtkFrame, etc..) should not have it's border set to anything other than
+  0.
+ 
+- Widgets which can host multiple other widgets must have a border of 4,
+  but only when it's not a child of a widget that already has border (or
+  spacing) set or the (indirect) child of a GtkWindow (this to avoid a
+  superfluous dialog border)
+ 
+- Spacing should always be set to 4 for GtkTable, VBoxes and HBoxes,
+  except for the toplevel VBox or HBox on a dialog which should have a
+  spacing of 8. (we don't want to mess with GnomeDialogs default setup)

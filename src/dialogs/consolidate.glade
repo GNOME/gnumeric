@@ -77,7 +77,7 @@
       <class>GtkVBox</class>
       <name>vbox1</name>
       <homogeneous>False</homogeneous>
-      <spacing>6</spacing>
+      <spacing>4</spacing>
       <child>
 	<padding>0</padding>
 	<expand>True</expand>
@@ -85,10 +85,13 @@
       </child>
 
       <widget>
-	<class>GtkHBox</class>
-	<name>hbox1</name>
+	<class>GtkTable</class>
+	<name>table1</name>
+	<rows>3</rows>
+	<columns>2</columns>
 	<homogeneous>False</homogeneous>
-	<spacing>6</spacing>
+	<row_spacing>4</row_spacing>
+	<column_spacing>4</column_spacing>
 	<child>
 	  <padding>0</padding>
 	  <expand>True</expand>
@@ -96,78 +99,64 @@
 	</child>
 
 	<widget>
-	  <class>GtkTable</class>
-	  <name>table1</name>
-	  <rows>3</rows>
-	  <columns>2</columns>
-	  <homogeneous>False</homogeneous>
-	  <row_spacing>4</row_spacing>
-	  <column_spacing>4</column_spacing>
+	  <class>GtkLabel</class>
+	  <name>label3</name>
+	  <label>_Function :</label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <focus_target>function</focus_target>
 	  <child>
-	    <padding>0</padding>
-	    <expand>True</expand>
-	    <fill>True</fill>
+	    <left_attach>0</left_attach>
+	    <right_attach>1</right_attach>
+	    <top_attach>0</top_attach>
+	    <bottom_attach>1</bottom_attach>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <xexpand>False</xexpand>
+	    <yexpand>False</yexpand>
+	    <xshrink>False</xshrink>
+	    <yshrink>False</yshrink>
+	    <xfill>True</xfill>
+	    <yfill>False</yfill>
 	  </child>
+	</widget>
 
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label3</name>
-	    <label>_Function :</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0</xalign>
-	    <yalign>0.5</yalign>
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>label4</name>
+	  <label>_Destination :</label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <child>
+	    <left_attach>0</left_attach>
+	    <right_attach>1</right_attach>
+	    <top_attach>2</top_attach>
+	    <bottom_attach>3</bottom_attach>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
-	    <focus_target>function</focus_target>
-	    <child>
-	      <left_attach>0</left_attach>
-	      <right_attach>1</right_attach>
-	      <top_attach>0</top_attach>
-	      <bottom_attach>1</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
+	    <xexpand>False</xexpand>
+	    <yexpand>False</yexpand>
+	    <xshrink>False</xshrink>
+	    <yshrink>False</yshrink>
+	    <xfill>True</xfill>
+	    <yfill>False</yfill>
+	  </child>
+	</widget>
 
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label4</name>
-	    <label>_Destination :</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <child>
-	      <left_attach>0</left_attach>
-	      <right_attach>1</right_attach>
-	      <top_attach>2</top_attach>
-	      <bottom_attach>3</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkOptionMenu</class>
-	    <name>function</name>
-	    <tooltip>The function to use when consolidating</tooltip>
-	    <can_focus>True</can_focus>
-	    <items>Sum
+	<widget>
+	  <class>GtkOptionMenu</class>
+	  <name>function</name>
+	  <tooltip>The function to use when consolidating</tooltip>
+	  <can_focus>True</can_focus>
+	  <items>Sum
 Min
 Max
 Average
@@ -178,73 +167,72 @@ Stdevp (population)
 Var (sample)
 Varp (population)
 </items>
-	    <initial_choice>0</initial_choice>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>2</right_attach>
-	      <top_attach>0</top_attach>
-	      <bottom_attach>1</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label5</name>
-	    <label>_Put :</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0</xalign>
-	    <yalign>0.5</yalign>
+	  <initial_choice>0</initial_choice>
+	  <child>
+	    <left_attach>1</left_attach>
+	    <right_attach>2</right_attach>
+	    <top_attach>0</top_attach>
+	    <bottom_attach>1</bottom_attach>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
-	    <default_focus_target>put</default_focus_target>
-	    <child>
-	      <left_attach>0</left_attach>
-	      <right_attach>1</right_attach>
-	      <top_attach>1</top_attach>
-	      <bottom_attach>2</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
+	    <xexpand>False</xexpand>
+	    <yexpand>False</yexpand>
+	    <xshrink>False</xshrink>
+	    <yshrink>False</yshrink>
+	    <xfill>True</xfill>
+	    <yfill>False</yfill>
+	  </child>
+	</widget>
 
-	  <widget>
-	    <class>GtkOptionMenu</class>
-	    <name>put</name>
-	    <can_focus>True</can_focus>
-	    <items>Values
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>label5</name>
+	  <label>_Put :</label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <default_focus_target>put</default_focus_target>
+	  <child>
+	    <left_attach>0</left_attach>
+	    <right_attach>1</right_attach>
+	    <top_attach>1</top_attach>
+	    <bottom_attach>2</bottom_attach>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <xexpand>False</xexpand>
+	    <yexpand>False</yexpand>
+	    <xshrink>False</xshrink>
+	    <yshrink>False</yshrink>
+	    <xfill>True</xfill>
+	    <yfill>False</yfill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkOptionMenu</class>
+	  <name>put</name>
+	  <can_focus>True</can_focus>
+	  <items>Values
 Formulas
 </items>
-	    <initial_choice>0</initial_choice>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>2</right_attach>
-	      <top_attach>1</top_attach>
-	      <bottom_attach>2</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
+	  <initial_choice>0</initial_choice>
+	  <child>
+	    <left_attach>1</left_attach>
+	    <right_attach>2</right_attach>
+	    <top_attach>1</top_attach>
+	    <bottom_attach>2</bottom_attach>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <xexpand>False</xexpand>
+	    <yexpand>False</yexpand>
+	    <xshrink>False</xshrink>
+	    <yshrink>False</yshrink>
+	    <xfill>True</xfill>
+	    <yfill>False</yfill>
+	  </child>
 	</widget>
       </widget>
 
@@ -263,15 +251,15 @@ Formulas
 	<widget>
 	  <class>GtkVBox</class>
 	  <name>vbox3</name>
-	  <border_width>6</border_width>
+	  <border_width>4</border_width>
 	  <homogeneous>False</homogeneous>
-	  <spacing>6</spacing>
+	  <spacing>4</spacing>
 
 	  <widget>
 	    <class>GtkHBox</class>
 	    <name>hbox2</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>6</spacing>
+	    <spacing>4</spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>True</expand>
@@ -341,7 +329,7 @@ Formulas
 	    <class>GtkHBox</class>
 	    <name>hbox3</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>6</spacing>
+	    <spacing>4</spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -394,9 +382,9 @@ Formulas
 	<widget>
 	  <class>GtkVBox</class>
 	  <name>vbox4</name>
-	  <border_width>6</border_width>
+	  <border_width>4</border_width>
 	  <homogeneous>False</homogeneous>
-	  <spacing>6</spacing>
+	  <spacing>4</spacing>
 
 	  <widget>
 	    <class>GtkCheckButton</class>

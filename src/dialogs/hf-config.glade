@@ -78,8 +78,8 @@
       <rows>3</rows>
       <columns>3</columns>
       <homogeneous>False</homogeneous>
-      <row_spacing>0</row_spacing>
-      <column_spacing>0</column_spacing>
+      <row_spacing>4</row_spacing>
+      <column_spacing>4</column_spacing>
       <child>
 	<padding>0</padding>
 	<expand>True</expand>

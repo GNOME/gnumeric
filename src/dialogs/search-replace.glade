@@ -93,9 +93,9 @@
       <widget>
 	<class>GtkVBox</class>
 	<name>vbox6</name>
-	<border_width>5</border_width>
+	<border_width>4</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>5</spacing>
+	<spacing>4</spacing>
 
 	<widget>
 	  <class>GtkFrame</class>
@@ -112,18 +112,18 @@
 	  <widget>
 	    <class>GtkVBox</class>
 	    <name>vbox5</name>
+	    <border_width>4</border_width>
 	    <homogeneous>False</homogeneous>
-	    <spacing>5</spacing>
+	    <spacing>4</spacing>
 
 	    <widget>
 	      <class>GtkTable</class>
 	      <name>table1</name>
-	      <border_width>5</border_width>
 	      <rows>2</rows>
 	      <columns>2</columns>
 	      <homogeneous>False</homogeneous>
-	      <row_spacing>5</row_spacing>
-	      <column_spacing>0</column_spacing>
+	      <row_spacing>4</row_spacing>
+	      <column_spacing>4</column_spacing>
 	      <child>
 		<padding>0</padding>
 		<expand>True</expand>
@@ -289,7 +289,7 @@
 	      <class>GtkHBox</class>
 	      <name>hbox3</name>
 	      <homogeneous>False</homogeneous>
-	      <spacing>0</spacing>
+	      <spacing>4</spacing>
 	      <child>
 		<padding>0</padding>
 		<expand>True</expand>
@@ -348,7 +348,7 @@
 	    <name>vbox2</name>
 	    <border_width>5</border_width>
 	    <homogeneous>False</homogeneous>
-	    <spacing>5</spacing>
+	    <spacing>4</spacing>
 
 	    <widget>
 	      <class>GtkRadioButton</class>
@@ -386,7 +386,7 @@
 	      <class>GtkHBox</class>
 	      <name>range-hbox</name>
 	      <homogeneous>False</homogeneous>
-	      <spacing>0</spacing>
+	      <spacing>4</spacing>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -433,9 +433,9 @@
       <widget>
 	<class>GtkVBox</class>
 	<name>vbox7</name>
-	<border_width>5</border_width>
+	<border_width>4</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>5</spacing>
+	<spacing>4</spacing>
 
 	<widget>
 	  <class>GtkFrame</class>
@@ -458,11 +458,12 @@
 	    <widget>
 	      <class>GtkTable</class>
 	      <name>table2</name>
+	      <border_width>4</border_width>
 	      <rows>2</rows>
 	      <columns>2</columns>
 	      <homogeneous>False</homogeneous>
-	      <row_spacing>5</row_spacing>
-	      <column_spacing>5</column_spacing>
+	      <row_spacing>4</row_spacing>
+	      <column_spacing>4</column_spacing>
 	      <child>
 		<padding>0</padding>
 		<expand>True</expand>
@@ -583,8 +584,9 @@
 	  <widget>
 	    <class>GtkVBox</class>
 	    <name>vbox4</name>
+	    <border_width>4</border_width>
 	    <homogeneous>False</homogeneous>
-	    <spacing>5</spacing>
+	    <spacing>4</spacing>
 
 	    <widget>
 	      <class>GtkRadioButton</class>
@@ -683,8 +685,9 @@
 	  <widget>
 	    <class>GtkVBox</class>
 	    <name>vbox8</name>
+	    <border_width>4</border_width>
 	    <homogeneous>False</homogeneous>
-	    <spacing>5</spacing>
+	    <spacing>4</spacing>
 
 	    <widget>
 	      <class>GtkCheckButton</class>
@@ -826,11 +829,10 @@
     <widget>
       <class>GtkTable</class>
       <name>table3</name>
-      <border_width>5</border_width>
       <rows>3</rows>
       <columns>2</columns>
       <homogeneous>False</homogeneous>
-      <row_spacing>5</row_spacing>
+      <row_spacing>4</row_spacing>
       <column_spacing>4</column_spacing>
       <child>
 	<padding>0</padding>

@@ -27,12 +27,11 @@
   <widget>
     <class>GtkTable</class>
     <name>toplevel-table</name>
-    <border_width>3</border_width>
     <rows>4</rows>
     <columns>3</columns>
     <homogeneous>False</homogeneous>
-    <row_spacing>0</row_spacing>
-    <column_spacing>6</column_spacing>
+    <row_spacing>4</row_spacing>
+    <column_spacing>4</column_spacing>
 
     <widget>
       <class>GtkEntry</class>
@@ -162,7 +161,6 @@
     <widget>
       <class>GtkFrame</class>
       <name>frame1</name>
-      <border_width>4</border_width>
       <label>Preview</label>
       <label_xalign>0</label_xalign>
       <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>

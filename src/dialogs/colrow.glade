@@ -90,9 +90,9 @@
       <widget>
 	<class>GtkVBox</class>
 	<name>vbox1</name>
-	<border_width>5</border_width>
+	<border_width>4</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>5</spacing>
+	<spacing>4</spacing>
 
 	<widget>
 	  <class>GtkRadioButton</class>

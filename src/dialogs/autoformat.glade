@@ -93,15 +93,15 @@
       <widget>
 	<class>GtkVBox</class>
 	<name>vbox1</name>
+	<border_width>4</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>5</spacing>
+	<spacing>4</spacing>
 
 	<widget>
 	  <class>GtkHBox</class>
 	  <name>hbox3</name>
-	  <border_width>5</border_width>
 	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
+	  <spacing>5</spacing>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
@@ -318,7 +318,7 @@
 	    <class>GtkHBox</class>
 	    <name>hbox4</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>5</spacing>
+	    <spacing>4</spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>True</expand>
@@ -328,12 +328,11 @@
 	    <widget>
 	      <class>GtkTable</class>
 	      <name>table5</name>
-	      <border_width>5</border_width>
 	      <rows>3</rows>
 	      <columns>2</columns>
 	      <homogeneous>False</homogeneous>
-	      <row_spacing>5</row_spacing>
-	      <column_spacing>5</column_spacing>
+	      <row_spacing>4</row_spacing>
+	      <column_spacing>4</column_spacing>
 	      <child>
 		<padding>0</padding>
 		<expand>True</expand>
@@ -658,12 +657,12 @@
       <widget>
 	<class>GtkTable</class>
 	<name>table4</name>
-	<border_width>5</border_width>
+	<border_width>4</border_width>
 	<rows>4</rows>
 	<columns>2</columns>
 	<homogeneous>False</homogeneous>
-	<row_spacing>5</row_spacing>
-	<column_spacing>5</column_spacing>
+	<row_spacing>4</row_spacing>
+	<column_spacing>4</column_spacing>
 
 	<widget>
 	  <class>GtkScrolledWindow</class>

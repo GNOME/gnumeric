@@ -17,7 +17,6 @@
   <main_header_file>gladesrc.h</main_header_file>
   <handler_source_file>gladesig.c</handler_source_file>
   <handler_header_file>gladesig.h</handler_header_file>
-  <output_translatable_strings>False</output_translatable_strings>
 </project>
 
 <widget>
@@ -165,12 +164,12 @@
 	  <widget>
 	    <class>GtkTable</class>
 	    <name>table20</name>
-	    <border_width>10</border_width>
+	    <border_width>4</border_width>
 	    <rows>2</rows>
 	    <columns>2</columns>
 	    <homogeneous>False</homogeneous>
 	    <row_spacing>4</row_spacing>
-	    <column_spacing>6</column_spacing>
+	    <column_spacing>4</column_spacing>
 
 	    <widget>
 	      <class>GtkLabel</class>
@@ -182,7 +181,6 @@
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
-	      <focus_target>range-data</focus_target>
 	      <child>
 		<left_attach>0</left_attach>
 		<right_attach>1</right_attach>
@@ -203,7 +201,7 @@
 	      <class>GtkVBox</class>
 	      <name>vbox5</name>
 	      <homogeneous>False</homogeneous>
-	      <spacing>0</spacing>
+	      <spacing>4</spacing>
 	      <child>
 		<left_attach>1</left_attach>
 		<right_attach>2</right_attach>
@@ -317,11 +315,12 @@
 	  <widget>
 	    <class>GtkTable</class>
 	    <name>table12</name>
+	    <border_width>4</border_width>
 	    <rows>7</rows>
 	    <columns>3</columns>
 	    <homogeneous>False</homogeneous>
-	    <row_spacing>0</row_spacing>
-	    <column_spacing>0</column_spacing>
+	    <row_spacing>4</row_spacing>
+	    <column_spacing>4</column_spacing>
 
 	    <widget>
 	      <class>GtkEntry</class>
@@ -455,9 +454,8 @@
 	    <widget>
 	      <class>GtkHBox</class>
 	      <name>hbox3</name>
-	      <border_width>4</border_width>
 	      <homogeneous>True</homogeneous>
-	      <spacing>2</spacing>
+	      <spacing>4</spacing>
 	      <child>
 		<left_attach>0</left_attach>
 		<right_attach>1</right_attach>
@@ -510,7 +508,6 @@
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
-	      <focus_target>range-series-name</focus_target>
 	      <child>
 		<left_attach>1</left_attach>
 		<right_attach>2</right_attach>
@@ -537,7 +534,6 @@
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
-	      <focus_target>range-series-values</focus_target>
 	      <child>
 		<left_attach>1</left_attach>
 		<right_attach>2</right_attach>

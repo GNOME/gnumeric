@@ -103,7 +103,7 @@
       <widget>
 	<class>GtkFrame</class>
 	<name>frame1</name>
-	<border_width>5</border_width>
+	<border_width>4</border_width>
 	<label>Validation criteria</label>
 	<label_xalign>0</label_xalign>
 	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
@@ -111,15 +111,15 @@
 	<widget>
 	  <class>GtkVBox</class>
 	  <name>vbox4</name>
-	  <border_width>5</border_width>
+	  <border_width>4</border_width>
 	  <homogeneous>False</homogeneous>
-	  <spacing>5</spacing>
+	  <spacing>4</spacing>
 
 	  <widget>
 	    <class>GtkHBox</class>
 	    <name>hbox2</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>5</spacing>
+	    <spacing>4</spacing>
 	    <child>
 	      <padding>3</padding>
 	      <expand>True</expand>
@@ -130,7 +130,7 @@
 	      <class>GtkVBox</class>
 	      <name>vbox6</name>
 	      <homogeneous>False</homogeneous>
-	      <spacing>5</spacing>
+	      <spacing>4</spacing>
 	      <child>
 		<padding>0</padding>
 		<expand>True</expand>
@@ -284,7 +284,7 @@ val &lt;=bound                  (less than or equal to)
 	      <class>GtkVBox</class>
 	      <name>vbox5</name>
 	      <homogeneous>False</homogeneous>
-	      <spacing>0</spacing>
+	      <spacing>4</spacing>
 	      <child>
 		<padding>0</padding>
 		<expand>True</expand>
@@ -355,9 +355,9 @@ val &lt;=bound                  (less than or equal to)
       <widget>
 	<class>GtkVBox</class>
 	<name>vbox1</name>
-	<border_width>5</border_width>
+	<border_width>4</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>5</spacing>
+	<spacing>4</spacing>
 
 	<widget>
 	  <class>GtkCheckButton</class>
@@ -386,9 +386,8 @@ val &lt;=bound                  (less than or equal to)
 	<widget>
 	  <class>GtkVBox</class>
 	  <name>vbox2</name>
-	  <border_width>5</border_width>
 	  <homogeneous>False</homogeneous>
-	  <spacing>5</spacing>
+	  <spacing>4</spacing>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
@@ -484,9 +483,9 @@ val &lt;=bound                  (less than or equal to)
       <widget>
 	<class>GtkVBox</class>
 	<name>vbox3</name>
-	<border_width>5</border_width>
+	<border_width>4</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>5</spacing>
+	<spacing>4</spacing>
 
 	<widget>
 	  <class>GtkCheckButton</class>
@@ -515,12 +514,11 @@ val &lt;=bound                  (less than or equal to)
 	<widget>
 	  <class>GtkTable</class>
 	  <name>table1</name>
-	  <border_width>5</border_width>
 	  <rows>4</rows>
 	  <columns>2</columns>
 	  <homogeneous>False</homogeneous>
-	  <row_spacing>5</row_spacing>
-	  <column_spacing>5</column_spacing>
+	  <row_spacing>4</row_spacing>
+	  <column_spacing>4</column_spacing>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>

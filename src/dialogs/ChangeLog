@@ -1,3 +1,7 @@
+2001-07-25  Almer S. Tigelaar  <almer@gnome.org>
+
+	* *.glade: Equalize spacing and borders.
+
 2001-07-19  Almer S. Tigelaar  <almer@gnome.org>
 
  	* function-select.glade: Put the description label inside

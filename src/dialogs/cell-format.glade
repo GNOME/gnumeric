@@ -43,13 +43,13 @@
     <widget>
       <class>GtkHBox</class>
       <name>number_box</name>
+      <border_width>4</border_width>
       <homogeneous>False</homogeneous>
-      <spacing>0</spacing>
+      <spacing>4</spacing>
 
       <widget>
 	<class>GtkFrame</class>
 	<name>frame17</name>
-	<border_width>10</border_width>
 	<label_xalign>0</label_xalign>
 	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	<child>
@@ -61,8 +61,9 @@
 	<widget>
 	  <class>GtkVBox</class>
 	  <name>vbox28</name>
+	  <border_width>4</border_width>
 	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
+	  <spacing>4</spacing>
 
 	  <widget>
 	    <class>GtkRadioButton</class>
@@ -261,9 +262,8 @@
       <widget>
 	<class>GtkVBox</class>
 	<name>format_box</name>
-	<border_width>10</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
+	<spacing>4</spacing>
 	<child>
 	  <padding>0</padding>
 	  <expand>True</expand>
@@ -331,7 +331,7 @@
 	    <class>GtkHBox</class>
 	    <name>hbox4</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <spacing>4</spacing>
 
 	    <widget>
 	      <class>GtkLabel</class>
@@ -504,7 +504,6 @@
 	  <widget>
 	    <class>GtkButton</class>
 	    <name>button1</name>
-	    <border_width>4</border_width>
 	    <sensitive>False</sensitive>
 	    <can_focus>True</can_focus>
 	    <label>De_lete format</label>
@@ -600,14 +599,15 @@
     <widget>
       <class>GtkHBox</class>
       <name>alignment_box</name>
+      <border_width>4</border_width>
       <homogeneous>False</homogeneous>
-      <spacing>0</spacing>
+      <spacing>4</spacing>
 
       <widget>
 	<class>GtkVBox</class>
 	<name>vbox12</name>
 	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
+	<spacing>4</spacing>
 	<child>
 	  <padding>0</padding>
 	  <expand>False</expand>
@@ -617,7 +617,6 @@
 	<widget>
 	  <class>GtkFrame</class>
 	  <name>frame14</name>
-	  <border_width>10</border_width>
 	  <label>Horizontal</label>
 	  <label_xalign>0</label_xalign>
 	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
@@ -630,8 +629,9 @@
 	  <widget>
 	    <class>GtkVBox</class>
 	    <name>vbox39</name>
+	    <border_width>4</border_width>
 	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <spacing>4</spacing>
 
 	    <widget>
 	      <class>GtkTable</class>
@@ -639,8 +639,8 @@
 	      <rows>2</rows>
 	      <columns>3</columns>
 	      <homogeneous>True</homogeneous>
-	      <row_spacing>0</row_spacing>
-	      <column_spacing>0</column_spacing>
+	      <row_spacing>4</row_spacing>
+	      <column_spacing>4</column_spacing>
 	      <child>
 		<padding>0</padding>
 		<expand>True</expand>
@@ -811,7 +811,7 @@
 	      <class>GtkHBox</class>
 	      <name>hbox35</name>
 	      <homogeneous>False</homogeneous>
-	      <spacing>0</spacing>
+	      <spacing>4</spacing>
 	      <child>
 		<padding>0</padding>
 		<expand>True</expand>
@@ -874,7 +874,7 @@
 	  <class>GtkHBox</class>
 	  <name>hbox34</name>
 	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
+	  <spacing>4</spacing>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
@@ -884,7 +884,6 @@
 	  <widget>
 	    <class>GtkFrame</class>
 	    <name>frame15</name>
-	    <border_width>10</border_width>
 	    <label>Vertical Alignment</label>
 	    <label_xalign>0</label_xalign>
 	    <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
@@ -897,14 +896,15 @@
 	    <widget>
 	      <class>GtkHBox</class>
 	      <name>hbox33</name>
+	      <border_width>4</border_width>
 	      <homogeneous>False</homogeneous>
-	      <spacing>0</spacing>
+	      <spacing>4</spacing>
 
 	      <widget>
 		<class>GtkVBox</class>
 		<name>vbox37</name>
 		<homogeneous>False</homogeneous>
-		<spacing>0</spacing>
+		<spacing>4</spacing>
 		<child>
 		  <padding>0</padding>
 		  <expand>True</expand>
@@ -977,7 +977,6 @@
 	  <widget>
 	    <class>GtkFrame</class>
 	    <name>frame16</name>
-	    <border_width>10</border_width>
 	    <label>Control</label>
 	    <label_xalign>0</label_xalign>
 	    <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
@@ -990,8 +989,9 @@
 	    <widget>
 	      <class>GtkVBox</class>
 	      <name>vbox38</name>
+	      <border_width>4</border_width>
 	      <homogeneous>False</homogeneous>
-	      <spacing>0</spacing>
+	      <spacing>4</spacing>
 
 	      <widget>
 		<class>GtkCheckButton</class>
@@ -1033,9 +1033,9 @@
 	<label_xalign>0</label_xalign>
 	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	<child>
-	  <padding>46</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
+	  <padding>0</padding>
+	  <expand>True</expand>
+	  <fill>True</fill>
 	</child>
 
 	<widget>
@@ -1070,14 +1070,13 @@
       <name>font_box</name>
       <border_width>4</border_width>
       <homogeneous>False</homogeneous>
-      <spacing>0</spacing>
+      <spacing>4</spacing>
 
       <widget>
 	<class>GtkHBox</class>
 	<name>hbox12</name>
-	<border_width>4</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
+	<spacing>4</spacing>
 	<child>
 	  <padding>0</padding>
 	  <expand>False</expand>
@@ -1087,7 +1086,6 @@
 	<widget>
 	  <class>GtkFrame</class>
 	  <name>font_color_frame</name>
-	  <border_width>3</border_width>
 	  <label>Color</label>
 	  <label_xalign>0</label_xalign>
 	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
@@ -1100,7 +1098,7 @@
 	  <widget>
 	    <class>GtkAlignment</class>
 	    <name>alignment50</name>
-	    <border_width>5</border_width>
+	    <border_width>4</border_width>
 	    <xalign>0</xalign>
 	    <yalign>7.45058e-09</yalign>
 	    <xscale>0</xscale>
@@ -1110,7 +1108,7 @@
 	      <class>GtkHBox</class>
 	      <name>font_color_hbox</name>
 	      <homogeneous>False</homogeneous>
-	      <spacing>5</spacing>
+	      <spacing>4</spacing>
 
 	      <widget>
 		<class>GtkLabel</class>
@@ -1139,7 +1137,6 @@
 	<widget>
 	  <class>GtkFrame</class>
 	  <name>frame5</name>
-	  <border_width>3</border_width>
 	  <label>Effects</label>
 	  <label_xalign>0</label_xalign>
 	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
@@ -1152,14 +1149,15 @@
 	  <widget>
 	    <class>GtkHBox</class>
 	    <name>hbox29</name>
+	    <border_width>4</border_width>
 	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <spacing>4</spacing>
 
 	    <widget>
 	      <class>GtkVBox</class>
 	      <name>vbox40</name>
 	      <homogeneous>False</homogeneous>
-	      <spacing>0</spacing>
+	      <spacing>4</spacing>
 	      <child>
 		<padding>0</padding>
 		<expand>True</expand>
@@ -1169,9 +1167,8 @@
 	      <widget>
 		<class>GtkHBox</class>
 		<name>hbox36</name>
-		<border_width>4</border_width>
 		<homogeneous>False</homogeneous>
-		<spacing>0</spacing>
+		<spacing>4</spacing>
 		<child>
 		  <padding>0</padding>
 		  <expand>True</expand>
@@ -1247,7 +1244,7 @@ Double
 	      <class>GtkVBox</class>
 	      <name>vbox14</name>
 	      <homogeneous>False</homogeneous>
-	      <spacing>0</spacing>
+	      <spacing>4</spacing>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -1322,15 +1319,16 @@ Double
     <widget>
       <class>GtkHBox</class>
       <name>border_box</name>
+      <border_width>4</border_width>
       <width>370</width>
       <homogeneous>False</homogeneous>
-      <spacing>0</spacing>
+      <spacing>4</spacing>
 
       <widget>
 	<class>GtkVBox</class>
 	<name>vbox4</name>
 	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
+	<spacing>4</spacing>
 	<child>
 	  <padding>0</padding>
 	  <expand>False</expand>
@@ -1341,7 +1339,7 @@ Double
 	  <class>GtkHBox</class>
 	  <name>hbox32</name>
 	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
+	  <spacing>4</spacing>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
@@ -1352,7 +1350,7 @@ Double
 	    <class>GtkVBox</class>
 	    <name>vbox34</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <spacing>4</spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>True</expand>
@@ -1424,7 +1422,7 @@ Double
 	    <class>GtkVBox</class>
 	    <name>vbox36</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <spacing>4</spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -1477,7 +1475,6 @@ Double
 	      <widget>
 		<class>GtkFrame</class>
 		<name>frame9</name>
-		<border_width>7</border_width>
 		<label_xalign>0</label_xalign>
 		<shadow_type>GTK_SHADOW_IN</shadow_type>
 
@@ -1532,7 +1529,7 @@ Double
 	    <class>GtkVBox</class>
 	    <name>vbox35</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <spacing>4</spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>True</expand>
@@ -1605,7 +1602,7 @@ Double
 	  <class>GtkHBox</class>
 	  <name>hbox30</name>
 	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
+	  <spacing>4</spacing>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
@@ -1776,8 +1773,9 @@ Double
 	<widget>
 	  <class>GtkVBox</class>
 	  <name>line_vbox</name>
+	  <border_width>4</border_width>
 	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
+	  <spacing>4</spacing>
 
 	  <widget>
 	    <class>GtkLabel</class>
@@ -1816,11 +1814,12 @@ Double
 	      <widget>
 		<class>GtkTable</class>
 		<name>table1</name>
+		<border_width>4</border_width>
 		<rows>7</rows>
 		<columns>2</columns>
 		<homogeneous>True</homogeneous>
-		<row_spacing>0</row_spacing>
-		<column_spacing>0</column_spacing>
+		<row_spacing>4</row_spacing>
+		<column_spacing>4</column_spacing>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -2207,9 +2206,8 @@ Double
 	    <widget>
 	      <class>GtkHBox</class>
 	      <name>border_color_hbox</name>
-	      <border_width>5</border_width>
 	      <homogeneous>False</homogeneous>
-	      <spacing>5</spacing>
+	      <spacing>4</spacing>
 
 	      <widget>
 		<class>GtkLabel</class>
@@ -2253,15 +2251,15 @@ Double
     <widget>
       <class>GtkHBox</class>
       <name>background_box</name>
+      <border_width>4</border_width>
       <homogeneous>False</homogeneous>
-      <spacing>0</spacing>
+      <spacing>4</spacing>
 
       <widget>
 	<class>GtkVBox</class>
 	<name>vbox25</name>
-	<border_width>8</border_width>
 	<homogeneous>False</homogeneous>
-	<spacing>12</spacing>
+	<spacing>4</spacing>
 	<child>
 	  <padding>0</padding>
 	  <expand>False</expand>
@@ -2271,7 +2269,6 @@ Double
 	<widget>
 	  <class>GtkFrame</class>
 	  <name>background_color_frame</name>
-	  <border_width>2</border_width>
 	  <label>Background Color</label>
 	  <label_xalign>0</label_xalign>
 	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
@@ -2284,6 +2281,7 @@ Double
 	  <widget>
 	    <class>GtkAlignment</class>
 	    <name>alignment52</name>
+	    <border_width>4</border_width>
 	    <xalign>0.5</xalign>
 	    <yalign>0</yalign>
 	    <xscale>1</xscale>
@@ -2292,9 +2290,8 @@ Double
 	    <widget>
 	      <class>GtkHBox</class>
 	      <name>back_color_hbox</name>
-	      <border_width>5</border_width>
 	      <homogeneous>False</homogeneous>
-	      <spacing>5</spacing>
+	      <spacing>4</spacing>
 
 	      <widget>
 		<class>GtkLabel</class>
@@ -2323,7 +2320,6 @@ Double
 	<widget>
 	  <class>GtkFrame</class>
 	  <name>frame12</name>
-	  <border_width>2</border_width>
 	  <label>Pattern</label>
 	  <label_xalign>0</label_xalign>
 	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
@@ -2336,6 +2332,7 @@ Double
 	  <widget>
 	    <class>GtkAlignment</class>
 	    <name>alignment53</name>
+	    <border_width>4</border_width>
 	    <xalign>0.5</xalign>
 	    <yalign>0</yalign>
 	    <xscale>1</xscale>
@@ -2345,14 +2342,13 @@ Double
 	      <class>GtkVBox</class>
 	      <name>pattern_vbox</name>
 	      <homogeneous>False</homogeneous>
-	      <spacing>3</spacing>
+	      <spacing>4</spacing>
 
 	      <widget>
 		<class>GtkHBox</class>
 		<name>pattern_color_hbox</name>
-		<border_width>5</border_width>
 		<homogeneous>False</homogeneous>
-		<spacing>5</spacing>
+		<spacing>4</spacing>
 		<child>
 		  <padding>0</padding>
 		  <expand>True</expand>
@@ -2387,8 +2383,8 @@ Double
 		<rows>4</rows>
 		<columns>6</columns>
 		<homogeneous>False</homogeneous>
-		<row_spacing>0</row_spacing>
-		<column_spacing>0</column_spacing>
+		<row_spacing>4</row_spacing>
+		<column_spacing>4</column_spacing>
 		<child>
 		  <padding>0</padding>
 		  <expand>True</expand>
@@ -3134,7 +3130,6 @@ Double
 	<widget>
 	  <class>GtkFrame</class>
 	  <name>frame10</name>
-	  <border_width>9</border_width>
 	  <label>Sample</label>
 	  <label_xalign>0</label_xalign>
 	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
@@ -3147,7 +3142,7 @@ Double
 	  <widget>
 	    <class>GtkScrolledWindow</class>
 	    <name>scrolledwindow13</name>
-	    <border_width>5</border_width>
+	    <border_width>4</border_width>
 	    <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
 	    <vscrollbar_policy>GTK_POLICY_NEVER</vscrollbar_policy>
 	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
@@ -3187,8 +3182,9 @@ Double
     <widget>
       <class>GtkVBox</class>
       <name>protection_box</name>
+      <border_width>4</border_width>
       <homogeneous>False</homogeneous>
-      <spacing>0</spacing>
+      <spacing>4</spacing>
 
       <widget>
 	<class>GtkCheckButton</class>

@@ -103,7 +103,7 @@
 	<class>GtkVBox</class>
 	<name>vbox1</name>
 	<homogeneous>False</homogeneous>
-	<spacing>5</spacing>
+	<spacing>4</spacing>
 
 	<widget>
 	  <class>GtkHBox</class>
@@ -111,7 +111,7 @@
 	  <width>450</width>
 	  <height>220</height>
 	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
+	  <spacing>4</spacing>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
