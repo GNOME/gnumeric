@@ -15716,882 +15716,882 @@ msgid "Save As"
 msgstr "Salvar"
 
 # src/workbook.c:284
-#~ msgid "Warning"
-#~ msgstr "Aviso"
+msgid "Warning"
+msgstr "Aviso"
 
 # src/workbook.c:868
 #, fuzzy
-#~ msgid "Line mode"
-#~ msgstr "Linha"
+msgid "Line mode"
+msgstr "Linha"
 
 # src/dialog-define-names.c:42
 #, fuzzy
-#~ msgid "Names in "
-#~ msgstr "Nomes do caderno de trabalho"
+msgid "Names in "
+msgstr "Nomes do caderno de trabalho"
 
 # src/dialog-define-names.c:49
 #, fuzzy
-#~ msgid "Refers to:"
-#~ msgstr "Refere-se a"
+msgid "Refers to:"
+msgstr "Refere-se a"
 
 # src/formats.c:17
-#~ msgid "0"
-#~ msgstr "0"
+msgid "0"
+msgstr "0"
 
 # src/formats.c:18
-#~ msgid "0.00"
-#~ msgstr "0,00"
+msgid "0.00"
+msgstr "0,00"
 
 # src/formats.c:19
-#~ msgid "#,##0"
-#~ msgstr "#.##0"
+msgid "#,##0"
+msgstr "#.##0"
 
 # src/formats.c:20
-#~ msgid "#,##0.00"
-#~ msgstr "#.##0,00"
+msgid "#,##0.00"
+msgstr "#.##0,00"
 
 # src/formats.c:21
-#~ msgid "#,##0_);(#,##0)"
-#~ msgstr "#.##0_);(#.##0)"
+msgid "#,##0_);(#,##0)"
+msgstr "#.##0_);(#.##0)"
 
 # src/formats.c:22
 #, fuzzy
-#~ msgid "#,##0_);[Red](#,##0)"
-#~ msgstr "#.##0_);[vermelho](#.##0)"
+msgid "#,##0_);[Red](#,##0)"
+msgstr "#.##0_);[vermelho](#.##0)"
 
 # src/formats.c:23
-#~ msgid "#,##0.00_);(#,##0.00)"
-#~ msgstr "#.##0,00_);(#.##0,00)"
+msgid "#,##0.00_);(#,##0.00)"
+msgstr "#.##0,00_);(#.##0,00)"
 
 # src/formats.c:24
 #, fuzzy
-#~ msgid "#,##0.00_);[Red](#,##0.00)"
-#~ msgstr "#.##0,00_);[vermelho](#.##0,00)"
+msgid "#,##0.00_);[Red](#,##0.00)"
+msgstr "#.##0,00_);[vermelho](#.##0,00)"
 
 # src/formats.c:25
-#~ msgid "0.0"
-#~ msgstr "0.0"
+msgid "0.0"
+msgstr "0.0"
 
 # src/formats.c:97
-#~ msgid "$#,##0_);($#,##0)"
-#~ msgstr "$#.##0_);($#.##0)"
+msgid "$#,##0_);($#,##0)"
+msgstr "$#.##0_);($#.##0)"
 
 # src/formats.c:98
 #, fuzzy
-#~ msgid "$#,##0_);[Red]($#,##0)"
-#~ msgstr "$#.##0_);[vermelho]($#.##0)"
+msgid "$#,##0_);[Red]($#,##0)"
+msgstr "$#.##0_);[vermelho]($#.##0)"
 
 # src/formats.c:99
-#~ msgid "$#,##0.00_);($#,##0.00)"
-#~ msgstr "$#.##0,00_);($#.##0,00)"
+msgid "$#,##0.00_);($#,##0.00)"
+msgstr "$#.##0,00_);($#.##0,00)"
 
 # src/formats.c:100
 #, fuzzy
-#~ msgid "$#,##0.00_);[Red]($#,##0.00)"
-#~ msgstr "$#.##0,00_);[vermelho]($#.##0,00)"
+msgid "$#,##0.00_);[Red]($#,##0.00)"
+msgstr "$#.##0,00_);[vermelho]($#.##0,00)"
 
 # src/formats.c:30
 #, fuzzy
-#~ msgid "_($* #,##0_);_($* (#,##0);_($* \"-\"_);_(@_)"
-#~ msgstr "_($*#.##0_);_($*(#.##0);_($*\"-\"_);_(@_)"
+msgid "_($* #,##0_);_($* (#,##0);_($* \"-\"_);_(@_)"
+msgstr "_($*#.##0_);_($*(#.##0);_($*\"-\"_);_(@_)"
 
 # src/formats.c:30
 #, fuzzy
-#~ msgid "_(* #,##0_);_(* (#,##0);_(* \"-\"_);_(@_)"
-#~ msgstr "_($*#.##0_);_($*(#.##0);_($*\"-\"_);_(@_)"
+msgid "_(* #,##0_);_(* (#,##0);_(* \"-\"_);_(@_)"
+msgstr "_($*#.##0_);_($*(#.##0);_($*\"-\"_);_(@_)"
 
 # src/formats.c:32
 #, fuzzy
-#~ msgid "_($* #,##0.00_);_($* (#,##0.00);_($* \"-\"??_);_(@_)"
-#~ msgstr "_($*#.##0,00_);_($*(#.##0,00);_($*\"-\"??_);_(@_)"
+msgid "_($* #,##0.00_);_($* (#,##0.00);_($* \"-\"??_);_(@_)"
+msgstr "_($*#.##0,00_);_($*(#.##0,00);_($*\"-\"??_);_(@_)"
 
 # src/formats.c:33
 #, fuzzy
-#~ msgid "_(* #,##0.00_);_(* (#,##0.00);_(* \"-\"??_);_(@_)"
-#~ msgstr "_(*#.##0,00_);_(*(#.##0,00);_(*\"-\"??_);_(@_)"
+msgid "_(* #,##0.00_);_(* (#,##0.00);_(* \"-\"??_);_(@_)"
+msgstr "_(*#.##0,00_);_(*(#.##0,00);_(*\"-\"??_);_(@_)"
 
 # src/formats.c:38
-#~ msgid "m/d/yy"
-#~ msgstr "m/d/aa"
+msgid "m/d/yy"
+msgstr "m/d/aa"
 
 # src/formats.c:39
-#~ msgid "m/d/yyyy"
-#~ msgstr "n/m/aaaa"
+msgid "m/d/yyyy"
+msgstr "n/m/aaaa"
 
 # src/formats.c:40
-#~ msgid "d-mmm-yy"
-#~ msgstr "d-mmm-aa"
+msgid "d-mmm-yy"
+msgstr "d-mmm-aa"
 
 # src/formats.c:41
-#~ msgid "d-mmm-yyyy"
-#~ msgstr "d-mmm-aaaa"
+msgid "d-mmm-yyyy"
+msgstr "d-mmm-aaaa"
 
 # src/formats.c:42
-#~ msgid "d-mmm"
-#~ msgstr "d-mmm"
+msgid "d-mmm"
+msgstr "d-mmm"
 
 # src/formats.c:43
-#~ msgid "d-mm"
-#~ msgstr "d-mm"
+msgid "d-mm"
+msgstr "d-mm"
 
 # src/formats.c:44
-#~ msgid "mmm/d"
-#~ msgstr "d/mmm"
+msgid "mmm/d"
+msgstr "d/mmm"
 
 # src/formats.c:45
-#~ msgid "mm/d"
-#~ msgstr "d/mm"
+msgid "mm/d"
+msgstr "d/mm"
 
 # src/formats.c:46
-#~ msgid "mm/dd/yy"
-#~ msgstr "mm/dd/aa"
+msgid "mm/dd/yy"
+msgstr "mm/dd/aa"
 
 # src/formats.c:47
-#~ msgid "mm/dd/yyyy"
-#~ msgstr "mm/dd/aaaa"
+msgid "mm/dd/yyyy"
+msgstr "mm/dd/aaaa"
 
 # src/formats.c:48
-#~ msgid "mmm/dd/yy"
-#~ msgstr "mmm/dd/aa"
+msgid "mmm/dd/yy"
+msgstr "mmm/dd/aa"
 
 # src/formats.c:49
-#~ msgid "mmm/dd/yyyy"
-#~ msgstr "mmm/dd/aaaa"
+msgid "mmm/dd/yyyy"
+msgstr "mmm/dd/aaaa"
 
 # src/formats.c:50
-#~ msgid "mmm/ddd/yy"
-#~ msgstr "mmm/ddd/aa"
+msgid "mmm/ddd/yy"
+msgstr "mmm/ddd/aa"
 
 # src/formats.c:51
-#~ msgid "mmm/ddd/yyyy"
-#~ msgstr "ddd/mmm/aaaa"
+msgid "mmm/ddd/yyyy"
+msgstr "ddd/mmm/aaaa"
 
 # src/formats.c:52
-#~ msgid "mm/ddd/yy"
-#~ msgstr "mm/ddd/aa"
+msgid "mm/ddd/yy"
+msgstr "mm/ddd/aa"
 
 # src/formats.c:53
-#~ msgid "mm/ddd/yyyy"
-#~ msgstr "mm/ddd/aaaa"
+msgid "mm/ddd/yyyy"
+msgstr "mm/ddd/aaaa"
 
 # src/formats.c:54
-#~ msgid "mmm-yy"
-#~ msgstr "mmm-aa"
+msgid "mmm-yy"
+msgstr "mmm-aa"
 
 # src/formats.c:55
-#~ msgid "mmm-yyyy"
-#~ msgstr "mmm-aaaa"
+msgid "mmm-yyyy"
+msgstr "mmm-aaaa"
 
 # src/formats.c:54
 #, fuzzy
-#~ msgid "mmmm-yy"
-#~ msgstr "mmm-aa"
+msgid "mmmm-yy"
+msgstr "mmm-aa"
 
 # src/formats.c:55
 #, fuzzy
-#~ msgid "mmmm-yyyy"
-#~ msgstr "mmm-aaaa"
+msgid "mmmm-yyyy"
+msgstr "mmm-aaaa"
 
 # src/formats.c:56 src/formats.c:66
-#~ msgid "m/d/yy h:mm"
-#~ msgstr "m/d/aa h:mm"
+msgid "m/d/yy h:mm"
+msgstr "m/d/aa h:mm"
 
 # src/formats.c:57
-#~ msgid "m/d/yyyy h:mm"
-#~ msgstr "m/d/aaaa h:mm"
+msgid "m/d/yyyy h:mm"
+msgstr "m/d/aaaa h:mm"
 
 # src/formats.c:45
 #, fuzzy
-#~ msgid "yyyy/mm/d"
-#~ msgstr "d/mm"
+msgid "yyyy/mm/d"
+msgstr "d/mm"
 
 # src/formats.c:44
 #, fuzzy
-#~ msgid "yyyy/mmm/d"
-#~ msgstr "d/mmm"
+msgid "yyyy/mmm/d"
+msgstr "d/mmm"
 
 # src/formats.c:44
 #, fuzzy
-#~ msgid "yyyy/mmm/dd"
-#~ msgstr "d/mmm"
+msgid "yyyy/mmm/dd"
+msgstr "d/mmm"
 
 # src/formats.c:39
 #, fuzzy
-#~ msgid "yyyy"
-#~ msgstr "n/m/aaaa"
+msgid "yyyy"
+msgstr "n/m/aaaa"
 
 # src/formats.c:62
-#~ msgid "h:mm AM/PM"
-#~ msgstr "h:mm AM/PM"
+msgid "h:mm AM/PM"
+msgstr "h:mm AM/PM"
 
 # src/formats.c:63
-#~ msgid "h:mm:ss AM/PM"
-#~ msgstr "h:mm:ss AM/PM"
+msgid "h:mm:ss AM/PM"
+msgstr "h:mm:ss AM/PM"
 
 # src/formats.c:64
-#~ msgid "h:mm"
-#~ msgstr "h:mm"
+msgid "h:mm"
+msgstr "h:mm"
 
 # src/formats.c:65
-#~ msgid "h:mm:ss"
-#~ msgstr "h:mm:ss"
+msgid "h:mm:ss"
+msgstr "h:mm:ss"
 
 # src/formats.c:67
-#~ msgid "mm:ss"
-#~ msgstr "mm:ss"
+msgid "mm:ss"
+msgstr "mm:ss"
 
 # src/formats.c:68
-#~ msgid "mm:ss.0"
-#~ msgstr "mm:ss.0"
+msgid "mm:ss.0"
+msgstr "mm:ss.0"
 
 # src/formats.c:69
-#~ msgid "[h]:mm:ss"
-#~ msgstr "[h]:mm:ss"
+msgid "[h]:mm:ss"
+msgstr "[h]:mm:ss"
 
 # src/formats.c:64
 #, fuzzy
-#~ msgid "[h]:mm"
-#~ msgstr "h:mm"
+msgid "[h]:mm"
+msgstr "h:mm"
 
 # src/formats.c:67
 #, fuzzy
-#~ msgid "[mm]:ss"
-#~ msgstr "mm:ss"
+msgid "[mm]:ss"
+msgstr "mm:ss"
 
 # src/formats.c:74
-#~ msgid "0%"
-#~ msgstr "0%"
+msgid "0%"
+msgstr "0%"
 
 # src/formats.c:75
-#~ msgid "0.00%"
-#~ msgstr "0.00%"
+msgid "0.00%"
+msgstr "0.00%"
 
 # src/formats.c:80
-#~ msgid "# ?/?"
-#~ msgstr "# ?/?"
+msgid "# ?/?"
+msgstr "# ?/?"
 
 # src/formats.c:81
-#~ msgid "# ??/??"
-#~ msgstr "# ??/??"
+msgid "# ??/??"
+msgstr "# ??/??"
 
 # src/formats.c:86
-#~ msgid "0.00E+00"
-#~ msgstr "0.00E+00"
+msgid "0.00E+00"
+msgstr "0.00E+00"
 
 # src/formats.c:87
-#~ msgid "##0.0E+0"
-#~ msgstr "##0.0E+0"
+msgid "##0.0E+0"
+msgstr "##0.0E+0"
 
 # src/plugin-manager.c:95 src/plugin-manager.c:96
 #, fuzzy
-#~ msgid "/File/"
-#~ msgstr "Arquivo"
+msgid "/File/"
+msgstr "Arquivo"
 
 # src/dialog-zoom.c:56
 #, fuzzy
-#~ msgid "custom"
-#~ msgstr "Customizado"
+msgid "custom"
+msgstr "Customizado"
 
 # src/dialog-zoom.c:56
 #, fuzzy
-#~ msgid "Custom Color:"
-#~ msgstr "Customizado"
+msgid "Custom Color:"
+msgstr "Customizado"
 
 # src/dates.c:26
 #, fuzzy
-#~ msgid "navy"
-#~ msgstr "Domingo"
+msgid "navy"
+msgstr "Domingo"
 
 # src/format.c:404
 #, fuzzy
-#~ msgid "dark blue"
-#~ msgstr "azul"
+msgid "dark blue"
+msgstr "azul"
 
 # src/workbook.c:859
 #, fuzzy
-#~ msgid "gold"
-#~ msgstr "Negrito"
+msgid "gold"
+msgstr "Negrito"
 
 # src/format.c:406
 #, fuzzy
-#~ msgid "dark green"
-#~ msgstr "verde"
+msgid "dark green"
+msgstr "verde"
 
 # src/format.c:404
 #, fuzzy
-#~ msgid "dull blue"
-#~ msgstr "azul"
+msgid "dull blue"
+msgstr "azul"
 
 # src/workbook.c:874
 #, fuzzy
-#~ msgid "orange"
-#~ msgstr "Retângulo"
+msgid "orange"
+msgstr "Retângulo"
 
 # src/dialog-cell-format.c:69
 #, fuzzy
-#~ msgid "lime"
-#~ msgstr "Hora"
+msgid "lime"
+msgstr "Hora"
 
 # src/format.c:406
 #, fuzzy
-#~ msgid "dull green"
-#~ msgstr "verde"
+msgid "dull green"
+msgstr "verde"
 
 # src/workbook.c:871
 #, fuzzy
-#~ msgid "gray"
-#~ msgstr "Seta"
+msgid "gray"
+msgstr "Seta"
 
 # src/dialog-cell-format.c:914
 #, fuzzy
-#~ msgid "pink"
-#~ msgstr "Fonte"
+msgid "pink"
+msgstr "Fonte"
 
 # src/workbook.c:854
 #, fuzzy
-#~ msgid "light orange"
-#~ msgstr "Alinhamento à direita"
+msgid "light orange"
+msgstr "Alinhamento à direita"
 
 # src/format.c:410
 #, fuzzy
-#~ msgid "light yellow"
-#~ msgstr "amarelo"
+msgid "light yellow"
+msgstr "amarelo"
 
 # src/workbook.c:854
 #, fuzzy
-#~ msgid "light green"
-#~ msgstr "Alinhamento à direita"
+msgid "light green"
+msgstr "Alinhamento à direita"
 
 # src/workbook.c:854
 #, fuzzy
-#~ msgid "light cyan"
-#~ msgstr "Alinhamento à direita"
+msgid "light cyan"
+msgstr "Alinhamento à direita"
 
 # src/format.c:404
 #, fuzzy
-#~ msgid "sky blue"
-#~ msgstr "azul"
+msgid "sky blue"
+msgstr "azul"
 
 # src/formats.c:99
 #, fuzzy
-#~ msgid "_($* #,##0.00_);($* #,##0.00)"
-#~ msgstr "$#.##0,00_);($#.##0,00)"
+msgid "_($* #,##0.00_);($* #,##0.00)"
+msgstr "$#.##0,00_);($#.##0,00)"
 
 # src/workbook.c:781
-#~ msgid "_Height"
-#~ msgstr "_Altura"
+msgid "_Height"
+msgstr "_Altura"
 
 # src/dialog-insert-cells.c:30
 #, fuzzy
-#~ msgid "Insert Object"
-#~ msgstr "Inserir células"
+msgid "Insert Object"
+msgstr "Inserir células"
 
 # src/dialog-cell-format.c:914
 #, fuzzy
-#~ msgid "Scatter points"
-#~ msgstr "Fonte"
+msgid "Scatter points"
+msgstr "Fonte"
 
 # src/workbook.c:868
 #, fuzzy
-#~ msgid "Lines"
-#~ msgstr "Linha"
+msgid "Lines"
+msgstr "Linha"
 
 # src/item-grid.c:528 src/sheet.c:2535 src/workbook.c:842
 #, fuzzy
-#~ msgid "Scatter"
-#~ msgstr "Colar"
+msgid "Scatter"
+msgstr "Colar"
 
 # src/workbook.c:871
 #, fuzzy
-#~ msgid "Areas"
-#~ msgstr "Seta"
+msgid "Areas"
+msgstr "Seta"
 
 # src/workbook.c:848
 #, fuzzy
-#~ msgid "Plot description"
-#~ msgstr "Alinhamento à esquerda"
+msgid "Plot description"
+msgstr "Alinhamento à esquerda"
 
 # src/workbook.c:781
 #, fuzzy
-#~ msgid "Standard Types"
-#~ msgstr "_Altura"
+msgid "Standard Types"
+msgstr "_Altura"
 
 # src/dialog-zoom.c:56
 #, fuzzy
-#~ msgid "Custom types"
-#~ msgstr "Customizado"
+msgid "Custom types"
+msgstr "Customizado"
 
 # src/dates.c:46
 #, fuzzy
-#~ msgid "Step1"
-#~ msgstr "*Set"
+msgid "Step1"
+msgstr "*Set"
 
 # src/dialog-cell-format.c:68
 #, fuzzy
-#~ msgid "Data ranges"
-#~ msgstr "Data"
+msgid "Data ranges"
+msgstr "Data"
 
 # src/dialog-paste-special.c:22
 #, fuzzy
-#~ msgid "_Value:"
-#~ msgstr "Valores"
+msgid "_Value:"
+msgstr "Valores"
 
 # src/workbook.c:752 src/workbook.c:798
 #, fuzzy
-#~ msgid "Series"
-#~ msgstr "_Planilha"
+msgid "Series"
+msgstr "_Planilha"
 
 # src/dates.c:46
 #, fuzzy
-#~ msgid "Step2"
-#~ msgstr "*Set"
+msgid "Step2"
+msgstr "*Set"
 
 # src/dialog-cell-format.c:69
 #, fuzzy
-#~ msgid "Titles"
-#~ msgstr "Hora"
+msgid "Titles"
+msgstr "Hora"
 
 # src/dialog-cell-format.c:294
 #, fuzzy
-#~ msgid "_Scale"
-#~ msgstr "Amostra:"
+msgid "_Scale"
+msgstr "Amostra:"
 
 # src/expr.c:819 src/expr.c:856
 #, fuzzy
-#~ msgid "Division lines"
-#~ msgstr "Divisão por zero"
+msgid "Division lines"
+msgstr "Divisão por zero"
 
 # src/workbook.c:848
 #, fuzzy
-#~ msgid " Location "
-#~ msgstr "Alinhamento à esquerda"
+msgid " Location "
+msgstr "Alinhamento à esquerda"
 
 # src/workbook.c:797
 #, fuzzy
-#~ msgid "_Down"
-#~ msgstr "_Linha"
+msgid "_Down"
+msgstr "_Linha"
 
 # src/dialog-cell-format.c:357 src/dialog-cell-format.c:366
 # src/workbook.c:851
 #, fuzzy
-#~ msgid "_Corner"
-#~ msgstr "Centro"
+msgid "_Corner"
+msgstr "Centro"
 
 # src/dates.c:46
 #, fuzzy
-#~ msgid "Step3"
-#~ msgstr "*Set"
+msgid "Step3"
+msgstr "*Set"
 
 # src/plugin.c:39
 #, fuzzy
-#~ msgid "Unable to launch the graphics service"
-#~ msgstr "impossível abrir o arquivo de módulo: "
+msgid "Unable to launch the graphics service"
+msgstr "impossível abrir o arquivo de módulo: "
 
 # src/workbook.c:758
 #, fuzzy
-#~ msgid "columns"
-#~ msgstr "C_olunas"
+msgid "columns"
+msgstr "C_olunas"
 
 # plugins/guile/plugin.c:454
 #, fuzzy
-#~ msgid "Sample Plugin"
-#~ msgstr "Plugin Guile"
+msgid "Sample Plugin"
+msgstr "Plugin Guile"
 
 # src/file.c:327
 #, fuzzy
-#~ msgid "Empty file"
-#~ msgstr "Carregar arquivo"
+msgid "Empty file"
+msgstr "Carregar arquivo"
 
 # src/file.c:218
 #, fuzzy
-#~ msgid "Simple Text"
-#~ msgstr "Formato de arquivo:"
+msgid "Simple Text"
+msgstr "Formato de arquivo:"
 
 # src/expr.c:59
 #, fuzzy
-#~ msgid "Internal error"
-#~ msgstr "Erro de sintaxe"
+msgid "Internal error"
+msgstr "Erro de sintaxe"
 
 # src/dialog-define-names.c:23
 #, fuzzy
-#~ msgid "Define _Name"
-#~ msgstr "Definir nomes"
+msgid "Define _Name"
+msgstr "Definir nomes"
 
 # src/dialog-paste-special.c:21
 #, fuzzy
-#~ msgid "Formula Wizard"
-#~ msgstr "Fórmulas"
+msgid "Formula Wizard"
+msgstr "Fórmulas"
 
 # src/plugin.c:75
 #, fuzzy
-#~ msgid "Plugin Title"
-#~ msgstr "Plugin ainda está em uso.\n"
+msgid "Plugin Title"
+msgstr "Plugin ainda está em uso.\n"
 
 # src/number-match.c:150
 #, fuzzy
-#~ msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
-#~ msgstr "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
+msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
+msgstr "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 
 # src/item-grid.c:528 src/sheet.c:2535 src/workbook.c:842
 #, fuzzy
-#~ msgid "paste"
-#~ msgstr "Colar"
+msgid "paste"
+msgstr "Colar"
 
 # plugins/python/python.c:190
 #, fuzzy
-#~ msgid "Python"
-#~ msgstr "Plugin Python"
+msgid "Python"
+msgstr "Plugin Python"
 
 # plugins/python/python.c:190
-#~ msgid "Python Plugin"
-#~ msgstr "Plugin Python"
+msgid "Python Plugin"
+msgstr "Plugin Python"
 
 # src/dump.c:29
 #, fuzzy
-#~ msgid "Can not mmap the file"
-#~ msgstr "Impossível criar arquivo %s\n"
+msgid "Can not mmap the file"
+msgstr "Impossível criar arquivo %s\n"
 
 # src/xml-io.c:1408
-#~ msgid "NoName"
-#~ msgstr "SemNome"
+msgid "NoName"
+msgstr "SemNome"
 
 # src/workbook.c:958
 #, fuzzy
-#~ msgid "You should introduce a valid cell range in 'Range Input:'"
-#~ msgstr "Você deve digitar um nome válido de célula"
+msgid "You should introduce a valid cell range in 'Range Input:'"
+msgstr "Você deve digitar um nome válido de célula"
 
 # src/dialog-cell-format.c:71
 #, fuzzy
-#~ msgid "Formula Selection"
-#~ msgstr "Fração"
+msgid "Formula Selection"
+msgstr "Fração"
 
 # src/dialog-goto-cell.c:47
-#~ msgid "Special..."
-#~ msgstr "Especial..."
+msgid "Special..."
+msgstr "Especial..."
 
 # src/workbook.c:868
 #, fuzzy
-#~ msgid "Select Printer"
-#~ msgstr "Cria um objeto linha"
+msgid "Select Printer"
+msgstr "Cria um objeto linha"
 
 # src/format.c:407
 #, fuzzy
-#~ msgid "Tangent"
-#~ msgstr "magenta"
+msgid "Tangent"
+msgstr "magenta"
 
 # src/dialog-cell-format.c:357 src/dialog-cell-format.c:366
 # src/workbook.c:851
 #, fuzzy
-#~ msgid "Central"
-#~ msgstr "Centro"
+msgid "Central"
+msgstr "Centro"
 
 # src/workbook.c:824
 #, fuzzy
-#~ msgid "Newton"
-#~ msgstr "Novo"
+msgid "Newton"
+msgstr "Novo"
 
 # src/dialog-cell-format.c:69
 #, fuzzy
-#~ msgid "Estimates"
-#~ msgstr "Hora"
+msgid "Estimates"
+msgstr "Hora"
 
 # src/dates.c:57
 #, fuzzy
-#~ msgid "Search"
-#~ msgstr "Março"
+msgid "Search"
+msgstr "Março"
 
 # src/expr.c:63
 #, fuzzy
-#~ msgid "Missing argument"
-#~ msgstr "Aspas faltando"
+msgid "Missing argument"
+msgstr "Aspas faltando"
 
 # src/workbook.c:1367
 #, fuzzy
-#~ msgid "Zoom _in"
-#~ msgstr "Ampliar"
+msgid "Zoom _in"
+msgstr "Ampliar"
 
 # src/workbook.c:1367
 #, fuzzy
-#~ msgid "Zooms in"
-#~ msgstr "Ampliar"
+msgid "Zooms in"
+msgstr "Ampliar"
 
 # src/workbook.c:1360
 #, fuzzy
-#~ msgid "Zoom _out"
-#~ msgstr "Reduzir"
+msgid "Zoom _out"
+msgstr "Reduzir"
 
 # src/workbook.c:1360
 #, fuzzy
-#~ msgid "Zooms out"
-#~ msgstr "Reduzir"
+msgid "Zooms out"
+msgstr "Reduzir"
 
 # src/dialog-cell-format.c:73
 #, fuzzy
-#~ msgid "Next"
-#~ msgstr "Texto"
+msgid "Next"
+msgstr "Texto"
 
 # src/workbook.c:1367
-#~ msgid "Zoom in"
-#~ msgstr "Ampliar"
+msgid "Zoom in"
+msgstr "Ampliar"
 
 # src/workbook.c:733
 #, fuzzy
-#~ msgid "Zooms the page in"
-#~ msgstr "Ampliar ou reduzir a planilha"
+msgid "Zooms the page in"
+msgstr "Ampliar ou reduzir a planilha"
 
 # src/workbook.c:1360
-#~ msgid "Zoom out"
-#~ msgstr "Reduzir"
+msgid "Zoom out"
+msgstr "Reduzir"
 
 # src/workbook.c:733
 #, fuzzy
-#~ msgid "Zooms the page out"
-#~ msgstr "Ampliar ou reduzir a planilha"
+msgid "Zooms the page out"
+msgstr "Ampliar ou reduzir a planilha"
 
 # src/workbook.c:1491
 #, fuzzy
-#~ msgid "the sheet"
-#~ msgstr "Adicionar outra planilha"
+msgid "the sheet"
+msgstr "Adicionar outra planilha"
 
 # src/workbook.c:719
-#~ msgid "_Define cell names"
-#~ msgstr "_Definir nomes de célula"
+msgid "_Define cell names"
+msgstr "_Definir nomes de célula"
 
 # src/workbook.c:824
 #, fuzzy
-#~ msgid "Creates a Bonobo shaped item"
-#~ msgstr "Cria uma nova planilha"
+msgid "Creates a Bonobo shaped item"
+msgstr "Cria uma nova planilha"
 
 # src/workbook.c:971
-#~ msgid "Row number out of range"
-#~ msgstr "Número de linha fora da faixa"
+msgid "Row number out of range"
+msgstr "Número de linha fora da faixa"
 
 # plugins/python/python.c:177
-#~ msgid "Gnumeric/Python module initialized\n"
-#~ msgstr "Módulo Gnumeric/Python inicializado\n"
+msgid "Gnumeric/Python module initialized\n"
+msgstr "Módulo Gnumeric/Python inicializado\n"
 
 # src/workbook.c:758
-#~ msgid "C_olumns"
-#~ msgstr "C_olunas"
+msgid "C_olumns"
+msgstr "C_olunas"
 
 # src/about.c:51
 #, fuzzy
-#~ msgid "Gnumeric: "
-#~ msgstr "Gnumeric"
+msgid "Gnumeric: "
+msgstr "Gnumeric"
 
 # plugins/python/python.c:143
-#~ msgid "could not alloc FuncDef"
-#~ msgstr "impossível alocar FuncDef"
+msgid "could not alloc FuncDef"
+msgstr "impossível alocar FuncDef"
 
 # src/workbook.c:796
 #, fuzzy
-#~ msgid "Column:"
-#~ msgstr "C_oluna"
+msgid "Column:"
+msgstr "C_oluna"
 
 # src/dates.c:49
 #, fuzzy
-#~ msgid "Desc"
-#~ msgstr "*Dez"
+msgid "Desc"
+msgstr "*Dez"
 
 # src/dialog-cell-format.c:603 src/dialog-cell-format.c:636
 # src/dialog-paste-special.c:28
 #, fuzzy
-#~ msgid ""
-#~ "$\n"
-#~ "None\n"
-#~ msgstr "Nenhum"
+msgid ""
+"$\n"
+"None\n"
+msgstr "Nenhum"
 
 # src/workbook.c:859
 #, fuzzy
-#~ msgid "Book%d"
-#~ msgstr "Negrito"
+msgid "Book%d"
+msgstr "Negrito"
 
 # plugins/guile/plugin.c:220
-#~ msgid "Argument must be a Guile expression"
-#~ msgstr "Argumento deve ser uma expressão Guile"
+msgid "Argument must be a Guile expression"
+msgstr "Argumento deve ser uma expressão Guile"
 
 # src/dialog-cell-format.c:66
-#~ msgid "Numbers"
-#~ msgstr "Números"
+msgid "Numbers"
+msgstr "Números"
 
 # src/dialog-cell-format.c:285
-#~ msgid "Code:"
-#~ msgstr "Código:"
+msgid "Code:"
+msgstr "Código:"
 
 # src/dialog-cell-format.c:306
-#~ msgid "Format codes"
-#~ msgstr "Códigos de formato"
+msgid "Format codes"
+msgstr "Códigos de formato"
 
 # src/dialog-cell-format.c:638
-#~ msgid "Use solid color"
-#~ msgstr "Usar cor sólida"
+msgid "Use solid color"
+msgstr "Usar cor sólida"
 
 # src/dialog-cell-format.c:640
-#~ msgid "Use a pattern"
-#~ msgstr "Usar um padrão"
+msgid "Use a pattern"
+msgstr "Usar um padrão"
 
 # src/formats.c:31
-#~ msgid "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
-#~ msgstr "_(*$.$$0_);_(*(#.##0);_(*\"-\"_);_(@_)"
+msgid "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
+msgstr "_(*$.$$0_);_(*(#.##0);_(*\"-\"_);_(@_)"
 
 # src/item-grid.c:533
-#~ msgid "Erase content"
-#~ msgstr "Limpar conteúdo"
+msgid "Erase content"
+msgstr "Limpar conteúdo"
 
 # src/workbook.c:1471
 #, fuzzy
-#~ msgid "Other sheets depend on the values on this sheet; I cannot remove it."
-#~ msgstr ""
-#~ "Outras planilhas dependem dos valores nesta planilha, não é possível "
-#~ "removê-la"
+msgid "Other sheets depend on the values on this sheet; I cannot remove it."
+msgstr ""
+"Outras planilhas dependem dos valores nesta planilha, não é possível "
+"removê-la"
 
 # src/file.c:257
 #, fuzzy
-#~ msgid "no workbook"
-#~ msgstr "Salvar pasta de trabalho como"
+msgid "no workbook"
+msgstr "Salvar pasta de trabalho como"
 
 # src/expr.c:944
 #, fuzzy
-#~ msgid "#Reference to deleted cell!"
-#~ msgstr "Referência a célula recém-nascida"
+msgid "#Reference to deleted cell!"
+msgstr "Referência a célula recém-nascida"
 
 # src/expr.c:944
 #, fuzzy
-#~ msgid "#Reference to deleted range!"
-#~ msgstr "Referência a célula recém-nascida"
+msgid "#Reference to deleted range!"
+msgstr "Referência a célula recém-nascida"
 
 # plugins/stat/stat.c:12
-#~ msgid ""
-#~ "@FUNCTION=STDEV\n"
-#~ "@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard "
-#~ "deviation of all the values and cells referenced in the argument list. This "
-#~ "is equivalent to the square root of the variance.\n"
-#~ "@SEEALSO=VARIANCE"
-#~ msgstr ""
-#~ "@FUNCTION=STDEV\n"
-#~ "@SYNTAX = STDEV(valor1, valor2, ...)@DESCRIPTION=Calcula o desvio padrão\n"
-#~ "de todos os valores e células referenciados na lista de argumentos. É\n"
-#~ "equivalente à raiz quadrada da variância.\n"
-#~ "@SEEALSO=VARIANCE"
+msgid ""
+"@FUNCTION=STDEV\n"
+"@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard "
+"deviation of all the values and cells referenced in the argument list. This "
+"is equivalent to the square root of the variance.\n"
+"@SEEALSO=VARIANCE"
+msgstr ""
+"@FUNCTION=STDEV\n"
+"@SYNTAX = STDEV(valor1, valor2, ...)@DESCRIPTION=Calcula o desvio padrão\n"
+"de todos os valores e células referenciados na lista de argumentos. É\n"
+"equivalente à raiz quadrada da variância.\n"
+"@SEEALSO=VARIANCE"
 
 # plugins/stat/stat.c:23
-#~ msgid ""
-#~ "@FUNCTION=VARIANCE\n"
-#~ "@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Computes the variation "
-#~ "of all the values and cells referenced in the argument list. This "
-#~ "is\tequivalent to the sum of (value - average)^2, divided by the number of "
-#~ "values minus 1. If you want it divided by N instead of N - 1, use "
-#~ "NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
-#~ msgstr ""
-#~ "@FUNCTION=VARIANCE\n"
-#~ "@SYNTAX = VARIANCE(valor1, valor2, ...)@DESCRIPTION=Calcula a variância de "
-#~ "todos os valores e células referenciadas na lista de argumentos. É "
-#~ "\tequivalente à soma de (valor - média)^2, dividida pelo número de amostras  "
-#~ "menos 1. Se você quiser divisão por N ao invés de N - 1, utilize "
-#~ "NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
+msgid ""
+"@FUNCTION=VARIANCE\n"
+"@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Computes the variation "
+"of all the values and cells referenced in the argument list. This "
+"is\tequivalent to the sum of (value - average)^2, divided by the number of "
+"values minus 1. If you want it divided by N instead of N - 1, use "
+"NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
+msgstr ""
+"@FUNCTION=VARIANCE\n"
+"@SYNTAX = VARIANCE(valor1, valor2, ...)@DESCRIPTION=Calcula a variância de "
+"todos os valores e células referenciadas na lista de argumentos. É "
+"\tequivalente à soma de (valor - média)^2, dividida pelo número de amostras  "
+"menos 1. Se você quiser divisão por N ao invés de N - 1, utilize "
+"NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
 
 # plugins/stat/stat.c:34
-#~ msgid ""
-#~ "@FUNCTION=NVARIANCE\n"
-#~ "@SYNTAX = NVARIANVE(value1, value2, ...)@DESCRIPTION=Computes the variation "
-#~ "of all the values and cells references in the argument list. This is "
-#~ "equivalent to the sum of (value - average)^2, divided by the number of "
-#~ "values. If you want it divided by N - 1 instead of N, use "
-#~ "VARIANCE.@SEEALSO=AVERAGE, VARIANCE"
-#~ msgstr ""
-#~ "@FUNCTION=NVARIANCE\n"
-#~ "@SYNTAX = NVARIANVE(valor1, valor2, ...)@DESCRIPTION=Calcula a variância\n"
-#~ "de todos os valores e células referenciadas na lista de argumentos. É\n"
-#~ "equivalente a soma de (valor - média)^2, dividido pelo número de amostras.\n"
-#~ "Se você quiser divisão por N - 1 ao invés de N, utilize VARIANCE.\n"
-#~ "@SEEALSO=AVERAGE, VARIANCE"
+msgid ""
+"@FUNCTION=NVARIANCE\n"
+"@SYNTAX = NVARIANVE(value1, value2, ...)@DESCRIPTION=Computes the variation "
+"of all the values and cells references in the argument list. This is "
+"equivalent to the sum of (value - average)^2, divided by the number of "
+"values. If you want it divided by N - 1 instead of N, use "
+"VARIANCE.@SEEALSO=AVERAGE, VARIANCE"
+msgstr ""
+"@FUNCTION=NVARIANCE\n"
+"@SYNTAX = NVARIANVE(valor1, valor2, ...)@DESCRIPTION=Calcula a variância\n"
+"de todos os valores e células referenciadas na lista de argumentos. É\n"
+"equivalente a soma de (valor - média)^2, dividido pelo número de amostras.\n"
+"Se você quiser divisão por N - 1 ao invés de N, utilize VARIANCE.\n"
+"@SEEALSO=AVERAGE, VARIANCE"
 
 # plugins/stat/stat.c:102
-#~ msgid "variance - division by 0"
-#~ msgstr "variância - divisão por 0"
+msgid "variance - division by 0"
+msgstr "variância - divisão por 0"
 
 # src/about.c:54
-#~ msgid ""
-#~ "The GNOME spreadsheet.\n"
-#~ "http://www.gnome.org/gnumeric"
-#~ msgstr ""
-#~ "A planilha eletrônica do GNOME. \n"
-#~ "http://www.gnome.org/gnumeric"
+msgid ""
+"The GNOME spreadsheet.\n"
+"http://www.gnome.org/gnumeric"
+msgstr ""
+"A planilha eletrônica do GNOME. \n"
+"http://www.gnome.org/gnumeric"
 
 # src/dialog-zoom.c:84
-#~ msgid "Zoom factor should be at least 50%"
-#~ msgstr "Fator de ampliação deve ser de no mínimo 50%"
+msgid "Zoom factor should be at least 50%"
+msgstr "Fator de ampliação deve ser de no mínimo 50%"
 
 # src/dialog-zoom.c:90
-#~ msgid "Zoom factor should be at most 900%"
-#~ msgstr "Fator de ampliação deve ser de no máximo 900%"
+msgid "Zoom factor should be at most 900%"
+msgstr "Fator de ampliação deve ser de no máximo 900%"
 
 # src/fn-math.c:118
-#~ msgid "acosh - domain error"
-#~ msgstr "acosh - erro de domínio"
+msgid "acosh - domain error"
+msgstr "acosh - erro de domínio"
 
 # src/fn-math.c:291
-#~ msgid "atanh: domain error"
-#~ msgstr "atanh: erro de domínio"
+msgid "atanh: domain error"
+msgstr "atanh: erro de domínio"
 
 # src/fn-math.c:497
-#~ msgid ""
-#~ "@FUNCTION=COUNT\n"
-#~ "@SYNTAX=COUNT(b1, b2, ...)\n"
-#~ "@DESCRIPTION=Returns the total number of arguments passed.\n"
-#~ "Performing this function on a string or empty cell simply does nothing.\n"
-#~ "@SEEALSO=AVERAGE"
-#~ msgstr ""
-#~ "@FUNCTION=COUNT\n"
-#~ "@SYNTAX=COUNT(b1, b2, ...)\n"
-#~ "@DESCRIPTION=Retorna o número total de argumentos passados.\n"
-#~ "Executar esta função em uma expressão ou célula vazia é inócuo.\n"
-#~ "@SEEALSO=AVERAGE"
+msgid ""
+"@FUNCTION=COUNT\n"
+"@SYNTAX=COUNT(b1, b2, ...)\n"
+"@DESCRIPTION=Returns the total number of arguments passed.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=AVERAGE"
+msgstr ""
+"@FUNCTION=COUNT\n"
+"@SYNTAX=COUNT(b1, b2, ...)\n"
+"@DESCRIPTION=Retorna o número total de argumentos passados.\n"
+"Executar esta função em uma expressão ou célula vazia é inócuo.\n"
+"@SEEALSO=AVERAGE"
 
 # src/fn-math.c:683
-#~ msgid "log: domain error"
-#~ msgstr "log: erro de domínio"
+msgid "log: domain error"
+msgstr "log: erro de domínio"
 
 # src/fn-math.c:727
-#~ msgid "log2: domain error"
-#~ msgstr "log2: erro de domínio"
+msgid "log2: domain error"
+msgstr "log2: erro de domínio"
 
 # src/fn-math.c:753
-#~ msgid "log10: domain error"
-#~ msgstr "log10: erro de domínio"
+msgid "log10: domain error"
+msgstr "log10: erro de domínio"
 
 # src/fn-sheet.c:64
-#~ msgid ""
-#~ "@FUNCTION=SELECTION\n"
-#~ "@SYNTAX=SELECTION(x)\n"
-#~ "@DESCRIPTION=The SELECTION function returns a list with the values in the "
-#~ "current mouse cursor. This is usually used to implement on-the-flight "
-#~ "computation of values\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=SELECTION\n"
-#~ "@SYNTAX=SELECTION(x)\n"
-#~ "@DESCRIPTION=Retorna uma lista de valores contidos na seleção corrente do "
-#~ "cursor do mouse. Normalmente usado para implementar processamento de valores "
-#~ "escolhidos pelo usuário.\n"
-#~ "@SEEALSO="
+msgid ""
+"@FUNCTION=SELECTION\n"
+"@SYNTAX=SELECTION(x)\n"
+"@DESCRIPTION=The SELECTION function returns a list with the values in the "
+"current mouse cursor. This is usually used to implement on-the-flight "
+"computation of values\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=SELECTION\n"
+"@SYNTAX=SELECTION(x)\n"
+"@DESCRIPTION=Retorna uma lista de valores contidos na seleção corrente do "
+"cursor do mouse. Normalmente usado para implementar processamento de valores "
+"escolhidos pelo usuário.\n"
+"@SEEALSO="
 
 # src/gnumeric-sheet.c:898
-#~ msgid "12%"
-#~ msgstr "12%"
+msgid "12%"
+msgstr "12%"
 
 # src/gnumeric-sheet.c:901
-#~ msgid "6%"
-#~ msgstr "6%"
+msgid "6%"
+msgstr "6%"
 
 # src/workbook.c:848
-#~ msgid "Sets the cell alignment to the left"
-#~ msgstr "Configura o alinhamento da célula para a direita"
+msgid "Sets the cell alignment to the left"
+msgstr "Configura o alinhamento da célula para a direita"
 
 # src/workbook.c:854
-#~ msgid "Sets the cell alignment to the right"
-#~ msgstr "Configura o alinhamento da célula para a direita"
+msgid "Sets the cell alignment to the right"
+msgstr "Configura o alinhamento da célula para a direita"
 
 # src/workbook.c:862
-#~ msgid "Sets the italic attribute on the cell"
-#~ msgstr "Configura o atributo itálico da célula"
+msgid "Sets the italic attribute on the cell"
+msgstr "Configura o atributo itálico da célula"
