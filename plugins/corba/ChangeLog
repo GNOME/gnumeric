@@ -1,3 +1,8 @@
+2004-09-27  Jon K Hellan  <hellan@acm.org>
+
+	* corba-application.c (plugin_init_general): Put "could not
+	register" message inside "debug" conditional compile.
+
 2004-09-24  Jon K Hellan  <hellan@acm.org>
 
 	* TODO: New file. Tell about outstanding issues.

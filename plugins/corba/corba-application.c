@@ -38,6 +38,8 @@
 
 #include <bonobo.h>
 
+#undef DEBUG_CORBA
+
 typedef struct {
 	BonoboObject base;
 	/* No need for any data */
@@ -129,7 +131,9 @@ plugin_init_general (ErrorInfo **ret_error)
 		    "OAFIID:GNOME_Gnumeric_Application",
 		    BONOBO_OBJREF (capp), NULL)
 	    != Bonobo_ACTIVATION_REG_SUCCESS) {
+#ifdef DEBUG_CORBA
                         printf("Could not register as CORBA server\n");
+#endif
                         return ;
 	}
 }
