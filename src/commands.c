@@ -87,11 +87,13 @@
  * 2) The command objects are responsible for generating recalc and redraw
  *    events.  None of the internal utility routines should do so.  Those are
  *    expensive events and should only be done once per command to avoid
- *    duplicating work.
+ *    duplicating work.  The lower levels can queue redraws if they must, and
+ *    flag state changes but the call to workbook_recalc and sheet_update is
+ *    by GnumericCommand.
  *
  * FIXME: Filter the list of commands when a sheet is deleted.
  *
- * TODO : Add user preference for undo buffer size limit (# of commands ?)
+ * TODO : Add user preference for undo buffer size limit
  * TODO : Possibly clear lists on save.
  *
  * TODO : Reqs for selective undo
@@ -952,10 +954,10 @@ cmd_ins_del_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	me->contents = NULL;
 
 	/* Throw away the undo info for the expressions after the action*/
-	workbook_expr_unrelocate_free (tmp);
+	dependents_unrelocate_free (tmp);
 
 	/* Restore the changed expressions before the action */
-	workbook_expr_unrelocate (me->sheet->workbook, me->reloc_storage);
+	dependents_unrelocate (me->reloc_storage);
 	me->reloc_storage = NULL;
 
 	/* Ins/Del Row/Col re-ants things completely to account
@@ -1073,7 +1075,7 @@ cmd_ins_del_colrow_finalize (GObject *cmd)
 	if (me->cutcopied)
 		g_free (me->cutcopied);
 	if (me->reloc_storage) {
-		workbook_expr_unrelocate_free (me->reloc_storage);
+		dependents_unrelocate_free (me->reloc_storage);
 		me->reloc_storage = NULL;
 	}
 	gnumeric_command_finalize (cmd);
@@ -2124,8 +2126,7 @@ cmd_paste_cut_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	me->saved_sizes = NULL;
 
 	/* Restore the changed expressions */
-	workbook_expr_unrelocate (me->info.target_sheet->workbook,
-				  me->reloc_storage);
+	dependents_unrelocate (me->reloc_storage);
 	me->reloc_storage = NULL;
 
 	while (me->paste_content) {
@@ -2228,7 +2229,7 @@ cmd_paste_cut_finalize (GObject *cmd)
 		g_free (pc);
 	}
 	if (me->reloc_storage) {
-		workbook_expr_unrelocate_free (me->reloc_storage);
+		dependents_unrelocate_free (me->reloc_storage);
 		me->reloc_storage = NULL;
 	}
 	gnumeric_command_finalize (cmd);

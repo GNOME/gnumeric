@@ -28,7 +28,6 @@ Release Critical
 Pending Patches
 ---------------
 
-- jpablo's sheet tab color patch
 - Yukihiro's IM support (broken in the context of gnome2)
 - http://flowernet.gr.jp/jado/comp/patch/gnumeric/gnumeric-1.0.4-excel-cjk.patch   
 
@@ -171,13 +170,6 @@ Long term breakage
 - Add a warning when attempting to save using the suffix from a different saver.
   eg saving .gnumeric as foo.xls
 - Can we probe for .gzipped files to catch the misnaming ?
-
-- Editable sheet label:
-    1 double click
-    2. right click
-    3 select "Manage sheets"
-    4. Try to get rid of dialog.
-    You can, but you have to finish editing the editable label first
 
 Dialogs
 -------

@@ -86,13 +86,37 @@ dependent_type_register (DependentClass const *klass)
  * @dep : The dependent we are interested in.
  * @new_expr : new expression.
  *
- * When the expression associated with a dependent needs to change
- * this routine dispatches to the virtual handler.
+ * When the expression associated with a dependent needs to change this routine
+ * dispatches to the virtual handler unlinking if necessary.
+ * NOTE : it does NOT relink
  */
 void
 dependent_set_expr (Dependent *dep, ExprTree *new_expr)
 {
 	int const t = dependent_type (dep);
+
+#if 0
+{
+	ParsePos pos;
+	char *str;
+
+	parse_pos_init_dep (&pos, dep);
+	dependent_debug_name (dep, stdout);
+
+	str = expr_tree_as_string (new_expr, &pos);
+	printf(" new = %s\n", str);
+	g_free (str);
+
+	str = expr_tree_as_string (dep->expression, &pos);
+	printf("\told = %s\n", str);
+	g_free (str);
+}
+#endif
+
+	if (new_expr != NULL)
+		expr_tree_ref (new_expr);
+	if (dependent_is_linked (dep))
+		dependent_unlink (dep, NULL);
 
 	if (t == DEPENDENT_CELL) {
 		/*
@@ -106,31 +130,9 @@ dependent_set_expr (Dependent *dep, ExprTree *new_expr)
 		g_return_if_fail (klass);
 		if (klass->set_expr != NULL)
 			(*klass->set_expr) (dep, new_expr);
-#if 0
-		{
-			ParsePos pos;
-			char *str;
 
-			parse_pos_init_dep (&pos, dep);
-			dependent_debug_name (dep, stdout);
-
-			str = expr_tree_as_string (new_expr, &pos);
-			printf(" new = %s\n", str);
-			g_free (str);
-
-			str = expr_tree_as_string (dep->expression, &pos);
-			printf("\told = %s\n", str);
-			g_free (str);
-		}
-#endif
-
-		if (new_expr != NULL)
-			expr_tree_ref (new_expr);
-		if (dependent_is_linked (dep))
-			dependent_unlink (dep, NULL);
 		if (dep->expression != NULL)
 			expr_tree_unref (dep->expression);
-
 		dep->expression = new_expr;
 		if (new_expr != NULL)
 			dependent_changed (dep, TRUE);
@@ -155,13 +157,13 @@ dependent_set_sheet (Dependent *dep, Sheet *sheet)
 }
 
 /*
- * dependent_queue_recalc:
+ * dependent_flag_recalc:
  * @dep: the dependent that contains the expression needing recomputation.
  *
  * Marks @dep as needing recalculation
  * NOTE : it does NOT recursively dirty dependencies.
  */
-#define dependent_queue_recalc(dep) \
+#define dependent_flag_recalc(dep) \
   do { (dep)->flags |= DEPENDENT_NEEDS_RECALC; } while (0)
 
 static void
@@ -195,7 +197,7 @@ dependent_queue_recalc_list (GSList *list)
 	for (; list != NULL ; list = list->next) {
 		Dependent *dep = list->data;
 		if (!(dep->flags & DEPENDENT_NEEDS_RECALC)) {
-			dependent_queue_recalc (dep);
+			dependent_flag_recalc (dep);
 			work = g_slist_prepend (work, dep);
 		}
 	}
@@ -226,7 +228,7 @@ dependent_queue_recalc_list (GSList *list)
 					list->next = waste;
 					waste = list;
 				} else {
-					dependent_queue_recalc (dep);
+					dependent_flag_recalc (dep);
 					list->next = work;
 					work = list;
 				}
@@ -284,8 +286,12 @@ micro_hash_resize (MicroHash *hash_table)
 	GSList **new_buckets, *node, *next;
 	guint bucket;
 	gint old_num_buckets = hash_table->num_buckets;
-	gint new_num_buckets = CLAMP (g_spaced_primes_closest (hash_table->num_elements),
-		MICRO_HASH_MIN_SIZE, MICRO_HASH_MAX_SIZE);
+	gint new_num_buckets = g_spaced_primes_closest (hash_table->num_elements);
+
+	if (new_num_buckets < MICRO_HASH_MIN_SIZE)
+		new_num_buckets = MICRO_HASH_MIN_SIZE;
+	else if (new_num_buckets > MICRO_HASH_MAX_SIZE)
+		new_num_buckets = MICRO_HASH_MAX_SIZE;
 
 	if (old_num_buckets <= 1) {
 		if (new_num_buckets == 1)
@@ -906,7 +912,7 @@ dependent_changed (Dependent *dep, gboolean queue_recalc)
 		if (dep->sheet->workbook->priv->recursive_dirty_enabled)
 			cb_dependent_queue_recalc (dep,  NULL);
 		else
-			dependent_queue_recalc (dep);
+			dependent_flag_recalc (dep);
 	}
 }
 
@@ -941,7 +947,7 @@ cell_queue_recalc (Cell const *cell)
 		GSList *deps;
 
 		if (cell_has_expr (cell))
-			dependent_queue_recalc (CELL_TO_DEP (cell));
+			dependent_flag_recalc (CELL_TO_DEP (cell));
 
 		deps = cell_list_deps (cell);
 		dependent_queue_recalc_list (deps);
@@ -1075,7 +1081,7 @@ sheet_region_queue_recalc (Sheet const *sheet, Range const *r)
 	if (r == NULL) {
 		/* mark the contained depends dirty non recursively */
 		SHEET_FOREACH_DEPENDENT (sheet, dep,
-			dependent_queue_recalc (dep););
+			dependent_flag_recalc (dep););
 
 		/* look for things that depend on the sheet */
 		for (i = (SHEET_MAX_ROWS-1)/BUCKET_SIZE; i >= 0 ; i--) {
@@ -1094,19 +1100,234 @@ sheet_region_queue_recalc (Sheet const *sheet, Range const *r)
 			Cell *cell = DEP_TO_CELL (dep);
 			if (dependent_is_cell (dep) &&
 			    range_contains (r, cell->pos.col, cell->pos.row))
-				dependent_queue_recalc (dep);
+				dependent_flag_recalc (dep);
 		});
 
 		/* look for things that depend on target region */
 		for (i = (r->end.row)/BUCKET_SIZE; i >= first ; i--) {
 			GHashTable *hash = sheet->deps->range_hash[i];
 			if (hash != NULL)
-			g_hash_table_foreach (hash,
-				&cb_range_contained_depend, (gpointer)r);
+				g_hash_table_foreach (hash,
+					&cb_range_contained_depend, (gpointer)r);
 		}
 		g_hash_table_foreach (sheet->deps->single_hash,
 			&cb_single_contained_depend, (gpointer)r);
 	}
+}
+
+typedef struct
+{
+    	int dep_type;
+	union {
+		EvalPos    pos;
+		Dependent *dep;
+	} u;
+	ExprTree *oldtree;
+} ExprRelocateStorage;
+
+/**
+ * dependents_unrelocate_free :
+ * @info :
+ *
+ * Free the undo info associated with a dependent relocation.
+ */
+void
+dependents_unrelocate_free (GSList *info)
+{
+	GSList *ptr = info;
+	for (; ptr != NULL ; ptr = ptr->next) {
+		ExprRelocateStorage *tmp = (ExprRelocateStorage *)(ptr->data);
+		expr_tree_unref (tmp->oldtree);
+		g_free (tmp);
+	}
+	g_slist_free (info);
+}
+
+/**
+ * dependents_unrelocate :
+ * @info :
+ *
+ * Apply _and_ free the undo info associated with a dependent relocation.
+ */
+void
+dependents_unrelocate (GSList *info)
+{
+	GSList *ptr = info;
+	for (; ptr != NULL ; ptr = ptr->next) {
+		ExprRelocateStorage *tmp = (ExprRelocateStorage *)(ptr->data);
+
+		if (tmp->dep_type == DEPENDENT_CELL) {
+			Cell *cell = sheet_cell_get (tmp->u.pos.sheet,
+						     tmp->u.pos.eval.col,
+						     tmp->u.pos.eval.row);
+
+			/* It is possible to have a NULL if the relocation info
+			 * is not really relevant.  eg when undoing a pasted
+			 * cut that was relocated but also saved to a buffer.
+			 */
+			if (cell != NULL)
+				sheet_cell_set_expr (cell, tmp->oldtree);
+		} else {
+			dependent_set_expr (tmp->u.dep, tmp->oldtree);
+			dependent_flag_recalc (tmp->u.dep);
+			dependent_link (tmp->u.dep, NULL);
+		}
+		expr_tree_unref (tmp->oldtree);
+		g_free (tmp);
+	}
+	g_slist_free (info);
+}
+
+typedef struct {
+	Range const *target;
+	GSList *list;
+} CollectClosure;
+
+static void
+cb_range_contained_collect (DependencyRange const *deprange, gpointer ignored,
+			    CollectClosure *user)
+{
+	Range const *range = &deprange->range;
+
+	if (range_overlap (user->target, range))
+		dep_collection_foreach_dep (deprange->deps, dep, {
+			if (!(dep->flags & DEPENDENT_FLAGGED)) {
+				dep->flags |= DEPENDENT_FLAGGED;
+				user->list = g_slist_prepend (user->list, dep);
+			}});
+}
+
+static void
+cb_single_contained_collect (DependencySingle const *depsingle, gpointer ignored,
+			     CollectClosure *user)
+{
+	if (range_contains (user->target, depsingle->pos.col, depsingle->pos.row))
+		dep_collection_foreach_dep (depsingle->deps, dep, {
+			if (!(dep->flags & DEPENDENT_FLAGGED)) {
+				dep->flags |= DEPENDENT_FLAGGED;
+				user->list = g_slist_prepend (user->list, dep);
+			}});
+}
+
+/**
+ * dependents_relocate:
+ * Fixes references to or from a region that is going to be moved.
+ *
+ * @info : the descriptor record for what is being moved where.
+ *
+ * Returns a list of the locations and expressions that were changed outside of
+ * the region.
+ * NOTE : Does not queue the changed elemenents or their recursive dependents
+ * for recalc
+ */
+GSList *
+dependents_relocate (ExprRelocateInfo const *info)
+{
+	ExprRewriteInfo rwinfo;
+	Dependent *dep;
+	ExprTree  *newtree;
+	GSList    *l, *dependents = NULL, *undo_info = NULL;
+	Sheet	  *sheet;
+	Range const *r;
+	int i;
+	CollectClosure collect;
+
+	g_return_val_if_fail (info != NULL, NULL);
+
+	/* short circuit if nothing would move */
+	if (info->col_offset == 0 && info->row_offset == 0 &&
+	    info->origin_sheet == info->target_sheet)
+		return NULL;
+
+	sheet = info->origin_sheet;
+	r     = &info->origin;
+
+	/* collect contained cells with expressions */
+	SHEET_FOREACH_DEPENDENT (info->origin_sheet, dep, {
+		Cell *cell = DEP_TO_CELL (dep);
+		if (dependent_is_cell (dep) &&
+		    range_contains (r, cell->pos.col, cell->pos.row)) {
+			dependents = g_slist_prepend (dependents, dep);
+			dep->flags |= DEPENDENT_FLAGGED;
+		}
+	});
+
+	/* collect the things that depend on source region */
+	collect.target = r;
+	collect.list = dependents;
+	g_hash_table_foreach (sheet->deps->single_hash,
+		(GHFunc) &cb_single_contained_collect,
+		(gpointer)&collect);
+	{
+		int const first = r->start.row / BUCKET_SIZE;
+		GHashTable *hash;
+		for (i = (r->end.row)/BUCKET_SIZE; i >= first ; i--) {
+			hash = sheet->deps->range_hash[i];
+			if (hash != NULL)
+				g_hash_table_foreach (hash,
+					(GHFunc) &cb_range_contained_collect,
+					(gpointer)&collect);
+		}
+	}
+	dependents = collect.list;
+
+	rwinfo.type = EXPR_REWRITE_RELOCATE;
+	memcpy (&rwinfo.u.relocate, info, sizeof (ExprRelocateInfo));
+
+	for (l = dependents; l; l = l->next) {
+		dep = l->data;
+		dep->flags &= ~DEPENDENT_FLAGGED;
+		sheet_flag_status_update_range (dep->sheet, NULL);
+
+		eval_pos_init_dep (&rwinfo.u.relocate.pos, dep);
+
+		/* its possible nothing changed for contained deps
+		 * using absolute references
+		 */
+		newtree = expr_rewrite (dep->expression, &rwinfo);
+		if (newtree != NULL) {
+			int const t = dependent_type (dep);
+			ExprRelocateStorage *tmp =
+				g_new (ExprRelocateStorage, 1);
+
+			tmp->dep_type = t;
+			if (t != DEPENDENT_CELL)
+				tmp->u.dep = dep;
+			else
+				tmp->u.pos = rwinfo.u.relocate.pos;
+			tmp->oldtree = dep->expression;
+			expr_tree_ref (tmp->oldtree);
+			undo_info = g_slist_prepend (undo_info, tmp);
+
+			dependent_set_expr (dep, newtree); /* unlinks */
+			expr_tree_unref (newtree);
+
+			/* queue the things that depend on the changed dep
+			 * even if it is going to move.
+			 */
+			cb_dependent_queue_recalc (dep,  NULL);
+
+			/* relink if it is not going to move, if it is moving
+			 * then the caller is responsible for relinking.
+			 * This avoids a link/unlink/link tuple
+			 */
+			if (t == DEPENDENT_CELL) {
+				CellPos const *pos = &DEP_TO_CELL (dep)->pos;
+				if (dep->sheet != sheet ||
+				    !range_contains (r, pos->col, pos->row))
+					dependent_link (dep, pos);
+			}
+		}
+
+		/* Not the most efficient, but probably not too bad.  It is
+		 * definitely cheaper tha finding the set of effected sheets.
+		 */
+		sheet_flag_status_update_range (dep->sheet, NULL);
+	}
+
+	g_slist_free (dependents);
+
+	return undo_info;
 }
 
 /*******************************************************************/
@@ -1296,7 +1517,7 @@ void
 workbook_queue_all_recalc (Workbook *wb)
 {
 	/* FIXME : warning what about dependents in other workbooks */
-	WORKBOOK_FOREACH_DEPENDENT (wb, dep, dependent_queue_recalc (dep););
+	WORKBOOK_FOREACH_DEPENDENT (wb, dep, dependent_flag_recalc (dep););
 }
 
 /**

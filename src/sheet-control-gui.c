@@ -1779,6 +1779,9 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 	SheetControlGUI *scg = gcanvas->simple.scg;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (scg_get_wbcg (scg));
 
+	if (wbcg_edit_has_guru (scg_get_wbcg (scg)))
+		return FALSE;
+
 	switch (event->type) {
 	case GDK_ENTER_NOTIFY: {
 		gpointer p = gtk_object_get_data (GTK_OBJECT (ctrl_pt),

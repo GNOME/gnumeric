@@ -887,7 +887,7 @@ sheet_widget_scrollbar_set_details (SheetObject *so, ExprTree *link,
 	if (link != NULL)
 		dependent_set_expr (&swb->dep, link);
 	else
-		gtk_adjustment_changed	(swb->adjustment);
+		gtk_adjustment_changed (swb->adjustment);
 }
 
 SOW_MAKE_TYPE (scrollbar, Scrollbar,
@@ -995,7 +995,7 @@ sheet_widget_checkbox_finalize (GObject *obj)
 
 	dependent_set_expr (&swc->dep, NULL);
 
-	(*sheet_object_widget_class->finalize)(obj);
+	(*sheet_object_widget_class->finalize) (obj);
 }
 
 static CellRef *
@@ -1399,7 +1399,7 @@ sheet_widget_radio_button_finalize (GObject *obj)
 {
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (obj);
 	dependent_set_expr (&swrb->dep, NULL);
-	(*sheet_object_widget_class->finalize)(obj);
+	(*sheet_object_widget_class->finalize) (obj);
 }
 
 static void
@@ -1526,7 +1526,7 @@ sheet_widget_list_finalize (GObject *obj)
 {
 	SheetWidgetList *swl = SHEET_WIDGET_LIST (obj);
 	dependent_set_expr (&swl->dep, NULL);
-	(*sheet_object_widget_class->finalize)(obj);
+	(*sheet_object_widget_class->finalize) (obj);
 }
 
 static GtkWidget *
@@ -1658,7 +1658,7 @@ sheet_widget_combo_finalize (GObject *obj)
 	SheetWidgetCombo *swc = SHEET_WIDGET_COMBO (obj);
 	dependent_set_expr (&swc->input_dep, NULL);
 	dependent_set_expr (&swc->output_dep, NULL);
-	(*sheet_object_widget_class->finalize)(obj);
+	(*sheet_object_widget_class->finalize) (obj);
 }
 
 static GtkWidget *

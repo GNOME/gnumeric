@@ -38,7 +38,10 @@ typedef enum {
 	DEPENDENT_GOES_INTERBOOK   = 0x00020000,
 	DEPENDENT_HAS_3D	   = 0x00040000,
 	DEPENDENT_ALWAYS_UNLINK    = 0x00080000,
-	DEPENDENT_LINK_FLAGS	   = 0x000ff000
+	DEPENDENT_LINK_FLAGS	   = 0x000ff000,
+
+	/* An internal utility flag */
+	DEPENDENT_FLAGGED	   = 0x00100000
 } DependentFlags;
 
 #define dependent_type(dep)		((dep)->flags & DEPENDENT_TYPE_MASK)
@@ -65,17 +68,21 @@ struct _DependencyContainer {
 
 typedef void (*DepFunc) (Dependent *dep, gpointer user);
 
-guint32 dependent_type_register  (DependentClass const *klass);
-void dependent_types_init	 (void);
-void dependent_types_shutdown	 (void);
+guint32	 dependent_type_register    (DependentClass const *klass);
+void	 dependent_types_init	    (void);
+void	 dependent_types_shutdown   (void);
 
-void	 dependent_set_expr	   (Dependent *dependent, ExprTree *new_expr);
-void	 dependent_set_sheet	   (Dependent *dependent, Sheet *sheet);
-void	 dependent_link		   (Dependent *dep, CellPos const *pos);
-void	 dependent_unlink	   (Dependent *dep, CellPos const *pos);
-gboolean dependent_eval		   (Dependent *dep);
-void	 dependent_changed	   (Dependent *dep, gboolean queue_recalc);
-void	 cb_dependent_queue_recalc (Dependent *dep, gpointer ignore);
+void	 dependent_set_expr	    (Dependent *dependent, ExprTree *new_expr);
+void	 dependent_set_sheet	    (Dependent *dependent, Sheet *sheet);
+void	 dependent_link		    (Dependent *dep, CellPos const *pos);
+void	 dependent_unlink	    (Dependent *dep, CellPos const *pos);
+gboolean dependent_eval		    (Dependent *dep);
+void	 dependent_changed	    (Dependent *dep, gboolean queue_recalc);
+void	 cb_dependent_queue_recalc  (Dependent *dep, gpointer ignore);
+
+GSList  *dependents_relocate	    (ExprRelocateInfo const *info);
+void     dependents_unrelocate      (GSList *info);
+void     dependents_unrelocate_free (GSList *info);
 
 void cell_queue_recalc		 (Cell const *cell);
 void cell_foreach_dep		 (Cell const *cell, DepFunc func, gpointer user);

@@ -1,3 +1,33 @@
+2002-03-16  Jody Goldberg <jody@gnome.org>
+
+	* src/eval.c (dependents_relocate) :
+
+	* src/sheet.c (sheet_{insert,delete}_{cols,rows}) : don't recalc the
+	  entire sheet.  We'll queue what we need when relocating.
+
+	* src/cell.c (cell_set_expr_unsafe) : don't relink.
+
+	* src/eval.c (micro_hash_resize) : minor optimization.
+	(dependents_unrelocate_free) : moved here and renamed from
+	(workbook_unrelocate_free) : moved here and renamed from
+	  workbook_expr_unrelocate_free.
+	(workbook_unrelocate) : moved here and renamed from
+	  workbook_expr_unrelocate.
+	(cb_range_contained_collect) : new.
+	(cb_single_contained_collect) : new.
+	(dependents_relocate) : moved here and renamed from
+	  workbook_expr_relocate.  Then changed to operate on the actual
+	  depenents of the region rather than everything, clarified the
+	  handling of linking/unlinking.
+	(dependents_unrelocate) : relink deps and queue them for recalc.
+
+	* src/cell.c (cell_relocate) : clean out a bit now that we are not
+	  using it without reloc info.
+
+	* src/expr.c (cellref_relocate) : don't use the ultra safe reference
+	  checks here, we WANT to know if things are out of bounds.
+	(cellref_shift) : ditto.
+
 2002-03-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/sheet-control-gui-priv.h : added label field
@@ -25,6 +55,8 @@
 
 2002-03-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/commands.c (cmd_merge_data_redo) : use cell_assign_value rather
+	  than copy/paste to preserve merged target fields.
 	* src/commands.c (cmd_merge_data_redo) : don't create unnecessary cells
 	* src/sheet-object.[ch] (sheet_object_clone_sheet) : delete
 	* src/sheet-object.[ch] (sheet_object_clone_sheet_in_range) : rename
@@ -42,12 +74,15 @@
 	  delete again (unnecessary after Jody's fix of the root problem)
 	* src/colrow.c (colrow_set_states) : preserve the 
 	  ColRowStateList, it possibly should also be applied to other sheets
+	(colrow_restore_state_group) : ditto.
 	* src/sheet.c : delete the ColRowStateList after colrow_set_states
 	* src/commands.c : delete the ColRowStateList after colrow_set_states
 	(cmd_merge_data_redo) : preserve column and row widths, etc.
-	
 
 2002-03-13  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_press) : disable object
+	  movement while guru is up.
 
 	* src/sheet-object-widget.c (sheet_widget_scrollbar_get_ref) : Add a
 	  force_sheet parameter.

@@ -369,7 +369,7 @@ wbcg_edit_selection_descr_set (WorkbookControl *wbc, char const *text)
 
 static gboolean
 cb_sheet_label_edit_finished (EditableLabel *el, char const *new_name,
-			    WorkbookControlGUI *wbcg)
+			      WorkbookControlGUI *wbcg)
 {
 	gboolean reject = FALSE;
 	if (new_name != NULL)

@@ -34,7 +34,7 @@ cell_dirty (Cell *cell)
 
 	/* Cells from the clipboard do not have a sheet attached */
 	if (sheet)
-		sheet_set_dirty(sheet, TRUE);
+		sheet_set_dirty (sheet, TRUE);
 }
 
 /**
@@ -280,29 +280,25 @@ void
 cell_relocate (Cell *cell, ExprRewriteInfo const *rwinfo)
 {
 	g_return_if_fail (cell != NULL);
+	g_return_if_fail (rwinfo != NULL);
 
 	/* 1. Tag the cell as dirty */
 	cell_dirty (cell);
 
 	/* 2. If the cell contains a formula, relocate the formula */
 	if (cell_has_expr (cell)) {
-		ExprTree *expr = cell->base.expression;
+		ExprTree *expr = expr_rewrite (cell->base.expression, rwinfo);
 
+#warning make this a precondition
 		if (cell_expr_is_linked (cell))
 			dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 
 		/* bounds check, and adjust local references from the cell */
-		if (rwinfo != NULL) {
-			expr = expr_rewrite (expr, rwinfo);
-
-			if (expr != NULL) {
-				/* expression was unlinked above */
-				expr_tree_unref (cell->base.expression);
-				cell->base.expression = expr;
-			}
+		if (expr != NULL) {
+			expr_tree_unref (cell->base.expression);
+			cell->base.expression = expr;
 		}
 
-		/* Relink the expression.  */
 		dependent_link (CELL_TO_DEP (cell), &cell->pos);
 	}
 }
@@ -456,9 +452,8 @@ cell_set_expr_internal (Cell *cell, ExprTree *expr)
 /*
  * cell_set_expr_unsafe : Stores and references the supplied expression.  It
  *         marks the sheet as dirty.  Intented for use by import routines that
- *         do bulk assignment.
- *
- * The cell is NOT marked for recalc.
+ *         do bulk assignment.  The resulting cell is NOT linked into the
+ *         dependent list.  Nor marked for recalc.
  *
  * WARNING : This is an internal routine that does not queue redraws,
  *           does not auto-resize, and does not calculate spans.
@@ -472,12 +467,17 @@ cell_set_expr_unsafe (Cell *cell, ExprTree *expr)
 	g_return_if_fail (expr != NULL);
 
 	cell_set_expr_internal (cell, expr);
-	dependent_link (CELL_TO_DEP (cell), &cell->pos);
 }
 
 /**
- * cell_set_expr : A utility wrapper for cell_set_expr_unsafe.  That adds
- *      checks for array subdivision.
+ * cell_set_expr :  Stores and references the supplied expression
+ *         marks the sheet as dirty.  Intented for use by import routines that
+ *         do bulk assignment.  The resulting cell _is_ linked into the
+ *         dependent list, but NOT marked for recalc.
+ *
+ * WARNING : This is an internal routine that does not queue redraws,
+ *           does not auto-resize, and does not calculate spans.
+ *           Be very careful using this.
  */
 void
 cell_set_expr (Cell *cell, ExprTree *expr)

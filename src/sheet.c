@@ -3330,7 +3330,7 @@ colrow_move (Sheet *sheet,
 	if (info == NULL)
 		return;
 
-	/* Collect the cells */
+	/* Collect the cells and unlinks them if necessary */
 	g_hash_table_freeze (sheet->cell_hash);
 	sheet_foreach_cell_in_range (sheet, TRUE,
 				     start_col, start_row,
@@ -3363,10 +3363,10 @@ colrow_move (Sheet *sheet,
 			cell->pos.row = new_pos;
 
 		sheet_cell_add_to_hash (sheet, cell);
-
-		/* relinks expressions */
-		cell_relocate (cell, NULL);
+		if (cell_has_expr (cell))
+			dependent_link (CELL_TO_DEP (cell), &cell->pos);
 	}
+	sheet_set_dirty (sheet, TRUE);
 }
 
 static void
@@ -3377,9 +3377,6 @@ sheet_colrow_insdel_finish (ExprRelocateInfo const *rinfo, gboolean is_cols,
 
 	sheet_objects_relocate (rinfo, FALSE);
 	sheet_merge_relocate (rinfo);
-
-	/* Queue entire sheet for recalc (not strictly necessary) */
-	sheet_region_queue_recalc (sheet, NULL);
 
 	/* Notify sheet of pending updates */
 	sheet->priv->recompute_visibility = TRUE;
@@ -3474,7 +3471,7 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = count;
 	reloc_info.row_offset = 0;
-	*reloc_storage = workbook_expr_relocate (sheet->workbook, &reloc_info);
+	*reloc_storage = dependents_relocate (&reloc_info);
 
 	/* 3. Move the columns to their new location (From right to left) */
 	for (i = sheet->cols.max_used; i >= col ; --i)
@@ -3525,7 +3522,7 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 	sheet_objects_clear (sheet, &reloc_info.origin, G_TYPE_NONE);
 
 	/* 2. Invalidate references to the cells in the delete columns */
-	*reloc_storage = workbook_expr_relocate (sheet->workbook, &reloc_info);
+	*reloc_storage = dependents_relocate (&reloc_info);
 
 	/* 3. Fix references to and from the cells which are moving */
 	reloc_info.origin.start.col = col+count;
@@ -3533,8 +3530,7 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 	reloc_info.col_offset = -count;
 	reloc_info.row_offset = 0;
 	*reloc_storage = g_slist_concat (*reloc_storage,
-					 workbook_expr_relocate (sheet->workbook,
-								 &reloc_info));
+		dependents_relocate (&reloc_info));
 
 	/* 4. Move the columns to their new location (from left to right) */
 	for (i = col + count ; i <= sheet->cols.max_used; ++i)
@@ -3585,7 +3581,7 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = 0;
 	reloc_info.row_offset = count;
-	*reloc_storage = workbook_expr_relocate (sheet->workbook, &reloc_info);
+	*reloc_storage = dependents_relocate (&reloc_info);
 
 	/* 3. Move the rows to their new location (from bottom to top) */
 	for (i = sheet->rows.max_used; i >= row ; --i)
@@ -3636,7 +3632,7 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 	sheet_objects_clear (sheet, &reloc_info.origin, G_TYPE_NONE);
 
 	/* 2. Invalidate references to the cells in the delete columns */
-	*reloc_storage = workbook_expr_relocate (sheet->workbook, &reloc_info);
+	*reloc_storage = dependents_relocate (&reloc_info);
 
 	/* 3. Fix references to and from the cells which are moving */
 	reloc_info.origin.start.row = row + count;
@@ -3644,8 +3640,7 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 	reloc_info.col_offset = 0;
 	reloc_info.row_offset = -count;
 	*reloc_storage = g_slist_concat (*reloc_storage,
-					 workbook_expr_relocate (sheet->workbook,
-								 &reloc_info));
+		dependents_relocate (&reloc_info));
 
 	/* 4. Move the rows to their new location (from top to bottom) */
 	for (i = row + count ; i <= sheet->rows.max_used; ++i)
@@ -3683,7 +3678,7 @@ sheet_move_range (WorkbookControl *wbc,
 
 	dst = rinfo->origin;
 	out_of_range = range_translate (&dst,
-					rinfo->col_offset, rinfo->row_offset);
+		rinfo->col_offset, rinfo->row_offset);
 
 	/* Redraw the src region in case anything was spanning */
 	sheet_redraw_range (rinfo->origin_sheet, &rinfo->origin);
@@ -3699,11 +3694,11 @@ sheet_move_range (WorkbookControl *wbc,
 			GSList *invalid;
 			ExprRelocateInfo reloc_info;
 
-			/*
-			 * We need to be careful about invalidating references to the old
-			 * content of the destination region.  We only invalidate references
-			 * to regions that are actually lost.  However, this care is
-			 * only necessary if the source and target sheets are the same.
+			/* We need to be careful about invalidating references
+			 * to the old content of the destination region.  We
+			 * only invalidate references to regions that are
+			 * actually lost.  However, this care is only necessary
+			 * if the source and target sheets are the same.
 			 *
 			 * Handle dst cells being pasted over
 			 */
@@ -3723,7 +3718,7 @@ sheet_move_range (WorkbookControl *wbc,
 				if (!range_overlap (r, &rinfo->origin)) {
 					reloc_info.origin = *r;
 					*reloc_storage = g_slist_concat (*reloc_storage,
-						workbook_expr_relocate (rinfo->target_sheet->workbook, &reloc_info));
+						dependents_relocate (&reloc_info));
 				}
 				g_free (r);
 			}
@@ -3736,16 +3731,19 @@ sheet_move_range (WorkbookControl *wbc,
 
 		/* 2. Fix references to and from the cells which are moving */
 		*reloc_storage = g_slist_concat (*reloc_storage,
-			workbook_expr_relocate (rinfo->origin_sheet->workbook, rinfo));
+			dependents_relocate (rinfo));
 	}
 
 	/* 3. Collect the cells */
+	g_hash_table_freeze (sheet->cell_hash);
 	sheet_foreach_cell_in_range (rinfo->origin_sheet, TRUE,
 				     rinfo->origin.start.col,
 				     rinfo->origin.start.row,
 				     rinfo->origin.end.col,
 				     rinfo->origin.end.row,
 				     &cb_collect_cell, &cells);
+	g_hash_table_thaw (sheet->cell_hash);
+
 	/* Reverse list so that we start at the top left (simplifies arrays). */
 	cells = g_list_reverse (cells);
 
@@ -3776,20 +3774,19 @@ sheet_move_range (WorkbookControl *wbc,
 		}
 
 		/* Update the location */
-		sheet_cell_insert (rinfo->target_sheet, cell,
-				   cell->pos.col + rinfo->col_offset,
-				   cell->pos.row + rinfo->row_offset, TRUE);
-		cell_relocate (cell, NULL);
+		cell->base.sheet = rinfo->target_sheet;
+		cell->pos.col += rinfo->col_offset;
+		cell->pos.row += rinfo->row_offset;
+		sheet_cell_add_to_hash (rinfo->target_sheet, cell);
+		if (cell_has_expr (cell))
+			dependent_link (CELL_TO_DEP (cell), &cell->pos);
 	}
 
 	/* 7. Move objects in the range */
 	sheet_objects_relocate (rinfo, TRUE);
 	sheet_merge_relocate (rinfo);
 
-	/* 8. Queue entire sheet for recalc */
-	sheet_region_queue_recalc (rinfo->target_sheet, NULL);
-
-	/* 9. Notify sheet of pending update */
+	/* 8. Notify sheet of pending update */
 	sheet_flag_recompute_spans (rinfo->origin_sheet);
 	sheet_flag_status_update_range (rinfo->origin_sheet, &rinfo->origin);
 }

@@ -396,7 +396,8 @@ gnm_canvas_key_press (GtkWidget *widget, GdkEventKey *event)
 	if (scg->grab_stack > 0)
 		return TRUE;
 
-	if (scg->current_object != NULL || scg->new_object != NULL)
+	if (wbcg_edit_has_guru (scg->wbcg) == NULL  &&
+	    (scg->current_object != NULL || scg->new_object != NULL))
 		res = gnm_canvas_key_mode_object (gcanvas, event);
 	else
 		res = gnm_canvas_key_mode_sheet (gcanvas, event);
