@@ -700,6 +700,8 @@ gog_axis_map_set (GogAxis *axis, char const *name)
 gboolean
 gog_axis_map_is_valid (GogAxisMap *map) 
 {
+	g_return_val_if_fail (map != NULL, FALSE);
+
 	return map->is_valid;
 }
 

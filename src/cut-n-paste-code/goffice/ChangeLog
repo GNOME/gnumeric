@@ -1,3 +1,7 @@
+2004-09-14  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-axis.c (gog_axis_map_is_valid): add assertion.
+
 2004-09-09  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-series.c (gog_series_element_set_index) : new to handle
