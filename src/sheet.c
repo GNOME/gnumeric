@@ -3839,6 +3839,9 @@ sheet_clone_colrow_info (Sheet const *src, Sheet *dst)
 		sheet_col_get_default_size_pixels (src));
 	sheet_row_set_default_size_pixels (dst,
 		sheet_row_get_default_size_pixels (src));
+
+	dst->cols.max_outline_level = src->cols.max_outline_level;
+	dst->rows.max_outline_level = src->rows.max_outline_level;
 }
 
 static void
