@@ -24,9 +24,11 @@ struct _ItemEdit {
 	CellPos	    pos;
 
 	StyleFont *style_font;
+	MStyle	  *style;
 	gboolean  cursor_visible;
 	int       blink_timer;
 	int       auto_entry;
+	GdkGC    *fill_gc;	/* Default background fill gc */
 
 	/*
 	 * When editing, if the cursor is inside a cell name, or a

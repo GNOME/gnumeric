@@ -2,7 +2,7 @@
 /*
  * item-edit.c : Edit facilities for worksheets.
  *
- * (C) 1999-2001 Miguel de Icaza & Jody Goldberg
+ * (C) 1999-2002 Miguel de Icaza & Jody Goldberg
  *
  * This module provides:
  *   * Integration of an in-sheet text editor (GtkEntry) with the Workbook
@@ -26,6 +26,8 @@
 #include "value.h"
 #include "ranges.h"
 #include "style.h"
+#include "style-color.h"
+#include "pattern.h"
 #include "parse-util.h"
 #include "workbook.h"
 #include "workbook-edit.h"
@@ -111,24 +113,22 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	ColRowInfo const *ci = sheet_col_get_info (sc->sheet,
 						   item_edit->pos.col);
 	int const left_pos = ((int)item->x1) + ci->margin_a - x;
-
-	/* NOTE : This does not handle vertical alignment yet so there may be some
-	 * vertical jumping when edit.
-	 */
-	int top_pos = ((int)item->y1) - y + 1; /* grid line */
+	int top_pos, font_height;
 	int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (item_edit->entry));
 	char const *text, *entered_text;
-	StyleFont	*style_font = item_edit->style_font;
 	PangoLayout	*layout;
 	PangoAttrList	*attrs;
+	PangoAttribute  *attr;
 	PangoRectangle	 pos;
+	MStyle const 	*style = item_edit->style;
+	StyleFont	*style_font = item_edit->style_font;
 
-	if (item_edit->style_font == NULL)
+	if (style == NULL)
 		return;
 
        	/* Draw the background (recall that gdk_draw_rectangle excludes far coords) */
 	gdk_draw_rectangle (
-		drawable, canvas->style->white_gc, TRUE,
+		drawable, item_edit->fill_gc, TRUE,
 		((int)item->x1)-x, ((int)item->y1)-y,
 		(int)(item->x2-item->x1),
 		(int)(item->y2-item->y1));
@@ -140,23 +140,61 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	pango_layout_set_font_description (layout,
 		pango_context_get_font_description (style_font->pango.context));
 	pango_layout_set_wrap (layout, PANGO_WRAP_CHAR);
-	pango_layout_set_width (layout, (int)(item->x2-item->x1)*PANGO_SCALE);
-	pango_layout_get_pixel_size (layout, &width, &height);
+	pango_layout_set_width (layout, (int)(item->x2 - item->x1)*PANGO_SCALE);
 
  	attrs = pango_attr_list_new ();
 	pango_layout_set_attributes (layout, attrs);
 
+	{
+		StyleColor *fore = mstyle_get_color (style, MSTYLE_COLOR_FORE);
+		attr = pango_attr_foreground_new (fore->color.red,
+						  fore->color.green,
+						  fore->color.blue);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (attrs, attr);
+	}
 	if (entered_text != NULL && entered_text != text) {
-		int start = strlen (entered_text);
-		PangoAttribute *attr;
+		StyleColor *color;
+		int const start = strlen (entered_text);
 
-		attr = pango_attr_background_new (0, 0, 0);
+		color = mstyle_get_color (style, MSTYLE_COLOR_FORE);
+		attr = pango_attr_background_new (
+			color->color.red, color->color.green, color->color.blue);
 		attr->start_index = start;
 		attr->end_index = G_MAXINT;
 		pango_attr_list_insert (attrs, attr);
-		attr = pango_attr_foreground_new (0xffff, 0xffff, 0xffff);
+
+		color = mstyle_get_color (style, MSTYLE_COLOR_BACK);
+		attr = pango_attr_foreground_new (
+			color->color.red, color->color.green, color->color.blue);
 		attr->start_index = start;
 		attr->end_index = G_MAXINT;
+		pango_attr_list_insert (attrs, attr);
+	}
+	/* Handle underlining and strikethrough */
+	switch (mstyle_get_font_uline (style)) {
+	case UNDERLINE_SINGLE :
+		attr = pango_attr_underline_new (PANGO_UNDERLINE_SINGLE);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (attrs, attr);
+		break;
+
+	case UNDERLINE_DOUBLE :
+		attr = pango_attr_underline_new (PANGO_UNDERLINE_DOUBLE);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (attrs, attr);
+		break;
+
+	default :
+		break;
+	};
+	if (mstyle_get_font_strike (style)){
+		attr = pango_attr_strikethrough_new (TRUE);
+		attr->start_index = 0;
+		attr->end_index = -1;
 		pango_attr_list_insert (attrs, attr);
 	}
 	if (GNM_CANVAS (canvas)->preedit_length) {
@@ -170,12 +208,41 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	pango_layout_index_to_pos (layout,
 		g_utf8_offset_to_pointer (text, cursor_pos) - text, &pos);
+
+	top_pos = ((int)item->y1) - y + 1; /* grid line */
+	font_height = style_font_get_height (style_font);
+	height = (int)(item->y2 - item->y1) - 1;
+	switch (mstyle_get_align_v (style)) {
+	default:
+		g_warning ("Unhandled cell vertical alignment.");
+
+	case VALIGN_JUSTIFY:
+	case VALIGN_TOP:
+		/*
+		 * top_pos == first pixel past margin
+		 * add font ascent
+		 */
+		break;
+
+	case VALIGN_CENTER:
+		top_pos += (height - font_height)/2;
+		break;
+
+	case VALIGN_BOTTOM:
+		/*
+		 * rect.y == first pixel past margin
+		 * add height == first pixel in lower margin
+		 * subtract font descent
+		 */
+		top_pos += (height - font_height);
+		break;
+	}
 	gdk_draw_layout (drawable, canvas->style->black_gc,
 		left_pos, top_pos, layout);
 	if (item_edit->cursor_visible)
 		gdk_draw_line (drawable, canvas->style->black_gc,
 			left_pos + PANGO_PIXELS (pos.x), top_pos + PANGO_PIXELS (pos.y),
-			left_pos + PANGO_PIXELS (pos.x), top_pos + PANGO_PIXELS (pos.y + pos.height));
+			left_pos + PANGO_PIXELS (pos.x), top_pos + PANGO_PIXELS (pos.y + pos.height) - 1);
 	g_object_unref (G_OBJECT (layout));
 	pango_attr_list_unref (attrs);
 }
@@ -289,6 +356,27 @@ item_edit_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int 
 	}
 }
 
+static void
+item_edit_realize (GnomeCanvasItem *item)
+{
+	ItemEdit *ie = ITEM_EDIT (item);
+	if (GNOME_CANVAS_ITEM_CLASS (item_edit_parent_class)->realize)
+		(*GNOME_CANVAS_ITEM_CLASS (item_edit_parent_class)->realize)(item);
+
+	ie->fill_gc = gdk_gc_new (GTK_WIDGET (item->canvas)->window);
+	if (!gnumeric_background_set_gc (ie->style, ie->fill_gc, item->canvas, FALSE))
+		gdk_gc_set_foreground (ie->fill_gc, &gs_white);
+}
+
+static void
+item_edit_unrealize (GnomeCanvasItem *item)
+{
+	ItemEdit *ie = ITEM_EDIT (item);
+	gdk_gc_unref (ie->fill_gc);	ie->fill_gc = NULL;
+	if (GNOME_CANVAS_ITEM_CLASS (item_edit_parent_class)->unrealize)
+		(*GNOME_CANVAS_ITEM_CLASS (item_edit_parent_class)->unrealize)(item);
+}
+
 static int
 cb_item_edit_cursor_blink (ItemEdit *item_edit)
 {
@@ -344,9 +432,11 @@ item_edit_init (ItemEdit *item_edit)
 	item_edit->pos.col = -1;
 	item_edit->pos.row = -1;
 	item_edit->style_font = NULL;
+	item_edit->style      = NULL;
 	item_edit->cursor_visible = TRUE;
 	item_edit->feedback_disabled = FALSE;
 	item_edit->feedback_cursor = NULL;
+	item_edit->fill_gc = NULL;
 }
 
 /*
@@ -386,9 +476,13 @@ item_edit_destroy (GtkObject *o)
 	}
 	scg_set_display_cursor (item_edit->scg);
 
-	if (item_edit->style_font) {
+	if (item_edit->style_font != NULL) {
 		style_font_unref (item_edit->style_font);
 		item_edit->style_font = NULL;
+	}
+	if (item_edit->style != NULL) {
+		mstyle_unref (item_edit->style);
+		item_edit->style= NULL;
 	}
 
 	if (GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)
@@ -440,15 +534,14 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	scan_for_range (item_edit, "");
 
-	/*
-	 * Init the auto-completion
-	 */
-
 	/* set the font and the upper left corner if this is the first pass */
 	if (item_edit->style_font == NULL) {
-		MStyle *mstyle = sheet_style_get (sv->sheet,
-			item_edit->pos.col, item_edit->pos.row);
-		item_edit->style_font = scg_get_style_font (sv->sheet, mstyle);
+		item_edit->style = mstyle_copy (sheet_style_get (sv->sheet,
+			item_edit->pos.col, item_edit->pos.row));
+		item_edit->style_font = scg_get_style_font (sv->sheet, item_edit->style);
+
+		if (mstyle_get_align_h (item_edit->style) == HALIGN_GENERAL)
+			mstyle_set_align_h (item_edit->style, HALIGN_LEFT);
 
 		/* move inwards 1 pixel for the grid line */
 		item->x1 = 1 + gcanvas->first_offset.col +
@@ -489,6 +582,8 @@ item_edit_class_init (ItemEditClass *item_edit_class)
 
 	/* GnomeCanvasItem method overrides */
 	item_class->update      = item_edit_update;
+	item_class->realize     = item_edit_realize;
+	item_class->unrealize   = item_edit_unrealize;
 	item_class->draw        = item_edit_draw;
 	item_class->point       = item_edit_point;
 	item_class->event       = item_edit_event;

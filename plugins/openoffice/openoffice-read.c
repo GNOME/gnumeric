@@ -785,6 +785,35 @@ GSF_XML_SAX_NODE (START, OFFICE, "office:document-content", FALSE, NULL, NULL, 0
   { NULL }
 };
 
+/****************************************************************************/
+
+typedef GValue		OOConfigItem;
+typedef GHashTable	OOConfigItemSet;
+typedef GHashTable	OOConfigItemMapNamed;
+typedef GPtrArray	OOConfigItemMapIndexed;
+
+static GHashTable *
+oo_config_item_set ()
+{
+}
+
+static GsfXmlSAXNode opencalc_settings_dtd [] = {
+GSF_XML_SAX_NODE (START, START, NULL, FALSE, NULL, NULL, 0),
+GSF_XML_SAX_NODE (START, OFFICE, "office:document-settings", FALSE, NULL, NULL, 0),
+  GSF_XML_SAX_NODE (OFFICE, SETTINGS, "office:settings", FALSE, NULL, NULL, 0),
+    GSF_XML_SAX_NODE (SETTINGS, CONFIG_ITEM_SET, "config:config-item-set", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (CONFIG_ITEM_SET, CONFIG_ITEM, "config:config-item", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (CONFIG_ITEM_SET, CONFIG_ITEM_MAP_NAMED, "config:config-item-map-named", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (CONFIG_ITEM_MAP_NAMED, CONFIG_ITEM_MAP_ENTRY, "config:config-item-map-entry", FALSE, NULL, NULL, 0),
+	  GSF_XML_SAX_NODE (CONFIG_ITEM_MAP_ENTRY, CONFIG_ITEM, "config:config-item", FALSE, NULL, NULL, 0),				/* 2nd def */
+	  GSF_XML_SAX_NODE (CONFIG_ITEM_MAP_ENTRY, CONFIG_ITEM_MAP_NAMED, "config:config-item-map-named", FALSE, NULL, NULL, 0),	/* 2nd def */
+	  GSF_XML_SAX_NODE (CONFIG_ITEM_MAP_ENTRY, CONFIG_ITEM_MAP_INDEXED, "config:config-item-map-indexed", FALSE, NULL, NULL, 0),	/* 2nd def */
+      GSF_XML_SAX_NODE (CONFIG_ITEM_SET, CONFIG_ITEM_MAP_INDEXED, "config:config-item-map-indexed", FALSE, NULL, NULL, 0),
+	GSF_XML_SAX_NODE (CONFIG_ITEM_MAP_INDEXED, CONFIG_ITEM_MAP_ENTRY, "config:config-item-map-entry", FALSE, NULL, NULL, 0),	/* 2nd def */
+  { NULL }
+};
+
+/****************************************************************************/
 
 void
 openoffice_file_open (GnumFileOpener const *fo, IOContext *io_context,
@@ -833,17 +862,27 @@ openoffice_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	state.sheet_order = NULL;
 
 	state.base.root = opencalc_dtd;
-	if (!gsf_xmlSAX_parse (content, &state.base))
+	if (gsf_xmlSAX_parse (content, &state.base)) {
+		GsfInput *settings;
+
+		/* get the sheet in the right order (in case something was
+		 * created out of order implictly */
+		state.sheet_order = g_slist_reverse (state.sheet_order);
+		workbook_sheet_reorder (state.pos.wb, state.sheet_order, NULL);
+		g_slist_free (state.sheet_order);
+
+		/* look for the view settings */
+		settings = gsf_infile_child_by_name (zip, "settings.xml");
+		if (settings != NULL) {
+			state.base.root = opencalc_settings_dtd;
+			gsf_xmlSAX_parse (settings, &state.base);
+			g_object_unref (G_OBJECT (settings));
+		}
+	} else
 		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
-	else
-		workbook_queue_all_recalc (state.pos.wb);
-
-	state.sheet_order = g_slist_reverse (state.sheet_order);
-	workbook_sheet_reorder (state.pos.wb, state.sheet_order,  NULL);
-	g_slist_free (state.sheet_order);
-
 	g_hash_table_destroy (state.styles);
 	g_object_unref (G_OBJECT (content));
+
 	g_object_unref (G_OBJECT (zip));
 
 	i = workbook_sheet_count (state.pos.wb);

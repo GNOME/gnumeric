@@ -1,3 +1,9 @@
+2002-10-30  Jody Goldberg <jody@gnome.org>
+
+	* src/item-edit.c (item_edit_draw) : respect more of the style
+	  settings including v-alignment, underline, strikethrough, and
+	  colours.
+
 2002-10-29  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-edit.c (workbook_edit_complete_notify) : force an

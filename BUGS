@@ -41,7 +41,7 @@ Pending Patches
     6.3) Form import
     6.4) Intersection, union and set export
     6.5) fix name export now that we sorta understand it
-    6.6) non-ole import (Nick Lamb is working on this)
+    6.6) non-ole import (Nick Lamb is working on this)		(Partial)
 9) Manual recalc						(DONE)
     9.1) finish calculation ui in workbook attr dialog		(DONE)
 10) fix highlighting of completion code				(DONE)
@@ -87,8 +87,8 @@ Probably Post 1.2 Targets
 - pivots and scripting
 - undo/redo transaction file
 - load/save of external references
+- input message				(Stored)
 - validation from list
-- input message
 
 Misc stuff that should be fixed
 -------------------------------
