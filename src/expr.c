@@ -737,7 +737,7 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 	l = tree->u.function.arg_list;
 	argc = g_list_length (l);
 
-	if (sym->type != SYMBOL_VALUE) {
+	if (sym->type != SYMBOL_FUNCTION) {
 		*error_string = _("Internal error");
 		return NULL;
 	}
