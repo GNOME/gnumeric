@@ -16,6 +16,7 @@ value_new_empty (void)
 {
 	Value *v = g_new (Value, 1);
 	v->type = VALUE_EMPTY;
+
 	return v;
 }
 
@@ -137,12 +138,12 @@ value_release (Value *value)
 		break;
 
 	case VALUE_ARRAY:{
-		guint lpx, lpy;
+		guint x, y;
 
-		for (lpx = 0; lpx < value->v.array.x; lpx++){
-			for (lpy = 0; lpy < value->v.array.y; lpy++)
-				value_release (value->v.array.vals [lpx][lpy]);
-			g_free (value->v.array.vals [lpx]);
+		for (x = 0; x < value->v.array.x; x++){
+			for (y = 0; y < value->v.array.y; y++)
+				value_release (value->v.array.vals [x][y]);
+			g_free (value->v.array.vals [x]);
 		}
 
 		g_free (value->v.array.vals);
@@ -338,14 +339,19 @@ value_get_as_bool (Value const *v, gboolean *err)
 char *
 value_get_as_string (const Value *value)
 {
-	struct lconv *locinfo;
-	
-	char const * separator = ",";
-	locinfo = localeconv ();
-	if (locinfo->decimal_point &&
-	    locinfo->decimal_point [0] == ',' &&
-	    locinfo->decimal_point [1] == 0)
-		separator = ";";
+	static char *separator;
+
+	if (!separator){
+		struct lconv *locinfo;
+		
+		locinfo = localeconv ();
+		if (locinfo->decimal_point &&
+		    locinfo->decimal_point [0] == ',' &&
+		    locinfo->decimal_point [1] == 0)
+			separator = ";";
+		else
+			separator = ",";
+	}
 
 	if (value == NULL)
 		return g_strdup ("");
@@ -371,18 +377,18 @@ value_get_as_string (const Value *value)
 
 	case VALUE_ARRAY: {
 		GString *str = g_string_new ("{");
-		guint lpx, lpy;
+		guint x, y;
 		char *ans;
 
-		for (lpy = 0; lpy < value->v.array.y; lpy++){
-			for (lpx = 0; lpx < value->v.array.x; lpx++){
-				const Value *v = value->v.array.vals [lpx][lpy];
+		for (y = 0; y < value->v.array.y; y++){
+			for (x = 0; x < value->v.array.x; x++){
+				const Value *v = value->v.array.vals [x][y];
 
 				g_return_val_if_fail (v->type == VALUE_STRING ||
 						      v->type == VALUE_FLOAT ||
 						      v->type == VALUE_INTEGER,
 						      "Duff Array contents");
-				if (lpx)
+				if (x)
 					g_string_sprintfa (str, separator);
 				if (v->type == VALUE_STRING)
 					g_string_sprintfa (str, "\"%s\"",
@@ -391,7 +397,7 @@ value_get_as_string (const Value *value)
 					g_string_sprintfa (str, "%g",
 							   value_get_as_float (v));
 			}
-			if (lpy < value->v.array.y-1)
+			if (y < value->v.array.y-1)
 				g_string_sprintfa (str, ";");
 		}
 		g_string_sprintfa (str, "}");
@@ -843,7 +849,8 @@ value_area_foreach (EvalPosition const *ep, Value const *v,
 	return NULL;
 }
 
-/* Initialize temporarily with statics.  The real versions from the locale
+/*
+ * Initialize temporarily with statics.  The real versions from the locale
  * will be setup in constants_init
  */
 char const *gnumeric_err_NULL  = "#NULL!";

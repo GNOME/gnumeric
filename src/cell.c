@@ -20,18 +20,14 @@
 
 static int         redraws_frozen           = 0;
 static int         redraws_deep_frozen      = 0;
-       int         dependencies_deep_frozen = 0;
 static GHashTable *cell_hash_queue;
 
-void
+static void
 cell_formula_changed (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
 
 	sheet_cell_formula_link (cell);
-
-	if (dependencies_deep_frozen > 0)
-		return ;
 
 	cell_queue_recalc (cell);
 }
@@ -205,7 +201,7 @@ cell_set_font_from_style (Cell *cell, StyleFont *style_font)
 	cell_queue_redraw (cell);
 }
 
-void
+static void
 cell_set_font (Cell *cell, const char *font_name, double points)
 {
 	StyleFont *style_font;
@@ -711,9 +707,6 @@ cell_content_changed (Cell *cell)
 {
 	GList   *deps;
 
-	if (dependencies_deep_frozen > 0)
-		return ;
-
 	g_return_if_fail (cell != NULL);
 
 	/* Queue all of the dependencies for this cell */
@@ -978,21 +971,6 @@ cell_deep_thaw_redraws (void)
 		g_warning ("unbalanced deep freeze/thaw\n");
 }
 
-void
-cell_deep_freeze_dependencies (void)
-{
-	g_warning ("Don't use this function it is subtly broken");
-	dependencies_deep_frozen++;
-}
-
-void
-cell_deep_thaw_dependencies (void)
-{
-	dependencies_deep_frozen--;
-	if (dependencies_deep_frozen < 0)
-		g_warning ("unbalanced deep freeze/thaw\n");
-}
-
 static void
 queue_cell (Cell *cell)
 {
@@ -1005,7 +983,7 @@ void
 cell_queue_redraw (Cell *cell)
 {
 	/* You wake up dead after a deep freeze */
-	if (redraws_deep_frozen>0)
+	if (redraws_deep_frozen > 0)
 		return;
 
 	g_return_if_fail (cell != NULL);
@@ -1362,7 +1340,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
  * Computes the width and height used by the cell based on alignments
  * constraints in the style using the font specified on the style.
  */
-void
+static void
 calc_text_dimensions (int is_number, Style *style, const char *text, int cell_w, int cell_h, int *h, int *w)
 {
 	StyleFont *style_font = style->font;

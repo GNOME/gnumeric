@@ -99,7 +99,7 @@ typedef struct FillItem FillItem;
 
 static GList *autofill_lists;
 
-void
+static void
 autofill_register_list (const char *const *list)
 {
 	AutoFillList *afl;

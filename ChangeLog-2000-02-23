@@ -1,3 +1,12 @@
+1999-08-04  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/cell.c (calc_text_dimensions): Made static.
+	(queue_cell): Killed dependency_deep_frozen routines, this was
+	archaic code. 
+	(cell_formula_changed): Made static.
+
+	* src/sheet-autofill.c (autofill_register_list): Make static.
+
 1999-08-03  Michael Meeks  <michael@imaginator.com>
 
 	* src/workbook.c (workbook_setup_edit_area): Removed function

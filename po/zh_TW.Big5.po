@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.9.3\n"
-"POT-Creation-Date: 1999-08-03 08:17-0500\n"
+"POT-Creation-Date: 1999-08-04 07:51-0500\n"
 "PO-Revision-Date: 1999-02-20 20:00+0800\n"
 "Last-Translator: Pofeng Lee <Pofeng.Lee@ms7.url.com.tw>\n"
 "Language-Team: Chinese <zh@li.org>\n"
@@ -410,7 +410,7 @@ msgid "Left"
 msgstr "靠左"
 
 #: src/dialog-cell-format.c:362 src/dialog-cell-format.c:371
-#: src/workbook.c:1054
+#: src/workbook.c:1081
 msgid "Center"
 msgstr "置中"
 
@@ -2323,7 +2323,7 @@ msgstr ""
 "儲存格的內容，您確定要替換掉這塊區域\n"
 "的內容嗎？"
 
-#: src/item-cursor.c:580 src/item-grid.c:600 src/workbook.c:1042
+#: src/item-cursor.c:580 src/item-grid.c:600 src/workbook.c:1069
 msgid "Copy"
 msgstr "複製"
 
@@ -2355,11 +2355,11 @@ msgstr "儲存格向下移位並搬移"
 msgid "Shift cells right and move"
 msgstr "儲存格向右移位並搬移"
 
-#: src/item-grid.c:599 src/workbook.c:1039
+#: src/item-grid.c:599 src/workbook.c:1066
 msgid "Cut"
 msgstr "剪下"
 
-#: src/item-grid.c:601 src/workbook.c:1045
+#: src/item-grid.c:601 src/workbook.c:1072
 msgid "Paste"
 msgstr "貼上"
 
@@ -2459,503 +2459,503 @@ msgstr "欄: %s"
 msgid "Internal ERROR"
 msgstr "語法錯誤"
 
-#: src/sheet.c:2835
+#: src/sheet.c:2844
 msgid "The command `"
 msgstr "指令 `"
 
-#: src/sheet.c:2837
+#: src/sheet.c:2846
 msgid "' cannot be performed with multiple selections"
 msgstr "' 不能跨過數個區段執行"
 
-#: src/sheet.c:2852
+#: src/sheet.c:2861
 msgid "copy"
 msgstr "複製"
 
-#: src/sheet.c:2877
+#: src/sheet.c:2886
 msgid "cut"
 msgstr "剪下"
 
-#: src/sheet.c:2926
+#: src/sheet.c:2935
 msgid "paste"
 msgstr "貼上"
 
-#: src/sheet.c:3939
+#: src/sheet.c:3948
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "無法啟動 %s 物件"
 
-#: src/sheet.c:3951
+#: src/sheet.c:3960
 msgid "I was unable to the bind object"
 msgstr "無法聯結物件"
 
-#: src/workbook.c:389
+#: src/workbook.c:416
 msgid "Warning"
 msgstr "警告"
 
-#: src/workbook.c:397
+#: src/workbook.c:424
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "活頁簿 %s 尚未儲存, 要儲存嗎 ?"
 
-#: src/workbook.c:400
+#: src/workbook.c:427
 msgid "Workbook has unsaved changes, save them?"
 msgstr "活頁簿尚未儲存, 要儲存嗎 ?"
 
-#: src/workbook.c:589
+#: src/workbook.c:616
 msgid "Insert cols"
 msgstr "插入欄"
 
-#: src/workbook.c:608
+#: src/workbook.c:635
 msgid "Insert rows"
 msgstr "插入列"
 
-#: src/workbook.c:704
+#: src/workbook.c:731
 msgid ">mm/dd/yyyy"
 msgstr ">mm/dd/yyyy"
 
-#: src/workbook.c:723
+#: src/workbook.c:750
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/workbook.c:831
+#: src/workbook.c:858
 msgid "_New"
 msgstr "開新檔案(_N)"
 
-#: src/workbook.c:831
+#: src/workbook.c:858
 msgid "Create a new spreadsheet"
 msgstr "建立新的試算表"
 
-#: src/workbook.c:835
+#: src/workbook.c:862
 #, fuzzy
 msgid "_Import"
 msgstr "排序(_S)"
 
-#: src/workbook.c:835
+#: src/workbook.c:862
 #, fuzzy
 msgid "Imports a file"
 msgstr "不可能!"
 
-#: src/workbook.c:841
+#: src/workbook.c:868
 msgid "Su_mmary..."
 msgstr ""
 
-#: src/workbook.c:841
+#: src/workbook.c:868
 msgid "Summary information"
 msgstr ""
 
-#: src/workbook.c:846
+#: src/workbook.c:873
 msgid "Plu_g-ins..."
 msgstr "外加功\能 (_g)..."
 
-#: src/workbook.c:846
+#: src/workbook.c:873
 msgid "Gnumeric plugins"
 msgstr "Gnumeric 外加功\能"
 
-#: src/workbook.c:867
+#: src/workbook.c:894
 msgid "_All"
 msgstr "全部(_A)"
 
-#: src/workbook.c:868
+#: src/workbook.c:895
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "清除全部的格子的格式，註解，與內容"
 
-#: src/workbook.c:870
+#: src/workbook.c:897
 msgid "_Formats"
 msgstr "格式(_F)"
 
-#: src/workbook.c:871
+#: src/workbook.c:898
 msgid "Clear the selected cells' formats"
 msgstr "清除已選擇格子內的的格式"
 
-#: src/workbook.c:872
+#: src/workbook.c:899
 msgid "_Comments"
 msgstr "註解(_C)"
 
-#: src/workbook.c:873
+#: src/workbook.c:900
 msgid "Clear the selected cells' comments"
 msgstr "清除已選擇格子內的的註解"
 
-#: src/workbook.c:874
+#: src/workbook.c:901
 msgid "_Content"
 msgstr "內容(_C)"
 
-#: src/workbook.c:875
+#: src/workbook.c:902
 msgid "Clear the selected cells' contents"
 msgstr "清除已選擇格子內的內容"
 
-#: src/workbook.c:883
+#: src/workbook.c:910
 msgid "P_aste special..."
 msgstr "選擇性貼上(_A)..."
 
-#: src/workbook.c:884
+#: src/workbook.c:911
 msgid "C_lear"
 msgstr "清除(_L)"
 
-#: src/workbook.c:885
+#: src/workbook.c:912
 msgid "Clear the selected cell(s)"
 msgstr "清除所選擇的格子"
 
-#: src/workbook.c:889
+#: src/workbook.c:916
 msgid "_Select All"
 msgstr "全選(_S)"
 
-#: src/workbook.c:890
+#: src/workbook.c:917
 msgid "Select all cells in the spreadsheet"
 msgstr "選擇全部的格子"
 
-#: src/workbook.c:892
+#: src/workbook.c:919
 #, fuzzy
 msgid "_Goto cell..."
 msgstr "跳格(_G)"
 
-#: src/workbook.c:893
+#: src/workbook.c:920
 msgid "Jump to a specified cell"
 msgstr "跳越至特定的格子"
 
-#: src/workbook.c:899
+#: src/workbook.c:926
 msgid "Insert object..."
 msgstr "插入物件..."
 
-#: src/workbook.c:900
+#: src/workbook.c:927
 msgid "Inserts a Bonobo object"
 msgstr "建立一個 Bonobo 物件"
 
-#: src/workbook.c:907
+#: src/workbook.c:934
 msgid "_Define cell names"
 msgstr "定義儲存格名稱(_D)"
 
-#: src/workbook.c:911
+#: src/workbook.c:938
 msgid "_Recalculate"
 msgstr "重新計算(_R)"
 
-#: src/workbook.c:912
+#: src/workbook.c:939
 msgid "Recalculate the spreadsheet"
 msgstr "重新計算整個試算表"
 
-#: src/workbook.c:920
+#: src/workbook.c:947
 msgid "_Zoom..."
 msgstr "縮放(_Z)"
 
-#: src/workbook.c:921
+#: src/workbook.c:948
 msgid "Zoom the spreadsheet in or out"
 msgstr "縮放試算表"
 
-#: src/workbook.c:928
+#: src/workbook.c:955
 msgid "Current _date"
 msgstr "現在日期(_D)"
 
-#: src/workbook.c:929
+#: src/workbook.c:956
 msgid "Insert the current data into the selected cell(s)"
 msgstr "在選定的儲存格中，寫入現在的日期"
 
-#: src/workbook.c:932
+#: src/workbook.c:959
 msgid "Current _time"
 msgstr "現在時刻(_T)"
 
-#: src/workbook.c:933
+#: src/workbook.c:960
 msgid "Insert the current time into the selected cell(s)"
 msgstr "在選定的儲存格中，寫入現在的時間"
 
-#: src/workbook.c:940 src/workbook.c:986
+#: src/workbook.c:967 src/workbook.c:1013
 msgid "_Sheet"
 msgstr "試算表(_S)"
 
-#: src/workbook.c:940
+#: src/workbook.c:967
 msgid "Insert a new spreadsheet"
 msgstr "插入新的試算表"
 
-#: src/workbook.c:942 src/workbook.c:980
+#: src/workbook.c:969 src/workbook.c:1007
 msgid "_Cells..."
 msgstr "儲存格(_C)..."
 
-#: src/workbook.c:942
+#: src/workbook.c:969
 msgid "Insert new cells"
 msgstr "插入新的儲存格"
 
-#: src/workbook.c:944
+#: src/workbook.c:971
 msgid "_Rows"
 msgstr "列(_R)"
 
-#: src/workbook.c:944
+#: src/workbook.c:971
 msgid "Insert new rows"
 msgstr "插入列"
 
-#: src/workbook.c:946
+#: src/workbook.c:973
 msgid "C_olumns"
 msgstr "欄(_O)"
 
-#: src/workbook.c:946
+#: src/workbook.c:973
 msgid "Insert new columns"
 msgstr "插入欄"
 
-#: src/workbook.c:951
+#: src/workbook.c:978
 #, fuzzy
 msgid "_Add/modify comment..."
 msgstr "增加/修改註解(_A)"
 
-#: src/workbook.c:952
+#: src/workbook.c:979
 msgid "Edit the selected cell's comment"
 msgstr "編輯儲存格的註解"
 
-#: src/workbook.c:953
+#: src/workbook.c:980
 msgid "_Special"
 msgstr "特別項目(_S)"
 
-#: src/workbook.c:962 src/workbook.c:968
+#: src/workbook.c:989 src/workbook.c:995
 msgid "_Autoadjust"
 msgstr "自動調整(_A)"
 
-#: src/workbook.c:963
+#: src/workbook.c:990
 msgid "_Width"
 msgstr "寬度(_W)"
 
-#: src/workbook.c:969
+#: src/workbook.c:996
 msgid "_Height"
 msgstr "高度(_H)"
 
-#: src/workbook.c:974
+#: src/workbook.c:1001
 msgid "_Change name"
 msgstr "改變名稱(_C)"
 
-#: src/workbook.c:981
+#: src/workbook.c:1008
 msgid "Modify the formatting of the selected cells"
 msgstr "更改儲存格的排列格式"
 
-#: src/workbook.c:984
+#: src/workbook.c:1011
 msgid "C_olumn"
 msgstr "欄(_O)"
 
-#: src/workbook.c:985
+#: src/workbook.c:1012
 msgid "_Row"
 msgstr "列(_R)"
 
-#: src/workbook.c:993
+#: src/workbook.c:1020
 #, fuzzy
 msgid "_Sort..."
 msgstr "解析器 (_S)..."
 
-#: src/workbook.c:994
+#: src/workbook.c:1021
 msgid "Sort the selected cells"
 msgstr "對所選的格子進行排序"
 
-#: src/workbook.c:995
+#: src/workbook.c:1022
 msgid "_Goal Seek..."
 msgstr "搜尋目標 (_G)..."
 
-#: src/workbook.c:997
+#: src/workbook.c:1024
 msgid "_Solver..."
 msgstr "解析器 (_S)..."
 
-#: src/workbook.c:999
+#: src/workbook.c:1026
 msgid "_Data Analysis..."
 msgstr ""
 
-#: src/workbook.c:1013
+#: src/workbook.c:1040
 msgid "_Insert"
 msgstr "插入(_I)"
 
-#: src/workbook.c:1014
+#: src/workbook.c:1041
 msgid "F_ormat"
 msgstr "格式(_O)"
 
-#: src/workbook.c:1015
+#: src/workbook.c:1042
 msgid "_Tools"
 msgstr "工具 (_T)..."
 
-#: src/workbook.c:1024
+#: src/workbook.c:1051
 msgid "New"
 msgstr "新的"
 
-#: src/workbook.c:1024
+#: src/workbook.c:1051
 msgid "Creates a new sheet"
 msgstr "建立新的試算表"
 
-#: src/workbook.c:1027
+#: src/workbook.c:1054
 msgid "Open"
 msgstr "開啟"
 
-#: src/workbook.c:1027
+#: src/workbook.c:1054
 msgid "Opens an existing workbook"
 msgstr "開啟已存在的工作表格"
 
-#: src/workbook.c:1030
+#: src/workbook.c:1057
 msgid "Save"
 msgstr "儲存"
 
-#: src/workbook.c:1030
+#: src/workbook.c:1057
 msgid "Saves the workbook"
 msgstr "儲存目前的工作表格"
 
 #: src/print.glade.h:19 src/print.glade.h:32 src/print.glade.h:40
-#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1033
+#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1060
 #, fuzzy
 msgid "Print"
 msgstr "百分比"
 
-#: src/workbook.c:1033
+#: src/workbook.c:1060
 #, fuzzy
 msgid "Prints the workbook"
 msgstr "儲存目前的工作表格"
 
-#: src/workbook.c:1039
+#: src/workbook.c:1066
 msgid "Cuts the selection to the clipboard"
 msgstr "將剪下的選定區移至剪貼簿"
 
-#: src/workbook.c:1042
+#: src/workbook.c:1069
 msgid "Copies the selection to the clipboard"
 msgstr "複製選定區至剪貼簿"
 
-#: src/workbook.c:1045
+#: src/workbook.c:1072
 msgid "Pastes the clipboard"
 msgstr "貼上剪貼簿的內容"
 
-#: src/workbook.c:1051
+#: src/workbook.c:1078
 msgid "Left align"
 msgstr "向左對齊"
 
-#: src/workbook.c:1051
+#: src/workbook.c:1078
 msgid "Left justifies the cell contents"
 msgstr "置左排列"
 
-#: src/workbook.c:1054
+#: src/workbook.c:1081
 msgid "Centers the cell contents"
 msgstr "置中排列"
 
-#: src/workbook.c:1057
+#: src/workbook.c:1084
 msgid "Right align"
 msgstr "向右對齊"
 
-#: src/workbook.c:1057
+#: src/workbook.c:1084
 msgid "Right justifies the cell contents"
 msgstr "置右排列"
 
-#: src/workbook.c:1062
+#: src/workbook.c:1089
 msgid "Bold"
 msgstr "粗體"
 
-#: src/workbook.c:1062
+#: src/workbook.c:1089
 msgid "Sets the bold font"
 msgstr "將字型設為粗體"
 
-#: src/workbook.c:1065
+#: src/workbook.c:1092
 msgid "Italic"
 msgstr "斜體"
 
-#: src/workbook.c:1065
+#: src/workbook.c:1092
 msgid "Makes the font italic"
 msgstr "將字型設為斜體"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1099
 msgid "Graphic"
 msgstr "圖形"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1099
 msgid "Creates a graphic in the spreadsheet"
 msgstr "在試算表中建立圖形"
 
-#: src/workbook.c:1076
+#: src/workbook.c:1103
 msgid "Line"
 msgstr "線段"
 
-#: src/workbook.c:1076
+#: src/workbook.c:1103
 msgid "Creates a line object"
 msgstr "建立一個線段物件"
 
-#: src/workbook.c:1079
+#: src/workbook.c:1106
 msgid "Arrow"
 msgstr "箭頭"
 
-#: src/workbook.c:1079
+#: src/workbook.c:1106
 msgid "Creates an arrow object"
 msgstr "建立一個箭頭物件"
 
-#: src/workbook.c:1082
+#: src/workbook.c:1109
 msgid "Rectangle"
 msgstr "長方形"
 
-#: src/workbook.c:1082
+#: src/workbook.c:1109
 msgid "Creates a rectangle object"
 msgstr "建立一個長方形物件"
 
-#: src/workbook.c:1085
+#: src/workbook.c:1112
 msgid "Ellipse"
 msgstr "橢圓形"
 
-#: src/workbook.c:1085
+#: src/workbook.c:1112
 msgid "Creates an ellipse object"
 msgstr "建立一個橢圓形物件"
 
-#: src/workbook.c:1226
+#: src/workbook.c:1249
 msgid "You should introduce a valid cell name"
 msgstr "請使用合法的儲存格名稱"
 
-#: src/workbook.c:1235
+#: src/workbook.c:1258
 msgid "Column out of range"
 msgstr "欄的數目超出範圍"
 
-#: src/workbook.c:1241
+#: src/workbook.c:1264
 msgid "Row number out of range"
 msgstr "的數目超出範圍"
 
-#: src/workbook.c:1333
+#: src/workbook.c:1356
 msgid "Selection must be a single range"
 msgstr "選取區必須在單一範圍"
 
-#: src/workbook.c:1441
+#: src/workbook.c:1464
 msgid "Sum"
 msgstr "總合"
 
-#: src/workbook.c:1442
+#: src/workbook.c:1465
 msgid "Min"
 msgstr "最小"
 
-#: src/workbook.c:1443
+#: src/workbook.c:1466
 msgid "Max"
 msgstr "最大"
 
-#: src/workbook.c:1444
+#: src/workbook.c:1467
 msgid "Average"
 msgstr "平均"
 
-#: src/workbook.c:1445
+#: src/workbook.c:1468
 msgid "Count"
 msgstr "總數"
 
-#: src/workbook.c:1706
+#: src/workbook.c:1729
 msgid "Untitled.gnumeric"
 msgstr "未命名.gnumeric"
 
-#: src/workbook.c:1795
+#: src/workbook.c:1818
 msgid "Zoom out"
 msgstr "縮小"
 
-#: src/workbook.c:1802
+#: src/workbook.c:1825
 msgid "Zoom in"
 msgstr "放大"
 
-#: src/workbook.c:1897
+#: src/workbook.c:1920
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "確定要移除名為 `%s' 的試算表嗎?"
 
-#: src/workbook.c:1916
+#: src/workbook.c:1939
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
 msgstr "有其它試算表用到這個表的內容，無法移除此試算表"
 
-#: src/workbook.c:1936
+#: src/workbook.c:1959
 msgid "Add another sheet"
 msgstr "增加另一個試算表"
 
-#: src/workbook.c:1937
+#: src/workbook.c:1960
 msgid "Remove this sheet"
 msgstr "移除此試算表"
 
-#: src/workbook.c:2194 src/workbook.c:2229
+#: src/workbook.c:2226 src/workbook.c:2261
 #, fuzzy, c-format
 msgid "Sheet%d"
 msgstr "工作頁 %d"
 
-#: src/workbook.c:2302
+#: src/workbook.c:2334
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
