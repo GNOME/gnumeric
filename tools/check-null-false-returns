@@ -1,0 +1,105 @@
+#!/usr/bin/perl -w
+#
+#  Gnumeric
+#
+#  Copyright (C) 2003 Morten Welinder.
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License as
+#  published by the Free Software Foundation; either version 2 of the
+#  License, or (at your option) any later version.
+#
+#  This library is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#  General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this library; if not, write to the Free Software
+#  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+#  Author: Morten Welinder <terra@diku.dk>
+
+use strict;
+
+my $exitcode = 0;
+my $verbose = 0;
+
+warn "$0: should be run from top-level directory.\n"
+    unless -r "configure.in" && -r 'ChangeLog';
+
+my %base_exceptions =
+    ();
+
+my %exceptions =
+    ();
+
+{
+    local (*FIND);
+    open (*FIND, "find . '(' -type f -name '*.c' -print ')' -o '(' -type d '(' -name CVS -o -name intl -o -name macros ')' -prune ')' |")
+	or die "$0: cannot execute find: $!\n";
+  FILE:
+    foreach my $filename (<FIND>) {
+	chomp $filename;
+	$filename =~ s|^\./||;
+
+	next if $exceptions{$filename};
+	my $basename = $filename;
+	$basename =~ s|^.*/||;
+	next if $base_exceptions{$basename};
+
+	local (*FIL);
+	if (open (*FIL, "< $filename")) {
+	    # print "Checking $filename...\n";
+	    my $lineno = 0;
+	    my $state = 0;
+	    my ($bad,$functype);
+	  LINE:
+	    while (<FIL>) {
+		$lineno++;
+
+		if (/^(static\s+)?(inline\s+)?(gboolean|(unsigned\s|signed\s|const\s)*int|gint)[^*]*$/) {
+		    $state = 1;
+		    $bad = 'NULL';
+		    $functype = 'integer';
+		} elsif (/^(static\s+)?(inline\s+)?(const\s+)?(gpointer|\S[ a-zA-Z0-9]+\*)/) {
+		    $state = 1;
+		    $bad = 'FALSE';
+		    $functype = 'pointer';
+		}
+
+		if ($state == 1 && /;\s*$/) {
+		    $state = 0;
+		    next;
+		}
+
+		if ($state == 1 && /^\{/) {
+		    $state = 2;
+		    next;
+		}
+
+
+		if (/^\}/) {
+		    $state = 0;
+		    next;
+		}
+
+		if ($state == 2 && /return(\s|\()\s*($bad)/) {
+		    print "$filename:$lineno: returning $2 in a $functype function.\n";
+		    next;
+		}
+
+		if ($state == 2 && /g_return_val_if_fail.*,\s*($bad)\s*\)\s*;\s*$/) {
+		    print "$filename:$lineno: returning $1 in a $functype function.\n";
+		}
+	    }
+	    close (*FIL);
+	} else {
+	    print STDERR "$0: Cannot read `$filename': $!\b";
+	    $exitcode = 1;
+	}
+    }
+    close (*FIND);
+}
+
+exit $exitcode;
