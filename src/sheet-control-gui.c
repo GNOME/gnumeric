@@ -84,7 +84,7 @@ scg_redraw_cell_region (SheetControlGUI *scg,
 {
 	GnumericSheet *gsheet;
 	GnomeCanvas *canvas;
-	int x, y, w, h;
+	int x1, y1, x2, y2;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
@@ -104,24 +104,28 @@ scg_redraw_cell_region (SheetControlGUI *scg,
 	end_col =  MIN (gsheet->col.last_visible, end_col);
 	end_row =  MIN (gsheet->row.last_visible, end_row);
 
-	x = scg_colrow_distance_get (scg, TRUE, gsheet->col.first, start_col);
-	y = scg_colrow_distance_get (scg, FALSE, gsheet->row.first, start_row);
-	w = scg_colrow_distance_get (scg, TRUE, start_col, end_col+1);
-	h = scg_colrow_distance_get (scg, FALSE, start_row, end_row+1);
-
-	x += gsheet->col_offset.first;
-	y += gsheet->row_offset.first;
+	/* redraw a border of 2 pixels around the region to handle thick borders
+	 * NOTE the 2nd coordinates are excluded so add 1 extra (+2border +1include)
+	 */
+	x1 = scg_colrow_distance_get (scg, TRUE, gsheet->col.first, start_col) +
+		gsheet->col_offset.first;
+	y1 = scg_colrow_distance_get (scg, FALSE, gsheet->row.first, start_row) +
+		gsheet->row_offset.first;
+	x2 = (end_col < (SHEET_MAX_COLS-1))
+		? 4 + 1 + x1 + scg_colrow_distance_get (scg, TRUE,
+							start_col, end_col+1)
+		: INT_MAX;
+	y2 = (end_row < (SHEET_MAX_ROWS-1))
+		? 4 + 1 + y1 + scg_colrow_distance_get (scg, FALSE,
+							start_row, end_row+1)
+		: INT_MAX;
 
 #if 0
 	fprintf (stderr, "%s%d:", col_name(min_col), first_row+1);
 	fprintf (stderr, "%s%d\n", col_name(max_col), last_row+1);
 #endif
 
-	/* redraw a border of 2 pixels around the region to handle thick borders
-	 * NOTE the 2nd coordinates are excluded so add 1 extra (+2border +1include) */
-	gnome_canvas_request_redraw (GNOME_CANVAS (gsheet),
-				     x-2, y-2,
-				     x+w+4+1, y+h+4+1);
+	gnome_canvas_request_redraw (GNOME_CANVAS (gsheet), x1-2, y1-2, x2, y2);
 }
 
 void

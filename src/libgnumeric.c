@@ -15,8 +15,9 @@
 #include "xml-io.h"
 #ifdef ENABLE_BONOBO
 #include "bonobo-io.h"
-#include "embeddable-grid.h"
-#include "corba.h"
+/* DO NOT include embeddable-grid.h.  It causes odd depends in the non-bonobo
+ * case */
+extern gboolean EmbeddableGridFactory_init (void);
 #endif
 #include "stf.h"
 #include "main.h"

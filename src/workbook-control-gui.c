@@ -2919,7 +2919,8 @@ cb_scroll_wheel_support (GtkWidget *w, GdkEventButton *event,
  * Make current control size the default. Toplevel would resize
  * spontaneously. This makes it stay the same size until user resizes.
  */
-static void cb_realize (GtkWindow *toplevel, WorkbookControlGUI *wbcg)
+static void
+cb_realize (GtkWindow *toplevel, WorkbookControlGUI *wbcg)
 {
 	GtkAllocation *allocation;
 
