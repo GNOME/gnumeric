@@ -57,7 +57,7 @@ update_edit (NameGuruState *state)
 }
 
 static void
-select_name (GtkWidget *w, NameGuruState *state)
+cb_name_guru_select_name (GtkWidget *w, NameGuruState *state)
 {
 	guint     i    = 0;
 	GList    *sel  = GTK_LIST(w)->selection;
@@ -83,7 +83,7 @@ select_name (GtkWidget *w, NameGuruState *state)
 }
 
 static void
-fill_list (NameGuruState *state)
+cb_name_guru_populate_list (NameGuruState *state)
 {
 	GList *names;
 	GtkContainer *list;
@@ -91,14 +91,14 @@ fill_list (NameGuruState *state)
 	g_return_if_fail (state != NULL);
 	g_return_if_fail (state->list != NULL);
 
-	list = GTK_CONTAINER (state->list);
-	g_return_if_fail (list != NULL);
-
 	state->selected   = -1;
+	if (state->expr_names != NULL)
+		g_list_free (state->expr_names);
 
 	/* FIXME: scoping issues here */
 	names = state->expr_names = expr_name_list (state->wb, NULL, FALSE);
 
+	list = GTK_CONTAINER (state->list);
 	for (; names != NULL ; names = g_list_next (names)) {
 		NamedExpression *expr_name = names->data;
 		GtkWidget *li = gtk_list_item_new_with_label (expr_name->name->str);
@@ -109,25 +109,7 @@ fill_list (NameGuruState *state)
 }
 
 static void
-clear_state (NameGuruState *state)
-{
-	if (state->expr_names)
-		g_list_free (state->expr_names);
-	state->expr_names = NULL;
-	state->selected = -1;
-}
-
-static void
-empty_list (NameGuruState *state)
-{
-	if (state->list)
-		gtk_list_clear_items (state->list, 0, -1);
-	state->list = NULL;
-	clear_state (state);
-}
-
-static void
-remove_name (GtkWidget *ignored, NameGuruState *state)
+cb_name_guru_remove (GtkWidget *ignored, NameGuruState *state)
 {
 	gint i;
 	g_return_if_fail (state != NULL);
@@ -148,7 +130,7 @@ remove_name (GtkWidget *ignored, NameGuruState *state)
 }
 
 static gboolean
-grab_text_ok (NameGuruState *state, gboolean update_list)
+cb_name_guru_add (NameGuruState *state)
 {
 	NamedExpression     *expr_name;
 	ExprTree     *expr;
@@ -195,10 +177,8 @@ grab_text_ok (NameGuruState *state, gboolean update_list)
 		return FALSE;
 	}
 
-	if (update_list) {
-		empty_list (state);
-		fill_list  (state);
-	}
+	gtk_list_clear_items (state->list, 0, -1);
+	cb_name_guru_populate_list (state);
 
 	return TRUE;
 }
@@ -210,12 +190,12 @@ cb_name_guru_clicked (GtkWidget *button, NameGuruState *state)
 		return;
 
 	if (button == state->delete_button) {
-		remove_name (NULL, state);
+		cb_name_guru_remove (NULL, state);
 		return;
 	}
 
 	if (button == state->add_button || button == state->ok_button)
-		grab_text_ok (state, TRUE);
+		cb_name_guru_add (state);
 
 	if (button == state->close_button || button == state->ok_button)
 		gtk_widget_destroy (state->dialog);
@@ -280,10 +260,10 @@ name_guru_init (NameGuruState *state)
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->value));
 
-	fill_list (state);
+	cb_name_guru_populate_list (state);
 
 	gtk_signal_connect (GTK_OBJECT (state->list), "selection_changed",
-			    GTK_SIGNAL_FUNC (select_name), &state);
+			    GTK_SIGNAL_FUNC (cb_name_guru_select_name), state);
 
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_name_guru_destroy),
