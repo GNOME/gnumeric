@@ -47,7 +47,7 @@ complete_finalize (GObject *object)
 	Complete *complete = COMPLETE (object);
 
 	if (complete->idle_tag) {
-		gtk_idle_remove (complete->idle_tag);
+		g_source_remove (complete->idle_tag);
 		complete->idle_tag = 0;
 	}
 
@@ -92,7 +92,7 @@ complete_start (Complete *complete, char const *text)
 	}
 
 	if (complete->idle_tag == 0)
-		complete->idle_tag = gtk_idle_add (complete_idle, complete);
+		complete->idle_tag = g_idle_add (complete_idle, complete);
 
 	if (ACC(complete)->start_over)
 		ACC(complete)->start_over (complete);

@@ -31,8 +31,12 @@
 #include "workbook.h"
 #include "sheet-object-widget.h"
 #include "sheet-object-graphic.h"
+#include "sheet-object-graph.h"
 #include "gui-util.h"
 
+#ifdef NEW_GRAPHS
+#include <goffice-graph/go-graph-guru.h>
+#endif
 #ifdef WITH_BONOBO
 #include <bonobo.h>
 #endif
@@ -124,6 +128,14 @@ cmd_create_ellipse (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	create_object_command (wbcg, sheet_object_box_new (TRUE));
 }
 
+#ifdef NEW_GRAPHS
+static void
+cmd_create_graph (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	go_graph_guru (NULL, wbcg);
+}
+#endif
+
 #ifndef WITH_BONOBO
 static GnomeUIInfo workbook_object_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
@@ -168,6 +180,11 @@ static GnomeUIInfo workbook_object_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Ellipse"), N_("Create an ellipse object"),
 		cmd_create_ellipse, "Gnumeric_ObjectEllipse"),
+#ifdef NEW_GRAPHS
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Graph"), N_("Create a graph"),
+		cmd_create_graph, "Gnumeric_GraphGuru"),
+#endif
 
 	GNOMEUIINFO_END
 };

@@ -1018,7 +1018,6 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 		rwinfo.u.sheet = sheet;
 		g_hash_table_foreach (wb->sheet_order_dependents,
 			(GHFunc) cb_tweak_3d, &rwinfo);
-
 	}
 
 	/* Remove our reference to this sheet */

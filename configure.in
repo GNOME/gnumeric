@@ -694,35 +694,6 @@ fi
 
 AM_GCONF_SOURCE_2
 
-dnl ******************************
-dnl Check for Evolution
-dnl ******************************
-try_evolution=false
-evolution=no
-AC_ARG_WITH(evolution,
-	[--{with,without}-evolution Use evolution to send spreadsheets (bonobo needed).],
-	if test "x$withval" = xyes; then
-		try_evolution=true
-	fi
-)
-if test x"$have_bonobo" = "xtrue" -a x"$try_evolution" = "xtrue" ; then
-	path_to_composer_idl=`pkg-config --datadir`/idl/Evolution-Composer.idl
-	AC_CHECK_FILE($path_to_composer_idl, evolution=yes, evolution=no)
- 	if test x"$evolution" = "xno" ; then
- 		echo "Debian build hack: enabling Evolution support anyway;"
- 		echo "be sure to set EVOLUTION_IDL_DIR to a dir containing Evolution-Composer.idl"
- 		evolution=yes
- 	fi
-else
- 		evolution="Disabled until it is ported to gnome-2.0"
-fi
-AM_CONDITIONAL(ENABLE_EVOLUTION, test x"$evolution" = "xyes")
-if test x"$evolution" = "xyes" ; then
-	AC_DEFINE(ENABLE_EVOLUTION, 1,
-		[Define if Evolution is to be used as a component to send mail]
-	)
-fi
-
 dnl *************
 dnl Corba support
 dnl *************

@@ -39,6 +39,7 @@
 #include "parse-util.h"
 #include "rendered-value.h"
 #include "gnumeric-gconf.h"
+#include "plugin-service.h"
 
 #include <locale.h>
 #ifdef WITH_BONOBO
@@ -99,6 +100,7 @@ gnumeric_check_for_components (void)
 }
 #endif
 
+extern void  plugin_graph_services_init (void);
 extern char *gnumeric_data_dir;
 /*
  * FIXME: We hardcode the GUI command context. Change once we are able
@@ -108,6 +110,10 @@ void
 gnm_common_init (void)
 {
 	g_object_new (GNUMERIC_APPLICATION_TYPE, NULL);
+	plugin_services_init ();
+#ifdef NEW_GRAPHS
+	plugin_graph_services_init ();
+#endif
 	gnm_conf_init ();
 	string_init ();
 	value_init ();
@@ -173,10 +179,8 @@ gnm_shutdown (void)
 	parse_util_shutdown ();
 	value_shutdown ();
 	string_shutdown ();
-
 	global_gnome_font_shutdown ();
-
 	application_release_gconf_client ();
-
+	plugin_services_shutdown ();
 	g_object_unref (gnumeric_application_get_app ());
 }

@@ -7,7 +7,7 @@ SUBDIRS = pixmaps dialogs widgets tools cut-n-paste-code
 if WITH_BONOBO
 libexec_PROGRAMS = gnumeric-component
 endif
-bin_PROGRAMS = gnumeric # ssconvert
+bin_PROGRAMS = gnumeric test-pango # ssconvert
 #noinst_PROGRAMS = number-match
 
 INCLUDES = 								\
@@ -21,6 +21,7 @@ INCLUDES = 								\
 	-I$(srcdir)/widgets						\
 	-I$(srcdir)/dialogs						\
 	-I$(srcdir)/tools						\
+	-I$(top_srcdir)/src/cut-n-paste-code				\
 	-I$(top_srcdir)/src/cut-n-paste-code/foocanvas			\
 	$(GNUMERIC_CFLAGS)
 
@@ -161,6 +162,7 @@ GNUMERIC_BASE =					\
 	plugin-loader.h				\
 	plugin-service.c			\
 	plugin-service.h			\
+	plugin-service-impl.h			\
 	plugin-util.c				\
 	plugin-util.h				\
 	plugin.c				\
@@ -215,6 +217,8 @@ GNUMERIC_BASE =					\
 	sheet-object-cell-comment.h		\
 	sheet-object-graphic.c			\
 	sheet-object-graphic.h			\
+	sheet-object-graph.c			\
+	sheet-object-graph.h			\
 	sheet-object-image.c			\
 	sheet-object-image.h			\
 	sheet-object-widget.c			\
@@ -346,6 +350,12 @@ endif
 #ssconvert_SOURCES =				\
 #	$(GNUMERIC_BASE)			\
 #	ssconvert.c
+
+test_pango_LDADD   = $(gnumeric_LDADD)
+test_pango_LDFLAGS = $(gnumeric_LDFLAGS)
+test_pango_SOURCES =				\
+	$(GNUMERIC_BASE) normal-args.c		\
+	test-pango.c
 
 gnm-marshalers.h : gnm-marshalers.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --header --prefix=gnm_ > $@

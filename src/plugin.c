@@ -65,10 +65,6 @@ static GHashTable *loader_services = NULL;
 
 static void plugin_get_loader_if_needed (GnmPlugin *pinfo, ErrorInfo **ret_error);
 static void plugin_info_read (GnmPlugin *pinfo, const gchar *dir_name, ErrorInfo **ret_error);
-static GnmPlugin *plugin_info_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error);
-static GSList *plugin_info_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret_error);
-static GSList *plugin_info_list_read_for_subdirs_of_dir_list (GSList *dir_list, ErrorInfo **ret_error);
-static GSList *plugin_info_list_read_for_all_dirs (ErrorInfo **ret_error);
 static void gnm_plugin_load_base (GnmPlugin *plugin, ErrorInfo **ret_error);
 
 /*

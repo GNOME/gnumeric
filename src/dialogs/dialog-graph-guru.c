@@ -3,7 +3,7 @@
 /*
  * dialog-graph-guru.c:  The Graph guru
  *
- * Copyright (C) 2000-2001 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2003 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -52,8 +52,7 @@
 typedef struct _GraphGuruState		GraphGuruState;
 typedef struct _GraphGuruTypeSelector	GraphGuruTypeSelector;
 
-typedef struct
-{
+typedef struct {
 	GraphGuruState	*state;
 	xmlChar	  	*dim_name;
 	int	   	 dim_index, series_index;
@@ -65,8 +64,7 @@ typedef struct
 	GnumericExprEntry *entry;
 } VectorState;
 
-struct _GraphGuruState
-{
+struct _GraphGuruState {
 	GnmGraph	*graph;
 
 	/* GUI accessors */

@@ -9,7 +9,6 @@ else
 gnumeric_version="$(VERSION)"
 libdialogs_a_SOURCES =	$(base_files)
 endif
-gnumeric_libdir = $(datadir)/gnumeric/$(gnumeric_version)
 
 INCLUDES = 								\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 			\
@@ -81,7 +80,7 @@ base_files =					\
 	dialogs.h				\
 	tool-dialogs.h
 
-gladedir   = $(gnumeric_libdir)/glade
+gladedir   = $(gnumeric_gladedir)
 glade_DATA = 				\
 	advanced-filter.glade		\
 	anova-one.glade			\

@@ -9,7 +9,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include "gnumeric.h"
-#include "plugin-service.h"
+#include "plugin-service-impl.h"
 
 #include "gutils.h"
 #include "workbook.h"
@@ -36,9 +36,7 @@
 
 #include <string.h>
 
-
-static void plugin_service_load (PluginService *service, ErrorInfo **ret_error);
-static void plugin_service_unload (PluginService *service, ErrorInfo **ret_error);
+static GHashTable *services = NULL;
 
 static FileFormatLevel
 parse_format_level_str (const gchar *format_level_str, FileFormatLevel def)
@@ -81,37 +79,6 @@ get_plugin_file_savers_hash (GnmPlugin *plugin)
 
 	return hash;
 }
-
-/*
- * PluginService
- */
-
-#define GPS_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GNM_PLUGIN_SERVICE_TYPE, PluginServiceClass))
-#define GPS_GET_CLASS(o) GPS_CLASS (G_OBJECT_GET_CLASS (o))
-
-typedef struct{
-	GObjectClass g_object_class;
-
-	void (*read_xml) (PluginService *service, xmlNode *tree, ErrorInfo **ret_error);
-	void (*activate) (PluginService *service, ErrorInfo **ret_error);
-	void (*deactivate) (PluginService *service, ErrorInfo **ret_error);
-	char *(*get_description) (PluginService *service);
-} PluginServiceClass;
-
-struct _PluginService {
-	GObject   g_object;
-
-	char   *id;
-	GnmPlugin *plugin;
-	gboolean is_loaded;
-
-	/* protected */
-	gpointer cbs_ptr;
-	gboolean is_active;
-
-	/* private */
-	char *saved_description;
-};
 
 
 static void
@@ -1427,24 +1394,93 @@ GSF_CLASS (PluginServiceUI, plugin_service_ui,
 
 #endif
 
-/* ---------------------------------------------------------------------- */
+/**************************************************************************
+ * PluginServiceGObjectLoader
+ */
+static void
+plugin_service_gobject_loader_init (GObject *obj)
+{
+	PluginServiceGObjectLoader *wrap = GNM_PLUGIN_SERVICE_GOBJECT_LOADER (obj);
+	GNM_PLUGIN_SERVICE (obj)->cbs_ptr = &wrap->cbs;
+}
+
+GType
+plugin_service_gobject_loader_new (PluginService *service, ErrorInfo **ret_error)
+{
+	PluginServiceGObjectLoader *wrap = GNM_PLUGIN_SERVICE_GOBJECT_LOADER (service);
+	ErrorInfo *error = NULL;
+
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	plugin_service_load (service, &error);
+	if (error != NULL) {
+		*ret_error = error_info_new_str_with_details (
+		             _("Error while loading plugin service."),
+		             error);
+		return G_TYPE_NONE;
+	}
+	return wrap->cbs.get_type ();
+}
 
 static void
+plugin_service_gobject_loader_activate (PluginService *service, ErrorInfo **ret_error)
+{
+	ErrorInfo *error = NULL;
+
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	plugin_service_load (service, &error);
+	if (error != NULL) {
+		*ret_error = error_info_new_str_with_details (
+		             _("Error while loading plugin service."),
+		             error);
+		return;
+	}
+	service->is_active = TRUE;
+}
+
+static void
+plugin_service_gobject_loader_deactivate (PluginService *service, ErrorInfo **ret_error)
+{
+	service->is_active = FALSE;
+}
+
+static char *
+plugin_service_gobject_loader_get_description (PluginService *service)
+{
+	return g_strdup (_("GObject loader"));
+}
+
+static void
+plugin_service_gobject_loader_class_init (GObjectClass *gobject_class)
+{
+	PluginServiceClass *psc = GPS_CLASS (gobject_class);
+
+	psc->activate		= plugin_service_gobject_loader_activate;
+	psc->deactivate		= plugin_service_gobject_loader_deactivate;
+	psc->get_description	= plugin_service_gobject_loader_get_description;
+}
+
+GSF_CLASS (PluginServiceGObjectLoader, plugin_service_gobject_loader,
+           plugin_service_gobject_loader_class_init,
+	   plugin_service_gobject_loader_init,
+           GNM_PLUGIN_SERVICE_TYPE)
+
+/* ---------------------------------------------------------------------- */
+
+void
 plugin_service_load (PluginService *service, ErrorInfo **ret_error)
 {
 	g_return_if_fail (GNM_IS_PLUGIN_SERVICE (service));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	if (service->is_loaded) {
+
+	if (service->is_loaded)
 		return;
-	}
 	gnm_plugin_load_service (service->plugin, service, ret_error);
-	if (*ret_error == NULL) {
+	if (*ret_error == NULL)
 		service->is_loaded = TRUE;
-	}
 }
 
-static void
+void
 plugin_service_unload (PluginService *service, ErrorInfo **ret_error)
 {
 	ErrorInfo *error = NULL;
@@ -1463,57 +1499,38 @@ plugin_service_unload (PluginService *service, ErrorInfo **ret_error)
 	}
 }
 
-static struct {
-	const char *type_str;
-	GType (*get_type_func) (void);
-} service_types[] = {
-	{"general", plugin_service_general_get_type},
-	{"clipboard", plugin_service_clipboard_get_type},
-	{"file_opener", plugin_service_file_opener_get_type},
-	{"file_saver", plugin_service_file_saver_get_type},
-	{"function_group", plugin_service_function_group_get_type},
-	{"plugin_loader", plugin_service_plugin_loader_get_type}
-#ifdef WITH_BONOBO
-	,{"ui", plugin_service_ui_get_type}
-#endif
-};
-
 PluginService *
 plugin_service_new (xmlNode *tree, ErrorInfo **ret_error)
 {
 	PluginService *service = NULL;
-	char *id, *type_str;
+	char *type_str;
 	ErrorInfo *service_error = NULL;
-	int ti;
+	GnmPluginServiceCreate ctor;
 
 	g_return_val_if_fail (tree != NULL, NULL);
 	g_return_val_if_fail (strcmp (tree->name, "service") == 0, NULL);
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	id = e_xml_get_string_prop_by_name (tree, (xmlChar *) "id");
-	if (id == NULL) {
-		id = g_strdup ("default");
-	}
 	type_str = e_xml_get_string_prop_by_name (tree, (xmlChar *) "type");
 	if (type_str == NULL) {
 		*ret_error = error_info_new_str (_("No \"type\" attribute on \"service\" element."));
-		g_free (id);
 		return NULL;
 	}
-	for (ti = 0; ti < GNM_SIZEOF_ARRAY (service_types); ti++) {
-		if (g_ascii_strcasecmp (service_types[ti].type_str, type_str) == 0)
-			break;
-	}
-	if (ti == GNM_SIZEOF_ARRAY (service_types)) {
+
+	ctor = g_hash_table_lookup (services, type_str);
+	if (ctor == NULL) {
 		*ret_error = error_info_new_printf (_("Unknown service type: %s."), type_str);
 		g_free (type_str);
-		g_free (id);
 		return NULL;
 	}
 	g_free (type_str);
 
-	service = g_object_new (service_types[ti].get_type_func(), NULL);
-	service->id = id;
+	service = g_object_new (ctor(), NULL);
+
+	service->id = e_xml_get_string_prop_by_name (tree, (xmlChar *) "id");
+	if (service->id == NULL)
+		service->id = g_strdup ("default");
+
 	if (GPS_GET_CLASS (service)->read_xml != NULL) {
 		GPS_GET_CLASS (service)->read_xml (service, tree, &service_error);
 		if (service_error != NULL) {
@@ -1617,3 +1634,54 @@ plugin_service_deactivate (PluginService *service, ErrorInfo **ret_error)
 		error_info_free (ignored_error);
 	}
 }
+
+/*****************************************************************************/
+
+void
+plugin_services_init (void)
+{
+	static struct {
+		char const *type_str;
+		GnmPluginServiceCreate ctor;
+	} const builtin_services[] = {
+		{ "general",		plugin_service_general_get_type},
+		{ "clipboard",		plugin_service_clipboard_get_type},
+		{ "file_opener",	plugin_service_file_opener_get_type},
+		{ "file_saver",		plugin_service_file_saver_get_type},
+		{ "function_group",	plugin_service_function_group_get_type},
+		{ "plugin_loader",	plugin_service_plugin_loader_get_type}
+#ifdef WITH_BONOBO
+		,{"ui",			plugin_service_ui_get_type}
+#endif
+	};
+	unsigned i;
+
+	g_return_if_fail (services == NULL);
+
+	services = g_hash_table_new (g_str_hash, g_str_equal);
+	for (i = 0; i < GNM_SIZEOF_ARRAY (builtin_services); i++)
+		plugin_service_define (builtin_services[i].type_str,
+				       builtin_services[i].ctor);
+}
+
+void
+plugin_services_shutdown (void)
+{
+	g_return_if_fail (services != NULL);
+	g_hash_table_destroy (services);
+	services = NULL;
+}
+
+/**
+ * Allow the definition of new service types
+ **/
+void
+plugin_service_define (char const *type_str, GnmPluginServiceCreate ctor)
+{
+	g_return_if_fail (services != NULL);
+
+	g_return_if_fail (NULL == g_hash_table_lookup (services, type_str));
+
+	g_hash_table_insert (services, (gpointer)type_str, ctor);
+}
+

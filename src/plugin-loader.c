@@ -250,12 +250,14 @@ gnumeric_plugin_loader_load_service (GnumericPluginLoader *loader, PluginService
 		load_service_method = gnumeric_plugin_loader_class->load_service_function_group;
 	} else if (GNM_IS_PLUGIN_SERVICE_PLUGIN_LOADER (service)) {
 		load_service_method = gnumeric_plugin_loader_class->load_service_plugin_loader;
+	} else if (GNM_IS_PLUGIN_SERVICE_GOBJECT_LOADER (service)) {
+		load_service_method = gnumeric_plugin_loader_class->load_service_gobject_loader;
 #ifdef WITH_BONOBO
 	} else if (GNM_IS_PLUGIN_SERVICE_UI (service)) {
 		load_service_method = gnumeric_plugin_loader_class->load_service_ui;
 #endif
 	} else {
-		g_assert_not_reached ();
+		g_warning ("unknown service type %s", g_type_name_from_instance ((GTypeInstance*)service));
 	}
 	if (load_service_method != NULL) {
 		load_service_method (loader, service, &error);
@@ -293,12 +295,14 @@ gnumeric_plugin_loader_unload_service (GnumericPluginLoader *loader, PluginServi
 		unload_service_method = gnumeric_plugin_loader_class->unload_service_function_group;
 	} else if (GNM_IS_PLUGIN_SERVICE_PLUGIN_LOADER (service)) {
 		unload_service_method = gnumeric_plugin_loader_class->unload_service_plugin_loader;
+	} else if (GNM_IS_PLUGIN_SERVICE_GOBJECT_LOADER (service)) {
+		unload_service_method = gnumeric_plugin_loader_class->unload_service_gobject_loader;
 #ifdef WITH_BONOBO
 	} else if (GNM_IS_PLUGIN_SERVICE_UI (service)) {
 		unload_service_method = gnumeric_plugin_loader_class->unload_service_ui;
 #endif
 	} else {
-		g_assert_not_reached ();
+		g_warning ("unknown service type %s", g_type_name_from_instance ((GTypeInstance*)service));
 	}
 	if (unload_service_method != NULL) {
 		unload_service_method (loader, service, &error);

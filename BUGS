@@ -7,8 +7,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - fix XL export
-
 Pending Patches
 ---------------
     - ?? more work on D&D based sheet reorg ?
@@ -19,8 +17,6 @@ Pending Patches
 1.2 Targets
 -----------
 
-- Put a pango layout in rendered value ('snappiness')
-- height calculation in render value is hosed for embedded new lines
 - validate expression names to ensure that they are not simple values (eg TRUE)
 
 1) graphs							{Jody}
@@ -218,7 +214,6 @@ Misc stuff that should be fixed
 - The max row/col canvas scroll size is still hard coded.
 
 - Formats
-    : support negative durations with [h]
     : Why does the number matching bother comparing against formats that are
       covered by 'General' ?
     : format.c: we should resolve all the separators at gnumeric_setlocale time,

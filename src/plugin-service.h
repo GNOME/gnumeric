@@ -16,7 +16,6 @@
 
 GType plugin_service_get_type (void);
 
-
 #define GNM_PLUGIN_SERVICE_GENERAL_TYPE  (plugin_service_general_get_type ())
 #define GNM_PLUGIN_SERVICE_GENERAL(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_GENERAL_TYPE, PluginServiceGeneral))
 #define GNM_IS_PLUGIN_SERVICE_GENERAL(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_GENERAL_TYPE))
@@ -114,13 +113,35 @@ typedef struct {
 
 #endif
 
-PluginService *plugin_service_new (xmlNode *tree, ErrorInfo **ret_error);
-const char    *plugin_service_get_id (PluginService *service);
-const char    *plugin_service_get_description (PluginService *service);
-void           plugin_service_set_plugin (PluginService *service, GnmPlugin *plugin);
-GnmPlugin     *plugin_service_get_plugin (PluginService *service);
-gpointer       plugin_service_get_cbs (PluginService *service);
-void           plugin_service_activate (PluginService *service, ErrorInfo **ret_error);
-void           plugin_service_deactivate (PluginService *service, ErrorInfo **ret_error);
+/****************************************************************************/
+
+#define GNM_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE  (plugin_service_gobject_loader_get_type ())
+#define GNM_PLUGIN_SERVICE_GOBJECT_LOADER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE, PluginServiceGObjectLoader))
+#define GNM_IS_PLUGIN_SERVICE_GOBJECT_LOADER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_GOBJECT_LOADER_TYPE))
+
+GType plugin_service_gobject_loader_get_type (void);
+typedef struct _PluginServiceGObjectLoader PluginServiceGObjectLoader;
+typedef struct {
+	GType (*get_type) (void);
+} PluginServiceGObjectLoaderCallbacks;
+
+/****************************************************************************/
+
+PluginService  *plugin_service_new (xmlNode *tree, ErrorInfo **ret_error);
+char const     *plugin_service_get_id (PluginService *service);
+char const     *plugin_service_get_description (PluginService *service);
+void		plugin_service_set_plugin (PluginService *service, GnmPlugin *plugin);
+GnmPlugin      *plugin_service_get_plugin (PluginService *service);
+gpointer	plugin_service_get_cbs (PluginService *service);
+void		plugin_service_activate (PluginService *service, ErrorInfo **ret_error);
+void		plugin_service_deactivate (PluginService *service, ErrorInfo **ret_error);
+void		plugin_service_load   (PluginService *service, ErrorInfo **ret_error);
+void		plugin_service_unload (PluginService *service, ErrorInfo **ret_error);
+
+typedef GType (*GnmPluginServiceCreate) (void);
+void plugin_services_init     (void);
+void plugin_services_shutdown (void);
+void plugin_service_define    (char const *type_str,
+			       GnmPluginServiceCreate ctor);
 
 #endif /* GNUMERIC_PLUGIN_SERVICE_H */

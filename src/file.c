@@ -252,10 +252,10 @@ gnm_file_saver_save_real (GnmFileSaver const *fs, IOContext *io_context,
 
 static void
 gnm_file_saver_save_to_stream_real (GnmFileSaver const *fs,
-                                     IOContext *io_context,
-                                     WorkbookView *wbv,
-                                     BonoboStream *stream,
-                                     CORBA_Environment *ev)
+				    IOContext *io_context,
+				    WorkbookView *wbv,
+				    BonoboStream *stream,
+				    CORBA_Environment *ev)
 {
 	gchar *tmp_name;
 	gint old_umask;

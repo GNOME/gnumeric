@@ -50,6 +50,7 @@ static void gnumeric_plugin_loader_module_load_service_file_opener (GnumericPlug
 static void gnumeric_plugin_loader_module_load_service_file_saver (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_module_load_service_function_group (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_module_load_service_plugin_loader (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
+static void gnumeric_plugin_loader_module_load_service_gobject_loader (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 #ifdef WITH_BONOBO
 static void gnumeric_plugin_loader_module_load_service_ui (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 #endif
@@ -192,6 +193,7 @@ gnumeric_plugin_loader_module_class_init (GObjectClass *gobject_class)
 	gnumeric_plugin_loader_class->load_service_file_saver = gnumeric_plugin_loader_module_load_service_file_saver;
 	gnumeric_plugin_loader_class->load_service_function_group = gnumeric_plugin_loader_module_load_service_function_group;
 	gnumeric_plugin_loader_class->load_service_plugin_loader = gnumeric_plugin_loader_module_load_service_plugin_loader;
+	gnumeric_plugin_loader_class->load_service_gobject_loader = gnumeric_plugin_loader_module_load_service_gobject_loader;
 #ifdef WITH_BONOBO
 	gnumeric_plugin_loader_class->load_service_ui = gnumeric_plugin_loader_module_load_service_ui;
 #else
@@ -416,12 +418,10 @@ gnumeric_plugin_loader_module_load_service_file_saver (GnumericPluginLoader *loa
 		*ret_error = error_info_new_printf (
 		             _("Module file \"%s\" has invalid format."),
 		             loader_module->module_file_name);
-		if (module_func_file_save == NULL) {
-			error_info_add_details (*ret_error,
-			                        error_info_new_printf (
-			                        _("File doesn't contain \"%s\" function."),
-			                        func_name_file_save));
-		}
+		error_info_add_details (*ret_error,
+					error_info_new_printf (
+					_("File doesn't contain \"%s\" function."),
+					func_name_file_save));
 	}
 	g_free (func_name_file_save);
 }
@@ -502,12 +502,10 @@ gnumeric_plugin_loader_module_load_service_function_group (GnumericPluginLoader 
 		*ret_error = error_info_new_printf (
 		             _("Module file \"%s\" has invalid format."),
 		             loader_module->module_file_name);
-		if (module_fn_info_array == NULL) {
-			error_info_add_details (*ret_error,
-			                        error_info_new_printf (
-			                        _("File doesn't contain \"%s\" array."),
-			                        fn_info_array_name));
-		}
+		error_info_add_details (*ret_error,
+					error_info_new_printf (
+					_("File doesn't contain \"%s\" array."),
+					fn_info_array_name));
 	}
 	g_free (fn_info_array_name);
 }
@@ -568,16 +566,39 @@ gnumeric_plugin_loader_module_load_service_plugin_loader (GnumericPluginLoader *
 		loader_data->module_func_get_loader_type = module_func_get_loader_type;
 		g_object_set_data_full (
 			G_OBJECT (service), "loader_data", loader_data, g_free);
-	} else {
-		if (module_func_get_loader_type == NULL) {
-			*ret_error = error_info_new_printf (
-			             _("Module doesn't contain \"%s\" function."),
-			             func_name_get_loader_type);
-		}
-	}
+	} else
+		*ret_error = error_info_new_printf (
+			     _("Module doesn't contain \"%s\" function."),
+			     func_name_get_loader_type);
 	g_free (func_name_get_loader_type);
 }
 
+static void
+gnumeric_plugin_loader_module_load_service_gobject_loader (GnumericPluginLoader *loader,
+                                                          PluginService *service,
+                                                          ErrorInfo **ret_error)
+{
+	GnumericPluginLoaderModule *loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
+	gchar *func_name_get_type;
+	gpointer module_func_get_type = NULL;
+
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_GOBJECT_LOADER (service));
+
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	func_name_get_type = g_strconcat (
+			plugin_service_get_id (service), "_get_type", NULL);
+	g_module_symbol (loader_module->handle, func_name_get_type,
+	                 &module_func_get_type);
+	if (module_func_get_type != NULL) {
+		PluginServiceGObjectLoaderCallbacks *cbs =
+			plugin_service_get_cbs (service);
+		cbs->get_type = module_func_get_type;
+	} else
+		*ret_error = error_info_new_printf (
+			     _("Module doesn't contain \"%s\" function."),
+			     func_name_get_type);
+	g_free (func_name_get_type);
+}
 #ifdef WITH_BONOBO
 /*
  * Service - ui

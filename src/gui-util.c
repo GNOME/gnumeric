@@ -214,6 +214,17 @@ gnumeric_dialog_dir_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel)
 	return result;
 }
 
+static gint
+cb_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
+{
+	if(e->keyval == GDK_Escape) {
+		gtk_dialog_response (GTK_DIALOG (w), GTK_RESPONSE_CANCEL);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 /**
  * gnumeric_dialog_run
  *
@@ -231,6 +242,10 @@ gnumeric_dialog_run (WorkbookControlGUI *wbcg, GtkDialog *dialog)
 
 		wbcg_set_transient (wbcg, GTK_WINDOW (dialog));
 	}
+
+	g_signal_connect (G_OBJECT (dialog),
+		"key-press-event",
+		G_CALLBACK (cb_modal_dialog_keypress), NULL);
 
 	result = gtk_dialog_run (dialog);
 	gtk_widget_destroy (GTK_WIDGET (dialog));
@@ -337,7 +352,6 @@ void
 gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
 {
 	GtkWidget *dialog = gnumeric_error_info_dialog_new (error);
-	gnumeric_set_transient (wbcg, GTK_WINDOW (dialog));
 	gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
 }
 
@@ -1148,16 +1162,13 @@ entry_to_int (GtkEntry *entry, gint *the_int, gboolean update)
 void
 float_to_entry (GtkEntry *entry, gnm_float the_float)
 {
-	char        *text      = NULL;
-	Value       *val = NULL;
-
-	val = value_new_float (the_float);
-	text = format_value (NULL, val, NULL, 16, NULL);
-	if (text) {
+	Value *val  = value_new_float (the_float);
+	char  *text = format_value (NULL, val, NULL, 16, NULL);
+	if (text != NULL) {
 		gtk_entry_set_text (entry, text);
 		g_free (text);
 	}
-	if (val)
+	if (val != NULL)
 		value_release(val);
 }
 
@@ -1171,28 +1182,21 @@ float_to_entry (GtkEntry *entry, gnm_float the_float)
 void
 int_to_entry (GtkEntry *entry, gint the_int)
 {
-	char        *text      = NULL;
-	Value       *val = NULL;
-
-	val = value_new_int (the_int);
-	text = format_value (NULL, val, NULL, 16, NULL);
-	if (text) {
+	Value *val  = value_new_int (the_int);
+	char  *text = format_value (NULL, val, NULL, 16, NULL);
+	if (text != NULL) {
 		gtk_entry_set_text (entry, text);
 		g_free (text);
 	}
-	if (val)
+	if (val != NULL)
 		value_release(val);
-	return;
 }
 
 GtkWidget *
 gnumeric_load_image (char const *filename)
 {
-	GtkWidget *image;
-	char *path;
-
-	path = g_strconcat (GNUMERIC_ICONDIR "/", filename, NULL);
-	image = gtk_image_new_from_file (path);
+	char *path = g_strconcat (GNUMERIC_ICONDIR "/", filename, NULL);
+	GtkWidget *image = gtk_image_new_from_file (path);
 	g_free (path);
 
 	if (image)
@@ -1208,11 +1212,8 @@ gnumeric_load_image (char const *filename)
 GdkPixbuf *
 gnumeric_load_pixbuf (char const *filename)
 {
-	GdkPixbuf *pixbuf;
-	char *path;
-
-	path = g_strconcat (GNUMERIC_ICONDIR "/", filename, NULL);
-	pixbuf = gdk_pixbuf_new_from_file (path, NULL);
+	char *path = g_strconcat (GNUMERIC_ICONDIR "/", filename, NULL);
+	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (path, NULL);
 	g_free (path);
 	return pixbuf;
 }

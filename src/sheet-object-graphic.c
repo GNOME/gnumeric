@@ -1520,6 +1520,7 @@ sheet_object_text_update_bounds (SheetObject *so, GObject *view)
 
 	foo_canvas_item_set (FOO_CANVAS_ITEM (group->item_list->next->data),
 		"clip_width",  fabs (coords [0] - coords [2]),
+		"wrap_width",  fabs (coords [0] - coords [2]),
 		"clip_height", fabs (coords [1] - coords [3]),
 		NULL);
 	foo_canvas_item_set (FOO_CANVAS_ITEM (group->item_list->data),

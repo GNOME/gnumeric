@@ -352,28 +352,24 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb, ExcelWriteSheet *container)
 	GnmFunc *func;
 
 	data = ms_biff_put_len_next (ewb->bp, BIFF_EXTERNCOUNT, 2);
-	GSF_LE_SET_GUINT16 (data, num_sheets + 2);
+	GSF_LE_SET_GUINT16 (data, num_sheets + ((container == NULL) ? 2 : 1));
 	ms_biff_put_commit (ewb->bp);
 
 	for (i = 0; i < num_sheets; i++) {
 		ExcelWriteSheet const *esheet = g_ptr_array_index (ewb->sheets, i);
+		unsigned len;
+		guint8 data[2];
 
 		ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
-		if (esheet == container) {
-			static guint8 const magic_selfref[] = { 0x01, 0x04 };
-			ms_biff_put_var_write (ewb->bp, magic_selfref, sizeof magic_selfref);
-		} else {
-			unsigned len = excel_write_string_len (
+		len = excel_write_string_len (
 				esheet->gnum_sheet->name_unquoted, NULL);
-			guint8 data[2];
 
-			GSF_LE_SET_GUINT8 (data, len);
-			GSF_LE_SET_GUINT8 (data + 1, 3); /* undocumented */
-			ms_biff_put_var_write (ewb->bp, data, 2);
-			excel_write_string (ewb->bp,
-				esheet->gnum_sheet->name_unquoted,
-				STR_NO_LENGTH);
-		}
+		GSF_LE_SET_GUINT8 (data, len);
+		GSF_LE_SET_GUINT8 (data + 1, 3); /* undocumented */
+		ms_biff_put_var_write (ewb->bp, data, 2);
+		excel_write_string (ewb->bp,
+			esheet->gnum_sheet->name_unquoted,
+			STR_NO_LENGTH);
 		ms_biff_put_commit (ewb->bp);
 	}
 
@@ -394,9 +390,11 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb, ExcelWriteSheet *container)
 		ms_biff_put_var_write (ewb->bp, expr_ref, sizeof (expr_ref));
 		ms_biff_put_commit (ewb->bp);
 	}
-	ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
-	ms_biff_put_var_write (ewb->bp, magic_self, sizeof magic_self);
-	ms_biff_put_commit (ewb->bp);
+	if (container == NULL) {
+		ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
+		ms_biff_put_var_write (ewb->bp, magic_self, sizeof magic_self);
+		ms_biff_put_commit (ewb->bp);
+	}
 }
 
 static void

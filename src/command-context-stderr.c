@@ -90,15 +90,27 @@ ccs_set_sensitive (G_GNUC_UNUSED CommandContext *cc,
 }
 
 static void
+ccs_progress_set (CommandContext *cc, gfloat val)
+{
+}
+
+static void
+ccs_progress_message_set (CommandContext *cc, gchar const *msg)
+{
+}
+
+static void
 ccs_class_init (GObjectClass *object_class)
 {
 	CommandContextClass *cc_class = COMMAND_CONTEXT_CLASS (object_class);
 
 	g_return_if_fail (cc_class != NULL);
-	cc_class->get_password	   = ccs_get_password;
-	cc_class->set_sensitive	   = ccs_set_sensitive;
-	cc_class->error.error      = ccs_error_error;
-	cc_class->error.error_info = ccs_error_info;
+	cc_class->get_password		= ccs_get_password;
+	cc_class->set_sensitive	   	= ccs_set_sensitive;
+	cc_class->progress_set		= ccs_progress_set;
+	cc_class->progress_message_set	= ccs_progress_message_set;
+	cc_class->error.error		= ccs_error_error;
+	cc_class->error.error_info	= ccs_error_info;
 }
 
 GSF_CLASS (CommandContextStderr, command_context_stderr,
