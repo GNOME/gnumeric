@@ -1,3 +1,7 @@
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
 2003-01-21  Jon K Hellan  <hellan@acm.org>
 
 	* html_read.c (html_append_text): New function. Append text to

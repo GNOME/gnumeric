@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
-"POT-Creation-Date: 2003-01-19 14:44+0100\n"
+"POT-Creation-Date: 2003-01-28 00:35-0500\n"
 "PO-Revision-Date: 2003-01-19 14:44GMT\n"
 "Last-Translator: Michal Bukovjan <bukm@centrum.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -859,7 +859,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funkce spojené s finančními deriváty"
 
 #: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5100
-#: plugins/gnumeric_1_0/xml-io.c:3369 plugins/mps/mps.c:549 src/xml-io.c:3585
+#: plugins/gnumeric_1_0/xml-io.c:3369 plugins/mps/mps.c:549 src/xml-io.c:3586
 msgid "Reading file..."
 msgstr "Načítá se soubor..."
 
@@ -931,15 +931,15 @@ msgid ""
 msgstr ""
 "Zapisuje a čte informace uložené ve formátu Data Interchange Format (*.dif)"
 
-#: plugins/excel/boot.c:165
+#: plugins/excel/boot.c:166
 msgid "No Workbook or Book streams found."
 msgstr "Nebyly nalezeny žádné kanály pro sešit nebo knihu."
 
-#: plugins/excel/boot.c:208
+#: plugins/excel/boot.c:209
 msgid "Preparing to save..."
 msgstr "Připravuje se ukládání..."
 
-#: plugins/excel/boot.c:217
+#: plugins/excel/boot.c:218
 msgid "Saving file..."
 msgstr "Soubor se ukládá..."
 
@@ -1042,11 +1042,11 @@ msgstr ""
 "Při ukládání ve formátu Excel bude něco z obsahu ztraceno. Tento formát "
 "podporuje pouze %d řádků, tento sešit jich má %d."
 
-#: plugins/excel/ms-excel-write.c:4086
+#: plugins/excel/ms-excel-write.c:4088
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Nepodařilo se otevřít kanál 'Book' pro zápis\n"
 
-#: plugins/excel/ms-excel-write.c:4106
+#: plugins/excel/ms-excel-write.c:4108
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Nepodařilo se otevřít kanál 'Workbook' pro zápis\n"
 
@@ -1085,6 +1085,11 @@ msgstr "MS Excel (tm) 97/2000/XP"
 #: plugins/excel/plugin.xml.in.h:6
 msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
 msgstr "MS Excel (tm) 97/2000/XP & 5.0/95"
+
+#: plugins/excel/plugin.xml.in.h:7
+#, fuzzy
+msgid "MS Excel (tm) XML"
+msgstr "MS Excel (tm)"
 
 #: plugins/fn-complex/functions.c:80
 msgid ""
@@ -16607,25 +16612,25 @@ msgstr "Formát souborů PO slovníku Gnome"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Poskytuje podporu pro ukládání Slovníku Gnome do souborů .po."
 
-#: plugins/gnumeric_1_0/xml-io.c:2824 src/xml-io.c:3044
+#: plugins/gnumeric_1_0/xml-io.c:2824 src/xml-io.c:3045
 msgid "Unparsable xml in clipboard"
 msgstr "Obsah schránky v XML není možné zpracovat"
 
-#: plugins/gnumeric_1_0/xml-io.c:2831 src/xml-io.c:3051
+#: plugins/gnumeric_1_0/xml-io.c:2831 src/xml-io.c:3052
 msgid "Clipboard is in unknown format"
 msgstr "Obsah schránky má neznámý formát."
 
 #: plugins/gnumeric_1_0/xml-io.c:3111 plugins/xbase/boot.c:173
 #: src/dialogs/dialog-goto-cell.c:286 src/dialogs/dialog-search.c:721
-#: src/dialogs/print.glade.h:20 src/workbook.c:1049 src/workbook.c:1379
-#: src/xml-io.c:3333
+#: src/dialogs/print.glade.h:21 src/workbook.c:1049 src/workbook.c:1379
+#: src/xml-io.c:3334
 msgid "Sheet"
 msgstr "List"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: plugins/gnumeric_1_0/xml-io.c:3238 src/xml-io.c:3465
+#: plugins/gnumeric_1_0/xml-io.c:3238 src/xml-io.c:3466
 msgid "Processing file..."
 msgstr "Zpracovává se soubor..."
 
@@ -16633,7 +16638,7 @@ msgstr "Zpracovává se soubor..."
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Není soubor se sešitem Gnumeric"
 
-#: plugins/gnumeric_1_0/xml-io.c:3446 src/xml-io.c:3664
+#: plugins/gnumeric_1_0/xml-io.c:3446 src/xml-io.c:3665
 msgid "Failure saving file"
 msgstr "Chyba při ukládání souboru."
 
@@ -16665,7 +16670,7 @@ msgstr "Není číslo Guile"
 msgid "Not a Guile string"
 msgstr "Není řetězec Guile"
 
-#: plugins/html/html_read.c:336
+#: plugins/html/html_read.c:356
 msgid "Unable to parse the html."
 msgstr "Nepodařilo se zpracovat html."
 
@@ -17059,45 +17064,45 @@ msgstr "GNU Oleo (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "Importuje soubory GNU Oleo"
 
-#: plugins/openoffice/openoffice-read.c:386
+#: plugins/openoffice/openoffice-read.c:421
 msgid "Missing expression"
 msgstr "Chybějící výraz"
 
-#: plugins/openoffice/openoffice-read.c:391
+#: plugins/openoffice/openoffice-read.c:426
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Výraz '%s' nezačíná správným znakem"
 
-#: plugins/openoffice/openoffice-read.c:404
+#: plugins/openoffice/openoffice-read.c:439
 #, c-format
 msgid "Unable to parse '%s' because '%s'"
 msgstr "Nelze zpracovat '%s' kvůli '%s'"
 
-#: plugins/openoffice/openoffice-read.c:462
+#: plugins/openoffice/openoffice-read.c:496
 msgid "Invalid array expression does no specify number of columns"
 msgstr "Neplatný výraz pole, neudává počet sloupců"
 
-#: plugins/openoffice/openoffice-read.c:465
+#: plugins/openoffice/openoffice-read.c:499
 msgid "Invalid array expression does no specify number of rows"
 msgstr "Neplatný výraz pole, neudává počet řádků"
 
-#: plugins/openoffice/openoffice-read.c:713
+#: plugins/openoffice/openoffice-read.c:747
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
 msgstr "Nelze zpracovat umístění výrazu '%s' @ '%s' kvůli '%s'"
 
-#: plugins/openoffice/openoffice-read.c:726
+#: plugins/openoffice/openoffice-read.c:760
 #, c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr "Nelze zpracovat umístění výrazu '%s' s hodnotou '%s' kvůli '%s'"
 
-#: plugins/openoffice/openoffice-read.c:883
+#: plugins/openoffice/openoffice-read.c:934
 msgid "No stream named content.xml found."
 msgstr "Nebyl nalezen kanál pojmenovaný content.xml"
 
-#: plugins/openoffice/openoffice-read.c:923
-#: plugins/xml_sax/xml-sax-read.c:1468
+#: plugins/openoffice/openoffice-read.c:974
+#: plugins/xml_sax/xml-sax-read.c:1501
 msgid "XML document not well formed!"
 msgstr "XML dokument není syntakticky správný!"
 
@@ -17435,8 +17440,8 @@ msgid "The next generation sax based xml I/O subsystem"
 msgstr "Nová generace V/V XML subsystému založená na sax"
 
 #: plugins/xml_sax/xml-sax-read.c:267
-#, c-format
-msgid "Unexpected attribute '%s'='%s' for element of type %s."
+#, fuzzy, c-format
+msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Neočekávaný atribut '%s'='%s' pro element typu %s"
 
 #: plugins/xml_sax/xml-sax-read.c:299
@@ -17590,7 +17595,7 @@ msgstr "Vymaže formáty, komentáře a obsah vybraných buněk"
 msgid "Close the current file"
 msgstr "Zavře aktuální soubor"
 
-#: src/GNOME_Gnumeric.xml.h:35 src/dialogs/print.glade.h:6
+#: src/GNOME_Gnumeric.xml.h:35 src/dialogs/print.glade.h:7
 #: src/workbook-control-gui.c:3203
 msgid "Co_mments"
 msgstr "Ko_mentáře"
@@ -18206,7 +18211,7 @@ msgstr "Periodické a náhodné výběry"
 msgid "Preferen_ces..."
 msgstr "Nas_tavení..."
 
-#: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:13
+#: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:14
 #: src/workbook-control-gui.c:3785
 msgid "Print"
 msgstr "Tisknout"
@@ -18220,7 +18225,7 @@ msgid "Print Preview"
 msgstr "Náhled před tiskem"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/dialogs/print.glade.h:15 src/print.c:1212
+#: src/dialogs/print.glade.h:16 src/print.c:1353
 #: src/workbook-control-gui.c:3171 src/workbook-control-gui.c:3788
 msgid "Print preview"
 msgstr "Náhled před tiskem"
@@ -19528,6 +19533,7 @@ msgid "The orientation of the toolbar"
 msgstr "Orientace nástrojové lišty"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:137
+#: schemas/gnumeric-general.schemas.in.h:51
 msgid "Toolbar Style"
 msgstr "Styl nástrojové lišty"
 
@@ -19899,7 +19905,7 @@ msgid "_Unique Records Only"
 msgstr "Pouze _unikátní záznamy"
 
 #: src/dialogs/autofilter-expression.glade.h:1
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:67
 msgid " "
 msgstr " "
 
@@ -19908,8 +19914,9 @@ msgstr " "
 #: src/dialogs/cell-format.glade.h:1 src/dialogs/dialog-stf-export.glade.h:3
 #: src/dialogs/dialog-stf.glade.h:3 src/dialogs/font-sel.glade.h:1
 #: src/dialogs/hyperlink.glade.h:1 src/dialogs/names.glade.h:1
-#: src/dialogs/plugin-manager.glade.h:1 src/dialogs/so-frame.glade.h:1
-#: src/dialogs/solver.glade.h:1 src/dialogs/workbook-attr.glade.h:1
+#: src/dialogs/plugin-manager.glade.h:1 src/dialogs/print.glade.h:3
+#: src/dialogs/so-frame.glade.h:1 src/dialogs/solver.glade.h:1
+#: src/dialogs/workbook-attr.glade.h:1
 msgid "*"
 msgstr "*"
 
@@ -20124,8 +20131,8 @@ msgstr "První písmeno"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/autocorrect.glade.h:8 src/dialogs/dialog-autoformat.c:672
-#: src/format.c:1761 src/format.c:1843 src/format.c:1852 src/format.c:1919
+#: src/dialogs/autocorrect.glade.h:8 src/dialogs/dialog-autoformat.c:671
+#: src/format.c:1766 src/format.c:1848 src/format.c:1857 src/format.c:1924
 #: src/plugin-service.c:233
 msgid "General"
 msgstr "Všeobecné"
@@ -20764,7 +20771,7 @@ msgid "A _header"
 msgstr "_Hlavička A"
 
 #: src/dialogs/cell-sort.glade.h:2 src/dialogs/histogram.glade.h:16
-#: src/dialogs/print.glade.h:10 src/tools/solver/reports-write.c:755
+#: src/dialogs/print.glade.h:11 src/tools/solver/reports-write.c:755
 msgid "Options"
 msgstr "Možnosti"
 
@@ -21363,101 +21370,101 @@ msgstr "Nelze vytvořit dialog Nástroje pro ANOVA (dva faktory)."
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Nelze vytvořit dialog pro Automatické opravy."
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:67
 msgid "Jan"
 msgstr "Led"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:67
 msgid "Feb"
 msgstr "Úno"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:67
 msgid "Mrt"
 msgstr "Bře"
 
-#: src/dialogs/dialog-autoformat.c:68 src/dialogs/dialog-autoformat.c:72
+#: src/dialogs/dialog-autoformat.c:67 src/dialogs/dialog-autoformat.c:71
 #: src/tools/analysis-tools.c:3352 src/tools/analysis-tools.c:3362
 #: src/tools/analysis-tools.c:3370
 msgid "Total"
 msgstr "Celkem"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:68
 msgid "North"
 msgstr "Sever"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:68
 msgid "6"
 msgstr "6"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:68
 msgid "13"
 msgstr "13"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:68
 msgid "20"
 msgstr "20"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:68
 msgid "39"
 msgstr "39"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:69
 msgid "South"
 msgstr "Jih"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:69
 msgid "12"
 msgstr "12"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:69
 msgid "4"
 msgstr "4"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:69
 msgid "17"
 msgstr "17"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:69
 msgid "33"
 msgstr "33"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:70
 msgid "West"
 msgstr "Západ"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:70
 msgid "8"
 msgstr "8"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:70
 msgid "2"
 msgstr "2"
 
-#: src/dialogs/dialog-autoformat.c:71 src/dialogs/mean-tests.glade.h:1
+#: src/dialogs/dialog-autoformat.c:70 src/dialogs/mean-tests.glade.h:1
 msgid "0"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:70
 msgid "10"
 msgstr "10"
 
-#: src/dialogs/dialog-autoformat.c:72
+#: src/dialogs/dialog-autoformat.c:71
 msgid "26"
 msgstr "26"
 
-#: src/dialogs/dialog-autoformat.c:72
+#: src/dialogs/dialog-autoformat.c:71
 msgid "19"
 msgstr "19"
 
-#: src/dialogs/dialog-autoformat.c:72
+#: src/dialogs/dialog-autoformat.c:71
 msgid "37"
 msgstr "37"
 
-#: src/dialogs/dialog-autoformat.c:72
+#: src/dialogs/dialog-autoformat.c:71
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:663
+#: src/dialogs/dialog-autoformat.c:662
 msgid "An error occurred while reading the category list"
 msgstr "Nastala chyba při načítání seznamu kategorií"
 
@@ -21908,13 +21915,13 @@ msgid "Directory"
 msgstr "Adresář"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:374 src/format.c:1661
+#: src/dialogs/dialog-preferences.c:374 src/format.c:1666
 #: src/number-match.c:1067 src/value-sheet.c:33 src/value.c:403
 #: src/value.c:773
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/dialogs/dialog-preferences.c:375 src/format.c:1661
+#: src/dialogs/dialog-preferences.c:375 src/format.c:1666
 #: src/number-match.c:1069 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:773
 msgid "FALSE"
@@ -21940,19 +21947,19 @@ msgstr "Položky na této stránce upravují výchozí nový sešit."
 msgid "The items on this page are related to the saving and opening of files."
 msgstr "Položky na této stránce se týkají ukládání a otevírání souborů."
 
-#: src/dialogs/dialog-printer-setup.c:847
+#: src/dialogs/dialog-printer-setup.c:848
 msgid "Customize header"
 msgstr "Upravit záhlaví"
 
-#: src/dialogs/dialog-printer-setup.c:849
+#: src/dialogs/dialog-printer-setup.c:850
 msgid "Customize footer"
 msgstr "Upravit zápatí"
 
-#: src/dialogs/dialog-printer-setup.c:999
+#: src/dialogs/dialog-printer-setup.c:1000
 msgid "Custom header configuration"
 msgstr "Vlastní nastavení záhlaví"
 
-#: src/dialogs/dialog-printer-setup.c:1004
+#: src/dialogs/dialog-printer-setup.c:1005
 msgid "Custom footer configuration"
 msgstr "Vlastní nastavení zápatí"
 
@@ -23423,124 +23430,126 @@ msgid "Gnumeric Preferences"
 msgstr "Nastavení aplikace Gnumeric"
 
 #: src/dialogs/print.glade.h:2
-#, no-c-format
-msgid "% of normal size"
+#, fuzzy, no-c-format
+msgid "% of _normal size"
 msgstr "% normální velikosti"
 
-#: src/dialogs/print.glade.h:3
+#: src/dialogs/print.glade.h:4
 msgid "Apply _to:"
 msgstr "Použít _na:"
 
-#: src/dialogs/print.glade.h:4
+#: src/dialogs/print.glade.h:5
 msgid "Apply to _all sheets."
 msgstr "Použít n_a všechny listy."
 
-#: src/dialogs/print.glade.h:5
+#: src/dialogs/print.glade.h:6
 msgid "Center on page"
 msgstr "Uprostřed stránky"
 
-#: src/dialogs/print.glade.h:7
+#: src/dialogs/print.glade.h:8
 msgid "Fi_rst page number:"
 msgstr "Číslo p_rvní stránky:"
 
-#: src/dialogs/print.glade.h:8
+#: src/dialogs/print.glade.h:9
 msgid "He_ader:"
 msgstr "Záhl_aví:"
 
-#: src/dialogs/print.glade.h:9
+#: src/dialogs/print.glade.h:10
 msgid "Headers and footers"
 msgstr "Hlavičky a patičky"
 
-#: src/dialogs/print.glade.h:11
+#: src/dialogs/print.glade.h:12
 msgid "Page"
 msgstr "Stránka"
 
-#: src/dialogs/print.glade.h:12
+#: src/dialogs/print.glade.h:13
 msgid "Page order"
 msgstr "Pořadí stránek"
 
-#: src/dialogs/print.glade.h:14
+#: src/dialogs/print.glade.h:15
 msgid "Print _area:"
 msgstr "Tištěná obl_ast:"
 
-#: src/dialogs/print.glade.h:16
+#: src/dialogs/print.glade.h:17
 msgid "Print setup"
 msgstr "Nastavení tisku"
 
-#: src/dialogs/print.glade.h:17
+#: src/dialogs/print.glade.h:18
 msgid "R_ight, then down"
 msgstr "Do_prava, pak dolů"
 
-#: src/dialogs/print.glade.h:18
+#: src/dialogs/print.glade.h:19
 msgid "Row and co_lumn headings"
 msgstr "Hlavičky řádků a s_loupců"
 
-#: src/dialogs/print.glade.h:19
+#: src/dialogs/print.glade.h:20
 msgid "Scale"
 msgstr "Roztáhnout"
 
-#: src/dialogs/print.glade.h:21
+#: src/dialogs/print.glade.h:22
 msgid "Styles with no content"
 msgstr "Styly bez obsahu"
 
-#: src/dialogs/print.glade.h:22
+#: src/dialogs/print.glade.h:23
 msgid "Titles to print"
 msgstr "Tištěné titulky"
 
-#: src/dialogs/print.glade.h:23
+#: src/dialogs/print.glade.h:24
 msgid "_Adjust to:"
 msgstr "Upr_avit na:"
 
-#: src/dialogs/print.glade.h:24
+#: src/dialogs/print.glade.h:25
 msgid "_Black and white"
 msgstr "Č_erná a bílá"
 
-#: src/dialogs/print.glade.h:25
+#: src/dialogs/print.glade.h:26
 msgid "_Columns to repeat on the left side:"
 msgstr "_Sloupce opakované na levé straně:"
 
-#: src/dialogs/print.glade.h:26
+#: src/dialogs/print.glade.h:27
 msgid "_Down, then right"
 msgstr "_Dolů, pak doprava"
 
-#: src/dialogs/print.glade.h:27
+#: src/dialogs/print.glade.h:28
 msgid "_Fit to:"
 msgstr "Přizpůsobit _na:"
 
-#: src/dialogs/print.glade.h:28
+#: src/dialogs/print.glade.h:29
 msgid "_Footer:"
 msgstr "_Zápatí:"
 
-#: src/dialogs/print.glade.h:29
+#: src/dialogs/print.glade.h:30
 msgid "_Grid lines"
 msgstr "_Mřížka"
 
-#: src/dialogs/print.glade.h:30
+#: src/dialogs/print.glade.h:31
 msgid "_Header:"
 msgstr "Zá_hlaví:"
 
-#: src/dialogs/print.glade.h:31
+#: src/dialogs/print.glade.h:32
 msgid "_Horizontally"
 msgstr "_Horizontálně"
 
-#: src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:33
 msgid "_Rows to repeat on the upper region:"
 msgstr "Řádky opakované v ho_rní části:"
 
-#: src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:34
 msgid "_Units:"
 msgstr "_Jednotky:"
 
-#: src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:35
 msgid "_Vertically"
 msgstr "_Vertikálně"
 
-#: src/dialogs/print.glade.h:35
-msgid "page(s) wide by"
+#: src/dialogs/print.glade.h:36
+#, fuzzy
+msgid "_page(s) wide by"
 msgstr "stran široké"
 
-#: src/dialogs/print.glade.h:36
-msgid "tall"
+#: src/dialogs/print.glade.h:37
+#, fuzzy
+msgid "_tall"
 msgstr "vysoké"
 
 #: src/dialogs/random-generation.glade.h:5
@@ -24434,40 +24443,40 @@ msgstr "Cílová oblast je příliš malá, měla by být široká alespoň %d s
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Cílová oblast je příliš malá, měla by být vysoká alespoň %d řádků"
 
-#: src/format.c:599
+#: src/format.c:598
 msgid "Black"
 msgstr "Černá"
 
-#: src/format.c:600
+#: src/format.c:599
 msgid "Blue"
 msgstr "Modrá"
 
-#: src/format.c:601
+#: src/format.c:600
 msgid "Cyan"
 msgstr "Modrozelená"
 
-#: src/format.c:602
+#: src/format.c:601
 msgid "Green"
 msgstr "Zelená"
 
-#: src/format.c:603
+#: src/format.c:602
 msgid "Magenta"
 msgstr "Fialová"
 
-#: src/format.c:604
+#: src/format.c:603
 msgid "Red"
 msgstr "Červená"
 
-#: src/format.c:605
+#: src/format.c:604
 msgid "White"
 msgstr "Bílá"
 
-#: src/format.c:606
+#: src/format.c:605
 msgid "Yellow"
 msgstr "Žlutá"
 
 #. Array of arrays ??
-#: src/format.c:1696
+#: src/format.c:1701
 msgid "ARRAY"
 msgstr "POLE"
 
@@ -24476,703 +24485,703 @@ msgstr "POLE"
 #. * The second column has the long names of the currencies.
 #.
 #. 2002/08/04 Updated to match iso 4217
-#: src/formats.c:319
+#: src/formats.c:318
 msgid "United Arab Emirates, Dirhams"
 msgstr "Spojené Arabské Emiráty, Dirhamy"
 
-#: src/formats.c:320
+#: src/formats.c:319
 msgid "Afghanistan, Afghanis"
 msgstr "Afghánistán, Afghanis"
 
-#: src/formats.c:321
+#: src/formats.c:320
 msgid "Albania, Leke"
 msgstr "Albánie, Lek"
 
-#: src/formats.c:322
+#: src/formats.c:321
 msgid "Armenia, Drams"
 msgstr "Arménie, Dramy"
 
-#: src/formats.c:323
+#: src/formats.c:322
 msgid "Netherlands Antilles, Guilders"
 msgstr "Nizozemské Antily, Guldeny"
 
-#: src/formats.c:324
+#: src/formats.c:323
 msgid "Angola, Kwanza"
 msgstr "Angola, Kwanza"
 
-#: src/formats.c:325
+#: src/formats.c:324
 msgid "Argentina, Pesos"
 msgstr "Argentina, Peseta"
 
-#: src/formats.c:326
+#: src/formats.c:325
 msgid "Australia, Dollars"
 msgstr "Austrálie, Dolary"
 
-#: src/formats.c:327
+#: src/formats.c:326
 msgid "Aruba, Guilders"
 msgstr "Aruba, Guldeny"
 
-#: src/formats.c:328
+#: src/formats.c:327
 msgid "Azerbaijan, Manats"
 msgstr "Ázerbájdžán, Manaty"
 
-#: src/formats.c:329
+#: src/formats.c:328
 msgid "Bosnia and Herzegovina, Convertible Marka"
 msgstr "Bosna a Hercegovina, Směnitelná marka"
 
-#: src/formats.c:330
+#: src/formats.c:329
 msgid "Barbados, Dollars"
 msgstr "Barbados, Dolary"
 
-#: src/formats.c:331
+#: src/formats.c:330
 msgid "Bangladesh, Taka"
 msgstr "Bangladéš, Taka"
 
-#: src/formats.c:332
+#: src/formats.c:331
 msgid "Bulgaria, Leva"
 msgstr "Bulharsko, Leva"
 
-#: src/formats.c:333
+#: src/formats.c:332
 msgid "Bahrain, Dinars"
 msgstr "Bahrajn, Dináry"
 
-#: src/formats.c:334
+#: src/formats.c:333
 msgid "Burundi, Francs"
 msgstr "Burundi, Franky"
 
-#: src/formats.c:335
+#: src/formats.c:334
 msgid "Bermuda, Dollars"
 msgstr "Bermudy, Dolary"
 
-#: src/formats.c:336
+#: src/formats.c:335
 msgid "Brunei Darussalam, Dollars"
 msgstr "Brunej Darussalam, Dolary"
 
-#: src/formats.c:337
+#: src/formats.c:336
 msgid "Bolivia, Bolivianos"
 msgstr "Bolívie, Bolivianos"
 
-#: src/formats.c:338
+#: src/formats.c:337
 msgid "Brazil, Brazil Real"
 msgstr "Brazílie, Brazilský real"
 
-#: src/formats.c:339
+#: src/formats.c:338
 msgid "Bahamas, Dollars"
 msgstr "Bahamy, Dolary"
 
-#: src/formats.c:340
+#: src/formats.c:339
 msgid "Bhutan, Ngultrum"
 msgstr "Bhútán, Ngultrum"
 
-#: src/formats.c:341
+#: src/formats.c:340
 msgid "Botswana, Pulas"
 msgstr "Botswana, Pula"
 
-#: src/formats.c:342
+#: src/formats.c:341
 msgid "Belarus, Rubles"
 msgstr "Bělorusko, Rubly"
 
-#: src/formats.c:343
+#: src/formats.c:342
 msgid "Belize, Dollars"
 msgstr "Belize, Dolary"
 
-#: src/formats.c:344
+#: src/formats.c:343
 msgid "Canada, Dollars"
 msgstr "Kanada, Dolary"
 
-#: src/formats.c:345
+#: src/formats.c:344
 msgid "Congo/Kinshasa, Congolese Francs"
 msgstr "Kongo/Kinshasa, Konžské franky"
 
-#: src/formats.c:346
+#: src/formats.c:345
 msgid "Switzerland, Francs"
 msgstr "Švýcarsko, Franky"
 
-#: src/formats.c:347
+#: src/formats.c:346
 msgid "Chile, Pesos"
 msgstr "Čile, Peseta"
 
-#: src/formats.c:348
+#: src/formats.c:347
 msgid "China, Yuan Renminbi"
 msgstr "Čína, Juan renminbi"
 
-#: src/formats.c:349
+#: src/formats.c:348
 msgid "Colombia, Pesos"
 msgstr "Kolumbie, Peseta"
 
-#: src/formats.c:350
+#: src/formats.c:349
 msgid "Costa Rica, Colones"
 msgstr "Kostarika, Kolony"
 
-#: src/formats.c:351
+#: src/formats.c:350
 msgid "Cuba, Pesos"
 msgstr "Kuba, Peseta"
 
-#: src/formats.c:352
+#: src/formats.c:351
 msgid "Cape Verde, Escudos"
 msgstr "Cape Verde, Escudo"
 
-#: src/formats.c:353
+#: src/formats.c:352
 msgid "Cyprus, Pounds"
 msgstr "Kypr, Libra"
 
-#: src/formats.c:354
+#: src/formats.c:353
 msgid "Czech Republic, Koruny"
 msgstr "Česká republika, Koruny"
 
-#: src/formats.c:355
+#: src/formats.c:354
 msgid "Djibouti, Francs"
 msgstr "Džibuti, Franky"
 
-#: src/formats.c:356
+#: src/formats.c:355
 msgid "Denmark, Kroner"
 msgstr "Dánsko, Koruny"
 
-#: src/formats.c:357
+#: src/formats.c:356
 msgid "Dominican Republic, Pesos"
 msgstr "Dominikánská republika, Peseta"
 
-#: src/formats.c:358
+#: src/formats.c:357
 msgid "Algeria, Algeria Dinars"
 msgstr "Alžírsko, Alžírské dináry"
 
-#: src/formats.c:359
+#: src/formats.c:358
 msgid "Estonia, Krooni"
 msgstr "Estonsko, Koruny"
 
-#: src/formats.c:360
+#: src/formats.c:359
 msgid "Egypt, Pounds"
 msgstr "Egypt, Libry"
 
-#: src/formats.c:361
+#: src/formats.c:360
 msgid "Eritrea, Nakfa"
 msgstr "Eritrea, Nakfa"
 
-#: src/formats.c:362
+#: src/formats.c:361
 msgid "Ethiopia, Birr"
 msgstr "Etiopie, Birr"
 
-#: src/formats.c:363
+#: src/formats.c:362
 msgid "Euro Member Countries, Euro"
 msgstr "Evropské členské země, Euro"
 
-#: src/formats.c:364
+#: src/formats.c:363
 msgid "Fiji, Dollars"
 msgstr "Fidži, Dolary"
 
-#: src/formats.c:365
+#: src/formats.c:364
 msgid "Falkland Islands (Malvinas), Pounds"
 msgstr "Falklandské ostrovy, Libry"
 
-#: src/formats.c:366
+#: src/formats.c:365
 msgid "United Kingdom, Pounds"
 msgstr "Spojené království, Libry"
 
-#: src/formats.c:367
+#: src/formats.c:366
 msgid "Georgia, Lari"
 msgstr "Georgie, Lari"
 
-#: src/formats.c:368
+#: src/formats.c:367
 msgid "Guernsey, Pounds"
 msgstr "Guernsey, Libry"
 
-#: src/formats.c:369
+#: src/formats.c:368
 msgid "Ghana, Cedis"
 msgstr "Ghana, Cedi"
 
-#: src/formats.c:370
+#: src/formats.c:369
 msgid "Gibraltar, Pounds"
 msgstr "Gibraltar, Libry"
 
-#: src/formats.c:371
+#: src/formats.c:370
 msgid "Gambia, Dalasi"
 msgstr "Gambie, Dalasi"
 
-#: src/formats.c:372
+#: src/formats.c:371
 msgid "Guinea, Francs"
 msgstr "Guinea, Franky"
 
-#: src/formats.c:373
+#: src/formats.c:372
 msgid "Guatemala, Quetzales"
 msgstr "Guatemala, Quetzaly"
 
-#: src/formats.c:374
+#: src/formats.c:373
 msgid "Guyana, Dollars"
 msgstr "Guajana, Dolary"
 
-#: src/formats.c:375
+#: src/formats.c:374
 msgid "Hong Kong, Dollars"
 msgstr "Hong Kong, Dolary"
 
-#: src/formats.c:376
+#: src/formats.c:375
 msgid "Honduras, Lempiras"
 msgstr "Honduras, Lempira"
 
-#: src/formats.c:377
+#: src/formats.c:376
 msgid "Croatia, Kuna"
 msgstr "Chorvatsko, Kuna"
 
-#: src/formats.c:378
+#: src/formats.c:377
 msgid "Haiti, Gourdes"
 msgstr "Haiti, Gourdy"
 
-#: src/formats.c:379
+#: src/formats.c:378
 msgid "Hungary, Forint"
 msgstr "Maďarsko, Forint"
 
-#: src/formats.c:380
+#: src/formats.c:379
 msgid "Indonesia, Rupiahs"
 msgstr "Indonésie, Rupie"
 
-#: src/formats.c:381
+#: src/formats.c:380
 msgid "Israel, New Shekels"
 msgstr "Izrael, Nový šekel"
 
-#: src/formats.c:382
+#: src/formats.c:381
 msgid "Isle of Man, Pounds"
 msgstr "Isle of Man, Libry"
 
-#: src/formats.c:383
+#: src/formats.c:382
 msgid "India, Rupees"
 msgstr "Indie, Rupie"
 
-#: src/formats.c:384
+#: src/formats.c:383
 msgid "Iraq, Dinars"
 msgstr "Irák, Dináry"
 
-#: src/formats.c:385
+#: src/formats.c:384
 msgid "Iran, Rials"
 msgstr "Írán, Rialy"
 
-#: src/formats.c:386
+#: src/formats.c:385
 msgid "Iceland, Kronur"
 msgstr "Island, Koruny"
 
-#: src/formats.c:387
+#: src/formats.c:386
 msgid "Jersey, Pounds"
 msgstr "Jersey, Libry"
 
-#: src/formats.c:388
+#: src/formats.c:387
 msgid "Jamaica, Dollars"
 msgstr "Jamajka, Dolary"
 
-#: src/formats.c:389
+#: src/formats.c:388
 msgid "Jordan, Dinars"
 msgstr "Jordánsko, Dináry"
 
-#: src/formats.c:390
+#: src/formats.c:389
 msgid "Japan, Yen"
 msgstr "Japonsko, Jeny"
 
-#: src/formats.c:391
+#: src/formats.c:390
 msgid "Kenya, Shillings"
 msgstr "Keňa, Šilinky"
 
-#: src/formats.c:392
+#: src/formats.c:391
 msgid "Kyrgyzstan, Soms"
 msgstr "Kyrgyzstán, Somy"
 
-#: src/formats.c:393
+#: src/formats.c:392
 msgid "Cambodia, Riels"
 msgstr "Kambodža, Riely"
 
-#: src/formats.c:394
+#: src/formats.c:393
 msgid "Comoros, Francs"
 msgstr "Komory, Franky"
 
-#: src/formats.c:395
+#: src/formats.c:394
 msgid "Korea (North), Won"
 msgstr "Korea (severní), Won"
 
-#: src/formats.c:396
+#: src/formats.c:395
 msgid "Korea (South), Won"
 msgstr "Korea (jižní), Wony"
 
-#: src/formats.c:397
+#: src/formats.c:396
 msgid "Kuwait, Dinars"
 msgstr "Kuvajt, Dináry"
 
-#: src/formats.c:398
+#: src/formats.c:397
 msgid "Cayman Islands, Dollars"
 msgstr "Kajmanské ostrovy, Dolary"
 
-#: src/formats.c:399
+#: src/formats.c:398
 msgid "Kazakstan, Tenge"
 msgstr "Kazachstán, Tenge"
 
-#: src/formats.c:400
+#: src/formats.c:399
 msgid "Laos, Kips"
 msgstr "Laos, Kipy"
 
-#: src/formats.c:401
+#: src/formats.c:400
 msgid "Lebanon, Pounds"
 msgstr "Libanon, Libry"
 
-#: src/formats.c:402
+#: src/formats.c:401
 msgid "Sri Lanka, Rupees"
 msgstr "Srí Lanka, Rupie"
 
-#: src/formats.c:403
+#: src/formats.c:402
 msgid "Liberia, Dollars"
 msgstr "Libérie, Dolary"
 
-#: src/formats.c:404
+#: src/formats.c:403
 msgid "Lesotho, Maloti"
 msgstr "Lesotho, Maloti"
 
-#: src/formats.c:405
+#: src/formats.c:404
 msgid "Lithuania, Litai"
 msgstr "Litva, Litai"
 
-#: src/formats.c:406
+#: src/formats.c:405
 msgid "Latvia, Lati"
 msgstr "Lotyšsko, Lati"
 
-#: src/formats.c:407
+#: src/formats.c:406
 msgid "Libya, Dinars"
 msgstr "Libye, Dináry"
 
-#: src/formats.c:408
+#: src/formats.c:407
 msgid "Morocco, Dirhams"
 msgstr "Maroko, Dirhamy"
 
-#: src/formats.c:409
+#: src/formats.c:408
 msgid "Moldova, Lei"
 msgstr "Moldávie, Lei"
 
-#: src/formats.c:410
+#: src/formats.c:409
 msgid "Madagascar, Malagasy Francs"
 msgstr "Madagaskar, Franky"
 
-#: src/formats.c:411
+#: src/formats.c:410
 msgid "Macedonia, Denars"
 msgstr "Makedonie, Denáry"
 
-#: src/formats.c:412
+#: src/formats.c:411
 msgid "Myanmar (Burma), Kyats"
 msgstr "Myanmar (Burma), Kyaty"
 
-#: src/formats.c:413
+#: src/formats.c:412
 msgid "Mongolia, Tugriks"
 msgstr "Mongolsko, Tugriky"
 
-#: src/formats.c:414
+#: src/formats.c:413
 msgid "Macau, Patacas"
 msgstr "Macau, Patacas"
 
-#: src/formats.c:415
+#: src/formats.c:414
 msgid "Mauritania, Ouguiyas"
 msgstr "Mauretánie, Ouguiya"
 
-#: src/formats.c:416
+#: src/formats.c:415
 msgid "Malta, Liri"
 msgstr "Malta, Liry"
 
-#: src/formats.c:417
+#: src/formats.c:416
 msgid "Mauritius, Rupees"
 msgstr "Mauritius, Rupie"
 
-#: src/formats.c:418
+#: src/formats.c:417
 msgid "Maldives (Maldive Islands), Rufiyaa"
 msgstr "Maledivy (Maledivské ostrovy), Rufiyaa"
 
-#: src/formats.c:419
+#: src/formats.c:418
 msgid "Malawi, Kwachas"
 msgstr "Malawi, Kwachas"
 
-#: src/formats.c:420
+#: src/formats.c:419
 msgid "Mexico, Pesos"
 msgstr "Mexiko, Peseta"
 
-#: src/formats.c:421
+#: src/formats.c:420
 msgid "Malaysia, Ringgits"
 msgstr "Malajsie, Ringgity"
 
-#: src/formats.c:422
+#: src/formats.c:421
 msgid "Mozambique, Meticais"
 msgstr "Mozambik, Meticaly"
 
-#: src/formats.c:423
+#: src/formats.c:422
 msgid "Namibia, Dollars"
 msgstr "Namibie, Dolary"
 
-#: src/formats.c:424
+#: src/formats.c:423
 msgid "Nigeria, Nairas"
 msgstr "Nigérie, Nairas"
 
-#: src/formats.c:425
+#: src/formats.c:424
 msgid "Nicaragua, Gold Cordobas"
 msgstr "Nikaragua, Zlaté cordoby"
 
-#: src/formats.c:426
+#: src/formats.c:425
 msgid "Norway, Krone"
 msgstr "Norsko, Koruny"
 
-#: src/formats.c:427
+#: src/formats.c:426
 msgid "Nepal, Nepal Rupees"
 msgstr "Nepál, Nepálské rupie"
 
-#: src/formats.c:428
+#: src/formats.c:427
 msgid "New Zealand, Dollars"
 msgstr "Nový Zéland, Dolary"
 
-#: src/formats.c:429
+#: src/formats.c:428
 msgid "Oman, Rials"
 msgstr "Omán, Rialy"
 
-#: src/formats.c:430
+#: src/formats.c:429
 msgid "Panama, Balboa"
 msgstr "Panama, Balboa"
 
-#: src/formats.c:431
+#: src/formats.c:430
 msgid "Peru, Nuevos Soles"
 msgstr "Peru, Nuevos Soles"
 
-#: src/formats.c:432
+#: src/formats.c:431
 msgid "Papua New Guinea, Kina"
 msgstr "Papua Nová Guinea, Kina"
 
-#: src/formats.c:433
+#: src/formats.c:432
 msgid "Philippines, Pesos"
 msgstr "Filipíny, Peseta"
 
-#: src/formats.c:434
+#: src/formats.c:433
 msgid "Pakistan, Rupees"
 msgstr "Pákistán, Rupie"
 
-#: src/formats.c:435
+#: src/formats.c:434
 msgid "Poland, Zlotych"
 msgstr "Polsko, Zloté"
 
-#: src/formats.c:436
+#: src/formats.c:435
 msgid "Paraguay, Guarani"
 msgstr "Paraguay, Guarani"
 
-#: src/formats.c:437
+#: src/formats.c:436
 msgid "Qatar, Rials"
 msgstr "Katar, Rialy"
 
-#: src/formats.c:438
+#: src/formats.c:437
 msgid "Romania, Lei"
 msgstr "Rumunsko, Lei"
 
-#: src/formats.c:439
+#: src/formats.c:438
 msgid "Russia, Rubles"
 msgstr "Rusko, Rubly"
 
-#: src/formats.c:440
+#: src/formats.c:439
 msgid "Rwanda, Rwanda Francs"
 msgstr "Rwanda, Rwandské franky"
 
-#: src/formats.c:441
+#: src/formats.c:440
 msgid "Saudi Arabia, Riyals"
 msgstr "Saudská Arábie, Riyaly"
 
-#: src/formats.c:442
+#: src/formats.c:441
 msgid "Solomon Islands, Dollars"
 msgstr "Solomonské ostrovy, Dolary"
 
-#: src/formats.c:443
+#: src/formats.c:442
 msgid "Seychelles, Rupees"
 msgstr "Seyšely, Rupie"
 
-#: src/formats.c:444
+#: src/formats.c:443
 msgid "Sudan, Dinars"
 msgstr "Súdán, Dináry"
 
-#: src/formats.c:445
+#: src/formats.c:444
 msgid "Sweden, Kronor"
 msgstr "Švédsko, Kronor"
 
-#: src/formats.c:446
+#: src/formats.c:445
 msgid "Singapore, Dollars"
 msgstr "Singapur, Dolary"
 
-#: src/formats.c:447
+#: src/formats.c:446
 msgid "Saint Helena, Pounds"
 msgstr "Ostrov sv. Heleny, Libry"
 
-#: src/formats.c:448
+#: src/formats.c:447
 msgid "Slovenia, Tolars"
 msgstr "Slovinsko, Tolary"
 
-#: src/formats.c:449
+#: src/formats.c:448
 msgid "Slovakia, Koruny"
 msgstr "Slovensko, Koruny"
 
-#: src/formats.c:450
+#: src/formats.c:449
 msgid "Sierra Leone, Leones"
 msgstr "Sierra Leone, Leones"
 
-#: src/formats.c:451
+#: src/formats.c:450
 msgid "Somalia, Shillings"
 msgstr "Somálsko, Šilink"
 
-#: src/formats.c:452
+#: src/formats.c:451
 msgid "Seborga, Luigini"
 msgstr "Seborga, Luigini"
 
-#: src/formats.c:453
+#: src/formats.c:452
 msgid "Suriname, Guilders"
 msgstr "Surinam, Guldeny"
 
-#: src/formats.c:454
+#: src/formats.c:453
 msgid "Sao Tome and Principe, Dobras"
 msgstr "Sao Tome a Principe, Dobra"
 
-#: src/formats.c:455
+#: src/formats.c:454
 msgid "El Salvador, Colones"
 msgstr "El Salvador, Kolony"
 
-#: src/formats.c:456
+#: src/formats.c:455
 msgid "Syria, Pounds"
 msgstr "Sýrie, Libry"
 
-#: src/formats.c:457
+#: src/formats.c:456
 msgid "Swaziland, Emalangeni"
 msgstr "Svahilsko, Emalangeni"
 
-#: src/formats.c:458
+#: src/formats.c:457
 msgid "Thailand, Baht"
 msgstr "Thajsko, Bahty"
 
-#: src/formats.c:459
+#: src/formats.c:458
 msgid "Tajikistan, Rubles"
 msgstr "Tadžikistán, Rubly"
 
-#: src/formats.c:460
+#: src/formats.c:459
 msgid "Turkmenistan, Manats"
 msgstr "Turkmenistán, Manaty"
 
-#: src/formats.c:461
+#: src/formats.c:460
 msgid "Tunisia, Dinars"
 msgstr "Tunisko, Dináry"
 
-#: src/formats.c:462
+#: src/formats.c:461
 msgid "Tonga, Pa'anga"
 msgstr "Tonga, Pa'anga"
 
-#: src/formats.c:463
+#: src/formats.c:462
 msgid "Turkey, Liras"
 msgstr "Turecko, Liry"
 
-#: src/formats.c:464
+#: src/formats.c:463
 msgid "Trinidad and Tobago, Dollars"
 msgstr "Trinidad a Tobago, Dolary"
 
-#: src/formats.c:465
+#: src/formats.c:464
 msgid "Tuvalu, Tuvalu Dollars"
 msgstr "Tuvalu, Tuvalské dolary"
 
-#: src/formats.c:466
+#: src/formats.c:465
 msgid "Taiwan, New Dollars"
 msgstr "Taiwan, Nové dolary"
 
-#: src/formats.c:467
+#: src/formats.c:466
 msgid "Tanzania, Shillings"
 msgstr "Tanzanie, Šilinky"
 
-#: src/formats.c:468
+#: src/formats.c:467
 msgid "Ukraine, Hryvnia"
 msgstr "Ukrajina, Hřivna"
 
-#: src/formats.c:469
+#: src/formats.c:468
 msgid "Uganda, Shillings"
 msgstr "Uganda, Šilinky"
 
-#: src/formats.c:470
+#: src/formats.c:469
 msgid "United States of America, Dollars"
 msgstr "Spojené státy americké, Dolary"
 
-#: src/formats.c:471
+#: src/formats.c:470
 msgid "Uruguay, Pesos"
 msgstr "Uruguay, Peseta"
 
-#: src/formats.c:472
+#: src/formats.c:471
 msgid "Uzbekistan, Sums"
 msgstr "Uzbekistán, Sumy"
 
-#: src/formats.c:473
+#: src/formats.c:472
 msgid "Venezuela, Bolivares"
 msgstr "Venezuela, Bolivares"
 
-#: src/formats.c:474
+#: src/formats.c:473
 msgid "Viet Nam, Dong"
 msgstr "Vietnam, Dong"
 
-#: src/formats.c:475
+#: src/formats.c:474
 msgid "Vanuatu, Vatu"
 msgstr "Vanuatu, Vatu"
 
-#: src/formats.c:476
+#: src/formats.c:475
 msgid "Samoa, Tala"
 msgstr "Samoa, Tala"
 
-#: src/formats.c:477
+#: src/formats.c:476
 msgid "Communaute Financiere Africaine BEAC, Francs"
 msgstr "Communaute Financiere Africaine BEAC, Franky"
 
-#: src/formats.c:478
+#: src/formats.c:477
 msgid "Silver, Ounces"
 msgstr "Stříbro, Unce"
 
-#: src/formats.c:479
+#: src/formats.c:478
 msgid "Gold, Ounces"
 msgstr "Zlato, Unce"
 
-#: src/formats.c:480
+#: src/formats.c:479
 msgid "East Caribbean Dollars"
 msgstr "Východokaribské dolary"
 
-#: src/formats.c:481
+#: src/formats.c:480
 msgid "International Monetary Fund (IMF) Special Drawing Rights"
 msgstr "Zvláštní čerpací práva Mezinárodního měnového fondu (MMF)"
 
-#: src/formats.c:482
+#: src/formats.c:481
 msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr "Communaute Financiere Africaine BCEAO, Franky"
 
-#: src/formats.c:483
+#: src/formats.c:482
 msgid "Palladium Ounces"
 msgstr "Paladium, Unce"
 
-#: src/formats.c:484
+#: src/formats.c:483
 msgid "Comptoirs Francais du Pacifique Francs"
 msgstr "Comptoirs Francais du Pacifique, Franky"
 
-#: src/formats.c:485
+#: src/formats.c:484
 msgid "Platinum, Ounces"
 msgstr "Platina, Unce"
 
-#: src/formats.c:486
+#: src/formats.c:485
 msgid "Yemen, Rials"
 msgstr "Jemen, Rialy"
 
-#: src/formats.c:487
+#: src/formats.c:486
 msgid "Yugoslavia, New Dinars"
 msgstr "Jugoslávie, Nové dináry"
 
-#: src/formats.c:488
+#: src/formats.c:487
 msgid "South Africa, Rand"
 msgstr "Jižní Afrika, Rand"
 
-#: src/formats.c:489
+#: src/formats.c:488
 msgid "Zambia, Kwacha"
 msgstr "Zambie, Kwacha"
 
-#: src/formats.c:490
+#: src/formats.c:489
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Zimbabwe, Zimbabwské dolary"
 
-#: src/formats.c:761
+#: src/formats.c:782
 msgid ";[Red]"
 msgstr ";[Červeně]"
 
-#: src/formats.c:763
+#: src/formats.c:784
 msgid "_);("
 msgstr "_);("
 
-#: src/formats.c:765
+#: src/formats.c:786
 msgid "_);[Red]("
 msgstr "_);[Červeně]("
 
@@ -25324,11 +25333,11 @@ msgstr "Formát jako alternativní Číslo"
 msgid "Data..."
 msgstr "Data..."
 
-#: src/gui-clipboard.c:55
+#: src/gui-clipboard.c:61
 msgid "Error while trying to pre-convert clipboard data"
 msgstr "Chyba při pokusu o předběžný převod dat se schránky"
 
-#: src/gui-clipboard.c:91
+#: src/gui-clipboard.c:97
 msgid "Parse error while trying to parse data into cellregion"
 msgstr "Chyba zpracování při překladu dat do oblasti listu"
 
@@ -26077,27 +26086,27 @@ msgid "file"
 msgstr "soubor"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:581
+#: src/print.c:582
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:975
+#: src/print.c:1110
 msgid "Print Region"
 msgstr "Oblast tisku"
 
-#: src/print.c:1128
+#: src/print.c:1269
 msgid "Print Sheets"
 msgstr "Tisknuté listy"
 
-#: src/print.c:1136
+#: src/print.c:1277
 msgid "Act_ive sheet"
 msgstr "Akt_ivní list"
 
-#: src/print.c:1136
+#: src/print.c:1277
 msgid "S_heets"
 msgstr "_Listy"
 
-#: src/print.c:1221
+#: src/print.c:1362
 msgid "Printing failed"
 msgstr "Tisk selhal"
 
@@ -27763,11 +27772,11 @@ msgstr "Již existuje list s názvem"
 msgid "You may not use this name twice"
 msgstr "Nemůžete použít jeden název dvakrát"
 
-#: src/xml-io.c:3627
+#: src/xml-io.c:3628
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Toto není soubor se sešitem Gnumeric"
 
-#: src/xml-io.c:3696
+#: src/xml-io.c:3697
 msgid "Gnumeric XML file format"
 msgstr "Souborový formát Gnumeric XML"
 
@@ -28604,15 +28613,19 @@ msgid ""
 msgstr ""
 "Tato proměnná určuje, zda-li je prováděno živé nebo zpožděné posunování."
 
-#: schemas/gnumeric-general.schemas.in.h:51
+#: schemas/gnumeric-general.schemas.in.h:52
+msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
+msgstr ""
+
+#: schemas/gnumeric-general.schemas.in.h:53
 msgid "Vertical DPI"
 msgstr "Vertikální DPI"
 
-#: schemas/gnumeric-general.schemas.in.h:52
+#: schemas/gnumeric-general.schemas.in.h:54
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Varování při exportu do formátu s jediným listem"
 
-#: schemas/gnumeric-general.schemas.in.h:53
+#: schemas/gnumeric-general.schemas.in.h:55
 msgid ""
 "When selecting a sort region in the sort dialog, search clauses are "
 "automatically added. This number determines the maximum number of clauses to "

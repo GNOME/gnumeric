@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 2003-01-17 11:18+0100\n"
+"POT-Creation-Date: 2003-01-28 00:35-0500\n"
 "PO-Revision-Date: 2003-01-22 16:48+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
@@ -760,7 +760,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Functies gerelateerd aan financieel afgeleiden"
 
 #: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5100
-#: plugins/gnumeric_1_0/xml-io.c:3369 plugins/mps/mps.c:549 src/xml-io.c:3585
+#: plugins/gnumeric_1_0/xml-io.c:3369 plugins/mps/mps.c:549 src/xml-io.c:3586
 msgid "Reading file..."
 msgstr "Bezig bestand te lezen..."
 
@@ -832,15 +832,15 @@ msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Leest en schrijft informatie in het  Data Interchange Formaat (*.dif)"
 
-#: plugins/excel/boot.c:165
+#: plugins/excel/boot.c:166
 msgid "No Workbook or Book streams found."
 msgstr "Geen Werkmap of Mapstromen gevonden."
 
-#: plugins/excel/boot.c:208
+#: plugins/excel/boot.c:209
 msgid "Preparing to save..."
 msgstr "Opslaan wordt nu voorbereid..."
 
-#: plugins/excel/boot.c:217
+#: plugins/excel/boot.c:218
 msgid "Saving file..."
 msgstr "Bezig bestand op te slaan..."
 
@@ -939,11 +939,11 @@ msgid ""
 "this workbook has %d"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:4086
+#: plugins/excel/ms-excel-write.c:4088
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Kon de stroom 'Map' niet openen voor schrijven\n"
 
-#: plugins/excel/ms-excel-write.c:4106
+#: plugins/excel/ms-excel-write.c:4108
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kon de stroom 'Werkmap' niet openen voor schrijven\n"
 
@@ -982,6 +982,11 @@ msgstr "MS Excel (tm) 97/2000/XP"
 #: plugins/excel/plugin.xml.in.h:6
 msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
 msgstr "MS Excel (tm) 97/2000/XP & 5.0/95"
+
+#: plugins/excel/plugin.xml.in.h:7
+#, fuzzy
+msgid "MS Excel (tm) XML"
+msgstr "MS Excel (tm)"
 
 #: plugins/fn-complex/functions.c:80
 msgid ""
@@ -15761,25 +15766,25 @@ msgstr ""
 "Het bied ondersteuning voor het opslaan van Gnome Woordenlijsten in .po "
 "bestanden."
 
-#: plugins/gnumeric_1_0/xml-io.c:2824 src/xml-io.c:3044
+#: plugins/gnumeric_1_0/xml-io.c:2824 src/xml-io.c:3045
 msgid "Unparsable xml in clipboard"
 msgstr "Niet te verwerken xml in klembord"
 
-#: plugins/gnumeric_1_0/xml-io.c:2831 src/xml-io.c:3051
+#: plugins/gnumeric_1_0/xml-io.c:2831 src/xml-io.c:3052
 msgid "Clipboard is in unknown format"
 msgstr "Klembord is in onbekend formaat"
 
 #: plugins/gnumeric_1_0/xml-io.c:3111 plugins/xbase/boot.c:173
 #: src/dialogs/dialog-goto-cell.c:286 src/dialogs/dialog-search.c:721
-#: src/dialogs/print.glade.h:20 src/workbook.c:1049 src/workbook.c:1379
-#: src/xml-io.c:3333
+#: src/dialogs/print.glade.h:21 src/workbook.c:1049 src/workbook.c:1379
+#: src/xml-io.c:3334
 msgid "Sheet"
 msgstr "Blad"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: plugins/gnumeric_1_0/xml-io.c:3238 src/xml-io.c:3465
+#: plugins/gnumeric_1_0/xml-io.c:3238 src/xml-io.c:3466
 msgid "Processing file..."
 msgstr "Bezig met verwerken bestand..."
 
@@ -15787,7 +15792,7 @@ msgstr "Bezig met verwerken bestand..."
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Is geen Gnumeric Werkmapbestand"
 
-#: plugins/gnumeric_1_0/xml-io.c:3446 src/xml-io.c:3664
+#: plugins/gnumeric_1_0/xml-io.c:3446 src/xml-io.c:3665
 msgid "Failure saving file"
 msgstr "Fout bij opslaan bestand"
 
@@ -15819,7 +15824,7 @@ msgstr "Geen Guile getal"
 msgid "Not a Guile string"
 msgstr "Geen Guile tekenreeks"
 
-#: plugins/html/html_read.c:313
+#: plugins/html/html_read.c:356
 msgid "Unable to parse the html."
 msgstr "Onmogelijk de html te verwerken."
 
@@ -16215,36 +16220,36 @@ msgstr "GNU Oleo (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "Importeert GNU Oleo documenten"
 
-#: plugins/openoffice/openoffice-read.c:386
+#: plugins/openoffice/openoffice-read.c:421
 msgid "Missing expression"
 msgstr "Ontbrekende uitdrukking"
 
-#: plugins/openoffice/openoffice-read.c:391
+#: plugins/openoffice/openoffice-read.c:426
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Uitdrukking '%s' begint niet met een herkenbaar teken."
 
-#: plugins/openoffice/openoffice-read.c:404
+#: plugins/openoffice/openoffice-read.c:439
 #, c-format
 msgid "Unable to parse '%s' because '%s'"
 msgstr "Niet in staat '%s' te verwerken vanwege '%s'"
 
-#: plugins/openoffice/openoffice-read.c:462
+#: plugins/openoffice/openoffice-read.c:496
 msgid "Invalid array expression does no specify number of columns"
 msgstr "Ongeldige array-uitdrukking geeft het aantal kolommen niet op."
 
-#: plugins/openoffice/openoffice-read.c:465
+#: plugins/openoffice/openoffice-read.c:499
 msgid "Invalid array expression does no specify number of rows"
 msgstr "Ongeldige array-uitdrukking geeft het aantal rijen niet op."
 
-#: plugins/openoffice/openoffice-read.c:713
+#: plugins/openoffice/openoffice-read.c:747
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
 msgstr ""
 "Niet in staat om de positie voor de uitdrukking '%s' @ '%s' te verwerken "
 "vanwege '%s'"
 
-#: plugins/openoffice/openoffice-read.c:726
+#: plugins/openoffice/openoffice-read.c:760
 #, c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
@@ -16252,12 +16257,12 @@ msgstr ""
 "Niet in staat om de positie van uitdrukking '%s' met waarde '%s' te "
 "verwerken vanwege '%s'"
 
-#: plugins/openoffice/openoffice-read.c:883
+#: plugins/openoffice/openoffice-read.c:934
 msgid "No stream named content.xml found."
 msgstr "Geen stroom genaamd content.xml gevonden."
 
-#: plugins/openoffice/openoffice-read.c:923
-#: plugins/xml_sax/xml-sax-read.c:1468
+#: plugins/openoffice/openoffice-read.c:974
+#: plugins/xml_sax/xml-sax-read.c:1501
 msgid "XML document not well formed!"
 msgstr "Onjuist gemaakt XML document!"
 
@@ -16596,8 +16601,8 @@ msgid "The next generation sax based xml I/O subsystem"
 msgstr "De volgende generatie sax gebaseerd xml I/O subsysteem"
 
 #: plugins/xml_sax/xml-sax-read.c:267
-#, c-format
-msgid "Unexpected attribute '%s'='%s' for element of type %s."
+#, fuzzy, c-format
+msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Onverwacht attribuut '%s'='%s' voor element van type %s."
 
 #: plugins/xml_sax/xml-sax-read.c:299
@@ -16751,7 +16756,7 @@ msgstr "Verwijder de opmaak, opmerkingen en inhoud van de geselecteerde cellen"
 msgid "Close the current file"
 msgstr "Sluit het huidige bestand"
 
-#: src/GNOME_Gnumeric.xml.h:35 src/dialogs/print.glade.h:6
+#: src/GNOME_Gnumeric.xml.h:35 src/dialogs/print.glade.h:7
 #: src/workbook-control-gui.c:3203
 msgid "Co_mments"
 msgstr "Op_merkingen"
@@ -17371,7 +17376,7 @@ msgstr "Periodieke en willekeurige steekproeven"
 msgid "Preferen_ces..."
 msgstr "_Voorkeuren..."
 
-#: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:13
+#: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:14
 #: src/workbook-control-gui.c:3785
 msgid "Print"
 msgstr "Afdrukken"
@@ -17385,7 +17390,7 @@ msgid "Print Preview"
 msgstr "Afdrukvoorbeeld"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/dialogs/print.glade.h:15 src/print.c:1212
+#: src/dialogs/print.glade.h:16 src/print.c:1353
 #: src/workbook-control-gui.c:3171 src/workbook-control-gui.c:3788
 msgid "Print preview"
 msgstr "Afdrukvoorbeeld"
@@ -18710,6 +18715,7 @@ msgid "The orientation of the toolbar"
 msgstr "De oriëntatie van de werkbalk"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:137
+#: schemas/gnumeric-general.schemas.in.h:51
 msgid "Toolbar Style"
 msgstr "Werkbalkstijl"
 
@@ -19076,7 +19082,7 @@ msgid "_Unique Records Only"
 msgstr "Alleen _Unieke Records"
 
 #: src/dialogs/autofilter-expression.glade.h:1
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:67
 msgid " "
 msgstr " "
 
@@ -19085,8 +19091,9 @@ msgstr " "
 #: src/dialogs/cell-format.glade.h:1 src/dialogs/dialog-stf-export.glade.h:3
 #: src/dialogs/dialog-stf.glade.h:3 src/dialogs/font-sel.glade.h:1
 #: src/dialogs/hyperlink.glade.h:1 src/dialogs/names.glade.h:1
-#: src/dialogs/plugin-manager.glade.h:1 src/dialogs/so-frame.glade.h:1
-#: src/dialogs/solver.glade.h:1 src/dialogs/workbook-attr.glade.h:1
+#: src/dialogs/plugin-manager.glade.h:1 src/dialogs/print.glade.h:3
+#: src/dialogs/so-frame.glade.h:1 src/dialogs/solver.glade.h:1
+#: src/dialogs/workbook-attr.glade.h:1
 msgid "*"
 msgstr "*"
 
@@ -19301,8 +19308,8 @@ msgstr "Eerste Letter"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/autocorrect.glade.h:8 src/dialogs/dialog-autoformat.c:672
-#: src/format.c:1761 src/format.c:1843 src/format.c:1852 src/format.c:1919
+#: src/dialogs/autocorrect.glade.h:8 src/dialogs/dialog-autoformat.c:671
+#: src/format.c:1766 src/format.c:1848 src/format.c:1857 src/format.c:1924
 #: src/plugin-service.c:233
 msgid "General"
 msgstr "Algemeen"
@@ -19943,7 +19950,7 @@ msgid "A _header"
 msgstr "Een _kop"
 
 #: src/dialogs/cell-sort.glade.h:2 src/dialogs/histogram.glade.h:16
-#: src/dialogs/print.glade.h:10 src/tools/solver/reports-write.c:755
+#: src/dialogs/print.glade.h:11 src/tools/solver/reports-write.c:755
 msgid "Options"
 msgstr "Opties"
 
@@ -20557,101 +20564,101 @@ msgstr "Kon het ANOVA (twee factor) dialoogvenster niet maken."
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Kon het AutoCorrectie dialoogvenster niet maken."
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:67
 msgid "Jan"
 msgstr "Jan"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:67
 msgid "Feb"
 msgstr "Feb"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:67
 msgid "Mrt"
 msgstr "Mrt"
 
-#: src/dialogs/dialog-autoformat.c:68 src/dialogs/dialog-autoformat.c:72
+#: src/dialogs/dialog-autoformat.c:67 src/dialogs/dialog-autoformat.c:71
 #: src/tools/analysis-tools.c:3352 src/tools/analysis-tools.c:3362
 #: src/tools/analysis-tools.c:3370
 msgid "Total"
 msgstr "Totaal"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:68
 msgid "North"
 msgstr "Noord"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:68
 msgid "6"
 msgstr "6"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:68
 msgid "13"
 msgstr "13"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:68
 msgid "20"
 msgstr "20"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:68
 msgid "39"
 msgstr "39"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:69
 msgid "South"
 msgstr "Zuid"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:69
 msgid "12"
 msgstr "12"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:69
 msgid "4"
 msgstr "4"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:69
 msgid "17"
 msgstr "17"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:69
 msgid "33"
 msgstr "33"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:70
 msgid "West"
 msgstr "West"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:70
 msgid "8"
 msgstr "8"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:70
 msgid "2"
 msgstr "2"
 
-#: src/dialogs/dialog-autoformat.c:71 src/dialogs/mean-tests.glade.h:1
+#: src/dialogs/dialog-autoformat.c:70 src/dialogs/mean-tests.glade.h:1
 msgid "0"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:70
 msgid "10"
 msgstr "10"
 
-#: src/dialogs/dialog-autoformat.c:72
+#: src/dialogs/dialog-autoformat.c:71
 msgid "26"
 msgstr "26"
 
-#: src/dialogs/dialog-autoformat.c:72
+#: src/dialogs/dialog-autoformat.c:71
 msgid "19"
 msgstr "19"
 
-#: src/dialogs/dialog-autoformat.c:72
+#: src/dialogs/dialog-autoformat.c:71
 msgid "37"
 msgstr "37"
 
-#: src/dialogs/dialog-autoformat.c:72
+#: src/dialogs/dialog-autoformat.c:71
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:663
+#: src/dialogs/dialog-autoformat.c:662
 msgid "An error occurred while reading the category list"
 msgstr "Er trad een fout op bij het lezen van de categorie lijst"
 
@@ -21104,13 +21111,13 @@ msgid "Directory"
 msgstr "Map"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:374 src/format.c:1661
+#: src/dialogs/dialog-preferences.c:374 src/format.c:1666
 #: src/number-match.c:1067 src/value-sheet.c:33 src/value.c:403
 #: src/value.c:773
 msgid "TRUE"
 msgstr "WAAR"
 
-#: src/dialogs/dialog-preferences.c:375 src/format.c:1661
+#: src/dialogs/dialog-preferences.c:375 src/format.c:1666
 #: src/number-match.c:1069 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:773
 msgid "FALSE"
@@ -21142,19 +21149,19 @@ msgstr ""
 "De items op deze pagina hebben te maken met het opslaan en het openen van "
 "bestanden."
 
-#: src/dialogs/dialog-printer-setup.c:847
+#: src/dialogs/dialog-printer-setup.c:848
 msgid "Customize header"
 msgstr "Kop instellen"
 
-#: src/dialogs/dialog-printer-setup.c:849
+#: src/dialogs/dialog-printer-setup.c:850
 msgid "Customize footer"
 msgstr "Voet instellen"
 
-#: src/dialogs/dialog-printer-setup.c:999
+#: src/dialogs/dialog-printer-setup.c:1000
 msgid "Custom header configuration"
 msgstr "Aangepaste kop configuratie"
 
-#: src/dialogs/dialog-printer-setup.c:1004
+#: src/dialogs/dialog-printer-setup.c:1005
 msgid "Custom footer configuration"
 msgstr "Aangepaste voet configuratie"
 
@@ -22642,124 +22649,126 @@ msgid "Gnumeric Preferences"
 msgstr "Gnumeric Voorkeuren"
 
 #: src/dialogs/print.glade.h:2
-#, no-c-format
-msgid "% of normal size"
+#, fuzzy, no-c-format
+msgid "% of _normal size"
 msgstr "% van normale grootte"
 
-#: src/dialogs/print.glade.h:3
+#: src/dialogs/print.glade.h:4
 msgid "Apply _to:"
 msgstr "_Toepassen op:"
 
-#: src/dialogs/print.glade.h:4
+#: src/dialogs/print.glade.h:5
 msgid "Apply to _all sheets."
 msgstr "Toepassen op _alle werkbladen."
 
-#: src/dialogs/print.glade.h:5
+#: src/dialogs/print.glade.h:6
 msgid "Center on page"
 msgstr "Centreren op pagina"
 
-#: src/dialogs/print.glade.h:7
+#: src/dialogs/print.glade.h:8
 msgid "Fi_rst page number:"
 msgstr "Ee_rste paginanummer:"
 
-#: src/dialogs/print.glade.h:8
+#: src/dialogs/print.glade.h:9
 msgid "He_ader:"
 msgstr "_Kop:"
 
-#: src/dialogs/print.glade.h:9
+#: src/dialogs/print.glade.h:10
 msgid "Headers and footers"
 msgstr "Koppen en voetnoten"
 
-#: src/dialogs/print.glade.h:11
+#: src/dialogs/print.glade.h:12
 msgid "Page"
 msgstr "Pagina"
 
-#: src/dialogs/print.glade.h:12
+#: src/dialogs/print.glade.h:13
 msgid "Page order"
 msgstr "Pagina volgorde"
 
-#: src/dialogs/print.glade.h:14
+#: src/dialogs/print.glade.h:15
 msgid "Print _area:"
 msgstr "_Afdrukgebied:"
 
-#: src/dialogs/print.glade.h:16
+#: src/dialogs/print.glade.h:17
 msgid "Print setup"
 msgstr "Afdrukinstellingen"
 
-#: src/dialogs/print.glade.h:17
+#: src/dialogs/print.glade.h:18
 msgid "R_ight, then down"
 msgstr "Naar _rechts en dan naar beneden"
 
-#: src/dialogs/print.glade.h:18
+#: src/dialogs/print.glade.h:19
 msgid "Row and co_lumn headings"
 msgstr "Rij en ko_lom koppen"
 
-#: src/dialogs/print.glade.h:19
+#: src/dialogs/print.glade.h:20
 msgid "Scale"
 msgstr "Schaal"
 
-#: src/dialogs/print.glade.h:21
+#: src/dialogs/print.glade.h:22
 msgid "Styles with no content"
 msgstr "Stijl zonder inhoud"
 
-#: src/dialogs/print.glade.h:22
+#: src/dialogs/print.glade.h:23
 msgid "Titles to print"
 msgstr "Titels om te printen"
 
-#: src/dialogs/print.glade.h:23
+#: src/dialogs/print.glade.h:24
 msgid "_Adjust to:"
 msgstr "_Aanpassen aan:"
 
-#: src/dialogs/print.glade.h:24
+#: src/dialogs/print.glade.h:25
 msgid "_Black and white"
 msgstr "Zwart en wit"
 
-#: src/dialogs/print.glade.h:25
+#: src/dialogs/print.glade.h:26
 msgid "_Columns to repeat on the left side:"
 msgstr "Kolommen om te herhalen aan de linkerzijde:"
 
-#: src/dialogs/print.glade.h:26
+#: src/dialogs/print.glade.h:27
 msgid "_Down, then right"
 msgstr "Naar _beneden en dan naar rechts"
 
-#: src/dialogs/print.glade.h:27
+#: src/dialogs/print.glade.h:28
 msgid "_Fit to:"
 msgstr "_Passend maken aan:"
 
-#: src/dialogs/print.glade.h:28
+#: src/dialogs/print.glade.h:29
 msgid "_Footer:"
 msgstr "_Voet:"
 
-#: src/dialogs/print.glade.h:29
+#: src/dialogs/print.glade.h:30
 msgid "_Grid lines"
 msgstr "Raster_lijnen"
 
-#: src/dialogs/print.glade.h:30
+#: src/dialogs/print.glade.h:31
 msgid "_Header:"
 msgstr "_Kop:"
 
-#: src/dialogs/print.glade.h:31
+#: src/dialogs/print.glade.h:32
 msgid "_Horizontally"
 msgstr "_Horizontaal"
 
-#: src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:33
 msgid "_Rows to repeat on the upper region:"
 msgstr "_Rijen om te herhalen in het bovenste bereik:"
 
-#: src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:34
 msgid "_Units:"
 msgstr "_Eenheden:"
 
-#: src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:35
 msgid "_Vertically"
 msgstr "_Verticaal"
 
-#: src/dialogs/print.glade.h:35
-msgid "page(s) wide by"
+#: src/dialogs/print.glade.h:36
+#, fuzzy
+msgid "_page(s) wide by"
 msgstr "pagina(s) breed bij"
 
-#: src/dialogs/print.glade.h:36
-msgid "tall"
+#: src/dialogs/print.glade.h:37
+#, fuzzy
+msgid "_tall"
 msgstr "hoog"
 
 #: src/dialogs/random-generation.glade.h:5
@@ -23661,40 +23670,40 @@ msgstr "Het doelbereik is te klein, het moet tenminste %d kolommen breed zijn."
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Het doelbereik is te klein, het moet tenminste %d rijen hoog zijn."
 
-#: src/format.c:599
+#: src/format.c:598
 msgid "Black"
 msgstr "Zwart"
 
-#: src/format.c:600
+#: src/format.c:599
 msgid "Blue"
 msgstr "Blauw"
 
-#: src/format.c:601
+#: src/format.c:600
 msgid "Cyan"
 msgstr "Cyaan"
 
-#: src/format.c:602
+#: src/format.c:601
 msgid "Green"
 msgstr "Groen"
 
-#: src/format.c:603
+#: src/format.c:602
 msgid "Magenta"
 msgstr "Magenta"
 
-#: src/format.c:604
+#: src/format.c:603
 msgid "Red"
 msgstr "Rood"
 
-#: src/format.c:605
+#: src/format.c:604
 msgid "White"
 msgstr "Wit"
 
-#: src/format.c:606
+#: src/format.c:605
 msgid "Yellow"
 msgstr "Geel"
 
 #. Array of arrays ??
-#: src/format.c:1696
+#: src/format.c:1701
 msgid "ARRAY"
 msgstr "REEKS"
 
@@ -23703,704 +23712,704 @@ msgstr "REEKS"
 #. * The second column has the long names of the currencies.
 #.
 #. 2002/08/04 Updated to match iso 4217
-#: src/formats.c:319
+#: src/formats.c:318
 msgid "United Arab Emirates, Dirhams"
 msgstr "Verenigde Arabische Emiraten, Dirhams"
 
-#: src/formats.c:320
+#: src/formats.c:319
 msgid "Afghanistan, Afghanis"
 msgstr "Afganistan, Afghani"
 
-#: src/formats.c:321
+#: src/formats.c:320
 msgid "Albania, Leke"
 msgstr "Albanië, Lek"
 
-#: src/formats.c:322
+#: src/formats.c:321
 msgid "Armenia, Drams"
 msgstr "Armenië, Drams"
 
-#: src/formats.c:323
+#: src/formats.c:322
 msgid "Netherlands Antilles, Guilders"
 msgstr "Nederlandse Antillen, Gulden"
 
-#: src/formats.c:324
+#: src/formats.c:323
 msgid "Angola, Kwanza"
 msgstr "Angola, Kwanza"
 
-#: src/formats.c:325
+#: src/formats.c:324
 msgid "Argentina, Pesos"
 msgstr "Argentinië, Peso"
 
-#: src/formats.c:326
+#: src/formats.c:325
 msgid "Australia, Dollars"
 msgstr "Australië, Dollar"
 
-#: src/formats.c:327
+#: src/formats.c:326
 msgid "Aruba, Guilders"
 msgstr "Aruba, Gulden"
 
-#: src/formats.c:328
+#: src/formats.c:327
 msgid "Azerbaijan, Manats"
 msgstr "Azerbeijan, Manats"
 
-#: src/formats.c:329
+#: src/formats.c:328
 msgid "Bosnia and Herzegovina, Convertible Marka"
 msgstr ""
 
-#: src/formats.c:330
+#: src/formats.c:329
 msgid "Barbados, Dollars"
 msgstr "Barbados, Dollar"
 
-#: src/formats.c:331
+#: src/formats.c:330
 msgid "Bangladesh, Taka"
 msgstr "Bangladesh, Taka"
 
-#: src/formats.c:332
+#: src/formats.c:331
 msgid "Bulgaria, Leva"
 msgstr "Bulgarije, Lev"
 
-#: src/formats.c:333
+#: src/formats.c:332
 msgid "Bahrain, Dinars"
 msgstr "Bagrein, Dinar"
 
-#: src/formats.c:334
+#: src/formats.c:333
 msgid "Burundi, Francs"
 msgstr "Burundi, Frank"
 
-#: src/formats.c:335
+#: src/formats.c:334
 msgid "Bermuda, Dollars"
 msgstr "Bermuda, Dollar"
 
-#: src/formats.c:336
+#: src/formats.c:335
 msgid "Brunei Darussalam, Dollars"
 msgstr "Brunei Darussalam, Dollar"
 
-#: src/formats.c:337
+#: src/formats.c:336
 msgid "Bolivia, Bolivianos"
 msgstr "Bolivia, Boliviano"
 
-#: src/formats.c:338
+#: src/formats.c:337
 msgid "Brazil, Brazil Real"
 msgstr "Brazilië, Braziliaanse Real"
 
-#: src/formats.c:339
+#: src/formats.c:338
 msgid "Bahamas, Dollars"
 msgstr "Bahama, Dollar"
 
-#: src/formats.c:340
+#: src/formats.c:339
 msgid "Bhutan, Ngultrum"
 msgstr "Boetan, Ngultrum"
 
-#: src/formats.c:341
+#: src/formats.c:340
 msgid "Botswana, Pulas"
 msgstr "Botswanië, Pula"
 
-#: src/formats.c:342
+#: src/formats.c:341
 msgid "Belarus, Rubles"
 msgstr "Belarus, Roebel"
 
-#: src/formats.c:343
+#: src/formats.c:342
 msgid "Belize, Dollars"
 msgstr "Belize, Dollar"
 
-#: src/formats.c:344
+#: src/formats.c:343
 msgid "Canada, Dollars"
 msgstr "Canada, Dollar"
 
-#: src/formats.c:345
+#: src/formats.c:344
 msgid "Congo/Kinshasa, Congolese Francs"
 msgstr "Congo/Kinshasa, Congolese Frank"
 
-#: src/formats.c:346
+#: src/formats.c:345
 msgid "Switzerland, Francs"
 msgstr "Zwitserland, Frank"
 
-#: src/formats.c:347
+#: src/formats.c:346
 msgid "Chile, Pesos"
 msgstr "Chili, Peso"
 
-#: src/formats.c:348
+#: src/formats.c:347
 msgid "China, Yuan Renminbi"
 msgstr "China, Yuan Renminbi"
 
-#: src/formats.c:349
+#: src/formats.c:348
 msgid "Colombia, Pesos"
 msgstr "Colombia, Peso"
 
-#: src/formats.c:350
+#: src/formats.c:349
 msgid "Costa Rica, Colones"
 msgstr "Costa Ricaanse, Colon"
 
-#: src/formats.c:351
+#: src/formats.c:350
 msgid "Cuba, Pesos"
 msgstr "Cuba, Peso"
 
-#: src/formats.c:352
+#: src/formats.c:351
 msgid "Cape Verde, Escudos"
 msgstr "Kaap Verdië, Escudo"
 
-#: src/formats.c:353
+#: src/formats.c:352
 msgid "Cyprus, Pounds"
 msgstr "Cyprus, Pond"
 
-#: src/formats.c:354
+#: src/formats.c:353
 msgid "Czech Republic, Koruny"
 msgstr "Tsjechische Republiek, Koruna"
 
-#: src/formats.c:355
+#: src/formats.c:354
 msgid "Djibouti, Francs"
 msgstr "Djiboeti, Franc"
 
-#: src/formats.c:356
+#: src/formats.c:355
 msgid "Denmark, Kroner"
 msgstr "Denemarken, Kroon"
 
-#: src/formats.c:357
+#: src/formats.c:356
 msgid "Dominican Republic, Pesos"
 msgstr "Dominicaanse Republiek, Peso"
 
-#: src/formats.c:358
+#: src/formats.c:357
 msgid "Algeria, Algeria Dinars"
 msgstr "Algerije, Alegerijnse dinar"
 
-#: src/formats.c:359
+#: src/formats.c:358
 msgid "Estonia, Krooni"
 msgstr "Estland, Krooni"
 
-#: src/formats.c:360
+#: src/formats.c:359
 msgid "Egypt, Pounds"
 msgstr "Egypte, Pond"
 
-#: src/formats.c:361
+#: src/formats.c:360
 msgid "Eritrea, Nakfa"
 msgstr "Eritrea, Nakfa"
 
-#: src/formats.c:362
+#: src/formats.c:361
 msgid "Ethiopia, Birr"
 msgstr "Ethiopië, Birr"
 
-#: src/formats.c:363
+#: src/formats.c:362
 msgid "Euro Member Countries, Euro"
 msgstr "Euro Lidstaten, Euro"
 
-#: src/formats.c:364
+#: src/formats.c:363
 msgid "Fiji, Dollars"
 msgstr "Fiji, Dollar"
 
-#: src/formats.c:365
+#: src/formats.c:364
 msgid "Falkland Islands (Malvinas), Pounds"
 msgstr "Falkland eilanden (Malvinas), Pond"
 
-#: src/formats.c:366
+#: src/formats.c:365
 msgid "United Kingdom, Pounds"
 msgstr "Verenigd Koninkrijk, Pond"
 
-#: src/formats.c:367
+#: src/formats.c:366
 msgid "Georgia, Lari"
 msgstr "Georgia, Lari"
 
-#: src/formats.c:368
+#: src/formats.c:367
 msgid "Guernsey, Pounds"
 msgstr "Guernsey, Pond"
 
-#: src/formats.c:369
+#: src/formats.c:368
 msgid "Ghana, Cedis"
 msgstr "Ghana, Cedi"
 
-#: src/formats.c:370
+#: src/formats.c:369
 msgid "Gibraltar, Pounds"
 msgstr "Gibraltar, Pond"
 
-#: src/formats.c:371
+#: src/formats.c:370
 msgid "Gambia, Dalasi"
 msgstr "Gambia, Dalasi"
 
-#: src/formats.c:372
+#: src/formats.c:371
 msgid "Guinea, Francs"
 msgstr "Guinea, Frank"
 
-#: src/formats.c:373
+#: src/formats.c:372
 msgid "Guatemala, Quetzales"
 msgstr "Guatemala, Quetzal"
 
-#: src/formats.c:374
+#: src/formats.c:373
 msgid "Guyana, Dollars"
 msgstr "Guyana, Dollars"
 
-#: src/formats.c:375
+#: src/formats.c:374
 msgid "Hong Kong, Dollars"
 msgstr "Hong-Kong, Dollar"
 
-#: src/formats.c:376
+#: src/formats.c:375
 msgid "Honduras, Lempiras"
 msgstr "Honduras, Lempira"
 
-#: src/formats.c:377
+#: src/formats.c:376
 msgid "Croatia, Kuna"
 msgstr "Kroatië, Kuna"
 
-#: src/formats.c:378
+#: src/formats.c:377
 msgid "Haiti, Gourdes"
 msgstr "Haiti, Gourde"
 
-#: src/formats.c:379
+#: src/formats.c:378
 msgid "Hungary, Forint"
 msgstr "Hongarije, Forint"
 
-#: src/formats.c:380
+#: src/formats.c:379
 msgid "Indonesia, Rupiahs"
 msgstr "Indonesië, Roepie"
 
-#: src/formats.c:381
+#: src/formats.c:380
 msgid "Israel, New Shekels"
 msgstr "Israel, Shekel"
 
-#: src/formats.c:382
+#: src/formats.c:381
 msgid "Isle of Man, Pounds"
 msgstr "Isle of Man, Pond"
 
-#: src/formats.c:383
+#: src/formats.c:382
 msgid "India, Rupees"
 msgstr "India, Roepie"
 
-#: src/formats.c:384
+#: src/formats.c:383
 msgid "Iraq, Dinars"
 msgstr "Irak, Dinar"
 
-#: src/formats.c:385
+#: src/formats.c:384
 msgid "Iran, Rials"
 msgstr "Iran, Rial"
 
-#: src/formats.c:386
+#: src/formats.c:385
 msgid "Iceland, Kronur"
 msgstr "IJsland, Kroon"
 
-#: src/formats.c:387
+#: src/formats.c:386
 msgid "Jersey, Pounds"
 msgstr "Jersey, Pond"
 
-#: src/formats.c:388
+#: src/formats.c:387
 msgid "Jamaica, Dollars"
 msgstr "Jamaika, Dollar"
 
-#: src/formats.c:389
+#: src/formats.c:388
 msgid "Jordan, Dinars"
 msgstr "Jordanië, Dinar"
 
-#: src/formats.c:390
+#: src/formats.c:389
 msgid "Japan, Yen"
 msgstr "Japan, Yen"
 
-#: src/formats.c:391
+#: src/formats.c:390
 msgid "Kenya, Shillings"
 msgstr "Kenia, Shilling"
 
-#: src/formats.c:392
+#: src/formats.c:391
 msgid "Kyrgyzstan, Soms"
 msgstr ""
 
-#: src/formats.c:393
+#: src/formats.c:392
 msgid "Cambodia, Riels"
 msgstr "Cambodja, Riels"
 
-#: src/formats.c:394
+#: src/formats.c:393
 msgid "Comoros, Francs"
 msgstr "Comoren, Frank"
 
-#: src/formats.c:395
+#: src/formats.c:394
 msgid "Korea (North), Won"
 msgstr "Korea (Noord), Won"
 
-#: src/formats.c:396
+#: src/formats.c:395
 msgid "Korea (South), Won"
 msgstr "Korea (Zuid), Won"
 
-#: src/formats.c:397
+#: src/formats.c:396
 msgid "Kuwait, Dinars"
 msgstr "Koeweit, Dinar"
 
-#: src/formats.c:398
+#: src/formats.c:397
 msgid "Cayman Islands, Dollars"
 msgstr "Kaaiman eilanden, Dollar"
 
-#: src/formats.c:399
+#: src/formats.c:398
 msgid "Kazakstan, Tenge"
 msgstr "Kazachstan, Tenge"
 
-#: src/formats.c:400
+#: src/formats.c:399
 msgid "Laos, Kips"
 msgstr "Laos, Kip"
 
-#: src/formats.c:401
+#: src/formats.c:400
 msgid "Lebanon, Pounds"
 msgstr "Libanon, Pond"
 
-#: src/formats.c:402
+#: src/formats.c:401
 msgid "Sri Lanka, Rupees"
 msgstr "Sri Lanka, Rupies"
 
-#: src/formats.c:403
+#: src/formats.c:402
 msgid "Liberia, Dollars"
 msgstr "Liberia, Dollar"
 
-#: src/formats.c:404
+#: src/formats.c:403
 msgid "Lesotho, Maloti"
 msgstr "Lesoto, Maloti"
 
-#: src/formats.c:405
+#: src/formats.c:404
 msgid "Lithuania, Litai"
 msgstr "Litouwen, Litai"
 
-#: src/formats.c:406
+#: src/formats.c:405
 msgid "Latvia, Lati"
 msgstr "Litouwen, Lati"
 
-#: src/formats.c:407
+#: src/formats.c:406
 msgid "Libya, Dinars"
 msgstr "Libië, Dinar"
 
-#: src/formats.c:408
+#: src/formats.c:407
 msgid "Morocco, Dirhams"
 msgstr "Marokko, Dirham"
 
-#: src/formats.c:409
+#: src/formats.c:408
 msgid "Moldova, Lei"
 msgstr "Moldavië, Lei"
 
-#: src/formats.c:410
+#: src/formats.c:409
 msgid "Madagascar, Malagasy Francs"
 msgstr "Madagascar, Malagese Franc"
 
-#: src/formats.c:411
+#: src/formats.c:410
 msgid "Macedonia, Denars"
 msgstr "Macedonië, Denars"
 
-#: src/formats.c:412
+#: src/formats.c:411
 msgid "Myanmar (Burma), Kyats"
 msgstr "Myanmar (Burma), Kyat"
 
-#: src/formats.c:413
+#: src/formats.c:412
 msgid "Mongolia, Tugriks"
 msgstr "Mongolië, Tugrik"
 
-#: src/formats.c:414
+#: src/formats.c:413
 msgid "Macau, Patacas"
 msgstr "Macau, Pataca"
 
-#: src/formats.c:415
+#: src/formats.c:414
 msgid "Mauritania, Ouguiyas"
 msgstr "Mauritanië, Ouguiya"
 
-#: src/formats.c:416
+#: src/formats.c:415
 msgid "Malta, Liri"
 msgstr "Malta, Lire"
 
-#: src/formats.c:417
+#: src/formats.c:416
 msgid "Mauritius, Rupees"
 msgstr "Mauritius, Roepie"
 
-#: src/formats.c:418
+#: src/formats.c:417
 msgid "Maldives (Maldive Islands), Rufiyaa"
 msgstr "Maledieven, Rufiyaa"
 
-#: src/formats.c:419
+#: src/formats.c:418
 msgid "Malawi, Kwachas"
 msgstr "Malawi, Kwachas"
 
-#: src/formats.c:420
+#: src/formats.c:419
 msgid "Mexico, Pesos"
 msgstr "Mexico, Peso"
 
-#: src/formats.c:421
+#: src/formats.c:420
 msgid "Malaysia, Ringgits"
 msgstr "Maleisië, Ringgit"
 
-#: src/formats.c:422
+#: src/formats.c:421
 msgid "Mozambique, Meticais"
 msgstr "Mozambique, Metical"
 
-#: src/formats.c:423
+#: src/formats.c:422
 msgid "Namibia, Dollars"
 msgstr "Namibië, Dollars"
 
-#: src/formats.c:424
+#: src/formats.c:423
 msgid "Nigeria, Nairas"
 msgstr "Nigeria, Nairas"
 
-#: src/formats.c:425
+#: src/formats.c:424
 msgid "Nicaragua, Gold Cordobas"
 msgstr "Nicaragua, Gouden Cordoba"
 
-#: src/formats.c:426
+#: src/formats.c:425
 msgid "Norway, Krone"
 msgstr "Noorwegen, Kroon"
 
-#: src/formats.c:427
+#: src/formats.c:426
 msgid "Nepal, Nepal Rupees"
 msgstr "Nepal, Nepalese Roepie"
 
-#: src/formats.c:428
+#: src/formats.c:427
 msgid "New Zealand, Dollars"
 msgstr "Nieuw Zeeland, Dollars"
 
-#: src/formats.c:429
+#: src/formats.c:428
 msgid "Oman, Rials"
 msgstr "Omaan, Rial"
 
-#: src/formats.c:430
+#: src/formats.c:429
 msgid "Panama, Balboa"
 msgstr "Panama, Balboa"
 
-#: src/formats.c:431
+#: src/formats.c:430
 msgid "Peru, Nuevos Soles"
 msgstr "Peru, Nuevos Soles"
 
-#: src/formats.c:432
+#: src/formats.c:431
 msgid "Papua New Guinea, Kina"
 msgstr "Papua New Guinea, Kina"
 
-#: src/formats.c:433
+#: src/formats.c:432
 msgid "Philippines, Pesos"
 msgstr "Philippijnen, Peso"
 
-#: src/formats.c:434
+#: src/formats.c:433
 msgid "Pakistan, Rupees"
 msgstr "Pakistan, Roepie"
 
-#: src/formats.c:435
+#: src/formats.c:434
 msgid "Poland, Zlotych"
 msgstr "Polen, Zlotych"
 
-#: src/formats.c:436
+#: src/formats.c:435
 msgid "Paraguay, Guarani"
 msgstr "Paraguay, Guarani"
 
-#: src/formats.c:437
+#: src/formats.c:436
 msgid "Qatar, Rials"
 msgstr "Qatar, Rial"
 
-#: src/formats.c:438
+#: src/formats.c:437
 msgid "Romania, Lei"
 msgstr "Roemenië, Lei"
 
-#: src/formats.c:439
+#: src/formats.c:438
 msgid "Russia, Rubles"
 msgstr "Rusland, Roebel"
 
-#: src/formats.c:440
+#: src/formats.c:439
 msgid "Rwanda, Rwanda Francs"
 msgstr "Rwanda, Rwandese Frank"
 
-#: src/formats.c:441
+#: src/formats.c:440
 msgid "Saudi Arabia, Riyals"
 msgstr "Saudi-Arabië, Riyal"
 
-#: src/formats.c:442
+#: src/formats.c:441
 msgid "Solomon Islands, Dollars"
 msgstr "Solomon Eilanden, Dollars"
 
-#: src/formats.c:443
+#: src/formats.c:442
 msgid "Seychelles, Rupees"
 msgstr "Seychellen, Roepie"
 
-#: src/formats.c:444
+#: src/formats.c:443
 msgid "Sudan, Dinars"
 msgstr "Soedan, Dinar"
 
-#: src/formats.c:445
+#: src/formats.c:444
 msgid "Sweden, Kronor"
 msgstr "Zweden, Kronen"
 
-#: src/formats.c:446
+#: src/formats.c:445
 msgid "Singapore, Dollars"
 msgstr "Singapor, Dollar"
 
-#: src/formats.c:447
+#: src/formats.c:446
 msgid "Saint Helena, Pounds"
 msgstr "St.Helena, Pond"
 
-#: src/formats.c:448
+#: src/formats.c:447
 msgid "Slovenia, Tolars"
 msgstr "Slovenië, Tolar"
 
-#: src/formats.c:449
+#: src/formats.c:448
 msgid "Slovakia, Koruny"
 msgstr "Slowakije, Koruny"
 
-#: src/formats.c:450
+#: src/formats.c:449
 msgid "Sierra Leone, Leones"
 msgstr "Sierra Leone, Leone"
 
-#: src/formats.c:451
+#: src/formats.c:450
 msgid "Somalia, Shillings"
 msgstr "Somalië, Shilling"
 
-#: src/formats.c:452
+#: src/formats.c:451
 msgid "Seborga, Luigini"
 msgstr "Seborga, Luigini"
 
-#: src/formats.c:453
+#: src/formats.c:452
 msgid "Suriname, Guilders"
 msgstr "Suriname, Gulden"
 
-#: src/formats.c:454
+#: src/formats.c:453
 msgid "Sao Tome and Principe, Dobras"
 msgstr "Sao Tome en Principe, Dobra"
 
-#: src/formats.c:455
+#: src/formats.c:454
 msgid "El Salvador, Colones"
 msgstr "El Salvador, Colone"
 
-#: src/formats.c:456
+#: src/formats.c:455
 msgid "Syria, Pounds"
 msgstr "Syrië, Pound"
 
-#: src/formats.c:457
+#: src/formats.c:456
 msgid "Swaziland, Emalangeni"
 msgstr "Swaziland, Emalangeni"
 
-#: src/formats.c:458
+#: src/formats.c:457
 msgid "Thailand, Baht"
 msgstr "Thailand, Baht"
 
-#: src/formats.c:459
+#: src/formats.c:458
 #, fuzzy
 msgid "Tajikistan, Rubles"
 msgstr "Tadjikistan, Roebel"
 
-#: src/formats.c:460
+#: src/formats.c:459
 msgid "Turkmenistan, Manats"
 msgstr "Turkmenistan, Manats"
 
-#: src/formats.c:461
+#: src/formats.c:460
 msgid "Tunisia, Dinars"
 msgstr "Tunesië, Dinar"
 
-#: src/formats.c:462
+#: src/formats.c:461
 msgid "Tonga, Pa'anga"
 msgstr "Tonga, Pa'anga"
 
-#: src/formats.c:463
+#: src/formats.c:462
 msgid "Turkey, Liras"
 msgstr "Turkije, Lire"
 
-#: src/formats.c:464
+#: src/formats.c:463
 msgid "Trinidad and Tobago, Dollars"
 msgstr "Trinidad en Tobago, Dollar"
 
-#: src/formats.c:465
+#: src/formats.c:464
 msgid "Tuvalu, Tuvalu Dollars"
 msgstr "Tuvalu, Tuvalu Dollars"
 
-#: src/formats.c:466
+#: src/formats.c:465
 msgid "Taiwan, New Dollars"
 msgstr "Taiwan, Nieuwe Dollars"
 
-#: src/formats.c:467
+#: src/formats.c:466
 msgid "Tanzania, Shillings"
 msgstr "Tanzania, Shilling"
 
-#: src/formats.c:468
+#: src/formats.c:467
 msgid "Ukraine, Hryvnia"
 msgstr "Oekraïne, Hryvnia"
 
-#: src/formats.c:469
+#: src/formats.c:468
 msgid "Uganda, Shillings"
 msgstr "Oeganda, Shilling"
 
-#: src/formats.c:470
+#: src/formats.c:469
 msgid "United States of America, Dollars"
 msgstr "Verenigde staten van America, Dollar"
 
-#: src/formats.c:471
+#: src/formats.c:470
 msgid "Uruguay, Pesos"
 msgstr "Uruguay, Peso"
 
-#: src/formats.c:472
+#: src/formats.c:471
 msgid "Uzbekistan, Sums"
 msgstr "Oesbekistan, Sum"
 
-#: src/formats.c:473
+#: src/formats.c:472
 msgid "Venezuela, Bolivares"
 msgstr "Venezuela, Bolivar"
 
-#: src/formats.c:474
+#: src/formats.c:473
 msgid "Viet Nam, Dong"
 msgstr "Vietnam, Dong"
 
-#: src/formats.c:475
+#: src/formats.c:474
 msgid "Vanuatu, Vatu"
 msgstr "Vanuatu, Vatu"
 
-#: src/formats.c:476
+#: src/formats.c:475
 msgid "Samoa, Tala"
 msgstr "Samoa, Tala"
 
-#: src/formats.c:477
+#: src/formats.c:476
 msgid "Communaute Financiere Africaine BEAC, Francs"
 msgstr "Communaute Financiere Africaine BEAC, Francs"
 
-#: src/formats.c:478
+#: src/formats.c:477
 msgid "Silver, Ounces"
 msgstr "Zilver, Ons"
 
-#: src/formats.c:479
+#: src/formats.c:478
 msgid "Gold, Ounces"
 msgstr "Goud, Ons"
 
-#: src/formats.c:480
+#: src/formats.c:479
 msgid "East Caribbean Dollars"
 msgstr "Oost Caribbië, Dollar"
 
-#: src/formats.c:481
+#: src/formats.c:480
 msgid "International Monetary Fund (IMF) Special Drawing Rights"
 msgstr "Internationaal Monetair Fonds (IMF) Special Drawing Rights"
 
-#: src/formats.c:482
+#: src/formats.c:481
 msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr "Communaute Financiere Africaine BCEAO, Francs"
 
-#: src/formats.c:483
+#: src/formats.c:482
 msgid "Palladium Ounces"
 msgstr "Palladium Ons"
 
-#: src/formats.c:484
+#: src/formats.c:483
 msgid "Comptoirs Francais du Pacifique Francs"
 msgstr "Comptoirs Francais du Pacifique Francs"
 
-#: src/formats.c:485
+#: src/formats.c:484
 msgid "Platinum, Ounces"
 msgstr "Platinum, Ons"
 
-#: src/formats.c:486
+#: src/formats.c:485
 msgid "Yemen, Rials"
 msgstr "Yemen, Riaal"
 
-#: src/formats.c:487
+#: src/formats.c:486
 msgid "Yugoslavia, New Dinars"
 msgstr "Joegoslavië, Nieuwe Dinar"
 
-#: src/formats.c:488
+#: src/formats.c:487
 msgid "South Africa, Rand"
 msgstr "Zuid Afrika, Rand"
 
-#: src/formats.c:489
+#: src/formats.c:488
 msgid "Zambia, Kwacha"
 msgstr "Zambia, Kwacha"
 
-#: src/formats.c:490
+#: src/formats.c:489
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Zimbabwe, Zimbabwe dollar"
 
-#: src/formats.c:761
+#: src/formats.c:782
 msgid ";[Red]"
 msgstr ";[Rood]"
 
-#: src/formats.c:763
+#: src/formats.c:784
 msgid "_);("
 msgstr "_);("
 
-#: src/formats.c:765
+#: src/formats.c:786
 msgid "_);[Red]("
 msgstr "_);[Rood]("
 
@@ -24552,11 +24561,11 @@ msgstr "Formateer als alternatief Getal"
 msgid "Data..."
 msgstr "Gegevens..."
 
-#: src/gui-clipboard.c:55
+#: src/gui-clipboard.c:61
 msgid "Error while trying to pre-convert clipboard data"
 msgstr "Fout bij omzetten van gegevens op het klembord"
 
-#: src/gui-clipboard.c:91
+#: src/gui-clipboard.c:97
 msgid "Parse error while trying to parse data into cellregion"
 msgstr "Fout bij het neerzetten van gegevens in het celbereik"
 
@@ -25308,27 +25317,27 @@ msgid "file"
 msgstr "bestand"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:581
+#: src/print.c:582
 msgid "&[PAGE]"
 msgstr "&[PAGINA]"
 
-#: src/print.c:975
+#: src/print.c:1110
 msgid "Print Region"
 msgstr "Bereik Afdrukken"
 
-#: src/print.c:1128
+#: src/print.c:1269
 msgid "Print Sheets"
 msgstr "Werkbladen Afdrukken"
 
-#: src/print.c:1136
+#: src/print.c:1277
 msgid "Act_ive sheet"
 msgstr "Huid_ige werkblad"
 
-#: src/print.c:1136
+#: src/print.c:1277
 msgid "S_heets"
 msgstr "Werkbladen"
 
-#: src/print.c:1221
+#: src/print.c:1362
 msgid "Printing failed"
 msgstr "Afdrukken mislukt"
 
@@ -26997,12 +27006,12 @@ msgstr "Er is reeds een blad genaamd"
 msgid "You may not use this name twice"
 msgstr "Je mag deze naam niet twee keer gebruiken"
 
-#: src/xml-io.c:3627
+#: src/xml-io.c:3628
 #, fuzzy
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Is geen Gnumeric Werkmapbestand"
 
-#: src/xml-io.c:3696
+#: src/xml-io.c:3697
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML bestandsformaat"
 
@@ -27775,15 +27784,19 @@ msgid ""
 msgstr ""
 "Deze variabele bepaalt of 'live'-schuiven (versus vertraagd) wordt gebruikt."
 
-#: schemas/gnumeric-general.schemas.in.h:51
+#: schemas/gnumeric-general.schemas.in.h:52
+msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
+msgstr ""
+
+#: schemas/gnumeric-general.schemas.in.h:53
 msgid "Vertical DPI"
 msgstr "DPI Vertikaal"
 
-#: schemas/gnumeric-general.schemas.in.h:52
+#: schemas/gnumeric-general.schemas.in.h:54
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Waarschuwen als geëxporteerd wordt naar een enkel-werkblad formaat."
 
-#: schemas/gnumeric-general.schemas.in.h:53
+#: schemas/gnumeric-general.schemas.in.h:55
 msgid ""
 "When selecting a sort region in the sort dialog, search clauses are "
 "automatically added. This number determines the maximum number of clauses to "

@@ -1,3 +1,7 @@
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
 2002-12-10  Wayne Schuller  <k_wayne@linuxpower.org>
 
 	* dialog-printer-setup.c: (scaling_type_changed), (do_setup_page),

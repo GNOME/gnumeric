@@ -1,3 +1,7 @@
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
 2003-01-03  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (callback_function_mmult_validate) : we need to ensure

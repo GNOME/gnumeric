@@ -54,9 +54,6 @@ modular chunks (as detailed by Linus).
 	  g_return_if_fail and g_return_val_if_fail macros to verify
 	  that the parameters passed are valid.
 
-	- Use g_assert internally to establish pre-conditions on the
-	  non-exported routines.
-
 	- Under no circunstances use magic variables.  Use typedef
 	  enum { ... } type; to create enumerations.  Do not use
 	  integers to hold references to enumerations, the compiler
@@ -64,13 +61,6 @@ modular chunks (as detailed by Linus).
 
 	- Use g_warning to mark spots that need to be reviewed or are
 	  not finished to let me fix it eventually.
-
-	- Do not submit code that is just a temporary workaround for a
-	  full fledged feature.  i.e. don't submit a quick hack at
-	  "search text" which is not designed to be expanded upon.  We
-	  do not want to maintain limited features.  It is better submit an
-	  implementation that has been designed to be expanded and enhanced,
-	  even if it is not completely finished.
 
 	- It is more important to be correct than to be fast.  
 

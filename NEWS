@@ -7,6 +7,8 @@ Jody:
 	* Fixed XL export (apologies to all)
 	* Improve support for negative elapsed time formats.
 	* Minor lotus-123 import issue.
+	* Added Skeleton for importing MS Excel XML.
+	* Changed default toolbar layout to icon only.
 
 Jon Kåre:
 	* Finish UI for managing hyperlinks of various sorts.

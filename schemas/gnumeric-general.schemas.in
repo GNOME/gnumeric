@@ -1,5 +1,18 @@
 <gconfschemafile>
     <schemalist>
+      <!-- Override the global setting becaue our toolbars look terrible with text -->
+      <schema>
+        <key>/schemas/apps/gnome-settings/gnumeric/toolbar_style</key>
+        <applyto>/apps/gnome-settings/gnumeric/toolbar_style</applyto>
+        <owner>Gnumeric</owner>
+	<type>string</type>
+	<default>icons</default>
+	<locale name="C">
+	  <short>Toolbar Style</short>
+	  <long>Toolbar Style. Valid values are both, both_horiz, icon, and text</long>
+	</locale>
+      </schema>
+
       <schema>
         <key>/schemas/apps/gnumeric/undo/show_sheet_name</key>
         <applyto>/apps/gnumeric/undo/show_sheet_name</applyto>
@@ -287,4 +300,3 @@
       </schema>
     </schemalist>
 </gconfschemafile>
-  

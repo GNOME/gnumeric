@@ -1,3 +1,18 @@
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2003-01-27  Jody Goldberg <jody@gnome.org>
+
+	* schemas/gnumeric-general.schemas.in : Override the default toolbar
+	  layout to be icon only.  It can still be changed by clicking on the
+	  toolbar, but at least the default is less ugly.
+
+2003-01-26  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-file.h : remove unnecessary bonobo specific interface.
+	  libgsf wraps all of that now.
+
 2003-01-27  Morten Welinder  <terra@diku.dk>
 
 	* src/print.c (print_page, print_job_info_get,

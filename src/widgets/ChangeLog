@@ -1,3 +1,7 @@
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
 2003-01-03  Jon K Hellan  <hellan@acm.org>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_set_flags): Make docs

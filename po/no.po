@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
-"POT-Creation-Date: 2003-01-22 22:34+0100\n"
+"POT-Creation-Date: 2003-01-28 00:35-0500\n"
 "PO-Revision-Date: 2003-01-22 23:59+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -546,7 +546,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funksjoner relatert til finansielle derivater"
 
 #: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5100
-#: plugins/gnumeric_1_0/xml-io.c:3369 plugins/mps/mps.c:549 src/xml-io.c:3585
+#: plugins/gnumeric_1_0/xml-io.c:3369 plugins/mps/mps.c:549 src/xml-io.c:3586
 msgid "Reading file..."
 msgstr "Leser fil..."
 
@@ -618,15 +618,15 @@ msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Leser og skriver informasjon lagret i Data Interchange Format (*.dif)"
 
-#: plugins/excel/boot.c:165
+#: plugins/excel/boot.c:166
 msgid "No Workbook or Book streams found."
 msgstr "Ingen arbeidsbok eller arbeidsbokdata funnet."
 
-#: plugins/excel/boot.c:208
+#: plugins/excel/boot.c:209
 msgid "Preparing to save..."
 msgstr "Forbereder lagring..."
 
-#: plugins/excel/boot.c:217
+#: plugins/excel/boot.c:218
 msgid "Saving file..."
 msgstr "Lagrer fil..."
 
@@ -764,6 +764,11 @@ msgstr "MS Excel (tm) 97/2000/XP"
 msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
 msgstr "MS Excel (tm) 97/2000/XP & 5.0/95"
 
+#: plugins/excel/plugin.xml.in.h:7
+#, fuzzy
+msgid "MS Excel (tm) XML"
+msgstr "MS Excel (tm)"
+
 #: plugins/fn-complex/functions.c:80
 msgid ""
 "@FUNCTION=COMPLEX\n"
@@ -786,9 +791,12 @@ msgstr ""
 "@SYNTAX=COMPLEX(real,im[,suffiks])\n"
 "@DESCRIPTION=COMPLEX returnerer et komplekst tall på formen x + yi.\n"
 "\n"
-"@real er realtallet og @im er den imaginære delen av det komplekse tallet.  @suffiks er suffikset for den imaginære delen. Hvis den er utelatt, bruker COMPLEX «i» som forvalg.\n"
+"@real er realtallet og @im er den imaginære delen av det komplekse tallet.  "
+"@suffiks er suffikset for den imaginære delen. Hvis den er utelatt, bruker "
+"COMPLEX «i» som forvalg.\n"
 "\n"
-"* Hvis @suffiks er hverken «i» eller «j», returnerer COMPLEX en #VALUE!-feil.\n"
+"* Hvis @suffiks er hverken «i» eller «j», returnerer COMPLEX en #VALUE!-"
+"feil.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
@@ -815,7 +823,8 @@ msgstr ""
 "@SYNTAX=IMAGINARY(itall)\n"
 "@DESCRIPTION=IMAGINARY returnerer den imaginære delen av et komplekst tall.\n"
 "\n"
-"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMAGINARY en #VALUE!-feil.\n"
+"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMAGINARY en "
+"#VALUE!-feil.\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -867,7 +876,8 @@ msgstr ""
 "@SYNTAX=IMREAL(itall)\n"
 "@DESCRIPTION=IMREAL returnerer den reelle delen av et komplekst tall.\n"
 "\n"
-"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMREAL en #VALUE!-feil.\n"
+"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMREAL en #VALUE!-"
+"feil.\n"
 "* Denne funksjonen er Excel-kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -987,7 +997,8 @@ msgstr ""
 "@SYNTAX=IMCOS(itall)\n"
 "@DESCRIPTION=IMCOS returnerer kosinus av et komplekst tall.\n"
 "\n"
-"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMCOS en #VALUE!-feil.\n"
+"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMCOS en #VALUE!-"
+"feil.\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1013,7 +1024,8 @@ msgstr ""
 "@SYNTAX=IMTAN(itall)\n"
 "@DESCRIPTION=IMTAN returnerer tangenten av et komplekst tall.\n"
 "\n"
-"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMTAN en #VALUE!-feil.\n"
+"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMTAN en #VALUE!-"
+"feil.\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1039,11 +1051,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSEC\n"
 "@SYNTAX=IMSEC(itall)\n"
-"@DESCRIPTION=IMSEC returnerer den komplekse sekanten av det komplekse tallet z (@itall), hvor\n"
+"@DESCRIPTION=IMSEC returnerer den komplekse sekanten av det komplekse tallet "
+"z (@itall), hvor\n"
 "\n"
 "\tsec(z) = 1/cos(z).\n"
 "\n"
-"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMSEC en #VALUE!-feil.\n"
+"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMSEC en #VALUE!-"
+"feil.\n"
 "\n"
 "@EXAMPLES=\n"
 "IMCSEC(\"2-j\") er lik -0.413149-0.687527j.\n"
@@ -1068,11 +1082,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMCSC\n"
 "@SYNTAX=IMCSC(itall)\n"
-"@DESCRIPTION=IMCSC returnerer den komplekse kosekanten av det komplekse tallet z (@itall), hvor\n"
+"@DESCRIPTION=IMCSC returnerer den komplekse kosekanten av det komplekse "
+"tallet z (@itall), hvor\n"
 "\n"
 "\tcsc(z) = 1/sin(z).\n"
 "\n"
-"* Hvis @itall ikke er et gyldig komplekst tall returnerer CSC en #VALUE!-feil.\n"
+"* Hvis @itall ikke er et gyldig komplekst tall returnerer CSC en #VALUE!-"
+"feil.\n"
 "\n"
 "@EXAMPLES=\n"
 "IMCSC(\"2-j\") er lik 0.635494-0.221501j.\n"
@@ -1097,11 +1113,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMCOT\n"
 "@SYNTAX=IMCOT(itall)\n"
-"@DESCRIPTION=IMCOS returnerer den komplekse kotangent av det komplekse tallet z (@itall), hvor\n"
+"@DESCRIPTION=IMCOS returnerer den komplekse kotangent av det komplekse "
+"tallet z (@itall), hvor\n"
 "\n"
 "\\tcot(z) = 1/tan(z).\n"
 "\n"
-"* Hvs @itall ikke er et gyldig komplekst tall returnerer IMCOT en #VALUE!-feil.\n"
+"* Hvs @itall ikke er et gyldig komplekst tall returnerer IMCOT en #VALUE!-"
+"feil.\n"
 "\n"
 "@EXAMPLES=\n"
 "IMCOT(\"2-j\") er lik -0.171384+0.821330j.\n"
@@ -1126,7 +1144,8 @@ msgstr ""
 "@SYNTAX=IMEXP(itall)\n"
 "@DESCRIPTION=IMEXP returnerer eksponenten av et komplekst tall.\n"
 "\n"
-"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMEXP en #VALUE!-feil.\n"
+"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMEXP en #VALUE!-"
+"feil.\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1153,9 +1172,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(itall)\n"
-"@DESCRIPTION=IMARGUMENT returnerer argumentet theta av et komplekst tall, i.e. vinkelen i radianer fra den reelle aksen til representasjonen av tallet i polare koordinater.\n"
+"@DESCRIPTION=IMARGUMENT returnerer argumentet theta av et komplekst tall, i."
+"e. vinkelen i radianer fra den reelle aksen til representasjonen av tallet i "
+"polare koordinater.\n"
 "\n"
-"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMARGUMENT en #VALUE!-feil.\n"
+"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMARGUMENT en "
+"#VALUE!-feil.\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1183,13 +1205,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(itall)\n"
-"@DESCRIPTION=IMLN returnerer den naturlige logaritmen av et komplekst tall. \n"
+"@DESCRIPTION=IMLN returnerer den naturlige logaritmen av et komplekst "
+"tall. \n"
 "\n"
 "Resultatet vil ha en imaginær del mellom -pi og +pi. Den naturlige \n"
 "logaritmen er ikke definert unikt med komplekse tall. Du vil kanskje måtte \n"
 "legge til eller trekke fra en lik multippel av pi til den imaginære delen.\n"
 "\n"
-"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMLN en #VALUE!-feil.\n"
+"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMLN en #VALUE!-"
+"feil.\n"
 "* Denne funksjonen er Excel-kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1215,7 +1239,8 @@ msgstr ""
 "@SYNTAX=IMLOG2(itall)\n"
 "@DESCRIPTION=IMLOG2 returnerer logaritmen til et komplekst tall i base 2.\n"
 "\n"
-"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMLOG2 en #VALUE!-feil.\n"
+"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMLOG2 en #VALUE!-"
+"feil.\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1241,7 +1266,8 @@ msgstr ""
 "@SYNTAX=IMLOG10(itall)\n"
 "@DESCRIPTION=IMLOG10 returnerer logaritmen til et komplekst tall i base 10.\n"
 "\n"
-"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMLOG10 en #VALUE!-feil.\n"
+"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMLOG10 en #VALUE!-"
+"feil.\n"
 "* Denne funksjonen er Excel-kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1268,9 +1294,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(itall1,itall2)\n"
-"@DESCRIPTION=IMPOWER returnerer et komplekst tall opphøyet i en potens. @itall1 er det komplekse tallet som skal opphøyes og @itall2 er potensen det skal opphøyes i.\n"
+"@DESCRIPTION=IMPOWER returnerer et komplekst tall opphøyet i en potens. "
+"@itall1 er det komplekse tallet som skal opphøyes og @itall2 er potensen det "
+"skal opphøyes i.\n"
 "\n"
-"* Hvis @itall1 eller @itall2 ikke er gyldige komplekse tall returnerer IMPOWER en #VALUE!-feil.\n"
+"* Hvis @itall1 eller @itall2 ikke er gyldige komplekse tall returnerer "
+"IMPOWER en #VALUE!-feil.\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES\n"
@@ -1297,7 +1326,8 @@ msgstr ""
 "@SYNTAX=IMDIV(itall1,itall2)\n"
 "@DESCRIPTION=IMDIV returnerer kvotienten av to komplekse tall.\n"
 "\n"
-"* Hvis @itall1 eller @itall2 ikke er gyldige komplekse tall returnerer IMDIV en #VALUE!-feil.\n"
+"* Hvis @itall1 eller @itall2 ikke er gyldige komplekse tall returnerer IMDIV "
+"en #VALUE!-feil.\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1323,7 +1353,8 @@ msgstr ""
 "@SYNTAX=IMSIN(itall)\n"
 "@DESCRIPTION=IMSIN returnerer sinus av et komplekst tall.\n"
 "\n"
-"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMSIN en #VALUE!-feil.\n"
+"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMSIN en #VALUE!-"
+"feil.\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1349,11 +1380,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSINH\n"
 "@SYNTAX=IMSIN(itall)\n"
-"@DESCRIPTION=IMSINH returnerer kompleks hyperbolsk sinus av det komplekse tallet z (@itall), hvor\n"
+"@DESCRIPTION=IMSINH returnerer kompleks hyperbolsk sinus av det komplekse "
+"tallet z (@itall), hvor\n"
 "\n"
 "\tsinh(z) = (exp(z) - exp(z))/2.\n"
 "\n"
-"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMSINH en #VALUE!-feil.\n"
+"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMSINH en #VALUE!-"
+"feil.\n"
 "\n"
 "@EXAMPLES=\n"
 "IMSIN(\"1+j\") er lik 1.29846+0.63496j.\n"
@@ -1378,11 +1411,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMCOSH\n"
 "@SYNTAX=IMCOSH(itall)\n"
-"@DESCRIPTION=IMCOSH returnerer det komplekse hyperbolske kosinus av det komplekse tallet z (@itall), hvor\n"
+"@DESCRIPTION=IMCOSH returnerer det komplekse hyperbolske kosinus av det "
+"komplekse tallet z (@itall), hvor\n"
 "\n"
 "\tcosh(z) = (exp(z) + exp(-z))/2.\n"
 "\n"
-"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMCOSH en #VALUE!-feil.\n"
+"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMCOSH en #VALUE!-"
+"feil.\n"
 "\n"
 "@EXAMPLES=\n"
 "IMCOSH(\"1+j\") er lik 0.833730-0.988898j.\n"
@@ -1407,11 +1442,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMTANH\n"
 "@SYNTAX=IMTANH(itall)\n"
-"@DESCRIPTION=IMTANH returnerer den komplekse hyperbolske tangent av det komplekse tallet z (@itall), hvor\n"
+"@DESCRIPTION=IMTANH returnerer den komplekse hyperbolske tangent av det "
+"komplekse tallet z (@itall), hvor\n"
 "\n"
 "\ttanh(z) = sinh(z)/cosh(z).\n"
 "\n"
-"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMTANH en #VALUE!-feil.\n"
+"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMTANH en #VALUE!-"
+"feil.\n"
 "\n"
 "\n"
 "@EXAMPLES=\n"
@@ -3126,12 +3163,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=DAYS360\n"
 "@SYNTAX=DAYS360 (dato1,dato2,metode)\n"
-"@DESCRIPTION=DAYS360 returnerer antall dager fra @dato1 til @dato2 etter en 360-dagers kalender hvor alle måneder antas å ha 30 dager.\n"
+"@DESCRIPTION=DAYS360 returnerer antall dager fra @dato1 til @dato2 etter en "
+"360-dagers kalender hvor alle måneder antas å ha 30 dager.\n"
 "\n"
-"* Hvis @metode er 1 vil Europeisk metode brukes. I dette tilfellet, hvis dagen i måneden er 31, vil den bli betraktet som 30.\n"
-"* Hvis @metode er 0 eller utelatt, vil Excel's USA-metode brukes.  Dette er en noe komplisert industristandard metode hvor den siste dagen i februar ses på som den 30te dagen i måneden, men kun for den første datoen.\n"
-"* Hvis @metode er 2 vil en litt mer fornuftig versjon av US-metoden brukes hvor begge datoer behandles på samme måte i februar.\n"
-"* Merk at Gnumeric vil utføre vanlig konvertering fra streng tilserienummer for deg, så du kan skrive inn en dato som en streng.\n"
+"* Hvis @metode er 1 vil Europeisk metode brukes. I dette tilfellet, hvis "
+"dagen i måneden er 31, vil den bli betraktet som 30.\n"
+"* Hvis @metode er 0 eller utelatt, vil Excel's USA-metode brukes.  Dette er "
+"en noe komplisert industristandard metode hvor den siste dagen i februar ses "
+"på som den 30te dagen i måneden, men kun for den første datoen.\n"
+"* Hvis @metode er 2 vil en litt mer fornuftig versjon av US-metoden brukes "
+"hvor begge datoer behandles på samme måte i februar.\n"
+"* Merk at Gnumeric vil utføre vanlig konvertering fra streng tilserienummer "
+"for deg, så du kan skrive inn en dato som en streng.\n"
 "* Denne funksjonen er for det meste Excel-kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
@@ -3991,7 +4034,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(tall,fra_enhet,til_enhet)\n"
-"@DESCRIPTION=CONVERT returnerer en konvertering fra en målesystem til et annet. Du kan for eksempel konvertere en vekt i pund til en vekt i gram. @tall er verdien du ønsker å konvertere, @fra_enhet spesifiserer enheten for @tall, og @til_enhet er enheten for resultatet.\n"
+"@DESCRIPTION=CONVERT returnerer en konvertering fra en målesystem til et "
+"annet. Du kan for eksempel konvertere en vekt i pund til en vekt i gram. "
+"@tall er verdien du ønsker å konvertere, @fra_enhet spesifiserer enheten for "
+"@tall, og @til_enhet er enheten for resultatet.\n"
 "\n"
 "@fra_enhet og @til_enhet kan være følgende:\n"
 "\n"
@@ -4081,7 +4127,8 @@ msgstr ""
 "\t'f'  \tfemto \t1E-15\n"
 "\t'a'  \tatto  \t1E-18\n"
 "\n"
-"* Hvis @fra_enhet og @til_enhet er forskjellige typer returnerer CONVERT en #NUM!-feil.\n"
+"* Hvis @fra_enhet og @til_enhet er forskjellige typer returnerer CONVERT en "
+"#NUM!-feil.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
@@ -4138,11 +4185,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
-"@DESCRIPTION=ERFC-funksjonen returnerer den komplimentære feilfunksjonen definert som\n"
+"@DESCRIPTION=ERFC-funksjonen returnerer den komplimentære feilfunksjonen "
+"definert som\n"
 "\n"
 "\\t1 - erf(x).\n"
 "\n"
-"erfc(x) beregnes mer nøyaktig enn 1 - erf(x) for argumenter som er større en rundt 0.5.\n"
+"erfc(x) beregnes mer nøyaktig enn 1 - erf(x) for argumenter som er større en "
+"rundt 0.5.\n"
 "\n"
 "* Hvis @x ikke er numerisk returneres en #VALUE!-feil.\n"
 "@EXAMPLES=\n"
@@ -4168,9 +4217,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
-"@DESCRIPTION=DELTA-funksjonen sjekker om det er numerisk ekvivalens mellom to argumenter og returnerer 1 hvis de er like.\n"
+"@DESCRIPTION=DELTA-funksjonen sjekker om det er numerisk ekvivalens mellom "
+"to argumenter og returnerer 1 hvis de er like.\n"
 "\n"
-"* @y er valgfri, og satt til 0 som forvalg. Hvis ingen av argumentene er numeriske returneres en #VALUE!-feil.\n"
+"* @y er valgfri, og satt til 0 som forvalg. Hvis ingen av argumentene er "
+"numeriske returneres en #VALUE!-feil.\n"
 "* Denne funksjonen er Excel-kompatibel. \n"
 "\n"
 "@EXAMPLES\n"
@@ -4198,7 +4249,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
-"@DESCRIPTION=GESTEP-funksjonen undersøker om @x er >= @y, og returnerer 1 hvis det er tilfelle, og 0 hvis ikke. @y er valgfri, og satt til 0 som forvalg.\n"
+"@DESCRIPTION=GESTEP-funksjonen undersøker om @x er >= @y, og returnerer 1 "
+"hvis det er tilfelle, og 0 hvis ikke. @y er valgfri, og satt til 0 som "
+"forvalg.\n"
 "\n"
 "* Hvis noen av argumentene er ikke-numeriske returneres en #VALUE!-feil.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
@@ -4505,7 +4558,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
-"@DESCRIPTION=NOMINAL beregner den nominelle renten fra en gitt effektiv rente.\n"
+"@DESCRIPTION=NOMINAL beregner den nominelle renten fra en gitt effektiv "
+"rente.\n"
 "\n"
 "Nominell rente er gitt ved en formel:\n"
 "\n"
@@ -4566,7 +4620,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(kost,redning,liv,periode[,måned])\n"
-"@DESCRIPTION=DB kalkulerer avskrivingen for et objekt for en gitt periode ved bruk av \"fixed-declining balance method\".  @kost er den initielle verdien for objektet. @gjenstående er verdien etter nedskrivingen. @liv er antall perioder totalt.  @periode er perioden du ønsker nedskrivingen kalkulert for.  @måned er antall måneder i det første året med nedskriving. Hvis @måned utelates, antas den til 12. \n"
+"@DESCRIPTION=DB kalkulerer avskrivingen for et objekt for en gitt periode "
+"ved bruk av \"fixed-declining balance method\".  @kost er den initielle "
+"verdien for objektet. @gjenstående er verdien etter nedskrivingen. @liv er "
+"antall perioder totalt.  @periode er perioden du ønsker nedskrivingen "
+"kalkulert for.  @måned er antall måneder i det første året med nedskriving. "
+"Hvis @måned utelates, antas den til 12. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DDB,SLN,SYD"
@@ -13644,25 +13703,25 @@ msgstr "GNOME ordliste i PO-filformat"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Gir støtte for å lagre GNOME's ordbok som en PO-fil."
 
-#: plugins/gnumeric_1_0/xml-io.c:2824 src/xml-io.c:3044
+#: plugins/gnumeric_1_0/xml-io.c:2824 src/xml-io.c:3045
 msgid "Unparsable xml in clipboard"
 msgstr "Ugyldig xml på utklippstavlen"
 
-#: plugins/gnumeric_1_0/xml-io.c:2831 src/xml-io.c:3051
+#: plugins/gnumeric_1_0/xml-io.c:2831 src/xml-io.c:3052
 msgid "Clipboard is in unknown format"
 msgstr "Utklippstavlen har ukjent format"
 
 #: plugins/gnumeric_1_0/xml-io.c:3111 plugins/xbase/boot.c:173
 #: src/dialogs/dialog-goto-cell.c:286 src/dialogs/dialog-search.c:721
-#: src/dialogs/print.glade.h:20 src/workbook.c:1049 src/workbook.c:1379
-#: src/xml-io.c:3333
+#: src/dialogs/print.glade.h:21 src/workbook.c:1049 src/workbook.c:1379
+#: src/xml-io.c:3334
 msgid "Sheet"
 msgstr "Ark"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: plugins/gnumeric_1_0/xml-io.c:3238 src/xml-io.c:3465
+#: plugins/gnumeric_1_0/xml-io.c:3238 src/xml-io.c:3466
 msgid "Processing file..."
 msgstr "Prossesserer fil..."
 
@@ -13670,7 +13729,7 @@ msgstr "Prossesserer fil..."
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Er ikke en Gnumeric arbeidsbok"
 
-#: plugins/gnumeric_1_0/xml-io.c:3446 src/xml-io.c:3664
+#: plugins/gnumeric_1_0/xml-io.c:3446 src/xml-io.c:3665
 msgid "Failure saving file"
 msgstr "Feil under lagring av fil"
 
@@ -13875,7 +13934,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -14099,45 +14158,45 @@ msgstr "GNU Oleo (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "Importerer GNU Oleo dokumenter"
 
-#: plugins/openoffice/openoffice-read.c:386
+#: plugins/openoffice/openoffice-read.c:421
 msgid "Missing expression"
 msgstr "Manglende uttrykk"
 
-#: plugins/openoffice/openoffice-read.c:391
+#: plugins/openoffice/openoffice-read.c:426
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Uttrykket «%s» starter ikke med et gjenkjent tegn"
 
-#: plugins/openoffice/openoffice-read.c:404
+#: plugins/openoffice/openoffice-read.c:439
 #, c-format
 msgid "Unable to parse '%s' because '%s'"
 msgstr "Kunne ikke lese «%s» pga «%s»"
 
-#: plugins/openoffice/openoffice-read.c:462
+#: plugins/openoffice/openoffice-read.c:496
 msgid "Invalid array expression does no specify number of columns"
 msgstr ""
 
-#: plugins/openoffice/openoffice-read.c:465
+#: plugins/openoffice/openoffice-read.c:499
 msgid "Invalid array expression does no specify number of rows"
 msgstr ""
 
-#: plugins/openoffice/openoffice-read.c:713
+#: plugins/openoffice/openoffice-read.c:747
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
 msgstr "Kunne ikke lese posisjon for uttrykket «%s» @ «%s» pga. «%s»"
 
-#: plugins/openoffice/openoffice-read.c:726
+#: plugins/openoffice/openoffice-read.c:760
 #, c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr "Kan ikke lese posisjon for uttrykket «%s» med verdi «%s» pga. «%s»"
 
-#: plugins/openoffice/openoffice-read.c:883
+#: plugins/openoffice/openoffice-read.c:934
 msgid "No stream named content.xml found."
 msgstr "Ingen strøm med navn content.xml funnet."
 
-#: plugins/openoffice/openoffice-read.c:923
-#: plugins/xml_sax/xml-sax-read.c:1468
+#: plugins/openoffice/openoffice-read.c:974
+#: plugins/xml_sax/xml-sax-read.c:1501
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet er ikke riktig utformet!"
 
@@ -14470,8 +14529,8 @@ msgid "The next generation sax based xml I/O subsystem"
 msgstr "Neste generasjon SAX-basert xml IO-subsystem"
 
 #: plugins/xml_sax/xml-sax-read.c:267
-#, c-format
-msgid "Unexpected attribute '%s'='%s' for element of type %s."
+#, fuzzy, c-format
+msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Uventet attributt «%s»-«%s» for element av type %s."
 
 #: plugins/xml_sax/xml-sax-read.c:299
@@ -14625,7 +14684,7 @@ msgstr "Fjern valgte cellers formatering, kommentarer og innhold"
 msgid "Close the current file"
 msgstr "Lukk aktiv fil"
 
-#: src/GNOME_Gnumeric.xml.h:35 src/dialogs/print.glade.h:6
+#: src/GNOME_Gnumeric.xml.h:35 src/dialogs/print.glade.h:7
 #: src/workbook-control-gui.c:3203
 msgid "Co_mments"
 msgstr "Ko_mmentarer"
@@ -14662,7 +14721,9 @@ msgstr ""
 msgid ""
 "Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
-msgstr "Sammenligner to populasjonsmedianer for populasjon med kjente varianser eller ved bruk av et større utvalg: z-test"
+msgstr ""
+"Sammenligner to populasjonsmedianer for populasjon med kjente varianser "
+"eller ved bruk av et større utvalg: z-test"
 
 #: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3624
 msgid "Comparing two population variances"
@@ -15082,8 +15143,8 @@ msgstr "Venstrejuster"
 msgid "Left align"
 msgstr "Venstrejuster"
 
-#: schemas/plot-types.xml.in.h:32 src/GNOME_Gnumeric.xml.h:142
-#: src/dialogs/cell-format.glade.h:54 src/workbook-object-toolbar.c:160
+#: src/GNOME_Gnumeric.xml.h:142 src/dialogs/cell-format.glade.h:54
+#: src/workbook-object-toolbar.c:160 schemas/plot-types.xml.in.h:32
 msgid "Line"
 msgstr "Linje"
 
@@ -15233,7 +15294,7 @@ msgstr "Periodiske og tilfeldige utvalg"
 msgid "Preferen_ces..."
 msgstr "_Brukervalg..."
 
-#: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:13
+#: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:14
 #: src/workbook-control-gui.c:3785
 msgid "Print"
 msgstr "Skriv ut"
@@ -15247,7 +15308,7 @@ msgid "Print Preview"
 msgstr "Forhåndsvisning av utskrift"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/dialogs/print.glade.h:15 src/print.c:1212
+#: src/dialogs/print.glade.h:16 src/print.c:1353
 #: src/workbook-control-gui.c:3171 src/workbook-control-gui.c:3788
 msgid "Print preview"
 msgstr "Forhåndsvisning av utskrift"
@@ -15438,8 +15499,8 @@ msgstr "Endre sideoppsettet for din skriver"
 msgid "Show all filtered and hidden rows"
 msgstr "Vis filtrerte og skjulte rader"
 
-#: schemas/gnumeric-general.schemas.in.h:28 src/GNOME_Gnumeric.xml.h:227
-#: src/workbook-control-gui.c:3831
+#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:3831
+#: schemas/gnumeric-general.schemas.in.h:28
 msgid "Sort Ascending"
 msgstr "Sorter stigende"
 
@@ -16559,6 +16620,7 @@ msgid "The orientation of the toolbar"
 msgstr "Orientering for verktøylinjen"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:137
+#: schemas/gnumeric-general.schemas.in.h:51
 msgid "Toolbar Style"
 msgstr "Stil for verktøylinjen"
 
@@ -16924,16 +16986,16 @@ msgid "_Unique Records Only"
 msgstr "Kun _unike poster"
 
 #: src/dialogs/autofilter-expression.glade.h:1
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:67
 msgid " "
 msgstr " "
 
-#: src/dialogs/autocorrect.glade.h:1
 #: src/dialogs/autofilter-expression.glade.h:2
-#: src/dialogs/autoformat.glade.h:1 src/dialogs/cell-format.glade.h:1
-#: src/dialogs/dialog-stf-export.glade.h:3 src/dialogs/dialog-stf.glade.h:3
-#: src/dialogs/font-sel.glade.h:1 src/dialogs/hyperlink.glade.h:1
-#: src/dialogs/names.glade.h:1 src/dialogs/plugin-manager.glade.h:1
+#: src/dialogs/autocorrect.glade.h:1 src/dialogs/autoformat.glade.h:1
+#: src/dialogs/cell-format.glade.h:1 src/dialogs/dialog-stf-export.glade.h:3
+#: src/dialogs/dialog-stf.glade.h:3 src/dialogs/font-sel.glade.h:1
+#: src/dialogs/hyperlink.glade.h:1 src/dialogs/names.glade.h:1
+#: src/dialogs/plugin-manager.glade.h:1 src/dialogs/print.glade.h:3
 #: src/dialogs/so-frame.glade.h:1 src/dialogs/solver.glade.h:1
 #: src/dialogs/workbook-attr.glade.h:1
 msgid "*"
@@ -17150,8 +17212,8 @@ msgstr "Første bokstav"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/autocorrect.glade.h:8 src/dialogs/dialog-autoformat.c:672
-#: src/format.c:1763 src/format.c:1845 src/format.c:1854 src/format.c:1921
+#: src/dialogs/autocorrect.glade.h:8 src/dialogs/dialog-autoformat.c:671
+#: src/format.c:1766 src/format.c:1848 src/format.c:1857 src/format.c:1924
 #: src/plugin-service.c:233
 msgid "General"
 msgstr "Generelt"
@@ -17791,7 +17853,7 @@ msgid "A _header"
 msgstr "En _topptekst"
 
 #: src/dialogs/cell-sort.glade.h:2 src/dialogs/histogram.glade.h:16
-#: src/dialogs/print.glade.h:10 src/tools/solver/reports-write.c:755
+#: src/dialogs/print.glade.h:11 src/tools/solver/reports-write.c:755
 msgid "Options"
 msgstr "Alternativer"
 
@@ -18086,12 +18148,14 @@ msgstr "John Gotts, rpm pakker."
 
 #. The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:62
-msgid "Andreas J. Gülzow, Gnumeric hacker."
+#, fuzzy
+msgid "Andreas J. Glzow, Gnumeric hacker."
 msgstr "Andreas J. Gülzow, Gnumeric hacker."
 
 #. The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:64
-msgid "Jon Kåre Hellan, Gnumeric hacker."
+#, fuzzy
+msgid "Jon Kre Hellan, Gnumeric hacker."
 msgstr "Jon Kåre Hellan, Gnumeric hacker."
 
 #: src/dialogs/dialog-about.c:65
@@ -18392,101 +18456,101 @@ msgstr "Kunne ikke opprette dialogen for ANOVA verktøy (to-faktor)."
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Kunne ikke opprette dialogen for autokorrektur."
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:67
 msgid "Jan"
 msgstr "Jan"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:67
 msgid "Feb"
 msgstr "Feb"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:67
 msgid "Mrt"
 msgstr "Mrt"
 
-#: src/dialogs/dialog-autoformat.c:68 src/dialogs/dialog-autoformat.c:72
+#: src/dialogs/dialog-autoformat.c:67 src/dialogs/dialog-autoformat.c:71
 #: src/tools/analysis-tools.c:3352 src/tools/analysis-tools.c:3362
 #: src/tools/analysis-tools.c:3370
 msgid "Total"
 msgstr "Total"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:68
 msgid "North"
 msgstr "Nord"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:68
 msgid "6"
 msgstr "6"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:68
 msgid "13"
 msgstr "13"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:68
 msgid "20"
 msgstr "20"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:68
 msgid "39"
 msgstr "39"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:69
 msgid "South"
 msgstr "Syd"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:69
 msgid "12"
 msgstr "12"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:69
 msgid "4"
 msgstr "4"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:69
 msgid "17"
 msgstr "17"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:69
 msgid "33"
 msgstr "33"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:70
 msgid "West"
 msgstr "Vest"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:70
 msgid "8"
 msgstr "8"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:70
 msgid "2"
 msgstr "2"
 
-#: src/dialogs/dialog-autoformat.c:71 src/dialogs/mean-tests.glade.h:1
+#: src/dialogs/dialog-autoformat.c:70 src/dialogs/mean-tests.glade.h:1
 msgid "0"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:70
 msgid "10"
 msgstr "10"
 
-#: src/dialogs/dialog-autoformat.c:72
+#: src/dialogs/dialog-autoformat.c:71
 msgid "26"
 msgstr "26"
 
-#: src/dialogs/dialog-autoformat.c:72
+#: src/dialogs/dialog-autoformat.c:71
 msgid "19"
 msgstr "19"
 
-#: src/dialogs/dialog-autoformat.c:72
+#: src/dialogs/dialog-autoformat.c:71
 msgid "37"
 msgstr "37"
 
-#: src/dialogs/dialog-autoformat.c:72
+#: src/dialogs/dialog-autoformat.c:71
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:663
+#: src/dialogs/dialog-autoformat.c:662
 msgid "An error occurred while reading the category list"
 msgstr "En feil oppstod under lesing av kategorilisten"
 
@@ -18889,7 +18953,9 @@ msgid ""
 "The following extra plugins must be activated in order to activate this "
 "one:\n"
 "\n"
-msgstr "Følgende ekstra tillegg må aktiveres for å aktivere dette:\n\n"
+msgstr ""
+"Følgende ekstra tillegg må aktiveres for å aktivere dette:\n"
+"\n"
 
 #: src/dialogs/dialog-plugin-manager.c:587
 #, c-format
@@ -18900,7 +18966,9 @@ msgstr "Ukjent tillegg med id=«%s»\n"
 msgid ""
 "\n"
 "Do you want to activate this plugin together with its dependencies?"
-msgstr "\nVil du aktivere dette tillegget sammen med dets avhengigheter?"
+msgstr ""
+"\n"
+"Vil du aktivere dette tillegget sammen med dets avhengigheter?"
 
 #: src/dialogs/dialog-plugin-manager.c:613
 #, c-format
@@ -18929,13 +18997,13 @@ msgid "Directory"
 msgstr "Katalog"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:374 src/format.c:1663
+#: src/dialogs/dialog-preferences.c:374 src/format.c:1666
 #: src/number-match.c:1067 src/value-sheet.c:33 src/value.c:403
 #: src/value.c:773
 msgid "TRUE"
 msgstr "SANN"
 
-#: src/dialogs/dialog-preferences.c:375 src/format.c:1663
+#: src/dialogs/dialog-preferences.c:375 src/format.c:1666
 #: src/number-match.c:1069 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:773
 msgid "FALSE"
@@ -18943,13 +19011,16 @@ msgstr "USANN"
 
 #: src/dialogs/dialog-preferences.c:671
 msgid "The items on this page customize the behaviour of the undo/redo system."
-msgstr "Oppføringene på denne siden tilpasser oppførselen for angring/gjenoppretting."
+msgstr ""
+"Oppføringene på denne siden tilpasser oppførselen for angring/gjenoppretting."
 
 #: src/dialogs/dialog-preferences.c:821
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
-msgstr "Oppføringene på denne siden tilpasser forhåndsdefinerte innstillinger for sorteringsdialogen og oppførselen for verktøylinjeknappene for sortering."
+msgstr ""
+"Oppføringene på denne siden tilpasser forhåndsdefinerte innstillinger for "
+"sorteringsdialogen og oppførselen for verktøylinjeknappene for sortering."
 
 #: src/dialogs/dialog-preferences.c:968
 msgid "The items on this page customize the new default workbook."
@@ -18957,21 +19028,22 @@ msgstr "Oppføringene på denne siden tilpasser den nye forvalgte arbeidsboken."
 
 #: src/dialogs/dialog-preferences.c:1153
 msgid "The items on this page are related to the saving and opening of files."
-msgstr "Oppføringene på denne siden er relatert til lagring og åpning av filer."
+msgstr ""
+"Oppføringene på denne siden er relatert til lagring og åpning av filer."
 
-#: src/dialogs/dialog-printer-setup.c:847
+#: src/dialogs/dialog-printer-setup.c:848
 msgid "Customize header"
 msgstr "Tilpass topptekst"
 
-#: src/dialogs/dialog-printer-setup.c:849
+#: src/dialogs/dialog-printer-setup.c:850
 msgid "Customize footer"
 msgstr "Tilpass bunntekst"
 
-#: src/dialogs/dialog-printer-setup.c:999
+#: src/dialogs/dialog-printer-setup.c:1000
 msgid "Custom header configuration"
 msgstr "Egendefinert konfigurasjon av topptekst"
 
-#: src/dialogs/dialog-printer-setup.c:1004
+#: src/dialogs/dialog-printer-setup.c:1005
 msgid "Custom footer configuration"
 msgstr "Egendefinert konfigurasjon av bunntekst"
 
@@ -19400,13 +19472,16 @@ msgstr "Målcelleverdien konvergerer ikke! Programmet er uavgrenset."
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
-msgstr "En mulig løsning ble ikke funnet. Alle spesifiserte begrensninger kan ikke møtes samtidig."
+msgstr ""
+"En mulig løsning ble ikke funnet. Alle spesifiserte begrensninger kan ikke "
+"møtes samtidig."
 
 #: src/dialogs/dialog-solver.c:805
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
-msgstr "Maksimalt antall gjennomganger oversteget. Den beste verdien ble ikke funnet."
+msgstr ""
+"Maksimalt antall gjennomganger oversteget. Den beste verdien ble ikke funnet."
 
 #: src/dialogs/dialog-solver.c:819
 msgid ""
@@ -19665,7 +19740,7 @@ msgstr "Ko_lonneslutt : "
 msgid "Co_mma (,)"
 msgstr "Ko_mma (,)"
 
-#: schemas/plot-types.xml.in.h:27 src/dialogs/dialog-stf.glade.h:15
+#: src/dialogs/dialog-stf.glade.h:15 schemas/plot-types.xml.in.h:27
 msgid "Column"
 msgstr "Kolonne"
 
@@ -20435,124 +20510,126 @@ msgid "Gnumeric Preferences"
 msgstr "Gnumeric brukervalg"
 
 #: src/dialogs/print.glade.h:2
-#, no-c-format
-msgid "% of normal size"
+#, fuzzy, no-c-format
+msgid "% of _normal size"
 msgstr "% av normal størrelse"
 
-#: src/dialogs/print.glade.h:3
+#: src/dialogs/print.glade.h:4
 msgid "Apply _to:"
 msgstr "Bruk _på:"
 
-#: src/dialogs/print.glade.h:4
+#: src/dialogs/print.glade.h:5
 msgid "Apply to _all sheets."
 msgstr "Bruk på _alle ark"
 
-#: src/dialogs/print.glade.h:5
+#: src/dialogs/print.glade.h:6
 msgid "Center on page"
 msgstr "Senter på siden"
 
-#: src/dialogs/print.glade.h:7
+#: src/dialogs/print.glade.h:8
 msgid "Fi_rst page number:"
 msgstr "Fø_rste sidenummer:"
 
-#: src/dialogs/print.glade.h:8
+#: src/dialogs/print.glade.h:9
 msgid "He_ader:"
 msgstr "To_pptekst:"
 
-#: src/dialogs/print.glade.h:9
+#: src/dialogs/print.glade.h:10
 msgid "Headers and footers"
 msgstr "Topp- og bunntekst"
 
-#: src/dialogs/print.glade.h:11
+#: src/dialogs/print.glade.h:12
 msgid "Page"
 msgstr "Side"
 
-#: src/dialogs/print.glade.h:12
+#: src/dialogs/print.glade.h:13
 msgid "Page order"
 msgstr "Siderekkefølge"
 
-#: src/dialogs/print.glade.h:14
+#: src/dialogs/print.glade.h:15
 msgid "Print _area:"
 msgstr "Utskrifts_område:"
 
-#: src/dialogs/print.glade.h:16
+#: src/dialogs/print.glade.h:17
 msgid "Print setup"
 msgstr "Skriveroppsett"
 
-#: src/dialogs/print.glade.h:17
+#: src/dialogs/print.glade.h:18
 msgid "R_ight, then down"
 msgstr "Hø_yre, så ned"
 
-#: src/dialogs/print.glade.h:18
+#: src/dialogs/print.glade.h:19
 msgid "Row and co_lumn headings"
 msgstr "Rad og kolonnetitler"
 
-#: src/dialogs/print.glade.h:19
+#: src/dialogs/print.glade.h:20
 msgid "Scale"
 msgstr "Skaler"
 
-#: src/dialogs/print.glade.h:21
+#: src/dialogs/print.glade.h:22
 msgid "Styles with no content"
 msgstr "Stiler uten innhold"
 
-#: src/dialogs/print.glade.h:22
+#: src/dialogs/print.glade.h:23
 msgid "Titles to print"
 msgstr "Titler som skal skrives ut"
 
-#: src/dialogs/print.glade.h:23
+#: src/dialogs/print.glade.h:24
 msgid "_Adjust to:"
 msgstr "_Juster til"
 
-#: src/dialogs/print.glade.h:24
+#: src/dialogs/print.glade.h:25
 msgid "_Black and white"
 msgstr "_Sort / Hvitt"
 
-#: src/dialogs/print.glade.h:25
+#: src/dialogs/print.glade.h:26
 msgid "_Columns to repeat on the left side:"
 msgstr "_Kolonner som skal repeteres på venstre side:"
 
-#: src/dialogs/print.glade.h:26
+#: src/dialogs/print.glade.h:27
 msgid "_Down, then right"
 msgstr "Ne_d, så til høyre"
 
-#: src/dialogs/print.glade.h:27
+#: src/dialogs/print.glade.h:28
 msgid "_Fit to:"
 msgstr "_Tilpass til:"
 
-#: src/dialogs/print.glade.h:28
+#: src/dialogs/print.glade.h:29
 msgid "_Footer:"
 msgstr "_Bunntekst:"
 
-#: src/dialogs/print.glade.h:29
+#: src/dialogs/print.glade.h:30
 msgid "_Grid lines"
 msgstr "_Linjer for rutenett"
 
-#: src/dialogs/print.glade.h:30
+#: src/dialogs/print.glade.h:31
 msgid "_Header:"
 msgstr "_Topptekst:"
 
-#: src/dialogs/print.glade.h:31
+#: src/dialogs/print.glade.h:32
 msgid "_Horizontally"
 msgstr "_Horisontalt"
 
-#: src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:33
 msgid "_Rows to repeat on the upper region:"
 msgstr "_Rader som skal repeteres i øvre region:"
 
-#: src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:34
 msgid "_Units:"
 msgstr "_Enheter:"
 
-#: src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:35
 msgid "_Vertically"
 msgstr "_Vertikalt"
 
-#: src/dialogs/print.glade.h:35
-msgid "page(s) wide by"
+#: src/dialogs/print.glade.h:36
+#, fuzzy
+msgid "_page(s) wide by"
 msgstr "side(r) bredere med "
 
-#: src/dialogs/print.glade.h:36
-msgid "tall"
+#: src/dialogs/print.glade.h:37
+#, fuzzy
+msgid "_tall"
 msgstr "høy"
 
 #: src/dialogs/random-generation.glade.h:5
@@ -21481,7 +21558,7 @@ msgid "Yellow"
 msgstr "Gul"
 
 #. Array of arrays ??
-#: src/format.c:1698
+#: src/format.c:1701
 msgid "ARRAY"
 msgstr "TABELL"
 
@@ -22406,7 +22483,9 @@ msgstr ""
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
-msgstr "Filnavnet er ikke riktig for denne filtypen. Vil du bruke dette navnet likevel?"
+msgstr ""
+"Filnavnet er ikke riktig for denne filtypen. Vil du bruke dette navnet "
+"likevel?"
 
 #. Pack it into file selector
 #: src/gui-file.c:296
@@ -22430,7 +22509,8 @@ msgstr "Kunne ikke åpne fil '%s'"
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "modfgnum."
-msgstr "Denne versjonen av Gnumeric er kompilert med for lite presisjon i modfgnum."
+msgstr ""
+"Denne versjonen av Gnumeric er kompilert med for lite presisjon i modfgnum."
 
 #: src/gutils.c:541
 msgid ""
@@ -22811,8 +22891,12 @@ msgstr "Funksjonsgruppen er tom."
 #: src/plugin-service.c:1131
 #, c-format
 msgid "%d function in category \"%s\""
-msgid_plural "Group of %d functions in category \"%s\""
-msgstr[0] "funksjon %d i kategori «%s»"
+msgstr "funksjon %d i kategori «%s»"
+
+#: src/plugin-service.c:1132
+#, fuzzy, c-format
+msgid "Group of %d functions in category \"%s\""
+msgstr "funksjon %d i kategori «%s»"
 
 #: src/plugin-service.c:1228
 msgid "Plugin loader"
@@ -22830,8 +22914,12 @@ msgstr "Kan ikke brukergrensesnittdefinisjon fra XML-fil %s."
 #: src/plugin-service.c:1406
 #, c-format
 msgid "User interface with %d action"
-msgid_plural "User interface with %d actions"
-msgstr[0] ""
+msgstr ""
+
+#: src/plugin-service.c:1407
+#, c-format
+msgid "User interface with %d actions"
+msgstr ""
 
 #: src/plugin-service.c:1499
 msgid "No \"type\" attribute on \"service\" element."
@@ -22850,7 +22938,9 @@ msgstr "Feil ved innlesing av beskrivelse av tjeneste."
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
-msgstr "Vi må laste tjenesten før den aktiveres (PLUGIN_ALWAYS_LOAD er satt) men lasting feilet."
+msgstr ""
+"Vi må laste tjenesten før den aktiveres (PLUGIN_ALWAYS_LOAD er satt) men "
+"lasting feilet."
 
 #: src/plugin-util.c:127
 #, c-format
@@ -23071,27 +23161,27 @@ msgid "file"
 msgstr "fil"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:581
+#: src/print.c:582
 msgid "&[PAGE]"
 msgstr "&[SIDE]"
 
-#: src/print.c:975
+#: src/print.c:1110
 msgid "Print Region"
 msgstr "Skriv ut område"
 
-#: src/print.c:1128
+#: src/print.c:1269
 msgid "Print Sheets"
 msgstr "Skriv ut ark"
 
-#: src/print.c:1136
+#: src/print.c:1277
 msgid "Act_ive sheet"
 msgstr "Akt_ivt ark"
 
-#: src/print.c:1136
+#: src/print.c:1277
 msgid "S_heets"
 msgstr "Ar_k"
 
-#: src/print.c:1221
+#: src/print.c:1362
 msgid "Printing failed"
 msgstr "Feil ved utskrift"
 
@@ -24717,11 +24807,11 @@ msgstr "Det finnes allerede et ark med navn"
 msgid "You may not use this name twice"
 msgstr "Du kan ikke bruke dette navnet to ganger"
 
-#: src/xml-io.c:3627
+#: src/xml-io.c:3628
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Filen er ikke en Gnumeric arbeidsbok"
 
-#: src/xml-io.c:3696
+#: src/xml-io.c:3697
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
 
@@ -25185,7 +25275,9 @@ msgstr "Denne katalogen inneholder de preinstallerte malene for autoformat."
 #: schemas/gnumeric-dialogs.schemas.in.h:34
 msgid ""
 "This list contains all extra directories containing autoformat templates."
-msgstr "Denne listen inneholder alle ekstra kataloger som inneholder maler for autoformat."
+msgstr ""
+"Denne listen inneholder alle ekstra kataloger som inneholder maler for "
+"autoformat."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:35
 msgid "This list contains all extra directories containing plugins."
@@ -25209,7 +25301,9 @@ msgstr "Denne listen inneholder alle tillegg som skal aktiveres automatisk."
 msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
-msgstr "Denne verdien bestemmer om utskriftsdialogen brukes på alle ark samtidig som forvalg."
+msgstr ""
+"Denne verdien bestemmer om utskriftsdialogen brukes på alle ark samtidig som "
+"forvalg."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:40
 msgid ""
@@ -25463,15 +25557,19 @@ msgid ""
 "performed."
 msgstr ""
 
-#: schemas/gnumeric-general.schemas.in.h:51
-msgid "Vertical DPI"
-msgstr "Vertikal DPI"
-
 #: schemas/gnumeric-general.schemas.in.h:52
-msgid "Warn When Exporting Into Single Sheet Format"
+msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:53
+msgid "Vertical DPI"
+msgstr "Vertikal DPI"
+
+#: schemas/gnumeric-general.schemas.in.h:54
+msgid "Warn When Exporting Into Single Sheet Format"
+msgstr ""
+
+#: schemas/gnumeric-general.schemas.in.h:55
 msgid ""
 "When selecting a sort region in the sort dialog, search clauses are "
 "automatically added. This number determines the maximum number of clauses to "
