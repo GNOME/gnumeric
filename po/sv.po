@@ -15,7 +15,7 @@
 #   Använd komma i översättningarna, för det gör Gnumeric. I
 #   funktionsuttryck åtskiljs parametrarna med semikolon (;), inte komma
 #   (,) som i originalet. Kom ihåg detta då exempel och
-#   funktionsanropöversätts.
+#   funktionsanrop översätts.
 #
 # * [Red] i formatkoderna är en färgkod och ska INTE översättas. Inte nu
 #   heller.
@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-06-16 15:32+0200\n"
-"PO-Revision-Date: 2002-06-16 15:33+0200\n"
+"POT-Creation-Date: 2002-06-17 00:15+0200\n"
+"PO-Revision-Date: 2002-06-17 00:15+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -480,7 +480,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funktioner relaterade till finansiella derivat"
 
 #: plugins/dif/dif.c:59 plugins/excel/ms-excel-read.c:4571
-#: plugins/mps/mps.c:631 src/xml-io.c:3336
+#: plugins/mps/mps.c:630 src/xml-io.c:3336
 msgid "Reading file..."
 msgstr "Läser fil..."
 
@@ -10625,49 +10625,47 @@ msgstr "vektor;x;signifikans"
 
 #: plugins/fn-stat/functions.c:4810
 msgid "x_range,prob_range,lower_limit,upper_limit"
-msgstr ""
+msgstr "x-område;sannolikhetsområde;undre_gräns;övre_gräns"
 
 #: plugins/fn-stat/functions.c:4812
 msgid "array,quart"
-msgstr ""
+msgstr "vektor;fjärdedel"
 
 #: plugins/fn-stat/functions.c:4822 plugins/fn-stat/functions.c:4836
 msgid "known_y's,known_x's"
-msgstr ""
+msgstr "kända_y;kända_x"
 
 #: plugins/fn-stat/functions.c:4826
 msgid "x,mean,stddev"
-msgstr ""
+msgstr "x;medelvärde;stdav"
 
 #: plugins/fn-stat/functions.c:4838
 msgid "function_nbr,ref,ref,"
-msgstr ""
+msgstr "funktionsnummer;ref;ref;"
 
 #: plugins/fn-stat/functions.c:4840
 msgid "x,dof,tails"
-msgstr ""
+msgstr "x;frg;svansar"
 
 #: plugins/fn-stat/functions.c:4846
-#, fuzzy
 msgid "ref,fraction"
-msgstr "Åtgärd"
+msgstr "ref;bråktal"
 
 #: plugins/fn-stat/functions.c:4848
 msgid "array1,array2,tails,type"
-msgstr ""
+msgstr "vektor1;vektor2;svansar;typ"
 
 #: plugins/fn-stat/functions.c:4858
 msgid "x.alpha,beta,cumulative"
-msgstr ""
+msgstr "x.alfa;beta;kumulativ"
 
 #: plugins/fn-stat/functions.c:4860
 msgid "ref,x"
-msgstr ""
+msgstr "ref;x"
 
 #: plugins/fn-stat/plugin.xml.in.h:1
-#, fuzzy
 msgid "Statistical Functions"
-msgstr "Statistika metoder"
+msgstr "Statistikfunktioner"
 
 #: plugins/fn-stat/plugin.xml.in.h:2
 msgid "Statistics"
@@ -11011,9 +11009,8 @@ msgstr ""
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
 #: plugins/fn-string/functions.c:625
-#, fuzzy
 msgid "Arguments out of range"
-msgstr "Talet är utanför intervallet"
+msgstr "Argument är utanför intervallet"
 
 #: plugins/fn-string/functions.c:645
 msgid ""
@@ -11195,56 +11192,55 @@ msgstr ""
 
 #: plugins/fn-string/functions.c:1236
 msgid "text,text,"
-msgstr ""
+msgstr "text;text;"
 
 #: plugins/fn-string/functions.c:1237
-#, fuzzy
 msgid "num,decimals"
-msgstr "Ta bort decimaler"
+msgstr "tal;decimaler"
 
 #: plugins/fn-string/functions.c:1238
 msgid "text1,text2"
-msgstr ""
+msgstr "text1;text2"
 
 #: plugins/fn-string/functions.c:1239
 msgid "text1,text2,num"
-msgstr ""
+msgstr "text1;text2;tal"
 
 #: plugins/fn-string/functions.c:1240
 msgid "num,decs,no_commas"
-msgstr ""
+msgstr "tal;decimaler;antal_komman"
 
 #: plugins/fn-string/functions.c:1241 plugins/fn-string/functions.c:1248
 msgid "text,num_chars"
-msgstr ""
+msgstr "text;antal_tecken"
 
 #: plugins/fn-string/functions.c:1245
 msgid "text,pos,num"
-msgstr ""
+msgstr "text;pos;tal"
 
 #: plugins/fn-string/functions.c:1246
 msgid "old,start,num,new"
-msgstr ""
+msgstr "gammal;start;tal;ny"
 
 #: plugins/fn-string/functions.c:1247
 msgid "text,num"
-msgstr ""
+msgstr "text;tal"
 
 #: plugins/fn-string/functions.c:1249
 msgid "find,within,start_num"
-msgstr ""
+msgstr "sök;inom;starttal"
 
 #: plugins/fn-string/functions.c:1250
 msgid "text,old,new,num"
-msgstr ""
+msgstr "text;gammal;ny;tal"
 
 #: plugins/fn-string/functions.c:1252
 msgid "value,format_text"
-msgstr ""
+msgstr "värde;formattext"
 
 #: plugins/fn-string/plugin.xml.in.h:1
 msgid "Functions for manipulating strings"
-msgstr ""
+msgstr "Funktioner för manipulering av strängar"
 
 #: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:140
 #: src/func.c:643
@@ -11252,9 +11248,8 @@ msgid "String"
 msgstr "Sträng"
 
 #: plugins/fn-string/plugin.xml.in.h:3
-#, fuzzy
 msgid "String Functions"
-msgstr "Python-funktioner"
+msgstr "Strängfunktioner"
 
 #: plugins/gb/plugin.c:138
 msgid "Unknown GB error"
@@ -11365,9 +11360,8 @@ msgid "Not a Guile string"
 msgstr "Inte en Guile-sträng"
 
 #: plugins/html/html_read.c:287
-#, fuzzy
 msgid "Unable to parse the html."
-msgstr "Kan inte klistra in"
+msgstr "Kan inte tolka html-koden."
 
 #: plugins/html/plugin.xml.in.h:1
 msgid "DVI TeX (via groff)"
@@ -11405,7 +11399,7 @@ msgstr "LaTeX 2e (*.tex)"
 msgid "TROFF (*.me)"
 msgstr "TROFF (*.me)"
 
-#: plugins/html/roff.c:201
+#: plugins/html/roff.c:202
 msgid "Error executing groff."
 msgstr "Fel vid körning av groff."
 
@@ -11425,28 +11419,28 @@ msgstr "Lotus 123"
 msgid "Lotus 123 (*.wk1)"
 msgstr "Lotus 123 (*.wk1)"
 
-#: plugins/mps/mps.c:179
+#: plugins/mps/mps.c:178
 msgid "Program Name"
 msgstr "Programnamn"
 
 #. Print 'Status'.
-#: plugins/mps/mps.c:185
+#: plugins/mps/mps.c:184
 msgid "Feasible"
 msgstr "Möjligt"
 
-#: plugins/mps/mps.c:219
+#: plugins/mps/mps.c:218
 msgid "Objective Value"
 msgstr "Objektivvärde"
 
-#: plugins/mps/mps.c:225
+#: plugins/mps/mps.c:224
 msgid "Objective function:"
 msgstr "Objektivfunktion:"
 
-#: plugins/mps/mps.c:232
+#: plugins/mps/mps.c:231
 msgid "Constraints:"
 msgstr "Bivillkor:"
 
-#: plugins/mps/mps.c:243 src/dialogs/dialog-formula-guru.c:808
+#: plugins/mps/mps.c:242 src/dialogs/dialog-formula-guru.c:808
 #: src/dialogs/dialog-function-select.c:333
 #: src/dialogs/dialog-function-select.c:355
 #: src/dialogs/dialog-plugin-manager.c:709
@@ -11459,7 +11453,7 @@ msgstr "Bivillkor:"
 msgid "Name"
 msgstr "Namn"
 
-#: plugins/mps/mps.c:270 src/dialogs/dialog-plugin-manager.c:714
+#: plugins/mps/mps.c:269 src/dialogs/dialog-plugin-manager.c:714
 #: src/dialogs/dialog-preferences.c:510 src/tools/solver/reports-write.c:321
 #: src/tools/solver/reports-write.c:367 src/tools/solver/reports-write.c:479
 #: src/tools/solver/reports-write.c:486
@@ -11469,45 +11463,45 @@ msgstr "Värde"
 #.
 #. * Fill in the labels of `General Info' section.
 #.
-#: plugins/mps/mps.c:271 src/dialogs/dialog-formula-guru.c:812
+#: plugins/mps/mps.c:270 src/dialogs/dialog-formula-guru.c:812
 #: src/tools/solver/reports-write.c:602
 msgid "Type"
 msgstr "Typ"
 
-#: plugins/mps/mps.c:272
+#: plugins/mps/mps.c:271
 msgid "RHS"
 msgstr "RHS"
 
-#: plugins/mps/mps.c:273 src/tools/solver/reports-write.c:217
+#: plugins/mps/mps.c:272 src/tools/solver/reports-write.c:217
 msgid "Slack"
 msgstr "Spelrum"
 
-#: plugins/mps/mps.c:274 src/tools/solver/reports-write.c:216
+#: plugins/mps/mps.c:273 src/tools/solver/reports-write.c:216
 #: src/tools/solver/reports-write.c:603
 msgid "Status"
 msgstr "Status"
 
-#: plugins/mps/mps.c:736
+#: plugins/mps/mps.c:735
 msgid "Error while reading MPS file."
 msgstr "Fel vid läsning av MPS-fil."
 
-#: plugins/mps/parser.c:519
+#: plugins/mps/parser.c:523
 msgid "Problem name was not defined in the file."
 msgstr "Problemnamnet angavs inte i filen."
 
-#: plugins/mps/parser.c:524
+#: plugins/mps/parser.c:528
 msgid "Invalid ROWS section in the file."
 msgstr "Ogiltigt ROWS-asvnitt i filen."
 
-#: plugins/mps/parser.c:529
+#: plugins/mps/parser.c:533
 msgid "Invalid COLUMNS section in the file."
 msgstr "Ogiltigt COLUMNS-avsnitt i filen."
 
-#: plugins/mps/parser.c:534
+#: plugins/mps/parser.c:538
 msgid "Invalid RHS section in the file."
 msgstr "Ogiltigt RHS-avsnitt i filen."
 
-#: plugins/mps/parser.c:539
+#: plugins/mps/parser.c:543
 msgid "Invalid BOUNDS section in the file."
 msgstr "Ogiltigt BOUNDS-avsnitt i filen."
 
@@ -11988,9 +11982,8 @@ msgid "Error parsing line"
 msgstr "Fel vid tolkning av rad"
 
 #: plugins/sc/sc.c:398
-#, fuzzy
 msgid "Not an SC File"
-msgstr "Inte en SYLK-fil"
+msgstr "Inte en SC-fil"
 
 #: plugins/sylk/plugin.xml.in.h:1
 msgid "Imports MultiPlan (SYLK) files"
@@ -12561,9 +12554,8 @@ msgid "Insert a shaped component into the spreadsheet"
 msgstr "Infoga ett format objekt i kalkylbladet"
 
 #: src/GNOME_Gnumeric.xml.h:118
-#, fuzzy
 msgid "Insert an image"
-msgstr "_Infoga ny"
+msgstr "Infoga en bild"
 
 #: src/GNOME_Gnumeric.xml.h:119
 msgid "Insert an object into the spreadsheet"
@@ -12678,9 +12670,8 @@ msgstr "Hantera tillgängliga insticksmoduler."
 
 #: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:2963
 #: src/workbook-control-gui.c:3157
-#, fuzzy
 msgid "Manage the sheets in this workbook"
-msgstr "Inga blad i arbetsboken."
+msgstr "Hantera bladen i denna arbetsbok"
 
 #: src/GNOME_Gnumeric.xml.h:147
 msgid "Mark the current selection for movement"
@@ -12998,27 +12989,24 @@ msgid "Sort Descending"
 msgstr "Sortera fallande"
 
 #: src/GNOME_Gnumeric.xml.h:223
-#, fuzzy
 msgid "Sorts the selected cells"
-msgstr "Sortera de markerade cellerna"
+msgstr "Sorterar de markerade cellerna"
 
 #: src/GNOME_Gnumeric.xml.h:224
-#, fuzzy
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected"
 msgstr ""
-"Sortera det markerade området i stigande ordning, utgående från den först "
-"markerade kolumnen."
+"Sorterar det markerade området i stigande ordning, utgående från den först "
+"markerade kolumnen"
 
 #: src/GNOME_Gnumeric.xml.h:225
-#, fuzzy
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected"
 msgstr ""
-"Sortera det markerade området i fallande ordning, utgående från den först "
-"markerade kolumnen."
+"Sorterar det markerade området i fallande ordning, utgående från den först "
+"markerade kolumnen"
 
 #: src/GNOME_Gnumeric.xml.h:226 src/workbook-format-toolbar.c:452
 msgid "Split"
@@ -13034,7 +13022,7 @@ msgstr "Statistisk anal_ys"
 
 #: src/GNOME_Gnumeric.xml.h:229 src/dialogs/consolidate.glade.h:19
 #: src/workbook-control-gui.c:3474 src/workbook-control-gui.c:4136
-#: src/workbook-view.c:458
+#: src/workbook-view.c:459
 msgid "Sum"
 msgstr "Summa"
 
@@ -13099,9 +13087,8 @@ msgid "Undo the last action"
 msgstr "Ångra det senaste kommandot"
 
 #: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3251
-#, fuzzy
 msgid "Unpaired Samples, _Equal Var.: T-Test"
-msgstr "Oparade prover, li_ka varians: t-test"
+msgstr "Oparade prover, _lika varians: t-test"
 
 #: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3256
 msgid "Unpaired Samples, _Unequal Var.: T-Test"
@@ -13292,9 +13279,8 @@ msgid "_Histogram"
 msgstr "_Histogram"
 
 #: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3095
-#, fuzzy
 msgid "_Image..."
-msgstr "_Spara..."
+msgstr "_Bild..."
 
 #: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:2855
 msgid "_Import..."
@@ -13486,49 +13472,40 @@ msgid "_Zoom..."
 msgstr "_Zooma..."
 
 #: src/GNOME_Gnumeric_Component.xml.h:1
-#, fuzzy
 msgid "About the Gnumeric Spreadsheet Program"
-msgstr "Kalkylprogrammet Gnumeric"
+msgstr "Om kalkylprogrammet Gnumeric"
 
 #: src/GNOME_Gnumeric_Component.xml.h:2
-#, fuzzy
 msgid "C_lear Cells"
-msgstr "Töm alla"
+msgstr "T_öm celler"
 
 #: src/GNOME_Gnumeric_Component.xml.h:3
-#, fuzzy
 msgid "Cu_t Cells"
-msgstr "_Celler"
+msgstr "Klipp _ut celler"
 
 #: src/GNOME_Gnumeric_Component.xml.h:4
-#, fuzzy
 msgid "P_roperties"
-msgstr "_Egenskaper..."
+msgstr "E_genskaper..."
 
 #: src/GNOME_Gnumeric_Component.xml.h:9
-#, fuzzy
 msgid "Search Workbook"
-msgstr "Är inte en Gnumeric-arbetsboksfil"
+msgstr "Sök arbetsbok"
 
 #: src/GNOME_Gnumeric_Component.xml.h:12
-#, fuzzy
 msgid "View descriptive information"
-msgstr "Redigera beskrivande information"
+msgstr "Visa beskrivande information"
 
 #: src/GNOME_Gnumeric_Component.xml.h:13
-#, fuzzy
 msgid "_About Gnumeric"
-msgstr "Gnumeric"
+msgstr "_Om Gnumeric"
 
 #: src/GNOME_Gnumeric_Component.xml.h:14
-#, fuzzy
 msgid "_Copy Cells"
-msgstr "_Celler"
+msgstr "_Kopiera celler"
 
 #: src/GNOME_Gnumeric_Component.xml.h:18
-#, fuzzy
 msgid "_Paste Cells"
-msgstr "_Celler"
+msgstr "Klistra _in celler"
 
 #: src/bonobo-io.c:218 src/bonobo-io.c:684 src/format-template.c:635
 msgid "Invalid xml file. Tree is empty ?"
@@ -13627,19 +13604,18 @@ msgid "Would split an array"
 msgstr "Skulle delat en vektor"
 
 #: src/commands.c:225
-#, fuzzy, c-format
+#, c-format
 msgid "%s is locked. Unprotect the workbook to enable editing."
-msgstr "Ta bort skydd på arbetsboken för att tillåta redigering."
+msgstr "%s är låst. Ta bort skyddet på arbetsboken för att tillåta redigering."
 
 #: src/commands.c:226
-#, fuzzy, c-format
+#, c-format
 msgid "%s is locked. Unprotect the sheet to enable editing."
-msgstr "Ta bort skydd på bladet för att tillåta redigering."
+msgstr "%s är låst. Ta bort skyddet på bladet för att tillåta redigering."
 
 #: src/commands.c:351
-#, fuzzy
 msgid "..."
-msgstr "Öppna..."
+msgstr "..."
 
 #: src/commands.c:779 src/commands.c:889
 msgid "Set Text"
@@ -13749,14 +13725,14 @@ msgid "Setting height of row %s to %d pixels"
 msgstr "Ställer in höjd på rad %s till %d bildpunkter"
 
 #: src/commands.c:1776
-#, fuzzy, c-format
+#, c-format
 msgid "Setting width of column %s to default"
-msgstr "Ställer in bredden på kolumn %s till %d bildpunkter"
+msgstr "Ställer in bredden på kolumn %s till standardbredd"
 
 #: src/commands.c:1779
-#, fuzzy, c-format
+#, c-format
 msgid "Setting height of row %s to default"
-msgstr "Ställer in höjd på rad %s till %d bildpunkter"
+msgstr "Ställer in höjd på rad %s till standardhöjd"
 
 #: src/commands.c:1783 src/commands.c:1784
 #, c-format
@@ -13774,14 +13750,14 @@ msgid "Setting height of rows %s to %d pixels"
 msgstr "Ställer in höjd på rader %s till %d bildpunkter"
 
 #: src/commands.c:1793
-#, fuzzy, c-format
+#, c-format
 msgid "Setting width of columns %s to default"
-msgstr "Ställer in bredd på kolumner %s till %d bildpunkter"
+msgstr "Ställer in bredd på kolumner %s till standardbredden"
 
 #: src/commands.c:1795
-#, fuzzy, c-format
+#, c-format
 msgid "Setting height of rows %s to default"
-msgstr "Ställer in höjd på rader %s till %d bildpunkter"
+msgstr "Ställer in höjd på rader %s till standardhöjden"
 
 #: src/commands.c:1878
 #, c-format
@@ -13993,33 +13969,29 @@ msgid "Changing summary info"
 msgstr "Ändrar sammanfattningsinformation"
 
 #: src/commands.c:5042
-#, fuzzy
 msgid "Raise object"
-msgstr "Storleksändring av objekt"
+msgstr "Höj objekt"
 
 #: src/commands.c:5045
-#, fuzzy
 msgid "Lower object"
-msgstr "Flyttning av objekt"
+msgstr "Sänk objekt"
 
 #: src/commands.c:5048
-#, fuzzy
 msgid "Raise object to top"
-msgstr "Storleksändring av objekt"
+msgstr "Höj objektet överst"
 
 #: src/commands.c:5051
 msgid "Lower object to bottom"
-msgstr ""
+msgstr "Sänk objektet nederst"
 
 #: src/commands.c:5169
-#, fuzzy, c-format
+#, c-format
 msgid "Print Setup For %s"
-msgstr "U_tskriftsformat"
+msgstr "Utskriftskonfiguration för %s"
 
 #: src/commands.c:5171
-#, fuzzy
 msgid "Print Setup For All Sheets"
-msgstr "Skriv ut blad"
+msgstr "Utskriftskonfiguration för alla blad"
 
 #: src/dates.c:17
 msgid "*Sun"
@@ -15025,9 +14997,8 @@ msgid "val != bound                  (not equal to)"
 msgstr "värde != gräns                (inte lika med)"
 
 #: src/dialogs/cell-format.glade.h:131
-#, fuzzy
 msgid "val <  bound                  (less than)"
-msgstr "värde >  gräns                (mindre än)"
+msgstr "värde <  gräns                (mindre än)"
 
 #: src/dialogs/cell-format.glade.h:132
 msgid "val <= min || max <= val (not between)"
@@ -15079,9 +15050,8 @@ msgid "Sort..."
 msgstr "Sortera..."
 
 #: src/dialogs/cell-sort.glade.h:8
-#, fuzzy
 msgid "_Preserves Formats"
-msgstr "_Bevara skillnad på gemener/VERSALER"
+msgstr "_Bevarar format"
 
 #: src/dialogs/cell-sort.glade.h:9
 msgid "_Right-Left"
@@ -15092,7 +15062,6 @@ msgid "_Top-Bottom"
 msgstr "_Uppifrån-ner"
 
 #: src/dialogs/col-width.glade.h:1
-#, fuzzy
 msgid "Column Width"
 msgstr "Kolumnbredd"
 
@@ -15101,14 +15070,12 @@ msgid "_Column width (pts):"
 msgstr "_Kolumnbredd (pt):"
 
 #: src/dialogs/col-width.glade.h:3 src/dialogs/row-height.glade.h:3
-#, fuzzy
 msgid "_Use Default"
-msgstr "Standard"
+msgstr "_Använd standardvärde"
 
 #: src/dialogs/colrow.glade.h:1
-#, fuzzy
 msgid "Group/Ungroup"
-msgstr "Avgruppera"
+msgstr "Gruppera/Avgruppera"
 
 #: src/dialogs/consolidate.glade.h:1
 msgid "Add the entered area to the list of source areas"
@@ -15858,15 +15825,16 @@ msgid "Could not create the Cell-Sort dialog."
 msgstr "Kunde inte skapa cellsorteringsdialogen."
 
 #: src/dialogs/dialog-col-width.c:224
-#, fuzzy
 msgid "Set standard/default column width"
-msgstr "Ändra standardbredden för kolumner"
+msgstr "Ställ in standardbredden för kolumner"
 
 #: src/dialogs/dialog-col-width.c:229
 #, c-format
 msgid ""
 "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
+"Ställ in kolumnbredden av markeringen på <span style='italic' weight='bold'>%"
+"s</span>"
 
 #: src/dialogs/dialog-consolidate.c:136
 #, c-format
@@ -16292,15 +16260,16 @@ msgid "Could not create the Random Tool dialog."
 msgstr "Kunde inte skapa dialogen för slumpverkyget."
 
 #: src/dialogs/dialog-row-height.c:224
-#, fuzzy
 msgid "Set standard/default row height"
-msgstr "Ändra standardhöjden för rader"
+msgstr "Ställ in standardhöjd för rader"
 
 #: src/dialogs/dialog-row-height.c:229
 #, c-format
 msgid ""
 "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
+"Ställ in radhöjd av markeringen på <span style='italic' weight='bold'>%s</"
+"span>"
 
 #: src/dialogs/dialog-search-replace.c:148 src/dialogs/dialog-search.c:358
 msgid "You must select some cell types to search."
@@ -17366,9 +17335,8 @@ msgid "Plugin Manager"
 msgstr "Insticksmodulhanterare"
 
 #: src/dialogs/plugin-manager.glade.h:10
-#, fuzzy
 msgid "Plugin _list"
-msgstr "Lista över insticksmoduler"
+msgstr "_Lista över insticksmoduler"
 
 #: src/dialogs/plugin-manager.glade.h:11
 msgid "_Activate all plugins"
@@ -17379,23 +17347,20 @@ msgid "_Deactivate all plugins"
 msgstr "_Inaktivera alla insticksmoduler"
 
 #: src/dialogs/plugin-manager.glade.h:13
-#, fuzzy
 msgid "_Directories"
-msgstr "Katalog"
+msgstr "_Kataloger"
 
 #: src/dialogs/plugin-manager.glade.h:14
-#, fuzzy
 msgid "_Plugin details"
-msgstr "Detaljer för insticksmodul"
+msgstr "_Detaljer för insticksmodul"
 
 #: src/dialogs/plugin-manager.glade.h:15
 msgid "_Scan plugin directories"
-msgstr ""
+msgstr "_Genomsök insticksmodulkataloger"
 
 #: src/dialogs/preferences.glade.h:1
-#, fuzzy
 msgid "Gnumeric Preferences"
-msgstr "Ändra inställningar för Gnumeric"
+msgstr "Inställningar för Gnumeric"
 
 #: src/dialogs/print.glade.h:2
 #, no-c-format
@@ -18205,15 +18170,15 @@ msgstr "Inbyggd"
 msgid "Error: no sheet"
 msgstr "Fel: inget blad"
 
-#: src/expr.c:669
+#: src/expr.c:670
 msgid "Internal type error"
 msgstr "Internt typfel"
 
-#: src/expr.c:842
+#: src/expr.c:843
 msgid "Unknown operator"
 msgstr "Okänd operator"
 
-#: src/expr.c:1078
+#: src/expr.c:1079
 msgid "Unknown evaluation error"
 msgstr "Okänt evalueringsfel"
 
@@ -19959,11 +19924,11 @@ msgstr ""
 #. * 'Print Preview...' item in the
 #. * 'File' menu
 #.
-#: src/history.c:128
+#: src/history.c:129
 msgid "_File/Print Pre_view..."
 msgstr "_Arkiv/Förhands_granska..."
 
-#: src/history.c:226
+#: src/history.c:227
 msgid "File/"
 msgstr "Arkiv/"
 
@@ -20150,51 +20115,56 @@ msgstr "Bladnamn krävs"
 msgid "Unknown sheet '%s'"
 msgstr "Okänt blad \"%s\""
 
-#: src/parser.y:519
+#: src/parser.y:521
+#, c-format
+msgid "What is a 3D name %s:%s!%s ?"
+msgstr ""
+
+#: src/parser.y:531
 #, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
 msgstr "Namnet \"%s\" finns inte på bladet \"%s\""
 
-#: src/parser.y:541
+#: src/parser.y:553
 #, c-format
 msgid "Unknown workbook '%s'"
 msgstr "Okänd arbetsbok \"%s\""
 
-#: src/parser.y:553
+#: src/parser.y:565
 #, c-format
 msgid "Name '%s' does not exist in workbook '%s'"
 msgstr "Namnet \"%s\" finns inte i arbetsboken \"%s\""
 
-#: src/parser.y:690 src/parser.y:704
+#: src/parser.y:717 src/parser.y:731
 #, c-format
 msgid "The character %c cannot be used to separate array elements"
 msgstr "Tecknet %c kan inte användas för att avskilja vektorelement"
 
-#: src/parser.y:882 src/parser.y:892 src/parser.y:925
+#: src/parser.y:909 src/parser.y:919 src/parser.y:952
 msgid "The number is out of range"
 msgstr "Talet är utanför intervallet"
 
-#: src/parser.y:953
+#: src/parser.y:980
 msgid "Could not find matching closing quote"
 msgstr "Kunde inte hitta matchande avslutande citattecken"
 
-#: src/parser.y:1098
+#: src/parser.y:1125
 msgid "Multiple expressions are not supported in this context"
 msgstr "Flera uttryck stöds inte i detta sammanhang"
 
-#: src/parser.y:1120
+#: src/parser.y:1147
 msgid "Could not find matching opening parenthesis"
 msgstr "Kunde inte hitta matchande öppningsparentes"
 
-#: src/parser.y:1124
+#: src/parser.y:1151
 msgid "Could not find matching closing parenthesis"
 msgstr "Kunde inte hitta matchande avslutningsparentes"
 
-#: src/parser.y:1128
+#: src/parser.y:1155
 msgid "Invalid expression"
 msgstr "Ogiltigt uttryck"
 
-#: src/parser.y:1133
+#: src/parser.y:1160
 #, c-format
 msgid "Unexpected token %c"
 msgstr "Oväntat tecken %c"
@@ -22270,24 +22240,24 @@ msgstr "Skapar ett rektangelobjekt"
 msgid "Creates an ellipse object"
 msgstr "Skapar ett ellipsobjekt"
 
-#: src/workbook-view.c:231
+#: src/workbook-view.c:232
 #, c-format
 msgid "%dR x %dC"
 msgstr "%d R × %d K"
 
-#: src/workbook-view.c:367
+#: src/workbook-view.c:368
 msgid "Internal ERROR"
 msgstr "Internt FEL"
 
-#: src/workbook-view.c:567
+#: src/workbook-view.c:568
 msgid "Default file saver is not available."
 msgstr "Standardfilspararen är inte tillgänglig."
 
-#: src/workbook-view.c:652
+#: src/workbook-view.c:653
 msgid "No sheets in workbook."
 msgstr "Inga blad i arbetsboken."
 
-#: src/workbook-view.c:662
+#: src/workbook-view.c:663
 msgid "Unsupported file format."
 msgstr "Filformatet stöds inte."
 
@@ -22330,6 +22300,12 @@ msgstr "Är inte en Gnumeric-arbetsboksfil"
 #: src/xml-io.c:3433
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid "x,alpha,beta,cumulative"
+#~ msgstr "x;alfa;beta;kumulativ"
+
+#~ msgid "Sort the selected cells"
+#~ msgstr "Sortera de markerade cellerna"
 
 #~ msgid "link_location,label"
 #~ msgstr "länkplats,etikett"
