@@ -21,6 +21,7 @@
 #include "application.h"
 #include "workbook-view.h"
 #include "workbook.h"
+#include "commands.h"
 
 #undef DEBUG_POSITIONS
 

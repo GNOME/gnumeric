@@ -3727,6 +3727,7 @@ sheet_save_row_col_sizes (Sheet *sheet, gboolean const is_cols,
 
 	for (i = 0 ; i < count ; ++i) {
 		ColRowInfo *info = sheet_col_get_info (sheet, index + i);
+		g_return_val_if_fail (info != NULL, NULL); /* be anal, and leak */
 		res[i] = info->units;
 		if (info->hard_size)
 			res[i] *= -1.;

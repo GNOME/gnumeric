@@ -430,7 +430,7 @@ cmd_ins_del_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 		else
 			sheet_insert_rows (context, me->sheet, me->index, me->count);
 	} else {
-		index = (me->is_cols) ? SHEET_MAX_COLS : SHEET_MAX_ROWS - me->count;
+		index = ((me->is_cols) ? SHEET_MAX_COLS : SHEET_MAX_ROWS) - me->count;
 		if (me->is_cols)
 			sheet_delete_cols (context, me->sheet, me->index, me->count);
 		else
@@ -454,7 +454,7 @@ cmd_ins_del_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 	/* TODO : 1) Save the values of the deleted cells */
 	/* TODO : 2) Save the styles in the cleared range */
 	if (me->is_insert) {
-		int const index = (me->is_cols) ? SHEET_MAX_COLS : SHEET_MAX_ROWS -
+		int const index = ((me->is_cols) ? SHEET_MAX_COLS : SHEET_MAX_ROWS) -
 			me->count;
 		me->sizes = sheet_save_row_col_sizes (me->sheet, me->is_cols,
 						      index, me->count);
