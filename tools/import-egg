@@ -3,6 +3,8 @@
 
 use strict;
 
+$| = 1;
+
 die "$0: must run from top-level gnumeric directory.\n"
     unless -r "gnumeric-config.h";
 my $dst = "src/egg";
@@ -31,12 +33,12 @@ sub copy_subsystem {
 
     my @sources;
 
-    print STDERR "Creating $dstdir/Makefile.am...\n";
     local (*SRC,*DST);
     open (SRC, "<$srcdir/Makefile.am") or
 	die "$0: Cannot read $srcdir/Makefile.am: $!\n";
-    open (DST, ">$dstdir/Makefile.am") or
-	die "$0: Cannot write $dstdir/Makefile.am: $!\n";
+    open (DST, ">$dstdir/Makefile.am.new") or
+	die "$0: Cannot write $dstdir/Makefile.am.new: $!\n";
+    print STDERR "Creating $dstdir/Makefile.am...";
     while (<SRC>) {
 	next if /^test_/;
 	next if /^noinst_PROGRAMS/;
@@ -56,15 +58,16 @@ sub copy_subsystem {
     }
     close (*SRC);
     close (*DST);
+    &update_file ("$dstdir/Makefile.am");
 
     foreach my $file (@sources) {
-	print STDERR "Creating $dstdir/$file...\n";
 	local (*SRC,*DST);
 	open (SRC, "<$srcdir/$file") or
 	    die "$0: Cannot read $srcdir/$file: $!\n";
-	open (DST, ">$dstdir/$file") or
-	    die "$0: Cannot write $dstdir/$file: $!\n";
+	open (DST, ">$dstdir/$file.new") or
+	    die "$0: Cannot write $dstdir/$file.new: $!\n";
 
+	print STDERR "Creating $dstdir/$file...";
 	while (<SRC>) {
 	    if (m{^\s*\#\s*include\s*[<\"]libegg/(.*)[>\"]}) {
 		print DST "#include \"egg/$1\"\n";
@@ -72,6 +75,33 @@ sub copy_subsystem {
 	    }
 
 	    print DST;
+	}
+	close (*SRC);
+	close (*DST);
+
+	&update_file ("$dstdir/$file");
+    }
+}
+
+# -----------------------------------------------------------------------------
+
+sub update_file {
+    my ($old) = @_;
+    my ($new) = "$old.new";
+
+    if (!-r $old) {
+	rename $new, $old or
+	    die "$0: Cannot rename $new to $old: $!\n";
+	print STDERR " -- done.\n";
+    } else {
+	system ("cmp '$old' '$new' >/dev/null");
+	if ($? == 0) {
+	    print STDERR " -- unchanged.\n";
+	    unlink $new;
+	} else {
+	    rename $new, $old or
+		die "$0: Cannot rename $new to $old: $!\n";
+	    print STDERR " -- done.\n";
 	}
     }
 }
