@@ -46,6 +46,7 @@ typedef struct _GogLabel	GogLabel;
 typedef struct _GogStyledObject	GogStyledObject;
 typedef struct _GogAxis		GogAxis;
 typedef struct _GogGrid		GogGrid;
+typedef struct _GogErrorBar		GogErrorBar;
 
 /* formating */
 typedef struct _GogTheme	GogTheme;

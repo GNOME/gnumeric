@@ -28,6 +28,7 @@
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-style.h>
 #include <glib-object.h>
+#include <gtk/gtknotebook.h>
 
 G_BEGIN_DECLS
 
@@ -49,7 +50,8 @@ typedef struct {
 typedef enum {
 	GOG_SERIES_REQUIRED,  /* it must be there */
 	GOG_SERIES_SUGGESTED, /* allocator will fill it in, but use need not */
-	GOG_SERIES_OPTIONAL
+	GOG_SERIES_OPTIONAL,
+	GOG_SERIES_ERRORS
 } GogSeriesPriority;
 
 struct _GogSeriesDimDesc {
@@ -88,6 +90,7 @@ typedef struct {
 
 	/* Virtuals */
 	void (*dim_changed) (GogSeries *series, int dim_i);
+	void (*populate_editor) (GogSeries *series, GtkNotebook* book, GogDataAllocator *dalloc, GnmCmdContext *cc);
 } GogSeriesClass;
 
 #define GOG_SERIES_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_SERIES_TYPE, GogSeriesClass))

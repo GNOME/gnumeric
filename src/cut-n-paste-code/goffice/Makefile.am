@@ -1,4 +1,4 @@
-SUBDIRS = graph utils gui-utils drawing ms-compat # data
+SUBDIRS = graph utils gui-utils drawing ms-compat data
 
 noinst_LTLIBRARIES = libgoffice.la
 
@@ -19,4 +19,3 @@ INCLUDES = -I$(top_srcdir) 					\
 	   -I$(top_srcdir)/src/cut-n-paste-code			\
 	   -I$(top_srcdir)/src/cut-n-paste-code/foocanvas	\
 	    $(GNUMERIC_CFLAGS)
-

@@ -227,7 +227,8 @@ gog_object_write_property (GogObject *obj, GParamSpec *pspec, xmlNode *parent)
 				gog_persist_dom_save (GOG_PERSIST_DOM (val_obj), node);
 			} else
 				g_warning ("How are we supposed to persist this ??");
-		}
+		} else
+			success = FALSE;
 		break;
 
 	default:
@@ -395,4 +396,3 @@ gog_object_new_from_xml (GogObject *parent, xmlNode *node)
 	}
 	return res;
 }
-

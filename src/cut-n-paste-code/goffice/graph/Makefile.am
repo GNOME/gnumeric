@@ -43,7 +43,10 @@ libgoffice_graph_la_SOURCES = \
 	gog-plot-engine.c		\
 	gog-series.c			\
 	gog-series.h			\
-	gog-series-impl.h		\
+	gog-series-impl.h	\
+	gog-error-bar.c	\
+	gog-error-bar.h		\
+	gog-error-bar-display-icons.h		\
 	gog-data-allocator.c		\
 	gog-data-allocator.h		\
 	gog-data-set.c			\
@@ -69,11 +72,11 @@ libgoffice_graph_la_SOURCES = \
 	gog-renderer-svg.c	\
 	gog-renderer-svg.h
 
-
 gnumeric_glade_DATA = \
 	gog-guru.glade			\
 	gog-style-prefs.glade		\
-	gog-axis-prefs.glade
+	gog-axis-prefs.glade \
+	gog-error-bar-prefs.glade
 
 EXTRA_DIST = $(gnumeric_glade_DATA)
 
@@ -82,4 +85,5 @@ INCLUDES = -I$(top_srcdir) 					\
 	   -I$(top_srcdir)/src 					\
 	   -I$(top_srcdir)/src/cut-n-paste-code			\
 	   -I$(top_srcdir)/src/cut-n-paste-code/foocanvas	\
-	    $(GNUMERIC_CFLAGS)
+	    $(GNUMERIC_CFLAGS) \
+		-DGNUMERICGLADEDIR=\"$(gnumeric_gladedir)\"

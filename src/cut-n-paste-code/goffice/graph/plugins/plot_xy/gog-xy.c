@@ -27,12 +27,14 @@
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/go-data.h>
+#include <goffice/graph/gog-error-bar.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-format.h>
 
 #include <module-plugin-defs.h>
 #include <glib/gi18n.h>
+#include <gtk/gtklabel.h>
 #include <src/mathfunc.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
@@ -117,6 +119,25 @@ gog_2d_plot_update (GogObject *obj)
 
 	/*adjust bounds to allow large markers or bubbles*/
 	gog_2d_plot_adjust_bounds (model, &x_min, &x_max, &y_min, &y_max);
+	/* add room for error bars */
+	if ((series->x_errors) &&
+		(series->x_errors->type != GOG_ERROR_BAR_TYPE_NONE) &&
+		(series->x_errors->display != GOG_ERROR_BAR_DISPLAY_NONE)) {
+			gog_error_bar_get_minmax (series->x_errors, &tmp_min, &tmp_max);
+			if (x_min > tmp_min)
+				x_min = tmp_min;
+			if (x_max < tmp_max)
+				x_max = tmp_max;
+		}
+	if ((series->y_errors) &&
+		(series->y_errors->type != GOG_ERROR_BAR_TYPE_NONE) &&
+		(series->y_errors->display != GOG_ERROR_BAR_DISPLAY_NONE)) {
+			gog_error_bar_get_minmax (series->y_errors, &tmp_min, &tmp_max);
+			if (y_min > tmp_min)
+				y_min = tmp_min;
+			if (y_max < tmp_max)
+				y_max = tmp_max;
+		}
 	
 	if (model->x.minima != x_min || model->x.maxima != x_max) {
 		model->x.minima = x_min;
@@ -321,6 +342,15 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 			{ N_("X"), GOG_SERIES_SUGGESTED, FALSE,
 			  GOG_DIM_INDEX, GOG_MS_DIM_CATEGORIES },
 			{ N_("Y"), GOG_SERIES_REQUIRED, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+/* Names of the error data are not translated since they are not used */
+			{ "Y+err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			{ "Y-err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			{ "X+err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			{ "X-err", GOG_SERIES_ERRORS, FALSE,
 			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES }
 		};
 		plot_klass->desc.series.dim = dimensions;
@@ -467,7 +497,16 @@ gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 			{ N_("Y"), GOG_SERIES_REQUIRED, FALSE,
 			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
 			{ N_("Bubble"), GOG_SERIES_REQUIRED, FALSE,
-			  GOG_DIM_VALUE, GOG_MS_DIM_BUBBLES }
+			  GOG_DIM_VALUE, GOG_MS_DIM_BUBBLES },
+/* Names of the error data are not translated since they are not used */
+			{ "Y+err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			{ "Y-err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			{ "X+err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			{ "X-err", GOG_SERIES_ERRORS, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES }
 		};
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
@@ -546,6 +585,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	double y_min, y_max, y_off, y_scale;
 	double zmax, rmax = 0.;
 	double x_margin_min, x_margin_max, y_margin_min, y_margin_max, margin;
+	double delta, xerrmin, xerrmax, yerrmin, yerrmax;
 	double prev_x = 0., prev_y = 0.; /* make compiler happy */
 	ArtVpath	path[3];
 	GogStyle *style = NULL;
@@ -671,6 +711,26 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				}
 			}
 
+			/* draw error bars after line */
+			if (prev_valid) {
+				if (gog_error_bar_is_visible (series->x_errors)) {
+						const GogErrorBar* bar = series->x_errors;
+					 if (gog_error_bar_get_bounds (bar, i - 2, &xerrmin, &xerrmax)) {
+						xerrmax = x_off + x_scale * xerrmax;
+						xerrmin = x_off + x_scale * xerrmin;
+						gog_error_bar_render (bar, view->renderer, prev_x, prev_y, xerrmax - prev_x, prev_x - xerrmin, TRUE);
+					 }
+				}
+				if (gog_error_bar_is_visible (series->y_errors)) {
+					const GogErrorBar* bar = series->y_errors;
+					 if (gog_error_bar_get_bounds (bar, i - 2, &yerrmin, &yerrmax)) {
+						yerrmax = y_off + y_scale * yerrmax;
+						yerrmin = y_off + y_scale * yerrmin;
+						gog_error_bar_render (bar, view->renderer, prev_x, prev_y, prev_y - yerrmax, yerrmin - prev_y, FALSE);
+					 }
+				}
+			}
+
 			/* draw marker after line */
 			if (prev_valid && show_marks &&
 			    x_margin_min <= prev_x && prev_x <= x_margin_max &&
@@ -680,6 +740,24 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			prev_x = x;
 			prev_y = y;
 			prev_valid = valid;
+		}
+
+		/* draw error bars after line */
+		if (gog_error_bar_is_visible (series->x_errors)) {
+			const GogErrorBar* bar = series->x_errors;
+			if (gog_error_bar_get_bounds (bar, i - 2, &xerrmin, &xerrmax)) {
+				xerrmax = x_off + x_scale * xerrmax;
+				xerrmin = x_off + x_scale * xerrmin;
+				gog_error_bar_render (bar, view->renderer, prev_x, prev_y, xerrmax - prev_x, prev_x - xerrmin, TRUE);
+			}
+		}
+		if (gog_error_bar_is_visible (series->y_errors)) {
+			const GogErrorBar* bar = series->y_errors;
+			if (gog_error_bar_get_bounds (bar, i - 2, &yerrmin, &yerrmax)) {
+				yerrmax = y_off + y_scale * yerrmax;
+				yerrmin = y_off + y_scale * yerrmin;
+				gog_error_bar_render (bar, view->renderer, prev_x, prev_y, prev_y - yerrmax, yerrmin - prev_y, FALSE);
+			}
 		}
 
 		/* draw marker after line */
@@ -718,8 +796,11 @@ static GSF_CLASS (GogXYView, gog_xy_view,
 /*****************************************************************************/
 
 typedef GogSeriesClass GogXYSeriesClass;
+
 enum {
 	SERIES_PROP_0,
+	SERIES_PROP_XERRORS,
+	SERIES_PROP_YERRORS
 };
 
 static GogStyledObjectClass *series_parent_klass;
@@ -765,6 +846,33 @@ gog_xy_series_update (GogObject *obj)
 }
 
 static void
+gog_xy_series_init (GObject *obj)
+{
+	GogXYSeries *series = GOG_XY_SERIES (obj);
+
+	series->x_errors = series->y_errors = NULL;
+}
+
+static void
+gog_xy_series_finalize (GObject *obj)
+{
+	GogXYSeries *series = GOG_XY_SERIES (obj);
+
+	if (series->x_errors != NULL) {
+		g_object_unref (series->x_errors); 
+		series->x_errors = NULL;
+	}
+
+	if (series->y_errors != NULL) {
+		g_object_unref (series->y_errors); 
+		series->y_errors = NULL;
+	}
+
+	if (series_parent_klass != NULL && G_OBJECT_CLASS (series_parent_klass)->finalize != NULL)
+		(G_OBJECT_CLASS (series_parent_klass)->finalize) (obj);
+}
+
+static void
 gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 {
 	GogSeries *series = GOG_SERIES (gso);
@@ -791,17 +899,108 @@ gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 }
 
 static void
+gog_xy_series_set_property (GObject *obj, guint param_id,
+				GValue const *value, GParamSpec *pspec)
+{
+	GogXYSeries *series=  GOG_XY_SERIES (obj);
+	GogErrorBar* bar;
+
+	switch (param_id) {
+	case SERIES_PROP_XERRORS :
+		bar = g_value_get_object (value);
+		if (series->x_errors == bar)
+			return;
+		if (bar) {
+			bar = gog_error_bar_dup (bar);
+			bar->series = GOG_SERIES (series);
+			bar->dim_i = 0;
+			bar->error_i = series->base.plot->desc.series.num_dim - 2;
+		}
+		if (!series->base.needs_recalc) {
+			series->base.needs_recalc = TRUE;
+			gog_object_emit_changed (GOG_OBJECT (series), FALSE);
+		}
+		if (series->x_errors != NULL)
+			g_object_unref (series->x_errors);
+		series->x_errors = bar;
+		break;
+	case SERIES_PROP_YERRORS :
+		bar = g_value_get_object (value);
+		if (series->y_errors == bar)
+			return;
+		if (bar) {
+			bar = gog_error_bar_dup (bar);
+			bar->series = GOG_SERIES (series);
+			bar->dim_i = 1;
+			bar->error_i = series->base.plot->desc.series.num_dim - 4;
+		}
+		if (!series->base.needs_recalc) {
+			series->base.needs_recalc = TRUE;
+			gog_object_emit_changed (GOG_OBJECT (series), FALSE);
+		}
+		if (series->y_errors != NULL)
+			g_object_unref (series->y_errors);
+		series->y_errors = bar;
+		break;
+	}
+}
+
+static void
+gog_xy_series_get_property (GObject *obj, guint param_id,
+			  GValue *value, GParamSpec *pspec)
+{
+	GogXYSeries *series=  GOG_XY_SERIES (obj);
+
+	switch (param_id) {
+	case SERIES_PROP_XERRORS :
+		g_value_set_object (value, series->x_errors);
+		break;
+	case SERIES_PROP_YERRORS :
+		g_value_set_object (value, series->y_errors);
+		break;
+	}
+}
+
+static void 
+gog_xy_series_populate_editor (GogSeries *series,
+				GtkNotebook *book,
+				GogDataAllocator *dalloc,
+				GnmCmdContext *cc)
+{
+	GtkWidget *error_page;
+	error_page = gog_error_bar_prefs (series, "y-errors", FALSE, dalloc, cc);
+	gtk_notebook_prepend_page (book, error_page, gtk_label_new (_("Y Error bars")));
+	error_page = gog_error_bar_prefs (series,"x-errors", TRUE, dalloc, cc);
+	gtk_notebook_prepend_page (book, error_page, gtk_label_new (_("X Error bars")));
+}
+
+static void
 gog_xy_series_class_init (GogStyledObjectClass *gso_klass)
 {
 	GogObjectClass *gog_klass = (GogObjectClass *)gso_klass;
+	GObjectClass *gobject_klass = (GObjectClass *) gso_klass;
+	GogSeriesClass *gog_series_klass = (GogSeriesClass*) gso_klass;
 
 	series_parent_klass = g_type_class_peek_parent (gso_klass);
 	gog_klass->update	= gog_xy_series_update;
 	gso_klass->init_style	= gog_xy_series_init_style;
+	gobject_klass->finalize		= gog_xy_series_finalize;
+	gobject_klass->set_property = gog_xy_series_set_property;
+	gobject_klass->get_property = gog_xy_series_get_property;
+	gog_series_klass->populate_editor = gog_xy_series_populate_editor;
+
+	g_object_class_install_property (gobject_klass, SERIES_PROP_XERRORS,
+		g_param_spec_object ("x-errors", "x-errors",
+			"GogErrorBar *",
+			GOG_ERROR_BAR_TYPE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, SERIES_PROP_YERRORS,
+		g_param_spec_object ("y-errors", "y-errors",
+			"GogErrorBar *",
+			GOG_ERROR_BAR_TYPE, G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
 }
 
 static GSF_CLASS (GogXYSeries, gog_xy_series,
-	   gog_xy_series_class_init, NULL,
+	   gog_xy_series_class_init, gog_xy_series_init,
 	   GOG_SERIES_TYPE)
 
 void

@@ -31,6 +31,7 @@
 #include <goffice/graph/gog-label.h>
 #include <goffice/graph/gog-grid.h>
 #include <goffice/graph/gog-theme.h>
+#include <goffice/graph/gog-error-bar.h>
 #include <goffice/graph/go-data-simple.h>
 #include <goffice/utils/go-font.h>
 
@@ -51,6 +52,7 @@ libgoffice_init (void)
 	(void) GOG_AXIS_TYPE;
 	(void) GOG_LABEL_TYPE;
 	(void) GOG_GRID_TYPE;
+	(void) GOG_ERROR_BAR_TYPE;
 	(void) GO_DATA_SCALAR_VAL_TYPE;
 	(void) GO_DATA_SCALAR_STR_TYPE;
 	gog_themes_init	();

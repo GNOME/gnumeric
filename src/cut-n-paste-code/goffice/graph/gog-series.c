@@ -26,6 +26,7 @@
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/go-data.h>
+#include <goffice/graph/gog-error-bar.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
@@ -271,6 +272,7 @@ gog_series_editor (GogObject *gobj,
 	GogSeries *series = GOG_SERIES (gobj);
 	GogDataset *set = GOG_DATASET (gobj);
 	GogSeriesDesc const *desc;
+	GogSeriesClass	*klass = GOG_SERIES_GET_CLASS (gobj);
 
 	g_return_val_if_fail (series->plot != NULL, NULL);
 
@@ -291,7 +293,7 @@ gog_series_editor (GogObject *gobj,
 
 	/* first the unshared entries */
 	for (i = 0; i < desc->num_dim; i++)
-		if (!desc->dim[i].is_shared)
+		if (!desc->dim[i].is_shared && (desc->dim[i].priority != GOG_SERIES_ERRORS))
 			row = make_dim_editor (table, row,
 				gog_data_allocator_editor (dalloc, set, i, FALSE),
 				desc->dim[i].name, desc->dim[i].priority, FALSE);
@@ -312,6 +314,10 @@ gog_series_editor (GogObject *gobj,
 	gtk_widget_show_all (GTK_WIDGET (table));
 
 	w = gtk_notebook_new ();
+
+	if (klass->populate_editor != NULL)
+		(klass->populate_editor) (GOG_SERIES (set), GTK_NOTEBOOK (w), dalloc, cc);
+
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (w), GTK_WIDGET (table),
 		gtk_label_new (_("Data")));
 	gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, w);
