@@ -24,7 +24,7 @@
 	    pixtype="stock" pixname="gtk-save-as"/>
 
 	<cmd name="FilePageSetup"
-	    _label="Page S_etup..."
+	    _label="Page Set_up..."
 	    _tip="Setup the page settings for your current printer"
 	    pixtype="stock" pixname="gtk-print"/>
 	<cmd name="FilePrint"

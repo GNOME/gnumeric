@@ -4,6 +4,11 @@
 
 2002-08-25  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control-gui.c : tweak page setup label to match bonobo.
+
+	* src/sheet-object-image.c (sheet_object_image_print) : slight tweak
+	  to get thing spartially working.  placement is still off.
+
 	* configure.in : bump the gal req to get the new cursor.
 
 2002-08-23  Jon K Hellan  <hellan@acm.org>

@@ -23,7 +23,7 @@
 
 #include <gnumeric-gconf.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gal/util/e-util.h>
+#include <gal/util/e-util.h> /* e_free_string_slist */
 #include <gtk/gtk.h>
 
 /* Signals */

@@ -1,5 +1,9 @@
 2002-08-25  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.1.8
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
 	* ms-excel-write.c (excel_write_externsheets) : store the unquoted
 	  name.
 	(excel_write_SELECTION) : swap args to be consistent.

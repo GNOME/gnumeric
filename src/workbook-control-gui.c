@@ -1043,7 +1043,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 			!application_clipboard_is_empty () &&
 			!application_clipboard_is_cut ());
 	if (MS_PRINT_SETUP & flags)
-		change_menu_sensitivity (wbcg->menu_item_print_setup,
+		change_menu_sensitivity (wbcg->menu_item_page_setup,
 					 !wbcg_edit_has_guru (wbcg));
 	if (MS_SEARCH_REPLACE & flags)
 		change_menu_sensitivity (wbcg->menu_item_search_replace,
@@ -1627,7 +1627,7 @@ cb_file_send (GtkWidget *widget, WorkbookControlGUI *wbcg)
 #endif
 
 static void
-cb_file_print_setup (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_file_page_setup (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	dialog_printer_setup (wbcg, sheet);
@@ -2895,7 +2895,9 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_MENU_PRINT_SETUP_ITEM (cb_file_print_setup, NULL),
+	GNOMEUIINFO_ITEM_NONE (N_("Page Set_up..."),
+			       N_("Setup the page settings for your current printer"),
+				cb_file_page_setup),
 	GNOMEUIINFO_MENU_PRINT_ITEM (cb_file_print, NULL),
 	GNOMEUIINFO_ITEM_STOCK (N_("Print Pre_view..."), N_("Print Preview"),
 				cb_file_print_preview, GTK_STOCK_PRINT_PREVIEW),
@@ -3542,7 +3544,7 @@ static BonoboUIVerb verbs [] = {
 #ifdef ENABLE_EVOLUTION
 	BONOBO_UI_UNSAFE_VERB ("FileSend", cb_file_send),
 #endif
-	BONOBO_UI_UNSAFE_VERB ("FilePageSetup", cb_file_print_setup),
+	BONOBO_UI_UNSAFE_VERB ("FilePageSetup", cb_file_page_setup),
 	BONOBO_UI_UNSAFE_VERB ("FilePrint", cb_file_print),
 	BONOBO_UI_UNSAFE_VERB ("FilePrintPreview", cb_file_print_preview),
 	BONOBO_UI_UNSAFE_VERB ("FileSummary", cb_file_summary),
@@ -4668,7 +4670,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	/* Get the menu items that will be enabled disabled based on
 	 * workbook state.
 	 */
-	wbcg->menu_item_print_setup =
+	wbcg->menu_item_page_setup =
 		workbook_menu_file [6].widget;
 	wbcg->menu_item_undo =
 		workbook_menu_edit [0].widget;

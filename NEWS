@@ -17,6 +17,7 @@ Jody:
 	* support for BITAND and BITOR in lotus wk1 importer
 	* Tweak XL export so that MS Excel does not produce a warning when
 	  reading our sheets.
+	* Partially fix printing images
 
 Jon Kåre:
 	* Port to new libgsf big file api
