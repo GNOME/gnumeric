@@ -382,14 +382,14 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 	sr.end_col	 = end_col;   next_sr.end_col	 = end_col;
 
 	/* pretend the previous bottom had no borders */
-	for (col = start_col ; col <= end_col; ++col)
+	for (col = start_col ; col <= end_col+1; ++col)
 		prev_vert [col] = sr.top [col] = none;
 
 	/* load up the styles for the first row */
 	next_sr.row = sr.row = row = start_row;
 	sheet_style_get_row (sheet, &sr);
 
-	for (y = -diff_y; row <= end_row; row = next_sr.row, ri = next_ri) {
+	for (y = -diff_y; row <= end_row; row = sr.row = next_sr.row, ri = next_ri) {
 		/* Restore the set of ranges seen, but still active.
 		 * Reinverting list to maintain the original order */
 		g_return_if_fail (merged_active == NULL);
@@ -538,21 +538,29 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 				sr.vertical [col] = NULL;
 
 			/* Keep this in sync with the merge cell code */
+			/* FIXME : All this logic should be merged into
+			 * the border_draw code (it is doing similar things).
+			 * and we need to batch it and draw the borders and grids
+			 * on a per row basis.
+			 */
 			top = sr.top [col];
 			if (top == none) {
 				if (sheet->show_grid) {
 					int offset = 0;
 					/* Do not over write background patterns */
 					if ((col > start_col && sr.top [col - 1] == NULL) ||
-					    (col < end_col && sr.top [col + 1] == NULL) ||
-					    (prev_vert [col] != none && prev_vert [col] != NULL))
+					    (col < end_col && sr.top [col + 1] == NULL))
 						offset = 1;
+					else if (!style_border_is_blank (prev_vert [col]))
+						offset = 1 + prev_vert [col]->end_margin;
+
 					gdk_draw_line (drawable, grid_gc, x + offset, y,
-						       x + ci->size_pixels - offset, y);
+						       x + ci->size_pixels, y);
 				}
 			} else if (top != NULL)
-				style_border_draw (top, STYLE_BORDER_TOP, drawable,
-						   x, y, x + ci->size_pixels, y, NULL, NULL);
+				style_border_hdraw (prev_vert, &sr,
+						    col, drawable,
+						    y, x, x + ci->size_pixels);
 
 			inc_x = ci->size_pixels;
 			next_col = col;
@@ -563,17 +571,21 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 				if (sheet->show_grid) {
 					int offset = 0;
 					/* Do not over write background patterns */
-					if (top == NULL ||
-					    (prev_vert [col] != none && prev_vert [col] != NULL) ||
-					    (col > start_col && sr.top [col - 1] == NULL))
+					if (top == NULL)
+						offset = 1;
+					else if (top->line_type != STYLE_BORDER_NONE)
+						offset = 1 + top->end_margin;
+					else if ((prev_vert [col] != none && prev_vert [col] != NULL) ||
+						 (col > start_col && sr.top [col - 1] == NULL))
 						offset = 1;
 					gdk_draw_line (drawable, grid_gc,
 						       x, y + offset,
-						       x, y + ri->size_pixels-offset);
+						       x, y + ri->size_pixels);
 				}
 			} else if (vert != NULL)
-				style_border_draw (vert, STYLE_BORDER_LEFT, drawable,
-						   x, y, x, y + ri->size_pixels, NULL, NULL);
+				style_border_vdraw (prev_vert, &sr, &next_sr,
+						    col, drawable,
+						    x, y, y + ri->size_pixels);
 
 			x += inc_x;
 			col = next_col + 1;

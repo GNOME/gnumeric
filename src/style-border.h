@@ -52,7 +52,7 @@ struct _StyleBorder {
 	/* Key elements */
 	StyleBorderType	 line_type;
 	StyleColor     	*color;
-	int		 begin_margin, end_margin;
+	int		 begin_margin, end_margin, width;
 
 	/* Private */
 	GdkGC	*gc;
@@ -62,6 +62,7 @@ struct _StyleBorder {
 void	      style_border_unref (StyleBorder *border);
 StyleBorder  *style_border_ref   (StyleBorder *border);
 
+#define	style_border_is_blank(b) ((b) == NULL || (b)->line_type == STYLE_BORDER_NONE)
 StyleBorder  *style_border_none  (void);
 StyleBorder  *style_border_fetch (StyleBorderType const	 line_type,
 				  StyleColor 			*color,
@@ -86,11 +87,13 @@ void style_border_print (StyleBorder const * const border, StyleBorderLocation c
 			 StyleBorder const * const extend_end);
 
 void style_border_hdraw (StyleBorder const * const * prev_vert,
-			 StyleRow const *sr, StyleRow const *next_sr,
-			 int col);
+			 StyleRow const *sr,
+			 int col, GdkDrawable * const drawable,
+			 int y, int x1, int x2);
 
 void style_border_vdraw (StyleBorder const * const * prev_vert,
 			 StyleRow const *sr, StyleRow const *next_sr,
-			 int col);
+			 int col, GdkDrawable * const drawable,
+			 int x, int y1, int y2);
 
 #endif /* GNUMERIC_STYLE_BORDER_H */

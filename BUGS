@@ -8,23 +8,21 @@ Release Critical
 - Autoformat - border warnings
 
 - Styles
-    - uniform_get
     - test persistance
-    - more tuning
+    * improve uniform_get to handle full sheet more quickly.
 
 - Fix Borders
     - diagonals
-    * intersection cases
-    * border style double_line does not handle all of the different
-      intersection cases.
+    - intersections with grid lines
+    - potentially batch the drawing by row to fix the bottom right corner
 
 Long term breakage
 ------------------
 
 - Search-and-replace.
-  * Comments for empty cells are not found.
-  * It is doubtful whether the regexp selection belongs on the first page.
-  * Querying is not implemented.
+  - Comments for empty cells are not found.
+  - It is doubtful whether the regexp selection belongs on the first page.
+  - Querying is not implemented.
 
 - Entering "=1e11111" yields "Syntax Error", not "overflow".
   In general parsing needs better error messages.

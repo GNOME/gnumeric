@@ -1,13 +1,15 @@
-A discussion of the new style code, version 0.1
-by Michael Meeks <mmeeks@gnu.org>
+A discussion of the style code, version 0.2
+by Jody Goldberg <jgoldberg@home.com>
 
 
 	In order to solve several of the problems associated with blank cells
-and to simplify the way styles are handled a new approach to styles has been
-adopted. This document breaks roughly into two parts. First the 'user'
-( programmers ) guide, and secondly the gory details of what goes on in there.
+and to simplify the way styles are handled a new approach to styles was
+developed by Michael Meeks.   This solved all of the problems it set out to
+address, but became bogged down in performace issues as attempts were made to
+use it in conjunction with large sheets.  Another approach was then developed
+to build upon the experience of and pitfalls of the Michael's work.
 
-1	How to use the new code:
+1	Programmers guide
 
 1.1	The raw mechanics.
 
@@ -17,12 +19,9 @@ adopted. This document breaks roughly into two parts. First the 'user'
 
 	a) Create the style:
 
-	   MStyle *mstyle = mstyle_new ();
+	   MStyle *empty = mstyle_new ();
+	   MStyle *full_of_default_settings = mstyle_new_default ().
 
-	In future named styles will be possible, also to get the default style
-	use mstyle_new_default (). NB. the name 'mstyle' is standard for this
-	structure's instances. NB. do _not_ set any of the fields on the default
-	style.
 
 	b) Set elements:
 
@@ -46,64 +45,35 @@ adopted. This document breaks roughly into two parts. First the 'user'
 
 	d) Attach it to the sheet:
 
-	   sheet_style_attach        (sheet, range, mstyle);      or
-	   sheet_style_attach_single (sheet, col, row, mstyle);   or
-	   cell_set_mstyle           (cell, mstyle);
+	   /* Overlay a partially specified style onto the current style */
+	   sheet_style_apply_range	(sheet, range, style);
+
+	   /* Use the fully specified style in place of the current style
+	   sheet_style_set_range	(sheet, range, style);
+	   sheet_style_set_pos		(sheet, col, row, mstyle);
 
 1.1.2	Getting a style
 
-	    Simply use:
-
-	MStyle *mstyle = sheet_style_compute (sheet, col, row);
-
+	MStyle *mstyle = sheet_style_get (sheet, col, row);
 	    or
-
 	MStyle *mstyle = cell_get_mstyle (cell);
 
-	    Remember you are passed a reference to this style which you are
-	responsible for unreferencing. Hence after fiddling with it eg.
-
-	if (mstyle_get_font_bold (mstyle))
-		printf ("Its bold\n");
-
-	    You _must_ unref it:
-
-	mstyle_unref (mstyle);
-
-	    If this sounds strange read on to section 1.4.
+	Neither of these adds a reference to the style.  If you intend to store
+	the style for later use you will need to ref/unref it.
 
 	    NB. it is important not to try and set elements on a style you
 	have obtained in this way. The way to attach elements is via
 	sheet_style_attach ie.
 
-		MStyle *mstyle = cell_get_mstyle (cell);	BAD
-		mstyle_set_font_size (mstyle, 12.0);		CODE
+	    BAD BAD BAD
+		MStyle *mstyle = cell_get_mstyle (cell);
+		mstyle_set_font_size (mstyle, 12.0);
+	    BAD BAD BAD
 	
 	    Do _not_ even think of doing the above, it will produce whacky
-	results; perhaps we should constify this shortly.
+	results;  The next phase of style work will make these things constant.
 
-1.2	Fragmentation
-
-	It is important to realise that styles are stored as ranges internally,
-	so calling cell_set_mstyle repeatedly will result in innumerable single
-	cell ranges. This _drasticaly_ fragments the style space, so every now
-	and then you need to do a:
-
-	   sheet_style_optimize (sheet, Range);
-
-	where Range covers a small range that you have set styles in that
-	overlaps with the last range you called optimize on by 1 col/row.
-	This will auto-coalesce your ranges, but is of order 3*n*n where n
-	is the number of styles in the range. Be warned.
-
-	If you only have an intermediate number of styles to apply and you
-	don't want to bother about fragmentation use:
-
-	   sheet_style_attach_single (sheet, col, row, mstyle)
-	
-	which will optimize the style regions each time you attach a style.
-
-1.3	Simple points to bear in mind
+1.2	Simple points to bear in mind
 
 	If you do the following:
 
@@ -120,7 +90,7 @@ adopted. This document breaks roughly into two parts. First the 'user'
 	you need to build up a style for a range pass an MStyle * around
 	and build it up before applying it once.
 
-1.4	Ref counting for dummies.
+1.3	Ref counting for dummies.
 
 	    Since the only efficient way to keep copies of styles around is
 	to reference count them the followings ( standard ) conventions are
@@ -158,91 +128,34 @@ adopted. This document breaks roughly into two parts. First the 'user'
 	NB. we 'leave' a reference in the cache. This then must be removed when
 	we flush the cache with a simple mstyle_unref.
 
-2	Discussion of how it works
-
-	Code reading is of the essence. This document is non-authoratitive.
+2	Implementation details
 
 2.1	How styles are stored
 
-	    A sheet has a list of StyleRegions. This is hooked from
-	sheet->style_data. The SheetStyleData struct is defined internally to
-	sheet-style.c and should never be used outside this file.
-	    Hence the basic style storage is as yet a linked list.
-
-2.1.1   The 'global' style kludge
-
-	    Each sheet has a 'global' style; this covers the entire sheet range
-	range_init_full_sheet (sheet.h). Several routines in sheet-style do
-	intricate things to ranges such as splitting, shrinking etc. Invariably
-	these don't want to do this to the global style. Since this style is
-	invariably the last entry in the style list several style iterators
-	ignore the last item.
-
 2.2	How styles are searched
 
-	    Currently there are two methods whereby an aggregate MStyle is
-	generated for a certain sheet, col, row combination. Firstly there is
-	a slow traversal of all the styles for the sheet calling 'range_contains'
-	on each until the list is traversed. Then a merged MStyle is generated
-	using mstyle_do_merge. This is then returned to the user. In order to
-	accelerate this process, a small cache of previously computed styles is
-	used providing the second method.
-
-2.3	How styles are optimized
-
-	    The problems of optimization are rather interesting, at the moment
-	the strategy hinges on three routines, and is broken into two passes.
-
-	    a) Equal ranges,
-
-	       If two equal ranges (ranges.c:range_equal) are found then those
-	    elements in the style of lower stamp that are duplicated in the upper
-	    MStyle are discarded and if the lower style is empty the range is
-	    culled from the StyleRegion list. eg. B4:C5 and B4:C5
-
-	    b) Adjacent ranges,
-
-	       If two ranges are adjacent (ranges.c:range_adjacent) and contain
-	   the same style (mstyle.c:mstyle_equal) then they are merged to form a
-	   single style region (ranges.c:range_merge). eg. B4:C5 and D4:E5 combine
-	   to B4:E5.
-
-	   In order to test the style optimizations you need to enable debugging.
-	This is achieved by passing the --debug_styles=1 option on the command line,
-	and provides a 'red book' icon in the toolbar. When clicked this dumps a
-	chronologicaly ordered list of style regions ( with both range and style
-	data ).
-
-2.4	How 'unique' styles are generated
+2.3	How 'unique' styles are generated
 
 	    Unique styles are needed for user feedback. This is only used in the
 	cell format dialog, since the toolbar used the settings of the 'terminal'
 	( first selected ) cell in a selection. The process of generating unique
-	styles is non-trivial and goes something like this:
-
-	    For each selection range we generate the list of sheet style regions
-	that overlap with this. We then decompose these regions
-	(ranges.c:range_fragment) into totaly overlapping regions. These totaly
-	overlapping regions are then re-clipped against the selection and then
-	Styles for the top left cell of the remaining regions are generated.
-	These are then correleated together (mstyle.c:mstyle_compare). Any
-	conflicts are marked in the final MStyle result and can be tested for
+	styles is is effectively a merging of all styles with the target regions.
+	Conflicts are marked in the final MStyle result and can be tested for
 	using:
 
 		mstyle_element_is_conflict (mstyle, MStyleElementType);
 
-2.4.1	Unique borders
+2.3.1	Unique borders
 
-	    Border support was discovered to be a real pain after the code was
-	written ( see sheet-style.c (border*) ). Hence the current border code
-	must be viewed as provisional and is currently under review & being
-	re-written.
+	    Border support is a HUGE pain.  The current code uses the get_row
+	facilities for styles and does some simplistic homogeneity tests.  The
+	result is correct but can be slow when applied to an entire sheet.  We
+	could easily speed it up by providing a specialized acsessor (get_uniform_col)
+	that could take advantage of the homogeneity with a tile.
 
-2.5	Further work
+2.4	Further work
 
 	    This document needs some explanation of how elements are stored indexed
 	by type internally.
 
-	    The style code needs some serious optimization in sheet-style.c to
-	accelerate style computations, this can be achieved in a smorgasboard of
-	ways.
+	More work could be done to decrease style fragmentation.

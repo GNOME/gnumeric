@@ -363,7 +363,7 @@ preview_grid_controller_force_redraw (PreviewGridController *controller)
 	 * We update the entire canvas
 	 */
 	gnome_canvas_request_redraw (controller->canvas, INT_MIN, INT_MIN,
-				     INT_MAX, INT_MAX);
+				     INT_MAX/2, INT_MAX/2);
 }
 
 /**

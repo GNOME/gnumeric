@@ -1,3 +1,16 @@
+2001-02-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_get_extent) : don't call style_extent.  The
+	  caller can do that if desired.
+
+	* src/item-grid.c (item_grid_draw) : Use the new drawing code.
+
+	* src/style-border.c (style_border_fetch) : init 'width'
+	(style_border_set_gc_dash) : Use 'CAP_NOT_LAST' to get consistent
+	  behavior with width 0 and width > 0 lines.
+	(style_border_hdraw) : implement.
+	(style_border_vdraw) : implement.
+
 2001-01-31  Morten Welinder  <terra@diku.dk>
 
 	* src/commands.c (cmd_search_replace): Revert previous interface

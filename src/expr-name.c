@@ -432,6 +432,7 @@ name_print_area (FunctionEvalInfo *ei, Value **args)
 		return value_new_error (ei->pos, _("Error: no sheet"));
 	else {
 		Range r = sheet_get_extent (ei->pos->sheet);
+		sheet_style_get_extent (ei->pos->sheet, &r);
 		return value_new_cellrange_r (ei->pos->sheet, &r);
 	}
 }

@@ -907,26 +907,6 @@ sheet_get_extent (Sheet const *sheet)
 	if (r.end.row < 0)
 		r.end.row = 0;
 
-	/* Extend region to include styles that are visible in blank cells */
-	sheet_style_get_extent (sheet, &r);
-
-	/*
-	 *  Print can't handle stuff outside these walls.
-	 */
-	if (r.end.col < 0)
-		r.end.col = 0;
-	if (r.start.col > r.end.col)
-		r.start.col = r.end.col;
-	if (r.start.col < 0)
-		r.start.col = 0;
-
-	if (r.end.row < 0)
-		r.end.row = 0;
-	if (r.start.row > r.end.row)
-		r.start.row = r.end.row;
-	if (r.start.row < 0)
-		r.start.row = 0;
-
 	return r;
 }
 

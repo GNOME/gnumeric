@@ -918,6 +918,7 @@ compute_sheet_pages (gpointer value, gpointer user_data)
 		r = pc->r;
 	} else {
 		r = sheet_get_extent (sheet);
+		sheet_style_get_extent (sheet, &r);
 		r.end.col++;
 		r.end.row++;
 	}
@@ -971,6 +972,7 @@ print_sheet (gpointer value, gpointer user_data)
 
 	print_job_info_init_sheet (sheet, pj);
 	extent = sheet_get_extent (sheet);
+	sheet_style_get_extent (sheet, &extent);
 	extent.end.col++;
 	extent.end.row++;
 

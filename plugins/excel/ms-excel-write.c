@@ -3345,6 +3345,7 @@ new_sheet (ExcelWorkbook *wb, Sheet *value)
 	sheet->streamPos  = 0x0deadbee;
 	sheet->wb         = wb;
 	extent            = sheet_get_extent (sheet->gnum_sheet);
+	sheet_style_get_extent (sheet->gnum_sheet, &extent);
 	sheet->maxx       = extent.end.col + 1;
 	sheet->maxy       = extent.end.row + 1;
 	sheet->dbcells    = g_array_new (FALSE, FALSE, sizeof (MsOlePos));

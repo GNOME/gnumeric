@@ -87,9 +87,6 @@ Gnumeric Spread Sheet task list
 ** Cell data entry:
    double click on cell allows editing as in main editing box.
 
-   double click on the magic little copy box fills the current
-   column to the depth of the column to the left ??
-
 ** Cell comments
    Cell comments should be wrapped - at least so that they do not run
    off the screen.
@@ -107,9 +104,6 @@ Gnumeric Spread Sheet task list
 
 * Auditing
    Write the sheet auditing code.
-
-* Searching
-   Searching text on the spreadsheet.
 
 * EDITING
 
@@ -137,10 +131,6 @@ Gnumeric Spread Sheet task list
 
 * Display Engine
   - drawing double line borders is broken
-  - merged cells.
-  - Continue cleaning cursor code.
-  - Merged Cell support required intervention for cursors
-    and supporting vertical continuations.
 
 * Unicode support throughout
 
@@ -149,7 +139,6 @@ Gnumeric Spread Sheet task list
     open workbooks.
 
 ** Notebook:
-  - Copy sheet dialog.
   - Decrease flicker when paging between sheets.
   - Enable capability to select multiple sheets.
 
@@ -205,9 +194,3 @@ Gnumeric Spread Sheet task list
 
 * Html export
   * Export style information for blank cells.
-
-* Graph component
-
-* Graph Druid
-
-* Gnumeric-side graph support
