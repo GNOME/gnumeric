@@ -1,3 +1,11 @@
+/*
+ * Sheet.c:  Implements the sheet management and per-sheet storage
+ * (C) 1998 The Free Software Foundation
+ *
+ * Author:
+ *  Miguel de Icaza (miguel@gnu.org)
+ *
+ */
 #include <gnome.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
@@ -21,6 +29,7 @@ sheet_init_default_styles (Sheet *sheet)
 	sheet->default_col_style.margin_a   = 0;
 	sheet->default_col_style.margin_b   = 0;
 	sheet->default_col_style.selected   = 0;
+	sheet->default_col_style.data       = NULL;
 
 	/* The default row style */
 	sheet->default_row_style.pos      = -1;
@@ -30,6 +39,7 @@ sheet_init_default_styles (Sheet *sheet)
 	sheet->default_row_style.margin_a = 0;
 	sheet->default_row_style.margin_b = 0;
 	sheet->default_row_style.selected = 0;
+	sheet->default_row_style.data     = NULL;
 }
 
 /* Initialize some of the columns and rows, to test the display engine */
@@ -294,16 +304,25 @@ sheet_col_new (Sheet *sheet)
 }
 
 
+static gint
+CRsort (gconstpointer a, gconstpointer b)
+{
+	ColRowInfo *ia = (ColRowInfo *) a;
+	ColRowInfo *ib = (ColRowInfo *) b;
+
+	return (ia->pos - ib->pos);
+}
+
 void
 sheet_col_add (Sheet *sheet, ColRowInfo *cp)
 {
-	sheet->cols_info = g_list_append (sheet->cols_info, cp);
+	sheet->cols_info = g_list_insert_sorted (sheet->cols_info, cp, CRsort);
 }
 
 void
 sheet_row_add (Sheet *sheet, ColRowInfo *rp)
 {
-	sheet->rows_info = g_list_append (sheet->rows_info, rp);
+	sheet->rows_info = g_list_insert_sorted (sheet->rows_info, rp, CRsort);
 }
 
 ColRowInfo *
@@ -457,6 +476,9 @@ sheet_selection_append (Sheet *sheet, int col, int row)
 	
 	sheet->selections = g_list_prepend (sheet->selections, ss);
 
+	gnumeric_sheet_accept_pending_output (GNUMERIC_SHEET (sheet->sheet_view));
+	gnumeric_sheet_load_cell_val (GNUMERIC_SHEET (sheet->sheet_view));
+	
 	gnumeric_sheet_set_selection (GNUMERIC_SHEET (sheet->sheet_view),
 				      col, row, col, row);
 	sheet_redraw_all (sheet);
@@ -521,4 +543,121 @@ sheet_selection_is_cell_selected (Sheet *sheet, int col, int row)
 			return 1;
 	}
 	return 0;
+}
+
+/*
+ * Returns an allocated column:  either an existing one, or a fresh copy
+ */
+ColRowInfo *
+sheet_col_get (Sheet *sheet, int pos)
+{
+	GList *clist = sheet->cols_info;
+	ColRowInfo *col;
+	
+	for (; clist; clist = clist->next){
+		col = (ColRowInfo *) clist->data;
+
+		if (col->pos == pos)
+			return col;
+	}
+	col = sheet_col_new (sheet);
+	sheet_col_add (sheet, col);
+	
+	return col;
+}
+
+/*
+ * Returns an allocated column:  either an existing one, or a fresh copy
+ */
+ColRowInfo *
+sheet_row_get (Sheet *sheet, int pos)
+{
+	GList *rlist = sheet->rows_info;
+	ColRowInfo *row;
+	
+	for (; rlist; rlist = rlist->next){
+		row = (ColRowInfo *) rlist->data;
+
+		if (row->pos == pos)
+			return row;
+	}
+	row = sheet_col_new (sheet);
+	sheet_col_add (sheet, row);
+	
+	return row;
+}
+
+/*
+ * For each existing cell in the range specified, invoke the
+ * callback routine
+ */
+void
+sheet_cell_foreach_range (Sheet *sheet,
+			  int start_col, int start_row,
+			  int end_col, int end_row,
+			  sheet_cell_foreach_callback callback,
+			  void *closure)
+{
+	GList *col = sheet->cols_info;
+	GList *row;
+
+	for (; col; col = col->next){
+		ColRowInfo *ci = col->data;
+
+		if (ci->pos < start_col)
+			continue;
+		if (ci->pos > end_col)
+			break;
+
+		for (row = (GList *) ci->data; row; row = row->data){
+			ColRowInfo *ri = row->data;
+
+			if (ri->pos < start_row)
+				continue;
+
+			if (ri->pos > end_row)
+				break;
+
+			(*callback)(sheet, (Cell *) ri->data);
+		}
+	}
+}
+
+Style *
+sheet_style_compute (Sheet *sheet, int col, int row)
+{
+	/* FIXME: This should compute the style based on the
+	 * story of the styles applied to the worksheet, the
+	 * sheet, the column and the row and return that.
+	 *
+	 * for now, we just return the col style
+	 */
+	return style_duplicate (sheet_col_get_info (sheet, col)->style);
+}
+
+Cell *
+sheet_cell_new (Sheet *sheet, int col, int row)
+{
+	Cell *cell = g_new0 (Cell, 1);
+
+	cell->col = sheet_col_get (sheet, col);
+	cell->row = sheet_row_get (sheet, row);
+
+	cell->style = sheet_style_compute (sheet, col, row);
+	return cell;
+}
+
+Cell *
+sheet_cell_new_with_text (Sheet *sheet, int col, int row, char *text)
+{
+	Cell *cell;
+	GdkFont *font;
+	
+	cell = sheet_cell_new (sheet, col, row);
+	cell->text = g_strdup (text);
+	font = cell->style->font->font;
+	cell->width = gdk_text_width (font, text, strlen (text));
+	cell->height = font->ascent + font->descent;
+	
+	return cell;
 }

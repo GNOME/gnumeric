@@ -17,8 +17,8 @@ typedef struct {
 	GtkWidget   *entry;
 	Sheet       *sheet;
 	
-	ColType     top_col;
-	RowType     top_row;
+	ColType     top_col, last_visible_col, last_full_col;
+	RowType     top_row, last_visible_row, last_full_row;
 
 	int         cursor_col, cursor_row;
 	ItemGrid    *item_grid;
@@ -29,12 +29,17 @@ typedef struct {
 
 GtkType gnumeric_sheet_get_type (void);
 
-GtkWidget *gnumeric_sheet_new           (Sheet *sheet);
-void       gnumeric_sheet_set_selection (GnumericSheet *sheet,
-					 int start_col, int start_row,
-					 int end_col, int end_row);
+GtkWidget *gnumeric_sheet_new            	(Sheet *sheet);
+void       gnumeric_sheet_set_selection  	(GnumericSheet *sheet,
+					 	 int start_col, int start_row,
+					 	 int end_col, int end_row);
+void       gnumeric_sheet_cursor_set     	(GnumericSheet *sheet,
+					 	 int col, int row);
+void       gnumeric_sheet_load_cell_val         (GnumericSheet *gsheet);
+void       gnumeric_sheet_accept_pending_output (GnumericSheet *sheet);
 
 typedef struct {
 	GnomeCanvasClass parent_class;
 } GnumericSheetClass;
 #endif
+

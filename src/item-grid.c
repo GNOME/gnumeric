@@ -90,9 +90,6 @@ item_grid_unrealize (GnomeCanvasItem *item)
 static void
 item_grid_reconfigure (GnomeCanvasItem *item)
 {
-	GnomeCanvas *canvas = item->canvas;
-	ItemGrid *item_grid = ITEM_GRID (item);
-	
 	item->x1 = 0;
 	item->y1 = 0;
 	item->x2 = INT_MAX;

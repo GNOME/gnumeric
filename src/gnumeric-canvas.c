@@ -59,13 +59,20 @@ gnumeric_sheet_create (Sheet *sheet, GtkWidget *entry)
 void
 gnumeric_sheet_cursor_set (GnumericSheet *sheet, int col, int row)
 {
+	g_return_if_fail (GNUMERIC_IS_SHEET (sheet));
+
 	sheet->cursor_col = col;
 	sheet->cursor_row = row;
 }
 
-static void
+void
 gnumeric_sheet_accept_pending_output (GnumericSheet *sheet)
 {
+	g_return_if_fail (GNUMERIC_IS_SHEET (sheet));
+
+	sheet_cell_new_with_text (sheet->sheet, sheet->cursor_col, sheet->cursor_row,
+				  gtk_entry_get_text (GTK_ENTRY (sheet->entry)));
+	
 	/* Destroy the object */
 	if (sheet->item_editor){
 		gtk_object_destroy (GTK_OBJECT (sheet->item_editor));
@@ -73,13 +80,19 @@ gnumeric_sheet_accept_pending_output (GnumericSheet *sheet)
 	}
 }
 
-static void
-gnumeric_sheet_load_new_cell (GnumericSheet *gsheet)
+void
+gnumeric_sheet_load_cell_val (GnumericSheet *gsheet)
 {
-	Sheet *sheet = gsheet->sheet;
-	Workbook *wb = sheet->parent_workbook;
-	GtkWidget *entry = wb->ea_input;
+	Sheet *sheet; 
+	Workbook *wb;
+	GtkWidget *entry;
 
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
+	
+	sheet = gsheet->sheet;
+	wb = sheet->parent_workbook;
+	entry = wb->ea_input;
+	
 	gtk_entry_set_text (GTK_ENTRY(entry), "");
 }
 
@@ -108,7 +121,7 @@ gnumeric_sheet_move_cursor_horizontal (GnumericSheet *sheet, int count)
 	item_cursor_set_bounds (item_cursor,
 				new_left, item_cursor->start_row,
 				new_left, item_cursor->start_row);
-	gnumeric_sheet_load_new_cell (sheet);
+	gnumeric_sheet_load_cell_val (sheet);
 }
 
 static void
@@ -132,7 +145,7 @@ gnumeric_sheet_move_cursor_vertical (GnumericSheet *sheet, int count)
 	item_cursor_set_bounds (item_cursor,
 				item_cursor->start_col, new_top,
 				item_cursor->start_col, new_top);
-	gnumeric_sheet_load_new_cell (sheet);
+	gnumeric_sheet_load_cell_val (sheet);
 }
 
 void
@@ -172,6 +185,7 @@ static gint
 gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 {
 	GnumericSheet *sheet = GNUMERIC_SHEET (widget);
+	Workbook *wb = sheet->sheet->parent_workbook;
 
 	switch (event->keyval){
 	case GDK_Left:
@@ -190,15 +204,17 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 		gnumeric_sheet_move_cursor_vertical (sheet, 1);
 		break;
 
+	case GDK_F2:
+		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), wb->ea_input);
+		/* fallback */
+		
 	default:
-		if (!sheet->item_editor){
-			Workbook *wb = sheet->sheet->parent_workbook;
-			
-			gtk_window_set_focus (GTK_WINDOW(wb->toplevel),
-					      wb->ea_input);
+		if (!sheet->item_editor)
 			start_editing_at_cursor (sheet, wb->ea_input);
-			gtk_widget_event (sheet->entry, (GdkEvent *) event);
-		}
+
+		/* Forward the keystroke to the input line */
+		gtk_widget_event (sheet->entry, (GdkEvent *) event);
+		
 	}
 	return 1;
 }
@@ -250,8 +266,69 @@ gnumeric_sheet_realize (GtkWidget *widget)
 static void
 gnumeric_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
-/* 	(*GTK_WIDGET_CLASS (sheet_parent_class)->allocation)(widget, allocation); */
-	
+	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
+	GnomeCanvas   *canvas = GNOME_CANVAS (widget);
+	int pixels, col, row;
+
+	(*GTK_WIDGET_CLASS (sheet_parent_class)->size_allocate)(widget, allocation);
+
+	/* Find out the last visible col and the last full visible column */
+	pixels = 0;
+	col = gsheet->top_col;
+	do {
+		ColRowInfo *ci;
+		int cb;
+		
+		ci = sheet_col_get_info (gsheet->sheet, col);
+		cb = pixels + ci->pixels;
+		
+		if (cb == canvas->width){
+			gsheet->last_visible_col = col;
+			gsheet->last_full_col = col;
+		} if (cb > canvas->width){
+			gsheet->last_visible_col = col;
+			if (col == gsheet->top_col)
+				gsheet->last_full_col = gsheet->top_col;
+			else
+				gsheet->last_full_col = col - 1;
+		}
+		pixels = cb;
+		col++;
+	} while (pixels < canvas->width);
+
+	/* Find out the last visible row and the last fully visible row */
+	pixels = 0;
+	row = gsheet->top_row;
+	do {
+		ColRowInfo *ri;
+		int cb;
+		
+		ri = sheet_row_get_info (gsheet->sheet, row);
+		cb = pixels + ri->pixels;
+		
+		if (cb == canvas->height){
+			gsheet->last_visible_row = row;
+			gsheet->last_full_row = row;
+		} if (cb > canvas->width){
+			gsheet->last_visible_row = row;
+			if (col == gsheet->top_row)
+				gsheet->last_full_row = gsheet->top_row;
+			else
+				gsheet->last_full_row = row - 1;
+		}
+		pixels = cb;
+		row++;
+	} while (pixels < canvas->width);
+
+	printf ("COLS: %d %d %d\n",
+		gsheet->top_col,
+		gsheet->last_full_row,
+		gsheet->last_visible_col);
+		
+	printf ("ROWS: %d %d %d\n",
+		gsheet->top_row,
+		gsheet->last_full_row,
+		gsheet->last_visible_row);
 }
 
 static void

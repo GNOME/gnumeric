@@ -41,6 +41,7 @@ typedef struct {
 
 	ColRowInfo default_row_style;
 	GList      *rows_info;
+
 	void       *contents;
 
 	GList      *selections;
@@ -54,6 +55,7 @@ typedef struct {
 } Sheet;
 
 typedef  void (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *ci, void *user_data);
+typedef  void (*sheet_cell_foreach_callback)(Sheet *sheet, Cell *cell);
 
 Sheet      *sheet_new                 (Workbook *wb, char *name);
 void        sheet_destroy             (Sheet *sheet);
@@ -80,6 +82,10 @@ ColRowInfo *sheet_duplicate_colrow    (ColRowInfo *original);
 ColRowInfo *sheet_col_get_info        (Sheet *sheet, int col);
 ColRowInfo *sheet_row_get_info        (Sheet *sheet, int row);
 
+/* Returns a pointer to a ColRowInfo: existed or freshly created */
+ColRowInfo *sheet_row_get             (Sheet *sheet, int pos);
+ColRowInfo *sheet_col_get             (Sheet *sheet, int pos);
+
 /* Add a ColRowInfo to the Sheet */
 void        sheet_col_add             (Sheet *sheet, ColRowInfo *cp);
 void        sheet_row_add             (Sheet *sheet, ColRowInfo *cp);
@@ -91,6 +97,17 @@ int         sheet_row_get_distance    (Sheet *sheet, int from_row, int to_row);
 /* Sets the width/height of a column row in terms of pixels */
 void        sheet_col_set_width       (Sheet *sheet, int col, int width);
 void        sheet_row_set_height      (Sheet *sheet, int row, int width);
+
+Style      *sheet_style_compute       (Sheet *sheet, int col, int row);
+
+/* Cell management */
+Cell       *sheet_cell_new            (Sheet *sheet, int col, int row);
+Cell       *sheet_cell_new_with_text  (Sheet *sheet, int col, int row, char *text);
+void        sheet_cell_foreach_range  (Sheet *sheet,
+				       int start_col, int start_row,
+				       int end_col, int end_row,
+				       sheet_cell_foreach_callback callback,
+				       void *closure);
 
 Workbook   *workbook_new              (void);
 Workbook   *workbook_new_with_sheets  (int sheet_count);

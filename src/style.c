@@ -71,6 +71,7 @@ style_font_new (char *font_name, int units)
 		font = g_new0 (StyleFont, 1);
 		font->font_name = g_strdup (font_name);
 		font->units    = units;
+		font->font     = gdk_font_load (font_name);
 		g_hash_table_insert (style_font_hash, font, font);
 	}
 	font->ref_count++;
@@ -172,7 +173,7 @@ style_new (void)
 	style = g_new0 (Style, 1);
 
 	style->format  = style_format_new ("#");
-	style->font    = style_font_new ("Times", 14);
+	style->font    = style_font_new ("-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*", 14);
 	style->border  = style_border_new_plain ();
 
 	style->halign = HALIGN_LEFT;

@@ -1,3 +1,18 @@
+1998-07-15  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_cursor_set): Add tracking.
+
+	* src/sheet.c (sheet_destroy): Add destructor.
+	(sheet_selection_append): New functions for managing the cell
+	selection. 
+
+	* src/style.c (style_destroy): Add destructor.
+
+1998-07-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-edit.c: New file.  Adds the editing widget to the
+	spreadsheet. 
+
 1998-07-15  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* src/item-bar.c (item_bar_event): Use

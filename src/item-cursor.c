@@ -47,7 +47,6 @@ item_cursor_realize (GnomeCanvasItem *item)
 	ItemCursor *item_cursor;
 	GdkWindow  *window;
 	GdkGC      *gc;
-	GdkColor   black;
 	
 	item_cursor = ITEM_CURSOR (item);
 	window = GTK_WIDGET (item->canvas)->window;

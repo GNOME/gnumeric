@@ -154,6 +154,17 @@ entry_changed (GtkEntry *entry, void *data)
 }
 
 static void
+item_edit_destroy (GtkObject *o)
+{
+	ItemEdit *item_edit = ITEM_EDIT (o);
+	
+	gtk_signal_disconnect (GTK_OBJECT (item_edit->editor), item_edit->signal);
+	
+	if (GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)
+		(*GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)(o);
+}
+
+static void
 item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	GnomeCanvasItem *item;
@@ -171,8 +182,9 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_GTK_ENTRY:
 		item_edit->editor = GTK_VALUE_POINTER (*arg);
-		gtk_signal_connect (GTK_OBJECT (item_edit->editor), "changed",
-				    GTK_SIGNAL_FUNC(entry_changed), item_edit);
+		item_edit->signal = gtk_signal_connect (
+			GTK_OBJECT (item_edit->editor), "changed",
+			GTK_SIGNAL_FUNC(entry_changed), item_edit);
 		break;
 	case ARG_COL:
 		item_edit->col = GTK_VALUE_INT (*arg);
@@ -209,7 +221,8 @@ item_edit_class_init (ItemEditClass *item_edit_class)
 				 GTK_ARG_WRITABLE, ARG_ROW);
 	
 	object_class->set_arg = item_edit_set_arg;
-
+	object_class->destroy = item_edit_destroy;
+	
 	/* GnomeCanvasItem method overrides */
 	item_class->draw        = item_edit_draw;
 	item_class->point       = item_edit_point;

@@ -6,20 +6,18 @@ typedef unsigned short RowType;
 
 typedef enum {
 	VALUE_STRING,
-	VALUE_INTEGER,
-	VALUE_FLOAT
+	VALUE_NUMBER
 } ValueType;
 
 /*
- * We use the GNU Multi-precission library for storing integers
- * and floating point numbers
+ * We use the GNU Multi-precission library for storing our 
+ * numbers
  */
 typedef struct {
 	ValueType type;
 	union {
 		char  *string;	/* string */
-		mpz_t integer;	/* integer number */
-		mpf_t fp;	/* floating point */
+		mpf_t number;	/* floating point */
 	} v;
 } Value;
 
@@ -39,6 +37,8 @@ typedef struct {
 	int        pixels;		/* we compute this from the above parameters */
 
 	unsigned   int selected:1;	/* is this selected? */
+
+	void       *data;
 } ColRowInfo;
 
 typedef struct {
@@ -49,8 +49,8 @@ typedef struct {
 	char      *entered_text;
 
 	/* Type of the content and the actual parsed content */
-	Value value;
-	Style style;
+	Value     *value;
+	Style     *style;
 	
 	/* computed versions of the cell contents */
 	char      *text;	/* Text displayed */
