@@ -45,9 +45,9 @@ record_new (XBfile *file)
  * invalid row, file error, or invalid whence (same values as in fseek).
  */
 gboolean
-record_seek (XBrecord *record, int whence, glong row)
+record_seek (XBrecord *record, int whence, gsf_off_t row)
 {
-	long offset;
+	gsf_off_t offset;
 	switch (whence) {
 	case SEEK_SET:
 		offset = row;

@@ -18,17 +18,17 @@ typedef struct { /* database instance */
 	guint     fields; /* number of fields */
 	guint     fieldlen; /* bytes per record */
 	XBfield **format; /* array of (pointers to) field formats */
-	guint     offset; /* start of records in file */
+	gsf_off_t offset; /* start of records in file */
 } XBfile;
 
 typedef struct { /* record in a db */
 	XBfile *file;
-	guint   row; /* record number : 1 thru file->records are valid */
+	gsf_off_t row; /* record number : 1 thru file->records are valid */
 	guint8 *data; /* private: all fields as binary read from file */
 } XBrecord;
 
 XBrecord *record_new  (XBfile *file);
-gboolean  record_seek (XBrecord *record, int whence, glong row);
+gboolean  record_seek (XBrecord *record, int whence, gsf_off_t row);
 void      record_free (XBrecord *record);
 gchar	*record_get_field (const XBrecord *record, guint num);
 
