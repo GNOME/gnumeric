@@ -1,4 +1,4 @@
-<sect1>
+<sect1 id="strings-and-numbers">
   <title>Strings and numbers</title>
   
   <para>The basic forms of data that can be entered into a cell include
@@ -16,7 +16,7 @@
   <figure id="stringnumber">
     <title>Entering strings and numbers.</title>
     <screenshot>
-      <graphic fileref="images/editing-1.jpg"></graphic>
+      <graphic fileref="images/editing-1" format="png"></graphic>
     </screenshot>
   </figure>
 
@@ -40,26 +40,27 @@
   <para>See <xref linkend="number-format-date-time-examples"> for some examples of 
       the many date and time formats that are accepted by Gnumeric.</para>
 
-  </SECT2>
+  </sect2>
 
-  <sect2>
+ <sect2 id="editing-of-cells">
     <title>Editing of cells.</title>
     
     <procedure>
       <title>Entering data in a cell</title>
       <step>
-	<para>Activate the cell by clicking on it with the white-cross cursor.
-	  This will make the cell become the active cell (see <xref linkend="activecell">).
-	    </para></step>
+        <para>Activate the cell by clicking on it with the white-cross cursor.
+          This will make the cell become the active cell. 
+            </para></step>
       <step>
-	<para>Type in the data or formula.</para></step>
+        <para>Type in the data or formula.</para></step>
     </procedure>
-
-    <para>See <xref linkend="formulas"> for more detail on entering formulas into cells.</para>
-
+ 
+    <para>
+      See <xref linkend="formulas"> for more detail on entering formulas into cells.
+    </para>
   </sect2>
 
-  <sect2>
+  <sect2 id="editing-commands">
     <title>Editing commands</title>
     
     <para>After selecting the cell and initially entering the data, the user is in
@@ -67,7 +68,7 @@
       cell references. The main keys for editing mistakes in this mode is the backspace
       key.</para>
     
-    <sect3>
+    <sect3 id="advanced-editing-mode">
       <title>Advanced Editing mode</title>
       
       <para>For a more complete set of editing options, especially for
@@ -95,30 +96,20 @@
       </variablelist>
       
       <tip>
+        <title>TIP</title>
 	<para>All the normal key bindings for Gnome application entry boxes
 	  also apply here.</para>
-	<!-- FIXME need a reference of the defualt keybindings -->
       </tip>
-      
     </sect3>
     
-    <sect3>
+    <sect3 id="error-message">
       <title>Error Messages</title>
 
       <para>If the user enters a formula or set of data that is not acceptable,
 	Gnumeric will display an error message in the cell.</para>
-      
-      <!-- FIXME  A listing of cell error messages  -->
-      
-      
     </sect3>
-    
   </sect2>
-  
-  
 </sect1>
-
-
 
 <!--  include the files for formulas and for cell referencing -->
 
@@ -126,7 +117,7 @@
 
 &cellrefer;
 
-<sect1>
+<sect1 id="selecting-cells-entering-formulas">
   <title>Selecting Cells While Entering Formulas.</title>
 
   <para>When entering a formula into a cell, it is possible to use the
@@ -146,11 +137,11 @@
   <figure id="editing-cell-selection">
     <title>The highlighted selection</title>
     <screenshot>
-      <graphic fileref="images/editing-cell-selection-1.jpg"></graphic>
+      <graphic fileref="images/editing-cell-selection-1" format="png"></graphic>
     </screenshot>
   </figure>
   
-  <sect2>
+  <sect2 id="entering-data-formula-mouse">
     <title>Entering data into a formula with the mouse</title>
 
     <para>When entering a formula, if the cursor is at a point
@@ -190,7 +181,7 @@
     
   </sect2>
 
-  <sect2>
+  <sect2 id="entering-data-formula-keyboard">
     <title>Entering data into a formula with the keyboard.</title>
 
     <para>If entering lots of formulas or even just entering a few formulas, it is
@@ -242,162 +233,6 @@
     </sect2>
 </sect1>	  
 
-
-<sect1>
-  <title>Copying and moving cells</title>
-  
-  <para>There are two ways of moving and copying cells in Gnumeric:</para>
-  
-  <itemizedlist>
-    <listitem><para>Using copy/cut/paste operations</para></listitem>
-    <listitem><para>Using the mouse to drag the selection</para></listitem>
-  </itemizedlist>
-  
-  <sect2>
-      <title>Using the mouse to drag the selection</title>
-    
-    <para>Gnumeric allows the user to move and copy cells
-      and their contents by simply dragging and dropping the
-      cell to its new location. </para>
-
-    
-    <para>The basic procedure to quickly drag and drop a cell to
-      a new location is to click on the border, and drag the cell
-      to its new location and release. The contents of the cell
-      will be moved to the new cell.</para>
-    
-      <procedure>
-	<step>
-	  <para>Click <mousebutton>(MB1)</mousebutton> on the border (anywhere, except the autofill square in
-	    the bottom right corner).<keycap>Ctrl</keycap>+<mousebutton>MB1</mousebutton> 
-	    copies the cell, why a plain
-	    click just moves the cell.
-	  </para>
-	</step>
-	
-	<step>
-	  <para>Drag the cell to the new cell location.</para>
-	</step>
-      
-	<step>
-	  <para>Release the selection.</para>
-	</step>
-      </procedure>
-    
-    <para>This is the simplest method and most common use the drag and drop
-      cell moving and copying. The key bindings give you a good set of options
-      for quick moving and copying.</para>
-
-    </sect2>
-  
-  
-    <sect2>
-      <title>Right Click Options</title>
-    
-      <para>The other more extensive option to moving and copying cells is the 
-	right click options. This presents a menu of options that is more extensive
-	that can be easily done with the normal key bindings</para>
-    
-      <procedure>
-	<step>
-	  <para>Right Click <mousebutton>(MB3)</mousebutton> on the border (anywhere, except the autofill square in
-	    the bottom right corner).
-	  </para>
-	</step>
-      
-	<step>
-	  <para>Drag the cell to the new cell location.
-	  </para>
-	</step>
-	
-	<step>
-	  <para>Release the selection. An options menu should pop-up.
-	  </para>
-	</step>
-      
-	<step>
-	  <para>Select the appropriate option from the menu and click again. The new
-	    cell should have the new info.
-	  </para>
-	</step>
-	
-      </procedure>
-      
-      
-    </sect2>
-  
-  <sect2>
-    <title>Move and copy right click menu options</title>
-    
-    <itemizedlist>
-      <listitem>
-	<para>
-	  Copy: Same effect as the normal Copy operations. It
-	  copies the value, the format, and the formula. Equivalent  to Ctrl+MB1.
-	</para>
-      </listitem>
-      
-      <listitem>
-	<para>
-	  Move: Same effect as the normal Move operations. It
-	  moves the value, the format, and the formula. Equivalent  to MB1.
-	</para>
-      </listitem>
-	
-	<listitem>
-	  <para>
-	    Copy Formats: Copies the formatting info of the source cell. This
-	    includes number format, color, font, fill type, etc.
-	  </para>
-	</listitem>
-	
-	<listitem>
-	  <para>
-	    Copy Values: Copies the value in the source cell to the destination
-	    cell.
-	  </para>
-	</listitem>
-	
-	<listitem><para>Shift Cells Down and Copy: not implemented yet</para></listitem>
-	<listitem><para>Shift Cells Right and Copy: not implemented yet</para></listitem>
-	<listitem><para>Shift Cells Down and Move: not implemented yet</para></listitem>
-	<listitem><para>Shift Cells Right and Move: not implemented yet</para></listitem>
-	
-    </itemizedlist>
-  
-    <figure id="rightclickmove">
-      <title>The option menu for  dragging a cell with right click <mousebutton>(MB3)</mousebutton>.</title>
-      <screenshot>
-	<graphic fileref="images/dndselection-1.jpg"></graphic>
-      </screenshot>
-    </figure>
-    
-    </sect2>
-</sect1>
-  
-  
   <!-- include the files for handling selections -->
   
-  &selections;
-  
-  
-  <!--  include the files for autofill docs here  -->
-  
-  &autofill;
-  
-  
-  <!-- Keep this comment at the end of the file
-  Local variables:
-  mode: sgml
-  sgml-omittag:t
-  sgml-shorttag:t
-  sgml-minimize-attributes:nil
-  sgml-always-quote-attributes:t
-  sgml-indent-step:2
-  sgml-indent-data:t
-  sgml-parent-document:nil
-  sgml-exposed-tags:nil
-  sgml-local-catalogs:nil
-  sgml-local-ecat-files:nil
-  End:
-  -->             
+   &selections; 

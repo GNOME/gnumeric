@@ -1,0 +1,135 @@
+<sect1>
+  <title></title>
+  
+  <para>There are two ways of moving and copying cells in Gnumeric:</para>
+  
+  <itemizedlist>
+    <listitem><para>Using copy/cut/paste operations</para></listitem>
+    <listitem><para>Using the mouse to drag the selection</para></listitem>
+  </itemizedlist>
+  
+  <sect2>
+      <title>Using the mouse to drag the selection</title>
+    
+    <para>Gnumeric allows the user to move and copy cells
+      and their contents by simply dragging and dropping the
+      cell to its new location. </para>
+
+    
+    <para>The basic procedure to quickly drag and drop a cell to
+      a new location is to click on the border, and drag the cell
+      to its new location and release. The contents of the cell
+      will be moved to the new cell.</para>
+    
+      <procedure>
+	<step>
+	  <para>Click <mousebutton>left</mousebutton> mouse button on the border (anywhere, except the autofill square in
+	    the bottom right corner).<keycap>Ctrl</keycap>+<mousebutton>left</mousebutton> 
+	    mouse button copies the cell, while a plain
+	    click just moves the cell.
+	  </para>
+	</step>
+	
+	<step>
+	  <para>Drag the cell to the new cell location.</para>
+	</step>
+      
+	<step>
+	  <para>Release the selection.</para>
+	</step>
+      </procedure>
+    
+    <para>This is the simplest method and most common use the drag and drop
+      cell moving and copying. The key bindings give you a good set of options
+      for quick moving and copying.</para>
+
+    </sect2>
+  
+  
+    <sect2>
+      <title>Right Click Options</title>
+    
+      <para>The other more extensive option to moving and copying cells is the 
+	right click options. This presents a menu of options that is more extensive
+	that can be easily done with the normal key bindings</para>
+    
+      <procedure>
+	<step>
+	  <para>Right Click on the border (anywhere, except the autofill square in
+	    the bottom right corner).
+	  </para>
+	</step>
+      
+	<step>
+	  <para>Drag the cell to the new cell location.
+	  </para>
+	</step>
+	
+	<step>
+	  <para>Release the selection. An options menu should pop-up.
+	  </para>
+	</step>
+      
+	<step>
+	  <para>Select the appropriate option from the menu and click again. The new
+	    cell should have the new info.
+	  </para>
+	</step>
+	
+      </procedure>
+      
+      
+    </sect2>
+  
+  <sect2>
+    <title>Move and copy right click menu options</title>
+    
+    <itemizedlist>
+      <listitem>
+	<para>
+	  Copy: Same effect as the normal Copy operations. It
+	  copies the value, the format, and the formula. Equivalent  to <keycap>Ctrl</keycap>+
+          <mousebutton>left</mousebutton> mouse button.
+	</para>
+      </listitem>
+      
+      <listitem>
+	<para>
+	  Move: Same effect as the normal Move operations. It
+	  moves the value, the format, and the formula. Equivalent  to 
+          <mousebutton>left</mousebutton> mouse button.
+	</para>
+      </listitem>
+	
+	<listitem>
+	  <para>
+	    Copy Formats: Copies the formatting info of the source cell. This
+	    includes number format, color, font, fill type, etc.
+	  </para>
+	</listitem>
+	
+	<listitem>
+	  <para>
+	    Copy Values: Copies the value in the source cell to the destination
+	    cell.
+	  </para>
+	</listitem>
+	
+	<listitem><para>Shift Cells Down and Copy: not implemented yet</para></listitem>
+	<listitem><para>Shift Cells Right and Copy: not implemented yet</para></listitem>
+	<listitem><para>Shift Cells Down and Move: not implemented yet</para></listitem>
+	<listitem><para>Shift Cells Right and Move: not implemented yet</para></listitem>
+	
+    </itemizedlist>
+  
+    <figure id="rightclickmove">
+      <title>The option menu for dragging a cell with right click</title>
+      <screenshot>
+	<graphic fileref="images/dndselection-1.png"></graphic>
+      </screenshot>
+    </figure>
+    
+    </sect2>
+</sect1>
+  
+

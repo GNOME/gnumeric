@@ -1,0 +1,290 @@
+<sect1 id="print">
+  <title>Printing to a Printer or a File.</title>
+  <para>
+  The <interface>Print dialog</interface> includes some options 
+   related to printing. More detailed options related to printing are in the <interface>
+  Print Setup dialog</interface>, detailed in <xref linkend="print-setup"> 
+  Press the <guibutton>Print</guibutton>
+  to print out the workbook. Press the <guibutton>Preview</guibutton> 
+  button to display the <interface>Print Preview dialog</interface>. 
+
+  </para>
+    <figure id="print-workbook-fig">
+     <title><interface>Print Dialog</interface></title>
+     <screenshot>
+      <screeninfo><interface>Print Dialog</interface></screeninfo>
+      <graphic fileref="images/print-worksheet" format="png"
+       srccredit="Thomas Canty">
+      </graphic>
+     </screenshot>
+    </figure>
+
+    <para>
+    Detail the opinions displayed in the dialog. Maybe from the template???
+    </para>
+</sect1>
+
+<sect1 id="print-setup">
+  <title>Print Setup.</title>
+    <para>
+    The <interface>Print Setup Dialog</interface> can be used to configure
+    various options related to printing out a workbook. These options are detailed here.
+    </para>
+    <sect2>
+    <title>Print Setup Dialog - Page</title>
+    <figure id="print-setup-page-1-fig">
+     <title><interface>Print Setup Dialog - Page</interface></title>
+     <screenshot>
+      <screeninfo><interface>Print Setup Dialog - Page</interface></screeninfo>
+      <graphic fileref="images/printing-setup-page-1" format="png"
+       srccredit="Thomas Canty">
+      </graphic>
+     </screenshot>
+    </figure>
+    </sect2>
+    <sect2>
+    <title>Print Setup Dialog - Margins</title>
+    <figure id="print-setup-margins-fig">
+     <title><interface>Print Setup Dialog - Margins</interface></title>
+     <screenshot>
+      <screeninfo><interface>Print Dialog - Margins</interface></screeninfo>
+      <graphic fileref="images/printing-setup-margins" format="png"
+       srccredit="Thomas Canty">
+      </graphic>
+     </screenshot>
+    </figure>
+    </sect2>
+    <sect2>
+    <title>Print Setup Dialog - Headers and Footers</title>
+    <figure id="print-setup-header-fig">
+     <title><interface>Print Dialog</interface></title>
+     <screenshot>
+      <screeninfo><interface>Print Dialog</interface></screeninfo>
+      <graphic fileref="images/printing-setup-header" format="png"
+       srccredit="Thomas Canty">
+      </graphic>
+     </screenshot>
+    </figure>
+    </sect2>
+    <sect2>
+    <title>Print Setup Dialog - Page</title>
+    <figure id="print-setup-page-fig">
+     <title><interface>Print Setup Dialog - Page</interface></title>
+     <screenshot>
+      <screeninfo><interface>Print Setup Dialog - Page</interface></screeninfo>
+      <graphic fileref="images/printing-setup-page" format="png"
+       srccredit="Thomas Canty">
+      </graphic>
+     </screenshot>
+    </figure>
+    </sect2>
+</sect1>
+
+<sect1 id="print-preview">
+  <title>Print Preview.</title>
+  <para>
+  The <interface>Print Preview Dialog</interface> is used to display what the printed output
+  will look like. The Print Preview dialog can be used to check whether you have the desired formating 
+  and layout before u print out the workbook. 
+  </para>
+
+  <figure id="print-preview-fig">
+     <title><interface>Print Preview Dialog</interface></title>
+     <screenshot>
+      <screeninfo><interface>Print Preview Dialog</interface></screeninfo>
+      <graphic fileref="images/printing-preview" format="png"
+       srccredit="Thomas Canty">
+      </graphic>
+     </screenshot>
+  </figure>
+ 
+  <sect2>
+    <title>Menu Bar</title> 
+  <variablelist>
+   <varlistentry>
+     <term><guimenu>File</guimenu></term>
+     <listitem>
+      <para>
+       This menu contains:
+       <itemizedlist>
+        <listitem>
+         <para>
+          <guimenuitem>Print</guimenuitem>
+           &mdash; Prints the current workbook shown in the Print Preview dialog.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Close</guimenuitem>
+          &mdash; Closes the <interface>Print Preview dialog</interface>.
+         </para>
+        </listitem>
+       </itemizedlist>
+      </para>
+     </listitem>
+    </varlistentry>
+  
+  <varlistentry>
+     <term><guimenu>View</guimenu></term>
+     <listitem>
+      <para>
+       This menu contains:
+       <itemizedlist>
+        <listitem>
+         <para>
+          <guimenuitem>First Page</guimenuitem>
+           &mdash;Shows the first page in the workbook.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Previous Page</guimenuitem>
+          &mdash;Shows the previous page in the workbook.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Next Page</guimenuitem>
+          &mdash;Shows the next page in the workbook.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Last Page</guimenuitem>
+          &mdash;Shows the last page in the workbook.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Zoom in</guimenuitem>
+          &mdash;Zooms the current page in, showing more detail.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Zoom out</guimenuitem>
+          &mdash;Zooms the current page out, showing less detail.
+         </para>
+        </listitem>
+       </itemizedlist>
+      </para>
+     </listitem>
+    </varlistentry>
+   </variablelist>
+ </sect2>
+ 
+ <sect2>
+   <title>Toolbar</title>
+   <variablelist>
+      <varlistentry>
+        <term
+          <guiicon><inlinegraphic fileref="images/print-large.png"></inlinegraphic>
+            Print
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Prints the current worksheet to a file or a printer.</para>
+        </listitem>
+      </varlistentry>
+
+       <varlistentry>
+        <term
+          <guiicon><inlinegraphic fileref="images/print-preview-first.png"></inlinegraphic>
+          First
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Show the first page in the workbook.</para>
+        </listitem>
+      </varlistentry>
+
+        <varlistentry>
+        <term
+          <guiicon><inlinegraphic fileref="images/print-preview-back.png"></inlinegraphic>
+          Back
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Show the previous page in the workbook.</para>
+        </listitem>
+      </varlistentry>
+ 
+        <varlistentry>
+        <term
+          <guiicon><inlinegraphic fileref="images/print-preview-next.png"></inlinegraphic>
+          Next
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Show the next page in the workbook.</para>
+        </listitem>
+      </varlistentry>
+
+         <varlistentry>
+        <term
+          <guiicon><inlinegraphic fileref="images/print-preview-last.png"></inlinegraphic>
+          Last
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Show the last page in the workbook.</para>
+        </listitem>
+      </varlistentry>
+  
+       <varlistentry>
+        <term
+          <guiicon><inlinegraphic fileref="images/print-preview-zoomin.png"></inlinegraphic>
+          Zoom in
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Zooms the current page in, showing greater detail.</para>
+        </listitem>
+      </varlistentry>
+
+       <varlistentry>
+        <term
+          <guiicon><inlinegraphic fileref="images/print-preview-zoomout.png"></inlinegraphic>
+          Zoom out
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Zooms the current page out, showing less detail.</para>
+        </listitem>
+      </varlistentry>
+
+       <varlistentry>
+        <term
+          <guiicon><inlinegraphic fileref="images/print-preview-fit.png"></inlinegraphic>
+          Fit
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Fits the whole page into the screen space.</para>
+        </listitem>
+      </varlistentry>
+
+       <varlistentry>
+        <term
+          <guiicon><inlinegraphic fileref="images/print-preview-fitwide.png"></inlinegraphic>
+          Fit Wide
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Fits the whole width of the page into the screen space.</para>
+        </listitem>
+      </varlistentry>
+
+       <varlistentry>
+        <term
+          <guiicon><inlinegraphic fileref="images/print-preview-fittall.png"></inlinegraphic>
+          Fit Tall
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Fits the whole height of the page into the screen space.</para>
+        </listitem>
+      </varlistentry>
+   </variablelist>
+  </sect2>
+</sect1>

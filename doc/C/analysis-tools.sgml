@@ -1,5 +1,5 @@
 <sect1 id="analysis-tools-chapter">
-  <title>Data Analysis Tools</title>
+  <title>Analysis Tools</title>
 
   <para>The data analysis tools package contains various tools for
   statistical data analysis, random number generation and data
@@ -17,7 +17,7 @@
   old data in the output range is lost.</para>
 
 
-  <sect2>
+  <sect2 id="anova-single-factor-tool">
      <title>Anova: Single Factor Tool</title>
 
      <para>Use this tool to make a single factor analysis of the
@@ -51,7 +51,7 @@
 
   </sect2>
 
-  <sect2>
+  <sect2 id="two-factor-with-tool">
      <title>Anova: Two-Factor With Replication Tool</title>
 
      <para>For this tool, the given input range should contain at least
@@ -66,12 +66,12 @@
 
   </sect2>
 
-  <sect2>
+  <sect2 id="two-factor-without-tool">
      <title>Anova: Two-Factor Without Replication Tool</title>
 
   </sect2>
 
-  <sect2>
+  <sect2 id="correlation-tool">
      <title>Correlation Tool</title>
 
      <para>The correlation tool calculates correlation coefficients of
@@ -108,7 +108,7 @@
   </sect2>
 
 
-  <sect2>
+  <sect2 id="covariance-tool">
      <title>Covariance Tool</title>
 
      <para>The covariance tool calculates covariance of given
@@ -143,7 +143,7 @@
   </sect2>
 
 
-  <sect2>
+  <sect2 id="descriptive-statistics-tool">
      <title>Descriptive Statistics Tool</title>
 
      <para>The descriptive statistics tool calculates some statistical
@@ -183,7 +183,7 @@
   </sect2>
 
 
-  <sect2>
+  <sect2 id="ftest-two-sample-for-variances-tool">
      <title>F-Test:Two-Sample for Variances Tool</title>
 
      <para>Use the F-Test tool to analyze wheater the variances of two
@@ -205,12 +205,12 @@
      Type I error of one-tailed test.</para>
   </sect2>
 
-  <sect2>
+  <sect2 id="moving-average-tool">
      <title>Moving Average Tool</title>
 
   </sect2>
 
-  <sect2>
+  <sect2 id="random-number-generation-tool">
      <title>Random Number Generation Tool</title>
 
      <para>Use the random number generation tool to generate random
@@ -227,7 +227,7 @@
      supported: Discrete, Normal, Bernoulli, and Uniform.  Then
      specify the parameters of the distribution.</para>
 
-     <sect3>
+     <sect3 id="random-distributions">
         <title>Random Distributions</title>
 
         <para>For Discrete random distribution, specify the value and
@@ -260,17 +260,17 @@
      </sect3>
   </sect2>
 
-  <sect2>
+  <sect2 id="rank-and-percentile-tool">
      <title>Rank and Percentile Tool</title>
 
   </sect2>
 
-  <sect2>
+  <sect2 id="regression-tool">
      <title>Regression Tool</title>
 
   </sect2>
 
-  <sect2>
+  <sect2 id="sampling-tool">
      <title>Sampling Tool</title>
 
      <para>Use the sampling tool to take a sample of a data set.  This
@@ -290,22 +290,22 @@
      the original data set is taken at most once to the sample.</para>
   </sect2>
 
-  <sect2>
+  <sect2 id="t-test-paired-two-samples-for-means-tool">
      <title>t-Test: Paired Two Sample for Means Tool</title>
 
   </sect2>
 
-  <sect2>
+  <sect2 id="t-test-two-sample-equal-variances-tool">
      <title>t-Test: Two-Sample Assuming Equal Variances Tool</title>
 
   </sect2>
 
-  <sect2>
+  <sect2 id="t-test-two-samples-unequal-variances">
      <title>t-Test: Two-Sample Assuming Unequal Variances Tool</title>
 
   </sect2>
 
-  <sect2>
+  <sect2 id="ztest-two-samples-for-means-tool">
      <title>z-Test:Two Samples for Means Tool</title>
 
      <para>Use the z-Test tool to analyze wheater the means of two

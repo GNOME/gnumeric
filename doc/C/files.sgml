@@ -1,6 +1,5 @@
 <sect1>
-  <title>Working with files</title>
-  
+  <title></title>
   <sect2>
     <title>Saving files</title>
     
@@ -14,7 +13,7 @@
       <guimenu><accel>F</accel>ile</guimenu>/
       <guimenuitem><accel>S</accel>ave</guimenuitem> menuitem. There
       is also a buttonbar <guibutton>Save</guibutton> (see <xref
-      linkend="buttonbar-buttons">).  All these methods are equivalent
+      linkend="toolbar-buttons">).  All these methods are equivalent
       .
     </para>
 

@@ -1,4 +1,4 @@
-<sect1>
+<sect1 id="cell-formatting">
   <title>Cell Formatting</title>
 
   <para>Cell formats allow you to change the way cell data appears in
@@ -53,7 +53,7 @@
   <figure id="number-format-dialog">
       <title>The main number formatting dialog.</title>
       <screenshot>
-	<graphic fileref="images/number-format-dialog.jpg"></graphic>
+	<graphic fileref="images/number-format-dialog" format="png"></graphic>
       </screenshot>
     </figure>
     
@@ -62,7 +62,7 @@
   in each category.</para>
 
   <para>There is also a Sample output of what the new formatting should look like.
-  <para>
+  </para>
 </sect2>    
 
 
@@ -81,7 +81,7 @@ tab. This will open the standard Gnome font selection dialog.</para>
 <figure id="number-format-font-dialog">
    <title>The Font selection dialog</title>
    <screenshot>
-      <graphic fileref="images/number-format-font-dialog.jpg"></graphic>
+      <graphic fileref="images/number-format-font-dialog" format="png"></graphic>
    </screenshot>
 </figure>
 
@@ -140,7 +140,7 @@ See <xref linkend="number-format-bold-italics"></para>
 
 </sect2>
 
-<sect2>
+<sect2 id="chainging-cell-background-color-and-patterns">
 <title>Changing the cell's Background Colors and Patterns</title>
 
 <para>A cell in gnumeric can be assigned a solid background color, and an
@@ -150,7 +150,7 @@ pattern with a potentially different colour.
 <figure id="number-format-color-dialog">
   <title>The cell color dialog.</title>
     <screenshot>
-      <graphic fileref="images/number-format-color-dialog.jpg"></graphic>
+      <graphic fileref="images/number-format-color-dialog" format="png"></graphic>
      </screenshot>
 </figure>
 
@@ -168,7 +168,9 @@ and select a pattern by clicking on the pattern the user wants.
 there is a solid black border that should outline the currently
 selected pattern. </para>
 
-<sect2>
+</sect2>
+
+<sect2 id="cell-content-justification-and-alignment">
 <title>Cell content justification and alignment</title>
 
   
@@ -179,14 +181,14 @@ as needed. There are several justification options. See
 <figure id="number-format-justification">
   <title>Example of text justification.</title>
   <screenshot>
-     <graphic fileref="images/number-format-justification.jpg"></graphic>
+     <graphic fileref="images/number-format-justification" format="png"></graphic>
    </screenshot>
 </figure>
 
 <figure id="number-format-justification-dialog">
   <title>The cell justification dialog.</title>
   <screenshot>
-     <graphic fileref="images/number-format-justification-dialog-2.jpg"></graphic>
+     <graphic fileref="images/number-format-justification-dialog-2" format="png"></graphic>
    </screenshot>
 </figure>
 
@@ -258,7 +260,6 @@ as needed. There are several justification options. See
       </varlistentry>
 </variablelist>
 
-
 <!--FIXME I dont belive alignment is implemented yet -->
 <variablelist>
    <title>Vertical Justification options.</title>
@@ -281,11 +282,7 @@ as needed. There are several justification options. See
 </varlistentry>
 </variablelist>
 
-
 </sect2>
-
-
-
 
 <sect2 id="number-format-bold-italics">
    <title>Cell Formatting options on the buttonbar.</title>
@@ -296,22 +293,26 @@ as needed. There are several justification options. See
 <figure id="number-format-buttonbar">
   <title>Example of justification quick buttons.</title>
   <screenshot>
-     <graphic fileref="images/number-format-buttonbar.jpg"></graphic>
+     <graphic fileref="images/number-format-buttonbar.png"></graphic>
    </screenshot>
 </figure>
 
-<para>See <xref linkend="buttonbar-buttons"> for more detail one what these
- buttons do.</para>
+  <para> 
+    See <xref linkend="toolbar-buttons"> for more detail one what these
+    buttons do.
+  </para>
 
-</sect2>
+ </sect2>
 </sect1>
 
-  
-<sect1><title>Number formatting overview</title>
-    <para>The number formatting engine in Gnumeric is very powerful: it
-      can be used to display numbers in various formats as well as
-      providing the user with the ability to specify colors based on
-      various simple conditions.</para>
+  <sect1 id="number-formatting-overview">
+  <title>Number formatting overview</title>
+  <para>
+    The number formatting engine in Gnumeric is very powerful: it
+    can be used to display numbers in various formats as well as
+    providing the user with the ability to specify colors based on
+    various simple conditions.
+  </para>
 
   <para> <xref linkend="number-format-list"> The available catagories of
   pre-defined formats are :
@@ -408,7 +409,7 @@ as needed. There are several justification options. See
 
 </sect1>
 
-<sect1>
+<sect1 id="data-and-time-formatting">
 <title>Date and Time formatting</title>
    <para>Gnumeric supports a wide variety of date and time formatting.</para>
 
@@ -468,20 +469,3 @@ Time
 </example>
 
 </sect1>
-  
-    
-<!-- Keep this comment at the end of the file
-    Local variables:
-mode: sgml
-sgml-omittag:t
-sgml-shorttag:t
-sgml-minimize-attributes:nil
-sgml-always-quote-attributes:t
-sgml-indent-step:2
-sgml-indent-data:t
-sgml-parent-document:nil
-sgml-exposed-tags:nil
-sgml-local-catalogs:nil
-sgml-local-ecat-files:nil
-End:
--->                         
