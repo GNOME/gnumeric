@@ -3073,7 +3073,6 @@ static void
 sheet_move_column (Sheet *sheet, ColRowInfo *ci, int new_column)
 {
 	GList *rows, *column_cells, *l;
-	int diff = new_column - ci->pos;
 
 	/* remove the cells */
 	column_cells = NULL;
@@ -3093,7 +3092,7 @@ sheet_move_column (Sheet *sheet, ColRowInfo *ci, int new_column)
 
 		sheet_cell_add_to_hash (sheet, cell);
 
-		cell_relocate (cell, diff, 0);
+		cell_relocate (cell, 0, 0);
 	}
 	g_list_free (column_cells);
 }
@@ -3362,7 +3361,7 @@ sheet_shift_row (Sheet *sheet, int col, int row, int count)
 		/* Relocate the cell */
 		sheet_cell_remove (sheet, cell);
 		sheet_cell_add (sheet, cell, new_column, row);
-		cell_relocate (cell, count, 0);
+		cell_relocate (cell, 0, 0);
 	}
 	g_list_free (l2);
 
@@ -3497,7 +3496,7 @@ sheet_insert_row (Sheet *sheet, int row, int count)
 
 		sheet_cell_add_to_hash (sheet, cell);
 
-		cell_relocate (cell, 0, count);
+		cell_relocate (cell, 0, 0);
 	}
 
 	g_list_free (cell_store);
@@ -3603,7 +3602,7 @@ sheet_delete_row (Sheet *sheet, int row, int count)
 
 		sheet_cell_add_to_hash (sheet, cell);
 
-		cell_relocate (cell, 0, -count);
+		cell_relocate (cell, 0, 0);
 	}
 	g_list_free (cell_store);
 
@@ -3700,7 +3699,7 @@ sheet_shift_col (Sheet *sheet, int col, int row, int count)
 		}
 
 		sheet_cell_add (sheet, cell, col, new_row);
-		cell_relocate (cell, 0, count);
+		cell_relocate (cell, 0, 0);
 	}
 	g_list_free (cell_list);
 

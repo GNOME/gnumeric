@@ -1,3 +1,9 @@
+1999-09-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_move_column, sheet_shift_row,
+	  sheet_insert_row, sheet_delete_row, sheet_shift_col) : Don't
+	  relocate the expressions. (Bug 2041)
+
 1999-09-01  Pablo Saratxaga <pablo@mandrakesoft.com>
 
 	* configure.in,po/da.po: added Danish file
