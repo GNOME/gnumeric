@@ -1,5 +1,12 @@
 2002-04-16  Jody Goldberg <jody@gnome.org>
 
+	* html_read.c (html32_file_open) : switch to mmap and break the bogus
+	  little parser out into.
+	(html32_read_buffer) : here.  Take a guess at a decent interface for
+	  buffer parsing.  The goal is to register these in the clpboard.
+
+2002-04-16  Jody Goldberg <jody@gnome.org>
+
 	* html_read.c : split the read functionality into a seprate file to
 	  start work on a parser for buffers.
 

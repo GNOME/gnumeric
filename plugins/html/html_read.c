@@ -54,13 +54,13 @@
 #define HTML_CENTER	8
 
 static int
-has_prefix (const char *txt, const char *prefix)
+has_prefix (guchar const *txt, guchar const *prefix)
 {
 	return strncmp (txt, prefix, strlen (prefix)) == 0;
 }
 
 static char *
-html_get_string (char const *s, int *flags, char const **last)
+html_get_string (guchar const *s, int *flags, guchar const **last)
 {
 #define LINESIZE 1024
 	static char buf[LINESIZE];
@@ -133,36 +133,22 @@ findtag (char const *buf, char const *tag)
 	} while (buf != NULL && strncasecmp (buf, tag, n));
 	return buf;
 }
-/*
- * try at least to read back what we have written before..
- */
+
 void
-html32_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                  WorkbookView *wb_view, const char *filename)
+html32_read_buffer (IOContext *io_context, WorkbookView *wb_view, 
+		    guchar const *buf, int buf_size)
 {
 	Workbook *wb = wb_view_workbook (wb_view);
-	FILE *fp;
 	Sheet *sheet;
 	Cell *cell;
 	int num, row, col, flags;
-	char const *p, *str, *ptr;
-	char buf[LINESIZE];
-	ErrorInfo *open_error;
-
-	g_return_if_fail (filename != NULL);
-
-	fp = gnumeric_fopen_error_info (filename, "r", &open_error);
-	if (fp == NULL) {
-		gnumeric_io_error_info_set (io_context, open_error);
-		return;
-	}
+	guchar const *p, *str, *ptr;
 
 	sheet = NULL;
 	col = 0;
 	row = -1;
 	num = 0;
-	while (fgets (buf, LINESIZE, fp) != NULL) {
-		ptr = buf;
+	for (ptr = buf; (ptr - buf) < buf_size ; ) {
 quick_hack :
 		/* FIXME : This is an ugly hack.  I'll patch it a bit for now
 		 * but we should migrate to libxml
@@ -250,5 +236,20 @@ quick_hack :
 			}
 		}
 	}
-	fclose (fp);
+}
+
+void
+html32_file_open (GnumFileOpener const *fo, IOContext *io_context,
+                  WorkbookView *wb_view, char const *file_name)
+{
+	guchar const *buf;
+	int buf_size, fd;
+
+	g_return_if_fail (file_name != NULL);
+
+	buf = gnumeric_mmap_open (io_context, file_name, &fd, &buf_size);
+	if (buf == NULL)
+		return;
+	html32_read_buffer (io_context, wb_view, buf, buf_size);
+	gnumeric_mmap_close (io_context, buf, fd, buf_size);
 }
