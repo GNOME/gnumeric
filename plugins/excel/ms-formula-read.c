@@ -1119,12 +1119,13 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 
 		case FORMULA_PTG_PERCENT:
 		{
-			/* FIXME FIXME FIXME : is this correct ? */
+			/* FIXME : We need to revisit this when operator % is
+			 * available */
 			ExprTree * hundred =
 			    expr_tree_new_constant (value_new_int (100));
 			parse_list_push (&stack,
 					 expr_tree_new_binary (parse_list_pop (&stack),
-							       OPER_MULT,
+							       OPER_DIV,
 							       hundred));
 			break;
 		}

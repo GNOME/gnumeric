@@ -1,3 +1,9 @@
+1999-08-12  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-formula-read.c (ms_excel_parse_formula) :
+	FORMULA_PTG_PERCENT is expr/100 not expr*100.
+	(excel_builtin_formats) : Correct typo.
+
 1999-08-09  Miguel de Icaza  <miguel@gnu.org>
 
 	* boot.c (excel_load): Changed calling conventions.
