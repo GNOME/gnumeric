@@ -91,6 +91,8 @@ stf_open_and_read (GsfInput *input)
 		result = NULL;
 	}
 
+	*((char *)result + readsize) = '\0';
+
 	return result;
 }
 

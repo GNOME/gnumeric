@@ -1,3 +1,8 @@
+2002-11-17   Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* stf.c (stf_open_and_read) : stf expects \0-terminated data. Make
+	sure it is in fact \0-terminated.
+
 2002-11-16   Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* stf-parse.c (stf_parse_is_valid_data) : declare wstr only if

@@ -1,5 +1,8 @@
 Gnumeric 1.1.13
 
+Andreas:
+	* Fix some stf bugs
+
 Morten:
 	* Improve qpro importer.
 
