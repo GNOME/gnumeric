@@ -493,10 +493,10 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (array_cols > 0 || array_rows > 0) {
 			if (array_cols < 0) {
 				array_cols = 1;
-				oo_warning (state, _("Invalid array expression does no specify number of columns"));
+				oo_warning (state, _("Invalid array expression does not specify number of columns."));
 			} else if (array_rows < 0) {
 				array_rows = 1;
-				oo_warning (state, _("Invalid array expression does no specify number of rows"));
+				oo_warning (state, _("Invalid array expression does not specify number of rows."));
 			}
 			cell_set_array_formula (state->pos.sheet,
 				state->pos.eval.col, state->pos.eval.row,

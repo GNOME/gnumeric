@@ -1,5 +1,10 @@
 2003-06-18  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/GNOME_Gnumeric.xml: spelling fixes
+	* schemas/gnumeric-general.schemas.in: spelling fixes
+
+2003-06-18  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/file.c: spelling fixes
 	* src/format-template.c: spelling fixes
 	* src/formats.c: spelling fixes

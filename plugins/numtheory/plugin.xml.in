@@ -2,7 +2,7 @@
 <plugin id="Gnumeric_numtheory">
 	<information>
 		<_name>Number Theory</_name>
-		<_description>Several basic utilities for prime numbers, pi, phi, sigma. It also hold some simple bitwise operations</_description>
+		<_description>Several basic utilities for prime numbers, pi, phi, sigma. It also holds some simple bitwise operations.</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="numtheory.la"/>

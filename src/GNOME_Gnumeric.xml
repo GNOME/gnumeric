@@ -790,8 +790,8 @@
 
 	<toolitem name="ChartGuru"
 	    pixtype="stock" pixname="Gnumeric_GraphGuru"
-	    _label="Graph Guru"
-	    _tip="Launch the Graph Guru"
+	    _label="Chart Guru"
+	    _tip="Launch the Chart Guru"
 	    verb="ChartGuru" sensitive="0" />
 
         <!-- These don't work yet for Gnome 2 
