@@ -35,7 +35,6 @@
 #include "mathfunc.h"
 
 #include <string.h>
-#include <ctype.h>
 #include <errno.h>
 #include <stdlib.h>
 
@@ -119,7 +118,8 @@ typedef struct _FillItem {
 		} list;
 		struct {
 			String   *str;
-			int       pos, num;
+			int       pos; /* In bytes */
+			int       num;
 		} numstr;
 		gboolean v_bool;
 	} v;
@@ -182,44 +182,51 @@ matches_list (char const *s, int *n, int *is_i18n)
 	return NULL;
 }
 
-static int
-string_has_number (String *str, int *num, int *pos)
+static gboolean
+string_has_number (const String *str, int *num, int *bytepos)
 {
-	char *s = str->str, *p, *end;
-	int l = strlen (s);
-	gboolean found_number = FALSE;
-	long val;
+	const char *s = str->str;
+	const char *end;
+	gboolean neg, hassign;
+	guint64 val;
+	gint64 sval;
 
-	errno = 0;
-	val = strtol (s, &end, 10);
-	if (s != end) {
-		if (errno != ERANGE) {
-			*num = val;
-			*pos = 0;
-			return TRUE;
+	neg = (*s == '-');
+	hassign = (*s == '-' || *s == '+');
+	if (hassign)
+		s++;
+
+	if (g_unichar_isdigit (g_utf8_get_char (s))) {
+		/* Number in front.  */
+		end = s;
+	} else {
+		/* Maybe number in back.  */
+
+		end = s + strlen (s);
+		while (end > s) {
+			const char *em1 = g_utf8_prev_char (end);
+			gunichar c = g_utf8_get_char (em1);
+			if (!g_unichar_isdigit (c))
+				break;
+			end = em1;
 		}
-	}
-	if (l <= 1)
-		return FALSE;
 
-	for (p = s + l - 1; p > str->str && isdigit ((unsigned char)*p); p--)
-		found_number = TRUE;
+		if (*end == 0)
+			return FALSE;
 
-	if (!found_number)
-		return FALSE;
-
-	p++;
-	errno = 0;
-	val = strtol (p, &end, 10);
-	if (p != end) {
-		if (errno != ERANGE) {
-			*num = val;
-			*pos = p - str->str;
-			return TRUE;
-		}
+		/* Only take sign into account if whole string is number.  */
+		if (s != end)
+			hassign = neg = FALSE;
 	}
 
-	return FALSE;
+	errno = FALSE;
+	val = g_ascii_strtoull (end, NULL, 10);
+	sval = neg ? -(gint64)val : (gint64)val;
+	*num = (int)sval;
+
+	*bytepos = (hassign ? end - 1 : end) - str->str;
+
+	return errno == 0 && *num == (int)sval;
 }
 
 static void
@@ -592,16 +599,17 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 		sprintf (buffer, "%d", i);
 
 		if (delta->v.numstr.pos == 0) {
-			char *p = delta->v.numstr.str->str;
+			const char *p = delta->v.numstr.str->str;
 
-			while (*p && isdigit ((unsigned char)*p))
-			       p++;
+			if (*p == '-' || *p == '+')
+				p++;
+			while (g_unichar_isdigit (g_utf8_get_char (p)))
+				p = g_utf8_next_char (p);
 
 			v = g_strconcat (buffer, p, NULL);
 		} else {
-			char *n = g_strdup (delta->v.numstr.str->str);
-			n [delta->v.numstr.pos] = 0;
-
+			char *n = g_strndup (delta->v.numstr.str->str,
+					     delta->v.numstr.pos);
 			v = g_strconcat (n, buffer, NULL);
 			g_free (n);
 		}
