@@ -1742,12 +1742,22 @@ style_format_delocalize (const char *descriptor_string)
 		return g_strdup ("General");
 }
 
+/**
+ * style_format_new_XL :
+ *
+ * Looks up and potentially creates a StyleFormat from the supplied string in
+ * XL format.
+ */
 StyleFormat *
-style_format_new_XL (const char *descriptor_string, gboolean delocalize)
+style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 {
 	StyleFormat *format;
 
-	if (delocalize)
+	/* Safety net */
+	if (descriptor_string == NULL) {
+		g_warning ("Invalid format descriptor string, using General");
+		descriptor_string = "General";
+	} else if (delocalize)
 		descriptor_string = style_format_delocalize (descriptor_string);
 
 	format = (StyleFormat *) g_hash_table_lookup (style_format_hash, descriptor_string);
@@ -1842,6 +1852,13 @@ style_format_str_as_XL (char const *ptr, gboolean localized)
 	}
 }
 
+/**
+ * style_format_as_XL :
+ * @sf :
+ * @localized : should the string be in cannonical or locale specific form.
+ *
+ * Return a string which the caller is responsible for freeing.
+ */
 char *
 style_format_as_XL (StyleFormat const *fmt, gboolean localized)
 {
@@ -1854,6 +1871,12 @@ style_format_as_XL (StyleFormat const *fmt, gboolean localized)
 	return style_format_str_as_XL (fmt->format, localized);
 }
 
+/**
+ * style_format_ref :
+ * @sf :
+ *
+ * Add a reference to a StyleFormat
+ */
 void
 style_format_ref (StyleFormat *sf)
 {
@@ -1862,6 +1885,12 @@ style_format_ref (StyleFormat *sf)
 	sf->ref_count++;
 }
 
+/**
+ * style_format_unref :
+ * @sf :
+ *
+ * Remove a reference to a StyleFormat, freeing when it goes to zero.
+ */
 void
 style_format_unref (StyleFormat *sf)
 {
@@ -1878,9 +1907,14 @@ style_format_unref (StyleFormat *sf)
 	g_free (sf);
 }
 
+/**
+ * style_format_is_general :
+ * @sf : the format to check
+ *
+ * A small utility to check whether a format is 'General'
+ */
 gboolean
 style_format_is_general (StyleFormat const *sf)
 {
 	return 0 == strcmp (sf->format, "General");
 }
-
