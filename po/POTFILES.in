@@ -1,3 +1,4 @@
+src/about.c
 src/dialog-cell-format.c
 src/dialog-delete-cells.c
 src/dialog-goto-cell.c
@@ -6,6 +7,7 @@ src/dialog-paste-special.c
 src/dialog-zoom.c
 src/expr.c
 src/file.c
+src/fn-date.c
 src/fn-math.c
 src/fn-misc.c
 src/fn-sheet.c
@@ -15,7 +17,10 @@ src/gnumeric-util.c
 src/item-cursor.c
 src/item-grid.c
 src/main.c
+src/plugin.c
+src/plugin-manager.c
 src/sheet-view.c
+src/sheet-autofill.c
 src/sheet.c
 src/workbook.c
 src/xml-io.c

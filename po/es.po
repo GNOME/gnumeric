@@ -6,144 +6,150 @@ msgstr ""
 "Xgettext-Options: --default-domain=gnumeric --directory=.. --add-comments --keyword=_ --keyword=N_ --files-from=./POTFILES.in\n"
 "Files: src/main.c src/format.c src/workbook.c\n"
 
-#: src/dialog-cell-format.c:43 src/dialog-cell-format.c:399
+#: src/about.c:32
+msgid "Gnumeric"
+msgstr "Gnumeric"
+
+#: src/about.c:35
+msgid "The GNOME spreadsheet."
+msgstr "La hoja de cálculo de GNOME"
+
+#: src/dialog-cell-format.c:63 src/dialog-cell-format.c:419
 msgid "General"
 msgstr "General"
 
-#: src/dialog-cell-format.c:121
+#: src/dialog-cell-format.c:141
 msgid "Numbers"
 msgstr "Números"
 
-#: src/dialog-cell-format.c:122
+#: src/dialog-cell-format.c:142
 msgid "Accounting"
 msgstr "Contabilidad"
 
-#: src/dialog-cell-format.c:123
+#: src/dialog-cell-format.c:143
 msgid "Date"
 msgstr "Fecha"
 
-#: src/dialog-cell-format.c:124
+#: src/dialog-cell-format.c:144
 msgid "Time"
 msgstr "Hora"
 
-#: src/dialog-cell-format.c:125
+#: src/dialog-cell-format.c:145
 msgid "Percent"
 msgstr "Porcentaje"
 
-#: src/dialog-cell-format.c:126
+#: src/dialog-cell-format.c:146
 msgid "Fraction"
 msgstr "Fracción"
 
-#: src/dialog-cell-format.c:127
+#: src/dialog-cell-format.c:147
 msgid "Scientific"
 msgstr "Científica"
 
-#: src/dialog-cell-format.c:128
+#: src/dialog-cell-format.c:148
 msgid "Text"
 msgstr "Texto"
 
-#: src/dialog-cell-format.c:129
+#: src/dialog-cell-format.c:149
 msgid "Money"
 msgstr "Dinero"
 
-#: src/dialog-cell-format.c:307
+#: src/dialog-cell-format.c:327
 msgid "Categories"
 msgstr "Categorías"
 
 #. 2.1 Input line
-#: src/dialog-cell-format.c:333
+#: src/dialog-cell-format.c:353
 msgid "Code:"
 msgstr "Código:"
 
 #. 2.2 Sample
-#: src/dialog-cell-format.c:342
+#: src/dialog-cell-format.c:362
 msgid "Sample:"
 msgstr "Muestra:"
 
-#: src/dialog-cell-format.c:352
+#: src/dialog-cell-format.c:372
 msgid "Format codes"
 msgstr "Códigos de formato"
 
-#: src/dialog-cell-format.c:400
+#: src/dialog-cell-format.c:420
 msgid "Left"
 msgstr "Izquierda"
 
-#: src/dialog-cell-format.c:401 src/dialog-cell-format.c:410 src/workbook.c:360
+#: src/dialog-cell-format.c:421 src/dialog-cell-format.c:430 src/workbook.c:510
 msgid "Center"
 msgstr "Centro"
 
-#: src/dialog-cell-format.c:402
+#: src/dialog-cell-format.c:422
 msgid "Right"
 msgstr "Derecha"
 
-#: src/dialog-cell-format.c:403
+#: src/dialog-cell-format.c:423
 msgid "Fill"
 msgstr "Llenar"
 
-#: src/dialog-cell-format.c:404 src/dialog-cell-format.c:412
+#: src/dialog-cell-format.c:424 src/dialog-cell-format.c:432
 msgid "Justify"
 msgstr "Justificar"
 
-#: src/dialog-cell-format.c:409
+#: src/dialog-cell-format.c:429
 msgid "Top"
 msgstr "Arriba"
 
-#: src/dialog-cell-format.c:411
+#: src/dialog-cell-format.c:431
 msgid "Bottom"
 msgstr "Abajo"
 
 #. Vertical alignment
-#: src/dialog-cell-format.c:474
+#: src/dialog-cell-format.c:487
 msgid "Vertical"
 msgstr "Vertical"
 
-#: src/dialog-cell-format.c:478
+#. Horizontal alignment
+#: src/dialog-cell-format.c:491
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: src/dialog-cell-format.c:481
+#: src/dialog-cell-format.c:494
 msgid "Auto return"
 msgstr "Retorno de carro automático"
 
-#: src/dialog-cell-format.c:644
+#: src/dialog-cell-format.c:663
 msgid "Text color"
 msgstr "Color del texto"
 
-#: src/dialog-cell-format.c:648 src/dialog-cell-format.c:673 src/dialog-paste-special.c:29
+#. The radio buttons
+#: src/dialog-cell-format.c:667 src/dialog-cell-format.c:697 src/dialog-paste-special.c:28
 msgid "None"
 msgstr "Ninguno"
 
-#: src/dialog-cell-format.c:651
+#: src/dialog-cell-format.c:669
 msgid "Use this color"
 msgstr "Usar este color"
 
-#: src/dialog-cell-format.c:667
+#: src/dialog-cell-format.c:691
 msgid "Background configuration"
 msgstr "Configuración del fondo"
 
-#: src/dialog-cell-format.c:676
+#: src/dialog-cell-format.c:699
 msgid "Use solid color"
 msgstr "Usar color sólido"
 
-#: src/dialog-cell-format.c:678
+#: src/dialog-cell-format.c:701
 msgid "Use a pattern"
 msgstr "Usar patrón"
 
-#: src/dialog-cell-format.c:724
+#: src/dialog-cell-format.c:790
 msgid "Number"
 msgstr "Número"
 
-#: src/dialog-cell-format.c:725
+#: src/dialog-cell-format.c:791
 msgid "Alignment"
 msgstr "Alineación"
 
-#: src/dialog-cell-format.c:726
+#: src/dialog-cell-format.c:792
 msgid "Font"
 msgstr "Fuente"
-
-#: src/dialog-cell-format.c:727
-msgid "Coloring"
-msgstr "Coloreado"
 
 #: src/dialog-delete-cells.c:25
 msgid "delete cells"
@@ -153,7 +159,7 @@ msgstr "borrar celdas"
 msgid "Delete cells"
 msgstr "Borrar celdas"
 
-#: src/dialog-delete-cells.c:32 src/item-grid.c:487
+#: src/dialog-delete-cells.c:32 src/item-grid.c:503
 msgid "Delete"
 msgstr "Borrar"
 
@@ -173,15 +179,15 @@ msgstr "Borrar el/los renglon(es)"
 msgid "Delete column(s)"
 msgstr "Borrar la(s) columna(s)"
 
-#: src/dialog-goto-cell.c:42
+#: src/dialog-goto-cell.c:41
 msgid "Cell"
 msgstr "Celda"
 
-#: src/dialog-goto-cell.c:45
+#: src/dialog-goto-cell.c:44
 msgid "Go to..."
 msgstr "Ir a..."
 
-#: src/dialog-goto-cell.c:47
+#: src/dialog-goto-cell.c:46
 msgid "Special..."
 msgstr "Especial..."
 
@@ -193,7 +199,7 @@ msgstr "insertar celdas"
 msgid "Insert cells"
 msgstr "Insertar celdas"
 
-#: src/dialog-insert-cells.c:32 src/item-grid.c:486 src/workbook.c:331
+#: src/dialog-insert-cells.c:32 src/item-grid.c:502
 msgid "Insert"
 msgstr "Insertar"
 
@@ -206,54 +212,54 @@ msgid "Shift cells down"
 msgstr "Desplazar las celdas hacia abajo"
 
 #: src/dialog-insert-cells.c:35
-msgid "Insert a row"
-msgstr "Insertar un renglón"
+msgid "Insert row(s)"
+msgstr "Inserta renglon(es)"
 
 #: src/dialog-insert-cells.c:36
-msgid "Insert a column"
-msgstr "Insertar una columna"
+msgid "Insert column(s)"
+msgstr "Inserta columna(s)"
 
-#: src/dialog-paste-special.c:21 src/workbook.c:284
+#: src/dialog-paste-special.c:20
 msgid "All"
 msgstr "Todo"
 
-#: src/dialog-paste-special.c:22
+#: src/dialog-paste-special.c:21
 msgid "Formulas"
 msgstr "Fórmulas"
 
-#: src/dialog-paste-special.c:23
+#: src/dialog-paste-special.c:22
 msgid "Values"
 msgstr "Valores"
 
-#: src/dialog-paste-special.c:24 src/workbook.c:285
+#: src/dialog-paste-special.c:23
 msgid "Formats"
 msgstr "Formatos"
 
-#: src/dialog-paste-special.c:30
+#: src/dialog-paste-special.c:29
 msgid "Add"
 msgstr "Añadir"
 
-#: src/dialog-paste-special.c:31
+#: src/dialog-paste-special.c:30
 msgid "Substract"
 msgstr "Substraer"
 
-#: src/dialog-paste-special.c:32
+#: src/dialog-paste-special.c:31
 msgid "Multiply"
 msgstr "Multiplicar"
 
-#: src/dialog-paste-special.c:33
+#: src/dialog-paste-special.c:32
 msgid "Divide"
 msgstr "Dividir"
 
-#: src/dialog-paste-special.c:57 src/item-grid.c:484 src/workbook.c:297
+#: src/dialog-paste-special.c:56 src/item-grid.c:500
 msgid "Paste special"
 msgstr "Pegado especial"
 
-#: src/dialog-paste-special.c:61
+#: src/dialog-paste-special.c:60
 msgid "Paste type"
 msgstr "Tipo de pegado"
 
-#: src/dialog-paste-special.c:65
+#: src/dialog-paste-special.c:64
 msgid "Operation"
 msgstr "Operación"
 
@@ -273,32 +279,32 @@ msgstr "El factor de aplificación debe de ser al menos del 50%"
 msgid "Zoom factor should be at most 900%"
 msgstr "El factor de amplificación no debe de exceder 900%"
 
-#: src/expr.c:31
+#: src/expr.c:32
 msgid "Syntax error"
 msgstr "Error de sintaxis"
 
-#: src/expr.c:35
+#: src/expr.c:36
 msgid "Missing quote"
 msgstr "Falta una comilla"
 
 #. Type checking
-#: src/expr.c:396 src/fn-sheet.c:26 src/fn-sheet.c:60
+#: src/expr.c:397 src/fn-sheet.c:25 src/fn-sheet.c:59
 msgid "Invalid number of arguments"
 msgstr "Número de argumentos inválido"
 
-#: src/expr.c:549
+#: src/expr.c:621
 msgid "Type error"
 msgstr "Tipo erróneo"
 
-#: src/expr.c:607 src/expr.c:763 src/fn-misc.c:40 src/fn-misc.c:67
+#: src/expr.c:679 src/expr.c:837 src/fn-misc.c:39 src/fn-misc.c:66
 msgid "Type mismatch"
 msgstr "Tipo erroneo"
 
-#: src/expr.c:633 src/expr.c:669
+#: src/expr.c:705 src/expr.c:741
 msgid "Division by zero"
 msgstr "División entre cero"
 
-#: src/expr.c:778
+#: src/expr.c:852
 msgid "Unknown evaluation error"
 msgstr "Error al evaluar"
 
@@ -310,283 +316,638 @@ msgstr "Guardar la hoja de trabajo como"
 msgid "Load file"
 msgstr "Cargar un archivo"
 
-#: src/fn-math.c:44
+#: src/fn-date.c:19
+msgid ""
+"@FUNCTION=DATE\n"
+"@SYNTAX=DATE (year,month,day)\n"
+"@DESCRIPTION=Computes the number of days since the 1st of jannuary of 1900(the date serial number) for the given year, month and day.\n"
+"The day might be negative (to count backwards) and it is relativeto the previous month\n"
+"@SEEALSO=TODAY, NOW"
+msgstr ""
+
+#: src/fn-date.c:60
+msgid ""
+"@FUNCTION=TODAY\n"
+"@SYNTAX=TODAY ()\n"
+"@DESCRIPTION=Returns the serial number for today (the number of daystrasncurred since the 1st of Jannuary of 1990\n"
+"@SEEALSO=TODAY, NOW"
+msgstr ""
+
+#: src/fn-date.c:88
+msgid ""
+"@FUNCTION=NOW\n"
+"@SYNTAX=NOW ()\n"
+"@DESCRIPTION=Returns the serial number for the date and time at the timeit is evaluated.\n"
+"Serial Numbers in Gnumeric are represented as follows:The integral part is the number of days since the 1st of Jannuary of 1900.  The decimal part represent the fraction of the day and is mapped into hour, minutes and seconds\n"
+"For example: .0 represents the beginning of the day, and 0.5 represents noon\n"
+"@SEEALSO=TODAY, NOW"
+msgstr ""
+
+#: src/fn-date.c:125
+msgid ""
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (hours,minutes,seconds)\n"
+"@DESCRIPTION=Returns a fraction representing the hour\n"
+"@SEEALSO=HOUR"
+msgstr ""
+
+#: src/fn-date.c:153
+msgid ""
+"@FUNCTION=HOUR\n"
+"@SYNTAX=HOUR (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to an hour.  The hour is returned as an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.)\n"
+"Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string@SEEALSO=MINUTE, NOW, TIME, SECOND"
+msgstr ""
+
+#: src/fn-date.c:168
+msgid ""
+"@FUNCTION=MINUTE\n"
+"@SYNTAX=MINUTE (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a minute.  The minute is returned as an integer in the range 0 to 59\n"
+"Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string@SEEALSO=HOUR, NOW, TIME, SECOND"
+msgstr ""
+
+#: src/fn-date.c:183
+msgid ""
+"@FUNCTION=SECOND\n"
+"@SYNTAX=SECOND (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a second.  The second is returned as an integer in the range 0 to 59\n"
+"Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string@SEEALSO=HOUR, MINUTE, NOW, TIME"
+msgstr ""
+
+#: src/fn-date.c:221
+msgid ""
+"@FUNCTION=YEAR\n"
+"@SYNTAX=YEAR (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a year.\n"
+"Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string@SEEALSO=DAY, MONTH, TIME, NOW"
+msgstr ""
+
+#: src/fn-date.c:235
+msgid ""
+"@FUNCTION=MONTH\n"
+"@SYNTAX=MONTH (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a month.\n"
+"Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string@SEEALSO=DAY, TIME, NOW, YEAR"
+msgstr ""
+
+#: src/fn-date.c:249
+msgid ""
+"@FUNCTION=DAY\n"
+"@SYNTAX=DARY (serial_number)\n"
+"@DESCRIPTION=Converts a serial number to a day.\n"
+"Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string@SEEALSO=MONTH, TIME, NOW, YEAR"
+msgstr ""
+
+#: src/fn-math.c:43
 msgid "acos - domain error"
 msgstr "acos - error de dominio"
 
-#: src/fn-math.c:62
+#: src/fn-math.c:61
 msgid "acosh - domain error"
 msgstr "acosh - error de dominio"
 
-#: src/fn-math.c:103
-msgid "<function></function><syntax>(b1, b2, ...)</syntax>n<description><p><p></description><seealso></seealso>"
+#: src/fn-math.c:102
+msgid ""
+"@FUNCTION=NAME\n"
+"@SYNTAX=(b1, b2, ...)\n"
+"@DESCRIPTION\n"
+"\n"
+"@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:124
-msgid "<function>FLOOR</function><syntax>FLOOR(b1)</syntax>n<description>The FLOOR function rounds b1 down to the next nearestinteger.<p>Performing this function on a string or empty cell simply does nothing.<p></description><seealso>CEIL, ABS</seealso>"
+#: src/fn-math.c:123
+msgid ""
+"@FUNCTION=ATAN2@SYNTAX=ATAN2(b1,b2)\n"
+"@DESCRIPTION=The ATAN2 function calculates the arc tangent of the two variables b1 and b2.  It is similar to calculating  the  arc tangent  of b2 / b1, except that the signs of both arguments are used to determine the quadrant of the result. The result is in Radians.\n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:139
-msgid "<function>CEIL</function><syntax>CEIL(b1)</syntax>n<description>The CEIL function rounds b1 up to the next nearestinteger.<p>Performing this function on a string or empty cell simply does nothing.<p></description><seealso>ABS, FLOOR</seealso>"
+#: src/fn-math.c:142
+msgid ""
+"@FUNCTION=ATANH\n"
+"@SYNTAX=ATANH(b1)\n"
+"@DESCRIPTION=The  ATANH  function  calculates  the inverse hyperbolic tangent of b1; that is the value whose  hyperbolic  tangent is  b1.   If  the  absolute value of b1 is greater than 1.0,  ATANH returns an error of 'atanh: domain error'      \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:154
-msgid "<function>ABS</function><syntax>ABS(b1)</syntax>n<description>Implements the Absolute Value function:  the result is to drop the negative sign (if present).  This can be done for integers and floating point numbers.<p>Performing this function on a string or empty cell simply does nothing.<p></description><seealso>CEIL, FLOOR</seealso>"
+#: src/fn-math.c:159
+msgid ""
+"@FUNCTION=ATAN\n"
+"@SYNTAX=ATAN(b1)\n"
+"@DESCRIPTION=The ATAN function calculates the arc tangent of b1; that  is the value whose tangent is b1.Return value is in radians.\n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:169
-msgid "<function>AND</function><syntax>AND(b1, b2, ...)</syntax>n<description>Implements the logical AND function: the result is TRUE if all of the expression evaluates to TRUE, otherwise it returns FALSE.<p>b1, trough bN are expressions that should evaluate to TRUE or FALSE.If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.<p>If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!' is returned. </description><seealso>OR</seealso>"
+#: src/fn-math.c:176
+msgid ""
+"@FUNCTION=ASINH\n"
+"@SYNTAX=ASINH(b1)\n"
+"@DESCRIPTION=The ASIN  function  calculates  the inverse hyperbolic  sine of b1; that is the value whose hyperbolic sine is b1. \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:204 src/fn-math.c:722
+#: src/fn-math.c:192
+msgid ""
+"@FUNCTION=ASIN\n"
+"@SYNTAX=ASIN(b1)\n"
+"@DESCRIPTION=The ASIN function calculates the arc sine of b1; that is the value whose sine is b1.  If b1 falls outside  the  range -1 to 1, ASIN fails and returns the error 'asin - domain error'   \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:208
+msgid ""
+"@FUNCTION=ACOSH\n"
+"@SYNTAX=ACOSH(b1)\n"
+"@DESCRIPTION=The ACOSH  function  calculates  the inverse hyperbolic cosine of b1; that is the value whose hyperbolic cosine  is b1.   If  b1  is less than 1.0, acosh() returns the error      'acosh - domain error'\n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=ACOS, DEGREES, RADIANS "
+msgstr ""
+
+#: src/fn-math.c:224
+msgid ""
+"@FUNCTION=ACOS\n"
+"@SYNTAX=ACOS(b1)\n"
+"@DESCRIPTION=The ACOS function calculates the arc cosine of b1; that  is the value whose cosine is b1.  If b1  falls  outside  the  range -1 to 1, ACOS fails and returns the error 'acos - domain error'.  The value it returns is in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=COS, SIN, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:240
+msgid ""
+"@FUNCTION=AVERAGE\n"
+"@SYNTAX=AVERAGE(value1, value2,...)@DESCRIPTION=Computes the average of all the values and cells referenced in the argument list.  This is equivalent to the sum of the arguments divided by the count of the arguments.\n"
+"@SEEALSO=SUM, COUNT"
+msgstr ""
+
+#: src/fn-math.c:252
+msgid ""
+"@FUNCTION=TANH\n"
+"@SYNTAX=TANH(b1)\n"
+"@DESCRIPTION= The TANH function returns the hyperbolic tangent of b1,  which is defined mathematically as sinh(b1) / cosh(b1). \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:266
+msgid ""
+"@FUNCTION=TAN\n"
+"@SYNTAX=TAN(b1)\n"
+"@DESCRIPTION=The TAN function  returns the tangent of b1, where b1 is given in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
+msgstr ""
+
+#: src/fn-math.c:281
+msgid ""
+"@FUNCTION=SINH\n"
+"@SYNTAX=SINH(b1)\n"
+"@DESCRIPTION=The SINH  function  returns  the  hyperbolic sine of b1, which is defined mathematically as (exp(b1) - exp(-b1)) / 2.  b1 is in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
+msgstr ""
+
+#: src/fn-math.c:296
+msgid ""
+"@FUNCTION=COSH\n"
+"@SYNTAX=COSH(b1)\n"
+"@DESCRIPTION=The COSH  function  returns the hyperbolic cosine of b1,  which is defined mathematically as (exp(b1) + exp(-b1)) / 2.    b1 is in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
+msgstr ""
+
+#: src/fn-math.c:312
+msgid ""
+"@FUNCTION=SIN\n"
+"@SYNTAX=SIN(b1)\n"
+"@DESCRIPTION=The SIN function returns the sine of b1, where b1 is given  in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
+msgstr ""
+
+#: src/fn-math.c:326
+msgid ""
+"@FUNCTION=COS\n"
+"@SYNTAX=COS(b1)\n"
+"@DESCRIPTION=The  COS  function  returns  the cosine of b1, where b1 is given in radians.  \n"
+"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
+msgstr ""
+
+#: src/fn-math.c:342
+msgid ""
+"@FUNCTION=INT\n"
+"@SYNTAX=INT(b1, b2, ...)\n"
+"@DESCRIPTION=The INT function round b1 now to the nearest int. Where 'nearest' implies being closer to zero. Eqilivent to FLOOR(b1) for b1 >0, amd CEIL(b1) for b1 < 0. \n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=FLOOR, CEIL, ABS"
+msgstr ""
+
+#: src/fn-math.c:358
+msgid ""
+"@FUNCTION=COUNT\n"
+"@SYNTAX=COUNT(b1, b2, ...)\n"
+"@DESCRIPTION=Returns the total number of arguments passed.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=AVERAGE"
+msgstr ""
+
+#: src/fn-math.c:371
+msgid ""
+"@FUNCTION=FACT\n"
+"@SYNTAX=FACT(b1)\n"
+"@DESCRIPTION=Computes the factorial of b1. ie, b1!\n"
+"Performing this function on a string or empty cell returns an error\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:385
+msgid ""
+"@FUNCTION=EXP\n"
+"@SYNTAX=EXP(b1)\n"
+"@DESCRIPTION=Computes the value of e(the base of natural logarithmns) raised to the power of b1. \n"
+"Performing this function on a string or empty cell returns an error.\n"
+"@SEEALSO=LOG, LOG2, LOG10"
+msgstr ""
+
+#: src/fn-math.c:398
+msgid ""
+"@FUNCTION=LOG\n"
+"@SYNTAX=LOG(b1)\n"
+"@DESCRIPTION=Computes the natural logarithm  of b1. \n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP, LOG2, LOG10"
+msgstr ""
+
+#: src/fn-math.c:410
+msgid ""
+"@FUNCTION=LOG10@SYNTAX=LOG10(b1)\n"
+"@DESCRIPTION=Computes the base-10 logarithm  of b1. \n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP, LOG2, LOG"
+msgstr ""
+
+#: src/fn-math.c:423
+msgid ""
+"@FUNCTION=LOG2@SYNTAX=LOG2(b1)\n"
+"@DESCRIPTION=Computes the base-2 logarithm  of b1. \n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP, LOG10, LOG"
+msgstr ""
+
+#: src/fn-math.c:436
+msgid ""
+"@FUNCTION=MIN\n"
+"@SYNTAX=MIN(b1, b2, ...)\n"
+"@DESCRIPTION=MIN returns the value of the element of the values passed that has the smallest value. With negative numbers considered smaller than positive numbers.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=MAX,ABS"
+msgstr ""
+
+#: src/fn-math.c:450
+msgid ""
+"@FUNCTION=MAX\n"
+"@SYNTAX=MAX(b1, b2, ...)\n"
+"@DESCRIPTION=MAX returns the value of the element of the values passed that has the largest value. With negative numbers considered smaller than positive numbers.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=MIN,ABS"
+msgstr ""
+
+#: src/fn-math.c:465
+msgid ""
+"@FUNCTION=OR\n"
+"@SYNTAX=OR(b1, b2, ...)@DESCRIPTION=Implements the logical OR function: the result is TRUE if any of thevalues evaluated to TRUE.\n"
+"b1, trough bN are expressions that should evaluate to TRUE or FALSE.If an integer or floating point value is provided zero is consideredFALSE and anything else is TRUE.\n"
+"If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!'is returned.\n"
+"@SEEALSO=AND"
+msgstr ""
+
+#: src/fn-math.c:483
+msgid ""
+"@FUNCTION=RADIANS\n"
+"@SYNTAX=RADIANS(b1)\n"
+"@DESCRIPTION=Computes the number of radians equilivent to  b1 degrees. \n"
+"Performing this function on a string or empty cell simply does nothing. \n"
+"@SEEALSO=PI,DEGREES"
+msgstr ""
+
+#: src/fn-math.c:498
+msgid ""
+"@FUNCTION=DEGREES\n"
+"@SYNTAX=DEGREES(b1)\n"
+"@DESCRIPTION=Computes the number of degrees equilivent to  b1 radians.\n"
+"Performing this function on a string or empty cell simply does nothing. \n"
+"@SEEALSO=RADIANS, PI"
+msgstr ""
+
+#: src/fn-math.c:513
+msgid ""
+"@FUNCTION=SUM\n"
+"@SYNTAX=SUM(value1, value2, ...)\n"
+"@DESCRIPTION=Computes the sum of all the values and cells referenced in the argument list. \n"
+"@SEEALSO=AVERAGE, COUNT"
+msgstr ""
+
+#: src/fn-math.c:526
+msgid ""
+"@FUNCTION=BIN2DEC(@SYNTAX=BIN2DEC(b1)\n"
+"@DESCRIPTION=The BIN2DEC function coverts a binary number in string or number to its decimal equilivent.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=DEC2BIN"
+msgstr ""
+
+#: src/fn-math.c:541
+msgid ""
+"@FUNCTION=PI\n"
+"@SYNTAX=PI()\n"
+"@DESCRIPTION=The PI functions returns the value of Pi as defined by M_PI.\n"
+"Performing this function on a string or empty cellreturns an error. This function is called with no arguments.\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:556
+msgid ""
+"@FUNCTION=FLOOR\n"
+"@SYNTAX=FLOOR(b1)\n"
+"@DESCRIPTION=The FLOOR function rounds b1 down to the next nearestinteger.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=CEIL, ABS, INT"
+msgstr ""
+
+#: src/fn-math.c:569
+msgid ""
+"@FUNCTION=CEIL\n"
+"@SYNTAX=CEIL(b1)\n"
+"@DESCRIPTION=The CEIL function rounds b1 up to the next nearestinteger.Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=ABS, FLOOR, INT"
+msgstr ""
+
+#: src/fn-math.c:582
+msgid ""
+"@FUNCTION=ABS\n"
+"@SYNTAX=ABS(b1)\n"
+"@DESCRIPTION=Implements the Absolute Value function:  the result is to drop the negative sign (if present).  This can be done for integers and floating point numbers.\n"
+"Performing this function on a string or empty cell simply does nothing.\n"
+"@SEEALSO=CEIL, FLOOR"
+msgstr ""
+
+#: src/fn-math.c:595
+msgid ""
+"@FUNCTION=AND\n"
+"@SYNTAX=AND(b1, b2, ...)\n"
+"@DESCRIPTION=Implements the logical AND function: the result is TRUE if all of the expression evaluates to TRUE, otherwise it returns FALSE.\n"
+"b1, trough bN are expressions that should evaluate to TRUE or FALSE.If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.\n"
+"If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!' is returned. \n"
+"@SEEALSO=OR"
+msgstr ""
+
+#: src/fn-math.c:630 src/fn-math.c:1118
 msgid "#VALUE"
 msgstr "#VALOR"
 
-#: src/fn-math.c:218
+#: src/fn-math.c:644
 msgid "asin - domain error"
 msgstr "asin - error de dominio"
 
-#: src/fn-math.c:259
+#: src/fn-math.c:685
 msgid "atanh: domain error"
 msgstr "atanh: error de dominio"
 
-#: src/fn-math.c:281
-msgid "<function>AVERAGE</function><syntax>AVERAGE(value1, value2,...)</syntax><description>Computes the average of all the values and cells referenced in the argument list.  This is equivalent to the sum of the arguments divided by the count of the arguments.</description><seealso>SUM, COUNT</seealso>"
-msgstr ""
-
-#: src/fn-math.c:523
+#: src/fn-math.c:937
 msgid "log: domain error"
 msgstr "log: error de dominio"
 
-#: src/fn-math.c:541
+#: src/fn-math.c:955
 msgid "log2: domain error"
 msgstr "log2: error de dominio"
 
-#: src/fn-math.c:559
+#: src/fn-math.c:973
 msgid "log10: domain error"
 msgstr "log10: error de dominio"
 
-#: src/fn-math.c:660
-msgid "<function>OR</function><syntax>OR(b1, b2, ...)</syntax><description>Implements the logical OR function: the result is TRUE if any of thevalues evaluated to TRUE.<p>b1, trough bN are expressions that should evaluate to TRUE or FALSE.If an integer or floating point value is provided zero is consideredFALSE and anything else is TRUE.<p>If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!'is returned.</description><seealso>AND</seealso>"
-msgstr ""
-
-#: src/format.c:64
+#: src/format.c:62 src/sheet-autofill.c:615
 msgid "Sun"
 msgstr "Dom"
 
-#: src/format.c:65
+#: src/format.c:63 src/sheet-autofill.c:614
 msgid "Mon"
 msgstr "Lun"
 
-#: src/format.c:66
+#: src/format.c:64 src/sheet-autofill.c:614
 msgid "Tue"
 msgstr "Mar"
 
-#: src/format.c:67
+#: src/format.c:65 src/sheet-autofill.c:614
 msgid "Wed"
 msgstr "Mié"
 
-#: src/format.c:68
+#: src/format.c:66 src/sheet-autofill.c:614
 msgid "Thu"
 msgstr "Jue"
 
-#: src/format.c:69
+#: src/format.c:67 src/sheet-autofill.c:615
 msgid "Fri"
 msgstr "Vie"
 
-#: src/format.c:70
+#: src/format.c:68 src/sheet-autofill.c:615
 msgid "Sat"
 msgstr "Sáb"
 
-#: src/format.c:75
+#: src/format.c:73 src/sheet-autofill.c:609
 msgid "Sunday"
 msgstr "Domingo"
 
-#: src/format.c:76
+#: src/format.c:74 src/sheet-autofill.c:603
 msgid "Monday"
 msgstr "Lunes"
 
-#: src/format.c:77
+#: src/format.c:75 src/sheet-autofill.c:604
 msgid "Tuesday"
 msgstr "Martes"
 
-#: src/format.c:78
+#: src/format.c:76 src/sheet-autofill.c:605
 msgid "Wednesday"
 msgstr "Miércoles"
 
-#: src/format.c:79
+#: src/format.c:77 src/sheet-autofill.c:606
 msgid "Thursday"
 msgstr "Jueves"
 
-#: src/format.c:80
+#: src/format.c:78 src/sheet-autofill.c:607
 msgid "Friday"
 msgstr "Viernes"
 
-#: src/format.c:81
+#: src/format.c:79 src/sheet-autofill.c:608
 msgid "Saturday"
 msgstr "Sábado"
 
-#: src/format.c:86
+#: src/format.c:84 src/sheet-autofill.c:596
 msgid "Jan"
 msgstr "Ene"
 
-#: src/format.c:87
+#: src/format.c:85 src/sheet-autofill.c:596
 msgid "Feb"
 msgstr "Feb"
 
-#: src/format.c:88
+#: src/format.c:86 src/sheet-autofill.c:596
 msgid "Mar"
 msgstr "Mar"
 
-#: src/format.c:89
+#: src/format.c:87 src/sheet-autofill.c:596
 msgid "Apr"
 msgstr "Abr"
 
-#: src/format.c:90 src/format.c:106
+#: src/format.c:88 src/format.c:104 src/sheet-autofill.c:584 src/sheet-autofill.c:597
 msgid "May"
 msgstr "May"
 
-#: src/format.c:91
+#: src/format.c:89 src/sheet-autofill.c:597
 msgid "Jun"
 msgstr "Jun"
 
-#: src/format.c:92
+#: src/format.c:90 src/sheet-autofill.c:597
 msgid "Jul"
 msgstr "Jul"
 
-#: src/format.c:93
+#: src/format.c:91 src/sheet-autofill.c:597
 msgid "Aug"
 msgstr "Ago"
 
-#: src/format.c:94
+#: src/format.c:92 src/sheet-autofill.c:598
 msgid "Sep"
 msgstr "Sep"
 
-#: src/format.c:95
+#: src/format.c:93 src/sheet-autofill.c:598
 msgid "Oct"
 msgstr "Oct"
 
-#: src/format.c:96
+#: src/format.c:94 src/sheet-autofill.c:598
 msgid "Nov"
 msgstr "Nov"
 
-#: src/format.c:97
+#: src/format.c:95 src/sheet-autofill.c:598
 msgid "Dec"
 msgstr "Dic"
 
-#: src/format.c:102
+#: src/format.c:100 src/sheet-autofill.c:580
 msgid "January"
 msgstr "Enero"
 
-#: src/format.c:103
+#: src/format.c:101
 msgid "Februrary"
 msgstr "Febrero"
 
-#: src/format.c:104
+#: src/format.c:102 src/sheet-autofill.c:582
 msgid "March"
 msgstr "Marzo"
 
-#: src/format.c:105
+#: src/format.c:103 src/sheet-autofill.c:583
 msgid "April"
 msgstr "Abril"
 
-#: src/format.c:107
+#: src/format.c:105 src/sheet-autofill.c:585
 msgid "June"
 msgstr "Junio"
 
-#: src/format.c:108
+#: src/format.c:106 src/sheet-autofill.c:586
 msgid "July"
 msgstr "Julio"
 
-#: src/format.c:109
+#: src/format.c:107 src/sheet-autofill.c:587
 msgid "August"
 msgstr "Agosto"
 
-#: src/format.c:110
+#: src/format.c:108 src/sheet-autofill.c:588
 msgid "September"
 msgstr "Septiembre"
 
-#: src/format.c:111
+#: src/format.c:109 src/sheet-autofill.c:589
 msgid "October"
 msgstr "Octubre"
 
-#: src/format.c:112
+#: src/format.c:110 src/sheet-autofill.c:590
 msgid "November"
 msgstr "Noviembre"
 
-#: src/format.c:113
+#: src/format.c:111 src/sheet-autofill.c:591
 msgid "December"
 msgstr "Diciembre"
 
-#: src/format.c:428
+#: src/format.c:457
 msgid "black"
 msgstr "negreo"
 
-#: src/format.c:429
+#: src/format.c:458
 msgid "blue"
 msgstr "azul"
 
-#: src/format.c:430
+#: src/format.c:459
 msgid "cyan"
 msgstr "cian"
 
-#: src/format.c:431
+#: src/format.c:460
 msgid "green"
 msgstr "verde"
 
-#: src/format.c:432
+#: src/format.c:461
 msgid "magenta"
 msgstr "magenta"
 
-#: src/format.c:433
+#: src/format.c:462
 msgid "red"
 msgstr "rojo"
 
-#: src/format.c:434
+#: src/format.c:463
 msgid "white"
 msgstr "blanco"
 
-#: src/format.c:435
+#: src/format.c:464
 msgid "yellow"
 msgstr "amarillo"
 
-#: src/gnumeric-sheet.c:739
+#: src/gnumeric-sheet.c:800
 msgid "75%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:742
+#: src/gnumeric-sheet.c:803
 msgid "50%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:745
+#: src/gnumeric-sheet.c:806
 msgid "25%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:748
+#: src/gnumeric-sheet.c:809
 msgid "12%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:751
+#: src/gnumeric-sheet.c:812
 msgid "6%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:754
+#: src/gnumeric-sheet.c:815
 msgid "Horizontal lines"
 msgstr "Líneas horizontales"
 
-#: src/gnumeric-sheet.c:757
+#: src/gnumeric-sheet.c:818
 msgid "Vertical lines"
 msgstr "Líneas verticales"
 
-#: src/gnumeric-sheet.c:760 src/gnumeric-sheet.c:763 src/gnumeric-sheet.c:766 src/gnumeric-sheet.c:769
+#: src/gnumeric-sheet.c:821 src/gnumeric-sheet.c:824 src/gnumeric-sheet.c:827 src/gnumeric-sheet.c:830
 msgid "Diagonal lines"
 msgstr "Lineas diagonales"
 
-#: src/gnumeric-sheet.c:772
+#: src/gnumeric-sheet.c:833
 msgid "Crossed diagonals"
 msgstr "Lineas cruzadas"
 
-#: src/gnumeric-sheet.c:775
+#: src/gnumeric-sheet.c:836
 msgid "Bricks"
 msgstr "Ladrillos"
 
@@ -594,242 +955,460 @@ msgstr "Ladrillos"
 msgid "Notice"
 msgstr "Aviso"
 
-#: src/item-cursor.c:499 src/item-grid.c:482 src/workbook.c:293 src/workbook.c:350
+#: src/item-cursor.c:552 src/item-grid.c:498 src/workbook.c:498
 msgid "Copy"
 msgstr "Copiar"
 
-#: src/item-cursor.c:500
+#: src/item-cursor.c:553
 msgid "Move"
 msgstr "Mover"
 
-#: src/item-cursor.c:501
+#: src/item-cursor.c:554
 msgid "Copy formats"
 msgstr "Copiar formatos"
 
-#: src/item-cursor.c:502
+#: src/item-cursor.c:555
 msgid "Copy values"
 msgstr "Copiar valores"
 
-#: src/item-cursor.c:503
+#: src/item-cursor.c:556
 msgid "Shift cells down and copy"
 msgstr "Desplaza las celdas hacia abajo y copia"
 
-#: src/item-cursor.c:504
+#: src/item-cursor.c:557
 msgid "Shift cells right and copy"
 msgstr "Desplaza las celdas a la derecha y copia"
 
-#: src/item-cursor.c:505
+#: src/item-cursor.c:558
 msgid "Shift cells down and move"
 msgstr "Desplaza las celas hacia abajo y mueve"
 
-#: src/item-cursor.c:506
+#: src/item-cursor.c:559
 msgid "Shift cells right and move"
 msgstr "Desplaza las celdas hacia la derecha y mueve"
 
-#: src/item-grid.c:481 src/workbook.c:291 src/workbook.c:347
+#: src/item-grid.c:497 src/workbook.c:495
 msgid "Cut"
 msgstr "Corta"
 
-#: src/item-grid.c:483 src/sheet.c:2082 src/workbook.c:295 src/workbook.c:353
+#: src/item-grid.c:499 src/sheet.c:2213 src/workbook.c:501
 msgid "Paste"
 msgstr "Pega"
 
-#: src/item-grid.c:488
+#: src/item-grid.c:504
 msgid "Erase content"
 msgstr "Borra el contenido"
 
-#: src/item-grid.c:490
+#: src/item-grid.c:506
 msgid "Cell format"
 msgstr "Formato de celda"
 
-#: src/main.c:10
+#: src/main.c:20
 msgid "FILE"
 msgstr "ARCHIVO"
 
-#: src/main.c:10
-msgid "File to load at startup"
-msgstr "Cargar este archivo al iniciar"
+#: src/main.c:20
+msgid "Dumps the functions definitions"
+msgstr "Vacia la definición de las funciones"
 
-#: src/sheet-view.c:297 src/sheet-view.c:363
-msgid "Row: %d"
-msgstr "Renglón: %d"
+#: src/plugin.c:36
+msgid "unable to open module file: "
+msgstr "es imposible abrir este archivo del módulo: "
 
-#: src/sheet-view.c:304 src/sheet-view.c:343
-msgid "Column: %s"
-msgstr "Columna: %s"
+#: src/plugin.c:44
+msgid "Plugin must contain init_plugin function."
+msgstr "El módulo dinámico no define la función \"init_plugin\""
 
-#: src/workbook.c:200 src/workbook.c:216
-msgid "Insert rows"
-msgstr "Insertar renglones"
+#: src/plugin.c:49
+msgid "init_plugin returned error"
+msgstr "La función de inicialización de la extensión falló"
 
-#: src/workbook.c:270 src/workbook.c:337
-msgid "New"
-msgstr "Nuevo"
+#: src/plugin.c:68
+msgid "Plugin is still in use.\n"
+msgstr "La extensión todavía está en uso"
 
-#: src/workbook.c:272 src/workbook.c:340
-msgid "Open"
-msgstr "Abrir"
+#: src/plugin-manager.c:92 src/plugin-manager.c:93
+msgid "Name"
+msgstr "Nombre"
 
-#: src/workbook.c:274 src/workbook.c:343
-msgid "Save"
-msgstr "Guardar"
-
-#: src/workbook.c:276
-msgid "Save as..."
-msgstr "Guardar como..."
-
-#: src/workbook.c:278
-msgid "Exit"
-msgstr "Salir"
-
-#: src/workbook.c:286
-msgid "Content"
-msgstr "Contenido"
-
-#: src/workbook.c:300
-msgid "Clear"
-msgstr "Borrar"
-
-#: src/workbook.c:302
-msgid "Goto cell.."
-msgstr "Ir a la celda.."
-
-#: src/workbook.c:308
-msgid "Zoom..."
-msgstr "Amplificación..."
-
-#: src/workbook.c:313
-msgid "Cells..."
-msgstr "Celdas..."
-
-#: src/workbook.c:314
-msgid "Rows"
-msgstr "Renglones"
-
-#: src/workbook.c:315
-msgid "Columns"
-msgstr "Columnas"
-
-#: src/workbook.c:322
-msgid "Cells.."
-msgstr "Celdas.."
-
-#: src/workbook.c:328
+#: src/plugin-manager.c:92 src/plugin-manager.c:93
 msgid "File"
 msgstr "Archivo"
 
-#: src/workbook.c:329
-msgid "Edit"
-msgstr "Edición"
+#: src/plugin-manager.c:115
+msgid "Close"
+msgstr "Cerrar"
 
-#: src/workbook.c:330
-msgid "View"
-msgstr "Ver"
+#: src/plugin-manager.c:118
+msgid "Add..."
+msgstr "Añadir..."
 
-#: src/workbook.c:332
-msgid "Format"
-msgstr "Formato"
+#: src/plugin-manager.c:121
+msgid "Remove"
+msgstr "Remover"
 
-#: src/workbook.c:338
+#: src/sheet-view.c:320 src/sheet-view.c:386
+msgid "Row: %d"
+msgstr "Renglón: %d"
+
+#: src/sheet-view.c:327 src/sheet-view.c:366
+msgid "Column: %s"
+msgstr "Columna: %s"
+
+#: src/sheet-autofill.c:581
+msgid "February"
+msgstr "Febrero"
+
+#: src/workbook.c:302 src/workbook.c:318
+msgid "Insert rows"
+msgstr "Insertar renglones"
+
+#: src/workbook.c:378
+msgid "_New"
+msgstr "_Nuevo"
+
+#: src/workbook.c:380
+msgid "_Open"
+msgstr "_Abre"
+
+#: src/workbook.c:382
+msgid "_Save"
+msgstr "_Guarda"
+
+#: src/workbook.c:384
+msgid "S_ave as..."
+msgstr "G_uarda como..."
+
+#: src/workbook.c:386
+msgid "_Plugins..."
+msgstr "_Extensiones de Gnumeric"
+
+#: src/workbook.c:387
+msgid "_Close"
+msgstr "_Cerrar"
+
+#: src/workbook.c:389
+msgid "_Quit"
+msgstr "_Salir"
+
+#: src/workbook.c:395
+msgid "_All"
+msgstr "_Todo"
+
+#: src/workbook.c:396
+msgid "_Formats"
+msgstr "_Formatos"
+
+#: src/workbook.c:397
+msgid "_Content"
+msgstr "_Contenido"
+
+#: src/workbook.c:402
+msgid "_Cut"
+msgstr "_Cortar"
+
+#: src/workbook.c:404
+msgid "C_opy"
+msgstr "C_opiar"
+
+#: src/workbook.c:406
+msgid "_Paste"
+msgstr "_Pegar"
+
+#: src/workbook.c:408
+msgid "P_aste special"
+msgstr "P_egado especial"
+
+#: src/workbook.c:410
+msgid "_Select All"
+msgstr "_Selecciona todo"
+
+#: src/workbook.c:413
+msgid "C_lear"
+msgstr "_Borrar"
+
+#: src/workbook.c:415
+msgid "_Goto cell.."
+msgstr "_Ir a la celda..."
+
+#: src/workbook.c:421
+msgid "_Zoom..."
+msgstr "_Amplificar..."
+
+#: src/workbook.c:426
+msgid "_Cells..."
+msgstr "_Celdas"
+
+#: src/workbook.c:427
+msgid "_Rows"
+msgstr "_Renglones"
+
+#: src/workbook.c:428
+msgid "C_olumns"
+msgstr "C_olumnas"
+
+#: src/workbook.c:435 src/workbook.c:441
+msgid "_Autoadjust"
+msgstr "_Autoajusta"
+
+#: src/workbook.c:436
+msgid "_Width"
+msgstr "A_ncho"
+
+#: src/workbook.c:442
+msgid "_Height"
+msgstr "A_ltura"
+
+#: src/workbook.c:447
+msgid "_Change name"
+msgstr "_Cambiar nombre"
+
+#: src/workbook.c:453
+msgid "_Cells.."
+msgstr "_Celdas"
+
+#: src/workbook.c:456
+msgid "C_olumn"
+msgstr "C_olumnas"
+
+#: src/workbook.c:457
+msgid "_Row"
+msgstr "_Renglon"
+
+#: src/workbook.c:458
+msgid "_Sheet"
+msgstr "_Hoja"
+
+#: src/workbook.c:464
+msgid "_About Gnumeric"
+msgstr "_Acerca de Gnumeric"
+
+#: src/workbook.c:470
+msgid "_File"
+msgstr "_Archivo"
+
+#: src/workbook.c:471
+msgid "_Edit"
+msgstr "_Edición"
+
+#: src/workbook.c:472
+msgid "_View"
+msgstr "_Ver"
+
+#: src/workbook.c:473
+msgid "_Insert"
+msgstr "_Insertar"
+
+#: src/workbook.c:474
+msgid "F_ormat"
+msgstr "_Formato"
+
+#: src/workbook.c:475
+msgid "_Help"
+msgstr "_Ayuda"
+
+#: src/workbook.c:483
+msgid "New"
+msgstr "Nuevo"
+
+#: src/workbook.c:483
 msgid "Create a new sheet"
 msgstr "Crear una nueva hoja"
 
-#: src/workbook.c:341
+#: src/workbook.c:486
+msgid "Open"
+msgstr "Abrir"
+
+#: src/workbook.c:486
 msgid "Opens an existing workbook"
 msgstr "Abre una hoja de trabajo existente"
 
-#: src/workbook.c:344
+#: src/workbook.c:489
+msgid "Save"
+msgstr "Guardar"
+
+#: src/workbook.c:489
 msgid "Saves the workbook"
 msgstr "Guarda esta hoja de trabajo"
 
-#: src/workbook.c:348
+#: src/workbook.c:495
 msgid "Cuts the selection to the clipboard"
 msgstr "Corta la selección al portapapeles"
 
-#: src/workbook.c:351
+#: src/workbook.c:498
 msgid "Copies the selection to the clipboard"
 msgstr "Copia la selección al portapapeles"
 
-#: src/workbook.c:354
+#: src/workbook.c:501
 msgid "Pastes the clipboard"
 msgstr "Pega el contenido del portapapeles"
 
-#: src/workbook.c:357
+#: src/workbook.c:507
 msgid "Left align"
 msgstr "Alinea a la izquierda"
 
-#: src/workbook.c:358
+#: src/workbook.c:507
 msgid "Sets the cell alignment to the left"
 msgstr "Cambia el alineamiento a la izquierda de la celda"
 
-#: src/workbook.c:361
+#: src/workbook.c:510
 msgid "Centers the cell contents"
 msgstr "Centra el contenido de la celda"
 
-#: src/workbook.c:363
+#: src/workbook.c:513
 msgid "Right align"
 msgstr "Alinea a la derecha"
 
-#: src/workbook.c:364
+#: src/workbook.c:513
 msgid "Sets the cell alignment to the right"
-msgstr ""
+msgstr "Pone la alineación de la celda a la derecha"
 
-#: src/workbook.c:367
+#: src/workbook.c:519
+msgid "Bold"
+msgstr "Negritas"
+
+#: src/workbook.c:519
+msgid "Sets the bold attribute on the cell"
+msgstr "Pone el atributo negritas en la celda"
+
+#: src/workbook.c:523
+msgid "Italic"
+msgstr "Cursivas"
+
+#: src/workbook.c:523
+msgid "Sets the italic attribute on the cell"
+msgstr "Pone el atributo de cursivas en la celda"
+
+#: src/workbook.c:529
 msgid "Line"
 msgstr "Línea"
 
-#: src/workbook.c:368
+#: src/workbook.c:529
 msgid "Creates a line object"
 msgstr "Crea una linea"
 
-#: src/workbook.c:370
+#: src/workbook.c:532
 msgid "Arrow"
 msgstr "Flecha"
 
-#: src/workbook.c:371
+#: src/workbook.c:532
 msgid "Creates an arrow object"
 msgstr "Crea una flecha"
 
-#: src/workbook.c:373
+#: src/workbook.c:535
 msgid "Rectangle"
 msgstr "Rectángulo"
 
-#: src/workbook.c:374
+#: src/workbook.c:535
 msgid "Creates a rectangle object"
 msgstr "Crea un rectángulo"
 
-#: src/workbook.c:376
+#: src/workbook.c:538
 msgid "Ellipse"
 msgstr "Elipse"
 
-#: src/workbook.c:377
+#: src/workbook.c:538
 msgid "Creates an ellipse object"
 msgstr "Crea una elipse"
 
-#: src/workbook.c:447
+#: src/workbook.c:617
 msgid "You should introduce a valid cell name"
 msgstr "Debe de introducir un nombre válido de celda"
 
-#: src/workbook.c:529
+#: src/workbook.c:623
+msgid "Column out of range"
+msgstr "Columna fuera de rango"
+
+#: src/workbook.c:628
+msgid "Row number out of range"
+msgstr "Renglón fuera de rango"
+
+#: src/workbook.c:733
 msgid "Sum"
 msgstr "Suma"
 
-#: src/workbook.c:530
+#: src/workbook.c:734
 msgid "Min"
 msgstr "Mínimo"
 
-#: src/workbook.c:531
+#: src/workbook.c:735
 msgid "Max"
 msgstr "Máximo"
 
-#: src/workbook.c:532
+#: src/workbook.c:736
 msgid "Average"
 msgstr "Promedio"
 
-#: src/workbook.c:533
+#: src/workbook.c:737
 msgid "Count"
 msgstr "Cuenta"
 
-#: src/xml-io.c:993
+#: src/workbook.c:959
+msgid "Zoom out"
+msgstr "Alejarse"
+
+#: src/workbook.c:966
+msgid "Zoom in"
+msgstr "Acercarse"
+
+#: src/workbook.c:1006
+msgid "Sheet %d"
+msgstr "Hoja %d"
+
+#: src/xml-io.c:1317
 msgid "NoName"
 msgstr "SinNombre"
+# msgid "Cells..."
+# msgstr "Celdas..."
+# 
+# msgid "Edit"
+# msgstr "Edición"
+# 
+# msgid "Save as..."
+# msgstr "Guardar como..."
+# 
+# msgid "Goto cell.."
+# msgstr "Ir a la celda.."
+# 
+# msgid "Exit"
+# msgstr "Salir"
+# 
+# msgid "Coloring"
+# msgstr "Coloreado"
+# 
+# msgid "Cells.."
+# msgstr "Celdas.."
+# 
+# msgid "Zoom..."
+# msgstr "Amplificación..."
+# 
+# msgid "Clear"
+# msgstr "Borrar"
+# 
+# msgid "Columns"
+# msgstr "Columnas"
+# 
+# msgid "View"
+# msgstr "Ver"
+# 
+# msgid "Content"
+# msgstr "Contenido"
+# 
+# msgid "File"
+# msgstr "Archivo"
+# 
+# msgid "Format"
+# msgstr "Formato"
+# 
+# msgid "File to load at startup"
+# msgstr "Cargar este archivo al iniciar"
+# 
+# msgid "Rows"
+# msgstr "Renglones"
+# 
+# msgid "Insert a row"
+# msgstr "Insertar un renglón"
+# 
+# msgid "Insert a column"
+# msgstr "Insertar una columna"
+# 
