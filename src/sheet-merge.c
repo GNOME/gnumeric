@@ -66,7 +66,6 @@ sheet_merge_add (Sheet *sheet, Range const *r, gboolean clear,
 	Cell   *cell;
 	MStyle *style;
 	CellComment *comment;
-	int dummy;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (range_is_sane (r), TRUE);
@@ -124,10 +123,7 @@ sheet_merge_add (Sheet *sheet, Range const *r, gboolean clear,
 		cell->base.flags |= CELL_IS_MERGED;
 		cell_unregister_span (cell);
 	}
-	sheet_regen_adjacent_spans (sheet,
-				    r->start.col, r->start.row,
-				    r->start.col, r->end.row,
-				    &dummy, &dummy);
+	sheet_queue_respan (sheet, r->start.row, r->end.row);
 
 	/* Ensure that edit pos is not in the center of a region. */
 	SHEET_FOREACH_VIEW (sheet, sv, {

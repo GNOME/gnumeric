@@ -17,6 +17,7 @@ Jody
 	* Enable Excel97 basic export
 	* Have the importer designate the exporter directly
 	* Switch to foocanvas for performance
+	* Just in time rendering for clipboard
 
 Morten:
 	* Spelling fixes all over.

@@ -266,7 +266,7 @@ clipboard_paste_region (CellRegion const *content,
 			CommandContext *cc)
 {
 	int repeat_horizontal, repeat_vertical, clearFlags;
-	int dst_cols, dst_rows, src_cols, src_rows, min_col, max_col, tmp;
+	int dst_cols, dst_rows, src_cols, src_rows, tmp;
 	Range const *r;
 	gboolean has_content, adjust_merges = TRUE;
 
@@ -339,9 +339,8 @@ clipboard_paste_region (CellRegion const *content,
 
 	clearFlags = 0;
 	/* clear the region where we will paste */
-	if (has_content) {
+	if (has_content)
 		clearFlags = CLEAR_VALUES | CLEAR_NORESPAN;
-	}
 
 	if (pt->paste_flags & PASTE_COMMENTS) 
 		clearFlags |= CLEAR_COMMENTS;
@@ -453,16 +452,11 @@ clipboard_paste_region (CellRegion const *content,
 	} else
 		sheet_flag_format_update_range (pt->sheet, r);
 
-	sheet_regen_adjacent_spans (pt->sheet,
-		r->start.col,  r->start.row, r->end.col, r->end.row,
-		&min_col, &max_col);
 	sheet_range_calc_spans (pt->sheet, r,
 		(pt->paste_flags & PASTE_FORMATS) ? SPANCALC_RE_RENDER : SPANCALC_RENDER);
-	sheet_redraw_region (pt->sheet,
-		min_col, r->start.row, max_col, r->end.row);
-
 	if (pt->paste_flags & PASTE_UPDATE_ROW_HEIGHT)
 		rows_height_update (pt->sheet, &pt->range, FALSE);
+	sheet_redraw_all (pt->sheet, FALSE);
 
 	return FALSE;
 }

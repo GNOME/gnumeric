@@ -547,42 +547,10 @@ cb_vscrollbar_adjust_bounds (GtkRange *range, gdouble new_value)
 	}
 }
 
-#if 0
-/*
- * scg_make_edit_pos_visible
- * @scg  Sheet view
- *
- * Make the cell at the edit position visible.
- *
- * To be called from the "size_allocate" signal handler when the geometry of a
- * new sheet view has been configured.
- */
-static void
-scg_make_edit_pos_visible (SheetControl *sc)
-{
-	scg_make_cell_visible (sc,
-			       scg->sheet->edit_pos.col,
-			       scg->sheet->edit_pos.row,
-			       TRUE);
-
-}
-#endif
-
 static void
 cb_table_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 			SheetControlGUI *scg)
 {
-#if 0
-	/* FIXME
-	 * When a new sheet is added this is called and if the edit cell was
-	 * not visible we change the scroll position even though to the user
-	 * the size did not change and there is no reason for the scrolling to
-	 * jump.
-	 *
-	 * Can we somehow do this only if the edit pos was visible initially ?
-	 */
-	scg_make_edit_pos_visible ((SheetControl *) scg);
-#endif
 	scg_scrollbar_config ((SheetControl *) scg);
 }
 

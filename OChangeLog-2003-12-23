@@ -1,3 +1,18 @@
+2002-11-06  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (cb_clear_rendered_values) : new.
+	(sheet_range_calc_spans) : this should be renamed eventually.
+	  It no longer calculates the spans, rather it just honours the flags
+	  and queues the respan or render as necessary.
+	(sheet_clear_region) : just queue things.
+
+	* src/sheet-merge.c (sheet_merge_add) : do it the easy way and just
+	  queue all the rows for respan.  No need to do all the work to work
+	  out this set.
+
+	* src/clipboard.c (clipboard_paste_region) : just flag the render/span
+	  it will happen when necessary.
+
 2002-11-06  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c (random_exppow_pdf): Use lgammagnum, not lgamma.

@@ -244,24 +244,14 @@ cb_colrow_compute_pixels_from_pts (ColRowInfo *cri, void *data)
 
 /****************************************************************************/
 
-#if 0
-static void
-cb_recalc_span0 (gpointer ignored, gpointer value, gpointer flags)
-{
-	sheet_cell_calc_span (value, GPOINTER_TO_INT (flags));
-}
-
-void
-sheet_calc_spans (Sheet const *sheet, SpanCalcFlags flags)
-{
-	g_hash_table_foreach (sheet->cell_hash, cb_recalc_span0, GINT_TO_POINTER (flags));
-}
-#endif
-
 static Value *
-cb_recalc_span1 (Sheet *sheet, int col, int row, Cell *cell, gpointer flags)
+cb_clear_rendered_values (Sheet *sheet, int col, int row, Cell *cell,
+			  gpointer ignored)
 {
-	sheet_cell_calc_span (cell, GPOINTER_TO_INT (flags));
+	if (cell->rendered_value != NULL) {
+		rendered_value_destroy (cell->rendered_value);
+		cell->rendered_value = NULL;
+	}
 	return NULL;
 }
 
@@ -279,16 +269,15 @@ void
 sheet_range_calc_spans (Sheet *sheet, Range const *r, SpanCalcFlags flags)
 {
 	sheet->modified = TRUE;
-
-	/* Redraw the original region in case the span changes */
-	sheet_redraw_range (sheet, r);
-
-	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
-		r->start.col, r->start.row, r->end.col, r->end.row,
-		cb_recalc_span1, GINT_TO_POINTER (flags));
+	if (flags & SPANCALC_RE_RENDER)
+		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+			r->start.col, r->start.row, r->end.col, r->end.row,
+			cb_clear_rendered_values, 0);
+	sheet_queue_respan (sheet, r->start.row, r->end.row);
 
 	/* Redraw the new region in case the span changes */
-	sheet_redraw_range (sheet, r);
+	if (!(flags & SPANCALC_NO_DRAW))
+		sheet_redraw_range (sheet, r);
 }
 
 void
@@ -2831,7 +2820,6 @@ sheet_clear_region (Sheet *sheet,
 		    CommandContext *cc)
 {
 	Range r;
-	int min_col, max_col;
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (start_col <= end_col);
@@ -2863,10 +2851,6 @@ sheet_clear_region (Sheet *sheet,
 		sheet_objects_clear (sheet, &r, CELL_COMMENT_TYPE);
 
 	/* TODO : how to handle objects ? */
-
-	min_col = start_col;
-	max_col = end_col;
-
 	if (clear_flags & CLEAR_VALUES) {
 		/* Remove or empty the cells depending on
 		 * whether or not there are comments
@@ -2876,10 +2860,7 @@ sheet_clear_region (Sheet *sheet,
 			&cb_empty_cell, GINT_TO_POINTER (!(clear_flags & CLEAR_COMMENTS)));
 
 		if (!(clear_flags & CLEAR_NORESPAN)) {
-			sheet_regen_adjacent_spans (sheet,
-						    start_col, start_row,
-						    end_col, end_row,
-						    &min_col, &max_col);
+			sheet_queue_respan (sheet, start_row, end_row);
 			sheet_flag_status_update_range (sheet, &r);
 		}
 	}
@@ -2896,7 +2877,7 @@ sheet_clear_region (Sheet *sheet,
 		sheet_region_queue_recalc (sheet, &r);
 
 	/* Always redraw */
-	sheet_redraw_region (sheet, min_col, start_row, max_col, end_row);
+	sheet_redraw_all (sheet, FALSE);
 }
 
 /*****************************************************************************/
