@@ -1,6 +1,8 @@
 2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* dialog-search.c (lazy_list_new, lazy_list_set_rows):  Made static.
+	* dialog-cell-format.c (generate_format, fillin_negative_samples,
+	  fmt_dialog_init_format_page): Signedness fixes.
 
 2002-11-01  Jody Goldberg <jody@gnome.org>
 

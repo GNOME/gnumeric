@@ -442,7 +442,7 @@ generate_format (FormatState *state)
 
 	case FMT_CURRENCY :
 		g_string_append (new_format,
-				 currency_symbols[state->format.currency_index].symbol);
+				 (gchar *)currency_symbols[state->format.currency_index].symbol);
 
 		/* Non simple currencies require a spacer */
 		if (currency_symbols[state->format.currency_index].symbol[0] == '[')
@@ -488,7 +488,7 @@ generate_format (FormatState *state)
 	case FMT_ACCOUNT :
 		g_string_append (new_format, "_(");
 		g_string_append (new_format,
-				 currency_symbols[state->format.currency_index].symbol);
+				 (gchar *)currency_symbols[state->format.currency_index].symbol);
 		g_string_append (new_format, "* #,##0");
 		if (state->format.num_decimals > 0) {
 			g_return_if_fail (state->format.num_decimals <= 30);
@@ -498,7 +498,7 @@ generate_format (FormatState *state)
 		}
 		g_string_append (new_format, "_);_(");
 		g_string_append (new_format,
-				 currency_symbols[state->format.currency_index].symbol);
+				 (gchar *)currency_symbols[state->format.currency_index].symbol);
 		g_string_append (new_format, "* (#,##0");
 		if (state->format.num_decimals > 0) {
 			g_return_if_fail (state->format.num_decimals <= 30);
@@ -508,7 +508,7 @@ generate_format (FormatState *state)
 		}
 		g_string_append (new_format, ");_(");
 		g_string_append (new_format,
-				 currency_symbols[state->format.currency_index].symbol);
+				 (gchar *)currency_symbols[state->format.currency_index].symbol);
 		g_string_append (new_format, "* \"-\"");
 		g_string_append (new_format, qmarks + 30-state->format.num_decimals);
 		g_string_append (new_format, "_);_(@_)");
@@ -605,7 +605,7 @@ fillin_negative_samples (FormatState *state)
 		decimal[0] = format_get_decimal ();
 
 	if (page == 2) {
-		currency = currency_symbols[state->format.currency_index].symbol;
+		currency = (gchar *)currency_symbols[state->format.currency_index].symbol;
 		/*
 		 * FIXME : This should be better hidden.
 		 * Ideally the render would do this for us.
@@ -1046,14 +1046,14 @@ fmt_dialog_init_format_page (FormatState *state)
 		GList *ptr, *l = NULL;
 
 		for (i = 0; currency_symbols[i].symbol != NULL ; ++i)
-			l = g_list_append (l, _(currency_symbols[i].description));
+			l = g_list_append (l, _((gchar *)currency_symbols[i].description));
 		l = g_list_sort (l, funny_currency_order);
 
 		for (ptr = l; ptr != NULL ; ptr = ptr->next)
 			gnm_combo_text_add_item	(combo, ptr->data);
 		g_list_free (l);
 		gnm_combo_text_set_text	 (combo,
-			_(currency_symbols[state->format.currency_index].description),
+			_((gchar *)currency_symbols[state->format.currency_index].description),
 			GNM_COMBO_TEXT_FROM_TOP);
 
 		g_signal_connect (GTK_OBJECT (combo),
