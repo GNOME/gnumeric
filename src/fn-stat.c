@@ -3989,6 +3989,86 @@ gnumeric_percentrank (struct FunctionDefinition *i,
 	return value_new_float (pr);
 }
 
+static char *help_ftest = {
+	N_("@FUNCTION=FTEST\n"
+	   "@SYNTAX=FTEST(array1,array2)\n"
+
+	   "@DESCRIPTION="
+	   "FTEST function returns the one-tailed probability that the "
+	   "variances in the given two data sets are not significantly "
+	   "different. "
+	   "\n"
+	   "@SEEALSO=FDIST,FINV")
+};
+
+static Value *
+gnumeric_ftest (struct FunctionDefinition *i,
+		Value *argv [], char **error_string)
+{
+	stat_closure_t cl;
+	ExprTree       *tree;
+	GList          *expr_node_list;
+	float_t        var1, var2, p;
+	int            dof1, dof2;
+	int            eval_col, eval_row;
+	Sheet          *sheet;
+	
+	setup_stat_closure (&cl);
+
+	tree = g_new(ExprTree, 1);
+	tree->u.constant = argv[0];
+	tree->oper = OPER_CONSTANT;
+	expr_node_list = g_list_append(NULL, tree);
+
+	if (!function_iterate_argument_values
+	        (argv[0]->v.cell_range.cell_a.sheet,
+		 callback_function_stat,
+		 &cl, expr_node_list,
+		 argv[0]->v.cell_range.cell_a.col,
+		 argv[0]->v.cell_range.cell_a.row,
+		 error_string, TRUE))
+	        return NULL;
+
+	if (cl.N <= 1) {
+		*error_string = gnumeric_err_VALUE;
+		return NULL;
+	}
+
+	var1 = cl.Q / (cl.N - 1);
+	dof1 = cl.N-1;
+
+	setup_stat_closure (&cl);
+
+	tree = g_new(ExprTree, 1);
+	tree->u.constant = argv[1];
+	tree->oper = OPER_CONSTANT;
+	expr_node_list = g_list_append(NULL, tree);
+
+	if (!function_iterate_argument_values
+	        (argv[1]->v.cell_range.cell_a.sheet,
+		 callback_function_stat,
+		 &cl, expr_node_list,
+		 argv[1]->v.cell_range.cell_a.col,
+		 argv[1]->v.cell_range.cell_a.row,
+		 error_string, TRUE))
+	        return NULL;
+
+	if (cl.N <= 1) {
+		*error_string = gnumeric_err_VALUE;
+		return NULL;
+	}
+
+	var2 = cl.Q / (cl.N - 1);
+	dof2 = cl.N-1;
+
+	p = (1.0 - pf(var1/var2, dof1, dof2))*2;
+
+	if (p > 1)
+	        p = 2-p;
+
+	return value_new_float (p);
+}
+
 
 FunctionDefinition stat_functions [] = {
         { "avedev",    0,      "",          &help_avedev,
@@ -4037,6 +4117,8 @@ FunctionDefinition stat_functions [] = {
 	  NULL, gnumeric_fisher },
         { "fisherinv", "f",    "",          &help_fisherinv,
 	  NULL, gnumeric_fisherinv },
+	{ "ftest",   "rr",  "array1,array2", &help_ftest,
+	  NULL, gnumeric_ftest },
 	{ "gammaln",   "f",    "number",    &help_gammaln,
 	  NULL, gnumeric_gammaln },
 	{ "gammadist", "fffb", "number,alpha,beta,cum",    &help_gammadist,

@@ -3,10 +3,10 @@ Changes between version 0.26 and 0.27
 
 Jukka:
 	* Added the following functions:
-	 - SUMPRODUCT(), SEARCH(), ADDRESS(), CHITEST(), BETAINV(),
-	   PERCENTRANK(), SERIESSUM(), SUMA(), SUBTOTAL(), SLOPE(),
-	   AVERAGEA(), MAXA(), MINA(), STDEVA(), STDEVPA(), VARA(),
-	   and VARPA().
+	 - FTEST(), SUMPRODUCT(), SEARCH(), ADDRESS(), CHITEST(),
+	   BETAINV(), PERCENTRANK(), SERIESSUM(), SUMA(), SUBTOTAL(),
+	   SLOPE(), AVERAGEA(), MAXA(), MINA(), STDEVA(), STDEVPA(),
+	   VARA(), and VARPA().
         * And fixed these functions:
 	 - BETADIST(), NORMDIST(), RANK(), and POISSON().
 	* Lots of test files added
