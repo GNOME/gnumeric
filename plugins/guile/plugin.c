@@ -27,7 +27,6 @@
 #include <stdio.h>
 #include <libguile.h>
 #include <gnome.h>
-#include <guile/gh.h>
 
 #include "gnumeric.h"
 #include "plugin.h"

@@ -2,8 +2,8 @@
 
 /*
  *
- *     Author: Ariel Rios <ariel@arcavia.com>
- *	   Copyright Ariel Rios 2000
+ *     Author: Ariel Rios <ariel@linuxppc.org>
+ *	   Copyright Ariel Rios 2000, 2001
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,12 +25,12 @@
 #include <libguile.h>
 #include <glib.h>
 #include <gtk/gtk.h>
-#include <guile/gh.h>
 #include <stdlib.h>
 
 #include "smob-value.h"
 #include "value.h"
 
+int scm_i_scm2bool (SCM obj);
 static long value_tag;
 
 typedef struct _SCM_Value
@@ -65,6 +65,12 @@ get_value_from_smob (SCM value_smob)
 
 }
 
+int
+scm_i_scm2bool (SCM obj)
+{ 
+  return (SCM_FALSEP (obj)) ? 0 : 1;
+}
+
 static SCM
 make_value (SCM scm)
 {
@@ -84,9 +90,14 @@ make_value (SCM scm)
 	if ((SCM_NFALSEP (scm_number_p(scm))))
 		v = value_new_float ((gnum_float) scm_num2dbl(scm, 0));
 
-	if (gh_boolean_p (scm))
+	/*
+	  if (gh_boolean_p (scm))
 		v = value_new_bool ((gboolean) gh_scm2bool (scm));
+	*/
 
+	if (SCM_BOOLP (scm))
+		v = value_new_bool ((gboolean) scm_i_scm2bool (scm));
+	
 	value = (SCM_Value *) scm_must_malloc (sizeof (SCM_Value), "value");
 	value->v = v;
 	value->update_func = SCM_BOOL_F;
@@ -144,9 +155,12 @@ scm_value_new_bool (SCM scm)
 	SCM_Value *value;
 
 	v = g_new (Value, 1);
-
+	/*
 	if (gh_boolean_p (scm))
 		v = value_new_bool ((gboolean) gh_scm2bool (scm));
+	*/
+	if (SCM_BOOLP (scm))
+		v = value_new_bool ((gboolean) scm_i_scm2bool (scm));
 
 	value = (SCM_Value *) scm_must_malloc (sizeof (SCM_Value), "value");
 	value->v = v;
@@ -219,9 +233,12 @@ scm_value_get_as_float (SCM value_smob)
 	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
 
 	if (v->v->type ==  VALUE_FLOAT)
+		/*
 		return gh_double2scm (value_get_as_float (v->v));
-
-		return SCM_EOL;
+		*/
+		return scm_i_dbl2big (value_get_as_float (v->v));
+	
+	return SCM_EOL;
 }
 
 static SCM
@@ -240,7 +257,10 @@ scm_value_get_as_list (SCM value_smob)
 			for (i = 0; i < y; i++)
 				for (ii = 0; i < x; i++)
 					{
+						/*
 						*ls = scm_cons (gh_double2scm (value_get_as_float (v->v->v_array.vals[i][ii])), *ls);
+						*/
+						*ls = scm_cons (scm_i_dbl2big (value_get_as_float (v->v->v_array.vals[i][ii])), *ls);
 						/* FIXME */
 						ls = SCM_CDRLOC (*ls);
 					}

@@ -1,3 +1,15 @@
+2001-07-30  Ariel Rios  <ariel@linuxppc.org>
+
+	* plugin.c: Do not use gh.h anymore.
+
+	* smob-value.c (scm_i_scm2bool): Returns the value of a scheme object.
+	Temporary hack until this function can be put unto guile.	
+	(make_value): Get rid of gh_* functons since the gh interface will be
+	deprecated from guile.
+	(scm_value_new_bool): Ditto.
+	(scm_value_get_as_float): Ditto.
+	(scm_value_get_as_list): Ditto.
+
 2001-07-17  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.68
