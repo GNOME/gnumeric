@@ -147,7 +147,7 @@ cb_get_cell_content (int row, int col, gpointer data)
                char *endptr = NULL;
                double tmp;
 
-               tmp = strtod (text, &endptr);
+               tmp = g_strtod (text, &endptr);
 
                /*
                 * String is only a valid number if *endptr equals \0
