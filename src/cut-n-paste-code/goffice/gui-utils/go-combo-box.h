@@ -21,71 +21,71 @@
  * 02111-1307, USA.
  */
 
-#ifndef _GTK_COMBO_BOX_H_
-#define _GTK_COMBO_BOX_H_
+#ifndef _GNM_COMBO_BOX_H_
+#define _GNM_COMBO_BOX_H_
 
 #include <gtk/gtkhbox.h>
 
 G_BEGIN_DECLS
 
-#define GTK_COMBO_BOX_TYPE          (gtk_combo_box_get_type())
-#define GTK_COMBO_BOX(obj)	    G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_combo_box_get_type (), GtkComboBox)
-#define GTK_COMBO_BOX_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, gtk_combo_box_get_type (), GtkComboBoxClass)
-#define GTK_IS_COMBO_BOX(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, gtk_combo_box_get_type ())
+#define GNM_COMBO_BOX_TYPE          (gnm_combo_box_get_type())
+#define GNM_COMBO_BOX(obj)	    G_TYPE_CHECK_INSTANCE_CAST (obj, gnm_combo_box_get_type (), GnmComboBox)
+#define GNM_COMBO_BOX_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, gnm_combo_box_get_type (), GnmComboBoxClass)
+#define GNM_IS_COMBO_BOX(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, gnm_combo_box_get_type ())
 
-typedef struct _GtkComboBox	   GtkComboBox;
-typedef struct _GtkComboBoxPrivate GtkComboBoxPrivate;
-typedef struct _GtkComboBoxClass   GtkComboBoxClass;
+typedef struct _GnmComboBox	   GnmComboBox;
+typedef struct _GnmComboBoxPrivate GnmComboBoxPrivate;
+typedef struct _GnmComboBoxClass   GnmComboBoxClass;
 
-struct _GtkComboBox {
+struct _GnmComboBox {
 	GtkHBox hbox;
-	GtkComboBoxPrivate *priv;
+	GnmComboBoxPrivate *priv;
 };
 
-struct _GtkComboBoxClass {
+struct _GnmComboBoxClass {
 	GtkHBoxClass parent_class;
 
-	GtkWidget *(*pop_down_widget) (GtkComboBox *cbox);
+	GtkWidget *(*pop_down_widget) (GnmComboBox *cbox);
 
 	/*
 	 * invoked when the popup has been hidden, if the signal
 	 * returns TRUE, it means it should be killed from the
 	 */
-	gboolean  *(*pop_down_done)   (GtkComboBox *cbox, GtkWidget *);
+	gboolean  *(*pop_down_done)   (GnmComboBox *cbox, GtkWidget *);
 
 	/*
 	 * Notification signals.
 	 */
-	void      (*pre_pop_down)     (GtkComboBox *cbox);
-	void      (*post_pop_hide)    (GtkComboBox *cbox);
+	void      (*pre_pop_down)     (GnmComboBox *cbox);
+	void      (*post_pop_hide)    (GnmComboBox *cbox);
 };
 
 /* public */
-GtkType    gtk_combo_box_get_type    (void);
-void       gtk_combo_box_construct   (GtkComboBox *combo_box,
+GtkType    gnm_combo_box_get_type    (void);
+void       gnm_combo_box_construct   (GnmComboBox *combo_box,
 				      GtkWidget   *display_widget,
 				      GtkWidget   *optional_pop_down_widget);
-GtkWidget *gtk_combo_box_new         (GtkWidget *display_widget,
+GtkWidget *gnm_combo_box_new         (GtkWidget *display_widget,
 				      GtkWidget *optional_pop_down_widget);
-void       gtk_combo_box_set_title   (GtkComboBox *combo,
+void       gnm_combo_box_set_title   (GnmComboBox *combo,
 				      const gchar *title);
-void       gtk_combo_box_set_tearable        (GtkComboBox *combo,
+void       gnm_combo_box_set_tearable        (GnmComboBox *combo,
 					      gboolean tearable);
-void       gtk_combo_box_set_arrow_sensitive (GtkComboBox *combo,
+void       gnm_combo_box_set_arrow_sensitive (GnmComboBox *combo,
 					      gboolean sensitive);
-void       gtk_combo_box_set_arrow_relief    (GtkComboBox *cc,
+void       gnm_combo_box_set_arrow_relief    (GnmComboBox *cc,
 					      GtkReliefStyle relief);
 
 /* protected */
-void       gtk_combo_box_get_pos     (GtkComboBox *combo_box, int *x, int *y);
+void       gnm_combo_box_get_pos     (GnmComboBox *combo_box, int *x, int *y);
 
-void       gtk_combo_box_popup_hide  (GtkComboBox *combo_box);
+void       gnm_combo_box_popup_hide  (GnmComboBox *combo_box);
 
-void       gtk_combo_box_popup_display (GtkComboBox *combo_box);
+void       gnm_combo_box_popup_display (GnmComboBox *combo_box);
 
-void       gtk_combo_box_set_display (GtkComboBox *combo_box,
+void       gnm_combo_box_set_display (GnmComboBox *combo_box,
 				      GtkWidget *display_widget);
 
 G_END_DECLS
 
-#endif /* _GTK_COMBO_BOX_H_ */
+#endif /* _GNM_COMBO_BOX_H_ */

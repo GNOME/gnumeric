@@ -24,32 +24,32 @@
  * 02111-1307, USA.
  */
 
-#ifndef _GTK_COMBO_STACK_H
-#define _GTK_COMBO_STACK_H
+#ifndef _GNM_COMBO_STACK_H
+#define _GNM_COMBO_STACK_H
 
-#include "gtk-combo-box.h"
+#include "gnm-combo-box.h"
 
 G_BEGIN_DECLS
 
-#define GTK_COMBO_STACK_TYPE    (gtk_combo_stack_get_type ())
-#define GTK_COMBO_STACK(obj)	G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_combo_stack_get_type (), GtkComboStack)
-#define GTK_IS_COMBO_STACK(obj) G_TYPE_CHECK_INSTANCE_TYPE (obj, gtk_combo_stack_get_type ())
+#define GNM_COMBO_STACK_TYPE    (gnm_combo_stack_get_type ())
+#define GNM_COMBO_STACK(obj)	G_TYPE_CHECK_INSTANCE_CAST (obj, gnm_combo_stack_get_type (), GnmComboStack)
+#define GNM_IS_COMBO_STACK(obj) G_TYPE_CHECK_INSTANCE_TYPE (obj, gnm_combo_stack_get_type ())
 
-typedef struct _GtkComboStack	     GtkComboStack;
+typedef struct _GnmComboStack	     GnmComboStack;
 
-GtkType    gtk_combo_stack_get_type  (void);
-GtkWidget *gtk_combo_stack_new       (const gchar *stock_name,
+GtkType    gnm_combo_stack_get_type  (void);
+GtkWidget *gnm_combo_stack_new       (const gchar *stock_name,
 				      gboolean const is_scrolled);
 
-void       gtk_combo_stack_push_item (GtkComboStack *combo_stack,
+void       gnm_combo_stack_push_item (GnmComboStack *combo_stack,
 				      const gchar *item);
 
-void       gtk_combo_stack_remove_top (GtkComboStack *combo_stack,
+void       gnm_combo_stack_remove_top (GnmComboStack *combo_stack,
 				       gint num);
-void       gtk_combo_stack_pop       (GtkComboStack *combo_stack,
+void       gnm_combo_stack_pop       (GnmComboStack *combo_stack,
 				      gint num);
-void       gtk_combo_stack_clear     (GtkComboStack *combo_stack);
-void       gtk_combo_stack_truncate  (GtkComboStack *combo, int n);
+void       gnm_combo_stack_clear     (GnmComboStack *combo_stack);
+void       gnm_combo_stack_truncate  (GnmComboStack *combo, int n);
 
 G_END_DECLS
 
