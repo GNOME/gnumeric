@@ -229,13 +229,19 @@ mstyle_element_dump (const MStyleElement *e)
 
 	switch (e->type) {
 	case MSTYLE_ELEMENT_UNSET:
-		g_string_printf (ans, "Unset");
+		g_string_printf (ans, "\tUnset\n");
 		break;
 	case MSTYLE_COLOR_BACK:
-		g_string_printf (ans, "backgnd col");
+		g_string_printf (ans, "\tbackground col %hx:%hx:%hx\n",
+				 e->u.color.any->red,
+				 e->u.color.any->green,
+				 e->u.color.any->blue);
 		break;
 	case MSTYLE_COLOR_PATTERN:
-		g_string_printf (ans, "pattern col");
+		g_string_printf (ans, "\tpattern col %hx:%hx:%hx\n",
+				 e->u.color.any->red,
+				 e->u.color.any->green,
+				 e->u.color.any->blue);
 		break;
 	case MSTYLE_BORDER_TOP:
 	case MSTYLE_BORDER_BOTTOM:
@@ -244,100 +250,103 @@ mstyle_element_dump (const MStyleElement *e)
 	case MSTYLE_BORDER_DIAGONAL:
 	case MSTYLE_BORDER_REV_DIAGONAL:
 		if (e->u.border.any)
-			g_string_printf (ans, "%s %d", mstyle_names[e->type], e->u.border.any->line_type);
+			g_string_printf (ans, "\t%s %d\n", mstyle_names[e->type], e->u.border.any->line_type);
 		else
-			g_string_printf (ans, "%s blank", mstyle_names[e->type]);
+			g_string_printf (ans, "\t%s blank\n", mstyle_names[e->type]);
 		break;
 
 	case MSTYLE_PATTERN :
-		g_string_printf (ans, "pattern %d", e->u.pattern);
+		g_string_printf (ans, "\tpattern %d\n", e->u.pattern);
 		break;
 
 	case MSTYLE_COLOR_FORE:
-		g_string_printf (ans, "foregnd col");
+		g_string_printf (ans, "\tforegnd col %hx:%hx:%hx\n",
+				 e->u.color.any->red,
+				 e->u.color.any->green,
+				 e->u.color.any->blue);
 		break;
 	case MSTYLE_FONT_NAME:
-		g_string_printf (ans, "name '%s'", e->u.font.name->str);
+		g_string_printf (ans, "\tname '%s'\n", e->u.font.name->str);
 		break;
 	case MSTYLE_FONT_BOLD:
 		if (e->u.font.bold)
-			g_string_printf (ans, "bold");
+			g_string_printf (ans, "\tbold\n");
 		else
-			g_string_printf (ans, "not bold");
+			g_string_printf (ans, "\tnot bold\n");
 		break;
 	case MSTYLE_FONT_ITALIC:
 		if (e->u.font.italic)
-			g_string_printf (ans, "italic");
+			g_string_printf (ans, "\titalic\n");
 		else
-			g_string_printf (ans, "not italic");
+			g_string_printf (ans, "\tnot italic\n");
 		break;
 	case MSTYLE_FONT_UNDERLINE:
 		switch (e->u.font.underline) {
 		default :
 		case UNDERLINE_NONE :
-			g_string_printf (ans, "not underline");
+			g_string_printf (ans, "\tnot underline\n");
 		case UNDERLINE_SINGLE :
-			g_string_printf (ans, "single underline");
+			g_string_printf (ans, "\tsingle underline\n");
 		case UNDERLINE_DOUBLE :
-			g_string_printf (ans, "double underline");
+			g_string_printf (ans, "\tdouble underline\n");
 		};
 		break;
 	case MSTYLE_FONT_STRIKETHROUGH:
 		if (e->u.font.strikethrough)
-			g_string_printf (ans, "strikethrough");
+			g_string_printf (ans, "\tstrikethrough\n");
 		else
-			g_string_printf (ans, "not strikethrough");
+			g_string_printf (ans, "\tnot strikethrough\n");
 		break;
 	case MSTYLE_FONT_SIZE:
-		g_string_printf (ans, "size %f", e->u.font.size);
+		g_string_printf (ans, "\tsize %f\n", e->u.font.size);
 		break;
 
 	case MSTYLE_FORMAT: {
 		char *fmt = style_format_as_XL (e->u.format, TRUE);
-		g_string_printf (ans, "format '%s'", fmt);
+		g_string_printf (ans, "\tformat '%s'\n", fmt);
 		g_free (fmt);
 		break;
 	}
 
 	case MSTYLE_ALIGN_V:
-		g_string_printf (ans, "valign %hd", e->u.align.v);
+		g_string_printf (ans, "\tvalign %hd\n", e->u.align.v);
 		break;
 	case MSTYLE_ALIGN_H:
-		g_string_printf (ans, "halign %hd", e->u.align.h);
+		g_string_printf (ans, "\thalign %hd\n", e->u.align.h);
 		break;
 	case MSTYLE_INDENT:
-		g_string_printf (ans, "indent %d", e->u.indent);
+		g_string_printf (ans, "\tindent %d\n", e->u.indent);
 		break;
 	case MSTYLE_ROTATION:
-		g_string_printf (ans, "rotation %d", e->u.rotation);
+		g_string_printf (ans, "\trotation %d\n", e->u.rotation);
 		break;
 
 	case MSTYLE_WRAP_TEXT :
-		g_string_printf (ans, "wrap text %d", e->u.wrap_text);
+		g_string_printf (ans, "\twrap text %d\n", e->u.wrap_text);
 		break;
 	case MSTYLE_SHRINK_TO_FIT :
-		g_string_printf (ans, "shrink to fit %d", e->u.shrink_to_fit);
+		g_string_printf (ans, "\tshrink to fit %d\n", e->u.shrink_to_fit);
 		break;
 	case MSTYLE_CONTENT_LOCKED :
-		g_string_printf (ans, "locked %d", e->u.content_locked);
+		g_string_printf (ans, "\tlocked %d\n", e->u.content_locked);
 		break;
 	case MSTYLE_CONTENT_HIDDEN :
-		g_string_printf (ans, "hidden %d", e->u.content_hidden);
+		g_string_printf (ans, "\thidden %d\n", e->u.content_hidden);
 		break;
 	case MSTYLE_VALIDATION :
-		g_string_printf (ans, "validation ref_count '%d'", e->u.validation->ref_count);
+		g_string_printf (ans, "\tvalidation %p\n", e->u.validation);
 		break;
 
 	case MSTYLE_HLINK :
-		g_string_printf (ans, "hlink %p", e->u.hlink);
+		g_string_printf (ans, "\thlink %p\n", e->u.hlink);
 		break;
 
 	case MSTYLE_INPUT_MSG :
-		g_string_printf (ans, "input msg %p", e->u.input_msg);
+		g_string_printf (ans, "\tinput msg %p\n", e->u.input_msg);
 		break;
 
 	default:
-		g_string_printf (ans, "%s", mstyle_names[e->type]);
+		g_string_printf (ans, "\t%s\n", mstyle_names[e->type]);
 		break;
 	}
 
@@ -883,7 +892,7 @@ mstyle_to_string (const MStyle *style)
 			g_string_append_printf (ans, "%s ", txt);
 			g_free (txt);
 		} else
-			g_string_append_printf (ans, ".");
+			g_string_append_printf (ans, ".\n");
 	}
 	txt_ans = ans->str;
 	g_string_free (ans, FALSE);

@@ -1,3 +1,7 @@
+2002-11-12  Jody Goldberg <jody@gnome.org>
+
+	* src/mstyle.c (mstyle_element_dump) : polish up a bit.
+
 2002-11-11  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-style.c (sheet_style_get_extent) : optionally take the

@@ -38,7 +38,7 @@
  * two_way_table_new:        Make a TwoWayTable.
  * two_way_table_free:       Destroy the TwoWayTable
  * two_way_table_put:        Put a key to the TwoWayTable
- * two_way_table_replace:    Replace the key for an index in the TwoWayTable
+ * two_way_table_move:	     Move a key from one index to another
  * two_way_table_key_to_idx: Find index given a key
  * two_way_table_idx_to_key: Find key given the index
  *
@@ -136,23 +136,35 @@ two_way_table_put (const TwoWayTable *table, gpointer key,
 }
 
 /**
- * two_way_table_replace
+ * two_way_table_move
  * @table Table
- * @idx   Index to be updated
- * @key   New key to be assigned to the index
+ * @dst_idx : The new idx for the value
+ * @src_idx : stored here
  *
- * Replaces the key bound to an index with a new value. Returns the old key.
- */
-gpointer
-two_way_table_replace (const TwoWayTable *table, gint idx, gpointer key)
+ * Moves the key at index @src_idx into index @dst_idx, and drops the original
+ * content of @dst_idx
+ **/
+void
+two_way_table_move (TwoWayTable const *table, gint dst_idx, gint src_idx)
 {
-	gpointer old_key = two_way_table_idx_to_key (table, idx);
+	gpointer key_to_forget, key_to_move;
 
-	g_hash_table_remove (table->all_keys, old_key);
-	g_hash_table_insert (table->all_keys, key, GINT_TO_POINTER (idx + 1));
-	g_ptr_array_index   (table->idx_to_key, idx) = key;
+	key_to_forget = two_way_table_idx_to_key (table, dst_idx);
+	key_to_move   = two_way_table_idx_to_key (table, src_idx);
 
-	return old_key;
+	g_hash_table_remove (table->all_keys, key_to_move);
+	g_hash_table_remove (table->all_keys, key_to_forget);
+	g_hash_table_remove (table->unique_keys, key_to_move);
+	g_hash_table_remove (table->unique_keys, key_to_forget);
+
+	dst_idx += table->base;
+	src_idx += table->base;
+	g_hash_table_insert (table->all_keys, key_to_move,
+		GINT_TO_POINTER (dst_idx + table->base + 1));
+	g_hash_table_insert (table->unique_keys, key_to_move,
+		GINT_TO_POINTER (dst_idx + table->base + 1));
+	g_ptr_array_index   (table->idx_to_key, dst_idx) = key_to_move;
+	g_ptr_array_index   (table->idx_to_key, src_idx) = (gpointer)0xdeadbeef; /* poison */
 }
 
 /**

@@ -774,9 +774,12 @@ palette_get_index (ExcelWriteState *ewb, guint c)
 	if (c == 0xffffff)
 		return PALETTE_WHITE;
 
-	idx = two_way_table_key_to_idx (ewb->pal.two_way_table, (gconstpointer) c);
-	if (idx >= EXCEL_DEF_PAL_LEN)
+	idx = two_way_table_key_to_idx (ewb->pal.two_way_table, GUINT_TO_POINTER (c));
+	fprintf (stderr, "%x == %d\n", c, idx);
+	if (idx >= EXCEL_DEF_PAL_LEN) {
+		g_warning ("We lost colour #%d (%x), converting it to black\n", idx, c);
 		return PALETTE_BLACK;
+	}
 	return idx + 8;
 }
 
@@ -856,15 +859,18 @@ gather_palette (ExcelWriteState *ewb)
 		for (j = upper_limit - 1; j > 1; j--) {
 			if (!ewb->pal.entry_in_use[j]) {
 				/* Replace table entry with color. */
-				d (2, fprintf (stderr, "Custom color %d (0x%6.6x)"
+				d (2, fprintf (stderr, "Custom color %d (0x%x)"
 						" moved to unused index %d\n",
 					      i, color, j););
-				(void) two_way_table_replace
-					(twt, j, GUINT_TO_POINTER (color));
+				two_way_table_move (twt, j, i);
 				upper_limit = j;
 				ewb->pal.entry_in_use[j] = TRUE;
 				break;
 			}
+		}
+
+		if (j <= 1) {
+			g_warning ("uh oh, we're going to lose a colour");
 		}
 	}
 }
@@ -1648,51 +1654,37 @@ get_xf_differences (ExcelWriteState *ewb, BiffXFData *xfd, MStyle *parentst)
 static void
 log_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, int idx)
 {
-	if (ms_excel_write_debug > 1) {
-		int i;
-		ExcelFont *f = fonts_get_font (ewb, xfd->font_idx);
+	int i;
+	ExcelFont *f = fonts_get_font (ewb, xfd->font_idx);
 
-		/* Formats are saved using the 'C' locale number format */
-		char * desc = style_format_as_XL (xfd->style_format, FALSE);
+	/* Formats are saved using the 'C' locale number format */
+	char * desc = style_format_as_XL (xfd->style_format, FALSE);
 
-		fprintf (stderr, "Writing xf 0x%x : font 0x%x (%s), format 0x%x (%s)\n",
-			idx, xfd->font_idx, excel_font_to_string (f),
-			xfd->format_idx, desc);
-		g_free (desc);
+	fprintf (stderr, "Writing xf 0x%x : font 0x%x (%s), format 0x%x (%s)\n",
+		idx, xfd->font_idx, excel_font_to_string (f),
+		xfd->format_idx, desc);
+	g_free (desc);
 
-		fprintf (stderr, " hor align 0x%x, ver align 0x%x, wrap_text %s\n",
-			xfd->halign, xfd->valign, xfd->wrap_text ? "on" : "off");
-		fprintf (stderr, " fill fg color idx 0x%x, fill bg color idx 0x%x"
-			", pattern (Excel) %d\n",
-			xfd->pat_foregnd_col, xfd->pat_backgnd_col,
-			xfd->fill_pattern_idx);
-		for (i = STYLE_TOP; i < STYLE_ORIENT_MAX; i++) {
-			if (xfd->border_type[i] !=  STYLE_BORDER_NONE) {
-				fprintf (stderr, " border_type[%d] : 0x%x"
-					" border_color[%d] : 0x%x\n",
-					i, xfd->border_type[i],
-					i, xfd->border_color[i]);
-			}
+	fprintf (stderr, " hor align 0x%x, ver align 0x%x, wrap_text %s\n",
+		xfd->halign, xfd->valign, xfd->wrap_text ? "on" : "off");
+	fprintf (stderr, " fill fg color idx %d, fill bg color idx %d"
+		", pattern (Excel) %d\n",
+		xfd->pat_foregnd_col, xfd->pat_backgnd_col,
+		xfd->fill_pattern_idx);
+	for (i = STYLE_TOP; i < STYLE_ORIENT_MAX; i++) {
+		if (xfd->border_type[i] !=  STYLE_BORDER_NONE) {
+			fprintf (stderr, " border_type[%d] : 0x%x"
+				" border_color[%d] : 0x%x\n",
+				i, xfd->border_type[i],
+				i, xfd->border_color[i]);
 		}
-		fprintf (stderr, " difference bits: 0x%x\n", xfd->differences);
 	}
+	fprintf (stderr, " difference bits: 0x%x\n", xfd->differences);
+
+	mstyle_dump (xfd->mstyle);
 }
 #endif
 
-/**
- * build_xf_data
- * @ewb   workbook
- * @xfd  XF data
- * @st   style
- *
- * Build XF data for a style
- * See S59E1E.HTM
- *
- * All BIFF V7 features are implemented, except:
- * - hidden - not yet in gnumeric.
- *
- * Apart from font, the style elements we retrieve do *not* need to be unrefed.
- **/
 static void
 build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, MStyle *st)
 {
@@ -1962,7 +1954,6 @@ excel_write_XFs (ExcelWriteState *ewb)
 	unsigned nxf = twt->idx_to_key->len;
 	unsigned i;
 	MStyle *st;
-	BiffXFData xfd;
 
 	/* it is more compact to just spew the default representations than
 	 * to store a readable form, and generate the constant data.
@@ -2038,8 +2029,10 @@ excel_write_XFs (ExcelWriteState *ewb)
 
 	/* now write our styles */
 	for (; i < nxf + twt->base; i++) {
+		BiffXFData xfd;
 		st = xf_get_mstyle (ewb, i);
 		build_xf_data (ewb, &xfd, st);
+		fprintf (stderr, "%p vs %p\n", st, xfd.mstyle);
 		d (3, log_xf_data (ewb, &xfd, i););
 		excel_write_XF (ewb->bp, ewb, &xfd);
 	}
@@ -2438,8 +2431,8 @@ write_mulblank (BiffPut *bp, ExcelSheet *esheet, guint32 end_col, guint32 row,
 		ptr = data + 4;
 		for (i = 0 ; i < run ; i++) {
 			xf = xf_list [i];
-			d (3, fprintf (stderr, " xf(%s) = 0x%x",
-				      cell_coord_name (end_col + 1 - run, row),
+			d (3, fprintf (stderr, " xf(%s) = 0x%x\n",
+				      cell_coord_name (end_col + 1 - i, row),
 				      xf););
 			GSF_LE_SET_GUINT16 (ptr, xf);
 			ptr += 2;

@@ -1,3 +1,12 @@
+2002-11-12  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (palette_get_index) : add a warning if we are going
+	  to lose a colour.
+	(gather_palette) : improve debug.
+
+	* ms-excel-util.c (two_way_table_move) : rename from
+	  two_way_table_replace and fix.
+
 2002-11-11  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-write.c (write_cellref_v7) : fix signature.

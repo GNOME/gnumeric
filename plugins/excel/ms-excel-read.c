@@ -1969,7 +1969,7 @@ excel_read_XF (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 	xf->mstyle = NULL;
 
 	g_ptr_array_add (ewb->XF_cell_records, xf);
-	d (2, fprintf (stderr,"XF(%d): Font %d, Format %d, Fore %d, Back %d, Pattern = %d\n",
+	d (2, fprintf (stderr,"XF(0x%x): Font %d, Format %d, Fore %d, Back %d, Pattern = %d\n",
 		      ewb->XF_cell_records->len - 1,
 		      xf->font_idx,
 		      xf->format_idx,

@@ -40,8 +40,8 @@ gint
 two_way_table_put (const TwoWayTable *table, gpointer key,
 		   gboolean unique,  AfterPutFunc apf, gconstpointer closure);
 
-gpointer
-two_way_table_replace (const TwoWayTable *table, gint idx, gpointer key);
+void
+two_way_table_move (const TwoWayTable *table, gint dst_idx, gint src_idx);
 
 gint
 two_way_table_key_to_idx (const TwoWayTable *table, gconstpointer key);
