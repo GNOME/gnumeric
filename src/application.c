@@ -255,6 +255,8 @@ application_clipboard_clear (gboolean drop_selection)
 			wb_control_paste_special_enable (control, FALSE););
 		app.clipboard_sheet = NULL;
 
+		sheet->enable_paste_special = FALSE;
+
 		/* Release the selection */
 		if (drop_selection)
 			gtk_selection_owner_set (NULL,
@@ -313,6 +315,8 @@ application_clipboard_copy (WorkbookControl *wbc,
 		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
 			wb_control_paste_special_enable (control, TRUE););
 
+		sheet->enable_paste_special = TRUE;
+
 		sheet_selection_ant (sheet);
 	}
 }
@@ -342,6 +346,8 @@ application_clipboard_cut (WorkbookControl *wbc,
 		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
 			wb_control_paste_special_enable (control, FALSE););
 
+		sheet->enable_paste_special = FALSE;
+		
 		sheet_selection_ant (sheet);
 	}
 }

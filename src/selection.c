@@ -309,9 +309,11 @@ sheet_selection_set_internal (Sheet *sheet,
 			      gboolean just_add_it)
 {
 	GSList *merged, *ptr;
+	GList *list;
 	gboolean changed, reset_positions = FALSE;
 	Range *ss;
 	Range old_sel, new_sel;
+	gboolean do_cols, do_rows;
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->selections != NULL);
@@ -384,8 +386,7 @@ looper :
 	if (just_add_it) {
 		sheet_redraw_range (sheet, &new_sel);
 		sheet_redraw_headers (sheet, TRUE, TRUE, &new_sel);
-		sheet_flag_selection_change (sheet);
-		return;
+		goto end;
 	}
 
 	if (range_overlap (&old_sel, &new_sel)) {
@@ -471,8 +472,33 @@ looper :
 			sheet_redraw_headers (sheet, FALSE, TRUE, &tmp);
 		}
 	}
-
+	
+end:	
 	sheet_flag_selection_change (sheet);
+
+	/*
+	 * Now see if there is some selection which selects a
+	 * whole row, a whole column or the whole sheet and de-activate
+	 * insert row/cols and the flags accordingly.
+	 */
+	do_rows = do_cols = TRUE;
+	for (list = sheet->selections; list && (do_cols || do_rows); list = list->next){
+		Range *r = list->data;
+
+		if (do_rows && r->start.row == 0 && r->end.row == SHEET_MAX_ROWS - 1) {
+			WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
+						  wb_control_insert_cols_rows_enable (control, FALSE, FALSE););
+			do_rows = FALSE;
+		}
+
+		if (do_cols && r->start.col == 0 && r->end.col == SHEET_MAX_COLS - 1) {
+			WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
+						  wb_control_insert_cols_rows_enable (control, TRUE, FALSE););
+			do_cols = FALSE;
+		}
+	}
+	sheet->enable_insert_cols = do_cols;
+	sheet->enable_insert_rows = do_rows;
 }
 
 void
@@ -503,9 +529,7 @@ sheet_selection_add_range (Sheet *sheet,
 			   int base_col, int base_row,
 			   int move_col, int move_row)
 {
-	GList *list;
 	Range *ss;
-	gboolean do_rows, do_cols;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -516,28 +540,6 @@ sheet_selection_add_range (Sheet *sheet,
 				      edit_col, edit_row,
 				      base_col, base_row,
 				      move_col, move_row, TRUE);
-
-	/*
-	 * Now see if there is some selection which selects a
-	 * whole row, a whole column or the whole sheet and de-activate
-	 * insert row/cols accordingly.
-	 */
-	do_rows = do_cols = TRUE;
-	for (list = sheet->selections; list && (do_cols || do_rows); list = list->next){
-		Range *r = list->data;
-
-		if (do_rows && r->start.row == 0 && r->end.row == SHEET_MAX_ROWS - 1) {
-			WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-						  wb_control_insert_cols_rows_enable (control, FALSE, FALSE););
-			do_rows = FALSE;
-		}
-
-		if (do_cols && r->start.col == 0 && r->end.col == SHEET_MAX_COLS - 1) {
-			WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-						  wb_control_insert_cols_rows_enable (control, TRUE, FALSE););
-			do_cols = FALSE;
-		}
-	}	
 }
 
 void
@@ -601,6 +603,9 @@ sheet_selection_reset_only (Sheet *sheet)
 				  wb_control_insert_cols_rows_enable (control, FALSE, TRUE););
 	WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
 				  wb_control_insert_cols_rows_enable (control, TRUE, TRUE););
+				  
+	sheet->enable_insert_cols = TRUE;
+	sheet->enable_insert_rows = TRUE;
 }
 
 static void

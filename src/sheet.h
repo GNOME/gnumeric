@@ -56,6 +56,11 @@ struct _Sheet {
 	gboolean    show_col_header;
 	gboolean    show_row_header;
 
+	/* Enable/Disable flags */
+	gboolean    enable_insert_rows;
+	gboolean    enable_insert_cols;
+	gboolean    enable_paste_special;
+
         /* Solver parameters */
         SolverParameters solver_parameters;
 

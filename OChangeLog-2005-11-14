@@ -1,3 +1,28 @@
+2001-01-29  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/sheet.h: Add flags for insert cols/rows and paste special.
+	
+	* src/selection.c 
+	(sheet_selection_add_range):
+	Remove the settings of insert cols/rows here.
+	(sheet_selection_set_internal): 
+	Set insert cols/rows menu items and flags correctly.
+	(sheet_selection_reset_only): Reset insert cols/rows flags.
+
+	* src/application.c 
+	(application_clipboard_clear): Set enable paste special flag.
+	(application_clipboard_copy): Ditto.
+	(application_clipboard_cut): Ditto.
+
+	* src/workbook-view.c, src/workbook-view.h
+	(wb_view_menus_update): New function, updates the 
+	insert cols/rows and paste special menu items.
+	(wb_view_sheet_focus): Call menus_update here.
+	(wb_view_sheet_add): Ditto.
+
+	* src/workbook-control-gui.c
+	(workbook_control_gui_init): Update menu items here.
+
 2001-01-29  Fatih Demir	<kabalak@gmx.net>
 
 	* .cvsignore: Added the xml-i18n-* files and the intl

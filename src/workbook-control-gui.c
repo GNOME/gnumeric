@@ -3113,12 +3113,12 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	wbcg_undo_redo_labels (WORKBOOK_CONTROL (wbcg), NULL, NULL);
 
 	/*
-	 * Enable paste special, this assumes that the default is to
-	 * paste from the X clipboard.  It will be disabled when
-	 * something is cut.
+	 * Initialize the menu items, This will enable insert cols/rows
+	 * and paste special to the currently valid values for the
+	 * active sheet (if there is an active sheet)
 	 */
-	wbcg_paste_special_enable (WORKBOOK_CONTROL (wbcg), TRUE);
-
+	wb_view_menus_update (wb_control_view (WORKBOOK_CONTROL (wbcg)));
+	
 	/* We are not in edit mode */
 	wbcg->select_abs_col = wbcg->select_abs_row = FALSE;
 	wbcg->select_full_col = wbcg->select_full_row = FALSE;

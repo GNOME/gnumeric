@@ -93,6 +93,7 @@ wb_view_sheet_focus (WorkbookView *wbv, Sheet *sheet)
 		wb_view_selection_desc (wbv, TRUE, NULL);
 		wb_view_edit_line_set (wbv, NULL);
 		wb_view_format_feedback (wbv, TRUE);
+		wb_view_menus_update (wbv);
 		wb_view_auto_expr_recalc (wbv, TRUE);
 	}
 }
@@ -106,6 +107,7 @@ wb_view_sheet_add (WorkbookView *wbv, Sheet *new_sheet)
 		wbv->current_sheet = new_sheet;
 		wb_view_auto_expr_recalc (wbv, FALSE);
 		wb_view_format_feedback (wbv, FALSE);
+		wb_view_menus_update (wbv);
 	}
 
 	WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
@@ -189,6 +191,29 @@ wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 			WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control,
 				wb_control_format_feedback (control););
 		}
+	}
+}
+
+void
+wb_view_menus_update (WorkbookView *wbv)
+{
+	Sheet *sheet;
+
+	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+
+	/*
+	 * Update every menu flag here, the flags are kept in "sheet" for now, this
+	 * is an ugly solution, but certifies that when creating new views or flipping
+	 * sheets the menu items states stay 'correct'
+	 */
+	sheet = wbv->current_sheet;
+	if (sheet != NULL) {
+		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
+					       wb_control_insert_cols_rows_enable (control, TRUE, sheet->enable_insert_cols););
+		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
+					       wb_control_insert_cols_rows_enable (control, FALSE, sheet->enable_insert_rows););
+		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
+					       wb_control_paste_special_enable (control, sheet->enable_paste_special););
 	}
 }
 
