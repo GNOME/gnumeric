@@ -1,3 +1,8 @@
+2001-10-30  Morten Welinder  <terra@diku.dk>
+
+	* src/validation.c: #include <config.h>
+	* src/style-condition.c: Ditto.
+
 2001-10-27  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (colrow_move) : trivial optimization to speed col/row
