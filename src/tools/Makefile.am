@@ -28,5 +28,7 @@ libtools_a_SOURCES =					\
 	filter.c					\
 	goal-seek.c					\
 	goal-seek.h					\
+	simulation.c					\
+	simulation.h					\
 	tools.h
 

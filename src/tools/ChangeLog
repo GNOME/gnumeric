@@ -1,3 +1,15 @@
+2002-07-30  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* simulation.[ch]: Initial version of the Risk Simulation tool.
+	It's similar to XL's add-on plug-in's like @RISK but not yet that
+	good (yet).
+
+	* solver/reports.c, dao.[ch]: Moved find_name to dao.c and renamed
+	it as dao_find_name.
+
+	* solver/reports-write.c, dao.[ch]: Moved fill_header_titles to
+	dao.c and renamed it as dao_write_header.
+	
 2002-07-29  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* analysis-tools.c

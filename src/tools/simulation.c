@@ -1,0 +1,346 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+/*
+ * simulation.c: Monte Carlo Simulation tool.
+ *
+ * Author:
+ *        Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <sheet.h>
+#include <cell.h>
+#include <ranges.h>
+#include <gui-util.h>
+#include <tool-dialogs.h>
+#include <dao-gui-utils.h>
+#include <value.h>
+#include <workbook-edit.h>
+#include <workbook-view.h>
+#include <workbook-control.h>
+#include <sheet.h>
+
+#include <libgnome/gnome-i18n.h>
+#include <glade/glade.h>
+#include <widgets/gnumeric-expr-entry.h>
+#include "simulation.h"
+
+typedef enum {
+	MedianErr = 1, ModeErr = 2, StddevErr = 4, VarErr = 8, SkewErr = 16,
+	KurtosisErr = 32
+} errmask_t;
+
+typedef struct {
+	gnum_float *min;
+	gnum_float *max;
+	gnum_float *mean;
+	gnum_float *median;
+	gnum_float *mode;
+	gnum_float *stddev;
+	gnum_float *var;
+	gnum_float *skew;
+	gnum_float *kurtosis;
+	int        *errmask;
+} simstats_t;
+
+static void
+init_stats (simstats_t *stats, simulation_t *sim)
+{
+	stats->min      = g_new (gnum_float, sim->n_output_vars);
+	stats->max      = g_new (gnum_float, sim->n_output_vars);
+	stats->mean     = g_new (gnum_float, sim->n_output_vars);
+	stats->median   = g_new (gnum_float, sim->n_output_vars);
+	stats->median   = g_new (gnum_float, sim->n_output_vars);
+	stats->mode     = g_new (gnum_float, sim->n_output_vars);
+	stats->stddev   = g_new (gnum_float, sim->n_output_vars);
+	stats->var      = g_new (gnum_float, sim->n_output_vars);
+	stats->skew     = g_new (gnum_float, sim->n_output_vars);
+	stats->kurtosis = g_new (gnum_float, sim->n_output_vars);
+	stats->errmask  = g_new (int, sim->n_output_vars);
+}
+
+static void
+free_stats (simstats_t *stats, simulation_t *sim)
+{
+	g_free (stats->min);
+	g_free (stats->max);
+	g_free (stats->mean);
+	g_free (stats->median);
+	g_free (stats->mode);
+	g_free (stats->stddev);
+	g_free (stats->var);
+	g_free (stats->skew);
+	g_free (stats->kurtosis);
+	g_free (stats->errmask);
+}
+
+static gchar *
+recompute_outputs (simulation_t *sim, gnum_float **outputs, int iter, int round)
+{
+	GSList *cur;
+	int    i = 0;
+
+	/* Recompute inputs. */
+	for (cur = sim->list_inputs; cur != NULL; cur = cur->next) {
+		Cell *cell = (Cell *) cur->data;
+
+		cell_queue_recalc (cell);
+		cell_eval (cell);
+	}
+
+	/* Recompute outputs. */
+	for (cur = sim->list_outputs; cur != NULL; cur = cur->next) {
+		Cell *cell = (Cell *) cur->data;
+
+		cell_eval (cell);
+		if (cell->value == NULL || ! VALUE_IS_NUMBER (cell->value)) {
+			return _("Output variable did not yield to a numeric "
+				 "value.");
+		}
+
+		outputs [i++][iter] = value_get_as_float (cell->value);
+	}
+
+	return NULL;
+}
+
+static void
+create_stats (simulation_t *sim, gnum_float **outputs, simstats_t *stats)
+{
+	int        i, error;
+	gnum_float x;
+
+	/* Initialize. */
+	for (i = 0; i < sim->n_output_vars; i++)
+		stats->errmask [i] = 0;
+
+	/* Calculate stats. */
+	for (i = 0; i < sim->n_output_vars; i++) {
+		/* Min */
+		error = range_min (outputs [i], sim->n_iterations, &x);
+		stats->min [i] = x;
+
+		/* Mean */
+		error = range_average (outputs [i], sim->n_iterations, &x);
+		stats->mean [i] = x;
+
+		/* Max */
+		error = range_max (outputs [i], sim->n_iterations, &x);
+		stats->max [i] = x;
+
+		/* Median */
+		error = range_median_inter (outputs [i], sim->n_iterations, &x);
+		if (error)
+			stats->errmask [i] |= MedianErr;
+		else
+			stats->median [i] = x;
+
+		/* Mode */
+		error = range_mode (outputs [i], sim->n_iterations, &x);
+		if (error)
+			stats->errmask [i] |= ModeErr;
+		else
+			stats->mode [i] = x;
+
+		/* Standard deviation */
+		error = range_stddev_pop (outputs [i], sim->n_iterations, &x);
+		if (error)
+			stats->errmask [i] |= VarErr;
+		else
+			stats->stddev [i] = x;
+
+		/* Variance */
+		error = range_var_pop (outputs [i], sim->n_iterations, &x);
+		if (error)
+			stats->errmask [i] |= VarErr;
+		else
+			stats->var [i] = x;
+
+		/* Skewness */
+		error = range_skew_est (outputs [i], sim->n_iterations, &x);
+		if (error)
+			stats->errmask [i] |= SkewErr;
+		else
+			stats->skew [i] = x;
+
+		/* Kurtosis */
+		error = range_kurtosis_m3_est (outputs [i], sim->n_iterations,
+					       &x);
+		if (error)
+			stats->errmask [i] |= KurtosisErr;
+		else
+			stats->kurtosis [i] = x;
+	}
+}
+
+static void
+create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t *stats,
+		data_analysis_output_t *dao, Sheet *sheet)
+{
+	int i, n, n_rounds, rinc;
+
+	n_rounds = 1 + sim->last_round - sim->first_round;
+
+	dao_init (dao, NewSheetOutput);
+	dao_prepare_output (wbc, dao, _("Simulation Report"));
+
+	/*
+	 * Set this to fool the autofit_column function.  (It will be
+	 * overwriten).
+	 */
+	dao_set_cell (dao, 0, 0, "A");
+
+	rinc = sim->n_output_vars + 3;
+	for (n = sim->first_round; n <= sim->last_round; n++) {
+		dao_set_cell (dao, 2, 6 + n * rinc, _("Min"));
+		dao_set_cell (dao, 3, 6 + n * rinc, _("Mean"));
+		dao_set_cell (dao, 4, 6 + n * rinc, _("Max"));
+		dao_set_cell (dao, 5, 6 + n * rinc, _("Median"));
+		dao_set_cell (dao, 6, 6 + n * rinc, _("Mode"));
+		dao_set_cell (dao, 7, 6 + n * rinc, _("Std. Dev."));
+		dao_set_cell (dao, 8, 6 + n * rinc, _("Variance"));
+		dao_set_cell (dao, 9, 6 + n * rinc, _("Skewness"));
+		dao_set_cell (dao, 10, 6 + n * rinc, _("Kurtosis"));
+
+		for (i = 0; i < sim->n_output_vars; i++) {
+			dao_set_cell (dao, 1, i + 7 + n * rinc,
+				      sim->cellnames [i]);
+			dao_set_cell_float (dao, 2, i + 7 + n * rinc,
+					    stats [n].min [i]);
+			dao_set_cell_float (dao, 3, i + 7 + n * rinc,
+					    stats [n].mean [i]);
+			dao_set_cell_float (dao, 4, i + 7 + n * rinc,
+					    stats [n].max [i]);
+			dao_set_cell_float (dao, 5, i + 7 + n * rinc,
+					    stats [n].median [i]);
+			dao_set_cell_float_na
+				(dao, 6, i + 7 + n * rinc, stats [n].mode [i],
+				 ! (stats [n].errmask [i] & ModeErr));
+			dao_set_cell_float_na
+				(dao, 7, i + 7 + n * rinc, stats [n].stddev [i],
+				 ! (stats [n].errmask [i] & StddevErr));
+			dao_set_cell_float_na
+				(dao, 8, i + 7 + n * rinc, stats [n].var [i],
+				 ! (stats [n].errmask [i] & VarErr));
+			dao_set_cell_float_na
+				(dao, 9, i + 7 + n * rinc, stats [n].skew [i],
+				 ! (stats [n].errmask [i] & SkewErr));
+			dao_set_cell_float_na
+				(dao, 10, i + 7 + n * rinc,
+				 stats [n].kurtosis [i],
+				 ! (stats [n].errmask [i] & KurtosisErr));
+		}
+	}
+
+
+	/*
+	 * Autofit columns to make the sheet more readable.
+	 */
+
+	dao_autofit_these_columns (dao, 0, 10);
+
+
+	/*
+	 * Fill in the titles.
+	 */
+
+	/* Fill in the column A labels into the simultaion report sheet. */
+	for (n = sim->first_round; n <= sim->last_round; n++) {
+	        char  *tmp = g_strdup_printf
+			("%s%d", _("SUMMARY OF SIMULATION ROUND #"), n + 1);
+		
+		dao_set_cell (dao, 0, 5 + rinc * n, tmp);
+	}
+
+	/* Fill in the header titles. */
+	dao_write_header (dao, _("Risk Simulation"),
+			  _("Report"), sheet);
+
+}
+
+/*
+ * Monte Carlo Simulation tool.  Helps decision making by generating
+ * random numbers for given input variables.
+ */
+gchar *
+simulation_tool (WorkbookControl        *wbc,
+		 data_analysis_output_t *dao,
+		 simulation_t           *sim)
+{
+	int          round, i, n_rounds;
+	gnum_float   **outputs;
+	simstats_t   *stats;
+	Sheet        *sheet;
+	gchar        *err;
+	WorkbookView *wbv;
+	GSList       *cur;
+
+	wbv   = wb_control_view (wbc);
+	sheet = wb_view_cur_sheet (wbv);
+
+	/* Initialize results storage. */
+	sim->cellnames = g_new (gchar *, sim->n_output_vars);
+	outputs = g_new (gnum_float *, sim->n_output_vars);
+	for (i = 0; i < sim->n_output_vars; i++)
+		outputs [i] = g_new (gnum_float, sim->n_iterations);
+
+	stats     = g_new (simstats_t, sim->last_round + 1);
+	for (i = 0; i <= sim->last_round; i++)
+		init_stats (&stats [i], sim);
+
+	i = 0;
+	for (cur = sim->list_outputs; cur != NULL; cur = cur->next) {
+		Cell *cell = (Cell *) cur->data;
+
+		sim->cellnames [i++] =
+			(gchar *) dao_find_name (sheet, cell->pos.col,
+						 cell->pos.row);
+	}
+
+	/* Run the simulations. */
+	for (round = sim->first_round; round <= sim->last_round; round++) {
+		sheet->simulation_round = round;
+		for (i = 0; i < sim->n_iterations; i++) {
+			err = recompute_outputs (sim, outputs, i, round);
+			if (err != NULL)
+				return err;
+		}
+		create_stats (sim, outputs, &stats [round]);
+	}
+	sheet->simulation_round = 0;
+
+	/* Free results storage. */
+	for (i = 0; i < sim->n_output_vars; i++)
+		g_free (outputs [i]);
+	g_free (outputs);
+
+
+	/* Create the reports. */
+	create_reports (wbc, sim, stats, dao, sheet);
+
+
+	/* Free statistics storage. */
+	for (i = 0; i <= sim->last_round; i++)
+		free_stats (&stats [i], sim);
+
+	g_free (stats);
+
+	return NULL;
+}
