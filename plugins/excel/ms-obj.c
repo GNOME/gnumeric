@@ -144,9 +144,12 @@ ms_object_attr_bag_insert (MSObjAttrBag *attrs, MSObjAttr *attr)
 MSObjAttr *
 ms_object_attr_bag_lookup (MSObjAttrBag *attrs, MSObjAttrID id)
 {
-	MSObjAttr attr;
-	*((MSObjAttrID *)&(attr.id)) = id;
-	return g_hash_table_lookup (attrs, &attr);
+	if (attrs != NULL) {
+		MSObjAttr attr;
+		*((MSObjAttrID *)&(attr.id)) = id;
+		return g_hash_table_lookup (attrs, &attr);
+	}
+	return NULL;
 }
 
 /********************************************************************************/

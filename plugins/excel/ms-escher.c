@@ -1258,7 +1258,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 259 : name = "fixed16_16 cropFromRight"; break;
 
 		/* NULL : Blip to display */
-		case 260 :
+		case 260 : id = MS_OBJ_ATTR_BLIP_ID;
 			   name = "Blip * pib";
 			   break;
 
