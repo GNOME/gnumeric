@@ -765,8 +765,10 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	len = 0;
 	for (l = gnumeric_font_family_list; l; l = l->next) {
 		if (l->data) {	/* Don't include empty fonts in list. */
-			int tmp = gdk_string_measure (gtk_style_get_font (entry->style),
-						      l->data);
+			int tmp = gnm_measure_string (
+				gtk_widget_get_pango_context (entry),
+				entry->style->font_desc,
+				l->data);
 			if (tmp > len)
 				len = tmp;
 			gtk_combo_text_add_item (GTK_COMBO_TEXT (fontsel),
@@ -788,7 +790,11 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 		g_free (buffer);
 	}
 	gtk_widget_set_usize (entry,
-		gdk_string_measure (gtk_style_get_font (entry->style), "888"), 0);
+			      gnm_measure_string (
+				      gtk_widget_get_pango_context (entry),
+				      entry->style->font_desc,
+				      "888"),
+			      0);
 
 	/* Border combo box */
 	border_combo = pixmap_combo_new (border_combo_info, 3, 4);

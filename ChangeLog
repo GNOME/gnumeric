@@ -1,3 +1,14 @@
+2003-05-16  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control-gui.c (workbook_setup_auto_calc,
+	workbook_create_standard_toolbar): Use gnm_measure_string instead
+	of incorrect and deprecated GdkFont stuff.
+
+	* src/workbook-format-toolbar.c (workbook_create_format_toolbar):
+	Ditto.
+
+	* src/gui-util.c (gnm_measure_string): New function.
+
 2003-05-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/stf-parse.c (stf_parse_csv_cell): remove debug spew

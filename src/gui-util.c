@@ -1279,3 +1279,19 @@ gnm_setup_label_atk (GtkLabel *label, GtkWidget *target)
 	 add_atk_relation (GTK_WIDGET (label), target, ATK_RELATION_LABEL_FOR);
 	 add_atk_relation (target, GTK_WIDGET (label), ATK_RELATION_LABELLED_BY);
 }
+
+
+int
+gnm_measure_string (PangoContext *context, const PangoFontDescription *font_desc, const char *str)
+{
+	PangoLayout *layout = pango_layout_new (context);
+	int width;
+
+	pango_layout_set_text (layout, str, -1);
+	pango_layout_set_font_description (layout, font_desc);
+	pango_layout_get_pixel_size (layout, &width, NULL);
+
+	g_object_unref (layout);
+
+	return width;
+}

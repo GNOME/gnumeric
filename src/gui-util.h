@@ -128,4 +128,6 @@ GdkPixbuf *gnumeric_load_pixbuf (char const *name);
 
 void gnm_setup_label_atk (GtkLabel *label, GtkWidget *target);
 
+int gnm_measure_string (PangoContext *context, const PangoFontDescription *font_desc, const char *str);
+
 #endif /* GNUMERIC_GUI_UTIL_H */

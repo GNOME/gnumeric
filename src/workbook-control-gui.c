@@ -4093,6 +4093,7 @@ static BonoboUIVerb verbs [] = {
 };
 #endif
 
+
 /*
  * These create toolbar routines are kept independent, as they
  * will need some manual customization in the future (like adding
@@ -4113,7 +4114,10 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 	gtk_combo_box_set_title (GTK_COMBO_BOX (zoom), _("Zoom"));
 
 	/* Set a reasonable default width */
-	len = gdk_string_measure (gtk_style_get_font (entry->style), "%10000");
+	len = gnm_measure_string (
+		gtk_widget_get_pango_context (entry),
+		entry->style->font_desc,
+		"%10000");
 	gtk_widget_set_usize (entry, len, 0);
 
 	/* Preset values */
@@ -4718,8 +4722,10 @@ workbook_setup_auto_calc (WorkbookControlGUI *wbcg)
 	wbcg->auto_expr_label = tmp = gtk_button_new_with_label ("");
 	GTK_WIDGET_UNSET_FLAGS (tmp, GTK_CAN_FOCUS);
 	gtk_widget_ensure_style (tmp);
-	gtk_widget_set_usize (tmp,
-		gdk_text_measure (gtk_style_get_font (tmp->style), "W", 1) * 15, -1);
+	gtk_widget_set_usize (tmp, gnm_measure_string (
+				      gtk_widget_get_pango_context (tmp),
+				      tmp->style->font_desc,
+				      "W") * 15, -1);
 	g_signal_connect (G_OBJECT (tmp),
 		"button_press_event",
 		G_CALLBACK (cb_select_auto_expr), wbcg);
@@ -4729,8 +4735,10 @@ workbook_setup_auto_calc (WorkbookControlGUI *wbcg)
 
 	wbcg->status_text = tmp = gtk_label_new ("");
 	gtk_widget_ensure_style (tmp);
-	gtk_widget_set_usize (tmp,
-		gdk_text_measure (gtk_style_get_font (tmp->style), "W", 1) * 15, -1);
+	gtk_widget_set_usize (tmp, gnm_measure_string (
+				      gtk_widget_get_pango_context (tmp),
+				      tmp->style->font_desc,
+				      "W") * 15, -1);
 	frame2 = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame2), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (frame2), tmp);
