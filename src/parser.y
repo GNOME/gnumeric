@@ -619,6 +619,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 function : STRING '(' arg_list ')' {
 		char const *name = $1->constant.value->v_str.val->str;
 		GnmFunc *f = gnm_func_lookup (name, state->pos->wb);
+		GnmExpr const *f_call = NULL;
 
 		$$ = NULL;
 
@@ -630,15 +631,16 @@ function : STRING '(' arg_list ')' {
 				h = gnm_func_placeholder_factory;
 
 			if (h)
-				$$ = register_expr_allocation (h (name, $3, NULL));
-		}
+				f_call = h (name, $3, NULL);
+		} else
+			f_call = gnm_expr_new_funcall (f, $3);
 
 		/* We're done with the function name.  */
 		unregister_allocation ($1); gnm_expr_unref ($1);
+		unregister_allocation ($3);
 
-		if (f) {
-			unregister_allocation ($3);
-			$$ = register_expr_allocation (gnm_expr_new_funcall (f, $3));
+		if (f_call) {
+			$$ = register_expr_allocation (f_call);
 		} else if (!$$) {
 			YYERROR;
 		}

@@ -1,3 +1,13 @@
+2002-12-30  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_WRITEACCESS) : patch small leak, and
+	  add a sanity failsafe.
+
+2002-12-29  Jody Goldberg <jody@gnome.org>
+
+	* ms-biff.c (ms_biff_put_new) : Use the canonical name that is
+	  available in glibc, and libiconv.
+
 2002-12-30  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-read.c (excel_read_workbook): Pass filename to

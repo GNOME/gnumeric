@@ -496,6 +496,14 @@ render_time (GString *target, HFRenderInfo *info, char const *args)
 	render_value_with_format (target, time_format, info);
 }
 
+static void
+render_file (GString *target, HFRenderInfo *info, char const *args)
+{
+	if (info->sheet != NULL && info->sheet->workbook != NULL)
+		g_string_append (target,
+			workbook_get_filename (info->sheet->workbook));
+}
+
 static struct {
 	char const *name;
 	void (*render)(GString *target, HFRenderInfo *info, char const *args);
@@ -505,6 +513,7 @@ static struct {
 	{ N_("pages"), render_pages },
 	{ N_("date"),  render_date  },
 	{ N_("time"),  render_time  },
+	{ N_("file"),  render_file  },
 	{ NULL },
 };
 

@@ -88,6 +88,8 @@ excel_write_string_len (guint8 const *str, unsigned *bytes)
 	guint8 const *p = str;
 	unsigned i = 0;
 
+	g_return_val_if_fail (str != NULL, 0);
+
 	for (; *p ; i++)
 		p = g_utf8_next_char (p);
 
@@ -3825,6 +3827,9 @@ excel_write_WRITEACCESS (BiffPut *bp)
 	unsigned len;
 	gchar *utf8_name = g_locale_to_utf8 (g_get_real_name (), -1, NULL, NULL, NULL);
 
+	if (utf8_name == NULL)
+		utf8_name = g_strdup ("");
+
 	ms_biff_put_var_next (bp, BIFF_WRITEACCESS);
 	if (bp->version >= MS_BIFF_V8) {
 		len = excel_write_string (bp, utf8_name, STR_TWO_BYTE_LENGTH);
@@ -3837,6 +3842,7 @@ excel_write_WRITEACCESS (BiffPut *bp)
 		ms_biff_put_var_write (bp, pad, 32 - len - 1);
 		ms_biff_put_commit (bp);
 	}
+	g_free (utf8_name);
 }
 
 static void

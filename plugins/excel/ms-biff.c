@@ -423,7 +423,7 @@ ms_biff_put_new (GsfOutput *output, MsBiffVersion version, int codepage)
 	bp->buf = g_malloc (bp->buf_len);
 
 	if (version >= MS_BIFF_V8) {
-		bp->convert = g_iconv_open ("UTF16LE", "UTF-8");
+		bp->convert = g_iconv_open ("UTF-16LE", "UTF-8");
 		bp->codepage = 1200;
 	} else {
 		bp->codepage = (codepage > 0)

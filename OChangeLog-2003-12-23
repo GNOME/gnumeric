@@ -1,3 +1,10 @@
+2002-12-30  Jody Goldberg <jody@gnome.org>
+
+	* src/parser.y (parser_sheet_by_name) : fix allocation handling of
+	  unknown functions.
+
+	* src/print-info.c (render_file) : add FILE
+
 2002-12-30  Jon K Hellan  <hellan@acm.org>
 
 	* src/application.c (gnumeric_application_setup_icons): Add
