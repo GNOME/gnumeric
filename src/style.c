@@ -252,7 +252,7 @@ font_init (void)
 			"Your fontmap file %s.\n"
 			"\n"
 			"If you still have no luck, please file a proper bug report (see\n"
-			"http://bugs.gnome.org) including the following extra items:\n"
+			"http://bugzilla.gnome.org) including the following extra items:\n"
 			"\n"
 			"1) The content of your fontmap file, if the file exists.\n"
 			"\t (typically located in %s)\n"

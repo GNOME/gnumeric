@@ -19,11 +19,8 @@
    <application>Gnumeric</application>, please visit the <ulink
    url="http://www.gnome.org/gnumeric" type="http">Gnumeric Web
    page</ulink>.  Please send all comments, suggestions, and bug
-   reports to the <ulink url="http://bugs.gnome.org" type="http">GNOME
-   bug tracking database</ulink>. (Instructions for submitting bug
-   reports can be found <ulink
-   url="http://bugs.gnome.org/Reporting.html" type="http">
-   on-line</ulink>.) If you are using
+   reports to the <ulink url="http://bugzilla.gnome.org" type="http">GNOME
+   bug tracking database</ulink>.  If you are using
    GNOME 1.1 or later, you can also use <application>Bug Report
    Tool</application> (<command>bug-buddy</command>), available in the
    <guisubmenu>Utilities</guisubmenu> submenu of <guimenu>Main
