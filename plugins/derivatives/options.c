@@ -301,7 +301,7 @@ func_opt_bs_vega (FunctionEvalInfo *ei, Value *argv[])
 }
 
 static const char *help_opt_bs_call = {
-	N_("@FUNCTION=opt_bs_call\n"
+	N_("@FUNCTION=OPT_BS_CALL\n"
 	   "@SYNTAX=OPT_BS_CALL(strike,price,volatility,days_to_maturity,"
 	   "rate)\n"
 	   "@DESCRIPTION="
