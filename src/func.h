@@ -50,6 +50,7 @@ void function_category_add_func (FunctionCategory *, FunctionDefinition *);
  * r for cell range
  * a for cell array
  * A for 'area': either range or array
+ * S for 'scalar': anything OTHER than an array or range
  * ? for any kind
  *  For optional arguments do:
  * "ff|ss" where the strings are optional

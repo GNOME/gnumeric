@@ -23,11 +23,10 @@ int const gnumeric_point_sizes [] = {
 void
 global_gnome_font_init (void)
 {
-	GnomeFontClass *gfc = gtk_type_class (gnome_font_get_type ());
 	int i;
 	GList *l, *ll;
 
-	l = gnome_font_family_list (gfc);
+	l = gnome_font_family_list ();
 
 	for (ll = l; ll; ll = ll->next){
 		gnumeric_font_family_list = g_list_insert_sorted (

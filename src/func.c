@@ -178,7 +178,7 @@ fn_def_new (FunctionCategory *category,
 	    char const *arg_names,
 	    char **help)
 {
-	static char const valid_tokens[] = "fsbraA?|";
+	static char const valid_tokens[] = "fsbraAS?|";
 	char const *ptr;
 	FunctionDefinition *fndef;
 
@@ -471,6 +471,17 @@ function_marshal_arg (FunctionEvalInfo *ei,
 					   &v->v_range.cell.b,
 					   ei->pos);
 		}
+		break;
+
+	case 'S':
+		if (v->type == VALUE_CELLRANGE) {
+			v = expr_implicit_intersection (ei->pos, v);
+			if (v == NULL)
+				break;
+		}
+		break;
+
+	default :
 		break;
 	}
 

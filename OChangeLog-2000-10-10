@@ -1,3 +1,19 @@
+2000-07-31  Jody Goldberg <jgoldberg@home.com>
+
+	* src/functions/fn-date.c (date_functions_ini) : Convert most of the
+	  routines to take 'Scalar' rather than '?' which did not handle
+	  ranges or arrays.
+
+	* src/dialogs/dialog-function-wizard.c (formula_guru_arg_new) : Handle
+	  'Scalar'
+
+	* src/func.c (function_marshal_arg) : Add 'S' scalar.
+
+2000-07-28  Jody Goldberg <jgoldberg@home.com>
+
+	* src/global-gnome-font.c (global_gnome_font_init) : Adjust to
+	  signature change for gnome_font_family_list.
+
 2000-07-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/parser.y (parse_string_as_value_or_name) : Check for names

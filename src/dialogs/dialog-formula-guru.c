@@ -406,6 +406,7 @@ formula_guru_arg_new (char * const name,
 	case 'r': txt = _("Range"); break;
 	case 'a': txt = _("Array"); break;
 	case 'A': txt = _("Range/Array"); break;
+	case 'S': txt = _("Scalar"); break;
 	case '?':
 	default: txt = _("Any");
 	}

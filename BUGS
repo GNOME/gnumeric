@@ -4,6 +4,10 @@ and longer term bugs.
 
 Release Critical
 ----------------
+- Amny of the Valye -> date routines do not handle error arguments properly.
+- expressions -> strings loose the format used to parse values.
+- saving the entered_text then parsing in locale C on restore is broken.
+- We should save per row/col maximums.
 - Changing the size of all rows/cols creates big xml files.
 - Saving xml should not rely on changing the textdomain to disable translation
   of TRUE/FALSE.
@@ -44,8 +48,7 @@ Long term breakage
 - The File->Print Preview icon is too big.  Use the stock version when the next
   release of gnome-libs is made. (tigert is adding to gnome-libs)
 
-- Names : Sheet local vs workbook local vs application global (does that exist ?)
-	: addresses not changing with row/col ins/del.
+- Names : addresses not changing with row/col ins/del.
 
 - Underline should scale with font size.  (Say, max (1, font->descent/4?)
   gnome-print has a function we could use for printing which returns the
@@ -58,7 +61,7 @@ Long term breakage
       Something more comprehensive is necessary.
 
 - Functions like SUMPRODUCT need to have better support for sparse ranges.
-  We should probably create synchroneously_walk_ranges.  (XL goes kaboom on
+  We should probably create synchronously_walk_ranges.  (XL goes kaboom on
   large ranges also, but we ought to be smarter.)
 
 Dialogs
@@ -73,10 +76,6 @@ Dialogs
     : Editing nested functions.  How best to express this.
     : Switching between multiple function at the same level.
     : Better communication and handling of parse errors.
-
-Sorting
--------
-    - Hidden rows/cols should not be sorted.
 
 Function Breakage
 -----------------
