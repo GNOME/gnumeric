@@ -217,12 +217,9 @@ void
 func_builtin_init (void)
 {
 	FunctionDefinition *def;
-	FunctionCategory *mathcat = function_get_category_with_translation
-		(mathcatname, _(mathcatname));
-	FunctionCategory *gnumericcat = function_get_category_with_translation
-		(gnumericcatname, _(gnumericcatname));
-	FunctionCategory *sheetcat = function_get_category_with_translation
-		(sheetcatname, _(sheetcatname));
+	FunctionCategory *mathcat = function_get_category (mathcatname);
+	FunctionCategory *gnumericcat = function_get_category (gnumericcatname);
+	FunctionCategory *sheetcat = function_get_category (sheetcatname);
 
 	def = function_add_nodes (mathcat, "sum",     0,
 				  N_("number,number,"),
@@ -248,9 +245,7 @@ static void
 shutdown_cat (const char *catname, GSList **funcs)
 {
 	GSList *tmp;
-
-	FunctionCategory *cat =
-		function_get_category_with_translation (catname, _(catname));
+	FunctionCategory *cat = function_get_category (catname);
 
 	for (tmp = *funcs; tmp; tmp = tmp->next) {
 		FunctionDefinition *def = tmp->data;

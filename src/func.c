@@ -127,6 +127,11 @@ function_category_compare (gconstpointer a, gconstpointer b)
 	g_return_val_if_fail (cat_a->display_name != NULL, 0);
 	g_return_val_if_fail (cat_b->display_name != NULL, 0);
 
+#if 0
+	str_a = g_utf8_casefold (cat_a->display_name->str, -1);
+	str_b = g_utf8_casefold (cat_b->display_name->str, -1);
+#endif
+
 	str_a = g_alloca (strlen (cat_a->display_name->str) + 1);
 	str_b = g_alloca (strlen (cat_b->display_name->str) + 1);
 	g_strdown (strcpy (str_a, cat_a->display_name->str));
@@ -138,7 +143,7 @@ function_category_compare (gconstpointer a, gconstpointer b)
 FunctionCategory *
 function_get_category (gchar const *name)
 {
-	return function_get_category_with_translation (name, NULL);
+	return function_get_category_with_translation (name, _(name));
 }
 
 FunctionCategory *
@@ -477,8 +482,7 @@ function_add_placeholder (char const *name, char const *type)
 	g_return_val_if_fail (func == NULL, func);
 
 	if (!unknown_cat)
-		unknown_cat = function_get_category_with_translation
-			(unknown_cat_name, _(unknown_cat_name));
+		unknown_cat = function_get_category (unknown_cat_name);
 
 	/*
 	 * TODO TODO TODO : should add a
