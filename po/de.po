@@ -35,8 +35,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.62cvs\n"
-"POT-Creation-Date: 2001-02-11 08:07+0100\n"
-"PO-Revision-Date: 2001-02-11 08:24+01:00\n"
+"POT-Creation-Date: 2001-02-11 20:09+0100\n"
+"PO-Revision-Date: 2001-02-11 20:18+01:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2816,9 +2816,8 @@ msgid "You cannot redefine a builtin name."
 msgstr "Einen Builtin-Namen können Sie nicht umdefinieren."
 
 #: src/dialogs/dialog-define-names.c:648
-#, fuzzy
 msgid "Could not create the Name Guru."
-msgstr "Konnte das Argument nicht auswerten"
+msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-function-wizard.c:398
 #, c-format
@@ -3259,7 +3258,8 @@ msgstr "Daten (von %s)"
 
 #: src/dialogs/dialog-stf.glade.h:3
 msgid ""
-"Actual processing will start at this line, any previous lines will be ignored"
+"Actual processing will start at this line, any previous lines will be "
+"ignored."
 msgstr ""
 "Die tatsächliche Verarbeitung wird bei dieser Zeile beginnen, alle "
 "vorangehenden\n"
@@ -3274,8 +3274,8 @@ msgid "Always (Both sides)"
 msgstr "Immer (beide Seiten)"
 
 #: src/dialogs/dialog-stf.glade.h:6
-msgid "Attempt to recognize columns in the text automatically"
-msgstr "Versuchen, die Spalten im Text automatisch zu erkennen"
+msgid "Attempt to recognize columns in the text automatically."
+msgstr "Versuchen, die Spalten im Text automatisch zu erkennen."
 
 #: src/dialogs/dialog-stf.glade.h:7
 msgid "Auto Column _Discovery"
@@ -3292,7 +3292,7 @@ msgstr "Ben_utzerdefiniert"
 #: src/dialogs/dialog-stf.glade.h:10
 msgid ""
 "Character interpreted as quote character. If the separation character is "
-"encountered within quotes it will be ignored"
+"encountered within quotes it will be ignored."
 msgstr ""
 "Zeichen, das als Quote-Zeichen (Anführungszeichen) interpretiert wird.\n"
 "Wenn das Trennzeichen innerhalb der Quote-Zeichen angetroffen wird, wird es\n"
@@ -3337,13 +3337,13 @@ msgid "Data type and number of lines"
 msgstr "Datentyp und Anzahl der Zeilen"
 
 #: src/dialogs/dialog-stf.glade.h:21
-msgid "Define the width of each column manually"
-msgstr "Die Breite jeder Spalte manuell festlegen"
+msgid "Define the width of each column manually."
+msgstr "Die Breite jeder Spalte manuell festlegen."
 
 #: src/dialogs/dialog-stf.glade.h:22
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
-"semicolon"
+"semicolon."
 msgstr ""
 "Die Spalten im Text sind durch ein Trennzeichen voneinander abgetrennt, "
 "z. B.\n"
@@ -3393,7 +3393,7 @@ msgstr "Trennstric_h (-)"
 msgid ""
 "Left click to create a new column, right click on a column border to delete "
 "an existing column or hold the left mouse button on a column border and drag "
-"to resize a column"
+"to resize a column."
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:34
@@ -3429,7 +3429,7 @@ msgid "Per column formatting"
 msgstr "Je Spalte formatieren"
 
 #: src/dialogs/dialog-stf.glade.h:43
-msgid "Processing ends at this line, any subsequent lines will be ignored"
+msgid "Processing ends at this line, any subsequent lines will be ignored."
 msgstr ""
 "Die Verarbeitung endet bei dieser Zeile; alle folgenden Zeilen werden "
 "ignoriert\n"
@@ -3448,12 +3448,12 @@ msgid "S_pace"
 msgstr "_Leerzeichen"
 
 #: src/dialogs/dialog-stf.glade.h:47
-msgid "See two successive separators as one"
-msgstr "Zwei aufeinander folgende Trennzeichen als eines sehen"
+msgid "See two successive separators as one."
+msgstr "Zwei aufeinander folgende Trennzeichen als eines sehen."
 
 #: src/dialogs/dialog-stf.glade.h:48
 msgid ""
-"See two successive text indicators as one that does not terminate the cell"
+"See two successive text indicators as one that does not terminate the cell."
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:49
@@ -3512,7 +3512,7 @@ msgstr "Beschneiden:"
 #: src/dialogs/dialog-stf.glade.h:60
 msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
-"should leave this at the default setting"
+"should leave this at the default setting."
 msgstr ""
 "Führende und anhängende Leerzeichen von jeder Spalte entfernen; wenn Sie "
 "sich\n"
@@ -4021,7 +4021,7 @@ msgid "Entire workbook"
 msgstr "Gesamtes Arbeitsbuch"
 
 #: src/dialogs/search-replace.glade.h:13
-msgid "Error behaviour"
+msgid "Error behavior"
 msgstr "Fehlerverhalten"
 
 #: src/dialogs/search-replace.glade.h:14
@@ -11698,8 +11698,8 @@ msgid "Enables some dependency related debugging functions"
 msgstr "Einige Diagnosefunktionen für Abhängigkeiten einschalten"
 
 #: src/main.c:101
-msgid "Enables some print debugging behaviour"
-msgstr "Einige Debug-Funktionen einschalten"
+msgid "Enables some print debugging behavior"
+msgstr "Ein Druck-Debug-Verhalten einschalten"
 
 #: src/main.c:104
 msgid "Exit immediately after loading the selected books (useful for testing)."
@@ -11715,7 +11715,7 @@ msgid "Enables debugging mesgs while reading excel functions"
 msgstr "Diagnosemeldungen beim Lesen von Excel-Funktionen einschalten"
 
 #: src/main.c:116
-msgid "Enables debugging mesgs while reading excel colours & patterns"
+msgid "Enables debugging mesgs while reading excel colors & patterns"
 msgstr "Diagnosemeldungen beim Lesen von Excel-Farben und -Mustern einschalten"
 
 #: src/main.c:120
@@ -11727,7 +11727,7 @@ msgid "Enables debugging mesgs while reading excel charts"
 msgstr "Diagnosemeldungen beim Lesen von Excel-Graphen einschalten"
 
 #: src/main.c:132
-msgid "Enables extra consistancy checking while reading ole files"
+msgid "Enables extra consistency checking while reading ole files"
 msgstr "Aktiviert zusätzliche Konsistenzprüfung beim Lesen von OLE-Dateien"
 
 #: src/main.c:160
@@ -11904,9 +11904,8 @@ msgid "Module file \"%s\" has invalid format."
 msgstr "Die Module-Datei »%s« hat ein ungültiges Format."
 
 #: src/plugin.c:1103
-#, fuzzy
 msgid "File doesn't contain \"init_plugin\" function."
-msgstr "Plugin muss die »init_plugin«-Funktion aufweisen."
+msgstr "Datei weist keine »init_plugin«-Funktion auf."
 
 #: src/plugin.c:1108
 #, fuzzy
@@ -13386,10 +13385,8 @@ msgid "Centers across the selected cells"
 msgstr "Über Auswahl zentrieren"
 
 #: src/gnumeric.xml.h:19
-#, fuzzy
 msgid "Centers the text in each selection"
-msgstr ""
-"Geben Sie eine Zeichenkette für die Formatierungen für jeden Abschnitt ein:"
+msgstr "Den Text bei allen Markierungen zentrieren"
 
 #: src/gnumeric.xml.h:20
 msgid "Change height of the selected rows"
@@ -13420,9 +13417,8 @@ msgid "Combo Box"
 msgstr ""
 
 #: src/gnumeric.xml.h:34
-#, fuzzy
 msgid "Copy the current selection to the clipboard"
-msgstr "Die Auswahl in die Zwischenablage kopieren"
+msgstr "Die aktuelle Markierung in die Zwischenablage kopieren"
 
 #: src/gnumeric.xml.h:35
 msgid "Copy the selection"
@@ -13472,9 +13468,8 @@ msgid "Create an arrow"
 msgstr "Einen Pfeil erzeugen"
 
 #: src/gnumeric.xml.h:53
-#, fuzzy
 msgid "Cut the selection"
-msgstr "_Auswahl automatisch einpasssen"
+msgstr "Die Markierung ausschneiden"
 
 #: src/gnumeric.xml.h:54
 msgid "Decrease Precision"
@@ -13526,7 +13521,6 @@ msgid "Format the selected cells as money"
 msgstr "Ausgewählte Zellen als Geldangabe formatieren"
 
 #: src/gnumeric.xml.h:76
-#, fuzzy
 msgid "Format the selected cells as percentages"
 msgstr "Die ausgewählten Zellen als Prozentwert formatieren"
 
@@ -13608,9 +13602,8 @@ msgid "Italicize"
 msgstr "Kursiv"
 
 #: src/gnumeric.xml.h:110
-#, fuzzy
 msgid "Left justifies the contents of each cell"
-msgstr "Zelleninhalt links ausrichten"
+msgstr "Den Inhalt jeder Zelle links ausrichten"
 
 #: src/gnumeric.xml.h:114
 msgid "Make any hidden columns in the selection visible"
@@ -13708,9 +13701,8 @@ msgid "Save the current file"
 msgstr "Die aktuelle Datei speichern"
 
 #: src/gnumeric.xml.h:162
-#, fuzzy
 msgid "Save the current file with a different name"
-msgstr "Die aktuelle Markierung verwenden, um Namen zu erzeugen."
+msgstr "Die aktuelle Datei unter einem anderen Namen speichern."
 
 #: src/gnumeric.xml.h:163
 msgid "Save the current workbook"

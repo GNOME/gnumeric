@@ -1,5 +1,7 @@
 2001-02-11  Karl Eichwalder  <ke@suse.de>
 
+	* de.po: Resolve some fuzzies.
+
 	* en_GB.po: Translate 'behavior'.
 	* en_AU.po: New file (according to Jody's and Phillip's
 	reminder).
