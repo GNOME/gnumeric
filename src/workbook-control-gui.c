@@ -2363,11 +2363,13 @@ static GnomeUIInfo workbook_menu_format_sheet [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("Re-_Order Sheets..."),
 		N_("Change the order the sheets are displayed"),
 		cb_sheet_order),
+		
+	/* Default <Ctrl-`> (control backquote) to insert toggle formula/value display */
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Display _Formulas"),
 		N_("Display the value of a formula or the formula itself"),
 		cb_sheet_pref_display_formulas, NULL, NULL,
-		GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
+		GNOME_APP_PIXMAP_NONE, NULL, '`', GDK_CONTROL_MASK, NULL
 	},
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Hide _Zeros"),

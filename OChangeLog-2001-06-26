@@ -1,3 +1,14 @@
+2001-06-18  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet):
+	Support for end and ctrl+end.
+
+	* src/workbook-control-gui.c: Add accelerator for
+	formula/value toggling.
+
+	* src/GNOME_Gnumeric.xml: Add missing accelerator for
+	goto cell and new accelerator for formula/value toggling.
+
 2001-06-18  Karl Eichwalder  <ke@suse.de>
 
 	* src/main.c (gnumeric_main): Add missing exclamation mark.

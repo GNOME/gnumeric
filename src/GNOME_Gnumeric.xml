@@ -97,7 +97,8 @@
 
 	<cmd name="SheetDisplayFormulas"	type="toggle" state="0"
 	    _label="Display _Formulas"
-	    _tip="Display the value of a formula or the formula itself" />
+	    _tip="Display the value of a formula or the formula itself"
+	    accel="*Control*grave"/>
 
 	<cmd name="SheetHideZeros"		type="toggle" state="0"
 	    _label="Hide _Zeros"
@@ -244,7 +245,8 @@
 
 	    <menuitem name="EditGoto" verb=""
 		_label="_Goto cell..."
-		_tip="Jump to a specified cell"/>
+		_tip="Jump to a specified cell"
+		accel="*Control*g"/>
 
 	    <menuitem name="EditRecalc" verb=""
 		_label="Recalculate"
