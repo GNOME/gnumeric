@@ -320,15 +320,15 @@ trim_spaces_inplace (char *field, StfParseOptions_t const *parseoptions)
 
 	if (!s) return;
 
-	if (isspace (*s) && parseoptions->trim_spaces & TRIM_TYPE_LEFT) {
+	if (isspace ((unsigned char)*s) && parseoptions->trim_spaces & TRIM_TYPE_LEFT) {
 		char *tmp = s;
-		while (isspace (*tmp)) tmp++;
+		while (isspace ((unsigned char)*tmp)) tmp++;
 		strcpy (s, tmp);
 	}
 
 	if (parseoptions->trim_spaces & TRIM_TYPE_RIGHT) {
 		int len = strlen (s);
-		while (len && isspace (s[len - 1]))
+		while (len && isspace ((unsigned char)(s[len - 1])))
 			s[--len] = 0;
 	}
 }
@@ -875,7 +875,7 @@ stf_parse_is_valid_data (char const *data)
 				return (char *)s;
 			s += len;
 		} else {
-			if (!isprint (*s) && !isspace (*s))
+			if (!isprint ((unsigned char)*s) && !isspace ((unsigned char)*s))
 				return (char *)s;
 			s++;
 		}

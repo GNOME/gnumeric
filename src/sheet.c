@@ -3226,9 +3226,9 @@ sheet_name_quote (char const *name_unquoted)
 	g_return_val_if_fail (name_unquoted != NULL, NULL);
 
 	/* count number of embedded quotes and see if we need to quote */
-	needs_quotes = isdigit (*ptr);
+	needs_quotes = isdigit ((unsigned char)*ptr);
 	for ( ; *ptr ; ptr++) {
-		if (!isalnum (*ptr))
+		if (!isalnum ((unsigned char)*ptr))
 			needs_quotes = TRUE;
 		if (*ptr == '\'' || *ptr == '\\')
 			quotes_embedded++;

@@ -1,7 +1,13 @@
+2002-02-12  Morten Welinder  <terra@diku.dk>
+
+	* src/stf-parse.c (trim_spaces_inplace): Fix isspace usage.
+	(stf_parse_is_valid_data): Ditto.
+	* src/sheet.c (sheet_name_quote): Ditto.
+
 2002-02-11  Jon K Hellan  <hellan@acm.org>
 
-	Support per sheet grid color. Needed for correct XL import.
-	
+	Support per-sheet grid color. Needed for correct XL import.
+
 	* src/style-color.[ch] (color_equal): Rename to style_color_equal
 	and export.
 
@@ -89,7 +95,7 @@
 
 	* src/analysis-tools.c (anova_single_factor_tool) : be more
 	  careful with precision.
-	
+
 2002-02-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/rangefunc.c (range_sum) : improve precision through 2 pass
@@ -241,7 +247,7 @@
 
 	* src/analysis-tools.h : add `warning' to GENERIC_TOOL_STATE
 	  and some clean-up
-	
+
 2002-01-31  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_focus_cur_scg) : warning
@@ -317,7 +323,7 @@
 
 2002-01-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/workbook-control-gui.c (sheet_action_rename_sheet) : move most 
+	* src/workbook-control-gui.c (sheet_action_rename_sheet) : move most
 	  code into dialog_sheet_name and friends
 	(cb_sheet_change_name) : ditto, also rename to cb_sheet_name
 
@@ -355,27 +361,27 @@
 
 2002-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/consolidate.c (consolidate_set_destination) : accept 
+	* src/consolidate.c (consolidate_set_destination) : accept
 	  value instead of range
 	(consolidate_add_source) : ditto
 	* src/consolidate.h (consolidate_set_destination) : change
 	  parameters
 	(consolidate_add_source) : ditto
-	
+
 2002-01-27  Seth Nickell  <snickell@stanford.edu>
 
 	* Makefile.am:
 
 	Install .desktop file into prefix/share/applications,
 	the new location for .desktop files in GNOME 2.
-	
+
 	* gnumeric.desktop.in:
 
 	Add appropriate categories fields.
 
 	Add a functional description to match the GNOME 2
 	HIG.
-	
+
 2002-01-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gui_util.c (gnumeric_destroy_dialog) : new callback
@@ -394,25 +400,25 @@
 	  gnumeric_notice
 	(gnumeric_dialog_run) : remove warning
 	* src/gui-util.h (gnumeric_notice_nonmodal) : new
-	
+
 2002-01-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/gui-util.c (entry_to_float) : 
+	* src/gui-util.c (entry_to_float) :
 	  moved here from dialogs/dialog-analysis-tools.c
 	(entry_to_int) : ditto
 	(float_to_entry) : ditto
 	(int_to_entry) : ditto
-	
-	* src/gui-util.h (entry_to_float) new function (used to be static) 
+
+	* src/gui-util.h (entry_to_float) new function (used to be static)
 	(entry_to_int) : ditto
 	(float_to_entry) : ditto
 	(int_to_entry) : ditto
 
 2002-01-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* item-grid.c (item_grid_event) : don't scroll at end of formula 
+	* item-grid.c (item_grid_event) : don't scroll at end of formula
 	  range selection (http://bugzilla.gnome.org/show_bug.cgi?id=63485)
-	
+
 2002-01-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gui-util.c (gnumeric_dialog_run) : use GTK functions
@@ -423,7 +429,7 @@
 	* src/style.c : ditto
 	* src/workbook-cmd-format.c : ditto
 	* src/workbook-control-gui.c : ditto
-	
+
 2002-01-25  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-control-gui.c (scg_context_menu) : fix the icon names.
@@ -541,7 +547,7 @@
 	* Makefile.am: Added omf-install/
 	* omf-install: Added directory for OMF stuff
 	* omf-install/Makefile.am: Copied that in
-	
+
 2002-01-22  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* README:
