@@ -5,10 +5,11 @@ Miguel:
 
 Jody:
 	* Improve inter{sheet,book} references.
-	* Undo.
+	* Beginnings of Undo.
 	* Row/Col hiding.
 	* Keep cursor visible, Add Alt-Pg{Up,down}
 	* Clipboard, Selection, & border fixes.
+	* Row/Col header redraw improvements.
 
 Morten:
 	* Revamp the memory handling of the parser.
