@@ -1,7 +1,12 @@
+2004-03-05  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-file.c (gui_file_save_as): We no longer need to show
+	extra-widgets in the file chooser outselves.
+
 2004-03-05  Christian Neumair  <chris@gnome-de.org>
 
-	* src/gui-file.c: free from deprecated GtkOptionMenu, use GtkComboBox
-	  instead.
+	* src/gui-file.c: free from deprecated GtkOptionMenu, use
+	  GtkComboBox instead.
 
 2004-03-04  Jody Goldberg <jody@gnome.org>
 

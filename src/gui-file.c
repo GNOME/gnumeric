@@ -255,7 +255,6 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 		gtk_label_set_mnemonic_widget (GTK_LABEL (data.charmap_label),
 					       charmap_selector);
 
-		gtk_widget_show_all (box);
 		gtk_file_chooser_set_extra_widget (fsel, box);
 	}
 
@@ -609,7 +608,6 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (format_combo), FALSE, TRUE, 6);
 		gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (format_combo));
 
-		gtk_widget_show_all (box);
 		gtk_file_chooser_set_extra_widget (fsel, box);
 	}
 
