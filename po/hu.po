@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.70\n"
 "POT-Creation-Date: 2003-07-09 16:04+0200\n"
-"PO-Revision-Date: 2003-07-12 23:09+0200\n"
+"PO-Revision-Date: 2003-07-13 23:59+0200\n"
 "Last-Translator: András Tímár <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -25970,7 +25970,7 @@ msgstr "égszínkék #2"
 
 #: src/widgets/color-palette.c:584 src/widgets/color-palette.c:623
 msgid "purple"
-msgstr "bíbor"
+msgstr "lila"
 
 #: src/widgets/color-palette.c:585
 msgid "gray"
