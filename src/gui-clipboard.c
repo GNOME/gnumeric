@@ -284,7 +284,7 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data,
 		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING, 8,
 					(char *) buffer, buffer_size);
 
-		g_free (buffer);
+		xmlFree (buffer);
 	} else {
 		char *rendered_selection = cell_region_render_ascii (clipboard);
 

@@ -1,3 +1,10 @@
+2000-11-16  Michael Meeks  <michael@helixcode.com>
+
+	* src/xml-io.h: add xmlmemory.h
+
+	* src/gui-clipboard.c (x_selection_handler): xmlFree
+	not g_free.
+
 2000-11-16  Morten Welinder  <terra@diku.dk>
 
 	* plugins/Makefile.am (GDA_DIR): Blank.

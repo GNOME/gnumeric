@@ -77,11 +77,16 @@ col_row_name (Sheet *sheet, int col, int row, gboolean header, gboolean is_cols)
 		if (cell)
 			str = cell_get_rendered_text (cell);
 		else if (is_cols)
-			str = strdup (col_name (col));
+			str = g_strdup (col_name (col));
 		else
-			str = g_strdup_printf ("%d", row + 1);
-	} else
-		str = g_strdup_printf ("%d", row + 1);
+			str = g_strdup_printf (_("Row %d"), row + 1);
+	} else {
+		if (is_cols)
+			str = g_strdup (col_name (col));
+		else
+			str = g_strdup_printf (_("Row %d"), row + 1);
+	}
+
 	return str;
 }
 
@@ -97,25 +102,24 @@ col_row_name_list (Sheet *sheet, int start, int end,
 		str  = is_cols
 			? col_row_name (sheet, i, index, header, TRUE)
 			: col_row_name (sheet, index, i, header, FALSE);
-		list = g_list_append (list, (gpointer) str);
+		list = g_list_append (list, str);
 	}
+
 	return list;
 }
 
 static gint
 string_pos_in_list (gchar *str, GList *list)
 {
-	gchar *item;
-	gint length;
-	int i;
+	GList *l;
+	int i = 0;
 
-	length = g_list_length(list);
-	for (i = 0; i < length; i++) {
-		item = (gchar *)g_list_nth_data(list, i);
-		if (!strcmp (str, item)) {
+	for (l = list; l; l = l->next) {
+		if (!strcmp (str, l->data))
 			return i;
-		}
+		i++;
 	}
+
 	return -1;
 }
 
@@ -299,17 +303,17 @@ dialog_cell_sort_ok (SortFlow *sf)
 		if (strlen (txt)) {
 			division = -1;
 			if (sf->top) {
-				if (sf->header) {
-					division = divstart + string_pos_in_list(txt, sf->colnames_header);
-				} else {
+				if (sf->header)
+					division = divstart + string_pos_in_list (
+						txt, sf->colnames_header);
+				else
 					division = parse_col_name (txt, NULL);
-				}
 			} else {
-				if (sf->header) {
-					division = divstart + string_pos_in_list(txt, sf->rownames_header);
-				} else {
+				if (sf->header)
+					division = divstart + string_pos_in_list (
+						txt, sf->rownames_header);
+				else
 					division = atoi(txt) - 1;
-				}
 			}
 			if (division < divstart || division > divend) {
 				gnumeric_notice (sf->wbcg,
@@ -410,23 +414,24 @@ dialog_cell_sort_header_toggled (GtkWidget *widget, SortFlow *sf)
 			if (sf->top)
 				gtk_combo_set_popdown_strings
 					(GTK_COMBO (sf->clauses [i]->rangetext),
-					 g_list_copy (sf->colnames_header));
+					 sf->colnames_header);
 			else
 				gtk_combo_set_popdown_strings
 					(GTK_COMBO (sf->clauses [i]->rangetext),
-					 g_list_copy (sf->rownames_header));
+					 sf->rownames_header);
 		} else {
 			if (sf->top)
 				gtk_combo_set_popdown_strings
 					(GTK_COMBO (sf->clauses [i]->rangetext),
-					 g_list_copy (sf->colnames_plain));
+					 sf->colnames_plain);
 			else
 				gtk_combo_set_popdown_strings
 					(GTK_COMBO (sf->clauses [i]->rangetext),
-					 g_list_copy (sf->rownames_plain));
+					 sf->rownames_plain);
 		}
 		if (i > 0)
-			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (sf->clauses [i]->rangetext)->entry), "");
+			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (
+				sf->clauses [i]->rangetext)->entry), "");
 	}
 }
 

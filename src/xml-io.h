@@ -12,6 +12,7 @@
 #include "sheet.h"
 #include "sheet-object.h"
 #include "gnome-xml/tree.h"
+#include "gnome-xml/xmlmemory.h"
 
 typedef enum
 {

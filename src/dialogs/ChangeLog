@@ -1,3 +1,13 @@
+2000-11-16  Michael Meeks  <michael@helixcode.com>
+
+	* dialog-cell-sort.c (dialog_cell_sort_header_toggled): 
+	remove redundant g_list_copies.
+	(string_pos_in_list): re-write, was horrendoulsy inefficient.
+	(col_row_name_list): upd.
+	(col_row_name): g_strdup not strdup, gack, make it output
+	sensible column names again as well, and Row-%d instead of just
+	a number.
+
 2000-11-15  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-cell-sort.c (col_row_name) : merged from column_name, row_name.
