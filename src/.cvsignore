@@ -3,6 +3,7 @@ Makefile
 .deps
 .libs
 gnumeric
+gnumeric-corba
 test-format
 test-parser
 parser.c
