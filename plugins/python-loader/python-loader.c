@@ -522,14 +522,14 @@ call_python_function_args (FunctionEvalInfo *ei, Value **args)
 }
 
 static Value *
-call_python_function_nodes (FunctionEvalInfo *ei, GList *expr_tree_list)
+call_python_function_nodes (FunctionEvalInfo *ei, ExprList *expr_tree_list)
 {
 	PluginService *service;
 	ServiceLoaderDataFunctionGroup *loader_data;
 	PyObject *python_fn;
 	Value **values;
 	gint n_args, i;
-	GList *l;
+	ExprList *l;
 	Value *ret_value;
 
 	g_return_val_if_fail (ei != NULL, NULL);
@@ -540,7 +540,7 @@ call_python_function_nodes (FunctionEvalInfo *ei, GList *expr_tree_list)
 	python_fn = PyDict_GetItemString (loader_data->python_fn_info_dict,
 	                                  (gchar *) function_def_get_name (ei->func_def));
 
-	n_args = g_list_length (expr_tree_list);
+	n_args = expr_list_length (expr_tree_list);
 	values = g_new (Value *, n_args);
 	for (i = 0, l = expr_tree_list; l != NULL; i++, l = l->next) {
 		values[i] = expr_eval (l->data, ei->pos, EVAL_PERMIT_NON_SCALAR);
