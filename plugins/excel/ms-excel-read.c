@@ -19,9 +19,11 @@
 #include "gnome-xml/parser.h"
 #include "color.h"
 #include "sheet-object.h"
+#include "style.h"
 
 #include "ms-ole.h"
 #include "ms-biff.h"
+#include "ms-formula.h"
 #include "ms-excel.h"
 
 #define STRNPRINTF(ptr,n) { int xxxlp; printf ("'") ; for (xxxlp=0;xxxlp<(n);xxxlp++) printf ("%c", (ptr)[xxxlp]) ; printf ("'\n") ; }
@@ -37,20 +39,6 @@ static char *ms_get_biff_text (BYTE *ptr, int length)
   return ans ;
 }
 
-// Pass this a BIFF_QUERY *
-#define BIFF_GETROW(p)      (GETWORD(p->data + 0))
-#define BIFF_GETCOL(p)      (GETWORD(p->data + 2))
-#define BIFF_GETXFREC(p)    (GETWORD(p->data + 4))
-#define BIFF_GETSTRLEN(p)   (GETWORD(p->data + 6))
-
-typedef struct _BIFF_BOUNDSHEET_DATA
-{
-  LONG streamStartPos ;
-  eBiff_filetype type ;
-  eBiff_hidden   hidden ;
-  char *name ;
-} BIFF_BOUNDSHEET_DATA ;
-
 static BIFF_BOUNDSHEET_DATA *new_biff_boundsheet_data (BIFF_QUERY *q, eBiff_version ver)
 {
   BIFF_BOUNDSHEET_DATA *ans = (BIFF_BOUNDSHEET_DATA *)malloc (sizeof(BIFF_BOUNDSHEET_DATA)) ;
@@ -62,8 +50,8 @@ static BIFF_BOUNDSHEET_DATA *new_biff_boundsheet_data (BIFF_QUERY *q, eBiff_vers
       printf ("Unknown BIFF Boundsheet spec. Assuming same as Biff7 FIXME\n") ;
       ver = eBiffV7 ;
     }
-  ans->streamStartPos = GETLONG(q->data) ;
-  switch (GETBYTE(q->data+4))
+  ans->streamStartPos = BIFF_GETLONG(q->data) ;
+  switch (BIFF_GETBYTE(q->data+4))
     {
     case 00:
       ans->type = eBiffTWorksheet ;
@@ -78,11 +66,11 @@ static BIFF_BOUNDSHEET_DATA *new_biff_boundsheet_data (BIFF_QUERY *q, eBiff_vers
       ans->type = eBiffTVBModule ;
       break;
     default:
-      printf ("Unknown sheet type : %d\n", GETBYTE(q->data+4)) ;
+      printf ("Unknown sheet type : %d\n", BIFF_GETBYTE(q->data+4)) ;
       ans->type = eBiffTUnknown ;
       break ;
     }
-  switch ((GETBYTE(q->data+5)) & 0x3)
+  switch ((BIFF_GETBYTE(q->data+5)) & 0x3)
     {
     case 00:
       ans->hidden = eBiffHVisible ;
@@ -94,18 +82,18 @@ static BIFF_BOUNDSHEET_DATA *new_biff_boundsheet_data (BIFF_QUERY *q, eBiff_vers
       ans->hidden = eBiffHVeryHidden ;
       break ;
     default:
-      printf ("Unknown sheet hiddenness %d\n", (GETBYTE(q->data+4)) & 0x3) ;
+      printf ("Unknown sheet hiddenness %d\n", (BIFF_GETBYTE(q->data+4)) & 0x3) ;
       ans->hidden = eBiffHVisible ;
       break ;
     }
   if (ver==eBiffV8)
     {
-      int strlen = GETWORD(q->data+6) ;
+      int strlen = BIFF_GETWORD(q->data+6) ;
       ans->name = ms_get_biff_text (q->data+8, strlen) ;
     }
   else
     {
-      int strlen = GETBYTE(q->data+6) ;
+      int strlen = BIFF_GETBYTE(q->data+6) ;
       ans->name = ms_get_biff_text (q->data+7, strlen) ;
     }
   printf ("Blocksheet : '%s', %d:%d offset %lx\n", ans->name, ans->type, ans->hidden, ans->streamStartPos) ;
@@ -127,9 +115,9 @@ typedef struct _BIFF_XF_DATA
   eBiff_xftype     xftype ;           // -- Very important field...
   eBiff_format     format ;
   WORD             parentstyle ;
-  eBiff_alignment  alignment ;
+  StyleHAlignFlags halign ;
+  StyleVAlignFlags valign ;
   eBiff_wrap       wrap ;
-  eBiff_vert_align valign ;
   BYTE             rotation ;
   eBiff_eastern    eastern ;
   BYTE                     border_color[4] ; // Array [eBiff_direction]
@@ -142,16 +130,55 @@ typedef struct _BIFF_XF_DATA
 } BIFF_XF_DATA ;
 
 
+static void ms_excel_set_cell_xf(MS_EXCEL_SHEET *sheet, Cell *cell, int xfidx)
+{
+  GList *ptr ;
+  int cnt ;
+
+  if (xfidx == 0)
+    {
+      printf ("Normal cell formatting\n") ;
+      return ;
+    }
+  if (xfidx == 15)
+    {
+      printf ("Default cell formatting\n") ;
+      return ;
+    }
+  ptr = g_list_first (sheet->wb->XF_records) ;
+  printf ("Looking for %d\n", xfidx) ;
+  cnt =  16+5 ; // Magic number ... :-)
+  while (ptr)
+    {
+      BIFF_XF_DATA *xf = ptr->data ;
+      if (xf->xftype != eBiffXCell)
+	{
+	  ptr = ptr->next ;
+	  continue ;
+	}
+      if (cnt == xfidx) // Well set it up then ! FIXME: hack !
+	{
+	  printf ("Found the style !\n") ;
+	  cell_set_alignment (cell, xf->halign, xf->valign, ORIENT_HORIZ, 1) ;
+	  return ;
+	}
+      //      printf ("Checking %d\n", cnt) ;
+      cnt++ ;
+      ptr = ptr->next ;
+    }
+  printf ("No XF record for %d found :-(\n", xfidx) ;
+}
+
 // See S59E1E.HTM !
 static BIFF_XF_DATA *new_biff_xf_data (BIFF_QUERY *q, eBiff_version ver)
 {
   BIFF_XF_DATA *xf = (BIFF_XF_DATA *)malloc (sizeof(BIFF_XF_DATA)) ;
   LONG data, subdata ;
       
-  xf->font_idx  = GETWORD(q->data) ;
-  xf->format_idx= GETWORD(q->data+2) ;
+  xf->font_idx  = BIFF_GETWORD(q->data) ;
+  xf->format_idx= BIFF_GETWORD(q->data+2) ;
 
-  data          = GETWORD(q->data+4) ;
+  data          = BIFF_GETWORD(q->data+4) ;
   xf->locked    = (data&0x0001)?eBiffLLocked:eBiffLUnlocked ;
   xf->hidden    = (data&0x0002)?eBiffHHidden:eBiffHVisible ;
   xf->xftype    = (data&0x0004)?eBiffXStyle:eBiffXCell ;
@@ -159,14 +186,22 @@ static BIFF_XF_DATA *new_biff_xf_data (BIFF_QUERY *q, eBiff_version ver)
   xf->parentstyle = (data>>4) ;
   
   
-  data          = GETWORD(q->data+6) ;
-  xf->alignment = (data&0x0007) ;
+  data          = BIFF_GETWORD(q->data+6) ;
+  subdata       = data&0x0007 ;
+  xf->halign    = ( ((subdata == 0) & HALIGN_GENERAL) |
+		    ((subdata == 1) & HALIGN_LEFT) |
+		    ((subdata == 2) & HALIGN_CENTER) |
+		    ((subdata == 3) & HALIGN_RIGHT) |
+		    ((subdata == 4) & HALIGN_FILL) |
+		    ((subdata == 5) & HALIGN_JUSTIFY)) ;
+    //		    ((subdata == 6) & HALIGN_CENTREACROSSSELECTION) |
   xf->wrap      = (data&0x0008)?eBiffWWrap:eBiffWNoWrap ;
   subdata       = (data&0x0070)>>4 ;
-  xf->valign    = ( ((subdata == 0) & eBiffVAtop) |
-		    ((subdata == 1) & eBiffVAcentre) |
-		    ((subdata == 2) & eBiffVAbottom) |
-		    ((subdata == 3) & eBiffVAjustify) ) ;
+
+  xf->valign    = ( ((subdata == 0) & VALIGN_TOP) |
+		    ((subdata == 1) & VALIGN_CENTER) |
+		    ((subdata == 2) & VALIGN_BOTTOM) |
+		    ((subdata == 3) & VALIGN_JUSTIFY) ) ;
   // FIXME: ignored bit 0x0080
   if (ver == eBiffV8)
       xf->rotation  = (data>>8) ;
@@ -182,7 +217,7 @@ static BIFF_XF_DATA *new_biff_xf_data (BIFF_QUERY *q, eBiff_version ver)
   if (ver == eBiffV8)
     {
       // FIXME: Got bored and stop implementing everything, there is just too much !
-      data          = GETWORD(q->data+8) ;
+      data          = BIFF_GETWORD(q->data+8) ;
       subdata       = (data&0x00C0)>>10 ;
       xf->eastern   = ( ((subdata == 0) & eBiffEContext) |
 		        ((subdata == 1) & eBiffEleftToRight) |
@@ -191,7 +226,7 @@ static BIFF_XF_DATA *new_biff_xf_data (BIFF_QUERY *q, eBiff_version ver)
   
   if (ver == eBiffV8) // Very different now !
     {
-      data          = GETWORD(q->data+10) ;
+      data          = BIFF_GETWORD(q->data+10) ;
       subdata       = data ;
       xf->border_line[eBiffDirLeft]    = (subdata&0xf) ;
       subdata = subdata>>4 ;
@@ -202,7 +237,7 @@ static BIFF_XF_DATA *new_biff_xf_data (BIFF_QUERY *q, eBiff_version ver)
       xf->border_line[eBiffDirBottom]  = (subdata&0xf) ;
       subdata = subdata>>4 ;
 
-      data          = GETWORD(q->data+12) ;
+      data          = BIFF_GETWORD(q->data+12) ;
       subdata       = data ;
       xf->border_color[eBiffDirLeft]   = (subdata&0x7f) ;
       subdata = subdata >> 7 ;
@@ -212,7 +247,7 @@ static BIFF_XF_DATA *new_biff_xf_data (BIFF_QUERY *q, eBiff_version ver)
 				 ((subdata == 2) & eBiffBODiagUp) |
 				 ((subdata == 3) & eBiffBODiagBoth) ) ;
 
-      data          = GETLONG(q->data+14) ;
+      data          = BIFF_GETLONG(q->data+14) ;
       subdata       = data ;
       xf->border_color[eBiffDirTop]    = (subdata&0x7f) ;
       subdata = subdata >> 7 ;
@@ -221,23 +256,23 @@ static BIFF_XF_DATA *new_biff_xf_data (BIFF_QUERY *q, eBiff_version ver)
       xf->border_linestyle = (data&0x01e00000)>>21 ;
       xf->fill_pattern_idx = (data&0xfc000000)>>26 ;
 
-      data            = GETWORD(q->data+18) ;
+      data            = BIFF_GETWORD(q->data+18) ;
       xf->foregnd_col = (data&0x007f) ;
       xf->backgnd_col = (data&0x3f80)>>7 ;
     }
   else
     {
-      data            = GETWORD(q->data+8) ;
+      data            = BIFF_GETWORD(q->data+8) ;
       xf->foregnd_col = (data&0x007f) ;
       xf->backgnd_col = (data&0x1f80)>>7 ;
 
-      data                 = GETWORD(q->data+10) ;
+      data                 = BIFF_GETWORD(q->data+10) ;
       xf->fill_pattern_idx = data&0x03f ;
       // Luckily this maps nicely onto the new set.
       xf->border_line[eBiffDirBottom]  = (data&0x1c0)>>6 ;
       xf->border_color[eBiffDirBottom] = (data&0xfe00)>>9 ;
 
-      data            = GETWORD(q->data+12) ;
+      data            = BIFF_GETWORD(q->data+12) ;
       subdata         = data ;
       xf->border_line[eBiffDirTop]     = (subdata&0x07) ;
       subdata = subdata >> 3 ;
@@ -247,7 +282,7 @@ static BIFF_XF_DATA *new_biff_xf_data (BIFF_QUERY *q, eBiff_version ver)
       subdata = subdata >> 3 ;
       xf->border_color[eBiffDirTop]    = subdata ;
 
-      data            = GETWORD(q->data+14) ;
+      data            = BIFF_GETWORD(q->data+14) ;
       subdata         = data ;
       xf->border_color[eBiffDirLeft]   = (subdata&0x7f) ;
       subdata = subdata >> 7 ;
@@ -261,36 +296,26 @@ static void free_biff_xf_data (BIFF_XF_DATA *d)
   free (d) ;
 }
 
-typedef struct _MS_EXCEL_SHEET
-{
-  Sheet *gnum_sheet ;
-  struct _MS_EXCEL_WORKBOOK *wb ;
-} MS_EXCEL_SHEET ;
-
-typedef struct _MS_EXCEL_WORKBOOK
-{
-  GList *boundsheet_data ;
-  GList *XF_records ;
-  GList *excel_sheets ;
-  // Gnumeric parallel workbook
-  Workbook *gnum_wb ;
-} MS_EXCEL_WORKBOOK ;
-
-static MS_EXCEL_SHEET *new_ms_excel_sheet (MS_EXCEL_WORKBOOK *wb, char *name)
+static MS_EXCEL_SHEET *new_ms_excel_sheet (MS_EXCEL_WORKBOOK *wb, eBiff_version ver, char *name)
 {
   MS_EXCEL_SHEET *ans = (MS_EXCEL_SHEET *)malloc(sizeof(MS_EXCEL_SHEET)) ;
   ans->gnum_sheet = sheet_new (wb->gnum_wb, name) ;
-  ans->wb = wb ;
+  ans->wb  = wb ;
+  ans->ver = ver ;
   return ans ;
 }
-static void ms_excel_sheet_insert (MS_EXCEL_SHEET *sheet, int col, int row, char *text)
+
+void ms_excel_sheet_insert (MS_EXCEL_SHEET *sheet, int xfidx, int col, int row, char *text)
 {
   Cell *cell ;
   if (!(   (cell = sheet_cell_get (sheet->gnum_sheet, col, row))
 	 ||(cell = sheet_cell_new (sheet->gnum_sheet, col, row))))
     printf ("No cell error at [%d, %d]\n", col, row) ;
   else
-    cell_set_text_simple(cell, text) ;
+    {
+      cell_set_text_simple(cell, text) ;
+      ms_excel_set_cell_xf(sheet, cell, xfidx) ;
+    }
 }
 
 static void free_ms_excel_sheet (MS_EXCEL_SHEET *ptr)
@@ -337,7 +362,7 @@ static void free_ms_excel_workbook (MS_EXCEL_WORKBOOK *wb)
   g_list_free (wb->XF_records) ;
 }
 
-static void ms_excel_read_cell  (BIFF_QUERY *q, MS_EXCEL_SHEET *sheet, eBiff_version ver)
+static void ms_excel_read_cell  (BIFF_QUERY *q, MS_EXCEL_SHEET *sheet)
 {
   Cell *cell ;
   
@@ -348,28 +373,28 @@ static void ms_excel_read_cell  (BIFF_QUERY *q, MS_EXCEL_SHEET *sheet, eBiff_ver
     {
     case BIFF_BLANK:      // FIXME: a cell with just XF info, but no XF yet :-)
       printf ("Cell [%d, %d] XF = %x\n", BIFF_GETCOL(q), BIFF_GETROW(q),
-	      BIFF_GETXFREC(q)) ;
+	      BIFF_GETXF(q)) ;
       break ;
     case BIFF_MULBLANK:   // FIXME: S95DA7.HTM - Confusing !
       printf ("Cells in row %d are blank starting at col %d until col %d\n",
-	      BIFF_GETROW(q), GETWORD(q->data+2), GETWORD(q->data+8)) ;
+	      BIFF_GETROW(q), BIFF_GETWORD(q->data+2), BIFF_GETWORD(q->data+8)) ;
       // Presumably followed by the array of XF indexes ?
       break ;
     case BIFF_RSTRING:    // Ignore formatting for now : FIXME	    
       //      printf ("Cell [%d, %d] = ", BIFF_GETCOL(q), BIFF_GETROW(q)) ;
       //	    dump (q->data, q->length) ;
       //      STRNPRINTF(q->data + 8, BIFF_GETSTRLEN(q)) ;
-      ms_excel_sheet_insert (sheet, BIFF_GETCOL(q), BIFF_GETROW(q),
+      ms_excel_sheet_insert (sheet, BIFF_GETXF(q), BIFF_GETCOL(q), BIFF_GETROW(q),
 			     ms_get_biff_text(q->data + 8, BIFF_GETSTRLEN(q))) ;
       break;
     case BIFF_NUMBER:     // FIXME: Font info needed
       {
 	char buf[65] ;
-	double num = GETDOUBLE(q->data +  6) ;
+	double num = BIFF_GETDOUBLE(q->data +  6) ;
 	//	      long long int l = 0x123456789abcdefLL ;
 	//	printf ("Cell [%d, %d] = %f\n", BIFF_GETCOL(q), BIFF_GETROW(q), num) ;
 	sprintf (buf, "%f", num) ;
-	ms_excel_sheet_insert (sheet, BIFF_GETCOL(q), BIFF_GETROW(q), buf) ;
+	ms_excel_sheet_insert (sheet, BIFF_GETXF(q), BIFF_GETCOL(q), BIFF_GETROW(q), buf) ;
 	//	      dump (q->data, q->length) ;	      
 	break;
       }
@@ -381,7 +406,7 @@ static void ms_excel_read_cell  (BIFF_QUERY *q, MS_EXCEL_SHEET *sheet, eBiff_ver
 	double answer ;
 	enum eType { eIEEE = 0, eIEEEx10 = 1, eInt = 2, eIntx100 = 3 } type ;
 
-	number = GETLONG(q->data+6) ;
+	number = BIFF_GETLONG(q->data+6) ;
 	printf ("RK number : 0x%x, length 0x%x\n", q->opcode, q->length) ;
 	printf ("position [%d,%d] = %lx\n", BIFF_GETCOL(q), BIFF_GETROW(q), number) ;
 	// Ignore XF
@@ -392,13 +417,13 @@ static void ms_excel_read_cell  (BIFF_QUERY *q, MS_EXCEL_SHEET *sheet, eBiff_ver
 	    dump (q->data, q->length) ;
 	    tmp[0] = number & 0xfffffffc ;
 	    tmp[1] = 0 ;
-	    answer = GETDOUBLE(((BYTE *)tmp)) ;
+	    answer = BIFF_GETDOUBLE(((BYTE *)tmp)) ;
 	    break ;
 	  case eIEEEx10:
 	    dump (q->data, q->length) ;
 	    tmp[0] = number & 0xfffffffc ;
 	    tmp[1] = 0 ;
-	    answer = GETDOUBLE(((BYTE *)tmp)) ;
+	    answer = BIFF_GETDOUBLE(((BYTE *)tmp)) ;
 	    answer/=100.0 ;
 	    break ;
 	  case eInt:
@@ -413,23 +438,18 @@ static void ms_excel_read_cell  (BIFF_QUERY *q, MS_EXCEL_SHEET *sheet, eBiff_ver
 	  }
 	sprintf (buf, "%f", answer) ;
 	printf ("The answer is '%s'\n", buf) ;
-	ms_excel_sheet_insert (sheet, BIFF_GETCOL(q), BIFF_GETROW(q), buf) ;	
+	ms_excel_sheet_insert (sheet, BIFF_GETXF(q), BIFF_GETCOL(q), BIFF_GETROW(q), buf) ;
       }
       break;
     case BIFF_LABEL:      // FIXME
-      //      printf ("Cell [%d, %d] = ", BIFF_GETCOL(q), BIFF_GETROW(q)) ;
-      //      STRNPRINTF(q->data + 8, BIFF_GETSTRLEN(q)) ;
-      ms_excel_sheet_insert (sheet, BIFF_GETCOL(q), BIFF_GETROW(q),
+      ms_excel_sheet_insert (sheet, BIFF_GETXF(q), BIFF_GETCOL(q), BIFF_GETROW(q),
 			     ms_get_biff_text(q->data + 8, BIFF_GETSTRLEN(q))) ;
       break;
     case BIFF_ROW:        // FIXME
       printf ("Row %d formatting\n", BIFF_GETROW(q)) ;
       break ;
     case BIFF_FORMULA:  // FIXME: S59D8F.HTM
-      printf ("Formular:\n") ;
-      dump (q->data, q->length) ;
-      printf ("Formula at [%d, %d] XF %d :\n", BIFF_GETCOL(q), BIFF_GETROW(q),
-	      BIFF_GETXFREC(q)) ;
+      ms_excel_parse_formular (sheet, q) ;
       //      STRNPRINTF (q->data + 22, GETWORD(q->data+20)) ;
       break ;
     default:
@@ -442,7 +462,7 @@ static void ms_excel_read_cell  (BIFF_QUERY *q, MS_EXCEL_SHEET *sheet, eBiff_ver
 static void ms_excel_read_sheet (BIFF_QUERY *q, MS_EXCEL_WORKBOOK *wb,
 				 BIFF_BOUNDSHEET_DATA *bsh, eBiff_version ver)
 {
-  MS_EXCEL_SHEET *sheet = new_ms_excel_sheet (wb, bsh->name) ;
+  MS_EXCEL_SHEET *sheet = new_ms_excel_sheet (wb, ver, bsh->name) ;
   LONG blankSheetPos = q->streamPos + q->length + 4 ;
 
   while (ms_next_biff(q))
@@ -461,7 +481,7 @@ static void ms_excel_read_sheet (BIFF_QUERY *q, MS_EXCEL_WORKBOOK *wb,
 	  return ;
 	  break ;
 	default:
-	  ms_excel_read_cell (q, sheet, ver) ;
+	  ms_excel_read_cell (q, sheet) ;
 	  break ;
 	}
     }

@@ -1,0 +1,21 @@
+/*
+ * ms-formula.h: MS Excel -> Gnumeric formula conversion
+ *
+ * Author:
+ *    Michael Meeks (michael@imaginator.com)
+ */
+#ifndef GNUMERIC_MS_FORMULA_H
+#define GNUMERIC_MS_FORMULA_H
+
+#include "ms-excel.h"
+#include "ms-biff.h"
+
+void ms_excel_parse_formular (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q) ;
+
+#define FORMULA_PTG_MAX                0x7f
+
+#define FORMULA_PTG_REF                0x24
+#define FORMULA_PTG_AREA               0x25
+#define FORMULA_PTG_MEM_AREA           0x26
+
+#endif

@@ -12,5 +12,7 @@ libexcel_a_SOURCES =	\
 	ms-biff.h	\
 	ms-excel.c	\
 	ms-excel.h	\
+	ms-formula.c	\
+	ms-formula.h	\
 	ms-ole.c	\
 	ms-ole.h

@@ -8,11 +8,23 @@
 #define GNUMERIC_BIFF_H
 #include "ms-ole.h"
 
+// EXTREMELY IMPORTANT TO PASS A BYTE PTR !
+#define BIFF_GETBYTE(p) (*(p+0))
+#define BIFF_GETWORD(p) (*(p+0)+(*(p+1)<<8))
+#define BIFF_GETLONG(p) (*(p+0)+ \
+		        (*(p+1)<<8)+ \
+		        (*(p+2)<<16)+ \
+		        (*(p+3)<<24))
 // p must be a BYTE* !
-#define GETDLONG(p) (long long int)(GETLONG(p)+(((long long int)GETLONG(p+4))<<32))
+#define BIFF_GETDLONG(p) (long long int)(GETLONG(p)+(((long long int)GETLONG(p+4))<<32))
 // Oh dear, silly really, brutal endianness hack: FIXME
 // #define GETDOUBLE(p)   ((double)GETDLONG(p))
-#define GETDOUBLE(p) (*((double *)(p)))
+#define BIFF_GETDOUBLE(p) (*((double *)(p)))
+// Pass this a BIFF_QUERY *
+#define BIFF_GETROW(p)      (GETWORD(p->data + 0))
+#define BIFF_GETCOL(p)      (GETWORD(p->data + 2))
+#define BIFF_GETXF(p)       (GETWORD(p->data + 4))
+#define BIFF_GETSTRLEN(p)   (GETWORD(p->data + 6))
 
 typedef struct _BIFF_QUERY
 {
@@ -58,12 +70,6 @@ typedef enum _eBiff_hidden { eBiffHVisible=0, eBiffHHidden=1,
 typedef enum _eBiff_locked { eBiffLLocked=1, eBiffLUnlocked=0 } eBiff_locked ;
 typedef enum _eBiff_xftype { eBiffXStyle=0, eBiffXCell=1 } eBiff_xftype ;
 typedef enum _eBiff_format { eBiffFMS=0, eBiffFLotus=1 } eBiff_format ;
-typedef enum _eBiff_alignment { eBiffAgeneral=0, eBiffAleft = 1,
-				eBiffAcentre=2, eBiffAright=3,
-				eBiffAfill=4, eBiffAjustify=5,
-				eBiffACentreAcrossSelection=6 } eBiff_alignment ;
-typedef enum _eBiff_vert_align { eBiffVAtop=0, eBiffVAcentre=1,
-				 eBiffVAbottom=2, eBiffVAjustify=3} eBiff_vert_align ;
 typedef enum _eBiff_wrap { eBiffWWrap=0, eBiffWNoWrap=1 } eBiff_wrap ;
 typedef enum _eBiff_eastern { eBiffEContext=0, eBiffEleftToRight=1,
 			      eBiffErightToLeft=2 } eBiff_eastern ;

@@ -19,8 +19,6 @@ typedef long           LONG ;
 		    (*(p+2)<<16)+ \
 		    (*(p+3)<<24))
 
-
-
 // Private, don't you dare !
 #define MS_OLE_SPECIAL_BLOCK  0xfffffffd
 #define MS_OLE_END_OF_CHAIN   0xfffffffe
