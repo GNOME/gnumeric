@@ -35,6 +35,7 @@
 #include "selection.h"
 #include "ranges.h"
 #include "value.h"
+#include "cell.h"
 #include "graph-vector.h"
 #include "idl/gnumeric-graphs.h"
 #include <liboaf/liboaf.h>
