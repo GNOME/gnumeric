@@ -55,9 +55,9 @@ static const char *OP_names[] = { OP_NAME_LIST };
 library with debugging, they are included twice, but that isn't really a
 problem - compiling with debugging is pretty rare and these are very small. */
 
-static int utf8_t3[] = { 0xff, 0x1f, 0x0f, 0x07, 0x03, 0x01};
+static const int utf8_t3[] = { 0xff, 0x1f, 0x0f, 0x07, 0x03, 0x01};
 
-static uschar utf8_t4[] = {
+static const uschar utf8_t4[] = {
   1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
   1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
   2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,

@@ -20,6 +20,8 @@ die "$0: must specify pcre directory on command line.\n"
 -d $dst or mkdir $dst or
     die "$0: cannot mkdir $dst: $!\n";
 
+my $force_utf8 = 1;
+
 # -----------------------------------------------------------------------------
 
 my ($PCRE_MAJOR,$PCRE_MINOR,$PCRE_DATE);
@@ -109,35 +111,16 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H) {
 	    s/\bregerror\b/gnumeric_regerror/g;
 	    s/\bregfree\b/gnumeric_regfree/g;
 
-	    s/options/options | PCRE_UTF8/ if /pcre_compile/;
-
-	    # Bug fix...
-	    s/gnumeric_regex_t/const gnumeric_regex_t/ if /gnumeric_regexec/;
-	    s/(preg)(->re_erroffset\s*=\s*\(size_t\))/((gnumeric_regex_t *)$1)$2/;
+	    if ($force_utf8) {
+		s/options/options | PCRE_UTF8 | PCRE_NO_UTF8_CHECK/ if /pcre_compile/;
+	    }
 	}
 
-	s{(md->utf8)}{1 /* $1 */};
+	s/\bEXPORT\b\s*//;
 
-	# Bug fix.
-	if (/while\s*\(eptr\s*>=\s*pp\)/ ... /^\s*\}\s*$/) {
-	    if (/match\s*\(eptr--/) {
-		$backchar_fix = 1;
-		s/eptr--/eptr/;
-	    } elsif (/return rrc;/ && $backchar_fix < 2) {
-		$_ .= "${backchar_indent}else {\n" .
-		    "${backchar_indent}    if (eptr == pp) break;\n";
-		$_ .= "${backchar_indent}    eptr--;\n" if $backchar_fix == 1;
-		$_ .= "${backchar_indent}}\n";
-		$backchar_fix = 2;
-	    }
-
-	    if (/^(\s*)if/) {
-		$backchar_indent = $1;
-	    }
-
-	    if (/^\s*\}\s*$/) {
-		$backchar_fix = 0;
-	    }
+	if ($force_utf8) {
+	    s{(md->utf8)}{1 /* $1 */};
+	    s{\(utf8\)}{(1 /* utf8 */)};
 	}
 
 	print DST;

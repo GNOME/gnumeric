@@ -7,12 +7,14 @@ Andreas
 	* http://bugzilla.gnome.org/show_bug.cgi?id=128166
 	  Mark workbook as dirty on sheet deletion/addition
 	* Bug fixes: 128915
+
 Jukka:
 	* GLPK upgrade to version 4.2
 
 Morten:
 	* Handle fractional seconds correctly for UNIX2DATE.
 	* Fix display of -0:30 again.
+	* PCRE upgrade to 4.5.
 
 --------------------------------------------------------------------------
 Gnumeric 1.2.2
