@@ -1,3 +1,9 @@
+2000-05-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print.c (print_{headers, footers}) : Headers and footers are
+	  offset from the edge of the page by their own margins.  MS appears
+	  to assume the order is edge -> header -> top.
+
 2000-05-26  ERDI Gergo  <cactus@cactus.rulez.org>
 
 	* src/dialogs/dialog-printer-setup.c (draw_margin): Draw
@@ -116,12 +122,15 @@
 
 2000-05-24  Jody Goldberg <jgoldberg@home.com>
 
+	* src/file.c (workbook_import) : set the import dialog's parent widget
+	  to be the PARENT workbook, not the new unrealized workbook.
+
+
 	* src/cell.c (cell_set_expr_internal) : Actually assign the format
 	  after we ref it.
 	(cell_get_format) : Cells with format 'General' may appear to have
 	  a format via autoformat or via the text that was entered.
 
->>>>>>> 1.336
 2000-05-21  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cmd-edit.[ch] : New files.
