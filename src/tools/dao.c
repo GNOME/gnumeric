@@ -660,3 +660,52 @@ dao_set_percent (data_analysis_output_t *dao, int col1, int row1,
 	mstyle_set_format_text (mstyle, "0.00%");
 	dao_set_style (dao, col1, row1, col2, row2, mstyle);
 }
+
+
+/**
+ * dao_get_colrow_state_list:
+ * @dao:
+ * @is_cols:
+ *
+ * 
+ *
+ **/
+
+ColRowStateList *
+dao_get_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols)
+{
+	switch (dao->type) {
+	case NewSheetOutput:
+	case NewWorkbookOutput:
+		return NULL;
+	case RangeOutput:
+		if (is_cols)
+			return colrow_get_states (dao->sheet, is_cols,
+						  dao->start_col, dao->start_col + dao->cols - 1);
+		else
+			return colrow_get_states (dao->sheet, is_cols,
+						  dao->start_row, dao->start_row + dao->rows - 1);
+	default:
+		return NULL;
+	}
+}
+
+/**
+ * dao_set_colrow_state_list:
+ * @dao:
+ * @is_cols:
+ * @list:
+ *
+ * 
+ *
+ **/
+void
+dao_set_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols, ColRowStateList *list)
+{
+	g_return_if_fail (list);
+
+	if (dao->type == RangeOutput)
+		colrow_set_states (dao->sheet, is_cols, 
+				   is_cols ? dao->start_col : dao->start_row, 
+				   list);
+}

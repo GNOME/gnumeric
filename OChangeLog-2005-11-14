@@ -1,3 +1,11 @@
+2002-04-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/commands.c (cmd_analysis_tool_undo) : reset column widths and
+	  row heights
+	(cmd_analysis_tool_redo) : save column widths and row heights
+	(cmd_analysis_tool) : initialize column widths and row heights save lists
+	(cmd_analysis_tool_finalize) : delete column widths and row heights save lists
+
 2002-04-21  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* idl/Makefile.am: introduce EVOLUTION_IDL_DIR to support building

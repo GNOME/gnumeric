@@ -4429,6 +4429,8 @@ typedef struct
 	analysis_tool_engine    engine;
 	data_analysis_output_type_t type;
 
+	ColRowStateList         *col_info;
+	ColRowStateList         *row_info;
 	Range                   old_range;
 	CellRegion              *old_content;
 } CmdAnalysis_Tool;
@@ -4465,6 +4467,15 @@ cmd_analysis_tool_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 					me->old_content);
 		cellregion_free (me->old_content);
 		me->old_content = NULL;
+		if (me->col_info) {
+			dao_set_colrow_state_list (me->dao, TRUE, me->col_info);
+			me->col_info = colrow_state_list_destroy (me->col_info);
+		}
+		if (me->row_info) {
+			dao_set_colrow_state_list (me->dao, FALSE, me->row_info);
+			me->row_info = colrow_state_list_destroy (me->row_info);
+		}
+		sheet_update (me->dao->sheet);
 	}
 
 	return FALSE;
@@ -4477,6 +4488,13 @@ cmd_analysis_tool_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	CmdAnalysis_Tool *me = CMD_ANALYSIS_TOOL (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
+
+	if (me->col_info)
+		me->col_info = colrow_state_list_destroy (me->col_info);
+	me->col_info = dao_get_colrow_state_list (me->dao, TRUE);
+	if (me->row_info)
+		me->row_info = colrow_state_list_destroy (me->row_info);
+	me->row_info = dao_get_colrow_state_list (me->dao, FALSE);
 
 	if (me->engine (me->dao, me->specs, TOOL_ENGINE_PREPARE_OUTPUT_RANGE, NULL))
 		return TRUE;
@@ -4534,6 +4552,11 @@ cmd_analysis_tool_finalize (GObject *cmd)
 {
 	CmdAnalysis_Tool *me = CMD_ANALYSIS_TOOL (cmd);
 
+	if (me->col_info)
+		me->col_info = colrow_state_list_destroy (me->col_info);
+	if (me->row_info)
+		me->row_info = colrow_state_list_destroy (me->row_info);
+	
 	me->engine (me->dao, me->specs, TOOL_ENGINE_CLEAN_UP, NULL);
 
 	g_free (me->specs);
@@ -4571,6 +4594,8 @@ cmd_analysis_tool (WorkbookControl *wbc, Sheet *sheet,
 	me->engine (me->dao, me->specs, TOOL_ENGINE_UPDATE_DESCRIPTOR, &me->parent.cmd_descriptor);
 	me->parent.sheet = NULL;
 	me->type = dao->type;
+	me->row_info = NULL;
+	me->col_info = NULL;	
 
 	/* We divide by 2 since many cells will be empty*/
 	me->parent.size = 1 + dao->rows * dao->cols / 2; 

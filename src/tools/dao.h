@@ -87,6 +87,8 @@ char *dao_range_name      (data_analysis_output_t *dao);
 char *dao_command_descriptor (data_analysis_output_t *dao, char const *format, gpointer result);
 void dao_adjust           (data_analysis_output_t *dao, gint cols, gint rows);
 
-
+ColRowStateList *dao_get_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols);
+void dao_set_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols, 
+				ColRowStateList *list);
 
 #endif

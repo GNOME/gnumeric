@@ -127,7 +127,7 @@ dialog_pref_create_int_spin (char const *key, char const *schema_key,
 			      : "schema missing");
 	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
 	gtk_table_attach (GTK_TABLE (table), item, 0, 1, row, row + 1, 0, 
-			  GTK_FILL | GTK_SHRINK, 5, 5);
+			  GTK_FILL, 5, 5);
 	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (val, from, to,
 									 step, step, step)),
 				     1, 0);
@@ -169,7 +169,7 @@ dialog_pref_create_float_spin (char const *key, char const *schema_key,
 			      : "schema missing");
 	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
 	gtk_table_attach (GTK_TABLE (table), item, 0, 1, row, row + 1, 0, 
-			  GTK_FILL | GTK_SHRINK, 5, 5);
+			  GTK_FILL, 5, 5);
 	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (val, from, to,
 									 step, step, step)),
 				     1, digits);
