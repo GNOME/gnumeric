@@ -2,17 +2,18 @@
 # Copyright (C) 1998 Free Software Foundation, Inc.
 #
 # Federico Mena Quintero,Pregonero <federico@casiopea.quartic.org>, 1998
-# Pablo Saratxaga <pablo@mandrakesoft.com>,1999-2000
+# Pablo Saratxaga <pablo@mandrakesoft.com>, 1999-2000
+# Germán Poo Caamaño <gpoo@ubiobio.cl>, 2001
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.68\n"
+"Project-Id-Version: gnumeric 0.69\n"
 "POT-Creation-Date: 2001-06-28 18:21-0400\n"
 "PO-Revision-Date: 2001-07-14 23:45GMT\n"
 "Last-Translator: Germán Poo Caamaño <gpoo@ubiobio.cl>\n"
 "Language-Team: es <es@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO 8859-1\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4057
