@@ -3535,13 +3535,14 @@ cmd_search_replace_do (CmdSearchReplace *me, Workbook *wb,
 
 	for (i = 0; i < cells->len; i++) {
 		EvalPos *ep = g_ptr_array_index (cells, i);
-		if (!result) {
-			result = cmd_search_replace_do_cell (me, ep, test_run);
+
+		if (cmd_search_replace_do_cell (me, ep, test_run)) {
+			result = TRUE;
+			break;
 		}
-		g_free (ep);
 	}
 
-	g_ptr_array_free (cells, TRUE);
+	search_collect_cells_free (cells);
 
 	if (!test_run) {
 		/* Cells were added in the wrong order.  Correct.  */

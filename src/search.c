@@ -324,18 +324,34 @@ calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 gboolean
 search_match_string (SearchReplace *sr, const char *src)
 {
-	int ret;
+	int flags = REG_NOSUB;
 
 	g_return_val_if_fail (sr && sr->comp_search, FALSE);
 
-	ret = regexec (sr->comp_search, src, 0, 0, REG_NOSUB);
+	while (1) {
+		regmatch_t match;
+		int ret = regexec (sr->comp_search, src, 1, &match, flags);
 
-	switch (ret) {
-	case 0: return TRUE;
-	case REG_NOMATCH: return FALSE;
-	default:
-		g_error ("Unexpect error code from regexec: %d.", ret);
-		return FALSE;
+		switch (ret) {
+		case 0:
+			if (!sr->match_words)
+				return TRUE;
+
+			if (match_is_word (sr, src, &match, (flags & REG_NOTBOL) != 0))
+				return TRUE;
+
+			/* We had a match, but it's not a word.  */
+			flags |= REG_NOTBOL;
+			src += match.rm_so + 1;
+			break;
+
+		case REG_NOMATCH:
+			return FALSE;
+
+		default:
+			g_error ("Unexpect error code from regexec: %d.", ret);
+			return FALSE;
+		}
 	}
 }
 
@@ -501,6 +517,16 @@ search_collect_cells (SearchReplace *sr, Sheet *sheet)
 	       sr->by_row ? cb_order_sheet_row_col : cb_order_sheet_col_row);
 
 	return cells;
+}
+
+void
+search_collect_cells_free (GPtrArray *cells)
+{
+	unsigned i;
+
+	for (i = 0; i < cells->len; i++)
+		g_free (g_ptr_array_index (cells, i));
+	g_ptr_array_free (cells, TRUE);
 }
 
 /* ------------------------------------------------------------------------- */

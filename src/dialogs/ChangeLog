@@ -1,3 +1,8 @@
+2001-10-12  Morten Welinder  <terra@diku.dk>
+
+	* dialog-search.c (value_at): protect cell names in cache also.
+	(search_clicked): Discard string cache when searching anew.
+
 2001-10-12  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-about.c (dialog_about) : Use the nice new icon.

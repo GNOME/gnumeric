@@ -1,3 +1,12 @@
+2001-10-12  Morten Welinder  <terra@diku.dk>
+
+	* src/search.c (search_collect_cells_free): New convenience
+ 	function.
+	(search_match_string): Fix word search.
+
+	* src/commands.c (cmd_search_replace_do): Use
+ 	search_collect_cells_free.
+
 2001-10-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-graph.c (gnm_graph_vector_destroy) : release the cached

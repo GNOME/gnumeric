@@ -1,6 +1,6 @@
 2001-10-11  Jody Goldberg <jgoldberg@home.com>
 
-	* fn-string.c (gnumeric_code) : unsiged char
+	* fn-string.c (gnumeric_code) : unsigned char
 
 2001-10-10  Jody Goldberg <jgoldberg@home.com>
 

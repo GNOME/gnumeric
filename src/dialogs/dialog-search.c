@@ -111,8 +111,13 @@ value_at (ETableModel *etc, int col, int row, void *data)
 	char *result, *cached;
 
 	switch (col) {
-	case COL_SHEET: return (void *)(item->ep.sheet->name_unquoted);
-	case COL_CELL: return (void *)(cell_pos_name (&item->ep.eval));
+	case COL_SHEET:
+		return (void *)(item->ep.sheet->name_unquoted);
+
+	case COL_CELL:
+		result = g_strdup (cell_pos_name (&item->ep.eval));
+		break;
+
 	case COL_TYPE:
 		if (cell) {
 			Value *v = cell->value;
@@ -186,18 +191,24 @@ value_to_string (ETableModel *etc, int col, const void *value, void *data)
 
 /* ------------------------------------------------------------------------- */
 
-static void
-cb_free_state (gpointer	key, gpointer value, gpointer user_data)
+static gboolean
+cb_clear_strings (gpointer	key, gpointer value, gpointer user_data)
 {
 	g_free (key);
+	return TRUE;
 }
 
+static void
+clear_strings (DialogState *dd)
+{
+	g_hash_table_foreach_remove (dd->e_table_strings, cb_clear_strings, NULL);
+}
 
 static void
 free_state (DialogState *dd)
 {
 	search_filter_matching_free (dd->matches);
-	g_hash_table_foreach (dd->e_table_strings, cb_free_state, NULL);
+	clear_strings (dd);
 	g_hash_table_destroy (dd->e_table_strings);
 	gtk_object_unref (GTK_OBJECT (dd->gui));
 	gtk_object_unref (GTK_OBJECT (dd->e_table_model));
@@ -360,16 +371,12 @@ search_clicked (GtkWidget *widget, DialogState *dd)
 
 	{
 		GPtrArray *cells = search_collect_cells (sr, wb_control_cur_sheet (wbc));
-		unsigned i;
-
 		search_filter_matching_free (dd->matches);
 		dd->matches = search_filter_matching (sr, cells);
-
-		for (i = 0; i < cells->len; i++)
-			g_free (g_ptr_array_index (cells, i));
-		g_ptr_array_free (cells, TRUE);
+		search_collect_cells_free (cells);
 
 		e_table_model_changed (dd->e_table_model);
+		clear_strings (dd);
 
 		/*
 		 * The following seems necessary in order to force the scrollbar

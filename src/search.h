@@ -77,6 +77,7 @@ char *search_replace_string (SearchReplace *sr, const char *src);
 gboolean search_match_string (SearchReplace *sr, const char *src);
 
 GPtrArray *search_collect_cells (SearchReplace *sr, Sheet *sheet);
+void search_collect_cells_free (GPtrArray *cells);
 
 typedef struct {
 	EvalPos ep;
