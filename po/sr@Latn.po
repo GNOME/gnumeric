@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-11-26 22:20-0500\n"
-"PO-Revision-Date: 2003-11-21 03:47+0100\n"
+"POT-Creation-Date: 2003-12-08 01:13+0100\n"
+"PO-Revision-Date: 2003-12-08 01:14+0100\n"
 "Last-Translator: Slobodan Sredojević <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -709,7 +709,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funkcije u vezi sa finansijskim izvodima"
 
 #: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5336
-#: plugins/mps/mps.c:549 src/xml-io.c:4004
+#: plugins/mps/mps.c:549 src/xml-io.c:4134
 msgid "Reading file..."
 msgstr "Učitava datoteku..."
 
@@ -3372,8 +3372,8 @@ msgstr "Inženjerske funkcije"
 #: plugins/fn-eng/plugin.xml.in.h:3
 msgid "Functions for complex numbers, base conversions, and more"
 msgstr ""
-"Funkcije koje rade sa kompleksnim brojevima, osnovnim pretvaranjima i više "
-"od toga"
+"Funkcije koje rade sa kompleksnim brojevima, osnovnim pretvaranjima i više od "
+"toga"
 
 #: plugins/fn-financial/functions.c:306
 msgid ""
@@ -10232,7 +10232,7 @@ msgstr "Funkcija čije parametre optimizujemo:"
 msgid "Constraints:"
 msgstr "Ograničenja:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5736
+#: plugins/mps/mps.c:247 src/commands.c:5740
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:107
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
@@ -10862,10 +10862,10 @@ msgstr "Ovo je poruka iz „%s“ dodatka."
 msgid "Error while opening xbase file."
 msgstr "Greška prilikom otvaranja xbase datoteke."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4561
+#: plugins/xbase/boot.c:175 src/commands.c:4565
 #: src/dialogs/dialog-goto-cell.c:290 src/dialogs/dialog-search.c:397
 #: src/dialogs/print.glade.h:21 src/print-info.c:474 src/workbook.c:1053
-#: src/xml-io.c:3594
+#: src/xml-io.c:3724
 msgid "Sheet"
 msgstr "Tabela"
 
@@ -11018,8 +11018,8 @@ msgid ""
 "The autocorrect engine does not correct the inital caps for words in this "
 "list."
 msgstr ""
-"Sistem za automatsko ispravljanje ne ispravlja početna slova za reči koje su "
-"u ovom spisku."
+"Sistem za automatsko ispravljanje ne ispravlja početna slova za reči koje su u "
+"ovom spisku."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:27
 msgid "The configuration of gnome-print. Do not edit this variable."
@@ -11359,10 +11359,10 @@ msgid ""
 "simple one-cell edit (size of 1). The undo list will be truncated when its "
 "total size exceeds this configurable value."
 msgstr ""
-"Ova vrednost određuje dužinu „Opozovi“ spiska. Svaka radnja ima veličinu "
-"koja je za nju vezana, kako bi se poredila sa memorijskim zahtevom vezanim "
-"za prosto uređenje jednog polja (veličine 1). „Opozovi“ spisak će biti "
-"odsečen kada njegova ukupna vrednost nadmaši ovu podesivu vrednost."
+"Ova vrednost određuje dužinu „Opozovi“ spiska. Svaka radnja ima veličinu koja "
+"je za nju vezana, kako bi se poredila sa memorijskim zahtevom vezanim za "
+"prosto uređenje jednog polja (veličine 1). „Opozovi“ spisak će biti odsečen "
+"kada njegova ukupna vrednost nadmaši ovu podesivu vrednost."
 
 #: schemas/gnumeric-general.schemas.in.h:45
 msgid ""
@@ -11542,7 +11542,7 @@ msgstr "Masno"
 msgid "Borders"
 msgstr "Ivice"
 
-#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:423
+#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:424
 #: src/workbook-object-toolbar.c:155
 msgid "Button"
 msgstr "Dugme"
@@ -11900,7 +11900,7 @@ msgstr "Formatiraj neki skup polja prema predefinisanom šablonu"
 msgid "Fourier Analysis"
 msgstr "Furijeova analiza"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:196
+#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:197
 #: src/workbook-object-toolbar.c:150
 msgid "Frame"
 msgstr "kadar, frejm"
@@ -12067,7 +12067,7 @@ msgstr "Skoči do određenog polja"
 
 #: src/GNOME_Gnumeric.xml.h:142
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:619
-#: src/sheet-object-graphic.c:1437 src/workbook-object-toolbar.c:147
+#: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Oznaka"
 
@@ -12234,7 +12234,7 @@ msgid "Print Preview"
 msgstr "Štampaj prikaz"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1322 src/workbook-control-gui.c:3342
+#: src/print.c:1318 src/workbook-control-gui.c:3342
 #: src/workbook-control-gui.c:3997
 msgid "Print preview"
 msgstr "Prikaz pred štampu"
@@ -13414,139 +13414,139 @@ msgstr "Promeni veličinu objekta"
 msgid "Move object"
 msgstr "Premesti objekat"
 
-#: src/commands.c:4805
+#: src/commands.c:4809
 msgid "Reordering Sheets"
 msgstr "Preslaganje tabela"
 
-#: src/commands.c:4808
+#: src/commands.c:4812
 msgid "Renaming Sheets"
 msgstr "Preimenuje tabele"
 
 # bug: plural-forms
-#: src/commands.c:4811
+#: src/commands.c:4815
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Dopunjava sa %i tabela"
 
-#: src/commands.c:4815
+#: src/commands.c:4819
 msgid "Changing Tab Colors"
 msgstr "Menjanje boje jezička"
 
-#: src/commands.c:4818
+#: src/commands.c:4822
 msgid "Changing Sheet Protection"
 msgstr "Promena zaštite tabele"
 
-#: src/commands.c:4821
+#: src/commands.c:4825
 msgid "Delete sheets"
 msgstr "Ukloni tabele"
 
-#: src/commands.c:4824
+#: src/commands.c:4828
 msgid "Delete a sheet"
 msgstr "Ukloni tabelu"
 
-#: src/commands.c:4827
+#: src/commands.c:4831
 msgid "Reorganizing Sheets"
 msgstr "Preuredi tabele"
 
-#: src/commands.c:4977
+#: src/commands.c:4981
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Uklanjanje napomene za %s"
 
-#: src/commands.c:4978
+#: src/commands.c:4982
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Postavljanje napomene za %s"
 
-#: src/commands.c:5358
+#: src/commands.c:5362
 #, c-format
 msgid "Merging data into %s"
 msgstr "Stapam podatke u %s"
 
-#: src/commands.c:5460
+#: src/commands.c:5464
 msgid "Changing summary info"
 msgstr "Menjam ukupni izveštaj"
 
-#: src/commands.c:5551
+#: src/commands.c:5555
 msgid "Raise object"
 msgstr "Podigni objekat"
 
-#: src/commands.c:5554
+#: src/commands.c:5558
 msgid "Lower object"
 msgstr "Spusti objekat"
 
-#: src/commands.c:5557
+#: src/commands.c:5561
 msgid "Raise object to top"
 msgstr "Podigni objekat na vrh"
 
-#: src/commands.c:5560
+#: src/commands.c:5564
 msgid "Lower object to bottom"
 msgstr "Spusti objekat na dno"
 
-#: src/commands.c:5675
+#: src/commands.c:5679
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Podešavanje strane za %s"
 
-#: src/commands.c:5677
+#: src/commands.c:5681
 msgid "Page Setup For All Sheets"
 msgstr "Podešavanje strane za sve tabele"
 
-#: src/commands.c:5793
+#: src/commands.c:5797
 msgid "has a circular reference"
 msgstr "ima kružno upućivanje"
 
-#: src/commands.c:5816
+#: src/commands.c:5820
 #, c-format
 msgid "Define Name %s"
 msgstr "Definiši naziv %s"
 
-#: src/commands.c:5819
+#: src/commands.c:5823
 #, c-format
 msgid "Update Name %s"
 msgstr "Osveži naziv %s"
 
-#: src/commands.c:5883
+#: src/commands.c:5887
 msgid "Add scenario"
 msgstr "Dodaj scenario"
 
-#: src/commands.c:5958
+#: src/commands.c:5962
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6022
+#: src/commands.c:6026
 msgid "Shuffle Data"
 msgstr "Izmešaj podatke"
 
 #. FIXME?
-#: src/commands.c:6133
+#: src/commands.c:6137
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Tekst (%s) u kolone (%s)"
 
 #. Fill in the header titles.
-#: src/commands.c:6280 src/dialogs/solver.glade.h:24
+#: src/commands.c:6284 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
 msgid "Solver"
 msgstr "Sistem za rešavanje"
 
-#: src/commands.c:6367
+#: src/commands.c:6371
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Traženje vrednosti (%s)"
 
-#: src/commands.c:6509
+#: src/commands.c:6513
 #, c-format
 msgid "Duplicating %s"
 msgstr "Udvostručava %s"
 
-#: src/commands.c:6589
+#: src/commands.c:6593
 msgid "Tabulating Dependencies"
 msgstr "Tabelarne zavisnosti"
 
-#: src/commands.c:6665
+#: src/commands.c:6669
 msgid "Reconfigure Graph"
 msgstr "Prepodesi grafik"
 
@@ -17168,7 +17168,7 @@ msgid "Could not create the Simulation dialog."
 msgstr "Ne mogu da obrazujem prozorče za alatku „Simulacija“."
 
 #: src/dialogs/dialog-solver.c:100
-msgid "Revised Simplex (GLPK 3.2)"
+msgid "Revised Simplex (GLPK 4.2)"
 msgstr "Prerađena Simpleks (GLPK 3.2)"
 
 #: src/dialogs/dialog-solver.c:101
@@ -17820,9 +17820,9 @@ msgid ""
 "in GTK+, libgnomeui, libgnomeprintui, libbonoboui, and Gnumeric at the time "
 "of writing, ultimo May 2003."
 msgstr ""
-"Podrška za više monitora je isključena u Gnumerik-u zbog brojnih grešaka u "
-"gtk+, libgnomeui, libgnomeprintui i libbonoboui bibliotekama i samom "
-"Gnumerik-u. Maj 2003."
+"Podrška za više monitora je isključena u Gnumerik-u zbog brojnih grešaka u gtk"
+"+, libgnomeui, libgnomeprintui i libbonoboui bibliotekama i samom Gnumerik-"
+"u. Maj 2003."
 
 #: src/dialogs/dialog-view.c:95
 #, c-format
@@ -18495,8 +18495,8 @@ msgid ""
 "Gnumeric (unless needed by another plugin)."
 msgstr ""
 "Dodatak sada ne može biti zaustavljen jer je u upotrebi. Pored svega, ako Vi "
-"štiklirate kućicu ispod, dodatak neće biti pokrenut nakon ponovnog "
-"pokretanja programa (sve dok ga, eventualno, nezatraži drugi dodatak)."
+"štiklirate kućicu ispod, dodatak neće biti pokrenut nakon ponovnog pokretanja "
+"programa (sve dok ga, eventualno, nezatraži drugi dodatak)."
 
 #: src/dialogs/plugin-manager.glade.h:10
 msgid "_Activate All"
@@ -19197,8 +19197,7 @@ msgstr "Rastojanje vrha strelice do krajnje tačke, mereno duž kraka"
 
 #: src/dialogs/so-arrow.glade.h:8
 msgid "Distance of trailing point from outside edge of shaft"
-msgstr ""
-"Rastojanje vrha strelice do krajnje tačke, mereno od spoljne ivice kraka"
+msgstr "Rastojanje vrha strelice do krajnje tačke, mereno od spoljne ivice kraka"
 
 #: src/dialogs/so-arrow.glade.h:9
 msgid "Line Width:"
@@ -19609,8 +19608,7 @@ msgstr "Neispravna datoteka sa šablonom: %s"
 
 #: src/file.c:481
 msgid "Saving over old files of this type is disabled for safety."
-msgstr ""
-"Čuvanje preko starih datoteka ove vrste je onemogućeno zbog sigurnosti."
+msgstr "Čuvanje preko starih datoteka ove vrste je onemogućeno zbog sigurnosti."
 
 #: src/file.c:483
 msgid ""
@@ -20738,8 +20736,7 @@ msgstr "Ne prikazuj uvodni ekran"
 
 #: src/main-application.c:84
 msgid "Exit immediately after loading the selected books (useful for testing)."
-msgstr ""
-"Izađi odmah nakon učitavanja izabranih tabela (korisno za isprobavanje)."
+msgstr "Izađi odmah nakon učitavanja izabranih tabela (korisno za isprobavanje)."
 
 #: src/main-application.c:114
 msgid ""
@@ -21117,8 +21114,7 @@ msgstr "Dodatak nema identifikaciju."
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
 msgstr ""
-"Greška u postavljanju početnih vrednosti za sistem za učitavanje dodatka(„%"
-"s“)."
+"Greška u postavljanju početnih vrednosti za sistem za učitavanje dodatka(„%s“)."
 
 #: src/plugin.c:924 src/plugin.c:1081
 msgid "Detected cyclic plugin dependencies."
@@ -21183,8 +21179,7 @@ msgstr "Greška prilikom čitanja informacija o dostupnim dodacima."
 
 #: src/plugin.c:1622
 msgid "Errors while deactivating plugins that are no longer on disk."
-msgstr ""
-"Greška prilikom zaustavljanja dodataka koji se više ne nalaze na disku."
+msgstr "Greška prilikom zaustavljanja dodataka koji se više ne nalaze na disku."
 
 #: src/plugin.c:1643
 #, c-format
@@ -21260,19 +21255,19 @@ msgstr "&[STRANA]"
 msgid "Print Region"
 msgstr "Štampaj oblast"
 
-#: src/print.c:1240
+#: src/print.c:1238
 msgid "Print Sheets"
 msgstr "Štampaj tabele"
 
-#: src/print.c:1248
+#: src/print.c:1246
 msgid "Act_ive sheet"
 msgstr "Aktivna _tabela"
 
-#: src/print.c:1248
+#: src/print.c:1246
 msgid "S_heets"
 msgstr "_Tabele"
 
-#: src/print.c:1334
+#: src/print.c:1330
 msgid "Printing failed"
 msgstr "Neuspelo štampanje"
 
@@ -21441,35 +21436,30 @@ msgstr "ne mogu da napravim objekat za '%s'"
 msgid "Could not load file: %s"
 msgstr "Ne može da učita datoteku: %s"
 
-#: src/sheet-object-graph.c:162
+#: src/sheet-object-graph.c:163
 msgid "Save graph as image"
 msgstr "Sačuvaj grafik kao sliku"
 
-#: src/sheet-object-graph.c:201
+#: src/sheet-object-graph.c:202
 msgid "Sorry, gnumeric can only save graphs as png images"
 msgstr "Nažalost, gnumerik može da sačuva grafike samo kao PNG slike"
 
-#: src/sheet-object-graph.c:219
+#: src/sheet-object-graph.c:220
 msgid "_Save as image"
 msgstr "_Sačuvaj kao sliku"
 
-#: src/sheet-object-graphic.c:939 src/sheet-object-graphic.c:958
+#: src/sheet-object-graphic.c:944 src/sheet-object-graphic.c:963
 msgid "Transparent"
 msgstr "Providan"
 
-#: src/sheet-object-widget.c:1142
+#: src/sheet-object-widget.c:1143
 #, c-format
 msgid "CheckBox %d"
 msgstr "Kućica za potvrdu %d"
 
-#: src/sheet-object-widget.c:1575 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1576 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "Jednoizbornik"
-
-#: src/sheet-object.c:530
-#, c-format
-msgid "Unsupported object type '%s'"
-msgstr "Nepodržana vrsta objekta „%s“"
 
 #. Oh, yeah?
 #: src/sheet-style.c:492
@@ -22058,8 +22048,7 @@ msgid ""
 "in your model (maybe your last round # is too high)."
 msgstr ""
 "Izlazna promenljiva nije proizvela brojnu vrednost. Proverite izlazne "
-"promenljive u vašem modelu (možda je Vaše poslednje zaokruživanje # "
-"preveliko)."
+"promenljive u vašem modelu (možda je Vaše poslednje zaokruživanje # preveliko)."
 
 #: src/tools/simulation.c:242
 msgid "Simulation Report"
@@ -24333,30 +24322,35 @@ msgstr "Već postoji tabela pod nazivom"
 msgid "You may not use this name twice"
 msgstr "Ne možete koristiti ovo ime dva puta"
 
-#: src/xml-io.c:3297
+#: src/xml-io.c:2728
+#, c-format
+msgid "Unsupported object type '%s'"
+msgstr "Nepodržana vrsta objekta „%s“"
+
+#: src/xml-io.c:3427
 msgid "Unparsable xml in clipboard"
 msgstr "Na spisku isečaka je XML dokument koji se ne može raščlaniti"
 
-#: src/xml-io.c:3304
+#: src/xml-io.c:3434
 msgid "Clipboard is in unknown format"
 msgstr "Nepoznat format je na spisku isečaka"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3725
+#: src/xml-io.c:3855
 msgid "Processing file..."
 msgstr "Obrađuje datoteku..."
 
-#: src/xml-io.c:4052
+#: src/xml-io.c:4182
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Datoteka nije Gnumerik radna sveska"
 
-#: src/xml-io.c:4089
+#: src/xml-io.c:4219
 msgid "Failure saving file"
 msgstr "Greška pri snimanju datoteke"
 
-#: src/xml-io.c:4122
+#: src/xml-io.c:4252
 msgid "Gnumeric XML file format"
 msgstr "Gnumerik XML format datoteke"
 
