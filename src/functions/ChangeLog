@@ -1,3 +1,7 @@
+2001-10-27  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* fn-financial.c: Clean up.  Added comments and documentation.
+
 2001-10-26  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* fn-financial.c: Improved documentation.

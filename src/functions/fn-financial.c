@@ -2,8 +2,9 @@
  * fn-financial.c:  Built in financial functions and functions registration
  *
  * Authors:
+ *  Jukka-Pekka Iivonen (jiivonen@hutcs.cs.hut.fi)
+ *  Morten Welinder (terra@diku.dk) 
  *  Vladimir Vuksan (vuksan@veus.hr)
- *  Jukka-Pekka Iivonen (iivonen@iki.fi)
  *
 
  */
@@ -21,36 +22,38 @@
 #include <limits.h>
 #include <string.h>
 
-/*
 
-Below are some of the functions that are used quite often in
-financial analysis.
-
-Present value interest factor
-
-	 PVIF = (1 + k) ^ n
-
-Future value interest factor
-
-         FVIF = 1 / PVIF
-
-Present value interest factor of annuities
-
-                  1          1
-	 PVIFA = --- - -----------
-                  k     k*(1+k)^n
-
-Future value interest factor of annuities
-
-                  (1+k)^n - 1
-         FVIFA = ----------------
-	                k
-
-
-
-	 PV * PVIF(k%, nper) + PMT * ( 1 + rate * type ) *
-	      FVIFA(k%, nper) + FV = 0
-
+/***************************************************************************
+ *
+ *
+ * Below are some of the functions that are used quite often in
+ * financial analysis.
+ *
+ * Present value interest factor
+ *
+ *	 PVIF = (1 + k) ^ n
+ *
+ * Future value interest factor
+ *
+ *       FVIF = 1 / PVIF
+ *
+ * Present value interest factor of annuities
+ *
+ *                1          1
+ *	 PVIFA = --- - -----------
+ *                k     k*(1+k)^n
+ *
+ * Future value interest factor of annuities
+ *
+ *                (1+k)^n - 1
+ *       FVIFA = ----------------
+ *	                k
+ *
+ *
+ *
+ *	 PV * PVIF(k%, nper) + PMT * ( 1 + rate * type ) *
+ *	      FVIFA(k%, nper) + FV = 0
+ *
  */
 
 static gnum_float
@@ -79,14 +82,14 @@ calculate_fvifa (gnum_float rate, gnum_float nper)
 	return ((pow (1 + rate, nper) - 1) / rate);
 }
 
+
 /*
-
-Principal for period x is calculated using this formula
-
-PR(x) = PR(0) * ( 1 + rate ) ^ x + PMT * ( ( 1 + rate ) ^ x - 1 ) / rate )
-
-*/
-
+ *
+ * Principal for period x is calculated using this formula
+ *
+ * PR(x) = PR(0) * ( 1 + rate ) ^ x + PMT * ( ( 1 + rate ) ^ x - 1 ) / rate )
+ *
+ */
 static gnum_float
 calculate_principal (gnum_float starting_principal, gnum_float payment,
 		     gnum_float rate, gnum_float period)
@@ -96,7 +99,8 @@ calculate_principal (gnum_float starting_principal, gnum_float payment,
 }
 
 static gnum_float
-calculate_pmt (gnum_float rate, gnum_float nper, gnum_float pv, gnum_float fv, int type)
+calculate_pmt (gnum_float rate, gnum_float nper, gnum_float pv, gnum_float fv,
+	       int type)
 {
 	gnum_float pvif, fvifa;
 
@@ -108,6 +112,24 @@ calculate_pmt (gnum_float rate, gnum_float nper, gnum_float pv, gnum_float fv, i
         return ((-pv * pvif - fv ) / ((1.0 + rate * type) * fvifa));
 }
 
+/***************************************************************************/
+
+/*
+ * Returns the number of days in the year for the given date accoring to
+ * the day counting system specified by 'basis' argument.  Basis may have
+ * one of the following values:
+ *
+ *	0  for US 30/360 (days in a month/days in a year)
+ *	1  for actual days/actual days
+ *	2  for actual days/360
+ *	3  for actual days/365
+ *	4  for European 30/360
+ *
+ * This function returns 360 for basis 0, 2, and 4, it returns value
+ * 365 for basis 3, and value 365 or 366 for basis 1 accoring to the
+ * year of the given date (366 is returned if the date is in a leap
+ * year).
+ */
 static int
 annual_year_basis (Value *value_date, int basis)
 {
@@ -136,6 +158,17 @@ annual_year_basis (Value *value_date, int basis)
 	}
 }
 
+/* Returns the number of days between issue date and maturity date
+ * accoring to the day counting system specified by the 'basis'
+ * argument.  Basis may have one of the following values:
+ *
+ *	0  for US 30/360 (days in a month/days in a year)
+ *	1  for actual days/actual days
+ *	2  for actual days/360
+ *	3  for actual days/365
+ *	4  for European 30/360
+ *
+ */
 static int
 days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 {
@@ -193,6 +226,35 @@ days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 	        return -1;
 	}
 }
+
+static GDateDay
+days_in_month(GDateYear year, GDateMonth month)
+{
+        switch (month) {
+	case 1:
+	case 3:
+	case 5:
+	case 7:
+	case 8:
+	case 10:
+	case 12:
+	        return 31;
+	case 4:
+	case 6:
+	case 9:
+	case 11:
+	        return 30;
+	case 2:
+	        if (g_date_is_leap_year(year))
+		        return 29;
+		else
+		        return 28;
+	default:
+	        return 0;
+	}
+}
+
+/***************************************************************************/
 
 /*
  * Returns the number of days in the coupon period of the settlement date.
@@ -594,33 +656,9 @@ coupdaybs(GDate *settlement, GDate *maturity, int freq, int basis)
 	}
 }
 
-static GDateDay
-days_in_month(GDateYear year, GDateMonth month)
-{
-        switch (month) {
-	case 1:
-	case 3:
-	case 5:
-	case 7:
-	case 8:
-	case 10:
-	case 12:
-	        return 31;
-	case 4:
-	case 6:
-	case 9:
-	case 11:
-	        return 30;
-	case 2:
-	        if (g_date_is_leap_year(year))
-		        return 29;
-		else
-		        return 28;
-	default:
-	        return 0;
-	}
-}
-
+/* Returns the numbers of coupons to be paid between the settlement
+ * and maturity dates, rounded up.
+ */
 static int
 coupnum(GDate *settlement, GDate *maturity, int freq, int basis)
 {
@@ -780,7 +818,11 @@ coupncd(GDate *settlement, GDate *maturity, int freq, int basis)
 	return g_date_new_dmy (day, month, year);
 }
 
-/***************************************************************************/
+/***************************************************************************
+ *
+ * Financial function implementations
+ *
+ */
 
 static char *help_accrint = {
 	N_("@FUNCTION=ACCRINT\n"
@@ -790,8 +832,6 @@ static char *help_accrint = {
 	   "ACCRINT calculates the accrued interest for a "
 	   "security that pays periodic interest.  The @rate is the annual "
 	   "rate of the security and @par is the par value of the security. "
-	   "@frequency is the number of coupon payments per year. "
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
 	   "@basis is the type of day counting system you want to use:\n"
 	   "\n"
 	   "0  US 30/360\n"
@@ -800,10 +840,10 @@ static char *help_accrint = {
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
 	   "\n"
-	   "If @basis is omitted, US 30/360 is applied. "
 	   "If @issue date or @settlement date is not valid, ACCRINT returns "
 	   "#NUM! error. "
 	   "If @rate or @par is zero or negative, ACCRINT returns #NUM! error. "
+	   "If @basis is omitted, US 30/360 is applied. "
 	   "If @basis < 0 or @basis > 4, ACCRINT returns #NUM! error. "
 	   "If @issue date is after @settlement date or they are the same, "
 	   "ACCRINT returns #NUM! error. "
@@ -855,10 +895,10 @@ static char *help_accrintm = {
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
 	   "\n"
-	   "If @basis is omitted, US 30/360 is applied. "
 	   "If @issue date or @maturity date is not valid, ACCRINTM returns "
 	   "#NUM! error. "
 	   "If @rate or @par is zero or negative, ACCRINTM returns #NUM! error. "
+	   "If @basis is omitted, US 30/360 is applied. "
 	   "If @basis < 0 or @basis > 4, ACCRINTM returns #NUM! error. "
 	   "If @issue date is after @maturity date or they are the same, "
 	   "ACCRINTM returns #NUM! error. "
@@ -907,9 +947,9 @@ static char *help_intrate = {
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
 	   "\n"
-	   "If @basis is omitted, US 30/360 is applied. "
 	   "If @settlement date or @maturity date is not valid, INTRATE returns "
 	   "#NUM! error. "
+	   "If @basis is omitted, US 30/360 is applied. "
 	   "If @basis < 0 or @basis > 4, INTRATE returns #NUM! error. "
 	   "If @settlement date is after @maturity date or they are the same, "
 	   "INTRATE returns #NUM! error. "
@@ -964,9 +1004,9 @@ static char *help_received = {
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
 	   "\n"
-	   "If @basis is omitted, US 30/360 is applied. "
 	   "If @settlement date or @maturity date is not valid, RECEIVED "
 	   "returns #NUM! error. "
+	   "If @basis is omitted, US 30/360 is applied. "
 	   "If @basis < 0 or @basis > 4, RECEIVED returns #NUM! error. "
 	   "If @settlement date is after @maturity date or they are the same, "
 	   "RECEIVED returns #NUM! error. "
@@ -1003,7 +1043,8 @@ gnumeric_received (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_pricedisc = {
 	N_("@FUNCTION=PRICEDISC\n"
-	   "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
+	   "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption"
+	   "[,basis])\n"
 	   "@DESCRIPTION="
 	   "PRICEDISC calculates and returns the price per $100 face value "
 	   "of a security bond.  The security does not pay interest at "
@@ -1018,9 +1059,9 @@ static char *help_pricedisc = {
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
 	   "\n"
-	   "If @basis is omitted, US 30/360 is applied. "
 	   "If @settlement date or @maturity date is not valid, PRICEDISC "
 	   "returns #NUM! error. "
+	   "If @basis is omitted, US 30/360 is applied. "
 	   "If @basis < 0 or @basis > 4, PRICEDISC returns #NUM! error. "
 	   "If @settlement date is after @maturity date or they are the same, "
 	   "PRICEDISC returns #NUM! error. "
@@ -1065,9 +1106,9 @@ static char *help_pricemat = {
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
 	   "\n"
-	   "If @basis is omitted, US 30/360 is applied. "
 	   "If @settlement date or @maturity date is not valid, PRICEMAT "
 	   "returns #NUM! error. "
+	   "If @basis is omitted, US 30/360 is applied. "
 	   "If @basis < 0 or @basis > 4, PRICEMAT returns #NUM! error. "
 	   "If @settlement date is after @maturity date or they are the same, "
 	   "PRICEMAT returns #NUM! error. "
@@ -1119,9 +1160,9 @@ static char *help_disc = {
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
 	   "\n"
-	   "If @basis is omitted, US 30/360 is applied. "
 	   "If @settlement date or @maturity date is not valid, DISC "
 	   "returns #NUM! error. "
+	   "If @basis is omitted, US 30/360 is applied. "
 	   "If @basis < 0 or @basis > 4, DISC returns #NUM! error. "
 	   "If @settlement date is after @maturity date or they are the same, "
 	   "DISC returns #NUM! error. "
@@ -1144,7 +1185,8 @@ gnumeric_disc (FunctionEvalInfo *ei, Value **argv)
 	b = annual_year_basis (argv[0], basis);
 	dsm = days_monthly_basis (argv[0], argv[1], basis);
 
-	if (dsm <= 0 || b <= 0 || dsm <= 0 || basis < 0 || basis > 4 || redemption == 0)
+	if (dsm <= 0 || b <= 0 || dsm <= 0 || basis < 0 || basis > 4
+	    || redemption == 0)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float ((redemption - par) / redemption * (b / dsm));
@@ -1280,7 +1322,8 @@ static char *help_db = {
 	   "@DESCRIPTION="
 	   "DB calculates the depreciation of an asset for a given period "
 	   "using the fixed-declining balance method.  @cost is the "
-	   "initial value of the asset.  @salvage is the value after the depreciation. "
+	   "initial value of the asset.  @salvage is the value after the "
+	   "depreciation. "
 	   "@life is the number of periods overall.  @period is the period "
 	   "for which you want the depreciation to be calculated.  @month "
 	   "is the number of months in the first year of depreciation. "
@@ -1444,8 +1487,8 @@ static char *help_syd = {
 	   "\n"
 	   "The Formula used for sum-of-years digits depriciation is:"
 	   "\n"
-	   "Depriciation expense = ( @cost - @salvage_value ) * (@life - @period "
-	   "+ 1) * 2 / @life * (@life + 1)."
+	   "Depriciation expense = ( @cost - @salvage_value ) * "
+	   "(@life - @period + 1) * 2 / @life * (@life + 1)."
 	   "\n"
 	   "\t@cost = cost of an asset when acquired (market value)."
 	   "\t@salvage_value = amount you get when asset sold at the end of "
@@ -1779,7 +1822,8 @@ gnumeric_rate_f (gnum_float rate, gnum_float *y, void *user_data)
 		gnumeric_rate_t *data = user_data;
 
 		*y = data->pv * calculate_pvif (rate, data->nper) +
-			data->pmt * (1 + rate * data->type) * calculate_fvifa (rate, data->nper) +
+			data->pmt * (1 + rate * data->type) *
+		        calculate_fvifa (rate, data->nper) +
 			data->fv;
 		return GOAL_SEEK_OK;
 	} else
@@ -1840,9 +1884,12 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 	if (status != GOAL_SEEK_OK) {
 		int factor;
 		/* Lay a net of test points around the guess.  */
-		for (factor = 2; !(data.havexneg && data.havexpos) && factor < 100; factor *= 2) {
-			goal_seek_point (&gnumeric_rate_f, &data, &udata, rate0 * factor);
-			goal_seek_point (&gnumeric_rate_f, &data, &udata, rate0 / factor);
+		for (factor = 2; !(data.havexneg && data.havexpos)
+		       && factor < 100; factor *= 2) {
+			goal_seek_point (&gnumeric_rate_f, &data, &udata,
+					 rate0 * factor);
+			goal_seek_point (&gnumeric_rate_f, &data, &udata,
+					 rate0 / factor);
 		}
 
 		/* Pray we got both sides of the root.  */
@@ -1963,7 +2010,8 @@ gnumeric_irr (FunctionEvalInfo *ei, Value **argv)
 	if (status != GOAL_SEEK_OK) {
 		int factor;
 		/* Lay a net of test points around the guess.  */
-		for (factor = 2; !(data.havexneg && data.havexpos) && factor < 100; factor *= 2) {
+		for (factor = 2; !(data.havexneg && data.havexpos) &&
+		       factor < 100; factor *= 2) {
 			goal_seek_point (&irr_npv, &data, &p, rate0 * factor);
 			goal_seek_point (&irr_npv, &data, &p, rate0 / factor);
 		}
@@ -1992,7 +2040,8 @@ static char *help_pv = {
 	   "@pmt is the payment made each period, "
 	   "@fv is the future value and @type is when the payment is made. "
 	   "If @type = 1 then the payment is made at the begining of the "
-	   "period. If @type = 0 (or omitted) it is made at the end of each period."
+	   "period. If @type = 0 (or omitted) it is made at the end of each "
+	   "period."
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=FV")
@@ -2129,7 +2178,8 @@ gnumeric_xnpv (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	for (i = 0; i < p_n; i++)
-	        sum += payments[i] / pow (1 + rate, (dates[i] - dates[0]) / 365.0);
+	        sum += payments[i] / pow (1 + rate, (dates[i] - dates[0]) /
+					  365.0);
 
 	result = value_new_float (sum);
  out:
@@ -2573,47 +2623,47 @@ gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
 
 	switch (*str) {
 	case 'A':
-	  if (strncmp("ATS", str, 3) == 0)
-	    return value_new_float (13.7603);
-	  break;
+	        if (strncmp("ATS", str, 3) == 0)
+		        return value_new_float (13.7603);
+		break;
 	case 'B':
-	  if (strncmp("BEF", str, 3) == 0)
-	    return value_new_float (40.3399);
-	  break;
+	        if (strncmp("BEF", str, 3) == 0)
+		        return value_new_float (40.3399);
+		break;
 	case 'D':
-	  if (strncmp("DEM", str, 3) == 0)
-	    return value_new_float (1.95583);
-	  break;
+	        if (strncmp("DEM", str, 3) == 0)
+		        return value_new_float (1.95583);
+		break;
 	case 'E':
-	  if (strncmp("ESP", str, 3) == 0)
-	    return value_new_float (166.386);
-	  break;
+	        if (strncmp("ESP", str, 3) == 0)
+		        return value_new_float (166.386);
+		break;
 	case 'F':
-	  if (strncmp("FIM", str, 3) == 0)
-	    return value_new_float (5.94573);
-	  else if (strncmp("FRF", str, 3) == 0)
-	    return value_new_float (6.55957);
-	  break;
+	        if (strncmp("FIM", str, 3) == 0)
+		        return value_new_float (5.94573);
+		else if (strncmp("FRF", str, 3) == 0)
+		        return value_new_float (6.55957);
+		break;
 	case 'I':
-	  if (strncmp("IEP", str, 3) == 0)
-	    return value_new_float (0.787564);
-	  else if (strncmp("ITL", str, 3) == 0)
-	    return value_new_float (1936.27);
-	  break;
+	        if (strncmp("IEP", str, 3) == 0)
+		        return value_new_float (0.787564);
+		else if (strncmp("ITL", str, 3) == 0)
+		        return value_new_float (1936.27);
+		break;
 	case 'L':
-	  if (strncmp("LUX", str, 3) == 0)
-	    return value_new_float (40.3399);
-	  break;
+	        if (strncmp("LUX", str, 3) == 0)
+		        return value_new_float (40.3399);
+		break;
 	case 'N':
-	  if (strncmp("NLG", str, 3) == 0)
-	    return value_new_float (2.20371);
-	  break;
+	        if (strncmp("NLG", str, 3) == 0)
+		        return value_new_float (2.20371);
+		break;
 	case 'P':
-	  if (strncmp("PTE", str, 3) == 0)
-	    return value_new_float (200.482);
-	  break;
+	        if (strncmp("PTE", str, 3) == 0)
+		        return value_new_float (200.482);
+		break;
 	default:
-	  break;
+	        break;
 	}
 
 	return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -2623,8 +2673,23 @@ gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_price = {
 	N_("@FUNCTION=PRICE\n"
-	   "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency,basis)\n"
+	   "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency"
+	   "[,basis])\n"
 	   "@DESCRIPTION="
+	   "@frequency is the number of coupon payments per year. "
+	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
+	   "@basis is the type of day counting system you want to use:\n"
+	   "\n"
+	   "0  US 30/360\n"
+	   "1  actual days/actual days\n"
+	   "2  actual days/360\n"
+	   "3  actual days/365\n"
+	   "4  European 30/360\n"
+	   "\n"
+	   "If @frequency is other than 1, 2, or 4, PRICE returns #NUM! "
+	   "error. "
+	   "If @basis is omitted, US 30/360 is applied. "
+	   "If @basis is not in between 0 and 4, #NUM! error is returned. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2647,8 +2712,23 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_yield = {
 	N_("@FUNCTION=YIELD\n"
-	   "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency,basis)\n"
+	   "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency"
+	   "[,basis])\n"
 	   "@DESCRIPTION="
+	   "@frequency is the number of coupon payments per year. "
+	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
+	   "@basis is the type of day counting system you want to use:\n"
+	   "\n"
+	   "0  US 30/360\n"
+	   "1  actual days/actual days\n"
+	   "2  actual days/360\n"
+	   "3  actual days/365\n"
+	   "4  European 30/360\n"
+	   "\n"
+	   "If @frequency is other than 1, 2, or 4, YIELD returns #NUM! "
+	   "error. "
+	   "If @basis is omitted, US 30/360 is applied. "
+	   "If @basis is not in between 0 and 4, #NUM! error is returned. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2665,8 +2745,22 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_yielddisc = {
 	N_("@FUNCTION=YIELDDISC\n"
-	   "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption,basis)\n"
+	   "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
 	   "@DESCRIPTION="
+	   "@frequency is the number of coupon payments per year. "
+	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
+	   "@basis is the type of day counting system you want to use:\n"
+	   "\n"
+	   "0  US 30/360\n"
+	   "1  actual days/actual days\n"
+	   "2  actual days/360\n"
+	   "3  actual days/365\n"
+	   "4  European 30/360\n"
+	   "\n"
+	   "If @frequency is other than 1, 2, or 4, YIELDDISC returns #NUM! "
+	   "error. "
+	   "If @basis is omitted, US 30/360 is applied. "
+	   "If @basis is not in between 0 and 4, #NUM! error is returned. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2683,8 +2777,22 @@ gnumeric_yielddisc (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_yieldmat = {
 	N_("@FUNCTION=YIELDMAT\n"
-	   "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr,basis)\n"
+	   "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
 	   "@DESCRIPTION="
+	   "@frequency is the number of coupon payments per year. "
+	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
+	   "@basis is the type of day counting system you want to use:\n"
+	   "\n"
+	   "0  US 30/360\n"
+	   "1  actual days/actual days\n"
+	   "2  actual days/360\n"
+	   "3  actual days/365\n"
+	   "4  European 30/360\n"
+	   "\n"
+	   "If @frequency is other than 1, 2, or 4, YIELDMAT returns #NUM! "
+	   "error. "
+	   "If @basis is omitted, US 30/360 is applied. "
+	   "If @basis is not in between 0 and 4, #NUM! error is returned. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2701,8 +2809,23 @@ gnumeric_yieldmat (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_oddfprice = {
 	N_("@FUNCTION=ODDFPRICE\n"
-	   "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency,basis)\n"
+	   "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,"
+	   "yld,redemption,frequency[,basis])\n"
 	   "@DESCRIPTION="
+	   "@frequency is the number of coupon payments per year. "
+	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
+	   "@basis is the type of day counting system you want to use:\n"
+	   "\n"
+	   "0  US 30/360\n"
+	   "1  actual days/actual days\n"
+	   "2  actual days/360\n"
+	   "3  actual days/365\n"
+	   "4  European 30/360\n"
+	   "\n"
+	   "If @frequency is other than 1, 2, or 4, ODDFPRICE returns #NUM! "
+	   "error. "
+	   "If @basis is omitted, US 30/360 is applied. "
+	   "If @basis is not in between 0 and 4, #NUM! error is returned. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2719,8 +2842,23 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_oddfyield = {
 	N_("@FUNCTION=ODDFYIELD\n"
-	   "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,frequency,basis)\n"
+	   "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,"
+	   "pr,redemption,frequency[,basis])\n"
 	   "@DESCRIPTION="
+	   "@frequency is the number of coupon payments per year. "
+	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
+	   "@basis is the type of day counting system you want to use:\n"
+	   "\n"
+	   "0  US 30/360\n"
+	   "1  actual days/actual days\n"
+	   "2  actual days/360\n"
+	   "3  actual days/365\n"
+	   "4  European 30/360\n"
+	   "\n"
+	   "If @frequency is other than 1, 2, or 4, ODDFYIELD returns #NUM! "
+	   "error. "
+	   "If @basis is omitted, US 30/360 is applied. "
+	   "If @basis is not in between 0 and 4, #NUM! error is returned. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2737,7 +2875,8 @@ gnumeric_oddfyield (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_oddlprice = {
 	N_("@FUNCTION=ODDLPRICE\n"
-	   "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequency,basis)\n"
+	   "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,"
+	   "redemption,frequency[,basis])\n"
 	   "@DESCRIPTION="
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -2755,8 +2894,23 @@ gnumeric_oddlprice (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_oddlyield = {
 	N_("@FUNCTION=ODDLYIELD\n"
-	   "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,frequency,basis)\n"
+	   "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,"
+	   "redemption,frequency[,basis])\n"
 	   "@DESCRIPTION="
+	   "@frequency is the number of coupon payments per year. "
+	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
+	   "@basis is the type of day counting system you want to use:\n"
+	   "\n"
+	   "0  US 30/360\n"
+	   "1  actual days/actual days\n"
+	   "2  actual days/360\n"
+	   "3  actual days/365\n"
+	   "4  European 30/360\n"
+	   "\n"
+	   "If @frequency is other than 1, 2, or 4, ODDLYIELD returns #NUM! "
+	   "error. "
+	   "If @basis is omitted, US 30/360 is applied. "
+	   "If @basis is not in between 0 and 4, #NUM! error is returned. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2773,9 +2927,24 @@ gnumeric_oddlyield (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_amordegrc = {
 	N_("@FUNCTION=AMORDEGRC\n"
-	   "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,basis)\n"
+	   "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,"
+	   "rate[,basis])\n"
 	   "@DESCRIPTION="
-	   "Returns the depreciation for each accounting period."
+	   "AMORDEGRC returns the depreciation for each accounting period."
+	   "@frequency is the number of coupon payments per year. "
+	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
+	   "@basis is the type of day counting system you want to use:\n"
+	   "\n"
+	   "0  US 30/360\n"
+	   "1  actual days/actual days\n"
+	   "2  actual days/360\n"
+	   "3  actual days/365\n"
+	   "4  European 30/360\n"
+	   "\n"
+	   "If @frequency is other than 1, 2, or 4, AMORDEGRC returns #NUM! "
+	   "error. "
+	   "If @basis is omitted, US 30/360 is applied. "
+	   "If @basis is not in between 0 and 4, #NUM! error is returned. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2792,9 +2961,24 @@ gnumeric_amordegrc (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_amorlinc = {
 	N_("@FUNCTION=AMORLINC\n"
-	   "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate,basis)\n"
+	   "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,"
+	   "rate[,basis])\n"
 	   "@DESCRIPTION="
-	   "Returns the depreciation for each accounting period."
+	   "AMORLINC returns the depreciation for each accounting period."
+	   "@frequency is the number of coupon payments per year. "
+	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
+	   "@basis is the type of day counting system you want to use:\n"
+	   "\n"
+	   "0  US 30/360\n"
+	   "1  actual days/actual days\n"
+	   "2  actual days/360\n"
+	   "3  actual days/365\n"
+	   "4  European 30/360\n"
+	   "\n"
+	   "If @frequency is other than 1, 2, or 4, AMORLINC returns #NUM! "
+	   "error. "
+	   "If @basis is omitted, US 30/360 is applied. "
+	   "If @basis is not in between 0 and 4, #NUM! error is returned. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2813,8 +2997,8 @@ static char *help_coupdaybs = {
 	N_("@FUNCTION=COUPDAYBS\n"
 	   "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
 	   "@DESCRIPTION="
-	   "Returns the number of days from the beginning of the coupon "
-	   "period to the settlement date. "
+	   "COUPDAYBS returns the number of days from the beginning of the "
+	   "coupon period to the settlement date. "
 	   "@frequency is the number of coupon payments per year. "
 	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
 	   "@basis is the type of day counting system you want to use:\n"
@@ -2825,7 +3009,10 @@ static char *help_coupdaybs = {
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
 	   "\n"
+	   "If @frequency is other than 1, 2, or 4, COUPDAYBS returns #NUM! "
+	   "error. "
 	   "If @basis is omitted, US 30/360 is applied. "
+	   "If @basis is not in between 0 and 4, #NUM! error is returned. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2866,7 +3053,7 @@ static char *help_coupdays = {
 	N_("@FUNCTION=COUPDAYS\n"
 	   "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
 	   "@DESCRIPTION="
-	   "Returns the number of days in the coupon period of the "
+	   "COUPDAYS returns the number of days in the coupon period of the "
 	   "settlement date."
 	   "@frequency is the number of coupon payments per year. "
 	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
@@ -2878,7 +3065,10 @@ static char *help_coupdays = {
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
 	   "\n"
+	   "If @frequency is other than 1, 2, or 4, COUPDAYS returns #NUM! "
+	   "error. "
 	   "If @basis is omitted, US 30/360 is applied. "
+	   "If @basis is not in between 0 and 4, #NUM! error is returned. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2919,8 +3109,8 @@ static char *help_coupdaysnc = {
 	N_("@FUNCTION=COUPDAYSNC\n"
 	   "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
 	   "@DESCRIPTION="
-	   "Returns the number of days from the settlement date to the "
-	   "next coupon date."
+	   "COUPDAYSNC returns the number of days from the settlement date "
+	   "to the next coupon date. "
 	   "@frequency is the number of coupon payments per year. "
 	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
 	   "@basis is the type of day counting system you want to use:\n"
@@ -2931,7 +3121,10 @@ static char *help_coupdaysnc = {
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
 	   "\n"
+	   "If @frequency is other than 1, 2, or 4, COUPDAYSNC returns #NUM! "
+	   "error. "
 	   "If @basis is omitted, US 30/360 is applied. "
+	   "If @basis is not in between 0 and 4, #NUM! error is returned. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2950,7 +3143,7 @@ static char *help_coupncd = {
 	N_("@FUNCTION=COUPNCD\n"
 	   "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
 	   "@DESCRIPTION="
-	   "Returns the coupon date following settlement."
+	   "COUPNCD returns the coupon date following settlement."
 	   "@frequency is the number of coupon payments per year. "
 	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
 	   "@basis is the type of day counting system you want to use:\n"
@@ -2961,7 +3154,10 @@ static char *help_coupncd = {
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
 	   "\n"
+	   "If @frequency is other than 1, 2, or 4, COUPNCD returns #NUM! "
+	   "error. "
 	   "If @basis is omitted, US 30/360 is applied. "
+	   "If @basis is not in between 0 and 4, #NUM! error is returned. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -3002,7 +3198,7 @@ static char *help_couppcd = {
 	N_("@FUNCTION=COUPPCD\n"
 	   "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
 	   "@DESCRIPTION="
-	   "Returns the coupon date preceeding settlement."
+	   "COUPPCD returns the coupon date preceeding settlement."
 	   "@frequency is the number of coupon payments per year. "
 	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
 	   "@basis is the type of day counting system you want to use:\n"
@@ -3013,7 +3209,10 @@ static char *help_couppcd = {
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
 	   "\n"
+	   "If @frequency is other than 1, 2, or 4, COUPPCD returns #NUM! "
+	   "error. "
 	   "If @basis is omitted, US 30/360 is applied. "
+	   "If @basis is not in between 0 and 4, #NUM! error is returned. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -3031,7 +3230,8 @@ gnumeric_couppcd (FunctionEvalInfo *ei, Value **argv)
 static char *help_coupnum = {
 	N_("@FUNCTION=COUPNUM\n"
 	   "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
-	   "@DESCRIPTION=Returns the numbers of coupons to be paid between "
+	   "@DESCRIPTION="
+	   "COUPNUM returns the numbers of coupons to be paid between "
 	   "the settlement and maturity dates, rounded up."
 	   "@frequency is the number of coupon payments per year. "
 	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
@@ -3043,7 +3243,10 @@ static char *help_coupnum = {
 	   "3  actual days/365\n"
 	   "4  European 30/360\n"
 	   "\n"
+	   "If @frequency is other than 1, 2, or 4, COUPNUM returns #NUM! "
+	   "error. "
 	   "If @basis is omitted, US 30/360 is applied. "
+	   "If @basis is not in between 0 and 4, #NUM! error is returned. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -3081,7 +3284,7 @@ static char *help_cumipmt = {
 	N_("@FUNCTION=CUMIPMT\n"
 	   "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
 	   "@DESCRIPTION="
-	   "Returns the cumulative interest paid on a loan between "
+	   "CUMIPMT returns the cumulative interest paid on a loan between "
 	   "@start_period and @end_period."
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -3101,7 +3304,7 @@ static char *help_cumprinc = {
 	N_("@FUNCTION=CUMPRINC\n"
 	   "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
 	   "@DESCRIPTION="
-	   "Returns the cumulative principal paid on a loan between "
+	   "CUMPRINC returns the cumulative principal paid on a loan between "
 	   "@start_period and @end_period."
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -3119,9 +3322,11 @@ gnumeric_cumprinc (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_mduration = {
 	N_("@FUNCTION=MDURATION\n"
-	   "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
+	   "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency"
+	   "[,basis])\n"
 	   "@DESCRIPTION="
-	   "Returns the Macauley duration for a security with par value 100."
+	   "MDURATION returns the Macauley duration for a security with par "
+	   "value 100."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -3138,7 +3343,8 @@ gnumeric_mduration (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_vdb = {
 	N_("@FUNCTION=VDB\n"
-	   "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
+	   "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor"
+	   ",switch])\n"
 	   "@DESCRIPTION="
 	   "VDB calculates the depreciation of an asset for a given period "
 	   "or partial period using the double-declining balance method."
@@ -3161,7 +3367,8 @@ void
 finance_functions_init (void)
 {
 	FunctionDefinition *def;
-	FunctionCategory *cat = function_get_category_with_translation ("Financial", _("Financial"));
+	FunctionCategory *cat = function_get_category_with_translation
+	        ("Financial", _("Financial"));
 
 	def = function_add_args	 (cat, "accrint", "???fff|f",
 				  "issue,first_interest,settlement,rate,par,"
@@ -3175,12 +3382,14 @@ finance_functions_init (void)
 	auto_format_function_result (def, AF_MONETARY);
 
 	def = function_add_args	 (cat, "amordegrc", "fffffff",
-				  "cost,purchase_date,first_period,salvage,period,rate,basis",
+				  "cost,purchase_date,first_period,salvage,"
+				  "period,rate,basis",
 				  &help_amordegrc, gnumeric_amordegrc);
 	auto_format_function_result (def, AF_MONETARY);
 
 	def = function_add_args	 (cat, "amorlinc", "fffffff",
-				  "cost,purchase_date,first_period,salvage,period,rate,basis",
+				  "cost,purchase_date,first_period,salvage,"
+				  "period,rate,basis",
 				  &help_amorlinc, gnumeric_amorlinc);
 	auto_format_function_result (def, AF_MONETARY);
 
@@ -3267,7 +3476,8 @@ finance_functions_init (void)
 				  &help_intrate,  gnumeric_intrate);
 	auto_format_function_result (def, AF_PERCENT);
 
-	def = function_add_args	 (cat, "ipmt", "ffff|ff", "rate,per,nper,pv,fv,type",
+	def = function_add_args	 (cat, "ipmt", "ffff|ff",
+				  "rate,per,nper,pv,fv,type",
 				  &help_ipmt,	  gnumeric_ipmt);
 	auto_format_function_result (def, AF_MONETARY);
 
@@ -3281,7 +3491,8 @@ finance_functions_init (void)
 	auto_format_function_result (def, AF_MONETARY);
 
 	def = function_add_args	 (cat, "mduration", "fffff|f",
-				  "settlement,maturify,coupon,yield,frequency[,basis]",
+				  "settlement,maturify,coupon,yield,"
+				  "frequency[,basis]",
 				  &help_mduration, gnumeric_mduration);
 
 	def = function_add_args	 (cat, "mirr", "Aff",
@@ -3301,22 +3512,27 @@ finance_functions_init (void)
 	auto_format_function_result (def, AF_MONETARY);
 
 	def = function_add_args  (cat, "oddfprice", "????fffff",
-				  "settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency,basis",
+				  "settlement,maturity,issue,first_coupon,"
+				  "rate,yld,redemption,frequency,basis",
 				  &help_oddfprice,  gnumeric_oddfprice);
 
 	def = function_add_args  (cat, "oddfyield", "????fffff",
-				  "settlement,maturity,issue,first_coupon,rate,pr,redemption,frequency,basis",
+				  "settlement,maturity,issue,first_coupon,"
+				  "rate,pr,redemption,frequency,basis",
 				  &help_oddfyield,  gnumeric_oddfyield);
 
 	def = function_add_args  (cat, "oddlprice", "???fffff",
-				  "settlement,maturity,last_interest,rate,yld,redemption,frequency,basis",
+				  "settlement,maturity,last_interest,rate,"
+				  "yld,redemption,frequency,basis",
 				  &help_oddlprice,  gnumeric_oddlprice);
 
 	def = function_add_args  (cat, "oddlyield", "???fffff",
-				  "settlement,maturity,last_interest,rate,pr,redemption,frequency,basis",
+				  "settlement,maturity,last_interest,rate,"
+				  "pr,redemption,frequency,basis",
 				  &help_oddlyield,  gnumeric_oddlyield);
 
-	def = function_add_args	 (cat, "pmt", "fff|ff", "rate,nper,pv[,fv,type]",
+	def = function_add_args	 (cat, "pmt", "fff|ff",
+				  "rate,nper,pv[,fv,type]",
 				  &help_pmt,	  gnumeric_pmt);
 	auto_format_function_result (def, AF_MONETARY);
 
@@ -3326,18 +3542,22 @@ finance_functions_init (void)
 	auto_format_function_result (def, AF_MONETARY);
 
 	def = function_add_args  (cat, "price", "??fff|ff",
-				  "settle,mat,rate,yield,redemption_price,frequency,basis",
+				  "settle,mat,rate,yield,redemption_price,"
+				  "frequency,basis",
 				  &help_price, gnumeric_price);
 
 	def = function_add_args	 (cat, "pricedisc", "??ff|f",
-				  "settlement,maturity,discount,redemption[,basis]",
+				  "settlement,maturity,discount,"
+				  "redemption[,basis]",
 				  &help_pricedisc,  gnumeric_pricedisc);
 
 	def = function_add_args	 (cat, "pricemat", "???ff|f",
-				  "settlement,maturity,issue,rate,yield[,basis]",
+				  "settlement,maturity,issue,rate,"
+				  "yield[,basis]",
 				  &help_pricemat,  gnumeric_pricemat);
 
-	def = function_add_args	 (cat, "pv", "fff|ff", "rate,nper,pmt[,fv,type]",
+	def = function_add_args	 (cat, "pv", "fff|ff",
+				  "rate,nper,pmt[,fv,type]",
 				  &help_pv,	  gnumeric_pv);
 	auto_format_function_result (def, AF_MONETARY);
 
@@ -3347,7 +3567,8 @@ finance_functions_init (void)
 	auto_format_function_result (def, AF_PERCENT);
 
 	def = function_add_args	 (cat, "received", "??ff|f",
-				  "settlement,maturity,investment,discount[,basis]",
+				  "settlement,maturity,investment,"
+				  "discount[,basis]",
 				  &help_received,  gnumeric_received);
 	auto_format_function_result (def, AF_MONETARY);
 
@@ -3373,7 +3594,8 @@ finance_functions_init (void)
 				  &help_tbillyield, gnumeric_tbillyield);
 
 	def = function_add_args	 (cat, "vdb", "fffff|ff",
-				  "cost,salvage,life,start_period,end_period[,factor,switch]",
+				  "cost,salvage,life,start_period,"
+				  "end_period[,factor,switch]",
 				  &help_vdb, gnumeric_vdb);
 	auto_format_function_result (def, AF_MONETARY);
 
@@ -3386,7 +3608,8 @@ finance_functions_init (void)
 	auto_format_function_result (def, AF_MONETARY);
 
 	def = function_add_args  (cat, "yield", "??fff|ff",
-				  "settle,mat,rate,price,redemption_price,frequency,basis",
+				  "settle,mat,rate,price,redemption_price,"
+				  "frequency,basis",
 				  &help_yield, gnumeric_yield);
 
 	def = function_add_args  (cat, "yielddisc", "??fff",
