@@ -36,6 +36,7 @@
 #include "print-cell.h"
 #include "application.h"
 #include "sheet-style.h"
+#include "ranges.h"
 
 extern int print_debugging;
 

@@ -19,6 +19,7 @@
 #include "ranges.h"
 #include "number-match.h"
 #include "workbook.h"
+#include "gutils.h"
 
 /***************************************************************************/
 
@@ -1026,44 +1027,6 @@ cell_get_abs_col_row (CellRef const *cell_ref,
 		*row = pos->row + cell_ref->row;
 	else
 		*row = cell_ref->row;
-}
-
-/*
- * Escapes all backslashes and quotes in a string. It is based on glib's
- * g_strescape.
- */
-static char *
-strescape (char *string)
-{
-	char *q;
-	char *escaped;
-	int escapechars = 0;
-	char *p = string;
-
-	g_return_val_if_fail (string != NULL, NULL);
-
-	while (*p != '\000') {
-		if (*p == '\\' || *p == '\"')
-			escapechars++;
-		p++;
-	}
-
-	if (!escapechars)
-		return g_strdup (string);
-
-	escaped = g_new (char, strlen (string) + escapechars + 1);
-
-	p = string;
-	q = escaped;
-
-	while (*p != '\000'){
-		if (*p == '\\' || *p == '\"')
-			*q++ = '\\';
-		*q++ = *p++;
-	}
-	*q = '\000';
-
-	return escaped;
 }
 
 /*
