@@ -32,25 +32,31 @@ typedef enum {
 
 typedef gpointer SolverProgram;
 
-typedef SolverProgram (solver_lp_init_fn) (int n_vars, int n_constraints);
-typedef void (solver_lp_remove_fn) (SolverProgram handle);
-typedef void (solver_lp_set_obj_fn) (SolverProgram handle, int col, 
-				     gnum_float v);
-typedef void (solver_lp_set_constr_mat_fn)  (SolverProgram handle, int col,
-					     int row, gnum_float v);
-typedef void (solver_lp_set_constr_type_fn) (SolverProgram handle, int row,
-					     SolverConstraintType type);
-typedef void (solver_lp_set_constr_rhs_fn)  (SolverProgram handle, int row,
-					     gnum_float rhs);
-typedef void (solver_lp_set_maxim_fn) (SolverProgram handle);
-typedef void (solver_lp_set_minim_fn) (SolverProgram handle);
-typedef void (solver_lp_set_int_fn) (SolverProgram handle, int col,
-				       gboolean must_be_int);
-typedef int  (solver_lp_solve_fn) (SolverProgram handle);
-typedef gnum_float (solver_lp_get_obj_fn_value_fn) (SolverProgram handle);
-typedef gnum_float (solver_lp_get_obj_fn_var_fn) (SolverProgram lp, int col);
-typedef gnum_float (solver_lp_get_shadow_prize_fn) (SolverProgram lp, int row);
+
+/*
+ * Solver's API for LP solving algorithms
+ */
+typedef SolverProgram (solver_lp_init_fn)             (int n_vars,
+						       int n_constraints);
+typedef void          (solver_lp_remove_fn)           (SolverProgram p);
+typedef void          (solver_lp_set_obj_fn)          (SolverProgram p,
+						       int col, gnum_float v);
+typedef void          (solver_lp_set_constr_mat_fn)   (SolverProgram p, int col,
+						       int row, gnum_float v);
+typedef void          (solver_lp_set_constr_type_fn)  (SolverProgram p, int row,
+						       SolverConstraintType t);
+typedef void          (solver_lp_set_constr_rhs_fn)   (SolverProgram p,
+						       int row, gnum_float rhs);
+typedef void          (solver_lp_set_maxim_fn)        (SolverProgram p);
+typedef void          (solver_lp_set_minim_fn)        (SolverProgram p);
+typedef void          (solver_lp_set_int_fn)          (SolverProgram p, int col,
+						       gboolean must_be_int);
+typedef int           (solver_lp_solve_fn)            (SolverProgram p);
+typedef gnum_float    (solver_lp_get_obj_fn_value_fn) (SolverProgram p);
+typedef gnum_float    (solver_lp_get_obj_fn_var_fn)   (SolverProgram p, int col);
+typedef gnum_float    (solver_lp_get_shadow_prize_fn) (SolverProgram p, int row);
 
+
 typedef struct {
         const char                    *name;
         solver_lp_init_fn             *init_fn;
@@ -127,30 +133,23 @@ typedef struct {
         SolverParameters *param;
 } SolverResults;
 
-int  solver_simplex (WorkbookControl *wbc, Sheet *sheet, gnum_float **init_table,
-		     gnum_float **final_table);
 
-int solver_affine_scaling (WorkbookControl *wbc, Sheet *sheet,
-			   gnum_float **x,    /* the optimal solution */
-			   gnum_float **sh_pr /* the shadow prizes */);
+SolverResults    *solver               (WorkbookControl *wbc, Sheet *sheet,
+					gchar **errmsg);
+void             solver_lp_reports     (WorkbookControl *wbc, Sheet *sheet,
+					SolverResults *res,
+					gboolean answer, gboolean sensitivity, 
+					gboolean limits, gboolean program);
+char             *write_constraint_str (int lhs_col, int lhs_row,
+					int rhs_col, int rhs_row,
+					SolverConstraintType type,
+					int cols, int rows);
+SolverParameters *solver_param_new     (void);
+SolverParameters *solver_lp_copy       (const SolverParameters *src_param,
+					Sheet *new_sheet);
+void             solver_param_destroy  (SolverParameters *);
+void             solver_results_free   (SolverResults *res);
 
-gboolean solver_lp (WorkbookControl *wbc, Sheet *sheet, gnum_float **opt_x,
-		    gnum_float **sh_pr, gboolean *ilp);
-
-void solver_lp_reports (WorkbookControl *wbc, Sheet *sheet,
-			SolverResults *res,
-			gboolean answer, gboolean sensitivity, 
-			gboolean limits, gboolean program);
-
-char *write_constraint_str (int lhs_col, int lhs_row, int rhs_col, int rhs_row,
-			    SolverConstraintType type, int cols, int rows);
-
-SolverParameters *solver_param_new (void);
-void solver_param_destroy (SolverParameters *);
-SolverParameters *solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet);
-
-SolverResults *solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg);
-
-Cell *get_solver_input_var (Sheet *sheet, int n);
+Cell             *get_solver_input_var (Sheet *sheet, int n);
 
 #endif
