@@ -36,6 +36,9 @@ draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font, int x1, int y1, 
 /*
  * WARNING : This code is an almost exact duplicate of
  *          print-cell.c:cell_split_text
+ * and is very similar to
+ *          cell.c:calc_text_dimensions
+ *
  * Try to keep it that way.
  */
 static GList *

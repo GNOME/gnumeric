@@ -1,5 +1,10 @@
 1999-11-17  Jody Goldberg <jgoldberg@home.com>
 
+	* src/cell.c (cell_get_span) : Nerge in old fixes from
+	  cell_split_text.  These routines should be very similar.
+	  Add a warning comment to avoid them getting out of sync again.
+	  Where else does this code live ? (draw, print, dimension)
+
 	* src/gnumeric.h : Empty.
 
 	* src/sheet-style.c (border_check) : Fix missing initializer.

@@ -1124,6 +1124,10 @@ cell_get_span (Cell *cell, int *col1, int *col2)
  *
  * Computes the width and height used by the cell based on alignments
  * constraints in the style using the font specified on the style.
+ *
+ * NOTE :
+ * The line splitting code is VERY similar to cell-draw.c:cell_split_text
+ * please keep it that way.
  */
 static void
 calc_text_dimensions (int is_number, MStyle *mstyle,
@@ -1133,52 +1137,70 @@ calc_text_dimensions (int is_number, MStyle *mstyle,
 	StyleFont *style_font = mstyle_get_font (mstyle, zoom);
 	GdkFont *gdk_font = style_font->dfont->gdk_font;
 	int text_width, font_height;
-	
+
 	text_width = gdk_string_measure (gdk_font, text);
 	font_height = style_font_get_height (style_font);
-	
+
 	if (text_width < cell_w || is_number){
 		*w = text_width;
 		*h = font_height;
 	} else if (mstyle_get_align_h (mstyle) == HALIGN_JUSTIFY ||
-	    mstyle_get_align_v (mstyle) == VALIGN_JUSTIFY ||
-	    mstyle_get_fit_in_cell (mstyle)) {
-		const char *ideal_cut_spot = NULL;
-		int  used, last_was_cut_point;
-		const char *p = text;
+		   mstyle_get_align_v (mstyle) == VALIGN_JUSTIFY ||
+		   mstyle_get_fit_in_cell (mstyle)) {
+		char const *p, *line_begin;
+		char const *first_whitespace = NULL;
+		char const *last_whitespace = NULL;
+		gboolean prev_was_space = FALSE;
+		int used = 0, used_last_space = 0;
+
 		*w = cell_w;
-		*h = font_height;
+		*h = 0;
 
-		used = 0;
-		last_was_cut_point = FALSE;
+		for (line_begin = p = text; *p; p++){
+			int const len_current = gdk_text_width (gdk_font, p, 1);
 
-		for (; *p; p++) {
-			int len;
+			/* Wrap if there is an embeded newline, or we have overflowed */
+			if (*p == '\n' || used + len_current > cell_w){
+				char const *begin = line_begin;
+				int len;
 
-			if (last_was_cut_point && *p != ' ')
-				ideal_cut_spot = p;
-			
-			len = gdk_text_measure (gdk_font, p, 1);
-
-			/* If we have overflowed the cell, wrap */
-			if (used + len > cell_w){
-				if (ideal_cut_spot){
-					int n = p - ideal_cut_spot;
-					used = gdk_text_measure (
-						gdk_font, ideal_cut_spot, n);
+				if (*p == '\n'){
+					/* start after newline, preserve whitespace */
+					line_begin = p+1;
+					len = p - begin;
+					used = 0;
+				} else if (last_whitespace != NULL){
+					/* Split at the run of whitespace */
+					line_begin = last_whitespace + 1;
+					len = first_whitespace - begin;
+					used = len_current + used - used_last_space;
 				} else {
-					used = len;
+					/* Split before the current character */
+					line_begin = p; /* next line starts here */
+					len = p - begin;
+					used = len_current;
 				}
-				*h += font_height;
-				ideal_cut_spot = NULL;
-			} else
-				used += len;
 
-			if (*p == ' ')
-				last_was_cut_point = TRUE;
-			else
-				last_was_cut_point = FALSE;
+				*h += font_height;
+				first_whitespace = last_whitespace = NULL;
+				prev_was_space = FALSE;
+				continue;
+			}
+
+			used += len_current;
+			if (*p == ' '){
+				used_last_space = used;
+				last_whitespace = p;
+				if (!prev_was_space)
+					first_whitespace = p;
+				prev_was_space = TRUE;
+			} else
+				prev_was_space = FALSE;
 		}
+
+		/* Catch the final bit that did not wrap */
+		if (*line_begin)
+			*h += font_height;
 	} else {
 		*w = text_width;
 		*h = font_height;
