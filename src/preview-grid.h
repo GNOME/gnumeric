@@ -2,7 +2,7 @@
 #define GNUMERIC_PREVIEW_GRID_H
 
 #include "gnumeric.h"
-#include <gtk/gtk.h>
+#include <glib-object.h>
 
 #define PREVIEW_GRID(obj)          (G_TYPE_CHECK_INSTANCE_CAST((obj), preview_grid_get_type (), PreviewGrid))
 #define IS_PREVIEW_GRID(o)         (G_TYPE_CHECK_INSTANCE_TYPE((o), preview_grid_get_type ()))

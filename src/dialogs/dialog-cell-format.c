@@ -191,7 +191,7 @@ typedef struct _FormatState
 		PatternPicker	 pattern;
 	} border;
 	struct {
-		GnomeCanvas	*canvas;
+		FooCanvas	*canvas;
 		PreviewGrid     *grid;
 		MStyle          *style;
 
@@ -1697,8 +1697,8 @@ draw_pattern_preview (FormatState *state)
 		mstyle_replace_element (state->back.style, state->result, MSTYLE_COLOR_PATTERN);
 	}
 
-	gnome_canvas_request_redraw (state->back.canvas, INT_MIN, INT_MIN,
-				     INT_MAX/2, INT_MAX/2);
+	foo_canvas_request_redraw (state->back.canvas,
+		-2, -2, INT_MAX/2, INT_MAX/2);
 }
 
 static void
@@ -1749,22 +1749,22 @@ draw_pattern_selected (FormatState *state)
 static void
 fmt_dialog_init_background_page (FormatState *state)
 {
-	int w = 0;
-	int h = 0;
+	GtkWidget *widget;
+	int w = 120;
+	int h = 60;
 
-	state->back.canvas =
-		GNOME_CANVAS (glade_xml_get_widget (state->gui, "back_sample"));
+	widget = foo_canvas_new ();
+	state->back.canvas = FOO_CANVAS (widget);
+	gtk_widget_set_size_request (widget, w, h);
+	foo_canvas_set_scroll_region (state->back.canvas, -1, -1, w, h);
 
-	/* Set the scrolling region to the width&height of the canvas, the
-	 * -1 is to hide the 1 pixel (invisible, but drawn white) gridline. */
-	g_object_get (G_OBJECT (state->back.canvas),
-		"width",  &w,
-		"height", &h,
-		NULL);
-	gnome_canvas_set_scroll_region (state->back.canvas, -1, -1, w, h);
+	widget = glade_xml_get_widget (state->gui, "back_sample_frame");
+	gtk_container_add (GTK_CONTAINER (widget),
+		GTK_WIDGET (state->back.canvas));
+	gtk_widget_show_all (widget);
 
-	state->back.grid = PREVIEW_GRID (gnome_canvas_item_new (
-		gnome_canvas_root (state->back.canvas),
+	state->back.grid = PREVIEW_GRID (foo_canvas_item_new (
+		foo_canvas_root (state->back.canvas),
 		preview_grid_get_type (),
 		"RenderGridlines", FALSE,
 		"DefaultColWidth", w,

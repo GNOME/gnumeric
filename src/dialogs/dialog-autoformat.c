@@ -476,7 +476,7 @@ cb_check_item_toggled (__attribute__((unused)) GtkCheckMenuItem *item,
 
 	for (i = 0; i < NUM_PREVIEWS; i++)
 		gnome_canvas_request_redraw (state->canvas [i],
-			INT_MIN, INT_MIN, INT_MAX/2, INT_MAX/2);
+			-2, -2, INT_MAX/2, INT_MAX/2);
 }
 
 static void

@@ -456,8 +456,8 @@ item_edit_destroy (GtkObject *o)
 		g_signal_handler_disconnect 
 			(G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (entry))), 
 			 item_edit->signal_changed);
-		g_signal_handler_disconnect (GTK_OBJECT (entry), item_edit->signal_key_press);
-		g_signal_handler_disconnect (GTK_OBJECT (entry), item_edit->signal_button_press);
+		g_signal_handler_disconnect (G_OBJECT (entry), item_edit->signal_key_press);
+		g_signal_handler_disconnect (G_OBJECT (entry), item_edit->signal_button_press);
 		item_edit->signal_changed = 0;
 	}
 	scg_set_display_cursor (item_edit->scg);

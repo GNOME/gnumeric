@@ -3,7 +3,8 @@
 
 #include <gui-gnumeric.h>
 #include <libgnomeprint/gnome-font.h>
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libfoocanvas/foo-canvas.h>
+#include <gtk/gtkhbox.h>
 #include <glade/glade.h>
 
 #include <mstyle.h>
@@ -24,7 +25,7 @@ typedef struct {
 	GtkWidget *font_style_list;
 	GtkWidget *font_size_list;
 
-	GnomeCanvas *font_preview_canvas;
+	FooCanvas *font_preview_canvas;
 	PreviewGrid *font_preview_grid;
 	int          width, height;
 

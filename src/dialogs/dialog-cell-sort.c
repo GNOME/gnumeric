@@ -769,7 +769,7 @@ dialog_init (SortFlowState *state)
 /* Set-up other widgets */
 	state->cell_sort_row_rb = glade_xml_get_widget (state->gui, "cell_sort_row_rb");
 	state->cell_sort_col_rb = glade_xml_get_widget (state->gui, "cell_sort_col_rb");
-	g_signal_connect (GTK_OBJECT (state->cell_sort_row_rb),
+	g_signal_connect (G_OBJECT (state->cell_sort_row_rb),
 		"toggled",
 		G_CALLBACK (cb_update_sensitivity), state);
 
@@ -787,20 +787,20 @@ dialog_init (SortFlowState *state)
 
 /* Set-up buttons */
 	state->up_button  = glade_xml_get_widget (state->gui, "up_button");
-	g_signal_connect (GTK_OBJECT (state->up_button),
+	g_signal_connect (G_OBJECT (state->up_button),
 		"clicked",
 		G_CALLBACK (cb_up), state);
 	state->down_button  = glade_xml_get_widget (state->gui, "down_button");
-	g_signal_connect (GTK_OBJECT (state->down_button),
+	g_signal_connect (G_OBJECT (state->down_button),
 		"clicked",
 		G_CALLBACK (cb_down), state);
 	state->add_button  = glade_xml_get_widget (state->gui, "add_button");
-	g_signal_connect (GTK_OBJECT (state->add_button),
+	g_signal_connect (G_OBJECT (state->add_button),
 		"clicked",
 		G_CALLBACK (cb_add_clicked), state);
 	gtk_widget_set_sensitive (state->add_button, FALSE);
 	state->delete_button  = glade_xml_get_widget (state->gui, "delete_button");
-	g_signal_connect (GTK_OBJECT (state->delete_button),
+	g_signal_connect (G_OBJECT (state->delete_button),
 		"clicked",
 		G_CALLBACK (cb_delete_clicked), state);
 	gtk_widget_set_sensitive (state->delete_button, FALSE);
@@ -828,7 +828,7 @@ dialog_init (SortFlowState *state)
 
 /* Finish dialog signals */
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	g_signal_connect (GTK_OBJECT (state->dialog),
+	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
 		G_CALLBACK (dialog_destroy), state);
 	cb_sort_selection_changed (NULL, state);

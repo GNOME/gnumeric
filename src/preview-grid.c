@@ -103,7 +103,8 @@ pg_get_row_height (PreviewGrid *pg, int const row)
 
 	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, 1);
 
-	gtk_signal_emit (GTK_OBJECT (pg), pg_signals [GET_ROW_HEIGHT], row, &height);
+	g_signal_emit (G_OBJECT (pg), pg_signals [GET_ROW_HEIGHT], 0,
+		       row, &height);
 	if (height > 0)
 		return height;
 	return pg->def.row_height;
@@ -116,7 +117,8 @@ pg_get_col_width (PreviewGrid *pg, int const col)
 
 	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, 1);
 
-	gtk_signal_emit (GTK_OBJECT (pg), pg_signals [GET_COL_WIDTH], col, &width);
+	g_signal_emit (G_OBJECT (pg), pg_signals [GET_COL_WIDTH], 0,
+		       col, &width);
 	if (width > 0)
 		return width;
 	return pg->def.col_width;
@@ -204,7 +206,8 @@ pg_get_style (PreviewGrid *pg, int const row, int const col)
 	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, 0);
 	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, 0);
 
-	gtk_signal_emit (GTK_OBJECT (pg), pg_signals [GET_CELL_STYLE], row, col, &style, NULL);
+	g_signal_emit (G_OBJECT (pg), pg_signals [GET_CELL_STYLE], 0,
+		       row, col, &style, NULL);
 
 	/* If no style was returned, use the default style */
 	if (style == NULL)
@@ -255,7 +258,8 @@ pg_construct_cell (PreviewGrid *pg, int const row, int const col)
 	cell->col_info->size_pixels = pg_get_col_width  (pg, col);
 
 	cell->value = NULL;
-	gtk_signal_emit (GTK_OBJECT (pg), pg_signals [GET_CELL_VALUE], row, col, &cell->value, NULL);
+	g_signal_emit (G_OBJECT (pg), pg_signals [GET_CELL_VALUE], 0,
+		       row, col, &cell->value, NULL);
 	if (cell->value == NULL)
 		cell->value = value_new_empty ();
 
@@ -379,8 +383,8 @@ preview_grid_update (FooCanvasItem *item,  double i2w_dx, double i2w_dy, int fla
 
 	item->x1 = 0;
 	item->y1 = 0;
-	item->x2 = INT_MAX;
-	item->y2 = INT_MAX;
+	item->x2 = INT_MAX/2;
+	item->y2 = INT_MAX/2;
 }
 
 /**
@@ -470,10 +474,10 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
  	int x, y, col, row, n;
  	int const start_col = pg_get_col_offset (pg, draw_x - 2, &x);
  	int end_col         = pg_get_col_offset (pg, draw_x + width + 2, NULL);
- 	int const diff_x    = draw_x - x;
+ 	int const diff_x    = draw_x;
  	int start_row       = pg_get_row_offset (pg, draw_y - 2, &y);
  	int end_row         = pg_get_row_offset (pg, draw_y + height + 2, NULL);
- 	int const diff_y    = draw_y - y;
+ 	int const diff_y    = draw_y;
 
 	StyleRow sr, next_sr;
 	MStyle const **styles;
@@ -652,38 +656,34 @@ preview_grid_class_init (PreviewGridClass *preview_grid_class)
 	item_class->point       = preview_grid_point;
 
 	/* Create all the signals */
-	pg_signals [GET_ROW_HEIGHT] =
-		gtk_signal_new (
-			"get_row_height",
-			GTK_RUN_LAST,
-			GTK_CLASS_TYPE (klass),
-			GTK_SIGNAL_OFFSET (PreviewGridClass, get_row_height),
-			gnm__INT__INT,
-			GTK_TYPE_INT, 1, GTK_TYPE_INT);
-	pg_signals [GET_COL_WIDTH] =
-		gtk_signal_new (
-			"get_col_width",
-			GTK_RUN_LAST,
-			GTK_CLASS_TYPE (klass),
-			GTK_SIGNAL_OFFSET (PreviewGridClass, get_col_width),
-			gnm__INT__INT,
-			GTK_TYPE_INT, 1, GTK_TYPE_INT);
-	pg_signals [GET_CELL_STYLE] =
-		gtk_signal_new (
-			"get_cell_style",
-			GTK_RUN_LAST,
-			GTK_CLASS_TYPE (klass),
-			GTK_SIGNAL_OFFSET (PreviewGridClass, get_cell_value),
-			gnm__POINTER__INT_INT,
-			GTK_TYPE_POINTER, 2, GTK_TYPE_INT, GTK_TYPE_INT);
-	pg_signals [GET_CELL_VALUE] =
-		gtk_signal_new (
-			"get_cell_value",
-			GTK_RUN_LAST,
-			GTK_CLASS_TYPE (klass),
-			GTK_SIGNAL_OFFSET (PreviewGridClass, get_cell_value),
-			gnm__POINTER__INT_INT,
-			GTK_TYPE_POINTER, 2, GTK_TYPE_INT, GTK_TYPE_INT);
+	pg_signals [GET_ROW_HEIGHT] = g_signal_new ( "get_row_height",
+		preview_grid_get_type (),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (PreviewGridClass, get_row_height),
+		(GSignalAccumulator) NULL, NULL,
+		gnm__INT__INT,
+		G_TYPE_INT, 1, G_TYPE_INT);
+	pg_signals [GET_COL_WIDTH] = g_signal_new ( "get_col_width",
+		preview_grid_get_type (),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (PreviewGridClass, get_col_width),
+		(GSignalAccumulator) NULL, NULL,
+		gnm__INT__INT,
+		G_TYPE_INT, 1, G_TYPE_INT);
+	pg_signals [GET_CELL_STYLE] = g_signal_new ( "get_cell_style",
+		preview_grid_get_type (),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (PreviewGridClass, get_cell_value),
+		(GSignalAccumulator) NULL, NULL,
+		gnm__POINTER__INT_INT,
+		G_TYPE_POINTER, 2, G_TYPE_INT, G_TYPE_INT);
+	pg_signals [GET_CELL_VALUE] = g_signal_new ( "get_cell_value",
+		preview_grid_get_type (),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (PreviewGridClass, get_cell_value),
+		(GSignalAccumulator) NULL, NULL,
+		gnm__POINTER__INT_INT,
+		G_TYPE_POINTER, 2, G_TYPE_INT, G_TYPE_INT);
 }
 
 GSF_CLASS (PreviewGrid, preview_grid,

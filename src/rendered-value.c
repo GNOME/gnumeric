@@ -209,7 +209,9 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 	text       = rv->rendered_text->str;
 	text_width = style_font_string_width (style_font,text);
 
-	if (text_width < cell_w ||
+	/* embedded newlines will cause the width to be narrow,
+	 * but still require multiple lines */
+	if ((!mstyle_get_wrap_text (mstyle) && text_width < cell_w) ||
 	    (cell_is_number (cell) &&
 	     sheet != NULL && !sheet->display_formulas)) {
 		rv->width_pixel  = text_width;

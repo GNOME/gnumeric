@@ -2,7 +2,7 @@ INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/src				\
-	-I..						\
+	-I$(top_srcdir)/src/cut-n-paste-code/foocanvas	\
 	$(GNUMERIC_CFLAGS)
 
 noinst_LIBRARIES = libwidgets.a

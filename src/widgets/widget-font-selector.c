@@ -55,8 +55,8 @@ reload_preview (FontSelector *fs, MStyle *style)
 		mstyle_unref (old);
 	}
 
-	gnome_canvas_request_redraw (fs->font_preview_canvas, INT_MIN, INT_MIN,
-				     INT_MAX / 2, INT_MAX / 2);
+	foo_canvas_request_redraw (fs->font_preview_canvas,
+		-2, -2, INT_MAX / 2, INT_MAX / 2);
 }
 
 /*
@@ -106,10 +106,10 @@ fs_fill_font_name_list (FontSelector *fs)
 	 }
 
 	 g_signal_connect (
-		 GTK_OBJECT (fs->font_name_list), "select_row",
+		 G_OBJECT (fs->font_name_list), "select_row",
 		 GTK_SIGNAL_FUNC (font_selected), fs);
 	 g_signal_connect (
-		 GTK_OBJECT (fs->font_name_list), "map",
+		 G_OBJECT (fs->font_name_list), "map",
 		 GTK_SIGNAL_FUNC (list_mapped), NULL);
 }
 
@@ -167,10 +167,10 @@ fs_fill_font_style_list (FontSelector *fs)
 		 gtk_clist_append (style_list, array);
 	 }
 	 g_signal_connect (
-		 GTK_OBJECT (fs->font_style_list), "select_row",
+		 G_OBJECT (fs->font_style_list), "select_row",
 		 GTK_SIGNAL_FUNC (style_selected), fs);
 	 g_signal_connect (
-		 GTK_OBJECT (fs->font_style_list), "map",
+		 G_OBJECT (fs->font_style_list), "map",
 		 GTK_SIGNAL_FUNC (list_mapped), NULL);
 }
 
@@ -217,14 +217,14 @@ fs_fill_font_size_list (FontSelector *fs)
 		gtk_clist_append (GTK_CLIST (fs->font_size_list), array);
 	}
 	g_signal_connect (
-		GTK_OBJECT (fs->font_size_list), "select_row",
+		G_OBJECT (fs->font_size_list), "select_row",
 		GTK_SIGNAL_FUNC (size_selected), fs);
 	g_signal_connect (
-		GTK_OBJECT (fs->font_size_list), "map",
+		G_OBJECT (fs->font_size_list), "map",
 		GTK_SIGNAL_FUNC (list_mapped), NULL);
 
 	g_signal_connect (
-		GTK_OBJECT (fs->font_size_entry), "changed",
+		G_OBJECT (fs->font_size_entry), "changed",
 		GTK_SIGNAL_FUNC (size_changed), fs);
 }
 
@@ -268,15 +268,15 @@ canvas_size_changed (__attribute__((unused)) GtkWidget *widget,
 	fs->width  = allocation->width - 1;
 	fs->height = allocation->height - 1;
 
-	gnome_canvas_set_scroll_region (fs->font_preview_canvas, 0, 0,
-					fs->width, fs->height);
+	foo_canvas_set_scroll_region (fs->font_preview_canvas, 0, 0,
+				      fs->width, fs->height);
 	reload_preview (fs, NULL);
 }
 
 static void
 fs_init (FontSelector *fs)
 {
-	GtkWidget *toplevel;
+	GtkWidget *toplevel, *w;
 	GtkWidget *old_parent;
 
 	fs->gui = gnumeric_glade_xml_new (NULL, "font-sel.glade");
@@ -299,9 +299,14 @@ fs_init (FontSelector *fs)
 	fs->font_style_list = glade_xml_get_widget (fs->gui, "font-style-list");
 	fs->font_size_list  = glade_xml_get_widget (fs->gui, "font-size-list");
 
-	fs->font_preview_canvas = GNOME_CANVAS (glade_xml_get_widget (fs->gui, "font-preview-canvas"));
-	fs->font_preview_grid = PREVIEW_GRID (gnome_canvas_item_new (
-		gnome_canvas_root (fs->font_preview_canvas),
+	w = foo_canvas_new ();
+	fs->font_preview_canvas = FOO_CANVAS (w);
+	foo_canvas_set_scroll_region (fs->font_preview_canvas, -1, -1, INT_MAX/2, INT_MAX/2);
+	foo_canvas_scroll_to (fs->font_preview_canvas, 0, 0);
+	w = glade_xml_get_widget (fs->gui, "font-preview-frame");
+	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (fs->font_preview_canvas));
+	fs->font_preview_grid = PREVIEW_GRID (foo_canvas_item_new (
+		foo_canvas_root (fs->font_preview_canvas),
 		preview_grid_get_type (),
 		"RenderGridlines", FALSE,
 		NULL));
@@ -309,7 +314,7 @@ fs_init (FontSelector *fs)
 	g_signal_connect (G_OBJECT (fs->font_preview_grid),
 		"get_row_height",
 		GTK_SIGNAL_FUNC (cb_get_row_height), fs);
-	g_signal_connect (GTK_OBJECT (fs->font_preview_grid),
+	g_signal_connect (G_OBJECT (fs->font_preview_grid),
 		"get_col_width",
 		GTK_SIGNAL_FUNC (cb_get_col_width), fs);
 	g_signal_connect (G_OBJECT (fs->font_preview_grid),
