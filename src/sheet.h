@@ -225,10 +225,6 @@ gboolean sheet_is_pristine	(Sheet const *sheet);
 Range    sheet_get_extent	(Sheet const *sheet,
 				 gboolean spans_and_merges_extend);
 
-/* Sheet information manipulation */
-void     sheet_move_range	(GnmExprRelocateInfo const *rinfo,
-				 GSList **reloc_storage, CommandContext *cc);
-
 char	*sheet_name_quote	(char const *unquoted_name);
 
 /*
@@ -249,18 +245,25 @@ void	     sheet_cell_calc_span   (Cell *cell, SpanCalcFlags flags);
 void	     sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols);
 
 /* Implementation for commands, no undo */
+typedef struct {
+	GSList *exprs;
+} GnmRelocUndo;
+
 gboolean  sheet_insert_cols (Sheet *sheet,
 			     int col, int count, ColRowStateList *states,
-			     GSList **reloc_storage, CommandContext *cc);
+			     GnmRelocUndo *reloc_storage, CommandContext *cc);
 gboolean  sheet_delete_cols (Sheet *sheet,
 			     int col, int count, ColRowStateList *states,
-			     GSList **reloc_storage, CommandContext *cc);
+			     GnmRelocUndo *reloc_storage, CommandContext *cc);
 gboolean  sheet_insert_rows (Sheet *sheet,
 			     int row, int count, ColRowStateList *states,
-			     GSList **reloc_storage, CommandContext *cc);
+			     GnmRelocUndo *reloc_storage, CommandContext *cc);
 gboolean  sheet_delete_rows (Sheet *sheet,
 			     int row, int count, ColRowStateList *states,
-			     GSList **reloc_storage, CommandContext *cc);
+			     GnmRelocUndo *reloc_storage, CommandContext *cc);
+void      sheet_move_range   (GnmExprRelocateInfo const *rinfo,
+			      GnmRelocUndo *reloc_storage, CommandContext *cc);
+
 
 typedef enum {
 	CLEAR_VALUES	   = 0x1,

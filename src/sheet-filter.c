@@ -316,8 +316,7 @@ static Value *
 cb_collect_unique (Sheet *sheet, int col, int row, Cell *cell,
 		   UniqueCollection *uc)
 {
-	if (cell_is_blank (cell) ||
-	    (cell->value->type == VALUE_STRING && *(cell->value->v_str.val->str) == '\0'))
+	if (cell_is_blank (cell))
 		uc->has_blank = TRUE;
 	else
 		g_hash_table_replace (uc->hash, cell->value, cell->value);
@@ -707,8 +706,7 @@ cb_filter_expr (Sheet *sheet, int col, int row, Cell *cell,
 static Value *
 cb_filter_non_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
 {
-	if (cell_is_blank (cell) ||
-	    (cell->value->type == VALUE_STRING && *(cell->value->v_str.val->str) == '\0'))
+	if (cell_is_blank (cell))
 		colrow_set_visibility (sheet, FALSE, FALSE, row, row);
 	return NULL;
 }
@@ -716,8 +714,7 @@ cb_filter_non_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
 static Value *
 cb_filter_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
 {
-	if (!cell_is_blank (cell) &&
-	    !(cell->value->type == VALUE_STRING && *(cell->value->v_str.val->str) == '\0'))
+	if (!cell_is_blank (cell))
 		colrow_set_visibility (sheet, FALSE, FALSE, row, row);
 	return NULL;
 }

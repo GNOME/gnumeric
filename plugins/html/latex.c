@@ -818,7 +818,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, Cell *cell, int num_merged_co
 			break;
 		}
 
-	if (!cell_is_blank (cell)) {
+	if (!cell_is_empty (cell)) {
                 /* Check the foreground (text) colour. */
 		const PangoColor *fore = cell_get_render_color (cell);
 		if (fore == NULL)
@@ -1164,7 +1164,7 @@ latex_file_save (GnmFileSaver const *fs, IOContext *io_context,
 
 
 			/* A blank cell has only a few options*/
-			if (cell_is_blank(cell)) {
+			if (cell_is_empty(cell)) {
 				latex2e_write_blank_cell(output, col, row,
 							col - total_range.start.col,
 							next_vert, current_sheet);

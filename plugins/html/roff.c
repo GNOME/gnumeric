@@ -48,7 +48,7 @@ roff_fprintf (GsfOutput *output, Cell *cell)
 	char * s;
 	MStyle *mstyle;
 
-	if (cell_is_blank (cell))
+	if (cell_is_empty (cell))
 		return 0;
 
 	mstyle = cell_get_mstyle (cell);

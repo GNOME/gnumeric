@@ -176,7 +176,7 @@ cellspan_is_empty (int col, ColRowInfo const *ri, Cell const *ok_span_cell)
 		return FALSE;
 
 	tmp = sheet_cell_get (ok_span_cell->base.sheet, col, ri->pos);
-	/* FIXME : cannot use cell_is_blank until expressions can span.
+	/* FIXME : cannot use cell_is_empty until expressions can span.
 	 * because cells with expressions start out with value Empty
 	 * existing spans continue to flow through, but never get removed
 	 * because we don't respan expression results.
@@ -232,7 +232,7 @@ cell_calc_span (Cell const *cell, int *col1, int *col2)
 	if (align == HALIGN_LEFT || align == HALIGN_RIGHT)
 		indented_w += cell_rendered_offset (cell);
 
-	if (cell_is_blank (cell) ||
+	if (cell_is_empty (cell) ||
 	    !cell->col_info->visible ||
 	    (align != HALIGN_CENTER_ACROSS_SELECTION &&
 		 (mstyle_get_wrap_text (mstyle) ||

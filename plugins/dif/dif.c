@@ -306,7 +306,7 @@ dif_file_save (GnmFileSaver const *fs, IOContext *io_context,
 			Cell *cell;
 
 			cell = sheet_cell_get (sheet, col, row);
-			if (cell_is_blank (cell)) {
+			if (cell_is_empty (cell)) {
 				gsf_output_puts(output, "1,0\n" "\"\"\n");
 			} else {
 				gchar *str;

@@ -1138,7 +1138,7 @@ typedef struct
 
 	ColRowStateList *saved_states;
 	CellRegion	*contents;
-	GSList		*reloc_storage;
+	GnmRelocUndo	 reloc_storage;
 } CmdInsDelColRow;
 
 GNUMERIC_MAKE_COMMAND (CmdInsDelColRow, cmd_ins_del_colrow);
@@ -1148,7 +1148,7 @@ cmd_ins_del_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdInsDelColRow *me = CMD_INS_DEL_COLROW (cmd);
 	int index;
-	GSList *tmp = NULL;
+	GnmRelocUndo	tmp;
 	gboolean trouble;
 	Range r;
 	PasteTarget pt;
@@ -1192,11 +1192,11 @@ cmd_ins_del_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	me->contents = NULL;
 
 	/* Throw away the undo info for the expressions after the action*/
-	dependents_unrelocate_free (tmp);
+	dependents_unrelocate_free (tmp.exprs);
 
 	/* Restore the changed expressions before the action */
-	dependents_unrelocate (me->reloc_storage);
-	me->reloc_storage = NULL;
+	dependents_unrelocate (me->reloc_storage.exprs);
+	me->reloc_storage.exprs = NULL;
 
 	/* Ins/Del Row/Col re-ants things completely to account
 	 * for the shift of col/rows.
@@ -1330,9 +1330,9 @@ cmd_ins_del_colrow_finalize (GObject *cmd)
 		me->cutcopied = NULL;
 	}
 	sv_weak_unref (&(me->cut_copy_view));
-	if (me->reloc_storage) {
-		dependents_unrelocate_free (me->reloc_storage);
-		me->reloc_storage = NULL;
+	if (me->reloc_storage.exprs) {
+		dependents_unrelocate_free (me->reloc_storage.exprs);
+		me->reloc_storage.exprs = NULL;
 	}
 	gnumeric_command_finalize (cmd);
 }
@@ -2406,7 +2406,7 @@ typedef struct
 
 	GnmExprRelocateInfo info;
 	GSList		*paste_content;
-	GSList		*reloc_storage;
+	GnmRelocUndo	 reloc_storage;
 	gboolean	 move_selection;
 	ColRowStateList *saved_sizes;
 } CmdPasteCut;
@@ -2469,8 +2469,8 @@ cmd_paste_cut_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	me->saved_sizes = NULL;
 
 	/* Restore the changed expressions */
-	dependents_unrelocate (me->reloc_storage);
-	me->reloc_storage = NULL;
+	dependents_unrelocate (me->reloc_storage.exprs);
+	me->reloc_storage.exprs = NULL;
 
 	while (me->paste_content) {
 		PasteContent *pc = me->paste_content->data;
@@ -2506,7 +2506,7 @@ cmd_paste_cut_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->paste_content == NULL, TRUE);
-	g_return_val_if_fail (me->reloc_storage == NULL, TRUE);
+	g_return_val_if_fail (me->reloc_storage.exprs == NULL, TRUE);
 
 	tmp = me->info.origin;
 	range_translate (&tmp, me->info.col_offset, me->info.row_offset);
@@ -2570,9 +2570,9 @@ cmd_paste_cut_finalize (GObject *cmd)
 		cellregion_free (pc->contents);
 		g_free (pc);
 	}
-	if (me->reloc_storage) {
-		dependents_unrelocate_free (me->reloc_storage);
-		me->reloc_storage = NULL;
+	if (me->reloc_storage.exprs) {
+		dependents_unrelocate_free (me->reloc_storage.exprs);
+		me->reloc_storage.exprs = NULL;
 	}
 	gnumeric_command_finalize (cmd);
 }
@@ -2624,7 +2624,7 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 	/* Store the specs for the object */
 	me->info = *info;
 	me->paste_content  = NULL;
-	me->reloc_storage  = NULL;
+	me->reloc_storage.exprs  = NULL;
 	me->move_selection = move_selection;
 	me->saved_sizes    = NULL;
 

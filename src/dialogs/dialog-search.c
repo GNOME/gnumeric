@@ -129,7 +129,7 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 			const char *type;
 
 			gboolean is_expr = cell_has_expr (cell);
-			gboolean is_value = !is_expr && !cell_is_blank (cell) && v;
+			gboolean is_value = !is_expr && !cell_is_empty (cell) && v;
 
 			if (is_expr)
 				type = _("Expression");

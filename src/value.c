@@ -45,8 +45,8 @@
 
 
 static struct {
-	const char *C_name;
-	const char *locale_name;
+	char const *C_name;
+	char const *locale_name;
 	String *locale_name_str;
 } standard_errors[8] = {
 	{ N_("#NULL!"), NULL, NULL },
@@ -186,7 +186,7 @@ value_new_error_RECALC (EvalPos const *pos)
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_RECALC].locale_name_str);
 }
 
-const char *
+char const *
 value_error_name (GnmStdError err, gboolean translated)
 {
 	size_t i = (size_t)err;
@@ -216,7 +216,7 @@ value_error_set_pos (ValueErr *err, EvalPos const *pos)
 }
 
 GnmStdError
-value_error_classify (const Value *v)
+value_error_classify (Value const *v)
 {
 	size_t i;
 
@@ -400,8 +400,8 @@ value_new_from_string (ValueType t, char const *str, StyleFormat *sf,
 		break;
 
 	case VALUE_BOOLEAN: {
-		const char *C_true = N_("TRUE");
-		const char *C_false = N_("FALSE");
+		char const *C_true = N_("TRUE");
+		char const *C_false = N_("FALSE");
 
 		if (0 == g_ascii_strcasecmp (str, translated ? _(C_true) : C_true))
 			res = value_new_bool (TRUE);
@@ -794,7 +794,7 @@ value_get_as_checked_bool (Value const *v)
 
 void
 value_get_as_gstring (GString *target, Value const *v,
-		      const GnmExprConventions *conv)
+		      GnmExprConventions const *conv)
 {
 	if (v == NULL)
 		return;
@@ -814,7 +814,7 @@ value_get_as_gstring (GString *target, Value const *v,
 	}
 
 	case VALUE_BOOLEAN: {
-		const char *cval = v->v_bool.val ? N_("TRUE") : N_("FALSE");
+		char const *cval = v->v_bool.val ? N_("TRUE") : N_("FALSE");
 		g_string_append (target, conv->output_translated ? _(cval) : cval);
 		return;
 	}
@@ -833,7 +833,7 @@ value_get_as_gstring (GString *target, Value const *v,
 		return;
 
 	case VALUE_ARRAY: {
-		const char *row_sep, *col_sep;
+		char const *row_sep, *col_sep;
 		char locale_arg_sep[2], locale_col_sep[2];
 		int x, y;
 
@@ -1214,8 +1214,8 @@ value_diff (Value const *a, Value const *b)
 	}
 
 	case VALUE_FLOAT: {
-		const gnm_float da = value_get_as_float (a);
-		const gnm_float db = value_get_as_float (b);
+		gnm_float const da = value_get_as_float (a);
+		gnm_float const db = value_get_as_float (b);
 		return gnumabs (da - db);
 	}
 	default:
@@ -1414,7 +1414,7 @@ criteria_test_greater_or_equal (Value const *x, Value const *y)
  * Finds a column index of a field.
  */
 int
-find_column_of_field (const EvalPos *ep, Value *database, Value *field)
+find_column_of_field (EvalPos const *ep, Value *database, Value *field)
 {
         Sheet *sheet;
         Cell  *cell;
@@ -1441,7 +1441,7 @@ find_column_of_field (const EvalPos *ep, Value *database, Value *field)
 	row = database->v_range.cell.a.row;
 
 	for (n = begin_col; n <= end_col; n++) {
-		const char *txt;
+		char const *txt;
 		gboolean match;
 
 	        cell = sheet_cell_get (sheet, n, row);
@@ -1523,7 +1523,7 @@ parse_criteria (char const *criteria, criteria_test_fun_t *fun,
 }
 
 
-GSList *
+static GSList *
 parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 		      int   *field_ind)
 {
@@ -1544,18 +1544,17 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 		        cell = sheet_cell_get (sheet, j, i);
 			if (cell != NULL)
 				cell_eval (cell);
-			if (cell_is_blank (cell))
+			if (cell_is_empty (cell))
 			        continue;
 
-			cond = g_new (func_criteria_t, 1);
-
 			/* Equality condition (in number format) */
+			cond = g_new (func_criteria_t, 1);
 			if (VALUE_IS_NUMBER (cell->value)) {
 			        cond->x = value_duplicate (cell->value);
 				cond->fun = (criteria_test_fun_t) criteria_test_equal;
 			} else {
 				/* Other conditions (in string format) */
-				const char *cell_str =
+				char const *cell_str =
 					value_peek_string (cell->value);
 				parse_criteria (cell_str, &cond->fun, &cond->x, date_conv);
 			}
@@ -1575,11 +1574,9 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
  * Parses the criteria cell range.
  */
 GSList *
-parse_database_criteria (const EvalPos *ep, Value *database,
-			 Value *criteria)
+parse_database_criteria (EvalPos const *ep, Value *database, Value *criteria)
 {
 	Sheet	*sheet;
-	GSList	*criterias;
 	Cell	*cell;
 
         int   i;
@@ -1592,14 +1589,14 @@ parse_database_criteria (const EvalPos *ep, Value *database,
 	e_col = criteria->v_range.cell.b.col;
 	e_row = criteria->v_range.cell.b.row;
 
-	field_ind = g_new (int, (e_col - b_col + 1));
-
 	/* Find the index numbers for the columns of criterias */
+	field_ind = g_alloca (sizeof (int) * (e_col - b_col + 1));
 	for (i = b_col; i <= e_col; i++) {
 	        cell = sheet_cell_get (sheet, i, b_row);
-		if (cell != NULL)
-			cell_eval (cell);
-		if (cell_is_blank (cell))
+		if (cell == NULL)
+		        continue;
+		cell_eval (cell);
+		if (cell_is_empty (cell))
 		        continue;
 		field_ind[i - b_col] =
 		        find_column_of_field (ep, database, cell->value);
@@ -1609,12 +1606,8 @@ parse_database_criteria (const EvalPos *ep, Value *database,
 		}
 	}
 
-	criterias = parse_criteria_range (sheet, b_col, b_row + 1,
-					  e_col, e_row,
-					  field_ind);
-
-	g_free (field_ind);
-	return criterias;
+	return parse_criteria_range (sheet, b_col, b_row + 1,
+				     e_col, e_row, field_ind);
 }
 
 /* Finds the rows from the given database that match the criteria.
@@ -1648,7 +1641,7 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 					first_col + cond->column, row);
 				if (test_cell != NULL)
 					cell_eval (test_cell);
-				if (cell_is_blank (test_cell))
+				if (cell_is_empty (test_cell))
 					continue;
 
 				if (!cond->fun (test_cell->value, cond->x)) {
@@ -1672,7 +1665,7 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 				for (c = rows; c != NULL; c = c->next) {
 					trow = *((gint *) c->data);
 					for (i = first_col; i <= last_col; i++) {
-						const char *t1, *t2;
+						char const *t1, *t2;
 						test_cell =
 							sheet_cell_get (sheet, i, trow);
 						cell =
@@ -1704,9 +1697,9 @@ filter_row:
 
 /****************************************************************************/
 
-const ValueErr value_terminate_err = { VALUE_ERROR, NULL, NULL };
-static const ValueInt the_value_zero = { VALUE_INTEGER, NULL, 0 };
-const Value *value_zero = (const Value *)&the_value_zero;
+ValueErr const value_terminate_err = { VALUE_ERROR, NULL, NULL };
+static ValueInt const the_value_zero = { VALUE_INTEGER, NULL, 0 };
+Value const *value_zero = (Value const *)&the_value_zero;
 
 void
 value_init (void)

@@ -69,7 +69,7 @@ find_cells_that_match (Sheet *sheet, Value *database,
 		if (cell != NULL)
 			cell_eval (cell);
 
-		if (cell_is_blank (cell))
+		if (cell_is_empty (cell))
 			continue;
 
 		add_flag = TRUE;
@@ -86,7 +86,7 @@ find_cells_that_match (Sheet *sheet, Value *database,
 
 				if (cell != NULL)
 					cell_eval (cell);
-				if (cell_is_blank (tmp) ||
+				if (cell_is_empty (tmp) ||
 				    !cond->fun (tmp->value, cond->x)) {
 					add_flag = FALSE;
 					break;
@@ -1181,7 +1181,7 @@ gnumeric_getpivotdata (FunctionEvalInfo *ei, Value **argv)
 	if (cell != NULL)
 		cell_eval (cell);
 
-	if (cell_is_blank (cell) ||
+	if (cell_is_empty (cell) ||
 	    !VALUE_IS_NUMBER (cell->value))
 		return value_new_error_REF (ei->pos);
 

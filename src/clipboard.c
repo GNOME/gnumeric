@@ -35,7 +35,7 @@
 static gboolean
 cell_has_expr_or_number_or_blank (Cell const * cell)
 {
-	return (cell_is_blank (cell) ||
+	return (cell_is_empty (cell) ||
 		(cell != NULL && cell_is_number (cell)) ||
 		(cell != NULL && cell_has_expr (cell)));
 }
@@ -47,7 +47,7 @@ cell_get_contents_as_expr (Cell const * cell)
 
 	g_return_val_if_fail (cell_has_expr_or_number_or_blank (cell), NULL);
 
-	if (cell_is_blank (cell))
+	if (cell_is_empty (cell))
 		expr = gnm_expr_new_constant (value_new_float (0.0));
 	else if (cell_has_expr (cell)) {
 		expr = cell->base.expression;

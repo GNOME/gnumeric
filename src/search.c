@@ -680,7 +680,7 @@ search_replace_cell (SearchReplace *sr,
 	v = cell->value;
 
 	is_expr = cell_has_expr (cell);
-	is_value = !is_expr && !cell_is_blank (cell) && v;
+	is_value = !is_expr && !cell_is_empty (cell) && v;
 	is_string = is_value && (v->type == VALUE_STRING);
 	is_other = is_value && !is_string;
 

@@ -423,7 +423,7 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
  						      style, col, row, x, y,
  						      colwidths [col], row_height);
 
-			if (!cell_is_blank (cell))
+			if (!cell_is_empty (cell))
 				cell_draw (cell, pg->gc.cell, drawable,
 					   x, y, -1, -1, -1);
 

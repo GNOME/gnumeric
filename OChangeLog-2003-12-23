@@ -1,3 +1,14 @@
+2003-08-16  Jody Goldberg <jody@gnome.org>
+
+	A bit of tidying to make 70184 simpler
+	* src/cell.c (cell_is_empty) : renamed from cell_is_blank.  All
+	  callers changed.
+	(cell_is_blank) : new function that handles "" too.
+
+	* src/sheet-filter.c (cb_collect_unique) : Use it here.
+	(cb_filter_non_blanks) : here.
+	(cb_filter_blanks) : and here.
+
 2003-08-15  Danilo Šegan  <dsegan@gmx.net>
 
 	* configure.in: Added "sr" and "sr@Latn" to ALL_LINGUAS.

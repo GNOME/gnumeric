@@ -567,7 +567,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 				 * box.  Ignore blanks too.
 				 */
 				Cell const *cell = sheet_cell_get (sheet, col, row);
-				if (!cell_is_blank (cell) && cell != edit_cell)
+				if (!cell_is_empty (cell) && cell != edit_cell)
 					cell_draw (cell,
 						   ig->gc.cell, drawable,
 						   x, y, -1, -1, -1);

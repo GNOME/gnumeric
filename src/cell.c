@@ -17,6 +17,7 @@
 #include "expr-impl.h"
 #include "rendered-value.h"
 #include "value.h"
+#include "str.h"
 #include "style.h"
 #include "format.h"
 #include "sheet-object-cell-comment.h"
@@ -440,11 +441,33 @@ cell_set_array_formula (Sheet *sheet,
 
 /***************************************************************************/
 
+/**
+ * cell_is_empty :
+ * @cell : #Cell
+ *
+ * If the cell has not been created, or has VALUE_EMPTY.
+ **/
+gboolean
+cell_is_empty (Cell const * cell)
+{
+	return  cell == NULL ||
+		cell->value == NULL ||
+		cell->value->type == VALUE_EMPTY;
+}
+
+/**
+ * cell_is_blank :
+ * @cell : #Cell
+ *
+ * If the cell has not been created, has VALUE_EMPTY, or has a VALUE_STRING == ""
+ **/
 gboolean
 cell_is_blank (Cell const * cell)
 {
-	return (cell == NULL || cell->value == NULL ||
-		cell->value->type == VALUE_EMPTY);
+	return  cell == NULL ||
+		cell->value == NULL ||
+		cell->value->type == VALUE_EMPTY ||
+		(VALUE_IS_STRING (cell->value) && *(cell->value->v_str.val->str) == '\0');
 }
 
 Value *

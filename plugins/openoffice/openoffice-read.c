@@ -545,7 +545,7 @@ oo_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (state->col_inc > 1) {
 		Cell *cell = sheet_cell_get (state->pos.sheet, state->pos.eval.col, state->pos.eval.row);
 
-		if (!cell_is_blank (cell)) {
+		if (!cell_is_empty (cell)) {
 			int i = 1;
 			Cell *next;
 			for (; i < state->col_inc ; i++) {

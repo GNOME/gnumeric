@@ -137,7 +137,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 	if (cell != NULL)
 		dependent_eval (CELL_TO_DEP (cell));
 
-	if (cell_is_blank (cell)) {
+	if (cell_is_empty (cell)) {
 		if (v->allow_blank)
 			return VALIDATION_STATUS_VALID;
 		msg = g_strdup_printf (_("Cell %s is not permitted to be blank"),

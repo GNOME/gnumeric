@@ -45,7 +45,8 @@ void	  cell_relocate     (Cell *cell, GnmExprRewriteInfo const *rwinfo);
 #define	    cell_is_merged(cell)	((cell)->base.flags & CELL_IS_MERGED)
 CellComment     *cell_has_comment_pos   (const Sheet *sheet, const CellPos *pos);
 CellComment     *cell_has_comment	(Cell const *cell);
-gboolean	 cell_is_blank		(Cell const *cell);
+gboolean	 cell_is_empty		(Cell const *cell);
+gboolean	 cell_is_blank		(Cell const *cell); /* empty, or "" */
 Value *		 cell_is_error		(Cell const *cell);
 gboolean	 cell_is_number		(Cell const *cell);
 gboolean	 cell_is_zero		(Cell const *cell);

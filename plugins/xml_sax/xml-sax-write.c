@@ -646,7 +646,7 @@ natural_order_cmp (const void *a, const void *b)
 static void
 copy_hash_table_to_ptr_array (gpointer key, Cell *cell, gpointer user_data)
 {
-	if (!cell_is_blank (cell) || cell->base.expression != NULL)
+	if (!cell_is_empty (cell) || cell->base.expression != NULL)
 		g_ptr_array_add (user_data, cell) ;
 }
 

@@ -765,7 +765,7 @@ print_cell_range (GnomePrintContext *context,
 
 				/* no need to draw blanks */
 				Cell const *cell = sheet_cell_get (sheet, col, row);
-				if (!cell_is_blank (cell))
+				if (!cell_is_empty (cell))
 					print_cell (cell, style, context,
 						    x, y, -1., -1., -1.);
 

@@ -1215,7 +1215,7 @@ cb_countblank (Sheet *sheet, int col, int row,
 	       Cell *cell, void *user_data)
 {
 	cell_eval (cell);
-	if (!cell_is_blank (cell))
+	if (!cell_is_empty (cell))
 		*((int *)user_data) -= 1;
 	return NULL;
 }
@@ -1524,7 +1524,7 @@ gnumeric_isblank (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 		CellPos pos;
 
 		cellref_get_abs_pos (ref, &ei->pos->eval, &pos);
-		result = cell_is_blank (sheet_cell_get (sheet, pos.col,
+		result = cell_is_empty (sheet_cell_get (sheet, pos.col,
 							pos.row));
 	}
 	return value_new_bool (result);
