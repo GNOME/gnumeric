@@ -22,8 +22,6 @@ Release Critical
     : We should remember the last directory the user opened a file
 
     : F4 is not working {gtk bug}
-    : Make 'do you want to overwrite existing' dialog a proper transient so
-      that focus goes there when it is popped up
 
     http://bugzilla.gnome.org/show_bug.cgi?id=151610
     : crash 	: fixed
