@@ -1,3 +1,23 @@
+2001-07-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (wbcg_sheet_move) : Fix.
+	  SheetControl no longer inherits from Table it now contains it.
+
+	* src/sheet-control-gui.c (cb_sheet_object_view_destroy) : rename from
+	  cb_sheet_object_destroy.
+
+	* src/sheet-object.c (cb_sheet_object_configure) : Use 
+	  sheet_object_view_obj and sheet_object_view_control.
+	(sheet_object_view_destroyed) : remove the sheetcontrol key from the
+	  view when it is destroyed.  And remove our reference to the control.
+	(sheet_object_new_view) : give the view a ref of the control.
+
+	* src/item-grid.c (item_grid_draw) : only draw bound lines at pane
+	  bounds.
+
+	* src/item-bar.c (item_bar_event) : dont draw the resize bar past the
+	  minimum size.
+
 2001-07-16  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-object-graphic.c (sheet_object_graphic_write_xml) : use cstr.

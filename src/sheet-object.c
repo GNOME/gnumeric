@@ -52,8 +52,8 @@ cb_sheet_object_configure (GtkWidget *widget, GtkObject *obj_view)
 
 	g_return_if_fail (obj_view != NULL);
 
-	so = gtk_object_get_data (obj_view, SO_VIEW_OBJECT_KEY);
-	scg = gtk_object_get_data (obj_view, SO_VIEW_SHEET_CONTROL_KEY);
+	so = sheet_object_view_obj (obj_view);
+	scg = sheet_object_view_control (obj_view);
 
 	SO_CLASS(so)->user_config (so, scg);
 }
@@ -305,7 +305,11 @@ sheet_object_clear_sheet (SheetObject *so)
 static void
 sheet_object_view_destroyed (GtkObject *view, SheetObject *so)
 {
+	SheetControlGUI *scg = sheet_object_view_control (view);
+
 	so->realized_list = g_list_remove (so->realized_list, view);
+	gtk_object_remove_data	(view, SO_VIEW_SHEET_CONTROL_KEY);
+	gtk_object_unref (GTK_OBJECT (scg));
 }
 
 /*
@@ -329,6 +333,7 @@ sheet_object_new_view (SheetObject *so, SheetControlGUI *scg)
 	/* Store some useful information */
 	gtk_object_set_data (GTK_OBJECT (view), SO_VIEW_OBJECT_KEY, so);
 	gtk_object_set_data (GTK_OBJECT (view), SO_VIEW_SHEET_CONTROL_KEY, scg);
+	gtk_object_ref (GTK_OBJECT (scg));
 
 	gtk_signal_connect (GTK_OBJECT (view), "destroy",
 			    GTK_SIGNAL_FUNC (sheet_object_view_destroyed), so);

@@ -656,7 +656,7 @@ wbcg_sheet_move (WorkbookControl *wbc, Sheet *sheet, int new_pos)
 	/* No need for sanity checking, the workbook did that */
         if (sheet_to_page_index (wbcg, sheet, &scg) >= 0)
 		gtk_notebook_reorder_child (wbcg->notebook,
-			GTK_WIDGET (scg), new_pos);
+			GTK_WIDGET (scg->table), new_pos);
 }
 
 static void

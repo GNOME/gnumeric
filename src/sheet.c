@@ -297,7 +297,10 @@ colrow_compute_pts_from_pixels (Sheet const *sheet, ColRowInfo *info, gboolean c
 
 	info->size_pts = info->size_pixels / scale;
 
-	g_return_if_fail (info->size_pts >= info->margin_a + info->margin_b);
+	/* Disable this until we decide how to deal with scaling */
+#if 0
+	 g_return_if_fail (info->size_pts >= info->margin_a + info->margin_b);
+#endif
 }
 
 struct resize_colrow {

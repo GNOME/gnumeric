@@ -552,9 +552,12 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	if (row >= ig->bound.end.row) {
 		style_borders_row_draw (prev_vert, &sr,
 					drawable, diff_x, y, y, colwidths, FALSE);
-		gdk_draw_line (drawable, ig->gc.bound, 0, y, x, y);
+		if (gsheet->pane->index >= 2)
+			gdk_draw_line (drawable, ig->gc.bound, 0, y, x, y);
 	}
-	if (col >= ig->bound.end.col)
+	if (col >= ig->bound.end.col &&
+	    /* TODO : Add pane flags to avoid hard coding pane numbers */
+	    (gsheet->pane->index == 1 || gsheet->pane->index == 2))
 		gdk_draw_line (drawable, ig->gc.bound, x, 0, x, y);
 
 	if (merged_used)	/* ranges whose bottoms are in the view */

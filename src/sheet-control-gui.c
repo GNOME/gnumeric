@@ -1992,7 +1992,7 @@ scg_object_view_position (SheetControlGUI *scg, SheetObject *so, double *coords)
 }
 
 static void
-cb_sheet_object_destroy (GtkObject *view, SheetObject *so)
+cb_sheet_object_view_destroy (GtkObject *view, SheetObject *so)
 {
 	SheetControlGUI	*scg = sheet_object_view_control (view);
 
@@ -2098,7 +2098,7 @@ scg_object_register (SheetObject *so, GnomeCanvasItem *view)
 			    GTK_SIGNAL_FUNC (cb_sheet_object_canvas_event),
 			    so);
 	gtk_signal_connect (GTK_OBJECT (view), "destroy",
-			    GTK_SIGNAL_FUNC (cb_sheet_object_destroy),
+			    GTK_SIGNAL_FUNC (cb_sheet_object_view_destroy),
 			    so);
 }
 

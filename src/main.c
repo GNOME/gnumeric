@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Gnumeric, the GNOME spreadsheet.
  *
@@ -110,6 +111,19 @@ handle_paint_events (void)
 		gtk_main_iteration_do (FALSE);
 }
 
+#if 0
+static void
+gnumeric_check_for_components (void)
+{
+	OAF_ServerInfoList *result;
+
+	result = oaf_query ("repo_ids.has('IDL::1.0')", NULL, NULL);
+
+	g_return_if_fail (result != NULL);
+
+	CORBA_free (info_list);
+}
+#endif
 
 /*
  * FIXME: We hardcode the GUI command context. Change once we are able

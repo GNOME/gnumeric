@@ -719,8 +719,20 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			g_return_val_if_fail (cri != NULL, TRUE);
 
 			/* Ensure we always have enough room for the margins */
-			if (new_size < (cri->margin_a + cri->margin_b))
-				new_size = cri->margin_a + cri->margin_b;
+			if (new_size <= (cri->margin_a + cri->margin_b)) {
+				new_size = cri->margin_a + cri->margin_b + 1;
+				if (is_cols)
+					pos = gsheet->col_offset.first +
+						scg_colrow_distance_get (scg, TRUE,
+							gsheet->col.first,
+							ib->colrow_being_resized);
+				else
+					pos = gsheet->row_offset.first +
+						scg_colrow_distance_get (scg, FALSE,
+							gsheet->row.first,
+							ib->colrow_being_resized);
+				pos += new_size;
+			}
 
 			ib->colrow_resize_size = new_size;
 			colrow_tip_setlabel (ib, is_cols, new_size);
