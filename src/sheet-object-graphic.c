@@ -370,7 +370,6 @@ cb_dialog_graphic_clicked (GnomeDialog *dialog, int button,
 			   DialogGraphicData *data)
 {
 	SheetObject *so = SHEET_OBJECT (data->sog);
-	GdkColor *gdk;
 
 	switch (button) {
 	case 0: /* Ok */
@@ -378,10 +377,8 @@ cb_dialog_graphic_clicked (GnomeDialog *dialog, int button,
 		sheet_object_graphic_width_set (data->sog,
 				GTK_ADJUSTMENT (data->adj_width)->value);
 
-		gdk = color_combo_get_color (
-			COLOR_COMBO (data->fill_color_combo));
 		sheet_object_graphic_fill_color_set (so,
-			style_color_new (gdk->red, gdk->green, gdk->blue));
+			color_combo_get_style_color (data->fill_color_combo));
 
 		if (data->sog->type == SHEET_OBJECT_ARROW)
 			sheet_object_graphic_abc_set (data->sog, 
@@ -787,7 +784,6 @@ cb_dialog_filled_clicked (GnomeDialog *dialog, int button,
 {
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (data->sof);
 	SheetObject *so = SHEET_OBJECT (data->sof);
-	GdkColor *gdk;
 		
 	switch (button) {
 	case 0: /* Ok */
@@ -795,15 +791,10 @@ cb_dialog_filled_clicked (GnomeDialog *dialog, int button,
 		sheet_object_graphic_width_set (sog, 
 			GTK_ADJUSTMENT (data->adj_width)->value);
 
-		gdk = color_combo_get_color (
-			COLOR_COMBO (data->fill_color_combo));
 		sheet_object_graphic_fill_color_set (so,
-			style_color_new (gdk->red, gdk->green, gdk->blue));
-
-		gdk = color_combo_get_color (
-			COLOR_COMBO (data->outline_color_combo));
+			color_combo_get_style_color (data->fill_color_combo));
 		sheet_object_filled_outline_color_set (so,
-			style_color_new (gdk->red, gdk->green, gdk->blue));
+			color_combo_get_style_color (data->outline_color_combo));
 
 		if (button == 0)
 			gnome_dialog_close (dialog);

@@ -1,3 +1,10 @@
+2001-10-10  Jody Goldberg <jgoldberg@home.com>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=62030
+	* src/gui-util.c (color_combo_get_style_color) : new utility.
+	* src/sheet-object-graphic.c (cb_dialog_graphic_clicked) : Use it here.
+	(cb_dialog_filled_clicked) and here.
+
 2001-10-09  John Gotts <jgotts@linuxsavvy.com>
 
 	* gnumeric.spec.in: Added gnome-core and bonobo as requirements.

@@ -10,10 +10,12 @@
 #include "gutils.h"
 #include "parse-util.h"
 #include "style.h"
+#include "style-color.h"
 #include "error-info.h"
 
 #include <string.h>
 #include <gal/widgets/e-colors.h>
+#include <gal/widgets/widget-color-combo.h>
 #include <glade/glade.h>
 
 #ifdef ENABLE_BONOBO
@@ -1089,4 +1091,17 @@ gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 	}
 
 	gnumeric_popup_menu (GTK_MENU (menu), event);
+}
+
+/**
+ * color_combo_get_style_color :
+ *
+ * A utility wrapper to map between gal's colour combo and gnumeric's StyleColors.
+ */
+StyleColor *
+color_combo_get_style_color (GtkWidget *color_combo)
+{
+	GdkColor *gdk = color_combo_get_color (COLOR_COMBO (color_combo));
+	return (gdk == NULL) ? NULL
+		    : style_color_new (gdk->red, gdk->green, gdk->blue);
 }
