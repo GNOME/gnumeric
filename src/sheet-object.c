@@ -882,7 +882,7 @@ sheet_object_clone (SheetObject const *so, Sheet *sheet)
  *
  **/
 void
-sheet_object_clone_sheet (const Sheet *src, Sheet *dst, Range *range)
+sheet_object_clone_sheet (Sheet const *src, Sheet *dst, Range *range)
 {
 	SheetObject *so;
 	SheetObject *new_so;

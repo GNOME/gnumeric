@@ -5,7 +5,25 @@
  *
  * Author:
  * 	Jody Goldberg <jody@gnome.org>
+ * 	Andreas J. Guelzow <aguelzow@taliesin.ca>
+ *
+ * (C) Copyright 2000, 2001, 2002 Jody Goldberg <jody@gnome.org>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialogs.h"
@@ -16,7 +34,9 @@
 #include <workbook-view.h>
 #include <workbook.h>
 #include <sheet.h>
+#include <style-color.h>
 #include <commands.h>
+#include <widgets/gnumeric-cell-renderer-text.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
@@ -47,6 +67,8 @@ enum {
 	SHEET_POINTER,
 	IS_EDITABLE_COLUMN,
 	IS_DELETED,
+	BACKGROUND_COLOUR_POINTER,
+	FOREGROUND_COLOUR_POINTER,
 	NUM_COLMNS
 };
 
@@ -149,8 +171,15 @@ populate_sheet_list (SheetManager *state)
 	int i, n = workbook_sheet_count (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg)));
 	GtkCellRenderer *renderer;
 
-	state->model = gtk_list_store_new (NUM_COLMNS, GDK_TYPE_PIXBUF,
-		G_TYPE_STRING, 	G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN);
+	state->model = gtk_list_store_new (NUM_COLMNS, 
+					   GDK_TYPE_PIXBUF,
+					   G_TYPE_STRING, 	
+					   G_TYPE_STRING, 
+					   G_TYPE_POINTER, 
+					   G_TYPE_BOOLEAN, 
+					   G_TYPE_BOOLEAN, 
+					   GDK_TYPE_COLOR, 
+					   GDK_TYPE_COLOR); 
 	state->sheet_list = GTK_TREE_VIEW (gtk_tree_view_new_with_model 
 					   (GTK_TREE_MODEL (state->model)));
 	selection = gtk_tree_view_get_selection (state->sheet_list);
@@ -158,6 +187,15 @@ populate_sheet_list (SheetManager *state)
 	for (i = 0 ; i < n ; i++) {
 		Sheet *sheet = workbook_sheet_by_index (
 			wb_control_workbook (WORKBOOK_CONTROL (state->wbcg)), i);
+		GdkColor *color = &sheet->tab_color->color;
+		int contrast;
+		GdkColor text_color;
+
+		if (color == NULL)
+			color = &gs_white;
+		contrast = color->red + color->green + color->blue;
+		text_color = (contrast >= 0x18000) ? gs_black : gs_white;
+
 		gtk_list_store_append (state->model, &iter);
 		gtk_list_store_set (state->model, &iter,
 				    SHEET_PIX, state->sheet_image,
@@ -166,6 +204,8 @@ populate_sheet_list (SheetManager *state)
 				    SHEET_POINTER, sheet,
 				    IS_EDITABLE_COLUMN,	TRUE,   
 				    IS_DELETED,	FALSE,   
+				    BACKGROUND_COLOUR_POINTER, color,
+				    FOREGROUND_COLOUR_POINTER, &text_color,
 				    -1);
 		if (sheet == cur_sheet)
 			gtk_tree_selection_select_iter (selection, &iter);
@@ -181,19 +221,23 @@ populate_sheet_list (SheetManager *state)
 	gtk_tree_view_append_column (state->sheet_list, column);
 
 	column = gtk_tree_view_column_new_with_attributes (_("Current Name"),
-							   gtk_cell_renderer_text_new (),
-							   "text", SHEET_NAME, 
-							   "strikethrough", IS_DELETED,
-							   NULL);
+					      gnumeric_cell_renderer_text_new (),
+					      "text", SHEET_NAME, 
+					      "strikethrough", IS_DELETED,
+					      "background_gdk",BACKGROUND_COLOUR_POINTER,
+					      "foreground_gdk",FOREGROUND_COLOUR_POINTER,
+					      NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
 
-	renderer = gtk_cell_renderer_text_new ();
+	renderer = gnumeric_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (_("New Name"),
-							   renderer,
-							   "text", SHEET_NEW_NAME, 
-							   "editable", IS_EDITABLE_COLUMN,
-							   "strikethrough", IS_DELETED,
-							   NULL);
+					      renderer,
+					      "text", SHEET_NEW_NAME, 
+					      "editable", IS_EDITABLE_COLUMN,
+					      "strikethrough", IS_DELETED,
+					      "background_gdk",BACKGROUND_COLOUR_POINTER,
+					      "foreground_gdk",FOREGROUND_COLOUR_POINTER,
+					      NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
 	g_signal_connect (G_OBJECT (renderer), "edited",
 			  G_CALLBACK (cb_name_edited), state);
@@ -218,6 +262,7 @@ cb_item_move (SheetManager *state, gint direction)
 	gint row;
 	gboolean is_deleted;
 	gboolean is_editable;
+	GdkColor *back, *front;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->sheet_list);
 
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
@@ -229,6 +274,8 @@ cb_item_move (SheetManager *state, gint direction)
 			    IS_EDITABLE_COLUMN, &is_editable,
 			    SHEET_POINTER, &sheet,
 			    IS_DELETED,	&is_deleted,   
+			    BACKGROUND_COLOUR_POINTER, &back,
+			    FOREGROUND_COLOUR_POINTER, &front,
 			    -1);
 	row = location_of_iter (&iter, state->model);
 	if (row + direction < 0)
@@ -242,6 +289,8 @@ cb_item_move (SheetManager *state, gint direction)
 			    IS_EDITABLE_COLUMN, is_editable,
 			    SHEET_POINTER, sheet,
 			    IS_DELETED,	is_deleted,   
+			    BACKGROUND_COLOUR_POINTER, back,
+			    FOREGROUND_COLOUR_POINTER, front,
 			    -1);
 	g_free (name);
 	g_free (new_name);
@@ -299,6 +348,8 @@ cb_add_clicked (GtkWidget *ignore, SheetManager *state)
 			    SHEET_POINTER, NULL,
 			    IS_EDITABLE_COLUMN,	TRUE,   
 			    IS_DELETED,	FALSE,   
+			    BACKGROUND_COLOUR_POINTER, &gs_white,
+			    FOREGROUND_COLOUR_POINTER, &gs_black,
 			    -1);
 	gtk_tree_selection_select_iter (selection, &iter);
 	g_free (name);

@@ -1,3 +1,8 @@
+2002-03-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-sheet-order.c : support showing the color
+	  of colored tabs
+
 2002-03-14  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-solver.c (cb_dialog_solve_clicked): If the problem is

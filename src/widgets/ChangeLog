@@ -1,3 +1,9 @@
+2002-03-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gnumeric-cell-renderer-text.[ch] : new renderer to make
+	  sure not to obscure colored backgrounds on selection
+	* Makefile.am : added gnumeric-cell-renderer-text.[ch] 
+
 2002-03-12  Jody Goldberg <jody@gnome.org>
 
 	* widget-editable-label.c : rewrite.
