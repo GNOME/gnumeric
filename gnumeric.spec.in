@@ -2,6 +2,7 @@
 %define  RELEASE 1
 %define  rel     %{?CUSTOM_RELEASE} %{!?CUSTOM_RELEASE:%RELEASE}
 %define  prefix  /usr
+%define  sysconfdir	/etc
 
 Summary: the GNOME spreadsheet
 Name: 		gnumeric
@@ -39,7 +40,7 @@ usability. Hopefully we left the bugs behind :).
   MYARCH_FLAGS="--host=alpha-redhat-linux"
 %endif
 # Configure only showing me failures.
-CFLAGS="$RPM_OPT_FLAGS" ./configure --quiet --prefix=%prefix $MYARCH_FLAGS --sysconfdir=/etc
+CFLAGS="$RPM_OPT_FLAGS" ./configure --quiet --prefix=%prefix --without-bonobo --without-gb $MYARCH_FLAGS --sysconfdir=/etc
 
 if [ "$SMP" != "" ]; then
 	make -j$SMP "MAKE=make -j$SMP"
@@ -81,7 +82,6 @@ fi
 %config %{prefix}/share/gnome/apps/Applications/gnumeric.desktop
 %{prefix}/share/pixmaps/gnumeric/*
 %{prefix}/share/pixmaps/gnome-gnumeric.png
-%{prefix}/share/pixmaps/gnome-gnumeric-xl.png
 %{prefix}/share/mime-info/gnumeric.keys
 %{prefix}/share/mime-info/gnumeric.mime
 %{prefix}/share/mc/templates/gnumeric.desktop
@@ -94,6 +94,11 @@ fi
 %doc HACKING AUTHORS ChangeLog NEWS README COPYING TODO
 
 %changelog
+* Thu Mar 29 2000 Kjartan Maraas <kmaraas@online.no>
+- Removed gnome-gnumeric-xl.png since it is nowhere to be found.
+- Added --without-bonobo and --without-gb.
+- Added %define for sysconfdir
+
 * Mon Feb 29 2000 Jody Goldberg <jgolbderg@home.com>
 - Updated version requirements for gnome-print, and gnome-libs.
 
