@@ -54,8 +54,8 @@ gog_line_update_stacked_and_percentage (GogPlot1_5d *model,
 
 	for (i = model->num_elements ; i-- > 0 ; ) {
 		abs_sum = sum = 0.;
-		minimum = DBL_MAX;
-		maximum = DBL_MIN;
+		minimum =  DBL_MAX;
+		maximum = -DBL_MAX;
 		for (j = 0 ; j < model->num_series ; j++) {
 			if (i >= lengths[j])
 				continue;

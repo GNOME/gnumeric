@@ -92,6 +92,9 @@ struct _GogStyle {
 				char      *filename;
 			} image;
 		} u;
+		/* Don't persist these */
+		gboolean pattern_fore_auto, pattern_back_auto; 
+		gboolean gradient_start_auto, gradient_end_auto;
 	} fill;
 	GOMarker *marker;
 	struct {

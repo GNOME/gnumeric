@@ -67,8 +67,8 @@ gog_xy_plot_update (GogObject *obj)
 	GSList *ptr;
 	gboolean is_index = FALSE;
 
-	x_min = y_min = DBL_MAX;
-	x_max = y_max = DBL_MIN;
+	x_min = y_min =  DBL_MAX;
+	x_max = y_max = -DBL_MAX;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
 		if (!gog_series_is_valid (GOG_SERIES (series)))
@@ -138,20 +138,27 @@ gog_xy_plot_axis_set_assign (GogPlot *plot, GogAxisSet type)
 static GOData *
 gog_xy_plot_axis_bounds (GogPlot *plot, GogAxisType axis,
 			 double *minima, double *maxima,
-			 double *logical_min, double *logical_max)
+			 double *logical_min, double *logical_max,
+			 gboolean *is_index)
 {
 	GogXYPlot *model = GOG_XY_PLOT (plot);
 
 	if (axis == GOG_AXIS_X) {
 		*minima = model->x.minimum;
 		*maxima = model->x.maximum;
-	} else if (axis == GOG_AXIS_Y) {
+		*is_index = model->x.minimum > model->x.maximum ||
+			!finite (model->x.minimum) ||
+			!finite (model->x.maximum);
+
+		if (plot->series == NULL)
+			return NULL;
+		return GOG_SERIES (plot->series->data)->values[0].data;
+	} 
+	
+	if (axis == GOG_AXIS_Y) {
 		*minima = model->y.minimum;
 		*maxima = model->y.maximum;
 	}
-	*logical_min = gnm_nan;
-	*logical_max = gnm_nan;
-
 	return NULL;
 }
 

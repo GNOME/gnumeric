@@ -1,5 +1,26 @@
 2003-09-13  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-axis.c (cb_enable_dim) : get smarter and handle
+	  transitions to from auto state.
+
+2003-09-13  Jon K Hellan  <hellan@acm.org>
+
+	* graph/gog-style.c (cb_fg_color_changed, cb_bg_color_changed,
+	cb_fill_gradient_start_color, cb_fill_gradient_end_color): Update
+	is_auto and pattern_fore_auto, pattern_back_auto,
+	gradient_start_auto, gradient_end_auto flags.
+	(gog_style_merge): Only merge color attributes for fill.
+	(gog_style_init): Initialize attern_fore_auto, pattern_back_auto,
+	gradient_start_auto, gradient_end_auto flags
+
+	* graph/gog-style.h: Add non-persistent auto flags for each color
+	element in fill.
+
+2003-09-13  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-axis.c (role_label_post_add) : be smarter about
+	  positioning.
+
 	* graph/gog-view.c (gog_view_size_child_request) : hard code some
 	  inter-child padding.  We can be more elegant in the future.
 	(gog_view_size_allocate_real) : ditto.

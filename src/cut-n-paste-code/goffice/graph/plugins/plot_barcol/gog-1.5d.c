@@ -132,8 +132,8 @@ gog_plot1_5d_update (GogObject *obj)
 
 	old_minimum =  model->minimum;
 	old_maximum =  model->maximum;
-	model->minimum = DBL_MAX;
-	model->maximum = DBL_MIN;
+	model->minimum =  DBL_MAX;
+	model->maximum = -DBL_MAX;
 	num_elements = num_series = 0;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
@@ -191,7 +191,8 @@ gog_plot1_5d_update (GogObject *obj)
 static GOData *
 gog_plot1_5d_axis_bounds (GogPlot *plot, GogAxisType axis,
 			  double *min, double *max,
-			  double *logical_min, double *logical_max)
+			  double *logical_min, double *logical_max,
+			  gboolean *is_index)
 {
 	GogPlot1_5d *model = GOG_PLOT1_5D (plot);
 	if (axis == gog_axis_get_atype (gog_plot1_5d_get_value_axis (model))) {
@@ -200,9 +201,6 @@ gog_plot1_5d_axis_bounds (GogPlot *plot, GogAxisType axis,
 		if (model->type == GOG_1_5D_AS_PERCENTAGE) {
 			*logical_min = -1.;
 			*logical_max = 1.;
-		} else {
-			*logical_min = gnm_nan;
-			*logical_max = gnm_nan;
 		}
 		return NULL;
 	} else if (axis == gog_axis_get_atype (gog_plot1_5d_get_index_axis (model))) {
@@ -210,7 +208,10 @@ gog_plot1_5d_axis_bounds (GogPlot *plot, GogAxisType axis,
 		*max = model->num_elements;
 		*logical_min = 1;
 		*logical_max = gnm_nan;
-		return NULL;
+		*is_index = TRUE;
+		if (plot->series == NULL)
+			return NULL;
+		return GOG_SERIES (plot->series->data)->values[0].data;
 	}
 
 	g_warning ("not reached");

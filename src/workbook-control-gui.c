@@ -5489,13 +5489,18 @@ typedef struct {
 } GraphDimEditor;
 
 static void
-cb_graph_dim_editor_update (G_GNUC_UNUSED GnmExprEntry *gee,
-			    G_GNUC_UNUSED gboolean use_requested,
+cb_graph_dim_editor_update (GnmExprEntry *gee,
+			    G_GNUC_UNUSED gboolean user_requested,
 			    GraphDimEditor *editor)
 {
 	GOData *data = NULL;
 	Sheet *sheet;
 	SheetControlGUI *scg;
+
+	/* ignore changes while we are insensitive, usful for displaying
+	 * values, without storing then as Data  */
+	if (GTK_WIDGET_SENSITIVE (gee))
+		return;
 
 	g_object_get (G_OBJECT (gee), "scg", &scg, NULL);
 	sheet = sc_sheet (SHEET_CONTROL (scg));
@@ -5543,6 +5548,13 @@ cb_graph_dim_entry_unmap (GnmExprEntry *gee, GraphDimEditor *editor)
 		cb_graph_dim_editor_update (gee, FALSE, editor);
 }
 
+static void
+cb_graph_dim_entry_unrealize (GnmExprEntry *gee, GraphDimEditor *editor)
+{
+ 	if (GTK_WIDGET_SENSITIVE (gee))
+		cb_graph_dim_editor_update (gee, FALSE, editor);
+}
+
 static gpointer
 wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 			    GogDataset *dataset, int dim_i, gboolean prefers_scalar)
@@ -5574,6 +5586,9 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 	g_signal_connect (G_OBJECT (editor->entry),
 		"unmap",
 		G_CALLBACK (cb_graph_dim_entry_unmap), editor);
+	g_signal_connect (G_OBJECT (editor->entry),
+		"unrealize",
+		G_CALLBACK (cb_graph_dim_entry_unrealize), editor);
 	g_object_set_data_full (G_OBJECT (editor->entry),
 		"editor", editor, (GDestroyNotify) g_free);
 

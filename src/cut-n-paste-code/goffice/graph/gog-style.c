@@ -320,6 +320,9 @@ cb_fg_color_changed (GtkWidget *cc,
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (GOG_FILL_STYLE_PATTERN == style->fill.type);
 	style->fill.u.pattern.pat.fore = color_combo_get_gocolor (cc, is_custom);
+	style->fill.pattern_fore_auto = is_default;
+	style->fill.is_auto = (style->fill.pattern_fore_auto & 
+			       style->fill.pattern_back_auto);
 	gog_object_set_style (state->obj, style);
 	populate_pattern_combo (state, style);
 }
@@ -334,6 +337,9 @@ cb_bg_color_changed (GtkWidget *cc,
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (GOG_FILL_STYLE_PATTERN == style->fill.type);
 	style->fill.u.pattern.pat.back = color_combo_get_gocolor (cc, is_custom);
+	style->fill.pattern_back_auto = is_default;
+	style->fill.is_auto = (style->fill.pattern_fore_auto & 
+			       style->fill.pattern_back_auto);
 	gog_object_set_style (state->obj, style);
 	populate_pattern_combo (state, style);
 }
@@ -397,11 +403,14 @@ populate_gradient_combo (StylePrefState *state, GogStyle const *style)
 static void
 cb_fill_gradient_start_color (GtkWidget *cc,
 			      G_GNUC_UNUSED GdkColor *color,	gboolean is_custom,
-			      G_GNUC_UNUSED gboolean by_user,	G_GNUC_UNUSED gboolean is_default,
+			      G_GNUC_UNUSED gboolean by_user,	gboolean is_default,
 			      StylePrefState *state)
 {
 	GogStyle *style = gog_object_dup_style (state->obj);
 	style->fill.u.gradient.start = color_combo_get_gocolor (cc, is_custom);
+	style->fill.gradient_start_auto = is_default;
+	style->fill.is_auto = (style->fill.gradient_start_auto & 
+			       style->fill.gradient_end_auto);
 	gog_object_set_style (state->obj, style);
 	populate_gradient_combo (state, style);
 }
@@ -417,11 +426,14 @@ cb_delayed_gradient_combo_update (StylePrefState *state)
 static void
 cb_fill_gradient_end_color (GtkWidget *cc,
 			    G_GNUC_UNUSED GdkColor *color,	gboolean is_custom,
-			    gboolean by_user,			G_GNUC_UNUSED gboolean is_default,
+			    gboolean by_user,			gboolean is_default,
 			    StylePrefState *state)
 {
 	GogStyle *style = gog_object_dup_style (state->obj);
 	style->fill.u.gradient.end = color_combo_get_gocolor (cc, is_custom);
+	style->fill.gradient_end_auto = is_default;
+	style->fill.is_auto = (style->fill.gradient_start_auto & 
+			       style->fill.gradient_end_auto);
 	gog_object_set_style (state->obj, style);
 
 	if (by_user)
@@ -979,17 +991,6 @@ gog_style_merge	(GogStyle *dst, GogStyle const *src)
 	g_return_if_fail (GOG_STYLE (src) != NULL);
 	g_return_if_fail (GOG_STYLE (dst) != NULL);
 
-	if (dst->fill.is_auto) {
-		if (GOG_FILL_STYLE_IMAGE == src->fill.type &&
-		    src->fill.u.image.image != NULL)
-			g_object_ref (src->fill.u.image.image);
-		if (GOG_FILL_STYLE_IMAGE == dst->fill.type) {
-			if (dst->fill.u.image.image != NULL)
-			g_object_unref (dst->fill.u.image.image);
-			g_free (dst->fill.u.image.filename);
-		}
-	}
-
 	if (src->font.font != NULL)
 		go_font_ref (src->font.font);
 	if (dst->font.font != NULL)
@@ -997,8 +998,23 @@ gog_style_merge	(GogStyle *dst, GogStyle const *src)
 
 	if (dst->outline.auto_color)
 		dst->outline = src->outline;
-	if (dst->fill.is_auto)
-		dst->fill    = src->fill;
+	if (dst->fill.is_auto) {
+		switch (dst->fill.type) {
+		case GOG_FILL_STYLE_PATTERN:
+			dst->fill.u.pattern.pat.fore 
+				= src->fill.u.pattern.pat.fore;
+			dst->fill.u.pattern.pat.back 
+				= src->fill.u.pattern.pat.back;
+			break;
+		case GOG_FILL_STYLE_GRADIENT:
+			dst->fill.u.gradient.start
+				= src->fill.u.gradient.start;
+			dst->fill.u.gradient.end
+				= src->fill.u.gradient.end;
+		default:
+			break;
+		}
+	}
 	if (dst->line.auto_color)
 		dst->line    = src->line;
 	if (!dst->marker || go_marker_is_auto (dst->marker)) {
@@ -1007,9 +1023,6 @@ gog_style_merge	(GogStyle *dst, GogStyle const *src)
 		dst->marker  = go_marker_dup (src->marker);
 	}
 	dst->font    = src->font; /* FIXME: No way to tell if this is auto */
-
-	if (GOG_FILL_STYLE_IMAGE == dst->fill.type)
-		dst->fill.u.image.filename = g_strdup (src->fill.u.image.filename);
 }
 
 static void
@@ -1050,7 +1063,11 @@ gog_style_init (GogStyle *style)
 	style->marker = go_marker_new ();
 	style->outline.auto_color =
 	style->line.auto_color =
-	style->fill.is_auto = TRUE;
+	style->fill.is_auto = 
+	style->fill.pattern_fore_auto =
+	style->fill.pattern_back_auto =
+	style->fill.gradient_start_auto =
+	style->fill.gradient_end_auto = TRUE;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
 	go_pattern_set_solid (&style->fill.u.pattern.pat, 0);
 	style->font.font = go_font_new_by_index (0);

@@ -27,6 +27,7 @@
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-chart.h>
+#include <goffice/graph/gog-label.h>
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/go-data.h>
@@ -55,6 +56,7 @@ struct _GogAxis {
 	GSList		*i_cross, *crosses_me, *contributors;
 
 	GogDatasetElement source [AXIS_ELEM_MAX_ENTRY];
+	double		  auto_bound [AXIS_ELEM_MAX_ENTRY];
 	struct {
 		gboolean tick_in, tick_out;
 		int size_pts;
@@ -62,10 +64,11 @@ struct _GogAxis {
 	gboolean major_tick_labeled;
 	gboolean inverted;
 
-	double		bound_min, bound_max, major_tick;
 	double		min_val, max_val;
 	double		logical_min_val, logical_max_val;
 	gpointer	min_contrib, max_contrib; /* NULL means use the manual sources */
+	gboolean	is_index;
+	GOData		*labels;
 };
 
 typedef GogStyledObjectClass GogAxisClass;
@@ -92,6 +95,34 @@ enum {
 #define TICK_LABEL_PAD 5
 
 static void
+role_label_post_add (GogObject *parent, GogObject *label)
+{
+	GogAxis const *axis = GOG_AXIS (parent);
+	if (axis->pos == GOG_AXIS_AT_LOW)
+		label->position = (axis->type == GOG_AXIS_X)
+			? (GOG_POSITION_S|GOG_POSITION_ALIGN_CENTER)
+			: (GOG_POSITION_N|GOG_POSITION_ALIGN_START);
+	else
+		label->position = (axis->type == GOG_AXIS_X)
+			? (GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER)
+			: (GOG_POSITION_N|GOG_POSITION_ALIGN_END);
+}
+
+static gboolean
+gog_axis_set_pos (GogAxis *axis, GogAxisPosition pos)
+{
+	GSList *ptr;
+	if (axis->pos == pos)
+		return FALSE;
+	axis->pos = pos;
+
+	for (ptr = GOG_OBJECT (axis)->children ; ptr != NULL ; ptr = ptr->next)
+		if (IS_GOG_LABEL (ptr->data))
+			role_label_post_add (GOG_OBJECT (axis), ptr->data);
+	return TRUE;
+}
+
+static void
 gog_axis_set_property (GObject *obj, guint param_id,
 		       GValue const *value, GParamSpec *pspec)
 {
@@ -108,11 +139,7 @@ gog_axis_set_property (GObject *obj, guint param_id,
 		}
 		break;
 	case AXIS_PROP_POS:
-		itmp = g_value_get_int (value);
-		if (axis->pos != itmp) {
-			axis->pos = itmp;
-			resized = TRUE;
-		}
+		resized = gog_axis_set_pos (axis, g_value_get_int (value));
 		break;
 	case AXIS_PROP_POS_STR: {
 		char const *str = g_value_get_string (value);
@@ -126,10 +153,7 @@ gog_axis_set_property (GObject *obj, guint param_id,
 			itmp = GOG_AXIS_AT_HIGH;
 		else
 			return;
-		if (axis->pos != itmp) {
-			axis->pos = itmp;
-			resized = TRUE;
-		}
+		resized = gog_axis_set_pos (axis, itmp);
 		break;
 	}
 	case AXIS_PROP_INVERT:
@@ -266,17 +290,19 @@ gog_axis_update (GogObject *obj)
 	GogAxis *axis = GOG_AXIS (obj);
 	double minima, maxima, logical_min, logical_max;
 	double range, step;
-	double old_min = axis->bound_min;
-	double old_max = axis->bound_max;
+	double old_min = axis->auto_bound [AXIS_ELEM_MIN];
+	double old_max = axis->auto_bound [AXIS_ELEM_MAX];
+	GOData *labels;
+	gboolean is_index;
 
 	gog_debug (0, g_warning ("axis::update"););
 
-	axis->min_val = DBL_MAX;
-	axis->max_val = DBL_MIN;
+	axis->min_val =  DBL_MAX;
+	axis->max_val = -DBL_MAX;
 	axis->min_contrib = axis->max_contrib = NULL;
 	for (ptr = axis->contributors ; ptr != NULL ; ptr = ptr->next) {
-		gog_plot_get_axis_bounds (GOG_PLOT (ptr->data), axis->type,
-			&minima, &maxima, &logical_min, &logical_max);
+		labels = gog_plot_get_axis_bounds (GOG_PLOT (ptr->data), axis->type,
+			&minima, &maxima, &logical_min, &logical_max, &is_index);
 
 		if (axis->min_val > minima) {
 			axis->min_val = minima;
@@ -313,19 +339,27 @@ gog_axis_update (GogObject *obj)
 			step *= 2.;	/* 2 4 6 */
 
 		/* we want the bounds to be loose so jump up a step if we get too close */
-		axis->bound_min = step * floor (gnumeric_sub_epsilon (minima/step));
-		axis->bound_max = step * ceil (gnumeric_add_epsilon (maxima/step));
-		axis->major_tick = step;
+		axis->auto_bound [AXIS_ELEM_MIN] = step *
+			floor (gnumeric_sub_epsilon (minima/step));
+		axis->auto_bound [AXIS_ELEM_MAX] = step *
+			ceil (gnumeric_add_epsilon (maxima/step));
+		axis->auto_bound [AXIS_ELEM_MAJOR_TICK] = step;
+		axis->auto_bound [AXIS_ELEM_MINOR_TICK] = step / 5.;
 
 		/* pull to zero if its nearby */
-		if (axis->bound_min > 0 && (axis->bound_min - 10. * step) < 0)
-			axis->bound_min = 0;
-		if (axis->bound_max < 0 && (axis->bound_max + 10. * step) < 0)
-			axis->bound_max = 0;
+		if (axis->auto_bound [AXIS_ELEM_MIN] > 0 &&
+		    (axis->auto_bound [AXIS_ELEM_MIN] - 10. * step) < 0)
+			axis->auto_bound [AXIS_ELEM_MIN] = 0;
+		if (axis->auto_bound [AXIS_ELEM_MAX] < 0 &&
+		    (axis->auto_bound [AXIS_ELEM_MAX] + 10. * step) < 0)
+			axis->auto_bound [AXIS_ELEM_MAX] = 0;
 	} else
-		axis->bound_min = axis->bound_max = axis->major_tick = 0.;
+		axis->auto_bound [AXIS_ELEM_MIN] =
+		axis->auto_bound [AXIS_ELEM_MAX] =
+		axis->auto_bound [AXIS_ELEM_MAJOR_TICK] = 0.;
 
-	if (old_min != axis->bound_min || old_max != axis->bound_max)
+	if (old_min != axis->auto_bound [AXIS_ELEM_MIN] ||
+	    old_max != axis->auto_bound [AXIS_ELEM_MAX])
 		gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
 }
 
@@ -346,41 +380,64 @@ cb_axis_toggle_changed (GtkToggleButton *toggle_button, GObject *axis)
 		NULL);
 }
 
+typedef struct {
+	GtkWidget *editor;
+	GogDataset *set;
+	unsigned dim;
+} ElemToggleData;
+
 static void
-cb_enable_dim (GtkToggleButton *toggle_button, GtkWidget *editor)
+cb_enable_dim (GtkToggleButton *toggle_button, ElemToggleData *closure)
 {
-	gtk_widget_set_sensitive (editor,
-		!gtk_toggle_button_get_active (toggle_button));
+	gboolean is_auto = gtk_toggle_button_get_active (toggle_button);
+	double bound = GOG_AXIS (closure->set)->auto_bound [closure->dim];
+
+	gtk_widget_set_sensitive (closure->editor, !is_auto);
+
+	if (finite (bound) && DBL_MAX > bound && bound > -DBL_MAX) {
+		char *str = g_strdup_printf ("%g", bound);
+		g_object_set (closure->editor, "text", str, NULL);
+		g_free (str);
+	} else
+		g_object_set (closure->editor, "text", "", NULL);
 }
 
 static void
-make_dim_editor (GogDataset *set, GtkTable *table,
-		 unsigned row, char const *name, GtkWidget *editor)
+make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
+		 GogDataAllocator *dalloc)
 {
-	GOData *dat = gog_dataset_get_dim (set, row-1);
-	char *txt = g_strconcat (name, ":", NULL);
+	static char const *dim_name[] = {
+		N_("M_in"),
+		N_("M_ax"),
+		N_("Ma_jor Ticks"),
+		N_("Mi_nor Ticks")
+	};
+	ElemToggleData *closure;
+	GtkWidget *editor = gog_data_allocator_editor (dalloc, set, dim, TRUE);
+	GOData *dat = gog_dataset_get_dim (set, dim);
+	char *txt = g_strconcat (_(dim_name [dim]), ":", NULL);
 	GtkWidget *toggle = gtk_check_button_new_with_mnemonic (txt);
 	g_free (txt);
 
-	g_signal_connect (G_OBJECT (toggle),
+	closure = g_new0 (ElemToggleData, 1);
+	closure->editor = editor;
+	closure->set = set;
+	closure->dim = dim;
+	g_signal_connect_data (G_OBJECT (toggle),
 		"toggled",
-		G_CALLBACK (cb_enable_dim), editor);
+		G_CALLBACK (cb_enable_dim), closure,
+		(GClosureNotify)g_free, 0);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle), dat == NULL);
 
 	gtk_table_attach (table, toggle,
-		0, 1, row, row+1, GTK_FILL, 0, 5, 3);
+		0, 1, dim + 1, dim + 2, GTK_FILL, 0, 5, 3);
 	gtk_table_attach (table, editor,
-		1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 5, 3);
+		1, 2, dim + 1, dim + 2, GTK_FILL | GTK_EXPAND, 0, 5, 3);
 }
 
 static gpointer
 gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 {
-	static char const *name[] = {
-		N_("M_in"), N_("M_ax"),
-		N_("Ma_jor Ticks"),
-		N_("Mi_nor Ticks")
-	};
 	static char const *toggle_props[] = {
 		"invert-axis",
 		"major-tick-labeled",
@@ -392,7 +449,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 	GtkWidget *w, *notebook;
 	GtkTable  *table;
 	gboolean cur_val;
-	unsigned row = 0;
+	unsigned i = 0;
 	GogAxis *axis = GOG_AXIS (gobj);
 	GogDataset *set = GOG_DATASET (gobj);
 	GladeXML *gui;
@@ -407,9 +464,8 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 	w = gtk_label_new (_("Automatic"));
 	gtk_misc_set_alignment (GTK_MISC (w), 0., .5);
 	gtk_table_attach (table, w, 0, 1, 0, 1, GTK_FILL, 0, 5, 3);
-	for (row = AXIS_ELEM_MIN; row < AXIS_ELEM_MAX_ENTRY ; row++)
-		make_dim_editor (set, table, row+1, _(name[row]),
-			gog_data_allocator_editor (dalloc, set, row, TRUE));
+	for (i = AXIS_ELEM_MIN; i < AXIS_ELEM_MAX_ENTRY ; i++)
+		make_dim_editor (set, table, i, dalloc);
 	gtk_widget_show_all (GTK_WIDGET (table));
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), GTK_WIDGET (table),
 		gtk_label_new (_("Bounds")));
@@ -424,9 +480,9 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
 		"toggled",
 		G_CALLBACK (cb_pos_changed), axis, 0);
 
-	for (row = 0; row < G_N_ELEMENTS (toggle_props) ; row++) {
-		w = glade_xml_get_widget (gui, toggle_props[row]);
-		g_object_get (G_OBJECT (gobj), toggle_props[row], &cur_val, NULL);
+	for (i = 0; i < G_N_ELEMENTS (toggle_props) ; i++) {
+		w = glade_xml_get_widget (gui, toggle_props[i]);
+		g_object_get (G_OBJECT (gobj), toggle_props[i], &cur_val, NULL);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), cur_val);
 		g_signal_connect_object (G_OBJECT (w),
 			"toggled",
@@ -451,7 +507,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 	static GogObjectRole const roles[] = {
 		{ N_("Label"), "GogLabel", 0,
 		  GOG_POSITION_COMPASS, GOG_POSITION_S|GOG_POSITION_ALIGN_CENTER, GOG_OBJECT_NAME_BY_ROLE,
-		  NULL, NULL, NULL, NULL, NULL, NULL },
+		  NULL, NULL, NULL, role_label_post_add, NULL, NULL, { -1 } }
 	};
 	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;
 	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) gog_klass;
@@ -530,9 +586,11 @@ gog_axis_init (GogAxis *axis)
 	axis->minor.size_pts = 2;
 
 	/* yes we want min = MAX */
-	axis->min_val = DBL_MAX;
-	axis->max_val = DBL_MIN;
+	axis->min_val =  DBL_MAX;
+	axis->max_val = -DBL_MAX;
 	axis->min_contrib = axis->max_contrib = NULL;
+	axis->is_index = FALSE;
+	axis->labels = NULL;
 }
 
 static void
@@ -590,8 +648,8 @@ gog_axis_get_bounds (GogAxis const *axis, double *min_bound, double *max_bound)
 {
 	g_return_val_if_fail (GOG_AXIS (axis) != NULL, FALSE);
 
-	*min_bound = axis->bound_min;
-	*max_bound = axis->bound_max;
+	*min_bound = axis->auto_bound [AXIS_ELEM_MIN];
+	*max_bound = axis->auto_bound [AXIS_ELEM_MAX];
 
 	return TRUE;
 }
@@ -682,16 +740,18 @@ gog_axis_bound_changed (GogAxis *axis, GogObject *contrib)
 static unsigned
 gog_axis_num_markers (GogAxis *axis)
 {
-	if (axis->major_tick <= 0.)
+	if (axis->auto_bound [AXIS_ELEM_MAJOR_TICK] <= 0.)
 		return 0;
 
-	return 1 + fabs (axis->bound_max - axis->bound_min) / (double)axis->major_tick;
+	return 1 + fabs (axis->auto_bound [AXIS_ELEM_MAX] - axis->auto_bound [AXIS_ELEM_MIN]) / (double)axis->auto_bound [AXIS_ELEM_MAJOR_TICK];
 }
 
 static char *
 gog_axis_get_marker (GogAxis *axis, unsigned i)
 {
-	return g_strdup_printf ("%g", axis->bound_min + ((double)i) * axis->major_tick);
+	return g_strdup_printf ("%g",
+				axis->auto_bound [AXIS_ELEM_MIN] +
+				((double)i) * axis->auto_bound [AXIS_ELEM_MAJOR_TICK]);
 }
 
 /****************************************************************************/

@@ -19,8 +19,6 @@ Release Critical
 * Charts
     - Index axis labels (1.14.12)
     - connect up or disable axis editor (1.14.{11,13})
-    - Get 'auto' working for fills so that we don't wipe a users selection when
-      merging the theme.
 
 * When we release 1.1.18, we should ask people to nominate certain foreign
   encodings as major.
@@ -157,6 +155,8 @@ Short Term Goals
 	1.14.13) Support inverted axis
 	1.14.14) Allow a plot to select a different axis
 	1.14.15) Filter add plot in guru to matching types
+	1.14.16) Editor for min/max/major/minor			(DONE)
+	1.14.17) Respect user supplied min/max/major/minor
     1.15) per series plot type specific data			(DONE)
     1.16) libart based render akin to guppicanvas.		(DONE)
 	1.16.1) Solid background fills				(DONE)

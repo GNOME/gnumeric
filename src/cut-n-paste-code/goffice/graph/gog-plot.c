@@ -30,6 +30,7 @@
 #include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/go-data.h>
 #include <gnumeric-i18n.h>
+#include <src/mathfunc.h>
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -324,15 +325,21 @@ gog_plot_foreach_elem (GogPlot *plot, GogEnumFunc func, gpointer data)
 
 GOData *
 gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
-			  double *min, double *max,
-			  double *logical_min, double *logical_max)
+			  double *minima, double *maxima,
+			  double *logical_minima, double *logical_maxima,
+			  gboolean *is_index)
 {
 	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
 
 	g_return_val_if_fail (klass != NULL, FALSE);
 
-	return (klass->axis_bounds) (plot, axis, min, max,
-		logical_min, logical_max);
+	*logical_maxima = gnm_nan;
+	*logical_minima = gnm_nan;
+	*minima =  DBL_MAX;
+	*maxima = -DBL_MAX;
+	*is_index = FALSE;
+	return (klass->axis_bounds) (plot, axis, minima, maxima,
+				     logical_minima, logical_maxima, is_index);
 }
 
 gboolean
