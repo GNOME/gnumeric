@@ -20,6 +20,10 @@ Morten:
 	* Back-port DATE2UNIX fix.
 	* Back-port abs/fabs fix.
 
+Peter Moulder:
+	http://bugzilla.gnome.org/show_bug.cgi?id=71902
+	* Problem with dif exporter.
+
 --------------------------------------------------------------------------
 Gnumeric 1.0.4
 

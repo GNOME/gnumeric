@@ -1,3 +1,8 @@
+2002-02-19  Peter Moulder  <pmoulder@csse.monash.edu.au>
+
+	* dif.c (dif_file_save): Ensure r is initialized before use.
+	  Affects VECTORS and TUPLES values in dif header.
+
 2002-01-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.4
