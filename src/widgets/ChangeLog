@@ -1,3 +1,7 @@
+2003-10-05  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* widget-format-selector.c: #include gtkliststore.h to fix build.
+
 2003-10-04  Jody Goldberg <jody@gnome.org>
 
 	* Do not include gtk/gtk.h to avoid conflict with

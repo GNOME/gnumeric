@@ -37,6 +37,7 @@
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkliststore.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <string.h>
