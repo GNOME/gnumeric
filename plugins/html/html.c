@@ -221,7 +221,7 @@ write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
 			fputs(" valign=\"bottom\" ", fp);
 			break;
 		case VALIGN_CENTER:
-			fputs(" valign=\"center\" ", fp);
+			fputs(" valign=\"middle\" ", fp);
 			break;
 		case VALIGN_JUSTIFY:
 			fputs(" valign=\"baseline\" ", fp);

@@ -1,5 +1,8 @@
 Gnumeric 1.0.10
 
+Andreas:
+	* Fix valign=center in html exporter
+
 Jiri Jirat:
 	* Fix the schema.
 
