@@ -834,39 +834,32 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 	tl = &sheet->frozen.top_left;
 	br = &sheet->frozen.bottom_right;
 	if (col <= br->col) {
-		if (row <= br->row) {	/* pane 2 */
-			gnumeric_sheet_set_top_left (scg->pane[0].gsheet,
-						     br->col+1, br->row+1, force_scroll);
-			gnumeric_sheet_set_top_left (scg->pane[1].gsheet,
-						     tl->col, br->row+1, force_scroll);
-			gnumeric_sheet_set_top_left (scg->pane[3].gsheet,
-						     br->col+1, tl->row, force_scroll);
-		} else {		/* pane 1 */
+		if (row > br->row) {	/* pane 1 */
 			if (col < tl->col)
 				col = tl->col;
 			gnumeric_sheet_make_cell_visible (scg->pane[1].gsheet,
-							  col, row, force_scroll);
+				col, row, force_scroll);
 			gnumeric_sheet_set_top_left (scg->pane[0].gsheet,
-						     br->col+1, scg->pane[1].gsheet->row.first, force_scroll);
-			gnumeric_sheet_set_top_left (scg->pane[3].gsheet,
-						     br->col+1, tl->row, force_scroll);
+				     scg->pane[0].gsheet->col.first,
+				     scg->pane[1].gsheet->row.first,
+				     force_scroll);
 		}
 	} else if (row <= br->row) {	/* pane 3 */
 		if (row < tl->row)
 			row = tl->row;
 		gnumeric_sheet_make_cell_visible (scg->pane[3].gsheet,
-						  col, row, force_scroll);
+			col, row, force_scroll);
 		gnumeric_sheet_set_top_left (scg->pane[0].gsheet,
-					     scg->pane[3].gsheet->col.first, br->row+1, force_scroll);
-		gnumeric_sheet_set_top_left (scg->pane[1].gsheet,
-					     tl->col, br->row+1, force_scroll);
+			scg->pane[3].gsheet->col.first,
+			scg->pane[0].gsheet->row.first,
+			force_scroll);
 	} else {			 /* pane 0 */
 		gnumeric_sheet_make_cell_visible (scg->pane[0].gsheet,
-						  col, row, force_scroll);
+			col, row, force_scroll);
 		gnumeric_sheet_set_top_left (scg->pane[1].gsheet,
-					     tl->col, scg->pane[0].gsheet->row.first, force_scroll);
+			tl->col, scg->pane[0].gsheet->row.first, force_scroll);
 		gnumeric_sheet_set_top_left (scg->pane[3].gsheet,
-					     scg->pane[0].gsheet->col.first, tl->row, force_scroll);
+			scg->pane[0].gsheet->col.first, tl->row, force_scroll);
 	}
 	gnumeric_sheet_set_top_left (scg->pane[2].gsheet,
 				     tl->col, tl->row, force_scroll);
@@ -951,17 +944,35 @@ scg_set_panes (SheetControl *sc)
 				  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 				  0, 0);
 	} else { 
+		int const col = scg->pane[2].gsheet->col.first;
+		int const row = scg->pane[2].gsheet->row.first;
+
+		gnumeric_sheet_set_top_left (scg->pane[0].gsheet,
+					     col, row, TRUE);
 		gnumeric_pane_free (scg->pane + 1);
 		gnumeric_pane_free (scg->pane + 2);
 		gnumeric_pane_free (scg->pane + 3);
 		scg->active_panes = 1;
 	}
 
+	/* in case headers are hidden */
 	scg_adjust_preferences (SHEET_CONTROL (scg));
+
 	scg_resize (SHEET_CONTROL (scg), TRUE);
+
 	if (frozen) {
-		CellPos const *br = &sc->sheet->frozen.bottom_right;
-		scg_make_cell_visible (scg, br->col, br->row, TRUE);
+		/* scroll to starting points */
+		CellPos const *tl, *br;
+		tl = &sc->sheet->frozen.top_left;
+		br = &sc->sheet->frozen.bottom_right;
+		gnumeric_sheet_set_top_left (scg->pane[0].gsheet,
+					     br->col+1, br->row+1, TRUE);
+		gnumeric_sheet_set_top_left (scg->pane[1].gsheet,
+					     tl->col, br->row+1, TRUE);
+		gnumeric_sheet_set_top_left (scg->pane[2].gsheet,
+					     tl->col, tl->row, TRUE);
+		gnumeric_sheet_set_top_left (scg->pane[3].gsheet,
+					     br->col+1, tl->row, TRUE);
 	}
 	gtk_widget_show_all (GTK_WIDGET (scg->inner_table));
 }

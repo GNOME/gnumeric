@@ -1,5 +1,14 @@
 2001-07-05  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-control-gui.c (scg_make_cell_visible) : simplify.  There
+	  is no need to scroll all panes if the target is already visible in
+	  one of them.  Just keep things in sync.  This does suggest a ui
+	  enhancement thou.  Jump to boundaries (ctrl-arrow) should be smart
+	  about panes.
+	(scg_set_panes) : pre-scroll things to their minimum.
+
+2001-07-05  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-control.c (sc_resize) : add a force_scroll argument.
 
 	* src/sheet-control-gui.c (scg_scrollbar_config) : handle panes.

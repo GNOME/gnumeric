@@ -12,14 +12,15 @@ Release Critical
 	    : Sheet objects
 	    : item-bar item-grid paint black line at max
 	    : item-cursor handling of drag handle
-	    : scg_make_cell_visible no need to scroll all panes in all cases.
-	      Only scroll if the target cell is out of range
 
 Pending Patches
 ---------------
 
 Long term breakage
 ------------------
+
+- Panes 
+    : Make ctrl-arrow smarter in the presence of panes.
 
 - support negative durations with [h]
 
