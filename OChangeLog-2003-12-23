@@ -1,3 +1,9 @@
+2002-03-12  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_destroy_contents): Plug leak.
+	* src/workbook.c (workbook_finalize): Free the sheets member.
+	* src/sheet-control-gui.c (scg_finalize): Plug leak.
+
 2002-03-11  Jody Goldberg <jody@gnome.org>
 
 	* src/expr-name.c (expr_name_new) : make public.

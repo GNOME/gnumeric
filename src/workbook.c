@@ -188,6 +188,8 @@ workbook_finalize (GObject *wb_object)
 	   state.  Careful here.  */
 	g_hash_table_destroy (wb->sheet_hash_private);
 
+	g_ptr_array_free (wb->sheets, TRUE);
+
 	wb->names = expr_name_list_destroy (wb->names);
 
 	workbook_private_delete (wb->priv);

@@ -35,6 +35,7 @@ struct _EditableLabel {
 	GtkWidget       *entry;
 	GnomeCanvasItem *cursor;
 	GnomeCanvasItem *background;
+	GtkWidget       *style_button;
 };
 
 typedef struct {
@@ -184,7 +185,7 @@ el_stop_editing (EditableLabel *el)
 	if (el->background) {
 		gtk_object_destroy (GTK_OBJECT (el->background));
 		el->background = NULL;
-}
+	}
 
 	editable_label_set_color (el, el->color);
 	gtk_grab_remove (GTK_WIDGET (el));
@@ -193,7 +194,7 @@ el_stop_editing (EditableLabel *el)
 static void
 el_change_text (EditableLabel *el, const char *text)
 {
-	char *item_text;
+	const char *item_text;
 
 	item_text = GNOME_CANVAS_TEXT (el->text_item)->text;
 
@@ -222,6 +223,12 @@ el_destroy (GtkObject *object)
 	}
 
 	editable_label_set_color (el, NULL);
+
+	if (el->style_button) {
+		gtk_widget_unref (el->style_button);
+		el->style_button = NULL;
+	}
+
 	((GtkObjectClass *)el_parent_class)->destroy (object);
 }
 
@@ -383,7 +390,9 @@ editable_label_set_text (EditableLabel *el, char const *text)
 		GnomeCanvasGroup *root_group;
 		GtkWidget* text_color_widget;
 
-		text_color_widget = gtk_button_new ();
+		el->style_button = text_color_widget = gtk_button_new ();
+		gtk_widget_ref (text_color_widget);
+		gtk_object_sink (GTK_OBJECT (text_color_widget));
 		gtk_widget_ensure_style (text_color_widget);
 
 		root_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (el)->root);
@@ -401,6 +410,7 @@ editable_label_set_text (EditableLabel *el, char const *text)
 	} else
 		el_change_text (el, text);
 }
+
 char const *
 editable_label_get_text  (EditableLabel const *el)
 {

@@ -1188,6 +1188,9 @@ scg_finalize (GObject *object)
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (object);
 	SheetControl *sc = (SheetControl *) scg;
 
+	g_ptr_array_free (scg->col_group.buttons, TRUE);
+	g_ptr_array_free (scg->row_group.buttons, TRUE);
+
 	if (sc->sheet)
 		sheet_detach_control (sc);
 

@@ -2832,11 +2832,15 @@ sheet_destroy_contents (Sheet *sheet)
 			g_free (tmp);
 			g_ptr_array_index (sheet->cols.info, i) = NULL;
 		}
+	g_ptr_array_free (sheet->cols.info, TRUE);
+	sheet->cols.info = NULL;
 	for (i = COLROW_SEGMENT_INDEX (max_row); i >= 0 ; --i)
 		if ((tmp = g_ptr_array_index (sheet->rows.info, i)) != NULL) {
 			g_free (tmp);
 			g_ptr_array_index (sheet->rows.info, i) = NULL;
 		}
+	g_ptr_array_free (sheet->rows.info, TRUE);
+	sheet->rows.info = NULL;
 }
 
 /**
