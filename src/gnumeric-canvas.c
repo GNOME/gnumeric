@@ -141,10 +141,9 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 			? scg_rangesel_extend
 			: scg_rangesel_move;
 	} else {
-		if ((event->state & GDK_CONTROL_MASK)) {
-			if (gnm_check_ctrl_mask (gcanvas,event->keyval))
-				return TRUE;
-		}
+		if ((event->state & GDK_CONTROL_MASK) &&
+		    gnm_check_ctrl_mask (gcanvas,event->keyval))
+			return TRUE;
 		movefn = (event->state & GDK_SHIFT_MASK)
 					? scg_cursor_extend
 					: scg_cursor_move;
@@ -188,13 +187,13 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 		if ((event->state & GDK_CONTROL_MASK) != 0)
 			gtk_notebook_prev_page (wbcg->notebook);
 		else if ((event->state & GDK_MOD1_MASK) == 0)
-			(*movefn)( gcanvas->simple.scg,
-				   -(gcanvas->last_visible.row-gcanvas->first.row),
-				   FALSE, FALSE);
+			scg_queue_movement (gcanvas->simple.scg, movefn,
+				-(gcanvas->last_visible.row-gcanvas->first.row),
+				FALSE, FALSE);
 		else
-			(*movefn)(gcanvas->simple.scg,
-				  -(gcanvas->last_visible.col-gcanvas->first.col),
-				  FALSE, TRUE);
+			scg_queue_movement (gcanvas->simple.scg, movefn,
+				-(gcanvas->last_visible.col-gcanvas->first.col),
+				FALSE, TRUE);
 		break;
 
 	case GDK_KP_Page_Down:
@@ -202,13 +201,13 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 		if ((event->state & GDK_CONTROL_MASK) != 0)
 			gtk_notebook_next_page (wbcg->notebook);
 		else if ((event->state & GDK_MOD1_MASK) == 0)
-			(*movefn)(gcanvas->simple.scg,
-				  gcanvas->last_visible.row-gcanvas->first.row,
-				  FALSE, FALSE);
+			scg_queue_movement (gcanvas->simple.scg, movefn,
+				gcanvas->last_visible.row-gcanvas->first.row,
+				FALSE, FALSE);
 		else
-			(*movefn)(gcanvas->simple.scg,
-				  gcanvas->last_visible.col-gcanvas->first.col,
-				  FALSE, TRUE);
+			scg_queue_movement (gcanvas->simple.scg, movefn,
+				gcanvas->last_visible.col-gcanvas->first.col,
+				FALSE, TRUE);
 		break;
 
 	case GDK_KP_Home:
@@ -414,7 +413,7 @@ gnm_canvas_key_press (GtkWidget *widget, GdkEventKey *event)
 			gcanvas->need_im_reset = TRUE;
 			return TRUE;
 		}
-		gtk_im_context_reset(gcanvas->im_context);
+		gtk_im_context_reset (gcanvas->im_context);
 		res = gnm_canvas_key_mode_sheet (gcanvas, event);
 	}
 
@@ -528,7 +527,7 @@ static void
 gnm_canvas_finalize (GObject *object)
 {
 	g_object_unref (G_OBJECT (GNM_CANVAS (object)->im_context));
-	G_OBJECT_CLASS (gcanvas_parent_class)->finalize(object);
+	G_OBJECT_CLASS (gcanvas_parent_class)->finalize (object);
 }
 
 static void
@@ -566,21 +565,20 @@ gnm_canvas_commit_cb (GtkIMContext *context, const gchar *str, GnmCanvas *gcanva
 	GtkEditable *editable = GTK_EDITABLE (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg)));
 	gint tmp_pos;
 
-	if(str && strlen(str) == 1 && gcanvas->mask_state & GDK_CONTROL_MASK){
-		if (gnm_check_ctrl_mask (gcanvas,*str))
-			return;
-	}
-	if (!wbcg_is_editing(wbcg)) {
-		if (!wbcg_edit_start (wbcg, TRUE, TRUE))
-			return;
-	}
+	if (str &&
+	    strlen (str) == 1 &&
+	    gcanvas->mask_state & GDK_CONTROL_MASK &&
+	    gnm_check_ctrl_mask (gcanvas,*str))
+		return;
+	if (!wbcg_is_editing (wbcg) &&
+	    !wbcg_edit_start (wbcg, TRUE, TRUE))
+		return;
 
 	if (gtk_editable_get_selection_bounds (editable, NULL, NULL))
 		gtk_editable_delete_selection (editable);
-	else
-	{
+	else {
 		tmp_pos = gtk_editable_get_position (editable);
-		if (GTK_ENTRY(editable)->overwrite_mode)
+		if (GTK_ENTRY (editable)->overwrite_mode)
 			gtk_editable_delete_text (editable,tmp_pos,tmp_pos+1);
 	}
 
@@ -599,26 +597,25 @@ gnm_canvas_preedit_changed_cb (GtkIMContext *context, GnmCanvas *gcanvas)
 	int cursor_pos;
 
 	tmp_pos = gtk_editable_get_position (editable);
-	if(gcanvas->preedit_attrs)
-		pango_attr_list_unref(gcanvas->preedit_attrs);
+	if (gcanvas->preedit_attrs)
+		pango_attr_list_unref (gcanvas->preedit_attrs);
 	gtk_im_context_get_preedit_string (gcanvas->im_context, &preedit_string, &gcanvas->preedit_attrs, &cursor_pos);
 
-	if (!wbcg_is_editing (wbcg)) {
-		if (!wbcg_edit_start (wbcg, TRUE, TRUE)){
-			gtk_im_context_reset (gcanvas->im_context);
-			gcanvas->preedit_length=0;
-			if(gcanvas->preedit_attrs)
-				pango_attr_list_unref(gcanvas->preedit_attrs);
-			gcanvas->preedit_attrs=NULL;
-			g_free (preedit_string);
-			return;
-		}
+	if (!wbcg_is_editing (wbcg) && !wbcg_edit_start (wbcg, TRUE, TRUE)) {
+		gtk_im_context_reset (gcanvas->im_context);
+		gcanvas->preedit_length = 0;
+		if (gcanvas->preedit_attrs)
+				pango_attr_list_unref (gcanvas->preedit_attrs);
+		gcanvas->preedit_attrs = NULL;
+		g_free (preedit_string);
+		return;
 	}
-	if(gcanvas->preedit_length)
-		gtk_editable_delete_text (editable,tmp_pos,tmp_pos+gcanvas->preedit_length);
-	gcanvas->preedit_length = strlen(preedit_string);
 
-	if(gcanvas->preedit_length)
+	if (gcanvas->preedit_length)
+		gtk_editable_delete_text (editable,tmp_pos,tmp_pos+gcanvas->preedit_length);
+	gcanvas->preedit_length = strlen (preedit_string);
+
+	if (gcanvas->preedit_length)
 		gtk_editable_insert_text (editable, preedit_string, gcanvas->preedit_length, &tmp_pos);
 	g_free (preedit_string);
 }
@@ -635,7 +632,7 @@ gnm_canvas_retrieve_surrounding_cb (GtkIMContext *context, GnmCanvas *gcanvas)
 	                                surrounding, strlen (surrounding),
 	                                g_utf8_offset_to_pointer (surrounding, cur_pos) - surrounding);
 
-	g_free(surrounding);
+	g_free (surrounding);
 	return TRUE;
 }
 
@@ -673,7 +670,7 @@ gnm_canvas_init (GnmCanvas *gcanvas)
 	gcanvas->sliding_y  = gcanvas->sliding_dy = -1;
 	gcanvas->sliding_adjacent_h = gcanvas->sliding_adjacent_v = FALSE;
 
-	gcanvas->im_context = gtk_im_multicontext_new();
+	gcanvas->im_context = gtk_im_multicontext_new ();
 	gcanvas->preedit_length = 0;
 	gcanvas->preedit_attrs = NULL;
 

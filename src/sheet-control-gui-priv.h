@@ -54,6 +54,12 @@ struct _SheetControlGUI {
 		GtkWidget   *item;	/* TODO : make this a canvas item with an arrow */
 		int	     timer;
 	} comment;
+
+	struct {
+		int		timer, counter, n;
+		gboolean	jump, horiz;
+		SCGUIMoveFunc	handler;
+	} delayedMovement;
 };
 
 typedef struct {

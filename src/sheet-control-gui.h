@@ -78,6 +78,12 @@ void scg_colrow_resize_start	(SheetControlGUI *scg,
 void scg_colrow_resize_move	(SheetControlGUI *scg,
 				 gboolean is_cols, int resize_last);
 
+typedef void (*SCGUIMoveFunc)	(SheetControlGUI *, int n,
+				 gboolean jump, gboolean horiz);
+void scg_queue_movement		(SheetControlGUI *scg,
+				 SCGUIMoveFunc	  handler,
+				 int n, gboolean jump, gboolean horiz);
+
 /* DO NOT USE THIS WITHOUT ALOT OF THOUGHT */
 GnmCanvas	   *scg_pane		(SheetControlGUI *scg, int pane);
 

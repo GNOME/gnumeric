@@ -6,6 +6,7 @@ Jody:
 	* Simplify defining new services
 	* Work on graphs
 	* Fix xbase importer
+	* Add motion compression for high speed scrolling
 
 Morten:
 	* Make RenderedValue use a PangoLayout for storing the contents

@@ -616,6 +616,9 @@ scg_init (SheetControlGUI *scg)
 	scg->comment.item = NULL;
 	scg->comment.timer = -1;
 
+	scg->delayedMovement.timer = -1;
+	scg->delayedMovement.handler = NULL;
+
 	scg->grab_stack = 0;
 	scg->new_object = NULL;
 	scg->current_object = NULL;
@@ -1194,6 +1197,15 @@ sheet_control_gui_new (SheetView *sv, WorkbookControlGUI *wbcg)
 }
 
 static void
+scg_comment_timer_clear (SheetControlGUI *scg)
+{
+	if (scg->comment.timer != -1) {
+		gtk_timeout_remove (scg->comment.timer);
+		scg->comment.timer = -1;
+	}
+}
+
+static void
 scg_finalize (GObject *object)
 {
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (object);
@@ -1207,6 +1219,13 @@ scg_finalize (GObject *object)
 
 	g_ptr_array_free (scg->col_group.buttons, TRUE);
 	g_ptr_array_free (scg->row_group.buttons, TRUE);
+
+	scg_comment_timer_clear (scg);
+
+	if (scg->delayedMovement.timer != -1) {
+		gtk_timeout_remove (scg->delayedMovement.timer);
+		scg->delayedMovement.timer = -1;
+	}
 
 	if (sc->view)
 		sv_detach_control (sc);
@@ -1869,15 +1888,6 @@ scg_object_view_position (SheetControlGUI *scg, SheetObject *so, double *coords)
 
 /***************************************************************************/
 
-static void
-scg_comment_timer_clear (SheetControlGUI *scg)
-{
-	if (scg->comment.timer != -1) {
-		gtk_timeout_remove (scg->comment.timer);
-		scg->comment.timer = -1;
-	}
-}
-
 /**
  * scg_comment_display :
  * @scg : The SheetControl
@@ -1936,11 +1946,6 @@ scg_comment_display (SheetControlGUI *scg, CellComment *cc)
 	}
 }
 
-/**
- * cb_cell_comment_timer :
- *
- * Utility routine to disaply a comment after a short delay.
- */
 static gint
 cb_cell_comment_timer (SheetControlGUI *scg)
 {
@@ -2516,3 +2521,66 @@ scg_class_init (GObjectClass *object_class)
 
 GSF_CLASS (SheetControlGUI, sheet_control_gui,
 	   scg_class_init, scg_init, SHEET_CONTROL_TYPE)
+
+static gint
+cb_scg_queued_movement (SheetControlGUI *scg)
+{
+	scg->delayedMovement.timer = -1;
+	(*scg->delayedMovement.handler) (scg,
+		scg->delayedMovement.n, FALSE,
+		scg->delayedMovement.horiz);
+	return FALSE;
+}
+
+/**
+ * scg_queue_movement :
+ *
+ * @scg :
+ * @handler :	The movement handler
+ * @n :		how far
+ * @jump :	TRUE jump to bound
+ * @horiz :	TRUE move by cols
+ *
+ * Do motion compression when possible to avoid redrawing an area that will
+ * disappear when we scroll again.
+ **/
+void
+scg_queue_movement (SheetControlGUI	*scg,
+		    SCGUIMoveFunc	 handler,
+		    int n, gboolean jump, gboolean horiz)
+{
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+
+	/* do we need to flush a pending movement */
+	if (scg->delayedMovement.timer != -1) {
+		if (jump ||
+		    /* do not skip more than 3 requests at a time */
+		    scg->delayedMovement.counter > 3 ||
+		    scg->delayedMovement.handler != handler ||
+		    scg->delayedMovement.horiz != horiz) {
+			gtk_timeout_remove (scg->delayedMovement.timer);
+			(*scg->delayedMovement.handler) (scg,
+				scg->delayedMovement.n, FALSE,
+				scg->delayedMovement.horiz);
+			scg->delayedMovement.handler = NULL;
+			scg->delayedMovement.timer = -1;
+		} else {
+			scg->delayedMovement.counter++;
+			scg->delayedMovement.n += n;
+			return;
+		}
+	}
+
+	/* jumps are always immediate */
+	if (jump) {
+		(*handler) (scg, n, TRUE, horiz);
+		return;
+	}
+
+	scg->delayedMovement.counter = 1;
+	scg->delayedMovement.handler = handler;
+	scg->delayedMovement.horiz   = horiz;
+	scg->delayedMovement.n	     = n;
+	scg->delayedMovement.timer   = gtk_timeout_add (10,
+		(GtkFunction)cb_scg_queued_movement, scg);
+}

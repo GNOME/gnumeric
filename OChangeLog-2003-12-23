@@ -1,3 +1,13 @@
+2003-03-06  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_queue_movement) : new.
+	(cb_scg_queued_movement) : ditto.
+	(scg_init) : init the delayed movement handler.
+	(scg_finalize) : clear the delayed movment handler.
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_sheet) : use the motion
+	  compression here for paging.
+
 2003-03-05  Jody Goldberg <jody@gnome.org>
 
 	* src/test-pango.c (main) : init initial_workbook_open_complete so
