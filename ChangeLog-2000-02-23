@@ -1,5 +1,13 @@
 1999-12-22  JP Rosevear  <jpr@arcavia.com>
 
+	* src/ranges.c (range_intersection): change interface to take a range
+	pointer for the  result and return a boolean dictating whether or not 
+	the ranges actually intersect
+
+	* src/ranges.h : update for new range_intersection interface
+
+1999-12-22  JP Rosevear  <jpr@arcavia.com>
+
 	* src/ranges.c (range_intersection): Clean to meet coding specs.
 
 1999-12-21  JP Rosevear <jpr@arcavia.com>

@@ -717,30 +717,31 @@ range_fragment_free (GList *fragments)
 
 /**
  * range_intersection:
+ * @r: intersection range
  * @a: range a
  * @b: range b
  * 
- * This computes the intersection; on a Venn
- * diagram this would be A (upside down U) B
- * NB. totally commutative.
- * 
- * Return value: the intersection
+ * This computes the intersection of two ranges; on a Venn
+ * diagram this would be A (upside down U) B.
+ * If the ranges do not intersect, false is returned an the
+ * values of r are unpredictable. 
+ *
+ * NB. totally commutative
+ *
+ * Return value: True if the ranges intersect, false otherwise
  **/
-Range
-range_intersection (Range const *a, Range const *b)
+gboolean
+range_intersection (Range *r, Range const *a, Range const *b)
 {
-	Range ans;
-
-	g_return_if_fail (range_overlap (a, b));
+	g_return_val_if_fail (range_overlap (a, b), FALSE);
 	
-	ans.start.col = MAX (a->start.col, b->start.col);
-	ans.start.row = MAX (a->start.row, b->start.row);
+	r->start.col = MAX (a->start.col, b->start.col);
+	r->start.row = MAX (a->start.row, b->start.row);
 	
-	ans.end.col = MIN (a->end.col, b->end.col);
-	ans.end.row = MIN (a->end.row, b->end.row);
+	r->end.col = MIN (a->end.col, b->end.col);
+	r->end.row = MIN (a->end.row, b->end.row);
 
-	/* Make sure this is an actual intersection */
-	return ans;
+	return TRUE;
 }
 
 /**
