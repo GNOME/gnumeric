@@ -1,3 +1,12 @@
+2004-08-28  Jody Goldberg <jody@gnome.org>
+
+	* src/wbcg-actions.c (cb_view_zoom_in) : new
+	(cb_view_zoom_out) : new
+
+2004-08-28  Jody Goldberg <jody@gnome.org>
+
+	* src/wbcg-actions.c : Add ctrl +/- as accelerators for ins/del cells
+
 2004-08-27  Jody Goldberg <jody@gnome.org>
 
 	* src/plugin-service.c (plugin_service_file_opener_read_xml) :

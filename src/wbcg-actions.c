@@ -482,6 +482,30 @@ static GNM_ACTION_DEF (cb_repeat)	{ command_repeat (WORKBOOK_CONTROL (wbcg)); }
 
 /****************************************************************************/
 
+static GNM_ACTION_DEF (cb_view_zoom_in)
+{
+	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	int zoom = (int)(sheet->last_zoom_factor_used * 100. + .5) - 10;
+	if ((zoom % 15) != 0)
+		zoom = 15 * (int)(zoom/15);
+	zoom += 15;
+	if (zoom <= 390)
+		cmd_zoom (WORKBOOK_CONTROL (wbcg), g_slist_append (NULL, sheet),
+			  (double) (zoom + 10) / 100);
+}
+static GNM_ACTION_DEF (cb_view_zoom_out)
+{
+	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	int zoom = (int)(sheet->last_zoom_factor_used * 100. + .5) - 10;
+	if ((zoom % 15) != 0)
+		zoom = 15 * (int)(zoom/15);
+	else
+		zoom -= 15;
+	if (0 <= zoom)
+		cmd_zoom (WORKBOOK_CONTROL (wbcg), g_slist_append (NULL, sheet),
+			  (double) (zoom + 10) / 100);
+}
+
 static GNM_ACTION_DEF (cb_view_zoom)	{ dialog_zoom (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_view_new)	{ dialog_new_view (wbcg); }
 static GNM_ACTION_DEF (cb_view_freeze_panes)
@@ -1462,7 +1486,7 @@ static /* const 142334 */ GtkActionEntry actions[] = {
 		NULL, N_("Delete the column(s) containing the selected cells"),
 		G_CALLBACK (cb_edit_delete_columns) },
 	{ "EditDeleteCells", NULL, N_("C_ells..."),
-		  NULL, N_("Delete the selected cells, shifting others into their place"),
+		  "<control>minus", N_("Delete the selected cells, shifting others into their place"),
 		  G_CALLBACK (cb_edit_delete_cells) },
 
 
@@ -1567,10 +1591,16 @@ static /* const 142334 */ GtkActionEntry actions[] = {
 	{ "ViewZoom", NULL, N_("_Zoom..."),
 		NULL, N_("Zoom the spreadsheet in or out"),
 		G_CALLBACK (cb_view_zoom) },
+	{ "ViewZoomIn", GTK_STOCK_ZOOM_IN, N_("Zoom _In"),
+		NULL, N_("Increase the zoom to make things larger"),
+		G_CALLBACK (cb_view_zoom_in) },
+	{ "ViewZoomOut", GTK_STOCK_ZOOM_OUT, N_("Zoom _Out"),
+		NULL, N_("Decrease the zoom to make things smaller"),
+		G_CALLBACK (cb_view_zoom_out) },
 
 /* Insert */
 	{ "InsertCells", NULL, N_("C_ells..."),
-		NULL, N_("Insert new cells"),
+		"<ctrl>plus", N_("Insert new cells"),
 		G_CALLBACK (cb_insert_cells) },
 	{ "InsertColumns", "Gnumeric_ColumnAdd", N_("_Columns"),
 		NULL, N_("Insert new columns"),
@@ -1875,7 +1905,7 @@ static /* const 142334 */ GtkActionEntry actions[] = {
 	{ "FormatAsAccounting", "Gnumeric_FormatAsAccounting", N_("Accounting"),
 		"<control>exclam", N_("Format the selection as accounting"),
 		G_CALLBACK (cb_format_as_accounting) },
-	{ "FormatAsPercentage", "Gnumeric_FormatAsPercent", N_("Percentage"),
+	{ "FormatAsPercentage", "Gnumeric_FormatAsPercentage", N_("Percentage"),
 		"<control>percent", N_("Format the selection as percentage"),
 		G_CALLBACK (cb_format_as_percentage) },
 	{ "FormatAsScientific", NULL, N_("Scientific"),
