@@ -407,8 +407,6 @@ dialog_stf (CommandContext *context, const char *filename, const char *data)
 	StfParseOptions_t *parseoptions;
 	char* message;
 
-	glade_gnome_init();
-
 	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE, NULL);
 	if (!gui) {
 	

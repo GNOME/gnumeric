@@ -5,6 +5,8 @@
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
+ *
+ * (C) 1999, 2000 Helix Code, Inc.
  */
 #include <config.h>
 #include <gnome.h>
@@ -17,24 +19,6 @@
 #define LAST_PAGE 2
 
 extern void (*graphic_wizard_hook)(Workbook *wb);
-
-static void
-remove_placeholder_callback (GtkWidget *widget, gpointer data)
-{
-	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
-}
-
-/*
- * This routine removes a placeholder inserted
- * by libglade from a container
- */
-static void
-remove_placeholders (GtkContainer *container)
-{
-	g_return_if_fail (GTK_IS_CONTAINER (container));
-
-	gtk_container_foreach (container, remove_placeholder_callback, NULL);
-}
 
 static void
 customize (GladeXML *gui, WizardGraphicContext *gc)
@@ -57,14 +41,13 @@ customize (GladeXML *gui, WizardGraphicContext *gc)
 		container = GTK_CONTAINER (glade_xml_get_widget (gui, name));
 		g_free (name);
 		
-		view_frame = bonobo_client_site_new_view (gc->guppi);
+		view_frame = bonobo_client_site_new_view (gc->client_site);
 		view = bonobo_view_frame_get_wrapper (view_frame);
 		
 		/*
 		 * Add the widget to the container.  Remove any
 		 * placeholders that might have been left by libglade
 		 */
-		remove_placeholders (container);
 		gtk_container_add (container, view);
 	}
 
@@ -125,6 +108,7 @@ static void
 button_cancel (GtkWidget *widget, WizardGraphicContext *gc)
 {
 	graphic_context_destroy (gc);
+	gtk_main_quit ();
 }
 
 static void
@@ -145,26 +129,39 @@ _connect (GladeXML *gui, const char *widget_name,
 
 #define connect(a,b,c,d,e) _connect(a,b,c, GTK_SIGNAL_FUNC(d),e)
 
+#ifdef WIZARD_PLUGIN
+/*
+ * No code here yet
+ */
+#else
 static void
-my_wizard (Workbook *wb)
+boot_wizard (Workbook *wb)
+{
+}
+#endif
+
+void
+graphics_wizard (Workbook *wb)
 {
 	GladeXML *gui;
 	WizardGraphicContext *gc;
-
-	bonobo_init (gnome_CORBA_ORB (), NULL, NULL);
+	GtkWidget *toplevel;
 	
-	gui = glade_xml_new ("graphics.glade", NULL);
-	if (!gui){
+	boot_wizard (wb);
+	
+	gui = glade_xml_new (GNUMERIC_GLADEDIR "/graphics.glade", NULL);
+	if (!gui)
 		g_error ("Failed to load the interface");
-	}
+
+	toplevel = glade_xml_get_widget (gui, "graphics-wizard-dialog");
 
 	gc = graphic_context_new (wb, gui);
 
 	if (!gc){
 		gnumeric_notice (
 			wb, GNOME_MESSAGE_BOX_ERROR,
-			_("Unable to launch the Plotting service"));
-		gtk_object_unref (GTK_OBJECT (glade_xml_get_widget (gui, "graphics-wizard-dialog")));
+			_("Unable to launch the graphics service"));
+		gtk_object_unref (GTK_OBJECT (toplevel));
 		return;
 	}
 
@@ -182,15 +179,11 @@ my_wizard (Workbook *wb)
 	connect (gui, "button-finish", "clicked", button_finish, gc);
 
 	set_page (gc, 0);
-}
 
-void
-gtk_module_init (void)
-{
-	printf ("In gtk_module_init");
-
-	graphic_wizard_hook = my_wizard;
-}
-
-
+	gtk_widget_show (toplevel);
+	gtk_window_set_modal (GTK_WINDOW (toplevel), TRUE);
 	
+	gtk_widget_grab_focus (toplevel);
+
+	gtk_main ();
+}

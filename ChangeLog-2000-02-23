@@ -1,3 +1,34 @@
+2000-02-23  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/dialogs/dialog-stf.c (dialog_stf): remove invocation to
+	glade_gnome_init(), this is not required.
+
+	* src/sheet-object-container.c (sheet_object_container_realize):
+	Update to new Bonobo API.
+
+2000-02-19  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/workbook.c (launch_graphics_wizard_cmd): New function, used
+	to launch the graphics wizard.
+
+	* src/wizard.h: New file.
+
+	* src/corba-workbook-factory.c (WorkbookFactory_read): Fixed
+	command_context_corba usage.  Kill memory leak.
+
+	* src/sheet-object.c (sheet_set_mode_type): Remove the sheet event
+	button binding code from here.
+	(sheet_object_bind_button_events): New function.  To here.
+
+	* src/sheet.h: New creation mode: SHEET_OBJECT_CREATE_COMPONENT.
+	The GRAPHICS one will be used only by the wizard.
+
+	* src/pixmaps.h: Include object.xpm.
+
+	* src/pixmaps/object.xpm: More Modern Art work from Miguel, this
+	image represents an object.  The object has suffered a lot and is
+	in pain as you can see by the colors chosen by the artist.
+	
 2000-02-24  Michael Meeks  <michael@helixcode.com>
 
 	* src/plugin.c (plugin_close): expand.

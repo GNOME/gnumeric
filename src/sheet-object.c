@@ -455,6 +455,7 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 	}
 
 	case SHEET_MODE_CREATE_GRAPHIC:
+	case SHEET_MODE_CREATE_COMPONENT:
 #ifdef ENABLE_BONOBO
 		o = sheet_object_container_new (
 			sheet, x1, y1, x2, y2, sheet->mode_data);
@@ -658,6 +659,22 @@ sheet_finish_object_creation (Sheet *sheet, SheetObject *o)
 	}
 }
 
+static void
+sheet_object_bind_button_events (Sheet *sheet)
+{
+	GList *l;
+	
+	for (l = sheet->sheet_views; l; l = l->next) {
+		
+		SheetView *sheet_view = l->data;
+		GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+		
+		sheet_view->temp_item = NULL;
+		gtk_signal_connect (GTK_OBJECT (gsheet), "button_press_event",
+				    GTK_SIGNAL_FUNC (sheet_button_press), sheet);
+	}
+}
+
 /*
  * sheet_set_mode_type:
  * @sheet:  The sheet
@@ -678,8 +695,6 @@ sheet_finish_object_creation (Sheet *sheet, SheetObject *o)
 void
 sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 {
-	GList *l;
-	
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -712,6 +727,9 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 
 	switch (sheet->mode) {
 	case SHEET_MODE_CREATE_GRAPHIC:
+		sheet_object_bind_button_events (sheet);
+		
+	case SHEET_MODE_CREATE_COMPONENT:
 	case SHEET_MODE_CREATE_CANVAS_ITEM:
 #ifdef ENABLE_BONOBO
 	{
@@ -723,32 +741,26 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 		else
 			required_interfaces [0] = "IDL:GNOME/Embeddable:1.0";
 		required_interfaces [1] = NULL;
-		
+
 		goad_id = gnome_bonobo_select_goad_id (_("Select an object"), required_interfaces); 
 		if (goad_id == NULL){
 			sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
 			return;
 		}
 		sheet->mode_data = g_strdup (goad_id);
+
+		sheet_object_bind_button_events (sheet);
+		break;
 	}
 #endif
-	/* fall down */
-	   
+
 	case SHEET_MODE_CREATE_LINE:
 	case SHEET_MODE_CREATE_ARROW:
 	case SHEET_MODE_CREATE_OVAL:
 	case SHEET_MODE_CREATE_BOX:
 	case SHEET_MODE_CREATE_BUTTON:
 	case SHEET_MODE_CREATE_CHECKBOX:
-		for (l = sheet->sheet_views; l; l = l->next) {
-
-			SheetView *sheet_view = l->data;
-			GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
-			
-			sheet_view->temp_item = NULL;
-			gtk_signal_connect (GTK_OBJECT (gsheet), "button_press_event",
-					    GTK_SIGNAL_FUNC (sheet_button_press), sheet);
-		}
+		sheet_object_bind_button_events (sheet);
 		break;
 		
 	default:

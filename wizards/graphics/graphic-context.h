@@ -11,7 +11,8 @@ typedef enum {
 
 typedef struct {
 	String   *name;
-	ExprTree *tree;
+	ExprTree *base_tree;
+	GList    *list_of_expressions;
 } DataRange;
 
 DataRange *data_range_new     (const char *name, const char *expression);
@@ -38,9 +39,8 @@ typedef struct {
 	String          *plot_title;
 	String          *y_axis_label;
 
-	BonoboObjectClient *guppi;
+	BonoboObjectClient *graphics_server;
 	BonoboClientSite   *client_site;
-	BonoboContainer    *container;
 } WizardGraphicContext;
 
 #define GC_SIGNATURE ((('G' << 8) | ('C' << 8)) | 'o')

@@ -3,27 +3,32 @@
 #
 # Author: Miguel de Icaza (miguel@kernel.org)
 #
+# If you make this a shared module, remember to set
+# the WIZARD_PLUGIN variable
+#
 
 wizarddir = $(libdir)/gnumeric/wizards/$(VERSION)
+gladedir   = $(datadir)/gnumeric/glade
 
-wizard_LTLIBRARIES = libwizard_graphics.la
+glade_DATA = graphics.glade
 
-libwizard_graphics_la_SOURCES =		\
+noinst_LIBRARIES = libwizard_graphics.a
+
+libwizard_graphics_a_SOURCES =		\
 	main.c				\
 	graphic-context.c		\
 	graphic-type.c			\
 	graphic-context.h		\
 	wizard.h
 
-libwizard_graphics_la_LIBADD =		\
-	$(GNOME_LIBDIR) 		\
-	$(GNOMEUI_LIBS)			\
-	$(INTLLIBS)
-
 INCLUDES = 						\
 	-I$(top_srcdir)/libglade			\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+        -DGNUMERIC_GLADEDIR=\""$(gladedir)"\"           \
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/src				\
 	$(GNOME_INCLUDEDIR)
+
+EXTRA_DIST = $(glade_DATA)
+
 

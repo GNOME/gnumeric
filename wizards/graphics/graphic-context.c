@@ -9,18 +9,19 @@
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
+#include "workbook.h"
 #include <glade/glade.h>
 #include <bonobo.h>
 #include "graphic-context.h"
 
-#define GUPPI_ID "Guppi_component"
+#define GRAPH_GOADID "GOADID:embeddable:Graph:Layout"
 
 static BonoboObjectClient *
-launch_guppi (void)
+get_graphics_component (void)
 {
 	BonoboObjectClient *object_server;
 
-	object_server = bonobo_object_activate_with_goad_id (NULL, GUPPI_ID, 0, NULL);
+	object_server = bonobo_object_activate_with_goad_id (NULL, GRAPH_GOADID, 0, NULL);
 
 	return object_server;
 }
@@ -30,7 +31,6 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 {
 	WizardGraphicContext *gc;
 	BonoboClientSite *client_site;
-	BonoboContainer *container;
 	BonoboObjectClient *object_server;
 	
 	g_return_val_if_fail (wb != NULL, NULL);
@@ -38,27 +38,21 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 	/*
 	 * Configure our container end
 	 */
-	container = BONOBO_CONTAINER (bonobo_container_new ());
-	client_site = bonobo_client_site_new (container);
-	bonobo_container_add (container, BONOBO_OBJECT (client_site));
+	client_site = bonobo_client_site_new (wb->bonobo_container);
+	bonobo_container_add (wb->bonobo_container, BONOBO_OBJECT (client_site));
 	
 	/*
 	 * Launch server
 	 */
-	object_server = launch_guppi ();
+	object_server = get_graphics_component ();
 	if (!object_server)
-		return NULL;
+		goto error_activation;
 
 	/*
 	 * Bind them together
 	 */
-	if (!bonobo_client_site_bind_embeddable (client_site, object_server)){
-		gtk_object_unref (GTK_OBJECT (client_site));
-		gtk_object_unref (GTK_OBJECT (container));
-		gtk_object_unref (GTK_OBJECT (object_server));
-
-		return NULL;
-	}
+	if (!bonobo_client_site_bind_embeddable (client_site, object_server))
+		goto error_binding;
 
 	/*
 	 * Create the graphic context
@@ -70,11 +64,18 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 	gc->gui = gui;
 	gc->dialog_toplevel = glade_xml_get_widget (gui, "graphics-wizard-dialog");
 
-	gc->container = container;
 	gc->client_site = client_site;
-	gc->guppi = object_server;
+	gc->graphics_server = object_server;
 		
 	return gc;
+
+error_binding:
+	gtk_object_unref (GTK_OBJECT (object_server));
+	
+error_activation:
+	gtk_object_unref (GTK_OBJECT (client_site));
+
+	return NULL;
 }
 
 void
@@ -104,7 +105,7 @@ graphic_context_destroy (WizardGraphicContext *gc)
 	}
 	g_list_free (gc->data_range_list);
 
-	gtk_object_unref (GTK_OBJECT (gc->guppi));
+	gtk_object_unref (GTK_OBJECT (gc->graphics_server));
 	
 	g_free (gc);
 }
@@ -168,40 +169,48 @@ graphic_context_set_data_range (WizardGraphicContext *gc,
 				const char *data_range_spec,
 				gboolean vertical)
 {
-	ExprTree *tree, *args;
-	gchar * expr;
-	char *p;
-	char *error;
 	
 	g_return_if_fail (gc != NULL);
 	g_return_if_fail (data_range_spec != NULL);
 
 	graphics_context_data_range_clear (gc);
 
+}
+
+DataRange *
+data_range_new (const char *name, const char *expression)
+{
+	DataRange *data_range;
+	ExprTree *tree;
+	gchar * expr;
+	char *error;
+
 	/* Hack:
 	 * Create a valid expression, parse as expression, and pull the
 	 * parsed arguments.
 	 */
-	expr = g_strconcat ("=SELECTION(", data_range_spec, ")", NULL);
+	expr = g_strconcat ("=SELECTION(", expression, ")", NULL);
 	tree = expr_parse_string (expr, NULL, NULL, &error);
 	g_free (expr);
 	
 	if (tree == NULL)
-		return;
+		return NULL;
 
 	g_assert (tree->oper == OPER_FUNCALL);
 
-	args = tree->u.function.arg_list;
-
-	/*
-	 * Guess the data ranges.  From the selected ranges.  Simple
-	 * case is just a region selected, so we can guess a number
-	 * of parameters from this.
-	 */
-	g_warning ("Should do something more interesting with disjoint selections");
+	data_range = g_new (DataRange, 1);
+	data_range->name = string_get (name);
+	data_range->base_tree = tree;
 	
-	expr_tree_unref (tree);
+	data_range->list_of_expressions = tree->u.function.arg_list;
+
+	return data_range;
 }
 
-
-
+void
+data_range_destroy (DataRange *data_range)
+{
+	string_unref (data_range->name);
+	expr_tree_unref (data_range->base_tree);
+	g_free (data_range);
+}

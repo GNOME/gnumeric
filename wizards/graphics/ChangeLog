@@ -1,3 +1,27 @@
+2000-02-24  Miguel de Icaza  <miguel@helixcode.com>
+
+	* main.c (graphics_wizard): Grab focus, run mainloop, 
+	(button_cancel): quit mainloop.
+
+	* graphic-type.c: Add the graphic types.
+
+	* graphic-context.c (data_range_destroy): Implement.
+	(data_range_new): Implement.
+
+2000-02-23  Miguel de Icaza  <miguel@helixcode.com>
+
+	* main.c (customize): remove dead code.
+
+	* graphic-context.c (graphic_context_new): Cleanup and update the
+	routine. 
+
+2000-02-19  Miguel de Icaza  <miguel@gnu.org>
+
+	* Makefile.am: Changed it to be a static library.  For now it will
+	simplify the debugging process on Red Hat Linux 6.1.  A combo
+	which is extraordinarly bad for debugging anything bigger than 10
+	lines of code.
+
 2000-02-18  Miguel de Icaza  <miguel@gnu.org>
 
 	* Makefile.am (wizard_graphics__la_LIBADD): Create a shared

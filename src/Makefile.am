@@ -188,6 +188,7 @@ GNUMERIC_BASE_SOURCES =				\
 	value.c					\
 	value.h					\
 	value-sheet.c				\
+	wizard.h				\
 	workbook.c				\
 	workbook.h				\
 	workbook-cmd-format.c			\
@@ -216,44 +217,45 @@ Gnumeric-impl.o: Gnumeric.h
 $(GNUMERIC_CORBA_GENERATED): Gnumeric.idl 
 	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Gnumeric.idl
 
-gnumeric_SOURCES =				\
-	main.c					\
-	normal-args.c				\
+gnumeric_SOURCES =					\
+	main.c						\
+	normal-args.c					\
 	$(GNUMERIC_BASE_SOURCES)
 
 corba-sheet.c corba-workbook-factory.c corba-workbook.c Gnumeric-impl.c \
 embeddable-grid.c: Gnumeric.h
 
-gnumeric_bonobo_SOURCES =			\
-	main.c					\
-	corba-args.c				\
-	corba-sheet.c				\
-	corba-workbook.c			\
-	corba-workbook-factory.c		\
-	$(GNUMERIC_BASE_SOURCES)		\
+gnumeric_bonobo_SOURCES =				\
+	main.c						\
+	corba-args.c					\
+	corba-sheet.c					\
+	corba-workbook.c				\
+	corba-workbook-factory.c			\
+	$(GNUMERIC_BASE_SOURCES)			\
 	$(GNUMERIC_BONOBO_SOURCES)
 
 gnumeric_LDFLAGS = -export-dynamic
 
-gnumeric_libs =					\
-	../plugins/excel/libexcel.a		\
-	../plugins/excel/libole2/libole2.a 	\
-	dialogs/libdialogs.a			\
-	widgets/libwidgets.a			\
+gnumeric_libs =						\
+	../plugins/excel/libexcel.a			\
+	../plugins/excel/libole2/libole2.a 		\
+	dialogs/libdialogs.a				\
+	widgets/libwidgets.a				\
 	functions/libfunctions.a		
 
-gnumeric_LDADD = 				\
-	$(gnumeric_libs)			\
-	$(EXTRA_GNOME_LIBS)			\
-	$(GNOME_XML_LIB) 			\
-	$(GUILE_LIBS)				\
+gnumeric_LDADD = 					\
+	$(gnumeric_libs)				\
+	$(EXTRA_GNOME_LIBS)				\
+	$(GNOME_XML_LIB) 				\
+	$(GUILE_LIBS)					\
 	$(INTLLIBS)
 
-gnumeric_bonobo_LDADD =				\
-	$(gnumeric_libs)			\
-	$(EXTRA_GNOME_LIBS)			\
-	$(GNOME_XML_LIB) 			\
-	$(GUILE_LIBS)				\
+gnumeric_bonobo_LDADD =					\
+	$(gnumeric_libs)				\
+	../wizards/graphics/libwizard_graphics.a	\
+	$(EXTRA_GNOME_LIBS)				\
+	$(GNOME_XML_LIB) 				\
+	$(GUILE_LIBS)					\
 	$(INTLLIBS)
 
 

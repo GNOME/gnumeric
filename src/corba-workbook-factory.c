@@ -37,11 +37,13 @@ static POA_GNOME_Gnumeric_WorkbookFactory__vepv gnumeric_workbook_factory_vepv;
 static GNOME_Gnumeric_Workbook
 WorkbookFactory_read (PortableServer_Servant servant, const CORBA_char * filename, CORBA_Environment * ev)
 {
-	CommandContext *tmp_context = command_context_corba_new ();
-	Workbook *workbook = workbook_read (tmp_context, filename);
-
+	CommandContext *context;
+	Workbook *workbook;
+	
+	context = command_context_corba (NULL);
+	workbook = workbook_read (context, filename);
 	gtk_widget_show (workbook->toplevel);
-	gtk_object_unref (GTK_OBJECT (tmp_context));
+	gtk_object_unref (GTK_OBJECT (context));
 	
 	if (workbook)
 		return CORBA_Object_duplicate (workbook->corba_server, ev);

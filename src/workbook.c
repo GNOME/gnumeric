@@ -4,7 +4,7 @@
  * Author:
  *    Miguel de Icaza (miguel@gnu.org).
  *
- * (C) 1998, 1999 Miguel de Icaza
+ * (C) 1998, 1999, 2000 Miguel de Icaza
  */
 #include <config.h>
 #include <gnome.h>
@@ -34,6 +34,7 @@
 #include "command-context-gui.h"
 #include "commands.h"
 #include "widgets/gtk-combo-text.h"
+#include "wizard.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-persist-file.h>
@@ -181,17 +182,25 @@ about_cmd (GtkWidget *widget, Workbook *wb)
 
 #else
 static void
-create_graphic_cmd (GtkWidget *widget, Workbook *wb)
+create_embedded_component_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
-	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_GRAPHIC);
+
+	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_COMPONENT);
 }
 
 static void
 create_embedded_item_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
+
 	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_CANVAS_ITEM);
+}
+
+static void
+launch_graphics_wizard_cmd (GtkWidget *widget, Workbook *wb)
+{
+	graphics_wizard (wb);
 }
 #endif
 
@@ -1337,11 +1346,14 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 	
 #ifdef ENABLE_BONOBO
 	GNOMEUIINFO_ITEM_DATA (
-		N_("Graphic"), N_("Creates a graphic in the spreadsheet"),
-		create_graphic_cmd, NULL, graphic_xpm),
+		N_("Creates a graphic"), N_("Invokes the graphic wizard to create a graphic"),
+		launch_graphics_wizard_cmd, NULL, graphic_xpm),
 	GNOMEUIINFO_ITEM_DATA (
-		N_("Bonobo Item"), N_("Creates a Bonobo shaped item"),
-		create_embedded_item_cmd, NULL, graphic_xpm),
+		N_("Insert Object"), N_("Inserts an object in the spreadsheet"),
+		create_embedded_component_cmd, NULL, object_xpm),
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Insert shaped object"), N_("Inserts a shaped object in the spreadsheet"),
+		create_embedded_item_cmd, NULL, object_xpm),
 #endif
 #ifdef GNUMERIC_TEST_ACTIVE_OBJECT
 	GNOMEUIINFO_ITEM_DATA (

@@ -11,6 +11,7 @@
 #endif
 #ifdef ENABLE_BONOBO
 #include "pixmaps/graphic.xpm"
+#include "pixmaps/object.xpm"
 #endif
 #include "pixmaps/preview.xpm"
 

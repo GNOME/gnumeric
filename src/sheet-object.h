@@ -15,8 +15,11 @@
 #define SHEET_OBJECT_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_TYPE, SheetObjectClass))
 #define IS_SHEET_OBJECT(o)    (GTK_CHECK_TYPE((o), SHEET_OBJECT_TYPE))
 
-typedef enum { SHEET_OBJECT_ACTION_STATIC,
-	       SHEET_OBJECT_ACTION_CAN_PRESS } SheetObjectAction;
+typedef enum {
+	SHEET_OBJECT_ACTION_STATIC,
+	SHEET_OBJECT_ACTION_CAN_PRESS
+} SheetObjectAction;
+
 typedef struct {
 	GtkObject          parent_object;
 	SheetObjectAction  type;
