@@ -786,7 +786,7 @@ g_warning("PLN : Record handling code for code %d not yet written", rcode);
 	{
 		crow = PLN_WORD(src->cur);
 
-		if (row >= SHEET_MAX_ROWS)
+		if (crow >= SHEET_MAX_ROWS)
 			return g_strdup_printf (_("Invalid CSV file has more than the maximum number of rows %d"),
 						SHEET_MAX_ROWS);
 
