@@ -85,11 +85,39 @@ func_def_cmp (gconstpointer a, gconstpointer b)
 	return g_ascii_strcasecmp (fda->name, fdb->name);
 }
 
+static char const *
+check_name_match (char const *name, char const *description, char const*tag)
+{
+	unsigned tag_len = strlen (tag);
+	char const *tmp;
+	char *desc_name, *up_name;
+
+	if (NULL == (tmp = strstr (description, tag))) {
+		fprintf (stderr, "'%s' : missing '%s' section.  text = '%s'\n", name, tag, description);
+		return NULL;
+	}
+
+	description = tmp + tag_len;
+	for (tmp = description ; *tmp && *tmp != '(' && !g_ascii_isspace(*tmp) ; tmp++)
+		;
+	desc_name = g_strndup (description, tmp-description);
+	up_name = g_ascii_strup (name, -1);
+	if (strcmp (desc_name, up_name)) {
+		fprintf (stderr, "'%s' : does not match '%s' in @FUNCTION\n", desc_name, up_name);
+		g_free (up_name);
+		g_free (desc_name);
+		return NULL;
+	}
+	g_free (up_name);
+	g_free (desc_name);
+	return tmp;
+}
+
 static void
 cb_generate_po (gpointer key, Symbol *sym, gpointer array)
 {
 	GnmFunc const *fd = sym->data;
-	char const *ptr;
+	char const *ptr, *tmp;
 
 	if (fd->fn_type == GNM_FUNC_TYPE_STUB)
 		gnm_func_load_stub ((GnmFunc *) fd);
@@ -109,24 +137,20 @@ cb_generate_po (gpointer key, Symbol *sym, gpointer array)
 	}
 
 	ptr = dgettext ("gnumeric-functions", fd->help[0].text);
-	if (NULL == (ptr = strstr (ptr, "@FUNCTION="))) {
-		fprintf (stderr, "'%s' : missing @FUNCTION section", fd->name);
+	if (NULL == (ptr = check_name_match (fd->name, ptr, "@FUNCTION=")))
+		return;
+	if (NULL == (ptr = check_name_match (fd->name, ptr, "@SYNTAX=")))
+		return;
+
+	if (NULL == (tmp = strstr (ptr, "@DESCRIPTION="))) {
+		fprintf (stderr, "'%s' : missing @DESCRIPTION section\n", fd->name);
 		return;
 	}
-	if (NULL == (ptr = strstr (ptr, "@SYNTAX="))) {
-		fprintf (stderr, "'%s' : missing @SYNTAX section", fd->name);
+	if (NULL == (tmp = strstr (ptr, "@EXAMPLES="))) {
 		return;
 	}
-	if (NULL == (ptr = strstr (ptr, "@DESCRIPTION="))) {
-		fprintf (stderr, "'%s' : missing @DESCRIPTION section", fd->name);
-		return;
-	}
-	if (NULL == (ptr = strstr (ptr, "@EXAMPLES="))) {
-		fprintf (stderr, "'%s' : missing @EXAMPLES section", fd->name);
-		return;
-	}
-	if (NULL == (ptr = strstr (ptr, "@SEEALSO="))) {
-		fprintf (stderr, "'%s' : missing @SEEALSO section", fd->name);
+	if (NULL == (tmp = strstr (ptr, "@SEEALSO="))) {
+		fprintf (stderr, "'%s' : missing @SEEALSO section\n", fd->name);
 		return;
 	}
 }

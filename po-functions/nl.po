@@ -160,7 +160,6 @@ msgstr ""
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV"
 
 #: plugins/derivatives/options.c:222
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS\n"
 "@SYNTAX=OPT_BS(call_put_flag,spot,strike,time,rate,volatility [,"
@@ -205,7 +204,6 @@ msgstr ""
 # Was eerst * Het gegeven resultaat is uitgedrukt als de mate van verandering
 # van de optiewaarde, per eenheid van verandering in koerswaarde @koers.
 #: plugins/derivatives/options.c:292
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_DELTA\n"
 "@SYNTAX=OPT_BS_DELTA(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -250,7 +248,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:347
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_GAMMA\n"
 "@SYNTAX=OPT_BS_GAMMA(spot,strike,time,rate,volatility[,cost_of_carry])\n"
@@ -302,7 +299,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA"
 
 #: plugins/derivatives/options.c:417
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_THETA\n"
 "@SYNTAX=OPT_BS_THETA(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -353,7 +349,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:474
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_VEGA\n"
 "@SYNTAX=OPT_BS_VEGA(spot,strike,time,rate,volatility[,cost_of_carry])\n"
@@ -404,7 +399,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:547
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_RHO\n"
 "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -455,7 +449,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:614
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_CARRYCOST\n"
 "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -509,7 +502,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:687
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
 "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domestic_rate,"
@@ -615,7 +607,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA<"
 
 #: plugins/derivatives/options.c:824
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_JUMP_DIFF\n"
 "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,lambda,"
@@ -656,7 +647,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:921
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
 "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,x,t1,t2,v_s,v_e,v_f,"
@@ -717,7 +707,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1034
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_RGW\n"
 "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)\n"
@@ -757,7 +746,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1091
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BAW_AMER\n"
 "@SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,cost_of_carry,"
@@ -799,12 +787,11 @@ msgstr ""
 
 # onderliggende waarde of onderliggende?
 #: plugins/derivatives/options.c:1277
-#, fuzzy, no-c-format
 msgid ""
-"@FUNCTION=OPT_BJERSTENS\n"
-"@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,volatility[,"
+"@FUNCTION=OPT_BJER_STENS\n"
+"@SYNTAX=OPT_BJER_STENS(call_put_flag,spot,strike,time,rate,volatility[,"
 "cost_of_carry])\n"
-"@DESCRIPTION=OPT_BJERSTENS models the theoretical price of american options "
+"@DESCRIPTION=OPT_BJER_STENS models the theoretical price of american options "
 "according to the Bjerksund & Stensland approximation technique.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
@@ -820,10 +807,10 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=OPT_BJERSTENS\n"
-"@SYNTAX=OPT_BJERSTENS(call_put_keuze;prijs;koers;resterende_looptijd;rente;"
+"@FUNCTION=OPT_BJER_STENS\n"
+"@SYNTAX=OPT_BJER_STENS(call_put_keuze;prijs;koers;resterende_looptijd;rente;"
 "volatiliteit[;cost_of_carry])\n"
-"@DESCRIPTION=OPT_BJERSTENS modelleert de theoretische prijs van Amerikaanse "
+"@DESCRIPTION=OPT_BJER_STENS modelleert de theoretische prijs van Amerikaanse "
 "opties volgens de benaderingstechniek van Bjerksund & Stensland.\n"
 "@call_put_keuze is c of p voor respectievelijk een call of een put optie. \n"
 "@prijs is de uitoefenprijs van de onderliggende waarde\n"
@@ -840,7 +827,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1364
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXEC\n"
 "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
@@ -885,7 +871,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1415
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FORWARD_START\n"
 "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,"
@@ -928,7 +913,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1481
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_TIME_SWITCH\n"
 "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
@@ -979,7 +963,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1541
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
 "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,rate,"
@@ -1018,7 +1001,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1605
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
 "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,strike_put,time,"
@@ -1070,7 +1052,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1723
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_ON_OPTIONS\n"
 "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,"
@@ -1119,7 +1100,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1811
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
 "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,"
@@ -1171,10 +1151,9 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA<"
 
 #: plugins/derivatives/options.c:1876
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_2_ASSET_CORRELATION\n"
-"@SYNTAX=OPT_2_ASSSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
+"@SYNTAX=OPT_2_ASSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
 "time,cost_of_carry1,cost_of_carry2,rate,volatility1,volatility2,rho)\n"
 "@DESCRIPTION=OPT_2_ASSET_CORRELATION models the theoretical price of  "
 "options on 2 assets with correlation @rho.\n"
@@ -1217,7 +1196,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1932
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_EURO_EXCHANGE\n"
 "@SYNTAX=OPT_EURO_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,"
@@ -1258,7 +1236,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1978
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_AMER_EXCHANGE\n"
 "@SYNTAX=OPT_AMER_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,"
@@ -1300,7 +1277,6 @@ msgstr ""
 
 # onderliggende waarde of onderliggende?
 #: plugins/derivatives/options.c:2025
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_SPREAD_APPROX\n"
 "@SYNTAX=OPT_SPREAD_APPROX(call_put_flag,fut_price1,fut_price2,strike,time, "
@@ -1321,10 +1297,10 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=OPT_BJERSTENS\n"
-"@SYNTAX=OPT_BJERSTENS(call_put_keuze;prijs;koers;resterende_looptijd;rente;"
+"@FUNCTION=OPT_BJER_STENS\n"
+"@SYNTAX=OPT_BJER_STENS(call_put_keuze;prijs;koers;resterende_looptijd;rente;"
 "volatiliteit[;cost_of_carry])\n"
-"@DESCRIPTION=OPT_BJERSTENS modelleert de theoretische prijs van Amerikaanse "
+"@DESCRIPTION=OPT_BJER_STENS modelleert de theoretische prijs van Amerikaanse "
 "opties volgens de benaderingstechniek van Bjerksund & Stensland.\n"
 "@call_put_keuze is c of p voor respectievelijk een call of een put optie. \n"
 "@prijs is de uitoefenprijs van de onderliggende waarde\n"
@@ -1341,7 +1317,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:2081
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
 "@SYNTAX=OPT_FLOAT_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,time,rate,"
@@ -1386,7 +1361,6 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:2149
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
 "@SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,strike,time,"
@@ -1433,7 +1407,6 @@ msgstr ""
 
 # onderliggende waarde of onderliggende?
 #: plugins/derivatives/options.c:2233
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BINOMIAL\n"
 "@SYNTAX=OPT_BINOMIAL(amer_euro_flag,call_put_flag,num_time_steps, spot, "
@@ -1458,10 +1431,10 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=OPT_BJERSTENS\n"
-"@SYNTAX=OPT_BJERSTENS(call_put_keuze;prijs;koers;resterende_looptijd;rente;"
+"@FUNCTION=OPT_BJER_STENS\n"
+"@SYNTAX=OPT_BJER_STENS(call_put_keuze;prijs;koers;resterende_looptijd;rente;"
 "volatiliteit[;cost_of_carry])\n"
-"@DESCRIPTION=OPT_BJERSTENS modelleert de theoretische prijs van Amerikaanse "
+"@DESCRIPTION=OPT_BJER_STENS modelleert de theoretische prijs van Amerikaanse "
 "opties volgens de benaderingstechniek van Bjerksund & Stensland.\n"
 "@call_put_keuze is c of p voor respectievelijk een call of een put optie. \n"
 "@prijs is de uitoefenprijs van de onderliggende waarde\n"
@@ -4763,7 +4736,6 @@ msgstr ""
 "@SEEALSO=DATEDIF"
 
 #: plugins/fn-eng/functions.c:140
-#, fuzzy
 msgid ""
 "@FUNCTION=BASE\n"
 "@SYNTAX=BASE(number,base[,length])\n"
@@ -4973,7 +4945,6 @@ msgstr ""
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 
 #: plugins/fn-eng/functions.c:349
-#, fuzzy
 msgid ""
 "@FUNCTION=DECIMAL\n"
 "@SYNTAX=DECIMAL(text,base)\n"
@@ -6221,7 +6192,6 @@ msgstr ""
 "@SEEALSO=PRICEDISC"
 
 #: plugins/fn-financial/functions.c:700
-#, fuzzy
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
@@ -10403,7 +10373,6 @@ msgstr ""
 "@SEEALSO=COUNTIF, SUM"
 
 #: plugins/fn-math/functions.c:721
-#, fuzzy
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x[,significance])\n"
@@ -11479,7 +11448,6 @@ msgstr ""
 "@SEEALSO=PI"
 
 #: plugins/fn-math/functions.c:2016
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -11574,7 +11542,6 @@ msgstr ""
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
 #: plugins/fn-math/functions.c:2109
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -12900,7 +12867,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-stat/functions.c:137
-#, fuzzy
 msgid ""
 "@FUNCTION=VARP\n"
 "@SYNTAX=VARP(b1, b2, ...)\n"
@@ -13005,7 +12971,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
 
 #: plugins/fn-stat/functions.c:245
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVP\n"
 "@SYNTAX=STDEVP(b1, b2, ...)\n"
@@ -14014,7 +13979,6 @@ msgstr ""
 "@SEEALSO=BETADIST"
 
 #: plugins/fn-stat/functions.c:1652
-#, fuzzy
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -15120,7 +15084,6 @@ msgstr ""
 "@SEEALSO=MAX,MINA"
 
 #: plugins/fn-stat/functions.c:3386
-#, fuzzy
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -15161,7 +15124,6 @@ msgstr ""
 "@SEEALSO=VAR,VARPA"
 
 #: plugins/fn-stat/functions.c:3431
-#, fuzzy
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -15199,7 +15161,6 @@ msgstr ""
 "@SEEALSO=VARP,VARP"
 
 #: plugins/fn-stat/functions.c:3471
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -15242,7 +15203,6 @@ msgstr ""
 "@SEEALSO=STDEV,STDEVPA"
 
 #: plugins/fn-stat/functions.c:3517
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -16188,7 +16148,6 @@ msgstr ""
 "@SEEALSO=RANDRAYLEIGHTAIL"
 
 #: plugins/fn-stat/functions.c:5854
-#, fuzzy
 msgid ""
 "@FUNCTION=EXPPOWDIST\n"
 "@SYNTAX=EXPPOWDIST(x,a,b)\n"

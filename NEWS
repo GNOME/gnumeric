@@ -73,6 +73,7 @@ Gnumeric 1.4.2
 Caolan McNamara:
 	* Improve python config test for ia64 [#161547]
 	* Handle invalid DIMENSIONS records in xls [#161534]
+	* Fix installation path for the docs [#161404]
 
 Emmanuel Pacaud:
 	* fix legend update on pie label change.

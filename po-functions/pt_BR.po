@@ -1,4 +1,3 @@
-# translation of gnumeric.HEAD.pt_BR.po to Português/Brasil
 # translation of gnumeric.HEAD.po to Português/Brasil
 # Brazilian Portuguese translation of gnumeric.
 # Copyright (C) 2000-2004, 2005 Free Software Foundation, Inc.
@@ -656,10 +655,10 @@ msgstr ""
 #: plugins/derivatives/options.c:1277
 #, no-c-format
 msgid ""
-"@FUNCTION=OPT_BJERSTENS\n"
-"@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,volatility[,"
+"@FUNCTION=OPT_BJER_STENS\n"
+"@SYNTAX=OPT_BJER_STENS(call_put_flag,spot,strike,time,rate,volatility[,"
 "cost_of_carry])\n"
-"@DESCRIPTION=OPT_BJERSTENS models the theoretical price of american options "
+"@DESCRIPTION=OPT_BJER_STENS models the theoretical price of american options "
 "according to the Bjerksund & Stensland approximation technique.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
@@ -675,10 +674,10 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=OPT_BJERSTENS\n"
-"@SYNTAX=OPT_BJERSTENS(tipo_compra_venda,preço_ativo,exercício,tempo,taxa,"
+"@FUNCTION=OPT_BJER_STENS\n"
+"@SYNTAX=OPT_BJER_STENS(tipo_compra_venda,preço_ativo,exercício,tempo,taxa,"
 "volatilidade[,custo_de_carregamento])\n"
-"@DESCRIPTION=OPT_BJERSTENS modela o preço teórico de uma opção na modalidade "
+"@DESCRIPTION=OPT_BJER_STENS modela o preço teórico de uma opção na modalidade "
 "americana de acordo com a técnica de aproximação de Bjerksund & Stensland.\n"
 "\n"
 "@tipo_compra_venda é 'c' ou 'p' de modo a indicar se a opção é de compra "
@@ -1026,7 +1025,7 @@ msgstr ""
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_2_ASSET_CORRELATION\n"
-"@SYNTAX=OPT_2_ASSSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
+"@SYNTAX=OPT_2_ASSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
 "time,cost_of_carry1,cost_of_carry2,rate,volatility1,volatility2,rho)\n"
 "@DESCRIPTION=OPT_2_ASSET_CORRELATION models the theoretical price of  "
 "options on 2 assets with correlation @rho.\n"
@@ -11234,7 +11233,6 @@ msgstr ""
 "@SEEALSO=PI"
 
 #: plugins/fn-math/functions.c:2016
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -11330,7 +11328,6 @@ msgstr ""
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
 #: plugins/fn-math/functions.c:2109
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"

@@ -1274,12 +1274,12 @@ opt_bjer_stens (FunctionEvalInfo *ei, GnmValue *argv[])
 static GnmFuncHelp const help_opt_bjer_stens[] = {
 	{ GNM_FUNC_HELP_OLD,
 	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_BJERSTENS\n"
+	F_("@FUNCTION=OPT_BJER_STENS\n"
 
-	   "@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,"
+	   "@SYNTAX=OPT_BJER_STENS(call_put_flag,spot,strike,time,rate,"
 	   "volatility[,cost_of_carry])\n"
 	   "@DESCRIPTION="
-	   "OPT_BJERSTENS models the theoretical price of american options "
+	   "OPT_BJER_STENS models the theoretical price of american options "
 	   "according to the Bjerksund & Stensland approximation technique.\n"
 	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n" 
 	   "@spot is the spot price of the underlying asset.\n"
@@ -1875,7 +1875,7 @@ static GnmFuncHelp const help_opt_2_asset_correlation[] = {
 	/* xgettext:no-c-format */
 	F_("@FUNCTION=OPT_2_ASSET_CORRELATION\n"
 
-	   "@SYNTAX=OPT_2_ASSSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
+	   "@SYNTAX=OPT_2_ASSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
 	   "time,cost_of_carry1,cost_of_carry2,rate,volatility1,volatility2,rho)\n"
 	   "@DESCRIPTION="
 	   "OPT_2_ASSET_CORRELATION models the theoretical price of  options "

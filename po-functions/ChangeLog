@@ -1,6 +1,15 @@
+2005-02-17  Jody Goldberg <jody@gnome.org>
+
+	* *.po : enable all fuzzy translations.  The validation will catch
+	  mismatches when we regenerate.
+
 2005-02-16  Jon K Hellan  <hellan@acm.org>
 
 	* Makefile.in.in (all-no): Fix typo.
+
+2005-02-15  Jody Goldberg <jody@gnome.org>
+
+	* it.po : remove the bogus fuzzy translations
 
 2005-02-15  Jody Goldberg <jody@gnome.org>
 

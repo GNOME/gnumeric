@@ -24,7 +24,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: plugins/derivatives/options.c:160
-#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
@@ -381,10 +380,10 @@ msgstr ""
 #: plugins/derivatives/options.c:1277
 #, no-c-format
 msgid ""
-"@FUNCTION=OPT_BJERSTENS\n"
-"@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,volatility[,"
+"@FUNCTION=OPT_BJER_STENS\n"
+"@SYNTAX=OPT_BJER_STENS(call_put_flag,spot,strike,time,rate,volatility[,"
 "cost_of_carry])\n"
-"@DESCRIPTION=OPT_BJERSTENS models the theoretical price of american options "
+"@DESCRIPTION=OPT_BJER_STENS models the theoretical price of american options "
 "according to the Bjerksund & Stensland approximation technique.\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
@@ -587,7 +586,7 @@ msgstr ""
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_2_ASSET_CORRELATION\n"
-"@SYNTAX=OPT_2_ASSSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
+"@SYNTAX=OPT_2_ASSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
 "time,cost_of_carry1,cost_of_carry2,rate,volatility1,volatility2,rho)\n"
 "@DESCRIPTION=OPT_2_ASSET_CORRELATION models the theoretical price of  "
 "options on 2 assets with correlation @rho.\n"
@@ -1163,7 +1162,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-complex/functions.c:574
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(inumber)\n"
@@ -1196,7 +1194,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-complex/functions.c:613
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
@@ -1223,7 +1220,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:648
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
@@ -1250,7 +1246,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:683
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber1,inumber2)\n"
@@ -1281,7 +1276,6 @@ msgstr ""
 "@SEEALSO=IMAGINARY,IMREAL"
 
 #: plugins/fn-complex/functions.c:725
-#, fuzzy
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber1,inumber2)\n"
@@ -1309,7 +1303,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:765
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
@@ -1336,7 +1329,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:798
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSINH\n"
 "@SYNTAX=IMSINH(inumber)\n"
@@ -1367,7 +1359,6 @@ msgstr ""
 "@SEEALSO=IMCSC,IMCOT"
 
 #: plugins/fn-complex/functions.c:833
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOSH\n"
 "@SYNTAX=IMCOSH(inumber)\n"
@@ -1398,7 +1389,6 @@ msgstr ""
 "@SEEALSO=IMSEC,IMCSC"
 
 #: plugins/fn-complex/functions.c:867
-#, fuzzy
 msgid ""
 "@FUNCTION=IMTANH\n"
 "@SYNTAX=IMTANH(inumber)\n"
@@ -1429,7 +1419,6 @@ msgstr ""
 "@SEEALSO=IMSEC,IMCSC"
 
 #: plugins/fn-complex/functions.c:901
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSECH\n"
 "@SYNTAX=IMSECH(inumber)\n"
@@ -1460,7 +1449,6 @@ msgstr ""
 "@SEEALSO=IMCSC,IMCOT"
 
 #: plugins/fn-complex/functions.c:935
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCSCH\n"
 "@SYNTAX=IMCSCH(inumber)\n"
@@ -1491,7 +1479,6 @@ msgstr ""
 "@SEEALSO=IMSEC,IMCOT"
 
 #: plugins/fn-complex/functions.c:969
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOTH\n"
 "@SYNTAX=IMCOTH(inumber)\n"
@@ -1522,7 +1509,6 @@ msgstr ""
 "@SEEALSO=IMSEC,IMCSC"
 
 #: plugins/fn-complex/functions.c:1003
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSIN\n"
 "@SYNTAX=IMARCSIN(inumber)\n"
@@ -1553,7 +1539,6 @@ msgstr ""
 "@SEEALSO=IMSEC,IMCOT"
 
 #: plugins/fn-complex/functions.c:1038
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOS\n"
 "@SYNTAX=IMARCCOS(inumber)\n"
@@ -1584,7 +1569,6 @@ msgstr ""
 "@SEEALSO=IMSEC,IMCOT"
 
 #: plugins/fn-complex/functions.c:1073
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCTAN\n"
 "@SYNTAX=IMARCTAN(inumber)\n"
@@ -1614,7 +1598,6 @@ msgstr ""
 "@SEEALSO=IMSEC,IMCSC"
 
 #: plugins/fn-complex/functions.c:1108
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSEC\n"
 "@SYNTAX=IMARCSEC(inumber)\n"
@@ -1646,7 +1629,6 @@ msgstr ""
 "@SEEALSO=IMCSC,IMCOT"
 
 #: plugins/fn-complex/functions.c:1142
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCSC\n"
 "@SYNTAX=IMARCCSC(inumber)\n"
@@ -1678,7 +1660,6 @@ msgstr ""
 "@SEEALSO=IMSEC,IMCOT"
 
 #: plugins/fn-complex/functions.c:1176
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOT\n"
 "@SYNTAX=IMARCCOT(inumber)\n"
@@ -1710,7 +1691,6 @@ msgstr ""
 "@SEEALSO=IMSEC,IMCSC"
 
 #: plugins/fn-complex/functions.c:1210
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSINH\n"
 "@SYNTAX=IMARCSINH(inumber)\n"
@@ -1741,7 +1721,6 @@ msgstr ""
 "@SEEALSO=IMSEC,IMCOT"
 
 #: plugins/fn-complex/functions.c:1245
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOSH\n"
 "@SYNTAX=IMARCCOSH(inumber)\n"
@@ -1771,7 +1750,6 @@ msgstr ""
 "@SEEALSO=IMSEC,IMCSC"
 
 #: plugins/fn-complex/functions.c:1280
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCTANH\n"
 "@SYNTAX=IMARCTANH(inumber)\n"
@@ -1802,7 +1780,6 @@ msgstr ""
 "@SEEALSO=IMSEC,IMCSC"
 
 #: plugins/fn-complex/functions.c:1315
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCSECH\n"
 "@SYNTAX=IMARCSECH(inumber)\n"
@@ -1834,7 +1811,6 @@ msgstr ""
 "@SEEALSO=IMSEC,IMCOT"
 
 #: plugins/fn-complex/functions.c:1350
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCSCH\n"
 "@SYNTAX=IMARCCSCH(inumber)\n"
@@ -1866,7 +1842,6 @@ msgstr ""
 "@SEEALSO=IMSEC,IMCOT"
 
 #: plugins/fn-complex/functions.c:1384
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARCCOTH\n"
 "@SYNTAX=IMARCCOTH(inumber)\n"
@@ -1898,7 +1873,6 @@ msgstr ""
 "@SEEALSO=IMSEC,IMCSC"
 
 #: plugins/fn-complex/functions.c:1419
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
@@ -1925,7 +1899,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:1453
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber1,inumber2)\n"
@@ -1953,7 +1926,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:1490
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -1981,7 +1953,6 @@ msgstr ""
 "@SEEALSO=IMLN"
 
 #: plugins/fn-complex/functions.c:1565
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber1,inumber2)\n"
@@ -2695,7 +2666,6 @@ msgstr ""
 "@SEEALSO=NOW, DATE, DATE2UNIX"
 
 #: plugins/fn-date/functions.c:169
-#, fuzzy
 msgid ""
 "@FUNCTION=DATE2UNIX\n"
 "@SYNTAX=DATE2UNIX(serial)\n"
@@ -2764,7 +2734,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-date/functions.c:386
-#, fuzzy
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -2799,7 +2768,6 @@ msgstr ""
 "@SEEALSO=TODAY, NOW"
 
 #: plugins/fn-date/functions.c:439
-#, fuzzy
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY()\n"
@@ -2850,7 +2818,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-date/functions.c:499
-#, fuzzy
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -2875,7 +2842,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-date/functions.c:531
-#, fuzzy
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -3176,7 +3142,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-eng/functions.c:140
-#, fuzzy
 msgid ""
 "@FUNCTION=BASE\n"
 "@SYNTAX=BASE(number,base[,length])\n"
@@ -3206,7 +3171,6 @@ msgstr ""
 "@SEEALSO=IMAGINARY"
 
 #: plugins/fn-eng/functions.c:178
-#, fuzzy
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -3268,7 +3232,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-eng/functions.c:262
-#, fuzzy
 msgid ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(number[,places])\n"
@@ -3297,7 +3260,6 @@ msgstr ""
 "@SEEALSO=IMAGINARY"
 
 #: plugins/fn-eng/functions.c:291
-#, fuzzy
 msgid ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(number[,places])\n"
@@ -3326,7 +3288,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-eng/functions.c:320
-#, fuzzy
 msgid ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(number[,places])\n"
@@ -3355,7 +3316,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-eng/functions.c:349
-#, fuzzy
 msgid ""
 "@FUNCTION=DECIMAL\n"
 "@SYNTAX=DECIMAL(text,base)\n"
@@ -3382,7 +3342,6 @@ msgstr ""
 "@SEEALSO=IMAGINARY"
 
 #: plugins/fn-eng/functions.c:381
-#, fuzzy
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
@@ -3477,7 +3436,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-eng/functions.c:523
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -3739,7 +3697,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-eng/functions.c:1216
-#, fuzzy
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -3768,7 +3725,6 @@ msgstr ""
 "@SEEALSO=IMAGINARY"
 
 #: plugins/fn-eng/functions.c:1274
-#, fuzzy
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -5335,7 +5291,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-info/functions.c:1214
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -5411,7 +5366,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-info/functions.c:1392
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(value)\n"
@@ -5436,7 +5390,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-info/functions.c:1421
-#, fuzzy
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
@@ -5461,7 +5414,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-info/functions.c:1447
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR.TYPE(value)\n"
@@ -5494,7 +5446,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-info/functions.c:1489
-#, fuzzy
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -5519,7 +5470,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-info/functions.c:1514
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -5542,7 +5492,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-info/functions.c:1538
-#, fuzzy
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(value)\n"
@@ -5567,7 +5516,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-info/functions.c:1563
-#, fuzzy
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(value)\n"
@@ -5592,7 +5540,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-info/functions.c:1588
-#, fuzzy
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(value)\n"
@@ -5617,7 +5564,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-info/functions.c:1613
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(value)\n"
@@ -5642,7 +5588,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-info/functions.c:1638
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -5667,7 +5612,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-info/functions.c:1664
-#, fuzzy
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(value)\n"
@@ -5692,7 +5636,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-info/functions.c:1689
-#, fuzzy
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(value)\n"
@@ -5717,7 +5660,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-info/functions.c:1724
-#, fuzzy
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -5742,7 +5684,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-info/functions.c:1749
-#, fuzzy
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -5768,7 +5709,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-info/functions.c:1792
-#, fuzzy
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -5839,7 +5779,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-logical/functions.c:109
-#, fuzzy
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -5928,7 +5867,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-logical/functions.c:305
-#, fuzzy
 msgid ""
 "@FUNCTION=TRUE\n"
 "@SYNTAX=TRUE()\n"
@@ -5953,7 +5891,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-logical/functions.c:330
-#, fuzzy
 msgid ""
 "@FUNCTION=FALSE\n"
 "@SYNTAX=FALSE()\n"
@@ -6167,7 +6104,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-lookup/functions.c:984
-#, fuzzy
 msgid ""
 "@FUNCTION=COLUMNNUMBER\n"
 "@SYNTAX=COLUMNNUMBER(name)\n"
@@ -6284,7 +6220,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-math/functions.c:91
-#, fuzzy
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
@@ -6376,7 +6311,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, INT, MOD"
 
 #: plugins/fn-math/functions.c:264
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -6406,7 +6340,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-math/functions.c:301
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -6435,7 +6368,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-math/functions.c:337
-#, fuzzy
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -6465,7 +6397,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:373
-#, fuzzy
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -6494,7 +6425,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:400
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -6524,7 +6454,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:428
-#, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -6573,7 +6502,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-math/functions.c:495
-#, fuzzy
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -6644,7 +6572,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-math/functions.c:721
-#, fuzzy
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x[,significance])\n"
@@ -6675,7 +6602,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:771
-#, fuzzy
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -6704,7 +6630,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:798
-#, fuzzy
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -6736,7 +6661,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:826
-#, fuzzy
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -6764,7 +6688,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:853
-#, fuzzy
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -6803,7 +6726,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-math/functions.c:903
-#, fuzzy
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -6863,7 +6785,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-math/functions.c:1008
-#, fuzzy
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -6894,7 +6815,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:1044
-#, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x[,significance])\n"
@@ -6954,7 +6874,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:1119
-#, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -6984,7 +6903,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:1156
-#, fuzzy
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -7059,7 +6977,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-math/functions.c:1288
-#, fuzzy
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -7086,7 +7003,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-math/functions.c:1320
-#, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -7114,7 +7030,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-math/functions.c:1374
-#, fuzzy
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -7140,7 +7055,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-math/functions.c:1401
-#, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -7168,7 +7082,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:1427
-#, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -7198,7 +7111,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:1454
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -7260,7 +7172,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-math/functions.c:1554
-#, fuzzy
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -7301,7 +7212,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-math/functions.c:1617
-#, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -7329,7 +7239,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:1643
-#, fuzzy
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -7359,7 +7268,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:1669
-#, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -7388,7 +7296,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:1697
-#, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -7419,7 +7326,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:1736
-#, fuzzy
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -7448,7 +7354,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:1778
-#, fuzzy
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -7477,7 +7382,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:1820
-#, fuzzy
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -7507,7 +7411,6 @@ msgstr ""
 "@SEEALSO=IMAGINARY,IMREAL"
 
 #: plugins/fn-math/functions.c:1861
-#, fuzzy
 msgid ""
 "@FUNCTION=FIB\n"
 "@SYNTAX=FIB(number)\n"
@@ -7536,7 +7439,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-math/functions.c:1912
-#, fuzzy
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(numerator,denominator)\n"
@@ -7564,7 +7466,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:1947
-#, fuzzy
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -7594,7 +7495,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-math/functions.c:1984
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -7699,7 +7599,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-math/functions.c:2159
-#, fuzzy
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -7843,7 +7742,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-math/functions.c:2893
-#, fuzzy
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -7871,7 +7769,6 @@ msgstr ""
 "@SEEALSO=IMAGINARY"
 
 #: plugins/fn-math/functions.c:3039
-#, fuzzy
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -7939,7 +7836,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-random/functions.c:47
-#, fuzzy
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -8202,7 +8098,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-random/functions.c:672
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDPARETO\n"
 "@SYNTAX=RANDPARETO(a,b)\n"
@@ -8324,7 +8219,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-random/functions.c:906
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDTDIST\n"
 "@SYNTAX=RANDTDIST(nu)\n"
@@ -8646,7 +8540,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-stat/functions.c:552
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
@@ -8727,7 +8620,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-stat/functions.c:702
-#, fuzzy
 msgid ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
@@ -8974,7 +8866,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-stat/functions.c:1225
-#, fuzzy
 msgid ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
@@ -9021,7 +8912,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-stat/functions.c:1309
-#, fuzzy
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -9050,7 +8940,6 @@ msgstr ""
 "@SEEALSO=IMREAL"
 
 #: plugins/fn-stat/functions.c:1347
-#, fuzzy
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -9079,7 +8968,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMCOS"
 
 #: plugins/fn-stat/functions.c:1386
-#, fuzzy
 msgid ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
@@ -9186,7 +9074,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-stat/functions.c:1696
-#, fuzzy
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -9244,7 +9131,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-stat/functions.c:1918
-#, fuzzy
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=FINV(p,dof1,dof2)\n"
@@ -9332,7 +9218,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-stat/functions.c:2092
-#, fuzzy
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -9553,7 +9438,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-stat/functions.c:2548
-#, fuzzy
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -10471,7 +10355,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-string/functions.c:138
-#, fuzzy
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
@@ -10509,7 +10392,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-string/functions.c:215
-#, fuzzy
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
@@ -10566,7 +10448,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-string/functions.c:292
-#, fuzzy
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -10593,7 +10474,6 @@ msgstr ""
 "@SEEALSO=IMAGINARY"
 
 #: plugins/fn-string/functions.c:331
-#, fuzzy
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -10618,7 +10498,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-string/functions.c:356
-#, fuzzy
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -10644,7 +10523,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-string/functions.c:404
-#, fuzzy
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -10673,7 +10551,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-string/functions.c:451
-#, fuzzy
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -10698,7 +10575,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-string/functions.c:476
-#, fuzzy
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -10726,7 +10602,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-string/functions.c:504
-#, fuzzy
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -10751,7 +10626,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-string/functions.c:553
-#, fuzzy
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -10776,7 +10650,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-string/functions.c:589
-#, fuzzy
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -10803,7 +10676,6 @@ msgstr ""
 "@SEEALSO=IMAGINARY"
 
 #: plugins/fn-string/functions.c:650
-#, fuzzy
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
@@ -10830,7 +10702,6 @@ msgstr ""
 "@SEEALSO=IMAGINARY"
 
 #: plugins/fn-string/functions.c:718
-#, fuzzy
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -10855,7 +10726,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-string/functions.c:773
-#, fuzzy
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -10881,7 +10751,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-string/functions.c:825
-#, fuzzy
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -10910,7 +10779,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-string/functions.c:856
-#, fuzzy
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -10938,7 +10806,6 @@ msgstr ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
 #: plugins/fn-string/functions.c:900
-#, fuzzy
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -10963,7 +10830,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: plugins/fn-string/functions.c:955
-#, fuzzy
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -11004,7 +10870,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-string/functions.c:1070
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
