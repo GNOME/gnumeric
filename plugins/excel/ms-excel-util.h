@@ -50,9 +50,8 @@ two_way_table_idx_to_key (const TwoWayTable *table, gint idx);
 
 /* Measures base character width for column sizing. Returns width. */
 /* A new version based on hard coded tables to match XL */
-double
-lookup_font_base_char_width_new (char const * const name, double size_pts,
-				 gboolean const is_default);
+double lookup_font_base_char_width (char const *name, double size_pts,
+				    gboolean const is_default);
 
 
 /* a group of iconv_* - like functions, with safe fallbacks if iconv is

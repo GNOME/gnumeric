@@ -326,8 +326,8 @@ destroy_xl_font_widths (void)
 
 
 double
-lookup_font_base_char_width_new (char const * const name, double size_pts,
-				 gboolean const is_default)
+lookup_font_base_char_width (char const *name, double size_pts,
+			     gboolean const is_default)
 {
 	static gboolean need_init = TRUE;
 	gpointer res;

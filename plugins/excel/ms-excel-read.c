@@ -518,8 +518,6 @@ ms_excel_sheet_new (ExcelWorkbook *wb, char const *sheet_name)
 
 	esheet->wb         = wb;
 	esheet->gnum_sheet = sheet;
-	esheet->base_char_width         = -1;
-	esheet->base_char_width_default = -1;
 	esheet->freeze_panes		= FALSE;
 	esheet->shared_formulae         =
 		g_hash_table_new ((GHashFunc)&cellpos_hash,
@@ -787,7 +785,7 @@ sst_bound_check (BiffQuery *q, guint32 offset)
  * of the string, which may also be split over continues.
  */
 static guint32
-get_string (char **output, BiffQuery *q, guint32 offset, MsBiffVersion ver)
+sst_read_string (char **output, BiffQuery *q, guint32 offset, MsBiffVersion ver)
 {
 	guint32  new_offset;
 	guint32  total_len;
@@ -874,7 +872,7 @@ ms_excel_read_SST (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 	offset = 8;
 
 	for (k = 0; k < wb->global_string_max; k++) {
-		offset = get_string (&wb->global_strings[k], q, offset, ver);
+		offset = sst_read_string (&wb->global_strings[k], q, offset, ver);
 
 		if (!wb->global_strings[k]) {
 			d (4, printf ("Blank string in table at 0x%x.\n", k););
@@ -1977,63 +1975,63 @@ biff_shared_formula_destroy (gpointer key, BiffSharedFormula *sf,
 static GnmExpr const *
 ms_excel_formula_shared (BiffQuery *q, ExcelSheet *esheet, Cell *cell)
 {
-	int has_next_record = ms_biff_query_next (q);
+	guint16 opcode, data_len;
+	Range   r;
+	gboolean is_array;
+	GnmExpr const *expr;
+	guint8 const *data;
+	BiffSharedFormula *sf;
 
-	g_return_val_if_fail (has_next_record, NULL);
-
-	if (q->ls_op == BIFF_SHRFMLA || q->ls_op == BIFF_ARRAY) {
-		gboolean const is_array = (q->ls_op == BIFF_ARRAY);
-		guint16 const array_row_first = GSF_LE_GET_GUINT16 (q->data + 0);
-		guint16 const array_row_last = GSF_LE_GET_GUINT16 (q->data + 2);
-		guint8 const array_col_first = GSF_LE_GET_GUINT8 (q->data + 4);
-		guint8 const array_col_last = GSF_LE_GET_GUINT8 (q->data + 5);
-		guint8 *data = q->data + (is_array ? 14 : 10);
-		guint16 const data_len =
-			GSF_LE_GET_GUINT16 (q->data + (is_array ? 12 : 8));
-		GnmExpr const *expr = ms_excel_parse_formula (
-			esheet->wb, esheet, array_col_first, array_row_first,
-			data, data_len, !is_array, NULL);
-		BiffSharedFormula *sf = g_new (BiffSharedFormula, 1);
-
-		/*
-		 * WARNING: Do NOT use the upper left corner as the hashkey.
-		 *     For some bizzare reason XL appears to sometimes not
-		 *     flag the formula as shared until later.
-		 *  Use the location of the cell we are reading as the key.
-		 */
-		sf->key = cell->pos;
-		sf->is_array = is_array;
-		if (data_len > 0) {
-			sf->data = g_new (guint8, data_len);
-			memcpy (sf->data, data, data_len);
-		} else
-			sf->data = NULL;
-		sf->data_len = data_len;
-
-		d (1, {
-			printf ("Shared formula, extent %s:",
-				cell_coord_name (array_col_first, array_row_first));
-			printf ("%s\n",
-				cell_coord_name (array_col_last, array_row_last));
-		});
-
-
-		/* Whack in the hash for later */
-		g_hash_table_insert (esheet->shared_formulae, &sf->key, sf);
-
-		g_return_val_if_fail (expr != NULL, FALSE);
-
-		if (is_array)
-			cell_set_array_formula (esheet->gnum_sheet,
-						array_col_first, array_row_first,
-						array_col_last, array_row_last,
-						expr);
-		return expr;
+	if (!ms_biff_query_peek_next (q, &opcode) ||
+	    ((0xff & opcode) != BIFF_SHRFMLA && (0xff & opcode) != BIFF_ARRAY)) {
+		g_warning ("EXCEL: unexpected record '0x%x' after a formula in '%s'.",
+			   q->opcode, cell_name (cell));
+		return NULL;
 	}
 
-	g_warning ("EXCEL: unexpected record '0x%x' after a formula in '%s'.",
-		   q->opcode, cell_name (cell));
-	return NULL;
+	ms_biff_query_next (q);
+
+	is_array = (q->ls_op == BIFF_ARRAY);
+	r.start.row	= GSF_LE_GET_GUINT16 (q->data + 0);
+	r.end.row	= GSF_LE_GET_GUINT16 (q->data + 2);
+	r.start.col	= GSF_LE_GET_GUINT8 (q->data + 4);
+	r.end.col	= GSF_LE_GET_GUINT8 (q->data + 5);
+
+	data = q->data + (is_array ? 14 : 10);
+	data_len = GSF_LE_GET_GUINT16 (q->data + (is_array ? 12 : 8));
+	expr = ms_excel_parse_formula (
+		esheet->wb, esheet, r.start.col, r.start.row,
+		data, data_len, !is_array, NULL);
+
+	sf = g_new (BiffSharedFormula, 1);
+
+	/* WARNING: Do NOT use the upper left corner as the hashkey.
+	 *     For some bizzare reason XL appears to sometimes not
+	 *     flag the formula as shared until later.
+	 *  Use the location of the cell we are reading as the key.
+	 */
+	sf->key = cell->pos;
+	sf->is_array = is_array;
+	if (data_len > 0) {
+		sf->data = g_new (guint8, data_len);
+		memcpy (sf->data, data, data_len);
+	} else
+		sf->data = NULL;
+	sf->data_len = data_len;
+
+	d (1, printf ("Shared formula, extent %s\n", range_name (&r)););
+
+	/* Whack in the hash for later */
+	g_hash_table_insert (esheet->shared_formulae, &sf->key, sf);
+
+	g_return_val_if_fail (expr != NULL, FALSE);
+
+	if (is_array)
+		cell_set_array_formula (esheet->gnum_sheet,
+					r.start.col, r.start.row,
+					r.end.col,   r.end.row,
+					expr);
+	return expr;
 }
 
 /* FORMULA */
@@ -2766,6 +2764,8 @@ ms_excel_externname (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *esheet)
 /**
  * base_char_width_for_read:
  * @esheet	the Excel sheet
+ * @xf_index	the src of the font to use
+ * @is_default
  *
  * Measures base character width for column sizing.
  */
@@ -2781,7 +2781,7 @@ base_char_width_for_read (ExcelSheet *esheet,
 	char const * name = (fd != NULL) ? fd->fontname : "Arial";
 	double const size = (fd != NULL) ? fd->height : 20.* 10.;
 
-	return lookup_font_base_char_width_new (name, size, is_default);
+	return lookup_font_base_char_width (name, size, is_default);
 }
 
 /**
@@ -2903,14 +2903,14 @@ ms_excel_read_tab_color (BiffQuery *q, ExcelSheet *esheet)
 }
 
 /**
- * ms_excel_read_colinfo:
+ * ms_excel_read_COLINFO:
  * @q		A BIFF query
  * @esheet	The Excel sheet
  *
  * Processes a BIFF column info (BIFF_COLINFO) record. See: S59D67.HTM
  */
 static void
-ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *esheet)
+ms_excel_read_COLINFO (BiffQuery *q, ExcelSheet *esheet)
 {
 	int lp;
 	float col_width;
@@ -2942,11 +2942,12 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *esheet)
 	}
 
 	d (1, {
-		printf ("Column Formatting from col %d to %d of width "
-			"%hu/256 characters (%f pts)\n", firstcol, lastcol,
-			width, col_width);
-		printf ("Options %hd, default style %hd from col %d to %d\n",
-			options, xf, firstcol, lastcol);
+		printf ("Column Formatting %s!%s of width "
+		      "%hu/256 characters (%f pts) of size %f\n",
+		      esheet->gnum_sheet->name_quoted,
+		      cols_name (firstcol, lastcol), width,  col_width,
+		      base_char_width_for_read (esheet, xf, FALSE));
+		printf ("Options %hd, default style %hd\n", options, xf);
 	});
 
 	/* NOTE: seems like this is inclusive firstcol, inclusive lastcol */
@@ -3080,7 +3081,7 @@ ms_excel_read_default_row_height (BiffQuery *q, ExcelSheet *esheet)
 }
 
 /**
- * ms_excel_read_default_col_width:
+ * ms_excel_read_DEFCOLWIDTH:
  * @q		A BIFF query
  * @esheet	The Excel sheet
  *
@@ -3088,15 +3089,13 @@ ms_excel_read_default_row_height (BiffQuery *q, ExcelSheet *esheet)
  * See: S59D73.HTM
  */
 static void
-ms_excel_read_default_col_width (BiffQuery *q, ExcelSheet *esheet)
+ms_excel_read_DEFCOLWIDTH (BiffQuery *q, ExcelSheet *esheet)
 {
 	guint16 const width = GSF_LE_GET_GUINT16 (q->data);
-	double col_width;
+	double def_font_width, col_width;
 
 	/* Use the 'Normal' Style which is by definition the 0th */
-	if (esheet->base_char_width_default <= 0)
-		esheet->base_char_width_default =
-			base_char_width_for_read (esheet, 0, TRUE);
+	def_font_width = base_char_width_for_read (esheet, 0, TRUE);
 
 	d (0, printf ("Default column width %hu characters\n", width););
 
@@ -3109,7 +3108,7 @@ ms_excel_read_default_col_width (BiffQuery *q, ExcelSheet *esheet)
 	 * According to saved data a column with the same size a the default has
 	 *   9.00? char widths.
 	 */
-	col_width = width * esheet->base_char_width_default;
+	col_width = width * def_font_width;
 
 	sheet_col_set_default_size_pts (esheet->gnum_sheet, col_width);
 }
@@ -4194,7 +4193,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 			break;
 
 		case BIFF_DEFCOLWIDTH:
-			ms_excel_read_default_col_width (q, esheet);
+			ms_excel_read_DEFCOLWIDTH (q, esheet);
 			break;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
@@ -4213,7 +4212,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 			break;
 
 		case BIFF_COLINFO:
-			ms_excel_read_colinfo (q, esheet);
+			ms_excel_read_COLINFO (q, esheet);
 			break;
 
 		case BIFF_RK: { /* See: S59DDA.HTM */

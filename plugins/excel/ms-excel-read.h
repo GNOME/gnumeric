@@ -23,8 +23,6 @@ typedef struct _ExcelSheet
 	Sheet *gnum_sheet;
 	struct _ExcelWorkbook *wb;
 	GHashTable *shared_formulae;
-	double base_char_width;
-	double base_char_width_default;
 
 	gboolean freeze_panes : 1;
 } ExcelSheet;

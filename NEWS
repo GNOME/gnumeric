@@ -17,6 +17,7 @@ Jody:
 	  does in the cell.
 	* Support Double click in cell to start editing.
 	* Change the cursor when the mouse is in the edit item.
+	* Improve (Fix?) colwidth exporting in xls
 
 Jukka:
 	* New random distribution functions (mostly integrated from the 

@@ -56,8 +56,6 @@ struct _ExcelSheet {
 	guint32        boundsheetPos;
 	gint32         max_col, max_row;
 	GHashTable    *formula_cache;
-	double         base_char_width;
-	double         base_char_width_default;
 	guint16	       col_xf [SHEET_MAX_COLS];
 };
 

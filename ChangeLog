@@ -29,7 +29,6 @@
 	* src/plugin.c
 	(plugin_info_read, plugins_init, plugins_shutdown): ditto
 
-
 2002-08-05  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* samples/fn-random.gnumeric: A sample file containing 10,000

@@ -5,8 +5,9 @@
  * Authors:
  *    Michael Meeks (mmeeks@gnu.org)
  *    Jon K Hellan  (hellan@acm.org)
+ *    Jody Goldberg (jody@gnome.org)
  *
- * (C) 1998-2000 Michael Meeks, Jon K Hellan
+ * (C) 1998-2002 Michael Meeks, Jon K Hellan, Jody Goldberg
  **/
 
 /*
@@ -2740,64 +2741,22 @@ margin_write (BiffPut *bp, guint16 op, double points)
 }
 
 /**
- * init_base_char_width_for_write
- * @esheet sheet
- *
- * Initialize base character width
- */
-static void
-init_base_char_width_for_write (ExcelSheet *esheet)
-{
-	ExcelFont *f = NULL;
-	/* default to Arial 10 */
-	const char *name = "Arial";
-	double size_pts = 20.* 10.;
-
-	if (esheet && esheet->wb
-	    && esheet->wb->xf && esheet->wb->xf->default_style) {
-		f = excel_font_new (esheet->wb->xf->default_style);
-		if (f) {
-			name = f->style_font->font_name;
-			size_pts = f->style_font->size_pts * 20.;
-			excel_font_free (f);
-		}
-	}
-
-	d (1, printf ("Font for column sizing: %s %.1f\n", name, size_pts););
-	esheet->base_char_width =
-		lookup_font_base_char_width_new (name, size_pts, FALSE);
-	esheet->base_char_width_default =
-		lookup_font_base_char_width_new (name, size_pts, TRUE);
-}
-
-/**
- * get_base_char_width
- * @esheet	the Excel sheet
+ * style_get_char_width
+ * @style	the src of the font to use
  * @is_default  if true, this is for the default width.
  *
- * Excel uses the character width of the font in the "Normal" style.
- * The char width is based on the font in the "Normal" style.
- * This style is actually common to all sheets in the
- * workbook, but I find it more robust to treat it as a sheet
- * attribute.
- *
- * FIXME: There is a function with this name both in ms-excel-read.c and
- * ms-excel-write.c. The only difference is init_base_char_width_for_read
- * vs. init_base_char_width_for_write. Pass the function as parameter?
- * May be not. I don't like clever code.
+ * Utility 
  */
 static double
-get_base_char_width (ExcelSheet *esheet, gboolean const is_default)
+style_get_char_width (MStyle const *style, gboolean const is_default)
 {
-	if (esheet->base_char_width <= 0)
-		init_base_char_width_for_write (esheet);
-
-	return is_default
-		? esheet->base_char_width_default : esheet->base_char_width;
+	return lookup_font_base_char_width (
+		mstyle_get_font_name (style), 20. * mstyle_get_font_size (style),
+		is_default);
 }
 
 /**
- * write_default_col_width
+ * ms_excel_write_DEFCOLWIDTH
  * @bp  BIFF buffer
  * @esheet sheet
  *
@@ -2809,15 +2768,18 @@ get_base_char_width (ExcelSheet *esheet, gboolean const is_default)
  * is hardcoded and is not changed when a worksheet is imported.
  */
 static void
-write_default_col_width (BiffPut *bp, ExcelSheet *esheet)
+ms_excel_write_DEFCOLWIDTH (BiffPut *bp, ExcelSheet *esheet)
 {
 	guint8 *data;
-	double def_width;
-	double width_chars;
 	guint16 width;
+	double  def_font_width, width_chars;
+	MStyle	*def_style;
 
-	def_width = sheet_col_get_default_size_pts (esheet->gnum_sheet);
-	width_chars = def_width / get_base_char_width (esheet, TRUE);
+	/* Use the 'Normal' Style which is by definition the 0th */
+	def_style = sheet_style_default	(esheet->gnum_sheet);
+	def_font_width = sheet_col_get_default_size_pts (esheet->gnum_sheet);
+	width_chars = def_font_width / style_get_char_width (def_style, TRUE);
+	mstyle_unref (def_style);
 	width = (guint16) (width_chars + .5);
 
 	d (1, printf ("Default column width %d characters\n", width););
@@ -2828,7 +2790,7 @@ write_default_col_width (BiffPut *bp, ExcelSheet *esheet)
 }
 
 /**
- * write_colinfo
+ * ms_excel_write_COLINFO
  * @bp:   BIFF buffer
  * @esheet:
  * @ci   : the descriptor of the first col
@@ -2838,12 +2800,14 @@ write_default_col_width (BiffPut *bp, ExcelSheet *esheet)
  * Write column info for a run of identical columns
  */
 static void
-write_colinfo (BiffPut *bp, ExcelSheet *esheet,
-	       ColRowInfo const *ci, int last_index, guint16 xf_index)
+ms_excel_write_COLINFO (BiffPut *bp, ExcelSheet *esheet,
+			ColRowInfo const *ci, int last_index, guint16 xf_index)
 {
 	guint8 *data;
+	MStyle *style = two_way_table_idx_to_key (
+		esheet->wb->xf->two_way_table, xf_index);
 	double  width_chars
-		= ci->size_pts / get_base_char_width (esheet, FALSE);
+		= ci->size_pts / style_get_char_width (style, FALSE);
 	guint16 width = (guint16) (width_chars * 256.);
 
 	guint16 options = 0;
@@ -2854,8 +2818,14 @@ write_colinfo (BiffPut *bp, ExcelSheet *esheet,
 	if (ci->is_collapsed)
 		options |= 0x1000;
 
-	d (1, printf ("Column Formatting from col %d to %d of width "
-		      "%f characters\n", ci->pos, last_index, width/256.0););
+	d (1, {
+		printf ("Column Formatting %s!%s of width "
+		      "%f/256 characters (%f pts) of size %f\n",
+		      esheet->gnum_sheet->name_quoted,
+		      cols_name (ci->pos, last_index), width / 256.,
+		      ci->size_pts, style_get_char_width (style, FALSE));
+		printf ("Options %hd, default style %hd\n", options, xf_index);
+	});
 
 	/* NOTE : Docs lie.  length is 12 not 11 */
 	data = ms_biff_put_len_next (bp, BIFF_COLINFO, 12);
@@ -2890,13 +2860,13 @@ write_colinfos (BiffPut *bp, ExcelSheet *esheet)
 			first = ci;
 			xf = new_xf;
 		} else if (xf != new_xf || !colrow_equal (first, ci)) {
-			write_colinfo (bp, esheet, first, i-1, xf);
+			ms_excel_write_COLINFO (bp, esheet, first, i-1, xf);
 			first = ci;
 			xf = new_xf;
 		}
 	}
 	if (first != NULL)
-		write_colinfo (bp, esheet, first, i-1, xf);
+		ms_excel_write_COLINFO (bp, esheet, first, i-1, xf);
 }
 
 /* See: S59D76.HTM */
@@ -3040,7 +3010,7 @@ write_sheet_head (BiffPut *bp, ExcelSheet *esheet)
 	write_setup (bp, esheet);
 	write_externsheets (bp, esheet->wb, esheet);
 	ms_formula_write_pre_data (bp, esheet, EXCEL_EXTERNNAME, ver);
-	write_default_col_width (bp, esheet);
+	ms_excel_write_DEFCOLWIDTH (bp, esheet);
 	write_colinfos (bp, esheet);
 	write_dimension (bp, esheet);
 }
@@ -3380,7 +3350,6 @@ excel_sheet_new (ExcelWorkbook *ewb, Sheet *gnum_sheet, IOContext *context)
 	esheet->max_col    = 1 + MAX (gnum_sheet->cols.max_used, extent.end.col);
 	esheet->max_row    = 1 + MAX (gnum_sheet->rows.max_used, extent.end.row);
 	esheet->dbcells    = g_array_new (FALSE, FALSE, sizeof (unsigned));
-	esheet->base_char_width = 0;
 
 	/* It is ok to have formatting out of range, we can disregard that. */
 	if (esheet->max_row > maxrows)
