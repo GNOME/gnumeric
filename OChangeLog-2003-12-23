@@ -1,5 +1,9 @@
 2003-05-07  Andreas Guelzow <aguelzow@taliesin.ca>
 
+	* src/regutf8.c (ISASCII): last ascii is 0x7f
+
+2003-05-07  Andreas Guelzow <aguelzow@taliesin.ca>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=100529
 	* src/GNOME_Gnumeric.xml: Change `Open a....' to `Open a file'
 	  and `Create a new spreadsheet' to `Create a new workbook'

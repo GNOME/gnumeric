@@ -18,7 +18,7 @@
 #endif
 
 
-#define ISASCII(c) ((unsigned int)(c) <= 0x80)
+#define ISASCII(c) ((unsigned int)(c) < 0x80)
 #define REPEATCHAR(extp,c) \
   ((c) == '*' || ((extp) && ((c) == '+' || (c) == '{' || (c) == '?')))
 
