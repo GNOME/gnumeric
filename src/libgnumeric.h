@@ -3,7 +3,6 @@
 
 #include <popt.h>
 
-extern struct poptOption const gnumeric_popt_options [];
 extern int	 gnumeric_debugging;
 extern int	 dependency_debugging;
 extern int	 expression_sharing_debugging;

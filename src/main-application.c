@@ -54,7 +54,7 @@ int gnumeric_no_splash = FALSE;
    as const expressions in the initializer without this decl on win32 */
 extern struct poptOption poptHelpOptions[];
 
-struct poptOption const
+static struct poptOption const
 gnumeric_popt_options[] = {
 	{ "version", 'v', POPT_ARG_NONE, &gnumeric_show_version, 0,
 	  N_("Display Gnumeric's version"), NULL  },
