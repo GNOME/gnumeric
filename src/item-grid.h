@@ -36,6 +36,11 @@ typedef struct {
 	GdkColor   default_color;
 
 	int        visual_is_paletted;
+
+	/* Sliding scroll */
+	int        sliding;	/* a gtk_timeout tag, -1 means not set */
+	int        sliding_col, sliding_row;
+	int        sliding_x, sliding_y;
 } ItemGrid;
 
 GtkType item_grid_get_type (void);
