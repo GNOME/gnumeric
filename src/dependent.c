@@ -1498,6 +1498,41 @@ dependents_unrelocate (GSList *info)
 	g_slist_free (info);
 }
 
+/**
+ * dependents_link :
+ * @deps : An slist of dependents that GETS FREED
+ * @rwinfo : optionally NULL
+ *
+ * link a list of dependents, BUT if the optional @rwinfo is specified and we
+ * are invalidating a sheet or workbook don't bother to link things in the same
+ * sheet or workbook.
+ */
+void
+dependents_link (GSList *deps, GnmExprRewriteInfo const *rwinfo)
+{
+	GSList *ptr = deps;
+
+	/* put them back */
+	for (; ptr != NULL ; ptr = ptr->next) {
+		Dependent *dep = ptr->data;
+		if (rwinfo != NULL) {
+			if (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK) {
+				if (rwinfo->u.workbook == dep->sheet->workbook)
+					continue;
+			} else if (rwinfo->type == GNM_EXPR_REWRITE_SHEET)
+				if (rwinfo->u.sheet == dep->sheet)
+					continue;
+		}
+		if (dep->sheet->deps != NULL && !dependent_is_linked (dep)) {
+			dependent_link (dep, dependent_is_cell (dep)
+				? &DEP_TO_CELL (dep)->pos : &dummy);
+			dependent_queue_recalc (dep);
+		}
+	}
+
+	g_slist_free (deps);
+}
+
 typedef struct {
 	Range const *target;
 	GSList *list;
@@ -1732,6 +1767,7 @@ cb_name_invalidate (GnmNamedExpr *nexpr, gpointer value,
 		    GnmExprRewriteInfo const *rwinfo)
 {
 	GnmExpr const *new_expr = NULL;
+	GHashTable *name_deps = nexpr->dependents;
 
 	if (((rwinfo->type == GNM_EXPR_REWRITE_SHEET &&
 	     rwinfo->u.sheet != nexpr->pos.sheet) ||
@@ -1740,7 +1776,31 @@ cb_name_invalidate (GnmNamedExpr *nexpr, gpointer value,
 		new_expr = gnm_expr_rewrite (nexpr->expr_tree, rwinfo);
 		g_return_if_fail (new_expr != NULL);
 	}
-	expr_name_set_expr (nexpr, new_expr, rwinfo);
+
+	/* short circuit the link/unlink phase */
+	nexpr->dependents = NULL;
+	expr_name_set_expr (nexpr, new_expr);
+	nexpr->dependents = name_deps;
+}
+
+static void
+cb_collect_deps_of_name (Dependent *dep, gpointer value,
+			 GSList **accum)
+{
+	/* grab unflagged linked depends */
+	if ((dep->flags & (DEPENDENT_FLAGGED|DEPENDENT_IS_LINKED)) == DEPENDENT_IS_LINKED) {
+		dep->flags |= DEPENDENT_FLAGGED;
+		*accum = g_slist_prepend (*accum, dep);
+	}
+}
+
+static void
+cb_collect_deps_of_names (GnmNamedExpr *nexpr, gpointer value,
+			  GSList **accum)
+{
+	if (nexpr->dependents)
+		g_hash_table_foreach (nexpr->dependents,
+			(GHFunc)cb_collect_deps_of_name, (gpointer)accum);
 }
 
 /*
@@ -1806,10 +1866,33 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 	}
 
 	if (deps->referencing_names) {
-		g_hash_table_foreach (deps->referencing_names,
-			(GHFunc)cb_name_invalidate, (gpointer)rwinfo);
-		g_hash_table_destroy (deps->referencing_names);
+		GSList *ptr, *accum = NULL;
+		Dependent *dep;
+		GHashTable *names = deps->referencing_names;
+
 		deps->referencing_names = NULL;
+
+		/* collect the deps of the names */
+		g_hash_table_foreach (names,
+			(GHFunc)cb_collect_deps_of_names,
+			(gpointer)&accum);
+
+		for (ptr = accum ; ptr != NULL ; ptr = ptr->next) {
+			dep = ptr->data;
+			dep->flags &= ~DEPENDENT_FLAGGED;
+			dependent_unlink (dep, NULL);
+		}
+
+		/* now that all of the dependents of these names are unlinked.
+		 * change the references in the names to avoid this sheet */
+		g_hash_table_foreach (names,
+			(GHFunc)cb_name_invalidate, (gpointer)rwinfo);
+
+		/* the relink things en-mass in case one of the deps outside
+		 * this sheet used multiple names that referenced us */
+		dependents_link (accum, rwinfo);
+
+		g_hash_table_destroy (names);
 	}
 
 	if (deps->dynamic_deps) {
@@ -2047,3 +2130,4 @@ dependent_debug_name (Dependent const *dep, FILE *out)
 	} else
 		fprintf (out, "%s", cell_name (DEP_TO_CELL (dep)));
 }
+

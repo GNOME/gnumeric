@@ -5281,7 +5281,7 @@ cmd_define_name_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		expr_name_unref (me->nexpr);
 		me->nexpr = NULL;
 	} else
-		expr_name_set_expr (me->nexpr, me->expr, NULL);
+		expr_name_set_expr (me->nexpr, me->expr);
 
 	me->expr = expr;
 	return FALSE;
@@ -5306,7 +5306,7 @@ cmd_define_name_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		GnmExpr const *tmp = me->nexpr->expr_tree;
 
 		gnm_expr_ref (tmp);
-		expr_name_set_expr (me->nexpr, me->expr, NULL);
+		expr_name_set_expr (me->nexpr, me->expr);
 		me->expr = tmp;
 	}
 

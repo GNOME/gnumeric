@@ -34,7 +34,7 @@ cb_nexpr_remove (GnmNamedExpr *nexpr)
 	g_return_if_fail (nexpr->active);
 
 	nexpr->active = FALSE;
-	expr_name_set_expr (nexpr, NULL, NULL);
+	expr_name_set_expr (nexpr, NULL);
 	expr_name_unref (nexpr);
 }
 
@@ -167,49 +167,10 @@ expr_name_unlink_deps (GnmNamedExpr *nexpr)
 	/* pull them out */
 	for (ptr = deps ; ptr != NULL ; ptr = ptr->next) {
 		Dependent *dep = ptr->data;
-		if (dependent_is_linked (dep)) {
-			CellPos *pos = dependent_is_cell (dep)
-				? &(DEP_TO_CELL (dep)->pos) : NULL;
-			dependent_unlink (dep, pos);
-		}
+		if (dependent_is_linked (dep))
+			dependent_unlink (dep, NULL);
 	}
 	return deps;
-}
-
-/**
- * expr_name_link_deps :
- * @deps :
- * @rwinfo : optionally NULL
- *
- * relink the depenents of this name, BUT if the optional @rwinfo is specified
- * and we are invalidating a sheet or workbook don't bother to relink things
- * in the same sheet or workbook.
- */
-static void
-expr_name_link_deps (GSList *deps, GnmExprRewriteInfo const *rwinfo)
-{
-	GSList *ptr = deps;
-
-	/* put them back */
-	for (; ptr != NULL ; ptr = ptr->next) {
-		Dependent *dep = ptr->data;
-		if (rwinfo != NULL) {
-			if (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK) {
-				if (rwinfo->u.workbook == dep->sheet->workbook)
-					continue;
-			} else if (rwinfo->type == GNM_EXPR_REWRITE_SHEET)
-				if (rwinfo->u.sheet == dep->sheet)
-					continue;
-		}
-		if (dep->sheet->deps != NULL && !dependent_is_linked (dep)) {
-			CellPos *pos = dependent_is_cell (dep)
-				? &(DEP_TO_CELL (dep)->pos) : NULL;
-			dependent_link (dep, pos);
-			dependent_queue_recalc (dep);
-		}
-	}
-
-	g_slist_free (deps);
 }
 
 /**
@@ -427,7 +388,7 @@ expr_name_add (ParsePos const *pp, char const *name,
 	if (expr == NULL)
 		expr = gnm_expr_new_constant (value_new_error (NULL,
 			gnumeric_err_NAME));
-	expr_name_set_expr (nexpr, expr, NULL);
+	expr_name_set_expr (nexpr, expr);
 	if (link_to_container)
 		gnm_named_expr_collection_insert (scope, nexpr);
 
@@ -458,7 +419,7 @@ expr_name_unref (GnmNamedExpr *nexpr)
 	}
 
 	if (nexpr->expr_tree != NULL)
-		expr_name_set_expr (nexpr, NULL, NULL);
+		expr_name_set_expr (nexpr, NULL);
 
 	if (nexpr->dependents != NULL) {
 		g_hash_table_destroy (nexpr->dependents);
@@ -497,7 +458,7 @@ expr_name_remove (GnmNamedExpr *nexpr)
 		nexpr->is_placeholder ? scope->placeholders : scope->names,
 		nexpr->name->str);
 	nexpr->active = FALSE;
-	expr_name_set_expr (nexpr, NULL, NULL);
+	expr_name_set_expr (nexpr, NULL);
 	expr_name_unref (nexpr);
 }
 
@@ -573,8 +534,7 @@ expr_name_set_scope (GnmNamedExpr *nexpr, Sheet *sheet)
  * Unrefs the current content of @nexpr and absorbs a ref to @new_expr.
  **/
 void
-expr_name_set_expr (GnmNamedExpr *nexpr, GnmExpr const *new_expr,
-		    GnmExprRewriteInfo const *rwinfo)
+expr_name_set_expr (GnmNamedExpr *nexpr, GnmExpr const *new_expr)
 {
 	GSList *deps = NULL;
 
@@ -588,7 +548,7 @@ expr_name_set_expr (GnmNamedExpr *nexpr, GnmExpr const *new_expr,
 		gnm_expr_unref (nexpr->expr_tree);
 	}
 	nexpr->expr_tree = new_expr;
-	expr_name_link_deps (deps, rwinfo);
+	dependents_link (deps, NULL);
 
 	if (new_expr != NULL)
 		expr_name_handle_references (nexpr, TRUE);

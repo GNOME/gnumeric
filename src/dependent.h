@@ -91,6 +91,7 @@ void	 dependent_add_dynamic_dep (Dependent *dep, ValueRange const *v);
 GSList  *dependents_relocate	    (GnmExprRelocateInfo const *info);
 void     dependents_unrelocate      (GSList *info);
 void     dependents_unrelocate_free (GSList *info);
+void	 dependents_link	    (GSList *deps, GnmExprRewriteInfo const *rwinfo);
 
 void	 cell_queue_recalc	    (Cell const *cell);
 void	 cell_foreach_dep	    (Cell const *cell, DepFunc func, gpointer user);

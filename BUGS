@@ -7,19 +7,17 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+- validate expression names to ensure that they are not simple values (eg TRUE)
+- check the implementation of seriessum returning NULL seems bad
+  [MW: got some stuff]
+
 Pending Patches
 ---------------
     - ?? more work on D&D based sheet reorg ?
     - logest function
-    - More pre-ole xls import work from Nick Lamb
 
 1.2 Targets
 -----------
-
-- validate expression names to ensure that they are not simple values (eg TRUE)
-- morten's sheet delete with multiple referencing names bug
-- check the implementation of seriessum returning NULL seems bad
-  [MW: got some stuff]
 
 1) graphs
 2) stf
@@ -66,13 +64,13 @@ Pending Patches
 13) Reinstate auto-format (=FV(1,2,3,4,5) should yield a monetary format).
 14) merge open and import dialogs
 15) Notice mismatch between suffix and saver (eg .xls for gnumeric file)
-17) Decide whether to turn on the poor man's utf8 regexps.
-18) Outline mode
-    18.1) finish implementing optionally putting markers above/left
-    18.2) Make ungroup smarter about handling extra items of lower level at the edges
-    18.3) implement 'clicked' for numbers callbacks (requires cleanup in the collapse code)
-19) 3D reference fixes on sheet deletion
-20) 'discard' for invalid expressions enters text as string
+16) Decide whether to turn on the poor man's utf8 regexps.
+17) Outline mode
+    17.1) finish implementing optionally putting markers above/left
+    17.2) Make ungroup smarter about handling extra items of lower level at the edges
+    17.3) implement 'clicked' for numbers callbacks (requires cleanup in the collapse code)
+18) 3D reference fixes on sheet deletion
+19) 'discard' for invalid expressions enters text as string
 
 UTF-8: (grep for ctype.h is a good start)
     - Audit string functions for utf8: CHAR, CODE, SUBSTITUTE, SEARCH.

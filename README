@@ -8,9 +8,8 @@ This is Gnumeric, the GNOME spreadsheet.
 file COPYING.
 
    The project aims to become a drop in replacement for proprietary
-spreadsheets.  Gnumeric is still a young program and it is advancing steadily.
-If you are interested in contributing to it's development please send us some
-email, there are lots of projects available.
+spreadsheets.  If you are interested in contributing to it's development please
+send us some email, there are lots of projects available.
 
 To report Gnumeric bugs, please visit bugzilla.gnome.org.
 
@@ -37,10 +36,10 @@ You need:
 	libbonoboui	>= 2.0.0
 	libgnomeprint	>= 2.0.0
 	libgnomeprintui	>= 2.0.0
-	libgsf		>= 1.4.0
+	libgsf		>= 1.5.0
 	libglade	>= 2.0.0
 	intltools	>= 0.9
-	gal-2		>= 0.0.6	(gal-2 branch of module gal)
+	gal-2		>= 0.0.7	(gal-2 branch of module gal)
 	gnome-xml   	>= 2.4.12
 	NOTE : gnome-xml is also known as libxml
 
@@ -52,23 +51,6 @@ Currently Disabled
 	guile		>= 1.5
 	guppi		>= 0.40.3
 	evolution	>= beta3
-
-Notes regarding plugins
------------------------
-
-   The current plugin setup in Gnumeric is just a way to dynamically
-load code at runtime into the address space of Gnumeric: they use and
-invoke pieces of Gnumeric code directly.  This means that any plugin
-written under this scheme has to fall under the license of the GNU
-GPL.
-
-   In the future, an alternative method based on CORBA will be
-provided and then it will be possible to create Gnumeric plugins with
-other licenses, until then, the only setup available requires plugins
-to fall under the GNU GPL license.
-
-The perl plugin is not meant to be installed.  It is currently unmaintained and
-is included for informational purposes only.
 
 Mailing lists
 -------------
@@ -103,8 +85,8 @@ documentation for these:
 		or move)
 
 	- Selection
-		- Multiple selection is supported, hold down control
-		  key to augment the existing selection (it might be
+		- Multiple selections are supported, hold down control
+		  key to augment the existing selection (they can be
 		  discotinuous).
 
 		- Walking selection.
@@ -139,8 +121,26 @@ documentation for these:
 		- Array formulas
 
 	- Filters
-		- MS Excel (tm) Read/Write
-		- Applix 	Read
+		- MS Excel (v2 -> XP)	Read
+		- MS Excel 95		Write
+		- Applix 		Read
+		- Quattro Pro		Read
+		- Planperfect		Read
+		- Lotus (wk1)		Read
+		- OpenCalc/StarCalc	Read
+		- html (3.2 & 4.0)	Read
+		- html (4.0, xhtml)	Write
+		- Latex 		Write
+		- Troff 		Write
+		- DIF			Read
+		- SYLK			Read
+		- Oleo			Read
+		- SC			Read
+		- MPS Optimizer files	Read
+		- XBase db		Read
+		- Text files		Read/Write
+		- CSV, TSV		Read/Write
+		- PSION			Read
 
 	- To edit the contents of a cell that already has a value,
 	  press F2 key.
@@ -191,7 +191,7 @@ documentation for these:
 	- Alt-Mouse-Wheel : scroll left-right
 	- Arrow+ScrollLock
 
-     o Frozen Panes.
+     o Frozen Panes (including Horizontal or Vertical only)
 
      o Auto-convert-on-input features: When you enter text in Gnumeric
        it is now matched against the known formats of Gnumeric and if
