@@ -1,3 +1,24 @@
+1999-06-08  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-date.c: Fix types of most functions.  (We really need a
+ 	way of saying "scalar".)
+	(get_serial_date): New helper function.
+	(get_serial_time): Ditto.
+	(gnumeric_hour): Use get_serial_time.
+	(gnumeric_minute): Ditto.
+	(gnumeric_second): Ditto.
+	(gnumeric_year): Use get_serial_date.
+	(gnumeric_month): Ditto.
+	(gnumeric_day): Ditto.
+	(gnumeric_weekday): Ditto.
+	(gnumeric_datevalue): Ditto.
+	(gnumeric_timevalue): Implement using get_serial_time.
+	(gnumeric_days360): Pretty good first cut.
+
+	* src/parser.y (yylex): Allow dots inside a function name.
+
+	* src/fn-misc.c (gnumeric_error_type): New function.
+
 1999-06-08  David Chan <dpc29@hermes.cam.ac.uk>
 
 	* src/fn-math.c (gcd): Correct.

@@ -20,7 +20,7 @@ static char *help_iserror = {
 	   "@DESCRIPTION="
 	   "Returns a TRUE value if the expression has an error\n"
 	   "\n"
-	   
+
 	   "@SEEALSO=ERROR")
 };
 
@@ -44,6 +44,43 @@ gnumeric_iserror (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_ro
 	return retval;
 }
 
+
+static char *help_error_type = {
+	N_("@FUNCTION=ERROR.TYPE\n"
+	   "@SYNTAX=ERROR(exp)\n"
+
+	   "@DESCRIPTION="
+	   "FIXME"
+	   "\n"
+
+	   "@SEEALSO=ISERROR")
+};
+
+static Value *
+gnumeric_error_type (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	Value *v, *retval;
+
+	if (g_list_length (expr_node_list) != 1){
+		*error_string = _("Argument mismatch");
+		return NULL;
+	}
+	v = eval_expr (sheet, (ExprTree *) expr_node_list->data, eval_col, eval_row, error_string);
+	if (v == NULL) {
+		/* Something.  */
+		retval = value_new_int (0);
+	} else {
+		/* Something else.  */
+		retval = value_new_int (0);
+		value_release (v);
+	}
+
+	return retval;
+}
+
+
+
+
 static char *help_error = {
 	N_("@FUNCTION=ERROR\n"
 	   "@SYNTAX=ERROR(text)\n"
@@ -51,7 +88,7 @@ static char *help_error = {
 	   "@DESCRIPTION="
 	   "Return the specified error\n"
 	   "\n"
-	   
+
 	   "@SEEALSO=ISERROR")
 };
 
@@ -72,7 +109,8 @@ gnumeric_error (struct FunctionDefinition *i, Value *argv [], char **error_strin
 
 
 FunctionDefinition misc_functions [] = {
-	{ "error",   "s",  "text",             &help_error,   NULL,             gnumeric_error },
-	{ "iserror", "",   "",                 &help_iserror, gnumeric_iserror, NULL           },
+	{ "error",     "s",  "text",             &help_error,      NULL,                gnumeric_error },
+	{ "error.type","",   "",                 &help_error_type, gnumeric_error_type, NULL,          },
+	{ "iserror",   "",   "",                 &help_iserror,    gnumeric_iserror,    NULL           },
 	{ NULL, NULL }
 };

@@ -474,7 +474,8 @@ int yylex (void)
 		char *str;
 		int  len;
 		
-		while (isalnum (*parser_expr) || *parser_expr == '_' || *parser_expr == '$')
+		while (isalnum (*parser_expr) || *parser_expr == '_' ||
+		       *parser_expr == '$' || *parser_expr == '.')
 			parser_expr++;
 
 		len = parser_expr - start;

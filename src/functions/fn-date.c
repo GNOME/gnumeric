@@ -12,8 +12,50 @@
 #include "gnumeric-sheet.h"
 #include "utils.h"
 #include "func.h"
+#include "number-match.h"
 
 #define DAY_SECONDS (3600*24)
+
+static float_t
+get_serial_date (Value *v)
+{
+	float_t serial;
+
+	if (VALUE_IS_NUMBER (v))
+		serial = value_get_as_float (v);
+	else {
+		char *format;
+		double dserial;
+
+		if (format_match (v->v.str->str, &dserial, &format)) {
+			serial = dserial;
+		} else
+			serial = 0;
+	}
+	return floor (serial);
+}
+
+
+static float_t
+get_serial_time (Value *v)
+{
+	float_t serial;
+
+	if (VALUE_IS_NUMBER (v))
+		serial = value_get_as_float (v);
+	else {
+		char *format;
+		double dserial;
+
+		if (format_match (v->v.str->str, &dserial, &format)) {
+			serial = dserial;
+		} else
+			serial = 0;
+	}
+	return serial - floor (serial);
+}
+
+
 
 static char *help_date = {
 	N_("@FUNCTION=DATE\n"
@@ -91,21 +133,7 @@ static Value *
 gnumeric_datevalue (struct FunctionDefinition *fd,
 		    Value *argv [], char **error_string)
 {
-	const gchar *datestr;
-	GDate       date;
-
-	if (argv[0]->type != VALUE_STRING) {
-                  *error_string = _("#NUM!");
-                  return NULL;
-	}
-	datestr = argv[0]->v.str->str;
-	g_date_set_parse (&date, datestr);
-	if (!g_date_valid(&date)) {
-                  *error_string = _("#VALUE!");
-                  return NULL;
-	}
-
-	return value_new_int (g_date_serial (&date));
+	return value_new_int ((int) get_serial_date (argv[0]));
 }
 
 static char *help_edate = {
@@ -241,12 +269,12 @@ gnumeric_time (FunctionDefinition *fd, Value *argv [], char **error_string)
 
 static char *help_timevalue = {
 	N_("@FUNCTION=TIMEVALUE\n"
-	   "@SYNTAX=TIMEVALUE (hours,minutes,seconds)\n"
+	   "@SYNTAX=TIMEVALUE (timetext)\n"
 
 	   "@DESCRIPTION="
-	   "Returns a fraction representing the time of day."
+	   "Returns a fraction representing the time of day, a number "
+	   "between 0 and 1."
 	   "\n"
-
 	   ""
 	   "@SEEALSO=HOUR")
 };
@@ -254,8 +282,7 @@ static char *help_timevalue = {
 static Value *
 gnumeric_timevalue (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
-	/* FIXME: is this really right?  */
-	return gnumeric_time (fd, argv, error_string);
+	return value_new_float (get_serial_time (argv[0]));
 }
 
 
@@ -277,10 +304,9 @@ static char *help_hour = {
 static Value *
 gnumeric_hour (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
-	float_t serial = value_get_as_float (argv [0]);
 	int secs;
 
-	secs = (int)((serial - floor (serial)) * DAY_SECONDS + 0.5);
+	secs = (int)(get_serial_time (argv[0]) * DAY_SECONDS + 0.5);
 	return value_new_int (secs / 3600);
 }
 
@@ -303,10 +329,9 @@ static char *help_minute = {
 static Value *
 gnumeric_minute (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
-	float_t serial = value_get_as_float (argv [0]);
 	int secs;
 
-	secs = (int)((serial - floor (serial)) * DAY_SECONDS + 0.5);
+	secs = (int)(get_serial_time (argv[0]) * DAY_SECONDS + 0.5);
 	return value_new_int ((secs / 60) % 60);
 }
 
@@ -329,10 +354,9 @@ static char *help_second = {
 static Value *
 gnumeric_second (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
-	float_t serial = value_get_as_float (argv [0]);
 	int secs;
 
-	secs = (int)((serial - floor (serial)) * DAY_SECONDS + 0.5);
+	secs = (int)(get_serial_time (argv[0]) * DAY_SECONDS + 0.5);
 	return value_new_int (secs % 60);
 }
 
@@ -355,7 +379,7 @@ static Value *
 gnumeric_year (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
 	int res;
-	GDate *date = g_date_new_serial (floor (value_get_as_float (argv [0])));
+	GDate *date = g_date_new_serial (get_serial_date (argv[0]));
 	res = g_date_year (date);
 	g_date_free (date);
 	return value_new_int (res);
@@ -380,7 +404,7 @@ static Value *
 gnumeric_month (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
 	int res;
-	GDate *date = g_date_new_serial (floor (value_get_as_float (argv [0])));
+	GDate *date = g_date_new_serial (get_serial_date (argv[0]));
 	res = g_date_month (date);
 	g_date_free (date);
 	return value_new_int (res);
@@ -405,7 +429,7 @@ static Value *
 gnumeric_day (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
 	int res;
-	GDate *date = g_date_new_serial (floor (value_get_as_float (argv [0])));
+	GDate *date = g_date_new_serial (get_serial_date (argv[0]));
 	res = g_date_day (date);
 	g_date_free (date);
 	return value_new_int (res);
@@ -430,7 +454,7 @@ static Value *
 gnumeric_weekday (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
 	int res;
-	GDate *date = g_date_new_serial (floor (value_get_as_float (argv [0])));
+	GDate *date = g_date_new_serial (get_serial_date (argv[0]));
 	res = (g_date_weekday (date) + 1) % 7;
 	g_date_free (date);
 	return value_new_int (res);
@@ -439,10 +463,20 @@ gnumeric_weekday (FunctionDefinition *fd, Value *argv [], char **error_string)
 
 static char *help_days360 = {
 	N_("@FUNCTION=DAY\n"
-	   "@SYNTAX=DAYS360 (serial1,seriel2)\n"
+	   "@SYNTAX=DAYS360 (date1,date2,method)\n"
 
 	   "@DESCRIPTION="
-	   "FIXME"
+	   "Returns the number of days from @date1 to @date2 following a "
+	   "360-day calendar in which all months are assumed to have 30 days."
+	   "\n"
+	   "If method is true, the European method will be used.  In this "
+	   "case, if the day of the month is 31 it will be considered as 30."
+	   "\n"
+	   "If method is false or omitted, the US method will be used.  "
+	   "This method is identical to the European, except that if the "
+	   "the ending date is on the 31th and the starting date is on the "
+	   "29th or earlier, then the ending date is considered to be the "
+	   "1st of the following month."
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
@@ -454,8 +488,58 @@ static char *help_days360 = {
 static Value *
 gnumeric_days360 (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
-	*error_string = _("Unimplemented function");
-	return NULL;
+	enum { METHOD_US, METHOD_EUROPE } method;
+	GDate *date1, *date2;
+	int day1, day2, result;
+
+	if (argv[2]) {
+		int err;
+		method = value_get_as_bool (argv[2], &err) ? METHOD_EUROPE : METHOD_US;
+		if (err) {
+			*error_string = _("Unsupported method");
+			return NULL;
+		}
+	} else
+		method = METHOD_US;
+
+	date1 = g_date_new_serial (get_serial_date (argv[0]));
+	date2 = g_date_new_serial (get_serial_date (argv[1]));
+
+	day1 = g_date_day (date1);
+	day2 = g_date_day (date2);
+
+	switch (method) {
+	case METHOD_US:
+		if (day2 == 31)
+			if (day1 < 30) {
+				g_date_add_days (date2, +1);
+				day2 = 1;
+			} else
+				day2 = 30;
+
+		if (day1 == 31)
+			day1 = 30;
+		break;		
+
+	case METHOD_EUROPE:
+		if (day1 == 31)
+			day1 = 30;
+		if (day2 == 31)
+			day2 = 30;
+		break;
+
+	default:
+		abort ();
+	}
+
+	result = ((g_date_year (date2) - g_date_year (date1)) * 12 +
+		  (g_date_month (date2) - g_date_month (date1))) * 30 +
+		(day2 - day1);
+
+	g_date_free (date1);
+	g_date_free (date2);
+
+	return value_new_int (result);
 }
 
 
@@ -463,33 +547,33 @@ gnumeric_days360 (FunctionDefinition *fd, Value *argv [], char **error_string)
 FunctionDefinition date_functions [] = {
 	{ "date",      "fff",  "year,month,day",        &help_date,
 	  NULL, gnumeric_date  },
-	{ "datevalue", "s",    "date_str",              &help_datevalue,
+	{ "datevalue", "?",    "date_str",              &help_datevalue,
 	  NULL, gnumeric_datevalue  },
-	{ "day",       "f",    "serial_number",         &help_day,
+	{ "day",       "?",    "date",                  &help_day,
 	  NULL, gnumeric_day  },
-	{ "days360",   "ff",   "serial1,serial2",       &help_days360,
+	{ "days360",   "??|i", "date1,date2,method",    &help_days360,
 	  NULL, gnumeric_days360  },
 	{ "edate",     "ff",   "serial_number,months",  &help_edate,
 	  NULL, gnumeric_edate  },
-	{ "hour",      "f",    "serial_number",         &help_hour,
+	{ "hour",      "?",    "time",                  &help_hour,
 	  NULL, gnumeric_hour },
-	{ "minute",    "f",    "serial_number",         &help_minute,
+	{ "minute",    "?",    "time",                  &help_minute,
 	  NULL, gnumeric_minute },
-	{ "month",     "f",    "serial_number",         &help_month,
+	{ "month",     "?",    "date",                  &help_month,
 	  NULL, gnumeric_month  },
 	{ "now",       "",     "",                      &help_now,
 	  NULL, gnumeric_now },
-	{ "second",    "f",    "serial_number",         &help_second,
+	{ "second",    "?",    "time",                  &help_second,
 	  NULL, gnumeric_second },
 	{ "time",      "fff",  "hours,minutes,seconds", &help_time,
 	  NULL, gnumeric_time },
-	{ "timevalue", "fff",  "hours,minutes,seconds", &help_timevalue,
+	{ "timevalue", "?",    "",                      &help_timevalue,
 	  NULL, gnumeric_timevalue },
 	{ "today",     "",     "",                      &help_today,
 	  NULL, gnumeric_today },
-	{ "weekday",   "f",    "serial_number",         &help_weekday,
+	{ "weekday",   "?",    "date",                  &help_weekday,
 	  NULL, gnumeric_weekday  },
-	{ "year",      "f",    "serial_number",         &help_year,
+	{ "year",      "?",    "date",                  &help_year,
 	  NULL, gnumeric_year  },
 	{ NULL, NULL },
 };
