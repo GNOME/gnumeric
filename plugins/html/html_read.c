@@ -48,6 +48,11 @@
 #include <libxml/HTMLparser.h>
 #include <libxml/HTMLtree.h>
 
+#define CC2XML(s) ((const xmlChar *)(s))
+#define C2XML(s) ((xmlChar *)(s))
+#define CXML2C(s) ((const char *)(s))
+#define XML2C(s) ((char *)(s))
+
 typedef struct {
 	Sheet *sheet;
 	int   row;
@@ -100,30 +105,30 @@ html_read_content (htmlNodePtr cur, GString *buf, MStyle *mstyle,
  		}
 		else if (ptr->type == XML_ELEMENT_NODE) {
 			if (first) {
-				if (xmlStrEqual (ptr->name, (xmlChar *)"i")
-				    || xmlStrEqual (ptr->name, (xmlChar *)"em"))
+				if (xmlStrEqual (ptr->name, CC2XML ("i"))
+				    || xmlStrEqual (ptr->name, CC2XML ("em")))
 					mstyle_set_font_italic (mstyle, TRUE);
-				if (xmlStrEqual (ptr->name, (xmlChar *)"b"))
+				if (xmlStrEqual (ptr->name, CC2XML ("b")))
 					mstyle_set_font_bold (mstyle, TRUE);
 			}
-			if (xmlStrEqual (ptr->name, (xmlChar *)"a")) {
+			if (xmlStrEqual (ptr->name, CC2XML ("a"))) {
 				xmlAttrPtr   props;
 				props = ptr->properties;
 				while (props) {
-					if (xmlStrEqual (props->name, (xmlChar *)"href") && props->children) {
+					if (xmlStrEqual (props->name, CC2XML ("href")) && props->children) {
 						htmlNodeDump (a_buf, doc, props->children);
-						xmlBufferAdd (a_buf, (xmlChar *)"\n", -1);
+						xmlBufferAdd (a_buf, CC2XML ("\n"), -1);
 					}
 					props = props->next;
 				}
 			}
-			if (xmlStrEqual (ptr->name, (xmlChar *)"img")) {
+			if (xmlStrEqual (ptr->name, CC2XML ("img"))) {
 				xmlAttrPtr   props;
 				props = ptr->properties;
 				while (props) {
-					if (xmlStrEqual (props->name, (xmlChar *)"src") && props->children) {
+					if (xmlStrEqual (props->name, CC2XML ("src")) && props->children) {
 						htmlNodeDump (a_buf, doc, props->children);
-						xmlBufferAdd (a_buf, (xmlChar *)"\n", -1);
+						xmlBufferAdd (a_buf, CC2XML ("\n"), -1);
 					}
 					props = props->next;
 				}
@@ -141,7 +146,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 	int col = -1;
 
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
-		if (xmlStrEqual (ptr->name, (xmlChar *)"td") || xmlStrEqual (ptr->name, (xmlChar *)"th")) {
+		if (xmlStrEqual (ptr->name, CC2XML ("td")) || xmlStrEqual (ptr->name, CC2XML ("th"))) {
 			GString *buf;
 			xmlBufferPtr a_buf;
 			xmlAttrPtr   props;
@@ -161,10 +166,10 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 			/* Do we span across multiple rows or cols? */
 			props = ptr->properties;
 			while (props) {
-				if (xmlStrEqual (props->name, (xmlChar *)"colspan") && props->children)
-				    colspan = atoi ((char *)props->children->content);
-				if (xmlStrEqual (props->name, (xmlChar *)"rowspan") && props->children)
-				    rowspan = atoi ((char *)props->children->content);
+				if (xmlStrEqual (props->name, CC2XML ("colspan")) && props->children)
+				    colspan = atoi (CXML2C (props->children->content));
+				if (xmlStrEqual (props->name, CC2XML ("rowspan")) && props->children)
+				    rowspan = atoi (CXML2C (props->children->content));
 				props = props->next;
 			}
 			if (colspan < 1)
@@ -177,7 +182,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 			a_buf = xmlBufferCreate ();
 
 			mstyle = mstyle_new_default ();
-			if (xmlStrEqual (ptr->name, (xmlChar *)"th"))
+			if (xmlStrEqual (ptr->name, CC2XML ("th")))
 				mstyle_set_font_bold (mstyle, TRUE);
 
 			html_read_content (ptr, buf, mstyle, a_buf, TRUE, doc);
@@ -223,7 +228,7 @@ html_read_rows (htmlNodePtr cur, htmlDocPtr doc, Workbook *wb,
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
 		if (ptr->type != XML_ELEMENT_NODE)
 			continue;
-		if (xmlStrEqual (ptr->name, (xmlChar *)"tr")) {
+		if (xmlStrEqual (ptr->name, CC2XML ("tr"))) {
 			tc->row++;
 			if (tc->sheet == NULL)
 				tc->sheet = html_get_sheet (NULL, wb);
@@ -246,7 +251,7 @@ html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view,
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
 		if (ptr->type != XML_ELEMENT_NODE)
 			continue;
-		if (xmlStrEqual (ptr->name, (xmlChar *)"caption")) {
+		if (xmlStrEqual (ptr->name, CC2XML ("caption"))) {
 			xmlBufferPtr buf;
 			buf = xmlBufferCreate ();
 			for (ptr2 = ptr->children; ptr2 != NULL ; ptr2 = ptr2->next) {
@@ -259,11 +264,11 @@ html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view,
 				g_free (name);
 			}
 			xmlBufferFree (buf);
-		} else if (xmlStrEqual (ptr->name, (xmlChar *)"thead") ||
-			   xmlStrEqual (ptr->name, (xmlChar *)"tfoot") ||
-			   xmlStrEqual (ptr->name, (xmlChar *)"tbody")) {
+		} else if (xmlStrEqual (ptr->name, CC2XML ("thead")) ||
+			   xmlStrEqual (ptr->name, CC2XML ("tfoot")) ||
+			   xmlStrEqual (ptr->name, CC2XML ("tbody"))) {
 			html_read_rows (ptr, doc, wb, tc);
-		} else if (xmlStrEqual (ptr->name, (xmlChar *)"tr")) {
+		} else if (xmlStrEqual (ptr->name, CC2XML ("tr"))) {
 			html_read_rows (cur, doc, wb, tc);
 			break;
 		}
@@ -360,7 +365,7 @@ html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc,
 	if (cur->type != XML_ELEMENT_NODE)
 		return;
 	
-	if (xmlStrEqual (cur->name, (xmlChar *)"table")) {
+	if (xmlStrEqual (cur->name, CC2XML ("table"))) {
 		html_read_table (cur, doc, wb_view, tc);
 	} else if (starts_inferred_table (cur) || starts_inferred_row (cur)) {
 		htmlNodePtr tnode = xmlNewNode (NULL, "table");
