@@ -116,7 +116,7 @@ register_allocation (void *data, ParseDeallocator freer)
 
 	/* It's handy to be able to register and unregister NULLs.  */
 	if (!data)
-		return;
+		return NULL;
 
 	rec = g_new (AllocRec, 1);
 	rec->data = data;
@@ -151,10 +151,11 @@ unregister_allocation (const void *data)
 			g_free (rec);
 			return;
 		}
+		/* fprintf (stderr, "STEP\n");  */
 	}
 
 	/* Not good.  */
-	g_assert (l != NULL);
+	g_warning ("Unbalanced allocation registration in parser.y");
 }
 
 /* ------------------------------------------------------------------------- */
