@@ -5,6 +5,8 @@
 	
 2004-10-27  Morten Welinder  <terra@gnome.org>
 
+	* src/complex.c (complex_div, complex_sqrt): Improve accuracy.
+
 	* src/gui-file.c (go_file_is_writable): Use G_IS_DIR_SEPARATOR
 	instead of comparing to G_DIR_SEPARATOR.
 
