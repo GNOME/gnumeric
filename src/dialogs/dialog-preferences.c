@@ -141,36 +141,20 @@ set_tip (char const *key, GtkWidget *item)
 	}
 }
 
-#ifdef WITH_GNOME
-static gboolean
-cb_pref_notification_destroy (gpointer notification)
+static void
+cb_pref_notification_destroy (gpointer handle)
 {
-	gconf_client_notify_remove (gnm_app_get_gconf_client (),
-		GPOINTER_TO_INT (notification));
-	return TRUE;
+	go_conf_remove_monitor (GPOINTER_TO_UINT (handle));
 }
-#endif
 
 static void
-connect_notification (char const *key, GCallback func,
+connect_notification (char const *key, GOConfMonitorFunc func,
 		      gpointer data, GtkWidget *container)
 {
-#ifdef FIXMEFIXME
-	/***********
-	 * BROKEN
-	 * BROKEN
-	 *
-	 * Callback has an incorrect signature for gconf
-	 *
-	 * BROKEN
-	 * BROKEN
-	 **************/
-	notif = gconf_client_notify_add (state->gconf, key, func,
-					 data, NULL, NULL);
-	g_signal_connect_swapped (G_OBJECT (table),
-		"destroy",
-		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
-#endif
+	guint handle = go_conf_add_monitor (key, func, data);
+	g_signal_connect_swapped (G_OBJECT (container), "destroy",
+		G_CALLBACK (cb_pref_notification_destroy),
+		GUINT_TO_POINTER (handle));
 }
 
 /*************************************************************************/
@@ -203,7 +187,8 @@ bool_pref_create_widget (char const *key, GtkWidget *table, gint row)
 		0, 2, row, row + 1,
 		GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK, 5, 5);
 
-	connect_notification (key, G_CALLBACK (bool_pref_conf_to_widget), item, table);
+	connect_notification (key, (GOConfMonitorFunc)bool_pref_conf_to_widget,
+			      item, table);
 	set_tip (key, item);
 }
 
@@ -244,7 +229,8 @@ int_pref_create_widget (char const *key, GtkWidget *table, gint row,
 		1, 2, row, row + 1,
 		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 5);
 
-	connect_notification (key, G_CALLBACK (int_pref_conf_to_widget), item, table);
+	connect_notification (key, (GOConfMonitorFunc)int_pref_conf_to_widget,
+			      item, table);
 	set_tip (key, item);
 }
 
@@ -286,7 +272,8 @@ double_pref_create_widget (char const *key, GtkWidget *table, gint row,
 		1, 2, row, row + 1,
 		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 5);
 
-	connect_notification (key, G_CALLBACK (double_pref_conf_to_widget), item, table);
+	connect_notification (key, (GOConfMonitorFunc)double_pref_conf_to_widget,
+			      item, table);
 	set_tip (key, item);
 }
 
@@ -500,7 +487,8 @@ pref_tree_initializer (PrefState *state, gpointer data,
 				    -1);
 		pref_tree_set_model (GTK_TREE_MODEL (model), &iter);
 		connect_notification (this_pref_tree_data[i].key,
-			G_CALLBACK (cb_pref_tree_changed_notification), model, page);
+			(GOConfMonitorFunc) cb_pref_tree_changed_notification,
+			model, page);
 	}
 
 	object_data_path = g_strdup_printf (OBJECT_DATA_PATH_MODEL, page_num);
@@ -571,7 +559,8 @@ pref_font_initializer (PrefState *state,
 	cb_pref_font_set_fonts (NULL, page);
 
 	connect_notification (GNM_CONF_FONT_DIRECTORY,
-		G_CALLBACK (cb_pref_font_set_fonts), page, page);
+		(GOConfMonitorFunc) cb_pref_font_set_fonts,
+		page, page);
 	g_signal_connect (G_OBJECT (page),
 		"font_changed",
 		G_CALLBACK (cb_pref_font_has_changed), state);
@@ -642,7 +631,8 @@ pref_font_hf_initializer (PrefState *state,
 
 	cb_pref_font_hf_set_fonts (NULL, page);
 	connect_notification (PRINTSETUP_GCONF_DIRECTORY,
-		G_CALLBACK (cb_pref_font_hf_set_fonts), page, page);
+		(GOConfMonitorFunc) cb_pref_font_hf_set_fonts,
+		page, page);
 	g_signal_connect (G_OBJECT (page),
 		"font_changed",
 		G_CALLBACK (cb_pref_font_hf_has_changed), state);

@@ -34,9 +34,6 @@
 #include "gutils.h"
 #include "gnumeric-gconf.h"
 #include <gsf/gsf-impl-utils.h>
-#if WITH_GNOME
-#include <gconf/gconf-client.h>
-#endif
 #include <string.h>
 
 static struct {
@@ -81,14 +78,12 @@ autocorrect_load (void)
 	autocorrect.replace = go_conf_load_bool (AUTOCORRECT_REPLACE, TRUE);
 }
 
-#ifdef WITH_GNOME
 static void
-cb_autocorrect_update ()
+cb_autocorrect_update (char const *key, gpointer data)
 {
 	autocorrect_clear ();
 	autocorrect_load ();
 }
-#endif
 
 static void
 autocorrect_init (void)
@@ -97,14 +92,8 @@ autocorrect_init (void)
 		return;
 
 	autocorrect_load ();
-#if WITH_GNOME
-	autocorrect.notification_id = gconf_client_notify_add (
-		gnm_app_get_gconf_client (), AUTOCORRECT_DIRECTORY,
-		(GConfClientNotifyFunc) cb_autocorrect_update,
-		NULL, NULL, NULL);
-#else
-	autocorrect.notification_id = 1;
-#endif
+	autocorrect.notification_id = go_conf_add_monitor (
+		AUTOCORRECT_DIRECTORY, &cb_autocorrect_update, NULL);
 	g_object_set_data_full (gnm_app_get_app (),
 		"ToolsAutoCorrect", GINT_TO_POINTER (1),
 		(GDestroyNotify) autocorrect_clear);

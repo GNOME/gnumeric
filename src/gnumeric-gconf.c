@@ -39,9 +39,9 @@ GnmAppPrefs const *gnm_app_prefs = &prefs;
 #include <value.h>
 #include <number-match.h>
 #include <gconf/gconf-client.h>
-static GConfClient *gconf_client = NULL;
 
-GConfClient *
+static GConfClient *gconf_client = NULL;
+static GConfClient *
 gnm_app_get_gconf_client (void)
 {
 	if (!gconf_client) {
@@ -204,7 +204,8 @@ go_conf_get_short_desc (char const *key)
 {
 	GConfSchema *schema = get_schema (key);
 	char *desc = g_strdup (gconf_schema_get_short_desc (schema));
-	gconf_schema_free (schema);
+	if (schema != NULL)
+		gconf_schema_free (schema);
 	return desc;
 }
 char *
@@ -212,7 +213,8 @@ go_conf_get_long_desc  (char const *key)
 {
 	GConfSchema *schema = get_schema (key);
 	char *desc = g_strdup (gconf_schema_get_long_desc (schema));
-	gconf_schema_free (schema);
+	if (schema != NULL)
+		gconf_schema_free (schema);
 	return desc;
 }
 
@@ -227,8 +229,12 @@ go_conf_get_type (char const *key)
 	case GCONF_VALUE_FLOAT:
 	case GCONF_VALUE_INT:
 	case GCONF_VALUE_BOOL:
+		break;
+	default :
+		;
 	}
-	gconf_schema_free (schema);
+	if (schema != NULL)
+		gconf_schema_free (schema);
 	return t;
 }
 
@@ -264,7 +270,7 @@ go_conf_get_value_as_str (char const *key)
 }
 
 int
-go_conf_get_bool	(char const *key)
+go_conf_get_bool (char const *key)
 {
 	GConfClient *gconf = gnm_app_get_gconf_client ();
 	return gconf_client_get_bool (gconf, key, NULL);
@@ -333,13 +339,37 @@ go_conf_set_value_from_str (char const *key, char const *val_str)
 		g_warning ("Unsupported gconf type in preference dialog");
 	}
 
+	return TRUE;
+}
 
+void
+go_conf_remove_monitor (guint monitor_id)
+{
+	gconf_client_notify_remove (gnm_app_get_gconf_client (),
+		GPOINTER_TO_INT (monitor_id));
+}
+
+typedef struct {
+	void (*monitor) (char const *key, gpointer data);
+	gpointer data;
+} GOConfClosure;
+static void
+cb_key_changed (GConfClient *client, guint cnxn_id,
+		GConfEntry *entry, GOConfClosure *close)
+{
+	close->monitor (gconf_entry_get_key (entry), close->data);
+}
+guint
+go_conf_add_monitor (char const *key,
+		     GOConfMonitorFunc monitor, gpointer data)
+{
+	GOConfClosure *close = g_new0 (GOConfClosure, 1);
+	close->monitor = monitor;
+	close->data = data;
+	return gconf_client_notify_add (gnm_app_get_gconf_client (), key,
+		(GConfClientNotifyFunc) cb_key_changed, close, g_free, NULL);
 }
 #else
-void
-go_conf_sync (void)
-{
-}
 void     
 go_conf_set_bool (G_GNUC_UNUSED char const *key, G_GNUC_UNUSED gboolean val)
 {
@@ -444,9 +474,26 @@ go_conf_set_value_from_str (char const *key, char const *val_str)
 {
 	return TRUE;
 }
-#endif
 
 void
+go_conf_sync (void)
+{
+}
+
+void
+go_conf_remove_monitor (guint monitor_id)
+{
+}
+
+guint
+go_conf_add_monitor (char const *key,
+		     GOConfMonitorFunc monitor, gpointer data)
+{
+}
+
+#endif
+
+static void
 gnm_conf_init_printer_decoration_font ()
 {
 	gchar *name;
@@ -691,55 +738,6 @@ gnm_gconf_set_recent_funcs (GSList *list)
 }
 
 void
-gnm_gconf_set_num_of_recent_funcs (guint val)
-{
-	go_conf_set_int (FUNCTION_SELECT_GCONF_NUM_OF_RECENT, (gint) val);
-}
-
-
-void
-gnm_gconf_set_horizontal_dpi  (gnm_float val)
-{
-	go_conf_set_double (GNM_CONF_GUI_RES_H, val);
-}
-
-void
-gnm_gconf_set_vertical_dpi  (gnm_float val)
-{
-	go_conf_set_double (GNM_CONF_GUI_RES_V, val);
-}
-
-void
-gnm_gconf_set_auto_complete (gboolean val)
-{
-	go_conf_set_bool (GNM_CONF_GUI_ED_AUTOCOMPLETE, val);
-}
-
-void
-gnm_gconf_set_transition_keys (gboolean val)
-{
-	go_conf_set_bool (GNM_CONF_GUI_ED_TRANSITION_KEYS, val);
-}
-
-void
-gnm_gconf_set_live_scrolling (gboolean val)
-{
-	go_conf_set_bool (GNM_CONF_GUI_ED_LIVESCROLLING, val);
-}
-
-void
-gnm_gconf_set_recalc_lag (gint val)
-{
-	go_conf_set_int (GNM_CONF_GUI_ED_RECALC_LAG, val);
-}
-
-void
-gnm_gconf_set_file_history_max (gint val)
-{
-	go_conf_set_int (GNM_CONF_FILE_HISTORY_N, val);
-}
-
-void
 gnm_gconf_set_file_history_files (GSList *list)
 {
 	g_return_if_fail (prefs.file_history_files != list);
@@ -750,24 +748,6 @@ gnm_gconf_set_file_history_files (GSList *list)
 	g_slist_free ((GSList *)prefs.file_history_files);
 	prefs.file_history_files = list;
 	go_conf_set_str_list (GNM_CONF_FILE_HISTORY_FILES, list);
-}
-
-void
-gnm_gconf_set_initial_sheet_number (gint val)
-{
-	go_conf_set_int (GNM_CONF_WORKBOOK_NSHEETS, val);
-}
-
-void
-gnm_gconf_set_show_sheet_name (gboolean val)
-{
-	go_conf_set_bool (GNM_CONF_UNDO_SHOW_SHEET_NAME, val);
-}
-
-void
-gnm_gconf_set_max_descriptor_width (guint val)
-{
-	go_conf_set_int (GNM_CONF_UNDO_MAX_DESCRIPTOR_WIDTH, (gint) val);
 }
 
 void
@@ -811,68 +791,6 @@ gnm_gconf_set_vertical_window_fraction  (gnm_float val)
 	go_conf_set_double (GNM_CONF_GUI_WINDOW_Y, val);
 }
 
-void
-gnm_gconf_set_xml_compression_level (gint val)
-{
-	go_conf_set_int (GNM_CONF_XML_COMPRESSION, val);
-}
-
-void
-gnm_gconf_set_file_overwrite_default_answer (gboolean val)
-{
-	go_conf_set_bool (GNM_CONF_FILE_OVERWRITE_DEFAULT, val);
-}
-
-void
-gnm_gconf_set_file_ask_single_sheet_save (gboolean val)
-{
-	go_conf_set_bool (GNM_CONF_FILE_SINGLE_SHEET_SAVE, val);
-}
-
-void
-gnm_gconf_set_sort_default_by_case (gboolean val)
-{
-	go_conf_set_bool (GNM_CONF_SORT_DEFAULT_BY_CASE, val);
-}
-
-void
-gnm_gconf_set_sort_default_retain_formats (gboolean val)
-{
-	go_conf_set_bool (GNM_CONF_SORT_DEFAULT_RETAIN_FORM, val);
-}
-
-void
-gnm_gconf_set_sort_default_ascending (gboolean val)
-{
-	go_conf_set_bool (GNM_CONF_SORT_DEFAULT_ASCENDING, val);
-}
-
-void
-gnm_gconf_set_sort_max_initial_clauses (gint val)
-{
-	go_conf_set_int (GNM_CONF_SORT_DIALOG_MAX_INITIAL, val);
-}
-
-void
-gnm_gconf_set_zoom  (gnm_float val)
-{
-	go_conf_set_double (GNM_CONF_GUI_ZOOM, val);
-}
-
-void
-gnm_gconf_set_unfocused_range_selection (gboolean val)
-{
-	go_conf_set_bool (DIALOGS_GCONF_UNFOCUSED_RS, val);
-}
-
-void
-gnm_gconf_set_prefer_clipboard_selection (gboolean val)
-{
-	go_conf_set_bool (GNM_CONF_CUTANDPASTE_PREFER_CLIPBOARD, val);
-}
-
-
-/*  PRINTSETUP  */
 void
 gnm_gconf_set_all_sheets (gboolean val)
 {
@@ -986,13 +904,5 @@ gnm_gconf_set_print_header_formats (GSList *left, GSList *middle,
 	g_slist_free_custom (middle, g_free);
 	go_conf_set_str_list (PRINTSETUP_GCONF_HEADER_FORMAT_RIGHT, right);
 	g_slist_free_custom (right, g_free);
-}
-
-/*  LATEX  */
-void
-gnm_gconf_set_latex_use_utf8 (gboolean val)
-{
-	go_conf_set_bool (PLUGIN_GCONF_LATEX_USE_UTF8, val);
-	prefs.latex_use_utf8 = val;
 }
 

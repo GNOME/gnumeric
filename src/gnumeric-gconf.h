@@ -97,7 +97,6 @@ void     gnm_gconf_set_autoformat_sys_dirs (char const * string);
 void     gnm_gconf_set_autoformat_usr_dirs (char const * string);
 
 /* file history */
-void     gnm_gconf_set_file_history_max (gint val);
 void     gnm_gconf_set_file_history_files (GSList *list);
 
 /* plugins */
@@ -112,24 +111,8 @@ void     gnm_gconf_set_max_descriptor_width (guint val);
 void     gnm_gconf_set_undo_size (gint val);
 void     gnm_gconf_set_undo_max_number (gint val);
 
-/* new workbooks */
-void     gnm_gconf_set_initial_sheet_number (gint val);
-void     gnm_gconf_set_horizontal_window_fraction  (gnm_float val);
-void     gnm_gconf_set_vertical_window_fraction  (gnm_float val);
-void     gnm_gconf_set_zoom  (gnm_float val);
-
 /* xml/files */
-void     gnm_gconf_set_xml_compression_level (gint val);
 void     gnm_gconf_set_recent_funcs (GSList *list);
-void     gnm_gconf_set_num_of_recent_funcs (guint val);
-void     gnm_gconf_set_file_overwrite_default_answer (gboolean val);
-void     gnm_gconf_set_file_ask_single_sheet_save (gboolean val);
-
-/* sort */
-void     gnm_gconf_set_sort_default_by_case (gboolean val);
-void     gnm_gconf_set_sort_default_retain_formats (gboolean val);
-void     gnm_gconf_set_sort_default_ascending (gboolean val);
-void     gnm_gconf_set_sort_max_initial_clauses (gint val);
 
 /* print-setup & printing */
 void     gnm_gconf_set_all_sheets (gboolean val);
@@ -150,17 +133,6 @@ void     gnm_gconf_set_print_scale_percentage_value (gnm_float val);
 void     gnm_gconf_set_print_tb_margins (PrintMargins const *pm);
 void     gnm_gconf_set_print_header_formats (GSList *left, GSList *middle, 
 					     GSList *right);
-
-/* others */
-void     gnm_gconf_set_horizontal_dpi  (gnm_float val);
-void     gnm_gconf_set_vertical_dpi  (gnm_float val);
-void     gnm_gconf_set_auto_complete (gboolean val);
-void	 gnm_gconf_set_transition_keys (gboolean val);
-void     gnm_gconf_set_live_scrolling (gboolean val);
-void     gnm_gconf_set_recalc_lag (gint val);
-void     gnm_gconf_set_unfocused_range_selection (gboolean val);
-void     gnm_gconf_set_prefer_clipboard_selection (gboolean val);
-void     gnm_gconf_set_latex_use_utf8 (gboolean val);
 
 /**************************************************************/
 
@@ -189,5 +161,10 @@ void	 go_conf_set_string	(char const *key, char const *str);
 void	 go_conf_set_str_list	(char const *key, GSList *list);
 
 void	 go_conf_sync		(void);
+
+typedef void (*GOConfMonitorFunc) (char const *key, gpointer data);
+void	 go_conf_remove_monitor	(guint monitor_id);
+guint	 go_conf_add_monitor	(char const *key,
+				 GOConfMonitorFunc monitor, gpointer data);
 
 #endif /* GNM_CONF_H */
