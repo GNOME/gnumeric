@@ -11,3 +11,4 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 EXTRA_DIST = $(gnumeric_plugin_gnome_glossary_DATA) \
              $(gnumeric_plugin_gnome_glossary_SCRIPTS) \
              $(xml_in_files)
+DISTCLEANFILES = $(xml_DATA)

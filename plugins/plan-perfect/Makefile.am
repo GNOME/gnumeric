@@ -26,3 +26,4 @@ if WITH_PLAN_PERFECT
 endif
 
 EXTRA_DIST = $(xml_in_files)
+DISTCLEANFILES = $(xml_DATA)
