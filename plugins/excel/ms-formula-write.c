@@ -88,7 +88,7 @@ get_formula_index (const gchar *name)
 
 /* Parse it into memory, unlikely to be too big */
 typedef struct {
-	BIFF_PUT     *bp;
+	BiffPut     *bp;
 	GList        *arrays; /* A list of Value *'s ? */
 	ExcelSheet   *sheet;
 	int           col;
@@ -504,7 +504,7 @@ write_arrays (PolishData *pd)
 }
 
 guint32
-ms_excel_write_formula (BIFF_PUT *bp, ExcelSheet *sheet, ExprTree *expr,
+ms_excel_write_formula (BiffPut *bp, ExcelSheet *sheet, ExprTree *expr,
 			int fn_col, int fn_row)
 {
 	PolishData *pd;

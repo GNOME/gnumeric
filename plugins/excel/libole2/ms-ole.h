@@ -4,8 +4,8 @@
  * Author:
  *    Michael Meeks (michael@imaginator.com)
  **/
-#ifndef GNUMERIC_MS_OLE_H
-#define GNUMERIC_MS_OLE_H
+#ifndef GNUMERIC_MsOle_H
+#define GNUMERIC_MsOle_H
 
 #include <glib.h>
 
@@ -16,11 +16,11 @@
 typedef guint32 BLP;
 
 /* Forward declarations of types */
-typedef struct _MS_OLE           MS_OLE;
-typedef struct _MS_OLE_STREAM    MS_OLE_STREAM;
-typedef struct _MS_OLE_DIRECTORY MS_OLE_DIRECTORY;
+typedef struct _MsOle           MsOle;
+typedef struct _MsOleStream    MsOleStream;
+typedef struct _MsOleDirectory MsOleDirectory;
 
-typedef enum { MS_OLE_SEEK_SET, MS_OLE_SEEK_CUR } ms_ole_seek_t;
+typedef enum { MsOle_SEEK_SET, MsOle_SEEK_CUR } ms_ole_seek_t;
 #ifdef G_HAVE_GINT64
         typedef guint32 ms_ole_pos_t;
 #else
@@ -28,14 +28,14 @@ typedef enum { MS_OLE_SEEK_SET, MS_OLE_SEEK_CUR } ms_ole_seek_t;
 #endif
 
 typedef guint32 PPS_IDX ;
-typedef enum _PPS_TYPE { MS_OLE_PPS_STORAGE = 1,
-			 MS_OLE_PPS_STREAM  = 2,
-			 MS_OLE_PPS_ROOT    = 5} PPS_TYPE ;
+typedef enum _PPS_TYPE { MsOle_PPS_STORAGE = 1,
+			 MsOle_PPS_STREAM  = 2,
+			 MsOle_PPS_ROOT    = 5} PPS_TYPE ;
 
 /**
  * Structure describing an OLE file
  **/
-struct _MS_OLE
+struct _MsOle
 {
 	guint8  *mem ;
 	guint32 length ;
@@ -57,14 +57,14 @@ struct _MS_OLE
 };
 
 /* Create new OLE file */
-extern MS_OLE           *ms_ole_create  (const char *name) ;
+extern MsOle           *ms_ole_create  (const char *name) ;
 /* Open existing OLE file */
-extern MS_OLE           *ms_ole_open    (const char *name) ;
+extern MsOle           *ms_ole_open    (const char *name) ;
 /* Get a root directory handle */
-extern MS_OLE_DIRECTORY *ms_ole_get_root (MS_OLE *);
-extern void              ms_ole_destroy (MS_OLE *ptr) ;
+extern MsOleDirectory *ms_ole_get_root (MsOle *);
+extern void              ms_ole_destroy (MsOle *ptr) ;
 
-struct _MS_OLE_DIRECTORY
+struct _MsOleDirectory
 {
 	char        *name;
 	ms_ole_pos_t length;
@@ -72,60 +72,60 @@ struct _MS_OLE_DIRECTORY
 	GList       *pps;
 	int          first;
 	/* Private */
-	MS_OLE      *file ;
+	MsOle      *file ;
 };
 
-extern MS_OLE_DIRECTORY *ms_ole_directory_new (MS_OLE *) ;
-extern int  ms_ole_directory_next (MS_OLE_DIRECTORY *) ;
-extern void ms_ole_directory_enter (MS_OLE_DIRECTORY *) ;
+extern MsOleDirectory *ms_ole_directory_new (MsOle *) ;
+extern int  ms_ole_directory_next (MsOleDirectory *) ;
+extern void ms_ole_directory_enter (MsOleDirectory *) ;
 /* Pointer to the directory in which to create a new stream / storage object */
-extern MS_OLE_DIRECTORY *ms_ole_directory_create (MS_OLE_DIRECTORY *d,
+extern MsOleDirectory *ms_ole_directory_create (MsOleDirectory *d,
 						  char *name,
 						  PPS_TYPE type) ;
-extern void ms_ole_directory_unlink (MS_OLE_DIRECTORY *) ;
-extern void ms_ole_directory_destroy (MS_OLE_DIRECTORY *) ;
+extern void ms_ole_directory_unlink (MsOleDirectory *) ;
+extern void ms_ole_directory_destroy (MsOleDirectory *) ;
 
-struct _MS_OLE_STREAM
+struct _MsOleStream
 {
 	GArray *blocks;        /* A list of the blocks in the file if NULL: no file */
 	ms_ole_pos_t position; /* Current offset into file. Points to the next byte to read */
 	ms_ole_pos_t size;
-	enum { MS_OLE_SMALL_BLOCK, MS_OLE_LARGE_BLOCK } strtype; /* Type of stream */
+	enum { MsOle_SMALL_BLOCK, MsOle_LARGE_BLOCK } strtype; /* Type of stream */
 
 	/**
 	 * Attempts to copy length bytes into *ptr, returns true if
 	 * successful, _does_ advance the stream pointer.
 	 **/
-	gboolean     (*read_copy )(MS_OLE_STREAM *, guint8 *ptr, guint32 length) ;
+	gboolean     (*read_copy )(MsOleStream *, guint8 *ptr, guint32 length) ;
 	/**
 	 * Acertains whether there is a contiguous block length bytes,
 	 * if so returns a pointer to it and _does_ advance the stream pointer.
 	 * otherwise returns NULL and does _not_ advance the stream pointer.
 	 **/
-	guint8*      (*read_ptr  )(MS_OLE_STREAM *, guint32 length) ;
-	void         (*lseek     )(MS_OLE_STREAM *, gint32 BYTES, ms_ole_seek_t type) ;
-	ms_ole_pos_t (*tell      )(MS_OLE_STREAM *);
+	guint8*      (*read_ptr  )(MsOleStream *, guint32 length) ;
+	void         (*lseek     )(MsOleStream *, gint32 guint8S, ms_ole_seek_t type) ;
+	ms_ole_pos_t (*tell      )(MsOleStream *);
 	/**
 	 * This writes length bytes at *ptr to the stream, and advances
 	 * the stream pointer.
 	 **/
-	void         (*write     )(MS_OLE_STREAM *, guint8 *ptr, guint32 length) ;
+	void         (*write     )(MsOleStream *, guint8 *ptr, guint32 length) ;
 
 	/**
 	 * PRIVATE
 	 **/
-	MS_OLE *file ;
+	MsOle *file ;
 	void   *pps ;   /* Straight PPS * */
 };
 
 /* Mode = 'r' or 'w' */
-extern MS_OLE_STREAM *ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode) ;
-extern MS_OLE_STREAM *ms_ole_stream_copy (MS_OLE_STREAM *);
-extern void ms_ole_stream_close  (MS_OLE_STREAM *) ;
+extern MsOleStream *ms_ole_stream_open (MsOleDirectory *d, char mode) ;
+extern MsOleStream *ms_ole_stream_copy (MsOleStream *);
+extern void ms_ole_stream_close  (MsOleStream *) ;
 
 extern void dump (guint8 *ptr, guint32 len) ;
 
-extern void ms_ole_debug (MS_OLE *, int magic);
+extern void ms_ole_debug (MsOle *, int magic);
 #endif
 
 

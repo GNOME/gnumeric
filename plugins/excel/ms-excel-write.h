@@ -54,7 +54,7 @@ struct _ExcelWorkbook {
 	ms_ole_pos_t   streamPos;
 };
 
-extern int ms_excel_write_ExcelWorkbook (MS_OLE *file, ExcelWorkbook *wb,
+extern int ms_excel_write_ExcelWorkbook (MsOle *file, ExcelWorkbook *wb,
 				    eBiff_version ver);
 extern int ms_excel_write_get_sheet_idx (ExcelWorkbook *wb, Sheet *gnum_sheet);
 extern int ms_excel_write_get_externsheet_idx (ExcelWorkbook *wb,
@@ -63,7 +63,7 @@ extern int ms_excel_write_get_externsheet_idx (ExcelWorkbook *wb,
 
 typedef enum { AS_PER_VER, SIXTEEN_BIT, EIGHT_BIT } PutType;
 extern int
-biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver,
+biff_put_text (BiffPut *bp, char *txt, eBiff_version ver,
 	       gboolean write_len, PutType how);
 
 #endif

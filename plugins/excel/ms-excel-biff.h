@@ -8,11 +8,11 @@
 #ifndef GNUMERIC_EXCEL_BIFF_H
 #define GNUMERIC_EXCEL_BIFF_H
 
-/* Pass this a BIFF_QUERY * */
-#define EX_GETROW(p)      (BIFF_GETWORD(p->data + 0))
-#define EX_GETCOL(p)      (BIFF_GETWORD(p->data + 2))
-#define EX_GETXF(p)       (BIFF_GETWORD(p->data + 4))
-#define EX_GETSTRLEN(p)   (BIFF_GETWORD(p->data + 6))
+/* Pass this a BiffQuery * */
+#define EX_GETROW(p)      (BIFF_GET_GUINT16(p->data + 0))
+#define EX_GETCOL(p)      (BIFF_GET_GUINT16(p->data + 2))
+#define EX_GETXF(p)       (BIFF_GET_GUINT16(p->data + 4))
+#define EX_GETSTRLEN(p)   (BIFF_GET_GUINT16(p->data + 6))
 
 #define EX_SETROW(p,d)    (BIFF_SET_GUINT16(p + 0, d))
 #define EX_SETCOL(p,d)    (BIFF_SET_GUINT16(p + 2, d))
@@ -53,7 +53,7 @@ typedef struct _BIFF_BOF_DATA
   eBiff_filetype type ;
 } BIFF_BOF_DATA ;
 
-extern BIFF_BOF_DATA *new_ms_biff_bof_data  (BIFF_QUERY *pos) ;
+extern BIFF_BOF_DATA *new_ms_biff_bof_data  (BiffQuery *pos) ;
 extern void           free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 
 #include "biff-types.h"

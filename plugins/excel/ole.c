@@ -109,10 +109,10 @@ get_escher_opcode_name (guint16 opcode)
 	return "Unknown";
 }
 
-static MS_OLE_DIRECTORY *
-get_file_handle (MS_OLE *ole, char *name)
+static MsOleDirectory *
+get_file_handle (MsOle *ole, char *name)
 {
-	MS_OLE_DIRECTORY *dir;
+	MsOleDirectory *dir;
 	if (!name)
 		return NULL;
 	dir = ms_ole_directory_new (ole);
@@ -131,9 +131,9 @@ get_file_handle (MS_OLE *ole, char *name)
 }
 
 static void
-list_files (MS_OLE *ole)
+list_files (MsOle *ole)
 {
-	MS_OLE_DIRECTORY *dir = ms_ole_directory_new (ole);
+	MsOleDirectory *dir = ms_ole_directory_new (ole);
 	g_assert (dir);
 	while (ms_ole_directory_next(dir)) {
 		printf ("'%25s' : type %d, length %d bytes\n", dir->name, dir->type, dir->length);
@@ -209,9 +209,9 @@ esh_header_next (ESH_HEADER *h)
 		h->length_left-=h->length+ESH_HEADER_LEN;
 	}
 
-	h->length   = BIFF_GETLONG(h->data+4);
-	h->type     = BIFF_GETWORD(h->data+2);
-	split       = BIFF_GETWORD(h->data+0);
+	h->length   = BIFF_GET_GUINT32(h->data+4);
+	h->type     = BIFF_GET_GUINT16(h->data+2);
+	split       = BIFF_GET_GUINT16(h->data+0);
 	h->ver      = (split&0x0f);
 	h->instance = (split>>4);
 #if ESH_HEADER_DEBUG > 0
@@ -245,9 +245,9 @@ esh_header_destroy (ESH_HEADER *h)
  *  This is dead sluggish.
  **/
 static int
-biff_to_flat_data (const BIFF_QUERY *q, guint8 **data, guint32 *length)
+biff_to_flat_data (const BiffQuery *q, guint8 **data, guint32 *length)
 {
-	BIFF_QUERY *nq = ms_biff_query_copy (q);
+	BiffQuery *nq = ms_biff_query_copy (q);
 	guint8 *ptr;
 	int cnt=0;
 
@@ -293,15 +293,15 @@ dump_escher (guint8 *data, guint32 len, int level)
 }
 
 static void
-do_dump (MS_OLE *ole)
+do_dump (MsOle *ole)
 {
 	char *ptr;
-	MS_OLE_DIRECTORY *dir;
+	MsOleDirectory *dir;
 
 	ptr = strtok (NULL, delim);
 	if ((dir = get_file_handle (ole, ptr)))
 	{
-		MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
+		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
 		guint8 *buffer = g_malloc (dir->length);
 		stream->read_copy (stream, buffer, dir->length);
 		printf ("Stream : '%s' length 0x%x\n", ptr, dir->length);
@@ -315,16 +315,16 @@ do_dump (MS_OLE *ole)
 }
 
 static void
-do_biff (MS_OLE *ole)
+do_biff (MsOle *ole)
 {
 	char *ptr;
-	MS_OLE_DIRECTORY *dir;
+	MsOleDirectory *dir;
 	
 	ptr = strtok (NULL, delim);
 	if ((dir = get_file_handle (ole, ptr)))
 	{
-		MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
-		BIFF_QUERY *q = ms_biff_query_new (stream);
+		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
+		BiffQuery *q = ms_biff_query_new (stream);
 		guint16 last_opcode=0xffff;
 		guint32 last_length=0;
 		guint32 count=0;
@@ -351,23 +351,23 @@ do_biff (MS_OLE *ole)
 }
 
 static void
-do_biff_raw (MS_OLE *ole)
+do_biff_raw (MsOle *ole)
 {
 	char *ptr;
-	MS_OLE_DIRECTORY *dir;
+	MsOleDirectory *dir;
 	
 	ptr = strtok (NULL, delim);
 	if ((dir = get_file_handle (ole, ptr)))
 	{
-		MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
-		BIFF_QUERY *q = ms_biff_query_new (stream);
+		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
+		BiffQuery *q = ms_biff_query_new (stream);
 		guint8 data[4], *buffer;
 		
 		buffer = g_new (guint8, 65550);
 		while (stream->read_copy (stream, data, 4)) {
-			guint32 len=BIFF_GETWORD(data+2);
+			guint32 len=BIFF_GET_GUINT16(data+2);
 			printf ("0x%4x Opcode 0x%3x : %15s, length 0x%x (=%d)\n", stream->position,
-				BIFF_GETWORD(data), get_biff_opcode_name (BIFF_GETWORD(data)),
+				BIFF_GET_GUINT16(data), get_biff_opcode_name (BIFF_GET_GUINT16(data)),
 				len, len);
 			stream->read_copy (stream, buffer, len);
 			dump (buffer, len);
@@ -380,16 +380,16 @@ do_biff_raw (MS_OLE *ole)
 }
 
 static void
-do_draw (MS_OLE *ole)
+do_draw (MsOle *ole)
 {
 	char *ptr;
-	MS_OLE_DIRECTORY *dir;
+	MsOleDirectory *dir;
 
 	ptr = strtok (NULL, delim);
 	if ((dir = get_file_handle (ole, ptr)))
 	{
-		MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
-		BIFF_QUERY *q = ms_biff_query_new (stream);
+		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
+		BiffQuery *q = ms_biff_query_new (stream);
 		while (ms_biff_query_next(q)) {
 			if (q->ls_op == BIFF_MS_O_DRAWING ||
 			    q->ls_op == BIFF_MS_O_DRAWING_GROUP ||
@@ -410,16 +410,16 @@ do_draw (MS_OLE *ole)
 }
 
 static void
-do_get (MS_OLE *ole)
+do_get (MsOle *ole)
 {
 	char *from, *to;
-	MS_OLE_DIRECTORY *dir;
+	MsOleDirectory *dir;
 
 	from = strtok (NULL, delim);
 	to   = strtok (NULL, delim);
 	if ((dir = get_file_handle (ole, from)))
 	{
-		MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
+		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
 		guint8 *buffer = g_malloc (dir->length);
 		FILE *f = fopen (to, "w");
 		stream->read_copy (stream, buffer, dir->length);
@@ -436,10 +436,10 @@ do_get (MS_OLE *ole)
 }
 
 static void
-really_put (MS_OLE *ole, char *from, char *to)
+really_put (MsOle *ole, char *from, char *to)
 {
-	MS_OLE_DIRECTORY *dir;
-	MS_OLE_STREAM *stream;
+	MsOleDirectory *dir;
+	MsOleStream *stream;
 	char buffer[8200];
 
 	if (!from || !to) {
@@ -449,7 +449,7 @@ really_put (MS_OLE *ole, char *from, char *to)
 
 	if (!(dir = get_file_handle (ole, to)))
 		dir = ms_ole_directory_create (ms_ole_get_root(ole),
-					       to, MS_OLE_PPS_STREAM);
+					       to, MsOle_PPS_STREAM);
 		
 	if (dir)
 	{
@@ -463,7 +463,7 @@ really_put (MS_OLE *ole, char *from, char *to)
 			return;
 		}
 
-		stream->lseek (stream, 0, MS_OLE_SEEK_SET);
+		stream->lseek (stream, 0, MsOle_SEEK_SET);
 	       
 		do {
 			guint32 lenr = 1+ (int)(8192.0*rand()/(RAND_MAX+1.0));
@@ -479,7 +479,7 @@ really_put (MS_OLE *ole, char *from, char *to)
 }
 
 static void
-do_put (MS_OLE *ole)
+do_put (MsOle *ole)
 {
 	char *from, *to;
 
@@ -495,7 +495,7 @@ do_put (MS_OLE *ole)
 }
 
 static void
-do_copyin (MS_OLE *ole)
+do_copyin (MsOle *ole)
 {
 	char *from;
 
@@ -508,7 +508,7 @@ do_copyin (MS_OLE *ole)
 
 int main (int argc, char **argv)
 {
-	MS_OLE *ole;
+	MsOle *ole;
 	int lp,exit=0,interact=0;
 	char *buffer = g_new (char, 1024) ;
 

@@ -14,7 +14,7 @@
 #include "formula-types.h"
 
 guint32
-ms_excel_write_formula (BIFF_PUT *bp, ExcelSheet *sheet, ExprTree *expr,
+ms_excel_write_formula (BiffPut *bp, ExcelSheet *sheet, ExprTree *expr,
 			int fn_col, int fn_row);
 
 #endif

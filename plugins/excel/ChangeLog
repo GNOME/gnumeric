@@ -1,5 +1,33 @@
 1999-07-02  Michael Meeks  <michael@edenproject.org>
 
+	* *.[ch]: Much stylistic fiddling:
+	s/MS_EXCEL_SHEET/ExcelSheet/g
+	s/MS_EXCEL_WORKBOOK/ExcelWorkbook/g
+	s/BIFF_BOUNDSHEET_DATA/BiffBoundsheetData/g
+	s/BIFF_SHARED_FORMULA_KEY/BiffSharedFormulaKey/g
+	s/BIFF_SHARED_FORMULA/BiffSharedFormula/g
+	s/MS_EXCEL_PALETTE/ExcelPalette/g
+	s/BIFF_FONT_DATA/BiffFontData/g
+	s/BIFF_EXTERNSHEET_DATA/BiffExternSheetData/g
+	s/BIFF_FORMAT_DATA/BiffFormatData/g
+	s/BIFF_QUERY/BiffQuery/g
+	s/BIFF_PUT/BiffPut/g
+	s/GETBYTE/GET_GUINT8/g
+	s/GETWORD/GET_GUINT16/g
+	s/GETDLONG/GET_GUINT64/g
+	s/GETLONG/GET_GUINT32/g
+	s/BYTE/guint8/g
+	s/WORD/guint16/g
+	s/LONG/guint32/g
+	s/MS_OLE_STREAM/MsOleStream/g
+	s/MS_OLE_DIRECTORY/MsOleDirectory/g
+	s/MS_OLE/MsOle/g
+
+	* ms-excel-read.c: Large bout of indenting / formatting
+	updates, sorry if you have patches ...
+	
+1999-07-02  Michael Meeks  <michael@edenproject.org>
+
 	* boot.c: Added 'main.h' to include debug symbol.
 
 1999-07-02  Michael Meeks  <michael@edenproject.org>

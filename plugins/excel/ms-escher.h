@@ -5,6 +5,6 @@
  *    Michael Meeks (michael@imaginator.com)
  **/
 
-void ms_escher_hack_get_drawing (const BIFF_QUERY *q);
+void ms_escher_hack_get_drawing (const BiffQuery *q);
 
 

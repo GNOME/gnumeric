@@ -34,8 +34,8 @@
 
 /* Confusingly this micro-biff will use the offsets
    as specified in the docs */
-#define GR_BIFF_LENGTH(p) (BIFF_GETWORD(p+2))
-#define GR_BIFF_OPCODE(p) (BIFF_GETWORD(p))
+#define GR_BIFF_LENGTH(p) (BIFF_GET_GUINT16(p+2))
+#define GR_BIFF_OPCODE(p) (BIFF_GET_GUINT16(p))
 
 #define GR_END                0x00
 #define GR_MACRO              0x04
@@ -100,7 +100,7 @@ object_type_names[] =
 static int ms_chart_chart_depth = 0;
 
 void
-ms_obj_read_obj (BIFF_QUERY *q, MS_EXCEL_WORKBOOK * wb)
+ms_obj_read_obj (BiffQuery *q, ExcelWorkbook * wb)
 {
 	guint8 *data;
 	gint32 data_len_left;
@@ -162,16 +162,16 @@ ms_obj_read_obj (BIFF_QUERY *q, MS_EXCEL_WORKBOOK * wb)
 
 		case GR_COMMON_OBJ_DATA:
 		{
-			guint16 len=BIFF_GETWORD(data+2);
-			guint16 obj_id  =BIFF_GETWORD(data+6);
-			guint16 options =BIFF_GETWORD(data+8);
+			guint16 len=BIFF_GET_GUINT16(data+2);
+			guint16 obj_id  =BIFF_GET_GUINT16(data+6);
+			guint16 options =BIFF_GET_GUINT16(data+8);
 			char *type = NULL;
 			enum { Locked=0x1, Printable=0x2,
 			       AutoFill=0x4, AutoLine=0x8 } flags;
 
 		        /* Multiple objects in 1 record ?? */
 		        g_return_if_fail (obj_type == -1);
-			obj_type = BIFF_GETWORD(data+4);
+			obj_type = BIFF_GET_GUINT16(data+4);
 
 			printf ("Common object data len 0x%x "
 				"Type 0x%x id 0x%x options 0x%x\n",

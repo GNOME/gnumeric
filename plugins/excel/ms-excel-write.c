@@ -41,7 +41,7 @@
  *  it returns the length of the string.
  **/
 int
-biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver,
+biff_put_text (BiffPut *bp, char *txt, eBiff_version ver,
 	       gboolean write_len, PutType how)
 {
 #define BLK_LEN 16
@@ -111,7 +111,7 @@ biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver,
  * See S59D5D.HTM
  **/
 static ms_ole_pos_t
-biff_bof_write (BIFF_PUT *bp, eBiff_version ver,
+biff_bof_write (BiffPut *bp, eBiff_version ver,
 		eBiff_filetype type)
 {
 	guint   len;
@@ -204,14 +204,14 @@ biff_bof_write (BIFF_PUT *bp, eBiff_version ver,
 }
 
 static void
-biff_eof_write (BIFF_PUT *bp)
+biff_eof_write (BiffPut *bp)
 {
 	ms_biff_put_len_next (bp, BIFF_EOF, 0);
 	ms_biff_put_commit (bp);
 }
 
 static void
-write_magic_interface (BIFF_PUT *bp, eBiff_version ver)
+write_magic_interface (BiffPut *bp, eBiff_version ver)
 {
 	guint8 *data;
 	if (ver >= eBiffV7) {
@@ -230,7 +230,7 @@ write_magic_interface (BIFF_PUT *bp, eBiff_version ver)
 }
 
 static void
-write_constants (BIFF_PUT *bp, eBiff_version ver)
+write_constants (BiffPut *bp, eBiff_version ver)
 {
 	guint8 *data;
 
@@ -260,7 +260,7 @@ write_constants (BIFF_PUT *bp, eBiff_version ver)
 }
 
 static void
-write_externsheets (BIFF_PUT *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
+write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 {
 	guint32 num_sheets = wb->sheets->len;
 	guint8 *data;
@@ -300,7 +300,7 @@ write_externsheets (BIFF_PUT *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 }
 
 static void
-write_window1 (BIFF_PUT *bp, eBiff_version ver)
+write_window1 (BiffPut *bp, eBiff_version ver)
 {
 	/* See: S59E17.HTM */
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_WINDOW1, 18);
@@ -317,7 +317,7 @@ write_window1 (BIFF_PUT *bp, eBiff_version ver)
 }
 
 static void
-write_bits (BIFF_PUT *bp, eBiff_version ver)
+write_bits (BiffPut *bp, eBiff_version ver)
 {
 	guint8 *data;
 
@@ -332,7 +332,7 @@ write_bits (BIFF_PUT *bp, eBiff_version ver)
 	ms_biff_put_commit (bp);
 
 	/* See: S59DCC.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_PASSWORD, 2);
+	data = ms_biff_put_len_next (bp, BIFF_PASSguint16, 2);
 	BIFF_SET_GUINT16 (data, 0x0);
 	ms_biff_put_commit (bp);
 
@@ -404,7 +404,7 @@ ms_excel_write_get_externsheet_idx (ExcelWorkbook *wb,
  * See: S59D61.HTM
  **/
 static guint32
-biff_boundsheet_write_first (BIFF_PUT *bp, eBiff_filetype type,
+biff_boundsheet_write_first (BiffPut *bp, eBiff_filetype type,
 			     char *name, eBiff_version ver)
 {
 	guint32 pos;
@@ -445,7 +445,7 @@ biff_boundsheet_write_first (BIFF_PUT *bp, eBiff_filetype type,
  * stream position.
  **/
 static void
-biff_boundsheet_write_last (MS_OLE_STREAM *s, guint32 pos,
+biff_boundsheet_write_last (MsOleStream *s, guint32 pos,
 			    ms_ole_pos_t streamPos)
 {
 	guint8  data[4];
@@ -453,17 +453,17 @@ biff_boundsheet_write_last (MS_OLE_STREAM *s, guint32 pos,
 	g_return_if_fail (s);
 	
 	oldpos = s->position;/* FIXME: tell function ? */
-	s->lseek (s, pos+4, MS_OLE_SEEK_SET);
+	s->lseek (s, pos+4, MsOle_SEEK_SET);
 	BIFF_SET_GUINT32 (data, streamPos);
 	s->write (s, data, 4);
-	s->lseek (s, oldpos, MS_OLE_SEEK_SET);
+	s->lseek (s, oldpos, MsOle_SEEK_SET);
 }
 
 #define PALETTE_WHITE 0
 #define PALETTE_BLACK 1
 
 static Palette *
-write_palette (BIFF_PUT *bp, ExcelWorkbook *wb)
+write_palette (BiffPut *bp, ExcelWorkbook *wb)
 {
 	Palette *pal = g_new (Palette, 1);
 	guint8  r,g,b, data[8];
@@ -511,7 +511,7 @@ palette_free (Palette *pal)
 
 /* See S59D8C.HTM */
 static Fonts *
-write_fonts (BIFF_PUT *bp, ExcelWorkbook *wb)
+write_fonts (BiffPut *bp, ExcelWorkbook *wb)
 {
 	Fonts *fonts = g_new (Fonts, 1);
 	guint8 data[64];
@@ -566,7 +566,7 @@ fonts_free (Fonts *fonts)
 
 /* See S59D8E.HTM */
 static Formats *
-write_formats (BIFF_PUT *bp, ExcelWorkbook *wb)
+write_formats (BiffPut *bp, ExcelWorkbook *wb)
 {
 	Formats *formats = g_new (Formats, 1);
 	int   magic_num[] = { 5, 6, 7, 8, 0x2a, 0x29, 0x2c, 0x2b };
@@ -631,7 +631,7 @@ formats_free (Formats *formats)
 
 /* See S59E1E.HTM */
 static void
-write_xf_record (BIFF_PUT *bp, Style *style, eBiff_version ver, int hack)
+write_xf_record (BiffPut *bp, Style *style, eBiff_version ver, int hack)
 {
 	guint8 data[256];
 	int lp;
@@ -685,7 +685,7 @@ write_xf_record (BIFF_PUT *bp, Style *style, eBiff_version ver, int hack)
 }
 
 static XF *
-write_xf (BIFF_PUT *bp, ExcelWorkbook *wb)
+write_xf (BiffPut *bp, ExcelWorkbook *wb)
 {
 	int lp;
 	guint32 style_magic[6] = { 0xff038010, 0xff068011, 0xff048012, 0xff078013,
@@ -726,7 +726,7 @@ xf_free (XF *xf)
 }
 
 static void
-write_value (BIFF_PUT *bp, Value *v, eBiff_version ver,
+write_value (BiffPut *bp, Value *v, eBiff_version ver,
 	     guint32 col, guint32 row, guint16 xf)
 {
 	switch (v->type) {
@@ -817,7 +817,7 @@ write_value (BIFF_PUT *bp, Value *v, eBiff_version ver,
 }
 
 static void
-write_cell (BIFF_PUT *bp, ExcelSheet *sheet, Cell *cell)
+write_cell (BiffPut *bp, ExcelSheet *sheet, Cell *cell)
 {
 	gint col, row;
 	g_return_if_fail (bp);
@@ -870,7 +870,7 @@ write_cell (BIFF_PUT *bp, ExcelSheet *sheet, Cell *cell)
 #define MAGIC_BLANK_XF 0
 
 static void
-write_mulblank (BIFF_PUT *bp, ExcelSheet *sheet, guint32 end_col, guint32 row, guint32 run)
+write_mulblank (BiffPut *bp, ExcelSheet *sheet, guint32 end_col, guint32 row, guint32 run)
 {
 	g_return_if_fail (bp);
 	g_return_if_fail (run);
@@ -884,7 +884,7 @@ write_mulblank (BIFF_PUT *bp, ExcelSheet *sheet, guint32 end_col, guint32 row, g
 		EX_SETROW(data, row);
 		ms_biff_put_commit (bp);
 	} else { /* S59DA7.HTM */
-		BYTE   *ptr;
+		guint8   *ptr;
 		guint32 len = 4 + 2*run + 2;
 		guint8 *data;
 	
@@ -903,7 +903,7 @@ write_mulblank (BIFF_PUT *bp, ExcelSheet *sheet, guint32 end_col, guint32 row, g
 }
 
 static void
-write_sheet_bools (BIFF_PUT *bp, ExcelSheet *sheet)
+write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 {
 	guint8 *data;
 /*	eBiff_version ver = sheet->wb->ver; */
@@ -1045,7 +1045,7 @@ write_sheet_bools (BIFF_PUT *bp, ExcelSheet *sheet)
 }
 
 static void
-write_sheet_tail (BIFF_PUT *bp, ExcelSheet *sheet)
+write_sheet_tail (BiffPut *bp, ExcelSheet *sheet)
 {
 	guint8 *data;
 	eBiff_version ver = sheet->wb->ver;
@@ -1082,7 +1082,7 @@ write_sheet_tail (BIFF_PUT *bp, ExcelSheet *sheet)
 }
 
 static void
-write_index (MS_OLE_STREAM *s, ExcelSheet *sheet, ms_ole_pos_t pos)
+write_index (MsOleStream *s, ExcelSheet *sheet, ms_ole_pos_t pos)
 {
 	guint8  data[4];
 	ms_ole_pos_t oldpos;
@@ -1093,9 +1093,9 @@ write_index (MS_OLE_STREAM *s, ExcelSheet *sheet, ms_ole_pos_t pos)
 	
 	oldpos = s->position;/* FIXME: tell function ? */
 	if (sheet->wb->ver >= eBiffV8)
-		s->lseek (s, pos+4+16, MS_OLE_SEEK_SET);
+		s->lseek (s, pos+4+16, MsOle_SEEK_SET);
 	else
-		s->lseek (s, pos+4+12, MS_OLE_SEEK_SET);
+		s->lseek (s, pos+4+12, MsOle_SEEK_SET);
 
 	g_assert (sheet->maxy >= sheet->dbcells->len);
 	for (lp=0;lp<sheet->dbcells->len;lp++) {
@@ -1108,12 +1108,12 @@ write_index (MS_OLE_STREAM *s, ExcelSheet *sheet, ms_ole_pos_t pos)
 		s->write (s, data, 4);
 	}
 
-	s->lseek (s, oldpos, MS_OLE_SEEK_SET);
+	s->lseek (s, oldpos, MsOle_SEEK_SET);
 }
 
 /* See: S59DDB.HTM */
 static ms_ole_pos_t
-write_rowinfo (BIFF_PUT *bp, guint32 row, guint32 width)
+write_rowinfo (BiffPut *bp, guint32 row, guint32 width)
 {
 	guint8 *data;
 	ms_ole_pos_t pos;
@@ -1134,7 +1134,7 @@ write_rowinfo (BIFF_PUT *bp, guint32 row, guint32 width)
 }
 
 static void
-write_db_cell (BIFF_PUT *bp, ExcelSheet *sheet, ms_ole_pos_t start)
+write_db_cell (BiffPut *bp, ExcelSheet *sheet, ms_ole_pos_t start)
 {
 	/* See: 'Finding records in BIFF files': S59E28.HTM */
 	/* See: 'DBCELL': S59D6D.HTM */
@@ -1155,7 +1155,7 @@ write_db_cell (BIFF_PUT *bp, ExcelSheet *sheet, ms_ole_pos_t start)
 /* See: 'Finding records in BIFF files': S59E28.HTM */
 /* and S59D99.HTM */
 static void
-write_sheet (BIFF_PUT *bp, ExcelSheet *sheet)
+write_sheet (BiffPut *bp, ExcelSheet *sheet)
 {
 	guint32 x, y, maxx, maxy;
 	ms_ole_pos_t index_off;
@@ -1243,7 +1243,7 @@ new_sheet (ExcelWorkbook *wb, Sheet *value)
 }
 
 static void
-write_workbook (BIFF_PUT *bp, Workbook *gwb, eBiff_version ver)
+write_workbook (BiffPut *bp, Workbook *gwb, eBiff_version ver)
 {
 	ExcelWorkbook *wb = g_new (ExcelWorkbook, 1);
 	ExcelSheet    *s  = 0;
@@ -1302,12 +1302,12 @@ write_workbook (BIFF_PUT *bp, Workbook *gwb, eBiff_version ver)
 }
 
 int
-ms_excel_write_workbook (MS_OLE *file, Workbook *wb,
+ms_excel_write_workbook (MsOle *file, Workbook *wb,
 			 eBiff_version ver)
 {
-	MS_OLE_DIRECTORY *dir;
-	MS_OLE_STREAM    *str;
-	BIFF_PUT *bp;
+	MsOleDirectory *dir;
+	MsOleStream    *str;
+	BiffPut *bp;
 	char *strname;
 
 	g_return_val_if_fail (wb, 0);
@@ -1325,7 +1325,7 @@ ms_excel_write_workbook (MS_OLE *file, Workbook *wb,
 		strname = "Book";
 	dir = ms_ole_directory_create (ms_ole_get_root (file),
 				       strname,
-				       MS_OLE_PPS_STREAM);
+				       MsOle_PPS_STREAM);
 	if (!dir) {
 		printf ("Can't create stream\n");
 		return 0;

@@ -13,7 +13,7 @@
 #include "ms-biff.h"
 
 ExprTree *
-ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
+ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 			int fn_col, int fn_row,
 			int shared, guint16 length) ;
 

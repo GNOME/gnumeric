@@ -10,6 +10,6 @@
 
 #include <ms-excel-read.h>
 
-extern void ms_excel_read_chart (MS_EXCEL_WORKBOOK * wb, BIFF_QUERY * q);
+extern void ms_excel_read_chart (ExcelWorkbook * wb, BiffQuery * q);
 
 #endif /* GNUMERIC_MS_CHART_H */

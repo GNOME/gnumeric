@@ -115,7 +115,7 @@ bb_blk_attr_new (guint32 blk)
 }
 
 static void
-set_blk_dirty (MS_OLE *f, BLP b)
+set_blk_dirty (MsOle *f, BLP b)
 {
 	BB_BLK_ATTR *attr = g_ptr_array_index (f->bbattr, b);
 	g_assert (attr);
@@ -123,7 +123,7 @@ set_blk_dirty (MS_OLE *f, BLP b)
 }
 
 static void
-write_cache_block (MS_OLE *f, BB_BLK_ATTR *attr)
+write_cache_block (MsOle *f, BB_BLK_ATTR *attr)
 {
 	size_t offset;
 
@@ -143,7 +143,7 @@ write_cache_block (MS_OLE *f, BB_BLK_ATTR *attr)
 }
 
 static guint8 *
-get_block_ptr (MS_OLE *f, BLP b, gboolean forwrite)
+get_block_ptr (MsOle *f, BLP b, gboolean forwrite)
 {
 	BB_BLK_ATTR *attr, *tmp, *min;
 	size_t offset;
@@ -281,9 +281,9 @@ pps_get_text (guint8 *ptr, int length)
 }
 
 static void
-dump_header (MS_OLE *f)
+dump_header (MsOle *f)
 {
-	printf ("--------------------------MS_OLE HEADER-------------------------\n");
+	printf ("--------------------------MsOle HEADER-------------------------\n");
 	printf ("Num BBD Blocks : %d Root %%d, SB blocks %d\n",
 		f->bb?f->bb->len:-1,
 /*		f->pps?f->pps->len:-1, */
@@ -292,7 +292,7 @@ dump_header (MS_OLE *f)
 }
 
 static void
-characterise_block (MS_OLE *f, BLP blk, char **ans)
+characterise_block (MsOle *f, BLP blk, char **ans)
 {
 	int nblk;
 
@@ -353,7 +353,7 @@ dump_tree (GList *list, int indent)
 }
 
 static void
-dump_allocation (MS_OLE *f)
+dump_allocation (MsOle *f)
 {
 	int lp;
 	char *blktype;
@@ -381,21 +381,21 @@ dump_allocation (MS_OLE *f)
  * Dump some useful facts.
  **/
 void
-ms_ole_debug (MS_OLE *f, int magic)
+ms_ole_debug (MsOle *f, int magic)
 {
 	dump_header (f);
 	dump_allocation (f);
 }
 
 static BLP
-get_next_block (MS_OLE *f, BLP blk)
+get_next_block (MsOle *f, BLP blk)
 {
 	BLP bbd     = GET_BBD_LIST (f, blk/(BB_BLOCK_SIZE/4));
 	return        GET_GUINT32 (BB_R_PTR(f,bbd) + 4*(blk%(BB_BLOCK_SIZE/4)));
 }
 
 static int
-read_bb (MS_OLE *f)
+read_bb (MsOle *f)
 {
 	guint32 numbbd;
 	BLP     lp;
@@ -441,7 +441,7 @@ read_bb (MS_OLE *f)
 }
 
 static void
-extend_file (MS_OLE *f, guint blocks)
+extend_file (MsOle *f, guint blocks)
 {
 #if !OLE_MMAP
 	BB_BLK_ATTR *s;
@@ -496,7 +496,7 @@ extend_file (MS_OLE *f, guint blocks)
 }
 
 static BLP
-next_free_bb (MS_OLE *f)
+next_free_bb (MsOle *f)
 {
 	BLP blk, tblk;
   
@@ -519,7 +519,7 @@ next_free_bb (MS_OLE *f)
 }
 
 static int
-write_bb (MS_OLE *f)
+write_bb (MsOle *f)
 {
 	guint32 numbbd;
 	BLP     lp, lpblk;
@@ -560,7 +560,7 @@ write_bb (MS_OLE *f)
 }
 
 static BLP
-next_free_sb (MS_OLE *f)
+next_free_sb (MsOle *f)
 {
 	BLP blk, tblk;
   
@@ -594,7 +594,7 @@ next_free_sb (MS_OLE *f)
 }
 
 static guint8 *
-get_pps_ptr (MS_OLE *f, PPS_IDX i, gboolean forwrite)
+get_pps_ptr (MsOle *f, PPS_IDX i, gboolean forwrite)
 {
 	int lp;
 	BLP blk = GET_ROOT_STARTBLOCK (f);
@@ -632,7 +632,7 @@ pps_compare_func (PPS *a, PPS *b)
 }
 
 static void
-pps_decode_tree (MS_OLE *f, PPS_IDX p, PPS *parent)
+pps_decode_tree (MsOle *f, PPS_IDX p, PPS *parent)
 {
 	PPS    *pps;
 	guint8 *mem;
@@ -694,7 +694,7 @@ pps_decode_tree (MS_OLE *f, PPS_IDX p, PPS *parent)
 }
 
 static int
-read_pps (MS_OLE *f)
+read_pps (MsOle *f)
 {
 	PPS *pps;
 	g_return_val_if_fail (f, 0);
@@ -739,7 +739,7 @@ read_pps (MS_OLE *f)
  * Write the blocks main data recursively.
  **/
 static void
-pps_encode_tree_initial (MS_OLE *f, GList *list, PPS_IDX *p)
+pps_encode_tree_initial (MsOle *f, GList *list, PPS_IDX *p)
 {
 	int lp, max;
 	guint8 *mem;
@@ -795,7 +795,7 @@ pps_encode_tree_initial (MS_OLE *f, GList *list, PPS_IDX *p)
 	PPS_SET_PREV (mem, PPS_END_OF_CHAIN);
 	PPS_SET_DIR  (mem, PPS_END_OF_CHAIN);
 
-#if MS_OLE_DEBUG > 1
+#if MsOle_DEBUG > 1
 	printf ("Encode '%s' as \n", pps->name);
 	dump (mem, PPS_BLOCK_SIZE);
 #endif
@@ -811,7 +811,7 @@ pps_encode_tree_initial (MS_OLE *f, GList *list, PPS_IDX *p)
  * FIXME: Leaks like a sieve
  **/
 static void
-pps_encode_tree_chain (MS_OLE *f, GList *list)
+pps_encode_tree_chain (MsOle *f, GList *list)
 {
 	PPS     *pps, *p;
 	GList   *l;
@@ -855,7 +855,7 @@ pps_encode_tree_chain (MS_OLE *f, GList *list)
 #if OLE_DEBUG > 0
 		printf ("Chaining previous for '%s'\n", p->name);
 #endif
-		if (p->type == MS_OLE_PPS_STORAGE)
+		if (p->type == MsOle_PPS_STORAGE)
 			pps_encode_tree_chain (f, l);
 
 		mem  = get_pps_ptr (f, p->idx, TRUE);
@@ -891,7 +891,7 @@ pps_encode_tree_chain (MS_OLE *f, GList *list)
 #if OLE_DEBUG > 0
 		printf ("Chaining next for '%s'\n", p->name);
 #endif
-		if (p->type == MS_OLE_PPS_STORAGE)
+		if (p->type == MsOle_PPS_STORAGE)
 			pps_encode_tree_chain (f, l);
 
 		mem  = get_pps_ptr (f, p->idx, TRUE);
@@ -902,7 +902,7 @@ pps_encode_tree_chain (MS_OLE *f, GList *list)
 }
 
 static int
-write_pps (MS_OLE *f)
+write_pps (MsOle *f)
 {
 	int lp;
 	PPS_IDX idx;
@@ -937,7 +937,7 @@ write_pps (MS_OLE *f)
 }
 
 static int
-read_sb (MS_OLE *f)
+read_sb (MsOle *f)
 {
 	BLP ptr;
 	int lastidx, idx;
@@ -1008,7 +1008,7 @@ read_sb (MS_OLE *f)
 }
 
 static int
-write_sb (MS_OLE *f)
+write_sb (MsOle *f)
 {
 	guint32 lp, lastused;
 	PPS *root;
@@ -1078,7 +1078,7 @@ write_sb (MS_OLE *f)
 }
 
 static int
-ms_ole_setup (MS_OLE *f)
+ms_ole_setup (MsOle *f)
 {
 #if !OLE_MMAP
 	guint32 i;
@@ -1100,7 +1100,7 @@ ms_ole_setup (MS_OLE *f)
 }
 
 static int
-ms_ole_cleanup (MS_OLE *f)
+ms_ole_cleanup (MsOle *f)
 {
 	if (f->mode != 'w') /* Nothing to write */
 		return 1;
@@ -1115,10 +1115,10 @@ ms_ole_cleanup (MS_OLE *f)
 	return 0;
 }
 
-static MS_OLE *
+static MsOle *
 new_null_msole ()
 {
-	MS_OLE *f = g_new0 (MS_OLE, 1);
+	MsOle *f = g_new0 (MsOle, 1);
 
 	f->mem    = (guint8 *)0xdeadbeef;
 	f->length = 0;
@@ -1135,13 +1135,13 @@ new_null_msole ()
 	return f;
 }
 
-MS_OLE *
+MsOle *
 ms_ole_open (const char *name)
 {
 	struct stat st;
 	int prot = PROT_READ | PROT_WRITE;
 	int file;
-	MS_OLE *f;
+	MsOle *f;
 
 #if OLE_DEBUG > 0
 	printf ("New OLE file '%s'\n", name);
@@ -1211,12 +1211,12 @@ ms_ole_open (const char *name)
 	return f;
 }
 
-MS_OLE *
+MsOle *
 ms_ole_create (const char *name)
 {
 	struct stat st;
 	int file, zero=0;
-	MS_OLE *f;
+	MsOle *f;
 	int init_blocks = 1, lp;
 
 	if ((file = open (name, O_RDWR|O_CREAT|O_TRUNC|O_NONBLOCK,
@@ -1282,7 +1282,7 @@ ms_ole_create (const char *name)
 		p           = g_new(PPS, 1);
 		p->name     = g_strdup ("Root Entry");
 		p->start    = END_OF_CHAIN;
-		p->type     = MS_OLE_PPS_ROOT;
+		p->type     = MsOle_PPS_ROOT;
 		p->size     = 0;
 		p->children = NULL;
 		p->parent   = NULL;
@@ -1317,7 +1317,7 @@ destroy_pps (GList *l)
  * This closes the file and truncates any free blocks
  **/
 void
-ms_ole_destroy (MS_OLE *f)
+ms_ole_destroy (MsOle *f)
 {
 #if !OLE_MMAP
 	guint32 i;
@@ -1380,12 +1380,12 @@ dump (guint8 *ptr, guint32 len)
 }
 
 static void
-check_stream (MS_OLE_STREAM *s)
+check_stream (MsOleStream *s)
 {
 	BLP blk;
 	guint32 idx;
 	PPS *p;
-	MS_OLE *f;
+	MsOle *f;
 
 	g_return_if_fail (s);
 	g_return_if_fail (s->file);
@@ -1396,7 +1396,7 @@ check_stream (MS_OLE_STREAM *s)
 	g_return_if_fail (p);
 	blk = p->start;
 	idx = 0;
-	if (s->strtype == MS_OLE_SMALL_BLOCK) {
+	if (s->strtype == MsOle_SMALL_BLOCK) {
 		while (blk != END_OF_CHAIN) {
 			g_assert (g_array_index (s->blocks, BLP, idx) ==
 				  blk);
@@ -1420,7 +1420,7 @@ check_stream (MS_OLE_STREAM *s)
 }
 
 static ms_ole_pos_t
-tell_pos (MS_OLE_STREAM *s)
+tell_pos (MsOleStream *s)
 {
 	return s->position;
 }
@@ -1431,7 +1431,7 @@ tell_pos (MS_OLE_STREAM *s)
  *   Galatians 5:11
  **/
 static void
-free_allocation (MS_OLE *f, guint32 startblock, gboolean is_big_block_stream)
+free_allocation (MsOle *f, guint32 startblock, gboolean is_big_block_stream)
 {
 	g_return_if_fail (f);
 
@@ -1510,11 +1510,11 @@ free_allocation (MS_OLE *f, guint32 startblock, gboolean is_big_block_stream)
 }
 
 static void
-ms_ole_lseek (MS_OLE_STREAM *s, gint32 bytes, ms_ole_seek_t type)
+ms_ole_lseek (MsOleStream *s, gint32 bytes, ms_ole_seek_t type)
 {
 	g_return_if_fail (s);
 
-	if (type == MS_OLE_SEEK_SET)
+	if (type == MsOle_SEEK_SET)
 		s->position = bytes;
 	else
 		s->position+= bytes;
@@ -1525,7 +1525,7 @@ ms_ole_lseek (MS_OLE_STREAM *s, gint32 bytes, ms_ole_seek_t type)
 }
 
 static guint8*
-ms_ole_read_ptr_bb (MS_OLE_STREAM *s, guint32 length)
+ms_ole_read_ptr_bb (MsOleStream *s, guint32 length)
 {
 	int blockidx = s->position/BB_BLOCK_SIZE;
 	int blklen;
@@ -1552,13 +1552,13 @@ ms_ole_read_ptr_bb (MS_OLE_STREAM *s, guint32 length)
 	/* Straight map, simply return a pointer */
 	ans = BB_R_PTR(s->file, ms_array_index (s->blocks, BLP, s->position/BB_BLOCK_SIZE))
 	      + s->position%BB_BLOCK_SIZE;
-	ms_ole_lseek (s, length, MS_OLE_SEEK_CUR);
+	ms_ole_lseek (s, length, MsOle_SEEK_CUR);
 	check_stream (s);
 	return ans;
 }
 
 static guint8*
-ms_ole_read_ptr_sb (MS_OLE_STREAM *s, guint32 length)
+ms_ole_read_ptr_sb (MsOleStream *s, guint32 length)
 {
 	int blockidx = s->position/SB_BLOCK_SIZE;
 	int blklen;
@@ -1585,7 +1585,7 @@ ms_ole_read_ptr_sb (MS_OLE_STREAM *s, guint32 length)
 	/* Straight map, simply return a pointer */
 	ans = GET_SB_R_PTR(s->file, ms_array_index (s->blocks, BLP, s->position/SB_BLOCK_SIZE))
 		+ s->position%SB_BLOCK_SIZE;
-	ms_ole_lseek (s, length, MS_OLE_SEEK_CUR);
+	ms_ole_lseek (s, length, MsOle_SEEK_CUR);
 	check_stream (s);
 	return ans;
 }
@@ -1596,7 +1596,7 @@ ms_ole_read_ptr_sb (MS_OLE_STREAM *s, guint32 length)
  *  1 - on success
  **/
 static gboolean
-ms_ole_read_copy_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
+ms_ole_read_copy_bb (MsOleStream *s, guint8 *ptr, guint32 length)
 {
 	int offset = s->position%BB_BLOCK_SIZE;
 	int blkidx = s->position/BB_BLOCK_SIZE;
@@ -1640,7 +1640,7 @@ ms_ole_read_copy_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 }
 
 static gboolean
-ms_ole_read_copy_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
+ms_ole_read_copy_sb (MsOleStream *s, guint8 *ptr, guint32 length)
 {
 	int offset = s->position%SB_BLOCK_SIZE;
 	int blkidx = s->position/SB_BLOCK_SIZE;
@@ -1683,13 +1683,13 @@ ms_ole_read_copy_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 }
 
 static void
-ms_ole_append_block (MS_OLE_STREAM *s)
+ms_ole_append_block (MsOleStream *s)
 {
 	BLP block;
 	BLP lastblk = END_OF_CHAIN;
 	BLP eoc     = END_OF_CHAIN;
 
-	if (s->strtype==MS_OLE_SMALL_BLOCK) {
+	if (s->strtype==MsOle_SMALL_BLOCK) {
 		if (!s->blocks)
 			s->blocks = g_array_new (FALSE, FALSE, sizeof(BLP));
 
@@ -1748,7 +1748,7 @@ ms_ole_append_block (MS_OLE_STREAM *s)
 }
 
 static void
-ms_ole_write_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
+ms_ole_write_bb (MsOleStream *s, guint8 *ptr, guint32 length)
 {
 	guint8 *dest;
 	int     offset  = s->position%BB_BLOCK_SIZE;
@@ -1788,13 +1788,13 @@ ms_ole_write_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 	if (lengthen > 0)
 		s->size+=lengthen;
 
-	s->lseek (s, length, MS_OLE_SEEK_CUR);
+	s->lseek (s, length, MsOle_SEEK_CUR);
 	check_stream (s);
 	return;
 }
 
 static void
-ms_ole_write_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
+ms_ole_write_sb (MsOleStream *s, guint8 *ptr, guint32 length)
 {
 	guint8 *dest;
 	int     offset  = s->position%SB_BLOCK_SIZE;
@@ -1838,7 +1838,7 @@ ms_ole_write_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 			guint8      *buffer;
 
 			buffer       = g_new (guint8, s->size);
-			s->lseek     (s, 0, MS_OLE_SEEK_SET);
+			s->lseek     (s, 0, MsOle_SEEK_SET);
 			oldlen       = s->size;
 			s->read_copy (s, buffer, oldlen);
 
@@ -1858,7 +1858,7 @@ ms_ole_write_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 			/* Convert the file to BBlocks */
 			s->size     = 0;
 			s->position = 0;
-			s->strtype  = MS_OLE_LARGE_BLOCK;
+			s->strtype  = MsOle_LARGE_BLOCK;
 			g_array_free (s->blocks, TRUE);
 			s->blocks   = 0;
 
@@ -1878,16 +1878,16 @@ ms_ole_write_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		blkidx++;
 		check_stream (s);
 	}
-	s->lseek (s, length, MS_OLE_SEEK_CUR);
+	s->lseek (s, length, MsOle_SEEK_CUR);
 	return;
 }
 
-MS_OLE_STREAM *
-ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode)
+MsOleStream *
+ms_ole_stream_open (MsOleDirectory *d, char mode)
 {
 	PPS    *p;
-	MS_OLE *f=d->file;
-	MS_OLE_STREAM *s;
+	MsOle *f=d->file;
+	MsOleStream *s;
 	int lp;
 
 	if (!d || !f)
@@ -1901,7 +1901,7 @@ ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode)
 
 	p           = d->pps->data;
 
-	s           = g_new0 (MS_OLE_STREAM, 1);
+	s           = g_new0 (MsOleStream, 1);
 	s->file     = f;
 	s->pps      = p;
 	s->position = 0;
@@ -1922,7 +1922,7 @@ ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode)
 		s->write     = ms_ole_write_bb;
 
 		s->blocks    = g_array_new (FALSE, FALSE, sizeof(BLP));
-		s->strtype   = MS_OLE_LARGE_BLOCK;
+		s->strtype   = MsOle_LARGE_BLOCK;
 		for (lp=0;lp<(s->size+BB_BLOCK_SIZE-1)/BB_BLOCK_SIZE;lp++)
 		{
 			g_array_append_val (s->blocks, b);
@@ -1956,7 +1956,7 @@ ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode)
 		else
 			s->blocks = NULL;
 
-		s->strtype   = MS_OLE_SMALL_BLOCK;
+		s->strtype   = MsOle_SMALL_BLOCK;
 
 		for (lp=0;lp<(s->size+SB_BLOCK_SIZE-1)/SB_BLOCK_SIZE;lp++)
 		{
@@ -1979,16 +1979,16 @@ ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode)
 	return s;
 }
 
-MS_OLE_STREAM *
-ms_ole_stream_copy (MS_OLE_STREAM *s)
+MsOleStream *
+ms_ole_stream_copy (MsOleStream *s)
 {
-	MS_OLE_STREAM *ans = g_new (MS_OLE_STREAM, 1);
-	memcpy (ans, s, sizeof(MS_OLE_STREAM));
+	MsOleStream *ans = g_new (MsOleStream, 1);
+	memcpy (ans, s, sizeof(MsOleStream));
 	return ans;
 }
 
 void
-ms_ole_stream_close (MS_OLE_STREAM *s)
+ms_ole_stream_close (MsOleStream *s)
 {
 	if (s) {
 		if (s->file && s->file->mode == 'w')
@@ -2000,11 +2000,11 @@ ms_ole_stream_close (MS_OLE_STREAM *s)
 	}
 }
 
-static MS_OLE_DIRECTORY *
-pps_to_dir (MS_OLE *f, GList *l, MS_OLE_DIRECTORY *d)
+static MsOleDirectory *
+pps_to_dir (MsOle *f, GList *l, MsOleDirectory *d)
 {
 	PPS *p;
-	MS_OLE_DIRECTORY *dir;
+	MsOleDirectory *dir;
 
 	g_return_val_if_fail (f, 0);
 	g_return_val_if_fail (l, 0);
@@ -2015,7 +2015,7 @@ pps_to_dir (MS_OLE *f, GList *l, MS_OLE_DIRECTORY *d)
 	if (d)
 		dir = d;
 	else
-		dir = g_new (MS_OLE_DIRECTORY, 1);
+		dir = g_new (MsOleDirectory, 1);
 	dir->name   = p->name;
 	dir->type   = p->type;
 	dir->pps    = l;
@@ -2025,18 +2025,18 @@ pps_to_dir (MS_OLE *f, GList *l, MS_OLE_DIRECTORY *d)
 	return dir;
 }
 
-MS_OLE_DIRECTORY *
-ms_ole_get_root (MS_OLE *f)
+MsOleDirectory *
+ms_ole_get_root (MsOle *f)
 {
 	return pps_to_dir (f, f->pps, NULL);
 }
 
 /* You probably arn't too interested in the root directory anyway
    but this is first */
-MS_OLE_DIRECTORY *
-ms_ole_directory_new (MS_OLE *f)
+MsOleDirectory *
+ms_ole_directory_new (MsOle *f)
 {
-	MS_OLE_DIRECTORY *d = ms_ole_get_root (f);
+	MsOleDirectory *d = ms_ole_get_root (f);
 	ms_ole_directory_enter (d);
 	return d;
 }
@@ -2045,7 +2045,7 @@ ms_ole_directory_new (MS_OLE *f)
  * This navigates by offsets from the primary_entry
  **/
 int
-ms_ole_directory_next (MS_OLE_DIRECTORY *d)
+ms_ole_directory_next (MsOleDirectory *d)
 {
 	if (!d || !d->file || !d->pps)
 		return 0;
@@ -2067,9 +2067,9 @@ ms_ole_directory_next (MS_OLE_DIRECTORY *d)
 }
 
 void
-ms_ole_directory_enter (MS_OLE_DIRECTORY *d)
+ms_ole_directory_enter (MsOleDirectory *d)
 {
-	MS_OLE *f;
+	MsOle *f;
 	PPS    *p;
 	if (!d || !d->file || !d->pps)
 		return;
@@ -2079,9 +2079,9 @@ ms_ole_directory_enter (MS_OLE_DIRECTORY *d)
 
 	d->first = 1;
 
-	if (d->type != MS_OLE_PPS_STORAGE &&
-	    d->type != MS_OLE_PPS_ROOT) {
-		printf ("Bad type %d %d\n", d->type, MS_OLE_PPS_ROOT);
+	if (d->type != MsOle_PPS_STORAGE &&
+	    d->type != MsOle_PPS_ROOT) {
+		printf ("Bad type %d %d\n", d->type, MsOle_PPS_ROOT);
 		return;
 	}
 
@@ -2093,9 +2093,9 @@ ms_ole_directory_enter (MS_OLE_DIRECTORY *d)
 }
 
 void
-ms_ole_directory_unlink (MS_OLE_DIRECTORY *d)
+ms_ole_directory_unlink (MsOleDirectory *d)
 {
-	MS_OLE *f;
+	MsOle *f;
 	if (!d || !d->file || !d->pps)
 		return;
 	
@@ -2120,8 +2120,8 @@ ms_ole_directory_unlink (MS_OLE_DIRECTORY *d)
  * This is passed the handle of a directory in which to create the
  * new stream / directory.
  **/
-MS_OLE_DIRECTORY *
-ms_ole_directory_create (MS_OLE_DIRECTORY *d, char *name, PPS_TYPE type)
+MsOleDirectory *
+ms_ole_directory_create (MsOleDirectory *d, char *name, PPS_TYPE type)
 {
 	/* Find a free PPS */
 	PPS *p;
@@ -2157,7 +2157,7 @@ ms_ole_directory_create (MS_OLE_DIRECTORY *d, char *name, PPS_TYPE type)
 }
 
 void
-ms_ole_directory_destroy (MS_OLE_DIRECTORY *d)
+ms_ole_directory_destroy (MsOleDirectory *d)
 {
 	if (d)
 		g_free (d);

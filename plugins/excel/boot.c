@@ -19,7 +19,7 @@
 static gboolean
 excel_probe (const char *filename)
 {
-	MS_OLE *f;
+	MsOle *f;
 	int res;
 	
 	f = ms_ole_open (filename);
@@ -35,7 +35,7 @@ static Workbook *
 excel_load (const char *filename)
 {
 	Workbook *wb;
-	MS_OLE *f;
+	MsOle *f;
 
 	f = ms_ole_open (filename);
 	if (!f)
@@ -58,7 +58,7 @@ excel_load (const char *filename)
 static int
 excel_save (Workbook *wb, const char *filename, eBiff_version ver)
 {
-	MS_OLE *f;
+	MsOle *f;
 	int ans;
 	struct stat s;
 
