@@ -1,3 +1,8 @@
+2005-02-24  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (html_file_open): Check if file is large enough to
+	probe byte order mark.
+
 2005-02-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.0

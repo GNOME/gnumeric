@@ -422,49 +422,52 @@ html_file_open (GnmFileOpener const *fo, IOContext *io_context,
 
 	g_return_if_fail (input != NULL);
 
-	size = gsf_input_size (input) - 4;
-	buf = gsf_input_read (input, 4, NULL);
-	if (buf != NULL) {
-		enc = xmlDetectCharEncoding(buf, 4);
-		switch (enc) {	/* Skip byte order mark */
-		case XML_CHAR_ENCODING_UCS4BE:
-		case XML_CHAR_ENCODING_UCS4LE:
-		case XML_CHAR_ENCODING_UCS4_2143:
-		case XML_CHAR_ENCODING_UCS4_3412:
-		case XML_CHAR_ENCODING_EBCDIC:
-			bomlen = 4;
-			break;
-		case XML_CHAR_ENCODING_UTF16BE:
-		case XML_CHAR_ENCODING_UTF16LE:
-			bomlen = 2;
-			break;
-		case XML_CHAR_ENCODING_UTF8:
-			if (buf[0] == 0xef)
-				bomlen = 3;
-			else if (buf[0] == 0x3c)
+	size = gsf_input_size (input);
+	if (size >= 4) {
+		size -= 4;
+		buf = gsf_input_read (input, 4, NULL);
+		if (buf != NULL) {
+			enc = xmlDetectCharEncoding(buf, 4);
+			switch (enc) {	/* Skip byte order mark */
+			case XML_CHAR_ENCODING_UCS4BE:
+			case XML_CHAR_ENCODING_UCS4LE:
+			case XML_CHAR_ENCODING_UCS4_2143:
+			case XML_CHAR_ENCODING_UCS4_3412:
+			case XML_CHAR_ENCODING_EBCDIC:
 				bomlen = 4;
-			else
-				bomlen = 0;
-			break;
-		default:
-			bomlen = 0;
-		}
-		ctxt = htmlCreatePushParserCtxt (NULL, NULL,
-						 (const char *)(buf + bomlen),
-						 4 - bomlen,
-						 gsf_input_name (input), enc);
-
-		for (; size > 0 ; size -= len) {
-			len = MIN (4096, size);
-			buf = gsf_input_read (input, len, NULL);
-			if (buf == NULL)
 				break;
-			htmlParseChunk (ctxt, (const char *)buf, len, 0);
-		}
+			case XML_CHAR_ENCODING_UTF16BE:
+			case XML_CHAR_ENCODING_UTF16LE:
+				bomlen = 2;
+				break;
+			case XML_CHAR_ENCODING_UTF8:
+				if (buf[0] == 0xef)
+					bomlen = 3;
+				else if (buf[0] == 0x3c)
+					bomlen = 4;
+				else
+					bomlen = 0;
+				break;
+			default:
+				bomlen = 0;
+			}
+			ctxt = htmlCreatePushParserCtxt (
+				NULL, NULL, (const char *)(buf + bomlen),
+				4 - bomlen, gsf_input_name (input), enc);
+			
+			for (; size > 0 ; size -= len) {
+				len = MIN (4096, size);
+				buf = gsf_input_read (input, len, NULL);
+				if (buf == NULL)
+					break;
+				htmlParseChunk (
+					ctxt, (const char *)buf, len, 0);
+			}
 
-		htmlParseChunk (ctxt, (const char *)buf, 0, 1);
-		doc = ctxt->myDoc;
-		htmlFreeParserCtxt (ctxt);
+			htmlParseChunk (ctxt, (const char *)buf, 0, 1);
+			doc = ctxt->myDoc;
+			htmlFreeParserCtxt (ctxt);
+		}
 	}
 
 	if (doc != NULL) {
