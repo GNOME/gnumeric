@@ -1,3 +1,9 @@
+2000-03-26  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/ranges.c (range_parse): Better parser, now it correctly
+	parses "A1+sum(A3:a4)" as a1, not as a1:a4.
+	(range_parse): Eliminates also a memory leak.
+
 2000-03-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-format-toolbar.c (change_font_size_in_selection_cmd) :

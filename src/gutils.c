@@ -147,10 +147,11 @@ col_from_name (const char *cell_str)
  * Return value: true if the cell_name could be successfully parsed
  */
 gboolean
-parse_cell_name (const char *cell_str, int *col, int *row, gboolean strict)
+parse_cell_name (const char *cell_str, int *col, int *row, gboolean strict, int *chars_read)
 {
 	unsigned char c;
 	gboolean found_digits = FALSE;
+	char *original = cell_str;
 	
 	if (*cell_str == '$')
 		cell_str++;
@@ -191,6 +192,9 @@ parse_cell_name (const char *cell_str, int *col, int *row, gboolean strict)
 
 	/* Internal row numbers are one less than the displayed.  */
 	(*row)--;
+
+	if (chars_read)
+		*chars_read = cell_str - original;
 	return TRUE;
 }
 
@@ -200,7 +204,7 @@ parse_cell_name_or_range (const char *cell_str, int *col, int *row, int *cols, i
         int e_col, e_row;
 
 	*cols = *rows = 1;
-	if (!parse_cell_name (cell_str, col, row, strict)) {
+	if (!parse_cell_name (cell_str, col, row, strict, NULL)) {
 	        if (!parse_range ((char *) cell_str, col, row, &e_col, &e_row))
 		        return FALSE;
 		else {
@@ -268,7 +272,7 @@ parse_cell_name_list (Sheet *sheet,
 		    (cell_name_str [i] == '\0')){
 		        buf [n] = '\0';
 
-			if (!parse_cell_name (buf, &col, &row, strict)){
+			if (!parse_cell_name (buf, &col, &row, strict, NULL)){
 			error:
 			        *error_flag = 1;
 				free (buf);
@@ -288,8 +292,8 @@ parse_cell_name_list (Sheet *sheet,
 			else if (range_flag) {
 			        int x1, x2, y1, y2;
 
-				parse_cell_name (tmp, &x1, &y1, strict);
-				parse_cell_name (buf, &x2, &y2, strict);
+				parse_cell_name (tmp, &x1, &y1, strict, NULL);
+				parse_cell_name (buf, &x2, &y2, strict, NULL);
 			        for (j = x1; j <= x2; j++)
 				        for (k = y1; k <= y2; k++) {
 					        cell = sheet_cell_fetch

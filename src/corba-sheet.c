@@ -323,8 +323,8 @@ Sheet_cell_set_value (PortableServer_Servant servant,
 	case GNOME_Gnumeric_VALUE_CELLRANGE: {
 		CellRef a, b;
 
-		parse_cell_name (value->_u.cell_range.cell_a, &a.col, &a.row, TRUE);
-		parse_cell_name (value->_u.cell_range.cell_b, &b.col, &b.row, TRUE);
+		parse_cell_name (value->_u.cell_range.cell_a, &a.col, &a.row, TRUE, NULL);
+		parse_cell_name (value->_u.cell_range.cell_b, &b.col, &b.row, TRUE, NULL);
 		a.sheet = sheet;
 		b.sheet = sheet;
 		a.col_relative = 0;

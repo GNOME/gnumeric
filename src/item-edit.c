@@ -276,12 +276,14 @@ point_is_inside_range (ItemEdit *item_edit, GtkEntry *entry, Range *range)
 
 	scan = cursor_pos;
 	scan_at (text, &scan);
+
 	if ((v = range_parse (item_edit->sheet, &text [scan], FALSE)) != NULL)
 		return setup_range_from_value (range, v);
 
 	if (scan == cursor_pos && scan > 0)
 		scan--;
 	scan_at (text, &scan);
+
 	if ((v = range_parse (item_edit->sheet, &text [scan], FALSE)) != NULL)
 		return setup_range_from_value (range, v);
 

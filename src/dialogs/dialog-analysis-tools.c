@@ -324,9 +324,9 @@ parse_multiple_ranges (char *text, Range **ranges, int *dim)
 		if (p == NULL)
 	        	goto failure;
 		*p = '\0';
-		if (!parse_cell_name (buf+last, &start_col, &start_row, TRUE))
+		if (!parse_cell_name (buf+last, &start_col, &start_row, TRUE, NULL))
 	        	goto failure;
-		if (!parse_cell_name (p+1, &end_col, &end_row, TRUE))
+		if (!parse_cell_name (p+1, &end_col, &end_row, TRUE, NULL))
 	        	goto failure;
 		newranges = g_new (Range, curdim + end_col - start_col + 1);
 		for (j = 0; j < curdim; j++)

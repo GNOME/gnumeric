@@ -355,7 +355,7 @@ dialog_loop:
 
 		/* Check that a cell entered in 'set cell' entry */
 		text = gtk_entry_get_text (GTK_ENTRY (set_entry));
-		if (!parse_cell_name (text, &set_cell_col, &set_cell_row, TRUE)){
+		if (!parse_cell_name (text, &set_cell_col, &set_cell_row, TRUE, NULL)){
 	                gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 					 _("You should introduce a valid cell name in 'Set cell'"));
 			focus_on_entry (set_entry);
@@ -376,7 +376,7 @@ dialog_loop:
 
 		/* Check that a cell entered in 'by changing cell' entry */
 		text = gtk_entry_get_text (GTK_ENTRY (change_entry));
-		if (!parse_cell_name (text, &change_cell_col, &change_cell_row, TRUE)){
+		if (!parse_cell_name (text, &change_cell_col, &change_cell_row, TRUE, NULL)){
 	                gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 					 _("You should introduce a valid cell "
 					   "name in 'By changing cell'"));

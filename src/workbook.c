@@ -1691,7 +1691,7 @@ workbook_parse_and_jump (Workbook *wb, const char *text)
 {
 	int col, row;
 
-	if (parse_cell_name (text, &col, &row, TRUE)){
+	if (parse_cell_name (text, &col, &row, TRUE, NULL)){
 		Sheet *sheet = wb->current_sheet;
 
 		sheet_make_cell_visible (sheet, col, row);

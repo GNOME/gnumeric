@@ -856,7 +856,7 @@ main_dialog:
 
 	/* Parse target cell entry */
 	text = gtk_entry_get_text (GTK_ENTRY (target_entry));
-	if (!parse_cell_name (text, &target_cell_col, &target_cell_row, TRUE)) {
+	if (!parse_cell_name (text, &target_cell_col, &target_cell_row, TRUE, NULL)) {
  	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 				 _("You should introduce a valid cell name "
 				   "for 'Target cell'"));

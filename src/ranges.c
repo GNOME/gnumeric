@@ -50,9 +50,7 @@ range_parse (Sheet *sheet, const char *range, gboolean strict)
 {
 	CellRef a, b;
 	Value *v;
-	char *p;
-	char *copy;
-	char *part_2;
+	int n_read = 0;
 	
 	g_return_val_if_fail (range != NULL, FALSE);
 
@@ -61,22 +59,13 @@ range_parse (Sheet *sheet, const char *range, gboolean strict)
 	a.row_relative = 0;
 	b.row_relative = 0;
 
-	copy = g_strdup (range);
-	if ((p = strchr (copy, ':')) != NULL){
-		*p = 0;
-		part_2 = p+1;
-	} else
-		part_2 = NULL;
-	    
-	if (!parse_cell_name (copy, &a.col, &a.row, strict)){
-		g_free (copy);
+	if (!parse_cell_name (range, &a.col, &a.row, strict, &n_read))
 		return FALSE;
-	}
 
 	a.sheet = sheet;
-	
-	if (part_2){
-		if (!parse_cell_name (part_2, &b.col, &b.row, strict))
+
+	if (range [n_read] == ':'){
+		if (!parse_cell_name (&range [n_read+1], &b.col, &b.row, strict, NULL))
 			return FALSE;
 
 		b.sheet = sheet;
@@ -84,7 +73,6 @@ range_parse (Sheet *sheet, const char *range, gboolean strict)
 		b = a;
 
 	v = value_new_cellrange (&a, &b);
-	g_free (copy);
 	
 	return v;
 }
@@ -104,9 +92,9 @@ parse_range (char *text, int *start_col, int *start_row,
 	if (p == NULL)
 	        return 0;
 	*p = '\0';
-	if (!parse_cell_name (buf, start_col, start_row, TRUE))
+	if (!parse_cell_name (buf, start_col, start_row, TRUE, NULL))
 	        return 0;
-	if (!parse_cell_name (p+1, end_col, end_row, TRUE))
+	if (!parse_cell_name (p+1, end_col, end_row, TRUE, NULL))
 	        return 0;
 	return 1;
 }
