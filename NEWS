@@ -29,6 +29,7 @@ Jukka:
 
 Morten:
 	* Cleanup various functions' improper access to internal strings.
+	* Plug leaks.
 
 --------------------------------------------------------------------------
 Gnumeric 0.74

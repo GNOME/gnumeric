@@ -43,9 +43,9 @@
 #endif
 
 /* Any better idea for a quick hack?  */
-#define ML_NAN (0.0 / 0.0)
-#define ML_NEGINF (-1.0 / 0.0)
-#define ML_POSINF (+1.0 / 0.0)
+#define ML_NAN (-HUGE_VAL * 0.0)
+#define ML_NEGINF (-HUGE_VAL)
+#define ML_POSINF (HUGE_VAL)
 #define ML_UNDERFLOW (DBL_EPSILON * DBL_EPSILON)
 #define ML_VALID(_x) (!ISNAN (_x))
 #define ML_ERROR(cause) /* Nothing */

@@ -1,3 +1,11 @@
+2001-11-02  Morten Welinder  <terra@diku.dk>
+
+	* src/mathfunc.c (ML_NAN, ML_NEGINF, ML_POSINF): Attemp better
+	defs.
+
+	* src/analysis-tools.c (random_tool): Localise variables.  Don't
+	allow negative probabilities.  Plug leaks.
+
 2001-11-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-style.c (sheet_style_unlink) : new.
