@@ -789,6 +789,33 @@ gnm_expr_entry_load_from_dep (GnumericExprEntry *gee, Dependent const *dep)
 }
 
 /**
+ * gnm_expr_entry_load_from_expr
+ * @gee: a #GnumericExprEntry
+ * @expr: An expression
+ * @pp  : The parse position 
+ *
+ * Sets the text of the entry, and removes saved information about earlier
+ * range selections.
+ **/
+void
+gnm_expr_entry_load_from_expr (GnumericExprEntry *gee,
+			       ExprTree const *expr, ParsePos const *pp)
+{
+	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
+	/* We have nowhere to store the text while frozen. */
+	g_return_if_fail (gee->freeze_count == 0);
+
+	if (expr != NULL) {
+		char *text = expr_tree_as_string (expr, pp);
+		gee_rangesel_reset (gee);
+		gtk_entry_set_text (gee->entry, text);
+		gee->rangesel.text_end = strlen (text);
+		g_free (text);
+	} else
+		gnm_expr_entry_load_from_text (gee, "");
+}
+
+/**
  * gnm_expr_entry_load_from_range
  * @gee: a #GnumericExprEntry
  * @r:          a #Range

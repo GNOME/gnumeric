@@ -1,3 +1,8 @@
+2002-02-21  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_load_from_expr) : add new
+	  convenience routine.
+
 2002-02-21  Morten Welinder  <terra@diku.dk>
 
 	* widget-font-selector.c (styles): Constify.
