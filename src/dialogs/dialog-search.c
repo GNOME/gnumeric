@@ -47,8 +47,9 @@ typedef struct {
 	WorkbookControlGUI *wbcg;
 
 	GladeXML *gui;
-	GnomeDialog *dialog;
+	GtkDialog *dialog;
 	GnumericExprEntry *rangetext;
+	GnomeEntry *gentry;
 	GtkWidget *prev_button, *next_button;
 	GtkNotebook *notebook;
 	int notebook_matches_page;
@@ -217,12 +218,12 @@ free_state (DialogState *dd)
 
 static void
 non_model_dialog (WorkbookControlGUI *wbcg,
-		  GnomeDialog *dialog,
+		  GtkDialog *dialog,
 		  const char *key)
 {
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (dialog), key);
 
-	gtk_widget_show (GTK_WIDGET (dialog));
+	gtk_widget_show_all (GTK_WIDGET (dialog));
 }
 
 static gboolean
@@ -243,15 +244,8 @@ dialog_destroy (GtkWidget *widget, DialogState *dd)
 static void
 close_clicked (GtkWidget *widget, DialogState *dd)
 {
-	GnomeDialog *dialog = dd->dialog;
+	GtkDialog *dialog = dd->dialog;
 	gtk_widget_destroy (GTK_WIDGET (dialog));
-}
-
-static char *
-get_text (GladeXML *gui, const char *name)
-{
-	GtkWidget *w = glade_xml_get_widget (gui, name);
-	return g_strdup (gtk_entry_get_text (GTK_ENTRY (w)));
 }
 
 static gboolean
@@ -293,13 +287,13 @@ search_clicked (GtkWidget *widget, DialogState *dd)
 	WorkbookControlGUI *wbcg = dd->wbcg;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SearchReplace *sr;
-	GtkWidget *gentry;  /* Gnome Entry containing search text. */
 	char *err;
 	int i;
 
 	sr = search_replace_new ();
 
-	sr->search_text = get_text (gui, "searchtext");
+	sr->search_text = g_strdup (gtk_entry_get_text (GTK_ENTRY 
+							(gnome_entry_gtk_entry (dd->gentry))));
 	sr->replace_text = NULL;
 
 	i = gnumeric_glade_group_value (gui, search_type_group);
@@ -307,8 +301,9 @@ search_clicked (GtkWidget *widget, DialogState *dd)
 
 	i = gnumeric_glade_group_value (gui, scope_group);
 	sr->scope = (i == -1) ? SRS_sheet : (SearchReplaceScope)i;
-	sr->range_text = g_strdup (
-		gtk_entry_get_text (GTK_ENTRY (dd->rangetext)));
+
+	/* FIXME: parsing of an gnm_expr_entry should happen by the gee */
+	sr->range_text = g_strdup (gnm_expr_entry_get_text (dd->rangetext));
 	sr->curr_sheet = wb_control_cur_sheet (wbc);
 
 #if 0
@@ -376,9 +371,7 @@ search_clicked (GtkWidget *widget, DialogState *dd)
 	gtk_widget_grab_focus (GTK_WIDGET (dd->e_table_scrolled));
 
 	/* Save the contents of the search in the gnome-entry. */
-	gentry = glade_xml_get_widget (gui, "search_entry");
-	gnome_entry_set_history_id (GNOME_ENTRY (gentry), "search_entry");
-	gnome_entry_append_history (GNOME_ENTRY (gentry), TRUE, sr->search_text);
+	gnome_entry_append_history (dd->gentry, TRUE, sr->search_text);
 
 	search_replace_free (sr);
 }
@@ -413,9 +406,9 @@ void
 dialog_search (WorkbookControlGUI *wbcg)
 {
 	GladeXML *gui;
-	GnomeDialog *dialog;
+	GtkDialog *dialog;
 	DialogState *dd;
-	GtkWidget *gentry;
+	GtkTable *table;
 	const char *spec = "\
 <ETableSpecification cursor-mode=\"line\"\
                      selection-mode=\"single\"\
@@ -447,7 +440,7 @@ dialog_search (WorkbookControlGUI *wbcg)
         if (gui == NULL)
                 return;
 
-	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "search_dialog"));
+	dialog = GTK_DIALOG (glade_xml_get_widget (gui, "search_dialog"));
 
 	dd = g_new (DialogState, 1);
 	dd->wbcg = wbcg;
@@ -455,15 +448,6 @@ dialog_search (WorkbookControlGUI *wbcg)
 	dd->dialog = dialog;
 	dd->matches = g_ptr_array_new ();
 	dd->e_table_strings = g_hash_table_new (g_str_hash, g_str_equal);
-
-	/* Load the contents of the search in the gnome-entry. */
-	gentry = glade_xml_get_widget (gui, "search_entry");
-	{
-		GValue val = {0, };
-		g_value_init (&val, G_TYPE_STRING);
-		g_value_set_static_string (&val, "search_entry");
-		g_object_set_property (G_OBJECT (gentry), "history_id", &val);
-	}
 
 	dd->prev_button = glade_xml_get_widget (gui, "prev_button");
 	dd->next_button = glade_xml_get_widget (gui, "next_button");
@@ -473,14 +457,23 @@ dialog_search (WorkbookControlGUI *wbcg)
 		gtk_notebook_page_num (dd->notebook,
 				       glade_xml_get_widget (gui, "matches_tab"));
 
-	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
-
 	dd->rangetext = gnumeric_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (dd->rangetext, 0, GNUM_EE_MASK);
-	gtk_box_pack_start (GTK_BOX (glade_xml_get_widget (gui, "range_hbox")),
-			    GTK_WIDGET (dd->rangetext),
-			    TRUE, TRUE, 0);
-	gtk_widget_show (GTK_WIDGET (dd->rangetext));
+	table = GTK_TABLE (glade_xml_get_widget (gui, "page1-table"));
+	gnm_expr_entry_set_scg (dd->rangetext, wbcg_cur_scg (wbcg));
+	gtk_table_attach (table, GTK_WIDGET (dd->rangetext),
+			  1, 2, 6, 7,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+
+	dd->gentry = GNOME_ENTRY (gnome_entry_new ("search_entry"));
+	gtk_table_attach (table, GTK_WIDGET (dd->gentry),
+			  1, 2, 0, 1,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+	gtk_widget_grab_focus (gnome_entry_gtk_entry (dd->gentry));
+	gnumeric_editable_enters
+		(GTK_WINDOW (dialog), gnome_entry_gtk_entry (dd->gentry));
 
 	dd->e_table_model =
 		e_table_simple_new (col_count, row_count, NULL,
@@ -502,14 +495,10 @@ dialog_search (WorkbookControlGUI *wbcg)
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (dd->e_table_scrolled),
 				   GTK_POLICY_NEVER,
 				   GTK_POLICY_ALWAYS);
-
 	gtk_box_pack_start (GTK_BOX (glade_xml_get_widget (gui, "matches_vbox")),
 			    GTK_WIDGET (dd->e_table_scrolled),
 			    TRUE, TRUE, 0);
 
-	gtk_widget_grab_focus (glade_xml_get_widget (gui, "searchtext"));
-	gnome_dialog_editable_enters
-		(dialog, GTK_EDITABLE (glade_xml_get_widget (gui, "searchtext")));
 
 	g_signal_connect (G_OBJECT (dd->e_table),
 		"cursor_change",
@@ -529,15 +518,12 @@ dialog_search (WorkbookControlGUI *wbcg)
 	g_signal_connect (G_OBJECT (dialog),
 		"destroy",
 		G_CALLBACK (dialog_destroy), dd);
-	g_signal_connect (G_OBJECT (dd->rangetext),
+	g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (dd->rangetext)),
 		"focus-in-event",
 		G_CALLBACK (range_focused), dd);
 
 	cursor_change (dd->e_table, 0, dd);
-	gtk_widget_show_all (dialog->vbox);
-	gnm_expr_entry_set_scg (dd->rangetext, wbcg_cur_scg (wbcg));
 	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
-
 	non_model_dialog (wbcg, dialog, SEARCH_KEY);
 }
 

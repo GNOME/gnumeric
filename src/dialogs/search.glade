@@ -2,8 +2,6 @@
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd" >
 
 <glade-interface>
-  <requires lib="gnome" />
-
   <widget class="GtkDialog" id="search_dialog">
     <property name="visible">no</property>
     <property name="title" translatable="yes">Search Center</property>
@@ -15,16 +13,27 @@
 
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
+        <property name="border_width">5</property>
         <property name="homogeneous">no</property>
         <property name="spacing">8</property>
         <property name="visible">yes</property>
 
         <child internal-child="action_area">
           <widget class="GtkHButtonBox" id="dialog-action_area1">
-            <property name="layout_style">GTK_BUTTONBOX_SPREAD</property>
+            <property name="layout_style">GTK_BUTTONBOX_END</property>
             <property name="spacing">8</property>
             <property name="visible">yes</property>
 
+            <child>
+              <widget class="GtkButton" id="helpbutton">
+                <property name="can_default">yes</property>
+                <property name="can_focus">yes</property>
+                <property name="visible">yes</property>
+                <property name="label">gtk-help</property>
+                <property name="use_stock">yes</property>
+                <property name="use_underline">yes</property>
+              </widget>
+            </child>
             <child>
               <widget class="GtkButton" id="prev_button">
                 <property name="tooltip" translatable="yes">Show previous match</property>
@@ -60,6 +69,19 @@
                 <property name="use_underline">yes</property>
               </widget>
             </child>
+
+	    <child>
+	      <widget class="GtkButton" id="search_button">
+		<property name="tooltip" translatable="yes">Start search</property>
+		<property name="can_default">yes</property>
+		<property name="has_default">yes</property>
+		<property name="can_focus">yes</property>
+		<property name="label">gtk-find</property>
+                <property name="use_stock">yes</property>
+		<property name="visible">yes</property>
+		<property name="use_underline">yes</property>
+	      </widget>
+	    </child>
           </widget>
           <packing>
             <property name="padding">0</property>
@@ -89,42 +111,13 @@
                 <property name="visible">yes</property>
 
                 <child>
-                  <widget class="GtkTable" id="table1">
+                  <widget class="GtkTable" id="page1-table">
                     <property name="homogeneous">no</property>
                     <property name="row_spacing">4</property>
                     <property name="column_spacing">4</property>
-                    <property name="n-rows">1</property>
-                    <property name="n-columns">3</property>
+                    <property name="n-rows">7</property>
+                    <property name="n-columns">2</property>
                     <property name="visible">yes</property>
-
-                    <child>
-                      <widget class="GnomeEntry" id="search_entry">
-                        <property name="visible">yes</property>
-
-                        <child internal-child="entry">
-                          <widget class="GtkEntry" id="searchtext">
-                            <property name="can_default">yes</property>
-                            <property name="can_focus">yes</property>
-                            <property name="has_focus">yes</property>
-                            <property name="editable">yes</property>
-                            <property name="text" translatable="yes"></property>
-                            <property name="max-length">0</property>
-                            <property name="visibility">yes</property>
-                            <property name="visible">yes</property>
-                          </widget>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="top_attach">0</property>
-                        <property name="bottom_attach">1</property>
-                        <property name="x_padding">0</property>
-                        <property name="y_padding">0</property>
-                        <property name="x_options">expand|fill</property>
-                        <property name="y_options"></property>
-                      </packing>
-                    </child>
 
                     <child>
                       <widget class="GtkLabel" id="label3">
@@ -151,153 +144,81 @@
                       </packing>
                     </child>
 
-                    <child>
-                      <widget class="GtkHButtonBox" id="hbuttonbox3">
-                        <property name="layout_style">GTK_BUTTONBOX_DEFAULT_STYLE</property>
-                        <property name="spacing">30</property>
-                        <property name="visible">yes</property>
-
-                        <child>
-                          <widget class="GtkButton" id="search_button">
-                            <property name="tooltip" translatable="yes">Start search</property>
-                            <property name="can_default">yes</property>
-                            <property name="has_default">yes</property>
-                            <property name="can_focus">yes</property>
-                            <property name="label" translatable="yes">Searc_h</property>
-                            <property name="relief">GTK_RELIEF_NORMAL</property>
-                            <property name="visible">yes</property>
-                            <property name="use_underline">yes</property>
-                          </widget>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="left_attach">2</property>
-                        <property name="right_attach">3</property>
-                        <property name="top_attach">0</property>
-                        <property name="bottom_attach">1</property>
+		    <child>
+		      <widget class="GtkHSeparator" id="hseparator2">
+			<property name="visible">yes</property>
+		      </widget>
+		      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
                         <property name="x_padding">0</property>
                         <property name="y_padding">0</property>
-                        <property name="x_options">expand|fill</property>
-                        <property name="y_options">fill</property>
-                      </packing>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="padding">0</property>
-                    <property name="expand">yes</property>
-                    <property name="fill">yes</property>
-                  </packing>
-                </child>
+                        <property name="x_options">fill|expand</property>
+                        <property name="y_options"></property>
+		      </packing>
+		    </child>
 
-                <child>
-                  <widget class="GtkHSeparator" id="hseparator2">
-                    <property name="visible">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="padding">0</property>
-                    <property name="expand">yes</property>
-                    <property name="fill">yes</property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkCheckButton" id="ignore_case">
-                    <property name="tooltip" translatable="yes">When set, do not distinguish between upper and lower case letters</property>
-                    <property name="can_focus">yes</property>
-                    <property name="label" translatable="yes">_Ignore case</property>
-                    <property name="active">no</property>
-                    <property name="draw_indicator">yes</property>
-                    <property name="visible">yes</property>
-                    <property name="use_underline">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="padding">0</property>
-                    <property name="expand">no</property>
-                    <property name="fill">no</property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkCheckButton" id="match_words">
-                    <property name="tooltip" translatable="yes">Do not consider matches in the middle of words</property>
-                    <property name="can_focus">yes</property>
-                    <property name="label" translatable="yes">Match _whole words only</property>
-                    <property name="active">no</property>
-                    <property name="draw_indicator">yes</property>
-                    <property name="visible">yes</property>
-                    <property name="use_underline">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="padding">0</property>
-                    <property name="expand">no</property>
-                    <property name="fill">no</property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkHBox" id="hbox1">
-                    <property name="homogeneous">no</property>
-                    <property name="spacing">0</property>
-                    <property name="visible">yes</property>
-
-                    <child>
-                      <widget class="GtkRadioButton" id="search_type_text">
-                        <property name="tooltip" translatable="yes">The search text is taken literal</property>
-                        <property name="can_focus">yes</property>
-                        <property name="label" translatable="yes">_Plain text</property>
-                        <property name="active">yes</property>
-                        <property name="draw_indicator">yes</property>
-                        <property name="visible">yes</property>
+		    <child>
+		      <widget class="GtkCheckButton" id="ignore_case">
+			<property name="tooltip" translatable="yes">When set, do not distinguish between upper and lower case letters</property>
+			<property name="can_focus">yes</property>
+			<property name="label" translatable="yes">_Ignore case</property>
+			<property name="active">no</property>
+			<property name="draw_indicator">yes</property>
+			<property name="visible">yes</property>
 			<property name="use_underline">yes</property>
-                      </widget>
-                      <packing>
-                        <property name="padding">0</property>
-                        <property name="expand">no</property>
-                        <property name="fill">no</property>
-                      </packing>
-                    </child>
+		      </widget>
+		      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="right_attach">1</property>
+                        <property name="top_attach">2</property>
+                        <property name="bottom_attach">3</property>
+                        <property name="x_padding">0</property>
+                        <property name="y_padding">0</property>
+                        <property name="x_options">fill</property>
+                        <property name="y_options"></property>
+		      </packing>
+		    </child>
 
-                    <child>
-                      <widget class="GtkRadioButton" id="search_type_regexp">
-                        <property name="tooltip" translatable="yes">The search text is a regular expression</property>
-                        <property name="can_focus">yes</property>
-                        <property name="label" translatable="yes">_Regular expression</property>
-                        <property name="active">no</property>
-                        <property name="draw_indicator">yes</property>
-                        <property name="visible">yes</property>
-                        <property name="group">search_type_text</property>
+		    <child>
+		      <widget class="GtkCheckButton" id="match_words">
+			<property name="tooltip" translatable="yes">Do not consider matches in the middle of words</property>
+			<property name="can_focus">yes</property>
+			<property name="label" translatable="yes">Match _whole words only</property>
+			<property name="active">no</property>
+			<property name="draw_indicator">yes</property>
+			<property name="visible">yes</property>
 			<property name="use_underline">yes</property>
-                      </widget>
-                      <packing>
-                        <property name="padding">0</property>
-                        <property name="expand">no</property>
-                        <property name="fill">no</property>
-                      </packing>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="padding">0</property>
-                    <property name="expand">yes</property>
-                    <property name="fill">yes</property>
-                  </packing>
-                </child>
+		      </widget>
+		      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">2</property>
+                        <property name="bottom_attach">3</property>
+                        <property name="x_padding">0</property>
+                        <property name="y_padding">0</property>
+                        <property name="x_options">fill</property>
+                        <property name="y_options"></property>
+		      </packing>
+		    </child>
 
-                <child>
-                  <widget class="GtkHSeparator" id="hseparator3">
-                    <property name="visible">yes</property>
-                  </widget>
-                  <packing>
-                    <property name="padding">0</property>
-                    <property name="expand">yes</property>
-                    <property name="fill">yes</property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkVBox" id="vbox3">
-                    <property name="homogeneous">no</property>
-                    <property name="spacing">0</property>
-                    <property name="visible">yes</property>
+		    <child>
+		      <widget class="GtkHSeparator" id="hseparator2">
+			<property name="visible">yes</property>
+		      </widget>
+		      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">3</property>
+                        <property name="bottom_attach">4</property>
+                        <property name="x_padding">0</property>
+                        <property name="y_padding">0</property>
+                        <property name="x_options">fill|expand</property>
+                        <property name="y_options"></property>
+		      </packing>
+		    </child>
 
                     <child>
                       <widget class="GtkRadioButton" id="scope_workbook">
@@ -310,9 +231,14 @@
 			<property name="use_underline">yes</property>
                       </widget>
                       <packing>
-                        <property name="padding">0</property>
-                        <property name="expand">no</property>
-                        <property name="fill">no</property>
+                        <property name="left_attach">0</property>
+                        <property name="right_attach">1</property>
+                        <property name="top_attach">4</property>
+                        <property name="bottom_attach">5</property>
+                        <property name="x_padding">0</property>
+                        <property name="y_padding">0</property>
+                        <property name="x_options">fill</property>
+                        <property name="y_options"></property>
                       </packing>
                     </child>
 
@@ -328,48 +254,40 @@
 			<property name="use_underline">yes</property>
                       </widget>
                       <packing>
-                        <property name="padding">0</property>
-                        <property name="expand">no</property>
-                        <property name="fill">no</property>
+                        <property name="left_attach">0</property>
+                        <property name="right_attach">1</property>
+                        <property name="top_attach">5</property>
+                        <property name="bottom_attach">6</property>
+                        <property name="x_padding">0</property>
+                        <property name="y_padding">0</property>
+                        <property name="x_options">fill</property>
+                        <property name="y_options"></property>
                       </packing>
                     </child>
 
-                    <child>
-                      <widget class="GtkHBox" id="range_hbox">
-                        <property name="homogeneous">no</property>
-                        <property name="spacing">0</property>
-                        <property name="visible">yes</property>
+		    <child>
+		      <widget class="GtkRadioButton" id="scope_range">
+			<property name="tooltip" translatable="yes">Search in specified range only</property>
+			<property name="can_focus">yes</property>
+			<property name="label" translatable="yes">_Range</property>
+			<property name="active">no</property>
+			<property name="draw_indicator">yes</property>
+			<property name="visible">yes</property>
+			<property name="group">scope_workbook</property>
+			<property name="use_underline">yes</property>
+		      </widget>
+		      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="right_attach">1</property>
+                        <property name="top_attach">6</property>
+                        <property name="bottom_attach">7</property>
+                        <property name="x_padding">0</property>
+                        <property name="y_padding">0</property>
+                        <property name="x_options">fill</property>
+                        <property name="y_options"></property>
+		      </packing>
+		    </child>
 
-                        <child>
-                          <widget class="GtkRadioButton" id="scope_range">
-                            <property name="tooltip" translatable="yes">Search in specified range only</property>
-                            <property name="can_focus">yes</property>
-                            <property name="label" translatable="yes">_Range</property>
-                            <property name="active">no</property>
-                            <property name="draw_indicator">yes</property>
-                            <property name="visible">yes</property>
-                            <property name="group">scope_workbook</property>
-			    <property name="use_underline">yes</property>
-                          </widget>
-                          <packing>
-                            <property name="padding">0</property>
-                            <property name="expand">no</property>
-                            <property name="fill">no</property>
-                          </packing>
-                        </child>
-
-                        <child>
-                          <widget class="Placeholder" id="None">
-                            <property name="visible">yes</property>
-                          </widget>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="padding">0</property>
-                        <property name="expand">yes</property>
-                        <property name="fill">yes</property>
-                      </packing>
-                    </child>
                   </widget>
                   <packing>
                     <property name="padding">0</property>
@@ -405,199 +323,289 @@
                 <property name="visible">yes</property>
 
                 <child>
-                  <widget class="GtkFrame" id="frame3">
-                    <property name="label" translatable="yes">Search cells containing</property>
-                    <property name="label_xalign">0</property>
-                    <property name="shadow">GTK_SHADOW_ETCHED_IN</property>
+                  <widget class="GtkTable" id="page2-table">
+                    <property name="homogeneous">no</property>
+                    <property name="row_spacing">4</property>
+                    <property name="column_spacing">4</property>
+                    <property name="n-rows">2</property>
+                    <property name="n-columns">2</property>
                     <property name="visible">yes</property>
 
-                    <child>
-                      <widget class="GtkVBox" id="vbox3">
-                        <property name="homogeneous">no</property>
-                        <property name="spacing">0</property>
-                        <property name="visible">yes</property>
+		    <child>
+		      <widget class="GtkFrame" id="frame3">
+			<property name="label" translatable="yes">Search cells containing</property>
+			<property name="label_xalign">0</property>
+			<property name="shadow">GTK_SHADOW_ETCHED_IN</property>
+			<property name="visible">yes</property>
 
-                        <child>
-                          <widget class="GtkTable" id="table2">
-                            <property name="border_width">4</property>
-                            <property name="homogeneous">no</property>
-                            <property name="row_spacing">4</property>
-                            <property name="column_spacing">4</property>
-                            <property name="n-rows">2</property>
-                            <property name="n-columns">2</property>
-                            <property name="visible">yes</property>
+			<child>
+			  <widget class="GtkTable" id="table2">
+			    <property name="border_width">4</property>
+			    <property name="homogeneous">yes</property>
+			    <property name="row_spacing">4</property>
+			    <property name="column_spacing">4</property>
+			    <property name="n-rows">2</property>
+			    <property name="n-columns">2</property>
+			    <property name="visible">yes</property>
 
-                            <child>
-                              <widget class="GtkCheckButton" id="search_other">
-                                <property name="tooltip" translatable="yes">Find text within non-string values</property>
-                                <property name="can_focus">yes</property>
-                                <property name="label" translatable="yes">_Other values</property>
-                                <property name="active">yes</property>
-                                <property name="draw_indicator">yes</property>
-                                <property name="visible">yes</property>
-                                <property name="use_underline">yes</property>
-                              </widget>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="right_attach">1</property>
-                                <property name="top_attach">1</property>
-                                <property name="bottom_attach">2</property>
-                                <property name="x_padding">0</property>
-                                <property name="y_padding">0</property>
-                                <property name="x_options">fill</property>
-                                <property name="y_options"></property>
-                              </packing>
-                            </child>
-
-                            <child>
-                              <widget class="GtkCheckButton" id="search_comments">
-                                <property name="tooltip" translatable="yes">Find text within cell comments</property>
-                                <property name="can_focus">yes</property>
-                                <property name="label" translatable="yes">_Comments</property>
-                                <property name="active">no</property>
-                                <property name="draw_indicator">yes</property>
-                                <property name="visible">yes</property>
-                                <property name="use_underline">yes</property>
-                              </widget>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
-                                <property name="top_attach">1</property>
-                                <property name="bottom_attach">2</property>
-                                <property name="x_padding">0</property>
-                                <property name="y_padding">0</property>
-                                <property name="x_options">fill</property>
-                                <property name="y_options"></property>
-                              </packing>
-                            </child>
-
-                            <child>
-                              <widget class="GtkCheckButton" id="search_expr">
-                                <property name="tooltip" translatable="yes">Find text within expressions</property>
-                                <property name="can_focus">yes</property>
-                                <property name="label" translatable="yes">_Expressions</property>
-                                <property name="active">yes</property>
-                                <property name="draw_indicator">yes</property>
-                                <property name="visible">yes</property>
-                                <property name="use_underline">yes</property>
-                              </widget>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
-                                <property name="top_attach">0</property>
-                                <property name="bottom_attach">1</property>
-                                <property name="x_padding">0</property>
-                                <property name="y_padding">0</property>
-                                <property name="x_options">fill</property>
-                                <property name="y_options"></property>
-                              </packing>
-                            </child>
-
-                            <child>
-                              <widget class="GtkCheckButton" id="search_string">
-                                <property name="tooltip" translatable="yes">Find text within string values</property>
-                                <property name="can_focus">yes</property>
-                                <property name="label" translatable="yes">_Strings</property>
-                                <property name="active">yes</property>
-                                <property name="draw_indicator">yes</property>
-                                <property name="visible">yes</property>
-                                <property name="use_underline">yes</property>
-                              </widget>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="right_attach">1</property>
-                                <property name="top_attach">0</property>
-                                <property name="bottom_attach">1</property>
-                                <property name="x_padding">0</property>
-                                <property name="y_padding">0</property>
-                                <property name="x_options">fill</property>
-                                <property name="y_options"></property>
-                              </packing>
-                            </child>
-                          </widget>
-                          <packing>
-                            <property name="padding">0</property>
-                            <property name="expand">yes</property>
-                            <property name="fill">yes</property>
-                          </packing>
-                        </child>
-                      </widget>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="padding">0</property>
-                    <property name="expand">no</property>
-                    <property name="fill">yes</property>
-                  </packing>
-                </child>
-
-                <child>
-                  <widget class="GtkFrame" id="frame4">
-                    <property name="label" translatable="yes">Miscellaneous</property>
-                    <property name="label_xalign">0</property>
-                    <property name="shadow">GTK_SHADOW_ETCHED_IN</property>
-                    <property name="visible">yes</property>
-
-                    <child>
-                      <widget class="GtkVBox" id="vbox8">
-                        <property name="border_width">4</property>
-                        <property name="homogeneous">no</property>
-                        <property name="spacing">4</property>
-                        <property name="visible">yes</property>
-
-                        <child>
-                          <widget class="GtkHBox" id="hbox4">
-                            <property name="homogeneous">no</property>
-                            <property name="spacing">0</property>
-                            <property name="visible">yes</property>
-
-                            <child>
-                              <widget class="GtkRadioButton" id="row_major">
-                                <property name="tooltip" translatable="yes">Search line by line</property>
-                                <property name="label" translatable="yes">_Row major</property>
-                                <property name="active">yes</property>
-                                <property name="draw_indicator">yes</property>
-                                <property name="visible">yes</property>
-                              </widget>
-                              <packing>
-                                <property name="padding">0</property>
-                                <property name="expand">no</property>
-                                <property name="fill">no</property>
-                              </packing>
-                            </child>
-
-                            <child>
-                              <widget class="GtkRadioButton" id="column_major">
-                                <property name="tooltip" translatable="yes">Search column by column</property>
-                                <property name="label" translatable="yes">C_olumn major</property>
-                                <property name="active">no</property>
-                                <property name="draw_indicator">yes</property>
-                                <property name="visible">yes</property>
-                                <property name="group">row_major</property>
+			    <child>
+			      <widget class="GtkCheckButton" id="search_other">
+				<property name="tooltip" translatable="yes">Find text within non-string values</property>
+				<property name="can_focus">yes</property>
+				<property name="label" translatable="yes">_Other values</property>
+				<property name="active">yes</property>
+				<property name="draw_indicator">yes</property>
+				<property name="visible">yes</property>
 				<property name="use_underline">yes</property>
-                              </widget>
-                              <packing>
-                                <property name="padding">0</property>
-                                <property name="expand">no</property>
-                                <property name="fill">no</property>
-                              </packing>
-                            </child>
-                          </widget>
-                          <packing>
-                            <property name="padding">0</property>
-                            <property name="expand">yes</property>
-                            <property name="fill">yes</property>
-                          </packing>
-                        </child>
-                      </widget>
-                    </child>
+			      </widget>
+			      <packing>
+				<property name="left_attach">0</property>
+				<property name="right_attach">1</property>
+				<property name="top_attach">1</property>
+				<property name="bottom_attach">2</property>
+				<property name="x_padding">0</property>
+				<property name="y_padding">0</property>
+				<property name="x_options">fill</property>
+				<property name="y_options"></property>
+			      </packing>
+			    </child>
+
+			    <child>
+			      <widget class="GtkCheckButton" id="search_comments">
+				<property name="tooltip" translatable="yes">Find text within cell comments</property>
+				<property name="can_focus">yes</property>
+				<property name="label" translatable="yes">_Comments</property>
+				<property name="active">no</property>
+				<property name="draw_indicator">yes</property>
+				<property name="visible">yes</property>
+				<property name="use_underline">yes</property>
+			      </widget>
+			      <packing>
+				<property name="left_attach">1</property>
+				<property name="right_attach">2</property>
+				<property name="top_attach">1</property>
+				<property name="bottom_attach">2</property>
+				<property name="x_padding">0</property>
+				<property name="y_padding">0</property>
+				<property name="x_options">fill</property>
+				<property name="y_options"></property>
+			      </packing>
+			    </child>
+
+			    <child>
+			      <widget class="GtkCheckButton" id="search_expr">
+				<property name="tooltip" translatable="yes">Find text within expressions</property>
+				<property name="can_focus">yes</property>
+				<property name="label" translatable="yes">_Expressions</property>
+				<property name="active">yes</property>
+				<property name="draw_indicator">yes</property>
+				<property name="visible">yes</property>
+				<property name="use_underline">yes</property>
+			      </widget>
+			      <packing>
+				<property name="left_attach">1</property>
+				<property name="right_attach">2</property>
+				<property name="top_attach">0</property>
+				<property name="bottom_attach">1</property>
+				<property name="x_padding">0</property>
+				<property name="y_padding">0</property>
+				<property name="x_options">fill</property>
+				<property name="y_options"></property>
+			      </packing>
+			    </child>
+
+			    <child>
+			      <widget class="GtkCheckButton" id="search_string">
+				<property name="tooltip" translatable="yes">Find text within string values</property>
+				<property name="can_focus">yes</property>
+				<property name="label" translatable="yes">_Strings</property>
+				<property name="active">yes</property>
+				<property name="draw_indicator">yes</property>
+				<property name="visible">yes</property>
+				<property name="use_underline">yes</property>
+			      </widget>
+			      <packing>
+				<property name="left_attach">0</property>
+				<property name="right_attach">1</property>
+				<property name="top_attach">0</property>
+				<property name="bottom_attach">1</property>
+				<property name="x_padding">0</property>
+				<property name="y_padding">0</property>
+				<property name="x_options">fill</property>
+				<property name="y_options"></property>
+			      </packing>
+			    </child>
+			  </widget>
+			</child>
+		      </widget>
+		      <packing>
+			<property name="left_attach">0</property>
+			<property name="right_attach">1</property>
+			<property name="top_attach">0</property>
+			<property name="bottom_attach">1</property>
+			<property name="x_padding">0</property>
+			<property name="y_padding">0</property>
+			<property name="x_options">fill|expand</property>
+			<property name="y_options">fill|expand</property>
+		      </packing>
+		    </child>
+		    <child>
+		      <widget class="GtkFrame" id="frame5">
+			<property name="label" translatable="yes">Search text is</property>
+			<property name="label_xalign">0</property>
+			<property name="shadow">GTK_SHADOW_ETCHED_IN</property>
+			<property name="visible">yes</property>
+
+			<child>
+			  <widget class="GtkTable" id="table5">
+			    <property name="border_width">4</property>
+			    <property name="homogeneous">yes</property>
+			    <property name="row_spacing">4</property>
+			    <property name="column_spacing">4</property>
+			    <property name="n-rows">2</property>
+			    <property name="n-columns">1</property>
+			    <property name="visible">yes</property>
+
+			    <child>
+			      <widget class="GtkRadioButton" id="search_type_text">
+				<property name="tooltip" translatable="yes">The search text is taken literal</property>
+				<property name="can_focus">yes</property>
+				<property name="label" translatable="yes">_Plain text</property>
+				<property name="active">yes</property>
+				<property name="draw_indicator">yes</property>
+				<property name="visible">yes</property>
+				<property name="use_underline">yes</property>
+			      </widget>
+			      <packing>
+				<property name="left_attach">0</property>
+				<property name="right_attach">1</property>
+				<property name="top_attach">0</property>
+				<property name="bottom_attach">1</property>
+				<property name="x_padding">0</property>
+				<property name="y_padding">0</property>
+				<property name="x_options">fill</property>
+				<property name="y_options"></property>
+			      </packing>
+			    </child>
+
+			    <child>
+			      <widget class="GtkRadioButton" id="search_type_regexp">
+				<property name="tooltip" translatable="yes">The search text is a regular expression</property>
+				<property name="can_focus">yes</property>
+				<property name="label" translatable="yes">_Regular expression</property>
+				<property name="active">no</property>
+				<property name="draw_indicator">yes</property>
+				<property name="visible">yes</property>
+				<property name="group">search_type_text</property>
+				<property name="use_underline">yes</property>
+			      </widget>
+			      <packing>
+				<property name="left_attach">0</property>
+				<property name="right_attach">1</property>
+				<property name="top_attach">1</property>
+				<property name="bottom_attach">2</property>
+				<property name="x_padding">0</property>
+				<property name="y_padding">0</property>
+				<property name="x_options">fill</property>
+				<property name="y_options"></property>
+			      </packing>
+			    </child>
+
+			  </widget>
+			</child>
+		      </widget>
+		      <packing>
+			<property name="left_attach">1</property>
+			<property name="right_attach">2</property>
+			<property name="top_attach">0</property>
+			<property name="bottom_attach">1</property>
+			<property name="x_padding">0</property>
+			<property name="y_padding">0</property>
+			<property name="x_options">fill|expand</property>
+			<property name="y_options">fill|expand</property>
+		      </packing>
+		    </child>
+		    <child>
+		      <widget class="GtkFrame" id="frame4">
+			<property name="label" translatable="yes">Miscellaneous</property>
+			<property name="label_xalign">0</property>
+			<property name="shadow">GTK_SHADOW_ETCHED_IN</property>
+			<property name="visible">yes</property>
+
+			<child>
+			  <widget class="GtkTable" id="table4">
+			    <property name="border_width">4</property>
+			    <property name="homogeneous">yes</property>
+			    <property name="row_spacing">4</property>
+			    <property name="column_spacing">4</property>
+			    <property name="n-rows">1</property>
+			    <property name="n-columns">2</property>
+			    <property name="visible">yes</property>
+			    <child>
+			      <widget class="GtkRadioButton" id="row_major">
+				<property name="tooltip" translatable="yes">Search line by line</property>
+				<property name="label" translatable="yes">_Row major</property>
+				<property name="active">yes</property>
+				<property name="draw_indicator">yes</property>
+				<property name="visible">yes</property>
+				<property name="use_underline">yes</property>
+			      </widget>
+			      <packing>
+				<property name="left_attach">0</property>
+				<property name="right_attach">1</property>
+				<property name="top_attach">0</property>
+				<property name="bottom_attach">1</property>
+				<property name="x_padding">0</property>
+				<property name="y_padding">0</property>
+				<property name="x_options">fill</property>
+				<property name="y_options"></property>
+			      </packing>
+			    </child>
+
+			    <child>
+			      <widget class="GtkRadioButton" id="column_major">
+				<property name="tooltip" translatable="yes">Search column by column</property>
+				<property name="label" translatable="yes">C_olumn major</property>
+				<property name="active">no</property>
+				<property name="draw_indicator">yes</property>
+				<property name="visible">yes</property>
+				<property name="group">row_major</property>
+				<property name="use_underline">yes</property>
+			      </widget>
+			      <packing>
+				<property name="left_attach">1</property>
+				<property name="right_attach">2</property>
+				<property name="top_attach">0</property>
+				<property name="bottom_attach">1</property>
+				<property name="x_padding">0</property>
+				<property name="y_padding">0</property>
+				<property name="x_options">fill</property>
+				<property name="y_options"></property>
+			      </packing>
+			    </child>
+			  </widget>
+			</child>
+		      </widget>
+		      <packing>
+			<property name="left_attach">0</property>
+			<property name="right_attach">1</property>
+			<property name="top_attach">1</property>
+			<property name="bottom_attach">2</property>
+			<property name="x_padding">0</property>
+			<property name="y_padding">0</property>
+			<property name="x_options">fill|expand</property>
+			<property name="y_options">fill|expand</property>
+		      </packing>
+		    </child>
                   </widget>
                   <packing>
                     <property name="padding">0</property>
-                    <property name="expand">no</property>
+                    <property name="expand">yes</property>
                     <property name="fill">yes</property>
                   </packing>
                 </child>
+
+
               </widget>
             </child>
 
@@ -625,13 +633,7 @@
                 <property name="width-request">500</property>
                 <property name="height-request">150</property>
                 <property name="visible">yes</property>
-
-                <child>
-                  <widget class="Placeholder" id="None">
-                    <property name="visible">yes</property>
-                  </widget>
-                </child>
-              </widget>
+               </widget>
             </child>
 
             <child>
