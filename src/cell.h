@@ -141,6 +141,7 @@ char       *cell_get_comment             (Cell *cell);
 void	    cell_cleanout		 (Cell *cell);
 
 void        cell_set_rendered_text       (Cell *cell, const char *rendered_text);
+char *      cell_get_formatted_val       (Cell *cell, StyleColor **col);
 MStyle     *cell_get_mstyle              (const Cell *cell);
 void        cell_set_mstyle              (const Cell *cell, MStyle *mstyle);
 void        cell_style_changed           (Cell *cell);

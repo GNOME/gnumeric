@@ -355,7 +355,7 @@ cell_set_rendered_text (Cell *cell, const char *rendered_text)
 	cell_calc_dimensions (cell);
 }
 
-static char *
+char *
 cell_get_formatted_val (Cell *cell, StyleColor **col)
 {
 	MStyle *mstyle;

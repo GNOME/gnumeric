@@ -1,3 +1,7 @@
+1999-12-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_get_formatted_val) : Make public.
+
 1999-12-23  JP Rosevear  <jpr@arcavia.com>
 
 	* src/plugin-manager.c (plugin_manager_new): Use a gnome_dialog and 
