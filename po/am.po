@@ -16128,9 +16128,8 @@ msgid "Bin _Labels"
 msgstr ""
 
 #: src/dialogs/histogram.glade.h:4
-#, fuzzy
 msgid "Bins"
-msgstr "ነጥቦች"
+msgstr ""
 
 #: src/dialogs/histogram.glade.h:5
 msgid "C_umulative Percentages"
@@ -16411,9 +16410,8 @@ msgid "D_eactivate all"
 msgstr ""
 
 #: src/dialogs/plugin-manager.glade.h:4
-#, fuzzy
 msgid "Directories"
-msgstr "ማውጫ"
+msgstr "ዶሴዎች"
 
 #: src/dialogs/plugin-manager.glade.h:5
 msgid "Do _not activate this plugin next time I start Gnumeric"
@@ -16424,7 +16422,6 @@ msgid "Plugin Manager"
 msgstr "የተጨማሪ ፕሮግራም መቆጣጠሪያ"
 
 #: src/dialogs/plugin-manager.glade.h:7
-#, fuzzy
 msgid "Plugin details"
 msgstr "የተጨማሪው ፕሮግራም ዝርዝሮች"
 
@@ -16433,7 +16430,6 @@ msgid "Plugin directory:"
 msgstr ""
 
 #: src/dialogs/plugin-manager.glade.h:9
-#, fuzzy
 msgid "Plugin list"
 msgstr "የተጨማሪው ፕሮግራም ዝርዝር"
 
@@ -16570,9 +16566,8 @@ msgid "_page(s) wide by"
 msgstr ""
 
 #: src/dialogs/print.glade.h:37
-#, fuzzy
 msgid "_tall"
-msgstr "<small><i>ረጅም</i></small>"
+msgstr "ረጅም (_T)"
 
 #: src/dialogs/random-generation.glade.h:5
 msgid "Number of _Variables:"
@@ -16669,7 +16664,6 @@ msgid "_Random"
 msgstr ""
 
 #: src/dialogs/search-replace.glade.h:1 src/dialogs/search.glade.h:1
-#, fuzzy
 msgid "Advanced"
 msgstr "ጠለቅ"
 
@@ -16910,9 +16904,8 @@ msgid "Match _whole words only"
 msgstr ""
 
 #: src/dialogs/search.glade.h:11
-#, fuzzy
 msgid "Matches"
-msgstr "ማርች"
+msgstr ""
 
 #: src/dialogs/search.glade.h:15
 msgid "Search Center"
@@ -17316,9 +17309,8 @@ msgid "A_utomatic"
 msgstr "አውቶማቲክ"
 
 #: src/dialogs/workbook-attr.glade.h:4
-#, fuzzy
 msgid "Calculation"
-msgstr "ቦታ"
+msgstr ""
 
 #: src/dialogs/workbook-attr.glade.h:5
 msgid "H_orizontal Scrollbar"
@@ -17353,7 +17345,6 @@ msgid "V_ertical Scrollbar"
 msgstr ""
 
 #: src/dialogs/workbook-attr.glade.h:14
-#, fuzzy
 msgid "View"
 msgstr "ተመልከት"
 
@@ -20508,15 +20499,15 @@ msgstr ""
 
 #: src/workbook-format-toolbar.c:184
 msgid "Set Font Style"
-msgstr ""
+msgstr "የፊደል ቅርጽ ዘይቤ ይምረጡ"
 
 #: src/workbook-format-toolbar.c:250
 msgid "Set Font"
-msgstr ""
+msgstr "የፊደል ቅርጽ ይምረጡ"
 
 #: src/workbook-format-toolbar.c:282
 msgid "Set Font Size"
-msgstr ""
+msgstr "የፊደል ቅርጽ መጠን ይምረጡ"
 
 #: src/workbook-format-toolbar.c:303
 msgid "Format as Money"
