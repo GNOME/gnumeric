@@ -69,6 +69,8 @@ Jody:
 	* Fix export of strings > 8224 characters in xl97.
 	* Fix style export in the presence of validation and hyperlinks.
 	* Spinner/Scrollbar import for xl 95 & 97.
+	* Fix 118723
+	* Work on image persistence in xml
 
 John Gill:
 	* More More XLish heuristics for autofill range selection.

@@ -28,6 +28,7 @@
 #include "sheet-object-cell-comment.h"
 #include "sheet-object-widget.h"
 #include "sheet-object-graph.h"
+#include "sheet-object-image.h"
 #include "graph.h"
 
 #include <libxml/globals.h>
@@ -898,6 +899,7 @@ sheet_object_register (void)
 	SHEET_OBJECT_FILLED_TYPE;
 	SHEET_OBJECT_TEXT_TYPE;
 	SHEET_OBJECT_GRAPH_TYPE;
+	SHEET_OBJECT_IMAGE_TYPE;
 	GNM_GO_DATA_SCALAR_TYPE;
 	GNM_GO_DATA_VECTOR_TYPE;
 	CELL_COMMENT_TYPE;

@@ -6,7 +6,7 @@
  *    Michael Meeks (michael@ximian.com)
  *    Jody Goldberg (jody@gnome.org)
  *
- * (C) 1998-2002 Michael Meeks, Jody Goldberg
+ * (C) 1998-2003 Michael Meeks, Jody Goldberg
  */
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>

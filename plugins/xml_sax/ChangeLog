@@ -1,3 +1,9 @@
+2003-07-30  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=118723
+	* xml-sax-write.c (copy_hash_table_to_ptr_array) : always export cells
+	  with expressions, even if it's value is blank,
+
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.19

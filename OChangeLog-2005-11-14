@@ -1,3 +1,17 @@
+2003-07-30  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=118723
+	* src/xml-io.c (copy_hash_table_to_ptr_array) : always export cells
+	  with expressions, even if it's value is blank,
+
+	* src/sheet-object.c (sheet_object_register) : add sheet-object-image.
+
+2003-07-30  Jody Goldberg <jody@gnome.org>
+
+	For : Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+	* icons/Makefile.am: add chart_{line,area}*.png icons, and a pile of
+	  svg for the future.
+
 2003-07-30  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* samples/test-math.gnumeric: add apostrophes around PASS and NO.
