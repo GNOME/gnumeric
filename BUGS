@@ -14,7 +14,6 @@ Release Critical
     : support array evaluation for =LARGE and friends
     http://bugzilla.gnome.org/show_bug.cgi?id=159581
     : undo has dep leaks
-    : uwe paradox patch
 
 Worries
 -------

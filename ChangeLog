@@ -1,5 +1,12 @@
 2005-01-16  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=158692
+	* src/preview-grid.c (pg_get_row_offset) : don't return SHEET_MAX_ROWS
+	  if h =0.
+	(pg_get_col_offset) : ditto.
+
+2005-01-16  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=162631
 	* src/gnumeric-pane.c (set_acetate_coords) : handle the race condition
 	  for the rubber band directly case.

@@ -173,16 +173,18 @@ pg_get_row_offset (PreviewGrid *pg, int const y, int *row_origin)
 {
 	int row   = 0;
 	int pixel = 1;
+	int h;
 
 	g_return_val_if_fail (pg != NULL, 0);
 
 	do {
-		if (y <= pixel + pg_get_row_height (pg, row)) {
+		h = pg_get_row_height (pg, row);
+		if (y <= (pixel + h) || h == 0) {
 			if (row_origin)
 				*row_origin = pixel;
 			return row;
 		}
-		pixel += pg_get_row_height (pg, row);
+		pixel += h;
 	} while (++row < SHEET_MAX_ROWS);
 
 	if (row_origin)
@@ -203,16 +205,18 @@ pg_get_col_offset (PreviewGrid *pg, int const x, int *col_origin)
 {
 	int col   = 0;
 	int pixel = 1;
+	int w;
 
 	g_return_val_if_fail (pg != NULL, 0);
 
 	do {
-		if (x <= pixel + pg_get_col_width (pg, col)) {
+		w = pg_get_col_width (pg, col);
+		if (x <= (pixel + w) || w == 0) {
 			if (col_origin)
 				*col_origin = pixel;
 			return col;
 		}
-		pixel += pg_get_col_width (pg, col);
+		pixel += w;
 	} while (++col < SHEET_MAX_COLS);
 
 	if (col_origin)
