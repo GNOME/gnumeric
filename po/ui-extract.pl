@@ -30,7 +30,7 @@ use Getopt::Long;
 
 #---------------------------
 
-my $VERSION     = "0.8.1";
+my $VERSION     = "0.8.5";
 
 #---------------------------
 
@@ -237,12 +237,12 @@ sub addMessages{
 
            if ($n == 0) { 
 	       print OUT "gchar *s = N_"; 
-               print OUT "(\"$elements[$n]\\n\");\n";
+               print OUT "(\"$elements[$n]\\n\"\n";
            }
 
            elsif ($n == @elements - 1) { 
-	       print OUT "             ";
-               print OUT "(\"$elements[$n]\");\n";
+	       print OUT "              ";
+               print OUT "\"$elements[$n]\");\n";
            }
 
            elsif ($n > 0)  { 	
