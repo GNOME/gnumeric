@@ -146,6 +146,11 @@ stf_preview_new (GtkWidget *data_container,
 	renderdata->tree_view =
 		GTK_TREE_VIEW (gtk_tree_view_new_with_model
 			       (GTK_TREE_MODEL (renderdata->ll)));
+
+	renderdata->tooltips = gtk_tooltips_new ();
+	g_object_ref (renderdata->tooltips);
+	gtk_object_sink (GTK_OBJECT (renderdata->tooltips));
+
 	renderdata->colcount = 0;
 
 	{
@@ -193,6 +198,7 @@ stf_preview_free (RenderData_t *renderdata)
 	g_ptr_array_free (renderdata->colformats, TRUE);
 
 	stf_preview_set_lines (renderdata, NULL);
+	g_object_unref (renderdata->tooltips);
 
 	g_free (renderdata);
 }

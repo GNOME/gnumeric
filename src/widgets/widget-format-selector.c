@@ -619,6 +619,8 @@ cb_format_class_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 		if (selected_item >= 0) {
 			fmt_dialog_enable_widgets (nfs, selected_item);
 		}
+		g_list_foreach (list, (GFunc)gtk_tree_path_free, NULL);
+		g_list_free (list);
 	}
 }
 

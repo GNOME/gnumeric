@@ -33,6 +33,7 @@ typedef struct {
 	GPtrArray        *lines;
 	GnumericLazyList *ll;
 	GtkTreeView      *tree_view;
+	GtkTooltips      *tooltips;
 
 	int              colcount;
 	int              startrow;        /* Row at which to start rendering */

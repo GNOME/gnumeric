@@ -345,10 +345,9 @@ format_page_update_preview (StfDialogData *pagedata)
 	pagedata->format.col_import_array = 
 		g_renew(gboolean, pagedata->format.col_import_array, 
 			pagedata->format.col_import_array_len);
-	old_part = (col_import_array_len_old < 
-		    pagedata->format.col_import_array_len) ? 
-		col_import_array_len_old : 
-		pagedata->format.col_import_array_len;
+	old_part = (col_import_array_len_old < pagedata->format.col_import_array_len)
+		? col_import_array_len_old
+		: pagedata->format.col_import_array_len;
 	pagedata->format.col_import_count = 0;
 	for (i = 0; i < old_part; i++)
 		if (pagedata->format.col_import_array[i])
@@ -365,6 +364,7 @@ format_page_update_preview (StfDialogData *pagedata)
 	for (i = old_part; i < renderdata->colcount; i++) {
 		GtkTreeViewColumn *column =
 			stf_preview_get_column (renderdata, i);
+
 		if (NULL == g_object_get_data (G_OBJECT (column), "checkbox")) {
 			GtkWidget *box = gtk_hbox_new (FALSE,5);
 			GtkWidget *check = gtk_check_button_new ();
@@ -378,7 +378,7 @@ format_page_update_preview (StfDialogData *pagedata)
 						      pagedata->
 					      format.col_import_array[i]);
 			
-			gtk_tooltips_set_tip (gtk_tooltips_new(), check,
+			gtk_tooltips_set_tip (renderdata->tooltips, check,
 					      _("If this checkbox is selected, the "
 						"column will be imported into "
 						"Gnumeric."),
