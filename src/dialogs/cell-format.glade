@@ -840,14 +840,13 @@
 	      <widget>
 		<class>GtkAlignment</class>
 		<name>alignment49</name>
-		<sensitive>False</sensitive>
-		<xalign>0</xalign>
+		<xalign>0.5</xalign>
 		<yalign>0.5</yalign>
-		<xscale>0.0400004</xscale>
-		<yscale>0</yscale>
+		<xscale>1</xscale>
+		<yscale>1</yscale>
 		<child>
 		  <padding>0</padding>
-		  <expand>True</expand>
+		  <expand>False</expand>
 		  <fill>True</fill>
 		</child>
 

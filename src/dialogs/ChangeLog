@@ -1,3 +1,8 @@
+2001-02-17  Chema Celorio  <chema@celorio.com>
+
+	* cell-format.glade: fix a bug for the indent spin button
+	in which the sensitivity could not be turned on
+
 2001-02-16  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.62
