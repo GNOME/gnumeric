@@ -500,6 +500,7 @@ expr_tree_unary (Operation op, ExprTree *tr)
 static CellRef *
 getRefV7(MS_EXCEL_SHEET *sheet, BYTE col, WORD gbitrw, int curcol, int currow, int shrfmla)
 {
+	gint8 row_offset= 0, col_offset= 0;
 	CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
 	cr->col          = col ;
 	cr->row          = (gbitrw & 0x3fff) ;
@@ -509,10 +510,12 @@ getRefV7(MS_EXCEL_SHEET *sheet, BYTE col, WORD gbitrw, int curcol, int currow, i
 	if (FORMULA_DEBUG>2)
 		printf ("7In : 0x%x, 0x%x  at %d, %d shared %d\n", col, gbitrw,
 			curcol, currow, shrfmla) ; 
-	if (shrfmla) {  /* FIXME: Brutal hack, docs are vague */
+	if (shrfmla && cr->row_relative) {
 		gint8 t = (cr->row&0x00ff);
 		cr->row = currow+t ;
-		t = (cr->col&0x00ff);
+	}
+	if (shrfmla && cr->col_relative) {
+		gint8 t = (cr->col&0x00ff);
 		cr->col = curcol+t ;
 	}
 	if (cr->row_relative)
@@ -537,14 +540,12 @@ getRefV8(MS_EXCEL_SHEET *sheet, WORD row, WORD gbitcl, int curcol, int currow, i
 	cr->col          = (gbitcl & 0x3fff) ;
 	cr->row_relative = (gbitcl & 0x8000)==0x8000 ;
 	cr->col_relative = (gbitcl & 0x4000)==0x4000 ;
-	if (shrfmla) { /* FIXME: Brutal hack, docs are vague */
+	if (shrfmla && cr->row_relative) {  /* Should be correct now -- NJL */
 		gint8 t = (cr->row&0x00ff);
-		if (FORMULA_DEBUG>2)
-			printf ("row off %d ",t);
 		cr->row = currow+t ;
-		t = (cr->col&0x00ff);
-		if (FORMULA_DEBUG>2)
-			printf ("col off %d\n",t);
+	}
+	if (shrfmla && cr->col_relative) {  /* Should be correct now -- NJL */
+		gint8 t = (cr->col&0x00ff);
 		cr->col = curcol+t ;
 	}
 	if (cr->row_relative)

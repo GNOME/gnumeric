@@ -1,3 +1,8 @@
+1999-05-30  Nick Lamb <njl98r@ecs.soton.ac.uk>
+
+	* ms-formula-read.c (getRefV8, getRefV7): Fix shared
+	formulae absolute references.
+
 1999-05-28  Michael Meeks  <michael@imaginator.com>
 
 	* ms-excel-write.c: Minimal Pallete / XF writing.
