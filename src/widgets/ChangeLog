@@ -1,3 +1,9 @@
+2003-07-02  Jon K Hellan  <hellan@acm.org>
+
+	* gtk-combo-stack.c (gtk_combo_stack_push_item): Focus pushed item
+	to avoid all items above previously focused item getting selected.
+	http://bugzilla.gnome.org/show_bug.cgi?id=115361.
+
 2003-07-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* widget-format-selector.c (draw_format_preview): no need to worry

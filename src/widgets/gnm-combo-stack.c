@@ -247,6 +247,11 @@ gtk_combo_stack_push_item (GtkComboStack *combo,
 /*	gtk_list_unselect_all (GTK_LIST (combo->priv->list)); */
 	gtk_combo_stack_clear_selection (combo);
 
+	/* Kluge: GtkList selects the focused item. ComboStack selects
+	 * all items above it. Set focus to the top item so only that
+	 * one gets selected. 
+	 * http://bugzilla.gnome.org/show_bug.cgi?id=115361 */
+	gtk_widget_grab_focus (listitem);
 	gtk_widget_set_sensitive (GTK_WIDGET (combo), TRUE);
 }
 
