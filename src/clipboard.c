@@ -240,7 +240,7 @@ x_selection_to_cell_region (char *data, int len)
  * This is triggered by a call we do to gtk_selection_convert.
  */
 static void
-x_selection_received (GtkWidget *widget, GtkSelectionData *sel, gpointer data)
+x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpointer data)
 {
 	SheetSelection *ss;
 	Workbook       *wb = data;
@@ -304,7 +304,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, gpointer data)
  * Callback invoked when another application requests we render the selection.
  */
 static void
-x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, gpointer data)
+x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint info, guint time, gpointer data)
 {
 	Workbook *wb = (Workbook *) data;
 	char *rendered_selection;
@@ -348,10 +348,14 @@ x_clipboard_bind_workbook (Workbook *wb)
 	gtk_signal_connect (
 		GTK_OBJECT (wb->toplevel), "selection_received",
 		GTK_SIGNAL_FUNC(x_selection_received), wb);
-	gtk_selection_add_handler (
+
+	gtk_signal_connect (
+		GTK_OBJECT (wb->toplevel), "selection_get",
+		GTK_SIGNAL_FUNC(x_selection_handler), wb);
+
+	gtk_selection_add_target (
 		wb->toplevel,
-		GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING,
-		x_selection_handler, wb);
+		GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 0);
 }
 
 /*
@@ -474,7 +478,7 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
 
 		sel.length = -1;
 		x_selection_received (dest_sheet->workbook->toplevel, &sel,
-				      dest_sheet->workbook);
+				      0, dest_sheet->workbook);
 		return;
 	}
 
