@@ -477,6 +477,8 @@ msgid ""
 "Invalid PLN file has more than the maximum\n"
 "number of %s %d"
 msgstr ""
+"Нев╕рний файл PLN м╕стить б╕льше максимально╖\n"
+"к╕лькост╕ %s - %d"
 
 #: plugins/plan-perfect/pln.c:731
 msgid "PLN : Not a PlanPerfect File"
@@ -888,7 +890,7 @@ msgstr "Кореляц╕я П╕рсона"
 #: src/analysis-tools.c:1925 src/analysis-tools.c:2407
 #: src/analysis-tools.c:2598 src/analysis-tools.c:2770
 msgid "df"
-msgstr ""
+msgstr "ст. свободи"
 
 #: src/analysis-tools.c:1226 src/analysis-tools.c:1364
 #: src/analysis-tools.c:1480 src/analysis-tools.c:1933
