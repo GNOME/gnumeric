@@ -1341,15 +1341,15 @@ gnumeric_button_press (GtkWidget *widget, GdkEventButton *event)
 #endif
 
 static void
-gnumeric_sheet_class_init (GnumericSheetClass *class)
+gnumeric_sheet_class_init (GnumericSheetClass *Class)
 {
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GnomeCanvasClass *canvas_class;
 
-	object_class = (GtkObjectClass *) class;
-	widget_class = (GtkWidgetClass *) class;
-	canvas_class = (GnomeCanvasClass *) class;
+	object_class = (GtkObjectClass *) Class;
+	widget_class = (GtkWidgetClass *) Class;
+	canvas_class = (GnomeCanvasClass *) Class;
 
 	sheet_parent_class = gtk_type_class (gnome_canvas_get_type ());
 

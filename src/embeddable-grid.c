@@ -115,7 +115,7 @@ init_embeddable_grid_corba_class (void)
 }
 
 static void
-embeddable_grid_class_init (GtkObjectClass *class)
+embeddable_grid_class_init (GtkObjectClass *Class)
 {
 	init_embeddable_grid_corba_class ();
 }
@@ -218,7 +218,7 @@ embeddable_grid_new (Workbook *wb, Sheet *sheet)
 }
 
 static GnomeObject *
-embeddable_grid_factory (GnomeEmbeddableFactory *this, void *data)
+embeddable_grid_factory (GnomeEmbeddableFactory *This, void *data)
 {
 	EmbeddableGrid *embeddable_grid;
 
