@@ -1,3 +1,57 @@
+2000-02-18  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	What follows is the Changelog entry for the new STF that miguel
+	commited.
+	
+	The original STF Plug-in has been removed and is now merged
+	with the Gnumeric main sources.
+	Numerous bug fixes have been made, the major ones :
+	
+	* stf-util.c, stf-util.h :
+	Obsoleted, merged with dialog_stf.[ch]
+
+	* stf-fixed.c, stf-separated.c, stf-fixed.h, stf-separated.h :
+	Obsoleted, replace with stf-parse.[ch], a new interface.
+
+	* stf-parse.h, stf-parse.c :
+	Two new units which are a re-make of the stf-separated.c and
+	stf-fixed.c. These supersede those two units.
+
+	* dialog-stf.c, dialog-stf.h, dialog-stf-csv-page.c, dialog-stf-fixed-page.c :
+	Altered so they use the new stf-parse.[ch] instead of stf-separated.c 
+	and stf-fixed.c. 
+
+	* dialog-stf-main-page.c
+	Now allows you to select both the line to start _and_ the line to stop
+	importing.
+	
+	* dialog-stf-fixed-page.c :
+	Apart from some minor bug fixes you can now also use the mouse
+	to interactively create, delete and resize columns.
+
+	* dialog-stf-format-page.c :
+	Now allows you to click in the preview to select a column.
+	Also fixed minor errors
+
+	* dialog-stf-preview.c, dialog-stf-preview.h :
+	Completely revised preview rendering, lots of changes.
+	
+	* dialog-stf.glade :
+	More descriptive hints on each page
+	
+	Now some integration changes :
+
+	* main.c
+	Modified to also initialize the stf-plugin
+
+	* stf.c, stf.h
+	Now uses the new dialog-stf.[ch] and stf-parse.[ch] interfaces.
+
+	* clipboard.c
+	modified (x_selection_to_cell_region) to use the STF stuff instead
+	of the previous 'based-on-assumptions' approach.
+	->by request from Jody Goldberg
+	
 2000-02-18  Jody Goldberg <jgoldberg@home.com>
 
 	* src/widgets/widget-color-combo.c (color_combo_construct) : typo.
