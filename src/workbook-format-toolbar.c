@@ -389,17 +389,17 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 };
 #else
 static BonoboUIVerb verbs [] = {
-	BONOBO_UI_VERB ("FontBold",		   &bold_cmd),
-	BONOBO_UI_VERB ("FontItalic",		   &italic_cmd),
-	BONOBO_UI_VERB ("FontUnderline",	   &underline_cmd),
-	BONOBO_UI_VERB ("AlignLeft",		   &left_align_cmd),
-	BONOBO_UI_VERB ("AlignCenter",		   &center_cmd),
-	BONOBO_UI_VERB ("AlignRight",		   &right_align_cmd),
-	BONOBO_UI_VERB ("FormatAsMoney",	   &workbook_cmd_format_as_money),
-	BONOBO_UI_VERB ("FormatAsPercent",	   &workbook_cmd_format_as_percent),
-	BONOBO_UI_VERB ("FormatWithThousands",	   &workbook_cmd_format_add_thousands),
-	BONOBO_UI_VERB ("FormatIncreasePrecision", &workbook_cmd_format_add_decimals),
-	BONOBO_UI_VERB ("FormatDecreasePrecision", &workbook_cmd_format_remove_decimals),
+	BONOBO_UI_UNSAFE_VERB ("FontBold",		   &bold_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FontItalic",		   &italic_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FontUnderline",	   &underline_cmd),
+	BONOBO_UI_UNSAFE_VERB ("AlignLeft",		   &left_align_cmd),
+	BONOBO_UI_UNSAFE_VERB ("AlignCenter",		   &center_cmd),
+	BONOBO_UI_UNSAFE_VERB ("AlignRight",		   &right_align_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FormatAsMoney",	   &workbook_cmd_format_as_money),
+	BONOBO_UI_UNSAFE_VERB ("FormatAsPercent",	   &workbook_cmd_format_as_percent),
+	BONOBO_UI_UNSAFE_VERB ("FormatWithThousands",	   &workbook_cmd_format_add_thousands),
+	BONOBO_UI_UNSAFE_VERB ("FormatIncreasePrecision", &workbook_cmd_format_add_decimals),
+	BONOBO_UI_UNSAFE_VERB ("FormatDecreasePrecision", &workbook_cmd_format_remove_decimals),
 	BONOBO_UI_VERB_END
 };
 #endif
@@ -757,7 +757,7 @@ workbook_format_toolbutton_update (Workbook const *wb, char const * const path,
 	if (hack)
 	    return;
 	hack = TRUE;
-	bonobo_ui_container_set_prop (bonobo_ui_compat_get_container (wb->priv->uih),
+	bonobo_ui_component_set_prop (BONOBO_UI_COMPONENT (wb->priv->uih),
 				      path, "state", state ? "1" : "0", NULL);
 	hack = FALSE;
 }

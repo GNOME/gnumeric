@@ -27,7 +27,7 @@ workbook_view_set_paste_special_state (Workbook *wb, gboolean enable)
 	gtk_widget_set_sensitive (
 		wb->priv->menu_item_paste_special, enable);
 #else
-	bonobo_ui_container_set_prop (bonobo_ui_compat_get_container (wb->priv->uih),
+	bonobo_ui_component_set_prop (BONOBO_UI_COMPONENT (wb->priv->uih),
 				      "/commands/EditPasteSpecial",
 				      "sensitive", enable ? "1" : "0", NULL);
 #endif
@@ -72,10 +72,10 @@ change_menu_label (
 #else
 	CORBA_exception_init (&ev);
 
-	bonobo_ui_container_set_prop (bonobo_ui_compat_get_container (wb->priv->uih),
+	bonobo_ui_component_set_prop (BONOBO_UI_COMPONENT (wb->priv->uih),
 				      verb_path,
 				      "sensitive", sensitive ? "1" : "0", &ev);
-	bonobo_ui_container_set_prop (bonobo_ui_compat_get_container (wb->priv->uih),
+	bonobo_ui_component_set_prop (BONOBO_UI_COMPONENT (wb->priv->uih),
 				      menu_path, "label", text, &ev);
 	CORBA_exception_free (&ev);
 #endif

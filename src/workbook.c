@@ -1131,115 +1131,115 @@ sort_descend_cmd (GtkWidget *widget, Workbook *wb)
 
 static BonoboUIVerb verbs [] = {
 
-	BONOBO_UI_VERB ("FileNew", new_cmd),
-	BONOBO_UI_VERB ("FileOpen", file_open_cmd),
-	BONOBO_UI_VERB ("FileImport", file_import_cmd),
-	BONOBO_UI_VERB ("FileSave", file_save_cmd),
-	BONOBO_UI_VERB ("FileSaveAs", file_save_as_cmd),
-	BONOBO_UI_VERB ("FileSummary", summary_cmd),
-	BONOBO_UI_VERB ("FilePrint", file_print_cmd),
-	BONOBO_UI_VERB ("FilePrintSetup", print_setup_cmd),
-	BONOBO_UI_VERB ("FilePrintPreview", file_print_preview_cmd),
-	BONOBO_UI_VERB ("FileClose", close_cmd),
-	BONOBO_UI_VERB ("FileExit", quit_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FileNew", new_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FileOpen", file_open_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FileImport", file_import_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FileSave", file_save_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FileSaveAs", file_save_as_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FileSummary", summary_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FilePrint", file_print_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FilePrintSetup", print_setup_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FilePrintPreview", file_print_preview_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FileClose", close_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FileExit", quit_cmd),
 
-	BONOBO_UI_VERB ("EditClearAll", clear_all_cmd),
-	BONOBO_UI_VERB ("EditClearFormats", clear_formats_cmd),
-	BONOBO_UI_VERB ("EditClearComments", clear_comments_cmd),
-	BONOBO_UI_VERB ("EditClearContent", clear_content_cmd),
+	BONOBO_UI_UNSAFE_VERB ("EditClearAll", clear_all_cmd),
+	BONOBO_UI_UNSAFE_VERB ("EditClearFormats", clear_formats_cmd),
+	BONOBO_UI_UNSAFE_VERB ("EditClearComments", clear_comments_cmd),
+	BONOBO_UI_UNSAFE_VERB ("EditClearContent", clear_content_cmd),
 
-	BONOBO_UI_VERB ("EditSelectAll", cb_edit_select_all),
-	BONOBO_UI_VERB ("EditSelectRow", cb_edit_select_row),
-	BONOBO_UI_VERB ("EditSelectColumn", cb_edit_select_col),
-	BONOBO_UI_VERB ("EditSelectArray", cb_edit_select_array),
-	BONOBO_UI_VERB ("EditSelectDepends", cb_edit_select_depends),
+	BONOBO_UI_UNSAFE_VERB ("EditSelectAll", cb_edit_select_all),
+	BONOBO_UI_UNSAFE_VERB ("EditSelectRow", cb_edit_select_row),
+	BONOBO_UI_UNSAFE_VERB ("EditSelectColumn", cb_edit_select_col),
+	BONOBO_UI_UNSAFE_VERB ("EditSelectArray", cb_edit_select_array),
+	BONOBO_UI_UNSAFE_VERB ("EditSelectDepends", cb_edit_select_depends),
 
-	BONOBO_UI_VERB ("EditUndo", undo_cmd),
-	BONOBO_UI_VERB ("EditRedo", redo_cmd),
-	BONOBO_UI_VERB ("EditCut", cut_cmd),
-	BONOBO_UI_VERB ("EditCopy", copy_cmd),
-	BONOBO_UI_VERB ("EditPaste", paste_cmd),
-	BONOBO_UI_VERB ("EditPasteSpecial", paste_special_cmd),
-	BONOBO_UI_VERB ("EditDelete", delete_cells_cmd),
-	BONOBO_UI_VERB ("EditDeleteSheet", delete_sheet_cmd),
-	BONOBO_UI_VERB ("EditGoto", goto_cell_cmd),
-	BONOBO_UI_VERB ("EditRecalc", recalc_cmd),
+	BONOBO_UI_UNSAFE_VERB ("EditUndo", undo_cmd),
+	BONOBO_UI_UNSAFE_VERB ("EditRedo", redo_cmd),
+	BONOBO_UI_UNSAFE_VERB ("EditCut", cut_cmd),
+	BONOBO_UI_UNSAFE_VERB ("EditCopy", copy_cmd),
+	BONOBO_UI_UNSAFE_VERB ("EditPaste", paste_cmd),
+	BONOBO_UI_UNSAFE_VERB ("EditPasteSpecial", paste_special_cmd),
+	BONOBO_UI_UNSAFE_VERB ("EditDelete", delete_cells_cmd),
+	BONOBO_UI_UNSAFE_VERB ("EditDeleteSheet", delete_sheet_cmd),
+	BONOBO_UI_UNSAFE_VERB ("EditGoto", goto_cell_cmd),
+	BONOBO_UI_UNSAFE_VERB ("EditRecalc", recalc_cmd),
 
-	BONOBO_UI_VERB ("ViewZoom", zoom_cmd),
+	BONOBO_UI_UNSAFE_VERB ("ViewZoom", zoom_cmd),
 
-	BONOBO_UI_VERB ("InsertCurrentDate", insert_current_date_cmd),
-	BONOBO_UI_VERB ("InsertCurrentTime", insert_current_time_cmd),
-	BONOBO_UI_VERB ("EditNames", cb_edit_named_expr),
+	BONOBO_UI_UNSAFE_VERB ("InsertCurrentDate", insert_current_date_cmd),
+	BONOBO_UI_UNSAFE_VERB ("InsertCurrentTime", insert_current_time_cmd),
+	BONOBO_UI_UNSAFE_VERB ("EditNames", cb_edit_named_expr),
 
-	BONOBO_UI_VERB ("InsertSheet", insert_sheet_cmd),
-	BONOBO_UI_VERB ("InsertRows", insert_rows_cmd),
-	BONOBO_UI_VERB ("InsertColumns", insert_cols_cmd),
-	BONOBO_UI_VERB ("InsertCells", insert_cells_cmd),
-	BONOBO_UI_VERB ("InsertObject", create_bonobo_object),
-	BONOBO_UI_VERB ("InsertComment", workbook_edit_comment),
+	BONOBO_UI_UNSAFE_VERB ("InsertSheet", insert_sheet_cmd),
+	BONOBO_UI_UNSAFE_VERB ("InsertRows", insert_rows_cmd),
+	BONOBO_UI_UNSAFE_VERB ("InsertColumns", insert_cols_cmd),
+	BONOBO_UI_UNSAFE_VERB ("InsertCells", insert_cells_cmd),
+	BONOBO_UI_UNSAFE_VERB ("InsertObject", create_bonobo_object),
+	BONOBO_UI_UNSAFE_VERB ("InsertComment", workbook_edit_comment),
 	
-	BONOBO_UI_VERB ("ColumnAutoSize",
+	BONOBO_UI_UNSAFE_VERB ("ColumnAutoSize",
 		workbook_cmd_format_column_auto_fit),
-	BONOBO_UI_VERB ("ColumnSize",
+	BONOBO_UI_UNSAFE_VERB ("ColumnSize",
 		sheet_dialog_set_column_width),
-	BONOBO_UI_VERB ("ColumnHide",
+	BONOBO_UI_UNSAFE_VERB ("ColumnHide",
 		workbook_cmd_format_column_hide),
-	BONOBO_UI_VERB ("ColumnUnhide",
+	BONOBO_UI_UNSAFE_VERB ("ColumnUnhide",
 		workbook_cmd_format_column_unhide),
-	BONOBO_UI_VERB ("ColumnDefaultSize",
+	BONOBO_UI_UNSAFE_VERB ("ColumnDefaultSize",
 		workbook_cmd_format_column_std_width),
 
-	BONOBO_UI_VERB ("RowAutoSize",
+	BONOBO_UI_UNSAFE_VERB ("RowAutoSize",
 		workbook_cmd_format_row_auto_fit),
-	BONOBO_UI_VERB ("RowSize",
+	BONOBO_UI_UNSAFE_VERB ("RowSize",
 		sheet_dialog_set_row_height),
-	BONOBO_UI_VERB ("RowHide",
+	BONOBO_UI_UNSAFE_VERB ("RowHide",
 		workbook_cmd_format_row_hide),
-	BONOBO_UI_VERB ("RowUnhide",
+	BONOBO_UI_UNSAFE_VERB ("RowUnhide",
 		workbook_cmd_format_row_unhide),
-	BONOBO_UI_VERB ("RowDefaultSize",
+	BONOBO_UI_UNSAFE_VERB ("RowDefaultSize",
 		workbook_cmd_format_row_std_height),
 
-	BONOBO_UI_VERB ("SheetChangeName",
+	BONOBO_UI_UNSAFE_VERB ("SheetChangeName",
 		workbook_cmd_format_sheet_change_name),
-	BONOBO_UI_VERB ("SheetReorder",
+	BONOBO_UI_UNSAFE_VERB ("SheetReorder",
 		sheet_order_cmd),
-	BONOBO_UI_VERB ("SheetDisplayFormulas",
+	BONOBO_UI_UNSAFE_VERB ("SheetDisplayFormulas",
 		cb_sheet_pref_display_formulas),
-	BONOBO_UI_VERB ("SheetHideZeros",
+	BONOBO_UI_UNSAFE_VERB ("SheetHideZeros",
 		cb_sheet_pref_hide_zeros),
-	BONOBO_UI_VERB ("SheetHideGridlines",
+	BONOBO_UI_UNSAFE_VERB ("SheetHideGridlines",
 		cb_sheet_pref_hide_grid_lines),
-	BONOBO_UI_VERB ("SheetHideColHeader",
+	BONOBO_UI_UNSAFE_VERB ("SheetHideColHeader",
 		cb_sheet_pref_hide_col_header),
-	BONOBO_UI_VERB ("SheetHideRowHeader",
+	BONOBO_UI_UNSAFE_VERB ("SheetHideRowHeader",
 		cb_sheet_pref_hide_row_header),
 
-	BONOBO_UI_VERB ("FormatCells", format_cells_cmd),
-	BONOBO_UI_VERB ("FormatAuto", autoformat_cmd),
-	BONOBO_UI_VERB ("FormatWorkbook", workbook_attr_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FormatCells", format_cells_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FormatAuto", autoformat_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FormatWorkbook", workbook_attr_cmd),
 	
-	BONOBO_UI_VERB ("ToolsPlugins", plugins_cmd),
-	BONOBO_UI_VERB ("ToolsAutoCorrect", autocorrect_cmd),
-	BONOBO_UI_VERB ("ToolsAutoSave", autosave_cmd),
-	BONOBO_UI_VERB ("ToolsGoalSeek", goal_seek_cmd),
-	BONOBO_UI_VERB ("ToolsSolver", solver_cmd),
-	BONOBO_UI_VERB ("ToolsDataAnalysis", data_analysis_cmd),
+	BONOBO_UI_UNSAFE_VERB ("ToolsPlugins", plugins_cmd),
+	BONOBO_UI_UNSAFE_VERB ("ToolsAutoCorrect", autocorrect_cmd),
+	BONOBO_UI_UNSAFE_VERB ("ToolsAutoSave", autosave_cmd),
+	BONOBO_UI_UNSAFE_VERB ("ToolsGoalSeek", goal_seek_cmd),
+	BONOBO_UI_UNSAFE_VERB ("ToolsSolver", solver_cmd),
+	BONOBO_UI_UNSAFE_VERB ("ToolsDataAnalysis", data_analysis_cmd),
 	
-	BONOBO_UI_VERB ("DataSort", sort_cells_cmd),
-	BONOBO_UI_VERB ("DataFilter", advanced_filter_cmd),
+	BONOBO_UI_UNSAFE_VERB ("DataSort", sort_cells_cmd),
+	BONOBO_UI_UNSAFE_VERB ("DataFilter", advanced_filter_cmd),
 
-	BONOBO_UI_VERB ("AutoSum", autosum_cmd),
-	BONOBO_UI_VERB ("FunctionGuru", formula_guru),
-	BONOBO_UI_VERB ("SortAscending", sort_ascend_cmd),
-	BONOBO_UI_VERB ("SortDescending", sort_descend_cmd),
-	BONOBO_UI_VERB ("GraphGuru", launch_graph_guru),
-	BONOBO_UI_VERB ("InsertComponent", verb_insert_component),
-	BONOBO_UI_VERB ("InsertShapedComponent", verb_insert_shaped_component),
+	BONOBO_UI_UNSAFE_VERB ("AutoSum", autosum_cmd),
+	BONOBO_UI_UNSAFE_VERB ("FunctionGuru", formula_guru),
+	BONOBO_UI_UNSAFE_VERB ("SortAscending", sort_ascend_cmd),
+	BONOBO_UI_UNSAFE_VERB ("SortDescending", sort_descend_cmd),
+	BONOBO_UI_UNSAFE_VERB ("GraphGuru", launch_graph_guru),
+	BONOBO_UI_UNSAFE_VERB ("InsertComponent", verb_insert_component),
+	BONOBO_UI_UNSAFE_VERB ("InsertShapedComponent", verb_insert_shaped_component),
 
-	BONOBO_UI_VERB ("HelpAbout", about_cmd),
+	BONOBO_UI_UNSAFE_VERB ("HelpAbout", about_cmd),
 
-	BONOBO_UI_VERB ("DebugDumpXml", verb_debug_dump_xml),
+	BONOBO_UI_UNSAFE_VERB ("DebugDumpXml", verb_debug_dump_xml),
 
 	BONOBO_UI_VERB_END
 };
@@ -2236,8 +2236,8 @@ workbook_setup_auto_calc (Workbook *wb)
 		control = bonobo_control_new (frame);
 		g_return_if_fail (control != NULL);
 		
-		bonobo_ui_container_object_set (
-			bonobo_ui_compat_get_container (wb->priv->uih),
+		bonobo_ui_component_object_set (
+			BONOBO_UI_COMPONENT (wb->priv->uih),
 			"/status/AutoExpr",
 			bonobo_object_corba_objref (BONOBO_OBJECT (control)),
 			NULL);
@@ -2272,8 +2272,8 @@ setup_progress_bar (WorkbookPrivate *priv)
 	control = bonobo_control_new (priv->progress_bar);
 	g_return_if_fail (control != NULL);
 
-	bonobo_ui_container_object_set (
-		bonobo_ui_compat_get_container (priv->uih),
+	bonobo_ui_component_object_set (
+		BONOBO_UI_COMPONENT (priv->uih),
 		"/status/Progress",
 		bonobo_object_corba_objref (BONOBO_OBJECT (control)),
 		NULL);
@@ -2835,14 +2835,12 @@ workbook_new (void)
 	{
 		BonoboUIComponent *component =
 			bonobo_ui_compat_get_component (wb->priv->uih);
-		Bonobo_UIContainer container = 
-			bonobo_ui_compat_get_container (wb->priv->uih);
 
 		bonobo_ui_component_add_verb_list_with_data (
 			component, verbs, wb);
 		
 		bonobo_ui_util_set_ui (
-			component, container, GNOME_DATADIR,
+			component, GNOME_DATADIR,
 			"gnumeric.xml", "gnumeric");
 	}
 	/* Do after setting up UI bits in the bonobo case */

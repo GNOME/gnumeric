@@ -166,17 +166,17 @@ static GnomeUIInfo workbook_object_toolbar [] = {
 #else
 
 static BonoboUIVerb verbs [] = {
-	BONOBO_UI_VERB ("CreateLabel", cmd_create_label),
-	BONOBO_UI_VERB ("CreateFrame", cmd_create_frame),
-	BONOBO_UI_VERB ("CreateButton", cmd_create_button),
-	BONOBO_UI_VERB ("CreateCheckbox", cmd_create_checkbox),
-	BONOBO_UI_VERB ("CreateRadiobutton", cmd_create_radiobutton),
-	BONOBO_UI_VERB ("CreateList", cmd_create_list),
-	BONOBO_UI_VERB ("CreateCombobox", cmd_create_combobox),
-	BONOBO_UI_VERB ("CreateLine", cmd_create_line),
-	BONOBO_UI_VERB ("CreateArrow", cmd_create_arrow),
-	BONOBO_UI_VERB ("CreateRectangle", cmd_create_rectangle),
-	BONOBO_UI_VERB ("CreateEllipse", cmd_create_ellipse),
+	BONOBO_UI_UNSAFE_VERB ("CreateLabel", cmd_create_label),
+	BONOBO_UI_UNSAFE_VERB ("CreateFrame", cmd_create_frame),
+	BONOBO_UI_UNSAFE_VERB ("CreateButton", cmd_create_button),
+	BONOBO_UI_UNSAFE_VERB ("CreateCheckbox", cmd_create_checkbox),
+	BONOBO_UI_UNSAFE_VERB ("CreateRadiobutton", cmd_create_radiobutton),
+	BONOBO_UI_UNSAFE_VERB ("CreateList", cmd_create_list),
+	BONOBO_UI_UNSAFE_VERB ("CreateCombobox", cmd_create_combobox),
+	BONOBO_UI_UNSAFE_VERB ("CreateLine", cmd_create_line),
+	BONOBO_UI_UNSAFE_VERB ("CreateArrow", cmd_create_arrow),
+	BONOBO_UI_UNSAFE_VERB ("CreateRectangle", cmd_create_rectangle),
+	BONOBO_UI_UNSAFE_VERB ("CreateEllipse", cmd_create_ellipse),
 	BONOBO_UI_VERB_END
 };
 #endif

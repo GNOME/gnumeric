@@ -1,3 +1,16 @@
+2000-10-05  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in (gnumeric_executable): look for bonobo >= 0.20
+
+	* src/workbook.c (setup_progress_bar): upd.
+
+	* src/gnumeric-util.c (gnumeric_inject_widget_into_bonoboui): upd.
+
+	* src/workbook.c s/BONOBO_UI_VERB/BONOBO_UI_UNSAFE_VERB/
+
+	* src/history.c (history_menu_insert_items): upd.
+	(history_menu_remove_items): upd.
+
 2000-10-05  Christophe Merlet  <christophe@merlet.net>
 
 	* gnumeric.desktop.in: updated french strings.

@@ -204,8 +204,7 @@ history_menu_insert_items (Workbook *wb, GList *name_list)
 		label = history_item_label (l->data, accel_number);
 		str = g_strdup_printf ("<menuitem name=\"FileHistory%d\" label=\"%s\"/>\n",
 				       accel_number, label);
-		bonobo_ui_component_set (bonobo_ui_compat_get_component (wb->priv->uih),
-					 bonobo_ui_compat_get_container (wb->priv->uih),
+		bonobo_ui_component_set (BONOBO_UI_COMPONENT (wb->priv->uih),
 					 "/menu/File/FileHistory",
 					 str, &ev);
 		g_free (str);
@@ -246,9 +245,7 @@ history_menu_remove_items (Workbook *wb, GList *name_list)
 		char *path;
 
 		path = g_strdup_printf ("/menu/File/FileHistory%d", accel_number);
-		bonobo_ui_component_rm (bonobo_ui_compat_get_component (wb->priv->uih),
-					bonobo_ui_compat_get_container (wb->priv->uih),
-					path, &ev);
+		bonobo_ui_component_rm (BONOBO_UI_COMPONENT (wb->priv->uih), path, &ev);
 		g_free (path);
 	}
 	CORBA_exception_free (&ev);
