@@ -18,7 +18,7 @@
 #   define WORKBOOK_PARENT_CLASS_TYPE GNOME_OBJECT_TYPE
 #else
 #   define WORKBOOK_PARENT_CLASS      GtkObject
-#   define WORKBOOK_PARENT_CLASS_TYPE GTK_OBJECT_TYPE
+#   define WORKBOOK_PARENT_CLASS_TYPE gtk_object_get_type()
 #endif
 
 /* Forward declaration */

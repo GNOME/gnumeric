@@ -1,3 +1,8 @@
+1999-08-09  Michael Meeks  <michael@imaginator.com>
+
+	* src/workbook.c (workbook_class_init): Moved hack to workbook.h,
+	and removed comment.
+
 1999-08-09  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-math.c: Added MINVERSE().

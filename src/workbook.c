@@ -1774,9 +1774,7 @@ workbook_init (GtkObject *object)
 static void
 workbook_class_init (GtkObjectClass *object_class)
 {
-/* FIXME: comment out so CVS compiles */
-/*	workbook_parent_class = gtk_type_class (WORKBOOK_PARENT_CLASS_TYPE);*/
-
+	workbook_parent_class = gtk_type_class (WORKBOOK_PARENT_CLASS_TYPE);
 	object_class->destroy = workbook_destroy;
 }
 
