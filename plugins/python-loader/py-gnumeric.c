@@ -2056,7 +2056,7 @@ py_initgnumeric (GnmPyInterpreter *interpreter)
 
 	init_err (module_dict, "GnumericErrorNULL", GNM_ERROR_NULL);
 	init_err (module_dict, "GnumericErrorDIV0", GNM_ERROR_DIV0);
-	init_err (module_dict, "GnumericErrorVALUEL", GNM_ERROR_VALUE);
+	init_err (module_dict, "GnumericErrorVALUE", GNM_ERROR_VALUE);
 	init_err (module_dict, "GnumericErrorREF", GNM_ERROR_REF);
 	init_err (module_dict, "GnumericErrorNAME", GNM_ERROR_NAME);
 	init_err (module_dict, "GnumericErrorNUM", GNM_ERROR_NUM);
