@@ -249,7 +249,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		margin = cell->col_info->margin_b;
 
 		for (; left > 0 && pos < max_col; pos++){
-			ColRowInfo *ci = sheet_col_get_info (sheet, pos);
+			ColRowInfo const *ci = sheet_col_get_info (sheet, pos);
 
 			if (ci->visible) {
 				if (!cell_is_empty (cell, pos, ri))

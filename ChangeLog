@@ -1,3 +1,17 @@
+2001-02-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print.c (print_page) : Add a simple filter to avoid printing
+	  pages with no content.  Currently uses only cells.  No tests for
+	  visible styles on blank cells.
+
+	* src/cellspan.c (cell_calc_span) : improve const.
+
+2001-02-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/style-border.c (style_border_data) : DO NOT use width 0 lines
+	  with dashes.  Strange offset problems happen when you do partial
+	  redraws.
+
 2001-02-06  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook-private.c (workbook_private_new): Fix prototype.

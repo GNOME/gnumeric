@@ -77,7 +77,7 @@ void   style_border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type);
 void style_borders_row_draw  (StyleBorder const * const * prev_vert,
 			      StyleRow const *sr,
 			      StyleRow const *next_sr,
-			      GdkDrawable * const drawable,
+			      GdkDrawable *drawable,
 			      int x, int y1, int y2,
 			      Sheet const *sheet, gboolean draw_vertical);
 void style_borders_row_print (StyleBorder const * const * prev_vert,
@@ -88,10 +88,10 @@ void style_borders_row_print (StyleBorder const * const * prev_vert,
 			      Sheet const *sheet, gboolean draw_vertical);
 
 /* deprecated */
-void style_border_draw  (StyleBorder const * const st, StyleBorderLocation const t,
-			 GdkDrawable * const drawable,
+void style_border_draw  (StyleBorder const *st, StyleBorderLocation t,
+			 GdkDrawable *drawable,
 			 int x1, int y1, int x2, int y2,
-			 StyleBorder const * const extend_begin,
-			 StyleBorder const * const extend_end);
+			 StyleBorder const *extend_begin,
+			 StyleBorder const *extend_end);
 
 #endif /* GNUMERIC_STYLE_BORDER_H */

@@ -30,6 +30,7 @@
 #include "workbook.h"
 #include "dialogs.h"
 #include "main.h"
+#include "cellspan.h"
 #include "print-info.h"
 #include "print.h"
 #include "print-cell.h"
@@ -368,6 +369,18 @@ setup_rotation (PrintJobInfo *pj)
 	gnome_print_concat (pj->print_context, affine);
 }
 
+static Value *
+cb_range_empty (Sheet *sheet, int col, int row, Cell *cell, gpointer flags)
+{
+	ColRowInfo const *cri = sheet_col_get_info (sheet, col);
+	if (!cri->visible)
+		return NULL;
+	cri = sheet_row_get_info (sheet, row);
+	if (!cri->visible)
+		return NULL;
+	return value_terminate ();
+}
+
 /**
  * print_page:
  * @sheet:     the sheet to print
@@ -419,9 +432,23 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 	} else
 		repeat_cols_used_x = 0;
 
-	printed =  TRUE;
-#warning check for content WITHOUT pretending to print
-	    /* start_col, start_row, end_col, end_row */
+	/* If there are no cells in the area check for spans */
+	printed = (NULL == sheet_foreach_cell_in_range (sheet, TRUE,
+							start_col, start_row,
+							end_col, end_row,
+							cb_range_empty, NULL));
+	if (!printed) {
+		int i = start_row;
+		for (; i <= end_row ; ++i) {
+			ColRowInfo const *ri = sheet_col_get_info (sheet, i);
+			if (ri->visible &&
+			    (NULL != row_span_get (ri, start_col) ||
+			     NULL != row_span_get (ri, end_col))) {
+				printed = TRUE;
+				break;
+			}
+		}
+	}
 
 	if (!output)
 		return printed;
