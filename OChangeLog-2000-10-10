@@ -1,3 +1,12 @@
+2000-06-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_relocate) : when relocating the expression
+	  be careful to use the offsets when calculating the validity.
+
+	* src/workbook-edit.c (workbook_auto_complete_destroy) : Only remove
+	  signal if it has been activated.  Only delete the completer if it
+	  exists.
+
 2000-06-05  Miguel de Icaza  <miguel@helixcode.com>
 
 	* src/gnumeric-util.c (gtk_radio_button_select): Add

@@ -233,14 +233,14 @@ cell_relocate (Cell *cell, int col_offset, int row_offset, gboolean check_bounds
 
 			rwinfo.type = EXPR_REWRITE_RELOCATE;
 			rinfo = &rwinfo.u.relocate;
-			rinfo->origin.start.col =
-				rinfo->origin.end.col = cell->col_info->pos;
-			rinfo->origin.start.row =
-				rinfo->origin.end.row = cell->row_info->pos;
+			rinfo->origin.start.col = rinfo->origin.end.col =
+				cell->col_info->pos - col_offset;
+			rinfo->origin.start.row = rinfo->origin.end.row =
+				cell->row_info->pos - row_offset;
 			rinfo->origin_sheet = rinfo->target_sheet = cell->sheet;
 			rinfo->col_offset = col_offset;
 			rinfo->row_offset = row_offset;
-			eval_pos_init_cell (&rinfo->pos, cell);
+			eval_pos_init (&rinfo->pos, cell->sheet, &rinfo->origin.start);
 			expr = expr_rewrite (expr, &rwinfo);
 
 			if (expr != NULL) {

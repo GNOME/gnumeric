@@ -249,8 +249,6 @@ Office 2000 and 'explorer' compatibility.
       of the input range.
 
 * Undo 
-  * Commands to do
-      - autofill
   * Commands to link in
       - Row/Col resize.  The current linkage between itembar and sheet is odd.
         we seem to set the column size for the sheet several times.
@@ -262,7 +260,6 @@ Office 2000 and 'explorer' compatibility.
 * Excel Import
   * Localise sheet/workbook Name import,
   * Import names even if they arn't referenced.
-  * The big SST re-write.
 
 * Excel Export
   * Detect large style ranges and correctly set the default row/col/sheet styles.

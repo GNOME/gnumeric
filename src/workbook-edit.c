@@ -31,13 +31,17 @@ workbook_auto_complete_destroy (Workbook *wb)
 		wb_priv->auto_complete_text = NULL;
 	}
 
-	gtk_signal_disconnect (GTK_OBJECT (workbook_get_entry (wb)),
-			       wb_priv->edit_line.signal_changed);
-	wb_priv->edit_line.signal_changed = -1;
+	if (wb_priv->edit_line.signal_changed >= 0) {
+		gtk_signal_disconnect (GTK_OBJECT (workbook_get_entry (wb)),
+				       wb_priv->edit_line.signal_changed);
+		wb_priv->edit_line.signal_changed = -1;
+	}
 	
 	if (application_use_auto_complete_get ()){
-		gtk_object_unref (GTK_OBJECT (wb_priv->auto_complete));
-		wb_priv->auto_complete = NULL;
+		    if (wb_priv->auto_complete) {
+			    gtk_object_unref (GTK_OBJECT (wb_priv->auto_complete));
+			    wb_priv->auto_complete = NULL;
+		    }
 	} else
 		g_assert (wb_priv->auto_complete == NULL);
 
