@@ -2148,7 +2148,7 @@ static char const *help_opt_binomial = {
 	"@SYNTAX=OPT_BINOMIAL(amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, volatility, cost_of_carry)\n"
 	"@DESCRIPTION="
 	"OPT_ models the theoretical price of either an American or European style option using a binomial tree \n"
-	"@amer_euro_flag is either \"a\" or \"e\" to indicate weather the option being valued is an American or European style option respectively\n"
+	"@amer_euro_flag is either \"a\" or \"e\" to indicate whether the option being valued is an American or European style option respectively\n"
 	"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n" 
 	"@num_time_steps is the number of time steps used in the valuation, a greater number of time steps yeilds greater accuracy however is slower to calculate\n"
 	"@spot is the spot price of the underlying asset.\n"
