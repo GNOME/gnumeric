@@ -328,11 +328,11 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			y = *y_vals++;
 			valid = !isnan (y) && !isnan (x);
 			if (valid) {
-				if (isinf (y))
+				if (!finite (y))
 					y = 0; /* excel is just sooooo consistent */
-				if (isinf (x))
+				if (!finite (x))
 					x = i;
-#warning move map into axis
+#warning "move map into axis"
 				x = x_off + x_scale * x;
 				y = y_off + y_scale * y;
 				if (prev_valid && show_lines) {
