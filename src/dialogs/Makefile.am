@@ -102,7 +102,8 @@ glade_DATA = 				\
 	function-select.glade 		\
 	formula-guru.glade		\
 	workbook-attr.glade		\
-	graph-guru.glade
+	graph-guru.glade		\
+	validate.glade
 
 glade_msgs = 				\
 	advanced-filter.glade.h		\
@@ -136,6 +137,7 @@ glade_msgs = 				\
 	function-select.glade.h		\
 	formula-guru.glade.h		\
 	workbook-attr.glade.h		\
-	graph-guru.glade.h
+	graph-guru.glade.h		\
+	validate.glade.h
 
 EXTRA_DIST = $(glade_DATA) $(glade_msgs)
