@@ -1,5 +1,9 @@
 2003-05-01  Morten Welinder  <terra@gnome.org>
 
+	* src/mathfunc.c (fmin2, fmax2, imin2, imax2): Make these inline
+	functions instead of macros.  (The R versions are functions.)
+	(gammafn): Delete.
+
 	* src/mstyle.c (mstyle_get_pango_attrs): Add zoom parameter.
 	* src/rendered-value.c (rendered_value_new): Supply zoom.
 

@@ -125,6 +125,10 @@ sub import_file {
 	    # Fix a bug...
 	    s/\(\(-37\.5193 < x\) \|\| \(x < 8\.2924\)\)/((-37.5193 < x) && (x < 8.2924))/;
 
+	    # Optimization given out stupid gammafn.
+	    s|> 10|< 10| if /p and q are small: p <= q > 10/;
+	    s|loggnum\(gammafn\(p\) \* \(gammafn\(q\) / gammafn\(p \+ q\)\)\)|lgammagnum(p) + lgammagnum(q) - lgammagnum(p + q)|;
+
 	    s/dnorm4/dnorm/g;
 	    s/pnorm5/pnorm/g;
 	    s/qnorm5/qnorm/g;

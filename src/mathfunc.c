@@ -67,13 +67,13 @@
 #define MATHLIB_WARNING g_warning
 #define MATHLIB_WARNING2 g_warning
 #define MATHLIB_WARNING4 g_warning
-#define fmin2(_x,_y) MIN(_x, _y)
-#define imin2(_x,_y) MIN(_x, _y)
-#define fmax2(_x,_y) MAX(_x, _y)
-#define imax2(_x,_y) MAX(_x, _y)
 
-#define gammafn(_x) expgnum (lgammagnum (_x))
-#define gamma_cody(_x) gammafn (_x)
+static inline gnm_float fmin2 (gnm_float x, gnm_float y) { return MIN (x, y); }
+static inline gnm_float fmax2 (gnm_float x, gnm_float y) { return MAX (x, y); }
+static inline int imin2 (int x, int y) { return MIN (x, y); }
+static inline int imax2 (int x, int y) { return MAX (x, y); }
+
+#define gamma_cody(_x) expgnum (lgammagnum (_x))
 #define lfastchoose(_n,_k) (lgammagnum((_n) + 1.0) - lgammagnum((_k) + 1.0) - lgammagnum((_n) - (_k) + 1.0))
 
 #define MATHLIB_STANDALONE
@@ -1742,8 +1742,8 @@ static gnm_float lbeta(gnm_float a, gnm_float b)
 		+ (q - 0.5) * log1pgnum(-p / (p + q));
     }
     else
-	/* p and q are small: p <= q > 10. */
-	return loggnum(gammafn(p) * (gammafn(q) / gammafn(p + q)));
+	/* p and q are small: p <= q < 10. */
+	return lgammagnum(p) + lgammagnum(q) - lgammagnum(p + q);
 }
 
 /* ------------------------------------------------------------------------ */

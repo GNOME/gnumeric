@@ -1,5 +1,8 @@
 2003-05-01  Morten Welinder  <terra@gnome.org>
 
+	* import-R (import_file): Optimize lbeta slightly (given our
+	stupid gammagn).
+
 	* import-R (import_file): Patch an R bug.
 
 2003-03-05  Morten Welinder  <terra@diku.dk>
