@@ -125,29 +125,6 @@ gnum_float     fact   (int n);
 
 /* ------------------------------------------------------------------------- */
 
-/* Optimization methods for the Solver tool. */
-
-
-/* Affine scaling */
-
-typedef void (*affscale_callback_fun_t) (int iter, gnum_float *x,
-					 gnum_float bv, gnum_float cx,
-					 int n_variables, void *data);
-
-gboolean affine_init (gnum_float *A, gnum_float *b, gnum_float *c, int n_constraints,
-		      int n_variables, gnum_float *x);
-gboolean affine_scale (gnum_float *A, gnum_float *b, gnum_float *c, gnum_float *x,
-		       int n_constraints, int n_variables, gboolean max_flag,
-		       gnum_float e, int max_iter,
-		       affscale_callback_fun_t fun, void *data);
-
-gboolean branch_and_bound (gnum_float *A, gnum_float *b, gnum_float *c, gnum_float *xx,
-			   int n_constraints, int n_variables, int n_original,
-			   gboolean max_flag, gnum_float e, int max_iter,
-			   gboolean *int_r,
-			   affscale_callback_fun_t fun, void *data,
-			   gnum_float *best);
-
 void stern_brocot (float val, int max_denom, int *res_num, int *res_denom);
 
 #endif

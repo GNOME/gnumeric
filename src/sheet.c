@@ -217,7 +217,7 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->max_object_extent.col = sheet->max_object_extent.row = 0;
 
 	sheet->last_zoom_factor_used = 1.0;
-	sheet->solver_parameters = solver_lp_new ();
+	sheet->solver_parameters = solver_param_new ();
 
 	sheet->cols.max_used = -1;
 	g_ptr_array_set_size (sheet->cols.info = g_ptr_array_new (),
@@ -2881,7 +2881,7 @@ sheet_destroy (Sheet *sheet)
 
 	g_free (sheet->name_quoted);
 	g_free (sheet->name_unquoted);
-	solver_lp_destroy (sheet->solver_parameters);
+	solver_param_destroy (sheet->solver_parameters);
 
 	sheet_deps_destroy (sheet);
 	sheet_destroy_contents (sheet);
@@ -4386,7 +4386,7 @@ sheet_duplicate	(Sheet const *src)
 	sheet_object_clone_sheet   (src, dst);
 
 	/* Copy the solver */
-	solver_lp_destroy (dst->solver_parameters);
+	solver_param_destroy (dst->solver_parameters);
 	dst->solver_parameters = solver_lp_copy (src->solver_parameters, dst);
 
 	/* Force a respan and rerender */

@@ -2,7 +2,7 @@
 # Gnumeric's Makefile.
 # Author: Miguel de Icaza (miguel@kernel.org)
 
-SUBDIRS = dialogs functions pixmaps widgets
+SUBDIRS = dialogs functions pixmaps widgets tools
 
 bin_PROGRAMS = gnumeric
 #noinst_PROGRAMS = number-match
@@ -199,7 +199,6 @@ GNUMERIC_BASE =					\
 	sheet-control-gui.c			\
 	sheet-control-gui.h			\
 	sheet-control-gui-priv.h		\
-	solver-lp.c                     	\
 	solver.h				\
 	sort.c					\
 	sort.h					\
@@ -300,7 +299,11 @@ gnumeric_LDFLAGS = -export-dynamic
 gnumeric_app_libs =				\
 	dialogs/libdialogs.a			\
 	widgets/libwidgets.a			\
-	functions/libfunctions.a
+	functions/libfunctions.a		\
+	tools/libtools.a			\
+	tools/solver/libsolver.a		\
+	tools/solver/lp_solve/liblp_solve.a
+
 
 gnm-marshalers.h : gnm-marshalers.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --header --prefix=gnm_ > $@

@@ -1968,22 +1968,22 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 		xml_node_get_int (child, "Type", &type);
 		switch (type) {
 		case 1:
-		        c->type = "<=";
+		        c->type = SolverLE;
 			break;
 		case 2:
-		        c->type = ">=";
+		        c->type = SolverGE;
 			break;
 		case 4:
-		        c->type = "=";
+		        c->type = SolverEQ;
 			break;
 		case 8:
-		        c->type = "Int";
+		        c->type = SolverINT;
 			break;
 		case 16:
-		        c->type = "Bool";
+		        c->type = SolverBOOL;
 			break;
 		default:
-		        c->type = "<=";
+		        c->type = SolverLE;
 			break;
 		}
 		c->str = write_constraint_str (c->lhs.col, c->lhs.row,
@@ -2031,18 +2031,26 @@ xml_write_solver (XmlParseContext *ctxt, SolverParameters const *param)
 		xml_node_set_int (constr, "Cols", c->cols);
 		xml_node_set_int (constr, "Rows", c->rows);
 
-		if (strcmp (c->type, "<=") == 0)
+		switch (c->type) {
+		case SolverLE:
 		        xml_node_set_int (constr, "Type", 1);
-		else if (strcmp (c->type, ">=") == 0)
+			break;
+		case SolverGE:
 		        xml_node_set_int (constr, "Type", 2);
-		else if (strcmp (c->type, "=") == 0)
+			break;
+		case SolverEQ:
 		        xml_node_set_int (constr, "Type", 4);
-		else if (strcmp (c->type, "Int") == 0)
+			break;
+		case SolverINT:
 		        xml_node_set_int (constr, "Type", 8);
-		else if (strcmp (c->type, "Bool") == 0)
+			break;
+		case SolverBOOL:
 		        xml_node_set_int (constr, "Type", 16);
-		else
+			break;
+		default:
 		        xml_node_set_int (constr, "Type", 0);
+			break;
+		}
 
 		if (!prev)
 		        xmlAddChild (cur, constr);

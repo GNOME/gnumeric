@@ -1,0 +1,382 @@
+/*
+ * reports.c:  Solver report generation.
+ *
+ * Author:
+ *   Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
+ *
+ * (C) Copyright 1999, 2000, 2002 by Jukka-Pekka Iivonen
+*/
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include "numbers.h"
+
+#include "parse-util.h"
+#include "solver.h"
+#include "func.h"
+#include "cell.h"
+#include "sheet.h"
+#include "sheet-style.h"
+#include "eval.h"
+#include "dialogs.h"
+#include "mstyle.h"
+#include "mathfunc.h"
+#include "analysis-tools.h"
+
+#include <math.h>
+#include <stdlib.h>
+
+/* ------------------------------------------------------------------------- */
+
+
+static void
+set_bold (Sheet *sheet, int col1, int row1, int col2, int row2)
+{
+	MStyle *mstyle = mstyle_new ();
+	Range  range;
+
+	range.start.col = col1;
+	range.start.row = row1;
+	range.end.col   = col2;
+	range.end.row   = row2;
+
+	mstyle_set_font_bold (mstyle, TRUE);
+	sheet_style_apply_range (sheet, &range, mstyle);
+}
+
+static char *
+find_name (Sheet *sheet, int col, int row)
+{
+        static char *str = NULL;
+	const char  *col_str = "";
+	const char  *row_str = "";
+        int         col_n, row_n;
+
+	for (col_n = col - 1; col_n >= 0; col_n--) {
+	        Cell *cell = sheet_cell_get (sheet, col_n, row);
+		if (cell && !VALUE_IS_NUMBER (cell->value)) {
+			col_str = value_peek_string (cell->value);
+		        break;
+		}
+	}
+
+	for (row_n = row - 1; row_n >= 0; row_n--) {
+	        Cell *cell = sheet_cell_get (sheet, col, row_n);
+		if (cell && !VALUE_IS_NUMBER (cell->value)) {
+			row_str = value_peek_string (cell->value);
+		        break;
+		}
+	}
+
+	if (str)
+	        g_free (str);
+	str = g_new (char, strlen (col_str) + strlen (row_str) + 2);
+
+	if (*col_str)
+	        sprintf (str, "%s %s", col_str, row_str);
+	else
+	        sprintf (str, "%s", row_str);
+
+	return str;
+}
+
+static void
+fill_header_titles (data_analysis_output_t *dao, gchar *title, Sheet *sheet)
+{
+	GString *buf;
+	GDate   date;
+	gchar   str[256];
+
+	buf = g_string_new ("");
+	g_string_sprintfa (buf, "%s %s %s", 
+			   _("Gnumeric Solver"), VERSION, title);
+	set_cell (dao, 0, 0, buf->str);
+	g_string_free (buf, FALSE);
+
+	buf = g_string_new ("");
+	g_string_sprintfa (buf, "%s %s", _("Worksheet:"), sheet->name_quoted);
+	set_cell (dao, 0, 1, buf->str);
+	g_string_free (buf, FALSE);
+
+	buf = g_string_new ("");
+	g_date_set_time (&date, time (NULL));
+	g_date_strftime (str, 255, "%D", &date);
+	g_string_sprintfa (buf, "%s %s", _("Report Created:"), str);
+	set_cell (dao, 0, 2, buf->str);
+	g_string_free (buf, FALSE);
+
+	set_bold (dao->sheet, 0, 0, 0, 2);
+}
+
+
+/*
+ * Generates the Solver's answer report.
+ */
+static void
+solver_answer_report (WorkbookControl *wbc,
+		      Sheet           *sheet,
+		      SolverResults   *res)
+{
+        data_analysis_output_t dao;
+	Cell                   *cell;
+	int                    i, vars;
+
+	dao.type = NewSheetOutput;
+        prepare_output (wbc, &dao, _("Answer Report"));
+
+	dao.sheet->hide_grid = TRUE;
+	vars                 = res->param->n_variables;
+
+	/* Set this to fool the autofit_column function.  (It will be
+	 * overwriten). */
+	set_cell (&dao, 0, 0, "A");
+
+
+	/*
+	 * Fill in the labels of `Target Cell' section.
+	 */
+	set_cell (&dao, 1, 6, _("Cell"));
+	set_cell (&dao, 2, 6, _("Name"));
+	set_cell (&dao, 3, 6, _("Original Value"));
+	set_cell (&dao, 4, 6, _("Final Value"));
+	set_bold (dao.sheet, 0, 6, 4, 6);
+
+	/* Set `Cell' field (cell reference to the target cell). */
+	set_cell (&dao, 1, 7, cell_name (res->param->target_cell));
+
+	/* Set `Name' field */
+	set_cell (&dao, 2, 7, find_name (sheet,
+					 res->param->target_cell->pos.col,
+					 res->param->target_cell->pos.row));
+
+	/* Set `Original Value' field */
+	set_cell_float (&dao, 3, 7, res->original_value_of_obj_fn);
+
+	/* Set `Final Value' field */
+	set_cell_float (&dao, 4, 7, res->value_of_obj_fn);
+
+
+	/*
+	 * Fill in the labels of `Adjustable Cells' section.
+	 */
+	set_cell (&dao, 1, 11,   _("Cell"));
+	set_cell (&dao, 2, 11,   _("Name"));
+	set_cell (&dao, 3, 11,   _("Original Value"));
+	set_cell (&dao, 4, 11,   _("Final Value"));
+	set_bold (dao.sheet, 0, 11, 4, 11);
+
+	for (i = 0; i < vars; i++) {
+		/* Set `Cell' column */
+	        cell = get_solver_input_var (sheet, i);
+		set_cell (&dao, 1, 12 + i, cell_name (cell));
+
+		/* Set `Name' column */
+		set_cell (&dao, 2, 12 + i, find_name (sheet, cell->pos.col,
+						      cell->pos.row));
+
+		/* Set `Original Value' column */
+		set_cell_value (&dao, 3, 12 + i,
+				value_new_float (res->original_values[i]));
+
+		/* Set `Final Value' column */
+		set_cell_value (&dao, 4, 12 + i,
+				value_duplicate (cell->value));
+	}
+
+
+	/*
+	 * Fill in the labels of `Constraints' section.
+	 */
+	set_cell (&dao, 1, 15 + vars, _("Cell"));
+	set_cell (&dao, 2, 15 + vars, _("Name"));
+	set_cell (&dao, 3, 15 + vars, _("Cell Value"));
+	set_cell (&dao, 4, 15 + vars, _("Formula"));
+	set_cell (&dao, 5, 15 + vars, _("Status"));
+	set_cell (&dao, 6, 15 + vars, _("Slack"));
+	set_bold (dao.sheet, 0, 15 + vars, 6, 15 + vars);
+
+	for (i = 0; i < res->param->n_constraints +
+	       res->param->n_int_bool_constraints; i++) {
+	        SolverConstraint *c = res->param->constraints_array[i];
+		gnum_float       lhs, rhs;
+
+		/* Set `Cell' column */
+		set_cell (&dao, 1, 16 + vars + i,
+			  cell_coord_name (c->lhs.col, c->lhs.row));
+
+		/* Set `Name' column */
+		set_cell (&dao, 2, 16 + vars + i,
+			  find_name (sheet, c->lhs.col, c->lhs.row));
+
+		/* Set `Cell Value' column */
+		cell = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
+		lhs = value_get_as_float (cell->value);
+		set_cell_value (&dao, 3, 16 + vars + i,
+				value_duplicate (cell->value));
+
+	        /* Set `Formula' column */
+	        set_cell (&dao, 4, 16 + vars + i, c->str);
+
+		/* Set `Status' column */
+		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
+		rhs = value_get_as_float (cell->value);
+		if (gnumabs (lhs - rhs) < 0.001)
+		        set_cell (&dao, 5, 16 + vars + i, _("Binding"));
+		else
+		        set_cell (&dao, 5, 16 + vars + i, _("Not Binding"));
+
+		/* Set `Slack' column */
+		set_cell_float (&dao, 6, 16 + vars + i, gnumabs (lhs - rhs));
+	}
+
+	/*
+	 * Autofit columns to make the sheet more readable.
+	 */
+	autofit_column (&dao, 0);
+	autofit_column (&dao, 1);
+	autofit_column (&dao, 2);
+	autofit_column (&dao, 3);
+	autofit_column (&dao, 4);
+	autofit_column (&dao, 5);
+
+
+	/*
+	 * Fill in the titles.
+	 */
+
+	/* Fill in the column A labels into the answer report sheet. */
+	if (res->param->problem_type == SolverMaximize)
+	        set_cell (&dao, 0, 5, _("Target Cell (Maximize)"));
+	else
+	        set_cell (&dao, 0, 5, _("Target Cell (Minimize)"));
+
+	/* Fill in the header titles. */
+	fill_header_titles (&dao, _("Answer Report"), sheet);
+
+	/* Fill in other titles. */
+	set_cell (&dao, 0, 10, _("Adjustable Cells"));
+	set_cell (&dao, 0, 14 + vars, _("Constraints"));
+}
+
+
+/*
+ * Generates the Solver's sensitivity report.
+ */
+static void
+solver_sensitivity_report (WorkbookControl *wbc,
+			   Sheet           *sheet,
+			   SolverResults   *res)
+{
+        data_analysis_output_t dao;
+	Cell                   *cell;
+	int                    i, vars;
+
+	dao.type = NewSheetOutput;
+        prepare_output (wbc, &dao, _("Sensitivity Report"));
+
+	dao.sheet->hide_grid = TRUE;
+	vars                 = res->param->n_variables;
+
+	/* Set this to fool the autofit_column function.  (It will be
+	 * overwriten). */
+	set_cell (&dao, 0, 0, "A");
+
+
+	/*
+	 * Fill in the labels of `Adjustable Cells' section.
+	 */
+
+	set_cell (&dao, 3, 6, _("Final"));
+	set_cell (&dao, 4, 6, _("Reduced"));
+	set_cell (&dao, 1, 7, _("Cell"));
+	set_cell (&dao, 2, 7, _("Name"));
+	set_cell (&dao, 3, 7, _("Value"));
+	set_cell (&dao, 4, 7, _("Gradient"));
+	set_bold (dao.sheet, 0, 6, 4, 7);
+
+	for (i = 0; i < vars; i++) {
+		/* Set `Cell' column */
+	        cell = get_solver_input_var (sheet, i);
+		set_cell (&dao, 1, 8 + i, cell_name (cell));
+
+		/* Set `Name' column */
+		set_cell (&dao, 2, 8 + i, find_name (sheet, cell->pos.col,
+						     cell->pos.row));
+
+		/* Set `Final Value' column */
+		set_cell_value (&dao, 3, 8 + i,
+				value_duplicate (cell->value));
+
+		/* Set `Reduced Gradient' column */
+		/* FIXME: Set this also?? */
+	}
+
+
+	/*
+	 * Fill in the labels of `Constraints' section.
+	 */
+	set_cell (&dao, 3, 10 + vars, _("Final"));
+	set_cell (&dao, 4, 10 + vars, _("Lagrange"));
+	set_cell (&dao, 1, 11 + vars, _("Cell"));
+	set_cell (&dao, 2, 11 + vars, _("Name"));
+	set_cell (&dao, 3, 11 + vars, _("Value"));
+	set_cell (&dao, 4, 11 + vars, _("Multiplier"));
+	set_bold (dao.sheet, 0, 10 + vars, 4, 11 + vars);
+
+	for (i = 0; i < res->param->n_constraints +
+	       res->param->n_int_bool_constraints; i++) {
+	        SolverConstraint *c = res->param->constraints_array[i];
+
+		/* Set `Cell' column */
+		set_cell (&dao, 1, 12 + vars + i,
+			  cell_coord_name (c->lhs.col, c->lhs.row));
+
+		/* Set `Name' column */
+		set_cell (&dao, 2, 12 + vars + i,
+			  find_name (sheet, c->lhs.col, c->lhs.row));
+
+		/* Set `Final Value' column */
+		cell = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
+		set_cell_value (&dao, 3, 12 + vars + i,
+				value_duplicate (cell->value));
+
+		/* Set `Lagrange Multiplier' */
+		set_cell_value (&dao, 4, 12 + vars + i,
+				value_new_float (res->shadow_prizes[i]));
+	}
+
+
+	/*
+	 * Autofit columns to make the sheet more readable.
+	 */
+	autofit_column (&dao, 0);
+	autofit_column (&dao, 1);
+	autofit_column (&dao, 2);
+	autofit_column (&dao, 3);
+	autofit_column (&dao, 4);
+
+
+	/*
+	 * Fill in the titles.
+	 */
+
+	/* Fill in the header titles. */
+	fill_header_titles (&dao, _("Sensitivity Report"), sheet);
+
+	/* Fill in other titles. */
+	set_cell (&dao, 0, 5, _("Adjustable Cells"));
+	set_cell (&dao, 0, 9 + vars, _("Constraints"));
+}
+
+void
+solver_lp_reports (WorkbookControl *wbc, Sheet *sheet, SolverResults *res,
+		   gboolean answer, gboolean sensitivity, gboolean limits)
+{
+        if (answer)
+	        solver_answer_report (wbc, sheet, res);
+	if (sensitivity)
+	        solver_sensitivity_report (wbc, sheet, res);
+	if (limits)
+	        ;
+}
+
+

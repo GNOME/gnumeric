@@ -254,6 +254,8 @@ mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
 	MpsRow *row;
 	GSList *current;
 	gint   i, n;
+	static const SolverConstraintType type_map[] = { SolverEQ, SolverLE,
+							 SolverGE };
 	static const gchar *type_str[] = { "=", "<=", ">=" };
 	Cell *cell;
 	SolverParameters *param = sh->solver_parameters;
@@ -442,7 +444,7 @@ mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
 		  c->lhs.row = i + CONSTRAINT_ROW;
 		  c->rhs.col = ctxt->n_cols + 3;
 		  c->rhs.row = i + CONSTRAINT_ROW;
-		  c->type = (char *)(type_str[row->type]);  /* const_cast */
+		  c->type = type_map[row->type];  /* const_cast */
 		  c->cols = 1;
 		  c->rows = 1;
 		  c->str = write_constraint_str (c->lhs.col, c->lhs.row,

@@ -8,8 +8,10 @@
 #define SOLVER_LP_OPTIMAL        1
 #define SOLVER_LP_UNBOUNDED      2
 #define SOLVER_LP_INFEASIBLE     3
-#define SOLVER_LP_INVALID_RHS    4
-#define SOLVER_LP_INVALID_LHS    5
+#define SOLVER_LP_FAILURE        4
+#define SOLVER_LP_MILP_FAIL      5
+#define SOLVER_LP_INVALID_RHS    6
+#define SOLVER_LP_INVALID_LHS    7
 
 
 /* Forward references for structures.  */
@@ -20,25 +22,64 @@ typedef enum {
         SolverMinimize, SolverMaximize, SolverEqualTo
 } SolverProblemType;
 
+typedef enum {
+        SolverLE, SolverGE, SolverEQ, SolverINT, SolverBOOL, SolverOF
+} SolverConstraintType;
+
+typedef enum {
+        LPSolve = 0
+} SolverLPAlgorithmType;
+
+typedef void * SolverProgram;
+
+typedef SolverProgram * (solver_lp_init_fn) (int n_vars, int n_constraints);
+typedef void (solver_lp_remove_fn) (SolverProgram *handle);
+typedef void (solver_lp_set_obj_fn) (SolverProgram *handle, gnum_float *row);
+typedef void (solver_lp_add_constraint_fn) (SolverProgram *handle,
+					      SolverConstraintType type,
+					      gnum_float *row, gnum_float rhs);
+typedef void (solver_lp_set_maxim_fn) (SolverProgram *handle);
+typedef void (solver_lp_set_minim_fn) (SolverProgram *handle);
+typedef void (solver_lp_set_int_fn) (SolverProgram *handle, int col,
+				       gboolean must_be_int);
+typedef int  (solver_lp_solve_fn) (SolverProgram *handle);
+typedef gnum_float (solver_lp_get_obj_fn_value_fn) (SolverProgram *handle);
+
+
+typedef struct {
+        const char                    *name;
+        solver_lp_init_fn             *init_fn;
+        solver_lp_remove_fn           *remove_fn;
+        solver_lp_set_obj_fn          *set_obj_fn;
+        solver_lp_add_constraint_fn   *add_constraint_fn;
+        solver_lp_set_maxim_fn        *maxim_fn;
+        solver_lp_set_minim_fn        *minim_fn;
+        solver_lp_set_int_fn          *set_int_fn;
+        solver_lp_solve_fn            *solve_fn;
+        solver_lp_get_obj_fn_value_fn *get_obj_fn_value_fn;
+} SolverLPAlgorithm;
+
 struct _SolverOptions {
-        int                max_time_sec;
-        int                iterations;
-        gnum_float         precision;
-        gnum_float         tolerance;
-        gnum_float         convergence;
-        gnum_float         equal_to_value;
-        gboolean           assume_linear_model;
-        gboolean           assume_non_negative;
-        gboolean           automatic_scaling;
-        gboolean           show_iteration_results;
+        int                   max_time_sec;
+        int                   iterations;
+        gnum_float            precision;
+        gnum_float            tolerance;
+        gnum_float            convergence;
+        gnum_float            equal_to_value;
+        gboolean              assume_linear_model;
+        gboolean              assume_non_negative;
+        gboolean              automatic_scaling;
+        gboolean              show_iteration_results;
+        SolverLPAlgorithmType algorithm;
 };
 
 struct _SolverConstraint {
-        CellPos     lhs;		/* left hand side */
-        CellPos     rhs;  		/* right hand side */
-        gint        rows, cols;		/* number of rows and columns */
-        char const *type;		/* <=, =, >=, int, bool */
-        char       *str;		/* the same in string form */
+        CellPos              lhs;		/* left hand side */
+        CellPos              rhs;  		/* right hand side */
+        gint                 rows;              /* number of rows */
+        gint                 cols;              /* number of columns */
+        SolverConstraintType type;	        /* <=, =, >=, int, bool */
+        char                 *str;		/* the same in string form */
 };
 
 struct _SolverParameters {
@@ -47,8 +88,30 @@ struct _SolverParameters {
         CellList           *input_cells;
         GSList             *constraints;
         char               *input_entry_str;
+        int                n_constraints;
+        int                n_variables;
+        int                n_int_bool_constraints;
         SolverOptions      options;
+        Cell               **input_cells_array;
+        SolverConstraint   **constraints_array;
 };
+
+typedef struct {
+        int              n_variables;
+        int              n_constraints;
+        gchar            **variable_names;
+        gchar            **constraint_names;
+        gnum_float       value_of_obj_fn;
+        gnum_float       original_value_of_obj_fn;
+        gnum_float       *optimal_values;
+        gnum_float       *original_values;
+        gnum_float       *shadow_prizes;
+        int              status;
+        gboolean         ilp_flag;   /* This is set if the problem has INT
+				      * constraints.  The sensitivity report
+				      * cannot be created if there are any. */
+        SolverParameters *param;
+} SolverResults;
 
 int  solver_simplex (WorkbookControl *wbc, Sheet *sheet, gnum_float **init_table,
 		     gnum_float **final_table);
@@ -60,17 +123,20 @@ int solver_affine_scaling (WorkbookControl *wbc, Sheet *sheet,
 gboolean solver_lp (WorkbookControl *wbc, Sheet *sheet, gnum_float **opt_x,
 		    gnum_float **sh_pr, gboolean *ilp);
 
-void solver_lp_reports (WorkbookControl *wbc, Sheet *sheet, GSList *ov,
-			gnum_float ov_target, gnum_float *init_tbl,
-			gnum_float *final_tbl,
-			gboolean answer, gboolean sensitivity,
+void solver_lp_reports (WorkbookControl *wbc, Sheet *sheet,
+			SolverResults *res,
+			gboolean answer, gboolean sensitivity, 
 			gboolean limits);
 
 char *write_constraint_str (int lhs_col, int lhs_row, int rhs_col, int rhs_row,
-			    const char *type_str, int cols, int rows);
+			    SolverConstraintType type, int cols, int rows);
 
-SolverParameters *solver_lp_new (void);
-void solver_lp_destroy (SolverParameters *);
+SolverParameters *solver_param_new (void);
+void solver_param_destroy (SolverParameters *);
 SolverParameters *solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet);
+
+SolverResults *solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg);
+
+Cell *get_solver_input_var (Sheet *sheet, int n);
 
 #endif

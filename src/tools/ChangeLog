@@ -1,0 +1,7 @@
+2002-03-06  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver: Moved Solver into this directory.
+
+	* Makefile.am: Created.
+	
+

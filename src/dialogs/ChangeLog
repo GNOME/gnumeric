@@ -1,3 +1,8 @@
+2002-03-06  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* dialog-solver.c: Solver rewrite related changes.  Things are not
+	quite done yet.
+
 2002-03-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-cell-comment.c (cb_cell_comment_ok_clicked) : use

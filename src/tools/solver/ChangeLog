@@ -1,0 +1,9 @@
+2002-03-06  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* lp_solve: Imported.
+
+	* solver.c, reports.c: Split the src/solver-lp.c into two parts
+	and moved here.
+
+	* Makefile.am: Created.
+

@@ -73,6 +73,10 @@ Jon Kåre:
 Joshua R. Odom:
 	* Reorganize the custom pixmaps.
 
+Jukka:
+	* Major rewrite of the Solver.  Integrated key parts of the LP
+	  Solve 3.2 written by Michel Berkelaar and others.
+
 Morten:
 	* Fix DATE2UNIX.  (Bug 70814.)
 	* Fix compiler warnings.  (Well, fix the bugs they pointed out.)

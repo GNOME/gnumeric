@@ -1,3 +1,33 @@
+2002-03-06  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* src/tools: New directory created for tools.
+
+	* src/tools/solver: Moved src/solver-lp.c into here and split it
+	into two files: src/tools/solver/solver.c and
+	src/tools/solver/reports.c.  A _major_ rewrite.
+
+	* src/tools/solver/lp_solve: Integrated key parts of an LGPLed
+	linear programming toolkit called LP Solve 3.2.  (The whole
+	package can be found from ftp://ftp.ics.ele.tue.nl/pub/lp_solve).
+	Major clean up for making it to look like GNOME code.  LP Solve is
+	written by Michel Berkelaar and others.  Thanks for the great
+	work!
+	
+	* configure.in: Added src/tools/Makefile, src/tools/solver/Makefile,
+	and src/tools/solver/lp_solve/Makefile.
+
+	* src/Makefile.am: Added tools subdirectory.
+
+	* src/mathfunc.[ch]: Removed all solver related functions.
+
+	* src/solver.h, src/sheet.c: solver_lp_new renamed as
+	solver_param_new.  solver_lp_destroy renamed as
+	solver_param_destroy.
+
+	* src/xml-io.c: Solver related changes.
+
+	* samples/solver/production-plan.gnumeric: A Solver sample file.
+	
 2002-03-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gui-util.c (gnumeric_error_info_dialog_show) : remove
