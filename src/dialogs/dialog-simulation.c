@@ -173,7 +173,7 @@ update_log (simulation_t *sim)
 	const gchar   *t6 = _("Run on\t\t\t= ");
 	GString *buf;
 
-	buf = g_string_new ("");
+	buf = g_string_new (NULL);
 	g_string_append_printf (buf, "%s %d\n", t1,
 			   sim->last_round - sim->first_round + 1);
 	g_string_append_printf (buf, "%s %d\n", t2, sim->n_iterations);
@@ -197,7 +197,7 @@ update_results_view (simulation_t *sim)
 	GString *buf;
 	int     i;
 
-	buf = g_string_new ("");
+	buf = g_string_new (NULL);
 
 	g_string_append_printf (buf, "Simulation #%d\n\n", results_sim_index + 1);
 	g_string_append_printf (buf, "%-20s %10s %10s %10s\n", _("Variable"),

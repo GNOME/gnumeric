@@ -443,7 +443,7 @@ static void
 generate_format (FormatState *state)
 {
 	FormatFamily const page = state->format.current_type;
-	GString		*new_format = g_string_new ("");
+	GString		*new_format = g_string_new (NULL);
 
 	/* It is a strange idea not to reuse FormatCharacteristics
 	 in this file */

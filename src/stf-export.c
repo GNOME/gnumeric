@@ -216,7 +216,7 @@ stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
 			? value_get_as_string (cell->value)
 			: g_strdup ("");
 		const char *s = text;
-		GString *res = g_string_new ("");
+		GString *res = g_string_new (NULL);
 
 		if (export_options->quoting_mode == QUOTING_MODE_AUTO) {
 
@@ -281,7 +281,7 @@ stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 	g_return_val_if_fail (export_options->quoting_char != '\0', FALSE);
 	g_return_val_if_fail (export_options->write_func != NULL, FALSE);
 
-	separator = g_string_new ("");
+	separator = g_string_new (NULL);
 	g_string_append_c (separator, export_options->cell_separator);
 
 	r = sheet_get_extent (sheet, FALSE);

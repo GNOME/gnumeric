@@ -235,7 +235,7 @@ colrow_index_list_to_string (ColRowIndexList *list, gboolean is_cols, gboolean *
 
 	g_return_val_if_fail (list != NULL, NULL);
 
-	result = g_string_new ("");
+	result = g_string_new (NULL);
 	for (ptr = list; ptr != NULL; ptr = ptr->next) {
 		ColRowIndex *index = ptr->data;
 

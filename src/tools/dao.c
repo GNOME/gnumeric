@@ -737,20 +737,20 @@ dao_write_header (data_analysis_output_t *dao, const gchar *toolname,
 {
 	GString   *buf;
 
-	buf = g_string_new ("");
+	buf = g_string_new (NULL);
 	g_string_append_printf (buf, "%s %s %s %s", 
 		_("Gnumeric "), toolname, VERSION, title);
 	dao_set_cell (dao, 0, 0, buf->str);
 	g_string_free (buf, FALSE);
 
-	buf = g_string_new ("");
+	buf = g_string_new (NULL);
 	g_string_append_printf (buf, "%s [%s]%s", _("Worksheet:"),
 		workbook_get_filename (sheet->workbook),
 		sheet->name_quoted);
 	dao_set_cell (dao, 0, 1, buf->str);
 	g_string_free (buf, FALSE);
 
-	buf = g_string_new ("");
+	buf = g_string_new (NULL);
 	g_string_append (buf, _("Report Created: "));
 	dao_append_date (buf);
 	dao_set_cell (dao, 0, 2, buf->str);

@@ -1,3 +1,12 @@
+2003-02-23  Morten Welinder  <terra@diku.dk>
+
+	* src/format.c (render_number): Use g_string_append_len instead of
+	g_string_append a few places where we know the length.  That saves
+	a strlen call.
+
+	* */*.c */*/*.c: s/g_string_new ("")/g_string_new (NULL)/.
+	The latter saves a strlen call.
+
 2003-02-21  Morten Welinder  <terra@diku.dk>
 
 	* src/style.c (style_font_new_simple): Set language on pango

@@ -193,7 +193,7 @@ html_write_cell_content (GsfOutput *output, Cell *cell, MStyle *mstyle, html_ver
 static char *
 html_get_border_style (StyleBorder *border)
 {
-	GString *text = g_string_new ("");
+	GString *text = g_string_new (NULL);
 	char *result;
 
 	switch (border->line_type) {

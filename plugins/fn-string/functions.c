@@ -634,7 +634,7 @@ gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 	if (fmt.negative)
 		num = -num;
 
-	str = g_string_new ("");
+	str = g_string_new (NULL);
 	render_number (str, num, &fmt);
 	if (str->len == 0)
 		g_string_append_c (str, '0');
@@ -666,7 +666,7 @@ static Value *
 gnumeric_proper (FunctionEvalInfo *ei, Value **argv)
 {
 	char const *p;
-	GString    *res    = g_string_new ("");
+	GString    *res    = g_string_new (NULL);
 	gboolean   inword = FALSE;
 
 	p = value_peek_string (argv[0]);
@@ -839,7 +839,7 @@ static Value *
 gnumeric_trim (FunctionEvalInfo *ei, Value **argv)
 {
 	char const *s;
-	GString  *res   = g_string_new ("");
+	GString  *res   = g_string_new (NULL);
 	gboolean  space = TRUE;
 	int       len;
 

@@ -173,7 +173,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 				rowspan = 1;
 
 			/* Let's figure out the content of the cell */
-			buf = g_string_new ("");
+			buf = g_string_new (NULL);
 			a_buf = xmlBufferCreate ();
 
 			mstyle = mstyle_new_default ();

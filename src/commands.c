@@ -400,7 +400,7 @@ cmd_range_list_to_string_utility (Sheet *sheet, GSList const *ranges)
 
 	g_return_val_if_fail (ranges != NULL, NULL);
 
-	names = g_string_new ("");
+	names = g_string_new (NULL);
 	for (l = ranges; l != NULL; l = l->next) {
 		Range const *r = l->data;
 
@@ -1532,7 +1532,7 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 	/* Collect clear types for descriptor */
 	if (clear_flags != (CLEAR_VALUES | CLEAR_FORMATS | CLEAR_COMMENTS)) {
 		GSList *m, *l = NULL;
-		types = g_string_new ("");
+		types = g_string_new (NULL);
 
 		if (clear_flags & CLEAR_VALUES)
 			l = g_slist_append (l, g_string_new (_("contents")));
@@ -3573,7 +3573,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 					break;
 				}
 				case SRE_string: {
-					GString *s = g_string_new ("");
+					GString *s = g_string_new (NULL);
 					gnm_strescape (s, cell_res.new_text);
 					cell_res.new_text = g_string_free (s, FALSE);
 					err = FALSE;
@@ -4037,7 +4037,7 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 	me->new_factor  = factor;
 
 	/* Make a list of all sheets to zoom and save zoom factor for each */
-	namelist = g_string_new ("");
+	namelist = g_string_new (NULL);
 	for (i = 0, l = me->sheets; l != NULL; l = l->next, i++) {
 		Sheet *sheet = l->data;
 

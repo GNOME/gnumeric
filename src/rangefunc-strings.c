@@ -20,7 +20,7 @@ cb_concatenate (char const *text, GString *str)
 int 
 range_concatenate (GSList *data, char **res) 
 {
-	GString *str = g_string_new ("");
+	GString *str = g_string_new (NULL);
 
 	g_slist_foreach (data, (GFunc) cb_concatenate, str);
 

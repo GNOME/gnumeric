@@ -1017,7 +1017,7 @@ selection_to_string (SheetView *sv, gboolean include_sheet_name_prefix)
 	char    *output;
 	selection_to_string_closure res;
 
-	res.str = g_string_new ("");
+	res.str = g_string_new (NULL);
 	res.include_sheet_name_prefix = include_sheet_name_prefix;
 
 	/* selection_apply will check all necessary invariants. */

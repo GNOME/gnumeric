@@ -173,7 +173,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 	/* from CELL - limited usefulness! */
 	if (!g_ascii_strcasecmp(info_type, "address")) {
 		ParsePos pp;
-		GString *str = g_string_new ("");
+		GString *str = g_string_new (NULL);
 
 		cellref_as_string (
 			str,
@@ -187,7 +187,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 	} else if (!g_ascii_strcasecmp(info_type, "coord")) {
 		ParsePos pp;
 		CellRef tmp = *ref;
-		GString *str = g_string_new ("");
+		GString *str = g_string_new (NULL);
 
 		if (tmp.sheet == NULL)
 			tmp.sheet = ei->pos->sheet;

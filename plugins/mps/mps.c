@@ -197,14 +197,14 @@ mps_write_sheet_labels (MpsInputContext *ctxt, Sheet *sh)
 	} else {
 		GString *buf;
 		for (i = 0; i < MAX_COL; i++) {
-			buf = g_string_new ("");
+			buf = g_string_new (NULL);
 			g_string_append_printf (buf, "C[%d]", i + 1);
 			mps_set_cell (sh, VARIABLE_COL + i, row, buf->str);
 			g_string_free (buf, FALSE);
 		}
 
 		for (i = 0; i < n_rows_per_fn; i++) {
-			buf = g_string_new ("");
+			buf = g_string_new (NULL);
 			g_string_append_printf (buf, "R[%d]", i + 1);
 			mps_set_cell (sh, VARIABLE_COL - 1, row + i + 1,
 				      buf->str);
@@ -254,7 +254,7 @@ mps_write_sheet_labels (MpsInputContext *ctxt, Sheet *sh)
 	} else {
 		GString *buf;
 		for (i = 0; i < MAX_COL; i++) {
-			buf = g_string_new ("");
+			buf = g_string_new (NULL);
 			g_string_append_printf (buf, "C[%d]", i + 1);
 			mps_set_cell (sh, CONSTRAINT_COL + i, row, buf->str);
 			g_string_free (buf, FALSE);
@@ -317,8 +317,8 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	/* Print constraints. */
 	inc2               = 2 * n_rows_per_fn;
 	param->constraints = NULL;
-	var_range [0]      = g_string_new ("");
-	var_range [1]      = g_string_new ("");
+	var_range [0]      = g_string_new (NULL);
+	var_range [1]      = g_string_new (NULL);
 
 	/* Initialize var_range to contain the range name of the
 	 * objective function variables. */
@@ -437,7 +437,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	}
 
 	/* Write the objective fn. */
-	buf = g_string_new ("");
+	buf = g_string_new (NULL);
 	range_init (&range, VARIABLE_COL,
 		    VARIABLE_ROW + 1 + n_rows_per_fn,
 		    ctxt->n_cols,
@@ -452,7 +452,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 
 	/* Store the input cell range for the Solver dialog. */
 	g_string_free (var_range [0], FALSE);
-	var_range [0] = g_string_new ("");
+	var_range [0] = g_string_new (NULL);
 	range_init (&range, VARIABLE_COL, VARIABLE_ROW,
 		    MAX_COL, VARIABLE_ROW + n_rows_per_fn - 1);
 	g_string_append_printf (var_range [0], "%s", range_name (&range));
@@ -484,7 +484,7 @@ mps_create_sheet (MpsInputContext *ctxt, WorkbookView *wbv)
 			      ctxt->objective_row->name);
 	else {
 		for (i = 0; i < n_rows_per_fn; i++) {
-			GString *buf = g_string_new ("");
+			GString *buf = g_string_new (NULL);
 			g_string_append_printf (buf, "%s (R[%d])",
 					   ctxt->objective_row->name, i+1);
 			mps_set_cell (sh, VARIABLE_COL - 1,

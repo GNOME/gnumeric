@@ -235,7 +235,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 			char const * f_desc =
 				tokenized_help_find (help, "DESCRIPTION");
 			char const * cursor;
-			GString    * buf = g_string_new ("");
+			GString    * buf = g_string_new (NULL);
 			GtkTextIter  start, end;
 			GtkTextTag * tag;
 			int          i;

@@ -1287,7 +1287,7 @@ gnm_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 	g_return_val_if_fail (expr != NULL, NULL);
 	g_return_val_if_fail (pp != NULL, NULL);
 
-	res = g_string_new ("");
+	res = g_string_new (NULL);
 	do_expr_as_string (res, expr, pp, 0, fmt);
 	return g_string_free (res, FALSE);
 }

@@ -59,6 +59,7 @@
 #include "sheet-filter.h"
 #include "pivottable.h"
 #include <gnumeric-i18n.h>
+#include <gtk/gtkmain.h>
 
 #include <stdlib.h>
 #include <string.h>

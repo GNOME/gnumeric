@@ -134,7 +134,7 @@ format_create_regexp (char const *format, GByteArray **dest)
 #ifdef DEBUG_NUMBER_MATCH
 	printf ("'%s' = ", format);
 #endif
-	regexp = g_string_new ("");
+	regexp = g_string_new (NULL);
 	match_types = g_byte_array_new ();
 
 	for (; *format; format++) {

@@ -224,7 +224,7 @@ mstyle_hash (gconstpointer st)
 static char *
 mstyle_element_dump (const MStyleElement *e)
 {
-	GString *ans = g_string_new ("");
+	GString *ans = g_string_new (NULL);
 	char    *txt_ans;
 
 	/* This leaks ans from above.  Let's consider that a feature.  */

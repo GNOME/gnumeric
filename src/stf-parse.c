@@ -409,7 +409,7 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 	} else
 		sawstringterm = TRUE;
 
-	res = g_string_new ("");
+	res = g_string_new (NULL);
 
 	while (*cur != '\0') {
 		if (!sawstringterm) {
@@ -512,7 +512,7 @@ stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 
 	cur = src->position;
 
-	res = g_string_new ("");
+	res = g_string_new (NULL);
 	if (src->splitpos < my_garray_len (parseoptions->splitpositions))
 		splitval = (int) g_array_index (parseoptions->splitpositions, int, src->splitpos);
 	else

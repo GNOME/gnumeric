@@ -319,7 +319,7 @@ gee_rangesel_make_text (GnumericExprEntry const *gee)
 {
 	RangeRef ref;
 	ParsePos pp;
-	GString *target = g_string_new ("");
+	GString *target = g_string_new (NULL);
 
 	gee_prepare_range (gee, &ref);
 	rangeref_as_string (target, gnm_expr_conventions_default,

@@ -2101,7 +2101,7 @@ static void
 xml_write_filter_expr (XmlParseContext *ctxt, xmlNode *field,
 		       GnmFilterCondition const *cond, unsigned i)
 {
-	GString *text = g_string_new ("");
+	GString *text = g_string_new (NULL);
 
 	xml_node_set_cstr (field, filter_expr_attrs[i].op,
 			   filter_cond_name [cond->op[i]]);

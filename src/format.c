@@ -240,12 +240,12 @@ append_year (GString *string, guchar const *format, struct tm const *time_split)
 	if ((format[2] != 'y' && format[2] != 'Y') ||
 	    (format[3] != 'y' && format[3] != 'Y')) {
 		sprintf (temp, "%02d", year % 100);
-		g_string_append (string, temp);
+		g_string_append_len (string, temp, 2);
 		return 2;
 	}
 
 	sprintf (temp, "%04d", year);
-	g_string_append (string, temp);
+	g_string_append_len (string, temp, 4);
 
 	return 4;
 }
@@ -267,7 +267,7 @@ append_month (GString *string, int n, struct tm const *time_split)
 
 	if (n == 2){
 		sprintf (temp, "%02d", time_split->tm_mon + 1);
-		g_string_append (string, temp);
+		g_string_append_len (string, temp, 2);
 		return 2;
 	}
 
@@ -297,7 +297,7 @@ append_day (GString *string, guchar const *format, struct tm const *time_split)
 
 	if (format[2] != 'd' && format[2] != 'D') {
 		sprintf (temp, "%02d", time_split->tm_mday);
-		g_string_append (string, temp);
+		g_string_append_len (string, temp, 2);
 		return 2;
 	}
 
@@ -710,7 +710,7 @@ render_number (GString *result,
 			g_string_append_c (result, '0');
 	}
 
-	g_string_append (result, num);
+	g_string_append_len (result, num, num_buf + sizeof (num_buf) - 1 - num);
 
 	/* If the format contains only "#"s to the left of the decimal
 	 * point, number in the [0.0,1.0] range are prefixed with a
@@ -893,7 +893,7 @@ reformat_decimals(FormatCharacteristics *fc,
 	fc->num_decimals += step;
 
 	/* Regenerate the format with the good function */
-	res = g_string_new ("");
+	res = g_string_new (NULL);
 	(*format_function) (res, fc);
 
 	return g_string_free (res, FALSE);
@@ -1069,7 +1069,7 @@ static gchar *
 format_number (gnm_float number, int col_width, StyleFormatEntry const *entry,
 	       GnmDateConventions const *date_conv)
 {
-	GString *result = g_string_new ("");
+	GString *result = g_string_new (NULL);
 	guchar const *format = (guchar *)(entry->format);
 	format_info_t info;
 	gboolean can_render_number = FALSE;

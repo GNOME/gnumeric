@@ -44,7 +44,7 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 	StfParseOptions_t *parseoptions = info->csv_run_parseoptions;
 	GList *list;
 	GSList *sepstr;
-	GString *sepc = g_string_new ("");
+	GString *sepc = g_string_new (NULL);
 	char *textfieldtext;
 	int i;
 

@@ -709,7 +709,7 @@ style_format_account (GString *res, FormatCharacteristics const *fmt)
 	}
 
 	/* The currency symbols with space after or before */	
-	sym = g_string_new ("");
+	sym = g_string_new (NULL);
 	if (currency_symbols[symbol].precedes) {
 		g_string_append (sym, currency_symbols[symbol].symbol);
 		g_string_append (sym, "* ");
@@ -776,7 +776,7 @@ style_format_number (GString *res, FormatCharacteristics const *fmt)
 	/* There are negatives */
 	if (fmt->negative_fmt > 0) {
 
-		GString *tmp = g_string_new ("");
+		GString *tmp = g_string_new (NULL);
 		g_string_append (tmp, res->str);
 		switch (fmt->negative_fmt) {
 		case 1 : g_string_append (res, _(";[Red]"));
