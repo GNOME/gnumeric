@@ -40,14 +40,63 @@ workbook_new (void)
 	return wb;
 }
 
+static void
+zoom_in (GtkButton *b, Sheet *sheet)
+{
+	double pix = GNOME_CANVAS (sheet->sheet_view)->pixels_per_unit;
+	
+	if (pix < 10.0){
+		pix += 0.5;
+		sheet_set_zoom_factor (sheet, pix);
+	}
+}
+
+static void
+zoom_out (GtkButton *b, Sheet *sheet)
+{
+	double pix = GNOME_CANVAS (sheet->sheet_view)->pixels_per_unit;
+	
+	if (pix > 1.0){
+		pix -= 0.5;
+		sheet_set_zoom_factor (sheet, pix);
+	}
+}
+
+static void
+buttons (Sheet *sheet, GtkTable *table)
+{
+	GtkWidget *b;
+	
+	b = gtk_button_new_with_label ("Zoom out");
+	gtk_table_attach (table, b,
+			  0, 1, 1, 2, 0, 0, 0, 0);
+	gtk_signal_connect (GTK_OBJECT (b), "clicked",
+			    GTK_SIGNAL_FUNC (zoom_out), sheet);
+
+	b = gtk_button_new_with_label ("Zoom in");
+	gtk_table_attach (table, b,
+			  1, 2, 1, 2, 0, 0, 0, 0);
+	gtk_signal_connect (GTK_OBJECT (b), "clicked",
+			    GTK_SIGNAL_FUNC (zoom_in), sheet);
+	
+}
+
 void
 workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 {
+	GtkWidget *t;
+
 	g_hash_table_insert (wb->sheets, sheet->name, sheet);
+
+	t = gtk_table_new (0, 0, 0);
+	gtk_table_attach (GTK_TABLE (t), sheet->toplevel,
+			  0, 3, 0, 1,
+			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
+	buttons (sheet, GTK_TABLE (t));
+	gtk_widget_show_all (t);
 	gtk_notebook_append_page (GTK_NOTEBOOK (wb->notebook),
-				  sheet->sheet_view,
-				  gtk_label_new (sheet->name));
-	gtk_widget_grab_focus (GTK_WIDGET (sheet->sheet_view));
+				  t, gtk_label_new (sheet->name));
+	gtk_widget_grab_focus (GTK_WIDGET (sheet->toplevel));
 }
 
 Workbook *

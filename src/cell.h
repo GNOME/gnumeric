@@ -29,8 +29,30 @@ typedef struct {
 } CellColor;
 
 typedef struct {
-	ColType   col;
-	RowType   row;
+	RowType    row;
+	Style      *style;		/* if existant, this row style */
+
+	/* The height */
+	int        unit_height;		/* In units */
+	int        top_margin;  	/* in pixels: top margin */
+	int        bottom_margin; 	/* in pixels: bottom margin */
+	int        height;		/* we compute this from the above parameters */
+} RowInfo;
+
+typedef struct {
+	ColType    col;
+	Style      *style;		/* if existant, this column style */
+
+	/* The width */
+	int        unit_width;		/* in units */
+	int        left_margin;         /* in pixels: left margin */
+	int        right_margin;        /* in pixels: right margin */
+	int        width;    		/* w2pix (unit_width) + margins */
+} ColInfo;
+
+typedef struct {
+	ColInfo   *col;
+	RowInfo   *row;
 
 	/* Text as entered by the user */
 	char      *entered_text;

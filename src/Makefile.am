@@ -14,6 +14,8 @@ gnumeric_SOURCES =		\
 	gnumeric-sheet.h	\
 	gnumeric-sheet.c	\
 	gnumeric.h		\
+	item-bar.c		\
+	item-bar.h		\
 	item-cursor.c		\
 	item-cursor.h		\
 	item-debug.c		\

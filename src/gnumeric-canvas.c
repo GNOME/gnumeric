@@ -44,7 +44,7 @@ gnumeric_sheet_create (Sheet *sheet)
 	gsheet->sheet   = sheet;
 	gsheet->top_col = 0;
 	gsheet->top_row = 0;
-
+	
 	return gsheet;
 }
 
@@ -55,9 +55,13 @@ gnumeric_sheet_move_cursor_horizontal (GnumericSheet *sheet, int count)
 	int new_left;
 	
 	new_left = item_cursor->start_col + count;
+
+	if (new_left < 0)
+		return;
 	
 	if (new_left < sheet->top_col){
-		g_warning ("scroll grip left");
+		g_warning ("do scroll\n");
+		return;
 	}
 
 	if (new_left < 0)
@@ -75,12 +79,14 @@ gnumeric_sheet_move_cursor_vertical (GnumericSheet *sheet, int count)
 	int new_top;
 		
 	new_top = item_cursor->start_row + count;
-	if (new_top < sheet->top_row){
-		g_warning ("scroll grid up");
-	}
 
 	if (new_top < 0)
-		new_top = 0;
+		return;
+
+	if (new_top < sheet->top_row){
+		g_warning ("do scroll\n");
+		return;
+	}
 	
 	item_cursor_set_bounds (item_cursor,
 				item_cursor->start_col, item_cursor->end_col,
@@ -92,8 +98,6 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 {
 	GnumericSheet *sheet = GNUMERIC_SHEET (widget);
 
-	printf ("tecla\n");
-	
 	switch (event->keyval){
 	case GDK_Left:
 		gnumeric_sheet_move_cursor_horizontal (sheet, -1);
@@ -147,7 +151,7 @@ gnumeric_sheet_new (Sheet *sheet)
 				      "ItemCursor::Grid", gsheet->item_grid,
 				      NULL);
 	gsheet->item_cursor = ITEM_CURSOR (item);
-	
+
 	widget = GTK_WIDGET (gsheet);
 
 	return widget;
@@ -158,7 +162,6 @@ gnumeric_sheet_realize (GtkWidget *widget)
 {
 	if (GTK_WIDGET_CLASS (sheet_parent_class)->realize)
 		(*GTK_WIDGET_CLASS (sheet_parent_class)->realize)(widget);
-	printf ("Window ID=%d\n", GDK_WINDOW_XWINDOW (widget->window));
 }
 
 static void
@@ -187,9 +190,6 @@ gnumeric_sheet_init (GnumericSheet *gsheet)
 
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_DEFAULT);
-
-	printf ("idel_id=%d\n", canvas->idle_id);
-	printf ("pixs=%g\n", canvas->pixels_per_unit);
 }
 
 GtkType
@@ -214,4 +214,3 @@ gnumeric_sheet_get_type (void)
 
 	return gnumeric_sheet_type;
 }
-

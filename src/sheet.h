@@ -6,18 +6,6 @@ typedef GList ColStyleList;
 struct Workbook;
 
 typedef struct {
-	RowType    row;
-	int        height;
-	Style      *style;		/* if existant, this row style */
-} RowInfo;
-
-typedef struct {
-	ColType    col;
-	int        width;
-	Style      *style;		/* if existant, this column style */
-} ColInfo;
-
-typedef struct {
 	GtkWidget  *toplevel;
 	GtkWidget  *notebook;
 	
@@ -27,7 +15,11 @@ typedef struct {
 
 typedef struct {
 	Workbook   *parent_workbook;
+	GtkWidget  *toplevel, *col_canvas, *row_canvas;
 	GtkWidget  *sheet_view;
+	GnomeCanvasItem *col_item, *row_item;
+	
+	double     last_zoom_factor_used;
 	char       *name;
 		   
 	Style      style;
@@ -40,12 +32,18 @@ typedef struct {
 	void       *contents;
 } Sheet;
 
+typedef  void (*sheet_col_callback)(Sheet *sheet, ColInfo *ci, void *user_data);
+typedef  void (*sheet_row_callback)(Sheet *sheet, RowInfo *ci, void *user_data);
+
 Sheet    *sheet_new                (Workbook *wb, char *name);
 ColInfo  *sheet_get_col_info       (Sheet *, int col);
 RowInfo  *sheet_get_row_info       (Sheet *, int row);
 int       sheet_col_get_distance   (Sheet *sheet, int from_col, int to_col);
 int       sheet_row_get_distance   (Sheet *sheet, int from_row, int to_row);
-
+void      sheet_foreach_col        (Sheet *sheet, sheet_col_callback, void *user_data);
+void      sheet_foreach_row        (Sheet *sheet, sheet_row_callback, void *user_data);
+void      sheet_set_zoom_factor    (Sheet *sheet, double factor);
+void      sheet_get_cell_bounds    (Sheet *sheet, ColType col, RowType row, int *x, int *y, int *w, int *h);
 
 Workbook *workbook_new             (void);
 Workbook *workbook_new_with_sheets (int sheet_count);

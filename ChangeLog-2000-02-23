@@ -1,3 +1,20 @@
+1998-07-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-grid.c: 
+	New paint strategy for the grid (uses what apparently Excel does);
+	It now correctly uses the coordinate system from the canvas (ie,
+	zoom in and zoom out work);
+	
+	* src/item-cursor.c: Implemented new version of the cursor.  I am
+	using black lines for the cursor.  One day, when I find the
+	strenght, I will use inversion and the inversion will do the right
+	thing.
+
+	* src/item-bar.c: New file.  Implements the titles for the columns
+	and rows;
+
+	* src/*: made stuff fit together.  
+
 1998-07-06  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* configure.in: Remove duplicated AM_GNU_GETTEXT.

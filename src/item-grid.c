@@ -3,6 +3,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "item-grid.h"
+#include "item-debug.h"
 
 /* The signals we emit */
 enum {
@@ -81,7 +82,15 @@ item_grid_unrealize (GnomeCanvasItem *item)
 static void
 item_grid_reconfigure (GnomeCanvasItem *item)
 {
-	g_warning ("item_grid_reconfigure\n");
+	GnomeCanvas *canvas = item->canvas;
+	ItemGrid *item_grid = ITEM_GRID (item);
+	
+	item->x1 = 0;
+	item->y1 = 0;
+	item->x2 = INT_MAX;
+	item->y2 = INT_MAX;
+	
+	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
 
 /*
@@ -151,12 +160,23 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 {
 	ItemGrid *item_grid = ITEM_GRID (item);
 	Sheet *sheet = item_grid->sheet;
-	int end_x;
-	int end_y;
-	int paint_col, paint_row, col, row;
+	GdkGC *grid_gc = item_grid->grid_gc;
+	int end_x, end_y;
+	int paint_col, paint_row;
+	int col, row;
 	int x_paint, y_paint;
 	int diff_x, diff_y;
 
+	if (x < 0){
+		g_warning ("x < 0\n");
+		return;
+	}
+
+	if (y < 0){
+		g_warning ("y < 0\n");
+		return;
+	}
+	
 	paint_col = find_col (item_grid, x, &x_paint);
 	paint_row = find_row (item_grid, y, &y_paint);
 #ifdef DEBUG_EXPOSES
@@ -170,6 +190,31 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	diff_y = y - y_paint;
 	end_y = height + diff_y;
 
+	/* 1. The default background */
+	gdk_draw_rectangle (drawable, item_grid->fill_gc, TRUE,
+			    0, 0, width, height);
+	
+	/* 2. the grids */
+	for (x_paint = -diff_x; x_paint < end_x; col++){
+		ColInfo *ci;
+
+		ci = sheet_get_col_info (sheet, col);
+		g_assert (ci->width != 0);
+		
+		gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
+		
+		x_paint += ci->width;
+	}
+
+	row = paint_row;
+	for (y_paint = -diff_y; y_paint < end_y; row++){
+		RowInfo *ri;
+
+		ri = sheet_get_row_info (sheet, row);
+		gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
+		y_paint += ri->height;
+	}
+
 	for (x_paint = -diff_x; x_paint < end_x; col++){
 		ColInfo *ci;
 
@@ -180,19 +225,25 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 			RowInfo *ri;
 
 			ri = sheet_get_row_info (sheet, row);
+#if 0
+			item_debug_cross (drawable, item_grid->grid_gc,
+					  x_paint, y_paint,
+					  x_paint + ci->width,
+					  y_paint + ri->height);
 			item_grid_draw_cell (drawable, item_grid,
 					     x_paint, y_paint,
 					     x_paint + ci->width,
 					     y_paint + ri->height);
-
+#endif
 			y_paint += ri->height;
 		}
 
 		x_paint += ci->width;
 	}
+	
 #undef DEBUG_EXPOSES
 #ifdef DEBUG_EXPOSES
-	cross (drawable, item_grid->grid_gc, 0, 0, width, height);
+	item_debug_cross (drawable, item_grid->grid_gc, 0, 0, width, height);
 #endif
 }
 
@@ -226,23 +277,16 @@ static void
 item_grid_init (ItemGrid *item_grid)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
-
+	
 	item->x1 = 0;
 	item->y1 = 0;
-
-	/* A big number for now */
-	item->x2 = 9999999;
-	item->y2 = 9999999;
+	item->x2 = 0;
+	item->y2 = 0;
 	
 	item_grid->left_col = 0;
 	item_grid->top_row  = 0;
 	item_grid->top_offset = 0;
 	item_grid->left_offset = 0;
-
-#if 0
-	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent),
-					 item);
-#endif
 }
 
 static void
@@ -255,7 +299,7 @@ item_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	item_grid = ITEM_GRID (o);
 	
 	switch (arg_id){
-	ARG_SHEET:
+	case ARG_SHEET:
 		item_grid->sheet = GTK_VALUE_POINTER (*arg);
 		break;
 	}

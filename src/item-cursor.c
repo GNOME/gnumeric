@@ -39,12 +39,16 @@ item_cursor_realize (GnomeCanvasItem *item)
 	ItemCursor *item_cursor;
 	GdkWindow  *window;
 	GdkGC      *gc;
+	GdkColor   black;
 	
 	item_cursor = ITEM_CURSOR (item);
 	window = GTK_WIDGET (item->canvas)->window;
 
 	gc = item_cursor->gc = gdk_gc_new (window);
-	gdk_gc_set_function (gc, GDK_INVERT);
+#if 0
+	gdk_color_black (item->canvas->colormap, &black);
+	gdk_gc_set_foreground (gc, &black);
+#endif
 }
 
 static void
@@ -59,7 +63,6 @@ item_cursor_unrealize (GnomeCanvasItem *item)
 static void
 item_cursor_reconfigure (GnomeCanvasItem *item)
 {
-	g_warning ("item_cursor_reconfigure\n");
 }
 
 static void
@@ -73,17 +76,17 @@ item_cursor_get_pixel_coords (ItemCursor *item_cursor, int *x, int *y, int *w, i
 
 	*w = sheet_col_get_distance (sheet, item_cursor->start_col, item_cursor->end_col);
 	*h = sheet_row_get_distance (sheet, item_cursor->start_row, item_cursor->end_row);
-	
 }
 
 static void
 item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
-	Sheet *sheet;
 	int xd, yd, dx, dy;
 	int cursor_width, cursor_height;
-	GdkPoint points [5];
+	GdkPoint points [40];
+	int draw_external, draw_internal, draw_handle, draw_center;
+	int remove;
 	
 	item_cursor_get_pixel_coords (item_cursor, &xd, &yd,
 				      &cursor_width, &cursor_height);
@@ -91,27 +94,77 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	dx = xd - x;
 	dy = yd - y;
 
+	draw_external = draw_internal = draw_handle = draw_center = 0;
 	switch (item_cursor->style){
 	case ITEM_CURSOR_SELECTION:
-		gdk_gc_set_line_attributes (item_cursor->gc, 3,
-					    GDK_LINE_SOLID, GDK_CAP_PROJECTING,
-					    GDK_JOIN_MITER);
-		points [0].x = xd + cursor_width - 1;
-		points [0].y = yd + cursor_height + 4;
-		points [1].x = points [0].x;
-		points [1].y = yd - 1;
-		points [2].x = xd - 1;
-		points [2].y = points [1].y;
-		points [3].x = points [2].x;
-		points [3].y = yd + cursor_height + 1;
-		points [4].x = xd + cursor_width - 4;
-		points [4].y = points [3].y;
-		
-		gdk_draw_lines (drawable, item_cursor->gc, points, 5);
+		draw_internal = 1;
+		draw_external = 1;
+		draw_center   = 0;
+		draw_handle   = 1;
+		break;
 
-	default:
+	case ITEM_CURSOR_EDITING:
+		draw_internal = 0;
+		draw_handle   = 0;
+		draw_center   = 0;
+		draw_external = 1;
+
+	case ITEM_CURSOR_ANTED:
+		draw_internal = 0;
+		draw_handle   = 0;
+		draw_center   = 1;
+		draw_external = 0;
+	};
+
+	if (draw_handle)
+		remove = 5;
+	else
+		remove = 0;
+
+	if (draw_external){
+		points [0].x = dx + cursor_width + 1;
+		points [0].y = dy + cursor_height + 1 - remove;
+		points [1].x = points [0].x;
+		points [1].y = dy - 1;
+		points [2].x = dx - 1;
+		points [2].y = dy - 1;
+		points [3].x = dx - 1;
+		points [3].y = dy + cursor_height + 1;
+		points [4].x = dx + cursor_width + 1 - remove;
+		points [4].y = points [3].y;
+		gdk_draw_lines (drawable, item_cursor->gc, points, 5);
 	}
-	
+
+	if (draw_external && draw_internal){
+		points [0].x -= 2;
+		points [1].x -= 2;
+		points [1].y += 2;
+		points [2].x += 2;
+		points [2].y += 2;
+		points [3].x += 2;
+		points [3].y -= 2;
+		points [4].y -= 2;
+		gdk_draw_lines (drawable, item_cursor->gc, points, 5);
+	}
+
+	if (draw_handle){
+		gdk_draw_rectangle (drawable, item_cursor->gc, TRUE,
+				    dx + cursor_width - 2,
+				    dy + cursor_height - 2,
+				    2, 2);
+		gdk_draw_rectangle (drawable, item_cursor->gc, TRUE,
+				    dx + cursor_width + 1,
+				    dy + cursor_height - 2,
+				    2, 2);
+		gdk_draw_rectangle (drawable, item_cursor->gc, TRUE,
+				    dx + cursor_width - 2,
+				    dy + cursor_height + 1,
+				    2, 2);
+		gdk_draw_rectangle (drawable, item_cursor->gc, TRUE,
+				    dx + cursor_width + 1,
+				    dy + cursor_height + 1,
+				    2, 2);
+	}
 }
 
 static void
@@ -121,7 +174,7 @@ item_cursor_request_redraw (ItemCursor *item_cursor)
 	int x, y, w, h;
 
 	item_cursor_get_pixel_coords (item_cursor, &x, &y, &w, &h);
-	gnome_canvas_request_redraw (canvas, x-1, y-1, x+w+1, y+h+1);
+	gnome_canvas_request_redraw (canvas, x - 2, y - 2, x + w + 5, y + h + 5);
 }
 
 void
