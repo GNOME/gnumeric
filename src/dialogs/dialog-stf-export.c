@@ -264,6 +264,23 @@ stf_export_dialog_check_escape (GnomeDruid *druid, GdkEventKey *event,
 }
 
 /**
+ * stf_dialog_window_delete
+ *
+ * Stops the import and indicates the user has cancelled
+ **/
+static gboolean
+stf_dialog_window_delete (G_GNUC_UNUSED GtkDialog *dialog,
+			  G_GNUC_UNUSED GdkEventKey *event,
+			  StfE_DruidData_t *druid_data)
+{
+	druid_data->canceled = TRUE;
+	gtk_main_quit ();
+	return TRUE;
+}
+
+
+
+/**
  * stf_export_dialog_attach_page_signals
  * @gui : the glade gui of the dialog
  * @druid_data : mother struct
@@ -319,6 +336,9 @@ stf_export_dialog_attach_page_signals (GladeXML *gui, StfE_DruidData_t *druid_da
 	g_signal_connect (G_OBJECT (druid_data->window),
 		"key_press_event",
 		G_CALLBACK (stf_export_dialog_check_escape), druid_data);
+	g_signal_connect (G_OBJECT (druid_data->window),
+		"delete_event",
+		G_CALLBACK (stf_dialog_window_delete), druid_data);
 }
 
 /**

@@ -1,5 +1,12 @@
 2003-08-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=120552
+	* dialog-stf-export.c (stf_dialog_window_delete): new
+	(stf_export_dialog_attach_page_signals): connect 
+	  stf_dialog_window_delete
+
+2003-08-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* dialog-printer-setup.c (create_hf_preview_canvas): use 
 	  8 pt rather than 14/1024 pt font
 
