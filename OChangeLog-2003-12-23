@@ -1,5 +1,10 @@
 2003-06-11  Morten Welinder  <terra@gnome.org>
 
+	* src/stf-parse.c (stf_parse_convert_to_unix): Delete.
+
+	* src/gui-clipboard.c (text_to_cell_region): Don't muck with line
+	endings.
+
 	* src/stf-parse.c (stf_parse_options_fixed_autodiscover): Handle
 	line terminators correctly.
 	(stf_parse_get_longest_row_width): Ditto.

@@ -14,7 +14,7 @@ Jody:
 	* Cleanup AutoFormat dialog.
 	* Printing support for charting engine.
 	* Fix printing of images.
-	* coup de grace to gal, importing the 75 lines of e_xml we used
+	* Coup de grace to gal, importing the 75 lines of e_xml we used
 	* Keynav for autoformat dialog
 
 Morten:
@@ -27,6 +27,7 @@ Morten:
 	  problem.
 	* Fix incorrect range highlighting in non-expressions like "10:23".
 	* Improve character set handling of pastes from other apps.
+	* Improve stf import's handing of strange line terminators.
 
 --------------------------------------------------------------------------
 

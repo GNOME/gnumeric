@@ -816,44 +816,6 @@ stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions, char const *da
 	return longest;
 }
 
-/**
- * stf_parse_convert_to_unix:
- *
- * This function will convert the @data into
- * unix line-terminated format. this means that CRLF (windows) will be converted to LF
- * and CR (Macintosh) to LF.
- * In addition to that form feed (\F) characters will be removed.
- * NOTE: This will not resize the buffer
- *
- * returns: number of characters in the clean buffer or -1 on failure
- **/
-int
-stf_parse_convert_to_unix (char *data)
-{
-	char *s, *d;
-
-	if (!data)
-		return -1;
-
-	for (s = d = data; *s != '\0';) {
-		if (*s == '\r') {
-			*d++ = '\n';
-			s++;
-			if (*s == '\n')
-				s++;
-			continue;
-		} else if (*s == '\f') {
-			s++;
-			continue;
-		}
-
-		*d++ = *s++;
-	}
-	*d = '\0';
-
-	return d - data;
-}
-
 
 /**
  * stf_parse_options_fixed_autodiscover:
