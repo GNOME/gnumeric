@@ -7,9 +7,6 @@
  *    Zbigniew Chyla (cyba@gnome.pl)
  *    Andreas J. Guelzow (aguelzow@taliesin.ca)
  */
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu and GtkCombo"
-
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include "gnumeric.h"
@@ -27,8 +24,7 @@
 #include "gnumeric-gconf.h"
 #include "widgets/widget-charmap-selector.h"
 
-#include <gtk/gtkcombo.h>
-#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkcombobox.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkcombo.h>
@@ -72,16 +68,13 @@ file_saver_description_cmp (gconstpointer a, gconstpointer b)
 			       gnm_file_saver_get_description (fs_b));
 }
 
-static GtkWidget *
-make_format_chooser (GList *list, GtkOptionMenu *omenu)
+static void
+make_format_chooser (GList *list, GtkComboBox *combo)
 {
 	GList *l;
-	GtkMenu *menu;
 
 	/* Make format chooser */
-	menu = GTK_MENU (gtk_menu_new ());
 	for (l = list; l != NULL; l = l->next) {
-		GtkWidget *item;
 		gchar const *descr;
 
 		if (!l->data)
@@ -93,13 +86,8 @@ make_format_chooser (GList *list, GtkOptionMenu *omenu)
 			descr = gnm_file_saver_get_description (
 				                GNM_FILE_SAVER (l->data));
 
-		item = gtk_menu_item_new_with_label (descr);
-		gtk_widget_show (item);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
+		gtk_combo_box_append_text (combo, descr);
 	}
-	gtk_option_menu_set_menu (omenu, GTK_WIDGET (menu));
-
-	return (GTK_WIDGET (omenu));
 }
 
 gboolean
@@ -138,11 +126,11 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
 }
 
 static void
-file_format_changed_cb (GtkOptionMenu *omenu_format,
+file_format_changed_cb (GtkComboBox *format_combo,
 			file_format_changed_cb_data *data)
 {
 	GnmFileOpener *fo = g_list_nth_data (data->openers,
-		gtk_option_menu_get_history (omenu_format));
+		gtk_combo_box_get_active (format_combo));
 	gboolean is_sensitive = fo != NULL && gnm_file_opener_is_encoding_dependent (fo);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (data->charmap_selector), is_sensitive);
@@ -177,8 +165,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 {
 	GList *openers;
 	GtkFileChooser *fsel;
-	GtkOptionMenu *omenu;
-	GtkWidget *format_chooser;
+	GtkComboBox *format_combo;
 	GtkWidget *charmap_selector;
 	file_format_changed_cb_data data;
 	gint opener_default;
@@ -204,13 +191,13 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	data.charmap_label = gtk_label_new_with_mnemonic (_("Character _encoding:"));
 
 	/* Make format chooser */
-	omenu = GTK_OPTION_MENU (gtk_option_menu_new ());
-	format_chooser = make_format_chooser (openers, omenu);
-	g_signal_connect (G_OBJECT (omenu), "changed",
+	format_combo = GTK_COMBO_BOX (gtk_combo_box_new_text ());
+	make_format_chooser (openers, format_combo);
+	g_signal_connect (G_OBJECT (format_combo), "changed",
                           G_CALLBACK (file_format_changed_cb), &data);
-	gtk_option_menu_set_history (omenu, opener_default);
-	gtk_widget_set_sensitive (GTK_WIDGET (omenu), opener_default == 0);
-	file_format_changed_cb (omenu, &data);
+	gtk_combo_box_set_active (format_combo, opener_default);
+	gtk_widget_set_sensitive (GTK_WIDGET (format_combo), opener_default == 0);
+	file_format_changed_cb (format_combo, &data);
 
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
@@ -253,12 +240,12 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 		GtkWidget *box = gtk_table_new (2, 2, FALSE);
 
 		gtk_table_attach (GTK_TABLE (box),
-				  format_chooser,
+				  GTK_WIDGET (format_combo),
 				  1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 5, 2);
 		label = gtk_label_new_with_mnemonic (_("File _type:"));
 		gtk_table_attach (GTK_TABLE (box), label,
 				  0, 1, 0, 1, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
-		gtk_label_set_mnemonic_widget (GTK_LABEL (label), format_chooser);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (format_combo));
 
 		gtk_table_attach (GTK_TABLE (box),
 				  charmap_selector,
@@ -279,8 +266,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	/* NOTE: we get a filename here.  Think about URIs later.  */
 	file_name = gtk_file_chooser_get_filename (fsel);
 	encoding = charmap_selector_get_encoding (CHARMAP_SELECTOR (charmap_selector));
-	fo = g_list_nth_data (openers,
-			      gtk_option_menu_get_history (omenu));
+	fo = g_list_nth_data (openers, gtk_combo_box_get_active (format_combo));
 
  out:
 	gtk_widget_destroy (GTK_WIDGET (fsel));
@@ -551,7 +537,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 {
 	GList *savers = NULL, *l;
 	GtkFileChooser *fsel;
-	GtkOptionMenu *omenu;
+	GtkComboBox *format_combo;
 	GnmFileSaver *fs;
 	gboolean success  = FALSE;
 	gchar const *wb_file_name;
@@ -567,7 +553,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	savers = g_list_sort (savers, file_saver_description_cmp);
 
 	/* Make format chooser */
-	omenu = GTK_OPTION_MENU (gtk_option_menu_new ());
+	format_combo = GTK_COMBO_BOX (gtk_combo_box_new ());
 
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
@@ -616,11 +602,12 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	{
 		GtkWidget *box = gtk_hbox_new (FALSE, 2);
 		GtkWidget *label = gtk_label_new_with_mnemonic (_("File _type:"));
-		GtkWidget *format_chooser = make_format_chooser (savers, omenu);
+		format_combo = GTK_COMBO_BOX (gtk_combo_box_new_text ());
+		make_format_chooser (savers, format_combo);
 
 		gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 6);
-		gtk_box_pack_start (GTK_BOX (box), format_chooser, FALSE, TRUE, 6);
-		gtk_label_set_mnemonic_widget (GTK_LABEL (label), format_chooser);
+		gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (format_combo), FALSE, TRUE, 6);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (format_combo));
 
 		gtk_widget_show_all (box);
 		gtk_file_chooser_set_extra_widget (fsel, box);
@@ -633,7 +620,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	if (fs == NULL || g_list_find (savers, fs) == NULL)
 		fs = gnm_file_saver_get_default ();
 
-	gtk_option_menu_set_history (omenu, g_list_index (savers, fs));
+	gtk_combo_box_set_active (format_combo, g_list_index (savers, fs));
 
 	/* Set default file name */
 	wb_file_name = workbook_get_filename (wb_view_workbook (wb_view));
@@ -664,7 +651,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 
 	/* Show file selector */
 	if (gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel))) {
-		fs = g_list_nth_data (savers, gtk_option_menu_get_history (omenu));
+		fs = g_list_nth_data (savers, gtk_combo_box_get_active (format_combo));
 		if (fs != NULL) {
 			char *filename = gtk_file_chooser_get_filename (fsel);
 			success = do_save_as (wbcg, wb_view, fs, filename);
