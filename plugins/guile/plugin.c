@@ -52,8 +52,8 @@ cell_ref_to_scm (CellRef cell, CellRef eval_cell)
 	int col = cell.col_relative ? cell.col + eval_cell.col : cell.col,
 		row = cell.row_relative ? cell.row + eval_cell.row : cell.row;
 
-	return scm_cons(scm_symbolfrom0str("cell-ref"),
-			scm_cons(scm_long2num(col), scm_long2num(row)));
+	return scm_cons (scm_symbolfrom0str ("cell-ref"),
+			scm_cons(scm_long2num (col), scm_long2num (row)));
 				/* FIXME: we need the relative-flags,
 				 * and the sheet, and workbook */
 }
@@ -64,17 +64,17 @@ scm_to_cell_ref (SCM scm)
 	/* Sheet local, absolute references */
 	CellRef cell = { NULL, 0, 0, FALSE, FALSE };
 
-	if (SCM_NIMP(scm) && SCM_CONSP(scm)
-	    && SCM_NFALSEP(scm_eq_p(SCM_CAR(scm), scm_symbolfrom0str("cell-ref")))
-	    && SCM_NIMP(SCM_CDR(scm)) && SCM_CONSP(SCM_CDR(scm))
-	    && SCM_NFALSEP(scm_number_p(SCM_CADR(scm))) && SCM_NFALSEP(scm_number_p(SCM_CDDR(scm))))
+	if (SCM_NIMP (scm) && SCM_CONSP (scm)
+	    && SCM_NFALSEP (scm_eq_p (SCM_CAR (scm), scm_symbolfrom0str ("cell-ref")))
+	    && SCM_NIMP (SCM_CDR (scm)) && SCM_CONSP (SCM_CDR (scm))
+	    && SCM_NFALSEP (scm_number_p (SCM_CADR (scm))) && SCM_NFALSEP (scm_number_p (SCM_CDDR(scm))))
 	{
-		cell.col = gh_scm2int(SCM_CADR(scm));
-		cell.row = gh_scm2int(SCM_CDDR(scm));
+		cell.col = gh_scm2int (SCM_CADR (scm));
+		cell.row = gh_scm2int (SCM_CDDR (scm));
 	}
 	else
 		;		/* FIXME: should report error */
-
+	
 	return cell;
 }
 
@@ -87,30 +87,29 @@ value_to_scm (Value const *val, CellRef cell_ref)
 	switch (val->type)
 	{
 		case VALUE_EMPTY :
-			/* FIXME ?? what belongs here */
-			return scm_long2num(0);
+			return gh_eval_str ("'()");
  
 		case VALUE_BOOLEAN :
-			return gh_bool2scm(val->v_bool.val);	
+			return gh_bool2scm (val->v_bool.val);	
 			
 		case VALUE_ERROR :
 			/* FIXME ?? what belongs here */
-			return scm_makfrom0str(val->v_err.mesg->str);
+			return scm_makfrom0str (val->v_err.mesg->str);
 
 		case VALUE_STRING :
-			return scm_makfrom0str(val->v_str.val->str);
+			return scm_makfrom0str (val->v_str.val->str);
 
 		case VALUE_INTEGER :
-			return scm_long2num(val->v_int.val);
+			return scm_long2num (val->v_int.val);
 
 		case VALUE_FLOAT :
-			return gh_double2scm(val->v_float.val);
+			return gh_double2scm (val->v_float.val);
 
 		case VALUE_CELLRANGE :
 			/* FIXME : Support inverted ranges */
-			return scm_cons(scm_symbolfrom0str("cell-range"),
-					scm_cons(cell_ref_to_scm(val->v_range.cell.a, cell_ref),
-						 cell_ref_to_scm(val->v_range.cell.b, cell_ref)));
+			return scm_cons (scm_symbolfrom0str ("cell-range"),
+					 scm_cons (cell_ref_to_scm(val->v_range.cell.a, cell_ref),
+						   cell_ref_to_scm (val->v_range.cell.b, cell_ref)));
 
 		case VALUE_ARRAY :
 			{
@@ -120,13 +119,13 @@ value_to_scm (Value const *val, CellRef cell_ref)
 				x = val->v_array.x;
 				y = val->v_array.y;
 
-				ls = gh_eval_str("'()");
+				ls = gh_eval_str ("'()");
 
 				/* FIXME : I added the value_to_scm wrapper. This seems more correct */
-				for(i = 0; i < y; i++)
+				for (i = 0; i < y; i++)
 					for (ii = 0; i < x; i++)
-						ls = scm_cons(value_to_scm(val->v_array.vals[ii][i], cell_ref), ls);
-				return ls;
+						ls = scm_cons (value_to_scm (val->v_array.vals[ii][i], cell_ref), ls);
+				return scm_reverse (ls);
 			}
 	}
 
@@ -513,3 +512,5 @@ init_plugin (CommandContext *context, PluginData *pd)
 
 	return PLUGIN_OK;
 }
+
+
