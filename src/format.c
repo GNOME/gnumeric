@@ -1418,7 +1418,6 @@ format_toggle_thousands (GnmFormat const *fmt)
 {
 	FormatCharacteristics fc;
 	GString *newformat;
-	GnmFormat *sf;
 
 	fc = fmt->family_info;
 	fc.thousands_sep = !fc.thousands_sep;
@@ -1439,12 +1438,10 @@ format_toggle_thousands (GnmFormat const *fmt)
 		return style_format_number (&fc);
 
 	default:
-		return NULL;
+		break;
 	}
 
-	sf = style_format_new_XL (newformat->str, FALSE);
-	g_string_free (newformat, TRUE);
-	return sf;
+	return NULL;
 }
 
 /*********************************************************************/
