@@ -19,7 +19,6 @@
 
 /* Command callback called on activation of a file history menu item. */
 #ifndef ENABLE_BONOBO
-#include <bonobo.h>
 
 #define UGLY_GNOME_UI_KEY "HistoryFilename"
 
