@@ -72,7 +72,7 @@ menu_find_item_with_interpreter (GtkWidget *menu,
 
 	g_warning ("assertion '%s' failed", "interpreter != NULL");
 
-	return FALSE;
+	return NULL;
 }
 
 static void
@@ -207,7 +207,7 @@ GSF_CLASS (
 GtkWidget *
 gnm_py_interpreter_selector_new (void)
 {
-	return gtk_type_new (GNM_PY_INTERPRETER_SELECTOR_TYPE);
+	return g_object_new (GNM_PY_INTERPRETER_SELECTOR_TYPE, NULL);
 }
 
 GnmPyInterpreter *

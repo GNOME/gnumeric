@@ -1,3 +1,10 @@
+2003-06-20  Jon K Hellan  <hellan@acm.org>
+
+	* py-interpreter-selector.c (menu_find_item_with_interpreter): 
+	return NULL, not FALSE if no interpreter found.
+	(gnm_py_interpreter_selector_new): Replace gtk_type_new with
+	g_object_new.
+
 2003-06-15  Jon K Hellan  <hellan@acm.org>
 
 	* gnm-py-interpreter.c (run_print_string): New. Run a python
