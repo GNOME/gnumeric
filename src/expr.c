@@ -196,13 +196,11 @@ expr_parse_string (char const *expr_text, ParsePos const *pp,
 		   StyleFormat **desired_format, ParseError *error)
 {
 	ExprTree   *tree;
-	ParseError *perr = error;
+	ParseError errrec;
+	ParseError *perr = error ? error : &errrec;
 
 	g_return_val_if_fail (expr_text != NULL, NULL);
 
-	if (error == NULL)
-		perr = g_new0 (ParseError, 1);
-		
 	tree = gnumeric_expr_parser (expr_text, pp, TRUE, FALSE, desired_format,
 				     parse_error_init (perr));
 

@@ -1,5 +1,9 @@
 2001-05-04  Morten Welinder  <terra@diku.dk>
 
+	* src/expr.c (expr_parse_string): Plug leak.
+
+2001-05-04  Morten Welinder  <terra@diku.dk>
+
 	* src/analysis-tools.c (set_cell_value): Make public.
 
 	* src/solver-lp.c (solver_sensitivity_report,
