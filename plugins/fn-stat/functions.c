@@ -906,27 +906,11 @@ static char *help_average = {
 Value *
 gnumeric_average (FunctionEvalInfo *ei, GList *expr_node_list)
 {
-	Value *vtmp;
-	float_t sum, count;
-
-	vtmp = gnumeric_sum (ei, expr_node_list);
-			     
-	if (!vtmp)
-		return NULL;
-	sum = value_get_as_float (vtmp);
-	value_release (vtmp);
-
-	vtmp = gnumeric_count (ei, expr_node_list);
-			       
-	if (!vtmp)
-		return NULL;
-	count = value_get_as_float (vtmp);
-	value_release (vtmp);
-
-	if (count == 0)
-		return function_error (ei, gnumeric_err_DIV0);
-
-	return value_new_float (sum / count);
+	return float_range_function (expr_node_list,
+				     ei,
+				     range_average,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, ei->error);
 }
 
 static char *help_min = {
@@ -1759,11 +1743,6 @@ gnumeric_standardize (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t x, mean, stddev;
 
-	if (!VALUE_IS_NUMBER(argv[0]) ||
-	    !VALUE_IS_NUMBER(argv[1]) ||
-	    !VALUE_IS_NUMBER(argv[2]))
-		return function_error (ei, gnumeric_err_VALUE);
-
 	x = value_get_as_float (argv [0]);
 	mean = value_get_as_float (argv [1]);
 	stddev = value_get_as_float (argv [2]);
@@ -2530,7 +2509,7 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_steyx = {
 	N_("@FUNCTION=STEYX\n"
-	   "@SYNTAX=STDYX(known_y's,known_x's)\n"
+	   "@SYNTAX=STEYX(known_y's,known_x's)\n"
 
 	   "@DESCRIPTION="
 	   "STEYX function returns the standard error of the predicted "
